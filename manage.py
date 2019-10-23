@@ -61,7 +61,7 @@ def manage(verbose=False):
 
         toc = TOC(lines)
 
-        toc.tags['Interface'] = '11302'
+        toc.tags['Interface'] = '11302' if '_classic_' in os.path() else '80205'
 
         title = get_cn_title(addon)
         if title:

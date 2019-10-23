@@ -5,250 +5,508 @@
 -- 2013-10-04
 -----------------------------------------------------------
 
-local HideDropDownMenu = HideDropDownMenu
-local format = format
-local GetEquipmentSetInfoByName = GetEquipmentSetInfoByName
+local InCombatLockdown = InCombatLockdown
+local GetContainerItemLink = GetContainerItemLink
+local GetInventoryItemLink = GetInventoryItemLink
+local strfind = strfind
+local tonumber = tonumber
 local ipairs = ipairs
 local GetContainerNumSlots = GetContainerNumSlots
 local UseContainerItem = UseContainerItem
-local InCombatLockdown = InCombatLockdown
-local GetEquipmentSetItemIDs = GetEquipmentSetItemIDs
 local pairs = pairs
-local SaveEquipmentSet = SaveEquipmentSet
-local RecalculateGearManagerDialogPopup = RecalculateGearManagerDialogPopup
-local StaticPopup_Show = StaticPopup_Show
+local HideDropDownMenu = HideDropDownMenu
 local type = type
-local wipe = wipe
+local ShowHelm = ShowHelm
+local ShowCloak = ShowCloak
+local format = format
+local tostring = tostring
 local tinsert = tinsert
+local StaticPopup_Show = StaticPopup_Show
+local GetEquipmentSetInfoByName = GetEquipmentSetInfoByName
+local SaveEquipmentSet = SaveEquipmentSet
+local ModifyEquipmentSet = ModifyEquipmentSet
 local EquipmentManager_EquipSet = EquipmentManager_EquipSet
-local GameTooltip = GameTooltip
-local GearManagerDialogPopup = GearManagerDialogPopup
-local MAX_EQUIPMENT_SETS_PER_PLAYER = MAX_EQUIPMENT_SETS_PER_PLAYER
 
-local addon = LibAddonManager:CreateAddon(...)
+local DEFAULT_CHAT_FRAME = DEFAULT_CHAT_FRAME
+
+local addonName, addon = ...
+_G["GearManagerEx"] = addon
+addon.version = GetAddOnMetadata(addonName, "Version") or "1.0"
+addon.name = "GearManagerEx"
+addon.db = { talentBind = {}, stripped = {}, showHelms = {}, showCloaks = {}, toolbar = {} } -- Mapped to GearManagerExDB
+
 local L = addon.L
+local callbacks = {}
 
-addon:RegisterDB("GearManagerExDB", 1)
-addon:RegisterSlashCmd("/gearmanagerex", "/gmex")
-
-local equipmentSets = {}
-local actionButtons = {}
-
-function addon:OnInitialize(db, dbIsNew, chardb, chardbIsNew)
-	self:RegisterEvent("BANKFRAME_OPENED")
-	self:RegisterEvent("BANKFRAME_CLOSED")
-	self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-	self:RegisterEvent("EQUIPMENT_SETS_CHANGED")
-	self:BroadcastEvent("OnInitialize", db, dbIsNew, chardb, chardbIsNew)
-	self:EQUIPMENT_SETS_CHANGED()
-end
-
-function addon:EQUIPMENT_SETS_CHANGED()
-	if InCombatLockdown() then
-		self.needUpdate = 1
-		return
+-- Extracts item id
+local function GetItemId(bag, slot)
+	local lnk
+	if slot then
+		lnk = GetContainerItemLink(bag, slot)
+	else
+		lnk = GetInventoryItemLink("player", bag)
 	end
 
-	wipe(equipmentSets)
-	local i
-	for i = 0, MAX_EQUIPMENT_SETS_PER_PLAYER do
-		local name = C_EquipmentSet.GetEquipmentSetInfo(i)
-		if name then
-			tinsert(equipmentSets, name)
-		end
+	if lnk then
+		local _, _, id = strfind(lnk, "item:(%d+).+%[(.+)%]")
+		return tonumber(id or "")
 	end
-
-	for i = 1, #equipmentSets do
-		local name = equipmentSets[i]
-		local button = actionButtons[i]
-		button.name = name
-		button:SetAttribute("macroText", "/equipset "..name)
-	end
-
-	for i = #equipmentSets + 1, self:NumSetButtons() do
-		local button = self:GetSetButton(i)
-		button.name = nil
-		button:SetAttribute("macroText", nil)
-	end
-
-	self:BroadcastEvent("OnSetsChanged")
-	self:PLAYER_EQUIPMENT_CHANGED()
-end
-
-function addon:PLAYER_EQUIPMENT_CHANGED()
-	self:BroadcastEvent("OnEquipsChanged")
-	local name, icon = self:GetFirstEquippedSet()
-	if name == self.equippedName then
-		return
-	end
-
-	HideDropDownMenu(1)
-	self.equippedName = name
-	if name then
-		self:Print(format(L["wore set"], name))
-	end
-	self:BroadcastEvent("OnSetEquipped", name, icon)
-end
-
-function addon:OnLeaveCombat()
-	if self.needUpdate then
-		self.needUpdate = nil
-		self:EQUIPMENT_SETS_CHANGED()
-	end
-end
-
-function addon:GetNumEquipmentSets()
-	return #equipmentSets
-end
-
-function addon:GetEquipmentSetInfo(name)
-	if type(name) == "number" then
-		name = equipmentSets[name]
-	end
-
-	if type(name) == "string" then
-		return GetEquipmentSetInfoByName(name)
-	end
-end
-
--- There could be more than one sets are "equipped" any time, return the first one only
-function addon:GetFirstEquippedSet()
-	local i
-	for i = 0, self:GetNumEquipmentSets() do
-		local name, icon, id, equipped = self:GetEquipmentSetInfo(i)
-		if equipped then
-			return name, icon, id
-		end
-	end
-end
-
-function addon:IsSetEquipped(name)
-	if type(name) == "string" then
-		local name, _, _, equipped = GetEquipmentSetInfoByName(name)
-		return equipped
-	end
-end
-
-function addon:BANKFRAME_OPENED()
-	self.bankOpened = 1
-	HideDropDownMenu(1)
-end
-
-function addon:BANKFRAME_CLOSED()
-	self.bankOpened = nil
-	HideDropDownMenu(1)
 end
 
 -- Use a container item by id
 local function UseContainerItemById(containers, itemId)
+	if (itemId or 0) <= 0 or InCombatLockdown() then
+		return
+	end
+
 	local bag, slot
 	for _, bag in ipairs(containers) do
 		for slot = 1, GetContainerNumSlots(bag) do
-			if itemId == GetContainerItemID(bag, slot) then
+			local id = GetItemId(bag, slot)
+			if id == itemId then
 				-- No taint will occur while the bank is open
 				UseContainerItem(bag, slot)
-				print("UseContainerItem", bag, slot, itemId)
+				return bag, slot
 			end
 		end
+	end
+end
+
+-- Check whether a set is currently worn
+local function CheckSetWorn(equipped, name)
+	if not name then
+		return
+	end
+
+	local ids = GetEquipmentSetItemIDs(name)
+	local k, v
+	for k, v in pairs(ids) do
+		if v and v > 1 and equipped[k] ~= v then
+			return
+		end
+	end
+	return 1
+end
+
+-- Find the currently worn set and update the UI
+local function UpdateWornSet()
+	local equipped = {}
+	local i, id, name
+	for i = 0, 19 do
+		equipped[i] = GetItemId(i) or 0
+	end
+
+	for i = 1, GetNumEquipmentSets() do
+		local setName = GetEquipmentSetInfo(i)
+		if CheckSetWorn(equipped, setName) then
+			id, name = i, setName
+			break
+		end
+	end
+
+	if name ~= addon.activeSet then
+		HideDropDownMenu(1)
+		local prevName = addon.activeSet
+		addon.activeId, addon.activeSet = id, name
+		if name then
+			local show = addon.db.showHelms[name]
+			if type(show) == "number" then
+				--[[ DONEY MOD -- orginal
+				ShowHelm(show == 1)
+				]]--
+				--[[ DONEY MOD -- modified ]]--
+				-- skip
+				--[[ DONEY MOD -- end ]]--
+			end
+
+			show = addon.db.showCloaks[name]
+			if type(show) == "number" then
+				--[[ DONEY MOD -- orginal
+				ShowCloak(show == 1)
+				]]--
+				--[[ DONEY MOD -- modified ]]--
+				-- skip
+				--[[ DONEY MOD -- end ]]--
+			end
+
+			addon:Print(format(L["wore set"], name))
+		end
+
+		-- Notify other addons, if any interested
+		addon:OnActiveSetChanged(name, prevName)
+	end
+end
+
+function addon:Print(msg, r, g, b)
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffff78"..addon.name..":|r "..tostring(msg), r, g, b)
+end
+
+function addon:RegisterCallback(func, arg1)
+	local data
+	if type(func) == "function" then
+		data = { func = func, arg1 = arg1 }
+	elseif type(func) == "table" and type(arg1) == "string" then
+		data = { object = func, func = arg1 }
+	end
+
+	if data then
+		tinsert(callbacks, data)
+	end
+end
+
+function addon:OnActiveSetChanged(name, prevName)
+	local data
+	for _, data in ipairs(callbacks) do
+		if data.object then
+			local func = data.object[data.func]
+			if type(func) == "function" then
+				func(data.object, name, prevName)
+			end
+		else
+			if data.arg1 == nil then
+				data.func(name, prevName)
+			else
+				data.func(data.arg1, name, prevName)
+			end
+		end
+	end
+end
+
+-- Get the current active set info: index, name, icon
+function addon:GetActiveSet()
+	if addon.activeId then
+		local name, icon = GetEquipmentSetInfo(addon.activeId)
+		return name, icon, addon.activeId
 	end
 end
 
 -- Moves a set into bank, or take it out of bank
 local BANKS = { -1, 5, 6, 7, 8, 9, 10, 11 } -- Bag id's for bank
 local BAGS = { 0, 1, 2, 3, 4 } -- Bag id's for container
-function addon:BankSet(set, deposit)
-	if not self.bankOpened or InCombatLockdown() then
-		return
-	end
-
-	local name = self:GetEquipmentSetInfo(set)
-	if not name then
-		return
-	end
-
-	local setids = GetEquipmentSetItemIDs(name)
-	if not setids then
-		return
-	end
-
-	local containers = deposit and BAGS or BANKS
-	local id
-	for _, id in pairs(setids) do
-		if id and id > 1 then
-			UseContainerItemById(containers, id)
+function addon:BankSet(name, deposit)
+	if addon.bankOpened and type(name) == "string" then
+		local setids = GetEquipmentSetItemIDs(name)
+		if not setids then
+			return
 		end
+
+		local containers = deposit and BAGS or BANKS
+		local id
+		for _, id in pairs(setids) do
+			if id and id ~= 0 then
+				UseContainerItemById(containers, id)
+			end
+		end
+		return 1
+	end
+end
+
+-- Bind a set to a talent group
+function addon:BindSetToTalent(name, talentId)
+	--[[ DONEY MOD - original
+	if talentId ~= 1 and talentId ~= 2 then
+		return
+	end
+	]]--
+	--[[ DONEY MOD - modified ]]--
+	local numSpecs = GetNumSpecializations();
+	if talentId < 1 or talentId > numSpecs then
+		return
+	end
+	--[[ DONEY MOD - end ]]
+
+	if type(name) == "string" and addon.db.talentBind[talentId] ~= name then
+		addon.db.talentBind[talentId] = name
+		--[[ DONEY MOD - original
+		if talentId == 1 then
+			if addon.db.talentBind[2] == name then
+				addon.db.talentBind[2] = nil
+			end
+		else
+			if addon.db.talentBind[1] == name then
+				addon.db.talentBind[1] = nil
+			end
+		end
+		]]--
+		--[[ DONEY MOD - modified ]]--
+		for i = 1, numSpecs do
+			if talentId ~= i then
+				if addon.db.talentBind[i] == name then
+					addon.db.talentBind[i] = nil
+				end
+			end
+		end
+		--[[ DONEY MOD - end ]]
+	else
+		addon.db.talentBind[talentId] = nil
 	end
 end
 
 -- Directly save a set
-function addon:SaveSet(set)
-	local name, icon = self:GetEquipmentSetInfo(set)
-	if not name then
-		return
-	end
+function addon:ResaveSet(name)
+	if type(name) == "string" then
+		local icon = GetEquipmentSetInfoByName(name)
+		if not icon then
+			return
+		end
 
-	SaveEquipmentSet(name, icon)
-	self:Print(format(L["set saved"], name))
+		SaveEquipmentSet(name, icon)
+		self:Print(format(L["set saved"], name))
+		return 1
+	end
 end
 
-function addon:RenameSet(set)
-	local name, icon, id = self:GetEquipmentSetInfo(set)
-	if not name then
-		return
+local setToRename
+local function OnPopupRenameSet(name)
+	name = strtrim(name or "")
+	if name == "" then
+		return 1
 	end
 
-	GearManagerDialogPopup:Show()
-	GearManagerDialogPopup.isEdit = true
-	GearManagerDialogPopup.setID = id
-	GearManagerDialogPopup.origName = name
-	RecalculateGearManagerDialogPopup(name, icon)
+	if GetEquipmentSetInfoByName(name) then
+		self:Print(format(L["name exists"], name), 1, 0, 0)
+		return 1
+	end
+
+	addon.db.showHelms[name] = addon.db.showHelms[setToRename]
+	addon.db.showCloaks[name] = addon.db.showCloaks[setToRename]
+
+	addon:Print(format(L["set renamed"], setToRename, name))
+	ModifyEquipmentSet(setToRename, name)
 end
 
-function addon:DeleteSet(set)
-	local name, _, id  = self:GetEquipmentSetInfo(set)
-	if not name then
+local renameData = {
+	button1 = OKAY,
+	button2 = CANCEL,
+	hasEditBox = 1,
+	timeout = 0,
+	exclusive = 1,
+	whileDead = 1,
+	hideOnEscape = 1,
+
+	OnAccept = function(self)
+		return OnPopupRenameSet(self.editBox:GetText())
+	end,
+
+	EditBoxOnEnterPressed = function(self)
+		if not OnPopupRenameSet(self:GetText()) then
+			self:GetParent():Hide()
+		end
+	end,
+
+	EditBoxOnEscapePressed = function(self)
+		self:GetParent():Hide()
+	end,
+
+	OnShow = function(self)
+		self.editBox:SetText(setToRename or "")
+		self.editBox:SetFocus()
+		self.editBox:HighlightText()
+	end,
+}
+
+StaticPopupDialogs["GEARMANAGEREX_RENAMESET"] = renameData
+
+function addon:RenameSet(name)
+	if type(name) == "string" and GetEquipmentSetInfoByName(name) then
+		renameData.text = format(L["label text"], name)
+		setToRename = name
+		StaticPopup_Show("GEARMANAGEREX_RENAMESET")
+		return 1
+	end
+end
+
+function addon:DeleteSet(name)
+	if type(name) ~= "string" or not GetEquipmentSetInfoByName(name) then
 		return
 	end
 
 	local frame = StaticPopup_Show("CONFIRM_DELETE_EQUIPMENT_SET", name)
-	frame.data = id
+	frame.data = name
 	return 1
 end
 
 -- Equip a set by index
-function addon:EquipSetByIndex(index)
-	if InCombatLockdown() then
+function addon:EquipSetByIndex(id)
+	if not InCombatLockdown() and type(id) == "number" then
+		local name = GetEquipmentSetInfo(id)
+		if name then
+			EquipmentManager_EquipSet(name)
+		end
+	end
+end
+
+function addon:IsHelmShownForSet(name)
+	if type(name) == "string" and GetEquipmentSetInfoByName(name) then
+		return addon.db.showHelms[name] == 1
+	end
+end
+
+function addon:IsCloakShownForSet(name)
+	if type(name) == "string" and GetEquipmentSetInfoByName(name) then
+		return addon.db.showCloaks[name] == 1
+	end
+end
+
+-- Toggle show/hide helm of a set
+function addon:ToggleShowHelm(name)
+	if type(name) ~= "string" or not GetEquipmentSetInfoByName(name) then
 		return
 	end
 
-	local name, _, id = self:GetEquipmentSetInfo(index)
-	if name then
-		EquipmentManager_EquipSet(id)
+	local show = addon.db.showHelms[name] == 1 and 0 or 1
+	addon.db.showHelms[name] = show
+
+	if addon.activeSet == name then
+		ShowHelm(show == 1)
 	end
 end
 
-do
-	local i
-	for i = 1, MAX_EQUIPMENT_SETS_PER_PLAYER do
-		local button = CreateFrame("Button", addon.name.."ActionButton_Set"..i, UIParent, "SecureActionButtonTemplate")
-		button:SetAttribute("type", "macro")
-		addon:RegisterBindingClick(button, "GEARMANAGEREX_WEARSET"..i, L["wear set"].." "..i)
-		tinsert(actionButtons, button)
+-- Toggle show/hide cloak of a set
+function addon:ToggleShowCloak(name)
+	if type(name) ~= "string" or not GetEquipmentSetInfoByName(name) then
+		return
+	end
+
+	local show = addon.db.showCloaks[name] == 1 and 0 or 1
+	addon.db.showCloaks[name] = show
+
+	if addon.activeSet == name then
+		ShowCloak(show == 1)
 	end
 end
 
-function addon:NumSetButtons()
-	return #actionButtons
-end
+-- The background message handler frame
+local needEquipSet, needCheck, updateElapsed
+local frame = CreateFrame("Frame")
+addon.frame = frame
+frame:Hide()
+frame:RegisterEvent("ADDON_LOADED")
+frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:RegisterEvent("BANKFRAME_OPENED")
+frame:RegisterEvent("BANKFRAME_CLOSED")
+--[[ DONEY MOD - original
+frame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+]]--
+--[[ DONEY MOD - modified ]]--
+frame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+--[[ DONEY MOD - end ]]--
+frame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+frame:RegisterEvent("EQUIPMENT_SETS_CHANGED")
 
-function addon:GetSetButton(index)
-	return actionButtons[index]
-end
+frame:SetScript("OnEvent", function(self, event, id)
+	if event == "ADDON_LOADED" and id == addonName then
+		if type(GearManagerExDB) ~= "table" then
+			GearManagerExDB = {}
+		end
+
+		addon.db = GearManagerExDB
+
+		if type(addon.db.talentBind) ~= "table" then
+			addon.db.talentBind = {}
+		end
+
+		if type(addon.db.showHelms) ~= "table" then
+			addon.db.showHelms = {}
+		end
+
+		if type(addon.db.showCloaks) ~= "table" then
+			addon.db.showCloaks = {}
+		end
+
+		if addon.toolbar then
+			if type(addon.db.toolbar) ~= "table" then
+				addon.db.toolbar = {}
+			end
+			addon.toolbar:OnInitialize(addon.db.toolbar)
+		end
+
+	elseif event == "BANKFRAME_OPENED" then
+		addon.bankOpened = 1
+		HideDropDownMenu(1)
+	elseif event == "BANKFRAME_CLOSED" then
+		addon.bankOpened = nil
+		HideDropDownMenu(1)
+	--[[ DONEY MOD - original
+	elseif event == "ACTIVE_TALENT_GROUP_CHANGED" then
+		needEquipSet = addon.db.talentBind[id]
+	]]--
+	--[[ DONEY MOD - modified ]]--
+	elseif event == "PLAYER_SPECIALIZATION_CHANGED" then
+		local unit = id
+		-- addon:Print(string.format("PLAYER_SPECIALIZATION_CHANGED  unit: %s", unit or "nil")) -- debug code
+		if ( unit ~= "player" ) then
+			return
+		end
+		if (GetNumSpecializations() > 1) then
+			local specID = GetSpecialization()
+			if specID ~= nil then
+				needEquipSet = addon.db.talentBind[specID]
+			end
+		end
+	--[[ DONEY MOD - end ]]--
+	elseif event == "PLAYER_LOGIN" then
+		updateElapsed = -3
+		needCheck = 1
+		self:Show()
+	elseif event == "PLAYER_EQUIPMENT_CHANGED" then
+		needCheck = 1 -- Highly concurrent events, use post-processing to avoid performance drop...
+	elseif event == "EQUIPMENT_SETS_CHANGED" then
+		local name
+		for name in pairs(addon.db.showHelms) do
+			if not GetEquipmentSetInfoByName(name) then
+				addon.db.showHelms[name] = nil
+				addon.db.showCloaks[name] = nil
+			end
+		end
+
+		for name in pairs(addon.db.showCloaks) do
+			if not GetEquipmentSetInfoByName(name) then
+				addon.db.showCloaks[name] = nil
+			end
+		end
+
+		UpdateWornSet()
+	end
+end)
+
+frame:SetScript("OnUpdate", function(self, elapsed)
+	updateElapsed = (updateElapsed or 0) + elapsed
+	if updateElapsed > 0.2 then
+		updateElapsed = 0
+
+		if needEquipSet and not InCombatLockdown() then
+			EquipmentManager_EquipSet(needEquipSet)
+			needEquipSet = nil
+		elseif needCheck then
+			needCheck = nil
+			UpdateWornSet()
+		end
+	end
+end)
 
 -- Prompt the player that he can right-click a set for more operations
 hooksecurefunc("GearSetButton_OnEnter", function(self)
-	if self.setID then
+	if type(self.name) == "string" and self.name ~= "" and GameTooltipTextLeft1:GetText() == self.name then
 		GameTooltip:AddLine(L["tooltip prompt"], 0, 1, 0, 1)
 		GameTooltip:Show()
 	end
 end)
+
+------------------------------------------------------------
+-- Binding texts
+------------------------------------------------------------
+
+BINDING_HEADER_GEARMANAGEREX_TITLE = addon.name
+BINDING_NAME_GEARMANAGEREX_QUICKSTRIP = L["quick strip"]
+BINDING_NAME_GEARMANAGEREX_WEARSET1 = L["wear set"].." 1"
+BINDING_NAME_GEARMANAGEREX_WEARSET2 = L["wear set"].." 2"
+BINDING_NAME_GEARMANAGEREX_WEARSET3 = L["wear set"].." 3"
+BINDING_NAME_GEARMANAGEREX_WEARSET4 = L["wear set"].." 4"
+BINDING_NAME_GEARMANAGEREX_WEARSET5 = L["wear set"].." 5"
+BINDING_NAME_GEARMANAGEREX_WEARSET6 = L["wear set"].." 6"
+BINDING_NAME_GEARMANAGEREX_WEARSET7 = L["wear set"].." 7"
+BINDING_NAME_GEARMANAGEREX_WEARSET8 = L["wear set"].." 8"
+BINDING_NAME_GEARMANAGEREX_WEARSET9 = L["wear set"].." 9"
+BINDING_NAME_GEARMANAGEREX_WEARSET10 = L["wear set"].." 10"

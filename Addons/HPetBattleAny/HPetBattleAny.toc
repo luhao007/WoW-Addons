@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 80000
 ## Title:|cFFBF00FF[H]|r Something About Pet Battle
 ## Notes:Something About Pet Battle,Type /hpq to config
 ## Title-zhCN: |cFFBF00FF[H]|r 宠物对战增强
@@ -9,8 +9,8 @@
 ## Author-zhCN: 上官晓雾
 ## Author-zhTW: 上官曉霧
 
-## X-Date: 2016-09-26
-## Version: 2.2.9
+## X-Date: 2018-08-05
+## Version: 2.2.14
 
 ## SavedVariables: HPetSaves
 
@@ -23,5 +23,5 @@ modules\Config.lua
 modules\Hook.lua
 modules\Search.lua
 modules\Ability.lua
+
 modules\AutoSelectPet.lua
-modules\WatchPetBattle.lua

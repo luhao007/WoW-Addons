@@ -1,20 +1,15 @@
-## Interface: 70200
+## Interface: 80000
 ## Title: GearManagerEx
-## Version: 4.0
+## Version: 3.01 DONEY MOD 3 Punk MOD 1
 ## Author: Abin
-## SavedVariables: GearManagerExDB
+## Modified: doneykoo - fix for 7.0.3 patch API changes; szpunk - fix for 8.0 patch API changes.
+## SavedVariablesPerCharacter: GearManagerExDB
 
 Locales\enUS.lua
 Locales\zhCN.lua
 Locales\zhTW.lua
-
-Includes\LibAddonManager.lua
-Includes\InterfaceOptionPage-1.0.lua
-
+7to8.lua
 Core.lua
 QuickStrip.lua
 Menu.lua
 ToolBar.lua
-OptionFrame.lua
-
-LDB\Embeds.xml

@@ -37,15 +37,11 @@ AceGUI-3.0-SharedMediaWidgets\widget.xml
 
 # Libs Needs to be Imported before Other Libs
 LibCompress\lib.xml
-LibStrataFix\LibStrataFix.lua
+# LibStrataFix\LibStrataFix.lua
 UTF8\utf8data.lua
 UTF8\utf8.lua
 
 # HereBeDragons
-# For 7.0
-HereBeDragons\HereBeDragons-1.0.lua
-HereBeDragons\HereBeDragons-Pins-1.0.lua
-# For 8.0
 HereBeDragons\HereBeDragons-2.0.lua
 HereBeDragons\HereBeDragons-Pins-2.0.lua
 # For migrate
@@ -60,7 +56,7 @@ LibBabble\LibBabble-Inventory-3.0\lib.xml
 LibBabble\LibBabble-ItemSet-3.0\lib.xml
 LibBabble\LibBabble-Race-3.0\lib.xml
 LibBabble\LibBabble-SubZone-3.0\lib.xml
-LibBabble\LibBabble-TalentTree-3.0\lib.xml
+# LibBabble\LibBabble-TalentTree-3.0\lib.xml
 LibBabble\LibBabble-Zone-3.0\lib.xml
 
 # DR Libs
@@ -73,7 +69,7 @@ LibAboutPanel\lib.xml
 LibAlts-1.0\LibAlts-1.0.lua
 LibBars-1.0\lib.xml
 LibBossIDs-1.0\lib.xml
-LibButtonGlow-1.0\LibButtonGlow-1.0.lua
+# LibButtonGlow-1.0\LibButtonGlow-1.0.lua
 LibCandyBar-3.0\lib.xml
 LibChatAnims\LibChatAnims.xml
 LibChatHandler-1.0\lib.xml
@@ -86,30 +82,30 @@ LibDogTag-Stats-3.0\lib.xml
 LibDogTag-Unit-3.0\lib.xml
 LibDualSpec-1.0\LibDualSpec-1.0.lua
 LibDurability\LibDurability.xml
-LibGuildBankComm-1.0\LibGuildBankComm-1.0.lua
 LibGraph-2.0\LibGraph-2.0.lua
 LibGroupInSpecT-1.1\lib.xml
-LibInspect\LibInspect.lua
-LibInspectLess-1.0\LibInspectLess-1.0.lua
-LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
+# LibGuildBankComm-1.0\LibGuildBankComm-1.0.lua
+# LibInspect\LibInspect.lua
+# LibInspectLess-1.0\LibInspectLess-1.0.lua
 LibItemInfo-1.0\LibItemInfo-1.0.lua
+LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
 LibLatency\LibLatency.xml
 LibNotify-1.0\lib.xml
 LibOO-1.0\lib.xml
-LibPeriodicTable-3.1\LibPeriodicTable-3.1\LibPeriodicTable-3.1.lua
-LibPeriodicTable-3.1\modules.xml
+# LibPeriodicTable-3.1\LibPeriodicTable-3.1\LibPeriodicTable-3.1.lua
+# LibPeriodicTable-3.1\modules.xml
 LibPetJournal-2.0\LibPetJournal-2.0.lua
 LibQTip-1.0\lib.xml
-LibRangeCheck-2.0\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
+LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 LibRealmInfo\LibRealmInfo.lua
-Lib-Scenarios\Lib-Scenarios\lib.xml
+# Lib-Scenarios\Lib-Scenarios\lib.xml
 LibSink-2.0\lib.xml
 LibSpellRange-1.0\lib.xml
 LibTextDump-1.0\lib.xml
-LibTextTable-1.1\LibTextTable-1.1\LibTextTable-1.1.lua
+# LibTextTable-1.1\LibTextTable-1.1\LibTextTable-1.1.lua
 LibToast-1.0\lib.xml
 LibTourist-3.0\LibTourist-3.0.lua
-LibWho-2.0\LibWho-2.0\LibWho-2.0.lua
-LibWindow-1.1\LibWindow-1.1\LibWindow-1.1.lua
+# LibWho-2.0\LibWho-2.0\LibWho-2.0.lua
+LibWindow-1.1\LibWindow-1.1.lua
 
 Libra\Libra.xml
