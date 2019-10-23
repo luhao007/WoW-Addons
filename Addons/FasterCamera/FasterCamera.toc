@@ -7,14 +7,5 @@
 ## OptionalDeps: Ace3
 ## X-Embeds: Ace3
 
-#@no-lib-strip@
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-Libs\AceGUI-3.0\AceGUI-3.0.xml
-Libs\AceConfig-3.0\AceConfig-3.0.xml
-#@end-no-lib-strip@
-
-Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
-
 Locales.lua
 FasterCamera.lua

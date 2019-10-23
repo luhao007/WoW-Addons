@@ -22,15 +22,6 @@
 ## X-WoWI-ID: 8814
 ## Version: 8.2.24
 
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-Libs\LibChatAnims\LibChatAnims.xml
-Libs\LibSharedMedia-3.0\lib.xml
-Libs\LibLatency\LibLatency.xml
-Libs\LibDurability\LibDurability.xml
-Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
-Libs\LibDBIcon-1.0\lib.xml
-
 localization.en.lua
 localization.de.lua
 localization.cn.lua

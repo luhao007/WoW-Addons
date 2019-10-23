@@ -59,7 +59,6 @@
 ## X-Website: http://www.atlasmod.com
 ## SavedVariables: AtlasDB
 
-Libs\Libs.xml
 Locale\Locales.xml
 Data\Constants.lua
 

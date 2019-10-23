@@ -7,10 +7,6 @@
 ## X-Embeds: Ace3, LibTourist-3.0, HereBeDragons
 ## OptionalDeps: Ace3, LibTourist-3.0, HereBeDragons
 
-#@no-lib-strip@
-embeds.xml
-#@end-no-lib-strip@
-
 Locales\locales.xml
 
 Cromulent.lua

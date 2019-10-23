@@ -16,10 +16,6 @@
 ## X-Embeds: Ace3
 ## X-Curse-Project-ID: 6079
 
-#@no-lib-strip@
-embeds.xml
-#@end-no-lib-strip@
-
 Locales\locales.xml
 
 Core.lua

@@ -6,7 +6,6 @@
 ## SavedVariables: GladiatorlosSADB
 ## Version: 2.1
 
-embeds.xml
 Locales\locales.xml
 
 GladiatorlosSA2.lua

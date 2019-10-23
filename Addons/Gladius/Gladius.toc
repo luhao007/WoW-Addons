@@ -6,10 +6,6 @@
 ## SavedVariables: Gladius2DB
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0
 
-#@no-lib-strip@
-Embeds.xml
-#@end-no-lib-strip@
-
 Gladius.lua
 Localizations.lua
 Options.lua

@@ -10,9 +10,9 @@
 ## Title-deDE: Simple iLevel
 ## Notes-deDE: Fügt die durchschnittliche Gegenstandsstufe in den Tooltip des Spielers ein
 ## Title-esES: Nivel de objeto Simple
-# Notes-esES: 
-# Title-esMX: 
-# Notes-esMX: 
+# Notes-esES:
+# Title-esMX:
+# Notes-esMX:
 ## Title-frFR: Simple iLevel
 ## Notes-frFR: Ajoute l'iLevel moyen (AiL) à l'infobulle des autres joueurs
 ## Title-itIT: Simple iLevel
@@ -35,5 +35,4 @@
 
 ## X-Category: Information
 
-embeds.xml
 SimpleILevel.xml

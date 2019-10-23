@@ -7,10 +7,6 @@
 ## SavedVariablesPerCharacter: MSBTProfiles_SavedVarsPerChar
 ## OptionalDeps: LibSharedMedia-3.0
 
-Libs\LibStub.lua
-Libs\CallbackHandler-1.0.lua
-Libs\LibSharedMedia-3.0.lua
-
 MikSBT.lua
 Localization\localization.xml
 MSBTProfiles.lua
