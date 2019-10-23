@@ -1,0 +1,15 @@
+----- AUTO GENERATED - DO NOT EDIT
+
+if GetLocale() ~= "koKR" then
+    return
+end
+
+local L = BtWQuests.L
+L["BTWQUESTS_AID_OF_THE_ILLIDARI"] = "일리다리의 지원"
+L["BTWQUESTS_ARTIFACT"] = "유물"
+L["BTWQUESTS_FATE_OF_THE_TIDESKORN"] = "타이드스코른의 운명"
+L["BTWQUESTS_RUMBLINGS_NEAR_FELTOTEM"] = "지옥토템 인근의 소란"
+L["BTWQUESTS_THE_BRADENSBROOK_INVESTIGATION"] = "응답하라, 브레이든스브룩"
+L["BTWQUESTS_THE_FOLLY_OF_LEVIA_LAURENCE"] = "레비아 로렌스의 실수"
+L["BTWQUESTS_THE_THIEVING_APPRENTICE"] = "도둑 수습생"
+L["BTWQUESTS_THE_TWISTED_TWINS"] = "어긋난 쌍둥이"

@@ -1,0 +1,326 @@
+<Ui>
+
+	<!-- default team list template -->
+
+	<!-- New TeamListButton using CompositeButton with no child Buttons -->
+	<!-- AutoScrollFrames using this: remember to templateType="RematchCompositeButton"! -->
+	<RematchCompositeButton name="RematchTeamListButtonTemplate" virtual="true">
+		<Size x="200" y="44"/> <!-- can be any width; 1px unused across top so 43px usable height -->
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Back" file="Interface\AddOns\Rematch\Textures\backplate.tga">
+				<!-- <Texture parentKey="Back" file="Interface\Buttons\ListButtons"> -->
+					<Anchors>
+						<Anchor point="TOPLEFT" x="88" y="0"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.5"/>
+					<!-- <TexCoords left="0.01171875" right="0.8125" top="0.01171875" bottom="0.18359375"/> -->
+				</Texture>
+			</Layer>
+			<!-- Everything in ARTWORK will get promoted to a clickable pseudo-button -->
+			<Layer level="ARTWORK">
+				<Texture parentArray="Pets">
+					<Size x="28" y="40"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-2"/>
+					</Anchors>
+					<!-- <TexCoords left="0.16" right="0.84" top="0.05" bottom="0.95"/> -->
+					<TexCoords left="0.203125" right="0.796875" top="0.078125" bottom="0.921875"/>
+					<KeyValues>
+						<KeyValue key="petSlot" value="1"/>
+					</KeyValues>
+				</Texture>
+				<Texture parentArray="Pets">
+					<Size x="28" y="40"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="31" y="-2"/>
+					</Anchors>
+					<TexCoords left="0.203125" right="0.796875" top="0.078125" bottom="0.921875"/>
+					<KeyValues>
+						<KeyValue key="petSlot" value="2"/>
+					</KeyValues>
+				</Texture>
+				<Texture parentArray="Pets">
+					<Size x="28" y="40"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="60" y="-2"/>
+					</Anchors>
+					<TexCoords left="0.203125" right="0.796875" top="0.078125" bottom="0.921875"/>
+					<KeyValues>
+						<KeyValue key="petSlot" value="3"/>
+					</KeyValues>
+				</Texture>
+				<Texture parentKey="Notes" file="Interface\AddOns\Rematch\Textures\Footnotes" hidden="true">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-2" y="-3"/>
+					</Anchors>
+					<TexCoords left="0" right="0.125" top="0" bottom="0.25"/>
+				</Texture>
+				<Texture parentKey="Preferences" file="Interface\AddOns\Rematch\Textures\Footnotes" hidden="true">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-22" y="-3"/>
+					</Anchors>
+					<TexCoords left="0.25" right="0.375" top="0" bottom="0.25"/>
+				</Texture>
+				<Texture parentKey="WinRecordBack" file="Interface\AddOns\Rematch\Textures\WinRecord-Back" hidden="true">
+					<Size x="38" y="18"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-2" y="3"/>
+					</Anchors>
+					<TexCoords left="0" right="0.296875" top="0" bottom="0.28125"/>
+				</Texture>
+				<!-- FontStrings -->
+				<FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT" justifyV="CENTER" text="Pet Name Here">
+					<Size x="0" y="36"/> <!-- y=36 when SubName not shown, 21 when shown -->
+					<Anchors>
+						<Anchor point="TOPLEFT" x="94" y="-4"/>
+						<Anchor point="TOPRIGHT" x="-8" y="-4"/> <!-- x=-8 when no footnotes shown, -44 when winrecord or both footnotes shown, -22 when just one footnote shown -->
+					</Anchors>
+				</FontString>
+				<FontString parentKey="SubName" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="TOP" text="">
+					<Size x="0" y="12"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMLEFT"/>
+						<Anchor point="TOPRIGHT" relativeKey="$parent.Name" relativePoint="BOTTOMRIGHT"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="WinRecordText" inherits="GameFontHighlight" text="100%" hidden="true">
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-21" y="12"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="Border" file="Interface\AddOns\Rematch\Textures\slotborder.tga">
+					<Size x="90" y="44"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+					<Color r="0.5" g="0.5" b="0.5"/>
+					<TexCoords left="0" right="0.703125" top="0.5" bottom="0.84375"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY" textureSubLevel="2">	
+				<Texture parentKey="Favorite" atlas="PetJournal-FavoritesIcon" useAtlasSize="true" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="5"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				RematchTeamPanel.TeamListButtonOnLoad(self)
+			</OnLoad>
+			<OnEnter>
+				self.Back:SetBlendMode("ADD")
+			</OnEnter>
+			<OnLeave>
+				self.Back:SetBlendMode("BLEND")
+			</OnLeave>
+			<OnMouseDown>
+				if self:HasFocus() then
+					-- if mouse is down while over an active texture, don't "press" the main button
+					self.Back:SetBlendMode("BLEND")
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if GetMouseFocus()==self then
+					-- if mouse goes up after it left button, don't "unpress" it
+					self.Back:SetBlendMode("ADD")
+				end
+			</OnMouseUp>
+			<OnClick>
+				if self:HasFocus() then
+					RematchTeamPanel.TeamOnClick(self,button)
+				end
+			</OnClick>
+		</Scripts>
+	</RematchCompositeButton>
+
+	<RematchCompositeButton name="RematchCompactTeamListButtonTemplate" virtual="true">
+		<Size x="200" y="26"/> <!-- can be any width; 1px unused across top so 43px usable height -->
+		<KeyValues>
+			<KeyValue key="compact" value="true" type="boolean"/>
+		</KeyValues>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Back" file="Interface\AddOns\Rematch\Textures\backplate.tga">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="76" y="0"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.5"/>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentArray="Pets">
+					<Size x="25" y="25"/>
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0"/>
+					</Anchors>
+					<TexCoords left="0.078125" right="0.921875" top="0.078125" bottom="0.921875"/>
+					<!-- <TexCoords left="0.075" right="0.925" top="0.075" bottom="0.925"/> -->
+					<KeyValues>
+						<KeyValue key="petSlot" value="1"/>
+					</KeyValues>
+				</Texture>
+				<Texture parentArray="Pets">
+					<Size x="25" y="25"/>
+					<Anchors>
+						<Anchor point="LEFT" x="26" y="0"/>
+					</Anchors>
+					<TexCoords left="0.078125" right="0.921875" top="0.078125" bottom="0.921875"/>
+					<KeyValues>
+						<KeyValue key="petSlot" value="2"/>
+					</KeyValues>
+				</Texture>
+				<Texture parentArray="Pets">
+					<Size x="25" y="25"/>
+					<Anchors>
+						<Anchor point="LEFT" x="52" y="0"/>
+					</Anchors>
+					<TexCoords left="0.078125" right="0.921875" top="0.078125" bottom="0.921875"/>
+					<KeyValues>
+						<KeyValue key="petSlot" value="3"/>
+					</KeyValues>
+				</Texture>
+				<Texture parentKey="WinRecordBack" file="Interface\AddOns\Rematch\Textures\WinRecord-Back" hidden="true">
+					<Size x="38" y="18"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="-2" y="0"/>
+					</Anchors>
+					<TexCoords left="0" right="0.296875" top="0" bottom="0.28125"/>
+				</Texture>
+				<FontString parentKey="WinRecordText" inherits="GameFontHighlight" text="100%" hidden="true">
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="RIGHT" x="-21" y="0"/>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Notes" file="Interface\AddOns\Rematch\Textures\Footnotes" hidden="true">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="-41" y="0"/>
+					</Anchors>
+					<TexCoords left="0" right="0.125" top="0" bottom="0.25"/>
+				</Texture>
+				<Texture parentKey="Preferences" file="Interface\AddOns\Rematch\Textures\Footnotes" hidden="true">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="-62" y="0"/>
+					</Anchors>
+					<TexCoords left="0.25" right="0.375" top="0" bottom="0.25"/>
+				</Texture>
+				<FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT" text="Team Name">
+					<Size x="0" y="21"/>
+					<Anchors>
+						<Anchor point="LEFT" x="82" y="0"/>
+						<Anchor point="RIGHT" x="-6" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="Favorite" atlas="PetJournal-FavoritesIcon" hidden="true">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-5" y="5"/>
+					</Anchors>
+				</Texture>
+			</Layer>			
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				RematchTeamPanel.TeamListButtonOnLoad(self)
+			</OnLoad>
+			<OnEnter>
+				self.Back:SetBlendMode("ADD")
+			</OnEnter>
+			<OnLeave>
+				self.Back:SetBlendMode("BLEND")
+			</OnLeave>
+			<OnMouseDown>
+				if self:HasFocus() then
+					-- if mouse is down while over an active texture, don't "press" the main button
+					self.Back:SetBlendMode("BLEND")
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if GetMouseFocus()==self then
+					-- if mouse goes up after it left button, don't "unpress" it
+					self.Back:SetBlendMode("ADD")
+				end
+			</OnMouseUp>
+			<OnClick>
+				if self:HasFocus() then
+					RematchTeamPanel.TeamOnClick(self,button)
+				end
+			</OnClick>
+		</Scripts>
+	</RematchCompositeButton>
+
+	<!-- Main team panel -->
+
+	<Frame name="RematchTeamPanel" inherits="RematchPanelTemplate" hidden="true">
+
+		<Frames>
+			<Frame parentKey="Top" inherits="RematchInsetFrameTemplate">
+				<Size x="280" y="29"/>
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+				</Anchors>
+				<Frames>
+					<!-- "Teams" filter button to right of team search box -->
+					<Button parentKey="Teams" inherits="RematchFilterButtonTemplate">
+						<Anchors>
+							<Anchor point="TOPRIGHT" x="-3" y="-3"/>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								Rematch:ToggleMenu("TeamOptions","TOPLEFT",self,"TOPRIGHT")
+							</OnClick>
+						</Scripts>
+					</Button>
+					<!-- search bar at top of panel -->
+					<EditBox parentKey="SearchBox" inherits="RematchSearchBoxTemplate">
+						<Size x="0" y="24"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" x="4" y="-3"/>
+							<Anchor point="RIGHT" relativeKey="$parent.Teams" relativePoint="LEFT" x="1" y="0"/>
+						</Anchors>
+						<Scripts>
+							<OnTextChanged>
+								RematchTeamPanel.SearchBoxOnTextChanged(self)
+							</OnTextChanged>
+							<OnEnterPressed>
+								self:ClearFocus()
+							</OnEnterPressed>
+						</Scripts>
+					</EditBox>
+				</Frames>
+			</Frame>
+
+			<!-- the list of teams -->
+			<RematchAutoScrollFrame parentKey="List">
+				<Size x="280" y="503"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Top" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+			</RematchAutoScrollFrame>
+
+			<!-- border placed around currently loaded team -->
+			<Frame parentKey="SelectedOverlay" inherits="RematchSelectedOverlayTemplate" hidden="true">
+				<Size x="200" y="44"/>
+				<!-- <Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+					<EdgeSize val="16"/>
+					<BorderColor r="1" g="0.82" b="0.5"/>
+				</Backdrop> -->
+			</Frame>
+
+		</Frames>
+	</Frame>
+
+</Ui>

@@ -1,0 +1,19 @@
+------------------------------------------------------------------------
+r32 | cybeloras | 2016-07-19 06:16:05 +0000 (Tue, 19 Jul 2016) | 1 line
+Changed paths:
+   A /tags/v70000.1 (from /trunk:31)
+
+Tagging as v70000.1
+------------------------------------------------------------------------
+r31 | cybeloras | 2016-07-19 06:05:59 +0000 (Tue, 19 Jul 2016) | 1 line
+Changed paths:
+   M /trunk/LibDogTag-Stats-3.0.toc
+
+Toc bump
+------------------------------------------------------------------------
+r30 | cybeloras | 2016-05-14 16:50:26 +0000 (Sat, 14 May 2016) | 1 line
+Changed paths:
+   M /trunk/Categories/Enhancements.lua
+
+Don't create Multistrike tag if GetMultistrike doesnt exist (for Legion)
+------------------------------------------------------------------------

@@ -1,0 +1,34 @@
+## Interface: 80000
+#@non-debug@
+## Title: Atlas |r|cFF0099FF[Scenarios]|r
+## Title-deDE: Atlas |r|cFF0099FF[Szenarien]|r
+## Title-ruRU: Atlas |r|cFF0099FF[Сценарии]|r
+## Title-zhCN: Atlas |r|cFF0099FF[场景战役]|r
+## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 情境地圖
+## Notes: Scenarios Maps
+## Notes-deDE: Szenariokarten
+## Notes-esES: Mapas de gestas
+## Notes-esMX: Mapas de gestas
+## Notes-ruRU: Карты сценариев
+## Notes-zhCN: 场景战役地图
+## Notes-zhTW: Atlas 史詩情境事件模式地圖插件
+#@end-non-debug@
+#@debug@
+# ## Title: Atlas |r|cFF0099FF[Scenarios]|r
+# ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 情境地圖
+# ## Notes: Scenarios Maps
+# ## Notes-zhTW: Atlas 史詩情境事件模式地圖插件
+#@end-debug@
+## Version: v1.44.00
+## OptionalDeps: Lib-Scenarios
+## Author: arith
+## X-Date: 2018-08-08T17:27:31Z
+## X-Email: atlas.addon at gmail.com
+## X-Website: http://www.atlasmod.com
+## X-Category: Map
+## RequiredDeps: Atlas
+# # SavedVariables: ScenariosDB
+
+Libs\Libs.xml
+Locale\Locales.xml
+Atlas_Scenarios.lua

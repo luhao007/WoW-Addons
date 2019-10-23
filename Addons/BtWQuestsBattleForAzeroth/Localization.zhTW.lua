@@ -1,0 +1,18 @@
+----- AUTO GENERATED - DO NOT EDIT
+
+if GetLocale() ~= "zhTW" then
+    return
+end
+
+local L = BtWQuests.L
+L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "造型：光陰"
+L["BTWQUESTS_GIFT_OF_NZOTH"] = "恩若司之賜"
+L["BTWQUESTS_HATI_REBORN"] = "哈提重生"
+L["BTWQUESTS_MAGHAR_ORC"] = "瑪格哈獸人"
+L["BTWQUESTS_NIGHT_WARRIOR_NIGHT_ELF_CUSTOMIZATION"] = "「黑夜戰士」夜精靈玩家自訂選項"
+L["BTWQUESTS_THE_WAR_CAMPAIGN"] = "陣營戰役"
+L["BTWQUESTS_THE_WAR_CAMPAIGN_8_1"] = "陣營戰役: 達薩亞洛之戰"
+L["BTWQUESTS_WARFRONT_THE_BATTLE_FOR_DARKSHORE"] = "戰爭前線：黑海岸之戰"
+L["DUNGEON_KINGS_REST"] = "地城：諸王之眠"
+L["DUNGEON_SIEGE_OF_BORALUS"] = "地城：波拉勒斯圍城戰"
+L["WAIST_OF_TIME"] = "光陰"

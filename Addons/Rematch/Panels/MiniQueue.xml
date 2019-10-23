@@ -1,0 +1,75 @@
+<Ui>
+
+	<Frame name="RematchMiniQueue" hidden="true">
+		<Size x="88" y="417"/>
+
+		<Frames>
+			<Frame parentKey="Top" inherits="RematchInsetFrameTemplate">
+				<Size x="0" y="29"/>
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+					<Anchor point="TOPRIGHT"/>
+				</Anchors>
+				<Frames>
+					<Button parentKey="QueueButton" inherits="RematchFilterButtonTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="3" y="-3"/>
+							<Anchor point="TOPRIGHT" x="-3" y="-3"/>
+						</Anchors>
+						<Scripts>
+							<OnClick> 
+								Rematch:ToggleMenu("QueueMenu","TOPLEFT",self,"TOPRIGHT")
+							</OnClick>	
+						</Scripts>						
+					</Button>
+				</Frames>
+			</Frame>
+			<Frame parentKey="Status" inherits="RematchInsetFrameTemplate">
+				<Size x="0" y="26"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="-31"/>
+					<Anchor point="TOPRIGHT" x="0" y="-31"/>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString parentKey="Text" inherits="GameFontNormal" justifyH="CENTER">
+							<Anchors>
+								<Anchor point="LEFT" x="8" y="0"/>
+								<Anchor point="RIGHT" x="-8" y="0"/>
+							</Anchors>
+						</FontString>
+						<Texture parentKey="Icon">
+							<Size x="18" y="18"/>
+							<Anchors>
+								<Anchor point="RIGHT" x="-24" y="0"/>
+							</Anchors>
+							<TexCoords left="0.085" right="0.915" top="0.085" bottom="0.915"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="Clear" inherits="RematchClearButtonTemplate,RematchTooltipScripts">
+						<Anchors>
+							<Anchor point="RIGHT" x="-3" y="0"/>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								RematchSettings.QueueActiveSort = nil
+								Rematch:UpdateQueue()
+							</OnClick>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnShow>
+				self:OnShow()
+			</OnShow>
+			<OnHide>
+				self:OnHide()
+			</OnHide>
+		</Scripts>
+	</Frame>
+
+</Ui>

@@ -1,0 +1,24 @@
+tag 743bc8a59ae452c6177643b8a04b4df4c01f56ee v3.2.2
+Author:	Hendrik Leppkes <h.leppkes@gmail.com>
+Date:	Wed Jul 3 13:38:28 2019 +0200
+
+Tag as v3.2.2
+
+commit b0cdd6211036e73e02b252a94f87827f755706c5
+Author: Hendrik Leppkes <h.leppkes@gmail.com>
+Date:   Wed Jul 3 13:36:05 2019 +0200
+
+    Bump TOC
+
+commit 6eb0e879f7a4fd1e0c1f257869cae03e59f29a02
+Author: Hendrik Leppkes <h.leppkes@gmail.com>
+Date:   Wed Jul 3 13:35:52 2019 +0200
+
+    Include the old filenames of the sounds as comments
+
+commit 51fd5d7cba743d64d44438794a348b2d24c194dc
+Author: David Lynch <kemayo@gmail.com>
+Date:   Tue Jul 2 11:41:20 2019 -0500
+
+    Fix LSM sound registrations for 8.2
+

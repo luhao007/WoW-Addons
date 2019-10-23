@@ -1,0 +1,21 @@
+## Interface: 80205
+## Title: BtWQuests: Battle for Azeroth Prologue
+## Version: 12
+## Notes: Battle for Azeroth Prologue quest data for BtWQuests
+## Author: Breen
+## Dependencies: BtWQuests
+
+Defines.lua
+
+Quests.lua
+Quests.deDE.lua
+Quests.esES.lua
+Quests.esMX.lua
+Quests.frFR.lua
+Quests.itIT.lua
+Quests.koKR.lua
+Quests.ptBR.lua
+Quests.ruRU.lua
+Quests.zhTW.lua
+
+Prologue.lua

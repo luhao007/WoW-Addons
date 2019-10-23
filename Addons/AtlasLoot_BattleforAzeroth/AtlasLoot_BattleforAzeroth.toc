@@ -1,0 +1,36 @@
+## Interface: 80200
+## Author: Lag, Arith	
+## Version: v8.10.00
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+#@non-debug@
+## Title: AtlasLoot |cFF0099FF[Battle for Azeroth]|r
+## Title-esES: AtlasLoot |cFF0099FF[Battle for Azeroth]|r
+## Title-ruRU: AtlasLoot |cFF0099FF[Битва за Азерот]|r
+## Title-zhCN: AtlasLoot |cFF0099FF[争霸艾泽拉斯]|r
+## Title-zhTW: AtlasLoot |cFF0099FF[決戰艾澤拉斯]|r
+## Notes: AtlasLoot loot tables from Battle for Azeroth
+## Notes-esES: Tablas de botín de AtlasLoot de Battle for Azeroth
+## Notes-esMX: AtlasLoot tablas de botín de Battle for Azeroth
+## Notes-ruRU: Таблицы добычи AtlasLoot из Битвы за Азерот
+## Notes-zhCN: AtlasLoot 《争霸艾泽拉斯》物品信息
+## Notes-zhTW: AtlasLoot 決戰艾澤拉斯資料片物品掉落資料庫
+#@end-non-debug@
+#@debug@
+# ## Title: AtlasLoot |cFF0099FF[Battle for Azeroth]|r
+# ## Title-zhCN: AtlasLoot |cFF0099FF[争霸艾泽拉斯]|r
+# ## Title-zhTW: AtlasLoot |cFF0099FF[決戰艾澤拉斯]|r
+# 
+# ## Notes: AtlasLoot loot tables from Battle for Azeroth
+# ## Notes-zhCN: AtlasLoot 《争霸艾泽拉斯》物品信息
+# ## Notes-zhTW: AtlasLoot 決戰艾澤拉斯資料片物品掉落資料庫
+#@end-debug@
+
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: http://www.atlasloot.net
+
+## X-AtlasLoot-LootModule: 1
+
+data.lua

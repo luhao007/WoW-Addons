@@ -1,0 +1,20 @@
+## Interface: 70200
+## Title: GearManagerEx
+## Version: 4.0
+## Author: Abin
+## SavedVariables: GearManagerExDB
+
+Locales\enUS.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+
+Includes\LibAddonManager.lua
+Includes\InterfaceOptionPage-1.0.lua
+
+Core.lua
+QuickStrip.lua
+Menu.lua
+ToolBar.lua
+OptionFrame.lua
+
+LDB\Embeds.xml

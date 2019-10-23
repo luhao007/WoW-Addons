@@ -1,0 +1,66 @@
+commit 710795161a34813fafdde53545f6da6deaeaf759
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Sun Aug 26 14:25:54 2018 -0400
+
+    BFA/8.0 toc bump
+
+commit 61199876b24d28638333d024941bd0a5aecfb26a
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Wed Sep 13 00:23:40 2017 -0400
+
+    7.3 compatability fix
+
+commit 252b6dd75cc283d9e5c082833550032a6aaef0a0
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Tue Jul 4 21:16:51 2017 -0400
+
+    Release 3.9.2
+            - Fixed issue with Paragon standingID & LABEL. Paragon reputations should now be legendary orange.
+            - Touched up ButtonText Labeling :: Trim values/percentange from capped factions and frends
+            - Began Conversion of text to strings for future localization
+            - Fixed issues with Session Summon displaying incorrectly
+
+commit 67d6a0904c092c47ef854c8044e7fd751df245ac
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Mon Jul 3 02:10:24 2017 -0400
+
+    Tagged as 3.9.1-release
+
+commit e770d45c9835d22ffe00b2c5e45eed207c353b26
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Sun Jul 2 20:30:15 2017 -0400
+
+    tagged as 3.8.9b-release
+
+commit 1a40f860ac925a2eff3b9ba34911c9eaabe3763b
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Sun Jul 2 20:24:35 2017 -0400
+
+    tag 3.9.0b-release
+
+commit 9ff703ee930f4c7685ab718fdbf518b219a2f5b5
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Sun Jul 2 20:20:20 2017 -0400
+
+    tagging release 3.9.0b
+
+commit af116c4b947c0100daaea4bbb3af317630dd6b32
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Sun Jul 2 19:14:22 2017 -0400
+
+    Release 3.9.0
+
+commit d0edaa6949ab0ade78367d8c67d3312acfca78fb
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Sun Dec 25 14:41:29 2016 -0500
+
+    release 3.8.8
+
+commit f5dc0511d428d916ba9be1c957c9f1634969f643
+Author: jpotter <jpotter@liquidweb.com>
+Date:   Sun Dec 25 14:21:17 2016 -0500
+
+    Release 3.8.8d
+    - Updated for Legion V 7.1
+    - Fixed broken right click menu (thanks tominator1983 ticket #26)
+

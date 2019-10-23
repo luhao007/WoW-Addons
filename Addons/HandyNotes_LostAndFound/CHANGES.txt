@@ -1,0 +1,18 @@
+tag 2d7c4b9de2ca4df6aa58ccb431edbc5186b413bb v12
+Author:	David Lynch <kemayo@gmail.com>
+Date:	Sat Oct 12 22:18:55 2019 -0500
+
+Tagging v12
+
+commit de7ac9efc0a884b0cb9c31792d6037fe7387903d
+Author: David Lynch <kemayo@gmail.com>
+Date:   Sat Oct 12 22:18:25 2019 -0500
+
+    Update properly to uiMapIds, fixing caves
+
+commit 616db2194dd9b814b221ec39eb0728703b2cbb2d
+Author: David Lynch <kemayo@gmail.com>
+Date:   Sat Oct 12 22:17:39 2019 -0500
+
+    Bump TOC
+

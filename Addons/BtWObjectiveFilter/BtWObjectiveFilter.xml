@@ -1,0 +1,38 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Button name="BreenObjectiveEmptyFilterButton" parent="ObjectiveTrackerFrame">
+        <Size x="16" y="16"/>
+        <Anchors>
+            <Anchor point="TOPRIGHT" x="0" y="-4" relativekey="$parent.HeaderMenu"/>
+        </Anchors>
+        <Scripts>
+            <OnClick function="BtWObjectiveFilterButton_OnClick"/>
+        </Scripts>
+        <NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+        <PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+        <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD" />
+        <DisabledTexture file="Interface\Buttons\UI-PlusButton-Disabled" />
+    </Button>
+    <Button name="BtWObjectiveFilterButton" parent="ObjectiveTrackerFrame">
+        <Size x="16" y="16"/>
+        <Anchors>
+            <Anchor point="RIGHT" x="-3" y="0" relativekey="$parent.HeaderMenu.MinimizeButton" relativepoint="LEFT"/>
+        </Anchors>
+        <Scripts>
+            <OnClick function="BtWObjectiveFilterButton_OnClick"/>
+            <OnLoad>
+                BtWObjectiveFilterButton:SetParent(ObjectiveTrackerFrame.HeaderMenu)
+                ObjectiveTrackerFrame.HeaderMenu.Title:SetPoint("RIGHT", BtWObjectiveFilterButton, "LEFT", -3, 1)
+            </OnLoad>
+        </Scripts>
+        <NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+        <PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+        <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD" />
+        <DisabledTexture file="Interface\Buttons\UI-PlusButton-Disabled" />
+    </Button>
+    <Frame name="BtWObjectiveFilterDropDown" inherits="UIDropDownMenuTemplate">
+        <Scripts>
+            <OnLoad function="BtWObjectiveFilterDropDown_OnLoad"/>
+        </Scripts>
+    </Frame>
+</Ui>	

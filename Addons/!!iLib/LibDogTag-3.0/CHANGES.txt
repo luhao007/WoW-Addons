@@ -1,0 +1,18 @@
+tag 5e7e3b9984d16633271bf615d19ce420d6ac0a21 v80200.1
+Author:	Parnic <parnic@parnic.com>
+Date:	Tue Jun 25 09:51:53 2019 -0500
+
+Tagging as v80200.1
+
+commit b811b5001fe68f79a5f874a99a827ff11d44c0a5
+Author: Parnic <parnic@parnic.com>
+Date:   Tue Jun 25 09:51:44 2019 -0500
+
+    Updated TOC to 8.2
+
+commit 8ee29a3091a8d7ab5f3deeb33f8cea09f3be4cff
+Author: Andrew Scott <ascott18@gmail.com>
+Date:   Wed May 29 20:19:19 2019 -0700
+
+    Make compatible with Classic (Interface: 11302)
+

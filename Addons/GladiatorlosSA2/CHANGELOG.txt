@@ -1,0 +1,41 @@
+- version 2.1 (8.2)
+
+Rogue
+* Added in options for Feint and Feint Down in Buff Applied/Removed. Sorry about that.
+
+Warlock
+* Added Havoc to cast success.
+===========================================
+- version 2.0 (8.2)
+
+THIS IS NOT A CLASSIC BUILD.
+
+**ALL ABILITIES ARE DEFAULT TO ON WITH THIS BUILD. GSA MAY BE UNUSUALLY CHATTY AFTER UPDATING. Toggle what you want.**
+
+General
+* All tracked spells should now have an alert associated with them.
+* Placeholder voice alerts have been replaced with the usual voice.
+* Removed Tank Taunt debuff alerts.
+* Note: I do not intend to add Azerite Essences due to their likely short lifespan. If we find out they somehow follow us into 9.0, I'll look into it. Extremely impactful ones might be added anyway.
+
+Druid
+* Fixed Thorns falloff.
+
+Paladin
+* Added Divine Favor falloff to Aura Removed.
+
+Warlock
+* Added Create Healthstone (and Soulwell) to Spell Casting.
+* Added Unending Resolve falloff to Aura Removed.
+
+KNOWN ISSUES
+* Spells do not display information on mouseover.
+* Non-spell options cause an error on toggle. This is completely harmless and can be ignored, it's the result of a new type of error Blizzard added to help debugging not playing nice with old code.
+* There appears to be slight lag when changing settings. Just deal with it for now, I don't know what the problem is and it's not my first priority.
+
+My current focus for GSA2 is cleaning up the codebase so I can actually figure out how and where everything is. It was organized chaos when I first picked up support, and my contributions have made it even messier.
+Bug fixes will come later. None of the current issues are disruptive in actual game-play, and are only oddities when working with settings.
+
+Classic support is still not a priority by any means, but is on my radar. At least one person that I know of has been making progress on GSA2 for Classic. Will try to check-in with them and go from there.
+
+Thank all of you for your patience throughout this expansion's very rough development. :)

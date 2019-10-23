@@ -1,0 +1,7 @@
+﻿## Interface: 80200
+## Author: Shurshik
+## Title: Raid|cff7fff7fAchievement|r_OldModules
+## Notes: Raid|cff7fff7fAchievement|r_OldModules
+## Dependencies: RaidAchievement
+RaidAchievement_OldModules.lua
+RaidAchievement_OldModules.xml

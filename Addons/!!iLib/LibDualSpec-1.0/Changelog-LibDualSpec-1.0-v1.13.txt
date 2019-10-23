@@ -1,0 +1,12 @@
+tag v1.13
+3344dceb2c4f1a8a236a927ea2ec290c22099d91
+Kyle Buller <bullerk@gmail.com>
+2016-11-15 14:41:16 -0600
+
+Tagging as v1.13
+
+
+--------------------
+
+Kyle Buller:
+	- Update zhCN locale from ananhaid.

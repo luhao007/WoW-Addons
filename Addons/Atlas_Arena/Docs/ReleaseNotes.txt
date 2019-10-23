@@ -1,0 +1,125 @@
+$Id: ReleaseNotes.txt 85 2019-09-04 07:33:28Z arith $
+Atlas Arena, a World of Warcraft instance map browser plug-in for Atlas
+Copyright 2010 ~ 2019 Arith Hsu
+
+==============
+= Change Log =
+==============
+
+* 1.07.04 (2019/09/04)
+- ToC update to support WoW 8.2.0
+
+* 1.07.03 (2018/12/18)
+- ToC update to support WoW 8.1.0
+
+* 1.07.02 (2018/08/09)
+- ToC update to support WoW 8.0.1
+
+* 1.07.01 (2017/08/29)
+- ToC update to support WoW 7.3.0
+
+* 1.07.00 (2017/06/29)
+- Updated to support Atlas 1.42.00
+
+* 1.06.05 (2017/03/27)
+- Toc update to support WoW 7.2
+
+* 1.06.04 (2017/03/16)
+    - Translation update:
+	- Russian (dartraiden)
+
+* 1.06.03 (2016/10/27)
+    - Toc update to support WoW 7.1.0
+
+* 1.06.02 (2016/10/06)
+    - Translation update:
+        - Simplified Chinese (ananhaid)
+	- Russian (dartraiden)
+
+* 1.06.01 (2016/07/20)
+    - Added two new arenas which will be released after Legion's official launch
+        - Black Rook Hold Arena
+	- Ashamane's Fall
+
+* 1.06.00 (2016/07/19)
+    - TOC update to support WoW 7.0.3
+    - Replace punctuations by using Atlas' localization
+    - Update level info
+
+* 1.5.08 (2016/07/06)
+    - Added itIT, esMX, and ptBR translation files (placeholder until we get any translation added)
+    - Translation update:
+        - German (pas06)
+
+* 1.5.07 (2015/07/13)
+    - TOC update to support WoW 6.2
+
+* 1.5.06 (2015/03/01)
+    - TOC update to support WoW 6.1
+    - Translation update:
+        - Russian: dartraiden
+	- Simplified Chinese: ananhaid
+
+* 1.5.05 (2014/10/15)
+    - TOC update to support WoW 6.0
+
+* 1.5.04 (2013/12/11)
+    - Map revamp: The Tiger's Peak
+    - Added map of Tol'Viron Arena
+
+* 1.5.03 (2013/09/09)
+    - TOC update to support WoW 5.4
+
+* 1.5.02 (2013/05/22)
+    - Fix code syntax issue
+    
+* 1.4.01 (2013/05/21)
+    - TOC update to support WoW 5.3
+    - Added map of The Tiger's Peak
+
+* 1.4.00 (2013/03/05)
+    - TOC update to support WoW 5.2
+
+* 1.3.7 (2012/12/08)
+    - TOC update to support WoW 5.1
+
+* 1.3.6 (2012/09/26)
+    - TOC update to support WoW 5.0
+    
+* 1.3.5 (2011/12/17)
+    - TOC update to support WoW 4.3
+	- zhCN translation update
+
+* 1.3.4 (2011/06/28)
+    - TOC update to support WoW 4.2
+
+* 1.3.3 (2011/05/10)
+    - Maps level info update
+    - Rumble Cage map revamp
+
+* 1.3.2 (2011/04/28)
+    - TOC update to support WoW 4.1
+
+* 1.3.1 (2011/01/12)
+    - Update Amphitheater of Anguish map info, added bosses
+    
+* 1.3 (2011/01/11)
+    - Map added: Amphitheater of Anguish
+    
+* 1.2 (2011/01/04)
+    - Maps updated: Gurubashi Arena, RumbleCage Arena
+    - Maps added: Crucible of Carnage, Valhalas, The Ring of Blood
+
+* 1.1 (2010/10/13)
+    - TOC update to support WoW 4.0
+
+* 1.0 (2010/07/21)
+    - Initial creation
+    - Below Arena Maps are included
+        - Blade's Edge Arena (The Circle Of Blood)
+        - Dalaran Arena
+        - Nagrand Arena (The Ring of Trials)
+        - The Ring of Valor
+        - Ruins of Lordaeron
+        - Gurubashi Arena
+        - The Rumble Cage

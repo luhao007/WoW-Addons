@@ -1,0 +1,12 @@
+tag 518f9ce1b6aa20752edac77a373c4ab741acda0a 1.2.10
+Author:	Hendrik Leppkes <h.leppkes@gmail.com>
+Date:	Wed Jun 26 08:03:01 2019 +0200
+
+Tag as 1.2.10
+
+commit af8251e9c3c2dee9621dece6262dd4df47a521c2
+Author: Hendrik Leppkes <h.leppkes@gmail.com>
+Date:   Wed Jun 26 08:02:32 2019 +0200
+
+    Update TOC for 8.2
+

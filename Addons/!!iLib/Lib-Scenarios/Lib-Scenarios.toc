@@ -1,0 +1,18 @@
+## Interface: 70300
+## LoadOnDemand: 1
+## Title: Lib: Scenarios
+## Title-zhCN: Lib: Scenarios
+## Notes: A library to get scenario name, step name, and step description with specified language.
+## Notes-zhCN: 获取特定语言场景战役名称，步骤名称，和步骤描述的库。
+## Author: Arith
+## X-eMail: arithmandarjp at yahoo.co.jp
+## X-Category: Library
+## X-License: MIT
+## X-Date: 2018-04-24T9:17:50Z
+## X-Website: https://wow.curseforge.com/addons/lib-scenarios/
+
+#@no-lib-strip@
+LibStub\LibStub.lua
+#@end-no-lib-strip@
+Lib-Scenarios\lib.xml
+

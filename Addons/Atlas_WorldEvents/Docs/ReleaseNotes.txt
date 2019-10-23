@@ -1,0 +1,170 @@
+Atlas World Events, a World of Warcraft world events map browser plug-in for Atlas
+Copyright 2011 ~ 2019 - Arith Hsu
+
+==============
+= Change Log =
+==============
+
+* 3.26 (2019/09/04)
+- ToC update to support WoW 8.2.0
+
+* 3.25 (2018/12/18)
+- ToC update to support WoW 8.1.0
+
+* 3.24 (2018/08/09)
+- ToC update to support WoW 8.0.1
+- MapID convert to uiMapID
+
+* 3.23 (2017/08/29)
+- ToC update to support WoW 7.3.0
+
+* 3.22 (2017/06/29)
+- Updated to support Atlas 1.42.00
+
+* 3.21 (2017/06/21)
+- Corrected the coordinate of the flame in Spires of Arak
+
+* 3.20 (2017/06/21)
+- Added Midsummer festival's bonfires in Draenor and Broken Isles
+- Added achievements information of Midsummer festival
+
+* 3.19 (2017/03/27)
+- Toc update to support WoW 7.2
+
+* 3.18 (2017/03/16)
+- Translation update:
+  - Spanish (izr4el)
+
+* 3.17 (2016/10/27)
+- Toc update to support WoW 7.1.0
+
+* 3.16 (2016/10/06)
+- Translation update:
+  - Russian (dartraiden)
+  - Simplified Chinese (Mazanic)
+
+* 3.15 (2016/07/19)
+- TOC update to support WoW 7.0.3
+- Replace punctuations by using Atlas' localization
+- Using Lib-BabbleFaction to lookup faction info
+
+* 3.14 (2016/07/06)
+- Added esES, esMX, and koKR translation files (placeholder until we get any translation added)
+- Translation update:
+  - German (pas06)
+
+* 3.13 (2015/07/13)
+    - TOC update to support WoW 6.2
+
+* 3.12 (2015/03/01)
+    - Added Lunar festival Deepholm map
+
+* 3.11 (2015/03/01)
+    - TOC update to support WoW 6.1
+    - Update 2015 holidays
+    - Lunar festival updates - added Elders from Cataclysm
+    - Translation update:
+        - Russian: dartraiden
+
+* 3.10 (2014/11/03)
+    - Translation update:
+        - zhCN: ananhaid
+	- itIT: metalfire
+	- deDE: Sunflow72, heinzschen
+	- frFR: Mad_Ti
+	- ruRU: dartraiden, Narumar, Pallik, KVVV
+	- ptBR: Seprion
+
+* 3.09 (2014/10/28)
+    - Added Hallow End Candy Buckets maps
+
+* 3.08 (2014/10/15)
+    - TOC update to support WoW 6.0
+
+* 3.07 (2014/07/06)
+    - Minor updates with zhTW and deDE translation
+    - Harvest Festival date update
+
+* 3.06 (2013/12/20)
+    - Added Feast of Winter Veil map
+
+* 3.05 (2013/09/10)
+    - TOC update to support WoW 5.4
+    - Added Harvest Festival map.
+
+* 3.04 (2013/07/01)
+    - Added MidSummer Pandaria map.
+
+* 3.03 (2013/05/24)
+    - Update the coming holidays' dates until Feb. 2014.
+
+* 3.02 (2013/05/21)
+    - TOC update to support WoW 5.3
+    - Remove BabbleFaction Library
+
+* 3.01 (2013/03/05)
+    - TOC update to support WoW 5.2
+
+* 3.00 (2013/02/18)
+    - Update version number to prevent from blocking by Atlas
+
+* 2.10 (2013/02/17)
+    - Added "Love is in the Air" event
+    - Update Lunar Festival duration info
+    - Update Brewfest duration info
+    - Minor tuining for string IDs
+
+* 2.9 (2012/12/08)
+    - TOC update to support WoW 5.1
+
+* 2.8 (2012/10/04)
+    - Added Brewfest maps
+    - Translation Update
+	- Simplified Chinese (ananhaid) 
+	- Traditional Chinese (ananhaid) 
+	
+* 2.7 (2012/09/26)
+    - TOC update to support WoW 5.0
+    - Translation Added
+        - German (heinzschen)
+    - Translation Update
+	- Simplified Chinese (ananhaid) 
+	- Traditional Chinese (ananhaid) 
+    
+* 2.6 (2011/12/08)
+    - Added Darkmoon Faire
+
+* 2.5 (2011/12/05)
+    - TOC update to support WoW 4.3
+    - Translation Update
+        - Added Simplified Chinese (dh0000)
+	- Traditional Chinese typo fixed
+
+* 2.4 (2011/10/16)
+    - Added Hallow's End questline info
+    - Added Russian translation (partial)
+    
+* 2.3 (2011/06/27)
+    - TOC update to support WoW 4.2
+    
+* 2.2 (2011/06/23)
+    - Update Mid-Summer Festival maps for year 2011
+
+* 2.1 (2011/04/28)
+    - TOC update to support WoW 4.1
+
+* 2.0 (2011/02/13)
+    - Added MidSummer Fire Festival maps
+    - Lunar Festival maps' info minor changes: 
+        - Time inverval info
+	- Marks color changed
+	
+* 1.0 (2011/01/26)
+    - Added Lunar_Northrend map
+
+* 0.2 (2011/01/25)
+    - Added Lunar_Kalimdor map
+
+* 0.1 (2011/01/24)
+    - Addon initiated
+    - Added Lunar_Azeroth map

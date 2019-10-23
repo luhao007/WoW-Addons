@@ -1,0 +1,13 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+	<Script file="Atlas_Legion-enUS.lua"/>
+	<Script file="Atlas_Legion-ruRU.lua"/>
+	<Script file="Atlas_Legion-deDE.lua"/>
+	<Script file="Atlas_Legion-frFR.lua"/>
+	<Script file="Atlas_Legion-zhCN.lua"/>
+	<Script file="Atlas_Legion-esES.lua"/>
+	<Script file="Atlas_Legion-esMX.lua"/>
+	<Script file="Atlas_Legion-zhTW.lua"/>
+	<Script file="Atlas_Legion-ptBR.lua"/>
+	<Script file="Atlas_Legion-itIT.lua"/>
+	<Script file="Atlas_Legion-koKR.lua"/>
+</Ui>

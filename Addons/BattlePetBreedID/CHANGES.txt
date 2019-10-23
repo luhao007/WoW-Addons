@@ -1,0 +1,7 @@
+changeset:   202:b2c443572c95
+tag:         v1.14.4
+user:        Caleb Atherton <atcaleb@twitch.tv>
+date:        Tue Oct 01 14:04:37 2019 -0400
+summary:     Fixed tooltip collision with TradeSkillMaster 4.
+
+

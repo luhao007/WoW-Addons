@@ -1,0 +1,98 @@
+tag 399d36886647745fe0b96371c5277ec960b355bb v1.6.2
+Author:	Ethan Centaurai <ethancentaurai@outlook.com>
+Date:	Sat Jun 29 19:36:12 2019 +0100
+
+Tagging as v1.6.2.
+
+commit 38796243d85191eb467a68f3cac6e4f4c03131cf
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:29:53 2019 +0100
+
+    Bump Interface number to 80200.
+
+commit 38796243d85191eb467a68f3cac6e4f4c03131cf
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:29:53 2019 +0100
+
+    Bump Interface number to 80200.
+
+commit 600b58c01ace93460fd938b4a0c51f30ebb3443d
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:27:29 2019 +0100
+
+    Update README.md
+
+commit 795ca11b5e1f66ec1a31a7752acc3b192b875521
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:08:49 2019 +0100
+
+    Create FUNDING.yml
+
+commit 499d2b2248db845515501496b2fcf1ea205f878b
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:08:17 2019 +0100
+
+    Set theme jekyll-theme-slate
+
+commit e0be3a8b2175b224ed7d920dab46bf565719a663
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:06:58 2019 +0100
+
+    Use a timer as well as events.
+
+commit f8d69213b1dbb5222bb0ee61bdb760966888cb4d
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:02:31 2019 +0100
+
+    Replace deprecated function.
+
+commit 73507f2691f4fcfaa14e4af5e8c1f1722fc8f30c
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Sat Jun 29 19:01:20 2019 +0100
+
+    Remove unused code.
+
+commit bfd55b79a3b2168fcc583e439828ba7123c63b87
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Tue May 28 19:14:32 2019 +0100
+
+    Update README.md
+
+commit 1da524d70bb78f14cd7edbb4ec28d741e121c6ef
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Mon Feb 11 19:36:28 2019 +0000
+
+    Use server time instead of local time.
+    
+    Local time causes more problems than it solves.
+
+commit 117d1456ebfc964b016a363f64be68353acabe6d
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Tue Jan 29 20:25:36 2019 +0000
+
+    Updated the markers for Elder Splitrock.
+
+commit fc0d8cd0c06a930ab23b0f6c42bc8dc292374263
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Tue Jan 29 18:22:38 2019 +0000
+
+    Nesting.
+
+commit ef201d4817794aedf02aa09f1bfaba29a8eb597c
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Mon Jan 28 23:36:17 2019 +0000
+
+    Don't create multiple waypoints when ctrl-clicking a marker.
+
+commit 1bc2aca589c2224ad54daf0780565e6c9285fbdd
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Mon Jan 28 21:04:07 2019 +0000
+
+    Updated the markers for Elder Bronzebeard.
+
+commit fcc5d93c301b9a572be42670243571fc21541ef0
+Author: Ethan Centaurai <ethancentaurai@outlook.com>
+Date:   Mon Jan 28 21:03:42 2019 +0000
+
+    Tweaked the markers for Elder Morndeep.
+

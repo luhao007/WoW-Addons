@@ -1,0 +1,11 @@
+------------------------------------------------------------------------
+r85 | myrroddin | 2018-04-16 03:47:37 +0000 (Mon, 16 Apr 2018) | 3 lines
+Changed paths:
+   M /trunk/LibGuildBankComm-1.0.lua
+   M /trunk/LibGuildBankComm-1.0.toc
+
+- bump ToC
+- update SVN keywords
+- poke for newer support libs
+------------------------------------------------------------------------
+

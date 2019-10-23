@@ -1,0 +1,28 @@
+lightweight tag 7bb2332b7de443cb0d6bc584ec3326817195f767 v3.0.12
+Author:	Vsevolod Klementjev <vsevolod@klemix.com>
+Date:	Wed Jun 26 23:24:50 2019 +0300
+
+commit 7bb2332b7de443cb0d6bc584ec3326817195f767
+Author: Vsevolod Klementjev <vsevolod@klemix.com>
+Date:   Wed Jun 26 23:24:50 2019 +0300
+
+    * Another version bump
+
+commit 8054b093565f51e868ab090bbdbcc3d3dbc4cf3a
+Author: Vsevolod Klementjev <vsevolod@klemix.com>
+Date:   Wed Jun 26 23:22:45 2019 +0300
+
+    * Version bump for 8.2
+
+commit af582617c1d26bb88f7310b1fe80f559cf013502
+Author: Vsevolod Klementjev <vsevolod@klemix.com>
+Date:   Wed Jun 26 23:22:33 2019 +0300
+
+    * Missing enchants are better seen
+
+commit 44223d37b3121daf65b08f5f5484c716d9a5cb56
+Author: Vsevolod Klementjev <vsevolod@klemix.com>
+Date:   Wed Jun 26 23:22:01 2019 +0300
+
+    * Lib update
+

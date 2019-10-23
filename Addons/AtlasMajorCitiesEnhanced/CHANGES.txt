@@ -1,0 +1,32 @@
+------------------------------------------------------------------------
+r81 | Andymon | 2018-08-21 18:54:09 +0000 (Tue, 21 Aug 2018) | 1 line
+Changed paths:
+   M /trunk/AtlasMajorCities.lua
+   M /trunk/AtlasMajorCitiesEnhanced.toc
+   M /trunk/Bindings.xml
+
+Fix to load AMC if listed at first position in menu
+------------------------------------------------------------------------
+r80 | arith | 2018-08-11 11:46:16 +0000 (Sat, 11 Aug 2018) | 1 line
+Changed paths:
+   M /trunk/AtlasMajorCities.lua
+
+finalize
+------------------------------------------------------------------------
+r79 | arith | 2018-08-11 11:34:17 +0000 (Sat, 11 Aug 2018) | 1 line
+Changed paths:
+   M /trunk/Locale/AtlasMajorCities_zhTW.lua
+
+translation update
+------------------------------------------------------------------------
+r78 | arith | 2018-08-11 11:20:29 +0000 (Sat, 11 Aug 2018) | 3 lines
+Changed paths:
+   M /trunk/AtlasMajorCities.lua
+   M /trunk/AtlasMajorCitiesEnhanced.toc
+   M /trunk/Bindings.xml
+
+- Fixed error in Bindings.xml and ToC file
+- Update TOC number to support WoW 8.0.1
+- Map related function calls updated to support WoW 8.0.1
+------------------------------------------------------------------------
+

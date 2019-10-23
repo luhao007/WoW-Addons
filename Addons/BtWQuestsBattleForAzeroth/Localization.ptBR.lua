@@ -1,0 +1,20 @@
+----- AUTO GENERATED - DO NOT EDIT
+
+if GetLocale() ~= "ptBR" then
+    return
+end
+
+local L = BtWQuests.L
+L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "Cosmético: Cinto pelo Tempo Perdido"
+L["BTWQUESTS_GIFT_OF_NZOTH"] = "Dádiva de N'Zoth"
+L["BTWQUESTS_HATI_REBORN"] = "Hati Renascido"
+L["BTWQUESTS_HERITAGE_OF_THE_BRONZEBEARD"] = "Tradição dos Barbabronze"
+L["BTWQUESTS_HERITAGE_OF_THE_SINDOREI"] = "Tradição dos Sin'dorei"
+L["BTWQUESTS_MAGHAR_ORC"] = "Orc Mag'har"
+L["BTWQUESTS_NIGHT_WARRIOR_NIGHT_ELF_CUSTOMIZATION"] = "Personalização Noctiélfica \"Guerreira da Noite\""
+L["BTWQUESTS_THE_WAR_CAMPAIGN"] = "A Campanha de Guerra"
+L["BTWQUESTS_THE_WAR_CAMPAIGN_8_1"] = "A Campanha de Guerra: Batalha de Dazar'alor"
+L["BTWQUESTS_WARFRONT_THE_BATTLE_FOR_DARKSHORE"] = "Front de Guerra: A Batalha pela Costa Negra"
+L["DUNGEON_KINGS_REST"] = "Masmorra: Repouso do Rei"
+L["DUNGEON_SIEGE_OF_BORALUS"] = "Masmorra: Cerco de Boralus"
+L["WAIST_OF_TIME"] = "Cinto pelo Tempo Perdido"

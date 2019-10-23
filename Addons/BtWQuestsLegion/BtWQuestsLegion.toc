@@ -1,0 +1,69 @@
+## Interface: 80205
+## Title: BtWQuests: Legion
+## Version: 22
+## Notes: Legion quest data for BtWQuests
+## Author: Breen
+## Dependencies: BtWQuests
+
+Defines.lua
+
+Localization.lua
+Localization.deDE.lua
+Localization.esES.lua
+Localization.esMX.lua
+Localization.frFR.lua
+Localization.itIT.lua
+Localization.koKR.lua
+Localization.ptBR.lua
+Localization.ruRU.lua
+Localization.zhCN.lua
+Localization.zhTW.lua
+
+Quests.lua
+Quests.deDE.lua
+Quests.esES.lua
+Quests.esMX.lua
+Quests.frFR.lua
+Quests.itIT.lua
+Quests.koKR.lua
+Quests.ptBR.lua
+Quests.ruRU.lua
+Quests.zhTW.lua
+
+NPCs.lua
+NPCs.deDE.lua
+NPCs.esES.lua
+NPCs.esMX.lua
+NPCs.frFR.lua
+NPCs.itIT.lua
+NPCs.koKR.lua
+NPCs.ptBR.lua
+NPCs.ruRU.lua
+NPCs.zhTW.lua
+
+DeathKnight.lua
+DemonHunter.lua
+Druid.lua
+Hunter.lua
+Mage.lua
+Monk.lua
+Paladin.lua
+Priest.lua
+Rogue.lua
+Shaman.lua
+Warlock.lua
+Warrior.lua
+Class.lua
+Artifact.lua
+Orderhall.lua
+Azsuna.lua
+ValSharah.lua
+HighMountain.lua
+Stormheim.lua
+Suramar.lua
+BrokenShore.lua
+Argus.lua
+Professions.lua
+Hidden.lua
+AlliedRaces.lua
+Extras.lua

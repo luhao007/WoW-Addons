@@ -1,0 +1,66 @@
+------------------------------------------------------------------------
+r610 | MuffinManKen | 2018-09-19 11:15:55 +0000 (Wed, 19 Sep 2018) | 2 lines
+Changed paths:
+   M /trunk/LibPeriodicTable-3.1-Reputation/LibPeriodicTable-3.1-Reputation.lua
+   M /trunk/data.lua
+
+Added BfA factions
+Mined Reputation.Reward.*
+------------------------------------------------------------------------
+r609 | MuffinManKen | 2018-09-19 10:48:48 +0000 (Wed, 19 Sep 2018) | 1 line
+Changed paths:
+   M /trunk/LibPeriodicTable-3.1-Gear/LibPeriodicTable-3.1-Gear.lua
+   M /trunk/data.lua
+
+Mined Gear.*
+------------------------------------------------------------------------
+r608 | MuffinManKen | 2018-09-19 10:02:24 +0000 (Wed, 19 Sep 2018) | 2 lines
+Changed paths:
+   M /trunk/LibPeriodicTable-3.1-Consumable/LibPeriodicTable-3.1-Consumable.lua
+   M /trunk/data.lua
+   M /trunk/dataminer.lua
+
+Bandages are minable again
+Mined Consumable.*
+------------------------------------------------------------------------
+r607 | MuffinManKen | 2018-09-19 09:44:25 +0000 (Wed, 19 Sep 2018) | 3 lines
+Changed paths:
+   M /trunk/LibPeriodicTable-3.1-CurrencyItems/LibPeriodicTable-3.1-CurrencyItems.lua
+   M /trunk/data.lua
+   M /trunk/dataminer.lua
+
+Spirit Shards are a real currency now (miner fix)
+Added Seafarer's Dubloons and War Resources
+Updated CurrencyItems
+------------------------------------------------------------------------
+r606 | MuffinManKen | 2018-09-19 09:31:30 +0000 (Wed, 19 Sep 2018) | 1 line
+Changed paths:
+   M /trunk/LibPeriodicTable-3.1-Misc/LibPeriodicTable-3.1-Misc.lua
+   M /trunk/data.lua
+
+Update Misc.*
+------------------------------------------------------------------------
+r605 | MuffinManKen | 2018-09-19 09:30:49 +0000 (Wed, 19 Sep 2018) | 6 lines
+Changed paths:
+   M /trunk/dataminer.lua
+
+Miner fixes:
+You now set the URL_TRANSPORT to one of SOCKET, CURL, or CURL_SHELL
+SOCKET uses luasocket
+CURL uses luacurl
+CURL_SHELL runs the system installed curl.exe
+SOCKET and CURL do not work since they are too old to support SSL connections properly
+------------------------------------------------------------------------
+r604 | MuffinManKen | 2018-09-19 07:39:02 +0000 (Wed, 19 Sep 2018) | 1 line
+Changed paths:
+   M /trunk/dataminer.lua
+
+use https instead of http in urls
+------------------------------------------------------------------------
+r603 | MuffinManKen | 2018-09-19 07:38:16 +0000 (Wed, 19 Sep 2018) | 1 line
+Changed paths:
+   M /trunk/LibPeriodicTable-3.1/LibPeriodicTable-3.1.lua
+
+LibPT is not dependent on AceLibrary
+------------------------------------------------------------------------
+

@@ -1,0 +1,13 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+	<Script file="Atlas_ClassOrderHalls-enUS.lua"/>
+	<Script file="Atlas_ClassOrderHalls-ruRU.lua"/>
+	<Script file="Atlas_ClassOrderHalls-deDE.lua"/>
+	<Script file="Atlas_ClassOrderHalls-frFR.lua"/>
+	<Script file="Atlas_ClassOrderHalls-zhCN.lua"/>
+	<Script file="Atlas_ClassOrderHalls-esES.lua"/>
+	<Script file="Atlas_ClassOrderHalls-esMX.lua"/>
+	<Script file="Atlas_ClassOrderHalls-zhTW.lua"/>
+	<Script file="Atlas_ClassOrderHalls-ptBR.lua"/>
+	<Script file="Atlas_ClassOrderHalls-itIT.lua"/>
+	<Script file="Atlas_ClassOrderHalls-koKR.lua"/>
+</Ui>

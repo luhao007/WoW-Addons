@@ -1,0 +1,10 @@
+## Interface: 80205
+## Title: PetTracker Switcher
+## Notes: Displays all battle information at a glance.
+## Author: Jaliborc (João Cardoso)
+
+## Dependencies: PetTracker
+## X-Category: Battle Pets
+## Version: 8.2.2
+
+..\PetTracker\Features\Switcher.lua

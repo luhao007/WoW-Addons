@@ -1,0 +1,12 @@
+﻿## Interface: 80200
+## Title: Raid|cff7fff7fAchievement|r - Cataclysm Dungeons
+## Title-ruRU: Raid|cff7fff7fAchievement|r - Подземелья Катаклизма
+## Author: Shurshik
+## Notes: RaidAchievement Cataclysm Dungeons Module
+## Notes-ruRU: Модуль RaidAchievement - Подземелья Катаклизма
+## Dependencies: RaidAchievement
+## LoadOnDemand: 1
+## SavedVariablesPerCharacter: chraspisokon
+RaidAchievement_CataHeroics.lua
+RaidAchievement_CataHeroicsbosses.lua
+RaidAchievement_CataHeroics.xml

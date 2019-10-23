@@ -1,0 +1,10 @@
+## Interface: 80200
+## Title: Titan Panel [|cffeda55fGold|r] |cff00aa005.18.2.80200|r
+## Notes: Keeps track of all gold held by a player's toons on a per server/faction basis.
+## Author: Titan Panel Development Team (http://www.titanpanel.org)
+## SavedVariables: GoldSave
+## OptionalDeps: 
+## Dependencies: Titan
+## Version: 5.18.2.80200
+## X-Child-Of: Titan
+TitanGold.xml

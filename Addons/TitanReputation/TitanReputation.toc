@@ -1,0 +1,9 @@
+## Title: Titan [|cffeda55fReputation|r]
+## Authors: PapaSol, Aquator
+## Notes: Adds Reputation tracking and monitoring tools to Titan Panel.
+## Version: 3.9.5
+## Interface: 80100
+## Dependencies: Titan
+## OptionalDeps: Glamour
+## SavedVariables: TitanRep_Data
+TitanReputation.xml

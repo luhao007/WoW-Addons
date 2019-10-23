@@ -1,0 +1,26 @@
+## Interface: 80200
+#@non-debug@
+## Title: Atlas |r|cFF0099FF[Arena]|r
+## Title-deDE: Atlas |r|cFF0099FF[Arena]|r
+## Title-ruRU: Atlas |r|cFF0099FF[Арена]|r
+## Title-zhCN: Atlas |r|cFF0099FF[竞技场]|r
+## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 競技場地圖集
+## Notes: An Atlas Plugin that displays arena maps.
+## Notes-deDE: Eine Atlas-Erweiterung, die Arenakarten hinzufügt.
+## Notes-ruRU: Плагин для модификации Atlas, показывающий карты арен.
+## Notes-zhCN: Atlas 竞技场地图插件。
+## Notes-zhTW: Atlas 競技場地圖
+#@end-non-debug@
+#@debug@
+# ## Title: Atlas |r|cFF0099FF[Arena]|r
+# ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 競技場地圖集
+# ## Notes: An Atlas Plugin that displays arena maps.
+# ## Notes-zhTW: Atlas 競技場地圖
+#@end-debug@
+## Version: v1.07.04
+## X-Date: 2019-09-04T7:33:28Z
+## X-Category: Map
+## RequiredDeps: Atlas
+
+Locale\Locales.xml
+Atlas_Arena.lua

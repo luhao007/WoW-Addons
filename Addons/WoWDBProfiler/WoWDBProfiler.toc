@@ -1,0 +1,13 @@
+## Interface: 80100
+## Title: WoWDB Profiler
+## Notes: WoW datamining tool.
+## Author: James D. Callahan III (Torhal)
+## X-Email: jcallahan@curse.com
+## SavedVariables: WoWDBProfilerData
+## OptionalDeps: Ace3, HereBeDragons, LibDeformat-3.0, LibDialog-1.0, LibQTip-1.0
+
+libs.xml
+
+Constants.lua
+Main.lua
+Comments.lua

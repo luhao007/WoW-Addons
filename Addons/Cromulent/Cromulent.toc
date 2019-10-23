@@ -1,0 +1,16 @@
+## Interface: 80205
+## Title: Cromulent
+## Notes: Shows ZoneInfo on the World Map in a perfectly cromulent fashion.
+## Author: phyber
+## Version: 80205-2
+## X-Credit: ckknight (Cartographer_ZoneInfo author which this is shamelessly ripped off from)
+## X-Embeds: Ace3, LibTourist-3.0, HereBeDragons
+## OptionalDeps: Ace3, LibTourist-3.0, HereBeDragons
+
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
+
+Locales\locales.xml
+
+Cromulent.lua

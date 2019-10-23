@@ -1,0 +1,306 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+	<Script file="FishingTrackingFrame.lua"/>
+	<Frame name="FishingBuddyGraphMenu" inherits="UIDropDownMenuTemplate">
+		<Scripts>
+			<OnLoad>
+				self:SetFrameLevel(0);
+				UIDropDownMenu_SetWidth(self, 180);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Button name="FishingTrackingLineTemplate" hidden="false" virtual="true">
+		<Size>
+			<AbsDimension x="288" y="20"/>
+		</Size>
+		<ButtonText name="$parentText" justifyH="LEFT" nonspacewrap="false">
+			<Size>
+				<AbsDimension x="0" y="10"/>
+			</Size>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="90" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors> 
+		</ButtonText>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+		<Frames>
+			<Button name="$parentIcon" hidden="false">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT">
+						<Offset>
+							<AbsDimension x="4" y="1"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BORDER">
+						<Texture name="$parentTexture" />
+					</Layer>
+				</Layers>
+			</Button>
+			<CheckButton name="$parentHourly" inherits="OptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="1" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<HitRectInsets>
+					<AbsInset left="0" right="10" top="0" bottom="0"/>
+				</HitRectInsets>
+				<Scripts>
+					<OnLoad>
+						self.how = "HOURLY";
+					</OnLoad>
+					<OnClick function="FishingTrackingCheck_OnClick" />
+					<OnEnter function="FishingTrackingCheck_OnEnter" />
+					<OnLeave function="FishingTrackingCheck_OnLeave" />
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="$parentWeekly" inherits="OptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentHourly" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-2" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<HitRectInsets>
+					<AbsInset left="0" right="10" top="0" bottom="0"/>
+				</HitRectInsets>
+				<Scripts>
+					<OnLoad>
+						self.how = "WEEKLY";
+					</OnLoad>
+					<OnClick function="FishingTrackingCheck_OnClick" />
+					<OnEnter function="FishingTrackingCheck_OnEnter" />
+					<OnLeave function="FishingTrackingCheck_OnLeave" />
+				</Scripts>
+			</CheckButton>
+			<Button name="$parentSwatch" hidden="false">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentWeekly" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-2" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BORDER">
+						<Texture name="$parentTexture" />
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick function="FishingTrackingSwatch_OnClick" />
+				</Scripts>
+			</Button>
+		</Frames>
+	</Button>
+
+	<Frame name="FishingTrackingFrame" setAllPoints="true" enableMouse="true" parent="FishingBuddyFrame" hidden="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBg" file="Interface\QuestFrame\QuestBG" />
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				FB_TrackingFrame.OnLoad(self);
+			</OnLoad>
+			<OnEvent>
+				FB_TrackingFrame.OnEvent(self);
+			</OnEvent>
+			<OnShow>
+				FB_TrackingFrame.OnShow(self);
+			</OnShow>
+		</Scripts>
+	</Frame>
+
+	<Frame name="FishingTrackingChooser" hidden="true">
+		<Frames>
+			<ScrollFrame name="FishingTrackingScrollFrame" hidden="false" inherits="FauxScrollFrameTemplate">
+				<Size>
+					<AbsDimension x="230" y="351"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="FishingBuddyFrameInset" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-26" y="-7"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="FishingTrackingScrollBarTop" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+							<Size>
+								<AbsDimension x="31" y="256"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+									<Offset>
+										<AbsDimension x="-2" y="5"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.484375" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+							<Size>
+								<AbsDimension x="31" y="108"/>
+							</Size>
+							<Anchors>
+								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT">
+									<Offset>
+										<AbsDimension x="-2" y="-2"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.515625" right="1.0" top="0" bottom="0.4140625"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnVerticalScroll>
+						GameTooltip:Hide();
+						FauxScrollFrame_OnVerticalScroll(self, offset,
+							FB_TFConstants.FRAME_THINGIEHEIGHT, FB_TrackingFrame.Update);
+					</OnVerticalScroll>
+				</Scripts>
+			</ScrollFrame>
+
+			<Frame name="FishingTrackingHighlightFrame" hidden="true">
+				<Size>
+					<AbsDimension x="288" y="28"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="FishingTrackingHighlight" file="Interface\Buttons\UI-Listbox-Highlight2"/>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<Button name="FishingTracking1" inherits="FishingTrackingLineTemplate" hidden="true" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking2" inherits="FishingTrackingLineTemplate" hidden="true" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking1" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking3" inherits="FishingTrackingLineTemplate" hidden="true" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking2" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking4" inherits="FishingTrackingLineTemplate" hidden="true" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking3" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking5" inherits="FishingTrackingLineTemplate" hidden="true" id="5">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking4" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking6" inherits="FishingTrackingLineTemplate" hidden="true" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking5" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking7" inherits="FishingTrackingLineTemplate" hidden="true" id="7">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking6" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking8" inherits="FishingTrackingLineTemplate" hidden="true" id="8">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking7" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking9" inherits="FishingTrackingLineTemplate" hidden="true" id="9">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking8" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking10" inherits="FishingTrackingLineTemplate" hidden="true" id="10">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking9" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking11" inherits="FishingTrackingLineTemplate" hidden="true" id="11">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking10" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking12" inherits="FishingTrackingLineTemplate" hidden="true" id="12">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking11" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking13" inherits="FishingTrackingLineTemplate" hidden="true" id="13">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking12" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking14" inherits="FishingTrackingLineTemplate" hidden="true" id="14">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking13" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking15" inherits="FishingTrackingLineTemplate" hidden="true" id="15">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking14" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking16" inherits="FishingTrackingLineTemplate" hidden="true" id="16">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking15" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<!--
+			<Button name="FishingTracking17" inherits="FishingTrackingLineTemplate" hidden="true" id="17">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking16" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking18" inherits="FishingTrackingLineTemplate" hidden="true" id="18">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking17" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking19" inherits="FishingTrackingLineTemplate" hidden="true" id="19">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking18" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking20" inherits="FishingTrackingLineTemplate" hidden="true" id="20">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking19" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			<Button name="FishingTracking21" inherits="FishingTrackingLineTemplate" hidden="true" id="21">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FishingTracking20" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</Button>
+			-->
+		</Frames>
+	</Frame>
+</Ui>

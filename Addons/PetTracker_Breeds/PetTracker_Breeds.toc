@@ -1,0 +1,10 @@
+## Interface: 80205
+## Title: PetTracker Breeds
+## Notes: Displays the breed of pets in the Pet Journal, while in battle and on tooltips.
+## Author: Jaliborc (João Cardoso)
+
+## Dependencies: PetTracker
+## X-Category: Battle Pets
+## Version: 8.2.2
+
+..\PetTracker\Features\Breeds.lua

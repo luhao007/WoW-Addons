@@ -1,0 +1,20 @@
+----- AUTO GENERATED - DO NOT EDIT
+
+if GetLocale() ~= "esMX" then
+    return
+end
+
+local L = BtWQuests.L
+L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "Cosmético: Pérdida de tiempo"
+L["BTWQUESTS_GIFT_OF_NZOTH"] = "Don de N'Zoth"
+L["BTWQUESTS_HATI_REBORN"] = "Hati renacido"
+L["BTWQUESTS_HERITAGE_OF_THE_BRONZEBEARD"] = "Legado de los Barbabronce"
+L["BTWQUESTS_HERITAGE_OF_THE_SINDOREI"] = "Legado de los sin'dorei"
+L["BTWQUESTS_MAGHAR_ORC"] = "Orco mag'har"
+L["BTWQUESTS_NIGHT_WARRIOR_NIGHT_ELF_CUSTOMIZATION"] = "Personalización para elfo de la noche de \"guerrero nocturno\""
+L["BTWQUESTS_THE_WAR_CAMPAIGN"] = "La campaña de guerra"
+L["BTWQUESTS_THE_WAR_CAMPAIGN_8_1"] = "La campaña de guerra: Batalla de Dazar'alor"
+L["BTWQUESTS_WARFRONT_THE_BATTLE_FOR_DARKSHORE"] = "Frente de batalla: La Batalla por Costa Oscura"
+L["DUNGEON_KINGS_REST"] = "Calabozo: Reposo de los Reyes"
+L["DUNGEON_SIEGE_OF_BORALUS"] = "Calabozo: Asedio de Boralus"
+L["WAIST_OF_TIME"] = "Pérdida de tiempo"

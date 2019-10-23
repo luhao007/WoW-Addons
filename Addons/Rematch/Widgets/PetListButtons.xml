@@ -1,0 +1,69 @@
+<Ui>
+
+	<!-- this is still used by loadout panels; don't remove without updating those -->
+	<Button name="RematchBasePetListButtonTemplate" inherits="RematchPetClicks" virtual="true">
+		<Size x="206" y="44"/>
+		<HitRectInsets>
+			<AbsInset left="-2" right="0" top="0" bottom="0"/>
+		</HitRectInsets>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT" justifyV="CENTER" text="Pet Name">
+					<Size x="0" y="21"/> <!-- 36 when subname not shown -->
+					<Anchors>
+						<Anchor point="TOPLEFT" x="8" y="-4"/>
+						<Anchor point="TOPRIGHT" x="-8" y="-4"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="SubName" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="TOP" text="Pet subname">
+					<Size x="0" y="12"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMLEFT"/>
+						<Anchor point="TOPRIGHT" relativeKey="$parent.Name" relativePoint="BOTTOMRIGHT"/>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Leveling" file="Interface\AddOns\Rematch\textures\footnotes" hidden="true">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.125" right="0.25" top="0" bottom="0.25"/>
+				</Texture>
+				<FontString parentKey="Breed" inherits="GameFontNormal">
+					<Size x="0" y="12"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-3" y="5"/>
+					</Anchors>
+					<Color r="0.9" g="0.9" b="0.9"/>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<!-- the pet icon is a pushable slot -->
+			<Button parentKey="Pet" inherits="RematchPetSlotTemplate">
+				<Size x="38" y="38"/>
+				<Anchors>
+					<Anchor point="RIGHT" relativePoint="LEFT" x="-3" y="0"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:RegisterForClicks("AnyUp")
+						self:RegisterForDrag("LeftButton")
+					</OnLoad>
+					<OnClick>
+						Rematch.PetListButtonPetOnClick(self,button)
+					</OnClick>
+					<OnDragStart>
+						Rematch.PetListButtonOnDragStart(self)
+					</OnDragStart>
+					<OnDragStop>
+						self:GetScript("OnMouseUp")(self)
+					</OnDragStop>
+				</Scripts>
+			</Button>
+			<!-- notes button is clickable; leveling button is a texture defined above -->
+			<Button parentKey="Notes" inherits="RematchNotesButtonTemplate"/>
+		</Frames>
+	</Button>
+
+</Ui>
