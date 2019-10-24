@@ -535,6 +535,13 @@ function Button:SetCommandFromTriplet(Command, Data, Subvalue, Subsubvalue)
 	
 	if (Command == "spell") then
 		self:SetCommandSpell(Subsubvalue);  --Data = Index, Subvalue = Book (spell/pet)
+	elseif (Command == "petaction") then
+		if (Data > 5) then
+			-- "Assist, Attack, Defensive, Passive, Follow, Move To, Stay" cause issues so lets ignore them for now. They all have their id between 0 and 5.
+			self:SetCommandSpell(Data);
+		else
+			return false;
+		end
 	elseif (Command == "item") then
 		self:SetCommandItem(Data, Subvalue);   --Data = Id, Subvalue = Link
 	elseif (Command == "macro") then
@@ -588,9 +595,15 @@ function Button:SetCommandCompanion(MountID)
 	--local SpellName = GetSpellInfo(SpellId);
 	self:SetCommandExplicitCompanion(MountID);
 end
-function Button:SetCommandEquipmentSet(Name)
-	local Id = select(2, GetEquipmentSetInfoByName(Name));	--Id isn't really used, but since it is available and appears reliable (i.e. doesn't change??) I will store it away just in case
-	self:SetCommandExplicitEquipmentSet(Id, Name);
+function Button:SetCommandEquipmentSet(SetName)
+	local SetCount = C_EquipmentSet.GetNumEquipmentSets();
+	for i=0,SetCount-1 do
+		name, texture, setIndex, isEquipped, totalItems, equippedItems, inventoryItems, missingItems, ignoredSlots = C_EquipmentSet.GetEquipmentSetInfo(i);
+		if (name == SetName ) then
+			self:SetCommandExplicitEquipmentSet(setIndex, name);
+			break;
+		end
+	end;
 end
 function Button:SetCommandBonusAction(Id)
 	self:SetCommandExplicitBonusAction(Id);
@@ -886,7 +899,7 @@ function Button:SetEnvEquipmentSet(Id, Name)
 	self.Mode 			= "equipmentset";
 	self.EquipmentSetId	= Id;
 	self.EquipmentSetName 	= Name;
-	self.Texture 		= select(2, GetEquipmentSetInfo(Index)) or ""; --"Interface/Icons/"..(GetEquipmentSetInfoByName(Name) or "");	--safe provided Name ~= nil
+	self.Texture 		= select(2, C_EquipmentSet.GetEquipmentSetInfo(Index)) or ""; --"Interface/Icons/"..(GetEquipmentSetInfoByName(Name) or "");	--safe provided Name ~= nil
 	self.Target			= "target";
 	
 	self:ResetAppearance();
@@ -1001,7 +1014,11 @@ function Button:SetEnvBattlePet(Id)
 	
 	self.Mode 				= "battlepet";
 	self.BattlePetId 			= Id;
-	self.Texture 			= select(9, C_PetJournal.GetPetInfoByPetID(Id));
+	if (Id == Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_ID) then
+		self.Texture = Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_TEXTURE;
+	else
+		self.Texture = select(9, C_PetJournal.GetPetInfoByPetID(Id));
+	end
 	self.Target			= "target";
 	
 	self:ResetAppearance();
@@ -1131,7 +1148,19 @@ function Button:SetAttributes(Type, Value)
 	self.Widget:SetAttribute("id", nil);
 	
 	--Now if a valid type is passed in set it
-	if (Type == "spell" or Type == "item" or Type == "macro") then
+	if (Type == "spell") then
+		-- Patch to fix some spell that doesnt like to be cast with ID (Thrash, Stampeding Roar, ...)
+		local SpellName = GetSpellInfo(Value);
+		if ( SpellName ) then
+			self.Widget:SetAttribute("type", Type);
+			self.Widget:SetAttribute(Type, SpellName);
+		else
+			-- fallback to the old method if the name cannot be resolved
+			self.Widget:SetAttribute("type", Type);
+			self.Widget:SetAttribute(Type, Value);
+		end
+		
+	elseif (Type == "item" or Type == "macro") then
 		self.Widget:SetAttribute("type", Type);
 		self.Widget:SetAttribute(Type, Value);
 		
@@ -1246,23 +1275,19 @@ function Button:TranslateMacro()
 		self.MacroTargetDead = TargetDead;
 		local SpellName, SpellRank, SpellId = GetMacroSpell(self.MacroIndex);
 		if (SpellName) then
-			--[[local CompanionType, CompanionIndex = Util.LookupCompanion(SpellName);
+			local CompanionType, CompanionID = Util.LookupCompanion(SpellName);
 			if (CompanionType) then
 				self.CompanionType = CompanionType;
-				self.CompanionIndex = CompanionIndex;
-				local SpellId = select(3, GetCompanionInfo(CompanionType, CompanionIndex));
-				self.CompanionSpellName = GetSpellInfo(SpellId);
-				self.MacroMode = "companion";
-			else]]
-				self.SpellName = SpellName;
-				self.SpellNameRank = Util.GetFullSpellName(SpellName, SpellRank);
-				self.SpellId = SpellId;
-				self.MacroMode = "spell";
-			--end
+				self.CompanionIndex = CompanionID;
+			end
+			self.SpellName = SpellName;
+			self.SpellNameRank = GetSpellInfo(SpellName); --BFA fix: Cache is indexed by name and the old function returned the ID
+			self.SpellId = SpellId;
+			self.MacroMode = "spell";
 		else
 			local ItemName, ItemLink = GetMacroItem(self.MacroIndex);
 			if (ItemName) then
-				self.ItemId = Util.GetItemId(ItemName) or 0; --basically we can't easily get the id, but for the item function calls below, itemid in the context of a macro should be fine
+				self.ItemId = Util.GetItemId(ItemName) or GetItemInfoInstant(ItemName) or 0; --basically we can't easily get the id, but for the item function calls below, itemid in the context of a macro should be fine
 				self.ItemName = ItemName;
 				self.ItemLink = ItemLink;
 				self.MacroMode = "item";
@@ -1708,6 +1733,9 @@ function Button:UpdateTooltipMacro()
 		local Index, BookType = Util.LookupSpellIndex(self.SpellNameRank);
 		if (Index) then
 			GameTooltip:SetSpellBookItem(Index, BookType);
+		elseif (self.CompanionType == "MOUNT") then
+			GameTooltip_SetDefaultAnchor(GameTooltip, self.Widget);		--It appears that the sethyperlink (specifically this one) requires that the anchor be constantly refreshed!?
+			GameTooltip:SetHyperlink("spell:"..self.SpellName);
 		end
 	elseif (self.MacroMode == "item") then
 		local EquippedSlot = Util.LookupItemNameEquippedSlot(self.ItemId);
@@ -1769,6 +1797,10 @@ function Button:UpdateTooltipBattlePet()
 		GameTooltip:SetText(customName or name, 1, 1, 1);
 		GameTooltip:AddLine(SPELL_CAST_TIME_INSTANT, 1, 1, 1, true);
 		GameTooltip:AddLine(string.format(BATTLE_PET_TOOLTIP_SUMMON, name), nil, nil, nil, true);
+		GameTooltip:Show();
+	elseif (self.BattlePetId == Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_ID) then
+		GameTooltip:SetText(PET_JOURNAL_SUMMON_RANDOM_FAVORITE_PET, 1, 1, 1);
+		GameTooltip:AddLine(SPELL_CAST_TIME_INSTANT, 1, 1, 1, true);
 		GameTooltip:Show();
 	end
 end
@@ -2091,7 +2123,11 @@ end
 
 function Button:RefreshBattlePet()
 	if (self.Mode == "battlepet") then
-		self.Texture = select(9, C_PetJournal.GetPetInfoByPetID(self.BattlePetId));
+		if (self.BattlePetId == Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_ID) then
+			self.Texture = Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_TEXTURE;
+		else
+			self.Texture = select(9, C_PetJournal.GetPetInfoByPetID(self.BattlePetId));
+		end
 		self.Texture = self.Texture or "Interface/Icons/INV_Misc_QuestionMark";
 		self:DisplayActive();
 	end
@@ -2126,7 +2162,7 @@ function Button:RefreshEquipmentSet()
 			-- This equip set is gone so clear it from the button
 			return self:ClearCommand();
 		end
-		local TextureName = select(2, GetEquipmentSetInfo(Index));
+		local TextureName = select(2, C_EquipmentSet.GetEquipmentSetInfo(Index));
 		if (TextureName) then
 			self.Texture = TextureName;
 			self:DisplayActive();

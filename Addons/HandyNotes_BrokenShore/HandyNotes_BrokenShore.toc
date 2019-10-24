@@ -18,15 +18,6 @@
 ## Notes-ruRU: Показывает точки на Расколотом берегу
 ## Notes-zhCN: 顯示破碎海滩的 POI 位置
 ## Notes-zhTW: 顯示破碎海岸的 POI 位置
-#@end-non-debug@
-#@debug@
-# ## Title: HandyNotes - Broken Shore
-# ## Title-zhCN: HandyNotes - 破碎海滩
-# ## Title-zhTW: HandyNotes - 破碎海岸
-# ## Notes: Shows the POIs in Broken Shore
-# ## Notes-zhCN: 顯示破碎海滩的 POI 位置
-# ## Notes-zhTW: 顯示破碎海岸的 POI 位置
-#@end-debug@
 ## Author: arith
 ## Version: v1.31
 ## RequiredDeps: HandyNotes
@@ -37,7 +28,6 @@
 ## X-License: GPLv2
 ## X-Category: Map
 
-Libs\Libs.xml
 Locale\Locales.xml
 Core\Constants.lua
 Core\Handler.lua

@@ -8,8 +8,4 @@
 ## X-Embeds: Ace3
 ## SavedVariables: LegionRaresTreasuresDB
 
-#@no-lib-strip@
-embeds.xml
-#@end-no-lib-strip@
-
 HandyNotes_LegionRaresTreasures.lua

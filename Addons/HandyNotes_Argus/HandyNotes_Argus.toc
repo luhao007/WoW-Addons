@@ -7,10 +7,6 @@
 ## X-Embeds: Ace3
 ## SavedVariables: HandyNotesArgusDB
 
-#@no-lib-strip@
-embeds.xml
-#@end-no-lib-strip@
-
 localization\enUS.lua
 localization\deDE.lua
 localization\esES.lua
