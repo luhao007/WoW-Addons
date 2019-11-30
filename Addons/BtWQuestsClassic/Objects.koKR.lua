@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "현상 수배!",
     },
+    [2702] = {
+        name = "내부 봉인석",
+    },
     [2713] = {
         name = "현상 수배 전단",
     },
@@ -19,6 +22,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [20992] = {
         name = "검은 방패",
+    },
+    [138492] = {
+        name = "미즈라엘의 결정",
     },
     [142195] = {
         name = "덩굴발 작전도",
@@ -82,6 +88,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "반쯤 묻힌 병",
+    },
+    [204817] = {
+        name = "빛으로 벼려낸 막대기",
+    },
+    [204824] = {
+        name = "빛으로 벼려낸 굽쇠",
+    },
+    [204825] = {
+        name = "빛으로 벼려낸 문장",
     },
     [205332] = {
         name = "현상 수배 전단",

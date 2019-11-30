@@ -285,19 +285,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Cenarius, vigilante de la arboleda",
     },
     [38307] = {
-        name = "La Jefa de Guerra llama",
+        name = "La jefa de guerra llama",
     },
     [38312] = {
         name = "Misión con gancho",
     },
     [38318] = {
         name = "No hacen falta alas",
-    },
-    [38322] = {
-        name = "Retorno a la Arboleda",
-    },
-    [38323] = {
-        name = "Retorno a la Arboleda",
     },
     [38324] = {
         name = "Accesorios de los malditos",
@@ -1305,7 +1299,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El Infrarrey",
     },
     [39781] = {
-        name = "La Guarida de Neltharion",
+        name = "La Guarida de Neltharion: Muerte al Infrarrey",
     },
     [39786] = {
         name = "Una apuesta pedregosa",
@@ -2867,9 +2861,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41709] = {
         name = "Desmontar la artillería pesada",
     },
-    [41724] = {
-        name = "El corazón de la Pesadilla",
-    },
     [41728] = {
         name = "La defensa del Monasterio Tian",
     },
@@ -3848,9 +3839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42619] = {
         name = "Campeón: Hodir",
     },
-    [42627] = {
-        name = "La hoja oculta",
-    },
     [42634] = {
         name = "Enfrentamiento en El Templo Oscuro",
     },
@@ -4274,15 +4262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42959] = {
         name = "El tres es un número de la suerte",
     },
-    [42966] = {
-        name = "La orden del Alto Señor",
-    },
-    [42967] = {
-        name = "La orden del Alto Señor",
-    },
-    [42968] = {
-        name = "La orden del Alto Señor",
-    },
     [42974] = {
         name = "El destino de Hodir",
     },
@@ -4461,7 +4440,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Fragmentos de desastre",
     },
     [43362] = {
-        name = "Pesadilla Esmeralda: Ensoñaciones",
+        name = "El material de los sueños",
     },
     [43371] = {
         name = "Aliviar el frente",
@@ -4649,12 +4628,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43502] = {
         name = "Cambio de estaciones",
     },
-    [43503] = {
-        name = "El poder interior",
-    },
-    [43505] = {
-        name = "El poder interior",
-    },
     [43506] = {
         name = "Torreón Grajo Negro: Un poder mayor",
     },
@@ -4677,7 +4650,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Pesadilla Esmeralda: En pesadillas",
     },
     [43521] = {
-        name = "Esencia de poder",
+        name = "Pesadilla Esmeralda: Esencia de poder",
     },
     [43522] = {
         name = "Consumo esencial",
@@ -4704,7 +4677,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El Bastión Nocturno: Delirios de grandeza",
     },
     [43531] = {
-        name = "Hacia el Bastión Nocturno",
+        name = "Bastión Nocturno: Hacia el Bastión Nocturno",
     },
     [43532] = {
         name = "El Bastión Nocturno: Llamada de la oscuridad",
@@ -5476,9 +5449,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45316] = {
         name = "Estabilizar Suramar",
-    },
-    [45317] = {
-        name = "Combatir en todos los frentes",
     },
     [45329] = {
         name = "Operación: Portales",

@@ -4820,9 +4820,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "L’entraînement au combat",
     },
-    [26943] = {
-        name = "Qu’elle était belle, ma maison",
-    },
     [26953] = {
         name = "Zen’Kiki le druide",
     },

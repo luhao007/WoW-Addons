@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "Ricercato!",
     },
+    [2702] = {
+        name = "Pietra del Vincolo Interno",
+    },
     [2713] = {
         name = "Bacheca dei Ricercati",
     },
@@ -19,6 +22,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [20992] = {
         name = "Scudo Nero",
+    },
+    [138492] = {
+        name = "Frammento di Myzrael",
     },
     [142195] = {
         name = "Piani di Battaglia degli Gnoll",
@@ -82,6 +88,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "Bottiglia Mezza Sepolta",
+    },
+    [204817] = {
+        name = "Verga Forgiata nella Luce",
+    },
+    [204824] = {
+        name = "Arco Forgiato nella Luce",
+    },
+    [204825] = {
+        name = "Scudo Forgiato nella Luce",
     },
     [205332] = {
         name = "Manifesto dei Ricercati",

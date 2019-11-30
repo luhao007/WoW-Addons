@@ -1,9 +1,13 @@
-## Interface: 80200
-## Version: 3.3
-## Title: MythicPlusTimer
+## Interface: 80205
 ## Author: Fabys
-## Notes: Custom Mythic+ timer appearance
+## Version: 3.4
 ## SavedVariables: MythicPlusTimerDB
+
+## Title: MythicPlusTimer
+## Notes: Custom Mythic+ timer appearance
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF大秘境计时|r |cFFFFE00AMythicPlusTimer|r
+## Notes-zhCN: 在大秘境中显示一个计时器
+
 
 addon.lua
 locales.lua

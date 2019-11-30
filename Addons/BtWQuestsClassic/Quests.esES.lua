@@ -308,6 +308,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [8309] = {
         name = "Los grabados de los glifos",
     },
+    [8310] = {
+        name = "Descifrar el código",
+    },
+    [8314] = {
+        name = "Desentrañar el misterio",
+    },
     [8318] = {
         name = "Mensajes secretos",
     },
@@ -322,6 +328,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [8323] = {
         name = "El creyente verdadero",
+    },
+    [8324] = {
+        name = "Seguir creyendo",
     },
     [8470] = {
         name = "El tótem de ritual Muertobosque",
@@ -2386,6 +2395,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [25379] = {
         name = "La caída de Taerar",
+    },
+    [25383] = {
+        name = "La despedida de Ysondre",
     },
     [25386] = {
         name = "A Bastión Quebrantarrocas",
@@ -4811,9 +4823,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "Instrucción de combate",
     },
-    [26943] = {
-        name = "Hogar, gnomo hogar",
-    },
     [26953] = {
         name = "Zen'kiki, el druida",
     },
@@ -6047,6 +6056,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27854] = {
         name = "Mareas oscuras",
     },
+    [27855] = {
+        name = "Refuerzos denegados",
+    },
+    [27856] = {
+        name = "La marca de los caídos",
+    },
+    [27857] = {
+        name = "¡Nos atacan!",
+    },
     [27858] = {
         name = "El regalo de Rheastrasza",
     },
@@ -6140,11 +6158,23 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27904] = {
         name = "Un soplo de bruma",
     },
+    [27906] = {
+        name = "Neeka Marca de Sangre",
+    },
     [27907] = {
         name = "Flor de plegaria",
     },
     [27908] = {
         name = "Los secretos del lodo",
+    },
+    [27909] = {
+        name = "El Manantial",
+    },
+    [27910] = {
+        name = "El último lamento",
+    },
+    [27911] = {
+        name = "Su último aliento",
     },
     [27912] = {
         name = "El tesoro de los titanes",
@@ -6154,6 +6184,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27914] = {
         name = "La bendición del Vuelo Verde",
+    },
+    [27916] = {
+        name = "El informe de Ruag",
     },
     [27918] = {
         name = "El Puerto",
@@ -7501,6 +7534,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [29038] = {
         name = "Práctica de caza",
+    },
+    [29040] = {
+        name = "El primer juguete del cachorro",
     },
     [29086] = {
         name = "Competencias a mí",

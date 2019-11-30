@@ -4823,9 +4823,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "戰鬥訓練",
     },
-    [26943] = {
-        name = "家，甜蜜的地精",
-    },
     [26953] = {
         name = "德魯伊贊基奇",
     },
@@ -5469,7 +5466,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "誰的命令？",
     },
     [27367] = {
-        name = "基德溫·金辮",
+        name = "基德溫‧金辮",
     },
     [27368] = {
         name = "只是被打包了而已",

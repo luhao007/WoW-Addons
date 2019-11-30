@@ -1,16 +1,15 @@
-﻿## Interface: 80205
-## X-Min-Interface: 80000
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Broken Isles|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Verheerten Inseln|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0破碎群岛|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0破碎群島|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Islas Abruptas|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0부서진 섬|r
+## Interface: 80205
 ## Author: MysticalOS
-## LoadOnDemand: 1
+## Version: r15
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMBrokenIsles_AllSavedVars
 ## SavedVariablesPerCharacter: DBMBrokenIsles_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Broken Isles|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0破碎群岛|r
+
+## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: LEG
@@ -22,7 +21,6 @@
 ## X-DBM-Mod-MinCoreRevision: 14737
 ## X-Curse-Project-ID: 301324
 ## X-WoWI-ID: 24905
-## Version: r15
 
 localization.en.lua
 localization.de.lua

@@ -5,12 +5,12 @@ if GetLocale() ~= "esES" then
 end
 
 local L = BtWQuests.L
-L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "Cosmético: Cintiempo libre"
+L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"] = "Cosmético: Cintiempo libre"
 L["BTWQUESTS_GIFT_OF_NZOTH"] = "Obsequio de N'Zoth"
 L["BTWQUESTS_HATI_REBORN"] = "Hati renacido"
 L["BTWQUESTS_HERITAGE_OF_THE_BRONZEBEARD"] = "Legado de los Barbabronce"
 L["BTWQUESTS_HERITAGE_OF_THE_SINDOREI"] = "Legado de los sin'dorei"
-L["BTWQUESTS_MAGHAR_ORC"] = "orcos Mag'har"
+L["BTWQUESTS_MAGHAR_ORC"] = "Orco Mag'har"
 L["BTWQUESTS_NIGHT_WARRIOR_NIGHT_ELF_CUSTOMIZATION"] = "Personalización de elfo de la noche \"Guerrero Nocturno\""
 L["BTWQUESTS_THE_WAR_CAMPAIGN"] = "La campaña de guerra"
 L["BTWQUESTS_THE_WAR_CAMPAIGN_8_1"] = "La campaña de guerra: Batalla de Dazar'alor"

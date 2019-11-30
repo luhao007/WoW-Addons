@@ -1,7 +1,7 @@
 --[[
 	Enchantrix Addon for World of Warcraft(tm).
-	Version: 8.2.6428 (SwimmingSeadragon)
-	Revision: $Id: EnxSettings.lua 6428 2019-09-25 00:20:07Z none $
+	Version: 8.2.6506 (SwimmingSeadragon)
+	Revision: $Id: EnxSettings.lua 6506 2019-11-02 14:38:37Z none $
 	URL: http://enchantrix.org/
 
 	Settings GUI
@@ -63,7 +63,7 @@ Usage:
 
 ]]
 
-Enchantrix_RegisterRevision("$URL: Enchantrix/EnxSettings.lua $", "$Rev: 6428 $")
+Enchantrix_RegisterRevision("$URL: Enchantrix/EnxSettings.lua $", "$Rev: 6506 $")
 
 local lib = {}
 Enchantrix.Settings = lib

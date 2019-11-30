@@ -1,7 +1,7 @@
 --[[
 	Auctioneer - Simplified Auction Posting
-	Version: 8.2.6409 (SwimmingSeadragon)
-	Revision: $Id: SimpFrame.lua 6409 2019-09-25 00:20:07Z none $
+	Version: 8.2.6482 (SwimmingSeadragon)
+	Revision: $Id: SimpFrame.lua 6482 2019-11-02 14:38:37Z none $
 	URL: http://auctioneeraddon.com/
 
 	This is an addon for World of Warcraft that adds a simple dialog for
@@ -1386,4 +1386,4 @@ function private.CreateFrames()
 	frame:RegisterEvent("BAG_UPDATE")
 end
 
-AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-SimpleAuction/SimpFrame.lua $", "$Rev: 6409 $")
+AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-SimpleAuction/SimpFrame.lua $", "$Rev: 6482 $")

@@ -23,13 +23,28 @@ BtWQuestsDatabase:AddObjectsTable({
             },
         },
     },
+    [259] = {
+        name = "Half-buried Barrel",
+    },
+    [261] = {
+        name = "Damaged Crate",
+    },
+    [2059] = {
+        name = "A Dwarven Corpse",
+    },
+    [2701] = {
+        name = "Iridescent Shards",
+    },
+    [2702] = {
+        name = "Stone of Inner Binding",
+    },
     [2713] = {
         name = "Wanted Board",
         locations = {
             [14] = {
                 {
-                    x = 0.402,
-                    y = 0.49,
+                    x = 0.40179,
+                    y = 0.490625,
                 },
             },
         },
@@ -47,6 +62,23 @@ BtWQuestsDatabase:AddObjectsTable({
     },
     [20992] = {
         name = "Black Shield",
+    },
+    [112948] = {
+        name = "Intrepid's Locked Strongbox",
+    },
+    [138492] = {
+        name = "Shards of Myzrael",
+        locations = {
+            [14] = {
+                {
+                    x = 0.696,
+                    y = 0.364,
+                },
+            },
+        },
+    },
+    [142151] = {
+        name = "Sealed Barrel",
     },
     [142195] = {
         name = "Woodpaw Battle Map",
@@ -114,6 +146,12 @@ BtWQuestsDatabase:AddObjectsTable({
             },
         },
     },
+    [194378] = {
+        name = "Stolen Explorers' League Document",
+    },
+    [194387] = {
+        name = "Stolen Explorers' League Document",
+    },
     [194388] = {
         name = "Stolen Explorers' League Document",
         locations = {
@@ -135,6 +173,12 @@ BtWQuestsDatabase:AddObjectsTable({
                 },
             },
         },
+    },
+    [194390] = {
+        name = "Stolen Explorers' League Document",
+    },
+    [194391] = {
+        name = "Stolen Explorers' League Document",
     },
     [195134] = {
         name = "The Bomb",
@@ -292,6 +336,15 @@ BtWQuestsDatabase:AddObjectsTable({
                 },
             },
         },
+    },
+    [204817] = {
+        name = "Lightforged Rod",
+    },
+    [204824] = {
+        name = "Lightforged Arch",
+    },
+    [204825] = {
+        name = "Lightforged Crest",
     },
     [205332] = {
         name = "Wanted Poster",

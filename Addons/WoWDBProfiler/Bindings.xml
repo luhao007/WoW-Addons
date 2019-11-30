@@ -1,5 +1,0 @@
-<Bindings>
-    <Binding name="Comment Menu" header="WOWDB_PROFILER" category="ADDONS">
-        LibStub("AceAddon-3.0"):GetAddon("WoWDBProfiler").ShowPossibleSubjects()
-    </Binding>
-</Bindings>

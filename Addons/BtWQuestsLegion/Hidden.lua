@@ -275,7 +275,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIDDEN_LUCIDNIGHTMARE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIDDEN_UUNA, {
-    name = "Uuna",
+    name = { -- Uuna
+        type = "pet",
+        id = 2136,
+    },
     category = BTWQUESTS_CATEGORY_LEGION_HIDDEN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {
@@ -286,9 +289,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIDDEN_UUNA, {
     items = {
         {
             name = "Collect Uuna from the Many-Faced Devourer",
-            completed = function ()
-                return select(1, C_PetJournal.GetNumCollectedInfo(2136)) > 0
-            end,
+            type = "pet",
+            id = 2136,
+            -- completed = function ()
+            --     return select(1, C_PetJournal.GetNumCollectedInfo(2136)) > 0
+            -- end,
             x = 3,
             y = 0,
             connections = {

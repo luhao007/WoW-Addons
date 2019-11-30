@@ -1,9 +1,13 @@
-﻿## Interface: 80200
-## Title: MonkeyBuddy v2.10.0
-## Notes: Helps you configure your MonkeyMods.
-## Notes-deDE: Hilft Euch beim Einstellen Euer MonkeyMods.
+## Interface: 80205
 ## Author: Trentin, Jim-Bim
 ## Dependencies: MonkeyLibrary
 ## OptionalDeps: MonkeyQuest, MonkeySpeed, MonkeyClock, myAddOns
 ## SavedVariables: MonkeyBuddyConfig
+
+## Title: MonkeyBuddy v2.10.0
+## Notes: Helps you configure your MonkeyMods.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFFMonkey伴侣|r |cFFFFE00AMonkeyBuddy|r
+## Notes-zhCN: 在小地图旁提供一个猴子图标，可修改Monkey模块的设置
+
+
 MonkeyBuddy.xml

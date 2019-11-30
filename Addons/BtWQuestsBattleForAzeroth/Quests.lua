@@ -43084,15 +43084,7 @@ BtWQuestsDatabase:AddQuestsTable({
         levelFlag = 5,
         source = {
             type = "npc",
-            id = 140176,
-            locations = {
-                [85] = {
-                    {
-                        x = 0.49,
-                        y = 0.918,
-                    },
-                },
-            },
+            id = 14720,
         },
         rewards = {
             {
@@ -56843,11 +56835,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 id = 2164,
                 amount = 10,
             },
-            {
-                type = "reputation",
-                id = 2386,
-                amount = 10,
-            },
         },
     },
     [55392] = {
@@ -56866,11 +56853,6 @@ BtWQuestsDatabase:AddQuestsTable({
             {
                 type = "reputation",
                 id = 2164,
-                amount = 10,
-            },
-            {
-                type = "reputation",
-                id = 2386,
                 amount = 10,
             },
         },
@@ -56896,11 +56878,6 @@ BtWQuestsDatabase:AddQuestsTable({
             {
                 type = "reputation",
                 id = 2164,
-                amount = 250,
-            },
-            {
-                type = "reputation",
-                id = 2386,
                 amount = 250,
             },
         },
@@ -57471,11 +57448,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 id = 2164,
                 amount = 10,
             },
-            {
-                type = "reputation",
-                id = 2386,
-                amount = 10,
-            },
         },
     },
     [55520] = {
@@ -57495,11 +57467,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 type = "reputation",
                 id = 2164,
                 amount = 500,
-            },
-            {
-                type = "reputation",
-                id = 2386,
-                amount = 350,
             },
         },
     },
@@ -58658,11 +58625,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 id = 2164,
                 amount = 500,
             },
-            {
-                type = "reputation",
-                id = 2386,
-                amount = 350,
-            },
         },
     },
     [55736] = {
@@ -58708,11 +58670,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 id = 2164,
                 amount = 10,
             },
-            {
-                type = "reputation",
-                id = 2386,
-                amount = 10,
-            },
         },
     },
     [55752] = {
@@ -58732,11 +58689,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 type = "reputation",
                 id = 2164,
                 amount = 1000,
-            },
-            {
-                type = "reputation",
-                id = 2386,
-                amount = 10,
             },
         },
     },

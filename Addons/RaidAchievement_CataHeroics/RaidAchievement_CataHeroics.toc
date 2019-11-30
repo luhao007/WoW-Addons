@@ -1,12 +1,14 @@
-﻿## Interface: 80200
-## Title: Raid|cff7fff7fAchievement|r - Cataclysm Dungeons
-## Title-ruRU: Raid|cff7fff7fAchievement|r - Подземелья Катаклизма
+## Interface: 80205
 ## Author: Shurshik
-## Notes: RaidAchievement Cataclysm Dungeons Module
-## Notes-ruRU: Модуль RaidAchievement - Подземелья Катаклизма
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: chraspisokon
+
+## Title: Raid|cff7fff7fAchievement|r - Cataclysm Dungeons
+## Notes: RaidAchievement Cataclysm Dungeons Module
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0大地的裂变小队|r
+
+
 RaidAchievement_CataHeroics.lua
 RaidAchievement_CataHeroicsbosses.lua
 RaidAchievement_CataHeroics.xml

@@ -1,12 +1,14 @@
-﻿## Interface: 80200
-## Title: Raid|cff7fff7fAchievement|r - Wotlk Dungeons
-## Title-ruRU: Raid|cff7fff7fAchievement|r - Wotlk Подземелья
+## Interface: 80205
 ## Author: Shurshik
-## Notes: RaidAchievement Wotlk Dungeons Module
-## Notes-ruRU: Модуль RaidAchievement - Wotlk Подземелья
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: whraspisokon
+
+## Title: Raid|cff7fff7fAchievement|r - Wotlk Dungeons
+## Notes: RaidAchievement Wotlk Dungeons Module
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0巫妖王之怒小队|r
+
+
 RaidAchievement_WotlkHeroics.lua
 RaidAchievement_WotlkHeroicsbosses.lua
 RaidAchievement_WotlkHeroics.xml

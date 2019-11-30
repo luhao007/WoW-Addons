@@ -1,18 +1,15 @@
-﻿## Interface: 80205
-## X-Min-Interface: 80000
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons (WotLK)|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Groupe-WotLK|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-WotLK|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras (WotLK)|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-巫妖王之怒|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0队伍-WotLK|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-WotLK|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인던전-리치왕의 분노|r
+## Interface: 80205
 ## Author: Arta
-## LoadOnDemand: 1
+## Version: r12
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWotLK_AllSavedVars
 ## SavedVariablesPerCharacter: DBMPartyWotLK_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons (WotLK)|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手 |cFF69CCF0小队|r|r |cFF69CCF0巫妖王之怒|r
+
+## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
 ## X-DBM-Mod-Category: WotLK
@@ -40,7 +37,6 @@
 ## X-DBM-Mod-MinCoreRevision: 14002
 ## X-Curse-Project-ID: 314994
 ## X-WoWI-ID: 24904
-## Version: r12
 
 localization.en.lua
 localization.cn.lua

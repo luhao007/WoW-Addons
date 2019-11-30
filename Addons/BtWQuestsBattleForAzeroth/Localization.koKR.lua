@@ -5,7 +5,7 @@ if GetLocale() ~= "koKR" then
 end
 
 local L = BtWQuests.L
-L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "장식: 금쪽같은 시간을 버려낸 허리띠"
+L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"] = "장식: 금쪽같은 시간을 버려낸 허리띠"
 L["BTWQUESTS_GIFT_OF_NZOTH"] = "느조스의 선물"
 L["BTWQUESTS_HATI_REBORN"] = "다시 태어난 하티"
 L["BTWQUESTS_HERITAGE_OF_THE_BRONZEBEARD"] = "브론즈비어드의 유산"

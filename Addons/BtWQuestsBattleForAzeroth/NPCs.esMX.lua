@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Forjacero",
     },
+    [14720] = {
+        name = "Alto señor supremo Colmillosauro",
+    },
     [15192] = {
         name = "Anacronos",
     },
@@ -2280,7 +2283,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Prole de cuernoatroz",
     },
     [151285] = {
-        name = "Mevris Danzafantasma",
+        name = "Mevris Danzaespíritus",
     },
     [151287] = {
         name = "Telonis",

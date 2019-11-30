@@ -23,6 +23,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [14720] = {
+        name = "High Overlord Saurfang",
+    },
     [15192] = {
         name = "Anachronos",
         locations = {

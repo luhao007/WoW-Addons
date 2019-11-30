@@ -1,14 +1,14 @@
 ## Interface: 80205
-## X-Min-Interface: 80000
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mount Hyjal|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0하이잘 정상|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Die Schlacht um den Hyjal|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0La Batalla del Monte Hyjal|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0海加爾山之戰|r
-## LoadOnDemand: 1
+## Version: r668
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMHyjal_AllSavedVars
 ## SavedVariablesPerCharacter: DBMHyjal_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mount Hyjal|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0海加尔山之战|r
+
+## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: BC
@@ -18,7 +18,6 @@
 ## X-DBM-Mod-MinCoreRevision: 12473
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
-## Version: r668
 
 localization.en.lua
 localization.de.lua

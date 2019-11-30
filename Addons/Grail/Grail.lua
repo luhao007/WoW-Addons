@@ -468,6 +468,14 @@
 --			Makes it so holiday codes for quests do not cause Lua errors in Classic, though still do not work as there is no Classic calendar.
 --			Adds support for Mechagnome and Vulpera races.
 --			Adds support for the "/grail eraseAndReloadCompletedQuests" slash command.
+--		104	Updates some quest/NPC information.
+--			Fixes the implementation of CurrentDateTime() because the month and day were reversed.
+--			Corrects CelebratingHoliday() to behave and perform better.
+--			Sets faction obtainers to account for quest giver faction.
+--			Corrects IsNPCAvailable() to properly use holiday markers for NPCs.
+--			Augments QuestsInMap() to allow quests in the log whose turn in is in the map to be included.
+--		105	Fixes problem where AQ quests cause Lua error in non-English locales.
+--			Updates some quest/NPC information.
 --
 --	Known Issues
 --
@@ -869,6 +877,10 @@ experimental = false,	-- currently this implementation does not reduce memory si
 		--                ['h'] =   0x01000000,
 		--                ['i'] =   0x02000000,
 		bitMaskHolidayAnniversary = 0x04000000,	-- WoW Anniversary event
+		bitMaskHolidayAQ		=	0x08000000,
+		--				  ['j']	=	0x10000000,
+		--				  ['k']	=	0x20000000,
+		--				  ['l']	=	0x40000000,
 		-- End of bit mask values
 
 		bodyGuardLevel = { 'Bodyguard', 'Trusted Bodyguard', 'Personal Wingman' },
@@ -1267,6 +1279,9 @@ experimental = false,	-- currently this implementation does not reduce memory si
 					self.holidayMapping['g'] = self.holidayMapping['f'] .. ' - ' .. EXPANSION_NAME1
 					self.holidayMapping['h'] = self.holidayMapping['f'] .. ' - ' .. EXPANSION_NAME2
 					self.holidayMapping['i'] = self.holidayMapping['f'] .. ' - ' .. EXPANSION_NAME3
+					self.holidayMapping['j'] = self.holidayMapping['f'] .. ' - ' .. EXPANSION_NAME4
+					self.holidayMapping['k'] = self.holidayMapping['f'] .. ' - ' .. EXPANSION_NAME5
+					self.holidayMapping['l'] = self.holidayMapping['f'] .. ' - ' .. EXPANSION_NAME6
 					self.reverseHolidayMapping = {}
 					for index, holidayName in pairs(self.holidayMapping) do
 						self.reverseHolidayMapping[holidayName] = index
@@ -2021,7 +2036,7 @@ if self.GDE.debug then print("GARRISON_BUILDING_UPDATE ", buildingId) end
 					-- OpenCalendar() will do nothing useful.
 					local weekday, month, day, year, hour, minute = self:CurrentDateTime()
 					C_Calendar.SetAbsMonth(month, year)
-					C_Calendar.OpenCalendar()
+					C_Calendar.OpenCalendar()	-- this does nothing during startup...its real usage is when checking holidays
 					self:_AddWorldQuests()
 				end
 				-- In Classic we need to get the completed quests because we have eliminated the
@@ -2233,14 +2248,50 @@ if self.GDE.debug then print("GARRISON_BUILDING_UPDATE ", buildingId) end
 		},
 		genderMapping = { ['M'] = 2, ['F'] = 3, },
 		gossipNPCs = {},
-		holidayMapping = { ['A'] = 'Love is in the Air', ['B'] = 'Brewfest', ['C'] = "Children's Week", ['D'] = 'Day of the Dead', ['E'] = 'WoW Anniversary', ['F'] = 'Darkmoon Faire',
-				['H'] = 'Harvest Festival', ['K'] = "Kalu'ak Fishing Derby", ['L'] = 'Lunar Festival', ['M'] = 'Midsummer Fire Festival', ['N'] = 'Noblegarden', ['P'] = "Pirates' Day",
-				['U'] = 'New Year', ['V'] = 'Feast of Winter Veil', ['W'] = "Hallow's End", ['X'] = 'Stranglethorn Fishing Extravaganza', ['Y'] = "Pilgrim's Bounty", ['Z'] = "Christmas Week", ['a'] = 'Apexis Bonus Event', ['b'] ='Arena Skirmish Bonus Event', ['c'] = 'Battleground Bonus Event', ['d'] = 'Draenor Dungeon Event', ['e'] = 'Pet Battle Bonus Event', ['f'] = 'Timewalking Dungeon Event', ['g'] = 'Legion Dungeon Event', },
+		holidayMapping = {	['A'] = 'Love is in the Air',
+							['B'] = 'Brewfest',
+							['C'] = "Children's Week",
+							['D'] = 'Day of the Dead',
+							['E'] = 'WoW Anniversary',
+							['F'] = 'Darkmoon Faire',
+							-- G
+							['H'] = 'Harvest Festival',
+							-- I
+							-- J
+							['K'] = "Kalu'ak Fishing Derby",
+							['L'] = 'Lunar Festival',
+							['M'] = 'Midsummer Fire Festival',
+							['N'] = 'Noblegarden',
+							-- O
+							['P'] = "Pirates' Day",
+							['Q'] = "AQ",
+							-- R
+							-- S
+							-- T
+							['U'] = 'New Year',
+							['V'] = 'Feast of Winter Veil',
+							['W'] = "Hallow's End",
+							['X'] = 'Stranglethorn Fishing Extravaganza',
+							['Y'] = "Pilgrim's Bounty",
+							['Z'] = "Christmas Week",
+							['a'] = 'Apexis Bonus Event',
+							['b'] ='Arena Skirmish Bonus Event',
+							['c'] = 'Battleground Bonus Event',
+							['d'] = 'Draenor Dungeon Event',
+							['e'] = 'Pet Battle Bonus Event',
+							['f'] = 'Timewalking Dungeon Event',
+							-- g automatically assigned Timewalking Dungeon Event - The Burning Crusade
+							-- h automatically assigned Timewalking Dungeon Event - Wrath of the Lich King
+							-- i automatically assigned Timewalking Dungeon Event - Cataclysm
+							-- j automatically assigned Timewalking Dungeon Event - Mists of Pandaria
+							-- k automatically assigned Timewalking Dungeon Event - Warlords of Draenor
+							-- l automatically assigned Timewalking Dungeon Event - Legion
+						},
 		holidayToBitMapping = { ['A'] = 0x00000001, ['B'] = 0x00000002, ['C'] = 0x00000004, ['D'] = 0x00000008, ['E'] = 0x04000000, ['F'] = 0x00000010,
-				['H'] = 0x00000020, ['K'] = 0x00010000, ['L'] = 0x00000040, ['M'] = 0x00000080, ['N'] = 0x00000100, ['P'] = 0x00000200,
-				['U'] = 0x00000400, ['V'] = 0x00000800, ['W'] = 0x00001000, ['X'] = 0x00008000, ['Y'] = 0x00002000, ['Z'] = 0x00004000, ['a'] = 0x00020000, ['b'] = 0x00040000, ['c'] = 0x00080000, ['d'] = 0x00100000, ['e'] = 0x00200000, ['f'] = 0x00400000, ['g'] = 0x00800000, ['h'] = 0x01000000, ['i'] = 0x02000000, },
+				['H'] = 0x00000020, ['K'] = 0x00010000, ['L'] = 0x00000040, ['M'] = 0x00000080, ['N'] = 0x00000100, ['P'] = 0x00000200, ['Q'] = 0x08000000,
+				['U'] = 0x00000400, ['V'] = 0x00000800, ['W'] = 0x00001000, ['X'] = 0x00008000, ['Y'] = 0x00002000, ['Z'] = 0x00004000, ['a'] = 0x00020000, ['b'] = 0x00040000, ['c'] = 0x00080000, ['d'] = 0x00100000, ['e'] = 0x00200000, ['f'] = 0x00400000, ['g'] = 0x00800000, ['h'] = 0x01000000, ['i'] = 0x02000000, ['j'] = 0x10000000, ['k'] = 0x20000000, ['l'] = 0x40000000, },
 		holidayToMapAreaMapping = { ['HA'] = 100001, ['HB'] = 100002, ['HC'] = 100003, ['HD'] = 100004, ['HE'] = 100005, ['HF'] = 100006, ['HH'] = 100008, ['HK'] = 100011, ['HL'] = 100012, ['HM'] = 100013,
-				['HN'] = 100014, ['HP'] = 100016, ['HQ'] = 100017, ['HU'] = 100021, ['HV'] = 100022, ['HW'] = 100023, ['HX'] = 100024, ['HY'] = 100025, ['HZ'] = 100026, ['Ha'] = 100027, ['Hb'] = 100028, ['Hc'] = 100029, ['Hd'] = 100030, ['He'] = 100031, ['Hf'] = 100032, ['Hg'] = 100033, ['Hh'] = 100034, ['Hi'] = 100035, },
+				['HN'] = 100014, ['HP'] = 100016, ['HQ'] = 100017, ['HU'] = 100021, ['HV'] = 100022, ['HW'] = 100023, ['HX'] = 100024, ['HY'] = 100025, ['HZ'] = 100026, ['Ha'] = 100027, ['Hb'] = 100028, ['Hc'] = 100029, ['Hd'] = 100030, ['He'] = 100031, ['Hf'] = 100032, ['Hg'] = 100033, ['Hh'] = 100034, ['Hi'] = 100035, ['Hj'] = 100036, ['Hk'] = 100037, ['Hl'] = 100038, },
 		indexedQuests = {},
 		indexedQuestsExtra = {},
 		levelingLevel = nil,	-- this is set during the PLAYER_LEVEL_UP event because UnitLevel() does not work during it
@@ -3829,66 +3880,38 @@ if self.GDE.debug then print("GARRISON_BUILDING_UPDATE ", buildingId) end
 			return (0 == bitband(self:StatusCode(questId), bitValue) and not self:IsQuestObsolete(questId) and not self:IsQuestPending(questId))
 		end,
 
+		-- These are the eventIds associated with Timewalking Dungeons
+		celebratingHolidayEventIdMapping = {	["g"] = 559, -- The Burning Crusade
+												["h"] = 562, -- Wrath of the Lich King
+												["i"] = 9999, -- Cataclysm
+												["j"] = 9999, -- Mists of Pandaria
+												["k"] = 1056, -- Warlords of Draenor
+												["l"] = 9999, -- Legion
+											},
 		---
-		--	Determines whether the soughtHolidayName is currently being celebrated.
-		--	@param soughtHolidayName The localized name of a holiday, like Brewfest or Darkmoon Faire.
-		--	@return true if the holiday is being celebrated currently, or false otherwise
-		CelebratingHoliday = function(self, soughtHolidayName)
+		--	This returns true if the specified holiday is currently being celebrated based on the calendar event.
+		_CelebratingHolidayDayEventProcessor = function(self, soughtHolidayName, event)
 			local retval = false
-			local weekday, month, day, year, hour, minute = self:CurrentDateTime()
-			local elapsedMinutes = hour * 60 + minute
-			local i = 1
-			local needsChristmasOrLater = false
+			local holidayNameToUse = soughtHolidayName
 			local holidayCode = self.reverseHolidayMapping[soughtHolidayName]
-			if holidayCode == 'Z' then
-				needsChristmasOrLater = true
-				soughtHolidayName = self.holidayMapping['V']
+			if nil ~= self.celebratingHolidayEventIdMapping[holidayCode] then
+				holidayNameToUse = self.holidayMapping['f']
 			end
-			if holidayCode == 'g' or holidayCode == 'h' or holidayCode == 'i' then
-				soughtHolidayName = self.holidayMapping['f']
-			end
-			-- sometime between release 23478 and 23578 CalendarGetDayEvent was removed, replaced with C_Calendar.GetDayEvent which returns a table
-			local CalendarGetNumDayEvents = (self.existsClassic and function() return 0 end) or (self.battleForAzeroth and C_Calendar.GetNumDayEvents) or CalendarGetNumDayEvents
-			local numEvents = CalendarGetNumDayEvents(0, day)
-			local title, calHour, calMinute, calendarType, sequenceType, eventType, texture, modStatus, inviteStatus, invitedBy, difficulty, inviteType
-			for i = 1, numEvents do
-                local event = C_Calendar.GetDayEvent(0, day, i)
-				calendarType = event.calendarType
-				eventType = event.eventType
-				title = event.title
-				texture = event.texture
-				sequenceType = event.sequenceType
-				local date = (event.sequenceType == "END") and event.endTime or event.startTime
-				calHour = date.hour
-				calMinute = date.minute
-				--	hour and minute indicate time when event starts for START
-				--	or ONGOING, and ends for END
-				--	sequenceType is START, ONGOING, END
-				--	texture can allow us to know which Timewalking Dungeon Event is
-				--	happening:  calendar_weekendcataclysm,
-				--				calendar_weekendwrathofthelichking,
-				--				calendar_weekendburningcrusade
-				local foundMatch = false
-				if calendarType == 'HOLIDAY' and title == soughtHolidayName then
-					foundMatch = true
+			if event.calendarType == 'HOLIDAY' and event.title == holidayNameToUse then
+				local shouldContinue = true
+				local possibleEventId = self.celebratingHolidayEventIdMapping[holidayCode]
+				if nil ~= possibleEventId and tonumber(event.eventID) ~= possibleEventId then
+					shouldContinue = false
 				end
-				if holidayCode == 'g' or holidayCode == 'h' or holidayCode == 'i' then
-					if holidayCode == 'g' and texture ~= 'calendar_weekendburningcrusade' then
-						foundMatch = false
-					end
-					if holidayCode == 'h' and texture ~= 'calendar_weekendwrathofthelichking' then
-						foundMatch = false
-					end
-					if holidayCode == 'i' and texture ~= 'calendar_weekendcataclysm' then
-						foundMatch = false
-					end
-				end
-				if foundMatch then
+				if shouldContinue then
+					local sequenceType = event.sequenceType
 					if sequenceType == 'ONGOING' then
 						retval = true
 					else
-						-- Need to check time based on START/END
-						local eventMinutes = calHour * 60 + calMinute
+						local weekday, month, day, year, hour, minute = self:CurrentDateTime()
+						local elapsedMinutes = hour * 60 + minute
+						local date = (sequenceType == "END") and event.endTime or event.startTime
+						local eventMinutes = date.hour * 60 + date.minute
 						if sequenceType == 'START' and elapsedMinutes >= eventMinutes then
 							retval = true
 						end
@@ -3897,41 +3920,65 @@ if self.GDE.debug then print("GARRISON_BUILDING_UPDATE ", buildingId) end
 						end
 					end
 				end
-				i = i + 1
 			end
-			if retval and needsChristmasOrLater then
-				if 12 == month and 25 > day then
-					retval = false
-				end
-			end
-			if self.holidayMapping['U'] == soughtHolidayName then
-				if (12 == month and 31 == day) then
+			return retval
+		end,
+
+-- Hallows 10/18 10h00 -> 11/01 11h00
+
+		celebratingHolidayCache = {},	-- key is holidayName, value is table with key of date/time and value of 0(false) or 1(true)
+
+		---
+		--	Determines whether the soughtHolidayName is currently being celebrated.
+		--	@param soughtHolidayName The localized name of a holiday, like Brewfest or Darkmoon Faire.
+		--	@return true if the holiday is being celebrated currently, or false otherwise
+		CelebratingHoliday = function(self, soughtHolidayName)
+			local retval = false
+			local weekday, month, day, year, hour, minute = self:CurrentDateTime()
+			local datetimeKey = strformat("%4d-%02d-%02d %02d:%02d", year, month, day, hour, minute)
+			local holidayCode = self.reverseHolidayMapping[soughtHolidayName]
+			if self.celebratingHolidayCache[soughtHolidayName] and self.celebratingHolidayCache[soughtHolidayName][datetimeKey] then
+				retval = (self.celebratingHolidayCache[soughtHolidayName][datetimeKey] == 1)
+			elseif 'Z' == holidayCode then
+				if 12 == month and day >= 25 then
 					retval = true
 				end
-			end
-
-			-- Stranglethorn Fishing Extravaganza quest givers appear on Saturday and Sunday
-			if self.holidayMapping['X'] == soughtHolidayName then
-				if weekday == 1 or weekday == 7 then
+			elseif 'U' == holidayCode then
+				if 12 == month and 31 == day then
 					retval = true
 				end
-			end
-
-			-- Kalu'ak Fishing Derby quest giver appears on Sunday between 14h00 and 16h00 server
-			if self.holidayMapping['K'] == soughtHolidayName then
+			elseif 'X' == holidayCode then
+				-- Stranglethorn Fishing Extravaganza quest givers appear on Saturday and Sunday
+				if 1 == weekday or 7 == weekday then
+					retval = true
+				end
+			elseif 'K' == holidayCode then
+				-- Kalu'ak Fishing Derby quest giver appears on Sunday between 14h00 and 16h00 server
 				if weekday == 7 then
 					if elapsedMinutes >= (14 * 60) and elapsedMinutes <= (16 * 60) then
 						retval = true
 					end
 				end
-			end
-
-			if self.holidayMapping['E'] == soughtHolidayName then
-				if (11 == month and day > 15) then
+			elseif 'E' == holidayCode then
+				-- WoW Anniversary is second half of November
+				if 11 == month and 15 < day then
 					retval = true
 				end
+			else
+				if self.capabilities.usesCalendar then
+					C_Calendar.SetAbsMonth(month, year)
+					C_Calendar.OpenCalendar()
+				end
+				local CalendarGetNumDayEvents = (self.existsClassic and function() return 0 end) or (self.battleForAzeroth and C_Calendar.GetNumDayEvents) or CalendarGetNumDayEvents
+				local numEvents = CalendarGetNumDayEvents(0, day)
+				for i = 1, numEvents do
+					local event = C_Calendar.GetDayEvent(0, day, i)
+					retval = self:_CelebratingHolidayDayEventProcessor(soughtHolidayName, event)
+					if retval then break end
+				end
 			end
-
+			self.celebratingHolidayCache[soughtHolidayName] = {}
+			self.celebratingHolidayCache[soughtHolidayName][datetimeKey] = (retval and 1 or 0)
 			return retval
 		end,
 
@@ -5211,7 +5258,16 @@ if self.GDE.debug then print("GARRISON_BUILDING_UPDATE ", buildingId) end
 						--	Since the assumption is if there is a lack of code present to limit those permitted to
 						--	obtain quests, checks must be done to see whether any limitations are present, and if
 						--	none, the values need to be altered to permit all of those subset.
-						if 0 == bitband(obtainersValue, self.bitMaskFactionAll) then obtainersValue = obtainersValue + self.bitMaskFactionAll end
+						if 0 == bitband(obtainersValue, self.bitMaskFactionAll) then
+							local questGiversFactions = self:_FactionsFromQuestGivers(questId)
+							if 'B' == questGiversFactions then
+								obtainersValue = obtainersValue + self.bitMaskFactionAll
+							elseif 'A' == questGiversFactions then
+								obtainersValue = obtainersValue + self.bitMaskFactionAlliance
+							elseif 'H' == questGiversFactions then
+								obtainersValue = obtainersValue + self.bitMaskFactionHorde
+							end
+						end
 --						if 0 == bitband(obtainersValue, self.bitMaskClassAll) then obtainersValue = obtainersValue + self.bitMaskClassAll end
 						if 0 == bitband(obtainersValue, self.bitMaskGenderAll) then obtainersValue = obtainersValue + self.bitMaskGenderAll end
 						if 0 == bitband(obtainersRaceValue, self.bitMaskRaceAll) then obtainersRaceValue = self.bitMaskRaceAll end
@@ -5713,7 +5769,7 @@ end
 			else
 				date = C_DateAndTime.GetCurrentCalendarTime()
 			end
-			return date.weekday, date.monthDay, date.month, date.year, date.hour, date.minute
+			return date.weekday, date.month, date.monthDay, date.year, date.hour, date.minute
 		end,
 
 		---
@@ -6939,7 +6995,7 @@ end
 			npcId = tonumber(npcId)
 			if nil ~= npcId then
 				retval = true
-				local codes = self.npc.holiday
+				local codes = self.npc.holiday[npcId]
 				if nil ~= codes then
 					retval = false	-- Assume we fail all holidays unless proven otherwise
 					for i = 1, strlen(codes) do
@@ -7622,6 +7678,33 @@ end
 		end,
 
 		---
+		--	Returns the factions associated with quest givers.
+		--	A for Alliance, H for Horde, B for both
+		_FactionsFromQuestGivers = function(self, questId)
+			local retval = 'B'
+			local foundAlliance, foundHorde = false, false
+			local targetNPCs = self:QuestNPCAccepts(questId)
+			if nil ~= targetNPCs then
+				for _, npcId in pairs(targetNPCs) do
+					local factionCode = self:_NPCFaction(npcId)
+					if nil == factionCode then
+						-- ignore this
+					elseif 'A' == factionCode then
+						foundAlliance = true
+					elseif 'H' == factionCode then
+						foundHorde = true
+					end
+				end
+			end
+			if foundAlliance and not foundHorde then
+				retval = 'A'
+			elseif foundHorde and not foundAlliance then
+				retval = 'H'
+			end
+			return retval
+		end,
+
+		---
 		--	Returns whether the character meets faction requirements for the specified quest.
 		--	@param questId The standard numeric questId representing a quest.
 		--	@soughtFaction The desired faction to be matched, or if nil the player's faction will be used
@@ -7638,17 +7721,8 @@ end
 				if 'Horde' == soughtFaction then
 					soughtFactionCode = 'H'
 				end
-				local targetNPCs = self:QuestNPCAccepts(questId)
-				local foundAvailableNPC = (nil == targetNPCs)
-				if not foundAvailableNPC then
-					for _, npcId in pairs(targetNPCs) do
-						local factionCode = self:_NPCFaction(npcId)
-						if nil == factionCode or soughtFactionCode == factionCode then
-							foundAvailableNPC = true
-						end
-					end
-				end
-				retval = foundAvailableNPC
+				local questGiversFactions = self:_FactionsFromQuestGivers(questId)
+				retval = ('B' == questGiversFactions) or (soughtFactionCode == questGiversFactions)
 			end
 			return retval
 		end,
@@ -9141,7 +9215,7 @@ if self.GDE.debug then print("Marking OEC quest complete", oecCodes[i]) end
 		--	@param useDungeonAlso If true, dungeon quests inside the map area will also be included.
 		--	@param useLoremasterOnly If true, only Loremaster quests will be used for the area, ignoring the normal entire quest list and ignoring the useDungeonAlso parameter.
 		--	@return A table of questIds for quests that start in the map area or nil if none.
-		QuestsInMap = function(self, mapId, useDungeonAlso, useLoremasterOnly)
+		QuestsInMap = function(self, mapId, useDungeonAlso, useLoremasterOnly, useQuestsInLogThatEndInMap)
 			local retval = {}
 			local mapIdToUse = mapId or Grail.GetCurrentDisplayedMapAreaID()
 
@@ -9191,6 +9265,15 @@ if self.GDE.debug then print("Marking OEC quest complete", oecCodes[i]) end
 						end
 					end
 				end
+				--	Here we add quests to the return value if there is a turnin NPC in the map.
+				if useQuestsInLogThatEndInMap then
+					local quests = self:_QuestsInLog()
+					for questId, t in pairs(quests) do
+						if nil ~= self:QuestLocationsTurnin(questId, true, false, true, mapId) then
+							if not tContains(retval, questId) then tinsert(retval, questId) end
+						end
+					end
+				end
 			end
 
 			if nil ~= retval and 0 == #retval then retval = nil end
@@ -9199,20 +9282,33 @@ if self.GDE.debug then print("Marking OEC quest complete", oecCodes[i]) end
 
 		---
 		--	Returns the questId for the quest with the specified name.
-		--	@param soughtName The localized name of the quest.  If nil this will raise.
+		--	@param soughtName The localized name of the quest.
 		--	@return The questId of the quest or nil if no quest with that name found.
 		QuestWithName = function(self, soughtName)
-			assert((nil ~= soughtName), "Grail Error: sought name cannot be nil")
-			local retval = nil
+			if not soughtName then return nil end
 -- With the change to have dynamic quest name lookups, this API is only going to give names that
 -- have already been seen (unless a loadable addon of names has been loaded).
 			for questId, questName in pairs(self.quest.name) do
 				if questName == soughtName then
-					retval = questId
--- TODO: Think about breaking out of the loop when retval is set...basically return the first match instead of the last match
+					return questId
 				end
 			end
-			return retval
+            return nil
+		end,
+        
+        ---
+		--	Returns all questIds for quests with the specified name.
+		--	@param soughtName The localized name of the quest.
+		--	@return a table, where the keys are the questIDs or an empty table, if no questID was found
+        QuestsWithName = function(self, soughtName)
+			if not soughtName then return {} end
+            local questIDs = {}
+			for questId, questName in pairs(self.quest.name) do
+				if questName == soughtName then
+					questIDs[questId] = true
+				end
+			end
+            return questIDs
 		end,
 
 		--	Returns a table of NPC records where each record indicates the location
@@ -10288,7 +10384,7 @@ if locale == "deDE" then
 	me.bodyGuardLevel = { 'Leibwächter', 'Treuer Leibwächter', 'Persönlicher Flügelmann' }
 	me.friendshipLevel = { 'Fremder', 'Bekannter', 'Kumpel', 'Freund', 'guter Freund', 'bester Freund' }
 
-	me.holidayMapping = { ['A'] = 'Liebe liegt in der Luft', ['B'] = 'Braufest', ['C'] = "Kinderwoche", ['D'] = 'Tag der Toten', ['E'] = 'WoW Anniversary', ['F'] = 'Dunkelmond-Jahrmarkt', ['H'] = 'Erntedankfest', ['K'] = "Angelwettstreit der Kalu'ak", ['L'] = 'Mondfest', ['M'] = 'Sonnenwendfest', ['N'] = 'Nobelgarten', ['P'] = "Piratentag", ['U'] = 'Neujahr', ['V'] = 'Winterhauch', ['W'] = "Schlotternächte", ['X'] = 'Anglerwettbewerb im Schlingendorntal', ['Y'] = "Die Pilgerfreuden", ['Z'] = "Weihnachtswoche", ['a'] = 'Bonusereignis: Apexis', ['b'] = 'Bonusereignis: Arenascharmützel', ['c'] = 'Bonusereignis: Schlachtfelder', ['d'] = 'Bonusereignis: Draenordungeons', ['e'] = 'Bonusereignis: Haustierkämpfe', ['f'] = 'Bonusereignis: Zeitwanderungsdungeons', }
+	me.holidayMapping = { ['A'] = 'Liebe liegt in der Luft', ['B'] = 'Braufest', ['C'] = "Kinderwoche", ['D'] = 'Tag der Toten', ['E'] = 'WoW Anniversary', ['F'] = 'Dunkelmond-Jahrmarkt', ['H'] = 'Erntedankfest', ['K'] = "Angelwettstreit der Kalu'ak", ['L'] = 'Mondfest', ['M'] = 'Sonnenwendfest', ['N'] = 'Nobelgarten', ['P'] = "Piratentag", ['U'] = 'Neujahr', ['V'] = 'Winterhauch', ['W'] = "Schlotternächte", ['X'] = 'Anglerwettbewerb im Schlingendorntal', ['Y'] = "Die Pilgerfreuden", ['Z'] = "Weihnachtswoche", ['a'] = 'Bonusereignis: Apexis', ['b'] = 'Bonusereignis: Arenascharmützel', ['c'] = 'Bonusereignis: Schlachtfelder', ['d'] = 'Bonusereignis: Draenordungeons', ['e'] = 'Bonusereignis: Haustierkämpfe', ['f'] = 'Bonusereignis: Zeitwanderungsdungeons', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = 'Alchemie', ['B'] = 'Schmiedekunst', ['C'] = 'Kochkunst', ['E'] = 'Verzauberkunst', ['F'] = 'Angeln', ['H'] = 'Kräuterkunde', ['I'] = 'Inschriftenkunde', ['J'] = 'Juwelenschleifen', ['L'] = 'Lederverarbeitung', ['M'] = 'Bergbau', ['N'] = 'Ingenieurskunst', ['R'] = 'Reiten', ['S'] = 'Kürschnerei', ['T'] = 'Schneiderei', ['X'] = 'Archäologie', ['Z'] = 'Erste Hilfe', }
 
@@ -10343,7 +10439,7 @@ elseif locale == "esES" then
 	me.bodyGuardLevel = { 'Guardaespaldas', 'Escolta leal', 'Compañero del alma' }
 	me.friendshipLevel = { 'Extraño', 'Conocido', 'Colega', 'Amigo', 'Buen amigo', 'Mejor amigo' }
 
-	me.holidayMapping = { ['A'] = 'Amor en el aire', ['B'] = 'Fiesta de la cerveza', ['C'] = "Semana de los Niños", ['D'] = 'Festividad de los Muertos', ['E'] = 'WoW Anniversary', ['F'] = 'Feria de la Luna Negra', ['H'] = 'Festival de la Cosecha', ['K'] = "Competición de pesca Kalu'ak", ['L'] = 'Festival Lunar', ['M'] = 'Festival de Fuego del Solsticio de Verano', ['N'] = 'Jardín Noble', ['P'] = "Día de los Piratas", ['U'] = 'Nochevieja', ['V'] = 'El festín del Festival del Invierno', ['W'] = "Halloween", ['X'] = 'Concurso de Pesca', ['Y'] = "Generosidad del Peregrino", ['Z'] = "Semana navideña", ['a'] = 'Evento de bonificación apexis', ['b'] ='Evento de bonificación de escaramuza de arena', ['c'] = 'Evento de bonificación de campo de batalla', ['d'] = 'Evento de mazmorra de Draenor', ['e'] = 'Evento de bonificación de duelo de mascotas', ['f'] = 'Evento de mazmorra de Paseo en el tiempo', }
+	me.holidayMapping = { ['A'] = 'Amor en el aire', ['B'] = 'Fiesta de la cerveza', ['C'] = "Semana de los Niños", ['D'] = 'Festividad de los Muertos', ['E'] = 'WoW Anniversary', ['F'] = 'Feria de la Luna Negra', ['H'] = 'Festival de la Cosecha', ['K'] = "Competición de pesca Kalu'ak", ['L'] = 'Festival Lunar', ['M'] = 'Festival de Fuego del Solsticio de Verano', ['N'] = 'Jardín Noble', ['P'] = "Día de los Piratas", ['U'] = 'Nochevieja', ['V'] = 'El festín del Festival del Invierno', ['W'] = "Halloween", ['X'] = 'Concurso de Pesca', ['Y'] = "Generosidad del Peregrino", ['Z'] = "Semana navideña", ['a'] = 'Evento de bonificación apexis', ['b'] ='Evento de bonificación de escaramuza de arena', ['c'] = 'Evento de bonificación de campo de batalla', ['d'] = 'Evento de mazmorra de Draenor', ['e'] = 'Evento de bonificación de duelo de mascotas', ['f'] = 'Evento de mazmorra de Paseo en el tiempo', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = 'Alquimia', ['B'] = 'Herrería', ['C'] = 'Cocina', ['E'] = 'Encantamiento', ['F'] = 'Pesca', ['H'] = 'Hebalismo', ['I'] = 'Inscripción', ['J'] = 'Joyería', ['L'] = 'Peletería', ['M'] = 'Minería', ['N'] = 'Ingeniería', ['R'] = 'Equitación', ['S'] = 'Desuello', ['T'] = 'Sastrería', ['X'] = 'Arqueología', ['Z'] = 'Primeros auxilios', }
 
@@ -10370,7 +10466,7 @@ elseif locale == "esMX" then
 	me.bodyGuardLevel = { 'Guardaespaldas', 'De confianza', 'Copiloto personal' }
 	me.friendshipLevel = { 'Extraño', 'Conocido', 'Colega', 'Amigo', 'Buen amigo', 'Mejor amigo' }
 
- 	me.holidayMapping = { ['A'] = 'Amor en el Aire', ['B'] = 'Fiesta de la Cerveza', ['C'] = "Semana de los Niños", ['D'] = 'Día de los Muertos', ['E'] = 'WoW Anniversary', ['F'] = 'Feria de la Luna Negra', ['H'] = 'Festival de la Cosecha', ['K'] = "Competición de pesca Kalu'ak", ['L'] = 'Festival Lunar', ['M'] = 'Festival de Fuego del Solsticio de Verano', ['N'] = 'Jardín Noble', ['P'] = "Día de los Piratas", ['U'] = 'Nochevieja', ['V'] = 'Festival del Invierno', ['W'] = "Halloween", ['X'] = 'Concurso de Pesca', ['Y'] = "Generosidad del Peregrino", ['Z'] = "Semana navideña", ['a'] = 'Evento de ápices con bonificación', ['b'] ='Evento de refriegas de arena con bonificación', ['c'] = 'Evento de campos de batalla con bonificación', ['d'] = 'Evento de calabozo de Draenor', ['e'] = 'Evento de duelo de mascotas con bonificación', ['f'] = 'Evento de calabozo de cronoviaje', }
+ 	me.holidayMapping = { ['A'] = 'Amor en el Aire', ['B'] = 'Fiesta de la Cerveza', ['C'] = "Semana de los Niños", ['D'] = 'Día de los Muertos', ['E'] = 'WoW Anniversary', ['F'] = 'Feria de la Luna Negra', ['H'] = 'Festival de la Cosecha', ['K'] = "Competición de pesca Kalu'ak", ['L'] = 'Festival Lunar', ['M'] = 'Festival de Fuego del Solsticio de Verano', ['N'] = 'Jardín Noble', ['P'] = "Día de los Piratas", ['U'] = 'Nochevieja', ['V'] = 'Festival del Invierno', ['W'] = "Halloween", ['X'] = 'Concurso de Pesca', ['Y'] = "Generosidad del Peregrino", ['Z'] = "Semana navideña", ['a'] = 'Evento de ápices con bonificación', ['b'] ='Evento de refriegas de arena con bonificación', ['c'] = 'Evento de campos de batalla con bonificación', ['d'] = 'Evento de calabozo de Draenor', ['e'] = 'Evento de duelo de mascotas con bonificación', ['f'] = 'Evento de calabozo de cronoviaje', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = 'Alquimia', ['B'] = 'Herrería', ['C'] = 'Cocina', ['E'] = 'Encantamiento', ['F'] = 'Pesca', ['H'] = 'Hebalismo', ['I'] = 'Inscripción', ['J'] = 'Joyería', ['L'] = 'Peletería', ['M'] = 'Minería', ['N'] = 'Ingeniería', ['R'] = 'Equitación', ['S'] = 'Desuello', ['T'] = 'Sastrería', ['X'] = 'Arqueología', ['Z'] = 'Primeros auxilios', }
 
@@ -10397,7 +10493,7 @@ elseif locale == "frFR" then
 	me.bodyGuardLevel = { 'Garde du corps', 'Garde personnel', 'Bras droit' }
 	me.friendshipLevel = { 'Étranger', 'Connaissance', 'Camarade', 'Ami', 'Bon ami', 'Meilleur ami' }
 
-	me.holidayMapping = { ['A'] = "De l'amour dans l'air", ['B'] = 'Fête des Brasseurs', ['C'] = "Semaine des enfants", ['D'] = 'Jour des morts', ['E'] = 'WoW Anniversary', ['F'] = 'Foire de Sombrelune', ['H'] = 'Fête des moissons', ['K'] = "Tournoi de pêche kalu'ak", ['L'] = 'Fête lunaire', ['M'] = "Fête du Feu du solstice d'été", ['N'] = 'Le Jardin des nobles', ['P'] = "Jour des pirates", ['U'] = 'Nouvel an', ['V'] = "Voile d'hiver", ['W'] = "Sanssaint", ['X'] = 'Concours de pêche de Strangleronce', ['Y'] = "Bienfaits du pèlerin", ['Z'] = "Vacances de Noël", ['a'] = 'Évènement bonus Apogides', ['b'] ='Évènement bonus Escarmouches en arène', ['c'] = 'Évènement bonus Champs de bataille', ['d'] = 'Évènement Donjon de Draenor', ['e'] = 'Évènement bonus Combats de mascottes', ['f'] = 'Évènement Donjon des Marcheurs du temps', }
+	me.holidayMapping = { ['A'] = "De l'amour dans l'air", ['B'] = 'Fête des Brasseurs', ['C'] = "Semaine des enfants", ['D'] = 'Jour des morts', ['E'] = 'WoW Anniversary', ['F'] = 'Foire de Sombrelune', ['H'] = 'Fête des moissons', ['K'] = "Tournoi de pêche kalu'ak", ['L'] = 'Fête lunaire', ['M'] = "Fête du Feu du solstice d'été", ['N'] = 'Le Jardin des nobles', ['P'] = "Jour des pirates", ['U'] = 'Nouvel an', ['V'] = "Voile d'hiver", ['W'] = "Sanssaint", ['X'] = 'Concours de pêche de Strangleronce', ['Y'] = "Bienfaits du pèlerin", ['Z'] = "Vacances de Noël", ['a'] = 'Évènement bonus Apogides', ['b'] ='Évènement bonus Escarmouches en arène', ['c'] = 'Évènement bonus Champs de bataille', ['d'] = 'Évènement Donjon de Draenor', ['e'] = 'Évènement bonus Combats de mascottes', ['f'] = 'Évènement Donjon des Marcheurs du temps', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = 'Alchimie', ['B'] = 'Forge', ['C'] = 'Cuisine', ['E'] = 'Enchantement', ['F'] = 'Pêche', ['H'] = 'Herboristerie', ['I'] = 'Calligraphie', ['J'] = 'Joaillerie', ['L'] = 'Travail du cuir', ['M'] = 'Minage', ['N'] = 'Ingénierie', ['R'] = 'Monte', ['S'] = 'Dépeçage', ['T'] = 'Couture', ['X'] = 'Archéologie', ['Z'] = 'Secourisme', }
 
@@ -10443,7 +10539,7 @@ me.holidayMapping = {
     ['X'] = 'Gara di Pesca a Rovotorto',
     ['Y'] = "Ringraziamento del Pellegrino",
     ['Z'] = "Settimana di Natale",
-['a'] = 'Evento bonus: Cristalli Apexis', ['b'] ='Evento bonus: schermaglie in arena', ['c'] = 'Evento bonus: campi di battaglia', ['d'] = 'Evento bonus: spedizioni di Draenor', ['e'] = 'Evento bonus: scontri tra mascotte', ['f'] = 'Evento bonus: Viaggi nel Tempo',     }
+['a'] = 'Evento bonus: Cristalli Apexis', ['b'] ='Evento bonus: schermaglie in arena', ['c'] = 'Evento bonus: campi di battaglia', ['d'] = 'Evento bonus: spedizioni di Draenor', ['e'] = 'Evento bonus: scontri tra mascotte', ['f'] = 'Evento bonus: Viaggi nel Tempo', ['Q'] = "AQ",     }
 
 me.professionMapping = {
     ['A'] = 'Alchimia',
@@ -10484,7 +10580,7 @@ elseif locale == "koKR" then
 	me.bodyGuardLevel = { '경호원', '믿음직스러운 경호원', '개인 호위무사' }
 	me.friendshipLevel = { '이방인', '지인', '동료', '친구', '좋은 친구', '가장 친한 친구' }
 
-	me.holidayMapping = { ['A'] = '온누리에 사랑을', ['B'] = '가을 축제', ['C'] = "어린이 주간", ['D'] = '망자의 날', ['E'] = 'WoW Anniversary', ['F'] = '다크문 축제', ['H'] = '추수절', ['K'] = '칼루아크 낚시 대회', ['L'] = '달의 축제', ['M'] = '한여름 불꽃축제', ['N'] = '귀족의 정원', ['P'] = "해적의 날", ['U'] = '새해맞이 전야제', ['V'] = '겨울맞이 축제', ['W'] = "할로윈 축제", ['X'] = '가시덤불 골짜기 낚시왕 선발대회', ['Y'] = "순례자의 감사절", ['Z'] = "한겨울 축제 주간", ['a'] = '에펙시스 보너스 이벤트', ['b'] ='투기장 연습 전투 보너스 이벤트', ['c'] = '전장 보너스 이벤트', ['d'] = '드레노어 던전 이벤트', ['e'] = '애완동물 대전 보너스 이벤트', ['f'] = '시간여행 던전 이벤트', }
+	me.holidayMapping = { ['A'] = '온누리에 사랑을', ['B'] = '가을 축제', ['C'] = "어린이 주간", ['D'] = '망자의 날', ['E'] = 'WoW Anniversary', ['F'] = '다크문 축제', ['H'] = '추수절', ['K'] = '칼루아크 낚시 대회', ['L'] = '달의 축제', ['M'] = '한여름 불꽃축제', ['N'] = '귀족의 정원', ['P'] = "해적의 날", ['U'] = '새해맞이 전야제', ['V'] = '겨울맞이 축제', ['W'] = "할로윈 축제", ['X'] = '가시덤불 골짜기 낚시왕 선발대회', ['Y'] = "순례자의 감사절", ['Z'] = "한겨울 축제 주간", ['a'] = '에펙시스 보너스 이벤트', ['b'] ='투기장 연습 전투 보너스 이벤트', ['c'] = '전장 보너스 이벤트', ['d'] = '드레노어 던전 이벤트', ['e'] = '애완동물 대전 보너스 이벤트', ['f'] = '시간여행 던전 이벤트', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = '연금술', ['B'] = '대장기술', ['C'] = '요리', ['E'] = '마법부여', ['F'] = '낚시', ['H'] = '약초채집', ['I'] = '주문각인', ['J'] = '보석세공', ['L'] = '가죽세공', ['M'] = '채광', ['N'] = '기계공학', ['R'] = '탈것 숙련', ['S'] = '무두질', ['T'] = '재봉술', ['X'] = '고고학', ['Z'] = '응급치료', }
 
@@ -10520,7 +10616,7 @@ elseif locale == "ptBR" then
 	me.bodyGuardLevel = { 'Guarda-costas', 'Guarda-costas de Confiança', 'Copiloto Pessoal' }
 	me.friendshipLevel = { 'Estranho', 'Conhecido', 'Camarada', 'Amigo', 'Bom Amigo', 'Grande Amigo' }
 
-me.holidayMapping = { ['A'] = "O Amor Está No Ar", ['B'] = 'CervaFest', ['C'] = "Semana das Crianças", ['D'] = 'Dia dos Mortos', ['E'] = 'WoW Anniversary', ['F'] = 'Feira de Negraluna', ['H'] = 'Festival da Colheita', ['K'] = "Campeonato de Pesca dos Kalu'ak", ['L'] = 'Festival da Lua', ['M'] = "Festival do Fogo do Solsticio", ['N'] = 'Jardinova', ['P'] = "Dia dos Piratas", ['U'] = 'New Year', ['V'] = "Festa do Véu de Inverno", ['W'] = "Noturnália", ['X'] = 'Stranglethorn Fishing Extravaganza', ['Y'] = "Festa da Fartura", ['Z'] = "Semana Natalina", ['a'] = 'Evento Bônus de Apexis', ['b'] ='Evento Bônus de Escaramuças da Arena', ['c'] = 'Evento Bônus de Campos de Batalha', ['d'] = 'Evento das Masmorras de Draenor', ['e'] = 'Evento Bônus de Batalha de Mascotes', ['f'] = 'Evento das Masmorras de Caminhada Temporal', }
+me.holidayMapping = { ['A'] = "O Amor Está No Ar", ['B'] = 'CervaFest', ['C'] = "Semana das Crianças", ['D'] = 'Dia dos Mortos', ['E'] = 'WoW Anniversary', ['F'] = 'Feira de Negraluna', ['H'] = 'Festival da Colheita', ['K'] = "Campeonato de Pesca dos Kalu'ak", ['L'] = 'Festival da Lua', ['M'] = "Festival do Fogo do Solsticio", ['N'] = 'Jardinova', ['P'] = "Dia dos Piratas", ['U'] = 'New Year', ['V'] = "Festa do Véu de Inverno", ['W'] = "Noturnália", ['X'] = 'Stranglethorn Fishing Extravaganza', ['Y'] = "Festa da Fartura", ['Z'] = "Semana Natalina", ['a'] = 'Evento Bônus de Apexis', ['b'] ='Evento Bônus de Escaramuças da Arena', ['c'] = 'Evento Bônus de Campos de Batalha', ['d'] = 'Evento das Masmorras de Draenor', ['e'] = 'Evento Bônus de Batalha de Mascotes', ['f'] = 'Evento das Masmorras de Caminhada Temporal', ['Q'] = "AQ", }
 
 me.professionMapping = {
 	['A'] = 'Alquimia',
@@ -10565,7 +10661,7 @@ elseif locale == "ruRU" then
 	me.bodyGuardLevel = { 'Телохранитель', 'Доверенный боец', 'Боевой товарищ' }
 	me.friendshipLevel = { 'Незнакомец', 'Знакомый', 'Приятель', 'Друг', 'Хороший друг', 'Лучший друг' }
 
-	me.holidayMapping = { ['A'] = 'Любовная лихорадка', ['B'] = 'Хмельной фестиваль', ['C'] = "Детская неделя", ['D'] = 'День мертвых', ['E'] = 'WoW Anniversary', ['F'] = 'Ярмарка Новолуния', ['H'] = 'Неделя урожая', ['K'] = "Калуакское рыбоборье", ['L'] = 'Лунный фестиваль', ['M'] = 'Огненный солнцеворот', ['N'] = 'Сад чудес', ['P'] = "День пирата", ['U'] = 'Канун Нового Года', ['V'] = 'Зимний Покров', ['W'] = "Тыквовин", ['X'] = 'Рыбная феерия Тернистой долины', ['Y'] = "Пиршество странников", ['Z'] = "Рождественская неделя", ['a'] = 'Событие: бонус к апекситовым кристаллам', ['b'] ='Событие: бонус за стычки на арене', ['c'] = 'Событие: бонус на полях боя', ['d'] = 'Событие: подземелья Дренора', ['e'] = 'Событие: бонус за битвы питомцев', ['f'] = 'Событие: путешествие во времени по подземельям', }
+	me.holidayMapping = { ['A'] = 'Любовная лихорадка', ['B'] = 'Хмельной фестиваль', ['C'] = "Детская неделя", ['D'] = 'День мертвых', ['E'] = 'WoW Anniversary', ['F'] = 'Ярмарка Новолуния', ['H'] = 'Неделя урожая', ['K'] = "Калуакское рыбоборье", ['L'] = 'Лунный фестиваль', ['M'] = 'Огненный солнцеворот', ['N'] = 'Сад чудес', ['P'] = "День пирата", ['U'] = 'Канун Нового Года', ['V'] = 'Зимний Покров', ['W'] = "Тыквовин", ['X'] = 'Рыбная феерия Тернистой долины', ['Y'] = "Пиршество странников", ['Z'] = "Рождественская неделя", ['a'] = 'Событие: бонус к апекситовым кристаллам', ['b'] ='Событие: бонус за стычки на арене', ['c'] = 'Событие: бонус на полях боя', ['d'] = 'Событие: подземелья Дренора', ['e'] = 'Событие: бонус за битвы питомцев', ['f'] = 'Событие: путешествие во времени по подземельям', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = 'Алхимия', ['B'] = 'Кузнечное дело', ['C'] = 'Кулинария', ['E'] = 'Наложение чар', ['F'] = 'Рыбная ловля', ['H'] = 'Травничество', ['I'] = 'Начертание', ['J'] = 'Ювелирное дело', ['L'] = 'Кожевничество', ['M'] = 'Горное дело', ['N'] = 'Механика', ['R'] = 'Верховая езда', ['S'] = 'Снятие шкур', ['T'] = 'Портняжное дело', ['X'] = 'Археология', ['Z'] = 'Первая помощь', }
 
@@ -10600,7 +10696,7 @@ elseif locale == "ruRU" then
 elseif locale == "zhCN" then
 	me.bodyGuardLevel = { '保镖', '贴身保镖', '亲密搭档' }
 	me.friendshipLevel = { 'Stranger', 'Acquaintance', 'Buddy', 'Friend', 'Good Friend', '挚友' }
-	me.holidayMapping = { ['A'] = '情人节', ['B'] = '美酒节', ['C'] = "儿童周", ['D'] = '死人节', ['E'] = 'WoW Anniversary', ['F'] = '暗月马戏团', ['H'] = '收获节', ['K'] = "Tournoi de pêche kalu'ak", ['L'] = '春节', ['M'] = '仲夏火焰节', ['N'] = '复活节', ['P'] = "海盗日", ['U'] = '除夕夜', ['V'] = '冬幕节', ['W'] = "万圣节", ['X'] = '荆棘谷钓鱼大赛', ['Y'] = "感恩节", ['Z'] = "圣诞周", ['a'] = '埃匹希斯假日活动', ['b'] ='竞技场练习赛假日活动', ['c'] = '战场假日活动', ['d'] = '德拉诺地下城活动', ['e'] = '宠物对战假日活动', ['f'] = '时空漫游地下城活动', }
+	me.holidayMapping = { ['A'] = '情人节', ['B'] = '美酒节', ['C'] = "儿童周", ['D'] = '死人节', ['E'] = 'WoW Anniversary', ['F'] = '暗月马戏团', ['H'] = '收获节', ['K'] = "Tournoi de pêche kalu'ak", ['L'] = '春节', ['M'] = '仲夏火焰节', ['N'] = '复活节', ['P'] = "海盗日", ['U'] = '除夕夜', ['V'] = '冬幕节', ['W'] = "万圣节", ['X'] = '荆棘谷钓鱼大赛', ['Y'] = "感恩节", ['Z'] = "圣诞周", ['a'] = '埃匹希斯假日活动', ['b'] ='竞技场练习赛假日活动', ['c'] = '战场假日活动', ['d'] = '德拉诺地下城活动', ['e'] = '宠物对战假日活动', ['f'] = '时空漫游地下城活动', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = '炼金术', ['B'] = '锻造', ['C'] = '烹饪', ['E'] = '附魔', ['F'] = '钓鱼', ['H'] = '草药学', ['I'] = '铭文', ['J'] = '珠宝加工', ['L'] = '制皮', ['M'] = '采矿', ['N'] = '工程学', ['R'] = '骑术', ['S'] = '剥皮', ['T'] = '裁缝', ['X'] = '考古学', ['Z'] = '急救', }
 
@@ -10636,7 +10732,7 @@ elseif locale == "zhTW" then
 	me.bodyGuardLevel = { '保鏢', '信任的保鑣', '個人的搭檔' }
 	me.friendshipLevel = { '陌生人', '熟識', '夥伴', '朋友', '好朋友', '最好的朋友' }
 
-	me.holidayMapping = { ['A'] = '愛就在身邊', ['B'] = '啤酒節', ['C'] = "兒童週", ['D'] = '亡者節', ['E'] = 'WoW Anniversary', ['F'] = '暗月馬戲團', ['H'] = '收穫節', ['K'] = "卡魯耶克釣魚大賽", ['L'] = '新年慶典', ['M'] = '仲夏火焰節慶', ['N'] = '貴族花園', ['P'] = "海賊日", ['U'] = '除夕夜', ['V'] = '冬幕節', ['W'] = "萬鬼節", ['X'] = '荊棘谷釣魚大賽', ['Y'] = "旅人豐年祭", ['Z'] = "聖誕週", ['a'] = '頂尖獎勵事件', ['b'] ='競技場練習戰獎勵事件', ['c'] = '戰場獎勵事件', ['d'] = '德拉諾地城事件', ['e'] = '寵物對戰獎勵事件', ['f'] = '時光漫遊地城事件', }
+	me.holidayMapping = { ['A'] = '愛就在身邊', ['B'] = '啤酒節', ['C'] = "兒童週", ['D'] = '亡者節', ['E'] = 'WoW Anniversary', ['F'] = '暗月馬戲團', ['H'] = '收穫節', ['K'] = "卡魯耶克釣魚大賽", ['L'] = '新年慶典', ['M'] = '仲夏火焰節慶', ['N'] = '貴族花園', ['P'] = "海賊日", ['U'] = '除夕夜', ['V'] = '冬幕節', ['W'] = "萬鬼節", ['X'] = '荊棘谷釣魚大賽', ['Y'] = "旅人豐年祭", ['Z'] = "聖誕週", ['a'] = '頂尖獎勵事件', ['b'] ='競技場練習戰獎勵事件', ['c'] = '戰場獎勵事件', ['d'] = '德拉諾地城事件', ['e'] = '寵物對戰獎勵事件', ['f'] = '時光漫遊地城事件', ['Q'] = "AQ", }
 
 	me.professionMapping = { ['A'] = '鍊金術', ['B'] = '鍛造', ['C'] = '烹飪', ['E'] = '附魔', ['F'] = '釣魚', ['H'] = '草藥學', ['I'] = '銘文學', ['J'] = '珠寶設計', ['L'] = '製皮', ['M'] = '採礦', ['N'] = '工程學', ['R'] = '騎術', ['S'] = '剝皮', ['T'] = '裁縫', ['X'] = '考古學', ['Z'] = '急救', }
 

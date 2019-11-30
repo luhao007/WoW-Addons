@@ -77,7 +77,7 @@ BtWQuestSettingsData = {
         if BtWQuests_Settings == nil then
             BtWQuests_Settings = {}
         end
-        
+
         local value = BtWQuests_Settings[id]
         if value == nil then
             value = self.optionsByID[id].default
@@ -153,7 +153,9 @@ function BtWQuestsMixin:SelectCharacter(name, realm)
         self.Character = character
         UIDropDownMenu_SetText(self.CharacterDropDown, character:GetDisplayName())
 
-        self:Refresh()
+        if self:IsShown() then
+            self:Refresh()
+        end
     end
 end
 
@@ -171,13 +173,13 @@ function BtWQuestsMixin:SelectExpansion(id, scrollTo, noHistory)
     end
 
     self:SetExpansion(id)
-    
+
     if id == nil then
         self.navBar:Reset()
     else
         self.navBar:SetExpansion(id)
     end
-    
+
     local expansion = self:GetExpansion()
     if expansion and BtWQuestsDatabase:HasExpansion(expansion) then
         self.ExpansionDropDown:SetText(BtWQuestsDatabase:GetExpansionByID(expansion));
@@ -217,7 +219,7 @@ function BtWQuestsMixin:SelectCategory(id, scrollTo, noHistory)
     if not category:IsValidForCharacter(character) then
         id = category:GetAlternative(character) or id
     end
-    
+
     self:SetCategory(id)
     self.navBar:SetCategory(id)
 
@@ -245,12 +247,12 @@ function BtWQuestsMixin:SelectChain(id, scrollTo, noHistory)
     if not chain:IsValidForCharacter(character) then
         id = chain:GetAlternative(character) or id
     end
-    
+
     self:SetChain(id)
     self.navBar:SetChain(id)
 
     self:DisplayCurrentChain(scrollTo)
-    
+
     if not noHistory then
         self:AddCurrentToHistory()
     end
@@ -261,49 +263,49 @@ function BtWQuestsMixin:SelectFromLink(link, scrollTo)
     if not color then
         _, _, type, text = string.find(link, "([^:]+):(.+)")
     end
-    
+
     assert(type == "quest" or type == "btwquests")
-    
+
     self.SearchBox:ClearFocus()
 
     if type == "quest" then
         local _, _, id = string.find(text, "^(%d+):")
 
         id = tonumber(id)
-        
+
         local questLogIndex = GetQuestLogIndexByID(id);
         if questLogIndex > 0 then
             if IsQuestComplete(id) and GetQuestLogIsAutoComplete(questLogIndex) then
                 AutoQuestPopupTracker_RemovePopUp(id);
                 ShowQuestComplete(questLogIndex);
-                
+
                 return true
             else
                 QuestMapFrame_OpenToQuestDetails(id)
-                
+
                 return true
             end
         end
     elseif type == "btwquests" then
         local _, _, subtype, id = string.find(text, "^([^:]*):(%d+)")
-        
+
         assert(subtype == "expansion" or subtype == "category" or subtype == "chain")
-        
+
         if subtype == "expansion" then
             self:SelectExpansion(id, scrollTo)
-            
+
             return true
         elseif subtype == "category" then
             self:SelectCategory(id, scrollTo)
-            
+
             return true
         elseif subtype == "chain" then
             self:SelectChain(id, scrollTo)
-            
+
             return true
         end
     end
-    
+
     return false
 end
 function BtWQuestsMixin:SelectItem(item, scrollTo)
@@ -318,7 +320,7 @@ end
 
 function BtWQuestsMixin:SelectFromHistory()
     local item = self.History[self.HistoryIndex]
-    
+
     if item.type == "chain" then
         self:SelectChain(item.id, item.scrollTo, true)
     elseif item.type == "category" then
@@ -330,22 +332,22 @@ end
 function BtWQuestsMixin:Back()
     if self.HistoryIndex > 1 then
         self:UpdateCurrentHistory()
-        
+
         self.HistoryIndex = self.HistoryIndex - 1
-        
+
         self:SelectFromHistory()
-    
+
         self:UpdateHistoryButtons()
     end
 end
 function BtWQuestsMixin:Forward()
     if self.HistoryIndex < #self.History then
         self:UpdateCurrentHistory()
-        
+
         self.HistoryIndex = self.HistoryIndex + 1
-        
+
         self:SelectFromHistory()
-    
+
         self:UpdateHistoryButtons()
     end
 end
@@ -360,7 +362,7 @@ function BtWQuestsMixin:Here()
 end
 function BtWQuestsMixin:ZoomOut()
     self:Back()
-    
+
     self.Tooltip:Hide();
 end
 function BtWQuestsMixin:GetCurrentView()
@@ -399,7 +401,7 @@ end
 function BtWQuestsMixin:AddCurrentToHistory()
     local last = self.History[self.HistoryIndex]
     local current = self:GetCurrentView()
-    
+
     if last == nil or current.type ~= last.type or current.id ~= last.id then
         self.HistoryIndex = self.HistoryIndex + 1
 
@@ -409,7 +411,7 @@ function BtWQuestsMixin:AddCurrentToHistory()
 
         table.insert(self.History, current);
     end
-    
+
     self:UpdateHistoryButtons()
 end
 function BtWQuestsMixin:UpdateCurrentHistory()
@@ -427,7 +429,7 @@ function BtWQuestsMixin:DisplayExpansionList(scrollTo)
 	self.Chain:Hide()
 	self.Category:Hide()
     self.ExpansionList:Show()
-    
+
     local character = self:GetCharacter();
     local items = BtWQuestsDatabase:GetExpansionList()
 
@@ -470,17 +472,17 @@ function BtWQuestsMixin:DisplayItemList(items, scrollTo)
 
 	self.categoryItemPool:ReleaseAll();
     local questSelect = self.Category;
-    
+
     local character = self:GetCharacter()
     self.Tooltip.character = character
-    
+
 	self.Chain:Hide();
     self.ExpansionList:Hide()
 	questSelect:Show();
-    
+
 	local scrollFrame = questSelect.Scroll.Child;
     local scrollToButton
-    
+
     local startX = 12
     local startY = -10
 	local i = 1;
@@ -514,7 +516,7 @@ function BtWQuestsMixin:DisplayItemList(items, scrollTo)
             gridIndex = gridIndex + 1
         else
             categoryButton = self.categoryItemPool:Acquire("BtWQuestsCategoryListItemTemplate")
-        
+
             if previousButton then
                 categoryButton:SetPoint("TOP", previousButton, "BOTTOM", 0, 0)
             else
@@ -577,15 +579,15 @@ function BtWQuestsMixin:DisplayCurrentCategory(scrollTo)
 end
 function BtWQuestsMixin:DisplayCurrentChain(scrollTo, zoom)
 	local chain = self.Chain;
-    
+
 	self.Category:Hide();
     self.ExpansionList:Hide()
     chain:Show();
-    
+
     -- chain.Scroll:SetCharacter(self:GetCharacter())
     chain.Scroll:SetHideSpoilers(BtWQuestSettingsData:GetValue("hideSpoilers"))
     chain.Scroll:SetChain(self:GetChain(), scrollTo, zoom)
-    
+
     if BtWQuestSettingsData:GetValue("showChainTooltip") then
         chain.Tooltip:ClearAllPoints()
         chain.Tooltip:SetPoint("TOPLEFT", chain, "TOPRIGHT", 5, -3)
@@ -604,10 +606,10 @@ function BtWQuestsMixin:DisplayCurrentChain(scrollTo, zoom)
 end
 function BtWQuestsMixin:UpdateCurrentChain()
     local chain = self.Chain
-    
+
     if chain:IsShown() then
         chain.Scroll:Update()
-    
+
         if BtWQuestSettingsData:GetValue("showChainTooltip") then
             chain.Tooltip:SetOwner(chain, "ANCHOR_PRESERVE")
             chain.Tooltip:SetChain(self:GetChain(), self:GetCharacter())
@@ -619,7 +621,7 @@ end
 
 local function ChainItemPool_HideAndClearAnchors(framePool, frame)
     FramePool_HideAndClearAnchors(framePool, frame)
-    
+
     if frame.backgroundLinePool then
         frame.backgroundLinePool:ReleaseAll();
     end
@@ -635,34 +637,34 @@ function BtWQuestsMixin:OnLoad()
     self:RegisterEvent("ZONE_CHANGED")
     self:RegisterEvent("ZONE_CHANGED_INDOORS")
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-    
+
     self:RegisterEvent("QUEST_SESSION_JOINED")
     self:RegisterEvent("QUEST_SESSION_LEFT")
-    
+
 	self.TitleText:SetText(L["BTWQUESTS_QUEST_JOURNAL"]);
     SetPortraitToTexture(self.portrait, "Interface\\QuestFrame\\UI-QuestLog-BookIcon");
-    
+
     -- Updated the NineSlice frame for our extra buttons
     self.NineSlice.TopLeftCorner:SetTexture("Interface\\Addons\\BtWQuests\\UI-Frame-Metal")
     self.NineSlice.TopLeftCorner:SetWidth(196)
     self.NineSlice.TopLeftCorner:SetTexCoord(0, 0.3828125, 0, 0.2578125)
-    
+
     self.NineSlice.TopRightCorner:SetTexture("Interface\\Addons\\BtWQuests\\UI-Frame-Metal")
     self.NineSlice.TopRightCorner:SetTexCoord(0, 0.2578125, 0.2578125, 0.515625)
 
     self.NineSlice.TopEdge:SetPoint("TOPRIGHT", self.CharacterDropDown, "TOPLEFT", 0, 0);
-    
+
     self.categoryItemPool = CreatePoolCollection()--CreateFramePool("BUTTON", self.Category.Scroll.Child, "BtWQuestsCategoryButtonTemplate");
 	self.categoryItemPool:CreatePool("BUTTON", self.Category.Scroll.Child, "BtWQuestsCategoryHeaderTemplate");
     self.categoryItemPool:CreatePool("BUTTON", self.Category.Scroll.Child, "BtWQuestsCategoryListItemTemplate");
 	self.categoryItemPool:CreatePool("BUTTON", self.Category.Scroll.Child, "BtWQuestsCategoryGridItemTemplate");
-    
+
     self.chainItemPool = CreateFramePool("BUTTON", self.Chain.Scroll.Child, "BtWQuestsChainItemButtonTemplate", ChainItemPool_HideAndClearAnchors);
-    
+
     self.ExpansionScroll = nil
     self.HistoryIndex = 1
     self.History = {}
-    
+
 	-- LDB launcher
 	local LDB = LibStub and LibStub("LibDataBroker-1.1", true)
 	if LDB then
@@ -701,15 +703,6 @@ function BtWQuestsMixin:OnEvent(event, ...)
         if self:GetCharacter():IsPlayer() then
             self.Character = nil;
             self:GetCharacter();
-            if self:GetChain() ~= nil then
-                self:UpdateCurrentChain()
-            elseif self:GetCategory() ~= nil then
-                self:DisplayCurrentCategory()
-            elseif self:GetExpansion() ~= nil then
-                self:DisplayCurrentExpansion()
-            else
-                self:DisplayExpansionList()
-            end
         end
     end
 end
@@ -755,7 +748,7 @@ function BtWQuestsMixin:Refresh()
 end
 function BtWQuestsMixin:OnShow()
     PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
-    
+
     self:UpdateHereButton()
 
     if not self.initialized then
@@ -767,7 +760,7 @@ function BtWQuestsMixin:OnShow()
             self:SetExpansion(BtWQuestsDatabase:GuessExpansion(self.Character))
             self:DisplayCurrentExpansion()
         end
-        
+
         self.initialized = true
     else
         if self:GetChain() ~= nil then
@@ -805,12 +798,12 @@ function BtWQuestsChainFrameScrollFrame_OnUpdate(self)
     local mouseX, mouseY = GetCursorPosition()
     local scale = self:GetEffectiveScale()
     mouseX, mouseY = mouseX / scale, mouseY / scale
-    
+
     local maxXScroll, maxYScroll = self:GetHorizontalScrollRange(), self:GetVerticalScrollRange()
-    
+
     mouseX = min(max(mouseX - self.mouseX + self.scrollX, 0), maxXScroll)
     mouseY = min(max(mouseY - self.mouseY + self.scrollY, 0), maxYScroll)
-    
+
     self:SetHorizontalScroll(mouseX)
     self:SetVerticalScroll(mouseY)
 end
@@ -898,14 +891,14 @@ SlashCmdList["BTWQUESTS"] = function(msg)
             BtWQuestsFrame:Show()
         end
     end
-end 
+end
 
 
 -- [[ Hyperlink Handling ]]
 
 local function ChatFrame_Filter(self, event, msg, ...)
 	msg = msg:gsub("%[btwquests:([^:]+):(%d+):([^:]+):([^%]]+)%]","|c%3|Hbtwquests:%1:%2|h[%4]|h|r");
-    
+
 	return false, msg, ...;
 end
 
@@ -948,7 +941,7 @@ function BtWQuests_InsertLink(link)
             link = format("[%s:%s:%s:%s]", type, text, color, name)
         end
     end
-    
+
     return ChatEdit_InsertLink(link)
 end
 

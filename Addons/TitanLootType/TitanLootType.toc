@@ -1,10 +1,15 @@
-## Interface: 80200
-## Title: Titan Panel [|cffeda55fLootType|r] |cff00aa005.18.2.80200|r
-## Notes: Adds group loot and instance difficulty information to Titan Panel
+## Interface: 80205
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## SavedVariables: 
-## OptionalDeps: 
+## Version: 5.18.3.80205
 ## Dependencies: Titan
-## Version: 5.18.2.80200
+## OptionalDeps: 
+## SavedVariables: 
+
+## Title: Titan Panel [|cffeda55fLootType|r] |cff00aa005.18.3.80205|r
+## Notes: Adds group loot and instance difficulty information to Titan Panel
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0分配方式|r
+## Notes-zhCN: 泰坦面板的分配方式模块
+
 ## X-Child-Of: Titan
+
 TitanLootType.xml

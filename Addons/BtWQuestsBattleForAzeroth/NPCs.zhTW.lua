@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "格魯努斯‧削鋼",
     },
+    [14720] = {
+        name = "薩魯法爾霸王",
+    },
     [15192] = {
         name = "安納克羅斯",
     },

@@ -293,12 +293,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38318] = {
         name = "Sans les ailes !",
     },
-    [38322] = {
-        name = "Retour au bosquet",
-    },
-    [38323] = {
-        name = "Retour au bosquet",
-    },
     [38324] = {
         name = "Les accessoires maudits",
     },
@@ -375,7 +369,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Voyage et repos",
     },
     [38455] = {
-        name = "La frénésie des furbolgs",
+        name = "La frénésie des Furbolgs",
     },
     [38459] = {
         name = "Les épreuves antiques",
@@ -924,7 +918,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Assaut sur Mardum",
     },
     [39316] = {
-        name = "Les taurens pris au piège",
+        name = "Les Taurens pris au piège",
     },
     [39318] = {
         name = "Soigner les blessures",
@@ -1305,7 +1299,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Le roi d’en bas",
     },
     [39781] = {
-        name = "Repaire de Neltharion",
+        name = "Repaire de Neltharion : mort au roi d’en bas",
     },
     [39786] = {
         name = "Pierre qui roule…",
@@ -1710,7 +1704,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un plat qui se mange froid",
     },
     [40189] = {
-        name = "Le savoir des nagas",
+        name = "Le savoir des Nagas",
     },
     [40191] = {
         name = "Récits estampés",
@@ -2867,9 +2861,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41709] = {
         name = "Gros calibres en vrac",
     },
-    [41724] = {
-        name = "Au cœur du Cauchemar",
-    },
     [41728] = {
         name = "La défense du monastère de Tian",
     },
@@ -3848,9 +3839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42619] = {
         name = "Champion : Hodir",
     },
-    [42627] = {
-        name = "La lame invisible",
-    },
     [42634] = {
         name = "Confrontation au Temple noir",
     },
@@ -4274,15 +4262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42959] = {
         name = "Le chiffre trois porte chance",
     },
-    [42966] = {
-        name = "Ordre du généralissime",
-    },
-    [42967] = {
-        name = "Ordre du généralissime",
-    },
-    [42968] = {
-        name = "Ordre du généralissime",
-    },
     [42974] = {
         name = "Le destin de Hodir",
     },
@@ -4461,7 +4440,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Les fragments du désastre",
     },
     [43362] = {
-        name = "Cauchemar d’émeraude : terreau onirique",
+        name = "Terreau onirique",
     },
     [43371] = {
         name = "Relève au front",
@@ -4473,7 +4452,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Les meilleurs d’entre nous",
     },
     [43374] = {
-        name = "Contrôle mental des murlocs",
+        name = "Contrôle mental des Murlocs",
     },
     [43375] = {
         name = "Fournitures abondantes",
@@ -4649,12 +4628,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43502] = {
         name = "Changement de saison",
     },
-    [43503] = {
-        name = "La puissance intérieure",
-    },
-    [43505] = {
-        name = "La puissance intérieure",
-    },
     [43506] = {
         name = "Bastion du Freux : une puissance accrue",
     },
@@ -4677,7 +4650,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Cauchemar d’émeraude : en plein cauchemar",
     },
     [43521] = {
-        name = "L’essence du pouvoir",
+        name = "Cauchemar d’émeraude : l’essence du pouvoir",
     },
     [43522] = {
         name = "Une consommation essentielle",
@@ -4704,7 +4677,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Le palais Sacrenuit : folie des grandeurs",
     },
     [43531] = {
-        name = "Au cœur du palais Sacrenuit",
+        name = "Le palais Sacrenuit : au cœur du palais Sacrenuit",
     },
     [43532] = {
         name = "Le palais Sacrenuit : l’appel des ténèbres",
@@ -5019,7 +4992,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Caveau des Gardiennes : un chef-d’œuvre de chair et de sang",
     },
     [44337] = {
-        name = "La déesse vous protège",
+        name = "La Déesse vous protège",
     },
     [44448] = {
         name = "Ombre et Lumière",
@@ -5142,7 +5115,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Aux marches du palais Sacrenuit",
     },
     [44738] = {
-        name = "La pleine puissance des elfes",
+        name = "La pleine puissance des Elfes",
     },
     [44739] = {
         name = "Prêts au combat",
@@ -5476,9 +5449,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45316] = {
         name = "Stabiliser Suramar",
-    },
-    [45317] = {
-        name = "Sur tous les fronts",
     },
     [45329] = {
         name = "Opération Portails",

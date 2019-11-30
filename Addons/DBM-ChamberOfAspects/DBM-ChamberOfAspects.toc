@@ -1,17 +1,15 @@
-﻿## Interface: 80205
-## X-Min-Interface: 80000
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Chamber of Aspects|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Kammer der Aspekte|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Палата Аспектов|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0守護巨龍之間|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0흑요석 성소|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Chambre des Aspects|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Cámara de los Aspectos|r
+## Interface: 80205
 ## Author: Tandanu/Nitram/MysticalOS
-## LoadOnDemand: 1
+## Version: r290
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMChamberOfAspects_AllSavedVars
 ## SavedVariablesPerCharacter: DBMChamberOfAspects_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Chamber of Aspects|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0龙眠神殿|r
+
+## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: WotLK
@@ -38,7 +36,6 @@
 ## X-DBM-Mod-MinCoreRevision: 12473
 ## X-Curse-Project-ID: 43970
 ## X-WoWI-ID: 21522
-## Version: r290
 
 localization.en.lua
 localization.de.lua

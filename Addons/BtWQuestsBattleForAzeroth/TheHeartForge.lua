@@ -226,11 +226,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             id = 2164,
             amount = 520,
         },
-        {
-            type = "reputation",
-            id = 2386,
-            amount = 360,
-        },
     },
     items = {
         {
@@ -329,11 +324,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             type = "reputation",
             id = 2164,
             amount = 1455,
-        },
-        {
-            type = "reputation",
-            id = 2386,
-            amount = 270,
         },
     },
     items = {
@@ -474,11 +464,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             type = "reputation",
             id = 2164,
             amount = 520,
-        },
-        {
-            type = "reputation",
-            id = 2386,
-            amount = 360,
         },
     },
     items = {
@@ -630,11 +615,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN04,
-        },
-        {
-            type = "heartlevel",
-            level = 70,
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN07,
         },
     },
     active = {
@@ -648,6 +629,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     },
     rewards = {
         {
+            type = "toy",
+            id = 169768,
+        },
+        {
             type = "money",
             amounts = {
                 23400, 
@@ -659,11 +644,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             type = "reputation",
             id = 2164,
             amount = 1000,
-        },
-        {
-            type = "reputation",
-            id = 2386,
-            amount = 10,
         },
     },
     items = {

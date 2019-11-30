@@ -190,7 +190,8 @@ BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION = 72101
 BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_OUTLAW = 72102
 BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_SUBTLETY = 72103
 BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_CAMPAIGN = 72104
-BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER = 72105
+BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE = 72105
+BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE = 72107
 BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_MOUNT = 72106
 
 BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL = 72201
@@ -200,7 +201,7 @@ BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_CAMPAIGN = 72204
 BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER = 72205
 BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_MOUNT = 72206
 
-BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION = 72301
+BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION = 72301
 BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_DEMONOLOGY = 72302
 BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_DESTRUCTION = 72303
 BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_CAMPAIGN = 72304
@@ -211,7 +212,8 @@ BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS = 72401
 BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FURY = 72402
 BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_PROTECTION = 72403
 BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_CAMPAIGN = 72404
-BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER = 72405
+BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE = 72405
+BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE = 72407
 BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_MOUNT = 72406
 
 BTWQUESTS_CHAIN_LEGION_HIDDEN_KOSUMOTH = 72501
@@ -264,3 +266,406 @@ BtWQuestsDatabase:AddMapRecursive(627, {
     type = "expansion",
     id = BTWQUESTS_EXPANSION_LEGION,
 })
+
+-- Support code for handling artifact quest chains
+local artifactQuests = {
+    ["DEATHKNIGHT"] = {
+        firstQuest = 40714, -- The quest right before selecting your first artifact
+        {40722, 43965, 44402, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DEATHKNIGHT_BLOOD},
+        {40723, 43966, 44403, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DEATHKNIGHT_FROST},
+        {40724, 43967, 44404, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DEATHKNIGHT_UNHOLY},
+    },
+    ["DEMONHUNTER"] = {
+        firstQuest = 39047, -- There are 2 versions of this but they both get marked as completed and have the same name
+        {40817, 44381, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC},
+        {40818, 44382, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE},
+    },
+    ["DRUID"] = {
+        firstQuest = 40645,
+        {40781, 43976, 44432, 44444, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE},
+        {40701, 43978, 44433, 44445, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FERAL},
+        {40702, 43977, 44434, 44446, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN},
+        {40703, 43979, 44436, 44447, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_RESTORATION},
+    },
+    ["HUNTER"] = {
+        firstQuest = 41415,
+        {40621, 44045, 44367, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY},
+        {40620, 44046, 44368, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_MARKSMANSHIP},
+        {40619, 44047, 44369, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_SURVIVAL},
+    },
+    ["MAGE"] = {
+        firstQuest = 41036,
+        {41079, 43442, 44307, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE},
+        {41080, 43443, 44308, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FIRE},
+        {41081, 43444, 44309, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST},
+    },
+    ["MONK"] = {
+        firstQuest = 40236,
+        {40640, 43970, 44427, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER},
+        {40638, 43971, 44429, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER},
+        {40639, 43972, 44428, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_MISTWEAVER},
+    },
+    ["PALADIN"] = {
+        firstQuest = 38710,
+        {40410, 44064, 44371, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY},
+        {40411, 44065, 44372, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_PROTECTION},
+        {40409, 44066, 44373, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION},
+    },
+    ["PRIEST"] = {
+        firstQuest = 40705,
+        {40709, 43941, 44409, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE},
+        {40708, 43940, 44410, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_HOLY},
+        {40707, 43939, 44408, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_SHADOW},
+    },
+    ["ROGUE"] = {
+        firstQuest = 40839,
+        {40842, 44036, 44376, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION},
+        {40843, 44037, 44377, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_OUTLAW},
+        {40844, 44038, 44378, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_SUBTLETY},
+    },
+    -- Shamans were handled differently so cant check the exact order they picked their artifacts in
+    ["SHAMAN"] = {
+        firstQuest = 39746,
+        {41329, 43947, nil, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL},
+        {41328, 43946, nil, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ENHANCEMENT},
+        {41330, 43948, nil, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_RESTORATION},
+    },
+    ["WARLOCK"] = {
+        firstQuest = 40729,
+        {40686, 43981, 44388, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION},
+        {40688, 43982, 44390, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_DEMONOLOGY},
+        {40687, 43983, 44389, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_DESTRUCTION},
+    },
+    ["WARRIOR"] = {
+        firstQuest = 39654,
+        {40582, 43952, 44419, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS},
+        {40581, 43950, 44418, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FURY},
+        {40580, 43953, 44420, chain = BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_PROTECTION},
+    },
+}
+local function OtherSpecIndexes(class, specIndex)
+    if class == "DEMONHUNTER" then
+        return specIndex == 1 and 2 or 1
+    elseif class == "DRUID" then
+        if specIndex == 1 then
+            return 2, 3, 4
+        elseif specIndex == 2 then
+            return 1, 3, 4
+        elseif specIndex == 3 then
+            return 1, 2, 4
+        else
+            return 1, 2, 3
+        end
+    else
+        if specIndex == 1 then
+            return 2, 3
+        elseif specIndex == 2 then
+            return 1, 3
+        else
+            return 1, 2
+        end
+    end
+end
+function BtWQuests.LegionArtifactPrerequisites(class, specIndex)
+    local otherA, otherB, otherC = OtherSpecIndexes(class, specIndex)
+    local classArtifactQuests = artifactQuests[class]
+    if otherB == nil then
+        return {
+            {
+                variations = {
+                    { -- Havent done any yet
+                        type = "level",
+                        level = 98,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[1][1],
+                                classArtifactQuests[2][1],
+                            },
+                            equals = true,
+                            count = 0,
+                        },
+                    },
+                    { -- Didnt select specIndex first
+                        type = "level",
+                        level = 102,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[specIndex][1],
+                            equals = true,
+                            count = 0,
+                        },
+                    },
+                    {
+                        type = "level",
+                        level = 98,
+                    },
+                },
+            },
+            {
+                variations = {
+                    { -- Chose otherA First
+                        type = "chain",
+                        id = classArtifactQuests[otherA].chain,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[otherA][1],
+                        },
+                    },
+                    {
+                        type = "quest",
+                        id = classArtifactQuests.firstQuest,
+                    },
+                },
+            },
+        }
+    elseif otherC == nil then
+        return {
+            {
+                variations = {
+                    { -- Havent done any yet
+                        type = "level",
+                        level = 98,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[1][1],
+                                classArtifactQuests[2][1],
+                                classArtifactQuests[3][1],
+                            },
+                            equals = true,
+                            count = 0,
+                        },
+                    },
+                    { -- Didnt select specIndex first
+                        type = "level",
+                        level = 102,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[specIndex][1],
+                            equals = true,
+                            count = 0,
+                        },
+                    },
+                    {
+                        type = "level",
+                        level = 98,
+                    },
+                },
+            },
+            {
+                variations = {
+                    { -- Chose otherA first and otherB second
+                        type = "chain",
+                        id = classArtifactQuests[otherB].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {classArtifactQuests[otherA][1], classArtifactQuests[otherB][2]},
+                            count = 2,
+                        },
+                    },
+                    { -- Chose otherB first and otherA second
+                        type = "chain",
+                        id = classArtifactQuests[otherA].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {classArtifactQuests[otherB][1], classArtifactQuests[otherA][2]},
+                            count = 2,
+                        },
+                    },
+                    { -- Chose otherA First
+                        type = "chain",
+                        id = classArtifactQuests[otherA].chain,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[otherA][1],
+                        },
+                    },
+                    { -- Chose otherB First
+                        type = "chain",
+                        id = classArtifactQuests[otherB].chain,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[otherB][1],
+                        },
+                    },
+                    {
+                        type = "quest",
+                        id = classArtifactQuests.firstQuest,
+                    },
+                },
+            },
+        }
+    else
+        return {
+            {
+                variations = {
+                    { -- Havent done any yet
+                        type = "level",
+                        level = 98,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[1][1],
+                                classArtifactQuests[2][1],
+                                classArtifactQuests[3][1],
+                                classArtifactQuests[4][1],
+                            },
+                            equals = true,
+                            count = 0,
+                        },
+                    },
+                    { -- Didnt select specIndex first
+                        type = "level",
+                        level = 102,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[specIndex][1],
+                            equals = true,
+                            count = 0,
+                        },
+                    },
+                    {
+                        type = "level",
+                        level = 98,
+                    },
+                },
+            },
+            {
+                variations = {
+                    { -- Chose otherA and otherB first or second, otherC third
+                        type = "chain",
+                        id = classArtifactQuests[otherC].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[otherA][1], classArtifactQuests[otherA][2],
+                                classArtifactQuests[otherB][1], classArtifactQuests[otherB][2],
+                                classArtifactQuests[otherC][3]
+                            },
+                            count = 3,
+                        },
+                    },
+                    { -- Chose otherA and otherC first or second, otherB third
+                        type = "chain",
+                        id = classArtifactQuests[otherB].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[otherA][1], classArtifactQuests[otherA][2],
+                                classArtifactQuests[otherC][1], classArtifactQuests[otherC][2],
+                                classArtifactQuests[otherB][3]
+                            },
+                            count = 3,
+                        },
+                    },
+                    { -- Chose otherB and otherC first or second, otherA third
+                        type = "chain",
+                        id = classArtifactQuests[otherA].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[otherB][1], classArtifactQuests[otherB][2],
+                                classArtifactQuests[otherC][1], classArtifactQuests[otherC][2],
+                                classArtifactQuests[otherA][3]
+                            },
+                            count = 3,
+                        },
+                    },
+
+                    
+                    { -- Chose otherA or otherB first and otherC second
+                        type = "chain",
+                        id = classArtifactQuests[otherC].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[otherA][1],
+                                classArtifactQuests[otherB][1],
+                                classArtifactQuests[otherC][2]
+                            },
+                            count = 2,
+                        },
+                    },
+                    { -- Chose otherA or otherC first and otherB second
+                        type = "chain",
+                        id = classArtifactQuests[otherB].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[otherA][1],
+                                classArtifactQuests[otherC][1],
+                                classArtifactQuests[otherB][2]
+                            },
+                            count = 2,
+                        },
+                    },
+                    { -- Chose otherB or otherC first and otherA second
+                        type = "chain",
+                        id = classArtifactQuests[otherA].chain,
+                        restrictions = {
+                            type = "quest",
+                            ids = {
+                                classArtifactQuests[otherB][1],
+                                classArtifactQuests[otherC][1],
+                                classArtifactQuests[otherA][2]
+                            },
+                            count = 2,
+                        },
+                    },
+
+
+                    { -- Chose otherA First
+                        type = "chain",
+                        id = classArtifactQuests[otherA].chain,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[otherA][1],
+                        },
+                    },
+                    { -- Chose otherB First
+                        type = "chain",
+                        id = classArtifactQuests[otherB].chain,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[otherB][1],
+                        },
+                    },
+                    { -- Chose otherC First
+                        type = "chain",
+                        id = classArtifactQuests[otherC].chain,
+                        restrictions = {
+                            type = "quest",
+                            id = classArtifactQuests[otherC][1],
+                        },
+                    },
+
+                    {
+                        type = "quest",
+                        id = classArtifactQuests.firstQuest,
+                    },
+                },
+            },
+        }
+    end
+end
+function BtWQuests.LegionArtifactActive(class, specIndex)
+    return {
+        type = "quest",
+        ids = artifactQuests[class][specIndex],
+    }
+end
+function BtWQuests.LegionArtifactNonSelected(class)
+    local classArtifactQuests = artifactQuests[class]
+    return {
+        type = "quest",
+        ids = {
+            classArtifactQuests[1][1],
+            classArtifactQuests[2][1],
+            classArtifactQuests[3] and classArtifactQuests[3][1],
+            classArtifactQuests[4] and classArtifactQuests[4][1],
+        },
+        equals = true,
+        count = 0,
+    }
+end

@@ -5,11 +5,32 @@ if GetLocale() ~= "esMX" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
+    [263] = {
+        name = "Lord Ello Cerranegro",
+    },
     [264] = {
         name = "Comandante Althea Cerranegro",
     },
+    [265] = {
+        name = "Lady Eva",
+    },
+    [267] = {
+        name = "Secretario Daltry",
+    },
+    [268] = {
+        name = "Sirra Von'Indi",
+    },
+    [272] = {
+        name = "Chef Grual",
+    },
+    [273] = {
+        name = "Tabernero Smitts",
+    },
     [276] = {
         name = "Viktori Prism'Antras",
+    },
+    [288] = {
+        name = "Alterio",
     },
     [289] = {
         name = "Abercrombie",
@@ -29,6 +50,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [469] = {
         name = "Teniente Doren",
     },
+    [576] = {
+        name = "Vigía Ladimor",
+    },
     [663] = {
         name = "Calor",
     },
@@ -38,23 +62,44 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [739] = {
         name = "Hermano Nimetz",
     },
+    [770] = {
+        name = "Cabo Kaleb",
+    },
+    [888] = {
+        name = "Vigía Dodds",
+    },
     [900] = {
         name = "Alguacil Conacher",
     },
     [1068] = {
         name = "Gorn",
     },
+    [1071] = {
+        name = "Largatrenza el Nefasto",
+    },
+    [1073] = {
+        name = "Ashlan Risapétrea",
+    },
     [1089] = {
         name = "Montaraz Pedernal",
     },
+    [1090] = {
+        name = "Montaraz Muroplof",
+    },
     [1092] = {
         name = "Capitán Rugelfuss",
+    },
+    [1105] = {
+        name = "Jern Cornamenta",
     },
     [1141] = {
         name = "Angus Stern",
     },
     [1154] = {
         name = "Marek Coracero",
+    },
+    [1156] = {
+        name = "Vyrin Vientoveloz",
     },
     [1187] = {
         name = "Daryl el Jovenzuelo",
@@ -68,6 +113,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [1343] = {
         name = "Montaraz Pico Tormenta",
     },
+    [1344] = {
+        name = "Prospector Vetaferro",
+    },
+    [1345] = {
+        name = "Magmar Ceñimal",
+    },
     [1484] = {
         name = "Derina Rumdnul",
     },
@@ -77,11 +128,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [1777] = {
         name = "Dakk Rayobestial",
     },
+    [1959] = {
+        name = "Montaraz Cebadiz",
+    },
     [1960] = {
         name = "Piloto Podomartillo",
     },
     [1963] = {
         name = "Vidra Hogartufa",
+    },
+    [2057] = {
+        name = "Huldar",
     },
     [2104] = {
         name = "Capitán Puñorrecio",
@@ -110,6 +167,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [2608] = {
         name = "Comandante Amaren",
     },
+    [2610] = {
+        name = "Temblores O'Breen",
+    },
     [2700] = {
         name = "Capitana Nials",
     },
@@ -121,6 +181,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [2771] = {
         name = "Bombo Vil",
+    },
+    [2774] = {
+        name = "Doctor Draxlegauge",
     },
     [2785] = {
         name = "Theldurin el Perdido",
@@ -914,9 +977,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [35827] = {
         name = "Valishj",
     },
-    [35902] = {
-        name = "Lord Hydronis",
-    },
     [36034] = {
         name = "Karnum Tejedor de Marismas",
     },
@@ -1019,9 +1079,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [37835] = {
         name = "Dorn Tierra Roja",
     },
-    [37837] = {
-        name = "Señor de la guerra Sangrastil",
-    },
     [37847] = {
         name = "Mankrik",
     },
@@ -1035,9 +1092,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Crawgol",
     },
     [38140] = {
-        name = "Weezil Sombraligera",
-    },
-    [38152] = {
         name = "Weezil Sombraligera",
     },
     [38237] = {
@@ -1168,9 +1222,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [39178] = {
         name = "Driz Arcochof",
-    },
-    [39188] = {
-        name = "Marley Trenzado",
     },
     [39256] = {
         name = "Kalen Alblanco",
@@ -1478,6 +1529,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41612] = {
         name = "Cazadora Iczelia",
     },
+    [41615] = {
+        name = "Ferilon Hojanato",
+    },
     [41638] = {
         name = "Maestro de canes Jonathan",
     },
@@ -1492,6 +1546,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [41966] = {
         name = "Mortacechadora Maudria",
+    },
+    [41983] = {
+        name = "Aprendiz Kryten",
     },
     [41990] = {
         name = "Explorador Utvoch",
@@ -1598,11 +1655,29 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [43453] = {
         name = "Tobias Mantoniebla",
     },
+    [43730] = {
+        name = "Oliver Harris",
+    },
+    [43731] = {
+        name = "Hermana Elsington",
+    },
     [43738] = {
         name = "Aprendiz Fess",
     },
+    [44018] = {
+        name = "Wulfred Harrys",
+    },
+    [44019] = {
+        name = "Mariscal de Livingston",
+    },
     [44082] = {
         name = "Bronwyn Labragolpe",
+    },
+    [44200] = {
+        name = "Exploradora Dorli",
+    },
+    [44345] = {
+        name = "Cannary Copabarril",
     },
     [44374] = {
         name = "Sherm",
@@ -1618,6 +1693,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [44859] = {
         name = "Celadora de seguridad Pipsy",
+    },
+    [44870] = {
+        name = "Ando Pimpampum",
     },
     [45012] = {
         name = "Durnt Brillhalcón",
@@ -1802,9 +1880,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48109] = {
         name = "John J. Keeshan",
     },
-    [48110] = {
-        name = "Coronel Troteman",
-    },
     [48126] = {
         name = "Isural Jurabosques",
     },
@@ -1822,9 +1897,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [48306] = {
         name = "John J. Keeshan",
-    },
-    [48307] = {
-        name = "Coronel Troteman",
     },
     [48333] = {
         name = "Supervisor Pikwik",

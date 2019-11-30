@@ -420,7 +420,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_WAIST_OF_T
     },
     rewards = {
         {
-            name = L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"],
+            name = L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"],
             -- function ()
             --     return string.format(BTWQUESTS_PREFIX, BTWQUESTS_COSMETIC, "Waist of Time")
             -- end
@@ -1245,7 +1245,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_WAIST_OF_T
     },
 })
 BtWQuestsDatabase:AddChain(BtWQuests.Constant.Chain.BattleForAzeroth.Secrets.HoneybackHive, {
-    name = {
+    name = { -- Honeyback Hive
         type = "reputation",
         id = 2395,
     },
@@ -1258,21 +1258,9 @@ BtWQuestsDatabase:AddChain(BtWQuests.Constant.Chain.BattleForAzeroth.Secrets.Hon
     },
     prerequisites = {
         {
-            name = L["Pet: Bumbles or Seabreeze Bumblebee"],
-            completed = {
-                {
-                    type = "pet",
-                    id = 2442,
-                    restrictions = {
-                        type = "pet",
-                        id = 2442,
-                    },
-                },
-                {
-                    type = "pet",
-                    id = 2404,
-                },
-            },
+            name = L["PET_BUMBLES_OR_SEABREEZE_BUMBLEBEE"],
+            type = "pet",
+            ids = {2442, 2404},
         }
     },
     active = {
@@ -1298,7 +1286,7 @@ BtWQuestsDatabase:AddChain(BtWQuests.Constant.Chain.BattleForAzeroth.Secrets.Hon
             connections = {1}
         },
         {
-            name = L["Summon Bumbles or Seabreeze Bumblebee"],
+            name = L["SUMMON_BUMBLES_OR_SEABREEZE_BUMBLEBEE"],
             type = "quest",
             id = 55906,
             x = 3,

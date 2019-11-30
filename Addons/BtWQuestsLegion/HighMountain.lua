@@ -890,7 +890,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SNOWBLIND_MESA, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RAZIK, {
-    name = BtWQuests_GetQuestName(39670),
+    name = { -- Critter Scatter Shot
+		type = "quest",
+		id = 39670,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {
@@ -1001,8 +1004,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RAZIK, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
-    -- name = "Nesingwary's Retreat",
-    name = BtWQuests_GetAreaName(7733),
+    name = BtWQuests_GetAreaName(7733), -- Nesingwary's Retreat
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {
@@ -1056,11 +1058,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
                     },
                 },
                 {
-                    name = "Go to Hemet Nesingwary",
-                    breadcrumb = true,
-                    onClick = function ()
-                        BtWQuests_ShowMapWithWaypoint(MAP_ID, 0.4004, 0.5225, "Hemet Nesingwary")
-                    end,
+                    type = "npc",
+                    id = 94409,
                 },
             },
             x = 2,
@@ -1070,11 +1069,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
             },
         },
         {
-            name = "Go to Addie Fizzlebog",
-            breadcrumb = true,
-            onClick = function ()
-                BtWQuests_ShowMapWithWaypoint(MAP_ID, 0.3993, 0.5224, "Addie Fizzlebog")
-            end,
+            type = "npc",
+            id = 94434,
             x = 6,
             y = 0,
             connections = {
@@ -1239,13 +1235,20 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_STONEDARK, {
-    name = BtWQuests_GetQuestName(39440),
+    name = { -- You Lift, Brul?
+		type = "quest",
+		id = 39440,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     prerequisites = {
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE,
+            upto = {
+                type = "quest",
+                id = 40229,
+            },
         },
     },
     completed = {
@@ -1257,12 +1260,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_STONEDARK, {
         {
             type = "quest",
             id = 40229,
-            onClick = function()
-                BtWQuestsFrame:SelectChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE, {
+            onClick = {
+                type = "chain",
+                id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE,
+                scrollTo = {
                     type = "quest",
                     id = 40229
-                })
-            end,
+                },
+            },
             x = 3,
             y = 0,
             connections = {
@@ -1301,7 +1306,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_STONEDARK, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_MURKY, {
-    name = BtWQuests_GetQuestName(40102),
+    name = { -- Murlocs: The Next Generation
+		type = "quest",
+		id = 40102,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {
@@ -1334,11 +1342,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_MURKY, {
                     },
                 },
                 {
-                    name = "Go to King Mrgl-Mrgl",
-                    breadcrumb = true,
-                    onClick = function ()
-                        BtWQuests_ShowMapWithWaypoint(MAP_ID, 0.4273, 0.1094, "King Mrgl-Mrgl")
-                    end,
+                    type = "npc",
+                    id = 98067,
                 },
             },
             x = 3,

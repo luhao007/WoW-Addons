@@ -1,17 +1,18 @@
-## Interface: 80100
-
-## Title: Garrison Mission Manager
-## Version: v59
-## Notes: Assists you with selecting best team for Battle for Azeroth mission table, Legion's Class Hall and WoD's Garrison/Shipyard missions and other followers management tasks
+## Interface: 80205
 ## Author: Oleg "Rowaa[SR13]" Volkov
-
-## LoadOnDemand: 1
-## LoadWith: Blizzard_GarrisonUI, Blizzard_OrderHallUI
+## Version: v59
 ## RequiredDeps: Blizzard_GarrisonUI, Blizzard_OrderHallUI
 ## OptionalDeps: LibStub, LibDataBroker-1.1, Bagnon, Titan, LibTTScan-1.0, SR13-TimeRecord
-
+## LoadOnDemand: 1
+## LoadWith: Blizzard_GarrisonUI, Blizzard_OrderHallUI
 ## SavedVariables: SV_GarrisonMissionManager
 ## SavedVariablesPerCharacter: SVPC_GarrisonMissionManager
+
+## Title: Garrison Mission Manager
+## Notes: Assists you with selecting best team for Battle for Azeroth mission table, Legion's Class Hall and WoD's Garrison/Shipyard missions and other followers management tasks
+## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF要塞任务管理|r |cFFFFE00AGarrisonMissionManager|r
+## Notes-zhCN: 协助管理要塞随从任务
+
 
 +DEVEL.lua
 LazyWidget.lua

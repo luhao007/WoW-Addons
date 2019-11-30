@@ -1,13 +1,17 @@
-## Interface: 80200
+## Interface: 80205
+## Author: foxlit
+## Version: 0.116
+## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
+## LoadOnDemand: 1
+## SavedVariablesPerCharacter: MasterPlanPC
+
 ## Title: Master Plan
 ## Notes: Garrision missions UI tweaks.
-## Author: foxlit
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF要塞助手|r |cFFFFE00AMasterPlan|r
+
 ## X-Website: https://www.townlong-yak.com/master-plan/
-## LoadOnDemand: 1
-## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
-## SavedVariablesPerCharacter: MasterPlanPC
-## Version: 0.116
 ## X-Version-Key: reach
+
 Libs/Evie.lua
 Libs/Reframe.lua
 Locale.lua

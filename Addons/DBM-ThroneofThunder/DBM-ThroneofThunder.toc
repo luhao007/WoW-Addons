@@ -1,18 +1,15 @@
-﻿## Interface: 80205
-## X-Min-Interface: 80000
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Throne of Thunder|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Престол Гроз|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0천둥의 왕좌|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0雷电王座|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Trône du tonnerre|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Thron des Donners|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Solio del Trueno|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0雷霆王座|r
+## Interface: 80205
 ## Author: MysticalOS
-## LoadOnDemand: 1
+## Version: r131
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMThroneofThunder_AllSavedVars
 ## SavedVariablesPerCharacter: DBMThroneofThunder_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Throne of Thunder|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0雷电王座|r
+
+## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
@@ -22,7 +19,6 @@
 ## X-DBM-Mod-MinCoreRevision: 14569
 ## X-Curse-Project-ID: 85688
 ## X-WoWI-ID: 23199
-## Version: r131
 
 localization.en.lua
 localization.it.lua

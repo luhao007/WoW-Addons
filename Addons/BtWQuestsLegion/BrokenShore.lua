@@ -2,7 +2,7 @@ local L = BtWQuests.L;
 local MAP_ID = 646
 
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB, {
-    name = select(2, GetAchievementInfo(11546)),
+    name = BtWQuests_GetAchievementNameDelayed(11546),
     category = BTWQUESTS_CATEGORY_LEGION_BROKENSHORE,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     prerequisites = {
@@ -36,8 +36,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB
                 1, 4, 7
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 46832,
@@ -63,8 +63,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB
             x = 1,
             y = 4,
         },
-        
-        
+
+
         {
             type = "quest",
             id = 46286,
@@ -86,201 +86,86 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB
             x = 5,
             y = 1,
         },
-        
-        
+
+
         {
             type = "quest",
             id = 47137,
             x = 3,
             y = 2,
             connections = {
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+                1,
             },
         },
-        
-        
+
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEATHKNIGHT_FOLLOWER,
-            restrictions = {
+            variations = {
                 {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_DEATHKNIGHT,
-                }
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEATHKNIGHT_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
+                },
             },
             x = 3,
             y = 3,
             connections = {
-                12
+                1,
             },
         },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_DEMONHUNTER,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                11
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_DRUID,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                10
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_HUNTER,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                9
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_MAGE,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                8
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_MONK,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                7
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_PALADIN,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                6
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_PRIEST,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                5
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_ROGUE,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                4
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_SHAMAN,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                3
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_WARLOCK,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                2
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
-            restrictions = {
-                {
-                    type = "class",
-                    id = BTWQUESTS_CLASS_ID_WARRIOR,
-                }
-            },
-            x = 3,
-            y = 3,
-            connections = {
-                1
-            },
-        },
-        
-        
+
+
         {
             type = "quest",
             id = 46251,
@@ -353,7 +238,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_TREASURE_MASTER_IKSREEGED, {
-    name = BtWQuests_GetQuestName(45379),
+    name = { -- Treasure Master Iks'reeged
+		type = "quest",
+		id = 45379,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_BROKENSHORE,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     prerequisites = {
@@ -439,7 +327,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_TREASURE_MASTER_IK
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_A_FOUND_MEMENTO, {
-    name = BtWQuests_GetQuestName(46268),
+    name = { -- A Found Memento
+		type = "quest",
+		id = 46268,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_BROKENSHORE,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     restrictions = {

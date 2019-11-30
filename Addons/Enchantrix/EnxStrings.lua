@@ -4,8 +4,8 @@
 	http://localizer.norganna.org/
 
 	AddOn: Enchantrix
-	Revision: $Id: EnxStrings.lua 6428 2019-09-25 00:20:07Z none $
-	Version: 8.2.6428 (SwimmingSeadragon)
+	Revision: $Id: EnxStrings.lua 6506 2019-11-02 14:38:37Z none $
+	Version: 8.2.6506 (SwimmingSeadragon)
 
 	License:
 		This program is free software; you can redistribute it and/or

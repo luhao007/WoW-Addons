@@ -1,8 +1,11 @@
 local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_LIGHTFORGED_DRAENEI, {
-    name = "Lightforged Draenei",
+    name = L["LIGHTFORGED_DRAENEI"],
     category = BTWQUESTS_CATEGORY_LEGION_ALLIED_RACES,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    alternatives = {
+        BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_NIGHTBORNE
+    },
     restrictions = {
         {
             type = "faction",
@@ -64,9 +67,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_LIGHTFORGED_DRAEN
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_VOID_ELF, {
-    name = "Void Elf",
+    name = L["VOID_ELF"],
     category = BTWQUESTS_CATEGORY_LEGION_ALLIED_RACES,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    alternatives = {
+        BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_HIGHMOUNTAIN_TAUREN
+    },
     restrictions = {
         {
             type = "faction",
@@ -119,9 +125,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_VOID_ELF, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_NIGHTBORNE, {
-    name = "Nightborne",
+    name = L["NIGHTBORNE"],
     category = BTWQUESTS_CATEGORY_LEGION_ALLIED_RACES,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    alternatives = {
+        BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_LIGHTFORGED_DRAENEI
+    },
     restrictions = {
         {
             type = "faction",
@@ -192,9 +201,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_NIGHTBORNE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_HIGHMOUNTAIN_TAUREN, {
-    name = "Highmountain Tauren",
+    name = L["HIGHMOUNTAIN TAUREN"],
     category = BTWQUESTS_CATEGORY_LEGION_ALLIED_RACES,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    alternatives = {
+        BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_VOID_ELF
+    },
     restrictions = {
         {
             type = "faction",

@@ -7,7 +7,7 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0309
+PawnVersion = 2.0310
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.11
@@ -161,7 +161,7 @@ function PawnInitialize()
 		-- No need to translate this string...
 		local WrongLocaleMessage = "Sorry, this version of Pawn is for English, French, German, Italian, Korean, Portuguese, Russian, Spanish, Simplified Chinese, and Traditional Chinese only."
 		if VgerCore.IsClassic then
-			WrongLocaleMessage = "Sorry, this version of Pawn on WoW Classic is for English, French, German, Portuguese, Spanish, and Simplified Chinese only.  I'm working to support all languages soon."
+			WrongLocaleMessage = "Sorry, this version of Pawn on WoW Classic is for English, French, German, Portuguese, Russian, Spanish, and Simplified Chinese only.  I'm working to support all languages soon."
 		end
 		VgerCore.Message(VgerCore.Color.Salmon .. WrongLocaleMessage)
 		message(WrongLocaleMessage)

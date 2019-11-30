@@ -1,10 +1,13 @@
-## Interface: 80000
-## Title: RelicInspector
-## Notes: Displays artifact weapon relics in the tooltip
+## Interface: 80205
 ## Author: Thoralie
 ## Version: 3.0
 ## SavedVariables: RelicInspectorDB
 ## SavedVariablesPerCharacter: RelicInspectorCharDB
+
+## Title: RelicInspector
+## Notes: Displays artifact weapon relics in the tooltip
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF钥石信息|r |cFFFFE00ARelicInspector|r
+
 
 ArtifactData.lua
 RelicInspector.lua

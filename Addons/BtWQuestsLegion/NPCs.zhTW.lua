@@ -5,91 +5,82 @@ if GetLocale() ~= "zhTW" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
-    [91065] = {
-        name = "[Cellarman Voodani]",
+    [38237] = {
+        name = "北郡的瑪克西米利安",
     },
-    [91166] = {
-        name = "[Daglop]",
+    [92802] = {
+        name = "『褻瀆者』葛拉沃斯",
     },
     [93600] = {
-        name = "[Saylanna Riverbreeze]",
+        name = "賽拉娜‧河風",
     },
-    [94101] = {
-        name = "[Laeni Silvershot]",
+    [94366] = {
+        name = "莉爾恩‧迅影",
     },
     [94409] = {
-        name = "[Hemet Nesingwary]",
+        name = "赫米特‧奈辛瓦里",
     },
     [94434] = {
-        name = "[Addie Fizzlebog]",
-    },
-    [95438] = {
-        name = "[Ellias]",
-    },
-    [95799] = {
-        name = "[Damrul the Stronk]",
+        name = "艾笛‧嘶沼",
     },
     [96513] = {
-        name = "[Razik Gazbolt]",
+        name = "拉傑‧卡栓",
     },
     [97258] = {
-        name = "[Ootasa Galehoof]",
+        name = "烏塔莎‧風蹄",
     },
     [97974] = {
-        name = "[Lorna Stoutfoot]",
+        name = "蘿娜‧穩足",
     },
     [98067] = {
-        name = "[King Mrgl-Mrgl]",
+        name = "莫戈莫戈大王",
     },
     [98587] = {
-        name = "[Morheim Ancestor]",
+        name = "莫爾海姆先祖",
     },
-    [99905] = {
-        name = "[Shale Greyfeather]",
+    [99065] = {
+        name = "泰德里斯‧羽歌",
     },
-    [106914] = {
-        name = "[Tehd Shoemaker]",
+    [101766] = {
+        name = "薩睿納斯‧河樹",
     },
-    [106915] = {
-        name = "[Marius Felbane]",
+    [103568] = {
+        name = "梅露娜‧月翼",
     },
-    [107244] = {
-        name = "[Tehd Shoemaker]",
+    [104220] = {
+        name = "飢餓的雙頭巨人",
     },
-    [107245] = {
-        name = "[Marius Felbane]",
+    [106095] = {
+        name = "伊凡涅爾‧牧歌",
     },
-    [107498] = {
-        name = "[Cukkaw]",
+    [106299] = {
+        name = "黎沙莉‧烏鴉",
     },
     [107499] = {
-        name = "[Frightened Ravenbear]",
-    },
-    [107674] = {
-        name = "[Snaggle Sixtrigger]",
-    },
-    [107675] = {
-        name = "[Rax Sixtrigger]",
+        name = "受驚的熊鴉",
     },
     [108072] = {
-        name = "[Sir Finley Mrrgglton]",
+        name = "芬利‧莫戈頓爵士",
     },
     [108304] = {
-        name = "[Guviena Bladesong]",
+        name = "古維娜‧刃歌",
+    },
+    [108327] = {
+        name = "蠕動的骸泥怪",
     },
     [108358] = {
-        name = "[Leirana]",
+        name = "蕾菈娜",
     },
     [109631] = {
-        name = "[Old Grizzleback]",
+        name = "灰背長老",
     },
-    [250536] = {
-        name = "[Intact Greatstag Antler]",
+    [110018] = {
+        name = "加茲里斯‧輪鎖",
     },
-    [250990] = {
-        name = "[Crate of Ancient Relics]",
+    [110987] = {
+        name = "夜眼",
     },
-    [251425] = {
-        name = "[Moist Grizzlecomb]",
+    [121754] = {
+        name = "凡蕾莎‧風行者",
     },
 })

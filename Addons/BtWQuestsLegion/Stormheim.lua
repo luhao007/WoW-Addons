@@ -1550,7 +1550,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_CHAMPION_OF_STOR
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_A_MURKY_FATE, {
-    name = BtWQuests_GetQuestName(40120),
+    name = { -- A Murky Fate
+		type = "quest",
+		id = 40120,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {
@@ -1577,7 +1580,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_A_MURKY_FATE, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_DREYRGROT, {
-    name = BtWQuests_GetQuestName(42635),
+    name = { -- The Mystery of Dreyrgrot
+		type = "quest",
+		id = 42635,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {
@@ -1645,7 +1651,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_DREYRGROT, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_RAVENBEAR, {
-    name = BtWQuests_GetQuestName(42444),
+    name = { -- Plight of the Blackfeather
+		type = "quest",
+		id = 42444,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {
@@ -1700,7 +1709,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_RAVENBEAR, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_GOBLINS, {
-    name = select(2, GetAchievementInfo(11232)),
+    name = BtWQuests_GetAchievementNameDelayed(11232),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     completed = {

@@ -1,6 +1,6 @@
 local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(65)), "The Silver Hand"),
+    name = L["HOLY_THE_SILVER_HAND"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS,
     },
     restrictions = {
@@ -22,6 +22,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY, {
             id = BTWQUESTS_CLASS_ID_PALADIN,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("PALADIN", 1),
+    active = BtWQuests.LegionArtifactActive("PALADIN", 1),
     completed = {
         type = "quest",
         id = 42120,
@@ -47,7 +49,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_PROTECTION, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(66)), "Truthguard"),
+    name = L["PROTECTION_TRUTHGUARD"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -69,6 +71,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_PROTECTION, {
             id = BTWQUESTS_CLASS_ID_PALADIN,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("PALADIN", 2),
+    active = BtWQuests.LegionArtifactActive("PALADIN", 2),
     completed = {
         type = "quest",
         id = 42017,
@@ -112,7 +116,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_PROTECTION, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(70)), "Ashbringer"),
+    name = L["RETRIBUTION_ASHBRINGER"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -134,6 +138,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION, {
             id = BTWQUESTS_CLASS_ID_PALADIN,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("PALADIN", 3),
+    active = BtWQuests.LegionArtifactActive("PALADIN", 3),
     completed = {
         type = "quest",
         id = 38376,
@@ -238,13 +244,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
             x = 3,
             y = 1,
             connections = {
-                1, 2, 3,
-                4, 5, 6
+                1, 2, 3, 4,
             },
         },
-        
-        
-        
+
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY,
@@ -252,13 +257,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 type = "quest",
                 id = 40408,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40410) or BtWQuests_IsQuestCompleted(40411) or BtWQuests_IsQuestCompleted(40409))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("PALADIN"),
             x = 1,
             y = 2,
             connections = {
-                6
+                4
             },
         },
         {
@@ -268,40 +271,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 type = "quest",
                 id = 40408,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40410) or BtWQuests_IsQuestCompleted(40411) or BtWQuests_IsQuestCompleted(40409))
-            end,
-            x = 3,
-            y = 2,
-            connections = {
-                5
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION,
-            active = {
-                type = "quest",
-                id = 40408,
-            },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40410) or BtWQuests_IsQuestCompleted(40411) or BtWQuests_IsQuestCompleted(40409))
-            end,
-            x = 5,
-            y = 2,
-            connections = {
-                4
-            },
-        },
-        
-        
-        
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40410)
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("PALADIN"),
             x = 3,
             y = 2,
             connections = {
@@ -310,31 +280,60 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_PROTECTION,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40411)
-            end,
-            x = 3,
+            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION,
+            active = {
+                type = "quest",
+                id = 40408,
+            },
+            visible = BtWQuests.LegionArtifactNonSelected("PALADIN"),
+            x = 5,
             y = 2,
             connections = {
                 2
             },
         },
+
+
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40409)
-            end,
+            variations = {
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY,
+                    restrictions = {
+                        type = "quest",
+                        id = 40410,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_PROTECTION,
+                    restrictions = {
+                        type = "quest",
+                        id = 40411,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION,
+                    restrictions = {
+                        type = "quest",
+                        id = 40409,
+                    },
+                },
+                {
+                    visible = false,
+                },
+            },
             x = 3,
             y = 2,
             connections = {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 38576,
@@ -380,10 +379,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
-        
+
+
+
+
         {
             type = "level",
             level = 101,
@@ -497,7 +496,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 2
             },
         },
-        
+
         {
             type = "level",
             level = 103,
@@ -525,8 +524,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43462,
@@ -545,8 +544,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42890,
@@ -556,8 +555,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42852,
@@ -583,8 +582,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
             x = 6,
             y = 20,
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43486,
@@ -594,8 +593,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43487,
@@ -614,8 +613,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43535,
@@ -625,9 +624,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 110,
@@ -664,8 +663,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43491,
@@ -684,8 +683,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43541,
@@ -695,8 +694,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43492,
@@ -724,8 +723,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43699,
@@ -753,8 +752,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43700,
@@ -773,8 +772,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43785,
@@ -798,7 +797,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER, {
-    name = BtWQuests_GetQuestName(46045),
+    name = { -- Champion: Nerus Moonfang
+		type = "quest",
+		id = 46045,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_PALADIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -809,10 +811,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {
@@ -926,7 +930,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER, {
                 1
             },
         },
-        
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
@@ -948,10 +952,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_OTHER_FOLLOWER
         BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ANNOYING_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {

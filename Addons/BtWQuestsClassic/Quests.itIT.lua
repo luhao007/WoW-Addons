@@ -4823,9 +4823,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "Addestramento al combattimento",
     },
-    [26943] = {
-        name = "O Gnomeregan o morte",
-    },
     [26953] = {
         name = "Zen'kiki, il Druido",
     },

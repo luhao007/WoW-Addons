@@ -1,15 +1,15 @@
-﻿## Interface: 80205
-## X-Min-Interface: 80000
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Garrison Invasions|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0주둔지 침공|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0要塞入侵|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Garnisonsinvasionen|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Invasiones de la ciudadela|r
+## Interface: 80205
 ## Author: MysticalOS
-## LoadOnDemand: 1
+## Version: r45
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMGarrisonInvasions_AllSavedVars
 ## SavedVariablesPerCharacter: DBMGarrisonInvasions_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Garrison Invasions|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0要塞入侵|r
+
+## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
 ## X-DBM-Mod-Category: WOD
@@ -24,7 +24,6 @@
 ## X-DBM-Mod-MinCoreRevision: 15159
 ## X-Curse-Project-ID: 101956
 ## X-WoWI-ID: 24535
-## Version: r45
 
 localization.en.lua
 localization.fr.lua

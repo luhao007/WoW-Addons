@@ -1,11 +1,14 @@
-## Interface: 81000
-## Title: HandyNotes_WarfrontRares
+## Interface: 80205
 ## Version: 0.5.0
-## Notes: Warfront Rares
-## OptionalDeps: Ace3
 ## RequiredDeps: HandyNotes
-## X-Embeds: Ace3
+## OptionalDeps: Ace3
 ## SavedVariables: HandyNotesArathiDB
+
+## Title: HandyNotes_WarfrontRares
+## Notes: Warfront Rares
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0稀有 战争前线|r
+
+## X-Embeds: Ace3
 
 localization\enUS.lua
 localization\deDE.lua

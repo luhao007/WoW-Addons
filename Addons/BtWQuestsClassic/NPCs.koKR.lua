@@ -5,8 +5,26 @@ if GetLocale() ~= "koKR" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
+    [263] = {
+        name = "엘로 에본로크 경",
+    },
     [264] = {
         name = "사령관 알시아 에본로크",
+    },
+    [265] = {
+        name = "에바 부인",
+    },
+    [267] = {
+        name = "서기관 달트리",
+    },
+    [268] = {
+        name = "시라 본인디",
+    },
+    [272] = {
+        name = "주방장 그루얼",
+    },
+    [273] = {
+        name = "선술집주인 스미츠",
     },
     [276] = {
         name = "빅토리 프리즘안트라스",
@@ -29,6 +47,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [469] = {
         name = "부관 도렌",
     },
+    [576] = {
+        name = "순찰대원 래디모어",
+    },
     [663] = {
         name = "칼로",
     },
@@ -38,23 +59,41 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [739] = {
         name = "수사 니메츠",
     },
+    [770] = {
+        name = "하사관 칼레브",
+    },
+    [888] = {
+        name = "순찰대원 도즈",
+    },
     [900] = {
         name = "집행관 코나처",
     },
     [1068] = {
         name = "고른",
     },
+    [1071] = {
+        name = "결의의 롱브레이드",
+    },
     [1089] = {
         name = "산악경비대 코블플린트",
     },
+    [1090] = {
+        name = "산악경비대 월뱅",
+    },
     [1092] = {
         name = "경비대장 루겔퍼스",
+    },
+    [1105] = {
+        name = "예른 혼헬름",
     },
     [1141] = {
         name = "앵거스 스턴",
     },
     [1154] = {
         name = "마렉 아이언하트",
+    },
+    [1156] = {
+        name = "바이린 스위프트윈드",
     },
     [1187] = {
         name = "풋내기 다릴",
@@ -67,6 +106,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1343] = {
         name = "산악경비대 스톰파이크",
+    },
+    [1344] = {
+        name = "발굴조사단장 아이언밴드",
+    },
+    [1345] = {
+        name = "마그마 펠휴",
     },
     [1484] = {
         name = "데리나 럼드널",
@@ -82,6 +127,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1963] = {
         name = "비드라 하스스토브",
+    },
+    [2057] = {
+        name = "훌다르",
     },
     [2104] = {
         name = "경비대장 스타우트피스트",
@@ -110,6 +158,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [2608] = {
         name = "사령관 아마렌",
     },
+    [2610] = {
+        name = "셰익스 오브린",
+    },
     [2700] = {
         name = "부대장 나이얼스",
     },
@@ -121,6 +172,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [2771] = {
         name = "드럼 펠",
+    },
+    [2774] = {
+        name = "발명가 드랙슬게이지",
     },
     [2785] = {
         name = "실성한 텔두린",
@@ -908,9 +962,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [35827] = {
         name = "발리쉬",
     },
-    [35902] = {
-        name = "군주 하이드로니스",
-    },
     [36034] = {
         name = "카눔 마쉬위버",
     },
@@ -1010,9 +1061,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [37835] = {
         name = "도른 레드어스",
     },
-    [37837] = {
-        name = "장군 블러드힐트",
-    },
     [37847] = {
         name = "만크릭",
     },
@@ -1026,9 +1074,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "크로골",
     },
     [38140] = {
-        name = "위질 슬립섀도",
-    },
-    [38152] = {
         name = "위질 슬립섀도",
     },
     [38237] = {
@@ -1090,9 +1135,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [38623] = {
         name = "부두주임 루이스",
-    },
-    [38703] = {
-        name = "멕스 드레드슈레더",
     },
     [38704] = {
         name = "켈시 스틸스파크",
@@ -1156,9 +1198,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [39178] = {
         name = "드리즈 플렁크보우",
-    },
-    [39188] = {
-        name = "말리 트윈브레이드",
     },
     [39256] = {
         name = "칼렌 트루샷",
@@ -1466,6 +1505,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41612] = {
         name = "여사냥꾼 익젤리아",
     },
+    [41615] = {
+        name = "페릴론 리프본",
+    },
     [41638] = {
         name = "사냥개조련사 조나단",
     },
@@ -1588,6 +1630,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [44082] = {
         name = "브론윈 휴스트라이크",
+    },
+    [44200] = {
+        name = "정찰병 돌리",
+    },
+    [44345] = {
+        name = "카나리 캐스크샷",
     },
     [44374] = {
         name = "셤",
@@ -1715,17 +1763,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [47341] = {
         name = "신비술사 델라리스",
     },
-    [47366] = {
-        name = "임프시",
-    },
     [47383] = {
         name = "브리블스워프",
     },
     [47393] = {
         name = "산의 제왕 렌단",
-    },
-    [47429] = {
-        name = "돌머리",
     },
     [47440] = {
         name = "아그네스 플림셰일",
@@ -1784,9 +1826,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48109] = {
         name = "존 J. 키샨",
     },
-    [48110] = {
-        name = "대령 트로트먼",
-    },
     [48126] = {
         name = "이수랄 포레스트스원",
     },
@@ -1804,9 +1843,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [48306] = {
         name = "존 J. 키샨",
-    },
-    [48307] = {
-        name = "대령 트로트먼",
     },
     [48333] = {
         name = "현장감독 피크윅",
@@ -1831,12 +1867,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [48493] = {
         name = "알톤 레딩",
-    },
-    [48559] = {
-        name = "아리오크",
-    },
-    [48565] = {
-        name = "아리오크",
     },
     [48568] = {
         name = "아이트리그",

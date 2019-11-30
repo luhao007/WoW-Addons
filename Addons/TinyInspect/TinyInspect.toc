@@ -1,11 +1,13 @@
-## Interface: 80200
-## Title: TinyInspect
-## Version: 8.2.1
-## Notes: Show ItemLevel For Inspect & Party & Raid & Mouse & Bag & Bank ...
-## Notes-zhCN: 装等观察,装等显示
-## Notes-zhTW: 裝等觀察,裝等顯示
+## Interface: 80205
 ## Author: M
+## Version: 8.2.1
 ## SavedVariables: TinyInspectDB
+
+## Title: TinyInspect
+## Notes: Show ItemLevel For Inspect & Party & Raid & Mouse & Bag & Bank ...
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF装备观察|r |cFFFFE00ATinyInspect|r
+## Notes-zhCN: 独立的装备列表
+
 
 libs\lib.xml
 

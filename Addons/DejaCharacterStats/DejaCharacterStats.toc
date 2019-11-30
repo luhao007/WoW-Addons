@@ -1,11 +1,13 @@
-## Interface: 80200
-## Version: 820r202
-## Title: |cff00c0ffDejaCharacterStats|r
+## Interface: 80205
 ## Author: Dejablue, Kakjens, loudsoul
-## Notes: Dejablue's improved character stats panel view.
-## SavedVariables: DejaCharacterStatsDB
+## Version: 820r202
 ## SavedVariables: DCS_ClassSpecDB
 ## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
+
+## Title: |cff00c0ffDejaCharacterStats|r
+## Notes: Dejablue's improved character stats panel view.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF角色属性|r |cFFFFE00ADejaCharacterStats|r
+## Notes-zhCN: 在角色面板中显示额外的信息，如法术命中等
 
 ## X-Category: Class
 ## X-License: MIT License: Use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so on condition this MIT notice and attribution is included with distribution.

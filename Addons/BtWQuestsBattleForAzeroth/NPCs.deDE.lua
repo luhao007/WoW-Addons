@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Scharfstahl",
     },
+    [14720] = {
+        name = "Hochfürst Saurfang",
+    },
     [15192] = {
         name = "Anachronos",
     },

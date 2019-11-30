@@ -431,9 +431,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_LOST_MAIL, {
         {
             name = L["HEAD_TO_THE_DALARAN_MAILROOM"],
             breadcrumb = true,
-            onClick = function ()
-                BtWQuests_ShowMapWithWaypoint(627, 0.3342, 0.3164, L["DALARAN_MAILROOM_ENTRANCE"])
-            end,
+            onClick = {
+                type = "coords",
+                mapID = 627,
+                x = 0.3342,
+                y = 0.3164,
+                name = L["DALARAN_MAILROOM_ENTRANCE"],
+            },
             x = 3,
             y = 1,
             connections = {
@@ -488,9 +492,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_LOST_MAIL, {
         {
             name = L["RETURN_TO_THE_DALARAN_MAILROOM"],
             breadcrumb = true,
-            onClick = function ()
-                BtWQuests_ShowMapWithWaypoint(627, 0.3342, 0.3164, L["DALARAN_MAILROOM_ENTRANCE"])
-            end,
+            onClick = {
+                type = "coords",
+                mapID = 627,
+                x = 0.3342,
+                y = 0.3164,
+                name = L["DALARAN_MAILROOM_ENTRANCE"],
+            },
             x = 3,
             y = 7,
             connections = {

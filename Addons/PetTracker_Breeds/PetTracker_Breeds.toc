@@ -1,10 +1,12 @@
 ## Interface: 80205
+## Author: Jaliborc (JoÃ£o Cardoso)
+## Version: 8.2.2
+## Dependencies: PetTracker
+
 ## Title: PetTracker Breeds
 ## Notes: Displays the breed of pets in the Pet Journal, while in battle and on tooltips.
-## Author: Jaliborc (João Cardoso)
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF69CCF0品种|r
 
-## Dependencies: PetTracker
 ## X-Category: Battle Pets
-## Version: 8.2.2
 
 ..\PetTracker\Features\Breeds.lua

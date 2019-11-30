@@ -16,6 +16,9 @@ end
 local BtWQuestsCharactersMap = {} -- Map from name-realm to Character Mixin
 
 BtWQuestsCharactersCharacterMixin = {}
+function BtWQuestsCharactersCharacterMixin:IsPartySync()
+    return false
+end
 function BtWQuestsCharactersCharacterMixin:IsPlayer()
     return false
 end
@@ -596,6 +599,9 @@ function BtWQuestsCharactersPlayerMixin:GetQuestLogLeaderBoard(objective, questI
 end
 
 BtWQuestsCharactersPartySyncMixin = Mixin({}, BtWQuestsCharactersPlayerMixin)
+function BtWQuestsCharactersPartySyncMixin:IsPartySync()
+    return true
+end
 function BtWQuestsCharactersPartySyncMixin:GetName()
     return BtWQuests.L["Party Sync"];
 end

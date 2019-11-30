@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Forjacero",
     },
+    [14720] = {
+        name = "Alto señor supremo Colmillosauro",
+    },
     [15192] = {
         name = "Anacronos",
     },

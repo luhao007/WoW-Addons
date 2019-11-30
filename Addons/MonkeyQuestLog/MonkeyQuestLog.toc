@@ -1,8 +1,12 @@
-﻿## Interface: 80200
+## Interface: 80205
+## Author: Trentin, Jim-Bim
+## Dependencies: MonkeyLibrary, MonkeyQuest
+## SavedVariables: mkql_Saved
+
 ## Title: MonkeyQuestLog v0.10.2
 ## Notes: Replacement Quest Log.
-## Notes-deDE: Ersetzt den Questlog.
-## Author: Trentin, Jim-Bim
-## SavedVariables: mkql_Saved
-## Dependencies: MonkeyLibrary, MonkeyQuest
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFFMonkey任务窗口|r |cFFFFE00AMonkeyQuestLog|r
+## Notes-zhCN: 独立任务窗口
+
+
 MonkeyQuestLogFrame.xml

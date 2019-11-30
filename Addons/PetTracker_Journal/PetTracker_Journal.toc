@@ -1,13 +1,15 @@
 ## Interface: 80205
+## Author: Jaliborc (JoÃ£o Cardoso)
+## Version: 8.2.2
+## Dependencies: PetTracker
+## LoadOnDemand: 1
+## LoadWith: Blizzard_Collections
+
 ## Title: PetTracker Journal
 ## Notes: Load on demand modification for the Pet Journal.
-## Author: Jaliborc (João Cardoso)
-## X-Category: Battle Pets
-## Version: 8.2.2
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF69CCF0日志|r
 
-## Dependencies: PetTracker
-## LoadWith: Blizzard_Collections
-## LoadOnDemand: 1
+## X-Category: Battle Pets
 
 ..\PetTracker\Libs\SecureTabs-2.0\SecureTabs-2.0.lua
 ..\PetTracker\Components\Journal\Include.xml

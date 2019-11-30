@@ -1,0 +1,98 @@
+## Interface: 80205
+
+## Title: Ace Libs
+## Notes: Ace libs.
+## Title-zhCN: |cFFFFE00A<|r|cFFFF0000基础库|r|cFFFFE00A>|r |cFFFFFFFF|cFF7FFF7FAce核心库|r |cFFFF0000必须加载|r|r
+## Notes-zhCN: 插件基础函数库|N|CFFFF0000必须加载|R
+
+## X-Repple: 函数库
+
+# Common Handler Libs
+Ace3\LibStub\LibStub.lua
+LibUIDropDownMenu\LibUIDropDownMenu.xml
+Ace3\CallbackHandler-1.0\CallbackHandler-1.0.xml
+LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+# Ace3 Libs
+Ace3\AceAddon-3.0\AceAddon-3.0.xml
+Ace3\AceEvent-3.0\AceEvent-3.0.xml
+Ace3\AceTimer-3.0\AceTimer-3.0.xml
+Ace3\AceBucket-3.0\AceBucket-3.0.xml
+Ace3\AceHook-3.0\AceHook-3.0.xml
+Ace3\AceDB-3.0\AceDB-3.0.xml
+Ace3\AceDBOptions-3.0\AceDBOptions-3.0.xml
+Ace3\AceLocale-3.0\AceLocale-3.0.xml
+Ace3\AceConsole-3.0\AceConsole-3.0.xml
+Ace3\AceGUI-3.0\AceGUI-3.0.xml
+Ace3\AceConfig-3.0\AceConfig-3.0.xml
+Ace3\AceComm-3.0\AceComm-3.0.xml
+Ace3\AceTab-3.0\AceTab-3.0.xml
+Ace3\AceSerializer-3.0\AceSerializer-3.0.xml
+Ace3\Ace3.lua
+
+# Ace3 Additional Libs
+LibSharedMedia-3.0\lib.xml
+AceGUI-3.0-SharedMediaWidgets\widget.xml
+
+# Libs Needs to be Imported before Other Libs
+LibCompress\lib.xml
+UTF8\utf8data.lua
+UTF8\utf8.lua
+
+# HereBeDragons
+HereBeDragons\HereBeDragons-2.0.lua
+HereBeDragons\HereBeDragons-Pins-2.0.lua
+# For migrate
+HereBeDragons\HereBeDragons-Migrate.lua
+
+# LibBabbles
+LibBabble\LibBabble-3.0.lua
+LibBabble\LibBabble-Boss-3.0\lib.xml
+LibBabble\LibBabble-CreatureType-3.0\lib.xml
+LibBabble\LibBabble-Faction-3.0\lib.xml
+LibBabble\LibBabble-Inventory-3.0\lib.xml
+LibBabble\LibBabble-ItemSet-3.0\lib.xml
+LibBabble\LibBabble-Race-3.0\lib.xml
+LibBabble\LibBabble-SubZone-3.0\lib.xml
+LibBabble\LibBabble-Zone-3.0\lib.xml
+
+# DR Libs
+DRData-1.0\DRData-1.0.xml
+DRList-1.0\DRList-1.0.xml
+
+# Other Ace Libs
+LibAddonInfo-1.0\lib.xml
+LibAboutPanel\lib.xml
+LibAlts-1.0\LibAlts-1.0.lua
+LibBossIDs-1.0\lib.xml
+LibCandyBar-3.0\lib.xml
+LibChatAnims\LibChatAnims.xml
+LibChatHandler-1.0\lib.xml
+LibDBIcon-1.0\lib.xml
+LibDeformat-3.0\LibDeformat-3.0.lua
+LibDDI-1.0\lib.xml
+LibDialog-1.0\lib.xml
+LibDogTag-3.0\lib.xml
+LibDogTag-Stats-3.0\lib.xml
+LibDogTag-Unit-3.0\lib.xml
+LibDualSpec-1.0\LibDualSpec-1.0.lua
+LibDurability\LibDurability.xml
+LibGraph-2.0\LibGraph-2.0.lua
+LibGroupInSpecT-1.1\lib.xml
+LibItemInfo-1.0\LibItemInfo-1.0.lua
+LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
+LibLatency\LibLatency.xml
+LibNotify-1.0\lib.xml
+LibOO-1.0\lib.xml
+LibPetJournal-2.0\LibPetJournal-2.0.lua
+LibQTip-1.0\lib.xml
+LibRangeCheck-2.0\LibRangeCheck-2.0.lua
+LibRealmInfo\LibRealmInfo.lua
+LibSink-2.0\lib.xml
+LibSpellRange-1.0\lib.xml
+LibTextDump-1.0\lib.xml
+LibToast-1.0\lib.xml
+LibTourist-3.0\LibTourist-3.0.lua
+LibWindow-1.1\LibWindow-1.1.lua
+
+Libra\Libra.xml

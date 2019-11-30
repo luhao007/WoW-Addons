@@ -1,20 +1,21 @@
 ## Interface: 80205
-## Title: HandyNotes
-## Notes: Handy notes for your maps
-## Notes-frFR: Notes pratiques pour vos cartes.
 ## Author: Xinhuan
 ## Version: v1.5.9
+## OptionalDeps: Ace3, TomTom, HereBeDragons
+## LoadManagers: AddonLoader
+## SavedVariables: HandyNotesDB, HandyNotes_HandyNotesDB
 ## DefaultState: enabled
+
+## Title: HandyNotes
+## Notes: Handy notes for your maps
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFFFFE00AHandyNotes|r
+## Notes-zhCN: 可以在地图上添加标记
+
 ## X-Category: Map
 ## X-eMail: xinhuan @ gmail DOT com
-## OptionalDeps: Ace3, TomTom, HereBeDragons
 ## X-Curse-Project-ID: 14154
 ## X-WoWI-ID: 15716
-
-## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
-
-## SavedVariables: HandyNotesDB, HandyNotes_HandyNotesDB
 
 # Locale files
 Locales\Locale-enUS.lua

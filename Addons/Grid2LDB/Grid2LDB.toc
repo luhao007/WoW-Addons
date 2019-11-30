@@ -1,13 +1,13 @@
-## Interface: 80200
-## Title: Grid2 |cd3ff7d0aLDB|r
-## Notes: Grid2 Databroker Launcher.
-## Notes-esES: Lanzador del Grid2 (Databroker)
+## Interface: 80205
 ## Author: Michael
-
+## Version: r936
 ## Dependencies: Grid2
 ## OptionalDeps: LibDataBroker-1.1
 
-## Version: r936
+## Title: Grid2 |cd3ff7d0aLDB|r
+## Notes: Grid2 Databroker Launcher.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF22B14C库文件|r
+
 ## X-ReleaseDate: "$Date: 2011-04-14 23:42:17 -0700 (Tue, 14 Apr 2011) $"
 ## X-Category: Databroker
 ## X-Website: none

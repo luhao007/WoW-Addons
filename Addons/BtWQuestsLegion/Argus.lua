@@ -1005,7 +1005,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARGUS_WAR_OF_LIGHT_AND_SHADOW,
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARGUS_WRANGLERS, {
-    name = BtWQuests_GetQuestName(48460),
+    name = { -- The Wranglers
+        type = "quest",
+        id = 48460,
+    },
     category = BTWQUESTS_CATEGORY_LEGION_ARGUS,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     prerequisites = {

@@ -1,12 +1,14 @@
-﻿## Interface: 80200
-## Title: Raid|cff7fff7fAchievement|r - Cataclysm raids
-## Title-ruRU: Raid|cff7fff7fAchievement|r - Рейды Катаклизма
+## Interface: 80205
 ## Author: Shurshik
-## Notes: RaidAchievement Cataclysm Raids Module
-## Notes-ruRU: Модуль RaidAchievement - Рейды Катаклизма
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: crraspisokon
+
+## Title: Raid|cff7fff7fAchievement|r - Cataclysm raids
+## Notes: RaidAchievement Cataclysm Raids Module
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0大地的裂变团队|r
+
+
 RaidAchievement_CataRaids.lua
 RaidAchievement_CataRaids.xml
 RaidAchievement_CataRaidsbosses.lua

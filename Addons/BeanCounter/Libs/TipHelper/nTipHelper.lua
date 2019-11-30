@@ -1,7 +1,7 @@
 --[[
 	Norganna's Tooltip Helper class
 	Version: 1,4
-	Revision: $Id: nTipHelper.lua 6386 2019-09-25 00:20:07Z none $
+	Revision: $Id: nTipHelper.lua 6476 2019-11-02 14:38:37Z none $
 	URL: http://norganna.org/tthelp
 
 	This is a slide-in helper class for the Norganna's AddOns family of AddOns
@@ -528,4 +528,4 @@ do -- tooltip class definition
 
 end -- tooltip class definition
 
-LibStub("LibRevision"):Set("$URL: Auc-Advanced/Libs/TipHelper/nTipHelper.lua $","$Rev: 6386 $","5.12.DEV.", 'auctioneer', 'libs')
+LibStub("LibRevision"):Set("$URL: Auc-Advanced/Libs/TipHelper/nTipHelper.lua $","$Rev: 6476 $","5.12.DEV.", 'auctioneer', 'libs')

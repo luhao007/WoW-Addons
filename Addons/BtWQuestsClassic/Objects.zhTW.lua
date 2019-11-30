@@ -11,6 +11,12 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "懸賞！",
     },
+    [2701] = {
+        name = "虹光水晶裂片",
+    },
+    [2702] = {
+        name = "內禁錮之石",
+    },
     [2713] = {
         name = "通緝板",
     },
@@ -19,6 +25,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [20992] = {
         name = "黑色盾牌",
+    },
+    [138492] = {
+        name = "密斯賴爾水晶裂片",
     },
     [142195] = {
         name = "木爪作戰地圖",
@@ -82,6 +91,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "半埋的瓶子",
+    },
+    [204817] = {
+        name = "光鑄節杖",
+    },
+    [204824] = {
+        name = "光鑄牙弓",
+    },
+    [204825] = {
+        name = "光鑄羽冠",
     },
     [205332] = {
         name = "懸賞告示",

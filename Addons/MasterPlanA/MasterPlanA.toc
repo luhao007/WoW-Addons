@@ -1,7 +1,10 @@
-## Interface: 80200
+## Interface: 80205
+## Version: A
+## SavedVariables: MasterPlanAG
+
 ## Title: Master Plan A
 ## Notes: A vital part of any Master Plan.|n|n|cff36e5ff"Stay cool; the alphabet has 28 more letters."
-## SavedVariables: MasterPlanAG
-## Globe-Main: MasterPlan
-## Version: A
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF要塞助手|r |cFF69CCF0额外功能|r
+
+
 ..\MasterPlan\PlanA\PlanA.xml

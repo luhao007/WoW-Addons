@@ -15,16 +15,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La balada de Maximillian",
     },
     [32442] = {
-        name = "Peligro inminente",
+        name = "Peligros que se avecinan",
     },
     [36811] = {
-        name = "Reconquista Faronaar",
+        name = "Recupera Faronaar",
     },
     [36920] = {
-        name = "Desde dentro",
+        name = "Desde adentro",
     },
     [37256] = {
-        name = "Vinieron del mar",
+        name = "Llegaron desde el mar",
     },
     [37257] = {
         name = "Nuestros propios huesos",
@@ -36,22 +36,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un plan sencillo",
     },
     [37449] = {
-        name = "Revelaciones oscuras",
+        name = "Revelaciones siniestras",
     },
     [37450] = {
-        name = "Salvar a Stellagosa",
+        name = "Rescatando a Stellagosa",
     },
     [37466] = {
         name = "La academia destrozada",
     },
     [37467] = {
-        name = "El paseo de la infamia",
+        name = "La caminata de la vergüenza",
     },
     [37468] = {
-        name = "A la Academia",
+        name = "Hacia la Academia",
     },
     [37469] = {
-        name = "La Piedramar: Destrozada",
+        name = "La Maretista: fragmentada",
     },
     [37470] = {
         name = "La cabeza de la serpiente",
@@ -63,49 +63,49 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una caminata un poco larga",
     },
     [37494] = {
-        name = "Bajo el manto de la oscuridad",
+        name = "La cubierta de la Oscuridad",
     },
     [37495] = {
         name = "Saquear la caleta",
     },
     [37496] = {
-        name = "Infiltración en Arena del Naufragio",
+        name = "Infiltrándose en la arena del naufragio",
     },
     [37497] = {
-        name = "Tras la pista de la Piedramar",
+        name = "Tras la Maretista",
     },
     [37507] = {
-        name = "El jefe Tripaballena es el que manda",
+        name = "El jefe Barriga de Ballena está a cargo",
     },
     [37510] = {
-        name = "El campeón de Severicio",
+        name = "El campeón de Brazapopa",
     },
     [37518] = {
-        name = "Las salas encantadas",
+        name = "Los salones embrujados",
     },
     [37528] = {
-        name = "No despertar a un gigante dormido",
+        name = "Que los gigantes durmientes descansen",
     },
     [37530] = {
-        name = "Sálvate tú",
+        name = "Sálvate",
     },
     [37536] = {
-        name = "Potenciador de moral",
+        name = "Subiendo la moral",
     },
     [37538] = {
-        name = "Primer asalto, ¡a luchar!",
+        name = "¡Ronda 1! ¡A luchar!",
     },
     [37542] = {
         name = "No hay tiempo para pruebas",
     },
     [37565] = {
-        name = "El arma adecuada para el trabajo",
+        name = "El arma correcta para la tarea",
     },
     [37566] = {
-        name = "El príncipe va a pringar",
+        name = "El príncipe caerá",
     },
     [37653] = {
-        name = "Almas demoníacas",
+        name = "Almas de demonio",
     },
     [37654] = {
         name = "Ley marítima",
@@ -114,22 +114,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Maquinaciones viles",
     },
     [37657] = {
-        name = "Cómo hacer que el mundo dé beneficios",
+        name = "Haciendo del mundo un lugar seguro para el lucro",
     },
     [37658] = {
-        name = "Reactiva los resguardos",
+        name = "Nueva vida a los protectores",
     },
     [37659] = {
-        name = "El baúl del capitán",
+        name = "El armario del Capitán",
     },
     [37660] = {
         name = "La Guadaña de Almas",
     },
     [37666] = {
-        name = "Buscar pelea",
+        name = "Buscando pelea",
     },
     [37678] = {
-        name = "A hincar los codos",
+        name = "A los libros",
     },
     [37689] = {
         name = "El impostor",
@@ -144,7 +144,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La presentación lo es todo",
     },
     [37729] = {
-        name = "Examen sorpresa: dibujo de runas avanzado",
+        name = "Examen sorpresa: dibujo avanzado de runas",
     },
     [37730] = {
         name = "Las llaves de la directora",
@@ -153,19 +153,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Príncipe Farondis",
     },
     [37736] = {
-        name = "Vestirse con clase",
+        name = "Vistiéndose con elegancia",
     },
     [37779] = {
         name = "Inclina la balanza",
     },
     [37853] = {
-        name = "La muerte del primogénito",
+        name = "La muerte del mayor",
     },
     [37855] = {
         name = "Los últimos de los últimos",
     },
     [37856] = {
-        name = "Los Marchitos",
+        name = "Los marchitos",
     },
     [37857] = {
         name = "Runas conoce el camino",
@@ -177,61 +177,61 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Los consumidos",
     },
     [37860] = {
-        name = "Tú me rascas la espalda...",
+        name = "Si tú me ayudas...",
     },
     [37861] = {
-        name = "El príncipe Nocheterna",
+        name = "El príncipe natonocturno",
     },
     [37862] = {
         name = "Aún con vida",
     },
     [37957] = {
-        name = "Runas el Avergonzado",
+        name = "Runas el Humillado",
     },
     [37959] = {
-        name = "Vuelve el hambre",
+        name = "El hambre regresa",
     },
     [37960] = {
-        name = "Abuso de la línea Ley",
+        name = "Abusando de la línea ley",
     },
     [37963] = {
-        name = "Los que no tienen remedio",
+        name = "Los que están más allá de la redención",
     },
     [37965] = {
         name = "Una cosecha corrompida",
     },
     [37991] = {
-        name = "Agapanthus",
+        name = "Agapanto",
     },
     [38014] = {
-        name = "Arrasar dragones",
+        name = "Devorar al dragón",
     },
     [38015] = {
-        name = "Al límite",
+        name = "Al borde",
     },
     [38035] = {
-        name = "Un edicto real",
+        name = "Una citación real",
     },
     [38036] = {
-        name = "Suministros caídos del cielo",
+        name = "Suministros desde los cielos",
     },
     [38052] = {
-        name = "¡Abordados!",
+        name = "¡Abordaje!",
     },
     [38053] = {
-        name = "Dando batería",
+        name = "Asalto y batería",
     },
     [38057] = {
-        name = "La legión perdida",
+        name = "La Legión perdida",
     },
     [38058] = {
         name = "Pararrayos",
     },
     [38059] = {
-        name = "Hormigueo",
+        name = "Calambres",
     },
     [38060] = {
-        name = "Señal potenciada",
+        name = "Señales de vida",
     },
     [38142] = {
         name = "Archidruida de la Zarpa",
@@ -240,31 +240,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El despertar de la archidruida",
     },
     [38144] = {
-        name = "Los demonios de abajo",
+        name = "Los demonios debajo",
     },
     [38145] = {
-        name = "Adiós al sueño",
+        name = "Fuera del sueño",
     },
     [38146] = {
-        name = "Los abalorios del jefe",
+        name = "Las cuentas del jefe",
     },
     [38147] = {
         name = "Sueños enredados",
     },
     [38148] = {
-        name = "Retorno a la Arboleda",
+        name = "Regreso a la Arboleda",
     },
     [38203] = {
         name = "Viñedos Challiane",
     },
     [38206] = {
-        name = "De ronda",
+        name = "De lugar en lugar",
     },
     [38210] = {
-        name = "Las antiguas pruebas",
+        name = "Las pruebas ancestrales",
     },
     [38225] = {
-        name = "Matar a la bruja madre",
+        name = "Muerte a la Bruja Madre",
     },
     [38232] = {
         name = "¡Sirviente! ¡Mátalos!",
@@ -282,58 +282,52 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ojo de Azshara: Cólera de Azshara",
     },
     [38305] = {
-        name = "Cenarius, vigilante de la arboleda",
+        name = "Cenarius, protector de la arboleda",
     },
     [38307] = {
         name = "La Jefa de Guerra llama",
     },
     [38312] = {
-        name = "Misión con gancho",
+        name = "Un gancho al día",
     },
     [38318] = {
-        name = "No hacen falta alas",
-    },
-    [38322] = {
-        name = "Regreso a la Arboleda",
-    },
-    [38323] = {
-        name = "Regreso a la Arboleda",
+        name = "No se necesitan alas",
     },
     [38324] = {
         name = "Accesorios de los malditos",
     },
     [38331] = {
-        name = "La prueba de Havi",
+        name = "El test de Havi",
     },
     [38332] = {
         name = "El señor forestal",
     },
     [38337] = {
-        name = "Escamados",
+        name = "Hecho para escalar",
     },
     [38339] = {
-        name = "Lo que alga falta",
+        name = "Un poco de alga de mis enemigos",
     },
     [38342] = {
         name = "Otra vía",
     },
     [38347] = {
-        name = "Esquinazo con sargazo",
+        name = "Sigilo con alga",
     },
     [38357] = {
-        name = "Posibles efectos secundarios: una leve no-muerte",
+        name = "Los efectos secundarios pueden incluir no-muerte leve",
     },
     [38358] = {
-        name = "Chapapoteando",
+        name = "A bombear",
     },
     [38360] = {
-        name = "El destino de El Brisaveloz",
+        name = "El destino del Brisaveloz",
     },
     [38361] = {
-        name = "La ira del Clamañublo",
+        name = "Cólera del Clamañublo",
     },
     [38362] = {
-        name = "Un trofeo lúgubre",
+        name = "Un trofeo aterrador",
     },
     [38372] = {
         name = "Hermanas desdichadas",
@@ -345,46 +339,46 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La Reina Esmeralda",
     },
     [38381] = {
-        name = "Archidruida del Conocimiento",
+        name = "Archidruida del conocimiento",
     },
     [38382] = {
-        name = "Archidruida del Valle",
+        name = "Archidruida del valle",
     },
     [38384] = {
-        name = "La llamada de la naturaleza",
+        name = "Llamada de la naturaleza",
     },
     [38405] = {
-        name = "Capear la tormenta",
+        name = "Para sobrevivir la tormenta",
     },
     [38407] = {
         name = "Embotellado",
     },
     [38410] = {
-        name = "Seguro contra empalamientos",
+        name = "Seguro antiarpones",
     },
     [38412] = {
-        name = "Más allá de la luz de luna invernal",
+        name = "Por encima de la luz de la luna invernal",
     },
     [38413] = {
-        name = "Alas de libertad",
+        name = "Alas de la Libertad",
     },
     [38414] = {
-        name = "Corazón de un dragón",
+        name = "El corazón de un dragón",
     },
     [38443] = {
         name = "Viaje al Reposo",
     },
     [38455] = {
-        name = "Fúrbolgs demenciados",
+        name = "Fúrbolgs frenéticos",
     },
     [38459] = {
-        name = "Las antiguas pruebas",
+        name = "Las pruebas ancestrales",
     },
     [38460] = {
         name = "Hagamos un trato",
     },
     [38473] = {
-        name = "Voluntad de los Thorignir",
+        name = "La voluntad de los Thorignir",
     },
     [38499] = {
         name = "Menas nuevas y extrañas",
@@ -393,7 +387,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Maestría de herrería de piedra ley",
     },
     [38501] = {
-        name = "Productos de Espiral de Odio",
+        name = "Productos de Odio Espiral",
     },
     [38502] = {
         name = "Los métodos de los caídos de la noche",
@@ -456,7 +450,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Conocimiento tribal",
     },
     [38558] = {
-        name = "Encandilador oscilador",
+        name = "En busca del oscilador",
     },
     [38559] = {
         name = "Digno de la piedra",
@@ -471,40 +465,40 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una fuerza unida",
     },
     [38576] = {
-        name = "Nos vemos en Esperanza de la Luz",
+        name = "Nos veremos en Esperanza de la Luz",
     },
     [38582] = {
-        name = "Por los viejos amigos",
+        name = "Viejos amigos",
     },
     [38595] = {
         name = "La furia de Malfurion",
     },
     [38611] = {
-        name = "Voluntad de los Thorignir",
+        name = "La voluntad de los Thorignir",
     },
     [38612] = {
-        name = "Misión con gancho",
+        name = "Un gancho al día",
     },
     [38613] = {
-        name = "No hacen falta alas",
+        name = "No se necesitan alas",
     },
     [38614] = {
-        name = "Capear la tormenta",
+        name = "Para sobrevivir la tormenta",
     },
     [38615] = {
-        name = "Seguro contra empalamientos",
+        name = "Seguro antiarpones",
     },
     [38616] = {
-        name = "Escamados",
+        name = "Hecho para escalar",
     },
     [38617] = {
         name = "Otra vía",
     },
     [38618] = {
-        name = "Más allá de la luz de luna invernal",
+        name = "Por encima de la luz de la luna invernal",
     },
     [38624] = {
-        name = "¡Truenos!",
+        name = "¡Trueno estrepitoso!",
     },
     [38641] = {
         name = "El Templo de Elune",
@@ -516,7 +510,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Las granjas",
     },
     [38645] = {
-        name = "Los hijos de la noche",
+        name = "Hijos de la noche",
     },
     [38646] = {
         name = "Dichosos los ojos",
@@ -528,16 +522,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Silencio en la ciudad",
     },
     [38655] = {
-        name = "La raíz de todo",
+        name = "Problema de raíz",
     },
     [38656] = {
         name = "La marca del demonio",
     },
     [38662] = {
-        name = "Lágrimas de miedo",
+        name = "Lágrimas y miedos",
     },
     [38663] = {
-        name = "La suerte está echada",
+        name = "El destino está escrito",
     },
     [38671] = {
         name = "Perdido en la retirada",
@@ -549,10 +543,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Corazón de la Pesadilla",
     },
     [38684] = {
-        name = "Leer las hojas",
+        name = "Leyendo las hojas",
     },
     [38687] = {
-        name = "Tan cerca, pero tan lejos...",
+        name = "Tan cerca que se puede tocar",
     },
     [38689] = {
         name = "Infusión vil",
@@ -564,13 +558,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La misión de Jarod",
     },
     [38692] = {
-        name = "Responder a la agresión",
+        name = "Respuesta a la agresión",
     },
     [38694] = {
-        name = "Reorganización",
+        name = "Reagrupar",
     },
     [38695] = {
-        name = "Ofensiva",
+        name = "Mano dura",
     },
     [38710] = {
         name = "Una reunión urgente",
@@ -582,31 +576,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El rastro de Maiev",
     },
     [38715] = {
-        name = "La guardia del grajo",
+        name = "La guardia de la Torre",
     },
     [38716] = {
         name = "Fuerte Torre Oscura",
     },
     [38717] = {
-        name = "Prisión Grajo Negro",
+        name = "Prisión de la Torre Oscura",
     },
     [38718] = {
         name = "Kur'talos Cresta Cuervo",
     },
     [38719] = {
-        name = "Libertad para los Illidari",
+        name = "Libertad illidari",
     },
     [38720] = {
-        name = "Sin motivos para quedarse",
+        name = "No hay razón para quedarse",
     },
     [38721] = {
-        name = "Teniente del torreón",
+        name = "Teniente de la torre",
     },
     [38723] = {
         name = "¡Detén a Gul'dan!",
     },
     [38724] = {
-        name = "Amor fraterno",
+        name = "Amor fraternal",
     },
     [38725] = {
         name = "Hacia la guardería fétida",
@@ -639,13 +633,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Antes de que nos invadan",
     },
     [38778] = {
-        name = "Girar las llaves",
+        name = "Usa las llaves",
     },
     [38808] = {
-        name = "Bjornhjarta",
+        name = "Bjornharta",
     },
     [38810] = {
-        name = "El hongo de ensueño",
+        name = "El hongo durmiente",
     },
     [38811] = {
         name = "El día del juicio",
@@ -654,13 +648,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Órdenes para tus capitanes",
     },
     [38815] = {
-        name = "Despertar a la doncella escudera",
+        name = "Despertando a la doncella escudera",
     },
     [38816] = {
-        name = "A por los oradores de huesos",
+        name = "Quebrando a los parlahuesos",
     },
     [38817] = {
-        name = "Restos regios",
+        name = "Restos de la realeza",
     },
     [38818] = {
         name = "El juicio final",
@@ -681,31 +675,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Tumulto feérico",
     },
     [38857] = {
-        name = "Un favor al Sr. Shackle",
+        name = "Un favor para el Sr. Cadena",
     },
     [38862] = {
         name = "Cardohojas ladrones",
     },
     [38872] = {
-        name = "Los designios de la Dama Oscura",
+        name = "Las órdenes de la Dama Oscura",
     },
     [38873] = {
-        name = "¡Despejadlo todo!",
+        name = "¡Despejen la cubierta!",
     },
     [38878] = {
-        name = "Escudado en el secreto",
+        name = "Secretos resguardados",
     },
     [38882] = {
-        name = "Una vida nueva para los no-muertos",
+        name = "Una nueva vida para los no-muertos",
     },
     [38904] = {
         name = "Vuelve a la Costa Quebrada.",
     },
     [38907] = {
-        name = "Guardianes del Martillo",
+        name = "Guardianes del martillo",
     },
     [38909] = {
-        name = "A terreno elevado",
+        name = "Ve a tierra alta",
     },
     [38910] = {
         name = "Rocs contra águilas",
@@ -714,22 +708,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La tribu Crin de Río",
     },
     [38912] = {
-        name = "La tribu Tótem Sangriento",
+        name = "La tribu Tótem de Sangre",
     },
     [38913] = {
         name = "La tribu Cuerno del Cielo",
     },
     [38915] = {
-        name = "La batalla de Mesa Velonieve",
+        name = "Batalla de la Meseta Veloneve",
     },
     [38916] = {
-        name = "Secretos de Monte Alto",
+        name = "Los secretos de Altamontaña",
     },
     [38922] = {
-        name = "Pelusín",
+        name = "Pelitos",
     },
     [38933] = {
-        name = "Cuestiones logísticas",
+        name = "Asuntos logísticos",
     },
     [38944] = {
         name = "Y para un descosido",
@@ -816,25 +810,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¡Inspírame!",
     },
     [38990] = {
-        name = "La llamada de Corona de Hielo",
+        name = "El llamado de Corona de Hielo",
     },
     [39015] = {
-        name = "Protestón",
+        name = "Gruñón",
     },
     [39025] = {
-        name = "En poder del Infrarrey",
+        name = "Agarre del infrarrey",
     },
     [39026] = {
-        name = "Los drógbar",
+        name = "Los drogbar",
     },
     [39027] = {
-        name = "Dargrul y el Martillo",
+        name = "Dargrul y el martillo",
     },
     [39029] = {
         name = "Defiende el templo",
     },
     [39043] = {
-        name = "Enclave Roepiedra",
+        name = "Enclave Mascapiedra",
     },
     [39047] = {
         name = "El llamado de los Illidari",
@@ -849,28 +843,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Cueste lo que cueste",
     },
     [39059] = {
-        name = "Atrapa a un alma en pena",
+        name = "Atrapar un alma en pena",
     },
     [39060] = {
         name = "Contagio combustible",
     },
     [39061] = {
-        name = "Susurros desde la oscuridad",
+        name = "Susurros en la oscuridad",
     },
     [39062] = {
-        name = "Hacia Skold-Ashil",
+        name = "A Skold-Ashil",
     },
     [39063] = {
-        name = "Escudado en el secreto",
+        name = "Secretos resguardados",
     },
     [39092] = {
-        name = "Convertirse en ascendiente",
+        name = "Convirtiéndose en el ascendente",
     },
     [39117] = {
-        name = "Basta de chillidos",
+        name = "No chilles más",
     },
     [39122] = {
-        name = "El final del nuevo comienzo",
+        name = "Poniendo fin al comienzo nuevo",
     },
     [39123] = {
         name = "Acechando leones",
@@ -879,25 +873,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Cazando alces",
     },
     [39142] = {
-        name = "Poner a prueba una teoría",
+        name = "Hora de probar una teoría",
     },
     [39153] = {
-        name = "El dilema de Rastro del Pavor",
+        name = "El dilema de Medrana",
     },
     [39154] = {
-        name = "Hacia Skold-Ashil",
+        name = "A Skold-Ashil",
     },
     [39155] = {
-        name = "Convertirse en ascendiente",
+        name = "Convirtiéndose en el ascendente",
     },
     [39178] = {
         name = "Un alce fuera de alcance",
     },
     [39179] = {
-        name = "Latrocinio de sangrita",
+        name = "Bandido de la Sangrita",
     },
     [39191] = {
-        name = "Legado de Rompehielo",
+        name = "Legado del Rompehielo",
     },
     [39192] = {
         name = "La Forja de Odyn",
@@ -909,25 +903,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La caza",
     },
     [39261] = {
-        name = "La llamada de los Illidari",
+        name = "El llamado de los Illidari",
     },
     [39262] = {
         name = "Quiero ver más allá de lo evidente",
     },
     [39272] = {
-        name = "Cultivos envenenados",
+        name = "Cultivo envenenado",
     },
     [39277] = {
-        name = "Pulverización",
+        name = "Rociar y cazar",
     },
     [39279] = {
         name = "Asalto a Mardum",
     },
     [39316] = {
-        name = "Tauren atrapados",
+        name = "Taurens atrapados",
     },
     [39318] = {
-        name = "Cuidar de las heridas",
+        name = "Tratando las heridas",
     },
     [39321] = {
         name = "Las tres",
@@ -1017,40 +1011,40 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La Pesadilla Esmeralda: Fuego de ira",
     },
     [39372] = {
-        name = "Bruja de la Espesura",
+        name = "Bruja del Bosque",
     },
     [39373] = {
-        name = "Plumas elocuentes",
+        name = "Brujas emplumadas",
     },
     [39374] = {
         name = "Una audiencia con Torok",
     },
     [39381] = {
-        name = "Entre la roca y la pared",
+        name = "Trol de roca en un lugar peligroso",
     },
     [39383] = {
-        name = "Deshonrado",
+        name = "Deshonroso",
     },
     [39384] = {
         name = "El Corruptor",
     },
     [39385] = {
-        name = "Un regalo para Cringrís",
+        name = "Un regalo para Cringris",
     },
     [39386] = {
         name = "Consiguiendo un prototipo",
     },
     [39387] = {
-        name = "Los cielos de Monte Alto",
+        name = "Los cielos de Altamontaña",
     },
     [39389] = {
-        name = "Ansía sangre",
+        name = "Tiene sed de sangre",
     },
     [39390] = {
         name = "Un texto misterioso",
     },
     [39391] = {
-        name = "Mascotas de roca",
+        name = "Rocas de mascota",
     },
     [39392] = {
         name = "Cazando osos",
@@ -1059,22 +1053,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Valle Zarpaluna",
     },
     [39405] = {
-        name = "Historias de batallas",
+        name = "Historias de lucha",
     },
     [39417] = {
         name = "Calificando a Razik",
     },
     [39425] = {
-        name = "Cristal Piedra Lóbrega",
+        name = "Cristal Rocabruna",
     },
     [39426] = {
         name = "Deuda de sangre",
     },
     [39427] = {
-        name = "La bendición del espíritu del águila",
+        name = "La bendición del Espíritu de águila.",
     },
     [39429] = {
-        name = "Ataque a la Tierra de las Brujas",
+        name = "Atacando la Tierra de las Brujas",
     },
     [39430] = {
         name = "Un favor dentro de un frasco",
@@ -1095,13 +1089,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Levantando pesas con Levantabrul",
     },
     [39455] = {
-        name = "Cueva de la Prueba de Sangre",
+        name = "Cueva de la prueba de sangre",
     },
     [39456] = {
-        name = "Aliados inesperados",
+        name = "Aliados Inesperados",
     },
     [39472] = {
-        name = "Arrancar el corazón",
+        name = "Arráncale el alma",
     },
     [39487] = {
         name = "Furia de cristal",
@@ -1125,7 +1119,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La corriente del río",
     },
     [39498] = {
-        name = "Marea alta",
+        name = "Contra viento y marea",
     },
     [39515] = {
         name = "¡La venganza será mía!",
@@ -1134,28 +1128,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¡Libera el caos y da rienda suelta a los Illidari!",
     },
     [39530] = {
-        name = "La forja",
+        name = "El forjado",
     },
     [39575] = {
-        name = "El Sendero de Huln",
+        name = "El Camino de Huln",
     },
     [39577] = {
-        name = "Un antiguo secreto",
+        name = "Un secreto antiguo",
     },
     [39578] = {
-        name = "Duelo titánico",
+        name = "Enfrentamiento titánico",
     },
     [39579] = {
         name = "La puerta trasera",
     },
     [39580] = {
-        name = "El Gran Jefe",
+        name = "La Gran jefa",
     },
     [39588] = {
-        name = "Lo pagarán con sangre",
+        name = "Pagarán con sangre",
     },
     [39590] = {
-        name = "De cabeza a la prueba",
+        name = "De cabeza al juego",
     },
     [39591] = {
         name = "Una prueba de valor",
@@ -1164,16 +1158,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una prueba de voluntad",
     },
     [39593] = {
-        name = "El vigía despedazado",
+        name = "El guardián destrozado",
     },
     [39594] = {
-        name = "Una prueba de poder",
+        name = "Una prueba de fuerza",
     },
     [39595] = {
         name = "Sangre y oro",
     },
     [39597] = {
-        name = "La bendición de los Vigías",
+        name = "La bendición de los vigías",
     },
     [39602] = {
         name = "¿Dónde está Lyndras?: Búsqueda en las cloacas",
@@ -1182,13 +1176,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¿Dónde está Lyndras?: Espiral descendente",
     },
     [39614] = {
-        name = "Como pez fuera del agua",
+        name = "Pez fuera del agua",
     },
     [39645] = {
         name = "Expertos en calibración",
     },
     [39652] = {
-        name = "Donde reinan los dragones",
+        name = "Donde rigen los dragones",
     },
     [39654] = {
         name = "Odyn y los Valarjar",
@@ -1197,7 +1191,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ataque a la manada de lobos",
     },
     [39661] = {
-        name = "Caverna Brote de Vida",
+        name = "Caverna Siempreviva",
     },
     [39663] = {
         name = "Sobre alas de murciélagos viles",
@@ -1245,10 +1239,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Entre nosotros y la libertad",
     },
     [39696] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [39698] = {
-        name = "De ronda",
+        name = "De lugar en lugar",
     },
     [39699] = {
         name = "Herrería de piedra ley de los Ferrocorno",
@@ -1257,7 +1251,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La leyenda del Fuerte Torre Oscura",
     },
     [39722] = {
-        name = "Forjar una nueva fuerza",
+        name = "Forjando una fuerza nueva",
     },
     [39726] = {
         name = "... Y el yunque",
@@ -1272,7 +1266,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La montaña solitaria",
     },
     [39735] = {
-        name = "Tormenheim",
+        name = "Stormheim",
     },
     [39741] = {
         name = "En nuestras filas",
@@ -1287,25 +1281,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un plan sólido",
     },
     [39757] = {
-        name = "Siempre punzante",
+        name = "Manteniendo la ventaja",
     },
     [39761] = {
-        name = "Talla de runas avanzada",
+        name = "Tallarúnica avanzada",
     },
     [39771] = {
         name = "La voz del trueno",
     },
     [39776] = {
-        name = "Gusanos de combate",
+        name = "Gusanos guerreros",
     },
     [39777] = {
-        name = "Ganar tiempo",
+        name = "Consíguenos algo de tiempo",
     },
     [39780] = {
         name = "El Infrarrey",
     },
     [39781] = {
-        name = "La Guarida de Neltharion",
+        name = "Guarida de Neltharion: Muerte al Infrarrey",
     },
     [39786] = {
         name = "Una apuesta fría como una piedra",
@@ -1314,13 +1308,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Arreglando las apuestas",
     },
     [39788] = {
-        name = "La venganza del Bosque de las Runas",
+        name = "La venganza de Bosquerruna",
     },
     [39789] = {
         name = "Se comen el negocio",
     },
     [39791] = {
-        name = "Darles descanso",
+        name = "Permite que descansen",
     },
     [39792] = {
         name = "Un motón de costillas",
@@ -1332,13 +1326,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "A Haustvald",
     },
     [39799] = {
-        name = "Nuestro siguiente paso",
+        name = "Nuestra siguiente jugada",
     },
     [39800] = {
-        name = "Gambito de Cringrís",
+        name = "La estrategia de Cringris",
     },
     [39801] = {
-        name = "La flota escindida",
+        name = "La flota solitaria",
     },
     [39803] = {
         name = "Las pruebas continúan",
@@ -1362,13 +1356,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Firma esto",
     },
     [39848] = {
-        name = "Un acuerdo desesperado",
+        name = "Una trato desesperado",
     },
     [39849] = {
         name = "Iluminar el camino",
     },
     [39850] = {
-        name = "En pedazos",
+        name = "Hendido",
     },
     [39851] = {
         name = "Aliados en la muerte",
@@ -1377,10 +1371,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La victoria es eterna",
     },
     [39855] = {
-        name = "Pago con sangrevida",
+        name = "Pagado con sangre vital",
     },
     [39857] = {
-        name = "La Némesis Eterna",
+        name = "El oponente eterno",
     },
     [39859] = {
         name = "Cabras comenotas",
@@ -1389,19 +1383,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Rito de Sangre",
     },
     [39861] = {
-        name = "Atando cabos sueltos",
+        name = "Atando los cabos sueltos",
     },
     [39862] = {
-        name = "El brul de asedio",
+        name = "El asediabrul",
     },
     [39864] = {
-        name = "Tormenheim",
+        name = "Stormheim",
     },
     [39867] = {
         name = "¡Un león, te digo!",
     },
     [39873] = {
-        name = "Esto da mala espina",
+        name = "Tengo un mal presentimiento",
     },
     [39874] = {
         name = "Una velada encantadora",
@@ -1542,10 +1536,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una revelación embarazosa",
     },
     [39983] = {
-        name = "La guerra de Huln: la llegada",
+        name = "La guerra de Huln: La llegada",
     },
     [39986] = {
-        name = "Mensaje mágico",
+        name = "Un mensaje mágico",
     },
     [39987] = {
         name = "Rastro de ecos",
@@ -1554,43 +1548,43 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La guerra de Huln: Tempestira",
     },
     [39990] = {
-        name = "La guerra de Huln: refuerzos",
+        name = "La guerra de Huln: Refuerzos",
     },
     [39992] = {
-        name = "La guerra de Huln: los Nathrezim",
+        name = "La guerra de Huln: Los Nathrezim",
     },
     [40000] = {
         name = "Un cazador auténtico",
     },
     [40001] = {
-        name = "Llamando a las Puertas del Valor",
+        name = "Tocando a la puerta de Valor",
     },
     [40002] = {
-        name = "Un destino familiar",
+        name = "Un destino conocido",
     },
     [40003] = {
-        name = "Contener la marea",
+        name = "Detén el avance",
     },
     [40004] = {
-        name = "Destruir la columna vertebral",
+        name = "Rompe el pilar",
     },
     [40005] = {
-        name = "La salvación de Tormenheim",
+        name = "La salvación de Stormheim",
     },
     [40008] = {
-        name = "La única salida es a través",
+        name = "Para salir solo queda atravesar",
     },
     [40009] = {
-        name = "Sedientos de lo Arcano",
+        name = "Sed Arcana",
     },
     [40010] = {
-        name = "Usar las líneas Ley",
+        name = "Intervención a las líneas de ley",
     },
     [40011] = {
         name = "Taller de Oculeth",
     },
     [40012] = {
-        name = "Un antiguo aliado",
+        name = "Un viejo aliado",
     },
     [40043] = {
         name = "El cazador de héroes",
@@ -1635,28 +1629,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La clave está en el control",
     },
     [40072] = {
-        name = "Cámaras del Valor: Conseguir la Égida",
+        name = "Salones del Valor: Asegurando la Égida",
     },
     [40077] = {
         name = "Empieza la invasión",
     },
     [40078] = {
-        name = "Una carga pesada",
+        name = "Una responsabilidad pesada",
     },
     [40102] = {
         name = "Múrlocs: La nueva generación",
     },
     [40112] = {
-        name = "La guerra de Huln: los favoritos de Malorne",
+        name = "La guerra de Huln: El preferido de Malorne",
     },
     [40120] = {
         name = "Un destino turbio",
     },
     [40123] = {
-        name = "El pacto Nocheterna",
+        name = "El pacto de los Nato Nocturno",
     },
     [40125] = {
-        name = "Rama del Arcan'dor",
+        name = "Rama de Arcan'dor",
     },
     [40130] = {
         name = "Bien limpio",
@@ -1788,10 +1782,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un flechazo de ofrenda",
     },
     [40218] = {
-        name = "Deuda pagada",
+        name = "Deuda saldada",
     },
     [40219] = {
-        name = "Desafío a Alamuerte",
+        name = "Desafiando a Alamuerte",
     },
     [40220] = {
         name = "Baile espinoso",
@@ -1803,7 +1797,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El escrito de la madre de los diablillos",
     },
     [40224] = {
-        name = "El Martillo de las profundidades",
+        name = "El martillo en las profundidades",
     },
     [40225] = {
         name = "Un anillo reforjado",
@@ -1821,10 +1815,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¡Cuánta garraudacia!",
     },
     [40236] = {
-        name = "La luz de un nuevo amanecer",
+        name = "La Luz del alba",
     },
     [40238] = {
-        name = "Una ecuación nefasta",
+        name = "Una ecuación aterradora",
     },
     [40244] = {
         name = "El tipo disfrazado",
@@ -1857,43 +1851,43 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un mensaje inesperado",
     },
     [40270] = {
-        name = "El camino de la expiación",
+        name = "El camino de la redención",
     },
     [40276] = {
-        name = "La Vorágine llama",
+        name = "El llamado de la Vorágine",
     },
     [40297] = {
-        name = "Lyana Penaoscura",
+        name = "Lyana Doloroscuro",
     },
     [40300] = {
-        name = "Herramientas de trabajo",
+        name = "Herramientas del Comercio",
     },
     [40306] = {
         name = "El último capítulo",
     },
     [40307] = {
-        name = "Una guja en un pajar",
+        name = "Las gujas perdidas",
     },
     [40308] = {
-        name = "Fragmentos de memoria",
+        name = "Fragmentos de recuerdos",
     },
     [40315] = {
-        name = "Fin de trayecto",
+        name = "En el límite",
     },
     [40319] = {
-        name = "El último ingrediente",
+        name = "El ingrediente final",
     },
     [40320] = {
-        name = "Hermanos de sangre",
+        name = "Banda de hermanos de sangre",
     },
     [40321] = {
         name = "La redención de Cantapluma",
     },
     [40324] = {
-        name = "Comunión Arcana",
+        name = "Comunión arcana",
     },
     [40325] = {
-        name = "Escenas de una rememoración",
+        name = "Escenas de un recuerdo",
     },
     [40326] = {
         name = "Recuerdos dispersos",
@@ -1905,31 +1899,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un destino peor que la muerte",
     },
     [40331] = {
-        name = "La mordedura de los Sashj'tar",
+        name = "La mordida de los Sashj'tar",
     },
     [40332] = {
         name = "Fogata en la playa",
     },
     [40334] = {
-        name = "Tónico del pescador",
+        name = "Tónico de pescador",
     },
     [40336] = {
-        name = "Necesito una balista",
+        name = "La marea en contra de la ama",
     },
     [40341] = {
-        name = "Trono de las Mareas: El poder de Azshara",
+        name = "Trono de las Mareas: Poder de Azshara",
     },
     [40348] = {
-        name = "Algo en el agua",
+        name = "De esta agua no he de beber",
     },
     [40364] = {
-        name = "Burbujeante",
+        name = "Problemas burbujeantes",
     },
     [40368] = {
-        name = "Potenciado con tortuga",
+        name = "Reforzado con tortugas",
     },
     [40370] = {
-        name = "Purgar la impureza",
+        name = "Purga a los impuros",
     },
     [40373] = {
         name = "Un nuevo camino",
@@ -1944,7 +1938,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Las necesidades de los cazadores",
     },
     [40385] = {
-        name = "La lanza entre las sombras",
+        name = "La lanza en las sombras",
     },
     [40388] = {
         name = "La guerra de Huln: Cantosombrío",
@@ -1953,10 +1947,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Llévame ante tu líder",
     },
     [40392] = {
-        name = "La llamada del tirador",
+        name = "El llamado del tirador",
     },
     [40408] = {
-        name = "Armas de leyenda",
+        name = "Armas legendarias",
     },
     [40412] = {
         name = "Azoran debe morir",
@@ -1968,13 +1962,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Misión de rescate",
     },
     [40495] = {
-        name = "Ulthalesh, la Falce del Paso de la Muerte",
+        name = "Ulthalesh, la Cosechadora Vientomuerto",
     },
     [40515] = {
-        name = "Un paseo con los espíritus",
+        name = "Una caminata con los espíritus",
     },
     [40520] = {
-        name = "Ver el pasado",
+        name = "Revolver en el pasado",
     },
     [40523] = {
         name = "Amigos polifacéticos",
@@ -2064,13 +2058,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un toque personal",
     },
     [40567] = {
-        name = "Arboleda Corazón Oscuro: Entrar en la Pesadilla",
+        name = "Matorral Corazón Oscuro: Entra a la Pesadilla",
     },
     [40568] = {
         name = "Furia de la tormenta",
     },
     [40569] = {
-        name = "La leyenda de la arena",
+        name = "La Leyenda de las Arenas",
     },
     [40570] = {
         name = "Hacia los cielos",
@@ -2079,28 +2073,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El Señor de la Pesadilla",
     },
     [40578] = {
-        name = "Presentando sus respetos",
+        name = "Presentando respetos",
     },
     [40579] = {
-        name = "Armas de leyenda",
+        name = "Armas legendarias",
     },
     [40585] = {
-        name = "Así comienza la guerra",
+        name = "Y así empieza la guerra",
     },
     [40588] = {
-        name = "Seguir la maldición",
+        name = "Siguiendo a la maldición",
     },
     [40594] = {
-        name = "La justicia llueve del cielo",
+        name = "Llueve justicia desde el cielo",
     },
     [40603] = {
-        name = "En busca de las Valkyras",
+        name = "Buscando a las Valkyra",
     },
     [40604] = {
-        name = "Perturbar el pasado",
+        name = "Perturbando el pasado",
     },
     [40606] = {
-        name = "Señalar el camino",
+        name = "El camino señalado",
     },
     [40608] = {
         name = "La marca",
@@ -2109,43 +2103,43 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El destino del Paso de la Muerte",
     },
     [40613] = {
-        name = "Fauce de Almas: Recuperar el Guardián de Svaln",
+        name = "Fauces de almas: Recuperando la Svalnguardia",
     },
     [40614] = {
         name = "Un festín digno de Odyn",
     },
     [40615] = {
-        name = "Cámaras del Valor: Bendición de Odyn",
+        name = "Salones del Valor: Bendición de Odyn",
     },
     [40617] = {
-        name = "Vuelve, Vistanocturna",
+        name = "Da la vuelta, Ojos Nocturnos",
     },
     [40618] = {
-        name = "Armas de leyenda",
+        name = "Armas legendarias",
     },
     [40623] = {
         name = "Los jinetes oscuros",
     },
     [40633] = {
-        name = "¡Vamos a la aventura!",
+        name = "¡Hacia la aventura!",
     },
     [40634] = {
-        name = "Tormenta sobre la arena",
+        name = "Trueno en la arena",
     },
     [40636] = {
-        name = "Preparando el ataque",
+        name = "Prepárate para golpear",
     },
     [40643] = {
-        name = "Un llamamiento del Claro de la Luna",
+        name = "Una llamada del Claro de la Luna",
     },
     [40644] = {
-        name = "El Camino del Sueño",
+        name = "La Senda de los Sueños",
     },
     [40645] = {
-        name = "Hacia la Arboleda de los Sueños",
+        name = "A la Arboleda de los Sueños",
     },
     [40646] = {
-        name = "Armas de leyenda",
+        name = "Armas legendarias",
     },
     [40647] = {
         name = "Cuando los sueños se convierten en pesadillas",
@@ -2154,34 +2148,34 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Reúnete con Mylune",
     },
     [40651] = {
-        name = "La Semilla de los Tiempos",
+        name = "La Semilla de los tiempos",
     },
     [40652] = {
-        name = "Un rumor en el viento",
+        name = "Palabra en el viento",
     },
     [40653] = {
-        name = "Dejar rastro",
+        name = "Abriendo caminos",
     },
     [40654] = {
         name = "Druidas de la Zarpa",
     },
     [40668] = {
-        name = "Ojo de Azshara: El corazón de Zin-Azshari",
+        name = "Ojo de Azshara: El Corazón de Zin-Azshari",
     },
     [40672] = {
-        name = "Guarida de Neltharion: La clave está en la presentación",
+        name = "Guarida de Neltharion: La presentación es la clave",
     },
     [40673] = {
-        name = "Conocimientos perdidos",
+        name = "Un conocimiento perdido",
     },
     [40675] = {
-        name = "La Arquería: El rito del capitán",
+        name = "El Arco: Rito del capitán",
     },
     [40678] = {
-        name = "Poder alterado",
+        name = "Poder retorcido",
     },
     [40684] = {
-        name = "El Escrito sobre artilugios malditos",
+        name = "El tomo de implementos infestados",
     },
     [40698] = {
         name = "Pureza de forma",
@@ -2190,76 +2184,76 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Asuntos sacerdotales",
     },
     [40706] = {
-        name = "Una leyenda que puedes sostener",
+        name = "Una leyenda en las manos",
     },
     [40710] = {
-        name = "Una daga en el crepúsculo",
+        name = "La espada en el Crepúsculo",
     },
     [40712] = {
         name = "El poder poseído",
     },
     [40714] = {
-        name = "La llamada a la guerra",
+        name = "El grito de guerra",
     },
     [40715] = {
-        name = "Un pacto de necesidad",
+        name = "Un pacto necesario",
     },
     [40716] = {
         name = "El sexto",
     },
     [40727] = {
-        name = "A lo largo de los canales",
+        name = "Todos al canal",
     },
     [40729] = {
-        name = "La sangre nueva",
+        name = "Sangre nueva",
     },
     [40730] = {
         name = "Redistribución",
     },
     [40731] = {
-        name = "El corazón de Cicatriz del Terror",
+        name = "El corazón de la Cicatriz Aterradora",
     },
     [40740] = {
-        name = "Muertos y malditos",
+        name = "Los muertos y los condenados",
     },
     [40744] = {
-        name = "Una antigua receta",
+        name = "Una receta antigua",
     },
     [40745] = {
         name = "Cambio de turno",
     },
     [40746] = {
-        name = "Uno de la gente",
+        name = "Una de las personas",
     },
     [40747] = {
         name = "El delicado arte de la telemancia",
     },
     [40748] = {
-        name = "Red segura",
+        name = "Seguridad de la red",
     },
     [40761] = {
         name = "Susurros desde Oronaar",
     },
     [40783] = {
-        name = "Guadaña de Elune",
+        name = "La Guadaña de Elune",
     },
     [40784] = {
         name = "Su lugar legítimo",
     },
     [40785] = {
-        name = "Un enemigo oscuro",
+        name = "Un enemigo de la oscuridad",
     },
     [40793] = {
-        name = "La preparación es clave",
+        name = "Una cuestión de planificación",
     },
     [40794] = {
-        name = "El destino de La Represalia de la Reina",
+        name = "El destino del Represalia de la Reina",
     },
     [40795] = {
-        name = "Empieza la batalla",
+        name = "Comienza la lucha",
     },
     [40814] = {
-        name = "El poder de sobrevivir",
+        name = "El poder para sobrevivir",
     },
     [40816] = {
         name = "Los medios para sobrevivir",
@@ -2271,40 +2265,40 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Poder sobrecogedor",
     },
     [40823] = {
-        name = "Reconstruir el consejo",
+        name = "Rearmando el concejo",
     },
     [40824] = {
-        name = "La senda de los Cicatriz del Terror",
+        name = "El camino de los Cicatriz Aterradora",
     },
     [40830] = {
-        name = "Más o menos",
+        name = "Estuvo cerca",
     },
     [40832] = {
-        name = "La llamada de los Descoronados",
+        name = "El llamado de Los Descoronados",
     },
     [40834] = {
-        name = "Seguir la maldición",
+        name = "Siguiendo a la maldición",
     },
     [40835] = {
-        name = "Perturbar el pasado",
+        name = "Perturbando el pasado",
     },
     [40837] = {
-        name = "La caza del Paso de la Muerte",
+        name = "La cacería en el Paso de la Muerte",
     },
     [40838] = {
         name = "Los jinetes oscuros",
     },
     [40839] = {
-        name = "La última Sombra",
+        name = "La Sombra final",
     },
     [40840] = {
-        name = "Una hoja digna",
+        name = "Una espada digna",
     },
     [40847] = {
         name = "Un acuerdo amistoso",
     },
     [40849] = {
-        name = "Las Hojas Pérfidas",
+        name = "Los Filos del Terror",
     },
     [40854] = {
         name = "Posibilidades infinitas",
@@ -2376,7 +2370,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Salones del Valor: Gatillo veloz",
     },
     [40878] = {
-        name = "Asalto al Bastión Violeta: Burlando a la muerte",
+        name = "Ataque al Bastión Violeta: Burlando a la muerte",
     },
     [40879] = {
         name = "A darles a los autómatas",
@@ -2391,7 +2385,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Corte de Estrellas: Retroceso renovado",
     },
     [40883] = {
-        name = "El destino de la guardia",
+        name = "El destino de la Guardia",
     },
     [40890] = {
         name = "Las Lágrimas de Elune",
@@ -2400,10 +2394,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Carne fresca",
     },
     [40907] = {
-        name = "Eliminar obstáculos",
+        name = "Quitando obstáculos",
     },
     [40908] = {
-        name = "Vuelve, jarl",
+        name = "Jarl, vuelve aquí",
     },
     [40927] = {
         name = "La última esperanza de Jandvik",
@@ -2415,13 +2409,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Apocalipsis",
     },
     [40931] = {
-        name = "Seguir la maldición",
+        name = "Siguiendo a la maldición",
     },
     [40932] = {
-        name = "Perturbar el pasado",
+        name = "Perturbando el pasado",
     },
     [40933] = {
-        name = "Una tarea macabra",
+        name = "Una macabra tarea",
     },
     [40934] = {
         name = "Los jinetes oscuros",
@@ -2436,34 +2430,34 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Entrega especial",
     },
     [40949] = {
-        name = "No es su última batalla",
+        name = "No es la batalla final",
     },
     [40950] = {
-        name = "Honrar el éxito",
+        name = "Éxito honorífico",
     },
     [40952] = {
         name = "De cazador a cazador",
     },
     [40953] = {
-        name = "En las alas de un águila",
+        name = "En las alas del águila",
     },
     [40954] = {
-        name = "La Senda Oculta",
+        name = "La Senda oculta",
     },
     [40955] = {
         name = "Juramento de servicio",
     },
     [40956] = {
-        name = "A inspección...",
+        name = "La investigación dice...",
     },
     [40957] = {
-        name = "Una mano derecha firme",
+        name = "Una mano derecha fuerte",
     },
     [40958] = {
-        name = "Cuestiones tácticas",
+        name = "Asuntos tácticos",
     },
     [40959] = {
-        name = "Empieza la campaña",
+        name = "La campaña comienza",
     },
     [40960] = {
         name = "Perla luminosa",
@@ -2472,31 +2466,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La fuente de Dalaran",
     },
     [40963] = {
-        name = "Rociada de rocín",
+        name = "Llévalos en tus garras",
     },
     [40964] = {
-        name = "La falla de en medio",
+        name = "La falla intermedia",
     },
     [40965] = {
-        name = "Aniquilación con minas",
+        name = "Poner residuo, poner minas",
     },
     [40967] = {
-        name = "Lo poco que queda",
+        name = "Pequeño y preciado extravío",
     },
     [40968] = {
-        name = "Recuperar el poder robado",
+        name = "Recuperando el poder robado",
     },
     [40969] = {
-        name = "El destino de Tejestrellas",
+        name = "El destino de la Tejestrellas",
     },
     [40970] = {
-        name = "El causante de nuestra destrucción",
+        name = "El responsable de nuestro fallecimiento",
     },
     [40971] = {
-        name = "Distracción abrumadora",
+        name = "Distracción sobrecogedora",
     },
     [40972] = {
-        name = "La última carga de la Guardia Lunar",
+        name = "La resistencia final de la Guardia lunar",
     },
     [40976] = {
         name = "Audiencia con el jefe de guerra",
@@ -2508,7 +2502,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Demonios entre ellos",
     },
     [40994] = {
-        name = "Las herramientas adecuadas",
+        name = "Las herramientas indicadas para el trabajo",
     },
     [40995] = {
         name = "Inyección de poder",
@@ -2520,13 +2514,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Eficiencia letal",
     },
     [41001] = {
-        name = "Hacer pedazos a los Sashj'tar",
+        name = "Destroza a los Sashj'tar",
     },
     [41002] = {
         name = "Un arma de la Horda",
     },
     [41003] = {
-        name = "El regalo del Emperador",
+        name = "El regalo del emperador",
     },
     [41008] = {
         name = "De cazador a cazador",
@@ -2538,7 +2532,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Frenesí de pescado",
     },
     [41015] = {
-        name = "Los artefactos necesitan artífices",
+        name = "Los artefactos necesitan artificieros",
     },
     [41017] = {
         name = "Potenciar tu artefacto",
@@ -2547,37 +2541,37 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Acciones en Azeroth",
     },
     [41028] = {
-        name = "Red de energía",
+        name = "Red de poder",
     },
     [41030] = {
-        name = "Recuperar el sigilo",
+        name = "Reclamación de sigilo",
     },
     [41032] = {
-        name = "Detener a los buscahechizos",
+        name = "Detén a los Buscadores de hechizos",
     },
     [41033] = {
         name = "Regreso a Mardum",
     },
     [41034] = {
-        name = "Tantear el terreno",
+        name = "Probando las aguas",
     },
     [41035] = {
-        name = "La súplica de Tormenta Vil",
+        name = "La súplica de los Tormenta vil",
     },
     [41036] = {
-        name = "El trofeo del Señor del Terror",
+        name = "El premio del señor del terror",
     },
     [41037] = {
-        name = "Poder desenfrenado",
+        name = "Poder desmedido",
     },
     [41038] = {
-        name = "La maestra de hidromiel",
+        name = "La Maestra Hidromiel",
     },
     [41039] = {
         name = "Conocimiento robado",
     },
     [41040] = {
-        name = "Cámaras del Valor: La maestra cervecera",
+        name = "Salones del Valor: La maestra cervecera",
     },
     [41047] = {
         name = "Imbuida de poder",
@@ -2586,19 +2580,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un ruego desesperado",
     },
     [41053] = {
-        name = "Altar de la Cacería Eterna",
+        name = "Altar de la Caza Eterna",
     },
     [41056] = {
         name = "Amor perdido",
     },
     [41059] = {
-        name = "Cámaras del Valor: Caldera de Odyn",
+        name = "Salones del Valor: Caldero de Odyn",
     },
     [41060] = {
         name = "Poder desmedido",
     },
     [41062] = {
-        name = "Botín de victoria",
+        name = "Botín de la victoria",
     },
     [41064] = {
         name = "Forja maldita de los Nathrezim",
@@ -2619,7 +2613,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El arma de un mago",
     },
     [41086] = {
-        name = "Un mundo en paz",
+        name = "Un mundo pacífico",
     },
     [41087] = {
         name = "Brebaje de tormenta",
@@ -2637,16 +2631,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Dirige nuestra cólera",
     },
     [41105] = {
-        name = "La espada de reyes",
+        name = "La espada de los reyes",
     },
     [41106] = {
-        name = "La llamada de los salvajes",
+        name = "El llamado de la selva",
     },
     [41108] = {
-        name = "Lluvia mortal",
+        name = "Que la muerte descienda sobre ellos",
     },
     [41109] = {
-        name = "A la espera de venganza",
+        name = "Esperando la venganza",
     },
     [41112] = {
         name = "El Gran Akazamzarak",
@@ -2655,40 +2649,40 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La única forma de viajar",
     },
     [41114] = {
-        name = "El retorno del campeón",
+        name = "El regreso del campeón",
     },
     [41119] = {
-        name = "La caza",
+        name = "La cacería",
     },
     [41120] = {
-        name = "Ultimando los preparativos",
+        name = "Haciendo los preparativos",
     },
     [41121] = {
-        name = "A toda costa",
+        name = "Cueste lo que cueste",
     },
     [41124] = {
-        name = "El renacer de la Guardia de Tirisfal",
+        name = "El renacimiento de los Tirisgarde",
     },
     [41125] = {
-        name = "Potencial por descubrir",
+        name = "Potencial liberado",
     },
     [41138] = {
-        name = "Energizar Shal'Aran",
+        name = "Alimentar a Shal'Aran",
     },
     [41141] = {
         name = "El deber de un conjurador",
     },
     [41148] = {
-        name = "Ofrecer compasión",
+        name = "Dispensando compasión",
     },
     [41149] = {
-        name = "¡Mar-chitón!",
+        name = "Un esfuerzo provechoso",
     },
     [41197] = {
-        name = "Te estás quedando conmiaugo",
+        name = "Es una gatástrofe",
     },
     [41215] = {
-        name = "Caza al cazador",
+        name = "Se convirtieron en la presa",
     },
     [41216] = {
         name = "Supervivencia del más fuerte",
@@ -2697,16 +2691,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Regreso a Mardum",
     },
     [41230] = {
-        name = "Tramperos mejorados",
+        name = "Trampa evolucionada",
     },
     [41231] = {
-        name = "Superdepredador",
+        name = "Superpredador",
     },
     [41332] = {
-        name = "Subir al círculo",
+        name = "El círculo en lo alto",
     },
     [41335] = {
-        name = "La llamada de los elementos...",
+        name = "Los elementos nos llaman...",
     },
     [41367] = {
         name = "Entrega urgente",
@@ -2724,7 +2718,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un paquete enorme",
     },
     [41409] = {
-        name = "La importancia del momento oportuno",
+        name = "Justo a tiempo",
     },
     [41410] = {
         name = "Pólvora seca",
@@ -2739,91 +2733,91 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Enemigos hundidos",
     },
     [41426] = {
-        name = "Contra su voluntad",
+        name = "En contra de su voluntad",
     },
     [41436] = {
-        name = "Un sueño profundo",
+        name = "Dormido del todo",
     },
     [41449] = {
-        name = "Reunirse con el soñador",
+        name = "Únete a la Soñadora",
     },
     [41452] = {
-        name = "Frenesí felino",
+        name = "Frenético felino",
     },
     [41453] = {
-        name = "Hacia el hogar",
+        name = "Atado de camino a casa",
     },
     [41462] = {
-        name = "Un problema con pies enormes",
+        name = "Los problemas tienen grandes patas",
     },
     [41463] = {
-        name = "Desaparición por el camino",
+        name = "Perdido en el camino",
     },
     [41464] = {
         name = "Ni aquí, ni ahora, ni nunca",
     },
     [41467] = {
-        name = "La única decisión posible",
+        name = "La única decisión que podemos tomar",
     },
     [41468] = {
-        name = "Maestra de la Zarpa",
+        name = "Señora de la Zarpa",
     },
     [41469] = {
-        name = "Vuelve al Refugio Bosqueférreo",
+        name = "Regreso al refugio de la Arboleda de Hierro",
     },
     [41473] = {
-        name = "Pezuña Roja, el Anciano",
+        name = "Pezuñaroja el Antiguo",
     },
     [41474] = {
-        name = "Fertilizar el futuro",
+        name = "Fertilizando el futuro",
     },
     [41475] = {
-        name = "Cuernos y colmillos",
+        name = "Dientes y colmillos",
     },
     [41478] = {
-        name = "La bendición final",
+        name = "La última bendición",
     },
     [41479] = {
         name = "Adversarios naturales",
     },
     [41480] = {
-        name = "Miramaná",
+        name = "Observador de Maná",
     },
     [41485] = {
-        name = "Rescate Susurrolunar",
+        name = "Rescate del susurrolunar",
     },
     [41494] = {
-        name = "Crecimiento eminente",
+        name = "Poderío inminente",
     },
     [41499] = {
-        name = "Como un calamar fuera del agua",
+        name = "Calamar fuera del agua",
     },
     [41510] = {
         name = "Azeroth te necesita",
     },
     [41540] = {
-        name = "Cita con el mensajero",
+        name = "Encuentro con el mensajero",
     },
     [41541] = {
-        name = "Una expedición bestial",
+        name = "Una expedición horrorosa",
     },
     [41542] = {
-        name = "Preparativos para la caza",
+        name = "Preparativos para la cacería",
     },
     [41574] = {
-        name = "Trueno robado",
+        name = "Protagonismo robado",
     },
     [41575] = {
-        name = "¡Teletransportador a Alma Vil conectado!",
+        name = "¡El teletransportador Alma Vil está en línea!",
     },
     [41606] = {
-        name = "Encontrar a Brytag",
+        name = "Buscando a Brytag",
     },
     [41618] = {
-        name = "El velamares",
+        name = "El celador del mar",
     },
     [41625] = {
-        name = "La Cólera de la Luz",
+        name = "La Cólera de Luz",
     },
     [41626] = {
         name = "Una nueva amenaza",
@@ -2832,49 +2826,46 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un enemigo olvidado",
     },
     [41628] = {
-        name = "Los ojos del dragón",
+        name = "Ojos del dragón",
     },
     [41629] = {
-        name = "Aprovechar el fuego sagrado",
+        name = "Dominando el Fuego Sagrado",
     },
     [41630] = {
-        name = "Sentencia de liberación",
+        name = "Una explosión de sentencias",
     },
     [41631] = {
         name = "Bóveda de El Nexo",
     },
     [41632] = {
-        name = "Una ofrenda de tiempo",
+        name = "Un regalo del tiempo",
     },
     [41689] = {
-        name = "Purificar el Árbol Madre",
+        name = "Purificando al Árbol Madre",
     },
     [41690] = {
-        name = "Reunión",
+        name = "La reunión",
     },
     [41702] = {
-        name = "Escrito en piedra",
+        name = "Escrito en la piedra",
     },
     [41704] = {
         name = "Sujeto 16",
     },
     [41707] = {
-        name = "Restos Garrapérfida",
+        name = "Restos de Garra Gusano",
     },
     [41708] = {
-        name = "La cara oculta de la luna",
+        name = "El lado oscuro de la luna",
     },
     [41709] = {
-        name = "Desmontar la artillería pesada",
-    },
-    [41724] = {
-        name = "El corazón de la Pesadilla",
+        name = "Destrucción de las armas grandes",
     },
     [41728] = {
         name = "La defensa del Monasterio Tian",
     },
     [41729] = {
-        name = "Ralentizar la propagación",
+        name = "Ralentizar el avance",
     },
     [41730] = {
         name = "Golpe desesperado",
@@ -2883,10 +2874,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Tormenta, Tierra y Fuego",
     },
     [41732] = {
-        name = "La mano de Keletress",
+        name = "La Mano de Keletress",
     },
     [41733] = {
-        name = "Reconstruir la orden",
+        name = "Reconstruir la Orden",
     },
     [41736] = {
         name = "Campeón: Angus Puño de Hierro",
@@ -2895,16 +2886,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Hiro",
     },
     [41738] = {
-        name = "Campeona: Sylara Cantacero",
+        name = "Campeón: Sylara Canto férreo",
     },
     [41739] = {
-        name = "Campeona: Aegira",
+        name = "Campeón: Aegira",
     },
     [41740] = {
-        name = "Pongámonos técnicos",
+        name = "Enchulando la máquina",
     },
     [41741] = {
-        name = "Tropas sobre el terreno",
+        name = "Tropas en el campo",
     },
     [41742] = {
         name = "Campeón: Celestos",
@@ -2916,7 +2907,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Rehgar Furiatierra",
     },
     [41745] = {
-        name = "Campeón: Escaldius",
+        name = "Campeón: Scaldius",
     },
     [41746] = {
         name = "Campeón: Muln Furiatierra",
@@ -2931,67 +2922,67 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Zinnin Smythe",
     },
     [41753] = {
-        name = "Campeona: Jubeka Domasombras",
+        name = "Campeón: Jubeka Domasombras",
     },
     [41754] = {
-        name = "Campeona: Shinfel Jurañublo",
+        name = "Campeón: Shinfel Juraplaga",
     },
     [41755] = {
-        name = "Campeona: Lulubelle Chispobang",
+        name = "Campeón: Lulubelle Chispobang",
     },
     [41756] = {
-        name = "Campeonas: Gemelas eredar",
+        name = "Campeón: Gemelos Eredar",
     },
     [41759] = {
-        name = "Un aliado inesperado",
+        name = "Un Aliado inusual",
     },
     [41760] = {
-        name = "El legado de Kel'danath",
+        name = "El Legado de Kel'danath",
     },
     [41762] = {
-        name = "Simpatizantes entre los shal'dorei",
+        name = "Simpatizantes entre los Shal'dorei",
     },
     [41764] = {
         name = "Tras los pasos de los espíritus",
     },
     [41767] = {
-        name = "Un rescate atrevido",
+        name = "Un rescate arriesgado",
     },
     [41768] = {
-        name = "Baliza de almas",
+        name = "Baliza de alma",
     },
     [41769] = {
-        name = "Loco Ernie el alquimista",
+        name = "El Alquimista Ernie el Loco ",
     },
     [41770] = {
-        name = "Los cielos de ahí arriba",
+        name = "En los cielos",
     },
     [41771] = {
-        name = "Recargar la hoja",
+        name = "Recargar la espada",
     },
     [41772] = {
-        name = "Ascendiente de las llamas",
+        name = "Ascendente ígneo",
     },
     [41773] = {
-        name = "La orden del Señor del Fuego",
+        name = "La Orden del Señor del Fuego",
     },
     [41775] = {
-        name = "La gran Madre Pétrea",
+        name = "La Gran Madre Pétrea",
     },
     [41776] = {
-        name = "El regreso del Señor del Viento",
+        name = "El regreso del Señor del viento",
     },
     [41777] = {
-        name = "Destruir el culto",
+        name = "Destruyendo el culto",
     },
     [41780] = {
-        name = "Fatalidad y oscuridad",
+        name = "Muerte y penumbra",
     },
     [41781] = {
-        name = "Pastorear cabras",
+        name = "Reuniendo cabras",
     },
     [41782] = {
-        name = "Hacia las colinas",
+        name = "A las colinas",
     },
     [41783] = {
         name = "Ofrendas de los caídos",
@@ -3000,13 +2991,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Tiempo prestado",
     },
     [41785] = {
-        name = "La búsqueda de Chispobang",
+        name = "En busca de Chispobang",
     },
     [41787] = {
-        name = "Errores ajenos",
+        name = "El desastre de otro",
     },
     [41788] = {
-        name = "Forzar una confesión",
+        name = "Confesión forzada",
     },
     [41790] = {
         name = "La primera prueba de Ursol",
@@ -3018,19 +3009,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La tercera prueba de Ursol",
     },
     [41793] = {
-        name = "Lulubelle al rescate",
+        name = "Lulubelle prestada",
     },
     [41795] = {
-        name = "Invocar a las hermanas",
+        name = "Invocando a las hermanas",
     },
     [41796] = {
-        name = "Seleccionar al sexto",
+        name = "Eligiendo al sexto",
     },
     [41797] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [41798] = {
-        name = "Reclutar más tropas",
+        name = "Reclutamiento de más tropas",
     },
     [41799] = {
         name = "Esbirros de la oscuridad",
@@ -3042,19 +3033,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Pedir un favor",
     },
     [41804] = {
-        name = "Pide y te será concedido",
+        name = "Pídelo y lo tendrás",
     },
     [41806] = {
-        name = "Vuelve con Jace",
+        name = "Regresa con Jace",
     },
     [41807] = {
-        name = "Establecer una conexión",
+        name = "Estableciendo una conexión",
     },
     [41815] = {
         name = "Maldición de los Necroscuro",
     },
     [41834] = {
-        name = "Las máscaras que nos ponemos",
+        name = "Las máscaras que llevamos",
     },
     [41840] = {
         name = "Hielo y Sombra",
@@ -3063,22 +3054,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El resguardo final",
     },
     [41849] = {
-        name = "El Puño de Hierro",
+        name = "El puño de hierro",
     },
     [41850] = {
-        name = "La maestra de espadas",
+        name = "El maestro de las espadas",
     },
     [41851] = {
-        name = "Calmar la marea",
+        name = "Aquietando la marea",
     },
     [41852] = {
-        name = "Ningún monje se queda atrás",
+        name = "Ni un monje se queda atrás",
     },
     [41853] = {
-        name = "De cero a Hiro",
+        name = "Rescata a Hiro",
     },
     [41854] = {
-        name = "Ladrillo a ladrillo",
+        name = "Ladrillo por ladrillo",
     },
     [41863] = {
         name = "La venganza será nuestra",
@@ -3093,40 +3084,40 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Relatos oscuros",
     },
     [41888] = {
-        name = "Lealtad de la llama",
+        name = "Lealtad a las llamas",
     },
     [41889] = {
         name = "Aturdido por el pasado",
     },
     [41893] = {
-        name = "Dado a la corrupción",
+        name = "Entregado a la corrupción",
     },
     [41897] = {
         name = "El plan del maestro",
     },
     [41898] = {
-        name = "Liberar los elementos",
+        name = "Liberando los elementos",
     },
     [41899] = {
-        name = "¡Cautivos!",
+        name = "¡Capturado!",
     },
     [41900] = {
-        name = "Una promesa de la tierra",
+        name = "Una promesa de tierra",
     },
     [41901] = {
-        name = "Juramento del Señor del Viento",
+        name = "El juramento del Señor del Viento",
     },
     [41905] = {
-        name = "Informe del Monasterio Tian",
+        name = "Noticias del Monasterio Tian",
     },
     [41907] = {
-        name = "Lo apropiado",
+        name = "Apropiación",
     },
     [41909] = {
-        name = "Seguir a los Mareskorn",
+        name = "Rastreando a los Marvilis",
     },
     [41910] = {
-        name = "El Manantial de Freya",
+        name = "El manantial de Freya",
     },
     [41911] = {
         name = "Lúpulos de amarantina",
@@ -3135,16 +3126,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un futuro mejor",
     },
     [41918] = {
-        name = "El retorno del soñador",
+        name = "El soñador regresa",
     },
     [41919] = {
-        name = "Las sombras revelan cosas",
+        name = "Las sombras revelan",
     },
     [41920] = {
-        name = "Cuestión de delicadeza",
+        name = "Una cuestión de sutileza",
     },
     [41921] = {
-        name = "Aproximación",
+        name = "Arrinconando a Akaari",
     },
     [41922] = {
         name = "¡Traidor!",
@@ -3153,13 +3144,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Colmillos del Devorador",
     },
     [41934] = {
-        name = "La marca de condenación",
+        name = "La marca de la condenación",
     },
     [41945] = {
-        name = "Tianji, la del Buey",
+        name = "Tianji del Buey",
     },
     [41946] = {
-        name = "Aumentar nuestras tropas",
+        name = "Construyendo nuestras tropas",
     },
     [41957] = {
         name = "La súplica del vindicador",
@@ -3168,7 +3159,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Visita a domicilio",
     },
     [41967] = {
-        name = "Salir de la oscuridad",
+        name = "Salido de la oscuridad",
     },
     [41989] = {
         name = "Sangre de mi sangre",
@@ -3180,13 +3171,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "En busca de la verdad",
     },
     [42001] = {
-        name = "Aluneth, Gran Báculo de la Magna",
+        name = "Aluneth, Gran Bastón de Magna",
     },
     [42002] = {
-        name = "Hacia Rasganorte",
+        name = "A Rasganorte",
     },
     [42005] = {
-        name = "El final de la saga",
+        name = "El fin de la saga",
     },
     [42006] = {
         name = "Una nueva amenaza",
@@ -3195,64 +3186,64 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un enemigo olvidado",
     },
     [42008] = {
-        name = "Los ojos del dragón",
+        name = "Ojos del dragón",
     },
     [42009] = {
-        name = "Emplear lo Arcano",
+        name = "Controlando la energía arcana",
     },
     [42010] = {
-        name = "Arcano desatado",
+        name = "Energía arcana liberada",
     },
     [42011] = {
-        name = "La Cámara del Nexo",
+        name = "La bóveda del Nexo",
     },
     [42017] = {
         name = "Santuario de la Veraguardia",
     },
     [42031] = {
-        name = "Crecimiento espantoso",
+        name = "Crecimiento temible",
     },
     [42032] = {
-        name = "Muestras de la Pesadilla",
+        name = "Muestra de la Pesadilla",
     },
     [42033] = {
-        name = "Refugio de Malorne",
+        name = "El refugio de Malorne",
     },
     [42034] = {
-        name = "Agarre de la Pesadilla",
+        name = "Agarre de pesadilla",
     },
     [42035] = {
-        name = "Rastrear al enemigo",
+        name = "Rastreando al enemigo",
     },
     [42036] = {
         name = "Ídolo de las fieras",
     },
     [42037] = {
-        name = "Reunir a los Tejesueños",
+        name = "Reuniendo a los tejesueños",
     },
     [42038] = {
         name = "Campeón: Broll Manto de Oso",
     },
     [42039] = {
-        name = "Campeona: Sylendra Cantaclaro",
+        name = "Campeona: Sylendra Cantoclaro",
     },
     [42040] = {
-        name = "Camino a Nordrassil",
+        name = "El camino a Nordrassil",
     },
     [42041] = {
-        name = "Sobrevivir a la Pesadilla",
+        name = "Resistiendo a la Pesadilla",
     },
     [42042] = {
-        name = "¡Chiquitines!",
+        name = "Pequeñito y menudito",
     },
     [42043] = {
-        name = "Hacer limpieza",
+        name = "Limpiando",
     },
     [42044] = {
         name = "Un sueño moribundo",
     },
     [42045] = {
-        name = "Comunión con Malorne",
+        name = "Comulgando con Malorne",
     },
     [42046] = {
         name = "Un nuevo comienzo",
@@ -3264,31 +3255,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeona: Mylune",
     },
     [42049] = {
-        name = "Alimentar el portal",
+        name = "Potenciando el portal",
     },
     [42050] = {
         name = "Defensores del Sueño",
     },
     [42051] = {
-        name = "Entrar en la Pesadilla",
+        name = "Hacia la Pesadilla",
     },
     [42053] = {
         name = "La Guerra de los Ancestros",
     },
     [42054] = {
-        name = "Archimonde el Corruptor",
+        name = "Archimonde el Rapiñador",
     },
     [42055] = {
-        name = "El retorno del semidiós",
+        name = "El regreso del semidiós",
     },
     [42056] = {
         name = "Campeón: Remulos",
     },
     [42065] = {
-        name = "El maestro Crepuscular",
+        name = "El Maestro Crepuscular",
     },
     [42068] = {
-        name = "El regreso del Crepúsculo",
+        name = "El regreso del crepúsculo",
     },
     [42074] = {
         name = "El regreso de la Luz",
@@ -3300,37 +3291,37 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Adelante con lo nuevo",
     },
     [42088] = {
-        name = "Evacuar Crin de Nieve",
+        name = "Evacúa Crin de Nieve",
     },
     [42097] = {
-        name = "Buscar en los Archivos",
+        name = "Buscando en los archivos",
     },
     [42098] = {
-        name = "Torreón Grajo Negro: Un alma sin reclamar",
+        name = "Fuerte Torre Oscura: Un alma sin dueño",
     },
     [42100] = {
-        name = "Potenciar el alma",
+        name = "Potenciando el alma",
     },
     [42102] = {
-        name = "Alguien a la altura",
+        name = "Alguien digno",
     },
     [42103] = {
-        name = "Una buena alimentación",
+        name = "Deja que coma",
     },
     [42104] = {
-        name = "Viene el Infrarrey",
+        name = "El Infrarrey se acerca",
     },
     [42107] = {
-        name = "Tras el rastro del gran gusano",
+        name = "En busca del gran gusano",
     },
     [42110] = {
-        name = "¡A la Cima!",
+        name = "¡A la cima!",
     },
     [42114] = {
-        name = "El ritual de las mareas",
+        name = "El Ritual de las Mareas",
     },
     [42120] = {
-        name = "Mano de Plata",
+        name = "La Mano de plata",
     },
     [42125] = {
         name = "Susurros oscuros",
@@ -3339,7 +3330,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Archimaga Omniara",
     },
     [42127] = {
-        name = "Aumentar nuestras tropas",
+        name = "Construyendo nuestras tropas",
     },
     [42128] = {
         name = "Componentes del ritual",
@@ -3348,13 +3339,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Visitantes inesperados",
     },
     [42132] = {
-        name = "Por último, aunque no menos importante",
+        name = "Por último, pero no menos importante",
     },
     [42133] = {
-        name = "Entrega en el mismo día",
+        name = "Entrega para el mismo día",
     },
     [42134] = {
-        name = "Reclutar más tropas",
+        name = "Reclutamiento de más tropas",
     },
     [42137] = {
         name = "Campeona: Yalia Murmullo Sabio",
@@ -3363,34 +3354,34 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Zabra Hexx",
     },
     [42139] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42140] = {
-        name = "Colmena de escoria y villanía aún más desdichada",
+        name = "Una colmena de escoria y villanía aún más desdichada",
     },
     [42141] = {
         name = "Invocador Morn",
     },
     [42142] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [42147] = {
         name = "Primer contacto",
     },
     [42149] = {
-        name = "Algunos conocimientos no se deben compartir",
+        name = "Ciertos conocimientos no se deben compartir",
     },
     [42158] = {
         name = "El taller del creador",
     },
     [42166] = {
-        name = "¿Qué pasa aquí?",
+        name = "¿Qué ocurre aquí?",
     },
     [42168] = {
-        name = "Mirando en la oscuridad",
+        name = "Mirando hacia la oscuridad",
     },
     [42171] = {
-        name = "Salida final",
+        name = "Última salida",
     },
     [42175] = {
         name = "Poder creciente",
@@ -3399,37 +3390,37 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Misión: Diplomacia elemental",
     },
     [42185] = {
-        name = "Nunca caces solo",
+        name = "Nunca vayas de cacería a solas",
     },
     [42186] = {
         name = "Poder creciente",
     },
     [42187] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42188] = {
         name = "Nobundo espera",
     },
     [42191] = {
-        name = "Pongámonos técnicos",
+        name = "Enchulando la máquina",
     },
     [42193] = {
-        name = "El Cuerno de Gjallar",
+        name = "El Gjallarhorn",
     },
     [42194] = {
         name = "Honor robado",
     },
     [42200] = {
-        name = "Misión: Investigar Infralar",
+        name = "Misión: Investigando Infralar",
     },
     [42202] = {
-        name = "La venganza se sirve fría",
+        name = "Venganza... servida fría",
     },
     [42204] = {
         name = "Jorhuttam",
     },
     [42206] = {
-        name = "Llega el siguiente nivel",
+        name = "El siguiente nivel ha llegado",
     },
     [42208] = {
         name = "Regreso a las Tierras de Fuego",
@@ -3438,7 +3429,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Pergaminos de conocimiento",
     },
     [42213] = {
-        name = "Ojo de Azshara: La Piedramar de Golganneth",
+        name = "Ojo de Azshara: La Maretista de Golganneth",
     },
     [42214] = {
         name = "Atrapado desprevenido",
@@ -3450,19 +3441,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Informe de la Sociedad Empírea",
     },
     [42223] = {
-        name = "Explorar la Espesura Carmesí",
+        name = "Explorando el zarzal carmesí",
     },
     [42224] = {
-        name = "Envuelto en sombra lunar",
+        name = "Invisible en Puestaluna",
     },
     [42225] = {
-        name = "Romper el sello",
+        name = "Romper los sellos",
     },
     [42226] = {
-        name = "Resistencia Sombra Lunar",
+        name = "Resistencia de Puestaluna",
     },
     [42227] = {
-        name = "Hacia la grieta",
+        name = "En la grieta",
     },
     [42228] = {
         name = "La ciudad oculta",
@@ -3471,25 +3462,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Shal'Aran",
     },
     [42230] = {
-        name = "La carga del caminavalles",
+        name = "La carga del Caminante del Valle",
     },
     [42231] = {
-        name = "El misterioso paladín",
+        name = "El paladín misterioso",
     },
     [42238] = {
         name = "Demonio perdido",
     },
     [42244] = {
-        name = "El destino de La Represalia de la Reina",
+        name = "El destino del Represalia de la Reina",
     },
     [42268] = {
         name = "Marineros náufragos",
     },
     [42271] = {
-        name = "Su último aliento",
+        name = "Sus últimos alientos",
     },
     [42365] = {
-        name = "Concentrar las energías",
+        name = "Concentrando las energías",
     },
     [42367] = {
         name = "Arkethrax",
@@ -3501,10 +3492,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Lo están haciendo mal",
     },
     [42370] = {
-        name = "Introducción a la varita",
+        name = "Uso de la varita 101",
     },
     [42371] = {
-        name = "Sala de estudio: investigación sobre combate",
+        name = "Sala de estudio: Investigación de combate",
     },
     [42372] = {
         name = "Acceso de Llamarada Vil",
@@ -3513,76 +3504,76 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ojos sobre ti",
     },
     [42383] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42384] = {
         name = "Informes de exploración",
     },
     [42385] = {
-        name = "Echar una mano",
+        name = "Dando una mano",
     },
     [42386] = {
-        name = "Apuros y más apuros",
+        name = "Más problemas",
     },
     [42387] = {
-        name = "Trampa para asesinos",
+        name = "Trampa asesina",
     },
     [42388] = {
-        name = "Llamada urgente",
+        name = "Llamadas urgentes",
     },
     [42389] = {
-        name = "Llamar a casa a Hilaire",
+        name = "Llevando a Hilaire a casa",
     },
     [42390] = {
-        name = "Reclutar a Rexxar",
+        name = "Reclutando a Rexxar",
     },
     [42391] = {
-        name = "La mordedura de la bestia",
+        name = "La mordida de la bestia",
     },
     [42392] = {
-        name = "Sobrevivir a la noche",
+        name = "Sobrevive la noche",
     },
     [42393] = {
-        name = "El regreso",
+        name = "Regreso a casa",
     },
     [42394] = {
         name = "Protección oculta",
     },
     [42395] = {
-        name = "Señalización de problemas",
+        name = "Hora de problemas",
     },
     [42397] = {
-        name = "Barón y el montero",
+        name = "El barón y el cazador",
     },
     [42398] = {
-        name = "El despertar de los sentidos",
+        name = "Despertar los sentidos",
     },
     [42399] = {
-        name = "A trabajar",
+        name = "Listo para trabajar",
     },
     [42400] = {
-        name = "Magos desaparecidos",
+        name = "Magos perdidos",
     },
     [42401] = {
         name = "El aroma de la magia",
     },
     [42402] = {
-        name = "Pedir refuerzos",
+        name = "Solicitando refuerzos",
     },
     [42403] = {
-        name = "Cazadores de Monte Alto",
+        name = "Cazadores de Altamontaña",
     },
     [42404] = {
-        name = "Ayudar al archimago",
+        name = "Ayudando al Archimago",
     },
     [42405] = {
-        name = "Informar a nuestros aliados",
+        name = "Informando a nuestros aliados",
     },
     [42406] = {
-        name = "Domar a la bestia",
+        name = "Domar la bestia",
     },
     [42407] = {
-        name = "La naturaleza de la bestia",
+        name = "La naturaleza de la Bestia",
     },
     [42408] = {
         name = "Componentes necesarios",
@@ -3594,7 +3585,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Rexxar",
     },
     [42411] = {
-        name = "Campeona: Maestra de bestias Hilaire",
+        name = "Campeón: Maestra de bestias Hilaire",
     },
     [42412] = {
         name = "Campeón: Montero Blake",
@@ -3603,31 +3594,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Hemet Nesingwary",
     },
     [42414] = {
-        name = "Campeona: Addie Silbarisma",
+        name = "Campeón: Addie Chisparisma",
     },
     [42415] = {
         name = "Campeón: Halduron Alasol",
     },
     [42416] = {
-        name = "El Consejo está reunido",
+        name = "El consejo está en sesión",
     },
     [42418] = {
         name = "Un visitante inesperado",
     },
     [42423] = {
-        name = "Reposo del archimago Vargoth",
+        name = "Reposo del Archimago Vargoth",
     },
     [42424] = {
-        name = "Seguir sus pasos",
+        name = "Siguiendo sus huellas",
     },
     [42428] = {
-        name = "El santuario de Crinceniza",
+        name = "El santuario de Ashamane",
     },
     [42430] = {
-        name = "Colmillos de Crinceniza",
+        name = "Los Colmillos de Ashamane",
     },
     [42432] = {
-        name = "Pesadilla Esmeralda: La Pesadilla Esmeralda",
+        name = "La Pesadilla Esmeralda: La Pesadilla Esmeralda",
     },
     [42433] = {
         name = "Magia antigua",
@@ -3636,10 +3627,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una operación encubierta",
     },
     [42435] = {
-        name = "Prepararse para la asimilación",
+        name = "Prepárate para ser asimilado",
     },
     [42436] = {
-        name = "Ayudar a nuestros aliados",
+        name = "Ayudando a nuestros aliados",
     },
     [42438] = {
         name = "Semillas de renovación",
@@ -3663,19 +3654,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Bailando con cuervosos",
     },
     [42449] = {
-        name = "El retorno de los Cuatro Jinetes",
+        name = "El regreso de los Cuatro Jinetes",
     },
     [42451] = {
         name = "El plan de Kalec",
     },
     [42452] = {
-        name = "En busca del Ébano Glacial",
+        name = "En busca de Frío del ébano",
     },
     [42455] = {
         name = "Las gemas de Alodi",
     },
     [42476] = {
-        name = "Investigando el Paso de la Muerte",
+        name = "Excavación Paso de la Muerte",
     },
     [42477] = {
         name = "Daio el Decrépito",
@@ -3687,13 +3678,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Todo al rojo",
     },
     [42484] = {
-        name = "El Primogénito se alza",
+        name = "El auge del Primogénito",
     },
     [42486] = {
         name = "Pequeña perdida",
     },
     [42487] = {
-        name = "Amigos en el exterior",
+        name = "Amigos del exterior",
     },
     [42488] = {
         name = "La morada de Thalyssra",
@@ -3702,46 +3693,46 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Los cajones de Thalyssra",
     },
     [42490] = {
-        name = "La Arquería: Abrir La Arquería",
+        name = "El Arco: Abriendo El Arco",
     },
     [42491] = {
-        name = "La Arquería: Conocimientos sepultados hace mucho",
+        name = "El Arco: Un conocimiento perdido",
     },
     [42493] = {
-        name = "¡Fatalidad inminenteeeeee!",
+        name = "¡El fin se acerca!",
     },
     [42494] = {
-        name = "Más que un simple vendedor de alimentos",
+        name = "Más que un simple proveedor de alimentos",
     },
     [42501] = {
-        name = "Terminar el trabajo",
+        name = "Terminando el trabajo",
     },
     [42502] = {
-        name = "Sin refugio",
+        name = "Sin santuario",
     },
     [42503] = {
         name = "Decodificador",
     },
     [42504] = {
-        name = "La hoja oculta",
+        name = "La espada oculta",
     },
     [42508] = {
-        name = "No es un dragón desdentado",
+        name = "Un dragón con carácter",
     },
     [42510] = {
         name = "Alma inmortal",
     },
     [42512] = {
-        name = "Monte Alto resiste",
+        name = "Altamontaña sigue en pie",
     },
     [42516] = {
         name = "Poder creciente",
     },
     [42519] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42520] = {
-        name = "Una pérdida terrible",
+        name = "Una terrible pérdida",
     },
     [42521] = {
         name = "El enemigo de mi enemigo...",
@@ -3753,19 +3744,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Estableciendo contacto",
     },
     [42524] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [42525] = {
-        name = "Tropas sobre el terreno",
+        name = "Tropas en el campo",
     },
     [42526] = {
-        name = "Pongámonos técnicos",
+        name = "Enchulando la máquina",
     },
     [42533] = {
         name = "El reino en ruinas",
     },
     [42534] = {
-        name = "Nuestros más antiguos enemigos",
+        name = "Nuestros enemigos más antiguos",
     },
     [42535] = {
         name = "Muerte... y descomposición",
@@ -3774,7 +3765,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Regicidio",
     },
     [42537] = {
-        name = "El rey se alza",
+        name = "El rey se levanta",
     },
     [42539] = {
         name = "Capa y daga",
@@ -3786,55 +3777,55 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Preparación",
     },
     [42583] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42584] = {
         name = "Hermana Lilith",
     },
     [42585] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [42586] = {
-        name = "Defensa del claro",
+        name = "Una defensa clara",
     },
     [42588] = {
-        name = "Ramificaciones",
+        name = "Ramificarse",
     },
     [42593] = {
-        name = "El arte Arcano",
+        name = "El camino arcano",
     },
     [42594] = {
-        name = "Un movimiento sin igual",
+        name = "Muévete como ningún otro",
     },
     [42597] = {
-        name = "La llamada de Odyn",
+        name = "Una invitación de Odyn",
     },
     [42598] = {
-        name = "Campeones del Bastión Celestial",
+        name = "Campeones del Bastión del Cielo",
     },
     [42601] = {
-        name = "Pongámonos técnicos",
+        name = "Enchulando la máquina",
     },
     [42602] = {
-        name = "Tropas sobre el terreno",
+        name = "Tropas en el campo",
     },
     [42603] = {
-        name = "Información a cualquier precio",
+        name = "Información a cualquier costo",
     },
     [42607] = {
         name = "Capitán Stahlstrom",
     },
     [42608] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42609] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [42610] = {
-        name = "Tropas sobre el terreno",
+        name = "Tropas en el campo",
     },
     [42611] = {
-        name = "Einar el taumaturgo de runas",
+        name = "Einar el Invocarrunas",
     },
     [42614] = {
         name = "Campeón: Svergan Capatormenta",
@@ -3847,9 +3838,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42619] = {
         name = "Campeón: Hodir",
-    },
-    [42627] = {
-        name = "La hoja oculta",
     },
     [42634] = {
         name = "Confrontación en el Templo Oscuro",
@@ -3870,19 +3858,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Derramando mala sangre",
     },
     [42650] = {
-        name = "Romper los lazos",
+        name = "Rompe los lazos",
     },
     [42651] = {
         name = "La promesa de Svergan",
     },
     [42654] = {
-        name = "Arboleda Corazón Oscuro: Roble de la Pesadilla",
+        name = "Matorral Corazón Oscuro: Roble de la Pesadilla",
     },
     [42655] = {
         name = "Mena bajo el mar",
     },
     [42656] = {
-        name = "Armamento azur",
+        name = "Arsenal azur",
     },
     [42657] = {
         name = "Reunión en el Valle Zarpaluna",
@@ -3894,13 +3882,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "En defensa de Dalaran",
     },
     [42660] = {
-        name = "Cámara de las Celadoras: Asuntos del corazón",
+        name = "Bóveda de las Celadoras: Asuntos del corazón",
     },
     [42663] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42665] = {
-        name = "Entre nuestras filas",
+        name = "En nuestras filas",
     },
     [42666] = {
         name = "Regresa al Martillo Vil",
@@ -3912,37 +3900,37 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Levántense, campeones",
     },
     [42671] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [42677] = {
-        name = "Lo que necesita Gaardoun",
+        name = "Cosas necesarias para Gaardoun",
     },
     [42678] = {
-        name = "Torreón Grajo Negro: Hacia el Torreón Grajo Negro",
+        name = "Fuerte Torre Oscura: En el Fuerte Torre Oscura",
     },
     [42679] = {
-        name = "Guerreros Tábidos",
+        name = "Guerreros tábidos",
     },
     [42680] = {
-        name = "Descifrar la carta",
+        name = "Descifrando la carta",
     },
     [42681] = {
         name = "Loramus, ¿eres tú?",
     },
     [42682] = {
-        name = "Accesorios adicionales",
+        name = "Equipo adicional",
     },
     [42683] = {
         name = "Mejoras demoníacas",
     },
     [42684] = {
-        name = "Desorientar al IV:7",
+        name = "Engañando a la IV:7",
     },
     [42689] = {
         name = "Conocer a nuestro enemigo",
     },
     [42691] = {
-        name = "Cebo de gusano Ley",
+        name = "Cebo de gusano ley",
     },
     [42692] = {
         name = "Los Hijos de Nar'thalas",
@@ -3954,7 +3942,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "De vuelta de la tumba",
     },
     [42696] = {
-        name = "Pongámonos técnicos",
+        name = "Enchulando la máquina",
     },
     [42702] = {
         name = "Campeón: Molino Tormenta de Maná",
@@ -3966,7 +3954,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Destructor Arcano",
     },
     [42705] = {
-        name = "Campeón: Ravandwyr",
+        name = "Campeona: Ravandwyr",
     },
     [42706] = {
         name = "Campeona: Esara Verrinde",
@@ -3975,40 +3963,40 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ojo de Azshara: Una aflicción mágica",
     },
     [42708] = {
-        name = "Un favor personal",
+        name = "Una petición personal",
     },
     [42722] = {
         name = "Amigos enjaulados",
     },
     [42730] = {
-        name = "Solicitud razonable de Tragonublo",
+        name = "El pedido razonable de Tragonublo",
     },
     [42731] = {
-        name = "Trabajar con las Celadoras",
+        name = "Trabajando con las celadoras",
     },
     [42732] = {
-        name = "Gujas de guerra más mortíferas",
+        name = "Gujas de guerra más letales",
     },
     [42733] = {
-        name = "Un combustible muy especial",
+        name = "Un combustible muy particular",
     },
     [42734] = {
-        name = "Hacia el interior de El Oculus",
+        name = "Hacia el Oculus",
     },
     [42735] = {
-        name = "Malace en tierra vrykul",
+        name = "Malace en tierras vrykul",
     },
     [42736] = {
         name = "Arruinando runas",
     },
     [42737] = {
-        name = "Arruinando runas: runaskeld Rolo",
+        name = "Arruinando runas: Rolo Runaskeld",
     },
     [42738] = {
-        name = "Arruinando runas: señor de runas Ragnar",
+        name = "Arruinando runas: Señor de las runas Ragnar",
     },
     [42739] = {
-        name = "Arruinando runas: sabio de runas Floki",
+        name = "Arruinando runas: sabio de las runas Floki",
     },
     [42747] = {
         name = "Donde se encuentran los Lechúcicos salvajes",
@@ -4026,7 +4014,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Atracador lunar",
     },
     [42752] = {
-        name = "Cámara de las Celadoras: Asalto a la cámara",
+        name = "Bóveda de las Celadoras: Entrar a la bóveda",
     },
     [42754] = {
         name = "Capaz de saltar",
@@ -4035,25 +4023,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El fin del hambre",
     },
     [42762] = {
-        name = "El Compañero del Errante",
+        name = "El acompañante del vagabundo",
     },
     [42765] = {
-        name = "Prueba en el templo",
+        name = "La prueba en el Templo",
     },
     [42766] = {
-        name = "El enigma del barril",
+        name = "El acertijo de la barrisca",
     },
     [42767] = {
-        name = "El enigma de la tierra",
+        name = "El acertijo de la Tierra",
     },
     [42770] = {
-        name = "Buscar consejo",
+        name = "Buscando el camino a seguir",
     },
     [42771] = {
-        name = "Mantener el orden",
+        name = "Manteniendo la paz",
     },
     [42772] = {
-        name = "Suelo sagrado",
+        name = "Terreno sagrado",
     },
     [42773] = {
         name = "Luz reveladora",
@@ -4062,16 +4050,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La esperanza prevalece",
     },
     [42775] = {
-        name = "El punto crucial del plan",
+        name = "El punto decisivo del plan",
     },
     [42776] = {
-        name = "Dos dignos",
+        name = "Dos personas dignas",
     },
     [42786] = {
         name = "Restos grotescos",
     },
     [42787] = {
-        name = "Encárgate personalmente",
+        name = "Encargarse personalmente",
     },
     [42792] = {
         name = "Deja tu huella",
@@ -4080,10 +4068,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeona: Valeera Sanguinar",
     },
     [42801] = {
-        name = "De vuelta a la oscuridad",
+        name = "El regreso más oscuro",
     },
     [42802] = {
-        name = "Asegurar Mardum",
+        name = "Poniendo a salvo a Mardum",
     },
     [42808] = {
         name = "Adeptos verdes",
@@ -4092,61 +4080,61 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La invasión de Niskara",
     },
     [42810] = {
-        name = "Una última oferta",
+        name = "Una oferta final",
     },
     [42814] = {
         name = "Una misión importante",
     },
     [42815] = {
-        name = "Volver a la Costa Abrupta",
+        name = "Vuelve a la Costa Quebrada.",
     },
     [42818] = {
-        name = "El asalto Escarlata",
+        name = "El asalto escarlata",
     },
     [42821] = {
-        name = "Reunir un ejército",
+        name = "Creación de un ejército",
     },
     [42823] = {
-        name = "El Comandante Escarlata",
+        name = "El comandante escarlata",
     },
     [42824] = {
-        name = "La zelote se alza",
+        name = "El zelote se levanta",
     },
     [42828] = {
-        name = "Como moscas a la miel",
+        name = "Como polillas a la luz",
     },
     [42829] = {
-        name = "Entrada en escena",
+        name = "Haz una entrada",
     },
     [42832] = {
         name = "El fruto de nuestros esfuerzos",
     },
     [42833] = {
-        name = "Cómo se hace el vino de arco",
+        name = "Así se hace: Arcavino",
     },
     [42834] = {
         name = "Concentración intensa",
     },
     [42835] = {
-        name = "A la antigua usanza",
+        name = "A la antigua",
     },
     [42836] = {
-        name = "Sabotaje Alaseda",
+        name = "Alasedas al ataque",
     },
     [42837] = {
         name = "Equilibrio de sobra",
     },
     [42838] = {
-        name = "Percance",
+        name = "Inversión",
     },
     [42839] = {
-        name = "Acaba con el despreciable",
+        name = "Busca al Repugnante",
     },
     [42840] = {
-        name = "Si las palabras no funcionan...",
+        name = "Si las palabras no sirven...",
     },
     [42841] = {
-        name = "Un gran golpe",
+        name = "Un gran resultado",
     },
     [42844] = {
         name = "Poder creciente",
@@ -4155,22 +4143,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La matriarca de sangre",
     },
     [42847] = {
-        name = "Tormentas oscuras",
+        name = "Tormentas Oscuras",
     },
     [42848] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [42849] = {
         name = "Cólera y justicia",
     },
     [42850] = {
-        name = "Pongámonos técnicos",
+        name = "Modernízalo un poco",
     },
     [42851] = {
         name = "Campeón: Vindicador Boros",
     },
     [42852] = {
-        name = "Campeona: Justicar Julia Celeste",
+        name = "Campeón: Justicar Julia Celeste",
     },
     [42857] = {
         name = "Húmedo en los bordes",
@@ -4182,7 +4170,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una señal del cielo",
     },
     [42867] = {
-        name = "Reunión de la Mano de Plata",
+        name = "Reunión de la Mano de plata",
     },
     [42868] = {
         name = "El desafío del Rey Mono",
@@ -4191,7 +4179,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Vigilia eterna",
     },
     [42872] = {
-        name = "Asegurar el camino",
+        name = "Asegurando el camino",
     },
     [42882] = {
         name = "La masacre escarlata",
@@ -4203,22 +4191,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un esfuerzo de raíz",
     },
     [42885] = {
-        name = "La orden del Alto Señor",
+        name = "La orden del Alto señor",
     },
     [42886] = {
         name = "A Faronaar",
     },
     [42887] = {
-        name = "Ajuste de cuentas",
+        name = "Esto es castigo divino",
     },
     [42888] = {
         name = "Orbes de comunicación",
     },
     [42889] = {
-        name = "La vuelta a casa",
+        name = "El camino de regreso a casa",
     },
     [42890] = {
-        name = "El códice de mando",
+        name = "El códice de comando",
     },
     [42914] = {
         name = "Campeón: Meryl Tormenta Vil",
@@ -4227,61 +4215,52 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Archimago Vargoth",
     },
     [42918] = {
-        name = "Runas demoníacas",
+        name = "Runas demoniacas",
     },
     [42919] = {
-        name = "El legado del sucesor",
+        name = "El legado de Scion",
     },
     [42920] = {
         name = "La invasión de Niskara",
     },
     [42921] = {
-        name = "Enfrentamiento en El Templo Oscuro",
+        name = "Confrontación en el Templo Oscuro",
     },
     [42931] = {
         name = "Donde cae el martillo",
     },
     [42932] = {
-        name = "Lo que la Madre Pétrea sabe",
+        name = "La información de la Madre Pétrea",
     },
     [42933] = {
-        name = "La vileza de los troggs en la tierra",
+        name = "Una maldición de troggs contra la tierra",
     },
     [42935] = {
-        name = "Rescate del draco de piedra",
+        name = "El rescate de los dracos de piedra",
     },
     [42936] = {
-        name = "Cuestión de agarre",
+        name = "Jugada decisiva",
     },
     [42937] = {
-        name = "Paliza en Rocaguja",
+        name = "La destrucción de Rocaguja",
     },
     [42940] = {
-        name = "Querer es poder",
+        name = "Cuando hay disposición, hay solución",
     },
     [42954] = {
         name = "Un pequeño favor",
     },
     [42955] = {
-        name = "Como deben ser las cosas",
+        name = "La forma correcta de las cosas",
     },
     [42956] = {
-        name = "El paquete de Ari",
+        name = "Paquete de Ari",
     },
     [42957] = {
         name = "Viaje al este",
     },
     [42959] = {
         name = "El tres es un número de la suerte",
-    },
-    [42966] = {
-        name = "La orden del Alto señor",
-    },
-    [42967] = {
-        name = "La orden del Alto Señor",
-    },
-    [42968] = {
-        name = "La orden del Alto Señor",
     },
     [42974] = {
         name = "El destino de Hodir",
@@ -4290,49 +4269,49 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Sirviente del Hijo del Viento",
     },
     [42983] = {
-        name = "Esencia de mistral",
+        name = "Esencia mistral",
     },
     [42984] = {
-        name = "Ojo de Azshara: El Cetro de las Tormentas",
+        name = "Ojo de Azshara: El cetro de las tormentas",
     },
     [42986] = {
-        name = "Enemigos de aire",
+        name = "Enemigos del aire",
     },
     [42988] = {
-        name = "Reparador de mundos",
+        name = "Sanador de mundos",
     },
     [42989] = {
         name = "Ma'haat el Indómito",
     },
     [42990] = {
-        name = "Guarida de Neltharion: El Amuleto de la Tierra",
+        name = "Guarida de Neltharion: El amuleto terráneo",
     },
     [42995] = {
-        name = "Gusto por la sangre",
+        name = "Un gusto por la sangre",
     },
     [42996] = {
-        name = "El pilar de La Vorágine: Aire",
+        name = "El Pilar de la Vorágine: Aire",
     },
     [42997] = {
-        name = "El pilar de La Vorágine: Tierra",
+        name = "El Pilar de la Vorágine: Tierra",
     },
     [43002] = {
-        name = "Espada Bendita del Hijo del Viento",
+        name = "Espada bendita del Hijo del Viento",
     },
     [43003] = {
-        name = "Volver con Janai",
+        name = "Vuelve a Janai",
     },
     [43007] = {
-        name = "Vuelve a la Cámara de las Sombras",
+        name = "Regresa a la Cámara de las sombras",
     },
     [43013] = {
-        name = "La Escuela de Picardía",
+        name = "La Escuela para pícaros",
     },
     [43014] = {
-        name = "Wolfe, el Lobo Feroz",
+        name = "El gran y malvado Wolfe",
     },
     [43015] = {
-        name = "Lo que Winstone sugiere",
+        name = "Lo que sugiere Winstone",
     },
     [43062] = {
         name = "Más entrenamiento",
@@ -4341,76 +4320,76 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El juramento de Ulduar",
     },
     [43100] = {
-        name = "Encontrar el Cetro",
+        name = "En busca del cetro",
     },
     [43151] = {
-        name = "Hacer un intercambio",
+        name = "Realizar un trato",
     },
     [43153] = {
         name = "Ojo por cetro",
     },
     [43182] = {
-        name = "El recipiente perdido",
+        name = "La vasija perdida",
     },
     [43186] = {
-        name = "¡Yo soy el asesino!",
+        name = "¡Honores de los Illidari!",
     },
     [43241] = {
         name = "El flujo de la Pesadilla",
     },
     [43249] = {
-        name = "El ojo del cuervo",
+        name = "El Ojo del Cuervo",
     },
     [43250] = {
-        name = "Vamos a la corte",
+        name = "A la corte",
     },
     [43251] = {
-        name = "En busca del ojo",
+        name = "En búsqueda del ojo",
     },
     [43252] = {
-        name = "Sin descanso eterno",
+        name = "Agitación eterna",
     },
     [43253] = {
-        name = "Fauce de Almas: Antiguas leyendas vrykuls",
+        name = "Fauces de almas: Leyendas vrykul ancestrales",
     },
     [43254] = {
-        name = "Arruinar el ritual",
+        name = "Ruina del ritual",
     },
     [43264] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [43265] = {
         name = "Que corra la voz",
     },
     [43266] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [43267] = {
-        name = "Tropas sobre el terreno",
+        name = "Tropas en el campo",
     },
     [43268] = {
-        name = "Pongámonos técnicos",
+        name = "Enchulando la máquina",
     },
     [43270] = {
-        name = "Alzaos, campeones",
+        name = "Levántense, campeones",
     },
     [43273] = {
         name = "Que corra la voz",
     },
     [43275] = {
-        name = "Reclutar tropas",
+        name = "Reclutamiento de tropas",
     },
     [43276] = {
-        name = "Tropas sobre el terreno",
+        name = "Tropas en el campo",
     },
     [43277] = {
-        name = "Pongámonos técnicos",
+        name = "Enchulando la máquina",
     },
     [43309] = {
         name = "La oportunidad perfecta",
     },
     [43310] = {
-        name = "O con nosotros",
+        name = "Con nosotros",
     },
     [43311] = {
         name = "O contra nosotros",
@@ -4419,19 +4398,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Amenazas poco disimuladas",
     },
     [43313] = {
-        name = "Se rumorea por ahí",
+        name = "Se rumorea",
     },
     [43314] = {
-        name = "Corte de las Estrellas: Cuidado con la furia de los elfos pacientes",
+        name = "Corte de Estrellas: Cuidado con la furia de un elfo paciente",
     },
     [43315] = {
-        name = "La muerte le sienta tan bien",
+        name = "La muerte le sienta bien",
     },
     [43317] = {
-        name = "En el saco",
+        name = "En la bolsa",
     },
     [43318] = {
-        name = "Adalid de Ly'leth",
+        name = "Campeón de Ly'leth",
     },
     [43324] = {
         name = "Ira de las lechubestias",
@@ -4443,49 +4422,49 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La tormenta inminente",
     },
     [43335] = {
-        name = "Conocimientos de supervivencia",
+        name = "Habilidades de supervivencia",
     },
     [43338] = {
         name = "El códice de Ra",
     },
     [43352] = {
-        name = "Seguridad de activos",
+        name = "Seguridad de recursos",
     },
     [43359] = {
         name = "El arma de un héroe",
     },
     [43360] = {
-        name = "Las doncellas del fragmento",
+        name = "Las cristálidas",
     },
     [43361] = {
         name = "Fragmentos de desastre",
     },
     [43362] = {
-        name = "Pesadilla Esmeralda: Ensoñaciones",
+        name = "De lo que están hechos los sueños",
     },
     [43371] = {
-        name = "Aliviar el frente",
+        name = "Aliviando las líneas del frente",
     },
     [43372] = {
-        name = "Susurros en el Vacío",
+        name = "Susurros en el vacío",
     },
     [43373] = {
-        name = "El mejor y más brillante",
+        name = "Los mejores y más inteligentes",
     },
     [43374] = {
         name = "Control mental múrloc",
     },
     [43375] = {
-        name = "Un gran suministro",
+        name = "Un suministro abundante",
     },
     [43376] = {
-        name = "Resolución de problemas",
+        name = "Problemas en bandeja",
     },
     [43377] = {
-        name = "Cámaras del Valor: La luz interior",
+        name = "Salones del Valor: La luz interior",
     },
     [43378] = {
-        name = "Ojo de Azshara: Mirar a través de la lente",
+        name = "Ojo de Azshara: Mirando a través del lente",
     },
     [43379] = {
         name = "La visión de Velen",
@@ -4500,22 +4479,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeona: Natalie Seline",
     },
     [43383] = {
-        name = "Despertar de la Luz",
+        name = "Despertando la luz",
     },
     [43384] = {
-        name = "Runas demoníacas",
+        name = "Runas demoniacas",
     },
     [43385] = {
-        name = "Infiltrados entre nuestros enemigos",
+        name = "Infiltrándonos en nuestros enemigos",
     },
     [43386] = {
-        name = "Enviado del embate",
+        name = "Enviado agresivo",
     },
     [43387] = {
         name = "Redención escarlata",
     },
     [43388] = {
-        name = "Liberación del apóstata",
+        name = "Liberación renegada",
     },
     [43389] = {
         name = "Invitados inesperados",
@@ -4527,13 +4506,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Secretos del Vacío",
     },
     [43392] = {
-        name = "Al Vacío",
+        name = "En el Vacío",
     },
     [43393] = {
-        name = "Sombras crecientes",
+        name = "Sombras ascendentes",
     },
     [43394] = {
-        name = "Cruzar las líneas de la Legión",
+        name = "Cruzando las líneas de la Legión",
     },
     [43395] = {
         name = "Aliados de la Luz",
@@ -4542,16 +4521,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La mente del enemigo",
     },
     [43397] = {
-        name = "Unidos",
+        name = "Unidos como uno",
     },
     [43398] = {
         name = "Campeón: Alonsus Faol",
     },
     [43399] = {
-        name = "Fortificar el templo",
+        name = "Fortificando el templo",
     },
     [43400] = {
-        name = "Piedralumen",
+        name = "Piedra lumen",
     },
     [43401] = {
         name = "Una luz en la oscuridad",
@@ -4560,7 +4539,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Sumo sacerdote de la Luz Abisal",
     },
     [43403] = {
-        name = "Defender las Islas",
+        name = "Defendiendo las islas",
     },
     [43407] = {
         name = "El arma de un héroe",
@@ -4599,31 +4578,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Madre Ozram",
     },
     [43468] = {
-        name = "Sangre para Wolfe",
+        name = "Sangre para El Lobo",
     },
     [43469] = {
         name = "¿Dónde se esconde Mathias?",
     },
     [43470] = {
-        name = "Podar el jardín",
+        name = "Podando el jardín",
     },
     [43479] = {
-        name = "El mundo no es suficiente",
+        name = "El mundo no basta",
     },
     [43485] = {
         name = "Una distracción ardiente",
     },
     [43486] = {
-        name = "Interpretar el códice",
+        name = "Descifrando el códice",
     },
     [43487] = {
-        name = "Asalto al Bastión Violeta: El Lexicón vil",
+        name = "Ataque al Bastión Violeta: El lexicón vil",
     },
     [43488] = {
-        name = "Sangre enemiga",
+        name = "Sangre de nuestro enemigo",
     },
     [43489] = {
-        name = "Al Acceso Llamarada Vil",
+        name = "Hacia el Acceso de Llamarada Vil",
     },
     [43490] = {
         name = "El rastro de Aponi",
@@ -4632,91 +4611,85 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Aliados de la Luz",
     },
     [43492] = {
-        name = "Campeona: Aponi Crin Brillante",
+        name = "Campeón: Aponi Crin Brillante",
     },
     [43493] = {
-        name = "Torreón Grajo Negro: Lord Cresta Cuervo",
+        name = "Fuerte Torre Oscura: Señor Cresta Cuervo",
     },
     [43494] = {
-        name = "Caballeros de la Mano de Plata",
+        name = "Caballeros de la Mano de plata",
     },
     [43496] = {
-        name = "El poder interior",
+        name = "El poder interno",
     },
     [43501] = {
         name = "El poder interno",
     },
     [43502] = {
-        name = "Cambio de estaciones",
-    },
-    [43503] = {
-        name = "El poder interno",
-    },
-    [43505] = {
-        name = "El poder interno",
+        name = "Un cambio de temporadas",
     },
     [43506] = {
-        name = "Torreón Grajo Negro: Un poder mayor",
+        name = "Fuerte Torre Oscura: Poder superior",
     },
     [43508] = {
-        name = "El maestro de espías cautivo",
+        name = "El maestro espía cautivo",
     },
     [43514] = {
-        name = "Un pasado jactancioso",
+        name = "Un pasado vanaglorioso",
     },
     [43517] = {
-        name = "Arboleda Corazón Oscuro: Poder caído",
+        name = "Matorral Corazón Oscuro: Poder caído",
     },
     [43518] = {
-        name = "Oscuridad moderada",
+        name = "Oscuridad irascible",
     },
     [43519] = {
-        name = "Fuerza lúcida",
+        name = "Fuerza a flor de piel",
     },
     [43520] = {
-        name = "Pesadilla Esmeralda: En pesadillas",
+        name = "La Pesadilla Esmeralda: En las pesadillas",
     },
     [43521] = {
-        name = "Esencia de poder",
+        name = "La Pesadilla esmeralda: Esencia de poder",
     },
     [43522] = {
         name = "Consumo esencial",
     },
     [43523] = {
-        name = "Deuda pagada",
+        name = "Deuda saldada",
     },
     [43524] = {
-        name = "Corte de las Estrellas: Perfección literaria",
+        name = "Corte de Estrellas: Perfección literaria",
     },
     [43525] = {
-        name = "Cámara de las Celadoras: Tomar prestado sin permiso",
+        name = "Bóveda de las Celadoras: Tomando sin preguntar",
     },
     [43526] = {
-        name = "Una prueba de verdad",
+        name = "La verdadera prueba",
     },
     [43527] = {
-        name = "Salvar a la Guardia",
+        name = "Salvando a la guardia",
     },
     [43528] = {
-        name = "Planear el asalto",
+        name = "Planeando el ataque",
     },
     [43530] = {
-        name = "El Bastión Nocturno: Delirios de grandeza",
+        name = "La Fortaleza Nocturna: Delirios de grandeza",
     },
     [43531] = {
-        name = "Hacia el Bastión Nocturno",
+        name = "La Fortaleza Nocturna: Hacia la Fortaleza Nocturna",
     },
     [43532] = {
-        name = "El Bastión Nocturno: Llamada de la oscuridad",
+        name = "La Fortaleza Nocturna: La oscuridad llama",
     },
     [43533] = {
-        name = "Equilibrio de poderes",
+        name = "Equilibrio de poder",
     },
     [43534] = {
         name = "Sangre de Sargeras",
     },
     [43535] = {
-        name = "Traducción: ¡Peligro!",
+        name = "Traducción: ¡Cuidado!",
     },
     [43539] = {
         name = "Salanar el Jinete",
@@ -4725,10 +4698,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La mente del enemigo",
     },
     [43541] = {
-        name = "Unidos",
+        name = "Unidos como uno",
     },
     [43562] = {
-        name = "Entregarse a fondo",
+        name = "Nuestro mayor esfuerzo",
     },
     [43563] = {
         name = "Proyector de tormenta de maná efímera",
@@ -4737,31 +4710,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Control de flujo",
     },
     [43565] = {
-        name = "Traer la baliza a casa",
+        name = "Trae la señal a casa",
     },
     [43567] = {
-        name = "A por todas",
+        name = "Apostar todo",
     },
     [43568] = {
-        name = "Arcan'dor, regalo de los antiguos magi",
+        name = "Arcan'dor, el regalo de los antiguos magos",
     },
     [43569] = {
-        name = "Petición de Arluin",
+        name = "La petición de Arluin",
     },
     [43571] = {
-        name = "Guarida de Neltharion: Trenza del Infrarrey",
+        name = "Guarida de Neltharion: Trenza del infrarrey",
     },
     [43572] = {
-        name = "Arboleda Corazón Oscuro: El látigo de la Pesadilla",
+        name = "Matorral Corazón Oscuro: El latigazo de la Pesadilla",
     },
     [43573] = {
-        name = "Avance bélico",
+        name = "Avanzando con la guerra",
     },
     [43574] = {
-        name = "Fauce de Almas: Maza de los Muertos",
+        name = "Fauces de almas: El Mazo de los Muertos",
     },
     [43576] = {
-        name = "Reagrupación en el refugio",
+        name = "Reagruparse en el refugio",
     },
     [43577] = {
         name = "Capturar el portal",
@@ -4770,25 +4743,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La sabiduría de la paciencia",
     },
     [43582] = {
-        name = "Parque shalássico",
+        name = "Parque Shalássico",
     },
     [43585] = {
-        name = "Prepararse para la guerra",
+        name = "Preparación para la guerra",
     },
     [43586] = {
-        name = "Fauce de Almas: Mensaje para Helya",
+        name = "Fauces de almas: Mensaje para Helya",
     },
     [43594] = {
-        name = "Suministro de línea Ley: Cámaras del Eclipse",
+        name = "Suministro de línea ley: Salas del Eclipse",
     },
     [43604] = {
-        name = "Fauce de Almas: Hoja rota de Ymiron",
+        name = "Fauces de almas: La hoja quebrada de Ymiron",
     },
     [43644] = {
         name = "Hacia las profundidades",
     },
     [43645] = {
-        name = "El rastro de la hablaolas",
+        name = "Rastro de Hablaolas",
     },
     [43686] = {
         name = "El cuarto jinete",
@@ -4797,7 +4770,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Guerreros de la Luz",
     },
     [43698] = {
-        name = "Piedralumen",
+        name = "Piedra lumen",
     },
     [43699] = {
         name = "Defensores del mundo",
@@ -4809,61 +4782,61 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Lothraxion",
     },
     [43702] = {
-        name = "Suavizar al objetivo",
+        name = "Debilitar al objetivo",
     },
     [43705] = {
-        name = "La última carga de Nobundo",
+        name = "La última pelea de Nobundo",
     },
     [43723] = {
-        name = "Campeona: Taoshi",
+        name = "Campeón: Taoshi",
     },
     [43724] = {
         name = "Campeón: Maestro Mathias Shaw",
     },
     [43750] = {
-        name = "La llamada de la batalla",
+        name = "Al ataque",
     },
     [43785] = {
         name = "Campeón: Arator el Redentor",
     },
     [43797] = {
-        name = "Ayudar al Cónclave",
+        name = "Ayudando al Cónclave",
     },
     [43808] = {
-        name = "¡Teletransportador a Guardia Lunar conectado!",
+        name = "¡El teletransportador a Guardia Lunar está en línea!",
     },
     [43809] = {
-        name = "¡Teletransportador a Tel'anor conectado!",
+        name = "¡Tel'anorportador en línea!",
     },
     [43810] = {
         name = "Manos a la obra",
     },
     [43811] = {
-        name = "¡Teletransportador a Finca de Lunastre conectado!",
+        name = "¡El teletransportador a los Dominios de Lunastre está en línea!",
     },
     [43813] = {
-        name = "¡Teletransportador del Santuario del Orden activado!",
+        name = "¡Teletransportador del Sagrario de la orden conectado!",
     },
     [43829] = {
         name = "Espía contra espía",
     },
     [43832] = {
-        name = "Elixires de ayuda",
+        name = "Elíxires de ayuda",
     },
     [43841] = {
-        name = "Convencer al viejo Yancey",
+        name = "Convenciendo al viejo Yancey",
     },
     [43851] = {
-        name = "Reclutar más tropas",
+        name = "Reclutamiento de más tropas",
     },
     [43852] = {
-        name = "Chicos sofisticados y bucaneros",
+        name = "Muchachos y bucaneros",
     },
     [43899] = {
-        name = "Los corceles de los Malditos",
+        name = "Corceles de los condenados",
     },
     [43928] = {
-        name = "Agregados de angustia",
+        name = "Agregados de la angustia",
     },
     [43933] = {
         name = "Campeona: Delas Dienteluna",
@@ -4872,7 +4845,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un nuevo camino",
     },
     [43943] = {
-        name = "Instrucción del ejército de los Marchitos",
+        name = "Entrenamiento del ejército marchito",
     },
     [43958] = {
         name = "El cadáver del delito",
@@ -4881,13 +4854,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ayuda contratada",
     },
     [43975] = {
-        name = "Reclutar doncellas escuderas",
+        name = "Reclutando doncellas escuderas",
     },
     [43991] = {
-        name = "Los protectores",
+        name = "Los Protectores",
     },
     [44004] = {
-        name = "Portador de la Luz",
+        name = "El portador de la Luz",
     },
     [44009] = {
         name = "Una estrella fugaz",
@@ -4896,28 +4869,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Voto de confianza",
     },
     [44041] = {
-        name = "La sangrienta verdad",
+        name = "La verdad sangrienta",
     },
     [44051] = {
-        name = "Potencial malgastado",
+        name = "Potencial desperdiciado",
     },
     [44052] = {
         name = "Y temblarán",
     },
     [44053] = {
-        name = "Amigos con derechos",
+        name = "Amigos con beneficios",
     },
     [44074] = {
         name = "Guarida de Neltharion: Esencia de tenacidad",
     },
     [44075] = {
-        name = "Cámaras del Valor: Esencia de ferocidad",
+        name = "Salones del Valor: Esencia de ferocidad",
     },
     [44076] = {
-        name = "Arboleda Corazón Oscuro: Esencia de recrecimiento",
+        name = "Matorral Corazón Oscuro: Esencia del recrecimiento",
     },
     [44077] = {
-        name = "Ojo de Azshara: Esencia de equilibrio",
+        name = "Ojo de Azshara: Esencia de balance",
     },
     [44082] = {
         name = "Caballeros de la Espada de Ébano",
@@ -4926,16 +4899,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Venganza por Margaux",
     },
     [44087] = {
-        name = "Volver al Martillo Vil",
+        name = "Regresa al Martillo Vil",
     },
     [44090] = {
-        name = "Juramento de Lealtad",
+        name = "Promesa de lealtad",
     },
     [44098] = {
-        name = "Reclutar aprendices",
+        name = "Reclutando aprendices",
     },
     [44099] = {
-        name = "Un amigo común",
+        name = "Un amigo en común",
     },
     [44100] = {
         name = "Presentaciones formales",
@@ -4944,28 +4917,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Negociando por sueños",
     },
     [44116] = {
-        name = "Misterio en Bahía de Cuarzo",
+        name = "Misterio en Bahía Citrino",
     },
     [44117] = {
-        name = "¡El tiempo vuela si hay ron de por medio!",
+        name = "¡El tiempo vuela cuando está tomando ron!",
     },
     [44152] = {
-        name = "Una crisis creciente",
+        name = "La crisis que crece",
     },
     [44153] = {
-        name = "Carga de la Luz",
+        name = "Carga de Luz",
     },
     [44155] = {
         name = "Buscando pistas",
     },
     [44156] = {
-        name = "Otro Arcan'dor que se cierra...",
+        name = "Otro Arcan'dor se cierra...",
     },
     [44161] = {
         name = "Cosas necesarias para Gaardoun",
     },
     [44177] = {
-        name = "Secretos oscuros y tratos sospechosos",
+        name = "Secretos oscuros y tratos sombríos",
     },
     [44178] = {
         name = "Una poción particularmente potente",
@@ -4974,7 +4947,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Marin Tragonublo",
     },
     [44181] = {
-        name = "Campeón. Almirante de la flota Tethys",
+        name = "Campeón: Almirante de la flota Tethys",
     },
     [44183] = {
         name = "Campeón: Lord Jorach Ravenholdt",
@@ -4986,7 +4959,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una cosa más...",
     },
     [44217] = {
-        name = "Armadura digna de un Señor de la Muerte",
+        name = "Armadura digna de un Señor de la muerte",
     },
     [44243] = {
         name = "Campeón: Thoras Aterratrols",
@@ -4998,7 +4971,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeona: Alta inquisidora Melenablanca",
     },
     [44246] = {
-        name = "Campeón: Podretripa",
+        name = "Campeón: Rottgut",
     },
     [44247] = {
         name = "Campeón: Amal'thazad",
@@ -5007,7 +4980,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Darion Mograine",
     },
     [44252] = {
-        name = "Una vaina para cada hoja",
+        name = "Una funda para cada espada",
     },
     [44257] = {
         name = "Una estrella fugaz",
@@ -5016,13 +4989,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ojo de Azshara: El alma gélida",
     },
     [44286] = {
-        name = "Cámara de las Celadoras: Una obra de arte de carne y hueso",
+        name = "Bóveda de las Celadoras: Una obra maestra de carne",
     },
     [44337] = {
-        name = "Que la diosa te proteja.",
+        name = "Que la diosa te proteja",
     },
     [44448] = {
-        name = "En la casa de Luz y Sombra",
+        name = "En la casa de la Luz y las Sombras",
     },
     [44449] = {
         name = "Apagado avanzado",
@@ -5031,13 +5004,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Demonios entre ellos",
     },
     [44464] = {
-        name = "Despertares",
+        name = "Los despertares",
     },
     [44465] = {
-        name = "Reclutar clamatierras",
+        name = "Reclutando Invocadores de tierra",
     },
     [44466] = {
-        name = "Un camino incierto",
+        name = "Un camino poco claro",
     },
     [44471] = {
         name = "Clarividencia",
@@ -5046,31 +5019,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un arma de la Alianza",
     },
     [44479] = {
-        name = "Legado de Cresta Cuervo",
+        name = "El legado de Cresta Cuervo",
     },
     [44480] = {
-        name = "En casa de mi padre",
+        name = "En la casa de mi padre",
     },
     [44481] = {
-        name = "Destino frustrado",
+        name = "Destino incompleto",
     },
     [44489] = {
-        name = "Lyana Penaoscura",
+        name = "Lyana Doloroscuro",
     },
     [44490] = {
         name = "Aladusta la Devoradora",
     },
     [44496] = {
-        name = "Destino frustrado",
+        name = "Destino incompleto",
     },
     [44497] = {
-        name = "Destino frustrado",
+        name = "Destino incompleto",
     },
     [44544] = {
-        name = "Llamada del Anillo de la Tierra",
+        name = "La llamada del Anillo de la Tierra",
     },
     [44550] = {
-        name = "Llamada a Acherus",
+        name = "El llamado a Acherus",
     },
     [44555] = {
         name = "El descubrimiento de Khadgar",
@@ -5079,10 +5052,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Semilla de esperanza",
     },
     [44562] = {
-        name = "Hacerse fuerte",
+        name = "Fuerza en aumento",
     },
     [44636] = {
-        name = "Crear un ejército",
+        name = "Construyendo un ejército",
     },
     [44663] = {
         name = "En un abrir y cerrar de ojos",
@@ -5091,88 +5064,88 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Voluntad de los Valarjar",
     },
     [44672] = {
-        name = "Maná antiguo",
+        name = "Maná ancestral",
     },
     [44680] = {
-        name = "Dar ejemplo",
+        name = "Liderando con el ejemplo",
     },
     [44682] = {
-        name = "Poder sin igual",
+        name = "Poder incomparable",
     },
     [44689] = {
-        name = "El poder de la Guardia de Tirisfal",
+        name = "La fuerza del Tirisgarde",
     },
     [44690] = {
-        name = "Sed de sangre",
+        name = "Una sed de sangre",
     },
     [44691] = {
-        name = "Una boca que alimentar",
+        name = "Trabajo hambriento",
     },
     [44694] = {
-        name = "Las batallas, una por una",
+        name = "Una batalla a la vez",
     },
     [44700] = {
-        name = "Tormenheim",
+        name = "Stormheim",
     },
     [44701] = {
-        name = "Tormenheim",
+        name = "Stormheim",
     },
     [44719] = {
-        name = "Irrupción en el Santuario",
+        name = "Romper el Sagrario",
     },
     [44722] = {
-        name = "Desertora decepcionada",
+        name = "Desertor decepcionado",
     },
     [44723] = {
         name = "Más como yo",
     },
     [44724] = {
-        name = "Desaparecidos",
+        name = "Personas desaparecidas",
     },
     [44725] = {
-        name = "Toma de rehenes",
+        name = "Situación con rehenes",
     },
     [44726] = {
         name = "En el negocio de las almas",
     },
     [44727] = {
-        name = "¡De contrabando!",
+        name = "¡Extracción!",
     },
     [44736] = {
-        name = "Puertas del Bastión Nocturno",
+        name = "Puertas de la Fortaleza Nocturna",
     },
     [44738] = {
         name = "Todo el poder de los elfos",
     },
     [44739] = {
-        name = "Todo listo para el combate",
+        name = "Listo para la batalla",
     },
     [44740] = {
-        name = "Punto de escala",
+        name = "Punto de concentración",
     },
     [44741] = {
         name = "Regreso a Karazhan: La teoría de la gran bolsa",
     },
     [44742] = {
-        name = "Destino de tabernero",
+        name = "Destino del tabernero",
     },
     [44743] = {
-        name = "El mando de Tyrande",
+        name = "La orden de Tyrande",
     },
     [44752] = {
-        name = "Triangulación de esencias",
+        name = "Triangulación de esencia",
     },
     [44753] = {
-        name = "Exhibición pública",
+        name = "En exposición pública",
     },
     [44754] = {
-        name = "Cuarto Creciente",
+        name = "Luna creciente",
     },
     [44756] = {
-        name = "El signo del Lirio Nocturno",
+        name = "Signo del lirio crepuscular",
     },
     [44758] = {
-        name = "Alijo pródigo",
+        name = "¿Alguien dijo alijo?",
     },
     [44766] = {
         name = "Plan B",
@@ -5181,22 +5154,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Taller de Nyell",
     },
     [44770] = {
-        name = "Los secretos de los shal'dorei",
+        name = "Los secretos de los Shal'dorei",
     },
     [44775] = {
-        name = "La cima de los huesos",
+        name = "La cumbre de huesos",
     },
     [44782] = {
-        name = "Lejos de miradas entrometidas",
+        name = "Lejos de ojos entrometidos",
     },
     [44783] = {
-        name = "Se alzan desde los huesos",
+        name = "Huesos resucitados",
     },
     [44787] = {
-        name = "La madre de huesos",
+        name = "La madre de hueso",
     },
     [44790] = {
-        name = "Prueba de fuego demoníaco",
+        name = "Prueba del Fuego demoníaco",
     },
     [44800] = {
         name = "Contra la voluntad de Magatha",
@@ -5205,7 +5178,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Refugio menguante",
     },
     [44821] = {
-        name = "Necesidad acuciante",
+        name = "Necesidad extrema",
     },
     [44822] = {
         name = "Investigaciones temporales",
@@ -5223,7 +5196,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "De paseo",
     },
     [44832] = {
-        name = "Explorar la brecha",
+        name = "Rastreando la brecha",
     },
     [44833] = {
         name = "El poder del sello",
@@ -5232,10 +5205,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Nulificado",
     },
     [44842] = {
-        name = "Escudo, te presento al hechizo",
+        name = "Escudo, aquí un hechizo",
     },
     [44843] = {
-        name = "Eliminar cristales",
+        name = "Limpieza de cristales",
     },
     [44844] = {
         name = "Apagar el portal",
@@ -5244,58 +5217,58 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Romper un brazo",
     },
     [44849] = {
-        name = "Expedición de reclutamiento",
+        name = "Impulso de reclutamiento",
     },
     [44850] = {
-        name = "Suministros para el ejército",
+        name = "Los pertrechos del ejército",
     },
     [44858] = {
-        name = "Troleo total",
+        name = "Un, trol, tres",
     },
     [44861] = {
-        name = "Armar a los rebeldes",
+        name = "Equipando a los rebeldes",
     },
     [44869] = {
-        name = "Terror de la Garfa",
+        name = "El terror de la Garfa",
     },
     [44870] = {
         name = "Bocas que alimentar",
     },
     [44877] = {
-        name = "Ataque al nido",
+        name = "Ataque sobre el Nidal",
     },
     [44888] = {
-        name = "La gracia de Aviana",
+        name = "Gracia de Aviana",
     },
     [44889] = {
-        name = "Gestión de recursos",
+        name = "Administración de recursos",
     },
     [44914] = {
-        name = "Armas: El aprendiz manilargo",
+        name = "Armas: El aprendiz de ladrón",
     },
     [44915] = {
-        name = "Atractivo profesional",
+        name = "Modelo profesional",
     },
     [44918] = {
         name = "Un mensaje de nuestros enemigos",
     },
     [44919] = {
-        name = "Un desafío de nuestros enemigos",
+        name = "Un reto de nuestros enemigos",
     },
     [44920] = {
-        name = "Orden de conjuros",
+        name = "Orden de encantamientos",
     },
     [44921] = {
         name = "Lobo solitario",
     },
     [44924] = {
-        name = "El archimago acorralado",
+        name = "El archimago acosado",
     },
     [44925] = {
-        name = "Cerrar el ojo",
+        name = "Ojos cerrados",
     },
     [44928] = {
-        name = "Algo no va bien...",
+        name = "Algo no anda bien...",
     },
     [44955] = {
         name = "Visitante en Shal'Aran",
@@ -5307,61 +5280,61 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Respuestas desconocidas",
     },
     [45024] = {
-        name = "Curte al culto",
+        name = "El sacrificio del culto",
     },
     [45025] = {
-        name = "Roba la fuente de energía",
+        name = "El robo de la fuente de poder",
     },
     [45026] = {
-        name = "Gastar energía vil",
+        name = "A gastar energía vil",
     },
     [45027] = {
-        name = "A la Costa Abrupta",
+        name = "A la Costa Quebrada",
     },
     [45028] = {
         name = "El destino de Kanrethad",
     },
     [45062] = {
-        name = "Trabajando sin descanso",
+        name = "Resistirse al arresto",
     },
     [45063] = {
-        name = "Los experimentos Alma Vil",
+        name = "Los experimentos almavil",
     },
     [45064] = {
-        name = "Adiós, vilificados",
+        name = "Se acabaron los vilnatos",
     },
     [45065] = {
-        name = "Inspeccionar la ciudad",
+        name = "Investiga la ciudad",
     },
     [45066] = {
         name = "Inestabilidad experimental",
     },
     [45067] = {
-        name = "Extensión telemántica",
+        name = "Expansión telemántica",
     },
     [45073] = {
-        name = "Sangre y saqueo",
+        name = "¡Saqueo y pillaje!",
     },
     [45103] = {
-        name = "¡Cabalguemos!",
+        name = " ¡Cabalguemos!",
     },
     [45111] = {
         name = "A todos les gusta una buena pelea",
     },
     [45118] = {
-        name = "El cuerno de Helya",
+        name = "Cuerno de Helya",
     },
     [45123] = {
-        name = "Elemental: La insensatez de Levia Laurence",
+        name = "Elemental: La torpeza de Levia Laurence",
     },
     [45125] = {
-        name = "Jugueteando con lo demoníaco",
+        name = "Jugando con magia demoníaca",
     },
     [45126] = {
-        name = "Seducción insólita",
+        name = "Seducción improbable",
     },
     [45127] = {
-        name = "Amor envilecido",
+        name = "Amantes viles",
     },
     [45128] = {
         name = "Una reunión gloriosa",
@@ -5376,13 +5349,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Lectura rúnica",
     },
     [45147] = {
-        name = "La destrucción del colgante",
+        name = "Destrucción de la Piedramácula",
     },
     [45148] = {
-        name = "Rompejuramentos",
+        name = "Rompedor de juramentos",
     },
     [45149] = {
-        name = "Acabar con la maldición de la medialuna",
+        name = "El final de la maldición creciente",
     },
     [45162] = {
         name = "Trajimos el martillo",
@@ -5391,58 +5364,58 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Limpiando",
     },
     [45174] = {
-        name = "La caza de Illidan Tempestira",
+        name = "La cacería de Illidan Tempestira",
     },
     [45175] = {
         name = "Prisma de almas de los Illidari",
     },
     [45176] = {
-        name = "Prueba del Valor: El pasado y futuro Señor de las Sombras",
+        name = "Prueba de valor: El otrora y futuro Señor de las Sombras",
     },
     [45177] = {
-        name = "El Bastión Nocturno",
+        name = "La Fortaleza Nocturna",
     },
     [45182] = {
-        name = "Escarcha: El gemelo retorcido",
+        name = "Escarcha: Los gemelos retorcidos",
     },
     [45185] = {
         name = "Mensaje desde las sombras",
     },
     [45187] = {
-        name = "Los secretos de Los Bajos Fondos",
+        name = "Secretos en los Bajos Fondos",
     },
     [45188] = {
-        name = "La sabiduría del consejo",
+        name = "La sabiduría del Consejo",
     },
     [45190] = {
-        name = "Donde es más fina",
+        name = "La piel más fina",
     },
     [45192] = {
         name = "Runas desgarradoras",
     },
     [45193] = {
-        name = "Un paso por detrás",
+        name = "Tras los pasos",
     },
     [45207] = {
-        name = "La aprendiz Nocheterna",
+        name = "El aprendiz natonocturno",
     },
     [45209] = {
         name = "Esos ojos escudriñadores",
     },
     [45240] = {
-        name = "Ultimando los preparativos",
+        name = "Que comiencen los preparativos",
     },
     [45243] = {
-        name = "Sobre las alas de Daumyr",
+        name = "En alas de Daumyr",
     },
     [45251] = {
         name = "Redundancia",
     },
     [45260] = {
-        name = "Día a día",
+        name = "Un día a la vez",
     },
     [45261] = {
-        name = "Continuar con la cura",
+        name = "La cura continúa",
     },
     [45262] = {
         name = "Un mensaje de Ly'leth",
@@ -5451,7 +5424,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Comer antes de la reunión",
     },
     [45265] = {
-        name = "Alimentar la rebelión",
+        name = "Alimentando a la rebelión",
     },
     [45266] = {
         name = "Un frente unido",
@@ -5460,13 +5433,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Antes del asedio",
     },
     [45268] = {
-        name = "La consejera y la arcanista",
+        name = "El consejero y el arcanista",
     },
     [45269] = {
-        name = "Sabor a libertad",
+        name = "Un bocado de libertad",
     },
     [45301] = {
-        name = "Tomar el control",
+        name = "Hacerse cargo",
     },
     [45304] = {
         name = "Ataque a la oscuridad",
@@ -5475,10 +5448,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Derrotaste a la Albóndiga",
     },
     [45316] = {
-        name = "Estabilizar Suramar",
-    },
-    [45317] = {
-        name = "Combatir en todos los frentes",
+        name = "Estabilizando Suramar",
     },
     [45329] = {
         name = "Operación: Portales",
@@ -5490,16 +5460,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Regreso a Acherus",
     },
     [45339] = {
-        name = "Defensa del Martillo Vil",
+        name = "La defensa del Martillo vil",
     },
     [45342] = {
-        name = "Administrar la ayuda",
+        name = "Medicina a domicilio",
     },
     [45343] = {
-        name = "Un contagio curioso",
+        name = "Un contagio peculiar",
     },
     [45344] = {
-        name = "Muestras de la fuente",
+        name = "Una muestra de la fuente",
     },
     [45345] = {
         name = "Duendes traviesos",
@@ -5508,121 +5478,121 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Especímenes desgarbados",
     },
     [45347] = {
-        name = "Preparar una cura",
+        name = "En busca de la cura",
     },
     [45348] = {
-        name = "A buen recaudo",
+        name = "A resguardo",
     },
     [45349] = {
-        name = "A la Costa Abrupta",
+        name = "A la Costa Quebrada",
     },
     [45350] = {
-        name = "Combatir el contagio",
+        name = "La cura del contagio",
     },
     [45354] = {
         name = "Dispersión de los discos",
     },
     [45372] = {
-        name = "El destino de los Nocheterna",
+        name = "El destino de los natonocturnos",
     },
     [45379] = {
-        name = "Maestro de los tesoros Iks'reeged",
+        name = "Maestro del tesoro Iks'reeged",
     },
     [45385] = {
-        name = "¡Debemos estar preparados!",
+        name = "¡Tenemos que prepararnos!",
     },
     [45391] = {
         name = "Campeona: Lady S'theno",
     },
     [45398] = {
-        name = "Controlando el poder",
+        name = "Por el poder del arnés",
     },
     [45399] = {
-        name = "Liquidar a los sveldrek",
+        name = "Un corte con los Sveldrek",
     },
     [45404] = {
-        name = "Pánico en la Cervecería",
+        name = "Pánico en la cervecería",
     },
     [45412] = {
-        name = "Protección: La ayuda de los Illidari",
+        name = "Protección: Ayuda de los Illidari",
     },
     [45413] = {
-        name = "Recopilar información",
+        name = "A obtener información",
     },
     [45414] = {
-        name = "Confirmar sospechas",
+        name = "Sospechas confirmadas",
     },
     [45415] = {
         name = "Entre mundos",
     },
     [45416] = {
-        name = "El retorno del Alto Señor",
+        name = "El regreso del Alto señor",
     },
     [45417] = {
-        name = "El Bastión Nocturno: Señor del Consejo de la Sombra",
+        name = "La Fortaleza Nocturna: Señor del Consejo de la Sombra",
     },
     [45425] = {
-        name = "Hacia la Arboleda",
+        name = "Lazo arbóreo",
     },
     [45426] = {
-        name = "El avance de la naturaleza",
+        name = "Avance de la naturaleza",
     },
     [45437] = {
         name = "Una situación urgente",
     },
     [45440] = {
-        name = "Una situación tormentosa",
+        name = "Una situación artesanal",
     },
     [45442] = {
-        name = "Me encuentro vil",
+        name = "Problemas de salud",
     },
     [45449] = {
         name = "Alquimista Korlya",
     },
     [45459] = {
-        name = "Asalto a la Legión",
+        name = "Embates contra la Legión",
     },
     [45482] = {
-        name = "Arcano: El destino de los Mareskorn",
+        name = "Arcano: El destino de los Marvilis",
     },
     [45486] = {
         name = "La reina reticente",
     },
     [45498] = {
-        name = "Que los perros sigan durmiendo",
+        name = "Vivir y dejar vivir",
     },
     [45522] = {
-        name = "Silenciar a los oradores de huesos",
+        name = "Para silenciar a los parlahuesos",
     },
     [45523] = {
-        name = "Domar a los Drekirjar",
+        name = "Para domar a los Drekirjar",
     },
     [45524] = {
         name = "El heredero olvidado",
     },
     [45525] = {
-        name = "Preguntas sin respuesta",
+        name = "Preguntas sin respuestas",
     },
     [45526] = {
-        name = "La furia de la Reina diosa",
+        name = "La furia de la Reina divina",
     },
     [45528] = {
         name = "Los túmulos contaminados",
     },
     [45532] = {
-        name = "Órdenes de la madre",
+        name = "Órdenes de madre",
     },
     [45545] = {
-        name = "Lanzamiento de barril",
+        name = "Lanzamiento del barril",
     },
     [45551] = {
         name = "Efectos devastadores",
     },
     [45552] = {
-        name = "Aliviar heridas",
+        name = "Aliviar las heridas",
     },
     [45553] = {
-        name = "La llamada de la cazadora de la noche",
+        name = "El llamado de la Cazadora nocturna",
     },
     [45554] = {
         name = "Tomar el control",
@@ -5631,13 +5601,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Bestias de vínculo vil",
     },
     [45556] = {
-        name = "A punto para el ataque",
+        name = "Listos para atacar",
     },
     [45557] = {
-        name = "Consecuencias antinaturales",
+        name = "Consecuencias sobrenaturales",
     },
     [45560] = {
-        name = "Destrucción: Rumores cerca de Tótem Vil",
+        name = "Destrucción: Estruendos cerca de Viltótem",
     },
     [45561] = {
         name = "Búscame",
@@ -5646,7 +5616,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¡Arrodíllate y conviértete en $GEscudero:Escudera;!",
     },
     [45564] = {
-        name = "Los pájaros ardientes",
+        name = "Las aves ardientes",
     },
     [45565] = {
         name = "Más entrenamiento",
@@ -5670,16 +5640,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ingredientes viles",
     },
     [45575] = {
-        name = "La aldea de los corruptores",
+        name = "Aldea de los corruptores",
     },
     [45576] = {
         name = "Alzamiento",
     },
     [45586] = {
-        name = "Amplificación de escudo",
+        name = "Mejora de escudo",
     },
     [45587] = {
-        name = "La amenaza Tótem Vil",
+        name = "La amenaza de los Viltótem",
     },
     [45614] = {
         name = "Lady Remor'za",
@@ -5688,16 +5658,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Quien lo encuentra se lo queda",
     },
     [45627] = {
-        name = "La caída de los Tótem Vil",
+        name = "La caída de Viltótem",
     },
     [45628] = {
-        name = "Esta vez, deja alguna pista",
+        name = "Esta vez, deja un rastro",
     },
     [45629] = {
-        name = "Esta vez, deja alguna pista",
+        name = "Esta vez, deja un rastro",
     },
     [45630] = {
-        name = "Siervo de nadie",
+        name = "Sirviente de nadie",
     },
     [45632] = {
         name = "Perdido en acción: Eitrigg",
@@ -5706,7 +5676,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Operación Iravil",
     },
     [45634] = {
-        name = "Kvaldir al rescate",
+        name = "Kvaldir de guardia",
     },
     [45644] = {
         name = "Ay, Doloria, mi dulce Doloria",
@@ -5718,7 +5688,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Misión: Búsqueda y rescate",
     },
     [45648] = {
-        name = "Desaparecido en combate: lord Darius Crowley",
+        name = "Perdido en acción: Lord Darius Crowley",
     },
     [45649] = {
         name = "Misión: Búsqueda y rescate",
@@ -5733,22 +5703,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El poder de miles",
     },
     [45723] = {
-        name = "La cólera de la vieja bruja",
+        name = "La cólera de la bruja",
     },
     [45724] = {
-        name = "Serpientes y piedras",
+        name = "Piedra, papel y serpientes",
     },
     [45725] = {
-        name = "Romper las cadenas",
+        name = "Sin cadenas",
     },
     [45726] = {
-        name = "La ciénaga corrupta",
+        name = "El pantano mancillado",
     },
     [45763] = {
-        name = "Perturbación demoníaca",
+        name = "Disrupción demoníaca",
     },
     [45764] = {
-        name = "Restablecer el equilibrio",
+        name = "La restauración del equilibrio",
     },
     [45765] = {
         name = "Hermanos y hermanas",
@@ -5763,22 +5733,22 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Agitación en las sombras",
     },
     [45771] = {
-        name = "Tiempos para todo",
+        name = "Hay un momento para todo",
     },
     [45788] = {
         name = "El Portavoz espera",
     },
     [45789] = {
-        name = "La Cámara Hundida",
+        name = "La Bóveda sumergida",
     },
     [45790] = {
         name = "Campeona: Almai",
     },
     [45794] = {
-        name = "Informar al consejo",
+        name = "Informar al Consejo",
     },
     [45796] = {
-        name = "Destruir el nido",
+        name = "La destrucción del nido",
     },
     [45798] = {
         name = "War'zuul el Provocador",
@@ -5808,19 +5778,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Presagios oscuros",
     },
     [45844] = {
-        name = "El pasatiempo de Antonidas",
+        name = "El pasatiempos de Antonidas",
     },
     [45845] = {
-        name = "Fuego interior",
+        name = "Ardor interior",
     },
     [45846] = {
-        name = "Helado hasta la médula",
+        name = "Helado hasta los huesos",
     },
     [45847] = {
         name = "Cerca de casa",
     },
     [45848] = {
-        name = "Digno de un pirata",
+        name = "Perfecto para un pirata",
     },
     [45861] = {
         name = "Un obsequio de los Seis",
@@ -5847,31 +5817,31 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Lord Darius Crowley",
     },
     [45883] = {
-        name = "La ofensa al Señor del Fuego",
+        name = "La ofensa del Señor del fuego",
     },
     [45890] = {
         name = "Ancestros y enemigos",
     },
     [45916] = {
-        name = "El acólito en peligro",
+        name = "Un acólito en problemas",
     },
     [45917] = {
-        name = "Siguiendo el rastro",
+        name = "Aroma irresistible",
     },
     [45971] = {
         name = "Fenómenos infernales",
     },
     [46000] = {
-        name = "Armar a Dalaran",
+        name = "Dalaran en armas",
     },
     [46020] = {
-        name = "Contenedores frágiles",
+        name = "Contención de cristal",
     },
     [46034] = {
         name = "Campeona: Aelthalyste",
     },
     [46035] = {
-        name = "Fin a la amenaza resucitada",
+        name = "La amenaza no regresará",
     },
     [46043] = {
         name = "Campeón: Aethas Atracasol",
@@ -5886,13 +5856,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campeón: Kanrethad Crinébano",
     },
     [46048] = {
-        name = "Campeona: Cazadora de la noche Syrenne",
+        name = "Campeona: Cazadora nocturna Syrenne",
     },
     [46050] = {
-        name = "Campeona: Minerva Penacuervo",
+        name = "Campeona: Minerva Cuervotriste",
     },
     [46057] = {
-        name = "Campeona: Magatha Tótem Siniestro",
+        name = "Campeona: Magatha Tótem siniestro",
     },
     [46058] = {
         name = "Campeona: Lilian Voss",
@@ -5904,49 +5874,49 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Salvación",
     },
     [46065] = {
-        name = "Rival imposible",
+        name = "Un enemigo imposible",
     },
     [46069] = {
-        name = "Digno del título",
+        name = "Título merecido",
     },
     [46070] = {
-        name = "Preparativos en marcha",
+        name = "Las preparaciones están en marcha",
     },
     [46071] = {
-        name = "El martillo de Dalaran",
+        name = "El Martillo de Dalaran",
     },
     [46074] = {
-        name = "Del cuero a la leyenda",
+        name = "Cuero de leyenda",
     },
     [46078] = {
-        name = "Sagrado: La investigación de Arroyo Braden",
+        name = "Sagrado: La investigación de Bradensbrook",
     },
     [46079] = {
-        name = "Ayuda en el frente",
+        name = "Ayuda a las líneas del frente",
     },
     [46080] = {
-        name = "Calmar a los espíritus",
+        name = "Silenciar a los espíritus",
     },
     [46082] = {
-        name = "El retorno de Cantosombrío",
+        name = "El regreso de Cantosombrío",
     },
     [46083] = {
-        name = "Unas cosas para empezar",
+        name = "Lo primero es lo primero",
     },
     [46089] = {
-        name = "Escondido a plena vista",
+        name = "Esconderse a simple vista",
     },
     [46103] = {
-        name = "Infiltradores aterradores",
+        name = "Infiltradores temibles",
     },
     [46106] = {
-        name = "Que les corten las cabezas",
+        name = "A cortar cabezas",
     },
     [46107] = {
         name = "El origen de la corrupción",
     },
     [46127] = {
-        name = "Fiasco de los gemelos",
+        name = "Frustración gemela",
     },
     [46128] = {
         name = "Hora de una recarga",
@@ -5967,7 +5937,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Esconderse a simple vista",
     },
     [46200] = {
-        name = "Asunto resuelto... de momento...",
+        name = "La cuestión se ha resuelto... Por ahora...",
     },
     [46207] = {
         name = "La prueba de ira",
@@ -5976,67 +5946,67 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Invitación divina",
     },
     [46213] = {
-        name = "Cristales no incluidos",
+        name = "Los cristales se venden por separado",
     },
     [46235] = {
-        name = "Lugar seguro",
+        name = "Zonas seguras",
     },
     [46237] = {
-        name = "Misiva de Sangredoble",
+        name = "La misiva de Sangredoble",
     },
     [46238] = {
-        name = "Si lo construyes...",
+        name = "A construir",
     },
     [46239] = {
-        name = "Vileza nuclear",
+        name = "Vil hasta la médula",
     },
     [46240] = {
-        name = "Dame combustible, dame fuego",
+        name = "Se buscan donantes",
     },
     [46241] = {
-        name = "Los esbirros de Hel'Nurath",
+        name = "Los esbirros de Hel'nurath",
     },
     [46242] = {
-        name = "La llamada del Señor del Terror",
+        name = "El llamado del señor del terror",
     },
     [46243] = {
-        name = "Corcel de cólera de Xoroth",
+        name = "El corcel iracundo de Xoroth",
     },
     [46245] = {
-        name = "Iniciar la construcción",
+        name = "Que comience la construcción",
     },
     [46246] = {
-        name = "Hora de abatirlos",
+        name = "Que caigan todos",
     },
     [46247] = {
-        name = "Defender las Islas Abruptas",
+        name = "La defensa de las Islas Quebradas",
     },
     [46248] = {
-        name = "Asegurarse de cumplir la profecía",
+        name = "Profecía autocumplida",
     },
     [46249] = {
-        name = "Luchar por nuestra causa",
+        name = "Campeón de nuestra causa",
     },
     [46250] = {
-        name = "Acabar con la cabeza",
+        name = "Encárgate de los más fuertes...",
     },
     [46251] = {
-        name = "Fragmentos contados",
+        name = "Horas fragmentadas",
     },
     [46252] = {
         name = "Infestación intolerable",
     },
     [46258] = {
-        name = "La calma que sigue a la tempestad",
+        name = "La calma después de la tormenta",
     },
     [46259] = {
-        name = "Dilema de Presotenebra",
+        name = "El dilema de la Presotenebra",
     },
     [46260] = {
-        name = "Fundirse con las sombras",
+        name = "Al amparo de las sombras",
     },
     [46266] = {
-        name = "El regreso del Asesino",
+        name = "El regreso del Destripador",
     },
     [46267] = {
         name = "El regreso del Señor de la batalla",
@@ -6060,10 +6030,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La senda del rey",
     },
     [46286] = {
-        name = "Suministros del Ocaso de la Legión",
+        name = "Suministros de Legión caída",
     },
     [46290] = {
-        name = "El regreso del archimago",
+        name = "El regreso del Archimago",
     },
     [46297] = {
         name = "Poder sobrecogedor",
@@ -6072,19 +6042,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Llama de Thorim",
     },
     [46314] = {
-        name = "Venganza: Buscar a Kor'vas",
+        name = "Venganza: En busca de Kor'vas",
     },
     [46317] = {
-        name = "La llamada de la Garfa",
+        name = "El llamado de Garfa",
     },
     [46318] = {
         name = "Defensa de Aviana",
     },
     [46319] = {
-        name = "No me puedes robar el cielo",
+        name = "No puedes quitarme el cielo",
     },
     [46320] = {
-        name = "Esperanza de cura",
+        name = "La esperanza de una cura",
     },
     [46322] = {
         name = "La bahía del pirata",
@@ -6099,52 +6069,52 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La llamada de Jorach",
     },
     [46327] = {
-        name = "Tratar con las sombras",
+        name = "Trato con las sombras",
     },
     [46334] = {
-        name = "Tomar las de Vil-adiego",
+        name = "Retroceso vil",
     },
     [46335] = {
-        name = "La cámara de la Guardia de Tirisfal",
+        name = "La bóveda del Tirisgarde",
     },
     [46336] = {
-        name = "Una oportunidad de oro",
+        name = "Un boleto de oro",
     },
     [46337] = {
-        name = "Noche de las Tierras Inexploradas",
+        name = "Noche de la naturaleza",
     },
     [46338] = {
         name = "Una solución creativa",
     },
     [46339] = {
-        name = "Maestro de llaves Orlis",
+        name = "Maestro de las llaves Orlis",
     },
     [46340] = {
         name = "Las puertas están cerradas",
     },
     [46341] = {
-        name = "La historia de Ban-Lu",
+        name = "El cuento de Ban-Lu",
     },
     [46342] = {
-        name = "Volver al Pico Abrupto",
+        name = "Regreso a la Cima Quebrada",
     },
     [46343] = {
         name = "El rastro de Ban-Lu",
     },
     [46344] = {
-        name = "El grisgrís de Tufillo",
+        name = "Grisgrís de Maloliente",
     },
     [46345] = {
-        name = "Al avispero",
+        name = "Dentro del avispero",
     },
     [46346] = {
         name = "La sombra de Ban-Lu",
     },
     [46347] = {
-        name = "Limpieza de sha",
+        name = "Limpieza en el pasillo Sha",
     },
     [46348] = {
-        name = "El río hacia Ban-Lu",
+        name = "El río a Ban-Lu",
     },
     [46349] = {
         name = "Lirios para Ryuli",
@@ -6153,55 +6123,55 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La prueba de Ban-Lu",
     },
     [46351] = {
-        name = "En secreto y a salvo",
+        name = "No se lo digas a nadie",
     },
     [46353] = {
-        name = "¿Maestro qué?",
+        name = "¿Qué Maestro?",
     },
     [46499] = {
         name = "Arañas, ¿eh?",
     },
     [46501] = {
-        name = "Robatumbas",
+        name = "A asaltar tumbas",
     },
     [46509] = {
-        name = "Asaltar tumbas",
+        name = "Como robarle a un muerto",
     },
     [46510] = {
         name = "Cementerio de barcos",
     },
     [46511] = {
-        name = "Somos cazatesoros",
+        name = "Somos cazadores de tesoros",
     },
     [46666] = {
-        name = "El filón de oro",
+        name = "El premio mayor",
     },
     [46674] = {
         name = "La preservación de la naturaleza",
     },
     [46675] = {
-        name = "El rastro del demonio",
+        name = "Rastrear a un demonio",
     },
     [46676] = {
-        name = "Toque de la Naturaleza",
+        name = "Toque de naturaleza",
     },
     [46677] = {
-        name = "Pinchazo de cardo",
+        name = "El daño de una espina",
     },
     [46705] = {
         name = "Represalias",
     },
     [46719] = {
-        name = "Mensaje de Amal'thazad",
+        name = "El mensaje de Amal'thazad",
     },
     [46720] = {
         name = "Recuerdos congelados",
     },
     [46722] = {
-        name = "Nada en la manga",
+        name = "Nada bajo la manga",
     },
     [46723] = {
-        name = "Tralarí, tralará...",
+        name = "Por la madriguera del conejo",
     },
     [46724] = {
         name = "Campeón: El Gran Akazamzarak",
@@ -6210,28 +6180,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Apagón",
     },
     [46730] = {
-        name = "El Ocaso de la Legión",
+        name = "Ejércitos de Legión caída",
     },
     [46732] = {
-        name = "La táctica del profeta",
+        name = "La táctica del Profeta",
     },
     [46734] = {
-        name = "Asalto a la Costa Abrupta",
+        name = "Asalto a la Costa Quebrada",
     },
     [46744] = {
-        name = "Un poder mayor para una amenaza mayor",
+        name = "Un poder más grande para amenazas más grandes",
     },
     [46765] = {
-        name = "La Costa Abrupta: Investigar la Legión",
+        name = "La Costa Quebrada: Investiga a la Legión",
     },
     [46769] = {
-        name = "Objetos confiscados",
+        name = "¡Quiten sus sucias manos de encima!",
     },
     [46791] = {
-        name = "Llevado por el viento",
+        name = "Se lo lleva el viento",
     },
     [46792] = {
-        name = "Concentración de tormentas",
+        name = "Acumulación de las tormentas",
     },
     [46812] = {
         name = "Secretos dracónicos",
@@ -6243,13 +6213,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Mac'Aree, Joya de Argus",
     },
     [46816] = {
-        name = "Punto de encuentro",
+        name = "Encuentro",
     },
     [46818] = {
-        name = "Miedo e indefensión",
+        name = "Indefensos y aterrados",
     },
     [46827] = {
-        name = "Fundirse con las sombras",
+        name = "Al amparo de las sombras",
     },
     [46832] = {
         name = "Punto de Aalgen",
@@ -6261,133 +6231,133 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Desde la oscuridad",
     },
     [46840] = {
-        name = "Se acabó el cautiverio",
+        name = "Libres al fin",
     },
     [46841] = {
-        name = "Amenaza disipada",
+        name = "Reducción de la amenaza",
     },
     [46842] = {
-        name = "Ataque al corazón",
+        name = "Un golpe al corazón",
     },
     [46843] = {
         name = "Regresa al Vindicaar",
     },
     [46845] = {
-        name = "Alto de la Venganza",
+        name = "Punto de la Venganza",
     },
     [46924] = {
-        name = "La historia del lobo",
+        name = "El cuento del lobo",
     },
     [46938] = {
         name = "Solo en el abismo",
     },
     [46941] = {
-        name = "El camino a seguir",
+        name = "El camino que nos espera",
     },
     [47000] = {
-        name = "La llamada del Consejo",
+        name = "El llamado del Consejo",
     },
     [47003] = {
-        name = "Restauración: La investigación de Arroyo Braden",
+        name = "Restauración: La investigación de Bradensbrook",
     },
     [47004] = {
-        name = "Restauración: La investigación de Arroyo Braden",
+        name = "Restauración: La investigación de Bradensbrook",
     },
     [47005] = {
-        name = "Tejedor de niebla: La investigación de Arroyo Braden",
+        name = "Tejedor de niebla: La investigación de Bradensbrook",
     },
     [47006] = {
-        name = "Sagrado: La investigación de Arroyo Braden",
+        name = "Sagrado: La investigación de Bradensbrook",
     },
     [47018] = {
-        name = "Bestias: Rumores cerca de Tótem Vil",
+        name = "Maestría de bestias: Estruendos cerca de Viltótem",
     },
     [47019] = {
-        name = "Viajero del viento: Rumores cerca de Tótem Vil",
+        name = "Viajero del viento: Estruendos cerca de Viltótem",
     },
     [47020] = {
-        name = "Disciplina: Rumores cerca de Tótem Vil",
+        name = "Disciplina: Estruendos cerca de Viltótem",
     },
     [47022] = {
-        name = "Protección: La ayuda de los Illidari",
+        name = "Protección: Ayuda de los Illidari",
     },
     [47023] = {
-        name = "Guardián: La ayuda de los Illidari",
+        name = "Guardián: Ayuda de los Illidari",
     },
     [47024] = {
-        name = "Maestro cervecero: La ayuda de los Illidari",
+        name = "Maestro cervecero: Ayuda de los Illidari",
     },
     [47025] = {
-        name = "Sangre: La ayuda de los Illidari",
+        name = "Sangre: Ayuda de los Illidari",
     },
     [47037] = {
-        name = "Equilibrio: El gemelo retorcido",
+        name = "Equilibrio: Los gemelos retorcidos",
     },
     [47039] = {
-        name = "Puntería: El gemelo retorcido",
+        name = "Puntería: Los gemelos retorcidos",
     },
     [47041] = {
-        name = "Aflicción: El gemelo retorcido",
+        name = "Aflicción: Los gemelos retorcidos",
     },
     [47042] = {
-        name = "Sombra: El gemelo retorcido",
+        name = "Sombra: Los gemelos retorcidos",
     },
     [47043] = {
-        name = "Devastación: El aprendiz manilargo",
+        name = "Caos: El aprendiz de ladrón",
     },
     [47046] = {
-        name = "Escarcha: El aprendiz manilargo",
+        name = "Escarcha: El aprendiz de ladrón",
     },
     [47047] = {
-        name = "Supervivencia: El aprendiz manilargo",
+        name = "Supervivencia: El aprendiz de ladrón",
     },
     [47048] = {
-        name = "Sutileza: El aprendiz manilargo",
+        name = "Sutileza: El aprendiz de ladrón",
     },
     [47049] = {
-        name = "Demonología: El destino de los Mareskorn",
+        name = "Demonología: El destino de los Marvilis",
     },
     [47050] = {
-        name = "Mejora: El destino de los Mareskorn",
+        name = "Mejora: El destino de los Marvilis",
     },
     [47051] = {
-        name = "Asesinato: El destino de los Mareskorn",
+        name = "Asesinato: El destino de los Marvilis",
     },
     [47052] = {
-        name = "Reprensión: El destino de los Mareskorn",
+        name = "Reprensión: El destino de los Marvilis",
     },
     [47055] = {
-        name = "Fuego: La insensatez de Levia Laurence",
+        name = "Fuego: La torpeza de Levia Laurence",
     },
     [47056] = {
-        name = "Furia: La insensatez de Levia Laurence",
+        name = "Furia: La torpeza de Levia Laurence",
     },
     [47057] = {
-        name = "Profano: La insensatez de Levia Laurence",
+        name = "Profano: La torpeza de Levia Laurence",
     },
     [47058] = {
-        name = "Forajido: La insensatez de Levia Laurence",
+        name = "Forajido: La torpeza de Levia Laurence",
     },
     [47059] = {
-        name = "Feral: La insensatez de Levia Laurence",
+        name = "Feral: La torpeza de Levia Laurence",
     },
     [47066] = {
-        name = "Zona consagrada",
+        name = "Terreno consagrado",
     },
     [47100] = {
         name = "El dolor de Arkhaan",
     },
     [47101] = {
-        name = "Oraciones de Arkhaan",
+        name = "Plegarias de Arkhaan",
     },
     [47137] = {
-        name = "Campeones del Ocaso de la Legión",
+        name = "Campeones de Legión caída",
     },
     [47139] = {
         name = "Marca del Sentinax",
     },
     [47180] = {
-        name = "Locura latente",
+        name = "La locura pulsante",
     },
     [47183] = {
         name = "El plan de Arkhaan",
@@ -6396,28 +6366,28 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El peligro de Arkhaan",
     },
     [47203] = {
-        name = "Como una sombra",
+        name = "Sombra veloz",
     },
     [47217] = {
         name = "Fuentes de oscuridad",
     },
     [47218] = {
-        name = "La incursión de la Guardia de las Sombras",
+        name = "Incursión de los Guardias de las Sombras",
     },
     [47219] = {
-        name = "Un sacrificio adecuado",
+        name = "Un recipiente a punto",
     },
     [47220] = {
-        name = "Una baliza en la oscuridad",
+        name = "Un faro en la oscuridad",
     },
     [47221] = {
         name = "La mano del destino",
     },
     [47222] = {
-        name = "Dos si es por mar",
+        name = "Caen. Señal de que navegamos.",
     },
     [47223] = {
-        name = "Éxodo de la Luz",
+        name = "Éxodo de Luz",
     },
     [47224] = {
         name = "El Vindicaar",
@@ -6429,19 +6399,19 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El núcleo de la matriz del Vindicaar",
     },
     [47416] = {
-        name = "La sombra en el Triunvirato",
+        name = "Sombra del Triunvirato",
     },
     [47431] = {
-        name = "Reunir a los seguidores de la Luz",
+        name = "Luz creciente",
     },
     [47473] = {
-        name = "Evaluar al enemigo",
+        name = "Evaluar a la oposición",
     },
     [47508] = {
         name = "Fuego a discreción",
     },
     [47526] = {
-        name = "Llega la artillería pesada",
+        name = "Con las armas pesadas",
     },
     [47541] = {
         name = "La mejor prevención",
@@ -6453,61 +6423,61 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Venganza",
     },
     [47641] = {
-        name = "Signos de resistencia",
+        name = "Señales de resistencia",
     },
     [47653] = {
-        name = "El retorno de la Luz",
+        name = "El regreso de la Luz",
     },
     [47654] = {
-        name = "Trono del Triunvirato: La Cimera del Conocimiento",
+        name = "Trono del Triunvirato: El Blasón del conocimiento",
     },
     [47685] = {
-        name = "Desafío del Guardián de la Puerta: Astucia",
+        name = "Desafío del Ujier: Astucia",
     },
     [47686] = {
         name = "Comienzos no tan humildes",
     },
     [47687] = {
-        name = "Desafío del Guardián de la Puerta: Maestría",
+        name = "Desafío del Ujier: Maestría",
     },
     [47688] = {
-        name = "Especie invasiva",
+        name = "Especies invasivas",
     },
     [47689] = {
-        name = "Desafío del Guardián de la Puerta: Tenacidad",
+        name = "Desafío del Ujier: Tenacidad",
     },
     [47690] = {
-        name = "El legado del Corruptor",
+        name = "El Legado del Rapiñador",
     },
     [47691] = {
-        name = "Una Organización No Profética",
+        name = "Organización sin fines proféticos",
     },
     [47743] = {
-        name = "El hijo de la Luz y las Sombras",
+        name = "El hijo de la luz y las sombras",
     },
     [47754] = {
-        name = "Arrojar Luz sobre el asunto",
+        name = "Con un toque de Luz",
     },
     [47771] = {
-        name = "Localizar al Certero",
+        name = "Encontrar a Tirolargo",
     },
     [47835] = {
         name = "La mano del destino",
     },
     [47853] = {
-        name = "Maniobras de flanco",
+        name = "Maniobras de emboscada",
     },
     [47854] = {
-        name = "La ira del Alto Exarca",
+        name = "Cólera del Alto exarca",
     },
     [47855] = {
-        name = "Lo que pudo haber sido",
+        name = "Lo que podría haber sido",
     },
     [47856] = {
         name = "Por todo el universo",
     },
     [47867] = {
-        name = "Dos si es por mar",
+        name = "Caen. Señal de que navegamos.",
     },
     [47882] = {
         name = "Conservación de la magia",
@@ -6516,16 +6486,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La vigilia más larga",
     },
     [47889] = {
-        name = "La llamada del Portavoz",
+        name = "El llamado del Portavoz",
     },
     [47890] = {
         name = "Visiones de tormento",
     },
     [47891] = {
-        name = "Noticias funestas",
+        name = "Noticias aciagas",
     },
     [47892] = {
-        name = "Asaltar la Ciudadela",
+        name = "El golpe a la ciudadela",
     },
     [47967] = {
         name = "Un lacero de Argus",
@@ -6540,25 +6510,25 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Teoría del caos",
     },
     [47989] = {
-        name = "Heraldos del apocalipsis",
+        name = "Heraldos del Apocalipsis",
     },
     [47990] = {
-        name = "Un toque vil",
+        name = "Un toque de vileza",
     },
     [47991] = {
-        name = "Manipúa-ciones oscuras",
+        name = "Lucubraciones oscuras",
     },
     [47992] = {
-        name = "Amanecer de la justicia",
+        name = "Albor de justicia",
     },
     [47993] = {
-        name = "El Señor de la Aguja",
+        name = "Señor de la Cumbre",
     },
     [47994] = {
-        name = "Formación de un vínculo",
+        name = "Forjar un vínculo",
     },
     [47995] = {
-        name = "Operaciones descubiertas",
+        name = "Agentes públicos",
     },
     [48066] = {
         name = "Un festín para los nuestros",
@@ -6573,7 +6543,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una ruina flotante",
     },
     [48107] = {
-        name = "El Sigilo del Despertar",
+        name = "El Sigilo del despertar",
     },
     [48185] = {
         name = "La sombra del Sepulcro",
@@ -6582,16 +6552,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La montaña de Huln",
     },
     [48199] = {
-        name = "El Corazón Ardiente",
+        name = "El corazón ardiente",
     },
     [48200] = {
         name = "Asegurar una posición",
     },
     [48201] = {
-        name = "Refuerzos para Asidero de la Luz",
+        name = "Reforzar el Asidero de la Luz",
     },
     [48202] = {
-        name = "Reforzar la Guarida Velada",
+        name = "Refuerza la Guarida Oculta",
     },
     [48344] = {
         name = "Tenemos un problema",
@@ -6609,7 +6579,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¿Cómo está Ebacuerno?",
     },
     [48440] = {
-        name = "Hacia la noche",
+        name = "Cuando llega la noche",
     },
     [48441] = {
         name = "Restos de Cresta Caída Oscura",
@@ -6642,13 +6612,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Los retadores",
     },
     [48461] = {
-        name = "Donde menos se lo esperan",
+        name = "Donde menos lo esperan",
     },
     [48483] = {
-        name = "La súplica de un desconocido",
+        name = "La súplica de un extraño",
     },
     [48500] = {
-        name = "Un respiro",
+        name = "Un momento de descanso",
     },
     [48542] = {
         name = "Contraataque",
@@ -6657,10 +6627,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¡Arre, arre!",
     },
     [48559] = {
-        name = "Ofrenda de Luz",
+        name = "Una ofrenda de Luz",
     },
     [48560] = {
-        name = "Ofrenda de sombra",
+        name = "Una ofrenda de Sombras",
     },
     [48600] = {
         name = "Cortar la ventaja",
@@ -6690,13 +6660,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Suministros para la campaña antoriana",
     },
     [48929] = {
-        name = "Evaluar al enemigo",
+        name = "Evaluar a la oposición",
     },
     [48962] = {
         name = "Falla de Telogrus",
     },
     [49143] = {
-        name = "Esencia de la Madre de la Luz",
+        name = "La esencia de la Madre de la Luz",
     },
     [49266] = {
         name = "Forja de los Eones",
@@ -6753,10 +6723,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "La perspectiva del Portavoz",
     },
     [50056] = {
-        name = "The Speaker's Call",
+        name = "El llamado del Portavoz",
     },
     [50057] = {
-        name = "The Power in Our Hands",
+        name = "El poder en nuestras manos",
     },
     [50071] = {
         name = "¡Por la Luz!",
@@ -6786,7 +6756,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "El correo nunca se detiene",
     },
     [50300] = {
-        name = "The Speaker's Call",
+        name = "El llamado del Portavoz",
     },
     [50341] = {
         name = "Un descubrimiento reciente",

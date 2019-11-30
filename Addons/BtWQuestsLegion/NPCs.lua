@@ -1,4 +1,17 @@
+----- AUTO GENERATED - DO NOT EDIT
+
 BtWQuestsDatabase:AddNPCsTable({
+    [38237] = {
+        name = "Maximillian of Northshire",
+        locations = {
+            [78] = {
+                {
+                    x = 0.306201,
+                    y = 0.511406,
+                },
+            },
+        },
+    },
     [91065] = {
         name = "Cellarman Voodani",
         locations = {
@@ -25,6 +38,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [92802] = {
+        name = "Gravax the Desecrator",
+        locations = {
+            [641] = {
+                {
+                    x = 0.56567,
+                    y = 0.544882,
+                },
+            },
+        },
+    },
     [93600] = {
         name = "Saylanna Riverbreeze",
         locations = {
@@ -43,6 +67,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.4,
                     y = 0.522,
+                },
+            },
+        },
+    },
+    [94366] = {
+        name = "Lelyn Swiftshadow",
+        locations = {
+            [641] = {
+                {
+                    x = 0.390703,
+                    y = 0.645214,
                 },
             },
         },
@@ -146,6 +181,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [99065] = {
+        name = "Thaedris Feathersong",
+        locations = {
+            [680] = {
+                {
+                    x = 0.458626,
+                    y = 0.417557,
+                },
+            },
+        },
+    },
     [99905] = {
         name = "Shale Greyfeather",
         locations = {
@@ -153,6 +199,61 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.42,
                     y = 0.468,
+                },
+            },
+        },
+    },
+    [101766] = {
+        name = "Thalrenus Rivertree",
+        locations = {
+            [680] = {
+                {
+                    x = 0.278246,
+                    y = 0.211835,
+                },
+            },
+        },
+    },
+    [103568] = {
+        name = "Mayruna Moonwing",
+        locations = {
+            [680] = {
+                {
+                    x = 0.256725,
+                    y = 0.308796,
+                },
+            },
+        },
+    },
+    [104220] = {
+        name = "Starving Ettin",
+        locations = {
+            [680] = {
+                {
+                    x = 0.225543,
+                    y = 0.27422,
+                },
+            },
+        },
+    },
+    [106095] = {
+        name = "Ivanel Meadowsong",
+        locations = {
+            [680] = {
+                {
+                    x = 0.296905,
+                    y = 0.186393,
+                },
+            },
+        },
+    },
+    [106299] = {
+        name = "Thisalee Crow",
+        locations = {
+            [747] = {
+                {
+                    x = 0.310355,
+                    y = 0.04766,
                 },
             },
         },
@@ -267,6 +368,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [108327] = {
+        name = "Undulating Boneslime",
+        locations = {
+            [641] = {
+                {
+                    x = 0.591092,
+                    y = 0.816968,
+                },
+            },
+        },
+    },
     [108358] = {
         name = "Leirana",
         locations = {
@@ -304,35 +416,24 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
-    [250536] = {
-        name = "Intact Greatstag Antler",
+    [110987] = {
+        name = "Nighteyes",
         locations = {
-            [634] = {
+            [680] = {
                 {
-                    x = 0.499,
-                    y = 0.326,
+                    x = 0.506,
+                    y = 0.566,
                 },
             },
         },
     },
-    [250990] = {
-        name = "Crate of Ancient Relics",
+    [121754] = {
+        name = "Vereesa Windrunner",
         locations = {
-            [634] = {
+            [84] = {
                 {
-                    x = 0.755,
-                    y = 0.508,
-                },
-            },
-        },
-    },
-    [251425] = {
-        name = "Moist Grizzlecomb",
-        locations = {
-            [641] = {
-                {
-                    x = 0.668,
-                    y = 0.757,
+                    x = 0.212902,
+                    y = 0.301439,
                 },
             },
         },

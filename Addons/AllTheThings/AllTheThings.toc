@@ -1,12 +1,16 @@
-## Author: Crieve-Sargeras
 ## Interface: 80205
-## X-Curse-Project-ID: 267285
-## Title: AllTheThings
-## Name: AllTheThings
+## Author: Crieve-Sargeras
+## Version: 1.9.9b
 ## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
+
+## Title: AllTheThings
 ## Notes: Addon for Tracking Collections & Account Completion
-## Version: 1.9.9b
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAll The Things|r
+## Notes-zhCN: 追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况
+
+## X-Curse-Project-ID: 267285
+
 src\base.lua
 locales\enUS.lua
 locales\enGB.lua

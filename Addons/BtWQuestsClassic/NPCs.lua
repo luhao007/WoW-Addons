@@ -1,6 +1,9 @@
 ----- AUTO GENERATED - DO NOT EDIT
 
 BtWQuestsDatabase:AddNPCsTable({
+    [263] = {
+        name = "Lord Ello Ebonlocke",
+    },
     [264] = {
         name = "Commander Althea Ebonlocke",
         locations = {
@@ -11,6 +14,21 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [265] = {
+        name = "Madame Eva",
+    },
+    [267] = {
+        name = "Clerk Daltry",
+    },
+    [268] = {
+        name = "Sirra Von'Indi",
+    },
+    [272] = {
+        name = "Chef Grual",
+    },
+    [273] = {
+        name = "Tavernkeep Smitts",
     },
     [276] = {
         name = "Viktori Prism'Antras",
@@ -23,6 +41,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [288] = {
+        name = "Jitters",
+    },
     [289] = {
         name = "Abercrombie",
         locations = {
@@ -33,6 +54,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [302] = {
+        name = "Blind Mary",
     },
     [342] = {
         name = "Martie Jainrose",
@@ -89,6 +113,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [576] = {
+        name = "Watcher Ladimore",
+    },
     [663] = {
         name = "Calor",
         locations = {
@@ -122,6 +149,12 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [770] = {
+        name = "Corporal Kaleb",
+    },
+    [888] = {
+        name = "Watcher Dodds",
+    },
     [900] = {
         name = "Bailiff Conacher",
         locations = {
@@ -144,6 +177,12 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [1071] = {
+        name = "Longbraid the Grim",
+    },
+    [1073] = {
+        name = "Ashlan Risapétrea",
+    },
     [1089] = {
         name = "Mountaineer Cobbleflint",
         locations = {
@@ -155,6 +194,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [1090] = {
+        name = "Montaraz Muroplof",
+    },
     [1092] = {
         name = "Captain Rugelfuss",
         locations = {
@@ -165,6 +207,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [1105] = {
+        name = "Jern Hornhelm",
     },
     [1141] = {
         name = "Angus Stern",
@@ -187,6 +232,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [1156] = {
+        name = "Vyrin Swiftwind",
     },
     [1187] = {
         name = "Daryl the Youngling",
@@ -232,6 +280,12 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [1344] = {
+        name = "Prospector Ironband",
+    },
+    [1345] = {
+        name = "Magmar Fellhew",
+    },
     [1484] = {
         name = "Derina Rumdnul",
         locations = {
@@ -265,6 +319,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [1959] = {
+        name = "Mountaineer Barleybrew",
+    },
     [1960] = {
         name = "Pilot Hammerfoot",
         locations = {
@@ -286,6 +343,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [2057] = {
+        name = "Huldar",
     },
     [2104] = {
         name = "Captain Stoutfist",
@@ -377,31 +437,56 @@ BtWQuestsDatabase:AddNPCsTable({
     },
     [2608] = {
         name = "Comandante Amaren",
+        locations = {
+            [14] = {
+                {
+                    x = 0.399149,
+                    y = 0.480734,
+                },
+            },
+        },
+    },
+    [2610] = {
+        name = "Shakes O'Breen",
     },
     [2700] = {
         name = "Captain Nials",
         locations = {
             [14] = {
                 {
-                    x = 0.4,
-                    y = 0.488,
+                    x = 0.399618,
+                    y = 0.488619,
                 },
             },
         },
+    },
+    [2712] = {
+        name = "Quae",
+    },
+    [2713] = {
+        name = "Kinelory",
     },
     [2768] = {
         name = "Professor Phizzlethorpe",
         locations = {
             [14] = {
                 {
-                    x = 0.275495,
-                    y = 0.829037,
+                    x = 0.275765,
+                    y = 0.830087,
                 },
             },
         },
     },
     [2769] = {
         name = "Captain Steelgut",
+        locations = {
+            [14] = {
+                {
+                    x = 0.277133,
+                    y = 0.832639,
+                },
+            },
+        },
     },
     [2771] = {
         name = "Drum Fel",
@@ -413,6 +498,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [2774] = {
+        name = "Doctor Draxlegauge",
     },
     [2785] = {
         name = "Theldurin the Lost",
@@ -441,8 +529,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [14] = {
                 {
-                    x = 0.403475,
-                    y = 0.491356,
+                    x = 0.403379,
+                    y = 0.491425,
                 },
             },
         },
@@ -5204,6 +5292,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [41307] = {
+        name = "First Mate Snellig",
+    },
     [41350] = {
         name = "Ton Windbow",
     },
@@ -5427,6 +5518,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [41615] = {
+        name = "Ferilon Leafborn",
+    },
     [41638] = {
         name = "Houndmaster Jonathan",
         locations = {
@@ -5481,6 +5575,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [41983] = {
+        name = "Apprentice Kryten",
     },
     [41990] = {
         name = "Scout Utvoch",
@@ -5835,6 +5932,12 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [43730] = {
+        name = "Oliver Harris",
+    },
+    [43731] = {
+        name = "Sister Elsington",
+    },
     [43738] = {
         name = "Apprentice Fess",
         locations = {
@@ -5846,6 +5949,15 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [43861] = {
+        name = "Sven Yorgen",
+    },
+    [44018] = {
+        name = "Wulfred Harrys",
+    },
+    [44019] = {
+        name = "Livingston Marshal",
+    },
     [44082] = {
         name = "Bronwyn Hewstrike",
         locations = {
@@ -5856,6 +5968,12 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [44200] = {
+        name = "Scout Dorli",
+    },
+    [44345] = {
+        name = "Cannary Caskshot",
     },
     [44374] = {
         name = "Sherm",
@@ -5901,6 +6019,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [44618] = {
+        name = "Rusted Skystrider",
+    },
     [44859] = {
         name = "Safety Warden Pipsy",
         locations = {
@@ -5911,6 +6032,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [44870] = {
+        name = "Ando Pimpampum",
     },
     [45012] = {
         name = "Durnt Brightfalcon",

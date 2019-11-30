@@ -308,6 +308,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [8309] = {
         name = "À procura de glifos",
     },
+    [8310] = {
+        name = "Quebrando o código",
+    },
+    [8314] = {
+        name = "Desvendando o mistério",
+    },
     [8318] = {
         name = "Comunicação secreta",
     },
@@ -322,6 +328,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [8323] = {
         name = "Crentes Fiéis",
+    },
+    [8324] = {
+        name = "Crendo fielmente",
     },
     [8470] = {
         name = "Totem ritual de Lenha Morta",
@@ -2386,6 +2395,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [25379] = {
         name = "A queda de Taerar",
+    },
+    [25383] = {
+        name = "O adeus de Ysondra",
     },
     [25386] = {
         name = "Avante para o Acampamento dos Pedramalho",
@@ -4811,9 +4823,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "Treino de combate",
     },
-    [26943] = {
-        name = "Lar doce lar",
-    },
     [26953] = {
         name = "Zen'Kiki, o druida",
     },
@@ -6047,6 +6056,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27854] = {
         name = "Marés Sombrias",
     },
+    [27855] = {
+        name = "Reforços negados",
+    },
+    [27856] = {
+        name = "Em honra aos mortos",
+    },
+    [27857] = {
+        name = "Estamos sendo atacados!",
+    },
     [27858] = {
         name = "O presente de Rheastrasza",
     },
@@ -6140,11 +6158,23 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27904] = {
         name = "Sopro enevoado",
     },
+    [27906] = {
+        name = "Nika Cicatriz-de-sangue",
+    },
     [27907] = {
         name = "Florrogo",
     },
     [27908] = {
         name = "Segredos do lodo",
+    },
+    [27909] = {
+        name = "A Fonte Clara",
+    },
+    [27910] = {
+        name = "Arrependimentos derradeiros",
+    },
+    [27911] = {
+        name = "O último suspiro",
     },
     [27912] = {
         name = "O tesouro dos titãs",
@@ -6154,6 +6184,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27914] = {
         name = "Bênção da revoada verde",
+    },
+    [27916] = {
+        name = "O relatório de Ruag",
     },
     [27918] = {
         name = "O Refúgio",
@@ -7501,6 +7534,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [29038] = {
         name = "Treinamento em caçadas",
+    },
+    [29040] = {
+        name = "O primeiro brinquedo do filhote",
     },
     [29086] = {
         name = "Mudando as regras do mercado",

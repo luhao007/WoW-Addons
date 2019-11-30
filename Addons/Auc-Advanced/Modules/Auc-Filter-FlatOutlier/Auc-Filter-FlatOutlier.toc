@@ -1,13 +1,13 @@
 ﻿## Title: Auc:Filter:FlatOutlier
 ## Notes: Basic scanner outlier filter module: Filters by disregarding auctions having a price exceeding a flat percentage of the baseline price for that item
 ##
-## Interface: 80200
+## Interface: 80205
 ## LoadOnDemand: 0
 ## Disabled: 0
 ## Dependencies: Auc-Advanced
 ##
-## Version: 8.2.6394 (SwimmingSeadragon)
-## Revision: $Id: Auc-Filter-FlatOutlier.toc 6394 2019-09-25 00:20:07Z none $
+## Version: 8.2.6491 (SwimmingSeadragon)
+## Revision: $Id: Auc-Filter-FlatOutlier.toc 6491 2019-11-02 14:38:37Z none $
 ## Author: Norganna's AddOns
 ## X-Part-Of: Auctioneer
 ## X-Category: Auction House

@@ -5,29 +5,23 @@ if GetLocale() ~= "frFR" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
-    [91065] = {
-        name = "Maître de chai Voodani",
+    [38237] = {
+        name = "Maximillian de Comté-du-Nord",
     },
-    [91166] = {
-        name = "Daglop",
+    [92802] = {
+        name = "Gravax le Déprédateur",
     },
     [93600] = {
         name = "Saylanna Rivebrise",
     },
-    [94101] = {
-        name = "Laeni Tirargent",
+    [94366] = {
+        name = "Lelyn Vivombre",
     },
     [94409] = {
         name = "Hemet Nesingwary",
     },
     [94434] = {
         name = "Addie Pétibourbe",
-    },
-    [95438] = {
-        name = "Ellias",
-    },
-    [95799] = {
-        name = "Damrouf le Kostau",
     },
     [96513] = {
         name = "Razik Gazboulon",
@@ -44,32 +38,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [98587] = {
         name = "Ancêtre de Morheim",
     },
-    [99905] = {
-        name = "Glaise Plume-Grise",
+    [99065] = {
+        name = "Thaedris Chanteplume",
     },
-    [106914] = {
-        name = "Tehd Shoemaker",
+    [101766] = {
+        name = "Thalrenus Rivebois",
     },
-    [106915] = {
-        name = "Marius Gangreplaie",
+    [103568] = {
+        name = "Mayruna Aile-de-lune",
     },
-    [107244] = {
-        name = "Tehd Shoemaker",
+    [104220] = {
+        name = "Ettin affamé",
     },
-    [107245] = {
-        name = "Marius Gangreplaie",
+    [106095] = {
+        name = "Ivanel Chantrepré",
     },
-    [107498] = {
-        name = "Cukroa",
+    [106299] = {
+        name = "Thisalee Corbeau",
     },
     [107499] = {
         name = "Corvursidé effrayé",
-    },
-    [107674] = {
-        name = "Lavrille Six-Coups",
-    },
-    [107675] = {
-        name = "Rax Six-Coups",
     },
     [108072] = {
         name = "Sir Finley Mrrgglton",
@@ -77,19 +65,22 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [108304] = {
         name = "Guviena Lamechant",
     },
+    [108327] = {
+        name = "Visquos ondulant",
+    },
     [108358] = {
         name = "Leirana",
     },
     [109631] = {
         name = "Vieux Griséchine",
     },
-    [250536] = {
-        name = "Ramure intacte de grand cerf",
+    [110018] = {
+        name = "Gazrik Verrouage",
     },
-    [250990] = {
-        name = "Caisse de reliques anciennes",
+    [110987] = {
+        name = "Oeil-de-nuit",
     },
-    [251425] = {
-        name = "Grisitchi tendre",
+    [121754] = {
+        name = "Vereesa Coursevent",
     },
 })

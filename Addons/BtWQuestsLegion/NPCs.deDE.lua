@@ -5,29 +5,23 @@ if GetLocale() ~= "deDE" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
-    [91065] = {
-        name = "Kellermeister Voodani",
+    [38237] = {
+        name = "Maximillian von Nordhain",
     },
-    [91166] = {
-        name = "Daglop",
+    [92802] = {
+        name = "Gravax der Schänder",
     },
     [93600] = {
         name = "Saylanna Flussbrise",
     },
-    [94101] = {
-        name = "Laeni Silberschuss",
+    [94366] = {
+        name = "Lelyn Flinkschatten",
     },
     [94409] = {
         name = "Hemet Nesingwary",
     },
     [94434] = {
         name = "Addie Zischmoor",
-    },
-    [95438] = {
-        name = "Ellias",
-    },
-    [95799] = {
-        name = "Damrul der Schtarke",
     },
     [96513] = {
         name = "Razik Gazbolz",
@@ -44,32 +38,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [98587] = {
         name = "Morheimvorfahre",
     },
-    [99905] = {
-        name = "Shale Graufeder",
+    [99065] = {
+        name = "Thaedris Federsang",
     },
-    [106914] = {
-        name = "Tehd Shumaker",
+    [101766] = {
+        name = "Thalrenus Flussbaum",
     },
-    [106915] = {
-        name = "Marius Teufelsbann",
+    [103568] = {
+        name = "Mayruna Mondschwinge",
     },
-    [107244] = {
-        name = "Tehd Shumaker",
+    [104220] = {
+        name = "Ausgehungerter Ettin",
     },
-    [107245] = {
-        name = "Marius Teufelsbann",
+    [106095] = {
+        name = "Ivanel Wiesenlied",
     },
-    [107498] = {
-        name = "Kukkah",
+    [106299] = {
+        name = "Thisalee Krähe",
     },
     [107499] = {
         name = "Verängstigter Rabenbär",
-    },
-    [107674] = {
-        name = "Schnacki Sechszünder",
-    },
-    [107675] = {
-        name = "Rax Sechszünder",
     },
     [108072] = {
         name = "Sir Finley Mrrgglton",
@@ -77,19 +65,22 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [108304] = {
         name = "Guviena Klingenlied",
     },
+    [108327] = {
+        name = "Wogender Knochenschleim",
+    },
     [108358] = {
         name = "Leirana",
     },
     [109631] = {
         name = "Alter Graurücken",
     },
-    [250536] = {
-        name = "Intaktes Großhirschgeweih",
+    [110018] = {
+        name = "Gazrix Kolbenfresser",
     },
-    [250990] = {
-        name = "Kiste mit uralten Relikten",
+    [110987] = {
+        name = "Nachtauge",
     },
-    [251425] = {
-        name = "Feuchter Graukamm",
+    [121754] = {
+        name = "Vereesa Windläufer",
     },
 })

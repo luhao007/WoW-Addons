@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "通缉",
     },
+    [2702] = {
+        name = "内禁锢之石",
+    },
     [2713] = {
         name = "通缉板",
     },
@@ -19,6 +22,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [20992] = {
         name = "黑色盾牌",
+    },
+    [138492] = {
+        name = "密斯莱尔水晶碎块",
     },
     [142195] = {
         name = "木爪作战地图",
@@ -85,6 +91,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "半埋的瓶子",
+    },
+    [204817] = {
+        name = "光铸棒",
+    },
+    [204824] = {
+        name = "光铸弓",
+    },
+    [204825] = {
+        name = "光铸冠",
     },
     [205332] = {
         name = "通缉布告",

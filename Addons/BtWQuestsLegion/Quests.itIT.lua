@@ -293,12 +293,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38318] = {
         name = "Chi ha bisogno di ali?",
     },
-    [38322] = {
-        name = "Ritorno al Boschetto",
-    },
-    [38323] = {
-        name = "Ritorno al Boschetto",
-    },
     [38324] = {
         name = "Gli accessori dei maledetti",
     },
@@ -1305,7 +1299,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Re delle Profondità",
     },
     [39781] = {
-        name = "Antro di Neltharion",
+        name = "Antro di Neltharion: Morte al Re delle Profondità",
     },
     [39786] = {
         name = "Scommettiamo una pietra?",
@@ -2867,9 +2861,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41709] = {
         name = "Distruggere i cannoni",
     },
-    [41724] = {
-        name = "Il cuore dell'Incubo",
-    },
     [41728] = {
         name = "La difesa del Monastero Tian",
     },
@@ -2937,7 +2928,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campionessa: Shinfel Giurapiaga",
     },
     [41755] = {
-        name = "Campionessa: Lulubelle Frizzabotti",
+        name = "Campionessa: Lulubelle Frizzabum",
     },
     [41756] = {
         name = "Campionesse: Gemelle Eredar",
@@ -3000,7 +2991,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Tempo Rubato",
     },
     [41785] = {
-        name = "Alla ricerca di Frizzabotti",
+        name = "Alla ricerca di Frizzabum",
     },
     [41787] = {
         name = "Lo scompiglio di qualcun altro",
@@ -3848,9 +3839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42619] = {
         name = "Campione: Hodir",
     },
-    [42627] = {
-        name = "La lama invisibile",
-    },
     [42634] = {
         name = "Confronto al Tempio Nero",
     },
@@ -4274,15 +4262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42959] = {
         name = "Tre è un numero fortunato",
     },
-    [42966] = {
-        name = "Gran comando",
-    },
-    [42967] = {
-        name = "Gran comando",
-    },
-    [42968] = {
-        name = "Gran comando",
-    },
     [42974] = {
         name = "Il destino di Hodir",
     },
@@ -4461,7 +4440,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "I frammenti del disastro",
     },
     [43362] = {
-        name = "Incubo di Smeraldo: Il contenuto dei sogni",
+        name = "Roba da sogno",
     },
     [43371] = {
         name = "Aiutare la prima linea",
@@ -4649,12 +4628,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43502] = {
         name = "Cambio di stagione",
     },
-    [43503] = {
-        name = "Il potere interiore",
-    },
-    [43505] = {
-        name = "Il potere interiore",
-    },
     [43506] = {
         name = "Forte Corvonero: Sete di Potere",
     },
@@ -4677,7 +4650,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Incubo di Smeraldo: Nell'Incubo",
     },
     [43521] = {
-        name = "L'essenza del potere",
+        name = "Incubo di Smeraldo: L'essenza del potere",
     },
     [43522] = {
         name = "Consumare le essenze",
@@ -4704,7 +4677,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Rocca della Notte: Manie di Grandezza",
     },
     [43531] = {
-        name = "Nella Rocca della Notte",
+        name = "Rocca della Notte: Nella Rocca della Notte",
     },
     [43532] = {
         name = "Rocca della Notte: Richiamo dell'Oscurità",
@@ -5476,9 +5449,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45316] = {
         name = "Stabilizzare Suramar",
-    },
-    [45317] = {
-        name = "Combattere su tutti i fronti",
     },
     [45329] = {
         name = "Operazione: Portali",

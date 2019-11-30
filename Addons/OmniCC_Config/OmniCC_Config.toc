@@ -1,10 +1,14 @@
 ## Interface: 80205
-## Title: OmniCC Config
-## Notes: OmniCC's configuration menu
-## Notes-koKR: OmniCC의 설정 메뉴
 ## Author: Tuller
 ## Dependencies: OmniCC
 ## LoadOnDemand: 1
+
+## Title: OmniCC Config
+## Notes: OmniCC's configuration menu
+## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF技能冷却|r |cFF0055FF设置|r
+## Notes-zhCN: 显示技能冷却时间
+
+
 localization\localization.xml
 widgets\widgets.xml
 mainPanel.lua

@@ -1,7 +1,7 @@
 --[[
 Auctioneer - StatSimple
-Version: 8.2.6399 (SwimmingSeadragon)
-Revision: $Id: StatSimple.lua 6399 2019-09-25 00:20:07Z none $
+Version: 8.2.6501 (SwimmingSeadragon)
+Revision: $Id: StatSimple.lua 6501 2019-11-02 14:38:37Z none $
 URL: http://auctioneeraddon.com/
 
 This is an addon for World of Warcraft that adds statistical history to the auction data that is collected
@@ -916,4 +916,4 @@ function private.WriteItemData(serverKey, storeID, storeProperty)
 	wipe(WriteStore)
 end
 
-AucAdvanced.RegisterRevision("$URL: Auc-Stat-Simple/StatSimple.lua $", "$Rev: 6399 $")
+AucAdvanced.RegisterRevision("$URL: Auc-Stat-Simple/StatSimple.lua $", "$Rev: 6501 $")

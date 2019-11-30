@@ -1,6 +1,6 @@
 local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(102)), "Scythe of Elune"),
+    name = L["BALANCE_SCYTHE_OF_ELUNE"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS,
     },
     restrictions = {
@@ -22,6 +22,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE, {
             id = BTWQUESTS_CLASS_ID_DRUID,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("DRUID", 1),
+    active = BtWQuests.LegionArtifactActive("DRUID", 1),
     completed = {
         type = "quest",
         id = 40838,
@@ -92,7 +94,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FERAL, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(103)), "Fangs of Ashamane"),
+    name = L["FERAL_FANGS_OF_ASHAMANE"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -114,6 +116,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FERAL, {
             id = BTWQUESTS_CLASS_ID_DRUID,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("DRUID", 2),
+    active = BtWQuests.LegionArtifactActive("DRUID", 2),
     completed = {
         type = "quest",
         id = 42430,
@@ -166,7 +170,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FERAL, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(104)), "Claws of Ursoc"),
+    name = L["GUARDIAN_CLAWS_OF_URSOC"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -188,6 +192,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN, {
             id = BTWQUESTS_CLASS_ID_DRUID,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("DRUID", 3),
+    active = BtWQuests.LegionArtifactActive("DRUID", 3),
     completed = {
         type = "quest",
         id = 40647,
@@ -258,7 +264,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_RESTORATION, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(105)), "G'Hanir, the Mother Tree"),
+    name = L["RESTORATION_GHANIR_THE_MOTHER_TREE"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -280,6 +286,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_RESTORATION, {
             id = BTWQUESTS_CLASS_ID_DRUID,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("DRUID", 4),
+    active = BtWQuests.LegionArtifactActive("DRUID", 4),
     completed = {
         type = "quest",
         id = 41689,
@@ -411,12 +419,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
             x = 3,
             y = 4,
             connections = {
-                1, 2, 3, 4,
-                5, 6, 7, 8
+                1, 2, 3, 4, 5,
             },
         },
-        
-        
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE,
@@ -424,13 +431,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 type = "quest",
                 id = 40646,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40781) or BtWQuests_IsQuestCompleted(40701) or BtWQuests_IsQuestCompleted(40702) or BtWQuests_IsQuestCompleted(40703))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("DRUID"),
             x = 0,
             y = 5,
             connections = {
-                8
+                5
             },
         },
         {
@@ -440,56 +445,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 type = "quest",
                 id = 40646,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40781) or BtWQuests_IsQuestCompleted(40701) or BtWQuests_IsQuestCompleted(40702) or BtWQuests_IsQuestCompleted(40703))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("DRUID"),
             x = 2,
-            y = 5,
-            connections = {
-                7
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN,
-            active = {
-                type = "quest",
-                id = 40646,
-            },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40781) or BtWQuests_IsQuestCompleted(40701) or BtWQuests_IsQuestCompleted(40702) or BtWQuests_IsQuestCompleted(40703))
-            end,
-            x = 4,
-            y = 5,
-            connections = {
-                6
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_RESTORATION,
-            active = {
-                type = "quest",
-                id = 40646,
-            },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40781) or BtWQuests_IsQuestCompleted(40701) or BtWQuests_IsQuestCompleted(40702) or BtWQuests_IsQuestCompleted(40703))
-            end,
-            x = 6,
-            y = 5,
-            connections = {
-                5
-            },
-        },
-        
-        
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40781)
-            end,
-            x = 3,
             y = 5,
             connections = {
                 4
@@ -497,11 +454,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FERAL,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40701)
-            end,
-            x = 3,
+            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN,
+            active = {
+                type = "quest",
+                id = 40646,
+            },
+            visible = BtWQuests.LegionArtifactNonSelected("DRUID"),
+            x = 4,
             y = 5,
             connections = {
                 3
@@ -509,30 +468,67 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40702)
-            end,
-            x = 3,
+            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_RESTORATION,
+            active = {
+                type = "quest",
+                id = 40646,
+            },
+            visible = BtWQuests.LegionArtifactNonSelected("DRUID"),
+            x = 6,
             y = 5,
             connections = {
                 2
             },
         },
+
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_RESTORATION,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40703)
-            end,
+            variations = {
+
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_BALANCE,
+                    restrictions = {
+                        type = "quest",
+                        id = 40781,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FERAL,
+                    restrictions = {
+                        type = "quest",
+                        id = 40701,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_GUARDIAN,
+                    restrictions = {
+                        type = "quest",
+                        id = 40702,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_RESTORATION,
+                    restrictions = {
+                        type = "quest",
+                        id = 40703,
+                    },
+                },
+                {
+                    visible = false,
+                },
+            },
             x = 3,
             y = 5,
             connections = {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41918,
@@ -578,10 +574,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
-        
+
+
+
+
         {
             type = "level",
             level = 101,
@@ -664,9 +660,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 103,
@@ -726,7 +722,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
             x = 5,
             y = 22,
         },
-        
+
         {
             type = "quest",
             id = 43991,
@@ -752,9 +748,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1, 2, 3, 4
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 44077,
@@ -791,7 +787,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 2
             },
         },
-        
+
         {
             type = "level",
             level = 110,
@@ -810,8 +806,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42042,
@@ -839,8 +835,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42044,
@@ -868,8 +864,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42048,
@@ -888,8 +884,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42049,
@@ -917,8 +913,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42051,
@@ -964,7 +960,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
+
         {
             type = "quest",
             id = 42432,
@@ -989,7 +985,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FOLLOWER, {
-    name = BtWQuests_GetQuestName(46044),
+    name = { -- Champion: Thisalee Crow
+		type = "quest",
+		id = 46044,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_DRUID,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -1000,10 +999,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FOLLOWER, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {
@@ -1162,9 +1163,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_FOLLOWER, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,

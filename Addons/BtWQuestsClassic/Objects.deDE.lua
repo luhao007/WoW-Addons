@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "GESUCHT",
     },
+    [2702] = {
+        name = "Stein der Inneren Bindung",
+    },
     [2713] = {
         name = "Steckbriefbrett",
     },
@@ -19,6 +22,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [20992] = {
         name = "Schwarzer Schild",
+    },
+    [138492] = {
+        name = "Splitter von Myzrael",
     },
     [142195] = {
         name = "Schlachtplan der Waldpfoten",
@@ -82,6 +88,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "Halb vergrabene Flasche",
+    },
+    [204817] = {
+        name = "Lichtgeschmiedete Rute",
+    },
+    [204824] = {
+        name = "Lichtgeschmiedeter Bogen",
+    },
+    [204825] = {
+        name = "Lichtgeschmiedetes Wappen",
     },
     [205332] = {
         name = "Steckbrief",

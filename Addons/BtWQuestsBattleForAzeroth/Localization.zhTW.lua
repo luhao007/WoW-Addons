@@ -5,7 +5,7 @@ if GetLocale() ~= "zhTW" then
 end
 
 local L = BtWQuests.L
-L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "造型：光陰"
+L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"] = "造型：光陰"
 L["BTWQUESTS_GIFT_OF_NZOTH"] = "恩若司之賜"
 L["BTWQUESTS_HATI_REBORN"] = "哈提重生"
 L["BTWQUESTS_MAGHAR_ORC"] = "瑪格哈獸人"

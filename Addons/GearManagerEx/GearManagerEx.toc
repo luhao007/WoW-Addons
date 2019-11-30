@@ -1,9 +1,11 @@
-## Interface: 80000
-## Title: GearManagerEx
-## Version: 3.01 DONEY MOD 3 Punk MOD 1
+## Interface: 80205
 ## Author: Abin
-## Modified: doneykoo - fix for 7.0.3 patch API changes; szpunk - fix for 8.0 patch API changes.
+## Version: 3.01 DONEY MOD 3 Punk MOD 1
 ## SavedVariablesPerCharacter: GearManagerExDB
+
+## Title: GearManagerEx
+## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF一键换装|r |cFFFFE00AGearManagerEx|r
+
 
 Locales\enUS.lua
 Locales\zhCN.lua

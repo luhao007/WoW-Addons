@@ -1,6 +1,6 @@
 local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(256)), "Light's Wrath"),
+    name = L["DISCIPLINE_LIGHTS_WRATH"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY,
         BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS,
     },
     restrictions = {
@@ -22,6 +22,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE, {
             id = BTWQUESTS_CLASS_ID_PRIEST,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("PRIEST", 1),
+    active = BtWQuests.LegionArtifactActive("PRIEST", 1),
     completed = {
         type = "quest",
         id = 41632,
@@ -101,7 +103,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_HOLY, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(257)), "T'uure, Beacon of the Naaru"),
+    name = L["HOLY_TUURE_BEACON_OF_THE_NAARU"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -123,6 +125,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_HOLY, {
             id = BTWQUESTS_CLASS_ID_PRIEST,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("PRIEST", 2),
+    active = BtWQuests.LegionArtifactActive("PRIEST", 2),
     completed = {
         type = "quest",
         id = 42074,
@@ -175,7 +179,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_HOLY, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_SHADOW, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(258)), "Xal'atath, Blade of the Black Empire"),
+    name = L["SHADOW_XALATATH_BLADE_OF_THE_BLACK_EMPIRE"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -197,6 +201,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_SHADOW, {
             id = BTWQUESTS_CLASS_ID_PRIEST,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("PRIEST", 3),
+    active = BtWQuests.LegionArtifactActive("PRIEST", 3),
     completed = {
         type = "quest",
         id = 40710,
@@ -256,12 +262,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
             x = 3,
             y = 1,
             connections = {
-                1, 2, 3,
-                4, 5, 6
+                1, 2, 3, 4,
             },
         },
-        
-        
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
@@ -269,13 +274,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 type = "quest",
                 id = 40706,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40709) or BtWQuests_IsQuestCompleted(40708) or BtWQuests_IsQuestCompleted(40707))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("PRIEST"),
             x = 1,
             y = 2,
             connections = {
-                6
+                4
             },
         },
         {
@@ -285,39 +288,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 type = "quest",
                 id = 40706,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40709) or BtWQuests_IsQuestCompleted(40708) or BtWQuests_IsQuestCompleted(40707))
-            end,
-            x = 3,
-            y = 2,
-            connections = {
-                5
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_SHADOW,
-            active = {
-                type = "quest",
-                id = 40706,
-            },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40709) or BtWQuests_IsQuestCompleted(40708) or BtWQuests_IsQuestCompleted(40707))
-            end,
-            x = 5,
-            y = 2,
-            connections = {
-                4
-            },
-        },
-        
-        
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40709)
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("PRIEST"),
             x = 3,
             y = 2,
             connections = {
@@ -326,31 +297,59 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_HOLY,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40708)
-            end,
-            x = 3,
+            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_SHADOW,
+            active = {
+                type = "quest",
+                id = 40706,
+            },
+            visible = BtWQuests.LegionArtifactNonSelected("PRIEST"),
+            x = 5,
             y = 2,
             connections = {
                 2
             },
         },
+
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_SHADOW,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40707)
-            end,
+            variations = {
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
+                    restrictions = {
+                        type = "quest",
+                        id = 40709,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_HOLY,
+                    restrictions = {
+                        type = "quest",
+                        id = 40708,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_SHADOW,
+                    restrictions = {
+                        type = "quest",
+                        id = 40707,
+                    },
+                },
+                {
+                    visible = false,
+                },
+            },
             x = 3,
             y = 2,
             connections = {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 40938,
@@ -387,9 +386,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 101,
@@ -481,9 +480,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 103,
@@ -511,8 +510,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43374,
@@ -531,8 +530,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43376,
@@ -542,8 +541,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42137,
@@ -562,8 +561,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43378,
@@ -582,8 +581,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43851,
@@ -605,8 +604,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
             x = 5,
             y = 21,
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43383,
@@ -625,9 +624,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 110,
@@ -655,8 +654,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43387,
@@ -675,8 +674,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43389,
@@ -749,8 +748,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43396,
@@ -769,8 +768,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43397,
@@ -789,8 +788,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43400,
@@ -818,8 +817,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 43401,
@@ -856,7 +855,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_CAMPAIGN, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER, {
-    name = BtWQuests_GetQuestName(46034),
+    name = { -- Champion: Aelthalyste
+		type = "quest",
+		id = 46034,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_PRIEST,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -867,10 +869,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {
@@ -993,9 +997,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,

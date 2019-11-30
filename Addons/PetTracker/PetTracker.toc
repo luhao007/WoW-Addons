@@ -1,13 +1,15 @@
 ## Interface: 80205
-## Title: PetTracker
-## Notes: Tracking pets in and out of combat since 2012.
-## Author: Jaliborc (João Cardoso)
+## Author: Jaliborc (JoÃ£o Cardoso)
 ## Version: 8.2.2
-
+## OptionalDeps: WoWUnit
 ## SavedVariables: PetTracker_Sets
 ## SavedVariablesPerCharacter: PetTracker_State
+
+## Title: PetTracker
+## Notes: Tracking pets in and out of combat since 2012.
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFFFFE00APetTracker|r
+
 ## X-Category: Battle Pets
-## OptionalDeps: WoWUnit
 
 Libs\Libs.xml
 Localization\Include.xml

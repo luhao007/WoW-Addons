@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "¡Se busca!",
     },
+    [2702] = {
+        name = "Piedra de Vínculo Interior",
+    },
     [2713] = {
         name = "Tablón de Se busca",
     },
@@ -82,6 +85,12 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "Botella semienterrada",
+    },
+    [204824] = {
+        name = "Arco forjado con luz",
+    },
+    [204825] = {
+        name = "Blasón forjado con luz",
     },
     [205332] = {
         name = "Cartel de Se busca",

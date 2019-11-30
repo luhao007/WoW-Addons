@@ -417,6 +417,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Protecting the Shipment",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2057,
+        },
         rewards = {
             {
                 type = "experience",
@@ -5491,6 +5495,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "South Gate Status Report",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1960,
+        },
         rewards = {
             {
                 type = "experience",
@@ -5520,6 +5528,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Stormpike's Orders",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1340,
+        },
         rewards = {
             {
                 type = "experience",
@@ -5549,6 +5561,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Resupplying the Excavation",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1105,
+        },
         rewards = {
             {
                 type = "experience",
@@ -5735,6 +5751,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Joining the Hunt",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1345,
+        },
         rewards = {
             {
                 type = "experience",
@@ -5792,6 +5812,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Keep Your Hands Off The Goods!",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1344,
+        },
         rewards = {
             {
                 type = "experience",
@@ -5887,6 +5911,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Explorers' League Document (2 of 6)",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 194378,
+        },
         rewards = {
             {
                 type = "experience",
@@ -5916,6 +5944,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Explorers' League Document (1 of 6)",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 194387,
+        },
         rewards = {
             {
                 type = "experience",
@@ -6011,6 +6043,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Explorers' League Document (6 of 6)",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 194390,
+        },
         rewards = {
             {
                 type = "experience",
@@ -6040,6 +6076,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Explorers' League Document (5 of 6)",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 194391,
+        },
         rewards = {
             {
                 type = "experience",
@@ -20941,6 +20981,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Vulgar Vul'Gol",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 888,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27170,6 +27214,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Fenbush Berries",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41128,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27199,6 +27247,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Dumpy Job",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41129,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27228,6 +27280,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Drungeld Glowerglare",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41086,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27348,6 +27404,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Get Out Of Here, Stalkers",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41086,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27377,6 +27437,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Down In Thelgen Rock",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41129,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27406,6 +27470,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Incendicite Ore",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41128,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27804,6 +27872,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Keg Run",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41075,
+        },
         rewards = {
             {
                 type = "experience",
@@ -27904,6 +27976,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Onwards to Menethil",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41086,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28278,6 +28354,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Claws from the Deep",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41297,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28307,6 +28387,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Reclaiming Goods",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41297,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28336,6 +28420,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Search Continues",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 261,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28365,6 +28453,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Search More Hovels",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 142151,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28394,6 +28486,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Return the Statuette",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 259,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28621,6 +28717,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Cursed to Roam",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1239,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28637,6 +28737,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Cursed Crew",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41307,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28666,6 +28770,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Lifting the Curse",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41307,
+        },
         rewards = {
             {
                 type = "experience",
@@ -28687,6 +28795,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Eye of Paleth",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 112948,
+        },
         rewards = {
             {
                 type = "experience",
@@ -29298,6 +29410,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Gizmos and Gadgets",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41435,
+        },
         rewards = {
             {
                 type = "experience",
@@ -29360,6 +29476,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Hunting Horrorjaw",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41433,
+        },
         rewards = {
             {
                 type = "experience",
@@ -29422,6 +29542,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Mosshide Job",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41415,
+        },
         rewards = {
             {
                 type = "experience",
@@ -29451,6 +29575,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Dark Iron Trappers",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41415,
+        },
         rewards = {
             {
                 type = "experience",
@@ -29480,6 +29608,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Gnoll Escape",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41415,
+        },
         rewards = {
             {
                 type = "experience",
@@ -29509,6 +29641,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Yorla Darksnare",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41415,
+        },
         rewards = {
             {
                 type = "experience",
@@ -30111,6 +30247,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Threat of Flame",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41503,
+        },
         rewards = {
             {
                 type = "experience",
@@ -30287,6 +30427,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "For Peat's Sake",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41615,
+        },
         rewards = {
             {
                 type = "experience",
@@ -30981,6 +31125,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Wand over Fist",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2789,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31010,6 +31158,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Trelane's Defenses",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2789,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31039,6 +31191,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Attack on the Tower",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41983,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31068,6 +31224,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Princess Trapped",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 138492,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31092,6 +31252,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Stones of Binding",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 2701,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31116,6 +31280,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Breaking the Keystone",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 2702,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31310,6 +31478,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Princess Unleashed",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2789,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31367,6 +31539,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Sunken Treasure",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2774,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31396,6 +31572,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Speak to Shakes",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2774,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31450,6 +31630,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Drowned Sorrows",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2769,
+        },
         rewards = {
             {
                 type = "experience",
@@ -31967,6 +32151,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Wanted!  Otto and Falconcrest",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 2713,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32144,6 +32332,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Stromgarde Badges",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2700,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32360,6 +32552,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Just Like Old Times",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2712,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32389,6 +32585,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Quae and Kinelory",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2608,
+            name = "Commander Amaren",
+        },
         rewards = {
             {
                 type = "experience",
@@ -32418,6 +32619,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Quae Trusts You",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2712,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32475,6 +32680,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Kinelory Strikes",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2713,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32504,6 +32713,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "For Southshore",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2712,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32599,6 +32812,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Battle of Thandol Span",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 42160,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32628,6 +32845,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Reinforcements for Loch Modan",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1959,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32695,6 +32916,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Checking on the Boys",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1343,
+        },
         rewards = {
             {
                 type = "experience",
@@ -32819,6 +33044,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Bigger and Uglier",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1090,
+            name = "Mountaineer Wallbang",
+        },
         rewards = {
             {
                 type = "experience",
@@ -32848,6 +33078,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Decisive Strike",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1092,
+        },
         rewards = {
             {
                 type = "experience",
@@ -33504,6 +33738,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Onward to Thelsamar",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1092,
+        },
         rewards = {
             {
                 type = "experience",
@@ -33670,6 +33908,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Angerfang Menace",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41411,
+        },
         rewards = {
             {
                 type = "experience",
@@ -33699,6 +33941,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Who Wards The Greenwarden",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41411,
+        },
         rewards = {
             {
                 type = "experience",
@@ -33728,6 +33974,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Longbraid the Grim",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41615,
+        },
         rewards = {
             {
                 type = "experience",
@@ -35301,6 +35551,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Anvilmar the Hero",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1071,
+        },
         rewards = {
             {
                 type = "experience",
@@ -35394,6 +35648,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Shakes O'Breen",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2789,
+        },
         rewards = {
             {
                 type = "experience",
@@ -35471,6 +35729,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Stone Shards",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2789,
+        },
         rewards = {
             {
                 type = "experience",
@@ -35563,6 +35825,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Myzrael's Tale",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 2702,
+        },
         rewards = {
             {
                 type = "experience",
@@ -39850,6 +40116,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Seasoned Wolf Kabobs",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 272,
+        },
         rewards = {
             {
                 type = "experience",
@@ -39879,6 +40149,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Dusky Crab Cakes",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 272,
+        },
         rewards = {
             {
                 type = "experience",
@@ -39932,6 +40206,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Hermit",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 264,
+        },
         rewards = {
             {
                 type = "experience",
@@ -39956,6 +40234,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Death From Below",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2610,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40327,6 +40609,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Night Watch",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 264,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40475,6 +40761,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Ghost Hair Thread",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 265,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40511,6 +40801,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Return the Comb",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 302,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40535,6 +40829,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Deliver the Thread",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 265,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40559,6 +40857,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Zombie Juice",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 289,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40575,6 +40877,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Gather Rot Blossoms",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 273,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40748,6 +41054,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Stolen Letters",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 267,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40806,6 +41116,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "In A Dark Corner",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 267,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40835,6 +41149,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Roland's Doom",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 267,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40864,6 +41182,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Fate of Stalvan Mistmantle",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 267,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40893,6 +41215,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Clawing at the Truth",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43453,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40917,6 +41243,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Mistmantle's Revenge",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 265,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40946,6 +41276,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Juice Delivery",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 273,
+        },
         rewards = {
             {
                 type = "experience",
@@ -40970,6 +41304,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Ghoulish Effigy",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 289,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41052,6 +41390,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Ogre Thieves",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 289,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41076,6 +41418,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Note to the Mayor",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 289,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41151,6 +41497,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Insane Ghoul",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 302,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41180,6 +41530,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Classy Glass",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 276,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41209,6 +41563,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Bones That Walk",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 264,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41300,6 +41658,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Rotting Orchard",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 663,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41329,6 +41691,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Vile and Tainted",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 663,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41358,6 +41724,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Worgen in the Woods",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 663,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41682,6 +42052,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Deadly Vine",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43738,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41823,6 +42197,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Delivery to Master Harris",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43738,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41852,6 +42230,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Curse We Cannot Lift",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43730,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41881,6 +42263,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Jitters-Bugs",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 288,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41910,6 +42296,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Buried Below",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 204824,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41926,6 +42316,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Fate of Morbent Fel",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43861,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41955,6 +42349,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Lurking Lich",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43861,
+        },
         rewards = {
             {
                 type = "experience",
@@ -41971,6 +42369,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Guided by the Light",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43731,
+        },
         rewards = {
             {
                 type = "experience",
@@ -42008,6 +42410,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Embalmer's Revenge",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 263,
+        },
         rewards = {
             {
                 type = "experience",
@@ -42359,6 +42765,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Krazek's Cookery",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 770,
+        },
         rewards = {
             {
                 type = "experience",
@@ -42621,6 +43031,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Halls of the Dead",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 204817,
+        },
         rewards = {
             {
                 type = "experience",
@@ -42637,6 +43051,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Morbent's Bane",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 204825,
+        },
         rewards = {
             {
                 type = "experience",
@@ -42666,6 +43084,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Cry For The Moon",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43730,
+        },
         rewards = {
             {
                 type = "experience",
@@ -42956,6 +43378,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Soothing Spirits",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43731,
+        },
         rewards = {
             {
                 type = "experience",
@@ -42985,6 +43411,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Cries of the Dead",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43731,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43072,6 +43502,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Mind's Eye",
         requiredLevel = 25,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44019,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43125,6 +43559,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Part of the Pack",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 43453,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43141,6 +43579,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Bear In Mind",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 288,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43195,6 +43637,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Morgan Ladimore",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 268,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43216,6 +43662,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Mor'Ladim",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 264,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43245,6 +43695,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Daughter Who Lived",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 264,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43266,6 +43720,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Daughter's Love",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 576,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43282,6 +43740,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "To the Cape!",
         requiredLevel = 30,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44018,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43891,6 +44353,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Kobold and Kobolder",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1343,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43920,6 +44386,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Who's In Charge Here?",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1343,
+        },
         rewards = {
             {
                 type = "experience",
@@ -43949,6 +44419,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Nasty Exploit",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44200,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44008,6 +44482,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Pilot's Revenge",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "object",
+            id = 2059,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44075,6 +44553,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Filthy Paws",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1343,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44104,6 +44586,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Bearer of Gnoll-edge",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1343,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44133,6 +44619,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Axis of Awful",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44345,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44653,6 +45143,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Suddenly, Murlocs!",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1340,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44677,6 +45171,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Smells Like A Plan",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44345,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44706,6 +45204,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Load of Croc",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44345,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44793,6 +45295,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Buzz Off",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1340,
+        },
         rewards = {
             {
                 type = "experience",
@@ -44984,30 +45490,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [26943] = {
-        name = "Home Sweet Gnome",
-        requiredLevel = 24,
-        maxLevel = 60,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    450, 470, 480, 490, 500, 525, 525, 550, 550, 575, 575, 600, 625, 625, 650, 650, 675, 675, 700, 700, 725, 725, 750, 775, 775, 800, 800, 825, 825, 850, 850, 875, 875, 900, 925, 925, 950, 750, 575, 380, 190, 95, 
-                },
-                minLevel = 24,
-                maxLevel = 65,
-                outdated = 10,
-            },
-            {
-                type = "money",
-                amounts = {
-                    175, 175, 200, 225, 250, 250, 250, 300, 300, 350, 350, 350, 400, 400, 400, 500, 500, 500, 600, 600, 600, 600, 700, 700, 700, 700, 700, 800, 800, 800, 800, 800, 800, 900, 900, 900, 900, 
-                },
-                minLevel = 24,
-                maxLevel = 60,
-            },
-        },
-    },
     [26953] = {
         name = "Zen'Kiki, the Druid",
         requiredLevel = 35,
@@ -45157,6 +45639,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Gathering Idols",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1345,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45298,6 +45784,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Swiftgear Station",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 2104,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45327,6 +45817,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Whelgar's Retreat",
         requiredLevel = 20,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 41415,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45734,6 +46228,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Defcon: Bobcat",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44859,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45796,6 +46294,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Foxtails By The Handful",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1154,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45858,6 +46360,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Bird is the Word",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 6577,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45874,6 +46380,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Skystrider's Heart",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44618,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45903,6 +46413,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "He's That Age",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 6577,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45932,6 +46446,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Standing Up",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44870,
+            name = "Ando Blastenheimer",
+        },
         rewards = {
             {
                 type = "experience",
@@ -45961,6 +46480,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Vyrin's Revenge",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1156,
+        },
         rewards = {
             {
                 type = "experience",
@@ -45985,6 +46508,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Vyrin's Revenge",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1187,
+        },
         rewards = {
             {
                 type = "experience",
@@ -46274,6 +46801,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Fight the Hammer",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44870,
+            name = "Ando Blastenheimer",
+        },
         rewards = {
             {
                 type = "experience",
@@ -46303,6 +46835,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Servants of Cho'gall",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1073,
+            name = "Ashlan Stonesmirk",
+        },
         rewards = {
             {
                 type = "experience",
@@ -46332,6 +46869,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Clutching at Chaos",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1073,
+            name = "Ashlan Stonesmirk",
+        },
         rewards = {
             {
                 type = "experience",
@@ -46361,6 +46903,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Gor'kresh",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1073,
+            name = "Ashlan Stonesmirk",
+        },
         rewards = {
             {
                 type = "experience",
@@ -46830,6 +47377,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "Ando's Call",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 1073,
+            name = "Ashlan Stonesmirk",
+        },
         rewards = {
             {
                 type = "experience",
@@ -46854,6 +47406,11 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "The Winds of Loch Modan",
         requiredLevel = 10,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 44870,
+            name = "Ando Blastenheimer",
+        },
         rewards = {
             {
                 type = "experience",
@@ -56184,6 +56741,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "To Marshtide Watch",
         requiredLevel = 40,
         maxLevel = 60,
+        source = {
+            type = "npc",
+            id = 46071,
+        },
         rewards = {
             {
                 type = "experience",

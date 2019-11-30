@@ -13,7 +13,7 @@ local CONTINENT_ID = 875
 
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_DANGERS_IN_THE_DESERT, {
     name = function ()
-        return GetAchievementCriteriaInfo(ACHIEVEMENT_ID, 1)
+        return GetAchievementCriteriaInfo(ACHIEVEMENT_ID, 2)
     end,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
@@ -1146,7 +1146,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_ATULAMAN, {
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_UNLIKELY_ALLIES, {
     name = function ()
-        return GetAchievementCriteriaInfo(ACHIEVEMENT_ID, 2)
+        return GetAchievementCriteriaInfo(ACHIEVEMENT_ID, 1)
     end,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
@@ -3817,6 +3817,10 @@ BtWQuestsDatabase:AddCategory(BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN, {
         },
         {
             type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_UNLIKELY_ALLIES,
+        },
+        {
+            type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_DANGERS_IN_THE_DESERT,
         },
         {
@@ -3838,10 +3842,6 @@ BtWQuestsDatabase:AddCategory(BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN, {
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_ATULAMAN,
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_UNLIKELY_ALLIES,
         },
 
 

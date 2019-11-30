@@ -1,7 +1,7 @@
 --[[
 	Auctioneer - Search UI - Searcher Resale
-	Version: 8.2.6432 (SwimmingSeadragon)
-	Revision: $Id: SearcherResale.lua 6432 2019-09-25 00:20:07Z none $
+	Version: 8.2.6488 (SwimmingSeadragon)
+	Revision: $Id: SearcherResale.lua 6488 2019-11-02 14:38:37Z none $
 	URL: http://auctioneeraddon.com/
 
 	This is a plugin module for the SearchUI that assists in searching by refined paramaters
@@ -156,4 +156,4 @@ function lib.Search(item)
 	return false, "Not enough profit"
 end
 
-AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-SearchUI/SearcherResale.lua $", "$Rev: 6432 $")
+AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-SearchUI/SearcherResale.lua $", "$Rev: 6488 $")

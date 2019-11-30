@@ -1,11 +1,14 @@
-## Interface: 80200
-## Title: Overachiever - Trade
-## Version: 1.0.7
+## Interface: 80205
 ## Author: Tuhljin
-## Notes: Add achievement information to the Cooking window.
+## Version: 1.0.7
+## Dependencies: Overachiever
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_TradeSkillUI
-## Dependencies: Overachiever
+
+## Title: Overachiever - Trade
+## Notes: Add achievement information to the Cooking window.
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFF69CCF0交易|r
+
 ## X-Child-Of: Overachiever
 
 localization.lua

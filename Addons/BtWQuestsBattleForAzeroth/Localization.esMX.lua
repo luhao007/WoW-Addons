@@ -5,7 +5,7 @@ if GetLocale() ~= "esMX" then
 end
 
 local L = BtWQuests.L
-L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "Cosmético: Pérdida de tiempo"
+L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"] = "Cosmético: Pérdida de tiempo"
 L["BTWQUESTS_GIFT_OF_NZOTH"] = "Don de N'Zoth"
 L["BTWQUESTS_HATI_REBORN"] = "Hati renacido"
 L["BTWQUESTS_HERITAGE_OF_THE_BRONZEBEARD"] = "Legado de los Barbabronce"

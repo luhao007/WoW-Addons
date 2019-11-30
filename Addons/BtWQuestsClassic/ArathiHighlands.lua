@@ -633,29 +633,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_CLASSIC_ARATHI_HIGHLANDS_REFUGE_POINT
 		{
 			type = "chain",
 			id = BTWQUESTS_CHAIN_CLASSIC_ARATHI_HIGHLANDS_CHAIN3,
-			x = 0,
-			y = 3,
+			x = 1,
 		},
 		{
 			type = "quest",
 			id = 26336,
-			x = 2,
-			y = 3,
-			connections = {
-                
-            },
 		},
 		{
 			type = "chain",
 			id = BTWQUESTS_CHAIN_CLASSIC_ARATHI_HIGHLANDS_MYZRAELS_POINT,
-			x = 4,
-			y = 3,
-		},
-		{
-			type = "quest",
-			id = 26943,
-			x = 6,
-			y = 3,
 		},
 	}
 })

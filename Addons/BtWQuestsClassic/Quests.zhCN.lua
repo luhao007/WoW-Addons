@@ -4811,9 +4811,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "战斗训练",
     },
-    [26943] = {
-        name = "侏儒之家",
-    },
     [26953] = {
         name = "德鲁伊，赞吉吉",
     },

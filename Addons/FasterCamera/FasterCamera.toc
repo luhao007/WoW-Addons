@@ -1,10 +1,14 @@
-## Interface: 80000
+## Interface: 80205
+## Author: Ketho @ EU-Boulderfist
 ## Version: v2.2.0
+## OptionalDeps: Ace3
+## SavedVariables: FasterCameraDB2
+
 ## Title: FasterCamera
 ## Notes: Accelerates Camera Zooming
-## Author: Ketho @ EU-Boulderfist
-## SavedVariables: FasterCameraDB2
-## OptionalDeps: Ace3
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF视野调整|r |cFFFFE00AFasterCamera|r
+## Notes-zhCN: 提供调整视野上限，快速缩放视野等功能
+
 ## X-Embeds: Ace3
 
 Locales.lua

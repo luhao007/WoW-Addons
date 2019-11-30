@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Mold'aço",
     },
+    [14720] = {
+        name = "Lorde Supremo Saurfang",
+    },
     [15192] = {
         name = "Anacronos",
     },
@@ -2254,6 +2257,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [151283] = {
         name = "Filhote de Escornante",
+    },
+    [151285] = {
+        name = "Mevris Bailalma",
     },
     [151462] = {
         name = "Daniella Barbela",

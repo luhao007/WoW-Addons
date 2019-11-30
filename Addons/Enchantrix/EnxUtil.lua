@@ -1,7 +1,7 @@
 ﻿--[[
 	Enchantrix Addon for World of Warcraft(tm).
-	Version: 8.2.6428 (SwimmingSeadragon)
-	Revision: $Id: EnxUtil.lua 6428 2019-09-25 00:20:07Z none $
+	Version: 8.2.6506 (SwimmingSeadragon)
+	Revision: $Id: EnxUtil.lua 6506 2019-11-02 14:38:37Z none $
 	URL: http://enchantrix.org/
 
 	General utility functions
@@ -28,7 +28,7 @@
 		since that is its designated purpose as per:
 		http://www.fsf.org/licensing/licenses/gpl-faq.html#InterpreterIncompat
 ]]
-Enchantrix_RegisterRevision("$URL: Enchantrix/EnxUtil.lua $", "$Rev: 6428 $")
+Enchantrix_RegisterRevision("$URL: Enchantrix/EnxUtil.lua $", "$Rev: 6506 $")
 
 -- Global functions
 --local getItems
@@ -668,7 +668,7 @@ function createProfiler(name)
 end
 
 Enchantrix.Util = {
-	Revision			= "$Rev: 6428 $",
+	Revision			= "$Rev: 6506 $",
 
 --	GetItems			= getItems,
 --	GetItemType			= getItemType,

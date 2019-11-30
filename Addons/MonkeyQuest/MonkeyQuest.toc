@@ -1,9 +1,13 @@
-﻿## Interface: 80200
-## Title: MonkeyQuest v2.10.2
-## Notes: Displays your quests for quick viewing.
-## Notes-deDE: Stellt Quests in einer kompakten Uebersicht dar.
+## Interface: 80205
 ## Author: Trentin, Jim-Bim
-## SavedVariables: MonkeyQuestConfig
 ## Dependencies: MonkeyLibrary
 ## OptionalDeps: aftt_extreme
+## SavedVariables: MonkeyQuestConfig
+
+## Title: MonkeyQuest v2.10.2
+## Notes: Displays your quests for quick viewing.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFFMonkey任务追踪窗口|r |cFFFFE00AMonkeyQuest|r
+## Notes-zhCN: 独立任务追踪窗口
+
+
 MonkeyQuest.xml

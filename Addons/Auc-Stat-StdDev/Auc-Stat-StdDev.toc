@@ -1,20 +1,23 @@
+## Interface: 80205
+## Author: Norganna's AddOns
+## Version: 8.2.6502 (SwimmingSeadragon)
+## Dependencies: Auc-Advanced
+## LoadOnDemand: 0
+## SavedVariables: AucAdvancedStatStdDevData
+
 ## Title: Auc:Stat:Std Deviation
 ## Notes: Statistics extension for Auctioneer that uses the variance to detect, and ignore, outliers and provides pricing recommendations.
-##
-## Interface: 80200
-## LoadOnDemand: 0
-## Disabled: 1
-## Dependencies: Auc-Advanced
-## SavedVariables: AucAdvancedStatStdDevData
-##
-## Version: 8.2.6369 (SwimmingSeadragon)
-## Revision: $Id: Auc-Stat-StdDev.toc 6369 2019-09-25 00:20:07Z none $
-## Author: Norganna's AddOns
+## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF拍卖助手|r |cFF69CCF0统计：标准差|r
+## Notes-zhCN: 让拍卖助手通过标准差来提供参考拍卖价格
+
 ## X-Part-Of: Auctioneer
 ## X-Category: Auction House
 ## X-Max-Interface: 80100
 ## X-URL: http://auctioneeraddon.com/
 ## X-Feedback: http://forums.norganna.org
+
+##
+##
 ##
 
 StatStdDev.lua

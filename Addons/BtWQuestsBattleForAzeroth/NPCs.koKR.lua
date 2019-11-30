@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "그룸누스 스틸셰이퍼",
     },
+    [14720] = {
+        name = "대군주 사울팽",
+    },
     [15192] = {
         name = "아나크로노스",
     },
@@ -2227,6 +2230,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [151283] = {
         name = "새끼 공포뿔",
+    },
+    [151285] = {
+        name = "메브리스 고스트댄서",
     },
     [151287] = {
         name = "텔로니스",

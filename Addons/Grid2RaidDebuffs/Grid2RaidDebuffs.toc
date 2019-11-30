@@ -1,11 +1,11 @@
-## Interface: 80200
-## Title: Grid2 |cd1ff7d0aRaidDebuffs|r
-## Notes: Adds a Raid Boss debuff status.
-## Notes-esES: Muestra los debuffs de Bosses de Raid en el Grid2.
-
+## Interface: 80205
+## Version: r936
 ## Dependencies: Grid2
 
-## Version:r936
+## Title: Grid2 |cd1ff7d0aRaidDebuffs|r
+## Notes: Adds a Raid Boss debuff status.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF69CCF0团队首领减益|r
+
 ## X-Category: UnitFrame
 ## X-Website: http://wowace.com/projects/grid2/
 

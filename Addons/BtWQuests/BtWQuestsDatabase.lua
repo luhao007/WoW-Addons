@@ -79,13 +79,251 @@ function BtWQuestsItem_RelationshipSourceActive(item, character)
     return character:IsQuestActive(item.relationship.breadcrumb) or character:IsQuestCompleted(item.relationship.breadcrumb)
 end
 
+local function GetVariation(database, item, character)
+    if item.variations == nil then
+        return item;
+    end
+
+    if character ~= nil then
+        for _,variation in ipairs(item.variations) do
+            if not variation.initialized then
+                variation.initialized = true;
+                for k,v in pairs(item) do
+                    if k ~= "variations" and variation[k] == nil then
+                        variation[k] = v;
+                    end
+                end
+            end
+
+            local details = database:GetItemType(variation.type);
+            if details:IsValidForCharacter(database, variation, character) then
+                return variation;
+            end
+        end
+    end
+
+    local variation = item.variations[#item.variations];
+    if not variation.initialized then
+        variation.initialized = true;
+        for k,v in pairs(item) do
+            if k ~= "variations" and variation[k] == nil then
+                variation[k] = v;
+            end
+        end
+    end
+    return variation
+end
+
+local function CheckTargetStatus(target, item, character)
+    if item.status ~= nil then
+        for _,status in ipairs(item.status) do
+            if status == "available" and target:IsAvailable(character) then
+                return true
+            elseif status == "active" and target:IsActive(character) then
+                return true
+            elseif status == "completed" and target:IsCompleted(character) then
+                return true
+            elseif status == "notactive" and not target:IsActive(character) then
+                return true
+            elseif status == "notcompleted" and not target:IsCompleted(character) then
+                return true
+            end
+        end
+    elseif item.active == true then
+        if target:IsActive(character) then
+            return true
+        end
+    elseif item.active == false then
+        if not target:IsActive(character) then
+            return true
+        end
+    elseif item.completed == false then
+        if not target:IsCompleted(character) then
+            return true
+        end
+    else
+        if target:IsCompleted(character) then
+            return true
+        end
+    end
+
+    return false
+end
+local function CheckPetStatus(id, item, character)
+    if item.status == 'summon' then
+        local guid = C_PetJournal.GetSummonedPetGUID()
+        if not guid then
+            return false;
+        end
+        return C_PetJournal.GetPetInfoByPetID(guid) == id;
+    else
+        return select(1, C_PetJournal.GetNumCollectedInfo(id)) > 0
+    end
+end
+local function CheckMountStatus(id, item, character)
+    return select(11, C_MountJournal.GetMountInfoByID(id))
+end
+local function CheckItemStatus(id, item, character)
+    return GetItemCount(id) > 0
+end
+local function CheckQuestStatus(id, item, character)
+    if item.status ~= nil then
+        for _,status in ipairs(item.status) do
+            if status == "pending" and (not character:IsQuestActive(id) and not character:IsQuestCompleted(id)) then
+                return true
+            elseif status == "active" and character:IsQuestActive(id) then
+                return true
+            elseif status == "completed" and character:IsQuestCompleted(id) then
+                return true
+            elseif status == "notactive" and not character:IsQuestActive(id) then
+                return true
+            elseif status == "notcompleted" and not character:IsQuestCompleted(id) then
+                return true
+            end
+        end
+    elseif item.active == true then
+        if character:IsQuestActive(id) then
+            return true
+        end
+    elseif item.active == false then
+        if not character:IsQuestActive(id) then
+            return true
+        end
+    elseif item.completed == false then
+        if not character:IsQuestCompleted(id) then
+            return true
+        end
+    else
+        if character:IsQuestCompleted(id) then
+            return true
+        end
+    end
+
+    return false
+end
+local function CheckChainStatus(id, item, character)
+    if item.status ~= nil then
+        for _,status in ipairs(item.status) do
+            if status == "pending" and (not character:IsChainActive(id) and not character:IsChainCompleted(id)) then
+                return true
+            elseif status == "active" and character:IsChainActive(id) then
+                return true
+            elseif status == "completed" and character:IsChainCompleted(id) then
+                return true
+            elseif status == "notactive" and not character:IsChainActive(id) then
+                return true
+            elseif status == "notcompleted" and not character:IsChainCompleted(id) then
+                return true
+            end
+        end
+    elseif item.active == true then
+        if character:IsChainActive(id) then
+            return true
+        end
+    elseif item.active == false then
+        if not character:IsChainActive(id) then
+            return true
+        end
+    elseif item.completed == false then
+        if not character:IsChainCompleted(id) then
+            return true
+        end
+    else
+        if character:IsChainCompleted(id) then
+            return true
+        end
+    end
+
+    return false
+end
+local function CheckCategoryStatus(id, item, character)
+    if item.status ~= nil then
+        for _,status in ipairs(item.status) do
+            if status == "pending" and (not character:IsCategoryActive(id) and not character:IsCategoryCompleted(id)) then
+                return true
+            elseif status == "active" and character:IsCategoryActive(id) then
+                return true
+            elseif status == "completed" and character:IsCategoryCompleted(id) then
+                return true
+            elseif status == "notactive" and not character:IsCategoryActive(id) then
+                return true
+            elseif status == "notcompleted" and not character:IsCategoryCompleted(id) then
+                return true
+            end
+        end
+
+        return false
+    elseif item.active == true then
+        if character:IsCategoryActive(id) then
+            return true
+        end
+    elseif item.active == false then
+        if not character:IsCategoryActive(id) then
+            return true
+        end
+    elseif item.completed == false then
+        if not character:IsCategoryCompleted(id) then
+            return true
+        end
+    else
+        if character:IsCategoryCompleted(id) then
+            return true
+        end
+    end
+
+    return false
+end
+local function CheckStatusCount(amount, item)
+    local count = item.count or 1
+
+    local lessthan = item.lessthan and true or false
+    local morethan = item.morethan and true or false
+    local notequals = item.notequals and true or false
+    local equals = item.equals and true or false
+    local morethanorequals = not lessthan and not morethan and not notequals and not equals
+
+    if lessthan and amount < count then
+        return true
+    elseif morethan and amount > count then
+        return true
+    elseif notequals and amount ~= count then
+        return true
+    elseif equals and amount == count then
+        return true
+    elseif morethanorequals and amount >= count then
+        return true
+    end
+
+    return false
+end
+local function StatusCompleted(item, character, callback)
+    local amount = 0
+    if item.ids then
+        for _,id in ipairs(item.ids) do
+            if callback(id, item, character) then
+                amount = amount + 1
+            end
+        end
+    else
+        if callback(item.id, item, character) then
+            amount = amount + 1
+        end
+    end
+
+    return CheckStatusCount(amount, item)
+end
+
 local function TableOnClick(tbl, item)
     if tbl[1] ~= nil then
         for _,v in ipairs(tbl) do
             TableOnClick(v, item)
         end
     else
-        if tbl.type == "coords" then
+        if tbl.type == "category" then
+            BtWQuestsFrame:SelectCategory(tbl.id, tbl.scrollTo)
+        elseif tbl.type == "chain" then
+            BtWQuestsFrame:SelectChain(tbl.id, tbl.scrollTo)
+        elseif tbl.type == "coords" then
             BtWQuests_ShowMapWithWaypoint(tbl.mapID, tbl.x, tbl.y, tbl.name or item:GetName())
         end
     end
@@ -425,6 +663,10 @@ function DataMixin:IsAvailable(character)
         return false;
     end
 
+    if self:IsActive(character) then
+        return false;
+    end
+
     if self.prerequisites ~= nil then
         return self.database:EvalRequirement(self.prerequisites, self, character);
     end
@@ -502,12 +744,11 @@ function QuestMixin:GetLink()
 
     return self.link
 end
--- Check if the character has completed this quest
-function QuestMixin:IsCompleted(character)
-    return character:IsQuestCompleted(self.id)
-end
 function QuestMixin:IsActive(character)
     return character:IsQuestActive(self.id)
+end
+function QuestMixin:IsCompleted(character)
+    return character:IsQuestCompleted(self.id)
 end
 function QuestMixin:GetUserdata()
     -- if self.userdata == nil then
@@ -641,16 +882,16 @@ function ChainMixin:GetListImage()
 
     return self.listImage.texture, unpack(self.listImage.texCoords)
 end
-function ChainMixin:GetItem(index)
+function ChainMixin:GetItem(index, character)
     local index = tonumber(index);
     if index == nil or self.items[index] == nil then
         return nil;
     end
 
-    local item = self.items[index];
+    local item = GetVariation(self.database, self.items[index], character)
     local result = self.database:CreateItem(index, item, self, self);
 
-    if result:IsEmbed() then
+    if result:GetType() == "chain" and result:IsEmbed() then
         local connections = result:GetConnections();
         if connections then
             if connections[1] ~= nil and type(connections[1]) ~= "table" then
@@ -664,7 +905,7 @@ function ChainMixin:GetItem(index)
 end
 function ChainMixin:GetNextItem(character)
     for i = 1,self:GetNumItems() do
-        local item = self:GetItem(i)
+        local item = self:GetItem(i, character)
         if item and item:IsValidForCharacter(character) and not item:IsAside(character) and not item:IsBreadcrumb(character) and item:Visible(character) and not item:IsCompleted(character) then
             return item
         end
@@ -694,7 +935,7 @@ function CategoryMixin:GetProgress(character)
     for _,v in ipairs(self.items) do
         if v.type == 'chain' then
             if not character:IsChainIgnored(v.id) and self.database:IsItemValidForCharacter(v, character) then
-                local chain = self.database:GetChain(v.id);
+                local chain = self.database:GetChainByID(v.id);
                 if v.major or (chain and chain:IsMajor()) then
                     if self.database:IsChainCompleted(v.id, character) then
                         majorProgress = majorProgress + 1
@@ -732,11 +973,11 @@ function CategoryMixin:GetProgress(character)
     return majorProgress, majorTotal, minorProgress, minorTotal
 end
 function CategoryMixin:GetSubtext(character, small)
-    if self:IsCompleted() then
+    if self:IsCompleted(character) then
         return L["BTWQUESTS_COMPLETED"]
     end
 
-    local majorProgress, majorTotal, minorProgress, minorTotal = self:GetProgress()
+    local majorProgress, majorTotal, minorProgress, minorTotal = self:GetProgress(character)
 
     if minorTotal == nil then
         return string.format(L["BTWQUESTS_PROGRESS"], majorProgress, majorTotal)
@@ -767,7 +1008,7 @@ function CategoryMixin:GetItemList(character, noHeaders, filterCompleted, filter
     local header = nil
 
     local index = 1
-    local item = self:GetItem(index)
+    local item = self:GetItem(index, character)
     while item do
         if item:IsValidForCharacter(character) and item:Visible(character) then
             if item:GetType() == "header" then
@@ -815,7 +1056,7 @@ function CategoryMixin:GetItemList(character, noHeaders, filterCompleted, filter
         end
 
         index = index + 1
-        item = self:GetItem(index)
+        item = self:GetItem(index, character)
     end
 
     local results = {}
@@ -856,13 +1097,13 @@ function CategoryMixin:GetItemList(character, noHeaders, filterCompleted, filter
 
     return results
 end
-function CategoryMixin:GetItem(index)
+function CategoryMixin:GetItem(index, character)
     local index = tonumber(index)
     if index == nil or self.items == nil or self.items[index] == nil then
         return nil
     end
 
-    local item = self.items[index]
+    local item = GetVariation(self.database, self.items[index], character)
     return self.database:CreateItem(index, item, self, self);
 end
 function CategoryMixin:IsMajor()
@@ -989,9 +1230,6 @@ end
 function ItemMixin:GetType(database, item)
     return item.type;
 end
-function ItemMixin:GetTargetType(database, item)
-    return item.type;
-end
 function ItemMixin:GetID(database, item, index)
     if item.id then
         return item.id;
@@ -1004,75 +1242,23 @@ function ItemMixin:GetID(database, item, index)
 
     return nil;
 end
-function ItemMixin:GetTarget(database, item, index)
-    local type = self:GetTargetType(database, item);
-    if type == nil or not database:HasDataType(type) then
-        return nil;
-    end
-
-    if item.id then
-        return database:GetData(type, item.id);
-    end
-
-    local index = index or 1;
-    if item.ids and item.ids[index] then
-        return database:GetData(type, item.ids[index]);
-    end
-
-    return nil;
-end
 function ItemMixin:GetVariation(database, item, character)
     if item.variations == nil then
         return nil;
     end
 
-    if not item.variationItems then
-        item.variationItems = {};
-    end
-
-    for i,v in ipairs(item.variations) do
-        local variation = item.variationItems[i];
-        if not variation then
-            variation = database:CreateItem(i, v, item, self:GetRoot(database, item));
-            item.variationItems[i] = variation;
-        end
-        if variation:IsValidForCharacter(character) then
-            return variation;
-        end
-    end
-
-    return item.variationItems[#item.variationItems];
+    return database:CreateItem(item.index, GetVariation(database, item, character), item, self:GetRoot(database, item));
 end
 function ItemMixin:IsValidForCharacter(database, item, character)
     if item.restrictions ~= nil then
         return database:IsItemValidForCharacter(item, character);
     end
 
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:IsValidForCharacter(character);
-    end
-
-    target = self:GetTarget(database, item);
-    if target then
-        return target:IsValidForCharacter(character);
-    end
-
     return true;
 end
 function ItemMixin:Visible(database, item, character)
-    if item.visible ~= nil and not database:EvalRequirement(item.visible, item, character) then
-        return false;
-    end
-
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:Visible(character);
-    end
-
-    target = self:GetTarget(database, item);
-    if target then
-        return target:Visible(character);
+    if item.visible ~= nil then
+        return database:EvalRequirement(item.visible, item, character);
     end
 
     return true;
@@ -1082,64 +1268,46 @@ function ItemMixin:GetName(database, item, character)
         return database:EvalText(item.name, item, character);
     end
 
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:GetName(character);
-    end
-
-    target = self:GetTarget(database, item);
-    if target then
-        return target:GetName(character);
-    end
-
     return "Unnamed"
 end
 function ItemMixin:GetSubtext(database, item, character, small)
-    return item.subtext;
+    if item.subtext then
+        return database:EvalText(item.subtext, item, character);
+    end
 end
 function ItemMixin:GetAlternative(database, item, character)
-    if item.alternatives == nil then
-        return nil
-    end
-
-    for _,v in ipairs(item.alternatives) do
-        if database:IsItemValidForCharacter({type = item.type, id = v}, character) then
-            return v;
+    if item.alternatives ~= nil then
+        for _,v in ipairs(item.alternatives) do
+            if database:IsItemValidForCharacter({type = item.type, id = v}, character) then
+                return v;
+            end
         end
     end
 
     return nil;
 end
 function ItemMixin:IsAvailable(database, item, character)
+    if self:IsCompleted(database, item, character) then
+        return false;
+    end
+
+    if self:IsActive(database, item, character) then
+        return false;
+    end
+
     if item.prerequisites ~= nil then
         return database:EvalRequirement(item.prerequisites, item, character);
-    end
-
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:IsAvailable(character);
-    end
-
-    target = self:GetTarget(database, item);
-    if target then
-        return target:IsAvailable(character);
     end
 
     return true
 end
 function ItemMixin:IsActive(database, item, character)
+    if self:IsCompleted(database, item, character) then
+        return false;
+    end
+
     if item.active ~= nil then
         return database:EvalRequirement(item.active, item, character, true);
-    end
-
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:IsActive(character);
-    end
-
-    target = self:GetTarget(database, item);
-    if target then
-        return target:IsActive(character);
     end
 
     return false;
@@ -1149,26 +1317,11 @@ function ItemMixin:IsCompleted(database, item, character, ...)
         return database:EvalRequirement(item.completed, item, character);
     end
 
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:IsCompleted(character);
-    end
-
-    target = self:GetTarget(database, item);
-    if target then
-        return target:IsCompleted(character);
-    end
-
     return false
 end
 function ItemMixin:IsBreadcrumb(database, item, character)
     if item.breadcrumb ~= nil then
         return item.breadcrumb;
-    end
-
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:IsBreadcrumb(character);
     end
 
     return false
@@ -1178,29 +1331,13 @@ function ItemMixin:IsAside(database, item, character)
         return item.aside;
     end
 
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:IsAside(character);
-    end
-
     return false
-end
-function ItemMixin:GetDifficulty(database, item)
-    return item.difficulty;
-end
-function ItemMixin:GetTagID(database, item)
-    return item.tagID;
 end
 function ItemMixin:OnClick(database, item, character, ...)
     if type(item.onClick) == "table" then
         return TableOnClick(item.onClick, database:CreateItem(0, item), character, ...);
     elseif type(item.onClick) == "function" then
         return item.onClick(item, character, ...);
-    end
-
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:OnClick(character, ...);
     end
 
     return nil;
@@ -1210,11 +1347,6 @@ function ItemMixin:OnEnter(database, item, character, ...)
         return item.onEnter(item, character, ...);
     end
 
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:OnEnter(character, ...);
-    end
-
     return nil;
 end
 function ItemMixin:OnLeave(database, item, character, ...)
@@ -1222,12 +1354,31 @@ function ItemMixin:OnLeave(database, item, character, ...)
         return item.onLeave(item, character, ...);
     end
 
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:OnLeave(character, ...);
-    end
-
     return nil;
+end
+function ItemMixin:GetPrerequisites(database, item)
+    if item.prerequisites ~= nil then
+        local result = {}
+        for _,prerequisite in ipairs(item.prerequisites) do
+            result[#result+1] = database:CreateItem(-1, prerequisite, item, self:GetRoot(database, item));
+        end
+        return result;
+    end
+end
+function ItemMixin:GetRewards(database, item)
+    if item.rewards ~= nil then
+        local result = {}
+        for _,reward in ipairs(item.rewards) do
+            result[#result+1] = database:CreateItem(-1, reward, item, self:GetRoot(database, item));
+        end
+        return result;
+    end
+end
+function ItemMixin:GetDifficulty(database, item)
+    return item.difficulty;
+end
+function ItemMixin:GetTagID(database, item)
+    return item.tagID;
 end
 function ItemMixin:GetUserdata(database, item)
     if item.userdata ~= nil then
@@ -1235,47 +1386,6 @@ function ItemMixin:GetUserdata(database, item)
     end
 
     return nil;
-end
-function ItemMixin:GetSource(database, item, character)
-    if item.source ~= nil then
-        return database:CreateItem(-1, item.source, item, self:GetRoot(database, item));
-    end
-
-    local target = self:GetVariation(database, item, character);
-    if target then
-        return target:GetSource(character);
-    end
-
-    target = self:GetTarget(database, item);
-    if target then
-        return target:GetSource(character);
-    end
-
-    return nil;
-end
-function ItemMixin:GetPrerequisites(database, item)
-    if item.prerequisitesItems == nil then
-        item.prerequisitesItems = {}
-        if item.prerequisites then
-            for _,prerequisite in ipairs(item.prerequisites) do
-                item.prerequisitesItems[#item.prerequisitesItems+1] = database:CreateItem(-1, prerequisite, item, self:GetRoot(database, item));
-            end
-        end
-    end
-
-    return item.prerequisitesItems;
-end
-function ItemMixin:GetRewards(database, item)
-    if item.rewardsItems == nil then
-        item.rewardsItems = {}
-        if item.rewards then
-            for _,reward in ipairs(item.rewards) do
-                item.rewardsItems[#item.rewardsItems+1] = database:CreateItem(-1, reward, item, self:GetRoot(database, item));
-            end
-        end
-    end
-
-    return item.rewardsItems;
 end
 function ItemMixin:GetStatus(database, item, character)
     if item.status ~= nil then
@@ -1289,7 +1399,7 @@ function ItemMixin:GetStatus(database, item, character)
     if self:IsBreadcrumb(database, item, character) and self:HasConnections(database, item, character) then
         local completed = false
         local index = 1
-        local connection = self:GetConnection(database, item, index)
+        local connection = self:GetConnection(database, item, index, character)
         while connection do
             if connection:IsValidForCharacter(character) and connection:Visible(character) and connection:GetStatus(character) ~= nil then
                 completed = true
@@ -1297,7 +1407,7 @@ function ItemMixin:GetStatus(database, item, character)
             end
 
             index = index + 1
-            connection = self:GetConnection(database, item, index)
+            connection = self:GetConnection(database, item, index, character)
         end
 
         if completed then
@@ -1329,7 +1439,7 @@ end
 function ItemMixin:HasConnections(database, item)
     return item.connections and #item.connections > 0
 end
-function ItemMixin:GetConnection(database, item, index, overrideConnections, overrideChain)
+function ItemMixin:GetConnection(database, item, index, character, overrideConnections, overrideChain)
     local index = tonumber(index)
     if overrideConnections then
         local connections = overrideConnections;
@@ -1339,9 +1449,13 @@ function ItemMixin:GetConnection(database, item, index, overrideConnections, ove
     
         local connection = tostring(connections[index]);
         local match = string.gmatch(connection, "[^%.]+");
-        local result = overrideChain:GetItem(tonumber(match()));
+        local result = overrideChain:GetItem(tonumber(match()), character);
         for value in match do
-            result = result:GetItem(tonumber(value));
+            result = result:GetItem(tonumber(value), character);
+        end
+        
+        while result and result:GetType() == "chain" and result:IsEmbed() do
+            result = result:GetItem(1, character);
         end
     
         return result;
@@ -1353,9 +1467,13 @@ function ItemMixin:GetConnection(database, item, index, overrideConnections, ove
     
         local connection = tostring(connections[index]);
         local match = string.gmatch(connection, "[^%.]+");
-        local result = self:GetRoot(database, item):GetItem(item.index + tonumber(match()));
+        local result = self:GetRoot(database, item):GetItem(item.index + tonumber(match()), character);
         for value in match do
-            result = result:GetItem(tonumber(value));
+            result = result:GetItem(tonumber(value), character);
+        end
+
+        while result and result:GetType() == "chain" and result:IsEmbed() do
+            result = result:GetItem(1, character);
         end
     
         return result;
@@ -1367,13 +1485,172 @@ end
 function ItemMixin:GetAtlas(database, item)
     return item.atlas
 end
-function ItemMixin:IsEmbed(database, item)
-    return item.embed
+
+local TargetItemMixin = CreateFromMixins(ItemMixin);
+function TargetItemMixin:GetTargetType(database, item)
+    return item.type;
+end
+function TargetItemMixin:GetTarget(database, item, index)
+    local type = self:GetTargetType(database, item);
+    if type == nil or not database:HasDataType(type) then
+        return nil;
+    end
+
+    if item.id then
+        return database:GetData(type, item.id);
+    end
+
+    local index = index or 1;
+    if item.ids and item.ids[index] then
+        return database:GetData(type, item.ids[index]);
+    end
+
+    return nil;
+end
+function TargetItemMixin:TargetCount(database, item)
+    return item.ids and #item.ids or 1;
+end
+function TargetItemMixin:IsValidForCharacter(database, item, character)
+    if item.restrictions ~= nil then
+        return ItemMixin.IsValidForCharacter(self, database, item, character);
+    end
+
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:IsValidForCharacter(character);
+    end
+
+    return true;
+end
+function TargetItemMixin:Visible(database, item, character)
+    if item.visible ~= nil then
+        return ItemMixin.Visible(self, database, item, character);
+    end
+
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:Visible(character);
+    end
+
+    return true;
+end
+function TargetItemMixin:GetName(database, item, character)
+    if item.name then
+        return ItemMixin.GetName(self, database, item, character);
+    end
+
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:GetName(character);
+    end
+
+    return "Unnamed"
+end
+function TargetItemMixin:GetSubtext(database, item, character, small)
+    if item.subtext then
+        return ItemMixin.GetSubtext(self, database, item, character);
+    end
+
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:GetSubtext(character, small);
+    end
+end
+function TargetItemMixin:GetAlternative(database, item, character)
+    if item.alternatives ~= nil then
+        return ItemMixin.GetAlternative(self, database, item, character);
+    end
+
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:GetAlternative(character);
+    end
+end
+function TargetItemMixin:IsAvailable(database, item, character)
+    if item.prerequisites ~= nil then
+        return ItemMixin.IsAvailable(self, database, item, character);
+    end
+
+    for i=1,self:TargetCount(database, item) do
+        local target = self:GetTarget(database, item, index);
+        if target and target:IsAvailable(character) then
+            return true
+        end
+    end
+
+    return false
+end
+function TargetItemMixin:IsActive(database, item, character)
+    if item.active ~= nil then
+        return ItemMixin.IsActive(self, database, item, character);
+    end
+
+    for i=1,self:TargetCount(database, item) do
+        local target = self:GetTarget(database, item, index);
+        if target and target:IsActive(character) then
+            return true
+        end
+    end
+
+    return false
+end
+function TargetItemMixin:IsCompleted(database, item, character, ...)
+    if item.completed ~= nil then
+        return ItemMixin.IsCompleted(self, database, item, character);
+    end
+
+    local type = self:GetTargetType(database, item);
+    if type == nil or not database:HasDataType(type) then
+        return false;
+    end
+
+    local amount = 0
+    if item.ids then
+        for _,id in ipairs(item.ids) do
+            if CheckTargetStatus(database:GetData(type, id), item, character) then
+                amount = amount + 1
+            end
+        end
+    else
+        if CheckTargetStatus(database:GetData(type, item.id), item, character) then
+            amount = amount + 1
+        end
+    end
+
+    return CheckStatusCount(amount, item)
+end
+function TargetItemMixin:GetPrerequisites(database, item)
+    if item.prerequisites ~= nil then
+        return ItemMixin.GetPrerequisites(self, database, item, character);
+    end
+
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:GetPrerequisites(character);
+    end
+end
+function TargetItemMixin:GetRewards(database, item)
+    if item.rewards ~= nil then
+        return ItemMixin.GetRewards(self, database, item, character);
+    end
+
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:GetRewards(character);
+    end
 end
 
 local HeaderItemMixin = CreateFromMixins(ItemMixin);
 
-local QuestItemMixin = CreateFromMixins(ItemMixin);
+local QuestItemMixin = CreateFromMixins(TargetItemMixin);
+-- Using this instead of the target system because some quests wont be in our database
+function QuestItemMixin:IsCompleted(database, item, character, ...)
+    if item.completed ~= nil then
+        return ItemMixin.IsCompleted(self, database, item, character)
+    end
+
+    return StatusCompleted(item, character, CheckQuestStatus)
+end
 function QuestItemMixin:GetLevel(database, item)
     return item.level or self:GetTarget(database, item):GetLevel();
 end
@@ -1394,6 +1671,10 @@ function QuestItemMixin:GetLink(database, item)
     return item.link
 end
 function QuestItemMixin:OnClick(database, item, character, button, frame, tooltip)
+    if item.onClick ~= nil then
+        return ItemMixin.OnClick(self, database, item, character, button, frame, tooltip)
+    end
+
     if ChatEdit_TryInsertChatLink(self:GetLink(database, item)) then
         return
     end
@@ -1427,6 +1708,10 @@ function QuestItemMixin:OnClick(database, item, character, button, frame, toolti
     end
 end
 function QuestItemMixin:OnEnter(database, item, character, button, frame, tooltip)
+    if item.onEnter ~= nil then
+        return ItemMixin.OnEnter(self, database, item, character, button, frame, tooltip)
+    end
+
     if tooltip ~= nil then
         local userdata = self:GetUserdata(database, item)
         local link = userdata and userdata.link or self:GetLink(database, item)
@@ -1437,14 +1722,30 @@ function QuestItemMixin:OnEnter(database, item, character, button, frame, toolti
     end
 end
 function QuestItemMixin:OnLeave(database, item, character, button, frame, tooltip)
+    if item.onLeave ~= nil then
+        return ItemMixin.OnLeave(self, database, item, character, button, frame, tooltip)
+    end
+
     if tooltip ~= nil then
         tooltip:Hide()
     end
 end
+function QuestItemMixin:GetSource(database, item, character)
+    if item.source ~= nil then
+        return database:CreateItem(-1, item.source, item, self:GetRoot(database, item));
+    end
 
-local ExpansionItemMixin = CreateFromMixins(ItemMixin);
+    local target = self:GetTarget(database, item);
+    if target then
+        return target:GetSource(character);
+    end
 
-local CategoryItemMixin = CreateFromMixins(ItemMixin);
+    return nil;
+end
+
+local ExpansionItemMixin = CreateFromMixins(TargetItemMixin);
+
+local CategoryItemMixin = CreateFromMixins(TargetItemMixin);
 function CategoryItemMixin:GetLink(database, item)
     return self:GetTarget(database, item):GetLink();
 end
@@ -1495,7 +1796,7 @@ function CategoryItemMixin:OnLeave(database, item, character, button, frame, too
     tooltip:Hide()
 end
 
-local ChainItemMixin = CreateFromMixins(ItemMixin);
+local ChainItemMixin = CreateFromMixins(TargetItemMixin);
 function ChainItemMixin:GetLink(database, item)
     return self:GetTarget(database, item):GetLink();
 end
@@ -1527,8 +1828,8 @@ function ChainItemMixin:GetListImage(database, item)
 
     return item.listImage.texture, unpack(item.listImage.texCoords)
 end
-function ChainItemMixin:GetItem(database, item, index)
-    return self:GetTarget(database, item):GetItem(index);
+function ChainItemMixin:GetItem(database, item, index, character)
+    return self:GetTarget(database, item):GetItem(index, character);
 end
 function ChainItemMixin:GetNumItems(database, item)
     return self:GetTarget(database, item):GetNumItems();
@@ -1556,18 +1857,21 @@ end
 function ChainItemMixin:OnLeave(database, item, character, button, frame, tooltip)
     tooltip:Hide()
 end
+function ChainItemMixin:IsEmbed(database, item)
+    return item.embed
+end
 
-local MissionItemMixin = CreateFromMixins(ItemMixin);
+local MissionItemMixin = CreateFromMixins(TargetItemMixin);
 function MissionItemMixin:IsBreadcrumb()
     return true
 end
 
-local NPCItemMixin = CreateFromMixins(ItemMixin);
+local NPCItemMixin = CreateFromMixins(TargetItemMixin);
 function NPCItemMixin:GetTargetType()
     return "npc"
 end
 function NPCItemMixin:GetName(database, item, character)
-    return string.format(L["BTWQUESTS_GO_TO"], ItemMixin.GetName(self, database, item, character))
+    return string.format(L["BTWQUESTS_GO_TO"], TargetItemMixin.GetName(self, database, item, character))
 end
 function NPCItemMixin:IsBreadcrumb(database, item, character)
     if item.breadcrumb ~= nil then
@@ -1576,14 +1880,14 @@ function NPCItemMixin:IsBreadcrumb(database, item, character)
 
     return true
 end
-function NPCItemMixin:GetLocation(database, item, character, ...)
+function NPCItemMixin:GetLocation(database, item, ...)
     if item.locations ~= nil then
         return BtWQuests_GetBestLocation(item.locations, ...)
     end
 
     local target = self:GetTarget(database, item);
     if target then
-        return target:GetLocation(character);
+        return target:GetLocation(...);
     end
 
     return nil;
@@ -1597,12 +1901,12 @@ end
 
 local KillItemMixin = CreateFromMixins(NPCItemMixin);
 function KillItemMixin:GetName(database, item, character)
-    return string.format(L["BTWQUESTS_KILL"], ItemMixin.GetName(self, database, item, character))
+    return string.format(L["BTWQUESTS_KILL"], TargetItemMixin.GetName(self, database, item, character))
 end
 
 local TalkItemMixin = CreateFromMixins(NPCItemMixin);
 function TalkItemMixin:GetName(database, item, character)
-    return string.format(L["BTWQUESTS_TALK_TO"], ItemMixin.GetName(self, database, item, character))
+    return string.format(L["BTWQUESTS_TALK_TO"], TargetItemMixin.GetName(self, database, item, character))
 end
 
 local ObjectItemMixin = CreateFromMixins(NPCItemMixin);
@@ -1612,7 +1916,7 @@ end
 
 local LootItemMixin = CreateFromMixins(ObjectItemMixin);
 function LootItemMixin:GetName(database, item, character)
-    return string.format(L["BTWQUESTS_LOOT"], ItemMixin.GetName(self, database, item, character))
+    return string.format(L["BTWQUESTS_LOOT"], TargetItemMixin.GetName(self, database, item, character))
 end
 
 local LevelItemMixin = CreateFromMixins(ItemMixin);
@@ -1623,15 +1927,19 @@ function LevelItemMixin:GetName(database, item, character)
 
     return string.format(L["LEVEL_TO"], item.level);
 end
+function LevelItemMixin:IsActive(database, item, character)
+    if self:IsCompleted(database, item, character) then
+        return false;
+    end
+
+    return true
+end
 function LevelItemMixin:IsCompleted(database, item, character)
     if item.atmost then
         return character:AtmostLevel(item.level);
     else
         return character:AtleastLevel(item.level);
     end
-end
-function LevelItemMixin:IsActive(database, item, character)
-    return true
 end
 
 local ExperienceItemMixin = CreateFromMixins(ItemMixin);
@@ -1666,11 +1974,11 @@ end
 function ExperienceItemMixin:Visible(database, item, character)
     return character:GetLevel() < MAX_PLAYER_LEVEL
 end
-function ExperienceItemMixin:IsCompleted(database, item, character)
-    return false
-end
 function ExperienceItemMixin:IsActive(database, item, character)
     return true
+end
+function ExperienceItemMixin:IsCompleted(database, item, character)
+    return false
 end
 
 local RaceItemMixin = CreateFromMixins(ItemMixin);
@@ -1733,17 +2041,6 @@ function ReputationItemMixin:GetName(database, item, character, variation)
 
     return name
 end
-function ReputationItemMixin:IsCompleted(database, item, character)
-    local factionName, standing, barMin, _, value = character:GetFactionInfoByID(item.id)
-    
-    if standing == nil then
-        return false
-    elseif item.amount ~= nil then
-        return standing > item.standing or (standing == item.standing and value - barMin >= item.amount)
-    else
-        return standing >= item.standing
-    end
-end
 function ReputationItemMixin:IsActive(database, item, character)
     assert(character ~= nil);
 
@@ -1757,6 +2054,17 @@ function ReputationItemMixin:IsActive(database, item, character)
 
     return true
 end
+function ReputationItemMixin:IsCompleted(database, item, character)
+    local factionName, standing, barMin, _, value = character:GetFactionInfoByID(item.id)
+    
+    if standing == nil then
+        return false
+    elseif item.amount ~= nil then
+        return standing > item.standing or (standing == item.standing and value - barMin >= item.amount)
+    else
+        return standing >= item.standing
+    end
+end
 
 local FriendshipItemMixin = CreateFromMixins(ItemMixin);
 function FriendshipItemMixin:GetName(database, item, character)
@@ -1766,11 +2074,6 @@ function FriendshipItemMixin:GetName(database, item, character)
     end
 
     return name
-end
-function FriendshipItemMixin:IsCompleted(database, item, character)
-    local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = character:GetFriendshipReputation(item.id)
-    
-    return friendRep >= item.amount
 end
 function FriendshipItemMixin:IsActive(database, item, character)
     assert(character ~= nil);
@@ -1784,6 +2087,11 @@ function FriendshipItemMixin:IsActive(database, item, character)
     end
     
     return true
+end
+function FriendshipItemMixin:IsCompleted(database, item, character)
+    local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = character:GetFriendshipReputation(item.id)
+    
+    return friendRep >= item.amount
 end
 
 local AchievementItemMixin = CreateFromMixins(ItemMixin);
@@ -1802,6 +2110,9 @@ function AchievementItemMixin:GetName(database, item, character)
     else
         return select(2, GetAchievementInfo(id))
     end
+end
+function AchievementItemMixin:IsActive(database, item, character)
+    return true
 end
 function AchievementItemMixin:IsCompleted(database, item, character)
     if item.criteria then
@@ -1829,9 +2140,6 @@ function AchievementItemMixin:IsCompleted(database, item, character)
             return select(13, character:GetAchievementInfo(item.id))
         end
     end
-end
-function AchievementItemMixin:IsActive(database, item, character)
-    return true
 end
 
 local MoneyItemMixin = CreateFromMixins(ItemMixin);
@@ -1956,16 +2264,7 @@ function PetItemMixin:GetName(database, item, character, variation)
     end
 end
 function PetItemMixin:IsCompleted(database, item, character)
-    local id = self:GetID(database, item)
-    if item.status == 'summon' then
-        local guid = C_PetJournal.GetSummonedPetGUID()
-        if not guid then
-            return false;
-        end
-        return C_PetJournal.GetPetInfoByPetID(guid) == id;
-    else
-        return select(1, C_PetJournal.GetNumCollectedInfo(id)) > 0
-    end
+    return StatusCompleted(item, character, CheckPetStatus)
 end
 
 local MountItemMixin = CreateFromMixins(ItemMixin);
@@ -1983,8 +2282,7 @@ function MountItemMixin:GetName(database, item, character, variation)
     end
 end
 function MountItemMixin:IsCompleted(database, item, character)
-    local id = self:GetID(database, item)
-    return select(11, C_MountJournal.GetMountInfoByID(id))
+    return StatusCompleted(item, character, CheckMountStatus)
 end
 
 local ToyItemMixin = CreateFromMixins(ItemMixin);
@@ -2001,8 +2299,7 @@ function ToyItemMixin:GetName(database, item, character, variation)
     end
 end
 function ToyItemMixin:IsCompleted(database, item, character)
-    local id = self:GetID(database, item)
-    return PlayerHasToy(id)
+    return StatusCompleted(item, character, PlayerHasToy)
 end
 
 local AuraItemMixin = CreateFromMixins(ItemMixin);
@@ -2027,15 +2324,15 @@ function HeartOfAzerothLevelItemMixin:GetName(database, item, character)
 
     return string.format(L["BTWQUESTS_HEART_OF_AZEROTH_LEVEL"], item.level)
 end
+function HeartOfAzerothLevelItemMixin:IsActive(database, item, character)
+    return true
+end
 function HeartOfAzerothLevelItemMixin:IsCompleted(database, item, character)
     if item.atmost then
         return character:HeartOfAzerothAtmostLevel(item.level)
     else
         return character:HeartOfAzerothAtleastLevel(item.level)
     end
-end
-function HeartOfAzerothLevelItemMixin:IsActive(database, item, character)
-    return true
 end
 
 local AzeriteEssenceItemMixin = CreateFromMixins(ItemMixin);
@@ -2105,8 +2402,9 @@ function ItemItemMixin:GetName(database, item, character, variation)
     return string.format(L["BTWQUESTS_COLLECT"], name or L["UNKNOWN"]);
 end
 function ItemItemMixin:IsCompleted(database, item, character)
-    local id = self:GetID(database, item);
-    return GetItemCount(id) > 0;
+    if character:IsPlayer() then
+        return StatusCompleted(item, character, CheckItemStatus);
+    end
 end
 
 local EquippedItemMixin = CreateFromMixins(ItemMixin);
@@ -2120,8 +2418,9 @@ function EquippedItemMixin:GetName(database, item, character, variation)
     return string.format(L["BTWQUESTS_EQUIP"], name);
 end
 function EquippedItemMixin:IsCompleted(database, item, character)
-    local id = self:GetID(database, item);
-    return IsEquippedItem(id);
+    if character:IsPlayer() then
+        return StatusCompleted(item, character, IsEquippedItem);
+    end
 end
 
 local QuestLineItemMixin = CreateFromMixins(ItemMixin);
@@ -2178,137 +2477,6 @@ local function CreateTable(database, mixin)
     return target, sources;
 end
 
-local function CheckQuestStatus(id, item, character)
-    if item.status ~= nil then
-        for _,status in ipairs(item.status) do
-            if status == "pending" and (not character:IsQuestActive(id) and not character:IsQuestCompleted(id)) then
-                return true
-            elseif status == "active" and character:IsQuestActive(id) then
-                return true
-            elseif status == "completed" and character:IsQuestCompleted(id) then
-                return true
-            elseif status == "notactive" and not character:IsQuestActive(id) then
-                return true
-            elseif status == "notcompleted" and not character:IsQuestCompleted(id) then
-                return true
-            end
-        end
-    elseif item.active == true then
-        if character:IsQuestActive(id) then
-            return true
-        end
-    elseif item.active == false then
-        if not character:IsQuestActive(id) then
-            return true
-        end
-    elseif item.completed == false then
-        if not character:IsQuestCompleted(id) then
-            return true
-        end
-    else
-        if character:IsQuestCompleted(id) then
-            return true
-        end
-    end
-
-    return false
-end
-local function CheckChainStatus(id, item, character)
-    if item.status ~= nil then
-        for _,status in ipairs(item.status) do
-            if status == "pending" and (not character:IsChainActive(id) and not character:IsChainCompleted(id)) then
-                return true
-            elseif status == "active" and character:IsChainActive(id) then
-                return true
-            elseif status == "completed" and character:IsChainCompleted(id) then
-                return true
-            elseif status == "notactive" and not character:IsChainActive(id) then
-                return true
-            elseif status == "notcompleted" and not character:IsChainCompleted(id) then
-                return true
-            end
-        end
-    elseif item.active == true then
-        if character:IsChainActive(id) then
-            return true
-        end
-    elseif item.active == false then
-        if not character:IsChainActive(id) then
-            return true
-        end
-    elseif item.completed == false then
-        if not character:IsChainCompleted(id) then
-            return true
-        end
-    else
-        if character:IsChainCompleted(id) then
-            return true
-        end
-    end
-
-    return false
-end
-local function CheckCategoryStatus(id, item, character)
-    if item.status ~= nil then
-        for _,status in ipairs(item.status) do
-            if status == "pending" and (not character:IsCategoryActive(id) and not character:IsCategoryCompleted(id)) then
-                return true
-            elseif status == "active" and character:IsCategoryActive(id) then
-                return true
-            elseif status == "completed" and character:IsCategoryCompleted(id) then
-                return true
-            elseif status == "notactive" and not character:IsCategoryActive(id) then
-                return true
-            elseif status == "notcompleted" and not character:IsCategoryCompleted(id) then
-                return true
-            end
-        end
-
-        return false
-    elseif item.active == true then
-        if character:IsCategoryActive(id) then
-            return true
-        end
-    elseif item.active == false then
-        if not character:IsCategoryActive(id) then
-            return true
-        end
-    elseif item.completed == false then
-        if not character:IsCategoryCompleted(id) then
-            return true
-        end
-    else
-        if character:IsCategoryCompleted(id) then
-            return true
-        end
-    end
-
-    return false
-end
-local function CheckStatusCount(amount, item)
-    local count = item.count or 1
-
-    local lessthan = item.lessthan and true or false
-    local morethan = item.morethan and true or false
-    local notequals = item.notequals and true or false
-    local equals = item.equals and true or false
-    local morethanorequals = not lessthan and not morethan and not notequals and not equals
-
-    if lessthan and amount < count then
-        return true
-    elseif morethan and amount > count then
-        return true
-    elseif notequals and amount ~= count then
-        return true
-    elseif equals and amount == count then
-        return true
-    elseif morethanorequals and amount >= count then
-        return true
-    end
-
-    return false
-end
-
 local Database = {};
 function Database:Init()
     self.DataTypes = {};
@@ -2353,6 +2521,9 @@ function Database:GetData(dataType, id)
 end
 function Database:RegisterItemType(itemType, mixin)
     self.ItemTypes[itemType] = mixin;
+end
+function Database:GetItemType(itemType)
+    return itemType and self.ItemTypes[itemType] or ItemMixin;
 end
 function Database:CreateItem(index, item, parent, root)
     item.index = index;

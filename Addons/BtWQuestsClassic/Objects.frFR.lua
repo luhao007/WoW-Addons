@@ -11,6 +11,12 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "Avis de recherche !",
     },
+    [259] = {
+        name = "Tonneau à moitié enseveli",
+    },
+    [2702] = {
+        name = "Pierre de Lien intérieure",
+    },
     [2713] = {
         name = "Tableau des recherches",
     },
@@ -19,6 +25,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [20992] = {
         name = "Bouclier noir",
+    },
+    [112948] = {
+        name = "Coffre verrouillé de l'Intrépide",
     },
     [142195] = {
         name = "Plan de bataille des Griffebois",
@@ -82,6 +91,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "Bouteille à moitié ensevelie",
+    },
+    [204817] = {
+        name = "Bâtonnet de Sancteforge",
+    },
+    [204824] = {
+        name = "Arche de Sancteforge",
+    },
+    [204825] = {
+        name = "Écu de Sancteforge",
     },
     [205332] = {
         name = "Avis de recherche",

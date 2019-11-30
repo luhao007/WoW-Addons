@@ -1,19 +1,13 @@
-## Interface: 80100
-## Title: MogIt
+## Interface: 80205
 ## Author: Aelobin (The Maelstrom EU) & Lombra (Defias Brotherhood EU)
 ## Version: 3.9.0
 ## SavedVariables: MogItDB, MogItWishlist
+
+## Title: MogIt
 ## Notes: Transmogrification Assistant
-## Notes-frFR: Transmogrification Assistante
-## Notes-deDE: Transmogrifikation Assistentin
-## Notes-esES: Transfigurar Ayudante
-## Notes-esMX: Transfigurar Ayudante
-## Notes-ruRU: трансмогрификация помощником
-## Notes-koKR: 형상변환 조교
-## Notes-zhCN: 物品幻化系统 助理
-## Notes-zhTW: 塑形 助理
-## Notes-ptBR: Assistente Transmogrification
-## Notes-itIT: Transmogrification Assistant
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF幻化助手|r |cFFFFE00AMogIt|r
+## Notes-zhCN: 提供额外的幻化辅助功能。
+
 ## X-Category: Roleplay & Transmogrification
 ## X-Website: http://www.curse.com/addons/wow/mogit
 ## X-Email: aelobin@gmail.com

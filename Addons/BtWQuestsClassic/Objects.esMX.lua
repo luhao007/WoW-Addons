@@ -11,6 +11,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "¡Se busca!",
     },
+    [261] = {
+        name = "Cajón dañado",
+    },
+    [2059] = {
+        name = "Un cadáver de enano",
+    },
+    [2702] = {
+        name = "Piedra de Vínculo Interior",
+    },
     [2713] = {
         name = "Tablón de Se busca",
     },
@@ -19,6 +28,12 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [20992] = {
         name = "Escudo negro",
+    },
+    [138492] = {
+        name = "Fragmentos de Myzrael",
+    },
+    [142151] = {
+        name = "Barrica sellada",
     },
     [142195] = {
         name = "Mapa de batalla de los Zarpaleña",
@@ -38,10 +53,16 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [187273] = {
         name = "Huella de casco sospechosa",
     },
+    [194378] = {
+        name = "Documento de la Liga de Expedicionarios robado",
+    },
     [194388] = {
         name = "Documento de la Liga de Expedicionarios robado",
     },
     [194389] = {
+        name = "Documento de la Liga de Expedicionarios robado",
+    },
+    [194390] = {
         name = "Documento de la Liga de Expedicionarios robado",
     },
     [195433] = {
@@ -85,6 +106,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "Botella semienterrada",
+    },
+    [204817] = {
+        name = "Vara forjada con luz",
+    },
+    [204824] = {
+        name = "Arco forjado con luz",
+    },
+    [204825] = {
+        name = "Blasón forjado con luz",
     },
     [205332] = {
         name = "Cartel de Se busca",

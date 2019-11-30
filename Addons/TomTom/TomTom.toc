@@ -1,19 +1,19 @@
 ## Interface: 80205
-##classic ## Interface: 11302
-## Title: TomTom
-## Author: jnwhiteh
-## Version: v80205-1.0.7
-## License: All Rights Reserved
-## Notes: Acts as your portable navigation assistant
-## Notes-frFR: Agit comme un assistant de navigation portable
-## Notes-zhCN:一个简单的导航助手。
-## Notes-ruRU: Удобный портативный навигатор по игровой карте
 ## Author: Cladhaire
-## SavedVariables: TomTomDB, TomTomWaypoints, TomTomWaypointsM
+## Version: v80205-1.0.7
 ## OptionalDeps: HereBeDragons-2.0
+## SavedVariables: TomTomDB, TomTomWaypoints, TomTomWaypointsM
+
+## Title: TomTom
+## Notes: Acts as your portable navigation assistant
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF导航助手|r |cFFFFE00ATomTom|r
+## Notes-zhCN: 一个简单的导航助手。
 
 ## X-Localizations: enUS, enGB, deDE, frFR, zhCN, ruRU, zhTW
 ## X-CompatibleLocales: enUS, enGB, deDE, frFR, esES, esMX, zhCN, zhTW, koKR, ruRU
+
+##classic ## Interface: 11302
+
 
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml

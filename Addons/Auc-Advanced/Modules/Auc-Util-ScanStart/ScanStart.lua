@@ -1,7 +1,7 @@
 --[[
 	Auctioneer - Scan Start module
-	Version: 8.2.6363 (SwimmingSeadragon)
-	Revision: $Id: ScanStart.lua 6363 2019-09-25 00:20:07Z none $
+	Version: 8.2.6496 (SwimmingSeadragon)
+	Revision: $Id: ScanStart.lua 6496 2019-11-02 14:38:37Z none $
 	URL: http://auctioneeraddon.com/
 
 	This is an Auctioneer module that adds a few event functionalities
@@ -214,4 +214,4 @@ function private.ConfigChanged()
 	if AucAdvanced.Settings.GetSetting("util.scanstart.debug") then blnDebug = true end
 end
 
-AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-ScanStart/ScanStart.lua $", "$Rev: 6363 $")
+AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-ScanStart/ScanStart.lua $", "$Rev: 6496 $")

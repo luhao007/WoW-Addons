@@ -828,7 +828,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_MAKRANA, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DAGLOP, {
-    name = BtWQuests_GetQuestName(42238),
+    name = { -- Missing Demon
+		type = "quest",
+		id = 42238,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     range = {98, 110},
@@ -881,7 +884,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DAGLOP, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_VINEYARD, {
-    name = BtWQuests_GetQuestName(38203),
+    name = { -- Challiane Vineyards
+		type = "quest",
+		id = 38203,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     range = {98, 110},
@@ -912,7 +918,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_VINEYARD, {
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_FELBLAZE, {
-    name = BtWQuests_GetQuestName(42372),
+    name = { -- Felblaze Ingress
+		type = "quest",
+		id = 42372,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     range = {98, 110},

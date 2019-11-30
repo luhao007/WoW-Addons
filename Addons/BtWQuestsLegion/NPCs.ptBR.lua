@@ -5,29 +5,23 @@ if GetLocale() ~= "ptBR" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
-    [91065] = {
-        name = "Adegueiro Vudani",
+    [38237] = {
+        name = "Maximiliano de Vila Norte",
     },
-    [91166] = {
-        name = "Daglop",
+    [92802] = {
+        name = "Gravax, o Profanador",
     },
     [93600] = {
         name = "Saylanna Brisa do Rio",
     },
-    [94101] = {
-        name = "Laeni Tiroprata",
+    [94366] = {
+        name = "Lelyn Sombra Ligeira",
     },
     [94409] = {
         name = "Rosarães Guima",
     },
     [94434] = {
         name = "Addie Chiabrejo",
-    },
-    [95438] = {
-        name = "Ellias",
-    },
-    [95799] = {
-        name = "Vitorbel, o Forti",
     },
     [96513] = {
         name = "Razil Raiogás",
@@ -44,38 +38,35 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [98587] = {
         name = "Ancestral Morheim",
     },
-    [99905] = {
-        name = "Shale Pena Cinzenta",
+    [99065] = {
+        name = "Thaedris Penacanto",
     },
-    [106914] = {
-        name = "Telmo Maskateiro",
+    [101766] = {
+        name = "Thalrenus Arvorrio",
     },
-    [106915] = {
-        name = "Marius Ruinavil",
+    [103568] = {
+        name = "Mayruna Lunala",
     },
-    [107244] = {
-        name = "Telmo Maskateiro",
+    [104220] = {
+        name = "Gorjala Faminto",
     },
-    [107245] = {
-        name = "Marius Ruinavil",
+    [106095] = {
+        name = "Ivanel Pradocanto",
     },
-    [107498] = {
-        name = "Cukkaw",
+    [106299] = {
+        name = "Tessália Corvina",
     },
     [107499] = {
         name = "Corvurso Assustado",
     },
-    [107674] = {
-        name = "Snégol Hexatilho",
-    },
-    [107675] = {
-        name = "Rax Hexatilho",
-    },
     [108072] = {
-        name = "Dom Finlei Mrrgglton",
+        name = "Dom Finlei Mrrggltone",
     },
     [108304] = {
         name = "Guviena Cantolâmina",
+    },
+    [108327] = {
+        name = "Visgosso Ondulante",
     },
     [108358] = {
         name = "Leirana",
@@ -83,13 +74,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [109631] = {
         name = "Velho Cinéreo",
     },
-    [250536] = {
-        name = "Chifre de Grande Cervo Intacto",
+    [110018] = {
+        name = "Gazrix Travaporca",
     },
-    [250990] = {
-        name = "Caixote de Relíquias Ancestrais",
+    [110987] = {
+        name = "Noctívolho",
     },
-    [251425] = {
-        name = "Cinzilo Suculento",
+    [121754] = {
+        name = "Vereesa Correventos",
     },
 })

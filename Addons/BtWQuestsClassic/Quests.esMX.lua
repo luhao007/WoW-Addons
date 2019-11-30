@@ -4814,9 +4814,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "Instrucción de combate",
     },
-    [26943] = {
-        name = "Hogar, gnomo hogar",
-    },
     [26953] = {
         name = "Zen'Kiki, el druida",
     },

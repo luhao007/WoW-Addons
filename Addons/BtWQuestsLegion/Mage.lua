@@ -1,6 +1,6 @@
 local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(62)), "Aluneth"),
+    name = L["ARCANE_ALUNETH"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS,
     },
     restrictions = {
@@ -22,6 +22,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE, {
             id = BTWQUESTS_CLASS_ID_MAGE,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("MAGE", 1),
+    active = BtWQuests.LegionArtifactActive("MAGE", 1),
     completed = {
         type = "quest",
         id = 42011,
@@ -92,7 +94,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FIRE, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(63)), "Felo'melorn"),
+    name = L["FIRE_FELOMELORN"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -114,6 +116,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FIRE, {
             id = BTWQUESTS_CLASS_ID_MAGE,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("MAGE", 2),
+    active = BtWQuests.LegionArtifactActive("MAGE", 2),
     completed = {
         type = "quest",
         id = 11997,
@@ -148,7 +152,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FIRE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(64)), "Ebonchill"),
+    name = L["FROST_EBONCHILL"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -170,6 +174,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST, {
             id = BTWQUESTS_CLASS_ID_MAGE,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("MAGE", 3),
+    active = BtWQuests.LegionArtifactActive("MAGE", 3),
     completed = {
         type = "quest",
         id = 42479,
@@ -274,12 +280,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
             x = 3,
             y = 2,
             connections = {
-                1, 2, 3,
-                4, 5, 6
+                1, 2, 3, 4,
             },
         },
-        
-        
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE,
@@ -287,13 +292,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 type = "quest",
                 id = 41085,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(41079) or BtWQuests_IsQuestCompleted(41080) or BtWQuests_IsQuestCompleted(41081))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("MAGE"),
             x = 1,
             y = 3,
             connections = {
-                6
+                4
             },
         },
         {
@@ -303,39 +306,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 type = "quest",
                 id = 41085,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(41079) or BtWQuests_IsQuestCompleted(41080) or BtWQuests_IsQuestCompleted(41081))
-            end,
-            x = 3,
-            y = 3,
-            connections = {
-                5
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST,
-            active = {
-                type = "quest",
-                id = 41085,
-            },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(41079) or BtWQuests_IsQuestCompleted(41080) or BtWQuests_IsQuestCompleted(41081))
-            end,
-            x = 5,
-            y = 3,
-            connections = {
-                4
-            },
-        },
-        
-        
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(41079)
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("MAGE"),
             x = 3,
             y = 3,
             connections = {
@@ -344,30 +315,58 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FIRE,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(41080)
-            end,
-            x = 3,
+            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST,
+            active = {
+                type = "quest",
+                id = 41085,
+            },
+            visible = BtWQuests.LegionArtifactNonSelected("MAGE"),
+            x = 5,
             y = 3,
             connections = {
                 2
             },
         },
+
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(41081)
-            end,
+            variations = {
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE,
+                    restrictions = {
+                        type = "quest",
+                        id = 41079,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FIRE,
+                    restrictions = {
+                        type = "quest",
+                        id = 41080,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST,
+                    restrictions = {
+                        type = "quest",
+                        id = 41081,
+                    },
+                },
+                {
+                    visible = false,
+                },
+            },
             x = 3,
             y = 3,
             connections = {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41114,
@@ -422,8 +421,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 2
             },
         },
-        
-        
+
+
         {
             type = "level",
             level = 101,
@@ -497,8 +496,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 2
             },
         },
-        
-        
+
+
         {
             type = "level",
             level = 103,
@@ -544,8 +543,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42206,
@@ -564,8 +563,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42171,
@@ -584,8 +583,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 1, 2, 3, 4
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42706,
@@ -613,7 +612,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
             x = 6,
             y = 24,
         },
-        
+
         {
             type = "quest",
             id = 42423,
@@ -632,8 +631,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 2
             },
         },
-        
-        
+
+
         {
             type = "level",
             level = 110,
@@ -652,8 +651,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 6
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42954,
@@ -701,9 +700,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
             x = 5,
             y = 32,
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 42508,
@@ -738,8 +737,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42520,
@@ -815,7 +814,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER, {
-    name = BtWQuests_GetQuestName(46043),
+    name = { -- Champion: Aethas Sunreaver
+		type = "quest",
+		id = 46043,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_MAGE,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -826,10 +828,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {
@@ -1016,7 +1020,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ANNOYING_FOLLOWER, {
-    name = BtWQuests_GetQuestName(46724),
+    name = { -- Champion: The Great Akazamzarak
+		type = "quest",
+		id = 46724,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_MAGE,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -1027,10 +1034,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ANNOYING_FOLLOWER
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_OTHER_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {
@@ -1151,7 +1160,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_MOUNT, {
                 1, 2, 3
             },
         },
-        
+
         {
             type = "quest",
             id = 45845,
@@ -1179,7 +1188,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_MOUNT, {
                 1
             },
         },
-        
+
         {
             type = "quest",
             id = 45354,

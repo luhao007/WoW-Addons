@@ -3,6 +3,8 @@ BTWQUESTS_VIEW_ALL = L["BTWQUESTS_VIEW_ALL"];
 
 local min = math.min;
 local max = math.max;
+local floor = math.floor;
+local ceil = math.ceil;
 
 local CHAIN_GRID_HORIZONTAL_SIZE = 95;
 local CHAIN_GRID_VERTICAL_SIZE = 80;
@@ -92,6 +94,8 @@ function BtWQuestsChainItemMixin:Set(item, character)
     self.status = status
 end
 function BtWQuestsChainItemMixin:Update(item)
+    self.item = item
+
     local character = self.character;
     local status = item:GetStatus(character)
 
@@ -373,6 +377,10 @@ function BtWQuestsChainViewMixin:SetChain(chainID, scrollTo, zoom)
     do
         local Child = self:GetScrollChild();
         local rect = self.rect;
+        rect.left, rect.right = floor(rect.left), ceil(rect.right)
+        rect.top, rect.bottom = floor(rect.top), ceil(rect.bottom)
+        rect.top = max(rect.top, 0)
+
         local width = rect.right - rect.left;
         local height = (rect.bottom - rect.top);
 
@@ -391,14 +399,15 @@ function BtWQuestsChainViewMixin:SetChain(chainID, scrollTo, zoom)
             width = rect.right - rect.left;
         end
 
-        if rect.left < 0 then
-            local shift = -(rect.left) * CHAIN_GRID_HORIZONTAL_SIZE;
+        if rect.left < 0 or rect.top > 0 then
+            local hShift = -(rect.left) * CHAIN_GRID_HORIZONTAL_SIZE;
+            local vShift = rect.top * CHAIN_GRID_VERTICAL_SIZE;
             for itemButton in self.itemPool:EnumerateActive() do
                 local x, y = select(4, itemButton:GetPoint("CENTER"));
                 itemButton:SetPoint(
                     "CENTER", itemButton:GetParent(), "TOPLEFT",
-                    x + shift,
-                    y
+                    x + hShift,
+                    y + vShift
                 );
             end
         end
@@ -454,7 +463,7 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
     local previousX, previousY = nil, 0
 
     local index = 1
-    local item = chain:GetItem(index)
+    local item = chain:GetItem(index, character)
     while item do
         if item:IsValidForCharacter(character) then
             local x = item:GetX()
@@ -503,22 +512,20 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
             rect.top = rect.top and min(rect.top, y) or y;
             rect.bottom = rect.bottom and max(rect.bottom, y) or y;
 
-            if item:IsEmbed() then
-                if item:GetType() == "chain" then
-                    local connections = item:GetConnections();
-                    local connectionsOverride;
-                    if connections then
-                        connectionsOverride = {};
-                        for i,itemConnections in pairs(connections) do
-                            local override = {};
-                            for k,connection in ipairs(itemConnections) do
-                                override[k] = index + connection
-                            end
-                            connectionsOverride[i] = override;
+            if item:GetType() == "chain" and item:IsEmbed() then
+                local connections = item:GetConnections();
+                local connectionsOverride;
+                if connections then
+                    connectionsOverride = {};
+                    for i,itemConnections in pairs(connections) do
+                        local override = {};
+                        for k,connection in ipairs(itemConnections) do
+                            override[k] = index + connection
                         end
+                        connectionsOverride[i] = override;
                     end
-                    previousX, previousY = self:AddButtons(item:GetID(), x or 0, y or 0, item:IsAside(character), connectionsOverride, chain)
                 end
+                previousX, previousY = self:AddButtons(item:GetID(), x or 0, y or 0, item:IsAside(character), connectionsOverride, chain)
             else
                 local itemButton = buttons[index] or self.itemPool:Acquire();
                 buttons[index] = itemButton
@@ -548,21 +555,14 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
                     itemButton.previousButtons = nil
                 end
 
-                -- local frameX = (item:GetX()) * BTWQUESTS_CHAIN_ITEM_WIDTH
-                -- local frameY = (item:GetY()) * BTWQUESTS_CHAIN_ITEM_HEIGHT
-
                 itemButton:SetPoint(
                     "CENTER", itemButton:GetParent(), "TOPLEFT",
                     x * CHAIN_GRID_HORIZONTAL_SIZE + CHAIN_GRID_HORIZONTAL_PADDING,
                     -(y * CHAIN_GRID_VERTICAL_SIZE + CHAIN_GRID_VERTICAL_PADDING)
                 );
 
-                -- itemButton:SetPoint("TOP", 0, -(y * 80) - (self:GetHeight()/2) + 24);
-                -- itemButton:SetPoint("LEFT", x * CHAIN_GRID_HORIZONTAL_SIZE + CHAIN_GRID_HORIZONTAL_PADDING, 0);
-                -- itemButton:SetPoint("CENTER", self:GetScrollChild(), "TOPLEFT", frameX, -frameY)
-                -- /dump BtWQuestsChainScrollFrame.ItemButtons[89905][3]:SetPoint("LEFT", 100, 0)
                 local connectionIndex = 1
-                local connectionItem = item:GetConnection(connectionIndex, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
+                local connectionItem = item:GetConnection(connectionIndex, character, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
                 while connectionItem do
                     if connectionItem:IsValidForCharacter(character) then
                         local connectionChainID = connectionItem:GetRoot():GetID();
@@ -610,7 +610,7 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
                     end
 
                     connectionIndex = connectionIndex + 1
-                    connectionItem = item:GetConnection(connectionIndex, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
+                    connectionItem = item:GetConnection(connectionIndex, character, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
                 end
 
                 if item:Visible(character) then
@@ -637,7 +637,7 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
         end
 
         index = index + 1
-        item = chain:GetItem(index)
+        item = chain:GetItem(index, character)
     end
 
     return previousX, previousY
@@ -654,25 +654,23 @@ function BtWQuestsChainViewMixin:UpdateChain(chainID, connectionsOverride, conne
     local chain = BtWQuestsDatabase:GetChainByID(chainID)
 
     local index = 1
-    local item = chain:GetItem(index)
+    local item = chain:GetItem(index, character)
     while item do
         if item:IsValidForCharacter(character) then
-            if item:IsEmbed() then
-                if item:GetType() == "chain" then
-                    local connections = item:GetConnections();
-                    local connectionsOverride;
-                    if connections then
-                        connectionsOverride = {};
-                        for i,itemConnections in pairs(connections) do
-                            local override = {};
-                            for k,connection in ipairs(itemConnections) do
-                                override[k] = index + connection
-                            end
-                            connectionsOverride[i] = override;
+            if item:GetType() == "chain" and item:IsEmbed() then
+                local connections = item:GetConnections();
+                local connectionsOverride;
+                if connections then
+                    connectionsOverride = {};
+                    for i,itemConnections in pairs(connections) do
+                        local override = {};
+                        for k,connection in ipairs(itemConnections) do
+                            override[k] = index + connection
                         end
+                        connectionsOverride[i] = override;
                     end
-                    self:UpdateChain(item:GetID(), connectionsOverride, chain)
                 end
+                self:UpdateChain(item:GetID(), connectionsOverride, chain)
             else
                 local itemButton = buttons[index]
                 assert(itemButton, "Chain item was never added in the first place")
@@ -704,7 +702,7 @@ function BtWQuestsChainViewMixin:UpdateChain(chainID, connectionsOverride, conne
                 end
 
                 local connectionIndex = 1
-                local connectionItem = item:GetConnection(connectionIndex, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
+                local connectionItem = item:GetConnection(connectionIndex, character, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
                 while connectionItem do
                     if connectionItem:IsValidForCharacter(character) then
                         local connectionChainID = connectionItem:GetRoot():GetID();
@@ -720,7 +718,7 @@ function BtWQuestsChainViewMixin:UpdateChain(chainID, connectionsOverride, conne
                     end
 
                     connectionIndex = connectionIndex + 1
-                    connectionItem = item:GetConnection(connectionIndex, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
+                    connectionItem = item:GetConnection(connectionIndex, character, connectionsOverride and connectionsOverride[index], connectionsChainOverride)
                 end
 
                 for lineContainer in itemButton.linePool:EnumerateActive() do
@@ -733,7 +731,7 @@ function BtWQuestsChainViewMixin:UpdateChain(chainID, connectionsOverride, conne
         end
 
         index = index + 1
-        item = chain:GetItem(index)
+        item = chain:GetItem(index, character)
     end
 end
 
@@ -1595,7 +1593,9 @@ function BtWQuestsTooltipMixin:OnSetQuest()
         return
     end
 
-    self:AddRewards(quest, self.character)
+    if not self.character:IsPartySync() or not C_QuestLog.IsQuestReplayable(self.questID) then
+        self:AddRewards(quest, self.character)
+    end
 end
 function BtWQuestsTooltipMixin:AddRewards(item, character)
     local rewards = item:GetRewards()
@@ -1605,6 +1605,8 @@ function BtWQuestsTooltipMixin:AddRewards(item, character)
 
     local addedRewards
     for _,reward in ipairs(rewards) do
+        reward = reward:GetVariation(character) or reward;
+
         if reward:IsValidForCharacter(character) and reward:Visible(character) then
             if not addedRewards then
                 self:AddLine(" ")
@@ -1631,6 +1633,8 @@ function BtWQuestsTooltipMixin:SetChain(chainID, character)
     if prerequisites then
         local addedPrerequisite
         for _,prerequisite in ipairs(prerequisites) do
+            prerequisite = prerequisite:GetVariation(character) or prerequisite;
+
             if prerequisite:IsValidForCharacter(character) and prerequisite:Visible(character) then
                 if not addedPrerequisite then
                     self:AddLine(" ")

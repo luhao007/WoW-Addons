@@ -11,6 +11,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [256] = {
         name = "Procura-se!",
     },
+    [2702] = {
+        name = "Pedra da União Interna",
+    },
     [2713] = {
         name = "Quadro de Procurados",
     },
@@ -85,6 +88,15 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [204406] = {
         name = "Garrafa Semi-enterrada",
+    },
+    [204817] = {
+        name = "Bastão Forjado a Luz",
+    },
+    [204824] = {
+        name = "Arco Forjado a Luz",
+    },
+    [204825] = {
+        name = "Cimeira Forjada a Luz",
     },
     [205332] = {
         name = "Cartaz de Procura-se",

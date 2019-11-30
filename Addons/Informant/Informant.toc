@@ -1,20 +1,24 @@
-## Title: Informant
-## Notes: Displays detailed item information in tooltips, such as use, vendor sales information, and more.
-##
-## Interface: 80200
-## LoadOnDemand: 1
+## Interface: 80205
+## Author: Norganna's AddOns
+## Version: 8.2.6508 (SwimmingSeadragon)
 ## Dependencies: Stubby
 ## OptionalDeps: !nLog, Babylonian, DebugLib, Configator, SlideBar, LibExtraTip, TipHelper, LibDataBroker
+## LoadOnDemand: 1
 ## SavedVariables: InformantConfig, InformantLocalUpdates
-##
-## Version: 8.2.6374 (SwimmingSeadragon)
-## Revision: $Id: Informant.toc 6374 2019-09-25 00:20:07Z none $
-## Author: Norganna's AddOns
+
+## Title: Informant
+## Notes: Displays detailed item information in tooltips, such as use, vendor sales information, and more.
+## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF物品信息|r |cFFFFE00AInformant|r
+## Notes-zhCN: 在鼠标提示中提供更详细的物品信息，如商店购买价和销售价等
+
 ## X-Part-Of: Auctioneer
 ## X-Category: Item Data
 ## X-Max-Interface: 80100
 ## X-URL: http://auctioneeraddon.com/
 ## X-Feedback: http://forums.norganna.org
+
+##
+##
 ##
 InfManifest.lua
 

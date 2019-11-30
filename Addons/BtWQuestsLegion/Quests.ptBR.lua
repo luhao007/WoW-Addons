@@ -293,12 +293,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38318] = {
         name = "Olha, mãe, sem asas!",
     },
-    [38322] = {
-        name = "O Retorno ao Bosque",
-    },
-    [38323] = {
-        name = "O Retorno ao Bosque",
-    },
     [38324] = {
         name = "Algo além de alga",
     },
@@ -1305,7 +1299,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "O Hipomonarca",
     },
     [39781] = {
-        name = "Covil de Neltharion",
+        name = "Covil de Neltharion: Morte ao Hipomonarca",
     },
     [39786] = {
         name = "Uma aposta rochosa",
@@ -2867,9 +2861,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41709] = {
         name = "Juntando as pontas soltas",
     },
-    [41724] = {
-        name = "O Coração do Pesadelo",
-    },
     [41728] = {
         name = "A defesa do Monastério de Tian",
     },
@@ -3848,9 +3839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42619] = {
         name = "Campeão: Hodir",
     },
-    [42627] = {
-        name = "A lâmina oculta",
-    },
     [42634] = {
         name = "Confronto no Templo Negro",
     },
@@ -4274,15 +4262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42959] = {
         name = "Três é um número de sorte",
     },
-    [42966] = {
-        name = "Comando do Grão-lorde",
-    },
-    [42967] = {
-        name = "Comando do Grão-lorde",
-    },
-    [42968] = {
-        name = "Comando do Grão-lorde",
-    },
     [42974] = {
         name = "O destino de Hodir",
     },
@@ -4461,7 +4440,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Fragmentos do desastre",
     },
     [43362] = {
-        name = "O Pesadelo Esmeralda: do que os sonhos são feitos",
+        name = "Do que os sonhos são feitos",
     },
     [43371] = {
         name = "Ajudando as linhas de frente",
@@ -4649,12 +4628,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43502] = {
         name = "Uma mudança de estações",
     },
-    [43503] = {
-        name = "Poder interior",
-    },
-    [43505] = {
-        name = "Poder interior",
-    },
     [43506] = {
         name = "Castelo Corvo Negro: poder maior",
     },
@@ -4677,7 +4650,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "O Pesadelo Esmeralda: em pesadelos",
     },
     [43521] = {
-        name = "Essência de Poder",
+        name = "O Pesadelo Esmeralda: Essência do Poder",
     },
     [43522] = {
         name = "Consumo essencial",
@@ -4704,7 +4677,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Baluarte da Noite: ilusões de grandeza",
     },
     [43531] = {
-        name = "Fortaleza Noturna adentro",
+        name = "Baluarte da Noite: Baluarte da Noite adentro",
     },
     [43532] = {
         name = "Baluarte da Noite: chamado da escuridão",
@@ -5476,9 +5449,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45316] = {
         name = "Estabilidade em Suramar",
-    },
-    [45317] = {
-        name = "Combate em todos os frontes",
     },
     [45329] = {
         name = "Operação: Portais",
@@ -6768,7 +6738,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Larvas de baciada",
     },
     [50228] = {
-        name = "O sobrevivente do Crepúsculo",
+        name = "O Sobrevivente do Crepúsculo",
     },
     [50229] = {
         name = "Um tiquinho de pano",
@@ -6780,7 +6750,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Larvas de baciada",
     },
     [50232] = {
-        name = "O sobrevivente do Crepúsculo",
+        name = "O Sobrevivente do Crepúsculo",
     },
     [50247] = {
         name = "O correio não pode parar",

@@ -1,12 +1,14 @@
-﻿## Interface: 80200
-## Title: Raid|cff7fff7fAchievement|r - Icecrown
-## Title-ruRU: Raid|cff7fff7fAchievement|r - Цитадель
+## Interface: 80205
 ## Author: Shurshik
-## Notes: RaidAchievement Wotlk Icecrown Module
-## Notes-ruRU: Модуль RaidAchievement - Цитадель
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: icraspisokon
+
+## Title: Raid|cff7fff7fAchievement|r - Icecrown
+## Notes: RaidAchievement Wotlk Icecrown Module
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0冰冠堡垒|r
+
+
 RaidAchievement_Icecrown.lua
 RaidAchievement_Icecrown.xml
 RaidAchievement_Icecrownbosses.lua

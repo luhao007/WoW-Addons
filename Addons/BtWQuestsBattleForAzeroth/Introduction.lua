@@ -43,7 +43,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
         {
             type = "money",
             amounts = {
-                1251800, 1277600, 1303400, 1329200, 1355000, 1380800, 1406600, 1432400, 1458200, 1484000, 1509800, 
+                1251800, 1277600, 1303400, 1329200, 1355000, 1380800, 1406600, 1432400, 1458200, 1484000, 1509800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -51,7 +51,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
         {
             type = "experience",
             amounts = {
-                102150, 102850, 103500, 104750, 105400, 106350, 107350, 108050, 108950, 109650, 
+                102150, 102850, 103500, 104750, 105400, 106350, 107350, 108050, 108950, 109650,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -93,7 +93,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -102,7 +102,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -111,7 +111,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -120,7 +120,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -129,7 +129,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -138,7 +138,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -147,7 +147,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         }, -- 51766
         {
@@ -156,7 +156,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 7,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -165,7 +165,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 8,
             connections = {
-                1, 
+                1,
             },
         },
 
@@ -176,7 +176,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 9,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -185,7 +185,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 10,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -203,7 +203,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 2,
             y = 12,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -218,7 +218,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
             x = 3,
             y = 13,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -268,7 +268,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
         {
             type = "money",
             amounts = {
-                1338600, 
+                1338600,
             },
             minLevel = 110,
             maxLevel = 110,
@@ -276,7 +276,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
         {
             type = "experience",
             amounts = {
-                97150, 72730, 73190, 73905, 74365, 74900, 75170, 75080, 74895, 74805, 
+                97150, 72730, 73190, 73905, 74365, 74900, 75170, 75080, 74895, 74805,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -318,7 +318,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -327,7 +327,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -336,7 +336,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -345,7 +345,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -354,7 +354,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -363,7 +363,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -372,7 +372,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         }, -- 51766
         {
@@ -381,7 +381,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 7,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -390,7 +390,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 8,
             connections = {
-                1, 
+                1,
             },
         },
 
@@ -401,7 +401,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 9,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -410,7 +410,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 10,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -429,7 +429,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 12,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -438,7 +438,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
             x = 3,
             y = 13,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -488,7 +488,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
         {
             type = "money",
             amounts = {
-                2741400, 2773800, 2806200, 2838600, 2871000, 2903400, 2935800, 2968200, 3000600, 3033000, 3065400, 
+                2741400, 2773800, 2806200, 2838600, 2871000, 2903400, 2935800, 2968200, 3000600, 3033000, 3065400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -496,7 +496,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
         {
             type = "experience",
             amounts = {
-                133300, 134400, 135500, 136600, 137700, 138850, 140250, 141350, 142150, 143250, 
+                133300, 134400, 135500, 136600, 137700, 138850, 140250, 141350, 142150, 143250,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -523,7 +523,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -533,7 +533,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -542,7 +542,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -692,7 +692,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
                 3,
             },
         },
-        
+
         {
             type = "level",
             level = 116,
@@ -721,7 +721,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
                 2,
             },
         },
-        
+
         {
             type = "quest",
             id = 51903,
@@ -925,7 +925,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
                 2,
             },
         },
-        
+
 
         {
             type = "level",
@@ -968,7 +968,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
                 },
             },
             -- completed = function (item, character)
-            --     return character:IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_ZULDAZAR_FOOTHOLD) and 
+            --     return character:IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_ZULDAZAR_FOOTHOLD) and
             --     character:IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_VOLDUN_FOOTHOLD) and
             --     character:IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_NAZMIR_FOOTHOLD) and
             --     character:IsQuestCompleted(51918)
@@ -1111,7 +1111,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
         {
             type = "money",
             amounts = {
-                2741400, 2773800, 2806200, 2838600, 2871000, 2903400, 2935800, 2968200, 3000600, 3033000, 3065400, 
+                2741400, 2773800, 2806200, 2838600, 2871000, 2903400, 2935800, 2968200, 3000600, 3033000, 3065400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -1119,7 +1119,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
         {
             type = "experience",
             amounts = {
-                133300, 134400, 135500, 136600, 137700, 138850, 140250, 141350, 142150, 143250, 
+                133300, 134400, 135500, 136600, 137700, 138850, 140250, 141350, 142150, 143250,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -1146,7 +1146,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1156,7 +1156,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1165,7 +1165,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1315,7 +1315,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
                 3,
             },
         },
-        
+
         {
             type = "level",
             level = 116,
@@ -1344,7 +1344,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
                 2,
             },
         },
-        
+
         {
             type = "quest",
             id = 51870,
@@ -1548,7 +1548,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
                 2,
             },
         },
-        
+
 
         {
             type = "level",
@@ -1591,7 +1591,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
                 },
             },
             -- completed = function (item, character)
-            --     return BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TIRAGARDE_SOUND_FOOTHOLD) and 
+            --     return BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TIRAGARDE_SOUND_FOOTHOLD) and
             --     BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_DRUSTVAR_FOOTHOLD) and
             --     BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_STORMSONG_VALLEY_FOOTHOLD) and
             --     BtWQuests_IsQuestCompleted(51916)
@@ -1851,7 +1851,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_1
         {
             type = "money",
             amounts = {
-                140400, 
+                140400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -1875,7 +1875,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_1
         {
             type = "money",
             amounts = {
-                46800, 
+                46800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -2315,7 +2315,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_ZULDAZAR_
         {
             type = "money",
             amounts = {
-                2347400, 2395800, 2444200, 2492600, 2541000, 2589400, 2637800, 2686200, 2734600, 2783000, 2831400, 
+                2347400, 2395800, 2444200, 2492600, 2541000, 2589400, 2637800, 2686200, 2734600, 2783000, 2831400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2323,7 +2323,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_ZULDAZAR_
         {
             type = "experience",
             amounts = {
-                186700, 188400, 190050, 191300, 192950, 194650, 196350, 198050, 199200, 200900, 
+                186700, 188400, 190050, 191300, 192950, 194650, 196350, 198050, 199200, 200900,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2333,7 +2333,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_ZULDAZAR_
             id = 1553,
             amount = 250,
         },
-    },    
+    },
     items = {
         {
             type = "quest",
@@ -2512,7 +2512,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_VOLDUN_FO
         {
             type = "money",
             amounts = {
-                2269800, 2316600, 2363400, 2410200, 2457000, 2503800, 2550600, 2597400, 2644200, 2691000, 2737800, 
+                2269800, 2316600, 2363400, 2410200, 2457000, 2503800, 2550600, 2597400, 2644200, 2691000, 2737800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2520,7 +2520,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_VOLDUN_FO
         {
             type = "experience",
             amounts = {
-                180150, 181750, 183300, 184600, 186150, 187800, 189450, 191050, 192200, 193800, 
+                180150, 181750, 183300, 184600, 186150, 187800, 189450, 191050, 192200, 193800,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2728,7 +2728,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_NAZMIR_FO
         {
             type = "money",
             amounts = {
-                2153400, 2197800, 2242200, 2286600, 2331000, 2375400, 2419800, 2464200, 2508600, 2553000, 2597400, 
+                2153400, 2197800, 2242200, 2286600, 2331000, 2375400, 2419800, 2464200, 2508600, 2553000, 2597400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2736,7 +2736,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_NAZMIR_FO
         {
             type = "experience",
             amounts = {
-                182600, 184250, 185900, 187050, 188700, 190350, 192050, 193700, 194800, 196450, 
+                182600, 184250, 185900, 187050, 188700, 190350, 192050, 193700, 194800, 196450,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2905,7 +2905,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_BLOOD_ON_
                 },
             },
             -- onEval = function (item, character)
-            --     return BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_ZULDAZAR_FOOTHOLD) and 
+            --     return BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_ZULDAZAR_FOOTHOLD) and
             --     BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_VOLDUN_FOOTHOLD) and
             --     BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_NAZMIR_FOOTHOLD) and
             --     BtWQuests_IsQuestCompleted(51918)
@@ -2934,7 +2934,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_BLOOD_ON_
         {
             type = "money",
             amounts = {
-                3744000, 
+                3744000,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -3158,7 +3158,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CHASING_D
         {
             type = "money",
             amounts = {
-                1942200, 
+                1942200,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -3198,7 +3198,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CHASING_D
                 2,
             },
         },
-        
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZMIR_CHAIN12,
@@ -3341,7 +3341,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_A_GOLDEN_
         {
             type = "money",
             amounts = {
-                2714400, 
+                2714400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -3516,7 +3516,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_BLOOD_IN_
         {
             type = "money",
             amounts = {
-                2503800, 
+                2503800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -3684,7 +3684,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_THE_STRIK
         {
             type = "money",
             amounts = {
-                2948400, 
+                2948400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -3922,7 +3922,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TIRAGARDE_SO
         {
             type = "money",
             amounts = {
-                1784800, 1821600, 1858400, 1895200, 1932000, 1968800, 2005600, 2042400, 2079200, 2116000, 2152800, 
+                1784800, 1821600, 1858400, 1895200, 1932000, 1968800, 2005600, 2042400, 2079200, 2116000, 2152800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -3930,7 +3930,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TIRAGARDE_SO
         {
             type = "experience",
             amounts = {
-                126700, 127800, 128800, 129900, 130900, 132100, 133200, 134300, 135200, 136300, 
+                126700, 127800, 128800, 129900, 130900, 132100, 133200, 134300, 135200, 136300,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -4107,7 +4107,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_DRUSTVAR_FOO
         {
             type = "money",
             amounts = {
-                3123400, 3187800, 3252200, 3316600, 3381000, 3445400, 3509800, 3574200, 3638600, 3703000, 3767400, 
+                3123400, 3187800, 3252200, 3316600, 3381000, 3445400, 3509800, 3574200, 3638600, 3703000, 3767400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -4115,7 +4115,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_DRUSTVAR_FOO
         {
             type = "experience",
             amounts = {
-                178500, 180100, 181550, 183000, 184450, 186150, 187650, 189250, 190500, 192100, 
+                178500, 180100, 181550, 183000, 184450, 186150, 187650, 189250, 190500, 192100,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -4288,7 +4288,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_STORMSONG_VA
         {
             type = "money",
             amounts = {
-                1416200, 1445400, 1474600, 1503800, 1533000, 1562200, 1591400, 1620600, 1649800, 1679000, 1708200, 
+                1416200, 1445400, 1474600, 1503800, 1533000, 1562200, 1591400, 1620600, 1649800, 1679000, 1708200,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -4296,7 +4296,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_STORMSONG_VA
         {
             type = "experience",
             amounts = {
-                120100, 121150, 122200, 123050, 124100, 125150, 126350, 127400, 128100, 129150, 
+                120100, 121150, 122200, 123050, 124100, 125150, 126350, 127400, 128100, 129150,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -4354,7 +4354,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_STORMSONG_VA
             },
         },
 
-        
+
         {
             type = "quest",
             id = 51675,
@@ -4457,7 +4457,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_FIRST_AS
                 },
             },
             -- onEval = function (item, character)
-            --     return BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TIRAGARDE_SOUND_FOOTHOLD) and 
+            --     return BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TIRAGARDE_SOUND_FOOTHOLD) and
             --     BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_DRUSTVAR_FOOTHOLD) and
             --     BtWQuests_IsChainCompleted(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_STORMSONG_VALLEY_FOOTHOLD) and
             --     BtWQuests_IsQuestCompleted(51916)
@@ -4488,7 +4488,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_FIRST_AS
         {
             type = "money",
             amounts = {
-                3042000, 
+                3042000,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -4668,7 +4668,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_MARSHALS
         {
             type = "money",
             amounts = {
-                1450800, 
+                1450800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -4804,7 +4804,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_DEATH_OF_A_T
         {
             type = "money",
             amounts = {
-                1684800, 
+                1684800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -4854,7 +4854,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_DEATH_OF_A_T
             },
         },
 
-        
+
         {
             type = "quest",
             id = 51805,
@@ -4973,7 +4973,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_AT_THE_BOTTO
         {
             type = "money",
             amounts = {
-                2620800, 
+                2620800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -5148,7 +5148,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_STRIKE_O
         {
             type = "money",
             amounts = {
-                3159000, 
+                3159000,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -5338,7 +5338,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
         {
             type = "money",
             amounts = {
-                3673800, 
+                3673800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -5365,7 +5365,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5373,7 +5373,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53888,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5381,7 +5381,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53896,
             x = 3,
             connections = {
-                1, 3, 4, 5, 
+                1, 3, 4, 5,
             },
         },
         {
@@ -5389,7 +5389,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53909,
             x = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5397,7 +5397,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53916,
             x = 0,
             connections = {
-                4, 5, 
+                4, 5,
             },
         },
         {
@@ -5405,7 +5405,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53910,
             x = 2,
             connections = {
-                3, 4, 
+                3, 4,
             },
         },
         {
@@ -5413,7 +5413,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54519,
             x = 4,
             connections = {
-                2, 3, 
+                2, 3,
             },
         },
         {
@@ -5421,7 +5421,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54518,
             x = 6,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -5429,7 +5429,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53978,
             x = 1,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -5437,7 +5437,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54787,
             x = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -5445,7 +5445,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54559,
             x = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5453,7 +5453,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53919,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5461,7 +5461,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 53936,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5469,7 +5469,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54703,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5529,7 +5529,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
         {
             type = "money",
             amounts = {
-                3252600, 
+                3252600,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -5557,7 +5557,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5565,7 +5565,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54192,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5573,7 +5573,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54193,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5581,7 +5581,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54194,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5589,7 +5589,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54195,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -5597,7 +5597,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54196,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -5605,7 +5605,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54197,
             x = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5613,7 +5613,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54198,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5621,7 +5621,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54199,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5629,7 +5629,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54200,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -5637,7 +5637,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54201,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -5645,7 +5645,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54202,
             x = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5653,7 +5653,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54203,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5661,7 +5661,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54204,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5669,7 +5669,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54205,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5728,7 +5728,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
         {
             type = "money",
             amounts = {
-                748800, 
+                748800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -5754,7 +5754,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54171,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5762,7 +5762,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54169,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5816,7 +5816,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
         {
             type = "money",
             amounts = {
-                2737800, 
+                2737800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -5842,7 +5842,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54302,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5850,7 +5850,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54303,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -5858,7 +5858,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54310,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -5866,7 +5866,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54404,
             x = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5874,7 +5874,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54312,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5882,7 +5882,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54407,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5890,7 +5890,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54412,
             x = 3,
             connections = {
-                1, 2, 3, 
+                1, 2, 3,
             },
         },
         {
@@ -5898,7 +5898,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54417,
             x = 1,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -5906,7 +5906,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54421,
             x = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -5914,7 +5914,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54418,
             x = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5922,7 +5922,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54441,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5930,7 +5930,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_PART_
             id = 54459,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -5990,7 +5990,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
         {
             type = "money",
             amounts = {
-                1497600, 
+                1497600,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6014,11 +6014,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
         {
             type = "quest",
             ids = {
-                53850, 53851, 
+                53850, 53851,
             },
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6026,7 +6026,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             id = 53852,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6034,7 +6034,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             id = 53856,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -6042,7 +6042,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             id = 53879,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -6050,7 +6050,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             id = 53880,
             x = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6058,7 +6058,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             id = 53913,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6066,7 +6066,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             id = 53912,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6074,7 +6074,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             id = 53973,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6133,7 +6133,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
         {
             type = "money",
             amounts = {
-                1989000, 
+                1989000,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6159,7 +6159,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 53941,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -6167,7 +6167,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54123,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -6175,7 +6175,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54124,
             x = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6183,7 +6183,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 53942,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6191,7 +6191,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54128,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6199,7 +6199,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54004,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6207,7 +6207,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54007,
             x = 3,
             connections = {
-                1, 2, 3, 
+                1, 2, 3,
             },
         },
         {
@@ -6215,7 +6215,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54008,
             x = 1,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -6223,7 +6223,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54009,
             x = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -6231,7 +6231,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54022,
             x = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6239,7 +6239,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_2, 
             id = 54028,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6298,7 +6298,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_3, 
         {
             type = "money",
             amounts = {
-                1216800, 
+                1216800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6324,7 +6324,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_3, 
             id = 54121,
             x = 3,
             connections = {
-                1, 2, 3, 
+                1, 2, 3,
             },
         },
         {
@@ -6332,7 +6332,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_3, 
             id = 54175,
             x = 1,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -6340,7 +6340,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_3, 
             id = 54176,
             x = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -6348,7 +6348,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_3, 
             id = 54177,
             x = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6356,7 +6356,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_3, 
             id = 54178,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6409,7 +6409,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
         {
             type = "money",
             amounts = {
-                3978000, 
+                3978000,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6435,7 +6435,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54139,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6443,7 +6443,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54140,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -6451,7 +6451,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54157,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -6459,7 +6459,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54156,
             x = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6467,7 +6467,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54207,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -6475,7 +6475,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54211,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6483,7 +6483,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54213,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6491,7 +6491,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54224,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6499,7 +6499,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54244,
             x = 3,
             connections = {
-                1, 2, 3, 
+                1, 2, 3,
             },
         },
         {
@@ -6507,7 +6507,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54249,
             x = 1,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -6515,7 +6515,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54269,
             x = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -6523,7 +6523,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54270,
             x = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6531,7 +6531,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54271,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6539,7 +6539,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54275,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6547,7 +6547,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
             id = 54280,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6596,7 +6596,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
         {
             type = "money",
             amounts = {
-                1684800, 
+                1684800,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6618,7 +6618,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55118,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -6626,14 +6626,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55033,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
             type = "quest",
             id = 55117,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6641,7 +6641,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55116,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6649,7 +6649,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55119,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6657,7 +6657,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55044,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6705,7 +6705,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
         {
             type = "money",
             amounts = {
-                1474200, 
+                1474200,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6722,7 +6722,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55171,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6730,7 +6730,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55087,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6738,7 +6738,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55179,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -6746,14 +6746,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55088,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
             type = "quest",
             id = 55182,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6761,7 +6761,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55183,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6769,7 +6769,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55185,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6777,7 +6777,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
             id = 55089,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6820,14 +6820,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
     completed = {
         type = "quest",
         ids = {
-            54999, 55034, 
+            54999, 55034,
         },
     },
     rewards = {
         {
             type = "money",
             amounts = {
-                1193400, 
+                1193400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6847,11 +6847,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
         {
             type = "quest",
             ids = {
-                55124, 54961, 
+                55124, 54961,
             },
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6859,7 +6859,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
             id = 54958,
             x = 3,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -6867,14 +6867,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
             id = 54959,
             x = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
             type = "quest",
             id = 54997,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -6882,13 +6882,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
             id = 54960,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
             type = "quest",
             ids = {
-                54999, 55034, 
+                54999, 55034,
             },
             x = 3,
         },
@@ -6932,7 +6932,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_2
         {
             type = "money",
             amounts = {
-                608400, 
+                608400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -6971,7 +6971,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_2
             type = "quest",
             id = 55050,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7009,10 +7009,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_PART_
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_8_1_5,
         },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN03,
-        },
     },
     active = {
         type = "quest",
@@ -7027,7 +7023,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_PART_
         {
             type = "money",
             amounts = {
-                491400, 
+                491400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -7045,7 +7041,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_PART_
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7095,7 +7091,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
         {
             type = "money",
             amounts = {
-                23400, 
+                23400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -7107,7 +7103,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
             id = 55778,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7131,7 +7127,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
             },
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7155,7 +7151,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
             },
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
     },
@@ -7204,7 +7200,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_FOLLO
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7212,7 +7208,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_FOLLO
             id = 135681,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7264,7 +7260,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_FOLLOWER
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7272,7 +7268,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_FOLLOWER
             id = 135690,
             x = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -7323,7 +7319,7 @@ BtWQuestsDatabase:AddChain(Chain.Alliance825Campaign, {
         {
             type = "money",
             amounts = {
-                1895400, 
+                1895400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -7430,7 +7426,7 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SaurfangCampaign, {
         {
             type = "money",
             amounts = {
-                2129400, 
+                2129400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -7538,7 +7534,7 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
         {
             type = "money",
             amounts = {
-                725400, 
+                725400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -7725,7 +7721,7 @@ BtWQuestsDatabase:AddChain(Chain.Alliance825Calia, {
         {
             type = "money",
             amounts = {
-                23400, 
+                23400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -7785,7 +7781,7 @@ BtWQuestsDatabase:AddChain(Chain.Horde825Calia, {
         {
             type = "money",
             amounts = {
-                23400, 
+                23400,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -7825,7 +7821,7 @@ BtWQuestsDatabase:AddExpansionItems(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN,
     },
-    
+
     {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_8_1,
@@ -7834,7 +7830,7 @@ BtWQuestsDatabase:AddExpansionItems(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_1,
     },
-    
+
     {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_8_1_5,
@@ -7843,7 +7839,7 @@ BtWQuestsDatabase:AddExpansionItems(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_1_5,
     },
-    
+
     {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_8_2,

@@ -1,11 +1,14 @@
 ## Interface: 80205
-## Title: HandyNotes_HallowsEnd
-## Notes: Displays the locations of Hallow's End candy buckets.
 ## Author: Ravendwyr
 ## Version: v1.5
-## X-Category: Map & Minimap
-## SavedVariables: HandyNotes_HallowsEndDB
 ## RequiredDeps: HandyNotes
+## SavedVariables: HandyNotes_HallowsEndDB
+
+## Title: HandyNotes_HallowsEnd
+## Notes: Displays the locations of Hallow's End candy buckets.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0万圣节|r
+
+## X-Category: Map & Minimap
 ## X-Curse-Project-ID: 46114
 
 Core.lua

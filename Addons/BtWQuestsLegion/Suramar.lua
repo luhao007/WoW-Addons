@@ -3,7 +3,10 @@ local MAP_ID = 680
 
 BtWQuestsCharacters:AddAchievement(10617);
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_WITHERED_ARMY_TRAINING, {
-    name = BtWQuests_GetQuestName(43943),
+    name = { -- Withered Army Training
+		type = "quest",
+		id = 43943,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_SURAMAR,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     prerequisites = {
@@ -1585,57 +1588,48 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_MOON_GUARD_STRONGHOLD,
     range = {110},
     items = {
         {
-            name = L["BTWQUESTS_KILL_NIGHTBORNE"],
-            breadcrumb = true,
-            aside = true,
+            type = "npc",
+            id = 106095,
             x = 1,
             y = 0,
             connections = {
-                1
+                3
+            },
+        },
+        {
+            type = "npc",
+            id = 101766,
+            connections = {
+                3
+            },
+        },
+        {
+            name = L["BTWQUESTS_KILL_NIGHTBORNE"],
+            breadcrumb = true,
+            aside = true,
+            connections = {
+                3
+            },
+        },
+        {
+            type = "quest",
+            id = 40949,
+            x = 1,
+            connections = {
+                3
+            },
+        },
+        {
+            type = "quest",
+            id = 40883,
+            connections = {
+                2
             },
         },
         {
             type = "quest",
             id = 41030,
             aside = true,
-            x = 1,
-            y = 1,
-        },
-        {
-            name = L["BTWQUESTS_GO_TO_LYREA_WINDFEATHER"],
-            breadcrumb = true,
-            x = 3,
-            y = 0,
-            connections = {
-                1
-            },
-        },
-        {
-            type = "quest",
-            id = 40883,
-            x = 3,
-            y = 1,
-            connections = {
-                3
-            },
-        },
-        {
-            name = L["BTWQUESTS_GO_TO_IVANEL_MEADOWSONG"],
-            breadcrumb = true,
-            x = 5,
-            y = 0,
-            connections = {
-                1
-            },
-        },
-        {
-            type = "quest",
-            id = 40949,
-            x = 5,
-            y = 1,
-            connections = {
-                1
-            },
         },
         {
             type = "quest",
@@ -1785,15 +1779,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_TIDYING_TELANOR, {
     range = {110},
     items = {
         {
-            name = L["BTWQUESTS_GO_TO_THAEDRIS_FEATHERSONG"],
-            breadcrumb = true,
-            onClick = function ()
-                if TomTom and TomTom.AddMFWaypoint then
-                    TomTom:AddMFWaypoint(1033, 0, 0.456, 0.408, {
-                        title = BTWQUESTS_THAEDRIS_FEATHERSONG,
-                    })
-                end
-            end,
+            type = "npc",
+            id = 99065,
             x = 3,
             y = 0,
             connections = {
@@ -1921,8 +1908,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_EMINENT_GROWMAIN, {
             },
         },
         {
-            name = L["BTWQUESTS_KILL_THE_STARVING_ETTIN"],
-            breadcrumb = true,
+            type = "kill",
+            id = 104220,
             aside = true,
             x = 1,
             y = 1,
@@ -2110,15 +2097,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_EMINENT_GROWMAIN, {
             },
         },
         {
-            name = L["BTWQUESTS_GO_TO_NIGHTEYES"],
-            breadcrumb = true,
-            onClick = function ()
-                if TomTom and TomTom.AddMFWaypoint then
-                    TomTom:AddMFWaypoint(1033, 0, 0.506, 0.565, {
-                        title = BTWQUESTS_NIGHTEYES,
-                    })
-                end
-            end,
+            type = "npc",
+            id = 110987,
             x = 3,
             y = 13,
             connections = {

@@ -1,11 +1,13 @@
-## Interface: 80200
-## Title: Meeting Stone
-## Title-zhCN: |cffff565e[网易]|r 集合石
-## Notes-zhCN: 帮助您更好的组建队伍
+## Interface: 80205
 ## Version: 80200.03
+## LoadManagers: AddonLoader
 ## SavedVariables: MEETINGSTONE_UI_DB
 ## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB
-## LoadManagers: AddonLoader
+
+## Title: Meeting Stone
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF集合石|r |cFFFFE00AMeetingStone|r
+## Notes-zhCN: 帮助您更好的组建队伍
+
 ## X-LoadOn-Always: delayed
 ## X-WoWBox-Ver: 1
 

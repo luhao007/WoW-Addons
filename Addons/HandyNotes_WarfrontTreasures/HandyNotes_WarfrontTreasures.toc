@@ -1,13 +1,16 @@
-## Interface: 80000
-## Title: HandyNotes: Warfront Treasures
-## Notes: Where are the hidden treasures in Battle For Azeroth?
+## Interface: 80205
 ## Author: Widz
 ## Version: 1
+## RequiredDeps: HandyNotes
+## SavedVariables: HandyNotes_WarfrontTreasuresDB
 ## DefaultState: enabled
+
+## Title: HandyNotes: Warfront Treasures
+## Notes: Where are the hidden treasures in Battle For Azeroth?
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏 战争前线|r
+
 ## X-Category: Map
 ## X-eMail: widz.will @ gmail DOT com
-## SavedVariables: HandyNotes_WarfrontTreasuresDB
-## RequiredDeps: HandyNotes
 
 handler.lua
 config.lua

@@ -1,12 +1,14 @@
-﻿## Interface: 80200
-## Title: Raid|cff7fff7fAchievement|r - Legion raids
-## Title-ruRU: Raid|cff7fff7fAchievement|r - Рейды Legion
+## Interface: 80205
 ## Author: Shurshik
-## Notes: RaidAchievement Legion Raids Module
-## Notes-ruRU: Модуль RaidAchievement - Рейды Legion
 ## Dependencies: RaidAchievement
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: legionrraspisokon
+
+## Title: Raid|cff7fff7fAchievement|r - Legion raids
+## Notes: RaidAchievement Legion Raids Module
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0军团再临团队|r
+
+
 RaidAchievement_LegionRaids.lua
 RaidAchievement_LegionRaids.xml
 RaidAchievement_LegionRaidsbosses.lua

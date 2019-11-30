@@ -5,8 +5,26 @@ if GetLocale() ~= "frFR" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
+    [263] = {
+        name = "Seigneur Ello Bouclenoire",
+    },
     [264] = {
         name = "Commandant Althea Bouclenoire",
+    },
+    [265] = {
+        name = "Madame Eva",
+    },
+    [267] = {
+        name = "Greffier Daltry",
+    },
+    [268] = {
+        name = "Sirra Von'Indi",
+    },
+    [272] = {
+        name = "Chef Grual",
+    },
+    [273] = {
+        name = "Smitts l'aubergiste",
     },
     [276] = {
         name = "Viktori Prism'Antras",
@@ -29,6 +47,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [469] = {
         name = "Lieutenant Doren",
     },
+    [576] = {
+        name = "Gardienne Ladimore",
+    },
     [663] = {
         name = "Calor",
     },
@@ -38,23 +59,41 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [739] = {
         name = "Frère Nimetz",
     },
+    [770] = {
+        name = "Caporal Kaleb",
+    },
+    [888] = {
+        name = "Gardien Dodds",
+    },
     [900] = {
         name = "Bailli Conacher",
     },
     [1068] = {
         name = "Gorn",
     },
+    [1071] = {
+        name = "Tresse-longue le Macabre",
+    },
     [1089] = {
         name = "Montagnard Pave-silex",
     },
+    [1090] = {
+        name = "Montagnard Cognemur",
+    },
     [1092] = {
         name = "Capitaine Rudagite",
+    },
+    [1105] = {
+        name = "Jern Casque-à-Cornes",
     },
     [1141] = {
         name = "Angus Stern",
     },
     [1154] = {
         name = "Marek Cœur-de-fer",
+    },
+    [1156] = {
+        name = "Vyrin Vent-Vif",
     },
     [1187] = {
         name = "Daryl le Jeune",
@@ -67,6 +106,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1343] = {
         name = "Montagnard Foudrepique",
+    },
+    [1344] = {
+        name = "Prospecteur Baguefer",
+    },
+    [1345] = {
+        name = "Magmar Tombebranche",
     },
     [1484] = {
         name = "Derina Rumdnul",
@@ -110,8 +155,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [2608] = {
         name = "Commandant Amaren",
     },
+    [2610] = {
+        name = "Shakes O'Breen",
+    },
     [2700] = {
         name = "Capitaine Nials",
+    },
+    [2712] = {
+        name = "Quae",
     },
     [2768] = {
         name = "Professeur Phloppenthrope",
@@ -121,6 +172,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [2771] = {
         name = "Drum Lagangrène",
+    },
+    [2774] = {
+        name = "Docteur Draunessieu",
     },
     [2785] = {
         name = "Theldurin l’Egaré",
@@ -914,9 +968,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [35827] = {
         name = "Valishj",
     },
-    [35902] = {
-        name = "Seigneur Hydronis",
-    },
     [36034] = {
         name = "Karnum Tisse-Marais",
     },
@@ -1013,9 +1064,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [37835] = {
         name = "Dorn Terre-rouge",
     },
-    [37837] = {
-        name = "Seigneur de guerre Garde-Sanglante",
-    },
     [37847] = {
         name = "Mankrik",
     },
@@ -1029,9 +1077,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Crawgol",
     },
     [38140] = {
-        name = "Weezil Fluidombre",
-    },
-    [38152] = {
         name = "Weezil Fluidombre",
     },
     [38237] = {
@@ -1093,9 +1138,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [38623] = {
         name = "Chef des docks Lewis",
-    },
-    [38703] = {
-        name = "Megs Déchiqueffroi",
     },
     [38704] = {
         name = "Kelsey Etinçacier",
@@ -1159,9 +1201,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [39178] = {
         name = "Driz Ploufétrave",
-    },
-    [39188] = {
-        name = "Marley Doublenattes",
     },
     [39256] = {
         name = "Kalen Tir-Précis",
@@ -1406,6 +1445,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41297] = {
         name = "Karl Boran",
     },
+    [41307] = {
+        name = "Second Snellig",
+    },
     [41350] = {
         name = "Ton Arc-du-Vent",
     },
@@ -1468,6 +1510,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [41612] = {
         name = "Chasseresse Iczelia",
+    },
+    [41615] = {
+        name = "Férilon Feuillené",
     },
     [41638] = {
         name = "Maître-chien Jonathan",
@@ -1594,6 +1639,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [44082] = {
         name = "Bronwyn Piquefrappe",
+    },
+    [44200] = {
+        name = "Eclaireur Dorli",
+    },
+    [44345] = {
+        name = "Calamy Tirebière",
     },
     [44374] = {
         name = "Sherm",
@@ -1727,9 +1778,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [47393] = {
         name = "Seigneur de la montagne Rendan",
     },
-    [47429] = {
-        name = "Benêt",
-    },
     [47440] = {
         name = "Agnes Finardoise",
     },
@@ -1787,9 +1835,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48109] = {
         name = "John J. Keeshan",
     },
-    [48110] = {
-        name = "Colonel Troteman",
-    },
     [48126] = {
         name = "Isural Ligeforêt",
     },
@@ -1807,9 +1852,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [48306] = {
         name = "John J. Keeshan",
-    },
-    [48307] = {
-        name = "Colonel Troteman",
     },
     [48333] = {
         name = "Contremaître Pikwik",

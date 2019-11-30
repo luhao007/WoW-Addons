@@ -1,7 +1,7 @@
 --[[
 	Auctioneer Advanced
-	Version: 8.2.6430 (SwimmingSeadragon)
-	Revision: $Id: CoreAPI.lua 6430 2019-09-25 00:20:07Z none $
+	Version: 8.2.6471 (SwimmingSeadragon)
+	Revision: $Id: CoreAPI.lua 6471 2019-11-02 14:38:37Z none $
 	URL: http://auctioneeraddon.com/
 
 	This is an addon for World of Warcraft that adds statistical history to the auction data that is collected
@@ -1529,5 +1529,5 @@ do
 end
 
 
-AucAdvanced.RegisterRevision("$URL: Auc-Advanced/CoreAPI.lua $", "$Rev: 6430 $")
+AucAdvanced.RegisterRevision("$URL: Auc-Advanced/CoreAPI.lua $", "$Rev: 6471 $")
 AucAdvanced.CoreFileCheckOut("CoreAPI")

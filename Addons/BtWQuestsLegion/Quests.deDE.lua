@@ -293,12 +293,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38318] = {
         name = "Wer braucht schon Flügel?",
     },
-    [38322] = {
-        name = "Rückkehr zum Hain",
-    },
-    [38323] = {
-        name = "Rückkehr zum Hain",
-    },
     [38324] = {
         name = "Accessoires der Verfluchten",
     },
@@ -1305,7 +1299,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Der Unterkönig",
     },
     [39781] = {
-        name = "Neltharions Hort",
+        name = "Neltharions Hort: Tod dem Unterkönig",
     },
     [39786] = {
         name = "Keine zahnlose Wette",
@@ -2867,9 +2861,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41709] = {
         name = "Schwere Geschütze zur Selbstmontage",
     },
-    [41724] = {
-        name = "Das Herz des Alptraums",
-    },
     [41728] = {
         name = "Die Verteidigung des Tianklosters",
     },
@@ -3848,9 +3839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42619] = {
         name = "Champion: Hodir",
     },
-    [42627] = {
-        name = "Die ungesehene Klinge",
-    },
     [42634] = {
         name = "Konfrontation am Schwarzen Tempel",
     },
@@ -4274,15 +4262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42959] = {
         name = "Aller guten Dinge sind drei",
     },
-    [42966] = {
-        name = "Der Befehl des Hochlords",
-    },
-    [42967] = {
-        name = "Der Befehl des Hochlords",
-    },
-    [42968] = {
-        name = "Der Befehl des Hochlords",
-    },
     [42974] = {
         name = "Das Schicksal Hodirs",
     },
@@ -4461,7 +4440,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Bruchstücke der Katastrophe",
     },
     [43362] = {
-        name = "Der Smaragdgrüne Alptraum: Der Stoff der Träume",
+        name = "Der Stoff der Träume",
     },
     [43371] = {
         name = "Ablösung an der Front",
@@ -4649,12 +4628,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43502] = {
         name = "Zeit der Veränderung",
     },
-    [43503] = {
-        name = "Die innere Macht",
-    },
-    [43505] = {
-        name = "Die innere Macht",
-    },
     [43506] = {
         name = "Rabenwehr: Größere Macht",
     },
@@ -4677,7 +4650,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Der Smaragdgrüne Alptraum: In den Alpträumen",
     },
     [43521] = {
-        name = "Die Essenz der Macht",
+        name = "Der Smaragdgrüne Alptraum: Die Essenz der Macht",
     },
     [43522] = {
         name = "Essenzverbrauch",
@@ -4704,7 +4677,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Die Nachtfestung: Größenwahn",
     },
     [43531] = {
-        name = "In die Nachtfestung",
+        name = "Die Nachtfestung: In die Nachtfestung",
     },
     [43532] = {
         name = "Die Nachtfestung: Die Dunkelheit ruft",
@@ -5476,9 +5449,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45316] = {
         name = "Stabilisierung von Suramar",
-    },
-    [45317] = {
-        name = "Kampf an allen Fronten",
     },
     [45329] = {
         name = "Operation: Portale",

@@ -1,11 +1,14 @@
-## Interface: 80200
-## Title: HandyNotes_SummerFestival
-## Notes: Displays the locations of Summer Festival bonfires.
+## Interface: 80205
 ## Author: Ethan Centaurai
 ## Version: v1.6.1
-## X-Category: Map & Minimap
-## SavedVariables: HandyNotes_SummerFestivalDB
 ## RequiredDeps: HandyNotes
+## SavedVariables: HandyNotes_SummerFestivalDB
+
+## Title: HandyNotes_SummerFestival
+## Notes: Displays the locations of Summer Festival bonfires.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0节日 仲夏节|r
+
+## X-Category: Map & Minimap
 
 Core.lua
 

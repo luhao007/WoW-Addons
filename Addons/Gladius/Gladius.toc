@@ -1,10 +1,17 @@
 ## Interface: 80205
-## Title: Gladius
-## Version: 6.0.9
-## Notes: Arena enemy unit frames.
 ## Author: Resike and Firebunny. Original author: Proditor
-## SavedVariables: Gladius2DB
+## Version: 6.1.0
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0
+## SavedVariables: Gladius2DB
+
+## Title: Gladius
+## Notes: Arena enemy unit frames.
+## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF竞技场助手|r |cFF69CCF0在竞技场中显示敌人|r
+
+
+#@no-lib-strip@
+Embeds.xml
+#@end-no-lib-strip@
 
 Gladius.lua
 Localizations.lua

@@ -1,18 +1,14 @@
-﻿## Interface: 80000
-## Title:|cFFBF00FF[H]|r Something About Pet Battle
-## Notes:Something About Pet Battle,Type /hpq to config
-## Title-zhCN: |cFFBF00FF[H]|r 宠物对战增强
-## Notes-zhCN: 提醒野生宠物品质等,输入/hpq设置
-## Title-zhTW: |cFFBF00FF[H]|r 寵物對戰增強
-## Notes-zhTW: 提醒野生寵物品質等,輸入/hpq設置
+## Interface: 80205
 ## Author: Qshine
-## Author-zhCN: 上官晓雾
-## Author-zhTW: 上官曉霧
+## Version: 2.2.14
+## SavedVariables: HPetSaves
+
+## Title: |cFFBF00FF[H]|r Something About Pet Battle
+## Notes: Something About Pet Battle,Type /hpq to config
+## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00AHPetBattleAny|r
+## Notes-zhCN: 提醒野生宠物品质等,输入/hpq设置
 
 ## X-Date: 2018-08-05
-## Version: 2.2.14
-
-## SavedVariables: HPetSaves
 
 Localization.lua
 

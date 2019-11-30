@@ -1,15 +1,14 @@
-## Interface: 80000
+## Interface: 80205
 ## Author: karlsnyder
 ## Version: 4.0
-## Title: MinimapButtonBag
-## X-Category: Map
-## Notes: Cleans up minimap buttons and makes them accessible through a pop out menu!
-## Notes-frFR: Liberez votre minimap de ses boutons et rendez les accessibles avec un menu deroulant!
-## Notes-deDE: Reduziert die Minimap Knöpfe und erlaubt den Zugriff auf diese über ein Menü!
-## Notes-zhTW: 小地圖按鈕整合。
-## Notes-zhCN: 清除迷你地图周围按钮，整合它们至一个弹出菜单中！
-## Notes-ruRU: Очищает миникарту от кнопок аддонов и держит их в одном меню!
 ## SavedVariablesPerCharacter: MBB_Exclude, MBB_Options
+
+## Title: MinimapButtonBag
+## Notes: Cleans up minimap buttons and makes them accessible through a pop out menu!
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF小地图按钮整合|r |cFF69CCF0Minimap Button Bag|r
+## Notes-zhCN: 将小地图的按钮整合成一个
+
+## X-Category: Map
 
 localization-enGB.lua
 localization-frFR.lua

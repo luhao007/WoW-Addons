@@ -1,12 +1,14 @@
 ## Interface: 80205
-## Title: PetTracker Config
-## Notes: Load on demand options and tutorial.
-## Author: Jaliborc (João Cardoso)
-## X-Category: Battle Pets
+## Author: Jaliborc (JoÃ£o Cardoso)
 ## Version: 8.2.2
-
 ## Dependencies: PetTracker
 ## LoadOnDemand: 1
+
+## Title: PetTracker Config
+## Notes: Load on demand options and tutorial.
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF0055FF设置|r
+
+## X-Category: Battle Pets
 
 ..\PetTracker\Libs\CustomTutorials-2.1\CustomTutorials-2.1.lua
 ..\PetTracker\Libs\Sushi-3.0\Classes\CheckButton.lua

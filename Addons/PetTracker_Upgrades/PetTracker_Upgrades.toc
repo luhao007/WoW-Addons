@@ -1,11 +1,13 @@
 ## Interface: 80205
+## Author: Jaliborc (JoÃ£o Cardoso)
+## Version: 8.2.2
+## Dependencies: PetTracker
+
 ## Title: PetTracker Upgrades
 ## Notes: Warns you when wild pets you might want appear in combat.
-## Author: Jaliborc (João Cardoso)
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF69CCF0升级|r
 
-## Dependencies: PetTracker
 ## X-Category: Battle Pets
-## Version: 8.2.2
 
 ..\PetTracker\Libs\Sushi-3.0\Classes\GlowBox.lua
 ..\PetTracker\Features\Upgrades.lua

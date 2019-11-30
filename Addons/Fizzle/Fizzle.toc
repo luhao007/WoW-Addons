@@ -1,20 +1,23 @@
-#@retail@
 ## Interface: 80205
+## Author: phyber
+## Version: 80205-1
+## OptionalDeps: Ace3, Voyeur
+## SavedVariablesPerCharacter: FizzleDB
+
+## Title: Fizzle
+## Notes: Show item durability and quality in the character frame.
+## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF装备着色|r |cFFFFE00AFizzle|r
+## Notes-zhCN: 在人物装备栏中显示物品品质与耐久度。
+
+## X-Category: Inventory
+## X-Embeds: Ace3
+## X-Curse-Project-ID: 6079
+
+#@retail@
 #@end-retail@
 #@non-retail@
 # ## Interface: 11302
 #@end-non-retail@
-## Title: Fizzle
-## Author: phyber
-## Notes: Show item durability and quality in the character frame.
-## Notes-zhTW: 在角色視窗顯示耐久度。
-## Notes-zhCN: 在人物装备栏中显示物品品质与耐久度。
-## Version: 80205-1
-## SavedVariablesPerCharacter: FizzleDB
-## OptionalDeps: Ace3, Voyeur
-## X-Category: Inventory
-## X-Embeds: Ace3
-## X-Curse-Project-ID: 6079
 
 Locales\locales.xml
 

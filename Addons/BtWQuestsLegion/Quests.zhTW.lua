@@ -293,17 +293,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38318] = {
         name = "無翼而飛",
     },
-    [38322] = {
-        name = "回到林地",
-    },
-    [38323] = {
-        name = "回到林地",
-    },
     [38324] = {
         name = "被詛咒的配件",
     },
     [38331] = {
-        name = "Испытание Хави",
+        name = "哈維的測試",
     },
     [38332] = {
         name = "遊俠之王",
@@ -1305,7 +1299,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "地底之王",
     },
     [39781] = {
-        name = "奈薩里奧巢穴",
+        name = "奈薩里奧巢穴：殺死地底之王",
     },
     [39786] = {
         name = "如岩石般冰冷的賭局",
@@ -2334,7 +2328,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "緩事急辦",
     },
     [40864] = {
-        name = "Модульные модификации",
+        name = "模組改造",
     },
     [40865] = {
         name = "這不是火箭科學",
@@ -2376,7 +2370,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "英靈殿：開懷掃射",
     },
     [40878] = {
-        name = "Штурм Аметистовой крепости: обман смерти",
+        name = "紫羅蘭堡之襲：騙過死亡",
     },
     [40879] = {
         name = "你來我往",
@@ -2866,9 +2860,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41709] = {
         name = "擊殺重砲手",
-    },
-    [41724] = {
-        name = "夢魘之心",
     },
     [41728] = {
         name = "防衛天僧寺",
@@ -3848,9 +3839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42619] = {
         name = "勇士：霍迪爾",
     },
-    [42627] = {
-        name = "無形之刃",
-    },
     [42634] = {
         name = "黑暗神廟對峙",
     },
@@ -4274,15 +4262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42959] = {
         name = "三是個幸運數字",
     },
-    [42966] = {
-        name = "大領主的命令",
-    },
-    [42967] = {
-        name = "大領主的命令",
-    },
-    [42968] = {
-        name = "大領主的命令",
-    },
     [42974] = {
         name = "霍迪爾的命運",
     },
@@ -4461,7 +4440,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "災禍碎片",
     },
     [43362] = {
-        name = "翡翠夢魘：幻夢沃土",
+        name = "幻夢沃土",
     },
     [43371] = {
         name = "馳援前線",
@@ -4649,12 +4628,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43502] = {
         name = "季節更迭",
     },
-    [43503] = {
-        name = "隱藏的力量",
-    },
-    [43505] = {
-        name = "隱藏的力量",
-    },
     [43506] = {
         name = "玄鴉堡：更強的力量",
     },
@@ -4677,7 +4650,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "翡翠夢魘：夢魘之中",
     },
     [43521] = {
-        name = "力量精華",
+        name = "翡翠夢魘：力量精華",
     },
     [43522] = {
         name = "必要的消耗",
@@ -4704,7 +4677,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "暗夜堡：妄自尊大",
     },
     [43531] = {
-        name = "進入暗夜堡",
+        name = "暗夜堡：進入暗夜堡",
     },
     [43532] = {
         name = "暗夜堡：黑暗呼喚",
@@ -5112,10 +5085,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "一戰一戰來",
     },
     [44700] = {
-        name = "Штормхейм",
+        name = "斯鐸海姆",
     },
     [44701] = {
-        name = "Штормхейм",
+        name = "斯鐸海姆",
     },
     [44719] = {
         name = "突襲聖所",
@@ -5477,9 +5450,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [45316] = {
         name = "鞏固蘇拉瑪爾",
     },
-    [45317] = {
-        name = "全面出擊",
-    },
     [45329] = {
         name = "行動：傳送門",
     },
@@ -5697,7 +5667,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "這次，留下蹤跡",
     },
     [45630] = {
-        name = "Сам себе господин",
+        name = "做自己的主人",
     },
     [45632] = {
         name = "失蹤戰鬥人員：伊崔格",
@@ -6357,7 +6327,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "懲戒：蔑潮的命運",
     },
     [47055] = {
-        name = "Огонь: проступок Левии Лоуренс",
+        name = "火焰：蕾薇亞‧勞倫斯的愚行",
     },
     [47056] = {
         name = "狂怒：蕾薇亞‧勞倫斯的愚行",

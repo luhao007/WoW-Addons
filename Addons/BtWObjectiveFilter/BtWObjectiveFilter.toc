@@ -1,10 +1,14 @@
-## Interface: 60100
-## Title: BtW Objective Filter
-## Version: 1.2
-## Notes: Filter sections of the objective tracker when in a raid, scenario or similar
+## Interface: 80205
 ## Author: Breen
+## Version: 1.2
 ## Dependencies: Blizzard_ObjectiveTracker
 ## SavedVariablesPerCharacter: BtWObjectiveFilter_filter
+
+## Title: BtW Objective Filter
+## Notes: Filter sections of the objective tracker when in a raid, scenario or similar
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF追踪过滤|r |cFFFFE00ABtWObjectiveFilter|r
+## Notes-zhCN: 在任务和副本目标等追踪界面中添加一个过滤器，来关闭不想看到的追踪
+
 
 BtWObjectiveFilter.lua
 BtWObjectiveFilter.xml

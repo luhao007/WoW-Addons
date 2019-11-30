@@ -1,13 +1,16 @@
 ## Interface: 80205
-## Title: RangeDisplay
 ## Author: mitch0
 ## Version: v4.9.2
-## Notes: Estimated range display. Type /rangedisplay for config
-## Notes-ruRU: Дисплей с указанием расстояния до цели. Введите /rangedisplay для справки
-## LoadManagers: AddonLoader
-## X-LoadOn-Always: true
-## SavedVariables: RangeDisplayDB3
 ## OptionalDeps: LibStub, CallbackHandler-1.0, LibRangeCheck-2.0, Ace3, LibSharedMedia-3.0, LibDualSpec-1.0
+## LoadManagers: AddonLoader
+## SavedVariables: RangeDisplayDB3
+
+## Title: RangeDisplay
+## Notes: Estimated range display. Type /rangedisplay for config
+## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF目标距离|r |cFFFFE00ARangeDisplay|r
+## Notes-zhCN: 显示与目标的距离。
+
+## X-LoadOn-Always: true
 ## X-Category: Combat
 ## X-License: Public Domain
 ## X-RelSite-WoWI: 7297

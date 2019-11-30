@@ -5,8 +5,26 @@ if GetLocale() ~= "zhCN" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
+    [263] = {
+        name = "艾尔罗·埃伯洛克公爵",
+    },
     [264] = {
         name = "指挥官阿尔泰娅·埃伯洛克",
+    },
+    [265] = {
+        name = "伊瓦夫人",
+    },
+    [267] = {
+        name = "书记员达尔塔",
+    },
+    [268] = {
+        name = "希拉·沃宁迪",
+    },
+    [272] = {
+        name = "厨师格鲁奥",
+    },
+    [273] = {
+        name = "旅店老板斯密茨",
     },
     [276] = {
         name = "维克托·安特拉斯",
@@ -29,6 +47,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [469] = {
         name = "多伦上尉",
     },
+    [576] = {
+        name = "守夜人拉迪摩尔",
+    },
     [663] = {
         name = "卡洛尔",
     },
@@ -38,23 +59,41 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [739] = {
         name = "尼麦兹修士",
     },
+    [770] = {
+        name = "卡雷布下士",
+    },
+    [888] = {
+        name = "守夜人道茨",
+    },
     [900] = {
         name = "拜里弗·科纳彻尔",
     },
     [1068] = {
         name = "高恩",
     },
+    [1071] = {
+        name = "坚毅者长须",
+    },
     [1089] = {
         name = "巡山人库伯弗林特",
     },
+    [1090] = {
+        name = "巡山人沃尔班",
+    },
     [1092] = {
         name = "拉格弗斯上尉",
+    },
+    [1105] = {
+        name = "吉恩·角盔",
     },
     [1141] = {
         name = "安古斯·斯特恩",
     },
     [1154] = {
         name = "马雷克·铁心",
+    },
+    [1156] = {
+        name = "维林·疾风",
     },
     [1187] = {
         name = "年轻的达瑞尔",
@@ -67,6 +106,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1343] = {
         name = "巡山人雷矛",
+    },
+    [1344] = {
+        name = "勘察员基恩萨·铁环",
+    },
+    [1345] = {
+        name = "麦格玛尔·落斧",
     },
     [1484] = {
         name = "德瑞纳·拉姆杜恩",
@@ -82,6 +127,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1963] = {
         name = "维德拉·壁炉",
+    },
+    [2057] = {
+        name = "胡达尔",
     },
     [2104] = {
         name = "斯托菲队长",
@@ -110,6 +158,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [2608] = {
         name = "阿玛伦指挥官",
     },
+    [2610] = {
+        name = "沙克斯·奥布里",
+    },
     [2700] = {
         name = "尼艾丝队长",
     },
@@ -121,6 +172,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [2771] = {
         name = "杜拉姆法尔",
+    },
+    [2774] = {
+        name = "德拉克里格博士",
     },
     [2785] = {
         name = "迷失者塞尔杜林",
@@ -773,9 +827,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [33777] = {
         name = "盖凡·影行者",
     },
-    [33837] = {
-        name = "卡德拉克",
-    },
     [34122] = {
         name = "指挥官恐牙",
     },
@@ -851,9 +902,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [34596] = {
         name = "工头金科斯",
     },
-    [34599] = {
-        name = "波尔温",
-    },
     [34613] = {
         name = "塔夏力",
     },
@@ -898,9 +946,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [35827] = {
         name = "瓦丽丝琪",
-    },
-    [35902] = {
-        name = "元素勋爵海卓尼斯",
     },
     [36034] = {
         name = "卡隆·沼织",
@@ -998,9 +1043,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [37835] = {
         name = "多恩·红土",
     },
-    [37837] = {
-        name = "血柄督军",
-    },
     [37847] = {
         name = "曼科里克",
     },
@@ -1014,9 +1056,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "克劳格",
     },
     [38140] = {
-        name = "维兹尔·滑影",
-    },
-    [38152] = {
         name = "维兹尔·滑影",
     },
     [38237] = {
@@ -1078,9 +1117,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [38623] = {
         name = "码头管理员刘易斯",
-    },
-    [38703] = {
-        name = "梅格斯·碎纸机",
     },
     [38704] = {
         name = "凯尔希·钢烁",
@@ -1144,9 +1180,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [39178] = {
         name = "德利兹·普朗克勃",
-    },
-    [39188] = {
-        name = "马尔雷·双辫",
     },
     [39256] = {
         name = "卡伦·强击",
@@ -1448,6 +1481,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41612] = {
         name = "女猎手艾泽莉亚",
     },
+    [41615] = {
+        name = "费里隆·叶生",
+    },
     [41638] = {
         name = "驯犬者乔纳森",
     },
@@ -1570,6 +1606,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [44082] = {
         name = "布朗温·斧击",
+    },
+    [44200] = {
+        name = "斥候多尔莉",
+    },
+    [44345] = {
+        name = "凯娜莉·桶杯",
     },
     [44374] = {
         name = "谢尔姆",
@@ -1700,17 +1742,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [47341] = {
         name = "奥术师德拉莉丝",
     },
-    [47366] = {
-        name = "伊普斯",
-    },
     [47383] = {
         name = "布里维普",
     },
     [47393] = {
         name = "山丘领主伦达恩",
-    },
-    [47429] = {
-        name = "隆克",
     },
     [47440] = {
         name = "艾格妮斯·煤页岩",
@@ -1772,9 +1808,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48109] = {
         name = "约翰·J·基沙恩",
     },
-    [48110] = {
-        name = "托德曼上校",
-    },
     [48126] = {
         name = "伊苏拉·林誓",
     },
@@ -1792,9 +1825,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [48306] = {
         name = "约翰·J·基沙恩",
-    },
-    [48307] = {
-        name = "托德曼上校",
     },
     [48333] = {
         name = "工头皮克维克",

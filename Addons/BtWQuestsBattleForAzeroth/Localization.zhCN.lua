@@ -6,7 +6,7 @@ end
 
 local L = BtWQuests.L
 L["BTWQUESTS_BEGIN_THE_BATTLE_FOR_BRENNADAM"] = "开启布伦纳丹之战"
-L["BTWQUESTS_COSMETIC_WASTE_OF_TIME"] = "装饰品：钟示贤德腰带"
+L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"] = "装饰品：钟示贤德腰带"
 L["BTWQUESTS_GIFT_OF_NZOTH"] = "恩佐斯的礼物"
 L["BTWQUESTS_GIFT_OF_NZOTH_BREADCRUMB"] = "世界任务 击退娜迦的入侵!"
 L["BTWQUESTS_HATI_REBORN"] = "哈提的重生"

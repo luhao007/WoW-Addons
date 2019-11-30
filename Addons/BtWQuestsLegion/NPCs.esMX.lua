@@ -5,29 +5,23 @@ if GetLocale() ~= "esMX" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
-    [91065] = {
-        name = "Bodeguero Voodani",
+    [38237] = {
+        name = "Maximillian de Villanorte",
     },
-    [91166] = {
-        name = "Daglop",
+    [92802] = {
+        name = "Gravax el Profanador",
     },
     [93600] = {
         name = "Saylanna Vientorrío",
     },
-    [94101] = {
-        name = "Laeni Balaplata",
+    [94366] = {
+        name = "Lelyn Sombrapresta",
     },
     [94409] = {
         name = "Hemet Nesingwary",
     },
     [94434] = {
-        name = "Addie Chisparisma",
-    },
-    [95438] = {
-        name = "Ellias",
-    },
-    [95799] = {
-        name = "Damrul el Forte",
+        name = "Addie Silbarisma",
     },
     [96513] = {
         name = "Razik Rayogás",
@@ -44,32 +38,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [98587] = {
         name = "Ancestro Morheim",
     },
-    [99905] = {
-        name = "Esquista Plumagris",
+    [99065] = {
+        name = "Thaedris Cantapluma",
     },
-    [106914] = {
-        name = "Tehd Zapatero",
+    [101766] = {
+        name = "Thalrenus Árbol del Río",
     },
-    [106915] = {
-        name = "Marius Aterravil",
+    [103568] = {
+        name = "Mayruna Lunala",
     },
-    [107244] = {
-        name = "Tehd Zapatero",
+    [104220] = {
+        name = "Ettin hambriento",
     },
-    [107245] = {
-        name = "Marius Aterravil",
+    [106095] = {
+        name = "Ivanel Canción del Prado",
     },
-    [107498] = {
-        name = "Cukkaw",
+    [106299] = {
+        name = "Thisalee Cuervo",
     },
     [107499] = {
-        name = "Cuervoso aterrorizado",
-    },
-    [107674] = {
-        name = "Snaggle Seis gatillos",
-    },
-    [107675] = {
-        name = "Rax Seis gatillos",
+        name = "Oso corvino aterrorizado",
     },
     [108072] = {
         name = "Sir Finley Mrrgglton",
@@ -77,19 +65,22 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [108304] = {
         name = "Guviena Cantespada",
     },
+    [108327] = {
+        name = "Babosa de huesos ondulante",
+    },
     [108358] = {
         name = "Leirana",
     },
     [109631] = {
-        name = "Viejo Espaldagrís",
+        name = "Viejo Lomopardo",
     },
-    [250536] = {
-        name = "Cornamenta de gran venado intacta",
+    [110018] = {
+        name = "Gazrix Cerratuerca",
     },
-    [250990] = {
-        name = "Cajón de reliquias antiguas",
+    [110987] = {
+        name = "Ojos Nocturnos",
     },
-    [251425] = {
-        name = "Chumbogrís húmedo",
+    [121754] = {
+        name = "Vereesa Brisaveloz",
     },
 })

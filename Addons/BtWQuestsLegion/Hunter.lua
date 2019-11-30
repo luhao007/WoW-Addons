@@ -1,6 +1,6 @@
 local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(253)), "Titanstrike"),
+    name = L["BEAST_MASTERY_TITANSTRIKE"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS,
     },
     restrictions = {
@@ -22,6 +22,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY, {
             id = BTWQUESTS_CLASS_ID_HUNTER,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("HUNTER", 1),
+    active = BtWQuests.LegionArtifactActive("HUNTER", 1),
     completed = {
         type = "quest",
         id = 42158,
@@ -56,7 +58,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_MARKSMANSHIP, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(254)), "Thas'dorah, Legacy of the Windrunners"),
+    name = L["MARKSMANSHIP_THASDORAH_LEGACY_OF_THE_WINDRUNNERS"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -78,6 +80,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_MARKSMANSHIP, {
             id = BTWQUESTS_CLASS_ID_HUNTER,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("HUNTER", 2),
+    active = BtWQuests.LegionArtifactActive("HUNTER", 2),
     completed = {
         type = "quest",
         id = 40419,
@@ -121,7 +125,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_MARKSMANSHIP, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_SURVIVAL, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(255)), "Talonclaw"),
+    name = L["SURVIVAL_TALONCLAW"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -143,6 +147,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_SURVIVAL, {
             id = BTWQUESTS_CLASS_ID_HUNTER,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("HUNTER", 3),
+    active = BtWQuests.LegionArtifactActive("HUNTER", 3),
     completed = {
         type = "quest",
         id = 40385,
@@ -230,15 +236,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
             y = 2,
             connections = {
                 1, 2, 3,
-                7, 8, 9
+                7,
             },
         },
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY,
@@ -246,9 +252,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 type = "quest",
                 id = 40618,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40621) or BtWQuests_IsQuestCompleted(40620) or BtWQuests_IsQuestCompleted(40619))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("HUNTER"),
             x = 1,
             y = 3,
             connections = {
@@ -262,9 +266,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 type = "quest",
                 id = 40618,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40621) or BtWQuests_IsQuestCompleted(40620) or BtWQuests_IsQuestCompleted(40619))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("HUNTER"),
             x = 3,
             y = 3,
             connections = {
@@ -278,136 +280,124 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 type = "quest",
                 id = 40618,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40621) or BtWQuests_IsQuestCompleted(40620) or BtWQuests_IsQuestCompleted(40619))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("HUNTER"),
             x = 5,
             y = 3,
             connections = {
                 3
             },
         },
-        
+
         {
             type = "quest",
             id = 41009,
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40621) or BtWQuests_IsQuestCompleted(40620) or BtWQuests_IsQuestCompleted(40619))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("HUNTER"),
             x = 1,
             y = 4,
             connections = {
-                9
+                5
             },
         },
         {
             type = "quest",
             id = 40952,
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40621) or BtWQuests_IsQuestCompleted(40620) or BtWQuests_IsQuestCompleted(40619))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("HUNTER"),
             x = 3,
             y = 4,
             connections = {
-                8
+                4
             },
         },
         {
             type = "quest",
             id = 41008,
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40621) or BtWQuests_IsQuestCompleted(40620) or BtWQuests_IsQuestCompleted(40619))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("HUNTER"),
             x = 5,
             y = 4,
             connections = {
-                7
+                3
             },
         },
-        
-        
-        
-        
-        
-        
+
+
+
+
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40621)
-            end,
+            variations = {
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_BEASTMASTERY,
+                    restrictions = {
+                        type = "quest",
+                        id = 40621,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_MARKSMANSHIP,
+                    restrictions = {
+                        type = "quest",
+                        id = 40620,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_SURVIVAL,
+                    restrictions = {
+                        type = "quest",
+                        id = 40619,
+                    },
+                },
+                {
+                    visible = false,
+                },
+            },
             x = 3,
             y = 3,
             connections = {
-                3
+                1
             },
         },
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_MARKSMANSHIP,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40620)
-            end,
-            x = 3,
-            y = 3,
-            connections = {
-                3
+            variations = {
+                {
+                    type = "quest",
+                    id = 41009,
+                    restrictions = {
+                        type = "quest",
+                        id = 40621,
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 40952,
+                    restrictions = {
+                        type = "quest",
+                        id = 40620,
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 41008,
+                    restrictions = {
+                        type = "quest",
+                        id = 40619,
+                    },
+                },
             },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_SURVIVAL,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40619)
-            end,
-            x = 3,
-            y = 3,
-            connections = {
-                3
-            },
-        },
-        
-        {
-            type = "quest",
-            id = 41009,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40621)
-            end,
-            x = 3,
-            y = 4,
-            connections = {
-                3
-            },
-        },
-        {
-            type = "quest",
-            id = 40952,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40620)
-            end,
-            x = 3,
-            y = 4,
-            connections = {
-                2
-            },
-        },
-        {
-            type = "quest",
-            id = 41008,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40619)
-            end,
             x = 3,
             y = 4,
             connections = {
                 1
             },
         },
-        
-        
-        
-        
-        
+
+
+
+
+
         {
             type = "quest",
             id = 40953,
@@ -435,9 +425,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 41053,
@@ -474,9 +464,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 101,
@@ -486,9 +476,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 44090,
@@ -535,8 +525,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42524,
@@ -573,9 +563,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 103,
@@ -585,9 +575,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 42134,
@@ -606,8 +596,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42386,
@@ -626,8 +616,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42388,
@@ -637,8 +627,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1, 5
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42389,
@@ -675,8 +665,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 5
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42390,
@@ -710,8 +700,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
             x = 5,
             y = 27,
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42395,
@@ -721,8 +711,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42394,
@@ -741,9 +731,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 110,
@@ -762,8 +752,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42413,
@@ -782,8 +772,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42397,
@@ -820,8 +810,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42400,
@@ -903,8 +893,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1, 2, 3, 4
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42408,
@@ -932,8 +922,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
             x = 6,
             y = 45,
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42656,
@@ -970,8 +960,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 44680,
@@ -1008,7 +998,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_CAMPAIGN, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_FOLLOWER, {
-    name = BtWQuests_GetQuestName(46048),
+    name = { -- Champion: Nighthuntress Syrenne
+		type = "quest",
+		id = 46048,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_HUNTER,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -1019,10 +1012,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_HUNTER_FOLLOWER, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {

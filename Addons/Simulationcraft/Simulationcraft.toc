@@ -1,10 +1,13 @@
 ## Interface: 80205
-## Title: Simulationcraft
-## Notes: Constructs SimC export strings
 ## Author: Theck, navv_, seriallos
 ## Version: 1.12.3
-## OptionalDependencies: Ace3, LibRealmInfo, LibDBIcon, LibDataBroker-1.1
 ## SavedVariables: SimulationCraftDB
+
+## Title: Simulationcraft
+## Notes: Constructs SimC export strings
+## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF输出模拟器|r |cFFFFE00ASimulationcraft|r
+## Notes-zhCN: 模拟当前人物的输出，来确认哪个装备属性更好。
+
 
 embeds.xml
 

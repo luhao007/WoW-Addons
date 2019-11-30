@@ -5,8 +5,26 @@ if GetLocale() ~= "deDE" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
+    [263] = {
+        name = "Lord Ello Schwarzhaupt",
+    },
     [264] = {
         name = "Kommandantin Althea Schwarzhaupt",
+    },
+    [265] = {
+        name = "Madame Eva",
+    },
+    [267] = {
+        name = "Amtmann Daltry",
+    },
+    [268] = {
+        name = "Sirra Von'Indi",
+    },
+    [272] = {
+        name = "Küchenchef Grual",
+    },
+    [273] = {
+        name = "Schankwart Smitts",
     },
     [276] = {
         name = "Viktori Prism'Antras",
@@ -26,6 +44,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [469] = {
         name = "Leutnant Doren",
     },
+    [576] = {
+        name = "Behüterin Ladimore",
+    },
     [663] = {
         name = "Calor",
     },
@@ -35,23 +56,41 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [739] = {
         name = "Bruder Nimetz",
     },
+    [770] = {
+        name = "Korporal Kaleb",
+    },
+    [888] = {
+        name = "Behüter Dodds",
+    },
     [900] = {
         name = "Büttel Conacher",
     },
     [1068] = {
         name = "Gorn",
     },
+    [1071] = {
+        name = "Langzopf der Grimmige",
+    },
     [1089] = {
         name = "Gebirgsjäger Feuerkiesel",
     },
+    [1090] = {
+        name = "Gebirgsjäger Wallbang",
+    },
     [1092] = {
         name = "Hauptmann Rugelfuß",
+    },
+    [1105] = {
+        name = "Jern Hornhelm",
     },
     [1141] = {
         name = "Angus Stern",
     },
     [1154] = {
         name = "Marek Eisenherz",
+    },
+    [1156] = {
+        name = "Vyrin Flinkwind",
     },
     [1187] = {
         name = "Daryl der Jüngling",
@@ -65,6 +104,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [1343] = {
         name = "Gebirgsjäger Sturmlanze",
     },
+    [1344] = {
+        name = "Ausgrabungsleiter Eisenband",
+    },
+    [1345] = {
+        name = "Magmar Todesstreich",
+    },
     [1484] = {
         name = "Derina Rumdnul",
     },
@@ -76,6 +121,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1963] = {
         name = "Vidra Ofenglut",
+    },
+    [2057] = {
+        name = "Huldar",
     },
     [2104] = {
         name = "Hauptmann Starkfaust",
@@ -104,6 +152,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [2608] = {
         name = "Kommandantin Amaren",
     },
+    [2610] = {
+        name = "Wank O'Breen",
+    },
     [2700] = {
         name = "Hauptmann Nials",
     },
@@ -115,6 +166,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [2771] = {
         name = "Drum Teufel",
+    },
+    [2774] = {
+        name = "Doktor Drechselknacks",
     },
     [2785] = {
         name = "Theldurin der Verirrte",
@@ -908,9 +962,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [35827] = {
         name = "Valishj",
     },
-    [35902] = {
-        name = "Lord Hydronis",
-    },
     [36034] = {
         name = "Karnum Marschenwirker",
     },
@@ -1010,9 +1061,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [37835] = {
         name = "Dorn Roterde",
     },
-    [37837] = {
-        name = "Kriegsfürst Blutheft",
-    },
     [37847] = {
         name = "Mankrik",
     },
@@ -1026,9 +1074,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Crawgol",
     },
     [38140] = {
-        name = "Fux Schattenschleicher",
-    },
-    [38152] = {
         name = "Fux Schattenschleicher",
     },
     [38237] = {
@@ -1090,9 +1135,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [38623] = {
         name = "Dockmeister Lewis",
-    },
-    [38703] = {
-        name = "Megs Schredderschreck",
     },
     [38704] = {
         name = "Kelsey Stahlfunken",
@@ -1156,9 +1198,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [39178] = {
         name = "Driz Zupfbogen",
-    },
-    [39188] = {
-        name = "Marley Doppelzopf",
     },
     [39256] = {
         name = "Kalen Freipfeil",
@@ -1466,6 +1505,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41612] = {
         name = "Jägerin Iczelia",
     },
+    [41615] = {
+        name = "Ferilon Laubkind",
+    },
     [41638] = {
         name = "Hundemeister Jonathan",
     },
@@ -1586,11 +1628,23 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [43453] = {
         name = "Tobias Dunstmantel",
     },
+    [43731] = {
+        name = "Schwester Elsington",
+    },
     [43738] = {
         name = "Lehrling Fess",
     },
+    [44018] = {
+        name = "Wulfred Harrys",
+    },
     [44082] = {
         name = "Bronwyn Hackschlag",
+    },
+    [44200] = {
+        name = "Späherin Dorli",
+    },
+    [44345] = {
+        name = "Kanari Zielwasser",
     },
     [44374] = {
         name = "Sherm",
@@ -1603,6 +1657,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [44615] = {
         name = "Großexekutor Mortuus",
+    },
+    [44618] = {
+        name = "Verrosteter Himmelsschreiter",
     },
     [44859] = {
         name = "Sicherheitsbeauftragte Pipsy",
@@ -1721,17 +1778,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [47341] = {
         name = "Arkanistin Delaris",
     },
-    [47366] = {
-        name = "Impsy",
-    },
     [47383] = {
         name = "Langnase",
     },
     [47393] = {
         name = "Bergfürst Rendan",
-    },
-    [47429] = {
-        name = "Lunk",
     },
     [47440] = {
         name = "Agnes Schummelschiefer",
@@ -1790,9 +1841,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48109] = {
         name = "John J. Keeshan",
     },
-    [48110] = {
-        name = "Oberst Trottmann",
-    },
     [48126] = {
         name = "Isural Waldschwur",
     },
@@ -1810,9 +1858,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [48306] = {
         name = "John J. Keeshan",
-    },
-    [48307] = {
-        name = "Oberst Trottmann",
     },
     [48333] = {
         name = "Großknecht Pikwik",

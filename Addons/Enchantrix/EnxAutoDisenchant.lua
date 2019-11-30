@@ -1,7 +1,7 @@
 ﻿--[[
 	Enchantrix Addon for World of Warcraft(tm).
-	Version: 8.2.6428 (SwimmingSeadragon)
-	Revision: $Id: EnxAutoDisenchant.lua 6428 2019-09-25 00:20:07Z none $
+	Version: 8.2.6506 (SwimmingSeadragon)
+	Revision: $Id: EnxAutoDisenchant.lua 6506 2019-11-02 14:38:37Z none $
 	URL: http://enchantrix.org/
 
 	Automatic disenchant scanner.
@@ -28,7 +28,7 @@
 		since that is its designated purpose as per:
 		http://www.fsf.org/licensing/licenses/gpl-faq.html#InterpreterIncompat
 ]]
-Enchantrix_RegisterRevision("$URL: Enchantrix/EnxAutoDisenchant.lua $", "$Rev: 6428 $")
+Enchantrix_RegisterRevision("$URL: Enchantrix/EnxAutoDisenchant.lua $", "$Rev: 6506 $")
 
 local auto_de_session_ignore_list = {}
 local auto_de_frame

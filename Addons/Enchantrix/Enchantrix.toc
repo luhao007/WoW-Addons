@@ -1,21 +1,25 @@
-## Title: Enchantrix
-## Notes: Display information in item tooltips pertaining to disenchanting, prospecting, and milling results.  [8.2.6428] This AddOn is licensed under the GNU GPL, see GPL.txt for details.
-##
-## Interface: 80200
-## LoadOnDemand: 1
+## Interface: 80205
+## Author: Norganna's AddOns
+## Version: 8.2.6506 (SwimmingSeadragon)
 ## Dependencies: Stubby
 ## OptionalDeps: !nLog, Babylonian, DebugLib, Configator, SlideBar, LibExtraTip, TipHelper, LibDataBroker
+## LoadOnDemand: 1
 ## SavedVariables: EnchantConfig, EnchantedLocal, EnchantedItemTypes, NonDisenchantablesLocal, ProspectedLocal, MillingLocal
 ## SavedVariablesPerCharacter: AutoDisenchantIgnoreList
-##
-## Version: 8.2.6428 (SwimmingSeadragon)
-## Revision: $Id: Enchantrix.toc 6428 2019-09-25 00:20:07Z none $
-## Author: Norganna's AddOns
+
+## Title: Enchantrix
+## Notes: Display information in item tooltips pertaining to disenchanting, prospecting, and milling results.  [8.2.6506] This AddOn is licensed under the GNU GPL, see GPL.txt for details.
+## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF附魔助手|r |cFFFFE00AEnchantrix|r
+## Notes-zhCN: 提示物品分解后可能得到的材料
+
 ## X-Part-Of: Auctioneer
 ## X-Category: Auction House
 ## X-Max-Interface: 80100
 ## X-URL: http://auctioneeraddon.com/
 ## X-Feedback: http://forums.norganna.org
+
+##
+##
 
 ##
 EnxManifest.lua

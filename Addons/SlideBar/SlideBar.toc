@@ -1,18 +1,22 @@
-## Title: SlideBar |cff224477(lib)
-## Notes: Allows alternative placement of minimap icons into an expanding bar that sits off the side of the screen.
+## Interface: 80205
+## Author: Norganna's AddOns
+## Version: 8.2.6509 (SwimmingSeadragon)
 ## OptionalDeps: !Swatter, LibDataBroker
-##
-## Interface: 80200
 ## LoadOnDemand: 0
 ## SavedVariables: SlideBarConfig
-##
-## Version: 8.2.6375 (SwimmingSeadragon)
-## Revision: $Id: SlideBar.toc 6375 2019-09-25 00:20:07Z none $
-## Author: Norganna's AddOns
+
+## Title: SlideBar |cff224477(lib)
+## Notes: Allows alternative placement of minimap icons into an expanding bar that sits off the side of the screen.
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF侧边滑动栏|r |cFFFFE00ASlideBar|r
+## Notes-zhCN: 在屏幕边提供一个可以滑动栏来显示小地图图标
+
 ## X-Part-Of: Libraries
 ## X-Category: Library
 ## X-Max-Interface: 80100
 ## X-URL: http://zip.norganna.org/libs/SlideBar/
 ## X-Feedback: http://forums.norganna.org
+
+##
+##
 ##
 Load.xml

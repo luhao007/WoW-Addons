@@ -169,7 +169,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 10,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -198,7 +198,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 11,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -289,7 +289,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 17,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -329,7 +329,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 1,
             y = 19,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -430,7 +430,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 22,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -459,7 +459,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 23,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -488,7 +488,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 24,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -517,7 +517,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 25,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -546,7 +546,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 26,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -575,7 +575,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
             x = 3,
             y = 27,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -597,7 +597,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_STARTING_Z
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(577)), "Twinblades of the Deceiver"),
+    name = L["HAVOC_TWINBLADES_OF_THE_DECEIVER"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -610,7 +610,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS,
     },
     restrictions = {
@@ -619,6 +619,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC, {
             id = BTWQUESTS_CLASS_ID_DEMONHUNTER,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("DEMONHUNTER", 1),
+    active = BtWQuests.LegionArtifactActive("DEMONHUNTER", 1),
     completed = {
         type = "quest",
         id = 41119,
@@ -652,7 +654,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -681,7 +683,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC, {
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -709,11 +711,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC, {
             },
             x = 3,
             y = 2,
-        }        
+        }
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(581)), "Aldrachi Warblades"),
+    name = L["VENGEANCE_ALDRACHI_WARBLADES"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -735,6 +737,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE,
             id = BTWQUESTS_CLASS_ID_DEMONHUNTER,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("DEMONHUNTER", 2),
+    active = BtWQuests.LegionArtifactActive("DEMONHUNTER", 2),
     completed = {
         type = "quest",
         id = 40249,
@@ -768,7 +772,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE,
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -916,11 +920,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 1,
             connections = {
-                1, 2, 3, 4, 
+                1, 2, 3,
             },
         },
-        
-        
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC,
@@ -928,59 +932,59 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
                 type = "quest",
                 id = 40814,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40817) or BtWQuests_IsQuestCompleted(40818))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("DEMONHUNTER"),
             x = 2,
-            y = 2,
-            connections = {
-                4
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE,
-            active = {
-                type = "quest",
-                id = 40814,
-            },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40817) or BtWQuests_IsQuestCompleted(40818))
-            end,
-            x = 4,
             y = 2,
             connections = {
                 3
             },
         },
-        
-        
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40817)
-            end,
-            x = 3,
+            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE,
+            active = {
+                type = "quest",
+                id = 40814,
+            },
+            visible = BtWQuests.LegionArtifactNonSelected("DEMONHUNTER"),
+            x = 4,
             y = 2,
             connections = {
                 2
             },
         },
+
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40818)
-            end,
+            variations = {
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_HAVOC,
+                    restrictions = {
+						type = "quest",
+						id = 40817,
+					},
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_VENGEANCE,
+                    restrictions = {
+						type = "quest",
+						id = 40818,
+					},
+                },
+                {
+                    visible = false,
+                },
+            },
             x = 3,
             y = 2,
             connections = {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 42869,
@@ -1025,7 +1029,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1054,7 +1058,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1083,7 +1087,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 7,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1130,7 +1134,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 10,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1159,7 +1163,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 11,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -1198,11 +1202,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 12,
             connections = {
-                1, 
+                1,
             },
         },
-        
-        
+
+
         {
             variations = {
                 {
@@ -1229,7 +1233,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 13,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1258,7 +1262,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 14,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1297,8 +1301,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
                 2
             },
         },
-        
-        
+
+
         {
             type = "level",
             level = 103,
@@ -1388,7 +1392,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 25,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1417,7 +1421,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 26,
             connections = {
-                1, 2, 
+                1, 2,
             },
         },
         {
@@ -1456,9 +1460,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
                 2
             },
         },
-        
-        
-        
+
+
+
         {
             type = "level",
             level = 110,
@@ -1675,7 +1679,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
             x = 3,
             y = 40,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1711,7 +1715,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER, {
-    name = BtWQuests_GetQuestName(45391),
+    name = { -- Champion: Lady S'theno
+		type = "quest",
+		id = 45391,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_DEMONHUNTER,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -1722,10 +1729,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER, 
         BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {
@@ -1767,8 +1776,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER, 
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 45330,
@@ -1787,8 +1796,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER, 
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 45339,
@@ -1807,8 +1816,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER, 
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 45764,
@@ -1836,8 +1845,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER, 
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 46266,
@@ -1856,9 +1865,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_FOLLOWER, 
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,

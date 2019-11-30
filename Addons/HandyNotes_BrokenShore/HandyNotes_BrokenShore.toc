@@ -1,32 +1,21 @@
-## Interface: 80200
-#@non-debug@
-## Title: HandyNotes - Broken Shore
-## Title-deDE: HandyNotes - Verheerte Küste
-## Title-esES: HandyNotes - Costa Abrupta
-## Title-frFR: Titre
-## Title-koKR: HandyNotes - 부서진 해변
-## Title-ptBR: HandyNotes - Costa Partida
-## Title-ruRU: HandyNotes - Расколотый берег
-## Title-zhCN: HandyNotes - 破碎海滩
-## Title-zhTW: HandyNotes - 破碎海岸
-## Notes: Shows the POIs in Broken Shore
-## Notes-deDE: Zeigt interessante Orte der Verheerten Küste
-## Notes-esES: Mostrar los POI de la Costa Abrupta
-## Notes-frFR: Description
-## Notes-koKR: 부서진 해변에 관심 지점을 표시합니다
-## Notes-ptBR: Mostra os POIs em Costa Partida
-## Notes-ruRU: Показывает точки на Расколотом берегу
-## Notes-zhCN: 顯示破碎海滩的 POI 位置
-## Notes-zhTW: 顯示破碎海岸的 POI 位置
+## Interface: 80205
 ## Author: arith
 ## Version: v1.31
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: LibBabble-SubZone-3.0
-## DefaultState: enabled
 ## SavedVariables: HandyNotes_BrokenShoreDB
+## DefaultState: enabled
+
+## Title: HandyNotes - Broken Shore
+## Notes: Shows the POIs in Broken Shore
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有 破碎海滩|r
+## Notes-zhCN: 顯示破碎海滩的 POI 位置
+
 ## X-Date: 2019-09-03T14:40:29Z
 ## X-License: GPLv2
 ## X-Category: Map
+
+#@non-debug@
 
 Locale\Locales.xml
 Core\Constants.lua

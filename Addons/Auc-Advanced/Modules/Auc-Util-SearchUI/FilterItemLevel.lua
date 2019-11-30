@@ -1,7 +1,7 @@
 --[[
 	Auctioneer - Search UI - Filter IgnoreItemQuality
-	Version: 8.2.6432 (SwimmingSeadragon)
-	Revision: $Id: FilterItemLevel.lua 6432 2019-09-25 00:20:07Z none $
+	Version: 8.2.6488 (SwimmingSeadragon)
+	Revision: $Id: FilterItemLevel.lua 6488 2019-11-02 14:38:37Z none $
 	URL: http://auctioneeraddon.com/
 
 	This is a plugin module for the SearchUI that assists in searching by refined parameters
@@ -105,4 +105,4 @@ function lib.Filter(item, searcher)
 	end
 end
 
-AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-SearchUI/FilterItemLevel.lua $", "$Rev: 6432 $")
+AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-SearchUI/FilterItemLevel.lua $", "$Rev: 6488 $")

@@ -5,29 +5,23 @@ if GetLocale() ~= "itIT" then
 end
 
 BtWQuestsDatabase:UpdateNPCsTable({
-    [91065] = {
-        name = "Cantiniere Voodani",
+    [38237] = {
+        name = "Maximillian della Contea del Nord",
     },
-    [91166] = {
-        name = "Daglop",
+    [92802] = {
+        name = "Gravax il Dissacratore",
     },
     [93600] = {
         name = "Saylanna Brezzamarina",
     },
-    [94101] = {
-        name = "Laeni Brillacolpi",
+    [94366] = {
+        name = "Lelyn Ombralesta",
     },
     [94409] = {
         name = "Hemet Nesingwary",
     },
     [94434] = {
         name = "Addie Frizzabrago",
-    },
-    [95438] = {
-        name = "Ellias",
-    },
-    [95799] = {
-        name = "Damrul il Grozzo",
     },
     [96513] = {
         name = "Razik Gazdard",
@@ -44,32 +38,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [98587] = {
         name = "Antenato di Morheim",
     },
-    [99905] = {
-        name = "Shale Piuma Grigia",
+    [99065] = {
+        name = "Thaedris Cantapiuma",
     },
-    [106914] = {
-        name = "Tehd Shoemaker",
+    [101766] = {
+        name = "Thalrenus Rivoramo",
     },
-    [106915] = {
-        name = "Marius Stroncavile",
+    [103568] = {
+        name = "Mayruna Alaluna",
     },
-    [107244] = {
-        name = "Tehd Shoemaker",
+    [104220] = {
+        name = "Ettin Affamato",
     },
-    [107245] = {
-        name = "Marius Stroncavile",
+    [106095] = {
+        name = "Ivanel Cantacolli",
     },
-    [107498] = {
-        name = "Cukkaw",
+    [106299] = {
+        name = "Thisalee Alacorvina",
     },
     [107499] = {
         name = "Orsocorvo Spaventato",
-    },
-    [107674] = {
-        name = "Snag Seigrilletti",
-    },
-    [107675] = {
-        name = "Rax Seigrilletti",
     },
     [108072] = {
         name = "Ser Pinnus Mrrgglton",
@@ -77,19 +65,22 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [108304] = {
         name = "Guviena Cantofine",
     },
+    [108327] = {
+        name = "Melma d'Ossa Ondulante",
+    },
     [108358] = {
         name = "Leirana",
     },
     [109631] = {
         name = "Dorsobrado Anziano",
     },
-    [250536] = {
-        name = "Corna Intatte di Cervo Maestoso",
+    [110018] = {
+        name = "Gazrix Sbloccaruote",
     },
-    [250990] = {
-        name = "Cassa di Reliquie Antiche",
+    [110987] = {
+        name = "Occhioscuro",
     },
-    [251425] = {
-        name = "Crestabrada Umida",
+    [121754] = {
+        name = "Vereesa Ventolesto",
     },
 })

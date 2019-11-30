@@ -1,7 +1,7 @@
 --[[
 	Auctioneer - Item Suggest module
-	Version: 8.2.6418 (SwimmingSeadragon)
-	Revision: $Id: Auc-Util-ItemSuggest.lua 6418 2019-09-25 00:20:07Z none $
+	Version: 8.2.6485 (SwimmingSeadragon)
+	Revision: $Id: Auc-Util-ItemSuggest.lua 6485 2019-11-02 14:38:37Z none $
 	URL: http://auctioneeraddon.com/
 
 	This is an Auctioneer module that allows the added tooltip for suggesting
@@ -1111,4 +1111,4 @@ end
 -- Neither Enchantrix nor Informant triggers "load" processor events; instead, use LoadTriggers to detect either loading
 lib.LoadTriggers = {enchantrix = true, informant = true}
 
-AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-ItemSuggest/Auc-Util-ItemSuggest.lua $", "$Rev: 6418 $")
+AucAdvanced.RegisterRevision("$URL: Auc-Advanced/Modules/Auc-Util-ItemSuggest/Auc-Util-ItemSuggest.lua $", "$Rev: 6485 $")

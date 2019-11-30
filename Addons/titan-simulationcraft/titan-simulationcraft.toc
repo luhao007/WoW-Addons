@@ -1,8 +1,13 @@
-## Interface: 70100
-## Title: Titan Panel [|cff00ff00SimulationCraft|r] |cff00aa00v1.0.5.70100-alpha5|r
-## Notes: Titan Panel plugin that opens SimulationCraft
+## Interface: 80205
 ## Author: r1fT
 ## Version: v1.0.5.70100-alpha5
 ## Dependencies: Titan, Simulationcraft
+
+## Title: Titan Panel [|cff00ff00SimulationCraft|r] |cff00aa00v1.0.5.70100-alpha5|r
+## Notes: Titan Panel plugin that opens SimulationCraft
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0模拟|r
+## Notes-zhCN: 泰坦面板上添加一个SimulationCraft按钮。
+
 ## X-Child-Of: Titan
+
 titan-simulationcraft.xml

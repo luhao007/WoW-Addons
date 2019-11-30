@@ -308,6 +308,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [8309] = {
         name = "Glyphenjagd",
     },
+    [8310] = {
+        name = "Knackt den Kode",
+    },
+    [8314] = {
+        name = "Des Rätsels Lösung",
+    },
     [8318] = {
         name = "Geheime Nachrichten",
     },
@@ -322,6 +328,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [8323] = {
         name = "Wahrer Glauben",
+    },
+    [8324] = {
+        name = "Fester Glauben",
     },
     [8470] = {
         name = "Ritualtotem der Totenwaldfelle",
@@ -2386,6 +2395,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [25379] = {
         name = "Taerars Sturz",
+    },
+    [25383] = {
+        name = "Ysondres Abschied",
     },
     [25386] = {
         name = "Zur Festung der Steinbrecher",
@@ -4810,9 +4822,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26938] = {
         name = "Kampftraining",
-    },
-    [26943] = {
-        name = "Trautes Heim, Gnom allein",
     },
     [26953] = {
         name = "Zen'Kiki, der Druide",
@@ -7501,6 +7510,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [29038] = {
         name = "Jagen üben",
+    },
+    [29040] = {
+        name = "Kätzchens erstes Spielzeug",
     },
     [29086] = {
         name = "Konkurrenz? Pah!",

@@ -1,11 +1,12 @@
-## Interface: 80200
-## Title: Grid2 |cd0ff7d0aOptions|r
-## Title-esES: Grid2 |cd0ff7d0aOpciones|r
-## Notes: Configuration module for Grid2
-## Notes-esES: Modulo de configuracion del Grid2
-## LoadOnDemand: 1
-## Dependencies: Grid2
+## Interface: 80205
 ## Version: r936
+## Dependencies: Grid2
+## LoadOnDemand: 1
+
+## Title: Grid2 |cd0ff7d0aOptions|r
+## Notes: Configuration module for Grid2
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF0055FF设置|r
+
 
 # Ace Libraries
 Libs\AceGUI-3.0\AceGUI-3.0.xml

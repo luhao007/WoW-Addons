@@ -1,17 +1,18 @@
 ## Interface: 80205
-## Notes: Simple Map Mod
-## Notes-zhCN: 简单实用的地图模块
-## Notes-frFR: Simples modifications de la carte.
-## Title: Mapster
 ## Author: Nevcairiel
-## SavedVariables: MapsterDB
-## X-Category: Map
 ## Version: 1.8.5
+## OptionalDeps: Ace3, LibWindow-1.1
+## SavedVariables: MapsterDB
+
+## Title: Mapster
+## Notes: Simple Map Mod
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图增强|r |cFFFFE00AMapster|r
+## Notes-zhCN: 简单实用的地图模块
+
+## X-Category: Map
 ## X-License: All rights reserved.
 ## X-Curse-Project-ID: 14376
 ## X-WoWI-ID: 8306
-
-## OptionalDeps: Ace3, LibWindow-1.1
 
 Locale\locale.xml
 

@@ -1,8 +1,12 @@
 ## Interface: 80205
-## Title: World Quests List
 ## Author: ykiigor
 ## Version: 90
 ## SavedVariables: VWQL
+
+## Title: World Quests List
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF世界任务列表|r |cFFFFE00AWorldQuestsList|r
+
+
 db.lua
 util.lua
 Arrow.lua

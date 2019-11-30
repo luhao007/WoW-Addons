@@ -4823,9 +4823,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26938] = {
         name = "전투 훈련",
     },
-    [26943] = {
-        name = "즐거운 노움 집",
-    },
     [26953] = {
         name = "드루이드 젠키키",
     },

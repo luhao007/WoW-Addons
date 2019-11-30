@@ -1,6 +1,6 @@
 local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(268)), "Fu Zan, the Wanderer's Companion"),
+    name = L["BREWMASTER_FU_ZAN_THE_WANDERERS_COMPANION"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_DISCIPLINE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_ASSASSINATION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICATION,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_ARMS,
     },
     restrictions = {
@@ -22,6 +22,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER, {
             id = BTWQUESTS_CLASS_ID_MONK,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("MONK", 1),
+    active = BtWQuests.LegionArtifactActive("MONK", 1),
     completed = {
         type = "quest",
         id = 42765,
@@ -83,7 +85,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(269)), "Fists of the Heavens"),
+    name = L["WINDWALKER_FISTS_OF_THE_HEAVENS"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -105,6 +107,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER, {
             id = BTWQUESTS_CLASS_ID_MONK,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("MONK", 2),
+    active = BtWQuests.LegionArtifactActive("MONK", 2),
     completed = {
         type = "quest",
         id = 40570,
@@ -148,7 +152,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_MISTWEAVER, {
-    name = string.format("%s: %s", select(2, GetSpecializationInfoByID(270)), "Sheilun, Staff of the Mists"),
+    name = L["MISTWEAVER_SHEILUN_STAFF_OF_THE_MISTS"],
     category = BTWQUESTS_CATEGORY_LEGION_ARTIFACT,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -170,6 +174,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_MISTWEAVER, {
             id = BTWQUESTS_CLASS_ID_MONK,
         },
     },
+    prerequisites = BtWQuests.LegionArtifactPrerequisites("MONK", 3),
+    active = BtWQuests.LegionArtifactActive("MONK", 3),
     completed = {
         type = "quest",
         id = 41003,
@@ -238,11 +244,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
             x = 3,
             y = 2,
             connections = {
-                1, 2, 3,
-                4, 5, 6
+                1, 2, 3, 4,
             },
         },
-        
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER,
@@ -250,13 +255,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 type = "quest",
                 id = 40636,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40640) or BtWQuests_IsQuestCompleted(40639) or BtWQuests_IsQuestCompleted(40638))
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("MONK"),
             x = 1,
             y = 3,
             connections = {
-                6
+                4
             },
         },
         {
@@ -266,38 +269,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 type = "quest",
                 id = 40636,
             },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40640) or BtWQuests_IsQuestCompleted(40639) or BtWQuests_IsQuestCompleted(40638))
-            end,
-            x = 3,
-            y = 3,
-            connections = {
-                5
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER,
-            active = {
-                type = "quest",
-                id = 40636,
-            },
-            visible = function (self)
-                return not (BtWQuests_IsQuestCompleted(40640) or BtWQuests_IsQuestCompleted(40639) or BtWQuests_IsQuestCompleted(40638))
-            end,
-            x = 5,
-            y = 3,
-            connections = {
-                4
-            },
-        },
-        
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40640)
-            end,
+            visible = BtWQuests.LegionArtifactNonSelected("MONK"),
             x = 3,
             y = 3,
             connections = {
@@ -306,29 +278,56 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_MISTWEAVER,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40639)
-            end,
-            x = 3,
+            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER,
+            active = {
+                type = "quest",
+                id = 40636,
+            },
+            visible = BtWQuests.LegionArtifactNonSelected("MONK"),
+            x = 5,
             y = 3,
             connections = {
                 2
             },
         },
+
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER,
-            visible = function (self)
-                return BtWQuests_IsQuestCompleted(40638)
-            end,
+            variations = {
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_BREWMASTER,
+                    restrictions = {
+                        type = "quest",
+                        id = 40640,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_MISTWEAVER,
+                    restrictions = {
+                        type = "quest",
+                        id = 40639,
+                    },
+                },
+                {
+                    type = "chain",
+                    id = BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_WINDWALKER,
+                    restrictions = {
+                        type = "quest",
+                        id = 40638,
+                    },
+                },
+                {
+                    visible = false,
+                },
+            },
             x = 3,
             y = 3,
             connections = {
                 1
             },
         },
-        
+
         {
             type = "quest",
             id = 40698,
@@ -356,8 +355,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 2
             },
         },
-        
-        
+
+
         {
             type = "level",
             level = 101,
@@ -449,8 +448,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41729,
@@ -478,8 +477,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41732,
@@ -498,8 +497,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41907,
@@ -527,8 +526,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 2
             },
         },
-        
-        
+
+
         {
             type = "level",
             level = 110,
@@ -556,9 +555,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 41852,
@@ -586,9 +585,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 41854,
@@ -598,9 +597,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1, 2, 3
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 41737,
@@ -628,9 +627,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "quest",
             id = 41038,
@@ -649,8 +648,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1, 2, 3, 4
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41040,
@@ -687,8 +686,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41059,
@@ -707,8 +706,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 32442,
@@ -727,8 +726,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
                 1, 2
             },
         },
-        
-        
+
+
         {
             type = "quest",
             id = 41739,
@@ -744,7 +743,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_CAMPAIGN, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER, {
-    name = BtWQuests_GetQuestName(45790),
+    name = { -- Champion: Almai
+		type = "quest",
+		id = 45790,
+	},
     category = BTWQUESTS_CATEGORY_LEGION_CLASSES_MONK,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     alternatives = {
@@ -755,10 +757,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER, {
         BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_PRIEST_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_FOLLOWER_HORDE,
         BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER,
         BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_FOLLOWER,
-        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_ALLIANCE,
+        BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_FOLLOWER_HORDE,
     },
     restrictions = {
         {
@@ -872,9 +876,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MONK_FOLLOWER, {
                 1
             },
         },
-        
-        
-        
+
+
+
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,

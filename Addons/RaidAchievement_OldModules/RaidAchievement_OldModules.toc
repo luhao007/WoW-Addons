@@ -1,7 +1,11 @@
-﻿## Interface: 80200
+## Interface: 80205
 ## Author: Shurshik
+## Dependencies: RaidAchievement
+
 ## Title: Raid|cff7fff7fAchievement|r_OldModules
 ## Notes: Raid|cff7fff7fAchievement|r_OldModules
-## Dependencies: RaidAchievement
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0经典模块|r
+
+
 RaidAchievement_OldModules.lua
 RaidAchievement_OldModules.xml
