@@ -2,7 +2,7 @@ BtWQuests = {
     Constant = {
         Expansions = {
             Classic = LE_EXPANSION_CLASSIC or 0,
-            BurningCrusade = LE_EXPANSION_BURNING_CRUSADE or 1,
+            TheBurningCrusade = LE_EXPANSION_BURNING_CRUSADE or 1,
             WrathOfTheLichKing = LE_EXPANSION_WRATH_OF_THE_LICH_KING or 2,
             Cataclysm = LE_EXPANSION_CATACLYSM or 3,
             MistsOfPandaria = LE_EXPANSION_MISTS_OF_PANDARIA or 4,
@@ -74,7 +74,7 @@ BtWQuests = {
         },
         Category = {
             Classic = {},
-            BurningCrusade = {},
+            TheBurningCrusade = {},
             WrathOfTheLichKing = {},
             Cataclysm = {},
             MistsOfPandaria = {},
@@ -83,7 +83,7 @@ BtWQuests = {
         },
         Chain = {
             Classic = {},
-            BurningCrusade = {},
+            TheBurningCrusade = {},
             WrathOfTheLichKing = {},
             Cataclysm = {},
             MistsOfPandaria = {},

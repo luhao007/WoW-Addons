@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2343, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20191024000147")
+mod:SetRevision("20191117233333")
 mod:SetCreatureID(146409)
 mod:SetEncounterID(2281)
 mod:SetZone()
@@ -126,7 +126,7 @@ local timerIcefallCD					= mod:NewCDCountTimer(42.8, 288475, nil, nil, nil, 3, n
 --local timerIcefall						= mod:NewCastTimer(55, 288475, nil, nil, nil, 3)
 --Intermission 2
 mod:AddTimerLine(DBM_CORE_INTERMISSION)
-local timerHeartofFrostCD				= mod:NewCDTimer(8.5, 289220, nil, nil, nil, 3)
+local timerHeartofFrostCD				= mod:NewCDTimer(6, 289220, nil, nil, nil, 3)
 local timerWaterBoltVolleyCD			= mod:NewCDCountTimer(7.2, 290084, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 --Stage 3
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19624))
@@ -408,6 +408,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 		if self.Options.NPAuraOnWaterBolt then
+			DBM.Nameplate:Hide(true, args.sourceGUID)--In case spell interrupt check still isn't working
 			DBM.Nameplate:Show(true, args.sourceGUID, spellId, interruptTextures[count])
 		end
 	elseif spellId == 288619 then

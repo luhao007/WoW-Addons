@@ -1,34 +1,15 @@
 ------------------------------------------------------------------------
-r245 | tuhljin | 2019-07-11 08:12:47 +0000 (Thu, 11 Jul 2019) | 4 lines
+r247 | tuhljin | 2019-11-03 03:54:13 +0000 (Sun, 03 Nov 2019) | 2 lines
 Changed paths:
    M /trunk/GameTip.lua
    M /trunk/Overachiever.toc
    M /trunk/Overachiever_Cache/Overachiever_Cache.toc
    M /trunk/Overachiever_Tabs/Overachiever_Tabs.toc
    M /trunk/Overachiever_Trade/Overachiever_Trade.toc
-   M /trunk/libs
-   M /trunk/libs/TjSharedMediaDropDown/TjSharedMediaDropDown.lua
-   M /trunk/localization.lua
+   M /trunk/libs/TjAchieve.lua
    M /trunk/readme.txt
 
-- Corrected references to Blizzard sound files.
-- Reminder sound selection dropdown:
--- Now divides sounds from other addons into alphabetical groups to better handle large numbers of sounds.
--- Added a few more Blizzard sounds.
-------------------------------------------------------------------------
-r244 | tuhljin | 2019-07-07 21:23:10 +0000 (Sun, 07 Jul 2019) | 1 line
-Changed paths:
-   M /trunk/.pkgmeta
-
-- Fix PackageMeta to grab correct subfolders.
-------------------------------------------------------------------------
-r243 | tuhljin | 2019-07-07 21:05:57 +0000 (Sun, 07 Jul 2019) | 1 line
-Changed paths:
-   M /trunk/.pkgmeta
-   M /trunk/Overachiever.toc
-   M /trunk/libs/TjSharedMediaDropDown/CallbackHandler-1.0.lua
-   M /trunk/libs/TjSharedMediaDropDown/LibSharedMedia-3.0.lua
-
-- Update libraries used by TjSharedMediaDropDown and set up external references to them in .pkgmeta.
+- Updated TOC for WoW patch 8.2.5.
+- Remove possible unneeded/misleading error messages and fix variables leaking into global scope.
 ------------------------------------------------------------------------
 

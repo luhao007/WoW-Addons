@@ -143,12 +143,10 @@ FishingTranslations["zhCN"] = {
 	["CONFIG_PREVENTRECAST_ONOFF"] = "避免重复使用钓鱼技能",
 	["CONFIG_RAIDACTION_INFO"] = "如果启用，则在特殊物品位于清单中时显示操作按钮.",
 	["CONFIG_RAIDACTION_ONOFF"] = "动作按钮",
-	--[[Translation missing --]]
-	--[[ ["CONFIG_RAIDWATCH_INFO"] = "If enabled, the Fish Watcher will show the currency fish for the current raid boss.",--]] 
+	["CONFIG_RAIDWATCH_INFO"] = "如果启用，钓鱼监视将显示当前副本BOSS的鱼类",
 	["CONFIG_RAIDWATCH_ONOFF"] = "监视当前",
 	["CONFIG_SECRET_FISHING_GOGGES_INFO"] = "如果启用，'不用鱼竿钓鱼'将首先使用'隐秘之鱼护目镜'。",
-	--[[Translation missing --]]
-	--[[ ["CONFIG_SECRET_FISHING_GOGGLES_INFO"] = "If enabled, 'Fishing Without A Pole' will use 'Secret Fishing Goggles' first.",--]] 
+	["CONFIG_SECRET_FISHING_GOGGLES_INFO"] = "如果启用，“没有鱼竿钓鱼”将首先使用“隐秘之鱼护目镜”。",
 	["CONFIG_SHOWBANNER_INFO"] = "如果启用，则在登录时显示#NAME#横幅.",
 	["CONFIG_SHOWBANNER_ONOFF"] = "显示横幅",
 	["CONFIG_SHOWLOCATIONZONES_INFO"] = "显示区域及子区域。",
@@ -214,16 +212,14 @@ FishingTranslations["zhCN"] = {
 	["FISHDATARESET_MSG"] = "鱼群位置数据已经重置",
 	["FISHDATARESETHELP"] = "|c#GREEN#/fb #FISHDATA# #RESET#|r#BRSPCS#重置鱼数据库. 必须调用两次.",
 	["FISHDATARESETMORE_MSG"] = "执行 |c#GREEN#/fb #FISHDATA# #RESET#|r 再一次重置鱼类位置数据.",
-	--[[Translation missing --]]
-	--[[ ["FISHING_SKILL"] = "Fishing",--]] 
+	["FISHING_SKILL"] = "钓鱼",
 	["FISHINGMODE"] = "钓鱼",
 	--[[Translation missing --]]
 	--[[ ["FISHINGMODE_HELP"] = "|c#GREEN#/fb #FISHINGMODE# [start|stop]|r#BRSPCS#Run #NAME# fishing actions.#BRSPCS#Useful in macros along with '/cast Fishing'.",--]] 
 	["FISHTYPES"] = "鱼种：%d",
 	["FLOATING_DEBRIS"] = "漂浮的碎片",
 	["FLOATING_WRECKAGE"] = "漂浮的残骸",
-	--[[Translation missing --]]
-	--[[ ["FORCE"] = "force",--]] 
+	["FORCE"] = "强制",
 	["GOLD_COIN"] = "金币",
 	["HELP"] = "帮助",
 	["HIDEINWATCHER"] = "在监视器中显示这种鱼",
@@ -237,6 +233,7 @@ FishingTranslations["zhCN"] = {
 	["LEFTCLICKTODRAG"] = "按住左键拖拽",
 	["LOCATIONS_INFO"] = "根据区域及鱼的种类显示曾经的钓鱼地点",
 	["LOCATIONS_TAB"] = "地点",
+	["LURE_NAME"] = "鱼饵",
 	["MACRONAME"] = "钓鱼助手",
 	["MINIMAPBUTTONPLACEMENT"] = "小地图按钮位置",
 	["MINIMAPBUTTONPLACEMENTTOOLTIP"] = "允许在小地图上移动#NAME#图标的位置",

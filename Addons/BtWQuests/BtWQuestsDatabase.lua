@@ -1485,6 +1485,13 @@ end
 function ItemMixin:GetAtlas(database, item)
     return item.atlas
 end
+function ItemMixin:GetSource(database, item, character)
+    if item.source ~= nil then
+        return database:CreateItem(-1, item.source, item, self:GetRoot(database, item));
+    end
+
+    return nil;
+end
 
 local TargetItemMixin = CreateFromMixins(ItemMixin);
 function TargetItemMixin:GetTargetType(database, item)
@@ -1572,7 +1579,7 @@ function TargetItemMixin:IsAvailable(database, item, character)
     end
 
     for i=1,self:TargetCount(database, item) do
-        local target = self:GetTarget(database, item, index);
+        local target = self:GetTarget(database, item, i);
         if target and target:IsAvailable(character) then
             return true
         end
@@ -1586,7 +1593,7 @@ function TargetItemMixin:IsActive(database, item, character)
     end
 
     for i=1,self:TargetCount(database, item) do
-        local target = self:GetTarget(database, item, index);
+        local target = self:GetTarget(database, item, i);
         if target and target:IsActive(character) then
             return true
         end

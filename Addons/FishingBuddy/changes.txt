@@ -1,3 +1,15 @@
+Version 1.10.8.3
+- Fix a typo in the fix
+
+Version 1.10.8.2
+- Fix a fishing state and casting key bug
+
+Version 1.10.8.1
+- Fix a typo in the fishing library that escaped after testing
+
+Version 1.10.8
+- Update support libraries
+
 Version 1.10.7
 - Classic support changes
 - Fix more Lua issues (unsed code and globals, etc.) -- thanks Globe!

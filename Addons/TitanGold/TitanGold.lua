@@ -1,6 +1,6 @@
 --[[
 -- **************************************************************************
--- * Updates for the new TitanPanel: Titan Development Team
+-- * Updates for the new TitanPanel: Titan Panel Development Team
 -- * 2010 Jul : Started from Titan Gold Tracker to create this Titan version
 -- **************************************************************************
 --]]

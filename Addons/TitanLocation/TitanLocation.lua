@@ -1,7 +1,7 @@
 -- **************************************************************************
 -- * TitanLocation.lua
 -- *
--- * By: TitanMod, Dark Imakuni, Adsertor and the Titan Development Team
+-- * By: TitanMod, Dark Imakuni, Adsertor and the Titan Panel Development Team
 -- **************************************************************************
 
 -- ******************************** Constants *******************************

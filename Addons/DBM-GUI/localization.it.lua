@@ -249,7 +249,6 @@ L.EventWipeSound			= "Suono riprodotto alla disfatta"
 L.EventEngageSound			= "Suono riprodotto all'ingaggio"
 L.EventDungeonMusic			= "Musica riprodotta nelle spedizioni/incursioni"
 L.EventEngageMusic			= "Musica riprodotta negli scontri"
-L.EventTurtleMusic			= "Musica riprodotta nelle missioni tartarughine"
 L.Area_EventSoundsExtras	= "Opzioni Eventi Sonori"
 L.EventMusicCombined		= "Permetti tutte le selezioni musicali nelle spedizioni e scontri (modificando l'opzione è necessario eseguire UIReload)"
 L.Area_EventSoundsFilters	= "Filtro Condizionale Eventi Sonori"
@@ -319,11 +318,6 @@ L.AfterFirst				= "Nelle istanze, dopo aver visto il filmato almeno una volta"
 L.Always					= "Sempre"
 L.CombatOnly				= "Disabilita in combattimento (qualunque)"
 L.RaidCombat				= "Disabilita in combattimento (solo boss)"
-L.HideBonusHeader			= "Nascondi riquadro tiro bonus in..."
-L.TrivialContent			= "Spedizioni NON-Mitiche" -- Basically anything below 340
-L.NormalRaider				= "Spedizioni Mitiche < 5 e incursioni LFR"--Basically, anything below 355
-L.HeroicRaider				= "Spedizioni Mitiche < 10, incursioni sotto eroico e boss fuori dal fronte" -- Basically anything below 370
-L.MythicRaider				= "Tutto al di sotto delle incursioni mitiche"--Basically anything below 385
 
 L.Panel_ExtraFeatures		= "Funzionalità Aggiuntive"
 --
@@ -347,7 +341,7 @@ L.ShowQueuePop				= "Mostra tempo rimanente per accettare la coda (LFG, CdB, ecc
 L.Area_AutoLogging			= "Opzioni Registro Automatico"
 L.AutologBosses				= "Registra automaticamente gli incontri log con il registro di combattimento blizzard (Usa /dbm pull prima dei boss per registrare prepozze e altri eventi precedenti.)"
 L.AdvancedAutologBosses		= "Regostra automaticamente gli scontri boss con Transcriptor"
-L.LogOnlyRaidBosses			= "Registra gli scontri boss incursione solo dell'espansione attuale (esclude Ricerca Incursioni/gruppo/scenari/vecchi contenuti)"
+L.LogOnlyNonTrivial			= "Registra gli scontri boss incursione solo dell'espansione attuale (esclude Ricerca Incursioni/gruppo/scenari/vecchi contenuti)"
 --
 L.Area_3rdParty				= "Opzioni di Terze Parti"
 L.ShowBBOnCombatStart		= "Esegui controllo Big Brother a inizio combattimento"

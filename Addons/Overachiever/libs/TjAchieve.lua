@@ -193,7 +193,7 @@ TjAchieve.CRITTYPE_KILL		The asset type for kill criteria.
 --]]
 
 
-local THIS_VERSION = "0.11"
+local THIS_VERSION = "0.12"
 
 if (TjAchieve and TjAchieve.Version >= THIS_VERSION) then  return;  end  -- Lua's pretty good at this. It even knows that "1.0.10" > "1.0.9". However, be aware that it thinks "1.0" < "1.0b" so putting a "b" on the end for Beta, nothing for release, doesn't work.
 
@@ -292,7 +292,7 @@ do
 			return orig_GetAchievementNumCriteria(achievementID)
 		end
 		local i = 0
-		local _, asset
+		local _, completed, asset
 		repeat
 			i = i + 1
 			_, _, completed, _, _, _, _, asset = GetAchievementCriteriaInfo(achievementID, i)

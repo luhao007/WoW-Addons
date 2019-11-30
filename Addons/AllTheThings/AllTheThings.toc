@@ -1,6 +1,6 @@
 ## Interface: 80205
 ## Author: Crieve-Sargeras
-## Version: 1.9.9b
+## Version: 1.9.9c
 ## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 

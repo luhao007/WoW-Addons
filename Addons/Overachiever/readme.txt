@@ -1,5 +1,5 @@
 
-Overachiever v1.0.7
+Overachiever v1.0.8
 ==============================
 
 Author: Tuhljin
@@ -109,6 +109,10 @@ Change log
 ==========
 
 The change log lists changes of particular note to users, not every change made.
+
+v1.0.8
+- Updated TOC for WoW patch 8.2.5.
+- Remove possible unneeded/misleading error messages and fix variables leaking into global scope.
 
 v1.0.7
 - Corrected references to Blizzard sound files.

@@ -9,10 +9,6 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF竞技场助手|r |cFF69CCF0在竞技场中显示敌人|r
 
 
-#@no-lib-strip@
-Embeds.xml
-#@end-no-lib-strip@
-
 Gladius.lua
 Localizations.lua
 Options.lua

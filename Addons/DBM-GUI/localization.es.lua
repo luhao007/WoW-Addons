@@ -224,7 +224,6 @@ L.EventWipeSound			= "Sonido de derrota de encuentro"
 L.EventEngageSound			= "Sonido de inicio de encuentro"
 L.EventDungeonMusic			= "Música de fondo en mazmorras y bandas"
 L.EventEngageMusic			= "Música de fondo en encuentros"
-L.EventTurtleMusic			= "Música de fondo en 'Cabeza de playa'"
 L.Area_EventSoundsExtras	= "Opciones de sonidos de eventos"
 L.EventMusicCombined		= "Mostrar toda la selección de música (escribe /reload en el chat para que esta opción surta efecto)"
 L.Area_EventSoundsFilters	= "Filtros de sonidos de evento"
@@ -294,11 +293,6 @@ L.AfterFirst				= "Tras haber visto la cinemática por primera vez"
 L.Always					= ALWAYS
 L.CombatOnly				= "En combate"
 L.RaidCombat				= "En combate (solo en jefes)"
-L.HideBonusHeader			= "Ocultar ventana de tirada bonus en"
-L.TrivialContent			= "Mazmorras no míticas"
-L.NormalRaider				= "LFR y mazmorras míticas inferiores a +5"
-L.HeroicRaider				= "Bandas inferiores a heroico, mazmorras míticas inferiores a +10 y jefes de mundo (<400)"
-L.MythicRaider				= "Todo lo inferior a banda mítica"
 
 L.Panel_ExtraFeatures		= "Funciones adicionales"
 --
@@ -322,7 +316,7 @@ L.ShowQueuePop				= "Mostrar temporizador para eltiempo restante para aceptar av
 L.Area_AutoLogging			= "Opciones del registro automático"
 L.AutologBosses				= "Registrar encuentros automáticamente con el registro de combate de Blizzard (usa '/dbm pull' antes de iniciar un encuentro para comenzar a grabar antes, de forma que tenga en cuenta la toma de pociones y otras acciones)"
 L.AdvancedAutologBosses		= "Registrar encuentros automáticamente con Transcriptor"
-L.LogOnlyRaidBosses			= "Registrar solo encuentros de jefe de banda de la expansión actual (excluye el buscador de bandas)"
+L.LogOnlyNonTrivial			= "Registrar solo encuentros de jefe de banda de la expansión actual (excluye el buscador de bandas)"
 --
 L.Area_3rdParty				= "Opciones de addons de terceros"
 L.ShowBBOnCombatStart		= "Realizar comprobación de beneficios de Big Brother al iniciar un encuentro"

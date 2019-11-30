@@ -392,6 +392,10 @@
 --			Fixes a problem where the search edit box was not created properly.
 --			Shows quests that are turned in to a zone in the Wholly quest panel.
 --			Adds the ability to show map pins for quest turn in locations.
+--		076	Updates the Classic Wholly quest panel to have a right side.
+--			Changes the colors for turn in pins to be white and yellow to match the NPCs in the world.
+--			Updates preferences to allow control over displaying turn in map pins that are complete or incomplete.
+--			Corrects issue where map button does not appear upon first login for new character.
 --
 --	Known Issues
 --
@@ -491,7 +495,9 @@ if nil == Wholly or Wholly.versionNumber < Wholly_File_Version then
 									self:_RecordTooltipNPCs(Grail.GetCurrentMapAreaID())
 								end,
 		color = {
-			['?'] = "FF00FF00",	-- green	[turn in]
+			['?'] = "FFFFFF00",	-- yellow	[turn in]
+			['*'] = "FFFFFFFF",	-- white	[turn in, not complete]
+			['!'] = "FFFF0000",	-- red		[turn in, failed]
 			['B'] = "FF996600",	-- brown	[unobtainable]
 			['C'] = "FF00FF00",	-- green	[completed]
 			['D'] = "FF0099CC",	-- daily	[repeatable]
@@ -692,7 +698,7 @@ self.currentFrame = com_mithrandir_whollyFrame
 
 					self:_SetupLibDataBroker()
 					self:_SetupTooltip()
-					self:_SetupWorldMapWhollyButton()	-- TODO: Should clean up this implementation
+					self:_SetupWorldMapWhollyButton()
 
 
 -- if the UI panel disappears (maximized WorldMapFrame) we need to change parents
@@ -724,11 +730,10 @@ end
 com_mithrandir_whollyFrameSwitchZoneButton:SetText(self.s.MAP)
 com_mithrandir_whollyFrameWideSwitchZoneButton:SetText(self.s.MAP)
 
-					local WDB = WhollyDatabase
 					local Grail = Grail
 					local TomTom = TomTom
 
-					self:_SetupDefaults()
+					local WDB = self:_SetupDefaults()
 
 					-- load all the localized quest names
 					Grail:LoadLocalizedQuestNames()
@@ -774,23 +779,29 @@ function self.mapPinsProvider:RefreshAllData(fromOnShow)
     self:RemoveAllData()
     if WhollyDatabase.displaysMapPins then
         local uiMapID = self:GetMap():GetMapID()
+        Wholly.zoneInfo.pins.mapId = uiMapID
         if not uiMapID then return end
         Wholly.cachedPinQuests = Wholly:_ClassifyQuestsInMap(uiMapID) or {}
         Wholly:_FilterPinQuests()
         local questsInMap = Wholly.filteredPinQuests
-        local codeMapping = { ['?'] = 0, ['G'] = 1, ['W'] = 2, ['D'] = 3, ['R'] = 4, ['K'] = 5, ['H'] = 6, ['Y'] = 7, ['P'] = 8, ['L'] = 9, ['O'] = 10, ['U'] = 11, ['I'] = 12, }
+        local codeMapping = { ['?'] = 0, ['G'] = 1, ['W'] = 2, ['D'] = 3, ['R'] = 4, ['K'] = 5, ['H'] = 6, ['Y'] = 7, ['P'] = 8, ['L'] = 9, ['O'] = 10, ['U'] = 11, ['*'] = 12, ['!'] = 13 }
         for i = 1, #questsInMap do
             local id = questsInMap[i][1]
             local code = questsInMap[i][2]
             if 'D' == code and Grail:IsRepeatable(id) then code = 'R' end
             if 'I' == code then
             	local _, completed = Grail:IsQuestInQuestLog(id)
-            	if completed then
-	            	code = '?'
+            	completed = completed or 0
+            	if completed > 0 then
+            		code = '?'
+				elseif completed < 0 then
+					code = '!'
+				else
+					code = '*'
 				end
 			end
             local codeValue = codeMapping[code]
-            local locations = '?' == code and Grail:QuestLocationsTurnin(id, true, false, true, uiMapID) or Grail:QuestLocationsAccept(id, false, false, true, uiMapID, true, 0)
+            local locations = ('?' == code or '*' == code or '!' == code) and Grail:QuestLocationsTurnin(id, true, false, true, uiMapID) or Grail:QuestLocationsAccept(id, false, false, true, uiMapID, true, 0)
             if nil ~= locations then
                 for _, npc in pairs(locations) do
                     local xcoord, ycoord, npcName, npcId = npc.x, npc.y, npc.name, npc.id
@@ -1086,7 +1097,8 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 			['REPEATABLE_COMPLETED'] = "Show whether repeatable quests previously completed",
 			['IN_LOG_STATUS'] = "Show status of quests in log",
 			['MAP_PINS'] = "Display map pins for quest givers",
-			['MAP_PINS_TURNIN'] = "Display map pins for turn in for quests in log",
+			['MAP_PINS_TURNIN'] = "Display map pins for turn in for completed quests in log",
+			['MAP_PINS_TURNIN_INCOMPLETE'] = "Display map pins for turn in for incomplete quests in log",
 			['MAP_BUTTON'] = "Display button on world map",
 			['MAP_DUNGEONS'] = "Display dungeon quests in outer map",
 			['MAP_UPDATES'] = "Open world map updates when zones change",
@@ -1790,7 +1802,17 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 				shouldAdd = shouldAdd and self:_FilterQuestsBasedOnSettings(questId, status, dealingWithHolidays)
 
 				if not forPanel then
-					if (not WDB.displaysMapPinsTurnin and 'I' == statusCode) then shouldAdd = false end
+					if 'I' == statusCode then
+						shouldAdd = (nil ~= Grail:QuestLocationsTurnin(questId, true, false, true, self.zoneInfo.pins.mapId))
+						if shouldAdd then
+							local _, completed = Grail:IsQuestInQuestLog(questId)
+							if completed then
+								shouldAdd = WDB.displaysMapPinsTurnin
+							else
+								shouldAdd = WDB.displaysMapPinsTurninIncomplete
+							end
+						end
+					end
 					if 'C' == statusCode then shouldAdd = false end
 					if 'B' == statusCode then shouldAdd = false end
 				end
@@ -1894,7 +1916,7 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 
 			-- WoD beta does not allow custom textures so we go back to the old way
 			if not Grail.existsWoD or Grail.blizzardRelease >= 18663 then
-				if 'R' == texType or '?' == texType or 'I' == texType then
+				if 'R' == texType or '?' == texType or '*' == texType or '!' == texType then
 					pin.texture:SetTexture("Interface\\Addons\\Wholly\\question")
 				else
 					pin.texture:SetTexture("Interface\\Addons\\Wholly\\exclamation")
@@ -2394,6 +2416,7 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 			db.showsWorldQuests = true
 			db.loadDataData = true
 			db.displaysMapPinsTurnin = true
+			db.displaysMapPinsTurninIncomplete = false
 			db.version = Wholly.versionNumber
 			WhollyDatabase = db
 			return db
@@ -3341,8 +3364,8 @@ end
 			if not InCombatLockdown() then
 				Wholly:ScrollFrame_Update()
 			else
-				self.combatScrollUpdate = true
-				self.notificationFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+				Wholly.combatScrollUpdate = true
+				Wholly.notificationFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 			end
 		end,
 
@@ -3671,7 +3694,7 @@ end
 		end,
 
 		_SetupDefaults = function(self)
-			local WDB = WhollyDatabase
+			local WDB = WhollyDatabase or {}
 
 			if nil == WDB.defaultsLoaded then
 				WDB = self:_LoadDefaults()
@@ -3725,6 +3748,11 @@ end
 				WDB.displaysMapPinsTurnin = true
 				WDB.color["?"] = self.color["?"]
 			end
+			if WDB.version < 76 then
+				WDB.displaysMapPinsTurninIncomplete = false
+				WDB.color["*"] = self.color["*"]
+				WDB.color["!"] = self.color["!"]
+			end
 			WDB.version = Wholly.versionNumber
 
 			if WDB.maximumTooltipLines then
@@ -3732,6 +3760,8 @@ end
 			else
 				self.currentMaximumTooltipLines = self.defaultMaximumTooltipLines
 			end
+			WhollyDatabase = WDB
+			return WhollyDatabase
 		end,
 
 		_SetupLibDataBroker = function(self)
@@ -3866,20 +3896,28 @@ end
 				local topLeftTexture = frame:CreateTexture(nil, "BORDER")
 				topLeftTexture:SetPoint("TOPLEFT")
 				if Grail.existsClassic then
-					topLeftTexture:SetSize(348, 445)
+					local originalTextureX, originalTextureY = 512, 512
+					local desiredX, desiredY = 322, 445
+					topLeftTexture:SetSize(desiredX, desiredY)
 					topLeftTexture:SetTexture("Interface\\QuestFrame\\UI-QuestLogDualPane-Left")
-					topLeftTexture:SetTexCoord(0, 0.6796875, 0, 0.86914)
+					topLeftTexture:SetTexCoord(0, desiredX / originalTextureX, 0, desiredY / originalTextureY)
 				else
 					topLeftTexture:SetSize(256, 256)
 					topLeftTexture:SetTexture("Interface\\QuestFrame\\UI-QuestLog-TopLeft")
 				end
 
-				if not Grail.existsClassic then
-					local topRightTexture = frame:CreateTexture(nil, "BORDER")
+				local topRightTexture = frame:CreateTexture(nil, "BORDER")
+				topRightTexture:SetPoint("TOPRIGHT")
+				if Grail.existsClassic then
+					topRightTexture:SetSize(26, 445)
+					topRightTexture:SetTexture("Interface\\QuestFrame\\UI-QuestLogDualPane-Right")
+					topRightTexture:SetTexCoord(0.55, 0.65, 0, 0.86914)
+				else
 					topRightTexture:SetSize(128, 256)
-					topRightTexture:SetPoint("TOPRIGHT")
 					topRightTexture:SetTexture("Interface\\QuestFrame\\UI-QuestLog-TopRight")
+				end
 
+				if not Grail.existsClassic then
 					local bottomLeftTexture = frame:CreateTexture(nil, "BORDER")
 					bottomLeftTexture:SetSize(256, 256)
 					bottomLeftTexture:SetPoint("BOTTOMLEFT")
@@ -3996,38 +4034,24 @@ end
 			local parentFrame = Grail.existsClassic and WorldMapFrame or WorldMapFrame.BorderFrame
 			local f = CreateFrame("Button", nil, parentFrame, "UIPanelButtonTemplate")
 			f:SetSize(100, 25)
-			if nil == Gatherer_WorldMapDisplay then
-				if Grail.existsClassic then
-					f:SetPoint("TOPRIGHT", WorldMapContinentDropDown, "TOPLEFT", 10, 0)
-				else
-					f:SetPoint("TOPLEFT", WorldMapFrame.BorderFrame.Tutorial, "TOPRIGHT", 0, -30)
-				end
-			else
-				f:SetPoint("TOPLEFT", Gatherer_WorldMapDisplay, "TOPRIGHT", 4, 0)
-			end
 			f:SetToplevel(true)
 			if not Grail.existsClassic then
 				f:SetScale(0.7)
 			end
 			f:SetText("Wholly")
 			f:SetScript("OnShow", function(self)
-				if nil == Gatherer_WorldMapDisplay then
-					if not Grail.existsClassic and TomTomWorldFrame and TomTomWorldFrame.Player then
-						f:SetPoint("TOPLEFT", TomTomWorldFrame.Player, "TOPRIGHT", 10, 6)
-					elseif Questie_Toggle then
-						f:SetPoint("TOPRIGHT", Questie_Toggle, "TOPLEFT", -8, 2)
-					elseif TitanMapCursorLocation then
-						f:SetPoint("TOPLEFT", TitanMapCursorLocation, "TOPRIGHT", 10, 6)
-					else
---											f:SetPoint("TOPLEFT", WorldMapFrameTutorialButton, "TOPRIGHT", 0, -30)
-						if Grail.existsClassic then
-							f:SetPoint("TOPRIGHT", WorldMapContinentDropDown, "TOPLEFT", 10, 0)
-						else
-							f:SetPoint("TOPLEFT", WorldMapFrame.BorderFrame.Tutorial, "TOPRIGHT", 0, -30)
-						end
-					end
-				else
+				if Gatherer_WorldMapDisplay then
 					self:SetPoint("TOPLEFT", Gatherer_WorldMapDisplay, "TOPRIGHT", 4, 0)
+				elseif Questie_Toggle then
+					self:SetPoint("TOPRIGHT", Questie_Toggle, "TOPLEFT", -8, 2)
+				elseif TitanMapCursorLocation then
+					self:SetPoint("TOPLEFT", TitanMapCursorLocation, "TOPRIGHT", 10, 6)
+				elseif Grail.existsClassic then
+					self:SetPoint("TOPRIGHT", WorldMapContinentDropDown, "TOPLEFT", 10, 0)
+				elseif TomTomWorldFrame and TomTomWorldFrame.Player then
+					self:SetPoint("TOPLEFT", TomTomWorldFrame.Player, "TOPRIGHT", 10, 6)
+				else
+					self:SetPoint("TOPLEFT", WorldMapFrame.BorderFrame.Tutorial, "TOPRIGHT", 0, -30)
 				end
 			end)
 			f:SetScript("OnEnter", function(self)
@@ -5658,6 +5682,7 @@ end
 		{ S.WORLD_MAP },
 		{ S.MAP_PINS, 'displaysMapPins', 'configurationScript2', nil, 'pairedConfigurationButton' },
 		{ S.MAP_PINS_TURNIN, 'displaysMapPinsTurnin', 'configurationScript2' },
+		{ S.MAP_PINS_TURNIN_INCOMPLETE, 'displaysMapPinsTurninIncomplete', 'configurationScript2' },
 		{ S.MAP_BUTTON, 'displaysMapFrame', 'configurationScript3' },
 		{ S.MAP_DUNGEONS, 'displaysDungeonQuests', 'configurationScript4' },
 		{ S.MAP_UPDATES, 'updatesWorldMapOnZoneChange', 'configurationScript1' },

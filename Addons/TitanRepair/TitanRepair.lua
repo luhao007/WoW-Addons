@@ -1,7 +1,7 @@
 -- **************************************************************************
 -- * TitanRepair.lua
 -- *
--- * By: Adsertor, Archarodim and the Titan Development Team
+-- * By: Adsertor, Archarodim and the Titan Panel Development Team
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
@@ -1483,7 +1483,7 @@ function TitanRepair_RepairItems()
 				MerchantGuildBankRepairButton:Disable();
 				-- report repair cost to chat (optional)
 				if TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport") then
-					DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..": ".."|r"..L["TITAN_REPAIR_REPORT_COST_CHAT"]..TitanPanelRepair_GetTextGSC(cost))
+					DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..": ".."|r"..L["TITAN_REPAIR_REPORT_COST_CHAT"]..TitanPanelRepair_GetTextGSC(cost).."|r.")
 				end
 			else
 				DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..": ".."|r"..L["TITAN_REPAIR_GBANK_NOMONEY"])

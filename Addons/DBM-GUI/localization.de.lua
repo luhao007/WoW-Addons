@@ -225,7 +225,6 @@ L.EventWipeSound			= "Sound gespielt nach Niederlage im Kampf"
 L.EventEngageSound			= "Sound gespielt bei Kampfbeginn"
 L.EventDungeonMusic			= "Musik gepielt innerhalb Dungeons/SZs"
 L.EventEngageMusic			= "Musik gepielt während Kämpfen"
-L.EventTurtleMusic			= "Musik gepielt während Schildkrötenquests am Strand"
 L.Area_EventSoundsExtras	= "Einstellungen für Ereignisklänge"
 L.EventMusicCombined		= "Alle Musikauswahlmöglichkeiten für Dungeons und Kämpfe zulassen (Änderungen dieser Einstellung werden erst nach \"/reload\" sichtbar.)"
 L.Area_EventSoundsFilters	= "Filter für Ereignisklänge"
@@ -292,11 +291,6 @@ L.AfterFirst				= "Nach jeweils einmaligem Abspielen"
 L.Always					= ALWAYS
 L.CombatOnly				= "im Kampf deaktivieren (alle)"
 L.RaidCombat				= "im Kampf deaktivieren (nur Bosse)"
-L.HideBonusHeader			= "Verstecke das Beutefenster für den Bonuswurf in ..."
-L.TrivialContent			= "NICHT-mythischen Dungeons (<340)"--Basically anything below 340
-L.NormalRaider				= "Dungeons unter Mythisch+5 und in Schlachtzügen auf Schwierigkeitsgrad LFR (<355)"--Basically, anything below 355
-L.HeroicRaider				= "Dungeons unter Mythisch+10, SZ unter Heroisch, Nicht-Kriegsfront Weltbosse (<370)"--Basically anything below 370
-L.MythicRaider				= "allem unterhalb Schlachtzügen auf Schwierigkeitsgrad Mythisch (<385)"--Basically anything below 385
 
 L.Panel_ExtraFeatures		= "Sonstige Funktionen"
 --
@@ -320,7 +314,7 @@ L.ShowQueuePop				= "Zeige verbleibende Zeit zur Annahme einer Warteschlangenein
 L.Area_AutoLogging			= "Automatische Aufzeichnungen"
 L.AutologBosses				= "Automatische Aufzeichnung von Bosskämpfen im spieleigenen Kampflog (/dbm pull vor Bossen wird benötigt um die Aufzeichnung rechtzeitig für \"Pre-Pots\" und andere Ereignisse zu starten)"
 L.AdvancedAutologBosses		= "Automatische Aufzeichnung von Bosskämpfen mit Addon \"Transcriptor\""
-L.LogOnlyRaidBosses			= "Nur Schlachtzugbosskämpfe der aktuellen Erweiterung aufzeichnen\n(ohne Schlachtzugsbrowser-/Dungeon-/Szenarienbosskämpfe/alte Spielinhalte)"
+L.LogOnlyNonTrivial			= "Nur Schlachtzugbosskämpfe der aktuellen Erweiterung aufzeichnen\n(ohne Schlachtzugsbrowser-/Dungeon-/Szenarienbosskämpfe/alte Spielinhalte)"
 --
 L.Area_3rdParty				= "Einstellungen für Addons von Drittanbietern"
 L.ShowBBOnCombatStart		= "Führe bei Kampfbeginn eine \"BigBrother\"-Buffprüfung durch"

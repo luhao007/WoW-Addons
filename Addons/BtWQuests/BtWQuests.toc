@@ -1,6 +1,6 @@
 ## Interface: 80205
 ## Author: Breen
-## Version: 1.51
+## Version: 1.54
 ## SavedVariables: BtWQuests_Characters
 ## SavedVariablesPerCharacter: BtWQuests_Settings
 

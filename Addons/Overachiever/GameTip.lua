@@ -636,7 +636,7 @@ if (L.ACH_ANGLER_COUNT) then
 end
 
 local function WorldObjCheck(ach, text)
-  local id, data, complete
+  local id, data, complete, crit
   if (not ach) then
     if (not WorldObjLookup[text]) then  return;  end
     data = WorldObjLookup[text]
@@ -1581,8 +1581,11 @@ if (SharedMedia) then
   --]]
   }
   for data,name in pairs(soundtab) do
-    if (not SharedMedia:Register("sound", "Blizzard: "..name, data)) then
-	  chatprint('Error: Failed to register Blizzard sound "' .. name .. '"')
+    local key = "Blizzard: "..name
+    if (not SharedMedia:Register("sound", key, data)) then
+	  if (not SharedMedia:IsValid("sound", key)) then
+	    chatprint('Error: Failed to register Blizzard sound "' .. name .. '"')
+	  end
 	--else chatprint('Registered ' .. name .. ' with ' ..data)
 	end
   end

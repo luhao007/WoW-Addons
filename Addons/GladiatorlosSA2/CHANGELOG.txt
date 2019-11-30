@@ -1,3 +1,14 @@
+- version 2.1.1 (8.2.5)
+
+General
+* Added Korrak's Revenge to Epic Battleground toggle.
+
+Warlock
+* Added :) more :) :) Spell Lock :) :) :) SpellIDS :) :) :) :)
+* It just wouldn't be a GSA update without more Spell Lock IDs!
+* M O R E   S P E L L   L O C K    S P E L L I D S ! ! !
+
+===========================================
 - version 2.1 (8.2)
 
 Rogue

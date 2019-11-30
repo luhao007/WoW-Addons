@@ -7,7 +7,7 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0310
+PawnVersion = 2.0311
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.11
@@ -150,7 +150,6 @@ function PawnInitialize()
 	local CurrentLocaleIsSupported
 	local SupportedLocale
 	local LanguageList = PawnLocalizedLanguages
-	if VgerCore.IsClassic then LanguageList = PawnLocalizedLanguagesClassic end
 	for _, SupportedLocale in pairs(LanguageList) do
 		if CurrentLocale == SupportedLocale then
 			CurrentLocaleIsSupported = true
@@ -160,9 +159,6 @@ function PawnInitialize()
 	if not CurrentLocaleIsSupported then
 		-- No need to translate this string...
 		local WrongLocaleMessage = "Sorry, this version of Pawn is for English, French, German, Italian, Korean, Portuguese, Russian, Spanish, Simplified Chinese, and Traditional Chinese only."
-		if VgerCore.IsClassic then
-			WrongLocaleMessage = "Sorry, this version of Pawn on WoW Classic is for English, French, German, Portuguese, Russian, Spanish, and Simplified Chinese only.  I'm working to support all languages soon."
-		end
 		VgerCore.Message(VgerCore.Color.Salmon .. WrongLocaleMessage)
 		message(WrongLocaleMessage)
 	end
@@ -2546,14 +2542,23 @@ function PawnUnenchantItemLink(ItemLink, EvenIfNotEnchanted)
 end
 
 -- Returns a nice-looking string that shows the item IDs for an item, its enchantments, and its gems.
-function PawnGetItemIDsForDisplay(ItemLink)
+function PawnGetItemIDsForDisplay(ItemLink, Formatted)
 	local Pos, _, ItemID, MoreInfo = strfind(ItemLink, "^|%x+|Hitem:(%-?%d+)([^|]+)|")
 	if not Pos then return end
+	if Formatted == nil then Formatted = true end
 
 	if MoreInfo and MoreInfo ~= "" then
-		return ItemID .. VgerCore.Color.Silver .. MoreInfo .. "|r"
+		if Formatted then
+			return ItemID .. VgerCore.Color.Silver .. MoreInfo .. "|r"
+		else
+			return "item:" .. ItemID .. MoreInfo
+		end
 	else
-		return ItemID
+		if Formatted then
+			return ItemID
+		else
+			return "item:" .. ItemID
+		end
 	end
 end
 

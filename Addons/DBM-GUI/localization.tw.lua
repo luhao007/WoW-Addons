@@ -229,7 +229,6 @@ L.EventWipeSound			= "設置戰鬥滅團時的音效"
 L.EventEngageSound			= "設置戰鬥開戰時的音效"
 L.EventDungeonMusic			= "在地城/團隊內設置撥放的音樂"
 L.EventEngageMusic			= "設置戰鬥中的音樂"
-L.EventTurtleMusic			= "設置turtle beach quests中的音樂"
 L.Area_EventSoundsExtras	= "事件音效選項"
 L.EventMusicCombined		= "允許在地城和戰鬥選擇的所有音效選項(此選項需要UI重載去反映改變)"
 L.Area_EventSoundsFilters	= "事件音效過濾條件"
@@ -298,11 +297,6 @@ L.AfterFirst				= "在副本中每次動畫播放一次之後"
 L.Always					= ALWAYS
 L.CombatOnly				= "在任何戰鬥中禁用"
 L.RaidCombat				= "只在首領戰鬥中禁用"
-L.HideBonusHeader			= "隱藏額外獎勵視窗低於..."
-L.TrivialContent			= "五人地城"--Basically anything below 340
-L.NormalRaider				= "傳奇地城+5和隨機團隊"--Basically, anything below 355
-L.HeroicRaider				= "傳奇地城+10和英雄團隊和非戰爭前線首領"--Basically anything below 370
-L.MythicRaider				= "傳奇團隊"--Basically anything below 385
 
 L.Panel_ExtraFeatures		= "額外功能"
 --
@@ -326,7 +320,7 @@ L.ShowQueuePop				= "為佇列(隨機,戰場,其他)接受時間顯示計時器"
 L.Area_AutoLogging			= "自動記錄選項"
 L.AutologBosses				= "自動使用暴雪戰鬥日誌記錄首領戰鬥(為了紀錄藥水事件等其他事件請於開打前使用/dbm pull)"
 L.AdvancedAutologBosses		= "自動使用Transcriptor紀錄首領戰鬥"
-L.LogOnlyRaidBosses			= "只記錄當前資料片團隊首領的戰鬥(除了隨機團隊/隨機隊伍/隨機事件/舊副本團隊)"
+L.LogOnlyNonTrivial			= "只記錄當前資料片團隊首領的戰鬥(除了隨機團隊/隨機隊伍/隨機事件/舊副本團隊)"
 --
 L.Area_3rdParty				= "協力插件選項"
 L.ShowBBOnCombatStart		= "戰鬥開始時顯示BigBrother(檢查團隊 增益/精煉UI)"

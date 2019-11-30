@@ -1,6 +1,6 @@
 ## Interface: 80205
 ## Author: Tuhljin
-## Version: 1.0.7
+## Version: 1.0.8
 ## OptionalDeps: LibBabble-SubZone-3.0, LibBabble-Inventory-3.0, LibSharedMedia-3.0
 ## SavedVariables: Overachiever_Settings, Overachiever_CharVars_Default
 ## SavedVariablesPerCharacter: Overachiever_CharVars, Overachiever_CharVars_Consumed

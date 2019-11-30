@@ -65,7 +65,8 @@ local CBH = LibStub("CallbackHandler-1.0")
 local BSZ = FishLib_GetLocaleLibBabble("LibBabble-SubZone-3.0");
 local BSL = LibStub("LibBabble-SubZone-3.0"):GetBaseLookupTable();
 local BSZR = LibStub("LibBabble-SubZone-3.0"):GetReverseLookupTable();
-local HBD = LibStub("HereBeDragons-2.0")
+local HBD = LibStub("HereBeDragons-2.0");
+local LT = LibStub("LibTourist-3.0");
 
 FishLib.HBD = HBD
 
@@ -83,20 +84,6 @@ FishLib.registered = FishLib.registered or CBH:New(FishLib, nil, nil, false)
 local SABUTTONNAME = "LibFishingSAButton";
 FishLib.UNKNOWN = "UNKNOWN";
 
--- support finding the fishing skill
-local function FindSpellID(thisone)
-    local id = 1;
-    local spellTexture = GetSpellTexture(id);
-    while (spellTexture) do
-        if (spellTexture and spellTexture == thisone) then
-            return id;
-        end
-        id = id + 1;
-        spellTexture = GetSpellTexture(id);
-    end
-    return nil;
-end
- 
 function FishLib:GetFishingSkillInfo()
     local _, _, _, fishing, _, _ = GetProfessions();
     if ( fishing ) then
@@ -1603,12 +1590,15 @@ local subzoneskills = {
 -- this should be something useful for BfA
 function FishLib:GetCurrentFishingLevel()
     local mapID = self:GetCurrentMapId()
-    local continent, _ = self:GetCurrentMapContinent()
-
-    -- Let's just go with continent level skill for now, since
-    -- subzone skill levels are now up in the air.
-    local info = self.continent_fishing[continent] or DEFAULT_SKILL
-    return info.max
+    local current_max = LT:GetFishingLevel(mapID)
+    if current_max == 0 then
+        local continent, _ = self:GetCurrentMapContinent()
+        -- Let's just go with continent level skill for now, since
+        -- subzone skill levels are now up in the air.
+        local info = self.continent_fishing[continent] or DEFAULT_SKILL
+        current_max = info.max
+    end
+    return current_max
     -- local _, subzone = self:GetZoneInfo()
     -- if (continent ~= 7 and subzoneskills[subzone]) then
     -- 	return subzoneskills[subzone];
@@ -2097,7 +2087,10 @@ function FishLib:FishingBonusPoints(item, inv)
             -- Equip: Fishing skill increased by N.
             match[3] = skillname.."[%a%s]+(%d+)%.";
             if ( GetLocale() == "deDE" ) then
-                 match[4] = "+(%d+) Angelfertigkeit";
+                tinsert(match, "+(%d+) Angelfertigkeit");
+            end
+            if self.LURE_NAME then
+                tinsert(match, self.LURE_NAME.." %+(%d+)")
             end
         end
         local tooltip = self:GetFishTooltip();
@@ -2158,6 +2151,7 @@ function FishLib:GetOutfitBonus()
     local pole, lure = self:GetPoleBonus();
     return bonus + pole, lure;
 end
+
 
 function FishLib:GetBestFishingItem(slotid)
     local item = nil
@@ -2556,10 +2550,13 @@ FishLib.SCHOOL_FIRE = 8;
 
 local FLTrans = {};
 
-function FLTrans:Setup(lang, school, ...)
+function FLTrans:Setup(lang, school, lurename, ...)
     self[lang] = {};
     -- as long as string.lower breaks all UTF-8 equally, this should still work
     self[lang].SCHOOL = string.lower(school);
+    if lurename then
+        self[lang].LURE_NAME = lurename;
+    end
     local n = select("#", ...);
     local schools = {};
     for idx=1,n,2 do
@@ -2570,7 +2567,7 @@ function FLTrans:Setup(lang, school, ...)
     self[lang].SCHOOLS = schools;
 end
 
-FLTrans:Setup("enUS", "school",
+FLTrans:Setup("enUS", "school", "Fishing Lure",
     "Floating Wreckage", FishLib.SCHOOL_WRECKAGE,
     "Patch of Elemental Water", FishLib.SCHOOL_WATER,
     "Floating Debris", FishLib.SCHOOL_DEBRIS,
@@ -2582,7 +2579,7 @@ FLTrans:Setup("enUS", "school",
     "School of Tastyfish", FishLib.SCHOOL_TASTY,
     "Pool of Fire", FishLib.SCHOOL_FIRE);
 
-FLTrans:Setup("koKR", "떼",
+FLTrans:Setup("koKR", "떼", "낚시용 미끼",
     "표류하는 잔해", FishLib.SCHOOL_WRECKAGE, --	 Floating Wreckage
     "정기가 흐르는 물 웅덩이", FishLib.SCHOOL_WATER, --	 Patch of Elemental Water
     "표류하는 파편", FishLib.SCHOOL_DEBRIS, --  Floating Debris
@@ -2592,7 +2589,7 @@ FLTrans:Setup("koKR", "떼",
     "증기 양수기 표류물", FishLib.SCHOOL_FLOTSAM, --	Steam Pump Flotsam
     "맛둥어 떼", FishLib.SCHOOL_TASTY); -- School of Tastyfish
 
-FLTrans:Setup("deDE", "schwarm",
+FLTrans:Setup("deDE", "schwarm", "Angelköder",
     "Treibende Wrackteile", FishLib.SCHOOL_WRECKAGE, --  Floating Wreckage
     "Stelle mit Elementarwasser", FishLib.SCHOOL_WATER, --  Patch of Elemental Water
     "Schwimmende Trümmer", FishLib.SCHOOL_DEBRIS, --  Floating Debris
@@ -2602,7 +2599,7 @@ FLTrans:Setup("deDE", "schwarm",
     "Treibgut der Dampfpumpe", FishLib.SCHOOL_FLOTSAM, --	 Steam Pump Flotsam
     "Leckerfischschwarm", FishLib.SCHOOL_TASTY); -- School of Tastyfish
 
-FLTrans:Setup("frFR", "banc",
+FLTrans:Setup("frFR", "banc", "Appât de pêche",
     "Débris flottants", FishLib.SCHOOL_WRECKAGE, --	 Floating Wreckage
     "Remous d'eau élémentaire", FishLib.SCHOOL_WATER, --	Patch of Elemental Water
     "Débris flottant", FishLib.SCHOOL_DEBRIS, --	 Floating Debris
@@ -2612,7 +2609,7 @@ FLTrans:Setup("frFR", "banc",
     "Détritus de la pompe à vapeur", FishLib.SCHOOL_FLOTSAM, --	 Steam Pump Flotsam
     "Banc de courbine", FishLib.SCHOOL_TASTY); -- School of Tastyfish
 
-FLTrans:Setup("esES", "banco",
+FLTrans:Setup("esES", "banco", "Cebo de pesca",
     "Restos de un naufragio", FishLib.SCHOOL_WRECKAGE,	  --	Floating Wreckage
     "Restos flotando", FishLib.SCHOOL_DEBRIS,		--	 Floating Debris
     "Vertido de petr\195\179leo", FishLib.SCHOOL_OIL,	 --  Oil Spill
@@ -2620,7 +2617,7 @@ FLTrans:Setup("esES", "banco",
     "Restos flotantes de bomba de vapor", FishLib.SCHOOL_FLOTSAM, --	Steam Pump Flotsam
     "Banco de pezricos", FishLib.SCHOOL_TASTY); -- School of Tastyfish
 
-FLTrans:Setup("zhCN", "鱼群",
+FLTrans:Setup("zhCN", "鱼群", "鱼饵",
     "漂浮的残骸", FishLib.SCHOOL_WRECKAGE, --  Floating Wreckage
     "元素之水", FishLib.SCHOOL_WATER, --	 Patch of Elemental Water
     "漂浮的碎片", FishLib.SCHOOL_DEBRIS, --	Floating Debris
@@ -2631,7 +2628,7 @@ FLTrans:Setup("zhCN", "鱼群",
     "蒸汽泵废料", FishLib.SCHOOL_FLOTSAM, --	 Steam Pump Flotsam
     "可口鱼", FishLib.SCHOOL_TASTY); -- School of Tastyfish
 
-FLTrans:Setup("zhTW", "群",
+FLTrans:Setup("zhTW", "群", "鱼饵",
     "漂浮的殘骸", FishLib.SCHOOL_WRECKAGE, --  Floating Wreckage
     "元素之水", FishLib.SCHOOL_WATER, --	 Patch of Elemental Water
     "漂浮的碎片", FishLib.SCHOOL_DEBRIS, --	Floating Debris

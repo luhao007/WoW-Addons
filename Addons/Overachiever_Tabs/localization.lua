@@ -258,7 +258,7 @@ L["WATCH_TAB"] = "Beobachten"
 	L.SUBZONES["Argent Pavilion"] = "Argentumpavillon"
 	L.SUBZONES["Argent Tournament Grounds"] = "Argentumturnierplatz"
 	L.SUBZONES["Formation Grounds"] = "Gestaltungsgelände"
-	L.SUBZONES["Razorscale's Aerie"] = "Klingenschuppes Kanzel"
+	L.SUBZONES["Razorscale's Aerie"] = "Klingenschuppes Horst"
 	L.SUBZONES["Silver Covenant Pavilion"] = "Silberbundpavillon"
 	L.SUBZONES["Sunreaver Pavilion"] = "Sonnenhäscherpavillon"
 	L.SUBZONES["The Alliance Valiants' Ring"] = "Der Ring der Recken der Allianz"
@@ -283,10 +283,8 @@ L["WATCH_TAB"] = "Beobachten"
 
 elseif (locale == "frFR") then  -- French
 -- Tabs
---[[Translation missing --]]
---[[ L["EVENTNOTICE_ENDED_TODAY"] = ""--]] 
---[[Translation missing --]]
---[[ L["EVENTNOTICE_ENDS_DATETIME"] = ""--]] 
+L["EVENTNOTICE_ENDED_TODAY"] = "|cffff2020Cet évènement s'est fini|r plus tôt aujourd'hui."
+L["EVENTNOTICE_ENDS_DATETIME"] = "Se termine le %2$d/%1$02d à %3$s (heure du serveur)."
 --[[Translation missing --]]
 --[[ L["EVENTNOTICE_ENDS_DAYS"] = ""--]] 
 --[[Translation missing --]]

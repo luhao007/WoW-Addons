@@ -628,24 +628,21 @@ local function BtWQuestsCharactersUpdateMap()
         BtWQuests_Characters = {}
     end
 
+    BtWQuests_CharactersMap = {}
+    for i=#BtWQuests_Characters,1,-1 do
+        local character = BtWQuests_Characters[i]
+        -- Remove any character missing a name or realm, this is to fix an issue caused by setting these values only on logout
+        if not character.name or not character.realm then
+            BtWQuests_Characters[i] = nil
+        else
+            local key = character.name .. "-" .. character.realm
+            BtWQuests_CharactersMap[key] = character
+        end
+    end
+
     table.sort(BtWQuests_Characters, function(a, b)
         return (a.name .. "-" .. a.realm) < (b.name .. "-" .. b.realm)
-        -- if a.level == b.level then
-        -- end
-
-        -- if a.level > b.level then
-        --     return true
-        -- else
-        --     return false
-        -- end
     end)
-
-    BtWQuests_CharactersMap = {}
-    for _,character in ipairs(BtWQuests_Characters) do
-        local key = character.name .. "-" .. character.realm
-
-        BtWQuests_CharactersMap[key] = character
-    end
 end
 
 local function BtWQuestsCharactersNextPairs(self, prev)
@@ -666,7 +663,7 @@ local function BtWQuestsCharactersNextIPairs(self, prev)
         return nil
     end
     local key = value.name .. "-" .. value.realm
-    return index, key, self:GetCharacter(value.name .. "-" .. value.realm)
+    return index, key, self:GetCharacter(key)
 end
 function BtWQuestsCharacters:ipairs()
     return BtWQuestsCharactersNextIPairs, self, nil
@@ -931,6 +928,8 @@ function BtWQuestsCharacters:OnEvent(event, ...)
     end
 
     local character = BtWQuests_CharactersMap[key]
+    character.name = name;
+    character.realm = realm;
 
     -- Some of these dont work during logout or even leaving world so they update with different events
     if event == "ACHIEVEMENT_EARNED" or event == "PLAYER_ENTERING_WORLD" then
@@ -952,8 +951,6 @@ function BtWQuestsCharacters:OnEvent(event, ...)
         character.xpModifier = PlayerXPModifier();
     end
     if event == "PLAYER_LOGOUT" then
-        character.name = name;
-        character.realm = realm;
         character.faction = UnitFactionGroup("player");
         character.sex = UnitSex("player");
         character.class = select(3, UnitClass("player"));
@@ -1009,6 +1006,7 @@ eventHandler:RegisterEvent("QUEST_COMPLETE");
 eventHandler:RegisterEvent("QUEST_REMOVED");
 eventHandler:RegisterEvent("QUEST_TURNED_IN");
 eventHandler:RegisterEvent("WAR_MODE_STATUS_UPDATE");
+eventHandler:RegisterEvent("PLAYER_LOGIN");
 eventHandler:RegisterEvent("PLAYER_FLAGS_CHANGED");
 eventHandler:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 eventHandler:RegisterEvent("PLAYER_LEAVING_WORLD");

@@ -328,10 +328,8 @@ L["ACH_CONSUME_91_INCOMPLETE"] = "Trau dich, 91 auf einmal zu essen!"
 L["ACH_CONSUME_COMPLETE"] = "Bereits konsumiert"
 L["ACH_CONSUME_INCOMPLETE"] = "Noch zu konsumieren"
 L["ACH_CONSUME_INCOMPLETE_EXTRA"] = "Noch nicht konsumiert"
---[[Translation missing --]]
---[[ L["ACH_EATYOURGREENS_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_EATYOURGREENS_INCOMPLETE"] = ""--]] 
+L["ACH_EATYOURGREENS_COMPLETE"] = "bereits gegessen"
+L["ACH_EATYOURGREENS_INCOMPLETE"] = "muss noch gegessen werden"
 L["ACH_FISHSCHOOL_FORMAT"] = [=[Schwarm %s
 %sschwarm
 %steich]=]
@@ -341,7 +339,7 @@ L["ACH_LETITSNOW_COMPLETE"] = "Handvoll Schneeflocken bereits angewendet"
 L["ACH_LETITSNOW_INCOMPLETE"] = "Handvoll Schneeflocken noch anzuwenden"
 L["ACH_LOVECRITTERS_COMPLETE"] = "Wurde bereits geliebt"
 L["ACH_LOVECRITTERS_INCOMPLETE"] = "Braucht etwas /liebe"
-L["ACH_MISSIONCOMPLETE_COMPLETE"] = "Bereits abgeschlossen"
+L["ACH_MISSIONCOMPLETE_COMPLETE"] = "Zuvor abgeschlossen"
 L["ACH_MISSIONCOMPLETE_INCOMPLETE"] = "Noch nicht abgeschlossen"
 L["ACH_TURKEYLURKEY_COMPLETE"] = "Bereits mit Federn beschossen"
 L["ACH_TURKEYLURKEY_INCOMPLETE"] = "Noch mit Federn zu beschießen"
@@ -410,10 +408,8 @@ L["OPT_CRITTERTIPS"] = "Kleintier via /liebe geliebt?"
 L["OPT_CRITTERTIPS_TIP"] = "Wenn der Erfolg noch nicht abgeschlossen ist, wird im Tooltip eines Kleintieres der Hinweis angezeigt, ob es für den Erfolg noch geliebt werden muss."
 L["OPT_DRAGGABLE"] = "Verschiebbar machen"
 L["OPT_DRAGSAVE"] = "Position merken"
---[[Translation missing --]]
---[[ L["OPT_EATYOURGREENSTIPS"] = ""--]] 
---[[Translation missing --]]
---[[ L["OPT_EATYOURGREENSTIPS_TIP"] = ""--]] 
+L["OPT_EATYOURGREENSTIPS"] = "Grün gegessen?"
+L["OPT_EATYOURGREENSTIPS_TIP"] = "Wenn der Erfolg unvollständig ist, füge zu den Tooltips eine Zeile hinzu von den Pflanzen in Nazmir die du essen musst."
 L["OPT_FISTFULOFLOVETIPS"] = "Handvoll Rosenblüten angewendet?"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Wenn der Erfolg noch nicht abgeschlossen ist, wird im Tooltip eines Spielers der Hinweis angezeigt, ob bei seinem Volk bzw. Klasse noch eine Handvoll Rosenblüten angewendet werden muss."
 L["OPT_KILLCREATURETIPS"] = "Kreatur getötet?"
@@ -467,16 +463,16 @@ L["OPT_STARTTOAST_HOLIDAY"] = "Zeigt die heutigen Feiertage"
 L["OPT_STARTTOAST_HOLIDAY_TIP"] = "Zeigt die heutigen Feiertage in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
 L["OPT_STARTTOAST_MICROHOLIDAY"] = "Zeigt die heutigen Mini-Feiertage"
 L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = "Zeigt die heutigen Mini-Feiertage in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
-L["OPT_STARTTOAST_MISC"] = "Zeigt die heutigen sonstigen Feiertage"
+L["OPT_STARTTOAST_MISC"] = "Zeigt die heutigen sonstigen Feiertage an"
 L["OPT_STARTTOAST_MISC_TIP"] = "Zeigt die heutigen sonstigen \"Feiertagsereignisse\" in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
 L["OPT_STARTTOAST_MISC_TIP2"] = "Es sind Events die im Standardkalender als \"Feiertage\" angegeben sind, aber weder als ganze Feiertage zählen noch in eine andere Kategorie hier passen. Beispiele wären hier die WoW-Geburtstage und Schlachtzugeröffnungstage (für neue Schlachtzüge oder Schwierigkeitsgrade aber nicht die wöchentlichen Zurücksetzungen)."
 L["OPT_STARTTOAST_ONLYCLICKFADE"] = "Klick, um zu verbergen"
 L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = "Hindert Toast-Benachrichtigungen am Verblassen, wenn diese nicht links- oder rechtsgeklickt werden. (Wenn diese Option nicht aktiviert ist, werden sie auch verblassen, wenn der Mauszeiger über sie geht und sich dann wegbewegt)."
-L["OPT_STARTTOAST_PVPBRAWL"] = "Zeigt die heutigen PvP-Raufereien"
+L["OPT_STARTTOAST_PVPBRAWL"] = "Zeigt die heutigen PvP-Raufereien an"
 L["OPT_STARTTOAST_PVPBRAWL_TIP"] = "Zeigt die heutigen PvP-Raufereien in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
 L["OPT_STARTTOAST_TIMEFADE"] = "Nicht automatisch verbergen"
 L["OPT_STARTTOAST_TIMEFADE_TIP"] = "Vermeidet, dass Toast-Benachrichtigungen, mit denen du nicht interagierst, nach ein paar Sekunden verblassen."
-L["OPT_THROTTLE_ACHLOOKUP"] = "Beim Start: Gebremste Durchsicht der Erfolge"
+L["OPT_THROTTLE_ACHLOOKUP"] = "Beim Start: Erfolgesuche drosseln"
 L["OPT_THROTTLE_ACHLOOKUP_TIP"] = "Overachiever sammelt beim Starten gewisse Daten. Wenn diese Option nicht ausgewählt ist, findet diese Durchsicht sofort, wenn das UI zum ersten Mal geladen wird, statt. Wenn dies ausgewählt ist, werden Daten nach und nach gesammelt, nachdem der Spieler die Welt betreten hat.|n|nDer Vorteil gegenüber der gebremsten Durchsicht besteht in einer schnelleren Anfangsladezeit, aber bei einigen Benutzern und bei manchen Charakteren kann sich das vorübergehend auf die Leistung auswirken."
 L["OPT_THROTTLE_ACHLOOKUP_TIP2"] = "|nDer Vorteil der gedrosselten Suche ist eine schnellere anfängliche Ladezeit. Bei einigen Benutzern und einigen Charakteren kann dies jedoch zu Beginn einer Sitzung einige Sekunden lang die Leistung beeinträchtigen.|n|nWenn das |cffffffffCache-Modul|r aktiviert ist, wird die Ladezeit durch die Throttling-Funktion jedoch nicht wesentlich verbessert, es sei denn, der Cache muss neu erstellt werden. Der Cache wird nach jeder neuen WoW-Erstellung neu erstellt."
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "Noch zu kochende Rezepte kennzeichnen, um Erfolge vervollständigen zu können"
@@ -518,14 +514,10 @@ L["SOUND_BELL_KARA"] = "Glocke - Karazhan"
 L["SOUND_BELL_MELLOW"] = "Helle Glocken"
 L["SOUND_BELL_NIGHTELF"] = "Glocke - Nachtelf"
 L["SOUND_BGTIMER"] = "Schlachtfeld-Timer"
---[[Translation missing --]]
---[[ L["SOUND_BGTIMER_END"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_BONUSEVENT"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_CHAR_CREATE"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_DIGSITE_COMPLETE"] = ""--]] 
+L["SOUND_BGTIMER_END"] = "Schlachtfeld Countdown Ende"
+L["SOUND_BONUSEVENT"] = "Bonus Event"
+L["SOUND_CHAR_CREATE"] = "Charakter erstellen"
+L["SOUND_DIGSITE_COMPLETE"] = "Grabungsstelle komplett"
 L["SOUND_DING_AUCTION"] = "Auktion-Ding"
 L["SOUND_DRUMHIT"] = "Trommelschlag"
 L["SOUND_ENTERQUEUE"] = "Warteschlange beitreten"
@@ -536,27 +528,19 @@ L["SOUND_GLYPH_DESTROY_MAJOR"] = "Zerstörung einer erheblichen Glyphe"
 L["SOUND_GLYPH_DESTROY_MINOR"] = "Zerstörung einer geringen Glyphe"
 L["SOUND_GONG_TROLL"] = "Gong - Troll"
 L["SOUND_HEARTHBIND"] = "Ruhestein setzen"
---[[Translation missing --]]
---[[ L["SOUND_LEVELUP"] = ""--]] 
+L["SOUND_LEVELUP"] = "Level Up"
 L["SOUND_MAP_PING"] = "Kartenping"
 L["SOUND_MEDAL_EXPIRES"] = "Medaille abgelaufen"
---[[Translation missing --]]
---[[ L["SOUND_MEDAL_GOLDTOSILVER"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_MEDAL_SILVERTOBRONZE"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_QUEST_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_SIMON_BADPRESS"] = ""--]] 
+L["SOUND_MEDAL_GOLDTOSILVER"] = "Medaille Gold zu Silber"
+L["SOUND_MEDAL_SILVERTOBRONZE"] = "Medaille Silber zu Bronze"
+L["SOUND_QUEST_COMPLETE"] = "Aufgabe abgeschlossen"
+L["SOUND_SIMON_BADPRESS"] = "Simon schlechte Presse"
 L["SOUND_SIMON_DING"] = "Simon Ding"
---[[Translation missing --]]
---[[ L["SOUND_SIMON_FAIL_LARGE"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_SIMON_FAIL_SMALL"] = ""--]] 
+L["SOUND_SIMON_FAIL_LARGE"] = "Simon scheitern Groß"
+L["SOUND_SIMON_FAIL_SMALL"] = "Simon scheitern Klein"
 L["SOUND_SIMON_STARTGAME"] = "Simon Spielstart"
 L["SOUND_SIMON_STARTLEVEL"] = "Simon Startlevel"
---[[Translation missing --]]
---[[ L["SOUND_STORE_CONFIRM"] = ""--]] 
+L["SOUND_STORE_CONFIRM"] = "Bestätigung speichern"
 L["SOUND_YAR"] = "Yarrrr"
 L["STARTTOAST_EVENT"] = "Findet heute statt"
 L["WILDPET"] = "Wildtier"
@@ -566,12 +550,9 @@ L["YOURPROGRESS"] = "Dein Fortschritt"
 
 elseif (locale == "frFR") then  -- French
 -- Thanks to Atropyne (EU-Garona) for many of these translations:
---[[Translation missing --]]
---[[ L["ACH_ACQUIRE_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_ACQUIRE_INCOMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_ACQUIRE_INCOMPLETE_EXTRA"] = ""--]] 
+L["ACH_ACQUIRE_COMPLETE"] = "Déjà acquis"
+L["ACH_ACQUIRE_INCOMPLETE"] = "À besoin d'être acquis"
+L["ACH_ACQUIRE_INCOMPLETE_EXTRA"] = "N'a pas été acquis"
 L["ACH_ANGLER_COMPLETE"] = "Déjà pêché"
 --[[Translation missing --]]
 --[[ L["ACH_ANGLER_COUNT"] = ""--]] 
@@ -585,10 +566,8 @@ L["ACH_CONSUME_91_INCOMPLETE"] = "Je te mets au défi d'en manger 91 d'un coup !
 L["ACH_CONSUME_COMPLETE"] = "Déjà consommé"
 L["ACH_CONSUME_INCOMPLETE"] = "Doit être consommé"
 L["ACH_CONSUME_INCOMPLETE_EXTRA"] = "N'a pas été consommé"
---[[Translation missing --]]
---[[ L["ACH_EATYOURGREENS_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_EATYOURGREENS_INCOMPLETE"] = ""--]] 
+L["ACH_EATYOURGREENS_COMPLETE"] = "Déjà mangé"
+L["ACH_EATYOURGREENS_INCOMPLETE"] = "Doit être mangé"
 L["ACH_FISHSCHOOL_FORMAT"] = "Banc de %s"
 L["ACH_FISTFULOFLOVE_COMPLETE"] = "A déjà reçu une Poignée de pétales de rose"
 L["ACH_FISTFULOFLOVE_INCOMPLETE"] = "Doit recevoir une Poignée de pétales de rose"
@@ -596,10 +575,8 @@ L["ACH_LETITSNOW_COMPLETE"] = "A déjà reçu une Poignée de flocons de neige"
 L["ACH_LETITSNOW_INCOMPLETE"] = "Doit lancer une Poignée de flocons de neige"
 L["ACH_LOVECRITTERS_COMPLETE"] = "A déjà reçu de l' /amour"
 L["ACH_LOVECRITTERS_INCOMPLETE"] = "A besoin d' /amour"
---[[Translation missing --]]
---[[ L["ACH_MISSIONCOMPLETE_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_MISSIONCOMPLETE_INCOMPLETE"] = ""--]] 
+L["ACH_MISSIONCOMPLETE_COMPLETE"] = "Déjà complété"
+L["ACH_MISSIONCOMPLETE_INCOMPLETE"] = "Doit être complété"
 L["ACH_TURKEYLURKEY_COMPLETE"] = "Déjà Dindonisé"
 L["ACH_TURKEYLURKEY_INCOMPLETE"] = "Doit être Dindonisé"
 L["ACH_WELLREAD_COMPLETE"] = "Déjà lu"
