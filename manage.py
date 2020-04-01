@@ -93,7 +93,6 @@ class Manager(object):
         libs = [
             ('Atlas', 'Libs'),
             ('DBM-Core', 'Libs'),
-            ('Fizzle', 'Libs'),
             ('GatherMate2', 'Libs'),
             ('HandyNotes', 'Libs'),
             ('MapSter', 'Libs'),
@@ -109,6 +108,7 @@ class Manager(object):
                 ('AtlasLootClassic_Options', 'Libs'),
                 ('ATT-Classic', 'lib'),
                 ('ClassicCastbars_Options', 'Libs'),
+                ('Fizzle', 'Libs'),
                 ('HandyNotes_NPCs (Classic)', 'libs'),
                 ('Recount', 'libs'),
                 ('TitanClassic', 'libs'),
@@ -181,20 +181,20 @@ class Manager(object):
         )
 
     def handle_dcs(self):
-        if self.game_flavour == 'classic':
-            def f(lines):
-                # Change thest defaults value to false
-                defaults = ['ShowDuraSetChecked', 'ShowItemRepairSetChecked',
-                            'ShowItemLevelSetChecked', 'ShowEnchantSetChecked']
-                ret = []
-                for line in lines:
-                    if line.split(' = ')[0].strip() in defaults:
-                        ret.append(line.replace('true', 'false'))
-                    else:
-                        ret.append(line)
-                return ret
-            path = 'AddOns/DejaClassicStats/DCSDuraRepair.lua'
-            process_file(path, f)
+        def f(lines):
+            # Change thest defaults value to false
+            defaults = ['ShowDuraSetChecked', 'ShowItemRepairSetChecked',
+                        'ShowItemLevelSetChecked', 'ShowEnchantSetChecked']
+            ret = []
+            for line in lines:
+                if line.split(' = ')[0].strip() in defaults:
+                    ret.append(line.replace('true', 'false'))
+                else:
+                    ret.append(line)
+            return ret
+        path = 'AddOns/Deja{}Stats/DCSDuraRepair.lua'.format(
+            'Classic' if self.game_flavour == 'classic' else 'Character')
+        process_file(path, f)
 
     def handle_decursive(self):
         for lib in os.listdir('AddOns/Decursive/Libs'):
@@ -223,6 +223,7 @@ class Manager(object):
             '		FishingBuddy_Player["MinimapData"] = { hide=true };'
         )
 
+    @classic_only
     def handle_fizzle(self):
         def f(lines):
             ret = []

@@ -973,7 +973,7 @@ local function DCS_Item_Level_Center()
 end
 
 gdbprivate.gdbdefaults.gdbdefaults.dejacharacterstatsShowItemLevelChecked = {
-	ShowItemLevelSetChecked = true,
+	ShowItemLevelSetChecked = false,
 }
 
 local DCS_ShowItemLevelCheck = CreateFrame("CheckButton", "DCS_ShowItemLevelCheck", DejaCharacterStatsPanel, "InterfaceOptionsCheckButtonTemplate")
