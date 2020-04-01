@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Qshine
-## Version: 2.2.9
+## Version: 2.2.14
 ## SavedVariables: HPetSaves
 
 ## Title: |cFFBF00FF[H]|r Something About Pet Battle
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00AHPetBattleAny|r
 ## Notes-zhCN: 提醒野生宠物品质等,输入/hpq设置
 
-## X-Date: 2016-09-26
+## X-Date: 2018-08-05
 
 Localization.lua
 
@@ -19,5 +19,5 @@ modules\Config.lua
 modules\Hook.lua
 modules\Search.lua
 modules\Ability.lua
+
 modules\AutoSelectPet.lua
-modules\WatchPetBattle.lua

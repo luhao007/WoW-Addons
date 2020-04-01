@@ -115,8 +115,12 @@ function HPetBattleAny:Search(command,rest)
 			for j=1,6 do
 				local abilityID=C_PetJournal.GetPetAbilityList(speciesID)[j]
 				if not abilityID then break end
-				local _,st1,_,_,st2,_,st3=C_PetBattles.GetAbilityInfoByID(abilityID)
-				strm[j]=st1..st2.._G["BATTLE_PET_NAME_"..st3]
+				local sid,st1,_,_,st2,_,st3=C_PetBattles.GetAbilityInfoByID(abilityID)
+				if (sid and st3) then
+						strm[j]=st1..st2.._G["BATTLE_PET_NAME_"..st3]
+				else
+					print(abilityID)
+				end
 			end
 			if (serachtemp and Qstringfind(strm,serachtemp)) then
 				if isOwned then
@@ -216,46 +220,18 @@ local npcs = {
 	-------无奖励日常
 
 }
---~ local temp_hook = GetMapLandmarkInfo
---~ GetMapLandmarkInfo=function(...)
---~ 	local name, description, textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID = temp_hook(...)
---~ 	local message
---~ 	if npcs[name] and npcs[name].QuestID then
---~ 		local q=GetQuestsCompleted();
---~ 		local com = q[tonumber(npcs[name].QuestID)]
---~ 		message = (com and " |cffffff00完成|r" or " |cffff0000未完成|r")
---~ 		if com then
---~ 			textureIndex=189
---~ 		end
---~ 	end
---~ 	return name, (description or "")..(message or ""), textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID
---~ end
---~ local QuestDate=GetQuestsCompleted()
---~ local NTime=GetTime()
---~ local STime=15
-hooksecurefunc("WorldMapFrame_Update",function(...)
-	for i=1, NUM_WORLDMAP_POIS do
-		local worldMapPOIName = "WorldMapFramePOI"..i;
-		local worldMapPOI = _G[worldMapPOIName];
-		local name, description, textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID, isObjectIcon, atlasIcon = GetMapLandmarkInfo(i);
-		if npcs[name] and npcs[name].QuestID then
-			local com = IsQuestFlaggedCompleted(tonumber(npcs[name].QuestID))
-			message = (com and " |cffffff00完成|r" or " |cffff0000未完成|r")
-			worldMapPOI.description = (description or "")..(message or "")
+
+function PetTamerPinMixin:OnAcquired(poiInfo) -- override
+	if (poiInfo and poiInfo.name) then
+		if npcs[poiInfo.name] and npcs[poiInfo.name].QuestID then
+			local q=GetQuestsCompleted();
+
+			local com = q[tonumber(npcs[poiInfo.name].QuestID)]
+			poiInfo.description = (com and " |cffffff00完成|r" or " |cffff0000未完成|r")
 			if com then
-				textureIndex=189
-			end
-			local x1, x2, y1, y2
-			if (not atlasIcon) then
-				if (isObjectIcon == true) then
-					x1, x2, y1, y2 = GetObjectIconTextureCoords(textureIndex);
-				else
-					x1, x2, y1, y2 = GetPOITextureCoords(textureIndex);
-				end
-				_G[worldMapPOIName.."Texture"]:SetTexCoord(x1, x2, y1, y2);
-			else
-				_G[worldMapPOIName.."Texture"]:SetTexCoord(0, 1, 0, 1);
+				poiInfo.textureIndex=189;
 			end
 		end
 	end
-end)
+	BaseMapPoiPinMixin.OnAcquired(self,poiInfo)
+end

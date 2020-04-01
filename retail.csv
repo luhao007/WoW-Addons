@@ -51,17 +51,14 @@ curse:dejacharacterstats,default
 curse:fastercamera,default
 curse:fishingbuddy,default
 curse:fishing-buddy-tracking,default
-curse:fizzle,default
 curse:garrison-mission-manager,default
 curse:gathermate2,default
 curse:gathermate2_data,default
-curse:gearmanagerex,default
 curse:gladiatorlossa2,default
 curse:gladiatorlossa_zhcn,default
 curse:gladius,default
 curse:grail,default
 curse:grid2,default
-curse:hpetbattleany,default
 curse:handynotes,default
 curse:handynotes-broken-shore,default
 curse:handynotes-suramar-and-shalaran-telemancy,default
@@ -77,6 +74,7 @@ curse:handynotes_summerfestival,default
 curse:timelessislechests,default
 curse:handynotes-warfrontrares,default
 curse:handynotes_legionrarestreasures,default
+curse:itemrack,default
 curse:mbb,default
 curse:mapster,default
 curse:master-plan,default

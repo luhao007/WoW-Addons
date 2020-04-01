@@ -119,6 +119,16 @@ function HPetOption:InitButtons()
 			y=-7,
 		},
 
+		{name="ACPEnable",type="CheckButton",var="ACPEnable",
+			point="LEFT",relative="Sound",rpoint="RIGHT",
+			x=130,
+		},
+
+		{name="AHSFEnable",type="CheckButton",var="AHSFEnable",
+			point="LEFT",relative="ACPEnable",rpoint="RIGHT",
+			x=130,
+		},
+
 		{name="FastForfeit",type="CheckButton",var="FastForfeit",
 			point="TOP",relative="Sound",rpoint="BOTTOM",
 			y=-7,
@@ -336,9 +346,11 @@ end
 function HPetOption:OnCheckButtonClicked()
 	isChecked = self:GetChecked()
 	if isChecked then
-		PlaySound("igMainMenuOptionCheckBoxOn")
+		-- PlaySound("igMainMenuOptionCheckBoxOn")
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 	else
-		PlaySound("igMainMenuOptionCheckBoxOff")
+		-- PlaySound("igMainMenuOptionCheckBoxOff")
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 	end
 	value = HPetOption.Buttons[self:GetID()]
 	if value.var then
@@ -434,8 +446,8 @@ function UpdateStoneButton_Click()
 		end
 		return
 	end
-
-	local GetString = function(SearchId)
+	  
+	local GetStringForBB = function(SearchId)
 		local StringTable={}
 		local Max = 0
 		local GetItemLink=function(tid)
@@ -492,7 +504,11 @@ function UpdateStoneButton_Click()
 				}
 	print("↓-↓-↓-↓-↓-↓-↓-↓-↓-↓-↓-↓-↓-↓-↓")
 	for _,id in ipairs(Stone) do
-		GetString(id)
+		if (BrotherBags) then
+			GetStringBB(id)
+		-- elseif () then
+			-- GetStringBS(id)
+		end
 	end
 	print("↑-↑-↑-↑-↑-↑-↑-↑-↑-↑-↑-↑-↑-↑-↑")
 end

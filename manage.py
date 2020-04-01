@@ -358,7 +358,7 @@ class Manager(object):
         process_file(
             'AddOns/TradeSkillMaster/Core/UI/Support/Fonts.lua',
             lambda lines: [re.sub(r'".+ttf"',
-                                  r'"Fonts\\\\ARKai_C.ttf"',
+                                  r'"Fonts\\\\ARKai_T.ttf"',
                                   l)
                            for l in lines]
         )
