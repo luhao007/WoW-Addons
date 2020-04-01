@@ -1,3 +1,45 @@
+- version 2.2.1 (8.3)
+
+General
+* Class trinket alert in arenas should work again.
+* Connected alert should now be off by default.
+* Class Trinket, Success, and Connected alerts are no longer locked out from being toggled under certain circumstances.
+
+===========================================
+- version 2.2 (8.3)
+
+General
+* Renamed Gladiator's Maledict file (thisGameSucks.ogg -> maledict) and it now plays a voiced alert instead of an annoying sound.
+* Added Haymaker (Kul Tiran racial) to Cast Success.
+* Added Regeneratin' (Zandalari racial) to Cast Success.
+* Added a new option in Cast Success called Connected. It is a generic alert that plays when very powerful abilities (currently Greater Pyro and Chaos Bolt) successfully complete their cast.
+* Honorable Medallion (yikes) and Gladiator's Medallion now use the generic "Trinketed" alert.
+
+Mage
+* Moved Combustion from Cast Success to Aura Applied, and it now has a Down alert.
+* Arcane Power now has a Down alert.
+* Icy Veins now has a Down alert.
+
+Paladin
+* Added Down alert for Blessing of Sacrifice and Ultimate Sacrifice.
+
+Priest
+* Added Holy Word: Concentration to Cast Success.
+* Added Greater Heal to Cast Start.
+* Removed Inner Focus (no longer exists).
+
+Shaman
+* Added Living Honey hex varient.
+
+Warlock
+* Added Down alert for Dark Soul variants.
+
+Localization
+* New Strings:
+L["Connected"]
+L["Connected_Desc"]
+
+===========================================
 - version 2.1.1 (8.2.5)
 
 General

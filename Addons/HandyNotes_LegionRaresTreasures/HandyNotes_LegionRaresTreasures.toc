@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Katjes (Coronet - Dun Morogh(EU))
 ## Version: 1.1
 ## RequiredDeps: HandyNotes
@@ -10,5 +10,9 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有 军团再临|r
 
 ## X-Embeds: Ace3
+
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
 
 HandyNotes_LegionRaresTreasures.lua

@@ -1056,7 +1056,7 @@ function FishLib:printable(val)
         return tab.." ]"
     elseif (val ~= nil) then
         val = tostring(val)
-        val = gsub(val, "\124", "\124\124");
+        val = string.gsub(val, "\124", "\124\124");
         return val;
     else
         return "nil";
@@ -1562,6 +1562,8 @@ function FishLib:GetLocSubZone(sname)
 end
 
 local subzoneskills = {
+    ["Bay of Storms"] = 425,
+    ["Hetaera's Clutch"] = 425,
     ["Jademir Lake"] = 425,
     ["Verdantis River"] = 300,
     ["The Forbidding Sea"] = 225,
@@ -1598,13 +1600,13 @@ function FishLib:GetCurrentFishingLevel()
         local info = self.continent_fishing[continent] or DEFAULT_SKILL
         current_max = info.max
     end
+
+    -- now need to do this again.
+    local _, subzone = self:GetZoneInfo()
+    if (continent ~= 7 and subzoneskills[subzone]) then
+        current_max = subzoneskills[subzone];
+    end
     return current_max
-    -- local _, subzone = self:GetZoneInfo()
-    -- if (continent ~= 7 and subzoneskills[subzone]) then
-    -- 	return subzoneskills[subzone];
-    -- else
-    -- 	return self.FishingLevels[mapID] or DEFAULT_FISHING;
-    -- end
 end
 
 -- return a nicely formatted line about the local zone skill and yours
@@ -1930,14 +1932,17 @@ end
 FishLib.MOUSE1 = "RightButtonUp";
 FishLib.MOUSE2 = "Button4Up";
 FishLib.MOUSE3 = "Button5Up";
+FishLib.MOUSE4 = "MiddleButtonUp";
 FishLib.CastButton = {};
 FishLib.CastButton[FishLib.MOUSE1] = "RightButton";
 FishLib.CastButton[FishLib.MOUSE2] = "Button4";
 FishLib.CastButton[FishLib.MOUSE3] = "Button5";
-FishLib.CastKey = {};
-FishLib.CastKey[FishLib.MOUSE1] = "BUTTON2";
-FishLib.CastKey[FishLib.MOUSE2] = "BUTTON4";
-FishLib.CastKey[FishLib.MOUSE3] = "BUTTON5";
+FishLib.CastButton[FishLib.MOUSE4] = "MiddleButton";
+FishLib.CastingKeys = {};
+FishLib.CastingKeys[FishLib.MOUSE1] = "BUTTON2";
+FishLib.CastingKeys[FishLib.MOUSE2] = "BUTTON4";
+FishLib.CastingKeys[FishLib.MOUSE3] = "BUTTON5";
+FishLib.CastingKeys[FishLib.MOUSE4] = "BUTTON3";
 
 function FishLib:GetSAMouseEvent()
     if (not self.buttonevent) then
@@ -1951,7 +1956,7 @@ function FishLib:GetSAMouseButton()
 end
 
 function FishLib:GetSAMouseKey()
-    return self.CastKey[self:GetSAMouseEvent()];
+    return self.CastingKeys[self:GetSAMouseEvent()];
 end
 
 function FishLib:SetSAMouseEvent(buttonevent)
@@ -2153,7 +2158,7 @@ function FishLib:GetOutfitBonus()
 end
 
 
-function FishLib:GetBestFishingItem(slotid)
+function FishLib:GetBestFishingItem(slotid, ignore)
     local item = nil
     local maxb = 0;
     if not infoslot then
@@ -2203,7 +2208,7 @@ function FishLib:GetFishingOutfitItems(wearing, nopole, ignore)
         local slotid = slotinfo[invslot].id;
         local ismain = (slotid == INVSLOT_MAINHAND);
         if ( not nopole or not ismain ) then
-            item = self:GetBestFishingItem(slotid)
+            local item = self:GetBestFishingItem(slotid)
             if item and not ignore[item] then
                 outfit = outfit or {};
                 outfit[slotid] = item

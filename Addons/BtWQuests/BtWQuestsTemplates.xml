@@ -235,7 +235,7 @@
 			<Button inherits="BtWQuestsSearchResultPreviewTemplate" parentKey="SearchButton1">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.searchPreviewContainer" relativePoint="TOPLEFT" x="0" y="0"/>
-					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.searchPreviewContainer" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+					<Anchor point="TOPRIGHT" relativeKey="$parent.searchPreviewContainer" relativePoint="TOPRIGHT" x="0" y="0"/>
 				</Anchors>
 			</Button>
 			<Button inherits="BtWQuestsSearchResultPreviewTemplate" parentKey="SearchButton2">
@@ -615,11 +615,11 @@
 					</OnClick>
 					<OnEnter>
 						_G[self:GetName().."SwatchBg"]:SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
-						UIDropDownMenu_StopCounting(self:GetParent():GetParent());
+						<!-- UIDropDownMenu_StopCounting(self:GetParent():GetParent()); -->
 					</OnEnter>
 					<OnLeave>
 						_G[self:GetName().."SwatchBg"]:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-						UIDropDownMenu_StartCounting(self:GetParent():GetParent());
+						<!-- UIDropDownMenu_StartCounting(self:GetParent():GetParent()); -->
 					</OnLeave>
 				</Scripts>
 				<NormalTexture parentKey="NormalTexture" file="Interface\ChatFrame\ChatFrameColorSwatch"/>
@@ -640,12 +640,12 @@
 					<OnEnter>
 						self.texture:SetAlpha(1.0);
 						self:GetParent().Highlight:Show();
-						UIDropDownMenu_StopCounting(self:GetParent():GetParent());
+						<!-- UIDropDownMenu_StopCounting(self:GetParent():GetParent()); -->
 					</OnEnter>
 					<OnLeave>
 						self.texture:SetAlpha(0);
 						self:GetParent().Highlight:Hide();
-						UIDropDownMenu_StartCounting(self:GetParent():GetParent());
+						<!-- UIDropDownMenu_StartCounting(self:GetParent():GetParent()); -->
 					</OnLeave>
 					<OnMouseDown>
 						self.texture:SetPoint("TOPLEFT", 1, -1);
@@ -686,7 +686,6 @@
 			<OnEnter>
 				self.DeleteButton.texture:SetAlpha(0.5)
 				self.Highlight:Show();
-				UIDropDownMenu_StopCounting(self:GetParent());
 				if ( self.tooltipTitle and not self.noTooltipWhileEnabled ) then
 					if ( self.tooltipOnButton ) then
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
@@ -708,7 +707,6 @@
 			<OnLeave>
 				self.DeleteButton.texture:SetAlpha(0)
 				self.Highlight:Hide();
-				UIDropDownMenu_StartCounting(self:GetParent());
 				GameTooltip:Hide();
 							
 				if ( self.mouseOverIcon ~= nil ) then
@@ -719,12 +717,6 @@
 					end
 				end
 			</OnLeave>
-			<OnEnable>
-				-- self.InvisibleButton:Hide();
-			</OnEnable>
-			<OnDisable>
-				-- self.InvisibleButton:Show();
-			</OnDisable>
 		</Scripts>
 		<ButtonText parentKey="NormalText">
 			<Anchors>
@@ -776,18 +768,9 @@
 			<OnClick>
 				self:Hide();
 			</OnClick>
-			<OnEnter>
-				UIDropDownMenu_StopCounting(self, motion);
-			</OnEnter>
-			<OnLeave>
-				UIDropDownMenu_StartCounting(self, motion);
-			</OnLeave>
 			<OnUpdate>
 				UIDropDownMenu_OnUpdate(self, elapsed);
 			</OnUpdate>
-			<OnClick>
-				self:Hide()
-			</OnClick>
 		</Scripts>
 	</Button>
 	<Frame name="BtWQuestsDropDownTemplate" mixin="BtWQuestsDropDownMenuMixin" virtual="true">
@@ -1627,6 +1610,36 @@
 			</Layer>
 		</Layers>
 		<Frames>
+			<CheckButton parentKey="AutoLoad">
+				<Size x="15" y="15"/>
+				<Anchors>
+					<Anchor point="TOP" x="-30" y="-120"/>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentText" inherits="GameFontNormalSmall" text="Auto Load">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<HitRectInsets>
+					<AbsInset left="0" right="-100" top="0" bottom="0"/>
+				</HitRectInsets>
+				<Scripts>
+					<OnClick>
+						local item = self:GetParent().item
+						item:SetAutoLoad(not item:IsAutoLoad())
+						BtWQuestsFrame:Refresh()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
 			<Button parentKey="ViewAll" inherits="BtWQuestsSmallButtonTemplate" text="BTWQUESTS_VIEW_ALL">
 				<Anchors>
 					<Anchor point="BOTTOM" y="10"/>
@@ -1635,6 +1648,17 @@
 					<OnClick>
 						local item = self:GetParent().item
 						BtWQuestsFrame:SelectExpansion(item:GetID())
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="Load" inherits="BtWQuestsSmallButtonTemplate" text="LOAD_ADDON">
+				<Anchors>
+					<Anchor point="CENTER" y="10"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local item = self:GetParent().item
+						BtWQuestsFrame:LoadExpansion(item:GetID())
 					</OnClick>
 				</Scripts>
 			</Button>

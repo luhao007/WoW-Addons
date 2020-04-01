@@ -4,6 +4,7 @@ if GetLocale() ~= "itIT" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [61] = {
         name = "Tomba Rovinata",
@@ -117,3 +118,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Calderone dei Freddinverno",
     },
 })
+]])()

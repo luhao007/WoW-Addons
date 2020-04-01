@@ -51,7 +51,7 @@ addon.fixPetData={
 	[115] = "3",	--陆行鲨
 }
 addon.fixPetBaseData={
-	-- [115] = "11",
+	[115] = "11",
 }
 addon.NPCPetID={
 	[1607]=true,
@@ -559,7 +559,7 @@ function HPetAllInfoFrame:Update(speciesID,breedID,rarityvalue,levelvalue)
 
 	local name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique = C_PetJournal.GetPetInfoBySpeciesID(speciesID);
 
-	HPetAllInfoFrame.petName.text:SetText(name)HPetAllInfoFrame.petName.text:SetFont(ChatFontNormal:GetFont(), 14, "")
+	HPetAllInfoFrame.petName.text:SetText(name)
 	HPetAllInfoFrame.petName.icon:SetTexture("Interface\\Icons\\Pet_TYPE_"..PET_TYPE_SUFFIX[petType])
 
 	----------------------------------------------------------------
@@ -595,7 +595,7 @@ function HPetAllInfoFrame:Init()
 	-- background
 	self.rightbg	=self:CreateVLine(0, 0, 0, 1,LINECOLOR)
 	self.leftbg		=self:CreateVLine(0, 0, 0, 1,LINECOLOR)
-	self.midbg		=self:CreateVLine(0, 0, 0, 1,LINECOLOR)
+	self.midbg		=self:CreateVLine(0, 0, 0, 1,{1,1,0,1})
 	self.topbg		=self:CreateHLine(0, 0, 0, 1,LINECOLOR)
 	self.bottombg	=self:CreateHLine(0, 0, 0, 1,LINECOLOR)
 	self.UpdateSize=function(self,height)
@@ -608,7 +608,7 @@ function HPetAllInfoFrame:Init()
 	end
 	self:SetBackdrop( {
 	  bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-	  -- edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	  edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 	  tile = true, tileSize = 16, edgeSize = 16,
 	});
 	self:SetBackdropColor(0,0,0)
@@ -696,9 +696,9 @@ function HPetAllInfoFrame:Init()
 		rarityslider:Show()
 		isChecked = self:GetChecked()
 		if isChecked then
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+			PlaySound("igMainMenuOptionCheckBoxOn")
 		else
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
+			PlaySound("igMainMenuOptionCheckBoxOff")
 		end
 		HPetAllInfoFrame.lockrarity = isChecked or false
 	end)
@@ -717,7 +717,6 @@ function HPetAllInfoFrame:Init()
 	-- 	_G[button:GetName().."Right"]:SetAlpha(0.5)
 	-- 	_G[button:GetName().."Middle"]:SetAlpha(0.5)
 	button:SetPoint("TOPLEFT",_G[self:GetName().."breed"],"BOTTOMLEFT")
-	button.Text:SetPoint("CENTER",0,0)
 	button:SetScript("OnClick",function(self)
 		self.value=not self.value
 		if self.value then
@@ -739,7 +738,7 @@ function HPetAllInfoFrame:Init()
 	self:Hide()
 
 	hooksecurefunc("PetJournal_UpdatePetCard",self.Update)
-	-- PetJournal:SetScript("OnHide",function() self:Hide() end)
+	PetJournal:SetScript("OnHide",function() self:Hide() end)
 end
 
 function HPetAllInfoFrame:CreateSlider(name,dtype)
@@ -773,16 +772,14 @@ function HPetAllInfoFrame:CreateSlider(name,dtype)
 	button:SetHeight(20)
 	button:SetWidth(80)
 	button:SetPoint("CENTER",14,0)
-    button.Text:SetPoint("CENTER",0,1)
 	hooksecurefunc(button,"SetText",function()
 		tempSlider:SetDisplayValue(HPetAllInfoFrame[name.."value"] or (dtype=="level" and 25 or 4))
 	end)
 	button:SetScript("OnClick",function()
 		if tempSlider:IsShown() then
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 			tempSlider:Hide()
 		else
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+			PlaySound("igMainMenuOptionCheckBoxOn");
 			tempSlider:Show()
 		end
 	end)
@@ -870,8 +867,8 @@ function HPetAllInfoFrame:CreateTable(name,useTABLE,width,height,point,relative,
 			HPetAllInfoFrame:CreateVLine(width/index*2, 0, -height, 1,LINECOLOR,tab)
 			HPetAllInfoFrame:CreateVLine(width/index*3, 0, -height, 1,LINECOLOR,tab)
 --~ 			HPetAllInfoFrame:CreateVLine(width/index*4, 0, -height, 1,{1,1,0,1},tab)
-			tab.moveline=HPetAllInfoFrame:CreateHLine(width, 0, 0, 1,LINECOLOR,tab)
-			-- if i ~= 1 then tab.moveline:SetColorTexture(1,1,0,1) end
+			tab.moveline=HPetAllInfoFrame:CreateHLine(width, 0, 0, 2,LINECOLOR,tab)
+			if i ~= 1 then tab.moveline:SetTexture(1,1,0,1) end
 			HPetAllInfoFrame:CreateHLine(width, 0, -height, 1,LINECOLOR,tab)
 			---内容:
 			for k,v in pairs(useTABLE) do
@@ -956,7 +953,7 @@ function HPetAllInfoFrame:CreateVLine (x, y1, y2, w, color, parent)
   parent = parent or self
   local line = parent:CreateTexture (nil, "ARTWORK")
   line:SetDrawLayer ("ARTWORK")
-  line:SetColorTexture (color[1], color[2], color[3], color[4])
+  line:SetTexture (color[1], color[2], color[3], color[4])
   if y1 > y2 then
     y1, y2 = y2, y1
   end
@@ -982,7 +979,7 @@ function HPetAllInfoFrame:CreateHLine (x1, x2, y, w, color, parent)
   parent = parent or self
   local line = parent:CreateTexture (nil, "ARTWORK")
   line:SetDrawLayer ("ARTWORK")
-  line:SetColorTexture (color[1], color[2], color[3], color[4])
+  line:SetTexture (color[1], color[2], color[3], color[4])
   if x1 > x2 then
     x1, x2 = x2, x1
   end

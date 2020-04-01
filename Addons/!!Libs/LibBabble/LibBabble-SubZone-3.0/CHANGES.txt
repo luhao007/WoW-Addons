@@ -1,0 +1,9 @@
+------------------------------------------------------------------------
+r229 | arith | 2020-02-11 15:06:38 +0000 (Tue, 11 Feb 2020) | 1 line
+Changed paths:
+   M /trunk/LibBabble-SubZone-3.0_esMX.lua
+   M /trunk/LibBabble-SubZone-3.0_zhCN.lua
+
+zh-CN and es-MX translation update
+------------------------------------------------------------------------
+

@@ -32,7 +32,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
     active = {
         type = "quest",
         id = 47961,
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         type = "quest",
@@ -42,7 +42,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
         {
             type = "money",
             amounts = {
-                1396800, 1425600, 1454400, 1483200, 1512000, 1540800, 1569600, 1598400, 1627200, 1656000, 1684800, 
+                1396800, 1425600, 1454400, 1483200, 1512000, 1540800, 1569600, 1598400, 1627200, 1656000, 1684800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -50,7 +50,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
         {
             type = "experience",
             amounts = {
-                92100, 92950, 93700, 94450, 95200, 96050, 96850, 97700, 98300, 99150, 
+                92100, 92950, 93700, 94450, 95200, 96050, 96850, 97700, 98300, 99150,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -63,7 +63,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -72,7 +72,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         -- { -- Removed?
@@ -88,7 +88,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -112,7 +112,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
             x = 3,
             y = 4,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -127,7 +127,7 @@ BtWQuestsDatabase:AddChain(Chain.TheFinalEffigy, {
             x = 3,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -171,7 +171,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
         {
             type = "money",
             amounts = {
-                1707200, 1742400, 1777600, 1812800, 1848000, 1883200, 1918400, 1953600, 1988800, 2024000, 2059200, 
+                1707200, 1742400, 1777600, 1812800, 1848000, 1883200, 1918400, 1953600, 1988800, 2024000, 2059200,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -179,7 +179,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
         {
             type = "experience",
             amounts = {
-                132450, 133600, 134700, 135750, 136850, 138050, 139300, 140450, 141300, 142450, 
+                132450, 133600, 134700, 135750, 136850, 138050, 139300, 140450, 141300, 142450,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -206,7 +206,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 3,
             y = 0,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -221,7 +221,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 2,
             y = 1,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -251,7 +251,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 2,
             y = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -260,7 +260,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 4,
             y = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -278,7 +278,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 0,
             y = 5,
             connections = {
-                4, 
+                4,
             },
         },
         {
@@ -287,7 +287,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 2,
             y = 5,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -296,7 +296,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 4,
             y = 5,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -312,7 +312,7 @@ BtWQuestsDatabase:AddChain(Chain.TheBurdenOfProof, {
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -360,7 +360,7 @@ BtWQuestsDatabase:AddChain(Chain.AnAirtightAlibi, {
         {
             type = "money",
             amounts = {
-                2386200, 2435400, 2484600, 2533800, 2583000, 2632200, 2681400, 2730600, 2779800, 2829000, 2878200, 
+                2386200, 2435400, 2484600, 2533800, 2583000, 2632200, 2681400, 2730600, 2779800, 2829000, 2878200,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -368,7 +368,7 @@ BtWQuestsDatabase:AddChain(Chain.AnAirtightAlibi, {
         {
             type = "experience",
             amounts = {
-                165300, 166800, 168150, 169500, 170850, 172350, 173850, 175350, 176400, 177900, 
+                165300, 166800, 168150, 169500, 170850, 172350, 173850, 175350, 176400, 177900,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -386,7 +386,7 @@ BtWQuestsDatabase:AddChain(Chain.AnAirtightAlibi, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -404,7 +404,7 @@ BtWQuestsDatabase:AddChain(Chain.AnAirtightAlibi, {
             x = 2,
             y = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -413,7 +413,7 @@ BtWQuestsDatabase:AddChain(Chain.AnAirtightAlibi, {
             x = 4,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -465,7 +465,7 @@ BtWQuestsDatabase:AddChain(Chain.AnAirtightAlibi, {
             x = 2,
             y = 5,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -480,7 +480,7 @@ BtWQuestsDatabase:AddChain(Chain.AnAirtightAlibi, {
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -532,7 +532,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
         {
             type = "money",
             amounts = {
-                2153400, 2197800, 2242200, 2286600, 2331000, 2375400, 2419800, 2464200, 2508600, 2553000, 2597400, 
+                2153400, 2197800, 2242200, 2286600, 2331000, 2375400, 2419800, 2464200, 2508600, 2553000, 2597400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -540,7 +540,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
         {
             type = "experience",
             amounts = {
-                145600, 146900, 148150, 149200, 150450, 151800, 153100, 154400, 155350, 156650, 
+                145600, 146900, 148150, 149200, 150450, 151800, 153100, 154400, 155350, 156650,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -572,7 +572,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -612,7 +612,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
             x = 2,
             y = 3,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -621,7 +621,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
             x = 4,
             y = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -637,7 +637,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
             x = 3,
             y = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -646,7 +646,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
             x = 3,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -655,7 +655,7 @@ BtWQuestsDatabase:AddChain(Chain.TheOrderOfEmbers, {
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -720,7 +720,7 @@ BtWQuestsDatabase:AddChain(Chain.ANewOrder, {
         {
             type = "money",
             amounts = {
-                1474400, 1504800, 1535200, 1565600, 1596000, 1626400, 1656800, 1687200, 1717600, 1748000, 1778400, 
+                1474400, 1504800, 1535200, 1565600, 1596000, 1626400, 1656800, 1687200, 1717600, 1748000, 1778400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -728,7 +728,7 @@ BtWQuestsDatabase:AddChain(Chain.ANewOrder, {
         {
             type = "experience",
             amounts = {
-                98750, 99600, 100350, 101250, 102000, 103000, 103750, 104600, 105400, 106250, 
+                98750, 99600, 100350, 101250, 102000, 103000, 103750, 104600, 105400, 106250,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -755,7 +755,7 @@ BtWQuestsDatabase:AddChain(Chain.ANewOrder, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -764,7 +764,7 @@ BtWQuestsDatabase:AddChain(Chain.ANewOrder, {
             x = 3,
             y = 1,
             connections = {
-                2, 
+                2,
             },
         },
         { -- Didnt really fit anywhere
@@ -796,7 +796,7 @@ BtWQuestsDatabase:AddChain(Chain.ANewOrder, {
             x = 2,
             y = 3,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -805,7 +805,7 @@ BtWQuestsDatabase:AddChain(Chain.ANewOrder, {
             x = 4,
             y = 3,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -888,7 +888,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
         {
             type = "money",
             amounts = {
-                4209800, 4296600, 4383400, 4470200, 4557000, 4643800, 4730600, 4817400, 4904200, 4991000, 5077800, 
+                4209800, 4296600, 4383400, 4470200, 4557000, 4643800, 4730600, 4817400, 4904200, 4991000, 5077800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -896,7 +896,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
         {
             type = "experience",
             amounts = {
-                295300, 297950, 300450, 302650, 305150, 307900, 310500, 313150, 315100, 317750, 
+                295300, 297950, 300450, 302650, 305150, 307900, 310500, 313150, 315100, 317750,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -928,7 +928,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -937,7 +937,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -946,7 +946,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -970,7 +970,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
             x = 2,
             y = 4,
             connections = {
-                4, 
+                4,
             },
         },
         {
@@ -1055,7 +1055,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
             x = 2,
             y = 7,
             connections = {
-                4, 
+                4,
             },
         },
         {
@@ -1064,7 +1064,7 @@ BtWQuestsDatabase:AddChain(Chain.BreakOnThrough, {
             x = 4,
             y = 7,
         },
-        
+
         {
             type = "quest",
             id = 50456,
@@ -1148,7 +1148,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
         {
             type = "money",
             amounts = {
-                1668400, 1702800, 1737200, 1771600, 1806000, 1840400, 1874800, 1909200, 1943600, 1978000, 2012400, 
+                1668400, 1702800, 1737200, 1771600, 1806000, 1840400, 1874800, 1909200, 1943600, 1978000, 2012400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -1156,7 +1156,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
         {
             type = "experience",
             amounts = {
-                174400, 175950, 177350, 178800, 180200, 181800, 183400, 184800, 186200, 187600, 
+                174400, 175950, 177350, 178800, 180200, 181800, 183400, 184800, 186200, 187600,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -1192,7 +1192,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
             x = 0,
             y = 1,
             connections = {
-                4, 
+                4,
             },
         },
         {
@@ -1201,7 +1201,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
             x = 2,
             y = 1,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -1210,7 +1210,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
             x = 4,
             y = 1,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -1219,7 +1219,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
             x = 6,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1228,7 +1228,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1238,7 +1238,7 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
             x = 3,
             y = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1282,7 +1282,7 @@ BtWQuestsDatabase:AddChain(Chain.Drustfall, {
     active = {
         type = "quest",
         id = 49898,
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         type = "quest",
@@ -1292,7 +1292,7 @@ BtWQuestsDatabase:AddChain(Chain.Drustfall, {
         {
             type = "money",
             amounts = {
-                194000, 198000, 202000, 206000, 210000, 214000, 218000, 222000, 226000, 230000, 234000, 
+                194000, 198000, 202000, 206000, 210000, 214000, 218000, 222000, 226000, 230000, 234000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -1300,7 +1300,7 @@ BtWQuestsDatabase:AddChain(Chain.Drustfall, {
         {
             type = "experience",
             amounts = {
-                16450, 16600, 16750, 16850, 17000, 17150, 17300, 17450, 17550, 17700, 
+                16450, 16600, 16750, 16850, 17000, 17150, 17300, 17450, 17550, 17700,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -1319,11 +1319,6 @@ BtWQuestsDatabase:AddChain(Chain.Drustfall, {
         {
             type = "npc",
             id = 135085,
-            -- name = "Go to Captain Lilian Nottley",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.396876, 0.579790, "Captain Lilian Nottley")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
@@ -1390,7 +1385,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
         {
             type = "money",
             amounts = {
-                2929400, 2989800, 3050200, 3110600, 3171000, 3231400, 3291800, 3352200, 3412600, 3473000, 3533400, 
+                2929400, 2989800, 3050200, 3110600, 3171000, 3231400, 3291800, 3352200, 3412600, 3473000, 3533400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -1398,7 +1393,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
         {
             type = "experience",
             amounts = {
-                226200, 228250, 230250, 231750, 233750, 235850, 237850, 239900, 241350, 243400, 
+                226200, 228250, 230250, 231750, 233750, 235850, 237850, 239900, 241350, 243400,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -1434,7 +1429,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
             x = 2,
             y = 1,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -1449,7 +1444,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
             x = 3,
             y = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -1468,7 +1463,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
                 1, 2, 3,
             },
         },
-        
+
         {
             type = "quest",
             id = 51390,
@@ -1503,7 +1498,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
             x = 4,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
 
@@ -1514,7 +1509,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1523,7 +1518,7 @@ BtWQuestsDatabase:AddChain(Chain.FightingWithFire, {
             x = 3,
             y = 7,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1591,7 +1586,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
         {
             type = "money",
             amounts = {
-                2386200, 2435400, 2484600, 2533800, 2583000, 2632200, 2681400, 2730600, 2779800, 2829000, 2878200, 
+                2386200, 2435400, 2484600, 2533800, 2583000, 2632200, 2681400, 2730600, 2779800, 2829000, 2878200,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -1599,7 +1594,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
         {
             type = "experience",
             amounts = {
-                180100, 181750, 183250, 184650, 186150, 187800, 189400, 191050, 192200, 193850, 
+                180100, 181750, 183250, 184650, 186150, 187800, 189400, 191050, 192200, 193850,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -1644,7 +1639,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 1,
             y = 2,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -1653,7 +1648,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 3,
             y = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -1668,7 +1663,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 3,
             y = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1686,7 +1681,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 0,
             y = 5,
             connections = {
-                4, 
+                4,
             },
         },
         {
@@ -1695,7 +1690,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 2,
             y = 5,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -1704,7 +1699,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 4,
             y = 5,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -1713,7 +1708,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 6,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
 
@@ -1723,7 +1718,7 @@ BtWQuestsDatabase:AddChain(Chain.StickItToEm, {
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1781,7 +1776,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain01, {
         {
             type = "money",
             amounts = {
-                814800, 831600, 848400, 865200, 882000, 898800, 915600, 932400, 949200, 966000, 982800, 
+                814800, 831600, 848400, 865200, 882000, 898800, 915600, 932400, 949200, 966000, 982800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -1789,7 +1784,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain01, {
         {
             type = "experience",
             amounts = {
-                71550, 72200, 72800, 73350, 73950, 74600, 75250, 75900, 76350, 77000, 
+                71550, 72200, 72800, 73350, 73950, 74600, 75250, 75900, 76350, 77000,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -1811,7 +1806,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain01, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1829,7 +1824,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain01, {
             x = 2,
             y = 2,
             connections = {
-                3, 
+                3,
             },
         },
         {
@@ -1838,7 +1833,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain01, {
             x = 4,
             y = 2,
             connections = {
-                2, 
+                2,
             },
         },
         {
@@ -1853,7 +1848,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain01, {
             x = 3,
             y = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1862,7 +1857,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain01, {
             x = 3,
             y = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -1915,7 +1910,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain02, {
     active = {
         type = "quest",
         id = 50449,
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         type = "quest",
@@ -1925,7 +1920,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain02, {
         {
             type = "money",
             amounts = {
-                426800, 435600, 444400, 453200, 462000, 470800, 479600, 488400, 497200, 506000, 514800, 
+                426800, 435600, 444400, 453200, 462000, 470800, 479600, 488400, 497200, 506000, 514800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -1933,7 +1928,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain02, {
         {
             type = "experience",
             amounts = {
-                36200, 36500, 36800, 37100, 37400, 37700, 38100, 38400, 38600, 38900, 
+                36200, 36500, 36800, 37100, 37400, 37700, 38100, 38400, 38600, 38900,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -1959,21 +1954,16 @@ BtWQuestsDatabase:AddChain(Chain.Chain02, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
             type = "npc",
             id = 131639,
-            -- name = "Go to Inquisitor Mace",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.285438, 0.256527, "Inquisitor Mace")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2062,7 +2052,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
         {
             type = "money",
             amounts = {
-                1105800, 1128600, 1151400, 1174200, 1197000, 1219800, 1242600, 1265400, 1288200, 1311000, 1333800, 
+                1105800, 1128600, 1151400, 1174200, 1197000, 1219800, 1242600, 1265400, 1288200, 1311000, 1333800,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2070,7 +2060,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
         {
             type = "experience",
             amounts = {
-                79800, 80500, 81150, 81800, 82450, 83200, 83900, 84600, 85150, 85850, 
+                79800, 80500, 81150, 81800, 82450, 83200, 83900, 84600, 85150, 85850,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2101,7 +2091,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2110,7 +2100,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
             x = 3,
             y = 1,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2119,7 +2109,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
             x = 3,
             y = 2,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2128,7 +2118,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
             x = 3,
             y = 3,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2137,7 +2127,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
             x = 3,
             y = 4,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2146,7 +2136,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
             x = 3,
             y = 5,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2155,7 +2145,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain03, {
             x = 3,
             y = 6,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -2187,7 +2177,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain04, {
     active = {
         type = "quest",
         ids = {50970, 50967, 50965},
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         {
@@ -2207,7 +2197,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain04, {
         {
             type = "money",
             amounts = {
-                776000, 792000, 808000, 824000, 840000, 856000, 872000, 888000, 904000, 920000, 936000, 
+                776000, 792000, 808000, 824000, 840000, 856000, 872000, 888000, 904000, 920000, 936000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2215,7 +2205,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain04, {
         {
             type = "experience",
             amounts = {
-                53450, 53950, 54400, 54800, 55250, 55750, 56200, 56700, 57050, 57550, 
+                53450, 53950, 54400, 54800, 55250, 55750, 56200, 56700, 57050, 57550,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2239,11 +2229,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain04, {
         {
             type = "npc",
             id = 135976,
-            -- name = "Go to Morwin Gladeheart",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.299233, 0.404430, "Morwin Gladeheart")
-            -- end,
-            -- breadcrumb = true,
             x = 2,
             y = 0,
             connections = {
@@ -2253,8 +2238,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain04, {
         {
             type = "kill",
             id = 135901,
-            -- name = "Kill Bloodbough Funggarian",
-            -- breadcrumb = true,
             x = 5,
             y = 0,
             connections = {
@@ -2276,12 +2259,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain04, {
         {
             type = "quest",
             id = 50965,
-            -- [No longer needed] This quest doesnt show a marker for handing in so we will do it ourselves
-            -- onClick = function (item)
-            --     if IsQuestComplete(50965) then
-            --         BtWQuests_ShowMapWithWaypoint(896, 0.2992, 0.4044, "Morwin Gladeheart")
-            --     end
-            -- end,
             x = 5,
             y = 1,
         },
@@ -2308,7 +2285,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain05, {
     active = {
         type = "quest",
         id = 48677,
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         type = "quest",
@@ -2318,7 +2295,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain05, {
         {
             type = "money",
             amounts = {
-                1280400, 1306800, 1333200, 1359600, 1386000, 1412400, 1438800, 1465200, 1491600, 1518000, 1544400, 
+                1280400, 1306800, 1333200, 1359600, 1386000, 1412400, 1438800, 1465200, 1491600, 1518000, 1544400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2326,7 +2303,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain05, {
         {
             type = "experience",
             amounts = {
-                94600, 95450, 96250, 96950, 97750, 98650, 99450, 100300, 100950, 101800, 
+                94600, 95450, 96250, 96950, 97750, 98650, 99450, 100300, 100950, 101800,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2336,11 +2313,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain05, {
         {
             type = "npc",
             id = 127296,
-            -- name = "Go to David Maldus",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.625422, 0.239421, "David Maldus")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
@@ -2416,41 +2388,20 @@ BtWQuestsDatabase:AddChain(Chain.Chain06, {
         visible = false,
     },
     active = {
-        {
-            type = "quest",
-            id = 47945,
-            status = {'active', 'completed'},
-        },
-        {
-            type = "quest",
-            id = 47946,
-            status = {'active', 'completed'},
-        },
-        {
-            type = "quest",
-            id = 47947,
-            status = {'active', 'completed'},
-        },
-        {
-            type = "quest",
-            id = 47948,
-            status = {'active', 'completed'},
-        },
-        {
-            type = "quest",
-            id = 47949,
-            status = {'active', 'completed'},
-        },
+        type = "quest",
+        ids = {47945, 47946, 47947, 47948, 47949},
+        status = {"active", "completed"},
     },
     completed = {
         type = "quest",
-        id = 47950,
+        ids = {47946, 47947, 47948, 47950},
+        count = 4,
     },
     rewards = {
         {
             type = "money",
             amounts = {
-                989400, 1009800, 1030200, 1050600, 1071000, 1091400, 1111800, 1132200, 1152600, 1173000, 1193400, 
+                989400, 1009800, 1030200, 1050600, 1071000, 1091400, 1111800, 1132200, 1152600, 1173000, 1193400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2458,13 +2409,21 @@ BtWQuestsDatabase:AddChain(Chain.Chain06, {
         {
             type = "experience",
             amounts = {
-                71550, 72200, 72800, 73350, 73950, 74600, 75250, 75900, 76350, 77000, 
+                71550, 72200, 72800, 73350, 73950, 74600, 75250, 75900, 76350, 77000,
             },
             minLevel = 110,
             maxLevel = 119,
         },
     },
     items = {
+        {
+            type = "object",
+            id = 277459,
+            x = 0,
+            connections = {
+                2,
+            },
+        },
         {
             variations = {
                 {
@@ -2475,60 +2434,38 @@ BtWQuestsDatabase:AddChain(Chain.Chain06, {
                 {
                     type = "npc",
                     id = 124786,
-                    -- name = "Go to Thomas Staughton",
-                    -- onClick = function ()
-                    --     BtWQuests_ShowMapWithWaypoint(896, 0.632447, 0.270382, "Thomas Staughton")
-                    -- end,
-                    -- breadcrumb = true,
                 }
             },
-            x = 3,
+            x = 4,
             y = 0,
             connections = {
-                1, 2, 3, 4,
+                2, 3, 4,
             },
         },
         {
             type = "quest",
-            id = 47946,
+            id = 47949,
             x = 0,
-            y = 1,
             connections = {
                 4,
             },
         },
         {
             type = "quest",
+            id = 47946,
+        },
+        {
+            type = "quest",
             id = 47947,
-            x = 2,
-            y = 1,
-            connections = {
-                3,
-            },
         },
         {
             type = "quest",
             id = 47948,
-            x = 4,
-            y = 1,
-            connections = {
-                2,
-            },
-        },
-        {
-            type = "quest",
-            id = 47949,
-            x = 6,
-            y = 1,
-            connections = {
-                1,
-            },
         },
         {
             type = "quest",
             id = 47950,
-            x = 3,
-            y = 2,
+            x = 0,
         },
     },
 })
@@ -2554,12 +2491,12 @@ BtWQuestsDatabase:AddChain(Chain.Chain07, {
         {
             type = "quest",
             id = 48792,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 48793,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
     },
     completed = {
@@ -2570,7 +2507,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain07, {
         {
             type = "money",
             amounts = {
-                1164000, 1188000, 1212000, 1236000, 1260000, 1284000, 1308000, 1332000, 1356000, 1380000, 1404000, 
+                1164000, 1188000, 1212000, 1236000, 1260000, 1284000, 1308000, 1332000, 1356000, 1380000, 1404000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2578,7 +2515,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain07, {
         {
             type = "experience",
             amounts = {
-                86350, 87150, 87900, 88500, 89250, 90050, 90800, 91600, 92150, 92950, 
+                86350, 87150, 87900, 88500, 89250, 90050, 90800, 91600, 92150, 92950,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2595,11 +2532,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain07, {
                 {
                     type = "npc",
                     id = 127015,
-                    -- name = "Go to Thaddeus \"Gramps\" Rifthold",
-                    -- onClick = function ()
-                    --     BtWQuests_ShowMapWithWaypoint(896, 0.539242, 0.269846, "Thaddeus \"Gramps\" Rifthold")
-                    -- end,
-                    -- breadcrumb = true,
                 }
             },
             x = 3,
@@ -2670,12 +2602,12 @@ BtWQuestsDatabase:AddChain(Chain.Chain08, {
         {
             type = "quest",
             id = 48475,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 48474,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
     },
     completed = {
@@ -2686,7 +2618,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain08, {
         {
             type = "money",
             amounts = {
-                1358000, 1386000, 1414000, 1442000, 1470000, 1498000, 1526000, 1554000, 1582000, 1610000, 1638000, 
+                1358000, 1386000, 1414000, 1442000, 1470000, 1498000, 1526000, 1554000, 1582000, 1610000, 1638000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2694,7 +2626,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain08, {
         {
             type = "experience",
             amounts = {
-                90450, 91300, 92050, 92750, 93500, 94350, 95100, 95950, 96550, 97400, 
+                90450, 91300, 92050, 92750, 93500, 94350, 95100, 95950, 96550, 97400,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2709,11 +2641,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain08, {
         {
             type = "npc",
             id = 126210,
-            -- name = "Go to Caretaker Allen",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.626173, 0.429751, "Caretaker Allen")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
@@ -2737,9 +2664,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain08, {
                 level = 119,
                 atmost = true,
             },
-            -- function(item, character)
-            --     return character:GetLevel() < 120
-            -- end,
             x = 5,
             y = 1,
         },
@@ -2782,17 +2706,17 @@ BtWQuestsDatabase:AddChain(Chain.Chain09, {
         {
             type = "quest",
             id = 48947,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 52074,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 48181,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
     },
     completed = {
@@ -2803,7 +2727,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain09, {
         {
             type = "money",
             amounts = {
-                1940000, 1980000, 2020000, 2060000, 2100000, 2140000, 2180000, 2220000, 2260000, 2300000, 2340000, 
+                1940000, 1980000, 2020000, 2060000, 2100000, 2140000, 2180000, 2220000, 2260000, 2300000, 2340000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2811,7 +2735,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain09, {
         {
             type = "experience",
             amounts = {
-                152150, 153550, 154900, 155900, 157250, 158650, 160000, 161400, 162350, 163750, 
+                152150, 153550, 154900, 155900, 157250, 158650, 160000, 161400, 162350, 163750,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2833,11 +2757,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain09, {
                 {
                     type = "npc",
                     id = 125457,
-                    -- name = "Go to Rebecca Hale",
-                    -- onClick = function ()
-                    --     BtWQuests_ShowMapWithWaypoint(896, 0.645796, 0.548022, "Rebecca Hale")
-                    -- end,
-                    -- breadcrumb = true,
                 }
             },
             x = 3,
@@ -2863,9 +2782,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain09, {
                 level = 119,
                 atmost = true,
             },
-            -- function (item, character)
-            --     return character:GetLevel() < 120
-            -- end,
             x = 5,
             y = 1,
         },
@@ -2944,7 +2860,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain10, {
     active = {
         type = "quest",
         id = 50988,
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         {
@@ -2960,7 +2876,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain10, {
         {
             type = "money",
             amounts = {
-                1377400, 1405800, 1434200, 1462600, 1491000, 1519400, 1547800, 1576200, 1604600, 1633000, 1661400, 
+                1377400, 1405800, 1434200, 1462600, 1491000, 1519400, 1547800, 1576200, 1604600, 1633000, 1661400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -2968,7 +2884,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain10, {
         {
             type = "experience",
             amounts = {
-                92100, 92950, 93700, 94450, 95200, 96050, 96850, 97700, 98300, 99150, 
+                92100, 92950, 93700, 94450, 95200, 96050, 96850, 97700, 98300, 99150,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -2978,15 +2894,10 @@ BtWQuestsDatabase:AddChain(Chain.Chain10, {
         {
             type = "npc",
             id = 136458,
-            -- name = "Go to Cesi Loosecannon",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.228849, 0.462387, "Cesi Loosecannon")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
-                1, 
+                1,
             },
         },
         {
@@ -3057,12 +2968,12 @@ BtWQuestsDatabase:AddChain(Chain.Chain12, {
         {
             type = "quest",
             id = 48880,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 48904,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
     },
     completed = {
@@ -3073,7 +2984,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain12, {
         {
             type = "money",
             amounts = {
-                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000, 
+                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -3081,7 +2992,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain12, {
         {
             type = "experience",
             amounts = {
-                82250, 83000, 83750, 84250, 85000, 85750, 86500, 87250, 87750, 88500, 
+                82250, 83000, 83750, 84250, 85000, 85750, 86500, 87250, 87750, 88500,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -3091,11 +3002,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain12, {
         {
             type = "object",
             id = 276515,
-            -- name = "Go to the Fishing Rod",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.711437, 0.523708, "Fishing Rod")
-            -- end,
-            -- breadcrumb = true,
             x = 0,
             y = 0,
             connections = {
@@ -3105,11 +3011,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain12, {
         {
             type = "npc",
             id = 127558,
-            -- name = "Go to Art Hughie",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.718046, 0.504128, "Art Hughie")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
@@ -3119,11 +3020,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain12, {
         {
             type = "object",
             id = 276513,
-            -- name = "Go to the Intact Mudfish",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.707439, 0.507430, "Intact Mudfish")
-            -- end,
-            -- breadcrumb = true,
             x = 6,
             y = 0,
             connections = {
@@ -3189,12 +3085,12 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
         {
             type = "quest",
             id = 50960,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 50959,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
     },
     completed = {
@@ -3205,7 +3101,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
         {
             type = "money",
             amounts = {
-                388000, 396000, 404000, 412000, 420000, 428000, 436000, 444000, 452000, 460000, 468000, 
+                388000, 396000, 404000, 412000, 420000, 428000, 436000, 444000, 452000, 460000, 468000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -3213,7 +3109,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
         {
             type = "experience",
             amounts = {
-                32900, 33200, 33500, 33700, 34000, 34300, 34600, 34900, 35100, 35400, 
+                32900, 33200, 33500, 33700, 34000, 34300, 34600, 34900, 35100, 35400,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -3223,11 +3119,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
         {
             type = "object",
             id = 286016,
-            -- name = "Go to the Ship's Log",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.274432, 0.116113, "Ship's Log")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
@@ -3245,9 +3136,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
                         level = 119,
                         atmost = true,
                     },
-                    -- function (item, character)
-                    --     return character:GetLevel() < 120
-                    -- end,
                 },
                 {
                     type = "quest",
@@ -3266,9 +3154,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
                 level = 119,
                 atmost = true,
             },
-            -- function (item, character)
-            --     return character:GetLevel() < 120
-            -- end,
             x = 4,
             y = 1,
         },
@@ -3291,7 +3176,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain15, {
     active = {
         type = "quest",
         id = 47289,
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         type = "quest",
@@ -3301,7 +3186,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain15, {
         {
             type = "money",
             amounts = {
-                1183400, 1207800, 1232200, 1256600, 1281000, 1305400, 1329800, 1354200, 1378600, 1403000, 1427400, 
+                1183400, 1207800, 1232200, 1256600, 1281000, 1305400, 1329800, 1354200, 1378600, 1403000, 1427400,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -3309,7 +3194,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain15, {
         {
             type = "experience",
             amounts = {
-                88000, 88800, 89550, 90200, 90950, 91750, 92550, 93350, 93900, 94700, 
+                88000, 88800, 89550, 90200, 90950, 91750, 92550, 93350, 93900, 94700,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -3319,11 +3204,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain15, {
         {
             type = "npc",
             id = 121603,
-            -- name = "Go to Abby Lewis",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.544744, 0.392350, "Abby Lewis")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
@@ -3393,7 +3273,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain16, {
     active = {
         type = "quest",
         id = 51543,
-        status = {'active', 'completed'},
+        status = {"active", "completed"},
     },
     completed = {
         type = "quest",
@@ -3403,7 +3283,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain16, {
         {
             type = "money",
             amounts = {
-                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000, 
+                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -3411,7 +3291,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain16, {
         {
             type = "experience",
             amounts = {
-                57550, 58100, 58550, 59050, 59500, 60050, 60500, 61050, 61450, 62000, 
+                57550, 58100, 58550, 59050, 59500, 60050, 60500, 61050, 61450, 62000,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -3430,11 +3310,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain16, {
         {
             type = "npc",
             id = 135861,
-            -- name = "Go to Adalyn Forestwatcher",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.334358, 0.650842, "Adalyn Forestwatcher")
-            -- end,
-            -- breadcrumb = true,
             x = 3,
             y = 0,
             connections = {
@@ -3490,17 +3365,17 @@ BtWQuestsDatabase:AddChain(Chain.Chain17, {
         {
             type = "quest",
             id = 53461,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 53463,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 53462,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
     },
     completed = {
@@ -3521,7 +3396,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain17, {
         {
             type = "money",
             amounts = {
-                702000, 
+                702000,
             },
             minLevel = 120,
             maxLevel = 120,
@@ -3540,11 +3415,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain17, {
         {
             type = "npc",
             id = 143878,
-            -- name = "Go to Reez Grimelock",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.363514, 0.258411, "Reez Grimelock")
-            -- end,
-            -- breadcrumb = true,
             x = 1,
             y = 0,
             connections = {
@@ -3554,11 +3424,6 @@ BtWQuestsDatabase:AddChain(Chain.Chain17, {
         {
             type = "npc",
             id = 143871,
-            -- name = "Go to Foreman Cogbutton",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(896, 0.346010, 0.307286, "Foreman Cogbutton")
-            -- end,
-            -- breadcrumb = true,
             x = 4,
             y = 0,
             connections = {
@@ -3606,22 +3471,22 @@ BtWQuestsDatabase:AddChain(Chain.Chain18, {
         {
             type = "quest",
             id = 50911,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 50929,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 50912,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
         {
             type = "quest",
             id = 50897,
-            status = {'active', 'completed'},
+            status = {"active", "completed"},
         },
     },
     completed = {
@@ -3646,7 +3511,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain18, {
         {
             type = "money",
             amounts = {
-                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000, 
+                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000,
             },
             minLevel = 110,
             maxLevel = 120,
@@ -3654,7 +3519,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain18, {
         {
             type = "experience",
             amounts = {
-                69900, 70550, 71150, 71650, 72250, 72900, 73500, 74150, 74600, 75250, 
+                69900, 70550, 71150, 71650, 72250, 72900, 73500, 74150, 74600, 75250,
             },
             minLevel = 110,
             maxLevel = 119,
@@ -3963,10 +3828,6 @@ BtWQuestsDatabase:AddCategory(CATEGORY_ID, {
             type = "chain",
             id = Chain.Chain10,
         },
-        -- {
-        --     type = "chain",
-        --     id = Chain.Chain011,
-        -- },
         {
             type = "chain",
             id = Chain.Chain12,
@@ -3975,10 +3836,6 @@ BtWQuestsDatabase:AddCategory(CATEGORY_ID, {
             type = "chain",
             id = Chain.Chain13,
         },
-        -- {
-        --     type = "chain",
-        --     id = Chain.Chain014,
-        -- },
         {
             type = "chain",
             id = Chain.Chain15,
@@ -3995,18 +3852,6 @@ BtWQuestsDatabase:AddCategory(CATEGORY_ID, {
             type = "chain",
             id = Chain.Chain18,
         },
-        -- {
-        --     type = "chain",
-        --     id = Chain.OtherAlliance,
-        -- },
-        -- {
-        --     type = "chain",
-        --     id = Chain.OtherHorde,
-        -- },
-        -- {
-        --     type = "chain",
-        --     id = Chain.OtherBoth,
-        -- },
     },
 })
 

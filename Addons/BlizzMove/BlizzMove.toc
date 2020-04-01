@@ -1,8 +1,8 @@
-## Interface: 80205
-## Author: yess
-## Version: v1.9.1
+## Interface: 80300
+## Author: the-rebel-Mermaid - github.com/the-rebel-Mermaid/BlizzMove/
+## Version: v2.1.5
 
-## Title: Blizzmove
+## Title: BlizzMove
 ## Notes: Move those blizzard windows
 ## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF窗口移动|r |cFFFFE00ABlizzMove|r
 ## Notes-zhCN: 移动内置的各种窗口

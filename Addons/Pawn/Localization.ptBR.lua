@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -96,6 +96,7 @@ Para mais informações sobre personalizar o Pawn, favor veja o arquivo de ajuda
 		["BlockValueInfo"] = "Shield block value.  Increases the damage that a shield absorbs when it successfully blocks.",
 		["Cloth"] = "Tecido",
 		["ClothInfo"] = "Pontos para distribuir se o item for tecido.",
+		["CorruptionInfo"] = "Corruption of N'Zoth.  A negative value for Corruption will remove points from an item's score based on the level of corruption.",
 		["Crit"] = "Crítico",
 		["CritInfo"] = "Ataque crítico. Aumenta a chance de seus ataques e magias de cura acertem com maior potência.",
 		--[[Translation missing --]]
@@ -287,6 +288,7 @@ Para mais informações sobre personalizar o Pawn, favor veja o arquivo de ajuda
 		["Charges"] = "^.+ Cargas?$",
 		["Cloth"] = "^Tecido$",
 		["CooldownRemaining"] = "^Tempo de recarga restante:",
+		["Corruption"] = "^%+?# Corrupção$",
 		["Crit"] = "^%+?# Acerto Crítico%.?$",
 		["Crit2"] = "^%+?# de Acerto Crítico%.?$",
 		["CritPercent"] = "^Equipado: Aumenta em #%% a chance de realizar acertos críticos%.$",
@@ -391,6 +393,7 @@ Para mais informações sobre personalizar o Pawn, favor veja o arquivo de ajuda
 		["Sword"] = "^Espada$",
 		["TemporaryBuffMinutes"] = "^.+%(%d+ min%)$",
 		["TemporaryBuffSeconds"] = "^.+%(%d+ s%)$",
+		["Thrown"] = "^Thrown$",
 		["Thunderforged"] = "^Forjado pelo Trovão$",
 		["Timeless"] = "^Perene$",
 		["Titanforged"] = "^Forja Titânica$",
@@ -465,7 +468,7 @@ Por exemplo, se for definido com "463", o Pawn irá mostrar gemas apropriadas pa
 
 Quando você ganhar recompensas de missões ou saques de masmorras que possam ser melhores que o seu equipamento atual, o Pawn te informará com um ícone de seta verde.
 
-    |cff8ec3e6Fogo:|r  |TInterface\AddOns\Pawn\Textures\UpgradeArrow:0|t |cff00ff00+10% de melhoria|r
+	|cff8ec3e6Fogo:|r  |TInterface\AddOns\Pawn\Textures\UpgradeArrow:0|t |cff00ff00+10% de melhoria|r
 
 
 
@@ -635,6 +638,7 @@ Atalho: Shift+clique em uma escala]=],
 		["ValuesFollowSpecialization"] = "Mostrar melhorias para o meu melhor tipo de armadura somente após o nível 50",
 		["ValuesFollowSpecializationTooltip"] = "Ative essa opção para esconder melhorias para armaduras que a sua classe não pode se especializar no nível 50. Por exemplo, no nível 50 paladinos sagrados aprendem Especialização em Armadura de Placas, a qual aumenta o seu intelecto em 5% enquanto usarem apenas armadura de placas. Quando essa opção é escolhida o Pawn nunca vai considerar tecido, couro ou malha para serem melhorias para paladinos sagrados de nível 50 ou mais.",
 		["ValuesHeader"] = "Valores de atributos para %s",
+		["ValuesIgnoreItemType"] = "Items com isso não são usáveis",
 		["ValuesIgnoreStat"] = "Items com isso não são usáveis",
 		["ValuesIgnoreStatTooltip"] = "Ative essa opção para fazer com que qualquer item com esse atributo não tenha valor para essa escala. Por exemplo, xamãs não podem vestir placas, então uma escala designada para um xamã pode marcar placas como não utilizáveis para que armaduras de placa não tenham valor para essa escala.",
 		["ValuesNormalize"] = "Normalizar valores (como o Wowhead)",
@@ -649,6 +653,97 @@ Para mais informação nessa opção, veja o arquivo readme.]=],
 		["ValuesWelcomeReadOnly"] = "Essa escala interna não pode ser alterada. Se você quiser customizar os valores, vá para a aba Escalas, ative o modo Manual, e faça uma cópia dessa escala.",
 	}
 }
+
+PawnLocal.Specs =
+{
+	[1] = {
+		{ Name="Armas", Icon=132355, Role="DAMAGER" },
+		{ Name="Fúria", Icon=132347, Role="DAMAGER" },
+		{ Name="Proteção", Icon=132341, Role="TANK" },
+	},
+	[2] = {
+		{ Name="Sagrado", Icon=135920, Role="HEALER" },
+		{ Name="Proteção", Icon=236264, Role="TANK" },
+		{ Name="Retribuição", Icon=135873, Role="DAMAGER" },
+	},
+	[3] = {
+		{ Name="Domínio das Feras", Icon=461112, Role="DAMAGER" },
+		{ Name="Precisão", Icon=236179, Role="DAMAGER" },
+		{ Name="Sobrevivência", Icon=461113, Role="DAMAGER" },
+	},
+	[4] = {
+		{ Name="Assassinato", Icon=236270, Role="DAMAGER" },
+		{ Name="Fora da Lei", Icon=236286, Role="DAMAGER" },
+		{ Name="Subterfúgio", Icon=132320, Role="DAMAGER" },
+	},
+	[5] = {
+		{ Name="Disciplina", Icon=135940, Role="HEALER" },
+		{ Name="Sagrado", Icon=237542, Role="HEALER" },
+		{ Name="Sombra", Icon=136207, Role="DAMAGER" },
+	},
+	[6] = {
+		{ Name="Sangue", Icon=135770, Role="TANK" },
+		{ Name="Gélido", Icon=135773, Role="DAMAGER" },
+		{ Name="Profano", Icon=135775, Role="DAMAGER" },
+	},
+	[7] = {
+		{ Name="Elemental", Icon=136048, Role="DAMAGER" },
+		{ Name="Aperfeiçoamento", Icon=237581, Role="DAMAGER" },
+		{ Name="Restauração", Icon=136052, Role="HEALER" },
+	},
+	[8] = {
+		{ Name="Arcano", Icon=135932, Role="DAMAGER" },
+		{ Name="Fogo", Icon=135810, Role="DAMAGER" },
+		{ Name="Gélido", Icon=135846, Role="DAMAGER" },
+	},
+	[9] = {
+		{ Name="Suplício", Icon=136145, Role="DAMAGER" },
+		{ Name="Demonologia", Icon=136172, Role="DAMAGER" },
+		{ Name="Destruição", Icon=136186, Role="DAMAGER" },
+	},
+	[10] = {
+		{ Name="Mestre Cervejeiro", Icon=608951, Role="TANK" },
+		{ Name="Tecelão da Névoa", Icon=608952, Role="HEALER" },
+		{ Name="Andarilho do Vento", Icon=608953, Role="DAMAGER" },
+	},
+	[11] = {
+		{ Name="Equilíbrio", Icon=136096, Role="DAMAGER" },
+		{ Name="Feral", Icon=132115, Role="DAMAGER" },
+		{ Name="Guardião", Icon=132276, Role="TANK" },
+		{ Name="Restauração", Icon=136041, Role="HEALER" },
+	},
+	[12] = {
+		{ Name="Devastação", Icon=1247264, Role="DAMAGER" },
+		{ Name="Vingança", Icon=1247265, Role="TANK" },
+	},
+}
+
+-- Special case: wands actually use different text on live versus classic.
+-- So, patch things up here.
+if VgerCore.IsClassic then
+
+	local TooltipParsing_Classic =
+	{
+		["WeaponDamageArcane"] = "^%+?# %- # de dano tipo [aA]rcano$",
+		["WeaponDamageArcaneExact"] = "^%+?# de dano tipo [aA]rcano$",
+		["WeaponDamageFire"] = "^%+?# %- # de dano tipo [fF]ogo$",
+		["WeaponDamageFireExact"] = "^%+?# de dano tipo [fF]ogo$",
+		["WeaponDamageFrost"] = "^%+?# %- # de dano tipo [gG]elo$",
+		["WeaponDamageFrostExact"] = "^%+?# de dano tipo [gG]elo$",
+		["WeaponDamageHoly"] = "^%+?# %- # de dano tipo [sS]agrado$",
+		["WeaponDamageHolyExact"] = "^%+?# de dano tipo [sS]agrado$",
+		["WeaponDamageNature"] = "^%+?# %- # de dano tipo [nN]atureza$",
+		["WeaponDamageNatureExact"] = "^%+?# de dano tipo [nN]atureza$",
+		["WeaponDamageShadow"] = "^%+?# %- # de dano tipo [sS]ombra$",
+		["WeaponDamageShadowExact"] = "^%+?# de dano tipo [sS]ombra$",
+	}
+
+	local Key, NewString
+	for Key, NewString in pairs(TooltipParsing_Classic) do
+		PawnLocal.TooltipParsing[Key] = NewString
+	end
+end
+
 end
 
 if GetLocale() == "ptBR" then

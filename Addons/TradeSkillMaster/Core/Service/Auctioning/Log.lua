@@ -1,15 +1,19 @@
 -- ------------------------------------------------------------------------------ --
---                           TradeSkillMaster_Auctioning                          --
---           http://www.curse.com/addons/wow/tradeskillmaster_auctioning          --
+--                                TradeSkillMaster                                --
+--             https://www.curseforge.com/wow/addons/tradeskill-master            --
 --                                                                                --
---             A TradeSkillMaster Addon (http://tradeskillmaster.com)             --
+--             A TradeSkillMaster Addon (https://tradeskillmaster.com)            --
 --    All Rights Reserved* - Detailed license information included with addon.    --
 -- ------------------------------------------------------------------------------ --
 
 local _, TSM = ...
 local Log = TSM.Auctioning:NewPackage("Log")
-local L = TSM.L
-local private = { db = nil }
+local L = TSM.Include("Locale").GetTable()
+local Database = TSM.Include("Util.Database")
+local ItemInfo = TSM.Include("Service.ItemInfo")
+local private = {
+	db = nil,
+}
 local RED = "|cffff2211"
 local ORANGE = "|cffff8811"
 local GREEN = "|cff22ff22"
@@ -41,6 +45,7 @@ local REASON_STRINGS = {
 	cancelDisabled = ORANGE .. L["Canceling disabled."] .. "|r",
 	cancelNotUndercut = GREEN .. L["Your auction has not been undercut."] .. "|r",
 	cancelBid = CYAN .. L["Auction has been bid on."] .. "|r",
+	cancelNoMoney = CYAN .. L["Not enough money to cancel."] .. "|r",
 	cancelKeepPosted = CYAN .. L["Keeping undercut auctions posted."] .. "|r",
 	cancelBelowMin = ORANGE .. L["Not canceling auction below min price."] .. "|r",
 	cancelAtReset = GREEN .. L["Not canceling auction at reset price."] .. "|r",
@@ -61,7 +66,7 @@ local REASON_STRINGS = {
 -- ============================================================================
 
 function Log.OnInitialize()
-	private.db = TSMAPI_FOUR.Database.NewSchema("AUCTIONING_LOG")
+	private.db = Database.NewSchema("AUCTIONING_LOG")
 		:AddNumberField("index")
 		:AddStringField("itemString")
 		:AddStringField("seller")
@@ -78,8 +83,19 @@ end
 
 function Log.CreateQuery()
 	return private.db:NewQuery()
-		:InnerJoin(TSM.ItemInfo.GetDBForJoin(), "itemString")
+		:InnerJoin(ItemInfo.GetDBForJoin(), "itemString")
 		:OrderBy("index", true)
+end
+
+function Log.UpdateRowByIndex(index, field, value)
+	local row = private.db:NewQuery()
+		:Equal("index", index)
+		:GetFirstResultAndRelease()
+
+	row:SetField(field, value)
+		:Update()
+
+	row:Release()
 end
 
 function Log.SetQueryUpdatesPaused(paused)

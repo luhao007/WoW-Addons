@@ -1,35 +1,18 @@
 # <DBM> Outlands
 
-## [r668](https://github.com/DeadlyBossMods/DBM-BCVanilla/tree/r668) (2019-09-24)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-BCVanilla/compare/r667...r668)
+## [r671](https://github.com/DeadlyBossMods/DBM-BCVanilla/tree/r671) (2020-03-29)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-BCVanilla/compare/r670...r671)
 
-- TOC Bump  
-- Damage Shield special warning for Majordomo now off by default. A new general warning that's on for everyone by default takes it's place. If special warning is re-enabled, general warning will auto hide. Reason being, melee generally don't stop attacking for it and 2, casters like to know that it was melee shield in a general announce and they are safe for another 30 seconds.  
-- Fix same impossible lua error here as well  
-    in Addition, retail now has better submerge detection using a retail only method. No longer relies on yells. Too bad that can't be used on classic :\  
-- Tweaked Immolate warning to now be off by default on Garr, it still felt spammy enough to be an opt in warning, not opt out. Spam shouldn't be something that's ever defaulted  
-    Added ignite mana timer to Baron Geddon  
-    Added Inferno timer to Baron Geddon  
-    Fixed bug with countdown yell for bomb on Baron Geddon  
-    Made Bomb timer more robust on baron Geddon, in event actual debuff is resisted by target.  
-    Fixed curse timer on Gehennas with live classic data.  
-    Removed Doom Cast timer from Lucifron. he spends half the fight casting doom,it doesn't really need a cast timer showing that.  
-    Added timers for first casts of doom and curse to Lucifron  
-    Added optional (off by default) Conflagration target warning to Magmadar  
-    Re-enabled Panic timer on Magmadar now that I've seen an agreeable amount of live classic timer data to confirm it.  
-    Disabled all Deaden Magic warnings/timers on Shazzrah by default. That stuff can be spammy and spam should be opt in, not opt out.  
-    Added Counterspell cooldown timer to Shazzrah  
-    Fixed Gate timer on shazzrah being too slow.  
-    Fixed initial curse timer on Shazzrah being too slow  
-- Fix stray )  
-- Added teleport and shield cooldown timers to Majordomo  
-    Added remaining sons warning to ragnoaros (for sons 3 2 and 1)  
-    Added missing Wrath of rag timer for first wrath cast after sons phase has ended.  
-    Fixed ragnaros mod so that if you are sitting outside, you won't accept syncs that submerge phase has begun.  
-- Fix same MC bugs that were fixed in DBM-Classic  
-- Merge pull request #1 from Mini-Dragon/master  
-    zhCN update  
-- zhCN update  
-- Include project version in toc  
-- adjust packager call  
-- move to the BigWigs community packager  
+- Fix to last  
+- Sync some classic updates back to BWL for retail  
+- Small Fix for Last  
+- Classic TBC Prep 1: Karazhan  
+     - Updated any remaining variables that weren't syncable by timer recovery so that all variables used by these mods are supported by timer recovery.  
+     - Updated all target warnings that don't have special warnings to be exempt from target warning filter feature in DBM-Core to ensure no warnings go missing.  
+     - Updated some mods that were still creating args table for all combat log events instead of just the ones for spellIds we care about (cpu saving)  
+     - Updated Icon and rangecheck options to the modern objects so that they use auto localized text as well as honor the global disable options from DBM-Core  
+     - Added Special warnings for interrupts to Moros encounter for both heal spells now that modern objects support good filtering of when no to show these warnings.  
+     - Updated a few option defaults to defaults that make more sense for some of the spells in these encounters.  
+     - Updated bosses that have multiple phases to now support showing phase in wipe messages and status whispers  
+     - Fixed bug with auto marking of elementals on shade of aran to actually mark the 4 adds with 4 different icons instead of trying to mark all 4 adds with star. FIxing this bug also fixed inefficiency in object as well since it was trying to scan for 16 adds for 20 seconds instead of 4 adds for only a couple seconds.  
+- Sync some more fixes from classic I forgot to push  

@@ -11,7 +11,6 @@
 
 local _, TSM = ...
 local SmartMap = TSM.Init("Util.SmartMap")
-TSM.SmartMap = SmartMap
 local private = {
 	mapContext = {},
 	readerContext = {},
@@ -107,16 +106,17 @@ local READER_MT = {
 -- Module Functions
 -- ============================================================================
 
-function SmartMap.New(keyType, valueType, func)
-	assert(VALID_FIELD_TYPES[keyType] and VALID_FIELD_TYPES[valueType] and type(func) == "function")
+function SmartMap.New(keyType, valueType, callable)
+	assert(VALID_FIELD_TYPES[keyType] and VALID_FIELD_TYPES[valueType])
 	local map = setmetatable({}, SMART_MAP_MT)
 	private.mapContext[map] = {
 		keyType = keyType,
 		valueType = valueType,
-		func = func,
+		func = callable,
 		data = {},
 		readers = {},
 		callbacksPaused = 0,
+		hasReaderCallback = false,
 	}
 	return map
 end
@@ -132,6 +132,15 @@ function private.MapValueChanged(self, key)
 	local oldValue = mapContext.data[key]
 	if oldValue == nil then
 		-- nobody cares about this value
+		return
+	end
+
+	if not mapContext.hasReaderCallback then
+		-- no reader has registered a callback, so just clear the value
+		mapContext.data[key] = nil
+		for _, reader in ipairs(mapContext.readers) do
+			rawset(reader, key, nil)
+		end
 		return
 	end
 
@@ -186,7 +195,9 @@ end
 function private.MapCreateReader(self, callback)
 	assert(callback == nil or type(callback) == "function")
 	local reader = setmetatable({}, READER_MT)
-	tinsert(private.mapContext[self].readers, reader)
+	local mapContext = private.mapContext[self]
+	tinsert(mapContext.readers, reader)
+	mapContext.hasReaderCallback = mapContext.hasReaderCallback or (callback and true or false)
 	private.readerContext[reader] = {
 		map = self,
 		callback = callback,

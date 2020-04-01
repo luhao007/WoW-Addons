@@ -8,8 +8,19 @@
 
 local _, TSM = ...
 local Crafting = TSM.MainUI.Settings:NewPackage("Crafting")
-local L = TSM.L
-local private = { altCharacters = {}, altGuilds = {} }
+local L = TSM.Include("Locale").GetTable()
+local Log = TSM.Include("Util.Log")
+local CustomPrice = TSM.Include("Service.CustomPrice")
+local private = {
+	altCharacters = {},
+	altGuilds = {},
+}
+local BAD_MAT_PRICE_SOURCES = {
+	matprice = true,
+}
+local BAD_CRAFT_VALUE_PRICE_SOURCES = {
+	crafting = true,
+}
 
 
 
@@ -82,7 +93,7 @@ function private.GetCraftingSettingsFrame()
 			:SetStyle("margin.bottom", 16)
 		)
 		:AddChild(TSM.MainUI.Settings.CreateInputWithReset("matCostMethodField", L["Default Material Cost Method:"], "global.craftingOptions.defaultMatCostMethod", private.CheckMatPrice))
-		:AddChild(TSM.MainUI.Settings.CreateInputWithReset("craftValueField", L["Default Craft Value Method:"], "global.craftingOptions.defaultCraftPriceMethod", private.CheckMatPrice))
+		:AddChild(TSM.MainUI.Settings.CreateInputWithReset("craftValueField", L["Default Craft Value Method:"], "global.craftingOptions.defaultCraftPriceMethod", private.CheckCraftValue))
 		:AddChild(TSMAPI_FOUR.UI.NewElement("Checkbox", "excludeCooldownsCheckbox")
 			:SetStyle("height", 28)
 			:SetStyle("margin.left", -5)
@@ -123,11 +134,20 @@ end
 -- ============================================================================
 
 function private.CheckMatPrice(value)
-	local isValid, err = TSMAPI_FOUR.CustomPrice.Validate(value, "matprice")
-	if(isValid) then
+	local isValid, err = CustomPrice.Validate(value, BAD_MAT_PRICE_SOURCES)
+	if isValid then
 		return true
 	else
-		TSM:Print(L["Invalid custom price."].." "..err)
+		Log.PrintUser(L["Invalid custom price."].." "..err)
+	end
+end
+
+function private.CheckCraftValue(value)
+	local isValid, err = CustomPrice.Validate(value, BAD_CRAFT_VALUE_PRICE_SOURCES)
+	if isValid then
+		return true
+	else
+		Log.PrintUser(L["Invalid custom price."].." "..err)
 	end
 end
 

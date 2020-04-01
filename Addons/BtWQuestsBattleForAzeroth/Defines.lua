@@ -4,6 +4,68 @@ BtWQuests.Constant.Category.BattleForAzeroth = BtWQuests.Constant.Category.Battl
 BtWQuests.Constant.Chain.BattleForAzeroth = BtWQuests.Constant.Chain.BattleForAzeroth or {};
 local Category = BtWQuests.Constant.Category.BattleForAzeroth;
 local Chain = BtWQuests.Constant.Chain.BattleForAzeroth;
+local Restrictions = BtWQuests.Constant.Restrictions;
+
+-- Restrictions.RevertedToSaurfangDuringRightingWrongs = {
+--     type = "quest",
+--     id = 54999,
+--     status = {"active", "completed"},
+-- }
+-- Restrictions.RevertedToSaurfangDuring815 = {
+--     type = "quest",
+--     id = 54999,
+--     status = {"active", "completed"},
+-- }
+Restrictions.SidedWithSaurfang = {
+    type = "quest",
+    id = 54754,
+    status = {"pending"}
+}
+-- Initially sided with Sylvannas
+Restrictions.SidedWithSylvanas = {
+    type = "quest",
+    id = 54754,
+    status = {"active", "completed"},
+}
+-- Kept siding with Sylvannas after Righting Wrongs
+Restrictions.SidedWithSylvanasRightingWrongsOnwards = {
+    variations = {
+        { -- Told Nathanos about Baine plan
+            type = "quest",
+            id = 55029,
+            restrictions = { -- Righting Wrongs Quest
+                type = "quest",
+                id = 54961,
+            },
+        },
+        Restrictions.SidedWithSylvanas
+    }
+}
+-- Kept siding with Sylvannas after Stay of Execution
+Restrictions.SidedWithSylvanasStayOfExecutionOnwards = {
+    variations = {
+        { -- Told Nathanos about Freeing Baine
+            type = "quest",
+            ids = {55620, 56833},
+            status = {"active", "completed"},
+            restrictions = { -- Old Allies Quest
+                type = "quest",
+                id = 55780,
+                status = {"active", "completed"}
+            },
+        },
+        { -- Told Nathanos about Baine plan
+            type = "quest",
+            id = 55029,
+            restrictions = { -- Righting Wrongs Quest
+                type = "quest",
+                id = 54961,
+            },
+        },
+        Restrictions.SidedWithSylvanas
+    }
+}
+-- Siding with Etrigg marked 55620 as not complete anymore
 
 Category.Zuldazar = 801
 Category.Nazmir = 802
@@ -14,6 +76,7 @@ Category.StormsongValley = 806
 Category.MechagonIsland = 807
 Category.Nazjatar = 808
 Category.TheHeartForge = 809
+Category.VisionsOfNZoth = 810
 Category.Professions = 897
 Category.AlliedRaces = 898
 Category.Secrets = 899
@@ -78,8 +141,7 @@ Chain.Alliance815Part1 = 80047
 Chain.Alliance815Part2 = 80048
 Chain.Horde815Part1 = 80049
 Chain.Horde815Part2 = 80050
-Chain.AlliedRacesKulTiran = 80051
-Chain.AlliedRacesZandalariTroll = 80052
+
 Chain.SomethingSomethingParrot = 80053
 Chain.NeckLevel = 80054
 Chain.Alchemy = 80055
@@ -110,8 +172,15 @@ Chain.Horde82Follower = 80073
 Chain.Alliance825Campaign = 80074
 Chain.Horde825SaurfangCampaign = 80075
 Chain.Horde825SylvanasCampaign = 80076
+
 Chain.Alliance825Calia = 80077
 Chain.Horde825Calia = 80078
+
+Chain.Alliance83Calia = 80079
+Chain.Horde83Calia = 80080
+
+Chain.WorgenHeritage = 80081
+Chain.GoblinHeritage = 80082
 
 Chain.OtherAlliance = 80097
 Chain.OtherHorde = 80098
@@ -158,12 +227,26 @@ Chain.StormsongValley = {}
 Chain.MechagonIsland = {}
 Chain.Nazjatar = {}
 Chain.TheHeartForge = {}
+Chain.VisionsOfNZoth = {
+    Chain01 = 81001,
+    Chain02 = 81002,
+    Chain03 = 81003,
+    Chain04 = 81004,
+    Chain05 = 81005,
+    Chain06 = 81006,
+    Chain07 = 81007,
+    Chain08 = 81008,
+    Chain09 = 81009,
+    Chain10 = 81010,
+}
 Chain.Professions = {}
 Chain.AlliedRaces = {
     DarkIronDwarves = 89801,
     MagharOrc = 89802,
     KulTiran = 80051,
     ZandalariTroll = 80052,
+    Vulpera = 89805,
+    Mechagnomes = 89806,
 }
 Chain.Secrets = {
     HoneybackHive = 89903
@@ -480,7 +563,6 @@ BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN04 = 80904
 BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN05 = 80905
 BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN06 = 80906
 BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN07 = 80907
-BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_TEMP_CHAIN01 = 80908
 BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN08 = 80909
 
 BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIED_RACES_DARK_IRON_DWARVES = 89801

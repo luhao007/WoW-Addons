@@ -4,6 +4,7 @@ if GetLocale() ~= "zhCN" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [11997] = {
         name = "冰封烈焰",
@@ -6699,3 +6700,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "艾泽拉斯之血",
     },
 })
+]])()

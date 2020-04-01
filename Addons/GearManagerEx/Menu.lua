@@ -6,102 +6,63 @@
 ------------------------------------------------------------
 
 local type = type
-local GetEquipmentSetInfoByName = GetEquipmentSetInfoByName
-local strfind = strfind
 local HideDropDownMenu = HideDropDownMenu
 local ToggleDropDownMenu = ToggleDropDownMenu
 local UIDropDownMenu_AddButton = UIDropDownMenu_AddButton
+local GetNumSpecializations = GetNumSpecializations
+local GetSpecializationInfo = GetSpecializationInfo
 local GameTooltip = GameTooltip
-local NUM_GEARSET_ICONS_SHOWN = NUM_GEARSET_ICONS_SHOWN
-local _G = _G
+local PaperDollEquipmentManagerPane = PaperDollEquipmentManagerPane
 
 local _, addon = ...
 local L = addon.L
-local EMPANEL = PaperDollEquipmentManagerPane
-local curSetName, curSetIcon
+local curName, curIcon, curId
 
-local function OnMenuResaveSet()
-	addon:ResaveSet(curSetName)
-end
-
-local function OnMenuDeleteSet()
-	addon:DeleteSet(curSetName)
-end
-
-local function OnMenuRenameSet()
-	addon:RenameSet(curSetName)
-end
-
-local function OnMenuDepositSet()
-	addon:BankSet(curSetName, 1)
-end
-
-local function OnMenuWithdrawSet()
-	addon:BankSet(curSetName)
-end
-
-local function OnMenuBindSetToTalent1()
-	addon:BindSetToTalent(curSetName, 1)
-end
-
-local function OnMenuBindSetToTalent2()
-	addon:BindSetToTalent(curSetName, 2)
-end
-
---[[ DONEY MOD - modified ]]--
-local function OnMenuBindSetToTalent3()
-	addon:BindSetToTalent(curSetName, 3)
-end
-local function OnMenuBindSetToTalent4()
-	addon:BindSetToTalent(curSetName, 4)
-end
-local t_funcs_OnMenuBindSetToTalent = {
-	OnMenuBindSetToTalent1,
-	OnMenuBindSetToTalent2,
-	OnMenuBindSetToTalent3,
-	OnMenuBindSetToTalent4,
-}
---[[ DONEY MOD - end ]]--
-
-local function OnMenuShowHelm()
-	addon:ToggleShowHelm(curSetName)
-end
-
-local function OnMenuShowCloak()
-	addon:ToggleShowCloak(curSetName)
-end
-
-function addon:SetMenuSet(name)
-	if type(name) ~= "string" then
-		name = nil
-	end
-
-	local icon = GetEquipmentSetInfoByName(name)
-	if not icon then
-		name = nil
-	end
-
-	if name then
-		if not strfind(icon, "\\") then
-			icon = "Interface\\Icons\\"..icon
-		end
-	else
+function addon:SetMenuSet(set)
+	local name, icon, id = self:GetEquipmentSetInfo(set)
+	if curName ~= name or curId ~= id then
 		HideDropDownMenu(1)
 	end
-
-	curSetName, curSetIcon = name, icon
-	return name, icon
+	curName, curIcon, curId = name, icon, id
 end
 
 function addon:GetMenuSet()
-	return curSetName, curSetIcon
+	return curName, curId
+end
+
+local function OnMenuResaveSet()
+	addon:SaveSet(curName)
+end
+
+local function OnMenuDeleteSet()
+	addon:DeleteSet(curName)
+end
+
+local function OnMenuRenameSet()
+	addon:RenameSet(curName)
+end
+
+local function OnMenuDepositSet()
+	addon:BankSet(curName, 1)
+end
+
+local function OnMenuWithdrawSet()
+	addon:BankSet(curName)
+end
+
+local function OnMenuSpecBind(self, spec, assigned)
+	if spec == assigned then
+		C_EquipmentSet.UnassignEquipmentSetSpec(curId)
+	else
+		C_EquipmentSet.AssignSpecToEquipmentSet(curId, spec)
+	end
 end
 
 -- The drop down frame for set buttons
-local frame = CreateFrame("Button", "GearManagerExDropDownMenu", EMPANEL, "UIDropDownMenuTemplate")
+local frame = CreateFrame("Button", "GearManagerExDropDownMenu", PaperDollEquipmentManagerPane, "UIDropDownMenuTemplate")
 local lastOwner
 function addon:ToggleMenu(parent, point, relativeTo, relativePoint, xOffset, yOffset)
-	if not curSetName then
+	if not curName then
 		HideDropDownMenu(1)
 		return
 	end
@@ -122,91 +83,49 @@ function addon:ToggleMenu(parent, point, relativeTo, relativePoint, xOffset, yOf
 	return 1
 end
 
-local function BuildMenu()
-	UIDropDownMenu_AddButton({ text = curSetName, isTitle = 1, icon = curSetIcon, notCheckable = 1 })
-	UIDropDownMenu_AddButton({ text = L["save set"], disabled = addon.activeSet and addon.activeSet ~= curSetName, func = OnMenuResaveSet, notCheckable = 1 })
+function addon:BuildMenu()
+	if not curId then
+		return
+	end
+
+	UIDropDownMenu_AddButton({ text = curName, isTitle = 1, icon = curIcon, notCheckable = 1 })
+	UIDropDownMenu_AddButton({ text = L["save set"], disabled = addon.equippedName and addon.equippedName ~= curName, func = OnMenuResaveSet, notCheckable = 1 })
 	UIDropDownMenu_AddButton({ text = L["delete set"], func = OnMenuDeleteSet, notCheckable = 1 })
-	UIDropDownMenu_AddButton({ text = L["rename set"], disabled = not addon.activeSet or addon.activeSet ~= curSetName, func = OnMenuRenameSet, notCheckable = 1 })
+	UIDropDownMenu_AddButton({ text = L["rename set"], func = OnMenuRenameSet, notCheckable = 1 })
 	UIDropDownMenu_AddButton({ text = L["put into bank"], disabled = not addon.bankOpened, func = OnMenuDepositSet, notCheckable = 1 })
 	UIDropDownMenu_AddButton({ text = L["take from bank"], disabled = not addon.bankOpened, func = OnMenuWithdrawSet, notCheckable = 1 })
-	--[[ DONEY MOD - original
-	UIDropDownMenu_AddButton({ text = SHOW_CLOAK, checked = addon.db.showCloaks[curSetName] == 1, func = OnMenuShowCloak, isNotRadio = true })
-	UIDropDownMenu_AddButton({ text = SHOW_HELM, checked = addon.db.showHelms[curSetName] == 1, func = OnMenuShowHelm, isNotRadio = true })
-	if GetNumSpecGroups() > 1 then
-		UIDropDownMenu_AddButton({ text = L["bind to"]..TALENT_SPEC_PRIMARY, checked = addon.db.talentBind[1] == curSetName, func = OnMenuBindSetToTalent1, isNotRadio = true })
-		UIDropDownMenu_AddButton({ text = L["bind to"]..TALENT_SPEC_SECONDARY, checked = addon.db.talentBind[2] == curSetName, func = OnMenuBindSetToTalent2, isNotRadio = true })
+
+	local assigned = C_EquipmentSet.GetEquipmentSetAssignedSpec(curId)
+	local i
+	for i = 1, GetNumSpecializations() do
+		local _, name, _, icon = GetSpecializationInfo(i)
+		UIDropDownMenu_AddButton({ text = L["bind to"]..name, icon = icon, checked = assigned == i, func = OnMenuSpecBind, arg1 = i, arg2 = assigned })
 	end
-	]]
-	--[[ DONEY MOD - modified ]]--
-	if GetNumSpecializations() > 1 then
-		local numSpecs = GetNumSpecializations();
-		local sex = UnitSex("player");
-		for i = 1, numSpecs do
-			local _, name, description, icon = GetSpecializationInfo(i, false, false, nil, sex);
-			UIDropDownMenu_AddButton({ text = L["bind to"]..name, checked = addon.db.talentBind[i] == curSetName, func = t_funcs_OnMenuBindSetToTalent[i], isNotRadio = true })
-		end
-	end
-	--[[ DONEY MOD end ]]--
+
 	UIDropDownMenu_AddButton({ text = CLOSE, notCheckable = 1 })
 end
 
-function addon:BuildMenu()
-	BuildMenu()
-end
-
-function addon:BuildDewdropMenu(dewdrop)
-	if type(dewdrop) ~= "table" or type(dewdrop.AddLine) ~= "function" then
-		return
-	end
-	dewdrop:AddLine("text", curSetName, "isTitle", 1, "icon", curSetIcon)
-	dewdrop:AddLine("text", L["save set"], "disabled", addon.activeSet and addon.activeSet ~= curSetName, "func", OnMenuResaveSet)
-	dewdrop:AddLine("text", L["delete set"], "func", OnMenuDeleteSet)
-	dewdrop:AddLine("text", L["rename set"], "disabled", not addon.activeSet or addon.activeSet ~= curSetName, "func", OnMenuRenameSet)
-	dewdrop:AddLine("text", L["put into bank"], "disabled", not addon.bankOpened, "func", OnMenuDepositSet)
-	dewdrop:AddLine("text", L["take from bank"], "disabled", not addon.bankOpened, "func", OnMenuWithdrawSet)
-	dewdrop:AddLine("text", SHOW_CLOAK, "checked", addon.db.showCloaks[curSetName] == 1, "func", OnMenuShowCloak)
-	dewdrop:AddLine("text", SHOW_HELM, "checked", addon.db.showHelms[curSetName] == 1, "func", OnMenuShowHelm)
-	--[[ DONEY MOD - original
-	if GetNumSpecGroups() > 1 then
-		dewdrop:AddLine("text", L["bind to"]..TALENT_SPEC_PRIMARY, "checked", addon.db.talentBind[1] == curSetName, "func", OnMenuBindSetToTalent1)
-		dewdrop:AddLine("text", L["bind to"]..TALENT_SPEC_SECONDARY, "checked", addon.db.talentBind[2] == curSetName, "func", OnMenuBindSetToTalent2)
-	end
-	]]
-	--[[ DONEY MOD - modified ]]--
-	if GetNumSpecializations() > 1 then
-		local numSpecs = GetNumSpecializations();
-		local sex = UnitSex("player");
-		for i = 1, numSpecs do
-			local _, name, description, icon = GetSpecializationInfo(i, false, false, nil, sex);
-			dewdrop:AddLine("text", L["bind to"]..name, "checked", addon.db.talentBind[i] == curSetName, "func", t_funcs_OnMenuBindSetToTalent[i])
-		end
-	end
-	--[[ DONEY MOD end ]]--
-	dewdrop:AddLine("text", CLOSE)
-end
-
-UIDropDownMenu_Initialize(frame, BuildMenu, "MENU")
+UIDropDownMenu_Initialize(frame, addon.BuildMenu, "MENU")
 
 -- Hook "OnMouseDown" for every button to show the drop down menu
 local function GearSetButton_OnMouseDown(self, button)
-	if button == "RightButton" and type(self.name) == "string" and self.name ~= "" then
-		addon:SetMenuSet(self.name)
-		addon:ToggleMenu(EMPANEL, "TOPLEFT", self, "BOTTOMLEFT", -4, -4)
+	if button == "RightButton" and type(self.setID) == "number" then
+		addon:SetMenuSet(self.setID)
+		addon:ToggleMenu(PaperDollEquipmentManagerPane, "TOPLEFT", self, "BOTTOMLEFT", -4, -4)
 	end
 	GameTooltip:Hide()
 end
 
-local managerPaneShown
-EMPANEL:HookScript("OnShow", function(self)
-	if managerPaneShown then
-		return
-	end
-	managerPaneShown = 1
+do
 	local i
-	for i = 1, NUM_GEARSET_ICONS_SHOWN do
-		local button = _G[EMPANEL:GetName().."Button"..i]
+	for i = 1, 10 do
+		local button = _G["PaperDollEquipmentManagerPaneButton"..i]
 		if button then
 			button:HookScript("OnMouseDown", GearSetButton_OnMouseDown)
+			button.EditButton:EnableMouse(false)
+			button.EditButton:SetAlpha(0)
+			button.DeleteButton:EnableMouse(false)
+			button.DeleteButton:SetAlpha(0)
 		end
 	end
-end)
+end

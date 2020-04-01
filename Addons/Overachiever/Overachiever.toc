@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Tuhljin
-## Version: 1.0.8
+## Version: 1.0.9
 ## OptionalDeps: LibBabble-SubZone-3.0, LibBabble-Inventory-3.0, LibSharedMedia-3.0
 ## SavedVariables: Overachiever_Settings, Overachiever_CharVars_Default
 ## SavedVariablesPerCharacter: Overachiever_CharVars, Overachiever_CharVars_Consumed
@@ -11,6 +11,14 @@
 ## Notes-zhCN: 提供一些辅助管理成就的功能
 
 ## X-WoWI-ID: 11361
+
+#@no-lib-strip@
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\LibSharedMedia-3.0\lib.xml
+libs\LibBabble-SubZone-3.0\lib.xml
+libs\LibBabble-Inventory-3.0\lib.xml
+#@end-no-lib-strip@
 
 libs\TjOptions.lua
 libs\TjSharedMediaDropDown\lib.xml

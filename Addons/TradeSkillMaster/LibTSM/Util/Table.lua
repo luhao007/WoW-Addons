@@ -1,8 +1,8 @@
 -- ------------------------------------------------------------------------------ --
 --                                TradeSkillMaster                                --
---          http://www.curse.com/addons/wow/tradeskillmaster_warehousing          --
+--             https://www.curseforge.com/wow/addons/tradeskill-master            --
 --                                                                                --
---             A TradeSkillMaster Addon (http://tradeskillmaster.com)             --
+--             A TradeSkillMaster Addon (https://tradeskillmaster.com)            --
 --    All Rights Reserved* - Detailed license information included with addon.    --
 -- ------------------------------------------------------------------------------ --
 
@@ -12,7 +12,6 @@
 local _, TSM = ...
 local Table = TSM.Init("Util.Table")
 local TempTable = TSM.Include("Util.TempTable")
-TSM.Table = Table
 local private = {
 	filterTemp = {},
 	sortValueLookup = nil,

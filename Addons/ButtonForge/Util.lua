@@ -1536,13 +1536,8 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 	UILib.StopDraggingIcon();
 	SpellFlyout:Hide();
 	if (Command == "spell") then
-		-- pet spell or not
-		local name = GetSpellInfo(Subsubvalue);
-		if ( Util.PetSpellIndex[name] ) then
-			PickupSpellBookItem(Util.PetSpellIndex[name], BOOKTYPE_PET);
-		else
-			PickupSpell(Subsubvalue);
-		end;
+		--PickupSpellBookItem(Data, Subvalue);
+		PickupSpell(Subsubvalue);
 	elseif (Command == "item") then
 		PickupItem(Data);
 	elseif (Command == "macro") then
@@ -1553,14 +1548,7 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 		--end
 		C_MountJournal.Pickup(Util.GetMountIndexFromMountID(Data));
 	elseif (Command == "equipmentset") then
-		local SetCount = C_EquipmentSet.GetNumEquipmentSets();
-		for i=0,SetCount-1 do
-			name, _, setIndex = C_EquipmentSet.GetEquipmentSetInfo(i);
-			if (name == Data) then
-				C_EquipmentSet.PickupEquipmentSet(setIndex);
-				break;
-			end
-		end;
+		PickupEquipmentSetByName(Data);
 	elseif (Command == "bonusaction") then
 		local page = 12; --The page for vehicleactionbar
 		if (HasOverrideActionBar()) then
@@ -1674,7 +1662,7 @@ end
 -------------------------------------------]]
 function Util.GetFullSpellName(Name, Rank)
 --BFA fix: GetSpellInfo now returns a nil for the rank.  That's passed in here
---So we check to make sure rank exists or only pass back the name itself.
+--So we check to make sure ranx exists or only pass back the name itself.
 	if (Rank) then
 		Rank = "("..Rank..")";
 	else
@@ -1765,16 +1753,21 @@ end
 function Util.CachePetSpellIndexes()
 	local i = 1;
 	local NewPSI = {};
+	--Util.NewPetSpellIndex = {};
 	while true do
-		local spellName, spellSubName = GetSpellBookItemName(i, BOOKTYPE_PET)
-		if not spellName then
-			do break end
+		local NameRank = Util.GetFullSpellName(GetSpellInfo(i, BOOKTYPE_PET));
+		if (not NameRank) then
+			break;
 		end
-		NewPSI[spellName] = i;
-		i = i + 1
+		--if (not Util.PetSpellIndex[NameRank]) then
+		--	Util.NewPetSpellIndex[NameRanl] = i;
+		--end
+		NewPSI[NameRank] = i;
+		i = i + 1;
 	end
 
-	Util.PetSpellIndex = NewPSI;	
+	Util.PetSpellIndex = NewPSI;
+	
 end
 
 function Util.LookupSpellIndex(NameRank)
@@ -1868,8 +1861,7 @@ end
 	Companion Functions
 -------------------------------------------]]
 function Util.CacheCompanions()
-	Util.Critters = {};
-    --[[
+    --[[Util.Critters = {};
     for i = 1, GetNumCompanions("CRITTER") do
         local Id, Name = GetCompanionInfo("CRITTER", i);
 		if (not Name) then
@@ -1878,14 +1870,14 @@ function Util.CacheCompanions()
         Util.Critters[Name] = i;
     end]]
 	
-	Util.Mounts = {};
-	for i, mountID in pairs(C_MountJournal.GetMountIDs()) do
-		local creatureName, spellID = C_MountJournal.GetMountInfoByID(mountID);
-		if (not creatureName) then
+    --[[Util.Mounts = {};
+    for i = 1, C_MountJournal.GetNumMounts() do
+        local Name, Id = C_MountJournal.GetDisplayedMountInfo(i);
+		if (not Name) then
 			return;
 		end
-        Util.Mounts[spellID] = mountID;
-	end
+        Util.Mounts[Name] = i;
+    end]]
 	Util.CompanionsCached = true;
 end
 
@@ -2542,9 +2534,9 @@ end
 
 function Util.LookupEquipmentSetIndex(EquipmentSetID)
 
-	local Total = C_EquipmentSet.GetNumEquipmentSets();
-	for i = 0, Total-1 do
-		if (select(3, C_EquipmentSet.GetEquipmentSetInfo(i)) == EquipmentSetID) then
+	local Total = GetNumEquipmentSets();
+	for i = 1, Total do
+		if (select(3, GetEquipmentSetInfo(i)) == EquipmentSetID) then
 			return i;
 		end
 	end

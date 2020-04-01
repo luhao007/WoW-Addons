@@ -1,7 +1,7 @@
-## Interface: 80205
-## Version: 2.3.11
+## Interface: 80300
+## Version: 2.3.24
 ## SavedVariables: PawnCommon
-## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions
+## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
 
 ## Title: Pawn
 ## Notes: Pawn helps you compare items and find upgrades.
@@ -30,3 +30,4 @@ Pawn.lua
 PawnUI.lua
 PawnUI.xml
 AskMrRobot.lua
+ClassicHawsJon.lua

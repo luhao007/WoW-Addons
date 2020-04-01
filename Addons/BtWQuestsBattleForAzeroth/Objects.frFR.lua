@@ -4,6 +4,7 @@ if GetLocale() ~= "frFR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [244983] = {
         name = "Montre de gousset sale",
@@ -25,9 +26,6 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [273854] = {
         name = "Sac à dos",
-    },
-    [276187] = {
-        name = "Junji",
     },
     [276251] = {
         name = "Inventaire de l’excavation",
@@ -266,8 +264,14 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [322533] = {
         name = "Grimoire des éléments de Mardivas",
     },
+    [326393] = {
+        name = "Cache d’armes azéritiques",
+    },
     [326418] = {
         name = "Coffre arcanique",
+    },
+    [326588] = {
+        name = "Cache d’armes azéritiques",
     },
     [327170] = {
         name = "Râtelier d’armes",
@@ -278,7 +282,11 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [327592] = {
         name = "Verrou enchanté",
     },
+    [327596] = {
+        name = "Focalisateur abyssal endommagé",
+    },
     [329805] = {
         name = "Cristal étrange",
     },
 })
+]])()

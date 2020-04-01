@@ -4,6 +4,7 @@ if GetLocale() ~= "esMX" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "Lord Ello Cerranegro",
@@ -880,6 +881,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "Dagrun Martira",
+    },
+    [34320] = {
+        name = "Prole de Pellejo Venenoso",
     },
     [34335] = {
         name = "Avrus Malsusurro",
@@ -1985,4 +1989,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "Andalar Vallesombrío",
     },
+    [51677] = {
+        name = "Cachorro de Cuna del Invierno",
+    },
 })
+]])()

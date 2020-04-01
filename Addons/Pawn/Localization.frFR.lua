@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -50,7 +50,7 @@ PawnLocal =
 	["RenameScaleEnterName"] = "Entrer un nouveau nom pour %s:",
 	["SocketBonusValueCalculationMessage"] = "   -- Le bonus de sertissage vaudrait: %g",
 	["StatNameText"] = "1 |cffffffff%s|r vaut:",
-	["ThousandsSeparator"] = "NBSP",
+	["ThousandsSeparator"] = "",
 	["TooltipBestAnnotation"] = "%s  |cff8ec3e6(meilleur)|r",
 	["TooltipBestAnnotationSimple"] = "%s  votre meilleur",
 	["TooltipBigUpgradeAnnotation"] = "%s  |TInterface\\AddOns\\Pawn\\Textures\\UpgradeArrow:0|t|cff00ff00 upgrade%s|r",
@@ -99,6 +99,7 @@ Armure, quel que soit le type d'item. Pas de distinction entre l'armure de base 
 		["BlockValueInfo"] = "Shield block value.  Increases the damage that a shield absorbs when it successfully blocks.",
 		["Cloth"] = "Tissu",
 		["ClothInfo"] = "Points a etre assigné si l'item est en tissu",
+		["CorruptionInfo"] = "Corruption of N'Zoth.  A negative value for Corruption will remove points from an item's score based on the level of corruption.",
 		["Crit"] = "Crit",
 		["CritInfo"] = "Coup critique. affecte les attaques de mélée, les attaques a distance et les sorts",
 		--[[Translation missing --]]
@@ -298,6 +299,7 @@ Armure, quel que soit le type d'item. Pas de distinction entre l'armure de base 
 		["Charges"] = "^.+ Charges?$",
 		["Cloth"] = "^Tissu$",
 		["CooldownRemaining"] = "^Temps de recharge restant:",
+		["Corruption"] = "^%+?# Corruption$",
 		["Crit"] = "^%+?# Score de crit%.?$",
 		["Crit2"] = "^%+?# au score de critique$",
 		["CritPercent"] = "^Equipé : Augmente vos chances d'infliger un coup critique de #%%%.$",
@@ -402,6 +404,7 @@ Armure, quel que soit le type d'item. Pas de distinction entre l'armure de base 
 		["Sword"] = "^Epée$",
 		["TemporaryBuffMinutes"] = "^.+%(%d+ min%)$",
 		["TemporaryBuffSeconds"] = "^.+%(%d+ sec%)$",
+		["Thrown"] = "^Thrown$",
 		["Thunderforged"] = "^Foudroyant$",
 		["Timeless"] = "^du Temps figé$",
 		["Titanforged"] = "^forgées par les titans$",
@@ -646,6 +649,7 @@ Cette commande ne peut etre défaite!]=],
 		["ValuesFollowSpecialization"] = "Affiche seulement les améliorations pour mon meilleur type d'armure après le niveau 50",
 		["ValuesFollowSpecializationTooltip"] = "Cette option permet de cacher les améliorations d'armure dans laquelle votre classe n est pas spécialisé après le niveau 50. Par exemple, au niveau 50 les Paladin Sacré apprennent la spécialisation plaque, ce qui augmente leur intelligence de 5% quand ils portent seulement de la plaque. Quand cette option est choisie, Pawn ne tiendra jamais compte du tissu, cuir, ou maille comme des améliorations pour des paladins sacré au dessus du niveau 50",
 		["ValuesHeader"] = "Valeur d'echelle pour %s",
+		["ValuesIgnoreItemType"] = "Les items avec ceci sont inutilisables",
 		["ValuesIgnoreStat"] = "Les items avec ceci sont inutilisables",
 		["ValuesIgnoreStatTooltip"] = "Cette option fait que chaque items avec cette stat n'aura pas de valeurs pour cette échelle. Par exemple, les shamans ne peuvent pas porter de la plaque, donc une échelle (formule) conçue pour un shaman peut marquer la plaque comme inutilisable ainsi les armures de plaques ne recevront aucune valeur",
 		["ValuesNormalize"] = "Normalise les valeurs (comme Wowhead)",
@@ -685,6 +689,70 @@ if VgerCore.IsClassic then
 		PawnLocal.TooltipParsing[Key] = NewString
 	end
 end
+
+PawnLocal.Specs =
+{
+	[1] = {
+		{ Name="Armes", Icon=132355, Role="DAMAGER" },
+		{ Name="Fureur", Icon=132347, Role="DAMAGER" },
+		{ Name="Protection", Icon=132341, Role="TANK" },
+	},
+	[2] = {
+		{ Name="Sacré", Icon=135920, Role="HEALER" },
+		{ Name="Protection", Icon=236264, Role="TANK" },
+		{ Name="Vindicte", Icon=135873, Role="DAMAGER" },
+	},
+	[3] = {
+		{ Name="Maîtrise des bêtes", Icon=461112, Role="DAMAGER" },
+		{ Name="Précision", Icon=236179, Role="DAMAGER" },
+		{ Name="Survie", Icon=461113, Role="DAMAGER" },
+	},
+	[4] = {
+		{ Name="Assassinat", Icon=236270, Role="DAMAGER" },
+		{ Name="Hors-la-loi", Icon=236286, Role="DAMAGER" },
+		{ Name="Finesse", Icon=132320, Role="DAMAGER" },
+	},
+	[5] = {
+		{ Name="Discipline", Icon=135940, Role="HEALER" },
+		{ Name="Sacré", Icon=237542, Role="HEALER" },
+		{ Name="Ombre", Icon=136207, Role="DAMAGER" },
+	},
+	[6] = {
+		{ Name="Sang", Icon=135770, Role="TANK" },
+		{ Name="Givre", Icon=135773, Role="DAMAGER" },
+		{ Name="Impie", Icon=135775, Role="DAMAGER" },
+	},
+	[7] = {
+		{ Name="Élémentaire", Icon=136048, Role="DAMAGER" },
+		{ Name="Amélioration", Icon=237581, Role="DAMAGER" },
+		{ Name="Restauration", Icon=136052, Role="HEALER" },
+	},
+	[8] = {
+		{ Name="Arcanes", Icon=135932, Role="DAMAGER" },
+		{ Name="Feu", Icon=135810, Role="DAMAGER" },
+		{ Name="Givre", Icon=135846, Role="DAMAGER" },
+	},
+	[9] = {
+		{ Name="Affliction", Icon=136145, Role="DAMAGER" },
+		{ Name="Démonologie", Icon=136172, Role="DAMAGER" },
+		{ Name="Destruction", Icon=136186, Role="DAMAGER" },
+	},
+	[10] = {
+		{ Name="Maître brasseur", Icon=608951, Role="TANK" },
+		{ Name="Tisse-brume", Icon=608952, Role="HEALER" },
+		{ Name="Marche-vent", Icon=608953, Role="DAMAGER" },
+	},
+	[11] = {
+		{ Name="Équilibre", Icon=136096, Role="DAMAGER" },
+		{ Name="Farouche", Icon=132115, Role="DAMAGER" },
+		{ Name="Gardien", Icon=132276, Role="TANK" },
+		{ Name="Restauration", Icon=136041, Role="HEALER" },
+	},
+	[12] = {
+		{ Name="Dévastation", Icon=1247264, Role="DAMAGER" },
+		{ Name="Vengeance", Icon=1247265, Role="TANK" },
+	},
+}
 
 end
 

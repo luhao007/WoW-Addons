@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: arith
-## Version: v1.21
+## Version: v1.23
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: LibBabble-SubZone-3.0
 ## SavedVariables: HandyNotes_SuramarShalAranTelemancyDB
@@ -11,12 +11,27 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0苏拉玛传送点|r
 ## Notes-zhCN: 显示在沙尔艾兰与苏拉玛尔之间的各个传送点位置
 
-## X-Date: 2019-09-03T14:45:55Z
+## X-Date: 2020-01-17T14:37:20Z
 ## X-License: GPLv2
 ## X-Category: Map
 
 #@non-debug@
+#@end-non-debug@
 
+#@debug@
+# ## Title: HandyNotes - Suramar and Shal'Aran Telemancy
+# ## Title-deDE: HandyNotes - Suramar- und Shal'Aran-Telemantie
+# ## Title-ruRU: HandyNotes - Телемантические маяки Сурамара и Шал'Арана
+# ## Title-zhCN: HandyNotes - 苏拉玛东与沙尔艾兰的传送
+# ## Title-zhTW: HandyNotes - 蘇拉瑪爾與沙亞蘭的傳送
+# ## Notes: Shows the telemancy between Shal'Aran and nodes in Suramar
+# ## Notes-deDE: Zeigt die Telemantie zwischen Shal'Aran und Knoten in Suramar
+# ## Notes-ruRU: Показывает телемантические маяки между Шал'Араном и заметки в Сурамаре
+# ## Notes-zhCN: 显示在沙尔艾兰与苏拉玛尔之间的各个传送点位置
+# ## Notes-zhTW: 顯示在沙亞蘭與蘇拉瑪爾之間的各個傳送點位置
+#@end-debug@
+
+Libs\Libs.xml
 Locale\Locales.xml
 Core\Constants.lua
 Core\Handler.lua

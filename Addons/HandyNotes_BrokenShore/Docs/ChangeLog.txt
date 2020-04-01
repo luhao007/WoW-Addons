@@ -1,7 +1,17 @@
-$Id: ChangeLog.txt 102 2019-09-03 14:40:29Z arith $
+$Id: ChangeLog.txt 107 2020-01-17 14:33:17Z arith $
 
 Revision History:
 =================
+
+* v1.33 (Jan. 17, 2020)
+-----------------------
+- Toc update to support WoW 8.3.0
+- Lib Update: LibBabble-SubZone-3.0
+
+* v1.32 (Jan. 09, 2020)
+-----------------------
+- Toc update to support WoW 8.2.5
+- Lib Update: LibBabble-SubZone-3.0
 
 * v1.31 (Sep. 03, 2019)
 -----------------------

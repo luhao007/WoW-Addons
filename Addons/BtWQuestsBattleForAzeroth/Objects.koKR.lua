@@ -4,6 +4,7 @@ if GetLocale() ~= "koKR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [244983] = {
         name = "더러운 회중시계",
@@ -242,6 +243,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [307748] = {
         name = "투자개발회사의 편지",
     },
+    [309498] = {
+        name = "방어구 거치대",
+    },
     [311155] = {
         name = "고대 서판",
     },
@@ -254,8 +258,14 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [322533] = {
         name = "마디바스의 원소 비전",
     },
+    [326393] = {
+        name = "아제라이트 무기 보관함",
+    },
     [326418] = {
         name = "비전 상자",
+    },
+    [326588] = {
+        name = "아제라이트 무기 보관함",
     },
     [327170] = {
         name = "무기 선반",
@@ -273,3 +283,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "이상한 수정",
     },
 })
+]])()

@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
-## Version: r12
+## Version: r14
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyCataclysm_AllSavedVars

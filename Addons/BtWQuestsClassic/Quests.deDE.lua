@@ -4,6 +4,7 @@ if GetLocale() ~= "deDE" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "Klaue von Scharfkralle",
@@ -7569,3 +7570,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Zurückschlagen",
     },
 })
+]])()

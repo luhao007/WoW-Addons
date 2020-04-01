@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## RequiredDeps: DBM-Core, DBM-StatusBarTimers
 ## LoadOnDemand: 0
 

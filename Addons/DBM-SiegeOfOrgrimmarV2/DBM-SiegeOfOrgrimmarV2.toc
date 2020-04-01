@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
-## Version: r131
+## Version: r134
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMSiegeOfOrgrimmarV2_AllSavedVars
@@ -13,7 +13,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
-## X-DBM-Mod-Has-Mythic : 1
+## X-DBM-Mod-Has-Mythic: 1
 ## X-DBM-Mod-Sort: 701
 ## X-DBM-Mod-MapID: 1136
 ## X-DBM-Mod-MinCoreRevision: 14002

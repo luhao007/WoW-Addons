@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
@@ -11,7 +11,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: BFA
-## X-DBM-Mod-Has-Mythic : 1
+## X-DBM-Mod-Has-Mythic: 1
 ## X-DBM-Mod-Sort: 408
 ## X-DBM-Mod-MapID: 1861
 ## X-DBM-Mod-MinCoreRevision: 17286

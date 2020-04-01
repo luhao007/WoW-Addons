@@ -9,7 +9,6 @@
 local _, TSM = ...
 local Log = TSM.Init("Util.Log")
 local Debug = TSM.Include("Util.Debug")
-TSM.Logger = Log
 local private = {
 	severity = {},
 	location = {},
@@ -21,6 +20,7 @@ local private = {
 	logToChat = false,
 	currentThreadNameFunc = nil,
 	stackLevel = 3,
+	chatFrame = nil,
 }
 local MAX_ROWS = 200
 local MAX_MSG_LEN = 150
@@ -37,8 +37,23 @@ local CHAT_COLORS = {
 -- Module Functions
 -- ============================================================================
 
+function Log.SetChatFrame(chatFrame)
+	private.chatFrame = strlower(chatFrame)
+end
+
 function Log.SetLoggingToChatEnabled(enabled)
+	if private.logToChat == enabled then
+		return
+	end
 	private.logToChat = enabled
+	if enabled then
+		-- dump our buffer
+		local len = Log.Length()
+		print(format("Printing %d buffered logs:", len))
+		for i = 1, len do
+			private.LogToChat(Log.Get(i))
+		end
+	end
 end
 
 function Log.SetCurrentThreadNameFunction(func)
@@ -63,6 +78,19 @@ function Log.LowerStackLevel()
 	private.stackLevel = private.stackLevel - 1
 end
 
+function Log.StackTrace(self)
+	Log.RaiseStackLevel()
+	Log.Trace("Stack Trace:")
+	local level = 2
+	local line = Debug.GetStackLevelLocation(level)
+	while line do
+		Log.Trace("  " .. line)
+		level = level + 1
+		line = Debug.GetStackLevelLocation(level)
+	end
+	Log.LowerStackLevel()
+end
+
 function Log.Trace(...)
 	private.Log("TRACE", ...)
 end
@@ -79,11 +107,37 @@ function Log.Err(...)
 	private.Log("ERR", ...)
 end
 
+function Log.PrintUserRaw(str)
+	private.GetChatFrame():AddMessage(str)
+end
+
+function Log.PrintfUserRaw(...)
+	Log.PrintUserRaw(format(...))
+end
+
+function Log.PrintUser(str)
+	Log.PrintUserRaw("|cff33ff99TradeSkillMaster|r: "..str)
+end
+
+function Log.PrintfUser(...)
+	Log.PrintUser(format(...))
+end
+
 
 
 -- ============================================================================
 -- Private Helper Functions
 -- ============================================================================
+
+function private.GetChatFrame()
+	for i = 1, NUM_CHAT_WINDOWS do
+		local name = strlower(GetChatWindowInfo(i) or "")
+		if name ~= "" and name == private.chatFrame then
+			return _G["ChatFrame" .. i]
+		end
+	end
+	return DEFAULT_CHAT_FRAME
+end
 
 function private.Log(severity, fmtStr, ...)
 	assert(type(fmtStr) == "string" and CHAT_COLORS[severity])
@@ -120,6 +174,10 @@ function private.Log(severity, fmtStr, ...)
 	private.len = min(private.len + 1, MAX_ROWS)
 
 	if private.logToChat then
-		print(format("%s %s{%s}|r %s", timeStr, CHAT_COLORS[severity], location, msg))
+		private.LogToChat(severity, location, timeStr, msg)
 	end
+end
+
+function private.LogToChat(severity, location, timeStr, msg)
+	print(format("%s %s{%s}|r %s", timeStr, CHAT_COLORS[severity], location, msg))
 end

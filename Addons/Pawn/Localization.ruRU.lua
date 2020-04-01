@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -91,6 +91,7 @@ For more information on customizing Pawn, please see the help file (Readme.htm) 
 		["BlockValueInfo"] = "Показатель блокирования.  Увеличивает поглащаемый урон щитом при успешной блокировке.",
 		["Cloth"] = "Ткань",
 		["ClothInfo"] = "Значения для вещей из ткани",
+		["CorruptionInfo"] = "Corruption of N'Zoth.  A negative value for Corruption will remove points from an item's score based on the level of corruption.",
 		["Crit"] = "Критический удар",
 		["CritInfo"] = "Критический удар. Увеличивает шанс что ваши атакующие и исцеляющие заклинания ударят с увеличенной силой.",
 		["DefenseInfo"] = "Навык защиты.  Уменьшение вероятности того, что по вам попадёт атака боссов.",
@@ -265,6 +266,7 @@ For more information on customizing Pawn, please see the help file (Readme.htm) 
 		["Charges"] = "^.+ зарядов?$",
 		["Cloth"] = "^Ткань$",
 		["CooldownRemaining"] = "^Времени до восстановления:",
+		["Corruption"] = "^%+?# к порче$",
 		["Crit"] = "^%+?# к критическому удару$",
 		["Crit2"] = "^%+?# к показателю критического удара$",
 		["CritPercent"] = "^Если на персонаже: Увеличение вероятности нанесения критического урона на #%%%.$",
@@ -371,6 +373,7 @@ For more information on customizing Pawn, please see the help file (Readme.htm) 
 		["Sword"] = "^Меч$",
 		["TemporaryBuffMinutes"] = "^.+%(%d+ мин%)$",
 		["TemporaryBuffSeconds"] = "^.+%(%d+ сек%)$",
+		["Thrown"] = "^Thrown$",
 		["Thunderforged"] = "^Создано в Кузне Грома$",
 		["Timeless"] = "^Вневременной предмет$",
 		["Titanforged"] = "^Кованый титанами$",
@@ -617,6 +620,7 @@ Shortcut: Shift+click a scale]=],
 		["ValuesFollowSpecialization"] = "Отображать улучшения для специализации по броне после 50 уровня",
 		["ValuesFollowSpecializationTooltip"] = "Enable this option to hide upgrades for armor that your class does not specialize in after level 50.  For example, at level 50 holy paladins learn Plate Specialization, which increases their intellect by 5% when wearing only plate armor.  When this option is chosen Pawn will never consider cloth, leather, or mail to be upgrades for level 50+ holy paladins.",
 		["ValuesHeader"] = "Значения шкалы для %s",
+		["ValuesIgnoreItemType"] = "Не используемое",
 		["ValuesIgnoreStat"] = "Не используемое",
 		["ValuesIgnoreStatTooltip"] = "Enable this option to cause any item with this stat to not get a value for this scale.  For example, shamans can't wear plate, so a scale designed for a shaman can mark plate as unusable so that plate armor doesn't get a value for that scale.",
 		["ValuesNormalize"] = "Нормализовать значения (как Wowhead)",
@@ -631,6 +635,71 @@ For more information on this setting, see the readme file.]=],
 		["ValuesWelcomeReadOnly"] = "Выбранная шкала не может быть изменена.  Если вы хотите поменять значения, сделайте копию текущей шкалы.",
 	}
 }
+
+PawnLocal.Specs =
+{
+	[1] = {
+		{ Name="Оружие", Icon=132355, Role="DAMAGER" },
+		{ Name="Неистовство", Icon=132347, Role="DAMAGER" },
+		{ Name="Защита", Icon=132341, Role="TANK" },
+	},
+	[2] = {
+		{ Name="Свет", Icon=135920, Role="HEALER" },
+		{ Name="Защита", Icon=236264, Role="TANK" },
+		{ Name="Воздаяние", Icon=135873, Role="DAMAGER" },
+	},
+	[3] = {
+		{ Name="Повелитель зверей", Icon=461112, Role="DAMAGER" },
+		{ Name="Стрельба", Icon=236179, Role="DAMAGER" },
+		{ Name="Выживание", Icon=461113, Role="DAMAGER" },
+	},
+	[4] = {
+		{ Name="Ликвидация", Icon=236270, Role="DAMAGER" },
+		{ Name="Головорез", Icon=236286, Role="DAMAGER" },
+		{ Name="Скрытность", Icon=132320, Role="DAMAGER" },
+	},
+	[5] = {
+		{ Name="Послушание", Icon=135940, Role="HEALER" },
+		{ Name="Свет", Icon=237542, Role="HEALER" },
+		{ Name="Тьма", Icon=136207, Role="DAMAGER" },
+	},
+	[6] = {
+		{ Name="Кровь", Icon=135770, Role="TANK" },
+		{ Name="Лед", Icon=135773, Role="DAMAGER" },
+		{ Name="Нечестивость", Icon=135775, Role="DAMAGER" },
+	},
+	[7] = {
+		{ Name="Стихии", Icon=136048, Role="DAMAGER" },
+		{ Name="Совершенствование", Icon=237581, Role="DAMAGER" },
+		{ Name="Исцеление", Icon=136052, Role="HEALER" },
+	},
+	[8] = {
+		{ Name="Тайная магия", Icon=135932, Role="DAMAGER" },
+		{ Name="Огонь", Icon=135810, Role="DAMAGER" },
+		{ Name="Лед", Icon=135846, Role="DAMAGER" },
+	},
+	[9] = {
+		{ Name="Колдовство", Icon=136145, Role="DAMAGER" },
+		{ Name="Демонология", Icon=136172, Role="DAMAGER" },
+		{ Name="Разрушение", Icon=136186, Role="DAMAGER" },
+	},
+	[10] = {
+		{ Name="Хмелевар", Icon=608951, Role="TANK" },
+		{ Name="Ткач туманов", Icon=608952, Role="HEALER" },
+		{ Name="Танцующий с ветром", Icon=608953, Role="DAMAGER" },
+	},
+	[11] = {
+		{ Name="Баланс", Icon=136096, Role="DAMAGER" },
+		{ Name="Сила зверя", Icon=132115, Role="DAMAGER" },
+		{ Name="Страж", Icon=132276, Role="TANK" },
+		{ Name="Исцеление", Icon=136041, Role="HEALER" },
+	},
+	[12] = {
+		{ Name="Истребление", Icon=1247264, Role="DAMAGER" },
+		{ Name="Месть", Icon=1247265, Role="TANK" },
+	},
+}
+
 end
 
 if GetLocale() == "ruRU" then

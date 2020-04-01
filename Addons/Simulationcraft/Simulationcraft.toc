@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Theck, navv_, seriallos
-## Version: 1.12.3
+## Version: 1.12.5
 ## SavedVariables: SimulationCraftDB
 
 ## Title: Simulationcraft
@@ -8,6 +8,19 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF输出模拟器|r |cFFFFE00ASimulationcraft|r
 ## Notes-zhCN: 模拟当前人物的输出，来确认哪个装备属性更好。
 
+
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+#@no-lib-strip@
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
+libs\LibRealmInfo\LibRealmInfo.lua
+libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0\lib.xml
+#@end-no-lib-strip@
 
 embeds.xml
 

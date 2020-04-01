@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2369, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20191122133937")
+mod:SetRevision("20200206171259")
 mod:SetCreatureID(157620)
 mod:SetEncounterID(2334)
 mod:SetZone()
@@ -20,14 +20,13 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 307784 307785 313208 308065 307950",
 	"SPELL_AURA_APPLIED_DOSE 308059",
 	"SPELL_AURA_REMOVED 313208 308065 307950",--307784 307785
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
---	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, if tanks each get a diff mind debuff, mark them, and they can be designated callers
---TODO, update timerImagesofAbsolutionCD after Projection phases
+--[[
+(ability.id = 309687 or ability.id = 307725) and type = "begincast"
+ or (ability.id = 313239 or ability.id = 307937 or ability.id = 313276) and type = "cast"
+--]]
 local warnShadowShock						= mod:NewStackAnnounce(308059, 2, nil, "Tank")
 local warnImagesofAbsolution				= mod:NewCountAnnounce(313239, 3)--Spawn, not when killable
 local warnShredPsyche						= mod:NewTargetNoFilterAnnounce(307937, 2)
@@ -38,21 +37,19 @@ local warnProjectionsOver					= mod:NewEndAnnounce(307725, 2)
 local specWarnCloudedMind					= mod:NewSpecialWarningYou(307784, nil, nil, nil, 1, 2)--voice not yet decided
 local specWarnTwistedMind					= mod:NewSpecialWarningYou(307785, nil, nil, nil, 1, 2)--voice not yet decided
 local yellMark								= mod:NewPosYell(307784, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, false)
-local specWarnImagesofAbsolutionSwitch		= mod:NewSpecialWarningSwitch(313239, "dps", nil, nil, 1, 2)--30 seconds after spawn, when killable
+local specWarnImagesofAbsolutionSwitch		= mod:NewSpecialWarningSwitch(313239, "dps", 127876, nil, 1, 2, 3)--30 seconds after spawn, when killable
 local specWarnShadowShock					= mod:NewSpecialWarningStack(308059, nil, 7, nil, nil, 1, 6)
 local specWarnShadowShockTaunt				= mod:NewSpecialWarningTaunt(308059, nil, nil, nil, 1, 2)
 local specWarnShredPsyche					= mod:NewSpecialWarningMoveAway(307937, nil, nil, nil, 1, 2)
-local yellShredPsyche						= mod:NewPosYell(307937)
+local yellShredPsyche						= mod:NewPosYell(307937, DBM_CORE_AUTO_YELL_CUSTOM_POSITION2)
 local yellShredPsycheFades					= mod:NewIconFadesYell(307937)
---local specWarnGTFO						= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
+local specWarnShredPsycheSwitch				= mod:NewSpecialWarningSwitch(307937, "dps", nil, nil, 1, 2)
 
-local timerImagesofAbsolutionCD				= mod:NewCDTimer(84.9, 313239, nil, nil, nil, 1, nil, DBM_CORE_HEROIC_ICON)
-local timerShredPsycheCD					= mod:NewCDTimer(32.5, 307937, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON, nil, 1, 4)--32.5-34
+local timerImagesofAbsolutionCD				= mod:NewCDTimer(84.9, 313239, 127876, nil, nil, 1, nil, DBM_CORE_HEROIC_ICON)
+local timerShredPsycheCD					= mod:NewCDTimer(37.7, 307937, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON, nil, 1, 4)
 
---local berserkTimer						= mod:NewBerserkTimer(600)
+local berserkTimer							= mod:NewBerserkTimer(600)--He only gains a 300% damage increase on his berserk, and that's surviable since he doesn't melee and his adds don't gain it
 
---mod:AddRangeFrameOption(6, 264382)
---mod:AddInfoFrameOption(275270, true)
 mod:AddSetIconOption("SetIconOnAdds", 307937, true, false, {1, 2})
 mod:AddNamePlateOption("NPAuraOnIntangibleIllusion", 313208)
 
@@ -69,24 +66,15 @@ function mod:OnCombatStart(delay)
 	if self.Options.NPAuraOnIntangibleIllusion then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
+	berserkTimer:Start(480-delay)--Confirmed on heroic and normal
 end
 
 function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
---	if self.Options.InfoFrame then
---		DBM.InfoFrame:Hide()
---	end
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
 	if self.Options.NPAuraOnIntangibleIllusion then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
 end
-
---function mod:OnTimerRecovery()
-
---end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -169,13 +157,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		--Non mythic will assign just ordered icon, or if mythic icon debuff scan fails acts as fallback
 		if not icon then
-			icon = self.vb.shredIcon
+			icon = self.vb.shredIcon--Starting with 1 (star). if it's still 2 adds at once at 20+ players, it'll also use circle, if blizzard fixed that shit, it'll always be star
+		else--We have an icon from mythic assignments, prep the switch warning for phased players
+			if (DBM:UnitDebuff("player", 307784) and icon == 2) or (DBM:UnitDebuff("player", 307785) and icon == 3) then
+				specWarnShredPsycheSwitch:Schedule(5)
+				specWarnShredPsycheSwitch:ScheduleVoice(5, "killmob")
+			end
 		end
 		warnShredPsyche:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnShredPsyche:Show()
 			specWarnShredPsyche:Play("runout")
-			yellShredPsyche:Yell(icon, icon, icon)
+			yellShredPsyche:Yell(icon, args.spellName, icon)
 			yellShredPsycheFades:Countdown(spellId, nil, icon)
 		end
 		if self.Options.SetIconOnAdds then
@@ -200,6 +193,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellShredPsycheFades:Cancel()
 		end
+		if self.Options.SetIconOnAdds then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
 
@@ -207,32 +203,9 @@ function mod:UNIT_TARGETABLE_CHANGED()
 	if UnitCanAttack("player", "boss1") then--Returning from Illusions
 		warnProjectionsOver:Show()
 		self:UnregisterShortTermEvents()
-		timerShredPsycheCD:Start(16)
-		--if self:IsHard() then
-		--	timerImagesofAbsolutionCD:Start(30.5-delay)
-		--end
+		timerShredPsycheCD:Start(15.2)--SUCCESS
+		if self:IsHard() then
+			timerImagesofAbsolutionCD:Start(33.9)
+		end
 	end
 end
-
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 270290 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
-		specWarnGTFO:Show(spellName)
-		specWarnGTFO:Play("watchfeet")
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 152311 then
-
-	end
-end
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 307445 and self:AntiSpam(8, 1) then--Illusionary Projection (or 313349 or 307861)
-
-	end
-end
---]]

@@ -172,3 +172,7 @@ L["TankTauntsOFF"] = "탱특 도발 사라짐"
 L["TankTauntsOFF_Desc"] = "탱커 특성의 PVP 도발 효과 사라짐 알림"
 L["TankTauntsON"] = "탱특 도발 경보"
 L["TankTauntsON_Desc"] = "탱커 특성의 PVP 도발 효과 발생시 알림"
+
+L["Connected"] = true
+L["Connected_Desc"] = true
+

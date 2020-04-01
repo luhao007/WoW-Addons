@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -51,7 +51,7 @@ PawnLocal =
 	["RenameScaleEnterName"] = "Escribe un nuevo nombre para %s:",
 	["SocketBonusValueCalculationMessage"] = "   -- La ranura extra valdrá: %g",
 	["StatNameText"] = "1 de |cffffffff%s|r vale:",
-	["ThousandsSeparator"] = ",",
+	["ThousandsSeparator"] = "",
 	["TooltipBestAnnotation"] = "%s  |cff8ec3e6(El mejor)|r",
 	["TooltipBestAnnotationSimple"] = "%s  El mejor",
 	["TooltipBigUpgradeAnnotation"] = "%s  |TInterface\\AddOns\\Pawn\\Textures\\UpgradeArrow:0|t|cff00ff00 mejora%s|r",
@@ -100,6 +100,7 @@ Para más información sobre como personalizar Pawn, por favor lee el archivo (R
 		["BlockValueInfo"] = "Shield block value.  Increases the damage that a shield absorbs when it successfully blocks.",
 		["Cloth"] = "Tela",
 		["ClothInfo"] = "Puntos que asignar si el objeto es de Tela.",
+		["CorruptionInfo"] = "Corruption of N'Zoth.  A negative value for Corruption will remove points from an item's score based on the level of corruption.",
 		["Crit"] = "Crit",
 		["CritInfo"] = "Golpe crítico.  Aumenta la probabilidad de que tus ataques y hechizos de curación sean más efectivos.",
 		--[[Translation missing --]]
@@ -279,14 +280,14 @@ Para más información sobre como personalizar Pawn, por favor lee el archivo (R
 		["WeaponTypeWarglaiveInfo"] = "Puntos que seran asignados si el objetos es una guja de guerra",
 	},
 	["TooltipParsing"] = {
-		["Agility"] = "^%+?# [Aa]gilidad$",
+		["Agility"] = "^%+?# d?e? ?[Aa]gilidad$",
 		["AllStats"] = "^%+?# todas las estadísticas$",
 		["Ap"] = "^%+?# [Pp]oder de ataque$",
 		["Ap2"] = "^Equipar: Aumenta # p%. el poder de ataque%.$",
 		["ArcaneResist"] = "^%+?# resistencia a Arcano$",
 		["ArcaneSpellDamage"] = "^%+# daño con hechizos Arcano$",
 		["ArcaneSpellDamage2"] = "^Equipar: Aumenta hasta # p%. el daño que infligen los hechizos y efectos Arcanos%.$",
-		["Armor"] = "^%+?# p. de armadura$",
+		["Armor"] = "^%+?# p%. de armadura$",
 		["Armor2"] = "^UNUSED$",
 		["Avoidance"] = "^%+# elusión$",
 		["Axe"] = "^Hacha$",
@@ -299,13 +300,14 @@ Para más información sobre como personalizar Pawn, por favor lee el archivo (R
 		["Charges"] = "^.+ cargas?$",
 		["Cloth"] = "^Tela$",
 		["CooldownRemaining"] = "^Tiempo de reutilización restante:",
+		["Corruption"] = "^%+?# [Cc]orrupción$",
 		["Crit"] = "^%+?# golpe crítico%.?$",
 		["Crit2"] = "^UNUSED$",
 		["CritPercent"] = "^Equipar: Mejora un #%% tu probabilidad de conseguir un golpe crítico%.$",
 		["Crossbow"] = "^Ballesta$",
 		["Dagger"] = "^Daga$",
 		["DefenseSkill"] = "^Equipar: Aumenta # p%. el índice de defensa%.$",
-		["DefenseSkillSimple"] = "^%+?# de Defensa$",
+		["DefenseSkillSimple"] = "^%+?# de [dD]efensa$",
 		["DisenchantingRequires"] = "^Desencantar requiere",
 		["Dodge"] = "^%+?#%%? d?e? ?[eE]squivar$",
 		["Dodge2"] = "^UNUSED$",
@@ -353,7 +355,7 @@ Para más información sobre como personalizar Pawn, por favor lee el archivo (R
 		["Hp52"] = "^Equipar: Restaura # de vida cada 5 segundos%.$",
 		["Hp53"] = "^Restaura %+?# [vV]ida [cC]ada 5 [sS]egundos%.?$",
 		["Hp54"] = "^UNUSED$",
-		["Intellect"] = "^%+?# [Ii]ntelecto$",
+		["Intellect"] = "^%+?# d?e? ?[Ii]ntelecto$",
 		["Leather"] = "^Cuero$",
 		["Leech"] = "^%+# restitución$",
 		["Mace"] = "^Maza$",
@@ -396,13 +398,14 @@ Para más información sobre como personalizar Pawn, por favor lee el archivo (R
 		["SpellDamage2"] = "^Equipar: Aumenta hasta # p%. el daño y la sanación de los hechizos y efectos mágicos%.$",
 		["SpellHit"] = "^Equipar: Mejora un #%% tu probabilidad de golpear con hechizos%.$",
 		["SpellPower"] = "^%+?# poder con hechizos$",
-		["Spirit"] = "^%+?# [Ee]spíritu$",
+		["Spirit"] = "^%+?# d?e? ?[Ee]spíritu$",
 		["Staff"] = "^Bastón$",
-		["Stamina"] = "^%+?# [Aa]guante$",
-		["Strength"] = "^%+?# [Ff]uerza$",
+		["Stamina"] = "^%+?# d?e? ?[Aa]guante$",
+		["Strength"] = "^%+?# d?e? ?[Ff]uerza$",
 		["Sword"] = "^Espada$",
 		["TemporaryBuffMinutes"] = "^.+%(%d+ min%)$",
 		["TemporaryBuffSeconds"] = "^.+%(%d+ seg%)$",
+		["Thrown"] = "^Thrown$",
 		["Thunderforged"] = "^Forjas del Trueno$",
 		["Timeless"] = "^Sin tiempo$",
 		["Titanforged"] = "^Forjadoporlostitanes$",
@@ -656,6 +659,7 @@ Atajo: Shift+click en una escala]=],
 		["ValuesFollowSpecialization"] = "Sólo mostrar mejoras para mi especialización de armadura tras el nivel 50",
 		["ValuesFollowSpecializationTooltip"] = "Habilita ésta opción para no mostrar mejoras para armaduras que no se corresponden con la especialización de tu clase tras el nivel 50.  Por ejemplo. al nivel 50 los paladines sagrados aprenden Especialización en Placas, que incrementa su intelecto un 5% cuando equipan sólo armaduras de placas.  Cuando se elige ésta opción Pawn nunca considerará tela, cuero o malla como mejoras para paladines sagrados de nivel 50 o más.",
 		["ValuesHeader"] = "Valores de escala para %s",
+		["ValuesIgnoreItemType"] = "Los objetos con éste atributo son inutilizables",
 		["ValuesIgnoreStat"] = "Los objetos con éste atributo son inutilizables",
 		["ValuesIgnoreStatTooltip"] = "Habilita ésta opción para que cualquier objeto con éste atributo no tenga un valor para ésta escala.  Por ejemplo, los chamanes no pueden equipar placas, asi que en una escala diseñada para un chaman se podría marcar placas como inutilizable de forma que las armaduras de placas no reciban un valor para esa escala.",
 		["ValuesNormalize"] = "Normalizar valores (como en Wowhead)",
@@ -670,12 +674,141 @@ Para más información sobre éstas opciones, consulta el archivo leeme.]=],
 		["ValuesWelcomeReadOnly"] = "La escala que has seleccionado no se puede modificar.  Para cambiar estos valores, ve a la pestaña de Escala y haz una copia de ésta escala o crea una escala nueva.",
 	}
 }
+
+PawnLocal.Specs =
+{
+	[1] = {
+		{ Name="Armas", Icon=132355, Role="DAMAGER" },
+		{ Name="Furia", Icon=132347, Role="DAMAGER" },
+		{ Name="Protección", Icon=132341, Role="TANK" },
+	},
+	[2] = {
+		{ Name="Sagrado", Icon=135920, Role="HEALER" },
+		{ Name="Protección", Icon=236264, Role="TANK" },
+		{ Name="Reprensión", Icon=135873, Role="DAMAGER" },
+	},
+	[3] = {
+		{ Name="Bestias", Icon=461112, Role="DAMAGER" },
+		{ Name="Puntería", Icon=236179, Role="DAMAGER" },
+		{ Name="Supervivencia", Icon=461113, Role="DAMAGER" },
+	},
+	[4] = {
+		{ Name="Asesinato", Icon=236270, Role="DAMAGER" },
+		{ Name="Forajido", Icon=236286, Role="DAMAGER" },
+		{ Name="Sutileza", Icon=132320, Role="DAMAGER" },
+	},
+	[5] = {
+		{ Name="Disciplina", Icon=135940, Role="HEALER" },
+		{ Name="Sagrado", Icon=237542, Role="HEALER" },
+		{ Name="Sombra", Icon=136207, Role="DAMAGER" },
+	},
+	[6] = {
+		{ Name="Sangre", Icon=135770, Role="TANK" },
+		{ Name="Escarcha", Icon=135773, Role="DAMAGER" },
+		{ Name="Profano", Icon=135775, Role="DAMAGER" },
+	},
+	[7] = {
+		{ Name="Elemental", Icon=136048, Role="DAMAGER" },
+		{ Name="Mejora", Icon=237581, Role="DAMAGER" },
+		{ Name="Restauración", Icon=136052, Role="HEALER" },
+	},
+	[8] = {
+		{ Name="Arcano", Icon=135932, Role="DAMAGER" },
+		{ Name="Fuego", Icon=135810, Role="DAMAGER" },
+		{ Name="Escarcha", Icon=135846, Role="DAMAGER" },
+	},
+	[9] = {
+		{ Name="Aflicción", Icon=136145, Role="DAMAGER" },
+		{ Name="Demonología", Icon=136172, Role="DAMAGER" },
+		{ Name="Destrucción", Icon=136186, Role="DAMAGER" },
+	},
+	[10] = {
+		{ Name="Maestro cervecero", Icon=608951, Role="TANK" },
+		{ Name="Tejedor de niebla", Icon=608952, Role="HEALER" },
+		{ Name="Viajero del viento", Icon=608953, Role="DAMAGER" },
+	},
+	[11] = {
+		{ Name="Equilibrio", Icon=136096, Role="DAMAGER" },
+		{ Name="Feral", Icon=132115, Role="DAMAGER" },
+		{ Name="Guardián", Icon=132276, Role="TANK" },
+		{ Name="Restauración", Icon=136041, Role="HEALER" },
+	},
+	[12] = {
+		{ Name="Devastación", Icon=1247264, Role="DAMAGER" },
+		{ Name="Venganza", Icon=1247265, Role="TANK" },
+	},
+}
+
 end 
 
 if GetLocale() == "esES" then
 	PawnUseThisLocalization()
-	PawnLocal.ThousandsSeparator = "NBSP"
+	PawnLocal.ThousandsSeparator = ""
 	PawnLocal.DecimalSeparator = ","
+
+	-- Special case: wands actually use different text on live versus classic.
+	-- So, patch things up here.
+	if VgerCore.IsClassic then
+		PawnLocal.ThousandsSeparator = "NBSP"
+
+		local TooltipParsing_Classic =
+		{
+			["Ap"] = "^%+?# de poder de ataque$",
+			["Ap2"] = "^Equipar: %+# p%. de poder de ataque%.$",
+			["ArcaneResist"] = "^%+?# Arcano Resistencia$",
+			["ArcaneSpellDamage"] = "^%+?# de daño de Hechizos Arcanos$",
+			["ArcaneSpellDamage2"] = "^Equipar: Aumenta el daño causado por los hechizos Arcanos y los efectos hasta en # p%.$",
+			["Armor"] = "^%+?# armadura$",
+			["Block"] = "^%+?# bloquear$",
+			["BlockPercent"] = "^Equipar: Aumenta la probabilidad de bloquear ataques con un escudo en un #%%%.$",
+			["BlockValue"] = "^Equipar: Aumenta el valor de bloqueo de tu escudo en # p%.$",
+			["CritPercent"] = "^Equipar: Mejora tu probabilidad de conseguir un golpe crítico en #%%%.$",
+			["DefenseSkill"] = "^Equipar: Defensa aumentada %+#%.$",
+			["DodgePercent"] = "^Equipar: Aumenta la probabilidad de esquivar un ataque en un #%%%.$",
+			["Dps"] = "^%(# daño por segundo%)$",
+			["FeralAp"] = "^Equipar: %+# p%. de poder de ataque solo bajo formas felinas, de oso y de oso nefasto%.$",
+			["FireResist"] = "^%+?# Fuego Resistencia$",
+			["FireSpellDamage"] = "^%+?# de daño de Hechizos de Fuego$",
+			["FireSpellDamage2"] = "^Equipar: Aumenta el daño causado por los hechizos de Fuego y los efectos hasta en # p%.$",
+			["FrostResist"] = "^%+?# Escarcha Resistencia$",
+			["FrostSpellDamage"] = "^%+?# de daño de Hechizos de Escarcha$",
+			["FrostSpellDamage2"] = "^Equipar: Aumenta el daño causado por los hechizos de Escarcha y los efectos hasta en # p%.$",
+			["Healing"] = "^%+# de Hechizos de curación$",
+			["Healing2"] = "^Equipar: Aumenta la curación de los hechizos y los efectos hasta en # p%.$",
+			["Hit"] = "^Equipar: Mejora tu probabilidad de alcanzar el objetivo en un #%%%.$",
+			["HolySpellDamage2"] = "^Equipar: Aumenta el daño causado por los hechizos Sagrados y los efectos hasta en # p%.$",
+			["Mp52"] = "^%+?# de maná cada 5 seg%.$",
+			["NatureSpellDamage"] = "^%+?# de daño de Hechizos de Naturaleza$",
+			["NatureSpellDamage2"] = "^Equipar: Aumenta el daño causado por los hechizos de Naturaleza y los efectos hasta en # p%.$",
+			["NatureResist"] = "^%+?# Naturaleza Resistencia$",
+			["Rap"] = "^Equipar: %+# p%. de poder de ataque a distancia%.$",
+			["ShadowSpellDamage"] = "^%+?# de daño de Hechizos de Sombras$",
+			["ShadowSpellDamage2"] = "^Equipar: Aumenta el daño causado por los hechizos de Sombras y los efectos hasta en # p%.$",
+			["ShadowResist"] = "^%+?# Sombras Resistencia$",
+			["SpellCrit"] = "^Equipar: Mejora tu probabilidad de conseguir un golpe crítico en #%%% con los hechizos%.$",
+			["SpellDamage2"] = "^Equipar: Aumenta el daño y la curación de los hechizos mágicos y los efectos hasta en # p%.$",
+			["SpellHit"] = "^Equipar: Mejora tu probabilidad de alcanzar el objetivo con hechizos en un #%%%.$",
+			["WeaponDamage"] = "^# %- # Daño$",
+			["WeaponDamageArcane"] = "^%+?# %- # Arcano Daño$",
+			["WeaponDamageArcaneExact"] = "^%+?# Arcano Daño$",
+			["WeaponDamageExact"] = "^%+?# Daño$",
+			["WeaponDamageFire"] = "^%+?# %- # Fuego Daño$",
+			["WeaponDamageFireExact"] = "^%+?# Fuego Daño$",
+			["WeaponDamageFrost"] = "^%+?# %- # Escarcha Daño$",
+			["WeaponDamageFrostExact"] = "^%+?# Escarcha Daño$",
+			["WeaponDamageHoly"] = "^%+?# %- # Sagrado Daño$",
+			["WeaponDamageHolyExact"] = "^%+?# Sagrado Daño$",
+			["WeaponDamageNature"] = "^%+?# %- # Naturaleza Daño$",
+			["WeaponDamageNatureExact"] = "^%+?# Naturaleza Daño$",
+			["WeaponDamageShadow"] = "^%+?# %- # Sombras Daño$",
+			["WeaponDamageShadowExact"] = "^%+?# Sombras Daño$",
+		}
+
+		local Key, NewString
+		for Key, NewString in pairs(TooltipParsing_Classic) do
+			PawnLocal.TooltipParsing[Key] = NewString
+		end
+	end
 elseif GetLocale() == "esMX" then 
 	PawnUseThisLocalization() 
 	PawnLocal.ThousandsSeparator = ","

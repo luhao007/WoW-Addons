@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
-## Version: r15
+## Version: r17
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMTrialofValor_AllSavedVars
@@ -13,7 +13,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: LEG
-## X-DBM-Mod-Has-Mythic : 1
+## X-DBM-Mod-Has-Mythic: 1
 ## X-DBM-Mod-Sort: 504
 ## X-DBM-Mod-MapID: 1648
 ## X-DBM-Mod-MinCoreRevision: 14737

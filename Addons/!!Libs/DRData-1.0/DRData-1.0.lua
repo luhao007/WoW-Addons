@@ -1,5 +1,5 @@
 local major = "DRData-1.0"
-local minor = 1048
+local minor = 1050
 assert(LibStub, string.format("%s requires LibStub.", major))
 
 local Data = LibStub:NewLibrary(major, minor)
@@ -18,69 +18,73 @@ local L = {
 
 local locale = GetLocale()
 if locale == "deDE" then
-	L["Cyclone"] = "Wirbelsturm" -- Needs review
-	L["Disarms"] = "Entwaffnungseffekte" -- Needs review
-	L["Fears"] = "Furchteffekte" -- Needs review
-	L["Horrors"] = "Horroreffekte" -- Needs review
-	L["Knockbacks"] = "Rückstoßeffekte" -- Needs review
-	L["Mesmerizes"] = "Mesmerisiereneffekte" -- Needs review
-	L["Mesmerizes (short)"] = "Mesmerisiereneffekte (kurz)" -- Needs review
-	L["Mind Control"] = "Gedankenkontrolle" -- Needs review
-	L["Roots"] = "Bewegungsunfähigkeitseffekte" -- Needs review
-	L["Roots (short)"] = "Bewegungsunfähigkeitseffekte (kurz)" -- Needs review
-	L["Silences"] = "Stilleeffekte" -- Needs review
-	L["Stuns"] = "Betäubungseffekte" -- Needs review
-	L["Stuns (short)"] = "Betäubungseffekte (kurz)" -- Needs review
-	L["Taunts"] = "Spotteffekte" -- Needs review
+L["Cyclone"] = "Wirbelsturm"
+L["Disarms"] = "Entwaffnungseffekte"
+L["Fears"] = "Furchteffekte"
+L["Horrors"] = "Horroreffekte"
+L["Knockbacks"] = "Rückstoßeffekte"
+L["Mesmerizes"] = "Mesmerisiereneffekte"
+L["Mesmerizes (short)"] = "Mesmerisiereneffekte (kurz)"
+L["Mind Control"] = "Gedankenkontrolle"
+L["Roots"] = "Bewegungsunfähigkeitseffekte"
+L["Roots (short)"] = "Bewegungsunfähigkeitseffekte (kurz)"
+L["Silences"] = "Stilleeffekte"
+L["Stuns"] = "Betäubungseffekte"
+L["Stuns (short)"] = "Betäubungseffekte (kurz)"
+L["Taunts"] = "Spotteffekte"
+
 elseif locale == "esES" then
-	L["Cyclone"] = "Ciclón"
-	L["Disarms"] = "Desarmes"
-	L["Fears"] = "Miedos"
-	L["Horrors"] = "Horrores"
-	L["Knockbacks"] = "Derribos"
-	L["Mesmerizes"] = "Hipnotizaciones"
-	L["Mesmerizes (short)"] = "Hipnotizaciones (cortas)"
-	L["Mind Control"] = "Control Mental"
-	L["Roots"] = "Raíces"
-	L["Roots (short)"] = "Raíces (cortas)"
-	L["Silences"] = "SIlencios"
-	L["Stuns"] = "Aturdimientos"
-	L["Stuns (short)"] = "Aturdimientos (cortos)"
-	L["Taunts"] = "Provocaciones"
+L["Cyclone"] = "Ciclón"
+L["Disarms"] = "Desarmes"
+L["Fears"] = "Miedos"
+L["Horrors"] = "Horrores"
+L["Knockbacks"] = "Derribos"
+L["Mesmerizes"] = "Hipnotizaciones"
+L["Mesmerizes (short)"] = "Hipnotizaciones (cortas)"
+L["Mind Control"] = "Control Mental"
+L["Roots"] = "Raíces"
+L["Roots (short)"] = "Raíces (cortas)"
+L["Silences"] = "SIlencios"
+L["Stuns"] = "Aturdimientos"
+L["Stuns (short)"] = "Aturdimientos (cortos)"
+L["Taunts"] = "Provocaciones"
+
 elseif locale == "esMX" then
-	L["Cyclone"] = "Ciclón"
-	L["Disarms"] = "Desarmes"
-	L["Fears"] = "Miedos"
-	L["Horrors"] = "Horrores"
-	L["Knockbacks"] = "Derribos"
-	L["Mesmerizes"] = "Hipnotizaciones"
-	L["Mesmerizes (short)"] = "Hipnotizaciones (cortas)"
-	L["Mind Control"] = "Control Mental"
-	L["Roots"] = "Raíces"
-	L["Roots (short)"] = "Raíces (cortas)"
-	L["Silences"] = "SIlencios"
-	L["Stuns"] = "Aturdimientos"
-	L["Stuns (short)"] = "Aturdimientos (cortos)"
-	L["Taunts"] = "Provocaciones"
+L["Cyclone"] = "Ciclón"
+L["Disarms"] = "Desarmes"
+L["Fears"] = "Miedos"
+L["Horrors"] = "Horrores"
+L["Knockbacks"] = "Derribos"
+L["Mesmerizes"] = "Hipnotizaciones"
+L["Mesmerizes (short)"] = "Hipnotizaciones (cortas)"
+L["Mind Control"] = "Control Mental"
+L["Roots"] = "Raíces"
+L["Roots (short)"] = "Raíces (cortas)"
+L["Silences"] = "SIlencios"
+L["Stuns"] = "Aturdimientos"
+L["Stuns (short)"] = "Aturdimientos (cortos)"
+L["Taunts"] = "Provocaciones"
+
 elseif locale == "frFR" then
-	L["Cyclone"] = "Cyclone"
-	L["Disarms"] = "Désarmements"
-	L["Fears"] = "Peurs"
-	L["Horrors"] = "Horreurs"
-	L["Knockbacks"] = "Projections"
-	L["Mesmerizes"] = "Désorientations"
-	L["Mesmerizes (short)"] = "Désorientations (courtes)"
-	L["Mind Control"] = "Contrôle mental"
-	L["Roots"] = "Immobilisations"
-	L["Roots (short)"] = "Immobilisations (courtes)"
-	L["Silences"] = "Silences"
-	L["Stuns"] = "Etourdissements"
-	L["Stuns (short)"] = "Etourdissements (courts)"
-	L["Taunts"] = "Provocations"
+L["Cyclone"] = "Cyclone"
+L["Disarms"] = "Désarmements"
+L["Fears"] = "Peurs"
+L["Horrors"] = "Horreurs"
+L["Knockbacks"] = "Projections"
+L["Mesmerizes"] = "Désorientations"
+L["Mesmerizes (short)"] = "Désorientations (courtes)"
+L["Mind Control"] = "Contrôle mental"
+L["Roots"] = "Immobilisations"
+L["Roots (short)"] = "Immobilisations (courtes)"
+L["Silences"] = "Silences"
+L["Stuns"] = "Etourdissements"
+L["Stuns (short)"] = "Etourdissements (courts)"
+L["Taunts"] = "Provocations"
 
 elseif locale == "itIT" then
 
 elseif locale == "koKR" then
+L["Cyclone"] = "회오리바람"
 
 elseif locale == "ptBR" then
 
@@ -89,20 +93,21 @@ elseif locale == "ruRU" then
 elseif locale == "zhCN" then
 
 elseif locale == "zhTW" then
-	L["Cyclone"] = "颶風術"
-	L["Disarms"] = "繳械"
-	L["Fears"] = "恐懼"
-	L["Horrors"] = "恐慌"
-	L["Knockbacks"] = "擊退"
-	L["Mesmerizes"] = "迷惑"
-	L["Mesmerizes (short)"] = "迷惑(短)"
-	L["Mind Control"] = "心靈控制"
-	L["Roots"] = "定身"
-	L["Roots (short)"] = "定身(短)"
-	L["Silences"] = "沉默"
-	L["Stuns"] = "昏迷"
-	L["Stuns (short)"] = "昏迷(短)"
-	L["Taunts"] = "嘲諷"
+L["Cyclone"] = "颶風術"
+L["Disarms"] = "繳械"
+L["Fears"] = "恐懼"
+L["Horrors"] = "恐慌"
+L["Knockbacks"] = "擊退"
+L["Mesmerizes"] = "迷惑"
+L["Mesmerizes (short)"] = "迷惑(短)"
+L["Mind Control"] = "心靈控制"
+L["Roots"] = "定身"
+L["Roots (short)"] = "定身(短)"
+L["Silences"] = "沉默"
+L["Stuns"] = "昏迷"
+L["Stuns (short)"] = "昏迷(短)"
+L["Taunts"] = "嘲諷"
+
 end
 
 -- How long before DR resets ?
@@ -369,14 +374,6 @@ local spellsAndProvidersByCategory = {
 		[  6360] = true, -- Whiplash
 		[115770] = true, -- Fellash
 	},
-
-	--[[ DISARM ]]--
-	disarm = {
-		[207777] = true, -- Dismantle
-		[209749] = true, -- Faerie Swarm
-		[233759] = true, -- Grapple Weapon
-		[236077] = true, -- Disarm
-	},
 }
 
 -- Map deprecatedCategories to the new ones
@@ -390,7 +387,7 @@ local deprecatedCategories = {
 	fear           = true,
 	horror         = true,
 	mc             = true,
-	--disarm         = true,
+	disarm         = true,
 }
 
 Data.categoryNames = {
@@ -401,7 +398,6 @@ Data.categoryNames = {
 	taunt          = L["Taunts"],
 	incapacitate   = L["Incapacitates"],
 	knockback      = L["Knockbacks"],
-	disarm         = L["Disarms"],
 }
 
 Data.pveDR = {
@@ -456,7 +452,7 @@ end
 
 -- Seconds before DR resets
 function Data:GetResetTime(category)
-	CheckDeprecatedCategory(cat)
+	CheckDeprecatedCategory(category)
 	return Data.resetTimes[category or "default"] or Data.resetTimes.default
 end
 

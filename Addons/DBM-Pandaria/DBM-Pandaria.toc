@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS/nBlueWiz
-## Version: r131
+## Version: r134
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPandaria_AllSavedVars

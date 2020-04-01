@@ -1,7 +1,7 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Abin
-## Version: 3.01 DONEY MOD 3 Punk MOD 1
-## SavedVariablesPerCharacter: GearManagerExDB
+## Version: 4.0
+## SavedVariables: GearManagerExDB
 
 ## Title: GearManagerEx
 ## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF一键换装|r |cFFFFE00AGearManagerEx|r
@@ -10,8 +10,14 @@
 Locales\enUS.lua
 Locales\zhCN.lua
 Locales\zhTW.lua
-7to8.lua
+
+Includes\LibAddonManager.lua
+Includes\InterfaceOptionPage-1.0.lua
+
 Core.lua
 QuickStrip.lua
 Menu.lua
 ToolBar.lua
+OptionFrame.lua
+
+LDB\Embeds.xml

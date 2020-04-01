@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Version: v1.07.04
 ## RequiredDeps: Atlas
 
@@ -12,6 +12,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: Atlas |r|cFF0099FF[Arena]|r
 # ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 競技場地圖集

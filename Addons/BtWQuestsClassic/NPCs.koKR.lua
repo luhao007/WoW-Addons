@@ -4,6 +4,7 @@ if GetLocale() ~= "koKR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "엘로 에본로크 경",
@@ -868,6 +869,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "다그룬 레이지해머",
+    },
+    [34320] = {
+        name = "새끼 맹독가죽",
     },
     [34335] = {
         name = "아브루스 일위스퍼",
@@ -1931,4 +1935,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "안달라 셰이드베일",
     },
+    [51677] = {
+        name = "새끼 설원호랑이",
+    },
 })
+]])()

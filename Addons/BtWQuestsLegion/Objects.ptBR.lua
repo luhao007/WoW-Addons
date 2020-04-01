@@ -4,6 +4,7 @@ if GetLocale() ~= "ptBR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [250990] = {
         name = "Caixote de Relíquias Ancestrais",
@@ -12,3 +13,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Cinzilo Suculento",
     },
 })
+]])()

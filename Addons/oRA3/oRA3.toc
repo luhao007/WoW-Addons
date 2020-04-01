@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Funkydude, Nebula
-## Version: v8.2.5
+## Version: v8.3.0
 ## OptionalDeps: Ace3, LibCandyBar-3.0, LibSharedMedia-3.0, LibDDI-1.0, LibGroupInSpecT-1.1, LibDualSpec-1.0, LibChatAnims, LibLatency, LibDurability, LibDialog-1.0, Masque
 ## SavedVariables: oRA3DB
 

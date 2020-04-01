@@ -31,6 +31,8 @@ ff.PlayersInvited = {}
 
 local GameCooltip = GameCooltip2
 
+local C_TaskQuest = _G.C_TaskQuest
+
 local _
 local QuestMapFrame_IsQuestWorldQuest = QuestMapFrame_IsQuestWorldQuest or QuestUtils_IsQuestWorldQuest
 local GetNumQuestLogRewardCurrencies = GetNumQuestLogRewardCurrencies
@@ -574,6 +576,7 @@ ff:RegisterEvent ("GROUP_ROSTER_UPDATE")
 ff:RegisterEvent ("GROUP_INVITE_CONFIRMATION")
 ff:RegisterEvent ("LFG_LIST_APPLICANT_LIST_UPDATED")
 ff:RegisterEvent ("ZONE_CHANGED_NEW_AREA")
+ff:RegisterEvent ("PLAYER_ENTERING_WORLD")
 
 ChatFrame_AddMessageEventFilter ("CHAT_MSG_WHISPER", function (_, _, msg)
 	if (not WorldQuestTracker.db.profile.groupfinder.send_whispers) then
@@ -921,9 +924,18 @@ ff:SetScript ("OnEvent", function (self, event, arg1, questID, arg3)
 		local title, factionID, capped = C_TaskQuest.GetQuestInfoByQuestID (questID)
 		
 		-->  do the regular checks
-		if (isInArea and HaveQuestData (questID)) then
-			local isWorldQuest = QuestMapFrame_IsQuestWorldQuest (questID)
-			if (isWorldQuest) then
+		if ((isInArea or isOnMap) and HaveQuestData (questID)) then
+			--get all quests from 8.3 assault stuff
+			local allAssaultQuests = {}
+			for _, questId in ipairs(C_TaskQuest.GetThreatQuests()) do
+				--put all into a table where the hash is the key and true is the value
+				allAssaultQuests [questId] = true
+			end
+
+			local tagID, tagName, worldQuestType, rarity, isElite = GetQuestTagInfo (questID)
+			local isWorldQuest = QuestMapFrame_IsQuestWorldQuest(questID)
+
+			if ((isWorldQuest and isInArea) or allAssaultQuests[questID] or tagID == 112 or (isElite and rarity == LE_WORLD_QUEST_QUALITY_EPIC)) then
 				--FlashClientIcon()
 				--WorldQuestTracker.FindGroupForQuest (questID)
 				
@@ -1011,7 +1023,24 @@ ff:SetScript ("OnEvent", function (self, event, arg1, questID, arg3)
 			StaticPopup_Hide ("LFG_LIST_AUTO_ACCEPT_CONVERT_TO_RAID")
 			StaticPopup_Hide ("GROUP_INVITE_CONFIRMATION")
 		end		
-		
+
+	elseif (event == "PLAYER_ENTERING_WORLD") then
+
+		--> check if the player is in a quest location (big quests like invasions)
+		if (not IsInGroup()) then
+			--get invasion quests
+			for _, questId in ipairs(C_TaskQuest.GetThreatQuests()) do
+				--this invasion is active?
+				if (C_TaskQuest.IsActive(questId)) then
+					local isInArea, isOnMap = GetTaskInfo (questId)
+					--the player is inside the zone of this invasion?
+					if (isInArea and isOnMap) then
+						ff.CurrentWorldQuest = questId
+						ff:PlayerEnteredWorldQuestZone (questId)
+					end
+				end
+			end
+		end
 	end
 end)
 

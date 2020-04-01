@@ -4,6 +4,7 @@ if GetLocale() ~= "esES" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [250990] = {
         name = "Cajón de reliquias antiguas",
@@ -12,3 +13,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Chumbogrís húmedo",
     },
 })
+]])()

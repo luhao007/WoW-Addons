@@ -4,6 +4,7 @@ if GetLocale() ~= "esES" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "La garfa de Garfafilada",
@@ -7593,3 +7594,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Repeler",
     },
 })
+]])()

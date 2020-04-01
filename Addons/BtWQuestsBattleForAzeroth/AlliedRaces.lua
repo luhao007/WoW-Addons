@@ -5,6 +5,7 @@ local EXPANSION_ID = BtWQuests.Constant.Expansions.BattleForAzeroth;
 local CATEGORY_ID = BtWQuests.Constant.Category.BattleForAzeroth.AlliedRaces;
 local Chain = BtWQuests.Constant.Chain.BattleForAzeroth.AlliedRaces;
 local ALLIANCE_ID, HORDE_ID = BtWQuests.Constant.Faction.Alliance, BtWQuests.Constant.Faction.Horde;
+local ALLIANCE_RESTRICTIONS, HORDE_RESTRICTIONS = BtWQuests.Constant.Restrictions.Alliance, BtWQuests.Constant.Restrictions.Horde;
 
 Database:AddChain(Chain.DarkIronDwarves, {
     name = { -- Dark Iron Dwarves
@@ -671,6 +672,413 @@ Database:AddChain(Chain.ZandalariTroll, {
         },
     },
 })
+Database:AddChain(Chain.Vulpera, {
+    name = L["VULPERA"],
+    category = CATEGORY_ID,
+    expansion = EXPANSION_ID,
+    range = {120},
+    alternatives = {
+        Chain.Mechagnomes,
+    },
+    restrictions = HORDE_RESTRICTIONS,
+    prerequisites = {
+        {
+            type = "achievement",
+            id = 12478,
+            anyone = true,
+        },
+        {
+            name = {
+                type = "reputation",
+                id = 2158,
+                standing = 8,
+            },
+            type = "achievement",
+            id = 12949,
+            anyone = true,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 53870,
+        status = {'active', 'completed'},
+    },
+    completed = {
+        type = "achievement",
+        id = 13206,
+        anyone = true,
+    },
+    rewards = {
+        {
+            name = L["ALLIED_RACE_VULPERA"],
+        },
+        {
+            type = "money",
+            amounts = {
+                4130100,
+            },
+            minLevel = 120,
+            maxLevel = 120,
+        },
+    },
+    items = {
+        {
+            type = "npc",
+            id = 133523,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53870,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53889,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53890,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53891,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53892,
+            x = 0,
+            connections = {
+                1, 2, 3, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53893,
+            x = -2,
+            connections = {
+                3, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53894,
+            connections = {
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53895,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53897,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53898,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54026,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53899,
+            x = 0,
+            connections = {
+                1, 2, 3, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53901,
+            x = -2,
+            connections = {
+                3, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53900,
+            connections = {
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 58087,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53902,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54027,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53903,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53904,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53905,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54036,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53906,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53907,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 53908,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57448,
+            x = 0,
+        },
+    },
+})
+Database:AddChain(Chain.Mechagnomes, {
+    name = L["MECHAGNOME"],
+    category = CATEGORY_ID,
+    expansion = EXPANSION_ID,
+    range = {120},
+    alternatives = {
+        Chain.Vulpera,
+    },
+    restrictions = ALLIANCE_RESTRICTIONS,
+    prerequisites = {
+        {
+            type = "achievement",
+            id = 13553,
+            anyone = true,
+        },
+        {
+            name = {
+                type = "reputation",
+                id = 2391,
+                standing = 8,
+            },
+            type = "achievement",
+            id = 13557,
+            anyone = true,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 57497,
+        status = {'active', 'completed'},
+    },
+    completed = {
+        type = "achievement",
+        id = 14013,
+        anyone = true,
+    },
+    rewards = {
+        {
+            name = L["ALLIED_RACE_MECHAGNOME"],
+        },
+        {
+            type = "money",
+            amounts = {
+                2480400,
+            },
+            minLevel = 120,
+            maxLevel = 120,
+        },
+    },
+    items = {
+        {
+            variations = {
+                {
+                    type = "quest",
+                    id = 58214,
+                    restrictions = BtWQuestsItem_ActiveOrCompleted
+                },
+                {
+                    type = "npc",
+                    id = 160101,
+                }
+            },
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57486,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57487,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57488,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57490,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57491,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57492,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57493,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57494,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57496,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57495,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57497,
+            x = 0,
+        },
+    },
+})
 
 Database:AddCategory(CATEGORY_ID, {
     name = L["BTWQUESTS_ALLIED_RACES"],
@@ -691,6 +1099,14 @@ Database:AddCategory(CATEGORY_ID, {
         {
             type = "chain",
             id = Chain.ZandalariTroll,
+        },
+        {
+            type = "chain",
+            id = Chain.Vulpera,
+        },
+        {
+            type = "chain",
+            id = Chain.Mechagnomes,
         },
     },
 })

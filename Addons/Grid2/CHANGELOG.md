@@ -1,7 +1,33 @@
 # Grid2
 
-## r936 (2019-10-09)
+## r955 (2020-03-11)
 
+- Classic: TOC Update  
+- -Changed "Deepwind Gorge" mapId in GridRoster(ticket #806)  
+    -Fixed possible crash in status directions.  
+- - Added some optimizations to icons indicator and buffs/debuffs statuses.  
+    - Fixed minor bug in icons indicator.  
+- -Added some missing raid debuffs for Ny'alotha raid.  
+    -Removed some debug code.  
+- Fixing ticket #795 (Dispellable Debuff blacklisting not working well)  
+- -Debuffs: Added optional blacklist to dispelleable debuffs status (ticket #788)  
+    -RaidDebuffs: Removed unnecessary Ny'alotha maps in bugged\_maps table.  
+-   
+- Fixing ticket #786 (Ny'alotha RaidDebuffs not working)  
+- Fixing a bug in debuffs groups blacklists: using spellIDs did not work, now spellIDs are correctly converted to spellNames.  
+- TOC Update for 8.3  
+    Added "Ny'alotha, the Waking City" raid debuffs.  
+- Fixing ticket #780  
+- TOC Update for retail  
+- TOC Update  
+- Classic: Repackaged with a new libhealcomm-4 stable version.  
+    Healths: Added unit\_connection event to health tracking code.  
+- -Added time band and selectable heal types to heals-incoming &amp; my-heals-incoming statuses configuration.  
+- Repackage with newest libhealcomm-4 library.  
+- Using LibHealComm-4.0 instead of LibClassicHealComm  
+- -Fixing overheals issue (ticket #756)  
+- -Fixed: Dispellable debuffs not working in classic (ticket #754)  
+    -Fixed: Debuffs tracked text values not displayed (ticket #755)  
 - -Fixed a bug with "Include Player Heals" option (ticket #749)  
 - Recoded roles management in layouts&amp;layout editor for Classic (ticket #748)  
 - Added database fix code that deletes nonexistant modules to avoid possible raiddebuffsoptions crash (ticket #746).  

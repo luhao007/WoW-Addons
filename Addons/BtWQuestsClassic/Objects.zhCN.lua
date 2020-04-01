@@ -4,6 +4,7 @@ if GetLocale() ~= "zhCN" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [61] = {
         name = "破旧的坟墓",
@@ -120,3 +121,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "寒水村大锅",
     },
 })
+]])()

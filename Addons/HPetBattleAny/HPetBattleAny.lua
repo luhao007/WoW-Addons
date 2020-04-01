@@ -90,10 +90,12 @@ HPetBattleAny.AutoHideShowfrmae={
 --------这里可以修改声音文件
 function HPetBattleAny:PlaySoundFile(t)
 	if t=="pvp" then
-		PlaySound(SOUNDKIT.IG_PLAYER_INVITE, "Master");	----PVP提示声
-	else
-		PlaySoundFile([[Sound\Events\scourge_horn.ogg]], "Master" ); 
+		PlaySound("igPlayerInvite", "Master");	----PVP提示声
+		return
 	end
+		PlaySound("scourge_horn", "Master");
+--~ 	PlaySoundFile([[Sound\Events\scourge_horn.wav]], "Master" );
+--~ 	PlaySoundFile( [[Sound\Event Sounds\Event_wardrum_ogre.wav]], "Master" );
 end
 --------------------		data
 HPetSaves={}
@@ -653,10 +655,8 @@ function HPetBattleAny:initforJournalFrame()
 		end
 	end)
 
- 	PetJournalPetCard.modelScene:SetPoint("TOPLEFT",PetJournalPetCard,70,-21)--65
-	if (PetJournalPetCardShadows) then
-		PetJournalPetCardShadows:SetPoint("TOPLEFT",PetJournalPetCard,50,-67)--45
-	end
+ 	PetJournalPetCardModelFrame:SetPoint("TOPLEFT",PetJournalPetCard,70,-21)--65
+ 	PetJournalPetCardShadows:SetPoint("TOPLEFT",PetJournalPetCard,50,-67)--45
 
 	if self.initSwathButton then self.initSwathButton() end
 end

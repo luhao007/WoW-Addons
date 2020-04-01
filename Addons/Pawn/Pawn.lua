@@ -1,13 +1,13 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0311
+PawnVersion = 2.0324
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.11
@@ -97,6 +97,13 @@ local PawnItemEquipLocToSlot1 =
 	INVTYPE_HOLDABLE = 17,
 	INVTYPE_TABARD = 19,
 }
+-- In Classic, ranged weapons get their own slot.
+if VgerCore.IsClassic then
+	PawnItemEquipLocToSlot1.INVTYPE_RANGED = 18
+	PawnItemEquipLocToSlot1.INVTYPE_RANGEDRIGHT = 18
+	PawnItemEquipLocToSlot1.INVTYPE_RELIC = 18
+	PawnItemEquipLocToSlot1.INVTYPE_THROWN = 18
+end
 local PawnItemEquipLocToSlot2 = 
 {
 	INVTYPE_FINGER = 12,
@@ -124,6 +131,8 @@ function PawnOnEvent(Event, arg1, arg2, ...)
 		PawnOnSpecChanged()
 	elseif Event == "ARTIFACT_UPDATE" then
 		PawnOnArtifactUpdated(arg1)
+	elseif Event == "GROUP_ROSTER_UPDATE" then
+		PawnShowPlayingWithVgerEasterEgg()
 	elseif Event == "PLAYER_LOGIN" then
 		PawnInitialize()
 	elseif Event == "PLAYER_LOGOUT" then
@@ -196,19 +205,26 @@ function PawnInitialize()
 		end)
 	
 	-- Main game tooltip
-	hooksecurefunc(GameTooltip, "SetAuctionItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetAuctionItem", ...) end)
-	hooksecurefunc(GameTooltip, "SetAuctionSellItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetAuctionSellItem", ...) end)
+	if VgerCore.IsClassic then
+		-- SetAuctionItem was removed in 8.3.0 but is still there on Classic.  The (incorrect) way that BankItems hooks this function
+		-- causes the detection to fail, so just directly check the version.
+		hooksecurefunc(GameTooltip, "SetAuctionItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetAuctionItem", ...) end)
+		hooksecurefunc(GameTooltip, "SetAuctionSellItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetAuctionSellItem", ...) end)
+	end
+	if not VgerCore.IsClassic then
+		hooksecurefunc(GameTooltip, "SetItemKey", function(self, ItemID, ItemLevel, Suffix, ...) PawnUpdateTooltip("GameTooltip", "SetItemKey", ItemID, ItemLevel, Suffix, ...) end)
+	end
 	hooksecurefunc(GameTooltip, "SetBagItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetBagItem", ...) end)
 	hooksecurefunc(GameTooltip, "SetBuybackItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetBuybackItem", ...) end)
-	if SetExistingSocketGem then
+	if GameTooltip.SetExistingSocketGem then
 		-- Gems don't exist in WoW Classic.
 		hooksecurefunc(GameTooltip, "SetExistingSocketGem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetExistingSocketGem", ...) end)
 	end
-	if SetGuildBankItem then
+	if GameTooltip.SetGuildBankItem then
 		-- Guild banks don't exist in WoW Classic.
 		hooksecurefunc(GameTooltip, "SetGuildBankItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetGuildBankItem", ...) end)
 	end
-	if SetHeirloomByItemID then
+	if GameTooltip.SetHeirloomByItemID then
 		-- ...and neither do heirlooms.
 		hooksecurefunc(GameTooltip, "SetHeirloomByItemID", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetHeirloomByItemID", ...) end)
 	end
@@ -621,7 +637,8 @@ function PawnInitializeOptions()
 			PawnCommon.ShowItemLevelUpgrades = true
 		end
 	end
-	if PawnCommon.LastVersion < PawnMrRobotLastUpdatedVersion then
+	if ((not VgerCore.IsClassic) and PawnCommon.LastVersion < PawnMrRobotLastUpdatedVersion) or
+		(VgerCore.IsClassic and PawnCommon.LastVersion < PawnClassicLastUpdatedVersion) then
 		-- If the Ask Mr. Robot scales have been updated since the last time they used Pawn, re-scan gear.
 		PawnInvalidateBestItems()
 	end
@@ -705,7 +722,7 @@ end
 function PawnGetEmptyScale()
 	return
 	{
-		["UpgradesFollowSpecialization"] = true,
+		["UpgradesFollowSpecialization"] = not VgerCore.IsClassic,
 		["PerCharacterOptions"] = { },
 		["Values"] = { },
 	}
@@ -714,8 +731,12 @@ end
 -- Returns the default Pawn scale table, either for the current player's spec, or for the supplied class and spec if non-nil.
 function PawnGetDefaultScale(ClassID, SpecID, NoStats)
 	local _
-	if ClassID == nil or SpecID == nil then
+	if ClassID == nil then
 		_, _, ClassID = UnitClass("player")
+	end
+	if VgerCore.IsClassic then
+		SpecID = nil
+	elseif SpecID == nil then
 		SpecID = GetSpecialization()
 	end
 	local Template = PawnFindScaleTemplate(ClassID, SpecID)
@@ -724,7 +745,7 @@ function PawnGetDefaultScale(ClassID, SpecID, NoStats)
 	{
 		["ClassID"] = ClassID,
 		["SpecID"] = SpecID,
-		["UpgradesFollowSpecialization"] = true,
+		["UpgradesFollowSpecialization"] = not VgerCore.IsClassic,
 		["PerCharacterOptions"] = { },
 		["Values"] = ScaleValues,
 	}
@@ -994,7 +1015,7 @@ local function PawnCheckItemTypeCore(ItemLink, AllowEquippable, AllowStatGems, A
 		return
 			(AllowStatGems and ItemClassID == LE_ITEM_CLASS_GEM and ItemSubClassID ~= LE_ITEM_GEM_ARTIFACTRELIC) or
 			(AllowRelics and ItemClassID == LE_ITEM_CLASS_GEM and ItemSubClassID == LE_ITEM_GEM_ARTIFACTRELIC)
-	elseif InvType == "INVTYPE_RELIC" or InvType == "INVTYPE_THROWN" or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_BODY" then
+	elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RELIC" or InvType == "INVTYPE_THROWN")) or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_BODY" then
 		-- Old (grey, pre-artifact) relics might have sockets and therefore "stats" but they aren't equippable anymore so they shouldn't get values, so just bail out now.
 		-- Thrown items, tabards, bags, and shirts (invtype_body) can also never have stats.
 		return false
@@ -1075,9 +1096,8 @@ function PawnGetItemData(ItemLink)
 		Item.Stats, Item.SocketBonusStats, Item.UnknownLines, Item.PrettyLink = PawnGetStatsFromTooltipWithMethod(PawnPrivateTooltipName, true, "SetHyperlink", Item.Link)
 		Item.NumLines = (_G[PawnPrivateTooltipName]):NumLines()
 
-		if InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT" then
+		if (not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT") then
 			-- We convert ranged weapons into the correct "handedness" of weapons since there's no ranged slot anymore.
-			-- REVIEW: *** This will cause problems on WoW Classic
 			if Item.Stats and Item.Stats.IsWand then
 				InvType = "INVTYPE_WEAPONMAINHAND"
 			else
@@ -1531,7 +1551,7 @@ function PawnAddValuesToTooltip(Tooltip, ItemValues, UpgradeInfo, BestItemFor, S
 
 			-- Override the localized name if the scale was designed for only the current class, and it's not a user scale.
 			if Scale.ClassID == ClassID and Scale.SpecID and Scale.Provider then
-				local _, LocalizedSpecName = GetSpecializationInfoForClassID(ClassID, Scale.SpecID)
+				local _, LocalizedSpecName = PawnGetSpecializationInfoForClassID(ClassID, Scale.SpecID)
 				LocalizedName = LocalizedSpecName
 			end
 			-- Add the spec icon if present, and if that feature isn't disabled.
@@ -1624,8 +1644,8 @@ function PawnGetInventoryItemValues(UnitName)
 	local Slot
 	local _
 	local MainHandArtifactLevel
-	for Slot = 1, 17 do
-		if Slot ~= 4 then -- Skip slots 0, 4, 18, and 19 (they're not gear).
+	for Slot = 1, 18 do
+		if Slot ~= 4 then -- Skip slots 0, 4, and 19 (they're not gear).
 			local ItemID = GetInventoryItemID(UnitName, Slot)
 			local Item = PawnGetItemDataForInventorySlot(Slot, false, UnitName)
 			if Item then
@@ -1660,7 +1680,7 @@ function PawnGetInventoryItemValues(UnitName)
 				-- If we have an item link but no item data, then the player HAS an item in that slot but we don't have data.
 				-- So we should just bail out now to avoid reporting inaccurate totals.  BUT, we should go ahead and query for
 				-- information on the other items before we do so that we have everything by the next time this is called.
-				while Slot <= 17 do
+				while Slot <= 18 do
 					Item = PawnGetItemDataForInventorySlot(Slot, false, UnitName)
 					Slot = Slot + 1
 				end
@@ -1677,7 +1697,7 @@ function PawnGetInventoryItemValues(UnitName)
 	end
 	sort(TotalValues, PawnItemValueCompare)
 	-- Return our totals.
-	TotalItemLevel = math.floor(TotalItemLevel / 16 + .05)
+	TotalItemLevel = math.floor(TotalItemLevel / (VgerCore.IsClassic and 17 or 16) + .05)
 	return TotalValues, Count, TotalItemLevel
 end
 
@@ -2492,16 +2512,16 @@ end
 -- (But if EvenIfNotEnchanted is true, the item link will be processed even if the item wasn't enchanted.)
 function PawnUnenchantItemLink(ItemLink, EvenIfNotEnchanted)
 	local TrimmedItemLink = PawnStripLeftOfItemLink(ItemLink)
-	local Pos, _, ItemID, EnchantID, GemID1, GemID2, GemID3, GemID4, SuffixID, MoreInfo, ViewAtLevel, SpecializationID, UpgradeLevel1, Difficulty, NumBonusIDs, BonusID1, BonusID2, BonusID3, BonusID4, BonusID5, BonusID6, BonusID7, BonusID8 = strfind(TrimmedItemLink, "^item:(%-?%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*)")
+	local Pos, _, ItemID, EnchantID, GemID1, GemID2, GemID3, GemID4, SuffixID, MoreInfo, ViewAtLevel, SpecializationID, UpgradeLevel1, Difficulty, NumBonusIDs, BonusID1, BonusID2, BonusID3, BonusID4, BonusID5, BonusID6, BonusID7, BonusID8, BonusID9, BonusID10, BonusID11, BonusID12 = strfind(TrimmedItemLink, "^item:(%-?%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*)")
 	-- Note: After the specified number of bonus IDs would be UpgradeLevel2, which could be the level at which the item was acquired for timewarped items, or
 	-- the Valor upgrade level.
+	-- Note: This code is gross and you should be ashamed.
 
 	if Pos then
-	
 		-- If this is a valor-upgradeable item that isn't fully upgraded, for purposes of calculation we always assume a fully-upgraded item is the "base."
 		-- The upgrade value will always come after the list of bonus IDs, as UpgradeLevel2.
 		NumBonusIDs = tonumber(NumBonusIDs) or 0
-		VgerCore.Assert(NumBonusIDs <= 8, "Didn't expect to find " .. tostring(NumBonusIDs) .. " bonus IDs on an item. Item stats may not be correct.")
+		VgerCore.Assert(NumBonusIDs <= 12, "Pawn didn't expect to find " .. tostring(NumBonusIDs) .. " bonus IDs on that complicated-ass item. Item stats may not be correct.")
 		local WasUpgraded = false -- This feature was removed in Pawn 2.1.4.
 
 		if
@@ -2528,7 +2548,11 @@ function PawnUnenchantItemLink(ItemLink, EvenIfNotEnchanted)
 			if BonusID6 == nil or BonusID6 == "" then BonusID6 = "0" end
 			if BonusID7 == nil or BonusID7 == "" then BonusID7 = "0" end
 			if BonusID8 == nil or BonusID8 == "" then BonusID8 = "0" end
-			return "item:" .. ItemID .. ":0:0:0:0:0:" .. SuffixID .. ":" .. MoreInfo .. ":" .. 0 .. ":" .. SpecializationID .. ":" .. UpgradeLevel1 .. ":" .. Difficulty .. ":" .. NumBonusIDs .. ":" .. BonusID1 .. ":" .. BonusID2 .. ":" .. BonusID3 .. ":" .. BonusID4 .. ":" .. BonusID5 .. ":" .. BonusID6 .. ":" .. BonusID7 .. ":" .. BonusID8, WasUpgraded
+			if BonusID9 == nil or BonusID9 == "" then BonusID9 = "0" end
+			if BonusID10 == nil or BonusID10 == "" then BonusID10 = "0" end
+			if BonusID11 == nil or BonusID11 == "" then BonusID11 = "0" end
+			if BonusID12 == nil or BonusID12 == "" then BonusID12 = "0" end
+			return "item:" .. ItemID .. ":0:0:0:0:0:" .. SuffixID .. ":" .. MoreInfo .. ":" .. 0 .. ":" .. SpecializationID .. ":" .. UpgradeLevel1 .. ":" .. Difficulty .. ":" .. NumBonusIDs .. ":" .. BonusID1 .. ":" .. BonusID2 .. ":" .. BonusID3 .. ":" .. BonusID4 .. ":" .. BonusID5 .. ":" .. BonusID6 .. ":" .. BonusID7 .. ":" .. BonusID8 .. ":" .. BonusID9 .. ":" .. BonusID10 .. ":" .. BonusID11 .. ":" .. BonusID12, WasUpgraded
 		else
 			-- This item is not enchanted.  Return nil.
 			return nil
@@ -2584,6 +2608,8 @@ function PawnParseScaleTag(ScaleTag)
 			Value = PawnGetClassIDFromName(Value)
 		elseif Stat == "Spec" then
 			SpecID = Value -- processed later, in case they list Spec before Class
+		elseif Value == "X" or Value == "x" then
+			Value = PawnIgnoreStatValue
 		else
 			Value = tonumber(Value)
 		end
@@ -2594,11 +2620,6 @@ function PawnParseScaleTag(ScaleTag)
 	gsub(ValuesString .. ",", "[^,]*,", SplitStatValuePair)
 	if SpecID and Values.Class then
 		Values.Spec = PawnGetSpecIDFromName(Values.Class, SpecID)
-	end
-	if (not Values.Class) or (not Values.Spec) then
-		-- Never return just a class without a spec.
-		Values.Spec = nil
-		Values.Class = nil
 	end
 	
 	-- Looks like everything worked.
@@ -2698,7 +2719,7 @@ function PawnCorrectScaleErrors(ScaleName)
 	end
 	
 	-- Pawn 1.5.5 adds an option to follow specialization when upgrading.
-	if ThisScaleOptions.UpgradesFollowSpecialization == nil then ThisScaleOptions.UpgradesFollowSpecialization = true end
+	if ThisScaleOptions.UpgradesFollowSpecialization == nil then ThisScaleOptions.UpgradesFollowSpecialization = not VgerCore.IsClassic end
 	
 	-- Pawn 1.3 adds per-character options to each scale.
 	if ThisScaleOptions.PerCharacterOptions == nil then ThisScaleOptions.PerCharacterOptions = {} end
@@ -2715,8 +2736,6 @@ function PawnCorrectScaleErrors(ScaleName)
 	PawnReplaceStat(ThisScale, "OneHandDPS", "OneHandDps")
 	PawnReplaceStat(ThisScale, "TwoHandDPS", "TwoHandDps")
 	
-	-- Pawn 1.6.1 removed IsRelic and IsThrown
-
 	-- Pawn 1.7 makes smart gem socketing mandatory.
 	ThisScaleOptions.SmartGemSocketing = nil
 	ThisScaleOptions.SmartMetaGemSocketing = nil
@@ -2739,7 +2758,6 @@ function PawnCorrectScaleErrors(ScaleName)
 	ThisScale.Health = nil
 	ThisScale.BaseArmor = nil
 	ThisScale.IsRelic = nil
-	ThisScale.IsThrown = nil
 	ThisScale.BonusArmor = nil
 	ThisScale.Multistrike = nil
 	ThisScale.SpellPower = nil
@@ -3012,7 +3030,7 @@ function PawnIsItemAnUpgrade(Item, DoNotRescan)
 	-- If an artifact is involved, we only compare using item level, since artifacts are complicated and one item can fill multiple slots.
 	local CompareUsingItemLevelOnly = (Item.Rarity == 6)
 	local InvType = Item.InvType
-	if not InvType or InvType == "" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_QUIVER" or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BODY" or InvType == "INVTYPE_THROWN" or InvType == "INVTYPE_AMMO" or InvType == "INVTYPE_RELIC" then return nil end
+	if not InvType or InvType == "" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_QUIVER" or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BODY" or ((not VgerCore.IsClassic) and (InvType == "INVTYPE_THROWN" or InvType == "INVTYPE_AMMO" or InvType == "INVTYPE_RELIC")) then return nil end
 	local SkipScoreBasedUpgrades = InvType == "INVTYPE_TRINKET"
 	local UnenchantedItemLink, NeedsEnhancements = PawnUnenchantItemLink(Item.Link, true)
 	VgerCore.Assert(UnenchantedItemLink ~= nil, "PawnIsItemAnUpgrade failed to get an item link for item " .. tostring(Item.ID))
@@ -3056,7 +3074,7 @@ function PawnIsItemAnUpgrade(Item, DoNotRescan)
 			if PawnIsScaleVisible(ScaleName) and not
 				(Scale.DoNotShow1HUpgrades and (InvType == "INVTYPE_WEAPON" or InvType == "INVTYPE_WEAPONMAINHAND" or InvType == "INVTYPE_WEAPONOFFHAND" or InvType == "INVTYPE_SHIELD" or InvType == "INVTYPE_HOLDABLE")) and not
 				(Scale.DoNotShow2HUpgrades and InvType == "INVTYPE_2HWEAPON") and
-				((not Scale.UpgradesFollowSpecialization) or PawnIsArmorBestTypeForPlayer(Item))
+				(VgerCore.IsClassic or (not Scale.UpgradesFollowSpecialization) or PawnIsArmorBestTypeForPlayer(Item))
 			then
 				-- Find the best item for that slot.  Or, if a second-best item is available, compare versus that.
 				local CharacterOptions = Scale.PerCharacterOptions[PawnPlayerFullName]
@@ -3350,7 +3368,7 @@ function PawnFindBestItems(ScaleName, InventoryOnly)
 			InvType = "INVTYPE_WEAPONOFFHAND"
 		elseif InvType == "INVTYPE_ROBE" then
 			InvType = "INVTYPE_CHEST"
-		elseif InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT" then
+		elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
 			-- A ranged weapon could be one-handed (wands) or two-handed (everything else) but it always goes in the main hand.
 			InvType = "INVTYPE_WEAPONMAINHAND"
 		end
@@ -3396,7 +3414,7 @@ function PawnFindBestItems(ScaleName, InventoryOnly)
 	
 	-- Obviously, check the player's currently equipped gear.
 	local Slot, PreviousItemLink
-	for Slot = 1, 17 do if Slot ~= 4 and Slot ~= 13 and Slot ~= 14 then -- Skip slots 0 (ammo), 4 (shirt), 13-14 (trinkets), 18 (ranged/relic), and 19 (tabard)
+	for Slot = 1, 18 do if Slot ~= 4 and Slot ~= 13 and Slot ~= 14 then -- Skip slots 0 (ammo), 4 (shirt), 13-14 (trinkets), and 19 (tabard)
 		local Item = PawnGetItemDataForInventorySlot(Slot, true, "player")
 		if Item then
 			CheckItem(ScaleName, BestItems, Item, PreviousItemLink)
@@ -3405,13 +3423,14 @@ function PawnFindBestItems(ScaleName, InventoryOnly)
 	end end
 	
 	-- Now, scan all of the items in the player's equipment sets.
-	if not InventoryOnly then
+	-- (Equipment sets don't exist on Classic.)
+	if not InventoryOnly and not VgerCore.IsClassic then
 		local _, i
 		for _, i in pairs(C_EquipmentSet.GetEquipmentSetIDs()) do
 			local _, _, EquipmentSetID = C_EquipmentSet.GetEquipmentSetInfo(i)
 			local ItemLocations = C_EquipmentSet.GetItemLocations(EquipmentSetID)
 			PreviousItemLink = nil
-			for Slot = 1, 17 do if Slot ~= 4 and Slot ~= 13 and Slot ~= 14 then
+			for Slot = 1, 18 do if Slot ~= 4 and Slot ~= 13 and Slot ~= 14 then
 				local Location = ItemLocations[Slot]
 				if Location and Location > 1 then
 					-- Getting the item link for an equipment set item is a pain in the ass...
@@ -3585,7 +3604,7 @@ function PawnOnItemLost(ItemLink)
 		InvType = "INVTYPE_WEAPONOFFHAND"
 	elseif InvType == "INVTYPE_ROBE" then
 		InvType = "INVTYPE_CHEST"
-	elseif InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT" then
+	elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
 		-- A ranged weapon could be one-handed (wands) or two-handed (everything else) but it always goes in the main hand.
 		InvType = "INVTYPE_WEAPONMAINHAND"
 	end
@@ -3830,13 +3849,13 @@ function PawnEnableAllScalesForClass()
 end
 
 -- Returns the name of a scale that's designed for the specified class and spec, if there is one,
--- or nil if there isn't.
+-- or nil if there isn't.  (SpecID is optional, in case of Classic.)
 function PawnFindScaleForSpec(ClassID, SpecID)
-	if (not ClassID) or (not SpecID) then return nil end
+	if not ClassID then return nil end
 
 	local ScaleName, Scale
 	for ScaleName, Scale in pairs(PawnCommon.Scales) do
-		if Scale.ClassID == ClassID and Scale.SpecID == SpecID and Scale.Provider then return ScaleName end
+		if Scale.ClassID == ClassID and (SpecID == nil or Scale.SpecID == SpecID) and Scale.Provider then return ScaleName end
 	end
 
 	return nil
@@ -4099,8 +4118,6 @@ function PawnAddItemToLevelTracker(Item)
 		PutNewItemInSlot = Slot2
 	end
 
-	-- TODO: *** Rings and trinkets with the same ID should only be able to upgrade weaker versions of the same item
-
 	if PutNewItemInSlot then
 		if PawnCommon.ShowSlotDebugInfo then
 			VgerCore.Message(Item.Link .. " is now your best item in slot " .. PutNewItemInSlot .. ".")
@@ -4142,8 +4159,6 @@ function PawnIsItemAnItemLevelUpgrade(Item)
 		return
 	end
 
-	-- TODO: *** Rings and trinkets with the same ID should only be able to upgrade weaker versions of the same item
-
 	local Difference
 	if Slot1 and PawnOptions.ItemLevels[Slot1] and Item.Level > PawnOptions.ItemLevels[Slot1].Level then
 		Difference = Item.Level - PawnOptions.ItemLevels[Slot1].Level
@@ -4152,6 +4167,70 @@ function PawnIsItemAnItemLevelUpgrade(Item)
 		Difference = Item.Level - PawnOptions.ItemLevels[Slot2].Level
 	end
 	return Difference
+end
+
+-- Returns: IsPlayingWith, UnitID
+--   IsPlayingWith: True if the the user is playing with the target player.
+--   UnitID: The unit ID of the target player ("party3" etc.).
+function PawnIsPlayingWith(TargetName, TargetRealm)
+	-- If this player IS the target, then obviously not.
+	if UnitName("player") == TargetName then return false end
+	
+	-- Is this player on the target's realm?
+	local IsOnTargetRealm = GetRealmName() == TargetRealm
+	
+	-- Look through the current group roster for the target.
+	local _, i
+	if IsInRaid() then
+	   local TargetNameAndRealm = IsOnTargetRealm and TargetName or (TargetName .. "-" .. TargetRealm)
+	   for i = 1, GetNumGroupMembers() do
+		  local Name = GetRaidRosterInfo(i)
+		  if Name == TargetNameAndRealm then return true, ("raid" .. i) end
+	   end
+	else
+	   for i = 1, GetNumSubgroupMembers() do
+		  local Name, Realm = UnitName("party" .. i)
+		  if Name == TargetName and ((Realm == TargetRealm) or (Realm == nil and IsOnTargetRealm)) then return true, ("party" .. i) end
+	   end
+	end
+	
+	-- Guess the target isn't in the group!
+	return false
+	
+ end
+ 
+ -- Shows the "you're playing with Vger" Easter Egg if appropriate.
+ -- Pass true to always show the Easter Egg regardless of current group configuration.
+ function PawnShowPlayingWithVgerEasterEgg(Test)
+	-- Should we show it?
+	local UnitID
+	if Test then
+		UnitID = "player"
+	else
+		if VgerCore.IsClassic then return end
+		if PawnCommon.HasPlayedWithVger then return end
+		local Show
+		Show, UnitID = PawnIsPlayingWith("Vger", "Azjol-Nerub")
+		if not Show then return end 
+	end
+
+	-- Okay, we're gonna do it!
+
+	LoadAddOn("Blizzard_TalkingHeadUI")
+
+	TalkingHeadFrame_Reset(TalkingHeadFrame, "Hello!  I created your favorite addon Pawn.  Looks like we're playing together, so feel free to say hi, and have a great day!", "Vger")
+	TalkingHeadFrame.MainFrame.Model:SetUnit("player")
+	TalkingHeadFrame_FadeinFrames()
+	TalkingHeadFrame:Show()
+	TalkingHeadFrame.MainFrame.Model:RefreshCamera()
+	Model_ApplyUICamera(TalkingHeadFrame.MainFrame.Model, 105) -- Head and torso
+	TalkingHeadFrame.MainFrame.Model:SetAnimation(60) -- Talking animation
+	PlaySound(101228, "DIALOG") -- "Do you know who I am?"
+
+	C_Timer.After(15, function() TalkingHeadFrame_FadeoutFrames() end)
+
+	-- Once this has happened, don't ever do it again.
+	PawnCommon.HasPlayedWithVger = true
 end
 
 ------------------------------------------------------------
@@ -4396,6 +4475,19 @@ function PawnSetStatValue(ScaleName, StatName, Value)
 	return true
 end
 
+-- Returns the number of visible scales for the current character.
+function PawnGetVisibleScaleCount()
+	local Count = 0
+	local ScaleName, Scale
+	for ScaleName, Scale in pairs(PawnCommon.Scales) do
+		if PawnIsScaleVisible(ScaleName) and ((not Scale.Provider) or (Scale.ProviderActive)) then
+			Count = Count + 1
+		end
+	end
+
+	return Count
+end
+
 -- Returns a table of all Pawn scale names.  Returns all custom scales not from scale providers, whether visible or not.
 -- For more information in one big table, use PawnGetAllScalesEx.  This method is provided here for backwards compatibility.
 -- DEPRECATED
@@ -4506,7 +4598,7 @@ end
 --	Parameters: ScaleName
 --		ScaleName: The name of a Pawn scale.
 --	Return value: ScaleTag, or nil if unsuccessful.
---		ScaleTag: A Pawn scale tag.  Example:  '( Pawn: v1: "Healbot": Stamina=1, Intellect=1.24 )'
+--		ScaleTag: A Pawn scale tag.  Example:  '( Pawn: v1: "Healbot": Stamina=1, Intellect=1.24, IsSword=X )'
 function PawnGetScaleTag(ScaleName)
 	if not PawnIsInitialized then VgerCore.Fail("Can't export scales until Pawn is initialized") return end
 
@@ -4526,8 +4618,11 @@ function PawnGetScaleTag(ScaleName)
 	local ScaleTag = "( Pawn: v" .. PawnCurrentScaleVersion .. ": \"" .. ScaleFriendlyName .. "\": "
 	local AddComma = false
 	local TemplateStats
-	if Scale.ClassID and Scale.SpecID then
-		ScaleTag = ScaleTag .. "Class=" .. PawnGetEnglishClassNameFromID(Scale.ClassID) .. ", Spec=" .. PawnGetEnglishSpecNameFromID(Scale.ClassID, Scale.SpecID)
+	if Scale.ClassID then
+		ScaleTag = ScaleTag .. "Class=" .. PawnGetEnglishClassNameFromID(Scale.ClassID)
+		if Scale.SpecID then
+			ScaleTag = ScaleTag .. ", Spec=" .. PawnGetEnglishSpecNameFromID(Scale.ClassID, Scale.SpecID)
+		end
 		AddComma = true
 		TemplateStats = PawnGetStatValuesForTemplate(PawnFindScaleTemplate(Scale.ClassID, Scale.SpecID), true)
 	end
@@ -4540,7 +4635,13 @@ function PawnGetScaleTag(ScaleName)
 		end
 		if IncludeThis then
 			if AddComma then ScaleTag = ScaleTag .. ", " end
-			ScaleTag = ScaleTag .. StatName .. "=" .. tostring(Value)
+			local ValueAsString
+			if Value == PawnIgnoreStatValue then
+				ValueAsString = "X"
+			else
+				ValueAsString = tostring(Value)
+			end
+			ScaleTag = ScaleTag .. StatName .. "=" .. ValueAsString
 			AddComma = true
 		end
 	end
@@ -4566,23 +4667,18 @@ function PawnImportScale(ScaleTag, Overwrite)
 	end
 
 	-- The "Class" and "Spec" parameters aren't actually stat values, so take them out of the list now.
-	local ClassID, SpecID
 	local UnlocalizedClassName, IconTexturePath, Role
-	if GetClassInfo then
-		-- Specializations don't exist in Classic as they do on live, so skip that.
-		ClassID = Values.Class
-		Values.Class = nil
-		SpecID = Values.Spec
-		Values.Spec = nil
-		if ClassID and not SpecID then
-			ClassID = nil
-		elseif SpecID and not ClassID then
-			SpecID = nil
-		elseif ClassID and SpecID then
-			_, UnlocalizedClassName = GetClassInfo(ClassID)
-			_, _, _, IconTexturePath, Role = GetSpecializationInfoForClassID(ClassID, SpecID)
-		end
+	local ClassID = Values.Class
+	Values.Class = nil
+	if ClassID then _, UnlocalizedClassName = PawnGetClassInfo(ClassID) end
+	local SpecID = Values.Spec
+	Values.Spec = nil
+	if SpecID and not ClassID then
+		SpecID = nil
+	elseif SpecID and VgerCore.IsClassic then
+		SpecID = nil
 	end
+	if SpecID then _, _, _, IconTexturePath, Role = PawnGetSpecializationInfoForClassID(ClassID, SpecID) end
 		
 	local AlreadyExists = PawnCommon.Scales[ScaleName] ~= nil
 	if AlreadyExists and (PawnScaleIsReadOnly(ScaleName) or not Overwrite) then
@@ -4595,7 +4691,7 @@ function PawnImportScale(ScaleTag, Overwrite)
 	-- don't change other options about this scale, such as the color.
 
 	if not AlreadyExists then
-		if ClassID and SpecID then
+		if ClassID and (SpecID or VgerCore.IsClassic) then
 			PawnCommon.Scales[ScaleName] = PawnGetDefaultScale(ClassID, SpecID, true)
 			local Color = strsub(RAID_CLASS_COLORS[UnlocalizedClassName].colorStr, 3)
 			-- Choose a lighter color for death knights so it's easier to read.
@@ -4613,7 +4709,7 @@ function PawnImportScale(ScaleTag, Overwrite)
 	NewScale.IconTexturePath = IconTexturePath
 	NewScale.Role = Role
 
-	-- Merge the scale tag's stats into the template stats.
+	-- Merge the scale tag's stats into the template's (or the existing scale's) stats.
 	local StatName, Value
 	for StatName, Value in pairs(Values) do
 		NewScale.Values[StatName] = Value
@@ -4682,14 +4778,14 @@ function PawnSetScaleVisible(ScaleName, Visible)
 	end
 	
 	local Scale = PawnCommon.Scales[ScaleName]
+	if Scale.PerCharacterOptions == nil then Scale.PerCharacterOptions = {} end
+	if Scale.PerCharacterOptions[PawnPlayerFullName] == nil then Scale.PerCharacterOptions[PawnPlayerFullName] = {} end
 	if Scale.PerCharacterOptions[PawnPlayerFullName].Visible ~= Visible then
 		Scale.PerCharacterOptions[PawnPlayerFullName].Visible = Visible
 		PawnResetTooltips()
 	end
 	return true
 end
-
-local TEMP_PawnDebugPerCharacterOptionsFailure
 
 -- Returns true if a given scale is visible in tooltips.
 function PawnIsScaleVisible(ScaleName)
@@ -4708,16 +4804,7 @@ function PawnIsScaleVisible(ScaleName)
 		VgerCore.Fail("All per-character options for " .. ScaleName .. " were missing.")
 		return false
 	end
-	if Scale.PerCharacterOptions[PawnPlayerFullName] == nil then
-		if TEMP_PawnDebugPerCharacterOptionsFailure == nil then
-			TEMP_PawnDebugPerCharacterOptionsFailure = true
-			VgerCore.Fail("Per-character options for this character (" .. PawnPlayerFullName .. ") and scale (" .. ScaleName .. ") were missing.")
-		end
-		if PawnCommon.DebugPerCharacterOptionsFailure then
-			VgerCore.Fail(debugstack())
-		end
-		return false
-	end
+	if Scale.PerCharacterOptions[PawnPlayerFullName] == nil then return false end
 	return Scale.PerCharacterOptions[PawnPlayerFullName].Visible
 end
 
@@ -5023,8 +5110,11 @@ function PawnAddPluginScaleFromTemplate(ProviderInternalName, ClassID, SpecID, S
 
 	if not PawnCommon then VgerCore.Fail("Can't add plugin scales until Pawn starts to initialize.") return end
 
-	local LocalizedClassName, UnlocalizedClassName = GetClassInfo(ClassID)
-	local _, LocalizedSpecName, _, IconTexturePath, Role = GetSpecializationInfoForClassID(ClassID, SpecID)
+	local LocalizedClassName, UnlocalizedClassName = PawnGetClassInfo(ClassID)
+	local _, LocalizedSpecName, IconTexturePath, Role
+	if SpecID then
+		_, LocalizedSpecName, _, IconTexturePath, Role = PawnGetSpecializationInfoForClassID(ClassID, SpecID)
+	end
 
 	local Template = PawnFindScaleTemplate(ClassID, SpecID)
 	if not Template then VgerCore.Fail("Can't add this plugin scale because the class" .. tostring(LocalizedClassName) .. " ID " .. tostring(ClassID) .. " and/or spec " .. tostring(LocalizedSpecName) .. " ID " .. tostring(SpecID) .. " wasn't found.") return end
@@ -5043,11 +5133,12 @@ function PawnAddPluginScaleFromTemplate(ProviderInternalName, ClassID, SpecID, S
 	if ClassID == 6 then Color = "ff4d6b" end
 
 	-- Then, transfer control to the regular plugin scale codepath.
-	local ScaleInternalName = UnlocalizedClassName .. SpecID
+	local ScaleInternalName = UnlocalizedClassName .. (SpecID or "")
+	local LocalizedScaleName = LocalizedSpecName and (LocalizedClassName .. ": " .. LocalizedSpecName) or LocalizedClassName
 	PawnAddPluginScale(
 		ProviderInternalName,
 		ScaleInternalName,
-		LocalizedClassName .. ": " .. LocalizedSpecName, -- LocalizedScaleName
+		LocalizedScaleName,
 		Color,
 		ScaleValues,
 		NormalizationFactor,
@@ -5062,7 +5153,77 @@ function PawnAddPluginScaleFromTemplate(ProviderInternalName, ClassID, SpecID, S
 	NewScale.SpecID = SpecID
 	NewScale.IconTexturePath = IconTexturePath
 	NewScale.Role = Role
+
+	return NewScale
 end
+
+-- Wraps the GetClassInfo function so that it can be called on WoW Classic.
+-- (On WoW Classic, returns something like "Druid", "DRUID".)
+function PawnGetClassInfo(ClassID)
+	if GetClassInfo then return GetClassInfo(ClassID) end
+
+	local UnlocalizedClassName
+	if ClassID == 1 then
+		UnlocalizedClassName = "WARRIOR"
+	elseif ClassID == 2 then
+		UnlocalizedClassName = "PALADIN"
+	elseif ClassID == 3 then
+		UnlocalizedClassName = "HUNTER"
+	elseif ClassID == 4 then
+		UnlocalizedClassName = "ROGUE"
+	elseif ClassID == 5 then
+		UnlocalizedClassName = "PRIEST"
+	elseif ClassID == 7 then
+		UnlocalizedClassName = "SHAMAN"
+	elseif ClassID == 8 then
+		UnlocalizedClassName = "MAGE"
+	elseif ClassID == 9 then
+		UnlocalizedClassName = "WARLOCK"
+	elseif ClassID == 11 then
+		UnlocalizedClassName = "DRUID"
+	else
+		VgerCore.Fail("Unknown class ID: " .. tostring(ClassID))
+	end
+
+	return LOCALIZED_CLASS_NAMES_MALE[UnlocalizedClassName], UnlocalizedClassName
+end
+
+if VgerCore.IsClassic then
+	-- Classic doesn't have a Guardian spec for druids, so rename.
+	PawnLocal.Specs[11][3].Name = PawnLocal.Specs[11][2].Name .. " (" .. TANK .. ")"
+	PawnLocal.Specs[11][2].Name = PawnLocal.Specs[11][2].Name .. " (" .. DAMAGER .. ")"
+	-- And, back then, Outlaw was called Combat.
+	PawnLocal.Specs[4][2].Name = COMBAT
+end
+
+-- Wraps the GetSpecializationInfoForClassID function so that it can be called on WoW Classic.
+-- On WoW Classic, this only returns: _, LocalizedSpecName, _, IconID, Role
+function PawnGetSpecializationInfoForClassID(ClassID, SpecID)
+	if GetSpecializationInfoForClassID then return GetSpecializationInfoForClassID(ClassID, SpecID) end
+
+	local SpecInfo = PawnLocal.Specs[ClassID][SpecID]
+	-- The second-to-last parameter should be SpecInfo.Icon, but many of the icons used in BfA aren't valid on Classic.
+	return nil, SpecInfo.Name, nil, nil, SpecInfo.Role
+end
+
+-- To generate PawnLocal.Specs to place into Localization.lua:
+-- /script PawnGenerateLocalizedSpecsTable()
+-- function PawnGenerateLocalizedSpecsTable()
+-- 	local String = "PawnLocal.Specs =\r\n{\r\n"
+
+-- 	local ClassID, SpecID
+-- 	for ClassID = 1, GetNumClasses() do
+-- 		String = String .. "    [" .. ClassID .. "] = {\r\n"
+-- 		for SpecID = 1, GetNumSpecializationsForClassID(ClassID) do
+-- 			local _, LocalizedSpecName, _, IconID, Role = GetSpecializationInfoForClassID(ClassID, SpecID)
+-- 			String = String .. "        { Name=\"" .. LocalizedSpecName .. "\", Icon=" .. IconID .. ", Role=\"" .. Role .. "\" },\r\n"
+-- 		end
+-- 		String = String .. "    },\r\n"
+-- 	end
+
+-- 	String = String .. "}"
+-- 	PawnUIShowCopyableString("PawnLocal.Specs", String, nil, true)
+-- end
 
 -- Returns the unenchanted item link of the best item that a user has for a particular scale and inventory type.
 -- Parameters:
@@ -5102,7 +5263,7 @@ function PawnGetBestItemLink(ScaleName, InvType, Index, DoNotRescan)
 		InvType = "INVTYPE_WEAPONOFFHAND"
 	elseif InvType == "INVTYPE_ROBE" then
 		InvType = "INVTYPE_CHEST"
-	elseif InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT" then
+	elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
 		-- All ranged weapons go in the main hand now.
 		InvType = "INVTYPE_WEAPONMAINHAND"
 	end

@@ -1,10 +1,10 @@
--- $Id: Atlas-deDE.lua 329 2019-09-04 08:14:03Z arith $
+-- $Id: Atlas-deDE.lua 337 2020-01-01 14:49:58Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert at gmail dot com>
 	Copyright 2010 - Lothaer <lothayer at gmail dot com>, Atlas Team
-	Copyright 2011 ~ 2019 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -76,11 +76,15 @@ L["ATLAS_DDL_CONTINENT_DEEPHOLM"] = "Instanzen in Tiefenheim"
 L["ATLAS_DDL_CONTINENT_DRAENOR"] = "Instanzen in Draenor"
 L["ATLAS_DDL_CONTINENT_EASTERN"] = "Instanzen der Östlichen Königreiche"
 L["ATLAS_DDL_CONTINENT_KALIMDOR"] = "Instanzen in Kalimdor"
+L["ATLAS_DDL_CONTINENT_KULTIRAS"] = "Instanzen in Kul Tiras"
+L["ATLAS_DDL_CONTINENT_NAZJATAR"] = "Instanzen in Nazjatar"
 L["ATLAS_DDL_CONTINENT_NORTHREND"] = "Instanzen in Nordend"
 L["ATLAS_DDL_CONTINENT_OUTLAND"] = "Instanzen der Scherbenwelt"
 L["ATLAS_DDL_CONTINENT_PANDARIA"] = "Instanzen in Pandaria"
+L["ATLAS_DDL_CONTINENT_ZANDALAR"] = "Instanzen in Zandalar"
 L["ATLAS_DDL_EXPANSION"] = "Erweiterung"
 L["ATLAS_DDL_EXPANSION_BC"] = "Instanzen aus Burning Crusade"
+L["ATLAS_DDL_EXPANSION_BFA"] = "Instanzen aus Battle for Azeroth"
 L["ATLAS_DDL_EXPANSION_CATA"] = "Instanzen aus Cataclysm "
 L["ATLAS_DDL_EXPANSION_LEGION"] = "Instanzen aus Legion"
 L["ATLAS_DDL_EXPANSION_LEGION1"] = "Dungeons aus Legion"
@@ -93,6 +97,10 @@ L["ATLAS_DDL_LEVEL"] = "Stufe"
 L["ATLAS_DDL_LEVEL_100PLUS"] = "Instanzen Stufe 100+"
 L["ATLAS_DDL_LEVEL_100TO110"] = "Instanzen Stufe 100–110"
 L["ATLAS_DDL_LEVEL_110PLUS"] = "Instanzen Stufe 110+"
+L["ATLAS_DDL_LEVEL_110TO120"] = "Instanzen Stufe 110–120"
+L["ATLAS_DDL_LEVEL_120PLUS"] = "Instanzen Stufe 120+"
+L["ATLAS_DDL_LEVEL_120TO130"] = "Instanzen Stufe 120–130"
+L["ATLAS_DDL_LEVEL_130PLUS"] = "Instanzen Stufe 130+"
 L["ATLAS_DDL_LEVEL_45TO60"] = "Instanzen Stufe 45–60"
 L["ATLAS_DDL_LEVEL_60TO70"] = "Instanzen Stufe 60–70"
 L["ATLAS_DDL_LEVEL_70TO80"] = "Instanzen Stufe 70–80"

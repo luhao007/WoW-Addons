@@ -4,6 +4,7 @@ if GetLocale() ~= "zhTW" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "艾爾羅‧埃伯洛克領主",
@@ -121,6 +122,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1777] = {
         name = "達克‧槍火",
+    },
+    [1959] = {
+        name = "巡山人維拉特‧麥酒",
     },
     [1960] = {
         name = "駕駛員塞克‧錘足",
@@ -850,6 +854,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "達格朗‧怒錘",
+    },
+    [34320] = {
+        name = "毒皮小暴掠龍",
     },
     [34335] = {
         name = "亞弗瑞斯‧惡語",
@@ -1892,4 +1899,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "安達拉‧影谷",
     },
+    [51677] = {
+        name = "冬泉幼豹",
+    },
 })
+]])()

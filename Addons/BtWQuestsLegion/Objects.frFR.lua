@@ -4,6 +4,7 @@ if GetLocale() ~= "frFR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [250990] = {
         name = "Caisse de reliques anciennes",
@@ -12,3 +13,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Grisitchi tendre",
     },
 })
+]])()

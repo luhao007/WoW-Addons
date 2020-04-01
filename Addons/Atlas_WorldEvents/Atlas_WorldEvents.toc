@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Version: v3.26
 ## RequiredDeps: Atlas
 
@@ -12,6 +12,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: Atlas |r|cFF0099FF[World Events]|r
 # ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 世界事件地圖集

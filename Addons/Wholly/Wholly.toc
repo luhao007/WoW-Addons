@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Scott M Harrison
-## Version: 076
+## Version: 078
 ## Dependencies: Grail
 ## OptionalDeps: LibStub, LibDataBroker, TomTom, Gatherer, Questie
 ## SavedVariablesPerCharacter: WhollyDatabase

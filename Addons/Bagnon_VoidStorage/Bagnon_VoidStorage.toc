@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Jaliborc (JoÃ£o Cardoso)
 ## RequiredDeps: Bagnon
 ## LoadOnDemand: 1
@@ -9,4 +9,4 @@
 ## Notes-zhCN: Bagnon虚空仓库模块
 
 
-..\Bagnon\modules\vault.xml
+..\Bagnon\addons\vault\vault.xml

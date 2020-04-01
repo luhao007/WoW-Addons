@@ -4,6 +4,7 @@ if GetLocale() ~= "deDE" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "Lord Ello Schwarzhaupt",
@@ -865,6 +866,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "Dagrun Zornhammer",
+    },
+    [34320] = {
+        name = "Gifthautjunges",
     },
     [34335] = {
         name = "Avrus Böswisper",
@@ -1946,4 +1950,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "Andalar Dämmertal",
     },
+    [51677] = {
+        name = "Winterquelljunges",
+    },
 })
+]])()

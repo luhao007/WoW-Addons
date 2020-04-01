@@ -1,4 +1,6 @@
 local L = BtWQuests.L;
+local Chain = BtWQuests.Constant.Chain.BattleForAzeroth;
+
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_PRIDE_OF_KULTIRAS, {
     name = { -- The Pride of Kul Tiras
         type = "achievement",
@@ -931,194 +933,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_IN_TELDRA
         },
     },
 })
-BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_HIGH_OVERLORD, {
-    name = { -- The High Overlord
-        type = "quest",
-        id = 54099,
-    },
-    category = nil,
-    expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
-    restrictions = {
-        type = "faction",
-        id = BTWQUESTS_FACTION_ID_HORDE,
-    },
-    prerequisites = {
-        {
-            type = "level",
-            level = 120,
-        },
-    },
-    active = {
-        type = "quest",
-        id = 54097,
-        status = {'active', 'completed'}
-    },
-    completed = {
-        type = "quest",
-        ids = {54109, 54754},
-    },
-    rewards = {
-        {
-            type = "toy",
-            id = 165791,
-        },
-        {
-            type = "money",
-            amounts = {
-                1638000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-    },
-    items = {
-        {
-            type = "quest",
-            id = 54097,
-            x = 3,
-            y = 0,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54099,
-            x = 3,
-            y = 1,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54100,
-            x = 3,
-            y = 2,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54101,
-            x = 3,
-            y = 3,
-            connections = {
-                2,
-            },
-        },
-        {
-            type = "quest",
-            id = 54102,
-            x = 3,
-            y = 4,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54103,
-            x = 3,
-            y = 5,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54104,
-            x = 3,
-            y = 6,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54105,
-            x = 3,
-            y = 7,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54106,
-            x = 3,
-            y = 8,
-            connections = {
-                1,
-            },
-        },
-        {
-            variations = {
-                {
-                    type = "quest",
-                    id = 54754,
-                    restrictions = BtWQuestsItem_ActiveOrCompleted,
-                },
-                {
-                    type = "quest",
-                    id = 54107,
-                },
-            },
-            x = 3,
-            y = 9,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54108,
-            visible = {
-                {
-                    type = "quest",
-                    id = 54754,
-                    status = {'notactive'},
-                },
-                {
-                    type = "quest",
-                    id = 54754,
-                    status = {'notcompleted'},
-                },
-            },
-            -- visible = function(_, character)
-            --     return not (character:IsQuestActive(54754) or character:IsQuestCompleted(54754))
-            -- end,
-            x = 3,
-            y = 10,
-            connections = {
-                1,
-            },
-        },
-        {
-            type = "quest",
-            id = 54109,
-            visible = {
-                {
-                    type = "quest",
-                    id = 54754,
-                    status = {'notactive'},
-                },
-                {
-                    type = "quest",
-                    id = 54754,
-                    status = {'notcompleted'},
-                },
-            },
-            -- visible = function(_, character)
-            --     return not (character:IsQuestActive(54754) or character:IsQuestCompleted(54754))
-            -- end,
-            x = 3,
-            y = 11,
-        },
-    },
-})
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_FALLEN_CHIEFTAIN, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(12719, 1), -- The Fallen Chieftain
     category = nil,
@@ -1371,6 +1185,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_BLOOD_ELF_HERITAGE
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAGE,
+        Chain.WorgenHeritage,
+        Chain.GoblinHeritage,
     },
     restrictions = {
         {
@@ -1506,6 +1322,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE, {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAGE,
+        Chain.WorgenHeritage,
+        Chain.GoblinHeritage,
     },
     restrictions = {
         {
@@ -1851,7 +1669,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_SOMETHING_SO
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4,
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1,
         },
     },
     active = {
@@ -2470,6 +2288,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_BLOOD_ELF_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAGE,
+        Chain.WorgenHeritage,
+        Chain.GoblinHeritage,
     },
     restrictions = {
         {
@@ -2621,6 +2441,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAG
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_BLOOD_ELF_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE,
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE,
+        Chain.WorgenHeritage,
+        Chain.GoblinHeritage,
     },
     restrictions = {
         {
@@ -2739,6 +2561,292 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAG
         },
     },
 })
+
+
+BtWQuestsDatabase:AddChain(Chain.WorgenHeritage, {
+    name = { -- The Shadow of Gilneas
+        type = "quest",
+        id = 54976,
+    },
+    questline = 957,
+    category = nil,
+    expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+    crest = "worgen",
+    alternatives = {
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_BLOOD_ELF_HERITAGE,
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE,
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE,
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAGE,
+        Chain.WorgenHeritage,
+        Chain.GoblinHeritage,
+    },
+    restrictions = {
+        {
+            type = "race",
+            id = BTWQUESTS_RACE_ID_WORGEN,
+        },
+    },
+    prerequisites = {
+        {
+            type = "level",
+            level = 120,
+        },
+        {
+            type = "reputation",
+            id = 1134,
+            standing = 8,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 54976,
+        status = {'active', 'completed'},
+    },
+    completed = {
+        type = "quest",
+        id = 54990,
+    },
+    rewards = {
+        {
+            name = L["BTWQUESTS_HERITAGE_OF_GILNEAS"],
+        },
+    },
+    range = {120},
+    items = {
+        {
+            type = "npc",
+            id = 150200,
+            x = 3,
+            y = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54976,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54977,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54980,
+            x = 3,
+            connections = {
+                1, 2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54981,
+            x = 2,
+            connections = {
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54982,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54983,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54984,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 54990,
+            x = 3,
+        },
+    },
+})
+BtWQuestsDatabase:AddChain(Chain.GoblinHeritage, {
+    name = { -- Buyers Wanted
+        type = "quest",
+        id = 57077,
+    },
+    questline = 997,
+    category = nil,
+    expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+    crest = "goblin",
+    alternatives = {
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_BLOOD_ELF_HERITAGE,
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE,
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE,
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAGE,
+        Chain.WorgenHeritage,
+        Chain.GoblinHeritage,
+    },
+    restrictions = {
+        {
+            type = "race",
+            id = BTWQUESTS_RACE_ID_GOBLIN,
+        },
+    },
+    prerequisites = {
+        {
+            type = "level",
+            level = 120,
+        },
+        {
+            type = "reputation",
+            id = 1133,
+            standing = 8,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 57043,
+        status = {'active', 'completed'},
+    },
+    completed = {
+        type = "quest",
+        id = 57080,
+    },
+    rewards = {
+        {
+            name = L["BTWQUESTS_HERITAGE_OF_KEZAN"],
+        },
+    },
+    range = {120},
+    items = {
+        {
+            type = "npc",
+            id = 156358,
+            x = 3,
+            y = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57043,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57045,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57047,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57048,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57051,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57052,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57053,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57058,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57059,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57077,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57078,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57079,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57080,
+            x = 3,
+        },
+    },
+})
+
 
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_ALLIANCE, {
     name = "Other Alliance",
@@ -2988,10 +3096,6 @@ BtWQuestsDatabase:AddExpansionItems(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
     },
     {
         type = "chain",
-        id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_HIGH_OVERLORD,
-    },
-    {
-        type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_IN_TELDRASSILS_SHADOW,
     },
     {
@@ -3013,6 +3117,14 @@ BtWQuestsDatabase:AddExpansionItems(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
     {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAGE,
+    },
+    {
+        type = "chain",
+        id = Chain.WorgenHeritage,
+    },
+    {
+        type = "chain",
+        id = Chain.GoblinHeritage,
     },
     {
         type = "chain",

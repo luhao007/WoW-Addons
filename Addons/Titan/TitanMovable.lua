@@ -250,6 +250,7 @@ local function SetPosition(frame, ...)
 		else
 			res = false
 		end
+		return res
 	end
     if type(frame) == 'string' then
         UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil

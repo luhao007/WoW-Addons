@@ -231,6 +231,7 @@ for key,value in pairs({
 	[202975] = "Banheiro Submerso",
 	[203128] = "Garrafa Quebrada",
 	[203134] = "Pedestal Vazio",
+	[203140] = "Ponta Quebrada",
 	[203186] = "NÃO ENTRE!!!",
 	[203207] = "Códice das Sombras",
 	[203733] = "Quadro de Recompensas",
@@ -961,6 +962,8 @@ for key,value in pairs({
 	[303016] = "|cFFFFFFFFStep 14:|r Cascalho Comum XIII",
 	[303017] = "|cFFFFFFFFStep 13:|r Cascalho Comum XII",
 	[303018] = "|cFFFFFFFFStep 12:|r Cascalho Comum XI",
+	[307265] = "Cartaz de Procura-se",
+--	[307748] = "Venture Co. Letter",							-- No Translation
 	[310709] = "Baú Encharcado",
 	[311218] = "Xal'atath, a Lâmina do Império Negro",
 	[311902] = "Peças Soltas",

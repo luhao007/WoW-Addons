@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2019 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -96,6 +96,7 @@ PawnLocal =
 		["BlockValueInfo"] = "Shield block value.  Increases the damage that a shield absorbs when it successfully blocks.",
 		["Cloth"] = "布甲",
 		["ClothInfo"] = "此物若為布甲，則增計多少分數。",
+		["CorruptionInfo"] = "Corruption of N'Zoth.  A negative value for Corruption will remove points from an item's score based on the level of corruption.",
 		["Crit"] = "致命一擊",
 		["CritInfo"] = "致命一擊: 影響近戰攻擊，遠程攻擊，法術。",
 		--[[Translation missing --]]
@@ -290,6 +291,7 @@ PawnLocal =
 		["Charges"] = "^.+次?$",
 		["Cloth"] = "^布甲$",
 		["CooldownRemaining"] = "^冷卻時間:",
+		["Corruption"] = "^%+?#腐化$",
 		["Crit"] = "^%+?#致命一擊$",
 		["Crit2"] = "^裝備: 提高#點致命一擊。$",
 		["CritPercent"] = "^裝備： 使你造成致命一擊的機率提高#%%。$",
@@ -396,6 +398,7 @@ PawnLocal =
 		["Sword"] = "^劍$",
 		["TemporaryBuffMinutes"] = "^.+%(%d+ 分%)$",
 		["TemporaryBuffSeconds"] = "^.+%(%d+ 秒%)$",
+		["Thrown"] = "^Thrown$",
 		["Thunderforged"] = "^雷霆鎔鑄$",
 		["Timeless"] = "^永恆之島$",
 		["Titanforged"] = "^泰坦鎔鑄$",
@@ -653,6 +656,7 @@ WoW中所有的物件都有個ID，通常只有寫插件的人才需要這些資
 		["ValuesFollowSpecialization"] = "50等以後只顯示最佳護甲類型",
 		["ValuesFollowSpecializationTooltip"] = "啟用該選項來隱藏50等以後非職業專精的護甲類型。比如，神聖聖騎在50等學到了鎧甲專精, 當只裝備鎧甲時增加智力5%。當此選項選擇時Pawn將不會考慮布、皮及鎖甲對50等以上神聖聖騎士的提升",
 		["ValuesHeader"] = "調整 %s 權重",
+		["ValuesIgnoreItemType"] = "帶此屬性的物品沒有用處。",
 		["ValuesIgnoreStat"] = "帶此屬性的物品沒有用處。",
 		["ValuesIgnoreStatTooltip"] = "啟用這個選項讓此物品不計分數。例如，薩滿不能裝備鎧甲，所以為薩滿設計的權重可以標記鎧甲為不可用的，鎧甲即不計分。",
 		["ValuesNormalize"] = "數值標準化 (像 Wowhead)",
@@ -699,6 +703,70 @@ if VgerCore.IsClassic then
 		PawnLocal.TooltipParsing[Key] = NewString
 	end
 end
+
+PawnLocal.Specs =
+{
+	[1] = {
+		{ Name="武器", Icon=132355, Role="DAMAGER" },
+		{ Name="狂怒", Icon=132347, Role="DAMAGER" },
+		{ Name="防護", Icon=132341, Role="TANK" },
+	},
+	[2] = {
+		{ Name="神聖", Icon=135920, Role="HEALER" },
+		{ Name="防護", Icon=236264, Role="TANK" },
+		{ Name="懲戒", Icon=135873, Role="DAMAGER" },
+	},
+	[3] = {
+		{ Name="野獸控制", Icon=461112, Role="DAMAGER" },
+		{ Name="射擊", Icon=236179, Role="DAMAGER" },
+		{ Name="生存", Icon=461113, Role="DAMAGER" },
+	},
+	[4] = {
+		{ Name="刺殺", Icon=236270, Role="DAMAGER" },
+		{ Name="暴徒", Icon=236286, Role="DAMAGER" },
+		{ Name="敏銳", Icon=132320, Role="DAMAGER" },
+	},
+	[5] = {
+		{ Name="戒律", Icon=135940, Role="HEALER" },
+		{ Name="神聖", Icon=237542, Role="HEALER" },
+		{ Name="暗影", Icon=136207, Role="DAMAGER" },
+	},
+	[6] = {
+		{ Name="血魄", Icon=135770, Role="TANK" },
+		{ Name="冰霜", Icon=135773, Role="DAMAGER" },
+		{ Name="穢邪", Icon=135775, Role="DAMAGER" },
+	},
+	[7] = {
+		{ Name="元素", Icon=136048, Role="DAMAGER" },
+		{ Name="增強", Icon=237581, Role="DAMAGER" },
+		{ Name="恢復", Icon=136052, Role="HEALER" },
+	},
+	[8] = {
+		{ Name="秘法", Icon=135932, Role="DAMAGER" },
+		{ Name="火焰", Icon=135810, Role="DAMAGER" },
+		{ Name="冰霜", Icon=135846, Role="DAMAGER" },
+	},
+	[9] = {
+		{ Name="痛苦", Icon=136145, Role="DAMAGER" },
+		{ Name="惡魔學識", Icon=136172, Role="DAMAGER" },
+		{ Name="毀滅", Icon=136186, Role="DAMAGER" },
+	},
+	[10] = {
+		{ Name="釀酒", Icon=608951, Role="TANK" },
+		{ Name="織霧", Icon=608952, Role="HEALER" },
+		{ Name="御風", Icon=608953, Role="DAMAGER" },
+	},
+	[11] = {
+		{ Name="平衡", Icon=136096, Role="DAMAGER" },
+		{ Name="野性戰鬥", Icon=132115, Role="DAMAGER" },
+		{ Name="守護者", Icon=132276, Role="TANK" },
+		{ Name="恢復", Icon=136041, Role="HEALER" },
+	},
+	[12] = {
+		{ Name="災虐", Icon=1247264, Role="DAMAGER" },
+		{ Name="復仇", Icon=1247265, Role="TANK" },
+	},
+}
 
 end
 

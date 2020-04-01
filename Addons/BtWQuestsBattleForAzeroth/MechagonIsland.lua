@@ -281,7 +281,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_MECHAGON_ISLAND_CH
             amount = 1275,
         },
     },
-    items ={
+    items = {
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02,
@@ -388,31 +388,29 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_MECHAGON_ISLAND_CH
             id = 55729,
             x = 3,
             connections = {
-                1, 
+                1, 2, 3, 
             },
         },
         {
             type = "quest",
             id = 55730,
-            x = 3,
+            x = 1,
             connections = {
-                1, 
-            },
-        },
-        {
-            type = "quest",
-            id = 55731,
-            x = 3,
-            connections = {
-                1, 
+                4, 
             },
         },
         {
             type = "quest",
             id = 55995,
-            x = 3,
             connections = {
-                1, 
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 55731,
+            connections = {
+                2, 
             },
         },
         {
@@ -441,20 +439,20 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_MECHAGON_ISLAND_CH
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_MECHAGON_ISLAND_CHAIN03,
+            id = 80703,
             x = 0,
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_MECHAGON_ISLAND_CHAIN04,
+            id = 80704,
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_MECHAGON_ISLAND_CHAIN05,
+            id = 80705,
         },
         {
             type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_MECHAGON_ISLAND_CHAIN06,
+            id = 80706,
         },
     },
 })

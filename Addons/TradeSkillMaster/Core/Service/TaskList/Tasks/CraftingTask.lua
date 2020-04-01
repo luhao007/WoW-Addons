@@ -8,7 +8,10 @@
 
 local _, TSM = ...
 local CraftingTask = TSM.Include("LibTSMClass").DefineClass("CraftingTask", TSM.TaskList.Task)
-local L = TSM.L
+local L = TSM.Include("Locale").GetTable()
+local Table = TSM.Include("Util.Table")
+local Log = TSM.Include("Util.Log")
+local BagTracking = TSM.Include("Service.BagTracking")
 TSM.TaskList.CraftingTask = CraftingTask
 local private = {
 	currentlyCrafting = nil,
@@ -25,13 +28,14 @@ local private = {
 function CraftingTask.__init(self)
 	self.__super:__init()
 	self._profession = nil
+	self._skillId = nil
 	self._spellIds = {}
 	self._spellQuantity = {}
 
 	if not private.registeredCallbacks then
 		TSM.Crafting.ProfessionState.RegisterUpdateCallback(private.UpdateTasks)
 		TSM.Crafting.ProfessionScanner.RegisterHasScannedCallback(private.UpdateTasks)
-		TSM.Inventory.BagTracking.RegisterCallback(private.UpdateTasks)
+		BagTracking.RegisterCallback(private.UpdateTasks)
 		private.registeredCallbacks = true
 	end
 end
@@ -39,12 +43,18 @@ end
 function CraftingTask.Acquire(self, doneHandler, category, profession)
 	self.__super:Acquire(doneHandler, category, format(L["%s Crafts"], profession))
 	self._profession = profession
+	for _, _, prof, skillId in TSM.Crafting.PlayerProfessions.Iterator() do
+		if not self._skillId and prof == profession then
+			self._skillId = skillId
+		end
+	end
 	private.activeTasks[self] = true
 end
 
 function CraftingTask.Release(self)
 	self.__super:Release()
 	self._profession = nil
+	self._skillId = nil
 	wipe(self._spellIds)
 	wipe(self._spellQuantity)
 	private.activeTasks[self] = nil
@@ -82,16 +92,16 @@ function CraftingTask.OnButtonClick(self)
 	if self._buttonText == L["CRAFT"] then
 		local spellId = self._spellIds[1]
 		local quantity = self._spellQuantity[spellId]
-		TSM:LOG_INFO("Crafting %d (%d)", spellId, quantity)
+		Log.Info("Crafting %d (%d)", spellId, quantity)
 		private.currentlyCrafting = self
 		local numCrafted = TSM.Crafting.ProfessionUtil.Craft(spellId, quantity, true, private.CraftCompleteCallback)
 		if numCrafted == 0 then
 			-- we're probably crafting something else already - so just bail
-			TSM:LOG_ERR("Failed to craft")
+			Log.Err("Failed to craft")
 			private.currentlyCrafting = nil
 		end
 	elseif self._buttonText == L["OPEN"] then
-		TSM.Crafting.ProfessionUtil.OpenProfession(self._profession)
+		TSM.Crafting.ProfessionUtil.OpenProfession(self._profession, self._skillId)
 	else
 		error("Invalid state: "..tostring(self._buttonText))
 	end
@@ -137,7 +147,7 @@ function CraftingTask._UpdateState(self)
 end
 
 function CraftingTask._RemoveSpellId(self, spellId)
-	assert(TSM.Table.RemoveByValue(self._spellIds, spellId) == 1)
+	assert(Table.RemoveByValue(self._spellIds, spellId) == 1)
 	self._spellQuantity[spellId] = nil
 end
 

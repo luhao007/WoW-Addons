@@ -1,10 +1,10 @@
--- $Id: Atlas_OutdoorRaids.lua 54 2019-09-04 07:49:51Z arith $
+-- $Id: Atlas_OutdoorRaids.lua 62 2020-01-20 13:06:59Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 	Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-	Copyright 2011 ~ 2019 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -50,23 +50,59 @@ local function sBF(key)
 end
 
 local myData = {
-	OR_DoomLordKazzak = {
-		ZoneName = { Atlas_GetBossName("Doom Lord Kazzak") },
-		Location = { BZ["Hellfire Peninsula"] },
-		LevelRange = "70-80",
+	OR_KulTiras = {
+		ZoneName = { L["Kul Tiras World Bosses"] },
+		Location = { BZ["Kul Tiras"] },
+		LevelRange = "120+",
 		PlayerLimit = "40",
-		{ WHIT.."1) "..Atlas_GetBossName("Doom Lord Kazzak"), 10001 },
-		{ WHIT.."2) "..BZ["Invasion Point: Annihilator"], 10002 },
-		{ WHIT.."3) "..BZ["Forge Camp: Rage"], 10003 },
-		{ WHIT.."4) "..BZ["Forge Camp: Mageddon"], 10004 },
-		{ WHIT.."5) "..BZ["Thrallmar"], 10005 },
+		JournalInstanceID = 1028,
+		WorldMapID = 876,
+		ALModule = "Atlas_BattleforAzeroth",
+		{ WHIT.." 1) "..Atlas_GetBossName("Warbringer Yenajz", 2198), 2198 },
+		{ WHIT.." 2) "..Atlas_GetBossName("Azurethos, The Winged Typhoon", 2199), 2199 },
+		{ WHIT.." 3) "..Atlas_GetBossName("Hailstone Construct", 2197), 2197 },
 	},
-	OR_Doomwalker = {
-		ZoneName = { Atlas_GetBossName("Doomwalker") },
-		Location = { BZ["Shadowmoon Valley"] },
-		LevelRange = "70-80",
+	OR_Zandalar = {
+		ZoneName = { L["Zandalar World Bosses"] },
+		Location = { BZ["Zandalar"] },
+		LevelRange = "120+",
 		PlayerLimit = "40",
-		{ WHIT.."1) "..Atlas_GetBossName("Doomwalker"), 10001 },
+		JournalInstanceID = 1028,
+		WorldMapID = 875,
+		ALModule = "Atlas_BattleforAzeroth",
+		{ WHIT.." 1) "..Atlas_GetBossName("Dunegorger Kraulok", 2210), 2210 },
+		{ WHIT..INDENT..Atlas_GetBossName("Ravenous Ranishu", 2210, 2) },
+		{ WHIT.." 2) "..Atlas_GetBossName("Ji'arak", 2141), 2141 },
+		{ WHIT..INDENT..Atlas_GetBossName("Ji'arak Broodling", 2141, 2) },
+		{ WHIT.." 3) "..Atlas_GetBossName("T'zane", 2139), 2139 },
+	},
+	OR_Azeroth = {
+		ZoneName = { L["Eastern Kingdoms World Bosses"] },
+		Location = { BZ["Eastern Kingdoms"] },
+		LevelRange = "120+",
+		PlayerLimit = "40",
+		JournalInstanceID = 1028,
+		WorldMapID = 13,
+		ALModule = "Atlas_BattleforAzeroth",
+		{ WHIT.." 1) "..Atlas_GetBossName("The Lion's Roar", 2212), 2212 },
+		{ WHIT..INDENT..Atlas_GetBossName("Lion's Engineer", 2212, 2) },
+		{ WHIT..INDENT..Atlas_GetBossName("Lion's Shieldbearer", 2212, 3) },
+		{ WHIT..INDENT..Atlas_GetBossName("Lion's Warcaster", 2212, 4) },
+		{ WHIT.." 2) "..Atlas_GetBossName("Doom's Howl", 2213), 2213 },
+		{ WHIT..INDENT..Atlas_GetBossName("Doom's Howl Engineer", 2213, 2) },
+		{ WHIT..INDENT..Atlas_GetBossName("Doom's Howl Dreadshield", 2213, 3) },
+		{ WHIT..INDENT..Atlas_GetBossName("Doom's Howl Warcaster", 2213, 4) },
+	},
+	OR_Kalimdor = {
+		ZoneName = { L["Kalimdor World Bosses"] },
+		Location = { BZ["Kalimdor"] },
+		LevelRange = "120+",
+		PlayerLimit = "40",
+		JournalInstanceID = 1028,
+		WorldMapID = 12,
+		ALModule = "Atlas_BattleforAzeroth",
+		{ WHIT.." 1) "..Atlas_GetBossName("Ivus the Forest Lord", 2329), 2329 },
+		{ WHIT.." 2) "..Atlas_GetBossName("Ivus the Decayed", 2345), 2345 },
 	},
 	OR_BrokenIsles = {
 		ZoneName = { L["Broken Isles World Bosses"] },
@@ -196,9 +232,45 @@ local myData = {
 		{ GREN..INDENT..L["Karrog"]..ALC["L-Parenthesis"]..ALC["Summon"]..ALC["R-Parenthesis"] },
 		{ GREN..INDENT..L["Vakkiz the Windrager"]..ALC["L-Parenthesis"]..ALC["Summon"]..ALC["R-Parenthesis"] },
 	},
+	OR_DoomLordKazzak = {
+		ZoneName = { Atlas_GetBossName("Doom Lord Kazzak") },
+		Location = { BZ["Hellfire Peninsula"] },
+		LevelRange = "70-80",
+		PlayerLimit = "40",
+		{ WHIT.."1) "..Atlas_GetBossName("Doom Lord Kazzak"), 10001 },
+		{ WHIT.."2) "..BZ["Invasion Point: Annihilator"], 10002 },
+		{ WHIT.."3) "..BZ["Forge Camp: Rage"], 10003 },
+		{ WHIT.."4) "..BZ["Forge Camp: Mageddon"], 10004 },
+		{ WHIT.."5) "..BZ["Thrallmar"], 10005 },
+	},
+	OR_Doomwalker = {
+		ZoneName = { Atlas_GetBossName("Doomwalker") },
+		Location = { BZ["Shadowmoon Valley"] },
+		LevelRange = "70-80",
+		PlayerLimit = "40",
+		{ WHIT.."1) "..Atlas_GetBossName("Doomwalker"), 10001 },
+	},
 }
 
 local myDB = {
+	OR_KulTiras = {
+		{ 1, 2198, 407, 128 },
+		{ 2, 2199, 310, 247 },
+		{ 3, 2197, 197, 399 },
+	},
+	OR_Zuldazar = {
+		{ 1, 2210, 136, 146 },
+		{ 2, 2141, 364, 277 },
+		{ 3, 2139, 271, 119 },
+	},
+	OR_Azeroth = {
+		{ 1, 2212, 283, 147 },
+		{ 2, 2213, 276, 155 },
+	},
+	OR_Kalimdor = {
+		{ 1, 2329, 223, 102 },
+		{ 2, 2345, 213, 113 },
+	},
 	OR_DoomLordKazzak = {
 		{ 1, 10001, 296, 206 },
 		{ 2, 10002, 139, 334 },

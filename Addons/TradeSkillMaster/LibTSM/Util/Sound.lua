@@ -1,8 +1,8 @@
 -- ------------------------------------------------------------------------------ --
 --                                TradeSkillMaster                                --
---          http://www.curse.com/addons/wow/tradeskillmaster_warehousing          --
+--             https://www.curseforge.com/wow/addons/tradeskill-master            --
 --                                                                                --
---             A TradeSkillMaster Addon (http://tradeskillmaster.com)             --
+--             A TradeSkillMaster Addon (https://tradeskillmaster.com)            --
 --    All Rights Reserved* - Detailed license information included with addon.    --
 -- ------------------------------------------------------------------------------ --
 
@@ -11,8 +11,7 @@
 
 local _, TSM = ...
 local Sound = TSM.Init("Util.Sound")
-local L = TSM.Include("L")
-TSM.Sound = Sound
+local L = TSM.Include("Locale").GetTable()
 local NO_SOUND_KEY = "TSM_NO_SOUND" -- this can never change
 local SOUNDS = {
 	[NO_SOUND_KEY] = "|cff99ffff"..L["No Sound"].."|r",

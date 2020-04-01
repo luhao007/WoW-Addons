@@ -1,4 +1,4 @@
--- $Id: Atlas_ClassOrderHalls.lua 120 2019-09-04 07:59:03Z arith $
+-- $Id: Atlas_ClassOrderHalls.lua 122 2020-01-14 12:57:11Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -576,7 +576,7 @@ local myData = {
 	CH_Paladin = {
 		ZoneName = { CL["PALADIN"]..Atlas_GetClassName("PALADIN")..ALC["Hyphen"]..BZ["Sanctum of Light"] },
 		Location = { BZ["Sanctum of Light"]..ALC["Comma"]..BZ["Light's Hope Chapel"] },
-		WorldMapID = 676,
+		WorldMapID = 24,
 		{ BLUE.." A) "..L["Entrance"], 10101 },
 		{ PURP.." A) "..format(ALC["Portal to %s"], BZ["Dalaran"]), 10102 },
 		{ WHIT.." 1) "..I_RESEARCH..LC("Sister Elda <Keeper of the Ancient Tomes>", 91190), 91190 },

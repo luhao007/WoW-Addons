@@ -4,6 +4,7 @@ if GetLocale() ~= "koKR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [11997] = {
         name = "얼음에 갇힌 검",
@@ -6783,3 +6784,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "아제로스의 피",
     },
 })
+]])()

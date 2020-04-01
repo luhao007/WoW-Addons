@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Norganna's AddOns
 ## Version: 8.2.6506 (SwimmingSeadragon)
 ## Dependencies: Stubby
@@ -18,10 +18,6 @@
 ## X-URL: http://auctioneeraddon.com/
 ## X-Feedback: http://forums.norganna.org
 
-##
-##
-
-##
 EnxManifest.lua
 
 Libs\Load.xml

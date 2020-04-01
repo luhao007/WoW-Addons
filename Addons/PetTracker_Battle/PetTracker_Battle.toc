@@ -1,0 +1,12 @@
+## Interface: 80300
+## Author: Jaliborc (JoÃ£o Cardoso)
+## Dependencies: PetTracker
+## LoadOnDemand: 1
+
+## Title: PetTracker Battle
+## Notes: Load on demand modification for the pet battle UI.
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF69CCF0战斗|r
+
+## X-Category: Battle Pets
+
+..\PetTracker\addons\battle\battle.xml

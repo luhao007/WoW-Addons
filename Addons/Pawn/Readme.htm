@@ -3,11 +3,6 @@
 <head>
 <title>Pawn</title>
 <link rel="stylesheet" type="text/css" href="VgerCore/VgerCore.css" />
-<style type="text/css">
-.auto-style1 {
-	color: #6800FF;
-}
-</style>
 </head>
 <body>
 
@@ -40,143 +35,6 @@
 	<code>C:\Program Files\World of Warcraft\_retail_\Interface\AddOns</code><br />
 	<code>C:\Program Files (x86)\World of Warcraft\_retail_\Interface\AddOns</code>
 </p>
-<h2 id="ScaleTags">Scales</h2>
-<p><b>Out of date: </b>This section is a bit out-of-date, but it's still 
-relatively useful.&nbsp; The most important change since this was written is 
-that by default, Pawn will now just show you a built-in scale for your current 
-spec, and nothing else.&nbsp; On the Scale tab, switch to Manual mode to have 
-more control over your scales.</p>
-<p>Each of your characters has a unique set of options for Pawn, and can have 
-any number of valuation scales, which often (but not always) represent 
-different sets of gear or situations you find your character in, or different 
-talent specs.&nbsp; A 
-valuation scale has two things: a name, such as &quot;Shaman: elemental&quot;, and a list of 
-stats and how many points each stat is worth.</p>
-<p>The first thing you'll need to do is decide what you'll do with Pawn.&nbsp; 
-Many people can be perfectly happy just using the scales from Wowhead that come 
-with Pawn, and not need to customize a thing.&nbsp; But, you can customize Pawn 
-to do much more.&nbsp; You can make your own personal version of the Wowhead 
-scales with slightly tweaked stat values, import scale values from Rawr, or even 
-create a completely new scale.</p>
-<p>Or, maybe, someone has already shared a <strong>Pawn scale tag</strong> with you, so that you 
-can use a scale that they created or found themselves.</p>
-<h3>Pawn Scale Tags</h3>
-<p>Scale tags are a handy way that you can share your Pawn scales with other 
-people, similar to how you can share talent specs with others just by giving 
-them a link to the WoW talent calculator.&nbsp; A sample scale tag looks like 
-this:</p>
-<p class="codeblock">
-	( Pawn: v1: &quot;Healer stats&quot;: Intellect=1, Spirit=1 )</p>
-	<p>Generally, they&#39;re considerably longer than that, but the overall format 
-	is still the same.&nbsp; A scale tag includes the parentheses ( ) on the 
-	ends and everything in-between.</p>
-<p>It&#39;s possible to use Pawn along with scale tags that other people have 
-created and never have to do any custom calculations or work yourself.&nbsp; 
-Here&#39;s how you can use scale tags to share Pawn scales.</p>
-<h3>Adding a Pawn scale that someone shared with you</h3>
-<p>You can easily add Pawn scales that someone else shared with you on a website as a scale 
-tag to your own copy of Pawn.&nbsp; Highlight the entire scale tab, including 
-the parentheses ( ), and then press Ctrl+C to copy it to the clipboard.&nbsp; 
-Then, switch to WoW.&nbsp; To access the Pawn configuration UI, open 
-your character sheet and inventory (the <b>C</b> key) and click the Pawn button 
-in the lower-right corner.&nbsp; Or, type the following slash command:</p>
-<p class="codeblock">
-	<code>/pawn</code></p>
-<p>Click the <strong>Scale</strong> tab on this window, and then click <b>Import</b>.&nbsp; A window will appear where you can paste the entire scale tag that you got 
-from someone else.&nbsp; Press Ctrl+V to paste a scale tag from the clipboard 
-into this window.&nbsp; Once you&#39;re done, click OK, and that scale will be added 
-to your copy of Pawn.</p>
-<ul>
-	<li>You can&#39;t import a scale tag if the scale has the exact same name as a 
-	scale you already have.&nbsp; For example, if you have a scale named &quot;Pawn 
-	value&quot;, you can&#39;t import a new scale tag named &quot;Pawn value&quot;.</li>
-	<li>Make sure that 
-	you get the whole scale tag, including the &quot;(&quot; at the beginning and the &quot;)&quot; 
-	at the end, or it won&#39;t work.</li>
-</ul>
-<h4>Using Rawr</h4>
-<p>The popular program Rawr can generate highly-customized Pawn scales for you, 
-ready for import.&nbsp; Open Rawr, load your character, and then find the
-<strong>Slot</strong> dropdown in the <strong>Comparisons</strong> tab on the 
-right.&nbsp;&nbsp; Click it and select <strong>Relative stat values</strong>.&nbsp; 
-Then, click the <strong>Export</strong> dropdown in the upper-right and click
-<strong>Copy Pawn string to clipboard</strong>.&nbsp; You can then use the 
-normal Import feature to add this scale to Pawn.&nbsp; (Unfortunately, all 
-scales that Rawr produces will be called &quot;Rawr&quot;, so if you use Rawr for more 
-than one class or spec, you&#39;ll need to rename the scale yourself.)</p>
-<h3>Sharing a Pawn scale with others</h3>
-<p>You can share one of your Pawn scales with 
-others by exporting it from the Scale tab of the Pawn configuration UI.&nbsp; From here, choose the scale that you want to export (if you have more than 
-one) from the <strong>Select a scale</strong> list, and then click <b>Export</b>.&nbsp; A window will appear containing your entire scale tag, but most of it will be 
-scrolled off to the left where you can&#39;t see it.&nbsp; Press <b>Ctrl+C</b> to copy the 
-scale tag to your clipboard.&nbsp; Then, switch to your web browser or an 
-instant message window, or wherever you&#39;d like to share your Pawn scale, and 
-press <b>Ctrl+V</b> to paste the tag to that window.</p>
-<h3>Hiding scales that you don't want to see</h3>
-<p>If, for example, you're a druid who likes to play as a kitty and occasionally 
-heals, but never plays as a boomkin and never tanks, you might want to hide the 
-default Wowhead scales "Druid: balance" and "Druid: guardian" that come with 
-Pawn.&nbsp; That way there's less clutter on your tooltips, you aren't notified 
-about upgrades to gear you don't care about, and so on.&nbsp; To hide a scale, 
-open up the Pawn configuration UI, and then just shift-click the scale in the 
-list.&nbsp; To show any scale that's hidden, shift-click it.&nbsp; (If you are 
-not fond of shift-clicking things, you can also just click the scale and then 
-check or uncheck the "Show scale in tooltips" checkbox at the bottom of the 
-list.)</p>
-<p>You can have any number of scales visible.&nbsp; Your scales and settings are 
-shared between all of your characters, but the ones that are shown are specific 
-to which character you're currently playing.</p>
-<h2>Setting up a custom Pawn scale for one of your characters</h2>
-<p>You can customize your Pawn scale in the Pawn configuration UI.&nbsp; To show 
-it, click the Pawn button in the lower-right corner of the character inventory 
-window (the <b>C</b> key).</p>
-<p>Nobody thinks all 
-statistics are created equal.&nbsp; Warrior tanks don&#39;t care about intellect and 
-spirit.&nbsp; Priests don&#39;t care about strength.&nbsp; You can customize Pawn to 
-only look at the stats that you care about.&nbsp; Let&#39;s do it now.</p>
-<p>The Pawn configuration UI has everything you need to make changes to your 
-scale, as well as import scales from other people, export them so you can share 
-yours with others, and create multiple new scales for different situations.&nbsp; 
-Right now, the &quot;Pawn value&quot; scale is selected and ready to be modified.</p>
-<p>On the left, you see a long list of all of the different item stats that Pawn 
-understands.&nbsp; They&#39;re grouped into categories—the primary stats like 
-Stamina and Intellect are at the top, weapon stats are another section, 
-spell-related state are another, sockets for gems are another, and so on.&nbsp; 
-The default Pawn value scale that was created for you has a value for almost 
-every stat.</p>
-<p>So, let&#39;s make some changes.&nbsp; Let&#39;s start with a new default scale 
-and delete the stats that we don&#39;t care 
-about.&nbsp; Go to the <strong>Scale </strong>tab and click <strong>Empty</strong> 
-and give it a name to create a new one.&nbsp; Now you&#39;re on the <b>Weights</b> 
-tab and can customize the numbers.&nbsp; If you&#39;re a melee class, you can get rid of intellect and spirit.&nbsp; 
-To do this, click on Intellect in the list on the left (it&#39;s near the top).&nbsp; 
-When you click on a stat, you see a little description about the stat to the 
-right (there&#39;s not much to say about intellect), and a box where you can type a 
-new value.&nbsp; To get rid of intellect, either delete the number from the box, 
-replace it with 0, or just click <strong>Remove</strong>.&nbsp; Then, choose spirit from the list and delete it too.&nbsp; 
-You can delete any stats you don&#39;t care about, and you can change the value of 
-any stat in the list.&nbsp; (If you find yourself removing a lot of stats, you 
-can also create a new empty scale and start from scratch.&nbsp; That would 
-probably be easier than deleting everything individually.&nbsp; The downside is 
-that you don&#39;t get to see the starting values we suggested for each stat.)</p>
-<p>Cool.&nbsp; You don&#39;t have to do anything complicated just yet; that should 
-be fine.&nbsp; Your changes will take effect immediately; you can hover over new 
-items or click links in trade chat and you&#39;ll see updated values based on your 
-newly-modified scale.&nbsp; Once you have thing set up the way you like them, 
-Pawn will be customized to exactly what you care about in items.</p>
-<p>If you ever manage to really screw things up, you can click Delete to delete 
-the scale you&#39;re working on, and then click New default to create a new scale 
-from the defaults.&nbsp; If you name it &quot;Pawn value&quot; you&#39;ll be right back where 
-you started.</p>
-<h3>Setting up a second Pawn scale</h3>
-<p>You aren&#39;t limited to just one scale or a few; you can set up as many 
-as you like.&nbsp; To do this, go to the Scale tab on the Pawn configuration UI and click
-<b>
-Empty</b> to start a new scale with no values for any stat, or <b>Defaults</b> to start a new scale using the defaults as a starting point.&nbsp; 
-When you have two different scales, Pawn will show two numbers on each item you 
-hover over or click in chat.&nbsp; You can have any number of scales; just 
-choose the one that you want to work on in the configuration UI before you start 
-making changes to the stats.</p>
 <h2>Comparing items</h2>
 <p>You can use Pawn to easily compare two items.&nbsp; Open the Pawn UI and 
 click the <strong>Compare</strong> tab.&nbsp; Then, place an equippable item 
@@ -224,9 +82,8 @@ items with a red border in AtlasLoot.)</p>
 	season&#39;s Pendant of Dominance and Pendant of Subjugation.</li>
 </ul>
 <h2>Notes</h2>
-<p>Well, hopefully that&#39;s enough to get you started.&nbsp; If you&#39;re interested 
-in customizing Pawn further, check out the <b>Options</b> tab of the Pawn UI, 
-and rest of this document.</p>
+<p>If you&#39;re interested 
+in customizing Pawn further, check out the <b>Options</b> tab of the Pawn UI.</p>
 <h3>Contacting the author</h3>
 <p>I&#39;m interested in knowing what you think of Pawn, and what you use 
 it for.&nbsp; Bug reports and suggestions are cool too.&nbsp; The best way to contact me is through
@@ -254,7 +111,8 @@ you play World of Warcraft in.</p>
 <h3>Key bindings</h3>
 <p>In addition to the options in the Pawn UI, you can also set a key binding to 
 open and close the Pawn UI.&nbsp; Look for it in the list of key bindings under 
-&quot;Pawn.&quot;</p>
+&quot;Pawn.&quot;&nbsp; There are also key bindings for putting the item you're 
+currently hovering over into either slot of the Compare tab.</p>
 <h3>Making a backup</h3>
 <p>You can back up all of your custom scales.&nbsp; Just type <strong>/pawn 
 backup</strong> in the chat box, and a window will appear.&nbsp; Press Ctrl+C to 
@@ -273,9 +131,10 @@ SavedVariables folder.&nbsp; Look for the file named &quot;Pawn.lua&quot; and sa
 of that file to a safe location.</p>
 <h3>The starter scales</h3>
 <h4>Hiding</h4>
-<p>It&#39;s easy to hide any of the starter scales that you don&#39;t like from your 
+<p>(In Automatic mode, which is the default, this is handled for you 
+automatically when you change specs.)&nbsp; It&#39;s easy to hide any of the starter scales that you don&#39;t like from your 
 tooltips.&nbsp; Just select a scale from the list and then uncheck <b>Show in 
-tooltips</b>.</p>
+tooltips</b> on the Scales tab.&nbsp; Or just shift-click the scale.</p>
 <h4>Resetting</h4>
 <p>It&#39;s possible to customize the colors of the starter scales.&nbsp; If you&#39;d 
 like to undo any changes you&#39;ve made to the starter scales, you can execute 
@@ -393,14 +252,6 @@ numbers shown by Pawn.</p>
 I may not be able to add support for your favorite, but I might be able to 
 suggest a replacement, or update Pawn to work better in a future version for 
 popular mods.</p>
-<h3>Why doesn't Pawn work in my language?</h3>
-<p>Unlike most addons, Pawn will not function properly in a language that it 
-hasn't been translated into.&nbsp; Pawn needs to be able to "read" the text on 
-the tooltips, and it can't do that in languages it hasn't been translated into.&nbsp; 
-If you try to use Pawn in a language that it doesn't understand, you'll get an 
-error message when you log in.</p>
-<p>If you're interested in helping translate Pawn to your native language, let 
-me know!&nbsp; (I'll warn you up front that it's not an easy untertaking!)</p>
 <h3>Mods that have been tested and work with Pawn</h3>
 <p>This is not a conclusive list.&nbsp; If any of these mods doesn&#39;t seem to be 
 working with Pawn, please make sure that you have the latest version of both it 
@@ -431,10 +282,11 @@ and Pawn.</p>
 <h3><span style="text-decoration: underline;">In</span>compatible addons</h3>
 <ul>
 	<li>FreeUI<ul>
-		<li>(FreeUI changes a bunch of text on tooltips that makes it impossible 
+		<li>FreeUI changes a bunch of text on tooltips that makes it impossible 
 		for Pawn to read some stats off of them anymore.&nbsp; For example, it 
 		redefines ITEM_MOD_CRIT_RATING so that what would normally be "+25 
-		Critical Strike" shows up as "Crit +25".)</li>
+		Critical Strike" shows up as "Crit +25".&nbsp; Pawn doesn't support any 
+		addon that does that.</li>
 	</ul>
 	</li>
 	<li>Undermine Journal<ul>
@@ -456,89 +308,151 @@ and Pawn.</p>
 	</li>
 </ul>
 
-<h2>Known issues</h2>
-<ul>
-	<li><b>WoW Classic support is nearing completion, but it's still a work in 
-	progress, and there are some missing and incomplete features.</b></li>
-	<li>Item levels when inspecting another player are sometimes wrong.&nbsp; 
-	(To investigate further, I should just make it so that Pawn can spit out to 
-	the chat window the item levels the game is telling it for each slot, and 
-	then compare that to reality.)</li>
-	<li>When you have only one heirloom ring, Pawn doesn't show ring upgrades at 
-	all.&nbsp; (<a href="https://wow.curseforge.com/addons/pawn/tickets/117-mage-not-working/">Ticket</a>)</li>
-	<li>Pawn is currently saving an unnecessary amount of information about the 
-	built-in scales in your SavedVariables, like names, spec IDs, and so on.&nbsp; 
-	That stuff should be dynamically created each time you log in, not saved, 
-	both to keep your SavedVariables tidy, and to allow easier updates to those 
-	values in the future.</li>
-</ul>
-
-<h3>Features I might add soon</h3>
-<ul>
-	<li><b>I'll add a way to use a more compact tooltip display that doesn't 
-	include the word "upgrade."</b></li>
-	<li><b>I plan on removing Pawn's relic-related features.&nbsp; </b>(They're 
-	still there, technically, but the option to show them has been removed.)</li>
-	<li>Better handling for Azerite armor:<ul>
-		<li><b>I'll try to make it so that comparisons involving Azerite armor use 
-	the stats of the +5 ilvl version, if possible.</b></li>
-		<li><b>An option to hide all upgrades for Azerite armor</b> could be 
-		handy for some players who are very attached to specific traits.</li>
-	</ul>
-	</li>
-	<li><b>Add an option to only show bag upgrade arrows on items for your 
-	current spec, even when you're in Manual mode and have multiple scales 
-	active.</b>
-	(And then, someday in the future, maybe add grey arrows to items that are an 
-	upgrade to a scale for a spec that you're not currently in.)
-	</li>
-	<li><b>A way to set class, spec, and icon manually for custom scales.</b>&nbsp; 
-	(Right now, they can be set for imported scales, but there's no way to 
-	change them through the UI.)&nbsp; And then, a way to use those for 
-	automatic switching based on spec: allow spec switching in manual mode, and 
-	if there's one or more custom scales for the spec, use all of those instead 
-	of the AMR one.</li>
-	<li>I've gotten a bunch of feedback on the way that Pawn makes assumptions 
-	about gems today.&nbsp; I may <b>replace the existing low-level gems option</b> with two 
-	new ones: "assume I won't use gems on anything below this level" (currently 
-	PawnMinimumItemLevelToConsiderGems) and "assume 
-	I'll use the very best gems on anything at least this level" (currently the 
-	gem table's final threshold), and then make it 
-	fully customizable.</li>
-	<li>Integrate with Angry World Quests to add green arrows to item rewards in 
-	that addon's UI.</li>
-	<li>Integration with 
-	<a href="https://www.curseforge.com/wow/addons/pawn#c4425">Storyline and Immersi<span class="auto-style1">on</span></a>.<ul>
-		<li>From the author of Immersion: "Reward buttons are called: 
-		ImmersionQuestInfoItem1, ImmersionQuestInfoItem2, ... etc. They behave 
-		just as the regular reward buttons. They're also contained in the table: 
-		ImmersionFrame.TalkBox.Elements.Content.RewardsFrame.Buttons"</li>
-	</ul>
-	</li>
-	<li>In addition to upgrades, show "minor upgrade" (&lt;1%), "identical" (0%), 
-	"X% downgrade" (&lt;0%).&nbsp; Probably don't ever show anything on grey or 
-	white items, unless your current item is grey or white (or, just don't show 
-	anything worse than -20%). 
-	<ul>
-		<li>This would help people decide on secondary items due to the lack of 
-		stat cap features.</li>
-	</ul>
-	</li>
-	<li>I should come up with a way to suggest to high-end raiders (based on 
-	average ilvl) who don't 
-	have any custom scales that they should 
-	consider simulating their character for better results.</li>
-	<li>A small default value for armor so that the first few items you get when 
-	leveling a new character (with no stats) get upgrade arrows.</li>
-	<li>A summary (just in chat) that shows you what changed when you import a 
-	scale that overwrote an existing one.</li>
-	<li>The Gems tab is pretty empty these days now that gem colors aren't a 
-	thing anymore.&nbsp; I could maybe turn it into a Buffs tab that suggests 
-	gems, enchantments, food, and so on, sort of like a quick and dirty version 
-	of a class guide.&nbsp; And then it'd be useful for Classic too.</li>
-</ul>
-
 <h2>Updates</h2>
+<h3>Version 2.3.24</h3>
+<ul>
+	<li>WoW Classic: Fixed a problem where Pawn would cause an error when using 
+	the "Track for each scale (advanced)" option because it would try to scan 
+	your equipment sets, which don't exist on Classic.</li>
+</ul>
+<h3>Version 2.3.23</h3>
+<ul>
+	<li>Battle for Azeroth: Pawn now works in the new(-ish) 8.3.0 auction house.<ul>
+		<li>Important: Items with random stats ("of the _____") will be 
+		undervalued on the main auction house browsing page, and will be 
+		unlikely to appear as upgrades.&nbsp; When you click the item name to 
+		see all of the individual auctions for that item,<i> those</i> items 
+		will get accurate rankings from Pawn.&nbsp; (This is because the game 
+		groups multiple similar items with varying stats together on the initial 
+		screen, but the items listed on the second screen have exact stats that 
+		Pawn can evaluate.)</li>
+	</ul>
+	</li>
+</ul>
+<h3>Version 2.3.22</h3>
+<ul>
+	<li>WoW Classic: Fixed a lot of additional problems with the European 
+	Spanish version of WoW Classic.&nbsp; (Latin American Spanish and Battle for 
+	Azeroth weren't affected.)</li>
+</ul>
+<h3>Version 2.3.21</h3>
+<ul>
+	<li>WoW Classic: Fixed a problem where Pawn couldn't read damage on weapons 
+	in the European Spanish version of WoW Classic.&nbsp; (Latin American 
+	Spanish and Battle for Azeroth weren't affected.)</li>
+	<li>WoW Classic: Fixed a problem where Pawn couldn't read damage on wands in 
+	the Portuguese version of WoW Classic.</li>
+	<li>WoW Classic: Improved the Simplified Chinese translation.</li>
+</ul>
+<h3>Version 2.3.20</h3>
+<ul>
+	<li>WoW Classic: Fixed an issue where the new Classic stat weights included 
+	with Pawn valued stats like crit chance as if they were the Burning 
+	Crusade-style ratings, not percentages, so all of the percentage-based stats 
+	were severely undervalued.&nbsp; (This has no effect on you if you're using 
+	your own stat weights, or if you're playing Battle for Azeroth.)</li>
+</ul>
+<h3>Version 2.3.19</h3>
+<ul>
+	<li>I worked around a bug in BankItems and other addons that use the old 
+	auction house that was causing Pawn to fail 
+	catastrophically.</li>
+	<li>Pawn will now work with even more complicated corrupted items than 
+	before ("didn't expect to find 11 bonus IDs").</li>
+</ul>
+<h3>Version 2.3.18</h3>
+<ul>
+	<li>WoW Classic: Pawn now includes a full set of starter scales for each 
+	class and spec courtesy of
+	<a href="http://tbcwowaddons.weebly.com/pawn.html" target="_blank">HawsJon</a>.&nbsp; 
+	These stat weights were originally designed for use on The Burning Crusade, 
+	not Classic, but they're the best resource for Classic stat weights that 
+	I've found so far.<ul>
+		<li>Druids have two scales for feral: DPS (cat) and tank (bear), since 
+		your preferred role will dictate which stats are most valuable.</li>
+		<li>Rogue off-hand weapons use different weights than other rogue gear, 
+		so there's a fourth scale for rogues that you should only use when 
+		comparing items for your off-hand slot.</li>
+	</ul>
+	</li>
+	<li>Removed an error message that appeared when playing in Spain.</li>
+</ul>
+<h3>Version 2.3.17</h3>
+<ul>
+	<li>Pawn can now handle more complicated items than before.&nbsp; This fixes 
+	a problem where you could get an error like "didn't expect to find 9 bonus 
+	IDs" after looting a very complicated item.</li>
+</ul>
+<h3>Version 2.3.16</h3>
+<ul>
+	<li>Updated German translation.</li>
+</ul>
+<h3>Version 2.3.15</h3>
+<ul>
+	<li>WoW 8.3 PTR: Added support for the Corruption stat.&nbsp; If you assign 
+	it a value, you probably want to assign it a <i>negative</i> value.</li>
+	<li>WoW 8.3 PTR: Fixed a problem where high-level weapons would cause errors 
+	when playing in French.</li>
+</ul>
+<h3>Version 2.3.14</h3>
+<ul>
+	<li>WoW Classic: Scale tags can now specify a class like on retail.&nbsp; 
+	When you import a scale that specifies a class, Pawn will now automatically 
+	mark all of the weapon and armor types that class can't equip as unusable 
+	just like it does on retail.&nbsp; (Specs included in scale tags for Classic 
+	will be ignored.)</li>
+	<li>WoW Classic: For Korean players, wand damage should now be interpreted 
+	correctly and no longer produce an error message.</li>
+	<li>WoW Classic: Fixed a problem where the retail-only option to only use 
+	your class's preferred armor type after level 50 was still showing up on 
+	leather, mail, and plate armor.</li>
+	<li>Improved the "Items with this are unusable" text on the Weights tab in 
+	English.</li>
+	<li>Made a small tweak to the Pawn UI's tabs to help people who use custom 
+	fonts.</li>
+</ul>
+<h3>Version 2.3.13</h3>
+<ul>
+	<li>Updated the Pawn logo.</li>
+	<li>Pawn dialogs that ask for scale names, and the delete scale confirmation 
+	dialog, have been returned to the more compact appearance that they had in 
+	version 2.3.10 and earlier.</li>
+	<li>WoW 8.3 PTR: Fixed a problem where Pawn would no longer load on the PTR.</li>
+	<li>WoW Classic: Ranged weapons are now properly supported.</li>
+	<li>Added a special surprise.</li>
+</ul>
+<h3>Version 2.3.12</h3>
+<ul>
+	<li>When exporting Pawn scale tags, unusable stats will now appear simply as 
+	"Stat=X" instead of "Stat=-1000000".</li>
+	<li>WoW Classic: A basic starter scale for each class is now available.<ul>
+		<li>The starter scales include default values for all stats relevant to 
+		the class, loosely based on the game's item level formula.&nbsp; 
+		(They're very similar to the default stat weights that came with Pawn a 
+		decade ago.)</li>
+		<li>There is just one starter scale per class, so for example, the druid 
+		template has values for Strength, Agility, Intellect, <i>and</i> Spirit.</li>
+		<li>The appropriate starter scale will be automatically enabled when 
+		starting Pawn for the first time (if you don't already have any scales) 
+		so it does <i>something</i>.</li>
+		<li>I still <i>highly</i> recommend customizing the default values.</li>
+		<li>The "Template" button on the Scales tab is now available, and 
+		creates a new scale based on your class's starter scale.</li>
+	</ul>
+	</li>
+	<li>WoW Classic: Pawn will now allow items that aren't your class's 
+	preferred armor type to be considered as upgrades after level 50, since 
+	non-cloth healers using cloth armor was commonplace and optimal in early 
+	WoW.&nbsp; <i>[Vger wistfully remembers her Crimson Felt Hat from Strat...]</i><ul>
+		<li>The option that appears to enable this feature whenever you select 
+		an armor type on the Weights tab has been removed.</li>
+	</ul>
+	</li>
+	<li>WoW Classic: The Manual button on the Scales tab is now visible, even 
+	though you can't switch to Automatic on Classic so the button is always 
+	selected.&nbsp; (Other parts of the Pawn UI refer to "switching to Manual 
+	mode" and I didn't want to have to change them all.)</li>
+</ul>
 <h3>Version 2.3.11</h3>
 <ul>
 	<li>WoW Classic: Now supports Korean and Traditional Chinese.&nbsp; With 
@@ -658,7 +572,7 @@ exist on WoW Classic, and some features are incomplete.</p>
 	information about older versions of Pawn, and a list of some of the features 
 I'm considering for future versions.</p>
 <h2>The fine print</h2>
-<p>© 2006-2019 Green Eclipse.&nbsp; This mod is released under the Creative Commons
+<p>© 2006-2020 Green Eclipse.&nbsp; This mod is released under the Creative Commons
 <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">
 Attribution-NonCommercial-NoDerivs 3.0</a> license.&nbsp; In short, this means 
 that you can use it, copy it, and share it, but you can't sell it or distribute 

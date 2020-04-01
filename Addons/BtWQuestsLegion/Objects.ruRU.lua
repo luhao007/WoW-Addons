@@ -4,6 +4,7 @@ if GetLocale() ~= "ruRU" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [250990] = {
         name = "Ящик с древними реликвиями",
@@ -12,3 +13,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Сочный кактус",
     },
 })
+]])()

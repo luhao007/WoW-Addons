@@ -4,6 +4,7 @@ if GetLocale() ~= "ptBR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [40537] = {
         name = "Tirando sangue",
@@ -40,9 +41,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [46929] = {
         name = "Impedimento",
-    },
-    [46930] = {
-        name = "Rastakhan",
     },
     [46931] = {
         name = "Representante da Horda",
@@ -85,9 +83,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [47200] = {
         name = "Carrapatos",
-    },
-    [47201] = {
-        name = "Rokhan",
     },
     [47204] = {
         name = "A nova linha de frente",
@@ -289,18 +284,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [47509] = {
         name = "Terraço dos Escolhidos",
-    },
-    [47512] = {
-        name = "Nazmir",
-    },
-    [47513] = {
-        name = "Vol'dun",
-    },
-    [47514] = {
-        name = "Zuldazar",
-    },
-    [47518] = {
-        name = "Raal",
     },
     [47520] = {
         name = "Paredes têm ouvidos",
@@ -541,9 +524,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [47960] = {
         name = "Estreito Tiragarde",
-    },
-    [47961] = {
-        name = "Drustvar",
     },
     [47962] = {
         name = "Vale Trovamare",
@@ -1088,9 +1068,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [48847] = {
         name = "Armas para a tribo",
     },
-    [48850] = {
-        name = "Tongo",
-    },
     [48852] = {
         name = "A ferramenta contra Zardrax",
     },
@@ -1204,9 +1181,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [48946] = {
         name = "A Ordem das Brasas",
-    },
-    [48947] = {
-        name = "Gol Koval",
     },
     [48948] = {
         name = "As Cavernas do Passo Norte",
@@ -1660,9 +1634,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [49479] = {
         name = "Uma boa ideia?",
-    },
-    [49488] = {
-        name = "Tal'gurub",
     },
     [49489] = {
         name = "Falta encorpar",
@@ -2540,9 +2511,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50401] = {
         name = "Medo da queda",
     },
-    [50402] = {
-        name = "SKREEEEE!",
-    },
     [50412] = {
         name = "De volta ao ninho",
     },
@@ -2699,9 +2667,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50602] = {
         name = "Expedição de Talanji",
     },
-    [50603] = {
-        name = "Voldunai",
-    },
     [50605] = {
         name = "Esforços de Guerra da Aliança",
     },
@@ -2728,9 +2693,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50616] = {
         name = "Um vínculo perigoso",
-    },
-    [50617] = {
-        name = "Atul'Aman",
     },
     [50621] = {
         name = "Caiu na rede, é aldeão",
@@ -3374,9 +3336,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51280] = {
         name = "Oferendas para G'huun",
     },
-    [51281] = {
-        name = "Zul'Nazman",
-    },
     [51282] = {
         name = "Capitã Conrado",
     },
@@ -3514,9 +3473,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [51407] = {
         name = "Encontre as palavras deles",
-    },
-    [51418] = {
-        name = "Xibala",
     },
     [51421] = {
         name = "Tartarugas me levem",
@@ -3739,9 +3695,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [51663] = {
         name = "Preparativos para a queda",
-    },
-    [51668] = {
-        name = "Mojambo",
     },
     [51674] = {
         name = "Apagando as chamas",
@@ -4784,9 +4737,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53780] = {
         name = "Carcereiro dos Malditos",
     },
-    [53781] = {
-        name = "Eyir",
-    },
     [53782] = {
         name = "Mistérios da morte",
     },
@@ -4901,7 +4851,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53849] = {
         name = "Esperança minguante",
     },
-    [53850] = {
+    [53851] = {
         name = "Nossa guerra continua",
     },
     [53852] = {
@@ -5318,8 +5268,14 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [54207] = {
         name = "Retomando o posto avançado",
     },
+    [54208] = {
+        name = "Caça-minas",
+    },
     [54211] = {
         name = "Colocando os goblins no G.O.P.E.",
+    },
+    [54212] = {
+        name = "Re-reconstruindo o A.F.M.O.D.",
     },
     [54213] = {
         name = "Está vivo!",
@@ -5603,6 +5559,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [54960] = {
         name = "Amargo reencontro",
     },
+    [54961] = {
+        name = "Corrigindo erros",
+    },
     [54964] = {
         name = "Uma passagem só de ida para o coração",
     },
@@ -5617,6 +5576,30 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [54975] = {
         name = "Uma breve trégua",
+    },
+    [54976] = {
+        name = "A sombra de Guilnéas",
+    },
+    [54977] = {
+        name = "Floresta do Crepúsculo",
+    },
+    [54980] = {
+        name = "A noite dos Nocturnos",
+    },
+    [54981] = {
+        name = "Um grito à lua",
+    },
+    [54982] = {
+        name = "O espírito do caçador",
+    },
+    [54983] = {
+        name = "O despertar do sonhador",
+    },
+    [54984] = {
+        name = "O sono dos lobos",
+    },
+    [54990] = {
+        name = "A nova guarda",
     },
     [54992] = {
         name = "O começo de uma coisa maior",
@@ -5635,6 +5618,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [55033] = {
         name = "A fuga de Grimpagris",
+    },
+    [55034] = {
+        name = "Não dê bandeira",
     },
     [55039] = {
         name = "Mestre da Construção Naval",
@@ -5665,6 +5651,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [55051] = {
         name = "Uma demonstração de poder",
+    },
+    [55052] = {
+        name = "Varredura da Guarnição",
     },
     [55053] = {
         name = "O caminho para casa",
@@ -6257,23 +6246,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [56181] = {
         name = "Esse é por minha conta",
     },
-    [56185] = {
-        name = "Sussurros de N'Zoth",
-    },
-    [56186] = {
-        name = "Espiões por todos os lados",
-    },
-    [56187] = {
-        name = "Sombra de Asas Pretas",
-    },
-    [56188] = {
-        name = "Às catacumbas!",
-    },
-    [56189] = {
-        name = "No rastro do Príncipe Negro",
-    },
-    [56190] = {
-        name = "Salve Chifre de Ébano",
+    [56209] = {
+        name = "Os Salões Primordiais",
     },
     [56210] = {
         name = "Pedras divinatórias",
@@ -6319,9 +6293,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [56248] = {
         name = "A história do tesouro",
-    },
-    [56267] = {
-        name = "Sussurros de N'Zoth",
     },
     [56304] = {
         name = "Vida altaneira",
@@ -6398,6 +6369,18 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [56358] = {
         name = "O Palácio Eterno: a artimanha da rainha",
     },
+    [56374] = {
+        name = "Um problema titânico",
+    },
+    [56375] = {
+        name = "Rumo a Ramkahen",
+    },
+    [56376] = {
+        name = "Ameaças emergentes",
+    },
+    [56377] = {
+        name = "Forjando um caminho",
+    },
     [56378] = {
         name = "Tripulação desaparecida",
     },
@@ -6413,6 +6396,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [56429] = {
         name = "O que vamos enfrentar",
     },
+    [56472] = {
+        name = "O Acordo de Uldum",
+    },
     [56494] = {
         name = "À véspera da batalha",
     },
@@ -6422,14 +6408,56 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [56496] = {
         name = "À véspera da batalha",
     },
-    [56504] = {
-        name = "Diário de Wrathion",
+    [56536] = {
+        name = "Nunca é fácil",
+    },
+    [56537] = {
+        name = "O signo misterioso",
+    },
+    [56538] = {
+        name = "Clãs dos mogus",
+    },
+    [56539] = {
+        name = "Em busca dos Rajani",
+    },
+    [56540] = {
+        name = "Prova de tenacidade",
+    },
+    [56541] = {
+        name = "O Engenho de Nalak'sha",
+    },
+    [56542] = {
+        name = "Esperança reanimada",
     },
     [56560] = {
         name = "Uma descoberta curiosa",
     },
     [56561] = {
         name = "Uma descoberta curiosa",
+    },
+    [56574] = {
+        name = "Reflexões ambarinas",
+    },
+    [56575] = {
+        name = "Kor'vess 2, a missão",
+    },
+    [56576] = {
+        name = "Exterminação aqir",
+    },
+    [56577] = {
+        name = "Colmeia aleijada",
+    },
+    [56578] = {
+        name = "Raízes podres",
+    },
+    [56580] = {
+        name = "Segredos do âmbar",
+    },
+    [56616] = {
+        name = "Velhas caras, novos problemas",
+    },
+    [56617] = {
+        name = "Enxame unificado",
     },
     [56640] = {
         name = "Almas afortunadas",
@@ -6446,6 +6474,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [56644] = {
         name = "O que vamos enfrentar",
     },
+    [56645] = {
+        name = "Coração do enxame",
+    },
+    [56647] = {
+        name = "A ameaça mantídea",
+    },
     [56719] = {
         name = "Não é meu, não",
     },
@@ -6454,6 +6488,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [56741] = {
         name = "A lança do destino",
+    },
+    [56771] = {
+        name = "Guerreiros perdidos para o tempo",
     },
     [56833] = {
         name = "Líderes da Horda",
@@ -6485,6 +6522,63 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57010] = {
         name = "Reunindo poder",
     },
+    [57043] = {
+        name = "Pequenos amigos, grandes negócios",
+    },
+    [57045] = {
+        name = "Entrega especial",
+    },
+    [57047] = {
+        name = "Um experimento simples",
+    },
+    [57048] = {
+        name = "Compras de peças",
+    },
+    [57051] = {
+        name = "Não consta para nós o pagamento desta fatura",
+    },
+    [57052] = {
+        name = "Eu tenho o que você precisa",
+    },
+    [57053] = {
+        name = "Teste de força bruta",
+    },
+    [57067] = {
+        name = "Mogus nos portões",
+    },
+    [57068] = {
+        name = "De butuca na pipa",
+    },
+    [57069] = {
+        name = "Cortem as cabeças",
+    },
+    [57070] = {
+        name = "Massacre dos mogus",
+    },
+    [57071] = {
+        name = "Nenhuma cerveja fica para trás",
+    },
+    [57072] = {
+        name = "Iaque multifuncional",
+    },
+    [57074] = {
+        name = "Ao portão",
+    },
+    [57075] = {
+        name = "Coragem líquida",
+    },
+    [57076] = {
+        name = "Retorno ao Cair da Bruma",
+    },
+    [57077] = {
+        name = "Procura-se compradores!",
+    },
+    [57078] = {
+        name = "A lista VIP",
+    },
+    [57079] = {
+        name = "Operação Sucatópolis",
+    },
     [57088] = {
         name = "Não é meu, não",
     },
@@ -6509,7 +6603,182 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57126] = {
         name = "... E seguindo mares",
     },
+    [57130] = {
+        name = "Traidores entre nós",
+    },
+    [57147] = {
+        name = "Não é minha Chefe Guerreira",
+    },
+    [57148] = {
+        name = "Quebra-cercos",
+    },
+    [57149] = {
+        name = "Remoção de Propaganda",
+    },
+    [57150] = {
+        name = "Milícia",
+    },
+    [57151] = {
+        name = "Uma linha na areia",
+    },
+    [57152] = {
+        name = "Mais leal",
+    },
     [57198] = {
         name = "Senso de obrigação",
     },
+    [57220] = {
+        name = "Iniciação do protocolo de força",
+    },
+    [57221] = {
+        name = "Recriação",
+    },
+    [57222] = {
+        name = "Investigando os Salões",
+    },
+    [57290] = {
+        name = "O início da descida",
+    },
+    [57362] = {
+        name = "Escuridão adentro",
+    },
+    [57373] = {
+        name = "A espiral da loucura",
+    },
+    [57374] = {
+        name = "Nas profundezas sombrias",
+    },
+    [57376] = {
+        name = "Necessidade oculta",
+    },
+    [57378] = {
+        name = "Vestígios de um Mundo Despedaçado",
+    },
+    [57486] = {
+        name = "Energia minguante",
+    },
+    [57487] = {
+        name = "Quem possa ajudar",
+    },
+    [57488] = {
+        name = "O diagrama atual",
+    },
+    [57490] = {
+        name = "Viagem rumo à segurança",
+    },
+    [57491] = {
+        name = "Melhor... Mais forte... Menos morto",
+    },
+    [57492] = {
+        name = "Ele?",
+    },
+    [57493] = {
+        name = "Harmonização mental",
+    },
+    [57494] = {
+        name = "Coração forte",
+    },
+    [57495] = {
+        name = "O futuro de Gnomecan",
+    },
+    [57496] = {
+        name = "Ascensão",
+    },
+    [57497] = {
+        name = "Espalhar a notícia",
+    },
+    [57524] = {
+        name = "Acessando os arquivos",
+    },
+    [57873] = {
+        name = "Notícias de Orsis",
+    },
+    [57915] = {
+        name = "Busca por sobreviventes",
+    },
+    [57954] = {
+        name = "Queime os corpos",
+    },
+    [57955] = {
+        name = "Ao porto Ankhaten",
+    },
+    [57969] = {
+        name = "Cuidado dos feridos",
+    },
+    [57970] = {
+        name = "Xok'nixx, o Arruinador",
+    },
+    [57971] = {
+        name = "Ruínas de Ammon",
+    },
+    [57990] = {
+        name = "Obelisco do Sol",
+    },
+    [58008] = {
+        name = "Tanque cheio",
+    },
+    [58009] = {
+        name = "Até a Lua",
+    },
+    [58496] = {
+        name = "Um conselheiro indesejado",
+    },
+    [58498] = {
+        name = "O retorno do rei guerreiro",
+    },
+    [58502] = {
+        name = "É onde fica o coração",
+    },
+    [58506] = {
+        name = "Diagnóstico de rede",
+    },
+    [58582] = {
+        name = "A volta ao Príncipe Negro",
+    },
+    [58606] = {
+        name = "Investigação de miudezas",
+    },
+    [58615] = {
+        name = "Sussurros no escuro",
+    },
+    [58631] = {
+        name = "Sonho adentro",
+    },
+    [58632] = {
+        name = "Ny'alotha, a Cidade Desperta: o fim do Corruptor",
+    },
+    [58634] = {
+        name = "A abertura do portal",
+    },
+    [58636] = {
+        name = "De olho nos Amatet",
+    },
+    [58638] = {
+        name = "Um mergulho profundo",
+    },
+    [58639] = {
+        name = "História enterrada",
+    },
+    [58640] = {
+        name = "Uma rachadura na armadura",
+    },
+    [58641] = {
+        name = "Caçadores de corrupção",
+    },
+    [58642] = {
+        name = "Objetivos compartilhados",
+    },
+    [58643] = {
+        name = "Destruição mútua assegurada",
+    },
+    [58645] = {
+        name = "Um mundo digno de salvação",
+    },
+    [58646] = {
+        name = "Engole essa!",
+    },
+    [58737] = {
+        name = "As descobertas de Magni",
+    },
 })
+]])()

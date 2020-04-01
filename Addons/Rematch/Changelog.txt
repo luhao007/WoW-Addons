@@ -1,9 +1,28 @@
+03/09/2020 version 4.10.3
+- If you have both old PetTracker_Breeds and a recent version of PetTracker both enabled, Rematch will not attempt to get breeds from PetTracker in that unstable state.
+- For users of recent PetTracker versions, added "Show Breeds As Text Not Icons" under Appearance Options to show breeds in the more standard letter format (like H/P, B/B, etc.) rather than PetTracker's icons. If this option is not supported, the option is hidden.
+
+02/29/2020 version 4.10.2
+- Added a "Quality" tab to the pullout "Type Bar" beneath the pet search box (alongside "Type", "Strong vs" and "Tough vs"), to quickly turn on filters for level 25 pets, rare pets, and to set the sort order to Health, Power or Speed.
+- Updated to support PetTracker's new breed API.
+
+02/06/2020 version 4.10.1
+- Added Uldum and Vale of Eternal Blossom targets to new Battle for Azeroth target menu.
+- Moved Nazjatar and Mechagon targets to the Battle for Azeroth target menu.
+- Fix for occasional lua error when caging a pet.
+
+01/20/2020 version 4.10.0
+- Added Blackrock Depths to target menu.
+- Added experimental option 'Import Team Tabs Too' under Teams Options: When importing teams backed up via 'Backup All Teams', teams will be returned to the tabs they were in at the time of backup. (Please read the tooltip in options.)
+- Fix for Automatically Level New Pets option not working in 8.3.
+- toc update for 8.3 client.
+
 10/05/2019 version 4.9.13
-- Fix for unwrapping pets
+- Fix for unwrapping pets.
 
 09/26/2019 version 4.9.12
 - Clicking the "alert" toast when you uncage a pet will search for the pet in Rematch.
-- toc updated for 8.2.5 client
+- toc updated for 8.2.5 client.
 
 08/10/2019 version 4.9.11
 - Added Postmaster Malown to Stratholme targets.

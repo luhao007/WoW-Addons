@@ -58,7 +58,7 @@ do
 				end
 			end
 			for s in next, DebuffGroups do
-				if (not s.seen) and s:UpdateState(u, nam, dur, cas, bos) then
+				if (not s.seen) and s:UpdateState(u, nam, dur, cas, bos, typ) then
 					s.seen, s.idx[u], s.tex[u], s.cnt[u], s.dur[u], s.exp[u], s.typ[u], s.tkr[u] = 1, i, tex, cnt, dur, exp, typ, 1
 				end
 			end
@@ -349,8 +349,11 @@ do
 	local function GetTextValue(self, unit)
 		return fmt( "%.1fk", (self.val[unit] or 0) / 1000 )
 	end
-	local function GetText(self, unit)
+	local function GetTextSpell(self, unit)
 		return self.spellText
+	end
+	local function GetTextCustom(self, unit)
+		return self.customText
 	end
 	local function GetTimeColor(self, unit) -- Color by time remaining or time elapsed
 		local colors = self.colors
@@ -391,9 +394,9 @@ do
 	local function OnEnable(self)
 		if self.spell then -- standalone buff or debuff
 			RegisterStatusAura(self, self.handlerType, self.spell)
-		elseif self.handlerType=="buff" or self.dbx.useWhiteList then
+		elseif self.handlerType=='buff' then
 			for spell in pairs(self.spells) do
-				RegisterStatusAura( self, self.handlerType, spell )
+				RegisterStatusAura( self, 'buff', spell )
 			end
 		else -- debuffType or group of filtered debuffs
 			RegisterStatusAura(self, self.handlerType, self.dbx.subType)
@@ -417,8 +420,8 @@ do
 		if dbx.auras then -- multiple spells
 			self.spells = self.spells or {}
 			wipe(self.spells)
-			for _,spell in ipairs(dbx.auras) do
-				self.spells[spell] = true
+			for _,spell in ipairs(dbx.auras) do -- We only allow spell names because DebuffsGroups do not support spellIDs
+				self.spells[ type(spell)=='number' and GetSpellInfo(spell) or spell ] = true
 			end
 		elseif dbx.spellName then -- single spell
 			local spell = dbx.spellName
@@ -485,10 +488,13 @@ do
 		if self.handlerType ~= "buff" then
 			self.GetTooltip = GetDebuffTooltip
 		end
-		if dbx.text==1 then -- display value
-			GetText = GetTextValue
+		self.customText = dbx.text
+		if dbx.text==1 then -- tracked value
+			self.GetText = GetTextValue
 		elseif dbx.text then -- custom text
-			self.spellText = dbx.text
+			self.GetText = GetTextCustom
+		else -- aura name
+			self.GetText = GetTextSpell
 		end
 		if self.OnUpdate then self:OnUpdate(dbx) end
 		if self.enabled then self:OnEnable() end
@@ -505,7 +511,6 @@ do
 		status.tkr = {}
 		status.Refresh     = Refresh
 		status.Reset       = Reset
-		status.GetText     = GetText
 		status.GetDuration = GetDuration
 		status.GetCountMax = GetCountMax
 		status.UpdateDB    = UpdateDB

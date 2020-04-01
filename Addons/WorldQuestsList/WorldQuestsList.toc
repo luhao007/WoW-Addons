@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: ykiigor
-## Version: 91
+## Version: 92
 ## SavedVariables: VWQL
 
 ## Title: World Quests List

@@ -1,10 +1,10 @@
-## Interface: 70300
+## Interface: 80200
 ## Title: Lib: TextDump-1.0
 ## Notes: Provides one or many frames for dumping text into.
 ## Author: Torhal
-## Version: @project-version@
+## Version: 8.2.5.1
 ## LoadOnDemand: 1
-## X-Date: @project-date-iso@
+## X-Date: 2020-01-02T16:59:39Z
 ## X-Category: Libraries
 ## X-License: All Rights Reserved
 

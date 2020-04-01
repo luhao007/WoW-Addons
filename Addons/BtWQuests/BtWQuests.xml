@@ -295,6 +295,20 @@
 						<Anchors>
 							<Anchor point="LEFT" x="10"/>
 						</Anchors>
+						<NormalTexture file="Interface\ChatFrame\ChatFrameExpandArrow">
+							<Size x="16" y="16"/>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+							<TexCoords left="1" right="0" top="0" bottom="1"/>
+						</NormalTexture>
+						<DisabledTexture file="Interface\ChatFrame\ChatFrameExpandArrow" desaturated="true">
+							<Size x="16" y="16"/>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+							<TexCoords left="1" right="0" top="0" bottom="1"/>
+						</DisabledTexture>
 						<Scripts>
 							<OnClick>
 								self:GetParent():GetParent().ExpansionScroll = self:GetParent():GetParent().ExpansionScroll - 1
@@ -322,6 +336,18 @@
 						<Anchors>
 							<Anchor point="RIGHT" x="-7"/>
 						</Anchors>
+						<NormalTexture file="Interface\ChatFrame\ChatFrameExpandArrow">
+							<Size x="16" y="16"/>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</NormalTexture>
+						<DisabledTexture file="Interface\ChatFrame\ChatFrameExpandArrow" desaturated="true">
+							<Size x="16" y="16"/>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</DisabledTexture>
 						<Scripts>
 							<OnClick>
 								self:GetParent():GetParent().ExpansionScroll = self:GetParent():GetParent().ExpansionScroll + 1

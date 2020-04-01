@@ -19,10 +19,6 @@ local PROFESSION_NAMES = {
 	Mining = GetSpellInfo(2575),
 	Smelting = GetSpellInfo(2656),
 	Poisons = GetSpellInfo(2842),
-	Herbalism = GetSpellInfo(170691),
-	HerbalismSkills = GetSpellInfo(193290),
-	Skinning = GetSpellInfo(8613),
-	SkinningSkills = GetSpellInfo(194174),
 }
 local CLASSIC_SUB_NAMES = {
 	[APPRENTICE] = true,
@@ -590,7 +586,7 @@ function ProfessionInfo.GetName(key)
 end
 
 function ProfessionInfo.IsSubNameClassic(str)
-	assert(WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+	assert(TSM.IsWowClassic())
 	return CLASSIC_SUB_NAMES[str] or false
 end
 

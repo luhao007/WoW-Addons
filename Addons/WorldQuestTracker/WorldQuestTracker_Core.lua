@@ -234,6 +234,38 @@ WorldQuestTracker.OnMapHasChanged = function (self)
 		end
 	end
 
+	C_Timer.After (0.05, function()
+		if (C_QuestLog.HasActiveThreats() and WorldQuestTracker.DoubleTapFrame) then
+			local eyeFrame = WorldQuestTracker.GetOverlay ("Eye") --REMOVE ON 9.0
+			if (WorldQuestTracker.DoubleTapFrame:IsShown()) then
+				eyeFrame:Refresh()
+				eyeFrame:Show()
+				eyeFrame:SetScale (0.5)
+				eyeFrame:ClearAllPoints()
+				eyeFrame:SetPoint("bottomleft", WorldMapFrame, "bottomleft", 0, 40)
+
+				eyeFrame.Background:Show()
+				eyeFrame.Eye:Show()
+				eyeFrame.ModelSceneTop:SetShown(true)
+				eyeFrame.ModelSceneBottom:SetShown(true)
+				eyeFrame:RefreshModels();
+
+			else
+				eyeFrame:Refresh()
+				eyeFrame:Show()
+				eyeFrame:SetScale (0.5)
+				eyeFrame:ClearAllPoints()
+				eyeFrame:SetPoint("bottomleft", WorldMapFrame, "bottomleft", 0, 0)
+				
+				eyeFrame.Background:Show()
+				eyeFrame.Eye:Show()
+				eyeFrame.ModelSceneTop:SetShown(true)
+				eyeFrame.ModelSceneBottom:SetShown(true)
+				eyeFrame:RefreshModels();
+			end
+		end
+	end)
+
 end
 
 hooksecurefunc (WorldMapFrame, "OnMapChanged", WorldQuestTracker.OnMapHasChanged)
@@ -3294,7 +3326,39 @@ WorldQuestTracker.OnToggleWorldMap = function (self)
 					WorldQuestTracker.UpdateZoneWidgets()
 				end
 			end
+
+			local toggle_filters_all_on = function()
+				for filterType, canShow in pairs (WorldQuestTracker.db.profile.filters) do
+					local questType = filterType
+					WorldQuestTracker.db.profile.filters [questType] = true
+				end
+
+				GameCooltip:ExecFunc (filterButton)
+
+				--update quest on current map shown
+				if (WorldQuestTrackerAddon.GetCurrentZoneType() == "world") then
+					WorldQuestTracker.UpdateWorldQuestsOnWorldMap (true)
+				elseif (WorldQuestTrackerAddon.GetCurrentZoneType() == "zone") then
+					WorldQuestTracker.UpdateZoneWidgets()
+				end	
+			end
 			
+			local toggle_filters_all_off = function()
+				for filterType, canShow in pairs (WorldQuestTracker.db.profile.filters) do				
+					local questType = filterType
+					WorldQuestTracker.db.profile.filters [questType] = false
+				end
+
+				GameCooltip:ExecFunc (filterButton)
+
+				--update quest on current map shown
+				if (WorldQuestTrackerAddon.GetCurrentZoneType() == "world") then
+					WorldQuestTracker.UpdateWorldQuestsOnWorldMap (true)
+				elseif (WorldQuestTrackerAddon.GetCurrentZoneType() == "zone") then
+					WorldQuestTracker.UpdateZoneWidgets()
+				end	
+			end
+
 			local BuildFilterMenu = function()
 				GameCooltip:Preset (2)
 				GameCooltip:SetOption ("TextSize", 10)
@@ -3326,6 +3390,14 @@ WorldQuestTracker.OnToggleWorldMap = function (self)
 					GameCooltip:AddMenu (1, filter_quest_type, filterType)
 				end
 				
+				GameCooltip:AddLine ("$div")
+
+				GameCooltip:AddLine ("Select All")
+				GameCooltip:AddMenu (1, toggle_filters_all_on)
+
+				GameCooltip:AddLine ("Select None")
+				GameCooltip:AddMenu (1, toggle_filters_all_off)
+
 				GameCooltip:AddLine ("$div")
 				
 				local l, r, t, b = unpack (WorldQuestTracker.MapData.GeneralIcons.CRITERIA.coords)
@@ -4841,7 +4913,19 @@ WorldQuestTracker.OnToggleWorldMap = function (self)
 	if (WorldQuestTracker.db.profile.map_frame_scale_enabled) then
 		WorldQuestTracker.UpdateWorldMapFrameScale()
 	end
-	
+
+	-- ~eye on 8.3 patch - REMOVE ON 9.0
+	local eyeFrame = WorldQuestTracker.GetOverlay ("Eye")
+	if (not WorldQuestTracker.eyeFrameBuilt and eyeFrame) then
+		eyeFrame:SetScale (0.5)
+		eyeFrame:ClearAllPoints()
+		eyeFrame:SetPoint("bottomleft", WorldMapFrame, "bottomleft", 0, 32)
+		WorldQuestTracker.eyeFrameBuilt = true
+
+		--hook the hover over script and show all details about the quest
+	end	
+
+	eyeFrame:Refresh()
 end
 
 hooksecurefunc ("ToggleWorldMap", WorldQuestTracker.OnToggleWorldMap)

@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: phyber
-## Version: 80205-1
+## Version: 80300-1
 ## OptionalDeps: Ace3, Voyeur
 ## SavedVariablesPerCharacter: FizzleDB
 
@@ -12,12 +12,17 @@
 ## X-Category: Inventory
 ## X-Embeds: Ace3
 ## X-Curse-Project-ID: 6079
+## X-WoWI-ID: 5018
 
 #@retail@
 #@end-retail@
+
 #@non-retail@
-# ## Interface: 11302
+# ## Interface: 11303
 #@end-non-retail@
+
+#@no-lib-strip@
+#@end-no-lib-strip@
 
 Locales\locales.xml
 

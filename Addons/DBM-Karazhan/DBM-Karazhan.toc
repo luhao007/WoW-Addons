@@ -1,5 +1,5 @@
-## Interface: 80205
-## Version: r668
+## Interface: 80300
+## Version: r671
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMKarazhan_AllSavedVars

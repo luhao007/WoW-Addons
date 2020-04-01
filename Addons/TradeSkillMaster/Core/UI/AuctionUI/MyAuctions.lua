@@ -8,14 +8,26 @@
 
 local _, TSM = ...
 local MyAuctions = TSM.UI.AuctionUI:NewPackage("MyAuctions")
-local L = TSM.L
-local private = { fsm = nil, frame = nil, query = nil }
+local L = TSM.Include("Locale").GetTable()
+local FSM = TSM.Include("Util.FSM")
+local Money = TSM.Include("Util.Money")
+local String = TSM.Include("Util.String")
+local ItemString = TSM.Include("Util.ItemString")
+local ItemInfo = TSM.Include("Service.ItemInfo")
+local private = {
+	fsm = nil,
+	frame = nil,
+	query = nil,
+}
 local DURATION_LIST = {
 	"Short (Under 30m)",
 	"Medium (30m to 2h)",
 	"Long (2h to 12h)",
 	"Very Long (Over 12h)",
 }
+local SECONDS_PER_MIN = 60
+local SECONDS_PER_HOUR = 60 * SECONDS_PER_MIN
+local SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR
 
 
 
@@ -110,7 +122,7 @@ function private.GetMyAuctionsFrame()
 					:SetFontHeight(12)
 					:SetJustifyH("LEFT")
 					:SetTextInfo(nil, private.AuctionsGetItemText)
-					:SetIconInfo("itemString", TSMAPI_FOUR.Item.GetTexture)
+					:SetIconInfo("itemString", ItemInfo.GetTexture)
 					:SetTooltipInfo("itemString", private.AuctionsGetItemTooltip)
 					:Commit()
 				:NewColumn("stackSize")
@@ -135,7 +147,7 @@ function private.GetMyAuctionsFrame()
 					:SetFont(TSM.UI.Fonts.MontserratRegular)
 					:SetFontHeight(12)
 					:SetJustifyH("LEFT")
-					:SetTextInfo("highBidder")
+					:SetTextInfo(nil, private.AuctionsGetHighBidderText)
 					:Commit()
 				:NewColumn("group")
 					:SetTitles(GROUP)
@@ -308,6 +320,7 @@ function private.FSMCreate()
 	local fsmContext = {
 		frame = nil,
 		currentSelectionIndex = nil,
+		currentSelectionAuctionId = nil,
 		durationFilter = nil,
 		keywordFilter = "",
 		bidFilter = false,
@@ -324,7 +337,19 @@ function private.FSMCreate()
 			private.query:Release()
 			private.query = TSM.MyAuctions.CreateQuery()
 			if private.durationFilter then
-				private.query:Equal("duration", private.durationFilter)
+				if not TSM.IsWowClassic() then
+					if private.durationFilter == 1 then
+						private.query:LessThan("duration", time() + (30 * SECONDS_PER_MIN))
+					elseif private.durationFilter == 2 then
+						private.query:LessThan("duration", time() + (2 * SECONDS_PER_HOUR))
+					elseif private.durationFilter == 3 then
+						private.query:LessThanOrEqual("duration", time() + (12 * SECONDS_PER_HOUR))
+					else
+						private.query:GreaterThan("duration", time() + (12 * SECONDS_PER_HOUR))
+					end
+				else
+					private.query:Equal("duration", private.durationFilter)
+				end
 			end
 			if private.keywordFilter then
 				private.query:Matches("itemName", private.keywordFilter)
@@ -337,15 +362,29 @@ function private.FSMCreate()
 		-- select the next row we can cancel (or clear the selection otherwise)
 		local selectedRow = nil
 		if context.currentSelectionIndex then
-			-- find the highest index which is at most context.currentSelectionIndex
+			if not TSM.IsWowClassic() and TSM.MyAuctions.CanCancel(context.currentSelectionAuctionId) then
+				-- try to select the same row
+				for _, row in private.query:Iterator() do
+					local auctionId = row:GetFields("auctionId")
+					if not selectedRow and auctionId == context.currentSelectionAuctionId then
+						selectedRow = row
+					end
+				end
+			end
+			-- find the next auction to cancel
 			for _, row in private.query:Iterator() do
-				local rowIndex = row:GetField("index")
-				if rowIndex <= context.currentSelectionIndex and rowIndex > (selectedRow and selectedRow:GetField("index") or 0) and TSM.MyAuctions.CanCancel(rowIndex) then
+				local index, auctionId = row:GetFields("index", "auctionId")
+				if not selectedRow and TSM.MyAuctions.CanCancel(auctionId) and ((not TSM.IsWowClassic() and index >= context.currentSelectionIndex) or (TSM.IsWowClassic() and index <= context.currentSelectionIndex)) then
 					selectedRow = row
 				end
 			end
 		end
-		context.currentSelectionIndex = selectedRow and selectedRow:GetField("index") or nil
+		if selectedRow then
+			context.currentSelectionIndex, context.currentSelectionAuctionId = selectedRow:GetFields("index", "auctionId")
+		else
+			context.currentSelectionIndex = nil
+			context.currentSelectionAuctionId = nil
+		end
 		auctions:SetSelection(selectedRow and selectedRow:GetUUID() or nil, true)
 
 		context.frame:GetElement("headerFrame.clearfilterBtn")
@@ -353,13 +392,6 @@ function private.FSMCreate()
 			:Draw()
 
 		local hasSelection = auctions:GetSelection() and true or false
-		local bottomFrame = context.frame:GetElement("bottom")
-		bottomFrame:GetElement("cancelBtn")
-			:SetDisabled(not hasSelection)
-			:Draw()
-		bottomFrame:GetElement("skipBtn")
-			:SetDisabled(not hasSelection)
-			:Draw()
 		local numPending = TSM.MyAuctions.GetNumPending()
 		local progressText = nil
 		if numPending > 0 then
@@ -369,6 +401,13 @@ function private.FSMCreate()
 		else
 			progressText = L["Select Auction to Cancel"]
 		end
+		local bottomFrame = context.frame:GetElement("bottom")
+		bottomFrame:GetElement("cancelBtn")
+			:SetDisabled(not hasSelection or (not TSM.IsWowClassic() and numPending > 0) or (not TSM.IsWowClassic() and context.currentSelectionAuctionId and C_AuctionHouse.GetCancelCost(context.currentSelectionAuctionId) > GetMoney()))
+			:Draw()
+		bottomFrame:GetElement("skipBtn")
+			:SetDisabled(not hasSelection)
+			:Draw()
 		bottomFrame:GetElement("progressBar")
 			:SetProgressIconHidden(numPending == 0)
 			:SetText(progressText)
@@ -381,22 +420,22 @@ function private.FSMCreate()
 			:SetFormattedText(L["Posted Auctions %s:"], "|cff6ebae6"..numPosted.."|r")
 			:Draw()
 		bottomFrame:GetElement("values.sold")
-			:SetText(TSM.Money.ToString(soldGold))
+			:SetText(Money.ToString(soldGold))
 			:Draw()
 		bottomFrame:GetElement("values.posted")
-			:SetText(TSM.Money.ToString(postedGold))
+			:SetText(Money.ToString(postedGold))
 			:Draw()
 	end
-	private.fsm = TSMAPI_FOUR.FSM.New("MY_AUCTIONS")
-		:AddState(TSMAPI_FOUR.FSM.NewState("ST_HIDDEN")
+	private.fsm = FSM.New("MY_AUCTIONS")
+		:AddState(FSM.NewState("ST_HIDDEN")
 			:SetOnEnter(function(context)
 				context.frame = nil
 			end)
 			:AddTransition("ST_HIDDEN")
 			:AddTransition("ST_SHOWNING")
-			:AddEvent("EV_FRAME_SHOWN", TSMAPI_FOUR.FSM.SimpleTransitionEventHandler("ST_SHOWNING"))
+			:AddEventTransition("EV_FRAME_SHOWN", "ST_SHOWNING")
 		)
-		:AddState(TSMAPI_FOUR.FSM.NewState("ST_SHOWNING")
+		:AddState(FSM.NewState("ST_SHOWNING")
 			:SetOnEnter(function(context, frame)
 				context.frame = frame
 				context.filterChanged = true
@@ -404,7 +443,7 @@ function private.FSMCreate()
 			end)
 			:AddTransition("ST_SHOWN")
 		)
-		:AddState(TSMAPI_FOUR.FSM.NewState("ST_SHOWN")
+		:AddState(FSM.NewState("ST_SHOWN")
 			:SetOnEnter(function(context)
 				UpdateFrame(context)
 			end)
@@ -413,10 +452,10 @@ function private.FSMCreate()
 			:AddTransition("ST_CANCELING")
 			:AddTransition("ST_SKIPPING")
 			:AddTransition("ST_CHANGING_SELECTION")
-			:AddEvent("EV_CANCEL_CLICKED", TSMAPI_FOUR.FSM.SimpleTransitionEventHandler("ST_CANCELING"))
-			:AddEvent("EV_SKIP_CLICKED", TSMAPI_FOUR.FSM.SimpleTransitionEventHandler("ST_SKIPPING"))
-			:AddEvent("EV_SELECTION_CHANGED", TSMAPI_FOUR.FSM.SimpleTransitionEventHandler("ST_CHANGING_SELECTION"))
-			:AddEvent("EV_DATA_UPDATED", TSMAPI_FOUR.FSM.SimpleTransitionEventHandler("ST_SHOWN"))
+			:AddEventTransition("EV_CANCEL_CLICKED", "ST_CANCELING")
+			:AddEventTransition("EV_SKIP_CLICKED", "ST_SKIPPING")
+			:AddEventTransition("EV_SELECTION_CHANGED", "ST_CHANGING_SELECTION")
+			:AddEventTransition("EV_DATA_UPDATED", "ST_SHOWN")
 			:AddEvent("EV_FILTER_UPDATED", function(context)
 				local didChange = false
 				local durationFilter = context.frame:GetElement("headerFrame.durationDropdown"):GetSelectedItemKey()
@@ -425,7 +464,7 @@ function private.FSMCreate()
 					didChange = true
 				end
 				local keywordFilter = context.frame:GetElement("headerFrame.keywordInput"):GetText()
-				keywordFilter = keywordFilter ~= "" and TSM.String.Escape(keywordFilter) or nil
+				keywordFilter = keywordFilter ~= "" and String.Escape(keywordFilter) or nil
 				if keywordFilter ~= private.keywordFilter then
 					private.keywordFilter = keywordFilter
 					didChange = true
@@ -438,48 +477,56 @@ function private.FSMCreate()
 				if didChange then
 					context.filterChanged = true
 					context.currentSelectionIndex = nil
+					context.currentSelectionAuctionId = nil
 					return "ST_SHOWN"
 				end
 			end)
 		)
-		:AddState(TSMAPI_FOUR.FSM.NewState("ST_CHANGING_SELECTION")
+		:AddState(FSM.NewState("ST_CHANGING_SELECTION")
 			:SetOnEnter(function(context)
 				local row = context.frame:GetElement("auctions"):GetSelection()
 				context.currentSelectionIndex = row and row:GetField("index") or nil
+				context.currentSelectionAuctionId = row and row:GetField("auctionId") or nil
 				return "ST_SHOWN"
 			end)
 			:AddTransition("ST_SHOWN")
 		)
-		:AddState(TSMAPI_FOUR.FSM.NewState("ST_CANCELING")
+		:AddState(FSM.NewState("ST_CANCELING")
 			:SetOnEnter(function(context)
 				local buttonsFrame = context.frame:GetElement("bottom")
 				buttonsFrame:GetElement("cancelBtn"):SetDisabled(true)
 				buttonsFrame:GetElement("skipBtn"):SetDisabled(true)
 				buttonsFrame:Draw()
-				local selectedIndex = context.frame:GetElement("auctions"):GetSelection():GetField("index")
-				if TSM.MyAuctions.CanCancel(selectedIndex) then
-					TSM.MyAuctions.CancelAuction(selectedIndex)
+				local auctionId = context.frame:GetElement("auctions"):GetSelection():GetField("auctionId")
+				if TSM.MyAuctions.CanCancel(auctionId) then
+					TSM.MyAuctions.CancelAuction(auctionId)
 				end
 				return "ST_SHOWN"
 			end)
 			:AddTransition("ST_HIDDEN")
 			:AddTransition("ST_SHOWN")
 		)
-		:AddState(TSMAPI_FOUR.FSM.NewState("ST_SKIPPING")
+		:AddState(FSM.NewState("ST_SKIPPING")
 			:SetOnEnter(function(context)
-				context.currentSelectionIndex = context.currentSelectionIndex - 1
 				local selectedRow = nil
 				for _, row in private.query:Iterator() do
-					if row:GetField("index") == context.currentSelectionIndex then
-						selectedRow = row:GetUUID()
+					local index, auctionId = row:GetFields("index", "auctionId")
+					if not selectedRow and TSM.MyAuctions.CanCancel(auctionId) and (not TSM.IsWowClassic() and index > context.currentSelectionIndex) or (TSM.IsWowClassic() and index < context.currentSelectionIndex) then
+						selectedRow = row
 					end
 				end
-				context.frame:GetElement("auctions"):SetSelection(selectedRow)
+				if selectedRow then
+					context.currentSelectionIndex, context.currentSelectionAuctionId = selectedRow:GetFields("index", "auctionId")
+				else
+					context.currentSelectionIndex = nil
+					context.currentSelectionAuctionId = nil
+				end
+				context.frame:GetElement("auctions"):SetSelection(selectedRow and selectedRow:GetUUID() or nil)
 				return "ST_SHOWN"
 			end)
 			:AddTransition("ST_SHOWN")
 		)
-		:AddDefaultEvent("EV_FRAME_HIDDEN", TSMAPI_FOUR.FSM.SimpleTransitionEventHandler("ST_HIDDEN"))
+		:AddDefaultEventTransition("EV_FRAME_HIDDEN", "ST_HIDDEN")
 		:Init("ST_HIDDEN", fsmContext)
 end
 
@@ -495,20 +542,32 @@ function private.AuctionsGetItemText(row)
 end
 
 function private.AuctionsGetItemTooltip(itemString)
-	return itemString ~= TSM.CONST.PET_CAGE_ITEMSTRING and itemString or nil
+	return itemString ~= ItemString.GetPetCageItemString() and itemString or nil
 end
 
 function private.AuctionsGetTimeLeftText(row)
-	local saleStatus = row:GetField("saleStatus")
-	local duration = row:GetField("duration")
-	if saleStatus == 1 then
-		local timeLeft = duration - time()
-		return timeLeft < 60 and format("%ds", timeLeft) or format("%dm %ds", floor(timeLeft / 60), timeLeft % 60)
-	elseif row:GetField("isPending") then
+	local saleStatus, duration, isPending = row:GetFields("saleStatus", "duration", "isPending")
+	if saleStatus == 0 and isPending then
 		return "..."
+	elseif saleStatus == 1 or not TSM.IsWowClassic() then
+		local timeLeft = duration - time()
+		if timeLeft < SECONDS_PER_MIN then
+			return timeLeft.."s"
+		elseif timeLeft < SECONDS_PER_HOUR then
+			return floor(timeLeft / SECONDS_PER_MIN).."m"
+		elseif timeLeft < SECONDS_PER_DAY then
+			return floor(timeLeft / SECONDS_PER_HOUR).."h"
+		else
+			return floor(timeLeft / SECONDS_PER_DAY).."d"
+		end
 	else
 		return TSM.UI.GetTimeLeftString(duration)
 	end
+end
+
+function private.AuctionsGetHighBidderText(row)
+	local saleStatus = row:GetField("saleStatus")
+	return saleStatus == 1 and not TSM.IsWowClassic() and "" or row:GetField("highBidder")
 end
 
 function private.AuctionsGetGroupText(itemString)
@@ -527,13 +586,13 @@ function private.AuctionsGetCurrentBidText(row)
 	if saleStatus == 1 then
 		return L["Sold"]
 	elseif row:GetField("highBidder") == "" then
-		return TSM.Money.ToString(row:GetField("currentBid"), nil, "OPT_DISABLE")
+		return Money.ToString(row:GetField("currentBid"), nil, "OPT_DISABLE")
 	else
-		return TSM.Money.ToString(row:GetField("currentBid"))
+		return Money.ToString(row:GetField("currentBid"))
 	end
 end
 
 function private.AuctionsGetCurrentBuyoutText(row)
 	local saleStatus = row:GetField("saleStatus")
-	return TSM.Money.ToString(row:GetField(saleStatus == 1 and "currentBid" or "buyout"))
+	return Money.ToString(row:GetField(saleStatus == 1 and "currentBid" or "buyout"))
 end

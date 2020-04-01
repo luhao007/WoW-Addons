@@ -90,6 +90,10 @@ BtWQuests = {
             WarlordsOfDraenor = {},
             BattleForAzeroth = {},
         },
+        Restrictions = {
+            Alliance = { type = "faction", id = "Alliance" },
+            Horde = { type = "faction", id = "Horde" },
+        }
     },
     L = {},
 };

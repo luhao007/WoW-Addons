@@ -1,5 +1,5 @@
-## Interface: 80205
-## Version: r12
+## Interface: 80300
+## Version: r14
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyMoP_AllSavedVars

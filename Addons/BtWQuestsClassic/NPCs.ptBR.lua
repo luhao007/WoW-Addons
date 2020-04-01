@@ -4,6 +4,7 @@ if GetLocale() ~= "ptBR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "Lorde Malaquias Ebanez",
@@ -871,6 +872,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "Dagrun Martelo da Ira",
+    },
+    [34320] = {
+        name = "Filhote de Pelenoso",
     },
     [34335] = {
         name = "Avrus Murmuvil",
@@ -1943,4 +1947,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "Andalar Valumbra",
     },
+    [51677] = {
+        name = "Tigrinho de Hibérnia",
+    },
 })
+]])()

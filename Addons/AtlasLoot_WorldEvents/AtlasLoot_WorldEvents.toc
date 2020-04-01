@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Lag, Proteyer, Arith
-## Version: v8.10.00
+## Version: v8.12.00
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
@@ -17,6 +17,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: AtlasLoot |cFF0099FF[World Events]|r
 # ## Title-deDE: AtlasLoot |cFF0099FF[Weltereignisse]|r
@@ -24,7 +25,6 @@
 # ## Title-ruRU: AtlasLoot |cFF0099FF[Мировые события]|r
 # ## Title-zhCN: AtlasLoot |cFF0099FF[世界事件]|r
 # ## Title-zhTW: AtlasLoot |cFF0099FF[世界事件]|r
-# 
 # ## Notes: AtlasLoot loot tables from world events
 # ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Weltereignisse
 # ## Notes-frFR: Tables de butin AtlasLoot des Évènements Mondiaux
@@ -33,7 +33,5 @@
 # ## Notes-zhCN: AtlasLoot 《世界事件》物品信息
 # ## Notes-zhTW: AtlasLoot 世界事件物品掉落資料庫
 #@end-debug@
-
-
 
 data.lua

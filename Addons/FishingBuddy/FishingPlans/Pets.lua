@@ -152,7 +152,7 @@ local PetEvents = {}
 PetEvents[FBConstants.FISHING_ENABLED_EVT] = function()
     -- only do the fluff stuff if we're actually wearing any fishing gear
     -- we don't do this stuff if we're "no pole equipped" fishing
-    if FishingBuddy.CheckCombat() then
+    if FishingBuddy.CheckCombat() or #menupets == 0 then
         return
     end
 

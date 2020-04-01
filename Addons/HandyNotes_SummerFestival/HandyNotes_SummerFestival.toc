@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Ethan Centaurai
 ## Version: v1.6.1
 ## RequiredDeps: HandyNotes

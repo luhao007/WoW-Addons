@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Norganna's AddOns
 ## Version: 8.2.6507 (SwimmingSeadragon)
 ## Dependencies: Stubby
@@ -16,9 +16,6 @@
 ## X-URL: http://auctioneeraddon.com/
 ## X-Feedback: http://forums.norganna.org
 
-##
-##
-##
 BarkerManifest.lua
 
 BarkerObjects.lua

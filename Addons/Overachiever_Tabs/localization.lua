@@ -312,8 +312,7 @@ L["RELATED_CLOSE"] = "Fermer"
 --[[ L["RELATED_HELP"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RELATED_RECURSIVE"] = ""--]] 
---[[Translation missing --]]
---[[ L["RELATED_RECURSIVE_TIP"] = ""--]] 
+L["RELATED_RECURSIVE_TIP"] = "Effectuez une recherche récursive afin d'inclure toutes les réalisations indirectement liées à la réalisation de base."
 --[[Translation missing --]]
 --[[ L["RELATED_RESULTS"] = ""--]] 
 --[[Translation missing --]]
@@ -368,17 +367,14 @@ L["SUGGESTIONS_RESULTS"] = "%d |4suggestion trouvée:suggestions trouvées;."
 L["SUGGESTIONS_RESULTS_TRADESKILL"] = " %s: %d |4suggestion trouvée:suggestions trouvées;."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""--]] 
---[[Translation missing --]]
---[[ L["SUGGESTIONS_SHOWHIDDEN"] = ""--]] 
---[[Translation missing --]]
---[[ L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""--]] 
+L["SUGGESTIONS_SHOWHIDDEN"] = "Montrer caché"
+L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Cochez pour afficher les suggestions cachées pour cet emplacement."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "Suggestions"
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Dalaran (Îles Brisées)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Dalaran (Norfendre)"
---[[Translation missing --]]
---[[ L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""--]] 
+L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "Retour à Karazhan"
 L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = "Nagrand (Draenor)"
 L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "Nagrand (Outreterre)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Vallée d’Ombrelune (Draenor)"
@@ -1476,16 +1472,14 @@ L["SEARCH_NAME"] = "Nome ou ID:"
 L["SEARCH_RESET"] = "Reiniciar"
 L["SEARCH_RESULTS"] = "%s |4conquista encontrada:conquistas encontradas;."
 L["SEARCH_REWARD"] = "Recompensa:"
---[[Translation missing --]]
---[[ L["SEARCH_SEARCHING"] = ""--]] 
+L["SEARCH_SEARCHING"] = "Pesquisando..."
 L["SEARCH_SUBMIT"] = "Pesquisar"
 L["SEARCH_TAB"] = "Pesquisar"
 L["SEARCH_TYPE"] = "Tipo:"
 L["SEARCH_TYPE_ALL"] = "Todas"
 L["SEARCH_TYPE_GUILD"] = "De Guilda"
 L["SEARCH_TYPE_INDIV"] = "Pessoais"
---[[Translation missing --]]
---[[ L["SEARCH_TYPE_OTHER"] = ""--]] 
+L["SEARCH_TYPE_OTHER"] = "Outro"
 L["SUGGESTIONS_DIFFICULTY"] = "Dificuldade da instância:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Detectar autom."
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroica"

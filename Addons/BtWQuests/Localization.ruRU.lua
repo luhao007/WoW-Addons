@@ -7,6 +7,7 @@ end
 local L = BtWQuests.L
 L["ALLIANCE_ZONES"] = "Локации Альянса"
 L["BTWQUESTS_ACTIVE"] = "Активный"
+L["BTWQUESTS_ALLIED_RACE"] = "Союзные Расы"
 L["BTWQUESTS_ALLIED_RACES"] = "Союзные Расы"
 L["BTWQUESTS_AVAILABLE"] = "Имеется в наличии"
 L["BTWQUESTS_COLLECT"] = "Собрать %s"

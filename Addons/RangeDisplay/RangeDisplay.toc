@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: mitch0
 ## Version: v4.9.3
 ## OptionalDeps: LibStub, CallbackHandler-1.0, LibRangeCheck-2.0, Ace3, LibSharedMedia-3.0, LibDualSpec-1.0
@@ -30,6 +30,7 @@ libs\LibSharedMedia-3.0\lib.xml
 libs\LibDualSpec-1.0\LibDualSpec-1.0.lua
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 #@end-no-lib-strip@
+
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 localizations.lua

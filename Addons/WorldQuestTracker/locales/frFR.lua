@@ -95,19 +95,15 @@ L["S_MAPBAR_SORTORDER_TIMELEFTPRIORITY_SHOWTEXT"] = "Texte temps restant"
 L["S_MAPBAR_SORTORDER_TIMELEFTPRIORITY_SORTBYTIME"] = "Trier par temps"
 L["S_MAPBAR_SORTORDER_TIMELEFTPRIORITY_TITLE"] = "Temps restant"
 L["S_MAPBAR_SUMMARYMENU_ACCOUNTWIDE"] = "Tous vos perso."
---[[Translation missing --]]
---[[ L["S_OPTIONS_ACCESSIBILITY"] = ""--]] 
---[[Translation missing --]]
---[[ L["S_OPTIONS_ACCESSIBILITY_EXTRATRACKERMARK"] = ""--]] 
---[[Translation missing --]]
---[[ L["S_OPTIONS_ACCESSIBILITY_SHOWBOUNTYRING"] = ""--]] 
---[[Translation missing --]]
---[[ L["S_OPTIONS_ANIMATIONS"] = ""--]] 
+L["S_OPTIONS_ACCESSIBILITY"] = "Accessibilité"
+L["S_OPTIONS_ACCESSIBILITY_EXTRATRACKERMARK"] = "Marque de traçage supplémentaire"
+L["S_OPTIONS_ACCESSIBILITY_SHOWBOUNTYRING"] = "Montrez l'anneau de récompense"
+L["S_OPTIONS_ANIMATIONS"] = "Faire des animations"
 L["S_OPTIONS_MAPFRAME_ALIGN"] = "Cadre de la carte centré"
-L["S_OPTIONS_MAPFRAME_ERROR_SCALING_DISABLED"] = "Vous devez activer 'Echelle du cadre de la carte' avant, aucune valeur n'à changé"
-L["S_OPTIONS_MAPFRAME_SCALE"] = [=[Échelle de la carte
+L["S_OPTIONS_MAPFRAME_ERROR_SCALING_DISABLED"] = "Vous devez activer 'Échelle de la fenêtre de la carte' avant, aucune valeur n'a changé"
+L["S_OPTIONS_MAPFRAME_SCALE"] = [=[Échelle de la fenêtre de la carte
 ]=]
-L["S_OPTIONS_MAPFRAME_SCALE_ENABLED"] = "Activer la mise à l'échelle du cadre"
+L["S_OPTIONS_MAPFRAME_SCALE_ENABLED"] = "Activer la mise à l'échelle du cadre de la carte"
 L["S_OPTIONS_QUESTBLACKLIST"] = "Liste noire de quêtes"
 L["S_OPTIONS_RESET"] = "Réinitialiser"
 L["S_OPTIONS_SHOWFACTIONS"] = "Afficher les factions"
@@ -119,7 +115,7 @@ L["S_OPTIONS_WORLD_DECREASEICONSPERROW"] = "Diminuer le nombre de carrés par li
 L["S_OPTIONS_WORLD_INCREASEICONSPERROW"] = "Augmenter le nombre de carrés par ligne"
 L["S_OPTIONS_WORLD_ORGANIZE_BYMAP"] = "Organiser par cartes"
 L["S_OPTIONS_WORLD_ORGANIZE_BYTYPE"] = "Organiser par type de quête"
-L["S_OPTIONS_ZONE_SHOWONLYTRACKED"] = "Seulement traqués"
+L["S_OPTIONS_ZONE_SHOWONLYTRACKED"] = "Seulement suivies"
 L["S_OVERALL"] = "Total"
 L["S_PARTY"] = "Groupe"
 L["S_PARTY_DESC1"] = "Une étoile bleue veut dire que tous le groupe a la quête."
@@ -157,8 +153,7 @@ L["S_SUMMARYPANEL_OTHERCHARACTERS"] = "Autres personnages"
 L["S_TUTORIAL_AMOUNT"] = "Indique le montant à recevoir"
 L["S_TUTORIAL_CLICKTOTRACK"] = "Cliquez pour suivre une quête."
 L["S_TUTORIAL_PARTY"] = "Dans un groupe, une étoile bleue indique les quêtes que tous le groupe fait !"
---[[Translation missing --]]
---[[ L["S_TUTORIAL_STATISTICS_BUTTON"] = ""--]] 
+L["S_TUTORIAL_STATISTICS_BUTTON"] = "Cliquez ici pour voir les statistiques et une liste sauvegardée des quêtes sur les autres personnages."
 L["S_TUTORIAL_TIMELEFT"] = "Indique le temps restant (+4 heures, +90 minutes, +30 minutes, moins de 30 minutes)"
 L["S_TUTORIAL_WORLDBUTTONS"] = [=[Cliquez ici pour alterner entre trois types de sommaires:
 
@@ -170,8 +165,7 @@ Cliquez sur |cFFFFAA11Afficher les quêtes|r pour cacher les emplacements de qu�
 ]=]
 L["S_TUTORIAL_WORLDMAPBUTTON"] = "Ce bouton vous apporte la carte des îles brisées."
 L["S_UNKNOWNQUEST"] = "Quête inconnue"
---[[Translation missing --]]
---[[ L["S_WHATSNEW"] = ""--]] 
+L["S_WHATSNEW"] = "Quoi de neuf ?"
 L["S_WORLDBUTTONS_SHOW_NONE"] = "Cacher le sommaire"
 L["S_WORLDBUTTONS_SHOW_TYPE"] = "Afficher le sommaire"
 L["S_WORLDBUTTONS_SHOW_ZONE"] = "Trier par zone"

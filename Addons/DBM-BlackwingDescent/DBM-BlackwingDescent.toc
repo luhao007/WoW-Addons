@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
-## Version: r203
+## Version: r206
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBlackwingDescent_AllSavedVars

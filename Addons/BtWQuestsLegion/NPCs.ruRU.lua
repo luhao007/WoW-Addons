@@ -4,6 +4,7 @@ if GetLocale() ~= "ruRU" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "Максимилиан Североземский",
@@ -84,3 +85,4 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Вериса Ветрокрылая",
     },
 })
+]])()

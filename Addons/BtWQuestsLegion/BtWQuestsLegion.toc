@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Breen
-## Version: 23
+## Version: 25
 ## Dependencies: BtWQuests
 
 ## Title: BtWQuests: Legion
@@ -59,7 +59,7 @@ Objects.ruRU.lua
 Objects.zhCN.lua
 Objects.zhTW.lua
 
-Index.lua
+Index.enUS.lua
 Index.deDE.lua
 Index.esES.lua
 Index.esMX.lua

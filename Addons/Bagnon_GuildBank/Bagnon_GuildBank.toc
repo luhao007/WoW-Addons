@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Tuller & Jaliborc (JoÃ£o Cardoso)
 ## RequiredDeps: Bagnon
 ## LoadOnDemand: 1
@@ -9,4 +9,4 @@
 ## Notes-zhCN: Bagnon公会银行模块
 
 
-..\Bagnon\modules\guild.xml
+..\Bagnon\addons\guild\guild.xml

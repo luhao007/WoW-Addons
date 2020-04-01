@@ -4,6 +4,7 @@ if GetLocale() ~= "ptBR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "Garra de Garraguda",
@@ -7593,3 +7594,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Rechace",
     },
 })
+]])()

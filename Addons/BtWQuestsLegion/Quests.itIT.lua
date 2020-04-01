@@ -4,6 +4,7 @@ if GetLocale() ~= "itIT" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [11997] = {
         name = "La fiamma gelida",
@@ -6783,3 +6784,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Il sangue di Azeroth",
     },
 })
+]])()

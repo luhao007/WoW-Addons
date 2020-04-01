@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Tandanu/Nitram/MysticalOS
-## Version: r290
+## Version: r292
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMChamberOfAspects_AllSavedVars
@@ -28,7 +28,7 @@
 ## X-DBM-Mod-Name-zhTW: 守護巨龍之間
 ## X-DBM-Mod-Name-zhCN: 龙眠神殿
 ## X-DBM-Mod-Name-koKR: 고룡쉼터 사원
-## X-DBM-Mod-Name-frFR : Chambre des aspects
+## X-DBM-Mod-Name-frFR: Chambre des aspects
 ## X-DBM-Mod-Name-esES: Cámara de los Aspectos
 ## X-DBM-Mod-Name-esMX: Cámara de los Aspectos
 ## X-DBM-Mod-Sort: 906

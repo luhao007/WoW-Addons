@@ -4,6 +4,7 @@ if GetLocale() ~= "koKR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "북녘골의 맥시밀리언",
@@ -84,3 +85,4 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "베리사 윈드러너",
     },
 })
+]])()

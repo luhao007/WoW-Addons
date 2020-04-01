@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Isler
 ## Version: 1.26.4
 ## RequiredDeps: UnitFramesPlus

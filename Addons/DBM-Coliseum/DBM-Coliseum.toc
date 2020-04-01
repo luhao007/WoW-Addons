@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Nitram
-## Version: r290
+## Version: r292
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMColiseum_AllSavedVars

@@ -35,7 +35,7 @@ function UILib.StartDraggingIcon(Icon, Width, Height, Command, Data, Subvalue, T
 	DragIcon.CustomCommand = Command;
 	DragIcon.CustomData = Data;
 	DragIcon.CustomSubvalue = Subvalue;
-	PlaySoundFile(567489); --sound/interface/uspelliconpickup.ogg
+	PlaySoundFile("Sound\\Interface\\Uspelliconpickup.Wav");
 	Util.CursorAction = true;
 	MiscFrame:OnEvent("ACTIONBAR_SHOWGRID");	--to cause the updates we want to happen
 
@@ -51,7 +51,7 @@ function UILib.StopDraggingIcon()
 		DragIcon.CustomCommand = nil;
 		DragIcon.CustomData = nil;
 		DragIcon.CustomSubvalue = nil;
-		PlaySoundFile(567524); --sound/interface/uspellicondrop.ogg
+		PlaySoundFile("Sound\\Interface\\Uspellicondrop.Wav");
 		SetCursor(nil);
 		DragIcon:UnregisterEvent("CURSOR_UPDATE");	
 		Util.CursorAction = false;

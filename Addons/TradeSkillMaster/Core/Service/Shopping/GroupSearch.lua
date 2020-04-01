@@ -8,7 +8,11 @@
 
 local _, TSM = ...
 local GroupSearch = TSM.Shopping:NewPackage("GroupSearch")
-local L = TSM.L
+local L = TSM.Include("Locale").GetTable()
+local Log = TSM.Include("Util.Log")
+local ItemString = TSM.Include("Util.ItemString")
+local Threading = TSM.Include("Service.Threading")
+local ItemInfo = TSM.Include("Service.ItemInfo")
 local private = {
 	groups = {},
 	itemList = {},
@@ -25,7 +29,7 @@ local private = {
 
 function GroupSearch.OnInitialize()
 	-- initialize thread
-	private.scanThreadId = TSMAPI_FOUR.Thread.New("GROUP_SEARCH", private.ScanThread)
+	private.scanThreadId = Threading.New("GROUP_SEARCH", private.ScanThread)
 end
 
 function GroupSearch.GetScanContext()
@@ -53,7 +57,7 @@ function private.ScanThread(auctionScan, groupList)
 				private.maxQuantity[itemString] = maxQuantityOrErr
 				tinsert(private.itemList, itemString)
 			elseif maxQuantityOrErr then
-				TSM:Printf(L["Invalid custom price source for %s. %s"], TSMAPI_FOUR.Item.GetLink(itemString), maxQuantityOrErr)
+				Log.PrintfUser(L["Invalid custom price source for %s. %s"], ItemInfo.GetLink(itemString), maxQuantityOrErr)
 			end
 		end
 	end
@@ -63,6 +67,7 @@ function private.ScanThread(auctionScan, groupList)
 	auctionScan:AddItemListFiltersThreaded(private.itemList, private.maxQuantity)
 	for _, filter in auctionScan:FilterIterator() do
 		filter:SetIsDoneFunction(private.FilterIsDoneFunction)
+		filter:SetShouldScanItemFunction(private.FilterShouldScanItemFunction)
 	end
 
 	-- run the scan
@@ -98,6 +103,18 @@ function private.FilterIsDoneFunction(filter)
 		end
 	end
 	return true
+end
+
+function private.FilterShouldScanItemFunction(filter, baseItemString, itemString, minPrice)
+	if itemString then
+		return TSM.Operations.Shopping.ShouldScanItem(itemString, minPrice)
+	end
+	for _, filterItemString in ipairs(filter:GetItems()) do
+		if ItemString.GetBaseFast(filterItemString) == baseItemString and TSM.Operations.Shopping.ShouldScanItem(filterItemString, minPrice) then
+			return true
+		end
+	end
+	return false
 end
 
 function private.MarketValueFunction(row)

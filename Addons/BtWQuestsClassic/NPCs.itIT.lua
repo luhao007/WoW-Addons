@@ -4,6 +4,7 @@ if GetLocale() ~= "itIT" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "Ser Ello Serranero",
@@ -871,6 +872,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "Dagrun Mazzarabbia",
+    },
+    [34320] = {
+        name = "Cucciolo di Malapelle",
     },
     [34335] = {
         name = "Avrus Malofiato",
@@ -1943,4 +1947,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "Andalar Valcupa",
     },
+    [51677] = {
+        name = "Cucciolo di Fiera Glaciale",
+    },
 })
+]])()

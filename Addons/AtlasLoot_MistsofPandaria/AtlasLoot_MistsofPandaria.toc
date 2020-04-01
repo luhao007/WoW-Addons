@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Lag, Proteyer, Arith
-## Version: v8.10.00
+## Version: v8.12.00
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
@@ -17,6 +17,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
 # ## Title-deDE: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
@@ -24,7 +25,6 @@
 # ## Title-ruRU: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
 # ## Title-zhCN: AtlasLoot |cFF0099FF[熊猫人之谜]|r
 # ## Title-zhTW: AtlasLoot |cFF0099FF[潘達利亞之謎]|r
-# 
 # ## Notes: AtlasLoot loot tables from Mists of Pandaria
 # ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Mists of Pandaria
 # ## Notes-frFR: Tables de butin AtlasLoot de Mists of Pandaria
@@ -33,8 +33,6 @@
 # ## Notes-zhCN: AtlasLoot 《熊猫人之谜》物品信息
 # ## Notes-zhTW: AtlasLoot 潘達利亞之謎資料片物品掉落資料庫
 #@end-debug@
-
-
 
 data.lua
 sounds.lua

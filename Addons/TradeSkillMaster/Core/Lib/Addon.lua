@@ -7,6 +7,10 @@
 -- ------------------------------------------------------------------------------ --
 
 local _, TSM = ...
+local Analytics = TSM.Include("Util.Analytics")
+local Event = TSM.Include("Util.Event")
+local Log = TSM.Include("Util.Log")
+local LibTSMClass = TSM.Include("LibTSMClass")
 TSMAPI_FOUR.Addon = {}
 local private = {
 	eventFrames = {},
@@ -36,10 +40,20 @@ function private.DoInitialize()
 			addon.OnInitialize()
 			local addonTimeTaken = debugprofilestop() - addonStartTime
 			if addonTimeTaken > TIME_WARNING_THRESHOLD_MS then
-				TSM:LOG_WARN("OnInitialize (%s) took %0.2fms", addon, addonTimeTaken)
+				Log.Warn("OnInitialize (%s) took %0.2fms", addon, addonTimeTaken)
 			end
 		end
 		tinsert(private.enableQueue, addon)
+	end
+	if private.totalInitializeTime == 0 then
+		for _, path, moduleLoadTime, settingsLoadTime in TSM.ModuleInfoIterator() do
+			if moduleLoadTime > TIME_WARNING_THRESHOLD_MS then
+				Log.Warn("Loading module %s took %0.2fms", path, moduleLoadTime)
+			end
+			if settingsLoadTime > TIME_WARNING_THRESHOLD_MS then
+				Log.Warn("Loading settings for %s took %0.2fms", path, settingsLoadTime)
+			end
+		end
 	end
 	private.totalInitializeTime = private.totalInitializeTime + debugprofilestop() - eventStartTime
 	return #private.initializeQueue == 0
@@ -54,10 +68,17 @@ function private.DoEnable()
 			addon.OnEnable()
 			local addonTimeTaken = debugprofilestop() - addonStartTime
 			if addonTimeTaken > TIME_WARNING_THRESHOLD_MS then
-				TSM:LOG_WARN("OnEnable (%s) took %0.2fms", addon, addonTimeTaken)
+				Log.Warn("OnEnable (%s) took %0.2fms", addon, addonTimeTaken)
 			end
 		end
 		tinsert(private.disableQueue, addon)
+	end
+	if private.totalEnableTime == 0 then
+		for _, path, _, _, gameDataLoadTime in TSM.ModuleInfoIterator() do
+			if (gameDataLoadTime or 0) > TIME_WARNING_THRESHOLD_MS then
+				Log.Warn("Loading game data for %s took %0.2fms", path, gameDataLoadTime)
+			end
+		end
 	end
 	private.totalEnableTime = private.totalEnableTime + debugprofilestop() - eventStartTime
 	return #private.enableQueue == 0
@@ -66,6 +87,26 @@ end
 function private.PlayerLogoutHandler()
 	private.OnDisableHelper()
 	wipe(private.disableQueue)
+end
+
+function private.OnDisableHelper()
+	local disableStartTime = debugprofilestop()
+	for _, addon in ipairs(private.disableQueue) do
+		-- defer the main TSM.OnDisable() call to the very end
+		if addon.OnDisable and addon ~= TSM then
+			local startTime = debugprofilestop()
+			addon.OnDisable()
+			local timeTaken = debugprofilestop() - startTime
+			if timeTaken > TIME_WARNING_THRESHOLD_MS then
+				Log.Warn("OnDisable (%s) took %0.2fms", addon, timeTaken)
+			end
+		end
+	end
+	local totalDisableTime = debugprofilestop() - disableStartTime
+	Analytics.Action("ADDON_DISABLE", floor(totalDisableTime))
+	if TSM.OnDisable then
+		TSM.OnDisable()
+	end
 end
 
 do
@@ -78,7 +119,7 @@ do
 				for _, frame in ipairs(private.eventFrames) do
 					frame:UnregisterEvent(event)
 				end
-				TSM.Analytics.Action("ADDON_INITIALIZE", floor(private.totalInitializeTime))
+				Analytics.Action("ADDON_INITIALIZE", floor(private.totalInitializeTime))
 			elseif self == private.eventFrames[#private.eventFrames] then
 				error("Ran out of event frames to initialize TSM")
 			end
@@ -88,7 +129,7 @@ do
 				for _, frame in ipairs(private.eventFrames) do
 					frame:UnregisterEvent(event)
 				end
-				TSM.Analytics.Action("ADDON_ENABLE", floor(private.totalEnableTime))
+				Analytics.Action("ADDON_ENABLE", floor(private.totalEnableTime))
 			elseif self == private.eventFrames[#private.eventFrames] then
 				error("Ran out of event frames to enable TSM")
 			end
@@ -101,7 +142,7 @@ do
 		frame:RegisterEvent("PLAYER_LOGIN")
 		tinsert(private.eventFrames, frame)
 	end
-	TSM.Event.Register("PLAYER_LOGOUT", private.PlayerLogoutHandler)
+	Event.Register("PLAYER_LOGOUT", private.PlayerLogoutHandler)
 end
 
 
@@ -110,7 +151,7 @@ end
 -- AddonPackage Class
 -- ============================================================================
 
-local AddonPackage = TSM.Include("LibTSMClass").DefineClass("AddonPackage")
+local AddonPackage = LibTSMClass.DefineClass("AddonPackage")
 
 function AddonPackage.__init(self, name)
 	self.name = name
@@ -134,58 +175,10 @@ end
 -- Addon Class
 -- ============================================================================
 
-local Addon = TSM.Include("LibTSMClass").DefineClass("Addon", AddonPackage)
+local Addon = LibTSMClass.DefineClass("Addon", AddonPackage)
 
 function Addon.__init(self, name)
 	self.__super:__init(name)
-end
-
-function Addon.PrintRaw(self, str)
-	TSM:GetChatFrame():AddMessage(str)
-end
-
-function Addon.PrintfRaw(self, ...)
-	self:PrintRaw(format(...))
-end
-
-function Addon.Print(self, str)
-	-- FIXME: hard-coded color
-	self:PrintRaw("|cff33ff99"..tostring(self).."|r: "..str)
-end
-
-function Addon.Printf(self, ...)
-	self:Print(format(...))
-end
-
-function Addon.LOG_INFO(self, ...)
-	TSM.Logger.RaiseStackLevel()
-	TSM.Logger.Info(...)
-	TSM.Logger.LowerStackLevel()
-end
-
-function Addon.LOG_WARN(self, ...)
-	TSM.Logger.RaiseStackLevel()
-	TSM.Logger.Warn(...)
-	TSM.Logger.LowerStackLevel()
-end
-
-function Addon.LOG_ERR(self, ...)
-	TSM.Logger.RaiseStackLevel()
-	TSM.Logger.Err(...)
-	TSM.Logger.LowerStackLevel()
-end
-
-function Addon.LOG_STACK_TRACE(self)
-	TSM.Logger.RaiseStackLevel()
-	TSM.Logger.Trace("Stack Trace:")
-	local level = 2
-	local line = TSM.Debug.GetStackLevelLocation(level)
-	while line do
-		TSM.Logger.Trace("  " .. line)
-		level = level + 1
-		line = TSM.Debug.GetStackLevelLocation(level)
-	end
-	TSM.Logger.LowerStackLevel()
 end
 
 
@@ -197,8 +190,7 @@ end
 function TSMAPI_FOUR.Addon.New(name, tbl)
 	assert(type(name) == "string" and type(tbl) == "table", "Invalid arguments")
 	assert(not private.addonLookup[tbl], "Addon already created")
-
-	local addon = TSM.Include("LibTSMClass").ConstructWithTable(tbl, Addon, name)
+	local addon = LibTSMClass.ConstructWithTable(tbl, Addon, name)
 	private.addonLookup[tbl] = addon
 	return addon
 end
@@ -211,30 +203,10 @@ end
 
 function TSM.AddonTestLogout()
 	private.OnDisableHelper()
-end
-
-
-
--- ============================================================================
--- Private Helper Functions
--- ============================================================================
-
-function private.OnDisableHelper()
-	local disableStartTime = debugprofilestop()
-	for _, addon in ipairs(private.disableQueue) do
-		-- defer the main TSM.OnDisable() call to the very end
-		if addon.OnDisable and addon ~= TSM then
-			local startTime = debugprofilestop()
-			addon.OnDisable()
-			local timeTaken = debugprofilestop() - startTime
-			if timeTaken > TIME_WARNING_THRESHOLD_MS then
-				TSM:LOG_WARN("OnDisable (%s) took %0.2fms", addon, timeTaken)
-			end
+	TSM.DebugLogout()
+	for _, path, _, _, _, moduleUnloadTime in TSM.ModuleInfoIterator() do
+		if moduleUnloadTime > TIME_WARNING_THRESHOLD_MS then
+			Log.Warn("Unloading %s took %0.2fms", path, moduleUnloadTime)
 		end
-	end
-	local totalDisableTime = debugprofilestop() - disableStartTime
-	TSM.Analytics.Action("ADDON_DISABLE", floor(totalDisableTime))
-	if TSM.OnDisable then
-		TSM:OnDisable()
 	end
 end

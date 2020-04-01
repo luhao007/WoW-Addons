@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Lag, Proteyer, Arith
-## Version: v8.10.00
+## Version: v8.12.00
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
@@ -17,6 +17,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: AtlasLoot |cFF0099FF[Factions]|r
 # ## Title-deDE: AtlasLoot |cFF0099FF[Fraktionen]|r
@@ -24,7 +25,6 @@
 # ## Title-ruRU: AtlasLoot |cFF0099FF[Фракции]|r
 # ## Title-zhCN: AtlasLoot |cFF0099FF[阵营]|r
 # ## Title-zhTW: AtlasLoot |cFF0099FF[陣營]|r
-# 
 # ## Notes: AtlasLoot loot tables from factions
 # ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Fraktionen
 # ## Notes-esES: Tablas de botín de AtlasLoot para facciones
@@ -34,7 +34,5 @@
 # ## Notes-zhCN: AtlasLoot 《阵营》物品信息
 # ## Notes-zhTW: AtlasLoot 陣營物品資料庫
 #@end-debug@
-
-
 
 data.lua

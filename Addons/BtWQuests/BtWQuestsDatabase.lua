@@ -2,7 +2,12 @@ local BtWQuests = BtWQuests;
 local L = BtWQuests.L;
 local OUTDATED_LEVEL = 110;
 
-local format = string.format;
+local wipe = table.wipe
+local format = string.format
+local lower = string.lower
+local gsub = string.gsub
+local gmatch = string.gmatch
+local concat = string.concat
 
 local LE_EXPANSION_LEVEL_CURRENT = LE_EXPANSION_LEVEL_CURRENT or 0;
 
@@ -115,6 +120,7 @@ local function GetVariation(database, item, character)
 end
 
 local function CheckTargetStatus(target, item, character)
+    assert(target ~= nil, format("Missing Data %s - %d", item.type, item.id or 0))
     if item.status ~= nil then
         for _,status in ipairs(item.status) do
             if status == "available" and target:IsAvailable(character) then
@@ -1211,6 +1217,49 @@ end
 function ExpansionMixin:IsCompleted()
     return GetAccountExpansionLevel() >= self.id
 end
+function ExpansionMixin:IsLoaded()
+    if type(self.addons) ~= "table" or next(self.addons) == nil then
+        return true
+    end
+
+    for addon in pairs(self.addons) do
+        if not IsAddOnLoaded(addon) then
+            return false
+        end
+    end
+
+    return true
+end
+function ExpansionMixin:SupportAutoLoad()
+    return type(self.addons) == "table" and next(self.addons) ~= nil
+end
+function ExpansionMixin:IsAutoLoad()
+    if type(self.addons) ~= "table" or next(self.addons) == nil then
+        return true
+    end
+
+    for addon in pairs(self.addons) do
+        if not BtWQuests_AutoLoad[addon] then
+            return false
+        end
+    end
+
+    return true
+end
+function ExpansionMixin:SetAutoLoad(value)
+    if type(self.addons) ~= "table" or next(self.addons) == nil then
+        return
+    end
+
+    for addon in pairs(self.addons) do
+        BtWQuests_AutoLoad[addon] = value
+    end
+end
+function ExpansionMixin:Load()
+    for addon in pairs(self.addons) do
+        LoadAddOn(addon)
+    end
+end
 
 local ItemMixin = {};
 function ItemMixin:EqualsItem(database, item, other)
@@ -1671,11 +1720,13 @@ function QuestItemMixin:GetLevelFlag(database, item)
     return item.levelFlag or self:GetTarget(database, item):GetLevelFlag();
 end
 function QuestItemMixin:GetLink(database, item)
-    if item.link == nil then
-        item.link = format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetLevel(database, item), self:GetRequiredLevel(database, item), self:GetMaxLevel(database, item), self:GetLevelFlag(database, item), self:GetName(database, item))
-    end
+    -- if item.link == nil then
+    --     item.link = format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetLevel(database, item), self:GetRequiredLevel(database, item), self:GetMaxLevel(database, item), self:GetLevelFlag(database, item), self:GetName(database, item))
+    -- end
 
-    return item.link
+    -- return item.link
+
+    return format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetLevel(database, item), self:GetRequiredLevel(database, item), self:GetMaxLevel(database, item), self:GetLevelFlag(database, item), self:GetName(database, item));
 end
 function QuestItemMixin:OnClick(database, item, character, button, frame, tooltip)
     if item.onClick ~= nil then
@@ -1720,12 +1771,15 @@ function QuestItemMixin:OnEnter(database, item, character, button, frame, toolti
     end
 
     if tooltip ~= nil then
+        local target = self:GetTarget(database, item)
         local userdata = self:GetUserdata(database, item)
-        local link = userdata and userdata.link or self:GetLink(database, item)
+        local link = userdata and userdata.link or (target and self:GetLink(database, item))
 
-        tooltip:SetPoint("TOPLEFT", button, "TOPRIGHT")
-        tooltip:SetOwner(button, "ANCHOR_PRESERVE");
-        tooltip:SetHyperlink(link, character)
+        if link then
+            tooltip:SetPoint("TOPLEFT", button, "TOPRIGHT")
+            tooltip:SetOwner(button, "ANCHOR_PRESERVE");
+            tooltip:SetHyperlink(link, character)
+        end
     end
 end
 function QuestItemMixin:OnLeave(database, item, character, button, frame, tooltip)
@@ -2470,15 +2524,17 @@ local function CreateTable(database, mixin)
     local target, sources = {}, {};
     setmetatable(target, {
         __index = function (self, key)
-            local tbl;
-            for _,source in ipairs(sources) do
-                if source[key] then
-                    tbl = Mixin({database = database, id = key}, source[key], mixin);
-                    break;
+            if key ~= nil then
+                local tbl;
+                for _,source in ipairs(sources) do
+                    if source[key] then
+                        tbl = Mixin({database = database, id = key}, source[key], mixin);
+                        break;
+                    end
                 end
+                self[key] = tbl;
+                return tbl;
             end
-            self[key] = tbl;
-            return tbl;
         end,
     });
     return target, sources;
@@ -2589,6 +2645,8 @@ function Database:EvalRequirement(requirement, item, character, one)
     assert(requirement == nil, "Invalid requirement type " .. type(requirement))
 end
 function Database:EvalItemRequirement(item, character)
+    local item = GetVariation(self, item, character)
+    
     if item.type == "quest" then
         local ids = item.ids or {item.id}
         local amount = 0
@@ -2708,14 +2766,14 @@ function Database:HasMultipleExpansion()
 end
 function Database:HasExpansion(id)
     local expansion = self:GetData("expansion", id);
-    return expansion ~= nil and expansion.items ~= nil and #expansion.items > 0;
+    return expansion ~= nil -- and expansion.items ~= nil and #expansion.items > 0;
 end
 function Database:GetExpansionList()
     local items = {}
     
     for i=0,LE_EXPANSION_LEVEL_CURRENT do
         local expansion = self:GetExpansionByID(i);
-        if expansion and expansion.items and #expansion.items > 0 then
+        if expansion then
             items[#items+1] = expansion;
         end
     end
@@ -3007,7 +3065,8 @@ function Database:AddSearchBucket(key, t)
 
     local u = self.buckets[key]
     for _,v in ipairs(t) do
-        table.insert(u,v)
+        u[#u+1] = v
+        -- table.insert(u,v)
     end
 end
 function Database:AddSearchBuckets(t)
@@ -3023,7 +3082,7 @@ function Database:SearchScore(a, b)
 
     return (endChar - startChar + 1) / b:len()
 end
-local keywords, results = {}, {}
+local keywords, results, keywordCharacters = {}, {}, {}
 function Database:Search(tbl, query, character)
     local tbl = tbl or {};
     local query = string.gsub(query:lower(), "[,.?:;!'\"%-%(%)]", "")
@@ -3042,7 +3101,7 @@ function Database:Search(tbl, query, character)
     local prefix
     local prefixlist
     local start = ""
-    for character in string.gmatch(query, "[\32-\127\192-\247][\128-\191]*") do
+    for character in gmatch(query, "[\32-\127\192-\247][\128-\191]*") do
         start = start .. character
         if self.buckets[start] ~= nil then
             prefixlist = self.buckets[start]
@@ -3073,6 +3132,30 @@ function Database:Search(tbl, query, character)
         keyword = keywords[k]
         -- Filter items based on other keywords
         for item in pairs(results) do
+            if item.keywords == nil and item.name ~= nil then
+                item.keywords = gsub(lower(item.name), "[,.?:;!'\"%-%(%)]", "")
+            end
+            if type(item.keywords) == "string" then
+                local keywords = item.keywords
+                
+                local result = {};
+                for keyword in gmatch(keywords, "[^%s]+") do
+                    wipe(keywordCharacters)
+                    for character in gmatch(keyword, "[\32-\127\192-\247][\128-\191]*") do
+                        keywordCharacters[#keywordCharacters + 1] = character
+                    end
+    
+                    for i=1,#keywordCharacters do
+                        for j=#keywordCharacters,i,-1 do
+                            local word = table.concat(keywordCharacters, "", i, j)
+                            result[word] = (result[word] or 0) + ((j - i + 1) / #keywordCharacters) / ((result[word] or 0) + 1)
+                        end
+                    end
+                end
+                
+                item.keywords = result;
+            end
+
             results[item] = results[item] + (item.keywords[keyword] or 0)
         end
     end

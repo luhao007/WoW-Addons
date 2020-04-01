@@ -4,6 +4,7 @@ if GetLocale() ~= "ruRU" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "Лорд Элло Чернодрев",
@@ -874,6 +875,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "Дагрун Бушующий Молот",
+    },
+    [34320] = {
+        name = "Равазаврик",
     },
     [34335] = {
         name = "Аврий Дурной Толк",
@@ -1940,4 +1944,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "Андалар Дольная Тень",
     },
+    [51677] = {
+        name = "Детеныш ледопарда Зимних Ключей",
+    },
 })
+]])()

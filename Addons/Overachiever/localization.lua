@@ -188,11 +188,13 @@ School of %s
 
 	OPT_MISSIONCOMPLETE = "Mission completed?";
 	OPT_MISSIONCOMPLETE_TIP = "Add a line to the tooltips of missions to indicate whether you need to complete them for an achievement.";
+	OPT_MISSIONCOMPLETE_WHENCOMPLETE = "Show even if achievement is complete";
 
 	OPT_LABEL_NEEDTOKILL = 'Kill Creature Achievements ("%s," "%s," etc.)';
 	OPT_KILLCREATURETIPS = "Creature killed?";
-	OPT_KILLCREATURETIPS_TIP = "Add a line to the tooltips of creatures (excluding critters) indicating whether you need to kill them for an incomplete achievement.";
+	OPT_KILLCREATURETIPS_TIP = "Add a line to the tooltips of creatures (excluding critters) indicating whether you need to kill them for an achievement.";
 	OPT_KILLCREATURETIPS_TIP2 = "|nNote: This relies on achievements providing mob IDs. Many kill-achievements do, but not all. Creatures needed for those that don't will not have updated tooltips, with a few exceptions where the data has been manually entered into Overachiever.";
+	OPT_KILLCREATURETIPS_WHENCOMPLETE = "Show even if achievement is complete";
 
 	OPT_KILLCREATURETIPS_EXCLUDE_GUILD = "Exclude guild achievements";
 
@@ -835,17 +837,12 @@ L["SOUND_ENTERQUEUE"] = "Entrer dans la file"
 --[[ L["SOUND_GLYPH_DESTROY_MINOR"] = ""--]] 
 L["SOUND_GONG_TROLL"] = "Gong - Troll"
 L["SOUND_HEARTHBIND"] = "Son - Pierre de foyer"
---[[Translation missing --]]
---[[ L["SOUND_LEVELUP"] = ""--]] 
+L["SOUND_LEVELUP"] = "Niveau supérieur"
 L["SOUND_MAP_PING"] = "Ping de la carte"
---[[Translation missing --]]
---[[ L["SOUND_MEDAL_EXPIRES"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_MEDAL_GOLDTOSILVER"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_MEDAL_SILVERTOBRONZE"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_QUEST_COMPLETE"] = ""--]] 
+L["SOUND_MEDAL_EXPIRES"] = "La médaille expire"
+L["SOUND_MEDAL_GOLDTOSILVER"] = "Médaille Or à Argent"
+L["SOUND_MEDAL_SILVERTOBRONZE"] = "Médaille Argent à Bronze"
+L["SOUND_QUEST_COMPLETE"] = "Quête complète"
 --[[Translation missing --]]
 --[[ L["SOUND_SIMON_BADPRESS"] = ""--]] 
 L["SOUND_SIMON_DING"] = "Simon - Carillon"
@@ -858,8 +855,7 @@ L["SOUND_SIMON_STARTLEVEL"] = "Simon - Nouveau Niveau"
 --[[Translation missing --]]
 --[[ L["SOUND_STORE_CONFIRM"] = ""--]] 
 L["SOUND_YAR"] = "Yarrrr"
---[[Translation missing --]]
---[[ L["STARTTOAST_EVENT"] = ""--]] 
+L["STARTTOAST_EVENT"] = "Se passe aujourd'hui"
 L["WILDPET"] = "Pet sauvage"
 L["YOURPROGRESS"] = "Votre progression"
 
@@ -2803,12 +2799,9 @@ L["YOURPROGRESS"] = "Tu progreso"
 	end
 
 elseif (locale == "ptBR") then  -- Brazilian Portuguese
---[[Translation missing --]]
---[[ L["ACH_ACQUIRE_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_ACQUIRE_INCOMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_ACQUIRE_INCOMPLETE_EXTRA"] = ""--]] 
+L["ACH_ACQUIRE_COMPLETE"] = "Já adquirido"
+L["ACH_ACQUIRE_INCOMPLETE"] = "Necessita adquirir"
+L["ACH_ACQUIRE_INCOMPLETE_EXTRA"] = "Não adquirido"
 L["ACH_ANGLER_COMPLETE"] = "Já foi pescado"
 L["ACH_ANGLER_COUNT"] = [=[9455=Cardume de Amonitas de Fogo
 9456=Cardume de Enguias Abissais,Cardume de Enguias Abissais Oleosas
@@ -2827,10 +2820,8 @@ L["ACH_CONSUME_91_INCOMPLETE"] = "Eu te desafio a comer 91 de uma vez!"
 L["ACH_CONSUME_COMPLETE"] = "Já foi consumido"
 L["ACH_CONSUME_INCOMPLETE"] = "Precisa consumir"
 L["ACH_CONSUME_INCOMPLETE_EXTRA"] = "Ainda não consumido"
---[[Translation missing --]]
---[[ L["ACH_EATYOURGREENS_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_EATYOURGREENS_INCOMPLETE"] = ""--]] 
+L["ACH_EATYOURGREENS_COMPLETE"] = "Já consumido"
+L["ACH_EATYOURGREENS_INCOMPLETE"] = "Precisa consumir"
 L["ACH_FISHSCHOOL_FORMAT"] = [=[Cardume de %s
 Grande Cardume de %s
 Cardume Enorme de %s]=]
@@ -2840,10 +2831,8 @@ L["ACH_LETITSNOW_COMPLETE"] = "Punhado de Flocos de Neve já utilizado"
 L["ACH_LETITSNOW_INCOMPLETE"] = "Precisa usar Punhado de Flocos de Neve"
 L["ACH_LOVECRITTERS_COMPLETE"] = "Já /amou"
 L["ACH_LOVECRITTERS_INCOMPLETE"] = "Precisa /amar"
---[[Translation missing --]]
---[[ L["ACH_MISSIONCOMPLETE_COMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["ACH_MISSIONCOMPLETE_INCOMPLETE"] = ""--]] 
+L["ACH_MISSIONCOMPLETE_COMPLETE"] = "Completado anteriormente"
+L["ACH_MISSIONCOMPLETE_INCOMPLETE"] = "Necessita completar"
 L["ACH_TURKEYLURKEY_COMPLETE"] = "Já \"empenado\""
 L["ACH_TURKEYLURKEY_INCOMPLETE"] = "Precisa de penas"
 L["ACH_WELLREAD_COMPLETE"] = "Já lido"
@@ -2874,19 +2863,15 @@ L["MSG_ACHNOTFOUND"] = "Conquista não encontrada."
 L["MSG_CRITERIAPROGRESS"] = "|cff7eff00Progresso da conquista:|r %s (%s)"
 L["MSG_INVALIDID"] = "Dados inválidos: Nenhuma conquista com esse ID."
 L["MSG_NAMENOTFOUND"] = "Nenhuma conquista cujo nome contenha \"|cffffffff%s|r\" foi encontrada."
---[[Translation missing --]]
---[[ L["MSG_NOOPEN"] = ""--]] 
---[[Translation missing --]]
---[[ L["MSG_NOOPEN_LIST"] = ""--]] 
+L["MSG_NOOPEN"] = "Não foi possível abrir a conquista. Nenhuma visível na UI."
+L["MSG_NOOPEN_LIST"] = "Conquista não encontrada"
 L["MSG_NUMFOUNDLIST"] = "%s outras conquistas encontradas:"
 L["MSG_ONEFOUND"] = "1 outra conquista encontrada:"
 L["MSG_OPENINGTO"] = "Abrindo para:"
 L["MULTI_NEED"] = "%s (requisito de %s conquistas)"
 L["OPT_ACHUNKNOWN"] = "<desconhecido>"
---[[Translation missing --]]
---[[ L["OPT_ACQUIREDTIPS"] = ""--]] 
---[[Translation missing --]]
---[[ L["OPT_ACQUIREDTIPS_TIP"] = ""--]] 
+L["OPT_ACQUIREDTIPS"] = "Item adquirido?"
+L["OPT_ACQUIREDTIPS_TIP"] = "Adicione uma linha às dicas de items para indicar se você precisa adquiri-los para uma conquista"
 L["OPT_ANGLERTIPS"] = "Cardume pescado?"
 L["OPT_ANGLERTIPS_TIP"] = "Se uma conquista estiver incompleta, adiciona uma linha às dicas de tela dos pontos de pesca que fazem parte dos critérios da conquista para indicar se você precisa pescar neste lugar."
 L["OPT_ANGLERTIPS_TIP_ALWAYS"] = "Adiciona uma linha à dica de tela dos pontos de pesca que são parte dos critérios, para indicar se você precisa pescá-los."
@@ -2917,13 +2902,11 @@ L["OPT_DRAGGABLE"] = "Tornar arrastável"
 L["OPT_DRAGSAVE"] = "Lembrar posição"
 --[[Translation missing --]]
 --[[ L["OPT_EATYOURGREENSTIPS"] = ""--]] 
---[[Translation missing --]]
---[[ L["OPT_EATYOURGREENSTIPS_TIP"] = ""--]] 
+L["OPT_EATYOURGREENSTIPS_TIP"] = "Se a conquista estiver incompleta, adicione uma linha as dicas de plantas em Nazmir que você precisa consumir."
 L["OPT_FISTFULOFLOVETIPS"] = "Punhado de Pétalas de Rosas usado?"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Se a conquista estiver incompleta, acrescenta uma linha às dicas de tela de jogadores da combinação de raça/classe apropriada para indicar se você precisa usar um Punhado de Pétalas de Rosas neles."
 L["OPT_KILLCREATURETIPS"] = "Criatura morta?"
---[[Translation missing --]]
---[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
+L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = "Conquista de guilda excluidas"
 L["OPT_KILLCREATURETIPS_TIP"] = "Adiciona uma linha às dicas de telas de criaturas (excluindo bichos) que precisam ser mortas para satisfazer os critérios de uma conquista incompleta, indicando se você ainda precisa matá-las."
 L["OPT_KILLCREATURETIPS_TIP2"] = "Nota: Ao iniciar (ou quando esta opção está marcada), cada conquista é escaneada para encontrar IDs de unidades. Nem todas as conquistas fornecem estas IDs. A maioria sim, mas as dicas de tela de criaturas que são critério das que não fornecem não serão alteradas por esta opção."
 L["OPT_LABEL_ACHFIVE"] = "\"%s,\" \"%s,\"|n\"%s,\" \"%s\"|n\"%s\""
@@ -2935,8 +2918,7 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\" e \"%s\""
 L["OPT_LABEL_CRITERIATOAST"] = "Reação a progresso (sem rastreio)"
 L["OPT_LABEL_DRAENORANGLER"] = "Subconquistas de \"%s\""
 L["OPT_LABEL_MAINUI"] = "Modificações da Página Principal das Conquistas"
---[[Translation missing --]]
---[[ L["OPT_LABEL_MISC"] = ""--]] 
+L["OPT_LABEL_MISC"] = "Diversos"
 L["OPT_LABEL_NEEDTOKILL"] = "Conquistas de Matar criaturas (\"%s,\" \"%s,\" etc.)"
 L["OPT_LABEL_SEASONALACHS"] = "CONQUISTAS SAZONAIS"
 L["OPT_LABEL_STARTTOAST"] = "Avisos de feriados/eventos"
@@ -2945,10 +2927,8 @@ L["OPT_LABEL_TRACKING"] = "Listagem de conquistas"
 L["OPT_LABEL_TRADESKILLUI"] = "Modificações nas tela das profissões"
 L["OPT_LETITSNOWTIPS"] = "Punhado de Flocos de Neve utilizado?"
 L["OPT_LETITSNOWTIPS_TIP"] = "Se a conquista estiver incompleta, acrescentar uma linha às dicas de tela de jogadores da combinação de raça/classe apropriada para indicar se você precisa um Punhado de Flocos de Neve neles."
---[[Translation missing --]]
---[[ L["OPT_MISSIONCOMPLETE"] = ""--]] 
---[[Translation missing --]]
---[[ L["OPT_MISSIONCOMPLETE_TIP"] = ""--]] 
+L["OPT_MISSIONCOMPLETE"] = "Missão incompleta?"
+L["OPT_MISSIONCOMPLETE_TIP"] = "Adicione uma linha as dicas de missões para indicar se você precisa completa-las para uma conquista."
 L["OPT_PESTCONTROLTIPS"] = "Praga exterminada?"
 L["OPT_PESTCONTROLTIPS_TIP"] = "Se essa conquista está incompleta, adicionar uma linha às dicas de tela de bichos que fazem parte de seus critérios para indicar se você precisa exterminá-los."
 L["OPT_SATISFIEDTIPS"] = "1000% Satisfeito?"
@@ -3040,10 +3020,8 @@ L["SOUND_BELL_NIGHTELF"] = "Sino - Elfo Noturno"
 L["SOUND_BGTIMER"] = "Timer de Campo de Batalha"
 --[[Translation missing --]]
 --[[ L["SOUND_BGTIMER_END"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_BONUSEVENT"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_CHAR_CREATE"] = ""--]] 
+L["SOUND_BONUSEVENT"] = "Evento bonus"
+L["SOUND_CHAR_CREATE"] = "Criar personagem"
 --[[Translation missing --]]
 --[[ L["SOUND_DIGSITE_COMPLETE"] = ""--]] 
 L["SOUND_DING_AUCTION"] = "Tinido de leilão"
@@ -3056,14 +3034,11 @@ L["SOUND_GLYPH_DESTROY_MAJOR"] = "Destruir Glifo Maior"
 L["SOUND_GLYPH_DESTROY_MINOR"] = "Destruir Glifo Menor"
 L["SOUND_GONG_TROLL"] = "Gongo - Troll"
 L["SOUND_HEARTHBIND"] = "Vínculo da Pedra de Regresso"
---[[Translation missing --]]
---[[ L["SOUND_LEVELUP"] = ""--]] 
+L["SOUND_LEVELUP"] = "Subir de nivel"
 L["SOUND_MAP_PING"] = "Sibilo do mapa"
 L["SOUND_MEDAL_EXPIRES"] = "Expirar medalha"
---[[Translation missing --]]
---[[ L["SOUND_MEDAL_GOLDTOSILVER"] = ""--]] 
---[[Translation missing --]]
---[[ L["SOUND_MEDAL_SILVERTOBRONZE"] = ""--]] 
+L["SOUND_MEDAL_GOLDTOSILVER"] = "Medalha de Ouro para Prata"
+L["SOUND_MEDAL_SILVERTOBRONZE"] = "Medalha de Prata para Bronze"
 --[[Translation missing --]]
 --[[ L["SOUND_QUEST_COMPLETE"] = ""--]] 
 --[[Translation missing --]]
@@ -3075,8 +3050,7 @@ L["SOUND_SIMON_DING"] = "Simon: Tinir"
 --[[ L["SOUND_SIMON_FAIL_SMALL"] = ""--]] 
 L["SOUND_SIMON_STARTGAME"] = "Simon: Início do jogo"
 L["SOUND_SIMON_STARTLEVEL"] = "Simon: Início do nível"
---[[Translation missing --]]
---[[ L["SOUND_STORE_CONFIRM"] = ""--]] 
+L["SOUND_STORE_CONFIRM"] = "Confirmação da loja"
 L["SOUND_YAR"] = "Yarrrr"
 L["STARTTOAST_EVENT"] = "Acontecendo hoje"
 L["WILDPET"] = "Mascote Selvagem"

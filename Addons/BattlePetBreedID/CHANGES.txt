@@ -1,7 +1,7 @@
-changeset:   202:b2c443572c95
-tag:         v1.14.4
-user:        Caleb Atherton <atcaleb@twitch.tv>
-date:        Tue Oct 01 14:04:37 2019 -0400
-summary:     Fixed tooltip collision with TradeSkillMaster 4.
+changeset:   208:fa091e2b60fe
+tag:         v1.15.1
+user:        MMOSimca
+date:        Thu Jan 30 17:44:37 2020 -0500
+summary:     Added additional breed data for Patch 8.3.0.
 
 

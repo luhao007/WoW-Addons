@@ -109,7 +109,7 @@ local GeneralOptions = {
         ["tooltip"] = FBConstants.CONFIG_TRADESKILL_INFO,
         ["v"] = 1,
         ["default"] = true,
-    }
+    },
 };
 
 -- x87bliss has implemented IsFishWardenEnabled as a public function, so
@@ -410,48 +410,49 @@ EasyCastInit = function(option, button)
     end
 end
 
--- default FishingBuddy option handlers
-FishingBuddy.BaseGetSetting = function(setting)
-    if ( not FishingBuddy_Player or
-          not FishingBuddy_Player["Settings"] ) then
+local function GetTableSetting(table, setting)
+    if not table or not table["Settings"] then
         return;
     end
-    local val = FishingBuddy_Player["Settings"][setting];
+    local val = table["Settings"][setting];
     if ( val == nil and FishingBuddy.GetDefault ) then
         val = FishingBuddy.GetDefault(setting);
     end
     return val;
 end
 
-FishingBuddy.BaseSetSetting = function(setting, value)
-    if ( FishingBuddy_Player and setting ) then
+local function SetTableSetting(table, setting, value)
+    if ( table and setting ) then
         local val = nil;
         if ( FishingBuddy.GetDefault ) then
             val = FishingBuddy.GetDefault(setting);
         end
+        if not table["Settings"] then
+            table["Settings"] = {}
+        end
         if ( val == value ) then
-            FishingBuddy_Player["Settings"][setting] = nil;
+            table["Settings"][setting] = nil;
         else
-            FishingBuddy_Player["Settings"][setting] = value;
+            table["Settings"][setting] = value;
         end
     end
+end
+
+-- default FishingBuddy option handlers
+FishingBuddy.BaseGetSetting = function(setting)
+    return GetTableSetting(FishingBuddy_Player, setting);
+end
+
+FishingBuddy.BaseSetSetting = function(setting, value)
+    SetTableSetting(FishingBuddy_Player, setting, value)
 end
 
 FishingBuddy.GlobalGetSetting = function(setting)
-    if ( not FishingBuddy_Info or
-          not FishingBuddy_Info["Settings"] ) then
-        return;
-    end
-    return FishingBuddy_Info["Settings"][setting];
+    return GetTableSetting(FishingBuddy_Info, setting);
 end
 
 FishingBuddy.GlobalSetSetting = function(setting, value)
-    if ( FishingBuddy_Info and setting ) then
-        if (not FishingBuddy_Info["Settings"]) then
-            FishingBuddy_Info["Settings"] = {};
-        end
-        FishingBuddy_Info["Settings"][setting] = value;
-    end
+    SetTableSetting(FishingBuddy_Info, setting, value)
 end
 
 FishingBuddy.ByFishie = nil;
@@ -1450,7 +1451,7 @@ FishingBuddy.OnEvent = function(self, event, ...)
         FishingBuddy.AddSchoolFish();
 
         FishingBuddy.CreateFBMappedDropDown("FBEasyKeys", "EasyCastKeys", FBConstants.CONFIG_EASYCAST_ONOFF, FBConstants.Keys)
-        FishingBuddy.CreateFBMappedDropDown("FBMouseEvent", "MouseEvent", FBConstants.CONFIG_MOUSEEVENT_ONOFF, FBConstants.CastClick)
+        FishingBuddy.CreateFBMappedDropDown("FBMouseEvent", "MouseEvent", FBConstants.CONFIG_MOUSEEVENT_ONOFF, FBConstants.CastingKeyLabel)
 
         FishingBuddy.OptionsFrame.HandleOptions(name, "Interface\\Icons\\INV_Fishingpole_02", CastingOptions);
         FishingBuddy.OptionsFrame.HandleOptions(nil, nil, InvisibleOptions);

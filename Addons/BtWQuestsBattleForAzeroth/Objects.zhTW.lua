@@ -4,6 +4,7 @@ if GetLocale() ~= "zhTW" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [270917] = {
         name = "谷溪登記簿",
@@ -200,8 +201,29 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [307748] = {
         name = "風險投資公司函件",
     },
+    [309498] = {
+        name = "護甲架",
+    },
+    [311155] = {
+        name = "上古石板",
+    },
+    [311218] = {
+        name = "薩拉塔斯，黑暗帝國之刃",
+    },
+    [311885] = {
+        name = "薩拉塔斯，黑暗帝國之刃",
+    },
     [322533] = {
         name = "馬爾迪瓦司的元素秘典",
+    },
+    [326393] = {
+        name = "艾澤萊晶岩武器箱",
+    },
+    [326418] = {
+        name = "秘法寶箱",
+    },
+    [326588] = {
+        name = "艾澤萊晶岩武器箱",
     },
     [327170] = {
         name = "武器架",
@@ -212,4 +234,11 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [327592] = {
         name = "附魔的鎖",
     },
+    [327596] = {
+        name = "壞掉的深淵法器",
+    },
+    [329805] = {
+        name = "奇特水晶",
+    },
 })
+]])()

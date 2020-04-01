@@ -1,16 +1,16 @@
-lightweight tag eec62d855bb3bdb7d950d3d4afaefaf965a45d6e v1.12.3
+lightweight tag fdd37a05e23f9418ecfcbd6aa113b02b09ba0fdc v1.12.5
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Sat Sep 28 13:42:29 2019 -0700
+Date:	Fri Jan 24 12:37:32 2020 -0800
 
-commit eec62d855bb3bdb7d950d3d4afaefaf965a45d6e
+commit fdd37a05e23f9418ecfcbd6aa113b02b09ba0fdc
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Sat Sep 28 13:42:29 2019 -0700
+Date:   Fri Jan 24 12:37:32 2020 -0800
 
-    Update TOC version for 8.2.5, bump version
+    Bump version
 
-commit fdd101bb84e6f0281afa42f66f05042ec1edc8d1
+commit c746735037ac9c3b368106e402d5dff43d08ebbd
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Sat Sep 28 13:42:02 2019 -0700
+Date:   Fri Jan 24 12:37:08 2020 -0800
 
-    Update TOC for 8.2.5
+    Fix bug with main bank slots showing wrong item slot, add header comment with a player summary and date
 

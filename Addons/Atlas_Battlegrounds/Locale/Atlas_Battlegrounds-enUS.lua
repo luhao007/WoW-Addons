@@ -1,10 +1,10 @@
--- $Id: Atlas_Battlegrounds-enUS.lua 1557 2019-09-04 07:36:03Z arith $
+-- $Id: Atlas_Battlegrounds-enUS.lua 1564 2020-01-15 15:53:51Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert at gmail dot com>
 	Copyright 2010 - Lothaer <lothayer at gmail dot com>, Atlas Team
-	Copyright 2011 ~ 2019 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -194,4 +194,18 @@ if L then
 
 	-- Deepwind Gorge
 	L["Center Mine"] = "Center Mine";
+	
+	L["Shipwreck"] = "Shipwreck"
+	L["Bonfire"] = "Bonfire"
+	L["Tide Pools"] = "Tide Pools"
+	L["Temple"] = "Temple"
+	L["Tar Pits"] = "Tar Pits"
+	L["Plunge"] = "Plunge"
+	L["Ridge"] = "Ridge"
+	L["Overlook"] = "Overlook"
+	L["Crash Site"] = "Crash Site"
+	L["Waterfall"] = "Waterfall"
+	L["Ruins"] = "Ruins"
+	L["Tower"] = "Tower"
+
 end

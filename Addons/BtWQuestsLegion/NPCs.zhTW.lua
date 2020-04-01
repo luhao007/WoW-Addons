@@ -4,6 +4,7 @@ if GetLocale() ~= "zhTW" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "北郡的瑪克西米利安",
@@ -84,3 +85,4 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "凡蕾莎‧風行者",
     },
 })
+]])()

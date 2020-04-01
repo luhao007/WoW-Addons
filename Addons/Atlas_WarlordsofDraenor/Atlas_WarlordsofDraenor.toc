@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: arith, Dynaletik, dubcat
-## Version: v1.45.00
+## Version: v1.47.00
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Warlords of Draenor]|r
@@ -8,13 +8,14 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0德拉诺之王|r
 ## Notes-zhCN: 德拉诺之王副本地图
 
-## X-Date: 2019-09-04T7:52:57Z
+## X-Date: 2020-01-19T17:03:26Z
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com
 ## X-Category: Map
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: Atlas |r|cFF0099FF[Warlords of Draenor]|r
 # ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 德拉諾之霸

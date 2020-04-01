@@ -1,4 +1,7 @@
 __pycache__/
 .vscode/
 Temp/
-AddOns.7z*
+*.7z
+*.rar
+*.zip
+*.code-workspace

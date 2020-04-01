@@ -4,6 +4,7 @@ if GetLocale() ~= "frFR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [61] = {
         name = "Un tombeau dégradé par les intempéries",
@@ -120,3 +121,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Chaudron tombe-hiver",
     },
 })
+]])()

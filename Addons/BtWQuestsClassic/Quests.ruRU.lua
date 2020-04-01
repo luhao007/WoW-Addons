@@ -4,6 +4,7 @@ if GetLocale() ~= "ruRU" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "Коготь гиппогрифа Острокогтя",
@@ -7566,3 +7567,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Отпор",
     },
 })
+]])()

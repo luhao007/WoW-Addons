@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS/Arta
-## Version: r131
+## Version: r134
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMScenarioMoP_AllSavedVars
@@ -33,7 +33,6 @@ localization.de.lua
 localization.es.lua
 localization.tw.lua
 localization.cn.lua
-localization.fr.lua
 localization.ru.lua
 BrewingStorm.lua
 BattleHighSeas.lua

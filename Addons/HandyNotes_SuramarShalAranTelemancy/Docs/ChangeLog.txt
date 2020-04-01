@@ -1,7 +1,15 @@
-$Id: ChangeLog.txt 61 2019-09-03 14:45:55Z arith $
+$Id: ChangeLog.txt 66 2020-01-17 14:37:20Z arith $
 
 Revision History:
 =================
+
+* v1.23 (Jan. 17, 2020)
+-----------------------
+- Toc update to support WoW 8.3.0
+
+* v1.22 (Jan. 09, 2020)
+-----------------------
+- Toc update to support WoW 8.2.5
 
 * v1.21 (Sep. 03, 2019)
 -----------------------

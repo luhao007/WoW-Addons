@@ -1,6 +1,7 @@
 local BtWQuests = BtWQuests;
 local L = BtWQuests.L;
 local Chain = BtWQuests.Constant.Chain.BattleForAzeroth;
+local Restrictions = BtWQuests.Constant.Restrictions;
 
 local HORDE_CAMPAIGN_ACHIEVEMENT_ID = 12509
 local ALLIANCE_CAMPAIGN_ACHIEVEMENT_ID = 12510
@@ -2087,6 +2088,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_1
         },
         {
             type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_HIGH_OVERLORD,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1,
             x = 3,
             connections = {
@@ -2145,6 +2154,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_8_1_5,
         },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN01,
+        },
     },
     active = {
         type = "chain",
@@ -2152,7 +2165,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_
     },
     completed = {
         type = "chain",
-        id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_PART_1,
+        id = Chain.Alliance825Campaign,
     },
     items = {
         {
@@ -2213,6 +2226,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_2
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_1_5,
         },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02,
+        },
     },
     active = {
         type = "chain",
@@ -2220,7 +2237,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_2
     },
     completed = {
         type = "chain",
-        id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1,
+        ids = {Chain.Horde825SylvanasCampaign, Chain.Horde825SaurfangCampaign},
     },
     items = {
         {
@@ -5253,7 +5270,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_STRIKE_O
         },
         {
             type = "quest",
-            id = 52190,
+            id = 52990,
             x = 3,
             y = 6,
             connections = {
@@ -5967,11 +5984,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_STRIKE_ON_BORALAS,
         },
-        {
-            type = "reputation",
-            id = 2157,
-            standing = 7,
-        },
     },
     active = {
         {
@@ -6014,7 +6026,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_1, 
         {
             type = "quest",
             ids = {
-                53850, 53851,
+                53851, 53850,
             },
             x = 3,
             connections = {
@@ -6403,7 +6415,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
     },
     completed = {
         type = "quest",
-        id = 54282,
+        id = 54280,
     },
     rewards = {
         {
@@ -6473,7 +6485,26 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
         {
             type = "quest",
             id = 54211,
-            x = 3,
+            x = 2,
+            connections = {
+                2,
+            },
+        },
+        {
+            variations = {
+                {
+                    type = "quest",
+                    id = 54208,
+                    restrictions = {
+                        type = "class",
+                        id = BtWQuests.Constant.Class.Rogue
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 54212,
+                }
+            },
             connections = {
                 1,
             },
@@ -6553,6 +6584,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4, 
         {
             type = "quest",
             id = 54282,
+            aside = true,
             x = 3,
         },
     },
@@ -6787,10 +6819,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PAR
         },
     },
 })
-BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1, {
-    name = { -- Righting Wrongs
+BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_HIGH_OVERLORD, {
+    name = { -- The High Overlord
         type = "quest",
-        id = 55124,
+        id = 54099,
     },
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
@@ -6816,6 +6848,186 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
     active = {
         type = "chain",
         id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_PART_4,
+    },
+    completed = {
+        type = "quest",
+        ids = {54109, 54754},
+    },
+    rewards = {
+        {
+            type = "toy",
+            id = 165791,
+        },
+        {
+            type = "money",
+            amounts = {
+                1638000, 
+            },
+            minLevel = 120,
+            maxLevel = 120,
+        },
+    },
+    items = {
+        {
+            type = "quest",
+            id = 54097,
+            x = 3,
+            y = 0,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54099,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54100,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54101,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54102,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54103,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54104,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54105,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54106,
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            variations = {
+                {
+                    type = "quest",
+                    id = 54754,
+                    restrictions = BtWQuestsItem_ActiveOrCompleted,
+                },
+                {
+                    type = "quest",
+                    id = 54107,
+                },
+            },
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54108,
+            visible = Restrictions.SidedWithSaurfang,
+            -- {
+            --     {
+            --         type = "quest",
+            --         id = 54754,
+            --         status = {'notactive'},
+            --     },
+            --     {
+            --         type = "quest",
+            --         id = 54754,
+            --         status = {'notcompleted'},
+            --     },
+            -- },
+            x = 3,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 54109,
+            visible = Restrictions.SidedWithSaurfang,
+            -- visible = {
+            --     {
+            --         type = "quest",
+            --         id = 54754,
+            --         status = {'notactive'},
+            --     },
+            --     {
+            --         type = "quest",
+            --         id = 54754,
+            --         status = {'notcompleted'},
+            --     },
+            -- },
+            x = 3,
+        },
+    },
+})
+BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1, {
+    name = { -- Righting Wrongs
+        type = "quest",
+        id = 55124,
+    },
+    category = nil,
+    expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+    range = {110,120},
+    alternatives = {
+        BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_1_5_PART_1,
+    },
+    restrictions = {
+        type = "faction",
+        id = BTWQUESTS_FACTION_ID_HORDE,
+    },
+    prerequisites = {
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION,
+        },
+        {
+            name = L["BTWQUESTS_PROGRESS_THE_WAR_CAMPAIGN"],
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_HIGH_OVERLORD,
+        },
+    },
+    active = {
+        type = "chain",
+        id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_HIGH_OVERLORD,
     },
     completed = {
         type = "quest",
@@ -6845,9 +7057,20 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
     },
     items = {
         {
-            type = "quest",
-            ids = {
-                55124, 54961,
+            variations = {
+                {
+                    type = "quest",
+                    id = 54961,
+                    restrictions = Restrictions.SidedWithSylvanas,
+                    -- { -- For The Queen
+                    --     type = "quest",
+                    --     id = 54754
+                    -- },
+                },
+                {
+                    type = "quest",
+                    id = 55124,
+                }
             },
             x = 3,
             connections = {
@@ -6886,9 +7109,20 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_1
             },
         },
         {
-            type = "quest",
-            ids = {
-                54999, 55034,
+            variations = {
+                {
+                    type = "quest",
+                    id = 55034,
+                    restrictions = Restrictions.SidedWithSylvanasRightingWrongsOnwards,
+                    -- restrictions = { -- For The Queen
+                    --     type = "quest",
+                    --     id = 54754
+                    -- },
+                },
+                {
+                    type = "quest",
+                    id = 54999,
+                },
             },
             x = 3,
         },
@@ -6945,11 +7179,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_1_5_PART_2
     },
     items = {
         {
-            type = "quest",
-            ids = {55047, 55052},
+            variations = {
+                {
+                    type = "quest",
+                    id = 55052,
+                    restrictions = Restrictions.SidedWithSylvanasRightingWrongsOnwards,
+                    -- restrictions = { -- For The Queen
+                    --     type = "quest",
+                    --     id = 54754
+                    -- },
+                },
+                {
+                    type = "quest",
+                    id = 55047,
+                },
+            },
             x = 3,
             connections = {
-                1, 2,3,
+                1, 2, 3,
             },
         },
         {
@@ -7008,6 +7255,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_PART_
             name = L["BTWQUESTS_PROGRESS_THE_WAR_CAMPAIGN"],
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN_8_1_5,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN01,
         },
     },
     active = {
@@ -7077,6 +7328,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN_8_1_5,
         },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02,
+        },
     },
     active = {
         type = "quest",
@@ -7111,14 +7366,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
                 {
                     type = "quest",
                     id = 55780,
-                    restrictions = {
-                        type = "quest",
-                        id = 55780,
-                        status = {
-                            "active",
-                            "completed",
-                        },
-                    },
+                    restrictions = Restrictions.SidedWithSylvanasRightingWrongsOnwards,
+                    -- restrictions = { -- For The Queen
+                    --     type = "quest",
+                    --     id = 54754
+                    -- },
                 },
                 {
                     type = "quest",
@@ -7135,14 +7387,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
                 {
                     type = "quest",
                     id = 55782,
-                    restrictions = {
-                        type = "quest",
-                        id = 55780,
-                        status = {
-                            "active",
-                            "completed",
-                        },
-                    },
+                    restrictions = Restrictions.SidedWithSylvanasStayOfExecutionOnwards,
+                    -- restrictions = { -- For The Queen
+                    --     type = "quest",
+                    --     id = 54754
+                    -- },
                 },
                 {
                     type = "quest",
@@ -7150,9 +7399,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_PART_1, 
                 },
             },
             x = 3,
-            connections = {
-                1,
-            },
         },
     },
 })
@@ -7163,7 +7409,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_8_2_FOLLO
         type = "quest",
         id = 55783,
     },
-    questline = 972,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     range = {120,120},
@@ -7223,7 +7468,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_8_2_FOLLOWER
         type = "quest",
         id = 55779,
     },
-    questline = 973,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     range = {120,120},
@@ -7284,12 +7528,11 @@ BtWQuestsDatabase:AddChain(Chain.Alliance825Campaign, {
         type = "quest",
         id = 56993,
     },
-    questline = 972,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     range = {120,120},
     alternatives = {
-        Chain.Horde825SaurfangCampaign,
         Chain.Horde825SylvanasCampaign,
+        Chain.Horde825SaurfangCampaign,
     },
     restrictions = {
         type = "faction",
@@ -7380,12 +7623,12 @@ BtWQuestsDatabase:AddChain(Chain.Alliance825Campaign, {
         },
     },
 })
+-- When displaying both the Sylvannas and Saurfang versions, put the Sylvannas one first
 BtWQuestsDatabase:AddChain(Chain.Horde825SaurfangCampaign, {
     name = { -- The Price of Victory
         type = "quest",
         id = 56993,
     },
-    questline = 972,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     range = {120,120},
     alternatives = {
@@ -7397,10 +7640,10 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SaurfangCampaign, {
             type = "faction",
             id = BTWQUESTS_FACTION_ID_HORDE,
         },
-        {
-            type = "quest",
-            id = 54107, -- Sided with Sylvanas
-        },
+        -- {
+        --     type = "quest",
+        --     id = 54107, -- Sided with Saurfang
+        -- },
     },
     prerequisites = {
         {
@@ -7438,47 +7681,63 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SaurfangCampaign, {
             id = 155789,
             x = 3,
             y = 0,
-            connections = {1}
+            connections = {
+                1, 
+            },
         },
         {
             type = "quest",
             id = 56496,
             x = 3,
-            connections = {1}
+            connections = {
+                1, 
+            },
         },
         {
             type = "quest",
             id = 57088,
             x = 3,
-            connections={1, 2, 3}
+            connections = {
+                1, 2, 3, 
+            },
         },
         {
             type = "quest",
             id = 57090,
             x = 1,
-            connections={3}
+            connections = {
+                3, 
+            },
         },
         {
             type = "quest",
             id = 57091,
-            connections={2}
+            connections = {
+                2, 
+            },
         },
         {
             type = "quest",
             id = 57092,
-            connections = {1}
+            connections = {
+                1, 
+            },
         },
         {
             type = "quest",
             id = 57093,
             x = 3,
-            connections = {1}
+            connections = {
+                1, 
+            },
         },
         {
             type = "quest",
             id = 57094,
             x = 3,
-            connections = {1}
+            connections = {
+                1, 
+            },
         },
         {
             type = "quest",
@@ -7492,7 +7751,6 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
         type = "quest",
         id = 56993,
     },
-    questline = 972,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     range = {120,120},
     alternatives = {
@@ -7504,10 +7762,11 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
             type = "faction",
             id = BTWQUESTS_FACTION_ID_HORDE,
         },
-        {
-            type = "quest",
-            id = 54754, -- Sided with Sylvanas
-        },
+        Restrictions.SidedWithSylvanasStayOfExecutionOnwards,
+        -- {
+        --     type = "quest",
+        --     id = 54754, -- Sided with Sylvanas
+        -- },
     },
     prerequisites = {
         {
@@ -7542,33 +7801,44 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
     },
     items = {
         {
-            type="npc",
+            type = "npc",
             id = 135691,
-            x = 3,
+            x = 0,
             y = 0,
-            connections = {1}
+            connections = {
+                1, 
+            },
         },
         {
             type = "quest",
             id = 56495,
-            x = 3,
-            connections = {1}
+            x = 0,
+            connections = {
+                1, 
+            },
         },
-
         {
-            variations = {
-                {
-                    type = "quest",
-                    id = 57147,
-                    restrictions = BtWQuestsItem_ActiveOrCompleted,
-                },
-                {
-                    type = "quest",
-                    id = 56833,
+            type = "quest",
+            id = 56833,
+            x = 0,
+            connections = {
+                1, 2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57147,
+            visible = {
+                type = "quest",
+                id = 55620,
+                status = {
+                    "notcompleted",
                 },
             },
-            x = 3,
-            connections = {1}
+            x = 0,
+            connections = {
+                1, 
+            },
         },
         {
             variations = {
@@ -7577,16 +7847,22 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57088,
                     restrictions = {
                         type = "quest",
-                        id = 57147,
+                        id = 55620,
+                        status = {
+                            "notcompleted",
+                        },
                     },
                 },
                 {
                     type = "quest",
                     id = 57130,
+                    y = 4,
                 },
             },
-            x = 3,
-            connections = {1,2,3}
+            x = 0,
+            connections = {
+                1, 2, 3, 
+            },
         },
         {
             variations = {
@@ -7595,7 +7871,10 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57090,
                     restrictions = {
                         type = "quest",
-                        id = 57147,
+                        id = 55620,
+                        status = {
+                            "notcompleted",
+                        },
                     },
                 },
                 {
@@ -7603,8 +7882,10 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57148,
                 },
             },
-            x = 1,
-            connections={3}
+            x = -2,
+            connections = {
+                3, 
+            },
         },
         {
             variations = {
@@ -7613,7 +7894,10 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57091,
                     restrictions = {
                         type = "quest",
-                        id = 57147,
+                        id = 55620,
+                        status = {
+                            "notcompleted",
+                        },
                     },
                 },
                 {
@@ -7621,7 +7905,9 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57149,
                 },
             },
-            connections={2}
+            connections = {
+                2, 
+            },
         },
         {
             variations = {
@@ -7630,15 +7916,20 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57092,
                     restrictions = {
                         type = "quest",
-                        id = 57147,
+                        id = 55620,
+                        status = {
+                            "notcompleted",
+                        },
                     },
                 },
                 {
                     type = "quest",
-                    id = 57150,
+                    id = 57151,
                 },
             },
-            connections = {1}
+            connections = {
+                1, 
+            },
         },
         {
             variations = {
@@ -7647,16 +7938,21 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57093,
                     restrictions = {
                         type = "quest",
-                        id = 57147,
+                        id = 55620,
+                        status = {
+                            "notcompleted",
+                        },
                     },
                 },
                 {
                     type = "quest",
-                    id = 57151,
+                    id = 57150,
                 },
             },
-            x = 3,
-            connections = {1}
+            x = 0,
+            connections = {
+                1, 
+            },
         },
         {
             variations = {
@@ -7665,28 +7961,37 @@ BtWQuestsDatabase:AddChain(Chain.Horde825SylvanasCampaign, {
                     id = 57094,
                     restrictions = {
                         type = "quest",
-                        id = 57147,
+                        id = 55620,
+                        status = {
+                            "notcompleted",
+                        },
                     },
-                    connections = {1}
                 },
                 {
                     type = "quest",
                     id = 57152,
                 },
             },
-            x = 3,
+            x = 0,
+            connections = {
+                1, 
+            },
         },
         {
             type = "quest",
             id = 57095,
-            x = 3,
             visible = {
                 type = "quest",
-                id = 57147,
+                id = 55620,
+                status = {
+                    "notcompleted",
+                },
             },
+            x = 0,
         },
     },
 })
+
 BtWQuestsDatabase:AddChain(Chain.Alliance825Calia, {
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     range = {120,120},
@@ -7760,12 +8065,7 @@ BtWQuestsDatabase:AddChain(Chain.Horde825Calia, {
         {
             name = L["BTWQUESTS_PROGRESS_THE_WAR_CAMPAIGN"],
             type = "chain",
-            id = Chain.Horde825SaurfangCampaign,
-        },
-        {
-            name = L["BTWQUESTS_PROGRESS_THE_WAR_CAMPAIGN"],
-            type = "chain",
-            id = Chain.Horde825SylvanasCampaign,
+            ids = {Chain.Horde825SylvanasCampaign, Chain.Horde825SaurfangCampaign},
         },
     },
     active = {
@@ -7799,6 +8099,99 @@ BtWQuestsDatabase:AddChain(Chain.Horde825Calia, {
             type = "quest",
             id = 57198,
             x = 3,
+        },
+    },
+})
+
+BtWQuestsDatabase:AddChain(Chain.Alliance83Calia, {
+    expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+    range = {120,120},
+    alternatives = {
+        Chain.Horde83Calia,
+    },
+    restrictions = {
+        type = "faction",
+        id = BTWQUESTS_FACTION_ID_ALLIANCE,
+    },
+    prerequisites = {
+        {
+            type = "level",
+            level = 120,
+        },
+        {
+            type = "chain",
+            id = Chain.Alliance825Calia,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 57324,
+        status = {'active', 'completed'},
+    },
+    completed = {
+        type = "quest",
+        id = 57324,
+    },
+    items = {
+        {
+            type = "npc",
+            id = 150633,
+            x = 3,
+            y = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57324,
+            x = 3,
+        },
+    },
+})
+BtWQuestsDatabase:AddChain(Chain.Horde83Calia, {
+    expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+    range = {120,120},
+    alternatives = {
+        Chain.Alliance83Calia,
+    },
+    restrictions = {
+        type = "faction",
+        id = BTWQUESTS_FACTION_ID_HORDE,
+    },
+    prerequisites = {
+        {
+            type = "level",
+            level = 120,
+        },
+        {
+            type = "chain",
+            id = Chain.Horde825Calia,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 57376,
+        status = {'active', 'completed'},
+    },
+    completed = {
+        type = "quest",
+        id = 57376,
+    },
+    items = {
+        {
+            type = "npc",
+            id = 141961,
+            x = 0,
+            y = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 57376,
+            x = 0,
         },
     },
 })

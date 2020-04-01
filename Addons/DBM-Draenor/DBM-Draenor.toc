@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
-## Version: r45
+## Version: r47
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMDraenor_AllSavedVars
@@ -22,13 +22,13 @@
 ## X-Curse-Project-ID: 101956
 ## X-WoWI-ID: 24535
 
+localization.br.lua
 localization.en.lua
 localization.kr.lua
 localization.de.lua
 localization.es.lua
 localization.ru.lua
 localization.tw.lua
-localization.br.lua
 localization.cn.lua
 Drov.lua
 Tarlna.lua

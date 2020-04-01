@@ -396,6 +396,11 @@
 --			Changes the colors for turn in pins to be white and yellow to match the NPCs in the world.
 --			Updates preferences to allow control over displaying turn in map pins that are complete or incomplete.
 --			Corrects issue where map button does not appear upon first login for new character.
+--		077	Adjusts the position of the breadcrumb frame to look better in Classic.
+--			Adds support for Heart of Azeroth level requirements.
+--		078 *** Requires Grail 109 or later ***
+--			Updates the Classic interface to 11304 to match the latest Blizzard release.
+--			Updates getting NPC locations to newer API use in Grail.
 --
 --	Known Issues
 --
@@ -446,13 +451,13 @@ local UIParent = UIParent
 local QuestFrame = QuestFrame
 local WorldMapFrame = WorldMapFrame
 
-local GRAIL = nil	-- will be set in ADDON_LOADED
+local GRAIL = nil	-- will be set in PLAYER_LOGIN
 
 local directoryName, _ = ...
 local versionFromToc = GetAddOnMetadata(directoryName, "Version")
 local _, _, versionValueFromToc = strfind(versionFromToc, "(%d+)")
 local Wholly_File_Version = tonumber(versionValueFromToc)
-local requiredGrailVersion = 104
+local requiredGrailVersion = 109
 
 --	Set up the bindings to use the localized name Blizzard supplies.  Note that the Bindings.xml file cannot
 --	just contain the TOGGLEQUESTLOG because then the entry for Wholly does not show up.  So, we use a version
@@ -661,8 +666,8 @@ if nil == Wholly or Wholly.versionNumber < Wholly_File_Version then
 			['QUEST_PROGRESS'] = function(self, frame)
 				self:BreadcrumbUpdate(frame, true)
 			end,
-			['ADDON_LOADED'] = function(self, frame, arg1)
-				if "Wholly" == arg1 then
+			['PLAYER_LOGIN'] = function(self, frame, arg1)
+--				if "Wholly" == arg1 then	-- this is a remnant from when this was ADDON_LOADED and not PLAYER_LOGIN
 GRAIL = Grail
 if not GRAIL or GRAIL.versionNumber < requiredGrailVersion then
 local errorMessage = format(self.s.REQUIRES_FORMAT, requiredGrailVersion)
@@ -718,7 +723,11 @@ GameTooltip:HookScript("OnTooltipSetUnit", Wholly._CheckNPCTooltip)
 
 -- Our frame positions are wrong for MoP, so we change them here.
 com_mithrandir_whollyQuestInfoBuggedFrame:SetPoint("TOPLEFT", QuestFrame, "TOPLEFT", 100, -35)
+if Grail.existsClassic then
+com_mithrandir_whollyBreadcrumbFrame:SetPoint("TOPLEFT", QuestFrame, "BOTTOMLEFT", 16, 70)
+else
 com_mithrandir_whollyBreadcrumbFrame:SetPoint("TOPLEFT", QuestFrame, "BOTTOMLEFT", 16, -10)
+end
 
 if "deDE" == GetLocale() then
 com_mithrandir_whollyFramePreferencesButton:SetText("Einstellungen")
@@ -801,7 +810,7 @@ function self.mapPinsProvider:RefreshAllData(fromOnShow)
 				end
 			end
             local codeValue = codeMapping[code]
-            local locations = ('?' == code or '*' == code or '!' == code) and Grail:QuestLocationsTurnin(id, true, false, true, uiMapID) or Grail:QuestLocationsAccept(id, false, false, true, uiMapID, true, 0)
+            local locations = ('?' == code or '*' == code or '!' == code) and Grail:QuestLocationsTurnin(id, true, false, true, uiMapID) or Grail:QuestLocationsAccept(id, false, false, true, uiMapID, true)
             if nil ~= locations then
                 for _, npc in pairs(locations) do
                     local xcoord, ycoord, npcName, npcId = npc.x, npc.y, npc.name, npc.id
@@ -931,7 +940,7 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 					self:_InitializeLevelOneData()
 					if WDB.useWidePanel then self:ToggleCurrentFrame() end
 
-				end
+--				end	-- matching the if arg1 == "Wholly" then
 			end,
 			['PLAYER_ENTERING_WORLD'] = function(self, frame)
 				self.zoneInfo.zone.mapId = Grail.GetCurrentMapAreaID()
@@ -2700,13 +2709,16 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 				return format("|c%s%s %s [%s]|r", colorCode, phaseLocation, questCode, phaseString)
 			elseif questCode == 'x' then
 				return format("|c%s"..ARTIFACTS_KNOWLEDGE_TOOLTIP_LEVEL.."|r", colorCode, numeric)
-			elseif questCode == 'a' then
+			elseif questCode == 'a' or questCode == 'b' then
 				return format("|c%s"..AVAILABLE_QUEST.."|r", colorCode)
 			elseif questCode == '@' then
 				return format("|c%s%s %s %d|r", colorCode, Grail:NPCName(100000000 + subcode), self.s.LEVEL, numeric)
 			elseif questCode == '#' then
 				return format(GARRISON_MISSION_TIME, format("|c%s%s|r", colorCode, Grail:MissionName(numeric) or numeric))
 --				return format("Mission Needed: |c%s%s|r", colorCode, Grail:MissionName(numeric))	-- GARRISON_MISSION_TIME
+			elseif questCode == '&' then
+				local message = format(REQUIRES_AZERITE_LEVEL_TOOLTIP, numeric)
+				return format("|c%s%s|r", colorCode, message)
 			else
 				questId = numeric
 				local typeString = ""
@@ -2725,6 +2737,8 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 					typeString = format(" [%s, %s]", self.s.COMPLETE, self.s.TURNED_IN)
 				elseif questCode == 'H' then
 					typeString = format(" [%s]", self.s.EVER_COMPLETED)
+				elseif questCode == 'h' then
+					typeString = format(" ![%s]", self.s.EVER_COMPLETED)
 				elseif questCode == 'M' then
 					typeString = format(" [%s]", self.s.ABANDONED)
 				elseif questCode == 'm' then
@@ -4110,8 +4124,8 @@ end
 			for i = 1, #questsInMap do
 				questId = questsInMap[i][1]
 				code = questsInMap[i][2]
---                local locations = Grail:QuestLocationsAccept(questId, false, false, true, parentFrame:GetMapID(), true, 0)
-				local locations = 'I' == code and Grail:QuestLocationsTurnin(questId, true, false, true, pin.map) or Grail:QuestLocationsAccept(questId, false, false, true, pin.map, true, 0)
+--                local locations = Grail:QuestLocationsAccept(questId, false, false, true, parentFrame:GetMapID(), true)
+				local locations = 'I' == code and Grail:QuestLocationsTurnin(questId, true, false, true, pin.map) or Grail:QuestLocationsAccept(questId, false, false, true, pin.map, true)
 				if nil ~= locations then
 					for _, npc in pairs(locations) do
 						if nil ~= npc.x then
@@ -4409,7 +4423,7 @@ end
 	local nf = CreateFrame("Frame")
 	Wholly.notificationFrame = nf
 	nf:SetScript("OnEvent", function(frame, event, ...) Wholly:_OnEvent(frame, event, ...) end)
-	nf:RegisterEvent("ADDON_LOADED")
+	nf:RegisterEvent("PLAYER_LOGIN")
 
 	local locale = GetLocale()
 	local S = Wholly.s

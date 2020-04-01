@@ -44,7 +44,6 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	specwarnUnder	= "Spezialwarnung, wenn du dich unter dem Boss befindest",
-	countdownCrush	= DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT:format(122774).."<br/>(nur heroischer Schwierigkeitsgrad)"
 })
 
 L:SetMiscLocalization({
@@ -91,8 +90,7 @@ L:SetOptionLocalization({
 	specwarnAmberExplosionAM	= "Spezialwarnung zum Unterbrechen der $spell:122402 der Bernmonstrosität",
 	specwarnAmberExplosionOther	= "Spezialwarnung zum Unterbrechen der $spell:122398 unkontrollierter Mutierter Konstrukte",
 	timerAmberExplosionAMCD		= "Zeige Zeit bis nächste $spell:122402 der Bernmonstrosität",
-	InfoFrame					= "Zeige Infofenster für Willen der Spieler",
-	FixNameplates				= "Automatische Deaktivierung störender Namensplaketten als Konstrukt<br/>(wird nach dem Kampfende auf die vorherige Einstellung zurückgesetzt)"
+	InfoFrame					= "Zeige Infofenster für Willen der Spieler"
 })
 
 L:SetMiscLocalization({
@@ -125,8 +123,4 @@ L = DBM:GetModLocalization("HoFTrash")
 
 L:SetGeneralLocalization({
 	name	= "Trash des Herz der Angst"
-})
-
-L:SetOptionLocalization({
-	UnseenStrikeArrow	= "Zeige DBM-Pfeil, wenn jemand von $spell:122949 betroffen ist"
 })

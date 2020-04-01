@@ -4,6 +4,7 @@ if GetLocale() ~= "frFR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "Seigneur Ello Bouclenoire",
@@ -871,6 +872,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "Dagrun Marteau-rageur",
+    },
+    [34320] = {
+        name = "Jeune peau-de-venin",
     },
     [34335] = {
         name = "Avrus Malmurmure",
@@ -1940,4 +1944,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "Andalar Vallombreuse",
     },
+    [51677] = {
+        name = "Bébé de Berceau-de-l’Hiver",
+    },
 })
+]])()

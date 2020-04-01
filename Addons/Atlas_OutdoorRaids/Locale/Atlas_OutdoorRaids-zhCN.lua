@@ -1,10 +1,10 @@
--- $Id: Atlas_OutdoorRaids-zhCN.lua 54 2019-09-04 07:49:51Z arith $
+-- $Id: Atlas_OutdoorRaids-zhCN.lua 56 2020-01-05 13:33:38Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 	Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-	Copyright 2011 ~ 2019 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -32,15 +32,23 @@ local L = AceLocale:NewLocale("Atlas_OutdoorRaids", "zhCN", false);
 
 if L then
 L["Ancient Skull Pile"] = "上古颅骨堆"
+--[[Translation missing --]]
+--[[ L["Battle for Azeroth"] = ""--]] 
 L["Broken Isles World Bosses"] = "破碎群岛世界首领"
 L["Broken Shore World Bosses"] = "破碎群岛世界首领"
 L["Darkscreecher Akkarai"] = "黑暗尖啸者阿克卡莱"
 L["Draenor World Bosses"] = "德拉诺世界首领"
+--[[Translation missing --]]
+--[[ L["Eastern Kingdoms World Bosses"] = ""--]] 
 L["Gezzarak the Huntress"] = "猎手吉萨拉克"
 L["Grella <Skyguard Quartermaster>"] = "格蕾拉 <天空卫队军需官>"
 L["Hazzik"] = "哈吉克"
 L["Hazzik's Package"] = "哈吉克的包裹"
+--[[Translation missing --]]
+--[[ L["Kalimdor World Bosses"] = ""--]] 
 L["Karrog"] = "卡尔洛格"
+--[[Translation missing --]]
+--[[ L["Kul Tiras World Bosses"] = ""--]] 
 L["Outdoor Raid Encounters"] = "户外首领分布图"
 L["Pandaria World Bosses"] = "潘达利亚世界首领"
 L["Sahaak <Keeper of Scrolls>"] = "萨哈克 <卷轴保管者>"
@@ -55,5 +63,7 @@ L["Talonpriest Skizzik"] = "鸦爪祭司斯卡基克"
 L["Talonpriest Zellek"] = "鸦爪祭司塞尔利克"
 L["Terokk"] = "泰罗克"
 L["Vakkiz the Windrager"] = "风怒者瓦克奇斯"
+--[[Translation missing --]]
+--[[ L["Zandalar World Bosses"] = ""--]] 
 
 end

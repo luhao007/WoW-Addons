@@ -4,6 +4,7 @@ if GetLocale() ~= "itIT" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "L'Artiglio di Grinfiafina",
@@ -7569,3 +7570,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Arretramento",
     },
 })
+]])()

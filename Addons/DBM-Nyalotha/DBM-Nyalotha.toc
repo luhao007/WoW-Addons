@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
@@ -12,9 +12,10 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: BFA
-## X-DBM-Mod-Has-Mythic : 1
+## X-DBM-Mod-Has-Mythic: 1
 ## X-DBM-Mod-Name: Ny'alotha
 ## X-DBM-Mod-Name-koKR: 나이알로사
+## X-DBM-Mod-Name-zhTW: 奈奧羅薩
 ## X-DBM-Mod-Sort: 404
 ## X-DBM-Mod-MapID: 2217
 ## X-DBM-Mod-MinCoreRevision: 17286
@@ -22,6 +23,9 @@
 
 localization.en.lua
 localization.kr.lua
+localization.cn.lua
+localization.tw.lua
+localization.es.lua
 Wrathion.lua
 Maut.lua
 TheProphetSkitra.lua

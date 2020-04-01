@@ -4,6 +4,7 @@ if GetLocale() ~= "frFR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "La griffe de Serres-tranchantes",
@@ -7563,3 +7564,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Résistance",
     },
 })
+]])()

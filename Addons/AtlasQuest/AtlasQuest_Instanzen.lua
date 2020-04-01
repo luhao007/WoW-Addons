@@ -455,51 +455,55 @@ function AtlasQuest_Instanzenchecken()
 
 		
 	-- Battle For Azeroth Dungeons & Raids
-
-	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_ClassOrderHalls\\Images\\CH_Druid") then
-		AQINSTANZ = 175;
-
-	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_ClassOrderHalls\\Images\\CH_Hunter") then
-		AQINSTANZ = 176;
-
-	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_ClassOrderHalls\\Images\\CH_Warrior") then
-		AQINSTANZ = 178;
-
---[[		
 		
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\AtalDazar") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\AtalDazar") then
 		AQINSTANZ = 175;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\Freehold") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\Freehold") then
 		AQINSTANZ = 176;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\KingsRest") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\KingsRest") then
 		AQINSTANZ = 177;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\ShrineOfTheStorm") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\ShrineoftheStormA") or (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\ShrineoftheStormB") then
 		AQINSTANZ = 178;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\SiegeOfBoralus") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\SiegeofBoralus") then
 		AQINSTANZ = 179;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\TempleOfSethraliss") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\TempleofSethraliss") then
 		AQINSTANZ = 180;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\TheMotherlode") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\TheMOTHERLODE") then
 		AQINSTANZ = 181;
 
-		elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\TheUnderrot") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\TheUnderrot") then
 		AQINSTANZ = 182;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\TolDagor") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\TolDagorA") or (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\TolDagorB") then
 		AQINSTANZ = 183;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\WaycrestManor") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\WaycrestManorA") or (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\WaycrestManorB") then
 		AQINSTANZ = 184;
 
-	elseif (AQATLASMAP == "Interface\\Addons\\Atlas_BattleForAzeroth\\Images\\Uldir") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\Uldir") then
 		AQINSTANZ = 185;
---]]
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\BattleofDazar'alor") then
+		AQINSTANZ = 186;
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\CrucibleofStorms") then
+		AQINSTANZ = 187;
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\TheEternalPalace") then
+		AQINSTANZ = 188;
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\OperationMechagon") then
+		AQINSTANZ = 189;
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_BattleforAzeroth\\Images\\Nyalotha") then
+		AQINSTANZ = 190;
+
 		
 	-- Scenarios
 
@@ -814,5 +818,10 @@ end
 -- 183 = DUNGEON: Tol Dagor
 -- 184 = DUNGEON: Waycrest Manor
 -- 185 = RAID: Uldir
+-- 186 = RAID: Battle of Dazar'alor
+-- 187 = RAID: Crucible of Storms
+-- 188 = RAID: The Eternal Palace
+-- 189 = DUNGEON: Operation: Mechagon
+-- 190 = RAID: Ny'alotha, the Waking City
 
 

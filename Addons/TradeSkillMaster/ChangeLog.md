@@ -1,6 +1,5 @@
-## v4.8.20 Changes
+## v4.9.32 Changes
 
-* Fixed bug with saving of Accounting data.
-* Fixed bug with AH not properly hiding.
+* [Retail] Fixed issue with Sniper not working after recent client update
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

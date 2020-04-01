@@ -1,5 +1,6 @@
+local L = BtWQuests.L;
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_PROLOGUE, {
-    name = BTWQUESTS_PROLOGUE,
+    name = L["BTWQUESTS_PROLOGUE"],
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     prerequisites = {
@@ -33,7 +34,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_PROLOGUE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_PROLOGUE_ALLIANCE, {
-    name = BTWQUESTS_PROLOGUE,
+    name = L["BTWQUESTS_PROLOGUE"],
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     prerequisites = {
@@ -367,7 +368,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_PROLOGUE_ALLIANCE,
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_PROLOGUE_HORDE, {
-    name = BTWQUESTS_PROLOGUE,
+    name = L["BTWQUESTS_PROLOGUE"],
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     prerequisites = {

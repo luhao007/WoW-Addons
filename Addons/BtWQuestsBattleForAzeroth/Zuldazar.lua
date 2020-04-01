@@ -3611,6 +3611,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ZULDAZAR_CHAIN4, {
                 2,
             },
         },
+
+        --@TODO put in daily? cooldown marker
         {
             type = "level",
             level = 120,
@@ -3645,6 +3647,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ZULDAZAR_CHAIN4, {
                 1, 
             },
         },
+
+        --@TODO put in daily? cooldown marker
 
         {
             type = "quest",

@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Breen
-## Version: 12
+## Version: 13
 ## Dependencies: BtWQuests
 
 ## Title: BtWQuests: Battle for Azeroth Prologue

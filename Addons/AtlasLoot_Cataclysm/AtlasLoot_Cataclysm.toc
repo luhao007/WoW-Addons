@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Lag, Proteyer, Arith
-## Version: v8.10.00
+## Version: v8.12.00
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
@@ -17,6 +17,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: AtlasLoot |cFF0099FF[Cataclysm]|r
 # ## Title-deDE: AtlasLoot |cFF0099FF[Cataclysm]|r
@@ -24,7 +25,6 @@
 # ## Title-ruRU: AtlasLoot |cFF0099FF[Cataclysm]|r
 # ## Title-zhCN: AtlasLoot |cFF0099FF[大地的裂变]|r
 # ## Title-zhTW: AtlasLoot |cFF0099FF[浩劫與重生]|r
-# 
 # ## Notes: AtlasLoot loot tables from Cataclysm
 # ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Cataclysm
 # ## Notes-esES: Tablas de botín de AtlasLoot para Cataclysm
@@ -34,7 +34,5 @@
 # ## Notes-zhCN: AtlasLoot 《大地的裂变》物品信息
 # ## Notes-zhTW: AtlasLoot 浩劫與重生資料片物品掉落資料庫
 #@end-debug@
-
-
 
 data.lua

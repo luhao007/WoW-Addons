@@ -9,6 +9,12 @@
 local _, TSM = ...
 local ProfessionUtil = TSM.Crafting:NewPackage("ProfessionUtil")
 local ProfessionInfo = TSM.Include("Data.ProfessionInfo")
+local Event = TSM.Include("Util.Event")
+local TempTable = TSM.Include("Util.TempTable")
+local Log = TSM.Include("Util.Log")
+local ItemString = TSM.Include("Util.ItemString")
+local ItemInfo = TSM.Include("Service.ItemInfo")
+local BagTracking = TSM.Include("Service.BagTracking")
 local private = {
 	craftQuantity = nil,
 	craftSpellId = nil,
@@ -32,11 +38,11 @@ local PROFESSION_LOOKUP = {
 -- ============================================================================
 
 function ProfessionUtil.OnInitialize()
-	TSM.Event.Register("UNIT_SPELLCAST_SUCCEEDED", function(_, unit, _, spellId)
+	Event.Register("UNIT_SPELLCAST_SUCCEEDED", function(_, unit, _, spellId)
 		if unit ~= "player" then
 			return
 		end
-		if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and GetSpellInfo(spellId) ~= private.craftName) or (WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and spellId ~= private.craftSpellId) then
+		if (TSM.IsWowClassic() and GetSpellInfo(spellId) ~= private.craftName) or (not TSM.IsWowClassic() and spellId ~= private.craftSpellId) then
 			return
 		end
 
@@ -44,8 +50,8 @@ function ProfessionUtil.OnInitialize()
 		for _, itemString, quantity in TSM.Crafting.MatIterator(private.craftSpellId) do
 			local bankUsed = quantity - (TSMAPI_FOUR.Inventory.GetBagQuantity(itemString) + TSMAPI_FOUR.Inventory.GetReagentBankQuantity(itemString))
 			if bankUsed > 0 and bankUsed <= TSMAPI_FOUR.Inventory.GetBankQuantity(itemString) then
-				TSM:LOG_INFO("Used %d from bank", bankUsed)
-				TSM.Inventory.BagTracking.ForceBankQuantityDeduction(itemString, bankUsed)
+				Log.Info("Used %d from bank", bankUsed)
+				BagTracking.ForceBankQuantityDeduction(itemString, bankUsed)
 			end
 		end
 
@@ -67,7 +73,7 @@ function ProfessionUtil.OnInitialize()
 		if unit ~= "player" then
 			return
 		end
-		if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and GetSpellInfo(spellId) ~= private.craftName) or (WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and spellId ~= private.craftSpellId) then
+		if (TSM.IsWowClassic() and GetSpellInfo(spellId) ~= private.craftName) or (not TSM.IsWowClassic() and spellId ~= private.craftSpellId) then
 			return
 		end
 		local callback = private.craftCallback
@@ -83,17 +89,17 @@ function ProfessionUtil.OnInitialize()
 		private.craftSpellId = nil
 		private.craftName = nil
 	end
-	TSM.Event.Register("UNIT_SPELLCAST_INTERRUPTED", SpellcastFailedEventHandler)
-	TSM.Event.Register("UNIT_SPELLCAST_FAILED", SpellcastFailedEventHandler)
-	TSM.Event.Register("UNIT_SPELLCAST_FAILED_QUIET", SpellcastFailedEventHandler)
-	TSM.Event.Register("TRADE_SKILL_CLOSE", ClearCraftCast)
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
-		TSM.Event.Register("CRAFT_CLOSE", ClearCraftCast)
+	Event.Register("UNIT_SPELLCAST_INTERRUPTED", SpellcastFailedEventHandler)
+	Event.Register("UNIT_SPELLCAST_FAILED", SpellcastFailedEventHandler)
+	Event.Register("UNIT_SPELLCAST_FAILED_QUIET", SpellcastFailedEventHandler)
+	Event.Register("TRADE_SKILL_CLOSE", ClearCraftCast)
+	if TSM.IsWowClassic() then
+		Event.Register("CRAFT_CLOSE", ClearCraftCast)
 	end
 end
 
 function ProfessionUtil.GetCurrentProfessionName()
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		local name = TSM.Crafting.ProfessionState.IsClassicCrafting() and GetCraftSkillLine(1) or GetTradeSkillLine()
 		return name
 	else
@@ -110,18 +116,18 @@ function ProfessionUtil.GetResultInfo(spellId)
 	if strfind(itemLink, "enchant:") then
 		-- result of craft is not an item
 		local itemString = ProfessionInfo.GetIndirectCraftResult(spellId)
-		if itemString and WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
-			return TSM.UI.GetColoredItemName(itemString), itemString, TSMAPI_FOUR.Item.GetTexture(itemString)
+		if itemString and not TSM.IsWowClassic() then
+			return TSM.UI.GetColoredItemName(itemString), itemString, ItemInfo.GetTexture(itemString)
 		elseif ProfessionInfo.IsEngineeringTinker(spellId) then
 			local name, _, icon = GetSpellInfo(spellId)
 			return name, nil, icon
 		else
-			local name, _, icon = GetSpellInfo(TSM.Crafting.ProfessionState.IsClassicCrafting() and GetCraftInfo(WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and TSM.Crafting.ProfessionScanner.GetIndexBySpellId(spellId) or spellId) or spellId)
+			local name, _, icon = GetSpellInfo(TSM.Crafting.ProfessionState.IsClassicCrafting() and GetCraftInfo(TSM.IsWowClassic() and TSM.Crafting.ProfessionScanner.GetIndexBySpellId(spellId) or spellId) or spellId)
 			return name, nil, icon
 		end
 	elseif strfind(itemLink, "item:") then
 		-- result of craft is an item
-		return TSM.UI.GetColoredItemName(itemLink), TSMAPI_FOUR.Item.ToItemString(itemLink), TSMAPI_FOUR.Item.GetTexture(itemLink)
+		return TSM.UI.GetColoredItemName(itemLink), ItemString.Get(itemLink), ItemInfo.GetTexture(itemLink)
 	else
 		error("Invalid craft: "..tostring(spellId))
 	end
@@ -130,17 +136,18 @@ end
 function ProfessionUtil.GetNumCraftable(spellId)
 	local num, numAll = math.huge, math.huge
 	for i = 1, ProfessionUtil.GetNumMats(spellId) do
-		local matItemLink, _, _, quantity = TSM.Crafting.ProfessionUtil.GetMatInfo(spellId, i)
-		local itemString = TSMAPI_FOUR.Item.ToItemString(matItemLink)
-		if not itemString or not quantity then
+		local matItemLink, _, _, quantity = ProfessionUtil.GetMatInfo(spellId, i)
+		local itemString = ItemString.Get(matItemLink)
+		local totalQuantity = TSMAPI_FOUR.Inventory.GetTotalQuantity(itemString)
+		if not itemString or not quantity or totalQuantity == 0 then
 			return 0, 0
 		end
 		local bagQuantity = TSMAPI_FOUR.Inventory.GetBagQuantity(itemString)
-		if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
+		if not TSM.IsWowClassic() then
 			bagQuantity = bagQuantity + TSMAPI_FOUR.Inventory.GetReagentBankQuantity(itemString) + TSMAPI_FOUR.Inventory.GetBankQuantity(itemString)
 		end
 		num = min(num, floor(bagQuantity / quantity))
-		numAll = min(numAll, floor(TSMAPI_FOUR.Inventory.GetTotalQuantity(itemString) / quantity))
+		numAll = min(numAll, floor(totalQuantity / quantity))
 	end
 	if num == math.huge or numAll == math.huge then
 		return 0, 0
@@ -152,7 +159,7 @@ function ProfessionUtil.GetNumCraftableFromDB(spellId)
 	local num = math.huge
 	for _, itemString, quantity in TSM.Crafting.MatIterator(spellId) do
 		local bagQuantity = TSMAPI_FOUR.Inventory.GetBagQuantity(itemString)
-		if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
+		if not TSM.IsWowClassic() then
 			bagQuantity = bagQuantity + TSMAPI_FOUR.Inventory.GetReagentBankQuantity(itemString) + TSMAPI_FOUR.Inventory.GetBankQuantity(itemString)
 		end
 		num = min(num, floor(bagQuantity / quantity))
@@ -165,34 +172,32 @@ end
 
 function ProfessionUtil.IsEnchant(spellId)
 	local name = ProfessionUtil.GetCurrentProfessionName()
-	if name ~= GetSpellInfo(7411) or WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if name ~= GetSpellInfo(7411) or TSM.IsWowClassic() then
 		return false
 	end
 	if not strfind(C_TradeSkillUI.GetRecipeItemLink(spellId), "enchant:") then
 		return false
 	end
-	local recipeInfo = TSM.TempTable.Acquire()
+	local recipeInfo = TempTable.Acquire()
 	assert(C_TradeSkillUI.GetRecipeInfo(spellId, recipeInfo) == recipeInfo)
 	local altVerb = recipeInfo.alternateVerb
-	TSM.TempTable.Release(recipeInfo)
+	TempTable.Release(recipeInfo)
 	return altVerb and true or false
 end
 
-function ProfessionUtil.OpenProfession(profession)
-	if profession == ProfessionInfo.GetName("Mining") then
-		-- mining needs to be opened as smelting
-		profession = ProfessionInfo.GetName("Smelting")
-	elseif profession == ProfessionInfo.GetName("Herbalism") then
-		-- herbalism needs to be opened as herbalism skills
-		profession = ProfessionInfo.GetName("HerbalismSkills")
-	elseif profession == ProfessionInfo.GetName("Skinning") then
-		-- skinning needs to be opened as skinning skills
-		profession = ProfessionInfo.GetName("SkinningSkills")
+function ProfessionUtil.OpenProfession(profession, skillId)
+	if TSM.IsWowClassic() then
+		if profession == ProfessionInfo.GetName("Mining") then
+			-- mining needs to be opened as smelting
+			profession = ProfessionInfo.GetName("Smelting")
+		end
+		if PROFESSION_LOOKUP[profession] then
+			profession = PROFESSION_LOOKUP[profession]
+		end
+		CastSpellByName(profession)
+	else
+		C_TradeSkillUI.OpenTradeSkill(skillId)
 	end
-	if PROFESSION_LOOKUP[profession] then
-		profession = PROFESSION_LOOKUP[profession]
-	end
-	CastSpellByName(profession)
 end
 
 function ProfessionUtil.PrepareToCraft(spellId, quantity)
@@ -204,7 +209,7 @@ function ProfessionUtil.PrepareToCraft(spellId, quantity)
 		quantity = 1
 	end
 
-	if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
+	if not TSM.IsWowClassic() then
 		C_TradeSkillUI.SetRecipeRepeatCount(spellId, quantity)
 	end
 	private.preparedSpellId = spellId
@@ -231,7 +236,7 @@ function ProfessionUtil.Craft(spellId, quantity, useVellum, callback)
 	private.craftQuantity = quantity
 	private.craftSpellId = spellId
 	private.craftCallback = callback
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		spellId = TSM.Crafting.ProfessionScanner.GetIndexBySpellId(spellId)
 		if TSM.Crafting.ProfessionState.IsClassicCrafting() then
 			private.craftName = GetCraftInfo(spellId)
@@ -243,17 +248,17 @@ function ProfessionUtil.Craft(spellId, quantity, useVellum, callback)
 		C_TradeSkillUI.CraftRecipe(spellId, quantity)
 	end
 	if useVellum and isEnchant then
-		UseItemByName(TSMAPI_FOUR.Item.GetName(ProfessionInfo.GetVellumItemString()))
+		UseItemByName(ItemInfo.GetName(ProfessionInfo.GetVellumItemString()))
 	end
 	return quantity
 end
 
 function ProfessionUtil.IsDataStable()
-	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC or (C_TradeSkillUI.IsTradeSkillReady() and not C_TradeSkillUI.IsDataSourceChanging())
+	return TSM.IsWowClassic() or (C_TradeSkillUI.IsTradeSkillReady() and not C_TradeSkillUI.IsDataSourceChanging())
 end
 
 function ProfessionUtil.HasCooldown(spellId)
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		return GetTradeSkillCooldown(spellId) and true or false
 	else
 		return select(2, C_TradeSkillUI.GetRecipeCooldown(spellId)) and true or false
@@ -261,7 +266,7 @@ function ProfessionUtil.HasCooldown(spellId)
 end
 
 function ProfessionUtil.GetRemainingCooldown(spellId)
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		return GetTradeSkillCooldown(spellId)
 	else
 		return C_TradeSkillUI.GetRecipeCooldown(spellId)
@@ -270,7 +275,7 @@ end
 
 function ProfessionUtil.GetRecipeInfo(spellId)
 	local itemLink, lNum, hNum, toolsStr, hasTools = nil, nil, nil, nil, nil
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		spellId = TSM.Crafting.ProfessionScanner.GetIndexBySpellId(spellId) or spellId
 		itemLink = TSM.Crafting.ProfessionState.IsClassicCrafting() and GetCraftItemLink(spellId) or GetTradeSkillItemLink(spellId)
 		if TSM.Crafting.ProfessionState.IsClassicCrafting() then
@@ -290,7 +295,7 @@ end
 
 function ProfessionUtil.GetNumMats(spellId)
 	local numMats = nil
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		spellId = TSM.Crafting.ProfessionScanner.GetIndexBySpellId(spellId) or spellId
 		numMats = TSM.Crafting.ProfessionState.IsClassicCrafting() and GetCraftNumReagents(spellId) or GetTradeSkillNumReagents(spellId)
 	else
@@ -301,7 +306,7 @@ end
 
 function ProfessionUtil.GetMatInfo(spellId, index)
 	local itemLink, name, texture, quantity = nil, nil, nil, nil
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		spellId = TSM.Crafting.ProfessionScanner.GetIndexBySpellId(spellId) or spellId
 		itemLink = TSM.Crafting.ProfessionState.IsClassicCrafting() and GetCraftReagentItemLink(spellId, index) or GetTradeSkillReagentItemLink(spellId, index)
 		if TSM.Crafting.ProfessionState.IsClassicCrafting() then
@@ -312,12 +317,16 @@ function ProfessionUtil.GetMatInfo(spellId, index)
 	else
 		itemLink = C_TradeSkillUI.GetRecipeReagentItemLink(spellId, index)
 		name, texture, quantity = C_TradeSkillUI.GetRecipeReagentInfo(spellId, index)
+		if itemLink then
+			name = name or ItemInfo.GetName(itemLink)
+			texture = texture or ItemInfo.GetTexture(itemLink)
+		end
 	end
 	return itemLink, name, texture, quantity
 end
 
 function ProfessionUtil.CloseTradeSkill(closeBoth)
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		if closeBoth then
 			CloseCraft()
 			CloseTradeSkill()
@@ -335,11 +344,11 @@ function ProfessionUtil.CloseTradeSkill(closeBoth)
 end
 
 function ProfessionUtil.IsNPCProfession()
-	return WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and C_TradeSkillUI.IsNPCCrafting()
+	return not TSM.IsWowClassic() and C_TradeSkillUI.IsNPCCrafting()
 end
 
 function ProfessionUtil.IsLinkedProfession()
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		return nil, nil
 	else
 		return C_TradeSkillUI.IsTradeSkillLinked()
@@ -347,12 +356,12 @@ function ProfessionUtil.IsLinkedProfession()
 end
 
 function ProfessionUtil.IsGuildProfession()
-	return WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and C_TradeSkillUI.IsTradeSkillGuild()
+	return not TSM.IsWowClassic() and C_TradeSkillUI.IsTradeSkillGuild()
 end
 
 function ProfessionUtil.GetCategoryInfo(categoryId)
 	local name, numIndents, parentCategoryId = nil, nil, nil
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	if TSM.IsWowClassic() then
 		name = TSM.Crafting.ProfessionState.IsClassicCrafting() and GetCraftDisplaySkillLine() or (categoryId and GetTradeSkillInfo(categoryId) or nil)
 		numIndents = 0
 		parentCategoryId = nil

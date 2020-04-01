@@ -1,3 +1,4 @@
+-- $Id: data.lua 4828 2020-02-24 15:50:40Z arith $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -153,6 +154,7 @@ data["InstanceName"] = {
 data["Atal'Dazar"] = {
 	EncounterJournalID = 968,
 	MapID = 934,
+	AtlasMapID = "AtalDazar",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -251,6 +253,7 @@ data["Atal'Dazar"] = {
 data["Freehold"] = {
 	EncounterJournalID = 1001,
 	MapID = 936,
+	AtlasMapID = "Freehold",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -350,6 +353,7 @@ data["Freehold"] = {
 data["Kings' Rest"] = {
 	EncounterJournalID = 1041,
 	MapID = 1004,
+	AtlasMapID = "KingsRest",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -422,6 +426,7 @@ data["Kings' Rest"] = {
 data["Shrine of the Storm"] = {
 	EncounterJournalID = 1036,
 	MapID = 1039,
+	AtlasMapID = "ShrineoftheStormA",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -516,6 +521,7 @@ data["Shrine of the Storm"] = {
 data["Siege of Boralus"] = {
 	EncounterJournalID = 1023,
 	MapID = 1162,
+	AtlasMapID = "SiegeofBoralus",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -588,6 +594,7 @@ data["Siege of Boralus"] = {
 data["Temple of Sethraliss"] = {
 	EncounterJournalID = 1030,
 	MapID = 1038,
+	AtlasMapID = "TempleofSethraliss",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -681,6 +688,7 @@ data["Temple of Sethraliss"] = {
 data["The MOTHERLODE!!"] = {
 	EncounterJournalID = 1012,
 	MapID = 1010,
+	AtlasMapID = "TheMOTHERLODE",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -774,6 +782,7 @@ data["The MOTHERLODE!!"] = {
 data["The Underrot"] = {
 	EncounterJournalID = 1022,
 	MapID = 1041,
+	AtlasMapID = "TheUnderrot",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -872,6 +881,7 @@ data["The Underrot"] = {
 data["Tol Dagor"] = {
 	EncounterJournalID = 1002,
 	MapID = 974,
+	AtlasMapID = "TolDagorA",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -967,6 +977,7 @@ data["Tol Dagor"] = {
 data["Waycrest Manor"] = {
 	EncounterJournalID = 1021,
 	MapID = 1015,
+	AtlasMapID = "WaycrestManorA",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -1082,6 +1093,7 @@ data["Waycrest Manor"] = {
 data["Operation: Mechagon"] = {
 	EncounterJournalID = 1178,
 	MapID = 1490,
+--	AtlasMapID = "",
 	ContentType = DUNGEON_CONTENT,
 	items = 
 	{
@@ -1175,165 +1187,371 @@ data["Operation: Mechagon"] = {
 -- Raid
 -- /////////////////////////////////
 
-data["The Eternal Palace"] = {
-	EncounterJournalID = 1179,
-	MapID = 1512,
+data["Azeroth"] = {
+	EncounterJournalID = 1028,
+	--MapID = 0,
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
 	items = 
 	{
-		{ -- Abyssal Commander Sivara
-			EncounterJournalID = 2352,
+		{ -- T'zane
+			EncounterJournalID = 2139,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 168903 },
-				{ 2, 168477 },
-				{ 3, 168345 },
-				{ 4, 168377 },
-				{ 5, 168905 },
+				{ 1, 161392 }, -- Bindings of Eternal Fears
+				{ 2, 161396 }, -- Petrified Mask of the Afterlife
+				{ 3, 164383 }, -- Death Devouring Girdle
+				{ 4, 161387 }, -- Wailing Terror Leggings
+				{ 5, 161389 }, -- Cinch of All-Consuming Death
+				{ 6, 161391 }, -- Deathshambler's Shoulderpads
+				{ 7, 161393 }, -- Legguards of the Barkbound Dead
+				{ 8, 161395 }, -- Swampwalker's Soul-Treads
+				{ 9, 161397 }, -- Soulplank Vambraces
+				{ 10, 161411 }, -- T'zane's Barkspines
+				{ 11, 161412 }, -- Spiritbound Voodoo Burl
 			},
-			[HEROIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[MYTHIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[RF_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
 		},
-		{ -- Blackwater Behemoth
-			EncounterJournalID = 2347,
+		{ -- Ji'arak
+			EncounterJournalID = 2141,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 169360 },
-				{ 2, 168397 },
-				{ 3, 168343 },
-				{ 4, 168376 },
-				{ 5, 168379 },
-				{ 6, 169304 },
+				{ 1, 161407 }, -- Windshear Leggings
+				{ 2, 161409 }, -- Stormcrash Chestguard
+				{ 3, 161388 }, -- Gloves of Enveloping Winds
+				{ 4, 161394 }, -- Hurricane Cinch
+				{ 5, 164384 }, -- Windswept Dinorider's Cape
+				{ 6, 161401 }, -- Matriarch's Shadowveil
+				{ 7, 161403 }, -- Avian Clutch Belt
+				{ 8, 161390 }, -- Savage Terrorwing Leggings
+				{ 9, 161371 }, -- Galebreaker's Sabatons
 			},
-			[HEROIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[MYTHIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[RF_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
 		},
-		{ -- Radiance of Azshara
-			EncounterJournalID = 2353,
+		{ -- Hailstone Construct
+			EncounterJournalID = 2197,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 169694 },
-				{ 2, 168348 },
-				{ 3, 168378 },
-				{ 4, 168380 },
+				{ 1, 161362 }, -- Frostbreath Leggings
+				{ 2, 161364 }, -- Chill's End Wristguards
+				{ 3, 161366 }, -- Ice Stalker Boots
+				{ 4, 161368 }, -- Freezing Tempest Waistguard
+				{ 5, 161370 }, -- Glacial Spike Gauntlets
+				{ 6, 161372 }, -- Ice-Carved Shoulderplates
+				{ 7, 161361 }, -- Ice-Rimed Slippers
+				{ 8, 161380 }, -- Drust-Runed Icicle
+				{ 9, 161367 }, -- Hailstone Hauberk
+				{ 10, 164386 }, -- Girdle of Biting Winds
+				{ 11, 161381 }, -- Permafrost-Encrusted Heart
 			},
-			[HEROIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[MYTHIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[RF_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
 		},
-		{ -- Lady Ashvane
-			EncounterJournalID = 2354,
+		{ -- Azurethos, The Winged Typhoon
+			EncounterJournalID = 2199,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 169358 },
-				{ 2, 168904 },
-				{ 3, 168347 },
-				{ 4, 168883 },
-				{ 5, 168889 },
-				{ 6, 169305 },
+				{ 1, 161377 }, -- Azurethos' Singed Plumage
+				{ 2, 161379 }, -- Galecaller's Beak
+				{ 3, 161398 }, -- Talonscored Azure Vambraces
+				{ 4, 161363 }, -- Sandals of Rustling Rage
+				{ 5, 161365 }, -- Footpads of the Encircling Storm
+				{ 6, 161352 }, -- Chestguard of Dire Winds
+				{ 7, 161369 }, -- Bindings of the Winged Typhoon
+				{ 8, 161356 }, -- Feathered Galeforce Crest
+				{ 9, 161378 }, -- Plume of the Seaborne Avian
+				{ 10, 161360 }, -- Roost-Defender's Legguards
+				{ 11, 161350 }, -- Windcaller's Down Handwraps
 			},
-			[HEROIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[MYTHIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[RF_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
 		},
-		{ -- Orgozoa
-			EncounterJournalID = 2351,
+		{ -- Doom's Howl
+			EncounterJournalID = 2213,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 168346 },
-				{ 2, 168604 },
-				{ 3, 168875 },
+				{ 1, 161467 }, -- Vest of the Veiled Gryphon
+				{ 2, 161469 }, -- Sharpshooter's Chainmail Hauberk
+				{ 3, 161471 }, -- Lion's Roar Pauldrons
+				{ 4, 161473 }, -- Lion's Guile
+				{ 5, 161464 }, -- Alliance Bowman's Coif
+				{ 6, 161466 }, -- Battlemage's Collar
+				{ 7, 161468 }, -- Gilded-Wing Shoulderguards
+				{ 8, 161470 }, -- Polished Shieldbearer's Breastplate
+				{ 9, 161472 }, -- Lion's Grace
+				{ 10, 161474 }, -- Lion's Strength
+				{ 11, 161465 }, -- Warcaster's Arcane Mantle
 			},
-			[HEROIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[MYTHIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[RF_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
 		},
-		{ -- The Queen's Court
-			EncounterJournalID = 2359,
+		{ -- Warbringer Yenajz
+			EncounterJournalID = 2198,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 169694 },
-				{ 2, 168896 },
-				{ 3, 168350 },
-				{ 4, 168879 },
-				{ 5, 168890 },
+				{ 1, 161349 }, -- Amice of the Rending Abyss
+				{ 2, 161351 }, -- Wristwraps of Warped Reality
+				{ 3, 161353 }, -- Shadow-Wreathed Gloves
+				{ 4, 161355 }, -- Yenajz's Chitinous Stompers
+				{ 5, 161357 }, -- Spaulders of the Enveloping Maw
+				{ 6, 161359 }, -- Band of Intense Gravitation
+				{ 7, 161376 }, -- Prism of Dark Intensity
+				{ 8, 161354 }, -- Leggings of the Endless Void
+				{ 9, 161358 }, -- Existence-Shattering Gauntlets
 			},
-			[HEROIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[MYTHIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[RF_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
 		},
-		{ -- Za'qul, Harbinger of Ny'alotha
-			EncounterJournalID = 2349,
+		{ -- Dunegorger Kraulok
+			EncounterJournalID = 2210,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 169362 },
-				{ 2, 168349 },
-				{ 3, 168391 },
-				{ 4, 169306 },
+				{ 1, 161400 }, -- Raider's Shrouding Thobe
+				{ 2, 161402 }, -- Gloves of the Desert Assassin
+				{ 3, 161419 }, -- Kraulok's Claw
+				{ 4, 161406 }, -- Shrouded Sandscale Bracers
+				{ 5, 161408 }, -- Sandswept Legionnaire's Legplates
+				{ 6, 161399 }, -- Cord of Flowing Sands
+				{ 7, 161404 }, -- Hood of the Sinuous Devilsaur
+				{ 8, 161405 }, -- Dunegorger's Grips
+				{ 9, 164385 }, -- Desert Nomad's Wrap
 			},
-			[HEROIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[MYTHIC_PRE_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
-			[RF_DIFF] = {
-				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
 		},
-		{ -- Queen Azshara
-			EncounterJournalID = 2361,
+		{ -- Ivus the Decayed
+			EncounterJournalID = 2345,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 169694 },
-				{ 2, 169348 },
-				{ 3, 168275 },
-				{ 4, 168887 },
-				{ 5, 168871 },
-				{ 6, 168891 },
-				{ 7, 169314 },
+				{ 1, 161417 }, -- Ancient Knot of Wisdom
+				{ 2, 161415 }, -- Forest Lord's Razorleaf
+				{ 3, 166691 }, -- Forest Protector's Shoulderguards
+				{ 4, 166683 }, -- Garments of the Forest Lord
+				{ 5, 166694 }, -- Gnarled Bough Gauntlets
+				{ 6, 166686 }, -- Ivus's Tanglemoss Waistcord
+				{ 7, 161413 }, -- Knot of Ancient Fury
+				{ 8, 166695 }, -- Petrified Ironbark Crown
+				{ 9, 166690 }, -- Protector's Tangleroot Belt
+				{ 10, 166698 }, -- Stoneroot Stompers
+				{ 11, 166687 }, -- Warring Ancient's Mask
+			},
+		},
+		{ -- Wekemara
+			EncounterJournalID = 2363,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 169927 }, -- Deepcaller's Clasp
+				{ 2, 168358 }, -- Chestguard of the Submerged
+				{ 3, 168351 }, -- Spitcharged Shoulderguards
+				{ 4, 169928 }, -- Wekemara's Warboots
+				{ 5, 168340 }, -- Naga Ritualist's Mantle
+				{ 6, 169926 }, -- Belt of Rising Guardians
+				{ 7, 169318 }, -- Shockbiter's Fang
+				{ 8, 169925 }, -- Serpentskin Splashers
+				{ 9, 168366 }, -- Tidal Lurker's Greathelm
+			},
+		},
+		{ -- Ulmath, the Soulbinder
+			EncounterJournalID = 2362,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 170092 }, -- Netherdancer's Knife
+				{ 2, 170094 }, -- Temple Guardian's Saber
+				{ 3, 170089 }, -- Liara's Spire
+				{ 4, 170091 }, -- Willbinder's Halberd
+				{ 5, 170093 }, -- Tyr'mar's Greatsword
+				{ 6, 170095 }, -- Moon Priestess' Baton
+				{ 7, 169317 }, -- Enthraller's Bindstone
+				{ 8, 170088 }, -- Ulmath's Soulseeker
+				{ 9, 170090 }, -- Merciless Pincher
+				{ 10, 168603 }, -- Cloak of Restless Spirits
+			},
+		},
+	}
+}
+
+data["Uldir"] = {
+	EncounterJournalID = 1031,
+	MapID = 1861,
+	ContentType = RAID_CONTENT,
+	TableType = RAID_ITTYPE,
+	items = 
+	{
+		{ -- Taloc
+			EncounterJournalID = 2168,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160629 }, -- Rubywrought Sparkguards
+				{ 2, 160631 }, -- Legguards of Coalescing Plasma
+				{ 3, 160618 }, -- Gloves of Descending Madness
+				{ 4, 160680 }, -- Titanspark Animator
+				{ 5, 160637 }, -- Crimson Colossus Armguards
+				{ 6, 160639 }, -- Greaves of Unending Vigil
+				{ 7, 160679 }, -- Khor, Hammer of the Corrupted
+				{ 8, 160651 }, -- Vigilant's Bloodshaper
+				{ 9, 160652 }, -- Construct Overcharger
+				{ 10, 160714 }, -- Volatile Walkers
+				{ 11, 160622 }, -- Bloodstorm Buckle
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-				{ 16, 168857 },
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},		
+			},
+		},
+		{ -- MOTHER
+			EncounterJournalID = 2167,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160695 }, -- Uldir Subject Manifest
+				{ 2, 160682 }, -- Mother's Twin Gaze
+				{ 3, 160626 }, -- Gloves of Involuntary Amputation
+				{ 4, 160645 }, -- Rot-Scour Ring
+				{ 5, 160615 }, -- Leggings of Lingering Infestation
+				{ 6, 160632 }, -- Flame-Sterilized Spaulders
+				{ 7, 160634 }, -- Gridrunner Galea
+				{ 8, 160681 }, -- Glaive of the Keepers
+				{ 9, 160638 }, -- Decontaminator's Greatbelt
+				{ 10, 160625 }, -- Pathogenic Legwraps
+				{ 11, 160683 }, -- Latticework Scalpel
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Fetid Devourer
+			EncounterJournalID = 2146,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160689 }, -- Regurgitated Purifier's Flamestaff
+				{ 2, 160685 }, -- Biomelding Cleaver
+				{ 3, 160619 }, -- Jerkin of the Aberrant Chimera
+				{ 4, 160648 }, -- Frenetic Corpuscle
+				{ 5, 160635 }, -- Waste Disposal Crushers
+				{ 6, 160643 }, -- Fetid Horror's Tanglecloak
+				{ 7, 160616 }, -- Horrific Amalgam's Hood
+				{ 8, 160628 }, -- Fused Monstrosity Stompers
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Zek'voz, Herald of N'zoth
+			EncounterJournalID = 2169,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160627 }, -- Chainvest of Assured Quality
+				{ 2, 160633 }, -- Titanspark Energy Girdle
+				{ 3, 160650 }, -- Disc of Systematic Regression
+				{ 4, 160624 }, -- Quarantine Protocol Treads
+				{ 5, 160718 }, -- Greaves of Creeping Darkness
+				{ 6, 160617 }, -- Void-Lashed Wristband
+				{ 7, 160647 }, -- Ring of the Infinite Void
+				{ 8, 160717 }, -- Replicated Chitin Cord
+				{ 9, 160687 }, -- Containment Analysis Baton
+				{ 10, 160688 }, -- Void-Binder
+				{ 11, 160640 }, -- Warboots of Absolute Eradication
+				{ 12, 160613 }, -- Mantle of Contained Corruption
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Vectis
+			EncounterJournalID = 2166,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160644 }, -- Plasma-Spattered Greatcloak
+				{ 2, 160678 }, -- Bow of Virulent Infection
+				{ 3, 160716 }, -- Blighted Anima Greaves
+				{ 4, 160734 }, -- Cord of Animated Contagion
+				{ 5, 160655 }, -- Syringe of Bloodborne Infirmity
+				{ 6, 160623 }, -- Hood of Pestilent Ichor
+				{ 7, 160649 }, -- Inoculating Extract
+				{ 8, 160636 }, -- Chestguard of Virulent Mutagens
+				{ 9, 160698 }, -- Vector Deflector
+				{ 10, 160715 }, -- Mutagenic Protofluid Handwraps
+				{ 11, 160621 }, -- Wristwraps of Coursing Miasma
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Zul, Reborn
+			EncounterJournalID = 2195,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160642 }, -- Cloak of Rippling Whispers
+				{ 2, 160719 }, -- Visage of the Ascended Prophet
+				{ 3, 160691 }, -- Tusk of the Reborn Prophet
+				{ 4, 160723 }, -- Imperious Vambraces
+				{ 5, 160620 }, -- Usurper's Bloodcaked Spaulders
+				{ 6, 160684 }, -- Pursax, the Backborer
+				{ 7, 160630 }, -- Crest of the Undying Visionary
+				{ 8, 160722 }, -- Chestplate of Apocalyptic Machinations
+				{ 9, 160724 }, -- Cincture of Profane Deeds
+				{ 10, 160720 }, -- Armbands of Sacrosanct Acts
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Mythrax the Unraveler
+			EncounterJournalID = 2194,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160614 }, -- Robes of the Unraveler
+				{ 2, 160721 }, -- Oblivion Crushers
+				{ 3, 160725 }, -- C'thraxxi General's Hauberk
+				{ 4, 160686 }, -- Voror, Gleaming Blade of the Stalwart
+				{ 5, 160646 }, -- Band of Certain Annihilation
+				{ 6, 160692 }, -- Luminous Edge of Virtue
+				{ 7, 160656 }, -- Twitching Tentacle of Xalzaix
+				{ 8, 160696 }, -- Codex of Imminent Ruin
+				{ 9, 160653 }, -- Xalzaix's Veiled Eye
+				{ 10, 163596 }, -- Cowl of Dark Portents
+				{ 11, 160641 }, -- Chitinspine Pauldrons
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- G'huun
+			EncounterJournalID = 2147,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 160732 }, -- Helm of the Defiled Laboratorium
+				{ 2, 160693 }, -- Lancet of the Deft Hand
+				{ 3, 160727 }, -- Cord of Septic Envelopment
+				{ 4, 160699 }, -- Barricade of Purifying Resolve
+				{ 5, 160731 }, -- Spaulders of Coagulated Viscera
+				{ 6, 160733 }, -- Hematocyst Stompers
+				{ 7, 160690 }, -- Heptavium, Staff of Torturous Knowledge
+				{ 8, 160694 }, -- Re-Origination Pulse Rifle
+				{ 9, 160726 }, -- Amice of Corrupting Horror
+				{ 10, 160728 }, -- Tunic of the Sanguine Deity
+				{ 11, 160654 }, -- Vanquished Tendril of G'huun
+				{ 12, 160729 }, -- Striders of the Putrescent Path
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
 		},
 	}
 }
@@ -1646,27 +1864,35 @@ data["Crucible of Storms"] = {
 		},
 	}
 }
-data["Uldir"] = {
-	EncounterJournalID = 1031,
-	MapID = 1861,
+
+data["The Eternal Palace"] = {
+	EncounterJournalID = 1179,
+	MapID = 1512,
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
 	items = 
 	{
-		{ -- Taloc
-			EncounterJournalID = 2168,
+		{ -- Abyssal Commander Sivara
+			EncounterJournalID = 2352,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160629 }, -- Rubywrought Sparkguards
-				{ 2, 160631 }, -- Legguards of Coalescing Plasma
-				{ 3, 160618 }, -- Gloves of Descending Madness
-				{ 4, 160680 }, -- Titanspark Animator
-				{ 5, 160637 }, -- Crimson Colossus Armguards
-				{ 6, 160639 }, -- Greaves of Unending Vigil
-				{ 7, 160679 }, -- Khor, Hammer of the Corrupted
-				{ 8, 160651 }, -- Vigilant's Bloodshaper
-				{ 9, 160652 }, -- Construct Overcharger
-				{ 10, 160714 }, -- Volatile Walkers
-				{ 11, 160622 }, -- Bloodstorm Buckle
+				{ 1, 168359 }, -- Abyssal Commander's Mantle
+				{ 2, 168371 }, -- Seawrath Legwraps
+				{ 3, 168387 }, -- Palace Sentinel Vambraces
+				{ 4, 168306 }, -- Shiver Venom Lance
+				{ 5, 168341 }, -- Siren Mystic's Vestments
+				{ 6, 168903 }, -- Scepter of the Azsh'ari
+				{ 7, 168477 }, -- Tidebinder's Driftglobe
+				{ 8, 168361 }, -- Naga Centaur's Shellplate
+				{ 9, 168276 }, -- Claw of the Myrmidon
+				{ 10, 168377 }, -- Tideblood Bracers
+				{ 11, 168818 }, -- Sivara's Slitherblade
+				{ 12, 168273 }, -- Shiver Venom Crossbow
+				{ 13, 168384 }, -- Wavespine Clutch
+				{ 14, 168901 }, -- Royal Scaleguard's Battleaxe
+				{ 15, 168905 }, -- Shiver Venom Relic
+				{ 16, 168345 }, -- Helm of the Inexorable Tide
+				{ 17, 168386 }, -- Gauntlets of Overflowing Chill
+				{ 18, 168390 }, -- Sabatons of the Stalwart
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
@@ -1676,22 +1902,27 @@ data["Uldir"] = {
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
-		{ -- MOTHER
-			EncounterJournalID = 2167,
+		{ -- Blackwater Behemoth
+			EncounterJournalID = 2347,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160695 }, -- Uldir Subject Manifest
-				{ 2, 160682 }, -- Mother's Twin Gaze
-				{ 3, 160626 }, -- Gloves of Involuntary Amputation
-				{ 4, 160645 }, -- Rot-Scour Ring
-				{ 5, 160615 }, -- Leggings of Lingering Infestation
-				{ 6, 160632 }, -- Flame-Sterilized Spaulders
-				{ 7, 160634 }, -- Gridrunner Galea
-				{ 8, 160681 }, -- Glaive of the Keepers
-				{ 9, 160638 }, -- Decontaminator's Greatbelt
-				{ 10, 160625 }, -- Pathogenic Legwraps
-				{ 11, 160683 }, -- Latticework Scalpel
+				{ 1, 168397 }, -- Fang of the Behemoth
+				{ 2, 168885 }, -- Undercove Crushers
+				{ 3, 168383 }, -- Pelagos Predator's Legguards
+				{ 4, 168343 }, -- Blackwater Shimmerscale Vest
+				{ 5, 168900 }, -- Diver's Folly
+				{ 6, 168362 }, -- Trench Tyrant's Shoulderplates
+				{ 7, 168379 }, -- Ship Swallower's Belt
+				{ 8, 168373 }, -- Eelskin Flippers
+				{ 9, 168353 }, -- Hood of Lightless Depths
+				{ 10, 168385 }, -- Slipstreamer's Saltwalkers
+				{ 11, 168342 }, -- Fathom-Feeder's Mantle
+				{ 12, 169304 }, -- Leviathan's Lure
+				{ 13, 168376 }, -- Anglerfish Feelers
+				{ 14, 168389 }, -- Fleetwrecker's Greaves
+				{ 15, 169312 }, -- Luminous Jellyweed
+				{ 16, 169360 }, -- Mindlost Bloodfrenzy
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
@@ -1701,19 +1932,27 @@ data["Uldir"] = {
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
-		{ -- Fetid Devourer
-			EncounterJournalID = 2146,
+		{ -- Radiance of Azshara
+			EncounterJournalID = 2353,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160689 }, -- Regurgitated Purifier's Flamestaff
-				{ 2, 160685 }, -- Biomelding Cleaver
-				{ 3, 160619 }, -- Jerkin of the Aberrant Chimera
-				{ 4, 160648 }, -- Frenetic Corpuscle
-				{ 5, 160635 }, -- Waste Disposal Crushers
-				{ 6, 160643 }, -- Fetid Horror's Tanglecloak
-				{ 7, 160616 }, -- Horrific Amalgam's Hood
-				{ 8, 160628 }, -- Fused Monstrosity Stompers
+				{ 1, 168382 }, -- Arcanamental Bindings
+				{ 2, 168475 }, -- Bulwark of the Seaborn Avatar
+				{ 3, 168478 }, -- Monstrosity's Shipbreaker
+				{ 4, 168388 }, -- Storm-Tempered Girdle
+				{ 5, 168360 }, -- Warhelm of Dread Waters
+				{ 6, 168348 }, -- Shoulderpads of Frothing Rage
+				{ 7, 168381 }, -- Grips of the Scaled Arcanist
+				{ 8, 168336 }, -- Handmaiden's Cowl of Sacrifice
+				{ 9, 169313 }, -- Phial of the Arcane Tempest
+				{ 10, 168355 }, -- Servitor's Heartguard
+				{ 11, 168372 }, -- Sea Sculptor's Cuffs
+				{ 12, 168374 }, -- Belt of Blind Devotion
+				{ 13, 169694 }, -- Aqueous Reliquary
+				{ 14, 168378 }, -- Leggings of the Stormborn
+				{ 15, 168380 }, -- Ancient Tempest Striders
+				{ 16, 168375 }, -- Gloves of Unshackled Arcana
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
@@ -1723,23 +1962,25 @@ data["Uldir"] = {
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
-		{ -- Zek'voz, Herald of N'zoth
-			EncounterJournalID = 2169,
+		{ -- Lady Ashvane
+			EncounterJournalID = 2354,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160627 }, -- Chainvest of Assured Quality
-				{ 2, 160633 }, -- Titanspark Energy Girdle
-				{ 3, 160650 }, -- Disc of Systematic Regression
-				{ 4, 160624 }, -- Quarantine Protocol Treads
-				{ 5, 160718 }, -- Greaves of Creeping Darkness
-				{ 6, 160617 }, -- Void-Lashed Wristband
-				{ 7, 160647 }, -- Ring of the Infinite Void
-				{ 8, 160717 }, -- Replicated Chitin Cord
-				{ 9, 160687 }, -- Containment Analysis Baton
-				{ 10, 160688 }, -- Void-Binder
-				{ 11, 160640 }, -- Warboots of Absolute Eradication
-				{ 12, 160613 }, -- Mantle of Contained Corruption
+				{ 1, 168367 }, -- Barnacle-Crusted Breastplate
+				{ 2, 168354 }, -- Shoulderguards of Crushing Depths
+				{ 3, 168883 }, -- Cultured Pearl Armbands
+				{ 4, 168870 }, -- Tanglekelp Waistwrap
+				{ 5, 168347 }, -- Helm of Hideous Transformation
+				{ 6, 168904 }, -- Current-Weaver's Gavel
+				{ 7, 168876 }, -- Priscilla's Fishnets
+				{ 8, 168877 }, -- Coralshell Warboots
+				{ 9, 168335 }, -- Robes of Sunken Nobility
+				{ 10, 168889 }, -- Boralus Noble's Seal
+				{ 11, 169305 }, -- Aquipotent Nautilus
+				{ 12, 169310 }, -- Bloodthirsty Urchin
+				{ 13, 169311 }, -- Ashvane's Razor Coral
+				{ 14, 169358 }, -- Lightless Ambusher
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
@@ -1749,22 +1990,26 @@ data["Uldir"] = {
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
-		{ -- Vectis
-			EncounterJournalID = 2166,
+		{ -- Orgozoa
+			EncounterJournalID = 2351,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160644 }, -- Plasma-Spattered Greatcloak
-				{ 2, 160678 }, -- Bow of Virulent Infection
-				{ 3, 160716 }, -- Blighted Anima Greaves
-				{ 4, 160734 }, -- Cord of Animated Contagion
-				{ 5, 160655 }, -- Syringe of Bloodborne Infirmity
-				{ 6, 160623 }, -- Hood of Pestilent Ichor
-				{ 7, 160649 }, -- Inoculating Extract
-				{ 8, 160636 }, -- Chestguard of Virulent Mutagens
-				{ 9, 160698 }, -- Vector Deflector
-				{ 10, 160715 }, -- Mutagenic Protofluid Handwraps
-				{ 11, 160621 }, -- Wristwraps of Coursing Miasma
+				{ 1, 168352 }, -- Scalemail of Unnatural Selection
+				{ 2, 168894 }, -- Squidhunter Speargun
+				{ 3, 168476 }, -- Great Reef Barrier
+				{ 4, 168339 }, -- Incubator's Bellcap
+				{ 5, 168872 }, -- Cephalopod's Sash
+				{ 6, 168274 }, -- Aqua-Pulse Trident
+				{ 7, 168365 }, -- Greathelm of the Tender
+				{ 8, 168893 }, -- Hatchery Scraper
+				{ 9, 168604 }, -- Drape of the Hatcher
+				{ 10, 168897 }, -- Tentacle Crusher
+				{ 11, 169319 }, -- Dribbling Inkpod
+				{ 12, 168346 }, -- Tidal Drifter's Shoulders
+				{ 13, 168899 }, -- Orgozoa's Paralytic Barb
+				{ 14, 168875 }, -- Formcrafter's Pants
+				{ 15, 169309 }, -- Zoatroid Egg Sac
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
@@ -1774,21 +2019,25 @@ data["Uldir"] = {
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
-		{ -- Zul, Reborn
-			EncounterJournalID = 2195,
+		{ -- The Queen's Court
+			EncounterJournalID = 2359,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160642 }, -- Cloak of Rippling Whispers
-				{ 2, 160719 }, -- Visage of the Ascended Prophet
-				{ 3, 160691 }, -- Tusk of the Reborn Prophet
-				{ 4, 160723 }, -- Imperious Vambraces
-				{ 5, 160620 }, -- Usurper's Bloodcaked Spaulders
-				{ 6, 160684 }, -- Pursax, the Backborer
-				{ 7, 160630 }, -- Crest of the Undying Visionary
-				{ 8, 160722 }, -- Chestplate of Apocalyptic Machinations
-				{ 9, 160724 }, -- Cincture of Profane Deeds
-				{ 10, 160720 }, -- Armbands of Sacrosanct Acts
+				{ 1, 168892 }, -- Court Dagger of Sentencing
+				{ 2, 168879 }, -- Ardent Worshipper's Boots
+				{ 3, 169316 }, -- Deferred Sentence
+				{ 4, 168898 }, -- Pashmar's Finial
+				{ 5, 168364 }, -- Pauldrons of Fanatical Might
+				{ 6, 168881 }, -- Naga Executor's Armguards
+				{ 7, 168338 }, -- Amice of the Reef Witch
+				{ 8, 169315 }, -- Edicts of the Faithless
+				{ 9, 168357 }, -- Silivaz's Skullguard
+				{ 10, 169694 }, -- Aqueous Reliquary
+				{ 11, 168886 }, -- Hands of the Fanatic
+				{ 12, 168350 }, -- Tunic of the Sycophant
+				{ 13, 168890 }, -- Ring of the Highborne Courtier
+				{ 14, 168896 }, -- Stormtamer's Orb
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
@@ -1798,22 +2047,24 @@ data["Uldir"] = {
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
-		{ -- Mythrax the Unraveler
-			EncounterJournalID = 2194,
+		{ -- Za'qul, Harbinger of Ny'alotha
+			EncounterJournalID = 2349,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160614 }, -- Robes of the Unraveler
-				{ 2, 160721 }, -- Oblivion Crushers
-				{ 3, 160725 }, -- C'thraxxi General's Hauberk
-				{ 4, 160686 }, -- Voror, Gleaming Blade of the Stalwart
-				{ 5, 160646 }, -- Band of Certain Annihilation
-				{ 6, 160692 }, -- Luminous Edge of Virtue
-				{ 7, 160656 }, -- Twitching Tentacle of Xalzaix
-				{ 8, 160696 }, -- Codex of Imminent Ruin
-				{ 9, 160653 }, -- Xalzaix's Veiled Eye
-				{ 10, 163596 }, -- Cowl of Dark Portents
-				{ 11, 160641 }, -- Chitinspine Pauldrons
+				{ 1, 168337 }, -- Vestments of Creeping Terror
+				{ 2, 169588 }, -- Gardbrace of Fractured Reality
+				{ 3, 168902 }, -- Dream's End
+				{ 4, 168349 }, -- Shroud of Unmooring Whispers
+				{ 5, 168391 }, -- Cloak of Ill Tidings
+				{ 6, 168882 }, -- Shackles of Dissonance
+				{ 7, 168363 }, -- Dark Passenger's Breastplate
+				{ 8, 168884 }, -- Bindings of the Herald
+				{ 9, 169306 }, -- Za'qul's Portal Key
+				{ 10, 169308 }, -- Chain of Suffering
+				{ 11, 168301 }, -- Sever, Edge of Madness
+				{ 12, 169307 }, -- Vision of Demise
+				{ 13, 169362 }, -- Nameless Octopode
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
@@ -1823,165 +2074,328 @@ data["Uldir"] = {
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
-		{ -- G'huun
-			EncounterJournalID = 2147,
+		{ -- Queen Azshara
+			EncounterJournalID = 2361,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 160732 }, -- Helm of the Defiled Laboratorium
-				{ 2, 160693 }, -- Lancet of the Deft Hand
-				{ 3, 160727 }, -- Cord of Septic Envelopment
-				{ 4, 160699 }, -- Barricade of Purifying Resolve
-				{ 5, 160731 }, -- Spaulders of Coagulated Viscera
-				{ 6, 160733 }, -- Hematocyst Stompers
-				{ 7, 160690 }, -- Heptavium, Staff of Torturous Knowledge
-				{ 8, 160694 }, -- Re-Origination Pulse Rifle
-				{ 9, 160726 }, -- Amice of Corrupting Horror
-				{ 10, 160728 }, -- Tunic of the Sanguine Deity
-				{ 11, 160654 }, -- Vanquished Tendril of G'huun
-				{ 12, 160729 }, -- Striders of the Putrescent Path
+				{ 1, 169314 }, -- Azshara's Font of Power
+				{ 2, 168887 }, -- Gloves of Incomparable Beauty
+				{ 3, 168874 }, -- Cherished Empress's Leggings
+				{ 4, 168891 }, -- Cursed Lover's Ring
+				{ 5, 168878 }, -- Vethan's Icewalkers
+				{ 6, 168880 }, -- Slippers of the Sorceress-Queen
+				{ 7, 169694 }, -- Aqueous Reliquary
+				{ 8, 168869 }, -- Eternity Keeper's Greatbelt
+				{ 9, 168871 }, -- Beloved Monarch's Waistwrap
+				{ 10, 168873 }, -- Tide Goddess's Wargreaves
+				{ 11, 168275 }, -- Anu-Azshara, Staff of the Eternal
+				{ 12, 168888 }, -- Handguards of the Highest-Born
+				{ 13, 169348 }, -- Zanj'ir Poker
 			},
 			[HEROIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
+				{ 16, 168857 },
 			},
 			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
-			},
+			},		
 		},
 	}
 }
 
-data["Azeroth"] = {
-	EncounterJournalID = 1028,
-	--MapID = 0,
+data["Ny'alotha, the Waking City"] = {
+	EncounterJournalID = 1180,
+	MapID = 1581,
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
 	items = 
 	{
-		{ -- T'zane
-			EncounterJournalID = 2139,
+		{ -- Wrathion, the Black Emperor
+			EncounterJournalID = 2368,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161392 }, -- Bindings of Eternal Fears
-				{ 2, 161396 }, -- Petrified Mask of the Afterlife
-				{ 3, 164383 }, -- Death Devouring Girdle
-				{ 4, 161387 }, -- Wailing Terror Leggings
-				{ 5, 161389 }, -- Cinch of All-Consuming Death
-				{ 6, 161391 }, -- Deathshambler's Shoulderpads
-				{ 7, 161393 }, -- Legguards of the Barkbound Dead
-				{ 8, 161395 }, -- Swampwalker's Soul-Treads
-				{ 9, 161397 }, -- Soulplank Vambraces
-				{ 10, 161411 }, -- T'zane's Barkspines
-				{ 11, 161412 }, -- Spiritbound Voodoo Burl
+				{ 1, 172185 }, -- Destroyer's Shadowblade
+				{ 2, 174044 }, -- Humming Black Dragonscale
+				{ 3, 174139 }, -- Onyx-Imbued Breeches
+				{ 4, 174153 }, -- Ebony Scaled Gauntlets
+				{ 5, 172199 }, -- Faralos, Empire's Dream
+				{ 6, 174125 }, -- Emberscale Gloves
+				{ 7, 174105 }, -- Mish'un, Blade of Tyrants
+				{ 8, 174170 }, -- Dragonbone Vambraces
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-		{ -- Ji'arak
-			EncounterJournalID = 2141,
+		{ -- Maut
+			EncounterJournalID = 2365,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161407 }, -- Windshear Leggings
-				{ 2, 161409 }, -- Stormcrash Chestguard
-				{ 3, 161388 }, -- Gloves of Enveloping Winds
-				{ 4, 161394 }, -- Hurricane Cinch
-				{ 5, 164384 }, -- Windswept Dinorider's Cape
-				{ 6, 161401 }, -- Matriarch's Shadowveil
-				{ 7, 161403 }, -- Avian Clutch Belt
-				{ 8, 161390 }, -- Savage Terrorwing Leggings
-				{ 9, 161371 }, -- Galebreaker's Sabatons
+				{ 1, 174172 }, -- Living Obsidian Legguards
+				{ 2, 174446 }, --Fractured Obsidian Claw
+				{ 3, 172200 }, -- Sk'shuul Vaz
+				{ 4, 174152 }, -- Pauldrons of Ill Portent
+				{ 5, 174124 }, -- Mana-Infused Sash
+				{ 6, 172191 }, -- An'zig Vra
+				{ 7, 174132 }, -- Stygian Guise
+				{ 8, 174141 }, -- Boots of Manifest Shadow
+				{ 9, 173944 }, -- Forbidden Obsidian Claw
+				{ 10, 174155 }, -- Greaves of Forbidden Magics
+				{ 11, 173940 }, -- Sigil of Warding
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-		{ -- Hailstone Construct
-			EncounterJournalID = 2197,
+		{ -- The Prophet Skitra
+			EncounterJournalID = 2369,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161362 }, -- Frostbreath Leggings
-				{ 2, 161364 }, -- Chill's End Wristguards
-				{ 3, 161366 }, -- Ice Stalker Boots
-				{ 4, 161368 }, -- Freezing Tempest Waistguard
-				{ 5, 161370 }, -- Glacial Spike Gauntlets
-				{ 6, 161372 }, -- Ice-Carved Shoulderplates
-				{ 7, 161361 }, -- Ice-Rimed Slippers
-				{ 8, 161380 }, -- Drust-Runed Icicle
-				{ 9, 161367 }, -- Hailstone Hauberk
-				{ 10, 164386 }, -- Girdle of Biting Winds
-				{ 11, 161381 }, -- Permafrost-Encrusted Heart
+				{ 1, 174157 }, -- Talons of Grim Revelations
+				{ 2, 174279 }, -- Encrypted Ny'alothan Text
+				{ 3, 174165 }, -- Writhing Spaulders of Madness
+				{ 4, 172193 }, -- Whispering Eldritch Bow
+				{ 5, 174143 }, -- Macabre Ritual Pants
+				{ 6, 174173 }, -- Boots of Hallucinatory Reality
+				{ 7, 174119 }, -- Robes of Unreality
+				{ 8, 172201 }, -- Bloodstained Ritual Athame
+				{ 9, 174123 }, -- Psychic's Subtle Slippers
+				{ 10, 174138 }, -- Bracers of Dark Prophecy
+				{ 11, 174060 }, -- Psyche Shredder
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-		{ -- Azurethos, The Winged Typhoon
-			EncounterJournalID = 2199,
+		{ -- Dark Inquisitor Xanesh
+			EncounterJournalID = 2377,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161377 }, -- Azurethos' Singed Plumage
-				{ 2, 161379 }, -- Galecaller's Beak
-				{ 3, 161398 }, -- Talonscored Azure Vambraces
-				{ 4, 161363 }, -- Sandals of Rustling Rage
-				{ 5, 161365 }, -- Footpads of the Encircling Storm
-				{ 6, 161352 }, -- Chestguard of Dire Winds
-				{ 7, 161369 }, -- Bindings of the Winged Typhoon
-				{ 8, 161356 }, -- Feathered Galeforce Crest
-				{ 9, 161378 }, -- Plume of the Seaborne Avian
-				{ 10, 161360 }, -- Roost-Defender's Legguards
-				{ 11, 161350 }, -- Windcaller's Down Handwraps
+				{ 1, 174169 }, -- Gauntlets of Foul Inquisition
+				{ 2, 172196 }, -- Vorzz Yoq'al
+				{ 3, 172190 }, -- Uhnish Vwah
+				{ 4, 174156 }, -- Chainlink Belt of Ill Omens
+				{ 5, 174126 }, -- Binding of Dark Heresies
+				{ 6, 173943 }, -- Torment in a Jar
+				{ 7, 174140 }, -- Cord of Anguished Cries
+				{ 8, 174121 }, -- Trousers of Peculiar Potency
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-		{ -- Doom's Howl
-			EncounterJournalID = 2213,
+		{ -- The Hivemind
+			EncounterJournalID = 2372,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161467 }, -- Vest of the Veiled Gryphon
-				{ 2, 161469 }, -- Sharpshooter's Chainmail Hauberk
-				{ 3, 161471 }, -- Lion's Roar Pauldrons
-				{ 4, 161473 }, -- Lion's Guile
-				{ 5, 161464 }, -- Alliance Bowman's Coif
-				{ 6, 161466 }, -- Battlemage's Collar
-				{ 7, 161468 }, -- Gilded-Wing Shoulderguards
-				{ 8, 161470 }, -- Polished Shieldbearer's Breastplate
-				{ 9, 161472 }, -- Lion's Grace
-				{ 10, 161474 }, -- Lion's Strength
-				{ 11, 161465 }, -- Warcaster's Arcane Mantle
+				{ 1, 172192 }, -- The All-Seeing Eye
+				{ 2, 174448 }, -- Aqir Hivespawn
+				{ 3, 174137 }, -- Chitinspine Gloves
+				{ 4, 174154 }, -- Nightmarish Chain Shackles
+				{ 5, 174171 }, -- Dark Crystalline Girdle
+				{ 6, 174449 }, -- Ra'kim
+				{ 7, 174106 }, -- Qwor N'lyeth
+				{ 8, 174530 }, -- Ring of Collective Consciousness
+				{ 9, 174122 }, -- Void-Drenched Wristwraps
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-		{ -- Warbringer Yenajz
-			EncounterJournalID = 2198,
+		{ -- Shad'har the Insatiable
+			EncounterJournalID = 2367,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161349 }, -- Amice of the Rending Abyss
-				{ 2, 161351 }, -- Wristwraps of Warped Reality
-				{ 3, 161353 }, -- Shadow-Wreathed Gloves
-				{ 4, 161355 }, -- Yenajz's Chitinous Stompers
-				{ 5, 161357 }, -- Spaulders of the Enveloping Maw
-				{ 6, 161359 }, -- Band of Intense Gravitation
-				{ 7, 161376 }, -- Prism of Dark Intensity
-				{ 8, 161354 }, -- Leggings of the Endless Void
-				{ 9, 161358 }, -- Existence-Shattering Gauntlets
+				{ 1, 174162 }, -- Ego-Annihilating Grips
+				{ 2, 174107 }, -- Insidious Writhing Longbow
+				{ 3, 174130 }, -- Grips of Occult Reminiscence
+				{ 4, 174145 }, -- Wristwraps of Volatile Power
+				{ 5, 172186 }, -- Warmace of Waking Nightmares
+				{ 6, 174177 }, -- Bracers of Phantom Pains
+				{ 7, 174531 }, -- Void-Etched Band
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-		{ -- Dunegorger Kraulok
-			EncounterJournalID = 2210,
+		{ -- Drest'agath
+			EncounterJournalID = 2373,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161400 }, -- Raider's Shrouding Thobe
-				{ 2, 161402 }, -- Gloves of the Desert Assassin
-				{ 3, 161419 }, -- Kraulok's Claw
-				{ 4, 161406 }, -- Shrouded Sandscale Bracers
-				{ 5, 161408 }, -- Sandswept Legionnaire's Legplates
-				{ 6, 161399 }, -- Cord of Flowing Sands
-				{ 7, 161404 }, -- Hood of the Sinuous Devilsaur
-				{ 8, 161405 }, -- Dunegorger's Grips
-				{ 9, 164385 }, -- Desert Nomad's Wrap
+				{ 1, 172195 }, -- Halsheth, Slumberer's Spear
+				{ 2, 173946 }, -- Writhing Segment of Drest'agath
+				{ 3, 172198 }, -- Mar'kowa, the Mindpiercer
+				{ 4, 174159 }, -- Spinebarb Legplates
+				{ 5, 174146 }, -- Gloves of Abyssal Authority
+				{ 6, 174532 }, -- Ichorspine Loop
+				{ 7, 174174 }, -- Belt of Muttering Truths
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-		{ -- Ivus the Decayed
-			EncounterJournalID = 2345,
+		{ -- Il'gynoth, Corruption Reborn
+			EncounterJournalID = 2374,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 161417 }, -- Ancient Knot of Wisdom
-				{ 2, 161415 }, -- Forest Lord's Razorleaf
-				{ 3, 166691 }, -- Forest Protector's Shoulderguards
-				{ 4, 166683 }, -- Garments of the Forest Lord
-				{ 5, 166694 }, -- Gnarled Bough Gauntlets
-				{ 6, 166686 }, -- Ivus's Tanglemoss Waistcord
-				{ 7, 161413 }, -- Knot of Ancient Fury
-				{ 8, 166695 }, -- Petrified Ironbark Crown
-				{ 9, 166690 }, -- Protector's Tangleroot Belt
-				{ 10, 166698 }, -- Stoneroot Stompers
-				{ 11, 166687 }, -- Warring Ancient's Mask
+				{ 1, 174142 }, -- Belt of Braided Vessels
+				{ 2, 174279 }, -- Encrypted Ny'alothan Text
+				{ 3, 174161 }, -- Bracers of Manifest Apathy
+				{ 4, 174163 }, -- Second Sight Helm
+				{ 5, 174180 }, -- Oozing Coagulum
+				{ 6, 172189 }, -- Eyestalk of Il'gynoth
+				{ 7, 174116 }, -- Cowl of Unspeakable Horrors
+				{ 8, 174150 }, -- Scales of the Scheming Behemoth
+				{ 9, 174129 }, -- Cuffs of Grim Conjuration
+				{ 10, 172188 }, -- Precipice of Oblivion
+				{ 11, 174176 }, -- Sabatons of Malevolent Intent
+				{ 12, 174135 }, -- Spaulders of Aberrant Allure
 			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
 		},
-	}
+		{ -- Vexiona
+			EncounterJournalID = 2370,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 174120 }, -- Void Ascendant's Mantle
+				{ 2, 174164 }, -- Breastplate of Twilight Decimation
+				{ 3, 174148 }, -- Helm of Deep Despair
+				{ 4, 174131 }, -- Darkheart Robe
+				{ 5, 174160 }, -- Greaves of the Twilight Drake
+				{ 6, 172194 }, -- Gift of the Void
+				{ 7, 174279 }, -- Encrypted Ny'alothan Text
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
+		},
+		{ -- Ra-den the Despoiled
+			EncounterJournalID = 2364,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 174279 }, -- Encrypted Ny'alothan Text
+				{ 2, 172228 }, -- Shandai, Watcher of Cosmos
+				{ 3, 172197 }, -- Unguent Caress
+				{ 4, 174175 }, -- Reality-Defying Greaves
+				{ 5, 174128 }, -- Boots of Wrought Shadow
+				{ 6, 174115 }, -- Robe of the Fallen Keeper
+				{ 7, 174447 }, -- Void-Scarred Anubisath
+				{ 8, 174149 }, -- Dreamer's Unblinking Pauldrons
+				{ 9, 174168 }, -- Carapace of Pulsing Vita
+				{ 10, 174528 }, -- Void-Twisted Titanshard
+				{ 11, 174500 }, -- Vita-Charged Titanshard
+				{ 12, 174134 }, -- Gibbering Maw
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
+		},
+		{ -- Carapace of N'Zoth
+			EncounterJournalID = 2366,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 174127 }, -- Corporeal Supplicant's Trousers
+				{ 2, 174144 }, -- Corpuscular Leather Greaves
+				{ 3, 174178 }, -- Mirage-Weaver's Gauntlets
+				{ 4, 174109 }, -- Lurker's Piercing Gaze
+				{ 5, 174158 }, -- Watcher's Scheming Girdle
+				{ 6, 174117 }, -- Spaulders of Miasmic Mycelia
+				{ 7, 172227 }, -- Shard of the Black Empire
+				{ 8, 174136 }, -- Tortured Fleshbeast Cuirass
+				{ 9, 174108 }, -- Shgla'yos, Astral Malignity
+				{ 10, 174151 }, -- Helm of Actualized Visions
+				{ 11, 174166 }, -- Pauldrons of Infinite Darkness
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
+		},
+		{ -- N'Zoth the Corruptor
+			EncounterJournalID = 2375,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 174277 }, -- Lingering Psychic Shell
+				{ 2, 174279 }, -- Encrypted Ny'alothan Text
+				{ 3, 174118 }, -- Visage of Nightmarish Machinations
+				{ 4, 172187 }, -- Devastation's Hour
+				{ 5, 174533 }, -- Ring of Cosmic Potential
+				{ 6, 174147 }, -- Last Vestige of Neltharion
+				{ 7, 172229 }, -- Dominion, Lurker Beyond Dreams
+				{ 8, 174167 }, -- Greathelm of Phantasmic Reality
+				{ 9, 174452 }, -- Eye of Corruption
+				{ 10, 174133 }, -- Pauldrons of the Great Convergence
+				{ 11, 174103 }, -- Manifesto of Madness
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},		
+		},
+	},
 }
+

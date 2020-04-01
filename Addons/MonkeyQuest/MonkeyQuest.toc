@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Trentin, Jim-Bim
 ## Dependencies: MonkeyLibrary
 ## OptionalDeps: aftt_extreme

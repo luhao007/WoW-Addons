@@ -121,7 +121,7 @@ end
 
 -------收集信息(目标提示)
 local function TooltipAddOtherInfo(speciesID)
-	if HPetSaves.Tooltip then 
+	if HPetSaves.Tooltip then
 		local sourceText = select(5,C_PetJournal.GetPetInfoBySpeciesID(speciesID))
 		if sourceText and sourceText~="" then
 			--清除sourceText最后可能存在的"\n"
@@ -239,22 +239,20 @@ hookPetJournal.init = function()
 			_G["PetJournalListScrollFrameButton"..i].dragButton:HookScript("OnEnter",hookPetJournal.PJSTooltip)
 			_G["PetJournalListScrollFrameButton"..i].dragButton:HookScript("OnLeave",GameTooltip_Hide)
 		end
-		--loadout	
+		--loadout
 		for i = 1, 3 do
 			_G["PetJournalLoadoutPet"..i].dragButton:HookScript("OnEnter",hookPetJournal.PJSTooltip)
 			_G["PetJournalLoadoutPet"..i].dragButton:HookScript("OnLeave",GameTooltip_Hide)
-			-- 下面2016年10月31日16:00:50已经自带 --待删
-			-- _G["PetJournalLoadoutPet"..i.."ModelFrameCardButton"]:HookScript("OnClick",function(self)
-				-- if (not InCombatLockdown()) then
-					-- PetJournal_SelectPet(PetJournal,self:GetParent():GetParent().petID)
-				-- end
-			-- end)
+			_G["PetJournalLoadoutPet"..i.."ModelFrameCardButton"]:HookScript("OnClick",function(self)
+				PetJournal_SelectPet(PetJournal,self:GetParent():GetParent().petID)
+
+			end)
 		end
 
 	--- "PetJournal_SelectPet"	--待删
 --~ 	hooksecurefunc("PetJournal_SelectPet",hookPetJournal.PetJournal_SelectPet)
 
-	-- PetJournal.listScroll.update = PetJournal_UpdatePetList;
+	PetJournal.listScroll.update = PetJournal_UpdatePetList;
 	---------------手动xxxxxxxxxx
 	for i = 1, 6 do
 		_G["PetJournalPetCardSpell"..i]:HookScript("OnClick",function(self)
@@ -333,7 +331,7 @@ hookfunction.init = function()
 			local linenum = nil
 			for i = self:NumLines(),3,-1  do
 				local text = _G[self:GetName().."TextLeft"..i]
-				if str:find(text:GetText()) then 
+				if str:find(text:GetText()) then
 					text:SetText(GetOwnedInfo(str,petID))
 					self:Show()
 					return
@@ -1007,42 +1005,38 @@ GameTooltip:HookScript('OnUpdate',HookMiniMap.func)
 --[[			]]--其他界面隐藏/显示
 --~ local AutoFrameSave={}
 hookfunction.AddFrameLock=function(lock)
-	if HPetSaves.AHSFEnable then
-		if lock == "PETBATTLES" then
-			for k,s in pairs(HPetBattleAny.AutoHideShowfrmae) do
-				local v = _G[k]
-				if v then
-					if type(v["originalShow"]) == "function" and not UnitAffectingCombat("player") then
-	--~ 					if k == "MinimapCluster" then
-	--~ 						AutoFrameSave[k] = {v:GetPoint()}
-	--~ 						AutoFrameSave[k][2] = AutoFrameSave[k][2] and AutoFrameSave[k][2]:GetName() or nil
-	--~ 						MinimapCluster:SetPoint("TOPRIGHT",nil,"TOPRIGHT",0,0)
-	--~ 						print("偏移原位")
-	--~ 					end
-						v:originalShow()
-					elseif type(v["Show"]) == "function" then
-						HPetBattleAny.AutoHideShowfrmae[k]=v:IsShown() and "Shown" or "Hidden"
-						if HPetBattleAny.AutoHideShowfrmae[k]=="Shown" then v:Hide() end
-					end
+	if lock == "PETBATTLES" then
+		for k,s in pairs(HPetBattleAny.AutoHideShowfrmae) do
+			local v = _G[k]
+			if v then
+				if type(v["originalShow"]) == "function" and not UnitAffectingCombat("player") then
+--~ 					if k == "MinimapCluster" then
+--~ 						AutoFrameSave[k] = {v:GetPoint()}
+--~ 						AutoFrameSave[k][2] = AutoFrameSave[k][2] and AutoFrameSave[k][2]:GetName() or nil
+--~ 						MinimapCluster:SetPoint("TOPRIGHT",nil,"TOPRIGHT",0,0)
+--~ 						print("偏移原位")
+--~ 					end
+					v:originalShow()
+				elseif type(v["Show"]) == "function" then
+					HPetBattleAny.AutoHideShowfrmae[k]=v:IsShown() and "Shown" or "Hidden"
+					if HPetBattleAny.AutoHideShowfrmae[k]=="Shown" then v:Hide() end
 				end
 			end
 		end
 	end
 end
 hookfunction.RemoveFrameLock=function(lock)
-	if HPetSaves.AHSFEnable then
-		if lock == "PETBATTLES" then
-			for k,s in pairs(HPetBattleAny.AutoHideShowfrmae) do
-				local v = _G[k]
-				if v then
-	--~ 						if k == "MinimapCluster" then
-	--~ 							local a = AutoFrameSave[k]
-	--~ 							v:SetPoint(a[1],a[2],a[3],a[4],a[5])
-	--~ 						end
-					if type(v["originalShow"]) ~= "function" and type(v["Show"]) == "function" then
-						if HPetBattleAny.AutoHideShowfrmae[k]=="Shown" then
-							v:Show()
-						end
+	if lock == "PETBATTLES" then
+		for k,s in pairs(HPetBattleAny.AutoHideShowfrmae) do
+			local v = _G[k]
+			if v then
+--~ 						if k == "MinimapCluster" then
+--~ 							local a = AutoFrameSave[k]
+--~ 							v:SetPoint(a[1],a[2],a[3],a[4],a[5])
+--~ 						end
+				if type(v["originalShow"]) ~= "function" and type(v["Show"]) == "function" then
+					if HPetBattleAny.AutoHideShowfrmae[k]=="Shown" then
+						v:Show()
 					end
 				end
 			end
@@ -1062,4 +1056,3 @@ local PJHOOK = function(...)
 end
 if GetAddOnInfo("PetJournalEnhanced") then hooksecurefunc("CreateFrame",PJHOOK)end
 C_PetJournal.SetPetSortParameter(2)
-

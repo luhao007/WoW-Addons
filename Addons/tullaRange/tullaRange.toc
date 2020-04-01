@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Tuller
-## Version: 8.2.5
+## Version: 8.3.2
 ## SavedVariables: TULLARANGE_COLORS
 
 ## Title: tullaRange

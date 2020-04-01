@@ -17,12 +17,6 @@ if GetLocale() == "zhCN" then
 			["Sound"]						= "声音提示",		--Sound
 			["SoundTooltip"]				= "蓝色/蓝色以上可捕捉宠物发出声音提示。",
 
-			["ACPEnable"]					= "AutoSelectPet",
-			["ACPEnableTooltip"]			= "AutoSelectPet的开关，大概是没什么人用了",
-
-			["AHSFEnable"]					= "小地图自动显示",
-			["AHSFEnableTooltip"]			= "对饮HPetBattleAny.AutoHideShowfrmae功能开关",
-
 			["OnlyInPetInfo"]				= "文字提示位置",
 			["OnlyInPetInfoTooltip"]		= "勾选后，文字提示将只跟随宠物对战信息",
 
@@ -119,9 +113,6 @@ elseif GetLocale() == "zhTW" then
 		["Sound"] = "聲音提示", --Sound
 		["SoundTooltip"] = "藍色/藍色以上可捕捉寵物發出聲音提示。",
 
-		["ACPEnable"]					= "AutoSelectPet",
-		["ACPEnableTooltip"]			= "AutoSelectPet的開關",
-
 		["OnlyInPetInfo"] = "文字提示位置",
 		["OnlyInPetInfoTooltip"] = "勾選後，文字提示將只跟隨寵物對戰信息",
 
@@ -216,11 +207,6 @@ else
 
 		["Sound"] 							= "Sound",
 		["SoundTooltip"] 					= "Rare pet may capture of Sound Alarm.",
-
-
-		["ACPEnable"]					= "AutoSelectPet",
-		["ACPEnableTooltip"]			= "switch AutoSelectPet",
-
 
 		["OnlyInPetInfo"]					= "Text position",
 

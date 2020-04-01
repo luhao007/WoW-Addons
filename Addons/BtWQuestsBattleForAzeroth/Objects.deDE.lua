@@ -4,6 +4,7 @@ if GetLocale() ~= "deDE" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [244983] = {
         name = "Schmutzige Taschenuhr",
@@ -25,9 +26,6 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [273854] = {
         name = "Rucksack",
-    },
-    [276187] = {
-        name = "Junji",
     },
     [276251] = {
         name = "Ausgrabungsinventar",
@@ -251,6 +249,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [307748] = {
         name = "Brief der Venture Co.",
     },
+    [309498] = {
+        name = "Rüstungsständer",
+    },
     [311155] = {
         name = "Uralte Schrifttafel",
     },
@@ -263,8 +264,14 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [322533] = {
         name = "Mardivas' Foliant der Elemente",
     },
+    [326393] = {
+        name = "Azeritwaffentruhe",
+    },
     [326418] = {
         name = "Arkane Truhe",
+    },
+    [326588] = {
+        name = "Azeritwaffentruhe",
     },
     [327170] = {
         name = "Waffenständer",
@@ -275,7 +282,11 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [327592] = {
         name = "Verzaubertes Schloss",
     },
+    [327596] = {
+        name = "Zerbrochener abyssischer Fokus",
+    },
     [329805] = {
         name = "Merkwürdiger Kristall",
     },
 })
+]])()

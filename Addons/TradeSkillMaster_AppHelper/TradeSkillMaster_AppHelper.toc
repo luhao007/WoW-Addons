@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: TSM Team
-## Version: v4.0.5
+## Version: v4.0.8
 ## SavedVariables: TradeSkillMaster_AppHelperDB
 
 ## Title: |cff00ff00TradeSkillMaster_AppHelper|r

@@ -3643,42 +3643,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN15, {
                 ids = {49261, 49262},
                 status = {'notcompleted'}
             },
-            -- visible = function ()
-            --     if BtWQuests_IsQuestActive(49262) then
-            --         return true
-            --     end
-
-            --     if not BtWQuests_IsQuestCompleted(49261) or not BtWQuests_IsQuestCompleted(49262) then
-            --         return true
-            --     end
-
-            --     return false
-            -- end,
             active = {
                 type = "item",
                 id = 160735,
             },
-            -- active = function ()
-            --     return GetItemCount(160735) > 0
-            -- end,
             completed = {
                 type = "aura",
                 id = 266248,
             },
-            -- completed = function ()
-            --     local index = 1
-            --     local spellID = select(10, UnitAura("player", index, "PLAYER|HELPFUL"))
-            --     while spellID do
-            --         if spellID == 266248 then
-            --             return true
-            --         end
-
-            --         index = index + 1
-            --         spellID = select(10, UnitAura("player", index, "PLAYER|HELPFUL"))
-            --     end
-
-            --     return false
-            -- end,
+            aside = true,
             x = 3,
             y = 0,
         },

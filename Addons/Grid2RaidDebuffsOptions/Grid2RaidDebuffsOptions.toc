@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Michael
-## Version: r936
+## Version: r955
 ## Dependencies: Grid2, Grid2RaidDebuffs
 ## LoadOnDemand: 1
 
@@ -16,5 +16,4 @@ OptionsLuaCode.lua
 
 RaidDebuffsLegion.lua
 RaidDebuffsBfA.lua
-
 

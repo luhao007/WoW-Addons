@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Lag, Proteyer, Arith
-## Version: v8.10.00
+## Version: v8.12.00
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
@@ -17,6 +17,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: AtlasLoot |cFF0099FF[Legion]|r
 # ## Title-deDE: AtlasLoot |cFF0099FF[Legion]|r
@@ -26,7 +27,6 @@
 # ## Title-ruRU: AtlasLoot |cFF0099FF[Legion]|r
 # ## Title-zhCN: AtlasLoot |cFF0099FF[军团再临]|r
 # ## Title-zhTW: AtlasLoot |cFF0099FF[軍臨天下]|r
-# 
 # ## Notes: AtlasLoot loot tables from Legion
 # ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Legion
 # ## Notes-frFR: Tables de butin AtlasLoot de Légion
@@ -35,7 +35,5 @@
 # ## Notes-zhCN: AltasLoot 军团再临拾取列表
 # ## Notes-zhTW: AtlasLoot 軍臨天下資料片物品掉落資料庫
 #@end-debug@
-
-
 
 data.lua

@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Crieve-Sargeras
-## Version: 1.9.9c
+## Version: 2.0.3
 ## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
@@ -11,6 +11,9 @@
 
 ## X-Curse-Project-ID: 267285
 
+lib\LibStub\LibStub.lua
+lib\CallbackHandler-1.0\CallbackHandler-1.0.lua
+lib\LibDataBroker-1.1\LibDataBroker-1.1.lua
 src\base.lua
 locales\enUS.lua
 locales\enGB.lua

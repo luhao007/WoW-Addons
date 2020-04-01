@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Jaliborc (JoÃ£o Cardoso)
-## Version: 8.2.2
+## Version: 8.3.6
 ## OptionalDeps: WoWUnit
 ## SavedVariables: PetTracker_Sets
 ## SavedVariablesPerCharacter: PetTracker_State
@@ -11,16 +11,4 @@
 
 ## X-Category: Battle Pets
 
-Libs\Libs.xml
-Localization\Include.xml
-
-PetTracker.lua
-
-Core\Include.xml
-Core\Tests\Include.xml
-
-Components\Maps\Include.xml
-Components\Combat\Include.xml
-Components\Tracking\Include.xml
-
-Features\Include.xml
+addons\main\main.xml

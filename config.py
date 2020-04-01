@@ -373,11 +373,6 @@ MAPPING = {
         'Category': '界面'
     },
     'BtWObjectiveFilter': {
-        'Title-cn': '人口普查',
-        'Notes': '统计服务器中的人口数量',
-        'Category': '账号'
-    },
-    'BtWObjectiveFilter': {
         'Title-cn': '追踪过滤',
         'Notes': '在任务和副本目标等追踪界面中添加一个过滤器，来关闭不想看到的追踪',
         'Category': '界面'
@@ -1111,6 +1106,10 @@ MAPPING = {
         'Title-sub': '宝藏 战争前线',
         'Category': '界面'
     },
+    'honorspy': {
+        'Title-cn': '荣誉间谍',
+        'Category': '战斗'
+    },
     'HPetBattleAny': {
         'Title-cn': '宠物对战增强',
         'Category': '战斗'
@@ -1146,11 +1145,15 @@ MAPPING = {
         'Title-cn': '小地图按钮整合',
         'Title-sub': 'Minimap Button Bag',
         'Notes': '将小地图的按钮整合成一个',
-        'Category': '任务'
+        'Category': '界面'
     },
     'MeetingStone': {
         'Title-cn': '集合石',
         'Category': '副本'
+    },
+    'MerInspect': {
+        'Title-cn': '观察助手',
+        'Category': '界面'
     },
     'MikScrollingBattleText': {
         'Title-cn': '浮动战斗信息',
@@ -1241,6 +1244,10 @@ MAPPING = {
         'Notes': '在大秘境中显示一个计时器',
         'Category': '副本'
     },
+    'Myslot': {
+        'Title-cn': '键位设置',
+        'Category': '界面',
+    },
     'NPCScan': {
         'Title-cn': 'NPC扫描',
         'Notes': '扫描特定的NPC，如稀有精英',
@@ -1261,6 +1268,10 @@ MAPPING = {
         'Title-sub': '设置',
         'Notes': '显示技能冷却时间',
         'Category': '战斗'
+    },
+    'OPie': {
+        'Title-cn': '环形动作条',
+        'Category': '界面'
     },
     'oRA3': {
         'Title-cn': '团队助手',
@@ -1295,9 +1306,9 @@ MAPPING = {
         'Title-cn': '宠物追踪',
         'Category': '收藏'
     },
-    'PetTracker_Breeds': {
+    'PetTracker_Battle': {
         'Title-cn': '宠物追踪',
-        'Title-sub': '品种',
+        'Title-sub': '战斗',
         'Category': '收藏'
     },
     'PetTracker_Config': {
@@ -1308,16 +1319,6 @@ MAPPING = {
     'PetTracker_Journal': {
         'Title-cn': '宠物追踪',
         'Title-sub': '日志',
-        'Category': '收藏'
-    },
-    'PetTracker_Switcher': {
-        'Title-cn': '宠物追踪',
-        'Title-sub': '切换',
-        'Category': '收藏'
-    },
-    'PetTracker_Upgrades': {
-        'Title-cn': '宠物追踪',
-        'Title-sub': '升级',
         'Category': '收藏'
     },
     'Prat-3.0': {
@@ -1431,6 +1432,12 @@ MAPPING = {
         'Notes': '自动出售灰色物品',
         'Category': '物品'
     },
+    'Scrap_Config': {
+        'Title-cn': '垃圾管理',
+        'Title-sub': '设置',
+        'Notes': 'Scrap设置模块',
+        'Category': '物品'
+    },
     'Scrap_Merchant': {
         'Title-cn': '垃圾管理',
         'Title-sub': '商人',
@@ -1487,6 +1494,11 @@ MAPPING = {
     'TellMeWhen_Options': {
         'Title-cn': '技能状态提示',
         'Title-sub': '设置',
+        'Category': '战斗'
+    },
+    'ThreatClassic2': {
+        'Title-cn': '仇恨统计',
+        'Notes': '统计目标仇恨，需队友也开启同样插件才能取得仇恨数据',
         'Category': '战斗'
     },
     'TinyInspect': {

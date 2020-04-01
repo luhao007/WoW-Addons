@@ -1,13 +1,14 @@
 -- ------------------------------------------------------------------------------ --
---                           TradeSkillMaster_Accounting                          --
---           http://www.curse.com/addons/wow/tradeskillmaster_accounting          --
+--                                TradeSkillMaster                                --
+--             https://www.curseforge.com/wow/addons/tradeskill-master            --
 --                                                                                --
---             A TradeSkillMaster Addon (http://tradeskillmaster.com)             --
+--             A TradeSkillMaster Addon (https://tradeskillmaster.com)            --
 --    All Rights Reserved* - Detailed license information included with addon.    --
 -- ------------------------------------------------------------------------------ --
 
 local _, TSM = ...
 local Garrison = TSM.Accounting:NewPackage("Garrison")
+local Event = TSM.Include("Util.Event")
 local private = {}
 local GOLD_TRAIT_ID = 256 -- traitId for the treasure hunter trait which increases gold from missions
 
@@ -18,8 +19,8 @@ local GOLD_TRAIT_ID = 256 -- traitId for the treasure hunter trait which increas
 -- ============================================================================
 
 function Garrison.OnInitialize()
-	if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
-		TSM.Event.Register("GARRISON_MISSION_COMPLETE_RESPONSE", private.MissionComplete)
+	if not TSM.IsWowClassic() then
+		Event.Register("GARRISON_MISSION_COMPLETE_RESPONSE", private.MissionComplete)
 	end
 end
 

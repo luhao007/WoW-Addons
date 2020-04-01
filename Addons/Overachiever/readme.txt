@@ -1,5 +1,5 @@
 
-Overachiever v1.0.8
+Overachiever v1.0.9
 ==============================
 
 Author: Tuhljin
@@ -109,6 +109,22 @@ Change log
 ==========
 
 The change log lists changes of particular note to users, not every change made.
+
+v1.0.9
+- Updated TOC for WoW patch 8.3.
+- Fix missing tooltip textures for achievement reminders and missing checkmark texture for completed achievements in various places (recent reminders, series list, meta requirements).
+- Add options to show reminder text for kill-criteria achievements and the "Azeroth at War..." (mission table) achievements when the achievement is complete.
+- Suggestions Tab:
+-- Added suggestions for Chamber of Heart.
+-- Added suggestions related to Black Empire Assaults on Uldum and Vale of Eternal Blossoms.
+-- Added suggestion for Mardivas's Laboratory.
+-- Fix Mechagon Island suggestions not appearing. (Now listed under "Mechagon.")
+-- Added "The Fourth War" to War Campaign Ships suggestions.
+-- Added "Scrappy's Best Friend" to Mechagon Island suggestions.
+-- Added suggestions for the Battle for Darkshore warfront.
+-- Added suggestions for the Battle for Stromgarde heroic warfront.
+-- Added suggestion for revamped Deepwind Gorge battleground.
+- Fix other variables leaking into global scope.
 
 v1.0.8
 - Updated TOC for WoW patch 8.2.5.

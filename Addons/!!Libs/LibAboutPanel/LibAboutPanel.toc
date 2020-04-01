@@ -1,4 +1,4 @@
-﻿## Title: Lib: AboutPanel
+## Title: Lib: AboutPanel
 
 ## Notes: Adds an about panel to interface options.
 
@@ -9,9 +9,9 @@
 ## X-Donate: http://www.curseforge.com/projects/libaboutpanel/#w_donations
 
 ## Interface: 70200
-## Version: @project-version@
-## X-Revision: @project-revision@
-## X-Date: @file-date-iso@
+## Version: v1.52
+## X-Revision: 053887905abd9023c3bd666a2357336e958d8924
+## X-Date: 2017-05-16T22:16:20Z
 
 ## X-Category: Libraries
 ## X-Localizations: enUS, deDE, esES, esMX

@@ -1,17 +1,21 @@
 local mod	= DBM:NewMod("Ragnaros-Classic", "DBM-MC", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190905050401")
+mod:SetRevision("20200218153056")
 mod:SetCreatureID(11502)
 mod:SetEncounterID(672)
 mod:SetModelID(11121)
+mod:SetHotfixNoticeRev(20200218000000)--2020, 02, 18
+mod:SetMinSyncRevision(20200218000000)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
+	"SPELL_CAST_START 19774",
+	"SPELL_CAST_SUCCESS 20566 19773",
 	"CHAT_MSG_MONSTER_YELL"
 )
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 20566",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
@@ -26,31 +30,51 @@ local warnEmerge		= mod:NewAnnounce("WarnEmerge", 2, "Interface\\AddOns\\DBM-Cor
 local timerWrathRag		= mod:NewCDTimer(25, 20566, nil, nil, nil, 2)--25-30
 local timerSubmerge		= mod:NewTimer(180, "TimerSubmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
 local timerEmerge		= mod:NewTimer(90, "TimerEmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
-local timerCombatStart	= mod:NewCombatTimer(73)
+local timerCombatStart	= mod:NewTimer(73, "timerCombatStart", "132349", nil, nil, nil, nil, nil, 1, 3)
 
 mod.vb.addLeft = 8
+mod.vb.ragnarosEmerged = true
 local addsGuidCheck = {}
+
+mod:AddRangeFrameOption("10", nil, "-Melee")
 
 function mod:OnCombatStart(delay)
 	table.wipe(addsGuidCheck)
-	self.vb.addLeft = 8
+	self.vb.addLeft = 0
+	self.vb.ragnarosEmerged = true
 	timerWrathRag:Start(26.7-delay)
 	timerSubmerge:Start(180-delay)
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Show(10)
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Hide()
+	end
 end
 
 local function emerged(self)
+	self.vb.ragnarosEmerged = true
 	timerEmerge:Cancel()
 	warnEmerge:Show()
 	timerWrathRag:Start(26.7)
 	timerSubmerge:Start(180)
-	table.wipe(addsGuidCheck)
-	self.vb.addLeft = 8
+end
+
+function mod:SPELL_CAST_START(args)
+	if args.spellId == 19774 and self:AntiSpam(5, 4) then
+		self:SendSync("SummonRag")
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 20566 then
 		warnWrathRag:Show()
 		timerWrathRag:Start()
+	elseif args.spellId == 19773 then
+		self:SendSync("DomoDeath")
 	end
 end
 
@@ -63,7 +87,7 @@ function mod:UNIT_DIED(args)
 		if not addsGuidCheck[guid] then
 			addsGuidCheck[guid] = true
 			self.vb.addLeft = self.vb.addLeft - 1
-			if self.vb.addLeft == 0 then--After all 8 die he emerges immediately
+			if not self.vb.ragnarosEmerged and self.vb.addLeft == 0 then--After all 8 die he emerges immediately
 				self:Unschedule(emerged)
 				emerged(self)
 			end
@@ -72,15 +96,10 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	--"<264.91 00:32:46> [UNIT_SPELLCAST_SUCCEEDED] Ragnaros(??) -Ragnaros Submerge Visual- [[boss1:Cast-3-3882-409-7508-20567-0000F08FEE:20567]]", -- [475]
-	--"<265.01 00:32:46> [CHAT_MSG_MONSTER_YELL] COME FORTH, MY SERVANTS! DEFEND YOUR MASTER!#Ragnaros#####0#0##0#91#nil#0#false#false#false#false", -- [481]
 	if msg == L.Submerge then
 		self:SendSync("Submerge")
-	--Could also use this instead
-	--"<37.8 22:36:31> [CLEU] SPELL_CAST_START#false#Creature-0-3137-409-16929-54404-00007003D3#Majordomo Executus#2584#0##nil#-2147483648#-2147483648#19774#Summon Ragnaros#4", -- [1677]
-	--"<38.0 22:36:31> [CHAT_MSG_MONSTER_YELL] CHAT_MSG_MONSTER_YELL#Impudent whelps! You've rushed headlong to your own deaths! See now, the master stirs!\r\n#Majordomo Executus###Shiramura
-	elseif msg == L.Pull then
-		timerCombatStart:Start()
+	elseif msg == L.Pull and self:AntiSpam(5, 4) then
+		self:SendSync("SummonRag")
 	end
 end
 
@@ -95,21 +114,33 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	end
 end
 
-function mod:OnSync(msg)
+function mod:OnSync(msg, arg)
 	if not self:IsInCombat() then return end
 	if msg == "Submerge" then
+		self.vb.ragnarosEmerged = false
 		self:Unschedule(emerged)
 		timerWrathRag:Cancel()
 		warnSubmerge:Show()
 		timerEmerge:Start(90)
 		self:Schedule(90, emerged, self)
-	elseif msg == "AddDied" and guid and not addsGuidCheck[guid] then
+		self.vb.addLeft = self.vb.addLeft + 8
+	elseif msg == "AddDied" and arg and not addsGuidCheck[arg] then
 		--A unit died we didn't detect ourselves, so we correct our adds counter from sync
-		addsGuidCheck[guid] = true
+		addsGuidCheck[arg] = true
 		self.vb.addLeft = self.vb.addLeft - 1
-		if self.vb.addLeft == 0 then--After all 8 die he emerges immediately
+		if not self.vb.ragnarosEmerged and self.vb.addLeft == 0 then--After all 8 die he emerges immediately
 			self:Unschedule(emerged)
 			emerged(self)
+		end
+	elseif msg == "SummonRag" and self:AntiSpam(5, 2) then
+		timerCombatStart:Start()
+	elseif msg == "DomoDeath" and self:AntiSpam(5, 3) then
+		--The timer between yell/summon start and ragnaros being attackable is variable, but time between domo death and him being attackable is not.
+		--As such, we start lowest timer of that variation on the RP start, but adjust timer if it's less than 10 seconds at time domo dies
+		local remaining = timerCombatStart:GetRemaining()
+		if remaining < 10 then
+			local adjust = 10 - remaining
+			timerCombatStart:AddTime(adjust)
 		end
 	end
 end

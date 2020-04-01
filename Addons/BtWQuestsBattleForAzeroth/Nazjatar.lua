@@ -27,6 +27,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN01, 
             type = "level",
             level = 120,
         },
+        {
+            type = "quest",
+            ids = {51918, 52450},
+            count = 1,
+        },
     },
     active = {
         type = "quest",
@@ -256,6 +261,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02, 
         {
             type = "level",
             level = 120,
+        },
+        {
+            type = "quest",
+            ids = {51916, 52451},
+            count = 1,
         },
     },
     active = {

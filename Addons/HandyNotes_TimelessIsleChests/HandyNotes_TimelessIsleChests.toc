@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Bartruby of Cairne
-## Version: 1.21
+## Version: 1.22
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
 ## SavedVariables: TimelessIsleChestsDB
@@ -10,6 +10,17 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏 永恒岛|r
 
 ## X-Embeds: Ace3
+
+#@no-lib-strip@
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+libs\AceTimer-3.0\AceTimer-3.0.xml
+libs\AceBucket-3.0\AceBucket-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+#@end-no-lib-strip@
 
 Localization\Include.xml
 HandyNotes_TimelessIsleChests.lua

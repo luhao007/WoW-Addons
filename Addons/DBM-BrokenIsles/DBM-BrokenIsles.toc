@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
-## Version: r15
+## Version: r17
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBrokenIsles_AllSavedVars
@@ -22,9 +22,6 @@
 ## X-Curse-Project-ID: 301324
 ## X-WoWI-ID: 24905
 
-localization.en.lua
-localization.de.lua
-localization.tw.lua
 AnaMouz.lua
 Apocron.lua
 Brutallus.lua

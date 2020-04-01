@@ -8,6 +8,8 @@
 
 local _, TSM = ...
 local Operations = TSM:NewPackage("Operations")
+local TempTable = TSM.Include("Util.TempTable")
+local Log = TSM.Include("Util.Log")
 local private = {
 	operations = nil,
 	operationInfo = {},
@@ -40,7 +42,7 @@ function Operations.OnInitialize()
 	TSM.db:RegisterCallback("OnProfileUpdated", private.OnProfileUpdated)
 end
 
-function Operations.Register(moduleName, localizedName, operationInfo, maxOperations, infoCallback)
+function Operations.Register(moduleName, localizedName, operationInfo, maxOperations, infoCallback, customSanitizeFunction)
 	for key, info in pairs(operationInfo) do
 		assert(type(key) == "string" and type(info) == "table")
 		assert(info.type == type(info.default))
@@ -55,6 +57,7 @@ function Operations.Register(moduleName, localizedName, operationInfo, maxOperat
 		localizedName = localizedName,
 		maxOperations = maxOperations,
 		infoCallback = infoCallback,
+		customSanitizeFunction = customSanitizeFunction,
 	}
 
 	local shouldCreateDefaultOperations = private.shouldCreateDefaultOperations or not private.operations[moduleName]
@@ -89,12 +92,12 @@ function Operations.GetSettingDefault(moduleName, key)
 end
 
 function Operations.OperationIterator(moduleName)
-	local operations = TSM.TempTable.Acquire()
+	local operations = TempTable.Acquire()
 	for operationName in pairs(private.operations[moduleName]) do
 		tinsert(operations, operationName)
 	end
 	sort(operations)
-	return TSM.TempTable.Iterator(operations)
+	return TempTable.Iterator(operations)
 end
 
 function Operations.Exists(moduleName, operationName)
@@ -161,16 +164,16 @@ function Operations.Update(moduleName, operationName)
 end
 
 function Operations.IsCircularRelationship(moduleName, operationName, key)
-	local visited = TSM.TempTable.Acquire()
+	local visited = TempTable.Acquire()
 	while operationName do
 		if visited[operationName] then
-			TSM.TempTable.Release(visited)
+			TempTable.Release(visited)
 			return true
 		end
 		visited[operationName] = true
 		operationName = private.operations[moduleName][operationName].relationships[key]
 	end
-	TSM.TempTable.Release(visited)
+	TempTable.Release(visited)
 	return false
 end
 
@@ -185,7 +188,7 @@ function Operations.GetFirstOperationByItem(moduleName, itemString)
 end
 
 function Operations.GroupOperationIterator(moduleName, groupPath)
-	local operations = TSM.TempTable.Acquire()
+	local operations = TempTable.Acquire()
 	operations.moduleName = moduleName
 	for _, operationName in TSM.Groups.OperationIterator(groupPath, moduleName) do
 		Operations.Update(moduleName, operationName)
@@ -205,6 +208,9 @@ end
 
 function Operations.SanitizeSettings(moduleName, operationName, operationSettings)
 	local operationInfo = private.operationInfo[moduleName].info
+	if private.operationInfo[moduleName].customSanitizeFunction then
+		private.operationInfo[moduleName].customSanitizeFunction(operationSettings)
+	end
 	for key, value in pairs(operationSettings) do
 		if not operationInfo[key] then
 			operationSettings[key] = nil
@@ -213,7 +219,7 @@ function Operations.SanitizeSettings(moduleName, operationName, operationSetting
 				-- some custom price settings were potentially stored as numbers previously, so just convert them
 				operationSettings[key] = tostring(value)
 			else
-				TSM:LOG_ERR("Resetting operation setting %s,%s,%s (%s)", moduleName, operationName, tostring(key), tostring(value))
+				Log.Err("Resetting operation setting %s,%s,%s (%s)", moduleName, operationName, tostring(key), tostring(value))
 				operationSettings[key] = operationInfo[key].type == "table" and CopyTable(operationInfo[key].default) or operationInfo[key].default
 			end
 		elseif operationInfo[key].customSanitizeFunction then
@@ -227,7 +233,7 @@ function Operations.SanitizeSettings(moduleName, operationName, operationSetting
 				-- we previously stored booleans as nil instead of false
 				operationSettings[key] = false
 			else
-				TSM:LOG_ERR("Resetting missing operation setting %s,%s,%s", moduleName, operationName, tostring(key))
+				Log.Err("Resetting missing operation setting %s,%s,%s", moduleName, operationName, tostring(key))
 				operationSettings[key] = operationInfo[key].type == "table" and CopyTable(operationInfo[key].default) or operationInfo[key].default
 			end
 		end
@@ -313,13 +319,13 @@ function private.ValidateOperations(moduleName)
 	end
 	for operationName, operationSettings in pairs(private.operations[moduleName]) do
 		if type(operationName) ~= "string" or strmatch(operationName, TSM.CONST.OPERATION_SEP) then
-			TSM:LOG_ERR("Removing %s operation with invalid name: ", moduleName, tostring(operationName))
+			Log.Err("Removing %s operation with invalid name: ", moduleName, tostring(operationName))
 			private.operations[moduleName][operationName] = nil
 		else
 			Operations.SanitizeSettings(moduleName, operationName, operationSettings)
 			for key, target in pairs(operationSettings.relationships) do
 				if not private.operations[moduleName][target] then
-					TSM:LOG_ERR("Removing invalid relationship %s,%s,%s -> %s", moduleName, operationName, tostring(key), tostring(target))
+					Log.Err("Removing invalid relationship %s,%s,%s -> %s", moduleName, operationName, tostring(key), tostring(target))
 					operationSettings.relationships[key] = nil
 				end
 			end
@@ -336,7 +342,7 @@ end
 function private.GroupOperationIteratorHelper(operations, index)
 	index = index + 1
 	if index > #operations then
-		TSM.TempTable.Release(operations)
+		TempTable.Release(operations)
 		return
 	end
 	local operationName = operations[index]

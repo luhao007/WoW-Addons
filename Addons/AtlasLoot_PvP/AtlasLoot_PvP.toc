@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Lag, Proteyer, Arith
-## Version: v8.10.00
+## Version: v8.12.00
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
@@ -17,6 +17,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: AtlasLoot |cFF0099FF[PvP]|r
 # ## Title-deDE: AtlasLoot |cFF0099FF[PvP]|r
@@ -24,7 +25,6 @@
 # ## Title-ruRU: AtlasLoot |cFF0099FF[ИпИ]|r
 # ## Title-zhCN: AtlasLoot |cFF0099FF[PvP]|r
 # ## Title-zhTW: AtlasLoot |cFF0099FF[PvP]|r
-# 
 # ## Notes: AtlasLoot loot tables of PvP Items
 # ## Notes-deDE: AtlasLoot Beuteverzeichnisse für PvP-Gegenstände
 # ## Notes-frFR: Tables de butin AtlasLoot des Objets JcJ
@@ -33,7 +33,5 @@
 # ## Notes-zhCN: AtlasLoot 《PvP》物品信息
 # ## Notes-zhTW: AtlasLoot PvP物品資料庫
 #@end-debug@
-
-
 
 data.lua

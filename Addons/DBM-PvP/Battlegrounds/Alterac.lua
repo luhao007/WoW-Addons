@@ -2,7 +2,7 @@ local mod	= DBM:NewMod("z30", "DBM-PvP")
 
 local pairs, ipairs, type, tonumber, select, math = pairs, ipairs, type, tonumber, select, math
 
-mod:SetRevision("20190908234935")
+mod:SetRevision("20200216033905")
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:AddBoolOption("AutoTurnIn")
@@ -15,21 +15,17 @@ do
 	local bgzone = false
 
 	function mod:OnInitialize()
-		if DBM:GetCurrentArea() == 30 then
+		local zoneID = DBM:GetCurrentArea()
+		if zoneID == 30 or zoneID == 2197 then--Regular AV (retail and classic), Korrak
 			bgzone = true
 			self:RegisterShortTermEvents(
 				"GOSSIP_SHOW",
 				"QUEST_PROGRESS",
 				"QUEST_COMPLETE"
 			)
-			--[[
-            DBM:GetModByName("PvPGeneral"):SubscribeAssault(
-                91,
-                -- TODO: Get default ID's
-                {},
-                {0.01, 10 / 12, 10 / 9, 10 / 6, 10 / 3, 30}
-            )
-            ]]--
+			local assaultID = C_Map.GetBestMapForUnit("player")
+			DBM:GetModByName("PvPGeneral"):SubscribeAssault(assaultID, 0)
+			-- TODO: Add boss health
 		elseif bgzone then
 			bgzone = false
 			self:UnregisterShortTermEvents()
@@ -41,88 +37,29 @@ do
 	end
 end
 
-local quests = {
-	[13442] = {
-		{7386, 17423, 5},
-		{6881, 17423},
-	},
-	[13236] = {
-		{7385, 17306, 5},
-		{6801, 17306},
-	},
-	[13257] = {6781, 17422, 20},
-	[13176] = {6741, 17422, 20},
-	[13577] = {7026, 17643},
-	[13179] = {6825, 17326},
-	[13438] = {6942, 17502},
-	[13180] = {6826, 17327},
-	[13181] = {6827, 17328},
-	[13439] = {6941, 17503},
-	[13437] = {6943, 17504},
-	[13441] = {7002, 17642},
-}
-
 do
-	do
-		local tooltip = CreateFrame("GameTooltip", "DBM-PvP_Tooltip")
-		tooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		tooltip:AddFontStrings(tooltip:CreateFontString("$parentText", nil, "GameTooltipText"), tooltip:CreateFontString("$parentTextRight", nil, "GameTooltipText"))
+	local UnitGUID, GetItemCount, GetNumGossipActiveQuests, SelectGossipActiveQuest, SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward = UnitGUID, GetItemCount, GetNumGossipActiveQuests, SelectGossipActiveQuest, SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward
 
-		local function getQuestName(id)
-			tooltip:ClearLines()
-			tooltip:SetHyperlink("quest:"..id)
-			return _G[tooltip:GetName().."Text"]:GetText()
-		end
-
-		for _, v in pairs(quests) do
-			if type(v[1]) == "table" then
-				for _, v in ipairs(v) do
-					v[1] = getQuestName(v[1]) or v[1]
-				end
-			else
-				v[1] = getQuestName(v[1]) or v[1]
-			end
-		end
-	end
-end
-
-do
-	local UnitGUID, GetTitleText, CompleteQuest, GetQuestReward, GetGossipAvailableQuests, SelectGossipAvailableQuest, GetContainerNumSlots, GetContainerItemLink, GetContainerItemInfo, NUM_BAG_SLOTS = UnitGUID, GetTitleText, CompleteQuest, GetQuestReward, GetGossipAvailableQuests, SelectGossipAvailableQuest, GetContainerNumSlots, GetContainerItemLink, GetContainerItemInfo, NUM_BAG_SLOTS
-
-	local function isQuestAutoTurnInQuest(name)
-		for _, v in pairs(quests) do
-			if type(v[1]) == "table" then
-				for _, v in ipairs(v) do
-					if v[1] == name then
-						return true
-					end
-				end
-			elseif v[1] == name then
-				return true
-			end
-		end
-	end
-
-	local function acceptQuestByName(name)
-		for i = 1, select("#", GetGossipAvailableQuests()), 5 do
-			if select(i, GetGossipAvailableQuests()) == name then
-				SelectGossipAvailableQuest(math.ceil(i / 5))
-				break
-			end
-		end
-	end
-
-	local function checkItems(item, amount)
-		local found = 0
-		for bag = 0, NUM_BAG_SLOTS do
-			for i = 1, GetContainerNumSlots(bag) do
-				if tonumber((GetContainerItemLink(bag, i) or ""):match(":(%d+):") or 0) == item then
-					found = found + select(2, GetContainerItemInfo(bag, i))
-				end
-			end
-		end
-		return found >= amount
-	end
+	local quests = {
+		[13442] = { -- Archdruid Renferal [A]
+			{17423, 5}, -- Storm Crystal
+			{17423, 1}, -- Storm Crystal
+		},
+		[13257] = {17422, 20}, -- Murgot Deepforge / Armor Scraps[A]
+		[13438] = {17502, 1}, -- Wing Commander Slidore / Frostwolf Soldier's Medal [A]
+		[13439] = {17503, 1}, -- Wing Commander Vipore / Frostwolf Lieutenant's Medal [A]
+		[13437] = {17504, 1}, -- Wing Commander Ichman / Frostwolf Commander's Medal [A]
+		[13577] = {17643, 1}, -- Stormpike Ram Rider Commander / Frostwolf Hide [A]
+		[13236] = { -- Primalist Thurloga [H]
+			{17306, 5}, -- Stormpike Soldier's Blood
+			{17306, 1}, -- Stormpike Soldier's Blood
+		},
+		[13176] = {17422, 20}, -- Smith Regzar / Armor Scraps [H]
+		[13179] = {17326, 1}, -- Wing Commander Guse / Stormpike Soldier's Flesh [H]
+		[13180] = {17327, 1}, -- Wing Commander Jeztor / Stormpike Lieutenant's Flesh [H]
+		[13181] = {17328, 1}, -- Wing Commander Mulverick / Stormpike Commander's Flesh [H]
+		[13441] = {17642, 1}, -- Frostwolf Wolf Rider Commander / Alterac Ram Hide [H]
+	}
 
 	function mod:GOSSIP_SHOW()
 		if not self.Options.AutoTurnIn then
@@ -131,27 +68,31 @@ do
 		local quest = quests[self:GetCIDFromGUID(UnitGUID("target") or "") or 0]
 		if quest and type(quest[1]) == "table" then
 			for _, v in ipairs(quest) do
-				if checkItems(v[2], v[3] or 1) then
-					acceptQuestByName(v[1])
+				local num = GetItemCount(v[1])
+				if num > 0 then
+					if GetNumGossipActiveQuests() == 1 then
+						SelectGossipActiveQuest(1)
+					else
+						SelectGossipAvailableQuest((v[2] == 5 and num >= 5) and 2 or 1)
+					end
 					break
 				end
 			end
 		elseif quest then
-			if checkItems(quest[2], quest[3] or 1) then
-				acceptQuestByName(quest[1])
+			if GetItemCount(quest[1]) > quest[2] then
+				SelectGossipAvailableQuest(1)
 			end
 		end
 	end
 
 	function mod:QUEST_PROGRESS()
-		if isQuestAutoTurnInQuest(GetTitleText()) then
+		self:GOSSIP_SHOW()
+		if IsQuestCompletable() then
 			CompleteQuest()
 		end
 	end
 
 	function mod:QUEST_COMPLETE()
-		if isQuestAutoTurnInQuest(GetTitleText()) then
-			GetQuestReward(0)
-		end
+		GetQuestReward(0)
 	end
 end

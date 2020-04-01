@@ -1,10 +1,10 @@
--- $Id: Atlas-enUS.lua 329 2019-09-04 08:14:03Z arith $
+-- $Id: Atlas-enUS.lua 342 2020-01-05 14:09:32Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert at gmail dot com>
 	Copyright 2010 - Lothaer <lothayer at gmail dot com>, Atlas Team
-	Copyright 2011 ~ 2019 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -71,11 +71,15 @@ L["ATLAS_DDL_CONTINENT_DEEPHOLM"] = "Deepholm Instances"
 L["ATLAS_DDL_CONTINENT_DRAENOR"] = "Draenor Instances"
 L["ATLAS_DDL_CONTINENT_EASTERN"] = "Eastern Kingdoms Instances"
 L["ATLAS_DDL_CONTINENT_KALIMDOR"] = "Kalimdor Instances"
+L["ATLAS_DDL_CONTINENT_KULTIRAS"] = "Kul Tiras Instances"
+L["ATLAS_DDL_CONTINENT_NAZJATAR"] = "Nazjatar Instances"
 L["ATLAS_DDL_CONTINENT_NORTHREND"] = "Northrend Instances"
 L["ATLAS_DDL_CONTINENT_OUTLAND"] = "Outland Instances"
 L["ATLAS_DDL_CONTINENT_PANDARIA"] = "Pandaria Instances"
+L["ATLAS_DDL_CONTINENT_ZANDALAR"] = "Zandalar Instances"
 L["ATLAS_DDL_EXPANSION"] = "Expansion"
 L["ATLAS_DDL_EXPANSION_BC"] = "Burning Crusade Instances"
+L["ATLAS_DDL_EXPANSION_BFA"] = "Battle for Azeroth Instances"
 L["ATLAS_DDL_EXPANSION_CATA"] = "Cataclysm Instances"
 L["ATLAS_DDL_EXPANSION_LEGION"] = "Legion Instances"
 L["ATLAS_DDL_EXPANSION_LEGION1"] = "Legion Dungeons"
@@ -88,6 +92,10 @@ L["ATLAS_DDL_LEVEL"] = "Level"
 L["ATLAS_DDL_LEVEL_100PLUS"] = "Instances Level 100+"
 L["ATLAS_DDL_LEVEL_100TO110"] = "Instances Level 100-110"
 L["ATLAS_DDL_LEVEL_110PLUS"] = "Instances Level 110+"
+L["ATLAS_DDL_LEVEL_110TO120"] = "Instances Level 110-120"
+L["ATLAS_DDL_LEVEL_120PLUS"] = "Instances Level 120+"
+L["ATLAS_DDL_LEVEL_120TO130"] = "Instances Level 120-130"
+L["ATLAS_DDL_LEVEL_130PLUS"] = "Instances Level 130+"
 L["ATLAS_DDL_LEVEL_45TO60"] = "Instances Level 45-60"
 L["ATLAS_DDL_LEVEL_60TO70"] = "Instances Level 60-70"
 L["ATLAS_DDL_LEVEL_70TO80"] = "Instances Level 70-80"

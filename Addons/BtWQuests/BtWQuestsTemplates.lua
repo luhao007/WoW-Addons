@@ -377,8 +377,8 @@ function BtWQuestsChainViewMixin:SetChain(chainID, scrollTo, zoom)
     do
         local Child = self:GetScrollChild();
         local rect = self.rect;
-        rect.left, rect.right = floor(rect.left), ceil(rect.right)
-        rect.top, rect.bottom = floor(rect.top), ceil(rect.bottom)
+        rect.left, rect.right = floor(rect.left or 0), ceil(rect.right or 0)
+        rect.top, rect.bottom = floor(rect.top or 0), ceil(rect.bottom or 0)
         rect.top = max(rect.top, 0)
 
         local width = rect.right - rect.left;
@@ -460,7 +460,9 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
 
     local chain = BtWQuestsDatabase:GetChainByID(chainID)
 
-    local previousX, previousY = nil, 0
+    -- Normally previous and embed are the same, but after embedding a chain, previous is the last spot of
+    -- the embedded chain and embed is the first spot.
+    local previousX, previousY, embedX, embedY = nil, 0, nil, 0
 
     local index = 1
     local item = chain:GetItem(index, character)
@@ -474,14 +476,9 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
                     if previousX == nil then
                         x = 0
                         y = 0
-
-                        while x >= 8 do
-                            x = x - 8
-                            y = y + 1
-                        end
                     else
-                        x = previousX + 2
-                        y = previousY
+                        x = embedX + 2
+                        y = embedY
 
                         if x > 6 then
                             x = x - 8
@@ -490,27 +487,25 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
                     end
                 else
                     x = previousX
-                    y = y + yOffset
+                    y = y
                 end
             elseif y == nil then
-                x = x + xOffset
+                x = x
                 if previousX ~= nil and x <= previousX then
                     y = previousY + 1
                 else
-                    y = previousY
+                    y = embedY
                 end
             else
-                x = x + xOffset
-                y = y + yOffset
+                x = x
+                y = y
             end
 
-            previousX = x
-            previousY = y
+            embedX, embedY = x, y
+            previousX, previousY = x, y
 
-            rect.left = rect.left and min(rect.left, x) or x;
-            rect.right = rect.right and max(rect.right, x) or x;
-            rect.top = rect.top and min(rect.top, y) or y;
-            rect.bottom = rect.bottom and max(rect.bottom, y) or y;
+            x = x + xOffset
+            y = y + yOffset
 
             if item:GetType() == "chain" and item:IsEmbed() then
                 local connections = item:GetConnections();
@@ -527,6 +522,11 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
                 end
                 previousX, previousY = self:AddButtons(item:GetID(), x or 0, y or 0, item:IsAside(character), connectionsOverride, chain)
             else
+                rect.left = rect.left and min(rect.left, x) or x;
+                rect.right = rect.right and max(rect.right, x) or x;
+                rect.top = rect.top and min(rect.top, y) or y;
+                rect.bottom = rect.bottom and max(rect.bottom, y) or y;
+
                 local itemButton = buttons[index] or self.itemPool:Acquire();
                 buttons[index] = itemButton
 
@@ -640,7 +640,7 @@ function BtWQuestsChainViewMixin:AddButtons(chainID, xOffset, yOffset, asideOver
         item = chain:GetItem(index, character)
     end
 
-    return previousX, previousY
+    return (previousX or 0) + xOffset, (previousY or 0) + yOffset
 end
 function BtWQuestsChainViewMixin:Update()
     self:UpdateChain(self.chainID)
@@ -770,15 +770,27 @@ function BtWQuestsExpansionMixin:Set(item, character)
 
     self.buttonPool:ReleaseAll()
 
-    local items = item:GetMajorItems(character)
-    local previous = self.ViewAll
-    for i=#items,1,-1 do
-        local button = self.buttonPool:Acquire()
-        button:Set(items[i], character)
-        button:SetPoint("BOTTOM", previous, "TOP", 0, 5)
-        button:Show()
-        previous = button
+    self.AutoLoad:SetShown(item:SupportAutoLoad())
+    self.AutoLoad:SetChecked(item:IsAutoLoad())
+
+    if item:IsLoaded() then
+        local items = item:GetMajorItems(character)
+        local previous = self.ViewAll
+        for i=#items,1,-1 do
+            local button = self.buttonPool:Acquire()
+            button:Set(items[i], character)
+            button:SetPoint("BOTTOM", previous, "TOP", 0, 5)
+            button:Show()
+            previous = button
+        end
+
+        self.Load:Hide()
+        self.ViewAll:Show()
+    else
+        self.Load:Show()
+        self.ViewAll:Hide()
     end
+
 end
 
 -- [[ Navbar ]]
@@ -1038,7 +1050,9 @@ function BtWQuestsDropDownMenuMixin:GetListFrame()
             menu:Close()
         end)
         hooksecurefunc("CloseDropDownMenus", function ()
-            menu:Close()
+            if not list:IsMouseOver() then
+                menu:Close()
+            end
         end)
     end
 
@@ -1867,7 +1881,9 @@ function BtWQuestsSearchBoxMixin:OnKeyDown(key)
 end
 function BtWQuestsSearchBoxMixin:OnFocusLost()
     SearchBoxTemplate_OnEditFocusLost(self);
-    self:HidePreview()
+    if not self:GetPreviewFrame():IsMouseOver() then
+        self:HidePreview()
+    end
 end
 function BtWQuestsSearchBoxMixin:OnFocusGained()
     SearchBoxTemplate_OnEditFocusGained(self)
@@ -1958,6 +1974,7 @@ function BtWQuestsSearchPreviewMixin:FixBottomBorder()
     end
 
     if lastShownButton ~= nil then
+        self:SetHeight(self:GetTop() - lastShownButton:GetBottom())
         self.botRightCorner:SetPoint("BOTTOM", lastShownButton, "BOTTOM", 0, -8)
         self.botLeftCorner:SetPoint("BOTTOM", lastShownButton, "BOTTOM", 0, -8)
     else

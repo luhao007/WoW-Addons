@@ -4,6 +4,7 @@ if GetLocale() ~= "koKR" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "뾰족발톱의 발톱",
@@ -7566,3 +7567,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "격퇴",
     },
 })
+]])()

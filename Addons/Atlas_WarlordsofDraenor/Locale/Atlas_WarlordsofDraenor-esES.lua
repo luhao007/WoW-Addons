@@ -1,10 +1,10 @@
--- $Id: Atlas_WarlordsofDraenor-esES.lua 53 2019-09-04 07:52:57Z arith $
+-- $Id: Atlas_WarlordsofDraenor-esES.lua 55 2020-01-01 15:04:52Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 	Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-	Copyright 2011 ~ 2019 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 

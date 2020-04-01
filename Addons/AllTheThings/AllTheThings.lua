@@ -235,16 +235,22 @@ end
 
 (function()
 	local tradeSkillSpecializationMap = {
-		-- Engineering Skills
-		[202] = { 
-				  20219,    -- Gnomish Engineering
-		          20222     -- Goblin Engineering
-				}
+		[202] = {	-- Engineering
+			20219,    -- Gnomish Engineering
+			20222     -- Goblin Engineering
+		},
+		[164] = {	-- Blacksmithing
+			9788,	-- Armorsmith
+			9787,	-- Weaponsmith
+		},
 	};
 	local specializationTradeSkillMap = {
 		-- Engineering Skills
 		[20219] = 202,  -- Gnomish Engineering
-		[20222] = 202   -- Goblin Engineering
+		[20222] = 202,   -- Goblin Engineering
+		-- Blacksmithing Skills
+		[9788] = 9788,	-- Armorsmith
+		[9787] = 9787,	-- Weaponsmith
 	};
 	-- Map all Skill IDs to the old Skill IDs
 	local tradeSkillMap = {
@@ -1593,6 +1599,36 @@ subroutines = {
 			{"is", "f"},	-- If it has a filterID, keep it, otherwise throw it away.
 		};
 	end,
+	["pvp_weapons_faction_ensemble"] = function(headerID1, headerID2, headerID3, headerID4)
+		return {
+			{"select", "npcID", headerID1 },	-- Select the Expansion header
+			{"pop"},	-- Discard the Expansion header and acquire the children.
+			{"where", "npcID", headerID2 },	-- Select the Season header
+			{"pop"},	-- Discard the Season header and acquire the children.
+			{"where", "npcID", headerID3 },	-- Select the Faction header
+			{"pop"},	-- Discard the Season header and acquire the children.
+			{"where", "npcID", headerID4 },	-- Select the Set header
+			{"pop"},	-- Discard the Set header and acquire the children.
+			{"where", "npcID", -319 },	-- Select the "Weapons" header.
+			{"pop"},	-- Discard the class header and acquire the children.
+			{"is", "itemID"},
+			{"is", "f"},	-- If it has a filterID, keep it, otherwise throw it away.
+		};
+	end,
+	-- Island Expeditions Sets
+	["islandexpeditions_sets"] = function(headerID1, headerID2)
+		return {
+			{"select", "npcID", -3338 },	-- Select the Island Expeditions header
+			{"pop"},	-- Discard the Island Expeditions header and acquire the children.
+			{"where", "npcID", -6015 },	-- Select the Rewards header
+			{"pop"},	-- Discard the Rewards header and acquire the children.
+			{"where", "npcID", -3339 },	-- Select the Item Sets header
+			{"pop"},	-- Discard the Item Sets header and acquire the children.
+			{"where", "npcID", headerID1 },	-- Select the Armor Typ header
+			{"pop"},	-- Discard the Set header and acquire the children.
+			{"where", "npcID", headerID2 },	-- Select the Set header
+		};
+	end,
 	["legion_relinquished_base"] = function()
 		return {
 			-- Legion Legendaries
@@ -2104,7 +2140,7 @@ end
 end)();
 local function BuildContainsInfo(groups, entries, paramA, paramB, indent, layer)
 	for i,group in ipairs(groups) do
-		if app.GroupRequirementsFilter(group) and app.GroupFilter(group) then
+		if app.RecursiveGroupRequirementsFilter(group) then
 			local right = nil;
 			if group.total and (group.total > 1 or (group.total > 0 and not group.collectible)) then
 				if (group.progress / group.total) < 1 or app.Settings:Get("Show:CompletedGroups") then
@@ -2203,7 +2239,7 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 					end
 				else
 					for i,j in ipairs(group) do
-						if app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) then
+						if app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) and app.RecursiveGroupRequirementsFilter(j) then
 							tinsert(regroup, j);
 						end
 					end
@@ -2251,7 +2287,7 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 				end
 			else
 				for i,j in ipairs(group) do
-					if j.criteriaID == criteriaID and app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) then
+					if j.criteriaID == criteriaID and app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) and app.RecursiveGroupRequirementsFilter(j) then
 						if j.mapID or j.parent == nil or j.parent.parent == nil then
 							tinsert(regroup, setmetatable({["g"] = {}}, { __index = j }));
 						else
@@ -2273,7 +2309,7 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 				end
 			else
 				for i,j in ipairs(group) do
-					if app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) then
+					if app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) and app.RecursiveGroupRequirementsFilter(j) then
 						tinsert(regroup, setmetatable({["g"] = {}}, { __index = j }));
 					end
 				end
@@ -2291,7 +2327,7 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 				end
 			else
 				for i,j in ipairs(group) do
-					if app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) then
+					if app.RecursiveClassAndRaceFilter(j) and app.RecursiveUnobtainableFilter(j) and app.RecursiveGroupRequirementsFilter(j) then
 						tinsert(regroup, setmetatable({["g"] = {}}, { __index = j }));
 					end
 				end
@@ -3040,12 +3076,6 @@ fieldConverters = {
 			elseif v[1] == "o" and v[2] > 0 then
 				CacheField(group, "objectID", v[2]);
 			end
-		end
-	end,
-	["altQuests"] = function(group, value)
-		_cache = rawget(fieldConverters, "questID");
-		for i,questID in ipairs(value) do
-			_cache(group, questID);
 		end
 	end,
 	["maps"] = function(group, value)
@@ -4062,6 +4092,8 @@ end
 		[55976] = 169939,	-- Waveblade Ankoan // Supplies From the Waveblade Ankoan
 		[53982] = 169940,	-- Unshackled // Supplies From The Unshackled
 		[55348] = 170061,	-- Rustbolt // Supplies from the Rustbolt Resistance
+		[58096] = 174483,	-- Rajani // Supplies from the Rajani
+		[58097] = 174484,	-- Uldum Accord // Supplies from the Uldum Accord
 	};
 	hooksecurefunc("ReputationParagonFrame_SetupParagonTooltip",function(frame)
 		-- Let's make sure the user isn't in combat and if they are do they have In Combat turned on.  Finally check to see if Tootltips are turned on.
@@ -4238,13 +4270,20 @@ app.BaseAchievementCriteria = {
 			return app.CollectibleAchievements;
 		elseif key == "saved" or key == "collected" then
 			if t.criteriaID then
+				local achCollected = 0
 				if app.Settings:Get("AccountWide:Achievements") then
-					local ach = GetDataSubMember("CollectedAchievements", t.achievementID);
-					if ach == 1 then return true end
+					achCollected = GetDataSubMember("CollectedAchievements", t.achievementID);
+				else
+					achCollected = select(app.AchievementCharCompletedIndex, GetAchievementInfo(t.achievementID))
 				end
-				local m = GetAchievementNumCriteria(t.achievementID);
-				if m and t.criteriaID <= m then
-					return select(3, GetAchievementCriteriaInfo(t.achievementID, t.criteriaID, true));
+				
+				if achCollected then
+					return true
+				else
+					local m = GetAchievementNumCriteria(t.achievementID);
+					if m and t.criteriaID <= m then
+						return select(3, GetAchievementCriteriaInfo(t.achievementID, t.criteriaID, true));
+					end
 				end
 			end
 		elseif key == "index" then
@@ -4672,6 +4711,7 @@ app.FACTION_RACES = {
 		30,	-- Lightforged
 		32,	-- Kul Tiran
 		34,	-- Dark Iron
+		37,	-- Mechagnome
 	},
 	[2] = {
 		2,	-- Orc
@@ -4684,6 +4724,7 @@ app.FACTION_RACES = {
 		27,	-- Nightborne
 		28,	-- Highmountain
 		31,	-- Zandalari
+		35,	-- Vulpera
 		36,	-- Mag'har
 	}
 };
@@ -4907,7 +4948,7 @@ end)();
 				return "Interface\\Addons\\AllTheThings\\assets\\fp_neutral";
 			else
 				-- Something that isn't dynamic.
-				return table[key];
+				return rawget(t.info, key);
 			end
 		end
 	};
@@ -6189,6 +6230,15 @@ local SkillIDToSpellID = setmetatable({
 	[393] = 8613,	-- Skinning
 	[197] = 3908,	-- Tailoring
 	[960] = 53428,  -- Runeforging
+	
+	-- Specializations
+	[20219] = 20219,	-- Gnomish Engineering
+	[20222] = 20222,	-- Goblin Engineering
+	[9788] = 9788,		-- Armorsmith
+	[9787] = 9787,		-- Weaponsmith
+	[17041] = 17041,	-- Master Axesmith
+	[17040] = 17040,	-- Master Hammersmith
+	[17039] = 17039,	-- Master Swordsmith
 }, {__index = function(t,k) return(106727) end})
 app.BaseProfession = {
 	__index = function(t, key)
@@ -7279,6 +7329,13 @@ app.RequiredSkillFilter = app.NoFilter;
 app.ShowIncompleteThings = app.Filter;
 
 -- Recursive Checks
+app.RecursiveGroupRequirementsFilter = function(group)
+	if app.GroupRequirementsFilter(group) and app.GroupFilter(group) then
+		if group.parent then return app.RecursiveGroupRequirementsFilter(group.parent); end
+		return true;
+	end
+	return false;
+end
 app.RecursiveClassAndRaceFilter = function(group)
 	if app.ClassRequirementFilter(group) and app.RaceRequirementFilter(group) then
 		if group.parent then return app.RecursiveClassAndRaceFilter(group.parent); end
@@ -8911,15 +8968,15 @@ local function RowOnEnter(self)
 		if reference.flightPathID and app.Settings:GetTooltipSetting("flightPathID")  then GameTooltip:AddDoubleLine(L["FLIGHT_PATH_ID"], tostring(reference.flightPathID)); end
 		if reference.mapID and app.Settings:GetTooltipSetting("mapID") then GameTooltip:AddDoubleLine(L["MAP_ID"], tostring(reference.mapID)); end
 		if reference.coords and app.Settings:GetTooltipSetting("Coordinates") then
-			local j = 0;
+			local currentMapID, j, str = app.GetCurrentMapID(), 0;
 			for i,coord in ipairs(reference.coords) do
-				local x = coord[1];
-				local y = coord[2];
-				local str;
-				local mapID = coord[3];
-				if mapID then
-					str = tostring(mapID);
-					if mapID == app.GetCurrentMapID() then str = str .. "*"; end
+				local x, y = coord[1], coord[2];
+				local mapID = coord[3] or currentMapID;
+				if mapID ~= currentMapID then
+					str = app.GetMapName(mapID) or "??";
+					if app.Settings:GetTooltipSetting("mapID") then
+						str = str .. " (" .. mapID .. ")";
+					end
 					str = str .. ": ";
 				else
 					str = "";
@@ -9097,11 +9154,13 @@ local function RowOnEnter(self)
 					local sqs = SearchForField("questID", sourceQuestID);
 					if sqs and #sqs > 0 then
 						local sq = sqs[1];
-						if IsQuestFlaggedCompletedForObject(sq) ~= 1 then
-							if sq.isBreadcrumb then
-								table.insert(bc, sqs[1]);
-							else
-								table.insert(prereqs, sqs[1]);
+						if sq and app.ClassRequirementFilter(sq) and app.RaceRequirementFilter(sq) then
+							if IsQuestFlaggedCompletedForObject(sq) ~= 1 then
+								if sq.isBreadcrumb then
+									table.insert(bc, sqs[1]);
+								else
+									table.insert(prereqs, sqs[1]);
+								end
 							end
 						end
 					elseif not IsQuestFlaggedCompleted(sourceQuestID) then
@@ -10226,22 +10285,12 @@ app:GetWindow("Bounty", UIParent, function(self, force, got)
 					end,
 				}),
 				app.CreateInstance(745, { 	-- Karazhan (Raid)
-					['description'] = "The reward chest for completing the Chess Event in Karazhan is currently not interactable since 8.2. All items found within it are now considered Unobtainable.",
+					['description'] = "The reward chest for completing the Chess Event in Karazhan has been fixed!",
 					['isRaid'] = true,
-					['g'] = {
-						app.CreateItemSource(12700, 28749),	-- King's Defender
-						app.CreateItemSource(12704, 28754),	-- Triptych Shield of the Ancients
-						app.CreateItemSource(12706, 28756),	-- Headdress of the High Potentate
-						app.CreateItem(28745),	-- Mithril Chain of Heroism
-						app.CreateItemSource(12705, 28755),	-- Bladed Shoulderpads of the Merciless
-						app.CreateItemSource(12701, 28750),	-- Girdle of Treachery
-						app.CreateItemSource(12702, 28751),	-- Heart-Flame Leggings
-						app.CreateItemSource(12699, 28748),	-- Legplates of the Innocent
-						app.CreateItemSource(12698, 28747),	-- Battlescar Boots
-						app.CreateItemSource(12697, 28746),	-- Fiend Slayer Boots
-						app.CreateItemSource(12703, 28752),	-- Forestlord Striders
-						app.CreateItem(28753),	-- Ring of Recurrence
-					},
+					['visible'] = true,
+					['OnUpdate'] = function(data) 
+						data.visible = true;
+					end,
 				}),
 				app.CreateInstance(228, {	-- Blackrock Depths
 					['description'] = "Ebonsteel Spaulders have been hotfixed! All of the items previously marked Unobtainable from General Angerforge have been fixed and confirmed as dropping once again!",
@@ -10381,6 +10430,19 @@ app.events.COMBAT_LOG_EVENT_UNFILTERED = function()
 	local _,event = CombatLogGetCurrentEventInfo();
 	if event == "UNIT_DIED" or event == "UNIT_DESTROYED" then
 		RefreshQuestCompletionState()
+	end
+end
+-- This event is helpful for world objects used as treasures. Won't help with objects without rewards (e.g. cat statues in Nazjatar)
+app:RegisterEvent("LOOT_OPENED")
+app.events.LOOT_OPENED = function()
+	local guid = GetLootSourceInfo(1)
+	if guid then 
+		local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
+		if(type == "GameObject") then
+		  local text = GameTooltipTextLeft1:GetText()
+		  print('ObjectID: '..(npc_id or 'UNKNOWN').. ' || ' .. 'Name: ' .. (text or 'UNKNOWN'))
+		  RefreshQuestCompletionState()
+	   end
 	end
 end
 app:GetWindow("Debugger", UIParent, function(self)
@@ -11705,7 +11767,13 @@ app:GetWindow("RaidAssistant", UIParent, function(self)
 			if g.OnUpdate then g.OnUpdate(g); end
 		end
 		BuildGroups(self.data, self.data.g);
+		
+		-- Update the groups without forcing Debug Mode.
+		local visibilityFilter = app.VisibilityFilter;
+		app.VisibilityFilter = app.ObjectVisibilityFilter;
+		BuildGroups(self.data, self.data.g);
 		UpdateWindow(self, true);
+		app.VisibilityFilter = visibilityFilter;
 	end
 end);
 app:GetWindow("Random", UIParent, function(self)
@@ -12557,7 +12625,7 @@ app:GetWindow("WorldQuests", UIParent, function(self)
 			};
 			local worldMapIDs = {
 				{ 14 },		-- Arathi Highlands
-				{ 62 },		-- Darkshore
+				--{ 62 },	-- Darkshore does not need to be included as a separate mapID as it is contained in the the Kalimdor mapID
 				{
 					875,	-- Zandalar
 					{
@@ -12574,7 +12642,7 @@ app:GetWindow("WorldQuests", UIParent, function(self)
 						{ 895, 5896, { 53939, 53711 }},	-- Tiragarde Sound (Breaching Boralus [H] / A Sound Defense [A])
 					}
 				},	
-				{ 
+				{
 					619, -- Broken Isles
 					{
 						{ 630, 5175, { 47063 }},	-- Azsuna
@@ -12588,6 +12656,22 @@ app:GetWindow("WorldQuests", UIParent, function(self)
 				{ 882 },	-- Mac'Aree
 				{ 1355 },	-- Nazjatar
 				-- { 1462 },	-- Mechagon does not need to be included as a separate mapID as it is contained in the the Kul Tiras mapID
+				{
+					12,		-- Kalimdor
+					{
+						{ 1527, 6486, { 57157 }},	-- Assault: The Black Empire
+						{ 1527, 6488, { 56308 }},	-- Assault: Aqir Unearthed
+						{ 1527, 6487, { 55350 }},	-- Assault: Amathet Advance
+					},
+				},
+				{
+					424,	-- Pandaria
+					{
+						{ 1530, 6489, { 56064 }},	-- Assault: The Black Empire
+						{ 1530, 6491, { 57728 }},	-- Assault: The Endless Swarm
+						{ 1530, 6490, { 57008 }},	-- Assault: The Warring Clans
+					},
+				},
 			};
 			local OnUpdateForItem = function(self)
 				for i,o in ipairs(self.g) do
@@ -13747,7 +13831,7 @@ app.OpenAuctionModule = function(self)
 			window:Update();
 			
 			-- Change the message!
-			frame.descriptionLabel:SetText("Got the datas!\n\nShift Left click into the search bar on the Browse tab to look for items!");
+			frame.descriptionLabel:SetText("Got the data!\n\nShift + Left click items in the ATT menu while on the AH Browse tab to search for the item!");
 			frame.descriptionLabel:Show();
 		end
 		local ProcessAuctions = function()
@@ -14257,6 +14341,8 @@ app.events.VARIABLES_LOADED = function()
 		{ 12516, { 51813, 53351, 53342, 53352, 51474, 53566 } },	-- Allied Races: Dark Iron Dwarf
 		{ 12451, { 49698, 49266, 50071 } },	-- Allied Races: Lightforged Draenei 
 		{ 13157, { 54706, 55039, 55043, 54708, 54721, 54723, 54725, 54726, 54727, 54728, 54730, 54731, 54729, 54732, 55136, 54733, 54734, 54735, 54851, 53720 } },	-- Allied Races: Kul Tiran
+		{ 14013, { 57486, 57487, 57488, 57490, 57491, 57492, 57493, 57494, 57496, 57495, 57497 } },	-- Allied Races: Mechagnome
+		{ 13206, { 53870, 53889, 53890, 53891, 53892, 53893, 53894, 53895, 53897, 53898, 54026, 53899, 58087, 53901, 53900, 53902, 54027, 53903, 53904, 53905, 54036, 53906, 53907, 53908, 57448 } },	-- Allied Races: Vulpera
 	}) do
 		-- If you completed the achievement, then mark the associated quests.
 		if select(4, GetAchievementInfo(achievementQuests[1])) then
@@ -14355,6 +14441,7 @@ app.events.VARIABLES_LOADED = function()
 		"RandomSearchFilter",
 		"Reagents",
 		"RefreshedCollectionsAlready",
+		"ToyCacheRebuilt",
 		"SeasonalFilters",
 		"Sets",
 		"SourceSets",
@@ -14412,6 +14499,14 @@ app.events.VARIABLES_LOADED = function()
 		app:RegisterEvent("ARTIFACT_UPDATE");
 		app:RegisterEvent("TOYS_UPDATED");
 		app.IsReady = true;
+		
+		-- Rebuild toy collection. This should only happen once to fix toy collection states from a bug prior 14.January.2020
+		local toyCacheRebuilt = GetDataMember("ToyCacheRebuilt")
+		if not toyCacheRebuilt then
+			SetDataMember("ToyCacheRebuilt", true)
+			wipe(GetDataMember("CollectedToys", {}))
+			RefreshCollections()
+		end
 		
 		-- NOTE: The auto refresh only happens once.
 		if not app.autoRefreshedCollections then
@@ -14608,7 +14703,7 @@ app.events.PLAYER_DIFFICULTY_CHANGED = function()
 	wipe(searchCache);
 end
 app.events.TOYS_UPDATED = function(itemID, new)
-	if itemID and not GetDataSubMember("CollectedToys", itemID) then
+	if itemID and PlayerHasToy(itemID) and not GetDataSubMember("CollectedToys", itemID) then
 		SetDataSubMember("CollectedToys", itemID, true);
 		app:RefreshData(false, true);
 		app:PlayFanfare();

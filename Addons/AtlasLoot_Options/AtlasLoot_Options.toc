@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Lag, Proteyer, Arith
-## Version: v8.10.00
+## Version: v8.12.00
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
@@ -17,6 +17,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: AtlasLoot |cFF0099FF[Options]|r
 # ## Title-deDE: AtlasLoot |cFF0099FF[Einstellungen]|r
@@ -24,7 +25,6 @@
 # ## Title-ruRU: AtlasLoot |cFF0099FF[Опции]|r
 # ## Title-zhCN: AtlasLoot |cFF0099FF[选项]|r
 # ## Title-zhTW: AtlasLoot |cFF0099FF[選項]|r
-# 
 # ## Notes: AtlasLoot options module
 # ## Notes-deDE: AtlasLoot Modul für Einstellungen
 # ## Notes-frFR: Module d'options AtlasLoot
@@ -33,8 +33,6 @@
 # ## Notes-zhCN: AtlasLoot 选项模块
 # ## Notes-zhTW: AtlasLoot 選項設定模組
 #@end-debug@
-
-
 
 ALOptions\ALOptions-1.0.xml
 

@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Tuhljin
-## Version: 1.0.8
+## Version: 1.0.9
 ## Dependencies: Overachiever
 ## SavedVariables: Overachiever_Cache_CritAssets
 

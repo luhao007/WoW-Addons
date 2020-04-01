@@ -21,16 +21,51 @@ local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local HasFullControl = HasFullControl
 local GetTime = GetTime
 local format = format
+local strmatch = strmatch
 local ClearCursor = ClearCursor
 local UIErrorsFrame = UIErrorsFrame
 
 local _, addon = ...
 local L = addon.L
-local DURASLOTS = { 16, 17, 18, 5, 7, 1, 3, 8, 10, 6, 9 } -- Inventory slots that possibly have durabilities
+local INV_SLOTS = { 16, 17, 18, 5, 7, 1, 3, 8, 10, 6, 9, 2, 15, 11, 12, 13, 14 } -- Priorities for strip
+
+local artifactMap = {
+	[128866] = 128867, -- Paladin pro
+	[128289] = 128288, -- Warrior pro
+	[128943] = 137246, -- Warlock dem
+}
+
 local lastOpt = 0 -- Last operated time
 
-local function IsEquippableSlot(slot)
-	return slot > 15 or not InCombatLockdown()
+local button = CreateFrame("Button", addon.name.."ActionButton_QuickStrip", UIParent, "SecureActionButtonTemplate")
+addon.quickStripButton = button
+button:SetAttribute("type", "macro")
+addon:RegisterBindingClick(button, "GEARMANAGEREX_QUICKSTRIP", L["quick strip"])
+
+addon:RegisterEventCallback("OnEquipsChanged", function()
+	if InCombatLockdown() then
+		return
+	end
+
+	local link = GetInventoryItemLink("player", 16)
+	local mh = link and strmatch(link, "%[(.+)%]")
+	if not mh then
+		return
+	end
+
+	local macroText = "/equip [combat] "..mh
+
+	local link = GetInventoryItemLink("player", 17)
+	local oh = link and strmatch(link, "%[(.+)%]")
+	if oh then
+		macroText = macroText.."\n/equip [combat] "..oh
+	end
+
+	button:SetAttribute("macroText", macroText)
+end)
+
+local function IsCombatLocked(slot)
+	return (slot ~= 16 and slot ~= 17) and InCombatLockdown()
 end
 
 local function GetItemLocked()
@@ -65,12 +100,23 @@ local function GetFirstAvailableBag(bags)
 end
 
 local function FindContainerItem(lnk, allowLocked)
-	if type(lnk) == "string" then
-		local bag, slot
-		for bag = 0, 4 do
-			for slot = 1, GetContainerNumSlots(bag) do
-				local _, _, locked, _, _, _, link = GetContainerItemInfo(bag, slot)
-				if (allowLocked or not locked) and link == lnk then
+	if type(lnk) ~= "string" then
+		return
+	end
+
+	local itemId = tonumber(strmatch(lnk, "Hitem:(%d+)"))
+
+	local bag, slot
+	for bag = 0, 4 do
+		for slot = 1, GetContainerNumSlots(bag) do
+			local _, _, locked, _, _, _, link = GetContainerItemInfo(bag, slot)
+			if (allowLocked or not locked) then
+				if link == lnk then
+					return bag, slot
+				end
+
+				local id = GetContainerItemID(bag, slot)
+				if artifactMap[id] == itemId then
 					return bag, slot
 				end
 			end
@@ -80,19 +126,19 @@ end
 
 local function VerifyStrippedDB()
 	local hasContents
-	if type(addon.db.stripped) == "table" then
+	if type(addon.chardb.stripped) == "table" then
 		local inv, lnk
-		for inv, lnk in pairs(addon.db.stripped) do
+		for inv, lnk in pairs(addon.chardb.stripped) do
 			if type(inv) == "number" and not GetInventoryItemLink("player", inv) and FindContainerItem(lnk, 1) then
 				hasContents = 1
 			else
-				addon.db.stripped[inv] = nil
+				addon.chardb.stripped[inv] = nil
 			end
 		end
 	end
 
 	if not hasContents then
-		addon.db.stripped = nil
+		addon.chardb.stripped = nil
 	end
 
 	return hasContents
@@ -103,10 +149,10 @@ local function StripOff()
 	local bags = GetAvailableBags()
 	local count = 0
 	local i
-	for i = 1, #DURASLOTS do
-		local inv = DURASLOTS[i]
+	for i = 1, #INV_SLOTS do
+		local inv = INV_SLOTS[i]
 		local lnk = GetInventoryItemLink("player", inv)
-		if lnk and IsEquippableSlot(inv) and GetInventoryItemDurability(inv) then
+		if lnk and not IsCombatLocked(inv) then
 			local bag = GetFirstAvailableBag(bags)
 			if bag then
 				bags[bag] = bags[bag] - 1
@@ -118,11 +164,11 @@ local function StripOff()
 						PutItemInBag(19 + bag)
 					end
 
-					if not addon.db.stripped then
-						addon.db.stripped = {}
+					if not addon.chardb.stripped then
+						addon.chardb.stripped = {}
 					end
 
-					addon.db.stripped[inv] = lnk
+					addon.chardb.stripped[inv] = lnk
 					count = count + 1
 				end
 			else
@@ -138,39 +184,39 @@ end
 local function WearBack()
 	local count = 0
 	local inv, lnk
-	for inv, lnk in pairs(addon.db.stripped) do
-		if IsEquippableSlot(inv) then
-			local bag, slot = FindContainerItem(lnk)
-			if bag and slot then
-				PickupContainerItem(bag, slot)
-				if CursorHasItem() then
-					EquipCursorItem(inv)
-					count = count + 1
-				end
+	for inv, lnk in pairs(addon.chardb.stripped) do
+		local bag, slot = FindContainerItem(lnk)
+		if bag and slot then
+			PickupContainerItem(bag, slot)
+			if CursorHasItem() then
+				EquipCursorItem(inv)
+				count = count + 1
 			end
 		end
 	end
-	addon.db.stripped = nil
+
+	VerifyStrippedDB()
 	return count
 end
 
--- Strip/wear
-function addon:QuickStrip()
+button:SetScript("PostClick", function(self)
 	if UnitIsDeadOrGhost("player") or not HasFullControl() or GetItemLocked() then
 		UIErrorsFrame:AddMessage(ERR_CLIENT_LOCKED_OUT, 1.0, 0.1, 0.1, 1.0)
 		return
 	end
 
-	if GetTime() - lastOpt < 2 then
+	if GetTime() - lastOpt < 1.5 then
 		addon:Print(L["too fast"], 1, 0, 0)
 		return
 	end
 
 	ClearCursor()
 	if VerifyStrippedDB() then
-		addon:Print(format(L["wore back"], WearBack()))
+		if not InCombatLockdown() then
+			addon:Print(format(L["wore back"], WearBack()))
+		end
 	else
 		addon:Print(format(L["stripped off"], StripOff()))
 	end
 	lastOpt = GetTime()
-end
+end)

@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Dejablue, Kakjens, loudsoul
-## Version: 820r202
+## Version: 830r304
 ## SavedVariables: DCS_ClassSpecDB
 ## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
 

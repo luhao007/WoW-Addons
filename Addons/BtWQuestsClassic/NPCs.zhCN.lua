@@ -4,6 +4,7 @@ if GetLocale() ~= "zhCN" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
     [263] = {
         name = "艾尔罗·埃伯洛克公爵",
@@ -121,6 +122,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1777] = {
         name = "达克·枪火",
+    },
+    [1959] = {
+        name = "巡山人维拉特·麦酒",
     },
     [1960] = {
         name = "驾驶员塞克·锤足",
@@ -862,6 +866,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [34303] = {
         name = "达格鲁·怒锤",
+    },
+    [34320] = {
+        name = "毒皮暴掠幼龙",
     },
     [34335] = {
         name = "阿夫鲁斯·病语",
@@ -1913,4 +1920,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [51664] = {
         name = "安达拉尔·荫谷",
     },
+    [51677] = {
+        name = "冬泉豹幼崽",
+    },
 })
+]])()

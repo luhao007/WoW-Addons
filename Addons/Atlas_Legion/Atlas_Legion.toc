@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: arith
-## Version: v1.45.01
+## Version: v1.47.00
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Legion]|r
@@ -8,13 +8,14 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0军团再临|r
 ## Notes-zhCN: 军团再临副本地图
 
-## X-Date: 2019-09-04T8:04:26Z
+## X-Date: 2020-01-19T16:56:00Z
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com
 ## X-Category: Map
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: Atlas |r|cFF0099FF[Legion]|r
 # ## Title-zhCN: Atlas |r|cFF0099FF[军团再临]|r

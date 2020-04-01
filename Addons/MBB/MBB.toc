@@ -1,11 +1,11 @@
-## Interface: 80205
-## Author: karlsnyder
-## Version: 4.0
+## Interface: 80300
+## Author: karlsnyder, vallantv
+## Version: 4.0.1
 ## SavedVariablesPerCharacter: MBB_Exclude, MBB_Options
 
 ## Title: MinimapButtonBag
 ## Notes: Cleans up minimap buttons and makes them accessible through a pop out menu!
-## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF小地图按钮整合|r |cFF69CCF0Minimap Button Bag|r
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF小地图按钮整合|r |cFF69CCF0Minimap Button Bag|r
 ## Notes-zhCN: 将小地图的按钮整合成一个
 
 ## X-Category: Map

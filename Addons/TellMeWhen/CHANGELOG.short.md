@@ -1,6 +1,5 @@
 
-## v8.7.2
+## v8.7.4
 ### Bug Fixes
-* Fixed handling of spell names in French that have a space before a colon.
-* More fixes for Blizzard's weird change in 8.2.5 that prevented UnitAura from defaulting to buffs unless explicitly told to.
+* Fix #1762 - Suggestion list insertion via left-click not working due to bizarre new focus-clearing mechanism in WoW 8.3.
 

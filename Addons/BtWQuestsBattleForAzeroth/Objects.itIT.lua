@@ -4,6 +4,7 @@ if GetLocale() ~= "itIT" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [244983] = {
         name = "Orologio da Tasca Sporco",
@@ -25,9 +26,6 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [273854] = {
         name = "Zaino",
-    },
-    [276187] = {
-        name = "Junji",
     },
     [276251] = {
         name = "Inventario degli Scavi",
@@ -251,6 +249,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [307748] = {
         name = "Lettera della S.P.R. & Co.",
     },
+    [309498] = {
+        name = "Supporto per Armatura",
+    },
     [311155] = {
         name = "Antica Tavoletta",
     },
@@ -263,8 +264,14 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [322533] = {
         name = "Tomo degli Elementi di Mardivas",
     },
+    [326393] = {
+        name = "Cassa d'Armi d'Azerite",
+    },
     [326418] = {
         name = "Cassa Arcana",
+    },
+    [326588] = {
+        name = "Cassa d'Armi d'Azerite",
     },
     [327170] = {
         name = "Rastrelliera delle Armi",
@@ -275,7 +282,11 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [327592] = {
         name = "Lucchetto Incantato",
     },
+    [327596] = {
+        name = "Focus Abissale Rotto",
+    },
     [329805] = {
         name = "Cristallo Strano",
     },
 })
+]])()

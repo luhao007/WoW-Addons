@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Norganna's AddOns
 ## Version: 8.2.6500 (SwimmingSeadragon)
 ## Dependencies: Auc-Advanced
@@ -15,9 +15,5 @@
 ## X-Max-Interface: 80100
 ## X-URL: http://auctioneeraddon.com/
 ## X-Feedback: http://forums.norganna.org
-
-##
-##
-##
 
 StatPurchased.lua

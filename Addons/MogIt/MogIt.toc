@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Aelobin (The Maelstrom EU) & Lombra (Defias Brotherhood EU)
 ## Version: 3.9.0
 ## SavedVariables: MogItDB, MogItWishlist
@@ -13,6 +13,7 @@
 ## X-Email: aelobin@gmail.com
 ## X-Localizations: enUS, frFR, deDE, esES, esMX, ruRU, koKR, zhCN, zhTW, ptBR, itIT
 
+Libs\Embeds.xml
 Locale\Locale.xml
 
 Core\Core.xml

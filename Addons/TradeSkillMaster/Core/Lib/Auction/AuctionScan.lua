@@ -8,12 +8,29 @@
 
 -- This file contains code for scanning the auction house
 local _, TSM = ...
-local L = TSM.L
-local ItemClass = TSM.Include("Data.ItemClass")
+local L = TSM.Include("Locale").GetTable()
+local DisenchantInfo = TSM.Include("Data.DisenchantInfo")
+local Database = TSM.Include("Util.Database")
+local TempTable = TSM.Include("Util.TempTable")
+local Vararg = TSM.Include("Util.Vararg")
+local Log = TSM.Include("Util.Log")
+local ItemString = TSM.Include("Util.ItemString")
+local Math = TSM.Include("Util.Math")
+local AuctionHouseWrapper = TSM.Include("Service.AuctionHouseWrapper")
+local Threading = TSM.Include("Service.Threading")
+local ItemInfo = TSM.Include("Service.ItemInfo")
+local Conversions = TSM.Include("Service.Conversions")
+local MailTracking = TSM.Include("Service.MailTracking")
 local private = {
 	recycledScans = {},
 	filterId = 1,
 	queryUtilContext = { self = nil, maxItemQuantity = nil, targetItem = nil },
+	tempItemKey = {
+		itemLevel = 0,
+		itemSuffix = 0,
+		battlePetSpeciesID = 0,
+		itemID = 0,
+	},
 }
 -- some constants
 local SCAN_RESULT_DELAY = 0.1
@@ -29,8 +46,6 @@ local MAX_SETTLE_TIME = 0.5
 local AuctionScan = TSM.Include("LibTSMClass").DefineClass("AuctionScan")
 
 function AuctionScan.__init(self)
-	self._scripts = nil
-	self._thread = nil
 	self._resolveSellers = nil
 	self._ignoreItemLevel = nil
 	self._filters = {}
@@ -38,6 +53,7 @@ function AuctionScan.__init(self)
 	self._filtersScanned = 0
 	self._pagesScanned = 0
 	self._numPages = 0
+	self._progressChanged = true
 	self._onProgressUpdateHandler = nil
 	self._onFilterDoneHandler = nil
 	self._customFilterFunc = nil
@@ -51,7 +67,6 @@ function AuctionScan._Acquire(self, db)
 end
 
 function AuctionScan._Release(self)
-	self._thread = nil
 	self._resolveSellers = nil
 	self._ignoreItemLevel = nil
 	for _, filter in ipairs(self._filters) do
@@ -68,6 +83,7 @@ function AuctionScan._Release(self)
 	self._filtersScanned = 0
 	self._pagesScanned = 0
 	self._numPages = 0
+	self._progressChanged = true
 	self._onProgressUpdateHandler = nil
 	self._onFilterDoneHandler = nil
 	self._customFilterFunc = nil
@@ -128,13 +144,14 @@ function AuctionScan.NewAuctionFilter(self)
 	local filter = TSM.Auction.NewAuctionFilter()
 	filter:_Acquire(self)
 	tinsert(self._filters, filter)
+	self._progressChanged = true
 	return filter
 end
 
 function AuctionScan.AddItemListFiltersThreaded(self, itemList, maxItemQuantity, targetItem)
-	assert(TSMAPI_FOUR.Thread.IsThreadContext())
+	assert(Threading.IsThreadContext())
 	-- remove duplicates
-	local usedItems = TSM.TempTable.Acquire()
+	local usedItems = TempTable.Acquire()
 	for i = #itemList, 1, -1 do
 		local itemString = itemList[i]
 		if usedItems[itemString] then
@@ -142,7 +159,7 @@ function AuctionScan.AddItemListFiltersThreaded(self, itemList, maxItemQuantity,
 		end
 		usedItems[itemString] = true
 	end
-	TSM.TempTable.Release(usedItems)
+	TempTable.Release(usedItems)
 	private.queryUtilContext.self = self
 	private.queryUtilContext.maxItemQuantity = maxItemQuantity
 	private.queryUtilContext.targetItem = targetItem
@@ -151,34 +168,34 @@ end
 
 function AuctionScan.AddItemFilterThreaded(self, itemFilter)
 	if itemFilter:GetCrafting() then
-		local itemList = TSMAPI_FOUR.Thread.AcquireSafeTempTable()
-		local targetItem = TSMAPI_FOUR.Conversions.GetTargetItemByName(itemFilter:GetStr())
+		local itemList = Threading.AcquireSafeTempTable()
+		local targetItem = Conversions.GetTargetItemByName(itemFilter:GetStr())
 		assert(targetItem)
 		tinsert(itemList, targetItem)
-		local conversionInfo = TSMAPI_FOUR.Conversions.GetSourceItems(targetItem)
-		for itemString in pairs(conversionInfo.convert) do
+		local conversionInfo = Conversions.GetSourceItems(targetItem)
+		for itemString in pairs(conversionInfo) do
 			tinsert(itemList, itemString)
 		end
 		self:AddItemListFiltersThreaded(itemList, nil, targetItem)
-		TSMAPI_FOUR.Thread.ReleaseSafeTempTable(itemList)
+		Threading.ReleaseSafeTempTable(itemList)
 	elseif itemFilter:GetDisenchant() then
-		local targetItem = TSMAPI_FOUR.Conversions.GetTargetItemByName(itemFilter:GetStr())
+		local targetItem = Conversions.GetTargetItemByName(itemFilter:GetStr())
 		assert(targetItem)
-		local conversionInfo = TSMAPI_FOUR.Conversions.GetSourceItems(targetItem)
-		for _, info in ipairs(conversionInfo.disenchant.sourceInfo) do
+		local disenchantInfo = DisenchantInfo.GetInfo(targetItem)
+		for _, info in ipairs(disenchantInfo.sourceInfo) do
 			self:NewAuctionFilter()
-				:SetMinLevel(conversionInfo.disenchant.minLevel)
-				:SetMaxLevel(conversionInfo.disenchant.maxLevel)
-				:SetQuality(info.rarity)
-				:SetClass(ItemClass.GetClassIdFromClassString(info.itemType))
+				:SetMinLevel(disenchantInfo.minLevel)
+				:SetMaxLevel(disenchantInfo.maxLevel)
+				:SetQuality(info.quality)
+				:SetClass(info.classId)
 				:SetMinItemLevel(info.minItemLevel)
 				:SetMaxItemLevel(info.maxItemLevel)
 				:SetTargetItem(targetItem)
 		end
-		local itemList = TSMAPI_FOUR.Thread.AcquireSafeTempTable()
+		local itemList = Threading.AcquireSafeTempTable()
 		tinsert(itemList, targetItem)
 		self:AddItemListFiltersThreaded(itemList, nil, targetItem)
-		TSMAPI_FOUR.Thread.ReleaseSafeTempTable(itemList)
+		Threading.ReleaseSafeTempTable(itemList)
 	else
 		self:NewAuctionFilter()
 			:SetName(itemFilter:GetStr())
@@ -188,7 +205,9 @@ function AuctionScan.AddItemFilterThreaded(self, itemFilter)
 			:SetClass(itemFilter:GetClass())
 			:SetSubClass(itemFilter:GetSubClass())
 			:SetInvType(itemFilter:GetInvSlotId())
+			:SetUncollected(itemFilter:GetUncollected())
 			:SetUsable(itemFilter:GetUsableOnly())
+			:SetUpgrades(itemFilter:GetUpgrades())
 			:SetUnlearned(itemFilter:GetUnlearned())
 			:SetCanLearn(itemFilter:GetCanLearn())
 			:SetExact(itemFilter:GetExactOnly())
@@ -203,18 +222,77 @@ function AuctionScan.AddItemFilterThreaded(self, itemFilter)
 end
 
 function AuctionScan.StartScanThreaded(self)
-	assert(TSMAPI_FOUR.Thread.IsThreadContext())
+	assert(Threading.IsThreadContext())
 	private.ScanQueryThreaded(self)
 end
 
 function AuctionScan.FindAuctionThreaded(self, row, noSeller)
-	assert(TSMAPI_FOUR.Thread.IsThreadContext())
+	assert(Threading.IsThreadContext())
 	wipe(self._findResult)
-	return private.FindAuctionThreaded(self, row, noSeller)
+	if TSM.IsWowClassic() then
+		return private.FindAuctionThreaded(self, row, noSeller)
+	else
+		return private.FindAuctionThreaded83(self, row, noSeller)
+	end
 end
 
-function AuctionScan.ValidateIndex(self, index, validateRow, noSeller)
-	return validateRow:GetField(noSeller and "hashNoSeller" or "hash") == self:_GetAuctionRowHash(index, noSeller)
+function AuctionScan.PrepareForBidOrBuyout(self, index, validateRow, noSeller, quantity)
+	if TSM.IsWowClassic() then
+		return self:_ValidateIndex(index, validateRow, noSeller)
+	else
+		local itemString = validateRow:GetField("itemString")
+		if ItemInfo.IsCommodity(itemString) then
+			local itemId = ItemString.ToId(itemString)
+			-- get the cheapest auction we can buy
+			local itemBuyout, numOwnerItems, stackSize = self._db:NewQuery()
+				:Equal("itemString", validateRow:GetField("itemString"))
+				:NotEqual("stackSize", Database.OtherFieldQueryParam("numOwnerItems"))
+				:OrderBy("itemBuyout", true)
+				:Select("itemBuyout", "numOwnerItems", "stackSize")
+				:GetFirstResultAndRelease()
+			if quantity > stackSize - numOwnerItems then
+				-- trying to buy too many
+				return false
+			end
+			if itemBuyout ~= validateRow:GetField("itemBuyout") then
+				-- cheapest auction isn't selected
+				return false
+			end
+			local future = AuctionHouseWrapper.StartCommoditiesPurchase(itemId, quantity, itemBuyout)
+			if not future then
+				return false
+			end
+			-- TODO: return this future
+			future:Cancel()
+			return true
+		else
+			return true
+		end
+	end
+end
+
+function AuctionScan.PlaceBidOrBuyout(self, index, bidBuyout, validateRow, quantity)
+	if TSM.IsWowClassic() then
+		PlaceAuctionBid("list", index, bidBuyout)
+		return true
+	else
+		local itemString = validateRow:GetField("itemString")
+		local future = nil
+		if ItemInfo.IsCommodity(itemString) then
+			local itemId = ItemString.ToId(itemString)
+			future = AuctionHouseWrapper.ConfirmCommoditiesPurchase(itemId, quantity)
+		else
+			future = AuctionHouseWrapper.PlaceBid(validateRow:GetField("auctionId"), bidBuyout)
+			quantity = 1
+		end
+		if not future then
+			return false
+		end
+		-- TODO: return this future and record the buyout once the future is done
+		future:Cancel()
+		MailTracking.RecordAuctionBuyout(ItemString.GetBaseFast(itemString), quantity)
+		return true
+	end
 end
 
 function AuctionScan.GetProgress(self)
@@ -233,7 +311,7 @@ function AuctionScan.GetNumCanBuy(self, row)
 	return rowFilter:_GetNumCanBuy(row)
 end
 
-function AuctionScan.DeleteRowFromDB(self, row, bought)
+function AuctionScan.DeleteRowFromDB(self, row, numBought)
 	local rowFilter = nil
 	for _, filter in ipairs(self._filters) do
 		if filter:_IncludesResultRow(row:GetUUID()) then
@@ -243,8 +321,9 @@ function AuctionScan.DeleteRowFromDB(self, row, bought)
 	end
 	assert(rowFilter)
 	self._db:SetQueryUpdatesPaused(true)
-	rowFilter:_RemoveResultRows(self._db, row, bought)
+	local result = rowFilter:_RemoveResultRows(self._db, row, numBought)
 	self._db:SetQueryUpdatesPaused(false)
+	return result
 end
 
 function AuctionScan.Cancel(self)
@@ -286,58 +365,114 @@ function AuctionScan._GetAuctionRowFields(self, index, filter)
 	local rawName, texture, stackSize, _, _, _, _, minBid, minIncrement, buyout, bid, isHighBidder, _, seller, sellerFull = GetAuctionItemInfo("list", index)
 	local rawLink = GetAuctionItemLink("list", index)
 	local timeLeft = GetAuctionItemTimeLeft("list", index)
-	local itemLink = TSMAPI_FOUR.Item.GeneralizeLink(rawLink)
-	local itemString = TSMAPI_FOUR.Item.ToItemString(itemLink)
-	if not itemString or not buyout or not stackSize or not timeLeft then
-		return
+	local itemLink = ItemInfo.GeneralizeLink(rawLink)
+	local itemString = ItemString.Get(itemLink)
+	seller = private.FixSellerName(seller, sellerFull) or "?"
+	if not itemString or not buyout or not stackSize or not timeLeft or not ItemInfo.GetName(itemLink) then
+		return false
+	elseif not ItemInfo.GetItemLevel(itemLink) and not self._ignoreItemLevel then
+		return false
+	elseif seller == "?" and self._resolveSellers and buyout ~= 0 then
+		return false
 	end
 	-- pet auctions don't give textures so get from our item database
-	texture = texture or TSMAPI_FOUR.Item.GetTexture(itemLink)
+	texture = texture or ItemInfo.GetTexture(itemLink)
 	local displayedBid = bid == 0 and minBid or bid
 	local itemDisplayedBid = floor(displayedBid / stackSize)
 	local itemBuyout = (buyout > 0) and floor(buyout / stackSize) or 0
 	-- this is to get around a bug in Blizzard's code where the minIncrement value will be inconsistent for auctions where the player is the highest bidder
 	minIncrement = isHighBidder and 0 or minIncrement
-	seller = private.FixSellerName(seller, sellerFull) or "?"
 	local hash = self:_GetAuctionRowHash(index, false)
 	local hashNoSeller = self:_GetAuctionRowHash(index, true)
-	local targetItem = filter and filter:_GetTargetItem() or itemString -- FIXME
-	local targetItemRate = filter and filter:_GetTargetItemRate(itemString) -- FIXME
+	local targetItem = filter and filter:_GetTargetItem() or itemString
+	local targetItemRate = filter and filter:_GetTargetItemRate(itemString)
 	return rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid, isHighBidder,
 		seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout, itemLink,
-		itemString, hash, hashNoSeller, private.filterId, targetItem, targetItemRate
+		itemString, hash, hashNoSeller, private.filterId, targetItem, targetItemRate, 0, 0
 end
 
-function AuctionScan._CreateAuctionRowIfNotFiltered(self, index, filter)
-	local rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid, isHighBidder,
-		seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout, itemLink,
-		itemString, hash, hashNoSeller, filterId, targetItem, targetItemRate = self:_GetAuctionRowFields(index, filter)
-	if filter:_IsFiltered(self._ignoreItemLevel, itemString, itemBuyout, stackSize, targetItemRate) or self:_IsFiltered(itemString, itemBuyout, stackSize, itemDisplayedBid) then
+function AuctionScan._GetAuctionRowFields83(self, isCommodity, itemKey, index, filter)
+	local rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid = nil, nil, nil, nil, nil, nil, nil, nil
+	local isHighBidder, seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout = nil, nil, nil, nil, nil, nil
+	local itemLink, itemString, hash, hashNoSeller, targetItem, targetItemRate, auctionId, numOwnerItems = nil, nil, nil, nil, nil, nil, nil, nil
+	local resultInfo = nil
+	if isCommodity then
+		resultInfo = C_AuctionHouse.GetCommoditySearchResultInfo(itemKey.itemID, index)
+	else
+		resultInfo = C_AuctionHouse.GetItemSearchResultInfo(itemKey, index)
+	end
+	if not resultInfo then
 		return nil
 	end
-	return self._db:NewRow()
-		:SetField("rawName", rawName)
-		:SetField("rawLink", rawLink)
-		:SetField("texture", texture)
-		:SetField("stackSize", stackSize)
-		:SetField("minBid", minBid)
-		:SetField("minIncrement", minIncrement)
-		:SetField("buyout", buyout)
-		:SetField("bid", bid)
-		:SetField("isHighBidder", isHighBidder)
-		:SetField("seller", seller)
-		:SetField("timeLeft", timeLeft)
-		:SetField("displayedBid", displayedBid)
-		:SetField("itemDisplayedBid", itemDisplayedBid)
-		:SetField("itemBuyout", itemBuyout)
-		:SetField("itemLink", itemLink)
-		:SetField("itemString", itemString)
-		:SetField("hash", hash)
-		:SetField("hashNoSeller", hashNoSeller)
-		:SetField("filterId", filterId)
-		:SetField("targetItem", targetItem)
-		:SetField("targetItemRate", targetItemRate)
-		:CreateAndClone()
+
+	if isCommodity then
+		rawLink = ItemInfo.GetLink(itemKey.itemID)
+		buyout = resultInfo.unitPrice * resultInfo.quantity
+		-- convert the timeLeftSeconds to regular timeLeft
+		if resultInfo.timeLeftSeconds < 60 * 60 then
+			timeLeft = 1
+		elseif resultInfo.timeLeftSeconds < 2 * 60 * 60 then
+			timeLeft = 2
+		elseif resultInfo.timeLeftSeconds < 12 * 60 * 60 then
+			timeLeft = 3
+		else
+			timeLeft = 4
+		end
+	else
+		-- use the itemKey from the results as it might have more info (i.e. level / suffix) than what we queried for
+		itemKey = resultInfo.itemKey
+		rawLink = resultInfo.itemLink
+		buyout = (resultInfo.buyoutAmount or 0) * resultInfo.quantity
+		timeLeft = resultInfo.timeLeft + 1
+	end
+	itemLink = ItemInfo.GeneralizeLink(rawLink)
+	itemString = ItemString.Get(itemLink)
+
+	-- validate the data
+	if not itemString or not ItemInfo.GetName(itemLink) then
+		return nil
+	elseif not ItemInfo.GetItemLevel(itemLink) and not self._ignoreItemLevel then
+		return nil
+	elseif #resultInfo.owners == 0 and self._resolveSellers and buyout ~= 0 then
+		return nil
+	end
+	for i, owner in ipairs(resultInfo.owners) do
+		if owner == "player" then
+			resultInfo.owners[i] = UnitName("player")
+		elseif owner == "" and self._resolveSellers and buyout ~= 0 then
+			return nil
+		end
+	end
+
+	texture = ItemInfo.GetTexture(itemLink)
+	rawName = ItemInfo.GetName(rawLink)
+	stackSize = resultInfo.quantity
+	itemBuyout = buyout / stackSize
+	isHighBidder = resultInfo.bidder and resultInfo.bidder == UnitGUID("player") or false
+	minBid = resultInfo.minBid or buyout
+	bid = resultInfo.bidAmount or 0
+	displayedBid = minBid
+	minIncrement = 0 -- not used in 8.3
+	itemDisplayedBid = displayedBid / stackSize
+	seller = table.concat(resultInfo.owners, ",")
+	auctionId = resultInfo.auctionID
+	if isCommodity then
+		hash = strjoin("~", tostringall(itemKey.itemID, itemBuyout, auctionId, seller))
+		hashNoSeller = strjoin("~", tostringall(itemKey.itemID, itemBuyout, auctionId))
+	else
+		hash = strjoin("~", tostringall(itemKey.itemID, itemKey.itemLevel, itemKey.itemSuffix, itemKey.battlePetSpeciesID, rawLink, itemDisplayedBid, itemBuyout, bid, stackSize, isHighBidder, seller))
+		hashNoSeller = strjoin("~", tostringall(itemKey.itemID, itemKey.itemLevel, itemKey.itemSuffix, itemKey.battlePetSpeciesID, rawLink, itemDisplayedBid, itemBuyout, bid, stackSize, isHighBidder))
+	end
+	targetItem = filter and filter:_GetTargetItem() or itemString
+	targetItemRate = filter and filter:_GetTargetItemRate(itemString)
+	if isCommodity then
+		numOwnerItems = resultInfo.numOwnerItems or 0
+	else
+		numOwnerItems = resultInfo.containsAccountItem and stackSize or 0
+	end
+	return rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid, isHighBidder,
+		seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout, itemLink,
+		itemString, hash, hashNoSeller, private.filterId, targetItem, targetItemRate, auctionId, numOwnerItems
 end
 
 function AuctionScan._NotifyFilterDone(self, filter, numNewResults)
@@ -347,14 +482,18 @@ function AuctionScan._NotifyFilterDone(self, filter, numNewResults)
 end
 
 function AuctionScan._SetFiltersScanned(self, num)
+	self._progressChanged = self._progressChanged or num ~= self._filtersScanned
 	self._filtersScanned = num
 	self:_SetPageProgress(0, 0)
 end
 
 function AuctionScan._SetPageProgress(self, pagesScanned, numPages)
+	self._progressChanged = self._progressChanged or pagesScanned ~= self._pagesScanned or numPages ~= self._numPages
 	self._pagesScanned = pagesScanned
 	self._numPages = numPages
-	if self._onProgressUpdateHandler then
+	local changed = self._progressChanged
+	self._progressChanged = false
+	if changed and self._onProgressUpdateHandler then
 		self:_onProgressUpdateHandler()
 	end
 end
@@ -367,17 +506,21 @@ function AuctionScan._GetFindFilter(self, row)
 	end
 	self._findFilter:_Acquire(self)
 	local itemString = row:GetField("itemString")
-	local level = TSMAPI_FOUR.Item.GetMinLevel(itemString)
+	local level = ItemInfo.GetMinLevel(itemString)
 	self._findFilter
-		:SetName(TSMAPI_FOUR.Item.GetName(itemString))
+		:SetName(ItemInfo.GetName(itemString))
 		:SetMinLevel(level)
 		:SetMaxLevel(level)
-		:SetQuality(TSMAPI_FOUR.Item.GetQuality(itemString))
-		:SetClass(TSMAPI_FOUR.Item.GetClassId(itemString))
-		:SetSubClass(TSMAPI_FOUR.Item.GetSubClassId(itemString))
+		:SetQuality(ItemInfo.GetQuality(itemString))
+		:SetClass(ItemInfo.GetClassId(itemString))
+		:SetSubClass(ItemInfo.GetSubClassId(itemString))
 		:SetExact(true)
 		:SetItems(itemString)
 	return self._findFilter
+end
+
+function AuctionScan._ValidateIndex(self, index, validateRow, noSeller)
+	return validateRow:GetField(noSeller and "hashNoSeller" or "hash") == self:_GetAuctionRowHash(index, noSeller)
 end
 
 
@@ -387,7 +530,7 @@ end
 -- ============================================================================
 
 function TSMAPI_FOUR.Auction.NewDatabase(name)
-	return TSMAPI_FOUR.Database.NewSchema(name)
+	return Database.NewSchema(name)
 		-- raw fields directly from the game
 		:AddStringField("rawName")
 		:AddStringField("rawLink")
@@ -406,12 +549,14 @@ function TSMAPI_FOUR.Auction.NewDatabase(name)
 		:AddNumberField("itemBuyout")
 		:AddStringField("itemLink")
 		:AddStringField("itemString")
-		:AddSmartMapField("baseItemString", TSM.Item.GetBaseItemStringMap(), "itemString")
+		:AddSmartMapField("baseItemString", ItemString.GetBaseMap(), "itemString")
 		:AddStringField("hash")
 		:AddStringField("hashNoSeller")
 		:AddNumberField("filterId")
 		:AddStringField("targetItem")
 		:AddNumberField("targetItemRate")
+		:AddNumberField("auctionId")
+		:AddNumberField("numOwnerItems")
 		:Commit()
 end
 
@@ -455,89 +600,301 @@ function private.IsAuctionPageValidThreaded(auctionScan)
 	local numAuctions, totalAuctions = GetNumAuctionItems("list")
 	if totalAuctions <= NUM_AUCTION_ITEMS_PER_PAGE and numAuctions ~= totalAuctions then
 		-- there are cases where we get (0, 1) from the API - no idea why and it'll cause bugs later, so we should count it as invalid
-		TSM:LOG_ERR("Unexpected number of auctions (%d, %d)", numAuctions, totalAuctions)
+		Log.Err("Unexpected number of auctions (%d, %d)", numAuctions, totalAuctions)
 		return false
 	end
 
 	for i = 1, numAuctions do
 		-- checks to make sure all the data has been sent to the client
 		-- if not, the data is bad and we'll wait / try again
-		local _, _, _, stackSize, _, _, buyout, _, _, seller, timeLeft, _, _, _, itemLink, itemString = auctionScan:_GetAuctionRowFields(i)
-		local name = TSMAPI_FOUR.Item.GetName(itemLink)
-		local itemLevel = TSMAPI_FOUR.Item.GetItemLevel(itemLink)
-		if not itemString or not buyout or not stackSize or not name or not timeLeft then
-			return false
-		elseif not itemLevel and not auctionScan._ignoreItemLevel then
-			return false
-		elseif not seller and auctionScan._resolveSellers and buyout ~= 0 then
+		if not auctionScan:_GetAuctionRowFields(i) then
 			return false
 		end
-		TSMAPI_FOUR.Thread.Yield()
+		Threading.Yield()
 	end
 
 	return true
 end
 
 function private.ScanAuctionPageThreaded(auctionScan, filter)
+	if TSM.IsWowClassic() then
+		-- scan the results
+		local scanResult, numInsertedRows = private.ProcessScanResultsThreaded(auctionScan, filter)
+		if not scanResult then
+			return false
+		end
+		return true, numInsertedRows
+	else
+		local results = C_AuctionHouse.GetBrowseResults()
+		local origNumResults = #results
+		for i = #results, 1, -1 do
+			local itemKey = results[i].itemKey
+			local minPrice = results[i].minPrice
+			local totalQuantity = results[i].totalQuantity
+			local baseItemString, itemString, itemName, itemLevel, quality = private.GetInfoFromItemKey(itemKey)
+			itemLevel = itemLevel or (itemKey.battlePetSpeciesID == 0 and itemKey.itemLevel) or nil
+			if filter:_IsItemFiltered(baseItemString, itemString, itemLevel, quality, itemName, totalQuantity, minPrice) or not filter:_ShouldScanItem(baseItemString, itemString, minPrice) then
+				tremove(results, i)
+			end
+			Threading.Yield()
+		end
+		local numRemoved = origNumResults - #results
+		if numRemoved > 0 then
+			Log.Info("Removed %d/%d results", numRemoved, origNumResults)
+		end
+
+		filter:_SetNumPages(#results)
+		local numInsertedRows = 0
+		for i = 1, #results do
+			local itemKey = results[i].itemKey
+			local minPrice = results[i].minPrice
+			local totalQuantity = results[i].totalQuantity
+
+			-- check if the item is a commodity or not
+			local isCommodity = ItemInfo.IsCommodity(itemKey.itemID)
+			while isCommodity == nil do
+				Threading.Yield(true)
+				isCommodity = ItemInfo.IsCommodity(itemKey.itemID)
+				if auctionScan:_IsCancelled() then
+					Log.Info("Stopping cancelled scan")
+					return false
+				end
+			end
+
+			local success, scanNumInsertedRows = private.ScanItemKey83(auctionScan, filter, isCommodity, itemKey, false, minPrice, totalQuantity)
+			if not success then
+				return false
+			end
+			numInsertedRows = numInsertedRows + scanNumInsertedRows
+
+			-- update the "page"
+			filter:_SetPage(i)
+			auctionScan:_SetPageProgress(filter:_GetPageProgress())
+			Threading.Yield()
+		end
+		return true, numInsertedRows
+	end
+end
+
+function private.ScanItemKey83(auctionScan, filter, isCommodity, itemKey, sellQuery, minPrice, totalQuantity)
+	local itemKeyInfo = private.GetItemKeyInfo(auctionScan, itemKey)
+	if not itemKeyInfo then
+		Log.Info("Stopping cancelled scan")
+		return false
+	end
+
+	-- if there's a minPrice and totalQuantity passed, check if we can skip scanning this tiem
+	if minPrice and totalQuantity then
+		local baseItemString, itemString, itemName, itemLevel, quality = private.GetInfoFromItemKey(itemKey)
+		if not auctionScan._ignoreItemLevel then
+			local newItemLevel = itemKeyInfo.battlePetLink and ItemInfo.GetItemLevel(itemKeyInfo.battlePetLink) or itemKey.itemLevel
+			if newItemLevel == 0 then
+				newItemLevel = nil
+			end
+			assert(not itemLevel or not newItemLevel or newItemLevel == itemLevel, format("Invalid level (%s, %s, %s, %s)", baseItemString, itemKeyInfo.battlePetLink or "?", tostring(itemLevel), tostring(newItemLevel)))
+			itemLevel = itemLevel or newItemLevel
+		end
+		if not itemString and itemKeyInfo.battlePetLink then
+			itemString = ItemString.Get(itemKeyInfo.battlePetLink)
+		end
+		assert(not itemName or itemName == itemKeyInfo.itemName, format("Invalid item name (%s, %s)", tostring(itemName), tostring(itemKeyInfo.itemName)))
+		assert(not quality or quality == itemKeyInfo.quality, format("Invalid quality (%s, %s)", tostring(quality), tostring(itemKeyInfo.quality)))
+		itemName = itemName or itemKeyInfo.itemName
+		quality = quality or itemKeyInfo.quality
+		assert(baseItemString and itemName and quality and totalQuantity)
+		if filter:_IsItemFiltered(baseItemString, itemString, itemLevel, quality, itemName, totalQuantity, minPrice) or not filter:_ShouldScanItem(baseItemString, itemString, minPrice) then
+			-- don't need to scan this item
+			return true, 0
+		end
+	end
+
+	-- send the query for this item
+	if not private.SendSearchQuery83(itemKey, auctionScan, isCommodity, sellQuery) then
+		return false
+	end
+
+	-- scan the results
+	local scanResult, scanNumInsertedRows = private.ProcessScanResultsThreaded(auctionScan, filter, isCommodity, itemKey)
+	if not scanResult then
+		return false
+	end
+	return true, scanNumInsertedRows
+end
+
+function private.GetInfoFromItemKey(itemKey)
+	local baseItemString = ItemString.GetBaseFromItemKey(itemKey)
+	if itemKey.battlePetSpeciesID ~= 0 or itemKey.itemSuffix ~= 0 or itemKey.itemLevel ~= 0 then
+		while ItemInfo.CanHaveVariations(baseItemString) == nil do
+			Threading.Yield(true)
+		end
+		if ItemInfo.CanHaveVariations(baseItemString) then
+			return baseItemString, nil, nil, nil, nil
+		end
+	end
+	while not ItemInfo.GetName(baseItemString) do
+		Threading.Yield(true)
+	end
+	local itemName = ItemInfo.GetName(baseItemString)
+	while not ItemInfo.GetItemLevel(baseItemString) do
+		Threading.Yield(true)
+	end
+	local itemLevel = ItemInfo.GetItemLevel(baseItemString)
+	while not ItemInfo.GetQuality(baseItemString) do
+		Threading.Yield(true)
+	end
+	local quality = ItemInfo.GetQuality(baseItemString)
+	-- don't need to return the minLevel, but need to ensure it's cached
+	while not ItemInfo.GetMinLevel(baseItemString) do
+		Threading.Yield(true)
+	end
+	return baseItemString, baseItemString, itemName, itemLevel, quality
+end
+
+function private.ProcessScanResultsThreaded(auctionScan, filter, isCommodity, itemKey)
+	local numInsertedRows = 0
 	local startTime = GetTime()
 	local lastSuccessTime = GetTime()
 	local index = 1
-	local numInsertedRows = 0
 	while true do
-		local numAuctions, totalAuctions = GetNumAuctionItems("list")
-		if totalAuctions <= NUM_AUCTION_ITEMS_PER_PAGE and numAuctions ~= totalAuctions then
-			-- there are cases where we get (0, 1) from the API - no idea why and it'll cause bugs later, so we should count it as invalid
-			TSM:LOG_ERR("Unexpected number of auctions (%d, %d)", numAuctions, totalAuctions)
-			return false
-		elseif filter:_IsGetAll() and totalAuctions <= NUM_AUCTION_ITEMS_PER_PAGE then
-			-- we're no longer on the GetAll results
-			TSM:LOG_ERR("Switched off GetAll results")
-			return false
-		end
-
-		auctionScan._db:BulkInsertStart()
-		local maxIndex = min(numAuctions, index + NUM_AUCTION_ITEMS_PER_PAGE)
-		while index <= maxIndex do
-			local rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid, isHighBidder, seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout, itemLink, itemString, hash, hashNoSeller, filterId, targetItem, targetItemRate = auctionScan:_GetAuctionRowFields(index, filter)
-			if not itemString or not buyout or not stackSize or not TSMAPI_FOUR.Item.GetName(itemLink) or not timeLeft then
-				break
-			elseif not TSMAPI_FOUR.Item.GetItemLevel(itemLink) and not auctionScan._ignoreItemLevel then
-				break
-			elseif seller == "?" and auctionScan._resolveSellers and buyout ~= 0 then
-				break
+		local numAuctions = nil
+		local prevIndex = index
+		local numNewInsertedRows = nil
+		if not TSM.IsWowClassic() then
+			if isCommodity then
+				numAuctions = C_AuctionHouse.GetNumCommoditySearchResults(itemKey.itemID)
+			else
+				numAuctions = C_AuctionHouse.GetNumItemSearchResults(itemKey)
 			end
-			index = index + 1
-			lastSuccessTime = GetTime()
-			if not filter:_IsFiltered(auctionScan._ignoreItemLevel, itemString, itemBuyout, stackSize, targetItemRate) and not auctionScan:_IsFiltered(itemString, itemBuyout, stackSize, itemDisplayedBid) then
-				local uuid = auctionScan._db:BulkInsertNewRow(rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid, isHighBidder, seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout, itemLink, itemString, hash, hashNoSeller, filterId, targetItem, targetItemRate)
-				filter:_AddResultRow(uuid)
-				numInsertedRows = numInsertedRows + 1
+			index, numNewInsertedRows = private.ProcessAuctionRows(auctionScan, filter, index, numAuctions, isCommodity, itemKey)
+		else
+			local totalAuctions = nil
+			numAuctions, totalAuctions = GetNumAuctionItems("list")
+			if totalAuctions <= NUM_AUCTION_ITEMS_PER_PAGE and numAuctions ~= totalAuctions then
+				-- there are cases where we get (0, 1) from the API - no idea why and it'll cause bugs later, so we should count it as invalid
+				Log.Err("Unexpected number of auctions (%d, %d)", numAuctions, totalAuctions)
+				return false
+			elseif filter:_IsGetAll() and totalAuctions <= NUM_AUCTION_ITEMS_PER_PAGE then
+				-- we're no longer on the GetAll results
+				Log.Err("Switched off GetAll results")
+				return false
 			end
-		end
-		auctionScan._db:BulkInsertEnd()
-
-		if filter:_IsGetAll() then
-			-- update the "page"
-			filter:_SetPage(index)
-			filter:_SetNumPages(numAuctions)
+			index, numNewInsertedRows = private.ProcessAuctionRows(auctionScan, filter, index, min(numAuctions, index + NUM_AUCTION_ITEMS_PER_PAGE))
+			if filter:_IsGetAll() then
+				-- update the "page"
+				filter:_SetPage(index)
+				filter:_SetNumPages(numAuctions)
+			elseif not filter:_IsSniper() then
+				filter:_SetNumPages(ceil(totalAuctions / NUM_AUCTION_ITEMS_PER_PAGE))
+			end
 			auctionScan:_SetPageProgress(filter:_GetPageProgress())
 		end
 
-		if index > numAuctions then
-			return true, numInsertedRows
-		elseif GetTime() > startTime + 300 then
-			TSM:LOG_ERR("Timed out on entire scan")
-			return false
-		elseif GetTime() > lastSuccessTime + 30 then
-			TSM:LOG_ERR("Timed out on index (%d)", index)
+		if not index then
 			return false
 		end
-		TSMAPI_FOUR.Thread.Sleep(0.01)
+		if index ~= prevIndex then
+			lastSuccessTime = GetTime()
+		end
+		numInsertedRows = numInsertedRows + numNewInsertedRows
+
+		if index > numAuctions then
+			break
+		elseif GetTime() > startTime + 300 then
+			Log.Err("Timed out on entire scan")
+			return false
+		elseif GetTime() > lastSuccessTime + 30 then
+			Log.Err("Timed out on index (%d)", index)
+			return false
+		end
+		Threading.Sleep(0.01)
 		if auctionScan:_IsCancelled() then
-			TSM:LOG_INFO("Stopping canelled scan")
+			Log.Info("Stopping cancelled scan")
 			return false
 		end
 	end
+	return true, numInsertedRows
+end
+
+function private.ProcessAuctionRows(auctionScan, filter, index, maxIndex, isCommodity, itemKey)
+	auctionScan._db:BulkInsertStart()
+	local firstInvalidIndex = nil
+	for i = index, maxIndex do
+		local isValid = nil
+		if TSM.IsWowClassic() then
+			isValid = private.ProcessAuctionRow(auctionScan, filter, not firstInvalidIndex, auctionScan:_GetAuctionRowFields(i, filter))
+		else
+			isValid = private.ProcessAuctionRow(auctionScan, filter, not firstInvalidIndex, auctionScan:_GetAuctionRowFields83(isCommodity, itemKey, i, filter))
+		end
+		if not isValid then
+			firstInvalidIndex = firstInvalidIndex or i
+		end
+	end
+	if firstInvalidIndex then
+		index = firstInvalidIndex
+	else
+		index = maxIndex + 1
+	end
+
+	local numInsertedRows = 0
+	if filter:_IsSniper() then
+		-- don't store any rows for failed sniper queries on Classic (on retail we'll retry)
+		if index <= maxIndex and TSM.IsWowClassic() then
+			Log.Err("Failed to validate sniper results")
+			auctionScan._db:BulkInsertAbort()
+			return nil
+		end
+		local newUUIDs = TempTable.Acquire()
+		for _, uuid in auctionScan._db:BulkInsertUUIDIterator() do
+			tinsert(newUUIDs, uuid)
+			filter:_AddResultRow(uuid)
+		end
+		auctionScan._db:SetQueryUpdatesPaused(true)
+		auctionScan._db:BulkInsertEnd()
+		for _, uuid in ipairs(newUUIDs) do
+			local hashNoSeller = auctionScan._db:GetRowFieldByUUID(uuid, "hashNoSeller")
+			-- remove existing duplicates from previous filters
+			local query = auctionScan._db:NewQuery()
+				:Equal("hashNoSeller", hashNoSeller)
+				:LessThan("filterId", private.filterId)
+			local removedOld = false
+			for _, oldRow in query:Iterator() do
+				removedOld = true
+				auctionScan:DeleteRowFromDB(oldRow, 0)
+			end
+			query:Release()
+			if not removedOld then
+				local newQuery = auctionScan._db:NewQuery()
+					:Equal("hashNoSeller", hashNoSeller)
+					:Equal("filterId", private.filterId)
+				if newQuery:Count() == 1 then
+					numInsertedRows = numInsertedRows + 1
+				end
+				newQuery:Release()
+			end
+		end
+		TempTable.Release(newUUIDs)
+		auctionScan._db:SetQueryUpdatesPaused(false)
+	else
+		for _, uuid in auctionScan._db:BulkInsertUUIDIterator() do
+			filter:_AddResultRow(uuid)
+			numInsertedRows = numInsertedRows + 1
+		end
+		auctionScan._db:BulkInsertEnd()
+	end
+
+	return index, numInsertedRows
+end
+
+function private.ProcessAuctionRow(auctionScan, filter, shouldInsert, rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid, isHighBidder, seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout, itemLink, itemString, hash, hashNoSeller, filterId, targetItem, targetItemRate, auctionId, numOwnerItems)
+	if not rawName then
+		return false
+	end
+	if not filter:_IsFiltered(auctionScan._ignoreItemLevel, itemString, itemBuyout, stackSize, targetItemRate) and not auctionScan:_IsFiltered(itemString, itemBuyout, stackSize, itemDisplayedBid) then
+		if shouldInsert then
+			auctionScan._db:BulkInsertNewRow(rawName, rawLink, texture, stackSize, minBid, minIncrement, buyout, bid, isHighBidder, seller, timeLeft, displayedBid, itemDisplayedBid, itemBuyout, itemLink, itemString, hash, hashNoSeller, filterId, targetItem, targetItemRate, auctionId, numOwnerItems)
+		end
+	end
+	return true
 end
 
 function private.ValidateThreaded(auctionScan)
@@ -547,22 +904,22 @@ function private.ValidateThreaded(auctionScan)
 		if auctionScan:_IsCancelled() then
 			return false
 		end
-		TSMAPI_FOUR.Thread.Yield(true)
+		Threading.Yield(true)
 	end
-	TSM:LOG_INFO("Took %d seconds for AH to settle", GetTime() - settleStartTime)
+	Log.Info("Took %d seconds for AH to settle", GetTime() - settleStartTime)
 	-- check the result
 	local tryNum = 0
 	while tryNum < MAX_SOFT_RETRIES do
 		if auctionScan:_IsCancelled() then
-			TSM:LOG_INFO("Stopping canelled scan")
+			Log.Info("Stopping cancelled scan")
 			return false
 		end
 		-- wait a small delay and then try and get the result
-		TSMAPI_FOUR.Thread.Sleep(SCAN_RESULT_DELAY)
+		Threading.Sleep(SCAN_RESULT_DELAY)
 		-- get result
 		if private.IsAuctionPageValidThreaded(auctionScan) then
 			-- result is valid, so we're done
-			TSM:LOG_INFO("Took %d soft retries", tryNum)
+			Log.Info("Took %d soft retries", tryNum)
 			return true
 		end
 		-- only count tries if we're ready to send the next query
@@ -570,7 +927,7 @@ function private.ValidateThreaded(auctionScan)
 			tryNum = tryNum + 1
 		end
 	end
-	TSM:LOG_INFO("Exhausted soft retries")
+	Log.Info("Exhausted soft retries")
 	return false
 end
 
@@ -594,7 +951,7 @@ function private.SetAuctionSort(...)
 	end
 
 	SortAuctionClearSort("list")
-	for _, col in TSM.Vararg.Iterator(...) do
+	for _, col in Vararg.Iterator(...) do
 		SortAuctionItems("list", col)
 	end
 	SortAuctionApplySort("list")
@@ -604,81 +961,48 @@ function private.ScanQueryThreaded(auctionScan)
 	-- loop through each filter to perform
 	auctionScan:_SetFiltersScanned(0)
 	auctionScan._cancelled = false
+	AuctionHouseWrapper.GetAndResetTotalHookedTime()
 	local allSuccess = true
 	for i, filter in ipairs(auctionScan._filters) do
-		-- update the sort for this filter
-		if filter:_IsSniper() or filter:_IsGetAll() then
-			private.SetAuctionSort()
-		else
-			private.SetAuctionSort("seller", "quantity", "unitprice")
+		if TSM.IsWowClassic() then
+			-- update the sort for this filter
+			if filter:_IsSniper() or filter:_IsGetAll() then
+				private.SetAuctionSort()
+			else
+				private.SetAuctionSort("seller", "quantity", "unitprice")
+			end
 		end
 		-- give some time for the AH to update
-		TSMAPI_FOUR.Thread.Yield(true)
+		Threading.Yield(true)
 		filter:_ResetPage()
 		local numNewResults = 0
 		local hasMorePages = true
 		local filterSuccess = true
 		-- loop through each page of this filter and scan it
 		while hasMorePages and not auctionScan:_IsCancelled() do
-			-- query the AH
-			filter:_DoAuctionQueryThreaded()
-			filter:_SetNumPages(ceil(select(2, GetNumAuctionItems("list")) / NUM_AUCTION_ITEMS_PER_PAGE))
-			-- we've made the query, now store the results
-			if filter:_IsSniper() then
-				-- check the result
-				if not private.ValidateThreaded(auctionScan) then
-					-- don't store results for a failed filter
-					TSM:LOG_ERR("Failed to scan filter")
-					filterSuccess = false
-					break
-				elseif auctionScan:_IsCancelled() then
-					TSM:LOG_INFO("Stopping canelled scan")
-					break
-				end
-				auctionScan._db:SetQueryUpdatesPaused(true)
-				for j = 1, GetNumAuctionItems("list") do
-					local row = auctionScan:_CreateAuctionRowIfNotFiltered(j, filter)
-					if row then
-						local hashNoSeller = row:GetField("hashNoSeller")
-						-- remove existing duplicates from previous filters
-						local query = auctionScan._db:NewQuery()
-							:Equal("hashNoSeller", hashNoSeller)
-							:LessThan("filterId", private.filterId)
-						local removedOld = false
-						for _, oldRow in query:Iterator() do
-							removedOld = true
-							auctionScan:DeleteRowFromDB(oldRow, false)
-						end
-						query:Release()
-						if not removedOld then
-							local newQuery = auctionScan._db:NewQuery()
-								:Equal("hashNoSeller", hashNoSeller)
-								:Equal("filterId", private.filterId)
-							if newQuery:Count() == 1 then
-								numNewResults = numNewResults + 1
-							end
-							newQuery:Release()
-						end
-						filter:_AddResultRow(row:GetUUID())
-						row:Release()
-					end
-				end
-				auctionScan._db:SetQueryUpdatesPaused(false)
-			else
-				-- scan the results
-				local scanSuccess, numInsertedRows = private.ScanAuctionPageThreaded(auctionScan, filter)
-				if not scanSuccess then
-					-- don't store results for a failed filter
-					TSM:LOG_ERR("Failed to scan filter")
-					filterSuccess = false
-					break
-				elseif auctionScan:_IsCancelled() then
-					TSM:LOG_INFO("Stopping canelled scan")
-					break
-				end
-				numInsertedRows = numInsertedRows
-			end
+			local scanSuccess, numInsertedRows = nil, nil
 			private.filterId = private.filterId + 1
+			if not TSM.IsWowClassic() and #filter:GetItems() > 0 and not filter._shouldScanItemFunction then
+				scanSuccess, numInsertedRows = private.DoItemScanThreaded(auctionScan, filter)
+			else
+				-- query the AH
+				if not filter:_DoAuctionQueryThreaded() then
+					filterSuccess = false
+					break
+				end
+				-- we've made the query, now store the results
+				scanSuccess, numInsertedRows = private.ScanAuctionPageThreaded(auctionScan, filter)
+			end
+			if not scanSuccess then
+				-- don't store results for a failed filter
+				Log.Err("Failed to scan filter")
+				filterSuccess = false
+				break
+			elseif auctionScan:_IsCancelled() then
+				Log.Info("Stopping cancelled scan")
+				break
+			end
+			numNewResults = numNewResults + numInsertedRows
 			hasMorePages = filter:_NextPage()
 			auctionScan:_SetPageProgress(filter:_GetPageProgress())
 		end
@@ -688,24 +1012,84 @@ function private.ScanQueryThreaded(auctionScan)
 			allSuccess = false
 		end
 		auctionScan:_SetFiltersScanned(i)
+		if auctionScan:_IsCancelled() then
+			break
+		end
 	end
-	if not allSuccess then
-		TSM:Print(L["TSM failed to scan some auctions. Please rerun the scan."])
+	if allSuccess then
+		local hookedTime = AuctionHouseWrapper.GetAndResetTotalHookedTime()
+		if hookedTime > 1 then
+			Log.PrintfUser(L["Scan was slowed down by %s seconds by other AH addons."], Math.Round(hookedTime, 0.1))
+		end
+	else
+		Log.PrintUser(L["TSM failed to scan some auctions. Please rerun the scan."])
 	end
 end
 
+function private.DoItemScanThreaded(auctionScan, filter)
+	private.tempItemKey.itemLevel = 0
+	private.tempItemKey.itemSuffix = 0
+	local numInsertedRows = 0
+	local items = Threading.AcquireSafeTempTable()
+	for _, itemString in ipairs(filter:GetItems()) do
+		itemString = ItemString.GetBaseFast(itemString)
+		if not items[itemString] then
+			items[itemString] = true
+			tinsert(items, itemString)
+		end
+	end
+	filter:_SetNumPages(#items)
+	for i, itemString in ipairs(items) do
+		local isPet = ItemString.IsPet(itemString)
+		local isCommodity = nil
+		if isPet then
+			isCommodity = false
+			private.tempItemKey.itemID = ItemString.ToId(ItemString.GetPetCageItemString())
+			private.tempItemKey.battlePetSpeciesID = ItemString.ToId(itemString)
+		else
+			isCommodity = ItemInfo.IsCommodity(itemString)
+			while isCommodity == nil do
+				Threading.Yield(true)
+				isCommodity = ItemInfo.IsCommodity(itemString)
+				if auctionScan:_IsCancelled() then
+					Log.Info("Stopping cancelled scan")
+					Threading.ReleaseSafeTempTable(items)
+					return false
+				end
+			end
+			private.tempItemKey.itemID = ItemString.ToId(itemString)
+			private.tempItemKey.battlePetSpeciesID = 0
+		end
+
+		local scanSuccess, scanNumInsertedRows = private.ScanItemKey83(auctionScan, filter, isCommodity, private.tempItemKey, not isCommodity and not isPet)
+		if not scanSuccess then
+			Threading.ReleaseSafeTempTable(items)
+			return false
+		end
+		numInsertedRows = numInsertedRows + scanNumInsertedRows
+
+		-- update the "page"
+		filter:_SetPage(i)
+		auctionScan:_SetPageProgress(filter:_GetPageProgress())
+		Threading.Yield()
+	end
+	Threading.ReleaseSafeTempTable(items)
+	return true, numInsertedRows
+end
+
 function private.FindAuctionThreaded(auctionScan, row, noSeller)
+	auctionScan._cancelled = false
 	-- make sure we're not in the middle of a query where the results are going to change on us
-	TSMAPI_FOUR.Thread.WaitForFunction(CanSendAuctionQuery)
+	Threading.WaitForFunction(CanSendAuctionQuery)
 	local timeout = 5
 	while not private.IsAuctionPageValidThreaded(auctionScan) and timeout > 0 do
-		TSMAPI_FOUR.Thread.Sleep(0.2)
+		Threading.Sleep(0.2)
 		timeout = timeout - 0.2
 	end
 
 	-- search the current page for the auction
 	if private.FindAuctionOnCurrentPage(auctionScan, row, noSeller) then
-		TSM:LOG_INFO("Found on current page")
+		Log.Info("Found on current page")
 		return auctionScan._findResult
 	end
 
@@ -723,7 +1107,7 @@ function private.FindAuctionThreaded(auctionScan, row, noSeller)
 	if row:GetField("itemBuyout") == 0 then
 		-- bid-only auctions will be on the last page so start there
 		predictionPage = ceil(query:Count() / NUM_AUCTION_ITEMS_PER_PAGE) - 1
-		TSM:LOG_INFO("Predicting auction is on page %d (bid-only)", predictionPage)
+		Log.Info("Predicting auction is on page %d (bid-only)", predictionPage)
 	else
 		local index = 1
 		for _, dbRow in query:Iterator() do
@@ -731,7 +1115,7 @@ function private.FindAuctionThreaded(auctionScan, row, noSeller)
 				-- this row shouldn't show up multiple times in the query
 				assert(not predictionPage)
 				predictionPage = ceil(index / NUM_AUCTION_ITEMS_PER_PAGE) - 1
-				TSM:LOG_INFO("Predicting auction is on page %d (found in DB)", predictionPage)
+				Log.Info("Predicting auction is on page %d (found in DB)", predictionPage)
 			end
 			index = index + 1
 		end
@@ -744,12 +1128,14 @@ function private.FindAuctionThreaded(auctionScan, row, noSeller)
 	local minPage, maxPage, direction, retriesLeft = 0, nil, "UP", 1
 	while true do
 		-- query the AH
-		filter:_DoAuctionQueryThreaded()
+		if not filter:_DoAuctionQueryThreaded() then
+			break
+		end
 		-- check the result
 		private.ValidateThreaded(auctionScan)
 		-- search this page for the row
 		if private.FindAuctionOnCurrentPage(auctionScan, row, noSeller) then
-			TSM:LOG_INFO("Found auction (%d)", filter:_GetPage())
+			Log.Info("Found auction (%d)", filter:_GetPage())
 			return auctionScan._findResult
 		elseif auctionScan:_IsCancelled() then
 			break
@@ -769,7 +1155,7 @@ function private.FindAuctionThreaded(auctionScan, row, noSeller)
 		while true do
 			if direction == "UP" then
 				if canBeLater and page < maxPage then
-					TSM:LOG_INFO("Trying next page (%d)", page + 1)
+					Log.Info("Trying next page (%d)", page + 1)
 					filter:_SetPage(page + 1)
 					break
 				else
@@ -778,13 +1164,13 @@ function private.FindAuctionThreaded(auctionScan, row, noSeller)
 			end
 			if direction == "DOWN" then
 				if canBeEarlier and page > minPage then
-					TSM:LOG_INFO("Trying previous page (%d)", page - 1)
+					Log.Info("Trying previous page (%d)", page - 1)
 					filter:_SetPage(page - 1)
 					break
 				else
 					if retriesLeft == 0 then
 						-- give up
-						TSM:LOG_INFO("Giving up (%d,%d,%d,%d)", minPage, maxPage, page, numPages)
+						Log.Info("Giving up (%d,%d,%d,%d)", minPage, maxPage, page, numPages)
 						return
 					end
 					retriesLeft = retriesLeft - 1
@@ -880,12 +1266,54 @@ end
 function private.FindAuctionOnCurrentPage(auctionScan, row, noSeller)
 	local found = false
 	for i = 1, GetNumAuctionItems("list") do
-		if auctionScan:ValidateIndex(i, row, noSeller) then
+		if auctionScan:_ValidateIndex(i, row, noSeller) then
 			tinsert(auctionScan._findResult, i)
 			found = true
 		end
 	end
 	return found
+end
+
+function private.FindAuctionThreaded83(auctionScan, row, noSeller)
+	auctionScan._cancelled = false
+	local itemId, itemLevel, itemSuffix, battlePetSpeciesID = strsplit("~", row:GetField("hash"))
+	local isCommodity = ItemInfo.IsCommodity(row:GetField("itemString"))
+	noSeller = noSeller or isCommodity
+	itemId = tonumber(itemId)
+	itemLevel = tonumber(itemLevel)
+	itemSuffix = tonumber(itemSuffix)
+	battlePetSpeciesID = tonumber(battlePetSpeciesID)
+	private.tempItemKey.itemID = itemId
+	private.tempItemKey.itemLevel = isCommodity and 0 or itemLevel
+	private.tempItemKey.itemSuffix = isCommodity and 0 or itemSuffix
+	private.tempItemKey.battlePetSpeciesID = isCommodity and 0 or battlePetSpeciesID
+	-- send the query for this item
+	if not private.SendSearchQuery83(private.tempItemKey, auctionScan, isCommodity, false) then
+		return nil
+	end
+
+	-- search the results for the auction
+	local numItemResults = nil
+	if isCommodity then
+		numItemResults = C_AuctionHouse.GetNumCommoditySearchResults(private.tempItemKey.itemID)
+	else
+		numItemResults = C_AuctionHouse.GetNumItemSearchResults(private.tempItemKey)
+	end
+	local result = nil
+	for i = 1, numItemResults do
+		local _, _, _, stackSize, _, _, _, _, _, _, _, _, _, _, _, _, hash, hashNoSeller = auctionScan:_GetAuctionRowFields83(isCommodity, private.tempItemKey, i)
+		if (noSeller and hashNoSeller or hash) == row:GetField(noSeller and "hashNoSeller" or "hash") then
+			result = (result or 0) + stackSize
+		end
+	end
+	if not result then
+		Log.Err("Failed to find auction (%d, %s)", numItemResults, row:GetField(noSeller and "hashNoSeller" or "hash"))
+		for i = 1, numItemResults do
+			local _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, hash, hashNoSeller = auctionScan:_GetAuctionRowFields83(isCommodity, private.tempItemKey, i)
+			Log.Err("%d = %s (%d)", i, noSeller and hashNoSeller or hash)
+		end
+	end
+	return result
 end
 
 function private.FixSellerName(seller, sellerFull)
@@ -895,4 +1323,90 @@ function private.FixSellerName(seller, sellerFull)
 	else
 		return seller
 	end
+end
+
+function private.GetItemKeyInfo(auctionScan, itemKey)
+	while true do
+		if auctionScan:_IsCancelled() then
+			Log.Info("Stopping cancelled scan")
+			return nil
+		end
+		local future = AuctionHouseWrapper.GetItemKeyInfo(itemKey, true)
+		if future then
+			local itemKeyInfo = Threading.WaitForFuture(future)
+			if itemKeyInfo then
+				return itemKeyInfo
+			end
+			Log.Warn("Timed out waiting for item key info - will retry")
+		else
+			Log.Err("Failed to request item key info - will retry")
+			Threading.Sleep(0.5)
+		end
+	end
+end
+
+function private.SendSearchQuery83(itemKey, auctionScan, isCommodity, sellQuery)
+	-- send the query for this item
+	while true do
+		-- if the client doesn't have the itemKeyInfo cached, our search query will fail, so request that first
+		if not private.GetItemKeyInfo(auctionScan, itemKey) then
+			Log.Info("Stopping cancelled scan")
+			return false
+		end
+		local future, delayTime = AuctionHouseWrapper.SendSearchQuery(itemKey, sellQuery)
+		if future then
+			if Threading.WaitForFuture(future) then
+				if private.LoadFullSearchResults83(auctionScan, isCommodity, itemKey) then
+					return true
+				end
+				Log.Err("Failed to load full results - retrying query")
+			else
+				Log.Warn("Retrying search query which timed-out")
+			end
+		elseif delayTime then
+			-- try again after a delay
+			Threading.Sleep(delayTime)
+		else
+			Log.Err("Failed to send search query - retrying")
+			Threading.Sleep(0.5)
+		end
+	end
+end
+
+function private.LoadFullSearchResults83(auctionScan, isCommodity, itemKey)
+	for i = 1, 20 do
+		local numResults = nil
+		local hasFullResults = nil
+		if isCommodity then
+			numResults = C_AuctionHouse.GetNumCommoditySearchResults(itemKey.itemID)
+			hasFullResults = C_AuctionHouse.HasFullCommoditySearchResults(itemKey.itemID)
+		else
+			numResults = C_AuctionHouse.GetNumItemSearchResults(itemKey)
+			hasFullResults = C_AuctionHouse.HasFullItemSearchResults(itemKey)
+		end
+		if hasFullResults then
+			if i ~= 1 then
+				Log.Info("Successful after %d retries (numResults=%d)", i - 1, numResults)
+			end
+			return true
+		end
+		if auctionScan:_IsCancelled() then
+			Log.Info("Stopping cancelled scan")
+			return false
+		end
+		local future = nil
+		if isCommodity then
+			future = AuctionHouseWrapper.RequestMoreCommoditySearchResults(itemKey.itemID)
+		else
+			future = AuctionHouseWrapper.RequestMoreItemSearchResults(itemKey)
+		end
+		if future then
+			Threading.WaitForFuture(future)
+		else
+			Log.Err("Failed to request more results - will try again")
+			Threading.Sleep(0.5)
+		end
+	end
+	Log.Err("Failed to load full search results")
+	return false
 end

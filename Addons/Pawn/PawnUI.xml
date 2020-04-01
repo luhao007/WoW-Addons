@@ -920,7 +920,7 @@
 					<CheckButton name="PawnUIFrame_IgnoreStatCheck" inherits="PawnUICheckboxTemplate">
 						<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="275" y="-290" /></Offset></Anchor></Anchors>
 						<Layers><Layer level="ARTWORK">
-							<FontString name="$parent_Label" inherits="PawnUICheckboxLabelTemplate" text="PawnUIFrame_IgnoreStatCheck_Text" />
+							<FontString name="$parent_Label" inherits="PawnUICheckboxLabelTemplate" />
 						</Layer></Layers>
 						<Scripts><OnClick function="PawnUIFrame_IgnoreStatCheck_OnClick" /></Scripts>
 					</CheckButton>
@@ -1597,6 +1597,34 @@
 			</Frame>
 			
 			<!-- The tab buttons -->
+			<!-- List the right-side tabs first so they overlap the others in case of custom fonts or long strings: the Gems tab is less important than Options. -->
+			<Button name="$parentTab6" inherits="CharacterFrameTabButtonTemplate" id="6" text="PawnUIFrame_AboutTab_Text">
+				<Anchors><Anchor point="RIGHT" relativePoint="BOTTOMRIGHT"><Offset><AbsDimension x="-6" y="-8" /></Offset></Anchor></Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+						PawnUISwitchToTab(PawnUIAboutTabPage)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parentTab7" inherits="CharacterFrameTabButtonTemplate" id="7" text="PawnUIFrame_HelpTab_Text">
+				<Anchors><Anchor point="RIGHT" relativeTo="$parentTab6" relativePoint="LEFT"><Offset><AbsDimension x="16" y="0" /></Offset></Anchor></Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+						PawnUISwitchToTab(PawnUIHelpTabPage)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parentTab5" inherits="CharacterFrameTabButtonTemplate" id="5" text="PawnUIFrame_OptionsTab_Text">
+				<Anchors><Anchor point="RIGHT" relativeTo="$parentTab7" relativePoint="LEFT"><Offset><AbsDimension x="16" y="0" /></Offset></Anchor></Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+						PawnUISwitchToTab(PawnUIOptionsTabPage)
+					</OnClick>
+				</Scripts>
+			</Button>
 			<Button name="$parentTab1" inherits="CharacterFrameTabButtonTemplate" id="1" text="PawnUIFrame_ScalesTab_Text">
 				<Anchors><Anchor point="LEFT" relativePoint="BOTTOMLEFT"><Offset><AbsDimension x="196" y="-8" /></Offset></Anchor></Anchors>
 				<Scripts>
@@ -1633,33 +1661,6 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="$parentTab5" inherits="CharacterFrameTabButtonTemplate" id="5" text="PawnUIFrame_OptionsTab_Text">
-				<Anchors><Anchor point="LEFT" relativeTo="$parentTab4" relativePoint="RIGHT"><Offset><AbsDimension x="-16" y="0" /></Offset></Anchor></Anchors>
-				<Scripts>
-					<OnClick>
-						PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
-						PawnUISwitchToTab(PawnUIOptionsTabPage)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parentTab6" inherits="CharacterFrameTabButtonTemplate" id="6" text="PawnUIFrame_AboutTab_Text">
-				<Anchors><Anchor point="RIGHT" relativePoint="BOTTOMRIGHT"><Offset><AbsDimension x="-6" y="-8" /></Offset></Anchor></Anchors>
-				<Scripts>
-					<OnClick>
-						PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
-						PawnUISwitchToTab(PawnUIAboutTabPage)
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parentTab7" inherits="CharacterFrameTabButtonTemplate" id="7" text="PawnUIFrame_HelpTab_Text">
-				<Anchors><Anchor point="RIGHT" relativeTo="$parentTab6" relativePoint="LEFT"><Offset><AbsDimension x="16" y="0" /></Offset></Anchor></Anchors>
-				<Scripts>
-					<OnClick>
-						PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
-						PawnUISwitchToTab(PawnUIHelpTabPage)
-					</OnClick>
-				</Scripts>
-			</Button>
 
 		</Frames>
 
@@ -1672,6 +1673,7 @@
 				self:RegisterEvent("PLAYER_LOGOUT")
 				self:RegisterEvent("UNIT_INVENTORY_CHANGED")
 				self:RegisterEvent("ITEM_LOCKED")
+				self:RegisterEvent("GROUP_ROSTER_UPDATE")
 				if not VgerCore.IsClassic then
 					-- These events don't exist on Classic.
 					self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
@@ -1757,15 +1759,62 @@
 	
 	</Frame>
 	
-	<!-- A generic dialog for asking for a string -->
-	<Frame name="PawnUIStringDialog" inherits="PawnUIDialogTemplate">
+	<!-- Generic dialogs for asking for a string -->
+	<Frame name="PawnUIStringDialogSingleLine" inherits="PawnUIDialogTemplate">
+	 	<Size><AbsDimension x="350" y="155" /></Size>
+
+		<!-- The art layer -->
+		<Layers>
+			<Layer level="ARTWORK">
+
+				<FontString parentKey="PromptText" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+					<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="25" y="-25"/></Offset></Anchor></Anchors>
+					<Size><AbsDimension x="300" y="40" /></Size>
+				</FontString>
+
+			</Layer>
+		</Layers>
+
+		<!-- The UI elements -->
+		<Frames>
+
+			<!-- Main frame buttons and such -->
+			<EditBox parentKey="TextBox" inherits="InputBoxTemplate" hidden="false">
+				<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="50" y="-75" /></Offset></Anchor></Anchors>
+				<Size><AbsDimension x="250" y="25" /></Size>
+				<Scripts>
+					<OnTextChanged function="PawnUIStringDialog_TextBox_OnTextChanged" />
+				</Scripts>
+			</EditBox>
+			
+			<Button parentKey="OKButton" hidden="false" inherits="UIPanelButtonTemplate">
+				<Anchors><Anchor point="BOTTOMRIGHT"><Offset><AbsDimension x="-125" y="20" /></Offset></Anchor></Anchors>
+				<Size><AbsDimension x="95" y="25" /></Size>
+				<Scripts>
+					<OnClick function="PawnUIStringDialog_OKButton_OnClick" />
+				</Scripts>
+			</Button>
+			
+			<Button parentKey="CancelButton" hidden="false" inherits="UIPanelButtonTemplate">
+				<Anchors><Anchor point="BOTTOMRIGHT"><Offset><AbsDimension x="-20" y="20" /></Offset></Anchor></Anchors>
+				<Size><AbsDimension x="95" y="25" /></Size>
+				<Scripts>
+					<OnClick function="PawnUIStringDialog_CancelButton_OnClick" />
+				</Scripts>
+			</Button>
+			
+		</Frames>
+		
+	</Frame>
+	
+	<Frame name="PawnUIStringDialogMultiLine" inherits="PawnUIDialogTemplate">
 	 	<Size><AbsDimension x="350" y="230" /></Size>
 
 		<!-- The art layer -->
 		<Layers>
 			<Layer level="ARTWORK">
 
-				<FontString name="$parent_PromptText" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+				<FontString parentKey="PromptText" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
 					<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="25" y="-25"/></Offset></Anchor></Anchors>
 					<Size><AbsDimension x="300" y="40" /></Size>
 				</FontString>
@@ -1778,13 +1827,13 @@
 
 			<!-- Main frame buttons and such -->
 
-			<ScrollFrame name="$parent_Scroller" inherits="UIPanelScrollFrameTemplate">
+			<ScrollFrame name="PawnUIStringDialogMultiLine_Scroller" inherits="UIPanelScrollFrameTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT"><Offset><AbsDimension x="25" y="-75" /></Offset></Anchor>
 					<Anchor point="BOTTOMRIGHT"><Offset><AbsDimension x="-43" y="65" /></Offset></Anchor>
 				</Anchors>
 				<ScrollChild>
-					<EditBox name="PawnUIStringDialog_TextBox" multiLine="true" hidden="false">
+					<EditBox name="PawnUIStringDialogMultiLine_TextBox" multiLine="true" hidden="false">
 						<Anchors>
 							<Anchor point="TOPLEFT"><Offset><AbsDimension x="0" y="0" /></Offset></Anchor>
 							<Anchor point="BOTTOMRIGHT"><Offset><AbsDimension x="0" y="0" /></Offset></Anchor>
@@ -1801,15 +1850,15 @@
 
 			<Frame>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Scroller"><Offset><AbsDimension x="-7" y="7" /></Offset></Anchor>
-					<Anchor point="BOTTOMRIGHT" relativeTo="$parent_Scroller"><Offset><AbsDimension x="26" y="-7" /></Offset></Anchor>
+					<Anchor point="TOPLEFT" relativeTo="PawnUIStringDialogMultiLine_Scroller"><Offset><AbsDimension x="-7" y="7" /></Offset></Anchor>
+					<Anchor point="BOTTOMRIGHT" relativeTo="PawnUIStringDialogMultiLine_Scroller"><Offset><AbsDimension x="26" y="-7" /></Offset></Anchor>
 				</Anchors>
 				<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 					<EdgeSize><AbsValue val="16" /></EdgeSize>
 				</Backdrop>
 			</Frame>
 
-			<Button name="$parent_OKButton" hidden="false" inherits="UIPanelButtonTemplate">
+			<Button parentKey="OKButton" hidden="false" inherits="UIPanelButtonTemplate">
 				<Anchors><Anchor point="BOTTOMRIGHT"><Offset><AbsDimension x="-125" y="20" /></Offset></Anchor></Anchors>
 				<Size><AbsDimension x="95" y="25" /></Size>
 				<Scripts>
@@ -1817,7 +1866,7 @@
 				</Scripts>
 			</Button>
 			
-			<Button name="$parent_CancelButton" hidden="false" inherits="UIPanelButtonTemplate">
+			<Button parentKey="CancelButton" hidden="false" inherits="UIPanelButtonTemplate">
 				<Anchors><Anchor point="BOTTOMRIGHT"><Offset><AbsDimension x="-20" y="20" /></Offset></Anchor></Anchors>
 				<Size><AbsDimension x="95" y="25" /></Size>
 				<Scripts>
@@ -1827,6 +1876,12 @@
 			
 		</Frames>
 		
+		<Scripts>
+			<OnLoad>
+				PawnUIStringDialogMultiLine.TextBox = PawnUIStringDialogMultiLine_TextBox
+			</OnLoad>
+		</Scripts>
+
 	</Frame>
 	
 </Ui>

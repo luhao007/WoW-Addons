@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
@@ -11,7 +11,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: BFA
-## X-DBM-Mod-Has-Mythic : 1
+## X-DBM-Mod-Has-Mythic: 1
 ## X-DBM-Mod-SubCategories: Shared,Alliance,Horde
 ## X-DBM-Mod-SubCategories-koKR: 공통,얼라이언스,호드
 ## X-DBM-Mod-SubCategories-zhTW: 共通,聯盟,部落

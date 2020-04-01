@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: arith, Dynaletik, dubcat
-## Version: v1.45.00
+## Version: v1.47.00
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Wrath of the Lich King]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0巫妖王之怒|r
 ## Notes-zhCN: 巫妖王之怒副本地图
 
-## X-Date: 2019-09-04T7:54:35Z
+## X-Date: 2020-01-19T17:04:22Z
 ## X-Credits: Dan Gilbert, Lothaer
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com
@@ -16,6 +16,7 @@
 
 #@non-debug@
 #@end-non-debug@
+
 #@debug@
 # ## Title: Atlas |r|cFF0099FF[Wrath of the Lich King]|r
 # ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 巫妖王之怒

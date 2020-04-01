@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Gello
-## Version: 4.9.13
+## Version: 4.10.3
 ## SavedVariables: RematchSaved, RematchSettings
 
 ## Title: Rematch

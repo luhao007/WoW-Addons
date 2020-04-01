@@ -4,6 +4,7 @@ if GetLocale() ~= "esMX" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [244983] = {
         name = "Reloj de bolsillo sucio",
@@ -25,9 +26,6 @@ BtWQuestsDatabase:UpdateObjectsTable({
     },
     [273854] = {
         name = "Mochila",
-    },
-    [276187] = {
-        name = "Junji",
     },
     [276251] = {
         name = "Inventario de excavación",
@@ -254,6 +252,9 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [307748] = {
         name = "Carta de Ventura y Cía.",
     },
+    [309498] = {
+        name = "Portaarmas",
+    },
     [311155] = {
         name = "Tablilla antigua",
     },
@@ -266,8 +267,14 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [322533] = {
         name = "Tomo de los elementos de Mardivas",
     },
+    [326393] = {
+        name = "Alijo de armas de azerita",
+    },
     [326418] = {
         name = "Cofre arcano",
+    },
+    [326588] = {
+        name = "Alijo de armas de azerita",
     },
     [327170] = {
         name = "Expositor de armas",
@@ -282,3 +289,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Cristal extraño",
     },
 })
+]])()

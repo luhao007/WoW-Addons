@@ -4,40 +4,33 @@ local L
 ---------------------------
 --  Wrathion, the Black Emperor --
 ---------------------------
-L= DBM:GetModLocalization(2368)
-
-L:SetWarningLocalization({
-
-})
-
-L:SetTimerLocalization({
-
-})
-
-L:SetOptionLocalization({
-
-})
-
-L:SetMiscLocalization({
-})
+--L= DBM:GetModLocalization(2368)
 
 ---------------------------
 --  Maut --
 ---------------------------
-L= DBM:GetModLocalization(2365)
+--L= DBM:GetModLocalization(2365)
 
 ---------------------------
 --  The Prophet Skitra --
 ---------------------------
-L= DBM:GetModLocalization(2369)
+--L= DBM:GetModLocalization(2369)
 
 ---------------------------
 --  Dark Inquisitor Xanesh --
 ---------------------------
 L= DBM:GetModLocalization(2377)
 
+L:SetOptionLocalization({
+	InterruptBehavior	= "공포의 물결 차단 방식 설정 (공대장일 경우 다른 사람의 설정보다 우선 적용)",
+	Four				= "4인 로테이션 ",--Default
+	Five				= "5인 로테이션 ",
+	Six					= "6인 로테이션 ",
+	NoReset				= "로테이션 없음 "
+})
+
 L:SetMiscLocalization({
-	ObeliskSpawn	= "Obelisks of shadow, rise!"--Only as backup, in case the NPC target check stops working
+	ObeliskSpawn	= "솟아나라, 어둠의 방첨탑이여!"--Only as backup, in case the NPC target check stops working
 })
 
 ---------------------------
@@ -53,22 +46,26 @@ L:SetMiscLocalization({
 ---------------------------
 --  Shad'har the Insatiable --
 ---------------------------
-L= DBM:GetModLocalization(2367)
+--L= DBM:GetModLocalization(2367)
 
 ---------------------------
 -- Drest'agath --
 ---------------------------
-L= DBM:GetModLocalization(2373)
+--L= DBM:GetModLocalization(2373)
 
 ---------------------------
 --  Vexiona --
 ---------------------------
-L= DBM:GetModLocalization(2370)
+--L= DBM:GetModLocalization(2370)
 
 ---------------------------
 --  Ra-den the Despoiled --
 ---------------------------
 L= DBM:GetModLocalization(2364)
+
+L:SetOptionLocalization({
+	OnlyParentBondMoves		= "충전된 결속의 기준점이 될 때만 특수 경고 표시"
+})
 
 L:SetMiscLocalization({
 	Furthest	= "제일 먼 대상",
@@ -92,17 +89,25 @@ L:SetOptionLocalization({
 ---------------------------
 --  Carapace of N'Zoth --
 ---------------------------
-L= DBM:GetModLocalization(2366)
+--L= DBM:GetModLocalization(2366)
 
 ---------------------------
 --  N'Zoth, the Corruptor --
 ---------------------------
 L= DBM:GetModLocalization(2375)
 
+L:SetOptionLocalization({
+	InterruptBehavior	= "정신학대 차단 방식 설정 (공대장일 경우 다른 사람의 설정보다 우선 적용)",
+	Four				= "4인 로테이션 ",
+	Five				= "5인 로테이션 ",--Default
+	Six					= "6인 로테이션 ",
+	NoReset				= "로테이션 없음 ",
+	ArrowOnGlare		= "$spell:317874을 피할 방향을 좌우 화살표로 표시"
+})
+
 L:SetMiscLocalization({
-	ExitMind		= "정신 탈출",
-	Away			= "멀리 빠져",
-	Toward			= "가까이 붙어"
+	ExitMind		= "정신세계 출구",
+	Gate			= "관문"
 })
 
 -------------

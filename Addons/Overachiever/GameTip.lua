@@ -135,6 +135,13 @@ local function isCriteria_hidden(achID, name)
 end
 --]]
 
+local function addTooltipLineWithTexture(tooltip, text, texture, r, g, b)
+	--tooltip:AddLine(text, r, g, b)
+	--tooltip:AddTexture(AchievementIcon)
+	-- Above method stopped working. I don't see a statement that this is intended so it seems to be a bug in WoW. Working around it:
+	tooltip:AddLine("|T"..texture..":0|t " .. text, r, g, b)
+end
+
 
 local function getMobID(unit)
   local guid = UnitGUID(unit)
@@ -275,8 +282,7 @@ do
 			local num = #data
 			if (num > 1) then  text = L.MULTI_NEED:format(text, num);  end
 			if (Overachiever_Debug) then  text = text .. ' [ID:' .. table.concat(data, ',') .. ']';  end
-			tooltip:AddLine(text, r, g, b)
-			tooltip:AddTexture(AchievementIcon)
+			addTooltipLineWithTexture(tooltip, text, AchievementIcon, r, g, b)
 		end
 	end
 
@@ -499,8 +505,7 @@ function Overachiever.ExamineSetUnit(tooltip)
 			  if (playername) then  playername = playername .. " (" .. raceName .. " " .. className .. ")";  end
 			  flagReminder(id, playername)
             end
-            tooltip:AddLine(text, r, g, b)
-            tooltip:AddTexture(AchievementIcon)
+			addTooltipLineWithTexture(tooltip, text, AchievementIcon, r, g, b)
             needtipshow = true
           end
         end
@@ -524,8 +529,7 @@ function Overachiever.ExamineSetUnit(tooltip)
               PlayReminder()
               flagReminder(id, critNum) --flagReminder(id, name)
             end
-            tooltip:AddLine(text, r, g, b)
-            tooltip:AddTexture(AchievementIcon)
+            addTooltipLineWithTexture(tooltip, text, AchievementIcon, r, g, b)
             needtipshow = true
           end
         end
@@ -536,14 +540,15 @@ function Overachiever.ExamineSetUnit(tooltip)
 	  --local tab = TjAchieve.GetCriteriaByAsset(TjAchieve.CRITTYPE_KILL, guid, true)
 	  --local tab = Overachiever.GetKillCriteriaLookup()[guid]
 	  local tab = Overachiever.GetKillCriteriaLookup(true)
-	  if (tab) then  tab = tab[guid];  end
-      if (tab) then
+      if (tab and tab[guid]) then
+	    tab = tab[guid]
+		local includeCompleteAch = Overachiever_Settings.CreatureTip_killed_whencomplete
 	    local excludeGuild = Overachiever_Settings.CreatureTip_killed_exclude_guild
         local num, numincomplete, potential, _, achcom, guild, c, t = 0, 0
         for i = 1, #tab, 2 do
           id = tab[i]
           _, _, _, achcom, _, _, _, _, _, _, _, guild = GetAchievementInfo(id)
-          if (not achcom and (not guild or not excludeGuild)) then
+          if ((not achcom or includeCompleteAch) and (not guild or not excludeGuild)) then
             num = num + 1
             _, _, c = GetAchievementCriteriaInfo(id, tab[i+1])
             if (not c) then
@@ -578,6 +583,7 @@ function Overachiever.ExamineSetUnit(tooltip)
             end
           end
 
+		  local r, g, b
           if (numincomplete <= 0) then
             text = L.KILL_COMPLETE
             r, g, b = tooltip_complete.r, tooltip_complete.g, tooltip_complete.b
@@ -588,8 +594,7 @@ function Overachiever.ExamineSetUnit(tooltip)
               PlayReminder()
             end
           end
-          tooltip:AddLine(text, r, g, b)
-          tooltip:AddTexture(AchievementIcon)
+		  addTooltipLineWithTexture(tooltip, text, AchievementIcon, r, g, b)
           needtipshow = true
         end
       end
@@ -781,9 +786,8 @@ do
 				sizeAdjusted = true
 			end
 			if (text) then
-				tooltip:AddLine(text, r, g, b)
+				addTooltipLineWithTexture(tooltip, text, AchievementIcon, r, g, b)
 				count = count + 1
-				tooltip:AddTexture(AchievementIcon)
 			end
 		end
 		tooltipUsed = true
@@ -1375,11 +1379,15 @@ local MissionAch = {
 
 local function MissionCheck(key, missionID)
 	local id = OVERACHIEVER_ACHID[key]
-	local achcomplete = select(4, GetAchievementInfo(id))
-	if (achcomplete and not Overachiever_Settings[ "Mission_complete_whencomplete" ]) then  return;  end
+	--local achcomplete = select(4, GetAchievementInfo(id))
+	local _, name, _, achcomplete = GetAchievementInfo(id)
+	if (achcomplete and not Overachiever_Settings.Mission_complete_whencomplete) then  return;  end
 	local crit, complete = isCriteria_asset(id, missionID)
 	if (not crit) then  return;  end
 	local tip = complete and L.ACH_MISSIONCOMPLETE_COMPLETE or achcomplete and L.ACH_MISSIONCOMPLETE_INCOMPLETE_EXTRA or L.ACH_MISSIONCOMPLETE_INCOMPLETE
+	if (IsShiftKeyDown()) then
+		tip = tip .. "|n    [" .. name .. "]"
+	end
 	return id, tip, complete, achcomplete, crit
 end
 
@@ -1420,8 +1428,7 @@ local function missionButtonOnEnter(self, ...)
 						r, g, b = tooltip_incomplete.r, tooltip_incomplete.g, tooltip_incomplete.b
 					end
 					GameTooltip:AddLine(" ")
-					GameTooltip:AddLine(text, r, g, b)
-					GameTooltip:AddTexture(AchievementIcon)
+					addTooltipLineWithTexture(GameTooltip, text, AchievementIcon, r, g, b)
 					GameTooltip:Show()
 
 					if (not complete) then

@@ -1,5 +1,5 @@
 --[[
-Copyright 2013-2019 João Cardoso
+Copyright 2013-2020 João Cardoso
 SecureTabs is distributed under the terms of the GNU General Public License (or the Lesser GPL).
 This file is part of SecureTabs.
 
@@ -74,9 +74,7 @@ end
 
 function Lib:Update(panel, selection)
 	local secureTabs = self.tabs[panel]
-	if not secureTabs then
-		return
-	end
+	if not secureTabs then return end
 
 	for i, tab in ipairs(secureTabs) do
 		local selected = tab == selection

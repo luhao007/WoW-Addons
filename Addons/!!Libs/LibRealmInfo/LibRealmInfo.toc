@@ -1,5 +1,5 @@
 ## Interface: 80100
-## Version: @project-version@
+## Version: 14
 
 ## Title: Lib: Realm Info
 ## Notes: Library to provide information about realms.

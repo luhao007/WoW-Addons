@@ -12,7 +12,9 @@
 
 local _, TSM = ...
 local CraftingMatList = TSM.Include("LibTSMClass").DefineClass("CraftingMatList", TSM.UI.ScrollList)
-local private = { }
+local ItemString = TSM.Include("Util.ItemString")
+local Wow = TSM.Include("Util.Wow")
+local private = {}
 TSM.UI.CraftingMatList = CraftingMatList
 
 
@@ -103,9 +105,9 @@ end
 function CraftingMatList._DrawRow(self, row, dataIndex)
 	local index = row:GetContext()
 	local itemLink, _, texture, quantity = TSM.Crafting.ProfessionUtil.GetMatInfo(self._spellId, index)
-	local itemString = TSMAPI_FOUR.Item.ToItemString(itemLink)
+	local itemString = ItemString.Get(itemLink)
 	local bagQuantity = TSMAPI_FOUR.Inventory.GetBagQuantity(itemString)
-	if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
+	if not TSM.IsWowClassic() then
 		bagQuantity = bagQuantity + TSMAPI_FOUR.Inventory.GetReagentBankQuantity(itemString) + TSMAPI_FOUR.Inventory.GetBankQuantity(itemString)
 	end
 	local color = bagQuantity >= quantity and "|cff2cec0d" or "|cfff21319"
@@ -128,5 +130,5 @@ function private.ItemOnClick(button)
 	local spellId = button:GetElement("__parent.__parent"):GetContext()
 	local index = button:GetParentElement():GetContext()
 	local itemLink = TSM.Crafting.ProfessionUtil.GetMatInfo(spellId, index)
-	TSM.Wow.SafeItemRef(itemLink)
+	Wow.SafeItemRef(itemLink)
 end

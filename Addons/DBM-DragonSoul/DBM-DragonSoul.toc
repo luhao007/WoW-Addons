@@ -1,6 +1,6 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: MysticalOS
-## Version: r203
+## Version: r206
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMDragonSoul_AllSavedVars
@@ -13,7 +13,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: CATA
-## X-DBM-Mod-Has-LFR : 1
+## X-DBM-Mod-Has-LFR: 1
 ## X-DBM-Mod-MapID: 967
 ## X-DBM-Mod-Sort: 801
 ## X-DBM-Mod-MinCoreRevision: 14002

@@ -4,6 +4,7 @@ if GetLocale() ~= "deDE" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
     [61] = {
         name = "Ein verwittertes Grab",
@@ -117,3 +118,4 @@ BtWQuestsDatabase:UpdateObjectsTable({
         name = "Kessel",
     },
 })
+]])()

@@ -4,6 +4,7 @@ if GetLocale() ~= "zhTW" then
     return
 end
 
+loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
     [2] = {
         name = "沙普塔隆的爪子",
@@ -7566,3 +7567,4 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "擊退",
     },
 })
+]])()

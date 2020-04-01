@@ -14,8 +14,7 @@ FishingTranslations["deDE"] = {
 	["ABOUT_TAB"] = "Über",
 	["ADDFISHINFOMSG"] = "'%s' zum Standort %s hinzufügen.",
 	["ALLZOMGPETS"] = "Schließt alle Haustiere ein",
-	--[[Translation missing --]]
-	--[[ ["AUTHOR"] = "Sutorix (sutorix@hotmail.com)",--]] 
+	["AUTHOR"] = "Sutorix (sutorix@hotmail.com)",
 	--[[Translation missing --]]
 	--[[ ["BINDING_HEADER_FISHINGBUDDY_BINDINGS"] = "#NAME#",--]] 
 	["BINDING_NAME_FISHINGBUDDY_GOFISHING"] = "Anziehen und angeln gehen",
@@ -43,10 +42,8 @@ FishingTranslations["deDE"] = {
 	["CLICKTOSWITCH_INFO"] = "Falls aktiviert, wird ein Linksklick die Ausrüstungen wechseln, ansonsten wird er das Fishing-Buddy-Fenster öffnen.",
 	["CLICKTOSWITCH_ONOFF"] = "Anklicken, um zu wechseln",
 	["COMPATIBLE_SWITCHER"] = "Kein kompatibler Ausrüstungswechsler gefunden.",
-	--[[Translation missing --]]
-	--[[ ["CONFIG_ALWAYSHAT_INFO"] = "If enabled, just use the damned hat (even if you don't need it).",--]] 
-	--[[Translation missing --]]
-	--[[ ["CONFIG_ALWAYSHAT_ONOFF"] = "Use hats",--]] 
+	["CONFIG_ALWAYSHAT_INFO"] = "Wenn aktiviert, dann benutz einfach den verdammten Hut (Selbst wenn es nicht nötig ist).",
+	["CONFIG_ALWAYSHAT_ONOFF"] = "Nutze Hüte",
 	["CONFIG_ALWAYSLURE_INFO"] = "Falls aktiviert, wird ein Angelköder angebracht, wann immer die Angelrute über keinen verfügt.",
 	["CONFIG_ALWAYSLURE_ONOFF"] = "Immer ködern",
 	["CONFIG_AUTOLOOT_INFO"] = "Falls aktiviert, ist das automatische Plündern während des Angelns eingeschaltet.",
@@ -58,27 +55,24 @@ FishingTranslations["deDE"] = {
 	["CONFIG_BGSOUNDS_ONOFF"] = "Soundeffekte im Hintergrund",
 	--[[Translation missing --]]
 	--[[ ["CONFIG_BIGDRAENOR_INFO"] = "If enabled, attempt to maximize skill while in Draenor and Broken Islands.",--]] 
-	--[[Translation missing --]]
-	--[[ ["CONFIG_BIGDRAENOR_ONOFF"] = "Max Fishing",--]] 
+	["CONFIG_BIGDRAENOR_ONOFF"] = "Max Angeln",
 	["CONFIG_BOBBINGBERG_INFO"] = "Wenn aktiviert, benutze Bipsis schlingernde Scholle",
-	--[[Translation missing --]]
-	--[[ ["CONFIG_BOBBINGBERG_ONOFF"] = "Use Bipsi's Berg",--]] 
+	["CONFIG_BOBBINGBERG_ONOFF"] = [=[Benutze Bipsis schlingernde Scholle
+]=],
 	["CONFIG_CONTESTS_INFO"] = "Zeigt einen Timer für Angelwettbewerbe an.",
 	["CONFIG_CONTESTS_ONOFF"] = "Unterstützung für Angelwettbewerb",
 	["CONFIG_CREATEMACRO_INFO"] = "Erstellt ein Makro das #NAME# ausführt.",
 	["CONFIG_CREATEMACRO_ONOFF"] = "Makro erstellen",
 	--[[Translation missing --]]
 	--[[ ["CONFIG_DALARANLURES_INFO"] = "If enabled, apply special Dalaran coin lures when available.",--]] 
-	--[[Translation missing --]]
-	--[[ ["CONFIG_DALARANLURES_ONOFF"] = "Dalaran Lures",--]] 
+	["CONFIG_DALARANLURES_ONOFF"] = "Dalaran Köder",
 	["CONFIG_DERBYTIMER_INFO"] = "Falls aktiviert, wird ein Countdown Timer für den Beginn des Kalu'ak Angel Derbys angezeigt, sowie ein Countdown für die noch verbleibende Zeit.",
 	["CONFIG_DERBYTIMER_ONOFF"] = "Derby Timer",
 	["CONFIG_DINGQUESTFISH_INFO"] = "Bei aktivierung wird der Quest erledigt Ton abgespielt sobald man einen der Nat Pagle Ruf Fische fängt.",
 	["CONFIG_DINGQUESTFISH_ONOFF"] = "Fisch klingeln",
 	--[[Translation missing --]]
 	--[[ ["CONFIG_DRAENORBAIT_INFO"] = "If enabled, attempt to use the right 'special' bait for the current zone.",--]] 
-	--[[Translation missing --]]
-	--[[ ["CONFIG_DRAENORBAIT_ONOFF"] = "Special Bait",--]] 
+	["CONFIG_DRAENORBAIT_ONOFF"] = "Spezieller Köder",
 	--[[Translation missing --]]
 	--[[ ["CONFIG_DRAENORBAITMAINTAIN_INFO"] = "If enabled, maintain existing 'special' bait, do not apply based on location.",--]] 
 	--[[Translation missing --]]

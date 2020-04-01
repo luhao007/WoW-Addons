@@ -1,11 +1,36 @@
-------------------------------------------------------------------------
-r113 | karlsnyder | 2018-09-02 03:32:39 +0000 (Sun, 02 Sep 2018) | 1 line
-Changed paths:
-   M /trunk/MBB.lua
-   M /trunk/MBB.toc
-   A /trunk/changelog.txt
-   M /trunk/localization-ruRU.lua
+commit afe84e3ab40440ad305bf343afde1bddd6e3f18e
+Author: VallanTV <vallantv@protonmail.com>
+Date:   Fri Jan 24 10:26:33 2020 -0800
 
-Updated for 8.0.
-------------------------------------------------------------------------
+    Bump TOC for 8.3.
+
+commit 4b68f921594bf3722db21a48565f05f7bf1e4198
+Author: VallanTV <vallantv@protonmail.com>
+Date:   Fri Jan 24 10:25:14 2020 -0800
+
+    Fix for Dugi
+
+commit 47af6868107036ba99632f4659c79f4a583fcca2
+Author: VallanTV <vallantv@protonmail.com>
+Date:   Fri Jan 24 10:24:59 2020 -0800
+
+    Fix for Tukui
+
+commit 511dd2a6c7d41fb13863e463ce78fefaeb187978
+Author: VallanTV <59833187+VallanTV@users.noreply.github.com>
+Date:   Tue Jan 14 06:54:54 2020 -0800
+
+    Update README.md
+
+commit 6bbd4605b86d2df35f664903090d11e0f0c9ed2f
+Author: VallanTV <vallantv@protonmail.com>
+Date:   Tue Jan 14 06:30:32 2020 -0800
+
+    Initial Commit of 4.0 source
+
+commit 425a0d47575fe6cacd9c44d7bfde4e48774e19d4
+Author: VallanTV <vallantv@protonmail.com>
+Date:   Tue Jan 14 06:29:53 2020 -0800
+
+    Initial commit
 
