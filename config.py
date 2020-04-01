@@ -52,6 +52,11 @@ MAPPING = {
         'Title-sub': '竞技场',
         'Category': '副本'
     },
+    'Atlas_BattleforAzeroth': {
+        'Title-cn': '副本地图',
+        'Title-sub': '争霸艾泽拉斯',
+        'Category': '副本'
+    },
     'Atlas_Battlegrounds': {
         'Title-cn': '副本地图',
         'Title-sub': '战场',

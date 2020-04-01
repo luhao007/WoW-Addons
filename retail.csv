@@ -5,6 +5,7 @@ curse:acp,default
 curse:advancedinterfaceoptions,default
 curse:atlas,default
 curse:atlas_arena,default
+curse:atlas-battle-for-azeroth,default
 curse:atlas-battlegrounds,default
 curse:atlas-burningcrusade,default
 curse:atlas-cataclysm,default
@@ -85,6 +86,7 @@ curse:monkey-quest,default
 curse:monkey-speed,default
 curse:mythicplustimer,default
 curse:npcscan,default
+curse:opie,default
 curse:omen-threat-meter,default
 curse:omni-cc,default
 curse:pawn,default

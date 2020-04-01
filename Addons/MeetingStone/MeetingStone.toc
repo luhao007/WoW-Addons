@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: 80200.03
+## Version: 80300.01
 ## LoadManagers: AddonLoader
 ## SavedVariables: MEETINGSTONE_UI_DB
 ## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB

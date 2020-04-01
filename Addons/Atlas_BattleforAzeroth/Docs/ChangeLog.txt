@@ -1,0 +1,21 @@
+$Id: ChangeLog.txt 11 2020-01-06 15:03:47Z arith $
+Atlas, a World of Warcraft instance map browser
+Copyright 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+
+==============
+= Change Log =
+==============
+
+v1.46.02 (Jan. 06, 2020)
+------------------------
+- Updated boss IDs and instance location
+- Added sub-bosses
+
+v1.46.01 (Jan. 05, 2020)
+------------------------
+- Completed all dungeon bosses' coordinates so that boss face will be showing on map.
+  (Raid instance is still TBD)
+
+v1.46.00 (Jan. 05, 2020)
+------------------------
+- Initial version for WoW BfA

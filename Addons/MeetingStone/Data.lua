@@ -304,6 +304,9 @@ CATEGORY = {
             [253] = true,
             [254] = true,
             [255] = true,
+            [256] = true,
+            [257] = true,
+            [258] = true,
         },
         activities = {
             [657] = true,
