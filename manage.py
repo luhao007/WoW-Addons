@@ -458,6 +458,23 @@ class Manager(object):
         path = 'AddOns/ThreatClassic2/ThreatClassic2.xml'
         process_file(path, f)
 
+    def handle_titan(self):
+        path = 'Addons/Titan{0}Location/Titan{0}Location.lua'.format(
+            'Classic' if self.is_classic() else '')
+        self.change_defaults(
+            path,
+            ['			ShowCoordsOnMap = false,',
+             '			ShowCursorOnMap = false,',
+             '			ShowLocOnMiniMap = 0,']
+        )
+
+    def handle_tomtom(self):
+        self.change_defaults(
+            'Addons/TomTom/TomTom.lua',
+            ['                playerenable = false,',
+             '                cursorenable = false,']
+        )
+
     def handle_tsm(self):
         rm_tree('AddOns/TradeSkillMaster/External/EmbeddedLibs/')
 
