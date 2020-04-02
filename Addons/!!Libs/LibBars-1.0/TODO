@@ -1,0 +1,11 @@
+- SetColor option for a bar, which is obeyed over barList:SetColorAt
+- SetColor option for a barList
+- Possibilities, unsure:
+	- Method to hide/disable the spark on a bar.
+	- Make the barList frame sized for the entire group, and add backdrop
+		options to it.
+	- Not sure if this should be in the addon's hands or not, but I could see
+		it being useful for counter bars to be able to show a line or spark at
+		each point in the count.  So a counter bar with a max of 5 would have 4
+		markers between each value.  Specifically, I could see such a thing
+		being used as a stack count indicator for deadly poison or somesuch.

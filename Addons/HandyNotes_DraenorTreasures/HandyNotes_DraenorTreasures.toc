@@ -12,7 +12,6 @@
 ## X-Embeds: Ace3
 
 #@no-lib-strip@
-embeds.xml
 #@end-no-lib-strip@
 
 HandyNotes_DraenorTreasures.lua

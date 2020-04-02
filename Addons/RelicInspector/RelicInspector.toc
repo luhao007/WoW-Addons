@@ -9,12 +9,5 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF钥石信息|r |cFFFFE00ARelicInspector|r
 
 
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-Libs\AceGUI-3.0\AceGUI-3.0.xml
-Libs\AceConfig-3.0\AceConfig-3.0.xml
-Libs\AceDB-3.0\AceDB-3.0.xml
-Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
-
 ArtifactData.lua
 RelicInspector.lua

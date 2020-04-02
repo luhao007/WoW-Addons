@@ -38,6 +38,13 @@ def main(ctx, verbose):
 
 
 @main.command()
+@click.pass_obj
+def manage(obj):
+    """Manage addons"""
+    obj.manage()
+
+
+@main.command()
 @click.argument('addons', required=True, nargs=-1)
 @click.pass_obj
 def install(obj, addons):

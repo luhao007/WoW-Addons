@@ -8,7 +8,6 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF角斗士助手|r |cFFFFE00AGladiatorlosSA2|r
 
 
-embeds.xml
 Locales\locales.xml
 
 GladiatorlosSA2.lua

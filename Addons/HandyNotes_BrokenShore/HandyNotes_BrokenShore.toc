@@ -27,7 +27,6 @@
 # ## Notes-zhTW: 顯示破碎海岸的 POI 位置
 #@end-debug@
 
-Libs\Libs.xml
 Locale\Locales.xml
 Core\Constants.lua
 Core\Handler.lua

@@ -10,7 +10,6 @@
 
 
 #@no-lib-strip@
-Embeds.xml
 #@end-no-lib-strip@
 
 Gladius.lua

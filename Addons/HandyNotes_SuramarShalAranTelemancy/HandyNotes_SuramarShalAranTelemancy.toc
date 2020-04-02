@@ -31,7 +31,6 @@
 # ## Notes-zhTW: 顯示在沙亞蘭與蘇拉瑪爾之間的各個傳送點位置
 #@end-debug@
 
-Libs\Libs.xml
 Locale\Locales.xml
 Core\Constants.lua
 Core\Handler.lua

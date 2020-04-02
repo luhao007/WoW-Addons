@@ -61,11 +61,13 @@ DRList-1.0\DRList-1.0.xml
 !LibUIDropDownMenu\LibUIDropDownMenu\LibUIDropDownMenu.xml
 LibAboutPanel\lib.xml
 LibAlts-1.0\LibAlts-1.0.lua
+LibBars-1.0\LibBars-1.0\lib.xml
 LibBossIDs-1.0\lib.xml
 LibCandyBar-3.0\lib.xml
 LibChatAnims\LibChatAnims\LibChatAnims.xml
 LibChatHandler-1.0\lib.xml
 LibDBIcon-1.0\lib.xml
+LibDeflate\lib.xml
 LibDeformat-3.0\LibDeformat-3.0.lua
 LibDDI-1.0\lib.xml
 LibDialog-1.0\lib.xml

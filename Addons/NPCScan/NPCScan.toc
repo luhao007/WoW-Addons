@@ -13,8 +13,6 @@
 ## X-Category: Achievements
 ## X-Email: jcallahan@curse.com
 
-embeds.xml
-
 Localization\Manifest.xml
 Constants\Manifest.xml
 Data\Manifest.xml
