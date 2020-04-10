@@ -66,6 +66,7 @@ LibBossIDs-1.0\lib.xml
 LibCandyBar-3.0\lib.xml
 LibChatAnims\LibChatAnims\LibChatAnims.xml
 LibChatHandler-1.0\lib.xml
+LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
 LibDeflate\lib.xml
 LibDeformat-3.0\LibDeformat-3.0.lua

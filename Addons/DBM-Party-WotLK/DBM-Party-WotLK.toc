@@ -7,7 +7,7 @@
 ## SavedVariablesPerCharacter: DBMPartyWotLK_SavedStats
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons (WotLK)|r
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手 |cFF69CCF0小队|r|r |cFF69CCF0巫妖王之怒|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0巫妖王之怒|r |cFF22B14C小队|r
 
 ## X-Min-Interface: 80000
 ## X-DBM-Mod: 1

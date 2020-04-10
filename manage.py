@@ -65,6 +65,24 @@ class Manager(object):
                            if not any(lib+'\\' in l for lib in libs)]
         )
 
+    def change_defaults(self, path, defaults):
+        def handle(lines):
+            ret = []
+            for l in lines:
+                for d in [defaults] if isinstance(defaults, str) else defaults:
+                    if l.startswith(d.split('= ')[0] + '= '):
+                        ret.append(d+'\n')
+                        break
+                else:
+                    ret.append(l)
+            return ret
+        process_file(path, handle)
+
+    def process(self):
+        for f in dir(self):
+            if f.startswith('handle'):
+                getattr(self, f)()
+
     def handle_lib_graph(self):
         def handle_graph(lines):
             orig = 'local TextureDirectory\n'
@@ -106,12 +124,11 @@ class Manager(object):
 
     def handle_dup_libraries(self):
         addons = ['Atlas', 'DBM-Core', 'GatherMate2', 'HandyNotes',
-                  'MapSter', 'oRA3', 'Quartz', 'TellMeWhen', 'TomTom',
-                  'WIM']
+                  'MapSter', 'oRA3', 'Quartz', 'TellMeWhen', 'TomTom']
         if self.is_classic():
             addons += ['AtlasLootClassic', 'AtlasLootClassic_Options',
                        'ATT-Classic', 'ClassicCastbars_Options',
-                       'Fizzle', 'HandyNotes_NPCs (Classic)',
+                       'Fizzle', 'GroupCalendar', 'HandyNotes_NPCs (Classic)',
                        'Recount', 'TitanClassic']
         else:
             addons += ['AllTheThings', 'FasterCamera',
@@ -126,19 +143,6 @@ class Manager(object):
                        'RelicInspector', 'Titan']
         for addon in addons:
             self.remove_libraries_all(addon)
-
-    def change_defaults(self, path, defaults):
-        def handle(lines):
-            ret = []
-            for l in lines:
-                for d in [defaults] if isinstance(defaults, str) else defaults:
-                    if l.startswith(d.split('= ')[0] + '= '):
-                        ret.append(d+'\n')
-                        break
-                else:
-                    ret.append(l)
-            return ret
-        process_file(path, handle)
 
     def handle_att(self):
         self.change_defaults(
@@ -464,8 +468,7 @@ class Manager(object):
         self.change_defaults(
             path,
             ['			ShowCoordsOnMap = false,',
-             '			ShowCursorOnMap = false,',
-             '			ShowLocOnMiniMap = 0,']
+             '			ShowCursorOnMap = false,']
         )
 
     def handle_tomtom(self):
@@ -498,6 +501,27 @@ class Manager(object):
         self.remove_libraries_all('UnitFramesPlus_Cooldown')
         self.remove_libraries_all('UnitFramesPlus_Threat', 'LibThreatClassic2')
 
+    def handle_wa(self):
+        self.remove_libraries(
+            ['AceComm-3.0', 'AceConfig-3.0', 'AceConsole-3.0', 'AceEvent-3.0',
+             'AceGUI-3.0', 'AceGUI-3.0-SharedMediaWidgets',
+             'AceSerializer-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
+             'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
+             'LibCompress', 'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
+             'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibSpellRange-1.0',
+             'LibStub'],
+            'Addons/WeakAuras/Libs',
+            'Addons/WeakAuras/embeds.xml'
+        )
+
+    def handle_wim(self):
+        self.remove_libraries(
+            ['CallbackHandler-1.0', 'ChatThrottleLib', 'LibChatAnims',
+             'LibSharedMedia-3.0', 'LibStub'],
+            'Addons/WIM/Libs',
+            'Addons/WIM/Libs/includes.xml'
+        )
+
     def handle_whlooter(self):
         self.change_defaults(
             'Addons/+Wowhead_Looter/Wowhead_Looter.lua',
@@ -516,8 +540,3 @@ class Manager(object):
             'Addons/WorldQuestTracker/libs',
             'Addons/WorldQuestTracker/libs/libs.xml'
         )
-
-    def process(self):
-        for f in dir(self):
-            if f.startswith('handle'):
-                getattr(self, f)()

@@ -1,0 +1,19 @@
+## Interface: 80300
+## Author: The WeakAuras Team
+## Version: 2.16.6
+## Dependencies: WeakAuras, WeakAurasOptions
+## LoadOnDemand: 1
+## DefaultState: Enabled
+
+## Title: WeakAuras Templates
+## Notes: Templates for WeakAuras
+## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF图形提示|r |cFF69CCF0模板|r
+
+## X-Category: Interface Enhancements
+
+locales.xml
+
+TriggerTemplates.lua
+TriggerTemplatesData.lua
+
+AceGUI-Widgets\AceGUIContainer-WeakAurasTemplateGroup.lua

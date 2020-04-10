@@ -6,7 +6,7 @@
 
 ## Title: Achievements|cff7fff7fReminder|r - shows achievements by location
 ## Notes: Shows list of achieves that are avaible in a zone and tactics for them
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF成就提醒|r |cFFFFE00AAchievements Reminder|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF成就提醒|r |cFFFFE00AAchievementsReminder|r
 ## Notes-zhCN: 提示当前区域可完成的成就以及完成方法
 
 
