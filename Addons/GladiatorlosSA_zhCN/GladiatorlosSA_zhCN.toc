@@ -6,5 +6,6 @@
 ## Notes: GSA plugin for Chinese voice set
 ## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF角斗士助手|r |cFF69CCF0夏一可语音包|r
 
+## X-Part-Of: GladiatorlosSA2
 
 GladiatorlosSA_zhCN.lua

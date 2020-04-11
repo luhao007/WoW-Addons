@@ -6,7 +6,7 @@
 ## SavedVariablesPerCharacter: DBMPartyLegion_SavedStats
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons (Legion)|r
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0军团再临|r |cFF22B14C小队|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0小队|r |cFF22B14C军团再临|r
 
 ## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
@@ -30,6 +30,7 @@
 ## X-DBM-Mod-MinCoreRevision: 14737
 ## X-Curse-Project-ID: 314994
 ## X-WoWI-ID: 24904
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.cn.lua

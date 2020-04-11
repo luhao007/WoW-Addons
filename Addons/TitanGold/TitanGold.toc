@@ -11,5 +11,6 @@
 ## Notes-zhCN: 泰坦面板的金币模块
 
 ## X-Child-Of: Titan
+## X-Part-Of: Titan
 
 TitanGold.xml

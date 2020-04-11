@@ -11,5 +11,6 @@
 ## Notes-zhCN: 泰坦面板的分配方式模块
 
 ## X-Child-Of: Titan
+## X-Part-Of: Titan
 
 TitanLootType.xml

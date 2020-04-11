@@ -8,5 +8,6 @@
 
 ## X-Category: UnitFrame
 ## X-Website: http://wowace.com/projects/grid2/
+## X-Part-Of: Grid2
 
 Grid2RaidDebuffs.lua

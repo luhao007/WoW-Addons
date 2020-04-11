@@ -8,6 +8,7 @@
 ## Notes: RaidAchievement Wotlk Icecrown Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0冰冠堡垒|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_Icecrown.lua
 RaidAchievement_Icecrown.xml

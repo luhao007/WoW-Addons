@@ -11,6 +11,7 @@
 
 ## X-License: Public Domain
 ## X-RelSite-WoWI: 7297
+## X-Part-Of: RangeDisplay
 
 #@no-lib-strip@
 #@end-no-lib-strip@

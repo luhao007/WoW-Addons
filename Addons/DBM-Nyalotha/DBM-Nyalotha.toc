@@ -20,6 +20,7 @@
 ## X-DBM-Mod-MapID: 2217
 ## X-DBM-Mod-MinCoreRevision: 17286
 ## X-DBM-Mod-MinExpansion: 7
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.kr.lua

@@ -7,6 +7,7 @@
 ## Notes: Configuration module for Grid2
 ## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF0055FF设置|r
 
+## X-Part-Of: Grid2
 
 # Ace Libraries
 # Locales

@@ -8,6 +8,7 @@
 ## Notes: RaidAchievement Wotlk Dungeons Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0巫妖王之怒小队|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_WotlkHeroics.lua
 RaidAchievement_WotlkHeroicsbosses.lua

@@ -16,6 +16,7 @@
 ## X-Website: http://www.atlasloot.net
 ## X-Embeds: 
 ## X-AtlasLoot-LootModule: 1
+## X-Part-Of: AtlasLoot
 
 #@non-debug@
 #@end-non-debug@

@@ -9,6 +9,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFF69CCF0缓存|r
 
 ## X-Child-Of: Overachiever
+## X-Part-Of: Overachiever
 
 TjSetList.lua
 Cache.lua

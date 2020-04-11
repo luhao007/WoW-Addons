@@ -7,7 +7,7 @@
 ## SavedVariablesPerCharacter: DBMPartyClassic_SavedStats
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons (Classic)|r
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0经典旧世|r |cFF22B14C小队|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0小队|r |cFF22B14C经典旧世|r
 
 ## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
@@ -24,6 +24,7 @@
 ## X-DBM-Mod-MapID: 48,230,429,90,229,349,389,129,47,329,34,109,70,43,209
 ## X-Curse-Project-ID: 314994
 ## X-WoWI-ID: 24904
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.es.lua

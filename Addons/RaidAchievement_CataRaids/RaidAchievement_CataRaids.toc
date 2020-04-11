@@ -8,6 +8,7 @@
 ## Notes: RaidAchievement Cataclysm Raids Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0大地的裂变团队|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_CataRaids.lua
 RaidAchievement_CataRaids.xml

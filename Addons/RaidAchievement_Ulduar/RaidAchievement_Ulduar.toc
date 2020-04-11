@@ -8,6 +8,7 @@
 ## Notes: RaidAchievement Ulduar Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0奥杜尔|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_Ulduar.lua
 RaidAchievement_Uldabosses.lua

@@ -1,3 +1,7 @@
+__ New in 3.10 - By Kharthus __
+
+* TOC update for 8.3 patch
+
 __ New in 3.09 - By Kharthus __
 
 * Fixed keybinding issues

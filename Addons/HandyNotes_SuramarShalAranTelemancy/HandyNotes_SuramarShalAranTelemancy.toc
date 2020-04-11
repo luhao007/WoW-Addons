@@ -14,6 +14,7 @@
 ## X-Date: 2020-01-17T14:37:20Z
 ## X-License: GPLv2
 ## X-Category: Map
+## X-Part-Of: HandyNotes
 
 #@non-debug@
 #@end-non-debug@

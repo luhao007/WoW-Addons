@@ -8,6 +8,7 @@
 ## Notes: RaidAchievement Legion Dungeons Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0军团再临小队|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_LegionHeroics.lua
 RaidAchievement_LegionHeroicsbosses.lua

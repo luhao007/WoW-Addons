@@ -6,6 +6,7 @@
 ## Notes: Raid|cff7fff7fAchievement|r_OldModules
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0经典模块|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_OldModules.lua
 RaidAchievement_OldModules.xml

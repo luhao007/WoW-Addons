@@ -9,6 +9,7 @@
 
 ## X-Date: 2019-09-04T7:33:28Z
 ## X-Category: Map
+## X-Part-Of: Atlas
 
 #@non-debug@
 #@end-non-debug@

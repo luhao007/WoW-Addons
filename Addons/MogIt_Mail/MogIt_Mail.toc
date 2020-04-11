@@ -11,4 +11,5 @@
 ## Notes-zhCN: MogIt 数据
 
 ## X-MogItModuleVersion: 3
+## X-Part-Of: MogIt
 

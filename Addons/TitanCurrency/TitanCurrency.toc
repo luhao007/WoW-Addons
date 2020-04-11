@@ -10,6 +10,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0货币|r
 ## Notes-zhCN: 泰坦面板的货币模块
 
+## X-Part-Of: Titan
 
 locale\locale-enUS.lua
 TitanCurrency.xml

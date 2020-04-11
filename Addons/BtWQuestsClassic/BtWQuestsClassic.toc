@@ -8,6 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF任务流程图|r |cFF69CCF0经典旧世|r
 ## Notes-zhCN: BtWQuests 经典旧世模块
 
+## X-Part-Of: BtWQuests
 
 Defines.lua
 

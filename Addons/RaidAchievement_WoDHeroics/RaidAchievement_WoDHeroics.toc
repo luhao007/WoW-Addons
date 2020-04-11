@@ -8,6 +8,7 @@
 ## Notes: RaidAchievement WoD Dungeons Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0德拉诺之王小队|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_WoDHeroics.lua
 RaidAchievement_WoDHeroicsbosses.lua

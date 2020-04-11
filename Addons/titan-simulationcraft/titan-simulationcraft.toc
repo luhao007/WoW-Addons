@@ -9,5 +9,6 @@
 ## Notes-zhCN: 泰坦面板上添加一个SimulationCraft按钮。
 
 ## X-Child-Of: Titan
+## X-Part-Of: Titan
 
 titan-simulationcraft.xml

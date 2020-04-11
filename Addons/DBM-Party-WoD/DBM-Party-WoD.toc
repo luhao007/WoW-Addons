@@ -6,7 +6,7 @@
 ## SavedVariablesPerCharacter: DBMPartyWoD_SavedStats
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons (WoD)|r
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0德拉诺之王|r |cFF22B14C小队|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0小队|r |cFF22B14C德拉诺之王|r
 
 ## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
@@ -31,6 +31,7 @@
 ## X-DBM-Mod-MinCoreRevision: 15159
 ## X-Curse-Project-ID: 314994
 ## X-WoWI-ID: 24904
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.kr.lua

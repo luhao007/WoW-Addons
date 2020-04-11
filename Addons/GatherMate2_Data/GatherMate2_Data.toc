@@ -12,6 +12,7 @@
 ## X-Category: Map
 ## X-Email: sal.scotto@gmail.com
 ## X-Generated-Version: $Revision: 472 $
+## X-Part-Of: GatherMate2
 
 MiningData.lua
 HerbalismData.lua

@@ -8,6 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF任务流程图|r |cFF69CCF0争霸艾泽拉斯前夕|r
 ## Notes-zhCN: BtWQuests 争霸艾泽拉斯前夕模块
 
+## X-Part-Of: BtWQuests
 
 Defines.lua
 

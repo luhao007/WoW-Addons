@@ -6,8 +6,9 @@
 
 ## Title: Grid2 |cd2ff7d0aRaidDebuffs Options|r
 ## Notes: Load on demand Options for Grid2RaidDebuffs.
-## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF69CCF0团队首领减益 设置|r
+## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF69CCF0团队首领减益|r |cFF22B14C设置|r
 
+## X-Part-Of: Grid2
 
 Grid2RaidDebuffsOptions.lua
 OptionsGeneral.lua

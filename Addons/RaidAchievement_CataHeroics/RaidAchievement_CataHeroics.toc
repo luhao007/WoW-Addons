@@ -8,6 +8,7 @@
 ## Notes: RaidAchievement Cataclysm Dungeons Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0大地的裂变小队|r
 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_CataHeroics.lua
 RaidAchievement_CataHeroicsbosses.lua

@@ -27,6 +27,7 @@
 ## X-DBM-Mod-MinCoreRevision: 14565
 ## X-Curse-Project-ID: 43970
 ## X-WoWI-ID: 21522
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.de.lua

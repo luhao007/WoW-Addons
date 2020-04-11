@@ -9,5 +9,6 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF69CCF0日志|r
 
 ## X-Category: Battle Pets
+## X-Part-Of: PetTracker
 
 ..\PetTracker\addons\journal\journal.xml
