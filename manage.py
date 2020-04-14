@@ -225,13 +225,14 @@ class Manager(object):
                                 dirs_exist_ok=True)
                 shutil.rmtree(root/lib)
 
-    def handle_lib_in_libs(self):
+    def handle_lib_embeds(self):
         root = Path('AddOns/!!Libs')
         for lib in os.listdir(root):
             if not os.path.isdir(root/lib) or lib == 'Ace3':
                 continue
 
-            embeds = ['CallbackHandler-1.0', 'LibStub', 'LibStub-1.0']
+            embeds = ['CallbackHandler-1.0', 'HereBeDragons',
+                      'LibStub', 'LibStub-1.0']
             for p in ['libs', 'lib']:
                 if os.path.exists(root / lib / p):
                     embeds.append(p)
@@ -243,7 +244,6 @@ class Manager(object):
 
             if os.path.exists(root / lib / 'embeds.xml'):
                 os.remove(root / lib / 'embeds.xml')
-                embeds.append('embeds.xml')
 
             files = ['lib.xml', '{}.xml'.format(lib), '{}.toc'.format(lib)]
             for f in files:
@@ -251,7 +251,8 @@ class Manager(object):
                     process_file(
                         root / lib / f,
                         lambda lines: [l for l in lines
-                                       if not any(l.startswith(embed)
+                                       if not any(embed+'\\' in l or
+                                                  l.startswith('embeds.xml')
                                                   for embed in embeds)]
                     )
 
