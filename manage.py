@@ -39,6 +39,11 @@ class Manager(object):
 
         self.process_toc()
 
+    def process_libs(self):
+        for f in dir(self):
+            if f.startswith('handle_lib'):
+                getattr(self, f)()
+
     def remove_libraries_all(self, addon, lib_path=None):
         """Remove all embedded libraries"""
         if not lib_path:
@@ -180,9 +185,9 @@ class Manager(object):
 
             process_file(path, process)
 
-    ##########################
-    # Handle individual addons
-    ##########################
+    ###########################
+    # Handle embedded libraries
+    ###########################
 
     def handle_lib_graph(self):
         def handle_graph(lines):
@@ -220,8 +225,39 @@ class Manager(object):
                                 dirs_exist_ok=True)
                 shutil.rmtree(root/lib)
 
-    def handle_libs(self):
-        pass
+    def handle_lib_in_libs(self):
+        root = Path('AddOns/!!Libs')
+        for lib in os.listdir(root):
+            if not os.path.isdir(root/lib) or lib == 'Ace3':
+                continue
+
+            embeds = ['CallbackHandler-1.0', 'LibStub', 'LibStub-1.0']
+            for p in ['libs', 'lib']:
+                if os.path.exists(root / lib / p):
+                    embeds.append(p)
+                    embeds.append(p.capitalize())
+                    break
+
+            for embed in embeds:
+                rm_tree(root / lib / embed)
+
+            if os.path.exists(root / lib / 'embeds.xml'):
+                os.remove(root / lib / 'embeds.xml')
+                embeds.append('embeds.xml')
+
+            files = ['lib.xml', '{}.xml'.format(lib), '{}.toc'.format(lib)]
+            for f in files:
+                if os.path.exists(root / lib / f):
+                    process_file(
+                        root / lib / f,
+                        lambda lines: [l for l in lines
+                                       if not any(l.startswith(embed)
+                                                  for embed in embeds)]
+                    )
+
+    ##########################
+    # Handle individual addons
+    ##########################
 
     def handle_dup_libraries(self):
         addons = ['Atlas', 'DBM-Core', 'GatherMate2', 'HandyNotes',
@@ -233,7 +269,7 @@ class Manager(object):
                        'Recount', 'TitanClassic']
         else:
             addons += ['AllTheThings', 'FasterCamera',
-                       'GladiatorlosSA2', 'Gladius', 'Grid2', 'Grid2Options',
+                       'GladiatorlosSA2', 'Gladius', 'Grid2',
                        'HandyNotes_Argus', 'HandyNotes_BrokenShore',
                        'HandyNotes_DraenorTreasures',
                        'HandyNotes_LegionRaresTreasures',
@@ -402,6 +438,14 @@ class Manager(object):
     @retail_only
     def handle_grid(self):
         rm_tree('Addons/Grid2LDB')
+
+        self.remove_libraries(
+            ['AceComm-3.0', 'AceConfig-3.0', 'AceGUI-3.0', 'AceHook-3.0',
+             'AceGUI-3.0-SharedMediaWidgets', 'AceSerializer-3.0',
+             'LibCompress'],
+            'Addons/Grid2Options/Libs',
+            'Addons/Grid2Options/Grid2Options.toc'
+        )
 
     @classic_only
     def handle_honorspy(self):
@@ -574,6 +618,11 @@ class Manager(object):
 
     @classic_only
     def handle_tc2(self):
+        path = 'Addons/ThreatClassic2/Libs/LibThreatClassic2'
+        if os.path.exists(path):
+            dst = 'Addons/!!Libs/LibThreatClassic2'
+            rm_tree(dst)
+            shutil.copytree(path, dst)
         rm_tree('AddOns/ThreatClassic2/Libs')
 
         def f(lines):

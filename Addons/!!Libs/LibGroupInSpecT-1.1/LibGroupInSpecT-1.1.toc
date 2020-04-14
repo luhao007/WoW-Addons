@@ -5,5 +5,4 @@
 ## Author: Anyia of HordeYakka (Jubei'Thos)
 ## X-Category: Library
 
-embeds.xml
 lib.xml

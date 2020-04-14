@@ -12,5 +12,4 @@
 ## X-Curse-Project-ID: libtoast-1-0
 ## X-Curse-Repository-ID: wow/libtoast-1-0/mainline
 
-LibStub\LibStub.lua
 lib.xml

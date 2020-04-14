@@ -7,7 +7,6 @@
 ## Title: Grail |cff69ccf0NPCs |r|cff0000ffRetail|r
 ## Notes: Provides NPCs to Grail for Retail
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF本地数据库|r |cFF69CCF0NPC|r
-## Notes-zhCN: 正式服NPC数据库
 
 ## X-Part-Of: Grail
 

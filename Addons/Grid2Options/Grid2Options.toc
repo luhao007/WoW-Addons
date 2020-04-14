@@ -10,6 +10,8 @@
 ## X-Part-Of: Grid2
 
 # Ace Libraries
+Libs\AceGUI-3.0-Search-EditBox\AceGUI-3.0-Search-EditBox.xml
+
 # Locales
 locales.xml
 

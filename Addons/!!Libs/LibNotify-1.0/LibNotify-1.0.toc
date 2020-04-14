@@ -11,6 +11,5 @@
 
 ## LoadOnDemand: 1
 ## OptionalDependencies: LibStub
-LibStub\LibStub.lua
 
 lib.xml

@@ -11,7 +11,5 @@
 ## X-Curse-Project-ID: libbars-1-0
 ## X-Curse-Repository-ID: wow/libbars-1-0/mainline
 
-LibStub\LibStub.lua
-CallbackHandler-1.0\CallbackHandler-1.0.xml
 
 LibBars-1.0\lib.xml
