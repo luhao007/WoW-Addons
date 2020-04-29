@@ -1,13 +1,13 @@
 ## Interface: 80300
 ## Author: Funkydude, Nebula
-## Version: v8.3.0
+## Version: v8.3.1
 ## OptionalDeps: Ace3, LibCandyBar-3.0, LibSharedMedia-3.0, LibDDI-1.0, LibGroupInSpecT-1.1, LibDualSpec-1.0, LibChatAnims, LibLatency, LibDurability, LibDialog-1.0, Masque
 ## SavedVariables: oRA3DB
 
 ## Title: oRA3
 ## Notes: Raid and Party Assist
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF团队助手|r |cFFFFE00AoRA3|r
-## Notes-zhCN: 提供团队和小队的一些辅助功能
+## Notes-zhCN: Raid and Party Assist
 
 ## X-Credits: Cladhaire, Ammo, Rabbit
 ## X-License: All Rights Reserved: You are free to fork and modify on GitHub, please ask us about anything else.

@@ -171,9 +171,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [37857] = {
         name = "Runas Sabe o Caminho",
     },
-    [37858] = {
-        name = "Stellagosa",
-    },
     [37859] = {
         name = "Os Consumidos",
     },
@@ -200,9 +197,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [37965] = {
         name = "Uma safra maculada",
-    },
-    [37991] = {
-        name = "Agapanthus",
     },
     [38014] = {
         name = "Refestelando-se com o dragão",
@@ -635,9 +629,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [38778] = {
         name = "Vire as chaves",
-    },
-    [38808] = {
-        name = "Bjornharta",
     },
     [38810] = {
         name = "O fungo que sonha",
@@ -1079,9 +1070,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39437] = {
         name = "Nas profundezas da caverna",
-    },
-    [39438] = {
-        name = "Guhruhlruhlruh",
     },
     [39439] = {
         name = "Relíquias Pedrescura",
@@ -3075,9 +3063,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41863] = {
         name = "A vingança será nossa",
     },
-    [41877] = {
-        name = "Lady Lunastre",
-    },
     [41878] = {
         name = "A gondoleira",
     },
@@ -3417,9 +3402,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42202] = {
         name = "Vingança, um prato que se come frio",
     },
-    [42204] = {
-        name = "Jorhuttam",
-    },
     [42206] = {
         name = "Momento de superioridade",
     },
@@ -3459,9 +3441,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42228] = {
         name = "A cidade secreta",
     },
-    [42229] = {
-        name = "Shal'Aran",
-    },
     [42230] = {
         name = "O fardo do andarilho do vale",
     },
@@ -3482,9 +3461,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42365] = {
         name = "Foco das energias",
-    },
-    [42367] = {
-        name = "Arkethrax",
     },
     [42368] = {
         name = "Quantidade sobre qualidade",
@@ -5651,9 +5627,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45587] = {
         name = "A ameaça dos Totem Vil",
-    },
-    [45614] = {
-        name = "Lady Remor'za",
     },
     [45615] = {
         name = "Achado não é roubado",

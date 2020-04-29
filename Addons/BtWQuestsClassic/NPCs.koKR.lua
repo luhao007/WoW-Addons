@@ -1872,6 +1872,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48493] = {
         name = "알톤 레딩",
     },
+    [48559] = {
+        name = "아리오크",
+    },
+    [48565] = {
+        name = "아리오크",
+    },
     [48568] = {
         name = "아이트리그",
     },

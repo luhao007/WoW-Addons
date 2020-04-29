@@ -1836,6 +1836,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48493] = {
         name = "艾爾頓‧雷汀",
     },
+    [48559] = {
+        name = "阿利歐克",
+    },
+    [48565] = {
+        name = "阿利歐克",
+    },
     [48568] = {
         name = "伊崔格",
     },

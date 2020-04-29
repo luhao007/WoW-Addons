@@ -171,9 +171,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [37857] = {
         name = "Runas conoce el camino",
     },
-    [37858] = {
-        name = "Stellagosa",
-    },
     [37859] = {
         name = "Los consumidos",
     },
@@ -200,9 +197,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [37965] = {
         name = "Una añada corrupta",
-    },
-    [37991] = {
-        name = "Agapanthus",
     },
     [38014] = {
         name = "Arrasar dragones",
@@ -1079,9 +1073,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39437] = {
         name = "En lo hondo de la caverna",
-    },
-    [39438] = {
-        name = "Guhruhlruhlruh",
     },
     [39439] = {
         name = "Reliquias Piedra Lóbrega",
@@ -3075,9 +3066,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41863] = {
         name = "La venganza será nuestra",
     },
-    [41877] = {
-        name = "Lady Lunastre",
-    },
     [41878] = {
         name = "La gondolera",
     },
@@ -3417,9 +3405,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42202] = {
         name = "La venganza se sirve fría",
     },
-    [42204] = {
-        name = "Jorhuttam",
-    },
     [42206] = {
         name = "Llega el siguiente nivel",
     },
@@ -3459,9 +3444,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42228] = {
         name = "La ciudad oculta",
     },
-    [42229] = {
-        name = "Shal'Aran",
-    },
     [42230] = {
         name = "La carga del caminavalles",
     },
@@ -3482,9 +3464,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42365] = {
         name = "Concentrar las energías",
-    },
-    [42367] = {
-        name = "Arkethrax",
     },
     [42368] = {
         name = "Cantidad mejor que calidad",
@@ -5651,9 +5630,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45587] = {
         name = "La amenaza Tótem Vil",
-    },
-    [45614] = {
-        name = "Lady Remor'za",
     },
     [45615] = {
         name = "Quien lo encuentra se lo queda",

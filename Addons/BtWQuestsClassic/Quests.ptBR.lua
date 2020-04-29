@@ -1236,9 +1236,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [14254] = {
         name = "Metal pesado",
     },
-    [14255] = {
-        name = "Ethel Rethor",
-    },
     [14256] = {
         name = "A ameaça emergente",
     },
@@ -1430,9 +1427,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [14364] = {
         name = "Juntando as cabeças",
-    },
-    [14365] = {
-        name = "Ethel Rethor",
     },
     [14370] = {
         name = "O mistério da Azsharita",
@@ -3270,9 +3264,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26032] = {
         name = "Signo de Arathor",
     },
-    [26033] = {
-        name = "Trol'kalar",
-    },
     [26035] = {
         name = "Isto vale ouro",
     },
@@ -3470,9 +3461,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26148] = {
         name = "Um ataque decisivo",
-    },
-    [26157] = {
-        name = "Kasim Sharim",
     },
     [26158] = {
         name = "Em harmonia com a pedra-sangrenta",
@@ -3672,9 +3660,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26292] = {
         name = "Siga para o Arroio da Lua!",
     },
-    [26295] = {
-        name = "Propaganda",
-    },
     [26296] = {
         name = "Coleta de provas",
     },
@@ -3768,9 +3753,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26344] = {
         name = "Algumas partes faltando",
     },
-    [26345] = {
-        name = "Excelsior",
-    },
     [26346] = {
         name = "O conto de Myzrael",
     },
@@ -3857,9 +3839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26385] = {
         name = "Os ventos da mudança",
-    },
-    [26386] = {
-        name = "Surkhan",
     },
     [26387] = {
         name = "Dieta de fome",
@@ -3963,9 +3942,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26465] = {
         name = "As estatuetas ancestrais",
     },
-    [26466] = {
-        name = "Ruuzel",
-    },
     [26467] = {
         name = "Malditos sátiros! Dríades em perigo!",
     },
@@ -4010,9 +3986,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26482] = {
         name = "O verdadeiro poder do bastão",
-    },
-    [26483] = {
-        name = "Gan'dranda",
     },
     [26485] = {
         name = "Mordeliscas, jovem!",
@@ -4140,20 +4113,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26558] = {
         name = "Evocando Shadra",
     },
-    [26560] = {
-        name = "Jorgensen",
-    },
-    [26561] = {
-        name = "Krakauer",
-    },
     [26562] = {
         name = "E, por último, mas não menos importante... Danforth",
     },
     [26563] = {
         name = "A volta da Companhia Bravo",
-    },
-    [26567] = {
-        name = "John J. Keeshan",
     },
     [26568] = {
         name = "Essa guerra não é minha",
@@ -4464,9 +4428,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26707] = {
         name = "Uma trepadeira mortal",
     },
-    [26708] = {
-        name = "AHHHHHHHHHHHH! AHHHHHHHHH!!!",
-    },
     [26713] = {
         name = "Confronto final no Mirante de Pedra",
     },
@@ -4602,9 +4563,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26775] = {
         name = "Ser raptor",
     },
-    [26776] = {
-        name = "Ghaliri",
-    },
     [26777] = {
         name = "Acalmar os espíritos",
     },
@@ -4632,12 +4590,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26793] = {
         name = "A velha lápide",
     },
-    [26794] = {
-        name = "Morgan Ladimore",
-    },
-    [26795] = {
-        name = "Mor'Ladim",
-    },
     [26796] = {
         name = "A filha sobrevivente",
     },
@@ -4646,9 +4598,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26805] = {
         name = "Para o Cabo!",
-    },
-    [26808] = {
-        name = "Maywiki",
     },
     [26809] = {
         name = "Negócios obscuros",
@@ -4685,9 +4634,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26820] = {
         name = "Se elas estão largadas por aí...",
-    },
-    [26821] = {
-        name = "Airwyn Bantamflax",
     },
     [26822] = {
         name = "Cães-rastejantes inúteis",
@@ -4971,9 +4917,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27077] = {
         name = "Presos ao caos",
     },
-    [27078] = {
-        name = "Gor'kresh",
-    },
     [27082] = {
         name = "Jogando sujo",
     },
@@ -5015,9 +4958,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27097] = {
         name = "Erga-se, Renegado",
-    },
-    [27098] = {
-        name = "Lordaeron",
     },
     [27099] = {
         name = "Sem saída",
@@ -5162,9 +5102,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27202] = {
         name = "Irmão contra irmão",
-    },
-    [27204] = {
-        name = "Aradne",
     },
     [27205] = {
         name = "A depravação dos Renegados",
@@ -6372,9 +6309,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28098] = {
         name = "Mestre Crepuscular dos Ares",
     },
-    [28099] = {
-        name = "Rasha'krak",
-    },
     [28100] = {
         name = "Um totem falante",
     },
@@ -6635,9 +6569,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28264] = {
         name = "Gambito de Navarax",
-    },
-    [28265] = {
-        name = "General Thorg'izog",
     },
     [28266] = {
         name = "Prova de magma",
@@ -6908,9 +6839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28436] = {
         name = "Tomando a trompa para nós",
-    },
-    [28437] = {
-        name = "General Thorg'izog",
     },
     [28438] = {
         name = "Prova de magma",
@@ -7404,9 +7332,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28733] = {
         name = "Instinto botânico",
     },
-    [28742] = {
-        name = "Shy-Rotam",
-    },
     [28744] = {
         name = "Cadê a sementinha que estava aqui?",
     },
@@ -7493,9 +7418,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28876] = {
         name = "Para a Paliçada Mor'shan!",
-    },
-    [28881] = {
-        name = "Prospector Gunstan",
     },
     [29015] = {
         name = "A fortuna do mineiro",

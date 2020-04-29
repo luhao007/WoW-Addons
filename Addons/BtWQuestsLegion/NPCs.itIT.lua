@@ -18,9 +18,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [94366] = {
         name = "Lelyn Ombralesta",
     },
-    [94409] = {
-        name = "Hemet Nesingwary",
-    },
     [94434] = {
         name = "Addie Frizzabrago",
     },
@@ -68,9 +65,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [108327] = {
         name = "Melma d'Ossa Ondulante",
-    },
-    [108358] = {
-        name = "Leirana",
     },
     [109631] = {
         name = "Dorsobrado Anziano",

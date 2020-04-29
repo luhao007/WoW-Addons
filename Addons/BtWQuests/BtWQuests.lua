@@ -715,31 +715,34 @@ function BtWQuestsMixin:OnEvent(event, ...)
                             BtWQuests_AutoLoad[name] = GetAddOnMetadata(name, "X-BtWQuests-AutoLoad") == "1"
                         end
 
-                        local expansion
-                        if BtWQuests_AutoLoad[name] then
-                            LoadAddOn(name)
-                            expansion = BtWQuestsDatabase:GetExpansionByID(id)
-                        else
-                            expansion = BtWQuestsDatabase:GetExpansionByID(id)
-                            if not expansion then
-                                local image = GetAddOnMetadata(name, "X-BtWQuests-Expansion-Image")
-                                if image then
-                                    local image, left, right, top, bottom = strsplit(" ", GetAddOnMetadata(name, "X-BtWQuests-Expansion-Image"))
-                                    expansion = BtWQuestsDatabase:AddExpansion(id, {
-                                        image = {
-                                            texture = string.format("Interface\\AddOns\\%s\\%s", name, image),
-                                            texCoords = {0, 0.90625, 0, 0.8125}
-                                        },
-                                    })
-                                else
-                                    expansion = BtWQuestsDatabase:AddExpansion(id, {})
-                                end
+                        local expansion = BtWQuestsDatabase:GetExpansionByID(id)
+                        if not expansion then
+                            local image = GetAddOnMetadata(name, "X-BtWQuests-Expansion-Image")
+                            if image then
+                                local image, left, right, top, bottom = strsplit(" ", GetAddOnMetadata(name, "X-BtWQuests-Expansion-Image"))
+                                expansion = BtWQuestsDatabase:AddExpansion(id, {
+                                    image = {
+                                        texture = string.format("Interface\\AddOns\\%s\\%s", name, image),
+                                        texCoords = {0, 0.90625, 0, 0.8125}
+                                    },
+                                })
+                            else
+                                expansion = BtWQuestsDatabase:AddExpansion(id, {})
                             end
                         end
 
-                        if expansion then
-                            expansion.addons = expansion.addons or {}
-                            expansion.addons[name] = GetAddOnMetadata(i, "X-BtWQuests")
+                        local autoload = false
+                        expansion.addons = expansion.addons or {}
+                        expansion.addons[name] = GetAddOnMetadata(i, "X-BtWQuests")
+                        for name in pairs(expansion.addons) do
+                            autoload = BtWQuests_AutoLoad[name] or autoload
+                        end
+
+                        if autoload then
+                            for name in pairs(expansion.addons) do
+                                BtWQuests_AutoLoad[name] = true
+                                LoadAddOn(name)
+                            end
                         end
                     end
                 end

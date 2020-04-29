@@ -18,9 +18,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [94366] = {
         name = "Lelyn Sombrapresta",
     },
-    [94409] = {
-        name = "Hemet Nesingwary",
-    },
     [94434] = {
         name = "Addie Silbarisma",
     },
@@ -60,17 +57,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [107499] = {
         name = "Oso corvino aterrorizado",
     },
-    [108072] = {
-        name = "Sir Finley Mrrgglton",
-    },
     [108304] = {
         name = "Guviena Cantespada",
     },
     [108327] = {
         name = "Babosa de huesos ondulante",
-    },
-    [108358] = {
-        name = "Leirana",
     },
     [109631] = {
         name = "Viejo Lomopardo",

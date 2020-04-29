@@ -171,9 +171,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [37857] = {
         name = "Runas connaît le chemin",
     },
-    [37858] = {
-        name = "Stellagosa",
-    },
     [37859] = {
         name = "Les consumés",
     },
@@ -1080,9 +1077,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39437] = {
         name = "Au cœur de la caverne",
     },
-    [39438] = {
-        name = "Guhruhlruhlruh",
-    },
     [39439] = {
         name = "Les reliques sombres-pierres",
     },
@@ -1106,9 +1100,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39489] = {
         name = "Invasion souterraine",
-    },
-    [39490] = {
-        name = "Infestation",
     },
     [39491] = {
         name = "Ormgul le Pestilentiel",
@@ -2208,9 +2199,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40729] = {
         name = "Un sang neuf",
     },
-    [40730] = {
-        name = "Redistribution",
-    },
     [40731] = {
         name = "Le cœur de Scareffroi",
     },
@@ -2405,9 +2393,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40929] = {
         name = "Les symboles du pouvoir",
-    },
-    [40930] = {
-        name = "Apocalypse",
     },
     [40931] = {
         name = "Sur les traces de la malédiction",
@@ -3111,9 +3096,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41905] = {
         name = "Un rapport du monastère de Tian",
     },
-    [41907] = {
-        name = "Appropriations",
-    },
     [41909] = {
         name = "Sur les traces des Mörgestran",
     },
@@ -3417,9 +3399,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42202] = {
         name = "Froide vengeance",
     },
-    [42204] = {
-        name = "Jorhuttam",
-    },
     [42206] = {
         name = "Le niveau supérieur",
     },
@@ -3482,9 +3461,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42365] = {
         name = "La concentration des énergies",
-    },
-    [42367] = {
-        name = "Arkethrax",
     },
     [42368] = {
         name = "Politique de quotas",

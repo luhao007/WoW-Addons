@@ -305,6 +305,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 maxLevel = 114,
                 outdated = 540,
             },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 200,
+            },
         },
     },
     [37467] = {
@@ -1318,6 +1323,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 minLevel = 98,
                 maxLevel = 114,
                 outdated = 540,
+            },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 200,
             },
         },
     },
@@ -5610,6 +5620,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 minLevel = 98,
                 maxLevel = 114,
                 outdated = 540,
+            },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 200,
             },
         },
     },
@@ -27563,6 +27578,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 minLevel = 101,
                 maxLevel = 110,
             },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 100,
+            },
         },
     },
     [42524] = {
@@ -27879,6 +27899,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 },
                 minLevel = 101,
                 maxLevel = 110,
+            },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 100,
             },
         },
     },
@@ -28804,6 +28829,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 },
                 minLevel = 101,
                 maxLevel = 110,
+            },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 100,
             },
         },
     },
@@ -32056,6 +32086,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 maxLevel = 114,
                 outdated = 540,
             },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 200,
+            },
         },
     },
     [43249] = {
@@ -32206,6 +32241,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 minLevel = 101,
                 maxLevel = 110,
             },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 300,
+            },
         },
     },
     [43265] = {
@@ -32301,6 +32341,11 @@ BtWQuestsDatabase:AddQuestsTable({
                 },
                 minLevel = 101,
                 maxLevel = 110,
+            },
+            {
+                type = "currency",
+                id = 1220,
+                amount = 500,
             },
         },
     },

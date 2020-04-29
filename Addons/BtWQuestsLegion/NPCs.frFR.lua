@@ -18,9 +18,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [94366] = {
         name = "Lelyn Vivombre",
     },
-    [94409] = {
-        name = "Hemet Nesingwary",
-    },
     [94434] = {
         name = "Addie Pétibourbe",
     },
@@ -60,17 +57,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [107499] = {
         name = "Corvursidé effrayé",
     },
-    [108072] = {
-        name = "Sir Finley Mrrgglton",
-    },
     [108304] = {
         name = "Guviena Lamechant",
     },
     [108327] = {
         name = "Visquos ondulant",
-    },
-    [108358] = {
-        name = "Leirana",
     },
     [109631] = {
         name = "Vieux Griséchine",

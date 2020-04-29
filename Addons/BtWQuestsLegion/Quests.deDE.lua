@@ -171,9 +171,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [37857] = {
         name = "Runas kennt den Weg",
     },
-    [37858] = {
-        name = "Stellagosa",
-    },
     [37859] = {
         name = "Die Aufgezehrten",
     },
@@ -200,9 +197,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [37965] = {
         name = "Ein verderbter Jahrgang",
-    },
-    [37991] = {
-        name = "Agapanthus",
     },
     [38014] = {
         name = "Sich an den Drachen laben",
@@ -1080,9 +1074,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39437] = {
         name = "Tief in der Höhle",
     },
-    [39438] = {
-        name = "Guhruhlruhlruh",
-    },
     [39439] = {
         name = "Dunkelsteinrelikte",
     },
@@ -1340,12 +1331,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39804] = {
         name = "Wo wir von Knochen sprechen...",
-    },
-    [39816] = {
-        name = "Champion: Thassarian",
-    },
-    [39818] = {
-        name = "Champion: Nazgrim",
     },
     [39832] = {
         name = "Pläne und Vorbereitungen",
@@ -2883,14 +2868,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41736] = {
         name = "Champion: Angus Eisenfaust",
     },
-    [41737] = {
-        name = "Champion: Hiro",
-    },
     [41738] = {
         name = "Champion: Sylara Stahlsang",
-    },
-    [41739] = {
-        name = "Champion: Aegira",
     },
     [41740] = {
         name = "Ein bisschen aufrüsten, bitte",
@@ -2898,17 +2877,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41741] = {
         name = "Truppen im Feld",
     },
-    [41742] = {
-        name = "Champion: Celestos",
-    },
-    [41743] = {
-        name = "Champion: Nobundo",
-    },
     [41744] = {
         name = "Champion: Rehgar Erdenwut",
-    },
-    [41745] = {
-        name = "Champion: Scaldius",
     },
     [41746] = {
         name = "Champion: Muln Erdenwut",
@@ -2918,9 +2888,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41751] = {
         name = "Champion: Kira Zornseele",
-    },
-    [41752] = {
-        name = "Champion: Zinnin Smythe",
     },
     [41753] = {
         name = "Champion: Jubeka Schattenbrecher",
@@ -3074,9 +3041,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41863] = {
         name = "Die Rache wird unser sein",
-    },
-    [41877] = {
-        name = "Lady Lunastre",
     },
     [41878] = {
         name = "Die Gondoliera",
@@ -3252,9 +3216,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42047] = {
         name = "Champion: Hamuul Runentotem",
     },
-    [42048] = {
-        name = "Champion: Mylune",
-    },
     [42049] = {
         name = "Energie für das Portal",
     },
@@ -3272,9 +3233,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42055] = {
         name = "Die Rückkehr des Halbgottes",
-    },
-    [42056] = {
-        name = "Champion: Remulos",
     },
     [42065] = {
         name = "Die Schattenmeisterin",
@@ -3351,9 +3309,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42137] = {
         name = "Champion: Yalia Weisenwisper",
     },
-    [42138] = {
-        name = "Champion: Zabra Hexx",
-    },
     [42139] = {
         name = "Erhebt Euch, Champions",
     },
@@ -3417,9 +3372,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42202] = {
         name = "Rache, kalt serviert",
     },
-    [42204] = {
-        name = "Jorhuttam",
-    },
     [42206] = {
         name = "Eindämmung",
     },
@@ -3459,9 +3411,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42228] = {
         name = "Die versteckte Stadt",
     },
-    [42229] = {
-        name = "Shal'Aran",
-    },
     [42230] = {
         name = "Die Bürde des Talwandlers",
     },
@@ -3482,9 +3431,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42365] = {
         name = "Fokussierte Energien",
-    },
-    [42367] = {
-        name = "Arkethrax",
     },
     [42368] = {
         name = "Quantität über Qualität",
@@ -3582,17 +3528,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42409] = {
         name = "Champion: Loren Sturmhuf",
     },
-    [42410] = {
-        name = "Champion: Rexxar",
-    },
     [42411] = {
         name = "Champion: Bestienmeisterin Hilaire",
     },
     [42412] = {
         name = "Champion: Jäger Blake",
-    },
-    [42413] = {
-        name = "Champion: Hemet Nesingwary",
     },
     [42414] = {
         name = "Champion: Addie Zischmoor",
@@ -3834,12 +3774,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42616] = {
         name = "Champion: Dvalen Eisenrune",
     },
-    [42618] = {
-        name = "Champion: Thorim",
-    },
-    [42619] = {
-        name = "Champion: Hodir",
-    },
     [42634] = {
         name = "Konfrontation am Schwarzen Tempel",
     },
@@ -3954,12 +3888,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42704] = {
         name = "Champion: Arkaner Zerstörer",
     },
-    [42705] = {
-        name = "Champion: Ravandwyr",
-    },
-    [42706] = {
-        name = "Champion: Esara Verrinde",
-    },
     [42707] = {
         name = "Das Auge Azsharas: Ein magisches Gebrechen",
     },
@@ -4064,9 +3992,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42792] = {
         name = "Ein Zeichen setzen",
-    },
-    [42800] = {
-        name = "Champion: Valeera Sanguinar",
     },
     [42801] = {
         name = "Schwarzvorarbeit",
@@ -4470,15 +4395,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43379] = {
         name = "Velens Vision",
     },
-    [43380] = {
-        name = "Champion: Sol",
-    },
-    [43381] = {
-        name = "Champion: Mariella Ward",
-    },
-    [43382] = {
-        name = "Champion: Natalie Seline",
-    },
     [43383] = {
         name = "Das Licht erwecken",
     },
@@ -4523,9 +4439,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43397] = {
         name = "Gemeinsam sind wir stark",
-    },
-    [43398] = {
-        name = "Champion: Alonsus Faol",
     },
     [43399] = {
         name = "Befestigung des Tempels",
@@ -4743,9 +4656,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43581] = {
         name = "Die Weisheit der Geduld",
     },
-    [43582] = {
-        name = "Shalassic Park",
-    },
     [43585] = {
         name = "Die Vorbereitung auf den Krieg",
     },
@@ -4779,17 +4689,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43700] = {
         name = "Licht in der Dunkelheit",
     },
-    [43701] = {
-        name = "Champion: Lothraxion",
-    },
     [43702] = {
         name = "Zermürbung des Ziels",
     },
     [43705] = {
         name = "Nobundos letztes Gefecht",
-    },
-    [43723] = {
-        name = "Champion: Taoshi",
     },
     [43724] = {
         name = "Champion: Meister Mathias Shaw",
@@ -4944,9 +4848,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [44178] = {
         name = "Ein besonders mächtiger Trank",
     },
-    [44180] = {
-        name = "Champion: Marin Noggenfogger",
-    },
     [44181] = {
         name = "Champion: Flottenadmiral Tethys",
     },
@@ -4973,12 +4874,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [44246] = {
         name = "Champion: Moderdarm",
-    },
-    [44247] = {
-        name = "Champion: Amal'thazad",
-    },
-    [44248] = {
-        name = "Champion: Darion Mograine",
     },
     [44252] = {
         name = "Für jede Klinge eine Scheide",
@@ -5502,9 +5397,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [45385] = {
         name = "Wir müssen vorbereitet sein!",
     },
-    [45391] = {
-        name = "Champion: Lady S'theno",
-    },
     [45398] = {
         name = "Geschirr in falscher Hand",
     },
@@ -5742,9 +5634,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [45789] = {
         name = "Die versunkene Kammer",
     },
-    [45790] = {
-        name = "Champion: Almai",
-    },
     [45794] = {
         name = "Den Rat informieren",
     },
@@ -5814,9 +5703,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [45873] = {
         name = "Champion: Etrigg",
     },
-    [45876] = {
-        name = "Champion: Lord Darius Crowley",
-    },
     [45883] = {
         name = "Das Vergehen des Feuerlords",
     },
@@ -5837,9 +5723,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [46020] = {
         name = "Kristalleindämmung",
-    },
-    [46034] = {
-        name = "Champion: Aelthalyste",
     },
     [46035] = {
         name = "Das Ende der erwachten Bedrohung",
@@ -5864,9 +5747,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [46057] = {
         name = "Champion: Magatha Grimmtotem",
-    },
-    [46058] = {
-        name = "Champion: Lilian Voss",
     },
     [46059] = {
         name = "Champion: Tess Graumähne",
@@ -6212,9 +6092,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [46815] = {
         name = "Mac'Aree, Juwel von Argus",
-    },
-    [46816] = {
-        name = "Rendezvous",
     },
     [46818] = {
         name = "Wehrlos und verängstigt",

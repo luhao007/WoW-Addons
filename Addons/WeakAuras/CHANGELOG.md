@@ -1,26 +1,16 @@
-# [2.16.6](https://github.com/WeakAuras/WeakAuras2/tree/2.16.6) (2020-02-14)
+# [2.17.4](https://github.com/WeakAuras/WeakAuras2/tree/2.17.4) (2020-04-22)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/2.16.5...2.16.6)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/2.17.3...2.17.4)
 
 ## Highlights
 
- - Actually enable templates for classic
-- Bug fixes 
+ - fix a buff tracking and nameplates regression 
 
 ## Commits
 
-InfusOnWoW (4):
+InfusOnWoW (3):
 
-- BuffTrigger2: Fix ghost states
-- Fix Masque integration with clones and zoom/keep aspect ratio
-- Adjust conditions on moving/deleting/duplicating conditions
-- Fix multiple display of encounter ids
-
-emptyrivers (1):
-
-- add 'reset entry' button to arrays in user mode
-
-mrbuds (1):
-
-- classic: WeakAurasTemplates was not moved to correct folder
+- BT2 Fix Multi by adjusting it to recent changes (#2139)
+- Clean up match data if a unit ceases to exists
+- Fix nameplates auras sometimes not being applied if in a raid group
 

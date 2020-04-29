@@ -7497,9 +7497,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [29032] = {
         name = "Начни тренировки, пока они еще маленькие",
     },
-    [29033] = {
-        name = "[PH] Bridle Buy-In",
-    },
     [29034] = {
         name = "Они так быстро растут",
     },

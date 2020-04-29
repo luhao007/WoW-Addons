@@ -129,9 +129,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [880] = {
         name = "Veränderte Wesen",
     },
-    [881] = {
-        name = "Echeyakee",
-    },
     [887] = {
         name = "Südmeerfreibeuter",
     },
@@ -819,14 +816,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [13885] = {
         name = "Verteidigung der Dunkelküste",
     },
-    [13886] = {
-        name = "Vortex",
-    },
     [13887] = {
         name = "Gifthauteier",
-    },
-    [13888] = {
-        name = "Vortex",
     },
     [13889] = {
         name = "Sooooo hungrig",
@@ -1236,9 +1227,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [14254] = {
         name = "Schwermetall",
     },
-    [14255] = {
-        name = "Ethel Rethor",
-    },
     [14256] = {
         name = "Die wachsende Bedrohung",
     },
@@ -1431,9 +1419,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [14364] = {
         name = "Die Köpfe zusammenstecken",
     },
-    [14365] = {
-        name = "Ethel Rethor",
-    },
     [14370] = {
         name = "Rätselhafter Azsharit",
     },
@@ -1499,9 +1484,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [14394] = {
         name = "Tod dem Agogridon",
-    },
-    [14407] = {
-        name = "Azshara Blues",
     },
     [14408] = {
         name = "Neuns Plan",
@@ -1854,9 +1836,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [24709] = {
         name = "Die Geschichte von den zwei Schaufeln",
     },
-    [24714] = {
-        name = "Chasing A-Me 01",
-    },
     [24715] = {
         name = "Reparatur von A-Me 01",
     },
@@ -1910,9 +1889,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [24742] = {
         name = "Die Quelle finden",
-    },
-    [24747] = {
-        name = "Sabotage!",
     },
     [24794] = {
         name = "Sprecht mit Spraggel",
@@ -2580,9 +2556,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [25521] = {
         name = "Skorpidooh!",
     },
-    [25522] = {
-        name = "Gargantapid",
-    },
     [25524] = {
         name = "Im Plumpsklo",
     },
@@ -2660,9 +2633,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [25621] = {
         name = "Feldversuch: Gnomcorder",
-    },
-    [25622] = {
-        name = "Burn, Baby, Burn!",
     },
     [25627] = {
         name = "Abreibung für Zweihauer",
@@ -3270,9 +3240,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26032] = {
         name = "Siegelzeichen von Arathor",
     },
-    [26033] = {
-        name = "Trol'kalar",
-    },
     [26035] = {
         name = "Sein Gewicht in Gold",
     },
@@ -3390,9 +3357,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26083] = {
         name = "Hallo Lolo",
     },
-    [26084] = {
-        name = "Hammerfall",
-    },
     [26093] = {
         name = "Nordhof",
     },
@@ -3471,9 +3435,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26148] = {
         name = "Ein Entscheidungsschlag",
     },
-    [26157] = {
-        name = "Kasim Sharim",
-    },
     [26158] = {
         name = "Stimmt den Blutstein ab",
     },
@@ -3524,9 +3485,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26174] = {
         name = "Nachhut",
-    },
-    [26175] = {
-        name = "Surwich",
     },
     [26176] = {
         name = "Auf nach Thelsamar",
@@ -3671,9 +3629,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26292] = {
         name = "Auf nach Mondbruch!",
-    },
-    [26295] = {
-        name = "Propaganda",
     },
     [26296] = {
         name = "Beweissammlung",
@@ -3858,9 +3813,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26385] = {
         name = "Unaufhaltsame Veränderungen",
     },
-    [26386] = {
-        name = "Surkhan",
-    },
     [26387] = {
         name = "Hungerdiät",
     },
@@ -3963,9 +3915,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26465] = {
         name = "Die antiken Statuetten",
     },
-    [26466] = {
-        name = "Ruuzel",
-    },
     [26467] = {
         name = "Elende Satyrn! Die Dryaden sind in Gefahr!",
     },
@@ -4010,9 +3959,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26482] = {
         name = "Die wahre Macht der Rute",
-    },
-    [26483] = {
-        name = "Gan'dranda",
     },
     [26485] = {
         name = "Schnappkiefer, Bursche!",
@@ -4140,20 +4086,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26558] = {
         name = "Die Beschwörung von Shadra",
     },
-    [26560] = {
-        name = "Jorgensen",
-    },
-    [26561] = {
-        name = "Krakauer",
-    },
     [26562] = {
         name = "Der Nachzügler... Danforth",
     },
     [26563] = {
         name = "Rückkehr der Kompanie Bravo",
-    },
-    [26567] = {
-        name = "John J. Keeshan",
     },
     [26568] = {
         name = "Is' nich' mein Krieg",
@@ -4362,9 +4299,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26667] = {
         name = "Die gestohlenen Briefe",
     },
-    [26668] = {
-        name = "Detonation",
-    },
     [26669] = {
         name = "In einer dunklen Ecke",
     },
@@ -4463,9 +4397,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26707] = {
         name = "Eine tödliche Rebe",
-    },
-    [26708] = {
-        name = "AHHHHHHHHHHHH! AHHHHHHHHH!!!",
     },
     [26713] = {
         name = "Endkampf in Steinwacht",
@@ -4602,9 +4533,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26775] = {
         name = "Seid Raptor",
     },
-    [26776] = {
-        name = "Ghaliri",
-    },
     [26777] = {
         name = "Beruhigt die Geister",
     },
@@ -4632,12 +4560,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26793] = {
         name = "Das verwitterte Grab",
     },
-    [26794] = {
-        name = "Morgan Ladimore",
-    },
-    [26795] = {
-        name = "Mor'Ladim",
-    },
     [26796] = {
         name = "Die überlebende Tochter",
     },
@@ -4646,9 +4568,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26805] = {
         name = "Auf zum Kap!",
-    },
-    [26808] = {
-        name = "Maywiki",
     },
     [26809] = {
         name = "Durch die Hintertür",
@@ -4685,9 +4604,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26820] = {
         name = "Wenn sie sie einfach herumliegen lassen...",
-    },
-    [26821] = {
-        name = "Airwyn Bantamflax",
     },
     [26822] = {
         name = "Nichtsnutzige, züngelnde Kriecher",
@@ -4778,9 +4694,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26923] = {
         name = "Kriegsmaschinen",
-    },
-    [26924] = {
-        name = "Scholomancer",
     },
     [26925] = {
         name = "Araj der Beschwörer",
@@ -4971,9 +4884,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27077] = {
         name = "Ans Chaos klammern",
     },
-    [27078] = {
-        name = "Gor'kresh",
-    },
     [27082] = {
         name = "Unfaire Methoden",
     },
@@ -5015,9 +4925,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27097] = {
         name = "Erhebt Euch, Verlassene",
-    },
-    [27098] = {
-        name = "Lordaeron",
     },
     [27099] = {
         name = "Kein Entkommen",
@@ -5066,9 +4973,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27161] = {
         name = "Der unendliche Fluss",
-    },
-    [27162] = {
-        name = "Scholomancer",
     },
     [27163] = {
         name = "Rohe Gewalt",
@@ -5163,9 +5067,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27202] = {
         name = "Bruder gegen Bruder",
     },
-    [27204] = {
-        name = "Aradne",
-    },
     [27205] = {
         name = "Die Verderbtheit der Verlassenen",
     },
@@ -5225,9 +5126,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27234] = {
         name = "Defias in Düstermarschen?",
-    },
-    [27235] = {
-        name = "Renn McGill",
     },
     [27236] = {
         name = "Tauchausrüstung aus zweiter Hand",
@@ -5823,9 +5721,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27597] = {
         name = "Der verrückte Larry",
     },
-    [27598] = {
-        name = "Kill Gil",
-    },
     [27599] = {
         name = "Das letzte Hemd hat keine Taschen",
     },
@@ -6348,9 +6243,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28098] = {
         name = "Der Himmelsmeister der Schatten",
     },
-    [28099] = {
-        name = "Rasha'krak",
-    },
     [28100] = {
         name = "Ein sprechendes Totem",
     },
@@ -6611,9 +6503,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28264] = {
         name = "Navarax' Schachzug",
-    },
-    [28265] = {
-        name = "General Thorg'izog",
     },
     [28266] = {
         name = "Magmataufe",
@@ -6884,9 +6773,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28436] = {
         name = "Wir behalten das Horn",
-    },
-    [28437] = {
-        name = "General Thorg'izog",
     },
     [28438] = {
         name = "Magmataufe",
@@ -7215,9 +7101,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28601] = {
         name = "Alter Kahn",
     },
-    [28603] = {
-        name = "Infiltration",
-    },
     [28604] = {
         name = "Täuschung und Betrug",
     },
@@ -7292,9 +7175,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28638] = {
         name = "Die Eulen sind die besten",
-    },
-    [28639] = {
-        name = "Ursius",
     },
     [28640] = {
         name = "Frische Frostsäbler",
@@ -7379,9 +7259,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28733] = {
         name = "Pflanzenkunde für Anfänger",
-    },
-    [28742] = {
-        name = "Shy-Rotam",
     },
     [28744] = {
         name = "Ghule hassen meine Saat",
@@ -7497,9 +7374,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [29032] = {
         name = "Solange sie noch jung sind",
     },
-    [29033] = {
-        name = "[PH] Bridle Buy-In",
-    },
     [29034] = {
         name = "Wie schnell sie heranwachsen",
     },
@@ -7554,14 +7428,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41395] = {
         name = "Der gebührende Lohn",
     },
-    [42237] = {
-        name = "Invasion: Tanaris",
-    },
     [43243] = {
         name = "Dämonenkommandant",
-    },
-    [43244] = {
-        name = "Invasion: Tanaris",
     },
     [43293] = {
         name = "Verteidigen",

@@ -21,20 +21,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [268] = {
         name = "Sirra Von'indi",
     },
-    [272] = {
-        name = "Chef Grual",
-    },
     [273] = {
         name = "Taverniere Smitts",
     },
     [276] = {
         name = "Viktori Prism'antras",
-    },
-    [289] = {
-        name = "Abercrombie",
-    },
-    [342] = {
-        name = "Martie Jainrose",
     },
     [344] = {
         name = "Magistrato Solomon",
@@ -51,9 +42,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [576] = {
         name = "Guardiana Ladimore",
     },
-    [663] = {
-        name = "Calor",
-    },
     [716] = {
         name = "Barnil Fumapietra",
     },
@@ -65,12 +53,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [888] = {
         name = "Guardiano Dodds",
-    },
-    [900] = {
-        name = "Bailiff Conacher",
-    },
-    [1068] = {
-        name = "Gorn",
     },
     [1071] = {
         name = "Treccialunga il Macabro",
@@ -86,9 +68,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [1105] = {
         name = "Jern Elmocorno",
-    },
-    [1141] = {
-        name = "Angus Stern",
     },
     [1154] = {
         name = "Marek Cuordiferro",
@@ -114,9 +93,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [1345] = {
         name = "Magmar Viltaglio",
     },
-    [1484] = {
-        name = "Derina Rumdnul",
-    },
     [1750] = {
         name = "Gran Ammiraglio Jes-Tereth",
     },
@@ -129,17 +105,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [1963] = {
         name = "Vidra Cuordistufa",
     },
-    [2057] = {
-        name = "Huldar",
-    },
     [2104] = {
         name = "Capitano Pugnoforte",
     },
     [2215] = {
         name = "Gran Esecutrice Darthalia",
-    },
-    [2391] = {
-        name = "Serge Hinott",
     },
     [2464] = {
         name = "Comandante Aggro'gosh",
@@ -147,20 +117,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [2486] = {
         name = "Fin Raschialente",
     },
-    [2495] = {
-        name = "Drizzlik",
-    },
     [2500] = {
         name = "Capitano Hecklebury Smotts",
     },
     [2501] = {
         name = "\"Lupo di Mare\" MacKinley",
-    },
-    [2608] = {
-        name = "Comandante Amaren",
-    },
-    [2610] = {
-        name = "Shakes O'Breen",
     },
     [2700] = {
         name = "Capitano Nials",
@@ -171,29 +132,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [2769] = {
         name = "Capitano Panciadura",
     },
-    [2771] = {
-        name = "Drum Fel",
-    },
     [2774] = {
         name = "Dottor Erbanera",
     },
     [2785] = {
         name = "Theldurin il Perduto",
     },
-    [2787] = {
-        name = "Zaruk",
-    },
-    [2789] = {
-        name = "Skuerto",
-    },
     [2860] = {
         name = "Sigrun Tagliaferro",
     },
     [2920] = {
         name = "Lucien Chiavetorta",
-    },
-    [3144] = {
-        name = "Eitrigg",
     },
     [3337] = {
         name = "Kargal Sfregiofondo",
@@ -219,17 +168,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [3391] = {
         name = "Sparachiodi",
     },
-    [3411] = {
-        name = "Denni'ka",
-    },
     [3418] = {
         name = "Kirge Corno Severo",
-    },
-    [3429] = {
-        name = "Thork",
-    },
-    [3432] = {
-        name = "Mankrik",
     },
     [3433] = {
         name = "Tatternack Forgiacciaio",
@@ -252,20 +192,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [3454] = {
         name = "Cannoniere Smythe",
     },
-    [3464] = {
-        name = "Gazrog",
-    },
     [3691] = {
         name = "Raene Braccalupo",
     },
-    [3698] = {
-        name = "Bolyun",
-    },
     [3845] = {
         name = "Shindrell Fuocolesto",
-    },
-    [3846] = {
-        name = "Talen",
     },
     [3847] = {
         name = "Orendil Foglialarga",
@@ -285,18 +216,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [3894] = {
         name = "Pelturas Lunabianca",
     },
-    [3897] = {
-        name = "Krolg",
-    },
-    [3901] = {
-        name = "Illiyana",
-    },
-    [3916] = {
-        name = "Shael'dryn",
-    },
-    [3920] = {
-        name = "Anilia",
-    },
     [3924] = {
         name = "Sciamano Mantocardo",
     },
@@ -312,9 +231,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [4079] = {
         name = "Sentinella Thenysil",
     },
-    [4486] = {
-        name = "Genavie Callow",
-    },
     [4498] = {
         name = "Maurin Rompiossa",
     },
@@ -323,9 +239,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [4501] = {
         name = "Draz'zilb",
-    },
-    [4502] = {
-        name = "Tharg",
     },
     [4544] = {
         name = "Krueg Fendicranio",
@@ -339,23 +252,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [4792] = {
         name = "Jarl \"Occhio Marcio\"",
     },
-    [4794] = {
-        name = "Morgan Stern",
-    },
     [4880] = {
         name = "Ignatz \"il Fetido\"",
     },
     [4921] = {
         name = "Guardia Byron",
     },
-    [4926] = {
-        name = "Krog",
-    },
     [4941] = {
         name = "Caz Svitapunte",
-    },
-    [4943] = {
-        name = "Mosarn",
     },
     [4944] = {
         name = "Capitano Garran Vimes",
@@ -366,17 +270,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [4968] = {
         name = "Dama Jaina Marefiero",
     },
-    [4983] = {
-        name = "Ogron",
-    },
     [5086] = {
         name = "Capitano Wymor",
-    },
-    [5087] = {
-        name = "Do'gol",
-    },
-    [5089] = {
-        name = "Balos Jacken",
     },
     [5385] = {
         name = "Custode Mahar Ba",
@@ -396,23 +291,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5636] = {
         name = "Maestro dei Grifoni Asciartiglio",
     },
-    [5638] = {
-        name = "Kreldig Ungor",
-    },
     [5642] = {
         name = "Vahlarriel Stroncademoni",
     },
     [5752] = {
         name = "Caporale Melkins",
     },
-    [5907] = {
-        name = "Kranal Fiss",
-    },
     [6019] = {
         name = "Hornizz Scoppiachiavi",
-    },
-    [6546] = {
-        name = "Tabetha",
     },
     [6577] = {
         name = "Bingles Scoppiamicce",
@@ -441,20 +327,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [8436] = {
         name = "Zamael Cardoluna",
     },
-    [8582] = {
-        name = "Kadrak",
-    },
-    [8965] = {
-        name = "Shawn",
-    },
     [9116] = {
         name = "Eridan Brezzastrale",
-    },
-    [9117] = {
-        name = "J.D. Collie",
-    },
-    [9177] = {
-        name = "Oralius",
     },
     [9270] = {
         name = "Williden Grant",
@@ -483,15 +357,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [9997] = {
         name = "Spraggle Pinzapersa",
     },
-    [9998] = {
-        name = "Shizzle",
-    },
-    [10260] = {
-        name = "Kibler",
-    },
-    [10302] = {
-        name = "Krakle",
-    },
     [10305] = {
         name = "Umi Cavocurvo",
     },
@@ -513,17 +378,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [10923] = {
         name = "Tenell Fogliasvelta",
     },
-    [10929] = {
-        name = "Haleh",
-    },
-    [10977] = {
-        name = "Quixxil",
-    },
     [11019] = {
         name = "Jessir Arcoluna",
-    },
-    [11033] = {
-        name = "Smokey LaRue",
     },
     [11035] = {
         name = "Betina Lucestrema",
@@ -540,9 +396,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [11191] = {
         name = "Lilith la Snella",
     },
-    [11192] = {
-        name = "Kilram",
-    },
     [11193] = {
         name = "Seril Duralama",
     },
@@ -558,29 +411,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [11438] = {
         name = "Bibbly Ossofizz",
     },
-    [11554] = {
-        name = "Grazle",
-    },
-    [11557] = {
-        name = "Meilosh",
-    },
     [11596] = {
         name = "Smeed Torcivite",
     },
     [11624] = {
         name = "Taiga Chioma Saggia",
     },
-    [11701] = {
-        name = "Mor'vek",
-    },
     [11806] = {
         name = "Sentinella Onaeya",
     },
     [11811] = {
         name = "Narain Veravite",
-    },
-    [11820] = {
-        name = "Locke Okarr",
     },
     [11821] = {
         name = "Darn Morsartiglio",
@@ -603,24 +444,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [12717] = {
         name = "Spaccamusi",
     },
-    [12719] = {
-        name = "Marukai",
-    },
-    [12721] = {
-        name = "Mitsuwa",
-    },
-    [12724] = {
-        name = "Pixel",
-    },
-    [12757] = {
-        name = "Karang Amakkar",
-    },
-    [12867] = {
-        name = "Kuray'bin",
-    },
-    [12919] = {
-        name = "Nat Pagle",
-    },
     [14437] = {
         name = "Gorzeeki Malalente",
     },
@@ -641,9 +464,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [14637] = {
         name = "Zorbin Saldaleva",
-    },
-    [14731] = {
-        name = "Lard",
     },
     [14739] = {
         name = "Mistica Yayo'jin",
@@ -684,9 +504,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [15306] = {
         name = "Bor Manto Selvaggio",
     },
-    [15395] = {
-        name = "Nafien",
-    },
     [16134] = {
         name = "Rimblat Spacca Terra",
     },
@@ -720,32 +537,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [17304] = {
         name = "Sovrintendente Gorthak",
     },
-    [17310] = {
-        name = "Gnarl",
-    },
-    [17355] = {
-        name = "Valusha",
-    },
-    [18221] = {
-        name = "Holaaru",
-    },
     [19254] = {
         name = "Signore della Guerra Dar'toon",
-    },
-    [23566] = {
-        name = "Calia Hastings",
     },
     [23568] = {
         name = "Capitano Darill",
     },
-    [23569] = {
-        name = "Renn McGill",
-    },
     [23570] = {
         name = "Gizzix Gorgotetro",
-    },
-    [23579] = {
-        name = "Brogg",
     },
     [23600] = {
         name = "Apprendista Morlann",
@@ -762,9 +561,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [23835] = {
         name = "Sergente Amelyn",
     },
-    [23843] = {
-        name = "Mordant Grimsby",
-    },
     [23892] = {
         name = "Babs Frizzacoppia",
     },
@@ -777,9 +573,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [23951] = {
         name = "Tenente Aden",
     },
-    [24739] = {
-        name = "Benjari Edune",
-    },
     [32971] = {
         name = "Guardaboschi Glynda Nal'shea",
     },
@@ -788,9 +581,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [33091] = {
         name = "Malfurion Grantempesta",
-    },
-    [33182] = {
-        name = "Bathran",
     },
     [33187] = {
         name = "Sentinella Shyela",
@@ -804,15 +594,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [33276] = {
         name = "Sacerdotessa della Luna Maestra",
     },
-    [33284] = {
-        name = "Truun",
-    },
-    [33294] = {
-        name = "Gorat",
-    },
-    [33421] = {
-        name = "Gorka",
-    },
     [33443] = {
         name = "Protettore Cuorsaggio",
     },
@@ -825,17 +606,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [33727] = {
         name = "Anacoreta Buurq",
     },
-    [33760] = {
-        name = "Durak",
-    },
     [33777] = {
         name = "Gaivan Calcaombre",
-    },
-    [33837] = {
-        name = "Kadrak",
-    },
-    [33889] = {
-        name = "Krokk",
     },
     [34122] = {
         name = "Comandante Unghiatruce",
@@ -858,17 +630,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [34258] = {
         name = "Halga Occhiotruce",
     },
-    [34284] = {
-        name = "Dorak",
-    },
     [34289] = {
         name = "Vortice",
     },
     [34290] = {
         name = "Nucleo",
-    },
-    [34292] = {
-        name = "Arctanus",
     },
     [34303] = {
         name = "Dagrun Mazzarabbia",
@@ -879,9 +645,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [34335] = {
         name = "Avrus Malofiato",
     },
-    [34341] = {
-        name = "Saurboz",
-    },
     [34354] = {
         name = "Jalin",
     },
@@ -891,20 +654,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [34359] = {
         name = "Capitano Goggath",
     },
-    [34377] = {
-        name = "Halannia",
-    },
     [34395] = {
         name = "Strimpello",
-    },
-    [34510] = {
-        name = "Broyk",
-    },
-    [34513] = {
-        name = "Togrik",
-    },
-    [34518] = {
-        name = "Thagg",
     },
     [34559] = {
         name = "Capitano Tarkan",
@@ -912,29 +663,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [34560] = {
         name = "Una Lupartiglio",
     },
-    [34569] = {
-        name = "Flooz",
-    },
     [34578] = {
         name = "Rocco Sferzastinchi",
     },
     [34596] = {
         name = "Caposquadra Malocchio",
     },
-    [34599] = {
-        name = "Bolyun",
-    },
     [34604] = {
         name = "Grande Baobob",
     },
-    [34613] = {
-        name = "Ta'jari",
-    },
     [34634] = {
         name = "Gorgal Sfregiorabbia",
-    },
-    [34638] = {
-        name = "Shoe",
     },
     [34698] = {
         name = "Scaldapignatta",
@@ -951,26 +690,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [35091] = {
         name = "Horzak Bottaforte",
     },
-    [35295] = {
-        name = "Cerelia",
-    },
-    [35298] = {
-        name = "Sorrem",
-    },
     [35661] = {
         name = "Ambasciatore Cenariano Thunk",
-    },
-    [35757] = {
-        name = "Bizby",
     },
     [35773] = {
         name = "Ricercatrice Cenariana Korrah",
     },
     [35817] = {
         name = "Capitano Bombarolo Fumonero",
-    },
-    [35827] = {
-        name = "Valishj",
     },
     [36034] = {
         name = "Karnum Plasma Paludi",
@@ -990,53 +717,20 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [36146] = {
         name = "Twistex Pinzallegra",
     },
-    [36163] = {
-        name = "Khan Kammah",
-    },
-    [36185] = {
-        name = "Khan Shodo",
-    },
-    [36196] = {
-        name = "Kherrah",
-    },
-    [36329] = {
-        name = "Thargad",
-    },
-    [36378] = {
-        name = "Dumti",
-    },
     [36410] = {
         name = "Ufficiale Jankie",
     },
     [36500] = {
         name = "Soggetto Nove",
     },
-    [36728] = {
-        name = "Kroum",
-    },
-    [36730] = {
-        name = "Chawg",
-    },
     [36919] = {
         name = "Andorel Giurasole",
-    },
-    [36999] = {
-        name = "Teemo",
     },
     [37135] = {
         name = "Ricognitrice Nura",
     },
-    [37136] = {
-        name = "Oltarg",
-    },
     [37137] = {
         name = "Tunawa Vento Calmo",
-    },
-    [37138] = {
-        name = "Onatay",
-    },
-    [37153] = {
-        name = "Holgom",
     },
     [37154] = {
         name = "Kilrok Sanguemartello",
@@ -1047,12 +741,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [37515] = {
         name = "Lane Erba Lunga",
     },
-    [37516] = {
-        name = "Tawane",
-    },
-    [37570] = {
-        name = "Naralex",
-    },
     [37679] = {
         name = "Signore della Guerra Elsarossa",
     },
@@ -1062,26 +750,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [37811] = {
         name = "Signore della Guerra Gar'dul",
     },
-    [37812] = {
-        name = "Mahka",
-    },
     [37834] = {
         name = "Tauna Preda Cielo",
     },
     [37835] = {
         name = "Dorn Terrarossa",
-    },
-    [37847] = {
-        name = "Mankrik",
-    },
-    [37908] = {
-        name = "Calder Gray",
-    },
-    [37909] = {
-        name = "Tomusa",
-    },
-    [37910] = {
-        name = "Crawgol",
     },
     [38140] = {
         name = "Weezil Ombraquatta",
@@ -1095,23 +768,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38269] = {
         name = "Zen'aliri",
     },
-    [38270] = {
-        name = "Nolen Tacker",
-    },
     [38274] = {
         name = "Garl Asproverde",
-    },
-    [38275] = {
-        name = "Gremix",
-    },
-    [38276] = {
-        name = "Tara",
-    },
-    [38277] = {
-        name = "Doreen",
-    },
-    [38314] = {
-        name = "Muyoh",
     },
     [38323] = {
         name = "Generale Biancospino",
@@ -1119,14 +777,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38378] = {
         name = "Comandante Walpole",
     },
-    [38380] = {
-        name = "Janice Mattingly",
-    },
     [38383] = {
         name = "Nibb Fresafusa",
-    },
-    [38502] = {
-        name = "Nablya",
     },
     [38534] = {
         name = "Megs Trinciaorrori",
@@ -1136,12 +788,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [38619] = {
         name = "Ammiraglio Aubrey",
-    },
-    [38620] = {
-        name = "Thomas Paxton",
-    },
-    [38621] = {
-        name = "Jeffrey Long",
     },
     [38623] = {
         name = "Ormeggiatore Lewis",
@@ -1161,9 +807,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38871] = {
         name = "Caporale Teegan",
     },
-    [38873] = {
-        name = "Goucho",
-    },
     [38876] = {
         name = "Hannah Acquaponte",
     },
@@ -1173,14 +816,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38922] = {
         name = "Esaminatore Andoren Albanuova",
     },
-    [38927] = {
-        name = "Mazoga",
-    },
     [38986] = {
         name = "Ambasciatore Gaines",
-    },
-    [39003] = {
-        name = "Sam Trawley",
     },
     [39034] = {
         name = "Dott. Buonaffare",
@@ -1218,29 +855,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [39377] = {
         name = "Konu Totem Runico",
     },
-    [39653] = {
-        name = "Silvia",
-    },
     [39656] = {
         name = "Orhan Lamadogre",
-    },
-    [39723] = {
-        name = "Tambre",
-    },
-    [39725] = {
-        name = "Adella",
-    },
-    [39840] = {
-        name = "Swar'jan",
     },
     [39847] = {
         name = "Capo Corno Spiritico",
     },
     [39893] = {
         name = "Jawn Alta Mesa",
-    },
-    [39894] = {
-        name = "Gombana",
     },
     [39895] = {
         name = "Kanati Nube Grigia",
@@ -1254,23 +876,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [39963] = {
         name = "Motega Cresta Ardente",
     },
-    [39992] = {
-        name = "Rendow",
-    },
     [40027] = {
         name = "Fizzle Dadicorti",
-    },
-    [40028] = {
-        name = "Pozzik",
     },
     [40032] = {
         name = "Telaron Volavento",
     },
     [40035] = {
         name = "Erina Fiordisalice",
-    },
-    [40052] = {
-        name = "Estulan",
     },
     [40078] = {
         name = "Addestratrice Tessina",
@@ -1284,29 +897,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [40132] = {
         name = "Vestia Lanciargentea",
     },
-    [40226] = {
-        name = "Pratt McGrubben",
-    },
-    [40344] = {
-        name = "Nyse",
-    },
-    [40345] = {
-        name = "Thyssiana",
-    },
     [40369] = {
         name = "Falfindel Guardavia",
     },
     [40475] = {
         name = "Jinky Vitecurva",
     },
-    [40487] = {
-        name = "Razzeric",
-    },
     [40554] = {
         name = "Rizzle Dadicorti",
-    },
-    [40556] = {
-        name = "Zamek",
     },
     [40580] = {
         name = "Gus Palpitorosso",
@@ -1314,20 +912,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [40726] = {
         name = "Mazzer Fasciavite",
     },
-    [40727] = {
-        name = "Griznak",
-    },
     [40879] = {
         name = "Boog \"il Sensitivo Meccanico\"",
     },
-    [40881] = {
-        name = "Minx",
-    },
     [40885] = {
         name = "Wizzle Dadicorti",
-    },
-    [40888] = {
-        name = "Synge",
     },
     [40894] = {
         name = "Gnombus lo Sterminatore",
@@ -1362,12 +951,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [40904] = {
         name = "Peone Krom'gar",
     },
-    [40907] = {
-        name = "Clarissa",
-    },
-    [40908] = {
-        name = "Alice",
-    },
     [40913] = {
         name = "Addestratrice Jesana",
     },
@@ -1395,9 +978,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41086] = {
         name = "Forba Sondapietra",
     },
-    [41124] = {
-        name = "Okrilla",
-    },
     [41125] = {
         name = "Maestro Aitokk",
     },
@@ -1407,26 +987,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41129] = {
         name = "Ispettore Thurdan",
     },
-    [41133] = {
-        name = "Rofilian Dane",
-    },
-    [41134] = {
-        name = "Tak'arili",
-    },
     [41159] = {
         name = "Guardiano Wazzik",
     },
-    [41184] = {
-        name = "Riznek",
-    },
     [41190] = {
         name = "Crazzle Mollapazza",
-    },
-    [41204] = {
-        name = "Khan Ablinh",
-    },
-    [41205] = {
-        name = "Khan Blizh",
     },
     [41229] = {
         name = "Comandante delle Forze Valen",
@@ -1449,17 +1014,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [41282] = {
         name = "Caporale Wocard",
     },
-    [41297] = {
-        name = "Karl Boran",
-    },
     [41350] = {
         name = "Ton Vento Chino",
-    },
-    [41354] = {
-        name = "Neptool",
-    },
-    [41392] = {
-        name = "Quentin",
     },
     [41402] = {
         name = "Cassa dei Fiottorosso Abbandonata",
@@ -1478,9 +1034,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [41421] = {
         name = "Rau Scala Rupi",
-    },
-    [41433] = {
-        name = "James Halloran",
     },
     [41434] = {
         name = "Controllore della Pompa \"Goblin\"",
@@ -1545,9 +1098,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [42023] = {
         name = "Devo il Plagiatore",
     },
-    [42033] = {
-        name = "Jibbly Rakit",
-    },
     [42039] = {
         name = "Gran Capo Tribù Cavalca Rupe",
     },
@@ -1563,20 +1113,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [42106] = {
         name = "Supremo Krom'gar",
     },
-    [42130] = {
-        name = "Gor'mul",
-    },
     [42160] = {
         name = "Thargas Forgiamara",
     },
-    [42262] = {
-        name = "Leyan Steelson",
-    },
     [42264] = {
         name = "Salice McKittrick",
-    },
-    [42298] = {
-        name = "Kasim Sharim",
     },
     [42299] = {
         name = "Guardiano Grimeo",
@@ -1596,17 +1137,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [42352] = {
         name = "Osservatrice Cenariana Shayana",
     },
-    [42464] = {
-        name = "Grognard",
-    },
     [42613] = {
         name = "Anziano Zannaculea",
     },
     [42622] = {
         name = "Eliza Ghignoscuro",
-    },
-    [42624] = {
-        name = "Kotonga",
     },
     [42642] = {
         name = "Primalista Zannaculea",
@@ -1650,14 +1185,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [44345] = {
         name = "Cannary Trincabarili",
     },
-    [44374] = {
-        name = "Sherm",
-    },
     [44452] = {
         name = "Koltira Plasmamorte",
-    },
-    [44453] = {
-        name = "Thassarian",
     },
     [44859] = {
         name = "Sovrintendente della Sicurezza Pipsy",
@@ -1665,29 +1194,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [45012] = {
         name = "Durnt Falcochiaro",
     },
-    [45013] = {
-        name = "Damion Steel",
-    },
-    [45165] = {
-        name = "Thurman Grant",
-    },
-    [45271] = {
-        name = "Montarr",
-    },
-    [45417] = {
-        name = "Fiona",
-    },
     [45442] = {
         name = "Lakota Soffia Vento",
     },
     [45482] = {
         name = "Ufficiale d'Argento Irizarry",
-    },
-    [45500] = {
-        name = "Urk Gagbaz",
-    },
-    [45575] = {
-        name = "Frederick Calston",
     },
     [45735] = {
         name = "Gamella Spaccafizz",
@@ -1722,17 +1233,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [46182] = {
         name = "Pierre Squamapesci",
     },
-    [46650] = {
-        name = "Eddie Flofizzle",
-    },
-    [46652] = {
-        name = "Dolph Blastus",
-    },
     [46653] = {
         name = "Garyanne Avanzavite",
-    },
-    [46654] = {
-        name = "Rhea",
     },
     [46660] = {
         name = "Aidan Ventoestivo",
@@ -1752,12 +1254,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [46759] = {
         name = "Lidia Irasolare",
     },
-    [46930] = {
-        name = "Victoria Dolen",
-    },
-    [46972] = {
-        name = "Terrance Storm",
-    },
     [47041] = {
         name = "Neeka Sfregiorosso",
     },
@@ -1769,9 +1265,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [47268] = {
         name = "Prisanne Tagliapolvere",
-    },
-    [47269] = {
-        name = "Lunk",
     },
     [47341] = {
         name = "Arcanista Delaris",
@@ -1791,17 +1284,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [47554] = {
         name = "Capitano Keyton",
     },
-    [47556] = {
-        name = "Drizle",
-    },
     [47580] = {
         name = "Lakota Soffia Vento",
     },
     [47617] = {
         name = "Farlus Cuorselvaggio",
-    },
-    [47681] = {
-        name = "Dumass",
     },
     [47692] = {
         name = "Altsoba Totem Rabbioso",
@@ -1817,9 +1304,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [47781] = {
         name = "Custode Acquaferma",
-    },
-    [47811] = {
-        name = "John J. Keeshan",
     },
     [47843] = {
         name = "Cacciatrice Selura",
@@ -1839,26 +1323,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48085] = {
         name = "Quartiermastro Kaoshin",
     },
-    [48109] = {
-        name = "John J. Keeshan",
-    },
     [48126] = {
         name = "Isural Boscovero",
     },
     [48127] = {
         name = "Darla Scavafonda",
     },
-    [48129] = {
-        name = "Helcular",
-    },
     [48133] = {
         name = "Il Generale Thorg'izog",
     },
     [48208] = {
         name = "Bastone delle Ossa Risonanti",
-    },
-    [48306] = {
-        name = "John J. Keeshan",
     },
     [48333] = {
         name = "Caposquadra Pikwik",
@@ -1872,38 +1347,14 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [48459] = {
         name = "Guardialbero Selvapura",
     },
-    [48461] = {
-        name = "Ferli",
-    },
-    [48491] = {
-        name = "James Hallow",
-    },
     [48492] = {
         name = "Lyros Arialesta",
-    },
-    [48493] = {
-        name = "Alton Redding",
-    },
-    [48568] = {
-        name = "Eitrigg",
-    },
-    [48569] = {
-        name = "Eitrigg",
     },
     [48658] = {
         name = "Spirito Kaldorei",
     },
-    [48722] = {
-        name = "Burndl",
-    },
-    [48723] = {
-        name = "Tanrir",
-    },
     [48965] = {
         name = "Deez Fregasassi",
-    },
-    [49201] = {
-        name = "Nils Beerot",
     },
     [49243] = {
         name = "Capitano Jekyll",
@@ -1923,12 +1374,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [49407] = {
         name = "Rinno Velofuoco",
     },
-    [49436] = {
-        name = "Francis Morcott",
-    },
-    [49537] = {
-        name = "Jeb Guthrie",
-    },
     [49687] = {
         name = "Brazie il Botanico",
     },
@@ -1937,9 +1382,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [50263] = {
         name = "Jadrag il Fendicarne",
-    },
-    [50366] = {
-        name = "Nymn",
     },
     [50587] = {
         name = "Mago Okril'lon",

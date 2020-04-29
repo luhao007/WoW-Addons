@@ -171,9 +171,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [37857] = {
         name = "Runas conoce el camino",
     },
-    [37858] = {
-        name = "Stellagosa",
-    },
     [37859] = {
         name = "Los consumidos",
     },
@@ -636,9 +633,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38778] = {
         name = "Usa las llaves",
     },
-    [38808] = {
-        name = "Bjornharta",
-    },
     [38810] = {
         name = "El hongo durmiente",
     },
@@ -1080,9 +1074,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39437] = {
         name = "En lo profundo de la caverna",
     },
-    [39438] = {
-        name = "Guhruhlruhlruh",
-    },
     [39439] = {
         name = "Reliquias Rocabruna",
     },
@@ -1266,9 +1257,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39733] = {
         name = "La montaña solitaria",
     },
-    [39735] = {
-        name = "Stormheim",
-    },
     [39741] = {
         name = "En nuestras filas",
     },
@@ -1388,9 +1376,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39862] = {
         name = "El asediabrul",
-    },
-    [39864] = {
-        name = "Stormheim",
     },
     [39867] = {
         name = "¡Un león, te digo!",
@@ -3075,9 +3060,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41863] = {
         name = "La venganza será nuestra",
     },
-    [41877] = {
-        name = "Lady Lunastre",
-    },
     [41878] = {
         name = "La gondolera",
     },
@@ -3417,9 +3399,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42202] = {
         name = "Venganza... servida fría",
     },
-    [42204] = {
-        name = "Jorhuttam",
-    },
     [42206] = {
         name = "El siguiente nivel ha llegado",
     },
@@ -3459,9 +3438,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42228] = {
         name = "La ciudad oculta",
     },
-    [42229] = {
-        name = "Shal'Aran",
-    },
     [42230] = {
         name = "La carga del Caminante del Valle",
     },
@@ -3482,9 +3458,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42365] = {
         name = "Concentrando las energías",
-    },
-    [42367] = {
-        name = "Arkethrax",
     },
     [42368] = {
         name = "Cantidad sobre calidad",
@@ -5085,12 +5058,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [44694] = {
         name = "Una batalla a la vez",
     },
-    [44700] = {
-        name = "Stormheim",
-    },
-    [44701] = {
-        name = "Stormheim",
-    },
     [44719] = {
         name = "Romper el Sagrario",
     },
@@ -5651,9 +5618,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45587] = {
         name = "La amenaza de los Viltótem",
-    },
-    [45614] = {
-        name = "Lady Remor'za",
     },
     [45615] = {
         name = "Quien lo encuentra se lo queda",

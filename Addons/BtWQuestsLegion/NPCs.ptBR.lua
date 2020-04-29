@@ -69,9 +69,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [108327] = {
         name = "Visgosso Ondulante",
     },
-    [108358] = {
-        name = "Leirana",
-    },
     [109631] = {
         name = "Velho Cinéreo",
     },

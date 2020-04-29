@@ -7497,9 +7497,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [29032] = {
         name = "從小開始培養",
     },
-    [29033] = {
-        name = "[PH] Bridle Buy-In",
-    },
     [29034] = {
         name = "一暝大一吋",
     },

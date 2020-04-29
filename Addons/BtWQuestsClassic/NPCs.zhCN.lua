@@ -474,9 +474,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [9619] = {
         name = "托尔瓦·寻路者",
     },
-    [9623] = {
-        name = "A-Me 01",
-    },
     [9997] = {
         name = "斯普拉格·弗劳克",
     },

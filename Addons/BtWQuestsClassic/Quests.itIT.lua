@@ -129,9 +129,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [880] = {
         name = "Cambiamenti nelle creature",
     },
-    [881] = {
-        name = "Echeyakee",
-    },
     [887] = {
         name = "Filibustieri dei Mari del Sud",
     },
@@ -1236,9 +1233,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [14254] = {
         name = "Metallo pesante",
     },
-    [14255] = {
-        name = "Ethel Rethor",
-    },
     [14256] = {
         name = "La minaccia emergente",
     },
@@ -1430,9 +1424,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [14364] = {
         name = "Riunire le loro teste",
-    },
-    [14365] = {
-        name = "Ethel Rethor",
     },
     [14370] = {
         name = "Azsharite misteriosa",
@@ -3270,9 +3261,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26032] = {
         name = "Il Sigillo di Arathor",
     },
-    [26033] = {
-        name = "Trol'kalar",
-    },
     [26035] = {
         name = "Vale il suo peso in oro",
     },
@@ -3471,9 +3459,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26148] = {
         name = "Un attacco decisivo",
     },
-    [26157] = {
-        name = "Kasim Sharim",
-    },
     [26158] = {
         name = "Sintonizzarsi con la Sanguinite",
     },
@@ -3524,9 +3509,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26174] = {
         name = "Guardarsi le spalle",
-    },
-    [26175] = {
-        name = "Surwich",
     },
     [26176] = {
         name = "Verso Thelsamar",
@@ -3672,9 +3654,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26292] = {
         name = "A Rivoluna!",
     },
-    [26295] = {
-        name = "Propaganda",
-    },
     [26296] = {
         name = "A caccia di indizi",
     },
@@ -3750,9 +3729,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26334] = {
         name = "Il Signore del Sangue Mandokir",
     },
-    [26336] = {
-        name = "Shakes O'Breen",
-    },
     [26338] = {
         name = "Con-Troll-o della popolazione",
     },
@@ -3767,9 +3743,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26344] = {
         name = "Bisogna lavorarci",
-    },
-    [26345] = {
-        name = "Excelsior",
     },
     [26346] = {
         name = "La storia di Myzrael",
@@ -3857,9 +3830,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26385] = {
         name = "Spezzare le onde del cambiamento",
-    },
-    [26386] = {
-        name = "Surkhan",
     },
     [26387] = {
         name = "Dieta da fame",
@@ -3963,9 +3933,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26465] = {
         name = "Le Statuette Antiche",
     },
-    [26466] = {
-        name = "Ruuzel",
-    },
     [26467] = {
         name = "Vile Satiro! Driadi in pericolo!",
     },
@@ -4010,9 +3977,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26482] = {
         name = "Il vero potere della Verga",
-    },
-    [26483] = {
-        name = "Gan'dranda",
     },
     [26485] = {
         name = "A caccia di Tartarabbia!",
@@ -4140,20 +4104,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26558] = {
         name = "Evocare Shadra",
     },
-    [26560] = {
-        name = "Jorgensen",
-    },
-    [26561] = {
-        name = "Krakauer",
-    },
     [26562] = {
         name = "E ultimo, ma non meno importante... Danforth",
     },
     [26563] = {
         name = "Il ritorno della Compagnia Bravo",
-    },
-    [26567] = {
-        name = "John J. Keeshan",
     },
     [26568] = {
         name = "Non è la mia guerra",
@@ -4602,9 +4557,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26775] = {
         name = "Essere il raptor",
     },
-    [26776] = {
-        name = "Ghaliri",
-    },
     [26777] = {
         name = "Placare gli spiriti",
     },
@@ -4632,9 +4584,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26793] = {
         name = "La tomba rovinata",
     },
-    [26794] = {
-        name = "Morgan Ladimore",
-    },
     [26795] = {
         name = "Mor'ladim",
     },
@@ -4646,9 +4595,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26805] = {
         name = "Verso il Capo!",
-    },
-    [26808] = {
-        name = "Maywiki",
     },
     [26809] = {
         name = "Trame segrete",
@@ -4685,9 +4631,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26820] = {
         name = "Se non se ne fanno nulla...",
-    },
-    [26821] = {
-        name = "Airwyn Bantamflax",
     },
     [26822] = {
         name = "Lucertoloni buoni a nulla",
@@ -4971,9 +4914,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27077] = {
         name = "Afferrare il caos",
     },
-    [27078] = {
-        name = "Gor'kresh",
-    },
     [27082] = {
         name = "Gioco sporco",
     },
@@ -5015,9 +4955,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27097] = {
         name = "Sorgi, Reietto",
-    },
-    [27098] = {
-        name = "Lordaeron",
     },
     [27099] = {
         name = "Senza scampo",
@@ -5163,9 +5100,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27202] = {
         name = "Fratello contro fratello",
     },
-    [27204] = {
-        name = "Aradne",
-    },
     [27205] = {
         name = "La depravazione dei Reietti",
     },
@@ -5225,9 +5159,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27234] = {
         name = "Defias ad Acquemorte?",
-    },
-    [27235] = {
-        name = "Renn McGill",
     },
     [27236] = {
         name = "Attrezzatura da Immersione di seconda mano",
@@ -6348,9 +6279,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28098] = {
         name = "Maestro dei Cieli del Crepuscolo",
     },
-    [28099] = {
-        name = "Rasha'krak",
-    },
     [28100] = {
         name = "Il totem parlante",
     },
@@ -7239,9 +7167,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28616] = {
         name = "L'Apocalisse dei Piccatonante",
     },
-    [28617] = {
-        name = "Flower Power",
-    },
     [28618] = {
         name = "Consegna massi",
     },
@@ -7292,9 +7217,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28638] = {
         name = "Il sapore dei gufi",
-    },
-    [28639] = {
-        name = "Ursius",
     },
     [28640] = {
         name = "Fiere Glaciali fresche",
@@ -7379,9 +7301,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28733] = {
         name = "Fondamenti di botanica",
-    },
-    [28742] = {
-        name = "Shy-Rotam",
     },
     [28744] = {
         name = "I Ghoul hanno mangiato il mio grano!",
@@ -7496,9 +7415,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [29032] = {
         name = "Addestrarli da piccoli",
-    },
-    [29033] = {
-        name = "[PH] Bridle Buy-In",
     },
     [29034] = {
         name = "Crescono così in fretta",

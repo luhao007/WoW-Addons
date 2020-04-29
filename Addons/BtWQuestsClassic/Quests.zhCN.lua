@@ -7485,9 +7485,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [29032] = {
         name = "趁它们小的时候得到它们",
     },
-    [29033] = {
-        name = "[PH] Bridle Buy-In",
-    },
     [29034] = {
         name = "飞速成长",
     },

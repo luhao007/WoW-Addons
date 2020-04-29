@@ -225,14 +225,13 @@ class Manager(object):
                                 dirs_exist_ok=True)
                 shutil.rmtree(root/lib)
 
-    def handle_lib_embeds(self):
+    def handle_lib_in_libs(self):
         root = Path('AddOns/!!Libs')
         for lib in os.listdir(root):
             if not os.path.isdir(root/lib) or lib == 'Ace3':
                 continue
 
-            embeds = ['CallbackHandler-1.0', 'HereBeDragons',
-                      'LibStub', 'LibStub-1.0']
+            embeds = ['CallbackHandler-1.0', 'LibStub', 'LibStub-1.0']
             for p in ['libs', 'lib']:
                 if os.path.exists(root / lib / p):
                     embeds.append(p)
@@ -244,6 +243,7 @@ class Manager(object):
 
             if os.path.exists(root / lib / 'embeds.xml'):
                 os.remove(root / lib / 'embeds.xml')
+                embeds.append('embeds.xml')
 
             files = ['lib.xml', '{}.xml'.format(lib), '{}.toc'.format(lib)]
             for f in files:
@@ -251,8 +251,7 @@ class Manager(object):
                     process_file(
                         root / lib / f,
                         lambda lines: [l for l in lines
-                                       if not any(embed+'\\' in l or
-                                                  l.startswith('embeds.xml')
+                                       if not any(l.startswith(embed)
                                                   for embed in embeds)]
                     )
 
@@ -262,7 +261,8 @@ class Manager(object):
 
     def handle_dup_libraries(self):
         addons = ['Atlas', 'DBM-Core', 'GatherMate2', 'HandyNotes',
-                  'MapSter', 'oRA3', 'Quartz', 'TellMeWhen', 'TomTom']
+                  'MapSter', 'oRA3', 'Quartz', 'RangeDisplay',
+                  'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
         if self.is_classic:
             addons += ['AtlasLootClassic', 'AtlasLootClassic_Options',
                        'ATT-Classic', 'ClassicCastbars_Options',
@@ -277,7 +277,6 @@ class Manager(object):
                        'HandyNotes_SuramarShalAranTelemancy',
                        'HandyNotes_TimelessIsleChests',
                        'HandyNotes_WarfrontRares', 'NPCScan', 'Omen',
-                       'RangeDisplay', 'RangeDisplay_Options',
                        'RelicInspector', 'Titan']
         for addon in addons:
             self.remove_libraries_all(addon)
@@ -455,7 +454,7 @@ class Manager(object):
         self.change_defaults(
             'AddOns/honorspy/honorspy.lua',
             ['local addonName = "Honorspy";',
-                '			minimapButton = {hide = true},']
+             '			minimapButton = {hide = true},']
         )
 
     @retail_only
@@ -468,6 +467,26 @@ class Manager(object):
              'LibStub', 'LibWindow-1.1'],
             'Addons/MeetingStone/Libs',
             'Addons/MeetingStone/Libs/Embeds.xml'
+        )
+
+    @classic_only
+    def handle_meetinghorn(self):
+        self.remove_libraries(
+            ['AceAddon-3.0', 'AceComm-3.0', 'AceConfig-3.0',
+             'AceDB-3.0', 'AceEvent-3.0', 'AceGUI-3.0', 'AceHook-3.0',
+             'AceLocale-3.0', 'AceSerializer-3.0', 'AceTimer-3.0',
+             'CallbackHandler-1.0', 'LibDBIcon-1.0', 'LibDataBroker-1.1',
+             'LibStub'],
+            'Addons/MeetingHorn/Libs',
+            'Addons/MeetingHorn/Libs/Libs.xml'
+        )
+
+    @classic_only
+    def handle_merinspect(self):
+        self.change_defaults(
+            'Addons/MerInspect/Options.lua',
+            ['    ShowCharacterItemSheet = false,          --玩家自己裝備列表',
+             '    ShowCharacterItemStats = false,          --玩家自己屬性統計']
         )
 
     @retail_only

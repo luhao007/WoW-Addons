@@ -129,9 +129,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [880] = {
         name = "Source de vie",
     },
-    [881] = {
-        name = "Echeyakee",
-    },
     [887] = {
         name = "Les flibustiers des mers du Sud",
     },
@@ -1233,9 +1230,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [14254] = {
         name = "Le 116ème élément",
     },
-    [14255] = {
-        name = "Ethel Rethor",
-    },
     [14256] = {
         name = "La menace venue de la mer",
     },
@@ -1428,9 +1422,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [14364] = {
         name = "Le casse-tête",
     },
-    [14365] = {
-        name = "Ethel Rethor",
-    },
     [14370] = {
         name = "La mystérieuse azsharite",
     },
@@ -1577,9 +1568,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [14479] = {
         name = "Il y en a beaucoup des comme ça",
-    },
-    [14480] = {
-        name = "Extermination",
     },
     [14484] = {
         name = "La tête du serpent",
@@ -3267,9 +3255,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26032] = {
         name = "Le cachet d'Arathor",
     },
-    [26033] = {
-        name = "Trol'kalar",
-    },
     [26035] = {
         name = "Valoir son poids en or",
     },
@@ -3468,9 +3453,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26148] = {
         name = "Une frappe décisive",
     },
-    [26157] = {
-        name = "Kasim Sharim",
-    },
     [26158] = {
         name = "Harmonisation d’une pierre de sang",
     },
@@ -3521,9 +3503,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26174] = {
         name = "Au service – secret – de l'Alliance",
-    },
-    [26175] = {
-        name = "Surwich",
     },
     [26176] = {
         name = "En route pour Thelsamar",
@@ -3747,9 +3726,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26334] = {
         name = "Le seigneur sanglant Mandokir",
     },
-    [26336] = {
-        name = "Shakes O'Breen",
-    },
     [26338] = {
         name = "Con-troll démographique",
     },
@@ -3764,9 +3740,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26344] = {
         name = "La face cachée des bottes",
-    },
-    [26345] = {
-        name = "Excelsior",
     },
     [26346] = {
         name = "L'histoire de Myzrael",
@@ -3854,9 +3827,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26385] = {
         name = "Auberdine au creux de la vague",
-    },
-    [26386] = {
-        name = "Surkhan",
     },
     [26387] = {
         name = "Régime forcé",
@@ -3960,9 +3930,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26465] = {
         name = "Les statuettes antiques",
     },
-    [26466] = {
-        name = "Ruuzel",
-    },
     [26467] = {
         name = "Vil Satyre ! Dryades en danger !",
     },
@@ -4007,9 +3974,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26482] = {
         name = "Par le pouvoir du bâtonnet ancestral",
-    },
-    [26483] = {
-        name = "Gan'dranda",
     },
     [26485] = {
         name = "Les Gueules d'acier, camarade !",
@@ -4137,20 +4101,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26558] = {
         name = "L'invocation de Shadra",
     },
-    [26560] = {
-        name = "Jorgensen",
-    },
-    [26561] = {
-        name = "Krakauer",
-    },
     [26562] = {
         name = "Et la cerise sur le gâteau… Danforth",
     },
     [26563] = {
         name = "Le retour de la compagnie Bravo",
-    },
-    [26567] = {
-        name = "John J. Keeshan",
     },
     [26568] = {
         name = "C’est pas ma guerre",
@@ -4629,12 +4584,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26793] = {
         name = "La tombe érodée",
     },
-    [26794] = {
-        name = "Morgan Ladimore",
-    },
-    [26795] = {
-        name = "Mor'Ladim",
-    },
     [26796] = {
         name = "La fille qui avait survécu",
     },
@@ -4643,9 +4592,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26805] = {
         name = "Cap sur le cap !",
-    },
-    [26808] = {
-        name = "Maywiki",
     },
     [26809] = {
         name = "Les écoutes totémiques",
@@ -5013,9 +4959,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27097] = {
         name = "Mortel recrutement",
     },
-    [27098] = {
-        name = "Lordaeron",
-    },
     [27099] = {
         name = "Pas de quartier !",
     },
@@ -5159,9 +5102,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27202] = {
         name = "Duel fratricide",
-    },
-    [27204] = {
-        name = "Aradne",
     },
     [27205] = {
         name = "La vilenie des Réprouvés",
@@ -5708,9 +5648,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27487] = {
         name = "Ix’lar, le Seigneur-du-dessous",
-    },
-    [27488] = {
-        name = "Impatience",
     },
     [27489] = {
         name = "Nul autre que moi n’est à blâmer",
@@ -6344,9 +6281,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28098] = {
         name = "Le maître du ciel du Crépuscule",
-    },
-    [28099] = {
-        name = "Rasha'krak",
     },
     [28100] = {
         name = "Un totem parlant",
@@ -7212,14 +7146,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28601] = {
         name = "Le vieux Podchamb",
     },
-    [28603] = {
-        name = "Infiltration",
-    },
     [28604] = {
         name = "Subterfuge et malice",
-    },
-    [28605] = {
-        name = "Domination",
     },
     [28609] = {
         name = "Soucis de marteau",
@@ -7275,9 +7203,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28632] = {
         name = "Émoulue des Collines",
     },
-    [28634] = {
-        name = "Extinction",
-    },
     [28635] = {
         name = "Des fantômes à Hautebrande ?",
     },
@@ -7289,9 +7214,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28638] = {
         name = "Les chouettes, c’est chouette !",
-    },
-    [28639] = {
-        name = "Ursius",
     },
     [28640] = {
         name = "Des Sabre-de-givre tout frais",
@@ -7376,9 +7298,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28733] = {
         name = "Botanique élémentaire",
-    },
-    [28742] = {
-        name = "Shy-Rotam",
     },
     [28744] = {
         name = "Les goules haïssent mes graines",
@@ -7472,18 +7391,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [29015] = {
         name = "La bonne fortune d'un mineur pauvre",
-    },
-    [29021] = {
-        name = "Samophlange",
-    },
-    [29022] = {
-        name = "Samophlange",
-    },
-    [29023] = {
-        name = "Samophlange",
-    },
-    [29024] = {
-        name = "Samophlange",
     },
     [29026] = {
         name = "Wenikee Bakaboulon",

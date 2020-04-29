@@ -171,9 +171,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [37857] = {
         name = "Runas conosce la strada",
     },
-    [37858] = {
-        name = "Stellagosa",
-    },
     [37859] = {
         name = "I prosciugati",
     },
@@ -200,9 +197,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [37965] = {
         name = "Un'annata corrotta",
-    },
-    [37991] = {
-        name = "Agapanthus",
     },
     [38014] = {
         name = "Un banchetto di draghi",
@@ -1079,9 +1073,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39437] = {
         name = "Nel profondo della caverna",
-    },
-    [39438] = {
-        name = "Guhruhlruhlruh",
     },
     [39439] = {
         name = "Reliquie dei Pietrascura",
@@ -3417,9 +3408,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42202] = {
         name = "La vendetta è un piatto che va servito freddo",
     },
-    [42204] = {
-        name = "Jorhuttam",
-    },
     [42206] = {
         name = "Il prossimo livello è arrivato",
     },
@@ -3482,9 +3470,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [42365] = {
         name = "Concentrare le energie",
-    },
-    [42367] = {
-        name = "Arkethrax",
     },
     [42368] = {
         name = "Qualità, non quantità",
@@ -4742,9 +4727,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43581] = {
         name = "La saggezza della pazienza",
-    },
-    [43582] = {
-        name = "Shalassic Park",
     },
     [43585] = {
         name = "Prepararsi alla guerra",

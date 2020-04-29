@@ -18,9 +18,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [94366] = {
         name = "Lelyn Flinkschatten",
     },
-    [94409] = {
-        name = "Hemet Nesingwary",
-    },
     [94434] = {
         name = "Addie Zischmoor",
     },
@@ -60,17 +57,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [107499] = {
         name = "Verängstigter Rabenbär",
     },
-    [108072] = {
-        name = "Sir Finley Mrrgglton",
-    },
     [108304] = {
         name = "Guviena Klingenlied",
     },
     [108327] = {
         name = "Wogender Knochenschleim",
-    },
-    [108358] = {
-        name = "Leirana",
     },
     [109631] = {
         name = "Alter Graurücken",

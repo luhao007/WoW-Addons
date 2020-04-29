@@ -129,9 +129,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [880] = {
         name = "Seres alterados",
     },
-    [881] = {
-        name = "Echeyakee",
-    },
     [887] = {
         name = "Los filibusteros de los Mares del Sur",
     },
@@ -1224,12 +1221,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [14253] = {
         name = "Plumas para empenachar",
     },
-    [14254] = {
-        name = "Heavy Metal",
-    },
-    [14255] = {
-        name = "Ethel Rethor",
-    },
     [14256] = {
         name = "La amenaza emergente",
     },
@@ -1421,9 +1412,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [14364] = {
         name = "Juntar cabezas",
-    },
-    [14365] = {
-        name = "Ethel Rethor",
     },
     [14370] = {
         name = "La misteriosa azsharita",
@@ -2508,9 +2496,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [25454] = {
         name = "Pellejo de yeti perfecto",
     },
-    [25458] = {
-        name = "General Skessesh",
-    },
     [25463] = {
         name = "Preséntate ante Silvia",
     },
@@ -3261,9 +3246,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26032] = {
         name = "El sigilo de Arathor",
     },
-    [26033] = {
-        name = "Trol'kalar",
-    },
     [26035] = {
         name = "Valer su peso en oro",
     },
@@ -3461,9 +3443,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26148] = {
         name = "Un golpe decisivo",
-    },
-    [26157] = {
-        name = "Kasim Sharim",
     },
     [26158] = {
         name = "Armonización de la sangrita",
@@ -3663,9 +3642,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26292] = {
         name = "¡A Arroyo de la Luna!",
     },
-    [26295] = {
-        name = "Propaganda",
-    },
     [26296] = {
         name = "Recolección de pruebas",
     },
@@ -3849,9 +3825,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26385] = {
         name = "Rompen olas de cambio",
     },
-    [26386] = {
-        name = "Surkhan",
-    },
     [26387] = {
         name = "Dieta de inanición",
     },
@@ -3954,9 +3927,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26465] = {
         name = "Las antiguas estatuillas",
     },
-    [26466] = {
-        name = "Ruuzel",
-    },
     [26467] = {
         name = "¡Vil sátiro! ¡Dríades en peligro!",
     },
@@ -4001,9 +3971,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26482] = {
         name = "El verdadero poder de la vara",
-    },
-    [26483] = {
-        name = "Gan'dranda",
     },
     [26485] = {
         name = "¡Quijafortes, colega!",
@@ -4131,20 +4098,11 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26558] = {
         name = "Invocar a Shadra",
     },
-    [26560] = {
-        name = "Jorgensen",
-    },
-    [26561] = {
-        name = "Krakauer",
-    },
     [26562] = {
         name = "Y por último, aunque no menos importante... Danforth",
     },
     [26563] = {
         name = "El regreso de la Compañía Bravo",
-    },
-    [26567] = {
-        name = "John J. Keeshan",
     },
     [26568] = {
         name = "Esta no es mi guerra",
@@ -4593,9 +4551,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26775] = {
         name = "Sé raptor",
     },
-    [26776] = {
-        name = "Ghaliri",
-    },
     [26777] = {
         name = "Reconfortando a los espíritus",
     },
@@ -4626,9 +4581,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [26794] = {
         name = "Morgan Ladimor",
     },
-    [26795] = {
-        name = "Mor'Ladim",
-    },
     [26796] = {
         name = "La hija superviviente",
     },
@@ -4637,9 +4589,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26805] = {
         name = "¡Hacia el Cabo!",
-    },
-    [26808] = {
-        name = "Maywiki",
     },
     [26809] = {
         name = "Tratos bajo mano",
@@ -4676,9 +4625,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [26820] = {
         name = "Si las van a dejar tiradas por ahí...",
-    },
-    [26821] = {
-        name = "Airwyn Bantamflax",
     },
     [26822] = {
         name = "Inútiles perros escurridizos",
@@ -4962,9 +4908,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [27077] = {
         name = "Aferrarse al caos",
     },
-    [27078] = {
-        name = "Gor'kresh",
-    },
     [27082] = {
         name = "Jugando sucio",
     },
@@ -5006,9 +4949,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27097] = {
         name = "Alzaos, Renegados",
-    },
-    [27098] = {
-        name = "Lordaeron",
     },
     [27099] = {
         name = "Sin escapatoria",
@@ -5153,9 +5093,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [27202] = {
         name = "Hermano contra hermano",
-    },
-    [27204] = {
-        name = "Aradne",
     },
     [27205] = {
         name = "La depravación de los Renegados",
@@ -6351,9 +6288,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28098] = {
         name = "El maestro de vuelo Crepuscular",
     },
-    [28099] = {
-        name = "Rasha'krak",
-    },
     [28100] = {
         name = "Un tótem que habla",
     },
@@ -6614,9 +6548,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28264] = {
         name = "La estrategia de Navarax",
-    },
-    [28265] = {
-        name = "General Thorg'izog",
     },
     [28266] = {
         name = "Prueba de magma",
@@ -6887,9 +6818,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [28436] = {
         name = "Quedarnos con el cuerno",
-    },
-    [28437] = {
-        name = "General Thorg'izog",
     },
     [28438] = {
         name = "Prueba de magma",
@@ -7293,9 +7221,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28638] = {
         name = "A por lechuzas",
     },
-    [28639] = {
-        name = "Ursius",
-    },
     [28640] = {
         name = "Sables de hielo frescos",
     },
@@ -7470,9 +7395,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [28876] = {
         name = "Hacia La Empalizada Mor'shan",
     },
-    [28881] = {
-        name = "Prospector Gunstan",
-    },
     [29015] = {
         name = "La fortuna de un minero",
     },
@@ -7496,9 +7418,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [29032] = {
         name = "Juventud, divino tesoro",
-    },
-    [29033] = {
-        name = "[PH] Bridle Buy-In",
     },
     [29034] = {
         name = "Crecen tan deprisa",
