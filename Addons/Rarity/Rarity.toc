@@ -7,7 +7,7 @@
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF稀有物品追踪|r |cFFFFE00ARarity|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF稀有物品追踪|r |cFFFFE00ARarity|r
 ## Notes-zhCN: 显示与目标的距离。
 
 ## X-Min-Interface: 80300

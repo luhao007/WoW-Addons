@@ -7,7 +7,7 @@
 
 ## Title: PetTracker
 ## Notes: Tracking pets in and out of combat since 2012.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFFFFE00APetTracker|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFFFFE00APetTracker|r
 
 ## X-Category: Battle Pets
 

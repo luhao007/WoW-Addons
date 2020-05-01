@@ -1,20 +1,25 @@
 ## Interface: 80300
-## X-Min-Interface: 80300
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0CastleNathria|r
 ## Author: MysticalOS
-## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMCastleNathria_AllSavedVars
 ## SavedVariablesPerCharacter: DBMCastleNathria_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0CastleNathria|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0纳斯利亚堡|r
+
+## X-Min-Interface: 80300
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: SHADOWLANDS
-## X-DBM-Mod-Has-Mythic : 1
+## X-DBM-Mod-Has-Mythic: 1
 ## X-DBM-Mod-Name: Castle Nathria
 ## X-DBM-Mod-Sort: 308
 ## X-DBM-Mod-MapID: 2296
 ## X-DBM-Mod-MinCoreRevision: 17286
 ## X-DBM-Mod-MinExpansion: 8
+## X-Part-Of: DBM-Core
+
 localization.en.lua
 SireDenathrius.lua
 Shriekwing.lua

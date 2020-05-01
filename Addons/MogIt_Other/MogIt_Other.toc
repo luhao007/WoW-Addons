@@ -7,7 +7,7 @@
 
 ## Title: MogIt: Other
 ## Notes: MogIt Data
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF幻化助手|r |cFF69CCF0其他|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF幻化助手|r |cFF69CCF0其他|r
 ## Notes-zhCN: MogIt 数据
 
 ## X-MogItModuleVersion: 3

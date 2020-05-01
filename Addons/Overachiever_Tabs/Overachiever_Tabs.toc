@@ -9,7 +9,7 @@
 
 ## Title: Overachiever - Tabs
 ## Notes: Add tabs (Search, Suggestions, etc.) to the Achievements window.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFF69CCF0界面|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFF69CCF0界面|r
 
 ## X-Child-Of: Overachiever
 ## X-Part-Of: Overachiever

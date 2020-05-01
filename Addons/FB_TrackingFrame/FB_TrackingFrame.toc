@@ -5,7 +5,7 @@
 ## SavedVariables: PBTF_Info
 
 ## Title: Fishing Buddy - Tracking Frame
-## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF钓鱼助手|r |cFF69CCF0追踪框|r
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE物品|r|cFFFFE00A>|r |cFFFFFFFF钓鱼助手|r |cFF69CCF0追踪框|r
 
 ## X-Part-Of: FishingBuddy
 

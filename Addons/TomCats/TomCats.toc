@@ -1,0 +1,18 @@
+## Interface: 80300
+## Author: TomCat
+## Version: 01.05.00
+## SavedVariables: TomCats_Account
+## SavedVariablesPerCharacter: TomCats_Character
+## DefaultState: enabled
+
+## Title: TomCat's Tours
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFFFFE00ATomCats|r
+
+## X-Website: https://www.tomcatstours.com
+## X-TomCats-VersionMessageID: 1583846119
+## X-TomCats-VersionMessage: XZGZYJf9Ec1k5QWPQ1TfBuQne+MQgCQKV56imu0rBrcJwkc7x8rIMl5nkucBAQUAAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEDBAwAAQYNAQASDgEAGg8BAAQ=
+## X-Part-Of: TomCat's Tours:
+## X-Category: Achievements, Map, Miscellaneous
+## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
+
+Main.xml

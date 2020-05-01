@@ -4,7 +4,7 @@
 
 ## Title: World Quest Tracker
 ## Notes: Make more easy to see world quests
-## Title-zhCN: |cFFFFE00A<|r|cFF00FF7F任务|r|cFFFFE00A>|r |cFFFFFFFF世界任务追踪|r |cFFFFE00AWorldQuestTracker|r
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF世界任务追踪|r |cFFFFE00AWorldQuestTracker|r
 
 
 #@no-lib-strip@

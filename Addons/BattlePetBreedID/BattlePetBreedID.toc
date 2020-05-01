@@ -5,7 +5,7 @@
 
 ## Title: Battle Pet BreedID
 ## Notes: Battle Pet BreedID displays the BreedID of pets in your journal, in battle, in chat links, and in AH tooltips.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF战斗宠物品种|r |cFFFFE00ABattlePetBreedID|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF战斗宠物品种|r |cFFFFE00ABattlePetBreedID|r
 ## Notes-zhCN: 显示战斗宠物的品种（如速度型）
 
 ## X-Date: 2020-01-30T22:44:49Z

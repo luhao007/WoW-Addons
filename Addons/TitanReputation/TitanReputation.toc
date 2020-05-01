@@ -6,7 +6,7 @@
 
 ## Title: Titan [|cffeda55fReputation|r]
 ## Notes: Adds Reputation tracking and monitoring tools to Titan Panel.
-## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0声望|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0声望|r
 ## Notes-zhCN: 泰坦面板的声望模块
 
 ## X-Part-Of: Titan

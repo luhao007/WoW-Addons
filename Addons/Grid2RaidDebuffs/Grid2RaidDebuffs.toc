@@ -4,7 +4,7 @@
 
 ## Title: Grid2 |cd1ff7d0aRaidDebuffs|r
 ## Notes: Adds a Raid Boss debuff status.
-## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF69CCF0团队首领减益|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFF69CCF0团队首领减益|r
 
 ## X-Category: UnitFrame
 ## X-Website: http://wowace.com/projects/grid2/

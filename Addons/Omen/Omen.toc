@@ -6,7 +6,7 @@
 
 ## Title: Omen3
 ## Notes: A lightweight, flexible, multi-target threat meter.
-## Title-zhCN: |cFFFFE00A<|r|cFFFF1493战斗|r|cFFFFE00A>|r |cFFFFFFFF仇恨统计|r |cFFFFE00AOmen|r
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF仇恨统计|r |cFFFFE00AOmen|r
 ## Notes-zhCN: 小巧独立的仇恨统计窗口
 
 ## X-eMail: xinhuan @ gmail DOT com

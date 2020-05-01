@@ -5,7 +5,7 @@
 
 ## Title: MogIt
 ## Notes: Transmogrification Assistant
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF幻化助手|r |cFFFFE00AMogIt|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF幻化助手|r |cFFFFE00AMogIt|r
 ## Notes-zhCN: 提供额外的幻化辅助功能。
 
 ## X-Category: Roleplay & Transmogrification

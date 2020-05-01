@@ -1,0 +1,23 @@
+## Interface: 80300
+## Author: Omega
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 0
+## SavedVariables: DBM_Archaeology_Settings
+## DefaultState: enabled
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFArchaeology|r
+## Notes: Gives archaeology a little more flavor
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0考古学|r
+
+## X-Min-Interface: 70100
+## X-Part-Of: DBM-Core
+
+localization.en.lua
+localization.cn.lua
+localization.de.lua
+localization.es.lua
+localization.fr.lua
+localization.kr.lua
+localization.ru.lua
+localization.tw.lua
+Archaeology.lua

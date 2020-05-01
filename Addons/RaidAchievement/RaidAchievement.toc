@@ -7,7 +7,7 @@
 
 ## Title: Raid|cff7fff7fAchievement|r   Main
 ## Notes: Group and raid achievements tracker
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFFFFE00ARaidAchievement|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFFFFE00ARaidAchievement|r
 
 
 Localization\localization-enEN.lua

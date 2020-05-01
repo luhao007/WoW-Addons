@@ -6,7 +6,7 @@ if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocal
 end
 
 
-	raversion=8.301
+	raversion=8.302
 	local raverstiptext="alpha"
 	if string.len(raversion)==6 then
 		raverstiptext="beta"
@@ -2042,6 +2042,78 @@ t:SetPoint("TOPLEFT",20,-15)
 t:SetText(racredits3)
 t:SetJustifyH("LEFT")
 t:SetJustifyV("TOP")
+end
+
+end
+
+
+function rapromo()
+PSFea_closeallpr()
+
+RApromo:Show()
+
+if RAthanksdraw==nil then
+RAthanksdraw=1
+local t = RApromo:CreateFontString()
+t:SetWidth(700)
+t:SetHeight(475)
+t:SetFont(GameFontNormal:GetFont(), 14)
+t:SetPoint("TOPLEFT",20,-15)
+t:SetText("Dear user, you see this message because you use our addon for more than 5 years.\n\nWe have created this addon in |cff00ff002009 and since that day it is completely free.|r We are very happy to help more than a million players in their adventures in the World of Warcraft!\n\nBut, it is not easy to maintain the addon for free, we don't play WoW anymore. |cff00ff00We were planning to abandon this project.|r Some users suggest us to create an affiliate link to help us with maintaining this project. We use eBay a lot, so we have decided to try.\n\n\n\n\n|cffff0000How is it work?|r |cff00ff00If you are planning to buy somethings – use eBay!|r This is much better than amazon and you are protected with PayPal. Just use our link and buy what you need. |cff00ff00We will get 1% cashback|r (the price doesn't change!) and this small payment will help us to maintain addons for free :)\n\n|cff00ff00Never tried eBay? It’s time to try it ;)\n\n\n\nThank you for using our addons for such a long time|r :)")
+t:SetJustifyH("LEFT")
+t:SetJustifyV("TOP")
+
+
+local b = RApromo:CreateFontString()
+b:SetWidth(660)
+b:SetHeight(475)
+b:SetFont(GameFontNormal:GetFont(), 12)
+b:SetPoint("TOPLEFT",20,-455)
+--b:SetText("* - duration is limited (testing phase). We offer this service only to players who use our add-ons for more than 6 months (if you see this message, you are one of them!)")
+b:SetJustifyH("LEFT")
+b:SetJustifyV("TOP")
+
+
+local t2 = RApromo:CreateFontString()
+t2:SetWidth(700)
+t2:SetHeight(475)
+t2:SetFont(GameFontNormal:GetFont(), 14)
+t2:SetPoint("TOPLEFT",0,-350)
+t2:SetText("|CFFFFFF00Support development, use this link and buy on eBay!|r\n\n|cff00ff00Click  Ctrl+C  to copy|r")
+t2:SetJustifyH("CENTER")
+t2:SetJustifyV("TOP")
+
+local psdonatefr22 = CreateFrame("ScrollFrame", "psdonatefr22", RApromo, "UIPanelScrollFrameTemplate")
+psdonatefr22:SetPoint("TOPLEFT", RApromo, "TOPLEFT", 240, -405)
+psdonatefr22:SetHeight(50)
+psdonatefr22:SetWidth(200)
+
+psdonateeb22 = CreateFrame("EditBox", "psdonateeb22", psdonatefr22)
+psdonateeb22:SetPoint("TOPRIGHT", psdonatefr22, "TOPRIGHT", 0, 0)
+psdonateeb22:SetPoint("TOPLEFT", psdonatefr22, "TOPLEFT", 0, 0)
+psdonateeb22:SetPoint("BOTTOMRIGHT", psdonatefr22, "BOTTOMRIGHT", 0, 0)
+psdonateeb22:SetPoint("BOTTOMLEFT", psdonatefr22, "BOTTOMLEFT", 0, 0)
+psdonateeb22:SetScript("onescapepressed", function(self) psdonateeb22:ClearFocus() end)
+psdonateeb22:SetFont(GameFontNormal:GetFont(), rafontsset[2])
+psdonateeb22:SetMultiLine(true)
+psdonateeb22:SetAutoFocus(false)
+psdonateeb22:SetHeight(150)
+psdonateeb22:SetWidth(185)
+psdonateeb22:Show()
+psdonateeb22:SetScript("OnTextChanged", function(self) psdonateeb22:SetText("phoenixstyle.com/ePSq56f") psdonateeb22:HighlightText(0,string.len(psdonateeb22:GetText())) end )
+
+psdonatefr22:SetScrollChild(psdonateeb22)
+psdonatefr22:Show()
+
+
+
+
+
+
+
+
+
+
 end
 
 end

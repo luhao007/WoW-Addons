@@ -7,7 +7,7 @@
 
 ## Title: MogIt: Ranged
 ## Notes: MogIt Data
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF幻化助手|r |cFF69CCF0远程武器|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF幻化助手|r |cFF69CCF0远程武器|r
 ## Notes-zhCN: MogIt 数据
 
 ## X-MogItModuleVersion: 3

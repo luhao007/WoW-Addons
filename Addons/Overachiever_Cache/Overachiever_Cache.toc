@@ -6,7 +6,7 @@
 
 ## Title: Overachiever - Cache
 ## Notes: Shorten load times and improve accuracy of cross-faction data.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFF69CCF0缓存|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFF69CCF0缓存|r
 
 ## X-Child-Of: Overachiever
 ## X-Part-Of: Overachiever

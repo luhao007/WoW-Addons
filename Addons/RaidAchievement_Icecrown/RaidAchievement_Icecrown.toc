@@ -6,7 +6,7 @@
 
 ## Title: Raid|cff7fff7fAchievement|r - Icecrown
 ## Notes: RaidAchievement Wotlk Icecrown Module
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0冰冠堡垒|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0冰冠堡垒|r
 
 ## X-Part-Of: RaidAchievement
 

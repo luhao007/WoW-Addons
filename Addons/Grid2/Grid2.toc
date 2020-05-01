@@ -8,7 +8,7 @@
 
 ## Title: Grid2
 ## Notes: A modular, lightweight and screen-estate saving grid of party/raid unit frames
-## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFFFFE00AGrid2|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF团队面板|r |cFFFFE00AGrid2|r
 ## Notes-zhCN: 小巧的轻量级模块化队伍框架
 
 ## X-WoW-Project: retail

@@ -7,7 +7,7 @@
 
 ## Title: Overachiever
 ## Notes: Tools and tweaks to make the lives of players seeking achievements a little bit easier.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFFFFE00AOverachiever|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF成就助手|r |cFFFFE00AOverachiever|r
 ## Notes-zhCN: 提供一些辅助管理成就的功能
 
 ## X-WoWI-ID: 11361

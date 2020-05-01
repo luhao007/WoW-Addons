@@ -10,7 +10,7 @@
 
 ## Title: Garrison Mission Manager
 ## Notes: Assists you with selecting best team for Battle for Azeroth mission table, Legion's Class Hall and WoD's Garrison/Shipyard missions and other followers management tasks
-## Title-zhCN: |cFFFFE00A<|r|cFF1E90FF物品|r|cFFFFE00A>|r |cFFFFFFFF要塞任务管理|r |cFFFFE00AGarrisonMissionManager|r
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE物品|r|cFFFFE00A>|r |cFFFFFFFF要塞任务管理|r |cFFFFE00AGarrisonMissionManager|r
 ## Notes-zhCN: 协助管理要塞随从任务
 
 

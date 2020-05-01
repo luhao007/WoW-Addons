@@ -5,7 +5,7 @@
 
 ## Title: PetTracker Battle
 ## Notes: Load on demand modification for the pet battle UI.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF69CCF0战斗|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFF69CCF0战斗|r
 
 ## X-Category: Battle Pets
 ## X-Part-Of: PetTracker

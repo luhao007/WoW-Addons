@@ -7,7 +7,7 @@
 
 ## Title: Titan Panel [|cffeda55fCurrency|r] |cff00aa008.2|r
 ## Notes: This mod will display all the Currency you have on the current toon in a tool tip.  It shows the current Toons Gold amount on the Titan Panel bar.
-## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0货币|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0货币|r
 ## Notes-zhCN: 泰坦面板的货币模块
 
 ## X-Part-Of: Titan

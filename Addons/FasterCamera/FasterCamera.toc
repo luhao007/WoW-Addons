@@ -6,7 +6,7 @@
 
 ## Title: FasterCamera
 ## Notes: Accelerates Camera Zooming
-## Title-zhCN: |cFFFFE00A<|r|cFFBA55D3界面|r|cFFFFE00A>|r |cFFFFFFFF视野调整|r |cFFFFE00AFasterCamera|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF视野调整|r |cFFFFE00AFasterCamera|r
 ## Notes-zhCN: 提供调整视野上限，快速缩放视野等功能
 
 ## X-Embeds: Ace3
