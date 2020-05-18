@@ -6673,6 +6673,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57079] = {
         name = "Quel fourbe ! Mais que fait la police ?",
     },
+    [57080] = {
+        name = "Une récompense bien méritée",
+    },
     [57088] = {
         name = "Grise mine",
     },
@@ -6732,6 +6735,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [57290] = {
         name = "Entamer la descente",
+    },
+    [57324] = {
+        name = "Au gré de la marée",
     },
     [57362] = {
         name = "Au fin fond des ténèbres",
@@ -6797,7 +6803,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "En route pour le Port d’Ankhaten",
     },
     [57956] = {
-        name = "Bat-le-désert contaminés",
+        name = "Hôtes bat-le-désert",
     },
     [57969] = {
         name = "Des blessés à soigner",
@@ -6819,6 +6825,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [58087] = {
         name = "Briser les batteries",
+    },
+    [58214] = {
+        name = "Une affaire urgente",
     },
     [58496] = {
         name = "Un conseil malvenu",

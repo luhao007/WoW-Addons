@@ -88,7 +88,7 @@ function BtWQuestsGuideDataProviderMixin:RefreshAllData(fromOnShow)
             local pin = self:GetMap():AcquirePin("BtWQuestsGuidePinTemplate", item.itemName);
             pin.waypoints = waypoints
             pin.item = item
-            
+
             pin:SetPosition(position.x, position.y);
             pin.Focus:SetShown(false);--item == Guide.Focus)
             pin:Show();

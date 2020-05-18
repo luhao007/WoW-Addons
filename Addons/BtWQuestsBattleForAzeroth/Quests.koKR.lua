@@ -4927,7 +4927,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "시간의 말소",
     },
     [53870] = {
-        name = "그롬마쉬 요새의 몰래 온 손님",
+        name = "그롬마쉬 요새의 온 손님",
     },
     [53879] = {
         name = "영지 소탕",
@@ -6702,6 +6702,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57079] = {
         name = "쓰레기 광장 대청소",
     },
+    [57080] = {
+        name = "합당한 보상",
+    },
     [57088] = {
         name = "지뢰밭 개간",
     },
@@ -6760,7 +6763,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "전당 조사",
     },
     [57290] = {
-        name = "하강의 시작",
+        name = "강림 시작",
+    },
+    [57324] = {
+        name = "파도가 넘실대는 항해길",
     },
     [57362] = {
         name = "깊고 깊은 어둠을 향해",
@@ -6828,6 +6834,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57955] = {
         name = "안카텐 항구",
     },
+    [57956] = {
+        name = "사막유랑단 숙주",
+    },
     [57969] = {
         name = "부상자 돌보기",
     },
@@ -6849,6 +6858,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [58087] = {
         name = "뿌리를 뽑아라",
     },
+    [58214] = {
+        name = "응급처치",
+    },
     [58496] = {
         name = "달갑지 않은 조언자",
     },
@@ -6868,7 +6880,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "심장이 가리키는 곳",
     },
     [58606] = {
-        name = "조각조각 모아 모아",
+        name = "실마리가 될 표본",
     },
     [58615] = {
         name = "어둠 속의 속삭임",
@@ -6907,7 +6919,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "구할 가치가 있는 세상",
     },
     [58646] = {
-        name = "세상에 나쁜 짐승은 없다",
+        name = "이것도 먹어 보시지!",
     },
     [58737] = {
         name = "마그니의 발견",

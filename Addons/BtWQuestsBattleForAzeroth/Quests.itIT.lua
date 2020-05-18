@@ -5481,6 +5481,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [54639] = {
         name = "Un segnale dalle Cime Tempestose",
     },
+    [54640] = {
+        name = "Violenza gnomesca",
+    },
+    [54641] = {
+        name = "Per Gnomeregan!",
+    },
     [54642] = {
         name = "G.U.A.I. in vista",
     },
@@ -5561,6 +5567,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [54787] = {
         name = "Ballo in maschera",
+    },
+    [54850] = {
+        name = "Operazione: Troggageddon",
     },
     [54851] = {
         name = "La benedizione delle maree",
@@ -6654,6 +6663,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57079] = {
         name = "Pattumiatelo via!",
     },
+    [57080] = {
+        name = "Una ricompensa adatta",
+    },
     [57088] = {
         name = "Via libera",
     },
@@ -6713,6 +6725,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [57290] = {
         name = "A capofitto nei Sotterranei",
+    },
+    [57324] = {
+        name = "Col vento in poppa",
     },
     [57362] = {
         name = "Nel cuore dell'oscurità",
@@ -6796,7 +6811,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "L'Obelisco del Sole",
     },
     [58008] = {
-        name = "A tutto gas",
+        name = "Sfiniti di tutto punto",
     },
     [58009] = {
         name = "Dritto verso la Luna",

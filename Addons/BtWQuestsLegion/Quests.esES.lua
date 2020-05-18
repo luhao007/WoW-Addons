@@ -888,9 +888,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39191] = {
         name = "Legado de Rompehielo",
     },
-    [39192] = {
-        name = "La Forja de Odyn",
-    },
     [39214] = {
         name = "El Ojo de Odyn",
     },
@@ -1119,9 +1116,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39516] = {
         name = "¡Grita \"devastación\" y suelta a los Illidari!",
     },
-    [39530] = {
-        name = "La forja",
-    },
     [39575] = {
         name = "El Sendero de Huln",
     },
@@ -1242,9 +1236,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39702] = {
         name = "La leyenda del Torreón Grajo Negro",
     },
-    [39722] = {
-        name = "Forjar una nueva fuerza",
-    },
     [39726] = {
         name = "Y el yunque",
     },
@@ -1271,12 +1262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39756] = {
         name = "Un plan sólido",
-    },
-    [39757] = {
-        name = "Siempre punzante",
-    },
-    [39761] = {
-        name = "Talla de runas avanzada",
     },
     [39771] = {
         name = "La voz del trueno",
@@ -1845,9 +1830,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40270] = {
         name = "El camino de la expiación",
     },
-    [40276] = {
-        name = "La Vorágine llama",
-    },
     [40297] = {
         name = "Lyana Penaoscura",
     },
@@ -2139,9 +2121,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40649] = {
         name = "Reúnete con Mylune",
     },
-    [40651] = {
-        name = "La Semilla de los Tiempos",
-    },
     [40652] = {
         name = "Un rumor en el viento",
     },
@@ -2168,9 +2147,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40684] = {
         name = "El Escrito sobre artilugios malditos",
-    },
-    [40698] = {
-        name = "Pureza de forma",
     },
     [40705] = {
         name = "Asuntos sacerdotales",
@@ -2252,9 +2228,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40819] = {
         name = "Ultimando los preparativos",
-    },
-    [40821] = {
-        name = "Poder sobrecogedor",
     },
     [40823] = {
         name = "Reconstruir el consejo",
@@ -2493,12 +2466,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40983] = {
         name = "Demonios en su seno",
     },
-    [40994] = {
-        name = "Las herramientas adecuadas",
-    },
-    [40995] = {
-        name = "Inyección de poder",
-    },
     [40996] = {
         name = "Delegación",
     },
@@ -2522,12 +2489,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41010] = {
         name = "Frenesí de pescado",
-    },
-    [41015] = {
-        name = "Los artefactos necesitan artífices",
-    },
-    [41017] = {
-        name = "Potenciar tu artefacto",
     },
     [41019] = {
         name = "Acciones en Azeroth",
@@ -2565,14 +2526,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41040] = {
         name = "Cámaras del Valor: La maestra cervecera",
     },
-    [41047] = {
-        name = "Imbuida de poder",
-    },
     [41052] = {
         name = "Un ruego desesperado",
-    },
-    [41053] = {
-        name = "Altar de la Cacería Eterna",
     },
     [41056] = {
         name = "Amor perdido",
@@ -2585,9 +2540,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41062] = {
         name = "Botín de victoria",
-    },
-    [41064] = {
-        name = "Forja maldita de los Nathrezim",
     },
     [41066] = {
         name = "La mirada del cazador",
@@ -2654,9 +2606,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41124] = {
         name = "El renacer de la Guardia de Tirisfal",
-    },
-    [41125] = {
-        name = "Potencial por descubrir",
     },
     [41138] = {
         name = "Energizar Shal'Aran",
@@ -6669,18 +6618,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49973] = {
         name = "La villa de Thalyssra",
     },
-    [49976] = {
-        name = "Regalos de los caídos",
-    },
-    [49977] = {
-        name = "Citación a Orgrimmar",
-    },
-    [49981] = {
-        name = "Testigos de la herida",
-    },
-    [49982] = {
-        name = "Testigos de la herida",
-    },
     [50046] = {
         name = "¡Es un sabotaje!",
     },
@@ -6698,12 +6635,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50055] = {
         name = "La perspectiva del Portavoz",
-    },
-    [50056] = {
-        name = "El llamamiento del Portavoz",
-    },
-    [50057] = {
-        name = "El poder en nuestras manos",
     },
     [50071] = {
         name = "¡Por la Luz!",
@@ -6732,12 +6663,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50247] = {
         name = "El correo no debe parar",
     },
-    [50300] = {
-        name = "El llamamiento del Portavoz",
-    },
-    [50341] = {
-        name = "Un descubrimiento reciente",
-    },
     [50358] = {
         name = "Investigación desértica",
     },
@@ -6746,9 +6671,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50364] = {
         name = "La sangre de Azeroth",
-    },
-    [50371] = {
-        name = "Citación a Ventormenta",
     },
     [50372] = {
         name = "Investigación desértica",

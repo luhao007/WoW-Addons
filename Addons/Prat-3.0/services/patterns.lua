@@ -32,6 +32,7 @@
 local _G = _G
 
 local table = table
+local unpack = unpack
 local pairs, ipairs = pairs, ipairs
 local tinsert, tremove, tconcat = table.insert, table.remove, table.concat
 local wipe = wipe
@@ -53,7 +54,18 @@ local PatternRegistry = {}
 
 
 local debug = function(...)
---  _G.ChatFrame1:print(...)
+  -- _G.ChatFrame1:print(...)
+end
+
+function CaseInsensitveWordPattern(word)
+  local upper = word:upper()
+  local lower = word:lower()
+
+  local pattern = ""
+  for i=1,word:len() do
+    pattern = pattern .. "[" .. upper:sub(i, i) .. lower:sub(i, i) .. "]"
+  end
+  return pattern
 end
 
 -- Register a pattern with the pattern matching engine
@@ -83,7 +95,7 @@ do
     debug("UnregisterAllPatterns", who)
 
     local owner
-    for k,owner in pairs(PatternOwners) do
+    for k, owner in pairs(PatternOwners) do
       if owner == who then
         UnregisterPattern(k)
       end
@@ -127,12 +139,13 @@ do
   end
 
   local sortedRegistry = {}
-  function MatchPatterns(text, ptype)
+  function MatchPatterns(m, ptype)
+    local text = type(m) == "string" and m or m.MESSAGE
     ptype = ptype or "FRAME"
 
     tokennum = 0
 
-    for i,v in ipairs(PatternRegistry) do
+    for i, v in ipairs(PatternRegistry) do
       sortedRegistry[i] = v
     end
 
@@ -140,13 +153,12 @@ do
       local ap = a.priority or 50
       local bp = b.priority or 50
 
-      return ap > bp
+      return ap < bp
     end)
-
 
     debug("MatchPatterns -->", text, tokennum)
     -- Match and remove strings
-    for _,v in ipairs(sortedRegistry) do
+    for _, v in ipairs(sortedRegistry) do
       if text and ptype == (v.type or "FRAME") then
 
         if type(v.pattern) == "string" and (v.pattern):len() > 0 then
@@ -156,7 +168,7 @@ do
             text = v.matchfunc(text)
           else
             if v.matchfunc ~= nil then
-              text = text:gsub(v.pattern, v.matchfunc)
+              text = text:gsub(v.pattern, function(...) local parms = {...} parms[#parms+1] = m return v.matchfunc(unpack(parms)) end)
             else
               debug("ERROR", v.pattern)
             end
@@ -172,18 +184,19 @@ do
     return text
   end
 
-  function ReplaceMatches(text, ptype)
-  --if true then return text end
+  function ReplaceMatches(m, ptype)
+    local text = type(m) == "string" and m or m.MESSAGE
+    --if true then return text end
 
 
-  -- Substitute them (or something else) back in
+    -- Substitute them (or something else) back in
     local mt = MatchTable[ptype or "FRAME"]
 
 
     debug("ReplaceMatches -->", text)
 
     local k
-    for t=tokennum,1,-1 do
+    for t = tokennum, 1, -1 do
       k = "@##" .. tostring(t) .. "##@"
 
       if (mt[k]) then

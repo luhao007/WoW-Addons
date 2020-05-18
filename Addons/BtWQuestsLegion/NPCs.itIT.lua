@@ -78,5 +78,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [121754] = {
         name = "Vereesa Ventolesto",
     },
+    [130030] = {
+        name = "Kelsey Ferfavilla",
+    },
 })
 ]])()

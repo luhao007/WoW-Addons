@@ -538,15 +538,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DRUID_CAMPAIGN, {
                 1
             },
         },
-        {
-            type = "quest",
-            id = 40651,
-            x = 3,
-            y = 7,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 40651,
+        --     x = 3,
+        --     y = 7,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 41332,

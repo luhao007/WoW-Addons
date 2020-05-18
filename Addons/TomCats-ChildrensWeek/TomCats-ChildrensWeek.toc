@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: TomCat
-## Version: 1.0.7
+## Version: 1.0.8
 ## OptionalDeps: TomCats
 ## SavedVariables: TomCats_ChildrensWeek_Account
 ## SavedVariablesPerCharacter: TomCats_ChildrensWeek_Character

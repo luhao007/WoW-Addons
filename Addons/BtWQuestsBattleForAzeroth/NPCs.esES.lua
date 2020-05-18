@@ -414,6 +414,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130576] = {
         name = "Hermano Pike",
     },
+    [130603] = {
+        name = "Domabestias Hakid",
+    },
     [130660] = {
         name = "Guardia bélica Rakera",
     },
@@ -619,7 +622,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Flynn Vientopropicio",
     },
     [134345] = {
-        name = "Coleccionista Tojo",
+        name = "Recolector Kajo",
     },
     [134408] = {
         name = "Capataz Jethek",
@@ -716,6 +719,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [135890] = {
         name = "Rey Rastakhan",
+    },
+    [135901] = {
+        name = "Fungárico Ramasangre",
     },
     [135976] = {
         name = "Morwin Claroalma",
@@ -860,6 +866,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [138520] = {
         name = "Habitante de Zeb'ahari",
+    },
+    [138521] = {
+        name = "Técnico de la mina",
     },
     [138688] = {
         name = "Centurión Kega Rocardiente",
@@ -1607,6 +1616,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [155482] = {
         name = "Shandris Plumaluna",
+    },
+    [155562] = {
+        name = "Maestra del Shadopan",
     },
     [155785] = {
         name = "Lady Jaina Valiente",

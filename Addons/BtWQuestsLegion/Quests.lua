@@ -7261,30 +7261,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [39192] = {
-        name = "The Forge of Odyn",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    14800, 14950, 15050, 15200, 15350, 15500, 15600, 15750, 15900, 16050, 16150, 16300, 16450, 1450, 1100, 725, 370,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 180,
-            },
-            {
-                type = "money",
-                amounts = {
-                    146000, 150000, 154000, 158000, 162000, 166000, 170000, 174000, 178000, 182000, 186000, 190000, 194000,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
     [39214] = {
         name = "The Eye of Odyn",
         requiredLevel = 98,
@@ -9066,30 +9042,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [39530] = {
-        name = "The Forgening",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
     [39575] = {
         name = "The Path of Huln",
         requiredLevel = 98,
@@ -10028,30 +9980,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [39722] = {
-        name = "Forging New Strength",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
     [39726] = {
         name = "...And the Anvil",
         level = 108,
@@ -10238,54 +10166,6 @@ BtWQuestsDatabase:AddQuestsTable({
     },
     [39756] = {
         name = "A Sound Plan",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    14800, 14950, 15050, 15200, 15350, 15500, 15600, 15750, 15900, 16050, 16150, 16300, 16450, 1450, 1100, 725, 370,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 180,
-            },
-            {
-                type = "money",
-                amounts = {
-                    146000, 150000, 154000, 158000, 162000, 166000, 170000, 174000, 178000, 182000, 186000, 190000, 194000,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [39757] = {
-        name = "Keeping Your Edge",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [39761] = {
-        name = "Advanced Runecarving",
         requiredLevel = 98,
         maxLevel = 110,
         rewards = {
@@ -14598,30 +14478,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [40276] = {
-        name = "The Maelstrom Beckons",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    11100, 11200, 11300, 11400, 11500, 11600, 11700, 11800, 11950, 12050, 12150, 12250, 12350, 1100, 825, 550, 280,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 140,
-            },
-            {
-                type = "money",
-                amounts = {
-                    110000, 113000, 116000, 119000, 122000, 125000, 128000, 131000, 134000, 137000, 140000, 143000, 146000,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
     [40297] = {
         name = "Lyana Darksorrow",
         level = 110,
@@ -16443,30 +16299,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [40651] = {
-        name = "The Seed of Ages",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    14800, 14950, 15050, 15200, 15350, 15500, 15600, 15750, 15900, 16050, 16150, 16300, 16450, 1450, 1100, 725, 370,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 180,
-            },
-            {
-                type = "money",
-                amounts = {
-                    146000, 150000, 154000, 158000, 162000, 166000, 170000, 174000, 178000, 182000, 186000, 190000, 194000,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
     [40652] = {
         name = "Word on the Winds",
         requiredLevel = 98,
@@ -16664,30 +16496,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 type = "money",
                 amounts = {
                     73000, 75000, 77000, 79000, 81000, 83000, 85000, 87000, 89000, 91000, 93000, 95000, 97000,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [40698] = {
-        name = "Purity of Form",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    14800, 14950, 15050, 15200, 15350, 15500, 15600, 15750, 15900, 16050, 16150, 16300, 16450, 1450, 1100, 725, 370,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 180,
-            },
-            {
-                type = "money",
-                amounts = {
-                    146000, 150000, 154000, 158000, 162000, 166000, 170000, 174000, 178000, 182000, 186000, 190000, 194000,
                 },
                 minLevel = 98,
                 maxLevel = 110,
@@ -17315,30 +17123,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 type = "money",
                 amounts = {
                     14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [40821] = {
-        name = "Power Overwhelming",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    7400, 7450, 7550, 7600, 7650, 7750, 7800, 7900, 7950, 8000, 8100, 8150, 8250, 725, 550, 370, 180,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 90,
-            },
-            {
-                type = "money",
-                amounts = {
-                    73000, 75000, 77000, 79000, 81000, 83000, 85000, 87000, 89000, 91000, 93000, 95000, 97000,
                 },
                 minLevel = 98,
                 maxLevel = 110,
@@ -18617,54 +18401,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [40994] = {
-        name = "Right Tools for the Job",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [40995] = {
-        name = "Injection of Power",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
     [40996] = {
         name = "Delegation",
         requiredLevel = 98,
@@ -18804,54 +18540,6 @@ BtWQuestsDatabase:AddQuestsTable({
                 minLevel = 98,
                 maxLevel = 118,
                 outdated = 370,
-            },
-            {
-                type = "money",
-                amounts = {
-                    146000, 150000, 154000, 158000, 162000, 166000, 170000, 174000, 178000, 182000, 186000, 190000, 194000,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [41015] = {
-        name = "Artifacts Need Artificers",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    3700, 3750, 3750, 3800, 3850, 3850, 3900, 3950, 4000, 4000, 4050, 4100, 4100, 370, 280, 180, 90,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 45,
-            },
-            {
-                type = "money",
-                amounts = {
-                    36500, 37500, 38500, 39500, 40500, 41500, 42500, 43500, 44500, 45500, 46500, 47500, 48500,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [41017] = {
-        name = "Empowering Your Artifact",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    14800, 14950, 15050, 15200, 15350, 15500, 15600, 15750, 15900, 16050, 16150, 16300, 16450, 1450, 1100, 725, 370,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 180,
             },
             {
                 type = "money",
@@ -19113,56 +18801,8 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [41047] = {
-        name = "Infused with Power",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
     [41052] = {
         name = "A Desperate Plea",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [41053] = {
-        name = "Altar of the Eternal Hunt",
         requiredLevel = 98,
         maxLevel = 110,
         rewards = {
@@ -19260,30 +18900,6 @@ BtWQuestsDatabase:AddQuestsTable({
     },
     [41062] = {
         name = "Spoils of Victory",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [41064] = {
-        name = "Cursed Forge of the Nathrezim",
         requiredLevel = 98,
         maxLevel = 110,
         rewards = {
@@ -19778,30 +19394,6 @@ BtWQuestsDatabase:AddQuestsTable({
     },
     [41124] = {
         name = "The Tirisgarde Reborn",
-        requiredLevel = 98,
-        maxLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1500, 1500, 1500, 1500, 1550, 1550, 1550, 1600, 1600, 1600, 1600, 1650, 1650, 150, 110, 75, 35,
-                },
-                minLevel = 98,
-                maxLevel = 114,
-                outdated = 20,
-            },
-            {
-                type = "money",
-                amounts = {
-                    14600, 15000, 15400, 15800, 16200, 16600, 17000, 17400, 17800, 18200, 18600, 19000, 19400,
-                },
-                minLevel = 98,
-                maxLevel = 110,
-            },
-        },
-    },
-    [41125] = {
-        name = "Unlocked Potential",
         requiredLevel = 98,
         maxLevel = 110,
         rewards = {
@@ -46581,86 +46173,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [49976] = {
-        name = "Gifts of the Fallen",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
-    [49977] = {
-        name = "Summons to Orgrimmar",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
-    [49981] = {
-        name = "Witness to the Wound",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
-    [49982] = {
-        name = "Witness to the Wound",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
     [50046] = {
         name = "It's a Sabotage",
         level = 110,
@@ -46781,46 +46293,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [50056] = {
-        name = "The Speaker's Call",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
-    [50057] = {
-        name = "The Power in Our Hands",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
     [50071] = {
         name = "For the Light!",
         requiredLevel = 110,
@@ -46908,6 +46380,10 @@ BtWQuestsDatabase:AddQuestsTable({
         name = "A Wee Bit O' Cloth",
         level = 110,
         requiredLevel = 110,
+        source = {
+            type = "object",
+            id = 280948,
+        },
         rewards = {
             {
                 type = "experience",
@@ -47008,46 +46484,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [50300] = {
-        name = "The Speaker's Call",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
-    [50341] = {
-        name = "A Recent Discovery",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
-            },
-        },
-    },
     [50358] = {
         name = "Desert Research",
         level = 110,
@@ -47105,26 +46541,6 @@ BtWQuestsDatabase:AddQuestsTable({
             {
                 type = "money",
                 amount = 194000,
-            },
-        },
-    },
-    [50371] = {
-        name = "Summons to Stormwind",
-        level = 110,
-        requiredLevel = 110,
-        rewards = {
-            {
-                type = "experience",
-                amounts = {
-                    1650, 180, 180, 180, 180, 180, 150, 110, 75,
-                },
-                minLevel = 110,
-                maxLevel = 118,
-                outdated = 35,
-            },
-            {
-                type = "money",
-                amount = 19400,
             },
         },
     },

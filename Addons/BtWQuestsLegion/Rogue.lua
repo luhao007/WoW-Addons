@@ -361,24 +361,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_ROGUE_CAMPAIGN, {
                 1
             },
         },
-        {
-            type = "quest",
-            id = 40994,
-            x = 3,
-            y = 5,
-            connections = {
-                1
-            },
-        },
-        {
-            type = "quest",
-            id = 40995,
-            x = 3,
-            y = 6,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 40994,
+        --     x = 3,
+        --     y = 5,
+        --     connections = {
+        --         1
+        --     },
+        -- },
+        -- {
+        --     type = "quest",
+        --     id = 40995,
+        --     x = 3,
+        --     y = 6,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 40996,

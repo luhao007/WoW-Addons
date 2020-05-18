@@ -84,5 +84,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [121754] = {
         name = "Вериса Ветрокрылая",
     },
+    [130030] = {
+        name = "Келси Стализвон",
+    },
 })
 ]])()

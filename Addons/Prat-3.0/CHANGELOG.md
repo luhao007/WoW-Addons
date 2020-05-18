@@ -1,6 +1,6 @@
 # Prat 3.0
 
-## [3.7.50](https://github.com/sylvanaar/prat-3-0/tree/3.7.50) (2020-01-26)
-[Full Changelog](https://github.com/sylvanaar/prat-3-0/compare/3.7.49...3.7.50)
+## [3.7.65](https://github.com/sylvanaar/prat-3-0/tree/3.7.65) (2020-05-17)
+[Full Changelog](https://github.com/sylvanaar/prat-3-0/compare/3.7.64...3.7.65)
 
-- Add a guard against misbehaved addons which add chat types without a valid CHAT\_TYPE\_INFO entry  
+- ChatFrames: Fix the clamping of the combat log which is set at a different time than the chatframes  

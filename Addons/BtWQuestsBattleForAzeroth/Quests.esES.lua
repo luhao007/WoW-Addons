@@ -6717,6 +6717,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57290] = {
         name = "Iniciar el descenso",
     },
+    [57324] = {
+        name = "Zarpar con la marea",
+    },
     [57362] = {
         name = "Adentrarse en la oscuridad",
     },
@@ -6784,7 +6787,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Al Puerto de Ankhaten",
     },
     [57956] = {
-        name = "Vagayermos infestados",
+        name = "Huéspedes Vagayermos",
     },
     [57969] = {
         name = "Atender a los heridos",
@@ -6806,6 +6809,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [58087] = {
         name = "Destruir la fuente",
+    },
+    [58214] = {
+        name = "Atención urgente",
     },
     [58496] = {
         name = "Un consejero poco grato",

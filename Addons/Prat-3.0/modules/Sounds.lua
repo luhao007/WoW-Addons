@@ -477,7 +477,7 @@ L = {
         ["GROUP_LEAD"] = "None",
       },
       ["customlist"] = GetLocale() == "zhTW" and {}
-              or { ["*"] = "None" },
+        or { ["*"] = "None" },
     }
   })
 
@@ -521,7 +521,7 @@ L = {
   function module:GetDescription()
     return PL["A module to play sounds on certain chat messages."]
   end
-  
+
   function module:BuildSoundList()
     if not media then return end
 
@@ -650,7 +650,7 @@ L = {
     local outgoing = (plr == UnitName("player")) and true or false
     local sndprof = outgoing and self.db.profile.outgoing or self.db.profile.incoming
 
-    if msgtype == "CHANNEL" then
+    if msgtype == "CHANNEL" or msgtype == "COMMUNITIES_CHANNEL" then
       local chan = string.lower(message.ORG.CHANNEL)
       for cname, value in pairs(self.db.profile.customlist) do
         if strlen(cname) > 0 and chan == cname:lower() then

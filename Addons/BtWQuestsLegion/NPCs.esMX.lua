@@ -67,13 +67,16 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Viejo Lomopardo",
     },
     [110018] = {
-        name = "Gazrix Cerratuerca",
+        name = "Gazrix Engranaje Seguro",
     },
     [110987] = {
         name = "Ojos Nocturnos",
     },
     [121754] = {
         name = "Vereesa Brisaveloz",
+    },
+    [130030] = {
+        name = "Kelsey Chispacero",
     },
 })
 ]])()

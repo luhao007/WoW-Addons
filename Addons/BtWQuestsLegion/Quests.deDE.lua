@@ -888,9 +888,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39191] = {
         name = "Das Vermächtnis des Eisbrechers",
     },
-    [39192] = {
-        name = "Die Schmiede von Odyn",
-    },
     [39214] = {
         name = "Das Auge von Odyn",
     },
@@ -1119,9 +1116,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39516] = {
         name = "Lehrt die Illidari, was Verwüstung bedeutet!",
     },
-    [39530] = {
-        name = "Der Akt des Schmiedens",
-    },
     [39575] = {
         name = "Der Pfad des Huln",
     },
@@ -1242,9 +1236,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39702] = {
         name = "Die Legende der Rabenwehr",
     },
-    [39722] = {
-        name = "Das Schmieden neuer Stärke",
-    },
     [39726] = {
         name = "Rüstungsraub",
     },
@@ -1271,12 +1262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39756] = {
         name = "Ein solider Plan",
-    },
-    [39757] = {
-        name = "Die Klinge schärfen",
-    },
-    [39761] = {
-        name = "Fortgeschrittenes Runenschmieden",
     },
     [39771] = {
         name = "Die Stimme des Donners",
@@ -1839,9 +1824,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40270] = {
         name = "Der Pfad der Abbitte",
     },
-    [40276] = {
-        name = "Der Mahlstrom ruft",
-    },
     [40297] = {
         name = "Lyana Düstergram",
     },
@@ -2133,9 +2115,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40649] = {
         name = "Trefft Mylune",
     },
-    [40651] = {
-        name = "Die Saat der Zeitalter",
-    },
     [40652] = {
         name = "Himmlische Informationen",
     },
@@ -2162,9 +2141,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40684] = {
         name = "Der Foliant der verseuchten Instrumente",
-    },
-    [40698] = {
-        name = "Die Reinheit der Form",
     },
     [40705] = {
         name = "Priesterangelegenheiten",
@@ -2246,9 +2222,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40819] = {
         name = "Abmachungen treffen",
-    },
-    [40821] = {
-        name = "Überwältigende Macht",
     },
     [40823] = {
         name = "Wiederaufbau des Rates",
@@ -2487,12 +2460,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40983] = {
         name = "Dämonen unter ihnen",
     },
-    [40994] = {
-        name = "Die richtigen Werkzeuge",
-    },
-    [40995] = {
-        name = "Kraft injizieren",
-    },
     [40996] = {
         name = "Delegierung",
     },
@@ -2516,12 +2483,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41010] = {
         name = "Fischraserei",
-    },
-    [41015] = {
-        name = "Artefaktexperten gesucht",
-    },
-    [41017] = {
-        name = "Verleiht Eurem Artefakt mehr Macht",
     },
     [41019] = {
         name = "Aktionen auf Azeroth",
@@ -2559,14 +2520,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41040] = {
         name = "Hallen der Tapferkeit: Die Braumeisterin",
     },
-    [41047] = {
-        name = "Voller Kraft",
-    },
     [41052] = {
         name = "Eine verzweifelte Bitte",
-    },
-    [41053] = {
-        name = "Altar der Ewigen Jagd",
     },
     [41056] = {
         name = "Verlorene Liebe",
@@ -2579,9 +2534,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41062] = {
         name = "Lohn des Sieges",
-    },
-    [41064] = {
-        name = "Verfluchte Schmiede der Nathrezim",
     },
     [41066] = {
         name = "Der Blick des Jägers",
@@ -2648,9 +2600,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41124] = {
         name = "Die Wiederauferstehung der Tirisgarde",
-    },
-    [41125] = {
-        name = "Verborgenes Potenzial",
     },
     [41138] = {
         name = "Shal'Aran versorgen",
@@ -6570,18 +6519,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49973] = {
         name = "Thalyssras Anwesen",
     },
-    [49976] = {
-        name = "Gaben des Gefallenen",
-    },
-    [49977] = {
-        name = "Rückruf nach Orgrimmar",
-    },
-    [49981] = {
-        name = "Aufbruch zur Wunde",
-    },
-    [49982] = {
-        name = "Aufbruch zur Wunde",
-    },
     [50046] = {
         name = "Auf Sabotagemission",
     },
@@ -6599,12 +6536,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50055] = {
         name = "Die Perspektive des Sprechers",
-    },
-    [50056] = {
-        name = "Der Ruf des Sprechers",
-    },
-    [50057] = {
-        name = "Die Macht in unseren Händen",
     },
     [50071] = {
         name = "Für das Licht!",
@@ -6633,12 +6564,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50247] = {
         name = "Die Post muss fließen",
     },
-    [50300] = {
-        name = "Der Ruf des Sprechers",
-    },
-    [50341] = {
-        name = "Eine neue Entdeckung",
-    },
     [50358] = {
         name = "Wüstenforschung",
     },
@@ -6647,9 +6572,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50364] = {
         name = "Das Blut von Azeroth",
-    },
-    [50371] = {
-        name = "Rückruf nach Sturmwind",
     },
     [50372] = {
         name = "Wüstenforschung",

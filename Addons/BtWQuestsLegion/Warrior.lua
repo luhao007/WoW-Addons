@@ -308,24 +308,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_WARRIOR_CAMPAIGN, {
             },
         },
 
-        {
-            type = "quest",
-            id = 39530,
-            x = 3,
-            y = 5,
-            connections = {
-                1
-            },
-        },
-        {
-            type = "quest",
-            id = 39192,
-            x = 3,
-            y = 6,
-            connections = {
-                1
-            },
-        },
+        -- { -- Removed?
+        --     type = "quest",
+        --     id = 39530,
+        --     x = 3,
+        --     y = 5,
+        --     connections = {
+        --         1
+        --     },
+        -- },
+        -- { -- Removed?
+        --     type = "quest",
+        --     id = 39192,
+        --     x = 3,
+        --     y = 6,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 39214,

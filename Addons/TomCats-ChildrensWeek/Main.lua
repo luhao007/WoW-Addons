@@ -9,11 +9,11 @@ if (TomCats and TomCats.Register) then
 --                    }
 --                },
                 name = "Children's Week",
-                version = "1.0.7"
+                version = "1.0.8"
             }
     )
 end
---if (true) then return end -- do not load until next update prior to next holiday launch
+if (true) then return end -- do not load until next update prior to next holiday launch
 
 local _, addon = ...
 local TCL = addon.TomCatsLibs

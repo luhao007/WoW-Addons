@@ -37,10 +37,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "纳萨诺斯·凋零者",
     },
     [120171] = {
-        name = "洛坎",
+        name = "洛克漢",
     },
     [120173] = {
-        name = "岑塔布拉",
+        name = "贊塔布拉",
     },
     [120551] = {
         name = "巨蛙奎格瓦",
@@ -100,7 +100,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "剑卫卡佳",
     },
     [122320] = {
-        name = "剑卫卡佳",
+        name = "刃衛卡嘉",
     },
     [122370] = {
         name = "塞勒斯‧克瑞斯福",
@@ -112,7 +112,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "米尔拉",
     },
     [122641] = {
-        name = "亚兹玛",
+        name = "亞茲瑪",
     },
     [122661] = {
         name = "賈克拉傑將軍",
@@ -124,7 +124,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "奥利弗",
     },
     [122688] = {
-        name = "邦桑迪",
+        name = "伯昂撒姆第",
     },
     [122695] = {
         name = "瑟修莉",
@@ -223,13 +223,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "派奇",
     },
     [124062] = {
-        name = "拉斯塔哈大王",
+        name = "神王拉斯塔哈",
     },
     [124063] = {
         name = "上年纪的乔尔",
     },
     [124083] = {
-        name = "佐拉妮",
+        name = "卓蘭妮",
     },
     [124289] = {
         name = "『危險人物』麗茲‧山米納羅",
@@ -379,10 +379,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "洛坎",
     },
     [126560] = {
-        name = "战争德鲁伊罗缇",
+        name = "戰鬥德魯伊蘿蒂",
     },
     [126564] = {
-        name = "妖术领主拉尔",
+        name = "妖術之王拉爾",
     },
     [126576] = {
         name = "拉茲迦基",
@@ -391,7 +391,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "弗林‧晴風",
     },
     [126684] = {
-        name = "亚兹玛",
+        name = "亞茲瑪",
     },
     [126696] = {
         name = "乔拉克",
@@ -424,7 +424,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "新門徒琵歐妮",
     },
     [127489] = {
-        name = "妖术领主拉尔",
+        name = "妖術之王拉爾",
     },
     [127537] = {
         name = "潔羅汀",
@@ -553,7 +553,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "德永",
     },
     [128903] = {
-        name = "卡灵顿",
+        name = "克倫頓",
     },
     [128909] = {
         name = "夏洛",
@@ -598,10 +598,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "神王拉斯塔哈",
     },
     [129519] = {
-        name = "沃里克",
+        name = "瓦里克",
     },
     [129561] = {
-        name = "战争德鲁伊罗缇",
+        name = "戰鬥德魯伊蘿蒂",
     },
     [129578] = {
         name = "肖恩·麦克林特",
@@ -628,7 +628,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "萊莎‧樹衛",
     },
     [129703] = {
-        name = "妖术领主拉尔",
+        name = "妖術之王拉爾",
     },
     [129717] = {
         name = "阿克鲁",
@@ -646,7 +646,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "沃福德‧噴框",
     },
     [129907] = {
-        name = "先知祖尔",
+        name = "預言者祖爾",
     },
     [129940] = {
         name = "羅可",
@@ -928,7 +928,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "馬騰‧韋伯",
     },
     [133324] = {
-        name = "妖术领主拉尔",
+        name = "妖術之王拉爾",
     },
     [133338] = {
         name = "洛坎",
@@ -938,6 +938,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [133476] = {
         name = "塔蘭姬公主",
+    },
+    [133489] = {
+        name = "歐亨‧石錘",
     },
     [133490] = {
         name = "加尼",
@@ -976,7 +979,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "長老韋恩",
     },
     [133653] = {
-        name = "妖术领主拉尔",
+        name = "妖術之王拉爾",
     },
     [133678] = {
         name = "夸風",
@@ -986,6 +989,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [133682] = {
         name = "夸風",
+    },
+    [133796] = {
+        name = "瑟拉贊恩",
     },
     [133833] = {
         name = "力卡提",
@@ -1108,7 +1114,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "奈林‧索維斯",
     },
     [135205] = {
-        name = "纳萨诺斯·凋零者",
+        name = "納薩諾斯‧凋零者",
     },
     [135259] = {
         name = "泰莉亞",
@@ -1132,7 +1138,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "傑農",
     },
     [135441] = {
-        name = "佐拉妮",
+        name = "卓蘭妮",
     },
     [135455] = {
         name = "夸風",
@@ -1195,7 +1201,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "托奇",
     },
     [135801] = {
-        name = "妖术领主拉尔",
+        name = "妖術之王拉爾",
     },
     [135803] = {
         name = "吉比",
@@ -1282,7 +1288,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "布萊恩‧銅鬚",
     },
     [136683] = {
-        name = "贸易大王加里维克斯",
+        name = "貿易親王加里維克斯",
     },
     [136725] = {
         name = "伊崔格",
@@ -1291,7 +1297,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "大副加姆波亞",
     },
     [136907] = {
-        name = "麦格尼·铜须",
+        name = "麥格尼‧銅鬚",
     },
     [136933] = {
         name = "派克修士",
@@ -1393,7 +1399,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "雷克萨",
     },
     [138138] = {
-        name = "塔兰吉公主",
+        name = "塔蘭姬公主",
     },
     [138148] = {
         name = "邦桑迪",
@@ -1402,7 +1408,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "纳萨诺斯·凋零者",
     },
     [138287] = {
-        name = "莉莉安·沃斯",
+        name = "莉莉安‧佛斯",
     },
     [138352] = {
         name = "高阶督军克鲁姆什",
@@ -1429,7 +1435,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "雷克萨",
     },
     [138708] = {
-        name = "半兽人迦罗娜",
+        name = "迦羅娜‧半血",
     },
     [138735] = {
         name = "費利西亞‧格雷史東",
@@ -1522,10 +1528,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "洛坎",
     },
     [140724] = {
-        name = "塔兰吉公主",
+        name = "塔蘭姬公主",
     },
     [140725] = {
-        name = "沃金之魂",
+        name = "沃金的靈魂",
     },
     [140752] = {
         name = "珍妮·斯威布鲁克",
@@ -1591,7 +1597,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "拍拍",
     },
     [143845] = {
-        name = "盖亚拉大王",
+        name = "嘉亞拉霸主",
     },
     [143846] = {
         name = "艾蘭里亞‧風行者",
@@ -1612,7 +1618,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "马迪亚斯·肖尔大师",
     },
     [144152] = {
-        name = "茉艾拉·索瑞森",
+        name = "茉艾拉‧索瑞森",
     },
     [144773] = {
         name = "薩拉塔斯",
@@ -1627,7 +1633,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "塔蘭姬公主",
     },
     [145225] = {
-        name = "沃金之魂",
+        name = "沃金的靈魂",
     },
     [145359] = {
         name = "塔蘭姬公主",
@@ -1681,13 +1687,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "莉雅德倫女士",
     },
     [145965] = {
-        name = "沃金之魂",
+        name = "沃金的靈魂",
     },
     [145980] = {
         name = "尼莎",
     },
     [145981] = {
-        name = "沃金之魂",
+        name = "沃金的靈魂",
     },
     [146011] = {
         name = "瓦洛克‧薩魯法爾",
@@ -1720,7 +1726,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "米尔拉",
     },
     [146290] = {
-        name = "沃金之魂",
+        name = "沃金的靈魂",
     },
     [146301] = {
         name = "糯米",
@@ -1753,7 +1759,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "西拉‧月守",
     },
     [146630] = {
-        name = "沃金之魂",
+        name = "沃金的靈魂",
     },
     [146654] = {
         name = "希尔瓦娜斯·风行者",
@@ -1789,7 +1795,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "纳萨诺斯·凋零者",
     },
     [147145] = {
-        name = "纳萨诺斯·凋零者",
+        name = "納薩諾斯‧凋零者",
     },
     [147151] = {
         name = "凱爾希‧鋼火",
@@ -1798,7 +1804,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "派奇",
     },
     [147233] = {
-        name = "洛坎",
+        name = "洛克漢",
     },
     [147297] = {
         name = "澤坎",
@@ -1909,7 +1915,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "吉菈‧交線",
     },
     [150187] = {
-        name = "纳萨诺斯·凋零者",
+        name = "納薩諾斯‧凋零者",
     },
     [150196] = {
         name = "首席秘法師薩莉瑟拉",
@@ -2164,7 +2170,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "加茲魯維",
     },
     [152815] = {
-        name = "麦格尼·铜须",
+        name = "麥格尼‧銅鬚",
     },
     [152820] = {
         name = "伊拉敏王子",
@@ -2266,7 +2272,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "麥格尼‧銅鬚",
     },
     [154533] = {
-        name = "麦格尼·铜须",
+        name = "麥格尼‧銅鬚",
     },
     [154574] = {
         name = "凱爾亞‧月落",
@@ -2431,7 +2437,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "賀帕索‧阿多羅斯",
     },
     [161805] = {
-        name = "麦格尼·铜须",
+        name = "麥格尼‧銅鬚",
     },
 })
 ]])()

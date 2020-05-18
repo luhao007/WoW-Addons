@@ -1,55 +1,57 @@
 Prat:AddModuleToLoad(function()
-    local PRAT_MODULE = Prat:RequestModuleName("Search")
+  local PRAT_MODULE = Prat:RequestModuleName("Search")
 
-    if PRAT_MODULE == nil then
-        return
-    end
+  if PRAT_MODULE == nil then
+    return
+  end
 
-    local module = Prat:NewModule(PRAT_MODULE)
+  local module = Prat:NewModule(PRAT_MODULE)
 
-    local PL = module.PL
+  local PL = module.PL
 
-    --[===[@debug@
-    PL:AddLocale(PRAT_MODULE, "enUS", {
-        module_name = "Search",
-        module_desc = "Adds the ability to search the chatframes.",
-        module_info = "This module adds the /find and /findall commands to search the chat history\n\nUsage:\n\n /find <text> \n\n /findall <text>",
-        err_tooshort = "Search term is too short",
-        err_notfound = "Not Found",
-        find_results = "Find Results:",
-    })
-    --@end-debug@]===]
+  --[===[@debug@
+  PL:AddLocale(PRAT_MODULE, "enUS", {
+    module_name = "Search",
+    module_desc = "Adds the ability to search the chatframes.",
+    module_info = "This module adds the /find commands to search the chat history\n\nUsage:\n\n /find <text>",
+    err_tooshort = "Search term is too short",
+    err_notfound = "Not Found",
+    find_results = "Find Results:",
+    bnet_removed = "<BNET REMOVED>",
+  })
+  --@end-debug@]===]
 
-    -- These Localizations are auto-generated. To help with localization
-    -- please go to http://www.wowace.com/projects/prat-3-0/localization/
-    --@non-debug@
-   do
-       local L
+  -- These Localizations are auto-generated. To help with localization
+  -- please go to http://www.wowace.com/projects/prat-3-0/localization/
+  --@non-debug@
+ do
+     local L
 
-   
+
 L = {
 	["Search"] = {
+		["bnet_removed"] = "<BNET REMOVED>",
 		["err_notfound"] = "Not Found",
 		["err_tooshort"] = "Search term is too short",
 		["find_results"] = "Find Results:",
 		["module_desc"] = "Adds the ability to search the chatframes.",
-		["module_info"] = [=[This module adds the /find and /findall commands to search the chat history
+		["module_info"] = [=[This module adds the /find commands to search the chat history
 
 Usage:
 
- /find <text> 
-
- /findall <text>]=],
+ /find <text>]=],
 		["module_name"] = "Search",
 	}
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "enUS",L)
+   PL:AddLocale(PRAT_MODULE, "enUS",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		--[[Translation missing --]]
 		["err_notfound"] = "Not Found",
 		--[[Translation missing --]]
@@ -58,24 +60,24 @@ L = {
 		--[[Translation missing --]]
 		["module_desc"] = "Adds the ability to search the chatframes.",
 		--[[Translation missing --]]
-		["module_info"] = [=[This module adds the /find and /findall commands to search the chat history
+		["module_info"] = [=[This module adds the /find commands to search the chat history
 
 Usage:
 
- /find <text> 
-
- /findall <text>]=],
+ /find <text>]=],
 		--[[Translation missing --]]
 		["module_name"] = "Search",
 	}
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "frFR",L)
+   PL:AddLocale(PRAT_MODULE, "frFR",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		["err_notfound"] = "Nicht gefunden",
 		["err_tooshort"] = "Suchbegriff ist zu kurz",
 		["find_results"] = "Gefundene Ergebnisse:",
@@ -96,11 +98,13 @@ Suche]=],
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "deDE",L)
+   PL:AddLocale(PRAT_MODULE, "deDE",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		["err_notfound"] = "찾을 수 없음",
 		["err_tooshort"] = "검색 구문이 너무 짧습니다",
 		["find_results"] = "검색 결과:",
@@ -117,11 +121,13 @@ L = {
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "koKR",L)
+   PL:AddLocale(PRAT_MODULE, "koKR",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		--[[Translation missing --]]
 		["err_notfound"] = "Not Found",
 		--[[Translation missing --]]
@@ -131,24 +137,24 @@ L = {
 		--[[Translation missing --]]
 		["module_desc"] = "Adds the ability to search the chatframes.",
 		--[[Translation missing --]]
-		["module_info"] = [=[This module adds the /find and /findall commands to search the chat history
+		["module_info"] = [=[This module adds the /find commands to search the chat history
 
 Usage:
 
- /find <text> 
-
- /findall <text>]=],
+ /find <text>]=],
 		--[[Translation missing --]]
 		["module_name"] = "Search",
 	}
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "esMX",L)
+   PL:AddLocale(PRAT_MODULE, "esMX",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		["err_notfound"] = "Не Найденно",
 		["err_tooshort"] = "Критерий поиска слишком короток",
 		["find_results"] = "Найти Результаты:",
@@ -165,11 +171,13 @@ L = {
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "ruRU",L)
+   PL:AddLocale(PRAT_MODULE, "ruRU",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		["err_notfound"] = "没找到",
 		["err_tooshort"] = "搜索文字太短",
 		["find_results"] = "查找结果：",
@@ -186,11 +194,13 @@ L = {
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "zhCN",L)
+   PL:AddLocale(PRAT_MODULE, "zhCN",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		["err_notfound"] = "No encontrado",
 		["err_tooshort"] = "Termino de búsqueda demasiado corto",
 		--[[Translation missing --]]
@@ -198,171 +208,142 @@ L = {
 		--[[Translation missing --]]
 		["module_desc"] = "Adds the ability to search the chatframes.",
 		--[[Translation missing --]]
-		["module_info"] = [=[This module adds the /find and /findall commands to search the chat history
+		["module_info"] = [=[This module adds the /find commands to search the chat history
 
 Usage:
 
- /find <text> 
-
- /findall <text>]=],
+ /find <text>]=],
 		--[[Translation missing --]]
 		["module_name"] = "Search",
 	}
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "esES",L)
+   PL:AddLocale(PRAT_MODULE, "esES",L)
 
-   
+
 L = {
 	["Search"] = {
+		--[[Translation missing --]]
+		["bnet_removed"] = "<BNET REMOVED>",
 		["err_notfound"] = "找不到",
 		["err_tooshort"] = "尋找物品太短",
 		["find_results"] = "找到結果:",
 		--[[Translation missing --]]
 		["module_desc"] = "Adds the ability to search the chatframes.",
 		--[[Translation missing --]]
-		["module_info"] = [=[This module adds the /find and /findall commands to search the chat history
+		["module_info"] = [=[This module adds the /find commands to search the chat history
 
 Usage:
 
- /find <text> 
-
- /findall <text>]=],
+ /find <text>]=],
 		["module_name"] = "尋找",
 	}
 }
 
 
-     PL:AddLocale(PRAT_MODULE, "zhTW",L)
+   PL:AddLocale(PRAT_MODULE, "zhTW",L)
 
-   end
-   --@end-non-debug@
-
-
+ end
+ --@end-non-debug@
 
 
-    Prat:SetModuleDefaults(module.name, {
-        profile = {
-            on = true,
-        }
-    } )
-
-    
-    Prat:SetModuleOptions(module.name, {
-        name = PL.module_name,
-        desc = PL.module_desc,
-        type = "group",
-        args = {
-            info = {
-                name = PL.module_info,
-                type = "description",
-            }
-        }
-    })
 
 
-    SLASH_FIND1 = "/find"
-    SlashCmdList["FIND"] = function(msg) module:Find(msg, false) end
+  Prat:SetModuleDefaults(module.name, {
+    profile = {
+      on = true,
+    }
+  })
 
-    SLASH_FINDALL1 = "/findall"
-    SlashCmdList["FINDALL"] = function(msg) module:Find(msg, true) end
 
-    local MAX_SCRAPE_TIME = 30
-    local foundlines = {}
-    local scrapelines = {}
+  Prat:SetModuleOptions(module.name, {
+    name = PL.module_name,
+    desc = PL.module_desc,
+    type = "group",
+    args = {
+      info = {
+        name = PL.module_info,
+        type = "description",
+      }
+    }
+  })
 
-    local function out(frame, msg)
-        frame:print(frame, msg)
+
+  SLASH_FIND1 = "/find"
+  SlashCmdList["FIND"] = function(msg) module:Find(msg, true) end
+
+  local foundlines = {}
+  local scrapelines = {}
+
+  local function out(frame, msg)
+    frame:AddMessage(msg)
+  end
+
+  function module:Find(word, all, frame)
+    if not self.db.profile.on then
+      return
     end
 
-    function module:Find(word, all, frame)
-        if not self.db.profile.on then
-            return
-        end
+    if frame == nil then
+      frame = SELECTED_CHAT_FRAME
+    end
 
-        if frame == nil then
-            frame = SELECTED_CHAT_FRAME
-        end
+    if not word then return end
 
-        if not word then return end
+    if #word <= 1 then
+      frame:ScrollToBottom()
+      out(frame, PL.err_tooshort)
+      return
+    end
 
-        if #word <= 1 then
-            frame:ScrollToBottom()
-            out(frame, PL.err_tooshorL)
-            return
-        end
+    if frame:GetNumMessages() == 0 then
+      out(frame, PL.err_notfound)
+      return
+    end
 
-        if frame:GetNumMessages() == 0 then
-             out(frame, PL.err_notfound)
-             return
-        end
+    self.lastsearch = word
 
-        local starttime = time()
-        local runtime = 0
+    self:ScrapeFrame(frame, nil, true)
 
-        if not all and self.lastsearch == word then
-            frame:PageUp()
-        end
-
+    for _, v in ipairs(scrapelines) do
+      if v.message and v.message:find(word) then
         if all then
-            frame:ScrollToBottom()
-        end
-
-        self.lastsearch = word
-
-        repeat
-            self:ScrapeFrame(frame, nil, true)
-
-            for _,v in ipairs(scrapelines) do
-                if v.message:find(word) then
-                    if all then
-                        table.insert(foundlines, v)
-                    else
-                        return
-                    end
-                end
-            end
-
-            frame:PageUp()
-            runtime = time() - starttime
-            if runtime >= MAX_SCRAPE_TIME then
-                out(frame, "Frame scraping timeout exceeded, results will be incomplete.")
-                break;
-            end
-
-        until frame:AtTop() or runtime >= MAX_SCRAPE_TIME
-
-        self.lastsearch = nil
-
-        frame:ScrollToBottom()
-
-        if all and #foundlines > 0 then
-            out(frame, PL.find_results)
-
-            Prat.loading = true
-            for _,v in ipairs(foundlines) do
-                frame:AddMessage(v.message, v.r, v.g, v.b)
-            end
-            Prat.loading = nil
-
+          table.insert(foundlines, v)
         else
-            out(frame, PL.err_notfound)
+          return
         end
-
-        wipe(foundlines)
+      end
     end
 
-    function module:ScrapeFrame(frame)
-        wipe(scrapelines)
+    self.lastsearch = nil
 
-        for _,v in ipairs(frame.visibleLines) do
-            local msg = v.messageInfo
-            if msg then
-                table.insert(scrapelines, 1, msg)
-            end
-        end
+    frame:ScrollToBottom()
+
+    if all and #foundlines > 0 then
+      out(frame, PL.find_results)
+
+      Prat.loading = true -- prevent double timestamp
+      for _, v in ipairs(foundlines) do
+        frame:AddMessage(v.message:gsub("|K.-|k", PL.bnet_removed), v.r, v.g, v.b)
+      end
+      Prat.loading = nil
+    else
+      out(frame, PL.err_notfound)
     end
 
-    return
+    wipe(foundlines)
+  end
+
+  function module:ScrapeFrame(frame)
+    wipe(scrapelines)
+
+    for _, v in ipairs(frame.historyBuffer.elements) do
+      if v.message then
+        table.insert(scrapelines, v)
+      end
+    end
+  end
+
+  return
 end) -- Prat:AddModuleToLoad

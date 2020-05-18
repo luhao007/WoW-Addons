@@ -12,6 +12,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Sculptacier",
     },
+    [14720] = {
+        name = "Haut seigneur Saurcroc",
+    },
     [16802] = {
         name = "Lor’themar Theron",
     },
@@ -435,6 +438,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130576] = {
         name = "Frère Pike",
     },
+    [130603] = {
+        name = "Brise-bête Hakid",
+    },
     [130660] = {
         name = "Garde de guerre Rakera",
     },
@@ -762,6 +768,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [135890] = {
         name = "Roi Rastakhan",
     },
+    [135901] = {
+        name = "Fongicien rameau-de-feu",
+    },
     [135976] = {
         name = "Morwin Plaine-Coeur",
     },
@@ -920,6 +929,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [138520] = {
         name = "Villageoise de Zeb'ahari",
+    },
+    [138521] = {
+        name = "Technicien de mine",
     },
     [138688] = {
         name = "Centurion Kaga Pierre-Chaude",
@@ -1353,9 +1365,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [150206] = {
         name = "Télémancien en chef Oculeth",
     },
-    [150207] = {
-        name = "Lor’themar Theron",
-    },
     [150208] = {
         name = "Maître-bricoleur Suprétincelle",
     },
@@ -1683,26 +1692,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [155496] = {
         name = "Irion",
     },
+    [155562] = {
+        name = "Maître pandashan",
+    },
     [155785] = {
         name = "Dame Jaina Portvaillant",
     },
     [155786] = {
         name = "Varok Saurcroc",
     },
-    [155789] = {
-        name = "Lor’themar Theron",
-    },
     [156003] = {
         name = "Chroniqueur Cho",
     },
     [156297] = {
-        name = "Chen Brune d’Orage",
+        name = "Chen Brune d'Orage",
     },
     [156390] = {
-        name = "Chen Brune d’Orage",
+        name = "Chen Brune d'Orage",
     },
     [156391] = {
-        name = "Li Li Brune d’Orage",
+        name = "Li Li Brune d'Orage",
     },
     [156396] = {
         name = "Chipie Serrelavis",
@@ -1723,10 +1732,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Mani Graissemèche",
     },
     [156937] = {
-        name = "Chen Brune d’Orage",
+        name = "Chen Brune d'Orage",
     },
     [156938] = {
-        name = "Li Li Brune d’Orage",
+        name = "Li Li Brune d'Orage",
     },
     [157180] = {
         name = "Tonneaux de Brune d'Orage abandonnés",

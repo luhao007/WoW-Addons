@@ -352,15 +352,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
                 1
             },
         },
-        {
-            type = "quest",
-            id = 39722,
-            x = 3,
-            y = 5,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 39722,
+        --     x = 3,
+        --     y = 5,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 38933,

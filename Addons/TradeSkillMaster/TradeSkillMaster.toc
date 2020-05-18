@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: TradeSkillMaster Team
-## Version: v4.9.32
+## Version: v4.9.35
 ## OptionalDeps: Auc-Advanced, Auctionator, TheUndermineJournal, BootyBayGazette, AuctionDB
 ## SavedVariables: TradeSkillMasterDB, TSMItemInfoDB
 

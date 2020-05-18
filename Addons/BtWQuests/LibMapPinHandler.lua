@@ -23,6 +23,7 @@ LibMapPinHandlerMixin.SetPinTemplateType = MapCanvasMixin.SetPinTemplateType
 LibMapPinHandlerMixin.RemoveAllPinsByTemplate = MapCanvasMixin.RemoveAllPinsByTemplate
 LibMapPinHandlerMixin.EnumerateAllPins = MapCanvasMixin.EnumerateAllPins
 LibMapPinHandlerMixin.AcquirePin = MapCanvasMixin.AcquirePin
+LibMapPinHandlerMixin.RemovePin = MapCanvasMixin.RemovePin
 LibMapPinHandlerMixin.SetPinPosition = MapCanvasMixin.SetPinPosition
 LibMapPinHandlerMixin.GetCanvasScale = MapCanvasMixin.GetCanvasScale
 LibMapPinHandlerMixin.GetCanvasZoomPercent = MapCanvasMixin.GetCanvasZoomPercent

@@ -885,9 +885,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39191] = {
         name = "Legado do Quebragelo",
     },
-    [39192] = {
-        name = "A Forja de Odyn",
-    },
     [39214] = {
         name = "O Olho de Odyn",
     },
@@ -1116,9 +1113,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39516] = {
         name = "Que os Illidari Bradem seu Grito de Guerra!",
     },
-    [39530] = {
-        name = "A forja",
-    },
     [39575] = {
         name = "O Caminho de Huln",
     },
@@ -1239,9 +1233,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39702] = {
         name = "Lenda do Castelo Corvo Negro",
     },
-    [39722] = {
-        name = "A forja de novas forças",
-    },
     [39726] = {
         name = "... E a bigorna",
     },
@@ -1268,12 +1259,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39756] = {
         name = "Um plano sensato",
-    },
-    [39757] = {
-        name = "Mantendo-se em vantagem",
-    },
-    [39761] = {
-        name = "Entalhes avançados em runas",
     },
     [39771] = {
         name = "A Voz do Trovão",
@@ -1842,9 +1827,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40270] = {
         name = "O caminho da expiação",
     },
-    [40276] = {
-        name = "A voragem atrai",
-    },
     [40297] = {
         name = "Lyana Umbramágoa",
     },
@@ -2136,9 +2118,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40649] = {
         name = "Encontro com Mylune",
     },
-    [40651] = {
-        name = "A Semente das Eras",
-    },
     [40652] = {
         name = "Boato dos ventos",
     },
@@ -2165,9 +2144,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40684] = {
         name = "O Tomo dos Implementos Pestilentos",
-    },
-    [40698] = {
-        name = "Pureza de formato",
     },
     [40705] = {
         name = "Assuntos sacerdotais",
@@ -2249,9 +2225,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40819] = {
         name = "Acordos Escusos",
-    },
-    [40821] = {
-        name = "Poder esmagador",
     },
     [40823] = {
         name = "Reconstruindo o Concílio",
@@ -2490,12 +2463,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40983] = {
         name = "Demônios entre eles",
     },
-    [40994] = {
-        name = "As ferramentas certas",
-    },
-    [40995] = {
-        name = "Injetando poder",
-    },
     [40996] = {
         name = "Delegando deveres",
     },
@@ -2519,12 +2486,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41010] = {
         name = "Frenesi de Peixe",
-    },
-    [41015] = {
-        name = "Artefatos exigem artífices",
-    },
-    [41017] = {
-        name = "Potencializando o seu artefato",
     },
     [41019] = {
         name = "Ações em Azeroth",
@@ -2562,14 +2523,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41040] = {
         name = "Salões da Bravura: o mestre cervejeiro",
     },
-    [41047] = {
-        name = "Infusa em poder",
-    },
     [41052] = {
         name = "Um pedido desesperado",
-    },
-    [41053] = {
-        name = "Altar da Caça Eterna",
     },
     [41056] = {
         name = "Amor Perdido",
@@ -2582,9 +2537,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41062] = {
         name = "Espólios da Vitória",
-    },
-    [41064] = {
-        name = "Forja Maldita dos Nathrezim",
     },
     [41066] = {
         name = "O olhar do caçador",
@@ -2651,9 +2603,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41124] = {
         name = "O renascimento do Tirisgarde",
-    },
-    [41125] = {
-        name = "Potencial desbloqueado",
     },
     [41138] = {
         name = "Alimentando Shal'Aran",
@@ -6666,18 +6615,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49973] = {
         name = "A mansão de Thalyssra",
     },
-    [49976] = {
-        name = "Dádivas dos Caídos",
-    },
-    [49977] = {
-        name = "Convocação a Orgrimmar",
-    },
-    [49981] = {
-        name = "Testemunha da ferida",
-    },
-    [49982] = {
-        name = "Testemunha da ferida",
-    },
     [50046] = {
         name = "É sa-bo-ta-gem",
     },
@@ -6695,12 +6632,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50055] = {
         name = "O ponto de vista do mensageiro",
-    },
-    [50056] = {
-        name = "O chamado do mensageiro",
-    },
-    [50057] = {
-        name = "O poder em nossas mãos",
     },
     [50071] = {
         name = "Pela Luz!",
@@ -6729,12 +6660,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50247] = {
         name = "O correio não pode parar",
     },
-    [50300] = {
-        name = "O chamado do mensageiro",
-    },
-    [50341] = {
-        name = "Uma recente descoberta",
-    },
     [50358] = {
         name = "Pesquisa no deserto",
     },
@@ -6743,9 +6668,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50364] = {
         name = "O sangue de Azeroth",
-    },
-    [50371] = {
-        name = "Convocatórias a Ventobravo",
     },
     [50372] = {
         name = "Pesquisa no deserto",

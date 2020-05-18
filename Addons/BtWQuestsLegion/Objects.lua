@@ -34,4 +34,15 @@ BtWQuestsDatabase:AddObjectsTable({
             },
         },
     },
+    [280948] = {
+        name = "Twilight Outhouse",
+        locations = {
+            [81] = {
+                {
+                    x = 0.295886,
+                    y = 0.694422,
+                },
+            },
+        },
+    },
 })

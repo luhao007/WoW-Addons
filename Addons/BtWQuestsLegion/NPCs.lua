@@ -438,4 +438,16 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [130030] = {
+        name = "Kelsey Steelspark",
+    },
+    [131963] = {
+        name = "Nolan Speed",
+    },
+    [132045] = {
+        name = "Gizmax Greasebolt",
+    },
+    [132147] = {
+        name = "Grol Warblade",
+    },
 })

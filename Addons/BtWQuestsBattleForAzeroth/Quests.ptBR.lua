@@ -4875,6 +4875,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53869] = {
         name = "Matando o tempo",
     },
+    [53870] = {
+        name = "Visitas no Castelo Grommash",
+    },
     [53879] = {
         name = "Limpando a herdade",
     },
@@ -6579,6 +6582,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57079] = {
         name = "Operação Sucatópolis",
     },
+    [57080] = {
+        name = "Recompensa adequada",
+    },
     [57088] = {
         name = "Não é meu, não",
     },
@@ -6638,6 +6644,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [57290] = {
         name = "O início da descida",
+    },
+    [57324] = {
+        name = "Zarpar na maré alta",
     },
     [57362] = {
         name = "Escuridão adentro",
@@ -6702,6 +6711,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57955] = {
         name = "Ao porto Ankhaten",
     },
+    [57956] = {
+        name = "Hospedeiros Errantes",
+    },
     [57969] = {
         name = "Cuidado dos feridos",
     },
@@ -6715,10 +6727,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Obelisco do Sol",
     },
     [58008] = {
-        name = "Tanque cheio",
+        name = "A todo vapor",
     },
     [58009] = {
         name = "Até a Lua",
+    },
+    [58214] = {
+        name = "Caso de urgência",
     },
     [58496] = {
         name = "Um conselheiro indesejado",

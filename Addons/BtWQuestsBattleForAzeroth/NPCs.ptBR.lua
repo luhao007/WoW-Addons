@@ -69,6 +69,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [122129] = {
         name = "Comerciante Alexxi Cruzencredo",
     },
+    [122169] = {
+        name = "Abigail Lerner",
+    },
     [122289] = {
         name = "Guarda-lâmina Jaka",
     },
@@ -522,6 +525,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130576] = {
         name = "Irmão Pique",
     },
+    [130603] = {
+        name = "Quebra-fera Hakid",
+    },
     [130660] = {
         name = "Guarda Bélica Rakera",
     },
@@ -912,6 +918,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [135890] = {
         name = "Rei Rastakhan",
     },
+    [135901] = {
+        name = "Fungoriano Ramossangue",
+    },
     [135976] = {
         name = "Morwin Claricórdia",
     },
@@ -1245,6 +1254,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [145005] = {
         name = "Elite dos Andarilhos",
     },
+    [145022] = {
+        name = "Tecelã do Tempo Delormi",
+    },
     [145131] = {
         name = "Infoguru Gryzix",
     },
@@ -1424,6 +1436,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [147952] = {
         name = "Filó Espocabucho",
+    },
+    [148096] = {
+        name = "Alta-prelada Ranata",
     },
     [148339] = {
         name = "Mathiaz",
@@ -1608,6 +1623,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [151132] = {
         name = "Peninha",
     },
+    [151134] = {
+        name = "Tecelã do Tempo Delormi",
+    },
+    [151137] = {
+        name = "Alfaiate Sincrônica",
+    },
     [151162] = {
         name = "Atikka Busca Lua, o Ás",
     },
@@ -1685,6 +1706,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [152206] = {
         name = "Magni Barbabronze",
+    },
+    [152238] = {
+        name = "Riathia Estelaprata",
     },
     [152316] = {
         name = "Imagem de Thalyssra",
@@ -1857,6 +1881,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [155482] = {
         name = "Shandris Plumaluna",
     },
+    [155562] = {
+        name = "Mestre Shado-Pan",
+    },
     [155785] = {
         name = "Grã-senhora Jaina Proudmore",
     },
@@ -1865,6 +1892,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [156297] = {
         name = "Chen Malte do Trovão",
+    },
+    [156358] = {
+        name = "Azeitona",
     },
     [156390] = {
         name = "Chen Malte do Trovão",

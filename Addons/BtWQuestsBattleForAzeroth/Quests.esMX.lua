@@ -4872,6 +4872,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53869] = {
         name = "Matar el tiempo",
     },
+    [53870] = {
+        name = "Invitados en Fuerte Grommash",
+    },
     [53879] = {
         name = "Limpieza de la finca",
     },
@@ -6513,6 +6516,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57072] = {
         name = "Yak multifunción",
     },
+    [57074] = {
+        name = "Entre la espada y la puerta",
+    },
+    [57076] = {
+        name = "Regreso a Bruma Otoñal",
+    },
     [57088] = {
         name = "Esto no es mío",
     },
@@ -6573,6 +6582,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57290] = {
         name = "Comienzo del descenso",
     },
+    [57324] = {
+        name = "Sigue a la marea",
+    },
     [57362] = {
         name = "En lo profundo de la oscuridad",
     },
@@ -6581,6 +6593,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [57374] = {
         name = "Hacia Las Profundidades Más Oscuras",
+    },
+    [57376] = {
+        name = "La necesidad oculta",
     },
     [57378] = {
         name = "Restos de un mundo destrozado",
@@ -6633,6 +6648,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57955] = {
         name = "Hacia el Puerto Anjesenamón",
     },
+    [57956] = {
+        name = "Anfitriones vagayermos",
+    },
     [57969] = {
         name = "Atender a los heridos",
     },
@@ -6650,6 +6668,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [58009] = {
         name = "A la luna",
+    },
+    [58214] = {
+        name = "Atención urgente",
     },
     [58496] = {
         name = "Un consejero inoportuno",

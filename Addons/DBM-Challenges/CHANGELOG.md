@@ -1,14 +1,7 @@
 # <DBM> Challenges
 
-## [r127](https://github.com/DeadlyBossMods/DBM-Challenges/tree/r127) (2020-04-22)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Challenges/compare/r126...r127)
+## [r128](https://github.com/DeadlyBossMods/DBM-Challenges/tree/r128) (2020-05-12)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Challenges/compare/r127...r128)
 
-- Fixed a bug that caused interrupt warnings to throw lua errors in Proving Grounds scenario. Closes #5  
-    Added full voice pack support to entirety of Proving Grounds scenario  
-    Culled in some redundant warnings to reduce unneeded spam in Proving Grounds scenario.  
-- Improve Tarragrue detection  
-- Disable unneeded local calls  
-- Had too much commented out in last  
-- Added support for Torghast, with numerous spells already supported.  
-    Fixed a bug that caused Haunting Shadows alert not to fire when fighting Shaw in Stormwind Horrific Vision  
-    Re-arranged mods to sort newest Challenges mods to top instead of bottom, like rest of DBM is sorted.  
+- Change specWarnEntomophobia to only warn at 4 stacks and above, up from 3. This should reduce overall annoyance of warning. It's still an important warning but if the warning is making me cuss more than the actual mechanic, it needed adjustment.  
+- Update README.md  

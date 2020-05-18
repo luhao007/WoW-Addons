@@ -1,12 +1,13 @@
 ## Interface: 80300
 ## Author: Breen
-## Version: 1.63
+## Version: 1.65
 ## SavedVariables: BtWQuests_Characters
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad
 
 ## Title: BtWQuests
 ## Notes: 
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务流程图|r |cFFFFE00ABtWQuests|r
+## Notes-zhCN: 将所有任务的前置任务和后续任务用流程图显示出来
 
 
 Defines.lua

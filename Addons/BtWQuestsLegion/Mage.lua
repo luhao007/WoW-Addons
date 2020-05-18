@@ -376,15 +376,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
                 1
             },
         },
-        {
-            type = "quest",
-            id = 41125,
-            x = 3,
-            y = 5,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 41125,
+        --     x = 3,
+        --     y = 5,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 41112,

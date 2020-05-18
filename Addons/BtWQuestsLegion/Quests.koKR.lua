@@ -894,9 +894,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39191] = {
         name = "얼음파괴자의 유산",
     },
-    [39192] = {
-        name = "오딘의 용광로",
-    },
     [39214] = {
         name = "오딘의 눈",
     },
@@ -1128,9 +1125,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39516] = {
         name = "일리다리와 파멸의 비밀",
     },
-    [39530] = {
-        name = "가열로에서의 만남",
-    },
     [39575] = {
         name = "훌른의 길",
     },
@@ -1251,9 +1245,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39702] = {
         name = "검은 떼까마귀 요새의 전설",
     },
-    [39722] = {
-        name = "새로운 힘 벼리기",
-    },
     [39726] = {
         name = "대가의 가슴보호갑",
     },
@@ -1280,12 +1271,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39756] = {
         name = "탄탄한 계획",
-    },
-    [39757] = {
-        name = "칼날을 갈고 닦으며",
-    },
-    [39761] = {
-        name = "영혼 담은 칼날",
     },
     [39771] = {
         name = "천둥의 목소리",
@@ -1854,9 +1839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40270] = {
         name = "속죄의 길",
     },
-    [40276] = {
-        name = "혼돈의 소용돌이 탐색",
-    },
     [40297] = {
         name = "리아나 다크소로우",
     },
@@ -2148,9 +2130,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40649] = {
         name = "마일룬과의 만남",
     },
-    [40651] = {
-        name = "세월의 씨앗",
-    },
     [40652] = {
         name = "바람에 실려 오는 말",
     },
@@ -2177,9 +2156,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40684] = {
         name = "황폐화 도구의 고서",
-    },
-    [40698] = {
-        name = "기를 머금은 무기",
     },
     [40705] = {
         name = "사제들의 모임",
@@ -2261,9 +2237,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40819] = {
         name = "면회 시도",
-    },
-    [40821] = {
-        name = "압도적인 힘",
     },
     [40823] = {
         name = "의회 재건",
@@ -2502,12 +2475,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40983] = {
         name = "그대들 사이의 악마",
     },
-    [40994] = {
-        name = "우위에 서려면",
-    },
-    [40995] = {
-        name = "무기에 주입할 힘",
-    },
     [40996] = {
         name = "위임",
     },
@@ -2531,12 +2498,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41010] = {
         name = "물 반, 고기 반",
-    },
-    [41015] = {
-        name = "유물은 전문가에게 양보하세요",
-    },
-    [41017] = {
-        name = "유물을 강화하라",
     },
     [41019] = {
         name = "아제로스의 반격",
@@ -2574,14 +2535,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41040] = {
         name = "용맹의 전당: 양조사를 만나다",
     },
-    [41047] = {
-        name = "유물의 잠재력",
-    },
     [41052] = {
         name = "간곡한 부탁",
-    },
-    [41053] = {
-        name = "영원한 사냥의 제단",
     },
     [41056] = {
         name = "길 잃은 사랑",
@@ -2594,9 +2549,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41062] = {
         name = "뜻밖의 전리품",
-    },
-    [41064] = {
-        name = "나스레짐의 저주받은 가열로",
     },
     [41066] = {
         name = "사냥꾼의 시선",
@@ -2663,9 +2615,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41124] = {
         name = "되살아난 티리스가드",
-    },
-    [41125] = {
-        name = "잠재된 힘",
     },
     [41138] = {
         name = "샬아란에 힘을",
@@ -6693,18 +6642,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49973] = {
         name = "탈리스라의 영지",
     },
-    [49976] = {
-        name = "몰락한 자가 남긴 것",
-    },
-    [49977] = {
-        name = "오그리마로부터의 소환",
-    },
-    [49981] = {
-        name = "상처의 감시자",
-    },
-    [49982] = {
-        name = "상처의 감시자",
-    },
     [50046] = {
         name = "파괴 공작",
     },
@@ -6722,12 +6659,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50055] = {
         name = "대변자의 관점",
-    },
-    [50056] = {
-        name = "대변자의 부름",
-    },
-    [50057] = {
-        name = "우리 손안의 힘",
     },
     [50071] = {
         name = "빛을 위하여!",
@@ -6756,12 +6687,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50247] = {
         name = "우편은 계속 배달되어야 한다",
     },
-    [50300] = {
-        name = "대변자의 부름",
-    },
-    [50341] = {
-        name = "최근의 발견",
-    },
     [50358] = {
         name = "사막 연구",
     },
@@ -6770,9 +6695,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50364] = {
         name = "아제로스의 피",
-    },
-    [50371] = {
-        name = "스톰윈드로부터의 소환",
     },
     [50372] = {
         name = "사막 연구",

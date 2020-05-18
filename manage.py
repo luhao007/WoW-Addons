@@ -173,8 +173,9 @@ class Manager(object):
                 toc.tags['Interface'] = '11304' if self.is_classic else '80300'
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
-                note = config.find('Notes')
-                if note:
+                ns = {'x': 'https://www.github.com/luhao007'}
+                note = config.find('x:Notes', ns)
+                if note is not None:
                     toc.tags['Notes-zhCN'] = note.text
 
                 if config.tag.endswith('SubAddon'):
@@ -250,10 +251,15 @@ class Manager(object):
             files = ['lib.xml', '{}.xml'.format(lib), '{}.toc'.format(lib)]
             for f in files:
                 if os.path.exists(root / lib / f):
+                    s = '{}{}'.format(
+                        '<Script file="' if f.endswith('.toc') else '',
+                        embed
+                    )
+
                     process_file(
                         root / lib / f,
                         lambda lines: [l for l in lines
-                                       if not any(l.startswith(embed)
+                                       if not any(l.strip().startswith(s)
                                                   for embed in embeds)]
                     )
 
@@ -272,7 +278,7 @@ class Manager(object):
                        'Recount', 'TitanClassic']
         else:
             addons += ['AllTheThings', 'FasterCamera',
-                       'GladiatorlosSA2', 'Gladius', 'Grid2',
+                       'GladiatorlosSA2', 'Gladius',
                        'HandyNotes_Argus', 'HandyNotes_BrokenShore',
                        'HandyNotes_DraenorTreasures',
                        'HandyNotes_LegionRaresTreasures',
@@ -437,18 +443,6 @@ class Manager(object):
                  ('retail' in folder or 'Achievements' in folder))):
                 rm_tree(Path('AddOns') / folder)
 
-    @retail_only
-    def handle_grid(self):
-        rm_tree('Addons/Grid2LDB')
-
-        self.remove_libraries(
-            ['AceComm-3.0', 'AceConfig-3.0', 'AceGUI-3.0', 'AceHook-3.0',
-             'AceGUI-3.0-SharedMediaWidgets', 'AceSerializer-3.0',
-             'LibCompress'],
-            'Addons/Grid2Options/Libs',
-            'Addons/Grid2Options/Grid2Options.toc'
-        )
-
     @classic_only
     def handle_honorspy(self):
         self.remove_libraries_all('honorspy')
@@ -591,6 +585,15 @@ class Manager(object):
 
         process_file(root / 'Modules/Libs/QuestieLib.lua', handle)
 
+    @classic_only
+    def handle_rl(self):
+        self.remove_libraries(
+            ['CallbackHandler-1.0', 'LibDBIcon-1.0', 'LibDataBroker-1.1',
+             'LibStub'],
+            'Addons/RaidLedger/lib',
+            'Addons/RaidLedger/RaidLedger.toc'
+        )
+
     @retail_only
     def handle_rarity(self):
         self.remove_libraries(
@@ -698,6 +701,18 @@ class Manager(object):
 
         self.remove_libraries_all('UnitFramesPlus_Cooldown')
         self.remove_libraries_all('UnitFramesPlus_Threat', 'LibThreatClassic2')
+
+    def handle_vuhdo(self):
+        self.remove_libraries(
+            ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
+             'AceEvent-3.0', 'AceGUI-3.0', 'AceLocale-3.0',
+             'AceSerializer-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
+             'LibClassicDurations', 'LibCompress', 'LibCustomGlow-1.0',
+             'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibSharedMedia-3.0',
+             'LibStub', 'LibThreatClassic2', 'UTF8'],
+            'Addons/VuhDo/Libs',
+            'Addons/VuhDo/Libs/Libs.xml'
+        )
 
     def handle_wa(self):
         self.remove_libraries(

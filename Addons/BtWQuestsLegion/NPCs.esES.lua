@@ -75,5 +75,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [121754] = {
         name = "Vereesa Brisaveloz",
     },
+    [130030] = {
+        name = "Kelsey Chispacero",
+    },
 })
 ]])()

@@ -21,10 +21,12 @@
 ## X-Part-Of: DBM-Core
 
 localization.en.lua
-SireDenathrius.lua
 Shriekwing.lua
-BrokerCurator.lua
 Kaelthas.lua
+ArtificerXyMox.lua
 LadyInervaDarkvein.lua
-DredgerGiant.lua
+TheCouncilofBlood.lua
+Sludgefist.lua
+StoneborneGenerals.lua
+SireDenathrius.lua
 CastleNathriaTrash.lua

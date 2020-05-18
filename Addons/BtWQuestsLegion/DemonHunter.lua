@@ -1090,15 +1090,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEMONHUNTER_CAMPAIGN, 
                 1,
             },
         },
-        {
-            type = "quest",
-            id = 41064,
-            x = 3,
-            y = 8,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 41064,
+        --     x = 3,
+        --     y = 8,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 41066,

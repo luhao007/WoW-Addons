@@ -6493,7 +6493,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "前往拉穆卡恒",
     },
     [56376] = {
-        name = "表面威胁",
+        name = "威胁突显",
     },
     [56377] = {
         name = "前往熔炉",
@@ -6814,7 +6814,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "麦卡贡的未来",
     },
     [57496] = {
-        name = "升腾",
+        name = "晋升",
     },
     [57497] = {
         name = "传播消息",
@@ -6850,13 +6850,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "太阳方尖碑",
     },
     [58008] = {
-        name = "清理干净",
+        name = "全部加满",
     },
     [58009] = {
         name = "向月而行",
     },
     [58087] = {
         name = "摧毁电源",
+    },
+    [58214] = {
+        name = "紧急支援",
     },
     [58496] = {
         name = "意外的顾问",

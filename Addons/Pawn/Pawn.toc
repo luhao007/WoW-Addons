@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: 2.3.24
+## Version: 2.3.26
 ## SavedVariables: PawnCommon
 ## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
 

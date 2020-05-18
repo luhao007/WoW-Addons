@@ -7,7 +7,7 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0324
+PawnVersion = 2.0326
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.11
@@ -370,12 +370,14 @@ function PawnInitialize()
 	
 	-- EquipCompare compatibility
 	if ComparisonTooltip1 then
-		VgerCore.HookInsecureFunction(ComparisonTooltip1, "SetHyperlinkCompareItem", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip1", "SetHyperlinkCompareItem", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip1, true) end)
-		VgerCore.HookInsecureFunction(ComparisonTooltip2, "SetHyperlinkCompareItem", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip2", "SetHyperlinkCompareItem", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip2, true) end)
-		VgerCore.HookInsecureFunction(ComparisonTooltip1, "SetInventoryItem", function(self, ...) PawnUpdateTooltip("ComparisonTooltip1", "SetInventoryItem", ...) PawnAttachIconToTooltip(ComparisonTooltip1, true) end) -- EquipCompare with CharactersViewer
-		VgerCore.HookInsecureFunction(ComparisonTooltip2, "SetInventoryItem", function(self, ...) PawnUpdateTooltip("ComparisonTooltip2", "SetInventoryItem", ...) PawnAttachIconToTooltip(ComparisonTooltip2, true) end) -- EquipCompare with CharactersViewer
-		VgerCore.HookInsecureFunction(ComparisonTooltip1, "SetHyperlink", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip1", "SetHyperlink", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip1, true) end) -- EquipCompare with Armory
-		VgerCore.HookInsecureFunction(ComparisonTooltip2, "SetHyperlink", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip2", "SetHyperlink", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip2, true) end) -- EquipCompare with Armory
+		if ComparisonTooltip1.SetHyperlinkCompareItem then VgerCore.HookInsecureFunction(ComparisonTooltip1, "SetHyperlinkCompareItem", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip1", "SetHyperlinkCompareItem", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip1, true) end) end
+		if ComparisonTooltip1.SetInventoryItem then VgerCore.HookInsecureFunction(ComparisonTooltip1, "SetInventoryItem", function(self, ...) PawnUpdateTooltip("ComparisonTooltip1", "SetInventoryItem", ...) PawnAttachIconToTooltip(ComparisonTooltip1, true) end) end -- EquipCompare with CharactersViewer
+		if ComparisonTooltip1.SetHyperlink then VgerCore.HookInsecureFunction(ComparisonTooltip1, "SetHyperlink", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip1", "SetHyperlink", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip1, true) end) end -- EquipCompare with Armory
+	end
+	if ComparisonTooltip2 then
+		if ComparisonTooltip2.SetHyperlinkCompareItem then VgerCore.HookInsecureFunction(ComparisonTooltip2, "SetHyperlinkCompareItem", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip2", "SetHyperlinkCompareItem", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip2, true) end) end
+		if ComparisonTooltip2.SetInventoryItem then VgerCore.HookInsecureFunction(ComparisonTooltip2, "SetInventoryItem", function(self, ...) PawnUpdateTooltip("ComparisonTooltip2", "SetInventoryItem", ...) PawnAttachIconToTooltip(ComparisonTooltip2, true) end) end -- EquipCompare with CharactersViewer
+		if ComparisonTooltip2.SetHyperlink then VgerCore.HookInsecureFunction(ComparisonTooltip2, "SetHyperlink", function(self, ItemLink, ...) PawnUpdateTooltip("ComparisonTooltip2", "SetHyperlink", ItemLink, ...) PawnAttachIconToTooltip(ComparisonTooltip2, true) end) end -- EquipCompare with Armory
 	end
 	
 	-- Outfitter compatibility
@@ -428,9 +430,12 @@ function PawnInitialize()
 	end
 
 	-- Warn them if Pawn might be broken due to changing the thousands or decimal separator.
-	if (LARGE_NUMBER_SEPERATOR and PawnLocal.ThousandsSeparator ~= LARGE_NUMBER_SEPERATOR) or
-	(DECIMAL_SEPERATOR and PawnLocal.DecimalSeparator ~= DECIMAL_SEPERATOR) then
-		VgerCore.Fail("Pawn may provide incorrect advice due to a potential addon conflict: Pawn is not compatible with Combat Numbers Separator, Titan Panel Artifact Power, or other addons that change the way that numbers appear.")
+	if GetLocale() ~= "frFR" or not VgerCore.IsClassic then
+		-- The separator strings are completely wrong on French WoW Classic.  :(
+		if (LARGE_NUMBER_SEPERATOR and PawnLocal.ThousandsSeparator ~= LARGE_NUMBER_SEPERATOR) or
+		(DECIMAL_SEPERATOR and PawnLocal.DecimalSeparator ~= DECIMAL_SEPERATOR) then
+			VgerCore.Fail("Pawn may provide incorrect advice due to a potential addon conflict: Pawn is not compatible with Combat Numbers Separator, Titan Panel Artifact Power, or other addons that change the way that numbers appear.")
+		end
 	end
 
 	-- If auto-spec is on, check their spec now in case they switched on a different PC.
@@ -1574,41 +1579,43 @@ function PawnAddValuesToTooltip(Tooltip, ItemValues, UpgradeInfo, BestItemFor, S
 			end
 			
 			-- Add info to the tooltip if this item is an upgrade or best-in-slot.
-			local ThisUpgrade, _
-			WasUpgradeOrBest = false
-			if UpgradeInfo then
-				for _, ThisUpgrade in pairs(UpgradeInfo) do
-					if ThisUpgrade.ScaleName == ScaleName then
-						if ThisUpgrade.PercentUpgrade >= PawnBigUpgradeThreshold then -- 100 = 10,000%
-							-- For particularly huge upgrades, don't say ridiculous things like "999999999% upgrade"
-							TooltipText = format(PawnLocal.TooltipBigUpgradeAnnotation, TooltipText, "")
-						elseif NeedsEnhancements then
-							TooltipText = format(PawnLocal.TooltipUpgradeNeedsEnhancementsAnnotation, TooltipText, 100 * ThisUpgrade.PercentUpgrade, "")
-						else
-							TooltipText = format(PawnLocal.TooltipUpgradeAnnotation, TooltipText, 100 * ThisUpgrade.PercentUpgrade, "")
+			if TooltipText then
+				local ThisUpgrade, _
+				WasUpgradeOrBest = false
+				if UpgradeInfo then
+					for _, ThisUpgrade in pairs(UpgradeInfo) do
+						if ThisUpgrade.ScaleName == ScaleName then
+							if ThisUpgrade.PercentUpgrade >= PawnBigUpgradeThreshold then -- 100 = 10,000%
+								-- For particularly huge upgrades, don't say ridiculous things like "999999999% upgrade"
+								TooltipText = format(PawnLocal.TooltipBigUpgradeAnnotation, TooltipText, "")
+							elseif NeedsEnhancements then
+								TooltipText = format(PawnLocal.TooltipUpgradeNeedsEnhancementsAnnotation, TooltipText, 100 * ThisUpgrade.PercentUpgrade, "")
+							else
+								TooltipText = format(PawnLocal.TooltipUpgradeAnnotation, TooltipText, 100 * ThisUpgrade.PercentUpgrade, "")
+							end
+							WasUpgradeOrBest = true
+							break
 						end
-						WasUpgradeOrBest = true
-						break
+					end
+				elseif BestItemFor and BestItemFor[ScaleName] then
+					WasUpgradeOrBest = true
+					if PawnCommon.ShowValuesForUpgradesOnly then
+						TooltipText = format(PawnLocal.TooltipBestAnnotationSimple, TooltipText)
+					else
+						TooltipText = format(PawnLocal.TooltipBestAnnotation, TooltipText)
+					end
+				elseif SecondBestItemFor and SecondBestItemFor[ScaleName] then
+					WasUpgradeOrBest = true
+					if PawnCommon.ShowValuesForUpgradesOnly then
+						TooltipText = format(PawnLocal.TooltipSecondBestAnnotationSimple, TooltipText)
+					else
+						TooltipText = format(PawnLocal.TooltipSecondBestAnnotation, TooltipText)
 					end
 				end
-			elseif BestItemFor and BestItemFor[ScaleName] then
-				WasUpgradeOrBest = true
-				if PawnCommon.ShowValuesForUpgradesOnly then
-					TooltipText = format(PawnLocal.TooltipBestAnnotationSimple, TooltipText)
-				else
-					TooltipText = format(PawnLocal.TooltipBestAnnotation, TooltipText)
-				end
-			elseif SecondBestItemFor and SecondBestItemFor[ScaleName] then
-				WasUpgradeOrBest = true
-				if PawnCommon.ShowValuesForUpgradesOnly then
-					TooltipText = format(PawnLocal.TooltipSecondBestAnnotationSimple, TooltipText)
-				else
-					TooltipText = format(PawnLocal.TooltipSecondBestAnnotation, TooltipText)
-				end
+				if not WasUpgradeOrBest and PawnCommon.ShowValuesForUpgradesOnly then TooltipText = nil end
+				
+				PawnAddTooltipLine(Tooltip, TooltipText)
 			end
-			if not WasUpgradeOrBest and PawnCommon.ShowValuesForUpgradesOnly then TooltipText = nil end
-			
-			PawnAddTooltipLine(Tooltip, TooltipText)
 		end
 	end
 
@@ -1654,7 +1661,10 @@ function PawnGetInventoryItemValues(UnitName)
 				-- (We can't assume that the off-hand is empty just because the main hand slot contains a 2H weapon... stupid
 				-- Titan's Grip warriors.)
 				local ThisItemLevel = Item.Level
-				if not ThisItemLevel then return end -- If we have item information but no level, bail out rather than return inaccurate totals.
+				if not ThisItemLevel then
+					-- If we have item information but no level, bail out rather than return inaccurate totals.
+					return
+				end
 				if Slot == 16 then
 					local _, _, _, _, _, _, _, _, InvType = GetItemInfo(GetInventoryItemLink(UnitName, Slot))
 					if (InvType == "INVTYPE_2HWEAPON" or InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT") and GetInventoryItemID(UnitName, 17) == nil then
@@ -1675,6 +1685,15 @@ function PawnGetInventoryItemValues(UnitName)
 				for _, Entry in pairs(ItemValues) do
 					local ScaleName, Value = Entry[1], Entry[2]
 					PawnAddStatToTable(Total, ScaleName, Value) -- (not actually stats, but the function does what we want)
+				end
+			elseif Slot == 13 or Slot == 14 then
+				-- Failures to get stats from trinkets is normal, so don't bail out.  See if we can get the item level in a simpler way.
+				local ItemLink = GetInventoryItemLink(UnitName, Slot)
+				if ItemLink then
+					local ThisItemLevel = GetDetailedItemLevelInfo(ItemLink)
+					if ThisItemLevel then
+						TotalItemLevel = TotalItemLevel + ThisItemLevel
+					end
 				end
 			elseif ItemID then
 				-- If we have an item link but no item data, then the player HAS an item in that slot but we don't have data.
@@ -2153,6 +2172,11 @@ function PawnLookForSingleStat(RegexTable, Stats, ThisString, DebugMessages)
 					-- the decimal separator, we need to substitute here, because tonumber() parses things
 					-- in English format only.
 					ExtractedValue = gsub(ExtractedValue, PawnLocal.DecimalSeparator, ".")
+				end
+				if Stat == "Speed" and VgerCore.IsClassic and GetLocale() == "frFR" then
+					-- In French WoW Classic, the weapon speed value uses a comma for the decimal even though everything else uses a period.
+					-- UGH BLIZZARD WHY MUST YOU DO THIS TO ME
+					ExtractedValue = gsub(ExtractedValue, ",", ".")
 				end
 				ExtractedValue = tonumber(ExtractedValue) -- broken onto multiple lines because gsub() returns multiple values and tonumber accepts multiple arguments
 				if Number < 0 then ExtractedValue = -ExtractedValue end

@@ -721,7 +721,6 @@ end
         COMBAT_HONOR_GAIN = true,
         COMBAT_FACTION_CHANGE = true,
         SKILL = true,
-        LOOT = true,
         MONEY = true,
         OPENING = true,
         TRADESKILLS = true,
@@ -781,7 +780,8 @@ end
         desc = PL["Extra data for WHISPER (target) and CHANNEL (channel name or num)"],
         usage = "<string>",
         disabled = function(info) return not (info.handler.db.profile.outputchannel == CHAT_MSG_WHISPER_INFORM or
-                                              info.handler.db.profile.outputchannel == CHAT_MSG_CHANNEL_LIST) end
+          info.handler.db.profile.outputchannel == CHAT_MSG_CHANNEL_LIST)
+        end
       },
       outputmessageonly = {
         type = "toggle",
@@ -843,7 +843,7 @@ end
   end
 
   function module:DisableOutputOption(info)
-    return self.db.profile[info[#info - 3]][info[#info - 2]].tosink
+    return not self.db.profile[info[#info - 3]][info[#info - 2]].tosink
   end
 
   function module:AddPatternOptions(o, pattern, mode, key)
@@ -1007,10 +1007,8 @@ end
     if matchopts.replacewith and matchopts.replacewith ~= matchopts.searchfor then
       if matchopts.replacement_is_code then
         textout = loadstring(matchopts.replacewith)(text)
-      elseif matchopts.replacewith:find("%%1") then
-        textout = matchopts.replacewith:gsub("%%1", textout)
       else
-        textout = matchopts.replacewith
+        textout = textout:gsub(matchopts.searchfor, matchopts.replacewith)
       end
     end
 
@@ -1143,19 +1141,19 @@ end
 
   Prat:SetModuleInit(module,
     function(self)
-      local function tailChan(t, cnum, cname, ...)
-        if not cnum then return t end
-        if Prat.IsPrivateChannel(cnum) then
-          t[#t + 1] = cname
-        end
-        return tailChan(t, ...)
-      end
-
-      self:RegisterSink(PL["ForwardCustom"],
-        PL["ForwardMessageCustom"],
-        PL["Forward the message to a custom chat channel."],
-        "ForwardCustom",
-        function() return tailChan({}, GetChannelList()) end)
+--      local function tailChan(t, cnum, cname, ...)
+--        if not cnum then return t end
+--        if Prat.IsPrivateChannel(cnum) then
+--          t[#t + 1] = cname
+--        end
+--        return tailChan(t, ...)
+--      end
+--
+--      self:RegisterSink(PL["ForwardCustom"],
+--        PL["ForwardMessageCustom"],
+--        PL["Forward the message to a custom chat channel."],
+--        "ForwardCustom",
+--        function() return tailChan({}, GetChannelList()) end)
 
       local modeOpts = modeOptions.mode
       for k, v in pairs(modeOpts) do
@@ -1194,17 +1192,16 @@ end
   function module:Prat_PostAddMessage(info, message, frame, event, text, r, g, b, id)
     local uid = Prat.EVENT_ID
     if uid and
-       uid == self.lastevent and
-       self.lasteventtype == event then
+      uid == self.lastevent and
+      self.lasteventtype == event then
       return
     end
 
     self.lasteventtype = event
     self.lastevent = uid
 
-
     if message.CF_SINK or message.CF_SINK_OUT then
-      if self.db.profile.outputmessageonly then
+      if message.CF_SINK_OUT.outputmessageonly then
         self.Pour(message.CF_SINK_OUT or self, message.MESSAGE, r, g, b)
       else
         self.Pour(message.CF_SINK_OUT or self, text, r, g, b)
@@ -1361,7 +1358,7 @@ end
     p[key] = p[key] or {}
     p[key].name = pattern
     p[key].searchfor = pattern
-    p[key].replacewith = pattern
+    p[key].replacewith = "%1"
 
     v[key] = pattern
 
@@ -1416,34 +1413,33 @@ end
     LibStub("AceConfigRegistry-3.0"):NotifyChange("Prat")
   end
 
-  local sink
-  function module:ForwardCustom(source, text, ...)
-    sink = sink or LibStub("LibSink-2.0")
-    local s = sink.storageForAddon[source]
-    local loc = s and s.sink20ScrollArea or ""
-    local cnum = Prat.GetChannelName(loc)
-
-    if cnum and cnum > 0 then
-      local cleantext = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|H.-|h", ""):gsub("|h", "")
-
-      SendChatMessage(cleantext, "CHANNEL", GetDefaultLanguage("player"), cnum)
-    end
-  end
-
-  --msg, chatType, language, channel)
-  function module:Forward(source, text, r, g, b, ...)
-    local cleantext = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|H.-|h", ""):gsub("|h", "")
-
-    if self.db.profile.outputchannel == CHAT_MSG_WHISPER_INFORM then
-      SendChatMessage(cleantext, "WHISPER", GetDefaultLanguage("player"), self.db.profile.outputchanneldata)
-    elseif self.db.profile.outputchannel == CHAT_MSG_CHANNEL_LIST then
-      SendChatMessage(cleantext, "CHANNEL", GetDefaultLanguage("player"), Prat.GetChannelName(self.db.profile
-      .outputchanneldata))
-    else
-      local chatType = strsub(self.db.profile.outputchannel, 10)
-      SendChatMessage(cleantext, chatType, GetDefaultLanguage("player"))
-    end
-  end
+--  local sink
+--  function module:ForwardCustom(source, text, ...)
+--    sink = sink or LibStub("LibSink-2.0")
+--    local s = sink.storageForAddon[source]
+--    local loc = s and s.sink20ScrollArea or ""
+--    local cnum = Prat.GetChannelName(loc)
+--
+--    if cnum and cnum > 0 then
+--      local cleantext = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|H.-|h", ""):gsub("|h", "")
+--
+--      SendChatMessage(cleantext, "CHANNEL", GetDefaultLanguage("player"), cnum)
+--    end
+--  end
+--
+--  --msg, chatType, language, channel)
+--  function module:Forward(source, text, r, g, b, ...)
+--    local cleantext = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|H.-|h", ""):gsub("|h", "")
+--
+--    if self.db.profile.outputchannel == CHAT_MSG_WHISPER_INFORM then
+--      SendChatMessage(cleantext, "WHISPER", GetDefaultLanguage("player"), self.db.profile.outputchanneldata)
+--    elseif self.db.profile.outputchannel == CHAT_MSG_CHANNEL_LIST then
+--      SendChatMessage(cleantext, "CHANNEL", GetDefaultLanguage("player"), Prat.GetChannelName(self.db.profile.outputchanneldata))
+--    else
+--      local chatType = strsub(self.db.profile.outputchannel, 10)
+--      SendChatMessage(cleantext, chatType, GetDefaultLanguage("player"))
+--    end
+--  end
 
 
   return

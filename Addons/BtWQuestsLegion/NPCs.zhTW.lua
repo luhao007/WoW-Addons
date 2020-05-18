@@ -84,5 +84,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [121754] = {
         name = "凡蕾莎‧風行者",
     },
+    [130030] = {
+        name = "凱爾希‧鋼火",
+    },
 })
 ]])()

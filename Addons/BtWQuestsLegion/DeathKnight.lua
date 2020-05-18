@@ -304,26 +304,26 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_DEATHKNIGHT_CAMPAIGN, 
 
 
 
-        {
-            type = "quest",
-            id = 39757,
-            x = 3,
-            y = 3,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 39757,
+        --     x = 3,
+        --     y = 3,
+        --     connections = {
+        --         1
+        --     },
+        -- },
 
 
-        {
-            type = "quest",
-            id = 39761,
-            x = 3,
-            y = 4,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 39761,
+        --     x = 3,
+        --     y = 4,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 39832,

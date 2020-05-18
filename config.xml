@@ -778,25 +778,6 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
-	<Addon name="Grid2">
-		<Title>团队面板</Title>
-		<Category>界面</Category>
-		<SubAddons>
-			<SubAddon name="Grid2LDB">
-				<Title>库文件</Title>
-			</SubAddon>
-			<SubAddon name="Grid2Options">
-				<Title>设置</Title>
-			</SubAddon>
-			<SubAddon name="Grid2RaidDebuffs">
-				<Title>团队首领减益</Title>
-			</SubAddon>
-			<SubAddon name="Grid2RaidDebuffsOptions">
-				<Title>团队首领减益</Title>
-				<TitleExtra>设置</TitleExtra>
-			</SubAddon>
-		</SubAddons>
-	</Addon>
 	<Addon name="GroupCalendar">
 		<Title>团队行事历</Title>
 		<Notes>在团队或朋友间同步显示事件</Notes>
@@ -1423,9 +1404,19 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="VuhDo">
+		<Title>团队面板</Title>
+		<Notes>强大的团队面板，可实现鼠标点击治疗、上BUFF等一系列操作</Notes>
+		<Category>界面</Category>
+		<SubAddons>
+			<SubAddon name="VuhDoOptions">
+				<Title>设置</Title>
+			</SubAddon>
+		</SubAddons>
+	</Addon>
 	<Addon name="WeakAuras">
 		<Title>图形提示</Title>
-		<Notes>自定义显示基于增益、减益以及其他触发的图形以及信息。</Notes>
+		<Notes>自定义显示基于增益、减益以及其他触发的图形以及信息</Notes>
 		<Category>战斗</Category>
 		<SubAddons>
 			<SubAddon name="WeakAurasArchive">

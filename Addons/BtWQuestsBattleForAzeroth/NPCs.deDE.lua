@@ -69,6 +69,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [122129] = {
         name = "Händler Alexxi Kruxtopf",
     },
+    [122169] = {
+        name = "Anneke Lehmann",
+    },
     [122289] = {
         name = "Klingenwache Kaja",
     },
@@ -498,6 +501,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130576] = {
         name = "Bruder Pike",
     },
+    [130603] = {
+        name = "Bestienbrecher Hakid",
+    },
     [130660] = {
         name = "Kriegswache Rakera",
     },
@@ -879,6 +885,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [135890] = {
         name = "König Rastakhan",
     },
+    [135901] = {
+        name = "Fungianer der Blutschwämme",
+    },
     [135976] = {
         name = "Morwin Hainherz",
     },
@@ -1040,6 +1049,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [138520] = {
         name = "Einwohnerin von Zeb'ahari",
+    },
+    [138521] = {
+        name = "Minentechniker",
     },
     [138688] = {
         name = "Zenturio Kaga Warmstein",
@@ -1799,6 +1811,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [155496] = {
         name = "Furorion",
+    },
+    [155562] = {
+        name = "Meisterin der Shado-Pan",
     },
     [155785] = {
         name = "Lady Jaina Prachtmeer",

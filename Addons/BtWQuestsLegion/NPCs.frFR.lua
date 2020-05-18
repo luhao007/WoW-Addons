@@ -75,5 +75,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [121754] = {
         name = "Vereesa Coursevent",
     },
+    [130030] = {
+        name = "Kelsey Etinçacier",
+    },
 })
 ]])()

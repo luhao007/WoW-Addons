@@ -99,6 +99,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [122129] = {
         name = "무역상 알렉시 크루즈폿",
     },
+    [122169] = {
+        name = "애비 루이스",
+    },
     [122289] = {
         name = "칼날경비병 카자",
     },
@@ -792,6 +795,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130576] = {
         name = "수사 파이크",
     },
+    [130603] = {
+        name = "야수파괴자 하키드",
+    },
     [130660] = {
         name = "전쟁경비병 라케라",
     },
@@ -1368,6 +1374,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [135890] = {
         name = "왕 라스타칸",
     },
+    [135901] = {
+        name = "핏빛가지 버섯인간",
+    },
     [135976] = {
         name = "모르윈 글레이드하트",
     },
@@ -1592,6 +1601,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [138520] = {
         name = "제브아하리 주민",
+    },
+    [138521] = {
+        name = "광산 기술병",
     },
     [138669] = {
         name = "헤멧 네싱워리",
@@ -1827,6 +1839,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [145015] = {
         name = "로르테마르 테론",
     },
+    [145022] = {
+        name = "시간재봉사 델로르미",
+    },
     [145131] = {
         name = "자료장인 그리직스",
     },
@@ -1914,8 +1929,20 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [146050] = {
         name = "마이에브 섀도송",
     },
+    [146053] = {
+        name = "세프 이웬",
+    },
     [146073] = {
         name = "무역왕 갤리윅스",
+    },
+    [146091] = {
+        name = "세프 이웬",
+    },
+    [146093] = {
+        name = "세프 이웬",
+    },
+    [146094] = {
+        name = "세프 이웬",
     },
     [146208] = {
         name = "거대한 자 크라그와",
@@ -2085,6 +2112,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [148015] = {
         name = "탤리아 폴드라곤",
     },
+    [148096] = {
+        name = "상급 정무관 라타",
+    },
     [148339] = {
         name = "패치",
     },
@@ -2103,6 +2133,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [149143] = {
         name = "나타노스 블라이트콜러",
     },
+    [149252] = {
+        name = "속박된 하늘의 정령",
+    },
     [149471] = {
         name = "어둠 순찰자 벨로나라",
     },
@@ -2117,6 +2150,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [149612] = {
         name = "샨드리스 페더문",
+    },
+    [149736] = {
+        name = "미미론의 환영",
     },
     [149809] = {
         name = "가즈로",
@@ -2135,6 +2171,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [149867] = {
         name = "마그니 브론즈비어드",
+    },
+    [149870] = {
+        name = "그리프 와일드하트",
     },
     [149877] = {
         name = "수석땜장이 오버스파크",
@@ -2190,6 +2229,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [150318] = {
         name = "베리스",
     },
+    [150391] = {
+        name = "미미론의 환영",
+    },
     [150433] = {
         name = "썬더 블러프 경비병 프라우드스카",
     },
@@ -2229,6 +2271,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [150796] = {
         name = "켈시 스틸스파크",
     },
+    [150884] = {
+        name = "첼시 라이트",
+    },
+    [150885] = {
+        name = "버들 야수",
+    },
     [150893] = {
         name = "바다의 신단",
     },
@@ -2267,6 +2315,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [151132] = {
         name = "깃털이",
+    },
+    [151134] = {
+        name = "시간재봉사 델로르미",
+    },
+    [151137] = {
+        name = "시공의 재봉사",
     },
     [151162] = {
         name = "\"명수\" 아티카 문체이서",
@@ -2340,6 +2394,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [151999] = {
         name = "토르칼리의 방패 조노크",
     },
+    [152000] = {
+        name = "도리투르",
+    },
+    [152002] = {
+        name = "미미론의 환영",
+    },
     [152047] = {
         name = "포엔 길브랙",
     },
@@ -2355,11 +2415,20 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [152108] = {
         name = "네리 샤프핀",
     },
+    [152115] = {
+        name = "쿠리",
+    },
     [152194] = {
         name = "마더",
     },
     [152206] = {
         name = "마그니 브론즈비어드",
+    },
+    [152238] = {
+        name = "리아시아 실버스타",
+    },
+    [152255] = {
+        name = "세프 이웬",
     },
     [152295] = {
         name = "파스칼",
@@ -2572,7 +2641,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "래시온",
     },
     [155562] = {
-        name = "타오스",
+        name = "음영파 대가",
     },
     [155582] = {
         name = "타오스",

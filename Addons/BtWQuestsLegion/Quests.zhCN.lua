@@ -984,6 +984,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39344] = {
         name = "秘密行动",
     },
+    [39345] = {
+        name = "校准专家",
+    },
     [39346] = {
         name = "检测精确度",
     },
@@ -2483,6 +2486,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41003] = {
         name = "皇帝的礼物",
+    },
+    [41008] = {
+        name = "猎人对猎人",
     },
     [41009] = {
         name = "猎人对猎人",
@@ -5610,6 +5616,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [45630] = {
         name = "不听话的仆人",
     },
+    [45632] = {
+        name = "下落不明：伊崔格",
+    },
+    [45633] = {
+        name = "邪怒行动",
+    },
     [45634] = {
         name = "随叫随到",
     },
@@ -5618,6 +5630,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45645] = {
         name = "白费心机",
+    },
+    [45647] = {
+        name = "任务：搜索行动",
     },
     [45648] = {
         name = "下落不明：达利乌斯·克罗雷领主",
@@ -5741,6 +5756,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [45866] = {
         name = "六人议会的礼物",
+    },
+    [45873] = {
+        name = "勇士：伊崔格",
     },
     [45876] = {
         name = "勇士：达利乌斯·克罗雷领主",
@@ -6570,6 +6588,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [48634] = {
         name = "深入补给克罗库恩",
     },
+    [48635] = {
+        name = "更多虚空接种",
+    },
+    [48636] = {
+        name = "扶助安托兰战役",
+    },
     [48654] = {
         name = "奥罗纳尔之下",
     },
@@ -6615,15 +6639,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49973] = {
         name = "塔莉萨的庄园",
     },
-    [49977] = {
-        name = "奥格瑞玛的召唤",
-    },
-    [49981] = {
-        name = "见证伤痕",
-    },
-    [49982] = {
-        name = "见证伤痕",
-    },
     [50046] = {
         name = "有人搞破坏",
     },
@@ -6641,9 +6656,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50055] = {
         name = "代言人的观点",
-    },
-    [50056] = {
-        name = "代言人在召唤",
     },
     [50071] = {
         name = "为圣光而战！",
@@ -6672,12 +6684,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50247] = {
         name = "邮件必达",
     },
-    [50300] = {
-        name = "代言人在召唤",
-    },
-    [50341] = {
-        name = "近期发现",
-    },
     [50358] = {
         name = "沙漠研究",
     },
@@ -6686,9 +6692,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50364] = {
         name = "艾泽拉斯之血",
-    },
-    [50371] = {
-        name = "暴风城的召唤",
     },
     [50372] = {
         name = "沙漠研究",

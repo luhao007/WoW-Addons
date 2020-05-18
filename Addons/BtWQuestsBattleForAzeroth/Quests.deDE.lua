@@ -6780,6 +6780,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [58087] = {
         name = "Die Quelle zerstören",
     },
+    [58214] = {
+        name = "Notfallbehandlung",
+    },
     [58496] = {
         name = "Ein unangenehmer Berater",
     },

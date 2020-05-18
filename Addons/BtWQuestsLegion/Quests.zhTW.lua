@@ -894,9 +894,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39191] = {
         name = "碎冰者的遺贈",
     },
-    [39192] = {
-        name = "歐丁熔爐",
-    },
     [39214] = {
         name = "歐丁之眼",
     },
@@ -1128,9 +1125,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39516] = {
         name = "災虐怒吼！釋放伊利達瑞！",
     },
-    [39530] = {
-        name = "再鑄傳奇",
-    },
     [39575] = {
         name = "胡恩之路",
     },
@@ -1251,9 +1245,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39702] = {
         name = "玄鴉堡的傳說",
     },
-    [39722] = {
-        name = "打造新力量",
-    },
     [39726] = {
         name = "蒐集胸甲",
     },
@@ -1280,12 +1271,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39756] = {
         name = "周全的計畫",
-    },
-    [39757] = {
-        name = "強化優勢",
-    },
-    [39761] = {
-        name = "進階符文雕刻",
     },
     [39771] = {
         name = "雷霆之聲",
@@ -1854,9 +1839,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40270] = {
         name = "贖罪之路",
     },
-    [40276] = {
-        name = "大漩渦的指引",
-    },
     [40297] = {
         name = "萊安娜‧暗愁",
     },
@@ -2148,9 +2130,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40649] = {
         name = "與蜜露恩會合",
     },
-    [40651] = {
-        name = "遠古種子",
-    },
     [40652] = {
         name = "風之語",
     },
@@ -2177,9 +2156,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40684] = {
         name = "荒蕪武器秘典",
-    },
-    [40698] = {
-        name = "淨化形態",
     },
     [40705] = {
         name = "牧師兩三事",
@@ -2261,9 +2237,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40819] = {
         name = "巧做安排",
-    },
-    [40821] = {
-        name = "壓倒性的力量",
     },
     [40823] = {
         name = "重建議會",
@@ -2502,12 +2475,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40983] = {
         name = "惡魔四伏",
     },
-    [40994] = {
-        name = "欲善其事，先利其器",
-    },
-    [40995] = {
-        name = "注入力量",
-    },
     [40996] = {
         name = "外包業務",
     },
@@ -2531,12 +2498,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41010] = {
         name = "鮮魚狂亂",
-    },
-    [41015] = {
-        name = "神兵也需巧匠",
-    },
-    [41017] = {
-        name = "強化神兵武器",
     },
     [41019] = {
         name = "艾澤拉斯總動員",
@@ -2574,14 +2535,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41040] = {
         name = "英靈殿：釀酒大師",
     },
-    [41047] = {
-        name = "灌注力量",
-    },
     [41052] = {
         name = "懇切的請求",
-    },
-    [41053] = {
-        name = "永獵祭壇",
     },
     [41056] = {
         name = "愛已不在",
@@ -2594,9 +2549,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41062] = {
         name = "豐厚的戰利品",
-    },
-    [41064] = {
-        name = "納斯雷茲姆詛咒熔爐",
     },
     [41066] = {
         name = "獵人的凝視",
@@ -2663,9 +2615,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41124] = {
         name = "提里斯護法的重生",
-    },
-    [41125] = {
-        name = "釋放潛能",
     },
     [41138] = {
         name = "為沙亞蘭供能",
@@ -6693,18 +6642,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49973] = {
         name = "薩莉瑟拉的住所",
     },
-    [49976] = {
-        name = "墮落泰坦的贈禮",
-    },
-    [49977] = {
-        name = "奧格瑪的召喚",
-    },
-    [49981] = {
-        name = "目睹世界創口",
-    },
-    [49982] = {
-        name = "目睹世界創口",
-    },
     [50046] = {
         name = "大搞破壞",
     },
@@ -6722,12 +6659,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50055] = {
         name = "代言者的看法",
-    },
-    [50056] = {
-        name = "代言者的呼喚",
-    },
-    [50057] = {
-        name = "手中的力量",
     },
     [50071] = {
         name = "為了聖光！",
@@ -6756,12 +6687,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50247] = {
         name = "克服萬難，郵件必達",
     },
-    [50300] = {
-        name = "代言者的呼喚",
-    },
-    [50341] = {
-        name = "最新的發現",
-    },
     [50358] = {
         name = "沙漠研究",
     },
@@ -6770,9 +6695,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50364] = {
         name = "艾澤拉斯之血",
-    },
-    [50371] = {
-        name = "暴風城的召喚",
     },
     [50372] = {
         name = "沙漠研究",

@@ -12,6 +12,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Plasmacciaio",
     },
+    [14720] = {
+        name = "Gran Supremo Faucisaure",
+    },
     [15192] = {
         name = "Anacronos",
     },
@@ -426,6 +429,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130576] = {
         name = "Fratello Pike",
     },
+    [130603] = {
+        name = "Hakid lo Spezzabestie",
+    },
     [130660] = {
         name = "Guardia da Guerra Rakera",
     },
@@ -729,6 +735,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [135890] = {
         name = "Re Rastakhan",
     },
+    [135901] = {
+        name = "Fungariano Ramorosso",
+    },
     [135976] = {
         name = "Morwin Cuorbosco",
     },
@@ -875,6 +884,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [138520] = {
         name = "Abitante di Zeb'ahari",
+    },
+    [138521] = {
+        name = "Tecnico della Miniera",
     },
     [138688] = {
         name = "Centuriona Kaya Pietra Calda",
@@ -1646,6 +1658,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [155496] = {
         name = "Irathion",
+    },
+    [155562] = {
+        name = "Maestra Shandaren",
     },
     [155785] = {
         name = "Dama Jaina Marefiero",

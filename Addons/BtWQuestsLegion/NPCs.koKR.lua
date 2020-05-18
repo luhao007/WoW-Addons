@@ -84,5 +84,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [121754] = {
         name = "베리사 윈드러너",
     },
+    [130030] = {
+        name = "켈시 스틸스파크",
+    },
 })
 ]])()

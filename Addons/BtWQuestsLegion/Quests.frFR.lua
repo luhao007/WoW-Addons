@@ -891,9 +891,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39191] = {
         name = "Héritage du Brise-Glace",
     },
-    [39192] = {
-        name = "La forge d’Odyn",
-    },
     [39214] = {
         name = "L’œil d’Odyn",
     },
@@ -1119,9 +1116,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39516] = {
         name = "Semer la dévastation",
     },
-    [39530] = {
-        name = "Peaufinage",
-    },
     [39575] = {
         name = "La voie de Huln",
     },
@@ -1242,9 +1236,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39702] = {
         name = "La légende du bastion du Freux",
     },
-    [39722] = {
-        name = "Une force nouvelle",
-    },
     [39726] = {
         name = "… et l’enclume",
     },
@@ -1271,12 +1262,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39756] = {
         name = "Un bon plan",
-    },
-    [39757] = {
-        name = "Une question de tranchant",
-    },
-    [39761] = {
-        name = "La gravure runique pour les experts",
     },
     [39771] = {
         name = "La voix du tonnerre",
@@ -1845,9 +1830,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40270] = {
         name = "La voie de la rédemption",
     },
-    [40276] = {
-        name = "Le Maelström appelle",
-    },
     [40297] = {
         name = "Lyana Sombrepeine",
     },
@@ -2139,9 +2121,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40649] = {
         name = "Rencontre avec Mylune",
     },
-    [40651] = {
-        name = "La graine des Âges",
-    },
     [40652] = {
         name = "Ce que dit le vent",
     },
@@ -2168,9 +2147,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40684] = {
         name = "Le grimoire des reliques interdites",
-    },
-    [40698] = {
-        name = "Pureté de la forme",
     },
     [40705] = {
         name = "Affaires de prêtres",
@@ -2249,9 +2225,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40819] = {
         name = "Petits accords",
-    },
-    [40821] = {
-        name = "Puissance accablante",
     },
     [40823] = {
         name = "La reconstitution du conseil",
@@ -2487,12 +2460,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40983] = {
         name = "Des démons parmi eux",
     },
-    [40994] = {
-        name = "Les bons outils",
-    },
-    [40995] = {
-        name = "Injection de puissance",
-    },
     [40996] = {
         name = "Délégation",
     },
@@ -2516,12 +2483,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41010] = {
         name = "Frénésie de poisson",
-    },
-    [41015] = {
-        name = "Artisan pour armes prodigieuses",
-    },
-    [41017] = {
-        name = "Le renforcement de l’arme prodigieuse",
     },
     [41019] = {
         name = "Actions sur Azeroth",
@@ -2559,14 +2520,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41040] = {
         name = "Salles des Valeureux : le maître brasseur",
     },
-    [41047] = {
-        name = "Imprégnée de puissance",
-    },
     [41052] = {
         name = "Une supplique désespérée",
-    },
-    [41053] = {
-        name = "Autel de la Chasse éternelle",
     },
     [41056] = {
         name = "Amour perdu",
@@ -2579,9 +2534,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41062] = {
         name = "Le trophée de la victoire",
-    },
-    [41064] = {
-        name = "Forge maudite des nathrezims",
     },
     [41066] = {
         name = "L’œil des chasseurs",
@@ -2648,9 +2600,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41124] = {
         name = "Le retour de la Tirisgarde",
-    },
-    [41125] = {
-        name = "Le potentiel débloqué",
     },
     [41138] = {
         name = "L’alimentation de Shal’Aran",
@@ -6669,18 +6618,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49973] = {
         name = "Le domaine de Thalyssra",
     },
-    [49976] = {
-        name = "Dons des déchus",
-    },
-    [49977] = {
-        name = "Convocation à Orgrimmar",
-    },
-    [49981] = {
-        name = "Témoin de la blessure",
-    },
-    [49982] = {
-        name = "Témoin de la blessure",
-    },
     [50046] = {
         name = "C’est du sabotage",
     },
@@ -6698,12 +6635,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50055] = {
         name = "La perspective de l’orateur",
-    },
-    [50056] = {
-        name = "L’appel de l’orateur",
-    },
-    [50057] = {
-        name = "Tout ce qui est en notre pouvoir",
     },
     [50071] = {
         name = "Pour la Lumière !",
@@ -6732,12 +6663,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50247] = {
         name = "Les chiens aboient, le courrier passe !",
     },
-    [50300] = {
-        name = "L’appel de l’orateur",
-    },
-    [50341] = {
-        name = "Une découverte récente",
-    },
     [50358] = {
         name = "Recherche dans le désert",
     },
@@ -6746,9 +6671,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50364] = {
         name = "Le sang d’Azeroth",
-    },
-    [50371] = {
-        name = "Convocation à Hurlevent",
     },
     [50372] = {
         name = "Recherche dans le désert",

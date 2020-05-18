@@ -347,15 +347,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_CAMPAIGN, {
                 1
             },
         },
-        {
-            type = "quest",
-            id = 40276,
-            x = 3,
-            y = 4,
-            connections = {
-                1
-            },
-        },
+        -- {
+        --     type = "quest",
+        --     id = 40276,
+        --     x = 3,
+        --     y = 4,
+        --     connections = {
+        --         1
+        --     },
+        -- },
         {
             type = "quest",
             id = 41510,

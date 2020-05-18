@@ -6834,6 +6834,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57955] = {
         name = "前往安卡騰港",
     },
+    [57956] = {
+        name = "廢土漫遊者宿主",
+    },
     [57969] = {
         name = "協助傷者",
     },
@@ -6847,13 +6850,16 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "日陽方尖碑",
     },
     [58008] = {
-        name = "燃料充足",
+        name = "補充燃料",
     },
     [58009] = {
         name = "飛上月球",
     },
     [58087] = {
         name = "摧毀能量來源",
+    },
+    [58214] = {
+        name = "緊急照護",
     },
     [58496] = {
         name = "不受歡迎的顧問",
@@ -6898,10 +6904,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "埋藏的歷史",
     },
     [58640] = {
-        name = "防護弱點",
+        name = "防護的弱點",
     },
     [58641] = {
-        name = "腐化追尋者",
+        name = "腐化的追尋者",
     },
     [58642] = {
         name = "共同的目標",

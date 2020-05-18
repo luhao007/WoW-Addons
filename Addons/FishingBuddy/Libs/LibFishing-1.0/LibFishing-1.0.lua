@@ -10,7 +10,7 @@ Licensed under a Creative Commons "Attribution Non-Commercial Share Alike" Licen
 local _
 
 local MAJOR_VERSION = "LibFishing-1.0"
-local MINOR_VERSION = 101071
+local MINOR_VERSION = 101072
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 
@@ -928,6 +928,7 @@ FishLib.FishingLevels = {
     [119] = 525,
     [120] = 550,
     [22] = 225,
+    [181] = 425,
 }
 
 local infoslot = nil;
@@ -1593,8 +1594,8 @@ local subzoneskills = {
 function FishLib:GetCurrentFishingLevel()
     local mapID = self:GetCurrentMapId()
     local current_max = LT:GetFishingLevel(mapID)
+    local continent, _ = self:GetCurrentMapContinent()
     if current_max == 0 then
-        local continent, _ = self:GetCurrentMapContinent()
         -- Let's just go with continent level skill for now, since
         -- subzone skill levels are now up in the air.
         local info = self.continent_fishing[continent] or DEFAULT_SKILL
@@ -1605,6 +1606,8 @@ function FishLib:GetCurrentFishingLevel()
     local _, subzone = self:GetZoneInfo()
     if (continent ~= 7 and subzoneskills[subzone]) then
         current_max = subzoneskills[subzone];
+    elseif current_max == 0 then
+        current_max = self.FishingLevels[mapID] or DEFAULT_SKILL.max;
     end
     return current_max
 end
@@ -1787,7 +1790,7 @@ function FishLib:AddTooltip(text, tooltip)
     if ( not tooltip ) then
         tooltip = GameTooltip;
     end
-    local c = color or {{}, {}};
+    -- local c = color or {{}, {}};
     if ( text ) then
         if ( type(text) == "table" ) then
             for _,l in pairs(text) do

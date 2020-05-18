@@ -1733,7 +1733,7 @@ function QuestItemMixin:OnClick(database, item, character, button, frame, toolti
         return ItemMixin.OnClick(self, database, item, character, button, frame, tooltip)
     end
 
-    if ChatEdit_TryInsertChatLink(self:GetLink(database, item)) then
+    if self:GetTarget(database, item) and ChatEdit_TryInsertChatLink(self:GetLink(database, item)) then
         return
     end
 

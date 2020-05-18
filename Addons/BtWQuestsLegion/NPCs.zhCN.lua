@@ -84,5 +84,11 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [121754] = {
         name = "温蕾萨·风行者",
     },
+    [130030] = {
+        name = "凯尔希·钢烁",
+    },
+    [131963] = {
+        name = "诺兰· 斯毕德",
+    },
 })
 ]])()
