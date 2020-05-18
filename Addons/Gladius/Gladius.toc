@@ -6,7 +6,7 @@
 
 ## Title: Gladius
 ## Notes: Arena enemy unit frames.
-## Title-zhCN: |cFFFFE00A<|r|cFF0070DE物品|r|cFFFFE00A>|r |cFFFFFFFF竞技场助手|r |cFFFFE00AGladius|r
+## Title-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r |cFFFFFFFF竞技场助手|r |cFFFFE00AGladius|r
 ## Notes-zhCN: 在竞技场中显示敌人
 
 

@@ -683,7 +683,7 @@
 	</Addon>
 	<Addon name="GladiatorlosSA2">
 		<Title>角斗士助手</Title>
-		<Category>物品</Category>
+		<Category>PVP</Category>
 		<SubAddons>
 			<SubAddon name="GladiatorlosSA_zhCN">
 				<Title>夏一可语音包</Title>
@@ -693,7 +693,7 @@
 	<Addon name="Gladius">
 		<Title>竞技场助手</Title>
 		<Notes>在竞技场中显示敌人</Notes>
-		<Category>物品</Category>
+		<Category>PVP</Category>
 	</Addon>
 	<Addon name="Grail">
 		<Title>本地数据库</Title>
@@ -864,11 +864,11 @@
 	</Addon>
 	<Addon name="honorspy">
 		<Title>荣誉间谍</Title>
-		<Category>战斗</Category>
+		<Category>PVP</Category>
 	</Addon>
 	<Addon name="HPetBattleAny">
 		<Title>宠物对战增强</Title>
-		<Category>战斗</Category>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="ItemRack">
 		<Title>一键换装</Title>
@@ -984,6 +984,11 @@
 	<Addon name="Myslot">
 		<Title>键位设置</Title>
 		<Category>界面</Category>
+	</Addon>
+	<Addon name="NovaWorldBuffs">
+		<Title>世界增益</Title>
+		<Category>辅助</Category>
+		<Notes>与其他玩家共享世界BUFF刷新时间</Notes>
 	</Addon>
 	<Addon name="NPCScan">
 		<Title>NPC扫描</Title>

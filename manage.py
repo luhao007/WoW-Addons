@@ -133,10 +133,12 @@ class Manager(object):
             '界面': 'A330C9',       # Dark Magenta - DH
             '副本': 'FF7D0A',       # Orange - Druid
             '战斗': 'C79C6E',       # Tan - Warrior
+            'PVP': '8787ED',        # Purple - Warlock
             '探索': '40C7EB',       # Light Blue - Mage
             '收藏': 'A9D271',       # Green - Hunter
+            '辅助': 'FFFFFF',       # White - Priest
         }
-        color = colors.get(cat, 'FFFFFF')       # Defaults to white
+        color = colors.get(cat, 'FFF569')   # Unknown defaults to Rogue Yellow
         parts.append('|cFFFFE00A<|r|cFF{}{}|r|cFFFFE00A>|r'.format(color, cat))
 
         parts.append('|cFFFFFFFF{}|r'.format(title))
