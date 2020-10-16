@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Ravendwyr
 ## Version: v1.5
 ## RequiredDeps: HandyNotes

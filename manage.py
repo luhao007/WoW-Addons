@@ -11,7 +11,7 @@ from utils import process_file, rm_tree
 logger = logging.getLogger('manager')
 
 CLASSIC_VER = '11305'
-RETAIL_VER = '80300'
+RETAIL_VER = '90100'
 
 
 def classic_only(func):

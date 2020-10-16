@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Simca@Malfurion and Hugh@Burning Blade
 ## Version: r211
 ## SavedVariables: BPBID_Options

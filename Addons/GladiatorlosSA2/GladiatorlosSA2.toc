@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Abatorlos(of Spinebreaker), DuskAshes, superk521, zuhligan, Grit (Legion Update), Mini_Dragon, LordKuper
 ## Version: 2.3.2
 ## SavedVariables: GladiatorlosSADB

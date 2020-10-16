@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Gello - Updated for WoW 4.0 by Kiki + Kharthus + Yewbacca
 ## SavedVariables: ItemRackSettings, ItemRackItems, ItemRackEvents
 ## SavedVariablesPerCharacter: ItemRackUser

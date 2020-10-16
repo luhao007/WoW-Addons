@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Nevcairiel, Nymbia
 ## Version: 3.6.0
 ## OptionalDeps: Ace3, LibDualSpec-1.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, SharedMedia

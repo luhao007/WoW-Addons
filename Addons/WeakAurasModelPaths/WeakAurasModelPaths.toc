@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: The WeakAuras Team
 ## Version: 3.0.1
 ## Dependencies: WeakAuras, WeakAurasOptions

@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Jaliborc (JoÃ£o Cardoso)
 ## Version: 9.0.1
 ## OptionalDeps: WoWUnit

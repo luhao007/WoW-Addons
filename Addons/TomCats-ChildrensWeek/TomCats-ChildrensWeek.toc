@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: TomCat
 ## Version: 1.0.8
 ## OptionalDeps: TomCats

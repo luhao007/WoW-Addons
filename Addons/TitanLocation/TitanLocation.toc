@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
 ## Version: 5.18.7.80300
 ## Dependencies: Titan

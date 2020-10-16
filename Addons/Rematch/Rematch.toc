@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Gello
 ## Version: 4.11.5
 ## SavedVariables: RematchSaved, RematchSettings

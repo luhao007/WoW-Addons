@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: 夏一可, Mini_Dragon
 ## Version: 20191221
 ## RequiredDeps: DBM-Core

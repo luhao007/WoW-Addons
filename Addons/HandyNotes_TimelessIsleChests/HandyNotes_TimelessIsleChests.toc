@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Bartruby of Cairne
 ## Version: 1.22
 ## RequiredDeps: HandyNotes

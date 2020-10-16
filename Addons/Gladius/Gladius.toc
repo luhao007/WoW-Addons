@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Resike and Firebunny. Original author: Proditor
 ## Version: 7.0.1
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0

@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyBfA_AllSavedVars

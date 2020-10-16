@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Version: r20
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1

@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: mystadio
 ## Version: 90001
 ## LoadOnDemand: 0

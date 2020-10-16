@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Funkydude, Nebula
 ## Version: v9.0.1
 ## OptionalDeps: Ace3, LibCandyBar-3.0, LibSharedMedia-3.0, LibDDI-1.0, LibGroupInSpecT-1.1, LibDualSpec-1.0, LibChatAnims, LibLatency, LibDurability, LibDialog-1.0, Masque

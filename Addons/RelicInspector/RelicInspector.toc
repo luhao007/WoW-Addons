@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Thoralie
 ## Version: 3.0
 ## SavedVariables: RelicInspectorDB

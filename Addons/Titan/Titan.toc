@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Titan Panel Development Team
 ## Version: 5.18.7.80300
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, LibSharedMedia-3.0, LibQTip-1.0, !LibUIDropDownMenu

@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Iza@Gilneas, humfras, Ivaria@Hyjal
 ## Version: 3.115
 ## Dependencies: VuhDo

@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: kagaro, Xinhuan
 ## Version: v33.0
 ## Dependencies: GatherMate2

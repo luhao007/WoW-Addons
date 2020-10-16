@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Oleg "Rowaa[SR13]" Volkov
 ## Version: v59
 ## RequiredDeps: Blizzard_GarrisonUI, Blizzard_OrderHallUI

@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## RequiredDeps: Details
 ## SavedVariables: Details_StreamerDB
 

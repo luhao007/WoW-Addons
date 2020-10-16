@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: MysticalOS
 ## Version: r21
 ## RequiredDeps: DBM-Core

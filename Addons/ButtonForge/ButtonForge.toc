@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Massiner of Nathrezim
 ## Version: 0.9.50
 ## OptionalDeps: Masque

@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Norganna's AddOns
 ## Version: 8.2.6510 (SwimmingSeadragon)
 ## OptionalDeps: !nLog, DebugLib

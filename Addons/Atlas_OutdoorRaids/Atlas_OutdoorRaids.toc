@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: arith, dubcat
 ## Version: v1.47.01
 ## RequiredDeps: Atlas

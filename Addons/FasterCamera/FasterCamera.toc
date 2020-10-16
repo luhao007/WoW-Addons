@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Ketho @ EU-Boulderfist
 ## Version: v2.2.0
 ## OptionalDeps: Ace3

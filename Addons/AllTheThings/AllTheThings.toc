@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Crieve-Sargeras
 ## Version: 2.1.1a
 ## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionConfig, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems

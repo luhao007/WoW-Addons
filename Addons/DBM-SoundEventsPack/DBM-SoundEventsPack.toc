@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: MysticalOS, Pardua, Cigawoot
 ## Version: 1.6.7
 ## RequiredDeps: DBM-Core

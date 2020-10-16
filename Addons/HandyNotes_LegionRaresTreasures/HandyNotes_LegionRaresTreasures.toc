@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Katjes (Coronet - Dun Morogh(EU))
 ## Version: 1.1
 ## RequiredDeps: HandyNotes

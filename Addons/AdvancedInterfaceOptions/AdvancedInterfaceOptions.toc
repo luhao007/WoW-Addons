@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: Stanzilla, Semlar
 ## Version: 1.4.0
 ## LoadOnDemand: 0

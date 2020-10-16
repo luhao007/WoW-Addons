@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Author: TomCat
 ## Version: 01.06.00
 ## SavedVariables: TomCats_Account

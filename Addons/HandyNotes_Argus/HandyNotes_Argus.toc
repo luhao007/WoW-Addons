@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90100
 ## Version: 0.20.0
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
