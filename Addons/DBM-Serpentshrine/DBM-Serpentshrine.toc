@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: r671
+## Version: r675
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMSerpentshrine_AllSavedVars
@@ -12,10 +12,11 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: BC
-## X-DBM-Mod-Has-Single-Format: 1
+## X-DBM-StatTypes: normal25
 ## X-DBM-Mod-MapID: 548
 ## X-DBM-Mod-Sort: 1005
-## X-DBM-Mod-MinCoreRevision: 12473
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 1
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
 ## X-Part-Of: DBM-Core

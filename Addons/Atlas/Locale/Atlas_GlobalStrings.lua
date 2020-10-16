@@ -1,4 +1,4 @@
--- $Id: Atlas_GlobalStrings.lua 348 2020-01-19 16:18:50Z arith $
+-- $Id: Atlas_GlobalStrings.lua 356 2020-07-26 14:58:22Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -195,6 +195,7 @@ else
 	ATLAS_DDL_EXPANSION_LEGION1	= format("|T%s:0:0|t %s", icon_E6, L["ATLAS_DDL_EXPANSION_LEGION1"])
 	ATLAS_DDL_EXPANSION_LEGION2	= format("|T%s:0:0|t %s", icon_E6, L["ATLAS_DDL_EXPANSION_LEGION2"])
 	ATLAS_DDL_EXPANSION_BFA		= format("|T%s:0:0|t %s", icon_E7, L["ATLAS_DDL_EXPANSION_BFA"])
+	ATLAS_DDL_EXPANSION_SHADOWLANDS = L["ATLAS_DDL_EXPANSION_SHADOWLANDS"]
 end
 ATLAS_DDL_TYPE			= L["ATLAS_DDL_TYPE"]
 ATLAS_DDL_TYPE_INSTANCE		= L["ATLAS_DDL_TYPE_INSTANCE"]

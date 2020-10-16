@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod("SanguineDepthsTrash", "DBM-Party-Shadowlands", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200410015726")
+mod:SetRevision("20200907150556")
 --mod:SetModelID(47785)
-mod:SetZone()
 
 mod.isTrashMod = true
 
@@ -26,9 +25,9 @@ mod:RegisterEvents(
 function mod:RicochetingTarget(targetname, uId)
 	if not targetname then return end
 --	warnRicochetingThrow:Show(targetname)
-	if targetname == UnitName("player") then
+--	if targetname == UnitName("player") then
 --		yellRicochetingThrow:Yell()
-	end
+--	end
 end
 
 function mod:SPELL_CAST_START(args)

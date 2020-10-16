@@ -152,7 +152,7 @@ function Highlight:CreateFrame(unit)
 		return
 	end
 	-- create frame
-	self.frame[unit] = CreateFrame("Frame", "Gladius"..self.name..unit, button)
+	self.frame[unit] = CreateFrame("Frame", "Gladius"..self.name..unit, button, BackdropTemplateMixin and "BackdropTemplate")
 	-- set priority
 	self.frame[unit].priority = -1
 end

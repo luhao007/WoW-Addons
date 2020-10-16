@@ -2755,7 +2755,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Percer le bouclier",
     },
     [50690] = {
-        name = "Avec Moxie",
+        name = "[UNUSED]",
     },
     [50691] = {
         name = "Pas de ça ici !",
@@ -6550,7 +6550,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Naufragés chanceux",
     },
     [56641] = {
-        name = "Coupure de courant\13\
+        name = "Coupure de courant13\
 ",
     },
     [56642] = {

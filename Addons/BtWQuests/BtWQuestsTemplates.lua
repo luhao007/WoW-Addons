@@ -11,6 +11,22 @@ local CHAIN_GRID_VERTICAL_SIZE = 80;
 local CHAIN_GRID_HORIZONTAL_PADDING = 99;
 local CHAIN_GRID_VERTICAL_PADDING = 52 + (CHAIN_GRID_VERTICAL_SIZE * 2);
 
+--@REMOVE AFTER 9.0
+local GetLogIndexForQuestID = C_QuestLog.GetLogIndexForQuestID
+local IsQuestComplete = C_QuestLog.IsComplete
+local IsQuestFailed = C_QuestLog.IsFailed
+if select(4, GetBuildInfo()) < 90000 then
+    GetLogIndexForQuestID = GetQuestLogIndexByID
+    function IsQuestComplete(questLogIndex)
+        local complete = select(6, GetQuestLogTitle(questLogIndex))
+        return complete and compelte > 0
+    end
+    function IsQuestFailed(questLogIndex)
+        local complete = select(6, GetQuestLogTitle(questLogIndex))
+        return complete and compelte < 0
+    end
+end
+
 -- [[ Chain ]]
 function BtWQuestsChainItemPool_HideAndClearAnchors(framePool, frame)
     FramePool_HideAndClearAnchors(framePool, frame)
@@ -893,7 +909,7 @@ function BtWQuestsNavBarMixin:GoToItem(item)
         if self.enableExpansions then
             BtWQuestsFrame:SelectExpansion()
         else
-            BtWQuestsFrame:SelectExpansion(BtWQuestsFrame.expansionID or BtWQuestsDatabase:GuessExpansion(self:GetCharacter()))
+            BtWQuestsFrame:SelectExpansion(BtWQuestsFrame.expansionID or BtWQuestsDatabase:GetBestExpansionForCharacter(self:GetCharacter()))
         end
     elseif item.type == "expansion" then
         BtWQuestsFrame:SelectExpansion(item.id)
@@ -1596,10 +1612,8 @@ end
 -- [[ Tooltip ]]
 BtWQuestsTooltipMixin = {}
 function BtWQuestsTooltipMixin:OnLoad()
+    GameTooltip_OnLoad(self)
     self:SetScript("OnTooltipSetQuest", self.OnSetQuest)
-
-    self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
-    self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
 end
 function BtWQuestsTooltipMixin:OnSetQuest()
     local quest = BtWQuestsDatabase:GetQuestByID(self.questID)
@@ -1643,13 +1657,13 @@ function BtWQuestsTooltipMixin:SetChain(chainID, character)
         self:AddLine(GREEN_FONT_COLOR_CODE..L["BTWQUESTS_QUEST_CHAIN_ACTIVE"]..FONT_COLOR_CODE_CLOSE)
     end
 
-    local prerequisites = chain:GetPrerequisites()
+    local prerequisites, hasLowPrio = chain:GetPrerequisites()
     if prerequisites then
         local addedPrerequisite
         for _,prerequisite in ipairs(prerequisites) do
             prerequisite = prerequisite:GetVariation(character) or prerequisite;
 
-            if prerequisite:IsValidForCharacter(character) and prerequisite:Visible(character) then
+            if prerequisite:IsValidForCharacter(character) and prerequisite:Visible(character, IsModifiedClick("SHIFT")) then
                 if not addedPrerequisite then
                     self:AddLine(" ")
                     self:AddLine(L["BTWQUESTS_TOOLTIP_PREREQUISITES"])
@@ -1669,6 +1683,12 @@ function BtWQuestsTooltipMixin:SetChain(chainID, character)
 
     self:Show();
 end
+local IsUnitOnQuest = C_QuestLog.IsUnitOnQuest
+if not IsUnitOnQuest then
+    function IsUnitOnQuest(unit, questID)
+        return IsUnitOnQuestByQuestID(questID, unit)
+    end
+end
 -- Custom function for displaying an active quest showing completed requirements
 function BtWQuestsTooltipMixin:SetActiveQuest(id, character)
     local id = tonumber(id)
@@ -1677,8 +1697,9 @@ function BtWQuestsTooltipMixin:SetActiveQuest(id, character)
     self.questID = id
 
     local quest = BtWQuestsDatabase:GetQuestByID(id)
-    local questLogIndex = GetQuestLogIndexByID(id)
-	local isComplete = select(6, GetQuestLogTitle(questLogIndex));
+    local questLogIndex = GetLogIndexForQuestID(id)
+	local isComplete = IsQuestComplete(id);
+	local isFailed = IsQuestFailed(id);
     local _, objectiveText = GetQuestLogQuestText(questLogIndex);
 
     self:ClearLines()
@@ -1694,11 +1715,11 @@ function BtWQuestsTooltipMixin:SetActiveQuest(id, character)
         end
     end
 
-	if isComplete and isComplete < 0 then
+	if isFailed then
 		QuestUtils_AddQuestTagLineToTooltip(self, FAILED, "FAILED", nil, RED_FONT_COLOR);
 	end
 
-	if isComplete and isComplete > 0 then
+	if isComplete then
 		local completionText = GetQuestLogCompletionText(questLogIndex) or QUEST_WATCH_QUEST_READY;
         self:AddLine(" ")
 		self:AddLine(completionText, 1, 1, 1, true);
@@ -1729,8 +1750,8 @@ function BtWQuestsTooltipMixin:SetActiveQuest(id, character)
     end
 
 	local partyMembersOnQuest = 0;
-	for i=1, GetNumSubgroupMembers() do
-		if IsUnitOnQuestByQuestID(id, "party"..i) then
+    for i=1, GetNumSubgroupMembers() do
+        if IsUnitOnQuest("party"..i, i) then
 			-- Found at least one party member who is also on the quest, set it up!
 			self:AddLine(" ");
 			self:AddLine(PARTY_QUEST_STATUS_ON);
@@ -1894,6 +1915,8 @@ function BtWQuestsSearchBoxMixin:OnFocusGained()
 
         return
     end
+
+    self:SetSearch(self:GetText())
 
     local resultsFrame = self:GetResultsFrame()
     local previewFrame = self:GetPreviewFrame()

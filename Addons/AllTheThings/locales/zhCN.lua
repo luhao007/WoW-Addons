@@ -142,7 +142,7 @@ for key, value in pairs({
 		[-14] = DUNGEON_FLOOR_DIREMAUL2 .. " [西 - 精灵]", -- Capital Gardens [West - Elves] 中心花园
 		[-15] = "Common Vendor Items",
 		[-16] = "稀有", -- Rares
-		
+
 		[-40] = "绝版", -- Legacy
 		[-41] = "Cache of Madness",
 -- Armor Types
@@ -152,9 +152,9 @@ for key, value in pairs({
 		[-46] = GetItemSubClassInfo(4,4), -- Plate 板甲
 -- World Events
 		[-50] = "情人节", -- Love is in the Air
-		
+
 		[-53] = "仲夏火焰节", -- Midsummer Fire Festival
-		[-55] = "海盗日", -- Pirate's Day
+		[-55] = "海盗日", -- Pirates' Day
 		[-59] = "亡灵节", -- Day of the Dead
 		[-61] = "冬幕节", -- The Feast of Winter Veil
 		[-62] = "荆棘谷钓鱼大赛", -- Stranglethorn Fishing Extravaganza
@@ -177,7 +177,7 @@ for key, value in pairs({
 		[-131] = "辛特兰 "..GetSpellInfo(133137),
 		[-132] = "菲拉斯 "..GetSpellInfo(133137),
 		[-133] = "暮色森林 "..GetSpellInfo(78741),
-		
+
 --Transmog Sets
 		[-134] = "奥格瑞玛套装", -- Orgrimmar Set
 		[-135] = "暴风城套装", -- Stormwind Set
@@ -198,12 +198,12 @@ for key, value in pairs({
 		[-158] = "菲拉斯 "..GetSpellInfo(78741),
 		[-159] = "事件roll点", -- Event Roll (Daily Dreamway Event Roll)
 		[-168] = FACTION_OTHER .. QUESTS_LABEL,
-		
+
 		[-171] = "任务线", -- Quest Chains
 		[-175] = "垃圾场匠技", -- Junkyard Tinkering
-		
+
 		[-206] = "典范", -- Paragon
-		
+
 		[-211] = NEW .. CHARACTER, -- New Character 新建角色
 		[-212] = "宝箱", -- Treasure Chest
 		[-214] = "夜之子", -- Nightborne Home
@@ -211,7 +211,7 @@ for key, value in pairs({
 		[-218] = "鱼饵", -- Coastal (for Fishing)
 		[-224] = "伊利达雷", -- Illidari
 		[-236] = "联盟阵营战役", -- Alliance War Campaign
-		
+
 		[-242] = "Unrated",
 		[-243] = "Bounty",
 		[-244] = "黑铁矮人", -- Dark Iron Dwarf
@@ -224,22 +224,22 @@ for key, value in pairs({
 		[-254] = "传承护甲", -- Heritage Armor
 		[-255] = "狐人", -- Vulpera
 		[-256] = "机械侏儒", -- Mechagnome
-		
+
 		[-351] = "首领掉落", -- Boss Drop
 		[-356] = "进攻黑暗之门", -- Assault on the Dark Portal
 		[-359] = "酿酒厂", -- Brewery
 		[-362] = "晴日峰", -- Peak of Serenity
-		
+
 		[-366] = "武器系列",
-		
+
 		[-388] = "主门", -- Main Gate (Stratholme)
 		[-389] = "仆从入口", -- Service Entrance (Stratholme)
-		
+
 		[-488] = "战争宝箱", -- War Chest
 		[-489] = "周常PvP宝箱", -- Weekly PVP Chest
 		[-491] = "塔罗牌", -- Tarot Cards
 		[-492] = "幻象", -- Illusions
-		
+
 		[-518] = "库尔提拉斯和赞达拉", -- Kul Tiras and Zandalar
 		[-520] = "资料片前夕", -- Expansion Pre-Launch
 		[-521] = "燃烧的远征：Dark Portal Opens", -- 这些谁知道官翻？
@@ -253,7 +253,7 @@ for key, value in pairs({
 		[-532] = "风暴英雄推广活动", -- Heroes of the Storm Promotion
 		[-533] = "炉石传说推广活动", -- Hearthstone Promotion
 		[-534] = "典藏版", -- Collector's Edition
-		
+
 		[-536] = "守望先锋推广活动", -- Overwatch Promotion
 		[-537] = "星际争霸推广活动", -- Starcraft Promotion
 		[-538] = "暗黑破坏神20周年庆", -- Diablo 20th Anniversary Promotion
@@ -293,9 +293,9 @@ for key, value in pairs({
 		[-575] = "暗黑破坏神3：夺魂之镰", -- Diablo III: Reaper of Souls
 		[-576] = "星际争霸2：虚空之遗", -- StarCraft II: Legacy of the Void
 		[-577] = "魔兽世界电影", -- World of Warcraft Movie
-		
+
 		[-650] = "任务物品", -- Quest Items
-		
+
 -- PvP Set Names
 		[-659] = "候选者套装", -- Aspirant PvP Gear (WoD, BfA)
 		[-660] = "争斗者套装", -- Combatant PvP Gear (WoD, Legion)
@@ -325,10 +325,10 @@ for key, value in pairs({
 -- Mists of Pandaria PvP Seasons
 		[-675] = select(2, GetAchievementInfo(8214)).."第12赛季", -- Malevolent Gladiator: Season 12
 		[-676] = select(2, GetAchievementInfo(8791)).."第13赛季", -- Tyrannical Gladiator: Season 13
-		
+
 		[-806] = "钟示贤德腰带", -- Waist of Time
-		
--- Mechagon		
+
+-- Mechagon
 		[-850] = "机械化的宝箱", -- Mechanized Chest
 		[-851] = "铁潮宝箱", -- Irontide Chest
 		[-1001] = "The Black Vault",
@@ -365,9 +365,9 @@ for key, value in pairs({
 		[-3187] = "副本套装", -- Instance Item Sets
 		[-3188] = "Dungeon, Tier and Class Sets",
 		[-3189] = "Fel-Touched Weapons",
-		
+
 		[-3199] = "Midsummer Reveler Set",
-		
+
 -- Dungeon 1 Sets [Tier 0]
 		[-3200] = "虔诚", -- Vestments of the Devout (Priest)
 		[-3201] = "博学者", -- Magister's Regalia (Mage)
@@ -496,7 +496,7 @@ for key, value in pairs({
 		[-3319] = "Swarmfury",
 		[-3340] = "Dark Animator",
 		[-3341] = "Duskhaven",
-		
+
 		[-3343] = "Choking Winter",
 		[-3342] = "Fallen Runelord",
 		[-3320] = "Spiritbough",
@@ -539,20 +539,20 @@ for key, value in pairs({
 		[-5203] = "荣誉奖励",
 		[-5204] = "挑战外观",
 		[-5205] = "隐藏外观",
-		
+
 		[-5349] = MAC_OPTIONS_MISC.." "..LOOT_JOURNAL_ITEM_SETS, 					-- Miscellaneous Item Sets
 		[-5350] = "职业试用套装",                                                    -- Class Trial
 		[-5351] = GAMEMENU_BOOST_BUTTON,											-- Character Boost
-		
+
 		[-5352] = "Tier套装", -- 想不到更好的翻译了
-		
+
 		[-7776] = "Winter Revelers",												-- Winter Revelers (for Winter Veil)
 		[-7777] = "Timed Event",
 		[-7778] = "First Chest",
 		[-7779] = "Second Chest",
 		[-7780] = "Third Chest",
 		[-7781] = "Final Chest",
-		
+
 		[-10066] = BATTLE_PET_BREED_QUALITY6,			-- "Legendary";
 		[-10067] = ITEM_QUALITY6_DESC, 					-- Artifact
 		[-10068] = OPTION_TOOLTIP_ANIMATION,			-- PLACE_HOLDER
@@ -759,7 +759,7 @@ for key, value in pairs({
 		[279689] = "Lost Nazmani Treasure",
 		[279750] = "干草覆盖的宝箱", -- Hay Covered Chest
 		[280504] = "Swallowed Naga Chest",
-		[280522] = "Partially-Digested Treasure",		
+		[280522] = "Partially-Digested Treasure",
 		[280619] = "古旧的缚铁宝箱", -- Old Ironbound Chest
 		[280727] = "Charred Note",
 		[280751] = "Small Treasure Chest",
@@ -1019,22 +1019,22 @@ for key, value in pairs({
 
 L["UNOBTAINABLE_ITEM_REASONS"] = {
     -- {header, description, name}, header: header id, 1-3 as above, 4 is legacy.
-    {1, "|CFFFF0000玩家无法获得。|r", "无法获得 (1)"}, -- No Hope -- 1
-    {1, "|CFFFF0000获得方式已被移除，且拾取后绑定/绑定到账号。|r", "BoP / BoA (2)"}, -- No Hope -- 2
-    {1, "|CFFFF0000只在暴雪的推广活动或一次性活动时可得。|r", "暴雪推广活动 (3)"}, -- No Hope -- 3
-    {1, "|CFFFF0000要获得此奖励所需的成就目标不再能达成，或有时间限制。|r", "绝版成就 (4)"}, -- Little Hope -- 4
-    {2, "|CFFFF0000制造此物品的配方已被移除，且此物品拾取后绑定，因此只有已习得此配方的玩家才能获得。|r", "配方移除的绑定物品 (5)"}, -- Little Hope -- 5
-    {2, "|CFFFF0000此物品是典藏版的一部分。网上可能仍有极小数量出售。|r", "典藏版 (6)"}, -- Little Hope -- 6
-    {3, "|CFFFF0000此物品的获得方式已被移除，但此物品是装备后绑定，或者是可装笼的宠物。|r", "装绑物品 (7)"}, -- There is Hope -- 7
-    {3, "|CFFFF0000制造此物品的配方已被移除，且此物品装备后绑定，因此仍然可以制造和交易。|r", "配方移除的装绑物品 (8)"}, -- There is Hope -- 8
+    {1, "|CFFFF0000This was never available to players.|r", "Never Available (1)"}, -- No Hope -- 1
+	{1, "|CFFFF0000This has been removed from the game.|r", "Removed From Game (2)"}, -- No Hope -- 2
+    {0, "", ""}, -- 3
+    {0, "", ""}, -- 4
+    {0, "", ""}, -- 5
+    {0, "", ""}, -- 6
+    {0, "", ""}, -- 7
+    {0, "", ""}, -- 8
     {3, "|CFFFF0000此物品的获得方式已被移除，只能从黑市拍卖行获得。|r", "黑市拍卖行 (9)"}, -- There is Hope -- 9
     {3, "|CFFFF0000此物品通过TCG卡牌获得，卡牌不再发行，但网络上、黑市拍卖行甚至交易行仍可能出现。国服也可能有积分兑换活动。|r", "TCG卡牌 (10)"}, -- There is Hope -- 10
     {3, "|CFFFF0000此物品拾取后绑定，但是如果你有召唤首领所需的物品仍可获得。|r", "需要召唤道具 (11)"}, -- There is Hope -- 11
-    {4, "|CFFFF0000副本或首领已绝版。|r", "绝版副本 (12)"}, -- 12
+    {0, "", ""}, -- 12
     {1, "|CFFFF0000你的追随者等级过高，奖励此物品的任务不再刷新。|r", "绝版物资 (13)"}, -- 13
-    {2, "|CFFFF0000此物品无法购买，除非你在对应赛季的PvP评分或排名达标。|r", "PvP Elite/Gladiator (14)"}, -- 14
+    {3, "|CFFFF0000此物品无法购买，除非你在对应赛季的PvP评分或排名达标。|r", "PvP Elite/Gladiator (14)"}, -- 14
     {1, "|CFFFF0000This item has a Source ID (Tempest Keep Legendaries), but can't be learned (training recipes). |r", "Training Recipes / Unlearnable (15)"}, -- 15
-    {2, "|CFFFF0000此物品是参加嘉年华或购买虚拟门票的奖励。在网络上可能有高价出售的激活码。|r", "暴雪嘉年华 (16)"}, --16
+    {0, "", ""}, --16
     {6, "|CFF00FFDE只能在春节期间获得。|r", "春节 (17)"}, --17
     {7, "|CFF00FFDE只能在情人节期间获得。|r", "情人节 (18)"}, --18
     {8, "|CFF00FFDE只能在复活节期间获得。|r", "复活节 (19)"}, --19
@@ -1050,20 +1050,18 @@ L["UNOBTAINABLE_ITEM_REASONS"] = {
     {18, "|CFF00FFDE只能在冬幕节期间获得。|r", "冬幕节 (29)"}, --29
     {19, "|CFF00FFDE只能在荆棘谷钓鱼大赛获得。|r", "荆棘谷钓鱼大赛 (30) "}, --30
     {20, "|CFF00FFDE只能在魔兽世界周年庆期间获得。\n未来的周年庆中可能也可获得。|r\n", "魔兽世界周年庆 (31)"}, --31
-    {4, "|CFFFF0000这是此任务原本的奖励，后来任务重做了，也改变了奖励。If you did complete this quest it is likely this item will not be added to your transmog as Blizzard will add the rewards from the revamped quest.|r", "奖励已重做 (32)"}, --32
-    {4, "|CFFFF0000此商人不再出现在此处或不再出现在游戏中。|r", "绝版商人 (33)"}, -- 33
-    {4, "|CFFFF0000是绝版任务的奖励，不再可得。|r", "绝版任务奖励 (34)"}, --34
+    {0, "", ""}, --32
+    {0, "", ""}, -- 33
+    {0, "", ""}, --34
     {3, "|CFFFF0000在游戏内商城出售。|r", "游戏内商城 (35)"}, --35
     {21, "|CFFFF0000只能在曾经的魔兽世界周年庆期间获得，不再可得。|r\n", "魔兽世界周年庆 [已移除] (36)"}, -- 36
-    {1, "|CFFFF0000此头衔在游戏中不再可得。|r", "头衔 (37)"}, --37
-    {4, "|CFFFF0000此项只有在熊猫人之谜资料片完成了传说披风任务线的玩家才能获得。|r", "斡耳朵斯－传说披风 (38)"}, --38
-    {4, "|CFFFF0000此头衔不再可得。|r", "绝版头衔 (39)"}, --39
-    {4, "|CFFFF0000任务或任务物品已绝版，不再可得。|r", "绝版任务 (40)"}, -- 40
-    {4, "|CFFFF0000这些外观只有完成了法师塔神器挑战，获得了基础配色的玩家才能获得。|r", "法师塔外观 (41)"}, -- 41
+    {0, "", ""}, --37
+    {1, "|CFFFF0000此项只有在熊猫人之谜资料片完成了传说披风任务线的玩家才能获得。|r", "斡耳朵斯－传说披风 (38)"}, --38
+    {0, "", ""}, --39
+    {0, "", ""}, -- 40
+    {1, "|CFFFF0000这些外观只有完成了法师塔神器挑战，获得了基础配色的玩家才能获得。|r", "法师塔外观 (41)"}, -- 41
     {21, "|CFFFF0000这些外观只有在对应资料片的时空漫游周才能获得。|r", "时空漫游 (42)"}, -- 42
-    {1, "|CFFFF0000此NPC或生物已从游戏中移除。|r", "NPC已移除 (43)"}, -- 43
-    {2, "|CFFFF0000只能从限定时间的黑市拍卖行中获得。|r", "限定时间的黑市 (44)"}, -- 44
+    {0, "", ""}, -- 43
+    {0, "", ""}, -- 44
     {1, "|CFFFF0000暴雪在7.3.2和8.0中的拾取改动使得一些物品无法掉落。目前影响的包括格鲁尔（TBC）、怒炉将军（黑石深渊）和、特迪斯·扭木（厄运之槌西）的掉落。|r", "拾取机制损坏 (45)"}, -- 45
-    {3, "|CFFFF0000此项只能从最高等级时的战争宝箱获得。|r", "入侵掉落 (46)"} -- 46
-    --	{1, "|CFFFF0000With 8.0, Blizzard's Legacy Loot implementation broke Gruul' loot table.|r", "Gruul Non-Tier Loot (47)"}; -- 47
 }

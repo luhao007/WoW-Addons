@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Sutorix=AT=hotmail.com
-## Version: 1.10.8.9
+## Version: 1.11 Beta 1
 ## OptionalDeps: FB_Debugging, Outfitter, myAddOns, Titan
 ## SavedVariables: FishingBuddy_Info
 ## SavedVariablesPerCharacter: FishingBuddy_Player

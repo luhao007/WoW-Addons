@@ -43,14 +43,16 @@ function BtWQuestsQuestPinMixin:SetName(value)
 end
 
 function BtWQuestsQuestPinMixin:OnMouseEnter()
-	WorldMapTooltip:SetOwner(self, "ANCHOR_LEFT");
-	WorldMapTooltip:SetText(self.itemName);
-	WorldMapTooltip:AddLine(AVAILABLE_QUEST, 1, 1, 1, true);
-	WorldMapTooltip:Show();
+    local tooltip = WorldMapTooltip or GameTooltip
+	tooltip:SetOwner(self, "ANCHOR_LEFT");
+	tooltip:SetText(self.itemName);
+	tooltip:AddLine(AVAILABLE_QUEST, 1, 1, 1, true);
+	tooltip:Show();
 end
 
 function BtWQuestsQuestPinMixin:OnMouseLeave()
-	WorldMapTooltip:Hide();
+    local tooltip = WorldMapTooltip or GameTooltip
+	tooltip:Hide();
 end
 
 function BtWQuestsQuestPinMixin:OnClick()

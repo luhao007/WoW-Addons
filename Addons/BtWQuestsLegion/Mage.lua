@@ -28,7 +28,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_ARCANE, {
         type = "quest",
         id = 42011,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Mage-Arcane",
     items = {
         {
@@ -122,7 +122,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FIRE, {
         type = "quest",
         id = 11997,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Mage-Fire",
     items = {
         {
@@ -180,7 +180,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_FROST, {
         type = "quest",
         id = 42479,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Mage-Frost",
     items = {
         {
@@ -254,7 +254,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
         type = "quest",
         id = 42734,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -635,7 +635,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_MAGE_CAMPAIGN, {
 
         {
             type = "level",
-            level = 110,
+            level = 45,
             x = 5,
             y = 26.5,
             connections = {

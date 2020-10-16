@@ -2950,7 +2950,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "突發奇想",
     },
     [50801] = {
-        name = "麻煩的嗅覺",
+        name = "嗅到麻煩的氣息",
     },
     [50802] = {
         name = "鋼鐵低潮",
@@ -3835,7 +3835,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "墓地管理者",
     },
     [51789] = {
-        name = "莫·瓦倫泰元帥的遺骸",
+        name = "莫‧瓦倫泰元帥的遺骸",
     },
     [51795] = {
         name = "羅德隆之戰",
@@ -3946,7 +3946,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "勇士：博學者奧姆里克",
     },
     [52013] = {
-        name = "勇士：約翰·J·基沙恩",
+        name = "勇士：約翰‧J‧基沙恩",
     },
     [52026] = {
         name = "越洋暗殺",
@@ -4945,7 +4945,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "前往釣點",
     },
     [53889] = {
-        name = "堅定的宣達",
+        name = "堅定的宣言",
     },
     [53890] = {
         name = "新盟友，新問題",
@@ -4984,7 +4984,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "炸藥永遠都能搞定",
     },
     [53902] = {
-        name = "解決喚嘲者",
+        name = "解決喚潮者",
     },
     [53903] = {
         name = "與米若會合",
@@ -5152,7 +5152,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "羅亞的凝視：伯昂撒姆第",
     },
     [54036] = {
-        name = "特殊過程",
+        name = "特別流程",
     },
     [54041] = {
         name = "全數殲滅",
@@ -5305,7 +5305,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "神王之死",
     },
     [54165] = {
-        name = "德瑞克·普勞德摩爾的復生",
+        name = "德瑞克‧普勞德摩爾的復生",
     },
     [54169] = {
         name = "盜竊寶庫",
@@ -5716,7 +5716,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "別吵醒沉睡的狼",
     },
     [54990] = {
-        name = "新上任的守衛",
+        name = "新上任的衛兵",
     },
     [54992] = {
         name = "冰山現一角",
@@ -5854,7 +5854,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "尋找制高點",
     },
     [55185] = {
-        name = "聽好啦！",
+        name = "聽好！",
     },
     [55188] = {
         name = "撕裂的接縫",
@@ -6229,7 +6229,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "危險的幻象",
     },
     [55779] = {
-        name = "暫緩死刑",
+        name = "阻止行刑",
     },
     [55780] = {
         name = "往日盟友",
@@ -6883,7 +6883,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "零碎的調查",
     },
     [58615] = {
-        name = "暗處細語",
+        name = "黑暗中的低語",
     },
     [58631] = {
         name = "踏入夢境",

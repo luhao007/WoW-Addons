@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod(2139, "DBM-Azeroth-BfA", 2, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200220034831")
+mod:SetRevision("20200907150556")
 mod:SetCreatureID(132701)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
-mod:SetZone()
 --mod:SetMinSyncRevision(11969)
 
 mod:RegisterCombat("combat")
@@ -27,7 +26,7 @@ local specWarnTerrorWall			= mod:NewSpecialWarningDodge(261552, nil, nil, nil, 3
 
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
-local timerCrushingSlamCD			= mod:NewCDTimer(23.2, 262004, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--24.8-31?
+local timerCrushingSlamCD			= mod:NewCDTimer(23.2, 262004, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)--24.8-31?
 local timerCoalescedEssenceCD		= mod:NewCDTimer(23.6, 261600, nil, nil, nil, 3)--25-28?
 local timerConsumingSpiritsCD		= mod:NewCDTimer(21.9, 261605, nil, nil, nil, 3)--21-35?
 local timerTerrorWallCD				= mod:NewCDTimer(23.2, 261552, nil, nil, nil, 3)--24-29?
@@ -35,11 +34,13 @@ local timerTerrorWallCD				= mod:NewCDTimer(23.2, 261552, nil, nil, nil, 3)--24-
 mod:AddRangeFrameOption(8, 261605)
 --mod:AddReadyCheckOption(37460, false)
 
+--[[
 function mod:OnCombatStart(delay, yellTriggered)
 	if yellTriggered then
 
 	end
 end
+--]]
 
 function mod:OnCombatEnd()
 	if self.Options.RangeFrame then

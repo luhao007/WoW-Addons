@@ -48,6 +48,11 @@ end
 
 
 if L then
+L[" 1/2"] = "1/2"
+L[" 2/2"] = "2/2"
+L["%s Dungeons"] = "%s Mazmorras"
+L["%s Instances"] = "%s Estancias"
+L["%s Raids"] = "%s Bandas"
 L["Adult"] = "Adulto"
 L["AKA"] = "Alias"
 L["Alexston Chrome <Tavern of Time>"] = "Alexston Cromo <La Taberna del Tiempo>"

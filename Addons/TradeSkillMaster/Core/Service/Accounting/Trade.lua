@@ -1,9 +1,7 @@
 -- ------------------------------------------------------------------------------ --
 --                                TradeSkillMaster                                --
---             https://www.curseforge.com/wow/addons/tradeskill-master            --
---                                                                                --
---             A TradeSkillMaster Addon (https://tradeskillmaster.com)            --
---    All Rights Reserved* - Detailed license information included with addon.    --
+--                          https://tradeskillmaster.com                          --
+--    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
 local _, TSM = ...
@@ -150,7 +148,7 @@ function private.OnChatMsg(_, msg)
 					end,
 				}
 			end
-			StaticPopupDialogs["TSMAccountingOnTrade"].text = format(L["TSM_Accounting detected that you just traded %s %s in return for %s. Would you like Accounting to store a record of this trade?"], insertInfo.name, gaveText, gotText)
+			StaticPopupDialogs["TSMAccountingOnTrade"].text = format(L["TSM detected that you just traded %s to %s in return for %s. Would you like Accounting to store a record of this trade?"], gaveText, insertInfo.name, gotText)
 			Wow.ShowStaticPopupDialog("TSMAccountingOnTrade")
 		end
 	end

@@ -3169,7 +3169,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "通缉：黑暗低语者乔拉",
     },
     [51071] = {
-        name = "通缉：剜齿虎后",
+        name = "通缉：剜齿龙后",
     },
     [51072] = {
         name = "通缉：肥指猩猩长者",
@@ -4597,7 +4597,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "战争来临",
     },
     [53336] = {
-        name = "通缉：剜齿虎后",
+        name = "通缉：剜齿龙后",
     },
     [53337] = {
         name = "通缉：肥指猩猩长者",
@@ -4972,7 +4972,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "犒劳宴",
     },
     [53898] = {
-        name = "力量与荣耀号",
+        name = "力量与荣耀",
     },
     [53899] = {
         name = "郊外",
@@ -5653,10 +5653,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "兄弟的帮助",
     },
     [54939] = {
-        name = "固执的铜须",
+        name = "固执如铜须",
     },
     [54940] = {
-        name = "我们需要纯净圣母",
+        name = "纯净圣母是必要的",
     },
     [54945] = {
         name = "修葺一新",
@@ -5680,7 +5680,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "拨乱反正",
     },
     [54964] = {
-        name = "心之秘室的单程票",
+        name = "心路单程票",
     },
     [54965] = {
         name = "被拆卸的机器人",
@@ -6532,7 +6532,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "神秘的徽记",
     },
     [56538] = {
-        name = "魔古部族",
+        name = "魔古氏族",
     },
     [56539] = {
         name = "找到莱加尼",
@@ -6676,7 +6676,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "擒贼先擒王",
     },
     [57070] = {
-        name = "消灭魔古",
+        name = "歼灭魔古",
     },
     [57071] = {
         name = "一滴都不能少",
@@ -6769,7 +6769,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "破浪而行",
     },
     [57362] = {
-        name = "继续深入黑暗",
+        name = "深入黑暗",
     },
     [57373] = {
         name = "陷入疯狂",
@@ -6820,7 +6820,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "传播消息",
     },
     [57524] = {
-        name = "访问档案",
+        name = "查看档案",
     },
     [57873] = {
         name = "奥西斯的讯息",

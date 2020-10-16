@@ -124,15 +124,13 @@ L = {
 		["Attach edit box to..."] = "Befestige Eingabefeld an ...",
 		["Attach to..."] = "Befestige an ...",
 		["Background color"] = "Hintergrundfarbe",
-		["Background Inset"] = "Hintergrundbild",
-		["Background texture"] = "Hintergrundtextur",
+		["Background Inset"] = "Hintergrundeinfügung",
+		["Background texture"] = "Hintergrundbeschaffenheit",
 		["Border color"] = "Randfarbe",
 		["Border texture"] = "Randtextur",
 		["Bottom"] = "Unten",
-		["Color border by channel"] = "Rand einfärben nach Kanal",
-		["currently_broken_alt_behavior"] = [=[Das Verhalten der Pfeiltasten im Chat ist im aktuellen WoW-Client defekt,
-
-verwende stattdessen Alt+Hoch und Alt+Runter, um durch den Chatverlauf zu scrollen.]=],
+		["Color border by channel"] = "Farbrand nach Kanal",
+		["currently_broken_alt_behavior"] = "Das Verhalten der Pfeiltasten im aktuellen WoW-Client ist unterbrochen. Verwende ALT-HOCH und ALT-RUNTER anstelle von nur HOCH RUNTER, um auf den Verlauf zuzugreifen",
 		["Edge Size"] = "Kantengröße",
 		["Editbox"] = "Eingabefeld",
 		["Editbox options."] = "Optionen für das Eingabefeld.",
@@ -141,7 +139,7 @@ verwende stattdessen Alt+Hoch und Alt+Runter, um durch den Chatverlauf zu scroll
 		["Free-floating, Locked"] = "Freischwebend, fixiert",
 		["Requires the Alt key to be held down to move the cursor in chat"] = "Das Drücken der Alt-Taste wird benötigt, um den Cursor (Zeiger) im Chat zu bewegen.",
 		["Select the font to use for the edit box"] = "Schriftart auswählen, die im Eingabefeld verwendet wird.",
-		["Sets the frame's border color to the color of your currently active channel"] = "Wendet die Randfarbe des Rahmens auf die Farbe deines gegenwärtig aktiven Kanals an.",
+		["Sets the frame's border color to the color of your currently active channel"] = "Legt die Randfarbe des Rahmens auf die Farbe des aktuell aktiven Kanals fest",
 		["Tile Size"] = "Kachelgröße",
 		["Top"] = "Oben",
 		["Use Alt key for cursor movement"] = "Benutze Alt-Taste für Cursor-Bewegung",
@@ -703,7 +701,7 @@ end
     f:Hide()
 
     self.frames[i] = f
-    self.frames[i]:Show()
+--    self.frames[i]:Show()
     local font, s, m = f:GetFont()
     f:SetFont(Media:Fetch("font", self.db.profile.font), s, m)
 
@@ -758,6 +756,7 @@ end
     self:SetAttach(nil, self.db.profile.editX, self.db.profile.editY, self.db.profile.editW)
     self:SecureHook("ChatEdit_DeactivateChat")
     self:SecureHook("ChatEdit_SetLastActiveWindow")
+    self:SecureHook("ChatFrame_OpenChat")
 
     self:SetBackdrop()
     self:UpdateHeight()
@@ -767,6 +766,16 @@ end
     self:SecureHook("FCF_Tab_OnClick")
 
     Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
+  end
+
+
+
+  function mod:ChatFrame_OpenChat(text, chatFrame)
+    if not self.db.profile.useAltKey then
+      local frame = ChatEdit_ChooseBoxForSend(chatFrame)
+
+      frame.history_index = 0
+    end
   end
 
   function mod:FCF_Tab_OnClick(frame, button)

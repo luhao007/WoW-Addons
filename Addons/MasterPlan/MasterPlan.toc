@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: foxlit
-## Version: 0.117
+## Version: 0.118.1
 ## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: MasterPlanPC
@@ -10,12 +10,13 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF要塞助手|r |cFFFFE00AMasterPlan|r
 
 ## X-Website: https://www.townlong-yak.com/master-plan/
-## X-Version-Key: crystal
+## X-Version-Key: exarch
 
 Libs/Evie.lua
 Libs/Reframe.lua
 Locale.lua
 Mark-50.lua
+Nine.lua
 GarrisonAPI-Data.lua
 GarrisonAPI.lua
 MasterPlan.lua

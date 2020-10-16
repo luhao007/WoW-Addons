@@ -30,7 +30,7 @@ local L
 L = DBM:GetModLocalization("NecroticWakeTrash")
 
 L:SetGeneralLocalization({
-	name =	"Necrotic Wake 일반몹"
+	name =	"죽음의 각성 일반몹"
 })
 
 -----------------------
@@ -52,7 +52,7 @@ L:SetGeneralLocalization({
 --L= DBM:GetModLocalization(2423)
 
 -----------------------
--- Stradama Margrave --
+-- Margrave Stradama --
 -----------------------
 --L= DBM:GetModLocalization(2404)
 
@@ -62,7 +62,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("PlaguefallTrash")
 
 L:SetGeneralLocalization({
-	name =	"Plaguefall 일반몹"
+	name =	"역병 몰락지 일반몹"
 })
 
 -----------------------
@@ -81,7 +81,25 @@ L:SetGeneralLocalization({
 -----------------------
 -- Tred'ova --
 -----------------------
---L= DBM:GetModLocalization(2405)
+L= DBM:GetModLocalization(2405)
+
+L:SetWarningLocalization({
+	specWarnParasiticInfester	= "당신에게 Parasitic Infester"
+})
+
+L:SetTimerLocalization{
+	timerParasiticInfesterCD	= "~Infester"
+}
+
+L:SetOptionLocalization({
+	specWarnParasiticInfester	= "당신이 Parasitic Infester 대상이면 특수 알림 보기",
+	timerParasiticInfesterCD	= "Parasitic Infester 타이머 바 보기",
+	yellParasiticInfester		= "Parasitic Infester 대상일 때 말풍선으로 알리기"
+})
+
+L:SetMiscLocalization({
+	Infester					= "Infester"
+})
 
 ---------
 --Trash--
@@ -89,7 +107,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("TirnaScitheTrash")
 
 L:SetGeneralLocalization({
-	name =	"Tirna Scithe 일반몹"--Or MOTS Trash?
+	name =	"티르나 사이드 일반몹"--Or MOTS Trash?
 })
 
 -----------------------
@@ -121,7 +139,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("AtonementTrash")
 
 L:SetGeneralLocalization({
-	name =	"Halls of Atonement 일반몹"--HoA Trash?
+	name =	"속죄의 전당 일반몹"--HoA Trash?
 })
 
 -----------------------
@@ -130,7 +148,11 @@ L:SetGeneralLocalization({
 -----------------------
 -- Kin-Tara --
 -----------------------
---L= DBM:GetModLocalization(2399)
+L= DBM:GetModLocalization(2399)
+
+L:SetMiscLocalization({
+	Flight	= "하늘을 두려워 하라!"
+})
 
 -----------------------
 -- Ventunax --
@@ -145,7 +167,11 @@ L:SetGeneralLocalization({
 -----------------------
 -- Devos, Paragon of Doubt --
 -----------------------
---L= DBM:GetModLocalization(2412)
+L= DBM:GetModLocalization(2412)
+
+L:SetMiscLocalization({
+	RunThrough	= "이 창이 네 심장을 꿰뚫을 것이다!"
+})
 
 ---------
 --Trash--
@@ -153,7 +179,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("SpiresofAscensionTrash")
 
 L:SetGeneralLocalization({
-	name =	"Spires of Ascension 일반몹"--SoA Trash?
+	name =	"승천의 첨탑 일반몹"--SoA Trash?
 })
 
 -----------------------
@@ -170,7 +196,7 @@ L:SetGeneralLocalization({
 --L= DBM:GetModLocalization(2401)
 
 -----------------------
--- Hazak the Unfallen --
+-- Xav the Unfallen --
 -----------------------
 --L= DBM:GetModLocalization(2390)
 
@@ -190,7 +216,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("TheaterofPainTrash")
 
 L:SetGeneralLocalization({
-	name =	"Theater of Pain 일반몹"
+	name =	"고통의 투기장 일반몹"
 })
 
 -----------------------
@@ -222,7 +248,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("DeOtherSideTrash")
 
 L:SetGeneralLocalization({
-	name =	"De Other Side 일반몹"
+	name =	"저편 일반몹"
 })
 
 -----------------------
@@ -254,5 +280,5 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("SanguineDepthsTrash")
 
 L:SetGeneralLocalization({
-	name =	"Sanguine Depths 일반몹"
+	name =	"핏빛 심연 일반몹"
 })

@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Breen
-## Version: 1.65
+## Version: 1.73
 ## SavedVariables: BtWQuests_Characters
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad
 

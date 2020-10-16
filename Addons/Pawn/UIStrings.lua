@@ -79,7 +79,6 @@ local PawnStatsUnfiltered =
 	{L.ArcaneSpellDamage, "ArcaneSpellDamage", L.ArcaneSpellDamageInfo, PawnStatNormal, nil, PawnStatClassicOnly},
 	{L.FrostSpellDamage, "FrostSpellDamage", L.FrostSpellDamageInfo, PawnStatNormal, nil, PawnStatClassicOnly},
 	{L.HolySpellDamage, "HolySpellDamage", L.HolySpellDamageInfo, PawnStatNormal, nil, PawnStatClassicOnly},
-	{ITEM_MOD_CORRUPTION, "Corruption", L.CorruptionInfo, PawnStatNormal, nil, PawnStatLiveOnly},
 
 	{L.WeaponStats},
 	{STAT_DPS_SHORT, "Dps", L.DpsInfo, PawnStatUnignorable},
@@ -240,8 +239,8 @@ PawnUIFrame_IgnoreStatCheck_Tooltip = L.ValuesIgnoreStatTooltip
 
 PawnUIFrame_NoUpgradesCheck_Tooltip = L.ValuesDoNotShowUpgradesTooltip
 
-PawnUIFrame_FollowSpecializationCheck_Text = L.ValuesFollowSpecialization
-PawnUIFrame_FollowSpecializationCheck_Tooltip = L.ValuesFollowSpecializationTooltip
+PawnUIFrame_FollowSpecializationCheck_Text = format(L.ValuesFollowSpecialization, PawnArmorSpecializationLevel)
+PawnUIFrame_FollowSpecializationCheck_Tooltip = format(L.ValuesFollowSpecializationTooltip, PawnArmorSpecializationLevel, PawnArmorSpecializationLevel, PawnArmorSpecializationLevel)
 
 PawnUIFrame_NormalizeValuesCheck_Text = L.ValuesNormalize
 PawnUIFrame_NormalizeValuesCheck_Tooltip = L.ValuesNormalizeTooltip

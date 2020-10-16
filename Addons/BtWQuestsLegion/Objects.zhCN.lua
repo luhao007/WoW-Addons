@@ -6,6 +6,9 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
+    [250536] = {
+        name = "完整的雄鹿鹿角",
+    },
     [250990] = {
         name = "一箱古代圣物",
     },

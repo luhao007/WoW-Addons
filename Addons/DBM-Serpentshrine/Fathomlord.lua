@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod("Fathomlord", "DBM-Serpentshrine")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010011")
+mod:SetRevision("20200806142051")
 mod:SetCreatureID(21214)
 mod:SetEncounterID(626)
 mod:SetModelID(20662)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -15,7 +14,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_SUMMON 38236"
 )
 
-local warnTotem			= mod:NewTargetAnnounce(38236, 4)
+local warnTotem			= mod:NewTargetNoFilterAnnounce(38236, 4)
 local warnCariPower		= mod:NewSpellAnnounce(38451, 3)
 local warnTidalPower	= mod:NewSpellAnnounce(38452, 3)
 local warnSharPower		= mod:NewSpellAnnounce(38455, 3)

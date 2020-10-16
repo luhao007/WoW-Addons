@@ -6598,7 +6598,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Forja de los Eones",
     },
     [49354] = {
-        name = "Recuerda la Fuente del Sol",
+        name = "Recuerda La Fuente del Sol",
     },
     [49613] = {
         name = "Ciudad de Lunargenta",

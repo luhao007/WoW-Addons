@@ -154,7 +154,7 @@ L = {
   
 L = {
 	["Sounds"] = {
-		["A module to play sounds on certain chat messages."] = "Ein Modul, um bei bestimmten Mitteilungen, Töne abzuspielen.",
+		["A module to play sounds on certain chat messages."] = "Ein Modul zum Abspielen von Tönen in bestimmten Chat-Nachrichten.",
 		["Add a custom channel"] = "Einen benutzerdefinierten Kanal hinzufügen.",
 		["bn_whisper_desc"] = "Sound für %s Battle.Net-Flüsternachrichten",
 		["bn_whisper_name"] = "Battle.Net-Flüsternachricht",
@@ -174,11 +174,11 @@ L = {
 		["Play a sound for a certain channel name (can be a substring)"] = "Einen Klang für einen bestimmten Kanalnamen abspielen (kann ein Substring sein).",
 		["raid_desc"] = "Klang für %s Gruppen- und Führermitteilungen in Schlachtzügen oder Schlachtfeldern",
 		["raid_name"] = "Schlachtzug",
-		["Remove a custom channel"] = "Einen allgemeinen Kanal entfernen",
+		["Remove a custom channel"] = "Entfernt einen benutzerdefinierten Kanal",
 		["Reset settings"] = "Einstellungen zurücksetzen",
-		["Restore default settings and resets custom channel list"] = "Standardeinstellungen wiederherstellen und allgemein übliche Kanalliste zurücksetzen.",
-		["Sound selection for incoming chat messages"] = "Klangauswahl für eingehende Chat-Mitteilungen",
-		["Sound selection for outgoing (from you) chat messages"] = "Klangauswahl für ausgehende (von dir) Chat-Mitteilungen",
+		["Restore default settings and resets custom channel list"] = "Stellt die Standardeinstellungen wieder her und setzt die benutzerdefinierte Kanalliste zurück",
+		["Sound selection for incoming chat messages"] = "Tonauswahl für eingehende Chat-Nachrichten",
+		["Sound selection for outgoing (from you) chat messages"] = "Tonauswahl für ausgehende (von dir) Chat-Nachrichten",
 		["Sounds"] = "Klänge",
 		["whisper_desc"] = "Klang für %s Flüstermitteilungen",
 		["whisper_name"] = "Flüstern",
@@ -643,7 +643,7 @@ L = {
       Core Functions
   ------------------------------------------------]] --
   function module:Prat_PostAddMessage(info, message, frame, event, text, r, g, b, id)
-    if Prat.EVENT_ID and Prat.EVENT_ID == self.lastevent and self.lasteventtype == event then return end
+    if message.LINE_ID and message.LINE_ID == self.lastevent and self.lasteventtype == event then return end
 
     local msgtype = string.sub(event, 10)
     local plr, svr = message.PLAYERLINK:match("([^%-]+)%-?(.*)")
@@ -671,22 +671,31 @@ L = {
         sndprof = self.db.profile.incoming
       end
 
-      if msgtype == "PARTY_LEADER" or msgtype == "RAID_LEADER" or msgtype == "PARTY_GUIDE" then
+      if msgtype == "PARTY_LEADER" or msgtype == "RAID_LEADER" or
+        msgtype == "PARTY_GUIDE" or msgtype == "INSTANCE_CHAT_LEADER" then
         msgtype = "GROUP_LEAD"
       end
 
-      if msgtype == "INSTANCE_CHAT" or msgtype == "INSTANCE_CHAT_LEADER" then
-        msgtype = "RAID"
+      if msgtype == "INSTANCE_CHAT" then
+        msgtype = IsInRaid() and "RAID" or "PARTY"
       end
 
-      self:PlaySound(sndprof[msgtype], event)
+      if msgtype == "RAID_WARNING" then
+        msgtype = "GROUP_LEAD"
+      end
+
+      if msgtype == "GUILD_ACHIEVEMENT" or msgtype == "GUILD_ITEM_LOOTED" then
+        msgtype = "GUILD"
+      end
+
+      self:PlaySound(sndprof[msgtype], event, message.LINE_ID)
     end
   end
 
 
-  function module:PlaySound(sound, event)
+  function module:PlaySound(sound, event, eventId)
     self.lasteventtype = event
-    self.lastevent = Prat.EVENT_ID
+    self.lastevent = eventId
     Prat:PlaySound(sound)
   end
 

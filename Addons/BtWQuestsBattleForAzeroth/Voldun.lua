@@ -18,7 +18,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_DANGERS_IN_
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -38,18 +38,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_DANGERS_IN_
         {
             type = "money",
             amounts = {
-                2134000, 2178000, 2222000, 2266000, 2310000, 2354000, 2398000, 2442000, 2486000, 2530000, 2574000, 
+                1511400, 1582680, 1653960, 1725240, 1796520, 1867800, 1939080, 2010360, 2081640, 2152920, 2224200, 2294160, 2364120, 2434080, 2504040, 2574000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                185100, 186750, 188350, 189650, 191250, 193000, 194600, 196250, 197500, 199150, 
+                54000, 55600, 56900, 58500, 60100, 61400, 63000, 64600, 65900, 67500, 69150, 70850, 72000, 73750, 75350, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -60,10 +60,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_DANGERS_IN_
             type = "reputation",
             id = 2158,
             amount = 1035,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -221,7 +218,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_THE_WARGUAR
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -244,18 +241,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_THE_WARGUAR
         {
             type = "money",
             amounts = {
-                2968200, 3029400, 3090600, 3151800, 3213000, 3274200, 3335400, 3396600, 3457800, 3519000, 3580200, 
+                2102220, 2201370, 2300505, 2399655, 2498790, 2597940, 2697090, 2796225, 2895375, 2994510, 3093660, 3190965, 3288270, 3385590, 3482895, 3580200, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                206600, 208300, 209950, 211700, 213350, 215350, 217150, 218850, 220400, 222100, 
+                60600, 62325, 63925, 65650, 67375, 68975, 70700, 72425, 74025, 75750, 77525, 79425, 80800, 82825, 84475, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -271,10 +268,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_THE_WARGUAR
             type = "reputation",
             id = 2158,
             amount = 1065,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -454,7 +448,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_A_CITY_OF_S
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -481,18 +475,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_A_CITY_OF_S
         {
             type = "money",
             amounts = {
-                1358000, 1386000, 1414000, 1442000, 1470000, 1498000, 1526000, 1554000, 1582000, 1610000, 1638000, 
+                961800, 1007160, 1052520, 1097880, 1143240, 1188600, 1233960, 1279320, 1324680, 1370040, 1415400, 1459920, 1504440, 1548960, 1593480, 1638000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                115200, 116200, 117200, 118000, 119000, 120100, 121100, 122100, 122900, 123900, 
+                33600, 34600, 35400, 36400, 37400, 38200, 39200, 40200, 41000, 42000, 43000, 44100, 44800, 45900, 46900, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -503,10 +497,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_A_CITY_OF_S
             type = "reputation",
             id = 2158,
             amount = 760,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -627,7 +618,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_THE_THREE_K
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -658,18 +649,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_THE_THREE_K
         {
             type = "money",
             amounts = {
-                1455000, 1485000, 1515000, 1545000, 1575000, 1605000, 1635000, 1665000, 1695000, 1725000, 1755000, 
+                1030500, 1079100, 1127700, 1176300, 1224900, 1273500, 1322100, 1370700, 1419300, 1467900, 1516500, 1564200, 1611900, 1659600, 1707300, 1755000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                98750, 99600, 100450, 101150, 102000, 102950, 103800, 104650, 105350, 106200, 
+                28800, 29650, 30350, 31200, 32050, 32750, 33600, 34450, 35150, 36000, 36850, 37750, 38400, 39300, 40150, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -680,19 +671,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_THE_THREE_K
             type = "reputation",
             id = 2158,
             amount = 860,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
         {
             type = "reputation",
             id = 2159,
             amount = 250,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -779,7 +764,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_STORMING_TH
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -814,18 +799,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_STORMING_TH
         {
             type = "money",
             amounts = {
-                3918800, 3999600, 4080400, 4161200, 4242000, 4322800, 4403600, 4484400, 4565200, 4646000, 4726800, 
+                4000, 14300, 24600, 34900, 45200, 55500, 65800, 76100, 86400, 96700, 107000, 117300, 127600, 137900, 148200, 158500, 168800, 179100, 189400, 199700, 210000, 222960, 235920, 248880, 261840, 274800, 2788440, 2919340, 3050230, 3181130, 3312020, 3442920, 3573820, 3704710, 3835610, 3966500, 4097160, 4225630, 4354100, 4482580, 4598330, 4258800, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                258300, 260600, 262700, 264800, 266900, 269350, 271550, 273850, 275650, 277950, 
+                68800, 69100, 69400, 69600, 69900, 70200, 70500, 70700, 71000, 71300, 71500, 71800, 72100, 72300, 72600, 72900, 73200, 73400, 73700, 74000, 74200, 74500, 74800, 75000, 75300, 75600, 77750, 79750, 81900, 84050, 86050, 88200, 90350, 92350, 94500, 96850, 99050, 100800, 103250, 105350, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -836,10 +821,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_STORMING_TH
             type = "reputation",
             id = 2158,
             amount = 1795,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1018,7 +1000,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_ATULAMAN, {
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -1053,18 +1035,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_ATULAMAN, {
         {
             type = "money",
             amounts = {
-                1261000, 1287000, 1313000, 1339000, 1365000, 1391000, 1417000, 1443000, 1469000, 1495000, 1521000, 
+                893100, 935220, 977340, 1019460, 1061580, 1103700, 1145820, 1187940, 1230060, 1272180, 1314300, 1355640, 1396980, 1438320, 1479660, 1521000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                134950, 136100, 137100, 138400, 139400, 140650, 141900, 142900, 144100, 145100, 
+                39600, 40650, 41700, 42900, 43950, 45150, 46200, 47250, 48450, 49500, 50700, 51750, 52800, 54050, 55050, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -1075,10 +1057,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_ATULAMAN, {
             type = "reputation",
             id = 2158,
             amount = 1035,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1151,7 +1130,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_UNLIKELY_AL
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -1175,27 +1154,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_UNLIKELY_AL
         {
             type = "money",
             amounts = {
-                1493800, 1524600, 1555400, 1586200, 1617000, 1647800, 1678600, 1709400, 1740200, 1771000, 1801800, 
+                1057980, 1107880, 1157770, 1207670, 1257560, 1307460, 1357360, 1407250, 1457150, 1507040, 1556940, 1605910, 1654880, 1703860, 1752830, 1801800, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                114350, 115350, 116300, 117200, 118150, 119200, 120250, 121250, 122000, 123000, 
+                33600, 34600, 35400, 36400, 37400, 38200, 39200, 40200, 41000, 42000, 43050, 44050, 44800, 45900, 46850, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2158,
             amount = 960,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1293,14 +1269,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN1, {
     name = BtWQuests_GetAreaName(9202), -- Withering Gulch
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1333,27 +1309,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN1, {
         {
             type = "money",
             amounts = {
-                776000, 792000, 808000, 824000, 840000, 856000, 872000, 888000, 904000, 920000, 936000, 
+                549600, 575520, 601440, 627360, 653280, 679200, 705120, 731040, 756960, 782880, 808800, 834240, 859680, 885120, 910560, 936000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                69900, 70550, 71150, 71650, 72250, 72900, 73500, 74150, 74600, 75250, 
+                20400, 21000, 21500, 22100, 22700, 23200, 23800, 24400, 24900, 25500, 26150, 26750, 27200, 27850, 28450, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2158,
             amount = 525,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1420,14 +1393,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN2, {
     name = BtWQuests_GetAreaName(9226), -- Scorched Sands Outpost
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1450,18 +1423,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN2, {
         {
             type = "money",
             amounts = {
-                3938200, 4019400, 4100600, 4181800, 4263000, 4344200, 4425400, 4506600, 4587800, 4669000, 4750200, 
+                2789220, 2920770, 3052305, 3183855, 3315390, 3446940, 3578490, 3710025, 3841575, 3973110, 4104660, 4233765, 4362870, 4491990, 4621095, 4750200, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                272250, 274700, 277000, 279050, 281350, 283850, 286300, 288750, 290500, 292950, 
+                79800, 82175, 84075, 86450, 88825, 90725, 93100, 95475, 97375, 99750, 102275, 104575, 106400, 108925, 111225, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -1472,10 +1445,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN2, {
             type = "reputation",
             id = 2158,
             amount = 1350,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1712,10 +1682,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN3, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1743,18 +1713,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN3, {
         {
             type = "money",
             amounts = {
-                1552000, 1584000, 1616000, 1648000, 1680000, 1712000, 1744000, 1776000, 1808000, 1840000, 1872000, 
+                1099200, 1151040, 1202880, 1254720, 1306560, 1358400, 1410240, 1462080, 1513920, 1565760, 1617600, 1668480, 1719360, 1770240, 1821120, 1872000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                98700, 99600, 100400, 101200, 102000, 102950, 103750, 104650, 105350, 106250, 
+                28800, 29600, 30400, 31200, 32000, 32800, 33600, 34400, 35200, 36000, 36900, 37750, 38400, 39350, 40150, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -1765,10 +1735,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN3, {
             type = "reputation",
             id = 2158,
             amount = 150,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1879,14 +1846,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN4, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1909,18 +1876,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN4, {
         {
             type = "money",
             amounts = {
-                3705400, 3781800, 3858200, 3934600, 4011000, 4087400, 4163800, 4240200, 4316600, 4393000, 4469400, 
+                1515400, 1525700, 1536000, 1546300, 1556600, 1566900, 1577200, 1587500, 1597800, 1608100, 1618400, 1628700, 1639000, 1649300, 1659600, 1669900, 1680200, 1690500, 1700800, 1711100, 1721400, 1734360, 1747320, 1760280, 1773240, 1786200, 2708580, 2832350, 2956115, 3079885, 3203650, 3327420, 3451190, 3574955, 3698725, 3822490, 3944700, 4066175, 4187650, 4309130, 4417885, 1427400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                240300, 242350, 244300, 246250, 248200, 250550, 252550, 254600, 256400, 258450, 
+                63400, 63700, 64000, 64200, 64500, 64800, 65100, 65300, 65600, 65900, 66100, 66400, 66700, 66900, 67200, 67500, 67800, 68000, 68300, 68600, 68800, 69100, 69400, 69600, 69900, 70200, 72175, 74075, 76050, 78025, 79925, 81900, 83875, 85775, 87750, 89825, 91975, 93600, 95875, 97825, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -1931,10 +1898,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN4, {
             type = "reputation",
             id = 2158,
             amount = 1290,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -2129,14 +2093,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN5, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -2169,18 +2133,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN5, {
         {
             type = "money",
             amounts = {
-                2192200, 2237400, 2282600, 2327800, 2373000, 2418200, 2463400, 2508600, 2553800, 2599000, 2644200, 
+                1552620, 1625850, 1699065, 1772295, 1845510, 1918740, 1991970, 2065185, 2138415, 2211630, 2284860, 2356725, 2428590, 2500470, 2572335, 2644200, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                161250, 162650, 163950, 165300, 166600, 168100, 169550, 170950, 172050, 173450, 
+                47400, 48775, 49975, 51350, 52725, 53925, 55300, 56675, 57875, 59250, 60725, 62125, 63200, 64775, 66075, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -2355,14 +2319,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN6, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -2380,27 +2344,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN6, {
         {
             type = "money",
             amounts = {
-                795400, 811800, 828200, 844600, 861000, 877400, 893800, 910200, 926600, 943000, 959400, 
+                563340, 589910, 616475, 643045, 669610, 696180, 722750, 749315, 775885, 802450, 829020, 855095, 881170, 907250, 933325, 959400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                55100, 55600, 56050, 56500, 56950, 57450, 57950, 58450, 58800, 59300, 
+                16200, 16675, 17075, 17550, 18025, 18425, 18900, 19375, 19775, 20250, 20775, 21225, 21600, 22125, 22575, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2158,
             amount = 375,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -2474,14 +2435,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN7, {
     name = BtWQuests_GetAreaName(9776), -- Forward Camp
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -2519,18 +2480,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN7, {
         {
             type = "money",
             amounts = {
-                582000, 594000, 606000, 618000, 630000, 642000, 654000, 666000, 678000, 690000, 702000, 
+                412200, 431640, 451080, 470520, 489960, 509400, 528840, 548280, 567720, 587160, 606600, 625680, 644760, 663840, 682920, 702000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                49350, 49800, 50250, 50550, 51000, 51450, 51900, 52350, 52650, 53100, 
+                14400, 14850, 15150, 15600, 16050, 16350, 16800, 17250, 17550, 18000, 18450, 18900, 19200, 19650, 20100, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -2541,10 +2502,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN7, {
             type = "reputation",
             id = 2158,
             amount = 225,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -2604,7 +2562,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN8, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -2654,27 +2612,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN8, {
         {
             type = "money",
             amounts = {
-                873000, 891000, 909000, 927000, 945000, 963000, 981000, 999000, 1017000, 1035000, 1053000, 
+                618300, 647460, 676620, 705780, 734940, 764100, 793260, 822420, 851580, 880740, 909900, 938520, 967140, 995760, 1024380, 1053000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                61700, 62250, 62750, 63250, 63750, 64350, 64850, 65400, 65850, 66400, 
+                18000, 18500, 19000, 19500, 20000, 20500, 21000, 21500, 22000, 22500, 23050, 23600, 24000, 24600, 25100, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2158,
             amount = 310,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -2730,14 +2685,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN9, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -2760,18 +2715,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN9, {
         {
             type = "money",
             amounts = {
-                2851800, 2910600, 2969400, 3028200, 3087000, 3145800, 3204600, 3263400, 3322200, 3381000, 3439800, 
+                2019780, 2115040, 2210290, 2305550, 2400800, 2496060, 2591320, 2686570, 2781830, 2877080, 2972340, 3065830, 3159320, 3252820, 3346310, 3439800, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                192550, 194200, 195750, 197350, 198900, 200750, 202400, 204050, 205450, 207100, 
+                56400, 58000, 59500, 61100, 62700, 64200, 65800, 67400, 68900, 70500, 72200, 73900, 75200, 77050, 78600, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -2782,10 +2737,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN9, {
             type = "reputation",
             id = 2158,
             amount = 1255,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -2973,14 +2925,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN10, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3013,27 +2965,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN10, {
         {
             type = "money",
             amounts = {
-                2134000, 2178000, 2222000, 2266000, 2310000, 2354000, 2398000, 2442000, 2486000, 2530000, 2574000, 
+                1511400, 1582680, 1653960, 1725240, 1796520, 1867800, 1939080, 2010360, 2081640, 2152920, 2224200, 2294160, 2364120, 2434080, 2504040, 2574000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                119250, 120350, 121400, 122200, 123250, 124350, 125400, 126500, 127250, 128350, 
+                34800, 35850, 36650, 37700, 38750, 39550, 40600, 41650, 42450, 43500, 44600, 45650, 46400, 47500, 48550, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2158,
             amount = 600,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -3164,14 +3113,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN11, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3204,18 +3153,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN11, {
         {
             type = "money",
             amounts = {
-                989400, 1009800, 1030200, 1050600, 1071000, 1091400, 1111800, 1132200, 1152600, 1173000, 1193400, 
+                700740, 733790, 766835, 799885, 832930, 865980, 899030, 932075, 965125, 998170, 1031220, 1063655, 1096090, 1128530, 1160965, 1193400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                71550, 72200, 72800, 73350, 73950, 74600, 75250, 75900, 76350, 77000, 
+                21000, 21625, 22125, 22750, 23375, 23875, 24500, 25125, 25625, 26250, 26925, 27525, 28000, 28675, 29275, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
     },
     items = {
@@ -3294,7 +3243,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN12, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -3332,18 +3281,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN12, {
         {
             type = "money",
             amounts = {
-                1164000, 1188000, 1212000, 1236000, 1260000, 1284000, 1308000, 1332000, 1356000, 1380000, 1404000, 
+                824400, 863280, 902160, 941040, 979920, 1018800, 1057680, 1096560, 1135440, 1174320, 1213200, 1251360, 1289520, 1327680, 1365840, 1404000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                86350, 87150, 87900, 88500, 89250, 90050, 90800, 91600, 92150, 92950, 
+                25200, 25950, 26550, 27300, 28050, 28650, 29400, 30150, 30750, 31500, 32300, 33050, 33600, 34400, 35150, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -3354,10 +3303,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN12, {
             type = "reputation",
             id = 2158,
             amount = 375,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -3425,14 +3371,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN13, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3450,27 +3396,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN13, {
         {
             type = "money",
             amounts = {
-                388000, 396000, 404000, 412000, 420000, 428000, 436000, 444000, 452000, 460000, 468000, 
+                274800, 287760, 300720, 313680, 326640, 339600, 352560, 365520, 378480, 391440, 404400, 417120, 429840, 442560, 455280, 468000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                16450, 16600, 16750, 16850, 17000, 17150, 17300, 17450, 17550, 17700, 
+                4800, 4950, 5050, 5200, 5350, 5450, 5600, 5750, 5850, 6000, 6150, 6300, 6400, 6550, 6700, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2158,
             amount = 75,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -3504,14 +3447,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN14, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3529,27 +3472,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN14, {
         {
             type = "money",
             amounts = {
-                388000, 396000, 404000, 412000, 420000, 428000, 436000, 444000, 452000, 460000, 468000, 
+                274800, 287760, 300720, 313680, 326640, 339600, 352560, 365520, 378480, 391440, 404400, 417120, 429840, 442560, 455280, 468000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                32900, 33200, 33500, 33700, 34000, 34300, 34600, 34900, 35100, 35400, 
+                9600, 9900, 10100, 10400, 10700, 10900, 11200, 11500, 11700, 12000, 12300, 12600, 12800, 13100, 13400, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2159,
             amount = 300,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -3589,10 +3529,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN15, {
     name = BtWQuests_GetAreaName(8964), -- Redrock Harbor
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3621,18 +3561,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_CHAIN15, {
         {
             type = "money",
             amounts = {
-                388000, 396000, 404000, 412000, 420000, 428000, 436000, 444000, 452000, 460000, 468000, 
+                274800, 287760, 300720, 313680, 326640, 339600, 352560, 365520, 378480, 391440, 404400, 417120, 429840, 442560, 455280, 468000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                32900, 33200, 33500, 33700, 34000, 34300, 34600, 34900, 35100, 35400, 
+                9600, 9900, 10100, 10400, 10700, 10900, 11200, 11500, 11700, 12000, 12300, 12600, 12800, 13100, 13400, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
     },
     items = {
@@ -3687,10 +3627,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_OTHER_ALLIA
     name = "Other Alliance",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = false,
@@ -3705,10 +3645,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_OTHER_HORDE
     name = "Other Horde",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = false,
@@ -3727,10 +3667,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_VOLDUN_OTHER_BOTH,
     name = "Other Both",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = false,

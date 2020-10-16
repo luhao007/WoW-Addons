@@ -1,8 +1,13 @@
 # <DBM> Icecrown Citadel
 
-## [r292](https://github.com/DeadlyBossMods/DBM-WotLK/tree/r292) (2020-02-22)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-WotLK/compare/r291...r292)
+## [r296](https://github.com/DeadlyBossMods/DBM-WotLK/tree/r296) (2020-10-13)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-WotLK/compare/r295...r296) [Previous Releases](https://github.com/DeadlyBossMods/DBM-WotLK/releases)
 
-- Fixed lua error on Onyxia from bad copy paste  
-    A ton of white space cleanup  
-- Update Luacheck  
+- Bump TOCS  
+- Merge pull request #5 from DeadlyBossMods/stats  
+    MinExpansion  
+- MinExpansion  
+- Merge pull request #4 from DeadlyBossMods/stats  
+- More stat fixes  
+- Fix stat types  
+- Stats  

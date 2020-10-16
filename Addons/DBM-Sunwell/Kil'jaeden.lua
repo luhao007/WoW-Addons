@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod("Kil", "DBM-Sunwell")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010011")
+mod:SetRevision("20200927230831")
 mod:SetCreatureID(25315)
 mod:SetEncounterID(729)
 mod:SetModelID(23200)
-mod:SetZone()
 mod:SetUsedIcons(4, 5, 6, 7, 8)
 
 mod:RegisterCombat("yell", L.YellPull)
@@ -35,8 +34,8 @@ local specWarnBlueOrb	= mod:NewSpecialWarning("SpecWarnBlueOrb", false)
 
 local timerBloomCD		= mod:NewCDTimer(20, 45641, nil, nil, nil, 2)
 local timerDartCD		= mod:NewCDTimer(20, 45740, nil, nil, nil, 2)--Targeted or aoe?
-local timerBomb			= mod:NewCastTimer(9, 46605, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
-local timerBombCD		= mod:NewCDTimer(45, 46605, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerBomb			= mod:NewCastTimer(9, 46605, nil, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON)
+local timerBombCD		= mod:NewCDTimer(45, 46605, nil, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON)
 local timerSpike		= mod:NewCastTimer(28, 46680, nil, nil, nil, 3)
 local timerBlueOrb		= mod:NewTimer(37, "TimerBlueOrb", 45109, nil, nil, 5)
 
@@ -143,7 +142,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerDartCD:Cancel()
 			timerBombCD:Cancel()
 			timerBlueOrb:Start()
-			timerDartCD:Start(59)
+			timerDartCD:Start(48.7)
 			timerBombCD:Start(77)
 		elseif self.vb.phase == 4 then
 			warnPhase4:Show()

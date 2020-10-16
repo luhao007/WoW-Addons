@@ -10,7 +10,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_BALANCEOFPOWER, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
         {
             type = "chain",
@@ -436,7 +436,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_XYLEM, {
         type = "quest",
         id = 45865,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -821,7 +821,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_TIDESKORN, {
         type = "quest",
         id = 45862,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -1700,7 +1700,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_HEALERS, {
         type = "quest",
         id = 45864,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -2138,7 +2138,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_FELTOTEM, {
         type = "quest",
         id = 45842,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -2506,7 +2506,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_IMPMOTHER, {
         type = "quest",
         id = 45861,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -2999,7 +2999,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_TWINS, {
         type = "quest",
         id = 45866,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",

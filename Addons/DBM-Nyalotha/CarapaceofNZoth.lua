@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2366, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200415165936")
+mod:SetRevision("20201013170546")
 mod:SetCreatureID(157439)--Fury of N'Zoth
 mod:SetEncounterID(2337)
-mod:SetZone()
 mod:SetUsedIcons(1, 2, 3)
 mod:SetHotfixNoticeRev(20200315000000)--2020, 3, 15
 mod:SetMinSyncRevision(20200315000000)--2020, 3, 15
@@ -53,7 +52,7 @@ local warnCystGenesis						= mod:NewSpellAnnounce(307064, 3)
 local specWarnGiftofNzoth					= mod:NewSpecialWarningYou(313334, nil, nil, nil, 1, 2)
 local specWarnServantofNzoth				= mod:NewSpecialWarningTargetChange(307832, false, nil, 2, 1, 2)
 local yellServantofNzoth					= mod:NewYell(307832)
-local specWarnBlackScar						= mod:NewSpecialWarningStack(315954, nil, 3, nil, nil, 1, 6)
+local specWarnBlackScar						= mod:NewSpecialWarningStack(315954, nil, 2, nil, nil, 1, 6)
 local specWarnBlackScarTaunt				= mod:NewSpecialWarningTaunt(315954, nil, nil, nil, 1, 2)
 local specwarnWillPower						= mod:NewSpecialWarningCount(307831, nil, nil, nil, 1, 10)
 --local specWarnGTFO						= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
@@ -82,13 +81,13 @@ local timerGiftofNzoth						= mod:NewBuffFadesTimer(20, 313334, nil, nil, nil, 5
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20558))
 ----Fury of N'Zoth
 local timerMadnessBombCD					= mod:NewCDCountTimer(22.2, 306973, nil, nil, nil, 3)--22-24
-local timerAdaptiveMembraneCD				= mod:NewCDCountTimer(27.7, 306990, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON, nil, 3, 3)
-local timerAdaptiveMembrane					= mod:NewBuffActiveTimer(12, 306990, nil, false, 2, 5, nil, DBM_CORE_DAMAGE_ICON)
+local timerAdaptiveMembraneCD				= mod:NewCDCountTimer(27.7, 306990, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 3, 3)
+local timerAdaptiveMembrane					= mod:NewBuffActiveTimer(12, 306990, nil, false, 2, 5, nil, DBM_CORE_L.DAMAGE_ICON)
 local timerMentalDecayCD					= mod:NewCDTimer(21, 313364, nil, nil, nil, 3)
 local timerGrowthCoveredTentacleCD			= mod:NewNextCountTimer(60, 307131, nil, nil, nil, 1, nil, nil, nil, 1, 3)
-local timerMandibleSlamCD					= mod:NewCDTimer(12.7, 315947, nil, "Tank", 2, 5, nil, DBM_CORE_TANK_ICON)--12.7
+local timerMandibleSlamCD					= mod:NewCDTimer(12.7, 315947, nil, "Tank", 2, 5, nil, DBM_CORE_L.TANK_ICON)--12.7
 ----Adds
-local timerGazeofMadnessCD					= mod:NewCDCountTimer(58, "ej20565", nil, nil, nil, 1, 307008, DBM_CORE_DAMAGE_ICON)
+local timerGazeofMadnessCD					= mod:NewCDCountTimer(58, "ej20565", nil, nil, nil, 1, 307008, DBM_CORE_L.DAMAGE_ICON)
 --Stage 2: Subcutaneous Tunnel
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20566))
 local timerEternalDarknessCD				= mod:NewCDTimer(22.2, 307048, nil, nil, nil, 2)--Can be delayed if it overlaps with blast, otherwise dead on
@@ -158,7 +157,7 @@ function mod:OnCombatStart(delay)
 		self:Schedule(30, phaseOneTentacleLoop, self)--Only started on mythic for now
 		timerGazeofMadnessCD:Start(41.2-delay, 1)
 		self:RegisterShortTermEvents(
-			"UNIT_HEALTH_FREQUENT boss1"
+			"UNIT_HEALTH boss1"
 		)
 	elseif self:IsHeroic() then--Heroic confirmed, mythic assumed
 		timerMadnessBombCD:Start(5-delay, 1)--SUCCESS
@@ -267,8 +266,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 			local timer
 			if self:IsMythic() then
 				timer = (self.vb.phase == 3) and 15.2 or (self.vb.phase == 2) and 18.4 or 20.8--Phase 3 not confirmed yet
-			elseif self:IsHard() then
-				timer = (self.vb.phase == 3) and 26.7 or (self.vb.phase == 2) and 22.2 or (self.vb.phase == 2.5) and 42.2 or 21
+			elseif self:IsHeroic() then
+				timer = (self.vb.phase == 3) and 26.7 or (self.vb.phase == 2) and 20.2 or (self.vb.phase == 2.5) and 42.2 or 21
 			elseif self:IsNormal() then
 				timer = (self.vb.phase == 3) and 33.7 or (self.vb.phase == 2) and 22.6 or (self.vb.phase == 2.5) and 47.5 or 26.2
 			else--LFR
@@ -290,8 +289,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 					timer = 4.3
 				end
 			end
-		elseif self:IsHard() then
-			timer = (self.vb.phase == 2.5) and 22.2 or (self.vb.phase == 2) and 33.3 or 24
+		elseif self:IsHeroic() then
+			timer = (self.vb.phase == 2.5) and 22.2 or (self.vb.phase == 2) and 32.1 or 24
 		elseif self:IsNormal() then
 			timer = (self.vb.phase == 2.5) and 24.9 or (self.vb.phase == 2) and 37.4 or 30
 		else--LFR
@@ -395,7 +394,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.phase = 2
 		self.vb.adaptiveCount = 0
 		self.vb.madnessBombCount = 0
-		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 		warnPhase:Play("ptwo")
 		timerMadnessBombCD:Stop()
 		timerAdaptiveMembraneCD:Stop()
@@ -432,12 +431,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 315954 then
 		local amount = args.amount or 1
-		if amount >= 3 then
+		if amount >= 2 then
 			if args:IsPlayer() then
 				specWarnBlackScar:Show(amount)
 				specWarnBlackScar:Play("stackhigh")
 			else
-				if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", spellId) then
+				local _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 12.7) then
 					specWarnBlackScarTaunt:Show(args.destName)
 					specWarnBlackScarTaunt:Play("tauntboss")
 				else
@@ -572,7 +576,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 			self.vb.adaptiveCount = 0
 			self.vb.TentacleCount = 0
 			self.vb.DarknessCount = 0
-			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
+			warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(3))
 			warnPhase:Play("pthree")
 			timerMentalDecayCD:Stop()
 			timerAdaptiveMembraneCD:Stop()
@@ -678,7 +682,7 @@ function mod:UNIT_POWER_FREQUENT(uId)
 	end
 end
 
-function mod:UNIT_HEALTH_FREQUENT(uId)
+function mod:UNIT_HEALTH(uId)
 	local hp = UnitHealth(uId) / UnitHealthMax(uId)
 	if hp < 0.56 then
 		self:Unschedule(phaseOneTentacleLoop)

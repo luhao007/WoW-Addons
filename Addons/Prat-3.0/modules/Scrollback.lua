@@ -26,6 +26,13 @@
 
 
 Prat:AddModuleExtension(function()
+  local function dbg(...) end
+
+  --[===[@debug@
+  function dbg(...) Prat:PrintLiteral(...) end
+
+  --@end-debug@]===]
+
 
   local module = Prat.Addon:GetModule("History", true)
   if not module then return end
@@ -45,21 +52,25 @@ Prat:AddModuleExtension(function()
       desc = PL["Store the chat lines between sessions"],
       order = 125
     },
-    scrollbacklen = {
-      name = PL.scrollbacklen_name,
-      desc = PL.scrollbacklen_desc,
+    scrollbackduration = {
+      name = PL.scrollbackduration_name,
+      desc = PL.scrollbackduration_desc,
       type = "range",
       order = 126,
       min = 0,
-      max = 500,
-      step = 10,
-      bigStep = 50,
+      max = 168,
+      step = 1,
+      bigStep = 24,
+      disabled = function() return not module.db.profile.scrollback end
+    },
+    removespam = {
+      name = PL.removespam_name,
+      desc = PL.removespam_desc,
+      type = "toggle",
+      order = 127,
       disabled = function() return not module.db.profile.scrollback end
     }
   }
-
-  local MAX_TIME = 60 * 60 * 24
-
 
   local orgOME = module.OnModuleEnable
   function module:OnModuleEnable(...)
@@ -68,67 +79,160 @@ Prat:AddModuleExtension(function()
     Prat3HighCPUPerCharDB = Prat3HighCPUPerCharDB
     Prat3HighCPUPerCharDB = Prat3HighCPUPerCharDB or {}
 
-    Prat3HighCPUPerCharDB.time = Prat3HighCPUPerCharDB.time or time()
-
-    if time() - Prat3HighCPUPerCharDB.time > MAX_TIME then
-      Prat3HighCPUPerCharDB.scrollback = {}
-    end
-
     Prat3HighCPUPerCharDB.scrollback = Prat3HighCPUPerCharDB.scrollback or {}
 
     self.scrollback = Prat3HighCPUPerCharDB.scrollback
 
-    self.timestamps = Prat.Addon:GetModule("Timestamps", true)
-
     if self.db.profile.scrollback then
       self:RestoreLastSession()
-    end
 
-    Prat.RegisterChatEvent(self, Prat.Events.POST_ADDMESSAGE)
-  end
-
-
-  function module:RestoreLastSession()
-    local textadded
-    Prat.loading = true
-    for frame, scrollback in pairs(self.scrollback) do
-      local f = _G[frame]
-      if f then
-        for _, line in ipairs(scrollback) do
-          f:AddMessage(unpack(line))
-          textadded = true
-        end
-
-        if textadded then
-          f:AddMessage(PL.divider)
-          f:AddMessage(format(TIME_DAYHOURMINUTESECOND,
-            ChatFrame_TimeBreakDown(time() - Prat3HighCPUPerCharDB.time)))
+      for k, v in pairs(Prat.HookedFrames) do
+        self.scrollback[k] = v.historyBuffer
+        if not self:IsHooked(v, "AddMessage") then
+          self:SecureHook(v, "AddMessage")
         end
       end
     end
-    Prat.loading = nil
+
+    Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
+    Prat.RegisterChatEvent(self, Prat.Events.FRAMES_REMOVED)
   end
 
-  --function module:OnModuleDisable()
-  --	 Prat3HighCPUPerCharDB.scrollback = nil
-  --end
+  local orgOMD = module.OnModuleDisable
+  function module:OnModuleDisable(...)
+    orgOMD(self, ...)
 
-  function module:Prat_PostAddMessage(info, message, frame, event, text, r, g, b, id, ...)
-    if not self.db.profile.scrollback then return end
+    for name, v in pairs(Prat.HookedFrames) do
+      if self:IsHooked(v, "AddMessage") then
+        self:Unhook(v, "AddMessage")
+      end
+      self.scrollback[name] = nil
+    end
+  end
 
-    self.scrollback[frame:GetName()] = self.scrollback[frame:GetName()] or {}
-    local scrollback = self.scrollback[frame:GetName()]
+  function module:OnValueChanged(info, b)
+    for k, v in pairs(Prat.HookedFrames) do
+      if self.db.profile.scrollback then
+        if not v.isTemporary then
+          self.scrollback[k] = v.historyBuffer
+        else
+          self.scrollback[k] = nil
+        end
+      else
+        self.scrollback[k] = nil
+      end
+    end
+  end
 
-    text = self.timestamps and self.timestamps:InsertTimeStamp(text, frame) or text
+  function module:Prat_FramesUpdated(_, name, chatFrame)
+    if self.db.profile.scrollback and not chatFrame.isTemporary then
+      self.scrollback[name] = chatFrame.historyBuffer
+    end
+    if not self:IsHooked(chatFrame, "AddMessage") then
+      self:SecureHook(chatFrame, "AddMessage")
+    end
+  end
+  function module:Prat_FramesRemoved(_, name, chatFrame)
+    self.scrollback[name] = nil
+    if self:IsHooked(chatFrame, "AddMessage") then
+      self:Unhook(chatFrame, "AddMessage")
+    end
+  end
 
-    table.insert(scrollback, {
-      text, r, g, b, id, ...
-    })
+  function module:AddMessage(frame, text, ...)
+    if self.db.profile.on and self.scrollback[frame:GetName()] then
+      frame.historyBuffer:GetEntryAtIndex(1).serverTime = GetServerTime()
+    end
+  end
 
-    Prat3HighCPUPerCharDB.time = time()
+  function module:GetEntryAtIndex(scrollback, index)
+    if index > 0 and index <= #scrollback.elements then
+      local globalIndex = scrollback.headIndex - index + 1;
+      local elementIndex = (globalIndex - 1) % scrollback.maxElements + 1
+      return scrollback.elements[elementIndex];
+    end
+  end
 
-    if #scrollback > self.db.profile.scrollbacklen then
-      table.remove(scrollback, 1)
+  local function isRealChatMessage(message)
+    return message.extraData and message.extraData.n == #message.extraData
+  end
+
+   function getBattlettagLookupTable()
+    local lookup = {}
+    local numBNet = BNGetNumFriends();
+    for i = 1, numBNet do
+      if C_BattleNet and C_BattleNet.GetFriendAccountInfo then
+        local accountInfo = C_BattleNet.GetFriendAccountInfo(i);
+        if accountInfo then
+          lookup[accountInfo.battleTag] = accountInfo
+        end
+      else
+        local bnetAccountID, accountName, battleTag = BNGetFriendInfo(i)
+        local accountInfo = { bnetAccountID = bnetAccountID, accountName = accountName }
+        if battleTag then
+          lookup[battleTag] = accountInfo
+        end
+      end
+    end
+
+    return lookup
+  end
+
+  local battleTagLookup
+
+  local function getBNPlayerLink(name, linkDisplayText, bnetIDAccount, lineID, chatType, chatTarget, battleTag)
+    return Prat.FormatLink("BNplayer", linkDisplayText, name, bnetIDAccount, lineID or 0, chatType, chatTarget, battleTag);
+  end
+
+  local function updateBnet(data, display)
+    battleTagLookup = battleTagLookup or getBattlettagLookupTable()
+
+    local name, bnetIDAccount, _, chatType, chatTarget, battleTag = strsplit(":", data)
+
+    if battleTag then
+      local info = battleTagLookup[battleTag]
+      if info then
+        name, bnetIDAccount = info.accountName, info.bnetAccountID
+        display = display:gsub(PL.bnet_removed, name)
+        chatTarget = chatTarget:gsub(PL.bnet_removed, name)
+      end
+    end
+
+    return getBNPlayerLink(name, display, bnetIDAccount, 0, chatType, chatTarget, battleTag)
+  end
+
+  function module:RestoreLastSession()
+    local now, uptime, maxTime = GetServerTime(), GetTime(), self.db.profile.scrollbackduration * 60 * 60
+    for frame, scrollback in pairs(self.scrollback) do
+      local f = _G[frame]
+      if scrollback.elements and scrollback.headIndex and scrollback.maxElements and frame ~= "ChatFrame2" then
+        if f and #scrollback.elements then
+          local timeShown = false
+          for i = 1, #scrollback.elements do
+            local line = self:GetEntryAtIndex(scrollback, i)
+            if line and type(line.message) == "string" and (not self.db.profile.removespam or isRealChatMessage(line)) then
+              line.serverTime = line.serverTime or now
+              line.timestamp = uptime
+
+              if maxTime == 0 or (now - line.serverTime) <= maxTime then
+                if not timeShown then
+                  f:BackFillMessage(PL.divider)
+
+                  f:BackFillMessage(format(TIME_DAYHOURMINUTESECOND,
+                    ChatFrame_TimeBreakDown(now - line.serverTime)))
+                  timeShown = true
+                end
+
+                line.message = line.message:gsub("|K.-|k", PL.bnet_removed)
+                line.message = line.message:gsub([[|HBNplayer:(.-)|h(.-)|h]], updateBnet)
+                f.historyBuffer:PushBack(line)
+              end
+            end
+          end
+
+          f:ResetAllFadeTimes()
+        end
+      end
     end
   end
 end)

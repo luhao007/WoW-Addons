@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod("Valithria", "DBM-Icecrown", 4)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417005949")
+mod:SetRevision("20200728162642")
 mod:SetCreatureID(36789)
 mod:SetEncounterID(1098)
 mod:SetModelID(30318)
 mod:SetUsedIcons(8)
+mod.onlyHighest = true--Instructs DBM health tracking to literally only store highest value seen during fight, even if it drops below that
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -34,10 +35,10 @@ local specWarnLayWaste		= mod:NewSpecialWarningSpell(69325, nil, nil, nil, 2, 2)
 local specWarnManaVoid		= mod:NewSpecialWarningMove(71179, nil, nil, nil, 1, 2)
 
 local timerLayWaste			= mod:NewBuffActiveTimer(12, 69325, nil, nil, nil, 2)
-local timerNextPortal		= mod:NewCDTimer(46.5, 72483, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON)
+local timerNextPortal		= mod:NewCDTimer(46.5, 72483, nil, nil, nil, 5, nil, DBM_CORE_L.HEALER_ICON)
 local timerPortalsOpen		= mod:NewTimer(15, "TimerPortalsOpen", 72483, nil, nil, 6)
 local timerPortalsClose		= mod:NewTimer(10, "TimerPortalsClose", 72483, nil, nil, 6)
-local timerHealerBuff		= mod:NewBuffFadesTimer(40, 70873, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON)
+local timerHealerBuff		= mod:NewBuffFadesTimer(40, 70873, nil, nil, nil, 5, nil, DBM_CORE_L.HEALER_ICON)
 local timerGutSpray			= mod:NewTargetTimer(12, 70633, nil, "Tank|Healer", nil, 5)
 local timerCorrosion		= mod:NewTargetTimer(6, 70751, nil, false, nil, 3)
 local timerBlazingSkeleton	= mod:NewTimer(50, "TimerBlazingSkeleton", 17204, nil, nil, 1)

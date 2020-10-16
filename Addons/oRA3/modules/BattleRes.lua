@@ -5,8 +5,6 @@ local module = oRA:NewModule("BattleRes", "AceTimer-3.0")
 local L = scope.locale
 local coloredNames = oRA.coloredNames
 
---luacheck: globals GameFontNormal
-
 local resAmount = 0
 local badBuffs = {
 	27827, -- Spirit of Redemption
@@ -16,6 +14,7 @@ local resSpells = {
 	[20484] = true,  -- Rebirth
 	[61999] = true,  -- Raise Ally
 	[95750] = true,  -- Soulstone Resurrection
+	[265116] = true, -- Unstable Temporal Time Shifter
 }
 local theDead = {}
 local updateFunc
@@ -123,6 +122,7 @@ end
 local defaults = {
 	profile = {
 		showDisplay = true,
+		alwaysShow = false,
 		lock = false,
 	}
 }
@@ -176,6 +176,22 @@ local options = {
 			order = 2,
 			width = "full",
 		},
+		alwaysShow = {
+			type = "toggle",
+			name = colorize(L.battleResAlwaysShow),
+			desc = L.battleResAlwaysShowDesc,
+			descStyle = "inline",
+			set = function(_, v)
+				module.db.profile.alwaysShow = v
+				if v then
+					module:CheckOpen()
+				else
+					module:Close()
+				end
+			end,
+			order = 3,
+			width = "full",
+		},
 		lock = {
 			type = "toggle",
 			name = colorize(L.lockMonitor),
@@ -185,7 +201,7 @@ local options = {
 				module.db.profile.lock = v
 				toggleLock()
 			end,
-			order = 3,
+			order = 4,
 			width = "full",
 		},
 	}
@@ -303,7 +319,7 @@ do
 			end
 		end
 
-		return false
+		return module.db.profile.alwaysShow
 	end
 
 	function module:CheckOpen()

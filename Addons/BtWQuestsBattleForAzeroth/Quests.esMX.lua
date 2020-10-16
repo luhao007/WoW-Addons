@@ -469,7 +469,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un tributo a la muerte",
     },
     [47894] = {
-        name = "Saltos y brincos",
+        name = "[Jump Around]",
     },
     [47897] = {
         name = "Traidores zanchuli",
@@ -2737,7 +2737,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Perforación del escudo",
     },
     [50690] = {
-        name = "Con Moxie",
+        name = "[UNUSED]",
     },
     [50691] = {
         name = "Esto no era parte del trabajo",
@@ -3403,7 +3403,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Cueva de Ai'twen",
     },
     [51354] = {
-        name = "Cólera embotellada",
+        name = "Rabia embotellada",
     },
     [51356] = {
         name = "SE BUSCA: Hermana Lilias",
@@ -4765,7 +4765,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¿Qué le sucedió a Saffy Flivvers?",
     },
     [53816] = {
-        name = "Se requiere algo de reensamblaje",
+        name = "Reensamblaje forzoso",
     },
     [53817] = {
         name = "¿Qué le sucedió a Grizzek Llavesilbo?",
@@ -4893,8 +4893,65 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53888] = {
         name = "A Puntanzuelo",
     },
+    [53889] = {
+        name = "Una declaración de intención",
+    },
+    [53890] = {
+        name = "Aliados nuevos, problemas nuevos",
+    },
+    [53891] = {
+        name = "No hay problemas insignificantes",
+    },
+    [53892] = {
+        name = "¿Dónde están los obreros?",
+    },
+    [53893] = {
+        name = "Un gesto de buena voluntad",
+    },
+    [53894] = {
+        name = "Reparaciones valiosas",
+    },
+    [53895] = {
+        name = "Ascenso de los peones",
+    },
     [53896] = {
         name = "Firme",
+    },
+    [53897] = {
+        name = "Una fiesta en su honor",
+    },
+    [53898] = {
+        name = "Fuerza y honor",
+    },
+    [53899] = {
+        name = "En las afueras",
+    },
+    [53900] = {
+        name = "Usaremos sus armas",
+    },
+    [53901] = {
+        name = "La respuesta siempre es una explosión",
+    },
+    [53902] = {
+        name = "Elimina a la clamamareas",
+    },
+    [53903] = {
+        name = "Reúnete con Meerah",
+    },
+    [53904] = {
+        name = "Los asistentes del viticultor",
+    },
+    [53905] = {
+        name = "Aptitudes laborales",
+    },
+    [53906] = {
+        name = "Fermentado para la Horda",
+    },
+    [53907] = {
+        name = "Cata de cosecha",
+    },
+    [53908] = {
+        name = "Esperando nuestra llegada",
     },
     [53909] = {
         name = "Aliados asediados",
@@ -5022,6 +5079,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [54022] = {
         name = "Planes de batalla de Mekkatorque",
     },
+    [54026] = {
+        name = "Trabajo terminado",
+    },
+    [54027] = {
+        name = "Amenaza contenida",
+    },
     [54028] = {
         name = "Meca contra nave de guerra",
     },
@@ -5036,6 +5099,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [54034] = {
         name = "La mirada de los loa: Bwonsamdi",
+    },
+    [54036] = {
+        name = "Un proceso particular",
     },
     [54041] = {
         name = "Sin sobrevivientes",
@@ -5119,7 +5185,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Novedades funestas",
     },
     [54108] = {
-        name = "La muerte de un guerrero",
+        name = "Una muerte de guerrero",
     },
     [54109] = {
         name = "El favor de la reina",
@@ -5577,6 +5643,30 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [54975] = {
         name = "Un breve respiro",
     },
+    [54976] = {
+        name = "La sombra de Gilneas",
+    },
+    [54977] = {
+        name = "En Bosque del Ocaso",
+    },
+    [54980] = {
+        name = "Pena de los Penumbría",
+    },
+    [54981] = {
+        name = "Un aullido a la luna",
+    },
+    [54982] = {
+        name = "El espíritu del cazador",
+    },
+    [54983] = {
+        name = "El despertar de un soñador",
+    },
+    [54984] = {
+        name = "Lobo que ladra no muerde",
+    },
+    [54990] = {
+        name = "La nueva guardia",
+    },
     [54992] = {
         name = "El comienzo de algo más grande",
     },
@@ -5719,7 +5809,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Costuras desgarradas",
     },
     [55195] = {
-        name = "Reverberancia",
+        name = "Reverberación",
     },
     [55210] = {
         name = "No incluye baterías",
@@ -6373,7 +6463,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "En aprietos",
     },
     [56472] = {
-        name = "Convenio de Uldum",
+        name = "Acuerdo de Uldum",
     },
     [56494] = {
         name = "Víspera de la batalla",
@@ -6498,6 +6588,21 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57010] = {
         name = "Inyección de poder",
     },
+    [57043] = {
+        name = "Viejos amigos, nuevas oportunidades",
+    },
+    [57045] = {
+        name = "Una entrega especial",
+    },
+    [57047] = {
+        name = "Un experimento simple",
+    },
+    [57051] = {
+        name = "¡Cobro de deudas!",
+    },
+    [57053] = {
+        name = "Prueba de fuerza bruta",
+    },
     [57067] = {
         name = "Mogu en las puertas",
     },
@@ -6519,8 +6624,20 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57074] = {
         name = "Entre la espada y la puerta",
     },
+    [57075] = {
+        name = "Valentía líquida",
+    },
     [57076] = {
         name = "Regreso a Bruma Otoñal",
+    },
+    [57077] = {
+        name = "¡Se buscan compradores!",
+    },
+    [57078] = {
+        name = "La lista VIP",
+    },
+    [57079] = {
+        name = "¡Gánale y que coma Chatarrópolis!",
     },
     [57088] = {
         name = "Esto no es mío",
@@ -6600,6 +6717,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57378] = {
         name = "Restos de un mundo destrozado",
     },
+    [57448] = {
+        name = "Nuevos aliados entre nosotros",
+    },
     [57486] = {
         name = "Energía menguante",
     },
@@ -6669,6 +6789,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [58009] = {
         name = "A la luna",
     },
+    [58087] = {
+        name = "Destruir la fuente",
+    },
     [58214] = {
         name = "Atención urgente",
     },
@@ -6686,6 +6809,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [58582] = {
         name = "Regreso del Príncipe Negro",
+    },
+    [58583] = {
+        name = "Directo al corazón",
     },
     [58606] = {
         name = "Un poco de investigación",

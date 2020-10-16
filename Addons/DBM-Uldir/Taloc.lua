@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2168, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200220034831")
+mod:SetRevision("20200907150556")
 mod:SetCreatureID(137119)--Taloc
 mod:SetEncounterID(2144)
-mod:SetZone()
 --mod:SetHotfixNoticeRev(16950)
 --mod:SetMinSyncRevision(16950)
 mod.respawnTime = 29
@@ -52,9 +51,9 @@ local specWarnGTFO						= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
 
 mod:AddTimerLine(BOSS)
 local timerPlasmaDischargeCD			= mod:NewCDCountTimer(30.4, 271225, nil, nil, nil, 3)--30.4-42
-local timerCudgelOfGoreCD				= mod:NewCDCountTimer(58.2, 271296, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON, nil, 1, 4)--60.4-63
+local timerCudgelOfGoreCD				= mod:NewCDCountTimer(58.2, 271296, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 1, 4)--60.4-63
 local timerSanguineStaticCD				= mod:NewCDTimer(53.6, 272582, nil, nil, nil, 3)--60.4-63
-local timerEnlargedHeartCD				= mod:NewCDCountTimer(60.4, 275205, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_TANK_ICON, nil, 2, 4)--60.4-63 (also timer for hardened, go out at same time, no need for two)
+local timerEnlargedHeartCD				= mod:NewCDCountTimer(60.4, 275205, nil, nil, nil, 3, nil, DBM_CORE_L.MYTHIC_ICON..DBM_CORE_L.TANK_ICON, nil, 2, 4)--60.4-63 (also timer for hardened, go out at same time, no need for two)
 mod:AddTimerLine(DBM:GetSpellInfo(271965))
 local timerPoweredDown					= mod:NewBuffActiveTimer(88.6, 271965, nil, nil, nil, 6)
 
@@ -69,7 +68,7 @@ mod.vb.cudgelCount = 0
 mod.vb.enlargedCount = 0
 mod.vb.phase = 1
 
-function mod:StaticTarget(targetname, uId)
+function mod:StaticTarget(targetname)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSanguineStaticYou:Show()

@@ -1,5 +1,6 @@
 ## Interface: 80300
 ## Author: Omega
+## Version: r40
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_Archaeology_Settings
@@ -10,6 +11,8 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0考古学|r
 
 ## X-Min-Interface: 70100
+## X-Website: http://www.deadlybossmods.com
+## X-Curse-Project-ID: 29493
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

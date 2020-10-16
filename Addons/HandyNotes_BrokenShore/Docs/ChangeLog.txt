@@ -1,7 +1,18 @@
-$Id: ChangeLog.txt 107 2020-01-17 14:33:17Z arith $
+$Id: ChangeLog.txt 111 2020-09-11 09:58:53Z arith $
 
 Revision History:
 =================
+
+* v1.35 (Sep. 11, 2020)
+-----------------------
+- Re-added LibUIDropDown
+- Updated deprecated function call
+  - WorldMapTooltip
+  - IsQuestFlaggedCompleted  --> C_QuestLog.IsQuestFlaggedCompleted 
+
+* v1.34 (Jul. 26, 2020)
+-----------------------
+- Library update: LibBabble-SubZone
 
 * v1.33 (Jan. 17, 2020)
 -----------------------

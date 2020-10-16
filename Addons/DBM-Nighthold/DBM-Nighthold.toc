@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: MysticalOS
-## Version: r17
+## Version: r21
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMNighthold_AllSavedVars
@@ -13,10 +13,11 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: LEG
-## X-DBM-Mod-Has-Mythic: 1
+## X-DBM-StatTypes: normal,heroic,mythic,lfr
 ## X-DBM-Mod-Sort: 505
 ## X-DBM-Mod-MapID: 1530
-## X-DBM-Mod-MinCoreRevision: 14737
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 6
 ## X-Curse-Project-ID: 301324
 ## X-WoWI-ID: 24905
 ## X-Part-Of: DBM-Core

@@ -2779,7 +2779,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Обратный удар",
     },
     [50690] = {
-        name = "С Мокси",
+        name = "[UNUSED]",
     },
     [50691] = {
         name = "Внештатная ситуация",
@@ -5563,7 +5563,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Мрачные Холмы",
     },
     [54730] = {
-        name = "Влияние Горака Тула",
+        name = "Влияние горака Тула",
     },
     [54731] = {
         name = "Баланс во всем",
@@ -5656,7 +5656,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Два брата",
     },
     [54939] = {
-        name = "Упрямый, как Бронзобород",
+        name = "Упрям, как Бронзобород",
     },
     [54940] = {
         name = "Помощь МАТРИАРХа",
@@ -5857,7 +5857,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Высоко сижу, далеко гляжу",
     },
     [55185] = {
-        name = "А ну слушай!",
+        name = "Внимание всем!",
     },
     [55188] = {
         name = "Треск по швам",

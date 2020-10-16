@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: TomCat
-## Version: 01.05.00
+## Version: 01.06.00
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
@@ -10,8 +10,8 @@
 ## Notes-zhCN: 汤姆猫旅行指南
 
 ## X-Website: https://www.tomcatstours.com
-## X-TomCats-VersionMessageID: 1583846119
-## X-TomCats-VersionMessage: XZGZYJf9Ec1k5QWPQ1TfBuQne+MQgCQKV56imu0rBrcJwkc7x8rIMl5nkucBAQUAAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEDBAwAAQYNAQASDgEAGg8BAAQ=
+## X-TomCats-VersionMessageID: 1602612681
+## X-TomCats-VersionMessage: AI49+I8vlJBH2diTcIa3ItksuYrUSzlcgtGNXoSG0HG261FOlGGpxGNfhe3JAQEGAAIBBAMDAQQGBAEECAUBBAYGAQQGBwEEFwgBAggJAgYACgEAAwsBAwQMAAEGDQEAEg4BABoPAQAG
 ## X-Part-Of: TomCat's Tours:
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW

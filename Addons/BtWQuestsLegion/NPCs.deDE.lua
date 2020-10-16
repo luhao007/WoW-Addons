@@ -9,17 +9,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "Maximillian von Nordhain",
     },
+    [91065] = {
+        name = "Kellermeister Voodani",
+    },
     [92802] = {
         name = "Gravax der Schänder",
     },
     [93600] = {
         name = "Saylanna Flussbrise",
     },
+    [94101] = {
+        name = "Laeni Silberschuss",
+    },
     [94366] = {
         name = "Lelyn Flinkschatten",
     },
     [94434] = {
         name = "Addie Zischmoor",
+    },
+    [95799] = {
+        name = "Damrul der Schtarke",
     },
     [96513] = {
         name = "Razik Gazbolz",
@@ -39,6 +48,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [99065] = {
         name = "Thaedris Federsang",
     },
+    [99905] = {
+        name = "Shale Graufeder",
+    },
     [101766] = {
         name = "Thalrenus Flussbaum",
     },
@@ -54,8 +66,29 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [106299] = {
         name = "Thisalee Krähe",
     },
+    [106914] = {
+        name = "Tehd Shumaker",
+    },
+    [106915] = {
+        name = "Marius Teufelsbann",
+    },
+    [107244] = {
+        name = "Tehd Shumaker",
+    },
+    [107245] = {
+        name = "Marius Teufelsbann",
+    },
+    [107498] = {
+        name = "Kukkah",
+    },
     [107499] = {
         name = "Verängstigter Rabenbär",
+    },
+    [107674] = {
+        name = "Schnacki Sechszünder",
+    },
+    [107675] = {
+        name = "Rax Sechszünder",
     },
     [108304] = {
         name = "Guviena Klingenlied",

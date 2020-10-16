@@ -2530,7 +2530,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "蜜酒大師",
     },
     [41039] = {
-        name = "遭竊的配方",
+        name = "失竊配方",
     },
     [41040] = {
         name = "英靈殿：釀酒大師",
@@ -3895,7 +3895,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "科技上層樓",
     },
     [42702] = {
-        name = "勇士：米歐浩斯·曼納斯頓",
+        name = "勇士：米歐浩斯‧曼納斯頓",
     },
     [42703] = {
         name = "魔法工程",

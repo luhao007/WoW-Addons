@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(889, "DBM-Party-WoD", 2, 385)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190625143517")
+mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(74790)
 mod:SetEncounterID(1654)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -25,7 +26,7 @@ local specWarnMagmaEruption		= mod:NewSpecialWarningMove(150784, nil, nil, nil, 
 local specWarnMoltenCore		= mod:NewSpecialWarningDispel(150678, "MagicDispeller", nil, nil, 1, 2)
 
 local timerMagmaEruptionCD		= mod:NewCDTimer(20, 150784)
-local timerUnstableSlagCD		= mod:NewCDTimer(20, 150755, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON, nil, 1, 4)
+local timerUnstableSlagCD		= mod:NewCDTimer(20, 150755, nil, nil, nil, 1, nil, DBM_CORE_L.DAMAGE_ICON, nil, 1, 4)
 
 function mod:OnCombatStart(delay)
 --	timerMagmaEruptionCD:Start(8-delay)--Poor sample size

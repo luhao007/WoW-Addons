@@ -222,14 +222,14 @@ L = {
 		["Frames"] = "Fenster",
 		["mainchatonload_desc"] = "Automatisch das erste Chatfenster auswählen und beim Laden aktivieren.",
 		["mainchatonload_name"] = "Haupt-Chatfenster beim Laden erzwingen",
-		["maxchatheight_desc"] = "Die maximale Höhe für alle alle Chatfenster einstellen.",
+		["maxchatheight_desc"] = "Die maximale Höhe für alle Chatfenster einstellen.",
 		["maxchatheight_name"] = "Maximale Höhe einstellen",
 		["maxchatwidth_desc"] = "Die maximale Breite für alle Chatfenster einstellen.",
-		["maxchatwidth_name"] = "Maximale Breite einstellen.",
+		["maxchatwidth_name"] = "Maximale Breite einstellen",
 		["minchatheight_desc"] = "Die minimale Höhe für alle Chatfenster einstellen.",
 		["minchatheight_name"] = "Minimale Höhe einstellen",
 		["minchatwidth_desc"] = "Die minimale Breite für alle Chatfenster einstellen.",
-		["minchatwidth_name"] = "Minimale Breite einstellen.",
+		["minchatwidth_name"] = "Minimale Breite einstellen",
 		["rememberframepositions_desc"] = "Merkt sich die Chatrahmen Positionen und stellt sie beim Laden wieder her",
 		["rememberframepositions_name"] = "Positionen merken",
 		["removeclamp_desc"] = "Das Verschieben des Chatfensters bündig zur Bildschirmkante zulassen",
@@ -520,8 +520,8 @@ end
   function mod:OnModuleEnable()
     CHAT_FRAME_BUTTON_FRAME_MIN_ALPHA = 0
     self:ConfigureAllChatFrames(true)
-    self:RawHook("FCF_DockFrame", true)
-    self:RawHook("FCF_UnDockFrame", true)
+    self:SecureHook("FCF_DockFrame")
+    self:SecureHook("FCF_UnDockFrame")
     self:SecureHook("FloatingChatFrame_UpdateBackgroundAnchors")
 
 
@@ -571,7 +571,6 @@ end
     Prat.Frames[frame:GetName()] = frame
     local m = Prat.Addon:GetModule("Font", true)
     if m then m:ConfigureAllChatFrames() end
-    return self.hooks["FCF_DockFrame"](frame, ...)
   end
 
   function mod:FCF_UnDockFrame(frame, ...)
@@ -581,7 +580,6 @@ end
     Prat.Frames[frame:GetName()] = frame
     local m = Prat.Addon:GetModule("Font", true)
     if m then m:ConfigureAllChatFrames() end
-    return self.hooks["FCF_UnDockFrame"](frame, ...)
   end
 
   --[[------------------------------------------------

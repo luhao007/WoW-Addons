@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2129, "DBM-Party-BfA", 10, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200220034831")
+mod:SetRevision("20201003222718")
 mod:SetCreatureID(131864)
 mod:SetEncounterID(2117)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -23,15 +22,15 @@ local specWarnSummonSlaver			= mod:NewSpecialWarningSwitch(266266, "-Healer", ni
 local specWarnDreadEssence			= mod:NewSpecialWarningSpell(266181, nil, nil, nil, 2, 2)
 local specWarnDarkenedLightning		= mod:NewSpecialWarningInterrupt(266225, "HasInterrupt", nil, nil, 1, 2)
 
-local timerDarkenedLightningCD		= mod:NewCDTimer(15.7, 266225, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)--Has interrupt spell icon but it's not actually interruptable
+local timerDarkenedLightningCD		= mod:NewCDTimer(15.7, 266225, nil, nil, nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)--Has interrupt spell icon but it's not actually interruptable
 local timerSummonSlaverCD			= mod:NewCDTimer(17, 266266, nil, nil, nil, 1)--17-22
 local timerDreadEssenceCD			= mod:NewCDTimer(27.9, 266181, nil, nil, nil, 2)
 
 mod:AddRangeFrameOption(6, 266225)--Range guessed, can't find spell data for it
 
 function mod:OnCombatStart(delay)
-	timerDarkenedLightningCD:Start(8-delay)
-	timerSummonSlaverCD:Start(13-delay)
+	timerSummonSlaverCD:Start(2.5-delay)
+	timerDarkenedLightningCD:Start(6.1-delay)
 	timerDreadEssenceCD:Start(25-delay)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(6)

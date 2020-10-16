@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Arta
-## Version: r14
+## Version: r20
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWotLK_AllSavedVars
@@ -13,7 +13,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
 ## X-DBM-Mod-Category: WotLK
-## X-DBM-Mod-Has-TimeWalker: 1
+## X-DBM-StatTypes: normal,heroic
 ## X-DBM-Mod-SubCategories: Ahn'Kahet,Azjol-Nerub,CoT: Old Stratholme,Drak'Tharon Keep,Gundrak,Halls of Lightning,Halls of Stone,The Nexus,The Oculus,Utgarde Keep,Utgarde Pinnacle,Violet Hold,Trial of the Champion,The Forge of Souls,Pit of Saron,Halls of Reflection
 ## X-DBM-Mod-SubCategories-frFR: Ahn'Kahet,Azjol-Nérub,GT: L'Épuration de Stratholme,Drak'Tharon,Gundrak,Salles de foudre,Salles de pierre,Le Nexus,L'Occulus,Donjon d'Utgarde,Cime d'Utgarde,Fort Pourpre,L'épreuve du champion,La Forge des âmes,La Fosse de Saron,Salles des Reflets
 ## X-DBM-Mod-SubCategories-deDE: Ahn'kahet: Das Alte Königreich,Azjol-Nerub,Das Ausmerzen von Stratholme,Feste von Drak'Tharon,Gundrak,Hallen der Blitze,Hallen des Steins,Der Nexus,Das Oculus,Burg Utgarde,Turm Utgarde,Violette Festung,Prüfung des Champions,Die Seelenschmiede,Grube von Saron,Hallen der Reflexion
@@ -34,7 +34,8 @@
 ## X-DBM-Mod-Name-esMX: Mazmorras-WotLK
 ## X-DBM-Mod-Sort: 915
 ## X-DBM-Mod-MapID: 619,601,595,600,604,602,599,576,578,574,575,608,658,632,668,650
-## X-DBM-Mod-MinCoreRevision: 14002
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 2
 ## X-Curse-Project-ID: 314994
 ## X-WoWI-ID: 24904
 ## X-Part-Of: DBM-Core

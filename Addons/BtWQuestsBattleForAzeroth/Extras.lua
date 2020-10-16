@@ -9,7 +9,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_PRIDE_OF_
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {50,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_A_BARGIN_OF_BLOOD,
     },
@@ -35,7 +35,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_PRIDE_OF_
         },
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
     },
     active = {
@@ -56,8 +56,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_PRIDE_OF_
             amounts = {
                 7394400, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
         {
             type = "currency",
@@ -356,7 +356,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_A_NATION_
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {50,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_ZANDALAR_FOREVER,
     },
@@ -393,18 +393,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_A_NATION_
         {
             type = "money",
             amounts = {
-                1010000, 1026000, 1042000, 1058000, 1074000, 1090000, 1106000, 1122000, 1138000, 1154000, 1170000, 
+                242000, 262600, 283200, 303800, 324400, 345000, 365600, 386200, 406800, 427400, 448000, 468600, 489200, 509800, 530400, 551000, 571600, 592200, 612800, 633400, 654000, 679920, 705840, 731760, 757680, 783600, 809520, 835440, 861360, 887280, 913200, 939120, 965040, 990960, 1016880, 1042800, 1068240, 1093680, 1119120, 1144560, 1170000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                32900, 33200, 33450, 33750, 34000, 34300, 34600, 34850, 35150, 35400, 
+                2850, 3100, 3350, 3650, 3900, 4200, 4450, 4700, 5000, 5250, 5550, 5800, 6050, 6350, 6600, 6900, 7150, 7400, 7700, 7950, 8250, 8500, 8750, 9050, 9300, 9600, 9850, 10100, 10400, 10650, 10950, 11200, 11450, 11750, 12000, 12300, 12550, 12800, 13100, 13350, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -415,10 +415,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_A_NATION_
             type = "reputation",
             id = 2160,
             amount = 425,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -505,7 +502,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_A_BARGIN_OF_
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {50,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_PRIDE_OF_KULTIRAS,
     },
@@ -538,27 +535,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_A_BARGIN_OF_
         {
             type = "money",
             amounts = {
-                1717400, 1752800, 1788200, 1823600, 1859000, 1894400, 1929800, 1965200, 2000600, 2036000, 2071400, 
+                17700, 63280, 108855, 154435, 200010, 245590, 291165, 336745, 382320, 427900, 473475, 519055, 564630, 610210, 655785, 701365, 746940, 792520, 838095, 883675, 929250, 986600, 1043945, 1101295, 1158640, 1215990, 1273340, 1330685, 1388035, 1445380, 1502730, 1560080, 1617425, 1674775, 1732120, 1789470, 1845755, 1902040, 1958330, 2014615, 2070900, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                120900, 122000, 123000, 123950, 124950, 126050, 127100, 128200, 129050, 130150, 
+                10330, 11450, 12460, 13380, 14400, 15410, 16530, 17350, 18360, 19530, 20350, 21470, 22480, 23300, 24420, 25430, 26450, 27370, 28380, 29500, 30325, 31325, 32450, 33275, 34275, 35400, 36425, 37325, 38350, 39375, 40275, 41300, 42325, 43225, 44250, 45375, 46375, 47200, 48325, 49325, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2103,
             amount = 785,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -678,7 +672,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_ZANDALAR_FOR
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {50,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_A_NATION_UNITED,
     },
@@ -718,27 +712,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_ZANDALAR_FOR
         {
             type = "money",
             amounts = {
-                582000, 594000, 606000, 618000, 630000, 642000, 654000, 666000, 678000, 690000, 702000, 
+                6000, 21450, 36900, 52350, 67800, 83250, 98700, 114150, 129600, 145050, 160500, 175950, 191400, 206850, 222300, 237750, 253200, 268650, 284100, 299550, 315000, 334440, 353880, 373320, 392760, 412200, 431640, 451080, 470520, 489960, 509400, 528840, 548280, 567720, 587160, 606600, 625680, 644760, 663840, 682920, 702000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                24700, 24900, 25100, 25300, 25500, 25750, 25950, 26150, 26350, 26550, 
+                2150, 2350, 2550, 2750, 2950, 3150, 3350, 3550, 3750, 3950, 4150, 4350, 4550, 4750, 4950, 5150, 5350, 5550, 5750, 5950, 6200, 6400, 6600, 6800, 7000, 7200, 7400, 7600, 7800, 8000, 8200, 8400, 8600, 8800, 9000, 9200, 9400, 9600, 9800, 10000, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2103,
             amount = 250,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -835,7 +826,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_IN_TELDRA
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {120,120},
+    range = {50,50},
     crest = "alliance",
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TROUBLE_IN_DARKSHORE
@@ -847,7 +838,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_IN_TELDRA
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
             visible = false,
         },
     },
@@ -874,8 +865,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_IN_TELDRA
             amounts = {
                 1123200, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
     },
     items = {
@@ -938,7 +929,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_FALLEN_C
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {50,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -970,8 +961,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_FALLEN_C
             amounts = {
                 2620800, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
         {
             type = "currency",
@@ -987,10 +978,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_THE_FALLEN_C
             type = "reputation",
             id = 2103,
             amount = 1970,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1088,7 +1076,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_JUSTICE_FOR_
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {50,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -1114,8 +1102,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_JUSTICE_FOR_
             amounts = {
                 1216800, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
         {
             type = "reputation",
@@ -1126,10 +1114,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_JUSTICE_FOR_
             type = "reputation",
             id = 2103,
             amount = 770,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -1197,7 +1182,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_BLOOD_ELF_HERITAGE
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "reputation",
@@ -1219,16 +1204,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_BLOOD_ELF_HERITAGE
         {
             name = L["BTWQUESTS_HERITAGE_OF_THE_SINDOREI"],
         },
-        {
-            type = "money",
-            amounts = {
-                1965600, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
     },
-    range = {110},
+    range = {50},
     items = {
         {
             type = "quest",
@@ -1334,7 +1311,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE, {
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "reputation",
@@ -1354,14 +1331,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_DWARF_HERITAGE, {
     rewards = {
         {
             name = L["BTWQUESTS_HERITAGE_OF_THE_BRONZEBEARD"],
-        },
-        {
-            type = "money",
-            amounts = {
-                2176200, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
     },
     range = {120},
@@ -1454,7 +1423,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TROUBLE_IN_D
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
     crest = "horde",
-    range = {110,120},
+    range = {50,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_IN_TELDRASSILS_SHADOW
     },
@@ -1465,7 +1434,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TROUBLE_IN_D
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
     },
     active = {
@@ -1494,8 +1463,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TROUBLE_IN_D
             amounts = {
                 1521000, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
     },
     items = {
@@ -1576,6 +1545,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_TROUBLE_IN_D
         },
     },
 })
+-- No longer available
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_NECK_LEVEL, {
     name = { -- A One-Way Ticket to the Heart
         type = "quest",
@@ -1600,14 +1570,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_NECK_LEVEL, 
         id = 54964,
     },
     rewards = {
-        {
-            type = "money",
-            amounts = {
-                491400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
         {
             type = "reputation",
             id = 2164,
@@ -1653,7 +1615,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_SOMETHING_SO
     },
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {50,50},
     prerequisites = {
         {
             type = "chain",
@@ -1691,8 +1653,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_SOMETHING_SO
             amounts = {
                 702000, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
     },
     items = {
@@ -1766,7 +1728,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_HATI, {
     },
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {50,50},
     restrictions = {
         {
             type = "class",
@@ -1776,7 +1738,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_HATI, {
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
     },
     active = {
@@ -1797,8 +1759,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_HATI, {
             amounts = {
                 1123200, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
     },
     items = {
@@ -1881,7 +1843,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_HORDE_VOLJIN, 
     },
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {50,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -1916,8 +1878,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_HORDE_VOLJIN, 
             amounts = {
                 2457000, 
             },
-            minLevel = 120,
-            maxLevel = 120,
+            minLevel = 50,
+            maxLevel = 50,
         },
         {
             type = "currency",
@@ -1933,10 +1895,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_HORDE_VOLJIN, 
             type = "reputation",
             id = 2103,
             amount = 2360,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -2047,11 +2006,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_XALATATH, {
     name = L["BTWQUESTS_GIFT_OF_NZOTH"],
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
     },
     active = {
@@ -2064,14 +2023,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_XALATATH, {
         ids = {54126, 53763},
     },
     rewards = {
-        {
-            type = "money",
-            amounts = {
-                936000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
         {
             type = "currency",
             id = 1553,
@@ -2300,7 +2251,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "reputation",
@@ -2320,14 +2271,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_GNOME_HERITAGE
     rewards = {
         {
             name = L["BTWQUESTS_HERITAGE_OF_GNOMEREGAN"],
-        },
-        {
-            type = "money",
-            amounts = {
-                2925000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
     },
     range = {120},
@@ -2453,7 +2396,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAG
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "reputation",
@@ -2477,14 +2420,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_2_TAUREN_HERITAG
     rewards = {
         {
             name = L["BTWQUESTS_HERITAGE_OF_THE_SHUHALO"],
-        },
-        {
-            type = "money",
-            amounts = {
-                1474200, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
     },
     range = {120},
@@ -2589,7 +2524,7 @@ BtWQuestsDatabase:AddChain(Chain.WorgenHeritage, {
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "reputation",
@@ -2710,7 +2645,7 @@ BtWQuestsDatabase:AddChain(Chain.GoblinHeritage, {
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "reputation",
@@ -2852,7 +2787,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_ALLIANCE, {
     name = "Other Alliance",
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {110,50},
     prerequisites = {
         {
             type = "level",
@@ -2888,7 +2823,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_HORDE, {
     name = "Other Horde",
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {110,50},
     prerequisites = {
         {
             type = "level",
@@ -2920,7 +2855,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_BOTH, {
     name = "Other Both",
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {110,50},
     prerequisites = {
         {
             type = "level",
@@ -2945,10 +2880,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_BOTH, {
         {
             type = "quest",
             id = 49759,
-        },
-        {
-            type = "quest",
-            id = 50520,
         },
         {
             type = "quest",

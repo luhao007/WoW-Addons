@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(1197, "DBM-Highmaul", nil, 477)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200222221214")
+mod:SetRevision("20200806142006")
 mod:SetCreatureID(77428, 78623)
 mod:SetEncounterID(1705)
-mod:SetZone()
 mod:SetUsedIcons(1, 2, 3)
 mod:SetBossHPInfoToHighest()--For mythic chogal
 --Could not find south path on internet
@@ -76,7 +75,7 @@ local specWarnBrandedDisplacementNear			= mod:NewSpecialWarningClose(164004)--Di
 
 local specWarnAberration						= mod:NewSpecialWarningSwitchCount("ej9945", "-Healer", nil, nil, nil, 2)--can use short name for all of them
 
-local specWarnAcceleratedAssault				= mod:NewSpecialWarningCount(159515, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(5, 159515), nil, nil, 2)
+local specWarnAcceleratedAssault				= mod:NewSpecialWarningCount(159515, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(5, 159515), nil, nil, 2)
 local specWarnAcceleratedAssaultOther			= mod:NewSpecialWarningTaunt(159515, nil, nil, nil, nil, 2)
 
 local specWarnMarkOfChaosOther					= mod:NewSpecialWarningTaunt(158605, nil, nil, nil, nil, 2)
@@ -104,20 +103,20 @@ local specWarnDarkStar							= mod:NewSpecialWarningSpell(178607, nil, nil, nil,
 local timerArcaneWrathCD						= mod:NewCDTimer(50, 156238, nil, "-Tank", nil, 3)--Pretty much a next timer, HOWEVER can get delayed by other abilities so only reason it's CD timer anyways
 local timerDestructiveResonanceCD				= mod:NewCDTimer(15, 156467, nil, "-Melee", nil, 3)--16-30sec variation noted. I don't like it
 local timerMarkOfChaos							= mod:NewTargetTimer(8, 158605, nil, "Tank")
-local timerMarkOfChaosCD						= mod:NewCDTimer(50.5, 158605, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON, nil, 2, 5)
+local timerMarkOfChaosCD						= mod:NewCDTimer(50.5, 158605, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 2, 5)
 local timerForceNovaCD							= mod:NewCDCountTimer(45, 157349, nil, nil, nil, 2, nil, nil, nil, 3, 4)--45-52
 local timerForceNovaFortification				= mod:NewNextTimer(9, 157349, nil, nil, nil, 2)--For repeating nova
-local timerSummonArcaneAberrationCD				= mod:NewCDCountTimer(45, "ej9945", nil, "-Healer", nil, 1, 156471, DBM_CORE_DAMAGE_ICON)--45-52 Variation Noted
+local timerSummonArcaneAberrationCD				= mod:NewCDCountTimer(45, "ej9945", nil, "-Healer", nil, 1, 156471, DBM_CORE_L.DAMAGE_ICON)--45-52 Variation Noted
 --Intermission: Lineage of Power
-mod:AddTimerLine(DBM_CORE_INTERMISSION)
+mod:AddTimerLine(DBM_CORE_L.INTERMISSION)
 local timerTransition							= mod:NewPhaseTimer(74, nil, nil, nil, nil, nil, nil, nil, nil, 1, 5)
-local timerCrushArmorCD							= mod:NewNextTimer(6, 158553, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerKickToFaceCD							= mod:NewCDTimer(17, 158563, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerCrushArmorCD							= mod:NewNextTimer(6, 158553, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
+local timerKickToFaceCD							= mod:NewCDTimer(17, 158563, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
 --Mythic
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerGaze									= mod:NewBuffFadesTimer(15, 165595, nil, nil, nil, 3, nil, nil, nil, 2, 4)
 local timerGlimpseOfMadnessCD					= mod:NewNextCountTimer(27, 165243, nil, nil, nil, 1)
-local timerInfiniteDarknessCD					= mod:NewNextTimer(62, 165102, nil, "Healer", 2, 5, nil, DBM_CORE_HEALER_ICON)
+local timerInfiniteDarknessCD					= mod:NewNextTimer(62, 165102, nil, "Healer", 2, 5, nil, DBM_CORE_L.HEALER_ICON)
 local timerEnvelopingNightCD					= mod:NewNextCountTimer(63, 165876, nil, nil, nil, 2, nil, nil, nil, 1, 4)--60 seconds plus 3 second cast
 local timerDarkStarCD							= mod:NewCDTimer(61, 178607, nil, nil, nil, 3, nil, nil, nil, 3, 4)--61-65 Variations noticed
 local timerNightTwistedCD						= mod:NewTimer(30, "timerNightTwistedCD", 172138, nil, nil, 1)
@@ -305,7 +304,7 @@ function mod:OnCombatEnd()
 	end
 	self:UnregisterShortTermEvents()
 	if self.Options.HudMapOnMarkOfChaos or self.Options.HudMapOnBranded then
-		DBMHudMap:Disable()
+		DBM.HudMap:Disable()
 	end
 end
 
@@ -620,7 +619,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 			updateRangeFrame(self)--Update it here cause we don't need it before stacks get to relevant levels.
 			if self.Options.HudMapOnBranded then
-				DBMHudMap:RegisterRangeMarkerOnPartyMember(spellId, "highlight", args.destName, 3.5, 5, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
+				DBM.HudMap:RegisterRangeMarkerOnPartyMember(spellId, "highlight", args.destName, 3.5, 5, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
 			end
 		end
 	elseif spellId == 158553 then
@@ -686,7 +685,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		updateRangeFrame(self)
 		if self.Options.HudMapOnMarkOfChaos then
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(spellId, "highlight", args.destName, 5, 7, 1, 0, 0, 0.5, nil, true, 2):Pulse(0.5, 0.5)
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(spellId, "highlight", args.destName, 5, 7, 1, 0, 0, 0.5, nil, true, 2):Pulse(0.5, 0.5)
 		end
 	elseif spellId == 157801 and self:CheckDispelFilter() then
 		specWarnSlow:CombinedShow(1, args.destName)
@@ -753,7 +752,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:Unschedule(trippleMarkCheck)
 		end
 		if self.Options.HudMapOnMarkOfChaos then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 		end
 	elseif spellId == 157763 and args:IsPlayer() and self.Options.RangeFrame then
 		updateRangeFrame(self)
@@ -767,7 +766,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 		updateRangeFrame(self)
 		if self.Options.HudMapOnBranded then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 		end
 	elseif spellId == 165102 and self.Options.SetIconOnInfiniteDarkness then
 		self:SetIcon(args.destName, 0)
@@ -832,22 +831,22 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		if spellId == 158012 then
 			if self:IsMythic() then
 				self.vb.phase = 2
-				warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
+				warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 				warnPhase:Play("ptwo")
 			else
 				self.vb.phase = 3
-				warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
+				warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(3))
 				warnPhase:Play("pthree")
 			end
 		end
 		if spellId == 157964 then
 			if self:IsMythic() then
 				self.vb.phase = 3
-				warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
+				warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(3))
 				warnPhase:Play("pthree")
 			else
 				self.vb.phase = 4
-				warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(4))
+				warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(4))
 				warnPhase:Play("pfour")
 			end
 		end
@@ -884,11 +883,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 			timerForceNovaCD:Start(tr5+n)
 		end
 		self.vb.phase = 2
-		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 		warnPhase:Play("ptwo")
 	elseif spellId == 70628 then --Margok being killed by chogal
 		self.vb.phase = 4
-		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(4))
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(4))
 		warnPhase:Play("pfour")
 		updateRangeFrame(self)
 		timerInfiniteDarknessCD:Start(9)--First timer 8-12 second variable, almost always 10. I'll make 9 for now so it's semi accurate in both situations

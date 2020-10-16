@@ -1,16 +1,15 @@
 local mod	= DBM:NewMod(1820, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190625143517")
+mod.statTypes = "heroic,mythic,challeng"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(114284, 114251)
 mod:SetEncounterID(1957)--Shared (so not used for encounter START since it'd fire 3 mods)
 mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
-mod:SetZone()
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
-
-mod.noNormal = true
 
 mod:RegisterCombat("combat")
 
@@ -28,8 +27,8 @@ local specWarnMagicMagnificent		= mod:NewSpecialWarningMoveTo(227776, nil, nil, 
 local specWarnWondrousRadiance		= mod:NewSpecialWarningMove(227416, nil, nil, nil, 1, 2)
 
 local timerSummonAddsCD				= mod:NewCDTimer(32.7, 227477, nil, nil, nil, 1)
-local timerMagicMagnificentCD		= mod:NewCDTimer(46.1, 198006, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON, nil, 1, 4)
-local timerWondrousRadianceCD		= mod:NewCDTimer(8.5, 227410, nil, "Tank", nil, 5, nil, DBM_CORE_DEADLY_ICON)
+local timerMagicMagnificentCD		= mod:NewCDTimer(46.1, 198006, nil, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON, nil, 1, 4)
+local timerWondrousRadianceCD		= mod:NewCDTimer(8.5, 227410, nil, "Tank", nil, 5, nil, DBM_CORE_L.DEADLY_ICON)
 
 local defyGravity = DBM:GetSpellInfo(227405)
 

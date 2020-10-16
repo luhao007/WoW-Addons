@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(1426, "DBM-HellfireCitadel", nil, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200222221214")
+mod:SetRevision("20200806142006")
 mod:SetCreatureID(90019)--Main ID is door, door death= win. 94515 Siegemaster Mar'tak
 mod:SetEncounterID(1778)
-mod:SetZone()
 mod:SetUsedIcons(6, 5, 4, 3, 2, 1)
 mod.syncThreshold = 4
 mod.respawnTime = 29
@@ -156,8 +155,8 @@ function mod:OnCombatStart(delay)
 	timerBerserkersCD:Start(29.5-delay, 1)
 	timerFelCastersCD:Start(35-delay, 1)
 	if self:IsMythic() then
-		timerSiegeVehicleCD:Start(52.5-delay, "("..DBM_CORE_LEFT..")")
-		timerSiegeVehicleCD:Start(55-delay, "("..DBM_CORE_RIGHT..")")
+		timerSiegeVehicleCD:Start(52.5-delay, "("..DBM_CORE_L.LEFT..")")
+		timerSiegeVehicleCD:Start(55-delay, "("..DBM_CORE_L.RIGHT..")")
 	else
 		timerSiegeVehicleCD:Start(37.8-delay, "")
 	end
@@ -168,7 +167,7 @@ function mod:OnCombatEnd()
 		DBM.RangeCheck:Hide()
 	end
 	if self.Options.HudMapOnAxe then
-		DBMHudMap:Disable()
+		DBM.HudMap:Disable()
 	end
 end
 
@@ -242,20 +241,20 @@ function mod:SPELL_AURA_APPLIED(args)
 			--Code will create left and right and center timers and will almost always show 2 timers at once for the split format of fight
 			--Center timers are only exception
 			if Count == 1 or Count == 3 or Count == 5 or Count == 12 or Count == 14 or Count == 16 or Count == 18 then--Left
-				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_LEFT..")")
+				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_L.LEFT..")")
 				DBM:Debug("Starting a left vehicle timer")
 			elseif Count == 2 or Count == 4 or Count == 6 or Count == 13 or Count == 15 or Count == 17 or Count == 19 then--Right
-				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_RIGHT..")")
+				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_L.RIGHT..")")
 				DBM:Debug("Starting a right vehicle timer")
 			elseif Count == 11 then--Last center, start both next left and right timers
-				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count-1], "("..DBM_CORE_LEFT..")")--Time for this one stored in 10 slot in table
-				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_RIGHT..")")
+				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count-1], "("..DBM_CORE_L.LEFT..")")--Time for this one stored in 10 slot in table
+				timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_L.RIGHT..")")
 				DBM:Debug("Starting a left and a right vehicle timer after center phase")
 			elseif Count == 7 or Count == 8 or Count == 9 then--Center
 				if Count == 8 then--Hack to allow timer not to overwrite another center timer
-					timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "( "..DBM_CORE_MIDDLE.." )")
+					timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "( "..DBM_CORE_L.MIDDLE.." )")
 				else
-					timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_MIDDLE..")")
+					timerSiegeVehicleCD:Start(mythicVehicleTimers[Count], "("..DBM_CORE_L.MIDDLE..")")
 				end
 				DBM:Debug("Starting a Center timer")
 			elseif Count == 10 then--No timer started at 10
@@ -289,7 +288,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			updateRangeFrame(self, true)
 		end
 		if self.Options.HudMapOnAxe then
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(184369, "highlight", args.destName, 5, 7, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(184369, "highlight", args.destName, 5, 7, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
 		end
 	elseif spellId == 180076 then
 		warnSiphon:Show(args.destName)
@@ -301,7 +300,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 184369 then
 		if self.Options.HudMapOnAxe then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 		end
 	end
 end
@@ -355,7 +354,7 @@ function mod:OnSync(msg)
 			DBM.RangeCheck:Hide()
 		end
 		if self.Options.HudMapOnAxe then
-			DBMHudMap:Disable()
+			DBM.HudMap:Disable()
 		end
 	elseif msg == "Felcaster" then
 		self.vb.felcasterCount = self.vb.felcasterCount + 1

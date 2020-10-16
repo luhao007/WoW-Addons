@@ -51,6 +51,7 @@ curse:deadly-boss-mods-wod,default
 curse:deadly-boss-mods-wotlk,default
 curse:decursive,default
 curse:dejacharacterstats,default
+curse:details,default
 curse:fastercamera,default
 curse:fishingbuddy,default
 curse:fishing-buddy-tracking,default
@@ -106,7 +107,6 @@ curse:relicinspector,default
 curse:rematch,default
 curse:scrap,default
 curse:simulationcraft,default
-curse:skada,default
 curse:tellmewhen,default
 curse:itemlevel-anywhere,default
 curse:tinytooltip,default

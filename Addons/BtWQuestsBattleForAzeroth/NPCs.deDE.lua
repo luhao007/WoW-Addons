@@ -18,6 +18,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [36648] = {
         name = "Baine Bluthuf",
     },
+    [49748] = {
+        name = "Heldenherold",
+    },
+    [49750] = {
+        name = "Herold des Kriegshäuptlings",
+    },
     [108017] = {
         name = "Torv Dubstampf",
     },
@@ -170,6 +176,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [124629] = {
         name = "Kaza'jin der Wellenbinder",
+    },
+    [124630] = {
+        name = "Wache von Kul Tiras",
     },
     [124641] = {
         name = "Schattenjägerin Mutumba",
@@ -583,7 +592,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Leonhard Reinwald",
     },
     [131443] = {
-        name = "Großtelemant Oculeth",
+        name = "Großtelemant Oculeth\0",
     },
     [131448] = {
         name = "Werner Eschtal",
@@ -1099,7 +1108,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Arthur Handelswind",
     },
     [140105] = {
-        name = "Nathanos Pestrufer",
+        name = "Dunkler Waldläufer",
     },
     [140176] = {
         name = "Nathanos Pestrufer",
@@ -1133,6 +1142,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [141555] = {
         name = "Baine Bluthuf",
+    },
+    [141602] = {
+        name = "Auferstandener Gezeitenweiser",
     },
     [141603] = {
         name = "Mallorie Veddel",
@@ -1293,6 +1305,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [146375] = {
         name = "Sira Mondhüter",
     },
+    [146462] = {
+        name = "Berserker der Horde",
+    },
     [146536] = {
         name = "Verlorener Irrwisch",
     },
@@ -1309,7 +1324,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Fürstin Sylvanas Windläufer",
     },
     [146791] = {
-        name = "Dunkle Waldläuferin Lyana",
+        name = "Dunkle Waldläuferin",
     },
     [146806] = {
         name = "Dunkle Waldläuferin Lyana",
@@ -1327,7 +1342,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Prinzessin Talanji",
     },
     [146937] = {
-        name = "Dunkle Waldläuferin Lyana",
+        name = "Dunkle Waldläuferin",
     },
     [146939] = {
         name = "Botschafterin Morgenschwur",
@@ -1361,6 +1376,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [147210] = {
         name = "Dunkle Waldläuferin Lyana",
+    },
+    [147293] = {
+        name = "Verteidiger der Da'kani",
     },
     [147311] = {
         name = "Morten Ritzelwald",
@@ -1648,7 +1666,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Magni Bronzebart",
     },
     [152108] = {
-        name = "Neri Scharffinne",
+        name = "Kelfinnenspäherin",
     },
     [152194] = {
         name = "MUTTER",
@@ -1663,7 +1681,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Abbild von Thalyssra",
     },
     [152385] = {
-        name = "Geistwandler Ebenhorn",
+        name = "Schamane des Hochbergs",
     },
     [152484] = {
         name = "Tüftlermeister Oberfunks",
@@ -1729,7 +1747,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Shandris Mondfeder",
     },
     [153670] = {
-        name = "Prinz Erazmin",
+        name = "Widerstandskämpfer des Rostbolzens",
     },
     [153932] = {
         name = "Genn Graumähne",
@@ -1807,7 +1825,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Mogukrieger",
     },
     [155482] = {
-        name = "Shandris Mondfeder",
+        name = "Schildwache",
     },
     [155496] = {
         name = "Furorion",
@@ -1868,6 +1886,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [158145] = {
         name = "Prinz Erazmin",
+    },
+    [158672] = {
+        name = "Tollkühne Vulpera",
     },
     [159544] = {
         name = "Arik Skorpidstich",

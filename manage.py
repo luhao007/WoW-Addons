@@ -1,6 +1,5 @@
 import functools
 import os
-import re
 import shutil
 import logging
 from pathlib import Path
@@ -10,6 +9,9 @@ from toc import TOC
 from utils import process_file, rm_tree
 
 logger = logging.getLogger('manager')
+
+CLASSIC_VER = '11305'
+RETAIL_VER = '80300'
 
 
 def classic_only(func):
@@ -172,7 +174,8 @@ class Manager(object):
             def process(lines):
                 toc = TOC(lines)
 
-                toc.tags['Interface'] = '11304' if self.is_classic else '80300'
+                toc.tags['Interface'] = (CLASSIC_VER
+                                         if self.is_classic else RETAIL_VER)
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
                 ns = {'x': 'https://www.github.com/luhao007'}
@@ -252,18 +255,19 @@ class Manager(object):
 
             files = ['lib.xml', '{}.xml'.format(lib), '{}.toc'.format(lib)]
             for f in files:
-                if os.path.exists(root / lib / f):
-                    s = '{}{}'.format(
-                        '<Script file="' if f.endswith('.toc') else '',
-                        embed
-                    )
+                for p in [root / f, root / lib / f]:
+                    if os.path.exists(p):
+                        s = '{}{}'.format(
+                            '<Script file="' if f.endswith('.toc') else '',
+                            embed
+                        )
 
-                    process_file(
-                        root / lib / f,
-                        lambda lines: [l for l in lines
-                                       if not any(l.strip().startswith(s)
-                                                  for embed in embeds)]
-                    )
+                        process_file(
+                            p,
+                            lambda lines: [l for l in lines
+                                           if not any(l.strip().startswith(s)
+                                                      for embed in embeds)]
+                        )
 
     ##########################
     # Handle individual addons
@@ -276,8 +280,9 @@ class Manager(object):
         if self.is_classic:
             addons += ['AtlasLootClassic', 'AtlasLootClassic_Options',
                        'ATT-Classic', 'ClassicCastbars_Options',
-                       'Fizzle', 'GroupCalendar', 'HandyNotes_NPCs (Classic)',
-                       'Recount', 'TitanClassic']
+                       'Details_Streamer', 'ExRT', 'Fizzle', 'GroupCalendar',
+                       'HandyNotes_NPCs (Classic)', 'PallyPower'
+                       'TradeLog', 'TitanClassic']
         else:
             addons += ['AllTheThings', 'FasterCamera',
                        'GladiatorlosSA2', 'Gladius',
@@ -398,6 +403,20 @@ class Manager(object):
                            if 'Libs' not in l or 'BugGrabber' in l]
         )
 
+    def handle_details(self):
+        self.remove_libraries(
+            ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
+             'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
+             'AceGUI-3.0', 'AceHook-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
+             'AceTab-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
+             'LibBossIDs-1.0', 'LibClassicCasterino', 'LibCompress',
+             'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
+             'LibGraph-2.0', 'LibItemUpgradeInfo-1.0', 'LibSharedMedia-3.0',
+             'LibStub', 'LibWindow-1.1'],
+            'AddOns/Details/Libs',
+            'AddOns/Details/Libs/libs.xml'
+        )
+
     def handle_fb(self):
         self.remove_libraries(
             ['CallbackHandler-1.0', 'HereBeDragons',
@@ -430,6 +449,17 @@ class Manager(object):
             return ret
         process_file('AddOns/Fizzle/Core.lua', f)
 
+    @classic_only
+    def handle_goodleader(self):
+        self.remove_libraries(
+            ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceDB-3.0',
+             'AceEvent-3.0', 'AceHook-3.0', 'AceLocale-3.0',
+             'AceSerializer-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
+             'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibStub'],
+            'AddOns/GoodLeader/Libs',
+            'AddOns/GoodLeader/Libs/Libs.xml'
+        )
+
     def handle_grail(self):
         for folder in os.listdir('AddOns'):
             if 'Grail' not in folder:
@@ -453,6 +483,19 @@ class Manager(object):
             'AddOns/honorspy/honorspy.lua',
             ['local addonName = "Honorspy";',
              '			minimapButton = {hide = true},']
+        )
+
+    @classic_only
+    def handle_nwb(self):
+        self.remove_libraries(
+            ['AceAddon-3.0', 'AceComm-3.0', 'AceConfig-3.0', 'AceConsole-3.0',
+             'AceDB-3.0', 'AceDBOptions-3.0', 'AceGUI-3.0',
+             'AceGUI-3.0-SharedMediaWidgets', 'AceLocale-3.0',
+             'AceSerializer-3.0', 'CallbackHandler-1.0', 'HereBeDragons',
+             'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
+             'LibSharedMedia-3.0', 'LibStub'],
+            'Addons/NovaWorldBuffs/Lib',
+            'Addons/NovaWorldBuffs/embeds.xml',
         )
 
     @retail_only
@@ -612,14 +655,6 @@ class Manager(object):
             'AddOns/Rarity/Rarity.toc'
         )
 
-    @classic_only
-    def handle_recount(self):
-        self.change_defaults(
-            'Addons/Recount/Recount.lua',
-            ['				x = 500,',
-             '				w = 250,'],
-        )
-
     def handle_scrap(self):
         self.remove_libraries(
             ['AceEvent-3.0', 'AceLocale-3.0',
@@ -636,19 +671,6 @@ class Manager(object):
             'Addons/Simulationcraft/Simulationcraft.toc',
             lambda lines: [l for l in lines
                            if not l.lower().startswith('libs\\')]
-        )
-
-    @retail_only
-    def handle_skada(self):
-        self.remove_libraries(
-            ['AceAddon-3.0', 'AceConfigDialog-3.0', 'AceConfigRegistry-3.0',
-             'AceDB-3.0', 'AceDBOptions-3.0', 'AceGUI-3.0',
-             'AceGUI-3.0-SharedMediaWidgets', 'AceLocale-3.0', 'AceTimer-3.0',
-             'CallbackHandler-1.0', 'LibBossIDs-1.0', 'LibDBIcon-1.0',
-             'LibDataBroker-1.1', 'LibNotify-1.0', 'LibSharedMedia-3.0',
-             'LibStub', 'LibWindow-1.1'],
-            'AddOns/Skada/lib',
-            'AddOns/Skada/embeds.xml'
         )
 
     @classic_only
@@ -685,14 +707,6 @@ class Manager(object):
         rm_tree('AddOns/TradeSkillMaster/External/EmbeddedLibs/')
 
         process_file(
-            'AddOns/TradeSkillMaster/Core/UI/Support/Fonts.lua',
-            lambda lines: [re.sub(r'".+ttf"',
-                                  r'"Fonts\\\\ARKai_T.ttf"',
-                                  l)
-                           for l in lines]
-        )
-
-        process_file(
             'AddOns/TradeSkillMaster/TradeSkillMaster.toc',
             lambda lines: [l for l in lines if 'EmbeddedLibs' not in l]
         )
@@ -702,7 +716,6 @@ class Manager(object):
         rm_tree('AddOns/UnitFramesPlus_MobHealth')
 
         self.remove_libraries_all('UnitFramesPlus_Cooldown')
-        self.remove_libraries_all('UnitFramesPlus_Threat', 'LibThreatClassic2')
 
     def handle_vuhdo(self):
         self.remove_libraries(

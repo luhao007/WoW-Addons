@@ -11,5 +11,4 @@
 ## X-Website: http://www.deadlybossmods.com
 ## X-Part-Of: DBM-Core
 
-DBT-Template.xml
 DBT.lua

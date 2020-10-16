@@ -54,14 +54,6 @@ Database:AddChain(Chain.DarkIronDwarves, {
             name = L["BTWQUESTS_ALLIED_RACE_DARK_IRON_DWARF"],
         },
         {
-            type = "money",
-            amounts = {
-                1404000,
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 600,
@@ -163,14 +155,6 @@ Database:AddChain(Chain.MagharOrc, {
     rewards = {
         {
             name = L["BTWQUESTS_ALLIED_RACE_MAGHAR_ORC"],
-        },
-        {
-            type = "money",
-            amounts = {
-                1170000,
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
     },
     items = {
@@ -313,14 +297,6 @@ Database:AddChain(Chain.KulTiran, {
     rewards = {
         {
             name = L["BTWQUESTS_ALLIED_RACE_KUL_TIRAN"],
-        },
-        {
-            type = "money",
-            amounts = {
-                3603600, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
     },
     items = {
@@ -530,14 +506,6 @@ Database:AddChain(Chain.ZandalariTroll, {
         {
             name = L["BTWQUESTS_ALLIED_RACE_ZANDALARI_TROLL"],
         },
-        {
-            type = "money",
-            amounts = {
-                4235400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
     },
     items = {
         {
@@ -711,14 +679,6 @@ Database:AddChain(Chain.Vulpera, {
     rewards = {
         {
             name = L["ALLIED_RACE_VULPERA"],
-        },
-        {
-            type = "money",
-            amounts = {
-                4130100,
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
     },
     items = {
@@ -964,14 +924,6 @@ Database:AddChain(Chain.Mechagnomes, {
     rewards = {
         {
             name = L["ALLIED_RACE_MECHAGNOME"],
-        },
-        {
-            type = "money",
-            amounts = {
-                2480400,
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
     },
     items = {

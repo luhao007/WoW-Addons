@@ -1,29 +1,29 @@
 local mod	= DBM:NewMod("z30", "DBM-PvP")
 
-local pairs, ipairs, type, tonumber, select, math = pairs, ipairs, type, tonumber, select, math
-
-mod:SetRevision("20200216033905")
-mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
+mod:SetRevision("20201014230650")
+mod:SetZone()
+mod:RegisterEvents("ZONE_CHANGED_NEW_AREA")
 
 mod:AddBoolOption("AutoTurnIn")
-
-mod:RegisterEvents(
-	"ZONE_CHANGED_NEW_AREA"
-)
 
 do
 	local bgzone = false
 
 	function mod:OnInitialize()
 		local zoneID = DBM:GetCurrentArea()
-		if zoneID == 30 or zoneID == 2197 then--Regular AV (retail and classic), Korrak
+		if zoneID == 30 or zoneID == 2197 then -- Regular AV (retail and classic), Korrak
 			bgzone = true
 			self:RegisterShortTermEvents(
 				"GOSSIP_SHOW",
 				"QUEST_PROGRESS",
 				"QUEST_COMPLETE"
 			)
-			local assaultID = C_Map.GetBestMapForUnit("player")
+			local assaultID
+			if zoneID == 30 then
+				assaultID = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1459 or 91
+			elseif zoneID == 2197 then
+				assaultID = 1537
+			end
 			DBM:GetModByName("PvPGeneral"):SubscribeAssault(assaultID, 0)
 			-- TODO: Add boss health
 		elseif bgzone then
@@ -38,7 +38,9 @@ do
 end
 
 do
-	local UnitGUID, GetItemCount, GetNumGossipActiveQuests, SelectGossipActiveQuest, SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward = UnitGUID, GetItemCount, GetNumGossipActiveQuests, SelectGossipActiveQuest, SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward
+	local ipairs, type = ipairs, type
+	local isNewAPI = WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC
+	local UnitGUID, GetItemCount, GetNumGossipActiveQuests, SelectGossipActiveQuest, SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward = UnitGUID, GetItemCount, isNewAPI and C_GossipInfo.GetNumActiveQuests or GetNumGossipActiveQuests, isNewAPI and C_GossipInfo.SelectActiveQuest or SelectGossipActiveQuest, isNewAPI and C_GossipInfo.SelectAvailableQuest or SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward
 
 	local quests = {
 		[13442] = { -- Archdruid Renferal [A]

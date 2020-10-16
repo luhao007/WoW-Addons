@@ -1,10 +1,10 @@
 ## Interface: 80300
 ## Author: Crieve-Sargeras
-## Version: 2.0.3
-## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
+## Version: 2.1.1a
+## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionConfig, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
-## Title: AllTheThings
+## Title: .|TInterface\Addons\AllTheThings\assets\logo_32x32:0|t AllTheThings |TInterface\Addons\AllTheThings\assets\logo_32x32:0|t
 ## Notes: Addon for Tracking Collections & Account Completion
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
 ## Notes-zhCN: 追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况

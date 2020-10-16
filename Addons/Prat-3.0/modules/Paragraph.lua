@@ -170,8 +170,8 @@ PL:AddLocale(PRAT_MODULE, "frFR",L)
 
 L = {
 	["Paragraph"] = {
-		["adjustlinks_desc"] = "Links anpassen, um die Fähigkeit des Anklickens wiederherzustellen, wenn Text zentriert oder rechtsbündig ist.",
-		["adjustlinks_name"] = "Platzierung von Spieler-/Gegenstands-Links reparieren.",
+		["adjustlinks_desc"] = "Passt die Links an, um die Klickbarkeit von zentriertem oder rechtsbündigem Text wiederherzustellen.",
+		["adjustlinks_name"] = "Platzierung von Spieler-/Gegenstandslinks korrigieren",
 		["Center"] = "Mitte",
 		["Chat window paragraph options."] = "Paragraphoptionen in Chatfenstern.",
 		["justification_desc"] = "Horizontale Ausrichtung für jedes Chat-Fenster einstellen.",
@@ -336,6 +336,7 @@ end
     profile = {
       on = false,
       justification = { ["*"] = "LEFT" },
+      spacing = 0
     }
   })
 
@@ -368,7 +369,16 @@ end
             ChatFrame5 = justifyoption,
             ChatFrame6 = justifyoption,
             ChatFrame7 = justifyoption,
-          }
+          },
+        },
+        spacing = {
+          name = PL["Line Spacing"],
+          desc = PL["Set the line spacing for all chat windows."],
+          type = "range",
+          min = 0,
+          max = 20,
+          step = 1,
+          order = 109
         },
         info = {
           name = "Note: Playerlinks, itemlinks, and any other link type will not work when justification is set to anything other than 'Left'",
@@ -385,6 +395,7 @@ end
 
   function module:OnModuleEnable()
     self:ConfigureAllChatFrames(true)
+    Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
   end
 
   function module:OnModuleDisable()
@@ -392,6 +403,10 @@ end
   end
 
   function module:OnValueChanged()
+    self:ConfigureAllChatFrames(true)
+  end
+
+  function module:Prat_FramesUpdated()
     self:ConfigureAllChatFrames(true)
   end
 
@@ -406,6 +421,7 @@ end
     local prof = self.db.profile
     for k, v in pairs(Prat.Frames) do
       v:SetJustifyH(enable and prof.justification[k] or "LEFT")
+      v:SetSpacing(prof.spacing)
     end
   end
 

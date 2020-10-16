@@ -8,7 +8,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_BAAL, {
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_SECRETS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {50,50},
     completed = {
         type = "pet",
         id = 2352,
@@ -97,8 +97,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_BAAL, {
                 type = "coords",
                 name = "Pebble #3",
                 mapID = 862,
-                x = 0.31,
-                y = 0.35,
+                x = 0.31935,
+                y = 0.35296,
             },
             -- onClick = function ()
             --     BtWQuests_ShowMapWithWaypoint(862, 0.31, 0.35, "Pebble #3")
@@ -403,7 +403,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_WAIST_OF_T
     name = L["WAIST_OF_TIME"],
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_SECRETS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {50,50},
     prerequisites = {
         {
             type = "quest",
@@ -1251,7 +1251,7 @@ BtWQuestsDatabase:AddChain(BtWQuests.Constant.Chain.BattleForAzeroth.Secrets.Hon
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_SECRETS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {50,50},
     restrictions = {
         type = "faction",
         id = BtWQuests.Constant.Faction.Alliance,

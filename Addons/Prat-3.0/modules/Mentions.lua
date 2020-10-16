@@ -38,7 +38,7 @@ Prat:AddModuleToLoad(function()
     return
   end
 
-  local module = Prat:NewModule(PRAT_MODULE)
+  local module = Prat:NewModule(PRAT_MODULE, "AceHook-3.0")
 
   -- define localized strings
   local PL = module.PL
@@ -46,7 +46,7 @@ Prat:AddModuleToLoad(function()
 
   Prat:SetModuleDefaults(module.name, {
     profile = {
-      on = true,
+      on = false,
     }
   })
 
@@ -54,6 +54,7 @@ Prat:AddModuleToLoad(function()
   PL:AddLocale(PRAT_MODULE, "enUS", {
     ["module_name"] = "Mentions",
     ["module_desc"] = "Support mentioning other players in chat",
+    module_info = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
   })
   --@end-debug@]===]
 
@@ -69,6 +70,7 @@ do
 L = {
 	["Mentions"] = {
 		["module_desc"] = "Support mentioning other players in chat",
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
 		["module_name"] = "Mentions",
 	}
 }
@@ -81,6 +83,8 @@ L = {
 	["Mentions"] = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
+		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
 		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
@@ -95,6 +99,8 @@ L = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
 		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
+		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
 }
@@ -108,6 +114,8 @@ L = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
 		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
+		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
 }
@@ -118,10 +126,9 @@ PL:AddLocale(PRAT_MODULE, "frFR", L)
 
 L = {
 	["Mentions"] = {
-		--[[Translation missing --]]
-		["module_desc"] = "Support mentioning other players in chat",
-		--[[Translation missing --]]
-		["module_name"] = "Mentions",
+		["module_desc"] = "Unterstützung beim Erwähnen anderer Spieler im Chat",
+		["module_info"] = "DIESES MODUL IST EXPERIMENTELL = Es fügt die Fähigkeit hinzu, Personen im Chat zu erwähnen, um dich zu alarmieren>",
+		["module_name"] = "Erwähnungen",
 	}
 }
 
@@ -131,10 +138,9 @@ PL:AddLocale(PRAT_MODULE, "deDE", L)
 
 L = {
 	["Mentions"] = {
-		--[[Translation missing --]]
-		["module_desc"] = "Support mentioning other players in chat",
-		--[[Translation missing --]]
-		["module_name"] = "Mentions",
+		["module_desc"] = "채팅에서 다른 플레이어를 언급하는 것을 지원",
+		["module_info"] = "이 모듈은 실험적입니다=채팅에서 사람들을 @언급하여 경보하는 기능을 추가합니다.",
+		["module_name"] = "언급",
 	}
 }
 
@@ -145,6 +151,8 @@ L = {
 	["Mentions"] = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
+		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
 		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
@@ -158,6 +166,8 @@ L = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
 		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
+		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
 }
@@ -169,6 +179,8 @@ L = {
 	["Mentions"] = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
+		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
 		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
@@ -182,6 +194,8 @@ L = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
 		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
+		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
 }
@@ -193,6 +207,8 @@ L = {
 	["Mentions"] = {
 		--[[Translation missing --]]
 		["module_desc"] = "Support mentioning other players in chat",
+		--[[Translation missing --]]
+		["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
 		--[[Translation missing --]]
 		["module_name"] = "Mentions",
 	}
@@ -212,19 +228,110 @@ end
     name = PL.module_name,
     desc = PL.module_desc,
     type = "group",
-    args = {}
+    args = {
+      info = {
+        name = PL.module_info,
+        type = "description",
+      }
+    }
   })
 
-  local function handleMention(match, m)
-    dbg(match, m)
-    local name = match:sub(2)
+  local CLR = Prat.CLR
 
-    SendChatMessage(m.MESSAGE, "WHISPER", GetDefaultLanguage("player"), name);
+  local function GetChatCLR(name)
+    if name == nil then return CLR.COLOR_NONE end
 
-    return match;
+    local type = strsub(name, 10);
+    local info = ChatTypeInfo[type];
+    if not info then
+      return CLR.COLOR_NONE
+    end
+    return CLR:GetHexColor(info)
   end
 
+  local function ChatType(text, type) return CLR:Colorize(GetChatCLR(type), text) end
+
+  local function channelLink(name, type, channel)
+    return "|Hchannel:" .. type .. ":" .. (channel or "0") .. "|h[" .. ChatType(name, "CHAT_MSG_" .. type) .. "]|h"
+  end
+
+  local function handleMention(match, m)
+    if m == nil then return end
+
+--    dbg(match, m)
+    local name = match:sub(2)
+    local event = "CHAT_MSG_" .. m.CTYPE
+    local from = "(in " .. _G[event] .. ") "
+--    dbg(from)
+    SendChatMessage(from .. m.MESSAGE, "WHISPER", GetDefaultLanguage("player"), name);
+  end
+
+  Prat:SetModulePatterns(module, {
+    { pattern = "@%S+", matchfunc = handleMention, priority = 47, type = "OUTBOUND" }
+  })
+
   function module:OnModuleEnable()
+    self:RegisterTabComplete()
+    Prat.RegisterChatEvent(self, "Prat_FrameMessage")
+--    self:SecureHook("ChatEdit_OnChar")
+  end
+
+  function module:Prat_FrameMessage(arg, message, frame, event)
+--    message.MESSAGE:gsub("%(in ([^)]+)%)", function(type) end)
+  end
+
+  function module:ChatEdit_OnChar(frame)
+    local start, index
+
+    index = frame:GetCursorPosition()
+
+--    dbg("OnChar", frame:GetText())
+    local regex = "@(%S+)"
+    local text = frame:GetText()
+
+    while text:byte(index) ~= 32 do
+      if text:byte(index) == 64 then
+        start = index + 1
+        break;
+      end
+      index = index - 1
+
+      if index <= 0 then
+        break
+      end
+    end
+    local target
+    if start then
+      target = text:sub(start, frame:GetCursorPosition())
+    end
+    if (target) then --if they typed a command with a autocompletable target
+      AutoCompleteEditBox_SetAutoCompleteSource(frame, GetAutoCompleteResults,
+        AUTOCOMPLETE_LIST_TEMPLATES.ONLINE_NOT_BNET.include,  AUTOCOMPLETE_LIST_TEMPLATES.ONLINE_NOT_BNET.exclude)
+--    dbg(target)
+      local utf8Position = frame:GetUTF8CursorPosition();
+      local allowFullMatch = false;
+      local nameToShow = frame.autoCompleteSource(target, 1, utf8Position, allowFullMatch, unpack(frame.autoCompleteParams))[1];
+--    dbg(nameToShow)
+      if (nameToShow and nameToShow.name) then
+        local name = Ambiguate(nameToShow.name, "all");
+        --We're going to be setting the text programatically which will clear the userInput flag on the editBox.
+        --So we want to manually update the dropdown before we change the text.
+        AutoComplete_Update(frame, target, utf8Position);
+        if strsub(name, 1, 1) ~= "|" then
+          target = escapePatternSymbols(target);
+
+          local newTarget = name;
+
+--        dbg(newTarget, text, target, frame:GetCursorPosition())
+        local newText = text:sub(1, frame:GetCursorPosition() - target:len())..newTarget..text:sub(frame:GetCursorPosition()+1)
+          frame:SetText(newText);
+--          frame:HighlightText(strlen(text), strlen(command) + strlen(whitespace) + strlen(newTarget));
+        end
+      end
+    end
+  end
+
+  function module:RegisterTabComplete()
     local CLR = Prat.CLR
     local AceTab = LibStub("AceTab-3.0")
     local tabcompleteName = "mentions-tab-complete"
@@ -235,7 +342,7 @@ end
       local foundCache = {}
       AceTab:RegisterTabCompletion(tabcompleteName, "@",
         function(t, ...)
-          dbg(t, ...)
+          --          dbg(t, ...)
           for name in pairs(playernames.Classes) do
             table.insert(t, name)
           end
@@ -271,14 +378,5 @@ end
           return name:gsub(Prat.MULTIBYTE_FIRST_CHAR, string.upper, 1):match("^[^%-]+")
         end)
     end
-    --    else
-    --      if AceTab:IsTabCompletionRegistered(tabcompleteName) then
-    --        AceTab:UnregisterTabCompletion(tabcompleteName)
-    --      end
-    --    end
   end
-
-  Prat:SetModulePatterns(module, {
-    { pattern = "@%S+", matchfunc = handleMention, priority = 47, type = "OUTBOUND" }
-  })
 end)

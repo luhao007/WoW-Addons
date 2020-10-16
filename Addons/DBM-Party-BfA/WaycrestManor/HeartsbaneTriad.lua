@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod(2125, "DBM-Party-BfA", 10, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200306012401")
+mod:SetRevision("20201003222718")
 mod:SetCreatureID(135358, 135359, 135360, 131823, 131824, 131825)--All versions so we can pull boss
 mod:SetEncounterID(2113)
 mod:DisableESCombatDetection()--ES fires For entryway trash pull sometimes, for some reason.
-mod:SetZone()
 mod:SetUsedIcons(8)
 mod:SetBossHPInfoToHighest()
 mod:SetMinSyncRevision(17703)
@@ -35,9 +34,9 @@ local specWarnAuraofDread			= mod:NewSpecialWarningKeepMove(268088, nil, nil, ni
 local specWarnJaggedNettles			= mod:NewSpecialWarningTarget(260741, nil, nil, 2, 1, 2)
 local specWarnSoulManipulation		= mod:NewSpecialWarningSwitch(260907, nil, nil, nil, 1, 2)
 
-local timerJaggedNettlesCD			= mod:NewNextTimer(13.3, 260741, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON)
-local timerSoulManipulationCD		= mod:NewNextTimer(13.3, 260907, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON)--Always tank? if not, remove tank icon
-local timerUnstableRunicMarkCD		= mod:NewNextTimer(13.3, 260703, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICON)
+local timerJaggedNettlesCD			= mod:NewNextTimer(13.3, 260741, nil, nil, nil, 5, nil, DBM_CORE_L.HEALER_ICON)
+local timerSoulManipulationCD		= mod:NewNextTimer(13.3, 260907, nil, nil, nil, 3, nil, DBM_CORE_L.TANK_ICON)--Always tank? if not, remove tank icon
+local timerUnstableRunicMarkCD		= mod:NewNextTimer(13.3, 260703, nil, nil, nil, 3, nil, DBM_CORE_L.CURSE_ICON)
 
 mod:AddRangeFrameOption(6, 260703)
 mod:AddInfoFrameOption(260773, true)
@@ -46,7 +45,7 @@ mod:AddSetIconOption("SetIconOnTriad", 260805, true, true, {8})
 mod.vb.activeTriad = nil
 local IrisBuff = DBM:GetSpellInfo(260805)
 
-function mod:NettlesTargetQuestionMark(targetname, uId)
+function mod:NettlesTargetQuestionMark(targetname)
 	if not targetname then return end
 	if self:AntiSpam(5, targetname) then
 		specWarnJaggedNettles:Show(targetname)
@@ -54,10 +53,10 @@ function mod:NettlesTargetQuestionMark(targetname, uId)
 	end
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	self.vb.activeTriad = nil
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(DBM_CORE_INFOFRAME_POWER)
+		DBM.InfoFrame:SetHeader(DBM_CORE_L.INFOFRAME_POWER)
 		DBM.InfoFrame:Show(3, "enemypower", 2)
 	end
 	--Hack so win detection and bosses remaining work with 6 CIDs
@@ -127,12 +126,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if cid == 135360 or cid == 131825 then--Sister Briar
 			timerJaggedNettlesCD:Start(7.7)--CAST START
 		elseif cid == 135358 or cid == 131823 then--Sister Malady
-			timerSoulManipulationCD:Start(11.3)--CAST SUCCESS
-		elseif cid == 135359 or cid == 131824 then--Sister Solena
 			timerUnstableRunicMarkCD:Start(10.5)--CAST SUCCESS
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(6)
 			end
+		elseif cid == 135359 or cid == 131824 then--Sister Solena
+			timerSoulManipulationCD:Start(11.3)--CAST SUCCESS
 		end
 	elseif spellId == 260703 then
 		warnUnstableMark:CombinedShow(0.3, args.destName)
@@ -159,12 +158,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		if cid == 135360 or cid == 131825 then--Sister Briar
 			timerJaggedNettlesCD:Stop()
 		elseif cid == 135358 or cid == 131823 then--Sister Malady
-			timerSoulManipulationCD:Stop()
-		elseif cid == 135359 or cid == 131824 then--Sister Solena
 			timerUnstableRunicMarkCD:Stop()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
+		elseif cid == 135359 or cid == 131824 then--Sister Solena
+			timerSoulManipulationCD:Stop()
 		end
 	elseif spellId == 268088 then
 		warnAuraofDreadOver:Show()

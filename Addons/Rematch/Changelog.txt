@@ -1,3 +1,53 @@
+10/14/2020 version 4.11.5
+- Removed partial skinning for Aurora and MiirG that could cause errors.
+
+10/13/2020 version 4.11.4
+- Shadowlands pre-patch release.
+- Shift+clicking an unowned pet at the Auction House will put its name in the search box, if it's up.
+
+10/04/2020 version 4.11.3
+- Added Shadowlands targets.
+- Changed color of target submenu headers.
+- The target list is now sized/styled to be closer to teams, pets and queue lists: left-justified, similar pet icon aspect ratios, similar support for Compact List Mode option.
+- When a target is associated with a quest named different than the target (e. Zolla for Micro Defense Force), the quest name displays beneath the target; except in Combat List Mode.
+- Added a "help" text to the target list to describe green checkmarks if the option 'Hide Extra Help' is not checked.
+- When both 'Compact List Mode' and 'Use Smaller Text Too' are checked, the options list uses smaller text too.
+- Team lists slightly adjusted: target name font shrunk a tiny amount and team name allowed to wrap if user's font/scale allows.
+- Fix for 'Hide Tooltip' option not working in Journal mode.
+
+09/21/2020 version 4.11.2
+- The Target button at the top of the loadout panel now pulls in a new target panel with a search box and a scrollable list of targets rather than the popout/context target menus. Clicking a target within the new panel will select that target.
+- The target menus (still used in save dialogs) has been reworked to further group the 300+ notable targets by expansion.
+- Added option 'Use Old Target Menu' under Targeting Options, for those who prefer the old context menu style over the new scrollable list of targets. This doesn't restore the old menu groupings; it restores the way the targets are chosen with the Target button.
+- Added option 'Load Teams From Target Button' under Targeting Options, so that when a target with a saved team is chosen after clicking the Target button above your loaded pets, that saved team is loaded as it selects the target.
+- Added new option category 'List Behavior Options' and moved Slow Mousewheel Scroll to this new category.
+- The new default behavior of collapsible lists such as Options and Targets is to completely collapse when you log in/reload.
+- Added option 'Remember Expanded Lists' to remember what list groups were expanded when you last logged out/reloaded.
+- Added option 'Collapse Lists With ESC Key' to completely collapse collapsible lists when the ESC key is hit and any list group is expanded.
+- In honor of the 100th added option: Added a Search box to the top of the Options Panel to help find options more easily.
+- Search box instructions are now a bit more descriptive: "Search Pets", "Search Teams", "Search Targets", "Search Options".
+
+09/14/2020 version 4.11.1
+- All remaining border/backdrop appearances should be restored.
+- Added the expansion a pet is from to the back of its pet card.
+- Added Expansion submenu to the Filter menu to filter pets by expansion.
+- Added option 'Don't Ask When Caging Pets' under Confirmation Options to skip the confirmation dialog when caging pets.
+- Fix for Sources and Breed filter menus not checking/unchecking all when Shift or Alt is held.
+- Fix for potentital conflict with PetTracker.
+- Removed check for all components loading on login.
+- Removed 'This option requires a Reload' from Compact List Format option tooltip.
+
+08/16/2020 version 4.11.0
+- Initial update for Shadowlands beta client (this version will not work in BfA retail clients).
+
+06/29/2020 version 4.10.5
+- Clarified in the script filter pet variables help that "name" is the current displayed name of the pet and to use petInfo.speciesName to get its original name.
+- Fix for notes buttons (Delete, Undo, Save) not working.
+
+06/06/2020 version 4.10.4
+- Added Ninn Jah and Tempton to Blackrock Depths target menu
+- Fix for Unit 17 not showing up in BfA/Mechagon target menu
+
 03/09/2020 version 4.10.3
 - If you have both old PetTracker_Breeds and a recent version of PetTracker both enabled, Rematch will not attempt to get breeds from PetTracker in that unstable state.
 - For users of recent PetTracker versions, added "Show Breeds As Text Not Icons" under Appearance Options to show breeds in the more standard letter format (like H/P, B/B, etc.) rather than PetTracker's icons. If this option is not supported, the option is hidden.

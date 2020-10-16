@@ -223,7 +223,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ordnung wiederherstellen",
     },
     [47435] = {
-        name = "Pterrorfaxen dicke",
+        name = "Pterrorfax'n dicke",
     },
     [47437] = {
         name = "Mit voller Hingabe",
@@ -4324,7 +4324,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Keiner darf überleben",
     },
     [52789] = {
-        name = "Verstummen der Beraterin",
+        name = "Mit ihrem Rat am Ende",
     },
     [52790] = {
         name = "Das Töten beenden",
@@ -4711,7 +4711,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Die Lügen eines Loas",
     },
     [53780] = {
-        name = "Wärter der Verdammten",
+        name = "Kerkermeister der Verdammten",
     },
     [53782] = {
         name = "Geheimnisse des Todes",
@@ -6586,7 +6586,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Stumpfe Gewalt",
     },
     [57058] = {
-        name = "Spaß mit Landminen",
+        name = "Spaß mit Tretminen",
     },
     [57059] = {
         name = "Lasst uns kämpfen!",

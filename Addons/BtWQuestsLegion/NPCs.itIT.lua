@@ -9,17 +9,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "Maximillian della Contea del Nord",
     },
+    [91065] = {
+        name = "Cantiniere Voodani",
+    },
     [92802] = {
         name = "Gravax il Dissacratore",
     },
     [93600] = {
         name = "Saylanna Brezzamarina",
     },
+    [94101] = {
+        name = "Laeni Brillacolpi",
+    },
     [94366] = {
         name = "Lelyn Ombralesta",
     },
     [94434] = {
         name = "Addie Frizzabrago",
+    },
+    [95799] = {
+        name = "Damrul il Grozzo",
     },
     [96513] = {
         name = "Razik Gazdard",
@@ -39,6 +48,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [99065] = {
         name = "Thaedris Cantapiuma",
     },
+    [99905] = {
+        name = "Shale Piuma Grigia",
+    },
     [101766] = {
         name = "Thalrenus Rivoramo",
     },
@@ -54,8 +66,20 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [106299] = {
         name = "Thisalee Alacorvina",
     },
+    [106915] = {
+        name = "Marius Stroncavile",
+    },
+    [107245] = {
+        name = "Marius Stroncavile",
+    },
     [107499] = {
         name = "Orsocorvo Spaventato",
+    },
+    [107674] = {
+        name = "Snag Seigrilletti",
+    },
+    [107675] = {
+        name = "Rax Seigrilletti",
     },
     [108072] = {
         name = "Ser Pinnus Mrrgglton",

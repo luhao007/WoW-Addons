@@ -60,6 +60,8 @@ Prat:AddModuleToLoad(function()
     ["HTML"] = true,
     ["BBCode"] = true,
     ["Wowace.com Forums"] = true,
+    copytimestamps_name = "Timestamps Copy",
+    copytimestamps_desc = "Copy the chat line when you click on the timestamp",
     TOPLEFT = "Top, Left",
     TOPRIGHT = "Top, Right",
     BOTTOMRIGHT = "Bottom, Right",
@@ -91,6 +93,8 @@ L = {
 		["Copy text from the active chat window."] = true,
 		["Copy To Editbox"] = true,
 		["CopyChat"] = true,
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		["copytimestamps_name"] = "Timestamps Copy",
 		["HTML"] = true,
 		["Message From : %s"] = true,
 		["Plain"] = true,
@@ -135,6 +139,10 @@ L = {
 		["Copy To Editbox"] = "Copy To Editbox",
 		--[[Translation missing --]]
 		["CopyChat"] = "CopyChat",
+		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
 		--[[Translation missing --]]
 		["HTML"] = "HTML",
 		--[[Translation missing --]]
@@ -188,6 +196,10 @@ L = {
 		--[[Translation missing --]]
 		["CopyChat"] = "CopyChat",
 		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
+		--[[Translation missing --]]
 		["HTML"] = "HTML",
 		--[[Translation missing --]]
 		["Message From : %s"] = "Message From : %s",
@@ -230,6 +242,10 @@ L = {
 		["Copy text from the active chat window."] = "Copier le texte à partir de la fenêtre de discussion active.",
 		["Copy To Editbox"] = "Copier vers la fenêtre d'édition",
 		["CopyChat"] = "Copier",
+		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
 		["HTML"] = true,
 		["Message From : %s"] = "Message de : %s",
 		["Plain"] = "Texte seul",
@@ -263,7 +279,9 @@ L = {
 		["Copy Text Format"] = "Textformat kopieren",
 		["Copy text from the active chat window."] = "Text im aktiven Chatfenster kopieren.",
 		["Copy To Editbox"] = "In das Eingabefenster kopieren",
-		["CopyChat"] = true,
+		["CopyChat"] = "Chat kopieren",
+		["copytimestamps_desc"] = "Kopiert die Chat-Zeile, wenn du auf den Zeitstempel klickst",
+		["copytimestamps_name"] = "Zeitstempel kopieren",
 		["HTML"] = true,
 		["Message From : %s"] = "Mitteilung von: %s",
 		["Plain"] = "Einfach",
@@ -294,6 +312,10 @@ L = {
 		["Copy text from the active chat window."] = "활성 대화창에서 내용을 복사합니다.",
 		["Copy To Editbox"] = "대화 입력창에 복사",
 		["CopyChat"] = "대화 복사 [CopyChat]",
+		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
 		["HTML"] = true,
 		["Message From : %s"] = "%s|1으로;로;부터 메시지",
 		["Plain"] = "보통",
@@ -337,6 +359,10 @@ L = {
 		--[[Translation missing --]]
 		["CopyChat"] = "CopyChat",
 		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
+		--[[Translation missing --]]
 		["HTML"] = "HTML",
 		--[[Translation missing --]]
 		["Message From : %s"] = "Message From : %s",
@@ -374,6 +400,10 @@ L = {
 		["Copy text from the active chat window."] = "Копировать текст из активного окна чата.",
 		["Copy To Editbox"] = "Копировать чат",
 		["CopyChat"] = "Копия Чата ",
+		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
 		["HTML"] = true,
 		["Message From : %s"] = "Сообщение от : %s",
 		["Plain"] = "Обычный текст",
@@ -403,6 +433,10 @@ L = {
 		["Copy text from the active chat window."] = "从活跃的聊天窗口复制文本",
 		["Copy To Editbox"] = "复制到编辑框",
 		["CopyChat"] = "聊天复制",
+		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
 		["HTML"] = "超文本标记语言",
 		["Message From : %s"] = "信息来自: %s",
 		["Plain"] = "简洁",
@@ -437,6 +471,10 @@ L = {
 		--[[Translation missing --]]
 		["Copy To Editbox"] = "Copy To Editbox",
 		["CopyChat"] = "ChatCopiar",
+		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
 		["HTML"] = true,
 		["Message From : %s"] = "Mensaje de : %s",
 		["Plain"] = "Liso",
@@ -470,6 +508,10 @@ L = {
 		["Copy text from the active chat window."] = "複製使用中聊天視窗文字",
 		["Copy To Editbox"] = "複製至編輯盒",
 		["CopyChat"] = true,
+		--[[Translation missing --]]
+		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
+		--[[Translation missing --]]
+		["copytimestamps_name"] = "Timestamps Copy",
 		["HTML"] = true,
 		["Message From : %s"] = "來自 %s 的訊息",
 		--[[Translation missing --]]
@@ -494,7 +536,8 @@ end
       on = true,
       showbutton = { ["*"] = true },
       buttonpos = "TOPLEFT",
-      copyformat = "plain"
+      copyformat = "plain",
+      copytimestamps = true
     }
   })
 
@@ -541,20 +584,19 @@ end
         set = "SetValue",
         values = { ["plain"] = PL["Plain"], ["bbcode"] = PL["BBCode"], ["html"] = PL["HTML"], ["wowace"] = PL["Wowace.com Forums"] },
       },
+      copytimestamps = {
+        name = PL.copytimestamps_name,
+        desc = PL.copytimestamps_desc,
+        type = "toggle",
+        order = 200,
+      }
     }
   })
-
-  function module:MenuScrape()
-    self:ScrapeChatFrame(SELECTED_CHAT_FRAME)
-    HideDropDownMenu(1)
-  end
-
 
   Prat:SetModuleInit(module.name,
     function(module)
       PratCCFrameScrollText:SetScript("OnTextChanged", function(this) module:OnTextChanged(this) end)
       PratCCFrameScrollText:SetScript("OnEscapePressed", function(this) PratCCFrame:Hide() module.str = nil end)
-
 
       Prat.RegisterChatCommand("copychat",
         function(name)
@@ -564,10 +606,24 @@ end
             module:ScrapeChatFrame(frame)
           end
         end)
+
+      Prat.RegisterChatCommand("copychatfull",
+        function(name)
+          local frame = SELECTED_CHAT_FRAME
+
+          if frame then
+            module:ScrapeFullChatFrame(frame)
+          end
+        end)
+
+      Prat.RegisterLinkType({ linkid = "pratcopy", linkfunc = module.CopyLink, handler = module }, module.name)
+
+      module.timestamps = Prat.Addon:GetModule("Timestamps", true)
+
+      if module.timestamps then
+        module:RawHook(module.timestamps, "GetTime")
+      end
     end)
-
-
-
 
   function module:OnModuleEnable()
     self.buttons = {}
@@ -575,22 +631,7 @@ end
       self.buttons[k] = self:MakeReminder(v:GetID())
       self:showbutton(k, self.db.profile.showbutton[k])
     end
-    --    UnitPopupButtons["COPYCHAT"]    = { text =PL["Copy Text"], dist = 0 , func = function(a1, a2) module:CopyLineFromPlayerlink(a1, a2) end , arg1 = "", arg2 = ""};
-    --    UnitPopupButtons["COPYCHATEDIT"]    = { text =PL["Copy To Editbox"], dist = 0 , func = function(a1, a2) module:CopyLineFromPlayerlinkToEdit(a1, a2) end , arg1 = "", arg2 = ""};
 
-
-
-    --    if not self.menusAdded then
-    --        tinsert(UnitPopupMenus["FRIEND"],#UnitPopupMenus["FRIEND"]-1,"COPYCHATEDIT");
-    --        tinsert(UnitPopupMenus["FRIEND"],#UnitPopupMenus["FRIEND"]-1,"COPYCHAT");
-    --        self.menusAdded = true
-    --    end
-    --
-    --    Prat:RegisterDropdownButton("COPYCHAT", function(menu, button) button.arg1 = module.clickedFrame end )
-    --    Prat:RegisterDropdownButton("COPYCHATEDIT", function(menu, button) button.arg1 = module.clickedFrame end )
-    --
-    --
-    --    self:SecureHook("ChatFrame_OnHyperlinkShow")
     Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
   end
 
@@ -604,38 +645,68 @@ end
     self:showbutton(id, self.db.profile.showbutton[1])
   end
 
-  function module:ChatFrame_OnHyperlinkShow(this, ...)
-    self.clickedframe = this
-  end
-
   function module:OnModuleDisable()
     Prat.UnregisterAllChatEvents(self)
     self:hidebuttons()
     PratCCFrame:Hide()
   end
 
+  function module:EnterSelectMode(frame)
+    frame = frame or SELECTED_CHAT_FRAME
+
+    frame:SetTextCopyable(true)
+    frame:EnableMouse(true)
+    frame:SetOnTextCopiedCallback(function(frame, text, num_copied)
+      frame:SetTextCopyable(false)
+      frame:EnableMouse(false)
+      frame:SetOnTextCopiedCallback(nil)
+    end)
+  end
 
   --[[------------------------------------------------
       Core Functions
   ------------------------------------------------]] --
 
+  function module:CopyLink(link, frame)
+    if frame and self.db.profile.on and self.db.profile.copytimestamps then
+      for lineIndex, visibleLine in ipairs(frame.visibleLines) do
+        if visibleLine:IsMouseOver() then
+          local info = visibleLine.messageInfo
+          if info.message then
+            local text = info.message:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|H.-|h", ""):gsub("|h", "")
+            text = text:gsub("|K.-|k", ""):gsub("|T.-|t", ""):gsub("|A.-|a", "")
+
+            local editBox = ChatEdit_ChooseBoxForSend(frame);
+
+            --DEBUG FIXME - for now, we're not going to remove spaces from names. We need to make sure X-server still works.
+            -- Remove spaces from the server name for slash command parsing
+            --name = gsub(name, " ", "");
+
+            if (editBox ~= ChatEdit_GetActiveWindow()) then
+              ChatFrame_OpenChat(text, frame);
+            else
+              editBox:SetText(text);
+            end
+          end
+          return false
+        end
+      end
+    end
+
+    return false
+  end
+
+  function module:GetTime(...)
+    local stamp = self.hooks[self.timestamps].GetTime(...)
+    if module.db.profile.on and module.db.profile.copytimestamps then
+      return "|Hpratcopy|h" .. stamp .. "|h"
+    end
+
+    return stamp
+  end
+
   module.lines = {}
   module.str = nil
-
-  --function module:UnitPopup_ShowMenu(dropdownMenu, which, unit, name, userData, ...)
-  --    local ORIGIN_FRAME = self.clickedframe
-  --
-  --    for i=1, UIDROPDOWNMENU_MAXBUTTONS do
-  --        button = _G["DropDownList"..UIDROPDOWNMENU_MENU_LEVEPL.."Button"..i];
-  --
-  --        if button.value == "COPYCHAT" then
-  --          --  self:Debug(dropdownMenu:GetName(), which, unit, name, userData, button.value, ...)
-  --            button.func = UnitPopupButtons["COPYCHAT"].func
-  --            button.arg1 = ORIGIN_FRAME
-  --        end
-  --    end
-  --end
-
 
   function module:GetFormattedLine(line, r, g, b)
     local fmt = self.copyformat or self.db.profile.copyformat
@@ -660,159 +731,45 @@ end
     end
   end
 
-
-  function module:CopyLineFromPlayerlinkToEdit(origin_frame, ...)
-
-    -- TODO: Consider just using self.clickedFrame (I dont remember why the other code is there)
-    local frame = (origin_frame and origin_frame:GetObjectType() == "ScrollingMessageFrame" and origin_frame) or self.clickedframe
-
-    wipe(self.lines)
-
-    self:AddLines(self.lines, frame:GetRegions())
-
-    local dropdownFrame = UIDROPDOWNMENU_INIT_MENU
-
-    local name = dropdownFrame.name
-    local server = dropdownFrame.server or ""
-    local linenum = dropdownFrame.lineID
-
-    local fullname = name;
-
-    if server:len() > 0 then
-      fullname = name .. "-" .. server;
-    end
-
-    local findname = "|Hplayer:" .. fullname .. ":" .. tostring(linenum)
-
-    for i = 1, #self.lines do
-      if self.lines[i]:find(findname:gsub("%-", "%%-")) then
-        local text = self.lines[i]:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|H.-|h", ""):gsub("|h", "")
-        --self:StaticPopupCopyLine(fullname, self.lines[i])
-
-        local editBox = ChatEdit_ChooseBoxForSend(frame);
-
-        --DEBUG FIXME - for now, we're not going to remove spaces from names. We need to make sure X-server still works.
-        -- Remove spaces from the server name for slash command parsing
-        --name = gsub(name, " ", "");
-
-        if (editBox ~= ChatEdit_GetActiveWindow()) then
-          ChatFrame_OpenChat(text, frame);
-        else
-          editBox:SetText(text);
-        end
-      end
-    end
-  end
-
-  function module:CopyLineFromPlayerlink(origin_frame, ...)
-
-    -- TODO: Consider just using self.clickedFrame (I dont remember why the other code is there)
-    local frame = (origin_frame and origin_frame:GetObjectType() == "ScrollingMessageFrame" and origin_frame) or self.clickedframe
-
-    wipe(self.lines)
-
-    for _, v in ipairs(frame.visibleLines) do
-      local msg = v.messageInfo
-
-      if msg then
-        table.insert(self.lines, 1, msg.message)
-      end
-    end
-
-    local dropdownFrame = UIDROPDOWNMENU_INIT_MENU
-
-    local name = dropdownFrame.name
-    local server = dropdownFrame.server or ""
-    local linenum = dropdownFrame.lineID
-
-    local fullname = name;
-
-    if server:len() > 0 then
-      fullname = name .. "-" .. server;
-    end
-
-    local findname = "|Hplayer:" .. fullname .. ":" .. tostring(linenum)
-
-    for i = 1, #self.lines do
-      Prat:PrintLiteral(findname:gsub("%-", "%%-"))
-      if self.lines[i]:find(findname:gsub("%-", "%%-")) then
-        self:StaticPopupCopyLine(fullname, self.lines[i])
-      end
-    end
-
-    wipe(self.lines)
-  end
-
-
-  function module:StaticPopupCopyLine(sender, text)
-    StaticPopupDialogs["COPY_LINE"] = StaticPopupDialogs["COPY_LINE"] or {
-      text = PL["Message From : %s"],
-      chattext = "",
-      button2 = ACCEPT,
-      hasEditBox = 1,
-      hasWideEditBox = 1,
-      preferredIndex = 3,
-      OnShow = function(this)
-        this:SetWidth(420)
-        local editBox = _G[this:GetName() .. "WideEditBox"] or _G[this:GetName() .. "EditBox"]
-        editBox:SetText(StaticPopupDialogs["COPY_LINE"].chattext);
-        editBox:SetFocus();
-        editBox:HighlightText(false);
-
-        local button = _G[this:GetName() .. "Button2"];
-        button:ClearAllPoints();
-        button:SetWidth(200);
-        button:SetPoint("CENTER", editBox, "CENTER", 0, -30);
-      end,
-      OnHide = function() end,
-      OnAccept = function() end,
-      OnCancel = function() end,
-      EditBoxOnEscapePressed = function(this) this:GetParent():Hide(); end,
-      timeout = 0,
-      whileDead = 1,
-      hideOnEscape = 1
-    };
-
-    StaticPopupDialogs["COPY_LINE"].chattext = text
-    StaticPopup_Show("COPY_LINE", sender);
-  end
-
-
   function module:ScrapeChatFrame(frame, noshow)
     self:DoCopyChat(frame, noshow)
   end
 
-  function module:ScrapeFullChatFrame(frame)
+  function module:ScrapeFullChatFrame(frame, no)
     self:DoCopyChatScroll(frame)
   end
 
+  function module:MenuScrape()
+    self:ScrapeChatFrame(SELECTED_CHAT_FRAME)
+  end
 
-  function module:DoCopyChatScroll(frame, noshow)
+  local function stripChatText(text)
+    local stripped = text:gsub("|K[^|]-|k", "<BNET REMOVED>")
+    stripped = stripped:gsub("|T.-|t", "")
+
+    return stripped
+  end
+
+  function module:DoCopyChatScroll(frame)
     local scrapelines = {}
     local str
 
     if frame:GetNumMessages() == 0 then return end
 
-    for i, v in ipairs(frame.historyBuffer.elements) do
-      local msg = v.message
+    for i = frame:GetNumMessages(), 1, -1 do
+      local msg = frame.historyBuffer:GetEntryAtIndex(i)
+      msg = msg and msg.message
 
       if msg then
-        local stripped = msg:gsub("|K.-|k", "<BNET REMOVED>")
-        table.insert(scrapelines, stripped)
+       scrapelines[#scrapelines+1] = stripChatText(msg)
       end
     end
 
     str = table.concat(scrapelines, "\n")
 
-    if not noshow then
-      if (self.copyformat and self.copyformat == "wowace") or self.db.profile.copyformat == "wowace" then
-        str = "[bgcolor=black]" .. str .. "[/bgcolor]"
-      end
-
-      PratCCFrameScrollText:SetText(str or "")
-      PratCCText:SetText(PL["ChatFrame"] .. frame:GetName():gsub("ChatFrame", "") .. PL[" Text"])
-      PratCCFrame:Show()
-    end
+    PratCCFrameScrollText:SetText(str or "")
+    PratCCText:SetText(PL["ChatFrame"] .. frame:GetName():gsub("ChatFrame", "") .. PL[" Text"])
+    PratCCFrame:Show()
   end
 
   function module:DoCopyChatArg(arg)
@@ -823,12 +780,12 @@ end
     local lines = {}
     local str
 
-    for _, v in ipairs(frame.visibleLines) do
-      local msg = v.messageInfo
+    for i = frame:GetNumVisibleLines(), 1, -1 do
+      local msg = frame.visibleLines[i].messageInfo
+      msg = msg and msg.message
 
       if msg then
-        local stripped = msg.message:gsub("|K.-|k", "<BNET REMOVED>")
-        table.insert(lines, 1, stripped)
+        lines[#lines+1] = stripChatText(msg)
       end
     end
 
@@ -877,13 +834,16 @@ end
   do
     local function reminderOnClick(self, button, down)
       PlaySound(SOUNDKIT.IG_CHAT_BOTTOM);
-      if (IsShiftKeyDown()) then
-        module.copyformat = "wowace"
-      end
-      if (IsControlKeyDown()) then
-        module:ScrapeFullChatFrame(self:GetParent())
+      if button == "RightButton" then
+        module:EnterSelectMode(self:GetParent())
       else
-        module:ScrapeChatFrame(self:GetParent())
+        if (IsShiftKeyDown()) then
+          module:EnterSelectMode(self:GetParent())
+        elseif (IsControlKeyDown()) then
+          module:ScrapeFullChatFrame(self:GetParent())
+        else
+          module:ScrapeChatFrame(self:GetParent())
+        end
       end
 
       module.copyformat = nil
@@ -899,7 +859,7 @@ end
       local b = _G[name]
       if not b then
         b = CreateFrame("Button", name, cf)
-        b:SetFrameStrata("BACKGROUND")
+        b:SetFrameStrata("LOW")
         b:SetWidth(24)
         b:SetHeight(24)
         b:SetNormalTexture("Interface\\Addons\\Prat-3.0\\textures\\prat-chatcopy2")
@@ -910,6 +870,7 @@ end
         b:SetScript("OnEnter", reminderOnEnter)
         b:SetScript("OnLeave", reminderOnLeave)
         b:SetAlpha(0.2)
+        b:RegisterForClicks("AnyUp")
         b:Hide()
       end
 

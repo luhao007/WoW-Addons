@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Greenhorns@Vek'Nilash
-## Version: 8.3
+## Version: 9.0
 ## RequiredDeps: Titan
 ## LoadOnDemand: 0
 ## DefaultState: Enabled

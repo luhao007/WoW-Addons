@@ -47,6 +47,16 @@ VUHDO_PLAYER_NAME = nil;
 VUHDO_PLAYER_RAID_ID = nil;
 VUHDO_PLAYER_GROUP = nil;
 
+-- Backdrops
+BACKDROP_VUHDO_TOOLTIP = {
+	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", 
+	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	tile = true,
+	tileSize = 8,
+	edgeSize = 8,
+	insets = {  left = 3, right = 3, top = 3, bottom = 3 },
+};
+
 -- BURST CACHE ---------------------------------------------------
 local VUHDO_CONFIG;
 local VUHDO_PET_2_OWNER;
@@ -381,9 +391,10 @@ function VUHDO_setHealth(aUnit, aMode)
 
 		elseif tInfo then
 			tIsAfk, tInfo["connected"], tIsDcChange = VUHDO_updateAfkDc(aUnit);
-			tInfo["dead"] = tIsDead;
 
-			if tIsDcChange then VUHDO_updateBouquetsForEvent(aUnit, 19); end-- VUHDO_UPDATE_DC
+			if tIsDcChange then
+				VUHDO_updateBouquetsForEvent(aUnit, 19); -- VUHDO_UPDATE_DC
+			end
 
 			if 2 == aMode then -- VUHDO_UPDATE_HEALTH
 				tNewHealth = UnitHealth(aUnit);
@@ -410,6 +421,8 @@ function VUHDO_setHealth(aUnit, aMode)
 			elseif 6 == aMode then -- VUHDO_UPDATE_AFK
 				tInfo["afk"] = tIsAfk;
 			end
+
+			tInfo["dead"] = tIsDead;
 		end
 	end
 end

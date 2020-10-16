@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(1427, "DBM-HellfireCitadel", nil, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200222221214")
+mod:SetRevision("20200806142006")
 mod:SetCreatureID(92330)
 mod:SetEncounterID(1794)
-mod:SetZone()
 mod:SetUsedIcons(1)
 --mod.respawnTime = 20
 
@@ -66,21 +65,21 @@ local specWarnEternalHunger			= mod:NewSpecialWarningRun(188666, nil, nil, nil, 
 local yellEternalHunger				= mod:NewYell(188666, nil, false)
 
 --Soulbound Construct
-local timerReverberatingBlowCD		= mod:NewCDCountTimer(17, 180008, nil, "Tank|Healer", 2, 5, nil, DBM_CORE_TANK_ICON, nil, 2, 4)
+local timerReverberatingBlowCD		= mod:NewCDCountTimer(17, 180008, nil, "Tank|Healer", 2, 5, nil, DBM_CORE_L.TANK_ICON, nil, 2, 4)
 local timerFelPrisonCD				= mod:NewCDTimer(29, 182994, nil, nil, nil, 3)--29-33
 local timerVolatileFelOrbCD			= mod:NewCDTimer(23, 180221, 186532, nil, nil, 3)
 local timerFelChargeCD				= mod:NewCDTimer(23, 182051, nil, nil, nil, 3, nil, nil, nil, 2, 4)
-local timerApocalypticFelburstCD	= mod:NewCDCountTimer(30, 188693, 206388, nil, nil, 2, nil, DBM_CORE_HEROIC_ICON)
+local timerApocalypticFelburstCD	= mod:NewCDCountTimer(30, 188693, 206388, nil, nil, 2, nil, DBM_CORE_L.HEROIC_ICON)
 --Socrethar
 local timerTransition				= mod:NewPhaseTimer(6.5)
-local timerExertDominanceCD			= mod:NewCDCountTimer(4.5, 183331, nil, "-Healer", nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerExertDominanceCD			= mod:NewCDCountTimer(4.5, 183331, nil, "-Healer", nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)
 local timerApocalypseCD				= mod:NewCDTimer(46, 183329, nil, nil, nil, 2)
 --Adds
 local timerSargereiDominatorCD		= mod:NewNextCountTimer(60, "ej11456", nil, nil, nil, 1, 184053)
 local timerHauntingSoulCD			= mod:NewCDCountTimer(29, "ej11462", nil, nil, nil, 1, 182769, nil, nil, 1, 5)
 local timerGiftofManariCD			= mod:NewCDTimer(11, 184124, nil, nil, nil, 3)
 --Mythic
-local timerVoraciousSoulstalkerCD	= mod:NewCDCountTimer(59.5, "ej11778", 151869, nil, nil, 1, 190776, DBM_CORE_HEROIC_ICON)
+local timerVoraciousSoulstalkerCD	= mod:NewCDCountTimer(59.5, "ej11778", 151869, nil, nil, 1, 190776, DBM_CORE_L.HEROIC_ICON)
 
 --local berserkTimer				= mod:NewBerserkTimer(360)
 
@@ -127,7 +126,7 @@ end
 --if this isn't accurate, or isn't as fast as listing to RAID_BOSS_WHISPER sync i'll switch to a RAID_BOSS_WHISPER transcriptor listener
 function mod:ChargeTarget(targetname, uId)
 	if not targetname then
-		specWarnFelCharge:Show(DBM_CORE_UNKNOWN)
+		specWarnFelCharge:Show(DBM_CORE_L.UNKNOWN)
 		specWarnFelCharge:Play("chargemove")
 		return
 	end
@@ -146,16 +145,16 @@ function mod:ChargeTarget(targetname, uId)
 	if self.Options.HudMapOnCharge then
 		local currentTank = self:GetCurrentTank(90296)
 		if currentTank then
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(182051, "party", targetname, 0.35, 4, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(targetname, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(182051, "party", targetname, 0.35, 4, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(targetname, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
 			if targetname == UnitName("player") then
-				DBMHudMap:AddEdge(1, 1, 0, 0.5, 4, currentTank, targetname, nil, nil, nil, nil, 125)
+				DBM.HudMap:AddEdge(1, 1, 0, 0.5, 4, currentTank, targetname, nil, nil, nil, nil, 125)
 			else
-				DBMHudMap:RegisterRangeMarkerOnPartyMember(182051, "party", UnitName("player"), 0.7, 4, nil, nil, nil, 1, nil, false):Appear()
-				DBMHudMap:AddEdge(1, 0, 0, 0.5, 4, currentTank, targetname, nil, nil, nil, nil, 125)
+				DBM.HudMap:RegisterRangeMarkerOnPartyMember(182051, "party", UnitName("player"), 0.7, 4, nil, nil, nil, 1, nil, false):Appear()
+				DBM.HudMap:AddEdge(1, 0, 0, 0.5, 4, currentTank, targetname, nil, nil, nil, nil, 125)
 			end
 		else--Old school
 			DBM:Debug("Tank Detection Failure in HudMapOnCharge", 2)
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(182051, "highlight", targetname, 5, 4, 1, 0, 0, 0.5, nil, true, 2):Pulse(0.5, 0.5)
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(182051, "highlight", targetname, 5, 4, 1, 0, 0, 0.5, nil, true, 2):Pulse(0.5, 0.5)
 		end
 	end
 	if self.Options.SetIconOnCharge then
@@ -201,7 +200,7 @@ function mod:OnCombatEnd()
 		DBM.RangeCheck:Hide()
 	end
 	if self.Options.HudMapOnOrb or self.Options.HudMapOnCharge then
-		DBMHudMap:Disable()
+		DBM.HudMap:Disable()
 	end
 end
 
@@ -384,7 +383,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnVolatileFelOrb:Show(args.destName)
 		end
 		if self.Options.HudMapOnOrb then
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(180221, "highlight", args.destName, 5, 20, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(180221, "highlight", args.destName, 5, 20, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
 		end
 	elseif spellId == 190466 then
 		if args.sourceGUID == UnitGUID("player") then
@@ -403,7 +402,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		updateRangeFrame(self)
 	elseif spellId == 189627 then
 		if self.Options.HudMapOnOrb then
-			DBMHudMap:FreeEncounterMarkerByTarget(180221, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(180221, args.destName)
 		end
 	elseif spellId == 190466 and args.sourceGUID == UnitGUID("player") then
 		playerInConstruct = false

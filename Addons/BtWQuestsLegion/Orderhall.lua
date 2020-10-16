@@ -7,14 +7,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_LIGHTSHEART, {
     prerequisites = {
         {
             type = "level",
-            level = 102,
+            level = 10,
         },
     },
     completed = {
         type = "quest",
         id = 45177,
     },
-    range = {100, 110},
+    range = {100,45},
     items = {
         {
             type = "chain",
@@ -143,7 +143,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_LIGHTSHEART, {
         
         {
             type = "level",
-            level = 110,
+            level = 45,
             x = 5,
             y = 3,
             connections = {
@@ -338,7 +338,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_LIGHTSHEART, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_MEATBALL, {
-    name = C_Garrison.GetFollowerInfo(986).name,
+    name = { -- Meatball
+        type = "follower",
+        id = 986,
+    },
     category = BTWQUESTS_CATEGORY_LEGION_ORDERHALL,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     prerequisites = {

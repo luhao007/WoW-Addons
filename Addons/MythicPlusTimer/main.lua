@@ -17,14 +17,11 @@ local quest_frame
 -- ---------------------------------------------------------------------------------------------------------------------
 local function save_frame_position()
   local _, _, relative_point, x_offset, y_offset = main_frame:GetPoint()
-  addon.set_config_value(
-    "position",
-    {
-      left = x_offset,
-      top = y_offset,
-      relative_point = relative_point
-    }
-  )
+  addon.set_config_value("position", {
+    left = x_offset,
+    top = y_offset,
+    relative_point = relative_point,
+  })
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -40,7 +37,7 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------
 local function create_main_frame()
-  local frame = CreateFrame("Frame", "MythicPlusTimer")
+  local frame = CreateFrame("Frame", "MythicPlusTimer", UIParent, BackdropTemplateMixin and "BackdropTemplate")
   frame.frame_toggle = false
 
   frame:EnableMouse(true)
@@ -52,16 +49,12 @@ local function create_main_frame()
 
   local frame_position = addon.c("position")
   if not frame_position then
-    frame_position = {
-      left = -260,
-      top = 220,
-      relative_point = "RIGHT"
-    }
+    frame_position = {left = -260, top = 220, relative_point = "RIGHT"}
 
     addon.set_config_value("position", frame_position)
   end
 
-  frame:SetScale(addon.c("scale") * UIParent:GetScale())
+  frame:SetScale(addon.c("scale"))
   frame:SetPoint(frame_position.relative_point, frame_position.left, frame_position.top)
 
   -- Drag text
@@ -190,7 +183,7 @@ end
 local function update_dungeon_info(current_run)
   -- dungeon name
   local dungeon_frame = create_info_frame_dungeon()
-  local dungeon_name = "+" .. current_run.cm_level .. " - " .. current_run.zone_name
+  local dungeon_name = string.format("|c%s+%s - %s", addon.c("color_dungeon_name"), current_run.cm_level, current_run.zone_name)
 
   dungeon_frame.text:SetText(dungeon_name)
   dungeon_frame:SetHeight(dungeon_frame.text:GetStringHeight())
@@ -238,7 +231,7 @@ local function update_dungeon_info(current_run)
   dungeon_frame.tooltip = tooltip
 
   -- set text
-  affixes_text_frame.text:SetText(text)
+  affixes_text_frame.text:SetText(string.format("|c%s%s", addon.c("color_affixes"), text))
   affixes_text_frame:SetHeight(affixes_text_frame.text:GetStringHeight())
   affixes_text_frame:SetWidth(affixes_text_frame.text:GetStringWidth())
 
@@ -266,8 +259,8 @@ local function show_demo()
   local demo_run = {
     cm_level = 30,
     level_key = "l" .. 30,
-    affixes = {9, 7, 13, 120},
-    affixes_key = "affixes-9-7-13-120",
+    affixes = {9, 7, 13, 121},
+    affixes_key = "affixes-9-7-13-121",
     zone_name = "Demo",
     current_zone_id = current_id,
     current_map_id = current_id,
@@ -276,7 +269,9 @@ local function show_demo()
     times = {},
     elapsed_time = 123,
     deathcount = 0,
-    is_demo = true
+    is_demo = true,
+    is_teeming = false,
+    pull = {guid = {4, 1.28}},
   }
 
   addon.set_config_value("current_run", demo_run)
@@ -285,7 +280,9 @@ local function show_demo()
 
   best_times[demo_run.current_zone_id] = {[1] = 50}
   best_times[demo_run.current_zone_id][demo_run.level_key] = {[1] = 110}
-  best_times[demo_run.current_zone_id][demo_run.level_key .. demo_run.affixes_key] = {[1] = 150}
+  best_times[demo_run.current_zone_id][demo_run.level_key .. demo_run.affixes_key] = {
+    [1] = 150,
+  }
 
   -- name
   update_dungeon_info(demo_run)
@@ -299,6 +296,9 @@ local function show_demo()
 
   -- deathcounter
   infos.update_deathcounter_info(demo_run, 2, 10)
+
+  -- prideful
+  infos.update_prideful_info(demo_run)
 
   -- reaping
   infos.update_reaping_info(demo_run)
@@ -334,12 +334,7 @@ local function toggle_frame_movement()
       tile = true,
       tileSize = 32,
       edgeSize = 1,
-      insets = {
-        left = 0,
-        right = 0,
-        top = 0,
-        bottom = 0
-      }
+      insets = {left = 0, right = 0, top = 0, bottom = 0},
     }
 
     frame:SetBackdrop(backdrop)
@@ -353,7 +348,7 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------
 local function on_scale_change()
-  main_frame:SetScale(addon.c("scale") * UIParent:GetScale())
+  main_frame:SetScale(addon.c("scale"))
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -416,11 +411,68 @@ local function on_challenge_mode_reset()
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
+local function resolve_current_instance_data()
+  local _, _, _, _, _, _, _, current_zone_id = GetInstanceInfo()
+  local cm_level, affixes = C_ChallengeMode.GetActiveKeystoneInfo()
+  local current_map_id = C_ChallengeMode.GetActiveChallengeMapID()
+  local _, _, steps = C_Scenario.GetStepInfo()
+  local zone_name, _, max_time = C_ChallengeMode.GetMapUIInfo(current_map_id)
+
+  local affixes_ids = {}
+  local is_teeming = false
+  for _, affix_id in pairs(affixes) do
+    table.insert(affixes_ids, affix_id)
+
+    if affix_id == 5 then
+      is_teeming = true
+    end
+  end
+
+  local affixes_key = "affixes"
+  for _, k in ipairs(affixes_ids) do
+    affixes_key = affixes_key .. "-" .. k
+  end
+
+  return {
+    cm_level = cm_level,
+    level_key = "l" .. cm_level,
+    affixes = affixes,
+    affixes_key = affixes_key,
+    zone_name = zone_name,
+    current_zone_id = current_zone_id,
+    current_map_id = current_map_id,
+    max_time = max_time,
+    steps = steps,
+    is_teeming = is_teeming,
+  }
+end
+
+-- ---------------------------------------------------------------------------------------------------------------------
 local function restart_challenge_mode()
   -- check if in active run
   local current_run = main.get_current_run()
   if current_run and not current_run.is_demo then
     main.hide_default_tracker()
+
+    local data = resolve_current_instance_data()
+
+    if current_run.level_key .. current_run.affixes_key ~= data.level_key .. data.affixes_key then
+      current_run.times = {}
+    end
+
+    current_run.cm_level = data.cm_level
+    current_run.level_key = data.level_key
+    current_run.affixes = data.affixes
+    current_run.affixes_key = data.affixes_key
+    current_run.zone_name = data.zone_name
+    current_run.current_zone_id = data.current_zone_id
+    current_run.current_map_id = data.current_map_id
+    current_run.max_time = data.max_time
+    current_run.steps = data.steps
+    current_run.is_teeming = data.is_teeming
+
+    addon.set_config_value("current_run", current_run)
+
     update_dungeon_info(current_run)
     main.show_frame()
 
@@ -476,33 +528,20 @@ function main.on_challenge_mode_start()
   end
 
   -- resolve current instance data
-  local _, _, _, _, _, _, _, current_zone_id = GetInstanceInfo()
-  local cm_level, affixes = C_ChallengeMode.GetActiveKeystoneInfo()
-  local current_map_id = C_ChallengeMode.GetActiveChallengeMapID()
-  local _, _, steps = C_Scenario.GetStepInfo()
-  local zone_name, _, max_time = C_ChallengeMode.GetMapUIInfo(current_map_id)
-
-  local affixes_ids = {}
-  for _, affix_id in pairs(affixes) do
-    table.insert(affixes_ids, affix_id)
-  end
-
-  local affixes_key = "affixes"
-  for _, k in ipairs(affixes_ids) do
-    affixes_key = affixes_key .. "-" .. k
-  end
+  local data = resolve_current_instance_data()
 
   local current_run = {
-    cm_level = cm_level,
-    level_key = "l" .. cm_level,
-    affixes = affixes,
-    affixes_key = affixes_key,
-    zone_name = zone_name,
-    current_zone_id = current_zone_id,
-    current_map_id = current_map_id,
-    max_time = max_time,
-    steps = steps,
-    times = {}
+    cm_level = data.cm_level,
+    level_key = data.level_key,
+    affixes = data.affixes,
+    affixes_key = data.affixes_key,
+    zone_name = data.zone_name,
+    current_zone_id = data.current_zone_id,
+    current_map_id = data.current_map_id,
+    max_time = data.max_time,
+    steps = data.steps,
+    is_teeming = data.is_teeming,
+    times = {},
   }
 
   addon.set_config_value("current_run", current_run)
@@ -510,16 +549,16 @@ function main.on_challenge_mode_start()
   -- create initial best times config entries
   local best_times = addon.c("best_times")
 
-  if not best_times[current_zone_id] then
-    best_times[current_zone_id] = {}
+  if not best_times[current_run.current_zone_id] then
+    best_times[current_run.current_zone_id] = {}
   end
 
-  if not best_times[current_zone_id][current_run.level_key] then
-    best_times[current_zone_id][current_run.level_key] = {}
+  if not best_times[current_run.current_zone_id][current_run.level_key] then
+    best_times[current_run.current_zone_id][current_run.level_key] = {}
   end
 
-  if not best_times[current_zone_id][current_run.level_key .. current_run.affixes_key] then
-    best_times[current_zone_id][current_run.level_key .. current_run.affixes_key] = {}
+  if not best_times[current_run.current_zone_id][current_run.level_key .. current_run.affixes_key] then
+    best_times[current_run.current_zone_id][current_run.level_key .. current_run.affixes_key] = {}
   end
 
   -- update dungeon info
@@ -551,13 +590,13 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------
 function main.get_quest_frame(frame)
-	local parent = frame:GetParent()
-	
-	if (parent == UIParent or parent == hidden_frame or parent == nil) then
-		return frame
-	end
+  local parent = frame:GetParent()
 
-    return main.get_quest_frame(parent)
+  if (parent == UIParent or parent == hidden_frame or parent == nil) then
+    return frame
+  end
+
+  return main.get_quest_frame(parent)
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -677,4 +716,12 @@ function main:enable()
   addon.register_config_listener("hide_default_objectivetracker", on_objectivetracker_change)
   addon.register_config_listener("show_affixes_as_icons", on_config_change)
   addon.register_config_listener("show_affixes_as_text", on_config_change)
+  addon.register_config_listener("color_dungeon_name", on_config_change)
+  addon.register_config_listener("color_affixes", on_config_change)
+  addon.register_config_listener("color_timeleft", on_config_change)
+  addon.register_config_listener("color_timeleft_expired", on_config_change)
+  addon.register_config_listener("color_time", on_config_change)
+  addon.register_config_listener("color_chest_timeleft", on_config_change)
+  addon.register_config_listener("color_chest_time", on_config_change)
+  addon.register_config_listener("color_chest_time_expired", on_config_change)
 end

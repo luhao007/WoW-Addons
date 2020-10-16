@@ -640,10 +640,34 @@
 		<Notes>在角色面板中显示额外的信息，如法术命中等</Notes>
 		<Category>界面</Category>
 	</Addon>
+	<Addon name="Details">
+		<Title>伤害统计</Title>
+		<Notes>功能强大的伤害统计插件</Notes>
+		<Category>战斗</Category>
+		<SubAddons>
+			<SubAddon name='Details_DataStorage'>
+				<Title>数据存储</Title>
+				<Notes>存储Details的统计数据</Notes>
+			</SubAddon>
+			<SubAddon name='Details_Streamer'>
+				<Title>主播助手</Title>
+				<Notes>在屏幕上显示你的施法队列，帮助你的观众了解你的手法</Notes>
+			</SubAddon>
+			<SubAddon name='Details_TinyThreat'>
+				<Title>仇恨助手</Title>
+				<Notes>显示你的队员的仇恨</Notes>
+			</SubAddon>
+		</SubAddons>
+	</Addon>
 	<Addon name="Dismounter">
 		<Title>自动下马</Title>
 		<Notes>施法时自动下马</Notes>
 		<Category>物品</Category>
+	</Addon>
+	<Addon name="ExRT">
+		<Title>团队助手</Title>
+		<Notes>提供团队和小队的一些辅助功能</Notes>
+		<Category>副本</Category>
 	</Addon>
 	<Addon name="FasterCamera">
 		<Title>视野调整</Title>
@@ -694,6 +718,11 @@
 		<Title>竞技场助手</Title>
 		<Notes>在竞技场中显示敌人</Notes>
 		<Category>PVP</Category>
+	</Addon>
+	<Addon name="GoodLeader">
+		<Title>好团长</Title>
+		<Notes>显示团长经历</Notes>
+		<Category>副本</Category>
 	</Addon>
 	<Addon name="Grail">
 		<Title>本地数据库</Title>
@@ -1036,6 +1065,11 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="PallyPower">
+		<Title>祝福助手</Title>
+		<Notes>帮助管理圣骑士的祝福等BUFF</Notes>
+		<Category>战斗</Category>
+	</Addon>
 	<Addon name="Pawn">
 		<Title>装备评分</Title>
 		<Category>战斗</Category>
@@ -1366,6 +1400,10 @@
 		<Title>导航助手</Title>
 		<Category>探索</Category>
 	</Addon>
+	<Addon name="TradeLog">
+		<Title>交易助手</Title>
+		<Category>物品</Category>
+	</Addon>
 	<Addon name="TradeSkillMaster">
 		<Title>专业助手</Title>
 		<Category>物品</Category>
@@ -1437,6 +1475,10 @@
 				<Title>模板</Title>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="WclPlayerScore">
+		<Title>WCL评分</Title>
+		<Category>副本</Category>
 	</Addon>
 	<Addon name="WIM">
 		<Title>即时通信</Title>

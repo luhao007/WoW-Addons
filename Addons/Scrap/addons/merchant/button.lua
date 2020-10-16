@@ -42,15 +42,13 @@ function Button:OnEnable()
 	self:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
 	self:RegisterForClicks('AnyUp')
 	self:SetSize(37, 37)
-	self:OnMerchant()
 
+	self:RegisterSignal('MERCHANT_SHOW', 'OnMerchant')
+	self:RegisterEvent('MERCHANT_CLOSED', 'OnClose')
 	self:SetScript('OnReceiveDrag', self.OnReceiveDrag)
 	self:SetScript('OnEnter', self.OnEnter)
 	self:SetScript('OnLeave', self.OnLeave)
 	self:SetScript('OnClick', self.OnClick)
-
-	self:RegisterEvent('MERCHANT_SHOW', 'OnMerchant')
-	self:RegisterEvent('MERCHANT_CLOSED', 'OnClose')
 
 	hooksecurefunc('MerchantFrame_UpdateRepairButtons', function()
 		self:UpdatePosition()

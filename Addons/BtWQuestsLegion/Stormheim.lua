@@ -17,7 +17,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALL
         id = 39800,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -108,7 +108,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
         id = 38060,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -213,7 +213,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_HOR
         id = 39801,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -303,7 +303,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
         id = 38362,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -403,7 +403,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT, 
         id = 39597,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -559,7 +559,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL, {
         id = 38624,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -876,7 +876,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR, 
         id = 38818,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -1043,7 +1043,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_TO_HELHEIM_AND_BACK,
         id = 39855,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -1206,7 +1206,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_SECRETS_OF_THE_SHIEL
         },
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -1473,7 +1473,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_CHAMPION_OF_STOR
         id = 40005,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -1560,7 +1560,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_A_MURKY_FATE, {
         type = "quest",
         id = 40120,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "npc",
@@ -1590,7 +1590,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_DREYRGROT, {
         type = "quest",
         id = 42640,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "npc",
@@ -1661,7 +1661,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_RAVENBEAR, {
         type = "quest",
         id = 42447,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "npc",
@@ -1716,7 +1716,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_GOBLINS, {
         type = "quest",
         id = 43331,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "npc",

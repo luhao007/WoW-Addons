@@ -9,11 +9,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "Maximiliano de Vila Norte",
     },
+    [91065] = {
+        name = "Adegueiro Vudani",
+    },
     [92802] = {
         name = "Gravax, o Profanador",
     },
     [93600] = {
         name = "Saylanna Brisa do Rio",
+    },
+    [94101] = {
+        name = "Laeni Tiroprata",
     },
     [94366] = {
         name = "Lelyn Sombra Ligeira",
@@ -23,6 +29,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [94434] = {
         name = "Addie Chiabrejo",
+    },
+    [95799] = {
+        name = "Vitorbel, o Forti",
     },
     [96513] = {
         name = "Razil Raiogás",
@@ -42,6 +51,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [99065] = {
         name = "Thaedris Penacanto",
     },
+    [99905] = {
+        name = "Shale Pena Cinzenta",
+    },
     [101766] = {
         name = "Thalrenus Arvorrio",
     },
@@ -57,8 +69,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [106299] = {
         name = "Tessália Corvina",
     },
+    [106914] = {
+        name = "Telmo Maskateiro",
+    },
+    [106915] = {
+        name = "Marius Ruinavil",
+    },
+    [107244] = {
+        name = "Telmo Maskateiro",
+    },
+    [107245] = {
+        name = "Marius Ruinavil",
+    },
     [107499] = {
         name = "Corvurso Assustado",
+    },
+    [107674] = {
+        name = "Snégol Hexatilho",
+    },
+    [107675] = {
+        name = "Rax Hexatilho",
     },
     [108072] = {
         name = "Dom Finlei Mrrggltone",

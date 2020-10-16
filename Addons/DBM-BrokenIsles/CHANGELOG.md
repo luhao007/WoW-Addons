@@ -1,9 +1,13 @@
 # <DBM> Broken Isles
 
-## [r17](https://github.com/DeadlyBossMods/DBM-Legion/tree/r17) (2020-02-21)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Legion/compare/r16...r17)
+## [r21](https://github.com/DeadlyBossMods/DBM-Legion/tree/r21) (2020-10-13)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Legion/compare/r20...r21) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Legion/releases)
 
-- Cleaned up unused locals and removed unneeded calls to DBM:GetModLocalization()  
-- Remove unused localisation files  
-- Cleanup on isle legion  
-- Prep thorough error checking  
+- Bump TOCS  
+- tiny tweak  
+- Merge pull request #2 from DeadlyBossMods/stats  
+    minExpansion  
+- minExpansion  
+- Merge pull request #1 from DeadlyBossMods/stats  
+    Stats  
+- Stats  

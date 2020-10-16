@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_ALCHEMY, {
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -196,11 +196,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_BLACKSMITHIN
     -- },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_PROFESSIONS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {110,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -221,18 +221,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_BLACKSMITHIN
         {
             type = "money",
             amounts = {
-                455900, 465300, 474700, 484100, 493500, 502900, 512300, 521700, 531100, 540500, 549900, 
+                4700, 16805, 28905, 41010, 53110, 65215, 77315, 89420, 101520, 113625, 125725, 137830, 149930, 162035, 174135, 186240, 198340, 210445, 222545, 234650, 246750, 261980, 277205, 292435, 307660, 322890, 338120, 353345, 368575, 383800, 399030, 414260, 429485, 444715, 459940, 475170, 490115, 505060, 520010, 534955, 549900, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                38650, 39000, 39350, 39600, 39950, 40300, 40650, 41000, 41250, 41600, 
+                3340, 3690, 4030, 4290, 4640, 4985, 5330, 5600, 5935, 6280, 6550, 6895, 7230, 7500, 7845, 8180, 8550, 8795, 9130, 9500, 9775, 10075, 10450, 10725, 11025, 11400, 11775, 11975, 12350, 12725, 12925, 13300, 13675, 13875, 14250, 14625, 14925, 15200, 15575, 15875, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
     },
     items = {
@@ -354,11 +354,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_ENCHANTING, 
     -- },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_PROFESSIONS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {110,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -379,18 +379,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_ENCHANTING, 
         {
             type = "money",
             amounts = {
-                1202800, 1227600, 1252400, 1277200, 1302000, 1326800, 1351600, 1376400, 1401200, 1426000, 1450800, 
+                12400, 44330, 76260, 108190, 140120, 172050, 203980, 235910, 267840, 299770, 331700, 363630, 395560, 427490, 459420, 491350, 523280, 555210, 587140, 619070, 651000, 691180, 731350, 771530, 811700, 851880, 892060, 932230, 972410, 1012580, 1052760, 1092940, 1133110, 1173290, 1213460, 1253640, 1293070, 1332500, 1371940, 1411370, 1450800, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                89650, 90450, 91200, 91900, 92650, 93450, 94300, 95100, 95650, 96450, 
+                7710, 8550, 9320, 9960, 10750, 11520, 12360, 12950, 13720, 14560, 15150, 15990, 16760, 17350, 18190, 18960, 19750, 20390, 21160, 22000, 22600, 23350, 24200, 24800, 25550, 26400, 27200, 27800, 28600, 29400, 30000, 30800, 31600, 32200, 33000, 33850, 34600, 35200, 36050, 36800, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
     },
     items = {
@@ -501,7 +501,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_ENGINEERING,
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -517,16 +517,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_ENGINEERING,
     completed = {
         type = "quest",
         ids = {53949, 53937},
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                936000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
     },
     items = {
         {
@@ -646,11 +636,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_INSCRIPTION,
     -- },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_PROFESSIONS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {110,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -671,18 +661,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_INSCRIPTION,
         {
             type = "money",
             amounts = {
-                1813900, 1851300, 1888700, 1926100, 1963500, 2000900, 2038300, 2075700, 2113100, 2150500, 2187900, 
+                18700, 66855, 115005, 163160, 211310, 259465, 307615, 355770, 403920, 452075, 500225, 548380, 596530, 644685, 692835, 740990, 789140, 837295, 885445, 933600, 981750, 1042340, 1102925, 1163515, 1224100, 1284690, 1345280, 1405865, 1466455, 1527040, 1587630, 1648220, 1708805, 1769395, 1829980, 1890570, 1950035, 2009500, 2068970, 2128435, 2187900, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                108550, 109550, 110450, 111300, 112200, 113200, 114150, 115100, 115900, 116850, 
+                9340, 10290, 11180, 12040, 12940, 13885, 14830, 15600, 16535, 17480, 18300, 19245, 20130, 20950, 21895, 22830, 23750, 24545, 25480, 26450, 27275, 28125, 29100, 29925, 30775, 31800, 32725, 33475, 34450, 35375, 36175, 37100, 38025, 38825, 39750, 40775, 41625, 42400, 43425, 44275, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
     },
     items = {
@@ -807,11 +797,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_JEWELCRAFTIN
     -- },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_PROFESSIONS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {110,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -1073,11 +1063,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_LEATHERWORKI
     -- },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_PROFESSIONS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -1279,11 +1269,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_TAILORING, {
     -- },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_PROFESSIONS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "profession",
@@ -1299,16 +1289,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_8_1_5_TAILORING, {
     completed = {
         type = "quest",
         ids = {53881, 53962},
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                1450800, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
     },
     items = {
         {

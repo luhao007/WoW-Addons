@@ -10,27 +10,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 923,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
-        },
-        {
-            type = "quest",
-            id = 54972,
-            restrictions = {
-                type = "faction",
-                id = BTWQUESTS_FACTION_ID_ALLIANCE,
-            },
-        },
-        {
-            type = "quest",
-            id = 55053,
-            restrictions = {
-                type = "faction",
-                id = BTWQUESTS_FACTION_ID_HORDE,
-            },
+            level = 50,
         },
         {
             type = "quest",
@@ -45,6 +29,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             type = "quest",
             ids = {51916, 52451},
             count = 1,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "quest",
+            id = 54972,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            id = 55053,
             restrictions = {
                 type = "faction",
                 id = BTWQUESTS_FACTION_ID_HORDE,
@@ -67,14 +67,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             rank = 1,
         },
         {
-            type = "money",
-            amounts = {
-                1521000,
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 1700,
@@ -82,7 +74,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
         {
             type = "reputation",
             id = 2164,
-            amount = 2000,
+            amount = 1000,
         },
     },
     items = {
@@ -202,11 +194,50 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 920,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
+    hasLowPriorityPrerequisites = true,
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
+        },
+        {
+            type = "quest",
+            ids = {51918, 52450},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            ids = {51916, 52451},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "quest",
+            id = 54972,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            id = 55053,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
         },
         {
             type = "chain",
@@ -228,14 +259,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     },
     rewards = {
         {
-            type = "money",
-            amounts = {
-                514800,
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 1500,
@@ -243,7 +266,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
         {
             type = "reputation",
             id = 2164,
-            amount = 520,
+            amount = 500,
         },
     },
     items = {
@@ -296,11 +319,49 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 912,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
+        },
+        {
+            type = "quest",
+            ids = {51918, 52450},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            ids = {51916, 52451},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "quest",
+            id = 54972,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            id = 55053,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
         },
         {
             type = "chain",
@@ -327,14 +388,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             rank = 2,
         },
         {
-            type = "money",
-            amounts = {
-                2176200,
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 1900,
@@ -342,7 +395,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
         {
             type = "reputation",
             id = 2164,
-            amount = 1455,
+            amount = 1175,
         },
     },
     items = {
@@ -441,11 +494,54 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 934,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
+        },
+        {
+            type = "quest",
+            ids = {51918, 52450},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            ids = {51916, 52451},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "quest",
+            id = 54972,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            id = 55053,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN01,
+            lowPriority = true,
         },
         {
             type = "chain",
@@ -467,22 +563,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     },
     rewards = {
         {
-            type = "money",
-            amounts = {
-                514800,
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "currency",
-            id = 1553,
-            amount = 1500,
-        },
-        {
             type = "reputation",
             id = 2164,
-            amount = 520,
+            amount = 500,
         },
     },
     items = {
@@ -535,11 +618,54 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 958,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
+        },
+        {
+            type = "quest",
+            ids = {51918, 52450},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            ids = {51916, 52451},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "quest",
+            id = 54972,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            id = 55053,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN01,
+            lowPriority = true,
         },
         {
             type = "chain",
@@ -564,14 +690,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             type = "azessence",
             id = 12,
             rank = 3,
-        },
-        {
-            type = "money",
-            amounts = {
-                725400,
-            },
-            minLevel = 120,
-            maxLevel = 120,
         },
         {
             type = "currency",
@@ -626,11 +744,79 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 976,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
+        },
+        {
+            type = "quest",
+            ids = {51918, 52450},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            ids = {51916, 52451},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "quest",
+            id = 54972,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            id = 55053,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN01,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN03,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN02,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN05,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN04,
+            lowPriority = true,
+        },
+        {
+            type = "heartlevel",
+            level = 70,
+            lowPriority = true,
         },
         {
             type = "chain",
@@ -650,19 +836,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
         {
             type = "toy",
             id = 169768,
-        },
-        {
-            type = "money",
-            amounts = {
-                23400,
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2164,
-            amount = 1000,
         },
     },
     items = {
@@ -690,11 +863,64 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 961,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
+        },
+        {
+            type = "quest",
+            ids = {51918, 52450},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            ids = {51916, 52451},
+            count = 1,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "quest",
+            id = 54972,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            },
+        },
+        {
+            type = "quest",
+            id = 55053,
+            lowPriority = true,
+            restrictions = {
+                type = "faction",
+                id = BTWQUESTS_FACTION_ID_HORDE,
+            },
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN01,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN03,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CHAIN02,
+            lowPriority = true,
         },
         {
             type = "chain",
@@ -723,19 +949,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
             type = "azessence",
             id = 12,
             rank = 4,
-        },
-        {
-            type = "money",
-            amounts = {
-                23400,
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "currency",
-            id = 1553,
-            amount = 1000,
         },
         {
             type = "reputation",
@@ -770,11 +983,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_THE_HEART_FORGE_CH
     questline = 947,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -951,6 +1164,10 @@ BtWQuestsDatabase:AddCategory(BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FO
     },
 })
 BtWQuestsDatabase:AddExpansionItems(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
+    {
+        type = "header",
+        name = L["RISE_OF_AZSHARA_ZONES"],
+    },
     {
         type = "category",
         id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_THE_HEART_FORGE,

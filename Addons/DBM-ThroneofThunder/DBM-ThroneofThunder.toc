@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: MysticalOS
-## Version: r134
+## Version: r138
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMThroneofThunder_AllSavedVars
@@ -13,10 +13,11 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
-## X-DBM-Mod-Has-LFR: 1
+## X-DBM-StatTypes: normal,normal25,heroic,heroic25,lfr
 ## X-DBM-Mod-Sort: 702
 ## X-DBM-Mod-MapID: 1098
-## X-DBM-Mod-MinCoreRevision: 14569
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 4
 ## X-Curse-Project-ID: 85688
 ## X-WoWI-ID: 23199
 ## X-Part-Of: DBM-Core

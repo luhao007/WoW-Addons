@@ -1,15 +1,14 @@
 local mod	= DBM:NewMod("Nightbane", "DBM-Party-Legion", 11)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190625143517")
+mod.statTypes = "mythic,challenge"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(114895)
 mod:SetEncounterID(2031)
-mod:SetZone()
 mod:SetUsedIcons(1)
 mod:SetHotfixNoticeRev(15430)
 mod.respawnTime = 25
-
-mod.onlyMythic = true--VERIFY how they actually do this
 
 mod:RegisterCombat("combat")
 
@@ -38,11 +37,11 @@ local specWarnIgniteSoul			= mod:NewSpecialWarningMoveTo(228796, nil, nil, nil, 
 local yellIgniteSoul				= mod:NewShortFadesYell(228796)
 local specWarnFear					= mod:NewSpecialWarningSpell(228837, nil, nil, nil, 2, 2)
 
-local timerReverbShadowsCD			= mod:NewCDTimer(12, 229307, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)--12-16
+local timerReverbShadowsCD			= mod:NewCDTimer(12, 229307, nil, nil, nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)--12-16
 local timerBreathCD					= mod:NewCDTimer(23, 228785, nil, "Tank", nil, 5)--23-35
 local timerCharredEarthCD			= mod:NewCDTimer(20, 228806, nil, nil, nil, 3)--20-25
 local timerBurningBonesCD			= mod:NewCDTimer(18.3, 228829, nil, nil, nil, 3)--20-25
-local timerIgniteSoulCD				= mod:NewCDTimer(25, 228796, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
+local timerIgniteSoulCD				= mod:NewCDTimer(25, 228796, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)
 
 local timerFearCD					= mod:NewCDTimer(43, 228837, nil, nil, nil, 2)--43-46
 

@@ -7,10 +7,8 @@ L["S_DECREASESIZE"] = "Réduire la taille"
 L["S_ENABLED"] = "Activé"
 L["S_ERROR_NOTIMELEFT"] = "Cette quête n'a pas de temps restant."
 L["S_ERROR_NOTLOADEDYET"] = "Cette quête n'est pas encore chargée, merci de patienter quelques secondes."
-L["S_FACTION_TOOLTIP_SELECT"] = [=[
-Clic: sélectionner cette faction]=]
-L["S_FACTION_TOOLTIP_TRACK"] = [=[
-Shift + Clic: suivre les quêtes de cette faction]=]
+L["S_FACTION_TOOLTIP_SELECT"] = "Clic: sélectionner cette faction"
+L["S_FACTION_TOOLTIP_TRACK"] = "Shift + Clic: suivre les quêtes de cette faction"
 L["S_FLYMAP_SHOWTRACKEDONLY"] = "Suivi seulement"
 L["S_FLYMAP_SHOWTRACKEDONLY_DESC"] = "Afficher seulement les quêtes suivies"
 L["S_FLYMAP_SHOWWORLDQUESTS"] = "Affiche les Expéditions"
@@ -75,7 +73,6 @@ L["S_MAPBAR_OPTIONSMENU_SOUNDENABLED"] = "Activer le son"
 L["S_MAPBAR_OPTIONSMENU_STATUSBAR_ONDISABLE"] = "Utilisez la commande '/wqt statusbar' ou l'onglet \"addons\" dans \"menu: interface\" pour afficher à nouveau la barre d'info"
 L["S_MAPBAR_OPTIONSMENU_STATUSBAR_VISIBILITY"] = "Afficher la barre d'info"
 L["S_MAPBAR_OPTIONSMENU_STATUSBARANCHOR"] = "Attacher en  haut"
-L["S_MAPBAR_OPTIONSMENU_TOMTOM_WPPERSISTENT"] = "Point de passage persistant"
 L["S_MAPBAR_OPTIONSMENU_TRACKER_CURRENTZONE"] = "Zone actuelle seulement"
 L["S_MAPBAR_OPTIONSMENU_TRACKER_SCALE"] = "Échelle du Suivi : %s"
 L["S_MAPBAR_OPTIONSMENU_TRACKERCONFIG"] = "Config du Suivi"

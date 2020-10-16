@@ -1,10 +1,11 @@
 ﻿local mod	= DBM:NewMod(189, "DBM-Party-Cataclysm", 10, 77)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod.statTypes = "heroic,timewalker"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(23577)
 mod:SetEncounterID(1192)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -14,7 +15,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 43302 97499",
 	"CHAT_MSG_MONSTER_YELL"
 )
-mod.onlyHeroic = true
 
 local warnShock			= mod:NewTargetNoFilterAnnounce(43303, 3, nil, "Healer", 2)
 local warnEnrage		= mod:NewTargetAnnounce(43139, 3)
@@ -25,7 +25,7 @@ local specWarnTotem		= mod:NewSpecialWarningSwitch(43302, nil, nil, nil, 1, 2)
 local specWarnTotemWater= mod:NewSpecialWarningMove(97499, "Tank", nil, nil, 1, 2)
 local specWarnEnrage	= mod:NewSpecialWarningDispel(43139, "RemoveEnrage", nil, nil, 1, 2)
 
-local timerShock		= mod:NewTargetTimer(12, 43303, nil, "Healer", 2, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON)
+local timerShock		= mod:NewTargetTimer(12, 43303, nil, "Healer", 2, 5, nil, DBM_CORE_L.HEALER_ICON..DBM_CORE_L.MAGIC_ICON)
 
 local berserkTimer		= mod:NewBerserkTimer(600)
 

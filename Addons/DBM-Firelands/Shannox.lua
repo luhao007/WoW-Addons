@@ -3,10 +3,9 @@ local L		= mod:GetLocalizedStrings()
 local Riplimb	= DBM:EJ_GetSectionInfo(2581)
 local Rageface	= DBM:EJ_GetSectionInfo(2583)
 
-mod:SetRevision("20190821185238")
+mod:SetRevision("20200806141910")
 mod:SetCreatureID(53691)
 mod:SetEncounterID(1205)
-mod:SetZone()
 mod:SetUsedIcons(1, 2) -- cross(7) is hard to see in redish environment?
 --mod:SetModelSound("Sound\\Creature\\SHANNOX\\VO_FL_SHANNOX_SPAWN.ogg", "Sound\\Creature\\SHANNOX\\VO_FL_SHANNOX_KILL_04.ogg")
 --Long: Yes, I smell them too, Riplimb. Outsiders encroach on the Firelord's private grounds. Find their trail. Find them for me, that I may dispense punishment!
@@ -53,9 +52,9 @@ local specWarnCrystalTrapNear	= mod:NewSpecialWarningClose(99836, nil, nil, nil,
 local yellCrystalTrap			= mod:NewShortYell(99836)
 local specWarnTears				= mod:NewSpecialWarningStack(99937, "Tank", 8, nil, nil, 1, 6)
 
-local timerRage					= mod:NewTargetTimer(15, 100415, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)
+local timerRage					= mod:NewTargetTimer(15, 100415, nil, "Healer", nil, 5, nil, DBM_CORE_L.HEALER_ICON)
 local timerWary					= mod:NewTargetTimer(25, 100167, nil, false, nil, 5)
-local timerTears				= mod:NewTargetTimer(26, 99937, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerTears				= mod:NewTargetTimer(26, 99937, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerCrystalPrison		= mod:NewTargetTimer(10, 99837, nil, nil, nil, 5)--Dogs Only
 local timerCrystalPrisonCD		= mod:NewCDTimer(25.5, 99836, nil, nil, nil, 3)--Seems consistent timing, other trap is not.
 local timerSpearCD				= mod:NewCDTimer(42, 100002, nil, nil, nil, 3)--Before riplimb dies

@@ -28,7 +28,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_HOLY, {
         type = "quest",
         id = 42120,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Paladin-Holy",
     items = {
         {
@@ -77,7 +77,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_PROTECTION, {
         type = "quest",
         id = 42017,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Paladin-Protection",
     items = {
         {
@@ -144,7 +144,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_RETRIBUTION, {
         type = "quest",
         id = 38376,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Paladin-Retribution",
     items = {
         {
@@ -227,7 +227,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
         type = "quest",
         id = 43697,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -629,7 +629,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_PALADIN_CAMPAIGN, {
 
         {
             type = "level",
-            level = 110,
+            level = 45,
             x = 5,
             y = 23.5,
             connections = {

@@ -25,8 +25,12 @@ function Guide:AddWayPoint(mapId, x, y, name)
     if not continentId or not position then
         return
     end
-    local _, position = C_Map.GetMapPosFromWorldPos(continentId, position, continentMapId)
-    if not position then
+    local _, mapPosition = C_Map.GetMapPosFromWorldPos(continentId, position, continentMapId)
+    if not mapPosition then
+        continentMapId = mapId
+        mapPosition = select(2, C_Map.GetMapPosFromWorldPos(continentId, position, continentMapId))
+    end
+    if not mapPosition then
         return
     end
 
@@ -36,14 +40,19 @@ function Guide:AddWayPoint(mapId, x, y, name)
         self.Waypoints[continentMapId] = waypoints
     end
 
-    position.mapId = continentMapId
-    position.itemName = name
-    waypoints[position] = true
-    self:SetFocus(position)
+    mapPosition.mapId = continentMapId
+    mapPosition.itemName = name
+    waypoints[mapPosition] = true
+    self:SetFocus(mapPosition)
 end
 function Guide:SetFocus(item)
     assert(item and item.mapId and self.Waypoints[item.mapId])
     self.Focus = item
+
+    if C_Map and C_Map.SetUserWaypoint then
+        C_Map.SetUserWaypoint(UiMapPoint.CreateFromVector2D(item.mapId, item))
+		C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+    end
 
     if WorldMapFrame:IsShown() then
         self.DataProvider:RefreshAllData()
@@ -78,13 +87,20 @@ function BtWQuestsGuideDataProviderMixin:RefreshAllData(fromOnShow)
 
     local waypoints = Guide.Waypoints[continentMapId]
     if not waypoints then
+        continentMapId = mapId
+        waypoints = Guide.Waypoints[continentMapId]
+    end
+    if not waypoints then
         return
     end
     for item in pairs(waypoints) do
-        local continentId, position = C_Map.GetWorldPosFromMapPos(continentMapId, item)
-        local _, position = C_Map.GetMapPosFromWorldPos(continentId, position, mapId)
+        local position = item
+        if continentMapId ~= mapId then
+            local continentId, continentPosition = C_Map.GetWorldPosFromMapPos(continentMapId, item)
+            position = select(2, C_Map.GetMapPosFromWorldPos(continentId, continentPosition, mapId))
+        end
 
-        if position.x > 0 and position.x < 1 and position.y > 0 and position.y < 1 then
+        if position and position.x > 0 and position.x < 1 and position.y > 0 and position.y < 1 then
             local pin = self:GetMap():AcquirePin("BtWQuestsGuidePinTemplate", item.itemName);
             pin.waypoints = waypoints
             pin.item = item
@@ -112,13 +128,15 @@ function BtWQuestsGuidePinMixin:SetName(value)
 end
 
 function BtWQuestsGuidePinMixin:OnMouseEnter()
-	WorldMapTooltip:SetOwner(self, "ANCHOR_LEFT");
-	WorldMapTooltip:SetText(self.itemName);
-	WorldMapTooltip:Show();
+    local tooltip = WorldMapTooltip or GameTooltip
+	tooltip:SetOwner(self, "ANCHOR_LEFT");
+	tooltip:SetText(self.itemName);
+	tooltip:Show();
 end
 
 function BtWQuestsGuidePinMixin:OnMouseLeave()
-	WorldMapTooltip:Hide();
+    local tooltip = WorldMapTooltip or GameTooltip
+	tooltip:Hide();
 end
 
 function BtWQuestsGuidePinMixin:OnClick(button)

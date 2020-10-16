@@ -26,17 +26,17 @@
    Optional attributes:
       .preUpdateFunc (function(self)) function to run before scrollFrame:Update() happens
       .postUpdateFunc (function(self)) function to run after scrollFrame:Update() happens
-	  .dynamicButtonHeight (function(self,index)) returns height of button at index
+	   .dynamicButtonHeight (function(self,index)) returns height of button at index
       .templateType (string) the type of widget to use other than "Button" (eg. "RematchCompositeButton")
 
    API expected to be used:
       autoScrollFrame:Update() -- call to refresh the contents (no need to do this on size changes)
-	  autoScrollFrame:ScrollToIndex(index) -- jump to an index (1-size or -1 for the end) in the list
-	  autoScrollFrame:IsIndexVisible(index) -- returns true if indexed button is fully within the visible scrollframe
-	  autoScrollFrame:ChangeTemplate(template) -- change template that the scrollframe uses
-	  autoScrollFrame:BlingIndex(index) -- flashes the button at the given index
-	  autoScrollFrame:GetButtonWidth() -- returns the current width of the scrollframe's buttons
-	  autoScrollFrame:IsOverEmptyArea() -- returns true if the mouse is over the empty area of an incomplete list (the capture button)
+      autoScrollFrame:ScrollToIndex(index) -- jump to an index (1-size or -1 for the end) in the list
+      autoScrollFrame:IsIndexVisible(index) -- returns true if indexed button is fully within the visible scrollframe
+      autoScrollFrame:ChangeTemplate(template) -- change template that the scrollframe uses
+      autoScrollFrame:BlingIndex(index) -- flashes the button at the given index
+      autoScrollFrame:GetButtonWidth() -- returns the current width of the scrollframe's buttons
+      autoScrollFrame:IsOverEmptyArea() -- returns true if the mouse is over the empty area of an incomplete list (the capture button)
 
    For scrollframes where buttons can be variable height:
    - Define .dynamicButtonHeight as a function that will return the height of the button at the given

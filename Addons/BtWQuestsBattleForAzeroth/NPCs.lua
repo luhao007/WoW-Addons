@@ -23,9 +23,6 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
-    [14720] = {
-        name = "High Overlord Saurfang",
-    },
     [15192] = {
         name = "Anachronos",
         locations = {
@@ -73,6 +70,20 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [49748] = {
+        name = "Hero's Herald",
+        locations = {
+            [84] = {
+                {
+                    x = 0.628116,
+                    y = 0.717327,
+                },
+            },
+        },
+    },
+    [49750] = {
+        name = "Warchief's Herald",
     },
     [107574] = {
         name = "Anduin Wrynn",
@@ -167,8 +178,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [84] = {
                 {
-                    x = 0.852,
-                    y = 0.325,
+                    x = 0.852987,
+                    y = 0.322831,
                 },
             },
         },
@@ -200,8 +211,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1161] = {
                 {
-                    x = 0.656,
-                    y = 0.506,
+                    x = 0.655674,
+                    y = 0.507435,
                 },
             },
         },
@@ -222,8 +233,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1161] = {
                 {
-                    x = 0.758,
-                    y = 0.234,
+                    x = 0.75723,
+                    y = 0.235896,
                 },
             },
         },
@@ -231,10 +242,10 @@ BtWQuestsDatabase:AddNPCsTable({
     [121239] = {
         name = "Flynn Fairwind",
         locations = {
-            [974] = {
+            [1169] = {
                 {
-                    x = 0.472,
-                    y = 0.462,
+                    x = 0.473994,
+                    y = 0.462941,
                 },
             },
         },
@@ -337,6 +348,9 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [122169] = {
+        name = "Abby Lewis",
     },
     [122289] = {
         name = "Bladeguard Kaja",
@@ -442,8 +456,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [863] = {
                 {
-                    x = 0.395,
-                    y = 0.246,
+                    x = 0.395621,
+                    y = 0.245306,
                 },
             },
         },
@@ -5414,17 +5428,6 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
-    [136907] = {
-        name = "Magni Bronzebeard",
-        locations = {
-            [1021] = {
-                {
-                    x = 0.496,
-                    y = 0.542,
-                },
-            },
-        },
-    },
     [136933] = {
         name = "Brother Pike",
         locations = {
@@ -5716,8 +5719,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1165] = {
                 {
-                    x = 0.45,
-                    y = 0.396,
+                    x = 0.450304,
+                    y = 0.396094,
                 },
             },
         },
@@ -6495,17 +6498,6 @@ BtWQuestsDatabase:AddNPCsTable({
     [142721] = {
         name = "Ralston Karn",
     },
-    [142930] = {
-        name = "Halford Wyrmbane",
-        locations = {
-            [84] = {
-                {
-                    x = 0.276,
-                    y = 0.215,
-                },
-            },
-        },
-    },
     [143536] = {
         name = "High Warlord Volrath",
         locations = {
@@ -6676,17 +6668,6 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
-    [144095] = {
-        name = "Master Mathias Shaw",
-        locations = {
-            [84] = {
-                {
-                    x = 0.225,
-                    y = 0.326,
-                },
-            },
-        },
-    },
     [144152] = {
         name = "Moira Thaurissan",
         locations = {
@@ -6714,7 +6695,7 @@ BtWQuestsDatabase:AddNPCsTable({
         },
     },
     [145005] = {
-        name = "Farstrider Elite",
+        name = "Lor'themar Theron",
         locations = {
             [95] = {
                 {

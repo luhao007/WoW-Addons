@@ -122,7 +122,7 @@ local function PrepGearFrame(name, outfit, force)
 end
 
 local function GearManagerInitialize(force)
-	local known, name = FL:GetFishingSkillInfo();
+	local known, name = FL:GetFishingSpellInfo();
 	if ( known ) then
 		if (force) then
 			-- FishingBuddy.Debug("GearManagerInitialize forced");
@@ -245,7 +245,7 @@ end
 local Saved_GearSetButton_OnEnter = GearSetButton_OnEnter;
 local function Patch_GearSetButton_OnEnter(self)
 	Saved_GearSetButton_OnEnter(self);
-	local _, name = FL:GetFishingSkillInfo();
+	local _, name = FL:GetFishingSpellInfo();
 	if ( self.name and self.name == FBConstants.NAME ) then
 		local bp, sp = OutfitPoints(self.name)
 		if ( bp >= 0 ) then

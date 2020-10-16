@@ -11,7 +11,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE, 
         id = 39487,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -163,7 +163,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND, {
         id = 38909,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -275,7 +275,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SKYHORN_TRIBE, {
         id = 39387,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -384,7 +384,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE,
         id = 39426,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -563,7 +563,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HULNS_WAR, {
         id = 39992,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -679,7 +679,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SECRETS_OF_HIGHMO
         id = 39579,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -806,7 +806,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SNOWBLIND_MESA, {
         id = 39780,
     },
     major = true,
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -900,7 +900,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RAZIK, {
         type = "quest",
         id = 39656,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             variations = {
@@ -1011,7 +1011,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
         type = "quest",
         id = 40228,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             variations = {
@@ -1255,7 +1255,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_STONEDARK, {
         type = "quest",
         id = 39439,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -1316,7 +1316,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_MURKY, {
         type = "quest",
         id = 40102,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             variations = {

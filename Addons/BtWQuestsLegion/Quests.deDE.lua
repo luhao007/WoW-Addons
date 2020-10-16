@@ -70,7 +70,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Plündert die Höhle",
     },
     [37496] = {
-        name = "Infiltriert die Schiffbrucharena ",
+        name = "Infiltriert die Schiffbrucharena",
     },
     [37497] = {
         name = "Auf der Spur des Gezeitensteins",
@@ -5122,7 +5122,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ich lasse das einfach mal hier",
     },
     [45021] = {
-        name = "Unbekannte Antworten ",
+        name = "Unbekannte Antworten",
     },
     [45024] = {
         name = "Den Kult keulen",

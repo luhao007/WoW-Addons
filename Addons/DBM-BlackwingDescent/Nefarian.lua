@@ -3,10 +3,9 @@ local L		= mod:GetLocalizedStrings()
 local Nefarian	= DBM:EJ_GetSectionInfo(3279)
 local Onyxia	= DBM:EJ_GetSectionInfo(3283)
 
-mod:SetRevision("20191118191715")
+mod:SetRevision("20200806141910")
 mod:SetCreatureID(41376, 41270)
 mod:SetEncounterID(1026) -- ES fires when Nefarian engaged.
-mod:SetZone()
 --mod:SetModelSound("Sound\\Creature\\Nefarian\\VO_BD_Nefarian_Event09.ogg", "Sound\\Creature\\Nefarian\\VO_BD_Nefarian_Event13.ogg")
 --"Ha ha ha ha ha! The heroes have made it to the glorious finale. I take it you are in good spirits? Prepared for the final battle? Then gaze now upon my ultimate creation! RISE, SISTER!" = "Nefarian\\VO_BD_Nefarian_Event01",
 --Long: I have tried to be an accommodating host, but you simply will not die! Time to throw all pretense aside and just... KILL YOU ALL!.
@@ -59,7 +58,7 @@ local timerNefBreathCD			= mod:NewTimer(12, "NefBreathTimer", 77826, "Tank|Heale
 local timerCinder				= mod:NewBuffFadesTimer(8, 79339)--Heroic Ability
 local timerCinderCD				= mod:NewCDTimer(22, 79339)--Heroic Ability (Every 22-25 seconds, 25 being most common but we gotta use 22 for timer cause of that small chance it's that).
 local timerDominionCD			= mod:NewNextTimer(15, 79318, nil, not "Tank")
-local timerShadowBlazeCD		= mod:NewCDTimer(10, 81031, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON, nil, 2, 4)
+local timerShadowBlazeCD		= mod:NewCDTimer(10, 81031, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 2, 4)
 
 local berserkTimer				= mod:NewBerserkTimer(630)
 

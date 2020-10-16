@@ -94,7 +94,7 @@ L = {
 
 L = {
 	["Invites"] = {
-		["Enable Alt-Invite"] = "Aktiviere Alt-Einladen",
+		["Enable Alt-Invite"] = "Alternative Einladung aktivieren",
 		["Enable Invite Links"] = "Aktiviere Einladungs-Links",
 		["module_desc"] = "Optionen zum einfachen Einladen von Spielern für Gruppen",
 		["module_name"] = "Einladungen",
@@ -114,10 +114,8 @@ L = {
 		["Enable Invite Links"] = "초대 링크 켜기",
 		["module_desc"] = "사용자 그룹 쉽게 추가하기 옵션",
 		["module_name"] = "초대",
-		--[[Translation missing --]]
-		["Toggle group invites by alt-clicking hyperlinked keywords like 'invite'."] = "Toggle group invites by alt-clicking hyperlinked keywords like 'invite'.",
-		--[[Translation missing --]]
-		["Toggle group invites by alt-clicking on player name."] = "Toggle group invites by alt-clicking on player name.",
+		["Toggle group invites by alt-clicking hyperlinked keywords like 'invite'."] = "'초대'와 같은 하이퍼링크된 키워드를 클릭하여 그룹 초대를 전환합니다.",
+		["Toggle group invites by alt-clicking on player name."] = "플레이어 이름을 Alt-클릭하여 그룹 초대를 전환합니다.",
 	}
 }
 
@@ -360,11 +358,11 @@ L = {
 
   function module:SetItemRef(link, ...)
     if (strsub(link, 1, 6) == "player") then
-      self:Player_Link(link, ...)
+      self:Player_Link(link)
     end
   end
 
-  function module:Player_Link(link, text, button, ...)
+  function module:Player_Link(link)
     if self.db.profile.altinvite then
       local name = strsub(link, 8);
       if (name and (strlen(name) > 0)) then

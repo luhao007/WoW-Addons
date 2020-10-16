@@ -1,15 +1,14 @@
 local mod	= DBM:NewMod(1835, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190625143517")
+mod.statTypes = "heroic,mythic,challenge"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(114262, 114264)--114264 midnight
 mod:SetEncounterID(1960)--Verify
-mod:SetZone()
 mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
-
-mod.noNormal = true
 
 mod:RegisterCombat("combat")
 
@@ -28,8 +27,8 @@ local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", ni
 local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 2)
 local yellSharedSuffering			= mod:NewYell(228852)
 
-local timerPresenceCD				= mod:NewAITimer(11, 227404, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)--FIXME, one day
-local timerMortalStrikeCD			= mod:NewNextTimer(11, 227493, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerPresenceCD				= mod:NewAITimer(11, 227404, nil, "Healer", nil, 5, nil, DBM_CORE_L.HEALER_ICON)--FIXME, one day
+local timerMortalStrikeCD			= mod:NewNextTimer(11, 227493, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerSharedSufferingCD		= mod:NewNextTimer(19, 228852, nil, nil, nil, 3, nil, nil, nil, 1, 4)
 
 mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {1})

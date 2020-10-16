@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(1123, "DBM-BlackrockFoundry", nil, 457)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190814112014")
+mod:SetRevision("20200806142006")
 mod:SetCreatureID(76814)--76794 Cinder Wolf, 80590 Aknor Steelbringer
 mod:SetEncounterID(1689)
-mod:SetZone()
 mod:SetUsedIcons(6, 5, 4, 3)
 mod.respawnTime = 29.5
 
@@ -54,11 +53,11 @@ local timerLavaSlashCD					= mod:NewCDTimer(14.5, 155318, nil, false, nil, 3)
 local timerMoltenTorrentCD				= mod:NewCDTimer(14, 154932, nil, "Ranged", 2, 3)
 local timerSummonEnchantedArmamentsCD	= mod:NewCDTimer(45, 156724, nil, "Ranged", 2, 3, nil, nil, nil, 2, 4)--45-47sec variation
 local timerSummonCinderWolvesCD			= mod:NewNextTimer(76, 155776, nil, nil, nil, 1, nil, nil, nil, 1, 4)
-local timerOverheated					= mod:NewTargetTimer(14, 154950, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON, nil, 2, 4)
-local timerCharringBreathCD				= mod:NewNextTimer(5, 155074, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerOverheated					= mod:NewTargetTimer(14, 154950, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 2, 4)
+local timerCharringBreathCD				= mod:NewNextTimer(5, 155074, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerFixate						= mod:NewBuffFadesTimer(9.6, 154952)
 local timerBlazingRadianceCD			= mod:NewCDTimer(12, 155277, nil, false, nil, 3)--somewhat important but not important enough. there is just too much going on to be distracted by this timer
-local timerFireStormCD					= mod:NewNextCountTimer(61, 155493, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON, nil, 1, 5)
+local timerFireStormCD					= mod:NewNextCountTimer(61, 155493, nil, nil, nil, 2, nil, DBM_CORE_L.HEALER_ICON, nil, 1, 5)
 local timerFireStorm					= mod:NewBuffActiveTimer(14, 155493, nil, nil, nil, 6)
 
 local berserkTimer						= mod:NewBerserkTimer(420)
@@ -77,7 +76,7 @@ local function showFixate(self)
 	for name, time in pairs(fixateTagets) do
 		text[#text + 1] = name
 		if self.Options.HudMapOnFixate then
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(154952, "highlight", name, 3, 10, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(154952, "highlight", name, 3, 10, 1, 1, 0, 0.5, nil, true, 1):Pulse(0.5, 0.5)
 		end
 	end
 	warnFixate:Show(table.concat(text, "<, >"))
@@ -106,7 +105,7 @@ function mod:OnCombatEnd()
 		DBM.RangeCheck:Hide()
 	end
 	if self.Options.HudMapOnFixate then
-		DBMHudMap:Disable()
+		DBM.HudMap:Disable()
 	end
 end
 
@@ -250,7 +249,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		end
 		if self.Options.HudMapOnFixate then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 		end
 		if fixateTagets[args.destName] then
 			fixateTagets[args.destName] = nil

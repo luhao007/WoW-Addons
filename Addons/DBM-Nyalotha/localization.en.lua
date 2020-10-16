@@ -35,12 +35,7 @@ L:SetMiscLocalization({
 ---------------------------
 --  The Hivemind --
 ---------------------------
-L= DBM:GetModLocalization(2372)
-
-L:SetMiscLocalization({
-	Together	= "Bosses Together",
-	Apart		= "Bosses Apart"
-})
+--L= DBM:GetModLocalization(2372)
 
 ---------------------------
 --  Shad'har the Insatiable --
@@ -101,7 +96,8 @@ L:SetOptionLocalization({
 	Five				= "5 person rotation ",--Default
 	Six					= "6 person rotation ",
 	NoReset				= "endless increment ",
-	ArrowOnGlare		= "Show left/right arrow for direction of $spell:317874"
+	ArrowOnGlare		= "Show left/right arrow for direction of $spell:317874",
+	HideDead			= "Hide dead players from the InfoFrame on non-mythic difficulty"
 })
 
 L:SetMiscLocalization({

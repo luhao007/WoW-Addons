@@ -201,6 +201,5 @@ VUHDO_INIT_IGNORE_DEBUFFS_NO_HARM = {
 	[(GetSpellInfo(57723))] = true, -- Exhaustion
 	[(GetSpellInfo(80354))] = true, -- Temporal Displacement
 	[(GetSpellInfo(95809))] = true, -- Insanity
-	[(GetSpellInfo(12292))] = true, -- Bloodbath
 };
 

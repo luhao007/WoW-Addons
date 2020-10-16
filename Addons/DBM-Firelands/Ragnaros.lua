@@ -1,18 +1,18 @@
 local mod	= DBM:NewMod(198, "DBM-Firelands", nil, 78)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200222190501")
+mod:SetRevision("20200918205404")
 mod:SetCreatureID(52409)
 mod:SetEncounterID(1203)
-mod:SetZone()
-mod:SetHotfixNoticeRev(20191212000000)--2019, 12, 12
-mod:SetMinSyncRevision(20191212000000)--2019, 12, 12
+mod:SetHotfixNoticeRev(20200918000000)--2020, 09, 18
+mod:SetMinSyncRevision(20200918000000)--2020, 09, 18
 mod:SetUsedIcons(1, 2)
 --mod:SetModelSound("Sound\\Creature\\RAGNAROS\\VO_FL_RAGNAROS_AGGRO.ogg", "Sound\\Creature\\RAGNAROS\\VO_FL_RAGNAROS_KILL_03.ogg")
 --Long: blah blah blah (didn't feel like transcribing it)
 --Short: This is my realm
 
 mod:RegisterCombat("combat")
+mod:SetWipeTime(20)--Blind fix to premature wipe, unknown if actual issue
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 98710 98951 98952 98953 99172 99235 99236 100646 100479",
@@ -31,7 +31,7 @@ mod:RegisterEventsInCombat(
 )
 
 --[[
-(ability.id = 98710 or ability.id = 98951 or ability.id = 98952 or ability.id = 98953 or ability.id = 98951 or ability.id = 98952 or ability.id = 98953 or ability.id = 99172 or ability.id = 99235 or ability.id = 99236 or ability.id = 99172 or ability.id = 99235 or ability.id = 99236 or ability.id = 100646 or ability.id = 100479 and type = "begincast"
+(ability.id = 98710 or ability.id = 98951 or ability.id = 98952 or ability.id = 98953 or ability.id = 99172 or ability.id = 99235 or ability.id = 99236 or ability.id = 99172 or ability.id = 99235 or ability.id = 99236 or ability.id = 100646 or ability.id = 100479 and type = "begincast"
  or (ability.id = 98237 or ability.id = 98164 or ability.id = 98263 or ability.id = 100460 or ability.id = 99268 or ability.id = 100714 or ability.id = 101110) and type = "cast"
  or type = "death"
 --]]
@@ -83,20 +83,21 @@ local timerMagmaTrap		= mod:NewCDTimer(25, 98164, nil, nil, nil, 5)		-- Phase 1 
 local timerSulfurasSmash	= mod:NewNextTimer(30, 98710, nil, nil, nil, 3)
 local timerHandRagnaros		= mod:NewCDTimer(25, 98237, nil, "Melee", nil, 2)-- might even be a "next" timer
 local timerWrathRagnaros	= mod:NewCDTimer(30, 98263, nil, "Ranged", nil, 3)--It's always 12 seconds after smash unless delayed by magmatrap or hand of rag.
-local timerBurningWound		= mod:NewTargetTimer(20, 99399, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerBurningWound		= mod:NewTargetTimer(20, 99399, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerFlamesCD			= mod:NewNextTimer(40, 99171, nil, nil, nil, 3)
-local timerMoltenSeedCD		= mod:NewCDTimer(60, 98495, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON, nil, 1, 4)--60 seconds CD in between from seed to seed. 50 seconds using the molten inferno trigger.
+local timerMoltenSeedCD		= mod:NewCDTimer(60, 98495, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON, nil, 1, 4)--60 seconds CD in between from seed to seed. 50 seconds using the molten inferno trigger.
 local timerMoltenInferno	= mod:NewNextTimer(10, 98518, nil, nil, nil, 2)--Cast bar for molten Inferno (seeds exploding)
 local timerLivingMeteorCD	= mod:NewNextCountTimer(45, 99268, nil, nil, nil, 1, nil, nil, nil, 2, 4)
-local timerInvokeSons		= mod:NewCastTimer(17, 99014, nil, nil, nil, 1, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_DAMAGE_ICON)--8 seconds for splitting blow, about 8-10 seconds after for them landing, using the average, 9.
+local timerInvokeSons		= mod:NewCastTimer(17, 99014, nil, nil, nil, 1, nil, DBM_CORE_L.DEADLY_ICON..DBM_CORE_L.DAMAGE_ICON)--8 seconds for splitting blow, about 8-10 seconds after for them landing, using the average, 9.
 local timerLavaBoltCD		= mod:NewNextTimer(4, 98981)
 local timerBlazingHeatCD	= mod:NewCDTimer(20, 100460, nil, nil, nil, 3)
 local timerPhaseSons		= mod:NewTimer(45, "TimerPhaseSons", 99014, nil, nil, 6)	-- lasts 45secs or till all sons are dead
+--Heroic
 local timerCloudBurstCD		= mod:NewCDTimer(50, 100714)
 local timerBreadthofFrostCD	= mod:NewCDTimer(45, 100479)
 local timerEntrapingRootsCD	= mod:NewCDTimer(56, 100646, nil, nil, nil, 5)--56-60sec variations. Always cast before empowered sulf, varies between 3 sec before and like 11 sec before.
-local timerEmpoweredSulfCD	= mod:NewCDTimer(56, 100604, nil, nil, nil, 5, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_TANK_ICON, nil, mod:IsTank() and 1, 5)--56-64sec variations
-local timerEmpoweredSulf	= mod:NewBuffActiveTimer(10, 100604, nil, "Tank", nil, 5, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_TANK_ICON, nil, 1, 0)--Countout timer
+local timerEmpoweredSulfCD	= mod:NewCDTimer(56, 100604, nil, nil, nil, 5, nil, DBM_CORE_L.DEADLY_ICON..DBM_CORE_L.TANK_ICON, nil, mod:IsTank() and 1, 5)--56-64sec variations
+local timerEmpoweredSulf	= mod:NewBuffActiveTimer(10, 100604, nil, "Tank", nil, 5, nil, DBM_CORE_L.DEADLY_ICON..DBM_CORE_L.TANK_ICON, nil, 1, 0)--Countout timer
 local timerDreadFlameCD		= mod:NewCDTimer(40, 100675, nil, false, nil, 5)--Off by default as only the people dealing with them care about it.
 
 local berserkTimer			= mod:NewBerserkTimer(1080)
@@ -123,7 +124,7 @@ mod.vb.dreadFlameTimer = 45
 local magmaTrapGUID = {}
 local elementalsGUID = {}
 local meteorWarned = false
-local dreadflame, meteorTarget, staffDebuff, seedCast, deluge = DBM:GetSpellInfo(100675), DBM:GetSpellInfo(99849), DBM:GetSpellInfo(101109), DBM:GetSpellInfo(98333), DBM:GetSpellInfo(100713)
+local dreadflame, meteorTarget, staffDebuff = DBM:GetSpellInfo(100675), DBM:GetSpellInfo(99849), DBM:GetSpellInfo(101109)
 
 local function showRangeFrame(self)
 	if DBM:UnitDebuff("player", staffDebuff) then return end--Staff debuff, don't change their range finder from 8.
@@ -174,11 +175,51 @@ local function TransitionEnded(self)
 		warnLivingMeteorSoon:Cancel()
 		timerFlamesCD:Stop()
 		timerSulfurasSmash:Stop()
-		timerBreadthofFrostCD:Start(33)
-		timerDreadFlameCD:Start(48)
-		timerCloudBurstCD:Start()
-		timerEntrapingRootsCD:Start(67)
-		timerEmpoweredSulfCD:Start(83)
+		timerBreadthofFrostCD:Start(39.7)--OLD: 33
+		timerEntrapingRootsCD:Start(39.7)--OLD: 67
+		timerEmpoweredSulfCD:Start(38.6)--OLD: 83
+		timerDreadFlameCD:Start(45.9)--OLD: 48
+		timerCloudBurstCD:Start(48.25)--OLD: 50
+	end
+end
+
+local function warnSeeds()
+	specWarnMoltenSeed:Show()
+	specWarnMoltenSeed:Play("watchstep")
+	timerMoltenSeedCD:Start()
+end
+
+local function splittingBlowCasting(self, spellId, spellName, adjustedTime)
+	self.vb.sonsLeft = self.vb.sonsLeft + 8
+	self.vb.phase = self.vb.phase + 1
+	self:Unschedule(warnSeeds)
+	timerMoltenSeedCD:Stop()
+	timerMagmaTrap:Stop()
+	timerSulfurasSmash:Stop()
+	timerHandRagnaros:Stop()
+	timerWrathRagnaros:Stop()
+	timerFlamesCD:Stop()
+	hideRangeFrame(self)
+	timerPhaseSons:Stop()
+	if self:IsHeroic() then
+		timerPhaseSons:Start(60 - adjustedTime)--Longer on heroic
+	else
+		timerPhaseSons:Start(47 - adjustedTime)--45 sec plus the 2 or so seconds he takes to actually come up and yell.
+	end
+	specWarnSplittingBlow:Show()
+	specWarnSplittingBlow:Play("phasechange")
+	timerInvokeSons:Stop()
+	timerInvokeSons:Start(17 - adjustedTime)
+	timerLavaBoltCD:Stop()
+	--TODO, verify this myself later probably
+	local boltTime = (self.vb.phase == 2 and 17.3 or 7.3) - adjustedTime
+	timerLavaBoltCD:Start(boltTime)--9.3 seconds + cast time for splitting blow
+	if spellId == 98951 then--West
+		warnSplittingBlow:Show(spellName, L.West)
+	elseif spellId == 98952 then--Middle
+		warnSplittingBlow:Show(spellName, L.Middle)
+	elseif spellId == 98953 then--East
+		warnSplittingBlow:Show(spellName, L.East)
 	end
 end
 
@@ -220,12 +261,6 @@ function mod:LivingMeteorTarget(targetname)
 	end
 end
 
-local function warnSeeds()
-	specWarnMoltenSeed:Show()
-	specWarnMoltenSeed:Play("watchstep")
-	timerMoltenSeedCD:Start()
-end
-
 function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
 	timerWrathRagnaros:Start(6-delay)--4.5-6sec variation, as a result, randomizes whether or not there will be a 2nd wrath before sulfuras smash. (favors not tho)
@@ -251,6 +286,13 @@ function mod:OnCombatStart(delay)
 	showRangeFrame(self)
 	if not self:IsHeroic() then--register alternate kill detection, he only dies on heroic.
 		self:RegisterKill("yell", L.Defeat)
+	end
+	--Check if splitting blow started casting before OnCombatStart (ie overpowering fight) and fix mods timers/phase
+	local spellName, _, _, startTime, endTime, _, _, _, spellId = UnitCastingInfo("boss1")
+	if spellId and (spellId == 98951 or spellId == 98952 or spellId == 98953) and self.vb.phase < 2 then
+		DBM:Debug("Running phase correction code for splitting blow that started before engage")
+		local adjustedTime = GetTime() - (startTime / 1000)
+		splittingBlowCasting(self, spellId, spellName, adjustedTime)
 	end
 end
 
@@ -293,48 +335,22 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif args:IsSpellID(98951, 98952, 98953) then--This has 3 spellids, 1 for each possible location for hammer.
-		self.vb.sonsLeft = self.vb.sonsLeft + 8
-		self.vb.phase = self.vb.phase + 1
-		self:Unschedule(warnSeeds)
-		timerMoltenSeedCD:Stop()
-		timerMagmaTrap:Stop()
-		timerSulfurasSmash:Stop()
-		timerHandRagnaros:Stop()
-		timerWrathRagnaros:Stop()
-		timerFlamesCD:Stop()
-		hideRangeFrame(self)
-		if self:IsHeroic() then
-			timerPhaseSons:Start(60)--Longer on heroic
-		else
-			timerPhaseSons:Start(47)--45 sec plus the 2 or so seconds he takes to actually come up and yell.
-		end
-		specWarnSplittingBlow:Show()
-		specWarnSplittingBlow:Play("phasechange")
-		timerInvokeSons:Start()
-		timerLavaBoltCD:Start(17.3)--9.3 seconds + cast time for splitting blow
-		if spellId == 98951 then--West
-			warnSplittingBlow:Show(args.spellName, L.West)
-		elseif spellId == 98952 then--Middle
-			warnSplittingBlow:Show(args.spellName, L.Middle)
-		elseif spellId == 98953 then--East
-			warnSplittingBlow:Show(args.spellName, L.East)
-		end
+		splittingBlowCasting(self, spellId, args.spellName, 0)
 	elseif args:IsSpellID(99172, 99235, 99236) then--Another scripted spell with a ton of spellids based on location of room.
-		if self.vb.phase == 3 then
-			timerFlamesCD:Start(30)--30 second CD in phase 3
-		else
-			timerFlamesCD:Start()--40 second CD in phase 2
+		if not self:IsHeroic() then
+			if self.vb.phase == 3 then
+				timerFlamesCD:Start(30)--30 second CD in phase 3
+			else
+				timerFlamesCD:Start()--40 second CD in phase 2
+			end
 		end
-		--North: 99172
-		--Middle: 99235
-		--South: 99236
 		if spellId == 99172 then--North
-			if not self.Options.WarnEngulfingFlameHeroic and self:IsHeroic() then return end
-			warnEngulfingFlame:Show(args.spellName, L.North)
 			if self:IsMelee() or self.vb.seedsActive then--Always warn melee classes if it's in melee (duh), warn everyone if seeds are active since 90% of strats group up in melee
 				specWarnEngulfing:Show()
 				specWarnEngulfing:Play("watchstep")
 			end
+			if not self.Options.WarnEngulfingFlameHeroic and self:IsHeroic() then return end
+			warnEngulfingFlame:Show(args.spellName, L.North)
 		elseif spellId == 99235 then--Middle
 			if not self.Options.WarnEngulfingFlameHeroic and self:IsHeroic() then return end
 			warnEngulfingFlame:Show(args.spellName, L.Middle)
@@ -510,14 +526,6 @@ function mod:OnTranscriptorSync(msg, targetName)
 	end
 end
 
-function mod:OnSync(event, target)
-	if event == "RageOfRagnaros" then
-		warnRageRagnarosSoon:Show(staffDebuff, target)
-		timerRageRagnaros:Start(5, staffDebuff, target)
-		timerRageRagnarosCD:Start()
-	end
-end
-
 function mod:UNIT_HEALTH(uId)
 	if self:GetUnitCreatureId(uId) == 52409 then
 		local h = UnitHealth(uId) / UnitHealthMax(uId) * 100
@@ -551,9 +559,7 @@ local function clearSeedsActive(self)
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	--TODO, switch to spellid once verified spellid is always same
-	local spellName = DBM:GetSpellInfo(spellId)--TEMP, just get right spellID at some point
-	if spellName == seedCast and not self.vb.seedsActive then -- The true molten seeds cast.
+	if spellId == 98333 and not self.vb.seedsActive then -- The true molten seeds cast.
 		self.vb.seedsActive = true
 		timerMoltenInferno:Start(11.5)--1.5-2.5 variation, we use lowest +10 seconds
 		if self.Options.warnSeedsLand then--Warn after they are on ground, typical strat for normal mode. Time not 100% consistent.

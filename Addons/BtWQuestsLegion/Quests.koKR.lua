@@ -5827,7 +5827,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "말도 안 되게 강력한 적",
     },
     [46069] = {
-        name = "칭호에 걸맞는 자격",
+        name = "칭호에 걸맞은 자격",
     },
     [46070] = {
         name = "준비 진행 중",

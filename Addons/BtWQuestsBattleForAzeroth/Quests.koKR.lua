@@ -2779,7 +2779,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "방패를 뚫고",
     },
     [50690] = {
-        name = "목시 만나기",
+        name = "[UNUSED]",
     },
     [50691] = {
         name = "감히 누구 앞에서",
@@ -4927,7 +4927,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "시간의 말소",
     },
     [53870] = {
-        name = "그롬마쉬 요새의 온 손님",
+        name = "그롬마쉬 요새에 온 손님",
     },
     [53879] = {
         name = "영지 소탕",
@@ -4973,6 +4973,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53897] = {
         name = "그대를 위한 잔치",
+    },
+    [53898] = {
+        name = "힘과 명예호",
     },
     [53899] = {
         name = "외곽을 향하여",
@@ -5653,10 +5656,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "형제의 도움",
     },
     [54939] = {
-        name = "옹고집 브론즈비어드",
+        name = "완고한 브론즈비어드 가문",
     },
     [54940] = {
-        name = "마더가 필요해",
+        name = "마더를 부탁해",
     },
     [54945] = {
         name = "자 이제 시작이야",
@@ -6487,7 +6490,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "영원한 궁전: 여왕의 한 수",
     },
     [56374] = {
-        name = "가공할 문제",
+        name = "티탄 시설 문제",
     },
     [56375] = {
         name = "람카헨을 향하여",
@@ -6514,7 +6517,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "독 안에 든 쥐",
     },
     [56472] = {
-        name = "울둠 협정",
+        name = "울둠 협의회",
     },
     [56494] = {
         name = "전투 전야",
@@ -6526,7 +6529,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "전투 전야",
     },
     [56536] = {
-        name = "세상에 왕도는 없다",
+        name = "세상에 쉬운 일이란 없다",
     },
     [56537] = {
         name = "수수께끼의 인장",
@@ -6574,7 +6577,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "옛 얼굴, 새로운 문제",
     },
     [56617] = {
-        name = "하나 된 군단",
+        name = "하나 된 무리 군단",
     },
     [56640] = {
         name = "운 좋은 이들",
@@ -6820,7 +6823,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "호외요, 호외!",
     },
     [57524] = {
-        name = "기록 보관소 접속",
+        name = "기록 열람",
     },
     [57873] = {
         name = "오르시스의 전언",
@@ -6868,7 +6871,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "전사 왕의 귀환",
     },
     [58502] = {
-        name = "심장이 가리키는 곳",
+        name = "심장이 있는 곳",
     },
     [58506] = {
         name = "연결망 진단",
@@ -6877,7 +6880,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "검은 왕자의 귀환",
     },
     [58583] = {
-        name = "심장이 가리키는 곳",
+        name = "심장이 있는 곳",
     },
     [58606] = {
         name = "실마리가 될 표본",
@@ -6892,7 +6895,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "깨어난 도시 나이알로사: 타락자의 최후",
     },
     [58634] = {
-        name = "문을 여시오",
+        name = "문을 열어라",
     },
     [58636] = {
         name = "아마셋 집중 조명",

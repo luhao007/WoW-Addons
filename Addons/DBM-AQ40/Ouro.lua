@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Ouro", "DBM-AQ40", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010011")
+mod:SetRevision("20200806150215")
 mod:SetCreatureID(15517)
 mod:SetEncounterID(716)
 mod:SetModelID(15509)
@@ -10,7 +10,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 26615",
 	"SPELL_CAST_START 26102 26103",
-	"SPELL_SUMMON 26058",
+	"SPELL_CAST_SUCCESS 26058",
 	"UNIT_HEALTH boss1"
 )
 
@@ -24,7 +24,7 @@ local specWarnBlast		= mod:NewSpecialWarningSpell(26102, nil, nil, nil, 2, 2)
 
 --local timerSubmerge		= mod:NewTimer(30, "TimerSubmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, nil, 6)
 local timerEmerge		= mod:NewTimer(30, "TimerEmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
-local timerSweepCD		= mod:NewNextTimer(20.5, 26103, nil, "Tank", 2, 5, nil, DBM_CORE_TANK_ICON)
+local timerSweepCD		= mod:NewNextTimer(20.5, 26103, nil, "Tank", 2, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerBlastCD		= mod:NewNextTimer(23, 26102, nil, nil, nil, 2)
 
 mod.vb.prewarn_enrage = false
@@ -33,10 +33,14 @@ mod.vb.enraged = false
 function mod:OnCombatStart(delay)
 	self.vb.prewarn_enrage = false
 	self.vb.enraged = false
+	timerSweepCD:Start(22-delay)--22-25
+	timerBlastCD:Start(20-delay)--20-26
 end
 
 function mod:Emerge()
 	warnEmerge:Show()
+	timerSweepCD:Start(23)--23-24 (it might be 22-25 like pull)
+	timerBlastCD:Start(24)--24-26 (it might be 20-26 like pull)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -57,8 +61,8 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
-function mod:SPELL_SUMMON(args)
-	if args.spellId == 26058 and self:AntiSpam(3) and not self.vb.enraged then
+function mod:SPELL_CAST_SUCCESS(args)
+	if args.spellId == 26058 and not self.vb.enraged then
 		timerBlastCD:Stop()
 		timerSweepCD:Stop()
 		warnSubmerge:Show()

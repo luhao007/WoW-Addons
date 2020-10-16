@@ -1,9 +1,7 @@
 -- ------------------------------------------------------------------------------ --
 --                                TradeSkillMaster                                --
---                http://www.curse.com/addons/wow/tradeskill-master               --
---                                                                                --
---             A TradeSkillMaster Addon (http://tradeskillmaster.com)             --
---    All Rights Reserved* - Detailed license information included with addon.    --
+--                          https://tradeskillmaster.com                          --
+--    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
 local _, TSM = ...
@@ -40,6 +38,10 @@ end
 
 function Sync.GetMirrorStatus(account)
 	return Mirror.GetStatus(account)
+end
+
+function Sync.RegisterMirrorCallback(callback)
+	Mirror.RegisterCallback(callback)
 end
 
 function Sync.EstablishConnection(character)

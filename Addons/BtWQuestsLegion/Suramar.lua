@@ -96,7 +96,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_NIGHTFALL, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {
@@ -680,7 +680,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_AN_ANCIENT_GIFT, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {
@@ -1457,7 +1457,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_BREAKING_THE_LIGHTBREA
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {
@@ -1577,7 +1577,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_MOON_GUARD_STRONGHOLD,
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {
@@ -1768,7 +1768,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_TIDYING_TELANOR, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {
@@ -1888,7 +1888,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_EMINENT_GROWMAIN, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {
@@ -2138,7 +2138,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_SURAMAR_JANDVIKS_JARL, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {

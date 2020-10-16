@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(676, "DBM-Party-MoP", 4, 303)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod.statTypes = "normal,heroic,challenge,timewalker"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(56636)
 mod:SetEncounterID(1406)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -21,7 +22,7 @@ local specWarnFrenziedAssault	= mod:NewSpecialWarningSpell(107120, "Tank")
 local specWarnViscousFluid		= mod:NewSpecialWarningMove(107122)
 
 local timerFrenziedAssault		= mod:NewBuffActiveTimer(6, 107120)
-local timerFrenziedAssaultCD	= mod:NewNextTimer(17, 107120, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerFrenziedAssaultCD	= mod:NewNextTimer(17, 107120, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
 
 function mod:OnCombatStart(delay)
 	timerFrenziedAssaultCD:Start(6-delay)

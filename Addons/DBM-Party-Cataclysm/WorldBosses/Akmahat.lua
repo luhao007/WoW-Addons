@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod("Akmahat", "DBM-Party-Cataclysm", 15)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod.statTypes = "normal,timewalker"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(50063)
 mod:SetModelID(34573)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -13,7 +14,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 93561 93578",
 	"SPELL_AURA_REMOVED 93561 93578"
 )
-mod.onlyNormal = true
 
 local warnShockwave			= mod:NewSpellAnnounce(94968, 2, nil, "Tank|Healer")
 local warnSandsofTime		= mod:NewTargetNoFilterAnnounce(93578, 2)
@@ -23,9 +23,9 @@ local specWarnMantle		= mod:NewSpecialWarningSpell(93561, nil, nil, nil, 1, 2)
 
 local timerShockwaveCD		= mod:NewCDTimer(16, 94968, nil, nil, nil, 3)--Every 16 seconds shockwave and fury alternate unless mantle, is cast, then it's 18 seconds cause of the cast delay of mantle affecting both CDs
 local timerFuryofSandsCD	= mod:NewCDTimer(16, 94946, nil, nil, nil, 3)
-local timerSandsofTime		= mod:NewBuffFadesTimer(15, 93578, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON)
-local timerSandsofTimeCD	= mod:NewCDTimer(25, 93578, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
-local timerMantleCD			= mod:NewCDTimer(43, 93561, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)--42.8-46.5 variations. a CD timer will suffice of 43
+local timerSandsofTime		= mod:NewBuffFadesTimer(15, 93578, nil, "Healer", nil, 5, nil, DBM_CORE_L.HEALER_ICON..DBM_CORE_L.MAGIC_ICON)
+local timerSandsofTimeCD	= mod:NewCDTimer(25, 93578, nil, nil, nil, 3, nil, DBM_CORE_L.MAGIC_ICON)
+local timerMantleCD			= mod:NewCDTimer(43, 93561, nil, nil, nil, 5, nil, DBM_CORE_L.DAMAGE_ICON)--42.8-46.5 variations. a CD timer will suffice of 43
 
 local sandsTargets = {}
 mod.vb.sandsDebuffs = 0

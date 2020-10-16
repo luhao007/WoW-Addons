@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Mikord
-## Version: 5.7.150
+## Version: 5.7.152
 ## OptionalDeps: LibSharedMedia-3.0
 ## SavedVariables: MSBTProfiles_SavedVars, MSBT_SavedMedia
 ## SavedVariablesPerCharacter: MSBTProfiles_SavedVarsPerChar

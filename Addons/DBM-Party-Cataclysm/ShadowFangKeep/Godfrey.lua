@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(100, "DBM-Party-Cataclysm", 6, 64)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod:SetRevision("20200806142123")
 mod:SetCreatureID(46964)
 mod:SetEncounterID(1072)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -23,7 +22,7 @@ local specWarnCursedBullets		= mod:NewSpecialWarningDispel(93629, "RemoveCurse",
 
 local timerGhouls				= mod:NewNextTimer(30, 93707, nil, nil, nil, 1)
 local timerPistolBarrage		= mod:NewBuffActiveTimer(6, 93520, nil, nil, nil, 3)
-local timerPistolBarrageNext	= mod:NewNextTimer(30, 93520, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerPistolBarrageNext	= mod:NewNextTimer(30, 93520, nil, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON)
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 93675 then

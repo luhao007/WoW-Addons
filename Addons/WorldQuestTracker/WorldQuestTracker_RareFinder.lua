@@ -30,7 +30,6 @@ local GetNumQuestLogRewardCurrencies = GetNumQuestLogRewardCurrencies
 local GetQuestLogRewardInfo = GetQuestLogRewardInfo
 local GetQuestLogRewardCurrencyInfo = GetQuestLogRewardCurrencyInfo
 local GetQuestLogRewardMoney = GetQuestLogRewardMoney
-local GetQuestTagInfo = GetQuestTagInfo
 local GetNumQuestLogRewards = GetNumQuestLogRewards
 local GetQuestInfoByQuestID = C_TaskQuest.GetQuestInfoByQuestID
 
@@ -657,6 +656,30 @@ rf:SetScript ("OnEvent", function (self, event, ...)
 		rf.IsTargetARare()
 		
 	elseif (event == "VIGNETTES_UPDATED") then
+
+		--track special events
+		for i, vignetteID in ipairs (C_VignetteInfo.GetVignettes()) do
+			local vignetteInfo = C_VignetteInfo.GetVignetteInfo (vignetteID)
+			
+			if (vignetteInfo) then
+				local serial = vignetteInfo.objectGUID
+	
+				if (serial) then
+					local name = vignetteInfo.name
+					local objectIcon = vignetteInfo.atlasName
+					
+					--naga event
+					if (objectIcon == "nazjatar-nagaevent") then
+						WorldQuestTracker.NagaEventCooldown = WorldQuestTracker.NagaEventCooldown or 0
+						if (WorldQuestTracker.NagaEventCooldown < time()) then
+							WorldQuestTracker:Msg("a naga event is happening, open the map for location.|r")
+							WorldQuestTracker.NagaEventCooldown = time() + 360 --6min
+						end
+					end
+				end
+			end
+		end
+
 		rf.ScanMinimapForRares()
 	end
 end)
@@ -766,7 +789,7 @@ function WorldQuestTracker.UpdateRareIcons (mapID)
 		
 			local questCompleted = false
 			local npcQuestCompletedID = WorldQuestTracker.MapData.RaresQuestIDs [npcId]
-			if (npcQuestCompletedID and IsQuestFlaggedCompleted (npcQuestCompletedID)) then
+			if (npcQuestCompletedID and C_QuestLog.IsQuestFlaggedCompleted (npcQuestCompletedID)) then
 				questCompleted = true
 			end
 

@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(584, "DBM-Party-WotLK", 1, 271)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod.statTypes = "normal,heroic,timewalker"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(29311)
 mod:SetEncounterID(215, 263, 1968)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -35,7 +36,7 @@ end
 function mod:ShadowCrashTarget(targetname, uId)
 	if not targetname then
 		if DBM.Options.DebugMode then
-			warnShadowCrash:Show(DBM_CORE_UNKNOWN)
+			warnShadowCrash:Show(DBM_CORE_L.UNKNOWN)
 		end
 		return
 	end

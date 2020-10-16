@@ -33,13 +33,14 @@ setfenv(1, SVC_NAMESPACE)
 
 --[[ END STANDARD HEADER ]] --
 
-TABLE_PRINT_TIMEOUT = 0.2
+TABLE_PRINT_TIMEOUT = 5000
 
 local function buildText(...)
   local text = "|cffffff78" .. tostring(SVC_NAMESPACE) .. ":|r "
 
   for i = 1, select("#", ...) do
     local parm = select(i, ...)
+
     if type(parm) == "string" then
       text = text .. parm
     else
@@ -62,7 +63,7 @@ function Print(self, ...)
     return
   end
 
-  _G.DEFAULT_CHAT_FRAME:AddMessage(text)
+  (self.printFrame or _G.DEFAULT_CHAT_FRAME):AddMessage(text)
 end
 
 function FPrint(self, frame, ...)
@@ -85,7 +86,7 @@ local function print(text, name, r, g, b, frame, delay)
   end
   local last_color
   for t in text:gmatch("[^\n]+") do
-    (frame or _G.DEFAULT_CHAT_FRAME):AddMessage(last_color and "|cff" .. last_color .. t or t, r, g, b, nil, delay or 5)
+    (frame or _G.DEFAULT_CHAT_FRAME):AddMessage(last_color and "|cff" .. last_color .. t or t, r, g, b)
     if not last_color or t:find("|r") or t:find("|c") then
       last_color = t:match(".*|c[fF][fF](%x%x%x%x%x%x)[^|]-$")
     end
@@ -134,7 +135,7 @@ local findGlobal = setmetatable({}, {
 
 local recurse = {}
 local timeToEnd
-local GetTime = GetTime
+local GetTime = _G.debugprofilestop
 local type = type
 
 local new, del
@@ -255,6 +256,9 @@ local function literal_tostring_prime(t, depth)
     if isList(t) then
       for i = 1, #t do
         s = s .. ("    "):rep(depth + 1) .. literal_tostring_prime(t[i], depth + 1) .. (i == #t and "\n" or ",\n")
+        if GetTime() > timeToEnd then
+          return s .. ("    "):rep(depth + 1) .. "Timeout\n"
+        end
       end
     else
       local tmp = new()
@@ -430,7 +434,7 @@ function PrintLiteralFrame(self, frame, ...)
 end
 
 function PrintLiteral(self, ...)
-  return CustomPrint(self or SVC_NAMESPACE, nil, nil, nil, _G.DEFAULT_CHAT_FRAME, nil, true, ...)
+  return CustomPrint(self or SVC_NAMESPACE, nil, nil, nil, nil, nil, true, ...)
 end
 
 function AddPrintMethod(_, frame)
@@ -455,4 +459,4 @@ function AddPrintMethods()
   SVC_NAMESPACE:Print("DEBUG PRINTING")
 end
 
-AddPrintMethods()
+

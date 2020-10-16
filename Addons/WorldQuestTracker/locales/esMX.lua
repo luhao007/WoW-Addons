@@ -3,7 +3,7 @@ if not L then return end
 
 L["S_APOWER_AVAILABLE"] = "Disponible"
 L["S_APOWER_NEXTLEVEL"] = "Siguiente nivel"
-L["S_DECREASESIZE"] = "Disminuir tamaño"
+L["S_DECREASESIZE"] = "Reducir tamaño"
 L["S_ENABLED"] = "Habilitado"
 L["S_ERROR_NOTIMELEFT"] = "A esta misión no le queda tiempo."
 L["S_ERROR_NOTLOADEDYET"] = "Esta misión no se ha cargado todavía, por favor espere unos segundos."
@@ -68,7 +68,6 @@ L["S_MAPBAR_OPTIONSMENU_SOUNDENABLED"] = "Habilitar sonido"
 --[[Translation missing --]]
 --[[ L["S_MAPBAR_OPTIONSMENU_STATUSBAR_VISIBILITY"] = ""--]] 
 L["S_MAPBAR_OPTIONSMENU_STATUSBARANCHOR"] = "Anclar arriba"
-L["S_MAPBAR_OPTIONSMENU_TOMTOM_WPPERSISTENT"] = "Punto de ruta persistente"
 L["S_MAPBAR_OPTIONSMENU_TRACKER_CURRENTZONE"] = "Zona actual solamente"
 L["S_MAPBAR_OPTIONSMENU_TRACKER_SCALE"] = "Escala de seguimiento: %s"
 L["S_MAPBAR_OPTIONSMENU_TRACKERCONFIG"] = "Configuración de seguimiento"

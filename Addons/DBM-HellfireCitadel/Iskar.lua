@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod(1433, "DBM-HellfireCitadel", nil, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200222221214")
+mod:SetRevision("20200806142006")
 mod:SetCreatureID(90316)
 mod:SetEncounterID(1788)
 mod:DisableESCombatDetection()--Remove if blizz fixes trash firing ENCOUNTER_START
-mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)--Unknown full spectrum of icons yet. Don't know how many debuffs go out.
 mod.respawnTime = 15
 mod:DisableRegenDetection()--Boss returns true on UnitAffectingCombat when fighting his trash, making boss pre mature pull by REGEN method
@@ -69,15 +68,15 @@ local specWarnFelConduit				= mod:NewSpecialWarningInterrupt(181827, nil, nil, n
 
 local timerFelLaserCD					= mod:NewCDTimer(16, 182582, nil, nil, nil, 3)--16-22. Never pauses, used all phases
 local timerChakramCD					= mod:NewCDTimer(33, 182178, nil, nil, nil, 3)
-local timerPhantasmalWindsCD			= mod:NewCDTimer(35, 181957, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON, nil, 1, 5)
+local timerPhantasmalWindsCD			= mod:NewCDTimer(35, 181957, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON, nil, 1, 5)
 local timerPhantasmalWoundsCD			= mod:NewCDTimer(30.5, 182325, nil, "Healer", 2, 5)--30.5-32
 local timerFocusedBlast					= mod:NewCastTimer(11, 181912, nil, nil, nil, 2)--Doesn't realy need a cd timer. he casts it twice back to back, then lands
-local timerShadowRiposteCD				= mod:NewCDTimer(23.5, 185345, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerShadowRiposteCD				= mod:NewCDTimer(23.5, 185345, nil, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON)
 --Adds
-local timerFelBombCD					= mod:NewCDTimer(18.5, 181753, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON, nil, 3, 4)
-local timerFelConduitCD					= mod:NewCDTimer(15, 181827, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerFelBombCD					= mod:NewCDTimer(18.5, 181753, nil, nil, nil, 3, nil, DBM_CORE_L.MAGIC_ICON, nil, 3, 4)
+local timerFelConduitCD					= mod:NewCDTimer(15, 181827, nil, nil, nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)
 local timerPhantasmalCorruptionCD		= mod:NewCDTimer(14, 181824, 156842, "Tank", nil, 3, nil, nil, nil, 2, 4)--14-18
-local timerDarkBindingsCD				= mod:NewCDTimer(34, 185456, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerDarkBindingsCD				= mod:NewCDTimer(34, 185456, nil, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON)
 
 local berserkTimer						= mod:NewBerserkTimer(540)
 
@@ -145,15 +144,15 @@ local function showChakram(self)
 	end
 	if ranged and melee and tank then
 		DBM:Debug("All Chakram found!", 2)
-		DBMHudMap:RegisterRangeMarkerOnPartyMember(182178, "party", ranged, 0.65, 6, nil, nil, nil, 0.8, nil, false):Appear():SetLabel(ranged, nil, nil, nil, nil, nil, 0.8, nil, -15, 8, nil)
-		DBMHudMap:RegisterRangeMarkerOnPartyMember(182178, "party", melee, 0.65, 6, nil, nil, nil, 0.8, nil, false):Appear():SetLabel(melee, nil, nil, nil, nil, nil, 0.8, nil, -15, 8, nil)
-		DBMHudMap:RegisterRangeMarkerOnPartyMember(182178, "party", tank, 0.65, 6, nil, nil, nil, 0.8, nil, false):Appear():SetLabel(tank, nil, nil, nil, nil, nil, 0.8, nil, -15, 8, nil)
+		DBM.HudMap:RegisterRangeMarkerOnPartyMember(182178, "party", ranged, 0.65, 6, nil, nil, nil, 0.8, nil, false):Appear():SetLabel(ranged, nil, nil, nil, nil, nil, 0.8, nil, -15, 8, nil)
+		DBM.HudMap:RegisterRangeMarkerOnPartyMember(182178, "party", melee, 0.65, 6, nil, nil, nil, 0.8, nil, false):Appear():SetLabel(melee, nil, nil, nil, nil, nil, 0.8, nil, -15, 8, nil)
+		DBM.HudMap:RegisterRangeMarkerOnPartyMember(182178, "party", tank, 0.65, 6, nil, nil, nil, 0.8, nil, false):Appear():SetLabel(tank, nil, nil, nil, nil, nil, 0.8, nil, -15, 8, nil)
 		if playerName == melee or playerName == ranged or playerName == tank then--Player in it, Yellow lines
-			DBMHudMap:AddEdge(1, 1, 0, 0.5, 6, ranged, melee, nil, nil, nil, nil)
-			DBMHudMap:AddEdge(1, 1, 0, 0.5, 6, melee, tank, nil, nil, nil, nil)
+			DBM.HudMap:AddEdge(1, 1, 0, 0.5, 6, ranged, melee, nil, nil, nil, nil)
+			DBM.HudMap:AddEdge(1, 1, 0, 0.5, 6, melee, tank, nil, nil, nil, nil)
 		else--Red lines
-			DBMHudMap:AddEdge(1, 0, 0, 0.5, 6, ranged, melee, nil, nil, nil, nil)
-			DBMHudMap:AddEdge(1, 0, 0, 0.5, 6, melee, tank, nil, nil, nil, nil)
+			DBM.HudMap:AddEdge(1, 0, 0, 0.5, 6, ranged, melee, nil, nil, nil, nil)
+			DBM.HudMap:AddEdge(1, 0, 0, 0.5, 6, melee, tank, nil, nil, nil, nil)
 		end
 	end
 end
@@ -196,7 +195,7 @@ function mod:OnCombatEnd()
 		DBM.RangeCheck:Hide()
 	end
 	if self.Options.HudMapOnChakram then
-		DBMHudMap:Disable()
+		DBM.HudMap:Disable()
 	end
 end
 
@@ -473,7 +472,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 182178 or spellId == 182200 then
 --		if self.Options.HudMapOnChakram then
---			DBMHudMap:FreeEncounterMarkerByTarget(182178, args.destName)
+--			DBM.HudMap:FreeEncounterMarkerByTarget(182178, args.destName)
 --		end
 	end
 end

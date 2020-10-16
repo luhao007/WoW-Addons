@@ -23,6 +23,8 @@ PawnMultipleStatsExtract = "_MultipleExtract"
 
 local IsClassic = VgerCore.IsClassic
 
+PawnArmorSpecializationLevel = 27 -- https://shadowlands.wowhead.com/spell=86538/mail-specialization
+
 ------------------------------------------------------------
 -- Localization
 ------------------------------------------------------------

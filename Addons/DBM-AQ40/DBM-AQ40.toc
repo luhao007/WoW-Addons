@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: r671
+## Version: r675
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMAQ40_AllSavedVars
@@ -12,10 +12,11 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: Classic
-## X-DBM-Mod-Has-Single-Format: 1
+## X-DBM-StatTypes: normal
 ## X-DBM-Mod-MapID: 531
 ## X-DBM-Mod-Sort: 1102
-## X-DBM-Mod-MinCoreRevision: 12473
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 0
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
 ## X-Part-Of: DBM-Core
@@ -27,6 +28,7 @@ localization.ru.lua
 localization.kr.lua
 localization.tw.lua
 localization.cn.lua
+AQ40Trash.lua
 Skeram.lua
 ThreeBugs.lua
 Sartura.lua

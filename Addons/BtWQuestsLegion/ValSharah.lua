@@ -7,7 +7,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 38384,
@@ -74,7 +74,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_VAL
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -151,7 +151,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_CLA
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -275,7 +275,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_LORE, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -342,7 +342,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE, 
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -504,7 +504,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ALL_NIGHTMARE_LONG, 
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -655,7 +655,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -788,7 +788,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BLACK_ROOK_HOLD, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -883,7 +883,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_WILDKIN, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 42751,
@@ -982,7 +982,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_GRIZZLEWEALD, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 42865,
@@ -1049,7 +1049,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_LUNARWING, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 40220,

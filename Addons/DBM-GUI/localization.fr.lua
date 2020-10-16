@@ -1,6 +1,6 @@
 ﻿if GetLocale() ~= "frFR" then return end
-if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
-local L = DBM_GUI_Translations
+if not DBM_GUI_L then DBM_GUI_L = {} end
+local L = DBM_GUI_L
 
 L.MainFrame = "Deadly Boss Mods"
 
@@ -78,10 +78,6 @@ L.WarningIconLeft 			= "Afficher l'icône du côté gauche"
 L.WarningIconRight 			= "Afficher l'icône du côté droit"
 L.WarningIconChat 			= "Afficher les icônes dans la fenêtre de chat"
 L.WarningAlphabetical		= "Arranger les noms de manière alphabétique"
-L.Warn_FontType				= "Choisir une police"
-L.Warn_FontStyle			= "Contours de la police"
-L.Warn_FontShadow			= "Ombre"
-L.Warn_FontSize				= "Taille de la police: %d"
 L.Warn_Duration				= "Durée de l'alerte: %0.1f sec"
 L.None						= "Aucun"
 L.Outline					= "Simple"
@@ -104,21 +100,19 @@ L.ShowKillMessage 			= "Afficher les messages de victoire dans la fenêtre de ch
 L.ShowWipeMessage 			= "Afficher les messages de défaite dans la fenêtre de chat"
 L.ShowGuildMessages 		= "Afficher les messages engagement/victoire/défaite en guilde dans la fenêtre de chat"
 L.ShowRecoveryMessage 		= "Afficher les messages de récupération des timers dans la fenêtre de chat"
-L.WhisperMessages			= "Options des chuchotements"
+L.Area_WhisperMessages		= "Options des chuchotements"
 L.AutoRespond 				= "Répondre automatiquement aux chuchotements pendant les combats"
 L.WhisperStats 				= "Inclure les victoires/défaites dans les réponses"
 L.DisableStatusWhisper 		= "Désactiver les chuchotements de statut pour le groupe entier (requiert Chef de groupe). S'appplique seulement aux raids normaux/heroïques/mythiques et aux donjons défis/mythiques."
 
 -- Tab: Barsetup
-L.BarSetup					= "Config. des barres"
+L.TabCategory_Timers		= "Config. des barres"
 L.BarTexture				= "Texture des barres"
 L.BarStyle					= "Style des barres"
 L.BarDBM					= "DBM (animations)"
 L.BarSimple					= "Simple (pas d'animation)"
 L.BarStartColor				= "Couleur de départ"
 L.BarEndColor 				= "Couleur de fin"
-L.Bar_Font					= "Police pour les barres"
-L.Bar_FontSize				= "Taille de cette police: %d"
 L.Bar_Height				= "Hauteur de la barre: %d"
 L.Slider_BarOffSetX 		= "Décalage en X: %d"
 L.Slider_BarOffSetY 		= "Décalage en Y: %d"
@@ -157,22 +151,17 @@ L.BarSort					= "Arranger en fonction du temps restant"
 L.BarColorByType			= "Couleur par type"
 
 -- Tab: Spec Warn Frame
-L.Panel_SpecWarnFrame		= "Alertes spéciales"
+L.Panel_SpecWarnFrame		= "Alertes Raid spéciales"
 L.Area_SpecWarn				= "Options des alertes spéciales"
 L.SpecWarn_ClassColor		= "Utiliser des couleurs selon les classes pour les alertes spéciales"
 L.ShowSWarningsInChat 		= "Afficher les alertes spéciales dans la fenêtre de discussion"
 L.SWarnNameInNote			= "Utiliser les options SW5 si une note personnalisée contient votre nom"
 L.SpecWarn_FlashFrameRepeat	= "Répéter %d fois (si activé)" --was missing
-L.SpecWarn_Font				= "Police de texte des alertes spéciales"
-L.SpecWarn_FontSize			= "Taille de la police: %d"
-L.SpecWarn_FontColor		= "Couleur du texte"
-L.SpecWarn_FontType			= "Choisissez la police"
 L.SpecWarn_FlashRepeat		= "Répéter Flash" --was missing
 L.SpecWarn_FlashColor		= "Couleur du flash"
 L.SpecWarn_FlashDur			= "Durée du flash: %0.1f"
 L.SpecWarn_FlashAlpha		= "Taux alpha du flash: %0.1f"
 L.SpecWarn_DemoButton		= "Aff. un exemple"
-L.SpecWarn_MoveMe			= "Définir la position"
 L.SpecWarn_ResetMe			= "Réinit. les valeurs"
 
 -- Tab: Spoken Alerts Frame
@@ -193,16 +182,19 @@ L.SpecWarn_AlwaysVoice		= "Toujours jouer toutes les alertes vocales (Outrepasse
 
 -- Tab: Global Filter
 L.Panel_SpamFilter			= "Filtres globaux et de spam"
-L.Area_SpamFilter_Outgoing	= "Options des filtres globaux"
+L.Area_SpamFilter_Anounces	= "Announce Global Disable & Filter Options"
 L.SpamBlockNoShowAnnounce	= "Ne pas afficher d'annonces ou jouer de sons d'alerte"
-L.SpamBlockNoSpecWarn		= "Ne pas afficher d'annonces ou jouer de sons d'alerte spéciales"
+
+L.Area_SpamFilter_Timers	= "Timer Global Disable & Filter Options"
 L.SpamBlockNoShowTimers		= "Ne pas afficher les timers de module (Boss Mod/CM/LFG/Respawn)"
 L.SpamBlockNoShowUTimers	= "Ne pas afficher au joueur les timers envoyés (Personnalisés/Pull/Pause)"
+L.SpamBlockNoCountdowns		= "Ne pas jouer le son du compte à rebours"
+
+L.Area_SpamFilter_Misc		= "Misc Global Disable & Filter Options"
 L.SpamBlockNoSetIcon		= "Ne pas placer d'icônes sur les cibles"
 L.SpamBlockNoRangeFrame		= "Ne pas afficher le cadre des portées"
 L.SpamBlockNoInfoFrame		= "Ne pas afficher le cadre d'information"
 L.SpamBlockNoHudMap			= "Do not show HudMap"
-L.SpamBlockNoCountdowns		= "Ne pas jouer le son du compte à rebours"
 L.SpamBlockNoYells			= "Ne pas envoyer de cris dans le chat"
 L.SpamBlockNoNoteSync		= "Ne pas accepter les notes partagées"
 
@@ -240,7 +232,6 @@ L.HideTooltips				= "Masquer le cadre d'information pendant les combats contre u
 L.DisableSFX				= "Désactive le canal des effets sonores pendant les boss" --was missing
 L.DisableCinematics			= "Désactiver les cinématiques en jeu"
 L.AfterFirst				= "Après que la cinématique ait été jouée une fois"
-L.Always					= "Toujours"
 
 L.Panel_ExtraFeatures		= "Fonctionnalités supplémentaires"
 --
@@ -302,4 +293,10 @@ L.SelectModProfileCopyNote	= "Copier uniquement les réglages des notes depuis"
 L.SelectModProfileDelete	= "Supprimer les réglages pour"
 
 -- Misc
+L.FontType					= "Choisir une police"
+L.FontStyle					= "Contours de la police"
+L.FontColor					= "Couleur du texte"
+L.FontShadow				= "Ombre"
+L.FontSize					= "Taille de la police: %d"
+
 L.FontHeight	= 16

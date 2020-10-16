@@ -165,6 +165,7 @@ local function VUHDO_initPlayerTargetBorder(aButton, aBorderFrame, anIsNoIndicat
 	tGap = tWidth + VUHDO_INDICATOR_CONFIG["CUSTOM"]["BAR_BORDER"]["ADJUST"];
 	aBorderFrame:SetPoint("TOPLEFT", aButton:GetName(), "TOPLEFT", -tGap, tGap);
 	aBorderFrame:SetPoint("BOTTOMRIGHT", aButton:GetName(), "BOTTOMRIGHT", tGap, -tGap);
+	
 	if not tBackdrop then
 		tBackdrop = aBorderFrame:GetBackdrop();
 		tBackdrop["edgeSize"] = tWidth;
@@ -174,8 +175,12 @@ local function VUHDO_initPlayerTargetBorder(aButton, aBorderFrame, anIsNoIndicat
 		tBackdrop["insets"]["top"] = 0;
 		tBackdrop["insets"]["bottom"] = 0;
 	end
-	aBorderFrame:SetBackdrop(tBackdrop);
-	aBorderFrame:SetBackdropBorderColor(0, 0, 0, 1);
+	
+	aBorderFrame.backdropInfo = tBackdrop;
+	aBorderFrame.backdropBorderColor = CreateColor(0, 0, 0);
+	aBorderFrame.backdropBorderColorAlpha = 1;
+	aBorderFrame:ApplyBackdrop();
+
 	aBorderFrame:SetShown(anIsNoIndicator);
 end
 
@@ -195,6 +200,7 @@ local function VUHDO_initClusterBorder(aButton)
 
 	tClusterFrame:SetPoint("TOPLEFT", aButton:GetName(), "TOPLEFT", 0, 0);
 	tClusterFrame:SetPoint("BOTTOMRIGHT", aButton:GetName(), "BOTTOMRIGHT", 0, 0);
+	
 	if not tBackdropCluster then
 		tBackdropCluster = tClusterFrame:GetBackdrop();
 		tBackdropCluster["edgeSize"] = VUHDO_INDICATOR_CONFIG["CUSTOM"]["CLUSTER_BORDER"]["WIDTH"];
@@ -204,8 +210,11 @@ local function VUHDO_initClusterBorder(aButton)
 		tBackdropCluster["insets"]["top"] = 0;
 		tBackdropCluster["insets"]["bottom"] = 0;
 	end
-	tClusterFrame:SetBackdrop(tBackdropCluster);
-	tClusterFrame:SetBackdropColor(0, 0, 0, 0);
+	
+	tClusterFrame.backdropInfo = tBackdropCluster;
+	tClusterFrame.backdropBorderColor = CreateColor(0, 0, 0);
+	tClusterFrame.backdropBorderColorAlpha = 0;
+	tClusterFrame:ApplyBackdrop();
 end
 
 
@@ -947,26 +956,34 @@ local function VUHDO_initPanel(aPanel, aPanelNum)
 	VUHDO_STD_BACKDROP["insets"]["top"] = tPanelColor["BORDER"]["insets"];
 	VUHDO_STD_BACKDROP["insets"]["bottom"] = tPanelColor["BORDER"]["insets"];
 
-	aPanel:SetBackdrop(VUHDO_STD_BACKDROP);
-	aPanel:SetBackdropBorderColor(VUHDO_backColor(tPanelColor["BORDER"]));
+	aPanel.backdropInfo = VUHDO_STD_BACKDROP;
+	aPanel.backdropBorderColor = CreateColor(VUHDO_backColor(tPanelColor["BORDER"]));
+	aPanel.backdropBorderColorAlpha = tPanelColor["BORDER"]["O"] or 1;
+	aPanel:ApplyBackdrop();
 
 	if VUHDO_IS_PANEL_CONFIG then
 		tLabel:SetText("[PANEL "  .. aPanelNum .. "]");
 		tLabel:GetParent():SetPoint("BOTTOM", aPanel:GetName(), "TOP", 0, 3);
 		tLabel:GetParent():Show();
 
-		if DESIGN_MISC_PANEL_NUM == aPanelNum	and VuhDoNewOptionsPanelPanel and VuhDoNewOptionsPanelPanel:IsVisible() then
+		if DESIGN_MISC_PANEL_NUM == aPanelNum and VuhDoNewOptionsPanelPanel and VuhDoNewOptionsPanelPanel:IsVisible() then
 
 			VUHDO_DESIGN_BACKDROP = VUHDO_deepCopyTable(VUHDO_STD_BACKDROP);
 			tLabel:SetTextColor(1, 1, 0, 1);
 			VUHDO_UIFrameFlash(tLabel, 0.25, 0.5, 10000, true, 0.3, 0);
 
-			aPanel:SetBackdrop(VUHDO_DESIGN_BACKDROP);
-			aPanel:SetBackdropBorderColor(1, 1, 1, 1);
+			aPanel.backdropInfo = VUHDO_DESIGN_BACKDROP;
+			aPanel.backdropBorderColor = CreateColor(1, 1, 1);
+			aPanel.backdropBorderColorAlpha = 1;
+			aPanel:ApplyBackdrop();
 		else
-			aPanel:SetBackdrop(VUHDO_STD_BACKDROP);
+			aPanel.backdropInfo = VUHDO_STD_BACKDROP;
+			aPanel:ApplyBackdrop();
+			
 			tLabel:SetTextColor(0.4,  0.4, 0.4, 1);
 			VUHDO_UIFrameFlashStop(tLabel);
+			
+			-- TODO: safe to set as frame property before flash stop?
 			aPanel:SetBackdropBorderColor(VUHDO_backColor(tPanelColor["BORDER"]));
 		end
 

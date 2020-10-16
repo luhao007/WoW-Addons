@@ -58,7 +58,7 @@ L:SetWarningLocalization{
 L:SetOptionLocalization{
 	WarnPursue		= "Anunciar objetivos de la persecución de Buru",
 	SpecWarnPursue	= "Mostrar aviso especial cuando te persiga el jefe",
-	WarnDismember	= DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell:format(96)
+	WarnDismember	= DBM_CORE_L.AUTO_ANNOUNCE_OPTIONS.spell:format(96)
 }
 L:SetMiscLocalization{
 	PursueEmote 	= "¡%s fija su mirada en %s!"
@@ -90,4 +90,13 @@ L:SetTimerLocalization{
 L:SetOptionLocalization{
 	WarnVulnerable	= "Anunciar debilidades",
 	TimerVulnerable	= "Mostrar temporizador para la duración de las debilidades"
+}
+
+----------------
+-- AQ20 Trash --
+----------------
+L = DBM:GetModLocalization("AQ20Trash")
+
+L:SetGeneralLocalization{
+	name = "AQ20: Bichos"
 }

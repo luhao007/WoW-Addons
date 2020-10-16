@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(290, "DBM-Party-Cataclysm", 13, 185)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod.statTypes = "heroic,timewalker"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(55085)
 mod:SetEncounterID(1272)
-mod:SetZone()
 
 mod:RegisterCombat("say", L.Pull)
 
@@ -14,7 +15,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 105544 105526",
 	"SPELL_AURA_REMOVED 105544"
 )
-mod.onlyHeroic = true
 
 local warnFelFlames			= mod:NewTargetNoFilterAnnounce(108141, 3)
 local warnDecay				= mod:NewTargetNoFilterAnnounce(105544, 3, nil, "Healer")
@@ -23,9 +23,9 @@ local warnFelQuickening		= mod:NewTargetNoFilterAnnounce(104905, 3, nil, "Tank|H
 local specWarnFelFlames		= mod:NewSpecialWarningMove(108141, nil, nil, nil, 1, 2)
 
 local timerFelFlamesCD		= mod:NewNextTimer(8.4, 108141, nil, nil, nil, 3)
-local timerDecay			= mod:NewTargetTimer(10, 105544, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)
-local timerDecayCD			= mod:NewNextTimer(17, 105544, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)
-local timerFelQuickening	= mod:NewBuffActiveTimer(15, 104905, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON)
+local timerDecay			= mod:NewTargetTimer(10, 105544, nil, "Healer", nil, 5, nil, DBM_CORE_L.HEALER_ICON)
+local timerDecayCD			= mod:NewNextTimer(17, 105544, nil, "Healer", nil, 5, nil, DBM_CORE_L.HEALER_ICON)
+local timerFelQuickening	= mod:NewBuffActiveTimer(15, 104905, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_L.TANK_ICON..DBM_CORE_L.HEALER_ICON)
 
 local function showFelFlamesWarning()
 	local targetname = mod:GetBossTarget(55085)

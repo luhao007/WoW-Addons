@@ -9,17 +9,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "Maximillian de Villanorte",
     },
+    [91065] = {
+        name = "Bodeguero Voodani",
+    },
     [92802] = {
         name = "Gravax el Profanador",
     },
     [93600] = {
         name = "Saylanna Vientorrío",
     },
+    [94101] = {
+        name = "Laeni Tirargenta",
+    },
     [94366] = {
         name = "Lelyn Sombrapresta",
     },
     [94434] = {
         name = "Addie Silbarisma",
+    },
+    [95799] = {
+        name = "Damrul el Forte",
     },
     [96513] = {
         name = "Razik Rayogás",
@@ -39,6 +48,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [99065] = {
         name = "Thaedris Cantapluma",
     },
+    [99905] = {
+        name = "Shale Pluma Gris",
+    },
     [101766] = {
         name = "Thalrenus Riberárbol",
     },
@@ -54,8 +66,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [106299] = {
         name = "Thisalee Cuervo",
     },
+    [106914] = {
+        name = "Tehd Zapatero",
+    },
+    [106915] = {
+        name = "Marius Aterravil",
+    },
+    [107244] = {
+        name = "Tehd Zapatero",
+    },
+    [107245] = {
+        name = "Marius Aterravil",
+    },
     [107499] = {
         name = "Oso corvino aterrorizado",
+    },
+    [107674] = {
+        name = "Snaggle Seis Gatillos",
+    },
+    [107675] = {
+        name = "Rax Seis Gatillos",
     },
     [108304] = {
         name = "Guviena Cantespada",

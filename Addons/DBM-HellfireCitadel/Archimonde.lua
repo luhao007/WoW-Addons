@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(1438, "DBM-HellfireCitadel", nil, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200222221214")
+mod:SetRevision("20200806142006")
 mod:SetCreatureID(91331)--Doomfire Spirit (92208), Hellfire Deathcaller (92740), Felborne Overfiend (93615), Dreadstalker (93616), Infernal doombringer (94412)
 mod:SetEncounterID(1799)
-mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod.respawnTime = 29--roughly
 
@@ -100,7 +99,7 @@ local specWarnTwistedDarkness		= mod:NewSpecialWarningSwitchCount(190821, "Range
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerDoomfireCD				= mod:NewCDTimer(41.5, 182826, nil, nil, nil, 1)--182826 cast, 182879 fixate. Doomfire only fixates ranged, but ALL dps switch to it.
 local timerAllureofFlamesCD			= mod:NewCDTimer(47.5, 183254, nil, nil, nil, 2)
-local timerFelBurstCD				= mod:NewCDTimer(52, 183817, nil, nil, 2, 3, nil, DBM_CORE_DEADLY_ICON)
+local timerFelBurstCD				= mod:NewCDTimer(52, 183817, nil, nil, 2, 3, nil, DBM_CORE_L.DEADLY_ICON)
 local timerDeathbrandCD				= mod:NewCDCountTimer(42.5, 183828, nil, nil, nil, 1, nil, nil, nil, 1, 3)--Everyone, for tanks/healers to know when debuff/big hit, for dps to know add coming
 local timerDesecrateCD				= mod:NewCDTimer(26.3, 185590, nil, nil, 2, 2)
 local timerLightCD					= mod:NewNextTimer(10, 183963, nil, nil, nil, 5)
@@ -109,7 +108,7 @@ local timerShadowBlastCD			= mod:NewCDTimer(7.3, 183864, nil, "Tank", nil, 5)
 --Phase 2: Hand of the Legion
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerShackledTormentCD		= mod:NewCDCountTimer(31.5, 184931, nil, nil, nil, 3, nil, nil, nil, not mod:IsTank() and 3, 3)
-local timerWroughtChaosCD			= mod:NewCDTimer(51.7, 184265, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
+local timerWroughtChaosCD			= mod:NewCDTimer(51.7, 184265, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)
 --Phase 2.5
 local timerFelborneOverfiendCD		= mod:NewNextCountTimer(44.3, "ej11603", nil, nil, nil, 1, 186662)
 --Phase 3: The Twisting Nether
@@ -124,9 +123,9 @@ mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerDarkConduitCD			= mod:NewNextCountTimer(107, 190394, nil, "-Melee", 2, 3)
 local timerMarkOfLegionCD			= mod:NewNextCountTimer(107, 187050, 28836, nil, nil, 3)
 local timerInfernalsCD				= mod:NewNextCountTimer(107, 187111, 23426, nil, nil, 1, 1122)
-local timerSourceofChaosCD			= mod:NewNextCountTimer(107, 190703, nil, nil, 2, 1, nil, DBM_CORE_TANK_ICON, nil, 2, 4)
+local timerSourceofChaosCD			= mod:NewNextCountTimer(107, 190703, nil, nil, 2, 1, nil, DBM_CORE_L.TANK_ICON, nil, 2, 4)
 local timerTwistedDarknessCD		= mod:NewNextCountTimer(107, 190821, 189894, nil, nil, 1)
-local timerSeethingCorruptionCD		= mod:NewNextCountTimer(107, 190506, 66911, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON, nil, 1, 4)
+local timerSeethingCorruptionCD		= mod:NewNextCountTimer(107, 190506, 66911, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON, nil, 1, 4)
 
 --local berserkTimer				= mod:NewBerserkTimer(360)
 
@@ -296,7 +295,7 @@ local function showMarkOfLegion(self, spellName)
 			if localMarkBehavior == "LocSmallBack" then
 				number, position = 3, RANGED
 			end
-			local message = position.."-"..DBM_CORE_LEFT
+			local message = position.."-"..DBM_CORE_L.LEFT
 			if localMarkBehavior == "Numbered" then
 				message = self:IconNumToString(number)
 			end
@@ -306,15 +305,15 @@ local function showMarkOfLegion(self, spellName)
 			if self.Options.HudMapMarkofLegion2 then
 				if number == 3 then
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():SetLabel(name)--Purple to match Diamond
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():SetLabel(name)--Purple to match Diamond
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():RegisterForAlerts(nil, name)--Purple to match Diamond
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():RegisterForAlerts(nil, name)--Purple to match Diamond
 					end
 				else
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():SetLabel(name)--Yellow to match Star
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():SetLabel(name)--Yellow to match Star
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Yellow to match Star
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Yellow to match Star
 					end
 				end
 			end
@@ -328,7 +327,7 @@ local function showMarkOfLegion(self, spellName)
 			if localMarkBehavior == "LocSmallBack" then
 				number, position = 4, RANGED
 			end
-			local message = position.."-"..DBM_CORE_RIGHT
+			local message = position.."-"..DBM_CORE_L.RIGHT
 			if localMarkBehavior == "Numbered" then
 				message = self:IconNumToString(number)
 			end
@@ -338,15 +337,15 @@ local function showMarkOfLegion(self, spellName)
 			if self.Options.HudMapMarkofLegion2 then
 				if number == 4 then
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():SetLabel(name)--Green to match Triangle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():SetLabel(name)--Green to match Triangle
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Green to match Triangle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Green to match Triangle
 					end
 				else
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():SetLabel(name)--Orange to match Circle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():SetLabel(name)--Orange to match Circle
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Orange to match Circle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Orange to match Circle
 					end
 				end
 			end
@@ -360,7 +359,7 @@ local function showMarkOfLegion(self, spellName)
 			if localMarkBehavior == "LocSmallBack" then
 				number, position = 1, MELEE
 			end
-			local message = position.."-"..DBM_CORE_LEFT
+			local message = position.."-"..DBM_CORE_L.LEFT
 			if localMarkBehavior == "Numbered" then
 				message = self:IconNumToString(number)
 			end
@@ -370,15 +369,15 @@ local function showMarkOfLegion(self, spellName)
 			if self.Options.HudMapMarkofLegion2 then
 				if number == 1 then
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():SetLabel(name)--Yellow to match Star
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():SetLabel(name)--Yellow to match Star
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Yellow to match Star
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Yellow to match Star
 					end
 				else
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():SetLabel(name)--Purple to match Diamond
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():SetLabel(name)--Purple to match Diamond
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():RegisterForAlerts(nil, name)--Purple to match Diamond
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0, 1, 0.5):Appear():RegisterForAlerts(nil, name)--Purple to match Diamond
 					end
 				end
 			end
@@ -392,7 +391,7 @@ local function showMarkOfLegion(self, spellName)
 			if localMarkBehavior == "LocSmallBack" then
 				number, position = 2, MELEE
 			end
-			local message = position.."-"..DBM_CORE_RIGHT
+			local message = position.."-"..DBM_CORE_L.RIGHT
 			if localMarkBehavior == "Numbered" then
 				message = self:IconNumToString(number)
 			end
@@ -402,15 +401,15 @@ local function showMarkOfLegion(self, spellName)
 			if self.Options.HudMapMarkofLegion2 then
 				if number == 2 then
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():SetLabel(name)--Orange to match Circle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():SetLabel(name)--Orange to match Circle
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Orange to match Circle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 1, 0.5, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Orange to match Circle
 					end
 				else
 					if name == playerName then--If player has THIS mark, don't register alerts for it, because this player wants players in their own circle
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():SetLabel(name)--Green to match Triangle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():SetLabel(name)--Green to match Triangle
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Green to match Triangle
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(187050, "highlight", name, 10, 12, 0, 1, 0, 0.5):Appear():RegisterForAlerts(nil, name)--Green to match Triangle
 					end
 				end
 			end
@@ -434,25 +433,25 @@ local function showMarkOfLegion(self, spellName)
 				DBM:Debug(soakers..", "..marks, 2)
 				local soak = math.ceil(soakers/marks)
 				if (soak == 1) then
-					specWarnMarkOfLegionSoak:Show(MELEE.." "..DBM_CORE_LEFT)
+					specWarnMarkOfLegionSoak:Show(MELEE.." "..DBM_CORE_L.LEFT)
 					specWarnMarkOfLegionSoak:Play("frontleft")
 				end
 				if (soak == 2) then
-					specWarnMarkOfLegionSoak:Show(MELEE.." "..DBM_CORE_RIGHT)
+					specWarnMarkOfLegionSoak:Show(MELEE.." "..DBM_CORE_L.RIGHT)
 					specWarnMarkOfLegionSoak:Play("frontright")
 				end
 				if (soak == 3) then
-					specWarnMarkOfLegionSoak:Show(RANGED.." "..DBM_CORE_LEFT)
+					specWarnMarkOfLegionSoak:Show(RANGED.." "..DBM_CORE_L.LEFT)
 					specWarnMarkOfLegionSoak:Play("backleft")
 				end
 				if (soak == 4) then
-					specWarnMarkOfLegionSoak:Show(RANGED.." "..DBM_CORE_RIGHT)
+					specWarnMarkOfLegionSoak:Show(RANGED.." "..DBM_CORE_L.RIGHT)
 					specWarnMarkOfLegionSoak:Play("backright")
 				end
             end
 		end
 		if self.Options.HudMapMarkofLegion2 then
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(1870502, "party", playerName, 0.9, 12, nil, nil, nil, 1, nil, false):Appear()
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(1870502, "party", playerName, 0.9, 12, nil, nil, nil, 1, nil, false):Appear()
 		end
 	end
 end
@@ -513,19 +512,19 @@ local function breakShackles(self, spellName)
 		end
 	end
 	if self.Options.HudMapOnShackledTorment2 and self:IsMythic() then
-		DBMHudMap:RegisterRangeMarkerOnPartyMember(1849642, "party", playerName, 0.9, 30, nil, nil, nil, 1, nil, false):Appear()
+		DBM.HudMap:RegisterRangeMarkerOnPartyMember(1849642, "party", playerName, 0.9, 30, nil, nil, nil, 1, nil, false):Appear()
 		for i = 1, #shacklesTargets do
 			local name = shacklesTargets[i]
 			if not name then break end
 			if not DBM:GetRaidUnitId(name) then break end
 			if playerHasShackle then
 				if name == playerName then
-					DBMHudMap:RegisterStaticMarkerOnPartyMember(184964, "highlight", name, 25, nil, 0, 1, 0, 0.3):Appear():RegisterForAlerts(spellName, name)
+					DBM.HudMap:RegisterStaticMarkerOnPartyMember(184964, "highlight", name, 25, nil, 0, 1, 0, 0.3):Appear():RegisterForAlerts(spellName, name)
 				else
-					DBMHudMap:RegisterStaticMarkerOnPartyMember(184964, "highlight", name, 26, nil, 0, 1, 0, 0.3):Appear():RegisterForAlerts(spellName, name)
+					DBM.HudMap:RegisterStaticMarkerOnPartyMember(184964, "highlight", name, 26, nil, 0, 1, 0, 0.3):Appear():RegisterForAlerts(spellName, name)
 				end
 			else
-				DBMHudMap:RegisterStaticMarkerOnPartyMember(184964, "highlight", name, 26, nil, 0, 1, 0, 0.3):Appear():RegisterForAlerts(nil, name)
+				DBM.HudMap:RegisterStaticMarkerOnPartyMember(184964, "highlight", name, 26, nil, 0, 1, 0, 0.3):Appear():RegisterForAlerts(nil, name)
 			end
 		end
 	end
@@ -695,7 +694,7 @@ function mod:OnCombatEnd()
 		DBM.RangeCheck:Hide()
 	end
 	if self.Options.HudMapOnWrought or self.Options.HudMapOnFelBurst or self.Options.HudMapOnShackledTorment2 then
-		DBMHudMap:Disable()
+		DBM.HudMap:Disable()
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
@@ -891,7 +890,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 		if self.Options.HudMapOnFelBurst2 then
-			DBMHudMap:RegisterRangeMarkerOnPartyMember(spellId, "highlight", args.destName, 8, 5, nil, nil, nil, 0.5):Appear():SetLabel(args.destName)
+			DBM.HudMap:RegisterRangeMarkerOnPartyMember(spellId, "highlight", args.destName, 8, 5, nil, nil, nil, 0.5):Appear():SetLabel(args.destName)
 		end
 	elseif spellId == 184964 then
 		shacklesTargets[#shacklesTargets+1] = args.destName
@@ -948,40 +947,40 @@ function mod:SPELL_AURA_APPLIED(args)
 					warnWroughtChaos:CombinedShow(0.1, self.vb.wroughtWarned, args.sourceName)
 					warnWroughtChaos:CombinedShow(0.1, self.vb.wroughtWarned, args.destName)
 					if UnitIsUnit("player", sourceUId) then
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.7, time, nil, nil, nil, 1, nil, false):Appear()--Players own dot bigger (no label on player dot)
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.7, time, nil, nil, nil, 1, nil, false):Appear()--Players own dot bigger (no label on player dot)
 						if self.Options.NamesWroughtHud then
-							DBMHudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.destName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
+							DBM.HudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.destName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
 						else
-							DBMHudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
+							DBM.HudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
 						end
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.7, time, nil, nil, nil, 1, nil, false):Appear()--Players own dot bigger (no label on player dot)
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.7, time, nil, nil, nil, 1, nil, false):Appear()--Players own dot bigger (no label on player dot)
 						if self.Options.NamesWroughtHud then
-							DBMHudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.sourceName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
+							DBM.HudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.sourceName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
 						else
-							DBMHudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
+							DBM.HudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
 						end
 					end
 					--create line
 					if self.Options.ExtendWroughtHud3 then
-						DBMHudMap:AddEdge(1, 1, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135, nil, true)
+						DBM.HudMap:AddEdge(1, 1, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135, nil, true)
 					else
-						DBMHudMap:AddEdge(1, 1, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135)
+						DBM.HudMap:AddEdge(1, 1, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135)
 					end
 				else--red lines for non player lines
 					--Create Points
 					if self.Options.NamesWroughtHud then
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.sourceName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.destName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.sourceName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear():SetLabel(args.destName, nil, nil, nil, nil, nil, 0.8, nil, -13, 8, nil)
 					else
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
-						DBMHudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(186123, "party", args.sourceName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
+						DBM.HudMap:RegisterRangeMarkerOnPartyMember(185014, "party", args.destName, 0.35, time, nil, nil, nil, 0.5, nil, false):Appear()
 					end
 					--Create Line
 					if self.Options.ExtendWroughtHud3 then
-						DBMHudMap:AddEdge(1, 0, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135, nil, true)
+						DBM.HudMap:AddEdge(1, 0, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135, nil, true)
 					else
-						DBMHudMap:AddEdge(1, 0, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135)
+						DBM.HudMap:AddEdge(1, 0, 0, 0.5, time, args.sourceName, args.destName, nil, nil, nil, nil, 135)
 					end
 				end
 			end
@@ -1086,11 +1085,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 186123 or spellId == 185014 then--Wrought Chaos/Focused Chaos
 		if self.Options.HudMapOnWrought then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 		end
 	elseif spellId == 183634 then
 		if self.Options.HudMapOnFelBurst2 then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 		end
 		if self.Options.SetIconOnFelBurst then
 			self:SetIcon(args.destName, 0)
@@ -1110,9 +1109,9 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if self.Options.HudMapOnShackledTorment2 and self:IsMythic() then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 			if self.vb.unleashedCountRemaining == 0 then--none remaining, remove players shackle
-				DBMHudMap:FreeEncounterMarkerByTarget(1849642, playerName)
+				DBM.HudMap:FreeEncounterMarkerByTarget(1849642, playerName)
 			end
 		end
 	elseif spellId == 187050 then
@@ -1125,9 +1124,9 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 		if self.Options.HudMapMarkofLegion2 then
-			DBMHudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
+			DBM.HudMap:FreeEncounterMarkerByTarget(spellId, args.destName)
 			if self.vb.markOfLegionRemaining == 0 then
-				DBMHudMap:FreeEncounterMarkerByTarget(1870502, playerName)
+				DBM.HudMap:FreeEncounterMarkerByTarget(1870502, playerName)
 			end
 		end
 		if self.Options.InfoFrame and self.vb.markOfLegionRemaining == 0 then

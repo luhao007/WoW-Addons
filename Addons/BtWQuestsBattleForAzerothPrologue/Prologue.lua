@@ -35,6 +35,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_PROLOGUE, {
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_PROLOGUE_ALLIANCE, {
     name = L["BTWQUESTS_PROLOGUE"],
+    questline = 637,
     category = nil,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     prerequisites = {

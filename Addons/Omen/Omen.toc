@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Xinhuan
-## Version: 3.2.2
+## Version: 3.2.3
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSink-2.0, LibDBIcon-1.0, !ClassColors
 ## SavedVariables: Omen3DB
 

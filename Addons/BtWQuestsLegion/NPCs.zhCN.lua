@@ -15,6 +15,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [93600] = {
         name = "赛兰娜·河风",
     },
+    [94101] = {
+        name = "莱妮·银箭",
+    },
     [94366] = {
         name = "莱琳·迅影",
     },
@@ -23,6 +26,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [94434] = {
         name = "艾迪·泡沼",
+    },
+    [95438] = {
+        name = "艾利亚斯",
     },
     [96513] = {
         name = "拉兹克·盖兹波特",
@@ -56,6 +62,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [106299] = {
         name = "希萨莉·黑鸦",
+    },
+    [107498] = {
+        name = "库卡",
     },
     [107499] = {
         name = "惊恐的鸦熊",

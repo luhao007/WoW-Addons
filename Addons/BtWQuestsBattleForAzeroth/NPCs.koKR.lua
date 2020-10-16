@@ -27,6 +27,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [36648] = {
         name = "바인 블러드후프",
     },
+    [49748] = {
+        name = "영웅의 전령",
+    },
+    [49750] = {
+        name = "대족장의 전령",
+    },
     [107574] = {
         name = "안두인 린",
     },
@@ -916,7 +922,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "린드로 로이스턴",
     },
     [131443] = {
-        name = "수석 이동술사 오큘레스",
+        name = "수석 이동술사 오큘레스\0",
     },
     [131448] = {
         name = "워렌 애쉬턴",
@@ -1690,7 +1696,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "아서 트레이드윈드",
     },
     [140105] = {
-        name = "나타노스 블라이트콜러",
+        name = "어둠 순찰자",
     },
     [140176] = {
         name = "나타노스 블라이트콜러",
@@ -1738,7 +1744,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "바인 블러드후프",
     },
     [141602] = {
-        name = "토마스 젤링",
+        name = "되살아난 파도현자",
     },
     [141603] = {
         name = "말로리 후드",
@@ -1987,7 +1993,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "잘아타스",
     },
     [146462] = {
-        name = "렉사르",
+        name = "호드 광전사",
     },
     [146536] = {
         name = "길 잃은 위습",
@@ -2005,7 +2011,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "여군주 실바나스 윈드러너",
     },
     [146791] = {
-        name = "어둠 순찰자 리아나",
+        name = "어둠 순찰자",
     },
     [146806] = {
         name = "어둠 순찰자 리아나",
@@ -2026,7 +2032,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "렉사르",
     },
     [146937] = {
-        name = "어둠 순찰자 리아나",
+        name = "어둠 순찰자",
     },
     [146939] = {
         name = "대사 돈스원",
@@ -2071,7 +2077,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "로칸",
     },
     [147293] = {
-        name = "그롱",
+        name = "다카니 수호자",
     },
     [147297] = {
         name = "제칸",
@@ -2413,7 +2419,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "마그니 브론즈비어드",
     },
     [152108] = {
-        name = "네리 샤프핀",
+        name = "켈핀 정찰꾼",
     },
     [152115] = {
         name = "쿠리",
@@ -2440,7 +2446,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "칼렉고스",
     },
     [152385] = {
-        name = "영혼방랑자 에본혼",
+        name = "높은산 주술사",
     },
     [152484] = {
         name = "수석땜장이 오버스파크",
@@ -2545,7 +2551,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "샨드리스 페더문",
     },
     [153670] = {
-        name = "왕자 에라즈민",
+        name = "녹슨나사 저항군 투사",
     },
     [153932] = {
         name = "겐 그레이메인",
@@ -2632,7 +2638,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "모구 전사",
     },
     [155482] = {
-        name = "샨드리스 페더문",
+        name = "파수꾼",
     },
     [155487] = {
         name = "타오스",
@@ -2719,7 +2725,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "왕자 에라즈민",
     },
     [158672] = {
-        name = "니샤",
+        name = "무모한 불페라",
     },
     [159544] = {
         name = "아리크 스콜피드스팅",

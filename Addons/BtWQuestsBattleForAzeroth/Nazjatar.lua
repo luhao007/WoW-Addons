@@ -13,7 +13,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN01, 
     -- questline = 951,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02,
     },
@@ -25,7 +25,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN01, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "quest",
@@ -52,26 +52,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN01, 
             rank = 1,
         },
         {
-            type = "money",
-            amounts = {
-                3182400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1721,
             amount = 32,
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 1525,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -248,7 +231,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02, 
     -- questline = 944,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN01,
     },
@@ -260,7 +243,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "quest",
@@ -287,31 +270,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN02, 
             rank = 1,
         },
         {
-            type = "money",
-            amounts = {
-                2714400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1721,
-            amount = 20,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 1675,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
-        },
-        {
-            type = "reputation",
-            id = 2389,
-            amount = 300,
+            amount = 32,
         },
     },
     items = {
@@ -490,7 +451,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN03, 
     questline = 942,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN04,
     },
@@ -502,7 +463,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN03, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -529,14 +490,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN03, 
             rank = 2,
         },
         {
-            type = "money",
-            amounts = {
-                3463200, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 1200,
@@ -545,15 +498,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN03, 
             type = "currency",
             id = 1721,
             amount = 5,
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 1150,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -710,7 +654,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN04, 
     questline = 943,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN03,
     },
@@ -722,7 +666,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN04, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -749,14 +693,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN04, 
             rank = 2,
         },
         {
-            type = "money",
-            amounts = {
-                3556800, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 1200,
@@ -765,15 +701,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN04, 
             type = "currency",
             id = 1721,
             amount = 5,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 1150,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
         },
     },
     items = {
@@ -931,7 +858,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN05, 
     questline = 975,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN06,
     },
@@ -943,7 +870,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN05, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -965,14 +892,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN05, 
     },
     rewards = {
         {
-            type = "money",
-            amounts = {
-                4048200, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 3750,
@@ -981,15 +900,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN05, 
             type = "currency",
             id = 1721,
             amount = 25,
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 1675,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -1124,7 +1034,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN06, 
     questline = 938,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN05,
     },
@@ -1136,7 +1046,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN06, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -1158,14 +1068,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN06, 
     },
     rewards = {
         {
-            type = "money",
-            amounts = {
-                3322800, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1553,
             amount = 3750,
@@ -1174,15 +1076,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN06, 
             type = "currency",
             id = 1721,
             amount = 25,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 1400,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
         },
     },
     items = {
@@ -1286,7 +1179,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN07, 
     questline = 955,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN08,
     },
@@ -1297,7 +1190,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN07, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -1316,25 +1209,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN07, 
     completed = {
         type = "quest",
         id = 56349,
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                2129400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 200,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
-        },
     },
     items = {
         {
@@ -1397,7 +1271,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN08, 
     questline = 956,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN07,
     },
@@ -1408,7 +1282,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN08, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -1427,25 +1301,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN08, 
     completed = {
         type = "quest",
         id = 56351,
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                2129400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 200,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
-        },
     },
     items = {
         {
@@ -1509,11 +1364,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN09, 
     questline = 948,
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -1555,32 +1410,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN09, 
         },
         {
             name = L["BTWQUESTS_UNLOCK_FLIGHT_WHISTLE"],
-        },
-        {
-            type = "money",
-            amounts = {
-                725400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 175,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 175,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -1648,7 +1477,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN10, 
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN11,
     },
@@ -1659,7 +1488,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN10, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -1678,25 +1507,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN10, 
     completed = {
         type = "quest",
         id = 56315,
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                959400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 250,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
-        },
     },
     items = {
         {
@@ -1758,7 +1568,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN11, 
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN10,
     },
@@ -1769,7 +1579,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN11, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -1788,25 +1598,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN11, 
     completed = {
         type = "quest",
         id = 56316,
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                1193400, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 250,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
-        },
     },
     items = {
         {
@@ -1869,7 +1660,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN12, 
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN13,
     },
@@ -1880,7 +1671,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN12, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -1903,32 +1694,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN12, 
     rewards = {
         {
             name = L["BTWQUESTS_VENDOR_MRRL"],
-        },
-        {
-            type = "money",
-            amounts = {
-                468000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 75,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 150,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -1975,7 +1740,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN13, 
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN12,
     },
@@ -1986,7 +1751,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN13, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -2009,32 +1774,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN13, 
     rewards = {
         {
             name = L["BTWQUESTS_VENDOR_MRRL"],
-        },
-        {
-            type = "money",
-            amounts = {
-                468000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 150,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 75,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -2082,7 +1821,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN14, 
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN15,
     },
@@ -2093,7 +1832,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN14, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -2116,23 +1855,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN14, 
     rewards = {
         {
             name = L["BTWQUESTS_EXTRA_WORLD_QUESTS"],
-        },
-        {
-            type = "money",
-            amounts = {
-                982800, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 250,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -2203,7 +1925,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN15, 
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     alternatives = {
         BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN14,
     },
@@ -2214,7 +1936,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN15, 
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -2237,23 +1959,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN15, 
     rewards = {
         {
             name = L["BTWQUESTS_EXTRA_WORLD_QUESTS"],
-        },
-        {
-            type = "money",
-            amounts = {
-                982800, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 250,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
         },
     },
     items = {
@@ -2326,11 +2031,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN16, 
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -2365,21 +2070,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN16, 
     completed = {
         type = "quest",
         id = 56143,
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                936000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2163,
-            amount = 225,
-        },
     },
     items = {
         {
@@ -2442,11 +2132,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_CHAIN16, 
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CHAIN01, {
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -2475,35 +2165,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CH
     },
     rewards = {
         {
-            type = "money",
-            amounts = {
-                234000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
             type = "currency",
             id = 1721,
-            amount = 5,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 500,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 500,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            amount = 10,
         },
     },
     items = {
@@ -2528,7 +2192,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CH
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CHAIN02, {
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -2536,7 +2200,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CH
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -2545,25 +2209,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CH
         {
             type = "quest",
             id = 56156,
-        },
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                234000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2400,
-            amount = 75,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
         },
     },
     items = {
@@ -2587,7 +2232,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CH
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CHAIN03, {
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
@@ -2595,7 +2240,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CH
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
         {
             type = "chain",
@@ -2604,25 +2249,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_MARKER_CH
         {
             type = "quest",
             id = 55500,
-        },
-    },
-    rewards = {
-        {
-            type = "money",
-            amounts = {
-                234000, 
-            },
-            minLevel = 120,
-            maxLevel = 120,
-        },
-        {
-            type = "reputation",
-            id = 2373,
-            amount = 75,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
         },
     },
     items = {
@@ -2647,10 +2273,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_OTHER_ALL
     name = "Other Alliance",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 120,
+        level = 50,
         visible = false,
     },
     active = false,
@@ -2661,10 +2287,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_OTHER_HOR
     name = "Other Horde",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 120,
+        level = 50,
         visible = false,
     },
     active = false,
@@ -2675,10 +2301,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZJATAR_OTHER_BOT
     name = "Other Both",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZJATAR,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 120,
+        level = 50,
         visible = false,
     },
     active = false,

@@ -16,19 +16,31 @@ AzerothsTopTunes.points = {}
 local db
 local defaults = { profile = { completed = false, icon_scale = 1.4, icon_alpha = 0.8 } }
 
+local continents = {
+	[12]   = true, -- Kalimdor
+	[13]   = true, -- Eastern Kingdoms
+	[101]  = true, -- Outland
+	[113]  = true, -- Northrend
+	[203]  = true, -- Vashj'ir
+	[224]  = true, -- Stranglethorn Vale
+	[424]  = true, -- Pandaria
+	[572]  = true, -- Draenor
+	[619]  = true, -- Broken Isles
+	[875]  = true, -- Zandalar
+	[876]  = true, -- Kul Tiras
+	[947]  = true, -- Azeroth
+	[1550] = true, -- The Shadowlands
+}
+
 
 -- upvalues
-local _G = getfenv(0)
-
 local GameTooltip = _G.GameTooltip
-local GetQuestsCompleted = _G.GetQuestsCompleted
+local GetQuestsCompleted = _G.C_QuestLog.GetAllCompletedQuestIDs
 local IsControlKeyDown = _G.IsControlKeyDown
 local gsub = _G.string.gsub
 local LibStub = _G.LibStub
 local next = _G.next
 local UIParent = _G.UIParent
-local WorldMapButton = _G.WorldMapButton
-local WorldMapTooltip = _G.WorldMapTooltip
 
 local HandyNotes = _G.HandyNotes
 local TomTom = _G.TomTom
@@ -39,63 +51,55 @@ local points = AzerothsTopTunes.points
 
 -- plugin handler for HandyNotes
 local function infoFromCoord(mapFile, coord)
-	mapFile = gsub(mapFile, "_terrain%d+$", "")
-
 	local point = points[mapFile] and points[mapFile][coord]
-
 	return point[2], point[3]
 end
 
 function AzerothsTopTunes:OnEnter(mapFile, coord)
-	local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
-
 	if self:GetCenter() > UIParent:GetCenter() then -- compare X coordinate
-		tooltip:SetOwner(self, "ANCHOR_LEFT")
+		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 	else
-		tooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 
 	local name, note = infoFromCoord(mapFile, coord)
 
-	tooltip:SetText(name)
-	tooltip:AddLine(note, 1, 1, 1)
+	GameTooltip:SetText(name)
 
-	if TomTom then
-		tooltip:AddLine(" ")
-		tooltip:AddLine("Right-click to set a waypoint.", 1, 1, 1)
-		tooltip:AddLine("Control-Right-click to set waypoints to every music roll.", 1, 1, 1)
+	if note then
+		GameTooltip:AddLine(note)
+		GameTooltip:AddLine(" ")
 	end
 
-	tooltip:Show()
+	if TomTom then
+		GameTooltip:AddLine("Right-click to set a waypoint.", 1, 1, 1)
+		GameTooltip:AddLine("Control-Right-click to set waypoints to every music roll.", 1, 1, 1)
+	end
+
+	GameTooltip:Show()
 end
 
 function AzerothsTopTunes:OnLeave()
-	if self:GetParent() == WorldMapButton then
-		WorldMapTooltip:Hide()
-	else
 		GameTooltip:Hide()
-	end
 end
 
 
-local function createWaypoint(mapFile, coord)
+local function createWaypoint(mapID, coord)
 	local x, y = HandyNotes:getXY(coord)
-	local m = HandyNotes:GetMapFiletoMapID(mapFile)
-
-	local name = infoFromCoord(mapFile, coord)
-
-	TomTom:AddMFWaypoint(m, nil, x, y, { title = name })
-	TomTom:SetClosestWaypoint()
+	TomTom:AddWaypoint(mapID, x, y, { title = "Candy Bucket", persistent = nil, minimap = true, world = true })
 end
 
 local function createAllWaypoints()
 	for mapFile, coords in next, points do
+		if not continents[mapFile] then
 		for coord, questID in next, coords do
 			if coord and (db.completed or not completedQuests[questID]) then
 				createWaypoint(mapFile, coord)
 			end
 		end
+		end
 	end
+	TomTom:SetClosestWaypoint()
 end
 
 function AzerothsTopTunes:OnClick(button, down, mapFile, coord)
@@ -111,63 +115,22 @@ end
 
 do
 	-- custom iterator we use to iterate over every node in a given zone
-	local function iter(t, prestate)
+	local function iterator(t, prev)
 		if not completedQuests[38356] or not completedQuests[37961] then return end
 		if not t then return end
 
-		local state, value = next(t, prestate)
-
-		while state do -- have we reached the end of this zone?
-			if (db.completed or not completedQuests[value[1]]) then
-				return state, nil, "interface\\icons\\inv_misc_punchcards_yellow", db.icon_scale, db.icon_alpha
+		local coord, v = next(t, prev)
+		while coord do
+			if v and (db.completed or not completedQuests[v[1]]) then
+				return coord, nil, "interface\\icons\\inv_misc_punchcards_yellow", db.icon_scale, db.icon_alpha
 			end
 
-			state, value = next(t, state) -- get next data
+			coord, v = next(t, coord)
 		end
 	end
 
-	local function iterCont(t, prestate)
-		if not completedQuests[38356] or not completedQuests[37961] then return end
-		if not t then return end
-
-		local zone = t.Z
-		local mapFile = HandyNotes:GetMapIDtoMapFile(t.C[zone])
-		local state, value, data, cleanMapFile
-
-		while mapFile do
-			cleanMapFile = gsub(mapFile, "_terrain%d+$", "")
-			data = points[cleanMapFile]
-
-			if data then -- only if there is data for this zone
-				state, value = next(data, prestate)
-
-				while state do -- have we reached the end of this zone?
-					if (db.completed or not completedQuests[value[1]]) then
-						return state, mapFile, "interface\\icons\\inv_misc_punchcards_yellow", db.icon_scale, db.icon_alpha
-					end
-
-					state, value = next(data, state) -- get next data
-				end
-			end
-
-			-- get next zone
-			zone = next(t.C, zone)
-			t.Z = zone
-			mapFile = HandyNotes:GetMapIDtoMapFile(t.C[zone])
-			prestate = nil
-		end
-	end
-
-	function AzerothsTopTunes:GetNodes(mapFile)
-		local C = HandyNotes:GetContinentZoneList(mapFile) -- Is this a continent?
-
-		if C then
-			local tbl = { C = C, Z = next(C) }
-			return iterCont, tbl, nil
-		else
-			mapFile = gsub(mapFile, "_terrain%d+$", "")
-			return iter, points[mapFile], nil
-		end
+	function AzerothsTopTunes:GetNodes2(mapID)
+		return iterator, points[mapID]
 	end
 end
 
@@ -222,6 +185,23 @@ function AzerothsTopTunes:OnEnable()
 	if not HereBeDragons then
 		HandyNotes:Print("Your installed copy of HandyNotes is out of date and the Azeroth's Top Tunes plug-in will not work correctly.  Please update HandyNotes to version 1.5.0 or newer.")
 		return
+	end
+
+	for continentMapID in next, continents do
+		local children = C_Map.GetMapChildrenInfo(continentMapID, nil, true)
+		for _, map in next, children do
+			local coords = points[map.mapID]
+			if coords then
+				for coord, criteria in next, coords do
+					local mx, my = HandyNotes:getXY(coord)
+					local cx, cy = HereBeDragons:TranslateZoneCoordinates(mx, my, map.mapID, continentMapID)
+					if cx and cy then
+						points[continentMapID] = points[continentMapID] or {}
+						points[continentMapID][HandyNotes:getCoord(cx, cy)] = criteria
+					end
+				end
+			end
+		end
 	end
 
 	HandyNotes:RegisterPluginDB("AzerothsTopTunes", self, options)

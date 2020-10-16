@@ -4,7 +4,7 @@
 -- NickTag:SetNickname (name) -> set the player nick name, after set nicktag will broadcast the nick over addon guild channel.
 -- 
 
-local major, minor = "NickTag-1.0", 11
+local major, minor = "NickTag-1.0", 12
 local NickTag, oldminor = LibStub:NewLibrary (major, minor)
 
 if (not NickTag) then 
@@ -775,7 +775,7 @@ end
 	
 	--> choose avatar window
 do
-	local avatar_pick_frame = CreateFrame ("frame", "AvatarPickFrame", UIParent)
+	local avatar_pick_frame = CreateFrame ("frame", "AvatarPickFrame", UIParent,"BackdropTemplate")
 	avatar_pick_frame:SetFrameStrata ("DIALOG")
 	avatar_pick_frame:SetBackdrop ({bgFile = [[Interface\FrameGeneral\UI-Background-Marble]], edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]], tile = true, tileSize = 256, edgeSize = 32,	insets = {left = 11, right = 12, top = 12, bottom = 11}})
 	avatar_pick_frame:SetBackdropColor (.3, .3, .3, .9)

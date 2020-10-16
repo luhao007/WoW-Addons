@@ -469,7 +469,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un tributo alla morte",
     },
     [47894] = {
-        name = "Un salto dopo l'altro",
+        name = "[Jump Around]",
     },
     [47897] = {
         name = "I traditori Zanchuli",
@@ -2746,7 +2746,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Penetrare lo scudo",
     },
     [50690] = {
-        name = "Colloquio con Moxie",
+        name = "[UNUSED]",
     },
     [50691] = {
         name = "Non sul nostro libro paga",
@@ -5038,7 +5038,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Una voce nel vento",
     },
     [53995] = {
-        name = "Il conciatore Tauren",
+        name = "Il conciatore Tauren ",
     },
     [53996] = {
         name = "Raccogliere la legna",
@@ -5617,7 +5617,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Testardo come un Barbabronzea",
     },
     [54940] = {
-        name = "Incontro con la M.A.D.R.E.",
+        name = "La necessità aguzza la M.A.D.R.E.",
     },
     [54945] = {
         name = "Cominciamo",
@@ -5845,7 +5845,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Passare dalla base",
     },
     [55220] = {
-        name = "Caccia al pesce",
+        name = "Le scaglie dell'idra",
     },
     [55221] = {
         name = "Raccolta delle Ossa",
@@ -5857,7 +5857,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Strumenti di distruzione",
     },
     [55227] = {
-        name = "La conciatrice millenaria",
+        name = "La vecchia conciatrice",
     },
     [55228] = {
         name = "La prova",
@@ -6190,7 +6190,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Visioni di pericolo",
     },
     [55779] = {
-        name = "Sospensione della condanna",
+        name = "Rinvio dell'esecuzione",
     },
     [55780] = {
         name = "Vecchi alleati",
@@ -6475,7 +6475,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Contrarietà",
     },
     [56472] = {
-        name = "La Società di Uldum",
+        name = "La Coalizione di Uldum",
     },
     [56494] = {
         name = "La vigilia della battaglia",

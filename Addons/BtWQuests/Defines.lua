@@ -9,6 +9,7 @@ BtWQuests = {
             WarlordsOfDraenor = LE_EXPANSION_WARLORDS_OF_DRAENOR or 5,
             Legion = LE_EXPANSION_LEGION or 6,
             BattleForAzeroth = LE_EXPANSION_BATTLE_FOR_AZEROTH or 7,
+            Shadowlands = LE_EXPANSION_SHADOWLANDS or 8,
         },
         Faction = {
             Alliance = "Alliance",
@@ -80,6 +81,7 @@ BtWQuests = {
             MistsOfPandaria = {},
             WarlordsOfDraenor = {},
             BattleForAzeroth = {},
+            Shadowlands = {},
         },
         Chain = {
             Classic = {},
@@ -89,6 +91,7 @@ BtWQuests = {
             MistsOfPandaria = {},
             WarlordsOfDraenor = {},
             BattleForAzeroth = {},
+            Shadowlands = {},
         },
         Restrictions = {
             Alliance = { type = "faction", id = "Alliance" },
@@ -155,8 +158,8 @@ BTWQUESTS_TIMEZONE_ID_AMERICA_DENVER = "America/Denver"
 BTWQUESTS_TIMEZONE_ID_AMERICA_SAOPAULO = "America/Sao_Paulo"
 
 BTWQUESTS_TIMEZONE_ID_EUROPE_PARIS = "Europe/Paris"
-BTWQUESTS_TIMEZONE_ID_ASIA_SEOUL = "Asia/Paris"
-BTWQUESTS_TIMEZONE_ID_ASIA_TAIPEI = "Asia/Paris"
+BTWQUESTS_TIMEZONE_ID_ASIA_SEOUL = "Asia/Seoul"
+BTWQUESTS_TIMEZONE_ID_ASIA_TAIPEI = "Asia/Taipei"
 
 BTWQUESTS_CLASS_STRINGS = {
     [BTWQUESTS_CLASS_ID_WARRIOR] = "WARRIOR",
@@ -174,7 +177,7 @@ BTWQUESTS_CLASS_STRINGS = {
 }
 
 BTWQUESTS_QUEST_TAG_GROUP = Enum.QuestTag.Group
-BTWQUESTS_QUEST_TAG_PVP = Enum.QuestTag.Pvp
+BTWQUESTS_QUEST_TAG_PVP = Enum.QuestTag.PvP
 BTWQUESTS_QUEST_TAG_RAID = Enum.QuestTag.Raid
 BTWQUESTS_QUEST_TAG_DUNGEON = Enum.QuestTag.Dungeon
 BTWQUESTS_QUEST_TAG_LEGENDARY = Enum.QuestTag.Legendary

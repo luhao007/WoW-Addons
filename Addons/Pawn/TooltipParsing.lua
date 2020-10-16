@@ -55,7 +55,7 @@ PawnSeparatorIgnorePrefixes =
 PawnNormalizationRegexes =
 {
 	{"^\|c........(.+)$", "%1"}, -- "|cFF 0FF 0Heroic" --> "Heroic"
-	{"^([%w%s%.]+) %+(%d+)$", "+%2 %1"}, -- "Stamina +5" --> "+5 Stamina"
+	{"^([%w%s%.]+) %+(%d+)%%?$", "+%2 %1"}, -- "Stamina +5" --> "+5 Stamina"
 	{L.NormalizationEnchant, "%1"}, -- "Enchanted: +50 Strength" --> "+50 Strength" (ENCHANTED_TOOLTIP_LINE)
 }
 
@@ -150,6 +150,7 @@ PawnRegexes =
 	{L.TemporaryBuffSeconds}, -- Temporary item buff
 	{L.TemporaryBuffMinutes}, -- Temporary item buff
 	{PawnGameConstantIgnoredPlaceholder(ENCHANT_ITEM_REQ_SKILL)}, -- Seen on the enchanter-only ring enchantments when you're not an enchanter, and socketed jewelcrafter-only BoP gems
+	{L.Corruption}, -- /pawn compare item:172198::::::::120:262::3:1:3524
 	
 	-- ========================================
 	-- Strings that represent statistics that Pawn cares about
@@ -190,11 +191,13 @@ PawnRegexes =
 	{L.EnchantmentTitaniumWeaponChain, "HasteRating", 28, PawnMultipleStatsFixed}, -- Weapon enchantment; also reduces disarm duration (may be obsolete?)
 	{L.EnchantmentPyriumWeaponChain, "HasteRating", 8, PawnMultipleStatsFixed}, -- Weapon enchantment; also reduces disarm duration
 	{L.EnchantmentLivingSteelWeaponChain, "CritRating", 13, PawnMultipleStatsFixed}, -- Weapon enchantment; also reduces disarm duration
-	{L.Dodge, "DodgeRating"}, -- /pawn compare item:789::::::1754
+	{L.Dodge, "DodgeRating"}, -- /pawn compare item:789::::::1754, or Classic arcanum and enchantment: /pawn compare item:19386:2622 /pawn compare item:21693:2545
 	{L.Dodge2, "DodgeRating"}, -- unused in English
+	{L.Dodge3, "DodgeRating"}, -- unused in English
 	{L.DodgePercent, "DodgeRating"}, -- /pawn compare 11755
 	{L.Parry, "ParryRating"},
 	{L.Parry2, "ParryRating"}, -- unused in English
+	{L.ParryPercent, "ParryRating"}, -- Classic, /pawn compare 19351
 	{L.DefenseSkill, "DefenseRating"}, -- /pawn compare 19867
 	{L.DefenseSkillSimple, "DefenseRating"}, -- /pawn compare item:789::::::89
 	{L.BlockPercent, "BlockRating"}, -- /pawn compare 18499
@@ -245,13 +248,15 @@ PawnRegexes =
 	{L.FrostResist, "FrostResist"}, -- /pawn compare 12609
 	{L.ShadowResist, "ShadowResist"}, -- /pawn compare 12609
 	{L.ArcaneResist, "ArcaneResist"}, -- /pawn compare 12609
-	{L.SpellDamage, "SpellDamage", 1, PawnMultipleStatsExtract, "Healing", 1, PawnMultipleStatsExtract},
+	{L.SpellDamage, "SpellDamage", 1, PawnMultipleStatsExtract, "Healing", 1, PawnMultipleStatsExtract}, -- /pawn compare item:20686::::::2159 ("of Sorcery" on Classic)
 	{L.SpellDamage2, "SpellDamage", 1, PawnMultipleStatsExtract, "Healing", 1, PawnMultipleStatsExtract}, -- /pawn compare 16947
 	{L.SpellDamage3, "SpellDamage", 1, PawnMultipleStatsExtract, "Healing", 1, PawnMultipleStatsExtract}, -- French on Classic uses two different wordings:  /pawn compare 20641 vs. /pawn compare 10041
+	{L.SpellDamage4, "SpellDamage", 1, PawnMultipleStatsExtract, "Healing", 1, PawnMultipleStatsExtract}, -- Simplified Chinese on Classic uses many different wordings:  /pawn compare 16923 vs. /pawn compare 18608
 	{L.FireSpellDamage, "FireSpellDamage"}, -- /pawn compare item:789::::::1878
 	{L.FireSpellDamage2, "FireSpellDamage"}, -- /pawn compare 944
 	{L.ShadowSpellDamage, "ShadowSpellDamage"}, -- /pawn compare item:789::::::1841
 	{L.ShadowSpellDamage2, "ShadowSpellDamage"}, -- /pawn compare 1980
+	{L.ShadowSpellDamage3, "ShadowSpellDamage"}, -- /pawn compare 19133, zhCN Classic only
 	{L.NatureSpellDamage, "NatureSpellDamage"}, -- /pawn compare item:789::::::1997
 	{L.NatureSpellDamage2, "NatureSpellDamage"}, -- /pawn compare 18829
 	{L.ArcaneSpellDamage, "ArcaneSpellDamage"}, -- /pawn compare item:789::::::1801
@@ -264,7 +269,6 @@ PawnRegexes =
 	{L.Healing2, "Healing"}, -- /pawn compare 16947
 	{L.SpellPower, "SpellDamage", 1, PawnMultipleStatsExtract, "Healing", 1, PawnMultipleStatsExtract}, -- enchantments
 	{PawnGameConstant(EMPTY_SOCKET_PRISMATIC), "PrismaticSocket", 1, PawnMultipleStatsFixed},
-	{L.Corruption, "Corruption"}, -- /pawn compare item:172198::::::::120:262::3:1:3524
 
 	-- In WoW Classic, crossbows, guns, and wands don't show "Ranged" and instead show the weapon type on the left.
 	{L.Bow, "IsBow", 1, PawnMultipleStatsFixed, "IsRanged", 1, PawnMultipleStatsFixed},

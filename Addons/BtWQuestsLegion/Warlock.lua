@@ -28,7 +28,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_AFFLICTION, {
         type = "quest",
         id = 40623,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Warlock-Affliction",
     items = {
         {
@@ -113,7 +113,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_DEMONOLOGY, {
         type = "quest",
         id = 42125,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Warlock-Demonology",
     items = {
         {
@@ -171,7 +171,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_DESTRUCTION, {
         type = "quest",
         id = 43254,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Warlock-Destruction",
     items = {
         {
@@ -227,7 +227,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_CAMPAIGN, {
         type = "quest",
         id = 41796,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -568,7 +568,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_WARLOCK_CAMPAIGN, {
 
         {
             type = "level",
-            level = 110,
+            level = 45,
             x = 5,
             y = 23.5,
             connections = {

@@ -21,6 +21,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [36648] = {
         name = "Baine Casco Sangrento",
     },
+    [49748] = {
+        name = "Arauto do Herói",
+    },
+    [49750] = {
+        name = "Arauto do Chefe Guerreiro",
+    },
     [108017] = {
         name = "Torv Passão",
     },
@@ -179,6 +185,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [124629] = {
         name = "Kaza'jin, o Teceondas",
+    },
+    [124630] = {
+        name = "Guarda Kultirena",
     },
     [124641] = {
         name = "Caçadora Sombria Mutumba",
@@ -610,7 +619,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Leandro Reimão",
     },
     [131443] = {
-        name = "Chefe Telemante Oculeth",
+        name = "Chefe Telemante Oculeth\0",
     },
     [131448] = {
         name = "Ubaldo Azinhal",
@@ -1138,7 +1147,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Artur Alísio",
     },
     [140105] = {
-        name = "Nathanos Arauto da Praga",
+        name = "Patrulheiro Sombrio",
     },
     [140176] = {
         name = "Nathanos Arauto da Praga",
@@ -1177,7 +1186,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Baine Casco Sangrento",
     },
     [141602] = {
-        name = "Tomás Zelão",
+        name = "Sábio das Marés Reanimado",
     },
     [141603] = {
         name = "Mallory Capucho",
@@ -1341,6 +1350,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [146375] = {
         name = "Sira Velaluna",
     },
+    [146462] = {
+        name = "Berserker da Horda",
+    },
     [146536] = {
         name = "Fogo-fátuo Perdido",
     },
@@ -1354,7 +1366,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Grande Dama Sylvana Correventos",
     },
     [146791] = {
-        name = "Patrulheira Sombria Lyana",
+        name = "Patrulheira Sombria",
     },
     [146806] = {
         name = "Patrulheira Sombria Lyana",
@@ -1372,7 +1384,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Princesa Talanji",
     },
     [146937] = {
-        name = "Patrulheira Sombria Lyana",
+        name = "Patrulheira Sombria",
     },
     [146939] = {
         name = "Embaixatriz Fiaurora",
@@ -1406,6 +1418,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [147210] = {
         name = "Patrulheira Sombria Lyana",
+    },
+    [147293] = {
+        name = "Defensor Da'kani",
     },
     [147311] = {
         name = "Morton Engrenaldo",
@@ -1699,7 +1714,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Magni Barbabronze",
     },
     [152108] = {
-        name = "Neri Pinafiada",
+        name = "Batedora Barbatalga",
     },
     [152194] = {
         name = "M.A.D.R.E.",
@@ -1714,7 +1729,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Imagem de Thalyssra",
     },
     [152385] = {
-        name = "Andarilho Espiritual Chifre de Ébano",
+        name = "Xamã de Alta Montanha",
     },
     [152484] = {
         name = "Mestre-faz-tudo Superchispa",
@@ -1801,7 +1816,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Shandris Plumaluna",
     },
     [153670] = {
-        name = "Príncipe Erazmin",
+        name = "Combatente da Resistência Ferrúgia",
     },
     [153936] = {
         name = "Feitor Hajeer",
@@ -1879,7 +1894,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Guerreiro Mogu",
     },
     [155482] = {
-        name = "Shandris Plumaluna",
+        name = "Sentinela",
     },
     [155562] = {
         name = "Mestre Shado-Pan",
@@ -1937,6 +1952,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [158145] = {
         name = "Príncipe Erazmin",
+    },
+    [158672] = {
+        name = "Vulpera Imprudente",
     },
     [159544] = {
         name = "Arik Escorpicada",

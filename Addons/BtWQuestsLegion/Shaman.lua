@@ -28,7 +28,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ELEMENTAL, {
         type = "quest",
         id = 39771,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Shaman-Elemental",
     items = {
         {
@@ -86,7 +86,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_ENHANCEMENT, {
         type = "quest",
         id = 40224,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Shaman-Enhancement",
     items = {
         {
@@ -180,7 +180,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_RESTORATION, {
         type = "quest",
         id = 40341,
     },
-    range = {98, 110},
+    range = {98,45},
     buttonImage = "Interface\\AddOns\\BtWQuestsLegion\\UI-Chain-Shaman-Restoration",
     items = {
         {
@@ -236,7 +236,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_CAMPAIGN, {
         type = "quest",
         id = 41888,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -594,7 +594,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_CAMPAIGN, {
 
         {
             type = "level",
-            level = 110,
+            level = 45,
             x = 5,
             y = 24.5,
             connections = {
@@ -847,7 +847,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_FOLLOWER, {
         type = "quest",
         id = 46057,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "chain",
@@ -1032,7 +1032,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_CLASSES_SHAMAN_MOUNT, {
         type = "quest",
         id = 46792,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",

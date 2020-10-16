@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod("Supremus", "DBM-BlackTemple")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010011")
+mod:SetRevision("20200806142051")
 mod:SetCreatureID(22898)
 mod:SetEncounterID(602)
 mod:SetModelID(21145)
-mod:SetZone()
 mod:SetUsedIcons(8)
 
 mod:RegisterCombat("combat")
@@ -17,7 +16,7 @@ mod:RegisterEventsInCombat(
 
 --TODO, see if CLEU method is reliable enough to scrap scan method. scan method may still have been faster.
 local warnPhase			= mod:NewAnnounce("WarnPhase", 4, 42052)
-local warnFixate		= mod:NewTargetAnnounce(41951, 3)
+local warnFixate		= mod:NewTargetNoFilterAnnounce(41951, 3)
 
 local specWarnMolten	= mod:NewSpecialWarningMove(40265, nil, nil, nil, 1, 2)
 local specWarnVolcano	= mod:NewSpecialWarningMove(42052, nil, nil, nil, 1, 2)

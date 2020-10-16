@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(966, "DBM-Party-WoD", 7, 476)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(76141)
 mod:SetEncounterID(1699)--Verify, name doesn't match
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -21,7 +22,7 @@ local specWarnBurst		= mod:NewSpecialWarningCount(154135, nil, nil, nil, 2, 2)
 local specWarnSmash		= mod:NewSpecialWarningDodge(154110, "Tank", nil, 2, 1, 2)
 
 local timerEnergozeCD	= mod:NewNextTimer(20, 154159, nil, nil, nil, 5)
-local timerBurstCD		= mod:NewCDCountTimer(23, 154135, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
+local timerBurstCD		= mod:NewCDCountTimer(23, 154135, nil, nil, nil, 2, nil, DBM_CORE_L.HEALER_ICON)
 
 mod.vb.burstCount = 0
 local skyTrashMod = DBM:GetModByName("SkyreachTrash")

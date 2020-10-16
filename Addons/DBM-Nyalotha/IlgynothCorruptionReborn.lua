@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2374, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200401040711")
+mod:SetRevision("20200907150556")
 mod:SetCreatureID(158328)
 mod:SetEncounterID(2345)
-mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetBossHPInfoToHighest()
 mod.noBossDeathKill = true--Instructs mod to ignore 158328 deaths, since it might die 4x on this fight
@@ -58,22 +57,21 @@ local yellAbsorbingCharge					= mod:NewYell(318383)
 
 --mod:AddTimerLine(BOSS)
 --Stage 01: The Corruptor, Reborn
-local timerEyeofNZothCD						= mod:NewCDTimer(17, 309961, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON, nil, 2, 3)--16.6-17.4 (0ld), new seems more stable 17
-local timerTouchoftheCorruptorCD			= mod:NewCDCountTimer(64.4, 311401, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON, nil, 1, 4)--64.4-68
+local timerEyeofNZothCD						= mod:NewCDTimer(17, 309961, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 2, 3)--16.6-17.4 (0ld), new seems more stable 17
+local timerTouchoftheCorruptorCD			= mod:NewCDCountTimer(64.4, 311401, nil, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON, nil, 1, 4)--64.4-68
 local timerCorruptorsGazeCD					= mod:NewCDCountTimer(32.2, 310319, 202046, nil, nil, 3)--32.8-34 Shorttext "Beam"
 --Stage 02: The Organs of Corruption
-local timerCursedBloodCD					= mod:NewNextCountTimer(18, 311159, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
-local timerAbsorbingChargeCD				= mod:NewNextTimer(18.3, 318383, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerCursedBloodCD					= mod:NewNextCountTimer(18, 311159, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)
+local timerAbsorbingChargeCD				= mod:NewNextTimer(18.3, 318383, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
 
 local berserkTimer							= mod:NewBerserkTimer(600)
 
 mod:AddRangeFrameOption(11, 311159)
 mod:AddInfoFrameOption(315094, true)
 mod:AddSetIconOption("SetIconOnMC", 311367, false, false, {1, 2, 3, 4, 5, 6, 7})
-mod:AddSetIconOption("SetIconOnOoze", "ej20988", false, true, {8})--Perma disabled in LFR
 mod:AddSetIconOption("SetIconOnCusedBlood", 313759, false, false, {1, 2, 3, 4, 5, 6, 7, 8})
 mod:AddBoolOption("SetIconOnlyOnce", true)--If disabled, as long as living oozes are up, the skull will bounce around to lowest health mob continually, which is likely not desired by most, thus this defaulted on
-mod:AddMiscLine(DBM_CORE_OPTION_CATEGORY_DROPDOWNS)
+mod:AddMiscLine(DBM_CORE_L.OPTION_CATEGORY_DROPDOWNS)
 mod:AddDropdownOption("InterruptBehavior", {"Two", "Three", "Four", "Five"}, "Two", "misc")
 
 --mod.vb.phase = 1
@@ -87,8 +85,6 @@ mod.vb.mcCount = 0
 mod.vb.beamCount = 0
 
 local addsTable = {}
-local autoMarkScannerActive = false
-local autoMarkBlocked = false
 local fixatedTargets = {}
 local castsPerGUID = {}
 
@@ -125,47 +121,6 @@ do
 	end
 end
 
-local autoMarkOozes
-do
-	local UnitHealth, UnitHealthMax = UnitHealth, UnitHealthMax
-	autoMarkOozes = function(self)
-		self:Unschedule(autoMarkOozes)
-		if self.vb.IchorCount == 0 then
-			autoMarkScannerActive = false
-			autoMarkBlocked = false
-			return
-		end--None left, abort scans
-		local lowestUnitID = nil
-		local lowestHealth = 100
-		local found = false
-		for i = 1, 40 do
-			local UnitID = "nameplate"..i
-			local GUID = UnitGUID(UnitID)
-			if GUID then
-				local cid = self:GetCIDFromGUID(GUID)
-				if cid == 159514 then
-					local unitHealth = UnitHealth(UnitID) / UnitHealthMax(UnitID)
-					if unitHealth < lowestHealth then
-						lowestHealth = unitHealth
-						lowestUnitID = UnitID
-					end
-				end
-			end
-		end
-		if lowestUnitID then
-			SetRaidTarget(lowestUnitID, 8)
-			found = true
-		end
-		if found and self.Options.SetIconOnlyOnce then
-			--Abort until invoked again
-			autoMarkScannerActive = false
-			autoMarkBlocked = true
-			return
-		end
-		self:Schedule(1, autoMarkOozes, self)
-	end
-end
-
 function mod:AbsorbingChargeTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
@@ -191,8 +146,6 @@ function mod:OnCombatStart(delay)
 	self.vb.beamCount = 0
 	self.vb.interruptBehavior = self.Options.InterruptBehavior--Default it to whatever user has it set to, until group leader overrides it
 	self.vb.organPhase = false
-	autoMarkScannerActive = false
-	autoMarkBlocked = false
 	table.wipe(addsTable)
 	table.wipe(fixatedTargets)
 	table.wipe(castsPerGUID)
@@ -203,7 +156,7 @@ function mod:OnCombatStart(delay)
 		timerTouchoftheCorruptorCD:Start(47.7-delay, 1)--START
 		if self:IsMythic() then
 			timerCursedBloodCD:Start(20-delay)
-			timerCursedBloodCD:UpdateInline(DBM_CORE_MAGIC_ICON)
+			timerCursedBloodCD:UpdateInline(DBM_CORE_L.MAGIC_ICON)
 		end
 	end
 	if UnitIsGroupLeader("player") and not self:IsLFR() then
@@ -276,7 +229,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerCursedBloodCD:Start(self:IsMythic() and 45 or 18, self.vb.bloodCount+1)
 		if self:IsMythic() then
 			self.vb.bloodIcon = 1
-			timerCursedBloodCD:UpdateInline(DBM_CORE_MAGIC_ICON, self.vb.bloodCount+1)
+			timerCursedBloodCD:UpdateInline(DBM_CORE_L.MAGIC_ICON, self.vb.bloodCount+1)
 		end
 	end
 end
@@ -333,10 +286,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not addsTable[args.sourceGUID] then
 			addsTable[args.sourceGUID] = true
 			self.vb.IchorCount = self.vb.IchorCount + 1
-			if self.Options.SetIconOnOoze and not self:IsLFR() and not autoMarkScannerActive and not autoMarkBlocked then
-				autoMarkScannerActive = true
-				self:Schedule(2.5, autoMarkOozes, self)--TODO, maybe speed up or slow down slightly
-			end
 		end
 		if not tContains(fixatedTargets, args.destName) then
 			table.insert(fixatedTargets, args.destName)
@@ -415,11 +364,6 @@ function mod:UNIT_DIED(args)
 	if cid == 159514 then--blood-of-nyalotha
 		self.vb.IchorCount = self.vb.IchorCount - 1
 		addsTable[args.destGUID] = nil
-		if self.Options.SetIconOnOoze and not self:IsLFR() and not autoMarkScannerActive then
-			autoMarkBlocked = false
-			autoMarkScannerActive = true
-			autoMarkOozes(self)
-		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
 		end

@@ -195,6 +195,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [37960] = {
         name = "滥用魔网",
     },
+    [37963] = {
+        name = "无可救赎者",
+    },
     [37965] = {
         name = "被污染的酿酒园",
     },
@@ -2893,7 +2896,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "前人的脚步",
     },
     [41767] = {
-        name = "大胆的营救",
+        name = "冒险救援",
     },
     [41768] = {
         name = "灵魂信标",
@@ -4480,7 +4483,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "流明石",
     },
     [43401] = {
-        name = "黑暗曙光",
+        name = "黑暗中的光明",
     },
     [43402] = {
         name = "虚空之光大祭司",
@@ -5860,7 +5863,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "斩首行动",
     },
     [46107] = {
-        name = "堕落之源",
+        name = "腐化之源",
     },
     [46127] = {
         name = "挫败双子",

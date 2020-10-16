@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: mystadio
-## Version: 80300
+## Version: 90001
 ## LoadOnDemand: 0
 ## SavedVariables: wlTime, wlRegionBuildings, wlVersion, wlUploaded, wlStats, wlExportData, wlRealmList, wlAuction, wlEvent, wlItemSuffix, wlObject, wlProfile, wlUnit, wlItemDurability, wlGarrisonMissions, wlBattlePetStats, wlItemBonuses, wlDailies, wlWorldQuests, wlContributionQuests
 ## SavedVariablesPerCharacter: wlScans, wlSetting, wlPetBlacklist, wlUIReloaded

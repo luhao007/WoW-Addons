@@ -8,7 +8,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 37449,
@@ -106,7 +106,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOS
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "chain",
@@ -324,7 +324,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     prerequisites = {
         {
             type = "quest",
@@ -617,7 +617,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AGAINSTTHEGIANTS, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 37566,
@@ -750,7 +750,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_MAKRANA, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 40794,
@@ -834,7 +834,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DAGLOP, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 38237,
@@ -890,7 +890,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_VINEYARD, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 38203,
@@ -924,7 +924,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_FELBLAZE, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98, 110},
+    range = {98,45},
     completed = {
         type = "quest",
         id = 42369,

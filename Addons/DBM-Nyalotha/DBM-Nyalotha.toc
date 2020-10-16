@@ -8,11 +8,11 @@
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Ny'alotha|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0尼奥罗萨|r
 
-## X-Min-Interface: 80300
+## X-Min-Interface: 90001
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: BFA
-## X-DBM-Mod-Has-Mythic: 1
+## X-DBM-StatTypes: lfr,normal,heroic,mythic
 ## X-DBM-Mod-Name: Ny'alotha
 ## X-DBM-Mod-Name-koKR: 나이알로사
 ## X-DBM-Mod-Name-zhTW: 奈奧羅薩

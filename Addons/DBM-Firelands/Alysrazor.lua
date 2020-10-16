@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(194, "DBM-Firelands", nil, 78)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190821185238")
+mod:SetRevision("20200918144529")
 mod:SetCreatureID(52530)
 mod:SetEncounterID(1206)
-mod:SetZone()
 --mod:SetModelSound("Sound\\Creature\\ALYSRAZOR\\VO_FL_ALYSRAZOR_AGGRO.ogg", "Sound\\Creature\\ALYSRAZOR\\VO_FL_ALYSRAZOR_TRANSITION_02.ogg")
 --Long: I serve a new master now, mortals!
 --Short: Reborn in Flame!
@@ -48,13 +47,13 @@ local timerCombatStart			= mod:NewCombatTimer(33)
 local timerFieryVortexCD		= mod:NewNextTimer(179, 99794, nil, nil, nil, 6)
 local timerMoltingCD			= mod:NewNextTimer(60, 99464, nil, nil, nil, 5)
 local timerCataclysm			= mod:NewCastTimer(5, 102111, nil, nil, nil, 5)--Heroic
-local timerCataclysmCD			= mod:NewCDTimer(31, 102111, nil, nil, nil, 5, nil, DBM_CORE_DEADLY_ICON, nil, 2, 4)--Heroic
-local timerFirestormCD			= mod:NewCDTimer(83, 100744, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON, nil, 1, 4)--Heroic
+local timerCataclysmCD			= mod:NewCDTimer(31, 102111, nil, nil, nil, 5, nil, DBM_CORE_L.DEADLY_ICON, nil, 2, 4)--Heroic
+local timerFirestormCD			= mod:NewCDTimer(83, 100744, nil, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON, nil, 1, 4)--Heroic
 local timerPhaseChange			= mod:NewTimer(33.5, "TimerPhaseChange", 99816, nil, nil, 6)
 local timerHatchEggs			= mod:NewTimer(50, "TimerHatchEggs", 42471, nil, nil, 1)
 local timerNextInitiate			= mod:NewTimer(32, "timerNextInitiate", 61131, nil, nil, 1)
-local timerTantrum				= mod:NewBuffActiveTimer(10, 99362, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSatiated				= mod:NewBuffActiveTimer(15, 99359, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerTantrum				= mod:NewBuffActiveTimer(10, 99362, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
+local timerSatiated				= mod:NewBuffActiveTimer(15, 99359, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerBlazingClaw			= mod:NewTargetTimer(15, 99844, nil, false, nil, 5)
 
 mod:AddInfoFrameOption(98734, false)
@@ -67,8 +66,7 @@ local PowerLevel = DBM:GetSpellInfo(98734)
 function mod:OnCombatStart(delay)
 	if self:IsHeroic() then
 		timerFieryVortexCD:Start(243-delay)--Probably not right.
-		timerCataclysmCD:Start(32-delay)
-		timerHatchEggs:Start(42-delay)
+		timerCataclysmCD:Start(30.4-delay)
 		timerFirestormCD:Start(94-delay)
 		warnFirestormSoon:Schedule(84-delay)
 		timerHatchEggs:Start(37-delay)

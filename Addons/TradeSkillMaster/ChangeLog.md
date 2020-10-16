@@ -1,5 +1,5 @@
-## v4.9.35 Changes
+## v4.10.9 Changes
 
-* [All] Fixed error when loading very old settings
+* [Retail] Added workaround for AH bugs in 9.0.1
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

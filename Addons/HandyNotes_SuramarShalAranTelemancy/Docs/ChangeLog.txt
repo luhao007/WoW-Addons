@@ -1,7 +1,11 @@
-$Id: ChangeLog.txt 66 2020-01-17 14:37:20Z arith $
+$Id: ChangeLog.txt 68 2020-07-26 15:05:43Z arith $
 
 Revision History:
 =================
+
+* v1.24 (Jul. 26, 2020)
+-----------------------
+- Library update: LibBabble-SubZone
 
 * v1.23 (Jan. 17, 2020)
 -----------------------

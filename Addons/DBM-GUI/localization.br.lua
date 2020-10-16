@@ -1,8 +1,8 @@
 ﻿if GetLocale() ~= "ptBR" then return end
 
-if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
+if not DBM_GUI_L then DBM_GUI_L = {} end
 
-local L = DBM_GUI_Translations
+local L = DBM_GUI_L
 
 L.MainFrame = "Deadly Boss Mods"
 
@@ -91,10 +91,6 @@ L.WarningIconRight 			= "Mostrar ícone do lado direito."
 L.WarningIconChat 			= "Mostrar ícones no chat"
 
 -- estavam faltando as linhas abaixo
-L.Warn_FontType				= "Escolha fonte"
-L.Warn_FontStyle			= "Bandeira de fonte (flags)"
-L.Warn_FontShadow			= "Sombra da fonte"
-L.Warn_FontSize				= "Tamanho da fonte: %d"
 L.Warn_Duration				= "duração do aviso: %0.1f seg"
 L.None						= "nada"
 L.Outline					= "Contorno"
@@ -120,20 +116,18 @@ L.CombatMessages			= "Opções de mensagens de combate"
 L.ShowEngageMessage 		= "Exibir mensagens ao iniciar combate no quadro de chat"
 L.ShowDefeatMessage 		= "Exibir mensagens ao vencer chefes no quadro de chat"
 L.ShowGuildMessages 		= "Exibir mensagens de puxada/vitória/derrota no quadro de chat"
-L.WhisperMessages			= "Opções de mensagens de sussurro"
+L.Area_WhisperMessages		= "Opções de mensagens de sussurro"
 L.AutoRespond 				= "Responder automaticamente a sussurros durante a luta"
 L.WhisperStats 				= "Incluir estatísticas de derrotas/vitórias nas respostas a sussurros"
 
 -- Tab: Barsetup
-L.BarSetup   				= "Configurações da barra"
+L.TabCategory_Timers		= "Configurações da barra"
 L.BarTexture 				= "Textura da barra"
 L.BarStyle					= "Estilo da barra"
 L.BarDBM					= "DBM"
 L.BarSimple					= "Simple (sem animação)"
 L.BarStartColor				= "Cor inicial"
 L.BarEndColor 				= "Cor final"
-L.Bar_Font					= "Fonte utilizada na barra"
-L.Bar_FontSize				= "Tamanho da fonte"
 L.Bar_Height				= "Altura da barra: %d"
 L.Slider_BarOffSetX 		= "Deslocamento X: %d"
 L.Slider_BarOffSetY 		= "Deslocamento Y: %d"
@@ -156,20 +150,15 @@ L.BarSort					= "selecionar pelo tempo restante"
 
 
 -- Tab: Spec Warn Frame
-L.Panel_SpecWarnFrame		= "Avisos Especiais"
+L.Panel_SpecWarnFrame		= "Avisos Raid Especiais"
 L.Area_SpecWarn				= "Opções de Avisos Especiais"
 L.ShowSWarningsInChat 		= "Exibir avisos especiais no quadro de chat"
 L.SpecWarn_FlashFrameRepeat	= "Repetir %d vezes (se habilitado)"
-L.SpecWarn_Font				= "Fonte utilizada para avisos especiais"
-L.SpecWarn_FontSize			= "Tamanho da fonte"
-L.SpecWarn_FontColor		= "Cor da fonte"
-L.SpecWarn_FontType			= "Selecionar fonte"
 L.SpecWarn_FlashRepeat		= "Repetir piscada"
 L.SpecWarn_FlashColor		= "Cor pisca"
 L.SpecWarn_FlashDur			= "Duração da piscada: %0.1f"
 L.SpecWarn_FlashAlpha		= "Alfa da piscada: %0.1f"
 L.SpecWarn_DemoButton		= "Mostrar exemplo"
-L.SpecWarn_MoveMe			= "Definir posição"
 L.SpecWarn_ResetMe			= "Redefinir padrões"
 
 -- Tab: Spoken Alerts Frame
@@ -191,7 +180,7 @@ L.SpecWarn_AlwaysVoice		= "Sempre tocar todos os avisos falados (Substitui opç�
 
 -- Tab: Global Filter
 L.Panel_SpamFilter			= "Desligamentos globais & filtros"
-L.Area_SpamFilter_Outgoing	= "opções de desligamentos globais & filtros"
+
 L.SpamBlockNoShowAnnounce	= "Não exibir anúncios ou tocar avisos sonoros"
 L.SpamBlockNoSetIcon		= "Não marcar jogadores com ícones"
 L.SpamBlockNoRangeFrame		= "Não exibir quadro de distancia"
@@ -280,4 +269,10 @@ L.SelectModProfileDelete	= "apaga as opções da mod de"
 
 
 -- Misc
+L.FontType					= "Escolha fonte"
+L.FontStyle					= "Bandeira de fonte (flags)"
+L.FontColor					= "Cor da fonte"
+L.FontShadow				= "Sombra da fonte"
+L.FontSize					= "Tamanho da fonte: %d"
+
 L.FontHeight	= 16

@@ -1,15 +1,14 @@
 local mod	= DBM:NewMod(1825, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190625143517")
+mod.statTypes = "heroic,mythic,challenge"
+
+mod:SetRevision("20200912135206")
 mod:SetCreatureID(113971)
 mod:SetEncounterID(1954)
-mod:SetZone()
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
-
-mod.noNormal = true
 
 mod:RegisterCombat("combat")
 
@@ -32,9 +31,9 @@ local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 
 local specWarnHolyWrath				= mod:NewSpecialWarningInterrupt(227823, "HasInterrupt", nil, nil, 1, 2)
 
 local timerSacredGroundCD			= mod:NewCDTimer(19, 227789, nil, nil, nil, 3)--19-35 (delayed by bulwarks and what nots)
-local timerHolyShockCD				= mod:NewCDTimer(13.3, 227800, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerHolyShockCD				= mod:NewCDTimer(13.3, 227800, nil, nil, nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)
 local timerRepentanceCD				= mod:NewCDTimer(51, 227508, nil, nil, nil, 2)
-local timerHolyWrath				= mod:NewCastTimer(10, 227823, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON, nil, 1, 4)
+local timerHolyWrath				= mod:NewCastTimer(10, 227823, nil, nil, nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON, nil, 1, 4)
 
 --local berserkTimer				= mod:NewBerserkTimer(300)
 

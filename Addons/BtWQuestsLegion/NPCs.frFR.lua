@@ -9,17 +9,26 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [38237] = {
         name = "Maximillian de Comté-du-Nord",
     },
+    [91065] = {
+        name = "Maître de chai Voodani",
+    },
     [92802] = {
         name = "Gravax le Déprédateur",
     },
     [93600] = {
         name = "Saylanna Rivebrise",
     },
+    [94101] = {
+        name = "Laeni Tirargent",
+    },
     [94366] = {
         name = "Lelyn Vivombre",
     },
     [94434] = {
         name = "Addie Pétibourbe",
+    },
+    [95799] = {
+        name = "Damrouf le Kostau",
     },
     [96513] = {
         name = "Razik Gazboulon",
@@ -39,6 +48,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [99065] = {
         name = "Thaedris Chanteplume",
     },
+    [99905] = {
+        name = "Glaise Plume-Grise",
+    },
     [101766] = {
         name = "Thalrenus Rivebois",
     },
@@ -54,8 +66,23 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [106299] = {
         name = "Thisalee Corbeau",
     },
+    [106915] = {
+        name = "Marius Gangreplaie",
+    },
+    [107245] = {
+        name = "Marius Gangreplaie",
+    },
+    [107498] = {
+        name = "Cukroa",
+    },
     [107499] = {
         name = "Corvursidé effrayé",
+    },
+    [107674] = {
+        name = "Lavrille Six-Coups",
+    },
+    [107675] = {
+        name = "Rax Six-Coups",
     },
     [108304] = {
         name = "Guviena Lamechant",

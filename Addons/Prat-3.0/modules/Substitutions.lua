@@ -642,16 +642,15 @@ PL:AddLocale(PRAT_MODULE, "frFR", L)
 
 L = {
 	["Substitutions"] = {
-		["%d total user defined substitutions"] = " %d Gesamte vom Benutzer definierte Ersetzungen",
+		["%d total user defined substitutions"] = "%d Benutzerdefinierte Ersetzungen insgesamt",
 		["|cffff0000warning:|r subtitution \"%s\" already defined as \"%s\", overwriting"] = "|cffff0000Warnung:|r Ersetzung \"%s\" wurde bereits definiert als \"%s\", überschreibe",
 		["<noguild>"] = " <keinegilde>",
 		["<notarget>"] = "<keinziel>",
-		["A module to provide basic chat substitutions."] = "Ein Modul, das grundlegende Ersetzungen zur Verfügung stellt.",
+		["A module to provide basic chat substitutions."] = "Ein Modul zur Bereitstellung grundlegender Chat-Ersetzungen.",
 		["Are you sure - this will delete all user defined substitutions and reset defaults?"] = "Bist du sicher - dies wird alle vom Benutzer definierten Ersetzungen löschen und auf Standard zurücksetzen.",
 		["Are you sure?"] = "Bist du sicher?",
-		["can't find substitution index for a substitution named '%s'"] = "Kann Ersetzungsindex für eine Ersetzung mit dem Namen '%s' nicht finden.",
-		["current-prompt"] = [=[Gegenwärtiger Wert: '%s'
-Anklicken, um in den Chat einzufügen.]=],
+		["can't find substitution index for a substitution named '%s'"] = "Es kann kein Ersatzindex für eine Ersetzung mit dem Namen '%s' gefunden werden.",
+		["current-prompt"] = "Aktueller Wert: '%s' Anklicken, um in den Chat einzufügen.",
 		["defined %s: expands to => %s"] = "definiert %s: erweitert zu => %s",
 		["Delete all"] = "Alles löschen",
 		["Delete substitution"] = "Ersetzung löschen",
@@ -684,12 +683,12 @@ Anklicken, um in den Chat einzufügen.]=],
 		["Options for setting and removing user defined substitutions. (NB: users may define custom values for existing substitutions, but they will revert to the default value if the user definition is deleted.)"] = "Optionen zum Einstellen und Entfernen benutzerdefinierter Ersetzungen. (NB: Benutzer können eigeneWerte für vorhandene Ersetzungen definieren, aber diese werden auf ihre Standardwerte zurückgesetzt, wenn die Definition des Benutzers gelöscht wurde.)",
 		["PlayerAverageItemLevel"] = "Durchschnittliche Gegenstandsstufe des Spielers",
 		["PlayerCurrentMana"] = "SpielerAktuellesMana",
-		["PlayerHealthDeficit"] = "SpielerGesundheitDefizit",
+		["PlayerHealthDeficit"] = "Gesundheitsdefizit des Spielers",
 		["PlayerHP"] = "SpielerHP",
 		["PlayerManaDeficit"] = "SpielerManaDefizit",
 		["PlayerMaxHP"] = "SpielerMaxHP",
 		["PlayerMaxMana"] = "SpielerMaxMana",
-		["PlayerName"] = "SpielerName",
+		["PlayerName"] = "Spielername",
 		["PlayerPercentHP"] = "SpielerProzentHP",
 		["PlayerPercentMana"] = "SpielerProzentMana",
 		["RandNum"] = "ZufNum",
@@ -703,8 +702,8 @@ Anklicken, um in den Chat einzufügen.]=],
 		["TargetClass"] = "ZielKlasse",
 		["TargetGender"] = "ZielGeschlecht",
 		["TargetGuild"] = "ZielGilde",
-		["TargetHealth"] = "ZielGesundheit",
-		["TargetHealthDeficit"] = "ZielGesundheitDefizit",
+		["TargetHealth"] = "Zielgesundheit",
+		["TargetHealthDeficit"] = "Zielgesundheitsdefizit",
 		["TargetIcon"] = "ZielSymbol",
 		["TargetLevel"] = "ZielStufe",
 		["TargetManaDeficit"] = "ZielManaDefizit",
@@ -1352,24 +1351,21 @@ end
   function module:BuildModuleOptions(args)
     local modulePatterns = Prat.GetModulePatterns(self)
 
-    local order = 500
-
     self.buildingMenu = true
 
-    for k, v in pairs(modulePatterns) do
-      local name = v.optname
-      local pat = v.pattern:gsub("%%%%", "%%")
+    for _, v in pairs(modulePatterns) do
+      if v then
+        local name = v.optname
+        local pat = v.pattern:gsub("%%%%", "%%")
 
-      order = order + 10
+        args[name] = args[name] or {}
+        local d = args[name]
 
-      args[name] = args[name] or {}
-      local d = args[name]
-
-      d.name = name .. " " .. pat
-      d.desc = subDesc
-      d.type = "execute"
-      d.func = "DoPat"
-      d.order = order
+        d.name = name .. " " .. pat
+        d.desc = subDesc
+        d.type = "execute"
+        d.func = "DoPat"
+      end
     end
 
     self.buildingMenu = false
@@ -1397,8 +1393,8 @@ end
     local name = info[#info] or ""
 
     if modulePatterns then
-      for k, v in pairs(modulePatterns) do
-        if v.optname == name then
+      for _, v in pairs(modulePatterns) do
+        if v and v.optname == name then
           return v
         end
       end

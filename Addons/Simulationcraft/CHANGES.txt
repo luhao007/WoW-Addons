@@ -1,16 +1,10 @@
-lightweight tag fdd37a05e23f9418ecfcbd6aa113b02b09ba0fdc v1.12.5
+lightweight tag f2a0ce75ab7b14b3c56793ac29a2b90664843470 v9.0.1-01
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Fri Jan 24 12:37:32 2020 -0800
+Date:	Tue Oct 13 08:19:58 2020 -0700
 
-commit fdd37a05e23f9418ecfcbd6aa113b02b09ba0fdc
+commit f2a0ce75ab7b14b3c56793ac29a2b90664843470
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Fri Jan 24 12:37:32 2020 -0800
+Date:   Tue Oct 13 08:19:58 2020 -0700
 
-    Bump version
-
-commit c746735037ac9c3b368106e402d5dff43d08ebbd
-Author: Dave Hendler <sollaires@gmail.com>
-Date:   Fri Jan 24 12:37:08 2020 -0800
-
-    Fix bug with main bank slots showing wrong item slot, add header comment with a player summary and date
+    9.0.1 prepatch version compatibility bump
 

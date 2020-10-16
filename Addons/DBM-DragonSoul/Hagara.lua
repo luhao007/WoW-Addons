@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(317, "DBM-DragonSoul", nil, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190625143316")
+mod:SetRevision("20200806141910")
 mod:SetCreatureID(55689)
 mod:SetEncounterID(1296)
-mod:SetZone()
 mod:SetUsedIcons(3, 4, 5, 6, 7, 8)
 --mod:SetModelSound("sound\\CREATURE\\HAGARA\\VO_DS_HAGARA_INTRO_01.OGG", "sound\\CREATURE\\HAGARA\\VO_DS_HAGARA_CRYSTALDEAD_05.OGG")
 
@@ -40,8 +39,8 @@ local specWarnWatery		= mod:NewSpecialWarningMove(110317)
 local specWarnFrostflake	= mod:NewSpecialWarningYou(109325)
 local yellFrostflake		= mod:NewYell(109325)
 
-local timerAssault			= mod:NewBuffActiveTimer(5, 107851, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerAssaultCD		= mod:NewCDCountTimer(15, 107851, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerAssault			= mod:NewBuffActiveTimer(5, 107851, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_L.TANK_ICON)
+local timerAssaultCD		= mod:NewCDCountTimer(15, 107851, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerShatteringCD		= mod:NewCDTimer(10.5, 105289, nil, nil, nil, 3)--every 10.5-15 seconds
 local timerIceLance			= mod:NewBuffActiveTimer(15, 105269)
 local timerIceLanceCD		= mod:NewNextTimer(30, 105269, nil, nil, nil, 5)

@@ -8,7 +8,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 45,
         },
     },
     completed = {
@@ -246,8 +246,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_TREASURE_MASTER_IK
     expansion = BTWQUESTS_EXPANSION_LEGION,
     prerequisites = {
         {
-            type = "quest",
-            id = 46845,
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
+            upto = 46845,
         },
     },
     completed = {
@@ -259,7 +260,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_TREASURE_MASTER_IK
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
-            breadcrumb = true,
+            upto = 46845,
             x = 3,
             y = 0,
             connections = {

@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: MysticalOS
-## Version: r47
+## Version: r52
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMHellfireCitadel_AllSavedVars
@@ -13,10 +13,11 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: WOD
-## X-DBM-Mod-Has-Mythic: 1
+## X-DBM-StatTypes: normal,heroic,mythic,lfr
 ## X-DBM-Mod-Sort: 601
 ## X-DBM-Mod-MapID: 1448
-## X-DBM-Mod-MinCoreRevision: 15211
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 5
 ## X-Curse-Project-ID: 101956
 ## X-WoWI-ID: 24535
 ## X-Part-Of: DBM-Core

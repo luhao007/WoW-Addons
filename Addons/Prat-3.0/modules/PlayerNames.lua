@@ -91,12 +91,14 @@ Prat:AddModuleToLoad(function()
     ["Toggle using a common color for brackets around player names."] = true,
     ["linkifycommon_name"] = "Linkify Common Messages",
     ["linkifycommon_desc"] = "Linkify Common Messages",
-    ["Prat_Playernames: Stored Player Data Cleared"] = true,
+    msg_stored_data_cleared = "Stored Player Data Cleared",
     ["tabcomplete_name"] = "Possible Names",
     ["Tab completion : "] = true,
     ["Too many matches (%d possible)"] = true,
     ["Actively Query Player Info"] = true,
     ["Query the server for all player names we do not know. Note: This happpens pretty slowly, and this data is not saved."] = true,
+    bnetclienticon_name = "Show BNet Client Icon",
+    bnetclienticon_desc = "Show an icon indicating which game or client the Battle.Net friend is using"
   })
   --@end-debug@]===]
 
@@ -111,6 +113,8 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = true,
 		["Angled"] = true,
+		["bnetclienticon_desc"] = "Show an icon indicating which game or client the Battle.Net friend is using",
+		["bnetclienticon_name"] = "Show BNet Client Icon",
 		["Brackets"] = true,
 		["Brackets Common Color"] = true,
 		["Brackets Use Common Color"] = true,
@@ -133,6 +137,7 @@ L = {
 		["Level Color Mode"] = true,
 		["linkifycommon_desc"] = "Linkify Common Messages",
 		["linkifycommon_name"] = "Linkify Common Messages",
+		["msg_stored_data_cleared"] = "Stored Player Data Cleared",
 		["No additional coloring"] = true,
 		["None"] = true,
 		["Player Color Mode"] = true,
@@ -181,6 +186,10 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = "Interroger activement les joueurs",
 		["Angled"] = "Chevrons",
+		--[[Translation missing --]]
+		["bnetclienticon_desc"] = "Show an icon indicating which game or client the Battle.Net friend is using",
+		--[[Translation missing --]]
+		["bnetclienticon_name"] = "Show BNet Client Icon",
 		["Brackets"] = "Crochets",
 		["Brackets Common Color"] = "Couleur des crochets",
 		["Brackets Use Common Color"] = "Couleur des crochets",
@@ -205,6 +214,8 @@ L = {
 		["linkifycommon_desc"] = "Linkify Common Messages",
 		--[[Translation missing --]]
 		["linkifycommon_name"] = "Linkify Common Messages",
+		--[[Translation missing --]]
+		["msg_stored_data_cleared"] = "Stored Player Data Cleared",
 		["No additional coloring"] = "Pas de couleur",
 		["None"] = "Aucun",
 		["Player Color Mode"] = "Couleur des joueurs",
@@ -255,14 +266,16 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = "Spielerinformationen aktiv abfragen",
 		["Angled"] = "Abgewinkelt",
+		["bnetclienticon_desc"] = "Zeigt ein Symbol an, das angibt, welches Spiel oder welchen Client der Battle.Net-Freund verwendet",
+		["bnetclienticon_name"] = "BNet-Client Symbol anzeigen",
 		["Brackets"] = "Klammern",
 		["Brackets Common Color"] = "Standardfarbe der Klammern",
-		["Brackets Use Common Color"] = "Klammern verwende die Standardfarbe",
+		["Brackets Use Common Color"] = "Klammern verwenden die Standardfarbe",
 		["Class"] = "Klasse",
-		["Color by Level Difference"] = "Entsprechend des Stufenunterschieds einfärben",
+		["Color by Level Difference"] = "Farbe nach Stufenunterschied",
 		["coloreverywhere_desc"] = "Spielernamen einfärben, wenn diese im Text einer Chat-Mitteilung auftreten.",
 		["coloreverywhere_name"] = "Namen überall einfärben",
-		["Enable Alt-Invite"] = "Alt-Einladungen aktivieren",
+		["Enable Alt-Invite"] = "Alternative Einladung aktivieren",
 		["Enable Invite Links"] = "Einladungs-Links aktivieren",
 		["Enable TabComplete"] = "TabComplete aktivieren",
 		["hoverhilight_desc"] = "Chat-Zeilen eines bestimmten Spielers hervorheben, wenn die Maus über den Spielerlink gelegt wird.",
@@ -277,11 +290,12 @@ L = {
 		["Level Color Mode"] = "Stufenfarbe-Modus",
 		["linkifycommon_desc"] = "Allgemeine Mitteilungen in Links umwandeln",
 		["linkifycommon_name"] = "Allgemeine Mitteilungen in Links umwandeln",
+		["msg_stored_data_cleared"] = "Gespeicherte Spielerdaten gelöscht",
 		["No additional coloring"] = "Keine zusätzliche Einfärbung",
 		["None"] = "Keine",
-		["Player Color Mode"] = "Spielerfarbe-Modus",
-		["Player name formating options."] = "Formatierungsoptionen für Spielernamen",
-		["PlayerNames"] = true,
+		["Player Color Mode"] = "Spieler Farbmodus",
+		["Player name formating options."] = "Formatierungsoptionen für Spielernamen.",
+		["PlayerNames"] = "Spielernamen",
 		["Prat_Playernames: Stored Player Data Cleared"] = "Prat_Playernames: Gespeicherte Spielerdaten gelöscht",
 		["Query the server for all player names we do not know. Note: This happpens pretty slowly, and this data is not saved."] = "Alle uns unbekannten Spielernamen beim Server abfragen. Merke: dies passiert ziemlich langsam und diese Daten sind nicht gespeichert.",
 		["Random"] = "Zufällig",
@@ -325,6 +339,8 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = "적극적인 플레이어 정보 요청",
 		["Angled"] = "<플레이어>",
+		["bnetclienticon_desc"] = "Battle.Net 친구가 사용중인 게임 또는 클라이언트를 나타내는 아이콘 표시",
+		["bnetclienticon_name"] = "베틀넷 클라이언트 아이콘 표시",
 		["Brackets"] = "괄호 선택",
 		["Brackets Common Color"] = "괄호 색상",
 		["Brackets Use Common Color"] = "괄호에 색상 사용",
@@ -347,6 +363,7 @@ L = {
 		["Level Color Mode"] = "레벨 색상 설정",
 		["linkifycommon_desc"] = "일반 메시지 링크",
 		["linkifycommon_name"] = "일반 메시지 링크",
+		["msg_stored_data_cleared"] = "저장된 플레이어 데이터가 지워짐",
 		["No additional coloring"] = "사용 안함",
 		["None"] = "안함",
 		["Player Color Mode"] = "플레이어 색상 설정",
@@ -398,6 +415,10 @@ L = {
 		--[[Translation missing --]]
 		["Angled"] = "Angled",
 		--[[Translation missing --]]
+		["bnetclienticon_desc"] = "Show an icon indicating which game or client the Battle.Net friend is using",
+		--[[Translation missing --]]
+		["bnetclienticon_name"] = "Show BNet Client Icon",
+		--[[Translation missing --]]
 		["Brackets"] = "Brackets",
 		--[[Translation missing --]]
 		["Brackets Common Color"] = "Brackets Common Color",
@@ -441,6 +462,8 @@ L = {
 		["linkifycommon_desc"] = "Linkify Common Messages",
 		--[[Translation missing --]]
 		["linkifycommon_name"] = "Linkify Common Messages",
+		--[[Translation missing --]]
+		["msg_stored_data_cleared"] = "Stored Player Data Cleared",
 		--[[Translation missing --]]
 		["No additional coloring"] = "No additional coloring",
 		--[[Translation missing --]]
@@ -525,6 +548,10 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = "Активный запрос инфы о игроке",
 		["Angled"] = "Треугольные",
+		--[[Translation missing --]]
+		["bnetclienticon_desc"] = "Show an icon indicating which game or client the Battle.Net friend is using",
+		--[[Translation missing --]]
+		["bnetclienticon_name"] = "Show BNet Client Icon",
 		["Brackets"] = "Скобки",
 		["Brackets Common Color"] = "Основной цвет скобок",
 		["Brackets Use Common Color"] = "Скобки общего цвета",
@@ -547,6 +574,8 @@ L = {
 		["Level Color Mode"] = "Режим окрашивания уровня",
 		["linkifycommon_desc"] = "Общие сообщения с сылками",
 		["linkifycommon_name"] = "Общие сообщения с сылками",
+		--[[Translation missing --]]
+		["msg_stored_data_cleared"] = "Stored Player Data Cleared",
 		["No additional coloring"] = "Отключить дополнительное цвето-выделение",
 		["None"] = "Нет",
 		["Player Color Mode"] = "Режим цвета игрока",
@@ -595,6 +624,10 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = "活跃的查询玩家信息",
 		["Angled"] = "折角",
+		--[[Translation missing --]]
+		["bnetclienticon_desc"] = "Show an icon indicating which game or client the Battle.Net friend is using",
+		--[[Translation missing --]]
+		["bnetclienticon_name"] = "Show BNet Client Icon",
 		["Brackets"] = "括号",
 		["Brackets Common Color"] = "同一颜色括号",
 		["Brackets Use Common Color"] = "使用同一颜色括号",
@@ -617,6 +650,8 @@ L = {
 		["Level Color Mode"] = "等级着色模式",
 		["linkifycommon_desc"] = "自助链接公共信息",
 		["linkifycommon_name"] = "自助链接公共信息",
+		--[[Translation missing --]]
+		["msg_stored_data_cleared"] = "Stored Player Data Cleared",
 		["No additional coloring"] = "无额外着色",
 		["None"] = "无",
 		["Player Color Mode"] = "玩家着色模式",
@@ -665,6 +700,10 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = "Pedir Información de Jugador Activamente",
 		["Angled"] = "Angulo",
+		--[[Translation missing --]]
+		["bnetclienticon_desc"] = "Show an icon indicating which game or client the Battle.Net friend is using",
+		--[[Translation missing --]]
+		["bnetclienticon_name"] = "Show BNet Client Icon",
 		["Brackets"] = "Corchetes",
 		["Brackets Common Color"] = "Color Común Corchetes",
 		["Brackets Use Common Color"] = "Utilizar Color Común Corchetes",
@@ -688,6 +727,8 @@ L = {
 		["Level Color Mode"] = "Modo Color por Nivel",
 		["linkifycommon_desc"] = "Linkify Common Messages",
 		["linkifycommon_name"] = "Enlazar Mensajes Comunes",
+		--[[Translation missing --]]
+		["msg_stored_data_cleared"] = "Stored Player Data Cleared",
 		["No additional coloring"] = "Sin color adicional",
 		["None"] = "Ninguno",
 		["Player Color Mode"] = "Modo Color del Jugador",
@@ -740,6 +781,10 @@ L = {
 	["PlayerNames"] = {
 		["Actively Query Player Info"] = "主動查詢玩家資訊",
 		["Angled"] = "角",
+		--[[Translation missing --]]
+		["bnetclienticon_desc"] = "Show an icon indicating which game or client the Battle.Net friend is using",
+		--[[Translation missing --]]
+		["bnetclienticon_name"] = "Show BNet Client Icon",
 		["Brackets"] = "括號",
 		["Brackets Common Color"] = "括號通用色彩",
 		["Brackets Use Common Color"] = "括號使用的通用色彩",
@@ -764,6 +809,8 @@ L = {
 		["Level Color Mode"] = "等級色彩模式",
 		["linkifycommon_desc"] = "製作連結共同的訊息",
 		["linkifycommon_name"] = "製作連結共同的訊息",
+		--[[Translation missing --]]
+		["msg_stored_data_cleared"] = "Stored Player Data Cleared",
 		["No additional coloring"] = "無額外著色",
 		["None"] = "無",
 		["Player Color Mode"] = "玩家色彩模式",
@@ -844,6 +891,7 @@ L = {
       usecommoncolor = true,
       bracketscommoncolor = true,
       linkifycommon = true,
+      bnetclienticon = true,
       bracketscolor = {
         r = 0.85,
         g = 0.85,
@@ -959,6 +1007,12 @@ L = {
         type = "toggle",
         order = 136,
       },
+      bnetclienticon = {
+        name = PL.bnetclienticon_name,
+        desc = PL.bnetclienticon_desc,
+        type = "toggle",
+        order = 137,
+      },
       levelcolor = {
         name = PL["Level Color Mode"],
         desc = PL["How to color other player's level."],
@@ -1065,9 +1119,12 @@ L = {
     Prat.RegisterMessageItem("PLAYERTARGETICON", "Ss", "after")
 
     Prat.EnableProcessingForEvent("CHAT_MSG_GUILD_ACHIEVEMENT")
+    Prat.EnableProcessingForEvent("CHAT_MSG_ACHIEVEMENT")
 
     Prat.RegisterMessageItem("PLAYERLEVEL", "PREPLAYERDELIM", "before")
     Prat.RegisterMessageItem("PLAYERGROUP", "POSTPLAYERDELIM", "after")
+
+    Prat.RegisterMessageItem("PLAYERCLIENTICON", "PLAYERLEVEL", "before")
 
     self:RegisterEvent("FRIENDLIST_UPDATE", "updateFriends")
     self:RegisterEvent("GUILD_ROSTER_UPDATE", "updateGuild")
@@ -1188,6 +1245,8 @@ L = {
   local GetToonInfoByBnetID
   if Prat.IsClassic then
     GetToonInfoByBnetID = function(bnetAccountID)
+      if not bnetAccountID then return end
+
       local _, _, _, _, _, gameAccountID = BNGetFriendInfoByID(bnetAccountID)
       if gameAccountID then
         local _, toonName, client, realmName, _, faction, race, class, _, zoneName, level, gameText,
@@ -1201,6 +1260,8 @@ L = {
     end
   else
     GetToonInfoByBnetID = function(bnetAccountID)
+      if not bnetAccountID then return end
+
       local accountInfo = C_BattleNet.GetAccountInfoByID(bnetAccountID)
       if accountInfo then
         return accountInfo.gameAccountInfo.characterName,
@@ -1210,6 +1271,32 @@ L = {
     end
   end
 
+  local GetBnetClientByID
+  if Prat.IsClassic then
+    GetBnetClientByID = function(bnetAccountID)
+      if not bnetAccountID then return end
+
+      local _, _, _, _, _, gameAccountID = BNGetFriendInfoByID(bnetAccountID)
+      if gameAccountID then
+        local _, toonName, client, realmName, _, faction, race, class, _, zoneName, level, gameText,
+        broadcastText, broadcastTime = BNGetGameAccountInfo(gameAccountID)
+        -- Pre-8.2.5 API returns empty strings if friend is online on non-WoW client
+        -- We return only non-empty strings for consistency with other "no data" situations
+        if client ~= "" then
+          return client
+        end
+      end
+    end
+  else
+    GetBnetClientByID = function(bnetAccountID)
+      if not bnetAccountID then return end
+
+      local accountInfo = C_BattleNet.GetAccountInfoByID(bnetAccountID)
+      if accountInfo then
+        return accountInfo.gameAccountInfo.clientProgram
+      end
+    end
+  end
 
   --[[------------------------------------------------
     Core Functions
@@ -1360,7 +1447,7 @@ L = {
 
     self:EmptyDataCache(true)
 
-    Prat:Print(PL["Prat_Playernames: Stored Player Data Cleared"])
+    self:Output(PL.msg_stored_data_cleared)
   end
 
   --
@@ -1542,6 +1629,12 @@ L = {
         message.PLAYER = CLR:Random(message.PLAYER, message.PLAYER:lower())
       end
 
+      if self.db.profile.bnetclienticon then
+        local client = GetBnetClientByID(message.PRESENCE_ID)
+        if client then
+          message.PLAYERCLIENTICON = ("|T%s:%d:%d:%d:%d|t"):format(BNet_GetClientTexture(client), 14)
+        end
+      end
     else
       -- Add the player name in the proper color
       message.PLAYER = CLR:Player(message.PLAYER, Name, class)

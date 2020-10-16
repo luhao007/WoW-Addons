@@ -469,7 +469,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Um tributo à morte",
     },
     [47894] = {
-        name = "Vamos pular",
+        name = "[Jump Around]",
     },
     [47897] = {
         name = "Traidores Zanchuli",
@@ -2740,7 +2740,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Atravessando a barreira",
     },
     [50690] = {
-        name = "A la Moxie",
+        name = "[UNUSED]",
     },
     [50691] = {
         name = "Fora da folha de pagamento",
@@ -3406,7 +3406,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Caverna de Ai'twen",
     },
     [51354] = {
-        name = "Ira engarrafada",
+        name = "[Anger in a Bottle]",
     },
     [51356] = {
         name = "PROCURA-SE: Irmã Lílias",
@@ -4896,8 +4896,65 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53888] = {
         name = "Ao Caniço",
     },
+    [53889] = {
+        name = "Claras intenções",
+    },
+    [53890] = {
+        name = "Mais aliados, mais problemas",
+    },
+    [53891] = {
+        name = "Nenhum problema é pequeno demais",
+    },
+    [53892] = {
+        name = "Cadê a peãozada?",
+    },
+    [53893] = {
+        name = "Um cadinho de boa vontade",
+    },
+    [53894] = {
+        name = "Manutenção necessária",
+    },
+    [53895] = {
+        name = "A promoção dos peões!",
+    },
     [53896] = {
         name = "Aguente firme",
+    },
+    [53897] = {
+        name = "Uma festa em sua homenagem",
+    },
+    [53898] = {
+        name = "Força e honra",
+    },
+    [53899] = {
+        name = "Pelas beiradas",
+    },
+    [53900] = {
+        name = "Vamos usar as armas delas",
+    },
+    [53901] = {
+        name = "Explosão nunca falha",
+    },
+    [53902] = {
+        name = "O fim da Chamaré",
+    },
+    [53903] = {
+        name = "O encontro com Meerah",
+    },
+    [53904] = {
+        name = "Os assistentes do vinheiro",
+    },
+    [53905] = {
+        name = "Funções condizentes",
+    },
+    [53906] = {
+        name = "Fermentando para a Horda",
+    },
+    [53907] = {
+        name = "Sentir o gostinho",
+    },
+    [53908] = {
+        name = "À nossa espera",
     },
     [53909] = {
         name = "Aliados sitiados",
@@ -5025,6 +5082,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [54022] = {
         name = "Os planos de batalha do Mekkatorque",
     },
+    [54026] = {
+        name = "Tá feito",
+    },
+    [54027] = {
+        name = "Ameaça contida",
+    },
     [54028] = {
         name = "Meca contra aeronau",
     },
@@ -5039,6 +5102,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [54034] = {
         name = "Olhar dos loas: Bwonsamdi",
+    },
+    [54036] = {
+        name = "Um processo sistemático",
     },
     [54041] = {
         name = "Sem sobreviventes",
@@ -5542,7 +5608,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Teimoso como um Barbabronze",
     },
     [54940] = {
-        name = "A necessidade é a MADRE",
+        name = "A necessidade é a M.A.D.R.E.",
     },
     [54945] = {
         name = "Mão na massa",
@@ -6663,6 +6729,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57378] = {
         name = "Vestígios de um Mundo Despedaçado",
     },
+    [57448] = {
+        name = "Nossos novos aliados",
+    },
     [57486] = {
         name = "Energia minguante",
     },
@@ -6732,6 +6801,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [58009] = {
         name = "Até a Lua",
     },
+    [58087] = {
+        name = "Destruindo a fonte",
+    },
     [58214] = {
         name = "Caso de urgência",
     },
@@ -6749,6 +6821,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [58582] = {
         name = "A volta ao Príncipe Negro",
+    },
+    [58583] = {
+        name = "É onde fica o coração",
     },
     [58606] = {
         name = "Investigação de miudezas",

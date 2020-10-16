@@ -264,15 +264,15 @@ PL:AddLocale(PRAT_MODULE, "frFR",L)
 L = {
 	["PopupMessage"] = {
 		["Add Nickname"] = "Spitzname hinzufügen",
-		["Adds an alternate name to show in popups."] = "Einen anderen (alternierenden) Namen hinzufügen, der in Popups angezeigt werden soll.",
+		["Adds an alternate name to show in popups."] = "Fügt einen alternativen Namen hinzu, der in Popups angezeigt werden soll.",
 		["Clear Nickname"] = "Spitznamen löschen",
-		["Clears alternate name to show in popups."] = "Einen anderen (alternierenden) Namen löschen, der in Popups angezeigt werden soll.",
+		["Clears alternate name to show in popups."] = "Löscht den alternativen Namen, der in Popups angezeigt werden soll.",
 		["framealpha_desc"] = "Den Transparenzwert des Popup-Rahmens bei voller Darstellung einstellen.",
 		["framealpha_name"] = "Transparenz der Popup-Rahmens",
 		["Popup"] = true,
-		["PopupMessage"] = true,
+		["PopupMessage"] = "Popup Meldung",
 		["Remove Nickname"] = "Spitznamen entfernen",
-		["Removes an alternate name to show in popups."] = "Einen anderen (alternierenden) Namen entfernen, der in Popups angezeigt werden soll.",
+		["Removes an alternate name to show in popups."] = "Entfernt einen alternativen Namen, der in Popups angezeigt werden soll.",
 		["Set Separately"] = "Einzeln einstellen",
 		["Show All Popups"] = "Alle Popups anzeigen",
 		["Show Popups"] = "Popups anzeigen",
@@ -284,8 +284,8 @@ L = {
 		["show_perframename"] = "Popups vom Chatfenster%d anzeigen",
 		["showall_desc"] = "Popups für alle Chatfenster anzeigen.",
 		["showall_name"] = "Alle Popups anzeigen",
-		["Shows messages in a popup window."] = "Mitteilungen in einem Popup-Fenster anzeigen.",
-		["Shows messages with your name in a popup."] = "Mitteilungen in einem Popup-Fenster mit deinem Namen anzeigen.",
+		["Shows messages in a popup window."] = "Zeigt Nachrichten in einem Popup-Fenster an.",
+		["Shows messages with your name in a popup."] = "Zeigt Nachrichten mit deinem Namen in einem Popup an.",
 		["Toggle setting options separately for each chat window."] = "Optionseinstellungen einzeln für jedes Chatfenster umschalten.",
 	}
 }
@@ -700,8 +700,8 @@ end
 
   function module:Prat_PostAddMessage(info, message, frame, event, text, r, g, b, id)
     if self.pouring then return end
-    if Prat.EVENT_ID and
-      Prat.EVENT_ID == self.lastevent and
+    if message.LINE_ID and
+      message.LINE_ID == self.lastevent and
       self.lasteventtype == event then
       return
     end
@@ -709,7 +709,7 @@ end
     if not (EVENTS_EMOTES[event] or EVENTS_IGNORE[event]) then
       if self.db.profile.showall or self.db.profile.show[frame:GetName()] then
         if DEBUG or not (message.ORG.PLAYER and self.playerName and message.ORG.PLAYER:match(self.playerName)) then
-          self:CheckText(message.ORG.MESSAGE, message.OUTPUT, event, r, g, b)
+          self:CheckText(message.ORG.MESSAGE, message.OUTPUT, event, r, g, b, message.LINE_ID)
         end
       end
     end
@@ -743,7 +743,7 @@ end
   local tmp_color = {}
   local function safestr(s) return s or "" end
 
-  function module:CheckText(text, display_text, event, r, g, b)
+  function module:CheckText(text, display_text, event, r, g, b, eventId)
     --	local textL = safestr(text):lower()
 
     local show = false
@@ -760,7 +760,7 @@ end
 
     if show then
       self.lasteventtype = event
-      self.lastevent = Prat.EVENT_ID
+      self.lastevent = eventId
       self.pouring = true
       self:Pour(display_text or text, r, g, b)
       Prat:PlaySound("popup");

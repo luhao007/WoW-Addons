@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Tandanu/Nitram/MysticalOS
-## Version: r292
+## Version: r296
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMChamberOfAspects_AllSavedVars
@@ -13,6 +13,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: WotLK
+## X-DBM-StatTypes: normal,normal25,heroic,heroic25
 ## X-DBM-Mod-SubCategories: The Obsidian Sanctum, The Ruby Sanctum
 ## X-DBM-Mod-SubCategories-deDE: Das Obsidiansanktum, Das Rubinsanktum
 ## X-DBM-Mod-SubCategories-ruRU: Обсидиановое святилище, Рубиновое святилище
@@ -33,7 +34,8 @@
 ## X-DBM-Mod-Name-esMX: Cámara de los Aspectos
 ## X-DBM-Mod-Sort: 906
 ## X-DBM-Mod-MapID: 615,724
-## X-DBM-Mod-MinCoreRevision: 12473
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 2
 ## X-Curse-Project-ID: 43970
 ## X-WoWI-ID: 21522
 ## X-Part-Of: DBM-Core

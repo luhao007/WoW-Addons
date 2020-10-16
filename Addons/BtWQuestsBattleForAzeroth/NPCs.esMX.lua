@@ -21,6 +21,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [36648] = {
         name = "Baine Pezuña de Sangre",
     },
+    [49748] = {
+        name = "Heraldo del héroe",
+    },
+    [49750] = {
+        name = "Heraldo del Jefe de Guerra",
+    },
     [108017] = {
         name = "Torv Pasodoble",
     },
@@ -31,7 +37,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Nathanos Clamañublo",
     },
     [120551] = {
-        name = "Krag'wa el Gigante",
+        name = "Krag'wa el Enorme",
     },
     [120740] = {
         name = "Rey Rastakhan",
@@ -49,7 +55,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Katherine Valiente",
     },
     [121239] = {
-        name = "Flynn Céfiro",
+        name = "Flynn Vientopropicio",
     },
     [121241] = {
         name = "Princesa Talanji",
@@ -67,13 +73,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Maestro del redil B'khor",
     },
     [122129] = {
-        name = "Comerciante Alexxi Cruzpot",
+        name = "Comerciante Alexxi Crisopeya",
     },
     [122289] = {
         name = "Guardafilada Kaja",
     },
     [122320] = {
-        name = "Guardia de espadas Kaja",
+        name = "Guardafilada Kaja",
     },
     [122370] = {
         name = "Cyrus Catacresta",
@@ -91,7 +97,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Teúrga Salazae",
     },
     [122760] = {
-        name = "Druida guerrera Loti",
+        name = "Druida de guerra Loti",
     },
     [122795] = {
         name = "Médico brujo Kejabu",
@@ -118,7 +124,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Erak el Distante",
     },
     [123063] = {
-        name = "Ancestro Kuppaka",
+        name = "Anciano Kuppaka",
     },
     [123118] = {
         name = "Trampero Custer",
@@ -159,6 +165,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [124629] = {
         name = "Kaza'jin el Vinculaolas",
     },
+    [124630] = {
+        name = "Guardia kultirana",
+    },
     [124641] = {
         name = "Cazadora de las Sombras Mutumba",
     },
@@ -172,13 +181,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Comerciante Kro",
     },
     [125041] = {
-        name = "Foliosagaz Goji",
+        name = "Sabio de pergaminos Goji",
     },
     [125093] = {
         name = "Habitante de Albergue del Ocaso",
     },
     [125312] = {
-        name = "Foliosagaz Rooka",
+        name = "Sabia de pergaminos Rooka",
     },
     [125317] = {
         name = "Cazadora de las Sombras Narez",
@@ -187,13 +196,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Capitana Keelson",
     },
     [125380] = {
-        name = "Lucille Tarjasenda",
+        name = "Lucille Crestavía",
     },
     [125385] = {
         name = "Mariscal Everit Reade",
     },
     [125394] = {
-        name = "Oficial Henry Framer",
+        name = "Alguacil Henry Framer",
     },
     [125486] = {
         name = "Alajinete Nivek",
@@ -232,13 +241,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Brannon Canto Tormenta",
     },
     [126560] = {
-        name = "Druida guerrera Loti",
+        name = "Druida de guerra Loti",
     },
     [126564] = {
-        name = "Señor aojador Raal",
+        name = "Señor de los maleficios Raal",
     },
     [126620] = {
-        name = "Flynn Céfiro",
+        name = "Flynn Vientopropicio",
     },
     [126804] = {
         name = "Saurolisco atrapado",
@@ -250,7 +259,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Abuelo Thaddeus Fuertefalla",
     },
     [127080] = {
-        name = "Lord Valletoño",
+        name = "Lord Valleotoño",
     },
     [127112] = {
         name = "Maestro de forja Zak'aal",
@@ -268,10 +277,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Buscasangre Jo'chenga",
     },
     [127396] = {
-        name = "Peonía iniciada",
+        name = "Iniciada Peony",
     },
     [127489] = {
-        name = "Señor aojador Raal",
+        name = "Señor de los maleficios Raal",
     },
     [127492] = {
         name = "Mallo",
@@ -292,16 +301,16 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Princesa Talanji",
     },
     [127980] = {
-        name = "Akunda el Sensato",
+        name = "Akunda de la Sensatez",
     },
     [127992] = {
-        name = "Akunda el Exaltado",
+        name = "Akunda de la Exaltación",
     },
     [128228] = {
         name = "Sam el Hambriento",
     },
     [128229] = {
-        name = "Jane la Apuñaladora",
+        name = "Jane Puñaladas",
     },
     [128261] = {
         name = "Contramaestre Jamboya",
@@ -316,10 +325,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Pendi Doblafusible",
     },
     [128377] = {
-        name = "Raquero Bob",
+        name = "Peinaplayas Bob",
     },
     [128381] = {
         name = "Drogrin Barbacerveza",
+    },
+    [128457] = {
+        name = "Maude Fuertefalla",
     },
     [128618] = {
         name = "Maestro de embarcadero Herrington",
@@ -328,7 +340,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Rosalina Madison",
     },
     [128680] = {
-        name = "Okri Zampallave",
+        name = "Okri Tirallave",
     },
     [129164] = {
         name = "Cronista Jabari",
@@ -349,25 +361,25 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Rey Rastakhan",
     },
     [129561] = {
-        name = "Druida guerrera Loti",
+        name = "Druida de guerra Loti",
     },
     [129642] = {
-        name = "Lucille Tarjasenda",
+        name = "Lucille Crestavía",
     },
     [129643] = {
         name = "Mariscal Everit Reade",
     },
     [129670] = {
-        name = "Lyssa Xiloceladora",
+        name = "Lyssa Custodiárbol",
     },
     [129703] = {
-        name = "Señor aojador Raal",
+        name = "Señor de los maleficios Raal",
     },
     [129757] = {
         name = "Rey Rastakhan",
     },
     [129808] = {
-        name = "Granjero Campoáureo",
+        name = "Granjero Campodorado",
     },
     [129858] = {
         name = "Wulferd Burbujeta",
@@ -406,10 +418,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Henry el \"Indefenso\"",
     },
     [130450] = {
-        name = "Guardia de espadas Sonji",
+        name = "Guardafilada Sonji",
     },
     [130468] = {
-        name = "Tikita",
+        name = "Pequeña Tika",
     },
     [130481] = {
         name = "Caminamuerte Shinga",
@@ -430,7 +442,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Alcaldesa Roz",
     },
     [130697] = {
-        name = "Jefa de bomberos Jill",
+        name = "Bombera Jill",
     },
     [130706] = {
         name = "Espíritu de Izita",
@@ -475,7 +487,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Especialista Wembley",
     },
     [131004] = {
-        name = "Escudero Augusto III",
+        name = "Escudero Augustus III",
     },
     [131048] = {
         name = "Teniente Tarenfold",
@@ -484,19 +496,19 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Guardián de los titanes Hezrel",
     },
     [131290] = {
-        name = "Flynn Céfiro",
+        name = "Flynn Vientopropicio",
     },
     [131354] = {
-        name = "Madre bestial Jabati",
+        name = "Madre de bestias Jabati",
     },
     [131443] = {
-        name = "Jefe Telemante Oculeth",
+        name = "Jefe Telemante Oculeth\0",
     },
     [131579] = {
         name = "Aldeano cautivo",
     },
     [131580] = {
-        name = "Telemante aprendiz Astrandis",
+        name = "Aprendiz de telemántico Astrandis",
     },
     [131582] = {
         name = "Examinadora Tae'shara Mirasangre",
@@ -529,19 +541,19 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Penny \"Preciosa\" Hardwick",
     },
     [131763] = {
-        name = "Excavador Morgrum Chispayesca",
+        name = "Excavador Morgrum Brasasílex",
     },
     [131775] = {
         name = "Joe el Sordo",
     },
     [131777] = {
-        name = "Acadia Tallapiedras",
+        name = "Acadia Rocacincel",
     },
     [131840] = {
         name = "Shuga Revientatapas",
     },
     [131879] = {
-        name = "Inquisidora Alborada",
+        name = "Inquisidora Albaclara",
     },
     [132118] = {
         name = "Granjero Burton",
@@ -577,13 +589,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Princesa Talanji",
     },
     [133098] = {
-        name = "Inquisidora Alborada",
+        name = "Inquisidora Albaclara",
     },
     [133125] = {
         name = "Princesa Talanji",
     },
     [133324] = {
-        name = "Señor aojador Raal",
+        name = "Señor de los maleficios Raal",
     },
     [133476] = {
         name = "Princesa Talanji",
@@ -598,7 +610,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Grix \"Puños de hierro\" Barlow",
     },
     [133550] = {
-        name = "Minero novel Joe",
+        name = "Minero joven Joe",
     },
     [133551] = {
         name = "Minero jefe Theock",
@@ -619,13 +631,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Wayne el Ancestral",
     },
     [133653] = {
-        name = "Señor aojador Raal",
+        name = "Señor de los maleficios Raal",
     },
     [133953] = {
         name = "Sargento Calvin",
     },
     [134009] = {
-        name = "Pobladora de Corlain",
+        name = "Ciudadana de Corlain",
     },
     [134166] = {
         name = "Flynn Vientopropicio",
@@ -634,7 +646,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Coleccionista Tojo",
     },
     [134408] = {
-        name = "Capataz Jethek",
+        name = "Supervisor Jethek",
     },
     [134509] = {
         name = "Guía principal Cierrallave",
@@ -673,7 +685,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Nathanos Clamañublo",
     },
     [135308] = {
-        name = "Guardaalas Goja",
+        name = "Alero Goja",
     },
     [135330] = {
         name = "Nedly Sonrisas",
@@ -718,10 +730,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Coleccionista Tojo",
     },
     [135794] = {
-        name = "Foliosagaz Nola",
+        name = "Sabia de pergaminos Nola",
     },
     [135801] = {
-        name = "Señor aojador Raal",
+        name = "Señor de los maleficios Raal",
     },
     [135855] = {
         name = "Teekay Pisabobina",
@@ -745,7 +757,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Layla Marcalmo",
     },
     [136140] = {
-        name = "Clonk Grasoso",
+        name = "Klonk Piezagrasienta",
     },
     [136195] = {
         name = "Médica Feorea",
@@ -901,7 +913,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Capitán Redmond",
     },
     [139089] = {
-        name = "Guardia de Vadoarlén",
+        name = "Guardia de Vaderia",
     },
     [139568] = {
         name = "Magíster Umbric",
@@ -928,7 +940,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Arthur Vientos Alisios",
     },
     [140105] = {
-        name = "Nathanos Clamañublo",
+        name = "Forestal oscuro",
     },
     [140176] = {
         name = "Nathanos Clamañublo",
@@ -958,10 +970,13 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Jenny Arroyovivo",
     },
     [141078] = {
-        name = "Refugiado de Colina de la Vigilia",
+        name = "Refugiado de Alto del Vigía",
     },
     [141555] = {
         name = "Baine Pezuña de Sangre",
+    },
+    [141602] = {
+        name = "Sabiomar resucitado",
     },
     [141643] = {
         name = "Pinzacoja del fondo marino",
@@ -982,7 +997,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Grommash Grito Infernal",
     },
     [142651] = {
-        name = "Lucille Tarjasenda",
+        name = "Lucille Crestavía",
     },
     [142930] = {
         name = "Halford Aterravermis",
@@ -991,7 +1006,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Gran señor de la guerra Volrath",
     },
     [143559] = {
-        name = "Gran mariscal Hojatemblorosa",
+        name = "Gran mariscal Tremblade",
     },
     [143565] = {
         name = "Wayne el Ancestral",
@@ -1000,10 +1015,10 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Anacronos",
     },
     [143777] = {
-        name = "Hasani Alto",
+        name = "Hasani el Alto",
     },
     [143787] = {
-        name = "Alitas",
+        name = "Ala-Ala",
     },
     [143845] = {
         name = "Señora suprema Geya'rah",
@@ -1113,6 +1128,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [146375] = {
         name = "Sira Guardaluna",
     },
+    [146462] = {
+        name = "Rabioso de la Horda",
+    },
     [146536] = {
         name = "Fuego fatuo perdido",
     },
@@ -1129,7 +1147,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Lady Sylvanas Brisaveloz",
     },
     [146791] = {
-        name = "Forestal oscura Lyana",
+        name = "Forestal oscura",
     },
     [146806] = {
         name = "Forestal oscura Lyana",
@@ -1147,7 +1165,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Princesa Talanji",
     },
     [146937] = {
-        name = "Forestal oscura Lyana",
+        name = "Forestal oscura",
     },
     [146939] = {
         name = "Embajadora Juraalba",
@@ -1178,6 +1196,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [147210] = {
         name = "Forestal oscura Lyana",
+    },
+    [147293] = {
+        name = "Defensor Da'kani",
     },
     [147311] = {
         name = "Morton Piñondez",
@@ -1318,7 +1339,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Imagen de Mimiron",
     },
     [150433] = {
-        name = "Vigía de la Cima Cicatriz de Orgullo",
+        name = "Vigía de la cima Cicatriz Orgullosa",
     },
     [150515] = {
         name = "Cyrus Catacresta",
@@ -1408,7 +1429,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Prole de cuernoatroz",
     },
     [151285] = {
-        name = "Mevris Danzaespíritus",
+        name = "Mevris Danzafantasma",
     },
     [151286] = {
         name = "Cría de Torcali",
@@ -1471,7 +1492,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Magni Barbabronce",
     },
     [152108] = {
-        name = "Neri Escama Letal",
+        name = "Exploradora aletina",
     },
     [152194] = {
         name = "MADRE",
@@ -1486,7 +1507,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Imagen de Thalyssra",
     },
     [152385] = {
-        name = "Caminaespíritus Ebacuerno",
+        name = "Chamán de Altamontaña",
     },
     [152484] = {
         name = "Maestro manitas Sobrechispa",
@@ -1537,7 +1558,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Jefe telemante Oculeth",
     },
     [153509] = {
-        name = "Artesano Okata",
+        name = "Artesana Okata",
     },
     [153510] = {
         name = "Artesano Itanu",
@@ -1552,7 +1573,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Shandris Plumaluna",
     },
     [153670] = {
-        name = "Príncipe Erazmin",
+        name = "Luchador de Resistencia de Pernoxidado",
     },
     [153932] = {
         name = "Genn Cringris",
@@ -1627,7 +1648,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Guerrero mogu",
     },
     [155482] = {
-        name = "Shandris Plumaluna",
+        name = "Centinela",
     },
     [155562] = {
         name = "Maestra del Shadopan",
@@ -1685,6 +1706,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [158145] = {
         name = "Príncipe Erazmin",
+    },
+    [158672] = {
+        name = "Vulpera temeraria",
     },
     [159544] = {
         name = "Arik Escorpunción",

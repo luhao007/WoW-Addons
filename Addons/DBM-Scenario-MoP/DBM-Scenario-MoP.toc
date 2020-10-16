@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: MysticalOS/Arta
-## Version: r134
+## Version: r138
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMScenarioMoP_AllSavedVars
@@ -13,6 +13,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: SCENARIO
 ## X-DBM-Mod-Category: MOP
+## X-DBM-StatTypes: normal,heroic
 ## X-DBM-Mod-Name: Scenario (MoP)
 ## X-DBM-Mod-Name-ruRU: Сценарии (MoP)
 ## X-DBM-Mod-Name-koKR: 시나리오(판다리아의 안개)
@@ -23,7 +24,8 @@
 ## X-DBM-Mod-Name-frFR: Scénario (MoP)
 ## X-DBM-Mod-Sort: 707
 ## X-DBM-Mod-MapID: 1000,999,1031,1103,1102,1135,1112,1030,1005,1104,1050,1048,1051,1095,1024,1130,1144,1099,1131,1157
-## X-DBM-Mod-MinCoreRevision: 14565
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 4
 ## X-Curse-Project-ID: 85688
 ## X-WoWI-ID: 23199
 ## X-Part-Of: DBM-Core

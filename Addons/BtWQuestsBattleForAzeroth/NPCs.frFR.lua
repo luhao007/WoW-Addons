@@ -21,6 +21,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [36648] = {
         name = "Baine Sabot-de-Sang",
     },
+    [49748] = {
+        name = "Héraut du héros",
+    },
+    [49750] = {
+        name = "Héraut du chef de guerre",
+    },
     [108017] = {
         name = "Torv Doublepas",
     },
@@ -164,6 +170,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [124629] = {
         name = "Kaza'jin le Lieur de vagues",
+    },
+    [124630] = {
+        name = "Garde de Kul Tiras\0",
     },
     [124641] = {
         name = "Chasseuse des ombres Mutumba",
@@ -414,6 +423,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130341] = {
         name = "Gardelame Kaja",
     },
+    [130368] = {
+        name = "Samuel D. Colton III\0",
+    },
     [130375] = {
         name = "Tallis Coeur-Céleste",
     },
@@ -499,7 +511,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Mère des bêtes Jabati",
     },
     [131443] = {
-        name = "Télémancien en chef Oculeth",
+        name = "Télémancien en chef Oculeth\0",
     },
     [131579] = {
         name = "Villageois captif",
@@ -778,7 +790,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Emilie Beautemps",
     },
     [136059] = {
-        name = "Layla Tirando",
+        name = "Layla Tirando\0",
     },
     [136140] = {
         name = "Clonk Graissemèche",
@@ -979,7 +991,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Arthur Alizé",
     },
     [140105] = {
-        name = "Nathanos le Flétrisseur",
+        name = "Forestier-sombre",
     },
     [140176] = {
         name = "Nathanos le Flétrisseur",
@@ -1013,6 +1025,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [141555] = {
         name = "Baine Sabot-de-Sang",
+    },
+    [141602] = {
+        name = "Eaugure ressuscité",
     },
     [141603] = {
         name = "Mallory Boisseau",
@@ -1170,6 +1185,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [146375] = {
         name = "Sira Gardelune",
     },
+    [146462] = {
+        name = "Berserker de la Horde",
+    },
     [146536] = {
         name = "Feu follet perdu",
     },
@@ -1186,7 +1204,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Dame Sylvanas Coursevent",
     },
     [146791] = {
-        name = "Forestier-sombre Lyana",
+        name = "Forestier-sombre",
     },
     [146806] = {
         name = "Forestier-sombre Lyana",
@@ -1204,7 +1222,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Princesse Talanji",
     },
     [146937] = {
-        name = "Forestier-sombre Lyana",
+        name = "Forestier-sombre",
     },
     [146939] = {
         name = "Ambassadrice Ligelaube",
@@ -1238,6 +1256,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [147210] = {
         name = "Forestier-sombre Lyana",
+    },
+    [147293] = {
+        name = "Défenseur da'kani",
     },
     [147311] = {
         name = "Morton Bois-Pignon",
@@ -1522,7 +1543,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Magni Barbe-de-Bronze",
     },
     [152108] = {
-        name = "Néri Tranchécaille",
+        name = "Eclaireuse goémline",
     },
     [152194] = {
         name = "D.A.M.E.",
@@ -1537,7 +1558,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Image de Thalyssra",
     },
     [152385] = {
-        name = "Marcheur des esprits Corne-d'Ebène",
+        name = "Chaman de Haut-Roc",
     },
     [152484] = {
         name = "Maître-bricoleur Suprétincelle",
@@ -1607,6 +1628,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [153617] = {
         name = "Shandris Pennelune",
+    },
+    [153670] = {
+        name = "Résistant de Mécarouille",
     },
     [153932] = {
         name = "Genn Grisetête",
@@ -1687,7 +1711,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Guerrier mogu",
     },
     [155482] = {
-        name = "Shandris Pennelune",
+        name = "Sentinelle",
     },
     [155496] = {
         name = "Irion",
@@ -1748,6 +1772,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [157997] = {
         name = "Kelsey Etinçacier",
+    },
+    [158672] = {
+        name = "Vulpérine téméraire",
     },
     [159544] = {
         name = "Arik Dard-de-Scorpide",

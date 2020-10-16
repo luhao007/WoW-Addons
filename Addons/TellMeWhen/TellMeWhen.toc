@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Cybeloras of Aerie Peak
-## Version: 8.7.4
+## Version: 9.0.1
 ## OptionalDeps: Masque, Ace3, OmniCC, tullaCC, sct, sctd, MikScrollingBattleText, Parrot, DRList-1.0, LibDogTag-3.0, LibDogTag-Unit-3.0, LibDogTag-Stats-3.0, LibSpellRange-1.0, LibOO-1.0, LibRangeCheck-2.0, LibBabble-CreatureType-3.0, LibBabble-Race-3.0, ElvUI, DBM-Core, BigWigs
 ## SavedVariables: TellMeWhenDB
 ## SavedVariablesPerCharacter: TellMeWhen_Settings
@@ -10,7 +10,8 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF技能提示|r |cFFFFE00ATellMeWhen|r
 ## Notes-zhCN: 为冷却、增益\减益及其他各个方面提供视觉、听觉以及文字上的通知。
 
-## X-Interface: 80300
+## X-Interface: 90001
+## X-Compatible-With: 90001
 ## X-Curse-Project-ID: 8025
 ## X-WoWI-ID: 10855
 ## X-Embeds: LibStub, Ace3, LibSharedMedia-3.0, LibDataBroker-1.1, DRList-1.0, LibDogTag-3.0, LibDogTag-Unit-3.0, LibDogTag-Stats-3.0, LibSpellRange-1.0, LibOO-1.0, LibRangeCheck-2.0, LibBabble-CreatureType-3.0, LibBabble-Race-3.0

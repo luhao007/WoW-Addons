@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod("WaycrestTrash", "DBM-Party-BfA", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200220034831")
+mod:SetRevision("20200907150556")
 --mod:SetModelID(47785)
-mod:SetZone()
 
 mod.isTrashMod = true
 
@@ -95,13 +94,3 @@ function mod:SPELL_AURA_APPLIED(args)
 		yellRunicMarkFades:Cancel()
 	end
 end
-
---[[
-function mod:SPELL_CAST_SUCCESS(args)
-	if not self.Options.Enabled then return end
-	local spellId = args.spellId
-	if spellId == 200343 then
-
-	end
-end
---]]

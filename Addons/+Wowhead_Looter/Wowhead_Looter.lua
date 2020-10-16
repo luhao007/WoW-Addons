@@ -3,15 +3,15 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 8.3.0                     --
---    Updated: April 28, 2020          --
+--    Patch: 9.0.1                     --
+--    Updated: October 14, 2020        --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 80300;
+local WL_VERSION = 90001;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -548,7 +548,6 @@ local WL_WORLD_QUEST_EMISSARY_MAPS = {
 
 -- Speed optimizations
 local CheckInteractDistance = CheckInteractDistance;
-local DungeonUsesTerrainMap = DungeonUsesTerrainMap;
 local GetAchievementCriteriaInfo = GetAchievementCriteriaInfo;
 local GetCursorPosition = GetCursorPosition;
 local GetFactionInfo = GetFactionInfo;
@@ -563,14 +562,11 @@ local GetMerchantItemCostItem = GetMerchantItemCostItem;
 local GetMerchantItemInfo = GetMerchantItemInfo;
 local GetMerchantItemLink = GetMerchantItemLink;
 local GetNetStats = GetNetStats;
-local GetNumDungeonMapLevels = GetNumDungeonMapLevels;
 local GetNumLootItems = GetNumLootItems;
-local GetNumPartyMembers = GetNumPartyMembers;
 local GetArtifactInfoByRace = GetArtifactInfoByRace;
 local GetNumArchaeologyRaces = GetNumArchaeologyRaces;
 local GetNumArtifactsByRace = GetNumArtifactsByRace;
 local GetNumQuestLeaderBoards = GetNumQuestLeaderBoards;
-local GetNumQuestLogEntries = GetNumQuestLogEntries;
 local GetNumRaidMembers = GetNumRaidMembers;
 
 local GetPlayerMapPosition = function(unitToken)
@@ -595,21 +591,16 @@ local GetQuestLogLeaderBoard = GetQuestLogLeaderBoard;
 local GetQuestLogPushable = GetQuestLogPushable;
 local GetQuestLogSelection = GetQuestLogSelection;
 local GetQuestLogTimeLeft = GetQuestLogTimeLeft;
-local GetQuestLogTitle = GetQuestLogTitle;
 local GetRealZoneText = GetRealZoneText;
 local GetRewardText = GetRewardText;
 local GetSpellInfo = GetSpellInfo;
 local GetTradeSkillInfo = GetTradeSkillInfo;
-local GetTradeSkillRecipeLink = GetTradeSkillRecipeLink;
 local GetTrainerServiceCost = GetTrainerServiceCost;
 local GetTrainerServiceInfo = GetTrainerServiceInfo;
 local GetTrainerServiceSkillReq = GetTrainerServiceSkillReq;
 local IsEquippedItem = IsEquippedItem;
 local IsFishingLoot = IsFishingLoot;
 local IsPartyLFG = IsPartyLFG;
-local LootSlotIsCoin = LootSlotIsCoin;
-local LootSlotIsCurrency = LootSlotIsCurrency;
-local LootSlotIsItem = LootSlotIsItem;
 local SelectQuestLogEntry = SelectQuestLogEntry;
 local SendAddonMessage = C_ChatInfo.SendAddonMessage;
 local UnitClass = UnitClass;
@@ -787,9 +778,9 @@ function wlEvent_PLAYER_LOGIN(self)
 
     -- load currencies
     for i=1, WL_CURRENCIES_MAXID do
-        local currencyName = GetCurrencyInfo(i);
-        if currencyName and currencyName ~= "" then
-            WL_CURRENCIES[currencyName:lower()] = i;
+        local cInfo = C_CurrencyInfo.GetCurrencyInfo(i);
+        if cInfo and cInfo.name and cInfo.name ~= "" then
+            WL_CURRENCIES[cInfo.name:lower()] = i;
         end
     end
     wlScanCurrencies();
@@ -1073,11 +1064,13 @@ end
 function wlEvent_GOSSIP_SHOW(self)
     wlEvent_BlockChatLoot(self);
     wlClearTracker("gossipNpc");
-    local gossips = { GetGossipOptions() };
+    local gossips = { C_GossipInfo.GetOptions() };
 
-    for i=1, #gossips, 2 do
-        if gossips[i + 1] ~= "gossip" then
-            wlRegisterUnitGossip(gossips[i + 1]);
+    for _,info in ipairs(gossips) do
+        for _,gossip in ipairs(info) do
+            if (gossip.type == "gossip") then
+                wlRegisterUnitGossip(gossip.name);
+            end
         end
     end
 end
@@ -1245,7 +1238,8 @@ function wlEvent_MERCHANT_UPDATE(self)
     local numCurrencies = #currencies;
     local currencyInfos = {};
     for index = 1, numCurrencies do
-        local cName, cCount, cIcon = GetCurrencyInfo(currencies[index]);
+        local cInfo = C_CurrencyInfo.GetCurrencyInfo(currencies[index]);
+        local cName, cCount, cIcon = cInfo.name, cInfo.quantity, cInfo.iconFileID;
         currencyInfos[cName] = { currencies[index], cIcon };
     end
 
@@ -1766,36 +1760,39 @@ function wlEvent_QUEST_LOG_UPDATE(self)
 
     local eventId = wlGetNextEventId();
     
-    local selectedQuest = GetQuestLogSelection();
-    
     wlCurrentQuestObj = 3 - wlCurrentQuestObj; -- toggle: 1 <-> 2
     
     for k, _ in ipairs(wlQuestObjectives[wlCurrentQuestObj]) do
         wlQuestObjectives[wlCurrentQuestObj][k] = nil;
     end
     
-    local foundQuests, numQuests, idx, objCounter = 0, select(2, GetNumQuestLogEntries()), 1, 0;
+    local foundQuests, numQuests, idx, objCounter = 0, select(2, C_QuestLog.GetNumQuestLogEntries()), 1, 0;
     while foundQuests <= numQuests do
         local title, isHeader, questId;
-        local questLogTitle = { GetQuestLogTitle(idx) };
-        if not questLogTitle[1] then
+        local questInfo = C_QuestLog.GetInfo(idx);
+        if not questInfo then
             break;
         end
-        title       = questLogTitle[1];
-        isHeader    = questLogTitle[4];
-        questId     = questLogTitle[8];
+        title       = questInfo.title
+        isHeader    = questInfo.isHeader;
+        questId     = questInfo.questID;
         if not isHeader then
-            SelectQuestLogEntry(idx);
         
             foundQuests = foundQuests + 1;
         
             wlUpdateVariable(wlQuestLog, foundQuests, "title", "set", title);
             wlQuestLog[foundQuests].id = questId;
-            wlQuestLog[foundQuests].timer = ceil((GetQuestLogTimeLeft() or 0) / 15) * 15;
-            wlQuestLog[foundQuests].sharable = GetQuestLogPushable() or 0;    
 
+            local totalTime, elapsedTime = C_QuestLog.GetTimeAllowed(questId);
+            totalTime = totalTime or 0;
+            elapsedTime = totalTime or 0;
+            wlQuestLog[foundQuests].timer = ceil(((totalTime - elapsedTime) or 0) / 15) * 15;
+            wlQuestLog[foundQuests].sharable = C_QuestLog.IsPushableQuest(questId) or 0;    
+
+            local objInfos = C_QuestLog.GetQuestObjectives(questId);
             for objId=1, GetNumQuestLeaderBoards(idx) do
-                local _, kind, done = GetQuestLogLeaderBoard(objId, idx);
+                local objInfo = objInfos[objId];
+                local kind, done = objInfo.type, objInfo.finished;
 
                 if kind == "event" then
                 
@@ -1816,8 +1813,6 @@ function wlEvent_QUEST_LOG_UPDATE(self)
         end
         idx = idx + 1;
     end
-    
-    SelectQuestLogEntry(selectedQuest);
     
     if wlTracker.quest.time and wlTracker.quest.action == "accept" then
         local i = wlTableFind(wlQuestLog, function(a, v) return a.id and a.id == v; end, wlTracker.quest.id);
@@ -1979,7 +1974,7 @@ end
 -- Event handler for QUEST_ITEM_UPDATE, which fires after the game client gathered quest requirement/reward item info.
  ]]
 function wlEvent_QUEST_ITEM_UPDATE(self)
-    local tagId = GetQuestTagInfo(GetQuestID())
+    local tagId = C_QuestLog.GetQuestTagInfo(GetQuestID())
 
     -- Check for warfront contribution tag
     if tagId == 153 then
@@ -2009,7 +2004,7 @@ function wlEvent_QUEST_PROGRESS(self)
     wlTracker.quest.time = wlGetTime();
     wlTracker.quest.action = "progress";
 
-    local tagId = GetQuestTagInfo(wlTracker.quest.id)
+    local tagId = C_QuestLog.GetQuestTagInfo(wlTracker.quest.id)
 
     -- Check for warfront contribution tag
     if tagId == 153 then
@@ -2135,9 +2130,8 @@ function wlRegisterQuestReturn()
     wlEvent[wlId][wlN][eventId].choiceItemLinks = wlTracker.quest.choiceItemLinks;
     wlEvent[wlId][wlN][eventId].rewardCurrencies = wlTracker.quest.rewardCurrencies;
     wlEvent[wlId][wlN][eventId].playerLevel = UnitLevel("player");
-    wlEvent[wlId][wlN][eventId].playerWarModeActive = UnitIsWarModeActive("player");
-    wlEvent[wlId][wlN][eventId].playerWarModeDesired = UnitIsWarModeDesired("player");
-    wlEvent[wlId][wlN][eventId].playerWarModePhased = UnitIsWarModePhased("player");
+    wlEvent[wlId][wlN][eventId].playerWarModeActive = C_PvP.IsWarModeActive();
+    wlEvent[wlId][wlN][eventId].playerWarModeDesired = C_PvP.IsWarModeDesired();
 
     wlTracker.quest.time = wlGetTime();
     wlTracker.quest.eventId = eventId;
@@ -2371,7 +2365,7 @@ function wlSeenWorldQuests()
 
     -- Now pick up emissary quests, since they're not returned in GetQuestsForPlayerByMapID
     for i = 1, #WL_WORLD_QUEST_EMISSARY_MAPS, 1 do
-        local rows = GetQuestBountyInfoForMapID(WL_WORLD_QUEST_EMISSARY_MAPS[i])
+        local rows = C_QuestLog.GetBountiesForMapID(WL_WORLD_QUEST_EMISSARY_MAPS[i])
         if rows then
             for rowIdx = 1, #rows, 1 do
                 addWorldQuestLine(rows[rowIdx].questID)
@@ -3428,7 +3422,8 @@ function wlEvent_CURRENCY_DISPLAY_UPDATE(...)
                 end
                 
                 -- make sure the player isn't capped
-                local currencyName, currentQ, currencyIcon, currencyEarnedThisWeek, currencyEarnablePerWeek, currencyCap, currencyIsDiscovered = GetCurrencyInfo(currencyId);
+                local cInfo = C_CurrencyInfo.GetCurrencyInfo(currencyId);
+                local currencyName, currentQ, currencyIcon, currencyEarnedThisWeek, currencyEarnablePerWeek, currencyCap, currencyIsDiscovered = cInfo.name, cInfo.quantity, cInfo.iconFileID, cInfo.quantityEarnedThisWeek, cInfo.maxWeeklyQuantity, cInfo.maxQuantity, cInfo.discovered;
                 if currentQ == currencyCap or (currencyEarnablePerWeek ~= 0 and currencyEarnedThisWeek == currencyEarnablePerWeek) then
                     return;
                 end
@@ -3518,7 +3513,8 @@ function wlScanCurrencies()
 
     -- collect current currency information
     for k, currencyID in pairs(WL_CURRENCIES) do
-        local localized_label, amount = GetCurrencyInfo(currencyID);
+        local cInfo = C_CurrencyInfo.GetCurrencyInfo(currencyID);
+        local localized_label, amount = cInfo.name, cInfo.quantity;
         if localized_label and "" ~= localized_label and k == localized_label:lower() and amount > 0 then
             scannedCurrencies[currencyID] = amount;
         end
@@ -3615,6 +3611,7 @@ end
 
 -- we need that here.
 local wlScanToys_processing = false
+local wlScanToys_time = 0
 function wlEvent_TOYS_UPDATED(self, itemID, new)
     -- We got some new toys here.
     if (new or itemID) then
@@ -3736,6 +3733,12 @@ function wlScanToys(processToys)
         return
     end
 
+    local now = wlGetTime();
+    if (now - wlScanToys_time) < 5000 then
+        return;
+    end
+    wlScanToys_time = now;
+
     wlScanToys_processing = true
 
     local ids = ""
@@ -3799,57 +3802,75 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 local wlAchievementsCompleted = -1
+local wlScanAchievementsProgress = nil;
+
+-- Scan one achievement category at a time
+function wlScanAchievementsStep()
+    local catIdx = wlScanAchievementsProgress.catIdx;
+    local cat = wlScanAchievementsProgress.catList[catIdx];
+    local total = GetCategoryNumAchievements(cat, true)
+
+    for i=1, total do
+        local id = GetAchievementInfo(cat, i)
+        while id do
+            local _, _, _, completed, month, day, year, _, _, _, _, isGuild = GetAchievementInfo(id)
+            if (completed and not isGuild) then
+                wlScanAchievementsProgress.achievementTableIdx = wlScanAchievementsProgress.achievementTableIdx + 1
+                if year < 10 then
+                    year = '0'..year
+                end
+                if month < 10 then
+                    month = '0'..month
+                end
+                if day < 10 then
+                    day = '0'..day
+                end
+                wlScanAchievementsProgress.achievementTable[wlScanAchievementsProgress.achievementTableIdx] = id .. ':' .. year .. month .. day
+
+                id = GetPreviousAchievement(id)
+            else
+                id = nil
+            end
+        end
+    end
+
+    if (catIdx < #wlScanAchievementsProgress.catList) then
+        wlScanAchievementsProgress.catIdx = catIdx + 1;
+        wlTimers.scanAchievements = wlGetTime() + wlScanAchievementsProgress.interval;
+    else
+        local ids = table.concat(wlScanAchievementsProgress.achievementTable,',')
+
+        if ids ~= "" then
+            wlScans.achievements = ids;
+        else
+            -- skip resetting achievements, perhaps server didn't send them down yet. achievements never go completely away.
+            -- wlScans.achievements = "-1";
+        end
+        wlScanAchievementsProgress = nil;
+    end
+end
+
+
 function wlScanAchievements(userInitiated)
-    local ids = ""
+    if (wlTimers.scanAchievements) then
+        return;
+    end
 
     local _, completed = GetNumCompletedAchievements()
     if (not userInitiated) and ((wlAchievementsCompleted == completed) or UnitAffectingCombat("player") or InCombatLockdown()) then
         return false -- skip exhaustive scan if no new achievements or if in combat
     end
+
     wlAchievementsCompleted = completed
 
-    local catList = GetCategoryList()
+    wlScanAchievementsProgress = {};
+    wlScanAchievementsProgress.catList = GetCategoryList();
+    wlScanAchievementsProgress.catIdx = 1;
+    wlScanAchievementsProgress.achievementTable = {}
+    wlScanAchievementsProgress.achievementTableIdx = #wlScanAchievementsProgress.achievementTable
+    wlScanAchievementsProgress.interval = 200;
 
-    local achievementTable = {}
-    local achievementTableIdx = #achievementTable
-
-    for _, cat in pairs(catList) do
-        local total = GetCategoryNumAchievements(cat, true)
-        for i=1, total do
-            local id = GetAchievementInfo(cat, i)
-            while id do
-                local _, _, _, completed, month, day, year, _, _, _, _, isGuild = GetAchievementInfo(id)
-                if (completed and not isGuild) then
-                    achievementTableIdx = achievementTableIdx + 1
-                    if year < 10 then
-                        year = '0'..year
-                    end
-                    if month < 10 then
-                        month = '0'..month
-                    end
-                    if day < 10 then
-                        day = '0'..day
-                    end
-                    achievementTable[achievementTableIdx] = id .. ':' .. year .. month .. day
-
-                    id = GetPreviousAchievement(id)
-                else
-                    id = nil
-                end
-            end
-        end
-    end
-
-    ids = table.concat(achievementTable,',')
-
-    if ids ~= "" then
-        wlScans.achievements = ids;
-        return true;
-    else
-        -- skip resetting achievements, perhaps server didn't send them down yet. achievements never go completely away.
-        -- wlScans.achievements = "-1";
-        return false;
-    end
+    wlTimers.scanAchievements = wlGetTime() + wlScanAchievementsProgress.interval;
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4006,7 +4027,7 @@ function wlScanAppearances()
     -- enable filter if wardrobe frame is invisible.
     local enableFilter = not WardrobeCollectionFrame or not WardrobeCollectionFrame:IsVisible();
 
-    for colType = 1, NUM_LE_TRANSMOG_COLLECTION_TYPES do
+    for colType = 1, Enum.TransmogCollectionTypeMeta.NumValues do
         local app = wlGetCollectedTransmogAppearances(colType, enableFilter)
 
         for k, o in pairs(app) do
@@ -4770,6 +4791,9 @@ function wl_OnUpdate(self, elapsed)
                         end    
                         wlMsgCollected = "";
                     end
+
+                elseif name == "scanAchievements" then
+                    wlScanAchievementsStep();
                 end
             end
         end
@@ -5380,7 +5404,7 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlGetDate()
-    local date = C_Calendar.GetDate();
+    local date = C_DateAndTime.GetCurrentCalendarTime();
 
     return date.month, date.monthDay, date.year;
 end

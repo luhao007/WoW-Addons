@@ -1,9 +1,8 @@
 local mod	= DBM:NewMod("MechagonTrash", "DBM-Party-BfA", 11)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200418211641")
+mod:SetRevision("20200907150556")
 --mod:SetModelID(47785)
-mod:SetZone()
 
 mod.isTrashMod = true
 
@@ -67,7 +66,7 @@ local specWarnDetonate				= mod:NewSpecialWarningInterrupt(301088, "HasInterrupt
 local specWarnTuneUp				= mod:NewSpecialWarningInterrupt(293729, "HasInterrupt", nil, nil, 1, 2)--
 local specWarnShrinkYou				= mod:NewSpecialWarningYou(284219, nil, nil, nil, 1, 2)
 local yellShrunk					= mod:NewShortYell(284219)--Shrunk will just say with white letters
-local yellShrunkRepeater			= mod:NewYell(284219, UnitName("player"))
+local yellShrunkRepeater			= mod:NewPlayerRepeatYell(284219)
 local specWarnSuffocatingSmogDispel	= mod:NewSpecialWarningDispel(300650, "RemoveDisease", nil, nil, 1, 2)--Toxic Lurker
 local specWarnOverclockDispel		= mod:NewSpecialWarningDispel(299588, "MagicDispeller", nil, nil, 1, 2)--Pistonhead Mechanic/Mechagon Mechanic
 local specWarnEnlargeDispel			= mod:NewSpecialWarningDispel(301629, "MagicDispeller", nil, nil, 1, 2)--Mechagon Renormalizer
@@ -85,14 +84,14 @@ local function shrunkYellRepeater(self)
 	self:Schedule(2, shrunkYellRepeater, self)
 end
 
-function mod:Scraptarget(targetname, uId)
+function mod:Scraptarget(targetname)
 	if not targetname then return end
 	if targetname == UnitName("player") and self:AntiSpam(4, 5) then
 		yellScrapCannon:Yell()
 	end
 end
 
-function mod:BORKtarget(targetname, uId)
+function mod:BORKtarget(targetname)
 	if not targetname then return end
 	if targetname == UnitName("player") and self:AntiSpam(4, 5) then
 		yellBORK:Yell()

@@ -1,9 +1,13 @@
 # <DBM> Pandaria
 
-## [r134](https://github.com/DeadlyBossMods/DBM-MoP/tree/r134) (2020-02-23)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-MoP/compare/r133...r134)
+## [r138](https://github.com/DeadlyBossMods/DBM-MoP/tree/r138) (2020-10-13)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-MoP/compare/r137...r138) [Previous Releases](https://github.com/DeadlyBossMods/DBM-MoP/releases)
 
-- Cleaned up unused locals and removed an arrow function that doesn't belong since patch 7.1  
-- Remove unneeded local  
-- Whitespace cleanup  
-- Update Luacheck  
+- Bump TOCS  
+- Merge pull request #5 from DeadlyBossMods/stats  
+    Stats  
+- Fix minExpansion  
+- minExpansion  
+- Merge pull request #4 from DeadlyBossMods/stats  
+- MoP uses both 10 and 25 stats  
+- Stats  

@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Fabys
-## Version: 3.6
+## Version: 4.0.0
 ## SavedVariables: MythicPlusTimerDB
 
 ## Title: MythicPlusTimer

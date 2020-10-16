@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: MysticalOS
-## Version: r206
+## Version: r210
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMThroneFourWinds_AllSavedVars
@@ -13,9 +13,11 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: CATA
+## X-DBM-StatTypes: normal,normal25,heroic,heroic25
 ## X-DBM-Mod-MapID: 754
 ## X-DBM-Mod-Sort: 803
-## X-DBM-Mod-MinCoreRevision: 12473
+## X-DBM-Mod-MinCoreRevision: 20200524142133
+## X-DBM-Mod-MinExpansion: 3
 ## X-Curse-Project-ID: 43971
 ## X-WoWI-ID: 21469
 ## X-Part-Of: DBM-Core

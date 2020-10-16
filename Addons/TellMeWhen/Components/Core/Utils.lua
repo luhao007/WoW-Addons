@@ -1582,7 +1582,8 @@ end
 local fixedRaceAtlasNames = {
 	["highmountaintauren"] = "highmountain",
 	["lightforgeddraenei"] = "lightforged",
-	["scourge"] = "undead"
+	["scourge"] = "undead",
+	["zandalaritroll"] = "zandalari",
 };
 function TMW:GetRaceIconInfo(race)
 	race = race:lower()
@@ -1602,6 +1603,10 @@ end
 
 -- From Blizzard_TutorialLogic.lua
 function TMW:FormatAtlasString(atlasName, trimPercent)
+	if not GetAtlasInfo then
+		-- Tex coords aren't supported by the new atlas string escape format
+		return string.format("|A:%s:0:0:0:0|a", atlasName);
+	end
 	local filename, width, height, txLeft, txRight, txTop, txBottom = GetAtlasInfo(atlasName);
 	trimPercent = trimPercent or 0
 

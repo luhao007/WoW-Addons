@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(632, "DBM-Party-WotLK", 12, 283)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod:SetRevision("20200806142123")
 mod:SetCreatureID(31134)
 mod:SetEncounterID(545, 546, 2020)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -24,7 +23,7 @@ local warningBlizzard	= mod:NewSpellAnnounce(58693, 3)
 local specwarnMana		= mod:NewSpecialWarningDispel(59374, "Healer", nil, nil, 1, 2)
 
 local timerVacuumCD		= mod:NewCDTimer(35, 58694, nil, nil, nil, 2)
-local timerMana			= mod:NewTargetTimer(8, 59374, nil, "Healer", nil, 5, nil, DBM_CORE_MAGIC_ICON)
+local timerMana			= mod:NewTargetTimer(8, 59374, nil, "Healer", nil, 5, nil, DBM_CORE_L.MAGIC_ICON)
 local timerCombat		= mod:NewCombatTimer(14)
 
 function mod:OnCombatStart(delay)

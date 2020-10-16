@@ -21,6 +21,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [36648] = {
         name = "Baine Zoccolo Sanguinario",
     },
+    [49748] = {
+        name = "Alfiere degli Eroi",
+    },
+    [49750] = {
+        name = "Alfiere del Capoguerra",
+    },
     [108017] = {
         name = "Torv Doppio Colpo",
     },
@@ -405,6 +411,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [130341] = {
         name = "Guardia di Spade Kaja",
     },
+    [130368] = {
+        name = "Samuel D. Colton III\0",
+    },
     [130375] = {
         name = "Tallis Cuorceleste",
     },
@@ -502,7 +511,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Madre delle Bestie Jabati",
     },
     [131443] = {
-        name = "Capo Telemante Oculeth",
+        name = "Capo Telemante Oculeth\0",
     },
     [131579] = {
         name = "Abitante Catturato",
@@ -745,7 +754,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Emily Chiarosole",
     },
     [136059] = {
-        name = "Layla Chigliapiatta",
+        name = "Layla Chigliapiatta\0",
     },
     [136140] = {
         name = "Clonk Ungipezzi",
@@ -934,7 +943,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Arthur Ventosaldo",
     },
     [140105] = {
-        name = "Nathanos Selvamorta",
+        name = "Guardaboschi Oscuro",
     },
     [140176] = {
         name = "Nathanos Selvamorta",
@@ -968,6 +977,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [141555] = {
         name = "Baine Zoccolo Sanguinario",
+    },
+    [141602] = {
+        name = "Saggio delle Maree Risorto",
     },
     [141643] = {
         name = "Macellachele del Fondale",
@@ -1119,6 +1131,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [146375] = {
         name = "Sira Guardialuna",
     },
+    [146462] = {
+        name = "Berserker dell'Orda",
+    },
     [146536] = {
         name = "Fuoco Fatuo Perduto",
     },
@@ -1135,7 +1150,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Dama Sylvanas Ventolesto",
     },
     [146791] = {
-        name = "Guardaboschi Oscura Lyana",
+        name = "Guardaboschi Oscura",
     },
     [146806] = {
         name = "Guardaboschi Oscura Lyana",
@@ -1153,7 +1168,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Principessa Talanji",
     },
     [146937] = {
-        name = "Guardaboschi Oscura Lyana",
+        name = "Guardaboschi Oscura",
     },
     [146939] = {
         name = "Ambasciatrice Giuralba",
@@ -1184,6 +1199,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [147210] = {
         name = "Guardaboschi Oscura Lyana",
+    },
+    [147293] = {
+        name = "Difensore Da'kani",
     },
     [147519] = {
         name = "Kelsey Ferfavilla",
@@ -1474,7 +1492,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Magni Barbabronzea",
     },
     [152108] = {
-        name = "Neri Pinnafine",
+        name = "Esploratrice Pinnalga",
     },
     [152194] = {
         name = "M.A.D.R.E.",
@@ -1489,7 +1507,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Immagine di Thalyssra",
     },
     [152385] = {
-        name = "Spiritista Corna Nere",
+        name = "Sciamano Alto Monte",
     },
     [152484] = {
         name = "Mastro Meccanista Granfavilla",
@@ -1573,7 +1591,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Shandris Piumaluna",
     },
     [153670] = {
-        name = "Principe Erazmin",
+        name = "Combattente della Resistenza di Bullonaccio",
     },
     [153932] = {
         name = "Genn Mantogrigio",
@@ -1654,7 +1672,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Guerriera Mogu",
     },
     [155482] = {
-        name = "Shandris Piumaluna",
+        name = "Sentinella",
     },
     [155496] = {
         name = "Irathion",
@@ -1715,6 +1733,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [158145] = {
         name = "Principe Erazmin",
+    },
+    [158672] = {
+        name = "Vulpera Avventata",
     },
     [159544] = {
         name = "Arik Scorpiaculeo",

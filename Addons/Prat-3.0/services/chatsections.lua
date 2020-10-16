@@ -44,13 +44,15 @@ local function RunMessageEventFilters(frame, event, arg1, arg2, arg3, arg4, arg5
 
   if chatFilters then
     for _, filterFunc in next, chatFilters do
-      filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11, newarg12, newarg13, newrg14, newarg15, newarg16, newarg17 =
-      filterFunc(frame, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)
-      if filter then
-        return true
-      elseif (newarg1) then
-        arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17 =
-        newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11, newarg12, newarg13, newrg14, newarg15, newarg16, newarg17
+      if filterFunc ~= MessageEventFilter then
+        filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11, newarg12, newarg13, newrg14, newarg15, newarg16, newarg17 =
+        filterFunc(frame, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)
+        if filter then
+          return true
+        elseif (newarg1) then
+          arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17 =
+          newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11, newarg12, newarg13, newrg14, newarg15, newarg16, newarg17
+        end
       end
     end
   end
@@ -265,10 +267,7 @@ end
 
 
 function ClearChatSections(message)
-  if message then wipe(message) end
-  --    for k,v in pairs(message) do
-  --        message[k] = SplitMessageSrc[k] and nil -- WTF?
-  --    end
+  wipe(message)
 end
 
 local function safestr(s) return s or "" end
@@ -276,26 +275,47 @@ local function safestr(s) return s or "" end
 function SplitChatMessage(frame, event, ...)
   local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17 = ...
 
-  ClearChatSections(SplitMessageOrg)
-  ClearChatSections(SplitMessage)
-
   if (strsub((event or ""), 1, 8) == "CHAT_MSG") then
     local type = strsub(event, 10)
-    local info = _G.ChatTypeInfo[type]
 
     if (arg16) then
       -- hiding sender in letterbox: do NOT even show in chat window (only shows in cinematic frame)
       return true;
     end
 
+    local info
+    local channelLength = arg4 and strlen(arg4) or 0
+    local infoType = type;
+    if ( (type == "COMMUNITIES_CHANNEL") or ((strsub(type, 1, 7) == "CHANNEL") and (type ~= "CHANNEL_LIST") and ((arg1 ~= "INVITE") or (type ~= "CHANNEL_NOTICE_USER"))) ) then
+      local found = 0;
+      for index, value in pairs(frame.channelList) do
+        if ( channelLength > strlen(value) ) then
+          -- arg9 is the channel name without the number in front...
+          if ( ((arg7 > 0) and (frame.zoneChannelList[index] == arg7)) or (strupper(value) == strupper(arg9)) ) then
+            found = 1;
+            infoType = "CHANNEL"..arg8;
+            info = _G.ChatTypeInfo[infoType];
+            break;
+          end
+        end
+      end
+      if ( (found == 0) or not info ) then
+        return true;
+      end
+    end
+
+    ClearChatSections(SplitMessageOrg)
+    ClearChatSections(SplitMessage)
+
     local s = SplitMessageOrg
 
+    s.LINE_ID = arg11
+    s.INFOTYPE = infoType
+    info = _G.ChatTypeInfo[infoType]
     -- blizzard bug, arg2 (player name) can have an extra space
     if arg2 then
       arg2 = arg2:trim()
     end
-
-    local channelLength = strlen(safestr(arg4));
 
     s.GUID = arg12
 
@@ -305,12 +325,14 @@ function SplitChatMessage(frame, event, ...)
     }
 
     if CHAT_PLAYER_GUIDS then
-      if s.GUID and s.GUID:len() > 0 and s.GUID ~= "0000000000000000" then
+      if s.GUID and s.GUID:len() > 0 and s.GUID ~= "0000000000000000" and s.GUID ~= "0x0300000000000000" then
         s.GUIDINFO = {
           _G.GetPlayerInfoByGUID(s.GUID)
         }
       end
     end
+
+    s.FRAME = frame and frame:GetName()
     --@end-debug@]===]
 
     --        if NEW_CHATFILTERS then
@@ -347,8 +369,6 @@ function SplitChatMessage(frame, event, ...)
     elseif (chatGroup == "WHISPER" or chatGroup == "BN_WHISPER") then
       if (not (strsub(arg2, 1, 2) == "|K")) then
         chatTarget = strupper(arg2);
-        s.presenceID = _G.BNet_GetBNetIDAccount(arg2)
-        --s.presenceID = presenceID and _G.BNIsSelf(presenceID)
       else
         chatTarget = arg2;
       end
@@ -356,7 +376,7 @@ function SplitChatMessage(frame, event, ...)
 
 
     s.CHATTARGET = chatTarget
-    s.MESSAGE = safestr(arg1)
+    s.MESSAGE = safestr(arg1):gsub("^%s*(.-)%s*$", "%1")  -- trim spaces
 
 
     if (_G.FCFManager_ShouldSuppressMessage(frame, s.CHATGROUP, s.CHATTARGET)) then
@@ -406,6 +426,9 @@ function SplitChatMessage(frame, event, ...)
         type == "CHANNEL_NOTICE" or type == "CHANNEL_NOTICE_USER") then
         -- no link
         s.NONPLAYER = arg2
+      elseif type == "EMOTE" then
+        s.PLAYER = _G.Ambiguate(arg2, "none"):match("([^%-]+)%-?(.*)")
+      elseif type == "TEXT_EMOTE" then
       else
         s.PLAYERLINK = arg2
 
@@ -448,10 +471,16 @@ function SplitChatMessage(frame, event, ...)
           --          end
         else
           if (type ~= "BN_WHISPER" and type ~= "BN_WHISPER_INFORM" and type ~= "BN_CONVERSATION") or arg2 == _G.UnitName("player") --[[or presenceID]] then
-            s.PLAYERLINKDATA = ":" .. safestr(arg11) .. ":" .. chatGroup .. (chatTarget and ":" .. chatTarget or "")
+            s.PLAYERLINKDATA = ":" .. safestr(arg11) .. ":" .. chatGroup .. (chatTarget and (":" .. chatTarget) or "")
           else
             s.lL = "|HBNplayer:"
-            s.PLAYERLINKDATA = ":" .. safestr(arg13) .. ":" .. safestr(arg11) .. ":" .. chatGroup .. (chatTarget and ":" .. chatTarget or "")
+            local battleTag, _
+            if _G.C_BattleNet and  _G.C_BattleNet.GetAccountInfoByID then
+              battleTag =  _G.C_BattleNet.GetAccountInfoByID(arg13).battleTag
+            else
+              _, _, battleTag = _G. BNGetFriendInfoByID(arg13)
+            end
+            s.PLAYERLINKDATA = ":" .. safestr(arg13) .. ":" .. safestr(arg11) .. ":" .. chatGroup ..  ":" .. chatTarget ..  (battleTag and (":" .. battleTag) or "")
             s.PRESENCE_ID = arg13
           end
         end
@@ -460,6 +489,7 @@ function SplitChatMessage(frame, event, ...)
 
     -- If we are handling notices, format them like bliz
     if (type == "CHANNEL_NOTICE_USER") then
+      s.NOTICE = arg1
       local globalstring = _G["CHAT_" .. arg1 .. "_NOTICE_BN"];
       local chatnotice
       if globalstring then
@@ -483,22 +513,21 @@ function SplitChatMessage(frame, event, ...)
         s.MESSAGE = chatnotice:format(arg2)
       end
     elseif type == "CHANNEL_NOTICE" then
-      local globalstring = _G["CHAT_" .. arg1 .. "_NOTICE_BN"];
-      if (not globalstring) then
-        globalstring = _G["CHAT_" .. arg1 .. "_NOTICE"];
-      end
-
-      if (arg10 > 0) then
-        arg4 = arg4 .. " " .. arg10;
-      end
-
-      if _G["CHAT_" .. arg1 .. "_NOTICE"] then
-        if arg1 == "YOU_JOINED" or arg1 == "YOU_LEFT" or arg1 == "YOU_CHANGED" or arg1 == "SUSPENDED" or arg1 == "NOT_IN_LFG" then
-          s.MESSAGE = _G["CHAT_" .. arg1 .. "_NOTICE"]:format(arg8, arg4):trim()
-        else
-          s.MESSAGE = _G["CHAT_" .. arg1 .. "_NOTICE"]:gsub("|Hchannel:[^|]-|h[^|]-|h", ""):trim()
+      local globalstring;
+      s.NOTICE = arg1
+      if ( arg1 == "TRIAL_RESTRICTED" ) then
+        globalstring = _G.CHAT_TRIAL_RESTRICTED_NOTICE_TRIAL;
+      else
+        globalstring = _G["CHAT_"..arg1.."_NOTICE_BN"];
+        if ( not globalstring ) then
+          globalstring = _G["CHAT_"..arg1.."_NOTICE"];
+          if not globalstring then
+            _G.GMError(("Missing global string for %q"):format("CHAT_"..arg1.."_NOTICE"));
+            return;
+          end
         end
       end
+      s.MESSAGE = _G.format(globalstring, arg8, _G.ChatFrame_ResolvePrefixedChannelName(arg4))
     end
 
     local arg6 = safestr(arg6)
@@ -685,18 +714,13 @@ function SplitChatMessage(frame, event, ...)
     s.ACCESSID = _G.ChatHistory_GetAccessID(chatGroup, chatTarget);
     s.TYPEID = _G.ChatHistory_GetAccessID(type, chatTarget, arg12 or arg13);
 
-    s.ORG = SplitMessageOrg
+    SplitMessage.ORG = SplitMessageOrg
+
+    s.INFO = info
 
     return SplitMessage, info
   end
 end
-
-local NULL_INFO = {
-  r = 1.0,
-  g = 1.0,
-  b = 1.0,
-  id = 0
-}
 
 
 

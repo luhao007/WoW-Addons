@@ -2869,7 +2869,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Campionessa: Shinfel Giurapiaga",
     },
     [41755] = {
-        name = "Campionessa: Lulubelle Frizzabum",
+        name = "Campionessa: Lulubelle Frizzabotti",
     },
     [41756] = {
         name = "Campionesse: Gemelle Eredar",

@@ -17,9 +17,14 @@ local function resolve_npc_id(guid)
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
-local function update_progress_value(npc_id, value)
+local function update_progress_value(npc_id, value, is_teeming)
   -- resolve npc progress data
-  local npc_progress = addon.c("npc_progress")
+  local progress_key = "npc_progress"
+  if is_teeming then
+    progress_key = "npc_progress_teeming"
+  end
+
+  local npc_progress = addon.c(progress_key)
   if npc_progress == nil then
     npc_progress = {}
   end
@@ -42,13 +47,18 @@ local function update_progress_value(npc_id, value)
     end
   end
 
-  addon.set_config_value("npc_progress", npc_progress)
+  addon.set_config_value(progress_key, npc_progress)
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
-local function get_progress_value(npc_id)
+local function get_progress_value(npc_id, is_teeming)
   -- resolve npc progress data
-  local npc_progress = addon.c("npc_progress")
+  local progress_key = "npc_progress"
+  if is_teeming then
+    progress_key = "npc_progress_teeming"
+  end
+
+  local npc_progress = addon.c(progress_key)
   if not npc_progress then
     return
   end
@@ -71,6 +81,15 @@ end
 -- ---------------------------------------------------------------------------------------------------------------------
 local function on_combat_log_event_unfiltered()
   local _, sub_event, _, _, _, _, _, dest_guid = CombatLogGetCurrentEventInfo()
+
+  -- remove guid from pull on unit died
+  if sub_event == "UNIT_DIED" then
+    local current_run = main.get_current_run()
+    if current_run and current_run.pull and current_run.pull[dest_guid] then
+      current_run.pull[dest_guid] = nil
+    end
+  end
+
   -- skip if not a party kill event
   if sub_event ~= "PARTY_KILL" then
     return
@@ -134,8 +153,8 @@ local function on_scenario_criteria_update()
     local timestamp, npc_id, valid = unpack(last_kill)
 
     if timestamp and npc_id and delta and valid then
-      if (GetTime() * 1000) - timestamp <= 600 then
-        update_progress_value(npc_id, delta)
+      if (GetTime() * 1000) - timestamp <= 100 then
+        update_progress_value(npc_id, delta, current_run.is_teeming)
       end
     end
   end
@@ -159,6 +178,11 @@ local function on_tooltip_set_unit(tooltip)
     return
   end
 
+  local current_run = main.get_current_run()
+  if not current_run then
+    return
+  end
+
   if not UnitCanAttack("player", unit) or UnitIsDead(unit) then
     return
   end
@@ -170,8 +194,8 @@ local function on_tooltip_set_unit(tooltip)
     return
   end
 
-  local value = get_progress_value(npc_id)
-  if not value then
+  local value, is_mdt_value = progress.resolve_npc_progress_value(npc_id, current_run.is_teeming)
+  if not value or value == 0 then
     return
   end
 
@@ -197,8 +221,79 @@ local function on_tooltip_set_unit(tooltip)
     absolute_number = " (+" .. value .. ")"
   end
 
-  GameTooltip:AddDoubleLine(name .. ": +" .. quantity_percent .. "%" .. absolute_number)
+  local mdt_info = ""
+  -- if is_mdt_value then
+  --   mdt_info = " [MDT]"
+  -- end
+
+  GameTooltip:AddDoubleLine(name .. ": +" .. quantity_percent .. "%" .. absolute_number .. mdt_info)
   GameTooltip:Show()
+end
+
+-- ---------------------------------------------------------------------------------------------------------------------
+local function on_unit_threat_list_update(unit)
+  -- skip if not in combat
+  if not InCombatLockdown() or not unit or not UnitExists(unit) or UnitIsDead(unit) then
+    return
+  end
+
+  -- skip if not in cm
+  if not main.is_in_cm() then
+    return
+  end
+
+  -- check if we have an run
+  local current_run = main.get_current_run()
+  if not current_run then
+    return
+  end
+
+  if not current_run.pull then
+    current_run.pull = {}
+  end
+
+  -- resolve npc id & value
+  local guid = UnitGUID(unit)
+  if not guid or current_run.pull[guid] then
+    return
+  end
+
+  local npc_id = resolve_npc_id(guid)
+  if not npc_id then
+    return
+  end
+
+  local _, _, steps = C_Scenario.GetStepInfo()
+  if not steps or steps <= 0 then
+    return
+  end
+
+  local _, _, _, _, final_value = C_Scenario.GetCriteriaInfo(steps)
+
+  local value = progress.resolve_npc_progress_value(npc_id, current_run.is_teeming)
+  if value and value ~= 0 then
+    local in_percent = (value / final_value) * 100
+    local mult = 10 ^ 2
+    in_percent = math.floor(in_percent * mult + 0.5) / mult
+
+    current_run.pull[guid] = {value, in_percent}
+  end
+end
+
+-- ---------------------------------------------------------------------------------------------------------------------
+local function on_combat_end()
+  -- check if we have an run
+  local current_run = main.get_current_run()
+  if not current_run then
+    return
+  end
+
+  -- reset pull
+  if not current_run.pull then
+    return
+  end
+
+  current_run.pull = {}
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -214,6 +309,30 @@ function progress.on_player_entering_world()
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
+function progress.resolve_npc_progress_value(npc_id, is_teeming)
+  local value = nil
+  local is_mdt_value = false
+  if MDT ~= nil then
+    local mdtValue, _, _, mdtTeemingValue = MDT:GetEnemyForces(npc_id)
+
+    if is_teeming and mdtTeemingValue then
+      value = mdtTeemingValue
+    else
+      value = mdtValue
+    end
+
+    is_mdt_value = true
+  end
+
+  if not value or value == 0 then
+    value = get_progress_value(npc_id, is_teeming)
+    is_mdt_value = false
+  end
+
+  return value, is_mdt_value
+end
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Init
 function progress:init()
   main = addon.get_module("main")
@@ -225,6 +344,10 @@ function progress:enable()
   -- register events
   addon.register_event("COMBAT_LOG_EVENT_UNFILTERED", on_combat_log_event_unfiltered)
   addon.register_event("SCENARIO_CRITERIA_UPDATE", on_scenario_criteria_update)
+  addon.register_event("UNIT_THREAT_LIST_UPDATE", on_unit_threat_list_update)
+  addon.register_event("ENCOUNTER_END", on_combat_end)
+  addon.register_event("PLAYER_REGEN_ENABLED", on_combat_end)
+  addon.register_event("PLAYER_DEAD", on_combat_end)
 
   -- hook into tooltip
   GameTooltip:HookScript("OnTooltipSetUnit", on_tooltip_set_unit)

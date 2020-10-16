@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Tuller
-## Version: 8.3.5
+## Version: 9.0.0
 ## SavedVariables: OmniCCDB, OmniCC4Config
 
 ## Title: OmniCC

@@ -1,9 +1,7 @@
 -- ------------------------------------------------------------------------------ --
 --                                TradeSkillMaster                                --
---                http://www.curse.com/addons/wow/tradeskill-master               --
---                                                                                --
---             A TradeSkillMaster Addon (http://tradeskillmaster.com)             --
---    All Rights Reserved* - Detailed license information included with addon.    --
+--                          https://tradeskillmaster.com                          --
+--    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
 local _, TSM = ...
@@ -15,6 +13,7 @@ local Delay = TSM.Include("Util.Delay")
 local TempTable = TSM.Include("Util.TempTable")
 local Math = TSM.Include("Util.Math")
 local Log = TSM.Include("Util.Log")
+local String = TSM.Include("Util.String")
 local ItemString = TSM.Include("Util.ItemString")
 local ItemInfo = TSM.Include("Service.ItemInfo")
 local private = {
@@ -23,6 +22,7 @@ local private = {
 	callbacks = {},
 	disabled = false,
 	ignoreUpdatesUntil = 0,
+	optionalMatArrayTemp = { { itemID = nil, count = 1, index = nil } },
 }
 -- don't want to scan a bunch of times when the profession first loads so add a 10 frame debounce to update events
 local SCAN_DEBOUNCE_FRAMES = 10
@@ -50,6 +50,7 @@ function ProfessionScanner.OnInitialize()
 	else
 		Event.Register("TRADE_SKILL_LIST_UPDATE", private.OnTradeSkillUpdateEvent)
 	end
+	Event.Register("CHAT_MSG_SKILL", private.ChatMsgSkillEventHandler)
 end
 
 function ProfessionScanner.SetDisabled(disabled)
@@ -83,7 +84,13 @@ function ProfessionScanner.CreateQuery()
 end
 
 function ProfessionScanner.GetIndexBySpellId(spellId)
+	assert(TSM.IsWowClassic() or private.hasScanned)
 	return private.db:GetUniqueRowField("spellId", spellId, "index")
+end
+
+function ProfessionScanner.GetCategoryIdBySpellId(spellId)
+	assert(private.hasScanned)
+	return private.db:GetUniqueRowField("spellId", spellId, "categoryId")
 end
 
 function ProfessionScanner.GetNameBySpellId(spellId)
@@ -141,6 +148,15 @@ end
 
 function private.OnTradeSkillUpdateEvent()
 	Delay.Cancel("PROFESSION_SCAN_DELAY")
+	private.QueueProfessionScan()
+end
+
+function private.ChatMsgSkillEventHandler(_, msg)
+	local professionName = TSM.Crafting.ProfessionState.GetCurrentProfession()
+	if not professionName or not strmatch(msg, professionName) then
+		return
+	end
+	private.ignoreUpdatesUntil = 0
 	private.QueueProfessionScan()
 end
 
@@ -267,24 +283,41 @@ function private.ScanProfession()
 			-- There's a Blizzard bug where First Aid duplicates spellIds, so check that we haven't seen this before
 			if not spellIdIndex[spellId] then
 				spellIdIndex[spellId] = index
-				local info = TempTable.Acquire()
-				assert(C_TradeSkillUI.GetRecipeInfo(spellId, info) == info)
+				local info = nil
+				if not TSM.IsShadowlands() then
+					info = TempTable.Acquire()
+					assert(C_TradeSkillUI.GetRecipeInfo(spellId, info) == info)
+				else
+					info = C_TradeSkillUI.GetRecipeInfo(spellId)
+				end
 				if info.previousRecipeID then
 					prevRecipeIds[spellId] = info.previousRecipeID
 					nextRecipeIds[info.previousRecipeID] = spellId
 				end
+				if info.nextRecipeID then
+					nextRecipeIds[spellId] = info.nextRecipeID
+					prevRecipeIds[info.nextRecipeID] = spellId
+				end
 				recipeLearned[spellId] = info.learned
-				TempTable.Release(info)
+				if not TSM.IsShadowlands() then
+					TempTable.Release(info)
+				end
 			end
 		end
 		private.db:TruncateAndBulkInsertStart()
+		local inactiveSpellIds = TempTable.Acquire()
 		for index, spellId in ipairs(recipes) do
 			local hasHigherRank = nextRecipeIds[spellId] and recipeLearned[nextRecipeIds[spellId]]
 			-- TODO: show unlearned recipes in the TSM UI
 			-- There's a Blizzard bug where First Aid duplicates spellIds, so check that this is the right index
 			if spellIdIndex[spellId] == index and recipeLearned[spellId] and not hasHigherRank then
-				local info = TempTable.Acquire()
-				assert(C_TradeSkillUI.GetRecipeInfo(spellId, info) == info)
+				local info = nil
+				if not TSM.IsShadowlands() then
+					info = TempTable.Acquire()
+					assert(C_TradeSkillUI.GetRecipeInfo(spellId, info) == info)
+				else
+					info = C_TradeSkillUI.GetRecipeInfo(spellId)
+				end
 				local rank = -1
 				if prevRecipeIds[spellId] or nextRecipeIds[spellId] then
 					rank = 1
@@ -296,10 +329,19 @@ function private.ScanProfession()
 				end
 				local numSkillUps = info.difficulty == "optimal" and info.numSkillUps or 1
 				private.db:BulkInsertNewRow(index, spellId, info.name, info.categoryID, info.difficulty, rank, numSkillUps)
-				TempTable.Release(info)
+				if not TSM.IsShadowlands() then
+					TempTable.Release(info)
+				end
+			else
+				inactiveSpellIds[spellId] = true
 			end
 		end
 		private.db:BulkInsertEnd()
+		-- remove spells which are not active (i.e. older ranks)
+		if next(inactiveSpellIds) then
+			TSM.Crafting.RemovePlayerSpells(inactiveSpellIds)
+		end
+		TempTable.Release(inactiveSpellIds)
 		TempTable.Release(spellIdIndex)
 		TempTable.Release(recipes)
 		TempTable.Release(prevRecipeIds)
@@ -351,6 +393,9 @@ function private.ScanProfession()
 			callback()
 		end
 	end
+
+	-- explicitly run GC
+	collectgarbage()
 end
 
 function private.ScanRecipe(professionName, spellId)
@@ -447,8 +492,63 @@ function private.ScanRecipe(professionName, spellId)
 	end
 
 	if not haveInvalidMats then
+		local optionalMats = private.GetOptionalMats(spellId)
+		if optionalMats then
+			for _, matStr in ipairs(optionalMats) do
+				local _, _, mats = strsplit(":", matStr)
+				for itemId in String.SplitIterator(mats, ",") do
+					local matItemString = "i:"..itemId
+					TSM.db.factionrealm.internalData.mats[matItemString] = TSM.db.factionrealm.internalData.mats[matItemString] or {}
+				end
+				matQuantities[matStr] = -1
+			end
+		end
 		TSM.Crafting.SetMats(spellId, matQuantities)
 	end
 	TempTable.Release(matQuantities)
 	return not haveInvalidMats
+end
+
+function private.GetOptionalMats(spellId)
+	local optionalMats = TSM.IsShadowlands() and C_TradeSkillUI.GetOptionalReagentInfo(spellId) or nil
+	if not optionalMats or #optionalMats == 0 then
+		return nil
+	end
+	for i, info in ipairs(optionalMats) do
+		if info.requiredSkillRank ~= 0 then
+			-- TODO: handle this case
+			return nil
+		else
+			-- process the options
+			assert(#info.options > 0)
+			-- sort the optional mats by itemId
+			sort(info.options)
+			-- cache the optional mat info
+			for _, itemId in ipairs(info.options) do
+				assert(type(itemId) == "number")
+				private.CacheOptionalMatInfo(spellId, i, itemId)
+			end
+			local matList = table.concat(info.options, ",")
+			TSM.Crafting.ProfessionUtil.StoreOptionalMatText(matList, info.slotText)
+			optionalMats[i] = "o:"..i..":"..matList
+		end
+	end
+	return optionalMats
+end
+
+function private.CacheOptionalMatInfo(spellId, index, itemId)
+	if TSM.db.global.internalData.optionalMatBonusIdLookup[itemId] then
+		return
+	end
+	if not TSMScanTooltip then
+		CreateFrame("GameTooltip", "TSMScanTooltip", UIParent, "GameTooltipTemplate")
+	end
+	private.optionalMatArrayTemp.itemID = itemId
+	private.optionalMatArrayTemp.slot = index
+	TSMScanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+	TSMScanTooltip:ClearLines()
+	TSMScanTooltip:SetRecipeResultItem(spellId, private.optionalMatArrayTemp)
+	local _, itemLink = TSMScanTooltip:GetItem()
+	local bonusId = strmatch(itemLink, "item:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:2:3524:([0-9]+)")
+	TSM.db.global.internalData.optionalMatBonusIdLookup[itemId] = tonumber(bonusId)
 end

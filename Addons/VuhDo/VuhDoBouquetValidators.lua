@@ -205,7 +205,7 @@ end
 
 --
 local function VUHDO_isPhasedValidator(anInfo, _)
-	if UnitIsWarModePhased(anInfo["unit"]) or not UnitInPhase(anInfo["unit"]) then
+	if UnitPhaseReason(anInfo["unit"]) then
 		return true, "Interface\\TargetingFrame\\UI-PhasingIcon", 
 			-1, -1, -1, nil, nil, 0.15625, 0.84375, 0.15625, 0.84375;
 	else
@@ -217,12 +217,16 @@ end
 
 --
 local function VUHDO_isWarModePhasedValidator(anInfo, _)
-	if UnitIsWarModePhased(anInfo["unit"]) then
+
+	local tPhaseReason = UnitPhaseReason(anInfo["unit"]);
+
+	if tPhaseReason and tPhaseReason == Enum.PhaseReason.WarMode then
 		return true, "Interface\\TargetingFrame\\UI-PhasingIcon", 
 			-1, -1, -1, nil, nil, 0.15625, 0.84375, 0.15625, 0.84375;
 	else
 		return false, nil, -1, -1, -1;
 	end
+
 end
 
 

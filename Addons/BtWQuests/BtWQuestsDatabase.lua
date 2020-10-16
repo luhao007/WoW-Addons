@@ -11,6 +11,19 @@ local concat = string.concat
 
 local LE_EXPANSION_LEVEL_CURRENT = LE_EXPANSION_LEVEL_CURRENT or 0;
 
+--@REMOVE AFTER 9.0
+local GetLogIndexForQuestID = C_QuestLog.GetLogIndexForQuestID
+local GetQuestWatchType = C_QuestLog.GetQuestWatchType
+local AddQuestWatch = C_QuestLog.AddQuestWatch
+local RemoveQuestWatch = C_QuestLog.RemoveQuestWatch
+if select(4, GetBuildInfo()) < 90000 then
+    GetLogIndexForQuestID = GetQuestLogIndexByID
+    function GetQuestWatchType(questID)
+        return IsQuestWatched(GetLogIndexForQuestID(questID)) and 0 or nil
+    end
+    AddQuestWatch = AddQuestWatchForQuestID
+    RemoveQuestWatch = RemoveQuestWatchForQuestID
+end
 
 -- [[ Helper functions ]]
 function BtWQuestsItem_GetItems(item, character)
@@ -642,6 +655,11 @@ function BtWQuests_GetBestLocation(locations, relativeMapID, relativeX, relative
     end
 end
 
+local ConditionMixin = {}
+function ConditionMixin:EvalFor(character)
+    return self.database:EvalRequirement(self, self, character);
+end
+
 local DataMixin = {};
 function DataMixin:GetID()
     return self.id;
@@ -656,10 +674,10 @@ function DataMixin:IsValidForCharacter(character)
     return self.database:IsItemValidForCharacter(self, character);
 end
 function DataMixin:Visible(character)
-    if self.visible ~= nil and not self.database:EvalRequirement(self.visible, self, character) then
-        return false;
+    if self.visible ~= nil then
+        return self.database:EvalRequirement(self.visible, self, character);
     end
-
+    
     return true;
 end
 function DataMixin:IsAvailable(character)
@@ -714,7 +732,7 @@ function DataMixin:GetPrerequisites()
         end
     end
 
-    return self.prerequisitesItems;
+    return self.prerequisitesItems, self.hasLowPriorityPrerequisites;
 end
 function DataMixin:GetRewards()
     if self.rewardsItems == nil then
@@ -731,6 +749,9 @@ function DataMixin:GetRewards()
 end
 
 local QuestMixin = CreateFromMixins(DataMixin);
+function QuestMixin:GetContentTuningID()
+    return self.contentTuningID or -1
+end
 function QuestMixin:GetLevel()
     return self.level or -1
 end
@@ -743,12 +764,22 @@ end
 function QuestMixin:GetLevelFlag()
     return self.levelFlag or 0
 end
-function QuestMixin:GetLink()
-    if self.link == nil then
-        self.link = format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(), self:GetLevel(), self:GetRequiredLevel(), self:GetMaxLevel(), self:GetLevelFlag(), self:GetName())
-    end
+if select(4, GetBuildInfo()) < 90000 then
+    function QuestMixin:GetLink()
+        if self.link == nil then
+            self.link = format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(), self:GetLevel(), self:GetRequiredLevel(), self:GetMaxLevel(), self:GetLevelFlag(), self:GetName())
+        end
 
-    return self.link
+        return self.link
+    end
+else
+    function QuestMixin:GetLink()
+        if self.link == nil then
+            self.link = format("\124cffffff00\124Hquest:%d:%d\124h[%s]\124h\124r", self:GetID(), self:GetContentTuningID(), self:GetName())
+        end
+    
+        return self.link
+    end
 end
 function QuestMixin:IsActive(character)
     return character:IsQuestActive(self.id)
@@ -1256,6 +1287,7 @@ function ExpansionMixin:SetAutoLoad(value)
     end
 end
 function ExpansionMixin:Load()
+    wipe(self.database.questCache);
     for addon in pairs(self.addons) do
         LoadAddOn(addon)
     end
@@ -1305,12 +1337,12 @@ function ItemMixin:IsValidForCharacter(database, item, character)
 
     return true;
 end
-function ItemMixin:Visible(database, item, character)
+function ItemMixin:Visible(database, item, character, showAll)
     if item.visible ~= nil then
-        return database:EvalRequirement(item.visible, item, character);
+        return (showAll or not item.lowPriority) and database:EvalRequirement(item.visible, item, character);
     end
 
-    return true;
+    return (showAll or not item.lowPriority);
 end
 function ItemMixin:GetName(database, item, character)
     if item.name then
@@ -1411,7 +1443,7 @@ function ItemMixin:GetPrerequisites(database, item)
         for _,prerequisite in ipairs(item.prerequisites) do
             result[#result+1] = database:CreateItem(-1, prerequisite, item, self:GetRoot(database, item));
         end
-        return result;
+        return result, item.hasLowPriorityPrerequisites;
     end
 end
 function ItemMixin:GetRewards(database, item)
@@ -1578,7 +1610,11 @@ function TargetItemMixin:IsValidForCharacter(database, item, character)
 
     return true;
 end
-function TargetItemMixin:Visible(database, item, character)
+function TargetItemMixin:Visible(database, item, character, showAll)
+    if not showAll and item.lowPriority then
+        return false
+    end
+    
     if item.visible ~= nil then
         return ItemMixin.Visible(self, database, item, character);
     end
@@ -1707,6 +1743,9 @@ function QuestItemMixin:IsCompleted(database, item, character, ...)
 
     return StatusCompleted(item, character, CheckQuestStatus)
 end
+function QuestItemMixin:GetContentTuningID(database, item)
+    return item.contentTuningID or self:GetTarget(database, item):GetContentTuningID();
+end
 function QuestItemMixin:GetLevel(database, item)
     return item.level or self:GetTarget(database, item):GetLevel();
 end
@@ -1719,14 +1758,14 @@ end
 function QuestItemMixin:GetLevelFlag(database, item)
     return item.levelFlag or self:GetTarget(database, item):GetLevelFlag();
 end
-function QuestItemMixin:GetLink(database, item)
-    -- if item.link == nil then
-    --     item.link = format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetLevel(database, item), self:GetRequiredLevel(database, item), self:GetMaxLevel(database, item), self:GetLevelFlag(database, item), self:GetName(database, item))
-    -- end
-
-    -- return item.link
-
-    return format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetLevel(database, item), self:GetRequiredLevel(database, item), self:GetMaxLevel(database, item), self:GetLevelFlag(database, item), self:GetName(database, item));
+if select(4, GetBuildInfo()) < 90000 then
+    function QuestItemMixin:GetLink(database, item)
+        return format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetLevel(database, item), self:GetRequiredLevel(database, item), self:GetMaxLevel(database, item), self:GetLevelFlag(database, item), self:GetName(database, item));
+    end
+else
+    function QuestItemMixin:GetLink(database, item)
+        return format("\124cffffff00\124Hquest:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetContentTuningID(database, item), self:GetName(database, item));
+    end
 end
 function QuestItemMixin:OnClick(database, item, character, button, frame, tooltip)
     if item.onClick ~= nil then
@@ -1737,20 +1776,19 @@ function QuestItemMixin:OnClick(database, item, character, button, frame, toolti
         return
     end
 
-    local questLogIndex = GetQuestLogIndexByID(self:GetID(database, item))
+    local questID = self:GetID(database, item)
+    local questLogIndex = GetLogIndexForQuestID(questID)
     if IsModifiedClick("QUESTWATCHTOGGLE") then
-        if questLogIndex ~= 0 then
-            if IsQuestWatched(questLogIndex) then
-                RemoveQuestWatch(questLogIndex)
-            else
-                AddQuestWatch(questLogIndex, true)
-            end
+        if GetQuestWatchType(questID) ~= nil then
+            RemoveQuestWatch(questID)
+        else
+            AddQuestWatch(questID)
         end
 
         return
     end
     
-    if questLogIndex ~= 0 then
+    if questLogIndex and questLogIndex ~= 0 then
         if BtWQuestsFrame:SelectFromLink(self:GetLink(database, item)) then
             return
         end
@@ -1776,9 +1814,13 @@ function QuestItemMixin:OnEnter(database, item, character, button, frame, toolti
         local link = userdata and userdata.link or (target and self:GetLink(database, item))
 
         if link then
-            tooltip:SetPoint("TOPLEFT", button, "TOPRIGHT")
-            tooltip:SetOwner(button, "ANCHOR_PRESERVE");
-            tooltip:SetHyperlink(link, character)
+            QuestEventListener:AddCallback(target:GetID(), function()
+                if button:IsMouseOver() then
+                    tooltip:SetPoint("TOPLEFT", button, "TOPRIGHT")
+                    tooltip:SetOwner(button, "ANCHOR_PRESERVE");
+                    tooltip:SetHyperlink(link, character)
+                end
+            end);
         end
     end
 end
@@ -1839,7 +1881,7 @@ function CategoryItemMixin:GetListImage(database, item)
     return item.listImage.texture, unpack(item.listImage.texCoords)
 end
 function CategoryItemMixin:OnClick(database, item, character, button, frame, tooltip)
-    if BtWQuests_TryInsertChatLink(self:GetLink(database, item)) then
+    if ChatEdit_TryInsertChatLink(self:GetLink(database, item)) then
         return
     end
 
@@ -1858,6 +1900,18 @@ function CategoryItemMixin:OnLeave(database, item, character, button, frame, too
 end
 
 local ChainItemMixin = CreateFromMixins(TargetItemMixin);
+function ChainItemMixin:GetName(database, item, character)
+    local name = TargetItemMixin.GetName(self, database, item, character)
+    local uptoType = type(item.upto)
+    if uptoType == "table" then
+    elseif uptoType == "number" then
+        local quest = database:GetQuestByID(item.upto)
+        if quest then
+            return string.format(L["UP_TO"], name, quest:GetName())
+        end
+    end
+    return name
+end
 function ChainItemMixin:GetLink(database, item)
     return self:GetTarget(database, item):GetLink();
 end
@@ -1896,7 +1950,7 @@ function ChainItemMixin:GetNumItems(database, item)
     return self:GetTarget(database, item):GetNumItems();
 end
 function ChainItemMixin:OnClick(database, item, character, button, frame, tooltip)
-    if BtWQuests_TryInsertChatLink(self:GetLink(database, item)) then
+    if ChatEdit_TryInsertChatLink(self:GetLink(database, item)) then
         return
     end
 
@@ -1920,6 +1974,19 @@ function ChainItemMixin:OnLeave(database, item, character, button, frame, toolti
 end
 function ChainItemMixin:IsEmbed(database, item)
     return item.embed
+end
+function ChainItemMixin:IsCompleted(database, item, character, ...)
+    if item.completed ~= nil then
+        return ItemMixin.IsCompleted(self, database, item, character);
+    end
+
+    local uptoType = type(item.upto)
+    if uptoType == "table" then
+    elseif uptoType == "number" then
+        return character:IsQuestCompleted(item.upto)
+    end
+
+    return TargetItemMixin.IsCompleted(self, database, item, character, ...)
 end
 
 local MissionItemMixin = CreateFromMixins(TargetItemMixin);
@@ -2116,15 +2183,19 @@ function ReputationItemMixin:IsActive(database, item, character)
     return true
 end
 function ReputationItemMixin:IsCompleted(database, item, character)
-    local factionName, standing, barMin, _, value = character:GetFactionInfoByID(item.id)
-    
-    if standing == nil then
-        return false
-    elseif item.amount ~= nil then
-        return standing > item.standing or (standing == item.standing and value - barMin >= item.amount)
-    else
-        return standing >= item.standing
+    local function Callback(id, item, character)
+        local factionName, standing, barMin, _, value = character:GetFactionInfoByID(item.id)
+        
+        if standing == nil then
+            return false
+        elseif item.amount ~= nil then
+            return standing > item.standing or (standing == item.standing and value - barMin >= item.amount)
+        else
+            return standing >= item.standing
+        end
     end
+
+    return StatusCompleted(item, character, Callback)
 end
 
 local FriendshipItemMixin = CreateFromMixins(ItemMixin);
@@ -2377,52 +2448,6 @@ function AuraItemMixin:IsCompleted(database, item, character)
     end
 end
 
-local HeartOfAzerothLevelItemMixin = CreateFromMixins(ItemMixin);
-function HeartOfAzerothLevelItemMixin:GetName(database, item, character)
-    if item.name then
-        return ItemMixin.GetName(self, database, item, character);
-    end
-
-    return string.format(L["BTWQUESTS_HEART_OF_AZEROTH_LEVEL"], item.level)
-end
-function HeartOfAzerothLevelItemMixin:IsActive(database, item, character)
-    return true
-end
-function HeartOfAzerothLevelItemMixin:IsCompleted(database, item, character)
-    if item.atmost then
-        return character:HeartOfAzerothAtmostLevel(item.level)
-    else
-        return character:HeartOfAzerothAtleastLevel(item.level)
-    end
-end
-
-local AzeriteEssenceItemMixin = CreateFromMixins(ItemMixin);
-function AzeriteEssenceItemMixin:GetName(database, item, character, variation)
-    if item.name then
-        return ItemMixin.GetName(self, database, item, character);
-    end
-    
-    local id = self:GetID(database, item)
-    local rank = item.rank
-    local essence = C_AzeriteEssence.GetEssenceInfo(id)
-    local name = essence.name or ""
-    if rank then
-        return string.format(AZERITE_ESSENCE_TOOLTIP_NAME_RANK, name, rank)
-    else
-        return name
-    end
-end
-function AzeriteEssenceItemMixin:IsCompleted(database, item)
-    local id = self:GetID(database, item)
-    local rank = item.rank
-    local essence = C_AzeriteEssence.GetEssenceInfo(id)
-    if rank then
-        return essence.rank >= rank and essence.unlocked
-    else
-        return essence.unlocked
-    end
-end
-
 local ProfessionItemMixin = CreateFromMixins(ItemMixin);
 function ProfessionItemMixin:GetName(database, item, character, variation)
     if item.name then
@@ -2506,6 +2531,49 @@ function QuestLineItemMixin:IsCompleted(database, item, character)
     return false
 end
 
+local FollowerItemMixin = CreateFromMixins(ItemMixin);
+function FollowerItemMixin:GetName(database, item, character)
+    local follower = C_Garrison.GetFollowerInfo(item.id)
+    return follower and follower.name
+end
+function FollowerItemMixin:IsCompleted(database, item, character)
+
+    return false
+end
+local GarrisonTalentTreeItemMixin = CreateFromMixins(ItemMixin);
+function GarrisonTalentTreeItemMixin:GetName(database, item, character)
+    local info = C_Garrison.GetTalentTreeInfo(item.id)
+    if item.rank then
+        return string.format(L["RANK"], info and info.title or L["UNKNOWN"], item.rank)
+    else
+        return info and info.title or L["UNKNOWN"]
+    end
+end
+function GarrisonTalentTreeItemMixin:IsActive(database, item, character)
+	local treeInfo = C_Garrison.GetTalentTreeInfo(item.id);
+    for _,talent in ipairs(treeInfo.talents) do
+        if talent.tier + 1 == item.rank then
+            return talent.isBeingResearched
+        end
+    end
+
+    return false
+end
+function GarrisonTalentTreeItemMixin:IsCompleted(database, item, character)
+    local rank = C_Garrison.GetTalentPointsSpentInTalentTree(item.id)
+    if item.rank then
+        return item.rank <= rank
+    else
+        return rank >= 0
+    end
+end
+local CampaignItemMixin = CreateFromMixins(ItemMixin);
+function CampaignItemMixin:GetName(database, item, character)
+    local info = C_CampaignInfo.GetCampaignInfo(item.id)
+    return info and info.name or L["UNKNOWN"]
+end
+
+
 local DatabaseItemMetatable = {};
 function DatabaseItemMetatable.__index(tbl, key)
     local details;
@@ -2539,9 +2607,54 @@ local function CreateTable(database, mixin)
     });
     return target, sources;
 end
+local function SplitRanges(...)
+    local i = 0
+    local tbl = {...}
+    return function ()
+        i = i + 1
 
+        local range = tbl[i]
+        if not range then
+            return nil
+        end
+        local from, to = strsplit("-", range, 2)
+        if to == nil then
+            to = from
+        end
+        from = tonumber(from)
+        to = tonumber(to)
+        assert(from and to, "Range number be number-number")
+        return from, to
+    end
+end
+local function GetRanges(str)
+    return SplitRanges(strsplit(",", str))
+end
+
+local ConditionCacheChildMetatable = {
+}
 local Database = {};
 function Database:Init()
+    do
+        local database = self
+        self.ConditionCache = setmetatable({}, {
+            __index = function (self, character)
+                if type(character) == "table" then
+                    local result = setmetatable({}, {
+                        __index = function (self, id)
+                            if type(id) == "number" then
+                                local result = database:GetData("condition", id):EvalFor(character);
+                                self[id] = result
+                                return result
+                            end
+                        end
+                    });
+                    self[character] = result
+                    return result
+                end
+            end
+        });
+    end
     self.DataTypes = {};
     self.ItemTypes = {};
     self.buckets = {};
@@ -2553,6 +2666,7 @@ end
 function Database:RegisterDataType(dataType, mixin)
     self.DataTypes[dataType] = mixin;
     self[dataType], self[dataType.."List"] = CreateTable(self, mixin);
+    self[dataType.."Ranges"] = {}
 end
 function Database:AddData(dataType, id, item)
     assert(self[dataType] ~= nil, format("Missing data type %s", dataType));
@@ -2581,6 +2695,28 @@ end
 function Database:GetData(dataType, id)
     assert(self[dataType] ~= nil, format("Missing data type %s", dataType));
     return self[dataType][tonumber(id)];
+end
+function Database:AddDataRanges(dataType, str, target)
+    assert(self[dataType] ~= nil, format("Missing data type %s", dataType));
+    assert(target ~= nil, format("Must have a target"))
+    local tbl = self[dataType.."Ranges"];
+
+    for from,to in GetRanges(str) do
+        tbl[#tbl+1] = {from=from,to=to,target=target}
+    end
+    table.sort(tbl, function (a, b)
+        return a.from < b.from
+    end)
+end
+function Database:LoadExpansionForDataID(dataType, id)
+    assert(self[dataType] ~= nil, format("Missing data type %s", dataType));
+    local tbl = self[dataType.."Ranges"];
+    id = tonumber(id)
+    for _,item in ipairs(tbl) do
+        if item.from <= id and item.to >= id then
+            self:GetExpansionByID(item.target):Load()
+        end
+    end
 end
 function Database:RegisterItemType(itemType, mixin)
     self.ItemTypes[itemType] = mixin;
@@ -2617,6 +2753,8 @@ end
 function Database:EvalRequirement(requirement, item, character, one)
     if type(requirement) == "boolean" then
         return requirement
+    elseif type(requirement) == "number" then
+        return self:EvalCondition(requirement, character)
     elseif type(requirement) == "function" then
         return self:EvalRequirement(requirement(item, character), item, character)
     elseif type(requirement) == "table" then
@@ -2730,6 +2868,27 @@ function Database:EvalItemName(item, character)
     return self.ItemTypes[item.type]:GetName(self, item, character);
 end
 
+function Database:AddCondition(id, item)
+    return self:AddData("condition", id, item);
+end
+function Database:AddConditionTable(items)
+    self:AddDataTable("condition", items);
+end
+function Database:GetConditionByID(id)
+    return self:GetData("condition", id);
+end
+function Database:EvalCondition(id, character)
+    return self.ConditionCache[character][id];
+end
+do
+    local eventHandler = CreateFrame("Frame")
+    eventHandler:SetScript("OnEvent", function ()
+        wipe(Database.ConditionCache[BtWQuestsCharacters:GetPlayer()])
+    end)
+    function Database:RegisterConditionClearCacheEvent(event)
+        eventHandler:RegisterEvent(event)
+    end
+end
 
 -- Expansion
 function Database:AddExpansion(id, item)
@@ -2780,16 +2939,44 @@ function Database:GetExpansionList()
 
     return items
 end
-function Database:GuessExpansion(character)
-    local playerLevel = character:GetLevel()
+local chromieTimeExpansionMap = {
+    [5] = 0,
+    [6] = 1,
+    [7] = 2,
+    [8] = 4,
+    [9] = 5,
+    [10] = 6,
+}
+function Database:GetBestExpansionForCharacter(character)
+    local first = next(self.expansion)
+    if next(self.expansion, first) == nil then
+        return first
+    end
 
-    for i=LE_EXPANSION_LEVEL_CURRENT,0,-1 do
-        if self:HasExpansion(i) and playerLevel >= MAX_PLAYER_LEVEL_TABLE[i] then
-            return i
+    -- Do fancy chromie time stuff here
+    local chromieTimeID = character:GetChromieTimeID()
+    local expansion = chromieTimeExpansionMap[chromieTimeID]
+    if self:HasExpansion(expansion) then
+        return expansion
+    end
+
+    -- Not in chromie time so use player level
+    local playerLevel = character:GetLevel()
+    expansion = GetExpansionForLevel(playerLevel)
+    if self:HasExpansion(expansion) then
+        return expansion
+    end
+    -- Find the best expansion closest to the players current level
+    for variance = 1,GetNumExpansions()-1 do
+        if expansion+variance < GetNumExpansions() and self:HasExpansion(expansion+variance) then
+            return expansion+variance
+        end
+        if expansion-variance >= 0 and self:HasExpansion(expansion-variance) then
+            return expansion-variance
         end
     end
 
-    return LE_EXPANSION_LEVEL_CURRENT
+    return first
 end
 
 function Database:AddCategory(id, item)
@@ -2829,6 +3016,13 @@ function Database:GetCategoryName(id)
     
     return item:GetName();
 end
+function Database:LoadCategory(id)
+    self:LoadExpansionForDataID("category", id)
+    return self:GetData("category", id);
+end
+function Database:AddCategoryRanges(str, target)
+    self:AddDataRanges("category", str, target)
+end
 
 function Database:AddChain(id, item)
     return self:AddData("chain", id, item);
@@ -2866,6 +3060,13 @@ function Database:GetChainName(id)
     end
     
     return item:GetName();
+end
+function Database:LoadChain(id)
+    self:LoadExpansionForDataID("chain", id)
+    return self:GetData("chain", id);
+end
+function Database:AddChainRanges(str, target)
+    self:AddDataRanges("chain", str, target)
 end
 
 function Database:AddQuest(id, item)
@@ -3283,6 +3484,7 @@ function Database:GetAvailableMapItems(mapID, character)
         local items = self.Continents[continentID]
         for _,item in ipairs(items) do
             local chain = self:GetChainByID(item.id)
+            assert(chain ~= nil, string.format("Missing chain %d on map %d within continent %d", item.id, mapID, continentID))
             if chain:IsValidForCharacter(character) and not chain:IsCompleted(character) and chain:IsAvailable(character) then
                 local item = chain:GetNextItem(character)
                 
@@ -3354,7 +3556,9 @@ end
 BtWQuests_GetAreaName = BtWQuests.GetAreaName;
 BtWQuests_GetMapName = BtWQuests.GetMapName;
 
+Database.ItemMixin = ItemMixin
 Database:Init();
+Database:RegisterDataType("condition", ConditionMixin);
 Database:RegisterDataType("expansion", ExpansionMixin);
 Database:RegisterDataType("category", CategoryMixin);
 Database:RegisterDataType("chain", ChainMixin);
@@ -3391,12 +3595,27 @@ Database:RegisterItemType("pet", PetItemMixin);
 Database:RegisterItemType("mount", MountItemMixin);
 Database:RegisterItemType("toy", ToyItemMixin);
 Database:RegisterItemType("aura", AuraItemMixin);
-Database:RegisterItemType("heartlevel", HeartOfAzerothLevelItemMixin);
-Database:RegisterItemType("azessence", AzeriteEssenceItemMixin);
 Database:RegisterItemType("profession", ProfessionItemMixin);
 Database:RegisterItemType("item", ItemItemMixin);
 Database:RegisterItemType("equipped", EquippedItemMixin);
 Database:RegisterItemType("questline", QuestLineItemMixin);
+Database:RegisterItemType("follower", FollowerItemMixin);
+Database:RegisterItemType("garrisontalenttree", GarrisonTalentTreeItemMixin);
+Database:RegisterItemType("campaign", CampaignItemMixin);
+
+Database:AddCondition(923, { type = "faction", id = "Horde" });
+Database:AddCondition(924, { type = "faction", id = "Alliance" });
+
+Database:RegisterConditionClearCacheEvent("QUEST_ACCEPTED")
+Database:RegisterConditionClearCacheEvent("QUEST_AUTOCOMPLETE")
+Database:RegisterConditionClearCacheEvent("QUEST_COMPLETE")
+Database:RegisterConditionClearCacheEvent("QUEST_FINISHED")
+Database:RegisterConditionClearCacheEvent("QUEST_TURNED_IN")
+Database:RegisterConditionClearCacheEvent("QUEST_LOG_CRITERIA_UPDATE")
+Database:RegisterConditionClearCacheEvent("QUEST_WATCH_LIST_CHANGED")
+Database:RegisterConditionClearCacheEvent("QUEST_WATCH_UPDATE")
+Database:RegisterConditionClearCacheEvent("QUEST_SESSION_JOINED")
+Database:RegisterConditionClearCacheEvent("QUEST_SESSION_LEFT")
 
 BtWQuestsDatabase = Database;
 BtWQuests.Database = Database;

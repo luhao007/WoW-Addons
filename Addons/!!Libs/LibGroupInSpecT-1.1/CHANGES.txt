@@ -1,4 +1,27 @@
 ------------------------------------------------------------------------
+r95 | nebula169 | 2020-08-07 02:21:38 +0000 (Fri, 07 Aug 2020) | 5 lines
+Changed paths:
+   M /trunk/LibGroupInSpecT-1.1.lua
+   M /trunk/LibGroupInSpecT-1.1.toc
+
+- Add PvP talents
+- Fix talent spell id
+- Flatten the talent cache
+- Query talent info directly on comm updates
+- Bump the toc
+------------------------------------------------------------------------
+r94 | nebula169 | 2020-07-28 02:49:23 +0000 (Tue, 28 Jul 2020) | 1 line
+Changed paths:
+   M /trunk/LibGroupInSpecT-1.1.lua
+
+Fix change spec spell cast requeue (and some minor tweaks)
+------------------------------------------------------------------------
+r93 | nebula169 | 2020-07-24 23:18:11 +0000 (Fri, 24 Jul 2020) | 1 line
+Changed paths:
+   M /trunk/LibGroupInSpecT-1.1.lua
+
+Remove C_ChatInfo compat
+------------------------------------------------------------------------
 r92 | funkydude | 2018-04-25 06:54:21 +0000 (Wed, 25 Apr 2018) | 1 line
 Changed paths:
    M /trunk/embeds.xml

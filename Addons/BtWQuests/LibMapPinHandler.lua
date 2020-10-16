@@ -32,7 +32,8 @@ LibMapPinHandlerMixin.GetGlobalPinScale = MapCanvasMixin.GetGlobalPinScale
 
 function LibMapPinHandlerMixin:OnLoad(ownerMap)
     self.ownerMap = ownerMap
-	CallbackRegistryBaseMixin.OnLoad(self)
+    local base = CallbackRegistryMixin or CallbackRegistryBaseMixin
+	base.OnLoad(self)
 	self.dataProviders = {};
 	self.dataProviderEventsCount = {};
 	self.pinPools = {};
@@ -64,6 +65,9 @@ end
 function LibMapPinHandlerMixin:GetPinFrameLevelsManager()
 	return self:GetOwner().pinFrameLevelsManager;
 end
+function LibMapPinHandlerMixin:ProcessGlobalPinMouseActionHandlers(...)
+	return self:GetOwner():ProcessGlobalPinMouseActionHandlers(...)
+end
 
 local function CreateCanvas(frame)
     local result = CreateFromMixins(LibMapPinHandlerMixin)
@@ -74,9 +78,11 @@ end
 LibMapPinHandler = {}
 setmetatable(LibMapPinHandler, {
     __index = function (self, frame)
-        local result = CreateCanvas(frame)
-        rawset(self, frame, result)
-        return result
+        if frame and type(frame) == "table" and frame.GetObjectType then
+            local result = CreateCanvas(frame)
+            rawset(self, frame, result)
+            return result
+        end
     end,
     __newindex = function ()
     end,

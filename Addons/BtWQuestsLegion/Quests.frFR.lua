@@ -4159,7 +4159,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ce que sait la Pierre-Mère",
     },
     [42933] = {
-        name = "Délit de sales troggs",
+        name = "Délit de sales Troggs",
     },
     [42935] = {
         name = "Sauvetage des drakes de pierre",

@@ -29,6 +29,26 @@ VUHDO_BUFF_ORDER = { };
 local sEmpty = { };
 local sCooldownAliases = { };
 
+-- Backdrops
+BACKDROP_VUHDO_BUFF_SWATCH_PANEL_8_8_0000 = {
+	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", 
+	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	tile = true,
+	tileSize = 8,
+	edgeSize = 8,
+};
+
+BACKDROP_COLOR_VUHDO_BUFF_SWATCH_PANEL = CreateColor(0, 0, 0);
+
+BACKDROP_VUHDO_BUFF_WATCH_MAIN_FRAME_16_16_5555 = {
+	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", 
+	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	tile = true,
+	tileSize = 16,
+	edgeSize = 16,
+	insets = {  left = 5, right = 5, top = 5, bottom = 5 },
+};
+
 
 
 

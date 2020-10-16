@@ -469,7 +469,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Un tributo a la muerte",
     },
     [47894] = {
-        name = "Salta",
+        name = "[Jump Around]",
     },
     [47897] = {
         name = "Traidores Zanchuli",
@@ -2740,7 +2740,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Perforar el escudo",
     },
     [50690] = {
-        name = "Con Moxie",
+        name = "[UNUSED]",
     },
     [50691] = {
         name = "Fuera de nómina",
@@ -2953,10 +2953,10 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "¡Ese ruido!",
     },
     [50835] = {
-        name = "El puerto de Zandalar",
+        name = "El Puerto de Zandalar",
     },
     [50838] = {
-        name = "Olfato para los pterroblemas",
+        name = "Olfato para los pterrorblemas",
     },
     [50839] = {
         name = "¡PRIIII!",
@@ -5602,13 +5602,13 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Liberación mecánica",
     },
     [54938] = {
-        name = "La ayuda de un hermano",
+        name = "Ayuda de un hermano",
     },
     [54939] = {
-        name = "Cabezota como un Barbabronce",
+        name = "Terco como un Barbabronce",
     },
     [54940] = {
-        name = "El consejo de una MADRE",
+        name = "La necesidad es la MADRE",
     },
     [54945] = {
         name = "Arranquen motores",

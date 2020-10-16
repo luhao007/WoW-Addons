@@ -237,7 +237,7 @@ BobberEvents["VARIABLES_LOADED"] = function(started)
 	tinsert(simple, { ["name"] = BigBobbers[136377][CurLoc], ["setting"] = BigBobbers[136377].setting, ["value"] = true, ["bool"] = true });
 	local complex = BobberMenuOptions()
 	local scrollmenu = FSF:CreateScrollMenu(MENUNAME, APPLY, simple, complex)
-	local _, name = FL:GetFishingSkillInfo();
+	local _, name = FL:GetFishingSpellInfo();
 	FishingBuddy.OptionsFrame.HandleOptions(name, "Interface\\Icons\\INV_Fishingpole_02", BobberOptions);
 	local oversize = {}
 	oversize[BigBobbers[136377].setting] = { ["default"] = false }

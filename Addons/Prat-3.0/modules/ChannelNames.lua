@@ -170,33 +170,33 @@ PL:AddLocale(PRAT_MODULE, "frFR",L)
 
 L = {
 	["ChannelNames"] = {
-		["%s settings."] = "%s -Einstellungen.",
-		["<string>"] = true,
-		["Add Channel Abbreviation"] = "Hinzufügen einer Kanal-Abkürzung",
-		["addnick_desc"] = "Fügt einen abgekürzten Kanalnamen hinzu. Füge den Vorsatz '#' dem Namen hinzu, um die Nummer des Kanals mit anzuzeigen (z.B. '#Handel')",
+		["%s settings."] = "%s - Einstellungen",
+		["<string>"] = "<Zeichenfolge>",
+		["Add Channel Abbreviation"] = "Kanalabkürzung hinzufügen",
+		["addnick_desc"] = "Fügt einen abgekürzten Kanalnamen hinzu. Füge den Vorsatz '#' dem Namen hinzu, um die Kanalnummer einzuschließen. (z.B. '#Handel')",
 		["Blank"] = "Leer",
 		["chanlink_desc"] = "Den Kanal zu einem anklickbaren Link machen, der den Chat zu diesem Kanal öffnet.",
-		["chanlink_name"] = "Kanal-Link erstellen",
+		["chanlink_name"] = "Kanal Link erstellen",
 		["Channel %d"] = "Kanal %d",
-		["Channel name abbreviation options."] = "Optionen zu Kanalnamen-Abkürzungen.",
-		["ChannelNames"] = "Channel-Namen",
+		["Channel name abbreviation options."] = "Abkürzungsoptionen für Kanalnamen.",
+		["ChannelNames"] = "Kanalnamen",
 		["channelnick_desc"] = "Kanalabkürzungen",
 		["channelnick_name"] = "Kanalabkürzungen",
-		["Clear Channel Abbreviation"] = "Channel-Abkürzung löschen",
-		["Clears an abbreviated channel name."] = "Löscht die Abkürzung eines Kanals",
+		["Clear Channel Abbreviation"] = "Kanalabkürzung löschen",
+		["Clears an abbreviated channel name."] = "Löscht einen abgekürzten Kanalnamen.",
 		["colon_desc"] = "Hinzufügen eines Doppelpunkts nach dem Ersetzen des Kanals ein-/ausschalten.",
 		["colon_name"] = "Doppelpunkt anzeigen",
-		["Dont display the channel/chat type name"] = "Name des Kanal-/Chat-Typs nicht anzeigen",
+		["Dont display the channel/chat type name"] = "Zeigt nicht den Namen des Kanal-/Chat-Typs an",
 		["otheropts_desc"] = "Weitere Formatierungsoptionen für die Kanäle, sowie Steuerung der Kanal-Links.",
 		["otheropts_name"] = "Weitere Optionen",
-		["Remove Channel Abbreviation"] = "Kanal-Abkürzung entfernen",
+		["Remove Channel Abbreviation"] = "Kanalabkürzung entfernen",
 		["Removes an an abbreviated channel name."] = "Entfernt einen abgekürzten Kanalnamen.",
 		["Replace"] = "Ersetzen",
 		["Set"] = "Setzen",
 		["space_desc"] = [=[Hinzufügen eines Leerzeichens nach dem Ersetzen des Kanals ein-/ausschalten.
 ]=],
 		["space_name"] = "Leerzeichen anzeigen",
-		["Toggle replacing this channel."] = "Ersetzen für diesen Kanal ein-/ausschalten.",
+		["Toggle replacing this channel."] = "Schaltet das Ersetzen dieses Kanals um.",
 		["Use a custom replacement for the chat %s text."] = "Benutze einen allgemein üblichen Ersatz für den Text des Chats %s.",
 	}
 }
@@ -742,10 +742,6 @@ end
     Prat.EnableProcessingForEvent("CHAT_MSG_CHANNEL_NOTICE_USER")
     Prat.EnableProcessingForEvent("CHAT_MSG_CHANNEL_LEAVE")
     Prat.EnableProcessingForEvent("CHAT_MSG_CHANNEL_JOIN")
-
-    self:AddOutboundWhisperColoring()
-
-    --self:RawHook("ChatEdit_UpdateHeader", true)
   end
 
   function module:OnModuleDisable()
@@ -756,33 +752,6 @@ end
   function module:GetDescription()
     return PL["Channel name abbreviation options."]
   end
-
-  --function module:ChatEdit_UpdateHeader(editBox, ...)
-  --    self.hooks["ChatEdit_UpdateHeader"](...)
-  --
-  --    local type = editBox:GetAttribute("chatType");
-  --	if ( not type ) then
-  --		return;
-  --	end
-  --
-  --	local info = ChatTypeInfo[type];
-  --	local header = _G[editBox:GetName().."Header"];
-  --	if ( not header ) then
-  --		return;
-  --	end
-  --
-  --    if ( type == "CHANNEL" ) then
-  --		local channel, channelName, instanceID = Prat.GetChannelName(editBox:GetAttribute("channelTarget"));
-  --		if ( channelName ) then
-  --			if ( instanceID > 0 ) then
-  --				channelName = channelName.." "..instanceID;
-  --			end
-  --			info = ChatTypeInfo["CHANNEL"..channel];
-  --			editBox:SetAttribute("channelTarget", channel);
-  --			header:SetFormattedText(CHAT_CHANNEL_SEND, channel, channelName);
-  --		end
-  --    end
-  --end
 
   --[[------------------------------------------------
       Core Functions
@@ -796,26 +765,6 @@ end
 
   function module:RefreshOptions()
     LibStub("AceConfigRegistry-3.0"):NotifyChange("Prat")
-  end
-
-  function module:AddOutboundWhisperColoring()
-    if not CHAT_CONFIG_CHAT_LEFT then return end
-
-    for i, v in ipairs(CHAT_CONFIG_CHAT_LEFT) do
-      if v.type == "WHISPER" then
-        v.text = CHAT_MSG_WHISPER
-        v.func = function(self, checked) ToggleChatMessageGroup(checked, "WHISPER"); end;
-
-        table.insert(CHAT_CONFIG_CHAT_LEFT, i, {
-          text = CHAT_MSG_WHISPER_INFORM,
-          type = "WHISPER_INFORM",
-          checked = function() return IsListeningForMessageType("WHISPER"); end;
-          func = function(self, checked) ToggleChatMessageGroup(checked, "WHISPER"); end;
-        })
-
-        break
-      end
-    end
   end
 
   function module:AddNickname(info, name)

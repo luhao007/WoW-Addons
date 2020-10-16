@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod(2381, "DBM-Azeroth-BfA", 6, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200220034831")
+mod:SetRevision("20200907150556")
 mod:SetCreatureID(160970)
 mod:SetEncounterID(2353)
 mod:SetReCombatTime(20)
-mod:SetZone()
 --mod:SetMinSyncRevision(11969)
 
 mod:RegisterCombat("combat")
@@ -23,9 +22,9 @@ local specWarnWrithingSands				= mod:NewSpecialWarningSwitch(314659, "Dps", nil,
 local specWarnCrushingClaws				= mod:NewSpecialWarningDefensive(314618, "Tank", nil, nil, 1, 2)
 
 local timerTremorWaveCD					= mod:NewCDTimer(23.1, 314527, nil, nil, nil, 3)--23.1--30.4
-local timerWrithingSandsCD				= mod:NewCDTimer(41.3, 314659, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)--21.8?
-local timerRazorSpinesCD				= mod:NewCDTimer(25.5, 314698, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
-local timerCrushingClawsCD				= mod:NewCDTimer(14.4, 314618, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON)
+local timerWrithingSandsCD				= mod:NewCDTimer(41.3, 314659, nil, nil, nil, 1, nil, DBM_CORE_L.DAMAGE_ICON)--21.8?
+local timerRazorSpinesCD				= mod:NewCDTimer(25.5, 314698, nil, nil, nil, 2, nil, DBM_CORE_L.HEALER_ICON)
+local timerCrushingClawsCD				= mod:NewCDTimer(14.4, 314618, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON..DBM_CORE_L.HEALER_ICON)
 
 --[[
 function mod:OnCombatStart(delay, yellTriggered)

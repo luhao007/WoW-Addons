@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: MysticalOS, Pardua, Cigawoot
-## Version: 1.6.5
+## Version: 1.6.7
 ## RequiredDeps: DBM-Core
 ## DefaultState: enabled
 

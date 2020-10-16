@@ -228,7 +228,13 @@ function VUHDO_aoeUpdateSpellAverages()
 			tSpellModi = tInfo["base"] / tInfo["divisor"];
 			tInfo["avg"] = floor((tInfo["base"] + tBonus * tSpellModi) + 0.5);
 		end
-		tInfo["thresh"] = VUHDO_CONFIG["AOE_ADVISOR"]["config"][tName]["thresh"];
+		
+		-- FIXME: as of 9.0.1 PLAYER_EQUIPMENT_CHANGED sometimes fires before VUHDO_CONFIG is loaded and available
+		if VUHDO_CONFIG then
+			tInfo["thresh"] = VUHDO_CONFIG["AOE_ADVISOR"]["config"][tName]["thresh"];
+		elseif not tInfo["thresh"] then
+			tInfo["thresh"] = 8000; -- FIXME: current lowest threshold
+		end
 		--print("VUHDO_aoeUpdateSpellAverages(): name = " .. tName .. ", avg = floor((base + bonus * spellMod) + 0.5) | " .. tInfo["avg"] .. " = floor((" .. tInfo["base"] .. " + " .. tBonus .. " * " .. tSpellModi .. ") + 0.5)");
 	end
 end

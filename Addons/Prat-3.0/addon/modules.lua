@@ -95,6 +95,10 @@ do
     module_defaults[type(module) == "table" and module.name or module] = defaults
   end
 
+  function GetModuleDefaults(self, module, defaults)
+    return module_defaults[type(module) == "table" and module.name or module]
+  end
+
   local module_init = {}
   function SetModuleInit(self, module, init)
     module_init[type(module) == "table" and module.name or module or "null"] = init
@@ -175,8 +179,10 @@ do
     --    Print("onEnable() "..self.name)
     local pats = GetModulePatterns(self)
     if pats then
-      for _, v in ipairs(pats) do
-        RegisterPattern(v, self.name)
+      for _, v in pairs(pats) do
+        if v then
+          RegisterPattern(v, self.name)
+        end
       end
     end
 
@@ -188,6 +194,7 @@ do
     --    Print("onDisable() "..self.name)
     UnregisterAllPatterns(self.name)
     self:OnModuleDisable()
+    UnregisterAllChatEvents(self)
     Modules[self.name] = "DISABLED"
   end
 
@@ -227,6 +234,20 @@ do
     self:OnColorValueChanged(info, r, g, b, a)
   end
 
+  local function outputText(self, ...)
+    local frame, message, r, g, b = ...
+
+    if type(frame) ~= "table" or type(frame.AddMessage) ~= "function" then
+      frame, message, r, g, b =  _G.DEFAULT_CHAT_FRAME, ...
+    end
+
+    if not message then return end
+
+    local header = "|cffffff78" .. tostring(Prat) .."|r (|cff80ff80" .. self.moduleName .. "|r) : %s"
+
+    frame:AddMessage(header:format(message), r, g, b)
+  end
+
   local function isDisabled(self)
     return not self:IsEnabled()
   end
@@ -253,6 +274,7 @@ do
     SetColorValue = setColorValue,
     IsDisabled = isDisabled,
     GetDescription = getDescription,
+    Output = outputText,
 
     -- Standard fields
     section = "extras",

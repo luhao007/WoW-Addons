@@ -7,7 +7,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_ALCHEMY, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -18,7 +18,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_ALCHEMY, {
         type = "quest",
         id = 42081,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -336,7 +336,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_BLACKSMITHING, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -347,7 +347,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_BLACKSMITHING, {
         type = "quest",
         id = 38533,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -670,7 +670,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_ENCHANTING, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -681,7 +681,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_ENCHANTING, {
         type = "quest",
         id = 39923,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -952,7 +952,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_ENGINEERING, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -963,7 +963,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_ENGINEERING, {
         type = "quest",
         id = 40879,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -1228,7 +1228,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_INSCRIPTION, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -1239,7 +1239,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_INSCRIPTION, {
         type = "quest",
         id = 39954,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -1494,7 +1494,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_JEWELCRAFTING, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -1505,7 +1505,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_JEWELCRAFTING, {
         type = "quest",
         id = 40562,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -1801,7 +1801,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_LEATHERWORKING, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -1812,7 +1812,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_LEATHERWORKING, {
         type = "quest",
         id = 40415,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -2200,7 +2200,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_TAILORING, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 10,
         },
         {
             type = "profession",
@@ -2211,7 +2211,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_TAILORING, {
         type = "quest",
         id = 38970,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             type = "quest",
@@ -2519,7 +2519,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_UNDERLIGHT_ANGLER,
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 10,
         },
         {
             type = "profession",
@@ -2534,7 +2534,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_PROFESSIONS_UNDERLIGHT_ANGLER,
         type = "quest",
         id = 41010,
     },
-    range = {98, 110},
+    range = {98,45},
     items = {
         {
             name = L["BTWQUESTS_FISH_LUMINOUS_PEARL"],

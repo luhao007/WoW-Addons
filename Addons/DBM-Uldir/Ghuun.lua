@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2147, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200220034831")
+mod:SetRevision("20201010001011")
 mod:SetCreatureID(132998)
 mod:SetEncounterID(2122)
-mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(17906)
 mod:SetMinSyncRevision(18056)
@@ -63,7 +62,7 @@ local specWarnDarkBargainOther			= mod:NewSpecialWarningTaunt(267409, false, nil
 local specWarnGTFO						= mod:NewSpecialWarningGTFO(270287, nil, nil, nil, 1, 8)
 local specWarnDecayingEruption			= mod:NewSpecialWarningInterruptCount(267462, "HasInterrupt", nil, nil, 1, 2, 4)--Mythic
 ----Arena Floor P2+
-local specWarnGrowingCorruption			= mod:NewSpecialWarningCount(270447, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(5, 270447), nil, 1, 2)
+local specWarnGrowingCorruption			= mod:NewSpecialWarningCount(270447, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(5, 270447), nil, 1, 2)
 local specWarnGrowingCorruptionOther	= mod:NewSpecialWarningTaunt(270447, nil, nil, nil, 1, 2)
 local specWarnExplosiveCorruptionOther	= mod:NewSpecialWarningTaunt(272506, nil, nil, nil, 1, 2)
 local specWarnBloodFeast				= mod:NewSpecialWarningYou(263235, nil, nil, nil, 1, 2)
@@ -86,14 +85,14 @@ mod:AddTimerLine("Arena Floor")--Dungeon journal later
 local timerExplosiveCorruptionCD		= mod:NewCDCountTimer(13, 272506, nil, nil, nil, 3, nil, nil, nil, 1, 3)
 local timerThousandMawsCD				= mod:NewCDCountTimer(23.9, 267509, nil, nil, nil, 1)--23.9-26.7
 ----Adds
-local timerMassiveSmashCD				= mod:NewCDTimer(9.7, 267412, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerDarkBargainCD				= mod:NewCDTimer(23.1, 267409, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON)
+local timerMassiveSmashCD				= mod:NewCDTimer(9.7, 267412, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
+local timerDarkBargainCD				= mod:NewCDTimer(23.1, 267409, nil, nil, nil, 3, nil, DBM_CORE_L.DAMAGE_ICON)
 local timerBurrowCD						= mod:NewCDTimer(30, 267579, nil, nil, nil, 6)
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerWaveofCorruptionCD			= mod:NewCDCountTimer(15, 270373, nil, nil, nil, 3)
 local timerBloodFeastCD					= mod:NewCDCountTimer(15, 263235, nil, nil, nil, 2, nil, nil, nil, 2, 4)
-local timerBurstingBoil					= mod:NewCastCountTimer(8, 277007, nil, nil, 2, 5, nil, DBM_CORE_MYTHIC_ICON)
-local timerBurstingBoilCD				= mod:NewCDCountTimer(20.5, 277007, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON)
+local timerBurstingBoil					= mod:NewCastCountTimer(8, 277007, nil, nil, 2, 5, nil, DBM_CORE_L.MYTHIC_ICON)
+local timerBurstingBoilCD				= mod:NewCDCountTimer(20.5, 277007, nil, nil, nil, 3, nil, DBM_CORE_L.MYTHIC_ICON)
 ----Horror
 local timerMindNumbingChatterCD			= mod:NewCDTimer(13.4, 263307, nil, "SpellCaster", nil, 2)
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
@@ -116,7 +115,7 @@ mod:AddSetIconOption("SetIconOnExplosiveCorruption", 272506, false, false, {1, 2
 mod.vb.phase = 1
 mod.vb.mawCastCount = 0
 mod.vb.matrixCount = 0
-mod.vb.matrixSide = DBM_CORE_RIGHT
+mod.vb.matrixSide = DBM_CORE_L.RIGHT
 mod.vb.explosiveCount = 0
 mod.vb.waveCast = 0
 mod.vb.bloodFeastCount = 0
@@ -127,7 +126,7 @@ mod.vb.matrixActive = false
 mod.vb.bloodFeastTarget = nil
 local playerHasImperfect, playerHasBursting, playerHasBargain, playerHasMatrix = false, false, false, false
 local matrixTargets = {}
-local thousandMawsTimers = {25.4, 26.3, 25.5, 24.2, 23.9, 23.1, 21.5, 21.9, 19.4}
+local thousandMawsTimers = {25.4, 26.3, 24.2, 24.2, 23.9, 21.9, 21.5, 20.6, 19.4}
 local thousandMawsTimersLFR = {27.78, 29.2, 27.9, 26.46, 26.13, 25.26, 23.51, 23.95, 21.21}--Timers 4+ extrapolated using 1.093x greater formula
 local seenAdds = {}
 local castsPerGUID = {}
@@ -184,7 +183,7 @@ do
 				if mod:IsMythic() then
 					addLine(L.NextMatrix, mod.vb.matrixCount+1)
 				else
-					local sideText = (mod.vb.matrixSide == DBM_CORE_LEFT) and DBM_CORE_RIGHT or DBM_CORE_LEFT
+					local sideText = (mod.vb.matrixSide == DBM_CORE_L.LEFT) and DBM_CORE_L.RIGHT or DBM_CORE_L.LEFT
 					addLine(L.NextMatrixLong:format(sideText), mod.vb.matrixCount+1)
 				end
 			end
@@ -262,7 +261,7 @@ function mod:OnCombatStart(delay)
 		timerThousandMawsCD:Start(24.3-delay, 1)
 	end
 	if not self:IsMythic() then
-		self.vb.matrixSide = DBM_CORE_RIGHT
+		self.vb.matrixSide = DBM_CORE_L.RIGHT
 		timerExplosiveCorruptionCD:Start(8-delay, 1)--SUCCESS
 	else
 		timerExplosiveCorruptionCD:Start(10-delay, 1)--SUCCESS
@@ -358,7 +357,7 @@ function mod:SPELL_CAST_START(args)
 		timerBurrowCD:Start(29.5, args.sourceGUID)
 	elseif (spellId == 263482 or spellId == 263503) then
 		self.vb.matrixActive = false
-		self.vb.matrixSide = DBM_CORE_RIGHT--Actually left, but this makes it so the way it's coded works
+		self.vb.matrixSide = DBM_CORE_L.RIGHT--Actually left, but this makes it so the way it's coded works
 		specWarnReorginationBlast:Show()
 		specWarnReorginationBlast:Play("aesoon")--Or phase change
 		timerMatrixCD:Stop()
@@ -404,13 +403,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		else--Drive cast in Phase 2
 			if self.vb.waveCast == 2 then--Current timer is blood feast
 				local elapsed, total = timerBloodFeastCD:GetTime(self.vb.bloodFeastCount+1)
-				local extend = (total+25) - elapsed
 				timerBloodFeastCD:Update(elapsed, total+25, self.vb.bloodFeastCount+1)
 			else--Current timer is wave of corruption
 				timerWaveofCorruptionCD:AddTime(25, self.vb.waveCast+1)
 			end
 			local elapsed2, total2 = timerExplosiveCorruptionCD:GetTime(self.vb.explosiveCount+1)
-			local extend2 = (total2+25) - elapsed2
 			timerExplosiveCorruptionCD:Update(elapsed2, total2+25, self.vb.explosiveCount+1)
 			if self:IsMythic() then
 				timerBurstingBoilCD:AddTime(25, self.vb.burstingCount+1)
@@ -462,7 +459,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		self.vb.explosiveIcon = 0
 		self.vb.explosiveCount = self.vb.explosiveCount + 1
 		if self.vb.phase == 1 then
-			local timer = self:IsMythic() and 44 or 26
+			local timer = self:IsMythic() and 42.9 or 26
 			timerExplosiveCorruptionCD:Start(timer, self.vb.explosiveCount+1)
 		elseif self.vb.phase == 2 then
 			timerExplosiveCorruptionCD:Start(15.8, self.vb.explosiveCount+1)--15.8 in all, except mythic, doesn't exist in mythic P2
@@ -707,10 +704,10 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		self.vb.matrixActive = true
 		self.vb.matrixCount = self.vb.matrixCount + 1
 		if not self:IsMythic() then
-			if self.vb.matrixSide == DBM_CORE_LEFT then
-				self.vb.matrixSide = DBM_CORE_RIGHT
+			if self.vb.matrixSide == DBM_CORE_L.LEFT then
+				self.vb.matrixSide = DBM_CORE_L.RIGHT
 			else
-				self.vb.matrixSide = DBM_CORE_LEFT
+				self.vb.matrixSide = DBM_CORE_L.LEFT
 			end
 			warnMatrixSpawn:Show(self.vb.matrixCount.."-"..self.vb.matrixSide)
 		else
@@ -727,7 +724,7 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 			seenAdds[GUID] = true
 			local cid = self:GetCIDFromGUID(GUID)
 			if cid == 134590 then--Big Adds
-				timerBurrowCD:Start(30.5, GUID)
+				timerBurrowCD:Start(29.5, GUID)
 			end
 		end
 	end

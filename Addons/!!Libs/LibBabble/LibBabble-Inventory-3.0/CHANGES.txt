@@ -1,14 +1,8 @@
 ------------------------------------------------------------------------
-r209 | nevcairiel | 2019-05-26 22:26:20 +0000 (Sun, 26 May 2019) | 1 line
-Changed paths:
-   M /trunk/LibBabble-Inventory-3.0.lua
-
-Automated LibBabble re-generation from the localization system
-------------------------------------------------------------------------
-r208 | nevcairiel | 2019-05-26 22:15:15 +0000 (Sun, 26 May 2019) | 1 line
+r211 | nevcairiel | 2020-10-13 10:33:04 +0000 (Tue, 13 Oct 2020) | 1 line
 Changed paths:
    M /trunk/LibBabble-Inventory-3.0.toc
 
-Update for 8.1
+Update for WoW 9.0
 ------------------------------------------------------------------------
 

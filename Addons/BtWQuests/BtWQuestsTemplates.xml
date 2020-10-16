@@ -732,6 +732,9 @@
 	<Button name="BtWQuestsDropDownListTemplate" hidden="true" frameStrata="DIALOG" enableMouse="true" virtual="true">
 		<Frames>
 			<Frame parentKey="Backdrop" setAllPoints="true">
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" type="global"/>
+				</KeyValues>
 				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background-Dark" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
 					<BackgroundInsets>
 						<AbsInset left="11" right="11" top="11" bottom="9"/>
@@ -743,8 +746,19 @@
 						<AbsValue val="32"/>
 					</EdgeSize>
 				</Backdrop>
+				<Scripts>
+					<OnLoad>
+						if BackdropTemplateMixin then
+							Mixin(self, BackdropTemplateMixin)
+							self:OnBackdropLoaded()
+						end
+					</OnLoad>
+				</Scripts>
 			</Frame>
 			<Frame parentKey="MenuBackdrop" setAllPoints="true">
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+				</KeyValues>
 				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 					<EdgeSize>
 						<AbsValue val="16"/>
@@ -758,6 +772,10 @@
 				</Backdrop>
 				<Scripts>
 					<OnLoad>
+						if BackdropTemplateMixin then
+							Mixin(self, BackdropTemplateMixin)
+							self:OnBackdropLoaded()
+						end
 						self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
 						self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
 					</OnLoad>

@@ -15,6 +15,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [93600] = {
         name = "賽拉娜‧河風",
     },
+    [94101] = {
+        name = "蓮妮‧銀擊",
+    },
     [94366] = {
         name = "莉爾恩‧迅影",
     },
@@ -23,6 +26,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [94434] = {
         name = "艾笛‧嘶沼",
+    },
+    [95438] = {
+        name = "伊萊亞斯",
+    },
+    [95799] = {
+        name = "『強者』丹魯爾",
     },
     [96513] = {
         name = "拉傑‧卡栓",
@@ -56,6 +65,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [106299] = {
         name = "黎沙莉‧烏鴉",
+    },
+    [107498] = {
+        name = "咕咯",
     },
     [107499] = {
         name = "受驚的熊鴉",

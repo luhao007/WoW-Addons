@@ -106,8 +106,8 @@ L = {
 
 L = {
 	["UrlCopy"] = {
-		["Change the color of the URL."] = "Farbe einer URL ändern.",
-		["Color URL"] = "URL einfärben",
+		["Change the color of the URL."] = "Ändert die Farbe der URL.",
+		["Color URL"] = "URL färben",
 		["Set Color"] = "Farbe einstellen",
 		["Show Brackets"] = "Klammern anzeigen",
 		["Toggle"] = "Ein-/ausschalten",
@@ -694,7 +694,7 @@ end
     return PL["URL formating options."]
   end
 
-  function module:Url_Link(link, text, button, frame, ...)
+  function module:Url_Link(link, frame, ...)
     self:ShowUrl(link, frame)
     return false
   end

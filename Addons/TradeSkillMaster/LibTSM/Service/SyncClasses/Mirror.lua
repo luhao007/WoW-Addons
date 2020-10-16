@@ -1,14 +1,11 @@
 -- ------------------------------------------------------------------------------ --
 --                                TradeSkillMaster                                --
---                http://www.curse.com/addons/wow/tradeskill-master               --
---                                                                                --
---             A TradeSkillMaster Addon (http://tradeskillmaster.com)             --
---    All Rights Reserved* - Detailed license information included with addon.    --
+--                          https://tradeskillmaster.com                          --
+--    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
 local _, TSM = ...
 local Mirror = TSM.Init("Service.SyncClasses.Mirror")
-local L = TSM.Include("Locale").GetTable()
 local Delay = TSM.Include("Util.Delay")
 local TempTable = TSM.Include("Util.TempTable")
 local Math = TSM.Include("Util.Math")
@@ -20,6 +17,7 @@ local Connection = TSM.Include("Service.SyncClasses.Connection")
 local private = {
 	numConnected = 0,
 	accountStatus = {},
+	callbacks = {},
 }
 local BROADCAST_INTERVAL = 3
 
@@ -47,14 +45,18 @@ end)
 function Mirror.GetStatus(account)
 	local status = private.accountStatus[account]
 	if not status then
-		return "|cffff0000"..L["Not Connected"].."|r"
+		return false, false
 	elseif status == "UPDATING" then
-		return "|cfffcf141"..L["Updating"].."|r"
+		return true, false
 	elseif status == "SYNCED" then
-		return "|cff00ff00"..L["Up to date"].."|r"
+		return true, true
 	else
 		error("Invalid status: "..tostring(status))
 	end
+end
+
+function Mirror.RegisterCallback(callback)
+	tinsert(private.callbacks, callback)
 end
 
 
@@ -221,8 +223,9 @@ function private.CharacterSettingDataResponseHandler(dataType, sourceAccount, so
 		Log.Warn("Got CHARACTER_HASHES_BROADCAST for player which isn't connected")
 		return
 	end
-	Log.Info("CHARACTER_SETTING_DATA_RESPONSE (%s,%s,%s)", data.character, data.namespace, data.settingKey)
-	if type(data.data) == "table" then
+	local dataValueType = type(data.data)
+	Log.Info("CHARACTER_SETTING_DATA_RESPONSE (%s,%s,%s,%s,%s)", data.character, data.namespace, data.settingKey, dataValueType, (dataValueType == "string" or dataValueType == "table") and #dataValueType or "-")
+	if dataValueType == "table" then
 		local tbl = Settings.Get("sync", Settings.GetSyncScopeKeyByCharacter(data.character), data.namespace, data.settingKey)
 		wipe(tbl)
 		for i, v in pairs(data.data) do
@@ -230,6 +233,9 @@ function private.CharacterSettingDataResponseHandler(dataType, sourceAccount, so
 		end
 	else
 		Settings.Set("sync", Settings.GetSyncScopeKeyByCharacter(data.character), data.namespace, data.settingKey, data.data)
+	end
+	for _, callback in ipairs(private.callbacks) do
+		callback()
 	end
 end
 

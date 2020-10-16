@@ -90,7 +90,7 @@ local function CreateOrUpdateMacro(name, icon, body, perchar)
 end
 
 local function BuildFishingMacro()
-    local _, fishing = FL:GetFishingSkillInfo();
+    local _, fishing = FL:GetFishingSpellInfo();
     local update, id, name = FishingBuddy.GetUpdateLure();
     local bag, slot;
     if (update) then

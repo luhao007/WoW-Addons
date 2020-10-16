@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(968, "DBM-Party-WoD", 7, 476)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190421035925")
+mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
+
+mod:SetRevision("20201002195958")
 mod:SetCreatureID(76266)
 mod:SetEncounterID(1701)
-mod:SetZone()
 mod:SetUsedIcons(1)
 
 mod:RegisterCombat("combat")
@@ -30,7 +31,7 @@ local specWarnAdd			= mod:NewSpecialWarning("specWarnAdd", "Dps", nil, nil, 1, 2
 local specWarnShielding		= mod:NewSpecialWarningInterrupt(154055, "HasInterrupt", nil, 2, 1, 2)
 
 local timerLenseFlareCD		= mod:NewCDTimer(38, 154032, nil, nil, nil, 3)
-local timerCastDownCD		= mod:NewCDTimer(28, 153954, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
+local timerCastDownCD		= mod:NewCDTimer(28, 153954, nil, nil, nil, 1, nil, DBM_CORE_L.DAMAGE_ICON)
 
 mod:AddSetIconOption("SetIconOnCastDown", 153954, true, false, {1})
 
@@ -48,8 +49,8 @@ end
 
 function mod:OnCombatStart(delay)
 	self.vb.lastGrab = nil
-	timerLenseFlareCD:Start(-delay)
 	timerCastDownCD:Start(15-delay)
+	timerLenseFlareCD:Start(27.3-delay)
 	if skyTrashMod.Options.RangeFrame and skyTrashMod.vb.debuffCount ~= 0 then--In case of bug where range frame gets stuck open from trash pulls before this boss.
 		skyTrashMod.vb.debuffCount = 0--Fix variable
 		DBM.RangeCheck:Hide()--Close range frame.

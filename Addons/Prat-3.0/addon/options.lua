@@ -134,8 +134,8 @@ L = {
 	["display_name"] = "Anzeigeeinstellungen",
 	["extras_desc"] = "Verschiedene Module",
 	["extras_name"] = "Sonstiges",
-	["formatting_desc"] = "Darstellung der Zeilen im Chat ändern (Look&Feel)",
-	["formatting_name"] = "Chat formatieren",
+	["formatting_desc"] = "Ändert das Erscheinungsbild der Linien",
+	["formatting_name"] = "Chat-Formatierung",
 	["load_desc"] = "Steuert das Ladeverhalten dieses Moduls.",
 	["load_disabled"] = "Ausgeschaltet",
 	["load_disabledonrestart"] = "Deaktiviert (neu laden)",
@@ -171,8 +171,7 @@ L = {
 	["modulecontrol_name"] = "모듈 제어",
 	["prat"] = "Prat",
 	["reload_required"] = "이 설정은 애드온을 %s 해야 변경된 사항이 적용됩니다.",
-	--[[Translation missing --]]
-	["unloaded_desc"] = "Module is not loaded, load it to see description"
+	["unloaded_desc"] = "모듈을 불러오지 못함, 설명을 보려면 불러오세요."
 }
 
 
@@ -602,6 +601,11 @@ local function updateFrameNames()
       FrameList[k] = nil
     end
   end
+
+  UpdateOptions()
+end
+
+function UpdateOptions()
   LibStub("AceConfigRegistry-3.0"):NotifyChange(PL.prat)
 end
 

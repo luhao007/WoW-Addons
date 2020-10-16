@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Resike and Firebunny. Original author: Proditor
-## Version: 6.2.1
+## Version: 7.0.1
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0
 ## SavedVariables: Gladius2DB
 

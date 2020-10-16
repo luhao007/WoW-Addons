@@ -60,6 +60,13 @@ Prat:AddModuleExtension(function()
     priority = 45
   }, module.name)
 
+  Prat.RegisterPattern({
+    pattern = "|K.-|k",
+    matchfunc = function(link) return Prat:RegisterMatch(link) end,
+    type = "FRAME",
+    priority = 45
+  }, module.name)
+
   local ColorPlayer
   do
     local function Player(name, class)
@@ -82,6 +89,7 @@ Prat:AddModuleExtension(function()
       self.timerPlayerData = nil
 
       if self.db.profile.coloreverywhere and Name then
+        Name = Name:match("(.-)%-.+") or Name
         Name = Name:lower()
         if not namePatterns[Name] and not Prat.PlayerNameBlackList[Name] and Name:len() > 1 then
           namePatterns[Name] = Prat.RegisterPattern(newPattern(Name), self.name)

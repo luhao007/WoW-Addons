@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(613, "DBM-Party-WotLK", 3, 279)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190417010024")
+mod:SetRevision("20200806142123")
 mod:SetCreatureID(26532)
 mod:SetEncounterID(295, 299, 2003)
-mod:SetZone()
 
 mod:RegisterCombat("combat")
 
@@ -17,7 +16,7 @@ mod:RegisterEventsInCombat(
 local warningTime 	= mod:NewSpellAnnounce(58848, 3)
 local warningCurse 	= mod:NewTargetNoFilterAnnounce(52772, 2, nil, "RemoveCurse", 2)
 
-local timerCurse	= mod:NewTargetTimer(10, 52772, nil, "RemoveCurse", nil, 5, nil, DBM_CORE_CURSE_ICON)
+local timerCurse	= mod:NewTargetTimer(10, 52772, nil, "RemoveCurse", nil, 5, nil, DBM_CORE_L.CURSE_ICON)
 local timerTimeCD	= mod:NewCDTimer(25, 58848, nil, nil, nil, 2)
 
 function mod:SPELL_CAST_SUCCESS(args)

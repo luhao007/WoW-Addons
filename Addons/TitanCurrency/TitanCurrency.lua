@@ -1,7 +1,7 @@
 ﻿-- **************************************************************************
--- * Titan Currency .lua - VERSION 5.4
+-- * Titan Currency .lua - VERSION 9.0a
 -- **************************************************************************
--- * by Greenhorns @ Vek'Nilash
+-- * by NMBR5
 -- * This mod will display all the Currency you have on the curent toon
 -- * in a tool tip.  It shows the curent Toons Gold amount on the Titan Panel
 -- * bar.
@@ -34,6 +34,7 @@ local LB = LibStub("AceLocale-3.0"):GetLocale("Titan_Currency", true)
 local TitanCurrency = LibStub("AceAddon-3.0"):NewAddon("TitanCurrency", "AceHook-3.0", "AceTimer-3.0")
 local CurrencyTimer = nil;
 local _G = getfenv(0);
+CurrencyInfo={}
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -109,7 +110,21 @@ function TitanPanelCurrencyButton_GetTooltipText()
    local name, isHeader, isExpanded, isUnused, isWatched, count, icon, maximum, hasWeeklyLimit, currentWeeklyAmount, unknown;
    cCount = GetCurrencyListSize();
    for index=1, cCount do 
-      name, isHeader, isExpanded, isUnused, isWatched, count, icon, maximum, hasWeeklyLimit, currentWeeklyAmount, unknown = GetCurrencyListInfo(index)
+      CurrencyInfo = C_CurrencyInfo.GetCurrencyListInfo(index)
+	  name=CurrencyInfo["name"]
+	  isHeader=CurrencyInfo["isHeader"]
+	  isExpanded=CurrencyInfo["isHeaderExpanded"]
+	  isUnused=CurrencyInfo["isTypeUnused"]
+	  isWatched=CurrencyInfo["isShowInBackpack"]
+	  count=CurrencyInfo["quantity"]
+	  icon=CurrencyInfo["iconFileID"]
+	  maximum=CurrencyInfo["maxQuantity"]
+	  hasWeeklyLimit=CurrencyInfo["canEarnPerWeek"]
+	  earnedthisweek=CurrencyInfo["quantityEarnedThisWeek"]
+	  istradeable=CurrencyInfo["isTradeable"]
+	  currencyquality=CurrencyInfo["quality"]
+	  maxweekly=CurrencyInfo["maxWeeklyQuantity	"]
+	  currencydiscovered=CurrencyInfo["discovered"]
       if (count~=0) and not isUnused then
             if icon~=nil then
          display=name.."--".."\t"..count.." |T"..icon..":16|t"

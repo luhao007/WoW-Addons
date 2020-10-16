@@ -1,4 +1,6 @@
 local BtWQuests = BtWQuests;
+local L = BtWQuests.L
+local Database = BtWQuests.Database
 BtWQuests.Constant.Expansions.BattleForAzeroth = LE_EXPANSION_BATTLE_FOR_AZEROTH or 7;
 BtWQuests.Constant.Category.BattleForAzeroth = BtWQuests.Constant.Category.BattleForAzeroth or {};
 BtWQuests.Constant.Chain.BattleForAzeroth = BtWQuests.Constant.Chain.BattleForAzeroth or {};
@@ -571,8 +573,71 @@ BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIED_RACES_MAGHAR_ORC = 89802
 BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_BAAL = 89901
 BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_WAIST_OF_TIME = 89902
 
-BtWQuestsDatabase:AddExpansion(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
+do
+    local ItemMixin = Database.ItemMixin
+    local HeartOfAzerothLevelItemMixin = CreateFromMixins(ItemMixin);
+    function HeartOfAzerothLevelItemMixin:GetName(database, item, character)
+        if item.name then
+            return ItemMixin.GetName(self, database, item, character);
+        end
+    
+        return string.format(L["BTWQUESTS_HEART_OF_AZEROTH_LEVEL"], item.level)
+    end
+    function HeartOfAzerothLevelItemMixin:IsActive(database, item, character)
+        return true
+    end
+    function HeartOfAzerothLevelItemMixin:IsCompleted(database, item, character)
+        if item.atmost then
+            return character:HeartOfAzerothAtmostLevel(item.level)
+        else
+            return character:HeartOfAzerothAtleastLevel(item.level)
+        end
+    end
+    
+    local AzeriteEssenceItemMixin = CreateFromMixins(ItemMixin);
+    function AzeriteEssenceItemMixin:GetName(database, item, character, variation)
+        if item.name then
+            return ItemMixin.GetName(self, database, item, character);
+        end
+        
+        local id = self:GetID(database, item)
+        local rank = item.rank
+        local essence = C_AzeriteEssence.GetEssenceInfo(id)
+        local name = essence and essence.name or ""
+        if rank then
+            return string.format(AZERITE_ESSENCE_TOOLTIP_NAME_RANK, name, rank)
+        else
+            return name
+        end
+    end
+    function AzeriteEssenceItemMixin:IsCompleted(database, item)
+        local id = self:GetID(database, item)
+        local rank = item.rank
+        local essence = C_AzeriteEssence.GetEssenceInfo(id)
+        if rank then
+            return essence.rank >= rank and essence.unlocked
+        else
+            return essence.unlocked
+        end
+    end
+    function AzeriteEssenceItemMixin:IsValidForCharacter(database, item, character)
+        if item.restrictions ~= nil then
+            return database:IsItemValidForCharacter(item, character);
+        end
+    
+        return C_AzeriteEssence.GetEssences() ~= nil;
+    end
+
+    Database:RegisterItemType("heartlevel", HeartOfAzerothLevelItemMixin);
+    Database:RegisterItemType("azessence", AzeriteEssenceItemMixin);
+end
+
+Database:AddExpansion(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
     background = {
         atlas = "UI-EJ-BattleforAzeroth"
+    },
+    image = {
+        texture = "Interface\\AddOns\\BtWQuestsBattleForAzeroth\\UI-Expansion",
+        texCoords = {0, 0.90625, 0, 0.8125}
     }
 })

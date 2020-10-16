@@ -38,7 +38,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_T
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -64,27 +64,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_T
         {
             type = "money",
             amounts = {
-                756600, 772200, 787800, 803400, 819000, 834600, 850200, 865800, 881400, 897000, 912600, 
+                535860, 561140, 586400, 611680, 636940, 662220, 687500, 712760, 738040, 763300, 788580, 813380, 838180, 863000, 887800, 912600, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                51850, 52250, 52600, 53200, 53550, 54000, 54550, 54950, 55300, 55700, 
+                15600, 16050, 16450, 16900, 17350, 17750, 18200, 18650, 19050, 19500, 20000, 20400, 20800, 21350, 21700, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 575,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -167,7 +164,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_A
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -186,18 +183,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_A
         {
             type = "money",
             amounts = {
-                3026400, 3088800, 3151200, 3213600, 3276000, 3338400, 3400800, 3463200, 3525600, 3588000, 3650400, 
+                2143440, 2244530, 2345615, 2446705, 2547790, 2648880, 2749970, 2851055, 2952145, 3053230, 3154320, 3253535, 3352750, 3451970, 3551185, 3650400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                219650, 221600, 223400, 225150, 226950, 229050, 230900, 232850, 234400, 236350, 
+                64200, 66025, 67725, 69550, 71375, 73075, 74900, 76725, 78425, 80250, 82225, 84175, 85600, 87725, 89525, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -213,10 +210,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_A
             type = "reputation",
             id = 2162,
             amount = 1985,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -403,7 +397,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_T
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -426,27 +420,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_T
         {
             type = "money",
             amounts = {
-                1358000, 1386000, 1414000, 1442000, 1470000, 1498000, 1526000, 1554000, 1582000, 1610000, 1638000, 
+                961800, 1007160, 1052520, 1097880, 1143240, 1188600, 1233960, 1279320, 1324680, 1370040, 1415400, 1459920, 1504440, 1548960, 1593480, 1638000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                102850, 103750, 104600, 105400, 106250, 107250, 108100, 109000, 109750, 110650, 
+                30000, 30850, 31650, 32500, 33350, 34150, 35000, 35850, 36650, 37500, 38400, 39350, 40000, 41000, 41850, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 785,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -547,7 +538,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_A
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -574,18 +565,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_A
         {
             type = "money",
             amounts = {
-                3142800, 3207600, 3272400, 3337200, 3402000, 3466800, 3531600, 3596400, 3661200, 3726000, 3790800, 
+                1391740, 1402040, 1412340, 1422640, 1432940, 1443240, 1453540, 1463840, 1474140, 1484440, 1494740, 1505040, 1515340, 1525640, 1535940, 1546240, 1556540, 1566840, 1577140, 1587440, 1597740, 1610700, 1623660, 1636620, 1649580, 1662540, 2304290, 2409265, 2514240, 2619215, 2724190, 2829170, 2934145, 3039120, 3144095, 3249070, 3352595, 3455625, 3558660, 3661695, 3752005, 959400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                274750, 277200, 279400, 281700, 283900, 286450, 288900, 291200, 293300, 295600, 
+                73600, 73900, 74200, 74400, 74700, 75000, 75300, 75500, 75800, 76100, 76300, 76600, 76900, 77100, 77400, 77700, 78000, 78200, 78500, 78800, 79000, 79300, 79600, 79800, 80100, 80400, 82650, 84700, 87100, 89350, 91550, 93800, 96050, 98250, 100500, 103000, 105300, 107200, 109800, 112000, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -596,10 +587,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_A
             type = "reputation",
             id = 2162,
             amount = 1605,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -740,7 +728,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -759,27 +747,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                2134000, 2178000, 2222000, 2266000, 2310000, 2354000, 2398000, 2442000, 2486000, 2530000, 2574000, 
+                1511400, 1582680, 1653960, 1725240, 1796520, 1867800, 1939080, 2010360, 2081640, 2152920, 2224200, 2294160, 2364120, 2434080, 2504040, 2574000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                143900, 145250, 146450, 147550, 148750, 150100, 151300, 152650, 153600, 154950, 
+                42000, 43200, 44300, 45500, 46700, 47800, 49000, 50200, 51300, 52500, 53850, 55050, 56000, 57350, 58550, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 600,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -964,14 +949,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_F
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1009,27 +994,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_F
         {
             type = "money",
             amounts = {
-                2977900, 3039300, 3100700, 3162100, 3223500, 3284900, 3346300, 3407700, 3469100, 3530500, 3591900, 
+                2109090, 2208560, 2308025, 2407495, 2506960, 2606430, 2705900, 2805365, 2904835, 3004300, 3103770, 3201395, 3299020, 3396650, 3494275, 3591900, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                240150, 242350, 244500, 246050, 248200, 250400, 252550, 254750, 256250, 258450, 
+                70200, 72375, 73875, 76050, 78225, 79725, 81900, 84075, 85575, 87750, 89975, 92075, 93600, 95825, 97925, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 1125,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -1356,7 +1338,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_B
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -1383,18 +1365,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_B
         {
             type = "money",
             amounts = {
-                1959400, 1999800, 2040200, 2080600, 2121000, 2161400, 2201800, 2242200, 2282600, 2323000, 2363400, 
+                1387740, 1453190, 1518635, 1584085, 1649530, 1714980, 1780430, 1845875, 1911325, 1976770, 2042220, 2106455, 2170690, 2234930, 2299165, 2363400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                153800, 155200, 156550, 157600, 158950, 160350, 161750, 163150, 164100, 165500, 
+                45000, 46375, 47375, 48750, 50125, 51125, 52500, 53875, 54875, 56250, 57675, 59025, 60000, 61425, 62775, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -1405,10 +1387,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_B
             type = "reputation",
             id = 2162,
             amount = 535,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -1522,14 +1501,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_T
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     major = true,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1567,18 +1546,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_T
         {
             type = "money",
             amounts = {
-                3453200, 3524400, 3595600, 3666800, 3738000, 3809200, 3880400, 3951600, 4022800, 4094000, 4165200, 
+                2445720, 2561070, 2676405, 2791755, 2907090, 3022440, 3137790, 3253125, 3368475, 3483810, 3599160, 3712365, 3825570, 3938790, 4051995, 4165200, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                255800, 258100, 260250, 262200, 264350, 266700, 269000, 271300, 272950, 275250, 
+                75000, 77225, 79025, 81250, 83475, 85275, 87500, 89725, 91525, 93750, 96125, 98325, 100000, 102425, 104575, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -1589,10 +1568,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_T
             type = "reputation",
             id = 2162,
             amount = 1295,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -1826,14 +1802,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1871,27 +1847,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                776000, 792000, 808000, 824000, 840000, 856000, 872000, 888000, 904000, 920000, 936000, 
+                549600, 575520, 601440, 627360, 653280, 679200, 705120, 731040, 756960, 782880, 808800, 834240, 859680, 885120, 910560, 936000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                45250, 45650, 46000, 46400, 46750, 47150, 47500, 47900, 48350, 48750, 
+                13200, 13550, 13950, 14300, 14650, 15050, 15400, 15750, 16150, 16500, 16900, 17250, 17600, 18000, 18350, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 200,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -1948,14 +1921,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     name = BtWQuests_GetAreaName(9422), -- Goldfield Farmstead
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -1983,18 +1956,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                873000, 891000, 909000, 927000, 945000, 963000, 981000, 999000, 1017000, 1035000, 1053000, 
+                618300, 647460, 676620, 705780, 734940, 764100, 793260, 822420, 851580, 880740, 909900, 938520, 967140, 995760, 1024380, 1053000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                61700, 62250, 62750, 63250, 63750, 64350, 64850, 65400, 65850, 66400, 
+                18000, 18500, 19000, 19500, 20000, 20500, 21000, 21500, 22000, 22500, 23050, 23600, 24000, 24600, 25100, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -2005,10 +1978,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2162,
             amount = 235,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -2112,7 +2082,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -2120,7 +2090,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 35,
             visible = false,
         },
         {
@@ -2155,18 +2125,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                388000, 396000, 404000, 412000, 420000, 428000, 436000, 444000, 452000, 460000, 468000, 
+                274800, 287760, 300720, 313680, 326640, 339600, 352560, 365520, 378480, 391440, 404400, 417120, 429840, 442560, 455280, 468000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                32900, 33200, 33500, 33700, 34000, 34300, 34600, 34900, 35100, 35400, 
+                9600, 9900, 10100, 10400, 10700, 10900, 11200, 11500, 11700, 12000, 12300, 12600, 12800, 13100, 13400, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -2177,10 +2147,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2162,
             amount = 150,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -2218,14 +2185,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -2263,27 +2230,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                1552000, 1584000, 1616000, 1648000, 1680000, 1712000, 1744000, 1776000, 1808000, 1840000, 1872000, 
+                278800, 289100, 299400, 309700, 320000, 330300, 340600, 350900, 361200, 371500, 381800, 392100, 402400, 412700, 423000, 433300, 443600, 453900, 464200, 474500, 484800, 497760, 510720, 523680, 536640, 549600, 1125120, 1176960, 1228800, 1280640, 1332480, 1384320, 1436160, 1488000, 1539840, 1591680, 1643040, 1693920, 1744800, 1795680, 1833840, 936000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                106900, 107900, 108800, 109600, 110500, 111500, 112400, 113400, 114100, 115100, 
+                24400, 24700, 25000, 25200, 25500, 25800, 26100, 26300, 26600, 26900, 27100, 27400, 27700, 27900, 28200, 28500, 28800, 29000, 29300, 29600, 29800, 30100, 30400, 30600, 30900, 31200, 32100, 32900, 33800, 34700, 35500, 36400, 37300, 38100, 39000, 40000, 40900, 41600, 42600, 43500, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 450,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -2412,11 +2376,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     name = BtWQuests_GetAreaName(9955), -- Forgotten Cove
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {120,120},
+    range = {120,50},
     prerequisites = {
         {
             type = "level",
-            level = 120,
+            level = 50,
         },
     },
     active = {
@@ -2434,18 +2398,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                2494000, 2502000, 2510000, 2518000, 2526000, 2534000, 2542000, 2550000, 2558000, 2566000, 2574000, 257400, 
+                2380800, 2393760, 2406720, 2419680, 2432640, 2445600, 2458560, 2471520, 2484480, 2497440, 2510400, 2523120, 2535840, 2548560, 2561280, 2574000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                20550, 20750, 20900, 21100, 21250, 21450, 21600, 21800, 21950, 22150, 
+                6000, 6150, 6350, 6500, 6650, 6850, 7000, 7150, 7350, 7500, 7700, 7850, 8000, 8200, 8350, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -2707,10 +2671,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -2748,18 +2712,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                2638400, 2692800, 2747200, 2801600, 2856000, 2910400, 2964800, 3019200, 3073600, 3128000, 3182400, 
+                1868640, 1956770, 2044895, 2133025, 2221150, 2309280, 2397410, 2485535, 2573665, 2661790, 2749920, 2836415, 2922910, 3009410, 3095905, 3182400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                186750, 188400, 190000, 191350, 192950, 194700, 196350, 198000, 199250, 200900, 
+                54600, 56225, 57525, 59150, 60775, 62075, 63700, 65325, 66625, 68250, 69925, 71575, 72800, 74525, 76125, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -2770,10 +2734,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2162,
             amount = 1010,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
         {
             type = "reputation",
@@ -2951,7 +2912,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -2959,7 +2920,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 35,
             visible = false,
         },
         {
@@ -2999,18 +2960,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                582000, 594000, 606000, 618000, 630000, 642000, 654000, 666000, 678000, 690000, 702000, 
+                412200, 431640, 451080, 470520, 489960, 509400, 528840, 548280, 567720, 587160, 606600, 625680, 644760, 663840, 682920, 702000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                37000, 37350, 37650, 37950, 38250, 38600, 38900, 39250, 39500, 39850, 
+                10800, 11100, 11400, 11700, 12000, 12300, 12600, 12900, 13200, 13500, 13850, 14150, 14400, 14750, 15050, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -3021,10 +2982,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2162,
             amount = 150,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -3063,7 +3021,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     name = BtWQuests_GetAreaName(9444), -- Burton Farmstead
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -3102,27 +3060,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000, 
+                416200, 426500, 436800, 447100, 457400, 467700, 478000, 488300, 498600, 508900, 519200, 529500, 539800, 550100, 560400, 570700, 581000, 591300, 601600, 611900, 622200, 635160, 648120, 661080, 674040, 687000, 719400, 751800, 784200, 816600, 849000, 881400, 913800, 946200, 978600, 1011000, 1042800, 1074600, 1106400, 1138200, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "experience",
             amounts = {
-                82250, 83000, 83750, 84250, 85000, 85750, 86500, 87250, 87750, 88500, 
+                17200, 17500, 17800, 18000, 18300, 18600, 18900, 19100, 19400, 19700, 19900, 20200, 20500, 20700, 21000, 21300, 21600, 21800, 22100, 22400, 22600, 22900, 23200, 23400, 23700, 24000, 24750, 25250, 26000, 26750, 27250, 28000, 28750, 29250, 30000, 30750, 31500, 32000, 32750, 33500, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 10,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 225,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -3210,14 +3165,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110, 120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3240,27 +3195,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                1552000, 1584000, 1616000, 1648000, 1680000, 1712000, 1744000, 1776000, 1808000, 1840000, 1872000, 
+                1099200, 1151040, 1202880, 1254720, 1306560, 1358400, 1410240, 1462080, 1513920, 1565760, 1617600, 1668480, 1719360, 1770240, 1821120, 1872000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                82200, 83000, 83600, 84400, 85000, 85800, 86400, 87200, 87800, 88600, 
+                24000, 24600, 25400, 26000, 26600, 27400, 28000, 28600, 29400, 30000, 30800, 31400, 32000, 32800, 33400, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "reputation",
             id = 2162,
             amount = 600,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -3334,14 +3286,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3364,18 +3316,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                2560800, 2613600, 2666400, 2719200, 2772000, 2824800, 2877600, 2930400, 2983200, 3036000, 3088800, 
+                1813680, 1899220, 1984750, 2070290, 2155820, 2241360, 2326900, 2412430, 2497970, 2583500, 2669040, 2752990, 2836940, 2920900, 3004850, 3088800, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                192450, 194200, 195850, 197250, 198900, 200650, 202400, 204150, 205350, 207100, 
+                56400, 58100, 59400, 61100, 62800, 64100, 65800, 67500, 68800, 70500, 72300, 73950, 75200, 77000, 78650, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -3386,10 +3338,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2162,
             amount = 750,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -3537,7 +3486,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
@@ -3571,7 +3520,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     completed = {
@@ -3596,18 +3545,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                1571400, 1603800, 1636200, 1668600, 1701000, 1733400, 1765800, 1798200, 1830600, 1863000, 1895400, 
+                1112940, 1165430, 1217915, 1270405, 1322890, 1375380, 1427870, 1480355, 1532845, 1585330, 1637820, 1689335, 1740850, 1792370, 1843885, 1895400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                96250, 97100, 97900, 98650, 99450, 100350, 101200, 102050, 102700, 103550, 
+                28200, 29025, 29725, 30550, 31375, 32075, 32900, 33725, 34425, 35250, 36125, 36925, 37600, 38475, 39275, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -3623,10 +3572,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2162,
             amount = 625,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -3777,14 +3723,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
     name = BtWQuests_GetAreaName(9402), -- Millstone Hamlet
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -3828,18 +3774,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                2929400, 2989800, 3050200, 3110600, 3171000, 3231400, 3291800, 3352200, 3412600, 3473000, 3533400, 
+                2074740, 2172590, 2270435, 2368285, 2466130, 2563980, 2661830, 2759675, 2857525, 2955370, 3053220, 3149255, 3245290, 3341330, 3437365, 3533400, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                211350, 213300, 215100, 216650, 218450, 220400, 222250, 224200, 225550, 227500, 
+                61800, 63625, 65125, 66950, 68775, 70275, 72100, 73925, 75425, 77250, 79225, 81025, 82400, 84375, 86175, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -3850,10 +3796,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2162,
             amount = 1225,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Alliance,
-            },
+            restrictions = 924,
         },
     },
     items = {
@@ -4037,14 +3980,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_CHAIN13, {
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {110,120},
+    range = {35,50},
     restrictions = {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_HORDE,
     },
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = {
@@ -4066,18 +4009,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
         {
             type = "money",
             amounts = {
-                970000, 990000, 1010000, 1030000, 1050000, 1070000, 1090000, 1110000, 1130000, 1150000, 1170000, 
+                687000, 719400, 751800, 784200, 816600, 849000, 881400, 913800, 946200, 978600, 1011000, 1042800, 1074600, 1106400, 1138200, 1170000, 
             },
-            minLevel = 110,
-            maxLevel = 120,
+            minLevel = 35,
+            maxLevel = 50,
         },
         {
             type = "experience",
             amounts = {
-                45250, 45650, 46000, 46400, 46750, 47200, 47550, 47950, 48300, 48700, 
+                13200, 13550, 13950, 14300, 14650, 15050, 15400, 15750, 16150, 16500, 16900, 17250, 17600, 18000, 18350, 
             },
-            minLevel = 110,
-            maxLevel = 119,
+            minLevel = 35,
+            maxLevel = 49,
         },
         {
             type = "currency",
@@ -4088,10 +4031,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_C
             type = "reputation",
             id = 2157,
             amount = 500,
-            restrictions = {
-                type = "faction",
-                id = BtWQuests.Constant.Faction.Horde,
-            },
+            restrictions = 923,
         },
     },
     items = {
@@ -4124,10 +4064,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_O
     name = "Other Alliance",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = false,
@@ -4158,10 +4098,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_O
     name = "Other Horde",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = false,
@@ -4172,10 +4112,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_O
     name = "Other Both",
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-    range = {1,60},
+    range = {1,50},
     prerequisites = {
         type = "level",
-        level = 110,
+        level = 35,
         visible = false,
     },
     active = false,
