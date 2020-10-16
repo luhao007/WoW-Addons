@@ -338,6 +338,7 @@ class Manager(object):
             '			shown = false,'
         )
 
+    @classic_only
     def handle_auctioneer(self):
         Addons = ['Auc-Advanced', 'BeanCounter', 'Enchantrix', 'Informant']
 
