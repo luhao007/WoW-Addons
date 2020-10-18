@@ -82,11 +82,10 @@ class Manager(object):
                 os.remove(path)
 
         for ext in ['toc', 'xml']:
-            self.remove_libs_in_file(
-                Path('AddOns') / addon / '{}.{}'.format(addon.split('/')[-1],
-                                                        ext),
-                libs + [lib_path]
-            )
+            path = Path('AddOns') / addon
+            path /= '{}.{}'.format(addon.split('/')[-1], ext)
+            if os.path.exists(str(path)):
+                self.remove_libs_in_file(path, libs + [lib_path])
 
     def remove_libraries(self, libs, root, xml_path):
         """Remove selected embedded libraries from root and xml."""
@@ -282,12 +281,13 @@ class Manager(object):
                   'Details_TinyThreat', 'ExRT', 'GatherMate2',
                   'HandyNotes', 'MapSter', 'Quartz', 'RangeDisplay',
                   'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
+
         if self.is_classic:
             addons += ['AtlasLootClassic', 'AtlasLootClassic_Options',
                        'ATT-Classic', 'ClassicCastbars_Options',
                        'Details_Streamer', 'Fizzle', 'GroupCalendar',
-                       'HandyNotes_NPCs (Classic)', 'PallyPower'
-                       'TradeLog', 'TitanClassic']
+                       'HandyNotes_NPCs (Classic)', 'PallyPower',
+                       'TradeLog', 'TitanClassic', 'WclPlayerScore']
         else:
             addons += ['AllTheThings', 'Details_ChartViewer',
                        'Details_DeathGraphs', 'Details_EncounterDetails',
@@ -302,6 +302,7 @@ class Manager(object):
                        'HandyNotes_VisionsOfNZoth',
                        'HandyNotes_WarfrontRares', 'NPCScan', 'Omen',
                        'RelicInspector', 'Titan']
+
         for addon in addons:
             self.remove_libraries_all(addon)
 
@@ -470,6 +471,10 @@ class Manager(object):
             'AddOns/GoodLeader/Libs/Libs.xml'
         )
 
+        rm_tree('Addons/GoodLeader/Libs/tdGUI/Libs')
+        self.remove_libs_in_file('Addons/GoodLeader/Libs/tdGUI/Load.xml',
+                                 ['Libs'])
+
     def handle_grail(self):
         for folder in os.listdir('AddOns'):
             if 'Grail' not in folder:
@@ -531,6 +536,10 @@ class Manager(object):
             'Addons/MeetingHorn/Libs',
             'Addons/MeetingHorn/Libs/Libs.xml'
         )
+
+        rm_tree('Addons/MeetingHorn/Libs/tdGUI/Libs')
+        self.remove_libs_in_file('Addons/MeetingHorn/Libs/tdGUI/Load.xml',
+                                 ['Libs'])
 
     @classic_only
     def handle_merinspect(self):
@@ -604,9 +613,11 @@ class Manager(object):
         self.remove_libraries(
             ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
              'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
-             'AceGUI-3.0', 'AceHook-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
-             'AceTab-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
-             'LibCompress', 'LibDataBroker-1.1', 'LibDBIcon-1.0', 'LibStub'],
+             'AceGUI-3.0', 'AceGUI-3.0-SharedMediaWidgets', 'AceHook-3.0',
+             'AceLocale-3.0', 'AceSerializer-3.0', 'AceTab-3.0',
+             'AceTimer-3.0', 'CallbackHandler-1.0', 'LibCompress',
+             'LibDataBroker-1.1', 'LibDBIcon-1.0', 'LibSharedMedia',
+             'LibStub'],
             'AddOns/Questie/Libs',
             'AddOns/Questie/embeds.xml'
         )
@@ -739,6 +750,12 @@ class Manager(object):
             'Addons/VuhDo/Libs/Libs.xml'
         )
 
+        if self.is_classic:
+            rm_tree('Addons/Vuhdo/Libs/!LibTotemInfo/LibStub')
+            self.remove_libs_in_file(
+                'Addons/Vuhdo/Libs/!LibTotemInfo/embeds.xml',
+                ['LibStub']
+            )
         rm_tree('Addons/Vuhdo/Libs/LibBase64-1.0/LibStub')
 
     def handle_wa(self):
@@ -746,7 +763,8 @@ class Manager(object):
             ['AceComm-3.0', 'AceConfig-3.0', 'AceConsole-3.0', 'AceEvent-3.0',
              'AceGUI-3.0', 'AceGUI-3.0-SharedMediaWidgets',
              'AceSerializer-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
-             'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
+             'LibClassicCasterino', 'LibClassicDurations',
+             'LibClassicSpellActionCount-1.0', 'LibCustomGlow-1.0',
              'LibCompress', 'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
              'LibGetFrame-1.0', 'LibRangeCheck-2.0', 'LibSharedMedia-3.0',
              'LibSerialize', 'LibSpellRange-1.0', 'LibStub'],

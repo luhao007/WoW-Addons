@@ -64,16 +64,18 @@ class CheckManagedAddOns(unittest.TestCase):
             pprint(duplicates)
 
             # Ignore these embedded liraries, as they have customized versions
-            whitelist = ['Questie', 'MeetingHorn', 'GoodLeader']
+            whitelist = ['Questie']
 
             for k in duplicates:
                 paths = []
                 head = k
                 tail = ''
                 while head:
-                    paths.append(tail)
                     head, tail = os.path.split(head)
+                    paths.append(tail)
 
-                addon = paths[-1]
+                print(paths)
+
+                addon = paths[-2]
                 if addon not in whitelist:
                     self.fail('Found duplicated libraries in {}'.format(addon))
