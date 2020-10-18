@@ -1,7 +1,14 @@
-$Id: ChangeLog.txt 68 2020-07-26 15:05:43Z arith $
+$Id: ChangeLog.txt 70 2020-10-18 08:27:29Z arith $
 
 Revision History:
 =================
+
+* v1.25 (Oct. 18, 2020)
+-----------------------
+- Toc update to support WoW 9.0.1
+- Updated deprecated function call
+  - WorldMapTooltip
+  - IsQuestFlaggedCompleted  --> C_QuestLog.IsQuestFlaggedCompleted 
 
 * v1.24 (Jul. 26, 2020)
 -----------------------
