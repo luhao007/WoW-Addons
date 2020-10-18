@@ -52,7 +52,7 @@ class Manager(object):
             if str(path).endswith('.toc'):
                 pattern = r'(?i)\s*{}.*'
             else:
-                pattern = r'\s*<(Script)|(Include) file\s*=\s*"{}.*'
+                pattern = r'\s*<((Script)|(Include))+ file\s*=\s*"{}.*'
 
             return [l for l in lines
                     if not any(re.match(pattern.format(lib), l)
