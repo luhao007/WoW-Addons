@@ -475,27 +475,17 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 		TitanMapPlayerLocation:SetText(format(L["TITAN_LOCATION_MAP_PLAYER_COORDS_TEXT"], TitanUtils_GetHighlightText(playerLocationText)));
 
 	-- Determine the text to show for cursor coords
-
-		-- calc cursor position on the map
-		local x, y = GetCursorPosition();
-		--[[if WorldMapFrame:IsMaximized() then
-			x, y = WorldMapFrame:GetNormalizedCursorPosition();
+			
+		-- use the global cursor position to confirm the cursor is over the map, but then use a normalized cursor position to account for map zooming
+		local cx, cy = GetCursorPosition();
+		local left, bottom, width, height = WorldMapFrame.ScrollContainer:GetScaledRect();
+		if (cx > left and cy > bottom and cx < left + width and cy < bottom+ height) then
+			cx, cy = WorldMapFrame:GetNormalizedCursorPosition();
+			cx, cy = cx or 0, cy or 0;
 		else
-			x, y = WorldMapFrame.ScrollContainer:GetNormalizedCursorPosition();
-		end]]	
-		x = x / WorldMapFrame:GetEffectiveScale();
-		y = y / WorldMapFrame:GetEffectiveScale();
-
-		local centerX, centerY = WorldMapFrame.ScrollContainer:GetCenter();
-		local width = WorldMapFrame.ScrollContainer:GetWidth();
-		local height = WorldMapFrame.ScrollContainer:GetHeight();
-		local cx = ((x - (centerX - (width/2))) / width) -- OFFSET_X 
-		local cy = ((centerY + (height/2) - y ) / height) --  OFFSET_Y
-		-- cut off if the cursor coords are beyond the map, show 0,0
-		if cx < 0 or cx > 1 or cy < 0 or cy > 1 then
-			cx = 0
-			cy = 0
+			cx, cy = 0, 0
 		end
+
 		-- per the user requested format
 		if (TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat1")) then
 			cursorLocationText = format(L["TITAN_LOCATION_FORMAT"], 100 * cx, 100 * cy);
@@ -511,20 +501,7 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 			TitanMapPlayerLocation:SetText("");
 			TitanMapCursorLocation:SetText("");
 		end
-
-	-- Determine where to show the text
-
-	-- *
-	TitanMapPlayerLocation:ClearAllPoints()
-	TitanMapCursorLocation:ClearAllPoints()
-
-	if WorldMapFrame:IsMaximized() then
-		TitanMapPlayerLocation:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -28)
-		TitanMapCursorLocation:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -43)
-	else
-		TitanMapPlayerLocation:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -50, -5)
-		TitanMapCursorLocation:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 95, -5)
-	end
+		
 end
 
 -- **************************************************************************
@@ -549,21 +526,49 @@ end
 
 -- **************************************************************************
 -- NAME : TitanPanelLocation_CreateMapFrames()
--- DESC : Delays creating frames until the WorldMapFrame is ready
+-- DESC : Adds player and cursor coords to the WorldMapFrame, unless the player has CT_MapMod
 -- VARS : none
 -- **************************************************************************
 local TPL_CMF_IsFirstTime = true;
 function TitanPanelLocation_CreateMapFrames()
-	WorldMapFrame:HookScript("OnShow", function(self)
-		if (TPL_CMF_IsFirstTime and not _G["CT_MapMod"]) then
-			TPL_CMF_IsFirstTime = false;
-			local frame = CreateFrame("FRAME", "TitanMapFrame", WorldMapFrame.BorderFrame)
-			local playertext = frame:CreateFontString("TitanMapPlayerLocation", "ARTWORK", "GameFontNormal");
-			playertext:SetPoint("TOPRIGHT",WorldMapFrame,"TOPRIGHT",0,0);
-			local cursortext = frame:CreateFontString("TitanMapCursorLocation", "ARTWORK", "GameFontNormal");
-			cursortext:SetPoint("TOPRIGHT",WorldMapFrame,"TOPRIGHT",0,0);
-			frame:HookScript("OnUpdate",TitanMapFrame_OnUpdate);	
+	if (TPL_CMF_IsFirstTime) then
+		TPL_CMF_IsFirstTime = false;
+		
+		-- avoid an addon conflict
+		if (_G["CT_MapMod"]) then
+			return;
 		end
-	end);
+		
+		-- create the frame to hold the font strings, and simulate an "OnUpdate" script handler using C_Timer for efficiency
+		local frame = CreateFrame("FRAME", "TitanMapFrame", WorldMapFrame.BorderFrame)
+		local function updateFunc()
+			TitanMapFrame_OnUpdate(frame, 0.07);	-- simulating an OnUpdate call
+		end
+		frame:HookScript("OnShow", function()
+			frame.updateTicker = frame.updateTicker or C_Timer.NewTicker(0.07, updateFunc);
+		end);
+		frame:HookScript("OnHide", function()
+			if (frame.updateTicker) then
+				frame.updateTicker:Cancel();
+				frame.updateTicker = nil;
+			end
+		end);
 
+		-- create the font strings and update their position based in minimizing/maximizing the main map
+		local playertext = frame:CreateFontString("TitanMapPlayerLocation", "ARTWORK", "GameFontNormal");
+		local cursortext = frame:CreateFontString("TitanMapCursorLocation", "ARTWORK", "GameFontNormal");
+		hooksecurefunc(WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "Maximize", function()
+			playertext:ClearAllPoints();
+			cursortext:ClearAllPoints();
+			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -28)
+			cursortext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -43)
+		end);	
+		hooksecurefunc(WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "Minimize", function()
+			playertext:ClearAllPoints();
+			cursortext:ClearAllPoints();
+			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -50, -5)
+			cursortext:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 95, -5)
+		end);
+		
+	end
 end

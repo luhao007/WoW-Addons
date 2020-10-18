@@ -36,7 +36,12 @@
 
 
 
-<Frame name="PSFeamain2" hidden="true">
+<Frame name="PSFeamain2" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 	<Size x="180" y="500"/>
 	<Anchors>
@@ -117,7 +122,12 @@
 </Frames>
 	</Frame>
 
-<Frame name="PSFeamainWotlk" hidden="true">
+<Frame name="PSFeamainWotlk" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -197,7 +207,12 @@
 
 
 
-<Frame name="PSFeamain3" hidden="true">
+<Frame name="PSFeamain3" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 	<Size x="750" y="500"/>
 	<Anchors>
@@ -321,7 +336,12 @@
 	</Button>
 
 
-<Frame name="PSFeamain12" hidden="true">
+<Frame name="PSFeamain12" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -350,7 +370,12 @@
 	</Backdrop>
 	</Frame>
 
-<Frame name="PSFeamain10" hidden="true">
+<Frame name="PSFeamain10" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -379,7 +404,12 @@
 	</Backdrop>
 	</Frame>
 
-<Frame name="PSFeamain11" hidden="true">
+<Frame name="PSFeamain11" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -413,7 +443,12 @@
 	</Frame>
 	
 	
-<Frame name="PSFeaerrorgeneral" hidden="true">
+<Frame name="PSFeaerrorgeneral" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -440,7 +475,12 @@
 	</Backdrop>
 	</Frame>
 
-<Frame name="RAthanks" hidden="true">
+<Frame name="RAthanks" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -466,7 +506,12 @@
 	</Backdrop>
 	</Frame>
 
-<Frame name="RApromo" hidden="true">
+<Frame name="RApromo" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -492,7 +537,12 @@
 	</Backdrop>
 	</Frame>
 
-<Frame name="RAthanks2" hidden="true">
+<Frame name="RAthanks2" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -518,7 +568,12 @@
 	</Backdrop>
 	</Frame>
 
-<Frame name="PSFeamainmanyach" hidden="true">
+<Frame name="PSFeamainmanyach" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 	<Size x="750" y="500"/>
 	<Anchors>
@@ -579,7 +634,12 @@
 	
 	
 
-<Frame name="raralistach" hidden="true">
+<Frame name="raralistach" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -616,7 +676,12 @@
 
 	</Frame>
 
-<Frame name="raralistach2" hidden="true">
+<Frame name="raralistach2" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -657,7 +722,12 @@
 
 	</Frame>
 
-<Frame name="raralistach3" hidden="true">
+<Frame name="raralistach3" hidden="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
+    </KeyValues>
 
 <Size x="750" y="500"/>
 	<Anchors>

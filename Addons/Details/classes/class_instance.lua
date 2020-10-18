@@ -130,9 +130,9 @@ end
 function Details:InstanceGroupEditSettingOnTable(instance, table1Key, table2Key, table3Key, value)
 	for _, thisInstance in ipairs (instance:GetInstanceGroup()) do
 		if (value == nil) then
-			value = table3Key
+			local value1 = table3Key
 			local table1 = thisInstance[table1Key]
-			table1[table2Key] = value
+			table1[table2Key] = value1
 		else
 			local table1 = thisInstance[table1Key]
 			table1[table2Key][table3Key] = value

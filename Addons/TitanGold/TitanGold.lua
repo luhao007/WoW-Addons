@@ -347,6 +347,7 @@ function TitanPanelGoldButton_GetTooltipText()
 		end
 	end
 
+	local coin_str = ""
 	-- Display total gold
 	coin_str = NiceCash(TitanPanelGoldButton_TotalGold(), false, false)
 	currentMoneyRichText = currentMoneyRichText.."\n"

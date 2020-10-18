@@ -1309,7 +1309,7 @@ local function TitanUpdateChars()
 		desc = L["TITAN_PANEL_GLOBAL_USE_DESC"],
 		get = function() return TitanAllGetVar("GlobalProfileUse") end,
 		set = function()
-			TitanUtils_SetGlobalProfile(not TitanAllGetVar("GlobalProfileUse"), toon)
+			TitanUtils_SetGlobalProfile(not TitanAllGetVar("GlobalProfileUse"), nil)
 			TitanUpdateChars() -- rebuild the toons
 			AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
 		end,

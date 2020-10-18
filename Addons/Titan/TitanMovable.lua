@@ -414,7 +414,7 @@ local function MoveMenuFrame(frame_ptr, start_y, top_bottom, force)
 		elseif ( StatusTrackingBarManager:GetNumberVisibleBars() == 1 ) then
 			yOffset = yOffset + 14;
 		end
-		xOfs = TitanPanelGetVar("MainMenuBarXAdj")
+		local xOfs = TitanPanelGetVar("MainMenuBarXAdj")
 
 		SetPosition(frame, "BOTTOM", "UIParent", "BOTTOM", xOfs, yOffset)
 		adj = true
@@ -510,6 +510,7 @@ local function Titan_ContainerFrames_Relocate()
 	local off_y = 10000 -- something ridiculously high
 	local bottom_y = 0
 	local right_x = 0
+	local frame = {}
 
 	for index, frameName in ipairs(ContainerFrame1.bags) do
 		frame = _G[frameName];

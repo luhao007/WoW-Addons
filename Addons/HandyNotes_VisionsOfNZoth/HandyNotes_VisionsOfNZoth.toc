@@ -11,6 +11,5 @@
 ## X-Embeds: Ace3
 ## X-Part-Of: HandyNotes
 
-embeds.xml
 core\core.xml
 plugin.xml

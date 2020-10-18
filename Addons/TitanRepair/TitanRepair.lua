@@ -1397,7 +1397,7 @@ function TitanRepair_DurabilityFrame(isOnShow)
 	if TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame") then
 		-- Prevent a circular reference by checking if function was triggered by our SecureHook into OnShow.
 		-- If OnShow didn't trigger this just do whatever Blizzard wants.
-		if not isOnShow then DurabilityFrame_SetAlerts() end
+		if not isOnShow then DurabilityFrameMixin:SetAlerts() end -- DurabilityFrame_SetAlerts() end
 	else
 		-- Always hide this frame since user wants it hidden.
 		DurabilityFrame:Hide()

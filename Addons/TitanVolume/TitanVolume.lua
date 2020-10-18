@@ -78,6 +78,7 @@ function TitanPanelMasterVolumeControlSlider_OnShow(self)
 	_G[self:GetName().."Low"]:SetText(L["TITAN_VOLUME_CONTROL_HIGH"]);
 	self:SetMinMaxValues(0, 1);
 	self:SetValueStep(0.01);
+	self:SetObeyStepOnDrag(true) -- since 5.4.2 (Mists of Pandaria)
 	self:SetValue(1 - GetCVar("Sound_MasterVolume"));
 	
 	local position = TitanUtils_GetRealPosition(TITAN_VOLUME_ID);
@@ -357,6 +358,13 @@ function TitanPanelVolumeControlFrame_OnLoad(self)
 	_G[self:GetName().."DialogTitle"]:SetText(L["TITAN_VOLUME_DIALOG_CONTROL_TITLE"]);
 --	_G[self:GetName().."MicrophoneTitle"]:SetText(L["TITAN_VOLUME_MICROPHONE_CONTROL_TITLE"]);
 --	_G[self:GetName().."SpeakerTitle"]:SetText(L["TITAN_VOLUME_SPEAKER_CONTROL_TITLE"]);
+--[[
+Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands) 
+so inherit the template (XML)
+and set the values in the code (Lua)
+--]]
+	self:SetBackdrop(BACKDROP_TOOLTIP_16_16_5555) -- use a pre-set from Backdrop.lua
+
 	self:SetBackdropBorderColor(1, 1, 1);
 	self:SetBackdropColor(0, 0, 0, 1);
 end

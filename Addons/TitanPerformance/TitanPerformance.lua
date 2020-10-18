@@ -722,14 +722,16 @@ function TitanPanelPerfControlSlider_OnShow(self)
 	_G[self:GetName().."Low"]:SetText(L["TITAN_PERFORMANCE_CONTROL_HIGH"]);
 	self:SetMinMaxValues(APP_MIN, APP_MAX);
 	self:SetValueStep(1);
+	self:SetObeyStepOnDrag(true) -- since 5.4.2 (Mists of Pandaria)
 	self:SetValue(CalcAppNum(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons")));
 --	self:SetValue((TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons")));
 	TitanPanelPerfControlFrame:SetBackdropColor(0, 0, 0, 1)
+--[[
 TitanDebug("Slider_OnShow:"
 .." : "..(self:GetValue() or "?")
 .." : "..(self:GetValueStep() or "?")
 );
-
+--]]
 	local scale = _G[drop_down.."1"]:GetScale()
 	local drop_arrow = drop_down.."2Button4ExpandArrow"
 	TitanPanelPerfControlFrame:ClearAllPoints();
@@ -752,10 +754,12 @@ end
 function TitanPanelPerfControlSlider_OnValueChanged(self, a1)
 	local val = CalcAppNum(self:GetValue()) -- grab new value
 	
+--[[
 TitanDebug("Slider_OnValueChanged:"
 .." : "..(self:GetValue() or "?")
 .." : "..(val or "?")
 );
+--]]
 	_G[self:GetName().."Text"]:SetText(val);
 --[[
 	if a1 == -1 then
@@ -803,6 +807,13 @@ end
 -- **************************************************************************
 function TitanPanelPerfControlFrame_OnLoad(self)
 	_G[self:GetName().."Title"]:SetText(L["TITAN_PERFORMANCE_CONTROL_TITLE"]);
+--[[
+Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands) 
+so inherit the template (XML)
+and set the values in the code (Lua)
+--]]
+	self:SetBackdrop(BACKDROP_TOOLTIP_16_16_5555) -- use a pre-set from Backdrop.lua
+
 	self:SetBackdropBorderColor(1, 1, 1);
 	self:SetBackdropColor(0, 0, 0, 1);
 end

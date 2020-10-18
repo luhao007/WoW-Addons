@@ -108,7 +108,7 @@ function TitanPanelCurrencyButton_GetTooltipText()
    local display="";
    local tooltip="";
    local name, isHeader, isExpanded, isUnused, isWatched, count, icon, maximum, hasWeeklyLimit, currentWeeklyAmount, unknown;
-   cCount = GetCurrencyListSize();
+   cCount = C_CurrencyInfo.GetCurrencyListSize();
    for index=1, cCount do 
       CurrencyInfo = C_CurrencyInfo.GetCurrencyListInfo(index)
 	  name=CurrencyInfo["name"]

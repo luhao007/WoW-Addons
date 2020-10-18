@@ -1,7 +1,8 @@
 import functools
-import os
-import shutil
 import logging
+import os
+import re
+import shutil
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -46,6 +47,19 @@ class Manager(object):
             if f.startswith('handle_lib'):
                 getattr(self, f)()
 
+    def remove_libs_in_file(self, path, libs):
+        def f(lines):
+            if str(path).endswith('.toc'):
+                pattern = r'(?i)\s*{}.*'
+            else:
+                pattern = r'\s*<(Script)|(Include) file\s*=\s*"{}.*'
+
+            return [l for l in lines
+                    if not any(re.match(pattern.format(lib), l)
+                               for lib in libs)]
+
+        process_file(path, f)
+
     def remove_libraries_all(self, addon, lib_path=None):
         """Remove all embedded libraries"""
         if not lib_path:
@@ -67,12 +81,12 @@ class Manager(object):
             if os.path.exists(path):
                 os.remove(path)
 
-        process_file(
-            Path('AddOns') / addon / '{}.toc'.format(addon),
-            lambda lines: [l for l in lines
-                           if not any(l.lower().startswith(lib.lower())
-                                      for lib in libs + [lib_path])]
-        )
+        for ext in ['toc', 'xml']:
+            self.remove_libs_in_file(
+                Path('AddOns') / addon / '{}.{}'.format(addon.split('/')[-1],
+                                                        ext),
+                libs + [lib_path]
+            )
 
     def remove_libraries(self, libs, root, xml_path):
         """Remove selected embedded libraries from root and xml."""
@@ -253,44 +267,39 @@ class Manager(object):
                 os.remove(root / lib / 'embeds.xml')
                 embeds.append('embeds.xml')
 
-            files = ['lib.xml', '{}.xml'.format(lib), '{}.toc'.format(lib)]
+            files = ['lib.xml', f'{lib}.xml', f'{lib}.toc']
             for f in files:
                 for p in [root / f, root / lib / f]:
                     if os.path.exists(p):
-                        s = '{}{}'.format(
-                            '<Script file="' if f.endswith('.toc') else '',
-                            embed
-                        )
-
-                        process_file(
-                            p,
-                            lambda lines: [l for l in lines
-                                           if not any(l.strip().startswith(s)
-                                                      for embed in embeds)]
-                        )
+                        self.remove_libs_in_file(p, embeds)
 
     ##########################
     # Handle individual addons
     ##########################
 
     def handle_dup_libraries(self):
-        addons = ['Atlas', 'DBM-Core', 'GatherMate2', 'HandyNotes',
-                  'MapSter', 'oRA3', 'Quartz', 'RangeDisplay',
+        addons = ['Atlas', 'BlizzMove', 'DBM-Core', 'Details_Streamer',
+                  'Details_TinyThreat', 'ExRT', 'GatherMate2',
+                  'HandyNotes', 'MapSter', 'Quartz', 'RangeDisplay',
                   'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
         if self.is_classic:
             addons += ['AtlasLootClassic', 'AtlasLootClassic_Options',
                        'ATT-Classic', 'ClassicCastbars_Options',
-                       'Details_Streamer', 'ExRT', 'Fizzle', 'GroupCalendar',
+                       'Details_Streamer', 'Fizzle', 'GroupCalendar',
                        'HandyNotes_NPCs (Classic)', 'PallyPower'
                        'TradeLog', 'TitanClassic']
         else:
-            addons += ['AllTheThings', 'FasterCamera',
+            addons += ['AllTheThings', 'Details_ChartViewer',
+                       'Details_DeathGraphs', 'Details_EncounterDetails',
+                       'Details_RaidCheck', 'Details_TimeLine',
+                       'Details_Vanguard', 'FasterCamera',
                        'GladiatorlosSA2', 'Gladius',
                        'HandyNotes_Argus', 'HandyNotes_BrokenShore',
                        'HandyNotes_DraenorTreasures',
                        'HandyNotes_LegionRaresTreasures',
                        'HandyNotes_SuramarShalAranTelemancy',
                        'HandyNotes_TimelessIsleChests',
+                       'HandyNotes_VisionsOfNZoth',
                        'HandyNotes_WarfrontRares', 'NPCScan', 'Omen',
                        'RelicInspector', 'Titan']
         for addon in addons:
@@ -412,8 +421,8 @@ class Manager(object):
              'AceTab-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
              'LibBossIDs-1.0', 'LibClassicCasterino', 'LibCompress',
              'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
-             'LibGraph-2.0', 'LibItemUpgradeInfo-1.0', 'LibSharedMedia-3.0',
-             'LibStub', 'LibWindow-1.1'],
+             'LibGraph-2.0', 'LibGroupInSpecT-1.1', 'LibItemUpgradeInfo-1.0',
+             'LibSharedMedia-3.0', 'LibStub', 'LibWindow-1.1'],
             'AddOns/Details/Libs',
             'AddOns/Details/Libs/libs.xml'
         )
@@ -730,6 +739,8 @@ class Manager(object):
             'Addons/VuhDo/Libs/Libs.xml'
         )
 
+        rm_tree('Addons/Vuhdo/Libs/LibBase64-1.0/LibStub')
+
     def handle_wa(self):
         self.remove_libraries(
             ['AceComm-3.0', 'AceConfig-3.0', 'AceConsole-3.0', 'AceEvent-3.0',
@@ -737,11 +748,13 @@ class Manager(object):
              'AceSerializer-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
              'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
              'LibCompress', 'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
-             'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibSpellRange-1.0',
-             'LibStub'],
+             'LibGetFrame-1.0', 'LibRangeCheck-2.0', 'LibSharedMedia-3.0',
+             'LibSerialize', 'LibSpellRange-1.0', 'LibStub'],
             'Addons/WeakAuras/Libs',
             'Addons/WeakAuras/embeds.xml'
         )
+
+        self.remove_libraries_all('WeakAuras/Libs/Archivist')
 
     def handle_wim(self):
         self.remove_libraries(

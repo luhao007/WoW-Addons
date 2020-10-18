@@ -6,7 +6,7 @@ if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocal
 end
 
 
-	raversion=8.302
+	raversion=9.001
 	local raverstiptext="alpha"
 	if string.len(raversion)==6 then
 		raverstiptext="beta"
@@ -489,7 +489,7 @@ raraerrordfsdfsdfjy4:SetAutoFocus(false)
 raraerrordfsdfsdfjy4:SetHeight(150)
 raraerrordfsdfsdfjy4:SetWidth(225)
 raraerrordfsdfsdfjy4:Show()
-raraerrordfsdfsdfjy4:SetScript("OnTextChanged", function(self) raraerrordfsdfsdfjy4:SetText("http://www.phoenixstyle.com/help\r\nhttps://www.fblikeinviter.com/") end ) --raraerrordfsdfsdfjy4:HighlightText(0,string.len(raraerrordfsdfsdfjy4:GetText()))
+raraerrordfsdfsdfjy4:SetScript("OnTextChanged", function(self) raraerrordfsdfsdfjy4:SetText("http://www.phoenixstyle.com/help") end ) --raraerrordfsdfsdfjy4:HighlightText(0,string.len(raraerrordfsdfsdfjy4:GetText()))
 
 raraerrordfdfdpsdonatefr2:SetScrollChild(raraerrordfsdfsdfjy4)
 raraerrordfdfdpsdonatefr2:Show()

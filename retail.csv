@@ -51,6 +51,10 @@ curse:deadly-boss-mods-wotlk,default
 curse:decursive,default
 curse:dejacharacterstats,default
 curse:details,default
+curse:details-advanced-death-logs-plug,default
+curse:details-chart-viewer-plugin,default
+curse:details_timeline,default
+curse:exorsus-raid-tools,default
 curse:fastercamera,default
 curse:fishingbuddy,default
 curse:fishing-buddy-tracking,default
@@ -127,6 +131,5 @@ curse:weakauras-2,default
 curse:wholly,default
 curse:world-quest-tracker,default
 curse:world-quests-list,default
-curse:ora3,default
 curse:tullarange,default
 wowi:11361-overachiever,default

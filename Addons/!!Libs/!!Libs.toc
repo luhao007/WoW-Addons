@@ -65,7 +65,6 @@ LibBars-1.0\LibBars-1.0\lib.xml
 LibBossIDs-1.0\lib.xml
 LibCandyBar-3.0\lib.xml
 LibChatAnims\LibChatAnims\LibChatAnims.xml
-LibChatHandler-1.0\lib.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
 LibDeflate\lib.xml
@@ -77,6 +76,7 @@ LibDogTag-Stats-3.0\lib.xml
 LibDogTag-Unit-3.0\lib.xml
 LibDualSpec-1.0\LibDualSpec-1.0.lua
 LibDurability\LibDurability\LibDurability.xml
+LibGetFrame-1.0\LibGetFrame-1.0.xml
 LibGraph-2.0\LibGraph-2.0\LibGraph-2.0.lua
 LibGroupInSpecT-1.1\lib.xml
 LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
@@ -87,6 +87,7 @@ LibPetJournal-2.0\LibPetJournal-2.0.lua
 LibQTip-1.0\lib.xml
 LibRangeCheck-2.0\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 LibRealmInfo\LibRealmInfo.lua
+LibSerialize\serializer.lua
 LibSink-2.0\LibSink-2.0\lib.xml
 LibSpellRange-1.0\lib.xml
 LibTextDump-1.0\lib.xml

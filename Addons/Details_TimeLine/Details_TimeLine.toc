@@ -1,0 +1,28 @@
+## Interface: 90100
+## RequiredDeps: Details
+## OptionalDeps: Ace3
+## SavedVariablesPerCharacter: DetailsTimeLineDB
+
+## Title: Details!: Time Line (plugin)
+## Notes: Show debuff, cooldown, enemy casts and enemy debuffs on a clear timeline.
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF伤害统计|r |cFF69CCF0插件|r |cFF22B14C时间线|r
+## Notes-zhCN: 在时间线中显示团队技能的冷却，首领技能使用等一系列情况
+
+## X-Part-Of: Details
+
+#@no-lib-strip@
+#@end-no-lib-strip@
+
+locales\enUS.lua
+locales\deDE.lua
+locales\esES.lua
+locales\esMX.lua
+locales\frFR.lua
+locales\itIT.lua
+locales\koKR.lua
+locales\ptBR.lua
+locales\ruRU.lua
+locales\zhCN.lua
+locales\zhTW.lua
+
+Details_TimeLine.lua

@@ -906,6 +906,7 @@ OUT:  None
 --]]
 function TitanPanel_ClearAllBarTextures()
 	-- Clear textures if they already exist
+	local tex = ""
 	for idx,v in pairs (TitanBarData) do
 		for i = 0, numOfTexturesHider do
 			tex = TITAN_PANEL_BACKGROUND_PREFIX..TitanBarData[idx].name.."_"..i
@@ -1759,7 +1760,7 @@ local function TitanPanel_MainMenu()
 		end
 	L_UIDropDownMenu_AddButton(info);
 
-	local glob, name, player, server = TitanUtils_GetGlobalProfile()
+	local glob, toon, player, server = TitanUtils_GetGlobalProfile()
 	info = {};
 	info.text = "Use Global Profile"
 	info.value = "Use Global Profile"
