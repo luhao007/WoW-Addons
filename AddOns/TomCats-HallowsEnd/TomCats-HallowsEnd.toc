@@ -1,14 +1,16 @@
 ## Interface: 90100
 ## Author: TomCat
-## Version: 1.3.4
+## Version: 01.06.00
 ## OptionalDeps: TomCats
 ## SavedVariablesPerCharacter: TomCats_HallowsEnd_Character
 ## DefaultState: enabled
 
-## Title: TomCat's Tours: Holidays (Hallow's End)
+## Title: TomCat's Tours: Hallow's End
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFF69CCF0万圣节|r
 
 ## X-Website: http://www.tomcatstours.com
+## X-TomCats-VersionMessageID: 1603104641
+## X-TomCats-VersionMessage: bQQnfJRcc69V8pzmfYbF7cPquE8QvofarzZHcfw/x807zx4t5f0ufl+Nb4EBAQYAAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGAAwAAQYNAQASDgEAGg8BAAY=
 ## X-Part-Of: TomCats
 ## X-Category: Achievements, Map, Miscellaneous, Quests
 

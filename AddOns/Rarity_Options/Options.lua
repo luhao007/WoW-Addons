@@ -1298,17 +1298,48 @@ function R:PrepareOptions()
 				inline = true,
 				args = {
 					verifyDatabaseOnLogin = {
-						  type = "toggle",
-						  order = newOrder(),
-						  name = L["Verify item database on login"],
-						  width = "full",
-						  desc = format(L["Run the verification routine automatically after logging in. It can always be run manually (by typing %s)."], "/rarity verify"),
-						  get = function() return self.db.profile.verifyDatabaseOnLogin end,
-						  set = function(info, val)
-							  self.db.profile.verifyDatabaseOnLogin = val
-						  end,
-					  },
+						type = "toggle",
+						order = newOrder(),
+						name = L["Verify item database on login"],
+						width = "full",
+						desc = format(L["Run the verification routine automatically after logging in. It can always be run manually (by typing %s)."], "/rarity verify"),
+						get = function() return self.db.profile.verifyDatabaseOnLogin end,
+						set = function(info, val)
+							self.db.profile.verifyDatabaseOnLogin = val
+						end,
+					},
+					disableCustomErrors = {
+						type = "toggle",
+						order = newOrder(),
+						name = L["Disable Rarity-specific error messages"],
+						width = "full",
+						desc = L["Disables the detailed (red) error messages that are used by the addon to detect invalid states rather than allowing it to crash. Any detected errors will still be handled, but you won't see the notification."],
+						get = function() return self.db.profile.disableCustomErrors end,
+						set = function(info, val)
+							self.db.profile.disableCustomErrors = val
+						end,
+					},
 				},
+			},
+			cacheManagement = {
+				name = L["Cached Data"],
+				type = "group",
+				order = newOrder(),
+				inline = true,
+				args = {
+					clearAccountwideStatistics = {
+						type = "execute",
+						order = newOrder(),
+						width = "full",
+						name = L["Clear accountwide statistics"],
+						desc = L["Clears the accountwide statistics saved for all characters. You can use this to remove the attempts stored for characters that no longer exist in their original form, e.g., after a server transfer, realm merge, or name change. After clearing this cached data, you will have to log into each character once so attempts can be updated from their statistics again."],
+						func = function(info, value) -- What are these parameters?
+							Rarity.db.profile.accountWideStatisticsBackup = Rarity.db.profile.accountWideStatistics -- There's no way to restore it automatically, for now, but it's still better to be safe rather than sorry
+							Rarity.db.profile.accountWideStatistics = {}
+							Rarity:Print(L["Cleared accountwide statistics"])
+						end
+					}
+				}
 			},
 
 		},

@@ -1,4 +1,4 @@
--- $Id: Atlas.lua 340 2020-01-04 16:21:56Z arith $
+-- $Id: Atlas.lua 358 2020-10-18 04:51:35Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -38,11 +38,24 @@ local strlen, strgfind = string.len, string.gfind
 local strtrim = strtrim
 local floor, fmod = math.floor, math.fmod
 local getn, tinsert, tsort = table.getn, table.insert, table.sort
-local GetAddOnInfo, GetAddOnEnableState = _G.GetAddOnInfo, _G.GetAddOnEnableState
+local GetAddOnInfo, GetAddOnEnableState, UnitLevel = _G.GetAddOnInfo, _G.GetAddOnEnableState, _G.UnitLevel
 local hooksecurefunc = hooksecurefunc
-local UIDropDownMenu_Initialize = L_UIDropDownMenu_Initialize
 
-local WoWClassic = select(4, GetBuildInfo()) < 20000
+local WoWClassic, WoWRetail
+local wowtocversion  = select(4, GetBuildInfo())
+if wowtocversion < 19999 then
+	WoWClassic = true
+else
+	WoWRetail = true
+end
+
+local GetQuestGreenRange, UnitQuestTrivialLevelRange
+if WoWClassic then
+	GetQuestGreenRange = _G.GetQuestGreenRange
+else
+	UnitQuestTrivialLevelRange = _G.UnitQuestTrivialLevelRange
+end
+
 
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
@@ -705,6 +718,13 @@ function addon:GetDungeonDifficultyColor(minRecLevel)
 	if (not minRecLevel) then 
 		return color
 	end
+	
+	local greenLevel
+	if WoWClassic then
+		greenLevel = GetQuestGreenRange()
+	else
+		greenLevel = UnitQuestTrivialLevelRange('player')
+	end
 
 	local lDiff = minRecLevel - UnitLevel("player")
 	if (lDiff >= 0) then
@@ -712,12 +732,12 @@ function addon:GetDungeonDifficultyColor(minRecLevel)
 			color = {r = 1.00, g = i, b = 0.00}
 			if ((i/0.10)==(10-lDiff)) then return color; end
 		end
-	elseif ( -lDiff < GetQuestGreenRange() ) then
+	elseif ( -lDiff < greenLevel ) then
 		for i= 0.90, 0.10, -0.10 do
 			color = {r = i, g = 1.00, b = 0.00}
 			if ((9-i/0.10)==(-1*lDiff)) then return color; end
 		end
-	elseif ( -lDiff == GetQuestGreenRange() ) then
+	elseif ( -lDiff == greenLevel ) then
 		color = {r = 0.50, g = 1.00, b = 0.50}
 	else
 		--color = {r = 0.75, g = 0.75, b = 0.75}
@@ -1617,7 +1637,7 @@ function Atlas_Refresh(mapID)
 			AtlasSwitchButton:SetText(ATLAS_INSTANCE_BUTTON)
 		end
 		AtlasSwitchButton:Show()
-		UIDropDownMenu_Initialize(AtlasSwitchDD, AtlasSwitchDD_OnLoad)
+		L_UIDropDownMenu_Initialize(AtlasSwitchDD, AtlasSwitchDD_OnLoad)
 	else
 		AtlasSwitchButton:Hide()
 	end

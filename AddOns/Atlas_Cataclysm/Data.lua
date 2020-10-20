@@ -1,4 +1,4 @@
--- $Id: Data.lua 37 2020-01-01 14:59:34Z arith $
+-- $Id: Data.lua 41 2020-10-18 15:00:37Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -43,6 +43,10 @@ local Cata = Atlas:GetModule(private.module_name)
 local db = {}
 Cata.db = db
 
+local function Atlas_GetBossName(bossname, encounterID, creatureIndex)
+	return Atlas:GetBossName(bossname, encounterID, creatureIndex, private.module_name)
+end
+
 local BLUE = "|cff6666ff"
 local GREN = "|cff66cc33"
 local GREY = "|cff999999"
@@ -77,7 +81,7 @@ db.AtlasMaps = {
 		{ BLUE.." G) "..BZ["Blackrock Caverns"], 10007 },
 		{ ORNG.." 1) "..L["Scarshield Quartermaster <Scarshield Legion>"]..ALC["L-Parenthesis"]..ALC["Upper"]..ALC["R-Parenthesis"], 10008 },
 		{ ORNG.." 2) "..L["The Behemoth"]..ALC["L-Parenthesis"]..ALC["Rare"]..ALC["Comma"]..ALC["Wanders"]..ALC["R-Parenthesis"], 10009 },
-		{ ORNG.." 3) "..Atlas:GetBossName("Overmaster Pyron")..ALC["L-Parenthesis"]..ALC["Wanders"]..ALC["R-Parenthesis"], 10010 },
+		{ ORNG.." 3) "..Atlas_GetBossName("Overmaster Pyron")..ALC["L-Parenthesis"]..ALC["Wanders"]..ALC["R-Parenthesis"], 10010 },
 		{ GREN.." 1') "..L["Meeting Stone"]..ALC["L-Parenthesis"]..BZ["Blackrock Depths"]..ALC["R-Parenthesis"], 10011 },
 		{ GREN.." 2') "..L["Meeting Stone"]..ALC["L-Parenthesis"]..BZ["Lower Blackrock Spire"]..ALC["Comma"]..BZ["Upper Blackrock Spire"]..ALC["R-Parenthesis"], 10012 },
 	},

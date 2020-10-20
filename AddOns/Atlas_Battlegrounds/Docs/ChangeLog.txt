@@ -1,4 +1,4 @@
-$Id: ChangeLog.txt 1567 2020-04-21 16:07:09Z arith $
+$Id: ChangeLog.txt 1569 2020-10-18 14:54:37Z arith $
 Atlas, a World of Warcraft instance map browser
 Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
@@ -7,6 +7,10 @@ Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon@gmail.com>
 ==============
 = Change Log =
 ==============
+
+v1.48.00 (Oct. 18, 2020)
+------------------------
+- ToC update to support WoW 9.0.1
 
 v1.47.00 (Apr. 21, 2020)
 ------------------------

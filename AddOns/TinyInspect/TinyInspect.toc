@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: M
-## Version: 9.0.1
+## Version: 9.0.2
 ## SavedVariables: TinyInspectDB
 
 ## Title: TinyInspect

@@ -1,4 +1,4 @@
-
+MEETINGSTONE_UI_E_POINTS = {}
 BuildEnv(...)
 
 MainPanel = Addon:NewModule(GUI:GetClass('Panel'):New(UIParent), 'MainPanel', 'AceEvent-3.0', 'AceBucket-3.0')
@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(832, 447)
-    self:SetText(L['集合石'] .. ' Beta ' .. ADDON_VERSION)
+    self:SetText(L['集合石'] .. ' 修改版 ' .. ADDON_VERSION .. " S1")
     self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -17,11 +17,29 @@ function MainPanel:OnInitialize()
     self:SetScript('OnDragStart', self.StartMoving)
     self:SetScript('OnDragStop', self.StopMovingOrSizing)
     self:SetClampedToScreen(true)
+    GUI:RegisterUIPanel(self)
+    local scale = Profile:GetSetting('uiscale')
+    if(scale == nil or scale < 1.0) then
+        scale = 1.0
+    end
+    self:SetScale(scale)
+
+    self:HookScript("OnHide", function()
+        local anchor1,_,anchor2,x,y = self:GetPoint();
+        MEETINGSTONE_UI_E_POINTS.x = x
+        MEETINGSTONE_UI_E_POINTS.y = y
+        MEETINGSTONE_UI_E_POINTS.a1 = anchor1
+        MEETINGSTONE_UI_E_POINTS.a2 = anchor2
+    end) 
 
     self:HookScript('OnShow', function()
         C_LFGList.RequestAvailableActivities()
         self:UpdateBlockers()
         self:SendMessage('MEETINGSTONE_OPEN')
+        if(MEETINGSTONE_UI_E_POINTS ~= nil and MEETINGSTONE_UI_E_POINTS.x ~= nil) then
+            self:ClearAllPoints();
+            self:SetPoint(MEETINGSTONE_UI_E_POINTS.a1, UIParent, MEETINGSTONE_UI_E_POINTS.a2, MEETINGSTONE_UI_E_POINTS.x, MEETINGSTONE_UI_E_POINTS.y)
+        end
     end)
 
     self:RegisterMessage('MEETINGSTONE_NEW_VERSION')
@@ -302,6 +320,33 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
             tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_CLASS_ROLE, classLocalized, _G[role]), classColor.r, classColor.g, classColor.b)
         end
     else
+        -- Modification begin
+        -- Display Raid/Party Roles,code from PGF addon
+        local roles = {}
+        local classInfo = {}
+        for i = 1, activity:GetNumMembers() do
+            local role, class, classLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
+            if (class) then
+                classInfo[class] = {
+                    name = classLocalized,
+                    color = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
+                }
+                if not roles[role] then roles[role] = {} end
+                if not roles[role][class] then roles[role][class] = 0 end
+                roles[role][class] = roles[role][class] + 1
+            end
+        end
+    
+        for role, classes in pairs(roles) do
+            tooltip:AddLine(_G[role]..": ")
+            for class, count in pairs(classes) do
+                local text = "   "
+                if count > 1 then text = text .. count .. " " else text = text .. "   " end
+                text = text .. "|c" .. classInfo[class].color.colorStr ..  classInfo[class].name .. "|r "
+                tooltip:AddLine(text)
+            end
+        end
+        -- Modification end
         local memberCounts = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
         if memberCounts then
             tooltip:AddSepatator()

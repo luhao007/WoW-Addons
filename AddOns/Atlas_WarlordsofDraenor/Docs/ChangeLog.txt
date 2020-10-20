@@ -1,10 +1,15 @@
-$Id: ChangeLog.txt 57 2020-01-19 17:03:26Z arith $
+$Id: ChangeLog.txt 59 2020-10-18 15:10:23Z arith $
 Atlas, a World of Warcraft instance map browser
 Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 ==============
 = Change Log =
 ==============
+
+v1.48.00 (Oct. 18, 2020)
+------------------------
+- ToC update to support WoW 9.0.1
+- Update Atlas_GetBossName to load boss name from local locale files
 
 v1.47.00 (Jan. 20, 2020)
 ------------------------

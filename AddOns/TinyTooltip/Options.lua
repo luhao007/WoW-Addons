@@ -562,6 +562,7 @@ local options = {
     npc = {
         { keystring = "unit.npc.showTarget",            type = "checkbox" },
         { keystring = "unit.npc.showTargetBy",          type = "checkbox" },
+        { keystring = "unit.npc.showModel",             type = "checkbox" },
         { keystring = "unit.npc.grayForDead",           type = "checkbox" },
         { keystring = "unit.npc.coloredBorder",         type = "dropdown", dropdata = widgets.colorDropdata },
         { keystring = "unit.npc.background",            type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.01 },

@@ -70,7 +70,7 @@ function Addon:MEETINGSTONE_NEW_VERSION(_, version, url, isSupport, changeLog)
 end
 
 function Addon:Toggle()
-    if Logic:IsSupport() then
+    if true then
         if MainPanel:IsShown() then
             Addon:HideModule('MainPanel')
         else

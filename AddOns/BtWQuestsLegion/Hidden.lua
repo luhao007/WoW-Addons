@@ -444,7 +444,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIDDEN_UUNA, {
             type = "quest",
             name = "Take Uuna to the Gate of the Setting Sun",
             onClick = function ()
-                BtWQuests_ShowMapWithWaypoint(390, 0.9, 0.58, "The Gate of the Setting Sun")
+                BtWQuests_ShowMapWithWaypoint(390, 0.08, 0.59, "The Gate of the Setting Sun")
             end,
             id = 50140,
             x = 3,

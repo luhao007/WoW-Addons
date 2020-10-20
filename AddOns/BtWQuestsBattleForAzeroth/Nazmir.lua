@@ -2651,7 +2651,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_NAZMIR_CHAIN8, {
             aside = true,
             restrictions = {
                 type = "level",
-                level = 119,
+                level = 49,
                 atmost = true,
             },
             -- restrictions = function(item, character)

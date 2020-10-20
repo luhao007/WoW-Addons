@@ -1,4 +1,4 @@
--- $Id: Data.lua 55 2020-01-01 15:04:52Z arith $
+-- $Id: Data.lua 59 2020-10-18 15:10:23Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -42,6 +42,10 @@ local WoD = Atlas:GetModule(private.module_name)
 
 local db = {}
 WoD.db = db
+
+local function Atlas_GetBossName(bossname, encounterID, creatureIndex)
+	return Atlas:GetBossName(bossname, encounterID, creatureIndex, private.module_name)
+end
 
 local BLUE = "|cff6666ff"
 local GREN = "|cff66cc33"

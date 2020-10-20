@@ -21,7 +21,7 @@ local strlower = _G.strlower
 local format = _G.format
 
 -- WOW APIs
-local GetCurrencyInfo = GetCurrencyInfo
+local GetCurrencyInfo = C_CurrencyInfo.GetCurrencyInfo
 local CombatLogGetCurrentEventInfo = _G.CombatLogGetCurrentEventInfo
 local UnitGUID = UnitGUID
 local LoadAddOn = LoadAddOn
@@ -176,7 +176,8 @@ function R:OnCurrencyUpdate(event)
 
 	-- Check if any coins were used
 	for k, v in pairs(self.coins) do
-		local name, currencyAmount, texture, earnedThisWeek, weeklyMax, totalMax, isDiscovered = GetCurrencyInfo(k)
+		local currency = GetCurrencyInfo(k)
+		local name, currencyAmount = currency.name, currency.quantity
 		local diff = currencyAmount - (coinamounts[k] or 0)
 		coinamounts[k] = currencyAmount
 		if diff < 0 then
@@ -686,6 +687,8 @@ function R:OnChatCommand(input)
 		DebugCache:PrintMessages(numMessages)
 	elseif strlower(input) == "verify" then -- Verify the ItemDB
 		self:VerifyItemDB()
+	elseif strlower(input) == "purge" then -- TODO: This should be done automatically, no?
+		self.Database:PurgeObsoleteEntries()
 	elseif strlower(input) == "profiling" then
 		if self.db.profile.enableProfiling then
 			self.db.profile.enableProfiling = false
@@ -697,6 +700,8 @@ function R:OnChatCommand(input)
 	else
 		LoadAddOn("Rarity_Options")
 		if R.optionsFrame then
+			-- Thanks, Blizzard (https://www.wowinterface.com/forums/showthread.php?t=54599)
+			InterfaceOptionsFrame_OpenToCategory(R.optionsFrame)
 			InterfaceOptionsFrame_OpenToCategory(R.optionsFrame)
 		else
 			self:Print(L["The Rarity Options module has been disabled. Log out and enable it from your add-ons menu."])

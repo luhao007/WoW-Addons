@@ -2,6 +2,13 @@ local L
 L = LibStub("AceLocale-3.0"):NewLocale("Rarity", "enUS", true)
 
 -- L["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"] = true
+L["Cleared accountwide statistics"] = true
+L["Clear accountwide statistics"] = true
+L["Clears the accountwide statistics saved for all characters. You can use this to remove the attempts stored for characters that no longer exist in their original form, e.g., after a server transfer, realm merge, or name change. After clearing this cached data, you will have to log into each character once so attempts can be updated from their statistics again."] = true
+L["Cached Data"] = true
+L["Removing data for obsolete item %s"] = true
+L["Disables the detailed (red) error messages that are used by the addon to detect invalid states rather than allowing it to crash. Any detected errors will still be handled, but you won't see the notification."] = true
+L["Disable Rarity-specific error messages"] = true
 L["Eye of Corruption"] = true
 L["Void-Scarred Anubisath"] = true
 L["Fractured Obsidian Claw"] = true
@@ -15765,7 +15772,7 @@ L["Wriggler"] = "蠕蝓"
 L["Wriggling Darkness"] = "蠕动暗影"
 L["Xaarshej"] = "夏尔谢极"
 L["Xinlao"] = "馨劳"
-L["Yaungol Oil Stove"] = true
+L["Yaungol Oil Stove"] = "野牛人火油炉"
 L["Yellow Conservatory Scroll"] = "黄色学宫卷轴"
 L["Yesterday"] = "昨天"
 L["Yiphrim the Will Ravager"] = "意志破坏者伊弗里姆"

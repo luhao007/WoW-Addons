@@ -1,10 +1,10 @@
-lightweight tag 5c49b54232c05f210f26c08c35b522caffdd7557 v2.2.0
+lightweight tag c09d70a2a7052c1687320ba4726669fc8b6767f1 v2.4.4
 Author:	Ketho <sghs17@outlook.com>
-Date:	Sun Jul 22 04:01:06 2018 +0200
+Date:	Tue Oct 20 04:11:28 2020 +0200
 
-commit 5c49b54232c05f210f26c08c35b522caffdd7557
+commit c09d70a2a7052c1687320ba4726669fc8b6767f1
 Author: Ketho <sghs17@outlook.com>
-Date:   Sun Jul 22 04:01:06 2018 +0200
+Date:   Tue Oct 20 04:11:28 2020 +0200
 
-    Bump TOC
+    Bump to MaxCam version
 

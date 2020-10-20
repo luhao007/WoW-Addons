@@ -669,9 +669,8 @@ class Manager(object):
              'AceSerializer-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
              'HereBeDragons-2.0', 'LibBabble-Boss-3.0',
              'LibBabble-CreatureType-3.0', 'LibBabble-SubZone-3.0',
-             'LibBars-1.0', 'LibCompress', 'LibDBIcon-1.0',
-             'LibDataBroker-1.1', 'LibQTip-1.0', 'LibSharedMedia-3.0',
-             'LibSink-2.0', 'LibStub'],
+             'LibCompress', 'LibDBIcon-1.0', 'LibDataBroker-1.1',
+             'LibQTip-1.0', 'LibSharedMedia-3.0', 'LibSink-2.0', 'LibStub'],
             'AddOns/Rarity/Libs',
             'AddOns/Rarity/Rarity.toc'
         )
@@ -692,6 +691,14 @@ class Manager(object):
             'Addons/Simulationcraft/Simulationcraft.toc',
             lambda lines: [l for l in lines
                            if not l.lower().startswith('libs\\')]
+        )
+
+    @retail_only
+    def handle_talentsm(self):
+        self.remove_libraries(
+            ['CallbackHandler-1.0','LibDataBroker-1.1', 'LibStub'],
+            'AddOns/TalentSetManager/libs',
+            'AddOns/TalentSetManager/libs.xml'
         )
 
     @classic_only

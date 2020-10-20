@@ -573,7 +573,7 @@ xpTooltip:SetScript("OnTooltipSetItem", function (self)
         end
     end
 end)
-function PlayerXPModifier()
+local function PlayerXPModifier()
     local modifier = 0;
     for inventorySlotId=INVSLOT_HEAD,INVSLOT_TABARD do
         local itemLink = GetInventoryItemLink("player", inventorySlotId);

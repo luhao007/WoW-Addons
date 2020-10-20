@@ -1,4 +1,4 @@
-$Id: ChangeLog.txt 356 2020-07-26 14:58:22Z arith $
+$Id: ChangeLog.txt 360 2020-10-18 14:30:42Z arith $
 Atlas, a World of Warcraft instance map browser
 Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert at gmail dot com>
 Copyright 2010 - Lothaer <lothayer at gmail dot com>, Atlas Team
@@ -15,7 +15,12 @@ Known Issues:
 = Change Log =
 ==============
 
-v1.47.04 (Jul. 20, 2020)
+v1.48.00 (Oct. 18, 2020)
+------------------------
+- Codes and TOC update to support WoW 9.0 (Shadowlands)
+- Updated AreaID to sync with Shadowlands
+
+v1.47.04 (Jul. 26, 2020)
 ------------------------
 - Library update: LibBabble-SubZone
 

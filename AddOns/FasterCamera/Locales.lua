@@ -2,12 +2,12 @@ local _, S = ...
 
 local L = {
 	enUS = {
-		DISTANCE = "Distance",
+		CURRENT_DISTANCE = "Current Distance",
 		ZOOM_INCREMENT = "Zoom Increment",
 		ZOOM_SPEED = "Zoom "..SPEED,
 	},
 	deDE = {
-		DISTANCE = "Entfernung",
+		--DISTANCE = "Entfernung",
 		ZOOM_INCREMENT = "Zoomschritt",
 		ZOOM_SPEED = "Zoomgeschwindigkeit",
 	},
@@ -29,17 +29,17 @@ local L = {
 		ZOOM_SPEED = "Zoom Velocidade",
 	},
 	ruRU = {
-		DISTANCE = "Дистанция",
+		--DISTANCE = "Дистанция",
 		ZOOM_INCREMENT = "Шаг увеличения",
 		ZOOM_SPEED = "Скорость увеличения",
 	},
 	zhCN = {
-		DISTANCE = "距离",
+		--DISTANCE = "距离",
 		ZOOM_INCREMENT = "缩放增量",
 		ZOOM_SPEED = "缩放速度",
 	},
 	zhTW = {
-		DISTANCE = "距離",
+		--DISTANCE = "距離",
 		ZOOM_INCREMENT = "縮放增量",
 		ZOOM_SPEED = "縮放速度",
 	},

@@ -1,4 +1,12 @@
-Changes since tag DetailsRetail.8.3.0.7356.141
+lightweight tag 4cf0bf3484d0bf890976d66675a3745097ced6d0 DetailsRetail.9.0.1.7930.143
+Author:	Tercio Jose <terciob19@hotmail.com>
+Date:	Mon Oct 19 13:11:13 2020 -0300
+
+commit 4cf0bf3484d0bf890976d66675a3745097ced6d0
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Oct 19 13:11:13 2020 -0300
+
+    fix
 
 commit 6e7414fb6b58a5b05ca86c3114b5d75938a59cc8
 Author: Tercio Jose <terciob19@hotmail.com>

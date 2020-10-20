@@ -1,3 +1,9 @@
+if (TomCats and TomCats.ReconcileVersionInfo) then
+	TomCats.ReconcileVersionInfo({
+		messageID = 1603104641,
+		encoded = "bQQnfJRcc69V8pzmfYbF7cPquE8QvofarzZHcfw/x807zx4t5f0ufl+Nb4EBAQYAAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGAAwAAQYNAQASDgEAGg8BAAY="
+	})
+end
 local _, addon = ...
 local D = addon.TomCatsLibs.Data
 local tcl = addon.TomCatsLibs
@@ -7,11 +13,11 @@ local side = 1
 local currentPosition
 local arrow
 -- todo: Activate only during hallow's end
--- tcl.Events.RegisterEvent("PLAYER_LOGIN", addon)
+tcl.Events.RegisterEvent("PLAYER_LOGIN", addon)
 local function announceRoute()
-    if (tour and #tour > 0) then
-        print("|cffff0000[|cfff48cbaTomCat|cffff0000] yells: Next stop on the tour is |cffffffff" .. C_Map.GetMapInfo(tour[1]["Map ID"]).name .. "|cffff0000. All aboard!")
-    end
+    -- if (tour and #tour > 0) then
+    --     print("|cffff0000[|cfff48cbaTomCat|cffff0000] yells: Next stop on the tour is |cffffffff" .. C_Map.GetMapInfo(tour[1]["Map ID"]).name .. "|cffff0000. All aboard!")
+    -- end
 end
 local function findLocationGroupID(mapID)
     if (mapID == 0) then return end
@@ -90,6 +96,14 @@ local function setupArrow(location)
     if (tour) then
         if (not arrow) then
             arrow = tcl.Arrows:CreateArrow("ORANGERED")
+            arrow:SetScript("OnEnter", function()
+                GameTooltip:SetOwner(Minimap, "ANCHOR_CURSOR")
+                GameTooltip:SetText("Next Candy Bucket, " .. C_Map.GetMapInfo(tour[1]["Map ID"]).name)
+                GameTooltip:Show()
+            end)
+            arrow:SetScript("OnLeave", function()
+                GameTooltip:Hide()
+            end)
         end
         arrow:SetTarget(tour[1]["Group Position"], groupID)
     end
@@ -168,7 +182,7 @@ if (TomCats and TomCats.Register) then
     TomCats:Register(
         {
             name = "Hallow's End",
-            version = "1.3.4"
+            version = "01.06.00",
         }
     )
 end

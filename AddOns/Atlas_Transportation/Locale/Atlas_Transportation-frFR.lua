@@ -29,14 +29,12 @@ local L = AceLocale:NewLocale("Atlas_Transportation", "frFR", false);
 
 if L then
 L["Abandoned Kite"] = "Cerf-volant abandonné"
---[[Translation missing --]]
---[[ L["Airship"] = ""--]] 
+L["Airship"] = "Dirigeable"
 L["Aludane Whitecloud <Flight Master>"] = "Aludane Nuageblanc <Maître de vol>"
 L["Blue"] = "Bleu"
 --[[Translation missing --]]
 --[[ L["Boat to Echo Isles, Durotar"] = ""--]] 
---[[Translation missing --]]
---[[ L["Boat to Stormwind City"] = ""--]] 
+L["Boat to Stormwind City"] = "Bateau vers Hurlevent"
 --[[Translation missing --]]
 --[[ L["Camp Taurajo"] = ""--]] 
 --[[Translation missing --]]
@@ -48,8 +46,7 @@ L["Climbing Rope"] = "Corde d’escalade"
 --[[ L["Connection to the Hall of Shadows"] = ""--]] 
 L["Death Knight Only"] = "Chevalier de la mort seulement"
 L["Druid Only"] = "Druide seulement"
---[[Translation missing --]]
---[[ L["Exploration"] = ""--]] 
+L["Exploration"] = "Exploration"
 --[[Translation missing --]]
 --[[ L["Flight to Trueshot Lodge"] = ""--]] 
 L["From sea level to ground level"] = "De la mer vers la terre ferme"
@@ -61,8 +58,7 @@ L["Green"] = "Vert"
 L["Gryphon"] = "Griffon"
 --[[Translation missing --]]
 --[[ L["Gryphon Master"] = ""--]] 
---[[Translation missing --]]
---[[ L["Hunter Only"] = ""--]] 
+L["Hunter Only"] = "Chasseur uniquement"
 --[[Translation missing --]]
 --[[ L["Illidari Gateway"] = ""--]] 
 --[[Translation missing --]]
@@ -73,8 +69,7 @@ L["Only available after winning the PvP battle"] = "Disponible uniquement après
 L["Orange"] = "Orange"
 L["Orb of Translocation"] = "Orbe de transposition"
 L["Portal / Waygate Path to the destination"] = "Destination de Portail / Porte de transport"
---[[Translation missing --]]
---[[ L["Portal to Dalaran"] = ""--]] 
+L["Portal to Dalaran"] = "Portail vers Dalaran"
 --[[Translation missing --]]
 --[[ L["Portal to Dreadscar Rift"] = ""--]] 
 --[[Translation missing --]]

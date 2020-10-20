@@ -182,20 +182,20 @@ function AppParent:OnEnable()
         FollowButton:SetText(L['关注'])
         FollowButton:SetScript('OnEnter', function()
             if PlayerLinkList then
-                PlayerLink_StopCount()
+                --PlayerLink_StopCount()
             else
-                UIDropDownMenu_StopCounting(DropDownList1)
+                --UIDropDownMenu_StopCounting(DropDownList1)
             end
         end)
         FollowButton:SetScript('OnLeave', function()
             if PlayerLinkList then
-                PlayerLink_StartCount()
+                --PlayerLink_StartCount()
             else
-                UIDropDownMenu_StartCounting(DropDownList1)
+                --UIDropDownMenu_StartCounting(DropDownList1)
             end
         end)
         FollowButton:SetScript('OnClick', function(FollowButton)
-            App:Follow(FollowButton.name, FollowButton.guid)
+            --App:Follow(FollowButton.name, FollowButton.guid)
             CloseMenus()
         end)
         FollowButton:SetScript('OnHide', FollowButton.Hide)

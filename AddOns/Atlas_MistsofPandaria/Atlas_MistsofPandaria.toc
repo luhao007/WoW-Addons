@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: arith, Dynaletik, dubcat
-## Version: v1.47.00
+## Version: v1.48.00
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Mists of Pandaria]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0熊猫人之迷|r
 ## Notes-zhCN: 熊猫人之谜副本地图
 
-## X-Date: 2020-01-19T16:56:57Z
+## X-Date: 2020-10-18T15:05:36Z
 ## X-Credits: Dan Gilbert, Lothaer
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com

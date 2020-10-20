@@ -1,4 +1,4 @@
--- $Id: Atlas_OutdoorRaids.lua 62 2020-01-20 13:06:59Z arith $
+-- $Id: Atlas_OutdoorRaids.lua 64 2020-10-18 15:07:29Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -47,6 +47,10 @@ local myCategory = L["Outdoor Raid Encounters"]
 
 local function sBF(key)
 	return BF[key] and BF[key] or key
+end
+
+local function Atlas_GetBossName(bossname, encounterID, creatureIndex)
+	return Atlas:GetBossName(bossname, encounterID, creatureIndex, private.module_name)
 end
 
 local myData = {

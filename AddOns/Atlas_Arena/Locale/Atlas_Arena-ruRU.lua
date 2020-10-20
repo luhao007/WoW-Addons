@@ -1,7 +1,7 @@
 --[[
 
 	Atlas Arena, a World of Warcraft instance map browser
-	Copyright 2010 ~ 2019 Arith Hsu
+	Copyright 2010 ~ 2020 Arith Hsu
 
 	This file is a plugin of Atlas.
 
@@ -49,7 +49,7 @@ L["Nargle Lashcord <Veteran Arena Vendor>"] = "Наргл Гибкошнур <О
 L["Orinoko Tuskbreaker"] = "Ориноко Клыколом"
 L["Quests"] = "Задания"
 L["Short John Mithril"] = "Коротышка Джон Мифрил"
-L["Start"] = "Начало"
+L["Start"] = "Начало "
 L["Stinkbeard"] = "Смрадобород"
 L["Stone Guard Towhide"] = "Каменный страж Кудлатая Шкура"
 L["Trapjaw Rix <Exceptional Arena Weaponry>"] = "Чуднокусь Рикс <Исключительное оружие для арены>"

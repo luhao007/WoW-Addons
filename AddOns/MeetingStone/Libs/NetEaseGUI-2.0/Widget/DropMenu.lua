@@ -139,9 +139,13 @@ function DropMenu:Open(level, menuTable, owner, ...)
     menu:SetPoint(self:GetOpenPosition(owner, select(hasMaxItem and 2 or 1, ...)))
     menu:Show()
     menu:Refresh()
-    menu:SetScale(menu:GetParent() and 1
-            or GetCVarBool('useUIScale') and min(UIParent:GetScale(), tonumber(GetCVar('uiscale')))
-            or UIParent:GetScale())
+
+    --local configScale = Profile:GetSetting('uiscale') or 1.0
+    local baseScale = (menu:GetParent() and 1
+    or GetCVarBool('useUIScale') and min(UIParent:GetScale(), tonumber(GetCVar('uiscale')))
+    or UIParent:GetScale())
+
+    menu:SetScale(baseScale)    
 end
 
 function DropMenu:Toggle(level, menuTable, owner, ...)

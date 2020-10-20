@@ -166,7 +166,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
     },
     completed = {
         type = "quest",
-        id = 47332,
+        id = 46931,
     },
     rewards = {
         {
@@ -436,16 +436,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 4,
             y = 6,
             connections = {
-                2, 3,
-            },
-        },
-        {
-            type = "level",
-            level = 114,
-            x = 6,
-            y = 6.5,
-            connections = {
-                2,
+                1, 2,
             },
         },
 
@@ -455,7 +446,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 2,
             y = 7,
             connections = {
-                3,
+                2,
             },
         },
         { -- If you are already past level 116 this isnt offered
@@ -465,19 +456,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 4,
             y = 7,
             connections = {
-                3,
+                2,
             },
         },
 
-        {
-            type = "level",
-            level = 116,
-            x = 0,
-            y = 7.5,
-            connections = {
-                1,
-            },
-        },
         {
             type = "quest",
             id = 53061,
@@ -505,7 +487,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 2,
             y = 9,
             connections = {
-                3,
+                2,
             },
         },
         {
@@ -579,15 +561,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             },
             x = 4,
             y = 9,
-            connections = {
-                3,
-            },
-        },
-        {
-            type = "level",
-            level = 118,
-            x = 6,
-            y = 9.5,
             connections = {
                 2,
             },
@@ -698,11 +671,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             x = 4,
             y = 12,
             connections = {
-                2,
+                3,
             },
         },
 
-
+        {
+            visible = false,
+            x = 0,
+            y = 12.5,
+        },
         {
             type = "level",
             level = 50,
@@ -1045,16 +1022,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 4,
             y = 6,
             connections = {
-                2, 3,
-            },
-        },
-        {
-            type = "level",
-            level = 114,
-            x = 6,
-            y = 6.5,
-            connections = {
-                2,
+                1, 2,
             },
         },
 
@@ -1064,7 +1032,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 2,
             y = 7,
             connections = {
-                3,
+                2,
             },
         },
         { -- If you are already past level 116 this isnt offered
@@ -1074,19 +1042,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 4,
             y = 7,
             connections = {
-                3,
+                2,
             },
         },
 
-        {
-            type = "level",
-            level = 116,
-            x = 0,
-            y = 7.5,
-            connections = {
-                1,
-            },
-        },
         {
             type = "quest",
             id = 53062,
@@ -1114,7 +1073,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 2,
             y = 9,
             connections = {
-                3,
+                2,
             },
         },
         {
@@ -1188,15 +1147,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             },
             x = 4,
             y = 9,
-            connections = {
-                3,
-            },
-        },
-        {
-            type = "level",
-            level = 118,
-            x = 6,
-            y = 9.5,
             connections = {
                 2,
             },
@@ -1307,11 +1257,16 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_CAMPAIGN, {
             x = 4,
             y = 12,
             connections = {
-                2,
+                3,
             },
         },
 
 
+        {
+            visible = false,
+            x = 0,
+            y = 12.5,
+        },
         {
             type = "level",
             level = 50,

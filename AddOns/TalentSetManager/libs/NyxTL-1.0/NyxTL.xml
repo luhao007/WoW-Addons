@@ -1,0 +1,18 @@
+<UI xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+
+	<!-- global vars for the init process -->
+	<Script>
+		NyxTLmajor = "1.0"
+		NyxTLminor = 0
+	</Script>
+
+	<Script file="NyxTL.lua"/>
+	<Script file="NyxTL_Icons.lua"/>
+
+	<!-- clear init process global vars -->
+	<Script>
+		NyxTLmajor = nil
+		NyxTLminor = nil
+		NyxTLPass = nil
+	</Script>
+</UI>

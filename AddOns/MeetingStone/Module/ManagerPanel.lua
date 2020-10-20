@@ -2,6 +2,8 @@
 BuildEnv(...)
 
 ManagerPanel = Addon:NewModule(CreateFrame('Frame'), 'ManagerPanel', 'AceEvent-3.0', 'AceBucket-3.0')
+local ApplicantsListFrame = nil
+local ApplicantsListEditBox = nil
 
 local CHECK_USEABLE_EVENTS = {
     'PARTY_LEADER_CHANGED',
@@ -15,7 +17,161 @@ local CHECK_USEABLE_EVENTS = {
     'LFG_PROPOSAL_SHOW',
     'LFG_QUEUE_STATUS_UPDATE',
 }
+--[[
+function HasCorruptionData(tag)
+    -- Use this to optimize
+end
+function DoInspectAll()
+    -- Need optimize
+    if UnitName("party1") and CanInspect("party1") then
+        NotifyInspect("party1")
+    end
 
+    C_Timer.After(1.0, function()
+        if UnitName("party2") and CanInspect("party2") then
+            NotifyInspect("party2")
+        end
+    end) 
+
+    C_Timer.After(2.0, function()
+        if UnitName("party3") and CanInspect("party3") then
+            NotifyInspect("party3")
+        end
+    end) 
+
+    C_Timer.After(3.0, function()
+        if UnitName("party4") and CanInspect("party4") then
+            NotifyInspect("party4")
+        end
+    end) 
+end
+function ExportPartyCorruption()
+    local outputText = ""
+    local partyPlayers = GetHomePartyInfo()
+    if(not partyPlayers or #partyPlayers == 0) then
+        print("当前不在队伍中")
+        return
+    end
+    local memberCount = #partyPlayers;
+    local collectedCount = 0
+    outputText = outputText.."----------队伍腐蚀统计(已计算抗性)----------\n"
+    for l = 1 , #partyPlayers do
+        local unitTag = "party"..l
+        local color = select(4, GetClassColor(select(2,UnitClass(unitTag))))
+        local name = UnitFullName(unitTag)
+        local unitName = UnitName(unitTag)
+        for playerName,corruptionData in pairs(MEETING_STONE_TEMP_DB_CORRUPTION) do
+            if(playerName == name or playerName == unitName) then
+                collectedCount = collectedCount + 1
+                outputText = outputText.."|c"..color..playerName.."|cffffffff\n"
+                --for _,corruptionName in pairs(corruptionData.corruptionNames) do
+                    --outputText = outputText..corruptionName.."\n"
+                --end
+                for corruptionName,corruptionCount in pairs(corruptionData.corruptionCombined) do
+                    outputText = outputText..corruptionName.."x"..corruptionCount.."\n"
+                end
+                outputText = outputText.."腐蚀:"..corruptionData.totalCorruption.."\n"
+            end
+        end
+    end
+    if(collectedCount < memberCount) then
+        outputText = "部分玩家数据缺失，已重新请求，请稍等片刻再打开此窗口".."\n\n\n"..outputText
+        DoInspectAll()
+    end
+    if(ApplicantsListFrame ~= nil) then
+    else 
+        ApplicantsListFrame = CreateFrame("Frame", "ALFrame", UIParent, "DialogBoxFrame")
+        ApplicantsListFrame:SetPoint("CENTER")
+        ApplicantsListFrame:SetSize(300, 400)
+        ApplicantsListFrame:SetBackdrop({
+            bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+            edgeFile = "Interface\\PVPFrame\\UI-Character-PVP-Highlight",
+            edgeSize = 16,
+            insets = { left = 8, right = 6, top = 8, bottom = 8 },
+        })
+        ApplicantsListFrame:SetBackdropBorderColor(0, .44, .87, 0.5)
+        ApplicantsListFrame:SetClampedToScreen(true)
+        ApplicantsListEditBox = CreateFrame("EditBox", "ALEditBox", ApplicantsListFrame)
+        ApplicantsListEditBox:SetPoint("TOPLEFT", ApplicantsListFrame,"TOPLEFT",20, -20);
+        ApplicantsListEditBox:SetSize(260,360)
+        ApplicantsListEditBox:SetMultiLine(true)
+        ApplicantsListEditBox:SetAutoFocus(true)
+        ApplicantsListEditBox:SetFontObject("ChatFontNormal")
+        ApplicantsListEditBox:SetScript("OnEscapePressed", function() ApplicantsListFrame:Hide() end)
+    end
+    outputText = string.sub(outputText, 1, -2)
+    ApplicantsListEditBox:SetText(outputText)
+    ApplicantsListEditBox:SetEnabled(false)
+    ApplicantsListFrame:Show()
+end
+]]--
+function ShowExportFrame(exportType)
+    local currentRealm = GetRealmName()
+    local outputText = ""
+    if(exportType == 1) then
+        local applicants = C_LFGList.GetApplicants();
+        if(not applicants or #applicants == 0) then
+            print("当前没有人申请")
+            return
+        end
+        local applicants = C_LFGList.GetApplicants();
+        if(not applicants or #applicants == 0) then
+            print("当前没有人申请")
+            return
+        end
+        local currentRealm = GetRealmName()
+        for k,v in pairs(applicants) do
+            applicantInfo = C_LFGList.GetApplicantInfo(v)
+            for i=1,applicantInfo.numMembers,1 do
+                local name = C_LFGList.GetApplicantMemberInfo(applicantInfo.applicantID, i)
+                if string.find(name, "-") == nil then
+                    name = name.."-"..currentRealm
+                end
+                outputText = outputText..name..'\n'
+            end
+        end
+    else
+        local partyPlayers = GetHomePartyInfo()
+        if(not partyPlayers or #partyPlayers == 0) then
+            print("当前不在队伍中")
+            return
+        end
+        for k,v in pairs(partyPlayers) do
+            local name = v
+            if string.find(name, "-") == nil then
+                name = name.."-"..GetRealmName()
+            end
+            outputText = outputText..name..'\n'
+        end
+    end
+    if(ApplicantsListFrame ~= nil) then
+    else 
+        ApplicantsListFrame = CreateFrame("Frame", "ALFrame", UIParent, "DialogBoxFrame")
+        ApplicantsListFrame:SetPoint("CENTER")
+        ApplicantsListFrame:SetSize(300, 400)
+        ApplicantsListFrame:SetBackdrop({
+            bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+            edgeFile = "Interface\\PVPFrame\\UI-Character-PVP-Highlight",
+            edgeSize = 16,
+            insets = { left = 8, right = 6, top = 8, bottom = 8 },
+        })
+        ApplicantsListFrame:SetBackdropBorderColor(0, .44, .87, 0.5)
+        ApplicantsListFrame:SetClampedToScreen(true)
+        ApplicantsListEditBox = CreateFrame("EditBox", "ALEditBox", ApplicantsListFrame)
+        ApplicantsListEditBox:SetPoint("TOPLEFT", ApplicantsListFrame,"TOPLEFT",20, -20);
+        ApplicantsListEditBox:SetSize(260,360)
+        ApplicantsListEditBox:SetMultiLine(true)
+        ApplicantsListEditBox:SetAutoFocus(true)
+        ApplicantsListEditBox:SetFontObject("ChatFontNormal")
+        ApplicantsListEditBox:SetScript("OnEscapePressed", function() ApplicantsListFrame:Hide() end)
+    end
+    outputText = string.sub(outputText, 1, -2)
+    ApplicantsListEditBox:SetText(outputText)
+    ApplicantsListEditBox:HighlightText()
+    ApplicantsListEditBox:SetEnabled(true)
+    ApplicantsListFrame:Show()
+
+end
 function ManagerPanel:OnInitialize()
     GUI:Embed(self, 'Owner', 'Tab', 'Refresh')
 
@@ -46,6 +202,37 @@ function ManagerPanel:OnInitialize()
             end
         end)
     end
+
+    local ImportApplicantsButton = Addon:GetClass('RefreshButton'):New(self) do
+        ImportApplicantsButton:SetPoint('RIGHT', RefreshButton, 'LEFT', -10, 0)
+        ImportApplicantsButton:SetTooltip("导出目前的申请列表")
+        ImportApplicantsButton:SetText("导出申请列表")
+        ImportApplicantsButton:SetSize(120, 31)
+        ImportApplicantsButton:SetScript('OnClick', function()
+            ShowExportFrame(1)
+        end)
+    end
+
+    
+    local ImportGroupPlayersButton = Addon:GetClass('RefreshButton'):New(self) do
+        ImportGroupPlayersButton:SetPoint('RIGHT', ImportApplicantsButton, 'LEFT', -10, 0)
+        ImportGroupPlayersButton:SetTooltip("导出队伍玩家")
+        ImportGroupPlayersButton:SetText("导出队伍玩家")
+        ImportGroupPlayersButton:SetSize(120, 31)
+        ImportGroupPlayersButton:SetScript('OnClick', function()
+            ShowExportFrame(2)
+        end)
+    end
+    --[[
+    local ExportPartyCorruptionButton = Addon:GetClass('RefreshButton'):New(self) do
+        ExportPartyCorruptionButton:SetPoint('RIGHT', ImportGroupPlayersButton, 'LEFT', -10, 0)
+        ExportPartyCorruptionButton:SetTooltip("查看队伍腐蚀")
+        ExportPartyCorruptionButton:SetText("查看队伍腐蚀")
+        ExportPartyCorruptionButton:SetSize(120, 31)
+        ExportPartyCorruptionButton:SetScript('OnClick', function()
+            ExportPartyCorruption()
+        end)
+    end]]--
 
     self.FullBlocker = FullBlocker
     self.ApplicantListBlocker = ApplicantListBlocker

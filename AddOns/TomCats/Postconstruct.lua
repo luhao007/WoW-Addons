@@ -101,7 +101,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = "01.06.00"
+TomCats.version = "01.06.01"
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	local infoText = "Installed Components:\n|cffffffff"

@@ -2791,7 +2791,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_ALLIANCE, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 10,
             visible = false,
         },
     },
@@ -2827,7 +2827,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_HORDE, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 10,
             visible = false,
         },
     },
@@ -2859,7 +2859,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_BOTH, {
     prerequisites = {
         {
             type = "level",
-            level = 110,
+            level = 10,
             visible = false,
         },
     },

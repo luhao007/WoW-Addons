@@ -1,9 +1,9 @@
 ------------------------------------------------------------------------
-r397 | mitch0 | 2020-10-17 08:12:28 +0000 (Sat, 17 Oct 2020) | 2 lines
+r399 | mitch0 | 2020-10-18 18:30:57 +0000 (Sun, 18 Oct 2020) | 1 line
 Changed paths:
-   M /trunk/RangeDisplay.lua
+   M /trunk/RangeDisplay.toc
+   M /trunk/RangeDisplay_Options/RangeDisplay_Options.toc
 
-Backdrop compat for Wow 9.0
-
+toc bump
 ------------------------------------------------------------------------
 

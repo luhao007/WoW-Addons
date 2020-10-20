@@ -1,5 +1,5 @@
 local Libra = LibStub("Libra")
-local Type, Version = "Slider", 2
+local Type, Version = "Slider", 3
 if Libra:GetModuleVersion(Type) >= Version then return end
 
 local backdrop = {
@@ -27,7 +27,7 @@ local function onLeave(self)
 end
 
 local function constructor(self, parent)
-	local slider = CreateFrame("Slider", nil, parent)
+	local slider = CreateFrame("Slider", nil, parent, "BackdropTemplate")
 	slider:SetSize(144, 17)
 	slider:SetBackdrop(backdrop)
 	slider:SetThumbTexture([[Interface\Buttons\UI-SliderBar-Button-Horizontal]])

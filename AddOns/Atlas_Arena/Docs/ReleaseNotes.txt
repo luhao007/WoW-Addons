@@ -1,10 +1,13 @@
-$Id: ReleaseNotes.txt 85 2019-09-04 07:33:28Z arith $
+$Id: ReleaseNotes.txt 87 2020-10-18 15:16:16Z arithmandar $
 Atlas Arena, a World of Warcraft instance map browser plug-in for Atlas
 Copyright 2010 ~ 2019 Arith Hsu
 
 ==============
 = Change Log =
 ==============
+
+* 1.07.05 (2020/10/18)
+- ToC update to support WoW 9.0.1
 
 * 1.07.04 (2019/09/04)
 - ToC update to support WoW 8.2.0

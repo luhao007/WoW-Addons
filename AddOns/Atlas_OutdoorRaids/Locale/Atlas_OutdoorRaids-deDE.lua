@@ -29,25 +29,21 @@ local L = AceLocale:NewLocale("Atlas_OutdoorRaids", "deDE", false);
 
 if L then
 L["Ancient Skull Pile"] = "Uralter Schädelhaufen"
---[[Translation missing --]]
---[[ L["Battle for Azeroth"] = ""--]] 
+L["Battle for Azeroth"] = "Battle for Azeroth"
 L["Broken Isles World Bosses"] = "Weltbosse der Verheerten Inseln"
 L["Broken Shore World Bosses"] = "Weltbosse der Verheerten Küste"
 L["Darkscreecher Akkarai"] = "Dunkelkreischer Akkarai"
-L["Draenor World Bosses"] = "Draenor Weltbosse"
---[[Translation missing --]]
---[[ L["Eastern Kingdoms World Bosses"] = ""--]] 
+L["Draenor World Bosses"] = "Weltbosse von Draenor"
+L["Eastern Kingdoms World Bosses"] = "Weltbosse der Östlichen Königreiche"
 L["Gezzarak the Huntress"] = "Gezzarak die Jägerin"
 L["Grella <Skyguard Quartermaster>"] = "Grella <Rüstmeister der Himmelswache>"
 L["Hazzik"] = "Hazzik"
 L["Hazzik's Package"] = "Hazziks Päckchen"
---[[Translation missing --]]
---[[ L["Kalimdor World Bosses"] = ""--]] 
+L["Kalimdor World Bosses"] = "Weltbosse von Kalimdor"
 L["Karrog"] = "Karrog"
---[[Translation missing --]]
---[[ L["Kul Tiras World Bosses"] = ""--]] 
+L["Kul Tiras World Bosses"] = "Weltbosse von Kul Tiras"
 L["Outdoor Raid Encounters"] = "Außenweltschlachtzüge"
-L["Pandaria World Bosses"] = "Pandaria Weltbosse"
+L["Pandaria World Bosses"] = "Weltbosse von Pandaria"
 L["Sahaak <Keeper of Scrolls>"] = "Sahaak <Hüter der Schriftrollen>"
 L["Severin <Skyguard Medic>"] = "Severin <Sanitäter der Himmelswache>"
 L["Skull Pile"] = "Schädelhaufen"
@@ -60,7 +56,6 @@ L["Talonpriest Skizzik"] = "Krallenpriester Skizzik"
 L["Talonpriest Zellek"] = "Krallenpriester Zellek"
 L["Terokk"] = "Terokk"
 L["Vakkiz the Windrager"] = "Vakkiz der Windzürner"
---[[Translation missing --]]
---[[ L["Zandalar World Bosses"] = ""--]] 
+L["Zandalar World Bosses"] = "Weltbosse von Zandalar"
 
 end

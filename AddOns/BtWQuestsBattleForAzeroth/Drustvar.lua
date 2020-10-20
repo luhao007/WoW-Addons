@@ -2619,7 +2619,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain08, {
             id = 48474,
             restrictions = {
                 type = "level",
-                level = 119,
+                level = 49,
                 atmost = true,
             },
             x = 5,
@@ -2737,7 +2737,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain09, {
             id = 48181,
             restrictions = {
                 type = "level",
-                level = 119,
+                level = 49,
                 atmost = true,
             },
             x = 5,
@@ -3091,7 +3091,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
                     x = 2,
                     restrictions = {
                         type = "level",
-                        level = 119,
+                        level = 49,
                         atmost = true,
                     },
                 },
@@ -3109,7 +3109,7 @@ BtWQuestsDatabase:AddChain(Chain.Chain13, {
             aside = true,
             restrictions = {
                 type = "level",
-                level = 119,
+                level = 49,
                 atmost = true,
             },
             x = 4,

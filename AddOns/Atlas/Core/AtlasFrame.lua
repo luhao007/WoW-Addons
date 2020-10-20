@@ -1,4 +1,4 @@
--- $Id: AtlasFrame.lua 337 2020-01-01 14:49:58Z arith $
+-- $Id: AtlasFrame.lua 360 2020-10-18 14:30:42Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -38,8 +38,13 @@ local table = _G.table
 local getn, tinsert, tsort = table.getn, table.insert, table.sort
 local UIDropDownMenu_AddButton, UIDropDownMenu_Initialize, UIDropDownMenu_SetSelectedID, UIDropDownMenu_SetWidth, UIDropDownMenu_CreateInfo, ToggleDropDownMenu = L_UIDropDownMenu_AddButton, L_UIDropDownMenu_Initialize, L_UIDropDownMenu_SetSelectedID, L_UIDropDownMenu_SetWidth, L_UIDropDownMenu_CreateInfo, L_ToggleDropDownMenu
 
-local WoWClassic = select(4, GetBuildInfo()) < 20000
-
+local WoWClassic, WoWRetail
+local wowtocversion  = select(4, GetBuildInfo())
+if wowtocversion < 19999 then
+	WoWClassic = true
+else
+	WoWRetail = true
+end
 -- ----------------------------------------------------------------------------
 -- AddOn namespace
 -- ----------------------------------------------------------------------------
@@ -153,7 +158,7 @@ function addon:ToggleLegendPanel()
 end
 
 function AtlasEntry_OnUpdate(self)
-	if (not WoWClassic) then
+	if (WoWRetail) then
 		if( AtlasEJLootFrame:IsShown() ) then return; end
 	end
 	if (MouseIsOver(self)) then
