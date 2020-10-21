@@ -199,9 +199,10 @@ class Manager(object):
                 if config.tag.endswith('SubAddon'):
                     parent_config = self.get_addon_parent_config(addon)
                     toc.tags['X-Part-Of'] = parent_config.get('name')
-                elif addon in ['DBM-Core', 'Auc-Advanced',
-                               'TomCats', '+Wowhead_Looter']:
+                elif addon in ['DBM-Core', 'Auc-Advanced', 'TomCats']:
                     toc.tags['X-Part-Of'] = addon
+                elif addon in ['+Wowhead_Looter']:
+                    toc.tags.pop('X-Part-Of', None)
 
                 return toc.to_lines()
 
