@@ -45,7 +45,7 @@ function Profile:OnInitialize()
                 spamLengthEnabled = true,
                 spamLength = 20,
             },
-            minimap = {
+            minimap = { hide = true,
                 minimapPos = 192.68,
             },
             searchHistoryList  = {},

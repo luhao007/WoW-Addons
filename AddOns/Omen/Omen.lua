@@ -179,7 +179,7 @@ local defaults = {
 			DisableWhileTanking = true,
 		},
 		MinimapIcon = {
-			hide = false,
+			hide = true,
 			minimapPos = 220,
 			radius = 80,
 		},
