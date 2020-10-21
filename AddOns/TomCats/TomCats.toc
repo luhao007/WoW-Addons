@@ -12,7 +12,7 @@
 ## X-Website: https://www.tomcatstours.com
 ## X-TomCats-VersionMessageID: 1603125516
 ## X-TomCats-VersionMessage: T2gGYeQevRmZIkMHr8YvY7OSHipg4wXSbcFOdSBWpI2ca+r2g69xOl+NwQwBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGAAwAAQYNAQASDgEAGg8BAAY=
-## X-Part-Of: TomCat's Tours:
+## X-Part-Of: TomCats
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
 
