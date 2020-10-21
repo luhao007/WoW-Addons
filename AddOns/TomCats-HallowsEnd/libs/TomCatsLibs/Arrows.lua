@@ -24,7 +24,9 @@ local function refreshArrow(self)
             background:SetRotation(rotation)
             self:SetPoint("CENTER", Minimap, "CENTER", 53 * math.cos(rads), 53 * math.sin(rads))
         else
-            if (self:IsShown()) then self:Hide() end
+            if (IsInInstance()) then
+                if (self:IsShown()) then self:Hide() end
+            end
         end
     end
 end

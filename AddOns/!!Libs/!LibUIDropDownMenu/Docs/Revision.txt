@@ -1,6 +1,10 @@
-$Id: Revision.txt 55 2020-10-18 07:39:25Z arithmandar $
+$Id: Revision.txt 57 2020-10-20 13:44:40Z arithmandar $
 Revision History:
 =================
+
+v3.02.9000136272.01 (2020/10/20)
+-----------------------------
+- Fixed version detection while setting ColorSwatch's backdrop template. It should now be correctly detecting the retail (as well as ShadowLands) version
 
 v3.02.9000136272 (2020/10/18)
 -----------------------------

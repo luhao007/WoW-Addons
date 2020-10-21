@@ -1,4 +1,4 @@
--- $Id: Atlas_OutdoorRaids.lua 64 2020-10-18 15:07:29Z arith $
+-- $Id: Atlas_OutdoorRaids.lua 66 2020-10-20 12:39:02Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -24,12 +24,17 @@
 
 --]]
 local _G = getfenv(0)
+
+local FOLDER_NAME, private = ...
+private.addon_name = "Atlas_OutdoorRaids"
+private.module_name = "OutdoorRaids"
+
 local LibStub = _G.LibStub
 local Atlas = LibStub("AceAddon-3.0"):GetAddon("Atlas")
 
 local BZ = Atlas_GetLocaleLibBabble("LibBabble-SubZone-3.0")
 local BF = Atlas_GetLocaleLibBabble("LibBabble-Faction-3.0")
-local L = LibStub("AceLocale-3.0"):GetLocale("Atlas_OutdoorRaids")
+local L = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)
 local ALC = LibStub("AceLocale-3.0"):GetLocale("Atlas")
 
 local BLUE = "|cff6666ff"
@@ -349,4 +354,4 @@ local myDB = {
 	},
 }
 
-Atlas:RegisterPlugin("Atlas_OutdoorRaids", myCategory, myData, myDB)
+Atlas:RegisterPlugin(private.addon_name, myCategory, myData, myDB)

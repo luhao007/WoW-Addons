@@ -1,0 +1,52 @@
+lightweight tag c2b5992dd60839b57d59a3e5f91b561056b19ef1 Plater-v9.0.1.311-Retail
+Author:	Continuity <continuity@gmx.net>
+Date:	Tue Oct 20 21:55:05 2020 +0200
+
+commit c2b5992dd60839b57d59a3e5f91b561056b19ef1
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Oct 20 21:55:05 2020 +0200
+
+    - changelog update
+
+commit 4e86fc7d6f61bb31add2e5a410cd64565067c984
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Oct 20 21:19:34 2020 +0200
+
+    - fixing issues with no-combat-alpha and coloring
+
+commit 883fac61f2bce3aafc6a9f708763cc1051d25fcb
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Oct 20 21:09:56 2020 +0200
+
+    - re-adding castBar2 (got lost...)
+
+commit 1c12feda23310244aeeb446668e7dcad27ecad5c
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Oct 20 11:57:42 2020 +0200
+
+    - fixing Shadowburn execute range
+
+commit 0e60985d4edce56e1947ec729836866f2caab701
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Oct 20 11:55:46 2020 +0200
+
+    - adding destro wl shadowburn talent to execute indication
+
+commit ad95291115048c1f948aa7b5c49f183cc465a148
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Oct 20 00:18:47 2020 +0200
+
+    - Adjusting execute option tooltip
+
+commit cfcce0a9038b94750685169f54040cadb972fd2a
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Oct 20 00:18:33 2020 +0200
+
+    - sanity checks for LibRangeCheck
+
+commit 13bf198fab3715d45bfb3c8cc5e1f638850625e9
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Oct 19 19:57:52 2020 +0200
+
+    - fixing an issue with scriptId being 'nil' under certain conditions
+

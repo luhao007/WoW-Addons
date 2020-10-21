@@ -4,6 +4,5 @@
 
 
 	<Script file="LibBase64-1.0\LibBase64-1.0.lua" />
-	<Include file="NickTag-1.0\NickTag-1.0.xml" /> 
 
 </Ui>

@@ -1,4 +1,4 @@
--- $Id: Atlas_OutdoorRaids-enUS.lua 60 2020-01-19 17:00:57Z arith $
+-- $Id: Atlas_OutdoorRaids-enUS.lua 66 2020-10-20 12:39:02Z arith $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -35,6 +35,8 @@ L["Battle for Azeroth"] = "Battle for Azeroth"
 L["Broken Isles World Bosses"] = "Broken Isles World Bosses"
 L["Broken Shore World Bosses"] = "Broken Shore World Bosses"
 L["Darkscreecher Akkarai"] = "Darkscreecher Akkarai"
+L["Doom Lord Kazzak"] = "Doom Lord Kazzak"
+L["Doomwalker"] = "Doomwalker"
 L["Draenor World Bosses"] = "Draenor World Bosses"
 L["Eastern Kingdoms World Bosses"] = "Eastern Kingdoms World Bosses"
 L["Gezzarak the Huntress"] = "Gezzarak the Huntress"

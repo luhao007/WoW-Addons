@@ -3,6 +3,7 @@ curse:ace3,default
 curse:ace-gui-3-0-shared-media-widgets,default
 curse:drdata-1-0,default
 curse:drlist-1-0,default
+curse:libdframework,default
 curse:herebedragons,default
 curse:libaboutpanel,default
 curse:libalts-1-0,default
@@ -44,3 +45,4 @@ curse:libtoast-1-0,default
 curse:libtourist-3-0,default
 curse:libuidropdownmenu,default
 curse:libwindow-1-1,default
+curse:nicktag,default

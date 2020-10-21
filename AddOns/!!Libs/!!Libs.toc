@@ -66,9 +66,10 @@ LibCandyBar-3.0\lib.xml
 LibChatAnims\LibChatAnims\LibChatAnims.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
+LibDDI-1.0\lib.xml
 LibDeflate\lib.xml
 LibDeformat-3.0\LibDeformat-3.0.lua
-LibDDI-1.0\lib.xml
+LibDFramework-1.0\load.xml
 LibDialog-1.0\lib.xml
 LibDogTag-3.0\lib.xml
 LibDogTag-Stats-3.0\lib.xml
@@ -93,3 +94,6 @@ LibTextDump-1.0\lib.xml
 LibToast-1.0\lib.xml
 LibTourist-3.0\LibTourist-3.0.lua
 LibWindow-1.1\LibWindow-1.1\LibWindow-1.1.lua
+
+# Ohter shared libs
+NickTag-1.0\NickTag-1.0.xml

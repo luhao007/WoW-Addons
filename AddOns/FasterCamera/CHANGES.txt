@@ -1,10 +1,10 @@
-lightweight tag c09d70a2a7052c1687320ba4726669fc8b6767f1 v2.4.4
+lightweight tag 3ac816f58849ab3f692cf9bdb7bccd329326a582 v2.4.5
 Author:	Ketho <sghs17@outlook.com>
-Date:	Tue Oct 20 04:11:28 2020 +0200
+Date:	Tue Oct 20 08:52:47 2020 +0200
 
-commit c09d70a2a7052c1687320ba4726669fc8b6767f1
+commit 3ac816f58849ab3f692cf9bdb7bccd329326a582
 Author: Ketho <sghs17@outlook.com>
-Date:   Tue Oct 20 04:11:28 2020 +0200
+Date:   Tue Oct 20 08:52:47 2020 +0200
 
-    Bump to MaxCam version
+    Shadowlands pre-patch update
 

@@ -43,6 +43,10 @@ L["Broken Isles World Bosses"] = "Islas Abruptas - Jefes de Mundo"
 --[[Translation missing --]]
 --[[ L["Broken Shore World Bosses"] = ""--]] 
 L["Darkscreecher Akkarai"] = "Estridador oscuro Akkarai"
+--[[Translation missing --]]
+--[[ L["Doom Lord Kazzak"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Doomwalker"] = ""--]] 
 L["Draenor World Bosses"] = "Draenor - Jefes de Mundo"
 --[[Translation missing --]]
 --[[ L["Eastern Kingdoms World Bosses"] = ""--]] 

@@ -1,0 +1,41 @@
+## Interface: 90100
+## Version: Plater-v9.0.1.311-Retail
+## SavedVariables: PlaterDB
+## SavedVariablesPerCharacter: PlaterDBChr
+
+## Title: Plater
+## Notes: Nameplate addon designed for advanced users.
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF血条增强|r |cFFFFE00APlater|r
+## Notes-zhCN: 自定义血条显示
+
+
+#@no-lib-strip@
+libs\libs.xml
+#@end-no-lib-strip@
+
+locales\enUS.lua
+locales\deDE.lua
+locales\esES.lua
+locales\esMX.lua
+locales\frFR.lua
+locales\itIT.lua
+locales\koKR.lua
+locales\ptBR.lua
+locales\ruRU.lua
+locales\zhCN.lua
+locales\zhTW.lua
+
+Plater_DefaultSettings.lua
+
+Plater.lua
+Plater_Resources.lua
+Plater_OptionsPanel.lua
+Plater_ScriptingPanels.lua
+Plater_ScriptLibrary.lua
+Plater_AnimationEditor.lua
+Plater_Designer.lua
+Plater_ChangeLog.lua
+Plater_Docs.lua
+Plater_BossModsSupport.lua
+Plater_Animations.lua
+#Plater_SpellPrediction.lua

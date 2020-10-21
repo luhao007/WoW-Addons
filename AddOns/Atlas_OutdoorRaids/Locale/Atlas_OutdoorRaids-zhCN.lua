@@ -37,6 +37,10 @@ L["Ancient Skull Pile"] = "上古颅骨堆"
 L["Broken Isles World Bosses"] = "破碎群岛世界首领"
 L["Broken Shore World Bosses"] = "破碎群岛世界首领"
 L["Darkscreecher Akkarai"] = "黑暗尖啸者阿克卡莱"
+--[[Translation missing --]]
+--[[ L["Doom Lord Kazzak"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Doomwalker"] = ""--]] 
 L["Draenor World Bosses"] = "德拉诺世界首领"
 --[[Translation missing --]]
 --[[ L["Eastern Kingdoms World Bosses"] = ""--]] 

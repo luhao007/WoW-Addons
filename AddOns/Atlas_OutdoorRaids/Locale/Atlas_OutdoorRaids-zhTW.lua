@@ -33,6 +33,10 @@ L["Battle for Azeroth"] = "決戰艾澤拉斯"
 L["Broken Isles World Bosses"] = "破碎群島世界首領"
 L["Broken Shore World Bosses"] = "破碎海岸世界首領"
 L["Darkscreecher Akkarai"] = "黑暗尖叫者阿卡萊"
+--[[Translation missing --]]
+--[[ L["Doom Lord Kazzak"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Doomwalker"] = ""--]] 
 L["Draenor World Bosses"] = "德拉諾世界首領"
 L["Eastern Kingdoms World Bosses"] = "東部王國世界首領"
 L["Gezzarak the Huntress"] = "女獵人吉札拉"

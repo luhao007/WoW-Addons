@@ -1,3 +1,6 @@
+**7.0.2**
+* Library updates.
+
 **7.0.1**
 * Class spell fixes.
 

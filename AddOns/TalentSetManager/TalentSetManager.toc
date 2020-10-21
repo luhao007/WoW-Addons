@@ -1,12 +1,16 @@
-## Interface: 80100
-## Title: Talent Set Manager
+## Interface: 90100
 ## Author: Vildiesel EU - Well of Eternity
-## Notes: Allows you to store and learn entire sets of talents
-## eMail: n_rhygar@yahoo.it
-## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## SavedVariables: TalentSetManager_Options, TalentSetManager_CharacterSaves
 ## SavedVariablesPerCharacter: TalentSetManager_Saves
+## DefaultState: Enabled
+
+## Title: Talent Set Manager
+## Notes: Allows you to store and learn entire sets of talents
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF天赋设置|r |cFFFFE00ATalentSetManager|r
+## Notes-zhCN: 存储和载入天赋设置
+
+
 libs\libs.xml
 localization.lua
 TalentSetManager.lua

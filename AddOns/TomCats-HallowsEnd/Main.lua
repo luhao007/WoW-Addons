@@ -1,7 +1,7 @@
 if (TomCats and TomCats.ReconcileVersionInfo) then
 	TomCats.ReconcileVersionInfo({
-		messageID = 1603104641,
-		encoded = "bQQnfJRcc69V8pzmfYbF7cPquE8QvofarzZHcfw/x807zx4t5f0ufl+Nb4EBAQYAAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGAAwAAQYNAQASDgEAGg8BAAY="
+		messageID = 1603213973,
+		encoded = "KMDRoE4QOIWtFC5STQk4bT7UUywmcEcYRmltBrHYA+4V8WrW2dcXGV+PGpUBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGBAwAAQYNAQASDgEAGg8BAAY="
 	})
 end
 local _, addon = ...
@@ -73,9 +73,12 @@ end
 local function switchTour(newGroupID)
     if (IsInInstance()) then
         tour = nil
+        groupID = nil
         return
     end
-    if (newGroupID == groupID) then return end
+    if (newGroupID == groupID) then
+        return
+    end
     groupID = newGroupID
     if (not groupID) then
         tour = nil
@@ -111,7 +114,7 @@ end
 local function zoneChanged()
     local mapID = C_Map.GetBestMapForUnit("player")
     if (mapID) then
-        switchTour(findLocationGroupID(C_Map.GetBestMapForUnit("player")))
+        switchTour(findLocationGroupID(mapID))
     else
         tour = nil
     end
@@ -182,7 +185,7 @@ if (TomCats and TomCats.Register) then
     TomCats:Register(
         {
             name = "Hallow's End",
-            version = "01.06.00",
+            version = "01.06.04",
         }
     )
 end

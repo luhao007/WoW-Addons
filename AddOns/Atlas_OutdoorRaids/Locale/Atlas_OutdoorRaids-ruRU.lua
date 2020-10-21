@@ -43,6 +43,10 @@ L["Ancient Skull Pile"] = "Груда древних черепов"
 L["Broken Isles World Bosses"] = "Мировые боссы Расколотого острова"
 L["Broken Shore World Bosses"] = "Мировые боссы Сломанного берега"
 L["Darkscreecher Akkarai"] = "Темный Крикун Аккарай"
+--[[Translation missing --]]
+--[[ L["Doom Lord Kazzak"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Doomwalker"] = ""--]] 
 L["Draenor World Bosses"] = "Боссы Дренора"
 --[[Translation missing --]]
 --[[ L["Eastern Kingdoms World Bosses"] = ""--]] 

@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: arith, dubcat
-## Version: v1.48.00
+## Version: v1.48.01
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Outdoor Raids]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0户外首领|r
 ## Notes-zhCN: 户外团队战斗地图
 
-## X-Date: 2020-10-18T15:07:29Z
+## X-Date: 2020-10-20T12:39:02Z
 ## X-Credits: Dan Gilbert, Lothaer
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com

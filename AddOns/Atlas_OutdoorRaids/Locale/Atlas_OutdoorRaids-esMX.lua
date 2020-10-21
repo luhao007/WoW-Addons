@@ -45,6 +45,10 @@ L["Ancient Skull Pile"] = "Montón de cráneos antiguos"
 --[[ L["Broken Shore World Bosses"] = ""--]] 
 L["Darkscreecher Akkarai"] = "Estridador oscuro Akkarai"
 --[[Translation missing --]]
+--[[ L["Doom Lord Kazzak"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Doomwalker"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["Draenor World Bosses"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Eastern Kingdoms World Bosses"] = ""--]] 
