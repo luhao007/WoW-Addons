@@ -617,6 +617,8 @@ class Manager(object):
                 lambda lines: [l for l in lines if 'libs' not in l]
             )
 
+    @retail_only
+    def handle_omen(self):
         self.change_defaults(
             'Addons/Omen/Omen.lua',
             '			hide = true,'
