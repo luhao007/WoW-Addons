@@ -1,10 +1,10 @@
 ------------------------------------------------------------------------
-r110 | Caliaha | 2020-01-29 03:49:18 +0000 (Wed, 29 Jan 2020) | 2 lines
+r112 | Caliaha | 2020-10-21 19:37:23 +0000 (Wed, 21 Oct 2020) | 2 lines
 Changed paths:
    M /trunk/HandyNotes_DungeonLocations.lua
    M /trunk/HandyNotes_DungeonLocations.toc
 
-Added new nodes to vale and uldum
+Update for 9.0, only show on continent maps
 
 ------------------------------------------------------------------------
 
