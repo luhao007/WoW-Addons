@@ -1,8 +1,7 @@
 class TOC(object):
 
     def __init__(self, lines):
-        """
-        TOC Handler.
+        """TOC Handler.
 
         :param lines [str]: lines of the TOC file.
         """

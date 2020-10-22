@@ -19,10 +19,11 @@ class Context(object):
     def is_classic(self):
         return '_classic_' in os.getcwd()
 
-    def manage(self):
-        print('Modifying addons to fit each other...', end='')
-        Manager().process()
-        print('Done!')
+
+def _manage():
+    print('Modifying addons to fit each other...', end='')
+    Manager().process()
+    print('Done!')
 
 
 @click.group(context_settings={'help_option_names': ('-h', '--help')})
@@ -37,10 +38,9 @@ def main(ctx, verbose):
 
 
 @main.command()
-@click.pass_obj
-def manage(obj):
+def manage():
     """Manage addons."""
-    obj.manage()
+    _manage()
 
 
 @main.command()
@@ -50,7 +50,7 @@ def install(obj, addons):
     """Install addons."""
     obj.manager.install(addons)
     obj.manager.export()
-    obj.manage()
+    _manage()
 
 
 @main.command()
@@ -83,7 +83,7 @@ def update(obj):
     obj.manager_lib.update()
     if obj.is_classic:
         obj.manager_lib_classic.update()
-    obj.manage()
+    _manage()
 
 
 @main.command()

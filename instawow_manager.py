@@ -11,8 +11,7 @@ from instawow.exceptions import PkgUpToDate
 class InstawowManager(object):
 
     def __init__(self, game_flavour, lib=False, classic_only_lib=False):
-        """
-        Interface between instawow and main program.
+        """Interface between instawow and main program.
 
         :param game_flavor str: 'classic' or 'retail'
         :param lib bool: Whether hanlding libraries.
