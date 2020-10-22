@@ -258,7 +258,7 @@ function TimelessIsleChest:HasBeenLooted(value)
  
  if (self.db.char[value[1]] and self.db.profile.save) then return true end
  
- if (IsQuestFlaggedCompleted(value[1])) then
+ if (C_QuestLog.IsQuestFlaggedCompleted(value[1])) then
   if (self.db.profile.save and not value[4]) then  -- Save the chest but not if it's a daily
    self.db.char[value[1]] = true;
   end

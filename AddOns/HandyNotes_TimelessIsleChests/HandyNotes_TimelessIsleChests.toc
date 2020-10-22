@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: Bartruby of Cairne
-## Version: 1.22
+## Version: 1.23
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
 ## SavedVariables: TimelessIsleChestsDB

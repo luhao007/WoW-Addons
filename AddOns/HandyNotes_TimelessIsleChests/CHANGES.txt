@@ -1,9 +1,10 @@
 ------------------------------------------------------------------------
-r49 | Caliaha | 2020-01-29 03:50:18 +0000 (Wed, 29 Jan 2020) | 2 lines
+r51 | Caliaha | 2020-10-22 02:06:48 +0000 (Thu, 22 Oct 2020) | 2 lines
 Changed paths:
+   M /trunk/HandyNotes_TimelessIsleChests.lua
    M /trunk/HandyNotes_TimelessIsleChests.toc
 
-TOC Bump
+TOC Bump, minor bug fix
 
 ------------------------------------------------------------------------
 

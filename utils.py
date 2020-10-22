@@ -8,7 +8,8 @@ logger = logging.getLogger('process')
 
 
 def process_file(path, func):
-    """Helper function to process the files.
+    """
+    Helper function to process the files.
 
     :param str path: Path of the file.
     :param function func: A function with the input of lines of the file

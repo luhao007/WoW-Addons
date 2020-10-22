@@ -32,6 +32,7 @@ def retail_only(func):
 class Manager(object):
 
     def __init__(self):
+        """Addon manager."""
         self.is_classic = '_classic_' in os.getcwd()
         self.config = ElementTree.parse('config.xml')
 
@@ -61,7 +62,7 @@ class Manager(object):
         process_file(path, f)
 
     def remove_libraries_all(self, addon, lib_path=None):
-        """Remove all embedded libraries"""
+        """Remove all embedded libraries."""
         if not lib_path:
             for p in ['libs', 'lib']:
                 path = Path('Addons') / addon / p
