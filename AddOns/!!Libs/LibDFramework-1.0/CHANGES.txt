@@ -1,0 +1,22 @@
+lightweight tag 81b96d92977291e002b0251b4fcb19c8e300181b v9.0.1.212
+Author:	GitHub <noreply@github.com>
+Date:	Thu Oct 22 21:20:48 2020 -0300
+
+commit 5b6c982c4ba4d6ab117745bd6bb931521756f6f6
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Oct 22 20:29:13 2020 -0300
+
+    Removed all deprecated DF.folder entries and replaced with client images
+
+commit 5b6c982c4ba4d6ab117745bd6bb931521756f6f6
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Oct 22 20:29:13 2020 -0300
+
+    Removed all deprecated DF.folder entries and replaced with client images
+
+commit 5b6c982c4ba4d6ab117745bd6bb931521756f6f6
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Oct 22 20:29:13 2020 -0300
+
+    Removed all deprecated DF.folder entries and replaced with client images
+

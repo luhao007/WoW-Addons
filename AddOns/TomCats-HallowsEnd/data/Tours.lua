@@ -8,7 +8,8 @@ addon.TomCatsLibs.Data.Tours = {
         [203] = {143,145,142,141},
         [207] = {178},
         [424] = {190,189,185,187,188,180,205,196,193,198,197,194,184,202,206,199,183,200,182,191,192,203},
-        [572] = {207,208},
+        -- Removed due to inability to get a player's coordinates while they are inside of the garrison
+        -- [572] = {207},
         [619] = {209,210},
         [875] = { },
         [876] = {213}
@@ -21,7 +22,8 @@ addon.TomCatsLibs.Data.Tours = {
         [203] = {144,146,141,142},
         [207] = {177},
         [424] = {194,186,184,199,183,200,182,179,191,201,192,202,189,185,187,188,180,204,205,196,193,198,195,181},
-        [572] = {208,207},
+        -- Removed due to inability to get a player's coordinates while they are inside of the garrison
+        -- [572] = {208},
         [619] = {211,209},
         [875] = {212},
         [876] = { }

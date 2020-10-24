@@ -9,7 +9,8 @@ select(2, ...).TomCatsLibs.Data.loadData(
         {203},
         {207},
         {424},
-        {572},
+            -- Removed due to inability to get a player's coordinates while they are inside of the garrison
+            -- {572},
         {619},
         {875},
         {876},

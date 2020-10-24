@@ -1,10 +1,16 @@
-lightweight tag f2a0ce75ab7b14b3c56793ac29a2b90664843470 v9.0.1-01
+lightweight tag f323e98eb567e4dc843f693b6dd66488f8a24909 v9.0.1-02
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Tue Oct 13 08:19:58 2020 -0700
+Date:	Thu Oct 22 13:48:19 2020 -0700
 
-commit f2a0ce75ab7b14b3c56793ac29a2b90664843470
+commit f323e98eb567e4dc843f693b6dd66488f8a24909
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Tue Oct 13 08:19:58 2020 -0700
+Date:   Thu Oct 22 13:48:19 2020 -0700
 
-    9.0.1 prepatch version compatibility bump
+    Bump version
+
+commit 9b69a34303820116045ea7c554f25847f47acaa6
+Author: Dave Hendler <sollaires@gmail.com>
+Date:   Thu Oct 22 13:47:56 2020 -0700
+
+    Add soulbind ID to soulbind= string for deterministic lookups across localizations
 

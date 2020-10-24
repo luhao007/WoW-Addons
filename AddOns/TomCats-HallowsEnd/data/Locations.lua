@@ -208,8 +208,9 @@ select(2, ...).TomCatsLibs.Data.loadData(
         { 204, 32050, 2, 371, { 0.285, 0.133 }, nil, nil },
         { 205, 32051, 3, 379, { 0.623, 0.29 }, nil, nil },
         { 206, 32052, 1, 393, { 0.373, 0.671 }, nil, nil },
-        { 207, 39657, 3, 582, { 0.44, 0.52 }, nil, nil },
-        { 208, 39657, 3, 590, { 0.475, 0.378 }, nil, nil },
+-- Removed due to inability to get a player's coordinates while they are inside of the garrison
+--        { 207, 39657, 3, 582, { 0.44, 0.52 }, nil, nil },
+--        { 208, 39657, 3, 590, { 0.475, 0.378 }, nil, nil },
         { 209, 43055, 3, 627, { 0.481, 0.413 }, nil, nil },
         { 210, 43056, 1, 627, { 0.418, 0.642 }, nil, nil },
         { 211, 43057, 2, 627, { 0.668, 0.3 }, nil, nil },

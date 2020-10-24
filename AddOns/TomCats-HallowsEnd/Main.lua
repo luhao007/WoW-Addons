@@ -1,7 +1,7 @@
 if (TomCats and TomCats.ReconcileVersionInfo) then
 	TomCats.ReconcileVersionInfo({
-		messageID = 1603213973,
-		encoded = "KMDRoE4QOIWtFC5STQk4bT7UUywmcEcYRmltBrHYA+4V8WrW2dcXGV+PGpUBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGBAwAAQYNAQASDgEAGg8BAAY="
+		messageID = 1603490255,
+		encoded = "AIQfVaDIdCeTU3/NifYiLkcWTWchGGvYHtiQriqthM2+gnpQaSEuOkxfk1HPAQEGAQIBBAMDAQQGBAEECAUBBAYGAQQGBwEEFwgBAggJAgYACgEAAwsBBgYMAAEGDQEAEg4BABoPAQAG"
 	})
 end
 local _, addon = ...
@@ -10,7 +10,6 @@ local tcl = addon.TomCatsLibs
 local tour
 local groupID
 local side = 1
-local currentPosition
 local arrow
 -- todo: Activate only during hallow's end
 tcl.Events.RegisterEvent("PLAYER_LOGIN", addon)
@@ -40,13 +39,8 @@ local function isLocationActive(location)
     end
     return true
 end
-local function calculateDistance(location)
-    local distance = CreateVector2D(currentPosition:GetXY())
-    distance:Subtract(location["Group Position"])
-    return distance:GetLength()
-end
 local function updateTour()
-    currentPosition = C_Map.GetPlayerMapPosition(groupID, "player")
+    local currentPosition = C_Map.GetPlayerMapPosition(groupID, "player")
     local updatedTour = {}
     for i = 1, #tour do
         if (isLocationActive(tour[i])) then
@@ -57,7 +51,14 @@ local function updateTour()
     local nearestLocationDistance
     local nearestLocationIndex
     for i = 1, #updatedTour do
-        local distance = calculateDistance(updatedTour[i])
+        local distance
+        if (currentPosition) then
+            local d = CreateVector2D(updatedTour[i]["Group Position"]:GetXY())
+            d:Subtract(currentPosition)
+            distance = d:GetLength()
+        else
+            distance = 0
+        end
         if (not nearestLocationDistance or (distance < nearestLocationDistance)) then
             nearestLocationDistance = distance
             nearestLocationIndex = i
@@ -136,7 +137,8 @@ local function checkTreats()
     return false
 end
 local function questComplete(event, ...)
-    if (QuestInfoRewardsFrameQuestInfoItem1IconTexture and QuestInfoRewardsFrameQuestInfoItem1IconTexture:GetTexture() == 132940) then
+    local _, texture = GetQuestItemInfo("reward", 1)
+    if (texture and texture == 132940) then
         if (not checkTreats()) then
             GetQuestReward(0)
         end
@@ -185,7 +187,7 @@ if (TomCats and TomCats.Register) then
     TomCats:Register(
         {
             name = "Hallow's End",
-            version = "01.06.04",
+            version = "01.06.06",
         }
     )
 end
