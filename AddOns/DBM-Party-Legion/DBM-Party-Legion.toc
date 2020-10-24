@@ -1,5 +1,5 @@
 ## Interface: 90100
-## Version: r20
+## Version: r21
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyLegion_AllSavedVars

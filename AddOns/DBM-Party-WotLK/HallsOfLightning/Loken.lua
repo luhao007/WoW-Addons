@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,timewalker"
 
-mod:SetRevision("20200912135206")
+mod:SetRevision("20201013204830")
 mod:SetCreatureID(28923)
 mod:SetEncounterID(561, 562, 1986)
 
@@ -15,7 +15,7 @@ mod:RegisterEventsInCombat(
 
 local warningNova	= mod:NewSpellAnnounce(52960, 3)
 
-local timerNovaCD	= mod:NewCDTimer(30, 52960, nil, nil, nil, 2)
+--local timerNovaCD	= mod:NewCDTimer(30, 52960, nil, nil, nil, 2)
 local timerAchieve	= mod:NewAchievementTimer(120, 1867)
 
 function mod:OnCombatStart(delay)
@@ -27,6 +27,6 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(52960, 59835) then
 		warningNova:Show()
-		timerNovaCD:Start()
+--		timerNovaCD:Start()
 	end
 end

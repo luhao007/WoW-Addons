@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,timewalker"
 
-mod:SetRevision("20200912135206")
+mod:SetRevision("20201013220821")
 mod:SetCreatureID(40825, 40788)
 mod:SetMainBossID(40788)-- 40788 = Mindbender Ghur'sha
 mod:SetEncounterID(1046)
@@ -96,7 +96,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 84931 then
 		self:ScheduleMethod(0.1, "EarthShardsTarget")
 	elseif args.spellId == 76307 then
-		specWarnAbsorbMagic:Show()
+		specWarnAbsorbMagic:Show(args.sourceName)
 		specWarnAbsorbMagic:Play("stopattack")
 	end
 end
