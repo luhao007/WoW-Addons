@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: MysticalOS
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1

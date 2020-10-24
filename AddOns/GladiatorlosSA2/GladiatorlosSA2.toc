@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: Abatorlos(of Spinebreaker), DuskAshes, superk521, zuhligan, Grit (Legion Update), Mini_Dragon, LordKuper
 ## Version: SLB 2
 ## SavedVariables: GladiatorlosSADB

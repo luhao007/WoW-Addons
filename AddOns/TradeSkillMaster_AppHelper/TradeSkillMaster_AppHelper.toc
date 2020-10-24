@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: TSM Team
 ## Version: v4.0.9
 ## SavedVariables: TradeSkillMaster_AppHelperDB

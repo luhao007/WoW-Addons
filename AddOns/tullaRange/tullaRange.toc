@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: Tuller
 ## Version: 9.0.1
 ## SavedVariables: TULLARANGE_COLORS

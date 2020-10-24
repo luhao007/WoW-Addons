@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: arith, dubcat
 ## Version: v1.48.01
 ## RequiredDeps: Atlas

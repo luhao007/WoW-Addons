@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: MysticalOS
 ## Version: r210
 ## RequiredDeps: DBM-Core

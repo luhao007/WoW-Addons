@@ -12,7 +12,14 @@ from utils import process_file, rm_tree
 logger = logging.getLogger('manager')
 
 CLASSIC_VER = '11305'
-RETAIL_VER = '90100'
+RETAIL_VER = '90001'
+NOT_WORKING = ['ItemRack', 'GarrisonMissionManager'
+               'MasterPlan', 'HandyNotes_DraenorTreasures',
+               'HandyNotes_LegionRaresTreasures',
+               'HandyNotes_HallowsEnd', 'UnitFramesPlus',
+               'ButtonForge', 'NPCScan', 'HPetBattleAny',
+               'Overachiever', 'Details_TimeLine',
+               'AltasQuest', 'AtlasLoot', 'RelicInspector']
 
 
 def classic_only(func):
@@ -188,8 +195,12 @@ class Manager(object):
             def process(lines):
                 toc = TOC(lines)
 
-                toc.tags['Interface'] = (CLASSIC_VER
-                                         if self.is_classic else RETAIL_VER)
+                if self.is_classic:
+                    toc.tags['Interface'] = CLASSIC_VER
+                elif addon in NOT_WORKING:
+                    toc.tags['Interface'] = '80300'
+                else:
+                    toc.tags['Interface'] = RETAIL_VER
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
                 ns = {'x': 'https://www.github.com/luhao007'}

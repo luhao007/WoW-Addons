@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Version: Plater-v9.0.1.311-Retail
 ## SavedVariables: PlaterDB
 ## SavedVariablesPerCharacter: PlaterDBChr

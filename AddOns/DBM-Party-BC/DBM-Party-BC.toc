@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: Arta/MysticalOS
 ## Version: r21
 ## RequiredDeps: DBM-Core

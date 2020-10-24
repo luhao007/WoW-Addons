@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Version: 0.5.0
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3

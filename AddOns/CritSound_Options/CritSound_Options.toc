@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: Isler
 ## Version: 2.5.4
 ## RequiredDeps: CritSound

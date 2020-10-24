@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 80300
 ## RequiredDeps: Details
 ## OptionalDeps: Ace3
 ## SavedVariablesPerCharacter: DetailsTimeLineDB

@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: Tuller & Jaliborc (JoÃ£o Cardoso)
 ## RequiredDeps: Bagnon
 ## LoadOnDemand: 1

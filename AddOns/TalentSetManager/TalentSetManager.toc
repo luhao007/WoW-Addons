@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: Vildiesel EU - Well of Eternity
 ## LoadOnDemand: 0
 ## SavedVariables: TalentSetManager_Options, TalentSetManager_CharacterSaves

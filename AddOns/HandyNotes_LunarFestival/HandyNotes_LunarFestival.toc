@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: Ethan Centaurai
 ## Version: v1.6.2
 ## RequiredDeps: HandyNotes

@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: The WeakAuras Team
 ## Dependencies: WeakAuras
 ## LoadOnDemand: 1

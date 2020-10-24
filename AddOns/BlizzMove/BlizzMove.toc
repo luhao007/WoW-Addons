@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90001
 ## Author: the-rebel-Mermaid - github.com/the-rebel-Mermaid/BlizzMove/
 ## Version: v3.0.1
 ## OptionalDeps: Ace3
