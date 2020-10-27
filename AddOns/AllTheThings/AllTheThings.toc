@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: Crieve-Sargeras
-## Version: 2.1.1a
+## Version: 2.1.2
 ## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionConfig, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 

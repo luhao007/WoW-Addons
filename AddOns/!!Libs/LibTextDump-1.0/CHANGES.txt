@@ -1,24 +1,10 @@
-tag c3322c2cbbd4bd1d13fda1e6f10159a03d8d20eb 8.2.5.1
-Author:	Gethe <gethe88@gmail.com>
-Date:	Thu Jan 2 11:00:51 2020 -0600
+lightweight tag 5bbf292ce23ceb2b1f65c079a7cfc1d2988c79cf 9.0.1.1
+Author:	James D. Callahan III <darkenelf@gmail.com>
+Date:	Sun Oct 25 17:31:48 2020 -0500
 
-8.2.5.1
+commit 5bbf292ce23ceb2b1f65c079a7cfc1d2988c79cf
+Author: James D. Callahan III <darkenelf@gmail.com>
+Date:   Sun Oct 25 17:31:48 2020 -0500
 
-commit 5f5e83b9a6e58da41eb6bfa96917947f6e59bcb4
-Author: Gethe <gethe88@gmail.com>
-Date:   Thu Jan 2 10:59:39 2020 -0600
-
-    Bump minor
-
-commit a34a5255df592c55f97a3cff480ae08a0583be47
-Author: Gethe <gethe88@gmail.com>
-Date:   Sat Jul 13 20:00:53 2019 -0500
-
-    Update TOC
-
-commit e6187961ec776a682b72e1a015d55ca956a6f8c8
-Author: Gethe <gethe88@gmail.com>
-Date:   Sat Jul 13 20:00:16 2019 -0500
-
-    Don't use Show/HideUIPanel
+    Update ToC Interface for the WoW 9.0.1 version.
 

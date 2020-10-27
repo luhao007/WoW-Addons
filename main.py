@@ -6,14 +6,16 @@ from instawow_manager import InstawowManager
 from manage import Manager
 
 
-class Context(object):
+class Context:
 
-    def __init__(self):
+    def __init__(self, ctx, verbose: bool):
         """Basic content for CLI."""
+        ctx.params['profile'] = '__default__'
+        ctx.params['log_level'] = verbose
         self.game_flavour = 'classic' if self.is_classic else 'retail'
-        self.manager = InstawowManager(self.game_flavour, False)
-        self.manager_lib = InstawowManager(self.game_flavour, True)
-        self.manager_lib_classic = InstawowManager('classic', True, True)
+        self.manager = InstawowManager(ctx, self.game_flavour, False)
+        self.manager_lib = InstawowManager(ctx, self.game_flavour, True)
+        self.manager_lib_classic = InstawowManager(ctx, 'classic', True, True)
 
     @property
     def is_classic(self):
@@ -34,7 +36,7 @@ def main(ctx, verbose):
     """luhao007's Addon Manager."""
     if verbose:
         logging.basicConfig(level=logging.INFO)
-    ctx.obj = Context()
+    ctx.obj = Context(ctx, verbose=verbose)
 
 
 @main.command()

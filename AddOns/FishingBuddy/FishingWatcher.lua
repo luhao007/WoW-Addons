@@ -738,6 +738,7 @@ end
 
 local function UpdateZoneLine()
     if ( GSB("WatchCurrentZone") ) then
+        local skill, mods, skillmax = FL:GetCurrentSkill();
         local zoneskill, _ = FL:GetFishingSkillLine(false, true);
         return zoneskill
     end

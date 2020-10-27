@@ -35,7 +35,6 @@ local continents = {
 
 -- upvalues
 local GameTooltip = _G.GameTooltip
-local GetQuestsCompleted = _G.C_QuestLog.GetAllCompletedQuestIDs
 local IsControlKeyDown = _G.IsControlKeyDown
 local gsub = _G.string.gsub
 local LibStub = _G.LibStub
@@ -206,7 +205,11 @@ function AzerothsTopTunes:OnEnable()
 
 	HandyNotes:RegisterPluginDB("AzerothsTopTunes", self, options)
 
-	completedQuests = GetQuestsCompleted(completedQuests)
+	local tmpPairs = C_QuestLog.GetAllCompletedQuestIDs()
+	for _, id in ipairs(tmpPairs) do 
+		completedQuests[id] = true
+	end
+
 	db = LibStub("AceDB-3.0"):New("HandyNotes_AzerothsTopTunesDB", defaults, "Default").profile
 
 	AzerothsTopTunes:Refresh()

@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Ravendwyr
-## Version: v1.5
+## Version: v1.5.1
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_HallowsEndDB
 

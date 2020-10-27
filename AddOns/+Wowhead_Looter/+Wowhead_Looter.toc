@@ -1,5 +1,5 @@
 ## Interface: 90001
-## Author: mystadio
+## Author: Wowhead
 ## Version: 90001
 ## LoadOnDemand: 0
 ## SavedVariables: wlTime, wlRegionBuildings, wlVersion, wlUploaded, wlStats, wlExportData, wlRealmList, wlAuction, wlEvent, wlItemSuffix, wlObject, wlProfile, wlUnit, wlItemDurability, wlGarrisonMissions, wlBattlePetStats, wlItemBonuses, wlDailies, wlWorldQuests, wlContributionQuests
@@ -7,7 +7,7 @@
 ## DefaultState: enabled
 
 ## Title: Wowhead Looter
-## Notes: Gathers data for Wowhead while you play. Version 80300.
+## Notes: Gathers data for Wowhead while you play.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF辅助|r|cFFFFE00A>|r |cFFFFFFFFWowhead数据采集|r |cFFFFE00A+Wowhead_Looter|r
 ## Notes-zhCN: 收集各种游戏内数据并上传Wowhead
 

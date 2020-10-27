@@ -1,4 +1,4 @@
-class TOC(object):
+class TOC:
 
     def __init__(self, lines):
         """TOC Handler.

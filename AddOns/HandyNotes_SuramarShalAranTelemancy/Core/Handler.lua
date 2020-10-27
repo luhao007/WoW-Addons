@@ -1,4 +1,4 @@
--- $Id: Handler.lua 70 2020-10-18 08:27:29Z arith $
+-- $Id: Handler.lua 73 2020-10-25 15:24:33Z arith $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -9,7 +9,8 @@ local string = _G.string
 local format, gsub = string.format, string.gsub
 local next, wipe, pairs, select, type = next, wipe, pairs, select, type
 local GameTooltip, GetSpellInfo, CreateFrame, UnitClass = _G.GameTooltip, _G.GetSpellInfo, _G.CreateFrame, _G.UnitClass
-local UIDropDownMenu_CreateInfo, CloseDropDownMenus, UIDropDownMenu_AddButton, ToggleDropDownMenu = _G.UIDropDownMenu_CreateInfo, _G.CloseDropDownMenus, _G.UIDropDownMenu_AddButton, _G.ToggleDropDownMenu
+--local UIDropDownMenu_CreateInfo, CloseDropDownMenus, UIDropDownMenu_AddButton, ToggleDropDownMenu = _G.UIDropDownMenu_CreateInfo, _G.CloseDropDownMenus, _G.UIDropDownMenu_AddButton, _G.ToggleDropDownMenu
+local UIDropDownMenu_CreateInfo, CloseDropDownMenus, UIDropDownMenu_AddButton, ToggleDropDownMenu = L_UIDropDownMenu_CreateInfo, L_CloseDropDownMenus, L_UIDropDownMenu_AddButton, L_ToggleDropDownMenu
 
 local WorldMapTooltip = GameTooltip
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
@@ -56,13 +57,13 @@ local get_point_info = function(point)
 			if IsQuestFlaggedCompleted(point.quest) then
 				icon = work_out_texture(point)
 			else
-				local texture, _, _, left, right, top, bottom = GetAtlasInfo("MagePortalHorde")
+				local info = C_Texture.GetAtlasInfo("MagePortalHorde")
 				icon = {
-					icon = texture,
-					tCoordLeft = left,
-					tCoordRight = right,
-					tCoordTop = top,
-					tCoordBottom = bottom,
+					icon = info.file,
+					tCoordLeft = info.leftTexCoord,
+					tCoordRight = info.rightTexCoord,
+					tCoordTop = info.topTexCoord,
+					tCoordBottom = info.bottomTexCoord,
 				}
 			end
 		elseif (point.type and point.type == "door") then

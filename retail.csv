@@ -3,6 +3,7 @@ curse:all-the-things,default
 curse:achievementsreminder,default
 curse:acp,default
 curse:advancedinterfaceoptions,default
+curse:angry-keystones,default
 curse:atlas,default
 curse:atlas_arena,default
 curse:atlas-battle-for-azeroth,default
@@ -20,9 +21,7 @@ curse:atlas-transportation,default
 curse:atlas-worldofdraenor,default
 curse:atlas-worldevents,default
 curse:atlas-wrathofthelichking,default
-curse:atlasloot-enhanced,default
 curse:atlasmajorcities-enhanced,default
-curse:atlas-quest-fan-update,default
 curse:bagnon,default
 curse:battle_pet_breedid,default
 curse:blizzmove,default
@@ -104,7 +103,6 @@ curse:raidachievement_oldmodules,default
 curse:raidachievement_wod,default
 curse:range-display,default
 curse:rarity,default
-curse:relicinspector,default
 curse:rematch,default
 curse:scrap,default
 curse:simulationcraft,default
@@ -129,7 +127,6 @@ curse:vuhdo,default
 curse:wim-3,default
 curse:weakauras-2,default
 curse:wholly,default
-curse:world-quest-tracker,default
 curse:world-quests-list,default
 curse:tullarange,default
 wowi:11361-overachiever,default

@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: arith
-## Version: v1.25
+## Version: v1.28
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: LibBabble-SubZone-3.0
 ## SavedVariables: HandyNotes_SuramarShalAranTelemancyDB
@@ -11,7 +11,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0苏拉玛传送点|r
 ## Notes-zhCN: 显示在沙尔艾兰与苏拉玛尔之间的各个传送点位置
 
-## X-Date: 2020-10-18T8:27:29Z
+## X-Date: 2020-10-26T15:28:47Z
 ## X-License: GPLv2
 ## X-Category: Map
 ## X-Part-Of: HandyNotes
