@@ -314,7 +314,7 @@ class Manager:
                        'HandyNotes_TimelessIsleChests',
                        'HandyNotes_VisionsOfNZoth',
                        'HandyNotes_WarfrontRares', 'NPCScan', 'Omen',
-                       'RelicInspector', 'SimulatinCraft', 'Titan']
+                       'RelicInspector', 'Simulationcraft', 'Titan']
 
         for addon in addons:
             self.remove_libraries_all(addon)
