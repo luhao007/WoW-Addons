@@ -4,7 +4,10 @@
 ![Python](https://img.shields.io/badge/python-3.9-blue)
 
 Addon Suite for World of Warcraft
-Using [instawow](https://github.com/layday/instawow) ![instawow](https://img.shields.io/pypi/v/instawow) to automatic update addons.
+
+## Dependency
+[instawow](https://github.com/layday/instawow) ![instawow](https://img.shields.io/pypi/v/instawow)
+[click](https://github.com/pallets/click) ![click](https://img.shields.io/pypi/v/click)
 
 ## Usage
 
