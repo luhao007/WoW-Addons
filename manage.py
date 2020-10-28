@@ -61,8 +61,8 @@ class Manager:
             else:
                 pattern = r'\s*<((Script)|(Include))+ file\s*=\s*"{}.*'
 
-            return [l for l in lines
-                    if not any(re.match(pattern.format(lib), l)
+            return [line for line in lines
+                    if not any(re.match(pattern.format(lib), line)
                                for lib in libs)]
 
         process_file(path, f)
@@ -101,20 +101,20 @@ class Manager:
 
         process_file(
             xml_path,
-            lambda lines: [l for l in lines
-                           if not any(lib+'\\' in l for lib in libs)]
+            lambda lines: [line for line in lines
+                           if not any(lib+'\\' in line for lib in libs)]
         )
 
     def change_defaults(self, path, defaults):
         def handle(lines):
             ret = []
-            for l in lines:
+            for line in lines:
                 for d in [defaults] if isinstance(defaults, str) else defaults:
-                    if l.startswith(d.split('= ')[0] + '= '):
+                    if line.startswith(d.split('= ')[0] + '= '):
                         ret.append(d+'\n')
                         break
                 else:
-                    ret.append(l)
+                    ret.append(line)
             return ret
         process_file(path, handle)
 
@@ -139,14 +139,9 @@ class Manager:
             parent_config = self.get_addon_parent_config(addon)
             cat = parent_config.find('x:Category', ns).text
             title = parent_config.find('x:Title', ns).text
-            sub = config.find('x:Title', ns).text
         else:
             cat = config.find('x:Category', ns).text
             title = config.find('x:Title', ns).text
-            if config.find('x:Title-en', ns) is not None:
-                en = config.find('x:Title-en', ns).text
-            else:
-                en = addon
 
         colors = {
             '基础库': 'C41F3B',     # Red - DK
@@ -166,6 +161,7 @@ class Manager:
         parts.append('|cFFFFFFFF{}|r'.format(title))
 
         if config.tag.endswith('SubAddon'):
+            sub = config.find('x:Title', ns).text
             if sub == '设置':
                 color = 'FF0055FF'
             else:
@@ -174,6 +170,10 @@ class Manager:
         elif not (('DBM' in addon and addon != 'DBM-Core') or
                   'Grail-' in addon or
                   addon == '!!Libs'):
+            if config.find('x:Title-en', ns) is not None:
+                en = config.find('x:Title-en', ns).text
+            else:
+                en = addon
             parts.append('|cFFFFE00A{}|r'.format(en))
 
         ext = config.find('x:TitleExtra', ns)
@@ -186,12 +186,12 @@ class Manager:
         for addon in os.listdir('AddOns'):
             config = self.get_addon_config(addon)
             if not config:
-                logger.warn('%s not found!', addon)
+                logger.warning('%s not found!', addon)
                 continue
 
             path = os.path.join('AddOns', addon, '{}.toc'.format(addon))
 
-            def process(lines):
+            def process(config, addon, lines):
                 toc = TOC(lines)
 
                 if self.is_classic:
@@ -217,7 +217,7 @@ class Manager:
 
                 return toc.to_lines()
 
-            process_file(path, process)
+            process_file(path, functools.partial(process, config, addon))
 
     ###########################
     # Handle embedded libraries
@@ -239,8 +239,8 @@ class Manager:
             ret.append(tar)
             end = lines[start:].index('end\n')
 
-            for l in lines[start+1:start+end+1]:
-                ret.append('--{}'.format(l))
+            for line in lines[start+1:start+end+1]:
+                ret.append('--{}'.format(line))
             ret += lines[start+end+1:]
 
             return ret
@@ -322,17 +322,18 @@ class Manager:
     def handle_acp(self):
         def handle(lines):
             ret = []
+            start1 = start2 = 0
             for i, l in enumerate(lines):
                 if 'FontString name="$parentTitle"' in l:
-                    i1 = i
+                    start1 = i
                 elif 'FontString name="$parentStatus"' in l:
-                    i2 = i
+                    start2 = i
 
-            ret = lines[:i1+2]
+            ret = lines[:start1+2]
             ret.append(' '*24 + '<AbsDimension x="270" y="12"/>\n')
-            ret += lines[i1+3:i2+2]
+            ret += lines[start1+3:start2+2]
             ret.append(' '*24 + '<AbsDimension x="90" y="12"/>\n')
-            ret += lines[i2+3:]
+            ret += lines[start2+3:]
             return ret
 
         process_file('Addons/ACP/ACP.xml', handle)
@@ -380,20 +381,20 @@ class Manager:
             rm_tree(Path('AddOns') / addon / 'Libs' / 'LibDataBroker')
             process_file(
                 Path('AddOns') / addon / 'Libs' / 'Load.xml',
-                lambda lines: [l for l in lines if 'LibDataBroker' not in l]
+                lambda lines: [line for line in lines if 'LibDataBroker' not in line]
             )
 
         rm_tree('AddOns/SlideBar/Libs')
         process_file(
             'AddOns/SlideBar/Load.xml',
-            lambda lines: [l for l in lines if 'Libs' not in l]
+            lambda lines: [line for line in lines if 'Libs' not in line]
         )
 
     def handle_bagnon(self):
         rm_tree('AddOns/Bagnon/common/LibDataBroker-1.1')
         process_file(
             'AddOns/Bagnon/AddOns/main/main.xml',
-            lambda lines: [l for l in lines if 'LibDataBroker' not in l]
+            lambda lines: [line for line in lines if 'LibDataBroker' not in line]
         )
 
         self.remove_libraries(
@@ -440,8 +441,8 @@ class Manager:
 
         process_file(
             'AddOns/Decursive/embeds.xml',
-            lambda lines: [l for l in lines
-                           if 'Libs' not in l or 'BugGrabber' in l]
+            lambda lines: [line for line in lines
+                           if 'Libs' not in line or 'BugGrabber' in line]
         )
 
     def handle_details(self):
@@ -614,11 +615,11 @@ class Manager:
     def handle_monkeyspeed(self):
         process_file(
             'AddOns/MonkeySpeed/MonkeySpeedInit.lua',
-            lambda lines: [l.replace(
+            lambda lines: [line.replace(
                               'GetAddOnMetadata("MonkeySpeed", "Title")',
                               '"MonkeySpeed"'
-                           ) if '"Title"' in l else l
-                           for l in lines]
+                           ) if '"Title"' in line else line
+                           for line in lines]
         )
 
     def handle_omnicc(self):
@@ -627,7 +628,7 @@ class Manager:
         for xml_path in ['main/main.xml', 'config/config.xml']:
             process_file(
                 Path('AddOns/OmniCC/') / xml_path,
-                lambda lines: [l for l in lines if 'libs' not in l]
+                lambda lines: [line for line in lines if 'libs' not in line]
             )
 
     @retail_only
@@ -648,10 +649,10 @@ class Manager:
 
         process_file(
             'Addons/Overachiever/Overachiever.lua',
-            lambda lines: [l.replace(
+            lambda lines: [line.replace(
                 'GetAddOnMetadata("Overachiever", "Title")',
                 '"Overarchiever"'
-            ) for l in lines]
+            ) for line in lines]
         )
 
     def handle_plater(self):
@@ -704,20 +705,22 @@ class Manager:
 
         def handle(lines):
             func = 'function QuestieLib:GetAddonVersionInfo()'
-            for i, l in enumerate(lines):
-                if l.startswith(func):
+            start = 0
+            for i, line in enumerate(lines):
+                if line.startswith(func):
+                    start = i
                     break
 
-            ret = lines[:i+1]
+            ret = lines[:start+1]
             ret.append('    return {}, {}, {}\n'.format(major, minor, patch))
             ret.append('end\n')
-            end = lines[i:].index('end\n')
+            end = lines[start:].index('end\n')
 
-            if not lines[i+1].strip().startswith('return'):
-                for l in lines[i+1:i+end+1]:
-                    ret.append('--{}'.format(l))
+            if not lines[start+1].strip().startswith('return'):
+                for line in lines[start+1:start+end+1]:
+                    ret.append('--{}'.format(line))
 
-            ret += lines[i+end+1:]
+            ret += lines[start+end+1:]
             return ret
 
         process_file(root / 'Modules/Libs/QuestieLib.lua', handle)
@@ -779,7 +782,7 @@ class Manager:
         rm_tree('AddOns/ThreatClassic2/Libs')
 
         def f(lines):
-            return [l for l in lines if 'Libs' not in l]
+            return [line for line in lines if 'Libs' not in line]
         path = 'AddOns/ThreatClassic2/ThreatClassic2.xml'
         process_file(path, f)
 
@@ -804,7 +807,7 @@ class Manager:
 
         process_file(
             'AddOns/TradeSkillMaster/TradeSkillMaster.toc',
-            lambda lines: [l for l in lines if 'EmbeddedLibs' not in l]
+            lambda lines: [line for line in lines if 'EmbeddedLibs' not in line]
         )
 
     @classic_only
