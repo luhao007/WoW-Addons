@@ -375,13 +375,14 @@ class Manager:
 
     @classic_only
     def handle_auctioneer(self):
-        Addons = ['Auc-Advanced', 'BeanCounter', 'Enchantrix', 'Informant']
+        addons = ['Auc-Advanced', 'BeanCounter', 'Enchantrix', 'Informant']
 
-        for addon in Addons:
+        for addon in addons:
             rm_tree(Path('AddOns') / addon / 'Libs' / 'LibDataBroker')
             process_file(
                 Path('AddOns') / addon / 'Libs' / 'Load.xml',
-                lambda lines: [line for line in lines if 'LibDataBroker' not in line]
+                lambda lines: [line for line in lines
+                               if 'LibDataBroker' not in line]
             )
 
         rm_tree('AddOns/SlideBar/Libs')
@@ -394,7 +395,8 @@ class Manager:
         rm_tree('AddOns/Bagnon/common/LibDataBroker-1.1')
         process_file(
             'AddOns/Bagnon/AddOns/main/main.xml',
-            lambda lines: [line for line in lines if 'LibDataBroker' not in line]
+            lambda lines: [line for line in lines
+                           if 'LibDataBroker' not in line]
         )
 
         self.remove_libraries(
@@ -807,7 +809,8 @@ class Manager:
 
         process_file(
             'AddOns/TradeSkillMaster/TradeSkillMaster.toc',
-            lambda lines: [line for line in lines if 'EmbeddedLibs' not in line]
+            lambda lines: [line for line in lines
+                           if 'EmbeddedLibs' not in line]
         )
 
     @classic_only
