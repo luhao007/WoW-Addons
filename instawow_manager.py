@@ -29,7 +29,7 @@ class InstawowManager:
                 game_flavour = 'classic'
             else:
                 game_flavour = 'retail'
-        config = Config(addon_dir=addon_dir, game_flavour=game_flavour, profile=self.profile)
+        config = Config(addon_dir=addon_dir, game_flavour=game_flavour)
         config.write()
 
         self.manager = instawow.cli.ManagerWrapper(ctx).m
@@ -60,12 +60,12 @@ class InstawowManager:
     def install(self, addons):
         addons = instawow.cli.parse_into_defn(self.manager, addons)
         results = self.manager.run(self.manager.install(addons, replace=False))
-        print(instawow.cli.Report(results))
+        print(instawow.cli.Report(results.items()))
 
     def remove(self, addons):
         addons = instawow.cli.parse_into_defn(self.manager, addons)
         results = self.manager.run(self.manager.remove(addons))
-        print(instawow.cli.Report(results))
+        print(instawow.cli.Report(results.items()))
 
     def show(self):
         for addon in self.get_addons():

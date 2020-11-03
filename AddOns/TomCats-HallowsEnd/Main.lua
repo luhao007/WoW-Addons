@@ -1,7 +1,7 @@
 if (TomCats and TomCats.ReconcileVersionInfo) then
 	TomCats.ReconcileVersionInfo({
-		messageID = 1603490255,
-		encoded = "AIQfVaDIdCeTU3/NifYiLkcWTWchGGvYHtiQriqthM2+gnpQaSEuOkxfk1HPAQEGAQIBBAMDAQQGBAEECAUBBAYGAQQGBwEEFwgBAggJAgYACgEAAwsBBgYMAAEGDQEAEg4BABoPAQAG"
+		messageID = 1604409820,
+		encoded = "CfkfZ7jj7JjEfPP0M+Hm96NmWd4f3e5zDPL3vYriCJ4jCsjT7bAGkF+hWdwBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGBwwAAQYNAQASDgEAGg8BAAY="
 	})
 end
 local _, addon = ...
@@ -12,7 +12,7 @@ local groupID
 local side = 1
 local arrow
 -- todo: Activate only during hallow's end
-tcl.Events.RegisterEvent("PLAYER_LOGIN", addon)
+-- tcl.Events.RegisterEvent("PLAYER_LOGIN", addon)
 local function announceRoute()
     -- if (tour and #tour > 0) then
     --     print("|cffff0000[|cfff48cbaTomCat|cffff0000] yells: Next stop on the tour is |cffffffff" .. C_Map.GetMapInfo(tour[1]["Map ID"]).name .. "|cffff0000. All aboard!")
@@ -187,7 +187,7 @@ if (TomCats and TomCats.Register) then
     TomCats:Register(
         {
             name = "Hallow's End",
-            version = "01.06.06",
+            version = "01.06.07",
         }
     )
 end
