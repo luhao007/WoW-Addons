@@ -24,7 +24,8 @@ L["Interval"] = "Intervallo"
 L["LEFT"] = "Sinistra"
 L["NPCs"] = "PNG"
 L["Play alert sounds when sound is muted."] = "Riproduci il suoni di avviso quando i suoni sono mutati."
-L["Predefined NPCs cannot be added to or removed from the user-defined NPC list."] = "I PNG predefiniti non possono essere aggiunti o rimossi dalla lista dei PNG personalizzati."
+--[[Translation missing --]]
+--[[ L["Predefined NPCs cannot be added to the user-defined NPC list."] = "Predefined NPCs cannot be added to the user-defined NPC list."--]] 
 L["Removed %1$s (%2$d) from the user-defined NPC list."] = "Rimosso %1$s (%2$d) dalla lista dei PNG personalizzati."
 L["Reset Position"] = "Reimposta Posizione"
 L["RIGHT"] = "Destra"

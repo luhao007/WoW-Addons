@@ -12,15 +12,27 @@ local table = _G.table
 -- AddOn namespace
 -- ----------------------------------------------------------------------------
 local AddOnFolderName, private = ...
+local Data = private.Data
+local Enum = private.Enum
+local NPCs = Data.NPCs
 
 local LibStub = _G.LibStub
-
-local Data = private.Data
-local NPCs = Data.NPCs
 
 -- ----------------------------------------------------------------------------
 -- Constants
 -- ----------------------------------------------------------------------------
+local NPCClassification = {
+	Elite = "elite",
+	Minus = "minus",
+	Normal = "normal",
+	Rare = "rare",
+	RareElite = "rareelite",
+	Trivial = "trivial",
+	WorldBoss = "worldboss",
+}
+
+Enum.NPCClassification = NPCClassification
+
 local QuestNPCs = {}
 private.QuestNPCs = QuestNPCs
 
@@ -36,6 +48,15 @@ local NPCPrototype = {
 
 		return questID and questID >= 0
 	end,
+	HasActiveWorldQuest = function(self)
+		local questID = self.worldQuestID
+
+		if not questID then
+			return false
+		end
+
+		return _G.C_TaskQuest.IsActive(questID)
+	end,
 	IsAchievementCriteriaComplete = function(self)
 		if not self.achievementID then
 			return true
@@ -46,7 +67,7 @@ local NPCPrototype = {
 	IsQuestComplete = function(self)
 		local questID = self.questID or self.achievementQuestID
 
-		return questID and questID >= 0 and _G.IsQuestFlaggedCompleted(questID)
+		return questID and questID >= 0 and _G.C_QuestLog.IsQuestFlaggedCompleted(questID)
 	end,
 }
 

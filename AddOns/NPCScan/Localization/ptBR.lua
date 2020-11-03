@@ -12,8 +12,7 @@ L["BOTTOMRIGHT"] = "Inferior Direito "
 L["CENTER"] = "Centro"
 L["Completed Achievement Criteria"] = "Critério para conquista concluída"
 L["Completed Quest Objectives"] = "Objetivos de Missões Concluídas"
---[[Translation missing --]]
---[[ L["Dead NPCs"] = "Dead NPCs"--]] 
+L["Dead NPCs"] = "PNJ Morto"
 L["Detection"] = "Detecção"
 L["Drag to set the spawn point for targeting buttons."] = "Arraste para definir o ponto de nascimento para os botões alvo."
 L["Duration"] = "Duração"
@@ -25,7 +24,8 @@ L["Interval"] = "Intervalo "
 L["LEFT"] = "Esquerda"
 L["NPCs"] = "NPCs "
 L["Play alert sounds when sound is muted."] = "Tocar sons de alerta quando o som estiver mudo."
-L["Predefined NPCs cannot be added to or removed from the user-defined NPC list."] = "NPCs predefinidos não podem serem adicionados ou removidos da lista definida pelo usuário."
+--[[Translation missing --]]
+--[[ L["Predefined NPCs cannot be added to the user-defined NPC list."] = "Predefined NPCs cannot be added to the user-defined NPC list."--]] 
 L["Removed %1$s (%2$d) from the user-defined NPC list."] = "%1$s (%2$d) removido da lista de NPCs definida pelo usuário. "
 L["Reset Position"] = "Redefinir Posição "
 L["RIGHT"] = "Direita "

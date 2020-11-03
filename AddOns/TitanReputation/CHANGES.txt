@@ -1,3 +1,15 @@
+commit e29bd8a343ffdd72c8df0d6eafbc522d2c3479b9
+Author: Kernighan <kernighan@gmail.com>
+Date:   Fri Oct 30 18:10:04 2020 +0000
+
+    Update changelog
+
+commit 474800ac4d95b338682ebaad7622d5957a986317
+Author: Kernighan <kernighan@gmail.com>
+Date:   Fri Oct 30 18:08:31 2020 +0000
+
+    Update for shadowlands interface
+
 commit 710795161a34813fafdde53545f6da6deaeaf759
 Author: jpotter <jpotter@liquidweb.com>
 Date:   Sun Aug 26 14:25:54 2018 -0400

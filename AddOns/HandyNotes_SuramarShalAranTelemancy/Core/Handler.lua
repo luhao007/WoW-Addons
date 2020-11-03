@@ -1,4 +1,4 @@
--- $Id: Handler.lua 73 2020-10-25 15:24:33Z arith $
+-- $Id: Handler.lua 79 2020-10-27 15:27:30Z arith $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -36,6 +36,8 @@ addon.pluginName 	= private.pluginName
 
 addon.Name = FOLDER_NAME
 _G.HandyNotes_SuramarShalAranTelemancy = addon
+
+local profile
 
 -- //////////////////////////////////////////////////////////////////////////
 local function work_out_texture(point)

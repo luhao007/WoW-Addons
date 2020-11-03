@@ -24,7 +24,8 @@ L["Interval"] = "간격"
 L["LEFT"] = "좌측"
 L["NPCs"] = "NPC"
 L["Play alert sounds when sound is muted."] = "음소거 상태일때도 경보 소리를 재생합니다."
-L["Predefined NPCs cannot be added to or removed from the user-defined NPC list."] = "사전에 정의된 NPC는 사용자 정의 NPC 목록에 추가나 삭제할 수 없습니다."
+--[[Translation missing --]]
+--[[ L["Predefined NPCs cannot be added to the user-defined NPC list."] = "Predefined NPCs cannot be added to the user-defined NPC list."--]] 
 L["Removed %1$s (%2$d) from the user-defined NPC list."] = "%1$s (%2$d)|1이;가; 사용자 정의 NPC 목록에서 삭제됐습니다."
 L["Reset Position"] = "위치 초기화"
 L["RIGHT"] = "우측"

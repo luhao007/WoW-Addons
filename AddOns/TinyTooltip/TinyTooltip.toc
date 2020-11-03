@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: M
-## Version: 9.0.2
+## Version: 9.0.3
 ## SavedVariables: BigTipDB
 ## SavedVariablesPerCharacter: TinyTooltipCharacterDB
 
@@ -25,5 +25,6 @@ LinkID.lua
 Mount.lua
 SkinFrames.lua
 
+libs\Template.xml
 locales\locales.xml
 Options.lua

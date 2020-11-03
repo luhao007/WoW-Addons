@@ -295,6 +295,7 @@ VUHDO_I18N_BOUQUET_NEW_ITEM_NAME = "-- введите сюда (де)баф --";
 
 VUHDO_I18N_DEF_BOUQUET_TANK_COOLDOWNS = "Откаты танка";
 VUHDO_I18N_DEF_BOUQUET_PW_S_WEAKENED_SOUL = "СС:Щ и Ослабленная душа";
+VUHDO_I18N_DEF_BOUQUET_MONK_STAGGER = "Монах Пошатывание";
 VUHDO_I18N_DEF_BOUQUET_BORDER_MULTI_AGGRO = "Границы: Комплексная + угроза";
 VUHDO_I18N_DEF_BOUQUET_BORDER_MULTI = "Границы: Комплексная";
 VUHDO_I18N_DEF_BOUQUET_BORDER_SIMPLE = "Границы: Простая";

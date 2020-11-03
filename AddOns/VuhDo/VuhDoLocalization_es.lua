@@ -1,25 +1,25 @@
 if (GetLocale() ~= "esES") then
 	return;
 end
--- á = \195\161
--- é = \195\169
--- í = \195\173
--- ó = \195\179
--- ú = \195\186
--- ñ = \195\177
--- ê = \195\170
--- ï = \195\175
--- ô = \195\180
--- ù = \195\185
--- Œ = \197\146
--- œ = \197\147
+-- Ã¡ = \195\161
+-- Ã© = \195\169
+-- Ã­ = \195\173
+-- Ã³ = \195\179
+-- Ãº = \195\186
+-- Ã± = \195\177
+-- Ã¨ = \195\170
+-- Ã¯ = \195\175
+-- Ã´ = \195\180
+-- Ã¹ = \195\185
+-- Å’ = \197\146
+-- Å“ = \197\147
 -- @EXACT = true: Translation has to be the exact(!) match in the clients language,
 --                beacause it carries technical semantics
 -- @EXACT = false: Translation can be done freely, because text is only descriptive
 -- Class Names
 -- @EXACT = false
 VUHDO_I18N_WARRIORS="Guerreros"
-VUHDO_I18N_ROGUES = "Pícaros";
+VUHDO_I18N_ROGUES = "P\195\173caros";
 VUHDO_I18N_HUNTERS = "Cazadores";
 VUHDO_I18N_PALADINS = "Paladines";
 VUHDO_I18N_MAGES = "Magos";
@@ -256,6 +256,7 @@ VUHDO_I18N_BOUQUET_STATUS_THREAT = "Statusbar: Threat %";
 VUHDO_I18N_BOUQUET_NEW_ITEM_NAME = "-- enter (de)buff here --";
 VUHDO_I18N_DEF_BOUQUET_TANK_COOLDOWNS = "Tank Cooldowns";
 VUHDO_I18N_DEF_BOUQUET_PW_S_WEAKENED_SOUL = "PW:S & Weakened Soul";
+VUHDO_I18N_DEF_BOUQUET_MONK_STAGGER = "Monje Aplazar";
 VUHDO_I18N_DEF_BOUQUET_BORDER_MULTI_AGGRO = "Border: Multi + Aggro";
 VUHDO_I18N_DEF_BOUQUET_BORDER_MULTI = "Border: Multi";
 VUHDO_I18N_DEF_BOUQUET_BORDER_SIMPLE = "Border: Simple";

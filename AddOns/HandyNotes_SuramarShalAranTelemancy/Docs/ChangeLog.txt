@@ -1,7 +1,11 @@
-$Id: ChangeLog.txt 77 2020-10-26 15:28:47Z arith $
+$Id: ChangeLog.txt 79 2020-10-27 15:27:30Z arith $
 
 Revision History:
 =================
+
+* v1.29 (Oct. 27, 2020)
+-----------------------
+- Fixed issue of missing profile decleration
 
 * v1.28 (Oct. 26, 2020)
 -----------------------

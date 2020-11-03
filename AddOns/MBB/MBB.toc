@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: karlsnyder, vallantv
-## Version: 4.0.1
+## Version: 4.0.3
 ## SavedVariablesPerCharacter: MBB_Exclude, MBB_Options
 
 ## Title: MinimapButtonBag

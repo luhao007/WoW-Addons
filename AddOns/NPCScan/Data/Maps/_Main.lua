@@ -9,6 +9,7 @@ local Enum = private.Enum
 -- Constants
 -- ----------------------------------------------------------------------------
 local MapID = {
+	Cosmic = 946,
 	AbyssalDepths = 204,
 	AhnQirajTheFallenKingdom = 327,
 	AntoranWastes = 885,
@@ -16,6 +17,7 @@ local MapID = {
 	Argus = 905,
 	Ashenvale = 63,
 	Ashran = 588,
+	Azeroth = 947,
 	Azshara = 76,
 	Azsuna = 630,
 	AzuremystIsle = 97,
@@ -89,6 +91,7 @@ local MapID = {
 	Mulgore = 7,
 	NagrandDraenor = 550,
 	NagrandOutland = 107,
+	Nazjatar = 1355,
 	Nazmir = 863,
 	Netherstorm = 109,
 	NewTinkertown = 469,
@@ -166,23 +169,26 @@ local MapID = {
 Enum.MapID = MapID
 
 local ContinentID = {
-	Cosmic = -1,
-	Kalimdor = 1,
-	EasternKingdoms = 2,
-	Outland = 3,
-	Northrend = 4,
-	TheMaelstrom = 5,
-	Pandaria = 6,
-	Draenor = 7,
-	BrokenIsles = 8,
-	Argus = 9,
-	Zandalar = 10,
-	KulTiras = 11,
+	Cosmic = 1,
+	Azeroth = 2,
+	Kalimdor = 3,
+	EasternKingdoms = 4,
+	Outland = 5,
+	Northrend = 6,
+	TheMaelstrom = 7,
+	Pandaria = 8,
+	Draenor = 9,
+	BrokenIsles = 10,
+	Argus = 11,
+	Zandalar = 12,
+	KulTiras = 13,
 }
 
 Enum.ContinentID = ContinentID
 
 local ContinentMapID = {
+	[ContinentID.Cosmic] = MapID.Cosmic,
+	[ContinentID.Azeroth] = MapID.Azeroth,
 	[ContinentID.Kalimdor] = MapID.Kalimdor,
 	[ContinentID.EasternKingdoms] = MapID.EasternKingdoms,
 	[ContinentID.Outland] = MapID.Outland,

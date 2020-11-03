@@ -36,7 +36,7 @@ L["NPCs"] = "PNJ"
 --[[Translation missing --]]
 --[[ L["Play alert sounds when sound is muted."] = "Play alert sounds when sound is muted."--]] 
 --[[Translation missing --]]
---[[ L["Predefined NPCs cannot be added to or removed from the user-defined NPC list."] = "Predefined NPCs cannot be added to or removed from the user-defined NPC list."--]] 
+--[[ L["Predefined NPCs cannot be added to the user-defined NPC list."] = "Predefined NPCs cannot be added to the user-defined NPC list."--]] 
 --[[Translation missing --]]
 --[[ L["Removed %1$s (%2$d) from the user-defined NPC list."] = "Removed %1$s (%2$d) from the user-defined NPC list."--]] 
 --[[Translation missing --]]

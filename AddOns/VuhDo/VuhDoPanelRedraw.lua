@@ -177,9 +177,11 @@ local function VUHDO_initPlayerTargetBorder(aButton, aBorderFrame, anIsNoIndicat
 	end
 	
 	aBorderFrame.backdropInfo = tBackdrop;
+	aBorderFrame:ApplyBackdrop();
+
 	aBorderFrame.backdropBorderColor = CreateColor(0, 0, 0);
 	aBorderFrame.backdropBorderColorAlpha = 1;
-	aBorderFrame:ApplyBackdrop();
+	aBorderFrame:SetBackdropBorderColor(0, 0, 0, 1);
 
 	aBorderFrame:SetShown(anIsNoIndicator);
 end
@@ -212,9 +214,11 @@ local function VUHDO_initClusterBorder(aButton)
 	end
 	
 	tClusterFrame.backdropInfo = tBackdropCluster;
+	tClusterFrame:ApplyBackdrop();
+
 	tClusterFrame.backdropBorderColor = CreateColor(0, 0, 0);
 	tClusterFrame.backdropBorderColorAlpha = 0;
-	tClusterFrame:ApplyBackdrop();
+	tClusterFrame:SetBackdropBorderColor(0, 0, 0, 0);
 end
 
 
@@ -957,9 +961,11 @@ local function VUHDO_initPanel(aPanel, aPanelNum)
 	VUHDO_STD_BACKDROP["insets"]["bottom"] = tPanelColor["BORDER"]["insets"];
 
 	aPanel.backdropInfo = VUHDO_STD_BACKDROP;
+	aPanel:ApplyBackdrop();
+
 	aPanel.backdropBorderColor = CreateColor(VUHDO_backColor(tPanelColor["BORDER"]));
 	aPanel.backdropBorderColorAlpha = tPanelColor["BORDER"]["O"] or 1;
-	aPanel:ApplyBackdrop();
+	aPanel:SetBackdropBorderColor(VUHDO_backColor(tPanelColor["BORDER"]));
 
 	if VUHDO_IS_PANEL_CONFIG then
 		tLabel:SetText("[PANEL "  .. aPanelNum .. "]");
@@ -973,18 +979,21 @@ local function VUHDO_initPanel(aPanel, aPanelNum)
 			VUHDO_UIFrameFlash(tLabel, 0.25, 0.5, 10000, true, 0.3, 0);
 
 			aPanel.backdropInfo = VUHDO_DESIGN_BACKDROP;
+			aPanel:ApplyBackdrop();
+
 			aPanel.backdropBorderColor = CreateColor(1, 1, 1);
 			aPanel.backdropBorderColorAlpha = 1;
-			aPanel:ApplyBackdrop();
+			aPanel:SetBackdropBorderColor(VUHDO_backColor(tPanelColor["BORDER"]));
 		else
 			aPanel.backdropInfo = VUHDO_STD_BACKDROP;
 			aPanel:ApplyBackdrop();
 			
-			tLabel:SetTextColor(0.4,  0.4, 0.4, 1);
-			VUHDO_UIFrameFlashStop(tLabel);
-			
-			-- TODO: safe to set as frame property before flash stop?
+			aPanel.backdropBorderColor = CreateColor(VUHDO_backColor(tPanelColor["BORDER"]));
+			aPanel.backdropBorderColorAlpha = tPanelColor["BORDER"]["O"] or 1;
 			aPanel:SetBackdropBorderColor(VUHDO_backColor(tPanelColor["BORDER"]));
+
+			tLabel:SetTextColor(0.4,  0.4, 0.4, 1);
+			VUHDO_UIFrameFlashStop(tLabel);			
 		end
 
 		if DESIGN_MISC_PANEL_NUM then

@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: Stanzilla, Semlar
-## Version: 1.4.0
+## Version: 1.4.1
 ## LoadOnDemand: 0
 ## SavedVariables: AdvancedInterfaceOptionsSaved
 ## DefaultState: Enabled

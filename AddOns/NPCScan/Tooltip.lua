@@ -28,18 +28,19 @@ local FormatAtlasTexture = private.FormatAtlasTexture
 -- ----------------------------------------------------------------------------
 -- Constants
 -- ----------------------------------------------------------------------------
-local DataObjectProperties = {
-	icon = [[Interface\LFGFRAME\BattlenetWorking0]],
-	label = _G.OBJECTIVES_LABEL,
-	scannerData = {
-		NPCCount = 0,
-		NPCs = {},
-	},
-    text = _G.NONE,
-    type = "data source"
-}
-
-local DataObject = LibStub("LibDataBroker-1.1"):NewDataObject(AddOnFolderName, DataObjectProperties)
+local DataObject = LibStub("LibDataBroker-1.1"):NewDataObject(
+    AddOnFolderName,
+    {
+        icon = [[Interface\LFGFRAME\BattlenetWorking0]],
+        label = _G.OBJECTIVES_LABEL,
+        scannerData = {
+            NPCCount = 0,
+            NPCs = {},
+        },
+        text = _G.NONE,
+        type = "data source"
+    }
+)
 
 local npcAchievementNames = {}
 local npcDisplayNames = {}
@@ -222,6 +223,12 @@ local function InitializeDataTooltip(tooltipCell)
     return DataTooltip
 end
 
+local function DisplayText(tooltipCell, text)
+    InitializeDataTooltip(tooltipCell)
+	DataTooltip:AddLine(text)
+    DataTooltip:Show()
+end
+
 local function DisplayMountInfo(tooltipCell, mountList)
     AddEntryDataIDs(mountList, "spellID")
     InitializeDataTooltip(tooltipCell)
@@ -296,33 +303,30 @@ local function DisplayToyInfo(tooltipCell, toyList)
     DataTooltip:UpdateScrolling()
     DataTooltip:Show()
 end
+
 -- ----------------------------------------------------------------------------
 -- DataBroker Tooltip helpers.
 -- ----------------------------------------------------------------------------
-local numTooltipColumns
-
-local mountsColumn
-local petsColumn
-local tameableColumn
-local toysColumn
-
 local function GetTooltipData()
-    numTooltipColumns = 1
-
-    mountsColumn = nil
-    petsColumn = nil
-    tameableColumn = nil
-    toysColumn = nil
-
-    table.wipe(npcAchievementNames)
-    table.wipe(npcDisplayNames)
-    table.wipe(npcIDs)
-    table.wipe(npcNames)
-
 	local hasMounts = false
 	local hasPets = false
 	local hasToys = false
 	local hasTameable = false
+	local hasWorldQuest = false
+
+	local mountsColumn
+	local petsColumn
+	local tameableColumn
+	local toysColumn
+	local worldQuestColumn
+
+	local numTooltipColumns = 1
+
+	table.wipe(npcAchievementNames)
+    table.wipe(npcDisplayNames)
+    table.wipe(npcIDs)
+    table.wipe(npcNames)
+
 
 	for npcID in pairs(DataObject.scannerData.NPCs) do
         local npc = Data.NPCs[npcID]
@@ -348,7 +352,11 @@ local function GetTooltipData()
 
 			if not hasToys and npc.toys then
 				hasToys = true
-            end
+			end
+
+			if not hasWorldQuest and npc:HasActiveWorldQuest() then
+				hasWorldQuest = true
+			end
         end
     end
 
@@ -372,7 +380,21 @@ local function GetTooltipData()
 		tameableColumn = numTooltipColumns
 	end
 
+	if hasWorldQuest then
+		numTooltipColumns = numTooltipColumns + 1
+		worldQuestColumn = numTooltipColumns
+	end
+
 	table.sort(npcIDs, SortByNPCAchievementNameThenByNameThenByID)
+
+	return {
+		mountsColumn = mountsColumn,
+		petsColumn = petsColumn,
+		tameableColumn = tameableColumn,
+		toysColumn = toysColumn,
+		worldQuestColumn = worldQuestColumn,
+		numTooltipColumns = numTooltipColumns
+	}
 end
 
 -- ----------------------------------------------------------------------------
@@ -391,26 +413,33 @@ do
 end
 
 local ICON_TOY = [[|TInterface\Worldmap\TreasureChest_64:0:0|t]]
+local ICON_WORLDQUEST = FormatAtlasTexture("worldquest-tracker-questmarker")
 
-local function DrawTooltip(anchorFrame)
-    if not anchorFrame then
+local DataObjectDisplay -- Used for updates.
+
+local function DrawTooltip(displayFrame)
+    if not displayFrame then
         return
     end
 
-    GetTooltipData()
+    DataObjectDisplay = displayFrame
 
-    if not Tooltip then
-        Tooltip = LibQTip:Acquire(AddOnFolderName, numTooltipColumns)
-        Tooltip:SetAutoHideDelay(0.25, anchorFrame)
-        Tooltip:SmartAnchorTo(anchorFrame)
-        Tooltip:SetBackdropColor(0.05, 0.05, 0.05, 1)
-        Tooltip:SetCellMarginH(0)
-        Tooltip:SetCellMarginV(1)
+	if LibQTip:IsAcquired(AddOnFolderName) then
+		LibQTip:Release(AddOnFolderName)
+	end
 
-        Tooltip.OnRelease = Tooltip_OnRelease
-    end
+    local tooltipData = GetTooltipData()
 
+    Tooltip = LibQTip:Acquire(AddOnFolderName, tooltipData.numTooltipColumns)
+	Tooltip:SmartAnchorTo(displayFrame)
+	Tooltip:SetAutoHideDelay(0.25, displayFrame)
     Tooltip:Clear()
+	Tooltip:SetBackdropColor(0.05, 0.05, 0.05, 1)
+	Tooltip:SetCellMarginH(0)
+	Tooltip:SetCellMarginV(1)
+
+	Tooltip.OnRelease = Tooltip_OnRelease
+
 
     Tooltip:SetCell(Tooltip:AddLine(), 1, AddOnFolderName, TitleFont, "CENTER", 0)
     Tooltip:AddSeparator(1, 0, 0, 0)
@@ -422,6 +451,12 @@ local function DrawTooltip(anchorFrame)
 
         return
     end
+
+    local mountsColumn = tooltipData.mountsColumn
+    local petsColumn = tooltipData.petsColumn
+    local tameableColumn = tooltipData.tameableColumn
+    local toysColumn = tooltipData.toysColumn
+    local worldQuestColumn = tooltipData.worldQuestColumn
 
     local currentAchievementID
 
@@ -469,8 +504,16 @@ local function DrawTooltip(anchorFrame)
 
         Tooltip:SetCell(line, 1, npcDisplayNames[npcID])
 
+        if worldQuestColumn and npc:HasActiveWorldQuest() then
+			Tooltip:SetCell(line, worldQuestColumn, ICON_WORLDQUEST)
+			Tooltip:SetCellScript(line, worldQuestColumn, "OnEnter", DisplayText, _G.TRACKER_HEADER_WORLD_QUESTS)
+            Tooltip:SetCellScript(line, worldQuestColumn, "OnLeave", CleanupDataTooltip)
+        end
+
         if tameableColumn and npc.isTameable then
             Tooltip:SetCell(line, tameableColumn, ICON_TAMEABLE)
+			Tooltip:SetCellScript(line, tameableColumn, "OnEnter", DisplayText, _G.TAMEABLE)
+            Tooltip:SetCellScript(line, tameableColumn, "OnLeave", CleanupDataTooltip)
         end
 
         if mountsColumn and npc.mounts then
@@ -516,8 +559,8 @@ function DataObject:Update(_, scannerData)
     self.text = scannerData.NPCCount > 0 and scannerData.NPCCount or _G.NONE
     self.scannerData = scannerData
 
-    if Tooltip and Tooltip:IsShown() then
-        DrawTooltip(self)
+    if DataObjectDisplay and Tooltip and Tooltip:IsShown() then
+        DrawTooltip(DataObjectDisplay)
     end
 end
 

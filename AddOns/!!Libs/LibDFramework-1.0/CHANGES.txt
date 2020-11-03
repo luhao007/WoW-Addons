@@ -1,22 +1,16 @@
-lightweight tag 81b96d92977291e002b0251b4fcb19c8e300181b v9.0.1.212
-Author:	GitHub <noreply@github.com>
-Date:	Thu Oct 22 21:20:48 2020 -0300
+lightweight tag 5c0aa688d575db01497dc63d9e603f3a431de138 v9.0.1.214
+Author:	Tercio Jose <terciob19@hotmail.com>
+Date:	Mon Oct 26 17:12:38 2020 -0300
 
-commit 5b6c982c4ba4d6ab117745bd6bb931521756f6f6
+commit 5c0aa688d575db01497dc63d9e603f3a431de138
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Oct 22 20:29:13 2020 -0300
+Date:   Mon Oct 26 17:12:38 2020 -0300
 
-    Removed all deprecated DF.folder entries and replaced with client images
+    Make the addon:Msg() print has many parameters as needed
 
-commit 5b6c982c4ba4d6ab117745bd6bb931521756f6f6
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Oct 22 20:29:13 2020 -0300
+commit f2bba9d4d8f12ecb8e9056bf31afddc66394dbe0
+Author: Continuity <continuity@gmx.net>
+Date:   Sun Oct 25 19:52:59 2020 +0100
 
-    Removed all deprecated DF.folder entries and replaced with client images
-
-commit 5b6c982c4ba4d6ab117745bd6bb931521756f6f6
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Oct 22 20:29:13 2020 -0300
-
-    Removed all deprecated DF.folder entries and replaced with client images
+    - refreshing options tabs when selected
 

@@ -91,8 +91,11 @@ function NPCScan:OnInitialize()
 	end
 
 	for mapID, map in pairs(Data.Maps) do
-		local continentInfo = _G.MapUtil.GetMapParentInfo(mapID, _G.Enum.UIMapType.Continent)
-		local continentID = continentInfo and Enum.MapContinentID[continentInfo.mapID] or Enum.ContinentID.Cosmic
+		local parentMapInfo = _G.MapUtil.GetMapParentInfo(mapID, UIMapType.Continent)
+			or _G.MapUtil.GetMapParentInfo(mapID, UIMapType.World)
+			or _G.MapUtil.GetMapParentInfo(mapID, UIMapType.Cosmic)
+
+		local continentID = parentMapInfo and Enum.MapContinentID[parentMapInfo.mapID] or Enum.ContinentID.Cosmic
 		local mapInfo = _G.C_Map.GetMapInfo(mapID)
 
 		if mapInfo.mapType == UIMapType.Dungeon or mapInfo.mapType == UIMapType.Orphan then
@@ -181,7 +184,7 @@ function NPCScan:OnEnable()
 			if not hasChecked[npcID] then
 				local questID = npc.questID or npc.achievementQuestID
 
-				if not questID and (not continent or questMapIDs[continent.mapID]) then
+				if not questID and not npc.worldQuestID and (not continent or questMapIDs[continent.mapID]) then
 					missingData[npcID] = "questID"
 				end
 
@@ -262,9 +265,7 @@ do
 		local questName = private.db.locale.questNames[questID]
 
 		if not questName then
-			DatamineTooltip:SetHyperlink(("quest:%d"):format(questID))
-
-			questName = _G["NPCScanDatamineTooltipTextLeft1"]:GetText()
+			questName = _G.C_QuestLog.GetTitleForQuestID(questID)
 
 			if questName and questName ~= "" then
 				private.db.locale.questNames[questID] = questName

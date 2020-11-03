@@ -51,7 +51,6 @@ Maps[MapID.Drustvar].NPCs = {
 	[137708] = true, -- Stone Golem
 	[137824] = true, -- Arclight
 	[137825] = true, -- Avalanche
-	[138244] = true, -- Briarwood Bulwark
 	[138618] = true, -- Haywire Golem
 	[138667] = true, -- Blighted Monstrosity
 	[138675] = true, -- Gorged Boar
@@ -157,4 +156,6 @@ Maps[MapID.TiragardeSound].NPCs = {
 	[139285] = true, -- Shiverscale the Toxic
 	[139289] = true, -- Tentulos the Drifter
 	[139290] = true, -- Maison the Portable
+	[145392] = true, -- Ambassador Gaines
+	[145395] = true, -- Katrianna
 }

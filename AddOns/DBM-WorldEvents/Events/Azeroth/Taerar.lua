@@ -1,14 +1,14 @@
-local mod	= DBM:NewMod("Lethon", "DBM-Azeroth")
+local mod	= DBM:NewMod("Taerar", "DBM-WorldEvents", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200806142051")
-mod:SetCreatureID(121821)--121821 TW ID, 14888 classic ID
+mod:SetRevision("20201031010726")
+mod:SetCreatureID(121911)--121911 TW ID, 14890 classic ID
 --mod:SetModelID(17887)
 
-mod:RegisterCombat("combat")
+mod:RegisterCombat("combat_yell", L.Pull)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 243401 243468",
+	"SPELL_CAST_START 243661 243401",
 	"SPELL_CAST_SUCCESS 243399",
 	"SPELL_AURA_APPLIED 243401",
 	"SPELL_AURA_APPLIED_DOSE 243401"
@@ -16,30 +16,30 @@ mod:RegisterEventsInCombat(
 
 --TODO, maybe taunt special warnings for classic version when it matters more.
 local warnNoxiousBreath			= mod:NewStackAnnounce(243401, 2, nil, "Tank")
+local warningBellowingRoar		= mod:NewSpellAnnounce(243661, 3)
 
 local specWarnSleepingFog		= mod:NewSpecialWarningDodge(243399, nil, nil, nil, 2, 2)
-local specWarnShadowBoltWhirl	= mod:NewSpecialWarningDodge(243468, nil, nil, nil, 2, 2)
 
-local timerNoxiousBreathCD		= mod:NewCDTimer(18.3, 243401, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)--Iffy
-local timerSleepingFogCD		= mod:NewCDTimer(16.8, 243399, nil, nil, nil, 3)
---local timerShadowBoltWhirlCD	= mod:NewCDTimer(15.8, 243468, nil, nil, nil, 3)
+local timerNoxiousBreathCD		= mod:NewCDTimer(19.4, 243401, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)--Iffy
+local timerSleepingFogCD		= mod:NewCDTimer(21.9, 243399, nil, nil, nil, 3)
+local timerBellowingRoarCD		= mod:NewCDTimer(7.2, 243661, nil, nil, nil, 2)
 
 --mod:AddReadyCheckOption(48620, false)
 
 function mod:OnCombatStart(delay, yellTriggered)
 	if yellTriggered then
-		--timerNoxiousBreathCD:Start(11.9-delay)
-		--timerSleepingFogCD:Start(18.4-delay)
+		timerBellowingRoarCD:Start(10.5-delay)
+		timerNoxiousBreathCD:Start(14.3-delay)
+		timerSleepingFogCD:Start(21.5-delay)
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 243401 then
+	if args.spellId == 243661 and self:AntiSpam(3, 1) then
+		warningBellowingRoar:Show()
+		timerBellowingRoarCD:Start()
+	elseif args.spellId == 243401 and self:AntiSpam(3, 2) then
 		timerNoxiousBreathCD:Start()
-	elseif args.spellId == 243468 and self:AntiSpam(5, 1) then
-		specWarnShadowBoltWhirl:Show()
-		specWarnShadowBoltWhirl:Play("watchorb")
-		--timerShadowBoltWhirlCD:Start()
 	end
 end
 

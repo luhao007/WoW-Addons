@@ -277,6 +277,7 @@ TITAN_PANEL_SAVED_VARIABLES = {
 	AuxBar2_Transparency = 0.7,
 	AuxBar2_Align = TITAN_PANEL_BUTTONS_ALIGN_LEFT,
 	MainMenuBarXAdj = 0,
+	BuffIconVerticalAdj = 10,
 };
 
 --[[ Titan
@@ -292,8 +293,8 @@ TITAN_ALL_SAVED_VARIABLES = {
 	-- Global profile
 	GlobalProfileUse = false,
 	GlobalProfileName = TITAN_PROFILE_NONE,
-	-- Silent Load
-	Silenced = false,
+	Silenced = false,-- Silent Load : name and version
+	Registered = false, -- for debug
 	-- OrderHallCommandBar Status
 	OrderHall = true,
 };
@@ -518,9 +519,7 @@ OUT: None
 --]]
 local function Sync_panel_settings(settings) 
 	-- Synchronize registered and saved variables
---TitanDebug("Sync_1: "..(settings.FontName or "?"))
 	TitanVariables_SyncRegisterSavedVariables(settings, TitanPanelSettings)
---TitanDebug("Sync_2: "..(TitanPanelSettings.FontName or "?"))
 end
 
 --[[ local
@@ -532,11 +531,11 @@ OUT:  None
 local function Set_Timers(reset) 
 	-- Titan is loaded so set the timers we want to use
 	TitanTimers = {
-		["EnterWorld"] = {obj = "PEW", callback = TitanPanel_AdjustFrames, delay = 4,},
-		["DualSpec"] = {obj = "SpecSwitch", callback = TitanPanel_AdjustFrames, delay = 2,},
+		["EnterWorld"] = {obj = "PEW", callback = Titan_Hook_PEW, delay = 4,},
+		["DualSpec"] = {obj = "SpecSwitch", callback = Titan_Hook_SpecSwitch, delay = 2,},
 		["LDBRefresh"] = {obj = "LDB", callback = TitanLDBRefreshButton, delay = 2,},
-		["Adjust"] = {obj = "MoveAdj", callback = TitanPanel_AdjustFrames, delay = 1,},
-		["Vehicle"] = {obj = "Vehicle", callback = TitanPanel_AdjustFrames, delay = 1,},
+		["Adjust"] = {obj = "MoveAdj", callback = Titan_Hook_MoveAdj, delay = 1,},
+		["Vehicle"] = {obj = "Vehicle", callback = Titan_Hook_Vehicle, delay = 1,},
 	}
 	
 	if reset then
@@ -626,7 +625,7 @@ function TitanVariables_InitTitanSettings()
 --[[
 TitanDumpPlayerList()
 --]]
-	Sync_panel_settings(TITAN_PANEL_SAVED_VARIABLES)
+--	Sync_panel_settings(TITAN_PANEL_SAVED_VARIABLES)
 	
 	if (TitanAll) then
 	else

@@ -1,36 +1,28 @@
-commit afe84e3ab40440ad305bf343afde1bddd6e3f18e
+lightweight tag 465846e98179eebe8c532846afc9234109251e34 v4.0.3
+Author:	VallanTV <thevallantv@protonmail.com>
+Date:	Sun Nov 1 06:50:55 2020 -0800
+
+commit 465846e98179eebe8c532846afc9234109251e34
+Author: VallanTV <thevallantv@protonmail.com>
+Date:   Sun Nov 1 06:50:55 2020 -0800
+
+    Update for Shadowlands prepatch
+
+commit 1646e7b4fa4f35831a7319513bcd3b65e293c9d0
+Author: vallantv <60242784+vallantv@users.noreply.github.com>
+Date:   Fri Jan 24 14:30:49 2020 -0800
+
+    Create LICENSE
+
+commit c1e409d2db79908d43dd9d815fa6b0b987d68b4f
 Author: VallanTV <vallantv@protonmail.com>
-Date:   Fri Jan 24 10:26:33 2020 -0800
+Date:   Fri Jan 24 10:57:35 2020 -0800
 
-    Bump TOC for 8.3.
+    Fix in game version display
 
-commit 4b68f921594bf3722db21a48565f05f7bf1e4198
+commit 32bbcd9d82a1b3caed1ae6700cc05945c6fadab8
 Author: VallanTV <vallantv@protonmail.com>
-Date:   Fri Jan 24 10:25:14 2020 -0800
+Date:   Fri Jan 24 10:50:20 2020 -0800
 
-    Fix for Dugi
-
-commit 47af6868107036ba99632f4659c79f4a583fcca2
-Author: VallanTV <vallantv@protonmail.com>
-Date:   Fri Jan 24 10:24:59 2020 -0800
-
-    Fix for Tukui
-
-commit 511dd2a6c7d41fb13863e463ce78fefaeb187978
-Author: VallanTV <59833187+VallanTV@users.noreply.github.com>
-Date:   Tue Jan 14 06:54:54 2020 -0800
-
-    Update README.md
-
-commit 6bbd4605b86d2df35f664903090d11e0f0c9ed2f
-Author: VallanTV <vallantv@protonmail.com>
-Date:   Tue Jan 14 06:30:32 2020 -0800
-
-    Initial Commit of 4.0 source
-
-commit 425a0d47575fe6cacd9c44d7bfde4e48774e19d4
-Author: VallanTV <vallantv@protonmail.com>
-Date:   Tue Jan 14 06:29:53 2020 -0800
-
-    Initial commit
+    Fix version number
 

@@ -1,3 +1,33 @@
+Version 3.116  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+-- Fixed backdrop border colors for panel borders, etc.  
+-- Fixed Druid 'Swiftmend' to trigger on 'Wild Growth' HoT presence  
+-- Fixed Druid 'Swiftmend' to not trigger on other players HoTs  
+-- Fixed mouse/key binding of Hunter ability 'Concussive Shot'  
+  
+  
+Improvements:  
+-- Added Shaman spell 'Water Shield' to Buff Watch  
+-- Added Shaman spell 'Windfury Weapon' to Buff Watch  
+-- Added Shaman spell 'Flametongue Weapon' to Buff Watch  
+-- Added Rogue ability 'Instant Poison' to Buff Watch  
+-- Added Rogue ability 'Numbing Poison' to Buff Watch  
+-- Added new default bouquet 'Monk Stagger'  
+-- Updated default bouquet 'Raid Cooldowns'  
+-- Updated default bouquet 'Tank Cooldowns Extd'  
+  
+  
+--------------------------------------------------------------  
 Version 3.115  
   
   

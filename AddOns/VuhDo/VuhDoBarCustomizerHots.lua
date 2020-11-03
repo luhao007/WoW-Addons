@@ -554,8 +554,8 @@ local function VUHDO_updateHots(aUnit, anInfo)
 			
 			tIsCastByPlayer = tCaster == "player" or tCaster == VUHDO_PLAYER_RAID_ID;
 
-			if sIsPlayerKnowsSwiftmend and not sIsSwiftmend then
-				if VUHDO_SPELL_ID.REGROWTH == tBuffName or VUHDO_SPELL_ID.REJUVENATION == tBuffName or VUHDO_SPELL_ID.GERMINATION == tBuffName then
+			if sIsPlayerKnowsSwiftmend and tIsCastByPlayer and not sIsSwiftmend then
+				if VUHDO_SPELL_ID.REGROWTH == tBuffName or VUHDO_SPELL_ID.WILD_GROWTH == tBuffName or VUHDO_SPELL_ID.REJUVENATION == tBuffName or VUHDO_SPELL_ID.GERMINATION == tBuffName then
 					tStart, tSmDuration, tEnabled = GetSpellCooldown(VUHDO_SPELL_ID.SWIFTMEND);
 					if tEnabled ~= 0 and (tStart == nil or tSmDuration == nil or tStart <= 0 or tSmDuration <= 1.6) then
 						sIsSwiftmend = true;

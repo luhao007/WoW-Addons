@@ -24,7 +24,8 @@ L["Interval"] = "间隔"
 L["LEFT"] = "左侧"
 L["NPCs"] = "NPCs"
 L["Play alert sounds when sound is muted."] = "当音效静音时仍播放警报。"
-L["Predefined NPCs cannot be added to or removed from the user-defined NPC list."] = "预定义 NPC 不能添加到用户自定义 NPC 列表或从中移除。"
+--[[Translation missing --]]
+--[[ L["Predefined NPCs cannot be added to the user-defined NPC list."] = "Predefined NPCs cannot be added to the user-defined NPC list."--]] 
 L["Removed %1$s (%2$d) from the user-defined NPC list."] = "已移除 %1$s（%2$d）从用户自定义 NPC 列表。"
 L["Reset Position"] = "重置位置"
 L["RIGHT"] = "右侧"

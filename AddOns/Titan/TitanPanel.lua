@@ -422,7 +422,7 @@ function TitanPanel_PlayerEnteringWorld()
 
 	-- Move frames
 	TitanMovable_SecureFrames()
-	TitanPanel_AdjustFrames()
+	TitanPanel_AdjustFrames(true, "Init: PEW (Player Entering World)")
 	
 	-- Secondary failsafe check for bottom frame adjustment
 	--
@@ -499,7 +499,7 @@ function TitanPanelBarButton:CVAR_UPDATE(cvarname, cvarvalue)
 		if TitanPlayerSettings and TitanPanelGetVar("Scale") then
 			Titan_AdjustScale()
 			-- Adjust frame positions
-			TitanPanel_AdjustFrames()
+			TitanPanel_AdjustFrames(true, "CVar update "..tostring(cvarname))
 		end
 	end
 end
@@ -525,7 +525,7 @@ end
 
 function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
 	-- Outside combat check to see if frames need correction
-	TitanPanel_AdjustFrames()
+	TitanPanel_AdjustFrames(true, "Regen enabled")
 end
 --[
 function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
@@ -541,7 +541,7 @@ function TitanPanelBarButton:UNIT_ENTERED_VEHICLE(self, ...)
 end
 function TitanPanelBarButton:UNIT_EXITED_VEHICLE(self, ...)
 	-- A combat check will be done inside the adjust
-	TitanPanel_AdjustFrames(true)
+	TitanPanel_AdjustFrames(true, "Exit vehicle")
 end
 --]]
 --
@@ -697,7 +697,7 @@ local function handle_reset_cmds(cmd_list)
 			-- Adjust panel scale
 			Titan_AdjustScale()
 			-- Adjust frame positions
-			TitanPanel_AdjustFrames()
+			TitanPanel_AdjustFrames(true, "Config: adj scale")
 			TitanPrint(L["TITAN_PANEL_SLASH_RESP3"], "info")
 		else
 			TitanPrint(L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"], "warning")
@@ -1133,7 +1133,7 @@ NOTE:
 function TitanPanelBarButton_ToggleScreenAdjust()
 	-- Turn on / off adjusting of other frames around Titan
 	TitanPanelToggleVar("ScreenAdjust");
-	TitanPanel_AdjustFrames(true)
+	TitanPanel_AdjustFrames(true, "Config: on/off adj top frames")
 end
 
 --[[ Titan
@@ -1148,7 +1148,7 @@ NOTE:
 function TitanPanelBarButton_ToggleAuxScreenAdjust()
 	-- turn on / off adjusting of frames at the bottom of the screen
 	TitanPanelToggleVar("AuxScreenAdjust");
-	TitanPanel_AdjustFrames(true)
+	TitanPanel_AdjustFrames(true, "Config: on/off adj bottom frames")
 end
 
 --[[ Titan
@@ -1239,7 +1239,7 @@ function TitanPanelBarButton_DisplayBarsWanted()
 	TitanAnchors()
 	
 	-- Adjust other frames because the bars shown / hidden may have changed
-	TitanPanel_AdjustFrames(true)
+	TitanPanel_AdjustFrames(true, "_DisplayBarsWanted")
 end
 
 --[[ Titan

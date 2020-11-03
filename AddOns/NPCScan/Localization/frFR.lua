@@ -24,7 +24,8 @@ L["Interval"] = "Intervalle"
 L["LEFT"] = "Gauche"
 L["NPCs"] = "PNJs"
 L["Play alert sounds when sound is muted."] = "Jouer les sons d'alerte quand le son du jeu est coupé."
-L["Predefined NPCs cannot be added to or removed from the user-defined NPC list."] = "Les PNJs prédéfinis ne peuvent être ajouté ou retiré de la liste des PNJs définis par l'utilisateur."
+--[[Translation missing --]]
+--[[ L["Predefined NPCs cannot be added to the user-defined NPC list."] = "Predefined NPCs cannot be added to the user-defined NPC list."--]] 
 L["Removed %1$s (%2$d) from the user-defined NPC list."] = "%1$s (%2$d) retiré de la liste des PNJs définis par l'utilisateur."
 L["Reset Position"] = "Réinitialiser postition"
 L["RIGHT"] = "Droite"

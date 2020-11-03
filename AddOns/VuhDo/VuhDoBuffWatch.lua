@@ -683,7 +683,7 @@ local function VUHDO_getMissingBuffsForCode(aTargetCode, aBuffInfo, aCategSpec)
 			return VUHDO_PLAYER_GROUP, sEmpty, "player", 0, "player", sEmpty, sEmpty, 0;
 
 		elseif VUHDO_BUFF_TARGET_ENCHANT_OFF == tTargetType then
-			_, _, _, tHasEnchant, tEnchantDuration = GetWeaponEnchantInfo();
+			_, _, _, _, tHasEnchant, tEnchantDuration = GetWeaponEnchantInfo();
 
 			if tHasEnchant and (not sGermanOrEnglish or strfind(aBuffInfo[1], VUHDO_getWeaponEnchantName(17), 1, true)) then
 				return sEmpty, sEmpty, "player", tEnchantDuration * 0.001, "player", VUHDO_PLAYER_GROUP, sEmpty, 0;

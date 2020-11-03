@@ -1,3 +1,5 @@
+Release 9.0.1.0
+	- toc update for Shadowlands pre-release
 Release 3.9.3
 	- toc update for BFA 8.0
 

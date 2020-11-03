@@ -1,5 +1,20 @@
 # Changelog
 
+## Changed in v10
+
+* Add achievements:
+    * Drust the Facts, Ma'am
+    * A Loa of a Tale
+    * Dune Rider
+    * Carved in Stone, Written in Blood
+
+## Changed in v9
+
+* Make work in Shadowlands
+* Pepe'jin was hiding too well
+* Filled out some missing Jani trashpiles
+* Fixed Grayal's Last Offering for Alliance
+
 ## Changed in v8
 
 * Mechagon chests from Jeremy Gaudet

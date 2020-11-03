@@ -24,7 +24,8 @@ L["Interval"] = "Intervall"
 L["LEFT"] = "Links"
 L["NPCs"] = "NSCs"
 L["Play alert sounds when sound is muted."] = "Abspiel-Alarm ertönt, wenn der Ton stummgeschaltet ist."
-L["Predefined NPCs cannot be added to or removed from the user-defined NPC list."] = "Vorgegebene NSCs können nicht der benutzerdefinierten NSC-Liste hinzugefügt oder von ihr entfernt werden."
+--[[Translation missing --]]
+--[[ L["Predefined NPCs cannot be added to the user-defined NPC list."] = "Predefined NPCs cannot be added to the user-defined NPC list."--]] 
 L["Removed %1$s (%2$d) from the user-defined NPC list."] = "(%2$d) wurde von der benutzerdefinierten NSC-Liste entfernt."
 L["Reset Position"] = "Position zurücksetzen"
 L["RIGHT"] = "Rechts"
