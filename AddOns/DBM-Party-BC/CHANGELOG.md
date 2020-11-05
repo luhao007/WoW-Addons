@@ -1,11 +1,7 @@
 # <DBM> Dungeons (BC)
 
-## [r21](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r21) (2020-10-14)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r20...r21) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
+## [r22](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r22) (2020-11-05)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r21...r22) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
 
-- Merge pull request #12 from DeadlyBossMods/9.x  
-- Fogot to add to luacheck  
-- 9.x fixes that were missed.  
-- Throttle unstable grounding field on asaad in vortex Pinnacle  
-- Fixed source name missing from absorb magic in throne of tides  
-- Disable lokens nova timer, pretty sure it's not accurate at all  
+- Actually fix gossip options so they don't spam nil errors when npcs don't have gossip options. C\_GossipInfo.GetOptions() always returns a table, even when there are no options, it's empty but [1] still exists, so it needs to make sure name does too. nilling checking both for good measure  
+- This should correct chorush to not classify him turning friendly as a whipe, as well as make sure he's never engaged when fiendly either.  

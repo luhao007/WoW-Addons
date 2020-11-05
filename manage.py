@@ -663,7 +663,7 @@ class Manager:
             ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
              'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
              'AceGUI-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
-             'AceTimer-3.0', 'CallbackHandler-1.0', 'DF', 'LibCompress',
+             'AceTimer-3.0', 'CallbackHandler-1.0', 'LibCompress',
              'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
              'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
              'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibStub'],
