@@ -1,7 +1,7 @@
 if (TomCats and TomCats.ReconcileVersionInfo) then
 	TomCats.ReconcileVersionInfo({
-		messageID = 1604409820,
-		encoded = "CfkfZ7jj7JjEfPP0M+Hm96NmWd4f3e5zDPL3vYriCJ4jCsjT7bAGkF+hWdwBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGBwwAAQYNAQASDgEAGg8BAAY="
+		messageID = 1604527760,
+		encoded = "HWxxr+n0LQBrkaJ8eaAXZUUltP4fLYgeqjm1DlnTvZNgNuZnjfQx/1+jJpABAQYDAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGCgwAAQYNAQASDgEAGg8BAAY="
 	})
 end
 local _, addon = ...
@@ -187,7 +187,7 @@ if (TomCats and TomCats.Register) then
     TomCats:Register(
         {
             name = "Hallow's End",
-            version = "01.06.07",
+            version = "01.06.10",
         }
     )
 end

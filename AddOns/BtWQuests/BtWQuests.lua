@@ -684,7 +684,7 @@ function BtWQuestsMixin:OnLoad()
 
     self:RegisterEvent("QUEST_SESSION_JOINED")
     self:RegisterEvent("QUEST_SESSION_LEFT")
-
+    
     self:RegisterEvent("MODIFIER_STATE_CHANGED")
 
 	self.TitleText:SetText(L["BTWQUESTS_QUEST_JOURNAL"]);
@@ -888,6 +888,12 @@ function BtWQuestsMixin:OnShow()
         if self:GetExpansion() == nil and not BtWQuestsDatabase:HasMultipleExpansion() then -- Not guessed/set an expansion yet
             self:SetExpansion(BtWQuestsDatabase:GetBestExpansionForCharacter(self.Character))
             self:DisplayCurrentExpansion()
+        end
+
+        -- Quick fix for AddOnSkins issue
+        if self.Chain.Scroll.ScrollBar.ThumbTexture.Backdrop then
+            self.Chain.Scroll.ScrollBar.ThumbTexture.Backdrop:SetFrameLevel(self.Chain.Scroll.ScrollBar.Backdrop:GetFrameLevel())
+            self.Category.Scroll.ScrollBar.ThumbTexture.Backdrop:SetFrameLevel(self.Category.Scroll.ScrollBar.Backdrop:GetFrameLevel())
         end
 
         self.initialized = true

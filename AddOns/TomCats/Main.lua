@@ -2118,8 +2118,8 @@ local TomCatsPublicKey = {
 }
 if (TomCats and TomCats.ReconcileVersionInfo) then
 	TomCats.ReconcileVersionInfo({
-		messageID = 1603125516,
-		encoded = "T2gGYeQevRmZIkMHr8YvY7OSHipg4wXSbcFOdSBWpI2ca+r2g69xOl+NwQwBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGAAwAAQYNAQASDgEAGg8BAAY="
+		messageID = 1604530202,
+		encoded = "IfZ51l+yHLqEvtgGH5QEreu0VWgK61CWk1hSa9Jb3ojOYnhhhq7NnF+jMBoBAQYEAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGCgwAAQYNAQASDgEAGg8BAAY="
 	})
 end
 local MESSAGE_TYPE = {
@@ -2175,8 +2175,8 @@ do
 	local ignored = { }
 	local lastBroadcastVersionInfo
 	local syncLog = { }
-	VersionInfo.messageID = tonumber("1603125516")
-	VersionInfo.encoded = "T2gGYeQevRmZIkMHr8YvY7OSHipg4wXSbcFOdSBWpI2ca+r2g69xOl+NwQwBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGAAwAAQYNAQASDgEAGg8BAAY="
+	VersionInfo.messageID = tonumber("1604530202")
+	VersionInfo.encoded = "IfZ51l+yHLqEvtgGH5QEreu0VWgK61CWk1hSa9Jb3ojOYnhhhq7NnF+jMBoBAQYEAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGCgwAAQYNAQASDgEAGg8BAAY="
 	local function BroadcastVersionInfo()
 		local channelID = GetChannelName(addonChannelName)
 		if (channelID) then

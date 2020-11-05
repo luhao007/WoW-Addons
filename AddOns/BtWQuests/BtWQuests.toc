@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: Breen
-## Version: 1.73.3
+## Version: 1.73.4
 ## SavedVariables: BtWQuests_Characters
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad
 

@@ -1,10 +1,17 @@
-lightweight tag 262f11511411710a627e793ecf4edc255f3f3a52 DetailsRetail.9.0.1.7938.143
+lightweight tag 93a7a8cc693b42caa38efd99a4aad87129a71aba DetailsRetail.9.0.1.7950.144
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Thu Oct 29 15:41:42 2020 -0300
+Date:	Tue Nov 3 20:55:19 2020 -0300
 
-commit 262f11511411710a627e793ecf4edc255f3f3a52
+commit 93a7a8cc693b42caa38efd99a4aad87129a71aba
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Oct 29 15:41:42 2020 -0300
+Date:   Tue Nov 3 20:55:19 2020 -0300
 
-    - Added option to select the title bar icons
+    Added the baseline for the Coach Mode feature
+    
+    - Added the command '/details coach' to  enabled coach mode, need to be raid leader and all members must have details up to date.
+    - Fixed Tiny Threat not showing threat.
+    - Fixed annoucement interrupt toggle enable was reseting on logon.
+    - Added container_spells:GetOrCreateSpell(id, shouldCreate, token)
+    - Added Details:GetRaidLeader(), return the RL name.
+    - Framework update.
 

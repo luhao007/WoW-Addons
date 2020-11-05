@@ -732,9 +732,9 @@
     "name": "BtWQuests",
     "description": "A quest journal that shows your progress within quest chains",
     "url": "https://www.curseforge.com/wow/addons/btw-quests",
-    "download_url": "https://edge.forgecdn.net/files/3087/136/BtWQuests-v1.73.3.zip",
-    "date_published": "2020-10-20T02:50:45.267000+00:00",
-    "version": "v1.73.3",
+    "download_url": "https://edge.forgecdn.net/files/3102/391/BtWQuests-v1.73.4.zip",
+    "date_published": "2020-11-04T21:47:08.550000+00:00",
+    "version": "v1.73.4",
     "folders": [
       {
         "name": "BtWQuests"
@@ -748,6 +748,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.73.4",
+        "install_time": "2020-11-05T11:54:45+00:00"
+      },
       {
         "version": "v1.73.3",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -1583,9 +1587,9 @@
     "name": "Details! Damage Meter",
     "description": "Complete combat analysis, gathering damage, healing, and other importante stuff.",
     "url": "https://www.curseforge.com/wow/addons/details",
-    "download_url": "https://edge.forgecdn.net/files/3096/381/Details-DetailsRetail.9.0.1.7938.143.zip",
-    "date_published": "2020-10-29T18:43:56.837000+00:00",
-    "version": "DetailsRetail.9.0.1.7938.143",
+    "download_url": "https://edge.forgecdn.net/files/3101/519/Details-DetailsRetail.9.0.1.7950.144.zip",
+    "date_published": "2020-11-03T23:57:23.293000+00:00",
+    "version": "DetailsRetail.9.0.1.7950.144",
     "folders": [
       {
         "name": "Details"
@@ -1614,6 +1618,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DetailsRetail.9.0.1.7950.144",
+        "install_time": "2020-11-05T11:54:47+00:00"
+      },
       {
         "version": "DetailsRetail.9.0.1.7938.143",
         "install_time": "2020-11-03T06:02:35+00:00"
@@ -3069,9 +3077,9 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3097/521/Plater-Plater-v9.0.1.312-Retail.zip",
-    "date_published": "2020-10-30T22:41:02.583000+00:00",
-    "version": "Plater-v9.0.1.312-Retail",
+    "download_url": "https://edge.forgecdn.net/files/3101/17/Plater-Plater-v9.0.1.313-Retail.zip",
+    "date_published": "2020-11-03T14:58:15.420000+00:00",
+    "version": "Plater-v9.0.1.313-Retail",
     "folders": [
       {
         "name": "Plater"
@@ -3082,6 +3090,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v9.0.1.313-Retail",
+        "install_time": "2020-11-05T11:54:48+00:00"
+      },
       {
         "version": "Plater-v9.0.1.312-Retail",
         "install_time": "2020-11-03T06:02:38+00:00"
@@ -3622,9 +3634,9 @@
     "name": "TomCat's Tours",
     "description": "TomCat's Tours",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3086/601/TomCats-01.06.01-release-retail.zip",
-    "date_published": "2020-10-19T16:39:40.710000+00:00",
-    "version": "01.06.01",
+    "download_url": "https://edge.forgecdn.net/files/3102/461/TomCats-01.06.04-release-retail.zip",
+    "date_published": "2020-11-04T22:50:40.533000+00:00",
+    "version": "01.06.04",
     "folders": [
       {
         "name": "TomCats"
@@ -3635,6 +3647,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "01.06.04",
+        "install_time": "2020-11-05T11:54:48+00:00"
+      },
       {
         "version": "01.06.01",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -3717,9 +3733,9 @@
     "name": "TomCat's Tours: Hallow's End (Candy Buckets / Tricky Treats)",
     "description": "Map icons and objectives tracking for Hallow's End",
     "url": "https://www.curseforge.com/wow/addons/tomcats-tours-hallows-end",
-    "download_url": "https://edge.forgecdn.net/files/3090/915/TomCats-HallowsEnd-01.06.06-release-retail.zip",
-    "date_published": "2020-10-23T21:59:56.297000+00:00",
-    "version": "01.06.06",
+    "download_url": "https://edge.forgecdn.net/files/3102/460/TomCats-HallowsEnd-01.06.10-release-retail.zip",
+    "date_published": "2020-11-04T22:49:49.790000+00:00",
+    "version": "01.06.10",
     "folders": [
       {
         "name": "TomCats-HallowsEnd"
@@ -3734,6 +3750,14 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "01.06.10",
+        "install_time": "2020-11-05T11:54:48+00:00"
+      },
+      {
+        "version": "01.06.07",
+        "install_time": "2020-11-03T14:01:50+00:00"
+      },
       {
         "version": "01.06.06",
         "install_time": "2020-11-03T06:02:12+00:00"

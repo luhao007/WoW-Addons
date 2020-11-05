@@ -1,256 +1,144 @@
-lightweight tag a6162902de0bd26a4c6108fffa38e55530ec01a2 Plater-v9.0.1.312-Retail
+lightweight tag 9e23bec1a59d70127e227ad0b8f621b02450bb11 Plater-v9.0.1.313-Retail
 Author:	Continuity <continuity@gmx.net>
-Date:	Fri Oct 30 23:37:48 2020 +0100
+Date:	Tue Nov 3 15:56:00 2020 +0100
 
-commit a6162902de0bd26a4c6108fffa38e55530ec01a2
+commit 9e23bec1a59d70127e227ad0b8f621b02450bb11
 Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 30 23:37:48 2020 +0100
+Date:   Tue Nov 3 15:56:00 2020 +0100
 
-    - another set of preventing errors
+    - ensure proper output for mod/script constructor
 
-commit f2c3ce6524570bdfab3fa46b5c884e64ecb59fc0
+commit efa1bf0dad6b3449287b1620ed2a9ee3e87e4ccd
 Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 30 23:35:34 2020 +0100
+Date:   Tue Nov 3 14:09:49 2020 +0100
 
-    - fixing nil-error
+    - keep naming after externalizing (for mods/scripts)
 
-commit 5d8c8001cdba0510c4988867bf8b2d728efd968f
+commit 12893eef51c50c89525eea5d10056b882758588e
 Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 30 23:30:36 2020 +0100
-
-    - ensure script/mod options are refreshed properly when shown
-
-commit b2366c5cefecba06f4c8abac18b040f5bd84c59f
-Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 30 22:38:25 2020 +0100
-
-    - changelog updated
-
-commit 1eafc198ff99eb5e38be596d0542fa10f7ae8114
-Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 30 22:38:17 2020 +0100
-
-    - DF lib update
-
-commit 6cb793bb41bae3e2fedb2809658b2607e80ffc0a
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Oct 30 13:32:28 2020 -0300
-
-    Script options can now be copied to other script or mod on the Duplicate button.
-
-commit 6cb793bb41bae3e2fedb2809658b2607e80ffc0a
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Oct 30 13:32:28 2020 -0300
-
-    Script options can now be copied to other script or mod on the Duplicate button.
-
-commit 87a8c786cbbc16352304e532bf03e3130b2d2f67
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 29 22:02:01 2020 +0100
+Date:   Tue Nov 3 13:46:46 2020 +0100
 
     - updating changelog
 
-commit 0ab6d335a2bda2c517f43ade7414c46b79f8cd1d
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 29 22:01:29 2020 +0100
-
-    - fixing issue with npc colors import
-
-commit 6f21387a9a0b90c252fb709271407a6b3dfc4144
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 29 19:43:24 2020 +0100
-
-    - enable battle pet healthbars in pet-battles
-
-commit 23a3530d01becad0d8193c58699327de875eaea3
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 29 13:16:09 2020 +0100
-
-    - updating UTF8-2byte recognition
-
-commit 0cbcbfc9730f8d446cf8eed11535a97c9a58ea99
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 29 12:37:25 2020 +0100
-
-    - remove weird text squares when shortening russian texts
-
-commit 34d14648dd6dc48b790f0bd2be2f39a68142d87d
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Oct 27 22:15:18 2020 +0100
-
-    - updating changelog
-
-commit 17f656ff90450d67b9fab5db6702c3f4fb7a43f2
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Oct 27 14:27:18 2020 +0100
-
-    - trying to better shorten ruRU texts
-
-commit 9f8299fe5d620ec9488d2ff9456711e8dfdfa6d3
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Oct 27 09:59:29 2020 +0100
-
-    - adding option to disable -AGGRO- flash
-
-commit 3ab2720bbb450d1bd3a46f9e38e66032ffa575c5
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Oct 27 00:46:16 2020 +0100
-
-    - ensure mods/scripts are saved and cleared from editing when exporting
-
-commit 1516729c580640a10ed7b539221c31d48cd655cd
+commit d646217f90fc1dac6ef16176d405c0263ec316aa
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Oct 26 19:04:12 2020 -0300
+Date:   Mon Nov 2 20:54:17 2020 -0300
 
-    Framework update
+    Moved all code for auras from Plater.lua to Plater_Auras.lua
 
-commit 1516729c580640a10ed7b539221c31d48cd655cd
+commit 44d1e94974578b0dc7f771c220a5d69a2b414318
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Nov 2 19:49:44 2020 +0100
+
+    - lower alpha for execute range indicator
+
+commit 8013393cff085622eeaa70618c4d54c0606bb96f
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Nov 2 19:18:13 2020 +0100
+
+    - ensure up to date consolidated buff list
+
+commit 72990cb3bb79630d0d9219825631d794d03d1cd8
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Oct 26 19:04:12 2020 -0300
+Date:   Mon Nov 2 14:20:08 2020 -0300
 
-    Framework update
+    Added altCastId for alternative cast bar, scripts can now check what is the origin of a cast on the alternative cast bar.
+    
+    Plater.SetAltCastBar(plateFrame, configTable, timer, startedAt, altCastId).
+    added parameter startedAt, if this is nil the cast start is GetTime().
+    added parameter altCastId, can be any string or nil.
 
-commit 44ff716b7ca3ef2db8323620a984d82275451e87
+commit debbb9405296b86691042318801579431c20b45c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Nov 2 12:43:44 2020 -0300
+
+    Added cache for boss mods bars, a bossTimerInfo can be retrived using Plater.GetBossTimer(spellId)
+    
+    bossTimerInfo is a table containing the following information:
+    name = text shown in the bar
+    id = the bar identification, for dbm is a string and a number for bw
+    timer =  total time of the bar
+    start = the GetTime when the bar started
+    icon = icon
+    spellId = spellId if it has one
+
+commit debbb9405296b86691042318801579431c20b45c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Nov 2 12:43:44 2020 -0300
+
+    Added cache for boss mods bars, a bossTimerInfo can be retrived using Plater.GetBossTimer(spellId)
+    
+    bossTimerInfo is a table containing the following information:
+    name = text shown in the bar
+    id = the bar identification, for dbm is a string and a number for bw
+    timer =  total time of the bar
+    start = the GetTime when the bar started
+    icon = icon
+    spellId = spellId if it has one
+
+commit feb8945bcaf19912cac16fdd60cd466772dd6d89
 Author: Continuity <continuity@gmx.net>
-Date:   Mon Oct 26 19:33:33 2020 +0100
+Date:   Sun Nov 1 21:38:54 2020 +0100
 
-    - trying to shorten russian spell texts better
+    - adding initial low-level specs
 
-commit c1956c8ab3bbcad6de4c4b6a77aab573a3bcb0d5
+commit 2ac573fdbcb4de7e894faced310717cd3cfe5ff0
 Author: Continuity <continuity@gmx.net>
-Date:   Mon Oct 26 19:19:27 2020 +0100
+Date:   Sun Nov 1 20:17:58 2020 +0100
 
-    - early update actorType
+    - centralized utf8 truncation cleanup
 
-commit 3f5f82e6b218f551ced142955d11d57be1936d8f
+commit aa5f8e2e25434a6a9dcd347e7158fcf17e95ae7a
 Author: Continuity <continuity@gmx.net>
-Date:   Mon Oct 26 19:19:17 2020 +0100
-
-    - consistency for .IsSelf
-
-commit 20ebdea736c4213194b3f5a19a38e7ea5c2ead91
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Oct 26 19:18:58 2020 +0100
-
-    - proper alpha checks for personal bar
-
-commit 28d0974ac2048fe434c2c8cc6226d33ed1a4adc7
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Oct 25 21:36:52 2020 +0100
-
-    - hide animations when hiding plate
-
-commit cd97dd2e0141c91e8a80c8e2f3b84970a1572328
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Oct 25 20:24:44 2020 +0100
-
-    - properly refresh general settings on select
-
-commit 5d9a4c4ffadae6b8aea290295f0a19ecb80e8482
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Oct 25 19:53:03 2020 +0100
+Date:   Sun Nov 1 20:17:40 2020 +0100
 
     - DF lib update
 
-commit 8d8e843a8b9589e5e077f96f9ab6c7aa4bd3d82c
+commit 5524c78e3dec00956a01e6b4fbf5127ef36dff4f
 Author: Continuity <continuity@gmx.net>
-Date:   Sun Oct 25 19:17:30 2020 +0100
+Date:   Sun Nov 1 19:42:22 2020 +0100
 
-    - stop flash animations on nameplate remove
+    - searing touch is 30% execute
 
-commit 0222b23dc5b5bbcb5df82c6067a1473c6fb59f60
+commit 98b2882f2c39956b75b51b5e18a6bea76abd0e52
 Author: Continuity <continuity@gmx.net>
-Date:   Sat Oct 24 22:50:44 2020 +0200
+Date:   Sun Nov 1 14:56:31 2020 +0100
 
-    - changelog update
+    - removing uniecessary label...
 
-commit 80a912e5f1644144517eac9767132596e64c1f53
+commit e9e66eddf14fb894011a0fdbafce49f20a46abff
 Author: Continuity <continuity@gmx.net>
-Date:   Sat Oct 24 22:48:53 2020 +0200
+Date:   Sun Nov 1 14:55:48 2020 +0100
 
-    - fixing an issue with aura sorting and 'jumpy' aura icons
+    - adding option to use target alpha for focus targets
 
-commit db394fc61e81d9ca1b7c9a0f82e0955fdd0ad1d5
+commit e714e4f0ccf9ca8356d952555466bc1012971720
 Author: Continuity <continuity@gmx.net>
-Date:   Sat Oct 24 21:23:27 2020 +0200
+Date:   Sun Nov 1 14:21:24 2020 +0100
 
-    - updating glow functions with minor fixes
+    - adding options for aggro glow
 
-commit 7ad1655b945400887469dd5e0eeedb9a8878dea4
+commit 0988a18603f90de94753bd79c4219b274201a4c8
 Author: Continuity <continuity@gmx.net>
-Date:   Sat Oct 24 21:23:02 2020 +0200
+Date:   Sat Oct 31 20:20:52 2020 +0100
 
-    - updating Combo Points mod for new textures
+    - nil checks (for sanity)
 
-commit 774beea4f0f7d075d62ba64f0f331f45c1a061ad
+commit d9e2e4def9bf614eb8c30cd4cff3f720411bcb49
 Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 23 19:36:39 2020 +0200
+Date:   Sat Oct 31 20:11:49 2020 +0100
 
-    - fixing typo
+    - adding Careful Aim talent to execute
 
-commit 8075b17b69c624092d25506cebc7735e38cc53c7
-Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 23 14:39:04 2020 +0200
-
-    - changelog update
-
-commit d8997b386344d92090301eb7537592e27e5d069c
-Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 23 14:35:22 2020 +0200
-
-    - api clarification
-
-commit 938ce75f7d836f04a55f3c7d457201b119a858b0
-Author: Continuity <continuity@gmx.net>
-Date:   Fri Oct 23 14:29:20 2020 +0200
-
-    - DF lib update
-
-commit 8f62d1f0ee6de211645c30e12087350fb43559c4
+commit d4403d1a46d677ac9b1c80824295f99debb79217
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Oct 22 14:49:01 2020 -0300
+Date:   Sat Oct 31 15:59:40 2020 -0300
 
-    Framework update
+    More options for the alt cast bar (castBar2)
 
-commit a283805fb89e705aad86c9ae934c865a4679b7c1
+commit 2f72b3a35003094b88d03c70e9801727d8cb5905
 Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 22 19:29:48 2020 +0200
+Date:   Sat Oct 31 10:19:31 2020 +0100
 
-    - regression fixes
-
-commit e84192d43f449be7b6a7943f903dba5930841477
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 22 14:42:05 2020 +0200
-
-    - reworking GetHealthCutoffValue and adding condemn (warr) + blindside (assa)
-
-commit db590388fcb880911c1e18c3e704777b9ce74fab
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Oct 22 12:03:10 2020 +0200
-
-    - adding "upper range" execute indicator
-
-commit f2686c6ed0a22381a868b481110eb956bfed19fd
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Oct 21 22:42:10 2020 +0200
-
-    - fixing issue with npc cache/colors on import being string-indexed
-
-commit 47dbfd20cf44f5ebe90ad35b2c602dd048490be7
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Oct 21 09:34:46 2020 +0200
-
-    - ensure actor type is set when updating color
-
-commit 2cebe06796c64ee0c4366e1cd4b4a7f98b88498c
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Oct 21 09:27:30 2020 +0200
-
-    - fixing "only damaged" option for friendly players
-
-commit 102c53018ec8a267c543bf412111f9a015403240
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Oct 20 22:51:14 2020 +0200
-
-    - adding Affli WL Drain Soul to execute
+    - cleanup other UTF8 leftovers as well...
 

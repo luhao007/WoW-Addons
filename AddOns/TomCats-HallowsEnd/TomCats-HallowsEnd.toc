@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: TomCat
-## Version: 01.06.07
+## Version: 01.06.10
 ## OptionalDeps: TomCats
 ## SavedVariablesPerCharacter: TomCats_HallowsEnd_Character
 ## DefaultState: enabled
@@ -9,8 +9,8 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFF69CCF0万圣节|r
 
 ## X-Website: http://www.tomcatstours.com
-## X-TomCats-VersionMessageID: 1604409820
-## X-TomCats-VersionMessage: CfkfZ7jj7JjEfPP0M+Hm96NmWd4f3e5zDPL3vYriCJ4jCsjT7bAGkF+hWdwBAQYBAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGBwwAAQYNAQASDgEAGg8BAAY=
+## X-TomCats-VersionMessageID: 1604527760
+## X-TomCats-VersionMessage: HWxxr+n0LQBrkaJ8eaAXZUUltP4fLYgeqjm1DlnTvZNgNuZnjfQx/1+jJpABAQYDAgEEAwMBBAYEAQQIBQEEBgYBBAYHAQQXCAECCAkCBgAKAQADCwEGCgwAAQYNAQASDgEAGg8BAAY=
 ## X-Part-Of: TomCats
 ## X-Category: Achievements, Map, Miscellaneous, Quests
 

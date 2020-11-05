@@ -2915,85 +2915,108 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_OTHER_BOTH, {
 -- Added like this to make sure the characters factions zones are first
 BtWQuestsDatabase:AddExpansionItems(BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH, {
     {
-        type = "header",
-        name = L["ALLIANCE_ZONES"],
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_ALLIANCE,
+        variations = {
+            {
+                type = "header",
+                name = BtWQuests.GetMapName(875),
+                restrictions = 923,
+            },
+            {
+                type = "header",
+                name = BtWQuests.GetMapName(876),
+            },
         },
     },
     {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND,
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_ALLIANCE,
+        variations = {
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_ZULDAZAR,
+                restrictions = 923,
+            },
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND,
+            },
         },
     },
     {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_DRUSTVAR,
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_ALLIANCE,
+        variations = {
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZMIR,
+                restrictions = 923,
+            },
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_DRUSTVAR,
+            },
         },
     },
     {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_ALLIANCE,
+        variations = {
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
+                restrictions = 923,
+            },
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
+            },
         },
     },
 
     {
-        type = "header",
-        name = L["HORDE_ZONES"],
-    },
-    {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_ZULDAZAR,
-    },
-    {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZMIR,
-    },
-    {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
-    },
-
-    {
-        type = "header",
-        name = L["ALLIANCE_ZONES"],
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_HORDE,
+        variations = {
+            {
+                type = "header",
+                name = BtWQuests.GetMapName(876),
+                restrictions = 923,
+            },
+            {
+                type = "header",
+                name = BtWQuests.GetMapName(875),
+            },
         },
     },
     {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND,
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_HORDE,
+        variations = {
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND,
+                restrictions = 923,
+            },
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_ZULDAZAR,
+            },
         },
     },
     {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_DRUSTVAR,
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_HORDE,
+        variations = {
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_DRUSTVAR,
+                restrictions = 923,
+            },
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_NAZMIR,
+            },
         },
     },
     {
-        type = "category",
-        id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
-        restrictions = {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_HORDE,
+        variations = {
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY,
+                restrictions = 923,
+            },
+            {
+                type = "category",
+                id = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_VOLDUN,
+            },
         },
     },
     
