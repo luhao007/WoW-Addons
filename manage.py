@@ -14,7 +14,7 @@ logger = logging.getLogger('manager')
 
 CLASSIC_VER = '11305'
 RETAIL_VER = '90001'
-NOT_WORKING = ['ItemRack', 'GarrisonMissionManager',
+NOT_WORKING = ['ItemRack', 'FishingBuddy', 'GarrisonMissionManager',
                'MasterPlan', 'HandyNotes_DraenorTreasures',
                'HandyNotes_LegionRaresTreasures',
                'HandyNotes_HallowsEnd', 'UnitFramesPlus',

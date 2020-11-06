@@ -1,11 +1,11 @@
 ## Interface: 90001
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## Version: 5.19.1.90001
+## Version: 5.19.2.90001
 ## Dependencies: Titan
 ## OptionalDeps: 
 ## SavedVariables: 
 
-## Title: Titan Panel [|cffeda55fLocation|r] |cff00aa005.19.1.90001|r
+## Title: Titan Panel [|cffeda55fLocation|r] |cff00aa005.19.2.90001|r
 ## Notes: Adds coordinates and location information to Titan Panel
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0位置|r
 ## Notes-zhCN: 泰坦面板的位置模块

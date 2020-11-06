@@ -203,9 +203,9 @@ function TitanMovable_GetPanelYOffset(framePosition) -- used by other addons
 	-- 0 will be returned if the user has no bars showing
 	-- or the scale is not valid
 	if scale and framePosition then
-		if framePosition == TITAN_PANEL_PLACE_TOP then
+		if framePosition == TITAN_PANEL_PLACE_TOP and barnum_top > 0 then
 			return (-TITAN_PANEL_BAR_HEIGHT * scale)*(barnum_top);
-		elseif framePosition == TITAN_PANEL_PLACE_BOTTOM then
+		elseif framePosition == TITAN_PANEL_PLACE_BOTTOM and barnum_bot > 0 then
 			return (TITAN_PANEL_BAR_HEIGHT * scale)*(barnum_bot)
 				-1 -- no idea why -1 is needed... seems anchoring to bottom is off a pixel
 		end
@@ -638,9 +638,7 @@ addonAdj - true if another addon is taking responsibility of adjusting this fram
 :DESC
 NOTE:
 - MoveFrame calculates and offsets for the Titan bars, if shown
-- When calculating the initial Y offset, consider the points and relative points of the frame being adjusted.
-Titan only adjusts Y while leaving the rest of the SetPoint values as is.
-An example is the extra action button - It is set against center of UIParent; it is not relative to the action bars...
+- When calculating the initial Y offset, consider the points and relative points of the frame being adjusted. See the move function for specific frame adjustments
 - Of course Blizzard had to make the MainMenuBar act differently <sigh>. :GetPoint() does not work on it so a special helper routine was needed.
 :NOTE
 --]]
@@ -660,17 +658,27 @@ local MData = {
 		addonAdj = false, },
 	[5] = {frameName = "BuffFrame", 
 		move = function (force) 
-			-- properly adjust buff frame(s) if GM Ticket is visible
+			-- The main frames have no adjustment (tops align) to UIParent.
+			-- But we need to properly adjust for
+			-- 1) When user does not use either top bar
+			-- 2) Y if GM Ticket is visible
 
 			-- Use IsShown rather than IsVisible. In some cases (after closing
 			-- full screen map) the ticket may not yet be visible.
 			local yOffset = 0
-			if TicketStatusFrame:IsShown()
-			and TitanPanelGetVar("TicketAdjust") 
-			then
-				yOffset = (-TicketStatusFrame:GetHeight())
+			local y = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP)
+			if y == 0 then
+				-- covers case where user disables both top bars
+				yOffset = BUFF_FRAME_BASE_EXTENT -- From BuffFrame.lua 
+					* -1 -- adjust 'down' on screen
 			else
-				yOffset = TitanPanelGetVar("BuffIconVerticalAdj")  -- -13 (8.x)
+				if TicketStatusFrame:IsShown()
+				and TitanPanelGetVar("TicketAdjust") 
+				then
+					yOffset = (-TicketStatusFrame:GetHeight())
+				else
+					yOffset = TitanPanelGetVar("BuffIconVerticalAdj")  -- -13 (8.x)
+				end
 			end
 			MoveFrame("BuffFrame", yOffset, TITAN_PANEL_PLACE_TOP, force) 
 			end, 
