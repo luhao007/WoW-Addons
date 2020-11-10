@@ -1,0 +1,53 @@
+## Interface: 90001
+## Title: BtWQuests: Shadowlands Prologue
+## Version: 1.2
+## Notes: Shadowlands Prologue quest data for BtWQuests
+## Author: Breen
+## Dependencies: BtWQuests
+## LoadOnDemand: 1
+## X-BtWQuests: Shadowlands Prologue
+## X-BtWQuests-Expansion: 8
+## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
+## X-BtWQuests-Expansion-Movie-ID: 936
+## X-BtWQuests-AutoLoad: 1
+## X-Part-Of: BtWQuests
+
+Defines.lua
+
+Quests.lua
+Quests.deDE.lua
+Quests.esES.lua
+Quests.esMX.lua
+Quests.frFR.lua
+Quests.itIT.lua
+Quests.koKR.lua
+Quests.ptBR.lua
+Quests.ruRU.lua
+Quests.zhCN.lua
+Quests.zhTW.lua
+
+NPCs.lua
+NPCs.deDE.lua
+NPCs.esES.lua
+NPCs.esMX.lua
+NPCs.frFR.lua
+NPCs.itIT.lua
+NPCs.koKR.lua
+NPCs.ptBR.lua
+NPCs.ruRU.lua
+NPCs.zhCN.lua
+NPCs.zhTW.lua
+
+Index.enUS.lua
+Index.deDE.lua
+Index.esES.lua
+Index.esMX.lua
+Index.frFR.lua
+Index.itIT.lua
+Index.koKR.lua
+Index.ptBR.lua
+Index.ruRU.lua
+Index.zhCN.lua
+Index.zhTW.lua
+
+Prologue.lua

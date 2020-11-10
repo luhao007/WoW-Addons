@@ -181,8 +181,7 @@ FishingTranslations["frFR"] = {
 	["CONFIG_TOONMACRO_INFO"] = "Créer une macro de pêche par joueur.",
 	["CONFIG_TOONMACRO_ONOFF"] = "Par joueur",
 	["CONFIG_TRADESKILL_INFO"] = "Si elle est activée, ouvrez la fenêtre TradeSkill pour connaître les niveaux de compétence. Sinon, vous devrez ouvrir manuellement la profession de pêcheur.",
-	--[[Translation missing --]]
-	--[[ ["CONFIG_TRADESKILL_ONOFF"] = "Setup Skills",--]] 
+	["CONFIG_TRADESKILL_ONOFF"] = "Compétences de configuration",
 	["CONFIG_TRAWLERTOTEM_INFO"] = "S'il est activé, utilisez le jouet.",
 	["CONFIG_TURNOFFPVP_INFO"] = "Si actif, le JcJ sera désactivé dès que l'on s'équipe d'une canne à pêche.",
 	["CONFIG_TURNOFFPVP_ONOFF"] = "Désactive le JcJ",

@@ -12,6 +12,12 @@ L[ [=[ Filter formats: 'Name', 'Name-Realm', '-Realm'.
 
 Supports multiple entries, separated by commas
 ]=] ] = "필터 형식: '이름', '이름-서버', '-서버'. 쉼표로 구분된 여러 항목 지원합니다"
+--[[Translation missing --]]
+L[ [=[
+
+Supports multiple entries, separated by commas]=] ] = [=[
+
+Supports multiple entries, separated by commas]=]
 L["%s - %i. Trigger"] = "%s - %i. 활성 조건"
 L["%s - Alpha Animation"] = "%s - 투명도 애니메이션"
 L["%s - Color Animation"] = "%s - 색상 애니메이션"
@@ -51,6 +57,8 @@ L["|cffeda55fMiddle-Click|r to toggle the minimap icon on or off."] = "|cffeda55
 --[[Translation missing --]]
 L["|cffeda55fRight-Click|r to toggle performance profiling window."] = "|cffeda55fRight-Click|r to toggle performance profiling window."
 L["|cffeda55fShift-Click|r to pause addon execution."] = "|cffeda55f쉬프트-클릭|r 으로 애드온 실행을 일시 중지합니다."
+--[[Translation missing --]]
+L["|cFFFF0000Not|r Item Bonus Id Equipped"] = "|cFFFF0000Not|r Item Bonus Id Equipped"
 L["|cFFFF0000Not|r Player Name/Realm"] = "|cFFFF0000Not|r 플레이어 이름/서버"
 L["|cFFffcc00Extra Options:|r %s"] = "|cFFffcc00추가 옵션:|r %s"
 L["|cFFffcc00Extra Options:|r None"] = "|cFFffcc00추가 옵션:|r 없음"
@@ -140,8 +148,7 @@ L["Author Options"] = "작성자 옵션"
 L["Auto"] = "자동"
 L["Autocast Shine"] = "자동시전 빛남"
 L["Automatic"] = "자동"
---[[Translation missing --]]
-L["Automatic Length"] = "Automatic Length"
+L["Automatic Length"] = "자동 길이"
 --[[Translation missing --]]
 L["Automatic Repair Confirmation Dialog"] = "Automatic Repair Confirmation Dialog"
 L["Automatic Rotation"] = "자동 회전"
@@ -189,7 +196,7 @@ L["Buru the Gorger"] = "먹보 부루"
 L["Can be used for e.g. checking if \"boss1target\" is the same as \"player\"."] = "예를 들어 \"우두머리1대상\"이 \"플레이어\"와 같은지 확인하는데 사용할 수 있습니다."
 L["Cancel"] = "취소"
 --[[Translation missing --]]
-L["Can't schedule timer with %i, due to a World of Warcraft Bug with high computer uptime. (Uptime: %i). Please restart your Computer."] = "Can't schedule timer with %i, due to a World of Warcraft Bug with high computer uptime. (Uptime: %i). Please restart your Computer."
+L["Can't schedule timer with %i, due to a World of Warcraft bug with high computer uptime. (Uptime: %i). Please restart your computer."] = "Can't schedule timer with %i, due to a World of Warcraft bug with high computer uptime. (Uptime: %i). Please restart your computer."
 L["Cast"] = "시전"
 L["Cast Bar"] = "시전바"
 L["Cast Failed"] = "시전 실패"
@@ -310,6 +317,8 @@ L["Durability Damage All"] = "모든 내구도 손상"
 --[[Translation missing --]]
 L["Dynamic"] = "Dynamic"
 --[[Translation missing --]]
+L["Dynamic Information"] = "Dynamic Information"
+--[[Translation missing --]]
 L["Ease In"] = "Ease In"
 --[[Translation missing --]]
 L["Ease In and Out"] = "Ease In and Out"
@@ -355,6 +364,8 @@ L["Equipment Set Equipped"] = "장비 구성 착용"
 L["Equipment Slot"] = "장비 칸"
 L["Equipped"] = "장착함"
 L["Error"] = "오류"
+--[[Translation missing --]]
+L["Error Frame"] = "Error Frame"
 L["Error not receiving display information from %s"] = "%s 에서 표시 정보를받지 못하는 오류"
 --[[Translation missing --]]
 L[ [=['ERROR: Anchoring %s': 
@@ -377,6 +388,10 @@ L["Faction Reputation"] = "진영 평판"
 L["Fade In"] = "서서히 나타남"
 L["Fade Out"] = "서서히 사라짐"
 L["Fail Alert"] = "실패 경보"
+--[[Translation missing --]]
+L["Fallback"] = "Fallback"
+--[[Translation missing --]]
+L["Fallback Icon"] = "Fallback Icon"
 L["False"] = "거짓"
 L["Fankriss the Unyielding"] = "불굴의 판크리스"
 L["Filter messages with format <message>"] = "<메시지> 형식의 메시지 필터링"
@@ -474,10 +489,8 @@ L["Hostility"] = "적대성"
 L["Humanoid"] = "인간형"
 L["Hybrid"] = "복합"
 L["Icon"] = "아이콘"
-L["Icon Color"] = "아이콘 색상"
-L["Icon Desaturate"] = "아이콘 채도감소(흑백)"
-L["Icon Visible"] = "아이콘 보이기"
-L["If you require additional assistance, please open a ticket on GitHub or visit our Discord at https://discord.gg/wa2!"] = "추가 지원이 필요한 경우, GitHub에서 티켓을 열거나 Discord( https://discord.gg/wa2 )를 방문해 주세요!"
+--[[Translation missing --]]
+L["If you require additional assistance, please open a ticket on GitHub or visit our Discord at https://discord.gg/weakauras!"] = "If you require additional assistance, please open a ticket on GitHub or visit our Discord at https://discord.gg/weakauras!"
 L["Ignore Dead"] = "죽음 무시"
 L["Ignore Disconnected"] = "연결 끊김 무시"
 L["Ignore Rune CD"] = "룬 재사용 대기시간 무시"
@@ -497,7 +510,7 @@ L["In Combat"] = "전투 중"
 L["In Encounter"] = "교전 중"
 L["In Group"] = "파티 중"
 L["In Pet Battle"] = "애완동물 대전 중"
-L["In Raid"] = "레이드중"
+L["In Raid"] = "공격대 중"
 L["In Vehicle"] = "차량 탑승 중"
 L["Include Bank"] = "은행 포함"
 L["Include Charges"] = "충전량 포함"
@@ -770,6 +783,8 @@ L["Queued Action"] = "Queued Action"
 L["Radius"] = "반경"
 L["Ragnaros"] = "라그나로스"
 L["Raid"] = "공격대"
+--[[Translation missing --]]
+L["Raid Role"] = "Raid Role"
 L["Raid Warning"] = "공격대 경보"
 L["Raids"] = "공격대"
 L["Range"] = "원거리"
@@ -891,6 +906,20 @@ L["Show Rested Overlay"] = "Show Rested Overlay"
 L["Shrink"] = "축소"
 L["Silithid Royalty"] = "실리시드 왕실"
 L["Simple"] = "단순"
+--[[Translation missing --]]
+L["Since Apply"] = "Since Apply"
+--[[Translation missing --]]
+L["Since Apply/Refresh"] = "Since Apply/Refresh"
+--[[Translation missing --]]
+L["Since Charge Gain"] = "Since Charge Gain"
+--[[Translation missing --]]
+L["Since Charge Lost"] = "Since Charge Lost"
+--[[Translation missing --]]
+L["Since Ready"] = "Since Ready"
+--[[Translation missing --]]
+L["Since Stack Gain"] = "Since Stack Gain"
+--[[Translation missing --]]
+L["Since Stack Lost"] = "Since Stack Lost"
 L["Size & Position"] = "크기 & 위치"
 L["Slide from Bottom"] = "아래부터 슬라이드"
 L["Slide from Left"] = "왼쪽부터 슬라이드"
@@ -907,6 +936,8 @@ L["Small"] = "작음"
 L["Smart Group"] = "Smart Group"
 L["Sound"] = "소리"
 L["Sound by Kit ID"] = "Kit ID로 소리 재생"
+--[[Translation missing --]]
+L["Source"] = "Source"
 L["Source GUID"] = "행위자 GUID"
 L["Source In Group"] = "행위자가 속한 파티"
 L["Source Name"] = "행위자 이름"
@@ -921,9 +952,8 @@ L["Source Unit Name/Realm"] = "행위자 유닛 이름/서버"
 L["Source: "] = "출처:"
 L["Space"] = "공간"
 L["Spacing"] = "간격"
-L["Spark Color"] = "섬광 색상"
-L["Spark Height"] = "섬광 높이"
-L["Spark Width"] = "섬광 너비"
+--[[Translation missing --]]
+L["Spark"] = "Spark"
 L["Spec Role"] = "전문화 역할"
 L["Specific Unit"] = "특정 유닛"
 L["Spell"] = "주문"
@@ -1057,6 +1087,8 @@ L["Tracking Charge CDs"] = "Tracking Charge CDs"
 L["Tracking Only Cooldown"] = "Tracking Only Cooldown"
 L["Transmission error"] = "전송 오류"
 L["Trigger"] = "활성 조건"
+--[[Translation missing --]]
+L["Trigger %i"] = "Trigger %i"
 L["Trigger 1"] = "활성 조건 1"
 L["Trigger State Updater (Advanced)"] = "활성 조건 상태 업데이터 (고급)"
 L["Trigger Update"] = "활성 조건 업데이트"
@@ -1087,7 +1119,8 @@ L["Up, then Left"] = "위로, 왼쪽으로"
 L["Up, then Right"] = "위로, 오른쪽으로"
 L["Update Auras"] = "효과 갱신"
 L["Usage:"] = "사용법:"
-L["Use /wa minimap to show the minimap icon again"] = "/wa minimap 으로 미니맵 아이콘을 켜고 끕니다."
+--[[Translation missing --]]
+L["Use /wa minimap to show the minimap icon again."] = "Use /wa minimap to show the minimap icon again."
 L["Use Custom Color"] = "사용자 설정 색상 사용"
 L["Vaelastrasz the Corrupt"] = "타락한 밸라스트라즈"
 L["Value"] = "값"
@@ -1099,6 +1132,8 @@ L["Version: "] = "버전:"
 L["Viscidus"] = "비시디우스"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
+--[[Translation missing --]]
+L["Visible"] = "Visible"
 L["War Mode Active"] = "전쟁 모드 활성화"
 L["Warning"] = "경고"
 --[[Translation missing --]]

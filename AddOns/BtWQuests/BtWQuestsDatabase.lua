@@ -3602,6 +3602,7 @@ Database:RegisterItemType("questline", QuestLineItemMixin);
 Database:RegisterItemType("follower", FollowerItemMixin);
 Database:RegisterItemType("garrisontalenttree", GarrisonTalentTreeItemMixin);
 Database:RegisterItemType("campaign", CampaignItemMixin);
+Database:RegisterItemType("spell", ItemMixin); -- Is just used to track with rewards spells are used
 
 Database:AddCondition(923, { type = "faction", id = "Horde" });
 Database:AddCondition(924, { type = "faction", id = "Alliance" });

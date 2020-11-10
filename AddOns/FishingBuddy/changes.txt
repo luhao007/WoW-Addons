@@ -1,4 +1,10 @@
-Versio 1.10.10
+Version 1.11
+- Update TOC
+- Code fixes for Shadowlands
+- Fix downstream break of other mouse watching addons when we're not fishing! 
+- Add peeps to the AboutBox for their incredible help getting things fixed. (MisterFox9, iWolf1976, javier_himura, Dakhran, RatiaSnowFur, CptTibas)
+
+Version 1.10.10
 - Fix a bug in fishing mode management
 
 Version 1.10.9

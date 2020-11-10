@@ -774,8 +774,8 @@ Plater.DefaultSpellRangeListF = {
 	local DB_NOT_COMBAT_ALPHA_ENABLED
 	
 	local DB_USE_HEALTHCUTOFF = false
-	local DB_HEALTHCUTOFF_AT = 20
-	local DB_HEALTHCUTOFF_AT_UPPER = 80
+	local DB_HEALTHCUTOFF_AT = 0.2
+	local DB_HEALTHCUTOFF_AT_UPPER = 0.8
 	
 	--store the npc id cache
 	local DB_NPCIDS_CACHE = {}
@@ -860,9 +860,13 @@ Plater.DefaultSpellRangeListF = {
 	function Plater.GetHealthCutoffValue()
 		Plater.SetExecuteRange (false)
 		
-		if (not Plater.db.profile.health_cutoff) then
+		local lowerEnabled, upperEnabled = Plater.db.profile.health_cutoff, Plater.db.profile.health_cutoff_upper
+		
+		if (not (lowerEnabled or upperEnabled)) then
 			return
 		end
+		
+		local lowExecute, highExecute = nil, nil
 		
 		local classLoc, class = UnitClass ("player")
 		local spec = GetSpecialization()
@@ -871,65 +875,64 @@ Plater.DefaultSpellRangeListF = {
 			if (class == "PRIEST") then
 				-- SW:D is available to all priest specs
 				if IsPlayerSpell(32379) then
-					Plater.SetExecuteRange (true, 0.20)
+					lowExecute = 0.2
 				end
 				
 			elseif (class == "MAGE") then
 				if IsPlayerSpell(269644) then -- Searing Touch
-					Plater.SetExecuteRange (true, 0.30)
+					lowExecute = 0.3
 				elseif IsPlayerSpell(205026) then --Firestarter
-					Plater.SetExecuteRange (true, 0, 0.9)
+					highExecute = 0.9
 				end
 				
 			elseif (class == "WARRIOR") then
 				-- Execute is baseline
 				if IsPlayerSpell(163201) then
 					local using_Massacre = IsPlayerSpell(281001) or IsPlayerSpell(206315)
-					local lowExecute = using_Massacre and 0.35 or 0.2
+					lowExecute = using_Massacre and 0.35 or 0.2
 					local using_Condemn = IsPlayerSpell(317349) or IsPlayerSpell(317485)
-					local highExecute = using_Condemn and 0.8 or 1
-					
-					Plater.SetExecuteRange (true, lowExecute, highExecute)
+					highExecute = using_Condemn and 0.8 or nil
 				end
 				
 			elseif (class == "HUNTER") then
 				if IsPlayerSpell(53351) then -- Kill Shot
-					local lower, upper = 0.2, nil
+					lowExecute = 0.2
 					if IsPlayerSpell(273887) then --> is using killer instinct?
-						lower = 0.35
+						lowExecute = 0.35
 					end
-					if IsPlayerSpell(260228) then
-						upper = 0.7
+					if IsPlayerSpell(260228) and upperEnabled then --> Careful Aim
+						highExecute = 0.7
 					end
-					Plater.SetExecuteRange (true, lower, upper)
 				end
 				
 			elseif (class == "PALADIN") then
 				-- hammer of wrath
 				if IsPlayerSpell(24275) then
-					Plater.SetExecuteRange (true, 0.2)
+					lowExecute = 0.2
 				end
 				
 			elseif (class == "MONK") then
 				--Touch of Death
 				if IsPlayerSpell(322109) then
-					Plater.SetExecuteRange (true, 0.15)
+					lowExecute = 0.15
 				end
 			
 			elseif (class == "WARLOCK") then				
 				if IsPlayerSpell(17877) then --Shadowburn
-					Plater.SetExecuteRange (true, 0.20)
+					lowExecute = 0.20
 				elseif IsPlayerSpell(198590) then --Drain Soul
-					Plater.SetExecuteRange (true, 0.20)
+					lowExecute = 0.20
 				end
 			
 			elseif (class == "ROGUE") then				
 				if IsPlayerSpell(328085) then --Blindside
-					Plater.SetExecuteRange (true, 0.35)
+					lowExecute = 0.35
 				end
 			
 			end
 		end
+		
+		Plater.SetExecuteRange (true, lowerEnabled and lowExecute or nil, upperEnabled and highExecute or nil)
 	end	
 
 	--> range check ~range
@@ -1513,6 +1516,10 @@ Plater.DefaultSpellRangeListF = {
 		for _, func in ipairs (Plater.DBRefreshCallback) do
 			DF:Dispatch (func)
 		end
+	end
+
+	function Plater.DisableAuraTrackingForAuraTest()
+		DB_AURA_ENABLED = false
 	end
 
 	--> place most used data into local upvalues to save process time
@@ -3152,10 +3159,7 @@ Plater.DefaultSpellRangeListF = {
 			Plater.FindAndSetNameplateColor (unitFrame, true)
 			
 			--icone da cast bar
-			castBar.Icon:ClearAllPoints()
-			PixelUtil.SetPoint (castBar.Icon, "left", castBar, "left", 0, 0)
-			castBar.BorderShield:ClearAllPoints()
-			PixelUtil.SetPoint (castBar.BorderShield, "left", castBar, "left", 0, 0)
+			Plater.UpdateCastbarIcon(castBar)
 			
 			--esconde os glow de aggro
 			unitFrame.aggroGlowUpper:Hide()
@@ -3872,6 +3876,11 @@ function Plater.OnInit() --private --~oninit ~init
 					castBar:Animation_FadeIn()
 					castBar:Show()
 				end
+
+				Plater.UpdateCastbarTargetText(castBar)
+				local textString = castBar.FrameOverlay.TargetName
+				textString:Show()
+				textString:SetText("Target Name")
 			end
 			
 			local totalTime = 0
@@ -3888,6 +3897,10 @@ function Plater.OnInit() --private --~oninit ~init
 
 				for _, plateFrame in ipairs (Plater.GetAllShownPlates()) do
 					local castBar = plateFrame.unitFrame.castBar
+					local textString = castBar.FrameOverlay.TargetName
+					textString:Show()
+					textString:SetText("Target Name")
+
 					if (castBar.finished and not castBar.playedFinishedTest) then
 						Plater.CastBarOnEvent_Hook (castBar, "UNIT_SPELLCAST_STOP", plateFrame.unitFrame.unit, plateFrame.unitFrame.unit)
 						castBar.playedFinishedTest = true
@@ -3946,6 +3959,50 @@ function Plater.OnInit() --private --~oninit ~init
 						self.extraBackground:Hide()
 					end
 				end
+			end
+		end
+		
+		function Plater.UpdateCastbarIcon(castBar)
+			local profile = Plater.db.profile
+			if (profile.castbar_icon_customization_enabled) then
+				local icon = castBar.Icon
+				local unitFrame = castBar.unitFrame
+
+				if (profile.castbar_icon_show) then
+					icon:ClearAllPoints()
+					castBar.BorderShield:Hide()
+
+					if (profile.castbar_icon_attach_to_side == "left") then
+						if (profile.castbar_icon_size == "same as castbar") then
+							icon:SetPoint("topright", castBar, "topleft", profile.castbar_icon_x_offset, 0)
+							icon:SetPoint("bottomright", castBar, "bottomleft", profile.castbar_icon_x_offset, 0)
+
+						elseif (profile.castbar_icon_size == "same as castbar plus healthbar") then
+							icon:SetPoint("topright", unitFrame.healthBar, "topleft", profile.castbar_icon_x_offset, 0)
+							icon:SetPoint("bottomright", castBar, "bottomleft", profile.castbar_icon_x_offset, 0)
+						end
+
+					elseif (profile.castbar_icon_attach_to_side == "right") then
+						if (profile.castbar_icon_size == "same as castbar") then
+							icon:SetPoint("topleft", castBar, "topright", profile.castbar_icon_x_offset, 0)
+							icon:SetPoint("bottomleft", castBar, "bottomright", profile.castbar_icon_x_offset, 0)
+
+						elseif (profile.castbar_icon_size == "same as castbar plus healthbar") then
+							icon:SetPoint("topleft", unitFrame.healthBar, "topright", profile.castbar_icon_x_offset, 0)
+							icon:SetPoint("bottomleft", castBar, "bottomright", profile.castbar_icon_x_offset, 0)
+						end
+					end
+
+					icon:SetWidth(icon:GetHeight())
+				else
+					icon:Hide()
+					castBar.BorderShield:Hide()
+				end
+			else
+				castBar.Icon:ClearAllPoints()
+				PixelUtil.SetPoint (castBar.Icon, "left", castBar, "left", 0, 0)
+				castBar.BorderShield:ClearAllPoints()
+				PixelUtil.SetPoint (castBar.BorderShield, "left", castBar, "left", 0, 0)
 			end
 		end
 		
@@ -4022,40 +4079,7 @@ function Plater.OnInit() --private --~oninit ~init
 					Plater.UpdateCastbarTargetText (self)
 
 					--castbar icon
-					if (profile.castbar_icon_customization_enabled) then
-						local icon = self.Icon
-
-						if (profile.castbar_icon_show) then
-							icon:ClearAllPoints()
-							self.BorderShield:Hide()
-
-							if (profile.castbar_icon_attach_to_side == "left") then
-								if (profile.castbar_icon_size == "same as castbar") then
-									icon:SetPoint("topright", self, "topleft", profile.castbar_icon_x_offset, 0)
-									icon:SetPoint("bottomright", self, "bottomleft", profile.castbar_icon_x_offset, 0)
-
-								elseif (profile.castbar_icon_size == "same as castbar plus healthbar") then
-									icon:SetPoint("topright", unitFrame.healthBar, "topleft", profile.castbar_icon_x_offset, 0)
-									icon:SetPoint("bottomright", self, "bottomleft", profile.castbar_icon_x_offset, 0)
-								end
-
-							elseif (profile.castbar_icon_attach_to_side == "right") then
-								if (profile.castbar_icon_size == "same as castbar") then
-									icon:SetPoint("topleft", self, "topright", profile.castbar_icon_x_offset, 0)
-									icon:SetPoint("bottomleft", self, "bottomright", profile.castbar_icon_x_offset, 0)
-
-								elseif (profile.castbar_icon_size == "same as castbar plus healthbar") then
-									icon:SetPoint("topleft", unitFrame.healthBar, "topright", profile.castbar_icon_x_offset, 0)
-									icon:SetPoint("bottomleft", self, "bottomright", profile.castbar_icon_x_offset, 0)
-								end
-							end
-
-							icon:SetWidth(icon:GetHeight())
-						else
-							icon:Hide()
-							self.BorderShield:Hide()
-						end
-					end
+					Plater.UpdateCastbarIcon(self)
 
 					shouldRunCastStartHook = true
 
@@ -4133,13 +4157,26 @@ function Plater.OnInit() --private --~oninit ~init
 					if (self.unit and Plater.db.profile.castbar_target_show and not UnitIsUnit (self.unit, "player")) then
 						local targetName = UnitName (self.unit .. "target")
 						if (targetName) then
-							local _, class = UnitClass (self.unit .. "target")
-							if (class) then 
-								self.FrameOverlay.TargetName:SetText (targetName)
-								self.FrameOverlay.TargetName:SetTextColor (DF:ParseColors (class))
+
+							local canShowTargetName = true
+							local notInTank = Plater.db.profile.castbar_target_notank
+							if (notInTank) then
+								if (Plater.PlayerIsTank and targetName == UnitName("player")) then
+									canShowTargetName = false
+								end
+							end
+
+							if (canShowTargetName) then
+								local _, class = UnitClass (self.unit .. "target")
+								if (class) then 
+									self.FrameOverlay.TargetName:SetText (targetName)
+									self.FrameOverlay.TargetName:SetTextColor (DF:ParseColors (class))
+								else
+									self.FrameOverlay.TargetName:SetText (targetName)
+									DF:SetFontColor (self.FrameOverlay.TargetName, Plater.db.profile.castbar_target_color)
+								end
 							else
-								self.FrameOverlay.TargetName:SetText (targetName)
-								DF:SetFontColor (self.FrameOverlay.TargetName, Plater.db.profile.castbar_target_color)
+								self.FrameOverlay.TargetName:SetText ("")
 							end
 						else
 							self.FrameOverlay.TargetName:SetText ("")
@@ -4226,6 +4263,8 @@ function Plater.OnInit() --private --~oninit ~init
 		
 		unitFrame.healthBar.CurrentHealth = unitHealth
 		unitFrame.healthBar.CurrentHealthMax = unitHealthMax
+		unitFrame.healthBar.currentHealth = unitHealth
+		unitFrame.healthBar.currentHealthMax = unitHealthMax
 	end
 	
 	local run_on_health_change_hook = function (unitFrame)
@@ -4691,7 +4730,8 @@ end
 			PixelUtil.SetHeight (castBar, castBarHeight)
 			PixelUtil.SetSize (castBar.BorderShield, castBarHeight * 1.4, castBarHeight * 1.4)
 			PixelUtil.SetSize (castBar.Spark, profile.cast_statusbar_spark_width, castBarHeight)
-			PixelUtil.SetSize (castBar.Icon, castBarHeight, castBarHeight)
+			--PixelUtil.SetSize (castBar.Icon, castBarHeight, castBarHeight)
+			Plater.UpdateCastbarIcon(castBar)
 
 		--power bar
 			powerBar:ClearAllPoints()
@@ -5878,6 +5918,20 @@ end
 			plateFrame.isFriend = true		
 
 		elseif (plateFrame.actorType == ACTORTYPE_FRIENDLY_PLAYER and Plater.db.profile.plate_config [ACTORTYPE_FRIENDLY_PLAYER].actorname_use_class_color) then
+			--class colors should be used, if possible, because this is enabled
+			plateFrame.isFriend = nil
+			
+			local _, unitClass = UnitClass (plateFrame.unitFrame [MEMBER_UNITID])
+			if (unitClass) then
+				local color = RAID_CLASS_COLORS [unitClass]
+				DF:SetFontColor (nameString, color.r, color.g, color.b)
+				DF:SetFontColor (guildString, color.r, color.g, color.b)
+			else
+				DF:SetFontColor (nameString, plateConfigs.actorname_text_color)
+				DF:SetFontColor (guildString, plateConfigs.actorname_text_color)
+			end
+		
+		elseif (plateFrame.actorType == ACTORTYPE_ENEMY_PLAYER and Plater.db.profile.plate_config [ACTORTYPE_ENEMY_PLAYER].actorname_use_class_color) then
 			--class colors should be used, if possible, because this is enabled
 			plateFrame.isFriend = nil
 			
@@ -8017,8 +8071,8 @@ end
 	--healthAmount is a floor com zero to one, example: 25% is 0.25
 	function Plater.SetExecuteRange (isExecuteEnabled, healthAmountLower, healthAmountUpper)
 		DB_USE_HEALTHCUTOFF = isExecuteEnabled
-		DB_HEALTHCUTOFF_AT = tonumber (healthAmountLower) or -1
-		DB_HEALTHCUTOFF_AT_UPPER = tonumber (healthAmountUpper) or 101
+		DB_HEALTHCUTOFF_AT = tonumber (healthAmountLower) or -0.1
+		DB_HEALTHCUTOFF_AT_UPPER = tonumber (healthAmountUpper) or 1.1
 	end
 	
 	--return the name of the unit guild
@@ -9927,6 +9981,13 @@ end
 								Plater.UpdateOptionsForModScriptImport(newScript, scriptObject)
 								
 								--replace the old script with the new one
+								local oldScript = scriptDB[i]
+								if (oldScript) then
+									--move it to trash
+									oldScript.__TrashAt = time()
+									tinsert(Plater.db.profile.script_data_trash, oldScript)
+								end
+
 								tremove (scriptDB, i)
 								tinsert (scriptDB, i, newScript)
 								objectAdded = newScript
@@ -9974,6 +10035,14 @@ end
 								
 								Plater.UpdateOptionsForModScriptImport(newScript, scriptObject)
 								
+								--replace the old script with the new one
+								local oldScript = scriptDB[i]
+								if (oldScript) then
+									--move it to trash
+									oldScript.__TrashAt = time()
+									tinsert(Plater.db.profile.hook_data_trash, oldScript)
+								end
+
 								--replace the old script with the new one
 								tremove (scriptDB, i)
 								tinsert (scriptDB, i, newScript)

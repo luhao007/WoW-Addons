@@ -1,10 +1,9 @@
 ------------------------------------------------------------------------
-r112 | Caliaha | 2020-10-21 19:37:23 +0000 (Wed, 21 Oct 2020) | 2 lines
+r116 | Caliaha | 2020-11-09 05:00:24 +0000 (Mon, 09 Nov 2020) | 2 lines
 Changed paths:
    M /trunk/HandyNotes_DungeonLocations.lua
-   M /trunk/HandyNotes_DungeonLocations.toc
 
-Update for 9.0, only show on continent maps
+Fixed lua error
 
 ------------------------------------------------------------------------
 

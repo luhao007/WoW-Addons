@@ -1,50 +1,59 @@
-# [3.0.5](https://github.com/WeakAuras/WeakAuras2/tree/3.0.5) (2020-10-25)
+# [3.0.6](https://github.com/WeakAuras/WeakAuras2/tree/3.0.6) (2020-11-09)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.0.4...3.0.5)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.0.5...3.0.6)
 
 ## Highlights
 
- - A few small new features and bug fixes 
+ Mostly bug fixes but we now also let you set icons via conditions 
 
 ## Commits
 
-Anssi Mäkinen (1):
+InfusOnWoW (36):
 
-- Fix leaked global in Character Stats trigger
+- Fix MoverSizer lua errors if the mover has no position
+- Don't hide the Options window on import
+- Fix Custom Variables Validation to ignore additionalProgress
+- Introduce "elapsedTime" as a conditionType
+- Fix TexturePicker drop down
+- Options: Show a arrow pointing to offscreen auras
+- BT2 Multi: Guard against a empty string for count check
+- Fix anchoring of MoverSizer to Groups
+- Add missing conversion code for IconSource
+- Fix Importing from chat if Options were never opened
+- Tweak Custom Variables validation
+- Add missing file
+- Add a Lock Positions button in the toolbar
+- Improve Item Bonus Id checks
+- Fix BarModels breaking if hidden at 0 width
+- In the Item Bonus ID actually list legendaries for the current spec
+- Add a "None" choice to Covenants
+- Validate Custom Variables
+- Simplify AddCodeOption api
+- Don't send overlay glow event if weakauras is paused
+- Fix Group's selfPoint
+- Use the right states for dynamic conditions
+- Use browse icon in more places
+- Allow selectiong Icon Source/Icon via Conditions
+- Fix adding new aura without a time condition not unscheduling old check
+- Fix removing a condition check not calling modify
+- Fix wrong argument in call to ClearAndUpdateOptions in AuraBar.lua
+- Don't error on trying to import a update
+- Fix models not showing up in some cases
+- Resize the WeakAuras window if it's bigger than the screen
+- Make WA_Utf8Sub resilent against trying to format numbers
+- Fix errors in opening TextEditor for Custom Checks
+- Fix importing icon auras before the Options were opened
+- Add the Error Frame as a destination for messages
+- Templates: Fix Slice and Dice
+- Fix parent for custom anchoring
 
-InfusOnWoW (15):
+Stanzilla (3):
 
-- Create less PlayerModels
-- Fix ModelPicker for BarModels and multi selection
-- Fix TexturePicker for Ticks + multi select
-- Conditions: Fix recheck time scheduling with Else if
-- Fixes remaining time check for Weapon Enchant trigger
-- Remove the capping of alpha while Options are open
-- Cooldown Progress: Rename Stacks to Charges
-- Weapon Enchant trigger: Default to Question Mark icon
-- Fix conditions listing too many variables
-- Fix error in Spell Known trigger
-- Add One handed Axes to weapon types
-- Fix bar model's alpha bein overwritten by PreShowModel
-- Fix Spell Activation Overlay trigger
-- Rename a few anchor options
-- Bufftrigger 2: Fix total stack count
+- Update README.md
+- Formatting and cleanup
+- Change Discord server link
 
-Stanzilla (6):
+mrbuds (1):
 
-- Don't try to load covenant stuff on classic
-- Add new feature indicator to item type equipped load condition
-- Add new feature indicator for charged combo points
-- Add new feature indicator to covenant load option
-- Add Covenant Load Option (#2615)
-- Update bug_report.md
-
-mrbuds (6):
-
-- remove debug print
-- set default animation to "loop" instead of "progress
-- parse StopMotion texture settings from filename implement #2356 format of filename has to be "name.x[1-9]+y[1-9]+f[1-9]+.(tga|blp)" where x is number of rows, y number of columns, and f number of frames
-- add spell activation overlays added with wow 8.1.5
-- fix nil error when using "Class Colors" addon CUSTOM_CLASS_COLORS table does not have the method WrapTextInColorCode
-- better fix for omnicc error
+- Classic: add support for MAINTANK and MAINASSIST filter (#2636)
 

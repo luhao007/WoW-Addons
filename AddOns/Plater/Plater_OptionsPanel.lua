@@ -1829,7 +1829,7 @@ local debuff_options = {
 			Plater.UpdateAllPlates()
 		end,
 		name = "Show Dispellable Buffs",
-		desc = "Show auras which can be dispelled or stealed.",
+		desc = "Show auras which can be dispelled or stolen.",
 	},
 	
 	{
@@ -2924,13 +2924,13 @@ Plater.CreateAuraTesting()
 				
 					for _, plateFrame in ipairs (Plater.GetAllShownPlates()) do
 						if (plateFrame.unitFrame.colorSelectionDropdown) then
-							if (Plater.ZoneInstanceType ~= "party" and Plater.ZoneInstanceType ~= "raid") then
-								plateFrame.unitFrame.colorSelectionDropdown:Hide()
-							else
+							--if (Plater.ZoneInstanceType ~= "party" and Plater.ZoneInstanceType ~= "raid") then
+							--	plateFrame.unitFrame.colorSelectionDropdown:Hide()
+							--else
 								local npcID = plateFrame.unitFrame.colorSelectionDropdown:GetParent() [MEMBER_NPCID]
 								plateFrame.unitFrame.colorSelectionDropdown:Select (DB_NPCID_COLORS [npcID] and DB_NPCID_COLORS [npcID][1] and DB_NPCID_COLORS [npcID][3] or "white")
 								plateFrame.unitFrame.colorSelectionDropdown:Show()
-							end
+							--end
 						end
 					end
 				end
@@ -3061,7 +3061,7 @@ Plater.CreateAuraTesting()
 					dropdown:Select (DB_NPCID_COLORS [npcID] and DB_NPCID_COLORS [npcID][1] and DB_NPCID_COLORS [npcID][3] or "white")
 					
 					if (Plater.ZoneInstanceType ~= "party" and Plater.ZoneInstanceType ~= "raid") then
-						dropdown:Hide()
+						--dropdown:Hide()
 					end
 					
 					--reset button
@@ -3119,7 +3119,7 @@ Plater.CreateAuraTesting()
 					elseif (event == "NAME_PLATE_UNIT_ADDED") then
 					
 						if (Plater.ZoneInstanceType ~= "party" and Plater.ZoneInstanceType ~= "raid") then
-							return
+							--return
 						end
 					
 						local dropdown = plateFrame.unitFrame.colorSelectionDropdown
@@ -6274,6 +6274,7 @@ local relevance_options = {
 
 				local plateConfig = Plater.db.profile.plate_config
 
+				--change the health bars
 				plateConfig.friendlyplayer.health[1] = value
 				plateConfig.friendlyplayer.health_incombat[1] = value
 
@@ -6285,6 +6286,19 @@ local relevance_options = {
 
 				plateConfig.enemynpc.health[1] = value
 				plateConfig.enemynpc.health_incombat[1] = value
+
+				--change the castbars
+				plateConfig.friendlyplayer.cast[1] = value
+				plateConfig.friendlyplayer.cast_incombat[1] = value
+
+				plateConfig.enemyplayer.cast[1] = value
+				plateConfig.enemyplayer.cast_incombat[1] = value
+
+				plateConfig.friendlynpc.cast[1] = value
+				plateConfig.friendlynpc.cast_incombat[1] = value
+
+				plateConfig.enemynpc.cast[1] = value
+				plateConfig.enemynpc.cast_incombat[1] = value
 
 				Plater.RefreshDBUpvalues()
 				Plater.UpdateAllPlates(nil, true)
@@ -6832,10 +6846,23 @@ local relevance_options = {
 			get = function() return Plater.db.profile.health_cutoff end,
 			set = function (self, fixedparam, value) 
 				Plater.db.profile.health_cutoff = value
+				Plater.GetHealthCutoffValue()
 				Plater.UpdateAllPlates()
 			end,
 			name = "Execute Range",
-			desc = "Show an indicator when the unit is in execute range.\n\nPlater auto detects execute range for:\n\n|cFFFFFF00Hunter|r\n\n|cFFFFFF00Warrior|r\n\n|cFFFFFF00Priest|r\n\n|cFFFFFF00Paladin|r\n\n|cFFFFFF00Monk|r\n\n|cFFFFFF00Mage|r: Fire spec with Searing Touch or Firestarter talent.\n\n|cFFFFFF00Warlock|r: Destruction spec with Shadowburn talent.\nAffliction with Drain Soul talent.\n\n|cFFFFFF00Rogue|r: Assassination spec with Blindside talent.",
+			desc = "Show an indicator when the unit is in execute range.\n\nPlater auto detects execute range for:\n\n|cFFFFFF00Hunter|r\n\n|cFFFFFF00Warrior|r\n\n|cFFFFFF00Priest|r\n\n|cFFFFFF00Paladin|r\n\n|cFFFFFF00Monk|r\n\n|cFFFFFF00Mage|r: Fire spec with Searing Touch talent.\n\n|cFFFFFF00Warlock|r: Destruction spec with Shadowburn talent.\nAffliction with Drain Soul talent.\n\n|cFFFFFF00Rogue|r: Assassination spec with Blindside talent.",
+		},
+		
+		{
+			type = "toggle",
+			get = function() return Plater.db.profile.health_cutoff_upper end,
+			set = function (self, fixedparam, value) 
+				Plater.db.profile.health_cutoff_upper = value
+				Plater.GetHealthCutoffValue()
+				Plater.UpdateAllPlates()
+			end,
+			name = "Upper Execute Range",
+			desc = "Show an indicator when the unit is in the upper execute range.\nPlater auto detects execute range for:\n\n|cFFFFFF00Hunter|r: Careful Aim talented.\n\n|cFFFFFF00Warrior|r: Condemn (Venthyr Covenant).\n\n|cFFFFFF00Mage|r: Fire spec with Firestarter talented.",
 		},
 
 		{
@@ -8053,7 +8080,37 @@ end
 			usedecimals = true,
 			name = L["OPTIONS_YOFFSET"],
 			desc = "Adjust the position on the Y axis.\n\n|cFFFFFF00Important|r: right click to type the value.",
-		},			
+		},
+		
+		{type = "blank" },
+		
+		{type = "label", get = function() return "Player Name Text Colors" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+		--player name color
+		{
+			type = "toggle",
+			get = function() return Plater.db.profile.plate_config.enemyplayer.actorname_use_class_color end,
+			set = function (self, fixedparam, value) 
+				Plater.db.profile.plate_config.enemyplayer.actorname_use_class_color = value
+				Plater.UpdateAllPlates()
+			end,
+			name = "Use Class Colors",
+			desc = "Player name text uses the class color instead of the selected color.",
+		},
+		--player name color
+		{
+			type = "color",
+			get = function()
+				local color = Plater.db.profile.plate_config.enemyplayer.actorname_text_color
+				return {color[1], color[2], color[3], color[4]}
+			end,
+			set = function (self, r, g, b, a) 
+				local color = Plater.db.profile.plate_config.enemyplayer.actorname_text_color
+				color[1], color[2], color[3], color[4] = r, g, b, a
+				Plater.UpdateAllPlates()
+			end,
+			name = L["OPTIONS_COLOR"],
+			desc = "The color of the text.",
+		},
 		
 		{type = "breakline"},
 	
@@ -8199,21 +8256,6 @@ end
 			values = function() return DF:BuildDropDownFontList (on_select_enemy_playername_font) end,
 			name = L["OPTIONS_FONT"],
 			desc = "Font of the text.",
-		},
-		--player name color
-		{
-			type = "color",
-			get = function()
-				local color = Plater.db.profile.plate_config.enemyplayer.actorname_text_color
-				return {color[1], color[2], color[3], color[4]}
-			end,
-			set = function (self, r, g, b, a) 
-				local color = Plater.db.profile.plate_config.enemyplayer.actorname_text_color
-				color[1], color[2], color[3], color[4] = r, g, b, a
-				Plater.UpdateAllPlates()
-			end,
-			name = L["OPTIONS_COLOR"],
-			desc = "The color of the text.",
 		},
 		
 		--text outline options
@@ -11538,6 +11580,18 @@ end
 			name = "Show Target Name",
 			desc = "Show who is the target of the current cast (if the target exists)",
 		},
+
+		{
+			type = "toggle",
+			get = function() return Plater.db.profile.castbar_target_notank end,
+			set = function (self, fixedparam, value) 
+				Plater.db.profile.castbar_target_notank = value
+				Plater.RefreshDBUpvalues()
+			end,
+			name = "[Tank] Don't Show Your Name",
+			desc = "If you are a tank don't show the target name if the cast is on you.",
+		},
+		
 		{
 			type = "range",
 			get = function() return Plater.db.profile.castbar_target_text_size end,
@@ -12724,36 +12778,7 @@ end
 			--]= --end of top and bottom constrain		
 		
 		{type = "blank"},
-		{type = "label", get = function() return "Animation Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
-		
-		{
-			type = "toggle",
-			get = function() return Plater.db.profile.use_color_lerp end,
-			set = function (self, fixedparam, value) 
-				Plater.db.profile.use_color_lerp = value
-				Plater.RefreshDBUpvalues()
-				Plater.UpdateAllPlates()
-			end,
-			name = "Use Smooth Color Transition",
-			desc = "Color changes does a smooth transition between the old and the new color.",
-		},
-		{
-			type = "range",
-			get = function() return Plater.db.profile.color_lerp_speed end,
-			set = function (self, fixedparam, value) 
-				Plater.db.profile.color_lerp_speed = value
-				Plater.RefreshDBUpvalues()
-				Plater.DebugColorAnimation()
-			end,
-			min = 1,
-			max = 50,
-			step = 1,
-			name = "Smooth Color Transition Speed",
-			desc = "How fast it transition between colors.",
-		},
-		
-		{type = "blank"},
-
+		{type = "label", get = function() return "Animations:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 		
 		{
 			type = "toggle",
@@ -12763,8 +12788,19 @@ end
 				Plater.RefreshDBUpvalues()
 				Plater.UpdateAllPlates()
 			end,
-			name = "Use Smooth Health Transition",
+			name = "Animate Health Bar",
 			desc = "Do a smooth animation when the nameplate's health value changes.",
+		},
+		{
+			type = "toggle",
+			get = function() return Plater.db.profile.use_color_lerp end,
+			set = function (self, fixedparam, value) 
+				Plater.db.profile.use_color_lerp = value
+				Plater.RefreshDBUpvalues()
+				Plater.UpdateAllPlates()
+			end,
+			name = "Animate Color Transitions",
+			desc = "Color changes does a smooth transition between the old and the new color.",
 		},
 		{
 			type = "range",
@@ -12779,9 +12815,23 @@ end
 			step = 0.1,
 			usedecimals = true,
 			thumbscale = 1.7,
-			name = "Smooth Health Transition Speed",
-			desc = "How fast is the transition animation.",
+			name = "Health Bar Animation Speed",
+			desc = "How fast is the animation.",
 		},	
+		{
+			type = "range",
+			get = function() return Plater.db.profile.color_lerp_speed end,
+			set = function (self, fixedparam, value) 
+				Plater.db.profile.color_lerp_speed = value
+				Plater.RefreshDBUpvalues()
+				Plater.DebugColorAnimation()
+			end,
+			min = 1,
+			max = 50,
+			step = 1,
+			name = "Color Animation Speed",
+			desc = "How fast is the animation.",
+		},
 
 		{type = "blank"},
 		{type = "label", get = function() return "Region:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},

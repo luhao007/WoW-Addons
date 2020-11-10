@@ -112,7 +112,7 @@ local function IsQuestFishing(item)
     -- Check for hookshot
     if (GetItemCount(116755) > 0) then
         -- Better Nat's quest checking by Bodar (Curse)
-        local questLogIndex = GetQuestLogIndexByID(36611);
+        local questLogIndex = C_QuestLog.GetLogIndexForQuestID(36611);
         if (questLogIndex > 0) then
             local currentMapID = FL:GetCurrentMapId();
             local numObjectives = GetNumQuestLeaderBoards(questLogIndex);

@@ -1,144 +1,127 @@
-lightweight tag 9e23bec1a59d70127e227ad0b8f621b02450bb11 Plater-v9.0.1.313-Retail
-Author:	Continuity <continuity@gmx.net>
-Date:	Tue Nov 3 15:56:00 2020 +0100
+lightweight tag 67114692cb184a0282cb5b4419af66e0a90f5e75 Plater-v9.0.1.314-Retail
+Author:	Tercio Jose <terciob19@hotmail.com>
+Date:	Fri Nov 6 19:02:15 2020 -0300
 
-commit 9e23bec1a59d70127e227ad0b8f621b02450bb11
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 3 15:56:00 2020 +0100
-
-    - ensure proper output for mod/script constructor
-
-commit efa1bf0dad6b3449287b1620ed2a9ee3e87e4ccd
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 3 14:09:49 2020 +0100
-
-    - keep naming after externalizing (for mods/scripts)
-
-commit 12893eef51c50c89525eea5d10056b882758588e
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 3 13:46:46 2020 +0100
-
-    - updating changelog
-
-commit d646217f90fc1dac6ef16176d405c0263ec316aa
+commit 67114692cb184a0282cb5b4419af66e0a90f5e75
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Nov 2 20:54:17 2020 -0300
+Date:   Fri Nov 6 19:02:15 2020 -0300
 
-    Moved all code for auras from Plater.lua to Plater_Auras.lua
+    Scripts are now updated to Shadowlands
 
-commit 44d1e94974578b0dc7f771c220a5d69a2b414318
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Nov 2 19:49:44 2020 +0100
-
-    - lower alpha for execute range indicator
-
-commit 8013393cff085622eeaa70618c4d54c0606bb96f
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Nov 2 19:18:13 2020 +0100
-
-    - ensure up to date consolidated buff list
-
-commit 72990cb3bb79630d0d9219825631d794d03d1cd8
+commit 961caa89afbcc6b4d5ad7625c66eb9de3d422931
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Nov 2 14:20:08 2020 -0300
+Date:   Fri Nov 6 17:42:57 2020 -0300
 
-    Added altCastId for alternative cast bar, scripts can now check what is the origin of a cast on the alternative cast bar.
+    Move to trash a script/hook replaced by an update from the script library
+
+commit f4721977fcc7438fb1837bc3b180351f9cc307c8
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Nov 6 10:11:20 2020 -0300
+
+    Some fixes for the StopDotAnimation()
+
+commit f4721977fcc7438fb1837bc3b180351f9cc307c8
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Nov 6 10:11:20 2020 -0300
+
+    Some fixes for the StopDotAnimation()
+
+commit 7a8cfc3e8c9808b077d021724ea2c0f2c6c58d3e
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Nov 6 10:10:54 2020 -0300
+
+    Color dropdown on nameplates now show on any zone as long as the Npc Color tab is selected on Options Panel
+
+commit 4e407f7d4b0304aa2a559f0ad4b2b28bff7f727d
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Nov 5 22:43:26 2020 +0100
+
+    - add class color option to enemy player
+
+commit cb690e531c3deffba398ab170208f238ecbc744a
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Nov 5 21:56:59 2020 +0100
+
+    - fixing show animation not playing at the right times + scale reset
+
+commit 983f314a8e763b53757141fe6db3326f96546af7
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Nov 5 21:27:22 2020 +0100
+
+    - properly set castbar icon according to settings
+
+commit 9529a1c790d8f7f1f1c27e0a7575a24fb9997fc5
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Nov 5 12:39:32 2020 -0300
+
+    Fixed blinking auras during aura test
+
+commit 95cee8bf33e5236cb84be2b3de2c1a9b11f68c7a
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Nov 5 12:38:52 2020 -0300
+
+    Global health bar width and height now also change the castbar width
+
+commit d7def841d4c8b02c6ba05e1c4b5c8a89c6e8e473
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Nov 5 12:18:05 2020 -0300
+
+    Rename on advanced > animation features
+
+commit 77ed7ea39ba61607a062f5c0722c8d4b07ae1bef
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Nov 5 12:05:27 2020 -0300
+
+    Added Breath of the Coldheart to buff ignored list
     
-    Plater.SetAltCastBar(plateFrame, configTable, timer, startedAt, altCastId).
-    added parameter startedAt, if this is nil the cast start is GetTime().
-    added parameter altCastId, can be any string or nil.
+    - Added Breath of the Coldheart to buff ignored list (torghast mob buff).
+    - Changed the default offset of the extra icon.
 
-commit debbb9405296b86691042318801579431c20b45c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Nov 2 12:43:44 2020 -0300
-
-    Added cache for boss mods bars, a bossTimerInfo can be retrived using Plater.GetBossTimer(spellId)
-    
-    bossTimerInfo is a table containing the following information:
-    name = text shown in the bar
-    id = the bar identification, for dbm is a string and a number for bw
-    timer =  total time of the bar
-    start = the GetTime when the bar started
-    icon = icon
-    spellId = spellId if it has one
-
-commit debbb9405296b86691042318801579431c20b45c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Nov 2 12:43:44 2020 -0300
-
-    Added cache for boss mods bars, a bossTimerInfo can be retrived using Plater.GetBossTimer(spellId)
-    
-    bossTimerInfo is a table containing the following information:
-    name = text shown in the bar
-    id = the bar identification, for dbm is a string and a number for bw
-    timer =  total time of the bar
-    start = the GetTime when the bar started
-    icon = icon
-    spellId = spellId if it has one
-
-commit feb8945bcaf19912cac16fdd60cd466772dd6d89
+commit 6bcc61f11f14c17b27b19d96ef774c25925974fe
 Author: Continuity <continuity@gmx.net>
-Date:   Sun Nov 1 21:38:54 2020 +0100
-
-    - adding initial low-level specs
-
-commit 2ac573fdbcb4de7e894faced310717cd3cfe5ff0
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Nov 1 20:17:58 2020 +0100
-
-    - centralized utf8 truncation cleanup
-
-commit aa5f8e2e25434a6a9dcd347e7158fcf17e95ae7a
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Nov 1 20:17:40 2020 +0100
+Date:   Thu Nov 5 12:29:55 2020 +0100
 
     - DF lib update
 
-commit 5524c78e3dec00956a01e6b4fbf5127ef36dff4f
+commit d9aca72faa7a9ce5e906d40b8599f2f972112adc
 Author: Continuity <continuity@gmx.net>
-Date:   Sun Nov 1 19:42:22 2020 +0100
+Date:   Thu Nov 5 12:25:59 2020 +0100
 
-    - searing touch is 30% execute
+    - regression fix
 
-commit 98b2882f2c39956b75b51b5e18a6bea76abd0e52
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Nov 1 14:56:31 2020 +0100
-
-    - removing uniecessary label...
-
-commit e9e66eddf14fb894011a0fdbafce49f20a46abff
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Nov 1 14:55:48 2020 +0100
-
-    - adding option to use target alpha for focus targets
-
-commit e714e4f0ccf9ca8356d952555466bc1012971720
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Nov 1 14:21:24 2020 +0100
-
-    - adding options for aggro glow
-
-commit 0988a18603f90de94753bd79c4219b274201a4c8
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Oct 31 20:20:52 2020 +0100
-
-    - nil checks (for sanity)
-
-commit d9e2e4def9bf614eb8c30cd4cff3f720411bcb49
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Oct 31 20:11:49 2020 +0100
-
-    - adding Careful Aim talent to execute
-
-commit d4403d1a46d677ac9b1c80824295f99debb79217
+commit 19121caec48b1196c4318eb7a0890722c6fead02
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Oct 31 15:59:40 2020 -0300
+Date:   Wed Nov 4 21:04:40 2020 -0300
 
-    More options for the alt cast bar (castBar2)
+    Grammar
 
-commit 2f72b3a35003094b88d03c70e9801727d8cb5905
+commit 349df555a258c2e5a752468dc243b74808ddee31
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Wed Nov 4 20:29:05 2020 -0300
+
+    Added an option to not show the cast target if the player is a tank
+
+commit 6d96e9358cf0a742b992bebb52ff7f74e6b7538a
 Author: Continuity <continuity@gmx.net>
-Date:   Sat Oct 31 10:19:31 2020 +0100
+Date:   Wed Nov 4 20:13:51 2020 +0100
 
-    - cleanup other UTF8 leftovers as well...
+    - regression fix
+
+commit 79a5b9792c91f4f339b9a985a674dcb2c0305d43
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 4 16:11:08 2020 +0100
+
+    - switch from AuraUtil.ForEachAura to base UnitAuraSlots/UnitAuraBySlot
+
+commit cf003fd4c8ce08a2f03d7cf04b0243b1cfd51e28
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 3 23:20:05 2020 +0100
+
+    - streamlining execute detection
+
+commit 50c9b0b322bd55014e4906bf6b9c7afcad6a33c1
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 3 22:54:03 2020 +0100
+
+    - adding option for upper execute ranges
 

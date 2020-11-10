@@ -15,7 +15,7 @@ local function procLunkerQuests(index, title, level, isTrivial, frequency, isRep
 
 	local n = GetItemCount(title)
 	if (n > 0) then
-		SelectGossipAvailableQuest(index)
+		C_GossipInfo.SelectAvailableQuest(index)
 	end
 	
 	if ... then
@@ -37,7 +37,7 @@ _fqframe:Register('GOSSIP_SHOW', function()
 		elseif (npcID == 85984) then
 			-- print ("Hi Nat Pagle at the shack!")
 			if (GSB("AutoLunker")) then
-				procLunkerQuests(1, GetGossipAvailableQuests() )
+				procLunkerQuests(1, C_GossipInfo.GetAvailableQuests() )
 			end
 		elseif (npcID == 108825) then
 			local _, _, _, _, _, _, _, _, nextThreshold = GetFriendshipReputation();
@@ -45,9 +45,9 @@ _fqframe:Register('GOSSIP_SHOW', function()
 			if (nextThreshold  and GSB("DrownedMana")) then
 				local mana = GetItemCount(138777);
 				if (mana > 10) then
-					SelectGossipOption(5, true)
+					API_C_GossipInfo.SelectOption(5, true)
 				elseif (mana > 1) then
-					SelectGossipOption(4, true)
+					API_C_GossipInfo.SelectOption(4, true)
 				end
 			end
 		end

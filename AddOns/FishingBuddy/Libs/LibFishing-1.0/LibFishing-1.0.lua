@@ -10,7 +10,7 @@ Licensed under a Creative Commons "Attribution Non-Commercial Share Alike" Licen
 local _
 
 local MAJOR_VERSION = "LibFishing-1.0"
-local MINOR_VERSION = 101072
+local MINOR_VERSION = 101074
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 
@@ -86,12 +86,20 @@ FishLib.UNKNOWN = "UNKNOWN";
 
 function FishLib:GetFishingSpellInfo()
     local _, _, _, fishing, _, _ = GetProfessions();
-    if ( fishing ) then
-        local name, _, _, _, _, _, _ = GetProfessionInfo(fishing);
-        -- is this always the same as PROFESSIONS_FISHING?
-        return fishing, name;
+    if not fishing then
+        return 131474, PROFESSIONS_FISHING
     end
-    return 0, PROFESSIONS_FISHING;
+    local name, _, _, _, count, offset, _ = GetProfessionInfo(fishing);
+    local id = nil;
+    for i = 1, count do
+        local _, spellId = GetSpellLink(offset + i, "spell");
+        local spellName = GetSpellInfo(spellId);
+        if (spellName == name) then
+            id = spellId;
+            break;
+        end
+    end
+    return id, name
 end
 
 local DEFAULT_SKILL = { ["max"] = 300, ["skillid"] = 356, ["cat"] = 1100, ["rank"] = 0 }
@@ -106,6 +114,17 @@ FishLib.continent_fishing = {
     { ["max"] = 100, ["skillid"] = 2586, ["cat"] = 1112, ["rank"] = 0 },	-- Legion Fishing
     { ["max"] = 175, ["skillid"] = 2585, ["cat"] = 1114, ["rank"] = 0 },	-- Kul Tiras Fishing
     { ["max"] = 175, ["skillid"] = 2585, ["cat"] = 1114, ["rank"] = 0 },	-- Zandalar Fishing
+}
+
+local FISHING_LEVELS = {
+    300,        -- Classic
+    75,         -- Outland
+    75,         -- Northrend
+    75,         -- Cataclsym
+    75,         -- Pandaria
+    100,        -- Draenor
+    100,        -- Legion
+    175,        -- BfA
 }
 
 local itsready = C_TradeSkillUI.IsTradeSkillReady
@@ -712,6 +731,7 @@ if ( not fishlibframe) then
     fishlibframe:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START");
     fishlibframe:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
     fishlibframe:RegisterEvent("ITEM_LOCK_CHANGED");
+	fishlibframe:RegisterEvent("ACTIONBAR_SLOT_CHANGED");
     fishlibframe:RegisterEvent("TRADE_SKILL_DATA_SOURCE_CHANGED")
     fishlibframe:RegisterEvent("TRADE_SKILL_LIST_UPDATE")
     fishlibframe:RegisterEvent("EQUIPMENT_SWAP_FINISHED");
@@ -753,6 +773,8 @@ fishlibframe:SetScript("OnEvent", function(self, event, ...)
         self:UnregisterEvent("SPELLS_CHANGED")
     elseif (event == "TRADE_SKILL_DATA_SOURCE_CHANGED" or event == "TRADE_SKILL_LIST_UPDATE") then
         self.fl:QueueUpdateFishingSkillData();
+    elseif (event == "ACTIONBAR_SLOT_CHANGED") then
+        self.fl:GetFishingActionBarID(true)
     end
 end);
 fishlibframe:Show();
@@ -1234,6 +1256,9 @@ function FishLib:IsFishingPool(text)
     -- return nil;
 end
 
+function FishLib:IsHyperCompressedOcean(text)
+end
+
 function FishLib:AddSchoolName(name)
     tinsert(self.SCHOOLS, { name = name, kind = SCHOOL_FISH });
 end
@@ -1603,10 +1628,26 @@ local subzoneskills = {
     ["Binan Village"] = 750,	-- seems to be higher here, for some reason
 };
 
+for zone, level in pairs(subzoneskills) do
+    local last = 0
+    for _, expansion in ipairs(FISHING_LEVELS) do
+        if level > expansion then
+            level = level - expansion
+            last = expansion
+        else
+            subzoneskills[zone] = level + last
+            break
+        end
+    end
+end
+
 -- this should be something useful for BfA
 function FishLib:GetCurrentFishingLevel()
     local mapID = self:GetCurrentMapId()
-    local current_max = LT:GetFishingLevel(mapID)
+    local current_max = 0
+    if LT.GetFishinglevel then
+        current_max = LT:GetFishingLevel(mapID)
+    end
     local continent, _ = self:GetCurrentMapContinent()
     if current_max == 0 then
         -- Let's just go with continent level skill for now, since
@@ -1996,11 +2037,11 @@ function FishLib:InvokeFishing(useaction)
     if ( not btn ) then
         return;
     end
-    local _, name = self:GetFishingSpellInfo();
+    local id, name = self:GetFishingSpellInfo();
     local findid = self:GetFishingActionBarID();
     if ( not useaction or not findid ) then
         btn:SetAttribute("type", "spell");
-        btn:SetAttribute("spell", name);
+        btn:SetAttribute("spell", id);
         btn:SetAttribute("action", nil);
     else
         btn:SetAttribute("type", "action");
@@ -2033,6 +2074,7 @@ function FishLib:InvokeLuring(id, itemtype, targetslot)
     end
     btn:SetAttribute("spell", nil);
     btn:SetAttribute("action", nil);
+    btn:SetAttribute("macrotext", nil);
     -- btn.postclick = nil;
 end
 
@@ -2053,6 +2095,7 @@ function FishLib:InvokeMacro(macrotext)
     btn:SetAttribute("target-slot", nil);
     btn:SetAttribute("spell", nil);
     btn:SetAttribute("action", nil);
+    btn:SetAttribute("unit", nil)
     -- btn.postclick = nil;
 end
 
@@ -2568,6 +2611,7 @@ FishLib.SCHOOL_OIL = 5;
 FishLib.SCHOOL_CHURNING = 6;
 FishLib.SCHOOL_FLOTSAM = 7;
 FishLib.SCHOOL_FIRE = 8;
+FishLib.COMPRESSED_OCEAN = 9;
 
 local FLTrans = {};
 
@@ -2587,7 +2631,6 @@ function FLTrans:Setup(lang, school, lurename, ...)
     -- add in the fish we know are in schools
     self[lang].SCHOOLS = schools;
 end
-
 FLTrans:Setup("enUS", "school", "Fishing Lure",
     "Floating Wreckage", FishLib.SCHOOL_WRECKAGE,
     "Patch of Elemental Water", FishLib.SCHOOL_WATER,
@@ -2598,7 +2641,8 @@ FLTrans:Setup("enUS", "school", "Fishing Lure",
     "Pure Water", FishLib.SCHOOL_WATER,
     "Steam Pump Flotsam", FishLib.SCHOOL_FLOTSAM,
     "School of Tastyfish", FishLib.SCHOOL_TASTY,
-    "Pool of Fire", FishLib.SCHOOL_FIRE);
+    "Pool of Fire", FishLib.SCHOOL_FIRE,
+    "Hyper-Compressed Ocean", FishLib.COMPRESSED_OCEAN);
 
 FLTrans:Setup("koKR", "떼", "낚시용 미끼",
     "표류하는 잔해", FishLib.SCHOOL_WRECKAGE, --	 Floating Wreckage
@@ -2608,7 +2652,8 @@ FLTrans:Setup("koKR", "떼", "낚시용 미끼",
     "거품이는 진흙탕물", FishLib.SCHOOL_CHURNING, --	Muddy Churning Water
     "깨끗한 물", FishLib.SCHOOL_WATER, --  Pure Water
     "증기 양수기 표류물", FishLib.SCHOOL_FLOTSAM, --	Steam Pump Flotsam
-    "맛둥어 떼", FishLib.SCHOOL_TASTY); -- School of Tastyfish
+    "맛둥어 떼", FishLib.SCHOOL_TASTY, -- School of Tastyfish
+    "초압축 바다", FishLib.COMPRESSED_OCEAN);
 
 FLTrans:Setup("deDE", "schwarm", "Angelköder",
     "Treibende Wrackteile", FishLib.SCHOOL_WRECKAGE, --  Floating Wreckage
@@ -2618,7 +2663,8 @@ FLTrans:Setup("deDE", "schwarm", "Angelköder",
     "Schlammiges aufgewühltes Gewässer", FishLib.SCHOOL_CHURNING, --	Muddy Churning Water
     "Reines Wasser", FishLib.SCHOOL_WATER, --	 Pure Water
     "Treibgut der Dampfpumpe", FishLib.SCHOOL_FLOTSAM, --	 Steam Pump Flotsam
-    "Leckerfischschwarm", FishLib.SCHOOL_TASTY); -- School of Tastyfish
+    "Leckerfischschwarm", FishLib.SCHOOL_TASTY, -- School of Tastyfish
+    "Hyperkomprimierter Ozean", FishLib.COMPRESSED_OCEAN);
 
 FLTrans:Setup("frFR", "banc", "Appât de pêche",
     "Débris flottants", FishLib.SCHOOL_WRECKAGE, --	 Floating Wreckage
@@ -2628,7 +2674,8 @@ FLTrans:Setup("frFR", "banc", "Appât de pêche",
     "Eaux troubles et agitées", FishLib.SCHOOL_CHURNING, --	Muddy Churning Water
     "Eau pure", FishLib.SCHOOL_WATER, --  Pure Water
     "Détritus de la pompe à vapeur", FishLib.SCHOOL_FLOTSAM, --	 Steam Pump Flotsam
-    "Banc de courbine", FishLib.SCHOOL_TASTY); -- School of Tastyfish
+    "Banc de courbine", FishLib.SCHOOL_TASTY, -- School of Tastyfish
+    "Océan hyper-comprimé", FishLib.COMPRESSED_OCEAN);
 
 FLTrans:Setup("esES", "banco", "Cebo de pesca",
     "Restos de un naufragio", FishLib.SCHOOL_WRECKAGE,	  --	Floating Wreckage
@@ -2636,7 +2683,8 @@ FLTrans:Setup("esES", "banco", "Cebo de pesca",
     "Vertido de petr\195\179leo", FishLib.SCHOOL_OIL,	 --  Oil Spill
     "Agua pura", FishLib.SCHOOL_WATER, --	Pure Water
     "Restos flotantes de bomba de vapor", FishLib.SCHOOL_FLOTSAM, --	Steam Pump Flotsam
-    "Banco de pezricos", FishLib.SCHOOL_TASTY); -- School of Tastyfish
+    "Banco de pezricos", FishLib.SCHOOL_TASTY, -- School of Tastyfish
+    "Océano hipercomprimido", FishLib.COMPRESSED_OCEAN);
 
 FLTrans:Setup("zhCN", "鱼群", "鱼饵",
     "漂浮的残骸", FishLib.SCHOOL_WRECKAGE, --  Floating Wreckage
@@ -2647,7 +2695,7 @@ FLTrans:Setup("zhCN", "鱼群", "鱼饵",
     "混浊的水", FishLib.SCHOOL_CHURNING, --	 Muddy Churning Water
     "纯水", FishLib.SCHOOL_WATER,				 --  Pure Water
     "蒸汽泵废料", FishLib.SCHOOL_FLOTSAM, --	 Steam Pump Flotsam
-    "可口鱼", FishLib.SCHOOL_TASTY); -- School of Tastyfish
+    "可口鱼", FishLib.SCHOOL_TASTY);
 
 FLTrans:Setup("zhTW", "群", "鱼饵",
     "漂浮的殘骸", FishLib.SCHOOL_WRECKAGE, --  Floating Wreckage
@@ -2657,7 +2705,7 @@ FLTrans:Setup("zhTW", "群", "鱼饵",
     "混濁的水", FishLib.SCHOOL_CHURNING, --	 Muddy Churning Water
     "純水", FishLib.SCHOOL_WATER,				 --  Pure Water
     "蒸汽幫浦漂浮殘骸", FishLib.SCHOOL_FLOTSAM,	 --  Steam Pump Flotsam
-    "斑點可口魚魚群", FishLib.SCHOOL_TASTY); -- School of Tastyfish
+    "斑點可口魚魚群", FishLib.SCHOOL_TASTY);
 
 FishLib:Translate("LibFishing", FLTrans, FishLib);
 FLTrans = nil;

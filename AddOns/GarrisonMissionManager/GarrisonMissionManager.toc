@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Oleg "Rowaa[SR13]" Volkov
-## Version: v59
+## Version: v60
 ## RequiredDeps: Blizzard_GarrisonUI, Blizzard_OrderHallUI
 ## OptionalDeps: LibStub, LibDataBroker-1.1, Bagnon, Titan, LibTTScan-1.0, SR13-TimeRecord
 ## LoadOnDemand: 1
@@ -13,6 +13,9 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF要塞任务管理|r |cFFFFE00AGarrisonMissionManager|r
 ## Notes-zhCN: 协助管理要塞随从任务
 
+## X-License: All Rights Reserved.
+## X-Curse-Project-ID: 86844
+## X-WoWI-ID: 23375
 
 +DEVEL.lua
 LazyWidget.lua
@@ -21,9 +24,11 @@ FindBestFollowersForMission.lua
 GarrisonMissionManager.lua
 MissionUI_Shared.lua
 MissionUI_Shared_UpgradeItems.lua
+MissionUI_Shared_Init.lua
 MissionUI_Garrison.lua
 MissionUI_Shipyard.lua
 MissionUI_OrderHall.lua
 MissionUI_BFA.lua
+MissionUI_Covenant.lua
 GarrisonBuilding.lua
 Broker.lua
