@@ -1417,6 +1417,37 @@ local debuff_options = {
 		desc = "Debuff's icon height.",
 	},
 	
+	{type = "break"},
+	{type = "label", get = function() return "Auras per Row:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+	{
+		type = "toggle",
+		get = function() return Plater.db.profile.auras_per_row_auto end,
+		set = function (self, fixedparam, value) 
+			Plater.db.profile.auras_per_row_auto = value
+			Plater.RefreshDBUpvalues()
+			Plater.RefreshAuras()
+			Plater.UpdateAllPlates()
+		end,
+		name = "Automatic",
+		desc = "When enabled auras are split into rows automatically according to healthbar width when growing left/right. Mods can overwrite the amount.",
+	},
+	{
+		type = "range",
+		get = function() return Plater.db.profile.auras_per_row_amount end,
+		set = function (self, fixedparam, value) 
+			Plater.db.profile.auras_per_row_amount = value
+			Plater.RefreshDBUpvalues()
+			Plater.RefreshAuras()
+			Plater.UpdateAllPlates()
+		end,
+		min = 1,
+		max = 10,
+		step = 1,
+		name = "Auras per Row",
+		desc = "Auras per Row if auto-mode is disabled.",
+	},
+	
+	
 	{type = "breakline"},
 	{type = "label", get = function() return "Aura Frame 1:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 	
@@ -3638,6 +3669,23 @@ Plater.CreateAuraTesting()
 --> special aura container
 	local especial_aura_settings
 	do 
+	
+		--> fonts
+		local on_select_buff_special_timer_font = function (_, _, value)
+			Plater.db.profile.extra_icon_timer_font = value
+			Plater.UpdateAllPlates()
+		end
+		
+		local on_select_buff_special_stack_font = function (_, _, value)
+			Plater.db.profile.extra_icon_stack_font = value
+			Plater.UpdateAllPlates()
+		end
+		
+		local on_select_buff_special_caster_font = function (_, _, value)
+			Plater.db.profile.extra_icon_caster_font = value
+			Plater.UpdateAllPlates()
+		end
+	
 		--> scroll with auras added to the special aura container
 		local specialAuraFrame = CreateFrame ("frame", nil, auraSpecialFrame, BackdropTemplateMixin and "BackdropTemplate")
 		specialAuraFrame:SetHeight (480)
@@ -4035,9 +4083,8 @@ Plater.CreateAuraTesting()
 				desc = "Default Border Color",
 			},
 			
-			--{type = "blank"},
 			{type = "breakline"},
-			{type = "label", get = function() return "Text Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+			--{type = "label", get = function() return "Text Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 			--show timer
 			{
 				type = "toggle",
@@ -4049,6 +4096,36 @@ Plater.CreateAuraTesting()
 				name = "Show Timer",
 				desc = "Show Timer",
 			},
+			{
+				type = "select",
+				get = function() return Plater.db.profile.extra_icon_timer_font end,
+				values = function() return DF:BuildDropDownFontList (on_select_buff_special_timer_font) end,
+				name = L["OPTIONS_FONT"],
+				desc = "Font of the text.",
+			},
+			{
+				type = "range",
+				get = function() return Plater.db.profile.extra_icon_timer_size end,
+				set = function (self, fixedparam, value) 
+					Plater.db.profile.extra_icon_timer_size = value
+					Plater.UpdateAllPlates()
+				end,
+				min = 6,
+				max = 99,
+				step = 1,
+				name = L["OPTIONS_SIZE"],
+				desc = "Size of the text.",
+			},
+			--text outline options
+			{
+				type = "select",
+				get = function() return Plater.db.profile.extra_icon_timer_outline end,
+				values = function() return build_outline_modes_table (nil, "extra_icon_timer_outline") end,
+				name = L["OPTIONS_OUTLINE"],
+				desc = "Outline",
+			},
+
+			{type = "blank"},
 			--show caster name
 			{
 				type = "toggle",
@@ -4060,6 +4137,36 @@ Plater.CreateAuraTesting()
 				name = "Show Caster Name",
 				desc = "Show Caster Name (if player)",
 			},
+			{
+				type = "select",
+				get = function() return Plater.db.profile.extra_icon_caster_font end,
+				values = function() return DF:BuildDropDownFontList (on_select_buff_special_caster_font) end,
+				name = L["OPTIONS_FONT"],
+				desc = "Font of the text.",
+			},
+			{
+				type = "range",
+				get = function() return Plater.db.profile.extra_icon_caster_size end,
+				set = function (self, fixedparam, value) 
+					Plater.db.profile.extra_icon_caster_size = value
+					Plater.UpdateAllPlates()
+				end,
+				min = 6,
+				max = 99,
+				step = 1,
+				name = L["OPTIONS_SIZE"],
+				desc = "Size of the text.",
+			},
+			--text outline options
+			{
+				type = "select",
+				get = function() return Plater.db.profile.extra_icon_caster_outline end,
+				values = function() return build_outline_modes_table (nil, "extra_icon_caster_outline") end,
+				name = L["OPTIONS_OUTLINE"],
+				desc = "Outline",
+			},
+			
+			{type = "blank"},
 			--show stacks
 			{
 				type = "toggle",
@@ -4071,9 +4178,35 @@ Plater.CreateAuraTesting()
 				name = "Show Stacks",
 				desc = "Show Stacks",
 			},
+						{
+				type = "select",
+				get = function() return Plater.db.profile.extra_icon_stack_font end,
+				values = function() return DF:BuildDropDownFontList (on_select_buff_special_stack_font) end,
+				name = L["OPTIONS_FONT"],
+				desc = "Font of the text.",
+			},
+			{
+				type = "range",
+				get = function() return Plater.db.profile.extra_icon_stack_size end,
+				set = function (self, fixedparam, value) 
+					Plater.db.profile.extra_icon_stack_size = value
+					Plater.UpdateAllPlates()
+				end,
+				min = 6,
+				max = 99,
+				step = 1,
+				name = L["OPTIONS_SIZE"],
+				desc = "Size of the text.",
+			},
+			--text outline options
+			{
+				type = "select",
+				get = function() return Plater.db.profile.extra_icon_stack_outline end,
+				values = function() return build_outline_modes_table (nil, "extra_icon_stack_outline") end,
+				name = L["OPTIONS_OUTLINE"],
+				desc = "Outline",
+			},
 			
-			--{type = "breakline"},
-			{type = "blank"},
 			{type = "blank"},
 			
 			{type = "label", get = function() return "Auto Add These Types of Auras:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
@@ -4090,6 +4223,58 @@ Plater.CreateAuraTesting()
 				name = "Crowd Control",
 				desc = "When the unit has a crowd control spell (such as Polymorph).",
 			},
+			--show purge icons
+			{
+				type = "toggle",
+				get = function() return Plater.db.profile.extra_icon_show_purge end,
+				set = function (self, fixedparam, value) 
+					Plater.db.profile.extra_icon_show_purge = value
+					Plater.RefreshDBUpvalues()
+					Plater.UpdateAllPlates()
+				end,
+				name = "Dispellable",
+				desc = "When the unit has an aura which can be dispellable or purge by you",
+			},
+			--show enrages
+			{
+				type = "toggle",
+				get = function() return Plater.db.profile.extra_icon_show_enrage end,
+				set = function (self, fixedparam, value) 
+					Plater.db.profile.extra_icon_show_enrage = value
+					Plater.RefreshDBUpvalues()
+					Plater.UpdateAllPlates()
+				end,
+				name = "Enrage",
+				desc = "When the unit has an enrage effect on it, show it.",
+			},
+			--show offensive CDs
+			{
+				type = "toggle",
+				get = function() return Plater.db.profile.extra_icon_show_offensive end,
+				set = function (self, fixedparam, value) 
+					Plater.db.profile.extra_icon_show_offensive = value
+					Plater.RefreshDBUpvalues()
+					Plater.UpdateAllPlates()
+				end,
+				name = "Offensive player CDs",
+				desc = "When the unit has an offensive effect on it, show it.",
+			},
+			--show defensive CDs
+			{
+				type = "toggle",
+				get = function() return Plater.db.profile.extra_icon_show_defensive end,
+				set = function (self, fixedparam, value) 
+					Plater.db.profile.extra_icon_show_defensive = value
+					Plater.RefreshDBUpvalues()
+					Plater.UpdateAllPlates()
+				end,
+				name = "Defensive player CDs",
+				desc = "When the unit has a defensive effect on it, show it.",
+			},
+			
+			{type = "breakline"},
+			
+			{type = "label", get = function() return "Aura Border Colors:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 			--cc border color
 			{
 				type = "color",
@@ -4104,21 +4289,6 @@ Plater.CreateAuraTesting()
 				end,
 				name = "Crowd Control Border Color",
 				desc = "Crowd Control Border Color",
-			},
-			
-			{type = "blank"},
-			
-			--show purge icons
-			{
-				type = "toggle",
-				get = function() return Plater.db.profile.extra_icon_show_purge end,
-				set = function (self, fixedparam, value) 
-					Plater.db.profile.extra_icon_show_purge = value
-					Plater.RefreshDBUpvalues()
-					Plater.UpdateAllPlates()
-				end,
-				name = "Dispellable",
-				desc = "When the unit has an aura which can be dispellable or purge by you",
 			},
 			--purge border color
 			{
@@ -4135,21 +4305,6 @@ Plater.CreateAuraTesting()
 				name = "Dispellable Border Color",
 				desc = "Dispellable Border Color",
 			},
-			
-			{type = "blank"},
-			
-			--show enrages
-			{
-				type = "toggle",
-				get = function() return Plater.db.profile.extra_icon_show_enrage end,
-				set = function (self, fixedparam, value) 
-					Plater.db.profile.extra_icon_show_enrage = value
-					Plater.RefreshDBUpvalues()
-					Plater.UpdateAllPlates()
-				end,
-				name = "Enrage",
-				desc = "When the unit has an enrage effect on it, show it.",
-			},
 			--enrage border color
 			{
 				type = "color",
@@ -4165,21 +4320,6 @@ Plater.CreateAuraTesting()
 				name = "Enrage Border Color",
 				desc = "Enrage Border Color",
 			},
-			
-			{type = "blank"},
-			
-			--show offensive CDs
-			{
-				type = "toggle",
-				get = function() return Plater.db.profile.extra_icon_show_offensive end,
-				set = function (self, fixedparam, value) 
-					Plater.db.profile.extra_icon_show_offensive = value
-					Plater.RefreshDBUpvalues()
-					Plater.UpdateAllPlates()
-				end,
-				name = "Offensive player CDs",
-				desc = "When the unit has an offensive effect on it, show it.",
-			},
 			--offensive border color
 			{
 				type = "color",
@@ -4192,23 +4332,8 @@ Plater.CreateAuraTesting()
 					color[1], color[2], color[3], color[4] = r, g, b, a
 					Plater.UpdateAllPlates()
 				end,
-				name = "Enrage Border Color",
-				desc = "Enrage Border Color",
-			},
-			
-			{type = "blank"},
-			
-			--show defensive CDs
-			{
-				type = "toggle",
-				get = function() return Plater.db.profile.extra_icon_show_defensive end,
-				set = function (self, fixedparam, value) 
-					Plater.db.profile.extra_icon_show_defensive = value
-					Plater.RefreshDBUpvalues()
-					Plater.UpdateAllPlates()
-				end,
-				name = "Defensive player CDs",
-				desc = "When the unit has a defensive effect on it, show it.",
+				name = "Offensive Border Color",
+				desc = "Offensive Border Color",
 			},
 			--defensive border color
 			{
@@ -4222,12 +4347,12 @@ Plater.CreateAuraTesting()
 					color[1], color[2], color[3], color[4] = r, g, b, a
 					Plater.UpdateAllPlates()
 				end,
-				name = "Enrage Border Color",
-				desc = "Enrage Border Color",
+				name = "Defensive Border Color",
+				desc = "Defensive Border Color",
 			},
 		
-		
-			{type = "breakline"},
+			{type = "blank"},
+			{type = "blank"},
 			{type = "label", get = function() return "DBM / BigWigs Icon-Support:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 
 			{
@@ -4243,7 +4368,7 @@ Plater.CreateAuraTesting()
 			
 			{type = "blank"},
 			
-			{type = "label", get = function() return "Icon Size:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+			{type = "label", get = function() return "Icon Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 			
 			--width
 			{
@@ -4273,10 +4398,6 @@ Plater.CreateAuraTesting()
 				name = "Height",
 				desc = "Height",
 			},
-			
-			{type = "blank"},
-		
-			{type = "label", get = function() return "Icon Anchor:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 			
 			--anchor
 			{

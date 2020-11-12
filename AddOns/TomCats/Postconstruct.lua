@@ -57,25 +57,15 @@ addon.supportedMaps = {
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00018",
 		backgroundColor = { 0.0, 0.0, 0.0, 1.0 },
 	},
+	[118] = {
+		name            = "TomCats-Bundled-DeathsRising",
+		title           = "TomCat's Tours: Death's Rising",
+		zone            = "Death's Rising (Icecrown)",
+		iconTexture     = "Interface\\ICONS\\achievement_reputation_argentcrusader",
+		backgroundColor = { 0.0, 0.0, 0.0, 1.0 },
+	},
 }
--- Begin interim restart checking code
-local function split(inputstr)
-	local t = {}
-	for str in string.gmatch(inputstr, "([^.]+)") do
-		table.insert(t, str)
-	end
-	return t
-end
-local function convertVersionToNumber(version)
-	local parts = split(version)
-	return tonumber(parts[1]) * 1000000 + tonumber(parts[2]) * 1000 + tonumber(parts[3])
-end
-local addonTOCVersion = convertVersionToNumber(GetAddOnMetadata("TomCats", "version"))
-local newFilesSinceVersion = convertVersionToNumber("1.4.0")
-if (newFilesSinceVersion > addonTOCVersion) then
-	DEFAULT_CHAT_FRAME:AddMessage("|cffff0000Warning: TomCat's Tours requires that you restart WoW in order for the recent update to function properly|r")
-end
--- End interim restart checking code
+
 local slashCommandHandlers = { }
 local components = { }
 local function handleSlashCommand(msg)
@@ -101,12 +91,10 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = "01.06.04"
+TomCats.version = unpack(addon.split("2.0.4","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
-	local infoText = "Installed Components:\n|cffffffff"
-	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel",
-	                                                "")
+	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
 	for i, component in ipairs(components) do
 		if (component.slashCommands) then
 			for _, slashCommand in ipairs(component.slashCommands) do
@@ -114,13 +102,7 @@ local function refreshInterfaceControlPanels()
 				                                                string.upper(slashCommand.command))
 			end
 		end
-		infoText = infoText .. "   " .. component.name .. " (v" .. component.version .. ")"
-		if (i ~= #components) then
-			infoText = infoText .. "\n"
-		end
 	end
-	infoText = infoText .. "|r"
-	TomCats_Config.InstalledComponents:SetText(infoText)
 	slashCommandsHtml = slashCommandsHtml .. slashCommandsHtmlFoot
 	TomCats_Config_Slash_Commands.html:SetText(slashCommandsHtml)
 end
@@ -138,7 +120,16 @@ function TomCats:Register(componentInfo)
 				end
 			end
 		end
-		table.insert(components, componentInfo)
+		local preexisting = false
+		for i = 1, #components do
+			if (components[i].name == componentInfo.name) then
+				components[i] = componentInfo
+				preexisting = true
+			end
+		end
+		if (not preexisting) then
+			table.insert(components, componentInfo)
+		end
 		refreshInterfaceControlPanels()
 	end
 end
@@ -195,34 +186,6 @@ local function ADDON_LOADED(_, _, arg1)
 		SavedVariables.account.preferences = SavedVariables.account.preferences or { }
 		SavedVariables.account.preferences.TomCatsMinimapButton = { position = 3 }
 		SavedVariables.account.notifications = SavedVariables.account.notifications or { }
-		if ((not SavedVariables.account.notifications["NZOTHLAUNCH"])) then
-			--todo: Disable for Classic releases
-			local _, _, _, _, reason = GetAddOnInfo("TomCats-Nzoth")
-			if (reason and reason == "MISSING") then
-				addon.charm = Charms.Create({
-					                                name            = "TomCatsMinimapButton",
-					                                iconTexture     = "Interface\\AddOns\\TomCats\\images\\00013",
-					                                backgroundColor = { 0.0, 0.0, 0.0, 1.0 },
-					                                handler_onclick = playChat
-				                                })
-				addon.charm.tooltip = {
-					Show = function(this)
-						GameTooltip:ClearLines()
-						GameTooltip:SetOwner(this, "ANCHOR_LEFT")
-						GameTooltip:SetText("TomCat would like to chat!", 1, 1, 1)
-						GameTooltip:AddLine("TomCat's Tours", nil, nil, nil, true)
-						GameTooltip:Show()
-					end,
-					Hide = function()
-						GameTooltip:Hide()
-					end
-				}
-				addon.charm.MinimapLoopPulseAnim:Play()
-				addon.charm:SetFrameLevel(TOMCATS_LIBS_ICON_LASTFRAMELEVEL + 100)
-			else
-				SavedVariables.account.notifications["NZOTHLAUNCH"] = true
-			end
-		end
 		SavedVariables.account.tutorials = SavedVariables.account.tutorials or { }
 		SavedVariables.character.cvars = SavedVariables.character.cvars or { }
 		TomCats_Config.name = "TomCat's Tours"
@@ -234,20 +197,26 @@ local function ADDON_LOADED(_, _, arg1)
 		local offset = -68
 		local buttonSpacing = -32
 		local count = 0
-		local mapIDs = { 1462, 1355, 62, 14 }
+		local mapIDs = { 118, 1462, 1355, 62, 14 }
 		for i = 1, #mapIDs do
 			local k = mapIDs[i]
 			local v = addon.supportedMaps[k]
 			local enabled = GetAddOnEnableState(UnitName("player"), v.name)
 			if (enabled ~= 0) then
 				local rareMapShortcut = Charms.Create({
-					                                          name            = "TomCatsWorldmapRaresButton" .. k,
-					                                          iconTexture     = v.iconTexture,
-					                                          backgroundColor = v.backgroundColor,
-					                                          handler_onclick = ChangeMap,
-					                                          ignoreSlideBar  = true,
-					                                          ignoreSexyMap   = true
-				                                          })
+					name            = "TomCatsWorldmapRaresButton" .. k,
+					iconTexture     = v.iconTexture,
+					backgroundColor = v.backgroundColor,
+					handler_onclick = function(this)
+						local loading = IsAddOnLoaded(addon.supportedMaps[k].name)
+						if (not loading) then
+							LoadAddOn(addon.supportedMaps[k].name)
+						end
+						ChangeMap(this)
+					end,
+					ignoreSlideBar  = true,
+					ignoreSexyMap   = true
+				})
 				rareMapShortcut:SetParent(WorldMapFrame)
 				rareMapShortcut:SetFrameStrata("MEDIUM")
 				rareMapShortcut:SetFrameLevel(9999)
@@ -272,6 +241,42 @@ local function ADDON_LOADED(_, _, arg1)
 			else
 				addon.supportedMaps[k] = nil
 			end
+		end
+    	local charmInfo = addon.supportedMaps[118]
+		if (charmInfo) then
+			TomCats.DeathsRising = TomCats.DeathsRising or { }
+			TomCats.DeathsRising.charm = Charms.Create({
+				name = "TomCatsBundledDeathsRisingMinimapButton",
+				iconTexture = charmInfo.iconTexture,
+				backgroundColor = charmInfo.backgroundColor,
+				handler_onclick = function()
+					TomCats.DeathsRising.openOnStart = true
+					local loading = IsAddOnLoaded("TomCats-Bundled-DeathsRising")
+					if (not loading) then
+						LoadAddOn("TomCats-Bundled-DeathsRising")
+					end
+				end,
+				title = charmInfo.title
+			})
+			TomCats.DeathsRising.charm.tooltip = {
+				Show = function(this)
+					GameTooltip:ClearLines()
+					GameTooltip:SetOwner(this, "ANCHOR_LEFT")
+					GameTooltip:SetText("TomCat's Tours:", 1, 1, 1)
+					GameTooltip:AddLine("Rares of Death's Rising", nil, nil, nil, true)
+					GameTooltip:AddLine("Icecrown", nil, nil, nil, true)
+					--GameTooltip:AddLine("(" .. addon.params["Title Line 2"] .. ")", nil, nil, nil, true)
+					GameTooltip:Show()
+				end,
+				Hide = function()
+					GameTooltip:Hide()
+				end
+			}
+			TomCats.DeathsRising.charm:SetupForMinimap()
+			local cpanel = TomCatsBundledDeathsRisingInterfaceOptionsPanel
+			cpanel.name = "Rares of Death's Rising"
+			cpanel.parent = "TomCat's Tours"
+			InterfaceOptionsPanel_OnLoad(cpanel);
 		end
 	end
 end
@@ -485,7 +490,12 @@ do
 		function TomCatsRareLogMixin:Refresh()
 			self.RaresFrame.Contents.LogHeader.Text:SetText(L["Rare Creatures Log"])
 			self.RaresFrame.Contents.LogHeader:Show()
-			self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"])
+			-- todo: Remove this hardcode
+			if (WorldMapFrame:GetMapID() == 118) then
+				self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"] .. " (in spawn order)")
+			else
+				self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"])
+			end
 			self.layoutIndexManager:Reset()
 			self:RefreshRaresLog()
 			self.RaresFrame.Contents:Layout()
@@ -544,7 +554,13 @@ do
 		end
 		local lastMapID = 0
 		local helpPlate_override
-		local function UpdateAll()
+		local function UpdateAll(_, mapID)
+			if (mapID and mapID == 118) then
+				local loading = IsAddOnLoaded("TomCats-Bundled-DeathsRising")
+				if (not loading) then
+					LoadAddOn("TomCats-Bundled-DeathsRising")
+				end
+			end
 			if WorldMapFrame:GetMapID() ~= lastMapID then
 				lastMapID = WorldMapFrame:GetMapID()
 				if TomCatsRareMapFrame:IsShown() then
@@ -567,6 +583,7 @@ do
 				HelpPlate_Hide()
 			end
 		end
+		TomCats.UpdateAll = UpdateAll
 		local function RevertToQuestFrameShown(save)
 			WorldMapFrame:SetDisplayState(DISPLAY_STATE_OPEN_MINIMIZED_WITH_LOG)
 			QuestScrollFrame:Show()
@@ -712,6 +729,10 @@ do
 					               end)
 				end
 			end
+			-- todo: Re-establish this as LOD based on moving into Icecrown
+			C_Timer.NewTimer(0, function()
+				LoadAddOn("TomCats-Bundled-DeathsRising")
+			end)
 		end
 		local lastWaypoint
 		function TomCatsRareLogEntryIcon_OnClick(self)
@@ -722,7 +743,7 @@ do
 					if (lastWaypoint) then
 						TomTom:RemoveWaypoint(lastWaypoint)
 					end
-					local location = self:GetParent().creature["Locations"][raresLog.locationIndex]
+					local location = self:GetParent().creature["Location"] or self:GetParent().creature["Locations"][raresLog.locationIndex]
 					if location then
 						lastWaypoint = TomTom:AddWaypoint(WorldMapFrame:GetMapID(), location[1], location[2], {
 							title      = self:GetParent().creature["Name"],
@@ -822,7 +843,7 @@ do
 			local parentFrame = TomCatsRareMapFrame.DetailsFrame.ScrollFrame.Contents
 			TomCatsQuestInfoTitleHeader:SetText(creature["Name"])
 			TomCatsQuestInfoTitleHeader:SetWidth(contentWidth)
-			TomCatsQuestInfoQuestType:SetText("|T1121272:20:20:0:2:1024:512:588:620:306:338|t Rare Spawn")
+			TomCatsQuestInfoQuestType:SetText("|T1121272:20:20:0:2:1024:512:728:760:409:441|t Rare Spawn")
 			local description = creature["Description"]
 			if description then
 				table.insert(elements, TomCatsQuestInfoDescriptionHeader)

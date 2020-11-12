@@ -622,6 +622,7 @@ app.L = {
 		[-690] = "Interface\\Icons\\inv_protodrakegladiatormount_blue",						-- Sinister Gladiator: Battle for Azeroth Season 2
 		[-691] = "Interface\\Icons\\inv_protodrakegladiatormount_purple",					-- Notorious Gladiator: Battle for Azeroth Season 3
 		[-692] = "Interface\\Icons\\inv_protodrakegladiatormount_black",					-- Corrupted Gladiator: Battle for Azeroth Season 4
+		[-693] = "Interface\\Icons\\inv_shadebeastmount",									-- Sinful Gladiator: Shadowlands Season 1
 		[-800] = "Interface\\Icons\\inv_horse2purple",										-- Lucid Nightmare
 		[-801] = "Interface\\Icons\\inv_serpentmount_darkblue",								-- Riddler's Mind-Worm
 		[-802] = "Interface\\Icons\\inv_faeriedragon2_orange",								-- Sun Darter Hatchling
@@ -642,6 +643,7 @@ app.L = {
 		[-859] = "Interface\\Icons\\inv_tinyazeritesplinter",								-- Rank 2
 		[-860] = "Interface\\Icons\\inv_smallazeriteshard",									-- Rank 3
 		[-861] = "Interface\\Icons\\inv_smallazeritecluster",								-- Rank 4
+		[-862] = "Interface\\Icons\\inv_heartofazeroth",									-- Heart of Azeroth
 		[-1000] = "Interface\\Icons\\achievement_transmog_collections",						-- Sets
 		[-1001] = "Interface\\Icons\\Racial_Dwarf_FindTreasure",							-- The Black Vault
 		[-2200] = "Interface\\Icons\\inv_scroll_11",										-- Warrior order hall lore item
@@ -1388,6 +1390,9 @@ app.L = {
 		[-691] = select(2, GetAchievementInfo(13630)),							-- Notorious Gladiator: Battle for Azeroth Season 3
 		[-692] = select(2, GetAchievementInfo(13957)),							-- Corrupted Gladiator: Battle for Azeroth Season 4
 
+-- Shadowlands PvP Seasons
+		[-693] = select(2, GetAchievementInfo(14690)),							-- Sinful Gladiator: Shadowlands Season 1
+
 -- Secret Header [Maybe need to change the numbers again when I need more space for PvP -- sadidorf]
 		[-800] = GetSpellInfo(247402), 											-- Lucid Nightmare
 		[-801] = GetSpellInfo(243025),											-- Riddler's Mind-Worm
@@ -1401,6 +1406,7 @@ app.L = {
 -- Mechagon
 		[-850] = "Mechanized Chest",											-- Mechanized Chest
 		[-851] = "Irontide Chest",												-- Irontide Chest
+		[-862] = GetSpellInfo(275825),											-- Heart of Azeroth
 		[-1000] = WARDROBE_SETS, 												-- Sets
 		[-1001] = "The Black Vault",
 
@@ -1665,6 +1671,7 @@ app.L = {
 		[-5362] = select(2,GetAchievementInfo(11848)),	-- 13th Anniversary
 		[-5363] = select(2,GetAchievementInfo(12827)),	-- 14th Anniversary
 		[-5364] = select(2,GetAchievementInfo(13917)),	-- 15th Anniversary
+		[-5365] = select(2,GetAchievementInfo(14271)),	-- 16th Anniversary
 --[[
 		-- Tier Set Numbers Localization
 		[-5992] = GARRISON_CURRENT_LEVEL.." "..WARDROBE_SETS, -- Tier 9 Sets
@@ -3382,6 +3389,7 @@ app.L = {
 		[241664] = "Borrowed Enchanted Spyglass",
 		[241665] = "Treasure Chest",
 		[241671] = "Forgotten Shard of the Cipher",
+		[241673] = "Looted Bleeding Hollow Treasure",
 		[241674] = "Skull of the Mad Chief",
 		[241680] = "Small Treasure Chest",
 		[241692] = "Axe of the Weeping Wolf",
@@ -4234,7 +4242,7 @@ app.L = {
 		{0, "", ""}, -- 33
 		{0, "", ""}, --34
 		{3, "|CFFFF0000This may be locked behind a paywall, probably the in-game shop, another Blizzard game, or Recruit A Friend.|r", "Blizzard Balance (35)"}, --35
-		{21, "|CFFFF0000This was obtainable only during the WoW Anniversary when it was active and is no longer available.|r\n", "WoW Anniversary [Removed] (36)"}, -- 36
+		{1, "|CFFFF0000This was obtainable only during the WoW Anniversary when it was active and is no longer available.|r\n", "WoW Anniversary [Removed] (36)"}, -- 36
 		{0, "", ""}, --37
 		{1, "|CFFFF0000These items are only available for players that completed the Legendary Cloak quest chain during Mists of Pandaria or via the BMAH|r", "Ordos - Legendary Cloak (38)"}, --38
 		{0, "", ""}, --39

@@ -7,20 +7,6 @@ TITANREP_EventTime = GetTime()
 TITAMREP_InitTime = 0
 TITANREP_RTS = {}
 gFactionID = 1168
-TITANREP_bonusRepsTable = { 
-            [1375]=1, --Dominance Offensive 
-			[1269]=1, --Golden Lotus
-			[1271]=1, --Order of the Cloud Serpent 
-			[1270]=1, --Shado-Pan 
-			[1388]=1, --Sunreaver Onslaught 
-			[1341]=1, --The August Celestials 
-			[1337]=1, --The Klaxxi 
-			[1345]=1, --The Lorewalkers 
-			[1272]=1, --The Tillers
-			[1302]=1, --The Anglers
-			[1387]=1, --Kirin Tor Offensive
-			[1376]=1 --Operation: Shield Wall
-			}
 
 --check Glamour version
 --
@@ -112,7 +98,6 @@ local TITANREP_SCALE_INCREASE = "+ Increase Tooltip Scale"
 local TITANREP_SCALE_DECREASE = "- Decrease Tooltip Scale"
 local TITANREP_DisplayOnRightSide = "Align Plugin to Right-Side"
 local TITANREP_ShowFriendsOnBar = "Show Friendships"
-local TITANREP_BonusRepWarnings = "Show Bonus Reputation Warnings"
 local TITANREP_PARAGON = "Paragon"
 local TITANREP_SESSION_SUMMARY = "Session Summary"
 local TITANREP_SESSION_SUMMARY_DURATION = "Duration"
@@ -179,7 +164,6 @@ function TitanPanelReputationButton_OnLoad(self)
 			ToolTipScale = .8,
 			Minimal = false,
 			ShowFriendsOnBar = 1,
-			BonusRepWarnings = 1,
 			DisplayOnRightSide = false
 		}
 	}
@@ -206,13 +190,8 @@ function TitanPanelReputationButton_OnEvent(event, ...)
 	if event == "ADDON_LOADED" and ... == "TitanReputation" then
 		if not TitanRep_Data then
 			TitanRep_Data = { }
-			TitanRep_Data["BonusRep"] = { }
 		end
 	
-		--Fix for 3.8.1/2/3 Grand Commedation Bug in saved variables with Shadowpan-Assault will be removed in later versions
-		if TitanRep_Data["BonusRep"][1435] then
-			TitanRep_Data["BonusRep"][1435] = nil
-		end
 		TITANREP_InitTime = GetTime();
 		print("TITANREP_InitTime Set:",TITANREP_InitTime);
 	end
@@ -376,7 +355,7 @@ function TitanReputationSetColor()
 end
 
 -- this method adds a line to the tooltip text
-function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID, hasBonusRepGain)
+function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID)
 	local showrep = 0
 	local friendID , friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold
 	local adjustedId = standingID
@@ -389,8 +368,6 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
         end
 	elseif standingID == 8  then TOTAL_EXALTED = TOTAL_EXALTED + 1 	end
 
-    if hasBonusRepGain  then adjustedId = 9 end
-
 	if (tContains(TitanGetVar(TITANREP_ID, "FactionHeaders"), parentName)) then
 		return
 	end
@@ -399,33 +376,6 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
 
 	local preface = TitanUtils_GetHighlightText(" - ")
 	local postface = ""
-	local bonusRepWarning = nil
-	if TitanGetVar(TITANREP_ID, "BonusRepWarnings") then
-		if hasBonusRepGain then
-			if not isHeader then preface = TitanUtils_GetGreenText(" + ") end
-			if TitanRep_Data["BonusRep"][factionID] then TitanRep_Data["BonusRep"][factionID] = nil end
-		elseif TITANREP_bonusRepsTable[factionID] and standingID >= 7 then
-			if not isHeader then 
-				preface = TitanUtils_GetRedText(" ! ") 
-				postface = TitanUtils_GetRedText(" (Grand Commendation Available: Visit Quartermaster!)")
-			end
-		elseif TitanRep_Data["BonusRep"][factionID] then
-			preface = TitanUtils_GetRedText(" ! ") 
-			postface = TitanUtils_GetRedText("(Grand Commendation Available!)")
-			local toons = ""
-			local count = 0
-			for key,value in pairs(TitanRep_Data["BonusRep"][factionID]) do
-				if count > 1 then toons = toons..", " end
-				toons = toons..key.."("..getglobal("FACTION_STANDING_LABEL"..TitanRep_Data["BonusRep"][factionID][key])..")"
-				count = count + 1
-			end
-			local pluralize = "this toon: "
-			if count > 1 then pluralize = " one of these toons: " end
-			bonusRepWarning = "   "..TitanUtils_GetRedText("Visit Quartermaster on "..pluralize..toons.." (+100% Rep Bonus)")
-		elseif TITANREP_bonusRepsTable[factionID] then
-			preface = TitanUtils_GetHighlightText(" + ")
-		end
-	end
 
 	if(isInactive) then
 		showrep = 0
@@ -453,7 +403,6 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
 
 		else
 			if(standingID == 8 and TitanGetVar(TITANREP_ID, "ShowExalted")) then showrep = 1 end
-			if(standingID == 8 and hasBonusRepGain ) then showrep = 1 end
 			if(standingID == 7 and TitanGetVar(TITANREP_ID, "ShowRevered")) then showrep = 1 end
 			if(standingID == 6 and TitanGetVar(TITANREP_ID, "ShowHonored")) then showrep = 1 end
 			if(standingID == 5 and TitanGetVar(TITANREP_ID, "ShowFriendly")) then showrep = 1 end
@@ -469,7 +418,6 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
 
 			local LABEL = getglobal("FACTION_STANDING_LABEL"..standingID)
 			if isFriendship then LABEL = friendTextLevel end
-            if hasBonusRepGain and not (isFriendship and not nextFriendThreshold) and not (adjustedId >= 8 and topValue == 0) then LABEL = TITANREP_PARAGON end
 
 			if TitanGetVar(TITANREP_ID, "ShortTipStanding") then LABEL = strsub(LABEL,1,1) end
 
@@ -485,7 +433,7 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
 
 			if(MYBARCOLORS) then
 				TITANREP_TOOLTIP_TEXT = TITANREP_TOOLTIP_TEXT..preface
-				if((standingID == 8 and not hasBonusRepGain) or topValue == 1000 or topValue == 0) then
+				if(standingID == 8 or topValue == 1000 or topValue == 0) then
    					TITANREP_TOOLTIP_TEXT = TITANREP_TOOLTIP_TEXT..TitanUtils_GetColoredText(name, MYBARCOLORS[8])..postface.."\t"
 	    			TITANREP_TOOLTIP_TEXT = TITANREP_TOOLTIP_TEXT..TitanUtils_GetColoredText(LABEL,MYBARCOLORS[8])
 				else
@@ -519,9 +467,6 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
 				end
 			end
 			TITANREP_TOOLTIP_TEXT = TITANREP_TOOLTIP_TEXT.."\n"
-			if bonusRepWarning then
-				TITANREP_TOOLTIP_TEXT = TITANREP_TOOLTIP_TEXT..bonusRepWarning.."\n"
-			end
 		end
 	end
 end
@@ -728,7 +673,6 @@ function TitanPanelRightClickMenu_PrepareReputationMenu()
 	-- level 1 menu
 	TitanPanelRightClickMenu_AddTitle2(TitanPlugins[TITANREP_ID].menuText.." v"..TITANREP_VERSION)
 	TitanPanelRightClickMenu_AddToggleVar(TITANREP_AUTO_CHANGE, TITANREP_ID, "AutoChange")
-	TitanPanelRightClickMenu_AddToggleVar(TITANREP_BonusRepWarnings, TITANREP_ID, "BonusRepWarnings")
 	TitanPanelRightClickMenu_AddToggleVar(TITANREP_SHOW_ANNOUNCE, TITANREP_ID, "ShowAnnounce")
 	if(IsAddOnLoaded("MikScrollingBattleText")) then
 		TitanPanelRightClickMenu_AddToggleVar(TITANREP_SHOW_ANNOUNCE_MIK, TITANREP_ID, "ShowAnnounceMik")
@@ -792,7 +736,7 @@ function TitanReputationHeaderFactionToggle(name)
 end
 
 -- this method adds a line to the right-click menu (to build up faction headers)
-function TitanPanelReputation_BuildRightClickMenu(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFrienship, factionId, hasBonusRepGain)
+function TitanPanelReputation_BuildRightClickMenu(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFrienship, factionId)
 	if(not isInactive) then
 		if(isHeader and not isCollapsed) then
 			command = {}
@@ -811,7 +755,7 @@ function TitanPanelReputation_BuildRightClickMenu(name, parentName, standingID, 
 end
 
 -- this method adds a line to the level2 right-click menu (to build up factions for parent header)
-function TitanPanelReputation_BuildFactionSubMenu(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID, hasBonusRepGain)
+function TitanPanelReputation_BuildFactionSubMenu(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID)
 	local friendID , friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold 
 	local adjustedId = standingID
 	if isFriendship then
@@ -819,11 +763,8 @@ function TitanPanelReputation_BuildFactionSubMenu(name, parentName, standingID, 
         if not nextFriendThreshold then adjustedId = 8 end
 	end
 
-    if hasBonusRepGain and not (isFriendship and not nextFriendThreshold) and not (adjustedId >= 8 and topValue == 0) then adjustedId = 9 end
-
 	local LABEL = getglobal("FACTION_STANDING_LABEL"..standingID)
 	if isFriendship then LABEL = friendTextLevel end
-	if hasBonusRepGain and not (isFriendship and not nextFriendThreshold) and not (adjustedId >= 8 and topValue == 0) then LABEL = TITANREP_PARAGON end
 	if TitanGetVar(TITANREP_ID, "ShortTipStanding") then LABEL = strsub(LABEL,1,1) end
 
 	if(parentName == L_UIDROPDOWNMENU_MENU_VALUE and (not isHeader or (isHeader and hasRep))) then
@@ -857,7 +798,7 @@ function TitanPanelReputation_Refresh()
 end
 
 -- This method sets the text of the button according to selected faction's data
-function TitanPanelReputation_BuildButtonText(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID, hasBonusRepGain)
+function TitanPanelReputation_BuildButtonText(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID)
 	local friendID , friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold
 	local adjustedId = standingID
 
@@ -868,21 +809,12 @@ function TitanPanelReputation_BuildButtonText(name, parentName, standingID, topV
 		friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(isFriendship)
 	end
 
-    if hasBonusRepGain then adjustedId = 9 end
     if topValue == 0 then adjustedId = 8 end
 
 	local preface = ""
-	if TitanGetVar(TITANREP_ID, "BonusRepWarnings") then
-		if hasBonusRepGain then
-			preface = TitanUtils_GetGreenText("+")
-		elseif TITANREP_bonusRepsTable[factionID] and standingID >= 7 then
-			preface = TitanUtils_GetRedText("!")
-		end
-	end
 
 	local LABEL = getglobal("FACTION_STANDING_LABEL"..standingID)
 	if isFriendship then LABEL = friendTextLevel end
-	if hasBonusRepGain and not (isFriendship and not nextFriendThreshold) and not (adjustedId >= 8 and topValue == 0) then LABEL = TITANREP_PARAGON end
 	if(TitanGetVar(TITANREP_ID, "ShortStanding")) then LABEL = strsub(LABEL,1,1) end
 
 	TitanReputationSetColor()
@@ -894,9 +826,6 @@ function TitanPanelReputation_BuildButtonText(name, parentName, standingID, topV
 		end
 
 		if(TitanGetVar(TITANREP_ID, "ShowFactionName")) then
-			if TitanGetVar(TITANREP_ID, "BonusRepWarnings") then
-				TITANREP_BUTTON_TEXT = TITANREP_BUTTON_TEXT..preface
-			end
 			if(COLOR) then
 				TITANREP_BUTTON_TEXT = TITANREP_BUTTON_TEXT..TitanUtils_GetColoredText(name, COLOR)
 			else
@@ -944,25 +873,9 @@ function TitanPanelReputation_BuildButtonText(name, parentName, standingID, topV
 end
 
 -- saves all reputation value, so we can monitor what is changed
-function TitanPanelReputation_GatherValues(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID, hasBonusRepGain)
+function TitanPanelReputation_GatherValues(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID)
 
 	if TITANREP_TABLE_INIT then
-		if hasBonusRepGain then
-			if TitanRep_Data["BonusRep"][factionID] then TitanRep_Data["BonusRep"][factionID] = nil end
-		else
-			if TITANREP_bonusRepsTable[factionID] and standingID >= 7 then
-				local cname, _ = UnitName("player")
-				local crealm = GetRealmName()
-				if TitanRep_Data["BonusRep"][factionID] then
-					TitanRep_Data["BonusRep"][factionID][cname.."-"..crealm] = standingID
-				else
-					TitanRep_Data["BonusRep"][factionID] = { }
-					TitanRep_Data["BonusRep"][factionID][cname.."-"..crealm] = standingID
-				end
-			end
-		end
-
-
 		if((not isHeader and name) or (isHeader and hasRep)) then
 			if not TITANREP_TABLE[factionID] and GetTime() - TITANREP_InitTime > 30 then		
 				local adjustedId = standingID
@@ -979,11 +892,6 @@ function TitanPanelReputation_GatherValues(name, parentName, standingID, topValu
 					LABEL = friendTextLevel
 					factionType = "Friendship"
 				end
-
-                if hasBonusRepGain and not (isFriendship and not nextFriendThreshold) and not (adjustedId >= 8 and topValue == 0) then 
-                    adjustedId = 9 
-                    LABEL = TITANREP_PARAGON
-                end
 
 				if(MYBARCOLORS) then
 					msg = TitanUtils_GetColoredText(name.." - "..LABEL,MYBARCOLORS[(adjustedId)])
@@ -1029,7 +937,7 @@ function TitanPanelReputation_GatherValues(name, parentName, standingID, topValu
 end
 
 -- gets the faction name where reputation changed
-function TitanPanelReputation_GetChangedName(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID, hasBonusRepGain)
+function TitanPanelReputation_GetChangedName(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID)
 	local earnedAmount = 0
 	local friendID , friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold
 	local adjustedId = standingID
@@ -1042,12 +950,9 @@ function TitanPanelReputation_GetChangedName(name, parentName, standingID, topVa
 		factionType = "Friendship Ranking"
 	end
 
-    if hasBonusRepGain  then adjustedId = 9 end
-
 	local LABEL = getglobal("FACTION_STANDING_LABEL"..standingID)
 
 	if isFriendship then LABEL = friendTextLevel end
-    if hasBonusRepGain and not (isFriendship and not nextFriendThreshold) and not (adjustedId >= 8 and topValue == 0) then LABEL = TITANREP_PARAGON end
 
 	if(not (factionID == gFactionID) and TITANREP_TABLE[factionID]) then
 		if(GetTime() - TITANREP_InitTime > 30 and (TITANREP_TABLE[factionID].standingID < standingID) or (TITANREP_TABLE[factionID].earnedValue ~= earnedValue)) then
@@ -1172,22 +1077,12 @@ function TitanPanelReputation_GatherFactions(method)
 			earnedValue = earnedValue - bottomValue
 			bottomValue = 0
 
-            
-            -- BonusRep Compatibility :: Issue #27 :: Code Provided by: SLOKnightfall
-            if (factionID and C_Reputation.IsFactionParagon(factionID)) then
-                 earnedValue, topValue, rewardQuestID, hasRewardPending = C_Reputation.GetFactionParagonInfo(factionID)
-                 while(earnedValue > topValue) do
-                     earnedValue = earnedValue - topValue
-                 end
-                 hasBonusRepGain  = true
-            end
-
 			percent = format("%.2f",(earnedValue/topValue)*100)
 			if(percent:len()<5) then percent = "0"..percent; end
 
 			if(isHeader) then parentName = name; end
 			
-            method(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, IsFactionInactive(index), hasRep, isChild, friendID, factionID, hasBonusRepGain)
+            method(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, IsFactionInactive(index), hasRep, isChild, friendID, factionID)
 			
             index = index+1
 			

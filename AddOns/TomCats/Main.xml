@@ -179,7 +179,7 @@
 						<Anchor point="TOPLEFT" relativeTo="$parentIcon"/>
 						<Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon"/>
 					</Anchors>
-					<Color r="0.0" g="0.0" b="0.0" a="0.5"/>
+					<Color a="0.5"/>
 				</Texture>
 			</Layer>
 		</Layers>
@@ -221,34 +221,19 @@
 						<Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-16"/>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentVersion" text="01.06.04" inherits="GameFontHighlight">
+				<FontString name="$parentVersion" text="2.0.4" inherits="GameFontHighlight">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentVersionLabel" relativePoint="TOPRIGHT" x="4"/>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentReleaseDateLabel" text="Released" inherits="GameFontNormal">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentVersionLabel" relativePoint="BOTTOMLEFT" y="-6"/>
-					</Anchors>
-				</FontString>
-				<FontString name="$parentVersion" text="04-Nov-2020" inherits="GameFontHighlight">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentReleaseDateLabel" relativePoint="TOPRIGHT" x="4"/>
-					</Anchors>
-				</FontString>
 				<FontString name="$parentAuthorLabel" text="Author" inherits="GameFontNormal">
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentReleaseDateLabel" relativePoint="BOTTOMLEFT" y="-6"/>
+						<Anchor point="TOPLEFT" relativeTo="$parentVersionLabel" relativePoint="BOTTOMLEFT" y="-6"/>
 					</Anchors>
 				</FontString>
 				<FontString name="$parentAuthor" text="TomCat" inherits="GameFontHighlight">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentAuthorLabel" relativePoint="TOPRIGHT" x="4"/>
-					</Anchors>
-				</FontString>
-				<FontString parentKey="InstalledComponents" inherits="GameFontNormal" justifyH="LEFT">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentAuthorLabel" relativePoint="BOTTOMLEFT" y="-6"/>
 					</Anchors>
 				</FontString>
 			</Layer>
@@ -566,18 +551,6 @@
 					</Slider>
 					<Frame parentKey="StoryTooltip" frameStrata="TOOLTIP" clampedToScreen="true" hidden="true">
 						<Size x="10" y="10"/>
-						<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background"
-						          edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-							<EdgeSize>
-								<AbsValue val="16"/>
-							</EdgeSize>
-							<TileSize>
-								<AbsValue val="16"/>
-							</TileSize>
-							<BackgroundInsets>
-								<AbsInset left="5" right="5" top="5" bottom="5"/>
-							</BackgroundInsets>
-						</Backdrop>
 						<Layers>
 							<Layer>
 								<FontString parentKey="Title" inherits="GameFontHighlightMedium">
@@ -1240,7 +1213,7 @@
 			<Frame name="TomCatsQuestInfoSealFrame">
 				<Size x="257" y="78"/>
 				<Layers>
-					<Layer level="ARTWORK">
+					<Layer>
 						<FontString parentKey="Text" inherits="QuestFont_Huge"
 						            mixin="ShrinkUntilTruncateFontStringMixin" justifyH="LEFT">
 							<Size x="160" y="44"/>
@@ -1264,4 +1237,5 @@
 			</Frame>
 		</Frames>
 	</Frame>
+	<Include file="configs/DeathsRising.xml" />
 </Ui>

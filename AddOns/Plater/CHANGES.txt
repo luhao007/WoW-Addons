@@ -1,127 +1,94 @@
-lightweight tag 67114692cb184a0282cb5b4419af66e0a90f5e75 Plater-v9.0.1.314-Retail
-Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Fri Nov 6 19:02:15 2020 -0300
+lightweight tag 4c01da59d94822dd854dde141222c276cc78790f Plater-v9.0.1.315-Retail
+Author:	Continuity <continuity@gmx.net>
+Date:	Wed Nov 11 20:48:36 2020 +0100
 
-commit 67114692cb184a0282cb5b4419af66e0a90f5e75
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Nov 6 19:02:15 2020 -0300
-
-    Scripts are now updated to Shadowlands
-
-commit 961caa89afbcc6b4d5ad7625c66eb9de3d422931
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Nov 6 17:42:57 2020 -0300
-
-    Move to trash a script/hook replaced by an update from the script library
-
-commit f4721977fcc7438fb1837bc3b180351f9cc307c8
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Nov 6 10:11:20 2020 -0300
-
-    Some fixes for the StopDotAnimation()
-
-commit f4721977fcc7438fb1837bc3b180351f9cc307c8
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Nov 6 10:11:20 2020 -0300
-
-    Some fixes for the StopDotAnimation()
-
-commit 7a8cfc3e8c9808b077d021724ea2c0f2c6c58d3e
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Nov 6 10:10:54 2020 -0300
-
-    Color dropdown on nameplates now show on any zone as long as the Npc Color tab is selected on Options Panel
-
-commit 4e407f7d4b0304aa2a559f0ad4b2b28bff7f727d
+commit 4c01da59d94822dd854dde141222c276cc78790f
 Author: Continuity <continuity@gmx.net>
-Date:   Thu Nov 5 22:43:26 2020 +0100
+Date:   Wed Nov 11 20:48:36 2020 +0100
 
-    - add class color option to enemy player
+    - changelog update
 
-commit cb690e531c3deffba398ab170208f238ecbc744a
+commit 46f658c0a93df6dabdba35fbd30ba6a28aae24c2
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Wed Nov 11 16:07:47 2020 -0300
+
+    Missing script textures
+
+commit e227663efacfb432c3ed0cba02ffd8fbd11eb164
 Author: Continuity <continuity@gmx.net>
-Date:   Thu Nov 5 21:56:59 2020 +0100
+Date:   Wed Nov 11 14:44:47 2020 +0100
 
-    - fixing show animation not playing at the right times + scale reset
+    - stop the aura animation on hide
 
-commit 983f314a8e763b53757141fe6db3326f96546af7
+commit 8598fa183abb555585827801cccaee0739a64148
 Author: Continuity <continuity@gmx.net>
-Date:   Thu Nov 5 21:27:22 2020 +0100
+Date:   Wed Nov 11 12:19:11 2020 +0100
 
-    - properly set castbar icon according to settings
+    - adding "auras per row" option overwrite
 
-commit 9529a1c790d8f7f1f1c27e0a7575a24fb9997fc5
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Nov 5 12:39:32 2020 -0300
-
-    Fixed blinking auras during aura test
-
-commit 95cee8bf33e5236cb84be2b3de2c1a9b11f68c7a
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Nov 5 12:38:52 2020 -0300
-
-    Global health bar width and height now also change the castbar width
-
-commit d7def841d4c8b02c6ba05e1c4b5c8a89c6e8e473
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Nov 5 12:18:05 2020 -0300
-
-    Rename on advanced > animation features
-
-commit 77ed7ea39ba61607a062f5c0722c8d4b07ae1bef
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Nov 5 12:05:27 2020 -0300
-
-    Added Breath of the Coldheart to buff ignored list
-    
-    - Added Breath of the Coldheart to buff ignored list (torghast mob buff).
-    - Changed the default offset of the extra icon.
-
-commit 6bcc61f11f14c17b27b19d96ef774c25925974fe
+commit 9f0c445142754a01079fac28ebea47d6ba6bb4a6
 Author: Continuity <continuity@gmx.net>
-Date:   Thu Nov 5 12:29:55 2020 +0100
+Date:   Wed Nov 11 12:01:37 2020 +0100
+
+    - make aura rows grow in the proper directions according to anchor
+
+commit 2ecff35ccff5901dcde0d1a254d217086a7f9e06
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 11 11:33:38 2020 +0100
+
+    - small doc update
+
+commit 91cde39b01888dd52ba257d00fa41899e59d13ec
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Nov 10 21:49:18 2020 -0300
+
+    Increased the revision version of all scripts in an atempt to make them install correctly
+
+commit 323d41c18bb4e304fe0d5f95e6f6ab10e5288acc
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 10 16:37:47 2020 +0100
+
+    - enable tooltip on buff special
+
+commit d615efdac73e4beeb0a553f57048eee7e7a1d586
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 10 14:55:07 2020 +0100
+
+    - supress blizzard timers on buff special
+
+commit 7db3ac11daa0c41ca3e6114174d077609d51aa4a
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 10 14:54:55 2020 +0100
 
     - DF lib update
 
-commit d9aca72faa7a9ce5e906d40b8599f2f972112adc
+commit b8480ab9d04d493dae7f251bf9304ca2be69e968
 Author: Continuity <continuity@gmx.net>
-Date:   Thu Nov 5 12:25:59 2020 +0100
+Date:   Tue Nov 10 13:49:53 2020 +0100
 
-    - regression fix
+    - adding buff special text outline options
 
-commit 19121caec48b1196c4318eb7a0890722c6fead02
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Nov 4 21:04:40 2020 -0300
-
-    Grammar
-
-commit 349df555a258c2e5a752468dc243b74808ddee31
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Nov 4 20:29:05 2020 -0300
-
-    Added an option to not show the cast target if the player is a tank
-
-commit 6d96e9358cf0a742b992bebb52ff7f74e6b7538a
+commit 46bffb8ba2ed6f5917b23778650a0c1b7707b5b2
 Author: Continuity <continuity@gmx.net>
-Date:   Wed Nov 4 20:13:51 2020 +0100
+Date:   Tue Nov 10 13:48:53 2020 +0100
 
-    - regression fix
+    - DF lib update
 
-commit 79a5b9792c91f4f339b9a985a674dcb2c0305d43
+commit 7b71d5cdac01d7afc85855a2b8a05048ef65cee1
 Author: Continuity <continuity@gmx.net>
-Date:   Wed Nov 4 16:11:08 2020 +0100
+Date:   Tue Nov 10 13:04:27 2020 +0100
 
-    - switch from AuraUtil.ForEachAura to base UnitAuraSlots/UnitAuraBySlot
+    - adding font options for buff special timer, stack and caster texts
 
-commit cf003fd4c8ce08a2f03d7cf04b0243b1cfd51e28
+commit 202acf55684c18e28d5855e18cae25819dcdd5e8
 Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 3 23:20:05 2020 +0100
+Date:   Tue Nov 10 13:03:58 2020 +0100
 
-    - streamlining execute detection
+    - DF lib update
 
-commit 50c9b0b322bd55014e4906bf6b9c7afcad6a33c1
+commit d804870f40d509f920f2901b72cb116c91996f4b
 Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 3 22:54:03 2020 +0100
+Date:   Mon Nov 9 19:17:24 2020 +0100
 
-    - adding option for upper execute ranges
+    - stopping aura animations on hide
 

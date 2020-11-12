@@ -154,6 +154,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				--hide all auras except for the first occurrence of this aura
 				for i = 2, amountOfSimilarAuras do
 					local iconFrame = iconFramesTable [i][1]
+					iconFrame.ShowAnimation:Stop()
 					iconFrame:Hide()
 					iconFrame.InUse = false
 					
@@ -185,6 +186,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 	function Plater.AlignAuraFrames (self)
 
 		if (self.isNameplate) then
+			local profile = Plater.db.profile
 			local horizontalLength = 1
 			local curRowLength = 0
 			local verticalHeight = 1
@@ -197,7 +199,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			--get the table where all icon frames are stored in
 			local iconFrameContainer = self.PlaterBuffList
 			
-			if (Plater.db.profile.aura_sort) then
+			if (profile.aura_sort) then
 				local iconFrameContainerCopy = {}
 				for index, icon in pairs(iconFrameContainer) do
 					iconFrameContainerCopy[index] = icon
@@ -207,13 +209,16 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			end
 		
 			local growDirection
+			local anchorSide
 
 			--> get the grow direction for the buff frame
 			if (self.Name == "Main") then
 				growDirection = DB_AURA_GROW_DIRECTION
+				anchorSide = profile.aura_frame1_anchor.side
 				
 			elseif (self.Name == "Secondary") then
 				growDirection = DB_AURA_GROW_DIRECTION2
+				anchorSide = profile.aura_frame2_anchor.side
 			end
 			
 			--get the amount of auras shown in the frame, this variable should be always reliable
@@ -226,7 +231,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				--self:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1})
 				--self:SetBackdropBorderColor (1, 0, 0, 1)
 			
-				local framersPerRow = Plater.MaxAurasPerRow + 1
+				local aurasPerRow = (not profile.auras_per_row_auto and floor(profile.auras_per_row_amount) or Plater.MaxAurasPerRow)
+				local curAurasRowCount = aurasPerRow + 1
+				local rowGrowthDirectionUp = (anchorSide < 3 or anchorSide > 5)
 				
 				--which slot index is being manipulated within the icon loop
 				--if an icon is hidden it won't be used and the slot won't increase
@@ -235,71 +242,57 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				
 				--which was the last shown and valid icon attached into the visible icon row
 				local lastIconUsed
+				local relIconPoint
+				local relIconPointTo
+				local relRowIconPoint
+				local relFirstIconPoint
+				local paddingMult
 				
 				--left to right
 				if (growDirection == 3) then
-					--iterate among all icon frames
-					for i = 1, #iconFrameContainer do
-						--get the icon id from the icon frame container
-						local iconFrame = iconFrameContainer [i]
-						if (iconFrame:IsShown()) then
-							iconFrame:ClearAllPoints()
-							
-							if not firstIcon then
-								--set the point of the first icon
-								iconFrame:ClearAllPoints()
-								iconFrame:SetPoint ("bottomleft", self, "bottomleft", 0, 0)
-								firstIcon = iconFrame
-								verticalHeight = firstIcon:GetHeight()
-							else
-								if (slotId == framersPerRow) then
-									iconFrame:SetPoint ("bottomleft", firstIcon, "topleft", 0, Plater.db.profile.aura_breakline_space)
-									framersPerRow = framersPerRow + Plater.MaxAurasPerRow
-									--update the first icon to be the first icon in the second row
-									firstIcon = iconFrame
-									verticalHeight = verticalHeight + Plater.db.profile.aura_breakline_space + firstIcon:GetHeight()
-									
-								else
-									iconFrame:SetPoint ("topleft", lastIconUsed, "topright", DB_AURA_PADDING, 0)
-								end
-							end
-							
-							lastIconUsed = iconFrame
-							slotId = slotId + 1
-						end
-					end
-
+					relIconPoint = rowGrowthDirectionUp and "bottomleft" or "topleft"
+					relIconPointTo = rowGrowthDirectionUp and "bottomright" or "topright"
+					relRowIconPoint = rowGrowthDirectionUp and "topleft" or "bottomleft"
+					relFirstIconPoint = rowGrowthDirectionUp and "bottomleft" or "topleft"
+					paddingMult = 1
+				
 				-- <-- right to left
 				elseif (growDirection == 1) then
-					--> iterate among all icon frames
-					for i = 1, #iconFrameContainer do
-						--get the icon id from the icon frame container
-						local iconFrame = iconFrameContainer [i]
-						if (iconFrame:IsShown()) then
+					relIconPoint = rowGrowthDirectionUp and "bottomright" or "topright"
+					relIconPointTo = rowGrowthDirectionUp and "bottomleft" or "topleft"
+					relRowIconPoint = rowGrowthDirectionUp and "topright" or "bottomright"
+					relFirstIconPoint = rowGrowthDirectionUp and "bottomright" or "topright"
+					paddingMult = -1
+				end
+				
+				--iterate among all icon frames
+				for i = 1, #iconFrameContainer do
+					--get the icon id from the icon frame container
+					local iconFrame = iconFrameContainer [i]
+					if (iconFrame:IsShown()) then
+						iconFrame:ClearAllPoints()
+						
+						if not firstIcon then
+							--set the point of the first icon
 							iconFrame:ClearAllPoints()
-							
-							if not firstIcon then
-								--set the point of the first icon
-								iconFrame:ClearAllPoints()
-								iconFrame:SetPoint ("bottomright", self, "bottomright", 0, 0)
+							iconFrame:SetPoint (relFirstIconPoint, self, relFirstIconPoint, 0, 0)
+							firstIcon = iconFrame
+							verticalHeight = firstIcon:GetHeight()
+						else
+							if (slotId == curAurasRowCount) then
+								iconFrame:SetPoint (relIconPoint, firstIcon, relRowIconPoint, 0, profile.aura_breakline_space)
+								curAurasRowCount = curAurasRowCount + aurasPerRow
+								--update the first icon to be the first icon in the second row
 								firstIcon = iconFrame
-								verticalHeight = firstIcon:GetHeight()
+								verticalHeight = verticalHeight + profile.aura_breakline_space + firstIcon:GetHeight()
+								
 							else
-								if (slotId == framersPerRow) then
-									iconFrame:SetPoint ("bottomright", firstIcon, "topright", 0, Plater.db.profile.aura_breakline_space)
-									framersPerRow = framersPerRow + Plater.MaxAurasPerRow
-									--update the first icon to be the first icon in the second row
-									firstIcon = iconFrame
-									verticalHeight = verticalHeight + Plater.db.profile.aura_breakline_space + firstIcon:GetHeight()
-									
-								else
-									iconFrame:SetPoint ("topright", lastIconUsed, "topleft", -DB_AURA_PADDING, 0)
-								end
+								iconFrame:SetPoint (relIconPoint, lastIconUsed, relIconPointTo, DB_AURA_PADDING * paddingMult, 0)
 							end
-							
-							lastIconUsed = iconFrame
-							slotId = slotId + 1
 						end
+						
+						lastIconUsed = iconFrame
+						slotId = slotId + 1
 					end
 				end
 				
@@ -425,6 +418,11 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		iconFrame.ShowAnimation = iconShowInAnimation
 	end
 	
+	local function aura_icon_on_hide_callback (self)
+		self.ShowAnimation:Stop()
+		self:OnHideWidget()
+	end
+	
 	--an aura is about to be added in the nameplate, need to get an icon for it ~geticonaura
 	function Plater.GetAuraIcon (self, isBuff)
 		--self parent = NamePlate_X_UnitFrame
@@ -465,7 +463,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			--mixin the meta functions for scripts
 			DF:Mixin (newFrameIcon, Plater.ScriptMetaFunctions)
 			newFrameIcon.IsAuraIcon = true
-			newFrameIcon:HookScript ("OnHide", newFrameIcon.OnHideWidget)
+			newFrameIcon:HookScript ("OnHide", aura_icon_on_hide_callback)
 			
 			--create the animation for when the icon is shown
 			Plater.CreateShowAuraIconAnimation (newFrameIcon)
@@ -729,7 +727,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		if (auraIconFrame:IsShown()) then
 			--is was showing a different aura, simulate a OnHide()
 			if (auraIconFrame.SpellName ~= spellName) then
-				auraIconFrame:OnHideWidget()
+				aura_icon_on_hide_callback(auraIconFrame)
 			end
 		end
 		
@@ -793,6 +791,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		for i = nextAuraIndex, #self.PlaterBuffList do
 			local icon = self.PlaterBuffList [i]
 			if (icon and icon.InUse and icon:IsShown()) then
+				icon.ShowAnimation:Stop()
 				icon:Hide()
 				icon.InUse = false
 			end
@@ -812,6 +811,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			for i = nextAuraIndex, #buffFrame2.PlaterBuffList do
 				local icon = buffFrame2.PlaterBuffList [i]
 				if (icon and icon.InUse and icon:IsShown()) then
+					icon.ShowAnimation:Stop()
 					icon:Hide()
 					icon.InUse = false
 				end
@@ -826,7 +826,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 	end
 
 	--~special ~auraspecial
-	function Plater.AddExtraIcon (self, spellName, texture, count, debuffType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+	function Plater.AddExtraIcon (self, spellName, texture, count, debuffType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, filter, id)
 		local _, casterClass = UnitClass(caster or "")
 		local casterName
 		if (casterClass and UnitPlayerControlled(caster)) then
@@ -866,6 +866,15 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		
 		--spellId, borderColor, startTime, duration, forceTexture, descText
 		local iconFrame = self.ExtraIconFrame:SetIcon (spellId, borderColor, expirationTime - duration, duration, false, casterName and {text = casterName, text_color = casterClass} or false, count, debuffType, caster, canStealOrPurge)
+		
+		-- tooltip info
+		iconFrame:SetID (id)
+		iconFrame.filter = filter
+		iconFrame:SetScript ("OnEnter", Plater.OnEnterAura)
+		iconFrame:SetScript ("OnLeave", Plater.OnLeaveAura)
+		iconFrame:EnableMouse (Plater.db.profile.aura_show_tooltip)
+		
+		
 		--add the spell into the cache
 		self.ExtraIconFrame.AuraCache [spellId] = true
 		self.ExtraIconFrame.AuraCache [spellName] = true
@@ -960,11 +969,11 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> SPECIAL_AURAS_AUTO_ADDED has a list of crowd control not do not have a list of dispellable, so check if canStealOrPurge.
 						--> in addition, we want to check if enrage tracking is enabled and show enrage effects
 						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE)) then
-							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HELPFUL", buffIndex)
 						
 						--> check for special auras added by the user it self
 						elseif (((SPECIAL_AURAS_USER_LIST [name] or SPECIAL_AURAS_USER_LIST [spellId]) and not (SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId])) or ((SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId]) and caster and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet")))) then
-							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HELPFUL", buffIndex)
 							
 						end
 					end
@@ -1003,11 +1012,11 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> SPECIAL_AURAS_AUTO_ADDED has a list of crowd control not do not have a list of dispellable, so check if canStealOrPurge
 						--> in addition, we want to check if enrage tracking is enabled and show enrage effects
 						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE)) then
-							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HARMFUL", debuffIndex)
 						
 						--> check for special auras added by the user it self
 						elseif (((SPECIAL_AURAS_USER_LIST [name] or SPECIAL_AURAS_USER_LIST [spellId]) and not (SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId])) or ((SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId]) and caster and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet")))) then
-							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HARMFUL", debuffIndex)
 							
 						end
 					end
@@ -1081,14 +1090,14 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> SPECIAL_AURAS_AUTO_ADDED has a list of crowd control not do not have a list of dispellable, so check if canStealOrPurge
 						--> in addition, we want to check if enrage tracking is enabled and show enrage effects
 						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE)) then
-							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HARMFUL", debuffIndex)
 							can_show_this_debuff = false
 						end
 					end
 					
 					--> check for special auras added by the user it self
 					if (((SPECIAL_AURAS_USER_LIST [name] or SPECIAL_AURAS_USER_LIST [spellId]) and not (SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId])) or ((SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId]) and caster and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet")))) then
-						Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+						Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HARMFUL", debuffIndex)
 						can_show_this_debuff = false
 					end
 					
@@ -1121,7 +1130,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					
 					--> check for special auras added by the user it self
 					if (((SPECIAL_AURAS_USER_LIST [name] or SPECIAL_AURAS_USER_LIST [spellId]) and not (SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId])) or ((SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId]) and caster and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet")))) then
-						Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+						Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HELPFUL", buffIndex)
 						
 					elseif (not DB_BUFF_BANNED [name]) then
 						--> if true it'll show all auras - this can be called from scripts to debug aura things
@@ -1137,7 +1146,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> SPECIAL_AURAS_AUTO_ADDED has a list of crowd control not do not have a list of dispellable, so check if canStealOrPurge
 						--> in addition, we want to check if enrage tracking is enabled and show enrage effects
 						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE)) then
-							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HELPFUL", buffIndex)
 						else
 							--> important aura
 							if (DB_AURA_SHOW_IMPORTANT and (nameplateShowAll or isBossDebuff)) then
@@ -1213,13 +1222,13 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> SPECIAL_AURAS_AUTO_ADDED has a list of crowd control not do not have a list of dispellable, so check if canStealOrPurge
 						--> in addition, we want to check if enrage tracking is enabled and show enrage effects
 						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE)) then
-							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HARMFUL", debuffIndex)
 						end
 					end
 					
 					--> check for special auras added by the user it self
 					if (((SPECIAL_AURAS_USER_LIST [name] or SPECIAL_AURAS_USER_LIST [spellId]) and not (SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId])) or ((SPECIAL_AURAS_USER_LIST_MINE [name] or SPECIAL_AURAS_USER_LIST_MINE [spellId]) and caster and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet")))) then
-						Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId)
+						Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HARMFUL", debuffIndex)
 					end
 					
 				end
@@ -1334,6 +1343,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						for i = 1, #buffFrame2.PlaterBuffList do
 							local icon = buffFrame2.PlaterBuffList [i]
 							if (icon) then
+								icon.ShowAnimation:Stop()
 								icon:Hide()
 								icon.InUse = false
 							end

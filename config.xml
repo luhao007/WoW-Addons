@@ -19,6 +19,10 @@
 		<Title>天赋模拟器</Title>
 		<Category>战斗</Category>
 	</Addon>
+	<Addon name="AngryKeystones">
+		<Title>钥石助手</Title>
+		<Category>副本</Category>
+	</Addon>
 	<Addon name="ATT-Classic">
 		<Title>收集控助手</Title>
 		<Notes>追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况</Notes>
@@ -334,6 +338,10 @@
 			<SubAddon name="BtWQuestsLegion">
 				<Title>军团再临</Title>
 				<Notes>BtWQuests 军团再临模块</Notes>
+			</SubAddon>
+			<SubAddon name="BtWQuestsShadowlandsPrologue">
+				<Title>暗影国度前夕</Title>
+				<Notes>BtWQuests 暗影国度前夕</Notes>
 			</SubAddon>
 		</SubAddons>
 	</Addon>
@@ -861,7 +869,7 @@
 				<Title>成就</Title>
 				<TitleExtra>艾泽拉斯金曲</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_BattleForAzerothTreasures">
+			<SubAddon name="HandyNotes_BattleForAzeroth">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>争霸艾泽拉斯</TitleExtra>
 			</SubAddon>
@@ -899,6 +907,10 @@
 			<SubAddon name="HandyNotes_NPCs (Classic)">
 				<Title>NPC</Title>
 			</SubAddon>
+			<SubAddon name="HandyNotes_Shadowlands">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>暗影国度</TitleExtra>
+			</SubAddon>
 			<SubAddon name="HandyNotes_SummerFestival">
 				<Title>节日</Title>
 				<TitleExtra>仲夏节</TitleExtra>
@@ -912,10 +924,6 @@
 			</SubAddon>
 			<SubAddon name="HandyNotes_TravelGuide (Classic)">
 				<Title>旅行指南</Title>
-			</SubAddon>
-			<SubAddon name="HandyNotes_VisionsOfNZoth">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>恩佐斯的幻象</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_WarfrontRares">
 				<Title>稀有</Title>
@@ -1436,6 +1444,9 @@
 			</SubAddon>
 			<SubAddon name="TomCats-Nzoth">
 				<Title>恩佐斯</Title>
+			</SubAddon>
+			<SubAddon name="TomCats-Bundled-DeathsRising">
+				<Title>天灾入侵</Title>
 			</SubAddon>
 			<SubAddon name="TomCats-WarfrontsCommandCenter">
 				<Title>战争前线指挥中心</Title>

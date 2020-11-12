@@ -664,6 +664,8 @@ PLATER_DEFAULT_SETTINGS = {
 		aura_height = 16,
 		aura_width2 = 26,
 		aura_height2 = 16,
+		auras_per_row_auto = true,
+		auras_per_row_amount = 10,
 		
 		--> aura frame 1
 		--aura_x_offset = 0,
@@ -706,12 +708,21 @@ PLATER_DEFAULT_SETTINGS = {
 		
 		extra_icon_anchor = {side = 6, x = -4, y = 0},
 		extra_icon_show_timer = true,
+		extra_icon_timer_font = "Arial Narrow",
+		extra_icon_timer_size = 12,
+		extra_icon_timer_outline = "NONE",
 		extra_icon_width = 30,
 		extra_icon_height = 18,
 		extra_icon_wide_icon = true,
 		extra_icon_use_blizzard_border_color = true,
 		extra_icon_caster_name = true,
+		extra_icon_caster_font = "Arial Narrow",
+		extra_icon_caster_size = 7,
+		extra_icon_caster_outline = "NONE",
 		extra_icon_show_stacks = true,
+		extra_icon_stack_font = "Arial Narrow",
+		extra_icon_stack_size = 10,
+		extra_icon_stack_outline = "NONE",
 		extra_icon_backdrop_color = {0, 0, 0, 0.612853},
 		extra_icon_border_color = {0, 0, 0, 1},
 		

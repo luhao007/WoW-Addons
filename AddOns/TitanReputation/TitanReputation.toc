@@ -1,15 +1,15 @@
 ## Interface: 90001
-## Version: 9.0.1.0
+## Version: 9.0.1.2
 ## Dependencies: Titan
 ## OptionalDeps: Glamour
 ## SavedVariables: TitanRep_Data
 
-## Title: Titan [|cffeda55fReputation|r] |cff00aa00 v9.0.1.0|r
+## Title: Titan [|cffeda55fReputation|r] |cff00aa00 v9.0.1.2|r
 ## Notes: Adds Reputation tracking and monitoring tools to Titan Panel.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0声望|r
 ## Notes-zhCN: 泰坦面板的声望模块
 
-## X-Date: 2020-10-30
+## X-Date: 2020-11-11
 ## X-Part-Of: Titan
 
 TitanReputation.xml

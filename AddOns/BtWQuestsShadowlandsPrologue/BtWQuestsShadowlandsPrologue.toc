@@ -1,10 +1,14 @@
 ## Interface: 90001
-## Title: BtWQuests: Shadowlands Prologue
-## Version: 1.2
-## Notes: Shadowlands Prologue quest data for BtWQuests
 ## Author: Breen
+## Version: 1.2
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
+
+## Title: BtWQuests: Shadowlands Prologue
+## Notes: Shadowlands Prologue quest data for BtWQuests
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务流程图|r |cFF69CCF0暗影国度前夕|r
+## Notes-zhCN: BtWQuests 暗影国度前夕
+
 ## X-BtWQuests: Shadowlands Prologue
 ## X-BtWQuests-Expansion: 8
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125

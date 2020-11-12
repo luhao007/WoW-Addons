@@ -14,10 +14,8 @@ logger = logging.getLogger('manager')
 
 CLASSIC_VER = '11305'
 RETAIL_VER = '90001'
-NOT_WORKING = ['ItemRack', 'GarrisonMissionManager',
-               'HandyNotes_DraenorTreasures', 'HandyNotes_LegionRaresTreasures',
-               'HandyNotes_HallowsEnd', 'UnitFramesPlus',
-               'ButtonForge', 'NPCScan', 'HPetBattleAny',
+NOT_WORKING = ['ItemRack', 'HandyNotes_DraenorTreasures', 'HandyNotes_LegionRaresTreasures',
+               'UnitFramesPlus', 'ButtonForge', 'NPCScan', 'HPetBattleAny',
                'Overachiever', 'Details_TimeLine']
 
 
@@ -308,12 +306,14 @@ class Manager:
                        'Details_Vanguard', 'FasterCamera',
                        'GladiatorlosSA2', 'Gladius',
                        'HandyNotes_Argus', 'HandyNotes_BrokenShore',
+                       'HandyNotes_BattleForAzeroth',
                        'HandyNotes_DraenorTreasures',
                        'HandyNotes_LegionRaresTreasures',
+                       'HandyNotes_Shadowlands',
                        'HandyNotes_SuramarShalAranTelemancy',
                        'HandyNotes_TimelessIsleChests',
                        'HandyNotes_VisionsOfNZoth',
-                       'HandyNotes_WarfrontRares', 'NPCScan', 'Omen',
+                       'NPCScan', 'Omen',
                        'RelicInspector', 'Simulationcraft', 'Titan']
 
         for addon in addons:

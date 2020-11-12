@@ -1,112 +1,193 @@
-2.1.2 Release Notes
-Contributions made by Gold:
-* folder deleted for curse version
-* pvp vendor! for bfa s4
-* fully added wod s1 combatant, aspirant & gladiatour 1 source (under pvp) due them originally having 20+ sources removed elite with 3 sources in total; pvp, removed horde vendor & removed alliance vendor
-* finished bc unsorted (hopefully forever)
-* shiv got confirmed
-* fix for brf/hfc skips due parser change
-* jewel book fix, rings added to wq cuz that triggerd me, 2 nyi sets to mail, some prep for emsembles from sl
-* parsy was slow
-* nyi/ptr stuff
-* working on new breadcrumb feature
-* brawler guild removed (for now) mysterious change for .toc
-
-Contributions made by slumber:
-* more jade forest
-* more jade forest
-* yet more jade forest quest organization
-* someone tested, and this breadcrumb appears to be unavailable if your account has already completed the mechagnome unlock
-* added missing horde breadcrumb as a sourceQuest to 'deadwood of the north' in felwood
-* more order of the cloud serpent
-* more jade forest/order of the cloud serpent
-* broke up krasarang wilds
-* some krasarang wilds alliance quests and general faction setup
-* more krasarang.  my new least favorite zone
-* more krasarang wilds quests/faction stuff
-* delete mists of pandaria (more quests in krasarang, kun-lai, jade forest, vale, blah blah blah)
-* added more new horrible non-azerite azerite gear reported in #errors
-* marked horde version of 'a friend in need' as a breadcrumb
-* more mop quest purgatory
-* marked a breadcrumb, combined arachnoid harvesters
-* The NeverEnding Story IV: Mists of Pandaria Faction Nonsense
-* more mop faction stuff ugh
-* more mop faction stuff i love to suffer
-* removed alliance-only field from another "legion threat" breadcrumb
-* some #errors catchup
-* more mop faction stuff/to-do cleanup
-* some more jade forest
-* re-added coords to upright citizen's brigade achievement
-* possible fix for kirin tor offensive repeatable rep items?????
-* daily pass on mop faction stuff
-* more Parser Shame Fixes so Parser.exe no longer goes on a GLaDOS-style rampage every time it runs
+2.1.4 Release Notes
+Contributions made by Dmitry Volodin:
+* fix candy bucket coord in Booty Bay
+* old characters can pick up Tides of War without doing Lordaeron scenario
+* added Horde version of "To Outland"
+* fix Fierce Gladiator: Legion Season 5 achievement - add "A New Hope" Alliance quest in Darkshore
+* added WoW 16th Anniversary - reformatted old anniversaries files
+* hidden some Horde/Alliance specific vendors from MoH list - ignored another uncollectable item
+* added Knight Dameron and Stone Guard Mukar items to MoH list
+* fixed questgiver for "Captain Hartford" - "The Captain's Cache" can be done by Alliance too
+* fix Curious Coin duplication
+* fixed Crafticus Mindbender and Dazzerian in Ashran
+* marked "A Timely Invitation" and "Soldier of Time" as yearly per latest hotfixes - "A Timely Invitation" is no longer required to pick up "Soldier of Time" - removed some map tags to avoid duplication
+* removed "I Know A Guy..." as a requirement for "Clamlette Surprise" because it's removed
+* "Soldier of Time" is a weekly quest (get your 200 TW badges, people!)
+* added Maelstrom map to the Shaman Class Hall campaign, fixes #606
+* fix last
+* fixed new Horde "To Pandaria!" quest
+* another no HoA item drop
+* Blingtron 5000 drops Mechanical Scorpid - ignored some uncollectable items - hidden quest trigger in Mechagon
+* fleshed out some of the enchanting questline in Legion - hidden quest trigger
+* added 2 removed quests to Alterac Valley fixes tooltip on Zinfizzlex's Portable Shredder Unit item
+* further narrow down PvP crates level ranges
+* there is only one PvP box, but it has loot from two boxes before prepatch
+* fix #610
+* some fixes for Pre-patch event, should be mostly good but some dailies might be missing and not all quests have coords/providers, especially on Alliance side
+* added treasure chest and some bonus objectives in Highmountain
+* update prepatch rare loot
+* ignore another uncollectable item
+* maps get level requirements from API now, so removing it from source files, fixed some descriptions with new levels while at it
+* Merge branch 'master' of https://github.com/DFortun81/AllTheThings
+* parse
+* added Reins of the Blue Proto-Drake to Skadi
+* rearrange dailies in the event, split by weeks, sort alphabetically
+* add Delaying Their Efforts daily
+* ignored another uncollectable item
+* prepatch quest additions on Alliance side
+* small fixes
 
 Contributions made by ImUnicke:
-* added parser functionality to 'drop' fields from harvest data so they do not interfere with source data (in the case where a known issue is found with blizzard's API data or old DB harvest) - removed logic trying to fix blizzard's original allied race mistakes in API data, since incomplete lists of races caused inaccurate corrections - added "_drop" to the two exile's reach quests with duplicated API rewards
-* Merge pull request #581 from Cieper/patch-1
-* adjusted Horde War campaign source quests to better reflect additional storyline-split requirements
-* added setting option to display Quest Chain Requirements in a nested manner such that quest completion is performed inside-out - modified logic for Quest Chain Requirements due to some obsolete references - modified logic for displaying tooltip Quest requirement information to not omit anything when in Debug mode - re-worded quest tooltip information
+* fixed breadcrumb logic on anything that is a vignette and breadcrumb... so probably nothing - re-worded account-wide Quests tracking tooltip - consolidated more parser logic for parsing array values and reporting oddities - added every known source tag for easy reference as to what exists
+* commented out the pre-9.0 lvl 120 alt quest from exlie's reach now that level range filtering is possible
+* added an opposing 'Unique Mode' toggle (for 'Completion Mode') to help clear up the difference in Mode selection within the addon. May revert/modify based on feedback.
+* alternate option that Unique Mode is an opt-in from being Completionist by default
+* ok back to Unique/Completionist toggles which hopefully fit using the normal wow font o_o
+* Settings alignment adjustments to hopefully play nicely with default WoW font/scaling
+* do not allow plotting waypoints by alt-right-clicking the window header (yes i accidentally clicked on the main window while in Debug mode) - added some basic implementation for using the in-game waypoint feature for the row which is alt-right-clicked in a list (limited to a single waypoint)
+* added a few yield statements into some of the heavier coroutines to hopefully possibly maybe prevent the dreaded 'script ran too long' error which some people have reported
+* more possible performance tweaks to possibly help maybe preventing 'script ran too long'
+* moved sorting into a coroutine since it can take a 'while' depending on what you try to sort and how...
+* shifted seasonal checkboxes over a tad so they dont overlap the right edge
+* added some padding to tooltips which include the 'CloseButton' to try and prevent the text from going under the button (fixes #593)
+* only plot in-game waypoint if the superior functionality of TomTom is not already present
+* removed the in-tooltip 'completion icon' for non-collectible things which contain collectible things... can't make it look nice and it's probably pointless 90% of the time - snuck back in the in-game waypoint even if you have TomTom IF you specifically track a Thing with a QuestID... then if you are also on that Quest it will track it via the in-game waypoint for your specific next objective of the Quest
+* added a new Setting > Interface > Miscellaneous > Use More Colors! which enables changing the color of a Thing in a list to match the associated Class or Faction if possible (more colors is probably too much, there's already some very close ones)
+* added missing herablism WQ - added comment about if color REALLY should only be applied in account/debug mode
+* added an upcoming toggle for tracking the individual upgrades of heirlooms - modified all setting-based data refreshes to refresh immediately instead of including a 30-frame delay - small adjustments to various settings for improved alignment - minimap button settings now fade out if they have no impact - used 'Collect' instead of 'Track' in the main filtering label since we want to be clear on what is being asked - fixed horizontal alignment of breadcrumbs collection toggle - renamed 'Show Incomplete Things' to 'Show All Trackable Things' and modified tooltip to better represent the actual functionality behind what it does - Only 'Only Unsorted' can now only be toggled when 'Reported Completed Quests' is checked
+* fixed unobtainables not being scrollable --- from previous commit that i forgot because sourcetree stopped showing differences --- - moved 'Debugging' ID settings from 'Interface' to 'Features' tab - added myself to the contributor list now that i've changed enough things to make people mad, probably
+* refined some of the 'checkyield' logic and handling so that it always yields every second while coroutines are running instead of immediately and then every second - localized some arbitrary waiting on the profession list window
 * Merge branch 'master' of https://github.com/DFortun81/AllTheThings
-* modified item DB compare tool to compare multiple DBs of the same 'type' in sequence and store a DIFF DB for each DB iteration. This will allow me to only push the DIFF DB for each API harvest instead of the entire harvest DB each time
-* harvested items/quests for 20201018 with diffs and updated compare information - modified harvester from stopping immediately if something goes wrong - cleaned up and consolidated logic for duplicating groups within the parser (would like to do similar for items/NPCs but things dont all work the same right now... and it bloats the addon by like 40% if done for items currently) - removed alt quests from pushing the respective group as the quest into the quest DB - added/commented some initial code for potentially being able to duplicate Sourced groups under items or NPC objects - added fishing requirement to some quests in Mechagon - added Arachnoid Harvester entry for the alternate Timeline with description as to the difference - removed extra item/quest DBs since the diffs are already included with new data
+* some modifications to the minilist creation to try and prevent unnecessary logic - fixed a bug where an invalid /att command would create an endlessly running coroutine - fixed a nil reference when trying to access settings before they existed - consolidated logic to request reporting to the discord when an error occurs - consolidated coloring the name of Map groups - missing mapIDs are only reported when they actually exist in game - modified the minilist for a missing mapID so that it can be force-reloaded to the current mapID - slight logic change for the RefreshLocation coroutine so it only performs logic if the minilist is visible or set to auto-open - added missing WQ in broken isles (no parse)
+* added a timer trigger when leaving a pet battle to re-open the minilist such that it refreshes with any updates from the pet battle correctly (i.e. achievement criteria completed during the pet battle) - force opening the minilist will also cause it to update
 * Merge branch 'master' of https://github.com/DFortun81/AllTheThings
-* reparsed from merge
+* added 2 missing val'sharah alchemy quests (thanks nohh)
+* added option to delay-start a coroutine (multiple attempts to start the same coroutine during the delay will also be prevented) - removed some 'fake waits' from coroutines in favor of actual timed-delays
+* implemented heirloom level collecting
+* fixed completion progress in tooltip for completed, non-collectible things - fixed some heirloom tracking - fixed heirloom generation such that heirlooms with no upgrades do not rebuild themselves every time the data is refreshed - revised some group visibility logic to better account for things which can be visible when tracked or completed when non-collectible but still need to be visible due to completed things toggle...etc....it was awful
+* fixed sub-things being treated as their own Things in the 'mode' description on the settings page (fixes #598)
+* removed 'reqlvl' and back to using 'lvl' with the caveat that 'lvl' is ONLY included when it is formatted as a list in the source (i.e. { X } ) so that old data is not pulled in by the parser, BUT single 'lvl' values will be stored as single values in the addon DB to save memory - modified the API harvester to save 'lvl' instead of 'reqlvl' - modified the addon code to utilize 'lvl' as a table OR single value sinc eit could be either - added missing herbalism WQ to drustvar - modified lvl of all drustvar WQs to use new format
+* fixed tooltips for currencies which broke in 9.0 due to blizzard changing API return values
+* initial group of a quest-based-popout group will no hide the sub-groups (i.e. popout of a world boss or other NPC tagged with a questID) - moved 'WoW Anniversary [Removed]' to the 'No Chance' section of unobtainables
+* added missing mining WQ in stormsong valley - converted stormsong valley WQ lvl tags to new format and new level - added a full DB output to the item compare tool - minor consolidation in API harvester
+* added some missing Horde garrison Assault quests - added a lot of missing Alliance garrison Assault quests - added the Horde garrison war table object - added some HQTs during Assault quest
+* added 10 sec timeout to API harvest - reharvested Items/Quests for 20201102 - modified DB compare tool again to output both a DIFF and MISS versions of a compared DB - modified DB compare tool to output the final FULL version of all cumulative compared DBs - modified DB compare tool to compress some tags to save space and consolidate usage prior to comparing (q,b,lvl) - cleaned out the item database folder based on compiled data through 9.0, and can hopefully maintain a single DB file for both Items and Quests going forward, using DIFF DBs if only small changes are determined from harvest to harvest, etc. - removed unnecessary ignore paths
+* fixed achievement and criteria ID for alliance version of 'Securing Draenor'
 * Merge branch 'master' of https://github.com/DFortun81/AllTheThings
-* added broken shore WQ - hopefully push before new categories shows up again ahhhhhhhhhh
-* fixed Quests/items with sub-groups being ignored when building the 'Contains' or popout list for an NPC or Encounter
-* tiny adjustment to 'Contains' to allow 1 more layer of nested content and increase the indent increase per layer by 1 space
-* compressed the Nemesis achievements into the Warlord achievement in both Achievements and Garrison > Buildings since each achievement was being duplicated twice within the same hierarchy of the database
-* added logic for NPC and Objects to consider the 'altQuests' tag - applied 'altQuests' to quests in Exlie's Reach so that quest tracking does not show the quests themselves for high-level characters, or any character which has completed the Exlie's Reach questline [WIP]
-* compressed some interface settings and wording to save space in the settings screen - added a new value settings slider for the Summarize Things (Contains) list for how many entries may show in the list
-* only treat encounters as completed if the current character has it currently completed
-* missing WQs
-* fixed "Nested Source Quests" functionality to not include items rewarded by any quests, as the main intent of the functionality is to show all necessary and breadcrumb pre-requisites for a given quest to aid in thorough quest completion
-* cleaned up the Nested Quest Chain logic so that duplicate quests are no longer listed - consolidated altQuest logic for Exile's Reach so it's much less 'spammy' in the source - fixed some H/A Quest IDs in Exlie's Reach for proper source quests - removed An End to Beginnings from being an altquest for quests which are required to complete it during the chain - added some altquests to Orgrimmar quests which take place after Exile's Reach - fixed horde quest ID for 'Mission Statement'
-* added Monk source quest for Exile's Reach (thanks Sanct)
-* adjusted quest completion logic to consider account-mode rather than account-wide quests in some situations - comments
-* removed quest from HQT which is an actual quest sourced in stormwind
-* added a sub-toggle of Quest tracking for specifically tracking Breadcrumbs, defaulting to OFF (since they are so annoying and cause many problems) - modified tooltip for Quest tracking based on addition of Breadcrumb-specific tracking - added a tooltip for account-wide Quest tracking as to its function in the addon - fixed Settings checkboxes to only have hover functionality aligned with their specific text rather than arbitrary size - modified Quest collection tracking to account for Breadcrumb tracking as well as make all objects with Quests to track completion in a consistent way (Items/NPCs/Objects/Quests)
-* some commented code for potentially having faction-colored quest names (probably would put it into a setting) - modified logic for Nested Source Quests to prevent an A-B-A infinite loop situation
-* modified Nested Quest logic so that breadcrumb source quests are always used at the parent quest as well
-* added a completion icon to entries in the Contains list if they are trackable (i.e. Quest on Blingtron tooltip)
-* only show the extra 'saved' icon in the Contains list if the Thing is not already collectible - missing WQ in broken shore
-* added in-game support for 'reqlvl' tag which may include both min and max level requirements - added parser support for interpreting 'reqlvl' source tags - modified parser to yell at the contributor if they incorrectly set a numeric array field with a non-array value so hopefully it gets fixed (but the parser will correctly parse the data anyway if it's numeric) - added required level of Exile's Reach of 1-18 - added required level of Ny'alotha of 50
-* removed remainder of WQ achievements/criteria from BFA source files by linking their quests from the achievements file - added missing Boxing Match achievements for A/H into the Achievements > PvP > World section
-* fixed parser duplicate coordinate comparison
-* fixed breadcrumbs still showing in account-mode with breadcrumb tracking off (they are just very persistent and want to be collected) - cleaned up some logic because i learn more about tables
-* fixed DB compare tool which wasn't comparing keys sometimes to actually provide the difference into the DIFF DB
-* added harvester parsing support for 'reqlvl' instead of 'lvl' - removed harvester from adding the 'max required level' from blizz API since it's definitely not accurate in many places - fixed parser merging for 'reqlvl' tag so that merging two minimum levels doesn't turn into a min and max level - added 'reqlvl' to merge properly for items - commented some unused code in parser - re-parsed harvested DBs from 20201018 as 20201024 with new 'reqlvl' information
-* commented out grand commendations since the in-game API is currently returning inaccurate information regarding faction bonuses for MoP factions which is why these show as uncollected for some players - added faction info for the sunreaver insignias to grand commendation file - cleaned up duplicated faction tags from isle of thunder insignias
-* ignore the actual DBs since only the DIFFs are being pushed now
+* fixed a bug with currency text when the currencyID doesnt exist - also cached currency info to reduce API calls for unchanging information
+* Merge branch 'master' of https://github.com/DFortun81/AllTheThings
+* moved the rank4 az essence from uldum supplies into the actual supply container
+* cleaned up some redundant logic concerning debug mode - removed show completed groups/Things from being tied to Debug mode, allowing Debug mode seeing only what is uncollected or has no collection state - fixed classes for a mage breadcrumb - consolidated some auto-refresh logic
+* added missing sourcequest for the tears of elune chain into light's heart - added missing herbalism WQ in tiragarde and adjusted quest lvl tags
+* Merge branch 'master' of https://github.com/DFortun81/AllTheThings
+* cleaned up some logic for debug being enabled when rendering the Contains list in a tooltip - fixed icon for incomplete, non-collectible things in Contains list - fixed showing 'trackable' things in Contains list with 'Show All Trackable Things' enabled
+* modified recursive parent filtering to stop checking outwards if it reaches something which actually exists in-game (i.e. fix blingtron Contains on non-Engineer, and hopefully other things...)
+* modified DB compare tool to allow override keys (i.e. races => r) so that old bad data from blizzard does not make it through to the final DB version
+* fixed bug with recursive group filter trying to compare on nil
+* fixed a small bug in update groups which caused 'show complete things' to propogate outwards forcing completed groups to also be shown
+* modified Debug mode to automatically toggle Show Completed Groups/Things to enabled, and revert to the previous user-set values when un-toggling Debug mode
+* removed altQuests from some of the follow-up Exile's Reach quests in Orgrimmar since it's not a nice way to track whether those quests are able to be completed by a character... - huge modification to crafting material -> Crafted item sub-listings... currently limited to a depth of 3 steps and NOT filtering BoP materials into current-character profession craftables... yet...
+* fixed caching initial state of show completed groups/things when toggling debug - various consolidation of list filtering which were manually using settings instead of pre-set group visibility filters - modified crafting reagent logic to better handle the proper collectible nature of the reagent - crafting reagent logic properly shows only self-craftable items from BoP materials (ignored in Debug) - reagent cache needs to be wiped and re-built due to a modified structure - added a little delay message about the reagent cache being re-built so that players might notice the requirement for being able to see reagent information - lots of commented code for reference in case things need to be re-worked
+* fixed Debug/Show Completed toggling
+* modified Yor in mana tombs to utilize cost instead of being nested under an item - added some hash modifications to help distinguish encounters and creatures more accurately - some clean up from crafting material re-work - some bug fixes for Loot Chance info when the Encounter somehow returns 0 items available
+* re-designed layout of 'intact demon eye' since 'cost' correctly shows 'Contains' (probably have to do this for a billion other things eventually too which are both costs and have items nested under them) - added functionality to show a 'Cost' group in popout windows for Things which have a "cost" field to allow seeing at a glance the cost items required for the Thing - cleaned up some logic in the popout window for things with a SourceID
+* modified 'Bigger Fish To Fry' to be non-collectible under Zone maps - modified 'Fisherfriend of the Isles' to be non-collectible under Zone maps - modified Fisherfriend descriptions to match their actual "coord" field - reformatted criteria stubs for 'The Wish Remover' - commented out a bunch of duplicated things from Professions > Fishing > Legion which are already sourced in multiple other places - applied costs for all Legion Fisherfriend vendors and un-nested the purchase items - for groups which have more than 25 individual creatures tagged, the tooltip will simply show how many creatures are tagged, since the tooltip is crazyyyy
+* added hyper compressed ocean "crs" - added initial logic and data for grouping currency groups into empty currency groups (i.e. restored artifacts -> crate of artifacts -> currency -> artifact rewards via search)
+* moved the archaeology crates into the general Archaeology section, which magically makes them hidden from the main list, but still show in Vendor tooltips - various items/costs to draenor arch. vendors
+* added missing WQ - removed faction flag for mechagon WQ since it was currently available for Horde (other mechagon quest is permanently completed, so maybe a one-time per account or character or idk) - adjusted "lvl" tags for mechagon WQs
+* some errors catch up for the next parser
+* fixed/consolidated caching logic for whether a Thing is collectible as a Quest - fixed caching logic for whether a Thing is considered completed due to an altQuest being completed - fixed caching logic for whether a Breadcrumb is considered available to the current player
+* spelling comments correctly
+* slight modification to nested quest chain requirements logic - clarified description of Quest Chain Requirements that Account-Wide Quests will cause it to work inaccurately - modified tooltip for Nested Quest Chains to indicate it's mainly to complete quests
+* fixed ordering of two chamber of heart quests
+* added new horrific visions bow from 9.0
+* mapped some achievements into the Proving Grounds - reviewed and modified some minilist logic - Minilist/Zone list will now be sorted alphabetically after mapped groups are merged into it - visible completed groups will no longer auto-expand - changing maps within the same actual data map should not re-expand the minilist sections - modified group sorting method to allow for specific recursion to be applied or not - fixed bug with sorting by name - removed delay on map update since it sometimes failed to update properly when leaving a dungeon - removed unnecessary code due to top-level sorting
+* ok the debug/show completed stuff should finally be good in all circumstances...
+* i swear, things change once you push them
+* removed "Empire of Dirt' from source quests of 'Welcome to the Machine'
+* modified quest chain requirements to not force breadcrumb quests as 'collectible' for visibility since that is driven from the collection settings
+* fix minilist sorting when not in an instance
+* fixed an API call for world quests which returns a table instead of values now - mapped Rare and Treasure things will now properly be mapped into the current zone list under the appropriate headers - fixed repeatable check in /attwq
+* added alliance event items to the argent grounds vendor - removed bad "races" tags which were still sticking around from really old data
+* Merge branch 'master' of https://github.com/DFortun81/AllTheThings
+* couple missing items from pre-launch rares - changed rares to repeatable instead of daily
+* added dagger to elder nadox
+* added plate boots to noth the plaguebringer
 
-Contributions made by Dmitry Volodin:
-* fixed Alliance questgiver for "A Mage's Knowledge" Crate of Battlefield Goods now drops from level 10 fixed mount reward for "License to Ride" quest added a bunch of starting quests when you pick your timeline from Chromie for Alliance hidden trigger
-* fix cost for Garrison Hallowed End decorations ignored Cooking: Impossible map as it doesn't have anything to collect afaik hidden trigger FACTIONS constant
-* hidden triggers
-* ignored another uncollectible item and added confirmed drop to Cataclysm LFG bag
-* fix coords for some Hallow's End Candy Buckets in Krasarang Wilds
-* Fix infinite quest loop in Hallow's End
+Contributions made by slumber:
+* removed sourceQuests from a breadcrumb in arathi highlands
+* marked all "an urgent warning" and "investigate the broken shore" quests unobtainable
+* fixed itemID for a gemcutter module in skyreach
+* hey, i have an idea.  delete mists of pandaria
+* more mop nightmare bs
+* added some sneaky alliance-only appearances to a horde quest in jade forest (thanks carb)
+* fixed faction tagging on one of the wooly mammoths
+* #errors catchup
+* added a missing priest class hall quest
+* overwrote spellID for some random uncollectible items that erroneously showed up as "unknown"
+* mop faction shenaniganery for the day
+* more mop faction stuff
+* #errors catchup
+* 16th anniversary cloak fix, + added cost
+* added a missing wq in drustvar
+* #errors catchup and more mop faction stuff
+* added another removed_from_game quest to mulgore
+* [dj khaled voice] another one
+* [dj khaled voice but it's reverberating] a n o t h e r o n e
+* more #errors and mop faction stuff
+* added a missing sourcequest to the 'ratchet' criteria in northern barrens
+* a little mop faction stuff
+* more mop faction stuff
+* big #errors catchup
+* nathanos tracking quest
+* a couple more event items + noth questID
+* another missing event item
 
-Contributions made by mogwai316:
-* Added new 9.0 Inscription recipes
-* Added Orgrimmar quest chain for new horde characters
-* Adventurers Wanted: Chromie's Call
-* Moved 2nd version of Glaive of the Fallen from NYI to Legion pre-launch event
-
-Contributions made by Gaulish:
-* Adjusted some class hall names.
-* New Black Empire items.
-* new no HOA War Campaign rewards most likely.
-* Doing BFA twice troll blizz...
-* New Sprite stuff
+Contributions made by Gold:
+* retrieved changelog
+* retrieved changelog from 2.0.9 to 2.1.2, includes the missing 2.1.1/2.1.1a changes
+* marked icefall chain unobtainable (no confirms since 7.3.5)
+* couple nathanos infos
+* 2 NYI items found
+* ID swap, no parse
+* undo :( visual bug only
+* extra info for future dev's
+* updated pvp random bg boxes.
+* wq relic moved
+* removed cost from removed items
+* wrapping up unsorted for hunters. the other classses can get f :^)
+* added 2 specific quests (increase the cap of the journal) to pet journal
+* removed zone drops from ghostlands. the only item listed there is a world drop (got it on loch modan)
+* quest items from legion blacklisted moved some temp items to blacklisted drustvar 3/4 armor types added w/o azerite neck (need 2 more cloth items) stormsong 8/8 items added w/o azerite neck (+mail!) many nyi items
+* finishing alliance kul tiras no neck azerite gear
+* finished no azerite gear for nazmir&voldun
+* crosschecked and finished no neck azerite questing gear
+* added a personal blacklist for slumber
+* added HoA category
+* SL PVP Prework
+* sourcetree didnt use the correct Shadowlands.lua. its parsed already
+* some work on pvp vendor (BFA)
+* harvest file 1
+* the parse for it 2/2
+* darkmoon fishing cap has hiddenID added
+* trading post ashran items marked as obtainable again
+* added 1 item to slumbers personal blacklist totally not making that to distract from my previous commit where I didnt read the note I removed
+* pvp boxes update. if you still get some unobtainable marked items, let us know in the discord
+* level tag updated
+* checked my lv28 char for pvp boxes. minimun lv28, probably even lower, for the "big" box
 
 Contributions made by Gromwind:
-* Added class specific quests in Exile's Reach to their own categories
-* Added Shaman (A) class quest to Exile's Reach
+* Linked PvP item vendors to Medal of Honor so they show in the pop-out window (Part 1)
+* More PvP vendor fixes
 
-Contributions made by Alex:
-* Item lists should now appear on boss pins on the world map frame while in instances.
-
-Contributions made by Cipriano Groenendal:
-* Update coords for Cataclysm vendors in Stormwind
+Contributions made by mogwai316:
+* Ensorcelled Everwyrm now marked as Blizzard Balance item in both places it appears
+* Scrapmaster's Blowtorch and Perfectly Timed Differential recipes marked unlearnable because they disappear from the crafting screen the first time you craft the item.
+* Fixed item id's that were reversed on a couple Legion enchanting recipes
+* Added Feats of Strength for Wow's 14th, 15th, and 16th anniversaries
+* Marked some Legion Pre-Launch quests as Removed From Game
+* Fixed wrong item id for Iron Starlette in a couple places
+* Removed 4 quests from WoD Pre-launch as they are still available in game and are already in the Blasted Lands quests for ATT.
+* Added Glimr to Pet Journal
+* Added Glimr secret quest chain
 

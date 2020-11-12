@@ -22,15 +22,12 @@ local unpack = unpack
 local C_ChatInfo = C_ChatInfo
 local CreateFrame = CreateFrame
 local CreateFromMixins = CreateFromMixins
-local GetAddOnEnableState= GetAddOnEnableState
 local GetAddOnInfo = GetAddOnInfo
 local GetAddOnMetadata = GetAddOnMetadata
 local GetChannelName = GetChannelName
 local GetFramerate = GetFramerate
 local GetLocale = GetLocale
 local GetNumAddOns = GetNumAddOns
-local GetRealmName = GetRealmName
-local GetUnitName = GetUnitName
 local IsAddOnLoaded = IsAddOnLoaded
 local IsLoggedIn = IsLoggedIn
 local LibStub = LibStub
@@ -38,8 +35,17 @@ local Minimap = Minimap
 local MinimapCluster = MinimapCluster
 local MinimapZoneTextButton = MinimapZoneTextButton
 local Mixin = Mixin
-local UnitName = UnitName
 local UnitFullName = UnitFullName
+
+function addon.split(inputstr, delimiter)
+	local t={}
+	delimiter = delimiter or "."
+	for str in string.gmatch(inputstr, "([^" .. delimiter .. "]+)") do
+		table.insert(t, str)
+	end
+	return t
+end
+
 TomCats = { };
 local TomCats = TomCats
 function TomCats.NextCharmFrameLevel()
@@ -299,73 +305,182 @@ do
 	end
 	-- End SlideBar Compatibility --
 end
+
 TomCatsCharmsMixin = { }
-do
-	function TomCatsCharmsMixin:OnLoad()
-		local name = self:GetName()
-		local preferences = {}
-		local handlers = {}
-		local isDragging
-		local tooltipIsShowing
-		local function ButtonDown()
-			_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 8, -8)
-			_G[name .. "IconOverlay"]:Show()
-		end
-		local function ButtonUp()
-			_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 6, -6)
-			_G[name .. "IconOverlay"]:Hide()
-		end
-		local function OnMouseDown()
-			ButtonDown()
-		end
-		local function OnMouseUp()
-			ButtonUp()
-		end
-		local function OnClick()
-			if (handlers.OnClick) then
-				handlers.OnClick(self)
-			end
-		end
-		local function OnEnter()
-			if (self.tooltip and (not isDragging)) then
-				self.tooltip.Show(self)
-				tooltipIsShowing = true
-			end
-		end
-		local function OnLeave()
-			if (self.tooltip) then
-				self.tooltip.Hide()
-				tooltipIsShowing = false
-			end
-		end
-		function self:GetPreferences()
-			if (not preferences.position) then
-				local _, _, _, Bx, By = self:GetPoint()
-				local Ax, Ay = Minimap:GetCenter()
-				preferences.position = math.atan2(By - Ay, Bx - Ax)
-			end
-			return preferences
-		end
-		function self:SetPreferences(savedPreferences)
-			if (savedPreferences) then
-				if (savedPreferences.position and type(savedPreferences.position) == "number") then
-					preferences = savedPreferences
-				end
-				if (savedPreferences.hidden) then
-					self:Hide()
-				end
-			end
-		end
-		function self:SetHandler(handlerType, handler)
-			handlers[handlerType] = handler
-		end
-		self:SetScript("OnMouseDown", OnMouseDown)
-		self:SetScript("OnMouseUp", OnMouseUp)
-		self:SetScript("OnClick", OnClick)
-		self:SetScript("OnEnter", OnEnter)
-		self:SetScript("OnLeave", OnLeave)
-	end
+
+function TomCatsCharmsMixin:SetupForMinimap()
+	self:RegisterForDrag("LeftButton")
 end
+
+function TomCatsCharmsMixin:OnLoad()
+	local name = self:GetName()
+	local isDragging = false
+	local tooltipIsShowing = false
+	local Ax, Ay, scale, top, right
+	local mapsize = Minimap:GetSize()
+	local r = (mapsize / 2) + 10
+	local h = math.sqrt((r^2)*2)
+	local preferences = {}
+	local handlers = {}
+	local shape = GetMinimapShape and GetMinimapShape() or "ROUND"
+
+	local function RefreshMeasurements()
+		Ax, Ay = Minimap:GetCenter()
+		scale = self:GetEffectiveScale()
+		right = UIParent:GetRight()
+		top = UIParent:GetTop()
+	end
+
+	local function ButtonDown()
+		_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 8, -8);
+		_G[name .. "IconOverlay"]:Show();
+	end
+
+	local function ButtonUp()
+		_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 6, -6);
+		_G[name .. "IconOverlay"]:Hide();
+	end
+
+	local function OnMouseDown()
+		ButtonDown()
+	end
+
+	local function OnMouseUp()
+		ButtonUp()
+	end
+
+	local function OnClick()
+		if (handlers.OnClick) then
+			handlers.OnClick(self)
+		end
+	end
+
+	local function UpdatePosition()
+		RefreshMeasurements()
+		local rad = preferences.position
+		if (GetMinimapShape and GetMinimapShape() == "SQUARE") then
+			local x, y = math.cos(rad), math.sin(rad)
+			x = math.max(-r, math.min(x * h, r))
+			y = math.max(-r, math.min(y * h, r))
+			self:SetPoint("CENTER", Minimap, "CENTER", x, y)
+		else
+			local Cx = r * math.cos(rad)
+			local Cy = r * math.sin(rad)
+			self:SetPoint("CENTER", Minimap, "CENTER", Cx, Cy)
+		end
+		local buttonRight = self:GetRight()
+		if (buttonRight > right) then
+			local point = { self:GetPoint() }
+			local adj = (buttonRight - right) --* scale
+			point[4] = point[4] - adj
+			self:SetPoint(unpack(point))
+		end
+		local buttonTop = self:GetTop()
+		if (buttonTop > top) then
+			local point = { self:GetPoint() }
+			local adj = (buttonTop - top) --* scale
+			point[5] = point[5] - adj
+			self:SetPoint(unpack(point))
+		end
+	end
+
+	local function UpdatePositionByCursor()
+		local Bx, By = GetCursorPosition()
+		preferences.position = math.atan2((By / scale) - Ay, (Bx / scale) - Ax)
+		UpdatePosition()
+	end
+
+	local function OnUpdate()
+		if (isDragging) then
+			UpdatePositionByCursor()
+		else
+			local newShape = GetMinimapShape and GetMinimapShape() or "ROUND"
+			local newSize = Minimap:GetSize()
+			if (shape ~= newShape or mapsize ~= newSize) then
+				shape = newShape
+				mapsize = newSize
+				r = (mapsize / 2) + 10
+				h = math.sqrt((r^2)*2)
+				UpdatePosition()
+			end
+		end
+	end
+
+	local function OnDragStart()
+		if (tooltipIsShowing) then
+			self.tooltip:Hide()
+			tooltipIsShowing = false
+		end
+		RefreshMeasurements()
+		self:ClearAllPoints()
+		isDragging = true
+	end
+
+	local function OnDragStop()
+		ButtonUp()
+		isDragging = false
+	end
+
+	local function OnEnter()
+		if (self.tooltip and (not isDragging)) then
+			self.tooltip.Show(self)
+			tooltipIsShowing = true
+		end
+	end
+
+	local function OnLeave()
+		if (self.tooltip) then
+			self.tooltip.Hide()
+			tooltipIsShowing = false
+		end
+	end
+
+	function self:GetPreferences()
+		if (not preferences.position) then
+			local _, _, _, Bx, By = self:GetPoint()
+			local Ax, Ay = Minimap:GetCenter()
+			preferences.position = math.atan2(By - Ay, Bx - Ax)
+		end
+		return preferences
+	end
+
+	function self:SetPreferences(savedPreferences)
+		if (savedPreferences) then
+			if (savedPreferences.position and type(savedPreferences.position) == "number") then
+				preferences = savedPreferences
+			end
+			RefreshMeasurements()
+			UpdatePosition()
+			if (savedPreferences.hidden) then
+				self:Hide()
+			end
+		end
+	end
+
+	function self:SetEnabled(enabled)
+		if (enabled) then
+			self:Show()
+			preferences.hidden = false
+		else
+			self:Hide()
+			preferences.hidden = true
+		end
+	end
+
+	function self:SetHandler(handlerType, handler)
+		handlers[handlerType] = handler
+	end
+
+	self:SetScript("OnMouseDown", OnMouseDown)
+	self:SetScript("OnMouseUp", OnMouseUp)
+	self:SetScript("OnClick", OnClick)
+	self:SetScript("OnDragStart", OnDragStart)
+	self:SetScript("OnDragStop", OnDragStop)
+	self:SetScript("OnUpdate", OnUpdate)
+	self:SetScript("OnEnter", OnEnter)
+	self:SetScript("OnLeave", OnLeave)
+end
+
 local Locales = { }
 addon.locales = Locales
 do
@@ -428,22 +543,22 @@ do
 		end
 	}
 	function Data.loadData(name, columnNames, records)
-		local table = CreateFromMixins(tableMixin)
-		table.columnNames = {}
-		table.columnCount = #columnNames
+		local table1 = CreateFromMixins(tableMixin)
+		table1.columnNames = {}
+		table1.columnCount = #columnNames
 		for i = 1, #columnNames, 1 do
-			table.columnNames[columnNames[i]] = i
+			table1.columnNames[columnNames[i]] = i
 		end
-		table.records = {}
+		table1.records = {}
 		for i = 1, #records, 1 do
 			local record = { }
-			record.parent = table
+			record.parent = table1
 			record.record = records[i]
 			setmetatable(record, recordMetatable)
-			table.records[records[i][1]] = record
+			table1.records[records[i][1]] = record
 		end
-		setmetatable(table, tableMetatable)
-		Data[name] = table
+		setmetatable(table1, tableMetatable)
+		Data[name] = table1
 	end
 	function Data.flatten(record)
 		local result = {}
@@ -2091,24 +2206,24 @@ do
 	end
 end
 addon.data.loadData("TomCatsComponents",
-           { "ID", "Name", "Title", "Retail Compatible", "Classic Compatible" },
-           {
-               { 1, "TomCats", "TomCat's Tours (Core)", true, true },
-               { 2, "TomCats-Complete", "Complete", true, false },
-               { 3, "TomCats-ArathiHighlandsRares", "Rares of Arathi Highlands", true, false },
-               { 4, "TomCats-DarkshoreRares", "Rares of Darkshore", true, false },
-               { 5, "TomCats-Mechagon", "Mechagon", true, false },
-               { 6, "TomCats-Nazjatar", "Nazjatar", true, false },
-               { 7, "TomCats-Nzoth", "Rares of N'zoth", true, false },
-               { 8, "TomCats-WarfrontsCommandCenter", "Warfronts Command Center", true, false },
-               { 9, "Coordinates", "Coordinates", true, true },
-               { 10, "TomCats-ChildrensWeek", "Children's Week", true, false },
-               { 11, "TomCats-HallowsEnd", "Hallow's End", true, false },
-               { 12, "TomCats-Hivemind", "The Hivemind", true, false },
-               { 13, "TomCats-LoveIsInTheAir", "Love is in the Air", true, false },
-               { 14, "TomCats-LunarFestival", "Lunar Festival", true, false },
-               { 15, "TomCats-Noblegarden", "Noblegarden", true, false },
-           }
+		{ "ID", "Name", "Title", "Retail Compatible", "Classic Compatible" },
+		{
+			{ 1, "TomCats", "TomCat's Tours (Core)", true, true },
+			{ 2, "TomCats-Complete", "Complete", true, false },
+			{ 3, "TomCats-ArathiHighlandsRares", "Rares of Arathi Highlands", true, false },
+			{ 4, "TomCats-DarkshoreRares", "Rares of Darkshore", true, false },
+			{ 5, "TomCats-Mechagon", "Mechagon", true, false },
+			{ 6, "TomCats-Nazjatar", "Nazjatar", true, false },
+			{ 7, "TomCats-Nzoth", "Rares of N'zoth", true, false },
+			{ 8, "TomCats-WarfrontsCommandCenter", "Warfronts Command Center", true, false },
+			{ 9, "Coordinates", "Coordinates", true, true },
+			{ 10, "TomCats-ChildrensWeek", "Children's Week", true, false },
+			{ 11, "TomCats-HallowsEnd", "Hallow's End", true, false },
+			{ 12, "TomCats-Hivemind", "The Hivemind", true, false },
+			{ 13, "TomCats-LoveIsInTheAir", "Love is in the Air", true, false },
+			{ 14, "TomCats-LunarFestival", "Lunar Festival", true, false },
+			{ 15, "TomCats-Noblegarden", "Noblegarden", true, false },
+		}
 )
 local TomCatsPublicKey = {
 	p = String.toHex(Base64.decode("/X9TgR11EilS30qcLuzk5/YRt1I870QAwx4/gLZRJmlFXUAiUftZPY1Y+r/F9bow9subVWzXgTuAHTRv8mZgt2uZUKWkn5/oBHsQIsJPu6nX/rfGG/g7V+fGqKYVDwT7g/bTxR7DAjVUE1oWkTL2dfOuK2HXKu/yIgMZndFIAcc=")),
@@ -2246,30 +2361,30 @@ do
 		end
 	end
 	MessageRouter.RegisterHandler(MESSAGE_TYPE.OFFER, MESSAGE_SUBTYPE.VERSIONINFO,
-		function(...)
-			local text = select(1, ...)
-			local sender = select(3, ...)
-			local offeredVersion = tonumber(text) or 0
-			local negotiatedVersion
-			if (offeredVersion == VersionInfo.messageID) then
-				C_ChatInfo.SendAddonMessage("TomCats",
-						string.char(MESSAGE_TYPE.DECLINE) .. string.char(MESSAGE_SUBTYPE.VERSIONINFO), "WHISPER",
-						sender .. "---");
-				negotiatedVersion = VersionInfo.messageID
-			elseif (offeredVersion > VersionInfo.messageID) then
-				C_ChatInfo.SendAddonMessage("TomCats",
-						string.char(MESSAGE_TYPE.ACCEPT) .. string.char(MESSAGE_SUBTYPE.VERSIONINFO), "WHISPER",
-						sender .. "---");
-				negotiatedVersion = offeredVersion
-			else
-				C_ChatInfo.SendAddonMessage("TomCats",
-						string.char(MESSAGE_TYPE.DATA) .. string.char(MESSAGE_SUBTYPE.VERSIONINFO) .. VersionInfo.encoded,
-						"WHISPER",
-						sender .. "---");
-				negotiatedVersion = VersionInfo.messageID
+			function(...)
+				local text = select(1, ...)
+				local sender = select(3, ...)
+				local offeredVersion = tonumber(text) or 0
+				local negotiatedVersion
+				if (offeredVersion == VersionInfo.messageID) then
+					C_ChatInfo.SendAddonMessage("TomCats",
+							string.char(MESSAGE_TYPE.DECLINE) .. string.char(MESSAGE_SUBTYPE.VERSIONINFO), "WHISPER",
+							sender .. "---");
+					negotiatedVersion = VersionInfo.messageID
+				elseif (offeredVersion > VersionInfo.messageID) then
+					C_ChatInfo.SendAddonMessage("TomCats",
+							string.char(MESSAGE_TYPE.ACCEPT) .. string.char(MESSAGE_SUBTYPE.VERSIONINFO), "WHISPER",
+							sender .. "---");
+					negotiatedVersion = offeredVersion
+				else
+					C_ChatInfo.SendAddonMessage("TomCats",
+							string.char(MESSAGE_TYPE.DATA) .. string.char(MESSAGE_SUBTYPE.VERSIONINFO) .. VersionInfo.encoded,
+							"WHISPER",
+							sender .. "---");
+					negotiatedVersion = VersionInfo.messageID
+				end
+				table.insert(syncLog, { messageID = negotiatedVersion, time = time() })
 			end
-			table.insert(syncLog, { messageID = negotiatedVersion, time = time() })
-		end
 	)
 	MessageRouter.RegisterHandler(MESSAGE_TYPE.DECLINE, MESSAGE_SUBTYPE.VERSIONINFO,
 			function(_, channel)
@@ -2573,4 +2688,42 @@ do
 		end
 	end
 	hooksecurefunc("ChatEdit_UpdateHeader", ChatEdit_UpdateHeader);
+end
+
+-- Initialize LOD addons
+do
+	local function ADDON_LOADED(_, _, addonName1)
+		if (addonName == addonName1) then
+			do
+				local _, _, _, _, reason = GetAddOnInfo("TomCats-Bundled-DeathsRising")
+				local loading = IsAddOnLoaded("TomCats-Bundled-DeathsRising")
+				if (reason == "DEMAND_LOADED" and not loading) then
+					TomCats.DeathsRising = { }
+					TomCats:Register(
+							{
+								slashCommands = {
+									{
+										command = "DEATHSRISING",
+										desc = "Toggle Death's Rising Window",
+										func = function()
+											TomCats.DeathsRising.openOnStart = true
+											LoadAddOn("TomCats-Bundled-DeathsRising")
+										end
+									}
+								},
+								name = "Death's Rising",
+								version = "2.0.4",
+								raresLogHandlers = {
+									[118] = {
+										raresLog = GetRaresLog
+									}
+								}
+							}
+					)
+				end
+			end
+		end
+		Events.unregisterEvent("ADDON_LOADED", ADDON_LOADED)
+	end
+	addon.events.registerEvent("ADDON_LOADED", ADDON_LOADED)
 end

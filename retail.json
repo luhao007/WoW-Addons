@@ -6,9 +6,9 @@
     "name": "ALL THE THINGS",
     "description": "Addon for Tracking Collections & Account Completion",
     "url": "https://www.curseforge.com/wow/addons/all-the-things",
-    "download_url": "https://edge.forgecdn.net/files/3091/984/AllTheThings.zip",
-    "date_published": "2020-10-25T01:22:13.470000+00:00",
-    "version": "Shadowlands 2.1.2",
+    "download_url": "https://edge.forgecdn.net/files/3108/894/AllTheThings-2_1_4_Release.zip",
+    "date_published": "2020-11-11T20:06:36.583000+00:00",
+    "version": "Shadowlands 2.1.4",
     "folders": [
       {
         "name": "AllTheThings"
@@ -19,6 +19,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Shadowlands 2.1.4",
+        "install_time": "2020-11-12T06:53:21+00:00"
+      },
       {
         "version": "Shadowlands 2.1.2",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -680,9 +684,9 @@
     "name": "BlizzMove",
     "description": "Makes the default frames moveable via simple drag and drop",
     "url": "https://www.curseforge.com/wow/addons/blizzmove",
-    "download_url": "https://edge.forgecdn.net/files/3083/167/BlizzMove-v3.0.1.zip",
-    "date_published": "2020-10-16T17:08:49.237000+00:00",
-    "version": "v3.0.1",
+    "download_url": "https://edge.forgecdn.net/files/3104/589/BlizzMove-v3.0.2.zip",
+    "date_published": "2020-11-07T11:18:15.317000+00:00",
+    "version": "v3.0.2",
     "folders": [
       {
         "name": "BlizzMove"
@@ -693,6 +697,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.0.2",
+        "install_time": "2020-11-08T08:16:38+00:00"
+      },
       {
         "version": "v3.0.1",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -732,15 +740,18 @@
     "name": "BtWQuests",
     "description": "A quest journal that shows your progress within quest chains",
     "url": "https://www.curseforge.com/wow/addons/btw-quests",
-    "download_url": "https://edge.forgecdn.net/files/3102/391/BtWQuests-v1.73.4.zip",
-    "date_published": "2020-11-04T21:47:08.550000+00:00",
-    "version": "v1.73.4",
+    "download_url": "https://edge.forgecdn.net/files/3107/485/BtWQuests-v1.74.0.zip",
+    "date_published": "2020-11-10T06:38:59.720000+00:00",
+    "version": "v1.74.0",
     "folders": [
       {
         "name": "BtWQuests"
       },
       {
         "name": "BtWQuestsBattleForAzeroth"
+      },
+      {
+        "name": "BtWQuestsShadowlandsPrologue"
       }
     ],
     "options": {
@@ -748,6 +759,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.74.0",
+        "install_time": "2020-11-10T09:50:33+00:00"
+      },
       {
         "version": "v1.73.4",
         "install_time": "2020-11-05T11:54:45+00:00"
@@ -1077,9 +1092,9 @@
     "name": "Deadly Boss Mods (DBM) - BC & Vanilla mods (Retail)",
     "description": "Deadly Boss Mods (DBM) - BC & Vanilla mods (Retail)",
     "url": "https://www.curseforge.com/wow/addons/dbm-bc",
-    "download_url": "https://edge.forgecdn.net/files/3099/20/DBM-Outlands-r676.zip",
-    "date_published": "2020-11-01T17:30:06.090000+00:00",
-    "version": "r676",
+    "download_url": "https://edge.forgecdn.net/files/3102/896/DBM-Outlands-r677.zip",
+    "date_published": "2020-11-05T14:58:33.757000+00:00",
+    "version": "r677",
     "folders": [
       {
         "name": "DBM-AQ20"
@@ -1124,6 +1139,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "r677",
+        "install_time": "2020-11-05T15:33:27+00:00"
+      },
       {
         "version": "r676",
         "install_time": "2020-11-03T06:02:33+00:00"
@@ -1338,9 +1357,9 @@
     "name": "Deadly Boss Mods (DBM) - Old Dungeon Mods",
     "description": "This mod will add support for 5 player dungeons from Classic to Legion",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-dbm-dungeons",
-    "download_url": "https://edge.forgecdn.net/files/3091/468/DBM-Party-BC-r21.zip",
-    "date_published": "2020-10-24T13:50:11.457000+00:00",
-    "version": "r21",
+    "download_url": "https://edge.forgecdn.net/files/3102/895/DBM-Party-BC-r22.zip",
+    "date_published": "2020-11-05T14:58:20.017000+00:00",
+    "version": "r22",
     "folders": [
       {
         "name": "DBM-Party-BC"
@@ -1373,6 +1392,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "r22",
+        "install_time": "2020-11-05T15:33:31+00:00"
+      },
       {
         "version": "r21",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -1769,9 +1792,9 @@
     "name": "Fishing Buddy",
     "description": "Fishing Buddy",
     "url": "https://www.curseforge.com/wow/addons/fishingbuddy",
-    "download_url": "https://edge.forgecdn.net/files/3003/243/FishingBuddy-1.10.10.zip",
-    "date_published": "2020-07-12T20:23:37.347000+00:00",
-    "version": "1.10.10",
+    "download_url": "https://edge.forgecdn.net/files/3105/441/FishingBuddy-1.11.zip",
+    "date_published": "2020-11-08T06:33:29.113000+00:00",
+    "version": "1.11",
     "folders": [
       {
         "name": "FishingBuddy"
@@ -1782,6 +1805,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "1.11",
+        "install_time": "2020-11-08T08:16:38+00:00"
+      },
       {
         "version": "1.10.10",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -1825,9 +1852,9 @@
     "name": "Garrison Mission Manager",
     "description": "Assists you with selecting best team for Legion's Class Hall and WoD's Garrison/Shipyard missions and other followers managem...",
     "url": "https://www.curseforge.com/wow/addons/garrison-mission-manager",
-    "download_url": "https://edge.forgecdn.net/files/2669/426/GarrisonMissionManager-v59.zip",
-    "date_published": "2019-02-05T15:29:08.110000+00:00",
-    "version": "v59",
+    "download_url": "https://edge.forgecdn.net/files/3106/285/GarrisonMissionManager-v60.zip",
+    "date_published": "2020-11-08T22:58:41.753000+00:00",
+    "version": "v60",
     "folders": [
       {
         "name": "GarrisonMissionManager"
@@ -1838,6 +1865,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v60",
+        "install_time": "2020-11-10T09:50:33+00:00"
+      },
       {
         "version": "v59",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2247,17 +2278,17 @@
   },
   {
     "source": "curse",
-    "id": "297435",
-    "slug": "handynotes-battle-for-azeroth-treasures",
-    "name": "HandyNotes: Battle for Azeroth Treasures",
-    "description": "Where are the hidden treasures in Battle for Azeroth? Show in HandyNotes",
-    "url": "https://www.curseforge.com/wow/addons/handynotes-battle-for-azeroth-treasures",
-    "download_url": "https://edge.forgecdn.net/files/3100/264/HandyNotes_BattleForAzerothTreasures-v10.zip",
-    "date_published": "2020-11-02T21:33:24.353000+00:00",
-    "version": "v10",
+    "id": "413922",
+    "slug": "handynotes-battle-for-azeroth",
+    "name": "HandyNotes: Battle for Azeroth",
+    "description": "Rares, treasures, battle pets and everything else for the Battle for Azeroth expansion.",
+    "url": "https://www.curseforge.com/wow/addons/handynotes-battle-for-azeroth",
+    "download_url": "https://edge.forgecdn.net/files/3106/358/HandyNotes_BattleForAzeroth-v1.zip",
+    "date_published": "2020-11-09T00:29:42.620000+00:00",
+    "version": "v1",
     "folders": [
       {
-        "name": "HandyNotes_BattleForAzerothTreasures"
+        "name": "HandyNotes_BattleForAzeroth"
       }
     ],
     "options": {
@@ -2270,12 +2301,8 @@
     ],
     "logged_versions": [
       {
-        "version": "v10",
-        "install_time": "2020-11-03T06:02:35+00:00"
-      },
-      {
-        "version": "v9",
-        "install_time": "2020-11-03T06:02:12+00:00"
+        "version": "v1",
+        "install_time": "2020-11-12T07:32:40+00:00"
       }
     ]
   },
@@ -2307,17 +2334,17 @@
   },
   {
     "source": "curse",
-    "id": "358359",
-    "slug": "handynotes-visions-of-nzoth",
-    "name": "HandyNotes: Visions of N'Zoth",
-    "description": "Rares, treasures, battle pets and more from the 8.3 assaults.",
-    "url": "https://www.curseforge.com/wow/addons/handynotes-visions-of-nzoth",
-    "download_url": "https://edge.forgecdn.net/files/3082/33/HandyNotes_VisionsOfNZoth-v41.zip",
-    "date_published": "2020-10-15T17:04:11.483000+00:00",
-    "version": "v41",
+    "id": "363739",
+    "slug": "handynotes-shadowlands",
+    "name": "HandyNotes: Shadowlands",
+    "description": "Rares, treasures, battle pets and everything else for the Shadowlands expansion.",
+    "url": "https://www.curseforge.com/wow/addons/handynotes-shadowlands",
+    "download_url": "https://edge.forgecdn.net/files/3109/336/HandyNotes_Shadowlands-v17.zip",
+    "date_published": "2020-11-12T05:02:23.970000+00:00",
+    "version": "v17",
     "folders": [
       {
-        "name": "HandyNotes_VisionsOfNZoth"
+        "name": "HandyNotes_Shadowlands"
       }
     ],
     "options": {
@@ -2330,38 +2357,8 @@
     ],
     "logged_versions": [
       {
-        "version": "v41",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "302439",
-    "slug": "handynotes-warfront-treasure",
-    "name": "HandyNotes: Warfront Treasure",
-    "description": "A HandyNotes plugin to put the Warfront rares on the map",
-    "url": "https://www.curseforge.com/wow/addons/handynotes-warfront-treasure",
-    "download_url": "https://edge.forgecdn.net/files/2613/472/HandyNotes_WarfrontTreasures-1.2.zip",
-    "date_published": "2018-09-05T16:52:09.500000+00:00",
-    "version": "HandyNotes: Warfront Treasure V1.2",
-    "folders": [
-      {
-        "name": "HandyNotes_WarfrontTreasures"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [
-      {
-        "id": "14154"
-      }
-    ],
-    "logged_versions": [
-      {
-        "version": "HandyNotes: Warfront Treasure V1.2",
-        "install_time": "2020-11-03T06:02:12+00:00"
+        "version": "v17",
+        "install_time": "2020-11-12T07:46:25+00:00"
       }
     ]
   },
@@ -2458,9 +2455,9 @@
     "name": "HandyNotes_DungeonLocations",
     "description": "Shows locations of old world dungeon and raid entrances",
     "url": "https://www.curseforge.com/wow/addons/handynotes_dungeonlocations",
-    "download_url": "https://edge.forgecdn.net/files/3088/895/HandyNotes_DungeonLocations-1.51.zip",
-    "date_published": "2020-10-21T19:41:27.940000+00:00",
-    "version": "1.51",
+    "download_url": "https://edge.forgecdn.net/files/3106/528/HandyNotes_DungeonLocations-1.53.zip",
+    "date_published": "2020-11-09T05:00:44.757000+00:00",
+    "version": "1.53",
     "folders": [
       {
         "name": "HandyNotes_DungeonLocations"
@@ -2471,6 +2468,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "1.53",
+        "install_time": "2020-11-10T09:50:34+00:00"
+      },
       {
         "version": "1.51",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2585,32 +2586,6 @@
     "logged_versions": [
       {
         "version": "1.23",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "302430",
-    "slug": "handynotes-warfrontrares",
-    "name": "Handynotes - Warfront Rares",
-    "description": "Shows rares and loot for BfA Arathi Highlands",
-    "url": "https://www.curseforge.com/wow/addons/handynotes-warfrontrares",
-    "download_url": "https://edge.forgecdn.net/files/2657/512/HandyNotes_WarfrontRares.zip",
-    "date_published": "2019-01-07T23:36:44.193000+00:00",
-    "version": "0.5.4",
-    "folders": [
-      {
-        "name": "HandyNotes_WarfrontRares"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "0.5.4",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
@@ -2979,9 +2954,9 @@
     "name": "OmniCC",
     "description": "Cooldown count for everything",
     "url": "https://www.curseforge.com/wow/addons/omni-cc",
-    "download_url": "https://edge.forgecdn.net/files/3096/597/OmniCC-9.0.2.zip",
-    "date_published": "2020-10-29T23:28:45.670000+00:00",
-    "version": "9.0.2",
+    "download_url": "https://edge.forgecdn.net/files/3105/136/OmniCC-9.0.3.zip",
+    "date_published": "2020-11-07T22:02:23.977000+00:00",
+    "version": "9.0.3",
     "folders": [
       {
         "name": "OmniCC"
@@ -2995,6 +2970,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.0.3",
+        "install_time": "2020-11-08T08:16:38+00:00"
+      },
       {
         "version": "9.0.2",
         "install_time": "2020-11-03T06:02:36+00:00"
@@ -3012,9 +2991,9 @@
     "name": "Pawn",
     "description": "Pawn helps you compare items and find upgrades.",
     "url": "https://www.curseforge.com/wow/addons/pawn",
-    "download_url": "https://edge.forgecdn.net/files/3098/285/Pawn-2.4.4.zip",
-    "date_published": "2020-10-31T20:19:24.960000+00:00",
-    "version": "2.4.4",
+    "download_url": "https://edge.forgecdn.net/files/3104/62/Pawn-2.4.5.zip",
+    "date_published": "2020-11-06T20:47:12.920000+00:00",
+    "version": "2.4.5",
     "folders": [
       {
         "name": "Pawn"
@@ -3025,6 +3004,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.4.5",
+        "install_time": "2020-11-07T06:26:11+00:00"
+      },
       {
         "version": "2.4.4",
         "install_time": "2020-11-03T06:02:37+00:00"
@@ -3077,9 +3060,9 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3101/17/Plater-Plater-v9.0.1.313-Retail.zip",
-    "date_published": "2020-11-03T14:58:15.420000+00:00",
-    "version": "Plater-v9.0.1.313-Retail",
+    "download_url": "https://edge.forgecdn.net/files/3108/882/Plater-Plater-v9.0.1.315-Retail.zip",
+    "date_published": "2020-11-11T19:49:25.577000+00:00",
+    "version": "Plater-v9.0.1.315-Retail",
     "folders": [
       {
         "name": "Plater"
@@ -3090,6 +3073,14 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v9.0.1.315-Retail",
+        "install_time": "2020-11-12T06:53:22+00:00"
+      },
+      {
+        "version": "Plater-v9.0.1.314-Retail",
+        "install_time": "2020-11-08T08:16:38+00:00"
+      },
       {
         "version": "Plater-v9.0.1.313-Retail",
         "install_time": "2020-11-05T11:54:48+00:00"
@@ -3495,9 +3486,9 @@
     "name": "Titan Panel",
     "description": "Titan Panel",
     "url": "https://www.curseforge.com/wow/addons/titan-panel",
-    "download_url": "https://edge.forgecdn.net/files/3094/954/TitanPanel-5.19.1.90001.zip",
-    "date_published": "2020-10-28T03:40:48.610000+00:00",
-    "version": "5.19.1.90001",
+    "download_url": "https://edge.forgecdn.net/files/3103/223/TitanPanel-5.19.2.90001.zip",
+    "date_published": "2020-11-05T21:09:39.087000+00:00",
+    "version": "5.19.2.90001",
     "folders": [
       {
         "name": "Titan"
@@ -3535,6 +3526,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "5.19.2.90001",
+        "install_time": "2020-11-06T12:55:21+00:00"
+      },
       {
         "version": "5.19.1.90001",
         "install_time": "2020-11-03T06:02:39+00:00"
@@ -3578,9 +3573,9 @@
     "name": "Titan [Reputation]",
     "description": "Adds Reputation tracking and monitoring tools to Titan Panel.",
     "url": "https://www.curseforge.com/wow/addons/titanrep",
-    "download_url": "https://edge.forgecdn.net/files/3097/247/TitanReputation-9.0.1.0.zip",
-    "date_published": "2020-10-30T18:10:55.820000+00:00",
-    "version": "9.0.1.0",
+    "download_url": "https://edge.forgecdn.net/files/3109/9/TitanReputation-9.0.1.2.zip",
+    "date_published": "2020-11-11T21:40:06.363000+00:00",
+    "version": "9.0.1.2",
     "folders": [
       {
         "name": "TitanReputation"
@@ -3591,6 +3586,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.0.1.2",
+        "install_time": "2020-11-12T06:53:22+00:00"
+      },
       {
         "version": "9.0.1.0",
         "install_time": "2020-11-03T06:02:39+00:00"
@@ -3631,15 +3630,18 @@
     "source": "curse",
     "id": "306085",
     "slug": "tomcats",
-    "name": "TomCat's Tours",
-    "description": "TomCat's Tours",
+    "name": "TomCat's Tours (now includes Icecrown / Death's Rising! / Scourge Invasion) + HandyNotes Support",
+    "description": "TomCat's Tours (now includes Icecrown / Death's Rising / Scourge Invasion) + HandyNotes Support",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3102/461/TomCats-01.06.04-release-retail.zip",
-    "date_published": "2020-11-04T22:50:40.533000+00:00",
-    "version": "01.06.04",
+    "download_url": "https://edge.forgecdn.net/files/3109/364/TomCatsTours[retail]-2.0.4.zip",
+    "date_published": "2020-11-12T06:25:27.193000+00:00",
+    "version": "2.0.4",
     "folders": [
       {
         "name": "TomCats"
+      },
+      {
+        "name": "TomCats-Bundled-DeathsRising"
       }
     ],
     "options": {
@@ -3647,6 +3649,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.0.4",
+        "install_time": "2020-11-12T06:53:22+00:00"
+      },
       {
         "version": "01.06.04",
         "install_time": "2020-11-05T11:54:48+00:00"
@@ -4031,9 +4037,9 @@
     "name": "WeakAuras",
     "description": "A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.",
     "url": "https://www.curseforge.com/wow/addons/weakauras-2",
-    "download_url": "https://edge.forgecdn.net/files/3093/846/WeakAuras-3.0.5.zip",
-    "date_published": "2020-10-26T22:56:26.930000+00:00",
-    "version": "3.0.5",
+    "download_url": "https://edge.forgecdn.net/files/3107/195/WeakAuras-3.0.6.zip",
+    "date_published": "2020-11-09T22:35:20.590000+00:00",
+    "version": "3.0.6",
     "folders": [
       {
         "name": "WeakAuras"
@@ -4056,6 +4062,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "3.0.6",
+        "install_time": "2020-11-10T09:50:36+00:00"
+      },
       {
         "version": "3.0.5",
         "install_time": "2020-11-03T06:02:12+00:00"
