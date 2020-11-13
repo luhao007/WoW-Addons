@@ -257,13 +257,12 @@ class Manager:
                                 dirs_exist_ok=True)
                 shutil.rmtree(root/lib)
 
-    def handle_lib_in_libs(self):
-        root = Path('AddOns/!!Libs')
+    def _handle_lib_in_libs(self, root):
         for lib in os.listdir(root):
             if not os.path.isdir(root/lib) or lib == 'Ace3':
                 continue
 
-            embeds = ['CallbackHandler-1.0', 'LibStub', 'LibStub-1.0']
+            embeds = ['CallbackHandler-1.0', 'LibStub', 'LibStub-1.0', 'HereBeDragons']
             for p in ['libs', 'lib']:
                 if os.path.exists(root / lib / p):
                     embeds.append(p)
@@ -283,6 +282,10 @@ class Manager:
                     if os.path.exists(p):
                         self.remove_libs_in_file(p, embeds)
 
+    def handle_lib_in_libs(self):
+        self._handle_lib_in_libs(Path('AddOns/!!Libs'))
+        self._handle_lib_in_libs(Path('AddOns/!!Libs/LibBabble'))
+
     ##########################
     # Handle individual addons
     ##########################
@@ -300,7 +303,7 @@ class Manager:
                        'HandyNotes_NPCs (Classic)', 'PallyPower',
                        'TradeLog', 'TitanClassic', 'WclPlayerScore']
         else:
-            addons += ['AllTheThings', 'Details_ChartViewer',
+            addons += ['AllTheThings', 'Details', 'Details_ChartViewer',
                        'Details_DeathGraphs', 'Details_EncounterDetails',
                        'Details_RaidCheck', 'Details_TimeLine',
                        'Details_Vanguard', 'FasterCamera',
@@ -448,19 +451,6 @@ class Manager:
         )
 
     def handle_details(self):
-        self.remove_libraries(
-            ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
-             'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
-             'AceGUI-3.0', 'AceHook-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
-             'AceTab-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0', 'DF',
-             'LibBossIDs-1.0', 'LibClassicCasterino', 'LibCompress',
-             'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
-             'LibGraph-2.0', 'LibGroupInSpecT-1.1', 'LibItemUpgradeInfo-1.0',
-             'LibSharedMedia-3.0', 'LibStub', 'LibWindow-1.1', 'NickTag-1.0'],
-            'AddOns/Details/Libs',
-            'AddOns/Details/Libs/libs.xml'
-        )
-
         self.change_defaults(
             'Addons/Details/functions/profiles.lua',
             ('		minimap = {hide = true, radius = 160, minimapPos = 220, '
@@ -662,7 +652,7 @@ class Manager:
             ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
              'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
              'AceGUI-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
-             'AceTimer-3.0', 'CallbackHandler-1.0', 'LibCompress',
+             'AceTimer-3.0', 'CallbackHandler-1.0', 'DF', 'LibCompress',
              'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
              'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
              'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibStub'],

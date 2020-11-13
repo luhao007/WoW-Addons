@@ -5,5 +5,4 @@
     <Include file="libs\TomCatsLibs\SavedVariables.xml" />
     <Include file="libs\TomCatsLibs\UUID.xml" />
     <Include file="libs\TomCatsLibs\Data.xml" />
-    <Include file="libs\TomCatsLibs\Charms.xml" />
 </Ui>

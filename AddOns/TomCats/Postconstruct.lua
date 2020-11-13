@@ -91,7 +91,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = unpack(addon.split("2.0.4","-"))
+TomCats.version = unpack(addon.split("2.0.7","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
@@ -214,7 +214,6 @@ local function ADDON_LOADED(_, _, arg1)
 						end
 						ChangeMap(this)
 					end,
-					ignoreSlideBar  = true,
 					ignoreSexyMap   = true
 				})
 				rareMapShortcut:SetParent(WorldMapFrame)
@@ -223,7 +222,6 @@ local function ADDON_LOADED(_, _, arg1)
 				rareMapShortcut:ClearAllPoints()
 				rareMapShortcut:SetPoint("TOPRIGHT", WorldMapFrame:GetCanvasContainer(), "TOPRIGHT",
 				                         offset + buttonSpacing * count, -1)
-				--rareMapShortcut.shadow:Show()
 				rareMapShortcut.tooltip = {
 					Show = function(this)
 						GameTooltip:ClearLines()
@@ -235,7 +233,6 @@ local function ADDON_LOADED(_, _, arg1)
 						GameTooltip:Hide()
 					end
 				}
-				--rareMapShortcut:RegisterForDrag()
 				rareMapShortcut.mapID = k
 				count = count + 1
 			else

@@ -90,6 +90,7 @@ LibRealmInfo\LibRealmInfo.lua
 LibSerialize\serializer.lua
 LibSink-2.0\LibSink-2.0\lib.xml
 LibSpellRange-1.0\lib.xml
+LibTranslit-1.0\LibTranslit-1.0.xml
 LibTextDump-1.0\lib.xml
 LibToast-1.0\lib.xml
 LibTourist-3.0\LibTourist-3.0.lua

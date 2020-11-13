@@ -17,6 +17,5 @@
 ## X-Date: 2020-01-17T14:56:53Z
 ## X-Website: http://www.wowace.com/addons/libbabble-itemset-3-0/
 
-LibStub\LibStub.lua
 lib.xml
 

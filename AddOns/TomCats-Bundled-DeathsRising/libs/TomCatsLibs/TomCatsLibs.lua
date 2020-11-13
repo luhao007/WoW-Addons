@@ -1,5 +1,5 @@
 local addonName, addon = ...
-local libs = { "Events", "BulletinBoard", "Copyright", "Holidays", "Tooltips", "SavedVariables", "Charms", "Data", "Arrows", "Colors", "UUID", "Locales", "Books" }
+local libs = { "Events", "BulletinBoard", "Copyright", "Holidays", "Tooltips", "SavedVariables", "Data", "Arrows", "Colors", "UUID", "Locales", "Books" }
 local libIndexes = {}
 local TomCatsLibs = {}
 for i = 1, #libs do libIndexes[libs[i]] = i libs[i] = {} end

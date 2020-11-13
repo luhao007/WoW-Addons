@@ -213,7 +213,8 @@ function addon:OpenWorldMapToZone()
             end
         end
     else
-        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000Warning: TomCat's Tours must be installed and enabled for @title@ to function properly|r")
+        -- todo: cleanup
+        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000Warning: TomCat's Tours must be installed and enabled for Death's Rising to function properly|r")
     end
 end
 
@@ -403,7 +404,7 @@ if (TomCats and TomCats.Register) then
                     }
                 },
                 name = "Rares of Death's Rising",
-                version = "2.0.4",
+                version = "2.0.7",
                 raresLogHandlers = {
                     [zoneMapID] = {
                         raresLog = GetRaresLog

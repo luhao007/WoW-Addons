@@ -160,7 +160,6 @@ addon.charms = Charms
 do
 	local seqNum = 1
 	local handleSexyMap
-	local handleSlideBar
 	function Charms.Create(buttonInfo)
 		if (MinimapZoneTextButton and MinimapZoneTextButton:GetParent() == MinimapCluster) then
 			MinimapZoneTextButton:SetParent(Minimap)
@@ -195,9 +194,6 @@ do
 		end
 		if (buttonInfo.handler_onclick) then
 			frame:SetHandler("OnClick", buttonInfo.handler_onclick)
-		end
-		if not buttonInfo.ignoreSlideBar then
-			handleSlideBar(frame)
 		end
 		if not buttonInfo.ignoreSexyMap then
 			handleSexyMap(frame)
@@ -245,240 +241,188 @@ do
 		addon.events.registerEvent("ADDON_LOADED", handleSexyMap)
 	end
 	-- End SexyMap Compatibility --
-	-- Begin SlideBar Compatibility --
-	local slideBarPresent = select(4, GetAddOnInfo("SlideBar"))
-	local slideBarQueue = {}
-	function handleSlideBar(button, event)
-		if (not slideBarPresent) then
-			return
-		end
-		if (LibStub and LibStub.libs and LibStub.libs.SlideBar) then
-			if (event) then
-				addon.events.unregisterEvent("ADDON_LOADED", handleSlideBar)
-			else
-				table.insert(slideBarQueue, button)
-			end
-			for _, btn in ipairs(slideBarQueue) do
-				local newButton = LibStub.libs.SlideBar.AddButton(
-						btn.title, btn.icon:GetTexture(), nil, btn:GetName() .. "SlideBar", true,
-						{ OnClick = btn:GetScript("OnClick") }
-				)
-				local oldOnEnter = newButton:GetScript("OnEnter")
-				newButton:SetScript("OnEnter", function(this)
-					if (oldOnEnter) then
-						oldOnEnter(this)
-					end
-					if (btn.tooltip) then
-						btn.tooltip.Show(this)
-					end
-				end)
-				local oldOnLeave = newButton:GetScript("OnLeave")
-				newButton:SetScript("OnLeave", function(this)
-					if (oldOnLeave) then
-						oldOnLeave(this)
-					end
-					if (btn.tooltip) then
-						btn.tooltip.Hide(this)
-					end
-				end)
-				-- todo: force background color to work in the interface config panel
-				if (btn.backgroundColor) then
-					newButton.icon:SetDrawLayer("ARTWORK", 1)
-					local bg = _G[btn:GetName() .. "SlideBar"]:CreateTexture("", "BACKGROUND")
-					bg:SetDrawLayer("BACKGROUND", 1)
-					bg:SetTexture("Interface\\AddOns\\TomCats\\images\\00019")
-					bg:SetPoint("TOPLEFT", newButton, "TOPLEFT", 0, 0)
-					bg:SetWidth(30)
-					bg:SetHeight(30)
-					bg:SetVertexColor(unpack(btn.backgroundColor))
-				end
-			end
-			slideBarQueue = {}
-			return
-		end
-		if (not event) then
-			table.insert(slideBarQueue, button)
-		end
-	end
-	if (slideBarPresent and (not (LibStub and LibStub.libs and LibStub.libs.SlideBar))) then
-		addon.events.registerEvent("ADDON_LOADED", handleSlideBar)
-	end
-	-- End SlideBar Compatibility --
 end
 
 TomCatsCharmsMixin = { }
+do
 
-function TomCatsCharmsMixin:SetupForMinimap()
-	self:RegisterForDrag("LeftButton")
-end
-
-function TomCatsCharmsMixin:OnLoad()
-	local name = self:GetName()
-	local isDragging = false
-	local tooltipIsShowing = false
-	local Ax, Ay, scale, top, right
-	local mapsize = Minimap:GetSize()
-	local r = (mapsize / 2) + 10
-	local h = math.sqrt((r^2)*2)
-	local preferences = {}
-	local handlers = {}
-	local shape = GetMinimapShape and GetMinimapShape() or "ROUND"
-
-	local function RefreshMeasurements()
-		Ax, Ay = Minimap:GetCenter()
-		scale = self:GetEffectiveScale()
-		right = UIParent:GetRight()
-		top = UIParent:GetTop()
+	local function RefreshMeasurements(self)
+		local ext = self.ext
+		ext.Ax, ext.Ay = Minimap:GetCenter()
+		ext.scale = self:GetEffectiveScale()
+		ext.right = UIParent:GetRight()
+		ext.top = UIParent:GetTop()
 	end
 
-	local function ButtonDown()
-		_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 8, -8);
-		_G[name .. "IconOverlay"]:Show();
-	end
-
-	local function ButtonUp()
-		_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 6, -6);
-		_G[name .. "IconOverlay"]:Hide();
-	end
-
-	local function OnMouseDown()
-		ButtonDown()
-	end
-
-	local function OnMouseUp()
-		ButtonUp()
-	end
-
-	local function OnClick()
-		if (handlers.OnClick) then
-			handlers.OnClick(self)
-		end
-	end
-
-	local function UpdatePosition()
-		RefreshMeasurements()
-		local rad = preferences.position
+	local function UpdatePosition(self)
+		local ext = self.ext
+		RefreshMeasurements(self)
+		local rad = ext.preferences.position
 		if (GetMinimapShape and GetMinimapShape() == "SQUARE") then
 			local x, y = math.cos(rad), math.sin(rad)
-			x = math.max(-r, math.min(x * h, r))
-			y = math.max(-r, math.min(y * h, r))
+			x = math.max(-ext.r, math.min(x * ext.h, ext.r))
+			y = math.max(-ext.r, math.min(y * ext.h, ext.r))
 			self:SetPoint("CENTER", Minimap, "CENTER", x, y)
 		else
-			local Cx = r * math.cos(rad)
-			local Cy = r * math.sin(rad)
+			local Cx = ext.r * math.cos(rad)
+			local Cy = ext.r * math.sin(rad)
 			self:SetPoint("CENTER", Minimap, "CENTER", Cx, Cy)
 		end
 		local buttonRight = self:GetRight()
-		if (buttonRight > right) then
+		if (buttonRight > ext.right) then
 			local point = { self:GetPoint() }
-			local adj = (buttonRight - right) --* scale
+			local adj = (buttonRight - ext.right) --* scale
 			point[4] = point[4] - adj
 			self:SetPoint(unpack(point))
 		end
 		local buttonTop = self:GetTop()
-		if (buttonTop > top) then
+		if (buttonTop > ext.top) then
 			local point = { self:GetPoint() }
-			local adj = (buttonTop - top) --* scale
+			local adj = (buttonTop - ext.top) --* scale
 			point[5] = point[5] - adj
 			self:SetPoint(unpack(point))
 		end
 	end
 
-	local function UpdatePositionByCursor()
+	local function UpdatePositionByCursor(self)
+		local ext = self.ext
 		local Bx, By = GetCursorPosition()
-		preferences.position = math.atan2((By / scale) - Ay, (Bx / scale) - Ax)
-		UpdatePosition()
+		ext.preferences.position = math.atan2((By / ext.scale) - ext.Ay, (Bx / ext.scale) - ext.Ax)
+		UpdatePosition(self)
 	end
 
-	local function OnUpdate()
-		if (isDragging) then
-			UpdatePositionByCursor()
+	local function OnUpdate(self)
+		local ext = self.ext
+		if (ext.isDragging) then
+			UpdatePositionByCursor(self)
 		else
 			local newShape = GetMinimapShape and GetMinimapShape() or "ROUND"
 			local newSize = Minimap:GetSize()
-			if (shape ~= newShape or mapsize ~= newSize) then
-				shape = newShape
-				mapsize = newSize
-				r = (mapsize / 2) + 10
-				h = math.sqrt((r^2)*2)
-				UpdatePosition()
+			if (ext.shape ~= newShape or ext.mapsize ~= newSize) then
+				ext.shape = newShape
+				ext.mapsize = newSize
+				ext.r = (ext.mapsize / 2) + 10
+				ext.h = math.sqrt((ext.r^2)*2)
+				UpdatePosition(self)
 			end
 		end
 	end
 
-	local function OnDragStart()
-		if (tooltipIsShowing) then
-			self.tooltip:Hide()
-			tooltipIsShowing = false
+	function TomCatsCharmsMixin:SetupForMinimap()
+		self:RegisterForDrag("LeftButton")
+		self:SetScript("OnUpdate", OnUpdate)
+	end
+
+	function TomCatsCharmsMixin:OnLoad()
+		local name = self:GetName()
+		self.ext = { }
+		local ext = self.ext
+		ext.isDragging = false
+		ext.tooltipIsShowing = false
+		ext.mapsize = Minimap:GetSize()
+		ext.r = (ext.mapsize / 2) + 10
+		ext.h = math.sqrt((ext.r^2)*2)
+		ext.preferences = {}
+		ext.handlers = {}
+		ext.shape = GetMinimapShape and GetMinimapShape() or "ROUND"
+
+		local function ButtonDown()
+			_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 8, -8);
+			_G[name .. "IconOverlay"]:Show();
 		end
-		RefreshMeasurements()
-		self:ClearAllPoints()
-		isDragging = true
-	end
 
-	local function OnDragStop()
-		ButtonUp()
-		isDragging = false
-	end
-
-	local function OnEnter()
-		if (self.tooltip and (not isDragging)) then
-			self.tooltip.Show(self)
-			tooltipIsShowing = true
+		local function ButtonUp()
+			_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 6, -6);
+			_G[name .. "IconOverlay"]:Hide();
 		end
-	end
 
-	local function OnLeave()
-		if (self.tooltip) then
-			self.tooltip.Hide()
-			tooltipIsShowing = false
+		local function OnMouseDown()
+			ButtonDown()
 		end
-	end
 
-	function self:GetPreferences()
-		if (not preferences.position) then
-			local _, _, _, Bx, By = self:GetPoint()
-			local Ax, Ay = Minimap:GetCenter()
-			preferences.position = math.atan2(By - Ay, Bx - Ax)
+		local function OnMouseUp()
+			ButtonUp()
 		end
-		return preferences
-	end
 
-	function self:SetPreferences(savedPreferences)
-		if (savedPreferences) then
-			if (savedPreferences.position and type(savedPreferences.position) == "number") then
-				preferences = savedPreferences
+		local function OnClick()
+			if (ext.handlers.OnClick) then
+				ext.handlers.OnClick(self)
 			end
-			RefreshMeasurements()
-			UpdatePosition()
-			if (savedPreferences.hidden) then
+		end
+
+		local function OnDragStart()
+			if (ext.tooltipIsShowing) then
+				self.tooltip:Hide()
+				ext.tooltipIsShowing = false
+			end
+			RefreshMeasurements(self)
+			self:ClearAllPoints()
+			ext.isDragging = true
+		end
+
+		local function OnDragStop()
+			ButtonUp()
+			ext.isDragging = false
+		end
+
+		local function OnEnter()
+			if (self.tooltip and (not ext.isDragging)) then
+				self.tooltip.Show(self)
+				ext.tooltipIsShowing = true
+			end
+		end
+
+		local function OnLeave()
+			if (self.tooltip) then
+				self.tooltip.Hide()
+				ext.tooltipIsShowing = false
+			end
+		end
+
+		function self:GetPreferences()
+			if (not ext.preferences.position) then
+				local _, _, _, Bx, By = self:GetPoint()
+				local Ax, Ay = Minimap:GetCenter()
+				ext.preferences.position = math.atan2(By - Ay, Bx - Ax)
+			end
+			return ext.preferences
+		end
+
+		function self:SetPreferences(savedPreferences)
+			if (savedPreferences) then
+				if (savedPreferences.position and type(savedPreferences.position) == "number") then
+					ext.preferences = savedPreferences
+				end
+				RefreshMeasurements(self)
+				UpdatePosition(self)
+				if (savedPreferences.hidden) then
+					self:Hide()
+				end
+			end
+		end
+
+		function self:SetEnabled(enabled)
+			if (enabled) then
+				self:Show()
+				ext.preferences.hidden = false
+			else
 				self:Hide()
+				ext.preferences.hidden = true
 			end
 		end
-	end
 
-	function self:SetEnabled(enabled)
-		if (enabled) then
-			self:Show()
-			preferences.hidden = false
-		else
-			self:Hide()
-			preferences.hidden = true
+		function self:SetHandler(handlerType, handler)
+			ext.handlers[handlerType] = handler
 		end
-	end
 
-	function self:SetHandler(handlerType, handler)
-		handlers[handlerType] = handler
+		self:SetScript("OnMouseDown", OnMouseDown)
+		self:SetScript("OnMouseUp", OnMouseUp)
+		self:SetScript("OnClick", OnClick)
+		self:SetScript("OnDragStart", OnDragStart)
+		self:SetScript("OnDragStop", OnDragStop)
+		self:SetScript("OnEnter", OnEnter)
+		self:SetScript("OnLeave", OnLeave)
 	end
-
-	self:SetScript("OnMouseDown", OnMouseDown)
-	self:SetScript("OnMouseUp", OnMouseUp)
-	self:SetScript("OnClick", OnClick)
-	self:SetScript("OnDragStart", OnDragStart)
-	self:SetScript("OnDragStop", OnDragStop)
-	self:SetScript("OnUpdate", OnUpdate)
-	self:SetScript("OnEnter", OnEnter)
-	self:SetScript("OnLeave", OnLeave)
 end
 
 local Locales = { }
@@ -2712,7 +2656,7 @@ do
 									}
 								},
 								name = "Death's Rising",
-								version = "2.0.4",
+								version = "2.0.7",
 								raresLogHandlers = {
 									[118] = {
 										raresLog = GetRaresLog

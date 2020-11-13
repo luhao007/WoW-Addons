@@ -1157,6 +1157,32 @@
   },
   {
     "source": "curse",
+    "id": "322175",
+    "slug": "libtranslit",
+    "name": "LibTranslit",
+    "description": "Transliterate string",
+    "url": "https://www.curseforge.com/wow/addons/libtranslit",
+    "download_url": "https://edge.forgecdn.net/files/2734/926/LibTranslit-1.0-1.0.4.zip",
+    "date_published": "2019-07-03T16:40:34.277000+00:00",
+    "version": "1.0.4",
+    "folders": [
+      {
+        "name": "LibTranslit-1.0"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "1.0.4",
+        "install_time": "2020-11-12T09:42:30+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "268264",
     "slug": "libuidropdownmenu",
     "name": "LibUIDropDownMenu",

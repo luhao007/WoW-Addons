@@ -8,5 +8,4 @@
 ## X-Category: Library
 ## X-License: MIT
 
-LibStub\LibStub.lua
 lib.xml

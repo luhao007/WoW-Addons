@@ -221,7 +221,7 @@
 						<Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-16"/>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentVersion" text="2.0.4" inherits="GameFontHighlight">
+				<FontString name="$parentVersion" text="2.0.7" inherits="GameFontHighlight">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentVersionLabel" relativePoint="TOPRIGHT" x="4"/>
 					</Anchors>

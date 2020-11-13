@@ -1,94 +1,10 @@
-lightweight tag 4c01da59d94822dd854dde141222c276cc78790f Plater-v9.0.1.315-Retail
-Author:	Continuity <continuity@gmx.net>
-Date:	Wed Nov 11 20:48:36 2020 +0100
+lightweight tag 624e3bfde0a29794ad347d6b4264aa434797a706 Plater-v9.0.1.316-Retail
+Author:	Tercio Jose <terciob19@hotmail.com>
+Date:	Thu Nov 12 18:47:23 2020 -0300
 
-commit 4c01da59d94822dd854dde141222c276cc78790f
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Nov 11 20:48:36 2020 +0100
-
-    - changelog update
-
-commit 46f658c0a93df6dabdba35fbd30ba6a28aae24c2
+commit 624e3bfde0a29794ad347d6b4264aa434797a706
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Nov 11 16:07:47 2020 -0300
+Date:   Thu Nov 12 18:47:23 2020 -0300
 
-    Missing script textures
-
-commit e227663efacfb432c3ed0cba02ffd8fbd11eb164
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Nov 11 14:44:47 2020 +0100
-
-    - stop the aura animation on hide
-
-commit 8598fa183abb555585827801cccaee0739a64148
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Nov 11 12:19:11 2020 +0100
-
-    - adding "auras per row" option overwrite
-
-commit 9f0c445142754a01079fac28ebea47d6ba6bb4a6
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Nov 11 12:01:37 2020 +0100
-
-    - make aura rows grow in the proper directions according to anchor
-
-commit 2ecff35ccff5901dcde0d1a254d217086a7f9e06
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Nov 11 11:33:38 2020 +0100
-
-    - small doc update
-
-commit 91cde39b01888dd52ba257d00fa41899e59d13ec
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Nov 10 21:49:18 2020 -0300
-
-    Increased the revision version of all scripts in an atempt to make them install correctly
-
-commit 323d41c18bb4e304fe0d5f95e6f6ab10e5288acc
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 10 16:37:47 2020 +0100
-
-    - enable tooltip on buff special
-
-commit d615efdac73e4beeb0a553f57048eee7e7a1d586
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 10 14:55:07 2020 +0100
-
-    - supress blizzard timers on buff special
-
-commit 7db3ac11daa0c41ca3e6114174d077609d51aa4a
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 10 14:54:55 2020 +0100
-
-    - DF lib update
-
-commit b8480ab9d04d493dae7f251bf9304ca2be69e968
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 10 13:49:53 2020 +0100
-
-    - adding buff special text outline options
-
-commit 46bffb8ba2ed6f5917b23778650a0c1b7707b5b2
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 10 13:48:53 2020 +0100
-
-    - DF lib update
-
-commit 7b71d5cdac01d7afc85855a2b8a05048ef65cee1
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 10 13:04:27 2020 +0100
-
-    - adding font options for buff special timer, stack and caster texts
-
-commit 202acf55684c18e28d5855e18cae25819dcdd5e8
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Nov 10 13:03:58 2020 +0100
-
-    - DF lib update
-
-commit d804870f40d509f920f2901b72cb116c91996f4b
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Nov 9 19:17:24 2020 +0100
-
-    - stopping aura animations on hide
+    Added "OverrideTriggers" option at the script library, if override triggers are true, while updating the script all old triggers are removed.
 

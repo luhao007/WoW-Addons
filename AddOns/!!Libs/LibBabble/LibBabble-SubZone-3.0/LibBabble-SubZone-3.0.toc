@@ -18,6 +18,5 @@
 ## X-Date: 2020-10-26T15:11:35Z
 ## X-Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
 
-LibStub\LibStub.lua
 lib.xml
 
