@@ -113,4 +113,3 @@ Frames\Journal.xml
 Frames\Journal.lua
 
 Process\Battle.lua
-

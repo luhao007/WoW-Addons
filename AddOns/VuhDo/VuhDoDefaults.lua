@@ -111,7 +111,7 @@ end
 
 local VUHDO_DEFAULT_MODELS = {
 	{ VUHDO_ID_GROUP_1, VUHDO_ID_GROUP_2, VUHDO_ID_GROUP_3, VUHDO_ID_GROUP_4, VUHDO_ID_GROUP_5, VUHDO_ID_GROUP_6, VUHDO_ID_GROUP_7, VUHDO_ID_GROUP_8, VUHDO_ID_PETS },
-	{ VUHDO_ID_PRIVATE_TANKS, VUHDO_ID_BOSSES }, 
+	{ VUHDO_ID_PRIVATE_TANKS, VUHDO_ID_BOSSES },
 };
 
 
@@ -434,7 +434,7 @@ local function VUHDO_customDebuffsAddDefaultSettings(aBuffName)
 		VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED_SETTINGS"][aBuffName]["color"]
 			= VUHDO_makeFullColor(0.6, 0.3, 0, 1,   0.8, 0.5, 0, 1);
 	end
-	
+
 	if (not VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED_SETTINGS"][aBuffName]["isBarGlow"]) then
 		VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED_SETTINGS"][aBuffName]["barGlowColor"] = nil;
 	elseif (VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED_SETTINGS"][aBuffName]["barGlowColor"] == nil) then
@@ -1211,7 +1211,7 @@ function VUHDO_loadDefaultConfig()
 --		142808
 --		--Garrosh Hellscream
 --	);
-	
+
 	-- 6.0 - Warlords of Draenor - part 1
 --	VUHDO_addCustomSpellIds(23,
 --		-- [[ Draenor World Bosses ]]
@@ -1402,7 +1402,7 @@ function VUHDO_loadDefaultConfig()
 --	);
 
 	-- 7.0 - Legion
---	VUHDO_addCustomSpellIds(31, 
+--	VUHDO_addCustomSpellIds(31,
 --		-- [[ Emerald Nightmare ]]
 --		-- Nythendra
 --		--204504, -- Infested
@@ -1415,7 +1415,7 @@ function VUHDO_loadDefaultConfig()
 --		--212886, -- Nightmare Corruption
 --		--215845, -- Dispersed Spores
 --		--210099, -- Fixate
---		209469, -- Touch of Corruption 
+--		209469, -- Touch of Corruption
 --		--209471, -- Nightmare Explosion
 --		208697, -- Mind Flay
 --		208929, -- Spew Corruption
@@ -1587,12 +1587,12 @@ function VUHDO_loadDefaultConfig()
 --		240728, -- Tainted Essence
 --		-- Kil'jaeden
 --		234310, -- Armageddon Rain
---		245509, -- Felclaws    
+--		245509, -- Felclaws
 --		243624  -- Lingering Wail
 --	);
 
 	-- 7.3.0 - Legion - Antorus, The Burning Throne
---	VUHDO_addCustomSpellIds(37, 
+--	VUHDO_addCustomSpellIds(37,
 --		-- [[ Antorus, The Burning Throne ]]
 --		-- Garothi
 --		246220, -- Fel Bombardment (tank)
@@ -1669,7 +1669,7 @@ function VUHDO_loadDefaultConfig()
 --		249535, -- Demolished (M)
 --		246706, -- Demolish
 --		246687, -- Decimation
-----		246840, -- Ruiner	
+----		246840, -- Ruiner
 --		-- Varimathras
 --		244094, -- Necrotic Embrace
 --		243961, -- Misery
@@ -1679,7 +1679,7 @@ function VUHDO_loadDefaultConfig()
 ----		243968, -- Torment of Flames
 ----		243977, -- Torment of Frost
 ----		243974, -- Torment of Shadows
---		248732, -- Echoes of Doom (M)		
+--		248732, -- Echoes of Doom (M)
 --		-- Coven of Shivarra
 ----		253203, -- Shivan Pact
 ----		244899, -- Fiery Strike
@@ -1709,7 +1709,7 @@ function VUHDO_loadDefaultConfig()
 ----		255528, -- Searing Binding
 --		-- Argus the Unmaker
 ----		248499, -- Sweeping Scythe
-----		258039, -- Deadly Scythe 
+----		258039, -- Deadly Scythe
 --		248396, -- Soulblight
 ----		253901, -- Strength of Sea
 ----		253903, -- Strength of Sky
@@ -1739,10 +1739,10 @@ function VUHDO_loadDefaultConfig()
 --	);
 
 	-- 8.0.1 - Battle for Azeroth - Uldir
-	VUHDO_addCustomSpellIds(38, 
+	VUHDO_addCustomSpellIds(38,
 		-- [[ Uldir ]]
 		-- Taloc
-		271222, -- Plasma Discharge 
+		271222, -- Plasma Discharge
 		-- Mother
 		267821, -- Defense Grid
 		-- Devourer
@@ -1790,7 +1790,7 @@ function VUHDO_loadDefaultConfig()
 		274932  -- Endless Abyss
 		-- Dunegorger Kraulok
 	);
-		
+
 	-- 8.0.1 - Battle for Azeroth - Debuff Absorbs
 	VUHDO_addCustomSpellIds(40,
 		-- [[ The Underrot ]]
@@ -1801,16 +1801,16 @@ function VUHDO_loadDefaultConfig()
 	);
 
 	-- 8.0.1 - Battle for Azeroth - Uldir part 2
-	VUHDO_addCustomSpellIds(41, 
+	VUHDO_addCustomSpellIds(41,
 		-- [[ Uldir ]]
 		-- Taloc
-		275270, -- Fixate 
+		275270, -- Fixate
 		-- Mother
 		-- Devourer
 		-- Zek'voz
 		-- Vectis
 		265127, -- Lingering Infection
-		267160, -- Omega Vector		
+		267160, -- Omega Vector
 		267161, -- Omega Vector
 		267162, -- Omega Vector
 		267163, -- Omega Vector
@@ -1870,7 +1870,7 @@ function VUHDO_loadDefaultConfig()
 	);
 
 	-- 8.1.5 - Battle for Azeroth - Crucible of Storms
-	VUHDO_addCustomSpellIds(43, 
+	VUHDO_addCustomSpellIds(43,
 		-- [[ Crucible of Storms ]]
 		-- Restless Cabal
 		293300, -- Storm Essence
@@ -1940,7 +1940,7 @@ function VUHDO_loadDefaultConfig()
 		298192, -- Dark Beyond
 		-- Queen Azshara
 --		298569, -- Drained Soul
---		301078, -- Charged Spear 
+--		301078, -- Charged Spear
 --		299094, -- Beckon
 		303828, -- Crushing Depths
 		303825, -- Crushing Depths
@@ -2027,7 +2027,7 @@ function VUHDO_loadDefaultConfig()
 
 	for tIndex, tName in pairs(VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED"]) do
 		-- I introduced a bug which added some default custom debuffs by spell ID
-		-- where spell ID was a number and not a string, this causes all sorts of odd 
+		-- where spell ID was a number and not a string, this causes all sorts of odd
 		-- bugs in the custom debuff code particularly any getKeyFromValue table lookups
 		if (type(tName) == "number") then
 			-- if we encounter a custom debuff stored by an actual number flag this key for removal
@@ -2049,7 +2049,7 @@ function VUHDO_loadDefaultConfig()
 	end
 
 	-- add default spells to track with spell trace
-	VUHDO_addSpellTraceSpellIds(1, 
+	VUHDO_addSpellTraceSpellIds(1,
 		-- Shaman
 		1064,   -- Chain Heal
 		-- Priest
@@ -2397,7 +2397,7 @@ local VUHDO_DEFAULT_PER_PANEL_SETUP = {
 	},
 
 	["ID_TEXT"] = {
-		["showName"] = true, 
+		["showName"] = true,
 		["showNickname"] = false,
 		["showClass"] = false,
 		["showTags"] = true,

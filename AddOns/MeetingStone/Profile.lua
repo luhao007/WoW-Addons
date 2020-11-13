@@ -527,7 +527,7 @@ function Profile:GetFilters(categoryId)
 end
 
 function Profile:SetFilters(categoryId, filters)
-    
+
     self.gdb.global.filters[categoryId] = filters
     self:SendMessage('MEETINGSTONE_FILTERS_UPDATE')
 end

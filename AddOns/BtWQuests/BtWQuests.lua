@@ -684,7 +684,7 @@ function BtWQuestsMixin:OnLoad()
 
     self:RegisterEvent("QUEST_SESSION_JOINED")
     self:RegisterEvent("QUEST_SESSION_LEFT")
-    
+
     self:RegisterEvent("MODIFIER_STATE_CHANGED")
 
 	self.TitleText:SetText(L["BTWQUESTS_QUEST_JOURNAL"]);

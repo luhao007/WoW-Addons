@@ -7,4 +7,3 @@
 ## X-Category: Library
 
 LibCandyBar-3.0\lib.xml
-

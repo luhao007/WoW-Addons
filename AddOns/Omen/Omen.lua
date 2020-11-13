@@ -3534,4 +3534,3 @@ Omen.Options.args.Warnings.args.Output.disabled = function() return not db.Warni
 	if not db.TitleBar.UseSameBG then h = db.TitleBar.EdgeSize * 2 end
 	Omen.Options.args.TitleBar.args.Height.min = h
 end
-

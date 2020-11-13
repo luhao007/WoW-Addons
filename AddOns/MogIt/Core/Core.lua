@@ -230,19 +230,19 @@ local defaults = {
 		wishlistCheckAlts = true,
 		tooltipWishlistDetail = true,
 		loadModulesDefault = false,
-		
+
 		noAnim = false,
 		url = "Battle.net",
-		
+
 		dressupPreview = false,
 		singlePreview = false,
 		previewUIPanel = false,
 		previewFixedSize = false,
 		previewConfirmClose = true,
-		
+
 		sortWishlist = false,
 		loadModulesWishlist = false,
-		
+
 		tooltip = true,
 		tooltipWidth = 300,
 		tooltipHeight = 300,
@@ -255,9 +255,9 @@ local defaults = {
 		tooltipRace = 1,
 		tooltipGender = 0,
 		tooltipAnchor = "vertical",
-		
+
 		minimap = { hide = true },
-		
+
 		point = "CENTER",
 		gridWidth = 600,
 		gridHeight = 400,
@@ -272,25 +272,25 @@ local defaults = {
 				point = "CENTER",
 			}
 		},
-		
+
 		slotLabels = {},
 	}
 }
 
 function mog.LoadSettings()
 	mog:UpdateGUI();
-	
+
 	if mog.db.profile.minimap.hide then
 		mog.LDBI:Hide("MogIt");
 	else
 		mog.LDBI:Show("MogIt");
 	end
-	
+
 	mog.tooltip:SetSize(mog.db.profile.tooltipWidth, mog.db.profile.tooltipHeight);
 	mog.tooltip.rotate:SetShown(mog.db.profile.tooltipRotate);
-	
+
 	mog:UpdateScroll();
-	
+
 	mog:SetSinglePreview(mog.db.profile.singlePreview);
 end
 
@@ -323,16 +323,16 @@ function mog:ADDON_LOADED(addon)
 			mog:Error(L["MogIt has loaded! Type \"/mog\" to open it."]);
 		end
 		mog.db.global.version = GetAddOnMetadata(MogIt,"Version");
-		
+
 		mog.LDBI:Register("MogIt",mog.mmb,mog.db.profile.minimap);
-		
-		
+
+
 		for name,module in pairs(mog.moduleList) do
 			if module.MogItLoaded then
 				module:MogItLoaded()
 			end
 		end
-		
+
 		C_TransmogCollection.SetShowMissingSourceInItemTooltips(mog.db.profile.alwaysShowCollected)
 
 		if mog.db.profile.loadModulesDefault then
@@ -438,7 +438,7 @@ mog.relevantCategories = {}
 
 function mog:TRANSMOG_SEARCH_UPDATED()
 	-- local t = debugprofilestop()
-	
+
 	local ARMOR_CLASSES = {
 		WARRIOR = "Plate",
 		DEATHKNIGHT = "Plate",
@@ -453,41 +453,41 @@ function mog:TRANSMOG_SEARCH_UPDATED()
 		HUNTER = "Mail",
 		DEMONHUNTER = "Leather",
 	}
-	
+
 	local FACTIONS = {
 		["Alliance"] = 1,
 		["Horde"] = 2,
 		-- hack for neutral pandaren, the items they can see are for both factions
 		["Neutral"] = 3,
 	}
-	
+
 	local _, playerClass = UnitClass("player")
 	local faction = UnitFactionGroup("player")
-	
+
 	local armorClass = ARMOR_CLASSES[playerClass]
-	
+
 	mog.relevantCategories[armorClass] = true
-	
+
 	LoadAddOn("MogIt_"..armorClass)
 	LoadAddOn("MogIt_Other")
 	LoadAddOn("MogIt_OneHanded")
 	LoadAddOn("MogIt_TwoHanded")
 	LoadAddOn("MogIt_Ranged")
 	LoadAddOn("MogIt_Artifact")
-	
+
 	local ArmorDB = _G["MogIt_"..armorClass.."DB"] or {}
 	MogIt_OtherDB = MogIt_OtherDB or {}
 	MogIt_OneHandedDB = MogIt_OneHandedDB or {}
 	MogIt_TwoHandedDB = MogIt_TwoHandedDB or {}
 	MogIt_RangedDB = MogIt_RangedDB or {}
 	MogIt_ArtifactDB = MogIt_ArtifactDB or {}
-	
+
 	_G["MogIt_"..armorClass.."DB"] = ArmorDB
-	
+
 	local GetAppearanceSources = C_TransmogCollection.GetAppearanceSources
 	local GetAppearanceSourceDrops = C_TransmogCollection.GetAppearanceSourceDrops
 	local bor = bit.bor
-	
+
 	for i = 1, Enum.TransmogCollectionTypeMeta.NumValues do
 		local name, isWeapon, canEnchant, canMainHand, canOffHand = C_TransmogCollection.GetCategoryInfo(i)
 		if name then
@@ -528,16 +528,16 @@ function mog:TRANSMOG_SEARCH_UPDATED()
 			end
 		end
 	end
-	
+
 	self:LoadDB("MogIt_"..armorClass)
 	self:LoadDB("MogIt_Other")
 	self:LoadDB("MogIt_OneHanded")
 	self:LoadDB("MogIt_TwoHanded")
 	self:LoadDB("MogIt_Ranged")
 	self:LoadDB("MogIt_Artifact")
-	
+
 	self.frame:UnregisterEvent("TRANSMOG_SEARCH_UPDATED")
-	
+
 	-- print(format("MogIt modules loaded in %d ms.", debugprofilestop() - t))
 end
 
@@ -552,13 +552,13 @@ function mog:LoadDB(addon)
 		[5] = 6,
 		[6] = 5,
 	}
-	
+
 	local module = mog:GetModule(addon)
 	local moduleDB = _G[addon.."DB"]
-	
+
 	-- won't exist if module was never loaded
 	if not moduleDB then return end
-	
+
 	for slot, appearances in pairs(moduleDB) do
 		local list = {}
 		module.slots[slot] = {
@@ -581,7 +581,7 @@ function mog:LoadDB(addon)
 			end
 		end
 	end
-	
+
 	for i = 1, Enum.TransmogCollectionTypeMeta.NumValues do
 		local slotID = SLOTS[i - 1]
 		if moduleDB[slotID] then
@@ -608,14 +608,14 @@ function mog:PLAYER_LOGIN()
 		end
 	end)
 	]]
-	
+
 	for k, slot in pairs(SLOTS) do
 		local name = C_TransmogCollection.GetCategoryInfo(k + 1)
 		if name then
 			mog.db.profile.slotLabels[slot] = name
 		end
 	end
-	
+
 	mog:LoadSettings();
 	self.frame:SetScript("OnSizeChanged", function(self, width, height)
 		mog.db.profile.gridWidth = width;
@@ -660,11 +660,11 @@ mog.data = {};
 
 function mog:AddData(data, id, key, value)
 	if not (data and id and key) then return end;
-	
+
 	--if data == "item" then
 	--	id = mog:ItemToString(id);
 	--end
-	
+
 	if not mog.data[data] then
 		mog.data[data] = {};
 	end
@@ -743,7 +743,7 @@ local bonusDiffs = {
 	[3444] = true, -- ???
 	[3445] = true, -- ???
 	[3446] = true, -- ???
-	
+
 	[3524] = true, -- magical bonus ID for items that instead use the instance difficulty ID parameter
 };
 

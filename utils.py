@@ -19,11 +19,14 @@ def process_file(path, func):
     with open(path, 'rb') as f:
         b = f.read()
     lines = b.decode(chardet.detect(b)['encoding']).splitlines()
+    lines = [line.rstrip()+'\n' for line in lines]
+    while lines[-1].strip() == '':
+        lines = lines[:-1]
+    new_lines = func(lines.copy())
 
-    new_lines = func(lines)
-
-    with open(path, 'w', encoding='utf-8') as f:
-        f.writelines(new_lines)
+    if new_lines != lines:
+        with open(path, 'w', encoding='utf-8') as f:
+            f.writelines(new_lines)
 
     logger.info('Done.')
 

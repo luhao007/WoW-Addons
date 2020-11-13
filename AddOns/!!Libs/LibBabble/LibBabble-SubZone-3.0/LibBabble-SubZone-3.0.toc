@@ -19,4 +19,3 @@
 ## X-Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
 
 lib.xml
-

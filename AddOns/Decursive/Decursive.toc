@@ -51,4 +51,3 @@ Dcr_DebuffsFrame.xml
 
 Dcr_LiveList.lua
 Dcr_LiveList.xml
-

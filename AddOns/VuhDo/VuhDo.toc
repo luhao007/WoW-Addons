@@ -18,4 +18,3 @@ VuhDo.xml
 
 VuhDoPanel.xml
 VuhDoBuffWatch.xml
-

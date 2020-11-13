@@ -18,4 +18,3 @@
 ## X-Website: http://www.wowace.com/addons/libbabble-itemset-3-0/
 
 lib.xml
-

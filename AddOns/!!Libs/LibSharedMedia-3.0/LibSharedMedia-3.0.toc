@@ -13,4 +13,3 @@
 
 
 LibSharedMedia-3.0\lib.xml
-

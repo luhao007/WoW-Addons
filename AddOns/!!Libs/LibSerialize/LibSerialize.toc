@@ -4,7 +4,7 @@
 ## Version: 0.9.1.beta
 ## Notes: Serialized
 ## Author: Dieen@twobears.cz
-## SavedVariables: 
+## SavedVariables:
 ## OptionalDeps: LibStub
 ## X-Curse-Packaged-Version: 0.9.1.beta
 ## X-Curse-Project-Name: Lib: Serialize
@@ -13,4 +13,3 @@
 
 embeds.xml
 serializer.lua
-
