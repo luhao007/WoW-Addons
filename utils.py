@@ -17,10 +17,8 @@ def process_file(path, func):
     logger.info('Processing %s...', path)
 
     with open(path, 'rb') as f:
-        detect = chardet.detect(f.read())
-
-    with open(path, 'r', encoding=detect['encoding']) as f:
-        lines = f.readlines()
+        b = f.read()
+    lines = b.decode(chardet.detect(b)['encoding']).splitlines()
 
     new_lines = func(lines)
 

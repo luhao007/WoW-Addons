@@ -1208,6 +1208,7 @@ function Util.SlashShowMessageByLine(Message)
 end
 
 function SlashCmdList.BUTTONFORGE(msg, editbox)
+	local FirstCommand;
 	local PreparedCommands = {};
 	local Command, Params;
 	local Count = 0;
@@ -1215,6 +1216,9 @@ function SlashCmdList.BUTTONFORGE(msg, editbox)
 	for Token, Space in string.gmatch(msg, '([^%s]+)([%s]*)') do
 		if (Const.SlashCommands[strlower(Token)]) then
 			if (Command) then
+				if (FirstCommand == nil) then
+					FirstCommand = Command;
+				end;
 				Count = Count + 1;
 				--PreparedCommands["Count"] = Count;
 				PreparedCommands[Command] = Util.ProcessSlashCommandParams(Command, Params);
@@ -1248,7 +1252,7 @@ function SlashCmdList.BUTTONFORGE(msg, editbox)
 		-- 2. A rules required's must be present
 		-- 3. A rules exclusions must not be present
 		local Group;
-		local FirstCommand;
+
 		for k, v in pairs(Commands) do
 			FirstCommand = FirstCommand or k;
 			if (Group ~= nil and Group ~= Const.SlashCommands[k].group) then
@@ -1260,12 +1264,19 @@ function SlashCmdList.BUTTONFORGE(msg, editbox)
 			
 			local Requires = Const.SlashCommands[k].requires;
 			if (Requires) then
+				local RequiresValid = false;
+				local RequiresInfo = {};
+				-- make sure we have at least one of the requirements
 				for k1, v1 in pairs(Requires) do
-					if (Commands[v1] == nil) then
-						-- Missing a required command
-						DEFAULT_CHAT_FRAME:AddMessage(string.gsub(string.gsub(Util.GetLocaleString("SlashCommandRequired"), "<COMMANDA>", k), "<COMMANDB>", v1), .5, 1, 0, 1);
-						return;
+					table.insert(RequiresInfo,v1);
+					if (Commands[v1] ~= nil) then
+						RequiresValid = true;
 					end
+				end
+				if (RequiresValid == false) then
+					-- Missing a required command
+					DEFAULT_CHAT_FRAME:AddMessage(string.gsub(string.gsub(Util.GetLocaleString("SlashCommandRequired"), "<COMMANDA>", k), "<COMMANDB>", table.concat(RequiresInfo, " or ")), .5, 1, 0, 1);
+					return;
 				end
 			end
 			
@@ -1536,8 +1547,13 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 	UILib.StopDraggingIcon();
 	SpellFlyout:Hide();
 	if (Command == "spell") then
-		--PickupSpellBookItem(Data, Subvalue);
-		PickupSpell(Subsubvalue);
+		-- pet spell or not
+		local name = GetSpellInfo(Subsubvalue);
+		if ( Util.PetSpellIndex[name] ) then
+			PickupSpellBookItem(Util.PetSpellIndex[name], BOOKTYPE_PET);
+		else
+			PickupSpell(Subsubvalue);
+		end;
 	elseif (Command == "item") then
 		PickupItem(Data);
 	elseif (Command == "macro") then
@@ -1548,7 +1564,14 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 		--end
 		C_MountJournal.Pickup(Util.GetMountIndexFromMountID(Data));
 	elseif (Command == "equipmentset") then
-		PickupEquipmentSetByName(Data);
+		local SetCount = C_EquipmentSet.GetNumEquipmentSets();
+		for i=0,SetCount-1 do
+			name, _, setIndex = C_EquipmentSet.GetEquipmentSetInfo(i);
+			if (name == Data) then
+				C_EquipmentSet.PickupEquipmentSet(setIndex);
+				break;
+			end
+		end;
 	elseif (Command == "bonusaction") then
 		local page = 12; --The page for vehicleactionbar
 		if (HasOverrideActionBar()) then
@@ -1662,7 +1685,7 @@ end
 -------------------------------------------]]
 function Util.GetFullSpellName(Name, Rank)
 --BFA fix: GetSpellInfo now returns a nil for the rank.  That's passed in here
---So we check to make sure ranx exists or only pass back the name itself.
+--So we check to make sure rank exists or only pass back the name itself.
 	if (Rank) then
 		Rank = "("..Rank..")";
 	else
@@ -1753,21 +1776,16 @@ end
 function Util.CachePetSpellIndexes()
 	local i = 1;
 	local NewPSI = {};
-	--Util.NewPetSpellIndex = {};
 	while true do
-		local NameRank = Util.GetFullSpellName(GetSpellInfo(i, BOOKTYPE_PET));
-		if (not NameRank) then
-			break;
+		local spellName, spellSubName = GetSpellBookItemName(i, BOOKTYPE_PET)
+		if not spellName then
+			do break end
 		end
-		--if (not Util.PetSpellIndex[NameRank]) then
-		--	Util.NewPetSpellIndex[NameRanl] = i;
-		--end
-		NewPSI[NameRank] = i;
-		i = i + 1;
+		NewPSI[spellName] = i;
+		i = i + 1
 	end
 
-	Util.PetSpellIndex = NewPSI;
-	
+	Util.PetSpellIndex = NewPSI;	
 end
 
 function Util.LookupSpellIndex(NameRank)
@@ -1861,7 +1879,8 @@ end
 	Companion Functions
 -------------------------------------------]]
 function Util.CacheCompanions()
-    --[[Util.Critters = {};
+	Util.Critters = {};
+    --[[
     for i = 1, GetNumCompanions("CRITTER") do
         local Id, Name = GetCompanionInfo("CRITTER", i);
 		if (not Name) then
@@ -1870,14 +1889,14 @@ function Util.CacheCompanions()
         Util.Critters[Name] = i;
     end]]
 	
-    --[[Util.Mounts = {};
-    for i = 1, C_MountJournal.GetNumMounts() do
-        local Name, Id = C_MountJournal.GetDisplayedMountInfo(i);
-		if (not Name) then
+	Util.Mounts = {};
+	for i, mountID in pairs(C_MountJournal.GetMountIDs()) do
+		local creatureName, spellID = C_MountJournal.GetMountInfoByID(mountID);
+		if (not creatureName) then
 			return;
 		end
-        Util.Mounts[Name] = i;
-    end]]
+        Util.Mounts[spellID] = mountID;
+	end
 	Util.CompanionsCached = true;
 end
 
@@ -2534,9 +2553,9 @@ end
 
 function Util.LookupEquipmentSetIndex(EquipmentSetID)
 
-	local Total = GetNumEquipmentSets();
-	for i = 1, Total do
-		if (select(3, GetEquipmentSetInfo(i)) == EquipmentSetID) then
+	local Total = C_EquipmentSet.GetNumEquipmentSets();
+	for i = 0, Total-1 do
+		if (select(3, C_EquipmentSet.GetEquipmentSetInfo(i)) == EquipmentSetID) then
 			return i;
 		end
 	end

@@ -91,7 +91,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = unpack(addon.split("2.0.7","-"))
+TomCats.version = unpack(addon.split("2.0.8","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
@@ -405,6 +405,12 @@ do
 					GameTooltip_AddBlankLinesToTooltip(EmbeddedItemTooltip, 1)
 					GameTooltip_AddColoredLine(EmbeddedItemTooltip, LOOT_NOUN, LOOT_NOUN_COLOR, true)
 					EmbeddedItemTooltip_SetItemByID(EmbeddedItemTooltip.ItemTooltip, itemID)
+					if (raresLog and raresLog.zone == 118) then
+						local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
+						if (ilevelText) then
+							EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
+						end
+					end
 				end
 			end
 			EmbeddedItemTooltip.BottomFontString:SetText(footerText)
@@ -418,7 +424,11 @@ do
 		end
 		function TomCatsRareRewardItem_OnEnter(self)
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-			GameTooltip:SetItemByID(self:GetID())
+			if (raresLog and raresLog.zone == 118) then
+				GameTooltip:SetHyperlink("item:" .. self:GetID() .. "::::::::100:268::3:1:631")
+			else
+				GameTooltip:SetItemByID(self:GetID())
+			end
 			GameTooltip:Show()
 		end
 		function TomCatsRareRewardItem_OnClick(self)

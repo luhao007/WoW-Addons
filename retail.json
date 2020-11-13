@@ -2308,6 +2308,62 @@
   },
   {
     "source": "curse",
+    "id": "397565",
+    "slug": "handynotes-draenor",
+    "name": "HandyNotes: Draenor",
+    "description": "HandyNotes for Draenor",
+    "url": "https://www.curseforge.com/wow/addons/handynotes-draenor",
+    "download_url": "https://edge.forgecdn.net/files/3091/285/HandyNotes_Draenor.zip",
+    "date_published": "2020-10-24T07:56:47.010000+00:00",
+    "version": "HandyNotes_Draenor.zip",
+    "folders": [
+      {
+        "name": "HandyNotes_Draenor"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [
+      {
+        "id": "14154"
+      }
+    ],
+    "logged_versions": [
+      {
+        "version": "HandyNotes_Draenor.zip",
+        "install_time": "2020-11-13T11:52:26+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "96500",
+    "slug": "handynotes_legiontreasures",
+    "name": "HandyNotes: Legion Treasures",
+    "description": "Where are the hidden treasures in Legion?",
+    "url": "https://www.curseforge.com/wow/addons/handynotes_legiontreasures",
+    "download_url": "https://edge.forgecdn.net/files/3079/67/HandyNotes_LegionTreasures-v17.zip",
+    "date_published": "2020-10-13T17:36:26.183000+00:00",
+    "version": "v17",
+    "folders": [
+      {
+        "name": "HandyNotes_LegionTreasures"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "v17",
+        "install_time": "2020-11-13T11:37:45+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "45644",
     "slug": "handynotes_lostandfound",
     "name": "HandyNotes: Lost and Found (Pandaria Treasures)",
@@ -3060,9 +3116,9 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3108/882/Plater-Plater-v9.0.1.315-Retail.zip",
-    "date_published": "2020-11-11T19:49:25.577000+00:00",
-    "version": "Plater-v9.0.1.315-Retail",
+    "download_url": "https://edge.forgecdn.net/files/3109/921/Plater-Plater-v9.0.1.316-Retail.zip",
+    "date_published": "2020-11-12T21:53:41.127000+00:00",
+    "version": "Plater-v9.0.1.316-Retail",
     "folders": [
       {
         "name": "Plater"
@@ -3073,6 +3129,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v9.0.1.316-Retail",
+        "install_time": "2020-11-13T10:54:15+00:00"
+      },
       {
         "version": "Plater-v9.0.1.315-Retail",
         "install_time": "2020-11-12T06:53:22+00:00"
@@ -3633,9 +3693,9 @@
     "name": "TomCat's Tours (now includes Icecrown / Death's Rising! / Scourge Invasion) + HandyNotes Support",
     "description": "TomCat's Tours (now includes Icecrown / Death's Rising / Scourge Invasion) + HandyNotes Support",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3109/364/TomCatsTours[retail]-2.0.4.zip",
-    "date_published": "2020-11-12T06:25:27.193000+00:00",
-    "version": "2.0.4",
+    "download_url": "https://edge.forgecdn.net/files/3110/117/TomCatsTours[retail]-2.0.7.zip",
+    "date_published": "2020-11-13T02:16:29.093000+00:00",
+    "version": "2.0.7",
     "folders": [
       {
         "name": "TomCats"
@@ -3649,6 +3709,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.0.7",
+        "install_time": "2020-11-13T10:54:16+00:00"
+      },
       {
         "version": "2.0.4",
         "install_time": "2020-11-12T06:53:22+00:00"

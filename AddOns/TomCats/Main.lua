@@ -2656,7 +2656,7 @@ do
 									}
 								},
 								name = "Death's Rising",
-								version = "2.0.7",
+								version = "2.0.8",
 								raresLogHandlers = {
 									[118] = {
 										raresLog = GetRaresLog

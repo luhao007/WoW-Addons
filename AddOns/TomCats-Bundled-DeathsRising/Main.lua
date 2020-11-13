@@ -244,6 +244,10 @@ function addon.showItemTooltip(self, creature, showCreatureName, _, _)
             GameTooltip_AddBlankLinesToTooltip(tooltip, 1);
             GameTooltip_AddColoredLine(EmbeddedItemTooltip, LOOT_NOUN, LOOT_NOUN_COLOR, true);
             EmbeddedItemTooltip_SetItemByID(EmbeddedItemTooltip.ItemTooltip, itemID)
+            local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
+            if (ilevelText) then
+                EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
+            end
         end
     end
     if footerText then
@@ -366,7 +370,8 @@ end
 
 addon.raresLog = {
     creatures = D["Creatures"].records,
-    updated = true
+    updated = true,
+    zone = 118
 }
 
 local function GetRaresLog()
@@ -404,7 +409,7 @@ if (TomCats and TomCats.Register) then
                     }
                 },
                 name = "Rares of Death's Rising",
-                version = "2.0.7",
+                version = "2.0.8",
                 raresLogHandlers = {
                     [zoneMapID] = {
                         raresLog = GetRaresLog
