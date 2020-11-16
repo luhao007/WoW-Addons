@@ -1,5 +1,5 @@
 ## Interface: 90001
-## Version: 17
+## Version: 18
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
 ## SavedVariables: HandyNotes_ShadowlandsDB

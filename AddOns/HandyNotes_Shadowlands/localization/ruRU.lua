@@ -14,50 +14,52 @@ L["anima_channeled"] = "анима направлена на %s."
 --------------------------------- ARDENWEALD ----------------------------------
 -------------------------------------------------------------------------------
 
-L["deifir_note"] = "Катайся на редком монстре по кругу и используй {spell:319566} и {spell:319575} замедлить и оглушить его."
+L["deifir_note"] = "Катайся на редком монстре по кругу и используй {spell:319566} и {spell:319575} чтобы замедлить и оглушить его."
 L["faeflayer_note"] = "В маленькой пещере, скрытой за водопадом."
+L["gormtamer_tizo_note"] = nil
 L["humongozz_note"] = "Посадить {item:175247} во влажный суглинок, чтобы вызвать {npc:164122}. Через минуту {spell:319367}, редкий монстр появиться. Гриб выпадает с многочисленных монстров в локации."
 L["lehgo_note"] = "Destroy Quivering Gorm Eggs and kill {npc:171827} until he spawns. In a cave (entrance to the south-east in the Dusty Burrows)."
+L["mymaen_note"] = nil
 L["rainbowhorn_note"] = "\n|cffff5400T|r|cffffaa00A|r|cffffff00S|r|cffaaff00T|r|cff54ff00E|r |cff00ff55T|r|cff00ffa9H|r|cff00ffffE|r |cff0055ffR|r|cff0000ffA|r|cff5400ffI|r|cffaa00ffN|r|cffff00ffB|r|cffff00aaO|r|cffff0054W|r|cffff0000!|r"
 L["rootwrithe_note"] = "Тыкай по {npc:167928s} пока не появится редкий монстр."
 L["rotbriar_note"] = "Поговорите с {npc:171684}, чтобы вызвать редкого монстра после некоторого диалога."
 L["slumbering_note"] = "Бегство в туман оглушит вас и перенесет. Используйте сигнальную ракету или питомца с AOE, чтобы выбить его из тумана."
 L["skuld_vit_note"] = "В пещере, заблокированной барьером. Ночной Народец должен использовать {spell:310143} чтобы войти в пещеру. Как только монстра атакуют, барьер исчезнет."
-L["valfir_note"] = "Click the Sparkling Animaseed midway down the path and use {spell:338045} to remove his {spell:338038} buff."
+L["valfir_note"] = "Нажмите на Свет анимасемени на полпути и используйте {spell:338045} убрать его {spell:338038} бафф"
 L["wrigglemortis_note"] = "Атакуйте {npc:164179} чтобы призвать редкого монстра."
 
 L["night_mare_note"] = [[
-Travel to Tirna Scithe and follow the root path on the northwest cliff to a broken cart. There you can loot a {item:181243} on the ground.
+Отправляйтесь в Тирна Скитт и следуйте по пути из корней на северо-западном утесе к сломанной тележке. Там вы можете добыть {item:181243} на земле.
 
-Take this item to {npc:165704} at Glitterfall Basin. She will give you a {item:181242} in exchange for 10 {item:173204}. |cFFFF8C00If she is not there, you must complete the |cFFFFFD00Trouble at the Gormling Corral|r and |cFFFFFD00Tricky Spriggans|r quest lines.|r
+Отнесите этот предмет к {npc:165704} в Низину Мерцающих Каскадов. Она даст вам {item:181242} в обмен на 10 {item:173204}. |cFFFF8C00Если ее нет, вы должны выполнить |cFFFFFD00Trouble at the Gormling Corral|r and |cFFFFFD00Tricky Spriggans|r линии заданий.|r
 
 Next, talk to {npc:160262} in the Heart of the Forest to exchange the {item:181242} for a {item:178675}. Use this item to get {spell:327083} buff, allowing you to see the {npc:168135}.
 ]]
 
 L["star_lake"] = "Амфитеатр Звездного озера"
-L["star_lake_note"] = "Talk to {npc:171743}, the Stage Director, to start one of the special encounters."
+L["star_lake_note"] = "Поговорите с {npc:171743}, постановщиком, чтобы начать одну из особых встреч."
 
 L["cache_of_the_moon"] = "Collect {npc:171360}'s five missing tools in the Garden of Night and combine them to create {item:180753}. Return her toolkit and she will cast {spell:334353} on you, allowing you to see the cache."
 L["cache_of_the_night"] = "Соберите {item:180656}, {item:180654} и {item:180655} со всей локации и объедините их, чтобы создать {item:180652}."
 L["darkreach_supplies"] = "Jump on the {npc:169995} and glide southwest into the hollowed spire directly above the Cache of the Night treasure."
 L["desiccated_moth"] = "Перейти на {npc:169997} к северо-западу от дерева, чтобы заплыть на ветку. Сжечь {item:180784} в Курильнице, чтобы собрать сокровище."
 L["dreamsong_heart"] = "Используйте {npc:169997} под деревом, чтобы попасть в дерево."
-L["elusive_faerie_cache"] = "Pick up the {spell:333923} in the northeast corner of Eventide Grove and use it to loot the chest."
+L["elusive_faerie_cache"] = "Примените {spell:333923} в северо-восточном углу Сумеречной Рощи и используйте его, чтобы обыскать сундук."
 L["enchanted_dreamcatcher"] = "Свисает с верхушки корней. Легче всего прыгать с западной стороны."
 L["faerie_trove"] = "Расположен под платформой."
 L["harmonic_chest"] = "Требуется два человека. Один человек играет на арфе, а другой играет на барабане, чтобы открыть сундук."
 L["hearty_dragon_plume"] = "Нажмите {spell:333554} на вершине близлежащих водопадов и используйте его, чтобы спуститься на ветку."
-L["old_ardeite_note"] = "Kill {npc:160747} and {npc:160748} in Shimmerbough to the southeast for {item:174042}. Use this item to fly up near the rare and tag it."
+L["old_ardeite_note"] = "Убейте {npc:160747} и {npc:160748} в Мерцающей рощи на юго-востоке для {item:174042}. Используйте этот предмет, чтобы подлететь к редкому монстру и взять в цель его."
 L["swollen_anima_seed"] = "Большое семя, сидящее внутри ствола дерева."
 
 L["playful_vulpin_note"] = [[
-Find and use the correct emote on the {npc:171206} five times to obtain the pet.
+Найдите и используйте правильную эмоцию на {npc:171206} пять раз, чтобы получить питомца.
 
-• begins to dig curiously = |cFFFF8C00/curious|r
-• wanders around unable to sit still = |cFFFF8C00/sit|r
-• sings all alone = |cFFFF8C00/sing|r
-• dances with joy = |cFFFF8C00/dance|r
-• sits down lonely and sad = |cFFFF8C00/pet|r
+• начинает с любопытством копать = |cFFFF8C00/любопытство|r
+• бродит и не может усидеть на месте = |cFFFF8C00/сесть|r
+• поет совсем один = |cFFFF8C00/песня|r
+• танцует от радости = |cFFFF8C00/танец|r
+• сидит один и грустит = |cFFFF8C00/гладить|r
 ]]
 
 L["tame_gladerunner"] = "Tame Gladerunner"
@@ -67,10 +69,14 @@ Read the "Tale of the Tangle" and then follow the blue lamps through the path un
 If you take a wrong path and {npc:171699} disappears when you reach the end, go back to the start and read "Tale of the Tangle" once more before trying again. If {npc:171767} is not there, you will have to wait for him to respawn.
 ]]
 
+L["faryl_note"] = nil
+L["glitterdust_note"] = nil
+
 -------------------------------------------------------------------------------
 ----------------------------------- BASTION -----------------------------------
 -------------------------------------------------------------------------------
 
+L["ascended_council_note"] = "With four other players, click the five Vespers of Purity, Courage, Humility, Wisdom and Loyalty at the same time. Afterwards, head to Aspirant's Crucible to defeat the Ascended Council and reveal the cache."
 L["aspirant_eolis_note"] = "Обыскать поблизости {item:180613} и прочитать его с помощью НПС, нацеленного на его активацию."
 L["baedos_note"] = "Carry casks of Fermenting Purian Fruit from the surrounding area to {npc:161536} until he activates."
 L["basilofos_note"] = "Двигайтесь вокруг камня, пока над вашей головой не появится фиолетовый фиксирующий маркер. Стой на месте и подождите, пока появятся четыре эмоции, тогда он появится на свет."
@@ -102,11 +108,14 @@ L["unstable_memory_note"] = "Can be spawned when {npc:171018s} are present. Drag
 L["wingflayer_note"] = "To summon, click the Horn of Courage on the nearby table (southeast, up the stairs)."
 
 L["broken_flute"] = "Kill nearby {npc:170009} until they drop the {item:180536}, then use the tools to repair it."
+L["cloudwalkers_coffer"] = nil
+L["cloudwalkers_coffer_note"] = nil
 L["experimental_construct_part"] = "Найдите ближайший {item:180534} и используйте его, чтобы починить деталь. У анимы есть несколько мест появления."
 L["larion_harness"] = "Located inside the Hall of Beasts."
 L["memorial_offering"] = "Purchase a {item:180788} from {npc:171526} in Aspirant's Rest. Place it in the drink tray near the chest to obtain the {item:180797}."
 L["scroll_of_aeons"] = "Добудьте 2 {item:173973} в центре и поместите их на близлежащие подносы, чтобы найти сокровище."
-L["vesper_of_silver_wind"] = "Complete the {achievement:14339} achievement and then talk to {npc:171732} near the entrance to Spires of Ascension to forge a {item:180858}."
+L["vesper_of_silver_wind"] = nil
+L["vesper_of_silver_wind_note"] = "Complete the {achievement:14339} achievement and then talk to {npc:171732} near the entrance to Spires of Ascension to forge a {item:180858}."
 
 L["gift_of_agthia"] = "Click the lit torch near the broken bridge to the northwest and carry {spell:333320} from torch to torch until you reach the chest. Lighting the final torch will grant you {spell:333063}."
 L["gift_of_chyrus"] = "Встать на колени перед сундуком, чтобы получить {spell:333045}."
@@ -128,9 +137,6 @@ Commune with them in the order Patience => Knowledge => Insight. On the Judgemen
 The orb will take you to the true Incense of Judgment. Commune with it and the final flight pad will grant you {spell:333068} to open the chest.
 ]]
 L["gift_of_vesiphone"] = "Ring one of the bells to spawn a {npc:170849} and kill it to receive the {spell:333239} debuff. The falling water opposite the chest will cleanse this debuff and grant you {spell:332785}."
-
-L["cache_of_the_ascended"] = "Cache of the Ascended"
-L["cache_of_the_ascended_note"] = "With four other players, click the five Vespers of Purity, Courage, Humility, Wisdom and Loyalty at the same time. Afterwards, head to Aspirant's Crucible to defeat the Ascended Council and reveal the cache."
 
 L["anima_shard"] = "Lost Anima Shard"
 L["anima_shard_61225"] = "На нижней площадке под мостомe."
@@ -196,6 +202,10 @@ L["temple_of_humility"] = "Temple of Humility"
 L["temple_of_purity"] = "Temple of Purity"
 L["xandrias_vigil"] = "Xandria's Vigil"
 
+L["stratios_note"] = nil
+L["thenia_note"] = nil
+L["zolla_note"] = nil
+
 -------------------------------------------------------------------------------
 --------------------------------- MALDRAXXUS ----------------------------------
 -------------------------------------------------------------------------------
@@ -206,7 +216,6 @@ L["forgotten_mementos"] = "Pull the Vault Portcullis Chain in the chamber west o
 L["gieger_note"] = "Pull the {npc:162815} to activate the rare."
 L["gristlebeak_note"] = "Break all nearby {npc:162761} to engage the rare."
 L["leeda_note"] = "Kill the two {npc:162220s} until the rare spawns."
-L["malkorak_note"] = "At the top of the tower (lots of stairs)."
 L["sabriel_note"] = "Can appear as one of the champions in the Theater of Pain."
 L["schmitd_note"] = "Use nearby {spell:313451} to break his shield."
 L["taskmaster_xox_note"] = "Shares a spawn with {npc:160204}, {npc:160230} and {npc:160226}."
@@ -283,6 +292,10 @@ L["overlook_primus"] = "Overlook, Seat of the Primus"
 L["zerekriss"] = "Zerekriss, Maldraxxus"
 L["zerekriss_note"] = "Once activated, the necropolis will fly around the zone. Grab hold of {npc:165822} to glide down to the surface."
 
+L["dundley_note"] = nil
+L["maximillian_note"] = nil
+L["rotgut_note"] = nil
+
 -------------------------------------------------------------------------------
 --------------------------------- REVENDRETH ----------------------------------
 -------------------------------------------------------------------------------
@@ -322,6 +335,7 @@ L["gilded_plum_chest_note"] = "Kill the {npc:166680} wandering up and down the r
 L["lost_quill_note"] = "Loot {item:182475} from the bottle on the table in the Forbidden Library."
 L["rapier_fearless_note"] = "Click the rapier on the ground, then defeat {npc:173603}."
 L["remlates_cache_note"] = "On the outer wall of Darkhaven behind the crypt."
+L["smuggled_cache_note"] = nil
 L["taskmaster_trove_note"] = "Read the Ingress and Egress Rites then carefully make your way to the chest."
 L["the_count_note"] = "Farm 99 {currency:1820} in the Endmire and then bring them to {npc:173488}."
 
@@ -338,15 +352,29 @@ L["sinrunner_note_day4"] = "Pick up the {item:182620} near {npc:173570} and fill
 L["sinrunner_note_day5"] = "Equip Blanchy with a {item:182597}, sold by {npc:171808} near the Night Market in exchange for assorted meats."
 L["sinrunner_note_day6"] = "Feed Blanchy 3 {item:179271}, sold by {npc:167815} by the Hole in the Wall."
 
-L["options_icons_carriages"] = "Carriages"
-L["options_icons_carriages_desc"] = "Display locations and paths of rideable carriages."
+L["options_icons_carriages"] = "Экипажи"
+L["options_icons_carriages_desc"] = "Отображение местоположения и пути проезжаемых экипажей."
+L["options_icons_dredbats"] = nil
+L["options_icons_dredbats_desc"] = nil
+L["options_icons_sinrunners"] = nil
+L["options_icons_sinrunners_desc"] = nil
 
-L["dominance_keep"] = "Dominance Keep"
-L["eternal_terrace"] = "The Eternal Terrace"
-L["feeders_thicket"] = "Feeders' Thicket"
-L["halls_of_atonement"] = "Halls of Atonement"
-L["pridefall_hamlet"] = "Pridefall Hamlet"
-L["the_banewood"] = "The Banewood"
+L["dominance_keep"] = "Крепость Господства"
+L["eternal_terrace"] = "Вечная терраса"
+L["feeders_thicket"] = "Чаща пожирателей"
+L["halls_of_atonement"] = "Чертоги Покаяния"
+L["pridefall_hamlet"] = "Кладбище Гордыни"
+L["the_banewood"] = "Дорога в Гибельный лес"
+
+L["addius_note"] = nil
+L["eyegor_note"] = nil
+L["sylla_note"] = nil
+
+L["grand_inquisitor_note"] = nil
+L["high_inquisitor_note"] = nil
+L["inquisitor_note"] = nil
+L["options_icons_inquisitors"] = nil
+L["options_icons_inquisitors_desc"] = nil
 
 -------------------------------------------------------------------------------
 ----------------------------------- THE MAW -----------------------------------
@@ -356,7 +384,9 @@ L["return_to_the_maw"] = "Return to the Maw"
 L["maw_intro_note"] = "Begin the introductory quest chain from {npc:162804} to unlock rares and events in the maw."
 
 L["apholeias_note"] = "With 3 other players, stand on the corners of the platform and cast {spell:331783} to summon the rare."
+L["dekaris_note"] = nil
 L["ekphoras_note"] = "With 3 other players, stand on the corners of the platform and cast {spell:330650} to summon the rare."
+L["ikras_note"] = nil
 L["orophea_note"] = "Pick up {spell:337143} to the southeast and offer it to {npc:172577} to activate."
 L["sanngror_note"] = "If he is not attackable, wait until he is not experimenting on souls."
 L["talaporas_note"] = "With 3 other players, stand on the corners of the platform and cast {spell:331800} to summon the rare."
@@ -381,6 +411,7 @@ Activate to {spell:344157} quickly across the Maw.
 
 Requires the {item:184613} upgrade from {npc:162804}.
 ]]
+L["venari_note"] = nil
 L["venari_upgrade"] = "{npc:162804} Upgrade"
 
 L["options_icons_bonus_boss"] = "Bonus Elites"

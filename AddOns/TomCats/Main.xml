@@ -221,7 +221,7 @@
 						<Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-16"/>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentVersion" text="2.0.8" inherits="GameFontHighlight">
+				<FontString name="$parentVersion" text="2.0.13" inherits="GameFontHighlight">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentVersionLabel" relativePoint="TOPRIGHT" x="4"/>
 					</Anchors>
@@ -291,6 +291,13 @@
 					<Size x="225" y="0"/>
 					<Anchors>
 						<Anchor point="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+					<Color r="0.75" g="0.61" b="0"/>
+				</FontString>
+				<FontString parentKey="Timer" inherits="GameFontNormalSmall" justifyH="RIGHT" wordwrap="false" hidden="true">
+					<Size x="100" y="0"/>
+					<Anchors>
+						<Anchor point="RIGHT" relativeKey="$parent.Text" relativePoint="RIGHT" x="-10" y="0"/>
 					</Anchors>
 					<Color r="0.75" g="0.61" b="0"/>
 				</FontString>
@@ -819,6 +826,7 @@
 		<Scripts>
 			<OnLoad function="TomCatsRareMapFrame_OnLoad"/>
 			<OnEvent function="TomCatsRareMapFrame_OnEvent"/>
+			<OnShow function="TomCatsRareMapFrame_OnShow"/>
 			<OnHide function="TomCatsRareMapFrame_OnHide"/>
 		</Scripts>
 	</Frame>
@@ -1045,6 +1053,8 @@
 				self:SetPoint("LEFT",0,0)
 			</OnMouseUp>
 			<OnClick function="TomCatsRareLogEntryIcon_OnClick"/>
+			<OnEnter function="TomCatsRareLogEntryIcon_OnEnter"/>
+			<OnLeave function="TomCatsRareLogEntryIcon_OnLeave"/>
 		</Scripts>
 	</Button>
 	<Frame name="TomCatsRarePOITemplate" hidden="true" virtual="true">
@@ -1100,6 +1110,8 @@
 						self:SetPoint(a, b, c, x - 1, y + 1)
 					</OnMouseUp>
 					<OnClick function="TomCatsRareLogEntryIcon_OnClick"/>
+					<OnEnter function="TomCatsRareLogEntryIcon_OnEnter"/>
+					<OnLeave function="TomCatsRareLogEntryIcon_OnLeave"/>
 				</Scripts>
 			</Button>
 			<Button parentKey="Complete" hidden="true">
@@ -1153,6 +1165,8 @@
 						self:SetPoint(a, b, c, x - 1, y + 1)
 					</OnMouseUp>
 					<OnClick function="TomCatsRareLogEntryIcon_OnClick"/>
+					<OnEnter function="TomCatsRareLogEntryIcon_OnEnter"/>
+					<OnLeave function="TomCatsRareLogEntryIcon_OnLeave"/>
 				</Scripts>
 			</Button>
 			<Button parentKey="Unavailable" hidden="true">

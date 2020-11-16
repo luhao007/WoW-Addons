@@ -91,7 +91,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = unpack(addon.split("2.0.8","-"))
+TomCats.version = unpack(addon.split("2.0.13","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
@@ -278,6 +278,7 @@ local function ADDON_LOADED(_, _, arg1)
 	end
 end
 addon.events.registerEvent("ADDON_LOADED", ADDON_LOADED)
+local SpawnTimerByIndex
 do
 	local L = addon.locales
 	local U = addon.U
@@ -406,18 +407,39 @@ do
 					GameTooltip_AddColoredLine(EmbeddedItemTooltip, LOOT_NOUN, LOOT_NOUN_COLOR, true)
 					EmbeddedItemTooltip_SetItemByID(EmbeddedItemTooltip.ItemTooltip, itemID)
 					if (raresLog and raresLog.zone == 118) then
-						local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
-						if (ilevelText) then
-							EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
-						end
+						C_Timer.NewTimer(0, function()
+							local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
+							if (ilevelText) then
+								EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
+							end
+						end)
 					end
 				end
 			end
 			EmbeddedItemTooltip.BottomFontString:SetText(footerText)
 			EmbeddedItemTooltip.BottomFontString:SetShown(true)
 			EmbeddedItemTooltip:Show()
+			local foundPin
+			for pin in WorldMapFrame:EnumeratePinsByTemplate("VignettePinTemplate") do
+				if (pin.vignetteID and pin.vignetteID == self.creature["Vignette ID"]) then
+					if (pin:IsShown()) then
+						foundPin = pin
+					end
+				end
+			end
+			if (foundPin) then
+				self.pin = foundPin
+				foundPin.Texture:SetBlendMode("ADD")
+				local x, y = foundPin.Texture:GetSize()
+				foundPin.Texture:SetSize(x * 1.5, y * 1.5)
+			end
 		end
 		function TomCatsRareLogTitleButton_OnLeave(self)
+			if (self.pin) then
+				self.pin.Texture:SetBlendMode("BLEND")
+				local x, y = self.pin.Texture:GetSize()
+				self.pin.Texture:SetSize(x / 1.5, y / 1.5)
+			end
 			local textColor = RareTextColorLookup[self.creature["Status"]][1]
 			self.Text:SetTextColor(textColor.r, textColor.g, textColor.b)
 			EmbeddedItemTooltip:Hide()
@@ -437,62 +459,120 @@ do
 				HandleModifiedItemClick(itemLink)
 			end
 		end
-		function TomCatsRareLogMixin:RefreshRaresLog()
-			self.titleFramePool:ReleaseAll()
-			self.poiFramePool:ReleaseAll()
-			local lastButton
-			if (raresLog) then
-				if not raresLog.isSorted then
-					raresLog.isSorted = true
-					raresLog.creatures_sorted = { }
-					local rareNames = { }
-					local lookupByName = { }
-					for _, v in pairs(raresLog.creatures) do
-						local name = v["Name"]
-						if not name then
-							raresLog.isSorted = false
-						else
-							table.insert(rareNames, name)
-							lookupByName[name] = v
-						end
-					end
-					table.sort(rareNames)
-					for _, v in ipairs(rareNames) do
-						table.insert(raresLog.creatures_sorted, lookupByName[v])
-					end
+
+		do
+			local eventStarts = {
+				EU = 1605097200 + 120,
+				NA = 1605054000 + 120
+			}
+
+			local function ServerRegion()
+				local region = GetCurrentRegionName();
+				if (region == "EU") then return "EU" end
+				return "NA";
+			end
+
+			local eventStartsTime
+
+			local function EventStartTime()
+				if (not eventStartsTime) then
+					eventStartsTime = eventStarts[ServerRegion()]
 				end
-				for _, creature in pairs(raresLog.creatures_sorted) do
-					if creature["Status"] ~= CREATURE_STATUS.HIDDEN then
-						local button = self.titleFramePool:Acquire()
-						button.creature = creature
-						button.Text:SetText(creature["Name"])
-						local textColor = RareTextColorLookup[creature["Status"]][1]
-						button.Text:SetTextColor(textColor.r, textColor.g, textColor.b)
-						button:ClearAllPoints()
-						if (lastButton) then
-							button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 0, -4)
-						else
-							button:SetPoint("TOPLEFT", self.RaresFrame.Contents.StoryHeader, "BOTTOMLEFT", 29, -8)
-						end
-						lastButton = button
-						button:Show()
-						local poiButton = self.poiFramePool:Acquire()
-						poiButton:ClearAllPoints()
-						poiButton:SetPoint("LEFT", button, -21, 2)
-						poiButton.parent = button
-						poiButton:SetFrameLevel(button:GetFrameLevel() + 1)
-						poiButton:Show()
-						poiButton.creature = creature
-						for key, value in pairs(RareButtonLookup) do
-							if (key == creature["Status"]) then
-								poiButton[value]:Show()
+				return eventStartsTime
+			end
+
+			local function NextSpawnInfo()
+				local servertime = GetServerTime()
+				local elapsed = servertime - EventStartTime() + 1200
+				local quotient = elapsed % 24000
+				local index = math.floor(quotient / 1200)
+				local remaining = 1200 - quotient % 1200
+				return index + 1, remaining
+			end
+
+			function SpawnTimerByIndex(index)
+				local nextIndex, nextRemaining = NextSpawnInfo()
+				if (nextIndex == index) then
+					return nextRemaining
+				end
+				if (index > nextIndex) then
+					return nextRemaining + (index - nextIndex) * 1200
+				end
+				return nextRemaining + (20 - nextIndex + index) * 1200
+			end
+			local rareCreaturesLogTimeFormatter = "%dh %02dm"
+			function TomCatsRareLogMixin:RefreshRaresLog()
+				self.titleFramePool:ReleaseAll()
+				self.poiFramePool:ReleaseAll()
+				local lastButton
+				if (raresLog) then
+					if not raresLog.isSorted then
+						raresLog.isSorted = true
+						raresLog.creatures_sorted = { }
+						local rareNames = { }
+						local lookupByName = { }
+						for _, v in pairs(raresLog.creatures) do
+							local name = v["Name"]
+							if not name then
+								raresLog.isSorted = false
 							else
-								poiButton[value]:Hide()
+								table.insert(rareNames, name)
+								lookupByName[name] = v
+							end
+						end
+						table.sort(rareNames)
+						for _, v in ipairs(rareNames) do
+							table.insert(raresLog.creatures_sorted, lookupByName[v])
+						end
+					end
+					for _, creature in pairs(raresLog.creatures_sorted) do
+						if creature["Status"] ~= CREATURE_STATUS.HIDDEN then
+							local button = self.titleFramePool:Acquire()
+							button.creature = creature
+							button.Text:SetText(creature["Name"])
+							if (raresLog and raresLog.zone == 118) then
+								local seconds = SpawnTimerByIndex(creature["Spawn Index"])
+								if (seconds > 22800) then
+									button.Timer:SetText("NOW")
+								else
+									local hours = math.floor(seconds / 3600);
+									local minutes = math.floor((seconds % 3600) / 60);
+									seconds = seconds % 60
+									button.Timer:SetText(rareCreaturesLogTimeFormatter:format(hours, minutes))
+								end
+								button.Timer:Show()
+							else
+								button.Timer:Hide()
+							end
+							local textColor = RareTextColorLookup[creature["Status"]][1]
+							button.Text:SetTextColor(textColor.r, textColor.g, textColor.b)
+							button:ClearAllPoints()
+							if (lastButton) then
+								button:SetPoint("TOPLEFT", lastButton, "BOTTOMLEFT", 0, -4)
+							else
+								button:SetPoint("TOPLEFT", self.RaresFrame.Contents.StoryHeader, "BOTTOMLEFT", 29, -8)
+							end
+							lastButton = button
+							button:Show()
+							local poiButton = self.poiFramePool:Acquire()
+							poiButton:ClearAllPoints()
+							poiButton:SetPoint("LEFT", button, -21, 2)
+							poiButton.parent = button
+							poiButton:SetFrameLevel(button:GetFrameLevel() + 1)
+							poiButton:Show()
+							poiButton.creature = creature
+							for key, value in pairs(RareButtonLookup) do
+								if (key == creature["Status"]) then
+									poiButton[value]:Show()
+								else
+									poiButton[value]:Hide()
+								end
 							end
 						end
 					end
 				end
 			end
+
 		end
 		function TomCatsRareLogMixin:Refresh()
 			self.RaresFrame.Contents.LogHeader.Text:SetText(L["Rare Creatures Log"])
@@ -557,7 +637,18 @@ do
 		end
 		function TomCatsRareMapFrame_OnEvent()
 		end
-		function TomCatsRareMapFrame_OnHide()
+		do
+			local ticker
+			function TomCatsRareMapFrame_OnShow()
+				ticker = C_Timer.NewTicker(10, function()
+					TomCatsRareMapFrame:RefreshRaresLog()
+				end)
+			end
+			function TomCatsRareMapFrame_OnHide()
+				if (ticker) then
+					ticker:Cancel()
+				end
+			end
 		end
 		local lastMapID = 0
 		local helpPlate_override
@@ -742,8 +833,70 @@ do
 			end)
 		end
 		local lastWaypoint
+		function TomCatsRareLogEntryIcon_OnEnter(self)
+			GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8, 8);
+			GameTooltip_SetTitle(GameTooltip, MAP_PIN_SHARING);
+			GameTooltip_AddNormalLine(GameTooltip, MAP_PIN_SHARING_TOOLTIP);
+			GameTooltip:Show();
+			local foundPin
+			for pin in WorldMapFrame:EnumeratePinsByTemplate("VignettePinTemplate") do
+				if (pin.vignetteID and pin.vignetteID == self:GetParent().creature["Vignette ID"]) then
+					if (pin:IsShown()) then
+						foundPin = pin
+					end
+				end
+			end
+			if (foundPin) then
+				self.pin = foundPin
+				foundPin.Texture:SetBlendMode("ADD")
+				local x, y = foundPin.Texture:GetSize()
+				foundPin.Texture:SetSize(x * 1.5, y * 1.5)
+			end
+		end
+		function TomCatsRareLogEntryIcon_OnLeave(self)
+			if (self.pin) then
+				self.pin.Texture:SetBlendMode("BLEND")
+				local x, y = self.pin.Texture:GetSize()
+				self.pin.Texture:SetSize(x / 1.5, y / 1.5)
+			end
+			GameTooltip:Hide()
+		end
+		local rareCreaturesLogTimeFormatter = "%dh %02dm"
 		function TomCatsRareLogEntryIcon_OnClick(self)
-			if (TomTom) then
+			if (IsShiftKeyDown()) then
+				local linktemplate = "|cffffff00|Hworldmap:%s:%s:%s|h[|A:Waypoint-MapPin-ChatIcon:13:13:0:0|a Map Pin Location]|h|r %s %s"
+				local location = self:GetParent().creature["Location"] or self:GetParent().creature["Locations"][raresLog.locationIndex]
+				if (location) then
+					local timerText
+					if (raresLog and raresLog.zone == 118) then
+						local seconds = SpawnTimerByIndex(self:GetParent().creature["Spawn Index"])
+						if (seconds > 22800) then
+							timerText = "up now"
+						else
+							local foundPin
+							for pin in WorldMapFrame:EnumeratePinsByTemplate("VignettePinTemplate") do
+								if (pin.vignetteID and pin.vignetteID == self:GetParent().creature["Vignette ID"]) then
+									if (pin:IsShown() and pin.Texture:GetAtlas() == "nazjatar-nagaevent") then
+										foundPin = pin
+									end
+								end
+							end
+							if (foundPin) then
+								timerText = "up now"
+							else
+								local hours = math.floor(seconds / 3600);
+								local minutes = math.floor((seconds % 3600) / 60);
+								seconds = seconds % 60
+								timerText = " in " .. rareCreaturesLogTimeFormatter:format(hours, minutes)
+							end
+						end
+					else
+						timerText = ""
+					end
+					local link = string.format(linktemplate,WorldMapFrame:GetMapID(),math.floor(location[1] * 10000),math.floor(location[2] * 10000),self:GetParent().creature["Name"], timerText)
+					ChatEdit_InsertLink(link)
+				end
+			elseif (TomTom) then
 				local playerMapID = C_Map.GetBestMapForUnit("player")
 				local pinMapID = WorldMapFrame:GetMapID()
 				if (pinMapID == playerMapID) then

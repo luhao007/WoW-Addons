@@ -17,8 +17,10 @@ L["anima_channeled"] = "ánima canalizada a %s."
 
 L["deifir_note"] = "Monta en {npc=164238} que va dando vueltas en círculos y usa {spell:319566} y {spell:319575} para frenarlo o aturdirlo respectivamente."
 L["faeflayer_note"] = "En una cueva pequeña oculta tras una cascada."
+L["gormtamer_tizo_note"] = "Mata a los {npc:166735} y a los {npc:166736} que los montan hasta que aparezca {npc:164110}. Cuando lo mates aparecerá {npc:164107}."
 L["humongozz_note"] = "Planta un {item:175247} en la Marga Húmeda para hacer aparecer un {npc:164122}. Tras un minuto de {spell:319367}, aparecerá {npc=164112}. El champiñón cae de muchos enemigos de la zona."
 L["lehgo_note"] = "Destruye los Huevos de Gorm Temblorosos y mata {npc:171827} hasta que aparezca el {npc:167851}. En una cueva (entrada al sureste de las Madrigueras Polvorientas)."
+L["mymaen_note"] = "Mata duendes Pudrezarza en el área hasta que aparezca {npc:165053}."
 L["rainbowhorn_note"] = "\n|cffff4800¡|r|cffff9100P|r|cffffda00r|r|cffdaff00u|r|cff91ff00e|r|cff48ff00b|r|cff00ff00a|r |cff00ff91e|r|cff00ffdal|r |cff0091ffA|r|cff0048ffr|r|cff0000ffc|r|cff4800ffo|r |cffda00ffI|r|cffff00dar|r|cffff0091i|r|cffff0048s|r|cffff0000!|r"
 L["rootwrithe_note"] = "Haz click en las {npc:167928} hasta que aparezca el {npc=167726}."
 L["rotbriar_note"] = "Habla con {npc:171684} y comenzará a cantar. Tras algo de diálogo, aparecerá {npc:167724} cerca."
@@ -68,21 +70,21 @@ Lee la "Historia del enredo" y sigue las lámparas azules a través del camino h
 Si tomas el camino equivocado y desaparece el {npc:171699}, cuando llegues al final vuelve al comienzo y lee de nuevo el "Historia del enredo" antes de volver a intentarlo. Si {npc:171767} no está, tendrás que esperar a que aparezca.
 ]]
 
+L["faryl_note"] = "Deja que la defensa de Ardenweald la dirijan las criaturas de los cielos."
+L["glitterdust_note"] = "Puede que las criaturas de Ardenweald parezcan dóciles, pero defenderán su territorio con una fuerza y coraje dignas de los campeones más poderosos que hayas visto. ¿Crees que puedes plantarles cara?"
+
 -------------------------------------------------------------------------------
 ----------------------------------- BASTION -----------------------------------
 -------------------------------------------------------------------------------
 
+L["ascended_council_note"] = "Con otros cuatro jugadores, hay que hacer click en las cinco campanas de vísperas: pureza, coraje, humildad, sabiduría y lealtad al mismo tiempo. Después, hay que ir al Crisol del Aspirante para derrotar el Consejo de los Ascendidos y que se revele el alijo."
 L["aspirant_eolis_note"] = "Despoja un {item:180613} en las cercanías y leelo con el {npc:171211} como objetivo para activarlo."
 L["baedos_note"] = "Lleva Barriles de Fruta Puriana Fermentada del alrededor del área actual al {npc:161536} hasta que se active {npc:160629}."
 L["basilofos_note"] = "Muévete alrededor de la roca hasta que una marca de fijado lila aparezca sobre tu cabeza. Quédate quieto y espera a que aparezcan cuatro textos de emoción. Tras ello, aparecerá {npc:170659}."
 L["beasts_of_bastion"] = "Bestias de Bastión"
-L["beasts_of_bastion_note"] = [[
-Habla con la {npc:161441} para invocar una de las cuatro bestias.
-
-|cFFFF0000NOTE|r: La NPC se bugea frecuentemente y no hablará contigo.
-]]
+L["beasts_of_bastion_note"] = "Habla con la {npc:161441} para invocar una de las cuatro bestias."
 L["bookkeeper_mnemis_note"] = "Tiene la posibilidad de aparecer en lugar de las {npc:166867} del sitio."
-L["cloudfeather_patriarch_note"] = "Mata {npc:158110} en el aŕea hasta que aparezca el {npc:170932}."
+L["cloudfeather_patriarch_note"] = "Mata {npc:158110} en el aŕea hasta que el {npc:170932} te ataque."
 L["collector_astor_note"] = "Lee los seis capítulos de El Legado de Mercia dispersos por la habitación y recibirás un susurro del {npc:157979}. Habla con ella para recibir {spell:333779} la cual te permitirá encontrar {item:180569} al noroeste. Al devolvérselo, aparecerá el {npc:171014}."
 L["corrupted_clawguard_note"] = "Despoja un {item:180651} en Avanzada Forjafuego subiendo la colina y úsalo para reparar el {npc:171300}."
 L["dark_watcher_note"] = "Sólo puede verse estando muerto. Habla con la {npc:170623} y te lanzará {spell:332830} antes de que seas atacado."
@@ -103,11 +105,14 @@ L["unstable_memory_note"] = "Puede aparecer cuando los {npc:171018} estén prese
 L["wingflayer_note"] = "Para invocar a {npc:167078}, haz click en el Cuerno de Coraje de la mesa cercana que hay al sureste (subiendo unas escaleras)."
 
 L["broken_flute"] = "Mata a las {npc:170009} cercanas hasta que una suelte la {item:180536}. Usa las herramientas para repararla."
+L["cloudwalkers_coffer"] = "Arca de Caminanubes"
+L["cloudwalkers_coffer_note"] = "usa las grandes flores lilas para saltar a la plataforma."
 L["experimental_construct_part"] = "Despoja un {item:180534} cercano y úsalo para reparar la Pieza de Ensamblaje Experimental. El ánima tiene varios sitios de aparición."
 L["larion_harness"] = "Localizado dentro de la Sala de las Bestias."
-L["memorial_offering"] = "Compra una botella de {item:180788} a {npc:171526} en el Reposo del Aspirante. Colócala en la bandeja de bebidas que hay cerca del cofre para conseguir la {item:180797}."
+L["memorial_offering"] = "Encuentra a {npc:171526} en uno de estos lugares de Bastión y cómprale una botella de {item:180788}. Colócala en la bandeja de bebidas que hay cerca del cofre para conseguir la {item:180797}."
 L["scroll_of_aeons"] = "Coge de un cuenco 2 {item:173973} en el centro del área y colócalas en los cuencos de tributo cercanos para revelar el tesoro {item:173984}."
-L["vesper_of_silver_wind"] = "Completa el logro {achievement:14339} y habla con el {npc:171732} cerca de la entrada a las Agujas de Ascensión para forjar la {item:180858}."
+L["vesper_of_silver_wind"] = "Campana de Vísperas del Viento de Plata"
+L["vesper_of_silver_wind_note"] = "Completa el logro {achievement:14339} y habla con el {npc:171732} cerca de la entrada a las Agujas de Ascensión para forjar la {item:180858}."
 
 L["gift_of_agthia"] = "Haz click en la antorcha encendida cerca del puente roto al noroeste y lleva la {spell:333320} de antorcha a antorcha hasta llegar al cofre. Al encender la última antorcha conseguirás la {spell:333063}."
 L["gift_of_chyrus"] = "Arrodíllate frente al cofre para conseguir la {spell:333045}."
@@ -129,9 +134,6 @@ Comulga con ellos en el orden Paciencia => Conocimiento => Perspicacia. En la pl
 El orbe te llevará al verdadero Incienso del Juicio. Comulga con él y aparecerá la última plataforma de vuelo que te dará la {spell:333068} al abrir el cofre.
 ]]
 L["gift_of_vesiphone"] = "Toca una de las campanas para hacer que aparezca una {npc:170849} y mátala para recibir el debuff {spell:333239}. El agua que cae frente al cofre limpiará el debuff y te dará la {spell:332785}."
-
-L["cache_of_the_ascended"] = "Alijo de los Ascendidos"
-L["cache_of_the_ascended_note"] = "Con otros cuatro jugadores, hay que hacer click en las cinco campanas de vísperas: pureza, coraje, humildad, sabiduría y lealtad al mismo tiempo. Después, hay que ir al Crisol del Aspirante para derrotar el Consejo de los Ascendidos y que se revele el alijo."
 
 L["anima_shard"] = "Fragmento de Ánima Perdido"
 L["anima_shard_61225"] = "En una plataforma inferior debajo del puente."
@@ -165,7 +167,7 @@ L["anima_shard_61278"] = "Debajo del puente y sobre una roca."
 L["anima_shard_61279"] = "Sobre una fina columna de piedra."
 L["anima_shard_61280"] = "En la esquina de la mesa."
 L["anima_shard_61281"] = "En una repisa sobre el tesoro de las Ofrendas Conmemorativas."
-L["anima_shard_61282"] = "En una repisa debajo de la cima del precipio. Salta sobre la roca siguiente o serás llevado de vuelta arriba."
+L["anima_shard_61282"] = "En una repisa debajo de la cima del precipio."
 L["anima_shard_61283"] = "En una cueva debajo de la Capilla de Miri, detrás de unos barriles."
 L["anima_shard_61284"] = "En una repisa debajo de un saliente rocoso, camino al sur."
 L["anima_shard_61285"] = "Al final de una pequeña repisa de roca."
@@ -197,6 +199,10 @@ L["temple_of_humility"] = "Templo de la Humildad"
 L["temple_of_purity"] = "Templo de la Pureza"
 L["xandrias_vigil"] = "Vigilia de Xandria"
 
+L["stratios_note"] = "Incluso las pequeñas batallas se deben librar con honor y cuidado. Presenta a tu equipo cuando lo tengas todo listo."
+L["thenia_note"] = "Qué llanuras más maravillosas. Un lugar glorioso para combatir. ¿Listo?"
+L["zolla_note"] = "Nos tomamos muy en serio nuestras defensas. Seamos grandes o pequeños, nuestra máxima es mantener y formar los recursos que fortalecen Bastión."
+
 -------------------------------------------------------------------------------
 --------------------------------- MALDRAXXUS ----------------------------------
 -------------------------------------------------------------------------------
@@ -207,7 +213,6 @@ L["forgotten_mementos"] = "Tira de la Cadena del Rastrillo en la cámara al oest
 L["gieger_note"] = "Tira del {npc:162815} para activar a {npc:162741}."
 L["gristlebeak_note"] = "Rompe los {npc:162761} cercanos para provocar a {npc:162588}."
 L["leeda_note"] = "Mata a los dos {npc:162220} hasta que aparezca la {npc:162180}."
-L["malkorak_note"] = "En lo alto de la torre (montones de escaleras)."
 L["sabriel_note"] = "Puede aparecer como uno de los campeones del Teatro del Dolor."
 L["schmitd_note"] = "Usa un {spell:313451} cercano para romper su escudo."
 L["taskmaster_xox_note"] = "Comparte el lugar de aparición con {npc:160204}, {npc:160230} y {npc:160226}."
@@ -238,9 +243,9 @@ Quédate de pie en la baba verde (¡requiere sanación!) para conseguir 10 acumu
 
 Una vez transformado, visita la cueva que hay debajo de la plataforma de {npc:158406} (la entrada está en el lado este) y haz click en el tubo para llegar al cofre.
 ]]
-L["ritualists_cache_note"] = "Despoja las {item:181558} de una pila de huesos (aparece en varios sitios). Úsalas para completar el Libro de Rituales de Vinculación en el podio detrás de {npc:174386} con lo que ganarás el buff del {spell:337041}."
+L["ritualists_cache_note"] = "Recoge las {item:181558} del suelo y úsalas para completar el Libro de Rituales de Vinculación."
 L["runespeakers_trove_note"] = "Busca al {npc:170563} al este y mátalo para conseguir la {item:181777}."
-L["stolen_jar_note"] = "En una cueva debajo del champiñón gigante."
+L["stolen_jar_note"] = "Aparece en varias cuevas distintas."
 L["strange_growth_note"] = "Estira del {npc:165037} para revelar el tesoro."
 L["vat_of_slime_note"] = "Haz click en la botella que hay sobre la mesa y después haz click en la cuba de baba."
 
@@ -284,6 +289,10 @@ L["overlook_primus"] = "Mirador, Trono del Prelado"
 L["zerekriss"] = "Zerekriss, Maldraxxus"
 L["zerekriss_note"] = "Una vez activada, la necrópolis volará alrededor de la zona. Agárrate de {npc:165822} para planear hacia el suelo."
 
+L["dundley_note"] = "¡Lucharé hasta alcanzar la victoria y por fin recibiré el respeto que merezco! El único inconveniente es que ahora todo lo que tengo está pegajoso. Todo."
+L["maximillian_note"] = "Llevo mucho tiempo esperando a un rival digno. ¡El botín será para el vencedor!"
+L["rotgut_note"] = "Pudretripa. Sobras. Más partes. Lucha."
+
 -------------------------------------------------------------------------------
 --------------------------------- REVENDRETH ----------------------------------
 -------------------------------------------------------------------------------
@@ -320,9 +329,10 @@ Tiene probabilidades de soltar un {item:180583}, el cual empieza una cadena de m
 L["dredglaive_note"] = "Debajo del puente en el cuerpo de un {npc:173671}."
 L["forbidden_chamber_note"] = "Despoja un Bote de Ánima Agotado enfrente de la puerta cerrada y aprende {spell:340701}. Úsalo para drenar a cinco {npc:173838} en las cercanías. Después usa {spell:340866} enfrente del {npc:173786}."
 L["gilded_plum_chest_note"] = "Mata al {npc:166680} que deambula por el camino arriba y abajo."
-L["lost_quill_note"] = "Despoja una {item:182475} de la botella que hay sobre la mesa en la Biblioteca Prohibida."
+L["lost_quill_note"] = "Despoja la {item:182475} de la botella que hay sobre la mesa en la Biblioteca Prohibida y dásela a la {npc:173449} encima del arco de fuera."
 L["rapier_fearless_note"] = "Haz click en el estoque del suelo, y entonces derrota a {npc:173603}."
 L["remlates_cache_note"] = "En la pared exterior de Refugioscuro detrás de la cripta."
+L["smuggled_cache_note"] = ns.color.Red("ANTES DE QUE DESPOJES: ").."Asegúrate de haber completado {quest:60480} o te perderás 40 {currency:1820} del tesoro y de la misión juntos."
 L["taskmaster_trove_note"] = "Lee Ritos de Acceso y Salida. Después sigue el camino al cofre con cuidado."
 L["the_count_note"] = "Farmea 99 {currency:1820} en el Cenagal del Fin y llévaselos a {npc:173488}."
 
@@ -341,6 +351,10 @@ L["sinrunner_note_day6"] = "Alimenta a Blanchy con 3 {item:179271}, vendidas por
 
 L["options_icons_carriages"] = "Carruajes"
 L["options_icons_carriages_desc"] = "Muestra las localizaciones posibles y caminos de los carruajes que se pueden llevar."
+L["options_icons_dredbats"] = "{npc:161015}"
+L["options_icons_dredbats_desc"] = "Muestra las localizaciones y rutas de las {npc:161015}."
+L["options_icons_sinrunners"] = "{npc:174032}"
+L["options_icons_sinrunners_desc"] = "Muestra las localizaciones y rutas de los {npc:174032}."
 
 L["dominance_keep"] = "Fortaleza de la Dominancia"
 L["eternal_terrace"] = "Bancal Eterno"
@@ -348,6 +362,16 @@ L["feeders_thicket"] = "Matorral de los Alimentadores"
 L["halls_of_atonement"] = "Salas de la Expiación"
 L["pridefall_hamlet"] = "Aldea de la Caída"
 L["the_banewood"] = "Bosque de la Desgracia"
+
+L["addius_note"] = "No debería perder el tiempo con criaturas de mente débil, pero, si insistes, te haré sufrir de verdad."
+L["eyegor_note"] = "¡Jojobado listo para el combate!"
+L["sylla_note"] = "En esta zona tan horrible, una batalla honorable es lo último que cabe esperar, pero, bueno, aquí estamos. No me hagas perder el tiempo."
+
+L["grand_inquisitor_note"] = "Entrega 10 {item:180451} al {npc:160248} para tener una oportunidad en esta piedra del pecado."
+L["high_inquisitor_note"] = "Entrega 250 {currency:1816} al {npc:160248} para tener una oportunidad en esta piedra del pecado."
+L["inquisitor_note"] = "Entrega 100 {currency:1816} al {npc:160248} para tener una oportunidad en esta piedra del pecado."
+L["options_icons_inquisitors"] = "{achievement:14276}"
+L["options_icons_inquisitors_desc"] = "Muestra las localizaciones del inquisidor para el logro {achievement:14276}."
 
 -------------------------------------------------------------------------------
 ----------------------------------- THE MAW -----------------------------------
@@ -357,7 +381,9 @@ L["return_to_the_maw"] = "Regreso a Las Fauces"
 L["maw_intro_note"] = "Comienza la cadena de misiones introductoria de {npc:162804} para desbloquear los raros y los eventos en Las Fauces."
 
 L["apholeias_note"] = "Con otros 3 jugadores, situaos en las esquinas de la plataforma y lanzad la {spell:331783} para hacer aparecer a {npc:170301}."
+L["dekaris_note"] = "Encima de una gran roca que sobresale."
 L["ekphoras_note"] = "Con otros 3 jugadores, situaos en las esquinas de la plataforma y lanzad la {spell:330650} para hacer aparecer a {npc:169827}."
+L["ikras_note"] = "Vuela alrededor del Bastión de la Perdición. Este es un buen sitio para pullearlo."
 L["orophea_note"] = "Coge el {spell:337143} al sureste y ofréceselo a {npc:172577} para que se active."
 L["sanngror_note"] = "Si no se puede atacar a {npc:172521}, espera hasta que no esté experimentando con las almas."
 L["talaporas_note"] = "Con otros 3 jugadores, situaos en las esquinas de la plataforma y lanzad la {spell:331800} para hacer aparecer a {npc:170302}."
@@ -382,6 +408,7 @@ Activa el {spell:344157} para cruzar rápidamente por Las Fauces.
 
 Require la mejora {item:184613} de {npc:162804}.
 ]]
+L["venari_note"] = "Usa {currency:1767} para comprar mejoras en Las Fauces y Torghast."
 L["venari_upgrade"] = "Mejora de {npc:162804}"
 
 L["options_icons_bonus_boss"] = "Élites de Bonificación"

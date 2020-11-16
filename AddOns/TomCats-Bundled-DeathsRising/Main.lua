@@ -7,6 +7,46 @@ local GetVignettes_Orig = C_VignetteInfo.GetVignettes
 
 local zoneMapID = 118
 
+local eventStarts = {
+    EU = 1605097200 + 120,
+    NA = 1605054000 + 120
+}
+
+local function ServerRegion()
+    local region = GetCurrentRegionName();
+    if (region == "EU") then return "EU" end
+    return "NA";
+end
+
+local eventStartsTime
+
+local function EventStartTime()
+    if (not eventStartsTime) then
+        eventStartsTime = eventStarts[ServerRegion()]
+    end
+    return eventStartsTime
+end
+
+local function NextSpawnInfo()
+    local servertime = GetServerTime()
+    local elapsed = servertime - EventStartTime() + 1200
+    local quotient = elapsed % 24000
+    local index = math.floor(quotient / 1200)
+    local remaining = 1200 - quotient % 1200
+    return index + 1, remaining
+end
+
+local function SpawnTimerByIndex(index)
+    local nextIndex, nextRemaining = NextSpawnInfo()
+    if (nextIndex == index) then
+        return nextRemaining
+    end
+    if (index > nextIndex) then
+        return nextRemaining + (index - nextIndex) * 1200
+    end
+    return nextRemaining + (20 - nextIndex + index) * 1200
+end
+
 local function suppressVignettes()
     if (HandyNotes and TomCats_Account.DeathsRisingEnableHandyNotesPlugin) then
         return true
@@ -219,6 +259,8 @@ function addon:OpenWorldMapToZone()
 end
 
 local LOOT_NOUN_COLOR = CreateColor(1.0, 0.82, 0.0, 1.0)
+local COLOR_WHITE = CreateColor(1.0, 1.0, 1.0, 1.0)
+local COLOR_RED = CreateColor(1.0, 0.0, 0.0, 1.0)
 
 function addon.showItemTooltip(self, creature, showCreatureName, _, _)
     local tooltip = EmbeddedItemTooltip
@@ -241,13 +283,26 @@ function addon.showItemTooltip(self, creature, showCreatureName, _, _)
             itemID = creature["Loot"]
         end
         if itemID then
-            GameTooltip_AddBlankLinesToTooltip(tooltip, 1);
+--            GameTooltip_AddBlankLinesToTooltip(tooltip, 1);
+            local atlasName
+            if (self.Texture) then
+                atlasName = self.Texture:GetAtlas()
+            end
+            --todo: localize
+            if ("VignetteKill" == atlasName) then
+                local secondsToSpawn = SpawnTimerByIndex(creature["Spawn Index"])
+                GameTooltip_AddColoredLine(EmbeddedItemTooltip, ("Respawn in: %s"):format(SecondsToTime(secondsToSpawn, true)), COLOR_WHITE, true);
+            else
+                GameTooltip_AddColoredLine(EmbeddedItemTooltip, ("Active"), COLOR_RED, true);
+            end
             GameTooltip_AddColoredLine(EmbeddedItemTooltip, LOOT_NOUN, LOOT_NOUN_COLOR, true);
             EmbeddedItemTooltip_SetItemByID(EmbeddedItemTooltip.ItemTooltip, itemID)
-            local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
-            if (ilevelText) then
-                EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
-            end
+            C_Timer.NewTimer(0, function()
+                local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
+                if (ilevelText) then
+                    EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
+                end
+            end)
         end
     end
     if footerText then
@@ -398,6 +453,10 @@ local function GetRaresLog()
     return addon.raresLog
 end
 
+
+
+
+
 if (TomCats and TomCats.Register) then
     TomCats:Register(
             {
@@ -409,7 +468,7 @@ if (TomCats and TomCats.Register) then
                     }
                 },
                 name = "Rares of Death's Rising",
-                version = "2.0.8",
+                version = "2.0.13",
                 raresLogHandlers = {
                     [zoneMapID] = {
                         raresLog = GetRaresLog

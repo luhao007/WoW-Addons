@@ -310,6 +310,7 @@ class Manager:
                        'GladiatorlosSA2', 'Gladius',
                        'HandyNotes_Argus', 'HandyNotes_BrokenShore',
                        'HandyNotes_BattleForAzeroth',
+                       'HandyNotes_Draenor',
                        'HandyNotes_DraenorTreasures',
                        'HandyNotes_LegionRaresTreasures',
                        'HandyNotes_Shadowlands',

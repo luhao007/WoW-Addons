@@ -2,7 +2,8 @@ import logging
 import os
 import shutil
 
-import chardet
+from chardet.universaldetector import UniversalDetector
+from chardet.enums import LanguageFilter
 
 logger = logging.getLogger('process')
 
@@ -18,7 +19,12 @@ def process_file(path, func):
 
     with open(path, 'rb') as f:
         b = f.read()
-    lines = b.decode(chardet.detect(b)['encoding']).splitlines()
+
+    detector = UniversalDetector(LanguageFilter.CHINESE)
+    detector.feed(b)
+    encoding = detector.close()['encoding']
+
+    lines = b.decode(encoding).splitlines()
     lines = [line.rstrip()+'\n' for line in lines]
     while lines[-1].strip() == '':
         lines = lines[:-1]

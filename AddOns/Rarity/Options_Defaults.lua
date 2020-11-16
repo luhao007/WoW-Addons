@@ -184,6 +184,7 @@ function R:PrepareDefaults()
 			enableTooltipAdditions = true,
 			blankLineBeforeTooltipAdditions = true,
 			tooltipAttempts = true,
+			hideKnownItemsInTooltip = false,
 			takeScreenshot = true,
 			hideUnavailable = true,
 			hideDefeated = false,
@@ -1043,6 +1044,9 @@ function R:PrepareDefaults()
 				123863,
 			},
 			chance = 3000,
+			coords = {
+				{ m = CONSTANTS.UIMAPIDS.VOLDUN },
+			},
 		 },
 
 		 ["Chewed-On Reins of the Terrified Pack Mule"] = {
@@ -1064,6 +1068,9 @@ function R:PrepareDefaults()
 				131529
 			},
 			chance = 4000,
+			coords = {
+				{ m = CONSTANTS.UIMAPIDS.DRUSTVAR },
+			},
 		 },
 
 		 ["Reins of a Tamed Bloodfeaster"] = {
@@ -1092,6 +1099,9 @@ function R:PrepareDefaults()
 				124688,
 			},
 			chance = 3000,
+			coords = {
+				{ m = CONSTANTS.UIMAPIDS.NAZMIR },
+			},
 		 },
 
 		 ["Goldenmane's Reins"] = {
@@ -1129,6 +1139,9 @@ function R:PrepareDefaults()
 				130531,
 			},
 			chance = 3000,
+			coords = {
+				{ m = CONSTANTS.UIMAPIDS.STORMSONG_VALLEY },
+			},
 		 },
 
 		-- 8.1
@@ -1836,7 +1849,9 @@ function R:PrepareDefaults()
 				"875", -- Zandalar
 				"876", -- Kul'tiras
 				"974", -- Tol'Dagor
+				"1161", -- Boralus
 				"1364", -- Battle for Dazar'alor (Raid)
+				"1462" -- Mechagon Island
 			},
 		},
 
@@ -4530,7 +4545,7 @@ function R:PrepareDefaults()
 		chance = 20,
 		creatureId =158685,
 		coords = {
-			{ m = 942, x = 61.4, y = 16, n = L["Honey Smasher"] },
+			{ m = CONSTANTS.UIMAPIDS.STORMSONG_VALLEY, x = 61.4, y = 16, n = L["Honey Smasher"] },
 		},
 	},
 
@@ -4985,7 +5000,6 @@ function R:PrepareDefaults()
 		enableCoin = true,
 		disableForClass = { ["DEATHKNIGHT"] = true, ["DRUID"] = true, ["HUNTER"] = true, ["MAGE"] = true, ["MONK"] = true, ["PALADIN"] = true, ["PRIEST"] = true, ["ROGUE"] = true, ["SHAMAN"] = true, ["WARLOCK"] = true, ["WARRIOR"] = true },
 		statisticId = { 10977, 10979, 10980, 10978 },
-		-- todo is still counting even if disableForClass is set?
 		coords = { {m=772, i=true} },
 	},
 

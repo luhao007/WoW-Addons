@@ -596,6 +596,8 @@ L["(%d/%d attempts)"] = true
 L["(%d/%d collected)"] = true
 L["Show attempts in tooltips"] = true
 L["When enabled, Rarity tooltips will include how many attempts you've made."] = true
+L["Hide obtained items in tooltips"] = true
+L["When enabled, Rarity will not add tooltip information for items you've already obtained."] = true
 L["Already defeated"] = true
 L["Unavailable"] = true
 L["Hide unavailable items"] = true
@@ -18230,36 +18232,23 @@ L["10-player Heroic Raid instance (legacy content; not flexible)"] = "instância
 L["10-player Raid instance (legacy content; not flexible)"] = "instância Raid 10-jogadores (conteúdo legado; não flexível)"
 L["25-player Event scenario"] = "cenário evento 25-jogadores"
 L["25-player heroic"] = "25-jogadores heróico"
---[[Translation missing --]]
-L["25-player Heroic Raid instance (legacy content; not flexible)"] = "25-player Heroic Raid instance (legacy content; not flexible)"
---[[Translation missing --]]
-L["25-player Raid instance (legacy content; not flexible)"] = "25-player Raid instance (legacy content; not flexible)"
---[[Translation missing --]]
-L["40-player Event raid"] = "40-player Event raid"
---[[Translation missing --]]
-L["40-player Raid instance (legacy content; not flexible)"] = "40-player Raid instance (legacy content; not flexible)"
---[[Translation missing --]]
-L["5-player Event instance"] = "5-player Event instance"
---[[Translation missing --]]
-L["5-player Heroic instance"] = "5-player Heroic instance"
---[[Translation missing --]]
-L["5-player instance"] = "5-player instance"
+L["25-player Heroic Raid instance (legacy content; not flexible)"] = "Instância Heroica de 25 Jogadores (conteúdo legado; não flexível)"
+L["25-player Raid instance (legacy content; not flexible)"] = "Instância de Raid de 25 Jogadores (conteúdo legado; não flexível)"
+L["40-player Event raid"] = "Raid de Evento de 40 Jogadores"
+L["40-player Raid instance (legacy content; not flexible)"] = "Instância de Raid de 40 Jogadores (conteúdo legado; não flexível)"
+L["5-player Event instance"] = "Instância de Evento de 5 Jogadores"
+L["5-player Heroic instance"] = "Instância Heroica de 5 Jogadores"
+L["5-player instance"] = "Instância de 5 Jogadores"
 L["A comma-separated list of item IDs which, when used or opened, can give you this item. Use WowHead or a similar service to lookup item IDs."] = "Uma lista de IDs separados por vírgula de itens que, quando usados ou abertos, podem dar este item. Use o WowHead ou um serviço similar para procurar por IDs."
 L["A comma-separated list of NPC IDs who drop this item. Use WowHead or a similar service to lookup NPC IDs."] = "Uma lista de IDs separados por vírgula de PNJs cujo saque pode conter este item. Use o WowHead ou um serviço similar para procurar por IDs de PNJs."
---[[Translation missing --]]
-L["A comma-separated list of quest IDs. When these quest IDs are completed, the item is considered defeated."] = "A comma-separated list of quest IDs. When these quest IDs are completed, the item is considered defeated."
+L["A comma-separated list of quest IDs. When these quest IDs are completed, the item is considered defeated."] = "Uma lista separada por vírgulas de IDs de missões. Quando estes IDs de missões estiverem completados, o item é considerado derrotado."
 L["A comma-separated list of Statistic IDs that track the number of kills toward obtaining this item."] = "Uma lista separada por vírgulas de IDs de Estatísticas que contam o número de mortes para obter este item."
 L["A comma-separated list of Statistic IDs that track the number of kills toward obtaining this item. These statistics will be added together. Use WowHead or a similar service to locate statistic IDs."] = "Uma lista separada por vírgulas de IDs de Estatísticas que contam o número de mortes para obter este item. Estas estatísticas serão adicionadas juntas. Use o Wowhead ou um serviço similar para localizar IDs de estatísticas."
---[[Translation missing --]]
 L[ [=[A comma-separated list of the zones or sub-zones this item can be found in. For zones, you can enter either the Map ID (i.e. 811 is Vale of Eternal Blossoms), or the full name of the zone. For sub-zones, you must enter the full name of the sub-zone.
 
 Enter zone names with proper spelling, capitalization, and punctuation. They can be entered either in US English or your client's local language. Use WowHead or a similar service to make sure you're entering the zone names perfectly.
 
-PLEASE NOTE: Zone translations may not be correct. For zones, it is highly recommended that you use the Map ID instead of the name. For sub-zones, you must enter the name. If sub-zone detection isn't working for you, please visit the LibBabble-SubZone-3.0 library page on wowace.com and update the translations for your language.]=] ] = [=[A comma-separated list of the zones or sub-zones this item can be found in. For zones, you can enter either the Map ID (i.e. 811 is Vale of Eternal Blossoms), or the full name of the zone. For sub-zones, you must enter the full name of the sub-zone.
-
-Enter zone names with proper spelling, capitalization, and punctuation. They can be entered either in US English or your client's local language. Use WowHead or a similar service to make sure you're entering the zone names perfectly.
-
-PLEASE NOTE: Zone translations may not be correct. For zones, it is highly recommended that you use the Map ID instead of the name. For sub-zones, you must enter the name. If sub-zone detection isn't working for you, please visit the LibBabble-SubZone-3.0 library page on wowace.com and update the translations for your language.]=]
+PLEASE NOTE: Zone translations may not be correct. For zones, it is highly recommended that you use the Map ID instead of the name. For sub-zones, you must enter the name. If sub-zone detection isn't working for you, please visit the LibBabble-SubZone-3.0 library page on wowace.com and update the translations for your language.]=] ] = "Uma lista separada por vírgulas das zonas ou sub-zonas onde este item pode ser encontrado. Para zonas, você pode tanto por o ID do Mapa (isto é, 811 = Vale das Flores Eternas), ou o nome completo da zona. Para sub-zonas, você deve por o nome completo da sub-zona. Coloque os nomes das zonas com a escrita e pontuação correta. Os nomes podem ser postos tanto em Inglês quanto na língua do seu client. Use o Wowhead ou um site similar para ter certeza que você está pondo o nome correto das zonas. OBSERVAÇÃO: Tradução de zonas podem não estar corretas. Para zonas, é altamente recomendado que você use o ID do mapa em vez de um nome. Para sub-zonas, você deve por o nome completo. Se a detecção de sub-zona não está funcionando pra você, por favor, visite o LibBabble-SubZone-3.0 Library Page no wowace.com e atualize as traduções para a sua língua."
 --[[Translation missing --]]
 L[ [=[A comma-separated list of the zones or sub-zones this item can be found in. For zones, you can enter either the Map ID (i.e. 811 is Vale of Eternal Blossoms), or the full name of the zone. For sub-zones, you must enter the full name of the sub-zone.
 
@@ -18268,8 +18257,7 @@ Enter zone names with proper spelling, capitalization, and punctuation. They can
 PLEASE NOTE: Zone translations may not be correct. For zones, it is highly recommended that you use the Map ID instead of the name. For sub-zones, you must enter the name. If sub-zone detection isn't working for you, please visit the LibBabble-SubZone-3.0 library page on wowace.com and update the translations for your language.]=] ] = ""
 --[[Translation missing --]]
 L["A dungeon ID which, when marked as completed by the game client, will cause this item to be considered Defeated. This is primarily used for holiday items which have unique dungeon IDs."] = "A dungeon ID which, when marked as completed by the game client, will cause this item to be considered Defeated. This is primarily used for holiday items which have unique dungeon IDs."
---[[Translation missing --]]
-L["A holiday event is available today for %s! Go get it!"] = "A holiday event is available today for %s! Go get it!"
+L["A holiday event is available today for %s! Go get it!"] = "Um evento de feriado está disponível hoje para %s! Vá pegar!"
 L["Abundant Bloodsail Wreckage"] = "Destroços Abundante dos Vela Sangrenta"
 L["Abundant Firefin Snapper School"] = "Cardume Abundante de Pargo Pinafogo"
 L["Abundant Oily Blackmouth School"] = "Cardume Abundante de Bocanera Oleoso"
@@ -18284,8 +18272,7 @@ L["Adjusts the scale of the primary tooltip. This will take effect the next time
 L["Advanced"] = "Avançado"
 --[[Translation missing --]]
 L["Adventurous Hopling Pack"] = "Adventurous Hopling Pack"
---[[Translation missing --]]
-L["After upgrading your garrison's Fishing Shack to level 3, fish up 5 minnows to summon a Cavedweller which can drop this mount."] = "After upgrading your garrison's Fishing Shack to level 3, fish up 5 minnows to summon a Cavedweller which can drop this mount."
+L["After upgrading your garrison's Fishing Shack to level 3, fish up 5 minnows to summon a Cavedweller which can drop this mount."] = "Após melhorar a Barraca de Pesca da sua Guarnição para o nível 3, pesque 5 Manjubinhas Glaciais para summonar uma Cavernícola que pode dropar esta montaria."
 L["Agathe Wyrmwood"] = "Ágata Bosque da Serpe"
 L["Ageless Bronze Drake"] = "Draco Bronze Atemporal"
 L["Ahune"] = true
@@ -18309,12 +18296,9 @@ L["Already defeated for %s"] = "Já derrotado para %s"
 L["Already known"] = "Já aprendido"
 L["Amalgamation of Flesh"] = "Amálgama de Carne"
 L["Amber Goo Puddle"] = "Poça Gosmenta de Âmbar"
---[[Translation missing --]]
-L["Amethyst Softshell"] = "Amethyst Softshell"
---[[Translation missing --]]
-L["an item already exists by this name, so it will not be imported"] = "an item already exists by this name, so it will not be imported"
---[[Translation missing --]]
-L["an item with the same Item ID already exists, so it will not be imported"] = "an item with the same Item ID already exists, so it will not be imported"
+L["Amethyst Softshell"] = "Concha-leve de Ametista"
+L["an item already exists by this name, so it will not be imported"] = "um item com este nome já existe, então ele não será importado"
+L["an item with the same Item ID already exists, so it will not be imported"] = "um item com o mesmo ID de item já existe, então ele não será importado"
 L["Ancient Mana"] = "Mana Ancestral"
 --[[Translation missing --]]
 L["and %d |4other zone:other zones;"] = "and %d |4other zone:other zones;"
@@ -18322,38 +18306,28 @@ L["Angry Egg"] = "Ovo Furioso"
 L["Anh-De the Loyal"] = "Anh-De, o Leal"
 L["Announce"] = "Anunciar"
 L["Announcements"] = "Anúncios"
---[[Translation missing --]]
-L["Announcements will only be triggered when the item is found. When this is off, Rarity will announce every attempt and when the item is found."] = "Announcements will only be triggered when the item is found. When this is off, Rarity will announce every attempt and when the item is found."
---[[Translation missing --]]
-L["Antoran Charhound"] = "Antoran Charhound"
+L["Announcements will only be triggered when the item is found. When this is off, Rarity will announce every attempt and when the item is found."] = "Anúncios apenas aparecerão quando o item for encontrado. Quando isto estiver desligado, Rarity irá anunciar cada tentativa e quando o item for encontrado."
+L["Antoran Charhound"] = "Canisvil das Chamas Antorano"
 L["Anubisath Idol"] = "Ídolo Anubisath"
 L["Any difficulty"] = "Qualquer Dificuldade"
---[[Translation missing --]]
-L["Any raid size"] = "Any raid size"
---[[Translation missing --]]
-L["Any raid size or difficulty"] = "Any raid size or difficulty"
---[[Translation missing --]]
-L["Appears in the Black Market"] = "Appears in the Black Market"
+L["Any raid size"] = "Qualquer tamanho de raide"
+L["Any raid size or difficulty"] = "Qualquer tamanho ou dificuldade de raide"
+L["Appears in the Black Market"] = "Aparece no Mercado Negro"
 L["Aqir Hivespawn"] = "Cria de Colmeia Aqir"
 L["Aqua Jewel"] = "Joia d'Água"
---[[Translation missing --]]
-L["Arachnoid Harvester"] = "Arachnoid Harvester"
---[[Translation missing --]]
-L["Arachnoid Skitterbot"] = "Arachnoid Skitterbot"
+L["Arachnoid Harvester"] = "Ceifador Aracnídeo"
+L["Arachnoid Skitterbot"] = "Robozinho Aracnoide"
 --[[Translation missing --]]
 L["Arakkoa"] = "Arakkoa"
---[[Translation missing --]]
-L["Arcane Chest"] = "Arcane Chest"
---[[Translation missing --]]
-L["Arcano-Shower"] = "Arcano-Shower"
+L["Arcane Chest"] = "Baú Arcano"
+L["Arcano-Shower"] = "Chuveiro Arcano"
 L["Archaeology race"] = "Raça de arqueologia"
 L["Are you sure you want to delete this item?"] = "Tem certeza de que deseja excluir este item?"
 --[[Translation missing --]]
 L["Are you sure you want to import the Rarity Item Pack you entered?"] = "Are you sure you want to import the Rarity Item Pack you entered?"
 --[[Translation missing --]]
 L["Are you sure you want to turn off the Export toggle for all your Custom items?"] = "Are you sure you want to turn off the Export toggle for all your Custom items?"
---[[Translation missing --]]
-L["Armored Razorback"] = "Armored Razorback"
+L["Armored Razorback"] = "Costagume Armadurado"
 L["Armored Razzashi Raptor"] = "Raptor Razzashi Armadurado"
 --[[Translation missing --]]
 L["Armored Vaultbot"] = "Armored Vaultbot"
@@ -18506,8 +18480,7 @@ L["Burninator Mark V"] = "Burninator Mark V"
 L["Caged Bear"] = "Caged Bear"
 --[[Translation missing --]]
 L["Call of the Frozen Blade"] = "Call of the Frozen Blade"
---[[Translation missing --]]
-L["Can be contained in Heart-Shaped Box, rewarded for defeating the World Event Dungeon during Love is in the Air."] = "Can be contained in Heart-Shaped Box, rewarded for defeating the World Event Dungeon during Love is in the Air."
+L["Can be contained in Heart-Shaped Box, rewarded for defeating the World Event Dungeon during Love is in the Air."] = "Pode dropar da Caixa em Forma de Coração, recompensa por derrotar a Masmorra de Evento Mundial durante o O Amor Está no Ar."
 --[[Translation missing --]]
 L["Can be contained in Keg-Shaped Treasure Chest, rewarded for defeating the World Event Dungeon during Brewfest."] = "Can be contained in Keg-Shaped Treasure Chest, rewarded for defeating the World Event Dungeon during Brewfest."
 --[[Translation missing --]]
@@ -18589,8 +18562,7 @@ L["Clockwork Rocket Bot"] = "Clockwork Rocket Bot"
 L["Close"] = "Fechar"
 --[[Translation missing --]]
 L["Cloudwing Hippogryph"] = "Cloudwing Hippogryph"
---[[Translation missing --]]
-L["Clutch of Ha-Li"] = "Clutch of Ha-Li"
+L["Clutch of Ha-Li"] = "Garra de Ha-Li"
 L["Clutch of Ji-Kun"] = "Garra de Ji-Kun"
 L["Cobalt Deposit"] = "Depósito de Cobalto"
 --[[Translation missing --]]

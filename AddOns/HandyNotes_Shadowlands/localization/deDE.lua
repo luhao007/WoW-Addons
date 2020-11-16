@@ -15,8 +15,10 @@ L["anima_channeled"] = "%s mit Anima versorgt."
 
 L["deifir_note"] = "Reite auf {npc:164238} und verwende die Fähigkeiten {spell:319566} und {spell:319575}, um ihn zu verlangsamen und zu betäuben."
 L["faeflayer_note"] = "In einer kleinen Höhle, versteckt hinter einem Wasserfall."
+L["gormtamer_tizo_note"] = "Töte {npc:166735} und die {npc:166736}, die auf ihm reiten, bis {npc:164110} erscheint."
 L["humongozz_note"] = "Pflanze einen {item:175247} in den feuchten Lehm, um einen {npc:164122} erscheinen zu lassen. Nach einer Minute {spell:319367} wird {npc:164112} erscheinen. Der Pilz wird von mehreren Gegnern in diesem Gebiet fallen gelassen."
 L["lehgo_note"] = "Zerstöre Zitternde Gormeier und töte |CFFFFFF00Wütende Eipfleger|r bis {npc:167851} erscheint. In einer Höhle. (Eingang nach Südosten (58.5, 31.9))." --{npc:171827}
+L["mymaen_note"] = "Töte Gegner in dem Gebiet, bis {npc:165053} schreit und erscheint."
 L["rainbowhorn_note"] = "Wenn er nicht da sein sollte, klicke das Große Horn des Runenhirsches an. \n\n|cffff4200S|r|cffff8500C|r|cffffc700H|r|cfff3ff00M|r|cffb1ff00E|r|cff6eff00C|r|cff2cff00K|r |cff00ff58D|r|cff00ff9bE|r|cff00ffddN|r |cff009bffR|r|cff0058ffE|r|cff0016ffG|r|cff2c00ffE|r|cff6e00ffN|r|cffb100ffB|r|cfff300ffO|r|cffff00c7G|r|cffff0085E|r|cffff0042N|r|cffff0000!|r"
 L["rootwrithe_note"] = "Pike die |CFFFFFF00Inaktiven Blüten|r an, bis {npc:167726} erscheint." --{npc:167928}
 L["rotbriar_note"] = "Sprich mit {npc:171684} in der Nähe, um {npc:167724} nach einem Dialog zu beschwören."
@@ -67,21 +69,21 @@ Lies die "Legende des Dickichts" am Baum (bei 32.5, 53.0) und folge den blauen L
 Wenn du den falschen Pfad nimmst und {npc:171699} verschwindet, wenn du das Ende erreichst, gehe zurück und lies die "Legende des Dickichts" erneut, um von vorne zu beginnen. Wenn {npc:171767} nicht da ist, warte auf ihn bis er Wiedererscheint.
 ]]
 
+L["faryl_note"] = "Lasst die Kreaturen des Himmels die Verteidigung des Ardenwalds anführen."
+L["glitterdust_note"] = "Die Kreaturen des Ardenwalds wirken vielleicht friedlich, aber sie verteidigen ihr Revier mit der Kraft und dem Mut der mächtigsten Champions aller Zeiten. Seid Ihr stark genug für diese Aufgabe?"
+
 -------------------------------------------------------------------------------
 ----------------------------------- BASTION -----------------------------------
 -------------------------------------------------------------------------------
 
+L["ascended_council_note"] = "Klicke mit vier anderen Spielern die Vesperglocke der Reinheit, des Mutes, der Demut, der Weisheit und der Loyalität zur selben Zeit an. Begebt euch anschließend zum Prüfstein des Aspiranten, um den Rat der Aufgestiegenen zu besiegen und die Truhe zu enthüllen."
 L["aspirant_eolis_note"] = "Plündere {item:180613} in der Nähe und lese es ihm vor. Es erscheint eine Truhe."
-L["baedos_note"] = "Trage zum Aktivieren, Fässer mit fermentierenden purianischen Früchten aus der Umgebung zu {npc:161536}." --review Blizzard Translation casks of Fermenting Purian Fruit
+L["baedos_note"] = "Trage zum Aktivieren, Fässchen mit fermentierenden Purianfrüchten aus der Umgebung zu {npc:161536}."
 L["basilofos_note"] = "Beweg dich auf den Felsen umher, bis eine lila Markierung über deinem Kopf erscheint, stehe dann still und warte vier Emotes ab bis {npc:170659} erscheint."
 L["beasts_of_bastion"] = "Bestien der Bastion" --review Blizzard translation
-L["beasts_of_bastion_note"] = [[
-Sprich mit {npc:161441}, um eine der vier Bestien zu beschwören.
-
-|cFFFF0000HINWEIS|r: Der NPC ist oft verbuggt und will nicht mit dir reden.
-]]
+L["beasts_of_bastion_note"] = "Sprich mit {npc:161441}, um eine der vier Bestien zu beschwören."
 L["bookkeeper_mnemis_note"] = "Hat die Chance anstelle von {npc:166867} in diesem Gebiet zu erscheinen."
-L["cloudfeather_patriarch_note"] = "Töte {npc:158110n} in diesem Gebiet, bis ein Emote ausgegeben wird und der {npc:170932} erscheint."
+L["cloudfeather_patriarch_note"] = "Töte {npc:158110n} in diesem Gebiet, bis der Wächter dich angreift."
 L["collector_astor_note"] = "Lies alle sechs Kapitel von Mercias Vermächtnis, die im Raum verstreut sind und das {npc:157979} wird zu dir flüstern. Sprich mit ihr, um {spell:333779} zu erhalten, der es dir erlaubt {item:180569} im Nordwesten zu finden. Wenn das Kapitel zurückgeben wird, erscheint {npc:171014}."
 L["corrupted_clawguard_note"] = "Plündere {item:180651} im Schmiedefeueraußenposten (54.9, 41.0) und verwende es, um die {npc:171300} zu reparieren."
 L["dark_watcher_note"] = "Kann nur während des Todes gesehen werden. Sprich mit ihr und sie wird {spell:332830} auf dich wirken, bevor sie angreift."
@@ -102,11 +104,14 @@ L["unstable_memory_note"] = "Kann beschworen werden, wenn {npc:171018} anwesend 
 L["wingflayer_note"] = "Klicke zum Beschwören das Horn des Mutes auf dem Tisch in der Nähe an. (41.6, 54.5)"
 
 L["broken_flute"] = "Töte |CFFFFFF00Beunruhigte Ätherwyrme|r in diesem Gebiet, bis diese {item:180536} fallen lassen, dann verwende die Werkzeuge, um die Flöte zu reparieren." --{npc:170009}
+L["cloudwalkers_coffer"] = "Truhe des Wolkenwanderers"
+L["cloudwalkers_coffer_note"] = "Verwende die großen lila Blüten dazu, um auf die Plattform zu gelangen."
 L["experimental_construct_part"] = "Plündere ein {item:180534} in der Nähe und verwende es, um den Gegenstand zu reparieren. Das {item:180534} erscheint an verschiedenen Stellen."
 L["larion_harness"] = "Befindet sich in der Halle der Bestien."
-L["memorial_offering"] = "Kaufe 1x {item:180788} von {npc:171526} in der Aspirantenrast (48.0, 73.9). Stelle es auf das Getränketablett in der Nähe der Truhe, um den {item:180797} zum öffnen der Truhe zu erhalten."
+L["memorial_offering"] = "Finde {npc:171526}, an einer seiner Postionen in Bastion und kaufe einen {item:180788}. Stelle es auf das Getränketablett in der Nähe der Truhe, um den {item:180797} zum öffnen der Truhe zu erhalten."
 L["scroll_of_aeons"] = "Plündere 2x {item:173973} im mittleren Bereich und platziere diese auf den Tributplatten in der Nähe, um den Schatz zu enthüllen."
-L["vesper_of_silver_wind"] = "Schließe den Erfolg {achievement:14339} ab und sprich dann mit {npc:171732} nahe dem Eingang zu den Spitzen des Aufstieges, um einen {item:180858} zu schmieden."
+L["vesper_of_silver_wind"] = "Vesperglocke des Silberwinds"
+L["vesper_of_silver_wind_note"] = "Schließe den Erfolg {achievement:14339} ab und sprich dann mit {npc:171732} nahe dem Eingang zu den Spitzen des Aufstieges, um einen {item:180858} zu schmieden."
 
 L["gift_of_agthia"] = "Klicke auf die brennende Fackel in der Nähe der kaputten Brücke im Nordwesten (bei 39.1, 54.5) und trage {spell:333320} von Fackel zu Fackel bis du die Truhe erreichst. Wenn du die letzte Fackel anzündest wird dir der {spell:333063} gewährt, um die Truhe öffnen zu können."
 L["gift_of_chyrus"] = "Knie vor er Truhe, um den {spell:333045} zu erhalten. \nVerwende die Transportplattform (bei 69.4, 40.3), um nach oben zu gelangen."
@@ -128,9 +133,6 @@ Sprich mit ihnen in der Reihenfolge |cFFFF0000Geduld => Wissen => Einsicht|r. Au
 Die Kugel wird dich zu dem wahren Räucherwerk des Richturteils bringen. Sprich dort mit ihm und die letzte Transportplattform wird dir den {spell:333068} gewähren, um die Truhe öffnen zu können.
 ]]
 L["gift_of_vesiphone"] = "Läute an den Glocken, um eine {npc:170849} erscheinen zu lassen, töte diese um den Schwächungszauber {spell:333239} zu erhalten. Der Wasserfall gegenüber der Truhe wird diesen Schwächungszauber reinigen und dir den {spell:332785} gewähren, um die Truhe öffnen zu können."
-
-L["cache_of_the_ascended"] = "Truhe der Aufgestiegenen" --review Blizzard translations
-L["cache_of_the_ascended_note"] = "Klicke mit vier anderen Spielern die Vesperglocke der Reinheit, des Mutes, der Demut, der Weisheit und der Loyalität zur selben Zeit an. Begebt euch anschließend zum Prüfstein des Aspiranten, um den Rat der Aufgestiegenen zu besiegen und die Truhe zu enthüllen."
 
 L["anima_shard"] = "Verlorener Animakristallsplitter"
 L["anima_shard_61225"] = "Auf einer tiefer gelegenen Plattform unterhalb der Brücke."
@@ -164,9 +166,9 @@ L["anima_shard_61278"] = "Unter einer Brücke auf einem Felsen."
 L["anima_shard_61279"] = "Auf einer dünnen Steinsäule."
 L["anima_shard_61280"] = "An einer Ecke des Tisches."
 L["anima_shard_61281"] = "An einer Kante über dem Schatz der Gedenkopfergabe."
-L["anima_shard_61282"] = "An einer Kante unterhalb der Klippe. Springe auf den Felsen daneben oder du wirst wieder hochteleportiert."
+L["anima_shard_61282"] = "An einer Kante unterhalb der Klippe."
 L["anima_shard_61283"] = "In {npc:171132}' Workshop, hinter einigen Fässern."
-L["anima_shard_61284"] = "Auf einer Kante unter einem steinigen Überhang. Gehe an der Steinkante entlang."
+L["anima_shard_61284"] = "An einer kleinen Felskante unter einem steinigen Überhang. Gehe von Süden her, an der Steinkante entlang."
 L["anima_shard_61285"] = "An einer Kante eines kleinen Felsvorsprungs."
 L["anima_shard_61286"] = "An einer Kante mit Blick auf den Weg."
 L["anima_shard_61287"] = "An einer Kante oberhalb des kleinen Wasserfalles."
@@ -196,6 +198,10 @@ L["temple_of_humility"] = "Tempel der Demut"
 L["temple_of_purity"] = "Tempel der Reinheit"
 L["xandrias_vigil"] = "Xandrias Wacht"
 
+L["stratios_note"] = "Auch die kleinst Schlacht sollte mit Bedacht und Ehre geschlagen werden. Präsentiert Euer Team, wenn Ihr bereit seid."
+L["thenia_note"] = "Welch prachtvolle weite Ebene. Einfach wunderbar für einen Kampf. Seid ihr bereit?"
+L["zolla_note"] = "Wir nehmen unsere Verteidigung sehr ernst. Ob groß oder klein, wir investieren viel in die Ausbildung und Instandhaltung der Ressourcen, die die Bastion stark machen."
+
 -------------------------------------------------------------------------------
 --------------------------------- MALDRAXXUS ----------------------------------
 -------------------------------------------------------------------------------
@@ -206,7 +212,6 @@ L["forgotten_mementos"] = "Ziehe am Kerkerkettenzug in der Kammer westlich des S
 L["gieger_note"] = "Ziehe an {npc:162815}, um {npc:162741} zu aktivieren."
 L["gristlebeak_note"] = "Zerbrich jedes {npc:162761} in der Nähe, daraufhin wird {npc:162588} zu euch herunter geflogen kommen."
 L["leeda_note"] = "Töte die zwei {npc:162220} bis {npc:162180} erscheint."
-L["malkorak_note"] = "An der Spitze des Turms \n(eine menge Treppenstufen)."
 L["sabriel_note"] = "Kann als einer der Champions im Theater der Schmerzen auftreten."
 L["schmitd_note"] = "Benutze nahegelegene {spell:313451}, um sein Schild zu brechen."
 L["taskmaster_xox_note"] = "Teilt sich einen spawn mit {npc:160204}, {npc:160230} und {npc:160226}."
@@ -237,9 +242,9 @@ Stelle dich in grünen Schleim |cffff0000(benötigt Heilung!)|r, sammel 10 Stape
 
 Wenn du verwandelt bist, besuche die Höhle unterhalb von {npc:158406es} Plattform (Eingang auf der östlichen Seite) und klicke auf das Rohr, um zur Truhe zu gelangen.
 ]]
-L["ritualists_cache_note"] = "Plündere die {item:181558} von einem Knochenhaufen (mehrere Erscheinungspunkte), um das Buch der Bindungsrituale (71.7, 35.4) zu vervollständigen, dass dir das {spell:337041} gewährt."
+L["ritualists_cache_note"] = "Hebe die {item:181558} vom Boden auf und vervollständige damit das Buch der Bindungsrituale."
 L["runespeakers_trove_note"] = "Finde {npc:170563} im Osten (37.9, 70.1) und töte ihm, um den {item:181777} zu erhalten."
-L["stolen_jar_note"] = "In einer Höhle unter dem Riesenpilz."
+L["stolen_jar_note"] = "Erscheint in mehreren verschiedenen Höhlen."
 L["strange_growth_note"] = "Ziehe {npc:165037} heraus, um den Schatz zu enthüllen."
 L["vat_of_slime_note"] = "Klicken auf dem Tisch die Flasche an und danach auf den Schleimbehälter."
 
@@ -288,6 +293,10 @@ L["overlook_primus"] = "Warte, Sitz des Primus"
 L["zerekriss"] = "Zerekriss, Maldraxxus"
 L["zerekriss_note"] = "Nach der Aktivierung fliegt die Nekropole durch die Zone. Halte dich an {npc:165822} fest, um an die Oberfläche zu gleiten."
 
+L["dundley_note"] = "Ich erkämpfe mir den Sieg und den Respekt, den ich verdiene! Der einzige Nachteil ist, dass jetzt alles was ich besitze, klebrig ist. Alles"
+L["maximillian_note"] = "Dutzende von Jahren habe ich auf würdige Gegner gewartet. Dem Sieger die Beute!"
+L["rotgut_note"] = "Faulwanst. Reste. Mehr Teile. Ihr kämpft."
+
 -------------------------------------------------------------------------------
 --------------------------------- REVENDRETH ----------------------------------
 -------------------------------------------------------------------------------
@@ -324,9 +333,10 @@ Hat eine Chance die {item:180583} fallen zu lassen, welche eine 7-tägige Questr
 L["dredglaive_note"] = "Unter der Brücke in der {npc:173671} Leiche."
 L["forbidden_chamber_note"] = "Plündere den Weggeworfenen Animakanister vor der verschlossenen Tür auf der Bank, um {spell:340701} zu erlernen. Verwende es, um fünf in der Nähe befindlichen |CFFFFFF00Stillen Beobachtern|r ihr Anima zu entziehen, dann verwende {spell:340866} vor dem {npc:173786}." --{npc:173838}
 L["gilded_plum_chest_note"] = "Töte die {npc:166680}, die die Straße hoch und runter läuft."
-L["lost_quill_note"] = "Plündere {item:182475} von der Flasche auf dem Tisch in der Verbotenen Bibliothek."
+L["lost_quill_note"] = "Plündere die {item:182475} von der Flasche auf dem Tisch in der Verbotenen Bibliothek und gib sie dem {npc:173449}, der sich auf dem Dach der Verbotenen Bibliothek versteckt."
 L["rapier_fearless_note"] = "Klicke das Rapier auf dem Boden an und besiege {npc:173603}."
 L["remlates_cache_note"] = "Hinter der Außenmauer der Krypta in Dunkelhafen."
+L["smuggled_cache_note"] = ns.color.Red("BEVOR DU DIE TRUHE PLÜNDERST: ").."Geh sicher, dass du die Nebenquest {quest:60480} abgeschlossen hast oder du wirst 40x {currency:1820} von der Schatztruhe und Quest versäumen."
 L["taskmaster_trove_note"] = "Lies die Eintritts- und Austrittsriten und gehe behutsam zur Truhe."
 L["the_count_note"] = "Sammle 99x {currency:1820} in dem Gebiet Endmorast und dann bringen sie zu {npc:173488}."
 
@@ -345,6 +355,10 @@ L["sinrunner_note_day6"] = "Verfüttere an Graumähne 3x {item:179271}, verkauft
 
 L["options_icons_carriages"] = "Kutschen"
 L["options_icons_carriages_desc"] = "Zeigt die Positionen und Wege von fahrbaren Kutschen an."
+L["options_icons_dredbats"] = "Fledermäuse"
+L["options_icons_dredbats_desc"] = "Zeigt die Positionen der {npc:161015n} und ihre Wege an."
+L["options_icons_sinrunners"] = "{npc:174032}"
+L["options_icons_sinrunners_desc"] = "Zeigt die Positionen der {npc:174032} und ihre Wege an."
 
 L["dominance_keep"] = "Herrschaftsburg"
 L["eternal_terrace"] = "Die Ewige Terrasse"
@@ -352,6 +366,16 @@ L["feeders_thicket"] = "Der Fluchwald"
 L["halls_of_atonement"] = "Hallen der Sühne"
 L["pridefall_hamlet"] = "Stolzsturzweiler"
 L["the_banewood"] = "Fresserdickicht"
+
+L["addius_note"] = "Willensschwache Wesen sollten nicht meine Zeit vergeuden, doch wenn Ihr darauf besteht, dann zeige ich Euch, was wahre Schmerzen sind."
+L["eyegor_note"] = "Iiihgor kampfbereit!"
+L["sylla_note"] = "Hier an diesem grässlichen Ort sollte man keinen Kampf erwarten, der es wert ist, und doch stehen wir nun hier. Vergeudet nicht meine Zeit."
+
+L["grand_inquisitor_note"] = nil
+L["high_inquisitor_note"] = nil
+L["inquisitor_note"] = nil
+L["options_icons_inquisitors"] = nil
+L["options_icons_inquisitors_desc"] = nil
 
 -------------------------------------------------------------------------------
 ----------------------------------- THE MAW -----------------------------------
@@ -361,7 +385,9 @@ L["return_to_the_maw"] = "Rückkehr zum Schlund"
 L["maw_intro_note"] = "Beginne die Einführungsquestreihe bei {npc:162804}, um im Schlund seltene Gegner und Events freizuschalten."
 
 L["apholeias_note"] = "Stelle dich mit drei anderen Spielern in die Ecken der Plattform und wirkt {spell:331783}, um {npc:170301} zu beschwören."
+L["dekaris_note"] = "Auf einem großen hervorstehenden Felsen."
 L["ekphoras_note"] = "Stelle dich mit drei anderen Spielern in die Ecken der Plattform und wirkt {spell:330650}, um {npc:169827} zu beschwören."
+L["ikras_note"] = "Fliegt um die Verdammnisfestung herum. Das ist ein guter Platz ihn anzugreifen."
 L["orophea_note"] = "Hebe das {spell:337143} im Südosten auf und biete es {npc:172577} an, zum aktivieren." --review
 L["sanngror_note"] = "\nWenn er gerade nicht angreifbar ist, dann warte bis er nicht mehr mit Seelen experimentiert."
 L["talaporas_note"] = "Stelle dich mit drei anderen Spielern in die Ecken der Plattform und wirkt {spell:331800}, um {npc:170302} zu beschwören."
@@ -386,6 +412,7 @@ Aktiviere ihn, um mit einem {spell:344157} schnell durch den Schlund zu reisen.
 
 Benötigt die Aufwertung {item:184613} von {npc:162804}.
 ]]
+L["venari_note"] = "Verwende {currency:1767} dazu, um dauerhafte Aufwertungen für den Schlund und Torghast freizuschalten."
 L["venari_upgrade"] = "eine Aufwertung von {npc:162804}"
 
 L["options_icons_bonus_boss"] = "Bonus Elitegegner"

@@ -17,8 +17,10 @@ L["anima_channeled"] = "anima canalisé vers %s."
 
 L["deifir_note"] = "Faites tourner le rare en cercle et utilisez {spell:319566}  et {spell:319575} pour le ralentir et l'étourdir."
 L["faeflayer_note"] = "Dans une petite grotte cachée derrière une chute d'eau."
+L["gormtamer_tizo_note"] = nil
 L["humongozz_note"] = "Plantez un {item:175247} dans le Terreau humide pour y faire apparaître un {npc:164122}. Après une minute de {spell:319367}, le rare apparaîtra. Le champignon peut être récupéré sur de nombreux monstres de la zone."
 L["lehgo_note"] = "Détruisez les œufs de Gorm frémissants et tuez des {npc:171827} jusqu'à ce qu'il apparaisse. Dans une grotte (entrée au sud-est dans les Terriers poussiéreux)."
+L["mymaen_note"] = nil
 L["rainbowhorn_note"] = "\n|cffff5400T|r|cffffaa00A|r|cffffff00S|r|cffaaff00T|r|cff54ff00E|r |cff00ff55T|r|cff00ffa9H|r|cff00ffffE|r |cff0055ffR|r|cff0000ffA|r|cff5400ffI|r|cffaa00ffN|r|cffff00ffB|r|cffff00aaO|r|cffff0054W|r|cffff0000!|r"
 L["rootwrithe_note"] = "Tapez sur les {npc:167928} jusqu'à ce que le rare apparaisse."
 L["rotbriar_note"] = "Parlez à {npc:171684} à proximité pour faire apparaître le rare après un peu de dialogue."
@@ -68,10 +70,14 @@ Lisez le "Conte de l'enchevêtrement", puis suivez les lampes bleues à travers 
 Si vous prenez un mauvais chemin et que {npc:171699} disparaît lorsque vous arrivez à la fin, revenez au début et lisez à nouveau "Conte de l'enchevêtrement" avant d'essayer à nouveau. Si {npc:171767} n'est pas là, vous devrez attendre qu'il réapparaisse.
 ]]
 
+L["faryl_note"] = nil
+L["glitterdust_note"] = nil
+
 -------------------------------------------------------------------------------
 ----------------------------------- BASTION -----------------------------------
 -------------------------------------------------------------------------------
 
+L["ascended_council_note"] = "Avec quatre autres joueurs, cliquez sur les cinq Vêpres de la pureté, du courage, de l'humilité, de la sagesse et de la loyauté en même temps. Ensuite, dirigez-vous vers le Creuset de l'aspirant pour vaincre le Conseil des Transcendés et révéler la cache."
 L["aspirant_eolis_note"] = "Prenez un {item:180613} à proximité et lisez-le avec le PNJ ciblé pour l'activer."
 L["baedos_note"] = "Transportez les fûts de fruits de purian fermentés des alentours vers {npc:161536} jusqu'à son activation."
 L["basilofos_note"] = "Déplacez-vous autour du rocher jusqu'à ce qu'un repère violet apparaisse au-dessus de votre tête. Ne bougez pas et attendez que quatre émotes apparaissent, puis il apparaîtra."
@@ -103,11 +109,14 @@ L["unstable_memory_note"] = "Peut être invoqué quand les {npc:171018}s sont pr
 L["wingflayer_note"] = "Pour l'invoquer, cliquez sur la Corne du Courage sur la table voisine (au sud-est, en haut des escaliers)."
 
 L["broken_flute"] = "Tuez les {npc:170009} à proximité jusqu'à ce qu'ils laissent tomber la {item:180536}, puis utilisez les outils pour la réparer."
+L["cloudwalkers_coffer"] = nil
+L["cloudwalkers_coffer_note"] = nil
 L["experimental_construct_part"] = "Procurez-vous un {item:180534} proche et utilisez-le pour réparer la pièce. L'anima a plusieurs lieux d'apparition."
 L["larion_harness"] = "Situé à l'intérieur du Hall des Bêtes."
 L["memorial_offering"] = "Achetez un {item:180788} auprès de {npc:171526} au Repos de l'Aspirant. Placez-le sur le plateau de boissons près du coffre pour obtenir la {item:180797}."
 L["scroll_of_aeons"] = "Procurez-vous 2 {item:173973} dans la zone centrale et placez-les sur les plateaux d'hommage à proximité pour révéler le trésor."
-L["vesper_of_silver_wind"] = "Terminez le haut-fait {achievement:14339} et parlez ensuite à {npc:171732} près de l'entrée des Flèches de l'Ascension pour forger un {item:180858}."
+L["vesper_of_silver_wind"] = nil
+L["vesper_of_silver_wind_note"] = "Terminez le haut-fait {achievement:14339} et parlez ensuite à {npc:171732} près de l'entrée des Flèches de l'Ascension pour forger un {item:180858}."
 
 L["gift_of_agthia"] = "Cliquez sur la torche allumée près du pont brisé au nord-ouest et portez {spell:333320} de torche en torche jusqu'au coffre. En allumant la dernière torche, vous obtiendrez {spell:333063}."
 L["gift_of_chyrus"] = "S'agenouiller devant le coffre pour recevoir {spell:333045}."
@@ -129,9 +138,6 @@ Communiez avec eux dans l'ordre Patience => Connaissance => Perspicacité. Sur l
 L'orbe vous emmènera au véritable encens du jugement. Communiez avec lui et la dernière plateforme de vol vous donnera {spell:333068}, permettant d'ouvrir le coffre.
 ]]
 L["gift_of_vesiphone"] = "Sonnez une des cloches pour faire apparaître une {npc:170849} et tuez-la pour recevoir le debuff {spell:333239}. L'eau qui tombe en face du coffre supprimera ce debuff et vous donnera {spell:332785}."
-
-L["cache_of_the_ascended"] = "Cache des transcendés"
-L["cache_of_the_ascended_note"] = "Avec quatre autres joueurs, cliquez sur les cinq Vêpres de la pureté, du courage, de l'humilité, de la sagesse et de la loyauté en même temps. Ensuite, dirigez-vous vers le Creuset de l'aspirant pour vaincre le Conseil des Transcendés et révéler la cache."
 
 L["anima_shard"] = "Eclat de cristal d'Anima perdu"
 L["anima_shard_61225"] = "Sur une plate-forme inférieure sous le pont."
@@ -197,6 +203,10 @@ L["temple_of_humility"] = "Temple de l'humilité"
 L["temple_of_purity"] = "Temple de la pureté"
 L["xandrias_vigil"] = "La veillée de Xandria"
 
+L["stratios_note"] = nil
+L["thenia_note"] = nil
+L["zolla_note"] = nil
+
 -------------------------------------------------------------------------------
 --------------------------------- MALDRAXXUS ----------------------------------
 -------------------------------------------------------------------------------
@@ -207,7 +217,6 @@ L["forgotten_mementos"] = "Tirez la chaîne de la herse de la chambre forte, dan
 L["gieger_note"] = "Tirez sur le {npc:162815} pour activer le rare."
 L["gristlebeak_note"] = "Brisez tout les {npc:162761} à proximité pour affronter le rare."
 L["leeda_note"] = "Tuez les deux {npc:162220} jusqu'à ce que le rare apparaisse."
-L["malkorak_note"] = "Au sommet de la tour (beaucoup d'escaliers)."
 L["sabriel_note"] = "Peut apparaître comme l'un des champions du Théâtre de la souffrance."
 L["schmitd_note"] = "Utilisez la {spell:313451} proche pour briser son bouclier."
 L["taskmaster_xox_note"] = "Partage son apparition avec {npc:160204}, {npc:160230} et {npc:160226}."
@@ -284,6 +293,10 @@ L["overlook_primus"] = "Overlook, Siège du Primat"
 L["zerekriss"] = "Zerekriss, Maldraxxus"
 L["zerekriss_note"] = "Une fois activé, la nécropole fera le tour de la zone. Saisissez le {npc:165822} pour planer jusqu'à la surface."
 
+L["dundley_note"] = nil
+L["maximillian_note"] = nil
+L["rotgut_note"] = nil
+
 -------------------------------------------------------------------------------
 --------------------------------- REVENDRETH ----------------------------------
 -------------------------------------------------------------------------------
@@ -323,6 +336,7 @@ L["gilded_plum_chest_note"] = "Tuez les {npc:166680} qui errent sur la route."
 L["lost_quill_note"] = "Ramasser {item:182475} depuis la bouteille sur la table de la bibliothèque interdite."
 L["rapier_fearless_note"] = "Cliquer la rapière au sol, puis vaincre {npc:173603}."
 L["remlates_cache_note"] = "Sur le mur extérieur de Sombrehavre, derrière la crypte."
+L["smuggled_cache_note"] = nil
 L["taskmaster_trove_note"] = "Lisez les rites d'entrée et sortie, puis dirigez-vous avec précaution vers le coffre."
 L["the_count_note"] = "Farmez 99 {currency:1820} dans le Marais des Affres et amenez-les ensuite à {npc:173488}."
 
@@ -341,6 +355,10 @@ L["sinrunner_note_day6"] = "Nourrissez blanchette avec 3 {item:179271}, vendus p
 
 L["options_icons_carriages"] = "Calèches"
 L["options_icons_carriages_desc"] = "Afficher les emplacements et les parcours des calèches."
+L["options_icons_dredbats"] = nil
+L["options_icons_dredbats_desc"] = nil
+L["options_icons_sinrunners"] = nil
+L["options_icons_sinrunners_desc"] = nil
 
 L["dominance_keep"] = "Donjon de la Domination"
 L["eternal_terrace"] = "La terasse Éternelle"
@@ -348,6 +366,16 @@ L["feeders_thicket"] = "Fourré des Dévoreurs"
 L["halls_of_atonement"] = "Salles de l'Expiation"
 L["pridefall_hamlet"] = "Tombe-Fierté"
 L["the_banewood"] = "Le Malbois"
+
+L["addius_note"] = nil
+L["eyegor_note"] = nil
+L["sylla_note"] = nil
+
+L["grand_inquisitor_note"] = nil
+L["high_inquisitor_note"] = nil
+L["inquisitor_note"] = nil
+L["options_icons_inquisitors"] = nil
+L["options_icons_inquisitors_desc"] = nil
 
 -------------------------------------------------------------------------------
 ----------------------------------- THE MAW -----------------------------------
@@ -361,7 +389,9 @@ Jusqu'à ce que vous rameniez {npc:170651} à Oribos, vous serez séparé de la 
 ]]
 
 L["apholeias_note"] = "Avec 3 autres joueurs, placez-vous sur les coins de la plateforme et lancez {spell:331783} pour invoquer le rare."
+L["dekaris_note"] = nil
 L["ekphoras_note"] = "Avec 3 autres joueurs, placez-vous sur les coins de la plateforme et lancez {spell:330650} pour invoquer le rare."
+L["ikras_note"] = nil
 L["orophea_note"] = "Ramassez {spell:337143} au sud-est et proposez-le à {npc:172577} pour l'activer."
 L["sanngror_note"] = "S'il n'est pas attaquable, attendez qu'il n'expérimente plus sur des âmes."
 L["talaporas_note"] = "Avec 3 autres joueurs, placez-vous sur les coins de la plateforme et lancez {spell:331800} pour invoquer le rare."
@@ -382,6 +412,7 @@ L["soul_well_note"] = "Attrapez la Stygia qui jaillit du Puit d'âmes." --Correc
 L["obliterated_soul_shards_note"] = "Collectez des éclats d'âme oblitérés sur les ponts."
 
 L["chaotic_riftstone_note"] = "Activer pour {spell:344157} rapidement à travers l'Antre."
+L["venari_note"] = nil
 L["venari_upgrade"] = nil
 
 L["options_icons_bonus_boss"] = "Élites bonus"
