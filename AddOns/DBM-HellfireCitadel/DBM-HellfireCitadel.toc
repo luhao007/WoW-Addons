@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: MysticalOS
-## Version: r52
+## Version: r53
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMHellfireCitadel_AllSavedVars

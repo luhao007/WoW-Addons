@@ -1,38 +1,37 @@
 local addon = select(2, ...)
 
-local D, _, P = addon.getLocalVars()
+local D, L, P = addon.getLocalVars()
 local TCL = addon.TomCatsLibs
 local QUEST_STATUS, windowSettings
 local GetVignettes_Orig = C_VignetteInfo.GetVignettes
 
 local zoneMapID = 118
 
-local eventStarts = {
-    EU = 1605097200 + 120,
-    NA = 1605054000 + 120
-}
+local spawnTimer = 600
 
-local function ServerRegion()
-    local region = GetCurrentRegionName();
-    if (region == "EU") then return "EU" end
-    return "NA";
-end
+local eventStarts = {
+    [1] = 1605054000 + 120, -- NA
+    [2] = 1605054000 + 120 - spawnTimer * 12, -- KR
+    [3] = 1605097200 + 120, -- EU
+    [4] = 1605054000 + 120 - spawnTimer * 12, -- TW
+    [5] = 1605054000 + 120 - spawnTimer * 12, -- CN
+}
 
 local eventStartsTime
 
 local function EventStartTime()
     if (not eventStartsTime) then
-        eventStartsTime = eventStarts[ServerRegion()]
+        eventStartsTime = eventStarts[GetCurrentRegion()] or eventStarts[1]
     end
     return eventStartsTime
 end
 
 local function NextSpawnInfo()
     local servertime = GetServerTime()
-    local elapsed = servertime - EventStartTime() + 1200
-    local quotient = elapsed % 24000
-    local index = math.floor(quotient / 1200)
-    local remaining = 1200 - quotient % 1200
+    local elapsed = servertime - EventStartTime() + spawnTimer
+    local quotient = elapsed % (20 * spawnTimer)
+    local index = math.floor(quotient / spawnTimer)
+    local remaining = spawnTimer - quotient % spawnTimer
     return index + 1, remaining
 end
 
@@ -42,9 +41,9 @@ local function SpawnTimerByIndex(index)
         return nextRemaining
     end
     if (index > nextIndex) then
-        return nextRemaining + (index - nextIndex) * 1200
+        return nextRemaining + (index - nextIndex) * spawnTimer
     end
-    return nextRemaining + (20 - nextIndex + index) * 1200
+    return nextRemaining + (20 - nextIndex + index) * spawnTimer
 end
 
 local function suppressVignettes()
@@ -222,25 +221,6 @@ end
 
 local lastWaypoint
 
-local function onClickWayPoint(pin, creature)
-    if (TomTom) then
-        local playerMapID = C_Map.GetBestMapForUnit("player")
-        local pinMapID = pin:GetMap():GetMapID()
-        if (addon.params["Vignette MapID"] == playerMapID) then
-            if (lastWaypoint) then
-                TomTom:RemoveWaypoint(lastWaypoint)
-            end
-            local location = creature["Location"]
-            lastWaypoint = TomTom:AddWaypoint(pinMapID, location[1], location[2], {
-                title = creature["Name"],
-                persistent = false,
-                minimap = true,
-                world = true
-            })
-        end
-    end
-end
-
 function addon:OpenWorldMapToZone()
     if TomCatsRareMapFrame then
         if TomCatsRareMapFrame:IsShown() and WorldMapFrame:GetMapID() == zoneMapID then
@@ -261,6 +241,7 @@ end
 local LOOT_NOUN_COLOR = CreateColor(1.0, 0.82, 0.0, 1.0)
 local COLOR_WHITE = CreateColor(1.0, 1.0, 1.0, 1.0)
 local COLOR_RED = CreateColor(1.0, 0.0, 0.0, 1.0)
+local PIN_SHARING = string.gsub(MAP_PIN_SHARING_TOOLTIP,".*|c","|c")
 
 function addon.showItemTooltip(self, creature, showCreatureName, _, _)
     local tooltip = EmbeddedItemTooltip
@@ -304,6 +285,14 @@ function addon.showItemTooltip(self, creature, showCreatureName, _, _)
                 end
             end)
         end
+        footerText = footerText or ""
+        if (TomTom) then
+            footerText = footerText .. ("\n\n|cff00ff00<%s>|r"):format(L["Click to view creature details"]) .. "\n\n" ..
+                    ("|cff00ff00<%s>|r"):format(L["Control-Click TomTom"]) .. "\n\n" .. PIN_SHARING
+        else
+            footerText = footerText .. ("\n\n|cff00ff00<%s>|r"):format(L["Click to view creature details"]) .. "\n\n" ..
+                    ("|cff999999<%s>|r"):format(L["Control-Click TomTom"]) .. "\n\n" .. PIN_SHARING
+        end
     end
     if footerText then
         EmbeddedItemTooltip.BottomFontString:SetText(footerText)
@@ -315,11 +304,78 @@ end
 function addon.hideItemTooltip()
     EmbeddedItemTooltip:Hide()
 end
-
-local function pinOnClick(pin)
-    local creature = D["Creatures by Vignette ID"][pin.vignetteID]
+local rareCreaturesLogTimeFormatter = "%dh %02dm"
+local function ClickRarePin(self, isCreature)
+    local creature
+    if (isCreature) then
+        creature = self
+    else
+        creature = D["Creatures by Vignette ID"][self.vignetteID]
+    end
     if (creature) then
-        onClickWayPoint(pin, creature)
+        if (IsShiftKeyDown()) then
+            local linktemplate = "|cffffff00|Hworldmap:%s:%s:%s|h[|A:Waypoint-MapPin-ChatIcon:13:13:0:0|a Map Pin Location]|h|r %s %s"
+            local location = creature["Location"]
+            if (location) then
+                local timerText
+                local seconds = SpawnTimerByIndex(creature["Spawn Index"])
+                if (seconds > (20 * spawnTimer - spawnTimer)) then
+                    timerText = "up now"
+                else
+                    local foundPin
+                    for pin in WorldMapFrame:EnumeratePinsByTemplate("VignettePinTemplate") do
+                        if (pin.vignetteID and pin.vignetteID == creature["Vignette ID"]) then
+                            if (pin:IsShown() and pin.Texture:GetAtlas() == "nazjatar-nagaevent") then
+                                foundPin = pin
+                            end
+                        end
+                    end
+                    if (foundPin) then
+                        timerText = "up now"
+                    else
+                        local hours = math.floor(seconds / 3600);
+                        local minutes = math.floor((seconds % 3600) / 60);
+                        seconds = seconds % 60
+                        timerText = " in " .. rareCreaturesLogTimeFormatter:format(hours, minutes)
+                    end
+                end
+                local link = string.format(linktemplate,WorldMapFrame:GetMapID(),math.floor(location[1] * 10000),math.floor(location[2] * 10000),creature["Name"], timerText)
+                if (IsControlKeyDown()) then
+                    ChatEdit_InsertLink(link)
+                else
+                    SendChatMessage(link, "CHANNEL", nil, 1)
+                end
+            end
+        elseif (IsControlKeyDown() and TomTom) then
+            local playerMapID = C_Map.GetBestMapForUnit("player")
+            local pinMapID = WorldMapFrame:GetMapID()
+            if (pinMapID == playerMapID) then
+                if (lastWaypoint) then
+                    TomTom:RemoveWaypoint(lastWaypoint)
+                end
+                local location = creature["Location"] or creature["Locations"][raresLog.locationIndex]
+                if location then
+                    lastWaypoint = TomTom:AddWaypoint(WorldMapFrame:GetMapID(), location[1], location[2], {
+                        title      = creature["Name"],
+                        persistent = false,
+                        minimap    = true,
+                        world      = true
+                    })
+                end
+            end
+        elseif (IsControlKeyDown()) then
+            ChatFrame1:AddMessage(("|cffff0000%s|r"):format(L["Must have TomTom"]))
+        else
+            if WorldMapFrame:IsMaximized() then
+                WorldMapFrame.BorderFrame.MaximizeMinimizeFrame:Minimize()
+            end
+            if not TomCatsRareMapFrame:IsShown() then
+                TomCatsRarePanelToggle:OnClick()
+            end
+            PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+            TomCatsRareMapFrame.RaresFrame:Hide()
+            TomCatsRaresLogFrame_ShowRareDetails(creature)
+        end
     end
 end
 
@@ -328,7 +384,9 @@ local VignettePinMixin_OnMouseEnter_Orig = VignettePinMixin.OnMouseEnter
 function VignettePinMixin:OnMouseEnter()
     local creature = D["Creatures by Vignette ID"][self.vignetteID]
     if (creature) then
-        self:SetScript("OnMouseUp", pinOnClick)
+        self:SetScript("OnMouseUp", function(self)
+            ClickRarePin(self)
+        end)
         addon.showItemTooltip(self, creature, true, 10, 5)
     else
         return VignettePinMixin_OnMouseEnter_Orig(self)
@@ -397,7 +455,7 @@ if (HandyNotes) then
         end,
         OnClick = function(_, button, down, _, coord)
             if button == "LeftButton" and not down then
-                onClickWayPoint(coordLookup[coord])
+                ClickRarePin(coordLookup[coord], true)
             end
         end
     }
@@ -468,7 +526,7 @@ if (TomCats and TomCats.Register) then
                     }
                 },
                 name = "Rares of Death's Rising",
-                version = "2.0.13",
+                version = "2.0.22",
                 raresLogHandlers = {
                     [zoneMapID] = {
                         raresLog = GetRaresLog

@@ -1,5 +1,5 @@
 ## Interface: 90001
-## Version: r677
+## Version: r678
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBlackTemple_AllSavedVars

@@ -66,8 +66,6 @@ L["known"] = "Conocido"
 L["missing"] = "Desconocido"
 L["unobtainable"] = "No se puede obtener"
 L["unlearnable"] = "No se puede aprender"
-L["A"] = nil
-L["D"] = nil
 L["defeated"] = nil
 L["undefeated"] = nil
 
@@ -119,8 +117,6 @@ L["options_toggle_maximized_enlarged"] = nil
 L["options_toggle_maximized_enlarged_desc"] = nil
 L["options_toggle_use_char_achieves"] = nil
 L["options_toggle_use_char_achieves_desc"] = nil
-L["options_poi_refresh_rate"] = nil
-L["options_poi_refresh_rate_desc"] = nil
 L["options_restore_hidden_nodes"] = nil
 L["options_restore_hidden_nodes_desc"] = nil
 
@@ -146,7 +142,6 @@ L["options_reset_poi_colors_desc"] = nil
 ---------------------------------- TOOLTIP ---------------------------------
 
 L["options_tooltip_settings"] = "Tooltip"
-L["options_tooltip_settings_desc"] = "Tooltip"
 L["options_toggle_show_loot"] = "Mostrar el botín"
 L["options_toggle_show_loot_desc"] = "Agregar la información de botín al toolip"
 L["options_toggle_show_notes"] = "Mostrar las Notas"
@@ -155,7 +150,6 @@ L["options_toggle_show_notes_desc"] = "Agregar las notas útiles al tooltip cuan
 --------------------------------- DEVELOPMENT ---------------------------------
 
 L["options_dev_settings"] = "Desarrollo"
-L["options_dev_settings_desc"] = "Opciones de Desarrollo"
 L["options_toggle_show_debug_map"] = "Debug IDs del Mapa"
 L["options_toggle_show_debug_map_desc"] = "Muestra información de debug para los mapas"
 L["options_toggle_show_debug_quest"] = "Debug IDs de las Misiones"

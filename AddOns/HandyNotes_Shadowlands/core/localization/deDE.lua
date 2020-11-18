@@ -66,8 +66,6 @@ L["known"] = "Bekannt"
 L["missing"] = "Fehlt"
 L["unobtainable"] = "Nicht erhältlich"
 L["unlearnable"] = "Nicht erlernbar"
-L["A"] = "L" -- available/alive
-L["D"] = "T" -- dead/defeated
 L["defeated"] = "Besiegt"
 L["undefeated"] = "Unbesiegt"
 
@@ -119,8 +117,6 @@ L["options_toggle_maximized_enlarged"] = "Symbole bei maximierter Weltkarte verg
 L["options_toggle_maximized_enlarged_desc"] = "Wenn die Weltkarte maximiert ist, werden alle Symbole vergrößert."
 L["options_toggle_use_char_achieves"] = "Verwende charakterspezifische Erfolge"
 L["options_toggle_use_char_achieves_desc"] = "Zeigt den Erfolgsfortschritt von diesem Charakter, anstelle des gesamten Accounts an."
-L["options_poi_refresh_rate"] = nil
-L["options_poi_refresh_rate_desc"] = nil
 L["options_restore_hidden_nodes"] = "Versteckte Punkte wiederherstellen"
 L["options_restore_hidden_nodes_desc"] = "Stellt alle Punkte wieder her, die über das Kontextmenü versteckt wurden."
 
@@ -146,7 +142,6 @@ L["options_reset_poi_colors_desc"] = "Setzet die obigen Farben auf ihre Standard
 ---------------------------------- TOOLTIP ---------------------------------
 
 L["options_tooltip_settings"] = "Tooltip"
-L["options_tooltip_settings_desc"] = "Tooltip"
 L["options_toggle_show_loot"] = "Zeige Beute"
 L["options_toggle_show_loot_desc"] = "Zeigt Beuteinformationen im Tooltip an."
 L["options_toggle_show_notes"] = "Zeige Notizen"
@@ -155,7 +150,6 @@ L["options_toggle_show_notes_desc"] = "Zeigt hilfreiche Notizen an sofern diese 
 --------------------------------- DEVELOPMENT ---------------------------------
 
 L["options_dev_settings"] = "Entwicklung"
-L["options_dev_settings_desc"] = "Entwicklungseinstellungen"
 L["options_toggle_show_debug_map"] = "Debug Karten IDs"
 L["options_toggle_show_debug_map_desc"] = "Zeigt debug informationen für Karten"
 L["options_toggle_show_debug_quest"] = "Debug Quest IDs"

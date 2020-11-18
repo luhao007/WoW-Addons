@@ -1472,7 +1472,7 @@ end
 local function CreateHash(t)
 	local key = t.key or GetKey(t);
 	if key then
-		local hash = key .. (rawget(t, key) or t[key]);
+		local hash = key .. (rawget(t, key) or t[key] or "NOKEY");
 		if key == "criteriaID" and t.achievementID then hash = hash .. ":" .. t.achievementID; end
 		if key == "creatureID" then
 			if t.encounterID then hash = hash .. ":" .. t.encounterID; end
@@ -1663,7 +1663,9 @@ local function ExpandGroupsRecursively(group, expanded, manual)
 				-- it's not an item
 				(not group.itemID and
 				-- incomplete things actually exist below itself
-				((group.total or 0) > (group.progress or 0)))
+				((group.total or 0) > (group.progress or 0)) and
+				-- it is not a 'saved' thing for this character
+				(not group.saved or group.saved ~= 1))
 			) then
 			-- print("expanded",group.key,group[group.key]);
 			group.expanded = expanded;
@@ -3002,6 +3004,12 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 		
 		if group.isLimited then
 			tinsert(info, 1, { left = L.LIMITED_QUANTITY, wrap = false, color = "ff66ccff" });
+		end
+		
+		if paramA == "itemID" and paramB == 137642 then
+			if app.Settings:GetTooltipSetting("SummarizeThings") then
+				tinsert(info, 1, { left = "Marks of Honor must be viewed in a Popout window to see all of the normal 'Contains' content\n(Type '/att ' in chat then Shift-Click to link the item)", wrap = false, color = "ffff8426" });
+			end			
 		end
 		
 		local collectionData;
@@ -4925,6 +4933,9 @@ local function AttachTooltip(self)
 				-- Does the tooltip have an itemlink?
 				local link = select(2, self:GetItem());
 				if link then
+					-- local _, _, Color, Ltype, Id, Enchant, Gem1, Gem2, Gem3, Gem4, Suffix, Unique, LinkLvl, reforging, Name = string.find(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?");
+					local _, _, _, Ltype, Id = string.find(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?");
+					-- print(Ltype,Id);
 					--[[
 					local itemString = string.match(link, "item[%-?%d:]+");
 					-- mythic keystones have no itemID ... ?? so itemString is nil here
@@ -4934,7 +4945,11 @@ local function AttachTooltip(self)
 						self:AddLine("ATT -> " .. BUTTON_LAG_AUCTIONHOUSE .. " -> " .. GetCoinTextureString(AllTheThingsAuctionData[itemID]["price"]));
 					end--]]
 					-- print("Search Item",itemID);
-					AttachTooltipSearchResults(self, link, SearchForLink, link);
+					if Ltype == "item" and Id == "137642" then -- skip Mark of Honor for now
+						AttachTooltipSearchResults(self, link, function() end, "itemID", 137642);
+					else
+						AttachTooltipSearchResults(self, link, SearchForLink, link);
+					end
 				end
 				
 				-- Does this tooltip have a 'shown Thing'
@@ -9550,7 +9565,7 @@ local function NestSourceQuests(root, addedQuests, depth)
 					-- clone the object so as to not modify actual data
 					sq = CloneData(sq);
 					-- force collectible to make sure it shows in list
-					if not sq.isBreadcrumb then
+					if not (sq.isBreadcrumb or sq.repeatable) then
 						sq.collectible = true;
 					end
 					sq.visible = true;
@@ -9741,7 +9756,7 @@ function app:CreateMiniListForGroup(group)
 				group = group.parent;
             end
 			local root = group;
-			root.collectible = true;
+			root.collectible = not root.repeatable;
 			local g = { root };
 			
 			-- Check to see if Source Quests are listed elsewhere.
@@ -11233,18 +11248,20 @@ function app:GetDataCache()
 		
 		-- Dungeons & Raids
 		db = {};
+		db.g = app.Categories.Instances;
 		db.expanded = false;
 		db.text = GROUP_FINDER;
-		db.icon = "Interface\\LFGFRAME\\LFGIcon-ReturntoKarazhan";
-		db.g = app.Categories.Instances;
+		db.icon = "Interface\\Addons\\AllTheThings\\assets\\D&R";
 		table.insert(g, db);
 		
 		-- Zones
 		if app.Categories.Zones then
-			db = app.CreateAchievement(46, app.Categories.Zones);
+			db = {};
+			db.g = app.Categories.Zones;
+			-- db = app.CreateAchievement(46, app.Categories.Zones);
 			db.expanded = false;
 			db.text = BUG_CATEGORY2;
-			db.icon = "Interface\\ICONS\\Achievement_Zone_Outland_01"
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\zones"
 			db.collectible = false;
 			table.insert(g, db);
 		end
@@ -11252,28 +11269,34 @@ function app:GetDataCache()
 		-- World Drops / Bind on Equips
 		if app.Categories.WorldDrops then
 			db = {};
+			db.g = app.Categories.WorldDrops;
 			db.expanded = false;
 			db.text = TRANSMOG_SOURCE_4;
 			--db.text = ITEM_BIND_ON_EQUIP;
-			db.icon = "Interface\\ICONS\\INV_Misc_Map02";
-			db.g = app.Categories.WorldDrops;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\wdrop";
 			table.insert(g, db);
 		end
 	
 		-- Group Finder
 		if app.Categories.GroupFinder then
-			db = app.CreateAchievement(4476, app.Categories.GroupFinder);	-- Looking for More
+			db = {};
+			db.g = app.Categories.GroupFinder;
+			-- db = app.CreateAchievement(4476, app.Categories.GroupFinder);	-- Looking for More
 			db.expanded = false;
 			db.text = DUNGEONS_BUTTON;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\grpf"
 			db.collectible = false;
 			table.insert(g, db);
 		end
 		
 		-- Achievements
 		if app.Categories.Achievements then
-			db = app.CreateAchievement(4496, app.Categories.Achievements);	-- It's Over Nine Thousand
+			db = {};
+			db.g = app.Categories.Achievements;
+			-- db = app.CreateAchievement(4496, app.Categories.Achievements);	-- It's Over Nine Thousand
 			db.expanded = false;
 			db.text = TRACKER_HEADER_ACHIEVEMENTS;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\ach"
 			db.npcID = -4;
 			db.collectible = false;
 			table.insert(g, db);
@@ -11282,12 +11305,12 @@ function app:GetDataCache()
 		-- Azerite Essences
 		if app.Categories.Essences then
 			db = {}
+			db.g = app.Categories.Essences;
 			db.lvl = 50;	-- used to be 120 pre-scale
 			db.expanded = false
 			db.text = "Azerite Essences"
-			db.icon = "Interface\\ICONS\\Inv_heartofazeroth"
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\Azerite"
 			db.description = "Essences have two effects on them, one major and one minor power.\n\nPlayers may place an Essence in every unlocked Major or Minor slot in the Heart of Azeroth.\n\nThe major power will only be activated if the Essence is placed in the central Major slot.\n\nThe minor power will be activated if the Essence is placed in any Minor slot or the central Major slot.\n\nThe same Essence cannot be placed in multiple slots.\n\nEssences must be learned at the Heart Forge, but can be swapped out in any Rest Area."
-			db.g = app.Categories.Essences
 			table.insert(g, db)
 		end
 		--[[ automated category replaced by manual database. leaving this here temporarily as a reference point
@@ -11322,11 +11345,11 @@ function app:GetDataCache()
 		-- Expansion Features
 		if app.Categories.ExpansionFeatures then
 			db = {};
+			db.g = app.Categories.ExpansionFeatures;
 			db.lvl = 26;	-- used to be 67 pre-scale
 			db.expanded = false;
 			db.text = GetCategoryInfo(15301);
-			db.icon = "Interface\\ICONS\\Achievement_Battleground_TempleOfKotmogu_02_Green";
-			db.g = app.Categories.ExpansionFeatures;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\xpacf";
 			db.collectible = false;
 			table.insert(g, db);
 		end
@@ -11334,7 +11357,7 @@ function app:GetDataCache()
 		-- Events
 		if app.Categories.WorldEvents then
 			db = app.CreateDifficulty(18, app.Categories.WorldEvents);
-			db.icon = "Interface\\Icons\\inv_misc_celebrationcake_01";
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\event";
 			db.expanded = false;
 			db.collectible = false;
 			table.insert(g, db);
@@ -11342,6 +11365,8 @@ function app:GetDataCache()
 
 		-- Holidays
 		if app.Categories.Holidays then
+			-- db = {};
+			-- db.g = app.Categories.Holidays;
 			db = app.CreateAchievement(2144, app.Categories.Holidays);
 			db.expanded = false;
 			db.text = GetItemSubClassInfo(15,3);
@@ -11375,16 +11400,18 @@ function app:GetDataCache()
 		end;
 		db.OnUpdate(db);
 		db.text = "Flight Paths";
-		db.icon = "Interface\\Minimap\\Tracking\\Flightmaster";
+		db.icon = "Interface\\Addons\\AllTheThings\\assets\\fpl";
 		table.insert(g, db);
 		
 		-- Pet Battles
 		if app.Categories.PetBattles then
-			db = app.CreateAchievement(6559, app.Categories.PetBattles); -- Traveling Pet Mauler
+			db = {};
+			db.g = app.Categories.PetBattles;
+			-- db = app.CreateAchievement(6559, app.Categories.PetBattles); -- Traveling Pet Mauler
 			db.lvl = 3; -- Must be 3 to train (used to be 5 pre-scale)
 			db.expanded = false;
 			db.text = SHOW_PET_BATTLES_ON_MAP_TEXT; -- Pet Battles
-			db.g = app.Categories.PetBattles;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\petb"
 			db.collectible = false;
 			table.insert(g, db);
 		end
@@ -11392,32 +11419,34 @@ function app:GetDataCache()
 		-- PvP
 		if app.Categories.PVP then
 			db = {};
+			db.g = app.Categories.PVP;
 			db.expanded = false;
 			db.text = STAT_CATEGORY_PVP;
-			db.icon = "Interface\\Icons\\Achievement_PVP_Legion08";
-			db.g = app.Categories.PVP;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\pvp";
 			db.collectible = false;
 			table.insert(g, db);
 		end
 		
 		-- Craftables
 		if app.Categories.Craftables then
-			db = app.CreateAchievement(5035, {});
+			db = {};
+			db.g = app.Categories.Craftables;
+			-- db = app.CreateAchievement(5035, {});
 			db.expanded = false;
 			db.text = LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM;
-			db.icon = "Interface\\ICONS\\ability_repair";
-			db.g = app.Categories.Craftables;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\craft";
 			db.collectible = false;
 			table.insert(g, db);
 		end
 		
 		-- Professions
 		if app.Categories.Professions then
-			db = app.CreateAchievement(10583, {});
+			db = {};
+			db.g = app.Categories.Professions;
+			-- db = app.CreateAchievement(10583, {});
 			db.expanded = false;
 			db.text = TRADE_SKILLS;
-			db.icon = "Interface\\ICONS\\INV_Scroll_04";
-			db.g = app.Categories.Professions;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\prof";
 			db.collectible = false;
 			table.insert(g, db);
 		end
@@ -11425,82 +11454,95 @@ function app:GetDataCache()
 		-- Secrets
 		if app.Categories.Secrets then
 			db = {};
+			db.g = app.Categories.Secrets;
 			db.expanded = false;
 			db.description = "Naughty secrets...";
 			db.text = L["SECRETS_HEADER"];
-			db.icon = "Interface\\ICONS\\Spell_Nature_Polymorph_Cow";
-			db.model = "1526032";
-			db.g = app.Categories.Secrets;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\secrets";
 			db.collectible = false;
 			table.insert(g, db);
 		end
 		
 		-- Selfie Filters
 		if app.Categories.SelfieFilters then
-			db = app.CreateItem(122674, app.Categories.SelfieFilters);
+			db = {};
+			db.g = app.Categories.SelfieFilters;
 			db.expanded = false;
 			db.text = L["SELFIE_FILTERS_HEADER"];
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\Selfc";
 			db.lvl = 40;	-- used to be 100
 			table.insert(g, db);
 		end
 		
 		-- Gear Sets
 		if app.Categories.GearSets then
-			db = app.CreateAchievement(11761, app.Categories.GearSets);
+			db = {};
+			db.g = app.Categories.GearSets;
+			-- db = app.CreateAchievement(11761, app.Categories.GearSets);
 			db.expanded = false;
 			db.text = LOOT_JOURNAL_ITEM_SETS;
-			db.icon = "Interface\\ICONS\\Achievement_Transmog_Collections";
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\isets";
 			table.insert(g, db);
 		end
 		
 		-- In-Game Store
 		if app.Categories.InGameShop then
-			db = { };
+			db = {};
+			db.g = app.Categories.InGameShop;
 			db.expanded = false;
 			db.text = BATTLE_PET_SOURCE_10;
-			db.icon = "Interface\\ICONS\\INV_Misc_Map02";
-			db.g = app.Categories.InGameShop;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\gshop";
 			table.insert(g, db);
 		end
 		
 		-- Illusions
 		if app.Categories.Illusions then
 			db = {};
+			db.g = app.Categories.Illusions;
 			db.expanded = false;
 			db.text = "Illusions";
-			db.group = app.Categories.Illusions;
 			table.insert(g, db);
 		end
 		
 		-- Factions
 		if app.Categories.Factions then
-			db = app.CreateAchievement(11177, app.Categories.Factions);
+			db = {};
+			db.g = app.Categories.Factions;
+			-- db = app.CreateAchievement(11177, app.Categories.Factions);
 			db.expanded = false;
 			db.text = "Factions";
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\factions";
 			table.insert(g, db);
 		end
 		
 		-- Mounts
 		if app.Categories.Mounts then
-			db = app.CreateAchievement(app.FactionID == Enum.FlightPathFaction.Horde and 12934 or 12933, app.Categories.Mounts);
+			db = {};
+			db.g = app.Categories.Mounts;
+			-- db = app.CreateAchievement(app.FactionID == Enum.FlightPathFaction.Horde and 12934 or 12933, app.Categories.Mounts);
 			db.expanded = false;
 			db.text = MOUNTS;
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\mounts"
 			table.insert(g, db);
 		end
 		
 		-- Pet Journal
 		if app.Categories.PetJournal then
-			db = app.CreateAchievement(12958, app.Categories.PetJournal);
+			db = {};
+			db.g = app.Categories.PetJournal;
+			-- db = app.CreateAchievement(12958, app.Categories.PetJournal);
 			db.f = 101;
 			db.expanded = false;
 			db.text = PET_JOURNAL;
-			db.icon = "Interface\\ICONS\\INV_Pet_BattlePetTraining";
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\petj";
 			table.insert(g, db);
 		end
 		
 		-- Titles
 		if app.Categories.Titles then
-			db = app.CreateAchievement(2188, app.Categories.Titles);
+			db = {};
+			db.g = app.Categories.Titles;
+			-- db = app.CreateAchievement(2188, app.Categories.Titles);
 			db.expanded = false;
 			db.text = "Titles";
 			table.insert(g, db);
@@ -11508,8 +11550,10 @@ function app:GetDataCache()
 		
 		-- Toys
 		if app.Categories.Toys then
-			db = app.CreateAchievement(12996, app.Categories.Toys);
-			db.icon = "Interface\\ICONS\\INV_Misc_Toy_10";
+			db = {};
+			db.g = app.Categories.Toys;
+			-- db = app.CreateAchievement(12996, app.Categories.Toys);
+			db.icon = "Interface\\Addons\\AllTheThings\\assets\\toy";
 			db.expanded = false;
 			db.f = 102;
 			db.text = TOY_BOX;
@@ -12561,11 +12605,13 @@ app:GetWindow("CurrentInstance", UIParent, function(self, force, got)
 				-- sort only the top layer of groups if not in an instance with difficulty, force visible so sort goes through
 				-- print(GetInstanceInfo());
 				local difficultyID = select(3, GetInstanceInfo());
+				-- sort by name if not in an instance
 				if not difficultyID or difficultyID < 1 then
 					self.data.visible = true;
 					-- print("sortname");
 					SortGroup(self.data, "name", nil, false);
-				else
+				-- sort by difficulty ONLY if the instance has actual difficulty dividers
+				elseif hasDifficulties then
 					self.data.visible = true;
 					-- print("sortdiff");
 					SortGroup(self.data, "difficultyID", nil, false);
@@ -15731,6 +15777,7 @@ app.events.VARIABLES_LOADED = function()
 	RefreshAchievementCollection();
 	
 	-- Set the Current Map ID
+	-- TODO: think this might trigger too early sometimes? keep getting Northrend minilist in Icecrown like 10% of logins...
 	app.CurrentMapID = app.GetCurrentMapID();
 	
 	-- Attempt to register for the addon message prefix.

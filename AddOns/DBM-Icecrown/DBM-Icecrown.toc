@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: MysticalOS
-## Version: r296
+## Version: r297
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMIcecrown_AllSavedVars

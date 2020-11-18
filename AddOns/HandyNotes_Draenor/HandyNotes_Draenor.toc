@@ -7,8 +7,6 @@
 ## X-Embeds: Ace3
 ## SavedVariables: HandyNotesDraenorDB
 
-Include.xml
-
 Init.lua
 Interface.lua
 

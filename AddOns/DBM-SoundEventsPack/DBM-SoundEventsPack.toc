@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: MysticalOS, Pardua, Cigawoot
-## Version: 1.6.7
+## Version: 1.6.8
 ## RequiredDeps: DBM-Core
 ## DefaultState: enabled
 

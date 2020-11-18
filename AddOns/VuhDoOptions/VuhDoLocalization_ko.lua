@@ -1147,3 +1147,5 @@ VUHDO_I18N_BLACKLIST_KEY_MODIFIES = "무시 목록 수정 키";
 
 VUHDO_I18N_NICKNAME = "Details!\nNickname"
 
+VUHDO_I18N_DEBUFF_SHOW_ONLY_FOR_FRIENDLY_TEXT = "Show only\nfor friendly";
+VUHDO_I18N_DEBUFF_SHOW_ONLY_FOR_FRIENDLY_TOOLTIP = "Shows debuffs only for friendly units";

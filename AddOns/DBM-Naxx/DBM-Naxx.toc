@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: Tandanu/Nitram
-## Version: r296
+## Version: r297
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMNaxx_AllSavedVars

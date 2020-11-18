@@ -77,7 +77,7 @@ L["glitterdust_note"] = "Puede que las criaturas de Ardenweald parezcan dóciles
 ----------------------------------- BASTION -----------------------------------
 -------------------------------------------------------------------------------
 
-L["ascended_council_note"] = "Con otros cuatro jugadores, hay que hacer click en las cinco campanas de vísperas: pureza, coraje, humildad, sabiduría y lealtad al mismo tiempo. Después, hay que ir al Crisol del Aspirante para derrotar el Consejo de los Ascendidos y que se revele el alijo."
+L["ascended_council_note"] = "Con otros cuatro jugadores, hay que hacer click en los cinco templos de campanas de vísperas al mismo tiempo para invocar a {npc:170899} en el Crisol del Aspirante."
 L["aspirant_eolis_note"] = "Despoja un {item:180613} en las cercanías y leelo con el {npc:171211} como objetivo para activarlo."
 L["baedos_note"] = "Lleva Barriles de Fruta Puriana Fermentada del alrededor del área actual al {npc:161536} hasta que se active {npc:160629}."
 L["basilofos_note"] = "Muévete alrededor de la roca hasta que una marca de fijado lila aparezca sobre tu cabeza. Quédate quieto y espera a que aparezcan cuatro textos de emoción. Tras ello, aparecerá {npc:170659}."
@@ -135,6 +135,19 @@ El orbe te llevará al verdadero Incienso del Juicio. Comulga con él y aparecer
 ]]
 L["gift_of_vesiphone"] = "Toca una de las campanas para hacer que aparezca una {npc:170849} y mátala para recibir el debuff {spell:333239}. El agua que cae frente al cofre limpiará el debuff y te dará la {spell:332785}."
 
+L["count_your_blessings_note"] = "Coloca una {item:178915} en el cuenco de tributo para recibir su bendición."
+L["options_icons_blessings"] = "{achievement:14767}"
+L["options_icons_blessings_desc"] = "Muestra las localizaciones de los tributos para el logro {achievement:14767}."
+
+L["vesper_of_courage"] = "Campana de Vísceras del Coraje"
+L["vesper_of_humility"] = "Campana de Vísceras de la Humildad"
+L["vesper_of_loyalty"] = "Campana de Vísceras de la Lealtad"
+L["vesper_of_purity"] = "Campana de Vísceras de la Pureza"
+L["vesper_of_wisdom"] = "Campana de Vísceras de la Sabiduría"
+L["vespers_ascended_note"] = "Haz click en la campana de vísceras al mismo tiempo que en las otras cuatro campanas de vísceras para invocar a {npc:170899} en el Crisol del Aspirante."
+L["options_icons_vespers"] = "{achievement:14734}"
+L["options_icons_vespers_desc"] = "Muestra las localizaciones de las campanas de vísceras para el logro {achievement:14734}."
+
 L["anima_shard"] = "Fragmento de Ánima Perdido"
 L["anima_shard_61225"] = "En una plataforma inferior debajo del puente."
 L["anima_shard_61235"] = "En una repisa sobre la cascada."
@@ -188,16 +201,6 @@ L["anima_shard_61299"] = "Oculta detrás de una gran antorcha."
 L["anima_shard_61300"] = "En una repisa que cuelga sobre la fuente central."
 L["options_icons_anima_shard"] = "{achievement:14339}"
 L["options_icons_anima_shard_desc"] = "Muestra la localización de los 50 fragmentos de cristal de ánima perdidos para el logro {achievement:14339}."
-
-L["aspirants_rest"] = "Reposo del Aspirante"
-L["eternal_gateway"] = "Portal Eterno"
-L["exaltations_rise"] = "Alto de la Exaltación"
-L["heros_rest"] = "Reposo del Héroe"
-L["sagehaven"] = "Refugio Sabio"
-L["seat_of_eternal_hymns"] = "Trono de Himnos Eternos"
-L["temple_of_humility"] = "Templo de la Humildad"
-L["temple_of_purity"] = "Templo de la Pureza"
-L["xandrias_vigil"] = "Vigilia de Xandria"
 
 L["stratios_note"] = "Incluso las pequeñas batallas se deben librar con honor y cuidado. Presenta a tu equipo cuando lo tengas todo listo."
 L["thenia_note"] = "Qué llanuras más maravillosas. Un lugar glorioso para combatir. ¿Listo?"
@@ -283,12 +286,6 @@ L["pus_in_boots"] = "Está debajo del puente."
 L["options_icons_slime_cat"] = "{achievement:14634}"
 L["options_icons_slime_cat_desc"] = "Muestra las localizaciones de los gatitos para el logro {achievement:14634}."
 
-L["exoramas"] = "Exoramas, Casa de los Rituales"
-L["nurakkir"] = "Nurakkir, Casa de los Ojos"
-L["overlook_primus"] = "Mirador, Trono del Prelado"
-L["zerekriss"] = "Zerekriss, Maldraxxus"
-L["zerekriss_note"] = "Una vez activada, la necrópolis volará alrededor de la zona. Agárrate de {npc:165822} para planear hacia el suelo."
-
 L["dundley_note"] = "¡Lucharé hasta alcanzar la victoria y por fin recibiré el respeto que merezco! El único inconveniente es que ahora todo lo que tengo está pegajoso. Todo."
 L["maximillian_note"] = "Llevo mucho tiempo esperando a un rival digno. ¡El botín será para el vencedor!"
 L["rotgut_note"] = "Pudretripa. Sobras. Más partes. Lucha."
@@ -356,13 +353,6 @@ L["options_icons_dredbats_desc"] = "Muestra las localizaciones y rutas de las {n
 L["options_icons_sinrunners"] = "{npc:174032}"
 L["options_icons_sinrunners_desc"] = "Muestra las localizaciones y rutas de los {npc:174032}."
 
-L["dominance_keep"] = "Fortaleza de la Dominancia"
-L["eternal_terrace"] = "Bancal Eterno"
-L["feeders_thicket"] = "Matorral de los Alimentadores"
-L["halls_of_atonement"] = "Salas de la Expiación"
-L["pridefall_hamlet"] = "Aldea de la Caída"
-L["the_banewood"] = "Bosque de la Desgracia"
-
 L["addius_note"] = "No debería perder el tiempo con criaturas de mente débil, pero, si insistes, te haré sufrir de verdad."
 L["eyegor_note"] = "¡Jojobado listo para el combate!"
 L["sylla_note"] = "En esta zona tan horrible, una batalla honorable es lo último que cabe esperar, pero, bueno, aquí estamos. No me hagas perder el tiempo."
@@ -423,10 +413,8 @@ L["options_icons_riftstone_desc"] = "Muestra las localizaciones de los teletrans
 -------------------------------------------------------------------------------
 
 L["prepatch_intro"] = "Completa las misiones introductorias del evento del preparche para desbloquear los bosses de esta zona."
-L["icecrown_rares"] = "Todos los bosses aparecen en un orden fijado cada 20 minutos. ¡Todos pueden ser despojados varias veces en el mismo día!"
+L["icecrown_rares"] = "Todos los bosses aparecen en un orden fijado cada 10 minutos. ¡Todos pueden ser despojados varias veces en el mismo día!"
 L["next_spawn"] = "El siguiente aparecerá a las %s hora local."
-L["shared_loot"] = "Botín Compartido"
-L["unique_loot"] = "Botín Único"
 
 local ORIG = ns.color.Orange("Originalmente en %s.")
 

@@ -1,5 +1,8 @@
 local NEEDED = "A description is needed here"
 select(2, ...).TomCatsLibs.Locales.AddLocaleLookup("enUS", {
+    ["Click to view Creature Details"] = "Click to view Creature Details",
+    ["Control-Click TomTom"]           = "Control-Click to set a TomTom waypoint",
+    ["Must have TomTom"]               = "Warning: You must have the TomTom addon installed and enabled to create a TomTom waypoint arrow",
     ["174048_DESC"] = NEEDED, -- Elder Nadox
     ["174049_DESC"] = NEEDED, -- Prince Taldaram
     ["174050_DESC"] = NEEDED, -- Krik'thir the Gatewatcher

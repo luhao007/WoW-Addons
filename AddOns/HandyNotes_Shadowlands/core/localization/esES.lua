@@ -68,8 +68,6 @@ L["known"] = "Conocido"
 L["missing"] = "Desconocido"
 L["unobtainable"] = "No se puede obtener"
 L["unlearnable"] = "No se puede aprender"
-L["A"] = "V" -- available/alive
-L["D"] = "M" -- defeated/dead
 L["defeated"] = "Derrotado"
 L["undefeated"] = "Sin derrotar"
 
@@ -121,8 +119,6 @@ L["options_toggle_maximized_enlarged"] = "Agrandar iconos en el mapa del mundo m
 L["options_toggle_maximized_enlarged_desc"] = "Cuando el mapa del mundo está maximizado, agranda todos los iconos."
 L["options_toggle_use_char_achieves"] = "Mostrar logros de personaje"
 L["options_toggle_use_char_achieves_desc"] = "Muestra el progreso de logros para este personaje en lugar de para toda la cuenta."
-L["options_poi_refresh_rate"] = nil
-L["options_poi_refresh_rate_desc"] = nil
 L["options_restore_hidden_nodes"] = "Restaurar los nodos ocultos"
 L["options_restore_hidden_nodes_desc"] = "Vuelve a mostrar todos los nodos ocultos usando el menú contextual con click-derecho."
 
@@ -148,7 +144,6 @@ L["options_reset_poi_colors_desc"] = "Establece los colores de encima a sus valo
 ---------------------------------- TOOLTIP ---------------------------------
 
 L["options_tooltip_settings"] = "Tooltip"
-L["options_tooltip_settings_desc"] = "Tooltip"
 L["options_toggle_show_loot"] = "Mostrar el botín"
 L["options_toggle_show_loot_desc"] = "Muestra la información de botín al tooltip"
 L["options_toggle_show_notes"] = "Mostrar las Notas"
@@ -157,7 +152,6 @@ L["options_toggle_show_notes_desc"] = "Agrega las notas útiles al tooltip cuand
 --------------------------------- DEVELOPMENT ---------------------------------
 
 L["options_dev_settings"] = "Desarrollo"
-L["options_dev_settings_desc"] = "Opciones de Desarrollo"
 L["options_toggle_show_debug_map"] = "Depurar IDs del Mapa"
 L["options_toggle_show_debug_map_desc"] = "Muestra información de depuración para los mapas"
 L["options_toggle_show_debug_quest"] = "Depurar IDs de las Misiones"

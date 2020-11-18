@@ -1,4 +1,4 @@
-local Guide = {Waypoints = {}, Focus = nil}
+local Guide = {Waypoints = {}, Focus = nil, UserWaypoint = nil}
 BtWQuests.Guide = Guide;
 
 function Guide:AddWayPoint(mapId, x, y, name)
@@ -50,7 +50,9 @@ function Guide:SetFocus(item)
     self.Focus = item
 
     if C_Map and C_Map.SetUserWaypoint then
-        C_Map.SetUserWaypoint(UiMapPoint.CreateFromVector2D(item.mapId, item))
+        local waypoint = UiMapPoint.CreateFromVector2D(item.mapId, item)
+        self.UserWaypoint = waypoint
+        C_Map.SetUserWaypoint(waypoint)
 		C_SuperTrack.SetSuperTrackedUserWaypoint(true)
     end
 
@@ -65,11 +67,9 @@ function BtWQuestsGuideDataProviderMixin:OnAdded(mapCanvas)
 	MapCanvasDataProviderMixin.OnAdded(self, mapCanvas);
 	mapCanvas:SetPinTemplateType("BtWQuestsGuidePinTemplate", "BUTTON");
 end
-
 function BtWQuestsGuideDataProviderMixin:RemoveAllData()
 	self:GetMap():RemoveAllPinsByTemplate("BtWQuestsGuidePinTemplate");
 end
-
 function BtWQuestsGuideDataProviderMixin:RefreshAllData(fromOnShow)
 	self:RemoveAllData();
 
@@ -117,33 +117,41 @@ function BtWQuestsGuidePinMixin:OnLoad()
 	self:SetScalingLimits(1, 1.0, 1.2);
 	self:UseFrameLevelType("PIN_FRAME_LEVEL_STORY_LINE");
 end
-
 function BtWQuestsGuidePinMixin:OnAcquired(itemName)
 	self.itemName = itemName;
 	self.mapID = self:GetMap():GetMapID();
 end
-
 function BtWQuestsGuidePinMixin:SetName(value)
     self.name = value
 end
-
 function BtWQuestsGuidePinMixin:OnMouseEnter()
     local tooltip = WorldMapTooltip or GameTooltip
 	tooltip:SetOwner(self, "ANCHOR_LEFT");
 	tooltip:SetText(self.itemName);
 	tooltip:Show();
 end
-
 function BtWQuestsGuidePinMixin:OnMouseLeave()
     local tooltip = WorldMapTooltip or GameTooltip
 	tooltip:Hide();
 end
-
 function BtWQuestsGuidePinMixin:OnClick(button)
-    if button == "LeftButton" then
-        Guide:SetFocus(self.item)
-    elseif button == "RightButton" then
+    if button == "RightButton" or (button == "LeftButton" and IsControlKeyDown()) then
         self.waypoints[self.item] = nil
 		self:GetMap():RemovePin(self);
+    elseif button == "LeftButton" then
+        Guide:SetFocus(self.item)
     end
 end
+
+hooksecurefunc(C_Map, "SetUserWaypoint", function (waypoint)
+    if Guide.UserWaypoint ~= waypoint then
+        Guide.UserWaypoint = nil
+    end
+end)
+hooksecurefunc(C_Map, "ClearUserWaypoint", function ()
+    if Guide.UserWaypoint then
+        Guide.UserWaypoint = nil
+        Guide.Waypoints[Guide.Focus.mapId][Guide.Focus] = nil
+        Guide.DataProvider:RefreshAllData()
+    end
+end)

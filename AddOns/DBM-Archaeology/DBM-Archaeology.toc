@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: Omega
-## Version: r40
+## Version: r41
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_Archaeology_Settings

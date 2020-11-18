@@ -67,6 +67,7 @@ local sIsUseDebuffIconBossOnly;
 local sIsMiBuColorsInFight;
 local sStdDebuffSound;
 local sAllDebuffSettings;
+local sIsShowOnlyForFriendly;
 local sEmpty = { };
 --local sColorArray = nil;
 
@@ -85,6 +86,8 @@ function VUHDO_debuffsInitLocalOverrides()
 	sIsMiBuColorsInFight = VUHDO_BUFF_SETTINGS["CONFIG"]["BAR_COLORS_IN_FIGHT"];
 	sStdDebuffSound = VUHDO_CONFIG["SOUND_DEBUFF"];
 	sAllDebuffSettings = VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED_SETTINGS"];
+	sIsShowOnlyForFriendly = VUHDO_CONFIG["CUSTOM_DEBUFF"]["isShowOnlyForFriendly"];
+
 	VUHDO_DEBUFF_COLORS = {
 		[1] = VUHDO_PANEL_SETUP["BAR_COLORS"]["DEBUFF1"],
 		[2] = VUHDO_PANEL_SETUP["BAR_COLORS"]["DEBUFF2"],
@@ -400,23 +403,25 @@ function VUHDO_determineDebuff(aUnit)
 		for tName, tDebuffInfo in pairs(sCurIcons) do
 
 			if not VUHDO_UNIT_CUSTOM_DEBUFFS[aUnit][tName] then 
-				-- tExpiry, tStacks, tIcon
-				VUHDO_UNIT_CUSTOM_DEBUFFS[aUnit][tName] = { tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[1], tDebuffInfo[7] };
+				if not sIsShowOnlyForFriendly or UnitIsFriend("player", aUnit) then
+					-- tExpiry, tStacks, tIcon
+					VUHDO_UNIT_CUSTOM_DEBUFFS[aUnit][tName] = { tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[1], tDebuffInfo[7] };
 
-				VUHDO_addDebuffIcon(aUnit, tDebuffInfo[1], tName, tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[4], tDebuffInfo[5], tDebuffInfo[6], tDebuffInfo[7]);
+					VUHDO_addDebuffIcon(aUnit, tDebuffInfo[1], tName, tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[4], tDebuffInfo[5], tDebuffInfo[6], tDebuffInfo[7]);
 
-				if not VUHDO_IS_CONFIG and VUHDO_MAY_DEBUFF_ANIM then
-					-- the key used to store the debuff settings is either the debuff name or spell ID
-					tDebuffSettings = sAllDebuffSettings[tName] or sAllDebuffSettings[tostring(tDebuffInfo[6])];
+					if not VUHDO_IS_CONFIG and VUHDO_MAY_DEBUFF_ANIM then
+						-- the key used to store the debuff settings is either the debuff name or spell ID
+						tDebuffSettings = sAllDebuffSettings[tName] or sAllDebuffSettings[tostring(tDebuffInfo[6])];
 
-					if tDebuffSettings then -- particular custom debuff sound?
-						VUHDO_playDebuffSound(tDebuffSettings["SOUND"], tName);
-					elseif VUHDO_CONFIG["CUSTOM_DEBUFF"]["SOUND"] then -- default custom debuff sound?
-						VUHDO_playDebuffSound(VUHDO_CONFIG["CUSTOM_DEBUFF"]["SOUND"], tName);
+						if tDebuffSettings then -- particular custom debuff sound?
+							VUHDO_playDebuffSound(tDebuffSettings["SOUND"], tName);
+						elseif VUHDO_CONFIG["CUSTOM_DEBUFF"]["SOUND"] then -- default custom debuff sound?
+							VUHDO_playDebuffSound(VUHDO_CONFIG["CUSTOM_DEBUFF"]["SOUND"], tName);
+						end
 					end
-				end
 
-				VUHDO_updateBouquetsForEvent(aUnit, 29); -- VUHDO_UPDATE_CUSTOM_DEBUFF
+					VUHDO_updateBouquetsForEvent(aUnit, 29); -- VUHDO_UPDATE_CUSTOM_DEBUFF
+				end
 			-- update number of stacks?
 			elseif VUHDO_UNIT_CUSTOM_DEBUFFS[aUnit][tName][1] ~= tDebuffInfo[2]
 				or VUHDO_UNIT_CUSTOM_DEBUFFS[aUnit][tName][2] ~= tDebuffInfo[3] 

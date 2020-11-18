@@ -19,6 +19,7 @@ L["Adjust the Y position of the name text"] = "Регулировка позиц
 L["Adjust the Y position of the time text"] = "Регулировка позиции текста времени по оси Y"
 L["Alpha"] = "Прозрачность"
 L["Anchor Frame"] = "Фрейм Якоря"
+L["Anchor point"] = "Точка привязки"
 L["AOE Rez"] = "Масс Возр"
 L["Background"] = "Фон"
 L["Background Alpha"] = "Прозрачность фона"

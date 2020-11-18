@@ -1,3 +1,28 @@
+Version 3.117  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+-- Priest spell 'Holy Fire' will now be properly recognized  
+-- Removed deprecated Priest spell 'Clarity of Will'  
+-- Removed deprecated Priest spell 'Luminous Barrier'  
+  
+  
+Improvements:  
+-- Added Priest 'Spirit Shell' absorb tracking  
+-- Added Priest 'Spirit Shell' as a default HoT icon option  
+-- Added option to only show debuff icons for friendly units  
+-- Bump TOC interface for 9.0.2  
+  
+  
+--------------------------------------------------------------  
 Version 3.116  
   
   

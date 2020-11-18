@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: Kemayo
-## Version: 1
+## Version: v14
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_LostAndFoundDB
 ## DefaultState: enabled
@@ -12,6 +12,7 @@
 
 ## X-Category: Map
 ## X-eMail: kemayo @ gmail DOT com
+## X-Curse-Project-ID: 45644
 ## X-Part-Of: HandyNotes
 
 Lost.lua

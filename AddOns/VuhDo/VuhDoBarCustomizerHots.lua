@@ -476,6 +476,7 @@ end
 local VUHDO_IGNORE_HOT_IDS = {
 	[67358] = true, -- "Rejuvenating" proc has same name in russian and spanish as rejuvenation
 	[126921] = true, -- "Weakened Soul" by Shao-Tien Soul-Render
+	[109964] = true, -- "Spirit Shell" ability aura has the same name as the absorb aura itself
 }
 
 

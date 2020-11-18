@@ -1,6 +1,6 @@
 ## Interface: 90001
 ## Author: MysticalOS
-## Version: r21
+## Version: r22
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMTrialofValor_AllSavedVars

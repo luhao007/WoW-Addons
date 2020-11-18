@@ -88,6 +88,11 @@ BtWQuestSettingsData = {
             value = "hideSpoilers",
             default = false,
         },
+        {
+            name = L["USE_TOMTOM_WAYPOINTS"],
+            value = "useTomTom",
+            default = true,
+        },
     },
     optionsByID = {},
     GetValue = function (self, id)
@@ -981,7 +986,7 @@ end
 
 -- [[ Waypoint ]]
 function BtWQuests_AddWaypoint(mapId, x, y, name)
-    if TomTom and TomTom.AddWaypoint then
+    if BtWQuestSettingsData.useTomTom and TomTom and TomTom.AddWaypoint then
         TomTom:AddWaypoint(mapId, x, y, {
             title = name,
         })
