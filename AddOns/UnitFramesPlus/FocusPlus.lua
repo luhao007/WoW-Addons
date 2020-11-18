@@ -167,7 +167,7 @@ function UnitFramesPlus_FocusHPMPPct()
     if UnitFramesPlusDB["focus"]["hpmp"] == 0 then
         if FocusHPMPPct:IsEventRegistered("PLAYER_FOCUS_CHANGED") then
             FocusHPMPPct:UnregisterEvent("PLAYER_FOCUS_CHANGED");
-            FocusHPMPPct:UnregisterEvent("UNIT_HEALTH_FREQUENT");
+            FocusHPMPPct:UnregisterEvent("UNIT_HEALTH");
             FocusHPMPPct:UnregisterEvent("UNIT_POWER_FREQUENT");
             FocusHPMPPct:SetScript("OnEvent", nil);
             FocusHPMPPct.HP:Hide();
@@ -176,10 +176,10 @@ function UnitFramesPlus_FocusHPMPPct()
         end
     else
         FocusHPMPPct:RegisterEvent("PLAYER_FOCUS_CHANGED");
-        FocusHPMPPct:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "focus");
+        FocusHPMPPct:RegisterUnitEvent("UNIT_HEALTH", "focus");
         FocusHPMPPct:RegisterUnitEvent("UNIT_POWER_FREQUENT", "focus");
         FocusHPMPPct:SetScript("OnEvent", function(self, event, ...)
-            if event == "UNIT_HEALTH_FREQUENT" then
+            if event == "UNIT_HEALTH" then
                 UnitFramesPlus_FocusHPValueDisplayUpdate();
             elseif event == "UNIT_POWER_FREQUENT" then
                 UnitFramesPlus_FocusMPValueDisplayUpdate();
@@ -636,7 +636,7 @@ function UnitFramesPlus_FocusPortrait()
             fpt:RegisterEvent("PLAYER_FOCUS_CHANGED");
             fpt:RegisterUnitEvent("UNIT_MODEL_CHANGED", "focus");
             fpt:RegisterUnitEvent("UNIT_CONNECTION", "focus");
-            fpt:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "focus");
+            fpt:RegisterUnitEvent("UNIT_HEALTH", "focus");
             fpt:SetScript("OnEvent", function(self, event, ...)
                 if event == "PLAYER_FOCUS_CHANGED" then
                     if UnitExists("focus") then
@@ -648,7 +648,7 @@ function UnitFramesPlus_FocusPortrait()
                     end
                 elseif event == "UNIT_MODEL_CHANGED" or event == "UNIT_CONNECTION" then
                     UnitFramesPlus_FocusPortraitDisplayUpdate();
-                elseif event == "UNIT_HEALTH_FREQUENT" then
+                elseif event == "UNIT_HEALTH" then
                     if (not UnitIsConnected("focus")) or UnitIsGhost("focus") then
                         Focus3DPortrait:SetLight(true, false, 0, 0, 0, 1.0, 0.25, 0.25, 0.25);
                     elseif UnitIsDead("focus") then
@@ -667,7 +667,7 @@ function UnitFramesPlus_FocusPortrait()
                 if fpt:IsEventRegistered("UNIT_MODEL_CHANGED") then
                     fpt:UnregisterEvent("UNIT_MODEL_CHANGED");
                     fpt:UnregisterEvent("UNIT_CONNECTION");
-                    fpt:UnregisterEvent("UNIT_HEALTH_FREQUENT");
+                    fpt:UnregisterEvent("UNIT_HEALTH");
                 end
             end
             fpt:SetScript("OnEvent", function(self, event, ...)
@@ -685,7 +685,7 @@ function UnitFramesPlus_FocusPortrait()
             fpt:UnregisterEvent("PLAYER_FOCUS_CHANGED");
             fpt:UnregisterEvent("UNIT_MODEL_CHANGED");
             fpt:UnregisterEvent("UNIT_CONNECTION");
-            fpt:UnregisterEvent("UNIT_HEALTH_FREQUENT");
+            fpt:UnregisterEvent("UNIT_HEALTH");
             fpt:SetScript("OnEvent", nil);
         end
     end

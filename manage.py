@@ -15,7 +15,7 @@ logger = logging.getLogger('manager')
 CLASSIC_VER = '11305'
 RETAIL_VER = '90001'
 NOT_WORKING = ['ItemRack', 'HandyNotes_DraenorTreasures', 'HandyNotes_LegionRaresTreasures',
-               'UnitFramesPlus', 'ButtonForge', 'NPCScan', 'HPetBattleAny',
+               'ButtonForge', 'NPCScan', 'HPetBattleAny',
                'Overachiever', 'Details_TimeLine']
 
 
