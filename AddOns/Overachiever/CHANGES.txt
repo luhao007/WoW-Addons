@@ -1,46 +1,66 @@
 ------------------------------------------------------------------------
-r250 | tuhljin | 2020-01-21 23:51:12 +0000 (Tue, 21 Jan 2020) | 10 lines
+r259 | tuhljin | 2020-11-19 03:31:40 +0000 (Thu, 19 Nov 2020) | 2 lines
 Changed paths:
+   M /trunk/AchieveID.lua
    M /trunk/GameTip.lua
+   M /trunk/Options.lua
+   M /trunk/Overachiever_Trade/TradeSkills.lua
+   M /trunk/localization.lua
+   M /trunk/readme.txt
+
+- "To All the Squirrels..." achievements: The four new achievements are now checked when looking for a critter's /loved status.
+-- "To All the Squirrels Through Time and Space", "To All the Squirrels I Love Despite Their Scars", "To All the Squirrels I Set Sail to See", "To All the Squirrels I've Loved and Lost" (new)
+------------------------------------------------------------------------
+r258 | tuhljin | 2020-11-18 01:14:54 +0000 (Wed, 18 Nov 2020) | 2 lines
+Changed paths:
    M /trunk/Overachiever.toc
    M /trunk/Overachiever_Cache/Overachiever_Cache.toc
    M /trunk/Overachiever_Tabs/Overachiever_Tabs.toc
-   M /trunk/Overachiever_Tabs/Suggestions.lua
-   M /trunk/Overachiever_Tabs/build.lua
    M /trunk/Overachiever_Trade/Overachiever_Trade.toc
+   M /trunk/Overachiever_Trade/TradeSkills.lua
    M /trunk/readme.txt
 
-- Updated TOC for WoW patch 8.3.
-- Suggestions Tab:
--- Added suggestions for Chamber of Heart.
--- Added suggestions related to Black Empire Assaults on Uldum and Vale of Eternal Blossoms.
--- Added suggestion for Mardivas's Laboratory.
--- Added "The Fourth War" to War Campaign Ships suggestions.
--- Added "Scrappy's Best Friend" to Mechagon Island suggestions.
--- Added suggestions for the Battle for Darkshore warfront.
--- Added suggestions for the Battle for Stromgarde heroic warfront.
--- Added suggestion for revamped Deepwind Gorge battleground.
+- Bump TOC
+- Update Skillet plugin support function to include achievement info
 ------------------------------------------------------------------------
-r249 | tuhljin | 2019-11-27 06:06:01 +0000 (Wed, 27 Nov 2019) | 4 lines
+r257 | tuhljin | 2020-11-16 07:54:57 +0000 (Mon, 16 Nov 2020) | 4 lines
 Changed paths:
-   M /trunk/AchieveTip.lua
+   M /trunk/AchieveTracking.lua
+   M /trunk/Overachiever_Trade/TradeSkills.lua
+   M /trunk/Overachiever_Trade/localization.lua
+   M /trunk/readme.txt
+
+- Automatically-tracked timed achievements are no longer untracked on logout or interface reload.
+- Trade module:
+-- Now uses recipe IDs instead of names for achievement lookup. This solves some possible problems with finding cooking achievement criteria. (Theoretically, this was a problem for some non-English locales.)
+-- Added support for a potential Skillet plugin.
+------------------------------------------------------------------------
+r256 | tuhljin | 2020-11-15 22:56:54 +0000 (Sun, 15 Nov 2020) | 12 lines
+Changed paths:
+   M /trunk/AchieveID.lua
+   A /trunk/AchieveTracking.lua
    M /trunk/GameTip.lua
-   M /trunk/Options.lua
    M /trunk/Overachiever.lua
    M /trunk/Overachiever.toc
    M /trunk/Overachiever_Cache/Overachiever_Cache.toc
    M /trunk/Overachiever_Tabs/Overachiever_Tabs.toc
    M /trunk/Overachiever_Tabs/Suggestions.lua
    M /trunk/Overachiever_Tabs/build.lua
+   M /trunk/Overachiever_Tabs/localization.lua
    M /trunk/Overachiever_Trade/Overachiever_Trade.toc
-   M /trunk/libs/TjAchieve.lua
-   M /trunk/libs/TjCalendar.lua
-   M /trunk/localization.lua
    M /trunk/readme.txt
 
-- Fix missing tooltip textures for achievement reminders and missing checkmark texture for completed achievements in various places (recent reminders, series list, meta requirements).
-- Add options to show reminder text for kill-criteria achievements and the "Azeroth at War..." (mission table) achievements when the achievement is complete.
-- Suggestions Tab: Fix Mechagon Island suggestions not appearing. (Now listed under "Mechagon.")
-- Fix other variables leaking into global scope.
+- Suggestions Tab:
+-- You can now auto-track suggested achievements. Shift+alt+click on an achievement in the Suggestions tab to toggle its flag. When you enter a location where a flagged achievement is suggested, it will automatically be tracked. It is untracked when you leave the area.
+-- Enter "autotracked" into the Location field to see all achievements you've flagged for auto-tracking.
+- Reworked the auto-tracking system. It should more intelligently handle which achievements are tracked, factoring in the number of available slots (exludes slots taken up by non-auto-tracked achievements) and priority levels.
+-- If the tracking limit is reached, then lower priority achievements may be untracked to make space for higher priority ones.
+-- Timed achievements have priority over exploration and suggested achievements.
+-- Manually tracked achievements should not be automatically untracked. (This should already have been the case but may have failed under certain atypical circumstances.)
+-- Manually untracked achievements will not be automatically tracked again until the player leaves the current zone. This excludes timed achievements; they will be tracked again if the timer restarts.
+-- Auto-tracking in reaction to an "Achievement Progress" toast still simply tracks if space is available (no priority) and doesn't automatically untrack, so it isn't part of this system.
+- Added achievements for Shadowlands zones to exploration auto-tracking.
+- Fixed tooltip not showing when the cursor is over a tracked achievement in the Objectives frame.
+- Tabs module: Shortened the tooltip shown for the Help ("?") icon showed on each tab so it is more specific to the selected tab. Hold Shift to see the full instructions as before.
 ------------------------------------------------------------------------
 

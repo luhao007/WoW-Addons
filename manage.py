@@ -16,8 +16,7 @@ logger = logging.getLogger('manager')
 CLASSIC_VER = '11305'
 RETAIL_VER = '90002'
 NOT_WORKING = ['ItemRack', 'HandyNotes_DraenorTreasures', 'HandyNotes_LegionRaresTreasures',
-               'ButtonForge', 'NPCScan', 'HPetBattleAny',
-               'Overachiever', 'Details_TimeLine']
+               'ButtonForge', 'HPetBattleAny', 'Details_TimeLine']
 
 
 def classic_only(func):

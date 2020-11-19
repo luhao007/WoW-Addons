@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Author: Tuhljin
-## Version: 1.0.9
+## Version: 1.1.2
 ## OptionalDeps: LibBabble-SubZone-3.0, LibBabble-Inventory-3.0, LibSharedMedia-3.0
 ## SavedVariables: Overachiever_Settings, Overachiever_CharVars_Default
 ## SavedVariablesPerCharacter: Overachiever_CharVars, Overachiever_CharVars_Consumed
@@ -31,4 +31,5 @@ AchieveTip.lua
 GameTip.lua
 Options.lua
 Calendar.lua
+AchieveTracking.lua
 AchieveSearch.lua

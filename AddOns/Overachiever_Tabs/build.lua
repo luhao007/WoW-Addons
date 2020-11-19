@@ -127,6 +127,19 @@ local function isPreviousAchievementInUI(id)
   end
 end
 
+local function AutoTrackIcon_OnEnter(self)
+  GameTooltip:SetOwner(self, "ANCHOR_NONE")
+  GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", 10, 0)
+  GameTooltip:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b)
+  GameTooltip:AddLine(L.SUGGESTIONS_AUTOTRACKING_TIP, 1, 1, 1)
+  GameTooltip:AddLine(L.SUGGESTIONS_AUTOTRACKING_TIP2)
+  GameTooltip:Show()
+end
+
+local function AutoTrackIcon_OnLeave(self)
+  GameTooltip:Hide()
+end
+
 local function setButtonGuildView(button, guildView)
 -- Based on parts of AchievementFrameAchievements_ToggleView().
   if (guildView) then
@@ -245,7 +258,7 @@ local function displayAchievement(button, frame, achievement, index, selectionID
     else
       button.shield.icon:SetTexture([[Interface\AchievementFrame\UI-Achievement-Shields-NoPoints]]);
     end
-    
+
     if ( isGuild ) then
       button.shield.points:Show();
       button.shield.wasEarnedByMe = nil;
@@ -345,23 +358,46 @@ local function displayAchievement(button, frame, achievement, index, selectionID
   if (frame.ShouldCrossOut and frame.ShouldCrossOut(id)) then
     if (not button.CrossOut) then
       button.CrossOut = CreateFrame("frame", nil, button) --button.icon
-	  local overPos = button --alternatively: button.shield OR button.icon
-	  local tl = button.CrossOut:CreateTexture(nil, "OVERLAY", nil, 5) --, 1)
-	  button.CrossOut.Left = tl
-	  tl:SetPoint("CENTER", overPos)
-	  tl:SetAtlas("GarrMission_EncounterBar-Xleft")
-	  tl:SetHeight(72) --48
-	  tl:SetWidth(72) --48
-	  local tr = button.CrossOut:CreateTexture(nil, "OVERLAY", nil, 1)
-	  button.CrossOut.Right = tr
-	  tr:SetPoint("CENTER", overPos)
-	  tr:SetAtlas("GarrMission_EncounterBar-Xright")
-	  tr:SetHeight(72)
-	  tr:SetWidth(72)
-	end
-	button.CrossOut:Show()
+  	  local overPos = button --alternatively: button.shield OR button.icon
+  	  local tl = button.CrossOut:CreateTexture(nil, "OVERLAY", nil, 5) --, 1)
+  	  button.CrossOut.Left = tl
+  	  tl:SetPoint("CENTER", overPos)
+  	  tl:SetAtlas("GarrMission_EncounterBar-Xleft")
+  	  tl:SetHeight(72) --48
+  	  tl:SetWidth(72) --48
+  	  local tr = button.CrossOut:CreateTexture(nil, "OVERLAY", nil, 1)
+  	  button.CrossOut.Right = tr
+  	  tr:SetPoint("CENTER", overPos)
+  	  tr:SetAtlas("GarrMission_EncounterBar-Xright")
+  	  tr:SetHeight(72)
+  	  tr:SetWidth(72)
+  	end
+    button.CrossOut:Show()
   elseif (button.CrossOut) then
     button.CrossOut:Hide()
+  end
+
+  if (frame.ShouldAutoTrack and frame.ShouldAutoTrack(id)) then
+    if (not button.AutoTrackIcon) then
+      --local icon = CreateFrame("frame", nil, button)
+      local icon = CreateFrame("Button", nil, button)
+      icon:SetWidth(32); icon:SetHeight(32)
+      icon:SetPoint("TOPLEFT", button, "TOPLEFT", 142, -9)
+      local tex = icon:CreateTexture(nil, "BACKGROUND")
+      tex:SetTexture("Interface\\Minimap\\Tracking\\None") --tex:SetTexture(136460)
+      tex:SetPoint("CENTER", icon, "CENTER", 0, 0)
+      icon.tex = tex
+      --icon:EnableMouse(true)
+      icon:SetMouseMotionEnabled(true)
+      icon:SetScript("OnEnter", AutoTrackIcon_OnEnter)
+      icon:SetScript("OnLeave", AutoTrackIcon_OnLeave)
+      icon:SetMouseClickEnabled(false) -- Have to put this after SetScript calls or it gets reverted.
+      icon:SetScale(0.65)
+      button.AutoTrackIcon = icon
+  	end
+    button.AutoTrackIcon:Show()
+  elseif (button.AutoTrackIcon) then
+    button.AutoTrackIcon:Hide()
   end
 
   --if (Overachiever_Debug) then  print("- Last bit took for \""..name.."\" took "..(debugprofilestop() - StartTime) .." ms.");  end
@@ -556,15 +592,15 @@ local function updateAchievementsList(frame)
 
   local totalHeight = numAchievements * ACHIEVEMENTBUTTON_COLLAPSEDHEIGHT;
   totalHeight = totalHeight + (extraHeight - ACHIEVEMENTBUTTON_COLLAPSEDHEIGHT);
-  
+
   HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight);
-  
+
   if ( selection ) then
     frame.selection = selection;
   else
     HybridScrollFrame_CollapseButton(scrollFrame);
   end
-  
+
   if (frame.SetNumListed) then  frame.SetNumListed(numAchievements);  end
 
   --if (Overachiever_Debug) then  print("- Took "..(debugprofilestop() - StartTime)/1000 .." seconds.");  end
@@ -670,11 +706,12 @@ local function compheader_OnShow(...)
 end
 
 local function achbtnOnClick(self, button, ignoreModifiers)
-  if (button == "RightButton") then
-    local frame = getFrameOfButton(self)
-	if (frame.HandleRightClick) then  frame.HandleRightClick(self.id);  end
+  local frame = getFrameOfButton(self)
+  if (frame.HandleAchBtnClick and frame.HandleAchBtnClick(self, button, ignoreModifiers)) then
     return;
   end
+  if (button == "RightButton") then  return;  end
+
   local id = self.id
   if ( IsShiftKeyDown() and IsControlKeyDown() and Overachiever.OpenRelatedTab ) then
     Overachiever.OpenRelatedTab(id)
@@ -794,7 +831,7 @@ function Overachiever.BuildNewTab(name, text, watermark, helptip, loadFunc, filt
   local frameBGDarken = frame:CreateTexture(nil, "ARTWORK")
   frameBGDarken:SetAllPoints(frameBG)
   frameBGDarken:SetColorTexture(0, 0, 0, 0.75)
-  local frameBorder = CreateFrame("Frame", nil, frame)
+  local frameBorder = CreateFrame("Frame", nil, frame, "BackdropTemplate")
   frameBorder:SetAllPoints(frame)
   frameBorder:SetBackdrop( {
     edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", tile = true, tileSize = 16, edgeSize = 16,
@@ -941,7 +978,17 @@ function Overachiever.OpenTab_frame(frame, makeSound)
 end
 
 
-local function HelpIcon_OnEnter(self)
+local HelpIcon_OnEnter
+
+local function HelpIcon_OnUpdate(self)
+  local shiftKey = IsShiftKeyDown() and true or false
+  if (self.shiftKey ~= shiftKey) then
+    HelpIcon_OnEnter(self)
+  end
+end
+
+function HelpIcon_OnEnter(self)
+  local shiftKey = IsShiftKeyDown() and true or false
   self.tex:SetTexture("Interface\\AddOns\\Overachiever_Tabs\\HelpIconHighlight")
   GameTooltip:SetOwner(self, "ANCHOR_NONE")
   GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", 10, 0)
@@ -950,13 +997,23 @@ local function HelpIcon_OnEnter(self)
   --GameTooltip:AddLine(" ")
   GameTooltip:AddLine(tabselected.helptip, nil, nil, nil, 1)
   GameTooltip:AddLine(" ")
-  GameTooltip:AddLine(L.TAB_HELP, nil, nil, nil, 1)
+  if (shiftKey) then
+    GameTooltip:AddLine(L.TAB_HELP, nil, nil, nil, 1)
+  else
+    GameTooltip:AddLine(L.TAB_HELP_LESS, nil, nil, nil, 1)
+  end
   GameTooltip:Show()
+  if (self.shiftKey == nil) then
+    self:SetScript("OnUpdate", HelpIcon_OnUpdate)
+  end
+  self.shiftKey = shiftKey
 end
 
 local function HelpIcon_OnLeave(self)
   self.tex:SetTexture("Interface\\AddOns\\Overachiever_Tabs\\HelpIcon")
   GameTooltip:Hide()
+  self:SetScript("OnUpdate", nil)
+  self.shiftKey = nil
 end
 
 local function LeftFrame_OnShow(self)
@@ -1198,7 +1255,7 @@ do
 
     flasher:Play()
   end
-  
+
   function flashFrame_stop(frame)
     if (frames and frames[frame]) then
       frames[frame]:Stop()

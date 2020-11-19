@@ -787,137 +787,30 @@ end)
 -- ACHIEVEMENT TRACKER CHANGES AND PROGRESS TRACKING
 ------------------------------------------------------
 
-local orig_WatchFrameLinkButtonTemplate_OnLeftClick = WatchFrameLinkButtonTemplate_OnLeftClick
-
-WatchFrameLinkButtonTemplate_OnLeftClick = function(self, ...)
-  if (self.type == "ACHIEVEMENT") then
-    CloseDropDownMenus()
-    if (IsShiftKeyDown()) then
-      if ( ChatEdit_GetActiveWindow() ) then
-        ChatEdit_InsertLink(GetAchievementLink(self.index));
-      else
-        ChatFrame_OpenChat(GetAchievementLink(self.index));
-      end
-    else
-    -- We prefer an openToAchievement() call instead of a direct AchievementFrame_SelectAchievement() call, so
-    -- we do this here instead of calling orig_WatchFrameLinkButtonTemplate_OnLeftClick():
-      openToAchievement(self.index)
-    end
-    return;
-  end
-  orig_WatchFrameLinkButtonTemplate_OnLeftClick(self, ...)
-end
-
---[[ No longer useful as the function named doesn't exist any more and we can't track those problem achievements any more.
-WatchFrame_OpenAchievementFrame = function(button, arg1, arg2, checked)
--- Take over reaction to clicking "Open Achievement" in the watch frame's right-click popup menu, preventing
--- lock ups if tracking an achievement not in the UI as well as using openToAchievement(), which we prefer, instead of
--- a direct AchievementFrame_SelectAchievement() call.
-  openToAchievement(arg1)
-end
---]]
-
-local function TrackerBtnOnEnter(self)
-  if (self.type ~= "ACHIEVEMENT") then  return;  end
-  GameTooltip:SetOwner(self, "ANCHOR_NONE")
-  local x, y = self:GetCenter()
+hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderEnter", function(self, block)
+  if (not block.id) then  return;  end
+  local obj = block.HeaderText
+  GameTooltip:SetOwner(obj, "ANCHOR_NONE")
+  local x, y = obj:GetCenter()
   local w = UIParent:GetWidth() / 3
   if (x > w) then
-    GameTooltip:SetPoint("TOPRIGHT", self, "TOPLEFT", -2, 0)
+    GameTooltip:SetPoint("TOPRIGHT", obj, "TOPLEFT", -6, 0)
   else
-    GameTooltip:SetPoint("TOP", self, "TOP", 0, 0)
-    GameTooltip:SetPoint("LEFT", WatchFrame, "RIGHT", -8, 0)
+    GameTooltip:SetPoint("TOP", obj, "TOP", 0, 0)
+    GameTooltip:SetPoint("LEFT", ObjectiveTrackerFrame, "RIGHT", -8, 0)
   end
-  GameTooltip:SetHyperlink( GetAchievementLink(self.index) )
-end
+  GameTooltip:SetHyperlink( GetAchievementLink(block.id) )
+end)
 
-local function TrackerBtnOnLeave()
+hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderLeave", function()
   GameTooltip:Hide()
+end)
+
+--[[ Unused. Call Overachiever.ExploreZoneIDLookup(zone) instead. The search component (getAchievementID) can cause micro stutters (0.1 second on a pretty high-end PC) so it wasn't ideal to call while traveling in-game which was the whole point of this.
+function Overachiever.FindExplorationAchievementForZone(zone)
+  return Overachiever.ExploreZoneIDLookup(zone) or getAchievementID(CATEGORIES_EXPLOREZONES, ACHINFO_NAME, zone, true)
 end
-
-if (WATCHFRAME_LINKBUTTONS) then --!! stopgap solution until watch frame can be used properly
-
-	-- Hook current Watch Frame Link Buttons:
-	for k, v in pairs(WATCHFRAME_LINKBUTTONS) do
-	  v.OverachieverHooked = true
-	  v:HookScript("OnEnter", TrackerBtnOnEnter)
-	  v:HookScript("OnLeave", TrackerBtnOnLeave)
-	end
-
-	-- Hook future Watch Frame Link Buttons when they are created:
-	setmetatable(WATCHFRAME_LINKBUTTONS, { __newindex = function(t, k, v)
-	  rawset(t, k, v)
-	  if (not v.OverachieverHooked) then
-		v.OverachieverHooked = true
-		v:HookScript("OnEnter", TrackerBtnOnEnter)
-		v:HookScript("OnLeave", TrackerBtnOnLeave)
-	  end
-	end })
-
-end
-
-local function getExplorationAch(zonesOnly, ...)
-  local id, cat
-  for i = select("#", ...), 1, -1 do
-    id = select(i, ...)
-    cat = GetAchievementCategory(id)
-    if (cat == CATEGORY_EXPLOREROOT) then
-      if (not zonesOnly) then  return id;  end
-    else
-      local _, parentID = GetCategoryInfo(cat)
-      if (parentID == CATEGORY_EXPLOREROOT) then
-        if ( not zonesOnly or
-             -- Eliminate achievements in the category that aren't standard exploration:
-			 -- !! this way has too many manual exceptions and it's getting worse as new content comes out; come up with another method, probably using the list of zone exp. achievements we already use for auto-tracking
-             (id ~= OVERACHIEVER_ACHID.MediumRare and id ~= OVERACHIEVER_ACHID.BloodyRare and
-              id ~= OVERACHIEVER_ACHID.NorthernExposure and id ~= OVERACHIEVER_ACHID.Frostbitten and
-              id ~= OVERACHIEVER_ACHID.StoodInTheFire and id ~= OVERACHIEVER_ACHID.SurveyingTheDamage and
-              id ~= OVERACHIEVER_ACHID.WhaleShark) ) then
-          return id
-        end
-      end
-    end
-  end
-end
-
-local AutoTrackedAch_explore, AutoTrackedAch_bg
-
-local function AutoTrackCheck_Explore(noClearing)
--- noClearing will evaluate to true when called through TjOptions since it passes an object for this first arg.
-  if (Overachiever_Settings.Explore_AutoTrack) then
-    local id
-    if (not IsInInstance()) then
-      local zone = GetRealZoneText()
-      if (zone and zone ~= "") then
-        id = Overachiever.ExploreZoneIDLookup(zone) or
-             getAchievementID(CATEGORIES_EXPLOREZONES, ACHINFO_NAME, zone, true)
-      end
-    end
-    if (id and id > 0) then
-      local tracked
-      if (GetNumTrackedAchievements() > 0) then
-        tracked = AutoTrackedAch_explore and IsTrackedAchievement(AutoTrackedAch_explore) and AutoTrackedAch_explore or
-                  getExplorationAch(true, GetTrackedAchievements())
-      end
-      if (tracked) then
-        RemoveTrackedAchievement(tracked)
-        if (setTracking(id)) then
-          AutoTrackedAch_explore = id
-        else
-          -- If didn't successfully track new achievement, track previous achievement again:
-          AddTrackedAchievement(tracked)
-        end
-      else
-        if (setTracking(id)) then
-          AutoTrackedAch_explore = id
-        end
-      end
-    elseif (not noClearing and AutoTrackedAch_explore and IsTrackedAchievement(AutoTrackedAch_explore)) then
-      RemoveTrackedAchievement(AutoTrackedAch_explore)
-      AutoTrackedAch_explore = nil
-    end
-  end
-end
+--]]
 
 local function ReactToCriteriaToast(achievementID, criteriaString)
   --local _, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuildAch = GetAchievementInfo(achievementID);
@@ -1333,7 +1226,7 @@ end
 -- /run Overachiever.ToastFakeAchievement("test", nil, nil, nil, -1, "okay")
 
 function Overachiever.ToastFakeAchievement(name, baseID, playSound, chatMessage, delay, toptext, onClick, icon, newEarn)
-  if (IsKioskModeEnabled()) then
+  if (Kiosk.IsEnabled()) then
     return;
   end
   if ( not AchievementFrame ) then
@@ -1383,14 +1276,13 @@ function Overachiever.OnEvent(self, event, arg1, ...)
 
   elseif (event == "PLAYER_ENTERING_WORLD") then
     Overachiever.MainFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
-    Overachiever.MainFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-	Overachiever.MainFrame:RegisterEvent("CRITERIA_UPDATE") -- used by GameTip.lua
+    Overachiever.MainFrame:RegisterEvent("CRITERIA_UPDATE") -- used by GameTip.lua
 
     BuildCategoryInfo()
     BuildCategoryInfo = nil
 
     local oldver, toast, msg
-    OptionsPanel, oldver = Overachiever.CreateOptions(THIS_TITLE, BuildCriteriaLookupTab_check, AutoTrackCheck_Explore, CheckDraggable_AchFrame)
+    OptionsPanel, oldver = Overachiever.CreateOptions(THIS_TITLE, BuildCriteriaLookupTab_check, Overachiever.AutoTrackingSettingUpdated, CheckDraggable_AchFrame)
     Overachiever.CreateOptions = nil
 
     if (oldver and oldver ~= THIS_VERSION) then
@@ -1456,12 +1348,10 @@ function Overachiever.OnEvent(self, event, arg1, ...)
     end
     Overachiever_CharVars.Version = THIS_VERSION
 
-    AutoTrackCheck_Explore(true)
-
     GameTooltip:HookScript("OnTooltipSetUnit", Overachiever.ExamineSetUnit)
     GameTooltip:HookScript("OnShow", Overachiever.ExamineOneLiner)
-	GameTooltip:HookScript("OnTooltipCleared", Overachiever.ExamineOneLiner_clear)
-	GameTooltip:HookScript("OnTooltipSetItem", Overachiever.ExamineItem)
+  	GameTooltip:HookScript("OnTooltipCleared", Overachiever.ExamineOneLiner_clear)
+  	GameTooltip:HookScript("OnTooltipSetItem", Overachiever.ExamineItem)
     ItemRefTooltip:HookScript("OnTooltipSetItem", Overachiever.ExamineItem)
     hooksecurefunc(ItemRefTooltip, "SetHyperlink", Overachiever.ExamineAchievementTip)
     hooksecurefunc(GameTooltip, "SetHyperlink", Overachiever.ExamineAchievementTip)
@@ -1548,59 +1438,38 @@ function Overachiever.OnEvent(self, event, arg1, ...)
 	end)
   --]]
 
-  elseif (event == "ZONE_CHANGED_NEW_AREA") then
-    AutoTrackCheck_Explore()
-    if (AutoTrackedAch_bg and IsTrackedAchievement(AutoTrackedAch_bg)) then
-      -- If we automatically tracked a timed battleground achievement, untrack it upon leaving the instance:
-      local isInstance, instanceType = IsInInstance()
-      if (not isInstance or instanceType ~= "pvp") then
-        RemoveTrackedAchievement(AutoTrackedAch_bg)
-        AutoTrackedAch_bg = nil
-      end
-    end
-
   elseif (event == "TRACKED_ACHIEVEMENT_UPDATE") then
     --print("*****", event, arg1, select(2, GetAchievementInfo(arg1)), "*****")
     if (arg1 and arg1 > 0) then  -- Attempt to work around an apparent WoW bug. May prevent errors but if the given ID is 0, we have no way of knowing what the achievement really was so we can't track it (unless there's another call with the correct data).
       local criteriaID, elapsed, duration = ...
 	  --print("criteriaID, elapsed, duration",criteriaID, elapsed, duration)
       if (elapsed and duration and elapsed < duration) then
-	    local canTrack
-		local pvpMap = OVERACHIEVER_BGTIMERID[arg1]
-	    if (pvpMap or OVERACHIEVER_BGTIMERID_RATED[arg1]) then -- If this is one of the battleground timers, then we have to treat it a special way because there is a Blizzard bug that makes this event trigger for achievements for OTHER battlegrounds:
-		  local _, instanceType, _, _, _, _, _, instanceMapID = GetInstanceInfo()
-		  --print("instanceMapID",instanceMapID)
-		  if (instanceType == "pvp" and (pvpMap == true or (instanceMapID and (instanceMapID == pvpMap or instanceMapID == OVERACHIEVER_BGTIMERID_RATED[arg1])))) then
-		    Overachiever.FlagReminder(arg1)
-			canTrack = Overachiever_Settings.Tracker_AutoTimer_BG
-			if (canTrack) then
-			  AutoTrackedAch_bg = arg1  -- Yes, this variable is set even if setTracking() below fails to actually track the achievement; that's okay for our purposes here.
-			end
-		  else
-		    canTrack = false
-		  end
-		elseif (pvpMap == false) then
-		  canTrack = false
-		else
-		  Overachiever.FlagReminder(arg1)
-		  canTrack = Overachiever_Settings.Tracker_AutoTimer
-		end
-		--print("canTrack",canTrack)
+  	    local canTrack, isBGTimer
+        local pvpMap = OVERACHIEVER_BGTIMERID[arg1]
+        local pvpMap2 = OVERACHIEVER_BGTIMERID_RATED[arg1]
+  	    if (pvpMap or pvpMap2) then -- If this is one of the battleground timers, then we have to treat it a special way because there is a Blizzard bug that makes this event trigger for achievements for OTHER battlegrounds:
+    		  local _, instanceType, _, _, _, _, _, instanceMapID = GetInstanceInfo()
+    		  --print("instanceMapID",instanceMapID)
+    		  if (instanceType == "pvp" and (pvpMap == true or (instanceMapID and (instanceMapID == pvpMap or instanceMapID == pvpMap2)))) then
+    		    Overachiever.FlagReminder(arg1)
+      			canTrack = Overachiever_Settings.Tracker_AutoTimer_BG
+      			if (canTrack) then  isBGTimer = true;  end
+      		else
+    		    canTrack = false
+    		  end
+    		elseif (pvpMap == false) then
+    		  canTrack = false
+    		else
+    		  Overachiever.FlagReminder(arg1)
+    		  canTrack = Overachiever_Settings.Tracker_AutoTimer
+    		end
+    		--print("canTrack",canTrack)
 
-		if (canTrack) then
-		  local tracked = setTracking(arg1)
-          if (not tracked and AutoTrackedAch_explore and IsTrackedAchievement(AutoTrackedAch_explore)) then
-            -- If failed to track this, remove an exploration achievement that was auto-tracked and try again:
-            RemoveTrackedAchievement(AutoTrackedAch_explore)
-            if (not setTracking(arg1)) then
-              -- If still didn't successfully track new achievement, track previous achievement again:
-              AddTrackedAchievement(AutoTrackedAch_explore)
-            end
-          end
-		end
-
+    		if (canTrack) then
+          Overachiever.TrackTimedAchievement(arg1, isBGTimer)
+    		end
       end
-	end
+  	end
 
   elseif (event == "CRITERIA_EARNED") then
     ReactToCriteriaToast(arg1, ...)

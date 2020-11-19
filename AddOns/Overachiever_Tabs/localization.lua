@@ -22,7 +22,7 @@ L.SEARCH_FILTERED_OUT = "%s |4achievement was:achievements were; omitted by the 
 L.SEARCH_SEARCHING = "Searching..."
 
 L.SUGGESTIONS_TAB = "Suggestions";
-L.SUGGESTIONS_HELP = "Suggested achievements are listed here based on your current location. Also listed are all \"Recent Reminder\" achievements.|n|n|cffffffffShift-right-click|r on a suggested achievement to hide it. (This is character-specific and affects all locations.)";
+L.SUGGESTIONS_HELP = "Suggested achievements are listed here based on your current location. Also listed are all \"Recent Reminder\" achievements.|n|n|cffffffffShift-alt-click|r on a suggested achievement to auto-track it when it becomes suggested for your current location.|n|n|cffffffffShift-right-click|r on a suggested achievement to hide it. (This is character-specific and affects all locations.)";
 L.SUGGESTIONS_REFRESH = "Refresh";
 L.SUGGESTIONS_EMPTY = "Overachiever has no suggestions for you at this time.";
 L.SUGGESTIONS_RESULTS = "%d |4suggestion:suggestions; found.";
@@ -32,7 +32,7 @@ L.SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN = "%s: %d |4suggestion:suggestions; foun
 L.SUGGESTIONS_EMPTY_TRADESKILL = "%s: Overachiever has no suggestions for you at this time.";
 L.SUGGESTIONS_LOCATION = "Location:"
 L.SUGGESTIONS_LOCATION_TIP = "Override Zone/Instance Location"
-L.SUGGESTIONS_LOCATION_TIP2 = "Leave blank to get suggestions for your current location or start typing to get a matching valid zone or instance name to use instead. Press |cffffffffTab|r to cycle between locations that match the text to the left of the cursor. |cffffffffShift+Tab|r cycles in reverse order. If the cursor is at the leftmost position, it cycles between all valid locations.|n|nYou can also enter the name of certain holidays/world events (such as \"Hallow's End\")."
+L.SUGGESTIONS_LOCATION_TIP2 = "Leave blank to get suggestions for your current location or start typing to get a matching zone or instance name to use instead. Press |cffffffffTab|r to cycle between locations that match the text to the left of the cursor. |cffffffffShift+Tab|r cycles in reverse order. If the cursor is at the leftmost position, it cycles between all valid locations.|n|nYou can also enter the name of certain holidays/world events (such as \"|cffffffffHallow's End|r\").|n|nEnter \"|cffffffffhidden|r\" to show all suggestions that you've flagged as hidden, regardless of their locations.|n|nEnter \"|cffffffffautotracked|r\" to show all suggestions that you've flagged for auto-tracking, regardless of their locations."
 L.SUGGESTIONS_LOCATION_SUBZONE = "Subzone:"
 L.SUGGESTIONS_LOCATION_NOSUBZONE = "(unspecified)"
 L.SUGGESTIONS_DIFFICULTY = "Instance Difficulty:"
@@ -46,10 +46,13 @@ L.SUGGESTIONS_RAIDSIZE_10 = "10-man"
 L.SUGGESTIONS_RAIDSIZE_25 = "25-man"
 L.SUGGESTIONS_SHOWHIDDEN = "Show Hidden"
 L.SUGGESTIONS_SHOWHIDDEN_TIP = "Check to show hidden suggestions for this location."
-L.SUGGESTIONS_SHOWHIDDEN_TIP2 = "If you want to see all hidden suggestions regardless of location, enter \"hidden\" into the Location field, above.|n|n|cffffffffShift-right-click|r on an achievement to toggle whether it is hidden."
-L.SUGGESTIONS_HIDDENLOCATION = "hidden"
+L.SUGGESTIONS_SHOWHIDDEN_TIP2 = "If you want to see all hidden suggestions regardless of location, enter \"|cffffffffhidden|r\" into the Location field, above.|n|n|cffffffffShift-right-click|r on an achievement to toggle whether it is hidden."
 L.SUGGESTIONS_FILTERED_OUT_INCOMPLETE = "Showing COMPLETED achievements. %s |4achievement was:achievements were; filtered out.";
 L.SUGGESTIONS_FILTERED_OUT_EARNED = "%s |4achievement was:achievements were; already earned.";
+L.SUGGESTIONS_AUTOTRACKING_TIP = "Auto-Tracking";
+L.SUGGESTIONS_AUTOTRACKING_TIP2 = "This achievement will automatically be tracked/untracked|nbased on your current location.|n|n|cffffffffShift-alt-click|r to toggle.";
+L.SUGGESTIONS_HIDDENLOCATION = "hidden"
+L.SUGGESTIONS_AUTOTRACKEDLOCATION = "autotracked"
 
 L.SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND = "Dalaran (Northrend)"
 L.SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES = "Dalaran (Broken Isles)"
@@ -96,6 +99,7 @@ L.TAB_SORT_POINTS = "Point value";
 L.TAB_SORT_COMPLETE = "Date completed";
 L.TAB_SORT_RELATION = "Relation";
 L.TAB_HELP = "|cffffffffCtrl-click|r on an achievement to jump to its place in the standard UI.|n|n|cffffffffCtrl-shift-click|r on an achievement to view related achievements.|n|nA |cffffffffblue background|r means it is part of a series for which you haven't completed an earlier step.|n|nA |cffffffffred background|r means it cannot be found in the standard UI for this character. It may be exclusive to the opposing faction or is an unacquired Feat of Strength.|n|nA |cffffffffgreen background|r means the achievement is on the \"Recent Reminder\" list. It became especially relevant within the last 2 minutes (e.g. because its timer started or an objective was seen in a tooltip).";
+L.TAB_HELP_LESS = "Hold |cffffffffShift|r now for more details.";
 
 L.EVENTNOTICE_ONGOING = "This event is ongoing.";
 L.EVENTNOTICE_STARTED_TODAY = "This event started earlier today.";
@@ -189,6 +193,9 @@ L["SEARCH_TYPE_ALL"] = "Alle"
 L["SEARCH_TYPE_GUILD"] = "Gilde"
 L["SEARCH_TYPE_INDIV"] = "Persönlich"
 L["SEARCH_TYPE_OTHER"] = "Anderes"
+L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = "automatisch verfolgt"
+L["SUGGESTIONS_AUTOTRACKING_TIP"] = "Automatische Verfolgung"
+L["SUGGESTIONS_AUTOTRACKING_TIP2"] = "Dieser Erfolg wird automatisch verfolgt/nicht verfolgt|n anhand deines aktuellen Standorts.|n|n|cffffffffUmschalt-Alt-Klick|r zum Umschalten."
 L["SUGGESTIONS_DIFFICULTY"] = "Instanzschwierigkeit:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Auto-Erkennen"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroisch"
@@ -201,7 +208,7 @@ L["SUGGESTIONS_FILTERED_OUT_INCOMPLETE"] = "Zeige ABGESCHLOSSENE Erfolge. %s |4E
 L["SUGGESTIONS_HELP"] = "Hier werden Erfolge aufgelistet, die du in deiner aktuellen Zone abschließen kannst. Außerdem werden alle Erfolge aufgelistet, an die du in den letzen 2 Minuten per Tooltip erinnert wurdest und auch jene, durch die kürzlich ein Timer gestartet wurde."
 L["SUGGESTIONS_HIDDENLOCATION"] = "versteckt "
 L["SUGGESTIONS_LOCATION"] = "Standort:"
-L["SUGGESTIONS_LOCATION_NOSUBZONE"] = "(nicht spezifiziert)"
+L["SUGGESTIONS_LOCATION_NOSUBZONE"] = "(nicht genauer beschrieben)"
 L["SUGGESTIONS_LOCATION_SUBZONE"] = "Teilgebiet:"
 L["SUGGESTIONS_LOCATION_TIP"] = "Gebiet-/Instanz-Standort überschreiben"
 L["SUGGESTIONS_LOCATION_TIP2"] = [=[Lass dieses Feld leer, um Vorschläge für deinen aktuellen Standort zu erhalten, oder trage hier den gültigen Namen eines Gebiets oder einer Instanz ein, der automatisch erweitert wird. Drücke |cffffffffTAB|r, um zwischen den Standorten zu wechseln, deren Namen mit dem Text links vom Cursor beginnen. Drücke |cffffffffUMSCHALT+TAB|r, um in entgegengesetzter Richtung zu wechseln. Wenn das Feld leer ist, wird zwischen allen gültigen Standorten gewechselt.
@@ -228,6 +235,7 @@ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "Nagrand (Scherbenwelt)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Schattenmondtal (Draenor)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "Schattenmondtal (Scherbenwelt)"
 L["TAB_HELP"] = "|cffffffffSTRG-Klick|r auf einen Erfolg, um ihn in der Standard-UI anzuzeigen.|n|nEin |cffffffffblauer Hintergrund|r bedeutet, dass der Erfolg zu einer noch nicht freigeschalteten Serie von Erfolgen gehört.|n|nEin |cffffffffroter Hintergrund|r bedeutet, dass der Erfolg nicht im Standard-UI gefunden werden konnte, weil er nur von der gegnerischen Fraktion erlangt werden kann oder eine unerreichte Heldentat ist.|n|nEin |cffffffffgrüner Hintergrund|r zeigt an, dass du kürzlich im Tooltip an diesen Erfolg erinnert wurdest, oder dass dieser Erfolg einen kürzlich gestarteten Timer hat."
+L["TAB_HELP_LESS"] = "Halte jetzt |cffffffffShift|r gedrückt, um weitere Informationen zu erhalten."
 L["TAB_SORT"] = "Sortieren nach:"
 L["TAB_SORT_COMPLETE"] = "Abgeschlossen am"
 L["TAB_SORT_ID"] = "ID"
@@ -243,7 +251,7 @@ L["WATCH_DELETE"] = "Löschen"
 L["WATCH_DISPLAYEDLIST"] = "Angezeigte Liste:"
 L["WATCH_EMPTY"] = "Deine Beobachtungsliste ist leer. ALT+Klick auf einen Erfolg in einem anderen Tab oder auf einen Chat-Link, um seine Beobachtung zu starten."
 L["WATCH_EMPTY_SHORT"] = "Liste leeren"
-L["WATCH_ERR_INVALIDID"] = " \"%s\" wurde aus der Beobachtungsliste entfernt. Ein Erfolg mit solch einer ID ist nicht bekannt."
+L["WATCH_ERR_INVALIDID"] = "\"%s\" aus der Beobachtungsliste entfernt: Ein Erfolg mit dieser ID konnte nicht gefunden werden."
 L["WATCH_FILTERED_OUT"] = "%s |4Erfolg wurde:Erfolge wurden; durch den Filter weggelassen."
 L["WATCH_HELP"] = "Fülle deine Beobachtungsliste, indem du via |cffffffffALT+Klick|r auf Erfolge in anderen Tabs oder auf Chat-Links klickst. |cffffffffALT+Klick|r auf einen hier angezeigten Erfolg, um seine Beobachtung zu beenden."
 L["WATCH_LIST_GLOBAL"] = "Global"
@@ -285,8 +293,7 @@ elseif (locale == "frFR") then  -- French
 -- Tabs
 L["EVENTNOTICE_ENDED_TODAY"] = "|cffff2020Cet évènement s'est fini|r plus tôt aujourd'hui."
 L["EVENTNOTICE_ENDS_DATETIME"] = "Se termine le %2$d/%1$02d à %3$s (heure du serveur)."
---[[Translation missing --]]
---[[ L["EVENTNOTICE_ENDS_DAYS"] = ""--]] 
+L["EVENTNOTICE_ENDS_DAYS"] = "Il se termine dans |cffff2020 %s |4day:days;|r."
 --[[Translation missing --]]
 --[[ L["EVENTNOTICE_ENDS_HOURS"] = ""--]] 
 --[[Translation missing --]]
@@ -296,11 +303,9 @@ L["EVENTNOTICE_ENDS_DATETIME"] = "Se termine le %2$d/%1$02d à %3$s (heure du se
 --[[Translation missing --]]
 --[[ L["EVENTNOTICE_HELP"] = ""--]] 
 L["EVENTNOTICE_ONGOING"] = "Cet évènement est en cours."
---[[Translation missing --]]
---[[ L["EVENTNOTICE_STARTED_TODAY"] = ""--]] 
+L["EVENTNOTICE_STARTED_TODAY"] = "Cet événement a débuté plus tôt dans la journée."
 L["EVENTNOTICE_STARTS_HOURS"] = "Cet évènement commence dans |cff7eff00 %s |4heure:heures;|r."
---[[Translation missing --]]
---[[ L["EVENTNOTICE_STARTS_MINUTES"] = ""--]] 
+L["EVENTNOTICE_STARTS_MINUTES"] = "Cet événement démarre dans |cff7eff00 %s |4minute:minutes;|r."
 --[[Translation missing --]]
 --[[ L["EVENTNOTICE_TIP"] = ""--]] 
 --[[Translation missing --]]
@@ -337,6 +342,12 @@ L["SEARCH_TYPE_ALL"] = "Tout"
 L["SEARCH_TYPE_GUILD"] = "Guilde"
 L["SEARCH_TYPE_INDIV"] = "Personnel"
 L["SEARCH_TYPE_OTHER"] = "Autre"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "Difficulté d'instance :"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Auto-détection"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Héroïque"
@@ -349,8 +360,7 @@ L["SUGGESTIONS_EMPTY_TRADESKILL"] = " %s: Overachiever n'a aucune suggestion à 
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_INCOMPLETE"] = ""--]] 
 L["SUGGESTIONS_HELP"] = "Les hauts faits suggérés sont affichés ici en fonction de votre localisation. Sont également listés tous les hauts faits qui vous ont été rappelés par une infobulle dans les 2 dernières minutes ou qui ont une alarme qui s'est déclenchée récemment."
---[[Translation missing --]]
---[[ L["SUGGESTIONS_HIDDENLOCATION"] = ""--]] 
+L["SUGGESTIONS_HIDDENLOCATION"] = "caché"
 L["SUGGESTIONS_LOCATION"] = "Emplacement :"
 L["SUGGESTIONS_LOCATION_NOSUBZONE"] = "(indéterminé)"
 L["SUGGESTIONS_LOCATION_SUBZONE"] = "Sous-zone :"
@@ -380,13 +390,14 @@ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "Nagrand (Outreterre)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Vallée d’Ombrelune (Draenor)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "Vallée d’Ombrelune (Outreterre)"
 L["TAB_HELP"] = "|cffffffffCtrl-click|r sur un haut fait pour l'afficher dans l'IU standard.|n|nUn |cfffffffffond bleu|r signifie qu'il fait partie d'une série dont vous n'avez pas encore effectué une étape précédente.|n|nUn |cfffffffffond rouge|r signifie qu'il ne peut pas être trouvé dans l'IU standard de ce personnage car il est propre à la faction adverse ou bien il s'agit d'un Tour de force non accompli.|n|nA |cfffffffffond vert|r signifie qu'un rappel pour ce haut fait a été affiché récemment dans une infobulle ou qu'il possède une alarme qui s'est déclenchée il y a peu."
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "Trier par :"
 L["TAB_SORT_COMPLETE"] = "Date d'accomplissement"
 L["TAB_SORT_ID"] = "ID"
 L["TAB_SORT_NAME"] = "Nom"
 L["TAB_SORT_POINTS"] = "Valeur en point"
---[[Translation missing --]]
---[[ L["TAB_SORT_RELATION"] = ""--]] 
+L["TAB_SORT_RELATION"] = "Relation"
 L["WATCH_CLEAR"] = "Vider"
 L["WATCH_COPY"] = "Copier vers :"
 L["WATCH_COPY_TIP"] = "Quand activé, si vous |cffffffffmajuscule+alt+clicquez|r sur un haut-fait sur cet onglet, il sera ajouté à la liste de suivi spécifiée."
@@ -499,6 +510,12 @@ L["SEARCH_TYPE_GUILD"] = "公會"
 L["SEARCH_TYPE_INDIV"] = "個人"
 --[[Translation missing --]]
 --[[ L["SEARCH_TYPE_OTHER"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "副本難度:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "自動偵測"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "英雄"
@@ -545,6 +562,8 @@ L["SUGGESTIONS_TAB"] = "建議"
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""--]] 
 L["TAB_HELP"] = "|cffffffffCtrl + 點選|r 所選成就會跳轉到該成就的頁面.|n|n |cffffffff藍色背景|r表示此成就是你還沒有完成前續內容的系列成就部分.|n|n |cffffffff紅色背景|r表示此成就無法在你當前人物的標準成就界面中找到,因為這是陣營專屬成就,或者是你尚未取得的『光輝事跡』成就."
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "類型:"
 L["TAB_SORT_COMPLETE"] = "完成時間"
 L["TAB_SORT_ID"] = "成就ID"
@@ -645,6 +664,12 @@ L["SEARCH_TYPE_ALL"] = "全部"
 L["SEARCH_TYPE_GUILD"] = "公会"
 L["SEARCH_TYPE_INDIV"] = "个人"
 L["SEARCH_TYPE_OTHER"] = "其它"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "地下城难度："
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "自动检测"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "英雄"
@@ -686,6 +711,8 @@ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "纳兰格 (外域)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "影月谷 (德拉诺)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "影月谷 (外域)"
 L["TAB_HELP"] = "|cffffffffCtrl-点击|r跳转到该成就在成就界面的位置。|n|n|cffffffffCtrl-shift-点击|r查看相关的成就。|n|n一个|cffffffff蓝色背景|r表示你还没有完成该前续步骤的成就。|n|n一个|cffffffff红色背景|r表示该成就无法在当前人物的成就界面中找到，因为这是阵营专属或是无法取得的光辉事迹。|n|n一个|cffffffff绿色背景|r表示该成就会出现在‘最近的提醒’列表。 它会在过去的2分钟内显得特别重要 (列如：它的计时器或者目标会显示在鼠标提示上)。"
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "排序："
 L["TAB_SORT_COMPLETE"] = "完成时间"
 L["TAB_SORT_ID"] = "成就ID"
@@ -781,6 +808,12 @@ L["SEARCH_TYPE_ALL"] = "Все"
 L["SEARCH_TYPE_GUILD"] = "Гильдия"
 L["SEARCH_TYPE_INDIV"] = "Лично"
 L["SEARCH_TYPE_OTHER"] = "Другие"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "Сложность подземелья:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Автоопределение"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Героический"
@@ -818,6 +851,8 @@ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "Награнд (Запредел�
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Долина Призрачной Луны (Дренор)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "Долина Призрачной Луны (Запределье)"
 L["TAB_HELP"] = "|cffffffffCtrl-клик|r на достижении перенаправит вас к его местоположению в стандартном интерфейсе.|n|n|cffffffffCtrl-shift-клик|r на достижения для просмотра связанных достижений.|n|n|cffffffffСиний фон|r означает, что это часть серии достижений, для которой вы ещё не выполнили предыдущий шаг.|n|n|cffffffffКрасный фон|r означает, что это достижение не может быть найдено в стандартном интерфейсе, так оно эксклюзивно для противоположной фракции или не получаемый Великий подвиг.|n|n|cffffffffЗелёный фон|r означает, что достижение находится в списке \\\"Недавнее Напоминание\\\". Это стало особенно актуальным в последние 2 минуты (например, потому что запущен его таймер или задача была, показана в подсказке)."
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "Сортировать по:"
 L["TAB_SORT_COMPLETE"] = "дате завершения"
 L["TAB_SORT_ID"] = "номеру"
@@ -916,6 +951,12 @@ L["SEARCH_TYPE_GUILD"] = "길드"
 L["SEARCH_TYPE_INDIV"] = "개인"
 --[[Translation missing --]]
 --[[ L["SEARCH_TYPE_OTHER"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "던전 난이도:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "자동 선택"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "영웅"
@@ -955,6 +996,8 @@ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "나그란드 (아웃랜드)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "어둠달 골짜기 (드레노어)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "어둠달 골짜기 (아웃랜드)"
 L["TAB_HELP"] = "|cffffffff컨트롤+좌클릭|r으로 기본 UI의 해당 업적으로 이동할 수 있습니다.|n|n|cffffffff푸른 바탕|r은 완료되지 않은 업적 세트의 일부를 의미합니다.|n|n|cffffffff붉은 바탕|r은 반대 평판 등의 이유로 이 캐릭터의 기본 UI에는 존재하지 않는 업적을 의미합니다.|n|n|cffffffff녹색 바탕|r은 이 업적과 관련된 알림 정보가 최근 툴팁에 표시되었음을 의미합니다."
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "정렬 기준:"
 L["TAB_SORT_COMPLETE"] = "완료된 날짜 순"
 L["TAB_SORT_ID"] = "ID 순"
@@ -1073,6 +1116,12 @@ L["SEARCH_TYPE_GUILD"] = "Hermandad"
 L["SEARCH_TYPE_INDIV"] = "Personal"
 --[[Translation missing --]]
 --[[ L["SEARCH_TYPE_OTHER"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "Dificultad de la instancia:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Autodetectar"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroico"
@@ -1126,6 +1175,8 @@ L["SUGGESTIONS_TAB"] = "Sugerencias"
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""--]] 
 L["TAB_HELP"] = "|cffffffffCtrl-click|r sobre un logro para saltar a su posición en el interface estándar.|n|nUn |cfffffffffondo azul|r indica que es parte de una serie para la que aún no has completado un paso anterior.|n|nUn |cfffffffffondo rojo|r indica que no se encuentra en el interface estándar para este personaje porque es exclusivo de la facción contraria o es una Proeza de fuerza que aún no has logrado.|n|nUn |cfffffffffondo verde|r indica que se ha mostrado un tooltip recordatorio sobre este logro recientemente."
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "Ordenado por:"
 L["TAB_SORT_COMPLETE"] = "Fecha de finalización"
 L["TAB_SORT_ID"] = "ID"
@@ -1262,6 +1313,12 @@ L["WATCH_TAB"] = "Seguimiento"
 --[[Translation missing --]]
 --[[ L["SEARCH_TYPE_OTHER"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["SUGGESTIONS_DIFFICULTY"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_DIFFICULTY_AUTO"] = ""--]] 
@@ -1335,6 +1392,8 @@ L["WATCH_TAB"] = "Seguimiento"
 --[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["TAB_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["TAB_SORT"] = ""--]] 
 --[[Translation missing --]]
@@ -1480,6 +1539,12 @@ L["SEARCH_TYPE_ALL"] = "Todas"
 L["SEARCH_TYPE_GUILD"] = "De Guilda"
 L["SEARCH_TYPE_INDIV"] = "Pessoais"
 L["SEARCH_TYPE_OTHER"] = "Outro"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "Dificuldade da instância:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Detectar autom."
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroica"
@@ -1519,6 +1584,8 @@ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "Nagrand (Terralém)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Vale da Lua Negra (Draenor)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "Vale da Lua Negra (Terralém)"
 L["TAB_HELP"] = "|cffffffffCtrl-clique|r em uma conquista para ir ao seu lugar na página padrão.|n|nUm |cfffffffffundo azul|r significa que é parte de uma série da qual você não completou um passo anterior.|n|nUm |cfffffffffundo vermelho|r significa que não pode ser encontrada na página padrão para este personagem por ser exclusiva à facção oposta ou por ser uma Proeza Memorável não conquistada.|n|nUm |cfffffffffundo verde|r significa que um lembrete desta conquista foi exibido numa dica de tela recentemente ou tem um cronômetro que começou recentemente."
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "Classificar por:"
 L["TAB_SORT_COMPLETE"] = "Data completada"
 L["TAB_SORT_ID"] = "ID"
@@ -1618,6 +1685,12 @@ L["SEARCH_TYPE_GUILD"] = "Gilda"
 L["SEARCH_TYPE_INDIV"] = "Personale"
 --[[Translation missing --]]
 --[[ L["SEARCH_TYPE_OTHER"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_AUTOTRACKING_TIP2"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY"] = "Difficoltà Spedizioni:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Automatica"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Eroica"
@@ -1663,6 +1736,8 @@ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Valle di Torvaluna (Drae
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "Valle di Torvaluna (Terre Esterne)"
 --[[Translation missing --]]
 --[[ L["TAB_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_HELP_LESS"] = ""--]] 
 L["TAB_SORT"] = "Ordina per:"
 L["TAB_SORT_COMPLETE"] = "Data completamento"
 L["TAB_SORT_ID"] = "ID"

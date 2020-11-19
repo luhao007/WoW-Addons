@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Tuhljin
-## Version: 1.0.9
+## Version: 1.1.2
 ## Dependencies: Overachiever
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_TradeSkillUI

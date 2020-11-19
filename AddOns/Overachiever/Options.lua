@@ -142,7 +142,10 @@ function Overachiever.CreateOptions(THIS_TITLE, BuildCriteriaLookupTab_check, Au
 	{ variable = "CreatureTip_killed_whencomplete", text = L.OPT_KILLCREATURETIPS_WHENCOMPLETE, xOffset = 39 },
 	{ variable = "CreatureTip_killed_exclude_guild", text = L.OPT_KILLCREATURETIPS_EXCLUDE_GUILD, xOffset = 39 },
 
-	{ type = "Oa_AchLabel", topBuffer = 4, id1 = IDs.LoveCritters, id2 = IDs.LoveCritters2, id3 = IDs.LoveCritters3, id4 = IDs.LoveCritters4, xOffset = 0 },
+	--{ type = "Oa_AchLabel", topBuffer = 4, id1 = IDs.LoveCritters, id2 = IDs.LoveCritters2, id3 = IDs.LoveCritters3, id4 = IDs.LoveCritters4, xOffset = 0 },
+  { type = "Oa_AchLabel", text = L.OPT_LABEL_LOVECRITTER, topBuffer = 4, xOffset = 0,
+    id1 = IDs.LoveCritters, id2 = IDs.LoveCritters2, id3 = IDs.LoveCritters7, id4 = IDs.LoveCritters8, -- Just give a sampling of 4 of them to make the UI cleaner. For now, choosing first two and last two.
+  },
 	{ variable = "CritterTip_loved", text = L.OPT_CRITTERTIPS, tooltip = L.OPT_CRITTERTIPS_TIP, xOffset = 28 },
 
 	{ type = "Oa_AchLabel", topBuffer = 4, id1 = IDs.PestControl, xOffset = 0 },
@@ -339,16 +342,16 @@ do
 
       local text = data.text
       if (not text) then
-	    local i = 1
-		local v = data["id"..i]
-		text = ""
-		while (v) do
-		  if (text ~= "") then  text = text .. ",|n";  end
-		  local _, n = GetAchievementInfo(v)
+        local i = 1
+    		local v = data["id"..i]
+    		text = ""
+    		while (v) do
+    		  if (text ~= "") then  text = text .. ",|n";  end
+    		  local _, n = GetAchievementInfo(v)
           text = text .. '"'..(n or L.OPT_ACHUNKNOWN)..'"'
-		  i = i + 1
-		  v = data["id"..i]
-		end
+    		  i = i + 1
+    		  v = data["id"..i]
+    		end
       else
         d, count = data, 0
         text = text:gsub("(%%s)", achsub)

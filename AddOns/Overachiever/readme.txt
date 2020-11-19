@@ -1,5 +1,5 @@
 
-Overachiever v1.0.9
+Overachiever v1.1.2
 ==============================
 
 Author: Tuhljin
@@ -51,23 +51,27 @@ SLASH COMMANDS:
 
 - ALTERED: /ach and its aliases (/achieve, /achievement, and /achievements)
 
-  You can now add the name, part of the name, or the numerical ID of an achievement to search for it. If you put the "#"
-sign before the ID, then achievements that contain the number in the name aren't included (useful if you want to see
-the achievement with ID 500 but not achievements like "500 Fish" and "500 Quests Completed", for example).
+  You can now add the name, part of the name, or the numerical ID of an achievement to search for it. If you search
+using a number, then achievements with that number in their names will be included in addition to the achievement with that
+number ID. You may narrow this down by putting a "#" sign before the ID. For instance, if you search for "#500", then
+achievement number 500 will be returned but achievements like "500 Fish" and "500 Quests Completed" will not.
+
+  If the option "Slash commands use Search tab" is checked (default), the results are displayed in the Search tab. Otherwise,
+they are output to the chat log and the GUI is opened to the first match.
 
   Example A: /ach
    - Result: Toggle visibility of the main achievement UI.
   Example B: /ach gold
-   - Result: Outputs links to each achievement with "gold" in its name and opens the UI to the first of these.
+   - Result: Search for achievements with "gold" in their names.
   Example C: /ach #1206
-   - Result: Outputs a link to the achievement whose ID is 1206 and opens the UI to it.
+   - Result: Find the achievement with ID number 1206.
   Example D: /ach 80
-   - Result: As Example B except it searches for "80" in achievement names.
+   - Result: Find the achievement with ID number 80 and also find achievements with "80" in their names.
 
 - NEW: /achsilent, /achs
 
   These commands silently search for the first matching achievement and display it. Useful if you don't want text
-  added to the chat log.
+  added to the chat log but don't want to open to the Search tab, either.
 
   Example A: /achs gold
    - Result: Finds the first achievement with "gold" in its name and opens the UI to it.
@@ -100,15 +104,41 @@ option under the "Main Achievement UI frame" option. Once in the position you de
 
 EXPLORATION AUTO-TRACKING:
 
-When enabled, Overachiever automatically switches tracking to the Exploration achievement for your current zone
-as you travel unless you've completed that achievement or you are tracking the maximum number of achievements and
-all of them are non-Exploration achievements.
+When enabled, Overachiever automatically starts tracking the Exploration achievement for your current zone as you travel
+(unless you've completed that achievement).
 
 
 Change log
 ==========
 
 The change log lists changes of particular note to users, not every change made.
+
+v1.1.2
+- Updated TOC for WoW patch 9.0.2.
+- "To All the Squirrels..." achievements: The four new achievements are now checked when looking for a critter's /loved status.
+-- "To All the Squirrels Through Time and Space", "To All the Squirrels I Love Despite Their Scars", "To All the Squirrels I Set Sail to See", "To All the Squirrels I've Loved and Lost" (new)
+- Suggestions Tab:
+-- You can now auto-track suggested achievements. Shift+alt+click on an achievement in the Suggestions tab to toggle its flag. When you enter a location where a flagged achievement is suggested, it will automatically be tracked. It is untracked when you leave the area.
+-- Enter "autotracked" into the Location field to see all achievements you've flagged for auto-tracking.
+- Reworked the auto-tracking system. It should more intelligently handle which achievements are tracked, factoring in the number of available slots (exludes slots taken up by non-auto-tracked achievements) and priority levels.
+-- If the tracking limit is reached, then lower priority achievements may be untracked to make space for higher priority ones.
+-- Timed achievements have priority over exploration and suggested achievements.
+-- Manually tracked achievements should not be automatically untracked. (This should already have been the case but may have failed under certain atypical circumstances.)
+-- Manually untracked achievements will not be automatically tracked again until the player leaves the current zone. This excludes timed achievements; they will be tracked again if the timer restarts.
+-- Auto-tracking in reaction to an "Achievement Progress" toast still simply tracks if space is available (no priority) and doesn't automatically untrack, so it isn't part of this system.
+- Added achievements for Shadowlands zones to exploration auto-tracking.
+- Fixed tooltip not showing when the cursor is over a tracked achievement in the Objectives frame.
+- Tabs module: Shortened the tooltip shown for the Help ("?") icon on each tab so it is more specific to the selected tab. Hold Shift to see the full instructions as before.
+- Trade module:
+-- Now uses recipe IDs instead of names for achievement lookup. This solves some possible problems with finding cooking achievement criteria. (Theoretically, this was a problem for some non-English locales.)
+-- Added support for a potential Skillet plugin.
+
+v1.1.1
+- Fixed an error that appeared when the cursor was over a graphical notice for an active holiday.
+- Suggestions tab: Added suggestions for the raids Uldir, Battle of Dazar'alor, Crucible of Storms, and Ny'alotha, the Waking City.
+
+v1.1.0
+- Updated for Shadowlands pre-patch (WoW patch 9.0.1). Updated TOC and made several required changes.
 
 v1.0.9
 - Updated TOC for WoW patch 8.3.
@@ -123,6 +153,7 @@ v1.0.9
 -- Added "Scrappy's Best Friend" to Mechagon Island suggestions.
 -- Added suggestions for the Battle for Darkshore warfront.
 -- Added suggestions for the Battle for Stromgarde heroic warfront.
+-- Attempt to fix suggestions not showing for the Battle for Stromgarde warfront.
 -- Added suggestion for revamped Deepwind Gorge battleground.
 - Fix other variables leaking into global scope.
 
