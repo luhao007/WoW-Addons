@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: M
 ## Version: 9.0.2
 ## SavedVariables: TinyInspectDB

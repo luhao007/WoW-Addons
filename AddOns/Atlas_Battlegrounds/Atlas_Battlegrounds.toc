@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: arith, Dynaletik, dubcat
 ## Version: v1.48.00
 ## RequiredDeps: Atlas

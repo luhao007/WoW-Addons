@@ -1,6 +1,6 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: kagaro, Xinhuan
-## Version: v33.0
+## Version: v34.0
 ## Dependencies: GatherMate2
 ## LoadOnDemand: 1
 
@@ -11,7 +11,7 @@
 
 ## X-Category: Map
 ## X-Email: sal.scotto@gmail.com
-## X-Generated-Version: $Revision: 472 $
+## X-Generated-Version: $Revision: 474 $
 ## X-Part-Of: GatherMate2
 
 MiningData.lua

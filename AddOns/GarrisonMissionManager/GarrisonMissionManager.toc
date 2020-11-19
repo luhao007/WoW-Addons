@@ -1,6 +1,6 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Oleg "Rowaa[SR13]" Volkov
-## Version: v60
+## Version: v61
 ## RequiredDeps: Blizzard_GarrisonUI, Blizzard_OrderHallUI
 ## OptionalDeps: LibStub, LibDataBroker-1.1, Bagnon, Titan, LibTTScan-1.0, SR13-TimeRecord
 ## LoadOnDemand: 1

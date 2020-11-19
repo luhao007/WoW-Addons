@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: TomCat
 ## Version: 1.0.8
 ## OptionalDeps: TomCats

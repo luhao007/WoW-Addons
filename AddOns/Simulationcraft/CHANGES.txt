@@ -1,16 +1,10 @@
-lightweight tag f323e98eb567e4dc843f693b6dd66488f8a24909 v9.0.1-02
+lightweight tag d3aff4600ecb7501a3d99723410adf9e11b07878 v9.0.2-01
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Thu Oct 22 13:48:19 2020 -0700
+Date:	Wed Nov 18 18:22:16 2020 -0800
 
-commit f323e98eb567e4dc843f693b6dd66488f8a24909
+commit d3aff4600ecb7501a3d99723410adf9e11b07878
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Thu Oct 22 13:48:19 2020 -0700
+Date:   Wed Nov 18 18:22:16 2020 -0800
 
-    Bump version
-
-commit 9b69a34303820116045ea7c554f25847f47acaa6
-Author: Dave Hendler <sollaires@gmail.com>
-Date:   Thu Oct 22 13:47:56 2020 -0700
-
-    Add soulbind ID to soulbind= string for deterministic lookups across localizations
+    TOC version bump
 

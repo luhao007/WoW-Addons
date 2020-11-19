@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Tandanu and Nitram and MysticalOS
 ## Version: 9.0.4
 ## Dependencies: DBM-StatusBarTimers, DBM-DefaultSkin

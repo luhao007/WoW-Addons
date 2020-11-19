@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Ermad
 ## SavedVariables: AngryKeystones_Config, AngryKeystones_Data
 ## SavedVariablesPerCharacter: AngryKeystones_CharacterConfig

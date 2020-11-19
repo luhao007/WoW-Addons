@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: foxlit
 ## Version: 0.118.1
 ## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA

@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Mikord
 ## Version: 5.7.152
 ## OptionalDeps: LibSharedMedia-3.0

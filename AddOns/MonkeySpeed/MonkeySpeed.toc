@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Trentin, Jim-Bim
 ## Version: v3.5.0
 ## OptionalDeps: LibDataBroker-1.1

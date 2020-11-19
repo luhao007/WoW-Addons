@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
 ## Version: 5.19.2.90001
 ## Dependencies: Titan

@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 from pathlib import Path
+from typing import Optional
 
 from defusedxml import ElementTree
 
@@ -13,7 +14,7 @@ from utils import process_file, rm_tree
 logger = logging.getLogger('manager')
 
 CLASSIC_VER = '11305'
-RETAIL_VER = '90001'
+RETAIL_VER = '90002'
 NOT_WORKING = ['ItemRack', 'HandyNotes_DraenorTreasures', 'HandyNotes_LegionRaresTreasures',
                'ButtonForge', 'NPCScan', 'HPetBattleAny',
                'Overachiever', 'Details_TimeLine']
@@ -65,13 +66,13 @@ class Manager:
 
         process_file(path, f)
 
-    def remove_libraries_all(self, addon, lib_path=None):
+    def remove_libraries_all(self, addon, lib_path: Optional[str] = None):
         """Remove all embedded libraries."""
         if not lib_path:
             for p in ['libs', 'lib']:
                 path = Path('Addons') / addon / p
                 if os.path.exists(path):
-                    lib_path = p
+                    lib_path = str(p)
                     break
             else:
                 return

@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyShadowlands_AllSavedVars

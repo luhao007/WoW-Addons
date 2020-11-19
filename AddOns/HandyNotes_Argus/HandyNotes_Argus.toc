@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Version: 0.20.0
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3

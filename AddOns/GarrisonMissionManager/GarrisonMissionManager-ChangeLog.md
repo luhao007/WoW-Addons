@@ -1,11 +1,15 @@
-[![Donate to the author of Garrison Mission Manager](https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cn=Add+special+instructions+to+the+addon+author%28s%29&business=rowaasr13%40gmail.com&bn=PP-DonationsBF%3Abtn_donateCC_LG.gif%3ANonHosted&lc=US&cmd=_donations&rm=1&no_shipping=1&currency_code=USD&return=https%3A%2F%2Fwww.curse.com%2Faddons%2Fwow%2Fgarrison-mission-manager&cancel_return=https%3A%2F%2Fwww.curse.com%2Faddons%2Fwow%2Fgarrison-mission-manager&item_name=Garrison+Mission+Manager+%28from+Curse.com%29) [![Support author of Garrison Mission Manager on Patreon](https://media.forgecdn.net/attachments/192/602/support-on-patreon26.png)](https://www.patreon.com/rowaasr13)
+[![Donate to the author of Garrison Mission Manager](https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cn=Add+special+instructions+to+the+addon+author%28s%29&business=rowaasr13%40gmail.com&bn=PP-DonationsBF%3Abtn_donateCC_LG.gif%3ANonHosted&lc=US&cmd=_donations&rm=1&no_shipping=1&currency_code=USD&return=https%3A%2F%2Fwww.curseforge.com%2Fwow%2Faddons%2Fgarrison-mission-manager&cancel_return=https%3A%2F%2Fwww.curseforge.com%2Fwow%2Faddons%2Fgarrison-mission-manager&item_name=Garrison+Mission+Manager+%28from+CurseForge.com%29)[![Support author of Garrison Mission Manager on Patreon](https://media.forgecdn.net/attachments/192/602/support-on-patreon26.png)](https://www.patreon.com/rowaasr13)
 
-Garrison Mission Manager, v60
+Garrison Mission Manager, v61
 
-* http://www.curse.com/addons/wow/garrison-mission-manager
+* https://www.curseforge.com/wow/addons/garrison-mission-manager
 * http://www.wowinterface.com/downloads/info23375-GarrisonMissionManager.html
 
 ## Change log
+
+### 2019-11-18 v61
+ * TOC update for 9.0.2.
+ * Fix CurseForge links in docs.
 
 ### 2019-11-09 v60
  * TOC update for 9.0.1.
@@ -21,7 +25,7 @@ Garrison Mission Manager, v60
 
 ### 2018-08-23 v58
  * Battle for Azeroth mission table support enabled.
- * Lots of internal changes to make adding new tables faster and simplier and make code more universal. Check your old tables to make sure they work correctly!
+ * Lots of internal changes to make adding new tables faster and simpler and make code more universal. Check your old tables to make sure they work correctly!
 
 ### 2018-08-18 v57
  * Remove Artifact Research tracker from code/docs - research is not available for quite some time already.

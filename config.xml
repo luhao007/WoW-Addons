@@ -579,6 +579,10 @@
 			<SubAddon name="DBM-Serpentshrine">
 				<Title>毒蛇神殿</Title>
 			</SubAddon>
+			<SubAddon name="DBM-Shadowlands">
+				<Title>户外</Title>
+				<TitleExtra>暗影国度</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-SiegeOfOrgrimmarV2">
 				<Title>决战奥格瑞玛</Title>
 			</SubAddon>

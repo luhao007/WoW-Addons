@@ -1,14 +1,22 @@
 ------------------------------------------------------------------------
-r472 | nevcairiel | 2019-10-08 07:19:42 +0000 (Tue, 08 Oct 2019) | 1 line
+r476 | nevcairiel | 2020-11-18 23:33:32 +0000 (Wed, 18 Nov 2020) | 1 line
+Changed paths:
+   M /trunk/GatherMateData.lua
+
+Update zone filter, add shadowlands filter
+------------------------------------------------------------------------
+r475 | nevcairiel | 2020-11-18 23:30:17 +0000 (Wed, 18 Nov 2020) | 1 line
+Changed paths:
+   M /trunk/FishData.lua
+   M /trunk/HerbalismData.lua
+   M /trunk/MiningData.lua
+
+Import new data from Wowhead
+------------------------------------------------------------------------
+r474 | nevcairiel | 2020-11-18 15:13:34 +0000 (Wed, 18 Nov 2020) | 1 line
 Changed paths:
    M /trunk/GatherMate2_Data.toc
 
 Update TOC
-------------------------------------------------------------------------
-r471 | nevcairiel | 2019-10-08 07:19:28 +0000 (Tue, 08 Oct 2019) | 1 line
-Changed paths:
-   M /trunk/TreasureData.lua
-
-Add Jelly nodes
 ------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Resike and Firebunny. Original author: Proditor
-## Version: 7.0.2
+## Version: 7.0.3
 ## OptionalDeps: Ace3, LibStub, LibSharedMedia-3.0
 ## SavedVariables: Gladius2DB
 

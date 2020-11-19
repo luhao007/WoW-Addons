@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90002
 ## Author: Nevcairiel, Nymbia
 ## Version: 3.6.2
 ## OptionalDeps: Ace3, LibDualSpec-1.0, LibWindow-1.1, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, SharedMedia
