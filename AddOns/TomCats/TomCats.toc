@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: TomCat
-## Version: 2.0.22
+## Version: 2.0.25
 ## OptionalDeps: HandyNotes,TomTom
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character

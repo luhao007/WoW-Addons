@@ -1,10 +1,164 @@
-lightweight tag 624e3bfde0a29794ad347d6b4264aa434797a706 Plater-v9.0.1.316-Retail
-Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Thu Nov 12 18:47:23 2020 -0300
+lightweight tag d0662a696086d7c58084b05963464160c33252b5 Plater-v9.0.1.317-Retail
+Author:	Continuity <continuity@gmx.net>
+Date:	Fri Nov 20 19:39:18 2020 +0100
 
-commit 624e3bfde0a29794ad347d6b4264aa434797a706
+commit d0662a696086d7c58084b05963464160c33252b5
+Author: Continuity <continuity@gmx.net>
+Date:   Fri Nov 20 19:39:18 2020 +0100
+
+    - updating changelog
+
+commit 2f9429ff495c324b07198cfdf5a4e7b9bcc6be77
+Author: Continuity <continuity@gmx.net>
+Date:   Fri Nov 20 19:39:05 2020 +0100
+
+    - moved messages to profiling
+
+commit 65d6c588d9229946afe8b6b96eb0b97e8a0ef297
+Author: Continuity <continuity@gmx.net>
+Date:   Fri Nov 20 19:21:29 2020 +0100
+
+    - adding profiling results pane
+
+commit 1cfef7a39e8d542ae93809daf9e7ad6b9e425125
+Author: Continuity <continuity@gmx.net>
+Date:   Fri Nov 20 07:33:33 2020 +0100
+
+    - properly adjust cast bar height
+
+commit cb87f3fdc0765831ef1636bd735841c1718c8a2e
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Nov 19 20:07:16 2020 +0100
+
+    - ensure script object is up to date to avoid weird overlaps
+
+commit 0b40cff6086be77bd4d39cdc9e2085e9ade3b87c
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Nov 19 13:20:37 2020 +0100
+
+    - further profiling enhancements
+
+commit cd49c4a2fff078589ce0fa7da37d6dd5cb4c991a
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Nov 19 12:07:24 2020 +0100
+
+    - updating profiling for hooks/scripts
+
+commit a79e19074637eb4248e63722082c9878d465a067
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 18 23:40:28 2020 +0100
+
+    - toc update
+
+commit b9688c3b1b0cee72d795d600dec1b3f981e449ec
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 18 23:40:21 2020 +0100
+
+    - prototype for profiling
+
+commit e6bf9a9056392b71fa0f30966c24af5128fcea54
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 18 23:26:25 2020 +0100
+
+    - add options to switch between shadowing modes
+
+commit de9abaf87025dd28da3aa0130148594bf65b1425
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 18 20:00:36 2020 +0100
+
+    - disabling for now
+
+commit abaffabedaa716c7d6ebf6a6df385f326cc1cdf9
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 18 19:58:41 2020 +0100
+
+    - streamlining shadowing functionality
+
+commit fd760f71e336ea7c12e8534d3d7adc9ff47e072a
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Nov 18 14:22:57 2020 +0100
+
+    - updating shadowing for plater modding (inactive; using DF)
+
+commit e3bfb5045047147c627148537e88c19ab04b740e
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 17 23:53:21 2020 +0100
+
+    - changing mod/script environment to a static Plater one instead of new ones each compile
+    
+    - adding alternative way of shadowing Plater, might be usefull in the future)
+
+commit 37038a81c6145ce61bbd46da0bb8fdc8ce181d64
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 17 23:52:33 2020 +0100
+
+    - DF lib update
+
+commit 1a06fab1bf5a24ec9e39d32420e53912ad648739
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 17 21:34:10 2020 +0100
+
+    - move this out of OnInit
+
+commit f2db0ea5c565ee03adc789abc198e65c026af3f4
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Nov 12 18:47:23 2020 -0300
+Date:   Tue Nov 17 13:42:13 2020 -0300
 
-    Added "OverrideTriggers" option at the script library, if override triggers are true, while updating the script all old triggers are removed.
+    Using framework SetEnvironment
+
+commit a204756ca9db81c7c771e65a5ae1dd0154093257
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Nov 17 13:21:02 2020 -0300
+
+    added "/plater rare" to blink the taskbar when a rare spawn
+
+commit a204756ca9db81c7c771e65a5ae1dd0154093257
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Nov 17 13:21:02 2020 -0300
+
+    added "/plater rare" to blink the taskbar when a rare spawn
+
+commit 98421d26ebc551b21324f5cce452cd9aa4f5fef1
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Nov 17 00:51:01 2020 +0100
+
+    - ensure more consistent constructor runs (when needed)
+
+commit 03ec965beaaad01e1b1e72866d4c53e9f1134ec5
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Nov 16 23:41:55 2020 +0100
+
+    - reverting hot-reload change
+
+commit 79bfcca093d6c41c3cdf112c1254372de0199a1c
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Nov 16 22:49:45 2020 +0100
+
+    - internal cleanup around scripts to resolve some issues
+
+commit b824174790cfbba6a5a57d1f982f2f72328463f2
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Nov 16 15:36:06 2020 +0100
+
+     - adding LibTranslit support for names
+
+commit fa1436ded28f05263784ad3e3b1b238ebbe45262
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Nov 16 15:35:49 2020 +0100
+
+    - adding LibTranslit
+    
+    https://github.com/Vardex/LibTranslit
+
+commit 7f4c845f06023365243dd631df1c46b33186b4b0
+Author: Continuity <continuity@gmx.net>
+Date:   Sun Nov 15 02:01:41 2020 +0100
+
+    - adding Soul Reaper DK talent to execute indicator
+
+commit 87f31ffa7edeeed4745a586848806e1444fcd165
+Author: Continuity <continuity@gmx.net>
+Date:   Sat Nov 14 00:16:46 2020 +0100
+
+    - fixing an issue with health text options not applying properly
 

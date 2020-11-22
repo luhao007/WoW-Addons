@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: kagaro, Xinhuan
-## Version: v34.0
+## Version: v34.1
 ## Dependencies: GatherMate2
 ## LoadOnDemand: 1
 

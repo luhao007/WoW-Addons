@@ -91,7 +91,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = unpack(addon.split("2.0.22","-"))
+TomCats.version = unpack(addon.split("2.0.25","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
@@ -429,18 +429,23 @@ do
 
 		local function ShowRareLogEntryTooltip(self, tooltipParent)
 			local creature = self.creature or self:GetParent().creature
+			local creatureName
+			if (creature) then
+				creatureName = creature["Name"]
+			end
+			if (not creatureName) then return end
 			tooltipParent = tooltipParent or self
 			EmbeddedItemTooltip:ClearAllPoints()
 			EmbeddedItemTooltip:SetOwner(tooltipParent, "ANCHOR_PRESERVE")
 			EmbeddedItemTooltip:SetPoint("TOPLEFT", tooltipParent, "TOPRIGHT", -55, 0)
 			local color = WORLD_QUEST_QUALITY_COLORS[1]
-			EmbeddedItemTooltip:SetText(creature["Name"], color.r, color.g, color.b)
+			EmbeddedItemTooltip:SetText(creatureName , color.r, color.g, color.b)
 			local tooltipWidth = 20 + max(231, EmbeddedItemTooltipTextLeft1:GetStringWidth())
 			if (tooltipWidth > UIParent:GetRight() - QuestMapFrame:GetParent():GetRight()) then
 				EmbeddedItemTooltip:ClearAllPoints()
 				EmbeddedItemTooltip:SetPoint("TOPRIGHT", tooltipParent, "TOPLEFT", -34, 0)
 				EmbeddedItemTooltip:SetOwner(tooltipParent, "ANCHOR_PRESERVE")
-				EmbeddedItemTooltip:SetText(creature["Name"], color.r, color.g, color.b)
+				EmbeddedItemTooltip:SetText(creatureName, color.r, color.g, color.b)
 			end
 			local footerText
 			if (TomTom) then
@@ -882,31 +887,6 @@ do
 				hooksecurefunc("QuestMapFrame_ShowQuestDetails", UpdateAll)
 				hooksecurefunc("ToggleQuestLog", Hook_ToggleQuestLog)
 				hooksecurefunc("HideUIPanel", UpdateAll)
-				if WorldMapFrame.SidePanelToggle.OpenButton.isSkinned then
-					WorldMapFrame.SidePanelToggle:Hide()
-					WorldMapFrame.SidePanelToggle = WorldMapFrame:AddOverlayFrame("WorldMapSidePanelToggleTemplate",
-					                                                              "BUTTON", "BOTTOMRIGHT",
-					                                                              WorldMapFrame:GetCanvasContainer(),
-					                                                              "BOTTOMRIGHT", -2, 1)
-					hooksecurefunc(WorldMapFrame.SidePanelToggle, "OnClick", Hook_WorldMapFrame_SidePanelToggle)
-				else
-					local hooked
-					hooksecurefunc(WorldMapFrame.SidePanelToggle.OpenButton:GetNormalTexture(), "SetVertexColor",
-					               function()
-						               if not hooked then
-							               WorldMapFrame.SidePanelToggle:Hide()
-							               WorldMapFrame.SidePanelToggle = WorldMapFrame:AddOverlayFrame("WorldMapSidePanelToggleTemplate",
-							                                                                             "BUTTON",
-							                                                                             "BOTTOMRIGHT",
-							                                                                             WorldMapFrame:GetCanvasContainer(),
-							                                                                             "BOTTOMRIGHT",
-							                                                                             -2, 1)
-							               hooksecurefunc(WorldMapFrame.SidePanelToggle, "OnClick",
-							                              Hook_WorldMapFrame_SidePanelToggle)
-						               end
-						               hooked = true
-					               end)
-				end
 			end
 			-- todo: Re-establish this as LOD based on moving into Icecrown
 			C_Timer.NewTimer(0, function()

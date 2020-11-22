@@ -526,7 +526,7 @@ if (TomCats and TomCats.Register) then
                     }
                 },
                 name = "Rares of Death's Rising",
-                version = "2.0.22",
+                version = "2.0.25",
                 raresLogHandlers = {
                     [zoneMapID] = {
                         raresLog = GetRaresLog

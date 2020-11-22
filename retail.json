@@ -688,9 +688,9 @@
     "name": "BlizzMove",
     "description": "Makes the default frames moveable via simple drag and drop",
     "url": "https://www.curseforge.com/wow/addons/blizzmove",
-    "download_url": "https://edge.forgecdn.net/files/3104/589/BlizzMove-v3.0.2.zip",
-    "date_published": "2020-11-07T11:18:15.317000+00:00",
-    "version": "v3.0.2",
+    "download_url": "https://edge.forgecdn.net/files/3117/876/BlizzMove-v3.0.3.zip",
+    "date_published": "2020-11-20T16:49:04.713000+00:00",
+    "version": "v3.0.3",
     "folders": [
       {
         "name": "BlizzMove"
@@ -701,6 +701,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.0.3",
+        "install_time": "2020-11-21T07:48:19+00:00"
+      },
       {
         "version": "v3.0.2",
         "install_time": "2020-11-08T08:16:38+00:00"
@@ -788,9 +792,9 @@
     "name": "BtWQuests: Battle for Azeroth Prologue",
     "description": "Battle for Azeroth Prologue data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-battle-for-azeroth-prologue",
-    "download_url": "https://edge.forgecdn.net/files/3078/847/BtWQuestsBattleForAzerothPrologue-v15.zip",
-    "date_published": "2020-10-13T15:47:44.347000+00:00",
-    "version": "v15",
+    "download_url": "https://edge.forgecdn.net/files/3119/481/BtWQuestsBattleForAzerothPrologue-v15.1.zip",
+    "date_published": "2020-11-22T07:34:25.307000+00:00",
+    "version": "v15.1",
     "folders": [
       {
         "name": "BtWQuestsBattleForAzerothPrologue"
@@ -805,6 +809,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v15.1",
+        "install_time": "2020-11-22T08:08:03+00:00"
+      },
       {
         "version": "v15",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -851,9 +859,9 @@
     "name": "BtWQuests: Legion",
     "description": "Legion data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-legion",
-    "download_url": "https://edge.forgecdn.net/files/3086/710/BtWQuestsLegion-v29.1.zip",
-    "date_published": "2020-10-19T18:31:39.767000+00:00",
-    "version": "v29.1",
+    "download_url": "https://edge.forgecdn.net/files/3119/479/BtWQuestsLegion-v29.2.zip",
+    "date_published": "2020-11-22T07:31:47.167000+00:00",
+    "version": "v29.2",
     "folders": [
       {
         "name": "BtWQuestsLegion"
@@ -869,6 +877,10 @@
     ],
     "logged_versions": [
       {
+        "version": "v29.2",
+        "install_time": "2020-11-22T08:08:03+00:00"
+      },
+      {
         "version": "v29.1",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
@@ -881,9 +893,9 @@
     "name": "Button Forge",
     "description": "Add as many additional action bars and buttons as you want using a simple gui",
     "url": "https://www.curseforge.com/wow/addons/button-forge",
-    "download_url": "https://edge.forgecdn.net/files/2591/622/ButtonForge_v0.9.50.zip",
-    "date_published": "2018-07-26T11:00:10.773000+00:00",
-    "version": "Button Forge v0.9.50",
+    "download_url": "https://edge.forgecdn.net/files/3116/550/ButtonForge_v1.0.0.zip",
+    "date_published": "2020-11-19T09:32:49.083000+00:00",
+    "version": "Button Forge v1.0.0",
     "folders": [
       {
         "name": "ButtonForge"
@@ -894,6 +906,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Button Forge v1.0.0",
+        "install_time": "2020-11-21T07:48:19+00:00"
+      },
       {
         "version": "Button Forge v0.9.50",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -1952,9 +1968,9 @@
     "name": "GatherMate2_Data",
     "description": "Wowhead Data dump for GatherMate2",
     "url": "https://www.curseforge.com/wow/addons/gathermate2_data",
-    "download_url": "https://edge.forgecdn.net/files/3116/204/GatherMate2_Data-v34.0.zip",
-    "date_published": "2020-11-18T23:35:55.300000+00:00",
-    "version": "v34.0",
+    "download_url": "https://edge.forgecdn.net/files/3116/589/GatherMate2_Data-v34.1.zip",
+    "date_published": "2020-11-19T10:35:56.960000+00:00",
+    "version": "v34.1",
     "folders": [
       {
         "name": "GatherMate2_Data"
@@ -1965,6 +1981,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v34.1",
+        "install_time": "2020-11-21T07:48:19+00:00"
+      },
       {
         "version": "v34.0",
         "install_time": "2020-11-19T06:57:53+00:00"
@@ -2253,9 +2273,9 @@
     "name": "HandyNotes",
     "description": "Handy notes for your maps",
     "url": "https://www.curseforge.com/wow/addons/handynotes",
-    "download_url": "https://edge.forgecdn.net/files/3079/122/HandyNotes-v1.6.0.zip",
-    "date_published": "2020-10-13T17:58:09.107000+00:00",
-    "version": "v1.6.0",
+    "download_url": "https://edge.forgecdn.net/files/3116/616/HandyNotes-v1.6.1.zip",
+    "date_published": "2020-11-19T11:24:15.320000+00:00",
+    "version": "v1.6.1",
     "folders": [
       {
         "name": "HandyNotes"
@@ -2266,6 +2286,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.6.1",
+        "install_time": "2020-11-21T07:48:19+00:00"
+      },
       {
         "version": "v1.6.0",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2777,9 +2801,9 @@
     "name": "Mapster",
     "description": "Simple Map Mod",
     "url": "https://www.curseforge.com/wow/addons/mapster",
-    "download_url": "https://edge.forgecdn.net/files/3079/109/Mapster-1.9.0.zip",
-    "date_published": "2020-10-13T17:53:44.540000+00:00",
-    "version": "1.9.0",
+    "download_url": "https://edge.forgecdn.net/files/3116/627/Mapster-1.9.1.zip",
+    "date_published": "2020-11-19T11:32:36.047000+00:00",
+    "version": "1.9.1",
     "folders": [
       {
         "name": "Mapster"
@@ -2790,6 +2814,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "1.9.1",
+        "install_time": "2020-11-21T07:48:20+00:00"
+      },
       {
         "version": "1.9.0",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2803,9 +2831,9 @@
     "name": "Master Plan",
     "description": "Improved Garrison Missions UI and follower group suggestions.",
     "url": "https://www.curseforge.com/wow/addons/master-plan",
-    "download_url": "https://edge.forgecdn.net/files/3082/377/MasterPlan-0.118.1.zip",
-    "date_published": "2020-10-15T22:13:38.920000+00:00",
-    "version": "0.118.1",
+    "download_url": "https://edge.forgecdn.net/files/3118/793/MasterPlan-0.119.zip",
+    "date_published": "2020-11-21T16:44:16.263000+00:00",
+    "version": "0.119",
     "folders": [
       {
         "name": "MasterPlan"
@@ -2819,6 +2847,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "0.119",
+        "install_time": "2020-11-22T06:40:06+00:00"
+      },
       {
         "version": "0.118.1",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2940,9 +2972,9 @@
     "name": "MythicPlusTimer",
     "description": "Custom Mythic+ timer appearance",
     "url": "https://www.curseforge.com/wow/addons/mythicplustimer",
-    "download_url": "https://edge.forgecdn.net/files/3080/376/MythicPlusTimer_4.0.0.zip",
-    "date_published": "2020-10-14T13:30:09.080000+00:00",
-    "version": "MythicPlusTimer 4.0.0",
+    "download_url": "https://edge.forgecdn.net/files/3116/896/MythicPlusTimer_4.0.1.zip",
+    "date_published": "2020-11-19T17:53:22.627000+00:00",
+    "version": "MythicPlusTimer 4.0.1",
     "folders": [
       {
         "name": "MythicPlusTimer"
@@ -2953,6 +2985,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "MythicPlusTimer 4.0.1",
+        "install_time": "2020-11-21T07:48:20+00:00"
+      },
       {
         "version": "MythicPlusTimer 4.0.0",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -3026,9 +3062,9 @@
     "name": "OPie\u200b",
     "description": "Bind actions to a pop-up radial menu.",
     "url": "https://www.curseforge.com/wow/addons/opie",
-    "download_url": "https://edge.forgecdn.net/files/3062/844/OPie-xe1a.zip",
-    "date_published": "2020-09-22T22:11:18.153000+00:00",
-    "version": "Xe 1a",
+    "download_url": "https://edge.forgecdn.net/files/3118/122/OPie-xe2a.zip",
+    "date_published": "2020-11-20T22:01:34.943000+00:00",
+    "version": "Xe 2a",
     "folders": [
       {
         "name": "OPie"
@@ -3039,6 +3075,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Xe 2a",
+        "install_time": "2020-11-21T07:48:20+00:00"
+      },
       {
         "version": "Xe 1a",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -3052,9 +3092,9 @@
     "name": "Omen Threat Meter",
     "description": "A lightweight, flexible, multi-target threat meter.",
     "url": "https://www.curseforge.com/wow/addons/omen-threat-meter",
-    "download_url": "https://edge.forgecdn.net/files/3081/711/Omen-v3.2.3.zip",
-    "date_published": "2020-10-15T10:38:06.630000+00:00",
-    "version": "v3.2.3",
+    "download_url": "https://edge.forgecdn.net/files/3116/629/Omen-v3.2.4.zip",
+    "date_published": "2020-11-19T11:33:14.273000+00:00",
+    "version": "v3.2.4",
     "folders": [
       {
         "name": "Omen"
@@ -3065,6 +3105,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.2.4",
+        "install_time": "2020-11-21T07:48:20+00:00"
+      },
       {
         "version": "v3.2.3",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -3227,9 +3271,9 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3109/921/Plater-Plater-v9.0.1.316-Retail.zip",
-    "date_published": "2020-11-12T21:53:41.127000+00:00",
-    "version": "Plater-v9.0.1.316-Retail",
+    "download_url": "https://edge.forgecdn.net/files/3117/967/Plater-Plater-v9.0.1.317-Retail.zip",
+    "date_published": "2020-11-20T18:53:39.107000+00:00",
+    "version": "Plater-v9.0.1.317-Retail",
     "folders": [
       {
         "name": "Plater"
@@ -3240,6 +3284,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v9.0.1.317-Retail",
+        "install_time": "2020-11-21T07:48:22+00:00"
+      },
       {
         "version": "Plater-v9.0.1.316-Retail",
         "install_time": "2020-11-13T10:54:15+00:00"
@@ -3557,9 +3605,9 @@
     "name": "Simulationcraft",
     "description": "An addon that generates a Simulationcraft profile for your character",
     "url": "https://www.curseforge.com/wow/addons/simulationcraft",
-    "download_url": "https://edge.forgecdn.net/files/3116/316/Simulationcraft-v9.0.2-01.zip",
-    "date_published": "2020-11-19T02:23:01.097000+00:00",
-    "version": "v9.0.2-01",
+    "download_url": "https://edge.forgecdn.net/files/3117/209/Simulationcraft-v9.0.2-03.zip",
+    "date_published": "2020-11-20T00:25:31.053000+00:00",
+    "version": "v9.0.2-03",
     "folders": [
       {
         "name": "Simulationcraft"
@@ -3570,6 +3618,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v9.0.2-03",
+        "install_time": "2020-11-21T07:48:22+00:00"
+      },
       {
         "version": "v9.0.2-01",
         "install_time": "2020-11-19T06:57:54+00:00"
@@ -3730,9 +3782,9 @@
     "name": "Titan Panel [Currency]",
     "description": "Titan Panel [Currency]",
     "url": "https://www.curseforge.com/wow/addons/titan-panel-currency",
-    "download_url": "https://edge.forgecdn.net/files/3085/530/TitanCurrency9.0c.zip",
-    "date_published": "2020-10-18T15:51:32.797000+00:00",
-    "version": "Titan Panel [Currency] 9.0c",
+    "download_url": "https://edge.forgecdn.net/files/3118/748/TitanCurrency9.0.2.zip",
+    "date_published": "2020-11-21T15:56:56.603000+00:00",
+    "version": "Titan Currency 9.0.2",
     "folders": [
       {
         "name": "TitanCurrency"
@@ -3743,6 +3795,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Titan Currency 9.0.2",
+        "install_time": "2020-11-22T06:40:06+00:00"
+      },
       {
         "version": "Titan Panel [Currency] 9.0c",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -3816,9 +3872,9 @@
     "name": "TomCat's Tours (now includes Icecrown / Death's Rising! / Scourge Invasion) + HandyNotes Support",
     "description": "TomCat's Tours (now includes Icecrown / Death's Rising / Scourge Invasion) + HandyNotes Support",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3115/477/TomCatsTours[retail]-2.0.22.zip",
-    "date_published": "2020-11-18T13:15:16.280000+00:00",
-    "version": "2.0.22",
+    "download_url": "https://edge.forgecdn.net/files/3119/168/TomCatsTours[retail]-2.0.25.zip",
+    "date_published": "2020-11-21T23:40:31.197000+00:00",
+    "version": "2.0.25",
     "folders": [
       {
         "name": "TomCats"
@@ -3832,6 +3888,14 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.0.25",
+        "install_time": "2020-11-22T06:40:07+00:00"
+      },
+      {
+        "version": "2.0.24",
+        "install_time": "2020-11-21T07:48:22+00:00"
+      },
       {
         "version": "2.0.22",
         "install_time": "2020-11-18T14:59:08+00:00"
@@ -4104,9 +4168,9 @@
     "name": "TradeSkillMaster",
     "description": "Powerful addon to help you make gold from crafting to selling on the auction house to buying vendor items and much more!",
     "url": "https://www.curseforge.com/wow/addons/tradeskill-master",
-    "download_url": "https://edge.forgecdn.net/files/3099/86/TradeSkillMaster_v4.10.14.zip",
-    "date_published": "2020-11-01T19:02:11.113000+00:00",
-    "version": "v4.10.14",
+    "download_url": "https://edge.forgecdn.net/files/3117/46/TradeSkillMaster_v4.10.15.zip",
+    "date_published": "2020-11-19T21:08:27.617000+00:00",
+    "version": "v4.10.15",
     "folders": [
       {
         "name": "TradeSkillMaster"
@@ -4117,6 +4181,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.10.15",
+        "install_time": "2020-11-21T07:48:24+00:00"
+      },
       {
         "version": "v4.10.14",
         "install_time": "2020-11-03T06:02:41+00:00"
@@ -4215,32 +4283,6 @@
       },
       {
         "version": "v3.115",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "7474",
-    "slug": "wim-3",
-    "name": "WIM (WoW Instant Messenger) v3",
-    "description": "Give whispers an instant messenger feel.",
-    "url": "https://www.curseforge.com/wow/addons/wim-3",
-    "download_url": "https://edge.forgecdn.net/files/3082/435/WIM-3.8.15.zip",
-    "date_published": "2020-10-15T23:10:11.260000+00:00",
-    "version": "3.8.15",
-    "folders": [
-      {
-        "name": "WIM"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "3.8.15",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]

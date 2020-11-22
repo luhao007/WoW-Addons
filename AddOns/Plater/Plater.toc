@@ -1,5 +1,5 @@
 ## Interface: 90002
-## Version: Plater-v9.0.1.316-Retail
+## Version: Plater-v9.0.1.317-Retail
 ## SavedVariables: PlaterDB
 ## SavedVariablesPerCharacter: PlaterDBChr
 
@@ -39,4 +39,5 @@ Plater_ChangeLog.lua
 Plater_Docs.lua
 Plater_BossModsSupport.lua
 Plater_Animations.lua
+Plater_Profiling.lua
 #Plater_SpellPrediction.lua

@@ -47,7 +47,6 @@ ticker = C_Timer.NewTicker(0.2,
             local success = addon.loadCreatureNames()
             if success then
                 addon.raresLog.updated = true
-                addon.raresLog.isSorted = nil
                 ticker:Cancel()
             end
         end

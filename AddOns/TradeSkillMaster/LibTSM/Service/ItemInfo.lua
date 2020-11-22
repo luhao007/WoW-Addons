@@ -796,7 +796,7 @@ end
 -- @treturn ?boolean Whether or not the item is disenchantable (nil means we don't know)
 function ItemInfo.IsDisenchantable(item)
 	local itemString = ItemString.Get(item)
-	if not itemString or NON_DISENCHANTABLE_ITEMS[itemString] then
+	if not itemString or ItemInfo.GetInvSlotId(item) == LE_INVENTORY_TYPE_TABARD_TYPE or NON_DISENCHANTABLE_ITEMS[itemString] then
 		return nil
 	end
 	local quality = ItemInfo.GetQuality(itemString)

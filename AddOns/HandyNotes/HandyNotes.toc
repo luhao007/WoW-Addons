@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Xinhuan
-## Version: v1.6.0
+## Version: v1.6.1
 ## OptionalDeps: Ace3, TomTom, HereBeDragons
 ## LoadManagers: AddonLoader
 ## SavedVariables: HandyNotesDB, HandyNotes_HandyNotesDB

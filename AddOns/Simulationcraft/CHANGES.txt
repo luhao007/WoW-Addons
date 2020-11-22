@@ -1,10 +1,10 @@
-lightweight tag d3aff4600ecb7501a3d99723410adf9e11b07878 v9.0.2-01
+lightweight tag fb503f31e92d2835442847f6cd5427527ee9946e v9.0.2-03
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Wed Nov 18 18:22:16 2020 -0800
+Date:	Thu Nov 19 16:24:57 2020 -0800
 
-commit d3aff4600ecb7501a3d99723410adf9e11b07878
+commit fb503f31e92d2835442847f6cd5427527ee9946e
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Wed Nov 18 18:22:16 2020 -0800
+Date:   Thu Nov 19 16:24:57 2020 -0800
 
-    TOC version bump
+    Fix a bug with determining player level
 
