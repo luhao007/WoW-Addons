@@ -856,6 +856,7 @@ class Manager:
             '      db.minimap = db.minimap or { hide = true };'
         )
 
+    @classic_only
     def handle_wim(self):
         self.remove_libraries(
             ['CallbackHandler-1.0', 'ChatThrottleLib', 'LibChatAnims',
