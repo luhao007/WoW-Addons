@@ -149,7 +149,7 @@ nodes["ArgusCore"] = {
 	{ coord = 56605420, npcId = 128020, questId = 0, icon = "battle_pet", group = "pet_aw", label = _L["Bloat"], loot = nil, note = _L["Bloat_note"] },
 	{ coord = 56102870, npcId = 128021, questId = 0, icon = "battle_pet", group = "pet_aw", label = _L["Earseeker"], loot = nil, note = _L["Earseeker_note"] },
 	{ coord = 64106600, npcId = 128022, questId = 0, icon = "battle_pet", group = "pet_aw", label = _L["Pilfer"], loot = nil, note = _L["Pilfer_note"] },
-	
+
 	{ coord = 60214557, npcId = 128134, questId = 0, icon = "eye", group = "npc_aw", label = _L["Orix the All-Seer"], loot = { { itemId = 153204, itemType = itemTypeToy }, { itemId = 153026, itemType = itemTypePet, speciesId = 2115 } }, note = _L["Orix the All-Seer_note"] },
 
 	-- Shoot First, Loot Later
@@ -432,9 +432,9 @@ nodes["ArgusMacAree"] = {
 	{ coord = 69705190, npcId = 128014, questId = 0, icon = "battle_pet", group = "pet_ma", label = _L["Snozz"], loot = nil, note = _L["Snozz_note"] },
 	{ coord = 31903120, npcId = 128017, questId = 0, icon = "battle_pet", group = "pet_ma", label = _L["Corrupted Blood of Argus"], loot = nil, note = _L["Corrupted Blood of Argus_note"] },
 	{ coord = 36005410, npcId = 128016, questId = 0, icon = "battle_pet", group = "pet_ma", label = _L["Shadeflicker"], loot = nil, note = _L["Shadeflicker_note"] },
-	
+
 	{ coord = 42316334, npcId = 127037, questId = 0, icon = "shadowmend", group = "npc_ma", label = _L["Nabiru"], loot = { { itemId = 152096, itemType = itemTypeMisc } }, note = _L["Nabiru_note"] },
-	
+
 	-- Shoot First, Loot Later
 	{ coord = 42900549, objId = 276223, questId = 48743, icon = "starChestBlue", group = "sfll_ma", label = _L["Eredar Treasure Cache"], loot = nil, note = _L["Eredar Treasure Cache_note"] },
 	{ coord = 50583838, objId = 276224, questId = 48744, icon = "starChestYellow", group = "sfll_ma", label = _L["Chest of Ill-Gotten Gains"], loot = nil, note = _L["Chest of Ill-Gotten Gains_note"] },
@@ -637,7 +637,7 @@ local worldmapPOI = {
 	[5307] = { npcId = 0, group = "bsrare", label = _L["Eye of Gurgh"], search = _L["bsrare_eyeofgurgh_search"] },
 	[5308] = { npcId = 0, group = "bsrare", label = _L["Brother Badatin"], search = _L["bsrare_badatin_search"] },
 	--[xxxx] = { npcId = 0, group = "bsrare", label = _L["xxxx"], search = _L["bsrare__search"] },
-	
+
 	[5360] = { group = "invasion", label = _L["Invasion Point: Val"], search = _L["invasion_val_search"] },
 	[5372] = { group = "invasion", label = _L["Invasion Point: Val"], search = _L["invasion_val_search"] },
 	[5367] = { group = "invasion", label = _L["Invasion Point: Aurinor"], search = _L["invasion_aurinor_search"] },
@@ -1005,7 +1005,7 @@ function Argus:OnEnter( mapFile, coord )
 	local node = GetNodeByCoord( mapFile, coord );
 	local itemDataMissing = false;
     if ( not node ) then return end
-    
+
     local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
 
     if ( self:GetCenter() > UIParent:GetCenter() ) then
@@ -1013,7 +1013,7 @@ function Argus:OnEnter( mapFile, coord )
     else
         tooltip:SetOwner(self, "ANCHOR_RIGHT")
     end
-	
+
 	local label = "";
 	if ( node["npcId"] ) then
 		tooltip_label = nil;
@@ -1094,13 +1094,13 @@ function Argus:OnEnter( mapFile, coord )
 			end
 		end
     end
-	
+
 	if ( node["missingForCoA"] ) then
 		tooltip:AddLine( string.format( _L["Missing for CoALink"], GetAchievementLink( 12078 ) ) );
 	end
 
     tooltip:Show();
-	
+
 	if ( itemDataMissing == true ) then
 		-- try refreshing if itemlinks are missing
 		C_Timer.After( 1, function()
@@ -1409,7 +1409,7 @@ finderFrame:SetScript("OnEvent", function( self, event, ... )
 		for _, resultId in ipairs( resultIds ) do
 
 			local id, activityID, name, comment, voiceChat, iLvl, honorLevel, age, numBNetFriends, numCharFriends, numGuildMates, isDelisted, leaderName, numMembers, isAutoAccept = C_LFGList.GetSearchResultInfo( resultId );
-			if ( age < maxAge and lastSearchTerm == "" ) then
+			if ( age ~= nil and age < maxAge and lastSearchTerm == "" ) then
 				-- dont count groups older than 2.5 minutes
 				updateNPCGroupCount( name, leaderName );
 			end
@@ -1639,11 +1639,11 @@ local function generateMenu( button, level )
         info.text = _L["context_menu_title"]
         info.notCheckable = 1
         UIDropDownMenu_AddButton(info, level)
-        
+
         info.disabled = nil
         info.isTitle = nil
         info.notCheckable = 1
-		
+
 		if ( node["group"]:find( "rare" ) ~= nil or node["group"]:find( "invasion" ) ~= nil ) then
 
 			info.disabled = 1
@@ -1666,7 +1666,7 @@ local function generateMenu( button, level )
 				Argus:Refresh();
 			end
 			UIDropDownMenu_AddButton(info, level)
-			
+
 		end
 
 		info.disabled = 1
@@ -1696,7 +1696,7 @@ local function generateMenu( button, level )
         info.arg2 = nil
         info.notCheckable = 1
         UIDropDownMenu_AddButton(info, level)
-        
+
 		info.disabled = 1
 		info.notClickable = 1
         info.text = ""
@@ -1710,7 +1710,7 @@ local function generateMenu( button, level )
         info.arg2 = nil
         info.notCheckable = 1
         UIDropDownMenu_AddButton(info, level)
-		
+
     end
 end
 
@@ -1910,7 +1910,7 @@ local options = {
 					type = "header",
 					name = _L["Krokuun"],
 					order = 10,
-				},  
+				},
 				treasureKR = {
 					type = "toggle",
 					arg = "treasure_kr",
@@ -1943,7 +1943,7 @@ local options = {
 					type = "header",
 					name = _L["Mac'Aree"],
 					order = 20,
-				},  
+				},
 				treasureMA = {
 					type = "toggle",
 					arg = "treasure_ma",
@@ -1957,14 +1957,14 @@ local options = {
 					name = _L["options_toggle_rares"],
 					width = "normal",
 					order = 22,
-				},  
+				},
 				petMA = {
 					type = "toggle",
 					arg = "pet_ma",
 					name = _L["options_toggle_battle_pets"],
 					width = "normal",
 					order = 23,
-				},  
+				},
 				sfllMA = {
 					type = "toggle",
 					arg = "sfll_ma",
@@ -1984,7 +1984,7 @@ local options = {
 					name = _L["options_general_settings"],
 					desc = _L["options_general_settings_desc"],
 					order = 30,
-				},  
+				},
 				alwaysshowrares = {
 					type = "toggle",
 					arg = "alwaysshowrares",
@@ -2125,7 +2125,7 @@ local function cacheItems()
 			end
 		end
 	end
-	if ( failed > 0 and precacheIteration < 10 ) then 
+	if ( failed > 0 and precacheIteration < 10 ) then
 		debugMsg( "Failed: " .. failed .. " / " .. total );
 		C_Timer.After(3, function()
 			cacheItems();
@@ -2203,7 +2203,7 @@ function Argus:OnInitialize()
 	--WorldMapTooltip:HookScript("OnShow", function()
 		-- print( "wmtt" );
 	--end );
-	
+
 	--hooksecurefunc( "TaskPOI_OnEnter", function( self )
 		--WorldMapTooltip:AddLine ("quest ID: " .. self.questID)
 		--print (self.questID)
@@ -2211,7 +2211,7 @@ function Argus:OnInitialize()
 
 	--hooksecurefunc( "TaskPOI_OnLeave", function ( self )
 	--end );
-	
+
 	--TaskPOI_OnClick
 end
 
@@ -2231,7 +2231,7 @@ function Argus:RegisterWithHandyNotes()
         local function iter( t, prestate )
 
 		if not t then return nil end
-			
+
 			local node;
 			local now = getCurrentTimeSlot();
 			if ( prestate ) then
@@ -2288,7 +2288,7 @@ function Argus:RegisterWithHandyNotes()
     self:RegisterBucketEvent({ "LOOT_CLOSED", "PLAYER_MONEY", "SHOW_LOOT_TOAST", "SHOW_LOOT_TOAST_UPGRADE" }, 2, "Refresh")
     self:Refresh()
 end
- 
+
 function Argus:Refresh()
     self:SendMessage("HandyNotes_NotifyUpdate", "HandyNotesArgus")
 end
@@ -2308,11 +2308,11 @@ end
 
 function Argus:LoadCheck()
 
-	if (IsAddOnLoaded("TomTom")) then 
+	if (IsAddOnLoaded("TomTom")) then
 		isTomTomloaded = true
 	end
 
-	if (IsAddOnLoaded("CanIMogIt")) then 
+	if (IsAddOnLoaded("CanIMogIt")) then
 		isCanIMogItloaded = true
 	end
 

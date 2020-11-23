@@ -8,7 +8,7 @@
 
 ## Title: TomCat's Tours
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFFFFE00ATomCats|r
-## Notes-zhCN: 汤姆猫旅行指南
+## Notes-zhCN: TomCats的旅行指南
 
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous

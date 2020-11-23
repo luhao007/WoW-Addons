@@ -1,14 +1,18 @@
 ## Interface: 90002
-## Title: TomCat's Tours / Rares of Arathi Highlands
 ## Author: TomCat
-## X-Website: https://www.tomcatstours.com
 ## Version: 2.0.26
-## DefaultState: enabled
-## LoadOnDemand: 1
 ## RequiredDeps: TomCats
+## LoadOnDemand: 1
 ## SavedVariables: TomCatsArathi_Account
+## DefaultState: enabled
+
+## Title: TomCat's Tours / Rares of Arathi Highlands
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFF69CCF0稀有|r |cFF22B14C阿拉希高地|r
+
+## X-Website: https://www.tomcatstours.com
 ## X-Child-Of: TomCats
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
+## X-Part-Of: TomCats
 
 Main.xml

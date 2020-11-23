@@ -1,4 +1,4 @@
-﻿--默认设置
+--默认设置
 UnitFramesPlusDefaultDB = {
     global = {
         movable = 1,    --Shift拖动头像
@@ -175,7 +175,7 @@ UnitFramesPlusDefaultDB = {
     },
 
     minimap = {            --地图按钮
-        button = 1,
+        button = 0,
         radius = 78,
         position = 348,
     },
@@ -237,7 +237,7 @@ local function UnitFramesPlus_Options_Init()
         UnitFramesPlusVar = UnitFramesPlusDefaultVar;
         UnitFramesPlusVar["reset"] = 0;
     end
-    
+
     local Version = tonumber(GetAddOnMetadata("UnitFramesPlus", "Version"));
     if (not UnitFramesPlusVar["version"]) or (UnitFramesPlusVar["version"] ~= Version) then
         local k, v, x, y;

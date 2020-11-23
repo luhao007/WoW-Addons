@@ -6,7 +6,7 @@
 ## DefaultState: enabled
 
 ## Title: TomCat's Tours / Rares of Death's Rising
-## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFF69CCF0天灾入侵|r
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFF69CCF0稀有|r |cFF22B14C亡者崛起|r
 
 ## X-Website: https://www.tomcatstours.com
 ## X-Child-Of: TomCats

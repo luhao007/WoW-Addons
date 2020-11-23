@@ -804,11 +804,28 @@ class Manager:
                            if 'EmbeddedLibs' not in line]
         )
 
-    @classic_only
     def handle_ufp(self):
-        rm_tree('AddOns/UnitFramesPlus_MobHealth')
+        if self.is_classic:
+            rm_tree('AddOns/UnitFramesPlus_MobHealth')
 
-        self.remove_libraries_all('UnitFramesPlus_Cooldown')
+            self.remove_libraries_all('UnitFramesPlus_Cooldown')
+
+        def f(lines):
+            ret = []
+            minimap = False
+            for line in lines:
+                if 'minimap = {' in line:
+                    minimap = True
+
+                if minimap and 'button' in line:
+                    ret.append('        button = 0,\n')
+                    minimap = False
+                else:
+                    ret.append(line)
+            return ret
+
+        process_file('Addons/UnitFramesPlus/UnitFramesPlus.lua', f)
+
 
     def handle_vuhdo(self):
         self.remove_libraries(

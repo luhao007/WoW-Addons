@@ -6,9 +6,9 @@
     "name": "ALL THE THINGS",
     "description": "Addon for Tracking Collections & Account Completion",
     "url": "https://www.curseforge.com/wow/addons/all-the-things",
-    "download_url": "https://edge.forgecdn.net/files/3113/322/AllTheThings-2_1_5_Release.zip",
-    "date_published": "2020-11-16T14:51:42.850000+00:00",
-    "version": "Shadowlands 2.1.5",
+    "download_url": "https://edge.forgecdn.net/files/3120/441/AllTheThings-2_1_6a_Release.zip",
+    "date_published": "2020-11-23T04:49:18.870000+00:00",
+    "version": "Shadowlands 2.1.6a",
     "folders": [
       {
         "name": "AllTheThings"
@@ -19,6 +19,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Shadowlands 2.1.6a",
+        "install_time": "2020-11-23T13:17:55+00:00"
+      },
       {
         "version": "Shadowlands 2.1.5",
         "install_time": "2020-11-17T10:27:41+00:00"
@@ -2306,36 +2310,6 @@
   },
   {
     "source": "curse",
-    "id": "265722",
-    "slug": "handynotes-broken-shore",
-    "name": "HandyNotes - Broken Shore",
-    "description": "Shows the POIs like Veiled Wyrmtongue Chest, rare mobs, etc. in Broken Shore",
-    "url": "https://www.curseforge.com/wow/addons/handynotes-broken-shore",
-    "download_url": "https://edge.forgecdn.net/files/3119/814/HandyNotes_BrokenShore-v1.39.zip",
-    "date_published": "2020-11-22T15:46:40.957000+00:00",
-    "version": "v1.39",
-    "folders": [
-      {
-        "name": "HandyNotes_BrokenShore"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v1.39",
-        "install_time": "2020-11-22T16:05:13+00:00"
-      },
-      {
-        "version": "v1.38",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "265431",
     "slug": "handynotes-legion-class-order-halls",
     "name": "HandyNotes - Legion Class Order Halls",
@@ -3969,76 +3943,6 @@
       },
       {
         "version": "01.06.01",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "312283",
-    "slug": "tomcats-complete",
-    "name": "TomCat's Tours: Complete",
-    "description": "Helps you to install all current and future TomCat's Tours addOns and keep them up to date",
-    "url": "https://www.curseforge.com/wow/addons/tomcats-complete",
-    "download_url": "https://edge.forgecdn.net/files/3120/313/TomCats-Complete[retail]-1.99.99.zip",
-    "date_published": "2020-11-23T02:01:20.167000+00:00",
-    "version": "1.99.99",
-    "folders": [
-      {
-        "name": "TomCats-Complete"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [
-      {
-        "id": "307092"
-      },
-      {
-        "id": "304762"
-      },
-      {
-        "id": "320702"
-      },
-      {
-        "id": "320703"
-      },
-      {
-        "id": "320648"
-      },
-      {
-        "id": "308336"
-      },
-      {
-        "id": "310332"
-      },
-      {
-        "id": "313948"
-      },
-      {
-        "id": "357905"
-      },
-      {
-        "id": "320050"
-      },
-      {
-        "id": "303116"
-      },
-      {
-        "id": "309091"
-      },
-      {
-        "id": "298607"
-      }
-    ],
-    "logged_versions": [
-      {
-        "version": "1.99.99",
-        "install_time": "2020-11-23T02:52:33+00:00"
-      },
-      {
-        "version": "v1.4.3-retail",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
