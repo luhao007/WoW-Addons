@@ -881,7 +881,7 @@
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>破碎海滩</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_DraenorTreasures">
+			<SubAddon name="HandyNotes_Draenor">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>德拉诺</TitleExtra>
 			</SubAddon>
@@ -895,7 +895,13 @@
 				<Title>节日</Title>
 				<TitleExtra>万圣节</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_LegionRaresTreasures">
+			<SubAddon name="HandyNotes_LegionClassOrderHalls">
+				<Title>职业大厅</Title>
+			</SubAddon>
+			<SubAddon name="HandyNotes_LegionInstanceWorldQuests">
+				<Title>军团副本世界任务</Title>
+			</SubAddon>
+			<SubAddon name="HandyNotes_LegionTreasures">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>军团再临</TitleExtra>
 			</SubAddon>

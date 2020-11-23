@@ -923,9 +923,9 @@
     "name": "Children's Week by TomCat's Tours",
     "description": "In-game guide and completion trackers for the Children's Week holiday",
     "url": "https://www.curseforge.com/wow/addons/tomcats-tours-childrens-week",
-    "download_url": "https://edge.forgecdn.net/files/2951/253/TomCats-ChildrensWeek-1.0.8release.zip",
-    "date_published": "2020-05-08T07:20:57.693000+00:00",
-    "version": "v1.0.8",
+    "download_url": "https://edge.forgecdn.net/files/3120/315/TomCats-ChildrensWeek[retail]-1.99.99.zip",
+    "date_published": "2020-11-23T02:01:58.497000+00:00",
+    "version": "1.99.99",
     "folders": [
       {
         "name": "TomCats-ChildrensWeek"
@@ -934,12 +934,12 @@
     "options": {
       "strategy": "default"
     },
-    "deps": [
-      {
-        "id": "306085"
-      }
-    ],
+    "deps": [],
     "logged_versions": [
+      {
+        "version": "1.99.99",
+        "install_time": "2020-11-23T02:52:29+00:00"
+      },
       {
         "version": "v1.0.8",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -1606,9 +1606,9 @@
     "name": "Decursive",
     "description": "Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.",
     "url": "https://www.curseforge.com/wow/addons/decursive",
-    "download_url": "https://edge.forgecdn.net/files/3085/801/Decursive-2.7.7.1.zip",
-    "date_published": "2020-10-18T19:52:10.253000+00:00",
-    "version": "2.7.7.1",
+    "download_url": "https://edge.forgecdn.net/files/3120/260/Decursive-2.7.8.zip",
+    "date_published": "2020-11-23T00:52:18.433000+00:00",
+    "version": "2.7.8",
     "folders": [
       {
         "name": "Decursive"
@@ -1619,6 +1619,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.7.8",
+        "install_time": "2020-11-23T02:52:29+00:00"
+      },
       {
         "version": "2.7.7.1",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2002,9 +2006,9 @@
     "name": "GladiatorlosSA2",
     "description": "A PvP announcer addon that vocalizes many spells cast by your opponents.",
     "url": "https://www.curseforge.com/wow/addons/gladiatorlossa2",
-    "download_url": "https://edge.forgecdn.net/files/3086/23/GSA2_SLB2.zip",
-    "date_published": "2020-10-18T23:34:36.267000+00:00",
-    "version": "GSA2_SLB2",
+    "download_url": "https://edge.forgecdn.net/files/3120/34/GSA2_SLB3.zip",
+    "date_published": "2020-11-22T20:09:25.027000+00:00",
+    "version": "GSA2_SLB3",
     "folders": [
       {
         "name": "GladiatorlosSA2"
@@ -2015,6 +2019,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "GSA2_SLB3",
+        "install_time": "2020-11-23T02:52:32+00:00"
+      },
       {
         "version": "GSA2_SLB2",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2303,9 +2311,9 @@
     "name": "HandyNotes - Broken Shore",
     "description": "Shows the POIs like Veiled Wyrmtongue Chest, rare mobs, etc. in Broken Shore",
     "url": "https://www.curseforge.com/wow/addons/handynotes-broken-shore",
-    "download_url": "https://edge.forgecdn.net/files/3093/374/HandyNotes_BrokenShore-v1.38.zip",
-    "date_published": "2020-10-26T15:16:22.130000+00:00",
-    "version": "v1.38",
+    "download_url": "https://edge.forgecdn.net/files/3119/814/HandyNotes_BrokenShore-v1.39.zip",
+    "date_published": "2020-11-22T15:46:40.957000+00:00",
+    "version": "v1.39",
     "folders": [
       {
         "name": "HandyNotes_BrokenShore"
@@ -2317,8 +2325,64 @@
     "deps": [],
     "logged_versions": [
       {
+        "version": "v1.39",
+        "install_time": "2020-11-22T16:05:13+00:00"
+      },
+      {
         "version": "v1.38",
         "install_time": "2020-11-03T06:02:12+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "265431",
+    "slug": "handynotes-legion-class-order-halls",
+    "name": "HandyNotes - Legion Class Order Halls",
+    "description": "Shows the NPC locations and major POIs in Class Order Halls",
+    "url": "https://www.curseforge.com/wow/addons/handynotes-legion-class-order-halls",
+    "download_url": "https://edge.forgecdn.net/files/3119/819/HandyNotes_LegionClassOrderHalls-v1.38.zip",
+    "date_published": "2020-11-22T15:49:39.167000+00:00",
+    "version": "v1.38",
+    "folders": [
+      {
+        "name": "HandyNotes_LegionClassOrderHalls"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "v1.38",
+        "install_time": "2020-11-23T03:06:12+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "265563",
+    "slug": "handynotes-legion-instance-world-quests",
+    "name": "HandyNotes - Legion Instance World Quests",
+    "description": "Shows the World Quest related rare bosses' locations and quests in Legion instances",
+    "url": "https://www.curseforge.com/wow/addons/handynotes-legion-instance-world-quests",
+    "download_url": "https://edge.forgecdn.net/files/3119/823/HandyNotes_LegionInstanceWorldQuests-v1.24.zip",
+    "date_published": "2020-11-22T15:50:49.323000+00:00",
+    "version": "v1.24",
+    "folders": [
+      {
+        "name": "HandyNotes_LegionInstanceWorldQuests"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "v1.24",
+        "install_time": "2020-11-23T03:07:11+00:00"
       }
     ]
   },
@@ -2329,9 +2393,9 @@
     "name": "HandyNotes - Suramar and Shal'Aran Telemancy",
     "description": "Shows the telemancy between Shal'Aran and nodes in Suramar",
     "url": "https://www.curseforge.com/wow/addons/handynotes-suramar-and-shalaran-telemancy",
-    "download_url": "https://edge.forgecdn.net/files/3094/399/HandyNotes_SuramarShalAranTelemancy-v1.29.zip",
-    "date_published": "2020-10-27T15:28:27.497000+00:00",
-    "version": "v1.29",
+    "download_url": "https://edge.forgecdn.net/files/3119/826/HandyNotes_SuramarShalAranTelemancy-v1.30.zip",
+    "date_published": "2020-11-22T15:51:57.217000+00:00",
+    "version": "v1.30",
     "folders": [
       {
         "name": "HandyNotes_SuramarShalAranTelemancy"
@@ -2342,6 +2406,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.30",
+        "install_time": "2020-11-22T16:05:14+00:00"
+      },
       {
         "version": "v1.29",
         "install_time": "2020-11-03T06:02:35+00:00"
@@ -2572,32 +2640,6 @@
   },
   {
     "source": "curse",
-    "id": "86352",
-    "slug": "handynotes_draenortreasures",
-    "name": "HandyNotes_DraenorTreasures",
-    "description": "HandyNotes Plugin which shows Draenor Treasures and Rares on the map/minimap",
-    "url": "https://www.curseforge.com/wow/addons/handynotes_draenortreasures",
-    "download_url": "https://edge.forgecdn.net/files/2585/173/HandyNotes_DraenorTreasures_v1_21.zip",
-    "date_published": "2018-07-18T06:35:16.810000+00:00",
-    "version": "v1.21",
-    "folders": [
-      {
-        "name": "HandyNotes_DraenorTreasures"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v1.21",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "102768",
     "slug": "handynotes_dungeonlocations",
     "name": "HandyNotes_DungeonLocations",
@@ -2734,32 +2776,6 @@
     "logged_versions": [
       {
         "version": "1.23",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "100250",
-    "slug": "handynotes_legionrarestreasures",
-    "name": "Handynotes_LegionRares&Treasures",
-    "description": "HandyNotes Plugin which shows Legion Treasures and Rares on the map/minimap",
-    "url": "https://www.curseforge.com/wow/addons/handynotes_legionrarestreasures",
-    "download_url": "https://edge.forgecdn.net/files/2585/176/HandyNotes_LegionRaresTreasures_v1_1.zip",
-    "date_published": "2018-07-18T06:37:58.823000+00:00",
-    "version": "v1.1",
-    "folders": [
-      {
-        "name": "HandyNotes_LegionRaresTreasures"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v1.1",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
@@ -3032,9 +3048,9 @@
     "name": "Noblegarden by TomCat's Tours",
     "description": "Noblegarden by TomCat's Tours",
     "url": "https://www.curseforge.com/wow/addons/tomcats-tours-noblegarden",
-    "download_url": "https://edge.forgecdn.net/files/2936/601/TomCats-Noblegarden-01.00.06-release-retail.zip",
-    "date_published": "2020-04-21T15:10:20.223000+00:00",
-    "version": "01.00.06",
+    "download_url": "https://edge.forgecdn.net/files/3120/320/TomCats-Noblegarden[retail]-1.99.99.zip",
+    "date_published": "2020-11-23T02:04:14.737000+00:00",
+    "version": "1.99.99",
     "folders": [
       {
         "name": "TomCats-Noblegarden"
@@ -3043,12 +3059,12 @@
     "options": {
       "strategy": "default"
     },
-    "deps": [
-      {
-        "id": "306085"
-      }
-    ],
+    "deps": [],
     "logged_versions": [
+      {
+        "version": "1.99.99",
+        "install_time": "2020-11-23T02:52:32+00:00"
+      },
       {
         "version": "01.00.06",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -3872,15 +3888,30 @@
     "name": "TomCat's Tours (now includes Icecrown / Death's Rising! / Scourge Invasion) + HandyNotes Support",
     "description": "TomCat's Tours (now includes Icecrown / Death's Rising / Scourge Invasion) + HandyNotes Support",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3119/168/TomCatsTours[retail]-2.0.25.zip",
-    "date_published": "2020-11-21T23:40:31.197000+00:00",
-    "version": "2.0.25",
+    "download_url": "https://edge.forgecdn.net/files/3120/239/TomCatsTours[retail]-2.0.26.zip",
+    "date_published": "2020-11-23T00:07:29.373000+00:00",
+    "version": "2.0.26",
     "folders": [
       {
         "name": "TomCats"
       },
       {
         "name": "TomCats-Bundled-DeathsRising"
+      },
+      {
+        "name": "TomCats-Bundled-ArathiHighlandsRares"
+      },
+      {
+        "name": "TomCats-Bundled-DarkshoreRares"
+      },
+      {
+        "name": "TomCats-Bundled-Mechagon"
+      },
+      {
+        "name": "TomCats-Bundled-Nazjatar"
+      },
+      {
+        "name": "TomCats-Bundled-Nzoth"
       }
     ],
     "options": {
@@ -3888,6 +3919,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.0.26",
+        "install_time": "2020-11-23T02:52:33+00:00"
+      },
       {
         "version": "2.0.25",
         "install_time": "2020-11-22T06:40:07+00:00"
@@ -3945,9 +3980,9 @@
     "name": "TomCat's Tours: Complete",
     "description": "Helps you to install all current and future TomCat's Tours addOns and keep them up to date",
     "url": "https://www.curseforge.com/wow/addons/tomcats-complete",
-    "download_url": "https://edge.forgecdn.net/files/2868/366/TomCats-Complete-1.4.3-release-retail.zip",
-    "date_published": "2020-01-24T19:52:16.727000+00:00",
-    "version": "v1.4.3-retail",
+    "download_url": "https://edge.forgecdn.net/files/3120/313/TomCats-Complete[retail]-1.99.99.zip",
+    "date_published": "2020-11-23T02:01:20.167000+00:00",
+    "version": "1.99.99",
     "folders": [
       {
         "name": "TomCats-Complete"
@@ -3979,9 +4014,6 @@
         "id": "310332"
       },
       {
-        "id": "306085"
-      },
-      {
         "id": "313948"
       },
       {
@@ -4002,6 +4034,10 @@
     ],
     "logged_versions": [
       {
+        "version": "1.99.99",
+        "install_time": "2020-11-23T02:52:33+00:00"
+      },
+      {
         "version": "v1.4.3-retail",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
@@ -4014,9 +4050,9 @@
     "name": "TomCat's Tours: Hallow's End (Candy Buckets / Tricky Treats)",
     "description": "Map icons and objectives tracking for Hallow's End",
     "url": "https://www.curseforge.com/wow/addons/tomcats-tours-hallows-end",
-    "download_url": "https://edge.forgecdn.net/files/3102/460/TomCats-HallowsEnd-01.06.10-release-retail.zip",
-    "date_published": "2020-11-04T22:49:49.790000+00:00",
-    "version": "01.06.10",
+    "download_url": "https://edge.forgecdn.net/files/3120/323/TomCats-HallowsEnd[retail]-1.99.99.zip",
+    "date_published": "2020-11-23T02:05:22.700000+00:00",
+    "version": "1.99.99",
     "folders": [
       {
         "name": "TomCats-HallowsEnd"
@@ -4025,12 +4061,12 @@
     "options": {
       "strategy": "default"
     },
-    "deps": [
-      {
-        "id": "306085"
-      }
-    ],
+    "deps": [],
     "logged_versions": [
+      {
+        "version": "1.99.99",
+        "install_time": "2020-11-23T02:52:33+00:00"
+      },
       {
         "version": "01.06.10",
         "install_time": "2020-11-05T11:54:48+00:00"
@@ -4052,9 +4088,9 @@
     "name": "TomCat's Tours: Love is in the Air",
     "description": "TomCat's Tours: Love is in the Air",
     "url": "https://www.curseforge.com/wow/addons/tomcats-tours-love-is-in-the-air",
-    "download_url": "https://edge.forgecdn.net/files/2887/10/TomCats-LoveIsInTheAir-01.00.18-release-retail.zip",
-    "date_published": "2020-02-22T23:27:17.593000+00:00",
-    "version": "01.00.18",
+    "download_url": "https://edge.forgecdn.net/files/3120/324/TomCats-LoveIsInTheAir[retail]-1.99.99.zip",
+    "date_published": "2020-11-23T02:05:44.190000+00:00",
+    "version": "1.99.99",
     "folders": [
       {
         "name": "TomCats-LoveIsInTheAir"
@@ -4063,12 +4099,12 @@
     "options": {
       "strategy": "default"
     },
-    "deps": [
-      {
-        "id": "306085"
-      }
-    ],
+    "deps": [],
     "logged_versions": [
+      {
+        "version": "1.99.99",
+        "install_time": "2020-11-23T02:52:33+00:00"
+      },
       {
         "version": "01.00.18",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -4082,9 +4118,9 @@
     "name": "TomCat's Tours: Lunar Festival (Insta-Looting and Advanced Maps)",
     "description": "TomCat's Tours: Lunar Festival makes it quick and easy to collect your coins of ancestry",
     "url": "https://www.curseforge.com/wow/addons/tomcats-tours-lunar-festival",
-    "download_url": "https://edge.forgecdn.net/files/2876/918/TomCats-LunarFestival-01.00.26-release-retail.zip",
-    "date_published": "2020-02-07T19:01:09.057000+00:00",
-    "version": "01.00.26",
+    "download_url": "https://edge.forgecdn.net/files/3120/325/TomCats-LunarFestival[retail]-1.99.99.zip",
+    "date_published": "2020-11-23T02:06:11.840000+00:00",
+    "version": "1.99.99",
     "folders": [
       {
         "name": "TomCats-LunarFestival"
@@ -4093,12 +4129,12 @@
     "options": {
       "strategy": "default"
     },
-    "deps": [
-      {
-        "id": "306085"
-      }
-    ],
+    "deps": [],
     "logged_versions": [
+      {
+        "version": "1.99.99",
+        "install_time": "2020-11-23T02:52:33+00:00"
+      },
       {
         "version": "01.00.26",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -4112,9 +4148,9 @@
     "name": "TomCat's Tours: Warfronts Command Center",
     "description": "Open the Warfronts table from anywhere and add your other TomCat's Tours of the Warfronts Rares addons to it",
     "url": "https://www.curseforge.com/wow/addons/tomcats-tours-warfronts-command-center",
-    "download_url": "https://edge.forgecdn.net/files/2862/413/TomCats-WarfrontsCommandCenter-1.2.8-release-retail.zip",
-    "date_published": "2020-01-17T13:11:44.003000+00:00",
-    "version": "v1.2.8-retail",
+    "download_url": "https://edge.forgecdn.net/files/3120/327/TomCats-WarfrontsCommandCenter[retail]-1.99.99.zip",
+    "date_published": "2020-11-23T02:06:59.300000+00:00",
+    "version": "1.99.99",
     "folders": [
       {
         "name": "TomCats-WarfrontsCommandCenter"
@@ -4123,12 +4159,12 @@
     "options": {
       "strategy": "default"
     },
-    "deps": [
-      {
-        "id": "306085"
-      }
-    ],
+    "deps": [],
     "logged_versions": [
+      {
+        "version": "1.99.99",
+        "install_time": "2020-11-23T02:52:34+00:00"
+      },
       {
         "version": "v1.2.8-retail",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -4168,9 +4204,9 @@
     "name": "TradeSkillMaster",
     "description": "Powerful addon to help you make gold from crafting to selling on the auction house to buying vendor items and much more!",
     "url": "https://www.curseforge.com/wow/addons/tradeskill-master",
-    "download_url": "https://edge.forgecdn.net/files/3117/46/TradeSkillMaster_v4.10.15.zip",
-    "date_published": "2020-11-19T21:08:27.617000+00:00",
-    "version": "v4.10.15",
+    "download_url": "https://edge.forgecdn.net/files/3120/55/TradeSkillMaster_v4.10.16.zip",
+    "date_published": "2020-11-22T20:28:49.627000+00:00",
+    "version": "v4.10.16",
     "folders": [
       {
         "name": "TradeSkillMaster"
@@ -4181,6 +4217,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.10.16",
+        "install_time": "2020-11-23T02:52:35+00:00"
+      },
       {
         "version": "v4.10.15",
         "install_time": "2020-11-21T07:48:24+00:00"
@@ -4294,9 +4334,9 @@
     "name": "WeakAuras",
     "description": "A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.",
     "url": "https://www.curseforge.com/wow/addons/weakauras-2",
-    "download_url": "https://edge.forgecdn.net/files/3115/517/WeakAuras-3.1.1.zip",
-    "date_published": "2020-11-18T14:08:52.883000+00:00",
-    "version": "3.1.1",
+    "download_url": "https://edge.forgecdn.net/files/3120/73/WeakAuras-3.1.2.zip",
+    "date_published": "2020-11-22T20:49:46.233000+00:00",
+    "version": "3.1.2",
     "folders": [
       {
         "name": "WeakAuras"
@@ -4319,6 +4359,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "3.1.2",
+        "install_time": "2020-11-23T02:52:37+00:00"
+      },
       {
         "version": "3.1.1",
         "install_time": "2020-11-18T14:59:12+00:00"

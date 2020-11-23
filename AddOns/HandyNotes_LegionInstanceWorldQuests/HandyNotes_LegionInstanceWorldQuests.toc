@@ -1,0 +1,38 @@
+## Interface: 90002
+## Author: arith
+## Version: v1.24
+## RequiredDeps: HandyNotes
+## OptionalDeps: !LibUIDropDownMenu
+## SavedVariables: HandyNotes_LegionInstanceWorldQuestsDB
+## DefaultState: enabled
+
+## Title: HandyNotes - Legion Instance World Quests
+## Notes: Shows the World Quest related rare bosses' locations and quests in Legion instances
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0军团副本世界任务|r
+
+## X-Date: 2020-11-22T15:50:25Z
+## X-License: GPLv2
+## X-Category: Map
+## X-Part-Of: HandyNotes
+
+#@non-debug@
+#@end-non-debug@
+
+#@debug@
+# ## Title: HandyNotes - Legion Instance World Quests
+# ## Title-koKR: HandyNotes - 군단 인스턴스 전역 퀘스트
+# ## Title-ruRU: HandyNotes - Локальные задания подземелий Легиона
+# ## Title-zhTW: HandyNotes - 軍臨天下副本世界任務
+# ## Notes: Shows the World Quest related rare bosses' locations and quests in Legion instances
+# ## Notes-deDE: Zeigt die Positionen von weltquestbezogenen seltenenen Bossen und Quests in Legion-Instanzen
+# ## Notes-koKR: 군단 인스턴스에서 전역 퀘스트 관련 희귀 우두머리의 위치와 퀘스트를 표시합니다
+# ## Notes-ruRU: Показывает местоположения локальных заданий, редких боссов и задания, в подземельях Легиона
+# ## Notes-zhTW: 顯示軍臨天下副本裡的世界任務相關稀有菁英位置與任務的資訊
+#@end-debug@
+
+Libs\Libs.xml
+Locale\Locales.xml
+Core\Constants.lua
+Core\Handler.lua
+Core\Config.lua
+Data\DB.lua
