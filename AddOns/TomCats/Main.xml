@@ -222,7 +222,7 @@
 						<Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-16"/>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentVersion" text="2.0.25" inherits="GameFontHighlight">
+				<FontString name="$parentVersion" text="2.0.26" inherits="GameFontHighlight">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentVersionLabel" relativePoint="TOPRIGHT" x="4"/>
 					</Anchors>
@@ -1234,4 +1234,6 @@
 		</Frames>
 	</Frame>
 	<Include file="configs/DeathsRising.xml" />
+	<Script file="LoadOnDemand.lua" />
+	<Script file="DefaultUIFixes.lua" />
 </Ui>

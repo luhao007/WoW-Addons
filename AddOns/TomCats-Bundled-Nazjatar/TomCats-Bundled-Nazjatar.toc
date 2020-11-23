@@ -1,0 +1,13 @@
+## Interface: 90002
+## Title: TomCat's Tours / Rares of Nazjatar
+## Author: TomCat
+## X-Website: https://www.tomcatstours.com
+## Version: 2.0.26
+## DefaultState: enabled
+## LoadOnDemand: 1
+## RequiredDeps: TomCats
+## X-Child-Of: TomCats
+## X-Category: Achievements, Map, Miscellaneous
+## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
+
+Main.xml

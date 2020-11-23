@@ -195,13 +195,8 @@ local function ADDON_LOADED(_, _, addonName)
                 color = { r = 1, g = 0, b = 0 }
             }
         }
-        TomCats.DeathsRising.charm:SetHandler("OnClick", addon.OpenWorldMapToZone)
         TCL.Events.RegisterEvent("QUEST_LOG_UPDATE", addon)
         C_Timer.After(5,addon.checkForQuestUpdates)
-        if (TomCats.DeathsRising.openOnStart) then
-            addon.OpenWorldMapToZone()
-            TomCats.UpdateAll()
-        end
     end
 end
 TCL.Events.RegisterEvent("ADDON_LOADED", ADDON_LOADED)
@@ -518,15 +513,7 @@ end
 if (TomCats and TomCats.Register) then
     TomCats:Register(
             {
-                slashCommands = {
-                    {
-                        command = "DEATHSRISING",
-                        desc = "Toggle Rares of Death's Rising Window",
-                        func = addon.OpenWorldMapToZone
-                    }
-                },
                 name = "Rares of Death's Rising",
-                version = "2.0.25",
                 raresLogHandlers = {
                     [zoneMapID] = {
                         raresLog = GetRaresLog

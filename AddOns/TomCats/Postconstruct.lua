@@ -16,42 +16,42 @@ end
 --todo: Internationalize
 addon.supportedMaps = {
 	[14]   = {
-		name            = "TomCats-ArathiHighlandsRares",
+		name            = "TomCats-Bundled-ArathiHighlandsRares",
 		title           = "TomCat's Tours: Rares of Arathi Highlands",
 		zone            = "Arathi Highlands",
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00012",
 		backgroundColor = { 118 / 255, 18 / 255, 20 / 255, 0.80 }
 	},
 	[62]   = {
-		name            = "TomCats-DarkshoreRares",
+		name            = "TomCats-Bundled-DarkshoreRares",
 		title           = "TomCat's Tours: Rares of Darkshore",
 		zone            = "Darkshore",
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00006",
 		backgroundColor = { 68 / 255, 34 / 255, 68 / 255, 0.80 }
 	},
 	[1355] = {
-		name            = "TomCats-Nazjatar",
+		name            = "TomCats-Bundled-Nazjatar",
 		title           = "TomCat's Tours: Nazjatar",
 		zone            = "Nazjatar",
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00008",
 		backgroundColor = { 0.0, 0.0, 0.0, 1.0 }
 	},
 	[1462] = {
-		name            = "TomCats-Mechagon",
+		name            = "TomCats-Bundled-Mechagon",
 		title           = "TomCat's Tours: Mechagon",
 		zone            = "Mechagon",
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00007",
 		backgroundColor = { 0.0, 0.0, 0.0, 1.0 },
 	},
 	[1527] = {
-		name            = "TomCats-Nzoth",
+		name            = "TomCats-Bundled-Nzoth",
 		title           = "TomCat's Tours: Uldum",
 		zone            = "Uldum",
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00018",
 		backgroundColor = { 0.0, 0.0, 0.0, 1.0 },
 	},
 	[1530] = {
-		name            = "TomCats-Nzoth",
+		name            = "TomCats-Bundled-Nzoth",
 		title           = "TomCat's Tours: Vale of Eternal Blossoms",
 		zone            = "Vale of Eternal Blossoms",
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00018",
@@ -91,7 +91,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = unpack(addon.split("2.0.25","-"))
+TomCats.version = unpack(addon.split("2.0.26","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
@@ -194,87 +194,6 @@ local function ADDON_LOADED(_, _, arg1)
 		TomCats_Config_Slash_Commands.parent = "TomCat's Tours"
 		InterfaceOptions_AddCategory(TomCats_Config_Slash_Commands)
 		refreshInterfaceControlPanels()
-		local offset = -68
-		local buttonSpacing = -32
-		local count = 0
-		local mapIDs = { 118, 1462, 1355, 62, 14 }
-		for i = 1, #mapIDs do
-			local k = mapIDs[i]
-			local v = addon.supportedMaps[k]
-			local enabled = GetAddOnEnableState(UnitName("player"), v.name)
-			if (enabled ~= 0) then
-				local rareMapShortcut = Charms.Create({
-					name            = "TomCatsWorldmapRaresButton" .. k,
-					iconTexture     = v.iconTexture,
-					backgroundColor = v.backgroundColor,
-					handler_onclick = function(this)
-						local loading = IsAddOnLoaded(addon.supportedMaps[k].name)
-						if (not loading) then
-							LoadAddOn(addon.supportedMaps[k].name)
-						end
-						ChangeMap(this)
-					end,
-					ignoreSexyMap   = true
-				})
-				rareMapShortcut:SetParent(WorldMapFrame)
-				rareMapShortcut:SetFrameStrata("MEDIUM")
-				rareMapShortcut:SetFrameLevel(9999)
-				rareMapShortcut:ClearAllPoints()
-				rareMapShortcut:SetPoint("TOPRIGHT", WorldMapFrame:GetCanvasContainer(), "TOPRIGHT",
-				                         offset + buttonSpacing * count, -1)
-				rareMapShortcut.tooltip = {
-					Show = function(this)
-						GameTooltip:ClearLines()
-						GameTooltip:SetOwner(this, "ANCHOR_LEFT")
-						GameTooltip:SetText(v.zone, 1, 1, 1)
-						GameTooltip:Show()
-					end,
-					Hide = function()
-						GameTooltip:Hide()
-					end
-				}
-				rareMapShortcut.mapID = k
-				count = count + 1
-			else
-				addon.supportedMaps[k] = nil
-			end
-		end
-    	local charmInfo = addon.supportedMaps[118]
-		if (charmInfo) then
-			TomCats.DeathsRising = TomCats.DeathsRising or { }
-			TomCats.DeathsRising.charm = Charms.Create({
-				name = "TomCatsBundledDeathsRisingMinimapButton",
-				iconTexture = charmInfo.iconTexture,
-				backgroundColor = charmInfo.backgroundColor,
-				handler_onclick = function()
-					TomCats.DeathsRising.openOnStart = true
-					local loading = IsAddOnLoaded("TomCats-Bundled-DeathsRising")
-					if (not loading) then
-						LoadAddOn("TomCats-Bundled-DeathsRising")
-					end
-				end,
-				title = charmInfo.title
-			})
-			TomCats.DeathsRising.charm.tooltip = {
-				Show = function(this)
-					GameTooltip:ClearLines()
-					GameTooltip:SetOwner(this, "ANCHOR_LEFT")
-					GameTooltip:SetText("TomCat's Tours:", 1, 1, 1)
-					GameTooltip:AddLine("Rares of Death's Rising", nil, nil, nil, true)
-					GameTooltip:AddLine("Icecrown", nil, nil, nil, true)
-					--GameTooltip:AddLine("(" .. addon.params["Title Line 2"] .. ")", nil, nil, nil, true)
-					GameTooltip:Show()
-				end,
-				Hide = function()
-					GameTooltip:Hide()
-				end
-			}
-			TomCats.DeathsRising.charm:SetupForMinimap()
-			local cpanel = TomCatsBundledDeathsRisingInterfaceOptionsPanel
-			cpanel.name = "Rares of Death's Rising"
-			cpanel.parent = "TomCat's Tours"
-			InterfaceOptionsPanel_OnLoad(cpanel);
-		end
 	end
 end
 addon.events.registerEvent("ADDON_LOADED", ADDON_LOADED)
@@ -687,7 +606,17 @@ do
 				end
 			end
 		end
+		local function GetSupportedMap(mapID)
+			local supportedMap = supportedMaps[WorldMapFrame:GetMapID()]
+			if (supportedMap) then
+				if (IsAddOnLoaded(supportedMap.name)) then
+					return supportedMap
+				end
+			end
+		end
+
 		function TomCatsRareLogMixin:UpdateDisplayState()
+			local supportedMap = GetSupportedMap(WorldMapFrame:GetMapID())
 			if not WorldMapFrame:IsShown() then
 				setLastDisplayState(DISPLAY_STATE_CLOSED)
 			elseif QuestMapFrame:IsShown() or QuestMapFrame.DetailsFrame:IsShown() then
@@ -695,7 +624,7 @@ do
 					self:Hide()
 					QuestScrollFrame:Hide()
 				else
-					if supportedMaps[WorldMapFrame:GetMapID()] and SavedVariables.character.preferQuestLog == nil then
+					if supportedMap and SavedVariables.character.preferQuestLog == nil then
 						self:SetShown(true)
 						QuestScrollFrame:Hide()
 						self:Refresh()
@@ -748,9 +677,9 @@ do
 			if WorldMapFrame:GetMapID() ~= lastMapID then
 				lastMapID = WorldMapFrame:GetMapID()
 				if TomCatsRareMapFrame:IsShown() then
-					local supportedMap = supportedMaps[WorldMapFrame:GetMapID()]
+					local supportedMap = GetSupportedMap(WorldMapFrame:GetMapID())
 					if supportedMap then
-						local handlers = supportedMaps[WorldMapFrame:GetMapID()].handlers
+						local handlers = supportedMap.handlers
 						if handlers and handlers.raresLog then
 							raresLog = handlers.raresLog()
 						else
@@ -780,7 +709,7 @@ do
 			end
 		end
 		local function Hook_WorldMapFrame_SidePanelToggle()
-			if supportedMaps[WorldMapFrame:GetMapID()] then
+			if GetSupportedMap(WorldMapFrame:GetMapID()) then
 				SavedVariables.character.preferQuestLog = true
 			end
 			if (lastDisplayStates[1] == DISPLAY_STATE_OPEN_MINIMIZED_WITH_RARE_LOG and lastDisplayStates[2] == DISPLAY_STATE_OPEN_MINIMIZED_NO_LOG) or
@@ -815,7 +744,7 @@ do
 			WorldMapFrame.SidePanelToggle.CloseButton:Hide()
 		end
 		function TomCatsWorldMapRareSidePanelToggleMixin:Refresh()
-			if WorldMapFrame.SidePanelToggle:IsShown() and supportedMaps[WorldMapFrame:GetMapID()] then
+			if WorldMapFrame.SidePanelToggle:IsShown() and GetSupportedMap(WorldMapFrame:GetMapID()) then
 				self:Show()
 				if TomCatsRareMapFrame:IsShown() then
 					self.OpenButton:Hide()

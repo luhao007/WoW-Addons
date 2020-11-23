@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: TomCat
-## Version: 01.00.06
+## Version: 1.99.99
 ## OptionalDeps: TomCats
 ## SavedVariables: TomCats_Noblegarden_Account
 ## SavedVariablesPerCharacter: TomCats_Noblegarden_Character

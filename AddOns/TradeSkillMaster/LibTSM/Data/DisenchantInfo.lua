@@ -362,12 +362,12 @@ else
 			sourceInfo = {
 				{classId = LE_ITEM_CLASS_ARMOR, quality = 2, minItemLevel = 49, maxItemLevel = 52, matRate = 1.000, minAmount = 1, maxAmount = 6, amountOfMats = 3.600},
 				{classId = LE_ITEM_CLASS_ARMOR, quality = 2, minItemLevel = 53, maxItemLevel = 58, matRate = 1.000, minAmount = 4, maxAmount = 9, amountOfMats = 6.500},
-				{classId = LE_ITEM_CLASS_ARMOR, quality = 3, minItemLevel = 51, maxItemLevel = 95, matRate = 0.950, minAmount = 1, maxAmount = 2, amountOfMats = 1.425},
-				{classId = LE_ITEM_CLASS_ARMOR, quality = 4, minItemLevel = 58, maxItemLevel = 95, matRate = 0.200, minAmount = 4, maxAmount = 6, amountOfMats = 1.000},
+				{classId = LE_ITEM_CLASS_ARMOR, quality = 3, minItemLevel = 51, maxItemLevel = 100, matRate = 0.950, minAmount = 1, maxAmount = 2, amountOfMats = 1.425},
+				{classId = LE_ITEM_CLASS_ARMOR, quality = 4, minItemLevel = 58, maxItemLevel = 100, matRate = 0.200, minAmount = 4, maxAmount = 6, amountOfMats = 1.000},
 				{classId = LE_ITEM_CLASS_WEAPON, quality = 2, minItemLevel = 49, maxItemLevel = 52, matRate = 1.000, minAmount = 1, maxAmount = 6, amountOfMats = 3.600},
 				{classId = LE_ITEM_CLASS_WEAPON, quality = 2, minItemLevel = 53, maxItemLevel = 58, matRate = 1.000, minAmount = 4, maxAmount = 9, amountOfMats = 6.500},
-				{classId = LE_ITEM_CLASS_WEAPON, quality = 3, minItemLevel = 51, maxItemLevel = 95, matRate = 1.950, minAmount = 1, maxAmount = 2, amountOfMats = 1.425},
-				{classId = LE_ITEM_CLASS_WEAPON, quality = 4, minItemLevel = 58, maxItemLevel = 95, matRate = 1.200, minAmount = 4, maxAmount = 6, amountOfMats = 1.000},
+				{classId = LE_ITEM_CLASS_WEAPON, quality = 3, minItemLevel = 51, maxItemLevel = 100, matRate = 1.950, minAmount = 1, maxAmount = 2, amountOfMats = 1.425},
+				{classId = LE_ITEM_CLASS_WEAPON, quality = 4, minItemLevel = 58, maxItemLevel = 100, matRate = 1.200, minAmount = 4, maxAmount = 6, amountOfMats = 1.000},
 			},
 		},
 
@@ -598,10 +598,10 @@ else
 			minLevel = 45,
 			maxLevel = 50,
 			sourceInfo = {
-				{classId = LE_ITEM_CLASS_ARMOR, quality = 3, minItemLevel = 51, maxItemLevel = 95, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.500},
-				{classId = LE_ITEM_CLASS_ARMOR, quality = 4, minItemLevel = 58, maxItemLevel = 95, matRate = 0.400, minAmount = 1, maxAmount = 2, amountOfMats = 0.600},
-				{classId = LE_ITEM_CLASS_WEAPON, quality = 3, minItemLevel = 51, maxItemLevel = 95, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.500},
-				{classId = LE_ITEM_CLASS_WEAPON, quality = 4, minItemLevel = 58, maxItemLevel = 95, matRate = 0.400, minAmount = 1, maxAmount = 2, amountOfMats = 0.600},
+				{classId = LE_ITEM_CLASS_ARMOR, quality = 3, minItemLevel = 51, maxItemLevel = 100, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.500},
+				{classId = LE_ITEM_CLASS_ARMOR, quality = 4, minItemLevel = 58, maxItemLevel = 100, matRate = 0.400, minAmount = 1, maxAmount = 2, amountOfMats = 0.600},
+				{classId = LE_ITEM_CLASS_WEAPON, quality = 3, minItemLevel = 51, maxItemLevel = 100, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.500},
+				{classId = LE_ITEM_CLASS_WEAPON, quality = 4, minItemLevel = 58, maxItemLevel = 100, matRate = 0.400, minAmount = 1, maxAmount = 2, amountOfMats = 0.600},
 			},
 		},
 
@@ -670,10 +670,10 @@ else
 			minLevel = 45,
 			maxLevel = 50,
 			sourceInfo = {
-				{classId = LE_ITEM_CLASS_ARMOR, quality = 3, minItemLevel = 51, maxItemLevel = 95, matRate = 0.050, minAmount = 1, maxAmount = 1, amountOfMats = 0.050},
-				{classId = LE_ITEM_CLASS_ARMOR, quality = 4, minItemLevel = 58, maxItemLevel = 95, matRate = 1.000, minAmount = 1, maxAmount = 1, amountOfMats = 1.000},
-				{classId = LE_ITEM_CLASS_WEAPON, quality = 3, minItemLevel = 51, maxItemLevel = 95, matRate = 0.050, minAmount = 1, maxAmount = 1, amountOfMats = 0.050},
-				{classId = LE_ITEM_CLASS_WEAPON, quality = 4, minItemLevel = 58, maxItemLevel = 95, matRate = 1.000, minAmount = 1, maxAmount = 1, amountOfMats = 1.000},
+				{classId = LE_ITEM_CLASS_ARMOR, quality = 3, minItemLevel = 51, maxItemLevel = 100, matRate = 0.050, minAmount = 1, maxAmount = 1, amountOfMats = 0.050},
+				{classId = LE_ITEM_CLASS_ARMOR, quality = 4, minItemLevel = 58, maxItemLevel = 100, matRate = 1.000, minAmount = 1, maxAmount = 1, amountOfMats = 1.000},
+				{classId = LE_ITEM_CLASS_WEAPON, quality = 3, minItemLevel = 51, maxItemLevel = 100, matRate = 0.050, minAmount = 1, maxAmount = 1, amountOfMats = 0.050},
+				{classId = LE_ITEM_CLASS_WEAPON, quality = 4, minItemLevel = 58, maxItemLevel = 100, matRate = 1.000, minAmount = 1, maxAmount = 1, amountOfMats = 1.000},
 			},
 		},
 	}

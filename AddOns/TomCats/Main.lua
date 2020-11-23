@@ -2648,7 +2648,7 @@ do
 								slashCommands = {
 									{
 										command = "DEATHSRISING",
-										desc = "Toggle Death's Rising Window",
+										desc = "Toggle Death's Rising (Icecrown) Window",
 										func = function()
 											TomCats.DeathsRising.openOnStart = true
 											LoadAddOn("TomCats-Bundled-DeathsRising")
@@ -2656,7 +2656,7 @@ do
 									}
 								},
 								name = "Death's Rising",
-								version = "2.0.25",
+								version = "2.0.26",
 								raresLogHandlers = {
 									[118] = {
 										raresLog = GetRaresLog

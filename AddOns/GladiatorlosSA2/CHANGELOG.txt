@@ -1,3 +1,28 @@
+- version SLB 3 (9.0)
+***THIS IS A WORK IN PROGRESS BETA BUILD. EXPECT (BUT PLEASE REPORT) PROBLEMS***
+
+General
+* Some changes documented in SLB 2 are actually in SLB 3. Weird things happened.
+* Imported many alert sounds given to me (thanks n30exca_ !) though they may not all be properly hooked up yet. Some are subject to change.
+
+Death Knight
+* Fixed missing option for Frostwyrm's Fury in Cast Success.
+
+Monk
+* Added Bonedust Brew (Necrolord) to Cast Success.
+
+Paladin
+* Added Ashen Hallow (Venthyr) to Cast Success.
+* Added all four Seasonal Blessings (Night Fae) to Cast Success.
+
+Priest
+* Added Boon of the Ascended (Kyrian) to Cast Success.
+
+Warrior
+* Added Ancient Aftershock (Night Fae) to Cast Success.
+
+===========================================
+
 - version SLB 2 (9.0)
 ***THIS IS A WORK IN PROGRESS BETA BUILD. EXPECT (BUT PLEASE REPORT) PROBLEMS***
 
@@ -63,9 +88,9 @@ Paladin
 
 
 Priest
-* Added Fae Guardians to Cast Success.
-* Added Mind Games to Cast Success.
-* Added Boon of the Ascended to Cast Start.
+* Added Fae Guardians (Nightfae) to Cast Success.
+* Added Mind Games (Venthyr) to Cast Success.
+* Added Boon of the Ascended (Kyrian) to Cast Start.
 * Added Power Infusion to Buff Applied.
 * Added Spirit Shell to the Rapture alert.
 * Added Thoughtsteal to Cast Success.
@@ -73,9 +98,20 @@ Priest
 
 
 Rogue
-* Added Sepsis to Cast Success.
+* Added Sepsis (Nightfae) to Cast Success.
 * Added Dreadblades to Aura Applied/Down.
 * Added Crimson Vial to Cast Success.
+
+
+Shaman
+* Added Mana Tide Totem to Cast Success.
+* Added Vesper Totem (Kyrian) to Cast Success.
+
+
+Warlock
+* Added Howl of Terror to Cast Success.
+* Added Scouring Tithe (Kyrian) to Cast Success.
+
 
 Localization
 * New strings:

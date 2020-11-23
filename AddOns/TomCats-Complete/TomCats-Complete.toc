@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: TomCat
-## Version: 1.4.3
+## Version: 1.99.99
 ## OptionalDeps: TomCats
 ## DefaultState: enabled
 

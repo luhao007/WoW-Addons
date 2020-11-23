@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: TomCat
-## Version: 01.00.26
+## Version: 1.99.99
 ## OptionalDeps: TomCats
 ## SavedVariablesPerCharacter: TomCats_LunarFestival_Character
 ## DefaultState: enabled

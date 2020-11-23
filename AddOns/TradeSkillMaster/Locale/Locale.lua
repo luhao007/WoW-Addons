@@ -20968,7 +20968,7 @@ L["Craft (Profitable)"] = "Craft (Profitable)"
 --[[Translation missing --]]
 L["Craft (Unprofitable)"] = "Craft (Unprofitable)"
 L["Craft All"] = "製造全部"
-L["Craft Next"] = "製造下一項"
+L["Craft Next"] = "立即製造"
 --[[Translation missing --]]
 L["Craft Value"] = "Craft Value"
 --[[Translation missing --]]
@@ -21059,16 +21059,14 @@ L["Deposit Cost"] = "保證金"
 --[[Translation missing --]]
 L["Deposit reagents"] = "Deposit reagents"
 L["Deselect All"] = "取消全選"
---[[Translation missing --]]
-L["Destroy Next"] = "Destroy Next"
+L["Destroy Next"] = "立即分解"
 --[[Translation missing --]]
 L["Destroy Value"] = "Destroy Value"
 --[[Translation missing --]]
 L["Destroy value"] = "Destroy value"
 --[[Translation missing --]]
 L["Destroy value source"] = "Destroy value source"
---[[Translation missing --]]
-L["Destroying"] = "Destroying"
+L["Destroying"] = "分解"
 --[[Translation missing --]]
 L["Destroying %s button"] = "Destroying %s button"
 --[[Translation missing --]]

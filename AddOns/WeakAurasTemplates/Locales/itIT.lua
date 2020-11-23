@@ -7,15 +7,12 @@ end
 local L = WeakAuras.L
 
 -- WeakAuras/Templates
-	--[[Translation missing --]]
-	L[" Debuff"] = " Debuff"
-	--[[Translation missing --]]
+	L[" Debuff"] = [=[Indebolimenti
+]=]
 	L["<70% Mana"] = "<70% Mana"
-	--[[Translation missing --]]
 	L[">70% Mana"] = ">70% Mana"
 	L["Abilities"] = "Abilità"
-	--[[Translation missing --]]
-	L["Ability"] = "Ability"
+	L["Ability"] = "Abilità"
 	L["Add Triggers"] = "Aggiungi Inneschi"
 	L["Always Active"] = "Sempre Attivo"
 	L["Always Show"] = "Mostra Sempre"
