@@ -285,23 +285,6 @@ local function getAchievementID(list, argnum, pattern, anyCase)
 end
 
 
-local function canTrackAchievement(id, allowCompleted)
-  if (GetNumTrackedAchievements() < MAX_TRACKED_ACHIEVEMENTS and  -- WATCHFRAME_MAXACHIEVEMENTS renamed to MAX_TRACKED_ACHIEVEMENTS
-       (allowCompleted or not select(4, GetAchievementInfo(id))) ) then
-    return true
-  end
-end
-
-local function setTracking(id, allowCompleted) -- allowCompleted is defunct; WoW UI doesn't allow this. Left here for now just in case.
-  if (canTrackAchievement(id, allowCompleted)) then
-    AddTrackedAchievement(id)
-    if (AchievementFrameAchievements_ForceUpdate) then
-      AchievementFrameAchievements_ForceUpdate()
-    end
-    return true
-  end
-end
-
 --[[
 local isGuildAchievement
 do
@@ -823,7 +806,7 @@ local function ReactToCriteriaToast(achievementID, criteriaString)
     Overachiever.FlagReminder(achievementID, crit or criteriaString)
   end
   if (Overachiever_Settings.ProgressToast_AutoTrack) then
-    setTracking(achievementID)
+    Overachiever.TrackAchievement(achievementID)
   end
 end
 --TEST_ReactToCriteriaToast = ReactToCriteriaToast
@@ -1330,7 +1313,7 @@ function Overachiever.OnEvent(self, event, arg1, ...)
         end
       end
 
-     --[[  No longer necessary as this is now done by WoW itself:
+     --[[  No longer necessary as multi-session/persistent tracking is now handled by WoW itself:
       local tracked = Overachiever_CharVars.TrackedAch
       if (tracked and GetNumTrackedAchievements() == 0) then
       -- Resume tracking from last session:

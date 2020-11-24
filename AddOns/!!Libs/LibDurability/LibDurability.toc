@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 90002
 ## Title: Lib: Durability
 ## Notes: A library for transmitting and receiving durability information of players in your group.
 ## Author: Funkydude

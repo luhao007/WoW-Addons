@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Tuhljin
-## Version: 1.1.2
+## Version: 1.1.3
 ## Dependencies: Overachiever
 ## SavedVariables: Overachiever_Cache_CritAssets
 

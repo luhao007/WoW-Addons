@@ -57,13 +57,6 @@ addon.supportedMaps = {
 		iconTexture     = "Interface\\AddOns\\TomCats\\images\\00018",
 		backgroundColor = { 0.0, 0.0, 0.0, 1.0 },
 	},
-	[118] = {
-		name            = "TomCats-Bundled-DeathsRising",
-		title           = "TomCat's Tours: Death's Rising",
-		zone            = "Death's Rising (Icecrown)",
-		iconTexture     = "Interface\\ICONS\\achievement_reputation_argentcrusader",
-		backgroundColor = { 0.0, 0.0, 0.0, 1.0 },
-	},
 }
 
 local slashCommandHandlers = { }
@@ -91,7 +84,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = unpack(addon.split("2.0.26","-"))
+TomCats.version = unpack(addon.split("2.0.27","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
@@ -287,32 +280,33 @@ do
 				local linktemplate = "|cffffff00|Hworldmap:%s:%s:%s|h[|A:Waypoint-MapPin-ChatIcon:13:13:0:0|a Map Pin Location]|h|r %s %s"
 				local location = self.creature["Location"] or self.creature["Locations"][raresLog.locationIndex]
 				if (location) then
-					local timerText
-					if (raresLog and raresLog.zone == 118) then
-						local seconds = SpawnTimerByIndex(self.creature["Spawn Index"])
-						if (seconds > (20 * spawnTimer - spawnTimer)) then
-							timerText = "up now"
-						else
-							local foundPin
-							for pin in WorldMapFrame:EnumeratePinsByTemplate("VignettePinTemplate") do
-								if (pin.vignetteID and pin.vignetteID == self.creature["Vignette ID"]) then
-									if (pin:IsShown() and pin.Texture:GetAtlas() == "nazjatar-nagaevent") then
-										foundPin = pin
-									end
-								end
-							end
-							if (foundPin) then
-								timerText = "up now"
-							else
-								local hours = math.floor(seconds / 3600);
-								local minutes = math.floor((seconds % 3600) / 60);
-								seconds = seconds % 60
-								timerText = " in " .. rareCreaturesLogTimeFormatter:format(hours, minutes)
-							end
-						end
-					else
-						timerText = ""
-					end
+					local timerText = ""
+					--local timerText
+					--if (raresLog and raresLog.zone == 118) then
+					--	local seconds = SpawnTimerByIndex(self.creature["Spawn Index"])
+					--	if (seconds > (20 * spawnTimer - spawnTimer)) then
+					--		timerText = "up now"
+					--	else
+					--		local foundPin
+					--		for pin in WorldMapFrame:EnumeratePinsByTemplate("VignettePinTemplate") do
+					--			if (pin.vignetteID and pin.vignetteID == self.creature["Vignette ID"]) then
+					--				if (pin:IsShown() and pin.Texture:GetAtlas() == "nazjatar-nagaevent") then
+					--					foundPin = pin
+					--				end
+					--			end
+					--		end
+					--		if (foundPin) then
+					--			timerText = "up now"
+					--		else
+					--			local hours = math.floor(seconds / 3600);
+					--			local minutes = math.floor((seconds % 3600) / 60);
+					--			seconds = seconds % 60
+					--			timerText = " in " .. rareCreaturesLogTimeFormatter:format(hours, minutes)
+					--		end
+					--	end
+					--else
+					--	timerText = ""
+					--end
 					local link = string.format(linktemplate,WorldMapFrame:GetMapID(),math.floor(location[1] * 10000),math.floor(location[2] * 10000),self.creature["Name"], timerText)
 					if (IsControlKeyDown()) then
 						ChatEdit_InsertLink(link)
@@ -390,14 +384,14 @@ do
 					GameTooltip_AddBlankLinesToTooltip(EmbeddedItemTooltip, 1)
 					GameTooltip_AddColoredLine(EmbeddedItemTooltip, LOOT_NOUN, LOOT_NOUN_COLOR, true)
 					EmbeddedItemTooltip_SetItemByID(EmbeddedItemTooltip.ItemTooltip, itemID)
-					if (raresLog and raresLog.zone == 118) then
-						C_Timer.NewTimer(0, function()
-							local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
-							if (ilevelText) then
-								EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
-							end
-						end)
-					end
+					--if (raresLog and raresLog.zone == 118) then
+					--	C_Timer.NewTimer(0, function()
+					--		local ilevelText = EmbeddedItemTooltipTooltipTextLeft2:GetText()
+					--		if (ilevelText) then
+					--			EmbeddedItemTooltipTooltipTextLeft2:SetText(string.gsub(ilevelText, "100","110"))
+					--		end
+					--	end)
+					--end
 				end
 			end
 			EmbeddedItemTooltip.BottomFontString:SetText(footerText)
@@ -451,11 +445,12 @@ do
 		end
 		function TomCatsRareRewardItem_OnEnter(self)
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-			if (raresLog and raresLog.zone == 118) then
-				GameTooltip:SetHyperlink("item:" .. self:GetID() .. "::::::::100:268::3:1:631")
-			else
-				GameTooltip:SetItemByID(self:GetID())
-			end
+			GameTooltip:SetItemByID(self:GetID())
+			--if (raresLog and raresLog.zone == 118) then
+			--	GameTooltip:SetHyperlink("item:" .. self:GetID() .. "::::::::100:268::3:1:631")
+			--else
+			--	GameTooltip:SetItemByID(self:GetID())
+			--end
 			GameTooltip:Show()
 			CursorUpdate(self);
 			self.UpdateTooltip = TomCatsRareRewardItem_OnEnter;
@@ -535,20 +530,21 @@ do
 							local button = self.titleFramePool:Acquire()
 							button.creature = creature
 							button.Text:SetText(creature["Name"])
-							if (raresLog and raresLog.zone == 118) then
-								local seconds = SpawnTimerByIndex(creature["Spawn Index"])
-								if (seconds > (20 * spawnTimer - spawnTimer)) then
-									button.Timer:SetText("NOW")
-								else
-									local hours = math.floor(seconds / 3600);
-									local minutes = math.floor((seconds % 3600) / 60);
-									seconds = seconds % 60
-									button.Timer:SetText(rareCreaturesLogTimeFormatter:format(hours, minutes))
-								end
-								button.Timer:Show()
-							else
-								button.Timer:Hide()
-							end
+							button.Timer:Hide()
+							--if (raresLog and raresLog.zone == 118) then
+							--	local seconds = SpawnTimerByIndex(creature["Spawn Index"])
+							--	if (seconds > (20 * spawnTimer - spawnTimer)) then
+							--		button.Timer:SetText("NOW")
+							--	else
+							--		local hours = math.floor(seconds / 3600);
+							--		local minutes = math.floor((seconds % 3600) / 60);
+							--		seconds = seconds % 60
+							--		button.Timer:SetText(rareCreaturesLogTimeFormatter:format(hours, minutes))
+							--	end
+							--	button.Timer:Show()
+							--else
+							--	button.Timer:Hide()
+							--end
 							local textColor = RareTextColorLookup[creature["Status"]][1]
 							button.Text:SetTextColor(textColor.r, textColor.g, textColor.b)
 							button:ClearAllPoints()
@@ -582,12 +578,13 @@ do
 		function TomCatsRareLogMixin:Refresh()
 			self.RaresFrame.Contents.LogHeader.Text:SetText(L["Rare Creatures Log"])
 			self.RaresFrame.Contents.LogHeader:Show()
+			self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"])
 			-- todo: Remove this hardcode
-			if (WorldMapFrame:GetMapID() == 118) then
-				self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"] .. " (in spawn order)")
-			else
-				self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"])
-			end
+			--if (WorldMapFrame:GetMapID() == 118) then
+			--	self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"] .. " (in spawn order)")
+			--else
+			--	self.RaresFrame.Contents.LogHeader.Location:SetText(C_Map.GetMapInfo(WorldMapFrame:GetMapID())["name"])
+			--end
 			self.layoutIndexManager:Reset()
 			self:RefreshRaresLog()
 			self.RaresFrame.Contents:Layout()
@@ -668,12 +665,6 @@ do
 		local lastMapID = 0
 		local helpPlate_override
 		local function UpdateAll(_, mapID)
-			if (mapID and mapID == 118) then
-				local loading = IsAddOnLoaded("TomCats-Bundled-DeathsRising")
-				if (not loading) then
-					LoadAddOn("TomCats-Bundled-DeathsRising")
-				end
-			end
 			if WorldMapFrame:GetMapID() ~= lastMapID then
 				lastMapID = WorldMapFrame:GetMapID()
 				if TomCatsRareMapFrame:IsShown() then
@@ -817,10 +808,6 @@ do
 				hooksecurefunc("ToggleQuestLog", Hook_ToggleQuestLog)
 				hooksecurefunc("HideUIPanel", UpdateAll)
 			end
-			-- todo: Re-establish this as LOD based on moving into Icecrown
-			C_Timer.NewTimer(0, function()
-				LoadAddOn("TomCats-Bundled-DeathsRising")
-			end)
 		end
 		local lastWaypoint
 		function TomCatsRareLogEntryIcon_OnEnter(self)

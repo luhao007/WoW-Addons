@@ -32,7 +32,38 @@ local function untrackAchievement(id)
 	doingUntrack = false
 end
 
+local function canTrackAchievement(id, noCheckMax)
+	if (not noCheckMax and GetNumTrackedAchievements() >= MAX_TRACKED_ACHIEVEMENTS) then
+		return false
+	end
+	local _, achID, completed, isGuild, wasEarnedByMe
+	achID, _, _, completed, _, _, _, _, _, _, _, isGuild, wasEarnedByMe = GetAchievementInfo(id)
+	if (achID) then
+		if ((completed and isGuild) or wasEarnedByMe) then  -- Same logic used in AchievementButton_ToggleTracking function of Blizzard_AchievementUI.lua
+			return false
+		end
+		return true
+	end
+	return false
+end
+
+local function trackAchievement(id, noCheckMax, noForceUpdate)
+  if (canTrackAchievement(id, noCheckMax)) then
+    AddTrackedAchievement(id)
+    if (not noForceUpdate and AchievementFrameAchievements_ForceUpdate) then
+      AchievementFrameAchievements_ForceUpdate() -- Update the achievement UI so it displays as tracked in the achievement list. (Note: Per testing, this is needed even if the frame is hidden, so long as it is loaded.)
+    end
+    return true
+  end
+	return false
+end
+
 local function addTrackableAch(id, priority, untrackReason)
+	if (not id or not priority or not untrackReason) then
+		error("Invalid call to addTrackableAch(). Args: " ..id..', '..priority..', '..untrackReason, 2)
+	elseif (type(id) ~= "number") then
+		error("Invalid call to addTrackableAch(). ID must be a number. Args: " ..id..', '..priority..', '..untrackReason, 2)
+	end
 	local pos
 	for i,track in ipairs(trackableAchs) do
 		if (track.id == id and track.priority == priority and track.untrackReason == untrackReason) then
@@ -57,15 +88,28 @@ local function addTrackableAch(id, priority, untrackReason)
 	return true
 end
 
---[[
-local function removeTrackableAch(id, priority, untrackReason)
+local function flagRemoveTrackableAch(id, priority, untrackReason)
 	for i,track in ipairs(trackableAchs) do
-		if (track.id == id and track.priority == priority and track.untrackReason == untrackReason) then
-			tremove(trackableAchs, i)
-			return true
+		if (track.id == id and (not priority or track.priority == priority) and (not untrackReason or track.untrackReason == untrackReason)) then
+			track.del = true
+			--tremove(trackableAchs, i)
 		end
+	end
 end
---]]
+
+local function cleanTrackableAch()
+	local tab = {}
+	local n = 1
+	for i,track in ipairs(trackableAchs) do
+		if (not track.del) then
+			tab[n] = track
+			n = n + 1
+		elseif (Overachiever_Debug) then
+			print("cleanTrackableAch: removing ", track.id)
+		end
+	end
+	trackableAchs = tab
+end
 
 local function removeAllUntrackReasonAchsExcept(untrackReason, exceptLookup)
 	local tab = {}
@@ -78,27 +122,6 @@ local function removeAllUntrackReasonAchsExcept(untrackReason, exceptLookup)
 	end
 	trackableAchs = tab
 end
-
-
---[[
-local function canTrackAchievement(id, allowCompleted) -- allowCompleted is defunct; WoW UI doesn't allow this. Left here for now just in case.
-  if (GetNumTrackedAchievements() < MAX_TRACKED_ACHIEVEMENTS and (allowCompleted or not select(4, GetAchievementInfo(id))) ) then
-    return true
-  end
-	return false
-end
-
-local function setTracking(id)
-  if (canTrackAchievement(id)) then
-    AddTrackedAchievement(id)
-    if (AchievementFrameAchievements_ForceUpdate) then
-      AchievementFrameAchievements_ForceUpdate() -- Update the achievement UI so it displays as tracked in the achievement list. (Note: Per testing, this is needed even if the frame is hidden, so long as it is loaded.)
-    end
-    return true
-  end
-	return false
-end
---]]
 
 
 local function getCurrentTrackableSuggestions()
@@ -154,12 +177,20 @@ local function updateTracking()
 	end
 
 	local add = {}
+	local anyFlag = false
 	local num = GetNumTrackedAchievements() - autoTrackedNum
 	for i,track in ipairs(trackableAchs) do
 		if (num >= MAX_TRACKED_ACHIEVEMENTS) then  break;  end
 		if (not add[track.id] and (not manuallyUntrackedAchs[track.id] or track.priority == PRIORITY_TIMER)) then
-			add[track.id] = true
-			num = num + 1
+			local id = track.id
+			if (canTrackAchievement(id, true)) then
+				add[id] = true
+				num = num + 1
+			else
+				-- Cannot track because already completed:
+				flagRemoveTrackableAch(id)
+				anyFlag = true
+			end
 		end
 	end
 
@@ -175,12 +206,15 @@ local function updateTracking()
 	end
 	for id in pairs(add) do
 		if (not tracked[id]) then
-			AddTrackedAchievement(id)
+			AddTrackedAchievement(id) -- Calling this directly instead of using trackAchievement() because we already handled the required checks using canTrackAchievement() before adding the id to the "add" variable.
 			anyChange = true
 			autoTrackedAchs[id] = true -- Note that this is inside the "if tracked" check while above setting it to nil in the autoTrackedAchs-loop is outside a similar check because here we differentiate between things we actually auto-tracked and things that were already tracked (so later we won't automatically untrack something that wasn't automatically tracked by us).
 		end
 	end
 
+	if (anyFlag) then
+		cleanTrackableAch()
+	end
 	if (anyChange and AchievementFrameAchievements_ForceUpdate) then
 		AchievementFrameAchievements_ForceUpdate() -- Update the achievement UI so it displays as tracked in the achievement list. (Note: Per testing, this is needed even if the frame is hidden, so long as it is loaded.)
 	end
@@ -268,19 +302,24 @@ trackingFrame:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
 end)
 
 function Overachiever.TrackTimedAchievement(id, isBGTimer)
-	if (isBGTimer) then
-		autoTrackedBGTimer = true
-		addTrackableAch(id, PRIORITY_TIMER, UNTRACK_EXIT_BG)
-	else
-		addTrackableAch(id, PRIORITY_TIMER, UNTRACK_NEVER)
+	if (canTrackAchievement(id, true)) then
+		if (isBGTimer) then
+			autoTrackedBGTimer = true
+			addTrackableAch(id, PRIORITY_TIMER, UNTRACK_EXIT_BG)
+		else
+			addTrackableAch(id, PRIORITY_TIMER, UNTRACK_NEVER)
+		end
+		timedAchs[id] = true
+		updateTracking()
 	end
-	timedAchs[id] = true
-	updateTracking()
 end
 
 function Overachiever.AutoTrackingSettingUpdated()
-	updateLocationTrackables(true)
+	updateLocationTrackables()
 end
+
+Overachiever.TrackAchievement = trackAchievement
+
 
 --[[
 function Overachiever.Debug_updateLocationTrackables()

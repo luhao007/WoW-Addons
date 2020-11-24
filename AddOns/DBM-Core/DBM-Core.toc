@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Tandanu and Nitram and MysticalOS
-## Version: 9.0.4
+## Version: 9.0.5
 ## Dependencies: DBM-StatusBarTimers, DBM-DefaultSkin
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon

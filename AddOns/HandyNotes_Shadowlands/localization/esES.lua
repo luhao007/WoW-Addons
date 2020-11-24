@@ -27,7 +27,7 @@ L["rotbriar_note"] = "Habla con {npc:171684} y comenzará a cantar. Tras algo de
 L["slumbering_note"] = "Correr hacia la niebla te dormirá en pocos segundos y te alejará. Usa una bengala o una mascota con daño en área para sacar al {npc=167721} fuera de la niebla."
 L["skuld_vit_note"] = "En una cueva bloqueada por una barrera. Con el hechizo {spell:310143} de la curia de las Sílfides Nocturnas se podrá atravesar la barrera y entrar en la cueva. Una vez haya sido pulleado {npc=164415}, la barrera desaparecerá."
 L["valfir_note"] = "Haz click en la Semilla de Ánima Brillante a mitad de camino y usa la {spell:338045} para quitar el buff {spell:338038} de {npc=168647}."
-L["wrigglemortis_note"] = "Estira del {npc:164179} para sacarlo de la tierra y hacer aparecer al {npc=164147}."
+L["wrigglemortis_note"] = "Tira del {npc:164179} para sacarlo de la tierra y hacer aparecer al {npc=164147}."
 
 L["night_mare_note"] = [[
 Viaja a Tirna Scithe y sigue el camino por la raíz, en el acantilado noroeste, hasta llegar a una vagoneta rota. Allí podrás despojar una {item:181243} en el suelo.
@@ -407,25 +407,3 @@ L["options_icons_bonus_event"] = "Eventos de Bonificación"
 L["options_icons_bonus_event_desc"] = "Muestra las localizaciones de los eventos de bonificación."
 L["options_icons_riftstone"] = "Piedras de Falla Caóticas"
 L["options_icons_riftstone_desc"] = "Muestra las localizaciones de los teletransportadores de piedras de falla caóticas."
-
--------------------------------------------------------------------------------
------------------------------------ ICECROWN ----------------------------------
--------------------------------------------------------------------------------
-
-L["prepatch_intro"] = "Completa las misiones introductorias del evento del preparche para desbloquear los bosses de esta zona."
-L["icecrown_rares"] = "Todos los bosses aparecen en un orden fijado cada 10 minutos. ¡Todos pueden ser despojados varias veces en el mismo día!"
-L["next_spawn"] = "El siguiente aparecerá a las %s hora local."
-
-local ORIG = ns.color.Orange("Originalmente en %s.")
-
-L["orig_atk"] = ORIG:format(EJ_GetInstanceInfo(271))
-L["orig_azn"] = ORIG:format(EJ_GetInstanceInfo(272))
-L["orig_dtk"] = ORIG:format(EJ_GetInstanceInfo(273))
-L["orig_fos"] = ORIG:format(EJ_GetInstanceInfo(280))
-L["orig_hor"] = ORIG:format(EJ_GetInstanceInfo(276))
-L["orig_icc"] = ORIG:format(EJ_GetInstanceInfo(758))
-L["orig_nax"] = ORIG:format(EJ_GetInstanceInfo(754))
-L["orig_pos"] = ORIG:format(EJ_GetInstanceInfo(278))
-L["orig_tot"] = ORIG:format(EJ_GetInstanceInfo(284))
-L["orig_utk"] = ORIG:format(EJ_GetInstanceInfo(285))
-L["orig_utp"] = ORIG:format(EJ_GetInstanceInfo(286))

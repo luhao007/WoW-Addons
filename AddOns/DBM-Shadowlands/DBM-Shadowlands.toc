@@ -13,6 +13,7 @@
 ## X-DBM-Mod-Category: SHADOWLANDS
 ## X-DBM-StatTypes: normal
 ## X-DBM-Mod-Name: Word Bosses (SL)
+## X-DBM-Mod-Name-koKR: 필드 보스 (어둠땅)
 ## X-DBM-Mod-World-Boss: 1
 ## X-DBM-Mod-Sort: 310
 ## X-DBM-Mod-MapID: 2222

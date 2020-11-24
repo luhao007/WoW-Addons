@@ -1,3 +1,9 @@
+11/23/2020 version 4.11.7
+- Reworded some options' descriptions so search picks them up better.
+- Removed some debug code.
+- Improved performance when the roster has to rebuild (such as the number of owned pets changing).
+- Composite button highlight is better layered with the underlying texture, will udpate if the underlying texture changes, and will not color desaturated icons.
+
 10/17/2020 version 4.11.6
 - Fix for possible lua error when going into the collection statistics.
 - Fix for sending teams to friends and through battle.net.

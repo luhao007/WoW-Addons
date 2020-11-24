@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Breen
-## Version: 53.4
+## Version: 53.5
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsBattleForAzerothPrologue
 ## LoadOnDemand: 1
@@ -14,7 +14,6 @@
 ## X-BtWQuests-Expansion: 7
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-Expansion-Movie-ID: 852
-## X-BtWQuests-AutoLoad: 1
 ## X-Part-Of: BtWQuests
 
 Defines.lua

@@ -2861,7 +2861,7 @@ Plater.DefaultSpellRangeListF = {
 				plateFrame.unitFrame.aggroGlowLower:Hide()
 				
 			--> widget container
-				plateFrame.unitFrame.WidgetContainer = CreateFrame("frame", nil, plateFrame.unitFrame, "UIWidgetContainerTemplate")
+				plateFrame.unitFrame.WidgetContainer = CreateFrame("frame", nil, plateFrame.unitFrame, "UIWidgetContainerNoResizeTemplate")
 				Plater.SetAnchor (plateFrame.unitFrame.WidgetContainer, Plater.db.profile.widget_bar_anchor, plateFrame.unitFrame)
 				plateFrame.unitFrame.WidgetContainer:SetScale(Plater.db.profile.widget_bar_scale)
 				plateFrame.unitFrame.WidgetContainer:UnregisterForWidgetSet()
@@ -3322,7 +3322,9 @@ Plater.DefaultSpellRangeListF = {
 	function Plater.EventHandler (_, event, ...) --private
 		local func = eventFunctions [event]
 		if (func) then
+			Plater.StartLogPerformanceCore("Plater-Core", "Events", event)
 			func (event, ...)
+			Plater.EndLogPerformanceCore("Plater-Core", "Events", event)
 		else
 			Plater:Msg ("no registered function for event " .. (event or "unknown event"))
 		end
@@ -4310,6 +4312,13 @@ function Plater.OnInit() --private --~oninit ~init
 			--this is not a nameplate, perhaps another frame from the framework
 			return
 		end
+		
+		Plater.StartLogPerformanceCore("Plater-Core", "Health", "OnUpdateHealth")
+
+		-- update - for whatever weird reason max health event does not give proper values sometimes...
+		local maxHealth = UnitHealthMax (self.displayedUnit)
+		self:SetMinMaxValues (0, maxHealth)
+		self.currentHealthMax = maxHealth
 
 		local plateFrame = self.PlateFrame
 		local currentHealth = self.currentHealth
@@ -4388,13 +4397,19 @@ function Plater.OnInit() --private --~oninit ~init
 			
 			Plater.CheckLifePercentText (unitFrame)
 		end
+		
+		Plater.EndLogPerformanceCore("Plater-Core", "Health", "OnUpdateHealth")
 	end
 
 	--self is the healthBar (it's parent is the unitFrame)
 	function Plater.OnUpdateHealthMax (self)
+		Plater.StartLogPerformanceCore("Plater-Core", "Health", "OnUpdateHealthMax")
+		
 		--the framework already set the min max values
-		self.CurrentHealthMax = self.currentHealthMax -- o.0 hãããnnn
+		self.CurrentHealthMax = self.currentHealthMax
 		Plater.CheckLifePercentText (self.unitFrame)
+		
+		Plater.EndLogPerformanceCore("Plater-Core", "Health", "OnUpdateHealthMax")
 	end
 
 	function Plater.OnHealthChange (self, unitId)
@@ -4875,6 +4890,7 @@ end
 	
 	-- ~ontick ~onupdate ~tick
 	function Plater.NameplateTick (tickFrame, deltaTime) --private
+		Plater.StartLogPerformanceCore("Plater-Core", "Update", "NameplateTick")
 
 		tickFrame.ThrottleUpdate = tickFrame.ThrottleUpdate - deltaTime
 		local unitFrame = tickFrame.unitFrame
@@ -5149,6 +5165,8 @@ end
 					healthBar.AnimateFunc (healthBar, deltaTime)
 				end
 			end
+			
+		Plater.EndLogPerformanceCore("Plater-Core", "Update", "NameplateTick")
 	end
 	
 	local set_aggro_color = function (self, r, g, b) --self = unitName
@@ -6249,6 +6267,8 @@ end
 
 	-- ~updateplate ~update ~updatenameplate
 	function Plater.UpdatePlateFrame (plateFrame, actorType, forceUpdate, justAdded)
+		Plater.StartLogPerformanceCore("Plater-Core", "Update", "UpdatePlateFrame")
+		
 		actorType = actorType or plateFrame.actorType
 		
 		if (not actorType) then
@@ -6604,6 +6624,8 @@ end
 		if (plateFrame.OnTickFrame.actorType == actorType and plateFrame.OnTickFrame.unit == unitFrame [MEMBER_UNITID]) then
 			Plater.NameplateTick (plateFrame.OnTickFrame, 10)
 		end
+		
+		Plater.EndLogPerformanceCore("Plater-Core", "Update", "UpdatePlateFrame")
 	end
 
 	-- ~border
@@ -10811,6 +10833,11 @@ function SlashCmdList.PLATER (msg, editbox)
 	
 	elseif (msg == "profstart") then
 		Plater.EnableProfiling()
+		
+		return
+	
+	elseif (msg == "profstartcore") then
+		Plater.EnableProfiling(true)
 		
 		return
 	

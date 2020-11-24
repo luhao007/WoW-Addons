@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: TomCat
-## Version: 2.0.26
+## Version: 2.0.27
 ## RequiredDeps: TomCats
 ## LoadOnDemand: 1
 ## DefaultState: enabled

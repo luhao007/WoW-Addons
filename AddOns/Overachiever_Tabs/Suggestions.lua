@@ -2852,6 +2852,7 @@ function frame.HandleAchBtnClick(self, button, ignoreModifiers)
 		end
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 		Refresh(panel)
+		Overachiever.AutoTrackingSettingUpdated()
 		return true
 	end
 end

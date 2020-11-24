@@ -752,18 +752,15 @@
     "name": "BtWQuests",
     "description": "A quest journal that shows your progress within quest chains",
     "url": "https://www.curseforge.com/wow/addons/btw-quests",
-    "download_url": "https://edge.forgecdn.net/files/3113/860/BtWQuests-v1.74.1.zip",
-    "date_published": "2020-11-17T04:42:22.127000+00:00",
-    "version": "v1.74.1",
+    "download_url": "https://edge.forgecdn.net/files/3121/189/BtWQuests-v1.75.0.zip",
+    "date_published": "2020-11-23T20:59:50.870000+00:00",
+    "version": "v1.75.0",
     "folders": [
       {
         "name": "BtWQuests"
       },
       {
-        "name": "BtWQuestsBattleForAzeroth"
-      },
-      {
-        "name": "BtWQuestsShadowlandsPrologue"
+        "name": "BtWQuestsShadowlands"
       }
     ],
     "options": {
@@ -771,6 +768,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.75.0",
+        "install_time": "2020-11-24T05:16:30+00:00"
+      },
       {
         "version": "v1.74.1",
         "install_time": "2020-11-17T10:27:42+00:00"
@@ -786,6 +787,36 @@
       {
         "version": "v1.73.3",
         "install_time": "2020-11-03T06:02:12+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "297381",
+    "slug": "btw-quests-battle-for-azeroth",
+    "name": "BtWQuests: Battle for Azeroth",
+    "description": "Battle for Azeroth data for BtWQuests",
+    "url": "https://www.curseforge.com/wow/addons/btw-quests-battle-for-azeroth",
+    "download_url": "https://edge.forgecdn.net/files/3121/186/BtWQuestsBattleForAzeroth-v53.5.zip",
+    "date_published": "2020-11-23T20:58:47.293000+00:00",
+    "version": "v53.5",
+    "folders": [
+      {
+        "name": "BtWQuestsBattleForAzeroth"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [
+      {
+        "id": "280369"
+      }
+    ],
+    "logged_versions": [
+      {
+        "version": "v53.5",
+        "install_time": "2020-11-24T05:48:01+00:00"
       }
     ]
   },
@@ -825,17 +856,17 @@
   },
   {
     "source": "curse",
-    "id": "297375",
-    "slug": "btw-quests-classic",
-    "name": "BtWQuests: Classic (Deprecated)",
-    "description": "Classic data for BtWQuests",
-    "url": "https://www.curseforge.com/wow/addons/btw-quests-classic",
-    "download_url": "https://edge.forgecdn.net/files/3078/830/BtWQuestsClassic-v17.zip",
-    "date_published": "2020-10-13T15:35:26.690000+00:00",
-    "version": "v17",
+    "id": "297378",
+    "slug": "btw-quests-cataclysm",
+    "name": "BtWQuests: Cataclysm",
+    "description": "Cataclysm data for BtWQuests",
+    "url": "https://www.curseforge.com/wow/addons/btw-quests-cataclysm",
+    "download_url": "https://edge.forgecdn.net/files/3119/476/BtWQuestsCataclysm-v2.2.zip",
+    "date_published": "2020-11-22T07:25:27.280000+00:00",
+    "version": "v2.2",
     "folders": [
       {
-        "name": "BtWQuestsClassic"
+        "name": "BtWQuestsCataclysm"
       }
     ],
     "options": {
@@ -844,15 +875,12 @@
     "deps": [
       {
         "id": "280369"
-      },
-      {
-        "id": "297378"
       }
     ],
     "logged_versions": [
       {
-        "version": "v17",
-        "install_time": "2020-11-03T06:02:12+00:00"
+        "version": "v2.2",
+        "install_time": "2020-11-24T05:51:23+00:00"
       }
     ]
   },
@@ -887,6 +915,126 @@
       {
         "version": "v29.1",
         "install_time": "2020-11-03T06:02:12+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "297379",
+    "slug": "btw-quests-mists-of-pandaria",
+    "name": "BtWQuests: Mists of Pandaria",
+    "description": "Mists of Pandaria data for BtWQuests",
+    "url": "https://www.curseforge.com/wow/addons/btw-quests-mists-of-pandaria",
+    "download_url": "https://edge.forgecdn.net/files/3119/477/BtWQuestsMistsOfPandaria-v4.1.zip",
+    "date_published": "2020-11-22T07:27:28.690000+00:00",
+    "version": "v4.1",
+    "folders": [
+      {
+        "name": "BtWQuestsMistsOfPandaria"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [
+      {
+        "id": "280369"
+      }
+    ],
+    "logged_versions": [
+      {
+        "version": "v4.1",
+        "install_time": "2020-11-24T05:48:55+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "401899",
+    "slug": "btw-quests-shadowlands-prologue",
+    "name": "BtWQuests: Shadowlands Prologue",
+    "description": "Shadowlands Prologue data for BtWQuests",
+    "url": "https://www.curseforge.com/wow/addons/btw-quests-shadowlands-prologue",
+    "download_url": "https://edge.forgecdn.net/files/3113/858/BtWQuestsShadowlandsPrologue-v1.3.zip",
+    "date_published": "2020-11-17T04:38:09.813000+00:00",
+    "version": "v1.3",
+    "folders": [
+      {
+        "name": "BtWQuestsShadowlandsPrologue"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [
+      {
+        "id": "280369"
+      }
+    ],
+    "logged_versions": [
+      {
+        "version": "v1.3",
+        "install_time": "2020-11-24T05:50:27+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "297376",
+    "slug": "btw-quests-the-burning-crusade",
+    "name": "BtWQuests: The Burning Crusade",
+    "description": "The Burning Crusade data for BtWQuests",
+    "url": "https://www.curseforge.com/wow/addons/btw-quests-the-burning-crusade",
+    "download_url": "https://edge.forgecdn.net/files/3119/474/BtWQuestsTheBurningCrusade-v2.2.zip",
+    "date_published": "2020-11-22T07:23:47.190000+00:00",
+    "version": "v2.2",
+    "folders": [
+      {
+        "name": "BtWQuestsTheBurningCrusade"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [
+      {
+        "id": "280369"
+      }
+    ],
+    "logged_versions": [
+      {
+        "version": "v2.2",
+        "install_time": "2020-11-24T05:49:09+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "297380",
+    "slug": "btw-quests-warlords-of-draenor",
+    "name": "BtWQuests: Warlords of Draenor",
+    "description": "Warlords of Draenor data for BtWQuests",
+    "url": "https://www.curseforge.com/wow/addons/btw-quests-warlords-of-draenor",
+    "download_url": "https://edge.forgecdn.net/files/3119/478/BtWQuestsWarlordsOfDraenor-v3.1.zip",
+    "date_published": "2020-11-22T07:29:05.040000+00:00",
+    "version": "v3.1",
+    "folders": [
+      {
+        "name": "BtWQuestsWarlordsOfDraenor"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [
+      {
+        "id": "280369"
+      }
+    ],
+    "logged_versions": [
+      {
+        "version": "v3.1",
+        "install_time": "2020-11-24T05:48:41+00:00"
       }
     ]
   },
@@ -1012,9 +1160,9 @@
     "name": "Deadly Boss Mods (DBM)",
     "description": "The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods",
-    "download_url": "https://edge.forgecdn.net/files/3114/258/DBM-Core-9.0.4.zip",
-    "date_published": "2020-11-17T16:32:50.453000+00:00",
-    "version": "9.0.4",
+    "download_url": "https://edge.forgecdn.net/files/3121/70/DBM-Core-9.0.5.zip",
+    "date_published": "2020-11-23T19:31:26.320000+00:00",
+    "version": "9.0.5",
     "folders": [
       {
         "name": "DBM-Brawlers"
@@ -1052,6 +1200,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.0.5",
+        "install_time": "2020-11-24T05:16:31+00:00"
+      },
       {
         "version": "9.0.4",
         "install_time": "2020-11-18T14:58:56+00:00"
@@ -1666,9 +1818,9 @@
     "name": "Details! Damage Meter",
     "description": "Complete combat analysis, gathering damage, healing, and other importante stuff.",
     "url": "https://www.curseforge.com/wow/addons/details",
-    "download_url": "https://edge.forgecdn.net/files/3101/519/Details-DetailsRetail.9.0.1.7950.144.zip",
-    "date_published": "2020-11-03T23:57:23.293000+00:00",
-    "version": "DetailsRetail.9.0.1.7950.144",
+    "download_url": "https://edge.forgecdn.net/files/3121/109/Details-DetailsRetail.9.0.2.8000.144.zip",
+    "date_published": "2020-11-23T20:04:58.470000+00:00",
+    "version": "DetailsRetail.9.0.2.8000.144",
     "folders": [
       {
         "name": "Details"
@@ -1697,6 +1849,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DetailsRetail.9.0.2.8000.144",
+        "install_time": "2020-11-24T05:16:33+00:00"
+      },
       {
         "version": "DetailsRetail.9.0.1.7950.144",
         "install_time": "2020-11-05T11:54:47+00:00"
@@ -2401,9 +2557,9 @@
     "name": "HandyNotes: Battle for Azeroth",
     "description": "Rares, treasures, battle pets and everything else for the Battle for Azeroth expansion.",
     "url": "https://www.curseforge.com/wow/addons/handynotes-battle-for-azeroth",
-    "download_url": "https://edge.forgecdn.net/files/3106/358/HandyNotes_BattleForAzeroth-v1.zip",
-    "date_published": "2020-11-09T00:29:42.620000+00:00",
-    "version": "v1",
+    "download_url": "https://edge.forgecdn.net/files/3121/139/HandyNotes_BattleForAzeroth-v2.zip",
+    "date_published": "2020-11-23T20:34:37.947000+00:00",
+    "version": "v2",
     "folders": [
       {
         "name": "HandyNotes_BattleForAzeroth"
@@ -2418,6 +2574,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v2",
+        "install_time": "2020-11-24T05:16:34+00:00"
+      },
       {
         "version": "v1",
         "install_time": "2020-11-12T07:32:40+00:00"
@@ -2521,9 +2681,9 @@
     "name": "HandyNotes: Shadowlands",
     "description": "Rares, treasures, battle pets and everything else for the Shadowlands expansion.",
     "url": "https://www.curseforge.com/wow/addons/handynotes-shadowlands",
-    "download_url": "https://edge.forgecdn.net/files/3113/595/HandyNotes_Shadowlands-v19.zip",
-    "date_published": "2020-11-16T21:12:58.890000+00:00",
-    "version": "v19",
+    "download_url": "https://edge.forgecdn.net/files/3121/138/HandyNotes_Shadowlands-v20.zip",
+    "date_published": "2020-11-23T20:34:33.920000+00:00",
+    "version": "v20",
     "folders": [
       {
         "name": "HandyNotes_Shadowlands"
@@ -2538,6 +2698,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v20",
+        "install_time": "2020-11-24T05:16:34+00:00"
+      },
       {
         "version": "v19",
         "install_time": "2020-11-17T10:27:43+00:00"
@@ -3153,9 +3317,9 @@
     "name": "Overachiever - achievement tools and tweaks",
     "description": "Tools and tweaks to make the lives of players seeking Achievements a little bit easier.",
     "url": "https://www.curseforge.com/wow/addons/overachiever",
-    "download_url": "https://edge.forgecdn.net/files/3116/360/Overachiever-v1.1.2.zip",
-    "date_published": "2020-11-19T03:36:07.207000+00:00",
-    "version": "v1.1.2",
+    "download_url": "https://edge.forgecdn.net/files/3120/719/Overachiever-v1.1.3.zip",
+    "date_published": "2020-11-23T14:45:59.310000+00:00",
+    "version": "v1.1.3",
     "folders": [
       {
         "name": "Overachiever"
@@ -3175,6 +3339,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.1.3",
+        "install_time": "2020-11-24T05:16:34+00:00"
+      },
       {
         "version": "v1.1.2",
         "install_time": "2020-11-19T08:10:01+00:00"
@@ -3261,9 +3429,9 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3117/967/Plater-Plater-v9.0.1.317-Retail.zip",
-    "date_published": "2020-11-20T18:53:39.107000+00:00",
-    "version": "Plater-v9.0.1.317-Retail",
+    "download_url": "https://edge.forgecdn.net/files/3121/222/Plater-Plater-v9.0.1.319-Retail.zip",
+    "date_published": "2020-11-23T21:22:16.693000+00:00",
+    "version": "Plater-v9.0.1.319-Retail",
     "folders": [
       {
         "name": "Plater"
@@ -3274,6 +3442,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v9.0.1.319-Retail",
+        "install_time": "2020-11-24T05:16:35+00:00"
+      },
       {
         "version": "Plater-v9.0.1.317-Retail",
         "install_time": "2020-11-21T07:48:22+00:00"
@@ -3537,9 +3709,9 @@
     "name": "Rematch",
     "description": "Rematch is a pet journal alternative to help manage battle pet teams and pets.",
     "url": "https://www.curseforge.com/wow/addons/rematch",
-    "download_url": "https://edge.forgecdn.net/files/3084/125/Rematch_4_11_6.zip",
-    "date_published": "2020-10-17T13:58:12.360000+00:00",
-    "version": "Rematch_4_11_6.zip",
+    "download_url": "https://edge.forgecdn.net/files/3120/823/Rematch_4_11_7.zip",
+    "date_published": "2020-11-23T16:46:53.807000+00:00",
+    "version": "Rematch_4_11_7.zip",
     "folders": [
       {
         "name": "Rematch"
@@ -3550,6 +3722,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Rematch_4_11_7.zip",
+        "install_time": "2020-11-24T05:16:36+00:00"
+      },
       {
         "version": "Rematch_4_11_6.zip",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -3595,9 +3771,9 @@
     "name": "Simulationcraft",
     "description": "An addon that generates a Simulationcraft profile for your character",
     "url": "https://www.curseforge.com/wow/addons/simulationcraft",
-    "download_url": "https://edge.forgecdn.net/files/3117/209/Simulationcraft-v9.0.2-03.zip",
-    "date_published": "2020-11-20T00:25:31.053000+00:00",
-    "version": "v9.0.2-03",
+    "download_url": "https://edge.forgecdn.net/files/3121/108/Simulationcraft-v9.0.2-05.zip",
+    "date_published": "2020-11-23T20:04:51.270000+00:00",
+    "version": "v9.0.2-05",
     "folders": [
       {
         "name": "Simulationcraft"
@@ -3608,6 +3784,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v9.0.2-05",
+        "install_time": "2020-11-24T05:16:36+00:00"
+      },
       {
         "version": "v9.0.2-03",
         "install_time": "2020-11-21T07:48:22+00:00"
@@ -3859,18 +4039,15 @@
     "source": "curse",
     "id": "306085",
     "slug": "tomcats",
-    "name": "TomCat's Tours (now includes Icecrown / Death's Rising! / Scourge Invasion) + HandyNotes Support",
+    "name": "TomCat's Tours - Core AddOn - Shadowlands Rares Coming Soon!",
     "description": "TomCat's Tours (now includes Icecrown / Death's Rising / Scourge Invasion) + HandyNotes Support",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3120/239/TomCatsTours[retail]-2.0.26.zip",
-    "date_published": "2020-11-23T00:07:29.373000+00:00",
-    "version": "2.0.26",
+    "download_url": "https://edge.forgecdn.net/files/3121/276/TomCatsTours[retail]-2.0.27.zip",
+    "date_published": "2020-11-23T22:22:59.793000+00:00",
+    "version": "2.0.27",
     "folders": [
       {
         "name": "TomCats"
-      },
-      {
-        "name": "TomCats-Bundled-DeathsRising"
       },
       {
         "name": "TomCats-Bundled-ArathiHighlandsRares"
@@ -3893,6 +4070,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.0.27",
+        "install_time": "2020-11-24T05:16:37+00:00"
+      },
       {
         "version": "2.0.26",
         "install_time": "2020-11-23T02:52:33+00:00"

@@ -2,7 +2,7 @@
 ## Title: TomCat's Tours / Rares of Darkshore
 ## Author: TomCat
 ## X-Website: https://www.tomcatstours.com
-## Version: 2.0.26
+## Version: 2.0.27
 ## DefaultState: enabled
 ## LoadOnDemand: 1
 ## RequiredDeps: TomCats

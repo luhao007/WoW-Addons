@@ -1,5 +1,5 @@
 
-Overachiever v1.1.2
+Overachiever v1.1.3
 ==============================
 
 Author: Tuhljin
@@ -113,6 +113,9 @@ Change log
 
 The change log lists changes of particular note to users, not every change made.
 
+v1.1.3
+- Fixed an error where auto-tracking tried to track a completed achievement.
+
 v1.1.2
 - Updated TOC for WoW patch 9.0.2.
 - "To All the Squirrels..." achievements: The four new achievements are now checked when looking for a critter's /loved status.
@@ -120,7 +123,7 @@ v1.1.2
 - Suggestions Tab:
 -- You can now auto-track suggested achievements. Shift+alt+click on an achievement in the Suggestions tab to toggle its flag. When you enter a location where a flagged achievement is suggested, it will automatically be tracked. It is untracked when you leave the area.
 -- Enter "autotracked" into the Location field to see all achievements you've flagged for auto-tracking.
-- Reworked the auto-tracking system. It should more intelligently handle which achievements are tracked, factoring in the number of available slots (exludes slots taken up by non-auto-tracked achievements) and priority levels.
+- Reworked the auto-tracking system. It should more intelligently handle which achievements are tracked, factoring in the number of available slots (excludes slots taken up by non-auto-tracked achievements) and priority levels.
 -- If the tracking limit is reached, then lower priority achievements may be untracked to make space for higher priority ones.
 -- Timed achievements have priority over exploration and suggested achievements.
 -- Manually tracked achievements should not be automatically untracked. (This should already have been the case but may have failed under certain atypical circumstances.)

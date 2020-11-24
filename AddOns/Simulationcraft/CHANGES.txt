@@ -1,10 +1,10 @@
-lightweight tag fb503f31e92d2835442847f6cd5427527ee9946e v9.0.2-03
+lightweight tag 6295516cc25c49463f8336d5cb32dc87dfa33c60 v9.0.2-05
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Thu Nov 19 16:24:57 2020 -0800
+Date:	Mon Nov 23 12:04:22 2020 -0800
 
-commit fb503f31e92d2835442847f6cd5427527ee9946e
+commit 6295516cc25c49463f8336d5cb32dc87dfa33c60
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Thu Nov 19 16:24:57 2020 -0800
+Date:   Mon Nov 23 12:04:22 2020 -0800
 
-    Fix a bug with determining player level
+    Do not build -nolib version, causing a lot of addon managers to download the wrong version of the addon
 
