@@ -822,40 +822,6 @@
   },
   {
     "source": "curse",
-    "id": "297383",
-    "slug": "btw-quests-battle-for-azeroth-prologue",
-    "name": "BtWQuests: Battle for Azeroth Prologue",
-    "description": "Battle for Azeroth Prologue data for BtWQuests",
-    "url": "https://www.curseforge.com/wow/addons/btw-quests-battle-for-azeroth-prologue",
-    "download_url": "https://edge.forgecdn.net/files/3119/481/BtWQuestsBattleForAzerothPrologue-v15.1.zip",
-    "date_published": "2020-11-22T07:34:25.307000+00:00",
-    "version": "v15.1",
-    "folders": [
-      {
-        "name": "BtWQuestsBattleForAzerothPrologue"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [
-      {
-        "id": "280369"
-      }
-    ],
-    "logged_versions": [
-      {
-        "version": "v15.1",
-        "install_time": "2020-11-22T08:08:03+00:00"
-      },
-      {
-        "version": "v15",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "297378",
     "slug": "btw-quests-cataclysm",
     "name": "BtWQuests: Cataclysm",
@@ -950,36 +916,6 @@
   },
   {
     "source": "curse",
-    "id": "401899",
-    "slug": "btw-quests-shadowlands-prologue",
-    "name": "BtWQuests: Shadowlands Prologue",
-    "description": "Shadowlands Prologue data for BtWQuests",
-    "url": "https://www.curseforge.com/wow/addons/btw-quests-shadowlands-prologue",
-    "download_url": "https://edge.forgecdn.net/files/3113/858/BtWQuestsShadowlandsPrologue-v1.3.zip",
-    "date_published": "2020-11-17T04:38:09.813000+00:00",
-    "version": "v1.3",
-    "folders": [
-      {
-        "name": "BtWQuestsShadowlandsPrologue"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [
-      {
-        "id": "280369"
-      }
-    ],
-    "logged_versions": [
-      {
-        "version": "v1.3",
-        "install_time": "2020-11-24T05:50:27+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "297376",
     "slug": "btw-quests-the-burning-crusade",
     "name": "BtWQuests: The Burning Crusade",
@@ -1045,9 +981,9 @@
     "name": "Button Forge",
     "description": "Add as many additional action bars and buttons as you want using a simple gui",
     "url": "https://www.curseforge.com/wow/addons/button-forge",
-    "download_url": "https://edge.forgecdn.net/files/3116/550/ButtonForge_v1.0.0.zip",
-    "date_published": "2020-11-19T09:32:49.083000+00:00",
-    "version": "Button Forge v1.0.0",
+    "download_url": "https://edge.forgecdn.net/files/3121/744/ButtonForge_v1.0.1.zip",
+    "date_published": "2020-11-24T10:24:01.183000+00:00",
+    "version": "Button Forge v1.0.1",
     "folders": [
       {
         "name": "ButtonForge"
@@ -1058,6 +994,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Button Forge v1.0.1",
+        "install_time": "2020-11-25T11:06:41+00:00"
+      },
       {
         "version": "Button Forge v1.0.0",
         "install_time": "2020-11-21T07:48:19+00:00"
@@ -2102,9 +2042,9 @@
     "name": "GatherMate2",
     "description": "Collects Herbs, Mines, Gas Clouds, Archaeology, Treasure and Fishing locations and adds them to the worldmap and minimap",
     "url": "https://www.curseforge.com/wow/addons/gathermate2",
-    "download_url": "https://edge.forgecdn.net/files/3115/591/GatherMate2-1.46.1.zip",
-    "date_published": "2020-11-18T15:15:32.713000+00:00",
-    "version": "1.46.1",
+    "download_url": "https://edge.forgecdn.net/files/3122/675/GatherMate2-1.46.2.zip",
+    "date_published": "2020-11-25T07:27:16.020000+00:00",
+    "version": "1.46.2",
     "folders": [
       {
         "name": "GatherMate2"
@@ -2115,6 +2055,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "1.46.2",
+        "install_time": "2020-11-25T11:06:42+00:00"
+      },
       {
         "version": "1.46.1",
         "install_time": "2020-11-19T06:57:53+00:00"
@@ -2256,9 +2200,9 @@
     "name": "Grail",
     "description": "Library of quest information",
     "url": "https://www.curseforge.com/wow/addons/grail",
-    "download_url": "https://edge.forgecdn.net/files/3088/755/Grail-112.zip",
-    "date_published": "2020-10-21T17:15:26.137000+00:00",
-    "version": "112",
+    "download_url": "https://edge.forgecdn.net/files/3122/568/Grail-113.zip",
+    "date_published": "2020-11-25T03:54:58.307000+00:00",
+    "version": "113",
     "folders": [
       {
         "name": "Grail"
@@ -2429,6 +2373,10 @@
     "deps": [],
     "logged_versions": [
       {
+        "version": "113",
+        "install_time": "2020-11-25T11:06:42+00:00"
+      },
+      {
         "version": "112",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
@@ -2557,9 +2505,9 @@
     "name": "HandyNotes: Battle for Azeroth",
     "description": "Rares, treasures, battle pets and everything else for the Battle for Azeroth expansion.",
     "url": "https://www.curseforge.com/wow/addons/handynotes-battle-for-azeroth",
-    "download_url": "https://edge.forgecdn.net/files/3121/139/HandyNotes_BattleForAzeroth-v2.zip",
-    "date_published": "2020-11-23T20:34:37.947000+00:00",
-    "version": "v2",
+    "download_url": "https://edge.forgecdn.net/files/3121/760/HandyNotes_BattleForAzeroth-v3.zip",
+    "date_published": "2020-11-24T11:10:12.093000+00:00",
+    "version": "v3",
     "folders": [
       {
         "name": "HandyNotes_BattleForAzeroth"
@@ -2574,6 +2522,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v3",
+        "install_time": "2020-11-25T11:06:43+00:00"
+      },
       {
         "version": "v2",
         "install_time": "2020-11-24T05:16:34+00:00"
@@ -2681,9 +2633,9 @@
     "name": "HandyNotes: Shadowlands",
     "description": "Rares, treasures, battle pets and everything else for the Shadowlands expansion.",
     "url": "https://www.curseforge.com/wow/addons/handynotes-shadowlands",
-    "download_url": "https://edge.forgecdn.net/files/3121/138/HandyNotes_Shadowlands-v20.zip",
-    "date_published": "2020-11-23T20:34:33.920000+00:00",
-    "version": "v20",
+    "download_url": "https://edge.forgecdn.net/files/3121/759/HandyNotes_Shadowlands-v21.zip",
+    "date_published": "2020-11-24T11:08:52.833000+00:00",
+    "version": "v21",
     "folders": [
       {
         "name": "HandyNotes_Shadowlands"
@@ -2698,6 +2650,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v21",
+        "install_time": "2020-11-25T11:06:43+00:00"
+      },
       {
         "version": "v20",
         "install_time": "2020-11-24T05:16:34+00:00"
@@ -3709,9 +3665,9 @@
     "name": "Rematch",
     "description": "Rematch is a pet journal alternative to help manage battle pet teams and pets.",
     "url": "https://www.curseforge.com/wow/addons/rematch",
-    "download_url": "https://edge.forgecdn.net/files/3120/823/Rematch_4_11_7.zip",
-    "date_published": "2020-11-23T16:46:53.807000+00:00",
-    "version": "Rematch_4_11_7.zip",
+    "download_url": "https://edge.forgecdn.net/files/3121/996/Rematch_4_11_8.zip",
+    "date_published": "2020-11-24T16:11:31.563000+00:00",
+    "version": "Rematch_4_11_8.zip",
     "folders": [
       {
         "name": "Rematch"
@@ -3722,6 +3678,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Rematch_4_11_8.zip",
+        "install_time": "2020-11-25T11:06:44+00:00"
+      },
       {
         "version": "Rematch_4_11_7.zip",
         "install_time": "2020-11-24T05:16:36+00:00"
@@ -4289,9 +4249,9 @@
     "name": "TradeSkillMaster",
     "description": "Powerful addon to help you make gold from crafting to selling on the auction house to buying vendor items and much more!",
     "url": "https://www.curseforge.com/wow/addons/tradeskill-master",
-    "download_url": "https://edge.forgecdn.net/files/3120/55/TradeSkillMaster_v4.10.16.zip",
-    "date_published": "2020-11-22T20:28:49.627000+00:00",
-    "version": "v4.10.16",
+    "download_url": "https://edge.forgecdn.net/files/3122/241/TradeSkillMaster_v4.10.18.zip",
+    "date_published": "2020-11-24T21:10:11.677000+00:00",
+    "version": "v4.10.18",
     "folders": [
       {
         "name": "TradeSkillMaster"
@@ -4302,6 +4262,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.10.18",
+        "install_time": "2020-11-25T11:06:45+00:00"
+      },
       {
         "version": "v4.10.16",
         "install_time": "2020-11-23T02:52:35+00:00"
@@ -4469,9 +4433,9 @@
     "name": "Wholly",
     "description": "Shows quests in zones and puts pins on maps where quest givers are.",
     "url": "https://www.curseforge.com/wow/addons/wholly",
-    "download_url": "https://edge.forgecdn.net/files/3081/76/Wholly-080.zip",
-    "date_published": "2020-10-14T21:45:13.877000+00:00",
-    "version": "80",
+    "download_url": "https://edge.forgecdn.net/files/3122/572/Wholly-081.zip",
+    "date_published": "2020-11-25T03:59:12.277000+00:00",
+    "version": "081",
     "folders": [
       {
         "name": "Wholly"
@@ -4482,6 +4446,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "081",
+        "install_time": "2020-11-25T11:06:45+00:00"
+      },
       {
         "version": "80",
         "install_time": "2020-11-03T06:02:12+00:00"

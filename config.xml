@@ -327,10 +327,6 @@
 				<Title>争霸艾泽拉斯</Title>
 				<Notes>BtWQuests 争霸艾泽拉斯模块</Notes>
 			</SubAddon>
-			<SubAddon name="BtWQuestsBattleForAzerothPrologue">
-				<Title>争霸艾泽拉斯前夕</Title>
-				<Notes>BtWQuests 争霸艾泽拉斯前夕模块</Notes>
-			</SubAddon>
 			<SubAddon name="BtWQuestsCataclysm">
 				<Title>大灾变</Title>
 				<Notes>BtWQuests 大灾变模块</Notes>
@@ -350,10 +346,6 @@
 			<SubAddon name="BtWQuestsShadowlands">
 				<Title>暗影国度</Title>
 				<Notes>BtWQuests 暗影国度模块</Notes>
-			</SubAddon>
-			<SubAddon name="BtWQuestsShadowlandsPrologue">
-				<Title>暗影国度前夕</Title>
-				<Notes>BtWQuests 暗影国度前夕</Notes>
 			</SubAddon>
 			<SubAddon name="BtWQuestsTheBurningCrusade">
 				<Title>燃烧的远征</Title>
