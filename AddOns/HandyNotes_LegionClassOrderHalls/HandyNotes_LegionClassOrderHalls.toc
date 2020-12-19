@@ -26,7 +26,6 @@
 # ## Notes-zhTW: 顯示各職業大廳裡 NPC 與主要的 POI 的位置
 #@end-debug@
 
-Libs\Libs.xml
 Locale\Locales.xml
 Core\Constants.lua
 Core\Handler.lua

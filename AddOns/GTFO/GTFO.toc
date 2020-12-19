@@ -10,8 +10,6 @@
 ## Notes-zhCN: 当你站在错误的位置时发出警报
 
 
-Libs\LibStub\LibStub.lua
-Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 Localization\enUS.lua
 Localization\esES.lua
 Localization\esMX.lua

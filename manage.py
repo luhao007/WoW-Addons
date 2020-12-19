@@ -288,7 +288,7 @@ class Manager:
 
     def handle_dup_libraries(self):
         addons = ['Atlas', 'BlizzMove', 'DBM-Core', 'Details_Streamer',
-                  'Details_TinyThreat', 'ExRT', 'GatherMate2',
+                  'Details_TinyThreat', 'ExRT', 'GatherMate2', 'GTFO',
                   'HandyNotes', 'MapSter', 'Quartz', 'RangeDisplay',
                   'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
 
@@ -308,6 +308,7 @@ class Manager:
                        'HandyNotes_BattleForAzeroth',
                        'HandyNotes_Draenor',
                        'HandyNotes_DraenorTreasures',
+                       'HandyNotes_LegionClassOrderHalls',
                        'HandyNotes_LegionRaresTreasures',
                        'HandyNotes_Shadowlands',
                        'HandyNotes_SuramarShalAranTelemancy',
@@ -652,7 +653,7 @@ class Manager:
              'AceTimer-3.0', 'CallbackHandler-1.0', 'DF', 'LibCompress',
              'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
              'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
-             'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibStub'],
+             'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibStub', 'LibTranslit-1.0'],
             'Addons/Plater/libs',
             'Addons/Plater/libs/libs.xml'
         )
