@@ -123,6 +123,10 @@ function GatherMate:OnInitialize()
 		self:MigrateData80()
 		self.db.global.data_version = 5
 	end
+	if (self.db.global.data_version or 0) < 6 then
+		self:RemoveDepracatedNodes()
+		self.db.global.data_version = 6
+	end
 end
 
 function GatherMate:RemoveGarrisonNodes()
@@ -235,6 +239,39 @@ function GatherMate:AddNode(zone, x, y, nodeType, name)
 	db[zone] = db[zone] or {}
 	db[zone][id] = self.nodeIDs[nodeType][name]
 	self:SendMessage("GatherMate2NodeAdded", zone, nodeType, id, name)
+end
+
+--[[
+	Add an item to the DB, performing duplicate checks and cleanup
+]]
+function GatherMate:AddNodeChecked(zone, x, y, nodeType, name)
+	local db = gmdbs[nodeType]
+	if not db then return end
+
+	-- get the node id for what we're adding
+	local nid = GatherMate:GetIDForNode(nodeType, name)
+	if not nid then return end
+
+	-- cleanup range
+	local range = GatherMate.db.profile.cleanupRange[nodeType]
+
+	-- check for existing nodes
+	local skip = false
+	local rares = self.rareNodes
+	for coord, nodeID in GatherMate:FindNearbyNode(zone, x, y, nodeType, range, true) do
+		if (nodeID == nid or rares[nodeID] and rares[nodeID][nid]) then
+			GatherMate:RemoveNodeByID(zone, nodeType, coord)
+		-- we're trying to add a rare node, but there is already a normal node present, skip the adding
+		elseif rares[nid] and rares[nid][nodeID] then
+			skip = true
+		end
+	end
+
+	if not skip then
+		GatherMate:AddNode(zone, x, y, nodeType, name)
+	end
+
+	return not skip
 end
 
 --[[
@@ -412,8 +449,7 @@ function GatherMate:IsCleanupRunning()
 end
 
 function GatherMate:SweepDatabase()
-	local Collector = GatherMate:GetModule("Collector")
-	local rares = Collector.rareNodes
+	local rares = self.rareNodes
 	for v,zone in pairs(GatherMate.HBD:GetAllMapIDs()) do
 		--self:Print(L["Processing "]..zone)
 		coroutine.yield()

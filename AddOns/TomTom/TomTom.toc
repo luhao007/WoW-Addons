@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Cladhaire
-## Version: v90001-1.1.5
+## Version: v90002-1.1.9
 ## OptionalDeps: HereBeDragons-2.0
 ## SavedVariables: TomTomDB, TomTomWaypoints, TomTomWaypointsM
 

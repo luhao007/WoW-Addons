@@ -1,17 +1,16 @@
 ## Interface: 90002
 ## Author: kagaro, Xinhuan
-## Version: v34.1
+## Version: v36.1
 ## Dependencies: GatherMate2
 ## LoadOnDemand: 1
 
 ## Title: GatherMate2Data
 ## Notes: Wowhead Data dump for GatherMate2
 ## Title-zhCN: |cFFFFE00A<|r|cFF0070DE物品|r|cFFFFE00A>|r |cFFFFFFFF采集助手|r |cFF69CCF0数据|r
-## Notes-zhCN: Wowhead 资料转存至采集助手 GatherMate2
 
 ## X-Category: Map
 ## X-Email: sal.scotto@gmail.com
-## X-Generated-Version: $Revision: 474 $
+## X-Curse-Project-ID: 26737
 ## X-Part-Of: GatherMate2
 
 MiningData.lua

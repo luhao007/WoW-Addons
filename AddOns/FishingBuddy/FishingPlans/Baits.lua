@@ -76,6 +76,37 @@ Maintainable[139175] = {
     continent = FBConstants.BROKEN_ISLES,
 };
 
+Maintainable[173038] = {
+    ["enUS"] = "Lost Sole Bait",
+    spell = 331688,
+    continent = FBConstants.SHADOWLANDS,
+};
+Maintainable[173043] = {
+    ["enUS"] = "Elysian Thade Bait",
+    spell = 331698,
+    continent = FBConstants.SHADOWLANDS,
+};
+Maintainable[173040] = {
+    ["enUS"] = "Silvergill Pike Bait",
+    spell = 331690,
+    continent = FBConstants.SHADOWLANDS,
+};
+Maintainable[173041] = {
+    ["enUS"] = "Pocked Bonefish Bait",
+    spell = 331695,
+    continent = FBConstants.SHADOWLANDS,
+};
+Maintainable[173039] = {
+    ["enUS"] = "Iridescent Amberjack Bait",
+    spell = 331692,
+    continent = FBConstants.SHADOWLANDS,
+};
+Maintainable[173042] = {
+    ["enUS"] = "Spinefin Piranha Bait",
+    spell = 331699,
+    continent = FBConstants.SHADOWLANDS,
+};
+
 local seascorpion = {
     [539] = {
         ["Darktide Strait"] = true,

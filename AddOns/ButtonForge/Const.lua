@@ -12,7 +12,7 @@ Const.SUMMON_RANDOM_FAVORITE_MOUNT_ID = 268435455;
 Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_ID = "BattlePet-0-FFFFFFFFFFFFFF";
 Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_TEXTURE = "Interface/Icons/INV_Pet_Achievement_CaptureAPetFromEachFamily_Battle";
 Const.Version				= 1.0;
-Const.VersionMinor			= 0.1;
+Const.VersionMinor			= 0.2;
 Const.MAX_ACCOUNT_MACROS 	= 120;
 Const.ButtonNaming 			= "ButtonForge"
 Const.ButtonSeq 			= 1;					--This value will increment (so not technically a const...)
@@ -92,6 +92,7 @@ Const.DarkOrange = "ffEE5500";
 
 Const.SlashCommands = {};
 Const.SlashCommands["-bar"] = {params = "^%s*(..-)%s*$", group = "bar"};
+Const.SlashCommands["-list"] = {params = "^()$", incompat = {"ALL"}};
 Const.SlashCommands["-macrotext"] = {params = "bool", group = "bar"};
 Const.SlashCommands["-keybindtext"] = {params = "bool", group = "bar"};
 Const.SlashCommands["-tooltips"] = {params = "bool", group = "bar"};

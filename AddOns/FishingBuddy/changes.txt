@@ -1,3 +1,14 @@
+Version 1.13
+- Fix skill management (watcher works!)
+- Add Bat Visage bobber
+- Add special baits for Shadowlands
+- Fix TOC version
+
+Version 1.12
+- Fix for WorldFrame anchoring issues
+- Fix auto interact bug (thanks hanzo79!)
+- Shadowlands Fishing levels are partially fixed
+
 Version 1.11
 - Update TOC
 - Code fixes for Shadowlands

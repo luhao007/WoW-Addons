@@ -10,7 +10,7 @@ Licensed under a Creative Commons "Attribution Non-Commercial Share Alike" Licen
 local _
 
 local MAJOR_VERSION = "LibFishing-1.0"
-local MINOR_VERSION = 101074
+local MINOR_VERSION = 101076
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 
@@ -87,7 +87,7 @@ FishLib.UNKNOWN = "UNKNOWN";
 function FishLib:GetFishingSpellInfo()
     local _, _, _, fishing, _, _ = GetProfessions();
     if not fishing then
-        return 131474, PROFESSIONS_FISHING
+        return 9, PROFESSIONS_FISHING
     end
     local name, _, _, _, count, offset, _ = GetProfessionInfo(fishing);
     local id = nil;
@@ -114,6 +114,7 @@ FishLib.continent_fishing = {
     { ["max"] = 100, ["skillid"] = 2586, ["cat"] = 1112, ["rank"] = 0 },	-- Legion Fishing
     { ["max"] = 175, ["skillid"] = 2585, ["cat"] = 1114, ["rank"] = 0 },	-- Kul Tiras Fishing
     { ["max"] = 175, ["skillid"] = 2585, ["cat"] = 1114, ["rank"] = 0 },	-- Zandalar Fishing
+    { ["max"] = 200, ["skillid"] = 2754, ["cat"] = 1391, ["rank"] = 0 },	-- Shadowlands Fishing
 }
 
 local FISHING_LEVELS = {
@@ -125,6 +126,7 @@ local FISHING_LEVELS = {
     100,        -- Draenor
     100,        -- Legion
     175,        -- BfA
+    200,        -- Shadowlands
 }
 
 local itsready = C_TradeSkillUI.IsTradeSkillReady
@@ -230,8 +232,8 @@ end
 
 
 function FishLib:UpdateFishingSkill()
-    local fishing, _ = self:GetFishingSpellInfo();
-    if (fishing and self.havedata) then
+    local _, _, _, fishing, _, _ = GetProfessions();
+    if (fishing) then
         local continent, _ = self:GetCurrentMapContinent();
         local info = FishLib.continent_fishing[continent];
         if (info) then
@@ -240,14 +242,17 @@ function FishLib:UpdateFishingSkill()
             if (info.rank < skill) then
                 info.rank = skill
             end
+            if skill then
+                self.registered:Fire(FishLib.PLAYER_SKILL_READY)
+            end
         end
     end
 end
 
 -- get the fishing skill for the specified continent
 function FishLib:GetContinentSkill(continent)
-    local fishing, _ = self:GetFishingSpellInfo();
-    if (fishing and self.havedata) then
+    local _, _, _, fishing, _, _ = GetProfessions();
+    if (fishing) then
         local info = FishLib.continent_fishing[continent];
         if (info) then
             local name, _, _, skillmax, _, _, _, mods = GetProfessionInfo(fishing);
@@ -1480,44 +1485,60 @@ function FishLib:GetDistanceTo(zone, x, y)
     return dist
 end
 
+FishLib.KALIMDOR = 1
+FishLib.EASTERN_KINDOMS = 2
+FishLib.OUTLAND = 3
+FishLib.NORTHREND = 4
+FishLib.THE_MAELSTROM = 5
+FishLib.PANDARIA = 6
+FishLib.DRAENOR = 7
+FishLib.BROKEN_ISLES = 8
+FishLib.KUL_TIRAS = 9
+FishLib.ZANDALAR = 10
+FishLib.SHADOWLANDS = 11
+
 -- Darkmoon Island is it's own continent?
 local continent_map = {
-    [12] = 1,		-- Kalimdor
-    [13] = 2,		-- Eastern Kingons
-    [101] = 3,		-- Outland
-    [113] = 4,		-- Northrend
-    [276] = 5,      -- The Maelstrom
-    [424] = 6,		-- Pandaria
-    [572] = 7,		-- Draenor
-    [619] = 8,		-- Broken Isles
-    [876] = 9,		-- Kul Tiras
-    [875] = 10,     -- Zandalar
-    [1355] = 9,     -- Nazjatar
-    [407] = 5,		-- Darkmoon Island
+    [12] = FishLib.KALIMDOR,            -- Kalimdor
+    [13] = FishLib.EASTERN_KINDOMS,     -- Eastern Kingons
+    [101] = FishLib.OUTLAND,            -- Outland
+    [113] = FishLib.NORTHREND,          -- Northrend
+    [276] = FishLib.THE_MAELSTROM,      -- The Maelstrom
+    [424] = FishLib.PANDARIA,           -- Pandaria
+    [572] = FishLib.DRAENOR,            -- Draenor
+    [619] = FishLib.BROKEN_ISLES,       -- Broken Isles
+    [876] = FishLib.KUL_TIRAS,          -- Kul Tiras
+    [875] = FishLib.ZANDALAR,           -- Zandalar
+    [1355] = FishLib.KUL_TIRAS,         -- Nazjatar
+    [407] = FishLib.THE_MAELSTROM,      -- Darkmoon Island
+    [1550] = FishLib.SHADOWLANDS,       -- Shadowlands
 }
 
 local special_maps = {
-    [244] = 5,
-    [245] = 5,		-- Tol Barad
-    [201] = 5,		-- Vashj'ir
-    [198] = 5,		-- Hyjal
-    [249] = 5,		-- Uldum
-    [241] = 5,		-- Twilight Highlands
-    [207] = 5,		-- Deepholm
-    [338] = 5,		-- Molten Front
-    [51] = 5,		-- Swamp of Sorrows
-    [122] = 3,		-- Isle of Quel'Danas
+    [244] = FishLib.THE_MAELSTROM,
+    [245] = FishLib.THE_MAELSTROM,		-- Tol Barad
+    [201] = FishLib.THE_MAELSTROM,		-- Vashj'ir
+    [198] = FishLib.THE_MAELSTROM,		-- Hyjal
+    [249] = FishLib.THE_MAELSTROM,		-- Uldum
+    [241] = FishLib.THE_MAELSTROM,		-- Twilight Highlands
+    [207] = FishLib.THE_MAELSTROM,		-- Deepholm
+    [338] = FishLib.THE_MAELSTROM,		-- Molten Front
+    [51] = FishLib.THE_MAELSTROM,		-- Swamp of Sorrows
+    [122] = FishLib.OUTLAND,		    -- Isle of Quel'Danas
 }
 
 -- Continents
 -- Pandaria, 6, 424
 -- Draenor, 7, 572
 -- Broken Isles, 8, 619
-function FishLib:GetMapContinent(mapId)
+function FishLib:GetMapContinent(mapId, debug)
     if HBD.mapData[mapId] and mapId then
         local cMapId = mapId;
         local parent = HBD.mapData[cMapId].parent;
         while (parent ~= 946 and parent ~= 947 and HBD.mapData[parent]) do
+            if (debug) then
+                print(cMapId, parent)
+            end
             cMapId = parent;
             parent = HBD.mapData[cMapId].parent;
         end
@@ -1531,9 +1552,9 @@ function FishLib:GetMapContinent(mapId)
     end
 end
 
-function FishLib:GetCurrentMapContinent()
+function FishLib:GetCurrentMapContinent(debug)
     local mapId = self:GetCurrentMapId();
-    return self:GetMapContinent(mapId)
+    return self:GetMapContinent(mapId, debug)
 end
 
 function FishLib:GetCurrentMapId()

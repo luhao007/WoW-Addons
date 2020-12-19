@@ -1126,10 +1126,7 @@ Database:AddChain(Chain.MenagerieOfTheMaster, {
     prerequisites = {
         {
             type = "level",
-            variations = {
-                { level = 50, restrictions = 86994, },
-                { level = 57, },
-            },
+            level = 60,
         },
         {
             type = "chain",
@@ -1562,10 +1559,7 @@ Database:AddChain(Chain.Chain03, {
     prerequisites = {
         {
             type = "level",
-            variations = {
-                { level = 50, restrictions = 86994, },
-                { level = 57, },
-            },
+            level = 60,
         },
         {
             type = "chain",
@@ -1893,7 +1887,7 @@ Database:AddChain(Chain.Chain05, {
     },
 })
 Database:AddChain(Chain.Chain06, {
-    name = BtWQuests.GetAreaName(11002),
+    name = BtWQuests.GetAreaName(11002), -- Old Gate
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
@@ -2255,10 +2249,7 @@ Database:AddChain(Chain.Chain09, {
     prerequisites = {
         {
             type = "level",
-            variations = {
-                { level = 50, restrictions = 86994, },
-                { level = 60, },
-            },
+            level = 60,
         },
         {
             name = "Unknown",
@@ -2445,6 +2436,7 @@ Database:AddChain(Chain.EmbedChain07, {
         {
             type = "item",
             id = 182738,
+            breadcrumb = true,
             locations = {
                 [1525] = {
                     {
@@ -2664,10 +2656,6 @@ Database:AddCategory(CATEGORY_ID, {
         {
             type = "chain",
             id = Chain.Chain07,
-        },
-        {
-            type = "chain",
-            id = Chain.Chain09,
         },
     },
 })

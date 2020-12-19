@@ -77,6 +77,11 @@ local VUHDO_ABSORB_DEBUFFS = {
 	-- Patch 8.3.0 - Battle for Azeroth - Ny'alotha
 	[306184] = function(aUnit) return select(16, VUHDO_unitDebuff(aUnit, VUHDO_SPELL_ID.DEBUFF_UNLEASHED_VOID)), 40; end, -- Unleashed Void
 
+	-- Patch 9.0.2 - Shadowlands - Castle Nathria
+	[338600] = function(aUnit) return select(16, VUHDO_unitDebuff(aUnit, VUHDO_SPELL_ID.DEBUFF_CLOAK_OF_FLAMES)), 10 * 60; end, -- Cloak of Flames
+	[343026] = function(aUnit) return select(16, VUHDO_unitDebuff(aUnit, VUHDO_SPELL_ID.DEBUFF_CLOAK_OF_FLAMES)), 10 * 60; end, -- Cloak of Flames
+	[337859] = function(aUnit) return select(16, VUHDO_unitDebuff(aUnit, VUHDO_SPELL_ID.DEBUFF_CLOAK_OF_FLAMES)), 10 * 60; end, -- Cloak of Flames
+
 	--[79105] = function(aUnit) return 280000, 60 * 60; end, -- @TESTING PW:F
 };
 

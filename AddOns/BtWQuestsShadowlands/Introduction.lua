@@ -857,7 +857,7 @@ Database:AddChain(Chain.Torghast, {
         },
         {
             type = "quest",
-            ids = {62932, 62967},
+            id = 62932,
             x = -1,
             connections = {
                 2, 
@@ -865,7 +865,7 @@ Database:AddChain(Chain.Torghast, {
         },
         {
             type = "quest",
-            id = 60267,
+            ids = {60267, 62967},
             connections = {
                 2, 
             },

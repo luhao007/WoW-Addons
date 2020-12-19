@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: M
-## Version: 9.0.3
+## Version: 9.0.3.2
 ## SavedVariables: BigTipDB
 ## SavedVariablesPerCharacter: TinyTooltipCharacterDB
 

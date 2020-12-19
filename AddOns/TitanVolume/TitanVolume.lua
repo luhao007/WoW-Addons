@@ -1,8 +1,15 @@
+-- **************************************************************************
+-- * TitanBag.lua
+-- *
+-- * By: The Titan Panel Development Team
+-- **************************************************************************
+
 local TITAN_VOLUME_ID = "Volume";
 local TITAN_VOLUME_FRAME_SHOW_TIME = 0.5;
 local TITAN_VOLUME_ARTWORK_PATH = "Interface\\AddOns\\TitanVolume\\Artwork\\";
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 function TitanPanelVolumeButton_OnLoad(self)
 	self.registry = { 
@@ -416,7 +423,7 @@ function TitanPanelRightClickMenu_PrepareVolumeMenu()
 	info.func = function() 
 		ShowUIPanel(VideoOptionsFrame);
 		end  
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info.text = L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"];
 	info.notCheckable = false
@@ -424,7 +431,7 @@ function TitanPanelRightClickMenu_PrepareVolumeMenu()
 		TitanToggleVar(TITAN_VOLUME_ID, "OverrideBlizzSettings");
 	end 
 	info.checked = TitanGetVar(TITAN_VOLUME_ID, "OverrideBlizzSettings");
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_VOLUME_ID, TITAN_PANEL_MENU_FUNC_HIDE);

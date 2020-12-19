@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Massiner of Nathrezim
-## Version: 1.0.1
+## Version: 1.0.2
 ## OptionalDeps: Masque
 ## SavedVariables: ButtonForgeGlobalSettings, ButtonForgeGlobalProfiles, ButtonForgeGlobalBackup
 ## SavedVariablesPerCharacter: ButtonForgeSave, BFSave

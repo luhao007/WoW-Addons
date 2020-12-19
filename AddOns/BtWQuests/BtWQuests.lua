@@ -986,7 +986,7 @@ end
 
 -- [[ Waypoint ]]
 function BtWQuests_AddWaypoint(mapId, x, y, name)
-    if BtWQuestSettingsData.useTomTom and TomTom and TomTom.AddWaypoint then
+    if BtWQuestSettingsData:GetValue("useTomTom") and TomTom and TomTom.AddWaypoint then
         TomTom:AddWaypoint(mapId, x, y, {
             title = name,
         })

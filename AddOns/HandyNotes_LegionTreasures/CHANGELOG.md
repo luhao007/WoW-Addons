@@ -1,5 +1,13 @@
 # Changelog
 
+## Changes in v20
+* Made dog's pebble in Dalaran less obtrusive
+* Pick up fixes and improvements from [HandyNotes: Shadowlands Treasures](https://www.curseforge.com/wow/addons/handynotes-shadowlands-treasures):
+    * You can now toggle off the button on the world map
+
+## Changes in v19
+* Pick up fixes and improvements from [HandyNotes: Shadowlands Treasures](https://www.curseforge.com/wow/addons/handynotes-shadowlands-treasures)
+
 ## Changes in v18
 * Bumped TOC for 9.0.2
 * Options for showing/hiding points in particular zones

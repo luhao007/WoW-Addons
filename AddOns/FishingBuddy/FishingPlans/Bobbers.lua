@@ -86,6 +86,11 @@ Bobbers[147308] = { -- Ilyssia of the Waters, 120266
 	spell = 240800,
 	toy = 1,
 };
+Bobbers[180993] = { -- Forgotten Angler's Rod
+	["enUS"] = "Bat Visage",
+	spell = 335484,
+	toy = 1,
+};
 
 local NUM_BOBBERS = FL:tablecount(Bobbers);
 

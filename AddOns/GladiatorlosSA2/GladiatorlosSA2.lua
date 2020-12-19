@@ -6,7 +6,7 @@
  local LSM = LibStub("LibSharedMedia-3.0")
  local self, GSA, PlaySoundFile = GladiatorlosSA, GladiatorlosSA, PlaySoundFile
  local GSA_TEXT = "|cff69CCF0GladiatorlosSA2|r (|cffFFF569/gsa|r)"
- local GSA_VERSION = "|cffFF7D0A SLB 3 |r(|cff9482C99.0 Shadowlands|r)"
+ local GSA_VERSION = "|cffFF7D0A 3.1 |r(|cff9482C99.0.2 Shadowlands|r)"
  local GSA_TEST_BRANCH = ""
  local GSA_AUTHOR = " "
  local gsadb
@@ -95,6 +95,7 @@
 		class = false,
 		connected = false,
 		interruptedfriendly = true,
+		ShatteringThrowSuccess = false,
 		
 		custom = {},
 	}	
@@ -267,6 +268,7 @@ end
  		-- I can probably use this to fix the weird problem with PvP flag checking that seemed blizzard-sided
  		-- but I am lazy and that will come later.
 function GSA:CanTalkHere()
+	-- !!Triggered from PLAYER_ENTERING_WORLD!!
 	--Disable By Location
 	local _,currentZoneType = IsInInstance()
 	local _,_,_,_,_,_,_,instanceMapID = GetInstanceInfo()
@@ -292,6 +294,8 @@ end
 	-- Checks if alerts should occur here.
 	if (not canSpeakHere) then return end
 
+	 local isSanctuary = GetZonePVPInfo()	-- Because canSpeakHere is checked on PLAYER_ENTERING_WORLD.
+	 if (isSanctuary == "sanctuary") then return end
 	
 	local timestamp,event,hideCaster,sourceGUID,sourceName,sourceFlags,sourceFlags2,destGUID,destName,destFlags,destFlags2,spellID = CombatLogGetCurrentEventInfo()
 	--select ( 1 , ... );
@@ -363,7 +367,7 @@ end
 	elseif (event == "SPELL_CAST_SUCCESS" and sourcetype[COMBATLOG_FILTER_HOSTILE_PLAYERS] and (not gsadb.sonlyTF or sourceuid.target or sourceuid.focus) and not gsadb.castSuccess) then
 		if self:Throttle(tostring(spellID).."default", 0.05) then return end
 		if gsadb.class and playerCurrentZone == "arena" then
-			if spellID == 42292 or spellID == 208683 or spellID == 195710 then
+			if spellID == 42292 or spellID == 208683 or spellID == 195710 or spellID == 336126 then
 				local c = self:ArenaClass(sourceGUID) -- PvP Trinket Class Callout
 					if c then 
 					self:PlaySound(c);

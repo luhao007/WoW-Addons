@@ -1628,7 +1628,7 @@ Database:AddChain(Chain.Chain04, {
     },
     completed = {
         type = "quest",
-        id = 60067,
+        id = 58431,
     },
     items = {
         {
@@ -1956,7 +1956,7 @@ Database:AddCategory(CATEGORY_ID, {
         {
             type = "chain",
             id = Chain.Chain04,
-            visible = 86994,
+            restrictions = 86994,
         },
     },
 })

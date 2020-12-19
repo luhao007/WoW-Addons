@@ -1959,7 +1959,7 @@ function VUHDO_loadDefaultConfig()
 		-- Maut
 		307806, -- Devour Magic
 		-- The Prophet Skitra
-		308059, -- ShadowShockApplied
+		308059, -- Shadow Shock
 		307950, -- Shred Psyche
 		308065, -- Shred Psyche
 		-- Dark Inquisitor Xanesh
@@ -2023,6 +2023,74 @@ function VUHDO_loadDefaultConfig()
 		-- N'Zoth
 	);
 
+	-- 9.0.2 - Shadowlands
+	VUHDO_addCustomSpellIds(48,
+		-- [[ Castle Nathria ]]
+		-- Shriekwing
+		328897, -- Exsanguinated
+		342077, -- Echolocation
+		341684, -- The Blood Lantern
+		341489, -- Bloodlight
+		-- 340324, -- Sanguine Ichor (ground damage)
+		-- Huntsman Altimor
+		335111, -- Huntsmans Mark
+		334971, -- Jagged Claws
+		334945, -- Vicious Lunge
+		334852, -- Petrifying Howl
+		-- 334893, -- Stone Shards (ground damage)
+		-- Sun King's Salvation
+		323402, -- Reflection of Guilt
+		-- 326456, -- Burning Remnants (tank)
+		328479, -- Eyes on Target
+		-- 325442, -- Vanquished (tank)
+		326583, -- Crimson Flurry
+		339251, -- Drained Soul
+		332871, -- Greater Castigation
+		338600, -- Cloak of Flames
+		343026, -- Cloak of Flames
+		337859, -- Cloak of Flames
+		-- 328579, -- Smoldering Remnants (ground damage)
+		-- Artificer Xy'Mox
+		328448, -- Dimensional Tear
+		325236, -- Glyph of Destruction
+		327902, -- Fixate
+		-- 327414, -- Possesion (mind control)
+		340860, -- Withering Touch
+		-- Hungering Destroyer
+		329298, -- Gluttonous Miasma
+		-- Lady Inerva Darkvein
+		-- 325382, -- Warped Desires (tank)
+		325936, -- Shared Cognition
+		324983, -- Shared Suffering
+		332664, -- Concentrate Anima
+		-- 331573, -- Unconscionable Guilt (tank)
+		-- 325713, -- Lingering Anima (ground damage)
+		-- The Council of Blood
+		330967, -- Fixate
+		-- 346651, -- Drain Essence (tank)
+		331706, -- Scarlet Letter
+		331637, -- Dark Recital
+		-- 347350, -- Dancing Fever (dispel, disease)
+		-- Sludgefist
+		331209, -- Hateful Gaze
+		342420, -- Chain Them!
+		342419, -- Chain Them!
+		335470, -- Chain Slam
+		-- 335361, -- Stonequake (ground damage)
+		-- Stone Legion Generals
+		333377, -- Wicked Blade
+		-- 334765, -- Heart Rend (dispel, magic)
+		339690, -- Crystalize
+		-- 342425, -- Stone Fist (tank)
+		342655, -- Volatile Anima Infusion
+		-- Sire Denathrius
+		327796, -- Night Hunter
+		329906, -- Carnage
+		-- 329181, -- Wracking Pain (tank)
+		-- 332585, -- Scorn (tank)
+		332794, -- Fatal Finesse
+		327992  -- Desolation (ground damage)
+	);
 
 	local debuffRemovalList = {};
 

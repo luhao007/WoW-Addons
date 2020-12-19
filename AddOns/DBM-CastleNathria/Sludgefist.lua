@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2394, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20201115022004")
+mod:SetRevision("20201217062544")
 mod:SetCreatureID(164407)
 mod:SetEncounterID(2399)
 mod:SetUsedIcons(1)
@@ -14,7 +14,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 332318",
 	"SPELL_CAST_SUCCESS 332687",
-	"SPELL_AURA_APPLIED 331209 331314 342420 335470 340817",
+	"SPELL_AURA_APPLIED 331209 331314 342420 335470 340817 341250",
 	"SPELL_AURA_REMOVED 331209 331314 342419 342420 340817",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
@@ -35,32 +35,33 @@ mod:RegisterEventsInCombat(
 local warnHatefulGaze							= mod:NewTargetNoFilterAnnounce(331209, 4)
 local warnStunnedImpact							= mod:NewTargetNoFilterAnnounce(331314, 1)
 --local warnChainLink								= mod:NewTargetAnnounce(342419, 3)--Targetting debuff
-local warnChainSlam								= mod:NewTargetNoFilterAnnounce(164407, 3)
---local warnVengefulRage							= mod:NewTargetNoFilterAnnounce(341294, 4)
+local warnChainSlam								= mod:NewTargetNoFilterAnnounce(335470, 3)
+local warnGruesomeRage							= mod:NewTargetNoFilterAnnounce(341250, 4)
 
 local specWarnHatefulGaze						= mod:NewSpecialWarningMoveTo(331209, nil, nil, nil, 3, 2)
 local specWarnHeedlessCharge					= mod:NewSpecialWarningSoon(331212, nil, nil, nil, 2, 2)
 local yellHatefulGaze							= mod:NewShortYell(331209)
 local yellHatefulGazeFades						= mod:NewShortFadesYell(331209)
 local specWarnChainLink							= mod:NewSpecialWarningYou(335300, nil, nil, nil, 1, 2)
-local yellChainLink								= mod:NewIconRepeatYell(335300, DBM_CORE_L.AUTO_YELL_ANNOUNCE_TEXT.shortyell)
+local yellChainLink								= mod:NewIconRepeatYell(335300, DBM_CORE_L.AUTO_YELL_ANNOUNCE_TEXT.shortyell, false, 2)
 local specWarnChainSlam							= mod:NewSpecialWarningYou(335470, nil, nil, nil, 1, 2)
+local specWarnChainSlamPartner					= mod:NewSpecialWarningTarget(335470, nil, nil, nil, 1, 2)
 local yellChainSlam								= mod:NewShortYell(335470, nil, nil, nil, "YELL")
 local yellChainSlamFades						= mod:NewShortFadesYell(335470, nil, nil, nil, "YELL")
-local specWarnDestructiveStomp					= mod:NewSpecialWarningRun(332318, "Melee", nil, nil, 4, 2)
-local specWarnColossalRoar						= mod:NewSpecialWarningSpell(332687, nil, nil, nil, 2, 2)
+local specWarnDestructiveStomp					= mod:NewSpecialWarningRun(332318, "Melee", 247733, nil, 4, 2)
+local specWarnColossalRoar						= mod:NewSpecialWarningSpell(332687, nil, 226056, nil, 2, 2)
 local specWarnFallingRubble						= mod:NewSpecialWarningDodge(332572, nil, nil, nil, 2, 2)
 local specWarnSiesmicShift						= mod:NewSpecialWarningMoveAway(340817, nil, nil, nil, 2, 2, 4)
 --local specWarnGTFO							= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
 
 --All timers outside of stun and gaze will use keep arg so timers remain visible if they come off CD during gaze stun
-local timerHatefulGazeCD						= mod:NewCDCountTimer(68.1, 331209, nil, nil, nil, 3, nil, DBM_CORE_L.IMPORTANT_ICON, nil, 1, 4)
-local timerStunnedImpact						= mod:NewTargetTimer(12, 331314, nil, nil, nil, 5, nil, DBM_CORE_L.DAMAGE_ICON)
-local timerChainLinkCD							= mod:NewCDCountTimer(68.1, 335300, nil, nil, nil, 3, nil, nil, true)
+local timerHatefulGazeCD						= mod:NewCDCountTimer(68.9, 331209, nil, nil, nil, 3, nil, DBM_CORE_L.IMPORTANT_ICON, nil, 1, 4)
+local timerStunnedImpact						= mod:NewBuffActiveTimer(12, 331314, nil, nil, nil, 5, nil, DBM_CORE_L.DAMAGE_ICON)
+local timerChainLinkCD							= mod:NewCDCountTimer(68.9, 335300, nil, nil, nil, 3, nil, nil, true)
 local timerChainSlamCD							= mod:NewCDCountTimer(68.9, 335354, nil, nil, nil, 3, nil, nil, true)
-local timerDestructiveStompCD					= mod:NewCDCountTimer(44.3, 332318, nil, nil, nil, 3, nil, nil, true)
-local timerFallingRubbleCD						= mod:NewCDCountTimer(67.8, 332572, nil, nil, nil, 3, nil, nil, true)
-local timerColossalRoarCD						= mod:NewCDCountTimer(44.3, 332687, nil, nil, nil, 2, nil, nil, true)--30 and 36 alternating with slight variation, unless a gaze stun that's off schedule (do to mythci energy gain) messes up rotation
+local timerDestructiveStompCD					= mod:NewCDCountTimer(44.3, 332318, 247733, nil, nil, 3, nil, nil, true)
+local timerFallingRubbleCD						= mod:NewCDCountTimer(68.9, 332572, nil, nil, nil, 3, nil, nil, true)
+local timerColossalRoarCD						= mod:NewCDCountTimer(44.3, 332687, 226056, nil, nil, 2, nil, nil, true)--30 and 36 alternating with slight variation, unless a gaze stun that's off schedule (do to mythci energy gain) messes up rotation
 local timerSiesmicShiftCD						= mod:NewCDCountTimer(34, 340817, nil, nil, nil, 3, nil, DBM_CORE_L.MYTHIC_ICON, true)--Mythic
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
@@ -78,12 +79,13 @@ mod.vb.rubbleCount = 0
 mod.vb.shiftCount = 0
 local ChainLinkTargets = {}
 local playerName = UnitName("player")
+local playerPartner = nil
 local SiesmicTimers = {18.4, 25.5, 29.3, 12.9, 25.5, 30.2, 12.6, 25.5, 30.1, 13.6}
 
 local function ChainLinkYellRepeater(self, text, runTimes)
 	yellChainLink:Yell(text)
 	runTimes = runTimes + 1
-	if runTimes < 4 then
+	if runTimes < 3 then
 		self:Schedule(2, ChainLinkYellRepeater, self, text, runTimes)
 	end
 end
@@ -95,10 +97,11 @@ function mod:OnCombatStart(delay)
 	self.vb.linkCount = 0
 	self.vb.chainSlamCount = 0
 	self.vb.rubbleCount = 0
+	playerPartner = nil
 	table.wipe(ChainLinkTargets)
 	timerChainLinkCD:Start(4.7-delay, 1)
 	timerFallingRubbleCD:Start(12.5-delay, 1)
-	timerDestructiveStompCD:Start(18.3-delay, 1)
+	timerDestructiveStompCD:Start(18.2-delay, 1)
 --	timerColossalRoarCD:Start(1-delay)--Cast instantly on pull
 	timerChainSlamCD:Start(28.3-delay, 1)
 	timerHatefulGazeCD:Start(50.1-delay, 1)
@@ -128,8 +131,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnDestructiveStomp:Show()
 		specWarnDestructiveStomp:Play("justrun")
 		--Heroic
-		--pull:22.4, 23.3, 44.2, 23.1, 45.5, 22.0, 45.3, 22.1"
-		--pull:27.0, 22.1, 44.6, 22.1, 44.2, 22.1, 47.1, 22.6, 45.2, 23.1"
+		--pull:18.2, 25.9, 44.6, 25.5, 44.9, 25.5, 45.0, 25.3, 44.0", -- [2]
 		--Mythic
 		--pull:18.6, 25.5, 43.4, 25.5, 43.8, 25.5, 43.7", -- [2]
 		if self.vb.stompCount % 2 == 0 then
@@ -177,7 +179,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 331314 then
 		warnStunnedImpact:Show(args.destName)
-		timerStunnedImpact:Start(args.destName)
+		timerStunnedImpact:Start()
 	elseif spellId == 342420 then--spellId == 342419 or
 		--Combat log order is all 342419 first, then all 342420
 		--Update, both spell Ids now have source and des names, so can just ignore one spell Id entirely and apply source/dest to check for pairs
@@ -189,17 +191,29 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnChainLink:Show(args.destName)
 			specWarnChainLink:Play("gather")
 			playerIsInPair = true
+			playerPartner = args.destName
 		elseif args.destName == playerName then
 			specWarnChainLink:Show(args.sourceName)
 			specWarnChainLink:Play("gather")
 			playerIsInPair = true
+			playerPartner = args.sourceName
 		end
 		if playerIsInPair then
-			--On mythic, two pairs won't have an icon available, so we just assign it SOMETHING
+			--need to account for up to 30 people (15 pairs)
 			if icon == 9 then
 				icon = "(°,,°)"
 			elseif icon == 10 then
 				icon = "(•_•)"
+			elseif icon == 11 then
+				icon = "(ಥ﹏ಥ)"
+			elseif icon == 12 then
+				icon = "(ツ)"
+			elseif icon == 13 then
+				icon = "ʕ•ᴥ•ʔ"
+			elseif icon == 14 then
+				icon = "ಠ_ಠ"
+			elseif icon == 15 then
+				icon = "(͡°͜°)"
 			end
 			self:Unschedule(ChainLinkYellRepeater)
 			if type(icon) == "number" then icon = DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION:format(icon, "") end
@@ -214,11 +228,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnChainSlam:Play("targetyou")
 			yellChainSlam:Yell()
 			yellChainSlamFades:Countdown(4)--Can't auto pull from spellId
+		elseif playerPartner and playerPartner == args.destName then
+			specWarnChainSlamPartner:Show(args.destName)
+			specWarnChainSlamPartner:Play("gathershare")
 		else
 			warnChainSlam:Show(args.destName)
 		end
---	elseif spellId == 341294 then
---		warnVengefulRage:Show(args.destName)
+	elseif spellId == 341250 then
+		warnGruesomeRage:Show(args.destName)
 	elseif spellId == 340817 then
 		if self:AntiSpam(8, 9) then
 			self.vb.shiftCount = self.vb.shiftCount + 1
@@ -251,6 +268,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 342419 or spellId == 342420 then--Both spellIds checked on purpose here for personal removal
 		if args:IsPlayer() then
 			self:Unschedule(ChainLinkYellRepeater)
+			playerPartner = nil
 		end
 	elseif spellId == 340817 then
 		if args:IsPlayer() then
@@ -290,6 +308,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		specWarnFallingRubble:Play("watchstep")
 		timerFallingRubbleCD:Start(67.8, self.vb.rubbleCount+1)
 	elseif spellId == 335354 then--Chain Slam
-		timerChainSlamCD:Start(68.9)
+		self.vb.chainSlamCount = self.vb.chainSlamCount + 1
+		timerChainSlamCD:Start(68.9, self.vb.chainSlamCount+1)
 	end
 end

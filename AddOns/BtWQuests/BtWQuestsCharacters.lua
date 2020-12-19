@@ -296,6 +296,9 @@ end
 function BtWQuestsCharactersCharacterMixin:IsCovenant(id)
     return self:GetCovenant() == id
 end
+function BtWQuestsCharactersCharacterMixin:InCovenants(ids)
+    return ArrayContains(ids, self:GetCovenant())
+end
 function BtWQuestsCharactersCharacterMixin:GetChromieTimeID()
     return self.t.chromieTimeID or 0
 end

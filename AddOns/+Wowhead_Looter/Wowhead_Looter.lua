@@ -3,15 +3,15 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 9.0.1                     --
---    Updated: October 23, 2020        --
+--    Patch: 9.0.2                     --
+--    Updated: December 9, 2020        --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 90001;
+local WL_VERSION = 90002;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -269,6 +269,14 @@ local WL_LOOT_TOAST_NOSPELL =
     [173419] = true,
     [173420] = true,
     [173423] = true,
+
+    -- 9.0
+    [181372] = true,
+    [181476] = true,
+    [181556] = true,
+    [181741] = true,
+    [181732] = true,
+    [181733] = true,
 };
 
 local WL_REP_MODS = {
@@ -520,6 +528,9 @@ local WL_DAILY_NPCS = {
     '143762', '143764', '143763', '143757', '143754', '143756', '143755', '143761', '143760', '137438', '131261', '137608', '131246', '143759', '143758', '137439', '143753', -- seafarer's dubloon vendors
     -- Mechagon daily visitors
     '151007', '151936', '152499', '152501', '154335', '154967', '154982', '155187', '155254', '155357', '155450',
+
+    -- Night Fae Amphitheater
+    '166135', '166138', '166139', '166140', '166142', '166145', '166146',
 };
 
 -- dungeon difficulty -> npcs we're looking for in that difficulty
@@ -545,6 +556,19 @@ local WL_DAILY_VENDOR_ITEMS = { 141713, 141861, 141884, 141860, 141712, 141862, 
 local WL_WORLD_QUEST_EMISSARY_MAPS = {
     627, -- Dalaran - pick up Legion emissaries
     875, -- Zandalar - pick up BFA emissaries
+}
+
+local WL_BASTION_STEWARD_OF_THE_DAY = {
+    ['33.8,66.9'] = 170292, -- Wylia
+    ['26.0,32.7'] = 171329, -- Ioanna
+    ['46.9,59.1'] = 170462, -- Burnsios
+    ['60.6,62.1'] = 170471, -- Platnos
+    ['45.0,64.5'] = 170491, -- Pagius
+    ['52.5,86.3'] = 170508, -- Alexandros
+    ['56.3,78.0'] = 170509, -- Chaddius
+    ['42.2,27.7'] = 171113, -- Angeliki
+    ['52.9,9.2']  = 171132, -- Covinkles
+    ['71.2,37.6'] = 171330, -- Giannakis
 }
 
 -- Speed optimizations
@@ -664,7 +688,6 @@ local wlTrackerClearedTime = 0;
 local wlChatLootIsBlocked = false;
 local wlLastShipmentContainer = nil;
 local wlLockedID = nil;
-local wlEventFrame;
 local wlCallings;
 
 -- Hooks
@@ -2567,6 +2590,7 @@ local wlSpells = {
     Archaeology = { GetSpellInfo(73979) or "", WL_OBJECT, 1 },
     Logging = { GetSpellInfo(167895) or "", WL_OBJECT, nil },
     Scrapping = { GetSpellInfo(WL_SPELL_SCRAPPING) or "", WL_ITEM, 1 },
+    Collecting = { GetSpellInfo(214766) or "", WL_OBJECT, 2 },
     -- BeastLore = { GetSpellInfo(1462) or "", WL_NPC, nil },
     -- PickLocking = { GetSpellInfo(1804) or "", WL_OBJECT, 1 },
 };
@@ -4290,15 +4314,9 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 --[[
--- Event handler for VIGNETTES_UPDATED, which fires after the game client gathered vignettes in the current zone. This
--- fires about once per second as long as you're in a zone with vignettes, and not at all in zones without vignettes,
--- so we dynamically register/unregister for this event with every zone change.
+-- Event handler for VIGNETTES_UPDATED, which fires after the game client gathered vignettes in the current zone.
 ]]
 function wlEvent_VIGNETTES_UPDATED()
-    if wlEventFrame then
-        wlEventFrame:UnregisterEvent('VIGNETTES_UPDATED');
-    end
-
     wlCheckTorghastWings();
 end
 
@@ -4306,10 +4324,7 @@ end
 
 function wlEvent_ZONE_CHANGED()
     wlLocTooltipFrame_OnUpdate();
-    if wlEventFrame then
-        -- This vignettes event fires every second in zones with them, so we dynamically register and unregister it.
-        wlEventFrame:RegisterEvent('VIGNETTES_UPDATED');
-    end
+    wlCheckTorghastWings();
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4317,6 +4332,34 @@ end
 function wlEvent_CHALLENGE_MODE_UPDATE()
     wlCheckMythicAffixes();
 end
+
+
+function wlCheckStewardOfTheDay()
+    -- Bastion Steward of the day tracking
+    local uiMapId = C_Map.GetBestMapForUnit("player");
+    if uiMapId ~= 1533 then
+        return;
+    end
+    local poiId = C_GossipInfo.GetPoiForUiMapID(uiMapId);
+    if (poiId) then
+        local poiInfo = C_GossipInfo.GetPoiInfo(uiMapId, poiId);
+        if (poiInfo and poiInfo.position) then
+            local key = ('%.1f,%.1f'):format(poiInfo.position.x * 100, poiInfo.position.y * 100);
+            local npcId = WL_BASTION_STEWARD_OF_THE_DAY[key];
+            if (npcId) then
+                wlSeenDaily('n' .. npcId);
+            end
+        end
+    end
+end
+
+--[[
+-- Event handler for DYNAMIC_GOSSIP_POI_UPDATED, which fires when a flag is placed on the map.
+]]
+function wlEvent_DYNAMIC_GOSSIP_POI_UPDATED()
+    wlCheckStewardOfTheDay();
+end
+
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
@@ -4360,6 +4403,7 @@ local wlEvents = {
     TRAINER_SHOW = wlEvent_TRAINER_SHOW,
     COMBAT_LOG_EVENT_UNFILTERED = wlEvent_COMBAT_LOG_EVENT_UNFILTERED,
     UPDATE_MOUSEOVER_UNIT = wlEvent_UPDATE_MOUSEOVER_UNIT,
+    DYNAMIC_GOSSIP_POI_UPDATED = wlEvent_DYNAMIC_GOSSIP_POI_UPDATED,
 
     -- drops
     LOOT_OPENED = wlEvent_LOOT_OPENED,
@@ -4810,7 +4854,6 @@ function wl_OnLoad(self)
 
     wlCreateFrames();
 
-    wlEventFrame = self;
     for event, _ in pairs(wlEvents) do
         self:RegisterEvent(event);
     end

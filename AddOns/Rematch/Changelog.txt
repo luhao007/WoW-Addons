@@ -1,3 +1,8 @@
+12/05/2020 version 4.11.9
+- Added world quests Cliffs of Bastion and Mega Bite to targets.
+- Added the ten "Abhorrent Adversaries of the Afterlife" legendary pets to targets.
+- Changed mask method for pet card icons to fix lua error for pets with non-standard icon sizes.
+
 11/24/2020 version 4.11.8
 - toc update.
 

@@ -134,6 +134,7 @@ credits[FBConstants.ROLE_HELP_BUGS] = {
 	["Dakhran"] = { "Frame backdrop fix" },
 	["RatiaSnowFur"] = { "Fix for Fishing skill lookup" },
 	["CptTibas"] = { "Gossip options fix" },
+	["hanzo79"] = { "Auto-interact value fix" },
 };
 
 -- Ideas and suggestions

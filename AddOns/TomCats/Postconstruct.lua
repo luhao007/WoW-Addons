@@ -84,7 +84,7 @@ SlashCmdList["TOMCATS"] = handleSlashCommand
 local slashCommandsHtmlHead = "<html>\n<body>\n<h1>Slash Commands</h1>\n<br />\n"
 local slashCommandHtmlTemplate = "<h3>%s:</h3>\n<p>/TOMCATS %s</p>\n<br />\n"
 local slashCommandsHtmlFoot = "</body>\n</html>"
-TomCats.version = unpack(addon.split("2.0.27","-"))
+TomCats.version = unpack(addon.split("2.0.29","-"))
 local function refreshInterfaceControlPanels()
 	local slashCommandsHtml = slashCommandsHtmlHead
 	slashCommandsHtml = slashCommandsHtml .. format(slashCommandHtmlTemplate, "Open the TomCat's Tours Control Panel", "")
@@ -162,9 +162,8 @@ local function ChangeMap(self)
 		TomCatsRareMapFrame.RaresFrame:Show()
 	end
 end
-VignettePinMixin.OnAcquired_Orig = VignettePinMixin.OnAcquired
-function VignettePinMixin:OnAcquired(vignetteGUID, vignetteInfo)
-	self:OnAcquired_Orig(vignetteGUID, vignetteInfo)
+
+local function fixIconSize(self, vignetteGUID, vignetteInfo)
 	if vignetteInfo and vignetteInfo.atlasName and (vignetteInfo.atlasName == "VignetteKill" or vignetteInfo.atlasName == "Capacitance-General-WorkOrderCheckmark" or vignetteInfo.atlasName == "VignetteEventElite") then
 		self.Texture:SetAtlas(vignetteInfo.atlasName, false)
 		self.HighlightTexture:SetAtlas(vignetteInfo.atlasName, false)
@@ -173,6 +172,9 @@ function VignettePinMixin:OnAcquired(vignetteGUID, vignetteInfo)
 		self.HighlightTexture:SetSize(x * 0.8, y * 0.8)
 	end
 end
+
+hooksecurefunc(VignettePinMixin,"OnAcquired", fixIconSize)
+
 local function ADDON_LOADED(_, _, arg1)
 	if (arg1 == addonName) then
 		addon.events.unregisterEvent("ADDON_LOADED", ADDON_LOADED)

@@ -15,6 +15,7 @@ TITAN_REGISTER_FAILED = _G["RED_FONT_COLOR_CODE"].."Failed_to_Register".._G["FON
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local media = LibStub("LibSharedMedia-3.0")
+local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 -- The LibUIDropDownMenu lib is used over the Blizzard frame
 local drop_down_1 = "L_DropDownList1" 
@@ -702,7 +703,7 @@ function TitanPanelRightClickMenu_AddTitle(title, level)
 		info.notCheckable = true;
 		info.notClickable = true;
 		info.isTitle = 1;
-		L_UIDropDownMenu_AddButton(info, level);
+		DDM:UIDropDownMenu_AddButton(info, level);
 	end
 end
 
@@ -727,7 +728,7 @@ function TitanPanelRightClickMenu_AddCommand(text, value, functionName, level)
 			callback(value)
 		end
 	end
-	L_UIDropDownMenu_AddButton(info, level);
+	DDM:UIDropDownMenu_AddButton(info, level);
 end
 
 --[[ API
@@ -741,7 +742,7 @@ function TitanPanelRightClickMenu_AddSpacer(level)
 	info.notCheckable = true;
 	info.notClickable = true;
 	info.disabled = 1;
-	L_UIDropDownMenu_AddButton(info, level);
+	DDM:UIDropDownMenu_AddButton(info, level);
 end
 
 --[[ API
@@ -773,7 +774,7 @@ function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable, level
 	end
 	info.checked = TitanGetVar(id, var);
 	info.keepShownOnClick = 1;
-	L_UIDropDownMenu_AddButton(info, level);
+	DDM:UIDropDownMenu_AddButton(info, level);
 end
 
 --[[ API
@@ -827,7 +828,7 @@ function TitanPanelRightClickMenu_AddHide(id, level)
 	info.func = function()
 		TitanPanelRightClickMenu_Hide(id)
 	end
-	L_UIDropDownMenu_AddButton(info, level);
+	DDM:UIDropDownMenu_AddButton(info, level);
 end
 
 --[[ API
@@ -1208,7 +1209,7 @@ function TitanUtils_PluginToRegister(self, isChildButton)
 	Old way was to use the XML file to declare the frame, now it needs to be in Lua
 	<Frame name="$parentRightClickMenu" inherits="L_UIDropDownMenuTemplate" id="1" hidden="true"></Frame>
 	--]]
-	local f = L_Create_UIDropDownMenu(self:GetName().."RightClickMenu", self)
+	local f = DDM:Create_UIDropDownMenu(self:GetName().."RightClickMenu", self)
 end
 
 --[[ Titan
@@ -1535,7 +1536,7 @@ local function TitanRightClickMenu_OnLoad(self)
 	if id then
 		local prepareFunction = _G["TitanPanelRightClickMenu_Prepare"..id.."Menu"]
 		if prepareFunction and type(prepareFunction) == "function" then
-			L_UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
+			DDM:UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
 		end
 	else
 		-- TitanDebug("Could not display tooltip. "
@@ -1567,7 +1568,7 @@ local function TitanDisplayRightClickMenu_OnLoad(self, func)
 		-- not good practice but there seems to be no other way to get
 		-- the actual bar (frame parent) to the dropdown implementation
 		TitanPanel_DropMenu = self
-		L_UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
+		DDM:UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
 	end
 end
 
@@ -1617,7 +1618,7 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 
 	x, y, scale = TitanRightClick_UIScale()
 
-	L_ToggleDropDownMenu(1, nil, menu, frame, TitanUtils_Max(x - 40, 0), 0, nil, self);
+	DDM:ToggleDropDownMenu(1, nil, menu, frame, TitanUtils_Max(x - 40, 0), 0, nil, self);
 end
 
 --[[ Titan
@@ -1657,7 +1658,7 @@ function TitanPanelDisplayRightClickMenu_Toggle(self, isChildButton)
 	else
 		-- need to create the frame
 		-- The _G is needed but it is explicit & shows what needs to done
-		_G[desired_frame] = L_Create_UIDropDownMenu(desired_frame, self)
+		_G[desired_frame] = DDM:Create_UIDropDownMenu(desired_frame, self)
 	end
 	menu = _G[desired_frame];
 	
@@ -1674,7 +1675,7 @@ function TitanPanelDisplayRightClickMenu_Toggle(self, isChildButton)
 
 	x, y, scale = TitanRightClick_UIScale()
 
-	L_ToggleDropDownMenu(1, nil, menu, frame, TitanUtils_Max(x - 40, 0), 0, nil, self)
+	DDM:ToggleDropDownMenu(1, nil, menu, frame, TitanUtils_Max(x - 40, 0), 0, nil, self)
 end
 
 --[[ Titan

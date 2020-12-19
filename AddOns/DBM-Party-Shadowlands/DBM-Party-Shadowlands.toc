@@ -13,6 +13,8 @@
 ## X-DBM-StatTypes: normal,heroic,mythic,challenge
 ## X-DBM-Mod-SubCategoriesID: 2286, 2289, 2290, 2287, 2285, 2293, 2291, 2284
 ## X-DBM-Mod-Name: Dungeons (Shadowlands)
+## X-DBM-Mod-Name-esES: Mazmorras (Shadowlands)
+## X-DBM-Mod-Name-esMX: Mazmorras (Shadowlands)
 ## X-DBM-Mod-Name-koKR: 던전 (어둠땅)
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (暗影之境)
 ## X-DBM-Mod-Name-zhCN: 5人小队（暗影国度）

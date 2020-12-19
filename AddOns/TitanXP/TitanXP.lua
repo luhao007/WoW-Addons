@@ -1,7 +1,7 @@
 -- **************************************************************************
 -- * TitanXP.lua
 -- *
--- * By: TitanMod, Dark Imakuni, Adsertor and the Titan Panel Development Team
+-- * By: The Titan Panel Development Team
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
@@ -14,6 +14,7 @@ local TitanPanelXPButton_ButtonAdded = nil;
 local found = nil;
 local lastMobXP, lastXP, XPGain = 0, 0, 0
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 -- ******************************** Functions *******************************
 
 --[[
@@ -350,52 +351,52 @@ function TitanPanelRightClickMenu_PrepareXPMenu()
 		info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_XP_ID, "ShowSimpleRested"}) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleRested"), 1, nil);
 		info.keepShownOnClick = 1;
-		L_UIDropDownMenu_AddButton(info, 2);
+		DDM:UIDropDownMenu_AddButton(info, 2);
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"];
 		info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_XP_ID, "ShowSimpleToLevel"}) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleToLevel"), 1, nil);
 		info.keepShownOnClick = 1;
-		L_UIDropDownMenu_AddButton(info, 2);
+		DDM:UIDropDownMenu_AddButton(info, 2);
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"];
 		info.func = function() TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", true) TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleNumOfKills"), 1, nil);
-		L_UIDropDownMenu_AddButton(info, 2);
+		DDM:UIDropDownMenu_AddButton(info, 2);
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"];
 		info.func = function() TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", true) TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", false) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleNumOfGains"), 1, nil);
-		L_UIDropDownMenu_AddButton(info, 2);
+		DDM:UIDropDownMenu_AddButton(info, 2);
 	else
 		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_XP_ID].menuText);
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"];
 		info.func = TitanPanelXPButton_ShowXPPerHourSession;
 		info.checked = TitanUtils_Ternary("ShowXPPerHourSession" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		L_UIDropDownMenu_AddButton(info);
+		DDM:UIDropDownMenu_AddButton(info);
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL"];
 		info.func = TitanPanelXPButton_ShowXPPerHourLevel;
 		info.checked = TitanUtils_Ternary("ShowXPPerHourLevel" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		L_UIDropDownMenu_AddButton(info);
+		DDM:UIDropDownMenu_AddButton(info);
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_SESSION_TIME"];
 		info.func = TitanPanelXPButton_ShowSessionTime;
 		info.checked = TitanUtils_Ternary("ShowSessionTime" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		L_UIDropDownMenu_AddButton(info);
+		DDM:UIDropDownMenu_AddButton(info);
  
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"];
 		info.func = TitanPanelXPButton_ShowXPSimple;
 		info.hasArrow = 1;
 		info.checked = TitanUtils_Ternary("ShowXPSimple" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		L_UIDropDownMenu_AddButton(info);
+		DDM:UIDropDownMenu_AddButton(info);
 
 		TitanPanelRightClickMenu_AddSpacer();
 		TitanPanelRightClickMenu_AddCommand(L["TITAN_XP_MENU_RESET_SESSION"], TITAN_XP_ID, "TitanPanelXPButton_ResetSession");
@@ -413,14 +414,14 @@ function TitanPanelRightClickMenu_PrepareXPMenu()
 		info.func = function()
 			Seperator("UseSeperatorComma")
 		end
-	L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+	DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 	local info = {};
 	info.text = L["TITAN_USE_PERIOD"];
 	info.checked = TitanGetVar(TITAN_XP_ID, "UseSeperatorPeriod");
 	info.func = function()
 		Seperator("UseSeperatorPeriod")
 	end
-	L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+	DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_XP_ID, TITAN_PANEL_MENU_FUNC_HIDE);

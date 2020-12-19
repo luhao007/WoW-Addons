@@ -224,12 +224,11 @@ local npcs = {
 function PetTamerPinMixin:OnAcquired(poiInfo) -- override
 	if (poiInfo and poiInfo.name) then
 		if npcs[poiInfo.name] and npcs[poiInfo.name].QuestID then
-			local q=GetQuestsCompleted();
+			local com=C_QuestLog.IsComplete(npcs[poiInfo.name].QuestID);
 
-			local com = q[tonumber(npcs[poiInfo.name].QuestID)]
 			poiInfo.description = (com and " |cffffff00完成|r" or " |cffff0000未完成|r")
 			if com then
-				poiInfo.textureIndex=189;
+				poiInfo.textureIndex=188;
 			end
 		end
 	end

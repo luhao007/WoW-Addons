@@ -121,7 +121,7 @@
 		</Scripts>
 	</Button>
 
-	<Frame name="ItemRackOptSubFrameTemplate" hidden="true" virtual="true">
+	<Frame name="ItemRackOptSubFrameTemplate" hidden="true" virtual="true" inherits="BackdropTemplate">
 		<Size>
 			<AbsDimension x="194" y="282"/>
 		</Size>
@@ -132,12 +132,10 @@
 				</Offset>
 			</Anchor>
 		</Anchors>
-		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-			<EdgeSize>
-				<AbsValue val="16" />
-			</EdgeSize>
-			<BorderColor r=".3" g=".3" b=".3"/>
-		</Backdrop>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+			<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+		</KeyValues>
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -391,24 +389,16 @@
 		</Scripts>
 	</EditBox>
 
-	<Slider name="ItemRackOptSliderTemplate" orientation="HORIZONTAL" enableMouse="true" virtual="true">
+	<Slider name="ItemRackOptSliderTemplate" orientation="HORIZONTAL" enableMouse="true" virtual="true" inherits="BackdropTemplate">
 		<Size>
 			<AbsDimension x="96" y="17"/>
 		</Size>
 		<HitRectInsets>
 			<AbsInset left="0" right="0" top="-5" bottom="-5"/>
 		</HitRectInsets>
-		<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
-			<EdgeSize>
-				<AbsValue val="8"/>
-			</EdgeSize>
-			<TileSize>
-				<AbsValue val="8"/>
-			</TileSize>
-			<BackgroundInsets>
-				<AbsInset left="3" right="3" top="6" bottom="6"/>
-			</BackgroundInsets>
-		</Backdrop>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_SLIDER_8_8" type="global"/>
+		</KeyValues>
 		<Layers>
 			<Layer level="ARTWORK">
 				<FontString name="$parentMin" inherits="GameFontHighlightSmall" text="0">
@@ -826,7 +816,7 @@
 	</Button>
 
 
-	<Frame name="ItemRackOptFrame" hidden="true" movable="true" enableMouse="true" toplevel="true">
+	<Frame name="ItemRackOptFrame" hidden="true" movable="true" enableMouse="true" toplevel="true" inherits="BackdropTemplate">
 		<Size>
 			<AbsDimension x="288" y="348"/>
 		</Size>
@@ -837,18 +827,10 @@
 				</Offset>
 			</Anchor>
 		</Anchors>
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="4" right="4" top="4" bottom="4" />
-			</BackgroundInsets>
-			<TileSize>
-				<AbsValue val="16" />
-			</TileSize>
-			<EdgeSize>
-				<AbsValue val="16" />
-			</EdgeSize>
-			<BorderColor r=".5" g=".5" b=".5"/>
-		</Backdrop>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_ITEMRACK_16_16" type="global"/>
+			<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR_5" type="global"/>
+		</KeyValues>
 		<Layers>
 			<Layer level="BACKGROUND">
 				<FontString name="ItemRackOptFrameTitle" inherits="SubSpellFont">
@@ -1142,7 +1124,7 @@
 							</Anchor>
 						</Anchors>
 					</Button>
-					<Frame name="ItemRackOptEventListFrame">
+					<Frame name="ItemRackOptEventListFrame" inherits="BackdropTemplate">
 						<Size>
 							<AbsDimension x="178" y="230"/>
 						</Size>
@@ -1153,12 +1135,10 @@
 								</Offset>
 							</Anchor>
 						</Anchors>
-						<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-							<EdgeSize>
-								<AbsValue val="16" />
-							</EdgeSize>
-							<BorderColor r=".3" g=".3" b=".3"/>
-						</Backdrop>
+						<KeyValues>
+							<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+							<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+						</KeyValues>
 						<Layers>
 							<Layer level="BACKGROUND">
 								<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -1499,7 +1479,7 @@
 						</Scripts>
 					</EditBox>
 
-					<Frame name="ItemRackOptSetsIconFrame">
+					<Frame name="ItemRackOptSetsIconFrame" inherits="BackdropTemplate">
 						<Size>
 							<AbsDimension x="178" y="156"/>
 						</Size>
@@ -1510,12 +1490,10 @@
 								</Offset>
 							</Anchor>
 						</Anchors>
-						<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-							<EdgeSize>
-								<AbsValue val="16" />
-							</EdgeSize>
-							<BorderColor r=".3" g=".3" b=".3"/>
-						</Backdrop>
+						<KeyValues>
+							<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+							<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+						</KeyValues>
 						<Layers>
 							<Layer level="BACKGROUND">
 								<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -1779,7 +1757,7 @@
 					</Layer>
 				</Layers>
 				<Frames>
-					<Frame>
+					<Frame inherits="BackdropTemplate">
 						<Size>
 							<AbsDimension x="178" y="256"/>
 						</Size>
@@ -1790,12 +1768,10 @@
 								</Offset>
 							</Anchor>
 						</Anchors>
-						<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-							<EdgeSize>
-								<AbsValue val="16" />
-							</EdgeSize>
-							<BorderColor r=".3" g=".3" b=".3"/>
-						</Backdrop>
+						<KeyValues>
+							<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+							<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+						</KeyValues>
 						<Layers>
 							<Layer level="BACKGROUND">
 								<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -2110,7 +2086,7 @@
 							</OnClick>
 						</Scripts>
 					</CheckButton>
-					<Frame>
+					<Frame inherits="BackdropTemplate">
 						<Size>
 							<AbsDimension x="228" y="280"/>
 						</Size>
@@ -2121,12 +2097,10 @@
 								</Offset>
 							</Anchor>
 						</Anchors>
-						<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-							<EdgeSize>
-								<AbsValue val="16" />
-							</EdgeSize>
-							<BorderColor r=".3" g=".3" b=".3"/>
-						</Backdrop>
+						<KeyValues>
+							<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+							<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+						</KeyValues>
 						<Layers>
 							<Layer level="BACKGROUND">
 								<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -2526,7 +2500,7 @@
 						</Anchors>
 					</Button>
 
-					<Frame name="ItemRackOptEventEditPickTypeFrame" frameStrata="HIGH" hidden="true">
+					<Frame name="ItemRackOptEventEditPickTypeFrame" frameStrata="HIGH" hidden="true" inherits="BackdropTemplate">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativeTo="ItemRackOptEventEditTypeDrop" relativePoint="BOTTOMLEFT">
 								<Offset x="-11" y="0"/>
@@ -2535,12 +2509,10 @@
 								<Offset x="9" y="-86"/>
 							</Anchor>
 						</Anchors>
-						<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-							<EdgeSize>
-								<AbsValue val="16" />
-							</EdgeSize>
-							<BorderColor r=".3" g=".3" b=".3"/>
-						</Backdrop>
+						<KeyValues>
+							<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+							<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+						</KeyValues>
 						<Layers>
 							<Layer level="BACKGROUND">
 								<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -2588,7 +2560,7 @@
 							</Button>
 						</Frames>
 						<Scripts>
-							<OnLoad>
+							<OnLoad inherit="prepend">
 								self.timer = 0
 							</OnLoad>
 							<OnUpdate>
@@ -2749,7 +2721,7 @@
 							</Layer>
 						</Layers>
 						<Frames>
-							<Frame name="ItemRackOptEventEditZoneEditBackdrop">
+							<Frame name="ItemRackOptEventEditZoneEditBackdrop" inherits="BackdropTemplate">
 								<Size>
 									<AbsDimension x="170" y="116"/>
 								</Size>
@@ -2760,12 +2732,10 @@
 										</Offset>
 									</Anchor>
 								</Anchors>
-								<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-									<EdgeSize>
-										<AbsValue val="16" />
-									</EdgeSize>
-									<BorderColor r=".3" g=".3" b=".3"/>
-								</Backdrop>
+								<KeyValues>
+									<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+									<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+								</KeyValues>
 								<Layers>
 									<Layer level="BACKGROUND">
 										<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -2892,7 +2862,7 @@
 									</Anchor>
 								</Anchors>
 							</EditBox>
-							<Frame name="ItemRackOptEventEditScriptEditBackdrop">
+							<Frame name="ItemRackOptEventEditScriptEditBackdrop" inherits="BackdropTemplate">
 								<Size>
 									<AbsDimension x="170" y="96"/>
 								</Size>
@@ -2903,12 +2873,10 @@
 										</Offset>
 									</Anchor>
 								</Anchors>
-								<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
-									<EdgeSize>
-										<AbsValue val="16" />
-									</EdgeSize>
-									<BorderColor r=".3" g=".3" b=".3"/>
-								</Backdrop>
+								<KeyValues>
+									<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_0_16" type="global"/>
+									<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+								</KeyValues>
 								<Layers>
 									<Layer level="BACKGROUND">
 										<Texture file="Interface\ChatFrame\ChatFrameBackground">
@@ -3007,7 +2975,7 @@
 			</Frame>
 		</Frames>
 		<Scripts>
-			<OnLoad>
+			<OnLoad inherit="prepend">
 				ItemRackOpt.OnLoad(self)
 				ItemRack.testLoaded = 1
 			</OnLoad>
@@ -3024,25 +2992,17 @@
 	</Frame>
 
 
-	<Frame name="ItemRackFloatingEditor" parent="UIParent" movable="true" resizable="true" enableMouse="true" toplevel="true" hidden="true">
+	<Frame name="ItemRackFloatingEditor" parent="UIParent" movable="true" resizable="true" enableMouse="true" toplevel="true" hidden="true" inherits="BackdropTemplate">
 		<Size>
 			<AbsDimension x="400" y="300"/>
 		</Size>
 		<Anchors>
 			<Anchor point="CENTER"/>
 		</Anchors>
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="4" right="4" top="4" bottom="4" />
-			</BackgroundInsets>
-			<TileSize>
-				<AbsValue val="16" />
-			</TileSize>
-			<EdgeSize>
-				<AbsValue val="16" />
-			</EdgeSize>
-			<BorderColor r=".3" g=".3" b=".3"/>
-		</Backdrop>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_ITEMRACK_16_16" type="global"/>
+			<KeyValue key="backdropBorderColor" value="BACKDROP_ITEMRACK_COLOR" type="global"/>
+		</KeyValues>
 		<Layers>
 			<Layer level="ARTWORK">
 				<FontString name="ItemRackFloatingEditorTitle" font="GameFontHighlight" justifyH="LEFT" justifyV="CENTER" text="Event Script:">
@@ -3059,7 +3019,7 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<Frame name="ItemRackFloatingEditorEditFrame">
+			<Frame name="ItemRackFloatingEditorEditFrame" inherits="BackdropTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
@@ -3072,17 +3032,9 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
-					<BackgroundInsets>
-						<AbsInset left="3" right="3" top="6" bottom="6" />
-					</BackgroundInsets>
-					<TileSize>
-						<AbsValue val="16" />
-					</TileSize>
-					<EdgeSize>
-						<AbsValue val="9" />
-					</EdgeSize>
-				</Backdrop>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_ITEMRACK_OPTIONS_16_9" type="global"/>
+				</KeyValues>
 				<Frames>
 					<ScrollFrame name="ItemRackFloatingEditorScrollFrame" inherits="UIPanelScrollFrameTemplate">
 						<Anchors>
@@ -3144,7 +3096,7 @@
 					</ScrollFrame>
 				</Frames>
 				<Scripts>
-					<OnLoad>
+					<OnLoad inherit="prepend">
 						self:SetBackdropColor(.1,.1,.1,1)
 					</OnLoad>
 				</Scripts>
@@ -3250,7 +3202,7 @@
 			</Button>
 		</Frames>
 		<Scripts>
-			<OnLoad>
+			<OnLoad inherit="prepend">
 				self:SetMinResize(250,110)
 			</OnLoad>
 			<OnMouseDown>

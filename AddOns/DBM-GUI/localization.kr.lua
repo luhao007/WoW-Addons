@@ -21,16 +21,17 @@ L.BossModLoad_now 			= [[보스 모드가 로딩되지 않았습니다.
 해당 인스턴스에 진입하면 로딩됩니다.
 아래 버튼을 클릭해서 모드를 직접 로딩할 수도 있습니다.]]
 
-L.PosX						= '위치 X'
-L.PosY						= '위치 Y'
+L.PosX						= "위치 X"
+L.PosY						= "위치 Y"
 
-L.MoveMe 					= '위치 이동'
-L.Button_OK					= '확인'
-L.Button_Cancel				= '취소'
-L.Button_LoadMod			= '애드온 로드'
+L.MoveMe 					= "위치 이동"
+L.Button_OK					= "확인"
+L.Button_Cancel				= "취소"
+L.Button_LoadMod			= "애드온 로드"
 L.Mod_Enabled				= "보스 모드 활성화"
 L.Mod_Reset					= "설정 기본값 로드"
 L.Reset						= "초기화"
+L.Import					= "가져오기"
 
 L.Enable					= "활성화"
 L.Disable					= "비활성화"
@@ -130,6 +131,11 @@ L.SelectModProfileCopy		= "전체 설정 복사"
 L.SelectModProfileCopySound	= "음성 설정만 복사"
 L.SelectModProfileCopyNote	= "메모 설정만 복사"
 L.SelectModProfileDelete	= "모드 설정 삭제"
+
+L.Area_ImportExportProfile	= "프로필 가져오기/내보내기"
+L.ImportExportInfo			= "가져오기를 하면 현재 프로필 설정에 덮어씌우게 되니 주의하세요."
+L.ButtonImportProfile		= "프로필 가져오기"
+L.ButtonExportProfile		= "프로필 내보내기"
 
 -- Tab: Alerts
 L.TabCategory_Alerts	 	= "경고"

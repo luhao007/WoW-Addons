@@ -1,10 +1,10 @@
-lightweight tag 6295516cc25c49463f8336d5cb32dc87dfa33c60 v9.0.2-05
+lightweight tag f7e67db4ced21b62603e71aa8a9ffbc169e722a2 v9.0.2-15
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Mon Nov 23 12:04:22 2020 -0800
+Date:	Wed Dec 16 00:03:20 2020 -0800
 
-commit 6295516cc25c49463f8336d5cb32dc87dfa33c60
+commit f7e67db4ced21b62603e71aa8a9ffbc169e722a2
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Mon Nov 23 12:04:22 2020 -0800
+Date:   Wed Dec 16 00:03:20 2020 -0800
 
-    Do not build -nolib version, causing a lot of addon managers to download the wrong version of the addon
+    Clean up weapon token debugging
 

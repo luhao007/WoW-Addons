@@ -1,3 +1,11 @@
+__ New in 3.12 - By Kharthus __
+
+* TOC update for 9.0.2 patch
+
+__ New in 3.11 - By Kharthus __
+
+- Updates to support Shadowlands Pre-Patch
+
 __ New in 3.10 - By Kharthus __
 
 * TOC update for 8.3 patch

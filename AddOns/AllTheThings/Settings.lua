@@ -34,6 +34,7 @@ app.Settings = settings;
 settings.name = app:GetName();
 settings.MostRecentTab = nil;
 settings.Tabs = {};
+settings.ModifierKeys = { "None", "Shift", "Ctrl", "Alt" };
 settings:SetBackdrop({
 	bgFile = "Interface/RAIDFRAME/UI-RaidFrame-GroupBg",
 	edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -135,6 +136,7 @@ local TooltipSettingsBase = {
 		["Descriptions"] = true,
 		["DisplayInCombat"] = true,
 		["Enabled"] = true,
+		["Enabled:Mod"] = "None",
 		["Expand:Difficulty"] = true,
 		["IncludeOriginalSource"] = true,
 		["LootSpecializations"] = true,
@@ -154,6 +156,7 @@ local TooltipSettingsBase = {
 		["ShowIconOnly"] = false,
 		["SharedAppearances"] = true,
 		["Show:Remaining"] = false,
+		["Show:Percentage"] = true,
 		["UseMoreColors"] = false,
 		["Show:TooltipHelp"] = true,
 		["Skip:Cutscenes"] = false,
@@ -326,6 +329,18 @@ end
 settings.GetTooltipSetting = function(self, setting)
 	return AllTheThingsSettings and AllTheThingsSettings.Tooltips[setting];
 end
+-- only returns 'true' for the requested TooltipSetting if the Setting's associated Modifier key is currently being pressed
+settings.GetTooltipSettingWithMod = function(self, setting)
+	local v = AllTheThingsSettings and AllTheThingsSettings.Tooltips[setting];
+	if not v then return v; end
+	local k = AllTheThingsSettings.Tooltips[setting .. ":Mod"];
+	if k == "None"
+		or (k == "Shift" and IsShiftKeyDown())
+		or (k == "Ctrl" and IsControlKeyDown())
+		or (k == "Alt" and IsAltKeyDown()) then
+		return v;
+	end
+end
 settings.Set = function(self, setting, value)
 	AllTheThingsSettings.General[setting] = value;
 	self:Refresh();
@@ -363,7 +378,7 @@ settings.CreateCheckBox = function(self, text, OnRefresh, OnClick)
 end
 settings.CreateTab = function(self, text)
 	local id = #self.Tabs + 1;
-	local tab = CreateFrame('Button', self:GetName() .. '-Tab' .. id, self, 'OptionsFrameTabButtonTemplate');
+	local tab = CreateFrame("Button", self:GetName() .. "-Tab" .. id, self, "OptionsFrameTabButtonTemplate");
 	if id > 1 then tab:SetPoint("TOPLEFT", self.Tabs[id - 1], "TOPRIGHT", 0, 0); end
 	table.insert(self.Tabs, tab);
 	self.MostRecentTab = tab;
@@ -371,8 +386,61 @@ settings.CreateTab = function(self, text)
 	tab:SetID(id);
 	tab:SetText(text);
 	PanelTemplates_TabResize(tab, 0);
-	tab:SetScript('OnClick', OnClickForTab);
+	tab:SetScript("OnClick", OnClickForTab);
 	return tab;
+end
+--- Opts:
+---     name (string): Name of the dropdown (lowercase)
+---     items (Table): String table of the dropdown options.
+---     defaultVal (String): String value for the dropdown to default to (empty otherwise).
+---     changeFunc (Function): A custom function to be called, after selecting a dropdown option.
+-- Reference: https://medium.com/@JordanBenge/creating-a-wow-dropdown-menu-in-pure-lua-db7b2f9c0364
+settings.CreateDropdown = function(self, opts, OnRefresh)
+    local dropdown_name = self:GetName() .. "-DD-" .. opts["name"];
+    local menu_items = opts["items"] or {};
+    local title_text = opts["title"] or "";
+    local dropdown_width = 0;
+    local default_val = opts["defaultVal"] or "";
+    local change_func = opts["changeFunc"] or function (dropdown_val) end;
+
+    local dropdown = CreateFrame("Frame", dropdown_name, self, "UIDropDownMenuTemplate");
+    local dd_title = dropdown:CreateFontString(dropdown, "OVERLAY", "GameFontNormal");
+	dd_title:SetPoint("BOTTOMLEFT", dropdown, "TOPLEFT", 20, 0);
+
+ 	-- Sets the dropdown width to the largest item string width.
+    for _, item in ipairs(menu_items) do
+        dd_title:SetText(item);
+        local text_width = dd_title:GetStringWidth() + 20;
+        if text_width > dropdown_width then
+            dropdown_width = text_width;
+        end
+    end
+
+    UIDropDownMenu_SetWidth(dropdown, dropdown_width);
+	UIDropDownMenu_SetText(dropdown, default_val);
+    dd_title:SetText(title_text);
+	dropdown:SetHitRectInsets(0,0,0,0);
+
+    UIDropDownMenu_Initialize(dropdown, function(self, level, _)
+        local info = UIDropDownMenu_CreateInfo();
+        for key, val in pairs(menu_items) do
+            info.text = val;
+            info.checked = false;
+            info.menuList = key;
+            info.hasArrow = false;
+            info.func = function(b)
+                UIDropDownMenu_SetSelectedName(dropdown, b.value, b.value);
+                UIDropDownMenu_SetText(dropdown, b.value);
+                b.checked = true;
+                change_func(dropdown, b.value);
+            end
+            UIDropDownMenu_AddButton(info);
+        end
+    end);
+
+	table.insert(self.MostRecentTab.objects, dropdown);
+	dropdown.OnRefresh = OnRefresh;
+    return dropdown
 end
 settings.ShowCopyPasteDialog = function(self)
 	app:ShowPopupDialogWithEditBox(nil, self:GetText());
@@ -397,9 +465,19 @@ end
 settings.SetDebugMode = function(self, debugMode)
 	self:Set("DebugMode", debugMode);
 	self:UpdateMode();
-	if debugMode and not self:Get("Thing:Transmog") then
-		wipe(app.GetDataMember("CollectedSources"));
-		app.RefreshCollections();
+	if debugMode then
+		if not self:Get("Thing:Transmog") then
+			wipe(app.GetDataMember("CollectedSources"));
+			app.RefreshCollections();
+		end
+		-- cache the current settings to re-apply after
+		settings:Set("Cache:CompletedGroups", settings:Get("Show:CompletedGroups"));
+		settings:Set("Cache:CollectedThings", settings:Get("Show:CollectedThings"));
+		settings:SetCompletedGroups(true, true);
+		settings:SetCollectedThings(true, true);
+	else
+		settings:SetCompletedGroups(settings:Get("Cache:CompletedGroups"), true);
+		settings:SetCollectedThings(settings:Get("Cache:CollectedThings"), true);
 	end
 	app:RefreshData(nil,nil,true);
 end
@@ -416,24 +494,28 @@ end
 settings.SetCompletedThings = function(self, checked)
 	self:Set("Show:CompletedGroups", checked);
 	self:Set("Show:CollectedThings", checked);
+	settings:Set("Cache:CompletedGroups", checked);
+	settings:Set("Cache:CollectedThings", checked);
 	self:UpdateMode(1);
 end
 settings.ToggleCompletedThings = function(self)
 	self:SetCompletedThings(not self:Get("Show:CompletedGroups"));
 end
-settings.SetCompletedGroups = function(self, checked)
+settings.SetCompletedGroups = function(self, checked, skipRefresh)
 	self:Set("Show:CompletedGroups", checked);
-	self:UpdateMode(1);
+	self:UpdateMode(not skipRefresh);
 end
 settings.ToggleCompletedGroups = function(self)
 	self:SetCompletedGroups(not self:Get("Show:CompletedGroups"));
+	settings:Set("Cache:CompletedGroups", self:Get("Show:CompletedGroups"));
 end
-settings.SetCollectedThings = function(self, checked)
+settings.SetCollectedThings = function(self, checked, skipRefresh)
 	self:Set("Show:CollectedThings", checked);
-	self:UpdateMode(1);
+	self:UpdateMode(not skipRefresh);
 end
 settings.ToggleCollectedThings = function(self)
-	settings:SetCollectedThings(not self:Get("Show:CollectedThings", checked));
+	settings:SetCollectedThings(not self:Get("Show:CollectedThings"));
+	settings:Set("Cache:CollectedThings", self:Get("Show:CollectedThings"));
 end
 settings.SetHideBOEItems = function(self, checked)
 	self:Set("Hide:BoEs", checked);
@@ -689,16 +771,6 @@ function(self)
 end,
 function(self)
 	settings:SetDebugMode(self:GetChecked());
-	if self:GetChecked() then
-		-- cache the current settings to re-apply after
-		settings:Set("Cache:CompletedGroups", settings:Get("Show:CompletedGroups"));
-		settings:Set("Cache:CollectedThings", settings:Get("Show:CollectedThings"));
-		settings:SetCompletedGroups(true);
-		settings:SetCollectedThings(true);
-	else
-		settings:SetCompletedGroups(settings:Get("Cache:CompletedGroups"));
-		settings:SetCollectedThings(settings:Get("Cache:CollectedThings"));
-	end
 end);
 DebugModeCheckBox:SetATTTooltip("Quite literally... ALL THE THINGS IN THE GAME. PERIOD. DOT. YEAH, ALL OF IT. Even Uncollectible things like bags, consumables, reagents, etc will appear in the lists. (Even yourself! No, really. Look.)\n\nThis is for Debugging purposes only. Not intended to be used for completion tracking.\n\nThis mode bypasses all filters, including Unobtainables.");
 DebugModeCheckBox:SetPoint("TOPLEFT", ModeLabel, "BOTTOMLEFT", 0, -1);
@@ -1617,17 +1689,17 @@ end);
 ReportCollectedThingsCheckBox:SetATTTooltip("Enable this option if you want to see a message in chat detailing which items you have collected or removed from your collection.\n\nNOTE: This is present because Blizzard silently adds appearances and other collectible items and neglects to notify you of the additional items available to you.\n\nWe recommend you keep this setting on. You will still hear the fanfare with it off assuming you have that option turned on.");
 ReportCollectedThingsCheckBox:SetPoint("TOPLEFT", WarnDifficultyCheckBox, "BOTTOMLEFT", 0, -4);
 
-local ReportCompletedQuestsCheckBox = settings:CreateCheckBox("Report Completed Quests",
+local ReportCompletedQuestsCheckBox = settings:CreateCheckBox("Report Quests",
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Report:CompletedQuests"));
 end,
 function(self)
 	settings:SetTooltipSetting("Report:CompletedQuests", self:GetChecked());
 end);
-ReportCompletedQuestsCheckBox:SetATTTooltip("Enable this option if you want to see the Quest ID for any quest you complete immediately after it happens. (For reporting bugs, trackings purposes, etc)");
+ReportCompletedQuestsCheckBox:SetATTTooltip("Enable this option if you want to see the QuestID for any quest you Accept or Complete immediately after it happens. (For reporting bugs, trackings purposes, etc)");
 ReportCompletedQuestsCheckBox:SetPoint("TOPLEFT", ReportCollectedThingsCheckBox, "BOTTOMLEFT", 0, 4);
 
-local ReportUnsortedCompletedQuestsCheckBox = settings:CreateCheckBox("Only 'Unsorted'",
+local ReportUnsortedCompletedQuestsCheckBox = settings:CreateCheckBox("Only 'Unsourced'",
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Report:UnsortedQuests"));
 	if not settings:GetTooltipSetting("Report:CompletedQuests") then
@@ -1641,7 +1713,7 @@ end,
 function(self)
 	settings:SetTooltipSetting("Report:UnsortedQuests", self:GetChecked());
 end);
-ReportUnsortedCompletedQuestsCheckBox:SetATTTooltip("Enable this option if you only want to see the Quest ID for any quest you complete that isn't already listed in the addon.");
+ReportUnsortedCompletedQuestsCheckBox:SetATTTooltip("Enable this option if you only want to see the QuestID if it isn't already Sourced.");
 ReportUnsortedCompletedQuestsCheckBox:SetPoint("TOPLEFT", ReportCompletedQuestsCheckBox, "BOTTOMLEFT", 4, 4);
 end)();
 
@@ -2291,10 +2363,34 @@ DisplayInCombatCheckBox:SetATTTooltip("Enable this option if you want to render 
 DisplayInCombatCheckBox:SetPoint("TOP", EnableTooltipInformationCheckBox, "TOP", 0, 0);
 DisplayInCombatCheckBox:SetPoint("LEFT", EnableTooltipInformationCheckBox.Text, "RIGHT", 8, 0);
 
+local TooltipModifierDropdown = settings:CreateDropdown({
+    ["name"] = "TooltipModifier",
+    ["title"] = "Use Modifier",
+    ["items"] = settings.ModifierKeys,
+    ["defaultVal"] = settings:GetTooltipSetting("Enabled:Mod"),
+    ["changeFunc"] = function(dropdown_frame, dropdown_val)
+		settings:SetTooltipSetting("Enabled:Mod", dropdown_val);
+    end
+},
+function(self)
+	local key = settings:GetTooltipSetting("Enabled:Mod");
+	UIDropDownMenu_SetSelectedName(self, key, key);
+	UIDropDownMenu_SetText(self, key);
+	if not settings:GetTooltipSetting("Enabled") then
+		UIDropDownMenu_DisableDropDown(self);
+		self:SetAlpha(0.2);
+	else
+		UIDropDownMenu_EnableDropDown(self);
+		self:SetAlpha(1);
+	end
+end);
+-- TooltipModifierDropdown:SetATTTooltip("TEXT");
+TooltipModifierDropdown:SetPoint("TOP", DisplayInCombatCheckBox, "TOP", 0, 0);
+TooltipModifierDropdown:SetPoint("LEFT", DisplayInCombatCheckBox.Text, "RIGHT", -12, 0);
 
 local TooltipShowLabel = settings:CreateFontString(nil, "ARTWORK", "GameFontNormal");
 TooltipShowLabel:SetJustifyH("LEFT");
-TooltipShowLabel:SetText("Shown Information:");
+TooltipShowLabel:SetText("Shown Information");
 TooltipShowLabel:SetPoint("TOPLEFT", EnableTooltipInformationCheckBox, "BOTTOMLEFT", 0, 0);
 TooltipShowLabel:Show();
 table.insert(settings.MostRecentTab.objects, TooltipShowLabel);
@@ -2705,6 +2801,17 @@ end);
 ShowRemainingCheckBox:SetATTTooltip("Enable this option if you want to see the number of items remaining instead of the progress over total.");
 ShowRemainingCheckBox:SetPoint("TOPLEFT", MiscLabel, "BOTTOMLEFT", 4, 0);
 
+local ShowPercentagesCheckBox = settings:CreateCheckBox("Show Percentage Completion",
+function(self)
+	self:SetChecked(settings:GetTooltipSetting("Show:Percentage"));
+end,
+function(self)
+	settings:SetTooltipSetting("Show:Percentage", self:GetChecked());
+	app:UpdateWindows();
+end);
+ShowPercentagesCheckBox:SetATTTooltip("Enable this option if you want to see the percent completion of each row.\n\nColoring of groups by completion is unaffected.");
+ShowPercentagesCheckBox:SetPoint("TOPLEFT", ShowRemainingCheckBox, "BOTTOMLEFT", 0, 4);
+
 local UseMoreColorsCheckBox = settings:CreateCheckBox("Use More Colors! |CFF4AA7FF[Beta]|R",
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("UseMoreColors"));
@@ -2714,7 +2821,7 @@ function(self)
 	app:UpdateWindows();
 end);
 UseMoreColorsCheckBox:SetATTTooltip("Enable this option if you want to see more colors utilized to help distinguish additional conditions for Things in lists (i.e. class colors, faction colors, etc.)");
-UseMoreColorsCheckBox:SetPoint("TOPLEFT", ShowRemainingCheckBox, "BOTTOMLEFT", 0, 4);
+UseMoreColorsCheckBox:SetPoint("TOPLEFT", ShowPercentagesCheckBox, "BOTTOMLEFT", 0, 4);
 
 local ShowTooltipHelpCheckBox = settings:CreateCheckBox("Show Tooltip Help",
 function(self)

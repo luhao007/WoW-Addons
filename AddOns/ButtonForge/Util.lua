@@ -448,8 +448,6 @@ function Util.Load()
 	Util.StartMacroCheckDelay();
 	Util.RefreshOnUpdateFunction();
 	
-	SLASH_BUTTONFORGE1 = Util.GetLocaleString("SlashButtonForge1"); -- = "/buttonforge";	--these two identifiers probably shouldn't change, but if need be they can be?!
-	SLASH_BUTTONFORGE2 = Util.GetLocaleString("SlashButtonForge2"); -- = "/bufo";
 	collectgarbage("collect");
 	Util.CallbackEvent("INITIALISED");
 end
@@ -1207,7 +1205,9 @@ function Util.SlashShowMessageByLine(Message)
 	end
 end
 
-function SlashCmdList.BUTTONFORGE(msg, editbox)
+SLASH_BUTTONFORGE1 = Util.GetLocaleString("SlashButtonForge1"); -- = "/buttonforge";	--these two identifiers probably shouldn't change, but if need be they can be?!
+SLASH_BUTTONFORGE2 = Util.GetLocaleString("SlashButtonForge2"); -- = "/bufo";
+SlashCmdList["BUTTONFORGE"] = function(msg, editbox)
 	local FirstCommand;
 	local PreparedCommands = {};
 	local Command, Params;
@@ -1316,10 +1316,21 @@ function SlashCmdList.BUTTONFORGE(msg, editbox)
 					BarName = Commands["-bar"][1];
 				elseif (Commands["-destroybar"]) then
 					BarName = Commands["-destroybar"][1];
-				end		
+				end
+				local barFound = false;
 				for i = 1, #Bars do
 					if ((not BarName) or strlower(BarName) == strlower(Bars[i].BarSave["Label"])) then
 						Util.ApplySlashCommands(Commands, Bars[i]);
+						barFound = true;
+					end
+				end
+				-- bar name not found, check with Index
+				if ( barFound == false ) then
+					for i = 1, #Bars do
+						if ( tonumber(BarName) == i ) then
+							Util.ApplySlashCommands(Commands, Bars[i]);
+							barFound = true;
+						end
 					end
 				end
 			end
@@ -1342,6 +1353,17 @@ function Util.ApplySlashCommands(Commands, Bar)
 			return
 		end
 		Commands["-rename"] = Commands["-createbar"];	--this could arguably work by having an empty param to createbar but I think it will feel more natural to require a name with this command
+	end
+
+	if (Commands["-list"]) then
+		local Bars = Util.ActiveBars;
+		for i = 1, #Bars do
+			local label = string.gsub(Util.GetLocaleString("SlashListBarWithLabel"), "<LABEL>", Bars[i].BarSave["Label"]);
+			if (Bars[i].BarSave["Label"] == "") then
+				label = string.gsub(Util.GetLocaleString("SlashListBarWithIndex"), "<LABEL>", i);
+			end
+			DEFAULT_CHAT_FRAME:AddMessage(label, .5, 1, 0, 1);
+		end
 	end
 	
 	if (Commands["-destroybar"]) then
@@ -1857,9 +1879,28 @@ function Util.RefreshBattlePets()
 	end
 end
 
+function Util.RefreshZoneAbility()
+	local zoneAbilities = C_ZoneAbility.GetActiveAbilities();
+	local found = 0;
+	for i, zoneAbility in ipairs(zoneAbilities) do
+		for j, spell in ipairs(Util.ActiveSpells) do
+			if ( zoneAbility.spellID == spell.SpellId ) then
+				found = found + 1;
+				break;
+			end
+		end
+	end
+	if (found == table.getn(zoneAbilities)) then
+		ZoneAbilityFrame:SetShown(false);
+	else
+		ZoneAbilityFrame:SetShown(true);
+	end
+end
+
 function Util.AddSpell(Value)
 	if (not Util.FindInTable(Util.ActiveSpells, Value)) then
 		table.insert(Util.ActiveSpells, Value);
+		Util.RefreshZoneAbility();
 	end
 end
 
@@ -1867,6 +1908,7 @@ function Util.RemoveSpell(Value)
 	local Index = Util.FindInTable(Util.ActiveSpells, Value);
 	if (Index) then
 		table.remove(Util.ActiveSpells, Index);
+		Util.RefreshZoneAbility();
 	end
 end
 

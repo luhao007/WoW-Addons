@@ -285,7 +285,11 @@ do
         return true
     end
     function CovenantItem:IsCompleted(database, item, character)
-        return character:IsCovenant(item.id);
+        if item.id then
+            return character:IsCovenant(item.id);
+        else
+            return character:InCovenants(item.ids);
+        end
     end
 
     Database:RegisterItemType("renown", RenownItem);

@@ -2513,4 +2513,8 @@ Database:AddCategory(CATEGORY_ID, {
 Database:AddExpansionItem(EXPANSION_ID, {
     type = "category",
     id = CATEGORY_ID,
+    restrictions = {
+        type = "covenant",
+        ids = {1, 2, 3},
+    },
 })

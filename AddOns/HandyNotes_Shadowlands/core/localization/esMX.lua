@@ -60,6 +60,7 @@ L["mount"] = "Montura"
 L["pet"] = "Mascota"
 L["spell"] = nil
 L["toy"] = "Juguete"
+L["rep"] = nil
 L["completed"] = "Terminado"
 L["incomplete"] = "Incompleto"
 L["known"] = "Conocido"
@@ -117,6 +118,8 @@ L["options_toggle_maximized_enlarged"] = nil
 L["options_toggle_maximized_enlarged_desc"] = nil
 L["options_toggle_use_char_achieves"] = nil
 L["options_toggle_use_char_achieves_desc"] = nil
+L["options_toggle_per_map_settings"] = nil
+L["options_toggle_per_map_settings_desc"] = nil
 L["options_restore_hidden_nodes"] = nil
 L["options_restore_hidden_nodes_desc"] = nil
 

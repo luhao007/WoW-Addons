@@ -1,12 +1,13 @@
 -- **************************************************************************
 -- * TitanRepair.lua
 -- *
--- * By: Adsertor, Archarodim and the Titan Panel Development Team
+-- * By: The Titan Panel Development Team
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
 local TITAN_REPAIR_ID = "Repair";
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local TitanRepairModule = LibStub("AceAddon-3.0"):NewAddon("TitanRepair", "AceHook-3.0", "AceTimer-3.0")
 local _G = getfenv(0);
 local TPR = TitanRepairModule
@@ -1130,7 +1131,7 @@ local info;
 				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
 				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
 			end
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["buttonFriendly"];
@@ -1143,7 +1144,7 @@ local info;
 				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
 				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
 			end
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["buttonHonored"];
@@ -1156,7 +1157,7 @@ local info;
 				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
 				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
 			end
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["buttonRevered"];
@@ -1169,7 +1170,7 @@ local info;
 				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
 				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
 			end
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["buttonExalted"];
@@ -1182,7 +1183,7 @@ local info;
 				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", 1)
 				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
 			end
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
 
 		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
@@ -1196,31 +1197,31 @@ local info;
 				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID);
 			end
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPercentage");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["mostdamaged"];
 			info.func = TitanRepair_ShowMostDamaged;
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowMostDamaged");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["undamaged"];
 			info.func = TitanRepair_ShowUndamaged;
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowUndamaged");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["showinventory"];
 			info.func = TitanRepair_ShowInventory;
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowInventory");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["ShowRepairCost"];  --"Show Repair Cost"
 			info.func = TitanRepair_ShowRepairCost;
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowRepairCost");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["showdurabilityframe"];
@@ -1229,13 +1230,13 @@ local info;
 			TitanRepair_DurabilityFrame();
 			end
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["ignoreThrown"];
 			info.func = TitanRepair_IgnoreThrown;
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"IgnoreThrown");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
 
 		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "AutoRepair" then
@@ -1245,19 +1246,19 @@ local info;
 			info.text = L["REPAIR_LOCALE"]["popup"];
 			info.func = TitanRepair_ShowPop;
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPopup");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["AutoRepitemlabel"];
 			info.func = TitanRepair_AutoRep;
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepair");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["TITAN_REPAIR_REPORT_COST_MENU"]
 			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "AutoRepairReport"); end
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
 
 		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "GuildBank" then
@@ -1276,7 +1277,7 @@ local info;
 			info.text = L["TITAN_REPAIR_GBANK_USEFUNDS"]
 			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "UseGuildBank"); end
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank");
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
 
 		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "TooltipOptions" then
@@ -1287,21 +1288,21 @@ local info;
 			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "ShowItems"); end
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowItems");
 			info.keepShownOnClick = 1
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["ShowDiscounts"];
 			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "ShowDiscounts"); end
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowDiscounts");
 			info.keepShownOnClick = 1
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["ShowCosts"];
 			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "ShowCosts"); end
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowCosts");
 			info.keepShownOnClick = 1
-			L_UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
 
 		return
@@ -1315,14 +1316,14 @@ local info;
 	info.text = L["TITAN_PANEL_OPTIONS"];
 	info.value = "Options"
 	info.hasArrow = 1;
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info = {};
 	info.notCheckable = true
 	info.text = L["REPAIR_LOCALE"]["AutoReplabel"];
 	info.value = "AutoRepair"
 	info.hasArrow = 1;
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	local guildName, _, _ = GetGuildInfo("player")
 	info = {};
@@ -1334,21 +1335,21 @@ local info;
 	else
 		info.disabled = true
 	end
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info = {};
 	info.notCheckable = true
 	info.text = L["REPAIR_LOCALE"]["discount"];
 	info.value = "Discount"
 	info.hasArrow = 1;
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info = {};
 	info.notCheckable = true
 	info.text = L["REPAIR_LOCALE"]["TooltipOptions"];
 	info.value = "TooltipOptions"
 	info.hasArrow = 1;
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddToggleIcon(TITAN_REPAIR_ID);

@@ -1,10 +1,34 @@
-lightweight tag 2e15d1d46932fbc28f93dd126cb9e1c2224d41ca Plater-v9.0.1.319-Retail
+lightweight tag 11ce1ecd18f817413140d629ae78ac289ef348fd Plater-v9.0.1.321-Retail
 Author:	Continuity <continuity@gmx.net>
-Date:	Mon Nov 23 22:22:13 2020 +0100
+Date:	Sat Nov 28 14:25:46 2020 +0100
 
-commit 2e15d1d46932fbc28f93dd126cb9e1c2224d41ca
+commit 11ce1ecd18f817413140d629ae78ac289ef348fd
 Author: Continuity <continuity@gmx.net>
-Date:   Mon Nov 23 22:22:13 2020 +0100
+Date:   Sat Nov 28 14:25:46 2020 +0100
 
-    - regression fix
+    - changelog update
+
+commit 12b4113e6b9342a09d7e83e70d5548ba6d6e05f0
+Author: Continuity <continuity@gmx.net>
+Date:   Sat Nov 28 14:19:36 2020 +0100
+
+    - one las condemn
+
+commit 860639cdffeddcef2aa356db5b4475df07281531
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Nov 27 17:03:50 2020 -0300
+
+    Fix script, update framework
+
+commit 3a9ae43cfc9654feb05c46d0724a40e370314566
+Author: Continuity <continuity@gmx.net>
+Date:   Fri Nov 27 13:07:58 2020 +0100
+
+    - another round of condemn
+
+commit 3723223379d6e18b538d476081cd49914e4bd555
+Author: Continuity <continuity@gmx.net>
+Date:   Fri Nov 27 12:48:37 2020 +0100
+
+    - fixing Condemn execute for warriors
 

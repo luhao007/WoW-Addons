@@ -23,13 +23,13 @@ L.BossModLoad_now 			= [[Este módulo no está cargado.
 Se cargará al entrar en la estancia.
 También puedes hacer clic en el botón para cargar el módulo manualmente.]]
 
-L.PosX 						= 'Posición X'
-L.PosY 						= 'Posición Y'
+L.PosX 						= "Posición X"
+L.PosY 						= "Posición Y"
 
-L.MoveMe 					= 'Posición'
-L.Button_OK 				= 'Aceptar'
-L.Button_Cancel 			= 'Cancelar'
-L.Button_LoadMod 			= 'Cargar módulo'
+L.MoveMe 					= "Posición"
+L.Button_OK 				= "Aceptar"
+L.Button_Cancel 			= "Cancelar"
+L.Button_LoadMod 			= "Cargar módulo"
 L.Mod_Enabled				= "Habilitar módulo"
 L.Mod_Reset					= "Cargar opciones por defecto"
 L.Reset 					= "Restaurar"
@@ -64,6 +64,7 @@ L.Latency_Text				= "Latencia máxima para sincronización: %d"
 L.Button_RangeFrame			= "Mostrar/ocultar\nmarco de distancia"
 L.Button_InfoFrame			= "Mostrar/ocultar\nmarco de información"
 L.Button_TestBars			= "Comprobar barras"
+L.Button_MoveBars			= "Posición barras"
 L.Button_ResetInfoRange		= "Restaurar posiciones por defecto"
 
 L.ModelOptions				= "Opciones del visualizador de modelos 3D"

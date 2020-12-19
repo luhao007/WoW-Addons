@@ -1050,9 +1050,9 @@ local resetClickToMove = nil;
 local function StartFishingMode()
     if ( not FishingBuddy.StartedFishing ) then
         -- Disable Click-to-Move if we're fishing
-        if ( BlizzardOptionsPanel_GetCVarSafe("autointeract") == "1" ) then
+        if ( BlizzardOptionsPanel_GetCVarSafe("autoInteract") == 1 ) then
             resetClickToMove = true;
-            BlizzardOptionsPanel_SetCVarSafe("autointeract", "0");
+            BlizzardOptionsPanel_SetCVarSafe("autoInteract", 0);
         end
         FishingBuddy.EnhanceFishingSounds(true);
         handlerframe:Show();
@@ -1084,7 +1084,7 @@ local function StopFishingMode(logout)
     FishingBuddy.EnhanceFishingSounds(false, logout);
     if ( resetClickToMove ) then
         -- Re-enable Click-to-Move if we changed it
-        BlizzardOptionsPanel_SetCVarSafe("autointeract", "1");
+        BlizzardOptionsPanel_SetCVarSafe("autoInteract", 1);
         resetClickToMove = nil;
     end
 

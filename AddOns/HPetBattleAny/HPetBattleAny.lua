@@ -31,6 +31,11 @@ HPetBattleAny = CreateFrame("frame");
 HPetBattleAny:SetScript('OnEvent', function(_, event, ...) return HPetBattleAny[event](HPetBattleAny, event, ...) end)
 HPetBattleAny:Hide()
 HPetBattleAny.addon = addon
+if BPBID_Arrays then
+	--提前检测BBPBID是否已经存在，并备份数据，防止被本插件下的PetData.lua覆盖
+	HPetBattleAny.BPBIDInit = BPBID_Arrays.InitializeArrays
+end
+
 
 function HPetBattleAny:Init_HPET()
 	if not self.initialized_HPET then
@@ -245,7 +250,8 @@ function HPetBattleAny.CreateLinkByInfo(petID,...)		---...=usecustom,level,healt
 		customname = usecustom or nil
 	end
 	if not speciesID then return end
-	name = customname or C_PetJournal.GetPetInfoBySpeciesID(speciesID)
+	local pn, _, _, _, _, _, _, _, _, _, _, displayID = C_PetJournal.GetPetInfoBySpeciesID(speciesID);
+	name = customname or pn
 	if not name or tonumber(name) == name then return end
 
 	local health,power,speed
@@ -268,10 +274,10 @@ function HPetBattleAny.CreateLinkByInfo(petID,...)		---...=usecustom,level,healt
 		HPetSaves.lie = tonumber(HPetSaves.lie) or 1
 		rarity=rarity+HPetSaves.lie
 	end
+	
 	link=ITEM_QUALITY_COLORS[rarity].hex.."\124Hbattlepet:"
-	link=link..speciesID..":"..level..":"..rarity..":"..health..":"..power..":"..speed..":"..(petID or "BattlePet-0-000000000000")
+	link=link..speciesID..":"..level..":"..rarity..":"..health..":"..power..":"..speed..":"..(petID or "BattlePet-0-000000000000")..":"..displayID
 	link=link.."\124h["..(customname or name).."]\124h\124r"
---~ 	print(customname or name,"我勒个去")
 	return link
 end
 -----	成长值

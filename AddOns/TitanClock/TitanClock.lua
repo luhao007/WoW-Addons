@@ -1,7 +1,7 @@
 -- **************************************************************************
 -- * TitanClock.lua
 -- *
--- * By: TitanMod, Dark Imakuni, Adsertor and the Titan Panel Development Team
+-- * By: The Titan Panel Development Team
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
@@ -13,6 +13,7 @@ local _G = getfenv(0);
 -- ******************************** Variables *******************************
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
+local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local ClockTimer = nil;
 local updateTable = {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL };
 local realmName = GetRealmName();
@@ -449,19 +450,19 @@ function TitanPanelRightClickMenu_PrepareClockMenu()
 	info.text = L["TITAN_CLOCK_MENU_LOCAL_TIME"];
 	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Local") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
 	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" end
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info = {};
 	info.text = L["TITAN_CLOCK_MENU_SERVER_TIME"];
 	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Server") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
 	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Server" end
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info = {};
 	info.text = L["TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME"];
 	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerAdjusted") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
 	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjusted" end
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	TitanPanelRightClickMenu_AddSpacer();
 
@@ -470,20 +471,20 @@ function TitanPanelRightClickMenu_PrepareClockMenu()
 	info.func = TitanPanelClockButton_ToggleMapTime;
 	info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideMapTime");
 	info.keepShownOnClick = 1;
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info = {};
 	info.text = L["TITAN_CLOCK_MENU_HIDE_CALENDAR"];
 	info.func = TitanPanelClockButton_ToggleGameTimeFrameShown;
 	info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap");
 	info.keepShownOnClick = 1;
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	info = {};
 	info.text = L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"];
 	info.func = TitanPanelClockButton_ToggleRightSideDisplay;
 	info.checked = TitanGetVar(TITAN_CLOCK_ID, "DisplayOnRightSide");
-	L_UIDropDownMenu_AddButton(info);
+	DDM:UIDropDownMenu_AddButton(info);
 
 	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_CLOCK_ID);
 	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_CLOCK_ID);
