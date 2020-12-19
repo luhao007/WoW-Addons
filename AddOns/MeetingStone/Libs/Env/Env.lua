@@ -1,6 +1,4 @@
 
-MEETINGSTONE_UI_BLACKLISTEDLEADERS = {}
-MEETINGSTONE_UI_E_FILTERAD = false
 local MAJOR, MINOR = 'NetEaseEnv-1.0', 2
 local Env = LibStub:NewLibrary(MAJOR, MINOR)
 if not Env then return end

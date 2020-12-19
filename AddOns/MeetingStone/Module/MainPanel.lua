@@ -1,4 +1,4 @@
-MEETINGSTONE_UI_E_POINTS = {}
+
 BuildEnv(...)
 
 MainPanel = Addon:NewModule(GUI:GetClass('Panel'):New(UIParent), 'MainPanel', 'AceEvent-3.0', 'AceBucket-3.0')
@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(832, 447)
-    self:SetText(L['集合石'] .. ' 修改版 ' .. ADDON_VERSION .. " S1")
+    self:SetText(L['集合石'] .. ' Beta ' .. ADDON_VERSION)
     self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -17,29 +17,11 @@ function MainPanel:OnInitialize()
     self:SetScript('OnDragStart', self.StartMoving)
     self:SetScript('OnDragStop', self.StopMovingOrSizing)
     self:SetClampedToScreen(true)
-    GUI:RegisterUIPanel(self)
-    local scale = Profile:GetSetting('uiscale')
-    if(scale == nil or scale < 1.0) then
-        scale = 1.0
-    end
-    self:SetScale(scale)
-
-    self:HookScript("OnHide", function()
-        local anchor1,_,anchor2,x,y = self:GetPoint();
-        MEETINGSTONE_UI_E_POINTS.x = x
-        MEETINGSTONE_UI_E_POINTS.y = y
-        MEETINGSTONE_UI_E_POINTS.a1 = anchor1
-        MEETINGSTONE_UI_E_POINTS.a2 = anchor2
-    end) 
 
     self:HookScript('OnShow', function()
         C_LFGList.RequestAvailableActivities()
         self:UpdateBlockers()
         self:SendMessage('MEETINGSTONE_OPEN')
-        if(MEETINGSTONE_UI_E_POINTS ~= nil and MEETINGSTONE_UI_E_POINTS.x ~= nil) then
-            self:ClearAllPoints();
-            self:SetPoint(MEETINGSTONE_UI_E_POINTS.a1, UIParent, MEETINGSTONE_UI_E_POINTS.a2, MEETINGSTONE_UI_E_POINTS.x, MEETINGSTONE_UI_E_POINTS.y)
-        end
     end)
 
     self:RegisterMessage('MEETINGSTONE_NEW_VERSION')
@@ -50,8 +32,9 @@ function MainPanel:OnInitialize()
     PVEFrame:UnregisterEvent('AJ_PVP_LFG_ACTION')
 
     local AnnBlocker = self:NewBlocker('AnnBlocker', 1) do
+        self.AnnBlocker = AnnBlocker
         AnnBlocker:SetCallback('OnCheck', function()
-            return DataCache:GetObject('AnnData'):IsNew()
+            return DataCache:GetObject('AnnList'):IsNew()
         end)
         AnnBlocker:SetCallback('OnInit', function(AnnBlocker)
             local Label = AnnBlocker:CreateFontString(nil, 'OVERLAY', 'QuestFont_Super_Huge') do
@@ -67,9 +50,9 @@ function MainPanel:OnInitialize()
                 Line:SetPoint('TOP', Label, 'BOTTOM', 0, -20)
             end
 
-            local Title = AnnBlocker:CreateFontString(nil, 'OVERLAY', 'QuestFont_Super_Huge') do
-                Title:SetPoint('TOPLEFT', 100, -130)
-                Title:SetTextColor(GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b)
+            local SummaryHtml = GUI:GetClass('ScrollSummaryHtml'):New(AnnBlocker) do
+                SummaryHtml:SetPoint('TOPLEFT', 190, -130)
+                SummaryHtml:SetSize(450, 200)
             end
 
             local Button = CreateFrame('Button', nil, AnnBlocker, 'UIPanelButtonTemplate') do
@@ -77,33 +60,39 @@ function MainPanel:OnInitialize()
                 Button:SetPoint('BOTTOM', 0, 30)
                 Button:SetText(L['我知道了'])
                 Button:SetScript('OnClick', function()
-                    DataCache:GetObject('AnnData'):SetIsNew(false)
+                    DataCache:GetObject('AnnList'):SetIsNew(false)
                     AnnBlocker:Hide()
+                    self:SendMessage('MEETINGSTONE_ANNOUNCEMENT_UPDATED', false)
                 end)
             end
 
-            local Content = AnnBlocker:CreateFontString(nil, 'OVERLAY', 'GameFontNormalLargeLeftTop') do
-                Content:SetTextColor(1, 1, 1)
-                Content:SetPoint('TOPLEFT', Title, 'BOTTOMLEFT', 0, -20)
-                Content:SetPoint('BOTTOM', Button, 'TOP', 0, 20)
-                Content:SetPoint('RIGHT', -100, 0)
-            end
+            AnnBlocker.SummaryHtml = SummaryHtml
 
-            AnnBlocker.Title = Title
-            AnnBlocker.Content = Content
+            self:RegisterMessage('MEETINGSTONE_ANNOUNCEMENT_UPDATED', function(_, isNew)
+                if isNew then
+                    AnnBlocker:Fire('OnFormat')
+                end
+            end)
         end)
         AnnBlocker:SetCallback('OnFormat', function(AnnBlocker)
-            local annData = DataCache:GetObject('AnnData'):GetData()
+            local annData = DataCache:GetObject('AnnList'):GetData()
+            local tpl = [[<html><body>%s</body></html>]]
+            local lines = {}
             if not annData then
-                AnnBlocker.Title:SetText(L['暂无公告'])
-                AnnBlocker.Content:SetText('')
+                table.insert(lines, format('<h2>|cffffffff%s|r</h2>', L['暂无公告']))
             else
-                AnnBlocker.Title:SetText(annData.title)
-                AnnBlocker.Content:SetText(annData.content)
+                for i, v in ipairs(annData) do
+                    if v.t then
+                        if v.u then
+                            table.insert(lines, format('<h2>|cffffffff%s. %s|r |Hurl:%s|h|cff00ffff[%s]|r|h</h2>', i, v.t, v.u, L['查看更多']))
+                        else
+                            table.insert(lines, format('<h2>|cffffffff%s. %s|r</h2>', i, v.t))
+                        end
+                    end
+                end
             end
-        end)
-        AnnBlocker:SetCallback('OnCheck', function(AnnBlocker)
-            return DataCache:GetObject('AnnData'):IsNew()
+            local html = format(tpl, table.concat(lines, '<br /><br />'))
+            AnnBlocker.SummaryHtml:SetText(html)
         end)
     end
 
@@ -320,33 +309,6 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
             tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_CLASS_ROLE, classLocalized, _G[role]), classColor.r, classColor.g, classColor.b)
         end
     else
-        -- Modification begin
-        -- Display Raid/Party Roles,code from PGF addon
-        local roles = {}
-        local classInfo = {}
-        for i = 1, activity:GetNumMembers() do
-            local role, class, classLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
-            if (class) then
-                classInfo[class] = {
-                    name = classLocalized,
-                    color = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
-                }
-                if not roles[role] then roles[role] = {} end
-                if not roles[role][class] then roles[role][class] = 0 end
-                roles[role][class] = roles[role][class] + 1
-            end
-        end
-    
-        for role, classes in pairs(roles) do
-            tooltip:AddLine(_G[role]..": ")
-            for class, count in pairs(classes) do
-                local text = "   "
-                if count > 1 then text = text .. count .. " " else text = text .. "   " end
-                text = text .. "|c" .. classInfo[class].color.colorStr ..  classInfo[class].name .. "|r "
-                tooltip:AddLine(text)
-            end
-        end
-        -- Modification end
         local memberCounts = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
         if memberCounts then
             tooltip:AddSepatator()

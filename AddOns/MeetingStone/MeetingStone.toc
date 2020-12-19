@@ -1,7 +1,7 @@
 ## Interface: 90002
-## Version: 90001.01
+## Version: 90002.03
 ## LoadManagers: AddonLoader
-## SavedVariables: MEETINGSTONE_UI_DB,MEETINGSTONE_UI_E_POINTS,MEETINGSTONE_UI_BLACKLISTEDLEADERS,MEETINGSTONE_UI_E_FILTERAD
+## SavedVariables: MEETINGSTONE_UI_DB
 ## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB
 
 ## Title: Meeting Stone

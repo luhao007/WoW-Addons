@@ -7,7 +7,7 @@ ADDON_NAME          = ...
 ADDON_LOGO          = [[Interface\AddOns\]] .. ADDON_NAME .. [[\Media\Logo]]
 ADDON_VERSION       = GetAddOnMetadata(ADDON_NAME, 'Version')
 ADDON_VERSION_SHORT = ADDON_VERSION:gsub('(%d)%d(%d)%d%d%.(%d%d)','%1%2%3')
-ADDON_REGIONSUPPORT = true
+ADDON_REGIONSUPPORT = GetCurrentRegion() == 5
 ADDON_SERVER        = (NETEASE_SERVER_PREFIX or 'S1') .. UnitFactionGroup('player')
 SERVER_TIMEOUT      = 120
 NO_SCAN_WORD        = true
@@ -96,9 +96,6 @@ PROVING_GROUND_DATA = {
         { id = 23683, text = LFG_LIST_PROVING_DAMAGER_BRONZE },
     },
 }
-
--- last activity 491
--- last group 134
 
 CATEGORY = {
     [0] = {
@@ -310,6 +307,23 @@ CATEGORY = {
         },
         activities = {
             [657] = true,
+        },
+    },
+    [8] = {
+        groups = {
+            [259]=true,
+            [260]=true,
+            [261]=true,
+            [262]=true,
+            [263]=true,
+            [264]=true,
+            [265]=true,
+            [266]=true,
+            [267]=true,
+            [269]=true,
+            [270]=true,
+        },
+        activities = {
         },
     }
 }

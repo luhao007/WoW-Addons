@@ -4,7 +4,6 @@ BuildEnv(...)
 SettingPanel = Addon:NewModule(CreateFrame('Frame', nil, MainPanel), 'SettingPanel', 'AceEvent-3.0', 'AceTimer-3.0')
 
 local BINDING_KEY = 'MEETINGSTONE_TOGGLE'
-local UIScaleTimer = nil
 
 function SettingPanel:OnInitialize()
     GUI:Embed(self, 'Owner')
@@ -79,25 +78,6 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
             },
-            uiScale = {
-                type = 'range',
-                name = L['界面缩放比例'],
-                width = 'full',
-                order = order(),
-                min = 1.0,
-                max = 2.0,
-                step = 0.1,
-                get = function()
-                    return self.db.profile.settings.uiscale
-                end,
-                set = function(info,key)
-                    self.db.profile.settings.uiscale = key
-                    if(UIScaleTimer ~= nil) then
-                        UIScaleTimer:Cancel()
-                    end
-                    UIScaleTimer = C_Timer.NewTimer(0.5,function() MainPanel:SetScale(key) end)                    
-                end
-            },
             -- ignore = {
             --     type = 'toggle',
             --     name = L['启用屏蔽列表增强'],
@@ -142,18 +122,6 @@ function SettingPanel:OnInitialize()
                 end,
                 func = function()
                     Profile:ClearHistory()
-                end
-            },
-            clearBlackListedLeaders = {
-                type = 'execute',
-                name = L['清理队长黑名单列表'],
-                width = 'full',
-                order = order(),
-                confirm = function()
-                    return L['你确定要清理已拉黑的队长吗？']
-                end,
-                func = function()
-                    _G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"] = {}
                 end
             }
         }

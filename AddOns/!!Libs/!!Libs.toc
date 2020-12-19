@@ -72,7 +72,6 @@ LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
 LibDDI-1.0\lib.xml
 LibDeflate\lib.xml
-LibDeformat-3.0\LibDeformat-3.0.lua
 LibDFramework-1.0\load.xml
 LibDialog-1.0\lib.xml
 LibDogTag-3.0\lib.xml
@@ -84,7 +83,7 @@ LibGetFrame-1.0\LibGetFrame-1.0.xml
 LibGraph-2.0\LibGraph-2.0\LibGraph-2.0.lua
 LibGroupInSpecT-1.1\lib.xml
 LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
-LibLatency\LibLatency.xml
+LibLatency\LibLatency\LibLatency.xml
 LibNotify-1.0\lib.xml
 LibOO-1.0\lib.xml
 LibPetJournal-2.0\LibPetJournal-2.0.lua

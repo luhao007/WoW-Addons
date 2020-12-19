@@ -68,8 +68,3 @@ function FilterBox:Clear()
     self.MinBox:SetText('')
     self.MaxBox:SetText('')
 end
-
-function FilterBox:HideInput()
-    self.MinBox:Hide()
-    self.MaxBox:Hide()
-end
