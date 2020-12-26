@@ -184,6 +184,29 @@ GTFO.SpellID["346439"] = {
   sound = 3;
 };
 
+GTFO.SpellID["338855"] = {
+  --desc = "Seeds of Sorrow (Oranomonos the Everbranching)";
+  sound = 3;
+};
+
+GTFO.SpellID["341747"] = {
+  --desc = "Overwhelming Misery (Wailing Soul)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["342886"] = {
+  --desc = "Twilight Dust (The Slumbering Emperor)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["330642"] = {
+  --desc = "Venomous Blast (Gorm Behemoth)";
+  sound = 3;
+};
+
+
 --- **********************
 --- * Halls of Atonement *
 --- **********************
@@ -238,6 +261,16 @@ GTFO.SpellID["336809"] = {
 GTFO.SpellID["336893"] = {
   --desc = "Terrifying Chaos (Azmogal)";
   applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["337072"] = {
+  --desc = "Deathshade Volley (Deathshade of Xantuth)";
+  sound = 3;
+};
+
+GTFO.SpellID["336945"] = {
+  --desc = "Hurl Boulders (Unbreakable Urtz)";
   sound = 3;
 };
 
@@ -327,6 +360,7 @@ GTFO.SpellID["320991"] = {
 GTFO.SpellID["334921"] = {
   --desc = "Umbral Crash (Insatiable Brute)";
   sound = 3;
+  test = true;
 };
 
 GTFO.SpellID["322418"] = {
@@ -433,6 +467,7 @@ GTFO.SpellID["328466"] = {
 GTFO.SpellID["334625"] = {
   --desc = "Abyssal Detonation (Devos)";
   sound = 3;
+  negatingDebuffSpellID = 335805; -- Archon's Bastion
 };
 
 GTFO.SpellID["323831"] = {
@@ -581,6 +616,12 @@ GTFO.SpellID["321768"] = {
   sound = 3;
 };
 
+GTFO.SpellID["339751"] = {
+  --desc = "Ghostly Charge (Echo Bullrider)";
+  sound = 3;
+};
+
+
 --- *********************
 --- * The Necrotic Wake *
 --- *********************
@@ -719,6 +760,7 @@ GTFO.SpellID["330347"] = {
 
 GTFO.SpellID["307115"] = {
   --desc = "Flame Vent";
+  applicationOnly = true;
   sound = 3;
 };
 
@@ -740,6 +782,12 @@ GTFO.SpellID["331310"] = {
 };
 
 GTFO.SpellID["331349"] = {
+  --desc = "Spike Trap";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["331321"] = {
   --desc = "Spike Trap";
   sound = 3;
   applicationOnly = true;
@@ -808,6 +856,28 @@ GTFO.SpellID["296372"] = {
   sound = 3;
 };
 
+GTFO.SpellID["296365"] = {
+  --desc = "Subjugate Essence (Subjugator Klontzas)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["307023"] = {
+  --desc = "Soul Burst";
+  sound = 3;
+};
+
+GTFO.SpellID["303678"] = {
+  --desc = "Bone Shrapnel (Skeletal Remains)";
+  sound = 3;
+};
+
+GTFO.SpellID["321662"] = {
+  --desc = "Bone Spike (Bone Husk)";
+  applicationOnly = true;
+  sound = 3;
+};
+
 --- ******************
 --- * Castle Nathria *
 --- ******************
@@ -853,16 +923,87 @@ GTFO.SpellID["326455"] = {
   test = true;
 };
 
-GTFO.SpellID["339553"] = {
-  --desc = "Lingering Anima (Deplina)";
-  sound = 1;
+GTFO.SpellID["339649"] = {
+  --desc = "Gorging Leap (Gorging Mite)";
+  sound = 3;
 };
 
-GTFO.SpellID["325713"] = {
-  --desc = "Lingering Anima (Lady Inerva Darkvein)";
-  sound = 1;
+GTFO.SpellID["342777"] = {
+  --desc = "Eradication Seeds (Sinister Antiquarian)";
+  sound = 3;
 };
 
+GTFO.SpellID["329256"] = {
+  --desc = "Rift Blast (Rift Blast Portal)";
+  sound = 3;
+};
+
+GTFO.SpellID["341404"] = {
+  --desc = "Orbital Explosion (Anima Orb)";
+  sound = 3;
+};
+
+GTFO.SpellID["329518"] = {
+  --desc = "Blazing Surge (Shade of Kael'thas)";
+  sound = 3;
+};
+
+GTFO.SpellID["327619"] = {
+  --desc = "Waltz of Blood (Lord Stavros - Waltzing Venthyr)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["330848"] = {
+  --desc = "Wrong Moves";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["335298"] = {
+  --desc = "Giant Fists (Sludgefist)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["332572"] = {
+  --desc = "Falling Rubble (Sludgefist)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["339067"] = {
+  --desc = "Heedless Charge (Sludgefist)";
+  sound = 3;
+};
+
+GTFO.SpellID["335295"] = {
+  --desc = "Shattering Chain (Sludgefist)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["327610"] = {
+  --desc = "Evasive Lunge (Lord Stavros)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["336231"] = {
+  --desc = "Cluster Bombardment (Stone Legion Commando)";
+  sound = 3;
+};
+
+GTFO.SpellID["334500"] = {
+  --desc = "Seismic Upheaval (General Grashaal)";
+  sound = 3;
+};
+
+GTFO.SpellID["334016"] = {
+  --desc = "Unworthy (Sire Denathrius)";
+  applicationOnly = true;
+  sound = 3;
+};
 
 end
 

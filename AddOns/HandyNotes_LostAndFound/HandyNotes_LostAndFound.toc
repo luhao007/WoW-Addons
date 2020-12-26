@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Kemayo
-## Version: v14
+## Version: v15
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_LostAndFoundDB
 ## DefaultState: enabled

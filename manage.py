@@ -289,17 +289,18 @@ class Manager:
     def handle_dup_libraries(self):
         addons = ['Atlas', 'BlizzMove', 'DBM-Core', 'Details_Streamer',
                   'Details_TinyThreat', 'ExRT', 'GatherMate2', 'GTFO',
-                  'HandyNotes', 'MapSter', 'Quartz', 'RangeDisplay',
+                  'HandyNotes', 'ItemRack', 'ItemRackOptions', 'MapSter',
+                  'OmniCC', 'OmniCC_Config', 'Quartz', 'RangeDisplay',
                   'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
 
         if self.is_classic:
             addons += ['alaTalentEmu', 'AtlasLootClassic', 'AtlasLootClassic_Options',
                        'ATT-Classic', 'ClassicCastbars_Options',
-                       'Details_Streamer', 'Fizzle', 'GroupCalendar',
+                       'Fizzle', 'GroupCalendar',
                        'HandyNotes_NPCs (Classic)', 'PallyPower',
                        'TradeLog', 'TitanClassic', 'WclPlayerScore']
         else:
-            addons += ['AllTheThings', 'Details', 'Details_ChartViewer',
+            addons += ['AllTheThings', 'Details_ChartViewer',
                        'Details_DeathGraphs', 'Details_EncounterDetails',
                        'Details_RaidCheck', 'Details_TimeLine',
                        'Details_Vanguard', 'FasterCamera',
@@ -449,6 +450,18 @@ class Manager:
         )
 
     def handle_details(self):
+        libs = ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
+                'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
+                'AceGUI-3.0', 'AceHook-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
+                'AceTab-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',  'LibBossIDs-1.0',
+                'LibCompress', 'LibClassicCasterino', 'LibDBIcon-1.0', 'LibDataBroker-1.1',
+                'LibDeflate', 'LibGraph-2.0', 'LibGroupInSpecT-1.1', 'LibItemUpgradeInfo-1.0',
+                'LibSharedMedia-3.0', 'LibStub', 'LibWindow-1.1', 'NickTag-1.0']
+        if not self.is_classic:
+            libs += ['DF', 'LibTranslit-1.0']
+
+        self.remove_libraries(libs, 'Addons/Details/Libs', 'Addons/Details/Libs/libs.xml')
+
         self.change_defaults(
             'Addons/Details/functions/profiles.lua',
             ('		minimap = {hide = true, radius = 160, minimapPos = 220, '
@@ -613,13 +626,10 @@ class Manager:
         )
 
     def handle_omnicc(self):
-        rm_tree('AddOns/OmniCC/libs')
-
-        for xml_path in ['main/main.xml', 'config/config.xml']:
-            process_file(
-                Path('AddOns/OmniCC/') / xml_path,
-                lambda lines: [line for line in lines if 'libs' not in line]
-            )
+        process_file(
+            'AddOns/OmniCC/core/core.xml',
+            lambda lines: [line for line in lines if 'libs' not in line]
+        )
 
     @retail_only
     def handle_omen(self):
@@ -646,17 +656,17 @@ class Manager:
         )
 
     def handle_plater(self):
-        self.remove_libraries(
-            ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
-             'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
-             'AceGUI-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
-             'AceTimer-3.0', 'CallbackHandler-1.0', 'DF', 'LibCompress',
-             'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
-             'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
-             'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibStub', 'LibTranslit-1.0'],
-            'Addons/Plater/libs',
-            'Addons/Plater/libs/libs.xml'
-        )
+        libs = ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
+                'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
+                'AceGUI-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
+                'AceTimer-3.0', 'CallbackHandler-1.0', 'LibCompress',
+                'LibClassicCasterino', 'LibClassicDurations', 'LibCustomGlow-1.0',
+                'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
+                'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibStub', 'LibTranslit-1.0']
+        if not self.is_classic:
+            libs += ['DF', 'LibTranslit-1.0']
+
+        self.remove_libraries(libs, 'Addons/Plater/libs', 'Addons/Plater/libs/libs.xml')
 
     @retail_only
     def handle_pt(self):

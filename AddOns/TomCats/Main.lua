@@ -514,6 +514,7 @@ do
 end
 local BackgroundProcessing = { }
 do
+	local eventFrame = CreateFrame("Frame")
 	local queue = { }
 	function BackgroundProcessing.addToQueue(func, ...)
 		local params = { ... }
@@ -532,7 +533,7 @@ do
 			end
 		end
 	end
-	addon.events.registerEvent("ON_UPDATE",ON_UPDATE)
+	eventFrame:SetScript("OnUpdate",ON_UPDATE)
 end
 local Bit32S = { }
 do

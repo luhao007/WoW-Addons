@@ -84,9 +84,9 @@
     "name": "DRList-1.0 (Diminishing Returns Data)",
     "description": "Library for crowd control diminishing return data.",
     "url": "https://www.curseforge.com/wow/addons/drlist-1-0",
-    "download_url": "https://edge.forgecdn.net/files/3082/796/DRList-1.0-v1.1.4.zip",
-    "date_published": "2020-10-16T09:56:21.850000+00:00",
-    "version": "v1.1.4",
+    "download_url": "https://edge.forgecdn.net/files/3144/703/DRList-1.0-v1.1.5.zip",
+    "date_published": "2020-12-21T02:43:18.827000+00:00",
+    "version": "v1.1.5",
     "folders": [
       {
         "name": "DRList-1.0"
@@ -95,12 +95,12 @@
     "options": {
       "strategy": "default"
     },
-    "deps": [
-      {
-        "id": "14328"
-      }
-    ],
+    "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.1.5",
+        "install_time": "2020-12-26T15:05:13+00:00"
+      },
       {
         "version": "v1.1.4",
         "install_time": "2020-11-03T06:02:13+00:00"

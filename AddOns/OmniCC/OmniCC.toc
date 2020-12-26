@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Tuller
-## Version: 9.0.4
+## Version: 9.0.5
 ## SavedVariables: OmniCCDB, OmniCC4Config
 
 ## Title: OmniCC
@@ -9,4 +9,8 @@
 ## Notes-zhCN: 显示技能冷却时间
 
 
-main\main.xml
+localization\localization.xml
+main.lua
+core\core.xml
+settings\settings.xml
+effects\effects.xml

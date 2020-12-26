@@ -1,34 +1,40 @@
-lightweight tag 11ce1ecd18f817413140d629ae78ac289ef348fd Plater-v9.0.1.321-Retail
-Author:	Continuity <continuity@gmx.net>
-Date:	Sat Nov 28 14:25:46 2020 +0100
+lightweight tag 51c3300914ec490d1fdce8d4b3c6ea27c97cf22a Plater-v9.0.1.323-Retail
+Author:	Tercio Jose <terciob19@hotmail.com>
+Date:	Thu Dec 24 20:41:16 2020 -0300
 
-commit 11ce1ecd18f817413140d629ae78ac289ef348fd
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Nov 28 14:25:46 2020 +0100
-
-    - changelog update
-
-commit 12b4113e6b9342a09d7e83e70d5548ba6d6e05f0
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Nov 28 14:19:36 2020 +0100
-
-    - one las condemn
-
-commit 860639cdffeddcef2aa356db5b4475df07281531
+commit 51c3300914ec490d1fdce8d4b3c6ea27c97cf22a
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Nov 27 17:03:50 2020 -0300
+Date:   Thu Dec 24 20:41:16 2020 -0300
 
-    Fix script, update framework
+    Ingame Change Logs
 
-commit 3a9ae43cfc9654feb05c46d0724a40e370314566
+commit 5ee64c4af8ac8fd8a236ca0968e20bf895b22421
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Dec 24 20:37:24 2020 -0300
+
+    Added script to show the time to die of Spiteful affix units
+
+commit 368c747f01b76b117a48c0a12f4b75092189ec5b
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Dec 24 18:34:50 2020 -0300
+
+    df update
+
+commit 368c747f01b76b117a48c0a12f4b75092189ec5b
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Dec 24 18:34:50 2020 -0300
+
+    df update
+
+commit ff946583ded032e855506b33e2ba7c4679820af0
 Author: Continuity <continuity@gmx.net>
-Date:   Fri Nov 27 13:07:58 2020 +0100
+Date:   Tue Dec 22 19:52:45 2020 +0100
 
-    - another round of condemn
+    - updating Aura Reorder to use new internal sorting
 
-commit 3723223379d6e18b538d476081cd49914e4bd555
+commit ff946583ded032e855506b33e2ba7c4679820af0
 Author: Continuity <continuity@gmx.net>
-Date:   Fri Nov 27 12:48:37 2020 +0100
+Date:   Tue Dec 22 19:52:45 2020 +0100
 
-    - fixing Condemn execute for warriors
+    - updating Aura Reorder to use new internal sorting
 

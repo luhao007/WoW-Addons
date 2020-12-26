@@ -56,9 +56,9 @@
     "name": "AchievementsReminder",
     "description": "Informs about achievements when you enter the instance or take boss to the target",
     "url": "https://www.curseforge.com/wow/addons/achievementsreminder",
-    "download_url": "https://edge.forgecdn.net/files/3084/492/AchievementsReminder9.001.zip",
-    "date_published": "2020-10-17T19:39:04.763000+00:00",
-    "version": "9.001",
+    "download_url": "https://edge.forgecdn.net/files/3143/415/AchievementsReminder9.002.zip",
+    "date_published": "2020-12-19T21:25:14.393000+00:00",
+    "version": "9.002",
     "folders": [
       {
         "name": "AchievementsReminder"
@@ -69,6 +69,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.002",
+        "install_time": "2020-12-26T15:05:03+00:00"
+      },
       {
         "version": "9.001",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -720,9 +724,9 @@
     "name": "BlizzMove",
     "description": "Makes the default frames moveable via simple drag and drop",
     "url": "https://www.curseforge.com/wow/addons/blizzmove",
-    "download_url": "https://edge.forgecdn.net/files/3137/426/BlizzMove-v3.0.7a.zip",
-    "date_published": "2020-12-13T13:11:01.443000+00:00",
-    "version": "v3.0.7a",
+    "download_url": "https://edge.forgecdn.net/files/3149/467/BlizzMove-v3.0.8.zip",
+    "date_published": "2020-12-26T14:50:38.323000+00:00",
+    "version": "v3.0.8",
     "folders": [
       {
         "name": "BlizzMove"
@@ -733,6 +737,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.0.8",
+        "install_time": "2020-12-26T15:05:03+00:00"
+      },
       {
         "version": "v3.0.7a",
         "install_time": "2020-12-15T12:29:09+00:00"
@@ -1152,9 +1160,9 @@
     "name": "Deadly Boss Mods (DBM)",
     "description": "The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods",
-    "download_url": "https://edge.forgecdn.net/files/3141/94/DBM-Core-9.0.11.zip",
-    "date_published": "2020-12-17T07:58:26.243000+00:00",
-    "version": "9.0.11",
+    "download_url": "https://edge.forgecdn.net/files/3147/749/DBM-Core-9.0.14.zip",
+    "date_published": "2020-12-24T01:04:45.097000+00:00",
+    "version": "9.0.14",
     "folders": [
       {
         "name": "DBM-Brawlers"
@@ -1192,6 +1200,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.0.14",
+        "install_time": "2020-12-26T15:05:05+00:00"
+      },
       {
         "version": "9.0.11",
         "install_time": "2020-12-18T05:39:44+00:00"
@@ -1830,9 +1842,9 @@
     "name": "Details! Damage Meter",
     "description": "Complete combat analysis, gathering damage, healing, and other importante stuff.",
     "url": "https://www.curseforge.com/wow/addons/details",
-    "download_url": "https://edge.forgecdn.net/files/3131/655/Details-DetailsRetail.9.0.2.8002.144.zip",
-    "date_published": "2020-12-05T20:34:20.800000+00:00",
-    "version": "DetailsRetail.9.0.2.8002.144",
+    "download_url": "https://edge.forgecdn.net/files/3146/151/Details-DetailsRetail.9.0.2.8102.144.zip",
+    "date_published": "2020-12-22T14:45:23.590000+00:00",
+    "version": "DetailsRetail.9.0.2.8102.144",
     "folders": [
       {
         "name": "Details"
@@ -1861,6 +1873,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DetailsRetail.9.0.2.8102.144",
+        "install_time": "2020-12-26T15:05:06+00:00"
+      },
       {
         "version": "DetailsRetail.9.0.2.8002.144",
         "install_time": "2020-12-15T12:29:13+00:00"
@@ -2070,9 +2086,9 @@
     "name": "GTFO",
     "description": "GTFO warns you when you're standing in fire or other bad stuff.",
     "url": "https://www.curseforge.com/wow/addons/gtfo",
-    "download_url": "https://edge.forgecdn.net/files/3139/198/GTFO-4.57.1.zip",
-    "date_published": "2020-12-15T07:11:35.093000+00:00",
-    "version": "4.57.1",
+    "download_url": "https://edge.forgecdn.net/files/3149/435/GTFO-4.57.3.zip",
+    "date_published": "2020-12-26T13:22:39.560000+00:00",
+    "version": "4.57.3",
     "folders": [
       {
         "name": "GTFO"
@@ -2083,6 +2099,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "4.57.3",
+        "install_time": "2020-12-26T15:05:07+00:00"
+      },
       {
         "version": "4.57.1",
         "install_time": "2020-12-18T06:48:09+00:00"
@@ -2813,9 +2833,9 @@
     "name": "HandyNotes: Lost and Found (Pandaria Treasures)",
     "description": "Where the Lost and Found objects are",
     "url": "https://www.curseforge.com/wow/addons/handynotes_lostandfound",
-    "download_url": "https://edge.forgecdn.net/files/3114/540/HandyNotes_LostAndFound-v14.zip",
-    "date_published": "2020-11-17T20:17:55.527000+00:00",
-    "version": "v14",
+    "download_url": "https://edge.forgecdn.net/files/3147/378/HandyNotes_LostAndFound-v15.zip",
+    "date_published": "2020-12-23T18:07:26.597000+00:00",
+    "version": "v15",
     "folders": [
       {
         "name": "HandyNotes_LostAndFound"
@@ -2826,6 +2846,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v15",
+        "install_time": "2020-12-26T15:05:07+00:00"
+      },
       {
         "version": "v14",
         "install_time": "2020-11-18T14:59:07+00:00"
@@ -3299,9 +3323,9 @@
     "name": "MythicPlusTimer",
     "description": "Custom Mythic+ timer appearance",
     "url": "https://www.curseforge.com/wow/addons/mythicplustimer",
-    "download_url": "https://edge.forgecdn.net/files/3116/896/MythicPlusTimer_4.0.1.zip",
-    "date_published": "2020-11-19T17:53:22.627000+00:00",
-    "version": "MythicPlusTimer 4.0.1",
+    "download_url": "https://edge.forgecdn.net/files/3149/339/MythicPlusTimer_4.1.0.zip",
+    "date_published": "2020-12-26T09:09:49.553000+00:00",
+    "version": "MythicPlusTimer 4.1.0",
     "folders": [
       {
         "name": "MythicPlusTimer"
@@ -3312,6 +3336,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "MythicPlusTimer 4.1.0",
+        "install_time": "2020-12-26T15:05:07+00:00"
+      },
       {
         "version": "MythicPlusTimer 4.0.1",
         "install_time": "2020-11-21T07:48:20+00:00"
@@ -3449,9 +3477,9 @@
     "name": "OmniCC",
     "description": "Cooldown count for everything",
     "url": "https://www.curseforge.com/wow/addons/omni-cc",
-    "download_url": "https://edge.forgecdn.net/files/3115/761/OmniCC-9.0.4.zip",
-    "date_published": "2020-11-18T17:47:11.460000+00:00",
-    "version": "9.0.4",
+    "download_url": "https://edge.forgecdn.net/files/3143/166/OmniCC-9.0.5.zip",
+    "date_published": "2020-12-19T16:29:40.023000+00:00",
+    "version": "9.0.5",
     "folders": [
       {
         "name": "OmniCC"
@@ -3465,6 +3493,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.0.5",
+        "install_time": "2020-12-26T15:05:07+00:00"
+      },
       {
         "version": "9.0.4",
         "install_time": "2020-11-19T06:57:54+00:00"
@@ -3529,9 +3561,9 @@
     "name": "Pawn",
     "description": "Pawn helps you compare items and find upgrades.",
     "url": "https://www.curseforge.com/wow/addons/pawn",
-    "download_url": "https://edge.forgecdn.net/files/3136/517/Pawn-2.4.8.zip",
-    "date_published": "2020-12-12T03:34:37.020000+00:00",
-    "version": "2.4.8",
+    "download_url": "https://edge.forgecdn.net/files/3147/778/Pawn-2.4.9.zip",
+    "date_published": "2020-12-24T01:32:14.840000+00:00",
+    "version": "2.4.9",
     "folders": [
       {
         "name": "Pawn"
@@ -3542,6 +3574,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.4.9",
+        "install_time": "2020-12-26T15:05:07+00:00"
+      },
       {
         "version": "2.4.8",
         "install_time": "2020-12-15T12:29:17+00:00"
@@ -3614,9 +3650,9 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3125/323/Plater-Plater-v9.0.1.321-Retail.zip",
-    "date_published": "2020-11-28T13:56:33.260000+00:00",
-    "version": "Plater-v9.0.1.321-Retail",
+    "download_url": "https://edge.forgecdn.net/files/3148/519/Plater-Plater-v9.0.1.323-Retail.zip",
+    "date_published": "2020-12-24T23:42:54.703000+00:00",
+    "version": "Plater-v9.0.1.323-Retail",
     "folders": [
       {
         "name": "Plater"
@@ -3627,6 +3663,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v9.0.1.323-Retail",
+        "install_time": "2020-12-26T15:05:08+00:00"
+      },
       {
         "version": "Plater-v9.0.1.321-Retail",
         "install_time": "2020-11-29T14:42:48+00:00"
@@ -3731,9 +3771,9 @@
     "name": "RaidAchievement",
     "description": "RaidAchievement shows when achievement, that you can't track is failed or when all criterias are done and you need to kill boss.",
     "url": "https://www.curseforge.com/wow/addons/raidachievement",
-    "download_url": "https://edge.forgecdn.net/files/3084/502/RaidAchievement9.001.zip",
-    "date_published": "2020-10-17T19:41:06.950000+00:00",
-    "version": "9.001",
+    "download_url": "https://edge.forgecdn.net/files/3143/418/RaidAchievement9.002.zip",
+    "date_published": "2020-12-19T21:25:42.007000+00:00",
+    "version": "9.002",
     "folders": [
       {
         "name": "RaidAchievement"
@@ -3750,6 +3790,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.002",
+        "install_time": "2020-12-26T15:05:09+00:00"
+      },
       {
         "version": "9.001",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -4271,9 +4315,9 @@
     "name": "TomCat's Tours",
     "description": "Rare trackers and holiday tour guides",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3136/530/TomCatsTours[retail]-2.0.29.zip",
-    "date_published": "2020-12-12T04:00:41.847000+00:00",
-    "version": "2.0.29",
+    "download_url": "https://edge.forgecdn.net/files/3145/121/TomCatsTours[retail]-2.0.31.zip",
+    "date_published": "2020-12-21T15:37:05.890000+00:00",
+    "version": "2.0.31",
     "folders": [
       {
         "name": "TomCats"
@@ -4299,6 +4343,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.0.31",
+        "install_time": "2020-12-26T15:05:10+00:00"
+      },
       {
         "version": "2.0.29",
         "install_time": "2020-12-15T12:29:21+00:00"
@@ -4496,9 +4544,9 @@
     "name": "TomTom",
     "description": "Acts as your portable navigation assistant",
     "url": "https://www.curseforge.com/wow/addons/tomtom",
-    "download_url": "https://edge.forgecdn.net/files/3126/255/TomTom-v90002-1.1.9.zip",
-    "date_published": "2020-11-29T12:19:48.150000+00:00",
-    "version": "v90002-1.1.9",
+    "download_url": "https://edge.forgecdn.net/files/3143/221/TomTom-v90002-1.2.0.zip",
+    "date_published": "2020-12-19T17:53:27.287000+00:00",
+    "version": "v90002-1.2.0",
     "folders": [
       {
         "name": "TomTom"
@@ -4509,6 +4557,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v90002-1.2.0",
+        "install_time": "2020-12-26T15:05:10+00:00"
+      },
       {
         "version": "v90002-1.1.9",
         "install_time": "2020-11-29T14:42:49+00:00"
@@ -4526,9 +4578,9 @@
     "name": "TradeSkillMaster",
     "description": "Powerful addon to help you make gold from crafting to selling on the auction house to buying vendor items and much more!",
     "url": "https://www.curseforge.com/wow/addons/tradeskill-master",
-    "download_url": "https://edge.forgecdn.net/files/3140/847/TradeSkillMaster_v4.10.25.zip",
-    "date_published": "2020-12-16T23:24:49.367000+00:00",
-    "version": "v4.10.25",
+    "download_url": "https://edge.forgecdn.net/files/3145/488/TradeSkillMaster_v4.10.26.zip",
+    "date_published": "2020-12-21T21:25:51.167000+00:00",
+    "version": "v4.10.26",
     "folders": [
       {
         "name": "TradeSkillMaster"
@@ -4539,6 +4591,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.10.26",
+        "install_time": "2020-12-26T15:05:11+00:00"
+      },
       {
         "version": "v4.10.25",
         "install_time": "2020-12-18T05:39:47+00:00"
