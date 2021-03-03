@@ -264,6 +264,7 @@ L.TIMER_USAGE	= {
 }
 
 L.ERROR_NO_PERMISSION				= "이 명령어를 실행하기 위한 권한을 가지고 있지 않습니다."
+L.TIME_TOO_SHORT					= "풀링 타이머는 3초 이상으로 설정해야 합니다."
 
 --Common Locals
 L.NONE						= "없음"
@@ -291,14 +292,15 @@ L.ORBS						= "구슬"
 L.CHEST						= "상자"--As in Treasure 'Chest'. Not Chest as in body part.
 L.NO_DEBUFF					= "%s 없음"--For use in places like info frame where you put "Not Spellname"
 L.ALLY						= "공대원"--Such as "Move to Ally"
+L.ALLIES					= "공대원"--Such as "Move to Allies"
 L.ADD						= "쫄"--A fight Add as in "boss spawned extra adds"
 L.ADDS						= "쫄"
 L.BIG_ADD					= "큰 쫄"
 L.BOSS						= "보스"
-L.ROOM_EDGE					= "구석"
+L.EDGE						= "구석"
 L.FAR_AWAY					= "먼 곳"
-L.BREAK_LOS					= "시야를 가리는 곳"
-L.RESTORE_LOS				= "시야가 나오는 곳"
+L.BREAK_LOS					= "시야 안나오는"
+L.RESTORE_LOS				= "시야 확보되는"
 L.SAFE						= "안전함"
 L.NOTSAFE					= "위험함"
 L.SHIELD					= "보호막"
@@ -344,7 +346,7 @@ L.AUTO_ANNOUNCE_TEXTS.bait		= "곧 %s - 위치 유도"
 L.AUTO_ANNOUNCE_TEXTS.stage			= "%s단계"
 L.AUTO_ANNOUNCE_TEXTS.prestage		= "곧 %s단계"
 L.AUTO_ANNOUNCE_TEXTS.stack			= "%s: >%%s< (%%d)"
-L.AUTO_ANNOUNCE_TEXTS.moveto		= "%s - >%%s<|1으로;로; 이동"
+L.AUTO_ANNOUNCE_TEXTS.moveto		= "%s - >%%s< 위치로 이동"
 
 local prewarnOption = "$spell:%s 사전 경고 보기"
 L.AUTO_ANNOUNCE_OPTIONS.you			= "당신이 $spell:%s 대상이 된 경우 알림 보기"

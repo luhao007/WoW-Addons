@@ -2046,7 +2046,7 @@ Database:AddChain(Chain.Chain03, {
         },
         {
             type = "covenant",
-            id = 2,
+            id = 4,
         },
         {
             type = "quest",
@@ -2275,15 +2275,18 @@ Database:AddChain(Chain.Chain04, {
             id = 58727,
             x = 0,
             connections = {
-                1, 2, 
+                2, 3, 
             },
+        },
+        {
+            visible = false,
+            x = -3,
         },
         {
             type = "quest",
             id = 60048,
-            x = -1,
             connections = {
-                2, 
+                3, 
             },
         },
         {
@@ -2291,11 +2294,18 @@ Database:AddChain(Chain.Chain04, {
             id = 60049,
             aside = true,
             connections = {
-                2, 
+                3, 
             },
         },
         {
-            -- Unlocks Abomination Stitching
+            type = "chain",
+            id = Chain.TheHouseOfEyes,
+            aside = true,
+            connections = {
+                2, 
+            },
+        },
+        { -- Unlocks Abomination Stitching
             type = "quest",
             id = 60041,
             x = -1,
@@ -2303,9 +2313,10 @@ Database:AddChain(Chain.Chain04, {
                 2, 
             },
         },
-        {
+        { -- Requires quest 57648
             type = "quest",
             id = 60110,
+            x = 2,
             aside = true,
         },
         {

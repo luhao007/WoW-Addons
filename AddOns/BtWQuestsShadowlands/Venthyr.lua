@@ -1989,7 +1989,16 @@ Database:AddChain(Chain.Chain04, {
             id = 59660,
             x = 0,
             connections = {
-                1, 
+                2, 
+            },
+        },
+        {
+            type = "chain",
+            id = 90417,
+            upto = 57927,
+            x = -3,
+            connections = {
+                3, 
             },
         },
         {
@@ -1997,7 +2006,15 @@ Database:AddChain(Chain.Chain04, {
             id = 59661,
             x = 0,
             connections = {
-                1, 2, 3, 
+                2, 3, 4
+            },
+        },
+        {
+            type = "chain",
+            id = 90417,
+            x = 3,
+            connections = {
+                3, 
             },
         },
         {

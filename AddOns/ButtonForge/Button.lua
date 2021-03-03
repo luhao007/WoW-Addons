@@ -676,7 +676,7 @@ end
 
 --[[ The following functions will configure the button to operate correctly for the specific type of action (these functions must be able to handle the player not knowing spells/macros etc) --]]
 function Button:SetEnvSpell(Id, NameRank, Name, Book, IsTalent)
-	self.UpdateTexture 	= Button.Empty;	
+	self.UpdateTexture 	= Button.UpdateTextureSpell;
 	self.UpdateChecked 	= Button.UpdateCheckedSpell;
 	self.UpdateEquipped = Button.Empty;
 	self.UpdateCooldown	= Button.UpdateCooldownSpell;
@@ -1342,6 +1342,27 @@ function Button:UnitBuffBySpell(unit, spell)
 	return nil;
 end;
 
+function Button:UpdateTextureSpell()
+	local spellHasBuffActive = false;
+	for i=1,40 do
+		local spellId = select(10, UnitBuff("player", i));
+		if spellId then
+			if spellId == self.SpellId then
+				spellHasBuffActive = true;
+				break;
+			end
+		else
+			-- no more buffs
+			break;
+		end;
+	end;
+
+	if (spellHasBuffActive == true and Const.StealthSpellIds[self.SpellId] ~= nil) then
+		self.WIcon:SetTexture("Interface/Icons/Spell_Nature_Invisibilty");
+	else
+		self.WIcon:SetTexture(self.Texture);
+	end
+end
 function Button:UpdateTextureWispSpell()
 --BFA fix: UnitBuff can no longer be called with the spell name as a param
 	if (self.UnitBuffBySpell("player", self.SpellName)) then			--NOTE: This en-US, hopefully it will be fine for other locales as well??
@@ -1663,8 +1684,8 @@ function Button:UpdateTextCountSpell()
 		self.WCount:SetText(count);
 		return;
 	end
-	local charges = GetSpellCharges(self.SpellNameRank);
-	if (charges ~= nil) then
+	local charges, maxCharges = GetSpellCharges(self.SpellNameRank);
+	if (charges ~= nil and maxCharges ~= 1) then
 		self.WCount:SetText(charges);
 		return;
 	end
@@ -2212,13 +2233,20 @@ function Button:UpdateFlyout()
 		-- Update arrow
 		Widget.FlyoutArrow:Show();
 		Widget.FlyoutArrow:ClearAllPoints();
-		--if (self:GetParent() == MultiBarRight or self:GetParent() == MultiBarLeft) then
-			--self.FlyoutArrow:SetPoint("LEFT", self, "LEFT", -arrowDistance, 0);
-			--SetClampedTextureRotation(self.FlyoutArrow, 270);
-		--else
+		local direction = self.Widget:GetAttribute("flyoutDirection");
+		if (direction == "LEFT") then
+			Widget.FlyoutArrow:SetPoint("LEFT", Widget, "LEFT", -arrowDistance, 0);
+			SetClampedTextureRotation(Widget.FlyoutArrow, 270);
+		elseif (direction == "RIGHT") then
+			Widget.FlyoutArrow:SetPoint("RIGHT", Widget, "RIGHT", arrowDistance, 0);
+			SetClampedTextureRotation(Widget.FlyoutArrow, 90);
+		elseif (direction == "DOWN") then
+			Widget.FlyoutArrow:SetPoint("BOTTOM", Widget, "BOTTOM", 0, -arrowDistance);
+			SetClampedTextureRotation(Widget.FlyoutArrow, 180);
+		else
 			Widget.FlyoutArrow:SetPoint("TOP", Widget, "TOP", 0, arrowDistance);
 			SetClampedTextureRotation(Widget.FlyoutArrow, 0);
-		--end
+		end
 	else
 		Widget.FlyoutBorder:Hide();
 		Widget.FlyoutBorderShadow:Hide();

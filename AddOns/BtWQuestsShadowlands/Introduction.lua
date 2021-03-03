@@ -920,20 +920,23 @@ Database:AddChain(Chain.Torghast, {
             id = 62966,
             x = -1,
             connections = {
-                2, 
+                3, 
             },
         },
         {
             type = "quest",
             id = 60271,
             connections = {
-                2, 
+                3, 
             },
+        },
+        {
+            visible = false,
+            x = -3,
         },
         {
             type = "quest",
             id = 62969,
-            x = -1,
             connections = {
                 2, 
             },
@@ -942,7 +945,7 @@ Database:AddChain(Chain.Torghast, {
             type = "quest",
             id = 60272,
             connections = {
-                2, 
+                2, 3
             },
         },
         {
@@ -950,27 +953,24 @@ Database:AddChain(Chain.Torghast, {
             id = 60146,
             x = -1,
             connections = {
-                2, 
+                3, 
             },
         },
         {
             type = "quest",
             id = 62700,
-            connections = {
-                2, 
-            },
+        },
+        {
+            type = "quest",
+            id = 62719,
         },
         {
             type = "quest",
             id = 62836,
             x = -1,
             connections = {
-                2, 
+                1, 
             },
-        },
-        {
-            type = "quest",
-            id = 62719,
         },
         {
             type = "quest",
@@ -1118,15 +1118,22 @@ Database:AddChain(Chain.NewRules, {
             id = 60284,
             x = 0,
             connections = {
-                1, 
+                1, 2
             },
         },
         {
             type = "quest",
             id = 60285,
-            x = 0,
+            x = -1,
             connections = {
-                1, 
+                2,
+            },
+        },
+        {
+            type = "quest",
+            id = 63022,
+            connections = {
+                1,
             },
         },
         {
@@ -1134,15 +1141,7 @@ Database:AddChain(Chain.NewRules, {
             id = 62461,
             x = 0,
             connections = {
-                1, 
-            },
-        },
-        {
-            type = "quest",
-            id = 63022,
-            x = 0,
-            connections = {
-                1, 
+                1,
             },
         },
         {

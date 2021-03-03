@@ -1295,6 +1295,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_TH
             id = 48196,
             x = 4,
             y = 3,
+            connections = {
+                2, 
+            },
         },
         {
             type = "quest",

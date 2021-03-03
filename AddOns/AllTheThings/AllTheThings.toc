@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Crieve-Sargeras
-## Version: 2.1.9
+## Version: 2.2.6
 ## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionConfig, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
@@ -29,3 +29,6 @@ AllTheThings.lua
 db\FlightPathDB.lua
 db\RaceDB.lua
 db\Categories.lua
+# DEV ONLY START
+DevTools.lua
+# DEV ONLY END

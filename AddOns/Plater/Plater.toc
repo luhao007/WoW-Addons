@@ -1,5 +1,5 @@
 ## Interface: 90002
-## Version: Plater-v9.0.1.323-Retail
+## Version: Plater-v9.0.2.326b-Retail
 ## SavedVariables: PlaterDB
 ## SavedVariablesPerCharacter: PlaterDBChr
 
@@ -31,6 +31,7 @@ Plater.lua
 Plater_Auras.lua
 Plater_Resources.lua
 Plater_OptionsPanel.lua
+Plater_ScriptingOptions.lua
 Plater_ScriptingPanels.lua
 Plater_ScriptLibrary.lua
 Plater_AnimationEditor.lua

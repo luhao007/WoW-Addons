@@ -883,17 +883,6 @@ end
 				end
 			end
 		end
-
-	
-		--> don't leave the combat if is in the argus encounter ~REMOVE on 8.0
-		--[=[
-		if (_detalhes.encounter_table and _detalhes.encounter_table.id == 2092) then
-			if (_detalhes.debug) then
-				_detalhes:Msg ("(debug) in argus encounter, cannot leave the combat.")
-			end
-			return true
-		end
-		--]=]
 		
 		--mythic dungeon test
 		if (_detalhes.MythicPlus.Started and _detalhes.mythic_plus.always_in_combat) then
@@ -1026,14 +1015,22 @@ end
 		if (not StartAlpha) then
 			StartAlpha = 1.0
 		end
-		
-		if (EndRed > 1.0) then
+		if (not StartRed) then
+			StartRed = 1.0
+		end
+		if (not StartGreen) then
+			StartGreen = 1.0
+		end
+		if (not startBlue) then
+			StartBlue = 1.0
+		end
+		if (not EndRed or EndRed > 1.0) then
 			EndRed = 1.0
 		end
-		if (EndGreen > 1.0) then
+		if (not EndGreen or EndGreen > 1.0) then
 			EndGreen = 1.0
 		end
-		if (EndBlue > 1.0) then
+		if (not EndBlue or EndBlue > 1.0) then
 			EndBlue = 1.0
 		end	
 		
@@ -1380,5 +1377,3 @@ end
 			barra.lineText4:SetSize (texto_direita_tamanho+5, 15)
 		end
 	end
-
-

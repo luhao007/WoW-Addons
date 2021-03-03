@@ -63,7 +63,7 @@ L.SCENARIO_COMPLETE_I				= "%s completed! You have %d total clears."
 L.SCENARIO_COMPLETE_L				= "%s completed after %s! Your last clear took %s and your fastest clear took %s. You have %d total clears."
 L.SCENARIO_COMPLETE_NR				= "%s completed after %s! This is a new record! (Old record was %s). You have %d total clears."
 L.COMBAT_ENDED_AT					= "Combat against %s (%s) ended after %s."
-L.COMBAT_ENDED_AT_LONG				= "Combat against %s (%s) ended after %s. You have %d total wipes on this difficulty."
+L.COMBAT_ENDED_AT_LONG				= "Combat against %s (%s) ended after %s. You have %d total wipe(s) on this difficulty."
 L.GUILD_COMBAT_ENDED_AT				= "Guild has wiped on %s (%s) after %s."
 L.SCENARIO_ENDED_AT					= "%s ended after %s."
 L.SCENARIO_ENDED_AT_LONG			= "%s ended after %s. You have %d total incompletes on this difficulty."
@@ -278,6 +278,7 @@ L.TIMER_USAGE						= {
 }
 
 L.ERROR_NO_PERMISSION				= "You don't have the required permission to do this."
+L.TIME_TOO_SHORT					= "Pull timer must be longer than 3 seconds."
 
 --Common Locals
 L.NONE								= "None"

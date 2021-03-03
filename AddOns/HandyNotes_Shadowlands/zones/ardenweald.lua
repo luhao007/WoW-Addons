@@ -88,6 +88,7 @@ map.nodes[68612765] = Rare({
 map.nodes[54067601] = Rare({
     id=163370,
     quest=59006,
+    note=L["gormbore_note"],
     rewards={
         Achievement({id=14309, criteria=48795}),
         Pet({item=183196, id=3035}) -- Lavender Nibbler
@@ -120,15 +121,18 @@ map.nodes[67465147] = Rare({
     quest=59221,
     rewards={
         Achievement({id=14309, criteria=48787}),
+        Transmog({item=179593, slot=L["cloth"]}), -- Darkreach Mask
+        Transmog({item=179594, slot=L["leather"]}), -- Witherscorn Guise
         Transmog({item=179596, slot=L["cosmetic"]}), -- Drust Mask of Dominance
         Item({item=183091, quest=62246}) -- Lifewoven Bracelet
     }
-}) -- Hunter Vivian
+}) -- Hunter Vivanna
 
 local MACABRE = Rare({
     id=164093,
     quest=59140,
     note=L["macabre_note"],
+    focusable=true,
     rewards={
         Achievement({id=14309, criteria=48780}),
         Pet({item=180644, id=2907}) -- Rocky
@@ -335,8 +339,12 @@ map.nodes[41254443] = Rare({
             48710, -- N'Zoth
             48705  -- Xavius
         }}),
-        Item({item=182454, type=L["trinket"], note=L["guldan"]}), -- Murmurs in the Dark
-        Mount({item=180748, id=1332}) -- Silky Shimmermoth
+        Transmog({item=179518, type=L["staff"], note='{npc:166135}'}), -- Glimmerlight Staff
+        Transmog({item=179534, type=L["polearm"], note='{npc:166138}'}), -- Mi'kai's Deathscythe
+        -- Item({item=182455, type=L["trinket"], note='{npc:166146}'}), -- Dreamer's Mending
+        -- Item({item=182452, type=L["trinket"], note='{npc:166142}'}), -- Everchill Brambles
+        -- Item({item=182451, type=L["trinket"], note='{npc:166139}'}), -- Glimmerdust's Grand Design
+        -- Item({item=182454, type=L["trinket"], note='{npc:166140}'}), -- Murmurs in the Dark
     }
 })
 
@@ -699,7 +707,9 @@ map.nodes[40094168] = JOURNAL
 map.nodes[49664016] = JOURNAL
 map.nodes[50202500] = JOURNAL
 map.nodes[50174187] = JOURNAL
+map.nodes[56002100] = JOURNAL
 
+map.nodes[24755197] = NAUGHTY
 map.nodes[33605740] = NAUGHTY
 map.nodes[39806560] = NAUGHTY
 map.nodes[51005480] = NAUGHTY

@@ -2033,7 +2033,7 @@ function VUHDO_loadDefaultConfig()
 		341489, -- Bloodlight
 		-- 340324, -- Sanguine Ichor (ground damage)
 		-- Huntsman Altimor
-		335111, -- Huntsmans Mark
+		335111, -- Huntsman's Mark
 		334971, -- Jagged Claws
 		334945, -- Vicious Lunge
 		334852, -- Petrifying Howl
@@ -2062,7 +2062,7 @@ function VUHDO_loadDefaultConfig()
 		-- 325382, -- Warped Desires (tank)
 		325936, -- Shared Cognition
 		324983, -- Shared Suffering
-		332664, -- Concentrate Anima
+		332664, -- Concentrated Anima
 		-- 331573, -- Unconscionable Guilt (tank)
 		-- 325713, -- Lingering Anima (ground damage)
 		-- The Council of Blood
@@ -2078,7 +2078,7 @@ function VUHDO_loadDefaultConfig()
 		335470, -- Chain Slam
 		-- 335361, -- Stonequake (ground damage)
 		-- Stone Legion Generals
-		333377, -- Wicked Blade
+		333377, -- Wicked Mark
 		-- 334765, -- Heart Rend (dispel, magic)
 		339690, -- Crystalize
 		-- 342425, -- Stone Fist (tank)
@@ -2090,6 +2090,52 @@ function VUHDO_loadDefaultConfig()
 		-- 332585, -- Scorn (tank)
 		332794, -- Fatal Finesse
 		327992  -- Desolation (ground damage)
+	);
+
+	-- 9.0.2 - Shadowlands
+	VUHDO_addCustomSpellIds(49,
+		-- [[ Necrotic Wake ]]
+		320462, -- Necrotic Bolt
+		320170, -- Necrotic Bolt
+		-- [[ Theater of Pain ]]
+		330784, -- Necrotic Bolt
+		330868, -- Necrotic Bolt Volley
+		-- Death Knight player ability
+		223929  -- Necrotic Wound
+	);
+
+	-- 9.0.2 - Shadowlands
+	VUHDO_addCustomSpellIds(50,
+		-- [[ Castle Nathria ]]
+		-- Shriekwing
+		330713, -- Earsplitting Shriek
+		-- Huntsman Altimor
+		335304, -- Sinseeker
+		335112, -- Huntsman's Mark
+		335113, -- Huntsman's Mark
+		-- Lady Inerva Darkvein
+		326538, -- Anima Web
+		324982, -- Shared Suffering
+		-- 340452, -- Change of Heart (tank)
+		-- Artificer Xy'Mox
+		328468, -- Dimensional Tear
+		326302, -- Stasis Trap
+		-- The Council of Blood
+		331636, -- Dark Recital
+		346651, -- Drain Essence
+		-- Sludgefist
+		339189, -- Chain Bleed
+		-- Stone Legion Generals
+		333913, -- Wicked Laceration
+		334771, -- Heart Hemorrhage
+		342735, -- Ravenous Feast
+		342698, -- Volatile Anima Infection
+		-- Sire Denathrius
+		332797, -- Fatal Finesse (DoT debuff)
+		335873, -- Rancor (ground damage)
+		329951  -- Impale
+		-- 332619  -- Shattering Pain (tank)
+		-- 334016  -- Unworthy
 	);
 
 	local debuffRemovalList = {};

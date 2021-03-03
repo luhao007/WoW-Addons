@@ -1,8 +1,9 @@
-local Lib = LibStub and LibStub("DRList-1.0")
+local Lib, version = LibStub("DRList-1.0")
+if Lib.spellList and version >= 20 then return end
 
 if Lib.gameExpansion == "retail" then
 
-    -- SpellID list for Retail WoW
+    -- SpellID list for Retail WoW (always latest expansion)
     Lib.spellList = {
         -- Disorients
         [207167]  = "disorient",       -- Blinding Sleet
@@ -19,9 +20,12 @@ if Lib.gameExpansion == "retail" then
         [226943]  = "disorient",       -- Mind Bomb
         [2094]    = "disorient",       -- Blind
         [118699]  = "disorient",       -- Fear
+        [5484]    = "disorient",       -- Howl of Terror
         [261589]  = "disorient",       -- Seduction (Grimoire of Sacrifice)
         [6358]    = "disorient",       -- Seduction (Succubus)
         [5246]    = "disorient",       -- Intimidating Shout
+        [316593]  = "disorient",       -- Intimidating Shout 2 (not sure which one is correct in 9.0.1)
+        [316595]  = "disorient",       -- Intimidating Shout 3
         [35474]   = "disorient",       -- Drums of Panic (Item)
         [269186]  = "disorient",       -- Holographic Horror Projector (Item)
         [280062]  = "disorient",       -- Unluckydo (Item)
@@ -88,6 +92,7 @@ if Lib.gameExpansion == "retail" then
 
         -- Stuns
         [210141]  = "stun",            -- Zombie Explosion
+        [334693]  = "stun",            -- Absolute Zero (Breath of Sindragosa)
         [108194]  = "stun",            -- Asphyxiate (Unholy)
         [221562]  = "stun",            -- Asphyxiate (Blood)
         [91800]   = "stun",            -- Gnaw (Ghoul)
@@ -103,10 +108,12 @@ if Lib.gameExpansion == "retail" then
         [163505]  = "stun",            -- Rake (Prowl)
         [5211]    = "stun",            -- Mighty Bash
         [202244]  = "stun",            -- Overrun
+        [325321]  = "stun",            -- Wild Hunt's Charge
         [24394]   = "stun",            -- Intimidation
         [119381]  = "stun",            -- Leg Sweep
         [202346]  = "stun",            -- Double Barrel
         [853]     = "stun",            -- Hammer of Justice
+        [255941]  = "stun",            -- Wake of Ashes
         [64044]   = "stun",            -- Psychic Horror
         [200200]  = "stun",            -- Holy Word: Chastise Censure
         [1833]    = "stun",            -- Cheap Shot
@@ -130,6 +137,7 @@ if Lib.gameExpansion == "retail" then
         [287712]  = "stun",            -- Haymaker (Kul Tiran)
         [280061]  = "stun",            -- Brainsmasher Brew (Item)
         [245638]  = "stun",            -- Thick Shell (Item)
+        [332423]  = "stun",            -- Sparkling Driftglobe Core
 
         -- Roots
         -- Note: Short roots (<= 2s) usually have no DR, e.g Thunderstruck.
@@ -151,7 +159,9 @@ if Lib.gameExpansion == "retail" then
         [342375]  = "root",            -- Tormenting Backlash (Torghast pve, needs confirmation)
         [233582]  = "root",            -- Entrenched in Flame
         [116706]  = "root",            -- Disable
+        [324382]  = "root",            -- Clash
         [64695]   = "root",            -- Earthgrab (Totem effect)
+        [285515]  = "root",            -- Surge of Power
         [39965]   = "root",            -- Frost Grenade (Item)
         [75148]   = "root",            -- Embersilk Net (Item)
         [55536]   = "root",            -- Frostweave Net (Item)
@@ -183,18 +193,20 @@ if Lib.gameExpansion == "retail" then
 --      [36213]   = "taunt",           -- Angered Earth (Earth Elemental, has no debuff)
 
         -- Knockbacks (Experimental)
---      [108199]  = "knockback",        -- Gorefiend's Grasp (has no debuff)
---      [202249]  = "knockback",        -- Overrun TODO: verify
-        [132469]  = "knockback",        -- Typhoon
+        [108199]  = "knockback",        -- Gorefiend's Grasp (Note: has no debuff)
+        [202249]  = "knockback",        -- Overrun TODO: verify
+        [61391]   = "knockback",        -- Typhoon
         [102793]  = "knockback",        -- Ursol's Vortex (Warning: May only be tracked on SPELL_AURA_REFRESH afaik)
         [186387]  = "knockback",        -- Bursting Shot
-        [236775]  = "knockback",        -- Hi-Explosive Trap
+        [236777]  = "knockback",        -- Hi-Explosive Trap
         [157981]  = "knockback",        -- Blast Wave
+        [237371]  = "knockback",        -- Ring of Peace (Note: has no debuff)
         [204263]  = "knockback",        -- Shining Force
         [51490]   = "knockback",        -- Thunderstorm
+--      [287712]  = "knockback",        -- Haywire (Kul'Tiran Racial)
     }
 
-else
+elseif Lib.gameExpansion == "classic" then
 
     -- Spell list for Classic (WIP)
     -- In Classic the spell ID payload is gone from the combat log, so we need the key here to be
@@ -292,6 +304,10 @@ else
         [GetSpellInfo(13181)]   = { category = "mind_control", spellID = 13181 },  -- Gnomish Mind Control Cap
         [GetSpellInfo(8056)]    = { category = "frost_shock", spellID = 8056 },    -- Frost Shock
     }
+elseif Lib.gameExpansion == "tbc" then
+    Lib.spellList = {}
+else
+    error("DRList-1.0: Unsupported game expansion loaded.")
 end
 
 -- Alias for DRData-1.0

@@ -1,5 +1,5 @@
 ## Interface: 90002
-## Version: 3
+## Version: 4
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
 ## SavedVariables: HandyNotes_BattleForAzerothDB

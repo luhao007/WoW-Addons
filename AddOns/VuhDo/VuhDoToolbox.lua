@@ -311,7 +311,7 @@ function VUHDO_textParse(aString)
 		aString = gsub(aString, "  ", " ");
 	end
 
-	return VUHDO_splitString(aString, " ");
+	return VUHDO_splitStringQuoted(aString);
 end
 
 
@@ -336,6 +336,43 @@ function VUHDO_splitString(aText, aChar)
 end
 
 
+
+function VUHDO_splitStringQuoted(aText) 
+
+	if VUHDO_strempty(aText) then
+		return { "" };
+	end
+
+	local tSplit = {};
+	local tPrevToken, tQuoteToken; 
+
+	for tToken in string.gmatch(aText, "%S+") do 
+		local tStartQuote = string.match(tToken, [[^(['"])]]); 
+		local tEndQuote = string.match(tToken, [[(['"])$]]);
+
+		if tStartQuote and not tEndQuote and not tQuoteToken then 
+			tPrevToken = tToken; 
+			tQuoteToken = tStartQuote; 
+		elseif tPrevToken and tQuoteToken == tEndQuote then 
+			tToken = tPrevToken .. ' ' .. tToken;
+
+			tPrevToken = nil;
+			tQuoteToken = nil;
+		elseif tPrevToken then 
+			tPrevToken = tPrevToken .. ' ' .. tToken; 
+		end 
+
+		if not tPrevToken then
+			tToken = string.gsub(tToken, [[^(['"])]], "");
+			tToken = string.gsub(tToken, [[(['"])$]], "");
+
+			table.insert(tSplit, tToken); 
+		end
+	end
+
+	return tSplit;
+
+end
 
 -- returns true if player currently is in a battleground
 local tType;

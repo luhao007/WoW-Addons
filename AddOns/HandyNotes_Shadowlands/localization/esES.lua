@@ -17,6 +17,7 @@ L["anima_channeled"] = "ánima canalizada a %s."
 
 L["deifir_note"] = "Monta en {npc:164238} que va dando vueltas en círculos y usa {spell:319566} y {spell:319575} para frenarlo o aturdirlo respectivamente."
 L["faeflayer_note"] = "En una cueva pequeña oculta tras una cascada."
+L["gormbore_note"] = nil
 L["gormtamer_tizo_note"] = "Mata Spriggans Conobarba en la Espesura Velo de Niebla hasta que aparezca {npc:164110} el cual tendrás que matar."
 L["humongozz_note"] = "Planta un {item:175247} en la Marga Húmeda para hacer aparecer un {npc:164122}. El champiñón cae de muchos enemigos de la zona."
 L["lehgo_note"] = "Destruye los Huevos de Gorm Temblorosos y mata {npc:171827} hasta que aparezca el {npc:167851}. En una cueva (entrada al sureste de las Madrigueras Polvorientas)."
@@ -56,7 +57,6 @@ Habla con {npc:171743}, el Director de Escena, para iniciar uno de los combates 
 
 Participa en los siete combates distintos para desbloquear la {item:180748} del {npc:163714}.
 ]]
-L["guldan"] = "Gul'dan"
 
 L["cache_of_the_moon"] = "Recoge las cinco herramientas perdidas de {npc:171360} en el Jardín de la Noche y combínalas para crear las {item:180753}. Dáselas y ella te lanzará {spell:334353}, permitiéndote ver el cofre."
 L["cache_of_the_night"] = "Recoge una {item:180656}, un {item:180654} y {item:180655} por toda la zona y combínalo todo para crear un {item:180652}."
@@ -77,8 +77,8 @@ Encuentra y usa la emoción correcta en el {npc:171206} cinco veces para consegu
 • comienza a escarbar con curiosidad = |cFFFF8C00/curiosidad|r
 • corretea alrededor incapaz de quedarse quieto = |cFFFF8C00/sentarse|r
 • canta solo = |cFFFF8C00/cantar|r
-• baila de alegría = |cFFFF8C00/bailar|r
-• se sienta solo y triste = |cFFFF8C00/acariciar|r
+• baila con alegría = |cFFFF8C00/bailar|r
+• está sentado con aire triste y solitario = |cFFFF8C00/acariciar|r
 ]]
 
 L["tame_gladerunner"] = "Asaltaclaros domesticado"
@@ -120,7 +120,8 @@ Las motas se pueden recoger de los Botes de Ánima Agotados cercanos localizados
 
 |cFFFF8C00No puede ser derrotado durante la misión del mundo {wq:Asalto al Vestíbulo}.|r
 ]]
-L["nikara_note"] = "Con otros dos jugadores, haz click en el Incienso Antiguo para invocar a {npc:160882}."
+L["reekmonger_note"] = "Mata enemigos en el Templo del Coraje hasta until que hable {npc:171327} y aterrice."
+L["repair_note"] = "Con otros dos jugadores, haz click en el Incienso Antiguo para invocar a {npc:160895}."
 L["sotiros_orstus_note"] = "Haz click en la Campana Negra para invocar a los raros."
 L["sundancer_note"] = "Haz click en la estatua para conseguir el buff {spell:332309}. Usa entonces un {item:180445} para planear hasta {npc:170548} y montarlo."
 L["swelling_tear_note"] = "Haz click en la {npc:171012} para invocar a uno de los tres raros. Las Lágrimas pueden aparecer en varios sitios de la zona."
@@ -162,68 +163,73 @@ L["count_your_blessings_note"] = "Coloca una {item:178915} en el cuenco de tribu
 L["options_icons_blessings"] = "{achievement:14767}"
 L["options_icons_blessings_desc"] = "Muestra las localizaciones de los tributos para el logro {achievement:14767}."
 
-L["vesper_of_courage"] = "Campana de Vísceras del Coraje"
-L["vesper_of_humility"] = "Campana de Vísceras de la Humildad"
-L["vesper_of_loyalty"] = "Campana de Vísceras de la Lealtad"
-L["vesper_of_purity"] = "Campana de Vísceras de la Pureza"
-L["vesper_of_wisdom"] = "Campana de Vísceras de la Sabiduría"
-L["vespers_ascended_note"] = "Haz click en la campana de vísceras al mismo tiempo que en las otras cuatro campanas de vísceras para invocar a {npc:170899} en el Crisol del Aspirante."
+L["vesper_of_courage"] = "Campana de Vísperas del Coraje"
+L["vesper_of_humility"] = "Campana de Vísperas de la Humildad"
+L["vesper_of_loyalty"] = "Campana de Vísperas de la Lealtad"
+L["vesper_of_purity"] = "Campana de Vísperas de la Pureza"
+L["vesper_of_wisdom"] = "Campana de Vísperas de la Sabiduría"
+L["vespers_ascended_note"] = "Haz click en la campana de vísperas al mismo tiempo que en las otras cuatro campanas de vísperas para invocar a {npc:170899} en el Crisol del Aspirante."
 L["options_icons_vespers"] = "{achievement:14734}"
-L["options_icons_vespers_desc"] = "Muestra las localizaciones de las campanas de vísceras para el logro {achievement:14734}."
+L["options_icons_vespers_desc"] = "Muestra las localizaciones de las campanas de vísperas para el logro {achievement:14734}."
 
 L["anima_shard"] = "Fragmento de Ánima Perdido"
-L["anima_shard_61225"] = "En una plataforma inferior debajo del puente."
-L["anima_shard_61235"] = "En una repisa sobre la cascada."
+L["anima_shard_61225"] = "En un piso por debajo del puente."
+L["anima_shard_61235"] = "En una repisa a medio salto de la cascada."
 L["anima_shard_61236"] = "Sobre un arco enmedio de la estructura principal."
-L["anima_shard_61237"] = "En una repisa justo sobre el agua."
+L["anima_shard_61237"] = "En una repisa sobre el agua, a mitad de la cascada."
 L["anima_shard_61238"] = "En el agua debajo de un puente pequeño."
-L["anima_shard_61239"] = "Encima de una fina columna de piedra."
-L["anima_shard_61241"] = "Sobre la entrada a la Cámara del Primer Reflejo."
-L["anima_shard_61244"] = "En una roca en el lado del precipicio."
-L["anima_shard_61245"] = "En una roca sobre una cascada pequeña."
-L["anima_shard_61247"] = "En la pared sobre una fuente pequeña de agua."
+L["anima_shard_61239"] = "Sobre una fina columna de piedra."
+L["anima_shard_61241"] = "Encima de la entrada a la Cámara del Primer Reflejo."
+L["anima_shard_61244"] = "En una roca bajo el saliente del precipicio."
+L["anima_shard_61245"] = "En la parte superior de una cascada pequeña."
+L["anima_shard_61247"] = "Sobre una fuente pequeña de agua en la pared."
 L["anima_shard_61249"] = "Oculta detrás de una columna de piedra en el nivel superior de la Cumbre de la Pureza."
-L["anima_shard_61250"] = "Reposa detrás de una escalera."
-L["anima_shard_61251"] = "Reposa debajo de una campana pequeña."
+L["anima_shard_61250"] = "Debajo de una plataforma de escaleras."
+L["anima_shard_61251"] = "Debajo del incensiario."
 L["anima_shard_61253"] = "Encima de un arco de piedra caido."
 L["anima_shard_61254"] = "Encima de una estructura de madera pequeña."
-L["anima_shard_61257"] = "En una repisa pequeña justo debajo de {npc:162523}."
-L["anima_shard_61258"] = "En una repisa pequeña en la parte inferior del Reposo del Héroe."
-L["anima_shard_61260"] = "En el suelo debajo de la plataforma."
-L["anima_shard_61261"] = "En una repisa sobre la cueva de {npc:163460}."
+L["anima_shard_61257"] = "En un saliente pequeño justo debajo de {npc:162523}."
+L["anima_shard_61258"] = "En un saliente bajo la parte inferior del Reposo del Héroe."
+L["anima_shard_61260"] = "Justo debajo de la plataforma."
+L["anima_shard_61261"] = "En un saliente sobre la cueva de {npc:163460}."
 L["anima_shard_61263"] = "Sobre un pilar de piedra."
 L["anima_shard_61264"] = "Encima de una estructura inclinada."
-L["anima_shard_61270"] = "Reposa en la base de un árbol."
-L["anima_shard_61271"] = "En una estantería en la plataforma superior."
-L["anima_shard_61273"] = "En una repisa justo debajo del precipicio que sobresale."
-L["anima_shard_61274"] = "Oculta debajo de la plataforma."
-L["anima_shard_61275"] = "En la Sala de las Bestias detrás de unos barriles."
+L["anima_shard_61270"] = "En la base de un árbol."
+L["anima_shard_61271"] = "En una estantería en el piso superior."
+L["anima_shard_61273"] = "En una repisa que sobresale justo debajo del precipicio."
+L["anima_shard_61274"] = "Oculta debajo de una de las plataformas."
+L["anima_shard_61275"] = "En la Sala de las Bestias oculta detrás de unos barriles."
 L["anima_shard_61277"] = "Sobre una fina columna de piedra."
 L["anima_shard_61278"] = "Debajo del puente y sobre una roca."
 L["anima_shard_61279"] = "Sobre una fina columna de piedra."
 L["anima_shard_61280"] = "En la esquina de la mesa."
-L["anima_shard_61281"] = "En una repisa sobre el tesoro de las Ofrendas Conmemorativas."
-L["anima_shard_61282"] = "En una repisa debajo de la cima del precipio."
+L["anima_shard_61281"] = "En un saliente sobre el tesoro de las Ofrendas Conmemorativas."
+L["anima_shard_61282"] = "En un Saliente bajo la cima del precipio."
 L["anima_shard_61283"] = "En una cueva debajo de la Capilla de Miri, detrás de unos barriles."
 L["anima_shard_61284"] = "En una repisa debajo de un saliente rocoso, camino al sur."
-L["anima_shard_61285"] = "Al final de una pequeña repisa de roca."
-L["anima_shard_61286"] = "En una repisa que domina el camino."
-L["anima_shard_61287"] = "En una repisa sobre una cascada pequeña."
-L["anima_shard_61288"] = "En la punta de una repisa pequeña."
-L["anima_shard_61289"] = "Encima de la glorieta."
+L["anima_shard_61285"] = "Al final de un pequeño saliente de roca."
+L["anima_shard_61286"] = "En una repisa sobre el camino."
+L["anima_shard_61287"] = "En una repisa sobre un lago pequeño."
+L["anima_shard_61288"] = "En la punta de un saliente en la roca."
+L["anima_shard_61289"] = "Encima de la cúpula del edificio."
 L["anima_shard_61290"] = "Al final de un estrecho saliente rocoso."
 L["anima_shard_61291"] = "En el fondo del estanque junto a los pies de una estatua."
 L["anima_shard_61292"] = "Sobre un arco de piedra."
-L["anima_shard_61293"] = "Sobre una fina columna de piedra en el nivel inferior."
-L["anima_shard_61294"] = "Oculta detrás de una pila de barriles."
-L["anima_shard_61295"] = "Detrás de la {npc:156889} en una estantería."
-L["anima_shard_61296"] = "Detrás de una campana caida grande.\n\n"..ns.color.Red('Dentro de la mazmorra Estela Necrótica.')
+L["anima_shard_61293"] = "Sobre una fina columna de piedra en el nivel inferior."--REVISAR
+L["anima_shard_61294"] = "Oculta detrás de una pila de barriles."--REVISAR
+L["anima_shard_61295"] = "Detrás de la {npc:156889} en una estantería."--REVISAR
+L["anima_shard_61296"] = "Junto a una campana caida grande.\n\n"..ns.color.Red('Dentro de la mazmorra Estela Necrótica.')
 L["anima_shard_61297"] = "Detrás de un pilar de piedra.\n\n"..ns.color.Red('Dentro de la mazmorra Estela Necrótica.')
-L["anima_shard_61298"] = "Reposa detrás de un sillón."
-L["anima_shard_61299"] = "Oculta detrás de una gran antorcha."
-L["anima_shard_61300"] = "En una repisa que cuelga sobre la fuente central."
+L["anima_shard_61298"] = "Detrás de un sillón."
+L["anima_shard_61299"] = "Oculta detrás de una gran antorcha junto al ángel."
+L["anima_shard_61300"] = "En una repisa sobre la fuente central justo detrás de los ángeles."
+L["anima_shard_spires"] = "Tres fragmentos están dentro de la mazmorra Agujas de Ascensión."
 L["options_icons_anima_shard"] = "{achievement:14339}"
 L["options_icons_anima_shard_desc"] = "Muestra la localización de los 50 fragmentos de cristal de ánima perdidos para el logro {achievement:14339}."
+
+L["hymn_note"] = "Localiza los himnos en cada uno de los templos y consigue sus buffs para conseguir el logro."
+L["options_icons_hymns"] = "{achievement:14768}"
+L["options_icons_hymns_desc"] = "Muestra las localizaciones de los himnos para el logro {achievement:14768}."
 
 L["stratios_note"] = "Incluso las pequeñas batallas se deben librar con honor y cuidado. Presenta a tu equipo cuando lo tengas todo listo."
 L["thenia_note"] = "Qué llanuras más maravillosas. Un lugar glorioso para combatir. ¿Listo?"
@@ -240,6 +246,7 @@ L["gieger_note"] = "Tira del {npc:162815} para activar a {npc:162741}."
 L["gristlebeak_note"] = "Rompe los {npc:162761} cercanos para provocar a {npc:162588}."
 L["leeda_note"] = "Mata a las dos {npc:162220} hasta que aparezca la {npc:162180}."
 L["nirvaska_note"] = "Sólo aparece cuando la misión del mundo {wq:Recordatorio Letal} está activa."
+L["ravenomous_note"] = "Aplasta las {npc:159901} neutrales de la zona, hasta que aparezca {npc:159753}."
 L["sabriel_note"] = "Puede aparecer como uno de los campeones del Teatro del Dolor."
 L["schmitd_note"] = "Usa un {spell:313451} cercano para romper su escudo."
 L["taskmaster_xox_note"] = "Comparte el lugar de aparición con {npc:160204}, {npc:160230} y {npc:160226}."
@@ -290,27 +297,22 @@ L["spinebug_note"] = [[
 ]]
 
 L["oonar_sorrowbane_note"] = [[
-En el Teatro del Dolor, podrás encontrar a {item:180273} clavada en el suelo y el {item:181164} cogiéndola. |cFFFF8C00Antes de intentar tirar de ninguno, pon tu {item:6948} en {npc:161702} por el punto de vuelo.|r
-
-Para tirar del {item:181164} sin problemas:
-
-• Viaja a la Descomposición de Glutharn al este.
-• Come 4 {spell:327367} (debuff de 2 minutos).
-• Vuelve rápidamente al Teatro del Dolor con la {item:6948} y tira del brazo.
-
-Para tirar de {item:180273} sin problemas:
+En el Teatro del Dolor, podrás encontrar a {item:180273} clavada en el suelo y el {item:181164} cogiéndola. Para liberarla:
 
 • Compra 1 {item:182163} de {npc:171808} en Revendreth.
 • Compra 1 {item:180771} de {npc:166640} en Maldraxxus.
+• Compra 1 {item:181163} de {npc:169964} en Maldraxxus.
 • Consigue 2 acumulaciones de {spell:306272} de la misión del mundo {wq:Un par de baches en el camino} al oeste.
 • Come 4 {spell:327367} en la Descomposición de Glutharn.
-• Vuelve rápidamente al Teatro del Dolor con la {item:6948}, bébete ambas pociones y tira de la espada.
+• Usa rápidamente la {item:181163}, bebe ambas pociones y tira del brazo y la espada.
+
+Para tirar sólo del brazo, sólo hacen falta las {spell:327367}.
 ]]
 
 L["pet_cat"] = "¡Acaricia al maldito gato!"
 L["hairball"] = ns.color.Red("¡Sólo aparece en el Sagrario Purulento dentro de la mazmorra Bajapeste!")
 L["lime"] = "Reposa sobre el gran arco óseo."
-L["moldstopheles"] = "Corre alrededor de la parte posterior del tallo y salta en las plataformas con forma de champiñón. Para la última plataforma, usa una montura y salta en la esquina que rodea el tallo."
+L["moldstopheles"] = "Corre alrededor del tallo y salta hacia la pared para saltar en la plataforma con forma de champiñón. Salta otra y para la última, usa una montura y salta en la raíz que rodea el tallo del champiñón gigante."
 L["pus_in_boots"] = "Está debajo del puente."
 
 L["options_icons_slime_cat"] = "{achievement:14634}"
@@ -330,6 +332,7 @@ L["amalgamation_of_sin_note"] = "Durante la misión del mundo {wq:Invocar tus pe
 L["bog_beast_note"] = "Tiene probabilidad de aparecer durante la misión de mundo {wq:Mugre a mansalva} después de usar la {item:177880} en el {npc:166206}."
 L["endlurker_note"] = "Haz click en el Poste de Ánima cerca del cuerpo del {npc:165229} y usa el {spell:321826} en la parte superior de la Falla Fulgurante."
 L["executioner_aatron_note"] = "Mata a los tres {npc:166715} cercanos para eliminar la {spell:324872} del {npc:166710}."
+L["executioner_adrastia_note"] = nil
 L["famu_note"] = "Habla con la {npc:166483} para comenzar el evento tras el cual aparecerá {npc:166521}."
 L["grand_arcanist_dimitri_note"] = "Mata a los cuatro {npc:167467} para liberar al {npc:167464}."
 L["harika_note"] = "En Cuenca Aterradora al oeste, despoja el {item:176397}, entregáselo a {npc:165327} y dile que derribe a {npc:165290}."
@@ -391,7 +394,7 @@ L["options_icons_fugitives_desc"] = "Muestra las localizaciones de las almas fug
 L["grand_inquisitor_note"] = "Entrega 10 {item:180451} al {npc:160248} para tener una oportunidad en esta piedra del pecado."
 L["high_inquisitor_note"] = "Entrega 250 {currency:1816} al {npc:160248} para tener una oportunidad en esta piedra del pecado."
 L["inquisitor_note"] = "Entrega 100 {currency:1816} al {npc:160248} para tener una oportunidad en esta piedra del pecado."
-L["options_icons_inquisitors"] = "{achievement:14276}"
+L["options_icons_inquisitors"] = "Inquisidores"
 L["options_icons_inquisitors_desc"] = "Muestra las localizaciones del inquisidor para el logro {achievement:14276}."
 
 -------------------------------------------------------------------------------
@@ -405,7 +408,6 @@ L["apholeias_note"] = "Con otros 3 jugadores, situaos en las esquinas de la plat
 L["dekaris_note"] = "Encima de una gran roca que sobresale."
 L["drifting_sorrow_note"] = "Mata {npc:175246} cerca del orbe flotante para activar el boss."
 L["ekphoras_note"] = "Con otros 3 jugadores, situaos en las esquinas de la plataforma y lanzad la {spell:330650} para hacer aparecer a {npc:169827}."
-L["gorged_shadehound_note"] = nil
 L["ikras_note"] = "Vuela alrededor del Bastión de la Perdición. Este es un buen sitio para pullearlo."
 L["orophea_note"] = "Coge el {spell:337143} al sureste y ofréceselo a {npc:172577} para que se active."
 L["sanngror_note"] = "Si no se puede atacar a {npc:172521}, espera hasta que no esté experimentando con las almas."
@@ -426,13 +428,12 @@ Combina los tres grabados para crear la {item:182329}, la cual puede ser usada p
 L["soul_well_note"] = "Atrapa la Estigia que sale del Pozo de Almas."
 L["obliterated_soul_shards_note"] = "Recoge {item:177834} en los puentes."
 
-L["animaflow_teleporter_note"] = "Actívalo para viajar directamente al Tremaculum."
+L["animaflow_teleporter_note"] = "Actívalo para viajar directamente a otros lugares de Las Fauces."
 L["chaotic_riftstone_note"] = "Activa el {spell:344157} para cruzar rápidamente por Las Fauces."
 L["venari_note"] = [[
 Usa {currency:1767} para comprar mejoras en Las Fauces y Torghast.
 
 |cFFFF8C00Las mejoras Compartidas en la Cuenta de Torghast se mostrarán como incompletas en los alters!|r
-|cFFFF8C00¡El estado de finalización se actualizará a continuación a medida que las desbloqueemos!|r
 ]]
 L["venari_upgrade"] = "Mejora de {npc:162804}"
 L["torghast"] = "Torghast"
@@ -445,6 +446,10 @@ L["Tentative"] = "Indecisa"
 L["stygian_cache"] = "Alijo de Estigia"
 L["stygian_cache_note"] = "¡Sólo una persona puede despojar el alijo cada vez que aparezca!"
 
+L["box_of_torments_note"] = "Abre los {npc:173837} bajo el Tremaculum."
+L["tormentors_notes_note"] = "Despoja el cuerpo del {npc:173811}."
+L["words_of_warden_note"] = "Examina el |cffffff00Trozo de Papel|r en la roca detrás de algunas urnas."
+
 L["options_icons_bonus_boss"] = "Élites de Bonificación"
 L["options_icons_bonus_boss_desc"] = "Muestra las localizaciones de los élites de bonificación."
 L["options_icons_bonus_event"] = "Eventos de Bonificación"
@@ -453,5 +458,7 @@ L["options_icons_riftstone"] = "{npc:174962}"
 L["options_icons_riftstone_desc"] = "Muestra las localizaciones de los teletransportadores de piedras de falla caóticas."
 L["options_icons_grapples"] = "{npc:176308}"
 L["options_icons_grapples_desc"] = "Muestra las localizaciones de los agarres para la mejora {item:184653}."
+L["options_icons_maw_lore"] = "Tradiciones de Las Fauces"
+L["options_icons_maw_lore_desc"] = "Muestra las localizaciones para las tradiciones de Las Fauces para el logro {achievement:14761}."
 L["options_icons_stygian_caches"] = "Alijos de Estigia"
 L["options_icons_stygian_caches_desc"] = "Muestra las localizaciones de los alijos con Estigia extra."

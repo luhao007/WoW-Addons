@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Dejablue, Kakjens, loudsoul
-## Version: 900r1
+## Version: 900r2
 ## SavedVariables: DCS_ClassSpecDB
 ## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
 

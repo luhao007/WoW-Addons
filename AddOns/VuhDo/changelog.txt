@@ -1,3 +1,51 @@
+Version 3.120  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+-- Fixed error when slash command had zero arguments  
+-- Fixed class name text for classless units (defaults to creature type)  
+-- Fixed error on target switch in combat with show class name enabled  
+-- Fixed redundant profile reloading on talent change  
+  
+  
+Improvements:  
+-- Added Hunter 'Primal Fury' debuff 'Fatigued' to default ignore list  
+-- Added additional default custom debuffs for Castle Nathria encounters  
+-- Upgraded NickTag-1.0 library dependency to minor 14  
+  
+  
+--------------------------------------------------------------  
+Version 3.119  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+-- Slash command arguments can now be properly quoted  
+  
+  
+Improvements:  
+-- Added Necrotic Wake 'Necrotic Bolt' debuff absorb tracking  
+-- Added Theater of Pain 'Necrotic Bolt' debuff absorb tracking  
+-- Added Theater of Pain 'Necrotic Bolt Volley' debuff absorb tracking  
+-- Added Death Knight ability 'Necrotic Wound' debuff absorb tracking  
+  
+  
+--------------------------------------------------------------  
 Version 3.118  
   
   

@@ -221,4 +221,11 @@ R.opennodes = {
 	[L["Gilded Chest"]] = true,
 	[L["Broken Bell"]] = true,
 	[L["Skyward Bell"]] = true,
+	[L["Cache of the Ascended"]] = true,
+	[L["Slime-Coated Crate"]] = true,
+	[L["Sprouting Growth"]] = true,
+	[L["Stewart's Stewpendous Stew"]] = true,
+	[L["Bleakwood Chest"]] = true,
+	[L["Blackhound Cache"]] = true,
+	[L["Secret Treasure"]] = true
 }

@@ -1,4 +1,4 @@
-local VERSION = 97
+local VERSION = 99
 
 --[[
 Special icons for rares, pvp or pet battle quests in list
@@ -298,6 +298,12 @@ Bugfixes
 
 LFG fixes
 Added Aspirant Training quest helper
+
+Adeed shadowlands achievements
+Updated german translation (by sunflow72)
+
+Added Tough Crowd helper
+Minor fixes
 ]]
 
 local GlobalAddonName, WQLdb = ...
@@ -424,73 +430,75 @@ local LOCALE =
 		rewardSortCurrOther = "Другие валюты",
 		rewardSortItemOther = "Другие предметы",
 		aspirantTraining = "Помощник тренировки претендента",
+		toughCrowdHelper = "Помощник требовательной публики",
 	} or
-	locale == "deDE" and {    --by Sunflow72
-		gear = "Ausrüstung",
-		gold = "Gold",
-		blood = "Blut von Sargeras",
-		knowledgeTooltip = "** Kann nach dem Erreichen des nächsten Artefaktwissens abgeschlossen werden",
-		disableArrow = "Deaktiviert den Pfeil",
-		anchor = "Anker",
-		totalap = "Artefaktmacht insgesamt: ",
-		totalapdisable = 'Deaktiviert "Gesamt-Artefaktmacht"',
-		timeToComplete = "Zeit zum Abschließen: ",
-		bountyIgnoreFilter = "Abgesandten Quests",
-		enigmaHelper = "Aktiviert Rätsel Helfer",
-		barrelsHelper = "Aktiviert Fässer Helfer",
-		honorIgnoreFilter = "PVP Quests",
-		ignoreFilter = "Filter ignorieren für",
-		epicIgnoreFilter = '"ELITE" Quests',
-		wantedIgnoreFilter = "GESUCHT:... Quests",   
-		apFormatSetup = "Artefaktmacht Format",
-		headerEnable = "Aktiviert die Kopfzeile",
-		disabeHighlightNewQuests = "Deaktiviert die Markierung für neue Quests",
-		distance = "Entfernung",
-		disableBountyIcon = "Deaktiviert die Fraktionssymbole für Abgesandten Quests",
-		arrow = "Pfeil",
-		invasionPoints = "Invasions-Punkte",
-		argusMap = "Aktiviert Argus Karte",
-		ignoreList = "Ignorier-Liste",
-		addQuestsOpposite = "Fügt Quests von anderen Kontinent hinzu",
-		hideLegion = "Verbergt Quests von Legion",
-		disableArrowMove = "Deaktiviert das Verschieben",
-		shellGameHelper = "Aktiviert Panzer-Spiel Helfer",
-		iconsOnMinimap = "Aktiviert Symbole auf Kontinentkarten",
-		addQuestsArgus = "Fügt Quests von Argus hinzu",
-		lfgSearchOption = "Aktiviert die LFG-Suche",
-		lfgAutoinvite = "Aktiviert die automatische Einladungsoption",
-		lfgTypeText = "Gib die Quest-ID in das Eingabefeld ein",
-		lfgLeftButtonClick = "Linksklick - Gruppe finden",
-		lfgLeftButtonClick2 = "Linksklick + Shift - Gruppe finden nach Namen",
-		lfgRightButtonClick = "Rechtsklick - Gruppe erstellen",
-		lfgDisablePopup = "Deaktiviert Popup im Questbereich",
-		lfgDisableRightClickIcons = "Deaktiviert die rechte Maustaste auf Symbole der Karte",
-		disableRewardIcons = "Aktiviert die Belohnungssymbole auf Karten",
-		mapIconsScale = "Kartensymbole skalieren",
-		disableRibbon = "Deaktiviert die Bandgrafiken",
-		enableRibbonGeneralMap = "Aktiviert die Bandgrafik auf Kontinentkarten",
-		enableArrowQuests = "Aktiviert den Pfeil für normale Quests",
-		tryWithQuestID = "Suche nach Quest-ID",
-		lfgDisableAll = "Deaktiviert alle, außer LFG",
-		lfgDisableAll2 = "Alle Add-In Einstellungen werden zurückgesetzt. Deaktiviert alle Optionen, außer LFG?",
-		lfgDisableEyeRight = "Deaktiviert Augenknopf bei Quest-Ziele auf der rechten Seite",
-		lfgDisableEyeList = "Augenknopf in Liste ausblenden",
-		listSize = "Listengröße",
-		topLine = "Obere Zeile",
-		bottomLine = "Untere Zeile",
-		unlimited = "Unbegrenzt",
-		maxLines = "maximale Anzahl an Zeilen",
-		lfgDisablePopupLeave = "Deaktiviert Popup nach Abschluss der Quest (Gruppe verlassen)",
-		expulsom = "Expulsom",
-		expulsomReplace = "Ersetzt Schmuckstücke durch Expulsom",
-		enableBountyColors = "Aktiviert die Farben der Kopfgeldquests",
-		calligraphyGameHelper = "Aktiviert Kalligraphie-Helfer",
-		addQuestsNazjatar = "Fügt Quests von Nazjatar hinzu",
-		questsForAchievements = "Zeigt Quests für Erfolge",
-		rewardSortOption = "Prioritätsoptionen",
-		rewardSortCurrOther = "Andere Währungen",
-		rewardSortItemOther = "Andere Gegenstände",
-		aspirantTraining = "Aspirant Training Helper",
+	locale == "deDE" and {    --by SunnySunflow
+	        gear = "Ausrüstung",
+	        gold = "Gold",
+	        blood = "Blut von Sargeras",
+	        knowledgeTooltip = "** Kann nach dem Erreichen des nächsten Artefaktwissens abgeschlossen werden",
+	        disableArrow = "Deaktiviert den Pfeil",
+	        anchor = "Anker",
+	        totalap = "Artefaktmacht insgesamt: ",
+	        totalapdisable = 'Deaktiviert "Gesamt-Artefaktmacht"',
+	        timeToComplete = "Zeit zum Abschließen: ",
+	        bountyIgnoreFilter = "Abgesandten Quests",
+	        enigmaHelper = "Aktiviert Rätsel Helfer",
+	        barrelsHelper = "Aktiviert Fässer Helfer",
+	        honorIgnoreFilter = "PVP Quests",
+	        ignoreFilter = "Filter ignorieren für",
+	        epicIgnoreFilter = '"Weltbosse" Quests',
+	        wantedIgnoreFilter = "Missionen Quests",
+	        apFormatSetup = "Artefaktmacht Format",
+	        headerEnable = "Aktiviert die Kopfzeile",
+	        disabeHighlightNewQuests = "Deaktiviert die Markierung für neue Quests",
+	        distance = "Entfernung",
+	        disableBountyIcon = "Deaktiviert die Fraktionssymbole für Abgesandten Quests",
+	        arrow = "Pfeil",
+	        invasionPoints = "Invasions-Punkte",
+	        argusMap = "Aktiviert Argus Karte",
+	        ignoreList = "Ignorier-Liste",
+	        addQuestsOpposite = "Fügt Quests von anderen Kontinent hinzu",
+	        hideLegion = "Verbergt Quests von Legion",
+	        disableArrowMove = "Deaktiviert das Verschieben",
+	        shellGameHelper = "Aktiviert Panzerspiel Helfer",
+	        iconsOnMinimap = "Aktiviert Symbole auf Kontinentkarten",
+	        addQuestsArgus = "Fügt Quests von Argus hinzu",
+	        lfgSearchOption = "Aktiviert die LFG-Suche",
+	        lfgAutoinvite = "Aktiviert die automatische Einladungsoption",
+	        lfgTypeText = "Gib die Quest-ID in das Eingabefeld ein",
+	        lfgLeftButtonClick = "Linksklick - Gruppe finden",
+	        lfgLeftButtonClick2 = "Linksklick + Shift - Gruppe finden nach Namen",
+	        lfgRightButtonClick = "Rechtsklick - Gruppe erstellen",
+	        lfgDisablePopup = "Deaktiviert Popup im Questbereich",
+	        lfgDisableRightClickIcons = "Deaktiviert die rechte Maustaste auf Symbole der Karte",
+	        disableRewardIcons = "Aktiviert die Belohnungssymbole auf Karten",
+	        mapIconsScale = "Kartensymbole skalieren",
+	        disableRibbon = "Deaktiviert die Bandgrafiken",
+	        enableRibbonGeneralMap = "Aktiviert die Bandgrafik auf Kontinentkarten",
+	        enableArrowQuests = "Aktiviert den Pfeil für normale Quests",
+	        tryWithQuestID = "Suche nach Quest-ID",
+	        lfgDisableAll = "Deaktiviert alle, außer LFG",
+	        lfgDisableAll2 = "Alle Addon-Einstellungen werden zurückgesetzt. Deaktiviert alle Optionen, außer LFG?",
+	        lfgDisableEyeRight = "Deaktiviert Augenknopf bei Quest-Ziele auf der rechten Seite",
+	        lfgDisableEyeList = "Augenknopf in Liste ausblenden",
+	        listSize = "Listengröße",
+	        topLine = "Obere Zeile",
+	        bottomLine = "Untere Zeile",
+	        unlimited = "Unbegrenzt",
+	        maxLines = "Maximale Anzahl an Zeilen",
+	        lfgDisablePopupLeave = "Deaktiviert Popup nach Abschluss der Quest (Gruppe verlassen)",
+	        expulsom = "Expulsom",
+	        expulsomReplace = "Ersetzt Schmuckstücke durch Expulsom",
+	        enableBountyColors = "Aktiviert die Farben der Kopfgeldquests",
+	        calligraphyGameHelper = "Aktiviert Kalligraphie Helfer",
+	        addQuestsNazjatar = "Fügt Quests von Nazjatar hinzu",
+	        questsForAchievements = "Zeigt Quests für Erfolge",
+	        rewardSortOption = "Prioritätsoptionen",
+	        rewardSortCurrOther = "Andere Währungen",
+	        rewardSortItemOther = "Andere Gegenstände",
+	        aspirantTraining = "Aspiranten Übungskampf Helfer",
+		toughCrowdHelper = "Schwieriges Publikum Helfer",
 	} or
 	locale == "frFR" and {
 		gear = "Équipement",
@@ -558,6 +566,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	} or
 	(locale == "esES" or locale == "esMX") and {
 		gear = "Equipo",
@@ -625,6 +634,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	} or
 	locale == "itIT" and {
 		gear = "Equipaggiamento",
@@ -692,6 +702,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	} or
 	locale == "ptBR" and {
 		gear = "Equipamento",
@@ -759,6 +770,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	} or
 	locale == "koKR" and {
 		gear = "장비",
@@ -826,6 +838,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	} or
 	locale == "zhCN" and {	--by sprider00
 		gear = "装备",
@@ -893,6 +906,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	} or
 	locale == "zhTW" and {	--by sprider00
 		gear = "裝備",
@@ -960,6 +974,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	} or 
 	{
 		gear = "Gear",
@@ -1027,6 +1042,7 @@ local LOCALE =
 		rewardSortCurrOther = "Other currencies",
 		rewardSortItemOther = "Other items",
 		aspirantTraining = "Aspirant Training Helper",
+		toughCrowdHelper = "Tough Crowd Helper",
 	}
 
 local filters = {
@@ -2235,6 +2251,24 @@ do
 		[51976] = 13054,
 		[51977] = 13054,
 		[51978] = 13054,
+		
+		[59718] = 14766,
+		[59643] = 14765,
+		[60739] = 14671,
+		[60911] = 14741,
+		[60602] = 14772,
+		[60858] = 14762,
+		[59848] = 14233,
+		[59852] = 14233,
+		[59850] = 14233,
+		[59853] = 14233,
+		[60844] = 14735, -- Flight School: Falling With Style
+		[59717] = 14737, -- Things Remembered
+		[60475] = 14672, -- We'll Workshop It
+		[59825] = 14516, -- Impressing Zo'Sorg (Seed Hunting)
+		[59803] = 14516, -- Impressing Zo'Sorg (For Honor)
+		[59658] = 14516, -- Impressing Zo'Sorg (Express Dominance)
+		[60231] = 14516, -- Impressing Zo'Sorg (State of Decay)
 	}
 	function WorldQuestList:IsQuestForAchievement(questID)
 		if questID and questToAchievement[questID] then
@@ -4029,6 +4063,14 @@ do
 		checkable = true,
 		shownFunc = function() return SL() or not WorldQuestList.optionsDropDown:IsVisible() end,
 	}
+	list[#list+1] = {
+		text = LOCALE.toughCrowdHelper,
+		func = function()
+			VWQL.DisableToughCrowd = not VWQL.DisableToughCrowd
+		end,
+		checkable = true,
+		shownFunc = function() return SL() or not WorldQuestList.optionsDropDown:IsVisible() end,
+	}
 
 	list[#list+1] = {
 		text = LOCALE.ignoreList,
@@ -4081,6 +4123,8 @@ do
 				self.List[i].checkState = not VWQL.ShowQuestAchievements
 			elseif self.List[i].text == LOCALE.aspirantTraining then
 				self.List[i].checkState = not VWQL.DisableAspirantTraining
+			elseif self.List[i].text == LOCALE.toughCrowdHelper then
+				self.List[i].checkState = not VWQL.DisableToughCrowd
 			end
 		end
 		anchorSubMenu[1].checkState = not VWQL.Anchor
@@ -5628,6 +5672,7 @@ end
 WorldQuestList.NULLTable = {}
 
 WorldQuestList.QuestIDtoMapID = {}
+WorldQuestList.CacheSLAnimaItems = {}
 
 function WorldQuestList_Update(preMapID,forceUpdate)
 	if not WorldQuestList:IsVisible() and not VWQL[charKey].HideMap and not forceUpdate then
@@ -5870,9 +5915,18 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 		local p = 1
 		local questID = WorldQuestList:GetCallingQuests()
 		while questID do
-			local mapID = C_QuestLog.GetQuestAdditionalHighlights(questID)
+			local mapID, worldQuests, worldQuestsElite, dungeons, treasures = C_QuestLog.GetQuestAdditionalHighlights(questID)
+			--if mapID and mapID ~= 0 and not (treasures and not (worldQuests or worldQuestsElite or dungeons)) then
 			if mapID and mapID ~= 0 then
-				mapsToHighlightCallings[mapID] = questID
+				if mapsToHighlightCallings[mapID] then
+					local pos = #mapsToHighlightCallings[mapID]
+					mapsToHighlightCallings[mapID][pos+1] = questID
+					mapsToHighlightCallings[mapID][pos+2] = worldQuests
+					mapsToHighlightCallings[mapID][pos+3] = worldQuestsElite
+					mapsToHighlightCallings[mapID][pos+4] = dungeons
+				else
+					mapsToHighlightCallings[mapID] = {questID, worldQuests, worldQuestsElite, dungeons}
+				end
 			end
 			p = p + 1
 			questID = select(p,WorldQuestList:GetCallingQuests())
@@ -6090,12 +6144,18 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 				end
 
 				if info.mapID and mapsToHighlightCallings[info.mapID] then
-					factionInProgress = true
-
-					local n = WorldQuestList:GetQuestName(mapsToHighlightCallings[info.mapID])
-					if n then
-						bountyTooltip = bountyTooltip or ""
-						bountyTooltip = bountyTooltip .. (bountyTooltip ~= "" and " " or "") .. n
+					local callingHighlight = mapsToHighlightCallings[info.mapID]
+					
+					for ch=1,#callingHighlight,4 do
+						if callingHighlight[ch+1] or (callingHighlight[ch+2] and isElite) then
+							factionInProgress = true
+		
+							local n = WorldQuestList:GetQuestName(callingHighlight[ch+0])
+							if n then
+								bountyTooltip = bountyTooltip or ""
+								bountyTooltip = bountyTooltip .. (bountyTooltip ~= "" and "|n" or "") .. n
+							end
+						end
 					end
 				end
 				if info.mapID then
@@ -6299,31 +6359,39 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 						local isBoeItem = nil
 						local isAnimaItem = nil
 
-						inspectScantip:SetQuestLogItem("reward", 1, questID)
-						rewardItemLink = select(2,inspectScantip:GetItem())
-						for j=2, inspectScantip:NumLines() do
-							local tooltipLine = _G[GlobalAddonName.."WorldQuestListInspectScanningTooltipTextLeft"..j]
-							local text = tooltipLine:GetText()
-							if text and text:find(ITEM_LEVEL) then
-								local ilvl = text:match(ITEM_LEVEL)
-								RewardListStrings[#RewardListStrings] = RewardListStrings[#RewardListStrings]:gsub("(|t %d*x* *)","%1"..ilvl.." ")
-								ilvl = tonumber( ilvl:gsub("%+",""),nil )
-								if ilvl then
-									RewardListType[#RewardListStrings] = (VWQL.SortPrio.itemgear or defSortPrio.itemgear)
-									RewardListSort[#RewardListStrings] = ilvl + (itemID / 1000000)
-									itemIlvl = ilvl
-									hasRewardFiltered = true
-								end
-							elseif text and text:find(LE.ITEM_BIND_ON_EQUIP) and j<=4 then
-								isBoeItem = true
-							elseif text and text:find(ANIMA.."|r$") then
-								isAnimaItem = true
-							elseif text and isAnimaItem and text:find("^"..LE.ITEM_SPELL_TRIGGER_ONUSE) then
-								local num = text:gsub("(%d+)[ %.,]+(%d+)","%1%2"):match("%d+")
-								isAnimaItem = tonumber(num or "") or 100
-							end 
+						if itemID and WorldQuestList.CacheSLAnimaItems[itemID] then
+							isAnimaItem = WorldQuestList.CacheSLAnimaItems[itemID]
+						else
+							inspectScantip:SetQuestLogItem("reward", 1, questID)
+							rewardItemLink = select(2,inspectScantip:GetItem())
+							for j=2, inspectScantip:NumLines() do
+								local tooltipLine = _G[GlobalAddonName.."WorldQuestListInspectScanningTooltipTextLeft"..j]
+								local text = tooltipLine:GetText()
+								if text and text:find(ITEM_LEVEL) then
+									local ilvl = text:match(ITEM_LEVEL)
+									RewardListStrings[#RewardListStrings] = RewardListStrings[#RewardListStrings]:gsub("(|t %d*x* *)","%1"..ilvl.." ")
+									ilvl = tonumber( ilvl:gsub("%+",""),nil )
+									if ilvl then
+										RewardListType[#RewardListStrings] = (VWQL.SortPrio.itemgear or defSortPrio.itemgear)
+										RewardListSort[#RewardListStrings] = ilvl + (itemID / 1000000)
+										itemIlvl = ilvl
+										hasRewardFiltered = true
+									end
+								elseif text and text:find(LE.ITEM_BIND_ON_EQUIP) and j<=4 then
+									isBoeItem = true
+								elseif text and text:find(ANIMA.."|r$") then
+									isAnimaItem = true
+								elseif text and isAnimaItem and text:find("^"..LE.ITEM_SPELL_TRIGGER_ONUSE) then
+									local num = text:gsub("(%d+)[ %.,]+(%d+)","%1%2"):match("%d+")
+									isAnimaItem = tonumber(num or "")
+									if isAnimaItem then
+										WorldQuestList.CacheSLAnimaItems[itemID] = isAnimaItem
+									end
+									isAnimaItem = isAnimaItem or 35
+								end 
+							end
+							inspectScantip:ClearLines()
 						end
-						inspectScantip:ClearLines()
 
 						if isAnimaItem then
 							hasRewardFiltered = true
@@ -7162,12 +7230,15 @@ local slashfunc = function(arg)
 						end
 					end
 					if wX and wY then
+						local comment = argL:match("^way +[^ ]+ +[^ ]+ (.-)$")
+
 						local waypoint = {
 							mapID = mapID,
 							x = x/100,
 							y = y/100,
 							wX = wX,
 							wY = wY,
+							comment = comment,
 						}
 						if WorldQuestList.MultiArrow then
 							WQLdb.Arrow:AddPoint(wX,wY,5,nil,nil,waypoint)
@@ -8862,9 +8933,9 @@ do
 				local p = 1
 				local questID = WorldQuestList:GetCallingQuests()
 				while questID do
-					local mapID = C_QuestLog.GetQuestAdditionalHighlights(questID)
+					local mapID, worldQuests, worldQuestsElite, dungeons, treasures = C_QuestLog.GetQuestAdditionalHighlights(questID)
 					if mapID and mapID ~= 0 then
-						local callingData = {questID = questID}
+						local callingData = {questID = questID, mapID = mapID, worldQuests = worldQuests, worldQuestsElite = worldQuestsElite, dungeons = dungeons, treasures = treasures}
 
 						local t = C_TaskQuest.GetQuestTimeLeftMinutes(questID) or 0
 						if t < 1440 then
@@ -8876,7 +8947,8 @@ do
 							callingData.completed = true
 						end
 
-						mapsToHighlightCallings[mapID] = callingData
+						--mapsToHighlightCallings[mapID] = callingData
+						mapsToHighlightCallings[#mapsToHighlightCallings+1] = callingData
 					end
 					p = p + 1
 					questID = select(p,WorldQuestList:GetCallingQuests())
@@ -9275,19 +9347,21 @@ do
 						end
 						local mapID = WorldQuestList.QuestIDtoMapID[obj.questID or 0]
 						if mapID then
-							local callingData = mapsToHighlightCallings[mapID]
-							if callingData and not callingData.completed then
-								obj.BountyRing:SetSize(64,64)
-								obj.BountyRing:Show()
-								if callingData.lowTime and obj.BountyRing.WQL_color > 1 then
-									obj.BountyRing:SetVertexColor(1,0,0)
-									obj.BountyRing.WQL_color = 1
-								elseif callingData.middleTime and obj.BountyRing.WQL_color > 2 then
-									obj.BountyRing:SetVertexColor(1,.5,0)
-									obj.BountyRing.WQL_color = 2
-								elseif not callingData.lowTime and not callingData.middleTime and obj.BountyRing.WQL_color > 3 then
-									obj.BountyRing:SetVertexColor(.3,1,.3)
-									obj.BountyRing.WQL_color = 3
+							for i=1,#mapsToHighlightCallings do
+								local callingData = mapsToHighlightCallings[i]
+								if callingData and callingData.mapID == mapID and (callingData.worldQuests or (callingData.worldQuestsElite and isElite)) and not callingData.completed then
+									obj.BountyRing:SetSize(64,64)
+									obj.BountyRing:Show()
+									if callingData.lowTime and obj.BountyRing.WQL_color > 1 then
+										obj.BountyRing:SetVertexColor(1,0,0)
+										obj.BountyRing.WQL_color = 1
+									elseif callingData.middleTime and obj.BountyRing.WQL_color > 2 then
+										obj.BountyRing:SetVertexColor(1,.5,0)
+										obj.BountyRing.WQL_color = 2
+									elseif not callingData.lowTime and not callingData.middleTime and obj.BountyRing.WQL_color > 3 then
+										obj.BountyRing:SetVertexColor(.3,1,.3)
+										obj.BountyRing.WQL_color = 3
+									end
 								end
 							end
 						end

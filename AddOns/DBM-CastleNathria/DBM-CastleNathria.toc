@@ -17,6 +17,7 @@
 ## X-DBM-Mod-Name-koKR: 나스리아 성채
 ## X-DBM-Mod-Name-zhTW: 納撒亞城
 ## X-DBM-Mod-Name-zhCN: 纳斯利亚堡
+## X-DBM-Mod-Name-ruRU: Замок Нафрия
 ## X-DBM-Mod-Sort: 308
 ## X-DBM-Mod-MapID: 2296
 ## X-DBM-Mod-MinCoreRevision: 17286
@@ -28,6 +29,7 @@ localization.kr.lua
 localization.tw.lua
 localization.cn.lua
 localization.es.lua
+localization.ru.lua
 Shriekwing.lua
 AltimortheHuntsman.lua
 Kaelthas.lua

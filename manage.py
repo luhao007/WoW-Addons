@@ -290,15 +290,14 @@ class Manager:
         addons = ['Atlas', 'BlizzMove', 'DBM-Core', 'Details_Streamer',
                   'Details_TinyThreat', 'ExRT', 'GatherMate2', 'GTFO',
                   'HandyNotes', 'ItemRack', 'ItemRackOptions', 'MapSter',
-                  'OmniCC', 'OmniCC_Config', 'Quartz', 'RangeDisplay',
-                  'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
+                  'MikScrollingBattleText', 'OmniCC', 'OmniCC_Config',
+                  'Quartz', 'RangeDisplay', 'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
 
         if self.is_classic:
-            addons += ['alaTalentEmu', 'AtlasLootClassic', 'AtlasLootClassic_Options',
+            addons += ['AtlasLootClassic', 'AtlasLootClassic_Options',
                        'ATT-Classic', 'ClassicCastbars_Options',
-                       'Fizzle', 'GroupCalendar',
-                       'HandyNotes_NPCs (Classic)', 'PallyPower',
-                       'TradeLog', 'TitanClassic', 'WclPlayerScore']
+                       'Fizzle', 'GroupCalendar', 'HandyNotes_NPCs (Classic)',
+                       'PallyPower', 'TradeLog', 'TitanClassic', 'WclPlayerScore']
         else:
             addons += ['AllTheThings', 'Details_ChartViewer',
                        'Details_DeathGraphs', 'Details_EncounterDetails',
@@ -339,6 +338,10 @@ class Manager:
             return ret
 
         process_file('Addons/ACP/ACP.xml', handle)
+
+    def handle_ate(self):
+        pass
+        # self.remove_libraries_all()
 
     def handle_att(self):
         self.change_defaults(
@@ -456,9 +459,9 @@ class Manager:
                 'AceTab-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',  'LibBossIDs-1.0',
                 'LibCompress', 'LibClassicCasterino', 'LibDBIcon-1.0', 'LibDataBroker-1.1',
                 'LibDeflate', 'LibGraph-2.0', 'LibGroupInSpecT-1.1', 'LibItemUpgradeInfo-1.0',
-                'LibSharedMedia-3.0', 'LibStub', 'LibWindow-1.1', 'NickTag-1.0']
+                'LibSharedMedia-3.0', 'LibStub', 'LibWindow-1.1']
         if not self.is_classic:
-            libs += ['DF', 'LibTranslit-1.0']
+            libs += ['DF', 'LibTranslit-1.0', 'NickTag-1.0']
 
         self.remove_libraries(libs, 'Addons/Details/Libs', 'Addons/Details/Libs/libs.xml')
 
@@ -625,6 +628,13 @@ class Manager:
                            for line in lines]
         )
 
+    def handle_myslot(self):
+        self.remove_libraries(
+            ['CallbackHandler-1.0', 'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibStub'],
+            'Addons/Myslot/libs',
+            'Addons/Myslot/Myslot.toc'
+        )
+
     def handle_omnicc(self):
         process_file(
             'AddOns/OmniCC/core/core.xml',
@@ -771,20 +781,6 @@ class Manager:
             'AddOns/TalentSetManager/libs',
             'AddOns/TalentSetManager/libs/libs.xml'
         )
-
-    @classic_only
-    def handle_tc2(self):
-        path = 'Addons/ThreatClassic2/Libs/LibThreatClassic2'
-        if os.path.exists(path):
-            dst = 'Addons/!!Libs/LibThreatClassic2'
-            rm_tree(dst)
-            shutil.copytree(path, dst)
-        rm_tree('AddOns/ThreatClassic2/Libs')
-
-        def f(lines):
-            return [line for line in lines if 'Libs' not in line]
-        path = 'AddOns/ThreatClassic2/ThreatClassic2.xml'
-        process_file(path, f)
 
     def handle_titan(self):
         path = 'Addons/Titan{0}Location/Titan{0}Location.lua'.format(

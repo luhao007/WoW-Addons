@@ -1,20 +1,20 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20201223014038")
+mod:SetRevision("20210219033449")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8)
-mod:SetHotfixNoticeRev(20201217000000)--2020, 12, 17
-mod:SetMinSyncRevision(20201217000000)
+mod:SetHotfixNoticeRev(20210216000000)--2021, 02, 16
+mod:SetMinSyncRevision(20210216000000)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 330965 330978 327497 346654 346690 337110 346657 346762 346303 346790 346698 346800",
-	"SPELL_CAST_SUCCESS 331634 330959 346657 346303",
+	"SPELL_CAST_START 330965 330978 327497 346654 346690 337110 346657 346762 346303 346790 346698 346800 331634",
+	"SPELL_CAST_SUCCESS 330959 346657 346303 347376",
 	"SPELL_AURA_APPLIED 330967 331636 331637 332535 346694 347350 346690 346709",
 	"SPELL_AURA_APPLIED_DOSE 332535 346690",
 	"SPELL_AURA_REMOVED 330967 331636 331637 346694 330959 347350",
@@ -32,17 +32,22 @@ mod:RegisterEventsInCombat(
 --TODO, continue reviewing timers, especially rechecking mythic and any guessed timers or timers that may have changed since last testing
 --TODO, rework and reenable the volley timer eventually. It needs a lot of work since it's sequenced by phase and difficulty and alive vs dead. Real damn mess, Lower Priority
 --[[
-(ability.id = 330965 or ability.id = 330978 or ability.id = 327497 or ability.id = 346654 or ability.id = 337110 or ability.id = 346657 or ability.id = 346762 or ability.id = 346698 or ability.id = 346690 or ability.id = 346800) and type = "begincast"
- or (ability.id = 331634) and type = "cast"
- or ability.id = 332535 or ability.id = 330959 or ability.id = 332538 or abiity.id = 331918 or ability.id = 346709
+(ability.id = 330965 or ability.id = 330978 or ability.id = 327497 or ability.id = 346654 or ability.id = 337110 or ability.id = 346657 or ability.id = 346762 or ability.id = 346698 or ability.id = 346690 or ability.id = 346800 or ability.id = 331634) and type = "begincast"
+ or ability.id = 332535 or ability.id = 330959 or ability.id = 332538 or abiity.id = 331918 or ability.id = 346709 or ability.id = 346706
  or (ability.id = 330964 or ability.id = 335773) and type = "cast"
  or (target.id = 166971 or target.id = 166969 or target.id = 166970) and type = "death"
  or ability.id = 347350 and type = "applydebuff"
  or ability.id = 346303 and type = "begincast"
+ or (ability.id = 347376) and type = "cast"
  --]]
+ --I Forgot
  --https://www.warcraftlogs.com/reports/MFwzxfRcthN4C9mX#fight=36&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20330965%20or%20ability.id%20%3D%20330978%20or%20ability.id%20%3D%20327497%20or%20ability.id%20%3D%20346654%20or%20ability.id%20%3D%20337110%20or%20ability.id%20%3D%20346657%20or%20ability.id%20%3D%20346681%20or%20ability.id%20%3D%20346698%20or%20ability.id%20%3D%20346690%20or%20ability.id%20%3D%20346800)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20331634)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20332535%20or%20ability.id%20%3D%20330959%20or%20ability.id%20%3D%20332538%20or%20abiity.id%20%3D%20331918%20or%20ability.id%20%3D%20346709%20%20or%20(ability.id%20%3D%20330964%20or%20ability.id%20%3D%20335773)%20and%20type%20%3D%20%22cast%22%20%20or%20(target.id%20%3D%20166971%20or%20target.id%20%3D%20166969%20or%20target.id%20%3D%20166970)%20and%20type%20%3D%20%22death%22%20%20or%20ability.id%20%3D%20346303%20and%20type%20%3D%20%22begincast%22
  --https://www.warcraftlogs.com/reports/L8wWqHKkFmBPgTCQ#fight=16&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20330965%20or%20ability.id%20%3D%20330978%20or%20ability.id%20%3D%20327497%20or%20ability.id%20%3D%20346654%20or%20ability.id%20%3D%20337110%20or%20ability.id%20%3D%20346657%20or%20ability.id%20%3D%20346762%20or%20ability.id%20%3D%20346698%20or%20ability.id%20%3D%20346690%20or%20ability.id%20%3D%20346800)%20and%20type%20%3D%20%22begincast%22%0A%20or%20(ability.id%20%3D%20331634)%20and%20type%20%3D%20%22cast%22%0A%20or%20ability.id%20%3D%20332535%20or%20ability.id%20%3D%20330959%20or%20ability.id%20%3D%20332538%20or%20abiity.id%20%3D%20331918%20or%20ability.id%20%3D%20346709%0A%20or%20(ability.id%20%3D%20330964%20or%20ability.id%20%3D%20335773)%20and%20type%20%3D%20%22cast%22%0A%20or%20(target.id%20%3D%20166971%20or%20target.id%20%3D%20166969%20or%20target.id%20%3D%20166970)%20and%20type%20%3D%20%22death%22%20%20or%20ability.id%20%3D%20346303%20and%20type%20%3D%20%22begincast%22
  --https://www.warcraftlogs.com/reports/94ydxX23tR8Phcfj#fight=26&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20330965%20or%20ability.id%20%3D%20330978%20or%20ability.id%20%3D%20327497%20or%20ability.id%20%3D%20346654%20or%20ability.id%20%3D%20337110%20or%20ability.id%20%3D%20346657%20or%20ability.id%20%3D%20346681%20or%20ability.id%20%3D%20346698%20or%20ability.id%20%3D%20346690%20or%20ability.id%20%3D%20346800)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20331634)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20332535%20or%20ability.id%20%3D%20330959%20or%20ability.id%20%3D%20332538%20or%20abiity.id%20%3D%20331918%20or%20ability.id%20%3D%20346709%20%20or%20(ability.id%20%3D%20330964%20or%20ability.id%20%3D%20335773)%20and%20type%20%3D%20%22cast%22%20%20or%20(target.id%20%3D%20166971%20or%20target.id%20%3D%20166969%20or%20target.id%20%3D%20166970)%20and%20type%20%3D%20%22death%22%20%20or%20ability.id%20%3D%20346303%20and%20type%20%3D%20%22begincast%22
+--LFR
+--https://www.warcraftlogs.com/reports/ahyp8WPMnFcA96Vg#fight=last&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20330965%20or%20ability.id%20%3D%20330978%20or%20ability.id%20%3D%20327497%20or%20ability.id%20%3D%20346654%20or%20ability.id%20%3D%20337110%20or%20ability.id%20%3D%20346657%20or%20ability.id%20%3D%20346762%20or%20ability.id%20%3D%20346698%20or%20ability.id%20%3D%20346690%20or%20ability.id%20%3D%20346800)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20331634)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20332535%20or%20ability.id%20%3D%20330959%20or%20ability.id%20%3D%20332538%20or%20abiity.id%20%3D%20331918%20or%20ability.id%20%3D%20346709%20%20or%20(ability.id%20%3D%20330964%20or%20ability.id%20%3D%20335773)%20and%20type%20%3D%20%22cast%22%20%20or%20(target.id%20%3D%20166971%20or%20target.id%20%3D%20166969%20or%20target.id%20%3D%20166970)%20and%20type%20%3D%20%22death%22%20%20or%20ability.id%20%3D%20347350%20and%20type%20%3D%20%22applydebuff%22%20%20or%20ability.id%20%3D%20346303%20and%20type%20%3D%20%22begincast%22
+--https://www.warcraftlogs.com/reports/cNrfpg1XZt89Aa4R#fight=last&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20330965%20or%20ability.id%20%3D%20330978%20or%20ability.id%20%3D%20327497%20or%20ability.id%20%3D%20346654%20or%20ability.id%20%3D%20337110%20or%20ability.id%20%3D%20346657%20or%20ability.id%20%3D%20346762%20or%20ability.id%20%3D%20346698%20or%20ability.id%20%3D%20346690%20or%20ability.id%20%3D%20346800)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20331634)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20332535%20or%20ability.id%20%3D%20330959%20or%20ability.id%20%3D%20332538%20or%20abiity.id%20%3D%20331918%20or%20ability.id%20%3D%20346709%20%20or%20(ability.id%20%3D%20330964%20or%20ability.id%20%3D%20335773)%20and%20type%20%3D%20%22cast%22%20%20or%20(target.id%20%3D%20166971%20or%20target.id%20%3D%20166969%20or%20target.id%20%3D%20166970)%20and%20type%20%3D%20%22death%22%20%20or%20ability.id%20%3D%20347350%20and%20type%20%3D%20%22applydebuff%22%20%20or%20ability.id%20%3D%20346303%20and%20type%20%3D%20%22begincast%22
+--https://www.warcraftlogs.com/reports/zHM8mJ4hxX6TaVdG#fight=9&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20330965%20or%20ability.id%20%3D%20330978%20or%20ability.id%20%3D%20327497%20or%20ability.id%20%3D%20346654%20or%20ability.id%20%3D%20337110%20or%20ability.id%20%3D%20346657%20or%20ability.id%20%3D%20346762%20or%20ability.id%20%3D%20346698%20or%20ability.id%20%3D%20346690%20or%20ability.id%20%3D%20346800)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20331634)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20332535%20or%20ability.id%20%3D%20330959%20or%20ability.id%20%3D%20332538%20or%20abiity.id%20%3D%20331918%20or%20ability.id%20%3D%20346709%20%20or%20(ability.id%20%3D%20330964%20or%20ability.id%20%3D%20335773)%20and%20type%20%3D%20%22cast%22%20%20or%20(target.id%20%3D%20166971%20or%20target.id%20%3D%20166969%20or%20target.id%20%3D%20166970)%20and%20type%20%3D%20%22death%22%20%20or%20ability.id%20%3D%20347350%20and%20type%20%3D%20%22applydebuff%22%20%20or%20ability.id%20%3D%20346303%20and%20type%20%3D%20%22begincast%22
 --Castellan Niklaus
 local warnDualistsRiposte						= mod:NewStackAnnounce(346690, 2, nil, "Tank|Healer")
 local warnDutifulAttendant						= mod:NewSpellAnnounce(346698, 2)
@@ -71,6 +76,7 @@ local specWarnFixate							= mod:NewSpecialWarningRun(330967, nil, nil, nil, 4, 
 ----Mythic
 --local specWarnMindFlay						= mod:NewSpecialWarningInterrupt(310552, "HasInterrupt", nil, nil, 1, 2)
 --Baroness Frieda
+local specWarnDreadboltVolley					= mod:NewSpecialWarningInterruptCount(337110, false, nil, nil, 1, 2)
 local specWarnPridefulEruption					= mod:NewSpecialWarningMoveAway(346657, nil, 138658, nil, 2, 2)--One boss dead
 --Lord Stavros
 local specWarnEvasiveLunge						= mod:NewSpecialWarningDodge(327497, nil, 219588, nil, 2, 2)
@@ -79,7 +85,7 @@ local yellDarkRecitalRepeater					= mod:NewIconRepeatYell(331634, DBM_CORE_L.AUT
 local specWarnWaltzofBlood						= mod:NewSpecialWarningDodge(327616, nil, nil, nil, 2, 2)
 local specWarnDancingFools						= mod:NewSpecialWarningSwitch(330964, "Dps", nil, nil, 1, 2)
 --Intermission
-local specWarnDanseMacabre						= mod:NewSpecialWarningSpell(328495, nil, nil, nil, 3, 2)
+local specWarnDanseMacabre						= mod:NewSpecialWarningSpell(328495, nil, nil, 2, 2, 2)
 local yellDancingFever							= mod:NewYell(347350, nil, false)--Off by default do to potential to spam when spread, going to dry run nameplate auras for this
 
 --Castellan Niklaus
@@ -109,7 +115,7 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(22206))--Two are dead
 local timerDancingFoolsCD						= mod:NewCDTimer(30.3, 330964, nil, nil, nil, 1)
 --Mythic
 mod:AddTimerLine(PLAYER_DIFFICULTY6)
-local timerDancingFeverCD						= mod:NewCDTimer(60, 347350, nil, nil, nil, 3)
+local timerDancingFeverCD						= mod:NewCDCountTimer(60, 347350, nil, nil, nil, 3)
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
@@ -125,41 +131,42 @@ mod.vb.phase = 1
 mod.vb.feversActive = 0
 mod.vb.volleyCast = 0
 mod.vb.drainCount = 0
+mod.vb.feverCast = 0
 mod.vb.nikDead = false
 mod.vb.friedaDead = false
 mod.vb.stavrosDead = false
-local danceDurationFix = 0
+--local danceDurationFix = 0
 local darkRecitalTargets = {}
 local playerName = UnitName("player")
 local castsPerGUID = {}
 local FeverStacks = {}
 local difficultyName = "None"
 local allTimers = {
-	["lfr"] = {--Unknown, drycoded to match normal and heroic for now
+	["lfr"] = {--LFR definitely differs from everything else
 		--Duelist Riposte
-		[346690] = {21.4, 17.1, 11.4},
+		[346690] = {25, 20, 10},
 		--Dutiful Attendant
-		[346698] = {51.4, 51.4, 25.6},
+		[346698] = {60, 60, 29.9},
 		--Dreger Servants (P2+)
-		[330978] = {0, 51.4, 51.4},
+		[330978] = {0, 60, 60},
 		--Castellan's Cadre (P3+)
-		[330965] = {0, 0, 51.4},
+		[330965] = {0, 0, 60},
 
 		--Drain Essence
-		[346654] = {25.7, 19.9, 41.3},
+		[346654] = {27.3, 19.8, 48.3},
 		--Prideful Eruption (P2+)
-		[346657] = {0, 65, 40.9},
+		[346657] = {0, 43.3, 48.3},
 		--Soul Spikes (P3+)
-		[346762] = {0, 0, 40.9},
+		[346762] = {0, 0, 48.3},
 
 		--Evasive Lunge
-		[327497] = {21.4, 17.1, 11.4},
+		[327497] = {25, 19.6, 13.3},--Phase 2 lunge can get in a bugged state and spam every 10 seconds in rare cases
 		--Dark Recital
-		[331634] = {51.4, 68.1, 22.8},
+		[331634] = {60, 80, 26.6},
 		--Waltz of Blood (P2+)
-		[346800] = {0, 68.1, 68.1},
+		[346800] = {0, 80, 110},
 		--Dancing Fools (P3+)
-		[346826] = {0, 0, 68.1},
+		[346826] = {0, 0, 110},
 	},
 	["normal"] = {--Heroic and Normal same, for now, but separated for time being in case this changes
 		--Duelist Riposte
@@ -235,7 +242,7 @@ local allTimers = {
 		--Evasive Lunge
 		[327497] = {18.7, 14.9, 10},
 		--Dark Recital (Living)
-		[331634] = {44.9, 60, 20},
+		[331634] = {44.9, 59.9, 20},
 		--Dark Recital (Dead)
 		[331635] = {0, 0, 36.9},
 		--Waltz of Blood (P2+)
@@ -259,7 +266,12 @@ end
 
 local function phaseChange(self, adjustment)
 	--Bump phase and stop all timers since regardless of kills, phase changes reset anyone that's still up
+	local bossesDead = (self.vb.nikDead and 1 or 0) + (self.vb.friedaDead and 1 or 0) + (self.vb.stavrosDead and 1 or 0)
+	if (bossesDead+1) == self.vb.phase then return end--Somehow phaseChange ran more than once for same phase change, force abort
 	self.vb.phase = self.vb.phase + 1
+	if adjustment > 0 then
+		DBM:AddMsg("Some timers may be incorrect this phase. This usually happens when Infusion/Empowered buff misses remaining boss, causing timers not to correctly reset")
+	end
 	if self.vb.phase == 3 then--Two Dead
 		--Castellan Niklaus
 		timerDualistsRiposteCD:Stop()
@@ -269,10 +281,10 @@ local function phaseChange(self, adjustment)
 				timerDutifulAttendantCD:Start(19.1-adjustment)--Confirmed
 			end
 		else
-			timerDredgerServantsCD:Start((self:IsMythic() and 4.4 or 5)-adjustment)--Verify heroic
-			timerDualistsRiposteCD:Start((self:IsMythic() and 8.2 or 9.2)-adjustment)
-			timerCastellansCadreCD:Start((self:IsMythic() and 11.9 or 13.5)-adjustment)
-			timerDutifulAttendantCD:Start((self:IsMythic() and 19.5 or 22.1)-adjustment)
+			timerDredgerServantsCD:Start((self:IsMythic() and 4.4 or self:IsLFR() and 5.7 or 5)-adjustment)--Verify heroic
+			timerDualistsRiposteCD:Start((self:IsMythic() and 8.2 or self:IsLFR() and 10.7 or 9.2)-adjustment)
+			timerCastellansCadreCD:Start((self:IsMythic() and 11.9 or self:IsLFR() and 15.7 or 13.5)-adjustment)
+			timerDutifulAttendantCD:Start((self:IsMythic() and 19.5 or self:IsLFR() and 25.7 or 22.1)-adjustment)
 		end
 		--Baroness Frieda
 		timerDrainEssenceCD:Stop()
@@ -283,10 +295,10 @@ local function phaseChange(self, adjustment)
 				timerDreadboltVolleyCD:Start(25-adjustment)--Might be because she cast it on transition though, needs recheck
 			end
 		else
-			--timerDreadboltVolleyCD:Start(1)--Used near imediately
-			timerDrainEssenceCD:Start((self:IsMythic() and 5 or 6.4)-adjustment)--Mythic unknown, completely guessed
-			timerPridefulEruptionCD:Start((self:IsMythic() and 17 or 20)-adjustment)--Unknown on mythic, completely guessed
-			timerSoulSpikesCD:Start((self:IsMythic() and 28 or 32.1)-adjustment)--Mythic unknown, completely guessed
+			--timerDreadboltVolleyCD:Start(1)--Used near imediately, except on LFR which has a massive delay of about 25 seconds
+			timerDrainEssenceCD:Start((self:IsMythic() and 5 or self:IsLFR() and 7.4 or 6.4)-adjustment)--Mythic unknown, completely guessed
+			timerPridefulEruptionCD:Start((self:IsMythic() and 17 or self:IsLFR() and 24.1 or 20)-adjustment)--Unknown on mythic, completely guessed
+			timerSoulSpikesCD:Start((self:IsMythic() and 28 or self:IsLFR() and 37.4 or 32.1)-adjustment)--Mythic unknown, completely guessed
 		end
 		--Lord Stavros
 		timerEvasiveLungeCD:Stop()
@@ -294,13 +306,13 @@ local function phaseChange(self, adjustment)
 		timerDarkRecitalCD:Stop()
 		if self.vb.stavrosDead then
 			if self:IsMythic() then
-				timerDarkRecitalCD:Start(37.7-adjustment)
+				timerDarkRecitalCD:Start(35.9-adjustment)
 			end
 		else
-			timerDarkRecitalCD:Start((self:IsMythic() and 7.4 or 8.2)-adjustment)
-			timerEvasiveLungeCD:Start((self:IsMythic() and 10.7 or 12.1)-adjustment)
-			timerDancingFoolsCD:Start((self:IsMythic() and 18.2 or 20.7)-adjustment)
-			timerWaltzofBloodCD:Start((self:IsMythic() and 54.4 or 62.1)-adjustment)--START
+			timerDarkRecitalCD:Start((self:IsMythic() and 5.6 or self:IsLFR() and 7.3 or 6.4)-adjustment)
+			timerEvasiveLungeCD:Start((self:IsMythic() and 10.7 or self:IsLFR() and 14 or 12.1)-adjustment)
+			timerDancingFoolsCD:Start((self:IsMythic() and 18.2 or self:IsLFR() and 24 or 20.7)-adjustment)
+			timerWaltzofBloodCD:Start((self:IsMythic() and 54.4 or self:IsLFR() and 44.4 or 62.1)-adjustment)--START (LFR iffy, dance correction makes murky)
 		end
 	else--One Dead (Phase 2)
 		--Castellan Niklaus
@@ -312,9 +324,9 @@ local function phaseChange(self, adjustment)
 				--timerDutifulAttendantCD:Start(34.4-adjustment)--Unknown
 			--end
 		else
-			timerDredgerServantsCD:Start((self:IsMythic() and 4.4 or 13.5)-adjustment)
-			timerDualistsRiposteCD:Start((self:IsMythic() and 8.2 or 9.2)-adjustment)
-			timerDutifulAttendantCD:Start((self:IsMythic() and 34.4 or 5)-adjustment)--Mythic confirmed, this is just weird that heroic is way different
+			timerDredgerServantsCD:Start((self:IsMythic() and 4.4 or self:IsLFR() and 5.7 or 13.5)-adjustment)
+			timerDualistsRiposteCD:Start((self:IsMythic() and 8.2 or self:IsLFR() and 10.7 or 9.2)-adjustment)
+			timerDutifulAttendantCD:Start((self:IsMythic() and 34.4 or self:IsLFR() and 8.7 or 5)-adjustment)--Mythic confirmed, this is just weird that heroic is way different
 		end
 		--Baroness Frieda
 		timerDrainEssenceCD:Stop()
@@ -325,9 +337,9 @@ local function phaseChange(self, adjustment)
 			end
 		else
 			--Still needs correcting with live mythic
---			timerDreadboltVolleyCD:Start(1.3)--Used like 1 second after
-			timerDrainEssenceCD:Start((self:IsMythic() and 5 or 6.4)-adjustment)--Unknown on mythic, completely guessed
-			timerPridefulEruptionCD:Start((self:IsMythic() and 27.3 or 35)-adjustment)--Unknown on mythic, completely guessed
+--			timerDreadboltVolleyCD:Start(1.3)--Used like 1 second after except on LFR
+			timerDrainEssenceCD:Start((self:IsMythic() and 5 or self:IsLFR() and 7.4 or 6.4)-adjustment)--Unknown on mythic, completely guessed
+			timerPridefulEruptionCD:Start((self:IsMythic() and 27.3 or self:IsLFR() and 40.7 or 35)-adjustment)--Unknown on mythic, completely guessed
 		end
 		--Lord Stavros
 		timerEvasiveLungeCD:Stop()
@@ -337,11 +349,91 @@ local function phaseChange(self, adjustment)
 			--	timerDarkRecitalCD:Start(26.6-adjustment)--Unknown
 			--end
 		else
-			timerEvasiveLungeCD:Start((self:IsMythic() and 7 or 7.9)-adjustment)
-			timerDarkRecitalCD:Start((self:IsMythic() and 22.4 or 25.3)-adjustment)
-			timerWaltzofBloodCD:Start((self:IsMythic() and 26.9 or 30.7)-adjustment)--START
+			timerEvasiveLungeCD:Start((self:IsMythic() and 7 or self:IsLFR() and 10.7 or 7.9)-adjustment)
+			timerDarkRecitalCD:Start((self:IsMythic() and 20.6 or self:IsLFR() and 15.7 or 23.5)-adjustment)
+			timerWaltzofBloodCD:Start((self:IsMythic() and 26.9 or self:IsLFR() and 35.7 or 30.7)-adjustment)--START
 		end
 	end
+end
+
+--/run DBM:GetModByName(2426):TestRestart(20)
+function mod:TestRestart(amount)
+	timerDutifulAttendantCD:Start(amount)
+	timerDualistsRiposteCD:Start(amount)
+	timerDredgerServantsCD:Start(amount)
+	timerCastellansCadreCD:Start(amount)
+	timerDrainEssenceCD:Start(amount)
+	timerSoulSpikesCD:Start(amount)
+	timerDarkRecitalCD:Start(amount)
+	timerEvasiveLungeCD:Start(amount)
+	timerWaltzofBloodCD:Start(amount)
+	timerDancingFoolsCD:Start(amount)
+end
+
+--/run DBM:GetModByName(2426):TestAdd(10)
+function mod:TestAdd(amount)
+	timerDutifulAttendantCD:AddTime(amount)
+	timerDualistsRiposteCD:AddTime(amount)
+	timerDredgerServantsCD:AddTime(amount)
+	timerCastellansCadreCD:AddTime(amount)
+	timerDrainEssenceCD:AddTime(amount)
+	timerSoulSpikesCD:AddTime(amount)
+	timerDarkRecitalCD:AddTime(amount)
+	timerEvasiveLungeCD:AddTime(amount)
+	timerWaltzofBloodCD:AddTime(amount)
+	timerDancingFoolsCD:AddTime(amount)
+end
+
+--/run DBM:GetModByName(2426):TestRemove(10)
+function mod:TestRemove(amount)
+	timerDutifulAttendantCD:RemoveTime(amount)
+	timerDualistsRiposteCD:RemoveTime(amount)
+	timerDredgerServantsCD:RemoveTime(amount)
+	timerCastellansCadreCD:RemoveTime(amount)
+	timerDrainEssenceCD:RemoveTime(amount)
+	timerSoulSpikesCD:RemoveTime(amount)
+	timerDarkRecitalCD:RemoveTime(amount)
+	timerEvasiveLungeCD:RemoveTime(amount)
+	timerWaltzofBloodCD:RemoveTime(amount)
+	timerDancingFoolsCD:RemoveTime(amount)
+end
+
+--/run DBM:GetModByName(2426):SmallTestAdd(10)
+function mod:SmallTestAdd(amount)
+	timerDutifulAttendantCD:AddTime(amount)
+end
+
+--/run DBM:GetModByName(2426):SmallTestRemove(10)
+function mod:SmallTestRemove(amount)
+	timerDutifulAttendantCD:RemoveTime(amount)
+end
+
+--/run DBM:GetModByName(2426):TestPause()
+function mod:TestPause()
+	timerDutifulAttendantCD:Pause()
+	timerDualistsRiposteCD:Pause()
+	timerDredgerServantsCD:Pause()
+	timerCastellansCadreCD:Pause()
+	timerDrainEssenceCD:Pause()
+	timerSoulSpikesCD:Pause()
+	timerDarkRecitalCD:Pause()
+	timerEvasiveLungeCD:Pause()
+	timerWaltzofBloodCD:Pause()
+	timerDancingFoolsCD:Pause()
+end
+
+--/run DBM:GetModByName(2426):TestResume()
+function mod:TestResume()
+	timerDutifulAttendantCD:Resume()
+	timerDualistsRiposteCD:Resume()
+	timerDredgerServantsCD:Resume()
+	timerCastellansCadreCD:Resume()
+	timerDrainEssenceCD:Resume()
+	timerSoulSpikesCD:Resume()
+	timerDarkRecitalCD:Resume()
+	timerEvasiveLungeCD:Resume()
+	timerWaltzofBloodCD:Resume()
+	timerDancingFoolsCD:Resume()
 end
 
 function mod:OnCombatStart(delay)
@@ -349,6 +441,7 @@ function mod:OnCombatStart(delay)
 	self.vb.feversActive = 0
 	self.vb.volleyCast = 1
 	self.vb.drainCount = 0
+	self.vb.feverCast = 0
 	self.vb.nikDead = false
 	self.vb.friedaDead = false
 	self.vb.stavrosDead = false
@@ -357,7 +450,7 @@ function mod:OnCombatStart(delay)
 	table.wipe(FeverStacks)
 	if self:IsMythic() then
 		difficultyName = "mythic"
-		timerDancingFeverCD:Start(5-delay)
+		timerDancingFeverCD:Start(5-delay, 1)
 		--Castellan Niklaus
 		timerDutifulAttendantCD:Start(6.5-delay)
 		timerDualistsRiposteCD:Start(16.5-delay)
@@ -366,15 +459,9 @@ function mod:OnCombatStart(delay)
 		timerDrainEssenceCD:Start(13.6-delay)
 		--Lord Stavros
 		timerEvasiveLungeCD:Start(8.4-delay)
-		timerDarkRecitalCD:Start(22.9-delay)
-	else--TODO, verify LFR and more sampling on normal vs heroic
-		if self:IsHeroic() then
-			difficultyName = "heroic"
-		elseif self:IsNormal() then
-			difficultyName = "normal"
-		else
-			difficultyName = "lfr"
-		end
+		timerDarkRecitalCD:Start(21.1-delay)
+	elseif self:IsHeroic() then
+		difficultyName = "heroic"
 		--Castellan Niklaus
 		timerDutifulAttendantCD:Start(7.3-delay)
 		timerDualistsRiposteCD:Start(18.4-delay)
@@ -383,7 +470,30 @@ function mod:OnCombatStart(delay)
 		timerDrainEssenceCD:Start(15.5-delay)
 		--Lord Stavros
 		timerEvasiveLungeCD:Start(8.4-delay)--Not changed?
-		timerDarkRecitalCD:Start(24.5-delay)
+		timerDarkRecitalCD:Start(22.7-delay)
+	elseif self:IsNormal() then--CURRENTLY SAME AS HEROIC, which may be wrong
+		difficultyName = "normal"
+		--TODO, FIXME?
+		--Castellan Niklaus
+		timerDutifulAttendantCD:Start(7.3-delay)
+		timerDualistsRiposteCD:Start(18.4-delay)
+		--Baroness Frieda
+--		timerDreadboltVolleyCD:Start(5.5-delay)
+		timerDrainEssenceCD:Start(15.5-delay)
+		--Lord Stavros
+		timerEvasiveLungeCD:Start(8.4-delay)--Not changed?
+		timerDarkRecitalCD:Start(22.7-delay)
+	else
+		difficultyName = "lfr"
+		--Castellan Niklaus
+		timerDutifulAttendantCD:Start(7.7-delay)
+		timerDualistsRiposteCD:Start(21-delay)
+		--Baroness Frieda
+--		timerDreadboltVolleyCD:Start(6-delay)
+		timerDrainEssenceCD:Start(17.7-delay)
+		--Lord Stavros
+		timerEvasiveLungeCD:Start(9.4-delay)
+		timerDarkRecitalCD:Start(27.7-delay)
 	end
 	if self.Options.NPAuraOnFixate or self.Options.NPAuraOnShield or self.Options.NPAuraOnUproar then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
@@ -419,7 +529,20 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 330965 then
+	if spellId == 331634 then
+		if args:GetSrcCreatureID() == 166970 then--Main boss
+			local timer = allTimers[difficultyName][spellId][self.vb.phase]
+			if timer then
+				timerDarkRecitalCD:Start(timer)
+			end
+		else--173053
+			local timer = allTimers[difficultyName][331635][self.vb.phase]
+			if timer then
+				timerDarkRecitalCD:Start(timer)
+				timerDarkRecitalCD:UpdateInline(DBM_CORE_L.MYTHIC_ICON)
+			end
+		end
+	elseif spellId == 330965 then
 		warnCastellansCadre:Show()
 		local timer = allTimers[difficultyName][spellId][self.vb.phase]
 		if timer then
@@ -455,7 +578,21 @@ function mod:SPELL_CAST_START(args)
 			self.vb.volleyCast = 0
 		end
 		self.vb.volleyCast = self.vb.volleyCast + 1
-		warnDreadboltVolley:Show(self.vb.volleyCast)
+		local count = self.vb.volleyCast
+		if self.Options.SpecWarn337110interruptcount then
+			specWarnDreadboltVolley:Show(count)
+			if count == 1 then
+				specWarnDreadboltVolley:Play("kick1r")
+			elseif count == 2 then
+				specWarnDreadboltVolley:Play("kick2r")
+			elseif count == 3 then
+				specWarnDreadboltVolley:Play("kick3r")
+			else--fallback, shouldn't happen but never know
+				specWarnDreadboltVolley:Play("kickcast")
+			end
+		else
+			warnDreadboltVolley:Show(count)
+		end
 --		if args:GetSrcCreatureID() == 166969 then--Main boss
 --			local timer = self.vb.volleyCast == 3 and 12 or 4
 			--Phase 2 always 12, phase 1 is 4 between 3 set then 12 til next set
@@ -525,71 +662,58 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 331634 then
-		if args:GetSrcCreatureID() == 166970 then--Main boss
-			local timer = allTimers[difficultyName][spellId][self.vb.phase]
-			if timer then
-				timerDarkRecitalCD:Start(timer)
-			end
-		else--173053
-			local timer = allTimers[difficultyName][331635][self.vb.phase]
-			if timer then
-				timerDarkRecitalCD:Start(timer)
-			end
-			timerDarkRecitalCD:UpdateInline(DBM_CORE_L.MYTHIC_ICON)
-		end
-	elseif spellId == 330959 and self:AntiSpam(10, 1) then
+	if (spellId == 347376 or spellId == 330959) and self:AntiSpam(10, 1) then
 		specWarnDanseMacabre:Show()
 		specWarnDanseMacabre:Play("specialsoon")
 		--Automatic timer extending.
 		--After many rounds of testing blizzard finally listened to feedback and suspends active CD timers during dance
 		--Castellan Niklaus
-		danceDurationFix = GetTime()
+--		danceDurationFix = GetTime()
 		--Over adds time to all timers just to keep them from expiring
 		--This is then corrected later after knowing exact time of dance
 		timerDancingFeverCD:Stop()
 		if not self.vb.nikDead then
-			timerDutifulAttendantCD:AddTime(50)--Alive and dead ability
-			timerDualistsRiposteCD:AddTime(50)
+			timerDutifulAttendantCD:Pause()--Alive and dead ability
+			timerDualistsRiposteCD:Pause()
 			if self.vb.phase >= 2 then--1 Dead
-				timerDredgerServantsCD:AddTime(50)
+				timerDredgerServantsCD:Pause()
 			end
 			if self.vb.phase >= 3 then--1 Dead
-				timerCastellansCadreCD:AddTime(50)
+				timerCastellansCadreCD:Pause()
 			end
 		else
 			if self:IsMythic() then
-				timerDutifulAttendantCD:AddTime(50)
+				timerDutifulAttendantCD:Pause()
 			end
 		end
 		--Baroness Frieda
 		if not self.vb.friedaDead then
---			timerDreadboltVolleyCD:AddTime(50)
-			timerDrainEssenceCD:AddTime(50)
+--			timerDreadboltVolleyCD:Pause()
+			timerDrainEssenceCD:Pause()
 			if self.vb.phase >= 2 then--1 Dead
-				timerSoulSpikesCD:AddTime(50)
+				timerPridefulEruptionCD:Pause()
 			end
 			if self.vb.phase >= 3 then--2 Dead
-				timerSoulSpikesCD:AddTime(50)
+				timerSoulSpikesCD:Pause()
 			end
 		else
 --			if self:IsMythic() then
---				timerDreadboltVolleyCD:AddTime(50)
+--				timerDreadboltVolleyCD:Pause()
 --			end
 		end
 		--Lord Stavros
 		if not self.vb.stavrosDead then
-			timerDarkRecitalCD:AddTime(50)
-			timerEvasiveLungeCD:AddTime(50)
+			timerDarkRecitalCD:Pause()
+			timerEvasiveLungeCD:Pause()
 			if self.vb.phase >= 2 then--1 Dead
-				timerWaltzofBloodCD:AddTime(50)
+				timerWaltzofBloodCD:Pause()
 			end
 			if self.vb.phase >= 3 then--1 Dead
-				timerDancingFoolsCD:AddTime(50)
+				timerDancingFoolsCD:Pause()
 			end
 		else
 			if self:IsMythic() then
-				timerDarkRecitalCD:AddTime(50)
+				timerDarkRecitalCD:Pause()
 			end
 		end
 	elseif spellId == 346657 then
@@ -662,7 +786,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellDarkRecitalRepeater:Yell(icon)
 			end
 		end
-	elseif (spellId == 332535 or spellId == 346709) and self:AntiSpam(30, spellId) then--Infused/Empowered
+	elseif (spellId == 332535 or spellId == 346709) and self:AntiSpam(30, spellId == 346709 and 7 or 8) then--Infused/Empowered
 		self:Unschedule(phaseChange)
 		phaseChange(self, 0)--true phase change, more accurate timers, but sometimes missing from combat log
 	elseif spellId == 346694 then
@@ -676,11 +800,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellDancingFever:Countdown(spellId)
 		end
 		if self:AntiSpam(5, 6) then
-			timerDancingFeverCD:Start()
+			self.vb.feverCast = self.vb.feverCast + 1
+			timerDancingFeverCD:Start(60, self.vb.feverCast+1)
 		end
 		FeverStacks[args.destName] = 3
 		if self.Options.InfoFrame then
-			if not DBM.Infoframe:IsShown() then
+			if not DBM.InfoFrame:IsShown() then
 				DBM.InfoFrame:SetHeader(args.spellName)
 				DBM.InfoFrame:Show(20, "table", FeverStacks, 1)
 			else
@@ -708,54 +833,54 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 330959 and self:AntiSpam(10, 2) then
 		warnDanceOver:Show()
 		--Hack to remove the over timing of dance phases
-		local danceDuration = GetTime() - danceDurationFix
-		local adjustment = 50-danceDuration
+--		local danceDuration = GetTime() - danceDurationFix--Remove after testing of pause/resume
+--		local adjustment = 50-danceDuration--Remove after testing of pause/resume
 		if not self.vb.nikDead then
-			timerDutifulAttendantCD:RemoveTime(adjustment)--Alive and dead ability
-			timerDualistsRiposteCD:RemoveTime(adjustment)
+			timerDutifulAttendantCD:Resume()--Alive and dead ability
+			timerDualistsRiposteCD:Resume()
 			if self.vb.phase >= 2 then--1 Dead
-				timerDredgerServantsCD:RemoveTime(adjustment)
+				timerDredgerServantsCD:Resume()
 			end
 			if self.vb.phase >= 3 then--1 Dead
-				timerCastellansCadreCD:RemoveTime(adjustment)
+				timerCastellansCadreCD:Resume()
 			end
 		else
 			if self:IsMythic() then
-				timerDutifulAttendantCD:RemoveTime(adjustment)
+				timerDutifulAttendantCD:Resume()
 			end
 		end
 		--Baroness Frieda
 		if not self.vb.friedaDead then
---			timerDreadboltVolleyCD:RemoveTime(adjustment)
-			timerDrainEssenceCD:RemoveTime(adjustment)
+--			timerDreadboltVolleyCD:Resume()
+			timerDrainEssenceCD:Resume()
 			if self.vb.phase >= 2 then--1 Dead
-				timerSoulSpikesCD:RemoveTime(adjustment)
+				timerPridefulEruptionCD:Resume()
 			end
 			if self.vb.phase >= 3 then--2 Dead
-				timerSoulSpikesCD:RemoveTime(adjustment)
+				timerSoulSpikesCD:Resume()
 			end
 		else
 --			if self:IsMythic() then
---				timerDreadboltVolleyCD:RemoveTime(adjustment)
+--				timerDreadboltVolleyCD:Resume()
 --			end
 		end
 		--Lord Stavros
 		if not self.vb.stavrosDead then
-			timerDarkRecitalCD:RemoveTime(adjustment)
-			timerEvasiveLungeCD:RemoveTime(adjustment)
+			timerDarkRecitalCD:Resume()
+			timerEvasiveLungeCD:Resume()
 			if self.vb.phase >= 2 then--1 Dead
-				timerWaltzofBloodCD:RemoveTime(adjustment)
+				timerWaltzofBloodCD:Resume()
 			end
 			if self.vb.phase >= 3 then--1 Dead
-				timerDancingFoolsCD:RemoveTime(adjustment)
+				timerDancingFoolsCD:Resume()
 			end
 		else
 			if self:IsMythic() then
-				timerDarkRecitalCD:RemoveTime(adjustment)
+				timerDarkRecitalCD:Resume()
 			end
 		end
 		if self:IsMythic() then
-			timerDancingFeverCD:Start(5.5)
+			timerDancingFeverCD:Start(5.5, self.vb.feverCast+1)
 		end
 	elseif spellId == 347350 then
 		self.vb.feversActive = self.vb.feversActive - 1
@@ -793,8 +918,8 @@ function mod:UNIT_DIED(args)
 		timerDutifulAttendantCD:Stop()
 		timerDredgerServantsCD:Stop()
 		--Less accurate phase change, but backup if the true phase change infusion/empowerment events are missing
+		self:Unschedule(phaseChange)
 		if self.vb.phase < 3 then
-			self:Unschedule(phaseChange)
 			self:Schedule(5, phaseChange, self, 2)
 		end
 	elseif cid == 166969 then--Baroness Frieda
@@ -803,8 +928,8 @@ function mod:UNIT_DIED(args)
 --		timerDreadboltVolleyCD:Stop()
 		timerPridefulEruptionCD:Stop()
 		--Less accurate phase change, but backup if the true phase change infusion/empowerment events are missing
+		self:Unschedule(phaseChange)
 		if self.vb.phase < 3 then
-			self:Unschedule(phaseChange)
 			self:Schedule(5, phaseChange, self, 2)
 		end
 	elseif cid == 166970 then--Lord Stavros
@@ -814,8 +939,8 @@ function mod:UNIT_DIED(args)
 		timerDarkRecitalCD:Stop()
 		timerDancingFoolsCD:Stop()
 		--Less accurate phase change, but backup if the true phase change infusion/empowerment events are missing
+		self:Unschedule(phaseChange)
 		if self.vb.phase < 3 then
-			self:Unschedule(phaseChange)
 			self:Schedule(5, phaseChange, self, 2)
 		end
 	elseif cid == 168406 then--Waltzing Venthyr

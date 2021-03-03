@@ -4,8 +4,9 @@
 		_ = nil
 		_detalhes = LibStub("AceAddon-3.0"):NewAddon("_detalhes", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "NickTag-1.0")
 		
-		_detalhes.build_counter = 8102
-		_detalhes.alpha_build_counter = 8102 --if this is higher than the regular counter, use it instead
+		_detalhes.build_counter = 8246
+		_detalhes.alpha_build_counter = 8246 --if this is higher than the regular counter, use it instead
+		_detalhes.dont_open_news = true
 		_detalhes.game_version = "v9.0.2"
 		_detalhes.userversion = "v9.0.2." .. _detalhes.build_counter
 		_detalhes.realversion = 144 --core version, this is used to check API version for scripts and plugins (see alias below)
@@ -28,7 +29,38 @@ do
 	local Loc = _G.LibStub("AceLocale-3.0"):GetLocale( "Details" )
 
 	local news = {
-		{"v9.0.1.8001.144", "December 19th, 2020"},
+		{"v9.0.2.8246.144", "February 17th, 2021"},
+		"Added healing done to Coach feature (in testing).",
+		"Ignore Forgeborne Reveries healing done (Necrolords ability).",
+		"Arena enemy deaths now are shown in the Deaths display.",
+		"Guild statistics data has been wiped, this system had a major improvement overall.",
+		"Fixed 'Clear Overall Data' on Logout which wasn't clearing.",
+		
+		{"v9.0.2.8192.144", "January 27th, 2021"},
+		"If you get issues with nicknames, disable any weakaura which modifies this feature.",
+		"Advanced Death Logs plugin got some fixes and should work properly.",
+		"Added the word 'Overall' at the end of the title bar text when the segment is overall.",
+		"Added covenant and durability into the Raid Check plugin.",
+		"Added API Window:SetTitleBarText(text) and Window:GetTitleBarText().",
+		"Fixed some issues where Details! printed 'combat start time not found.'",
+		"Fixed damage per Phase.",
+		"Fixed resizing window with no background error.",
+		"Fixed 'Always Show player' on ascending sort direction.",
+		"Added more foods into the Ready Check plugin.",
+		"Fixed some issues with the coach fearure.",
+		
+		{"v9.0.2.8154.144", "January 14th, 2021"},
+		"Added total damage bars into the player list in the Breakdown window.",
+		"Added 'Square' or 'Roll' mode to Details! Streamer plugin, to change the statusbar mode to Squares, visit the options panel for the plugin.",
+		"Added Binding Shot to crowd control (Hunter)",
+		"Merged all whirlwind damage (Warrior).",
+		"Fixed errors on the 1-10 tutorial levels while playing Demon Hunters.",
+		"Fixed some cases of DeathLog not showing healing",
+		"Fixed windows making a group after '/details toggle', while the option to not make groups enabled.",
+		"Fixed some issues with the custom display 'Potion Used' and 'Health Potion & Stone'.",
+		"Fixed the breakdown window where using the comparisson tab sometimes made the frame to overlap with the aura tab.",
+
+		{"v9.0.2.8001.144", "December 19th, 2020"},
 		"Added Details! Coach as a new experimental feature, you may want to test using /details coach",
 		"Coach feature allows the raid leader to stay outside the raid while seeing in real time player deaths and damage information.",
 		"Fixed issues with some raid encounters in Castle Nathria.",
@@ -127,85 +159,9 @@ do
 				{Name = "Report What is Shown In the Window", Desc = "Report the current data shown in the window, the number 1 is the window number, replace it to report another window.", MacroText = "/script Details:FastReportWindow(1)"},
 			}
 			
-		--> quais raides devem ser guardadas no hist�rico
-			_detalhes.InstancesToStoreData = { --> mapIDs
-				[2070] = true, --Battle for Dazaralor (BFA) GetInstanceInfo
-				[1148] = true, --Uldir (BFA) uiMapID
-				[1861] = true, --Uldir (BFA) from GetInstanceInfo
-				[2164] = true, --Eternal Palace
-
-				[2217] = true, --8.3
-
+		--> current instances of the exp (need to maintain)
+			_detalhes.InstancesToStoreData = { --mapId
 				[2296] = true, --castle narnia
-			}
-			
-			--must fail in map and encounter id to not store data
-			_detalhes.EncountersToStoreData = { --> encounterIDs
-				--CLEU
-				[2144] = 1, --Taloc - Taloc
-				[2141] = 2, --MOTHER - MOTHER
-				[2128] = 3, --Fetid Devourer - Fetid Devourer
-				[2136] = 4, --Zek'voz - Zek'voz, Herald of N'zoth
-				[2134] = 5, --Vectis - Vectis
-				[2145] = 6, --Zul - Zul, Reborn
-				[2135] = 7, --Mythrax the Unraveler - Mythrax the Unraveler
-				[2122] = 8, --G'huun - G'huun
-				
-				[2265] = 1, --Champion of the Light
-				[2263] = 2, --Grong, the Jungle Lord
-				[2266] = 3, --Jadefire Masters
-				[2271] = 4, --Opulence
-				[2268] = 5, --Conclave of the Chosen
-				[2272] = 6, --King Rastakhan
-				[2276] = 7, --High Tinker Mekkatorque
-				[2280] = 8, --Stormwall Blockade
-				[2281] = 9, --Lady Jaina Proudmoore
-				
-				[2269] = 1, --The Restless Cabal
-				[2273] = 2, --Uu'nat, Harbinger of the Void
-				
-				[2298] = 1, --Abyssal Commander Sivara
-				[2289] = 2, --Blackwater Behemoth
-				[2305] = 3, --Radiance of Azshara
-				[2304] = 4, --Lady Ashvane
-				[2303] = 5, --Orgozoa
-				[2311] = 6, --The Queen's Court
-				[2293] = 7, --Za'qul, Harbinger of Ny'alotha
-				[2299] = 8, --Queen Azshara
-				
-				--EJID
-				[2168] = 1, --Taloc
-				[2167] = 2, --MOTHER
-				[2146] = 3, --Fetid Devourer
-				[2169] = 4, --Zek'voz, Herald of N'zoth
-				[2166] = 5, --Vectis
-				[2195] = 6, --Zul, Reborn
-				[2194] = 7, --Mythrax the Unraveler
-				[2147] = 8, --G'huun
-				
-				[2333] = 1, --Champion of the Light
-				[2325] = 2, --Grong, the Jungle Lord
-				[2341] = 3, --Jadefire Masters
-				[2342] = 4, --Opulence
-				[2330] = 5, --Conclave of the Chosen
-				[2335] = 6, --King Rastakhan
-				[2334] = 7, --High Tinker Mekkatorque
-				[2337] = 8, --Stormwall Blockade
-				[2343] = 9, --Lady Jaina Proudmoore
-				
-				[2328] = 1, --The Restless Cabal
-				[2332] = 2, --Uu'nat, Harbinger of the Void
-				
-				[2352] = 1, --Abyssal Commander Sivara
-				[2347] = 2, --Blackwater Behemoth
-				[2353] = 3, --Radiance of Azshara
-				[2354] = 4, --Lady Ashvane
-				[2351] = 5, --Orgozoa
-				[2359] = 6, --The Queen's Court
-				[2349] = 7, --Za'qul, Harbinger of Ny'alotha
-				[2361] = 8, --Queen Azshara
-				
-			
 			}
 			
 		--> armazena os escudos - Shields information for absorbs
@@ -259,6 +215,8 @@ do
 			_detalhes.encounter_table = {}
 			_detalhes.encounter_counter = {}
 			_detalhes.encounter_dungeons = {}
+		--> unitId dos inimigos dentro de uma arena
+			_detalhes.arena_enemies = {}
 		--> reliable char data sources
 		--> actors that are using details! and sent character data, we don't need query inspect on these actors
 			_detalhes.trusted_characters = {}
@@ -492,29 +450,35 @@ do
 			--> plugins container
 				_detalhes.StatusBar = {}
 			--> maintain plugin menu
-				_detalhes.StatusBar.Menu = {} 
+				_detalhes.StatusBar.Menu = {}
 			--> plugins object
-				_detalhes.StatusBar.Plugins = {} 
+				_detalhes.StatusBar.Plugins = {}
 			--> name to plugin object
-				_detalhes.StatusBar.NameTable = {} 
+				_detalhes.StatusBar.NameTable = {}
 
 	--> constants
-		--[[global]] DETAILS_HEALTH_POTION_LIST = {
-			[250870] = true, --Coastal Healing Potion
-			[250872] = true, --Coastal Rejuvenation Potion
-			[6262] = true, --Warlock's Healthstone
-			[301308] = true, --Abyssal  Healing Potion
-		}
-		--[[global]] DETAILS_HEALTH_POTION_ID = 250870
-		--[[global]] DETAILS_REJU_POTION_ID = 250872
-		--[[global]] DETAILS_MANA_POTION_ID = 250871
-		--[[global]] DETAILS_FOCUS_POTION_ID = 252753
+		--[[global]] DETAILS_HEALTH_POTION_ID = 307192
+		--[[global]] DETAILS_REJU_POTION_ID = 307194
+		--[[global]] DETAILS_MANA_POTION_ID = 307193
+		--[[global]] DETAILS_FOCUS_POTION_ID = 307161
+		--[[global]] DETAILS_HEALTHSTONE_ID = 6262
 		
-		--[[global]] DETAILS_INT_POTION_ID = 279151
-		--[[global]] DETAILS_AGI_POTION_ID = 279152
-		--[[global]] DETAILS_STR_POTION_ID = 279153
-		--[[global]] DETAILS_STAMINA_POTION_ID = 279154
+		--[[global]] DETAILS_INT_POTION_ID = 307162
+		--[[global]] DETAILS_AGI_POTION_ID = 307159
+		--[[global]] DETAILS_STR_POTION_ID = 307164
+		--[[global]] DETAILS_STAMINA_POTION_ID = 307163
+
+		--[[global]] DETAILS_HEALTH_POTION_LIST = {
+			[DETAILS_HEALTH_POTION_ID] = true, --Healing Potion
+			[DETAILS_HEALTHSTONE_ID] = true, --Warlock's Healthstone
+			[DETAILS_REJU_POTION_ID] = true, --Rejuvenation Potion
+			[DETAILS_MANA_POTION_ID] = true, --Mana Potion
+			[323436] = true --Phial of Serenity (from Kyrians)
+		}
 	
+		--[[global]] DETAILS_MODE_GROUP = 2
+		--[[global]] DETAILS_MODE_ALL = 3
+
 		_detalhes._detalhes_props = {
 			DATA_TYPE_START = 1,	--> Something on start
 			DATA_TYPE_END = 2,	--> Something on end

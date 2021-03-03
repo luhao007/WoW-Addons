@@ -393,7 +393,7 @@ function VUHDO_customizeText(aButton, aMode, anIsTarget)
 			end
 
 			if tSetup["ID_TEXT"]["showName"] then
-				tTextString = (tSetup["ID_TEXT"]["showClass"] and not tInfo["isPet"]) 
+				tTextString = (tSetup["ID_TEXT"]["showClass"] and not tInfo["isPet"] and tInfo["className"]) 
 					and tInfo["className"] .. ": " or "";
 
 				tTextString = tTextString .. ((not tOwnerInfo or not tSetup["ID_TEXT"]["showPetOwners"])

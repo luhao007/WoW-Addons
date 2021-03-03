@@ -86,9 +86,7 @@ function TitanPanelXPButton_OnShow()
 	TitanPanelXPButton_SetIcon();
 	found = nil;
 	if not TitanPanelXPButton_ButtonAdded then
-		if not TitanAllGetVar("Silenced") then
-			RequestTimePlayed();
-		end
+		RequestTimePlayed();
 		TitanPanelXPButton_ButtonAdded = true;
 	end
 end

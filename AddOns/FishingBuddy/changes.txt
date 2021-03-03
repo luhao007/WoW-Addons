@@ -1,3 +1,10 @@
+Version 1.15
+- Get bait rotation to actually work with Eleysian Thade
+
+Version 1.14
+- Per-region baits work in Shadowlands, Lost Sole as a last resort
+- Elusian Thade bait will be maintained if applied manually
+
 Version 1.13
 - Fix skill management (watcher works!)
 - Add Bat Visage bobber

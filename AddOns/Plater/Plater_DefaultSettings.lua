@@ -312,6 +312,7 @@ PLATER_DEFAULT_SETTINGS = {
 				percent_text_alpha = 1,
 				
 				quest_enabled = true,
+				quest_color_enabled = true,
 				quest_color = {.5, 1, 0, 1},
 				
 				big_actortitle_text_size = 11,
@@ -394,6 +395,7 @@ PLATER_DEFAULT_SETTINGS = {
 				percent_text_alpha = 1,
 				
 				quest_enabled = true,
+				quest_color_enabled = true,
 				quest_color_enemy = {1, .369, 0, 1},
 				quest_color_neutral = {1, .65, 0, 1},
 				
@@ -569,11 +571,13 @@ PLATER_DEFAULT_SETTINGS = {
 		use_ui_parent_just_enabled = false,
 		ui_parent_base_strata = "BACKGROUND",
 		ui_parent_buff_strata = "BACKGROUND", --testing, buffs should be in front of the health bar
-		ui_parent_buff2_strata = "BACKGROUND", 
+		ui_parent_buff2_strata = "BACKGROUND",
+		ui_parent_buff_special_strata = "BACKGROUND",
 		ui_parent_cast_strata = "BACKGROUND", --testing, the castbar should be in front of everythings
 		ui_parent_target_strata = "LOW", --testing, the current target nameplate should be in this strata
 		ui_parent_buff_level = 10,
-		ui_parent_buff2_level = 10, 
+		ui_parent_buff2_level = 10,
+		ui_parent_buff_special_level = 10,
 		ui_parent_cast_level = 10,
 		ui_parent_scale_tune = 0, --testing, a slider to change the unit frame scale / goal is to have a fine tune knob to adjust the overall size when using this feature
 		
@@ -2472,13 +2476,16 @@ PLATER_DEFAULT_SETTINGS = {
 		cast_statusbar_spark_color = {1, 1, 1, 1},
 		
 		indicator_faction = true,
+		indicator_friendlyfaction = false,
 		indicator_spec = true,
+		indicator_friendlyspec = false,
 		indicator_worldboss = true,
 		indicator_elite = true,
 		indicator_rare = true,
 		indicator_quest = true,
 		indicator_pet = true,
 		indicator_enemyclass = false,
+		indicator_friendlyclass = false,
 		indicator_anchor = {side = 2, x = -2, y = 0},
 		indicator_scale = 1,
 		

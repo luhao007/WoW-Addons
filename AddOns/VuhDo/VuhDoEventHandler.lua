@@ -697,8 +697,8 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 				local tBestProfile = VUHDO_getBestProfileAfterSpecChange();
 
 				-- event sometimes fires multiple times so we must de-dupe
-				if (VUHDO_SPEC_LAYOUTS["selected"] ~= VUHDO_SPEC_LAYOUTS[tSpecNum]) or 
-					(VUHDO_CONFIG["CURRENT_PROFILE"] ~= tBestProfile) then
+				if (not VUHDO_strempty(VUHDO_SPEC_LAYOUTS[tSpecNum]) and (VUHDO_SPEC_LAYOUTS["selected"] ~= VUHDO_SPEC_LAYOUTS[tSpecNum])) or 
+					(not VUHDO_strempty(tBestProfile) and (VUHDO_CONFIG["CURRENT_PROFILE"] ~= tBestProfile)) then
 					VUHDO_activateSpecc(tSpecNum);
 				end
 			end

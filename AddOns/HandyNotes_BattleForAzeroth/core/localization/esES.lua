@@ -62,6 +62,7 @@ L["mount"] = "Montura"
 L["pet"] = "Mascota"
 L["spell"] = "Hechizo"
 L["toy"] = "Juguete"
+L["rep"] = "Reputación"
 L["completed"] = "Terminado"
 L["incomplete"] = "Incompleto"
 L["known"] = "Conocido"
@@ -93,7 +94,7 @@ L["options_general_description"] = "Ajustes que controlan el comportamiento de l
 L["options_global_description"] = "Ajustes que controlan la visualización de todos los nodos en todas las zonas."
 L["options_zones_description"] = "Ajustes que controlan la visualización de nodos en cada zona individual."
 
-L["options_open_settings_panel"] = "Abrir ek Panel de Preferencias..."
+L["options_open_settings_panel"] = "Abrir el Panel de Preferencias..."
 L["options_open_world_map"] = "Abrir el Mapa del Mundo"
 L["options_open_world_map_desc"] = "Abre esta zona en el mapa del mundo."
 
@@ -107,6 +108,9 @@ L["options_opacity_desc"] = "0 = transparente, 1 = opaco"
 
 ---------------------------------- VISIBILITY ---------------------------------
 
+L["options_show_worldmap_button"] = "Mostrar botón del mapa del mundo"
+L["options_show_worldmap_button_desc"] = "Añade un menú desplegable para cambiar opciones rápidamente en la esquina superior derecha del mapa del mundo."
+
 L["options_visibility_settings"] = "Visibilidad"
 L["options_general_settings"] = "General"
 L["options_show_completed_nodes"] = "Mostrar completados"
@@ -119,8 +123,21 @@ L["options_toggle_maximized_enlarged"] = "Agrandar iconos en el mapa del mundo m
 L["options_toggle_maximized_enlarged_desc"] = "Cuando el mapa del mundo está maximizado, agranda todos los iconos."
 L["options_toggle_use_char_achieves"] = "Mostrar logros de personaje"
 L["options_toggle_use_char_achieves_desc"] = "Muestra el progreso de logros para este personaje en lugar de para toda la cuenta."
+L["options_toggle_per_map_settings"] = "Usar opciones específicas para cada zona"
+L["options_toggle_per_map_settings_desc"] = "Aplicar opciones, escalado y opacidad para cada zona individualmente."
 L["options_restore_hidden_nodes"] = "Restaurar los nodos ocultos"
 L["options_restore_hidden_nodes_desc"] = "Vuelve a mostrar todos los nodos ocultos usando el menú contextual con click-derecho."
+
+L["options_rewards_settings"] = "Recompensas"
+L["options_reward_types"] = "Mostrar tipos de recompensas"
+L["options_mount_rewards"] = "Mostrar recompensas de monturas"
+L["options_mount_rewards_desc"] = "Muestra las recompensas de monturas en las notas y rastrea el estado de si ha sido aprendida."
+L["options_pet_rewards"] = "Mostrar recompensas de mascotas"
+L["options_pet_rewards_desc"] = "Muestra las recompensas de mascotas en las notas y rastrea el estado de si ha sido aprendida."
+L["options_toy_rewards"] = "Mostrar recompensas de juguetes"
+L["options_toy_rewards_desc"] = "Muestra las recompensas de juguetes en las notas y rastrea el estado de si ha sido aprendida."
+L["options_transmog_rewards"] = "Mostrar recompensas de transfiguraciones"
+L["options_transmog_rewards_desc"] = "Muestra las recompensas de transfiguraciones en las notas y rastrea el estado de si ha sido aprendida."
 
 L["options_icons_misc_desc"] = "Muestra las localizaciones de otros nodos sin categoría."
 L["options_icons_misc"] = "Miscelánea"

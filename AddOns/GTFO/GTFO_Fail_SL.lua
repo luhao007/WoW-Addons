@@ -206,6 +206,29 @@ GTFO.SpellID["330642"] = {
   sound = 3;
 };
 
+GTFO.SpellID["295985"] = {
+  --desc = "Ground Crush (The Grand Malleare)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["332655"] = {
+  --desc = "Cantrip of Flame (Scrivener Lenua)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["343520"] = {
+  --desc = "Storming";
+  sound = 3;
+};
+
+GTFO.SpellID["342494"] = {
+  --desc = "Belligerent Boast (Manifestation of Pride)";
+  applicationOnly = true;
+  sound = 3;
+};
+
 
 --- **********************
 --- * Halls of Atonement *
@@ -878,6 +901,11 @@ GTFO.SpellID["321662"] = {
   sound = 3;
 };
 
+GTFO.SpellID["330813"] = {
+  --desc = "Aerial Strikes (Observer Zelgar)";
+  sound = 3;
+};
+
 --- ******************
 --- * Castle Nathria *
 --- ******************
@@ -910,10 +938,9 @@ GTFO.SpellID["345425"] = {
   sound = 3;
 };
 
-GTFO.SpellID["341304"] = {
-  --desc = "Mastercrafted Gamesman's Snare (Nathrian Gargon Rider)";
+GTFO.SpellID["341441"] = {
+  --desc = "Ground Smash (Hulking Gargon)";
   sound = 3;
-  test = true;
 };
 
 GTFO.SpellID["326455"] = {
@@ -934,7 +961,12 @@ GTFO.SpellID["342777"] = {
 };
 
 GTFO.SpellID["329256"] = {
-  --desc = "Rift Blast (Rift Blast Portal)";
+  --desc = "Rift Blast (Artificer Xy'mox)";
+  sound = 3;
+};
+
+GTFO.SpellID["329107"] = {
+  --desc = "Extinction (Artificer Xy'mox)";
   sound = 3;
 };
 
@@ -1002,6 +1034,27 @@ GTFO.SpellID["334500"] = {
 GTFO.SpellID["334016"] = {
   --desc = "Unworthy (Sire Denathrius)";
   applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["341732"] = {
+  --desc = "Searing Censure (Lady Sinsear)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["329835"] = {
+  --desc = "Obliterating Rift (Hungering Destroyer)";
+  sound = 2;
+};
+
+GTFO.SpellID["327464"] = {
+  --desc = "Turbulent Anima (Sire Denathrius)";
+  sound = 3;
+};
+
+GTFO.SpellID["336162"] = {
+  --desc = "Crescendo (Crimson Cabalist)";
   sound = 3;
 };
 

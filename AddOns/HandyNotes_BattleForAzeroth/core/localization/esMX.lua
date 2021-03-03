@@ -60,6 +60,7 @@ L["mount"] = "Montura"
 L["pet"] = "Mascota"
 L["spell"] = nil
 L["toy"] = "Juguete"
+L["rep"] = nil
 L["completed"] = "Terminado"
 L["incomplete"] = "Incompleto"
 L["known"] = "Conocido"
@@ -105,6 +106,9 @@ L["options_opacity_desc"] = "0 = transparencia, 1 = opaco"
 
 ---------------------------------- VISIBILITY ---------------------------------
 
+L["options_show_worldmap_button"] = nil
+L["options_show_worldmap_button_desc"] = nil
+
 L["options_visibility_settings"] = "Visibilidad"
 L["options_general_settings"] = "General"
 L["options_show_completed_nodes"] = nil
@@ -117,8 +121,21 @@ L["options_toggle_maximized_enlarged"] = nil
 L["options_toggle_maximized_enlarged_desc"] = nil
 L["options_toggle_use_char_achieves"] = nil
 L["options_toggle_use_char_achieves_desc"] = nil
+L["options_toggle_per_map_settings"] = nil
+L["options_toggle_per_map_settings_desc"] = nil
 L["options_restore_hidden_nodes"] = nil
 L["options_restore_hidden_nodes_desc"] = nil
+
+L["options_rewards_settings"] = nil
+L["options_reward_types"] = nil
+L["options_mount_rewards"] = nil
+L["options_mount_rewards_desc"] = nil
+L["options_pet_rewards"] = nil
+L["options_pet_rewards_desc"] = nil
+L["options_toy_rewards"] = nil
+L["options_toy_rewards_desc"] = nil
+L["options_transmog_rewards"] = nil
+L["options_transmog_rewards_desc"] = nil
 
 L["options_icons_misc_desc"] = nil
 L["options_icons_misc"] = "Miscelánea"

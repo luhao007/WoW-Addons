@@ -132,6 +132,20 @@ GTFO.SpellID["338367"] = {
   sound = 1;
 };
 
+GTFO.SpellID["337874"] = {
+  --desc = "Entropic Focus (Ti'or)";
+  sound = 1;
+};
+
+GTFO.SpellID["308030"] = {
+  --desc = "Fanning the Flames (Flameforge Enforcer)";
+  sound = 1;
+};
+
+GTFO.SpellID["346597"] = {
+  --desc = "Soul Bomb (Anima Devourer)";
+  sound = 1;
+};
 
 --- **********************
 --- * Halls of Atonement *
@@ -476,10 +490,6 @@ GTFO.SpellID["340324"] = {
   sound = 1;
 };
 
-GTFO.SpellID["341441"] = {
-  --desc = "Ground Smash (Hulking Gargon)";
-  sound = 3;
-};
 
 GTFO.SpellID["334893"] = {
   --desc = "Stone Shards (Hecutis)";
@@ -488,11 +498,6 @@ GTFO.SpellID["334893"] = {
 
 GTFO.SpellID["328579"] = {
   --desc = "Smoldering Remnants (Kael'thas)";
-  sound = 1;
-};
-
-GTFO.SpellID["328579"] = {
-  --desc = "Lingering Anima (Lady Inerva Darkvein)";
   sound = 1;
 };
 
@@ -510,6 +515,7 @@ GTFO.SpellID["340630"] = {
   --desc = "Rotting";
   applicationOnly = true;
   sound = 1;
+  tankSound = 0;
 };
 
 GTFO.SpellID["339553"] = {
@@ -546,24 +552,21 @@ GTFO.SpellID["331637"] = {
   --desc = "Dark Recital (Lord Stavros)";
   negatingDebuffSpellID = 331637; -- Dark Recital
   sound = 1;
-  test = true;
 };
 
 GTFO.SpellID["331638"] = {
-  --desc = "Dark Recital (Lord Stavros) - Red Circles?";
+  --desc = "Dark Recital (Lord Stavros) - Too far";
   sound = 4;
-  test = true;
 };
 
 GTFO.SpellID["347425"] = {
-  --desc = "Dark Recital (Lord Stavros) - Too far from partner?";
-  sound = 1;
-  test = true;
+  --desc = "Dark Recital (Lord Stavros) - successful";
+  sound = 0;
 };
 
 GTFO.SpellID["334743"] = {
   --desc = "Dark Recital (Lord Stavros) - Empowered Circles?";
-  sound = 4;
+  sound = 1;
   test = true;
 };
 
@@ -574,6 +577,11 @@ GTFO.SpellID["335361"] = {
 
 GTFO.SpellID["332734"] = {
   --desc = "Indignation (Sire Denathrius)";
+  sound = 1;
+};
+
+GTFO.SpellID["335873"] = {
+  --desc = "Rancor (Remornia)";
   sound = 1;
 };
 

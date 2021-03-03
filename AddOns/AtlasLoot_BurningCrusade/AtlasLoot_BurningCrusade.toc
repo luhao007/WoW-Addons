@@ -1,0 +1,40 @@
+## Interface: 90002
+## Author: Lag, Proteyer, Arith
+## Version: v8.13.00
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+## Title: AtlasLoot |cFF0099FF[Burning Crusade]|r
+## Notes: AtlasLoot loot tables from Burning Crusade
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0燃烧的远征|r
+## Notes-zhCN: AtlasLoot 燃烧的远征副本掉落列表
+
+## X-eMail: manager@atlasloot.net
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: http://www.atlasloot.net
+## X-AtlasLoot-LootModule: 1
+## X-Part-Of: AtlasLoot
+
+#@non-debug@
+#@end-non-debug@
+
+#@debug@
+# ## Title: AtlasLoot |cFF0099FF[Burning Crusade]|r
+# ## Title-deDE: AtlasLoot |cFF0099FF[Burning Crusade]|r
+# ## Title-koKR: AtlasLoot |cFF0099FF[불타는 성전]|r
+# ## Title-ruRU: AtlasLoot |cFF0099FF[Burning Crusade]|r
+# ## Title-zhCN: AtlasLoot |cFF0099FF[燃烧的远征]|r
+# ## Title-zhTW: AtlasLoot |cFF0099FF[燃燒的遠征]|r
+# ## Notes: AtlasLoot loot tables from Burning Crusade
+# ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Burning Crusade
+# ## Notes-esES: Tablas de botín de AtlasLoot para Burning Crusade
+# ## Notes-frFR: Tables de butin AtlasLoot de Burning Crusade
+# ## Notes-koKR: AtlasLoot 불타는 성전 전리품 목록
+# ## Notes-ruRU: AtlasLoot таблица добычи из Burning Crusade
+# ## Notes-zhCN: AtlasLoot 《燃烧的远征》物品信息
+# ## Notes-zhTW: AtlasLoot 燃燒的遠征資料片物品掉落資料庫
+#@end-debug@
+
+data.lua
+sounds.lua

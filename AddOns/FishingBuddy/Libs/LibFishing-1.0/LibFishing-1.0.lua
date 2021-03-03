@@ -10,7 +10,7 @@ Licensed under a Creative Commons "Attribution Non-Commercial Share Alike" Licen
 local _
 
 local MAJOR_VERSION = "LibFishing-1.0"
-local MINOR_VERSION = 101076
+local MINOR_VERSION = 101077
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 
@@ -1539,13 +1539,14 @@ function FishLib:GetMapContinent(mapId, debug)
             if (debug) then
                 print(cMapId, parent)
             end
+            lastMapId = cMapId;
             cMapId = parent;
             parent = HBD.mapData[cMapId].parent;
         end
         if special_maps[mapId] then
-            return special_maps[mapId], cMapId;
+            return special_maps[mapId], cMapId, lastMapId;
         else
-            return continent_map[cMapId] or -1, cMapId;
+            return continent_map[cMapId] or -1, cMapId, lastMapId;
         end
     else
         return -1, -1;

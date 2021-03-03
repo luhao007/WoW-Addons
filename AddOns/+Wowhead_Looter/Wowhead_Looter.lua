@@ -4,7 +4,7 @@
 --                                     --
 --                                     --
 --    Patch: 9.0.2                     --
---    Updated: December 9, 2020        --
+--    Updated: March 1, 2021           --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
@@ -59,12 +59,12 @@ local WL_SPELL_BLACKLIST = {
     [135373] = true, -- Entrapment
 };
 local WL_LOOT_TOAST_BOSS = {
-	[244164] = 121818,	-- kazzak
-	[244165] = 121820,	-- azuregos
-	[244166] = 121911,	-- taerar
-	[244182] = 121913,	-- emeriss
-	[244184] = 121821,	-- lethon
-	[244183] = 121912,	-- ysondre
+    [244164] = 121818, -- kazzak
+    [244165] = 121820, -- azuregos
+    [244166] = 121911, -- taerar
+    [244182] = 121913, -- emeriss
+    [244184] = 121821, -- lethon
+    [244183] = 121912, -- ysondre
 };
 local WL_LOOT_TOAST_BAGS = {
     [142397] = 98134,     -- Heroic Cache of Treasures
@@ -549,6 +549,31 @@ local WL_DAILY_PROFESSION_TRADER_QUESTS = { 38243, 38290, 38293, 38287, 38296 }
 local WL_DAILY_BUT_NOT_REALLY = {
     41183,40857,41167,41164,41192,41171, -- Dariness (Rare Archaeology projects)
     61088,60775,61103,60762,60902,61104,60732,61079,60622,60646,62234,62214, -- Ve'nari weekly
+
+    -- Oribos PVP weekly
+    62284, -- Observing Battle
+    62285, -- Observing War
+    62286, -- Observing Skirmishes
+    62287, -- Observing Arenas
+    62288, -- Observing Teamwork
+
+    -- Oribos Dungeons weekly
+    60242, -- Trading Favors: Necrotic Wake
+    60243, -- Trading Favors: Sanguine Depths
+    60244, -- Trading Favors: Halls of Atonement
+    60245, -- Trading Favors: The Other Side
+    60246, -- Trading Favors: Tirna Scithe
+    60247, -- Trading Favors: Theater of Pain
+    60248, -- Trading Favors: Plaguefall
+    60249, -- Trading Favors: Spires of Ascension
+    60256, -- A Valuable Find: Halls of Atonement
+    60253, -- A Valuable Find: Necrotic Wake
+    60251, -- A Valuable Find: Plaguefall
+    60257, -- A Valuable Find: Sanguine Depths
+    60252, -- A Valuable Find: Spires of Ascension
+    60255, -- A Valuable Find: The Other Side
+    60250, -- A Valuable Find: Theater of Pain
+    60254, -- A Valuable Find: Tirna Scithe
 }
 
 local WL_DAILY_VENDOR_ITEMS = { 141713, 141861, 141884, 141860, 141712, 141862, } -- Xur'ios
@@ -569,6 +594,13 @@ local WL_BASTION_STEWARD_OF_THE_DAY = {
     ['42.2,27.7'] = 171113, -- Angeliki
     ['52.9,9.2']  = 171132, -- Covinkles
     ['71.2,37.6'] = 171330, -- Giannakis
+}
+
+local WL_VENTHYR_BROKEN_MIRROR_TRACKING_QUESTS = {
+    61818,61833, 61826,61835, 61822,61834,
+    61819,61836, 61823,61837, 61827,61838,
+    61817,61830, 61821,61831, 61825,61832,
+    61820,61828, 61824,61829, 59236,60297,
 }
 
 -- Speed optimizations
@@ -2655,7 +2687,7 @@ function wlEvent_UNIT_SPELLCAST_SENT(self, unit, target, spellCast, spell)
                 wlTracker.spell.id = wlParseItemLink(wlSelectOne(2, GetItemInfo(target)));
                 wlTracker.spell.name = target;
 
-	    elseif spell == WL_SPELL_SCRAPPING then
+        elseif spell == WL_SPELL_SCRAPPING then
                 local scrappingItemLink = wlGetCurrentScrappingItemLink();
                 if scrappingItemLink ~= nil then
                     wlTracker.spell.id,_,_,_,_,_,_,wlTracker.spell.name = wlParseItemLink(scrappingItemLink);
@@ -2941,19 +2973,33 @@ function wlGetLockedID()
         end
     end
     if wlLockedID ~= nil then
-	local ret = wlLockedID;
-	wlLockedID = nil;
-	return ret;
+        local ret = wlLockedID;
+        wlLockedID = nil;
+        return ret;
     end
     return nil;
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
+local wlManualLootOpened = false;
+local wlManualLootLooted = false;
+
+-- Event callback for LOOT_CLOSED, called when the loot popup closes.
 function wlEvent_LOOT_CLOSED(self)
-    wlClearTracker("spell");
+    if (not wlManualLootOpened or wlManualLootLooted) then
+        wlClearTracker("spell");
+    end
+
+    wlManualLootOpened = false;
 end
 
+-- Event callback for LOOT_SLOT_CLEARED, called when a slot in the loot popup is cleared.
+function wlEvent_LOOT_SLOT_CLEARED(self, slot)
+    if (wlManualLootOpened) then
+        wlManualLootLooted = true;
+    end
+end
 
 function wlEvent_BAG_UPDATE_DELAYED()
     wlCurrentLootToastEventId = nil;
@@ -2961,7 +3007,12 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-function wlEvent_LOOT_OPENED(self)
+-- Event callback for LOOT_OPENED, called when the loot pops up.
+function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
+    if (not autoLoot) then
+        wlManualLootOpened = true;
+        wlManualLootLooted = false;
+    end
 
     if not wlEvent or not wlId or not wlEvent[wlId] or not wlN or not wlEvent[wlId][wlN] then
         return;
@@ -3251,14 +3302,14 @@ end
 function wlEvent_ITEM_LOCK_CHANGED(self, bag, slot)
 
     if not bag or not slot or not wlTracker.spell or not wlTracker.spell.id then
-	return;
+        return;
     end
 
     local itemLink = GetContainerItemLink(bag, slot);
     local itemID = wlParseItemLink(itemLink);
 
     if select(3, GetContainerItemInfo(bag, slot)) and wlTracker.spell.id == itemID then
-	wlLockedID = itemID;
+        wlLockedID = itemID;
     end
 
 end
@@ -3824,7 +3875,7 @@ function wlScanToys(processToys)
 
     local ids = ""
 
-    local fCollected, fUncollected = C_ToyBox.GetCollectedShown(), C_ToyBox.GetUncollectedShown()
+    local fCollected, fUncollected, fUnusable = C_ToyBox.GetCollectedShown(), C_ToyBox.GetUncollectedShown(), C_ToyBox.GetUnusableShown();
     local fSources = {}
     local numSources = C_PetJournal.GetNumPetSources() -- yes, pet sources used for toy source list
 
@@ -3832,8 +3883,17 @@ function wlScanToys(processToys)
         fSources[i] = not C_ToyBox.IsSourceTypeFilterChecked(i)
         C_ToyBox.SetSourceTypeFilter(i,true)
     end
+
+    local numExpansions = GetNumExpansions()
+    local fExpansions = {}
+    for i=1,numExpansions do
+        fExpansions[i] = not C_ToyBox.IsExpansionTypeFilterChecked(i);
+        C_ToyBox.SetExpansionTypeFilter(i,true)
+    end
+
     C_ToyBox.SetCollectedShown(true)
     C_ToyBox.SetUncollectedShown(false)
+    C_ToyBox.SetUnusableShown(true)
     C_ToyBox.SetFilterString("")
     C_ToyBox.ForceToyRefilter()
 
@@ -3862,8 +3922,12 @@ function wlScanToys(processToys)
     end
     C_ToyBox.SetCollectedShown(fCollected)
     C_ToyBox.SetUncollectedShown(fUncollected)
+    C_ToyBox.SetUnusableShown(fUnusable)
     for i=1,numSources do
         C_ToyBox.SetSourceTypeFilter(i,fSources[i])
+    end
+    for i=1,numExpansions do
+        C_ToyBox.SetExpansionTypeFilter(i,fExpansions[i])
     end
     C_ToyBox.ForceToyRefilter()
 
@@ -4313,6 +4377,24 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
+
+--[[
+-- Check for completed Venthyr broken mirror tracking quests.
+]]
+function wlCheckVenthyrBrokenMirrorQuests()
+    -- If we're not in Revendreth or Sinfall, there's nothing to check.
+    local mapId = C_Map.GetBestMapForUnit("player");
+    if (mapId ~= 1525 and mapId ~= 1699) then
+        return;
+    end
+
+    for _, questId in ipairs(WL_VENTHYR_BROKEN_MIRROR_TRACKING_QUESTS) do
+        if (C_QuestLog.IsQuestFlaggedCompleted(questId)) then
+            wlSeenDaily(questId);
+        end
+    end
+end
+
 --[[
 -- Event handler for VIGNETTES_UPDATED, which fires after the game client gathered vignettes in the current zone.
 ]]
@@ -4325,6 +4407,7 @@ end
 function wlEvent_ZONE_CHANGED()
     wlLocTooltipFrame_OnUpdate();
     wlCheckTorghastWings();
+    wlCheckVenthyrBrokenMirrorQuests();
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4408,6 +4491,7 @@ local wlEvents = {
     -- drops
     LOOT_OPENED = wlEvent_LOOT_OPENED,
     LOOT_CLOSED = wlEvent_LOOT_CLOSED,
+    LOOT_SLOT_CLEARED = wlEvent_LOOT_SLOT_CLEARED,
     SHOW_LOOT_TOAST = wlEvent_SHOW_LOOT_TOAST,
     SPELL_CONFIRMATION_PROMPT = wlEvent_SPELL_CONFIRMATION_PROMPT,
     CHAT_MSG_ADDON = wlEvent_CHAT_MSG_ADDON,

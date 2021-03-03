@@ -23,6 +23,9 @@
 
 			-- Covenant Abilities
 			[310143] = "soulshape", -- Nightfae Signature
+			[319217] = "podtender", -- Nightfae Cheat Death
+			[320224] = "podtender", -- Nightfae Cheat Death
+			[327676] = "forgeborne", -- Forgeborne (Necrolord Soulbind)
 
 			-- Backlash (Aura Applied)
 			[87204] = "backlashFear", -- Vampiric Touch Dispel (Priest)
@@ -97,12 +100,14 @@
 			[186257] = "cheetah",
 			[212640] = "mendingBandage",
 			--[193526] = "trueShot",
+			[288613] = "trueShot",
 			[193530] = "trueShot",	-- Aspect of the Wild
 			[266779] = "trueShot",	-- Coordinated Assault
 			--[186289] = "eagle",
 			[3355] = "trapped", -- Freezing Trap Success
 			[202748] = "survivalTactics", -- Survival Tactics (Honor Talent Feign Death Passive)
 			[212704] = "beastWithin", -- The Beast Within; Beastial Wrath Fear/Horror Immunity Honor Talent
+			[260402] = "doubletap",
 
 			-- Mage (Aura Applied)
 			[45438] = "iceBlock",
@@ -115,6 +120,7 @@
 			[190319] = "Combustion",
 			[110909] = "alterTime",
 			[342246] = "alterTime",
+			[108978] = "alterTime",
 			[324220] = "deathborne", -- Necrolord
 
 			-- Monk (Aura Applied)
@@ -210,7 +216,7 @@
 			-- Warlock (Aura Applied)
 			[108416] = "darkPact",
 			[104773] = "unendingResolve",
-			[196098] = "darkSoul", -- Soul Harvest (Legion's Version)
+			--[196098] = "darkSoul", -- Soul Harvest (Legion's Version)
 			[113860] = "darkSoul", -- Dark Soul: Misery (Affliction)
 			[113858] = "darkSoul", -- Dark Soul: Instability (Destruction)
 			[212295] = "netherWard",
@@ -229,8 +235,8 @@
 			[198817] = "sharpenBlade",
 			[197690] = "defensestance",
 			--[218826] = "trialByCombat",
-			[23920] = "spellReflection", -- Protection
-			--[216890] = "spellReflection", -- Arms/Fury
+			[23920] = "spellReflection",
+			[330279] = "spellReflection", -- Overwatch PvP talent
 			[236273] = "duel",
 			[260708] = "sweepingStrikes", -- Sweeping Strikes
 			[202147] = "secondWind", -- Second Wind
@@ -294,6 +300,7 @@
 			[33891] = "incarnationDown",		--Incarnation (Tree)
 			[197690] = "damageStance",			--Defensive Stance (Falling off)
 			--[193526] = "trueShotDown",			--Trueshot
+			[288613] = "trueShotDown",
 			[193530] = "trueShotDown",			--Aspect of the Wild
 			[266779] = "trueShotDown",			--Coordinated Assault
 			[199754] = "riposteDown",			--Riposte
@@ -309,6 +316,7 @@
 			[209584] = "zenFocusTeaDown",		--Zen Focus Tea
 			--[216890] = "SpellreflectionDown", 		-- Arms/Fury
 			[23920] = "SpellreflectionDown",			-- Protection
+			[330279] = "SpellReflectionDown",			-- Overwatch PvP Talent
 			[152279] = "BreathOfSindragosaDown",--Breath of Sindragosa
 			[34709] = "shadowSightDown",		-- Shadow Sight Crystal in Arenas
 			[25771] = "forbearanceDown",		-- Forbearance
@@ -344,10 +352,11 @@
 			[108294] = "heartOfTheWildDown", -- Heart of the Wild
 			[110909] = "alterTimeDown", -- Alter Time
 			[342246] = "alterTimeDown", -- Alter Time again I guess
+			[108978] = "alterTimeDown", -- Alter Time again I guess again I guess
 
 			-- COVENANTS
 			[310143] = "soulshapeDown", -- Nightfae Signature
-			[324867] = "fleshcraftDown", -- Necrolord Signature
+			--[324867] = "fleshcraftDown", -- Necrolord Signature
 		--TANK TAUNTS
 			--[206891] = "tankTauntsOFF", 			-- Tank Taunts Down
 			},
@@ -388,7 +397,7 @@
 				--None! :D
 				
 			-- Demon Hunter (Spell Casting)
-				--None! :D
+			[323639] = "theHunt",		-- Nightfae
 
 			-- Druid (Spell Casting)
 			[33786] = "cyclone",
@@ -503,6 +512,7 @@
 			[325289] = "decimatingbolt", -- Necrolord
 			[321792] = "impendingcatastrophe", -- Venthyr
 			[325640] = "soulrot", -- Nightfae
+			[264106] = "deathbolt",
 
 			-- Warrior (Spell Casting)
 			[64382] = "shatteringthrow",
@@ -684,7 +694,6 @@
 			[235903] = "manaRift",
 			[317009] = "sinfulBrand",	-- Venthyr
 			[306830] = "elysianDecree", -- Kyrian
-			[323639] = "theHunt",		-- Nightfae
 			[329554] = "fodderoftheflame", -- Necrolord
 
 			-- Druid (Cast Success)
@@ -899,7 +908,7 @@
 			[192222] = "LiquidMagma", -- Updated for Legion
 			[204330] = "skyfuryTotem",
 			[204331] = "counterstrikeTotem",
-			--[204332] = "windfuryTotem",	
+			[8512] = "windfuryTotem",
 			[207399] = "reincarnationTotem",
 			[198838] = "protectionTotem",
 			[204336] = "grounding", -- Updated for Legion
@@ -940,6 +949,7 @@
 			[80240] = "havoc",
 			[312321] = "scouringTithe",
 			[205179] = "phantomsingularity",
+			[344566] = "RapidContagion",
 
 			-- Warrior (Cast Success)
 			[97462] = "commandingShout",
@@ -962,6 +972,8 @@
 			[324143] = "conquerorbanner", -- Necrolord
 			[307865] = "spearofbastion", -- Kyrian
 			[64382] = "ShatteringThrowSuccess",
+			[167105] = "colossusSmash",
+			[262161] = "colossusSmash", -- Warbreaker Talent
 		},
 		friendlyInterrupt = {			--friendly interrupt [spellid] = ".mp3 file name",
 			[19647] = "lockout", -- Spell Locks begin

@@ -226,6 +226,8 @@ function _detalhes:ApplyProfile (profile_name, nosave, is_copy)
 			return false
 		end
 
+		profile.ocd_tracker = nil --moved to local character saved
+
 	--> always save the previous profile, except if nosave flag is up
 		if (not nosave) then
 			--> salva o profile ativo no momento
@@ -835,18 +837,6 @@ local default_profile = {
 			},
 		},
 
-	--> ocd tracker test
-		ocd_tracker = {
-			enabled = false,
-			cooldowns = {},
-			pos = {},
-			show_conditions = {
-				only_in_group = true,
-				only_inside_instance = true,
-			},
-			show_options = false,
-		},
-
 	--> minimap
 		minimap = {hide = true, radius = 160, minimapPos = 220, onclick_what_todo = 1, text_type = 1, text_format = 3},
 		data_broker_text = "",
@@ -1116,6 +1106,19 @@ local default_player_data = {
 			last_coach_name = false,
 		},
 
+	--> ocd tracker test
+		ocd_tracker = {
+			enabled = false,
+			cooldowns = {},
+			pos = {},
+			show_conditions = {
+				only_in_group = true,
+				only_inside_instance = true,
+			},
+			show_options = false,
+			current_cooldowns = {},
+		},
+
 	--> force all fonts to have this outline
 		force_font_outline = "",
 
@@ -1235,6 +1238,21 @@ local default_global_data = {
 		immersion_pets_on_solo_play = false, --pets showing when solo play
 		damage_scroll_auto_open = true,
 		damage_scroll_position = {},
+		data_wipes_exp = {
+			["9"] = false,
+			["10"] = false,
+			["11"] = false,
+			["12"] = false,
+			["13"] = false,
+			["14"] = false,
+		},
+		current_exp_raid_encounters = {},
+
+	--> profile by spec
+		profile_by_spec = {},
+
+	--> displays by spec
+		displays_by_spec = {},
 
 	--> death log
 		show_totalhitdamage_on_overkill = false,
@@ -1299,6 +1317,7 @@ local default_global_data = {
 
 	--> min health done on the death report
 		deathlog_healingdone_min = 1,
+		deathlog_healingdone_min_arena = 400,
 
 	--> mythic plus config
 		mythic_plus = {
@@ -1462,10 +1481,10 @@ function _detalhes:RestoreState_CurrentMythicDungeonRun()
 	local savedTable = _detalhes.mythic_dungeon_currentsaved
 	local mythicLevel = C_ChallengeMode.GetActiveKeystoneInfo()
 	local zoneName, _, _, _, _, _, _, currentZoneID = GetInstanceInfo()
-
 	local mapID =  C_Map.GetBestMapForUnit ("player")
 
 	if (not mapID) then
+		--print("D! no mapID to restored mythic dungeon state.")
 		return
 	end
 
@@ -1493,15 +1512,23 @@ function _detalhes:RestoreState_CurrentMythicDungeonRun()
 				_detalhes.MythicPlus.IsRestoredState = true
 				DetailsMythicPlusFrame.IsDoingMythicDungeon = true
 
+				print("D! (debug) mythic dungeon state restored.")
+
 				C_Timer.After (2, function()
 					_detalhes:SendEvent ("COMBAT_MYTHICDUNGEON_START")
 				end)
 				return
+			else
+				print("D! (debug) mythic level isn't equal.", mythicLevel, savedTable.level)
 			end
+		else
+			print("D! (debug) zone name or zone Id isn't the same:", zoneName, savedTable.dungeon_name, currentZoneID, savedTable.dungeon_zone_id)
 		end
 
 		--> mythic run is over
 		savedTable.started = false
+	else
+		--print("D! savedTable.stated isn't true.")
 	end
 end
 

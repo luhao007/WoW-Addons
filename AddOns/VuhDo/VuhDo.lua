@@ -362,7 +362,6 @@ function VUHDO_setHealth(aUnit, aMode)
 			tInfo["threat"] = UnitThreatSituation(aUnit) or 0;
 			tInfo["threatPerc"] = 0;
 			tInfo["isVehicle"] = UnitHasVehicleUI(aUnit);
-			tInfo["className"] = tLocalClass or "";
 			tInfo["petUnit"] = VUHDO_OWNER_2_PET[aUnit];
 			tInfo["targetUnit"] = VUHDO_getTargetUnit(aUnit);
 			tInfo["classId"] = tClassId;
@@ -377,6 +376,12 @@ function VUHDO_setHealth(aUnit, aMode)
 			--[[tInfo["missbuff"] = nil;
 			tInfo["mibucateg"] = nil;
 			tInfo["mibuvariants"] = nil;]]
+
+			if tLocalClass == tName then
+				tInfo["className"] = UnitCreatureType(aUnit) or "";
+			else
+				tInfo["className"] = tLocalClass or "";
+			end
 
 			if not VUHDO_isSpecialUnit(aUnit) then
 				if not tIsPet and tInfo["fullName"] == tName and VUHDO_RAID_NAMES[tName] then

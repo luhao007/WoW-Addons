@@ -15,6 +15,7 @@ L["anima_channeled"] = "anima channeled to %s."
 
 L["deifir_note"] = "Ride the rare around in a circle and use {spell:319566} and {spell:319575} to slow and stun him."
 L["faeflayer_note"] = "In a small cave hidden behind a waterfall."
+L["gormbore_note"] = "Kill {npc:165420s} over the rumbling ground to spawn the rare."
 L["gormtamer_tizo_note"] = "Kill Bristlecone Sprites in the Mistveil Tangle until {npc:164110} spawns."
 L["humongozz_note"] = "Plant an {item:175247} in the Damp Loam to spawn a {npc:164122}. The mushroom drops from numerous mobs in the zone."
 L["lehgo_note"] = "Destroy Quivering Gorm Eggs and kill {npc:171827} until he spawns. In a cave (entrance to the south-east in the Dusty Burrows)."
@@ -54,7 +55,6 @@ Talk to {npc:171743}, the Stage Director, to start one of the special encounters
 
 Participate in all seven encounters to unlock {item:180748} from {npc:163714}.
 ]]
-L["guldan"] = "Gul'dan"
 
 L["cache_of_the_moon"] = "Collect {npc:171360}'s five missing tools in the Garden of Night and combine them to create {item:180753}. Return her toolkit and she will cast {spell:334353} on you, allowing you to see the cache."
 L["cache_of_the_night"] = "Collect {item:180656}, {item:180654} and {item:180655} from across the zone and combine them to create {item:180652}."
@@ -118,7 +118,8 @@ Motes can be collected from nearby Depleted Anima Canisters located in the room 
 
 |cFFFF8C00Cannot be defeated during the {wq:Assault on the Vestibule} world quest.|r
 ]]
-L["nikara_note"] = "With two other players, click the Ancient Incense to summon."
+L["reekmonger_note"] = "Kill enemies in the Temple of Courage until {npc:171327} emotes and lands."
+L["repair_note"] = "With two other players, click the Ancient Incense to summon."
 L["sotiros_orstus_note"] = "Click the Black Bell to summon the rares."
 L["sundancer_note"] = "Click the statue to obtain the {spell:332309} buff, then use a {item:180445} to glide to the rare and mount it."
 L["swelling_tear_note"] = "Click the {npc:171012} to summon one of three rares. Tears can appear in multiple locations in the zone."
@@ -220,8 +221,13 @@ L["anima_shard_61297"] = "Behind a stone pillar.\n\n"..ns.color.Red('Inside the 
 L["anima_shard_61298"] = "Sitting behind a lounge chair."
 L["anima_shard_61299"] = "Hidden behind a large torch."
 L["anima_shard_61300"] = "On a ledge hanging over the central font."
+L["anima_shard_spires"] = "Three shards are located in the Spires of Ascension dungeon."
 L["options_icons_anima_shard"] = "{achievement:14339}"
 L["options_icons_anima_shard_desc"] = "Display the locations of all 50 lost anima shards for the {achievement:14339} achievement."
+
+L["hymn_note"] = "Locate hymns at each of the temples and acquire their buffs to earn the achievement."
+L["options_icons_hymns"] = "{achievement:14768}"
+L["options_icons_hymns_desc"] = "Display hymn locations for the {achievement:14768} achievement."
 
 L["stratios_note"] = "Even the smallest battles should be fought with honor and care. Present your team when you are ready."
 L["thenia_note"] = "Such magnificent open plains here. A glorious place to battle. Are you prepared?"
@@ -238,6 +244,7 @@ L["gieger_note"] = "Pull the {npc:162815} to activate the rare."
 L["gristlebeak_note"] = "Break all nearby {npc:162761} to engage the rare."
 L["leeda_note"] = "Kill the two {npc:162220s} until the rare spawns."
 L["nirvaska_note"] = "Only appears when the {wq:Deadly Reminder} world quest is active."
+L["ravenomous_note"] = "Squash {npc:159901s} in the area until the rare spawns."
 L["sabriel_note"] = "Can appear as one of the champions in the Theater of Pain."
 L["schmitd_note"] = "Use nearby {spell:313451} to break his shield."
 L["taskmaster_xox_note"] = "Shares a spawn with {npc:160204}, {npc:160230} and {npc:160226}."
@@ -288,21 +295,16 @@ Oh look! A {spell:343124}! Approach it brave adventurer, this is surely not a ru
 ]]
 
 L["oonar_sorrowbane_note"] = [[
-In the Theater of Pain, you will find Sorrowbane stuck in the ground and Oonar's Arm attached to it. |cFFFF8C00Before attempting to pull either, set your {item:6948} to {npc:161702} by the flight point.|r
+In the Theater of Pain, you will find {item:180273} stuck in the ground and {item:181164} attached to it. To pull them free:
 
-To pull {item:181164} free:
-
-• Travel to Glutharn's Decay to the east.
-• Eat 4x {spell:327367} (2min debuff).
-• Quickly hearth and pull on the arm.
-
-To pull {item:180273} free:
-
-• Purchase 1 {item:182163} from {npc:171808} in Revendreth.
-• Purchase 1 {item:180771} from {npc:166640} in Maldraxxus.
+• Purchase a {item:182163} from {npc:171808} in Revendreth.
+• Purchase a {item:180771} from {npc:166640} in Maldraxxus.
+• Purchase a {item:181163} from {npc:169964} in Maldraxxus.
 • Get 2 stacks of {spell:306272} from the {wq:A Few Bumps Along the Way} world quest to the west.
 • Eat 4x {spell:327367} in Glutharn's Decay.
-• Quickly hearth, drink both potions and pull on the sword.
+• Quickly use {item:181163}, drink both potions and pull on the arm and sword.
+
+To pull just the arm, only the 4x {spell:327367} are needed.
 ]]
 
 L["pet_cat"] = "Pet the damn cat!"
@@ -328,6 +330,7 @@ L["amalgamation_of_sin_note"] = "During the {wq:Summon Your Sins} world quest, p
 L["bog_beast_note"] = "Has a chance to spawn during the world quest {wq:Muck It Up} after using {item:177880} on a {npc:166206}."
 L["endlurker_note"] = "Click Anima Stake near {npc:165229} corpse and use {spell:321826} on top of the Shimmering Rift."
 L["executioner_aatron_note"] = "Kill the three nearby {npc:166715} to remove {spell:324872}."
+L["executioner_adrastia_note"] = "Free {npc:161299s} in the surrounding area and escort them until they despawn. {npc:161310} will eventually spawn to squash the insurrection."
 L["famu_note"] = "Talk to {npc:166483} to trigger the event."
 L["grand_arcanist_dimitri_note"] = "Kill the four {npc:167467} to release the rare."
 L["harika_note"] = "In Dredhollow to the west, loot the {item:176397}, then turn the bolt into {npc:165327} and tell him to bring down the rare."
@@ -389,7 +392,7 @@ L["options_icons_fugitives_desc"] = "Display fugitive soul locations for the {ac
 L["grand_inquisitor_note"] = "Turn in 10 {item:180451} to {npc:160248} for a chance at this sinstone."
 L["high_inquisitor_note"] = "Turn in 250 {currency:1816} to {npc:160248} for a chance at this sinstone."
 L["inquisitor_note"] = "Turn in 100 {currency:1816} to {npc:160248} for a chance at this sinstone."
-L["options_icons_inquisitors"] = "{achievement:14276}"
+L["options_icons_inquisitors"] = "Inquisitors"
 L["options_icons_inquisitors_desc"] = "Display inquisitor locations for the {achievement:14276} achievement."
 
 -------------------------------------------------------------------------------
@@ -403,7 +406,6 @@ L["apholeias_note"] = "With 3 other players, stand on the corners of the platfor
 L["dekaris_note"] = "On top of a large jutting rock."
 L["drifting_sorrow_note"] = "Kill {npc:175246s} near the hovering orb to activate the boss."
 L["ekphoras_note"] = "With 3 other players, stand on the corners of the platform and cast {spell:330650} to summon the rare."
-L["gorged_shadehound_note"] = "Only available during the {wq:Hunt: Shadehounds} event."
 L["ikras_note"] = "Flies around Perdition Hold. This is a good place to pull him."
 L["orophea_note"] = "Pick up {spell:337143} to the southeast and offer it to {npc:172577} to activate."
 L["sanngror_note"] = "If he is not attackable, wait until he is not experimenting on souls."
@@ -430,7 +432,6 @@ L["venari_note"] = [[
 Use {currency:1767} to purchase Maw and Torghast upgrades.
 
 |cFFFF8C00Account-wide Torghast upgrades will show as incomplete on alts!|r
-|cFFFF8C00Completion status below will be updated as we unlock them!|r
 ]]
 L["venari_upgrade"] = "{npc:162804} Upgrade"
 L["torghast"] = "Torghast"
@@ -443,6 +444,10 @@ L["Tentative"] = nil
 L["stygian_cache"] = "Stygian Cache"
 L["stygian_cache_note"] = "Only one person can loot the cache each time it spawns!"
 
+L["box_of_torments_note"] = "Open the {npc:173837} under the Tremaculum."
+L["tormentors_notes_note"] = "Loot the corpse of {npc:173811}."
+L["words_of_warden_note"] = "Examine the |cffffff00Paper Scrap|r on a rock behind some pots."
+
 L["options_icons_bonus_boss"] = "Bonus Elites"
 L["options_icons_bonus_boss_desc"] = "Display locations of bonus elites."
 L["options_icons_bonus_event"] = "Bonus Events"
@@ -451,5 +456,7 @@ L["options_icons_riftstone"] = "{npc:174962s}"
 L["options_icons_riftstone_desc"] = "Display the locations of chaotic riftstone teleporters."
 L["options_icons_grapples"] = "{npc:176308s}"
 L["options_icons_grapples_desc"] = "Display grapple locations for the {item:184653} upgrade."
+L["options_icons_maw_lore"] = "Maw Lore"
+L["options_icons_maw_lore_desc"] = "Display maw lore locations for the {achievement:14761} achievement."
 L["options_icons_stygian_caches"] = "Stygian Caches"
 L["options_icons_stygian_caches_desc"] = "Display cache locations containing extra Stygia."

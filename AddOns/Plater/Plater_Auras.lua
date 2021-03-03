@@ -71,8 +71,10 @@ local SCRIPT_AURA = Plater.ScriptAura
 local SCRIPT_CASTBAR = Plater.ScriptCastBar
 local SCRIPT_UNIT = Plater.ScriptUnit
 
---caches aura names for crowd control to determine the border color for special auras, if the aura is in this table, the border will be colored with crowd control color
-local CROWDCONTROL_AURA_NAMES = {}
+--caches auras for crowd control, offensives and defensives to determine the border color for special auras, if the aura is in this table, the border will be colored with the respective color
+local CROWDCONTROL_AURA_IDS = {}
+local OFFENSIVE_AURA_IDS = {}
+local DEFENSIVE_AURA_IDS = {}
 --list of auras Plater added automatically to special auras, automatic added auras passes throught black list filters while auras manually added by the user do no
 local SPECIAL_AURAS_AUTO_ADDED = {}
 --list of auras the user added into the track list for special auras, _MINE caches the auras where the user checked the 'Only Mine' checkbox
@@ -198,11 +200,17 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			
 			--get the table where all icon frames are stored in
 			local iconFrameContainer = self.PlaterBuffList
+			--get the amount of auras shown in the frame, this variable should be always reliable
+			local amountFramesShown = self.amountAurasShown
 			
 			if (profile.aura_sort) then
 				local iconFrameContainerCopy = {}
-				for index, icon in pairs(iconFrameContainer) do
-					iconFrameContainerCopy[index] = icon
+				local index = 0
+				for _, icon in pairs(iconFrameContainer) do
+					if icon:IsShown() then
+						index = index + 1
+						iconFrameContainerCopy[index] = icon
+					end
 				end
 				iconFrameContainer = iconFrameContainerCopy
 				table.sort (iconFrameContainer, Plater.AuraIconsSortFunction)
@@ -227,9 +235,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				return
 			end
 			
-			--get the amount of auras shown in the frame, this variable should be always reliable
-			local amountFramesShown = self.amountAurasShown
-			
 			if (growDirection ~= 2) then --it's growing to left or right
 			
 				--debug where the buffFrame anchors are
@@ -240,6 +245,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				local aurasPerRow = (not profile.auras_per_row_auto and floor(auras_per_row) or Plater.MaxAurasPerRow)
 				local curAurasRowCount = aurasPerRow + 1
 				local rowGrowthDirectionUp = (anchorSide < 3 or anchorSide > 5)
+				local lineBreakMult = rowGrowthDirectionUp and 1 or -1
 				
 				--which slot index is being manipulated within the icon loop
 				--if an icon is hidden it won't be used and the slot won't increase
@@ -272,7 +278,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				end
 				
 				--iterate among all icon frames
-				for i = 1, #iconFrameContainer do
+				for i = 1, amountFramesShown do
 					--get the icon id from the icon frame container
 					local iconFrame = iconFrameContainer [i]
 					if (iconFrame:IsShown()) then
@@ -286,7 +292,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 							verticalHeight = firstIcon:GetHeight()
 						else
 							if (slotId == curAurasRowCount) then
-								iconFrame:SetPoint (relIconPoint, firstIcon, relRowIconPoint, 0, profile.aura_breakline_space)
+								iconFrame:SetPoint (relIconPoint, firstIcon, relRowIconPoint, 0, profile.aura_breakline_space * lineBreakMult)
 								curAurasRowCount = curAurasRowCount + aurasPerRow
 								--update the first icon to be the first icon in the second row
 								firstIcon = iconFrame
@@ -311,7 +317,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				--iterate among all icons in the aura frame
 				--set the point of the first icon in the bottom left of the buff frame
 				--set the point of all other icons to the right of the previous icon and update the size of the buff frame
-				for i = 1, #iconFrameContainer do
+				for i = 1, amountFramesShown do
 					local iconFrame = iconFrameContainer [i]
 					if (iconFrame:IsShown()) then
 						curRowLength = curRowLength + iconFrame:GetWidth() + DB_AURA_PADDING
@@ -417,10 +423,29 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		local showAnimationOnStop = function()
 			iconFrame:SetScale(1)
 		end
+		
+		local iconShowInAnimation = {}
 	
-		local iconShowInAnimation = DF:CreateAnimationHub (iconFrame, showAnimationOnPlay, showAnimationOnStop)
-		DF:CreateAnimation (iconShowInAnimation, "Scale", 1, .05, .7, .7, 1.1, 1.1)
-		DF:CreateAnimation (iconShowInAnimation, "Scale", 2, .05, 1.1, 1.1, 1, 1)
+		local iconShowInAnimationIcon = DF:CreateAnimationHub (iconFrame.Icon, showAnimationOnPlay, showAnimationOnStop)
+		DF:CreateAnimation (iconShowInAnimationIcon, "Scale", 1, .05, .7, .7, 1.1, 1.1)
+		DF:CreateAnimation (iconShowInAnimationIcon, "Scale", 2, .05, 1.1, 1.1, 1, 1)
+		
+		local iconShowInAnimationBorder = DF:CreateAnimationHub (iconFrame.Border, showAnimationOnPlay, showAnimationOnStop)
+		DF:CreateAnimation (iconShowInAnimationBorder, "Scale", 1, .05, .7, .7, 1.1, 1.1)
+		DF:CreateAnimation (iconShowInAnimationBorder, "Scale", 2, .05, 1.1, 1.1, 1, 1)
+		
+		iconShowInAnimation.iconShowInAnimationIcon = iconShowInAnimationIcon
+		iconShowInAnimation.iconShowInAnimationBorder = iconShowInAnimationBorder
+		
+		function iconShowInAnimation.Play(iconShowInAnimation)
+			iconShowInAnimation.iconShowInAnimationIcon:Play()
+			iconShowInAnimation.iconShowInAnimationBorder:Play()
+		end
+		function iconShowInAnimation.Stop(iconShowInAnimation)
+			iconShowInAnimation.iconShowInAnimationIcon:Stop()
+			iconShowInAnimation.iconShowInAnimationBorder:Stop()
+		end
+		
 		iconFrame.ShowAnimation = iconShowInAnimation
 	end
 	
@@ -684,6 +709,18 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			local color = DebuffTypeColor[actualAuraType or "none"] or {r=0,b=0,g=0, a=0}
 			auraIconFrame:SetBackdropBorderColor (color.r, color.g, color.b, color.a or 1)
 		
+		elseif (CROWDCONTROL_AURA_IDS [spellId]) then 
+			--> CC effects
+			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.crowdcontrol))
+		
+		elseif (OFFENSIVE_AURA_IDS [spellId]) then 
+			--> offensive CDs
+			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.offensive))
+		
+		elseif (DEFENSIVE_AURA_IDS [spellId]) then 
+			--> defensive CDs
+			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.defensive))
+			
 		elseif (isBuff) then
 			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.is_buff))
 			auraIconFrame.IsShowingBuff = true
@@ -695,18 +732,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		elseif (actualAuraType == AURA_TYPE_ENRAGE) then 
 			--> enrage effects
 			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.enrage))
-		
-		elseif (DF.CrowdControlSpells and DF.CrowdControlSpells [spellId]) then 
-			--> CC effects
-			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.crowdcontrol))
-		
-		elseif (DF.CooldownsAttack and DF.CooldownsAttack [spellId]) then 
-			--> offensive CDs
-			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.offensive))
-		
-		elseif (DF.CooldownsAllDeffensive and DF.CooldownsAllDeffensive [spellId]) then 
-			--> defensive CDs
-			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.defensive))
 		
 		elseif (isShowAll) then
 			auraIconFrame:SetBackdropBorderColor (unpack (profile.aura_border_colors.is_show_all))
@@ -745,6 +770,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		auraIconFrame.Duration = duration
 		auraIconFrame.Stacks = count
 		auraIconFrame.ExpirationTime = expirationTime
+		auraIconFrame.Caster = caster
 		auraIconFrame:Show()
 		
 		--get the script object of the aura which will be showing in this icon frame
@@ -850,20 +876,20 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			local color = DebuffTypeColor[actualAuraType or "none"] or {r=0,b=0,g=0, a=0} --actualAuraType is a global? it have been not passed
 			borderColor = {color.r, color.g, color.b, color.a or 1}
 			
-		elseif (CROWDCONTROL_AURA_NAMES [spellName]) then
+		elseif (CROWDCONTROL_AURA_IDS [spellId]) then
 			borderColor = Plater.db.profile.debuff_show_cc_border
+		
+		elseif (DEFENSIVE_AURA_IDS [spellId]) then 
+			--> defensive effects
+			borderColor = Plater.db.profile.extra_icon_show_defensive_border
+		
+		elseif (OFFENSIVE_AURA_IDS [spellId]) then 
+			--> offensive effects
+			borderColor = Plater.db.profile.extra_icon_show_offensive_border
 		
 		elseif (debuffType == AURA_TYPE_ENRAGE) then 
 			--> enrage effects
 			borderColor = Plater.db.profile.extra_icon_show_enrage_border
-		
-		elseif (DF.CooldownsAllDeffensive and DF.CooldownsAllDeffensive[spellName]) then 
-			--> defensive effects
-			borderColor = Plater.db.profile.extra_icon_show_defensive_border
-		
-		elseif (DF.CooldownsAttack and DF.CooldownsAttack[spellName]) then 
-			--> offensive effects
-			borderColor = Plater.db.profile.extra_icon_show_offensive_border
 		
 		else
 			borderColor = Plater.db.profile.extra_icon_border_color
@@ -964,7 +990,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					
 					local auraType = "BUFF"
 					--verify is this aura is in the table passed
-					if (aurasToCheck [name]) then
+					if (aurasToCheck [name] or aurasToCheck [spellId]) then
 						local auraIconFrame, buffFrame = Plater.GetAuraIcon (self, true)
 						Plater.AddAura (buffFrame, auraIconFrame, buffIndex, name, texture, count, auraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, true, false, false, isPersonal, actualAuraType)
 					end
@@ -1006,7 +1032,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					local auraType = "DEBUFF"
 					--checking here if the debuff is placed by the player
 					--if (caster and aurasToCheck [name] and UnitIsUnit (caster, "player")) then --this doesn't track the pet, so auras like freeze from mage frost elemental won't show
-					if (caster and aurasToCheck [name] and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet"))) then
+					if (caster and (aurasToCheck [name] or aurasToCheck [spellId]) and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet"))) then
 					--if (aurasToCheck [name]) then
 						local auraIconFrame, buffFrame = Plater.GetAuraIcon (self)
 						Plater.AddAura (buffFrame, auraIconFrame, debuffIndex, name, texture, count, auraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, false, false, false, isPersonal, actualAuraType)
@@ -1097,7 +1123,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 							can_show_this_debuff = true
 							
 						--> user added this buff to track in the buff tracking tab
-						elseif (AUTO_TRACKING_EXTRA_DEBUFFS [name]) then
+						elseif (AUTO_TRACKING_EXTRA_DEBUFFS [name] or AUTO_TRACKING_EXTRA_DEBUFFS [spellId]) then
 							can_show_this_debuff = true
 						end
 						
@@ -1206,6 +1232,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 
 	--used in scripts to get a specific buff from the unit, return full information
 	--can be used with spellId or spellName
+	function Plater.GetAura(unitId, spellName) --alias
+		return Plater.GetBuff(unitId, spellName)
+	end
 	function Plater.GetBuff(unitId, spellName)
 		if (type(spellName) == "number") then
 			spellName = GetSpellInfo(spellName)
@@ -1220,6 +1249,21 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		local continuationToken
 		repeat
 			local slots = { UnitAuraSlots(unitId, "HELPFUL", BUFF_MAX_DISPLAY, continuationToken) }
+			continuationToken = slots[1]
+			for i=2, #slots do
+				local slot = slots[i];
+				local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot(unitId, slot)
+				if (name) then
+					if (name:lower()  == spellName) then
+						return name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
+					end
+				end
+			end
+		until not continuationToken
+
+		local continuationToken
+		repeat
+			local slots = { UnitAuraSlots(unitId, "HARMFUL", BUFF_MAX_DISPLAY, continuationToken) }
 			continuationToken = slots[1]
 			for i=2, #slots do
 				local slot = slots[i];
@@ -1481,8 +1525,10 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		--list of auras Plater added automatically to special auras
         wipe (SPECIAL_AURAS_AUTO_ADDED)
 
-		--crown control spells for the border in the special auras
-		wipe (CROWDCONTROL_AURA_NAMES)
+		--cached spells for the border in the special auras
+		wipe (CROWDCONTROL_AURA_IDS)
+		wipe (OFFENSIVE_AURA_IDS)
+		wipe (DEFENSIVE_AURA_IDS)
 
 		--build the crowd control list
 		if (profile.debuff_show_cc) then
@@ -1491,7 +1537,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				if (spellName) then
 					--SPECIAL_AURAS_AUTO_ADDED [spellName] = true
 					SPECIAL_AURAS_AUTO_ADDED [spellId] = true
-					CROWDCONTROL_AURA_NAMES [spellName] = true
+					CROWDCONTROL_AURA_IDS [spellId] = true
 				end
 			end
         end
@@ -1503,6 +1549,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				if (spellName) then
 					--SPECIAL_AURAS_AUTO_ADDED [spellName] = true
 					SPECIAL_AURAS_AUTO_ADDED [spellId] = true
+					OFFENSIVE_AURA_IDS [spellId] = true
 				end
 			end
         end
@@ -1514,6 +1561,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				if (spellName) then
 					--SPECIAL_AURAS_AUTO_ADDED [spellName] = true
 					SPECIAL_AURAS_AUTO_ADDED [spellId] = true
+					DEFENSIVE_AURA_IDS [spellId] = true
 				end
 			end
         end
@@ -1556,14 +1604,22 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			for spellId, state in pairs (profile.aura_tracker.buff_banned) do
 				local spellName = GetSpellInfo (spellId)
 				if (spellName) then
-					DB_BUFF_BANNED [spellName] = true
+					if state then
+						DB_BUFF_BANNED [spellName] = true
+					else
+						DB_BUFF_BANNED [spellId] = true
+					end
 				end
 			end
 			
 			for spellId, state in pairs (profile.aura_tracker.debuff_banned) do
 				local spellName = GetSpellInfo (spellId)
 				if (spellName) then
-					DB_DEBUFF_BANNED [spellName] = true
+					if state then
+						DB_DEBUFF_BANNED [spellName] = true
+					else
+						DB_DEBUFF_BANNED [spellId] = true
+					end
 				end
 			end
 		
@@ -1626,18 +1682,26 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			CAN_TRACK_EXTRA_BUFFS = false
 			CAN_TRACK_EXTRA_DEBUFFS = false
 
-			for spellId, _ in pairs (extraBuffsToTrack) do
+			for spellId, flag in pairs (extraBuffsToTrack) do
 				local spellName = GetSpellInfo (spellId)
 				if (spellName) then
-					AUTO_TRACKING_EXTRA_BUFFS [spellName] = true
+					if flag then
+						AUTO_TRACKING_EXTRA_BUFFS [spellName] = true
+					else
+						AUTO_TRACKING_EXTRA_BUFFS [spellId] = true
+					end
 					CAN_TRACK_EXTRA_BUFFS = true
 				end
 			end
 			
-			for spellId, _ in pairs (extraDebuffsToTrack) do
+			for spellId, flag in pairs (extraDebuffsToTrack) do
 				local spellName = GetSpellInfo (spellId)
 				if (spellName) then
-					AUTO_TRACKING_EXTRA_DEBUFFS [spellName] = true
+					if flag then
+						AUTO_TRACKING_EXTRA_DEBUFFS [spellName] = true
+					else
+						AUTO_TRACKING_EXTRA_DEBUFFS [spellId] = true
+					end
 					CAN_TRACK_EXTRA_DEBUFFS = true
 				end
 			end
@@ -1646,8 +1710,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 				for spellId, _ in pairs (DF.CrowdControlSpells) do
 					local spellName = GetSpellInfo (spellId)
 					if (spellName) then
-						--AUTO_TRACKING_EXTRA_BUFFS [spellName] = true
-						AUTO_TRACKING_EXTRA_BUFFS [spellId] = true
+						--AUTO_TRACKING_EXTRA_DEBUFFS [spellName] = true
+						AUTO_TRACKING_EXTRA_DEBUFFS [spellId] = true
+						CROWDCONTROL_AURA_IDS [spellId] = true
 						CAN_TRACK_EXTRA_BUFFS = true
 					end
 				end
@@ -1659,6 +1724,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					if (spellName) then
 						--AUTO_TRACKING_EXTRA_BUFFS [spellName] = true
 						AUTO_TRACKING_EXTRA_BUFFS [spellId] = true
+						OFFENSIVE_AURA_IDS [spellId] = true
 						CAN_TRACK_EXTRA_BUFFS = true
 					end
 				end
@@ -1670,6 +1736,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					if (spellName) then
 						--AUTO_TRACKING_EXTRA_BUFFS [spellName] = true
 						AUTO_TRACKING_EXTRA_BUFFS [spellId] = true
+						DEFENSIVE_AURA_IDS [spellId] = true
 						CAN_TRACK_EXTRA_BUFFS = true
 					end
 				end

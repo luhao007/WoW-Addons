@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Abatorlos(of Spinebreaker), DuskAshes, superk521, zuhligan, Grit (Legion Update), Mini_Dragon, LordKuper
-## Version: 3.1
+## Version: 3.3.1
 ## SavedVariables: GladiatorlosSADB
 
 ## Title: GladiatorlosSA

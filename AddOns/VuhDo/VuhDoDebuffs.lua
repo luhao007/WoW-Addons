@@ -31,7 +31,8 @@ VUHDO_DEBUFF_BLACKLIST = {
 	[GetSpellInfo(57724)] = true, -- Sated (Bloodlust)
 	[GetSpellInfo(71328)] = true, -- Dungeon Cooldown
 	[GetSpellInfo(57723)] = true, -- Exhaustion (Heroism)
-	[GetSpellInfo(80354)] = true  -- Temporal Displacement
+	[GetSpellInfo(80354)] = true, -- Temporal Displacement (Time Warp)
+	[VUHDO_SPELL_ID.DEBUFF_FATIGUED] = true -- Fatigued (Primal Fury)
 };
 
 

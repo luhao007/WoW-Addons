@@ -57,7 +57,8 @@ map.nodes[25304850] = Rare({
         Transmog({item=179924, slot=L["leather"]}), -- Light-Infused Jacket
         Transmog({item=179653, slot=L["mail"]}), -- Light-Infused Hauberk
         Transmog({item=179925, slot=L["plate"]}), -- Light-Infused Breastplate
-        Item({item=180688}) -- Infused Remnant of Light
+        Item({item=180688}), -- Infused Remnant of Light
+        Pet({item=180586, id=2892}) -- Lightbinders
     }
 }) -- Amalgamation of Light
 
@@ -113,6 +114,7 @@ map.nodes[37084742] = Rare({
 map.nodes[43055183] = Rare({
     id=161310,
     quest=58441,
+    note=L["executioner_adrastia_note"],
     rewards={
         Achievement({id=14310, criteria=48807}),
         Transmog({item=180502, slot=L["leather"]}) -- Adrastia's Executioner Gloves
@@ -140,7 +142,7 @@ map.nodes[32641545] = Rare({
     requires=ns.requirement.GarrisonTalent(1259, L["anima_channeled"]),
     note=L["madalav_note"],
     rewards={
-        Transmog({item=180939, slot=L["cosmetic"]}) -- Mantle of the Forgemaster's Dark Blades
+        Transmog({item=180939, slot=L["cosmetic"], covenant=VENTHYR}) -- Mantle of the Forgemaster's Dark Blades
     },
     pois={
         POI({32661483}) -- Madalav's Hammer
@@ -285,7 +287,8 @@ map.nodes[66507080] = Rare({
     quest=59595,
     rewards={
         Achievement({id=14310, criteria=48812}),
-        Item({item=179363, quest=60517}) -- The Toll of the Road
+        -- Item({item=179363, quest=60517}) -- The Toll of the Road
+        -- quest id for this never actually flips true?
     }
 }) -- Tollkeeper Varaboss
 
@@ -943,7 +946,7 @@ end
 ------------------------ ITS ALWAYS SINNY IN REVENDRETH -----------------------
 -------------------------------------------------------------------------------
 
-local Inquisitor = Class('Inquisitor', Collectible, {
+local Inquisitor = Class('Inquisitor', NPC, {
     icon='peg_rd',
     scale=1.3,
     group=ns.groups.INQUISITORS,

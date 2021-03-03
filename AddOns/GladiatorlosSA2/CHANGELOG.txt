@@ -1,5 +1,60 @@
 https://www.curseforge.com/wow/addons/gladiatorlossa2
 ===========================================
+- version 3.3.1 (9.0.2)
+
+General
+* Fixed category-wide "Buff Down" toggle.
+
+===========================================
+- version 3.3 (9.0.2)
+
+General
+* Added Forgeborne Reveries (Necrolord Cheat Death) to Buff Applied.
+
+Hunter
+* Added Double Tap to Buff Applied.
+* Fixed actual Marksman Trueshot not alerting with the hunter "Trueshot" alerts. The irony!
+
+Shaman
+* Added missing option for Primordial Wave.
+
+Warlock
+* Dark Souls' setting is no longer incorrectly is displayed as Soul Harvest in Buff Applied.
+
+===========================================
+- version 3.2 (9.0.2)
+
+General
+* Fleshcraft Down removed to prevent spam while damaging the casting target.
+
+Demon Hunter
+* Moved The Hunt from Cast Success to Cast Start.
+
+Shaman
+* Added Windfury Totem to Cast Success.
+
+Warrior
+* Added Colossus Smash and Warbreaker (Colossus Smash replacement talent) to Cast Success.
+===========================================
+- version 3.1.2 (9.0.2)
+
+General
+* Updated Target/Focus tooltip to make it less misleading.
+
+Druid
+* Fixed missing Convoke the Spirits option (Cast Success).
+
+Mage
+* Fixed Alter Time for Frost and Fire mages.
+
+Warlock
+* Added Deathbolt to Spell Casting.
+* Added Rapid Contagion to Cast Success.
+
+Warrior
+* Added Overwatch (PvP talent that grants Intervene targets Spell Reflection) to the Spell Reflection alert.
+
+===========================================
 - version 3.1 (9.0)
 
 I wanted to take a quick moment to thank you all for your support since I took over GSA way back at the beginning

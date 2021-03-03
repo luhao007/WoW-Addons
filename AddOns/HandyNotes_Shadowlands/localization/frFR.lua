@@ -17,8 +17,9 @@ L["anima_channeled"] = "anima canalisé vers %s."
 
 L["deifir_note"] = "Faites tourner le rare en cercle et utilisez {spell:319566}  et {spell:319575} pour le ralentir et l'étourdir."
 L["faeflayer_note"] = "Dans une petite grotte cachée derrière une chute d'eau."
-L["gormtamer_tizo_note"] = "Tuez les {npc:166735s} et les {npc:166736s} qui les chevauchent jusqu'à ce que {npc:164110} apparaisse."
-L["humongozz_note"] = "Plantez un {item:175247} dans le Terreau humide pour y faire apparaître un {npc:164122}. Après une minute de {spell:319367}, le rare apparaîtra. Le champignon peut être récupéré sur de nombreux monstres de la zone."
+L["gormbore_note"] = nil
+L["gormtamer_tizo_note"] = "Tuez des Lutins Poil-de-pin dans le Maquis Voile-de-Brume jusqu'à ce que {npc:164110} apparaisse."
+L["humongozz_note"] = "Plantez un {item:175247} dans le Terreau humide pour y faire apparaître un {npc:164122}. Le champignon peut être récupéré sur de nombreux monstres de la zone."
 L["lehgo_note"] = "Détruisez les œufs de Gorm frémissants et tuez des {npc:171827} jusqu'à ce qu'il apparaisse. Dans une grotte (entrée au sud-est dans les Terriers poussiéreux)."
 L["macabre_note"] = [[
 Apparaît en plusieurs endroits. Pour l'invoquer, placez-vous dans le mystérieux anneau de champignons avec deux autres joueurs et dansez ensemble.
@@ -56,7 +57,6 @@ Parlez à {npc:171743}, le metteur en scène, pour commencer l'une des rencontre
 
 Participez aux sept combats pour débloquer {item:180748} de {npc:163714}.
 ]]
-L["guldan"] = "Gul'dan"
 
 L["cache_of_the_moon"] = "Rassemblez les cinq outils manquants de {npc:171360} dans le Jardin de la nuit et combinez-les pour créer {item:180753}. Rendez-lui sa boîte à outils et elle vous lancera {spell:334353}, ce qui vous permettra de voir la cache."
 L["cache_of_the_night"] = "Rassemblez {item:180656}, {item:180654} et {item:180655}, trouvables dans l'ensemble de la zone et combinez-les pour créer {item:180652}."
@@ -108,7 +108,7 @@ L["beasts_of_bastion"] = "Bêtes du Bastion"
 L["beasts_of_bastion_note"] = "Parlez à {npc:161441} pour invoquer l'une des quatre bêtes."
 L["bookkeeper_mnemis_note"] = "A une chance d'apparaître à la place des unités {npc:166867} de la zone."
 L["cloudfeather_patriarch_note"] = "Tuez {npc:158110} dans la région jusqu'à ce que le rare lance une emote et apparaisse."
-L["collector_astor_note"] = "Lisez les six chapitres de L'héritage de Mercia éparpillés dans la salle, après quoi vous recevrez un murmure de {npc:157979}. Parlez-lui pour recevoir {spell:333779}, ce qui vous permettra de trouver le {item:180569} caché au nord-ouest. Rendre le chapitre fera apparaître le rare."
+L["collector_astor_note"] = "Lisez les six chapitres de L’héritage de Mercia éparpillés dans la salle, puis parlez à {npc:157979} pour recevoir {spell:333779}. Trouvez {item:180569} caché dans les environs et rendez-le pour faire apparaître le rare."
 L["corrupted_clawguard_note"] = "Procurez-vous un {item:180651} dans la pièce ou à l'avant-poste de Forgefeu en haut de la colline et utilisez-le pour réparer le {npc:171300}."
 L["dark_watcher_note"] = "Ne peut être vu qu'en étant mort. Parlez-lui et elle vous lancera {spell:332830} avant d'attaquer."
 L["demi_hoarder_note"] = "Commence avec 99 charges de {spell:333874}, réduisant les dégâts subis. Les charges sont lentement retirées par les dégâts. Le rare suivra un chemin et disparaîtra s'il atteint la fin."
@@ -120,7 +120,8 @@ Les Granules peuvent être collectées à partir de Bidons d'Anima épuisés sit
 
 |cFFFF8C00Ne peut être vaincu lors de l'expédition {wq:Assaut sur le vestibule}.|r
 ]]
-L["nikara_note"] = "Avec deux autres joueurs, cliquez sur l'encens antique pour l'invoquer."
+L["reekmonger_note"] = "Tuez des ennemis dans le Temple du Courage jusqu'à ce que {npc:171327} lance une émote dans le chat et atterrisse."
+L["repair_note"] = "Avec deux autres joueurs, cliquez sur l'encens antique pour l'invoquer."
 L["sotiros_orstus_note"] = "Cliquez sur la Cloche noire pour invoquer les rares."
 L["sundancer_note"] = "Cliquez sur la statue pour obtenir le buff {spell:332309}, puis utilisez un {item:180445} pour planer jusqu'au rare et le monter."
 L["swelling_tear_note"] = "Cliquez sur la {npc:171012} pour invoquer l'un des trois rares. Les larmes peuvent apparaître à plusieurs endroits de la zone."
@@ -222,8 +223,13 @@ L["anima_shard_61297"] = "Derrière un pilier de pierre.\n\n"..ns.color.Red('Dan
 L["anima_shard_61298"] = "Situé derrière une chaise longue."
 L["anima_shard_61299"] = "Caché derrière une grande torche."
 L["anima_shard_61300"] = "Sur un rebord surplombant la fontaine centrale."
+L["anima_shard_spires"] = "Trois éclats de cristal sont situés dans le donjon des Flèches de l'Ascension."
 L["options_icons_anima_shard"] = "Éclats de cristal d'anima perdus"
 L["options_icons_anima_shard_desc"] = "Afficher les emplacements des 50 éclats de cristal d'anima perdus pour l'exploit Mission éclatante."
+
+L["hymn_note"] = "Trouvez les hymnes dans chacun des temples et obtenez leurs buffs pour obtenir le haut-fait."
+L["options_icons_hymns"] = "{achievement:14768}"
+L["options_icons_hymns_desc"] = "Afficher les emplacements des hymnes pour la réalisation de {achievement:14768}."
 
 L["stratios_note"] = "Même les plus petites batailles doivent être menées avec honneur et prudence. Présentez votre équipe quand vous êtes prêt."
 L["thenia_note"] = "Quelles magnifiques plaines dégagées ici. Un endroit glorieux pour se battre. Êtes-vous prêt ?"
@@ -240,6 +246,7 @@ L["gieger_note"] = "Tirez sur le {npc:162815} pour activer le rare."
 L["gristlebeak_note"] = "Brisez tout les {npc:162761} à proximité pour affronter le rare."
 L["leeda_note"] = "Tuez les deux {npc:162220} jusqu'à ce que le rare apparaisse."
 L["nirvaska_note"] = "N'apparaît que lorsque l'expédition {wq:Rappel Mortel} est active."
+L["ravenomous_note"] = "Écrasez les {npc:159901s} neutres dans la zone, jusqu'à ce que le rare apparaisse."
 L["sabriel_note"] = "Peut apparaître comme l'un des champions du Théâtre de la souffrance."
 L["schmitd_note"] = "Utilisez la {spell:313451} proche pour briser son bouclier."
 L["taskmaster_xox_note"] = "Partage son apparition avec {npc:160204}, {npc:160230} et {npc:160226}."
@@ -288,21 +295,16 @@ Oh, regardez ! Une {spell:343124} ! Approchez-vous, courageux aventurier, ce n'e
 ]]
 
 L["oonar_sorrowbane_note"] = [[
-Dans le Théâtre de la souffrance, vous trouverez Fléau-de-chagrin coincé dans le sol et le Bras d'Oonar qui y est attaché. |cFFFF8C00Avant de tenter de tirer l'un ou l'autre, réglez votre {item:6948} sur {npc:161702} près du point de vol.|r
+Dans le Théâtre de la souffrance, vous trouverez {item:180273} coincé dans le sol et le {item:181164} qui y est attaché. Pour les libérer :
 
-Pour extraire {item:181164} en toute sécurité :
-
-• Voyagez vers la Deliquescense de Glutharn à l'est.
-• Mangez 4x {spell:327367} (debuff de 2min).
-• Utilisez rapidement votre pierre de foyer et tirez sur le bras.
-
-Pour extraire {item:180273} en toute sécurité :
-
-• Achetez 1 {item:182163} auprès de {npc:171808} à Revendreth.
+• Achetez 1 {item:182163} à {npc:171808} à Revendreth.
 • Achetez 1 {item:180771} à {npc:166640} à Maldraxxus.
+• Achetez 1 {item:181163} à {npc:169964} à Maldraxxus.
 • Obtenez 2 charges de {spell:306272} de l'expédition {wq:Quelques accidents de parcours} à l'ouest.
-• Mangez 4x {spell:327367} dans la Deliquescense de Glutharn.
-• Utilisez rapidement votre pierre de foyer, buvez les deux potions et tirez sur l'épée.
+• Mangez 4x {spell:327367} à la Deliquescense de Glutharn.
+• Utilisez rapidement le {item:181163}, buvez les deux potions et tirez sur l'épée ainsi que le bras.
+
+Pour retirer seulement le bras, seuls quatre 4x {spell:327367} sont nécessaires.
 ]]
 
 L["pet_cat"] = "Caressez ce satané chat !"
@@ -324,10 +326,11 @@ L["rotgut_note"] = "Tord-Tripes. Les restes. Pièces supplémentaires. Battez-vo
 
 L["amalgamation_of_filth_note"] = "Quand l'expédition {wq:Sale boulot : équipe de démolition} est disponible, cliquez sur une Boîte à ordures et utilisez {spell:324115} dans l'eau."
 L["amalgamation_of_light_note"] = "Déplacez les trois Miroirs piégés pour libérer le rare."
-L["amalgamation_of_sin_note"] = "Utilisez le Catalyseur de puissance pour obtenir {item:180376} lors de l'expédition {wq:Invocation de vices}, puis utilisez l'objet pour invoquer le rare."
+L["amalgamation_of_sin_note"] = "Lors de l'expédition {wq:Invocation de vices}, ramassez le Catalyseur de puissance pour avoir une chance d'obtenir {item:180376}, puis utilisez l'objet pour invoquer le rare."
 L["bog_beast_note"] = "A une chance d'apparaître pendant l'expédition {wq:Bourbe à gogo} après avoir utilisé {item:177880} sur une {npc:166206}."
 L["endlurker_note"] = "Cliquez sur le Pieu d'Anima près du cadavre de {npc:165229} et utilisez {spell:321826} au sommet de la Faille chatoyante."
 L["executioner_aatron_note"] = "Tuez les trois PNJ proches {npc:166715} pour retirer {spell:324872}."
+L["executioner_adrastia_note"] = nil
 L["famu_note"] = "Parlez à {npc:166483} pour déclencher l'événement."
 L["grand_arcanist_dimitri_note"] = "Tuez les quatre PNJ {npc:167467} pour libérer le rare."
 L["harika_note"] = "À Combeffroi, à l'ouest, procurez-vous un {item:176397}, puis donnez le carreau à {npc:165327} et dites-lui de faire tomber le rare."
@@ -389,7 +392,7 @@ L["options_icons_fugitives_desc"] = "Afficher les emplacements des âmes fugitiv
 L["grand_inquisitor_note"] = "Donnez 10 {item:180451} à l'{npc:160248} pour avoir une chance d'obtenir cette stèle du vice."
 L["high_inquisitor_note"] = "Donnez 250 {currency:1816} à l'{npc:160248} pour avoir une chance d'obtenir cette stèle du vice."
 L["inquisitor_note"] = "Donnez 100 {currency:1816} à l'{npc:160248} our avoir une chance d'obtenir cette stèle du vice."
-L["options_icons_inquisitors"] = "{achievement:14276}"
+L["options_icons_inquisitors"] = "Inquisiteurs"
 L["options_icons_inquisitors_desc"] = "Afficher les emplacements des inquisiteurs pour le succès {achievement:14276}."
 
 -------------------------------------------------------------------------------
@@ -407,7 +410,6 @@ L["apholeias_note"] = "Avec 3 autres joueurs, placez-vous sur les coins de la pl
 L["dekaris_note"] = "Au sommet d'un gros rocher en saillie."
 L["drifting_sorrow_note"] = "Tuez des {npc:175246s} près de l'orbe flottante pour activer le boss."
 L["ekphoras_note"] = "Avec 3 autres joueurs, placez-vous sur les coins de la plateforme et lancez {spell:330650} pour invoquer le rare."
-L["gorged_shadehound_note"] = nil
 L["ikras_note"] = "Vole autour du Fort de la Perdition. C'est un bon endroit pour l'attirer."
 L["orophea_note"] = "Ramassez {spell:337143} au sud-est et proposez-le à {npc:172577} pour l'activer."
 L["sanngror_note"] = "S'il n'est pas attaquable, attendez qu'il n'expérimente plus sur des âmes."
@@ -428,13 +430,12 @@ Combinez les trois gravures pour créer {item:182329}, qui peut être utilisé p
 L["soul_well_note"] = "Attrapez la Stygie qui jaillit du Puit d'âmes."
 L["obliterated_soul_shards_note"] = "Collectez des éclats d'âme oblitérés sur les ponts."
 
-L["animaflow_teleporter_note"] = "Activer pour se rendre directement au Tremaculum."
+L["animaflow_teleporter_note"] = "Activer pour se rendre directement à d'autres endroits dans l'Antre."
 L["chaotic_riftstone_note"] = "Activer pour {spell:344157} rapidement à travers l'Antre."
 L["venari_note"] = [[
 Utilisez {currency:1767} pour acheter des améliorations pour l'Antre et Tourment.
 
 |cFFFF8C00Les améliorations de Tourment liées au compte s'afficheront comme incomplètes sur les alts !|r
-|cFFFF8C00L'état d'avancement ci-dessous sera mis à jour au fur et à mesure que nous les débloquerons !|r
 ]]
 L["venari_upgrade"] = "Améliorations de {npc:162804}"
 L["torghast"] = "Tourment"
@@ -447,6 +448,10 @@ L["Tentative"] = "Hésitation"
 L["stygian_cache"] = "Cache stygienne"
 L["stygian_cache_note"] = "Une seule personne peut récupérer le butin de la cache à chaque apparition !"
 
+L["box_of_torments_note"] = "Ouvrez les {npc:173837} sous le Tremaculum."
+L["tormentors_notes_note"] = "Fouillez le corps du {npc:173811}."
+L["words_of_warden_note"] = "Examinez le |cffffff00Papier Brouillon|r sur un rocher derrière quelques pots."
+
 L["options_icons_bonus_boss"] = "Élites bonus"
 L["options_icons_bonus_boss_desc"] = "Afficher les emplacements des élites bonus."
 L["options_icons_bonus_event"] = "Événements bonus"
@@ -455,5 +460,7 @@ L["options_icons_riftstone"] = "{npc:174962s}"
 L["options_icons_riftstone_desc"] = "Affichez les emplacements des téléporteurs de Failles Chaotiques"
 L["options_icons_grapples"] = "{npc:176308s}"
 L["options_icons_grapples_desc"] = "Afficher les emplacements des grappins pour l'amélioration {item:184653}."
+L["options_icons_maw_lore"] = "L'histoire de l'Antre"
+L["options_icons_maw_lore_desc"] = "Afficher les emplacements des histoires de l'Antre pour la réalisation du haut-fait : {achievement:14761}."
 L["options_icons_stygian_caches"] = "Caches stygiennes"
 L["options_icons_stygian_caches_desc"] = "Afficher les emplacements des caches contenant de la Stygie supplémentaire."

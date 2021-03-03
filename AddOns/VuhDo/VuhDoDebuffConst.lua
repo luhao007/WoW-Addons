@@ -200,6 +200,7 @@ VUHDO_INIT_IGNORE_DEBUFFS_NO_HARM = {
 	[(GetSpellInfo(57724))] = true, -- Sated
 	[(GetSpellInfo(57723))] = true, -- Exhaustion
 	[(GetSpellInfo(80354))] = true, -- Temporal Displacement
+	[VUHDO_SPELL_ID.DEBUFF_FATIGUED] = true,
 	[(GetSpellInfo(95809))] = true, -- Insanity
 };
 

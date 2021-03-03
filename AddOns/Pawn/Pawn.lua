@@ -1,13 +1,13 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2020 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2021 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0409
+PawnVersion = 2.0416
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.12
@@ -235,28 +235,8 @@ function PawnInitialize()
 	hooksecurefunc(GameTooltip, "SetLootItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetLootItem", ...) end)
 	hooksecurefunc(GameTooltip, "SetLootRollItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetLootRollItem", ...) end)
 	hooksecurefunc(GameTooltip, "SetMerchantItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetMerchantItem", ...) end)
-	hooksecurefunc(GameTooltip, "SetQuestItem",
-		function(self, ...)
-			-- BUG IN WoW 6.2: This item will come through with an item ID of 0 and we'll fail to get stats from it normally.
-			-- Special thanks to Phanx for suggesting this workaround!
-			local ItemLink = GetQuestItemLink(...)
-			if ItemLink then
-				PawnUpdateTooltip("GameTooltip", "SetHyperlink", ItemLink)
-			else
-				PawnUpdateTooltip("GameTooltip", "SetQuestItem", ...)
-			end
-		end)
-	hooksecurefunc(GameTooltip, "SetQuestLogItem",
-		function(self, ...)
-			-- BUG IN WoW 6.2: This item will come through with an item ID of 0 and we'll fail to get stats from it normally.
-			-- Special thanks to Phanx for suggesting this workaround!
-			local ItemLink = GetQuestLogItemLink(...)
-			if ItemLink then
-				PawnUpdateTooltip("GameTooltip", "SetHyperlink", ItemLink)
-			else
-				PawnUpdateTooltip("GameTooltip", "SetQuestLogItem", ...)
-			end
-		end)
+	hooksecurefunc(GameTooltip, "SetQuestItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetQuestItem", ...) end)
+	hooksecurefunc(GameTooltip, "SetQuestLogItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetQuestLogItem", ...) end)
 	hooksecurefunc(GameTooltip, "SetSendMailItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetSendMailItem", ...) end)
 	if GameTooltip.SetSocketGem then
 		-- Gems don't exist in Classic.
@@ -312,7 +292,7 @@ function PawnInitialize()
 		function(object, button)
 			if button == "RightButton" then
 				local _, ItemLink = ItemRefTooltip:GetItem()
-				PawnUI_SetCompareItemAndShow(2, ItemLink)
+				if ItemLink then PawnUI_SetCompareItemAndShow(2, ItemLink) end
 			end
 		end)
 	
@@ -1092,8 +1072,8 @@ function PawnGetItemData(ItemLink)
 	-- If we have an item link, we can extract basic data from it from the user's WoW cache (not the Pawn item cache).
 	-- We get a new, normalized version of ItemLink so that items don't end up in the cache multiple times if they're requested
 	-- using different styles of links that all point to the same item.
-	local ItemID = GetItemInfoInstant(ItemLink)
-	local ItemName, NewItemLink, ItemRarity, ItemLevel, _, _, _, _, InvType, ItemTexture = GetItemInfo(ItemLink)
+	local ItemID, _, _, InvType, ItemTexture = GetItemInfoInstant(ItemLink)
+	local ItemName, NewItemLink, ItemRarity, ItemLevel = GetItemInfo(ItemLink)
 	if NewItemLink then
 		ItemLink = NewItemLink
 	else
@@ -1149,7 +1129,7 @@ function PawnGetItemData(ItemLink)
 			-- Robes are just really long chest armor.
 			InvType = "INVTYPE_CHEST"
 			Item.InvType = InvType
-		end	
+		end
 
 		-- Then, the unenchanted stats.  But, we only need to do this if the item is enchanted or socketed.  PawnUnenchantItemLink
 		-- will return nil if the item isn't enchanted, so we can skip that process.
@@ -1203,6 +1183,18 @@ function PawnGetItemData(ItemLink)
 				VgerCore.Message("Not caching because the item didn't have any stats: " .. tostring(ItemLink))
 			end
 			return
+		end
+
+		-- Fix a bug where in Spanish, off-hand holdable items are getting treated as off-hand weapons because they're translated the same.
+		if Item.InvType == "INVTYPE_HOLDABLE" then
+			if Item.Stats then
+				Item.Stats.IsOffHand = nil
+				Item.Stats.IsFrill = 1
+			end
+			if Item.UnenchantedStats then
+				Item.UnenchantedStats.IsOffHand = nil
+				Item.UnenchantedStats.IsFrill = 1
+			end
 		end
 
 		-- Determine if this item could ever be equipped by this class.
@@ -1428,7 +1420,7 @@ function PawnUpdateTooltip(TooltipName, MethodName, Param1, ...)
 		
 		-- If this is the main GameTooltip, remember the item that was hovered over.
 		-- AtlasLoot compatibility: enable hover comparison for AtlasLoot tooltips too.
-		if ItemLink and TooltipName == "GameTooltip" or TooltipName == "AtlasLootTooltip" or TooltipName == "WorldMapTooltipTooltip" then -- "TooltipTooltip" isn't a typo; it's an embedded tooltip
+		if ItemLink and TooltipName == "GameTooltip" or TooltipName == "AtlasLootTooltip" or TooltipName == "GameTooltipTooltip" then -- "TooltipTooltip" isn't a typo; it's an embedded tooltip
 			PawnLastHoveredItem = Item.Link
 		end
 	elseif IsRelic then
@@ -2074,7 +2066,10 @@ function PawnGetStatsFromTooltip(TooltipName, DebugMessages)
 		-- Shields aren't off-hand weapons.
 		Stats["IsOffHand"] = nil
 	end
-	if Stats["IsOffHand"] then
+	if Stats["IsOffHand"] and Stats["Dps"] then
+		-- Spanish translates INVTYPE_WEAPONOFFHAND and INVTYPE_HOLDABLE the same, but holdable off-hand frill
+		-- items aren't weapons. So only add these stats if the item has DPS, which should be true for all weapons and no off-hand frill items.
+		-- (We don't have access to the INVTYPE here.)
 		PawnAddStatToTable(Stats, "OffHandDps", Stats["Dps"])
 		PawnAddStatToTable(Stats, "OffHandSpeed", Stats["Speed"])
 		PawnAddStatToTable(Stats, "OffHandMinDamage", Stats["MinDamage"])
@@ -2629,7 +2624,10 @@ end
 -- Returns a nice-looking string that shows the item IDs for an item, its enchantments, and its gems.
 function PawnGetItemIDsForDisplay(ItemLink, Formatted)
 	local Pos, _, ItemID, MoreInfo = strfind(ItemLink, "^|%x+|Hitem:(%-?%d+)([^|]+)|")
-	if not Pos then return end
+	if not Pos then
+		Pos, _, ItemID, MoreInfo = strfind(ItemLink, "^item:(%-?%d+)([%d%-:]+)")
+		if not Pos then return end
+	end
 	if Formatted == nil then Formatted = true end
 
 	if MoreInfo and MoreInfo ~= "" then
@@ -3757,10 +3755,12 @@ function PawnFindInterestingItems(List)
 		elseif (not DoNotVendor) and Info.RewardType == "choice" then
 			-- If we haven't already found a choice item upgrade, and this is a choice item, see
 			-- if it's the best thing to vendor.
-			local _, _, _, _, _, _, _, _, _, _, Value = GetItemInfo(Info.Item.Link)
-			if Value and Value > HighestValue then
-				HighestValue = Value
-				HighestValueInfo = Info
+			if Info.Item.Link then
+				local _, _, _, _, _, _, _, _, _, _, Value = GetItemInfo(Info.Item.Link)
+				if Value and Value > HighestValue then
+					HighestValue = Value
+					HighestValueInfo = Info
+				end
 			end
 		end
 	end

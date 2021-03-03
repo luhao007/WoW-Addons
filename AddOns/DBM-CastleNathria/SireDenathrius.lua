@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(2424, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20201223215906")
+mod:SetRevision("20210214034559")
 mod:SetCreatureID(167406)
 mod:SetEncounterID(2407)
 mod:SetUsedIcons(1, 2, 3, 4, 7, 8)
-mod:SetHotfixNoticeRev(20201223000000)--2020, 12, 23
-mod:SetMinSyncRevision(20201223000000)
+mod:SetHotfixNoticeRev(20210202000000)--2021, 02, 02
+mod:SetMinSyncRevision(20201227000000)
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -32,8 +32,9 @@ mod:RegisterEventsInCombat(
 --[[
 (ability.id = 326707 or ability.id = 326851 or ability.id = 327227 or ability.id = 328117 or ability.id = 329181 or ability.id = 333932) and type = "begincast"
  or (ability.id = 327796 or ability.id = 329943 or ability.id = 339196 or ability.id = 330042 or ability.id = 326005 or ability.id = 332849 or ability.id = 333980 or ability.id = 332619 or ability.id = 327039 or ability.id = 333979) and type = "cast"
- or ability.id = 332794 and type = "applydebuff"
+ or (ability.id = 327039 or ability.id = 332794) and type = "applydebuff"
  or ability.id = 328117
+ or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
 --]]
 --General
 local warnPhase									= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
@@ -94,7 +95,7 @@ local yellFatalfFinesseFades					= mod:NewIconFadesYell(332794)
 local specWarnSinisterReflection				= mod:NewSpecialWarningCount(333979, nil, nil, nil, 2, 2, 4)--Both Massacre and Ravage at same time
 
 --Stage One: Sinners Be Cleansed
---mod:AddTimerLine(BOSS)
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(22016))
 local timerCleansingPainCD						= mod:NewNextCountTimer(16.6, 326707, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 2, 3)
 local timerBloodPriceCD							= mod:NewCDCountTimer(57.3, 326851, nil, nil, nil, 2, nil, DBM_CORE_L.HEALER_ICON)
 local timerFeedingTimeCD						= mod:NewCDCountTimer(44.3, 327039, nil, nil, nil, 3)--Normal/LFR
@@ -103,6 +104,7 @@ local timerCommandRavageCD						= mod:NewCDCountTimer(57.2, 327227, 327122, nil,
 --Intermission: March of the Penitent
 local timerNextPhase							= mod:NewPhaseTimer(16.5, 328117, nil, nil, nil, 6, nil, nil, nil, 1, 4)
 --Stage Two: The Crimson Chorus
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(22059))
 ----Crimson Cabalist and horsemen
 local timerCrimsonCabalistsCD					= mod:NewNextCountTimer(44.3, "ej22131", nil, nil, nil, 1, 329711)
 ----Remornia
@@ -112,7 +114,8 @@ local timerWrackingPainCD						= mod:NewCDCountTimer(16.6, 329181, nil, nil, nil
 local timerHandofDestructionCD					= mod:NewCDCountTimer(44.3, 333932, nil, nil, nil, 2)
 local timerCommandMassacreCD					= mod:NewCDCountTimer(49.8, 330042, 330137, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)--Mythic 41-45, Heroic 47.4-51
 --Stage Three: Indignation
-local timerShatteringPainCD						= mod:NewCDCountTimer(23.1, 332619, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(22195))
+local timerShatteringPainCD						= mod:NewCDCountTimer(23, 332619, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerFatalFitnesseCD						= mod:NewCDCountTimer(22, 332794, nil, nil, nil, 3)
 local timerSinisterReflectionCD					= mod:NewCDCountTimer(60, 333979, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)--Used on mythic, Massacre and Ravage combined
 local timerSinisterReflection					= mod:NewCastTimer(3, 333979, nil, nil, nil, 5, nil, DBM_CORE_L.IMPORTANT_ICON)
@@ -137,27 +140,50 @@ mod.vb.DebuffCount = 0
 mod.vb.DebuffIcon = 1
 mod.vb.addIcon = 8
 mod.vb.painCasting = false
+local expectedStacks = 6
 local P3Transition = false
 local SinStacks, stage2Adds, deadAdds = {}, {}, {}
 local castsPerGUID = {}
-local difficultyName = "None"
+local difficultyName = "normal"
 local playerGUID = UnitGUID("player")
 local selfInMirror = false
 local Timers = {
-	["nonmythic"] = {
+	["normal"] = {--Normal and LFR use same timers
 		[1] = {
 			--Feeding Time (Normal, LFR)
-			[327039] = {20, 35, 35, 25, 35},
+			[327039] = {15, 25, 35, 25, 35, 25},
+			--Cleansing Pain (P1)
+			[326707] = {5.8, 26.7, 32.8, 26.7, 32.7, 26.7},
+		},
+		[2] = {
+			--Impale (Seems same as heroic)
+			[329943] = {27.5, 25.9, 27, 23, 31.9, 18, 39, 35},
+			--Hand of Destruction P2 (Seems same as heroic)
+			[333932] = {47.6, 40.9, 40, 57, 19.7},
+			--Adds P2 (Different from heroic)
+			[12345] = {9.7, 84.5, 75},--75-79 for that last set?
+		},
+		[3] = {--Totally different from heroic
+			--Hand of Destruction P3
+			[333932] = {72.6, 76.4, 94.7},
+			--Fatal Finesse P3
+			[332794] = {17.4, 24, 24.9, 29, 22, 34, 22, 26, 32},
+			--Adds P2 (There are none in phase 3 but sometimes message can trigger after p2 trigger, this stops nil error)
+			[12345] = {},
+		}
+	},
+	["heroic"] = {
+		[1] = {
 			--Night Hunter (Heroic)
 			[327796] = {12.3, 24.9, 30, 28, 30, 28},--Heroic
-			--Cleansing Pain (P1)
+			--Cleansing Pain (Heroic) (P1)
 			[326707] = {5.8, 24.4, 32.8, 24.5, 32.7, 24.3},
 		},
 		[2] = {
 			--Impale
-			[329943] = {27.5, 26, 27, 23, 32, 18, 39},
+			[329943] = {27.5, 25.9, 27, 23, 31.9, 18, 39, 35},
 			--Hand of Destruction P2
-			[333932] = {47.6, 40.9, 40, 57},
+			[333932] = {47.6, 40.9, 40, 57, 19.7},
 			--Adds P2
 			[12345] = {9.7, 85, 55},
 		},
@@ -165,7 +191,9 @@ local Timers = {
 			--Hand of Destruction P3
 			[333932] = {27.6, 88, 31.7, 47.5},
 			--Fatal Finesse P3
-			[332794] = {17.5, 48, 6, 21, 27, 19, 26, 21, 40},
+			[332794] = {17.4, 48, 6, 21, 27, 19, 26, 21, 40},
+			--Adds P2 (There are none in phase 3 but sometimes message can trigger after p2 trigger, this stops nil error)
+			[12345] = {},
 		}
 	},
 	["mythic"] = {
@@ -188,14 +216,17 @@ local Timers = {
 			[332794] = {27, 21.9, 25, 25, 38.9, 33, 12, 12},
 			--Shattering Pain Pain
 			[332619] = {12.8, 25.4, 21.7, 24.2, 24.2, 25.4, 21.8, 23, 25.5},
+			--Adds P2 (There are none in phase 3 but sometimes message can trigger after p2 trigger, this stops nil error)
+			[12345] = {},
 		}
 	},
 }
 
 local updateInfoFrame
 do
+	local DBM = DBM
 	local addName = DBM:EJ_GetSectionInfo(22131)
-	local twipe, tsort, floor = table.wipe, table.sort, math.floor
+	local pairs, twipe, tsort, mfloor = pairs, table.wipe, table.sort, math.floor
 	local UnitGUID, UnitName = UnitGUID, UnitName
 	local UnitHealth, UnitHealthMax = UnitHealth, UnitHealthMax
 	local lines = {}
@@ -217,7 +248,7 @@ do
 				if guid then
 					local cid = mod:GetCIDFromGUID(guid)
 					if (cid == 173163 or cid == 173162 or cid == 173164 or cid == 173161) and not deadAdds[guid] then--Horseman
-						stage2Adds[guid] = floor(UnitHealth(targetuId) / UnitHealthMax(targetuId) * 100)
+						stage2Adds[guid] = mfloor(UnitHealth(targetuId) / UnitHealthMax(targetuId) * 100)
 						local name = UnitName(targetuId)
 						if not horsemanAdded[name] then
 							addLine(name, stage2Adds[guid] .. '%')
@@ -225,7 +256,7 @@ do
 						end
 					end
 					if cid == 169196 and not deadAdds[guid] then--Crimson Cabalis
-						stage2Adds[guid] = floor(UnitHealth(targetuId) / UnitHealthMax(targetuId) * 100)
+						stage2Adds[guid] = mfloor(UnitHealth(targetuId) / UnitHealthMax(targetuId) * 100)
 					end
 				end
 			end
@@ -260,18 +291,22 @@ function mod:OnCombatStart(delay)
 	--Same on all difficulties
 	timerCleansingPainCD:Start(5.8-delay, 1)--5.8-6.3
 	timerBloodPriceCD:Start(22.3-delay, 1)--22-24
-	timerCommandRavageCD:Start(50.2-delay, 1)--50-51
+	timerCommandRavageCD:Start(self:IsEasy() and 52.2 or 50.2-delay, 1)--50-51
 	--Where timers diverge
 	if self:IsMythic() then
 		difficultyName = "mythic"
+		expectedStacks = 6
 		timerNightHunterCD:Start(14-delay, 1)--14+
 	else
 		if self:IsHeroic() then
+			difficultyName = "heroic"
+			expectedStacks = 5
 			timerNightHunterCD:Start(12.1-delay, 1)--12+
 		else
-			timerFeedingTimeCD:Start(20-delay, 1)
+			difficultyName = "normal"
+			expectedStacks = 4
+			timerFeedingTimeCD:Start(15-delay, 1)
 		end
-		difficultyName = "nonmythic"
 	end
 --	berserkTimer:Start(-delay)--Confirmed normal and heroic
 	if self.Options.InfoFrame then
@@ -289,8 +324,10 @@ end
 function mod:OnTimerRecovery()
 	if self:IsMythic() then
 		difficultyName = "mythic"
+	elseif self:IsHeroic() then
+		difficultyName = "heroic"
 	else
-		difficultyName = "nonmythic"
+		difficultyName = "normal"
 	end
 	if not DBM:UnitDebuff("player", 338738) and not UnitIsDeadOrGhost("player") then
 		selfInMirror = true
@@ -309,12 +346,12 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 326851 then
 		self.vb.priceCount = self.vb.priceCount + 1
 		warnBloodPrice:Show(self.vb.priceCount)
-		timerBloodPriceCD:Start(self.vb.phase == 3 and 71.6 or 57.3, self.vb.priceCount+1)
+		timerBloodPriceCD:Start(self.vb.phase == 3 and 71.6 or self:IsEasy() and 59.5 or 57.3, self.vb.priceCount+1)
 	elseif spellId == 327227 then
 		self.vb.RavageCount = self.vb.RavageCount + 1
 		specWarnCommandRavage:Show(self.vb.RavageCount)
 		specWarnCommandRavage:Play("specialsoon")
-		timerCommandRavageCD:Start(57.4, self.vb.RavageCount+1)
+		timerCommandRavageCD:Start(self:IsEasy() and 59.5 or 57.3, self.vb.RavageCount+1)
 	elseif spellId == 328117 then--March of the Penitent (first intermission)
 		self.vb.phase = 1.5
 		specWarnMarchofthePenitent:Show()
@@ -424,10 +461,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 				DBM.InfoFrame:Show(20, "table", SinStacks, 1)
 			end
 		else
+			--All the same
 			timerShatteringPainCD:Start(13.3, 1)--SUCCESS
 			timerFatalFitnesseCD:Start(17.4, 1)--SUCCESS/APPLIED
-			timerHandofDestructionCD:Start(27.6, 1)--27-29
-			timerCommandRavageCD:Start(50, 1)--Seems ravage always first Reflection
+			if self:IsEasy() then
+				timerCommandMassacreCD:Start(49.7, 1)--Seems massacre always first Reflection
+				timerHandofDestructionCD:Start(71.6, 1)
+			else
+				timerHandofDestructionCD:Start(27.6, 1)--27-29
+				timerCommandRavageCD:Start(50, 1)--Seems ravage always first Reflection
+			end
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Hide()--Nothing to show it for on non mythic
 			end
@@ -456,7 +499,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnShatteringPain:Play("carefly")
 			end
 		else
-			timerShatteringPainCD:Start(23.1, self.vb.painCount+1)
+			timerShatteringPainCD:Start(23, self.vb.painCount+1)
 			specWarnShatteringPain:Play("carefly")
 		end
 	elseif spellId == 329181 then
@@ -473,7 +516,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 326699 then
-		local amount = args.amount or 6
+		local amount = args.amount or expectedStacks
 		SinStacks[args.destName] = amount
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:UpdateTable(SinStacks)
@@ -709,7 +752,7 @@ function mod:UNIT_DIED(args)
 	if cid == 169196 or cid == 173163 or cid == 173162 or cid == 173164 or cid == 173161 then--crimson-cabalist and all 4 horseman
 		stage2Adds[args.destGUID] = nil
 		deadAdds[args.destGUID] = true
-		if self:AntiSpam(3, 3) then
+		if self:IsHard() and self:AntiSpam(3, 3) then
 			if self.Options.SpecWarn336162dodge then
 				specWarnCrescendo:Show()
 				specWarnCrescendo:Play("watchstep")

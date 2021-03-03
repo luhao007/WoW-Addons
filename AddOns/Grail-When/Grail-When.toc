@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: Scott M Harrison
-## Version: 002
+## Version: 003
 ## Dependencies: Grail
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: GrailWhenPlayer

@@ -1,3 +1,11 @@
+02/20/2021 version 4.11.11
+- Potential fix for wrapped model remaining after unwrapping a pet.
+- The message sent to chat about pets added to the leveling queue will now go to chat frames registered for System Messages.
+
+01/02/2021 version 4.11.10
+- Added option 'Don't Confirm To Fill Queue' to Confirmation Options to skip the confirmation dialog when using the queue's Fill Queue menu items.
+- Fix for pet list not updating when pets are moved to/from the queue while a leveling-related filter is applied.
+
 12/05/2020 version 4.11.9
 - Added world quests Cliffs of Bastion and Mega Bite to targets.
 - Added the ten "Abhorrent Adversaries of the Afterlife" legendary pets to targets.

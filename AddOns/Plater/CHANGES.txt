@@ -1,40 +1,46 @@
-lightweight tag 51c3300914ec490d1fdce8d4b3c6ea27c97cf22a Plater-v9.0.1.323-Retail
-Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Thu Dec 24 20:41:16 2020 -0300
+lightweight tag 9af2da600067b0a842f9e416b428cbb26554dc93 Plater-v9.0.2.326b-Retail
+Author:	Continuity <continuity@gmx.net>
+Date:	Thu Feb 25 15:45:45 2021 +0100
 
-commit 51c3300914ec490d1fdce8d4b3c6ea27c97cf22a
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Dec 24 20:41:16 2020 -0300
-
-    Ingame Change Logs
-
-commit 5ee64c4af8ac8fd8a236ca0968e20bf895b22421
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Dec 24 20:37:24 2020 -0300
-
-    Added script to show the time to die of Spiteful affix units
-
-commit 368c747f01b76b117a48c0a12f4b75092189ec5b
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Dec 24 18:34:50 2020 -0300
-
-    df update
-
-commit 368c747f01b76b117a48c0a12f4b75092189ec5b
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Dec 24 18:34:50 2020 -0300
-
-    df update
-
-commit ff946583ded032e855506b33e2ba7c4679820af0
+commit 9af2da600067b0a842f9e416b428cbb26554dc93
 Author: Continuity <continuity@gmx.net>
-Date:   Tue Dec 22 19:52:45 2020 +0100
+Date:   Thu Feb 25 15:45:45 2021 +0100
 
-    - updating Aura Reorder to use new internal sorting
+    - correcting tooltip
 
-commit ff946583ded032e855506b33e2ba7c4679820af0
+commit 64b947b707cdfbc4c6325441f343f9259110cc47
 Author: Continuity <continuity@gmx.net>
-Date:   Tue Dec 22 19:52:45 2020 +0100
+Date:   Thu Feb 25 12:12:16 2021 +0100
 
-    - updating Aura Reorder to use new internal sorting
+    - change tracking type and coloring priority for auras
+
+commit d0b50c8c0c9a6eae6384a05edda51caf6f58d952
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Feb 25 11:26:01 2021 +0100
+
+    - removing duplicate
+
+commit e3bc3ebb4cb267c61a34284dc0cbf4466fb00aec
+Author: Spencer Steers <spencersteers@gmail.com>
+Date:   Thu Feb 25 03:11:53 2021 -0700
+
+    - fix extra icon border not showing for offensive / defensive auras (#87)
+
+commit bef9e1f3ba0300979558aefa9a01a2aa0cea1807
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Feb 25 00:23:22 2021 +0100
+
+    - fixing issues with CheckAuras
+
+commit 541b56d4a9b2d5dd1d6a2e8e8f360f3147df29ad
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Wed Feb 24 13:44:18 2021 -0300
+
+    Framework update
+
+commit 541b56d4a9b2d5dd1d6a2e8e8f360f3147df29ad
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Wed Feb 24 13:44:18 2021 -0300
+
+    Framework update
 

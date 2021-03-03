@@ -7,7 +7,7 @@
 ## Notes: Rarity configuration. Use AddonLoader to load this on demand.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF稀有物品追踪|r |cFF0055FF设置|r
 
-## X-Min-Interface: 90001
+## X-Min-Interface: 90002
 ## X-Part-Of: Rarity
 ## X-LoadOn-Slash: /rarity, /rare
 ## X-LoadOn-InterfaceOptions: Rarity

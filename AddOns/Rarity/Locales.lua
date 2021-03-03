@@ -2,6 +2,9 @@ local L
 L = LibStub("AceLocale-3.0"):NewLocale("Rarity", "enUS", true)
 
 -- L["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"] = true
+L["Only members of the Necrolord covenant will be able to reach this cache."] = true
+L["Rarity"] = true
+L["Ascended Skymane"] = true
 L["Unstable Portal Emitter"] = true
 L["Vixx's Chest of Tricks"] = true
 L["Jar of Ashes"] = true
@@ -652,6 +655,18 @@ L["Adjusts the scale of the primary tooltip. This will take effect the next time
 L["Rarity Tooltip Options"] = true
 L["World Tooltip Options"] = true
 L["General Options"] = true
+L["Tooltip activation"] = true
+L["On hover"] = true
+L["On click"] = true
+L["If \"On click\" is selected, activating the tracker is done via CTRL + SHIFT + Click, otherwise it's activated with a simple click."] = true
+L["Left click"] = true
+L["Open Rarity window"] = true
+L["Right click"] = true
+L["Toggle tracker"] = true
+L["Shift + Left click"] = true
+L["Open settings"] = true
+L["Ctrl + Left click"] = true
+L["Change sorting"] = true
 L["Secondary tooltip display"] = true
 L["Requires Pickpocketing"] = true
 L["When enabled, the item can only be obtained by pickpocketing. The item will be marked Unavailable for non-rogues."] = true
@@ -1534,7 +1549,7 @@ L["Nerissa Heartless"] = true
 L["Blisterback Bloodtusk"] = true
 L["Warbringer Mal'Korak"] = true
 L["Armored Bonehoof Tauralus"] = true
-L["Bonecleaver's Skullboar"] = true
+-- L["Bonecleaver's Skullboar"] = true // NYI as far as I can tell
 L["Sabriel the Bonecleaver"] = true
 L["Mawsworn Soulhunter"] = true
 L["Gorged Shadehound"] = true
@@ -1600,7 +1615,36 @@ L["Corpselouse Larva"] = true
 L["Contained Essence of Dread"] = true
 L["Eternas the Tormentor"] = true
 L["Tower Deathroach"] = true
-L["Decayspeaker"] = true
+L["Impressionable Gorger Spawn"] = true
+L["Worldedge Gorger"] = true
+L["Cache of the Ascended"] = true
+L["Filthy Bucket"] = true
+L["Gol'than the Malodorous"] = true
+L["Slime-Coated Crate"] = true
+L["Kevin's Party Supplies"] = true
+L["Sprouting Growth"] = true
+L["Skittering Venomspitter"] = true
+L["Bubbling Pustule"] = true
+L["Silvershell Snapper"] = true
+L["This can be looted after killing Dionae."] = true
+L["Stewart's Stewpendous Stew"] = true
+L["Bleakwood Chest"] = true
+L["Trapped Stonefiend"] = true
+L["Collectable Type Filter"] = true
+L["These toggles filter which items appear in the main Rarity tooltip. Items are categorized by their type (eg. Mounts, Battle Pets...). Turning off these checkboxes does not turn off tracking for any items within the category; it simply hides the item from the tooltip in order to help reduce the number of items in it."] = true
+L["Wind-Up Frog"] = true
+L["Undulating Blue Sac"] = true
+L["Baby Crawg"] = true
+L["Ball of Tentacles"] = true
+L["Ridgeback Piglet"] = true
+L["Thaumaturgical Piglet"] = true
+L["Transmutant"] = true
+L["Battlecry of Krexus"] = true
+L["Blackhound Cache"] = true
+L["Larion Pouncer"] = true
+L["Larionrider Orstus"] = true
+L["Soullocked Sinstone"] = true
+L["Secret Treasure"] = true
 
 --[[
 					The rest of this file is auto-generated using the WoWAce localization application.
@@ -18841,8 +18885,7 @@ L["Added %d |4waypoint:waypoints; to TomTom"] = "Added %d |4waypoint:waypoints; 
 --[[Translation missing --]]
 L["Adjusts the scale of the primary tooltip. This will take effect the next time the tooltip is shown."] = "Adjusts the scale of the primary tooltip. This will take effect the next time the tooltip is shown."
 L["Advanced"] = "Avançado"
---[[Translation missing --]]
-L["Adventurous Hopling Pack"] = "Adventurous Hopling Pack"
+L["Adventurous Hopling Pack"] = "Pacote do Saltídeo Aventureiro"
 L["After upgrading your garrison's Fishing Shack to level 3, fish up 5 minnows to summon a Cavedweller which can drop this mount."] = "Após melhorar a Barraca de Pesca da sua Guarnição para o nível 3, pesque 5 Manjubinhas Glaciais para summonar uma Cavernícola que pode dropar esta montaria."
 L["Agathe Wyrmwood"] = "Ágata Bosque da Serpe"
 L["Ageless Bronze Drake"] = "Draco Bronze Atemporal"
@@ -18869,7 +18912,7 @@ L["Amalgamation of Flesh"] = "Amálgama de Carne"
 L["Amber Goo Puddle"] = "Poça Gosmenta de Âmbar"
 L["Amethyst Softshell"] = "Concha-leve de Ametista"
 L["an item already exists by this name, so it will not be imported"] = "um item com este nome já existe, então ele não será importado"
-L["an item with the same Item ID already exists, so it will not be imported"] = "um item com o mesmo ID de item já existe, então ele não será importado"
+L["an item with the same Item ID already exists, so it will not be imported"] = "um item com o mesmo ID de Item já existe, então ele não será importado"
 L["Ancient Mana"] = "Mana Ancestral"
 --[[Translation missing --]]
 L["and %d |4other zone:other zones;"] = "and %d |4other zone:other zones;"
@@ -18888,37 +18931,28 @@ L["Aqir Hivespawn"] = "Cria de Colmeia Aqir"
 L["Aqua Jewel"] = "Joia d'Água"
 L["Arachnoid Harvester"] = "Ceifador Aracnídeo"
 L["Arachnoid Skitterbot"] = "Robozinho Aracnoide"
---[[Translation missing --]]
-L["Arakkoa"] = "Arakkoa"
+L["Arakkoa"] = true
 L["Arcane Chest"] = "Baú Arcano"
 L["Arcano-Shower"] = "Chuveiro Arcano"
 L["Archaeology race"] = "Raça de arqueologia"
 L["Are you sure you want to delete this item?"] = "Tem certeza de que deseja excluir este item?"
---[[Translation missing --]]
-L["Are you sure you want to import the Rarity Item Pack you entered?"] = "Are you sure you want to import the Rarity Item Pack you entered?"
+L["Are you sure you want to import the Rarity Item Pack you entered?"] = "Tem certeza que deseja importar este Pacote de Itens do Rarity?"
 --[[Translation missing --]]
 L["Are you sure you want to turn off the Export toggle for all your Custom items?"] = "Are you sure you want to turn off the Export toggle for all your Custom items?"
 L["Armored Razorback"] = "Costagume Armadurado"
 L["Armored Razzashi Raptor"] = "Raptor Razzashi Armadurado"
---[[Translation missing --]]
-L["Armored Vaultbot"] = "Armored Vaultbot"
---[[Translation missing --]]
-L["Ash-Covered Horn"] = "Ash-Covered Horn"
---[[Translation missing --]]
-L["Ashenvale Chimaera"] = "Ashenvale Chimaera"
+L["Armored Vaultbot"] = "Cofremático Blindado"
+L["Ash-Covered Horn"] = "Chifre Coberto de Cinza"
+L["Ashenvale Chimaera"] = "Quimera do Vale Gris"
 L["Ashes of Al'ar"] = "Cinzas de Al'ar"
 L["Ashleaf Spriteling"] = "Duendezinho Folhacinza"
---[[Translation missing --]]
-L["Ataxon"] = "Ataxon"
---[[Translation missing --]]
-L["Athil Dewfire"] = "Athil Dewfire"
---[[Translation missing --]]
-L["Athrikus Narassin"] = "Athrikus Narassin"
+L["Ataxon"] = true
+L["Athil Dewfire"] = "Athil Fogorvalha"
+L["Athrikus Narassin"] = true
 L["Attempts"] = "Tentativas"
 --[[Translation missing --]]
 L["Auto"] = "Auto"
---[[Translation missing --]]
-L["Available starting December 25th"] = "Available starting December 25th"
+L["Available starting December 25th"] = "Disponível a partir de 25 de Dezembro"
 --[[Translation missing --]]
 L["Avarius"] = "Avarius"
 --[[Translation missing --]]
@@ -18937,16 +18971,15 @@ L["Baarut the Brisk"] = "Baarut the Brisk"
 L["Baby Stonehide"] = "Baby Stonehide"
 --[[Translation missing --]]
 L["Bad Mojo Banana"] = "Bad Mojo Banana"
---[[Translation missing --]]
-L["Barnaby"] = "Barnaby"
+L["Barnaby"] = "Barnabé"
 L["Barrier Generator"] = "Gerador de Barreira"
 --[[Translation missing --]]
 L["Basten"] = "Basten"
 --[[Translation missing --]]
 L["Battle for Azeroth"] = "Battle for Azeroth"
-L["Battle Horn"] = "Som de Batalha"
-L["Battle Pet"] = "Batalha de Pet"
-L["Battle Pets"] = "Batalha de Pets"
+L["Battle Horn"] = "Trombeta de Batalha"
+L["Battle Pet"] = "Mascote de Batalha"
+L["Battle Pets"] = "Mascotes de Batalha"
 --[[Translation missing --]]
 L["Beastrider Kama"] = "Beastrider Kama"
 --[[Translation missing --]]
@@ -18982,8 +19015,7 @@ L["Bleakclaw"] = "Bleakclaw"
 --[[Translation missing --]]
 L["Blessed Felcrusher"] = "Blessed Felcrusher"
 L["Blessed Seed"] = "Semente Abençoada"
---[[Translation missing --]]
-L["Blight Boar Microphone"] = "Blight Boar Microphone"
+L["Blight Boar Microphone"] = "Microfone do Javali Pestilento"
 L["Blighted Spore"] = "Esporos Empesteados"
 L["Blind Lake Sturgeon School"] = "Cardume de Esturjões Cegos do Lago"
 --[[Translation missing --]]
@@ -19106,8 +19138,7 @@ L["Chance"] = true
 L["Chance so far"] = "Chances até agora"
 --[[Translation missing --]]
 L["Chaos Pup"] = "Chaos Pup"
---[[Translation missing --]]
-L["Check this for every Custom item you wish to export. Then click on the Import/Export tab and click the Export button. This checkbox will be disabled until enough information has been filled in below to make it a detectable item."] = "Check this for every Custom item you wish to export. Then click on the Import/Export tab and click the Export button. This checkbox will be disabled until enough information has been filled in below to make it a detectable item."
+L["Check this for every Custom item you wish to export. Then click on the Import/Export tab and click the Export button. This checkbox will be disabled until enough information has been filled in below to make it a detectable item."] = "Marque isto para cada item customizado que você deseja exportar. Então clique na aba \"Importar/Exportar\" e depois clique no botão Exportar. Essa caixa de seleção vai ser desabilitada até que tenha informação suficiente abaixo para fazer com que seja um item detectável."
 --[[Translation missing --]]
 L[ [=[Check this to automatically refresh your search every 5 seconds while this window is visible. Auto refresh only works if you've typed something in the search box, and if you haven't selected something in the list below.
 
@@ -19124,8 +19155,8 @@ L["Chewed-On Reins of the Terrified Pack Mule"] = "Chewed-On Reins of the Terrif
 L["Chitterspine Needler"] = "Chitterspine Needler"
 --[[Translation missing --]]
 L["Choose which classes this item should be disabled for. Checking a class below hides the item from the Rarity tooltip and prevents it from being tracked. You can still toggle Track This, but the item will not track for any classes specified here."] = "Choose which classes this item should be disabled for. Checking a class below hides the item from the Rarity tooltip and prevents it from being tracked. You can still toggle Track This, but the item will not track for any classes specified here."
---[[Translation missing --]]
-L["Christoph VonFeasel"] = "Christoph VonFeasel"
+L["Christoph VonFeasel"] = [=[
+Cristovão VonFasel]=]
 --[[Translation missing --]]
 L["Chromie"] = "Chromie"
 --[[Translation missing --]]
@@ -19243,7 +19274,7 @@ L["C'Thuffer"] = "C'Thuffer"
 L["Ctrl-Click to change sort order"] = "Ctrl-Clique para mudar a ordem de classificação"
 --[[Translation missing --]]
 L["Ctrl-Click to create the remaining TomTom waypoint(s)."] = "Ctrl-Click to create the remaining TomTom waypoint(s)."
-L["Ctrl-Click to create TomTom waypoint(s)."] = "Ctrl + Click para clicar um waypoint no addon TomTom"
+L["Ctrl-Click to create TomTom waypoint(s)."] = "Ctrl+Botão Esquerdo para criar uma coordenada no addon TomTom"
 --[[Translation missing --]]
 L["Cupri"] = "Cupri"
 L["Curious Wyrmtongue Cache"] = "Baú de Língua de Serpe Singular"
@@ -19402,10 +19433,8 @@ L["Drops from NPC(s)"] = "Saqueado de NPC(s)"
 --[[Translation missing --]]
 L["Drudge Remains"] = "Drudge Remains"
 L["Druid"] = "Druida"
---[[Translation missing --]]
-L["Drust"] = "Drust"
---[[Translation missing --]]
-L["Dunegorger Kraulok"] = "Dunegorger Kraulok"
+L["Drust"] = "Drusto"
+L["Dunegorger Kraulok"] = "Devoraduna Kraulok"
 L["Dungeon ID"] = "Identificação da Dungeon"
 L["Dusty Clutch of Eggs"] = "Ninhada de Ovos Empoeirados"
 L["Dwarf"] = "Anão"

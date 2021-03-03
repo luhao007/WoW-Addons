@@ -986,7 +986,7 @@ Database:AddChain(Chain.DrustToDrust, {
     },
     completed = {
         type = "quest",
-        id = 61138,
+        id = 61171,
     },
     rewards = {
         {
@@ -1872,9 +1872,6 @@ Database:AddChain(Chain.Chain01, {
             type = "quest",
             id = 57583,
             x = 0,
-        },
-        {
-            name = "Reward: Mushroom Network and Vendor",
         },
     }
 })
