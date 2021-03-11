@@ -1,6 +1,6 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Zensunim of Dragonblight/Myzrael
-## Version: 4.60
+## Version: 4.62
 ## SavedVariables: GTFOData
 ## DefaultState: Enabled
 

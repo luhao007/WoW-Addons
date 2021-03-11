@@ -139,6 +139,19 @@ R.fishnodes = {
 	[L["Slimy Mackerel School"]] = true,
 	[L["Tiragarde Perch School"]] = true,
 	[L["U'taka School"]] = true,
+	[L["Mauve Stinger School"]] = true,
+	[L["Viper Fish School"]] = true,
+	[L["Ionized Minnows"]] = true,
+	[L["Sentry Fish School"]] = true,
+	[L["Aberrant Voidfin School"]] = true,
+	[L["Malformed Gnasher School"]] = true,
+	-- Shadowlands pools
+	[L["Iridescent Amberjack School"]] = true,
+	[L["Pocked Bonefish School"]] = true,
+	[L["Silvergill Pike School"]] = true,
+	[L["Elysian Thade School"]] = true,
+	[L["Lost Sole School"]] = true,
+	[L["Spinefin Piranha School"]] = true,
 
 }
 
@@ -227,5 +240,8 @@ R.opennodes = {
 	[L["Stewart's Stewpendous Stew"]] = true,
 	[L["Bleakwood Chest"]] = true,
 	[L["Blackhound Cache"]] = true,
-	[L["Secret Treasure"]] = true
+	[L["Secret Treasure"]] = true,
+	[L["Forgotten Chest"]] = true,
+	[L["Cache of Eyes"]] = true,
+	[L["Forgotten Chest"]] = true
 }

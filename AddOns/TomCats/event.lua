@@ -33,6 +33,7 @@ function addon.UnregisterEvent(event, handler)
 			end
 		end
 		if (#newHandlers == 0) then
+			eventHandlers[event] = nil
 			eventFrame:UnregisterEvent(event)
 		else
 			eventHandlers[event] = newHandlers

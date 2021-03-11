@@ -25,11 +25,12 @@ L.SUGGESTIONS_TAB = "Suggestions";
 L.SUGGESTIONS_HELP = "Suggested achievements are listed here based on your current location. Also listed are all \"Recent Reminder\" achievements.|n|n|cffffffffShift-alt-click|r on a suggested achievement to auto-track it when it becomes suggested for your current location.|n|n|cffffffffShift-right-click|r on a suggested achievement to hide it. (This is character-specific and affects all locations.)";
 L.SUGGESTIONS_REFRESH = "Refresh";
 L.SUGGESTIONS_EMPTY = "Overachiever has no suggestions for you at this time.";
+L.SUGGESTIONS_EMPTY_TRADESKILL = "%s: Overachiever has no suggestions for you at this time.";
+L.SUGGESTIONS_EMPTY_OVERRIDE = "Overachiever has no suggestions for the specified location.";
 L.SUGGESTIONS_RESULTS = "%d |4suggestion:suggestions; found.";
 L.SUGGESTIONS_RESULTS_HIDDEN = "%d |4suggestion:suggestions; found.|n(%d |4is:are; hidden.)";
 L.SUGGESTIONS_RESULTS_TRADESKILL = "%s: %d |4suggestion:suggestions; found.";
 L.SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN = "%s: %d |4suggestion:suggestions; found.|n(%d |4is:are; hidden.)";
-L.SUGGESTIONS_EMPTY_TRADESKILL = "%s: Overachiever has no suggestions for you at this time.";
 L.SUGGESTIONS_LOCATION = "Location:"
 L.SUGGESTIONS_LOCATION_TIP = "Override Zone/Instance Location"
 L.SUGGESTIONS_LOCATION_TIP2 = "Leave blank to get suggestions for your current location or start typing to get a matching zone or instance name to use instead. Press |cffffffffTab|r to cycle between locations that match the text to the left of the cursor. |cffffffffShift+Tab|r cycles in reverse order. If the cursor is at the leftmost position, it cycles between all valid locations.|n|nYou can also enter the name of certain holidays/world events (such as \"|cffffffffHallow's End|r\").|n|nEnter \"|cffffffffhidden|r\" to show all suggestions that you've flagged as hidden, regardless of their locations.|n|nEnter \"|cffffffffautotracked|r\" to show all suggestions that you've flagged for auto-tracking, regardless of their locations."
@@ -61,6 +62,11 @@ L.SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR = "Shadowmoon Valley (Draenor)
 L.SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND = "Nagrand (Outland)"
 L.SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR = "Nagrand (Draenor)"
 L.SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION = "Return to Karazhan"
+L.SUGGESTIONS_ZONERENAME_COVENANT = "Covenant"
+L.SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN = "Covenant (Kyrian)"
+L.SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD = "Covenant (Necrolord)"
+L.SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE = "Covenant (Night Fae)"
+L.SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR = "Covenant (Venthyr)"
 
 L.WATCH_TAB = "Watch";
 L.WATCH_HELP = "Create your watch list by |cffffffffalt+clicking|r on achievements in the other tabs or achievement chat links. |cffffffffAlt+click|r on one displayed here to stop watching it.";
@@ -197,11 +203,12 @@ L["SUGGESTIONS_AUTOTRACKEDLOCATION"] = "automatisch verfolgt"
 L["SUGGESTIONS_AUTOTRACKING_TIP"] = "Automatische Verfolgung"
 L["SUGGESTIONS_AUTOTRACKING_TIP2"] = "Dieser Erfolg wird automatisch verfolgt/nicht verfolgt|n anhand deines aktuellen Standorts.|n|n|cffffffffUmschalt-Alt-Klick|r zum Umschalten."
 L["SUGGESTIONS_DIFFICULTY"] = "Instanzschwierigkeit:"
-L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Auto-Erkennen"
+L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Auto-Erkennung"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroisch"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "Mythisch"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normal"
 L["SUGGESTIONS_EMPTY"] = "Overachiever hat zurzeit keine Vorschläge für dich."
+L["SUGGESTIONS_EMPTY_OVERRIDE"] = "Overachiever hat keine Vorschläge für den angegebenen Standort."
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: Overachiever hat zur Zeit keine Vorschläge für dich."
 L["SUGGESTIONS_FILTERED_OUT_EARNED"] = "%s |4Erfolg wurde:Erfolge wurden; bereits erlangt."
 L["SUGGESTIONS_FILTERED_OUT_INCOMPLETE"] = "Zeige ABGESCHLOSSENE Erfolge. %s |4Erfolg wurde:Erfolge wurden; herausgefiltert."
@@ -217,7 +224,7 @@ Tabs]=]
 L["SUGGESTIONS_RAIDSIZE"] = "Schlachtzugsgröße:"
 L["SUGGESTIONS_RAIDSIZE_10"] = "10er"
 L["SUGGESTIONS_RAIDSIZE_25"] = "25er"
-L["SUGGESTIONS_RAIDSIZE_AUTO"] = "Auto-Erkennen"
+L["SUGGESTIONS_RAIDSIZE_AUTO"] = "Auto-Erkennung"
 L["SUGGESTIONS_REFRESH"] = "Aktualisieren"
 L["SUGGESTIONS_RESULTS"] = "%d |4Vorschlag:Vorschläge; gefunden."
 L["SUGGESTIONS_RESULTS_HIDDEN"] = "%d |4Vorschlag:Vorschläge; gefunden.|n(%d |4ist:sind; versteckt.) "
@@ -227,6 +234,11 @@ L["SUGGESTIONS_SHOWHIDDEN"] = "Verborgenes zeigen"
 L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Anhaken, um verborgene Vorschläge für diesen Standort zu zeigen."
 L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = "Falls du alle verborgene Vorschläge unabhängig vom Standort sehen möchtest, gib \"versteckt\" in das obenstehende Standortfeld ein. |n|n|cffffffffUmschalt-Rechtsklick|r auf einen Erfolg, um die Anzeige dieses Erfolgs zu aktivieren/deaktivieren."
 L["SUGGESTIONS_TAB"] = "Vorschläge"
+L["SUGGESTIONS_ZONERENAME_COVENANT"] = "Pakt"
+L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = "Pakt (Kyrianer)"
+L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = "Pakt (Necrolords)"
+L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = "Pakt (Nachtfae)"
+L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = "Pakt (Venthyr)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Dalaran (Verheerte Inseln)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Dalaran (Nordend)"
 L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "Rückkehr nach Karazhan"
@@ -354,6 +366,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Héroïque"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "Mythique"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normale"
 L["SUGGESTIONS_EMPTY"] = "Overachiever n'a aucune suggestion pour le moment"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = " %s: Overachiever n'a aucune suggestion à faire pour le moment."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -382,6 +396,16 @@ L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Cochez pour afficher les suggestions cachées
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "Suggestions"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Dalaran (Îles Brisées)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Dalaran (Norfendre)"
 L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "Retour à Karazhan"
@@ -522,6 +546,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "英雄"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "傳奇"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "普通"
 L["SUGGESTIONS_EMPTY"] = "Overachiever現在沒有任何建議。"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: Overachiever 此時無法提供建議."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -547,6 +573,16 @@ L["SUGGESTIONS_SHOWHIDDEN"] = "顯示隱藏建議"
 L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "顯示這個位置的隱藏建議。"
 L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = "如果你想要看到所有隱藏建議，不分地區，在上方的地區欄位中輸入 \\\"隱藏\\\"。|n|n|cffffffffShift-右鍵|r點擊成就切換顯示/隱藏。"
 L["SUGGESTIONS_TAB"] = "建議"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""--]] 
 --[[Translation missing --]]
@@ -676,6 +712,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "英雄"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "史诗"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "普通"
 L["SUGGESTIONS_EMPTY"] = "Overachiever当前没有建议。"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s：Overachiever当前没有建议。"
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -703,6 +741,16 @@ L["SUGGESTIONS_SHOWHIDDEN"] = "显示隐藏"
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "建议"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "达拉然 (破碎群岛)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "达拉然 (诺森德)"
 L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "重返卡拉赞"
@@ -820,6 +868,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Героический"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "Мифический"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Нормальный"
 L["SUGGESTIONS_EMPTY"] = "В данный момент подходящих достижений не обнаружено."
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: Overachiever в данный момент не имеет для вас предложений."
 L["SUGGESTIONS_FILTERED_OUT_EARNED"] = "%s |4достижение было:достижения были; уже получено(ы)."
 L["SUGGESTIONS_FILTERED_OUT_INCOMPLETE"] = "Отображение ЗАВЕРШЕННЫХ достижений. %s |4достижение было:достижения были; отфильтровано(ы)."
@@ -843,6 +893,16 @@ L["SUGGESTIONS_SHOWHIDDEN"] = "Показать скрытые"
 L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Проверить и показать скрытые, предположения для этой локации."
 L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = "Если вам, нужно увидеть все скрытые предположения независимо от местоположения, введите \"скрытые\" в поле \"Локации\" выше.|n|n|cffffffffShift-правый клик|r на достижение для показа является, ли оно скрытым."
 L["SUGGESTIONS_TAB"] = "Предположения"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Даларан (Расколотые острова)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Даларан (Нордскол)"
 L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "Возвращение в Каражан"
@@ -963,6 +1023,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "영웅"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "신화"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "일반"
 L["SUGGESTIONS_EMPTY"] = "지금은 Overachiever가 추천하는 업적이 없습니다."
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: 지금은 Overachiever가 추천하는 업적이 없습니다."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -988,6 +1050,16 @@ L["SUGGESTIONS_SHOWHIDDEN"] = "숨김 표시"
 L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "현재 위치에 대한 숨김 제안의 표시를 위해 선택합니다."
 L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = "현재 지역에 대한 제안이 숨겨져있는데 표시하려면, \"숨김\"을 해제하면 됩니다.|n|n|cffffffffShift-right-click|r 하여 업적 상태를 토글할 수 있습니다."
 L["SUGGESTIONS_TAB"] = "추천"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "달라란 (부서진 섬)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "달라란 (노스렌드)"
 L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "다시 찾은 카라잔"
@@ -1129,6 +1201,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroico"
 --[[ L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normal"
 L["SUGGESTIONS_EMPTY"] = "Overachiever no tiene sugerencias para ti en este momento."
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: Overachiever no tiene sugerencias para tí en este momento."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -1160,6 +1234,16 @@ L["SUGGESTIONS_RESULTS_TRADESKILL"] = "%s: %d |4sugerencia:sugerencias; |4encont
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "Sugerencias"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""--]] 
 --[[Translation missing --]]
@@ -1331,6 +1415,8 @@ L["WATCH_TAB"] = "Seguimiento"
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_EMPTY"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["SUGGESTIONS_EMPTY_TRADESKILL"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -1376,6 +1462,16 @@ L["WATCH_TAB"] = "Seguimiento"
 --[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_TAB"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""--]] 
 --[[Translation missing --]]
@@ -1551,6 +1647,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroica"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "Mítica"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normal"
 L["SUGGESTIONS_EMPTY"] = "O Overachiever não tem sugestões para você neste momento."
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: O Overachiever não tem sugestões para você neste momento."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -1576,6 +1674,16 @@ L["SUGGESTIONS_SHOWHIDDEN"] = "Mostrar ocultas"
 L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Marque para mostrar sugestões ocultas para este local."
 L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = "Se você quer ver todas as sugestões ocultas independentemente de localização, insira \"ocultas\" no campo Localização acima.|n|n|cffffffffShift+clique-direito|r em uma conquista a oculta ou exibe."
 L["SUGGESTIONS_TAB"] = "Sugestões"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Dalaran (Ilhas Partidas)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Dalaran (Nortúndria)"
 L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "Retorno a Karazhan"
@@ -1697,6 +1805,8 @@ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Eroica"
 L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "Mitica"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normale"
 L["SUGGESTIONS_EMPTY"] = "Al momento Overachiever non ha suggerimenti per te."
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_OVERRIDE"] = ""--]] 
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: Overachiever non ha consigli per te al momento."
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_FILTERED_OUT_EARNED"] = ""--]] 
@@ -1726,6 +1836,16 @@ L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Seleziona per mostrare i suggerimenti nascost
 --[[Translation missing --]]
 --[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "Suggerimenti"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_KYRIAN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NECROLORD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_NIGHTFAE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_COVENANT_VENTHYR"] = ""--]] 
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Dalaran (Isole Disperse)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Dalaran (Nordania)"
 --[[Translation missing --]]

@@ -4,6 +4,7 @@ local _, addon = ...
 local CreateFrame = CreateFrame
 local BlizzardOptionsPanel_OnLoad = BlizzardOptionsPanel_OnLoad
 local BlizzardOptionsPanel_RegisterControl = BlizzardOptionsPanel_RegisterControl
+local InterfaceAddOnsList_Update = InterfaceAddOnsList_Update
 local InterfaceOptions_AddCategory = InterfaceOptions_AddCategory
 local InterfaceOptionsPanel_Cancel = InterfaceOptionsPanel_Cancel
 local InterfaceOptionsPanel_Default = InterfaceOptionsPanel_Default
@@ -125,5 +126,5 @@ do
 			InterfaceOptionsPanel_Refresh
 	)
 	InterfaceOptions_AddCategory(configFrame)
+	InterfaceAddOnsList_Update()
 end
-

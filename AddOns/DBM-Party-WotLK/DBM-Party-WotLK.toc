@@ -1,6 +1,6 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Arta
-## Version: r23
+## Version: r24
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWotLK_AllSavedVars

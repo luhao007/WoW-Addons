@@ -60,9 +60,9 @@
                         <Offset x="-10" y="0"/>
                     </Origin>
                 </Scale>
-                <Alpha childKey="AlertText" startDelay="5" duration="0.25" order="2" fromAlpha="1" toAlpha="0"/>
-                <Alpha childKey="AlertBG" startDelay="5" duration="0.25" order="2" fromAlpha="0.9" toAlpha="0"/>
-                <Scale childKey="AlertBG" startDelay="5" duration="0.25" order="2" fromScaleX="1" fromScaleY="1" toScaleX="0.1" toScaleY="1">
+                <Alpha childKey="AlertText" startDelay="1.75" duration="0.25" order="2" fromAlpha="1" toAlpha="0"/>
+                <Alpha childKey="AlertBG" startDelay="1.75" duration="0.25" order="2" fromAlpha="0.9" toAlpha="0"/>
+                <Scale childKey="AlertBG" startDelay="1.75" duration="0.25" order="2" fromScaleX="1" fromScaleY="1" toScaleX="0.1" toScaleY="1">
                     <Origin point="RIGHT">
                         <Offset x="0" y="0"/>
                     </Origin>

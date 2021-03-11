@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Nevcairiel
 ## Version: 1.9.1
 ## OptionalDeps: Ace3, LibWindow-1.1

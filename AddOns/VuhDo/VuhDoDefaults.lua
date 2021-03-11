@@ -542,6 +542,7 @@ local VUHDO_DEFAULT_CONFIG = {
 	["SHOW_OWN_INCOMING"] = true,
 	["SHOW_TEXT_OVERHEAL"] = true,
 	["SHOW_SHIELD_BAR"] = true,
+	["SHOW_OVERSHIELD_BAR"] = false,
 
 	["RANGE_CHECK_DELAY"] = 260,
 
@@ -2292,6 +2293,11 @@ local VUHDO_DEFAULT_PANEL_SETUP = {
 			["useText"] = false, ["useBackground"] = false,	["useOpacity"] = true,
 		},
 		["SHIELD"] = {
+			["R"] = 0.35, ["G"] = 0.52, ["B"] = 1, ["O"] = 1,
+			["TR"] = 0.35, ["TG"] = 0.52, ["TB"] = 1, ["TO"] = 1,
+			["useText"] = false, ["useBackground"] = true,	["useOpacity"] = true,
+		},
+		["OVERSHIELD"] = {
 			["R"] = 0.35, ["G"] = 0.52, ["B"] = 1, ["O"] = 1,
 			["TR"] = 0.35, ["TG"] = 0.52, ["TB"] = 1, ["TO"] = 1,
 			["useText"] = false, ["useBackground"] = true,	["useOpacity"] = true,

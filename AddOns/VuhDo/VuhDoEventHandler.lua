@@ -1090,7 +1090,7 @@ local function VUHDO_updateAllRange()
 		end
 
 		-- Check if unit is phased
-		if UnitPhaseReason(tUnit) then
+		if VUHDO_unitPhaseReason(tUnit) then
 			tIsInRange = false;
 		else
 			-- Check if unit is in range

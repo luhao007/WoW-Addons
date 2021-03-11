@@ -319,6 +319,13 @@ FishingBuddy.Extravaganza.OnEvent = function(self, event, ...)
 			self:UnregisterEvent("CHAT_MSG_YELL");
 			self:UnregisterEvent("CHAT_MSG_MONSTER_YELL");
 		end
+		local mapId = FL:GetCurrentMapId();
+		-- Auto fish tracking
+		if mapId == 1662 then
+			FishingBuddy.FishTrackingEnable(true)
+		else
+			FishingBuddy.FishTrackingEnable(false)
+		end
 	elseif ( event == "VARIABLES_LOADED" ) then
 		for _,contest in ipairs(Contests) do
 			local _,_,_,_,_,n = FishingBuddy.GetFishie(contest.fishid);

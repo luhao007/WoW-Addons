@@ -21,6 +21,9 @@ local L = app.L;
 	--TODO: L.FLIGHT_PATHS = "Flight Paths";
 	--TODO: L.KNOWN_BY = "Known by ";
 	--TODO: L.REQUIRES = "Requires";
+	--TODO: L.INVALID_BLIZZARD_DATA = "INVALID BLIZZARD DATA ";
+	--TODO: L.MISSING_IN_ATT = "MISSING IN ATT ";
+	--TODO: L.RACE_LOCKED = "Race Locked";
 	--TODO: L.PLEASE_REPORT_MESSAGE = ": Please report this to the ATT Discord in #errors! Thanks!";
 	--TODO: L.NOT_AVAILABLE_IN_PL = "Not available in Personal Loot.";
 	--TODO: L.MARKS_OF_HONOR_DESC = "Marks of Honor must be viewed in a Popout window to see all of the normal 'Contains' content\n(Type '/att ' in chat then Shift-Click to link the item)";
@@ -75,7 +78,10 @@ local L = app.L;
 	--TODO: L._WITH_ = " with ";
 	--TODO: L.MAXIMUM_STANDING = "Requires a standing lower than";
 	--TODO: L.MIN_MAX_STANDING = "Requires a standing between";
+	--TODO: L.AND_ = "And ";
 	--TODO: L._AND = " and";
+	--TODO: L._MORE = " more";
+	--TODO: L._OTHER_SOURCES = " other sources";
 	--TODO: L.DURING_WQ_ONLY = "This can be completed when the world quest is active.";
 	--TODO: L.COMPLETED_DAILY = "This can be completed daily.";
 	--TODO: L.COMPLETED_WEEKLY = "This can be completed weekly.";
@@ -178,8 +184,8 @@ local L = app.L;
 	--TODO: L.NO_SEARCH_METHOD = "No search method specified.";
 	--TODO: L.PROFESSION_LIST = "Profession List";
 	--TODO: L.PROFESSION_LIST_DESC = "Open your professions to cache them.";
-	--TODO: L.CHACED_RECIPES_1 = "Cached ";
-	--TODO: L.CHACHED_RECIPES_2 = " known recipes!";
+	--TODO: L.CACHED_RECIPES_1 = "Cached ";
+	--TODO: L.CACHED_RECIPES_2 = " known recipes!";
 	--TODO: L.WORLD_QUESTS = "World Quests";
 	--TODO: L.WORLD_QUESTS_DESC = "These are World Quests and other time-limited Things that are currently available somewhere. Go get 'em!";
 	--TODO: L.UPDATE_WORLD_QUESTS = "Update World Quests Now";
@@ -197,13 +203,14 @@ local L = app.L;
 	--TODO: L.AH_SCAN_SUCCESSFUL_1 = ": Successfully scanned ";
 	--TODO: L.AH_SCAN_SUCCESSFUL_2 = " item(s).";
 	--TODO: L.REAGENT_CACHE_OUT_OF_DATE = "Reagent Cache is out-of-date and will be re-cached when opening your professions!";
+	--TODO: L.QUEST_LOOP = "Likely just broke out of an infinite source quest loop."
 
 -- Instructional Text
 	--TODO: L.MINIMAP_MOUSEOVER_TEXT = "Right click to change settings.\nLeft click to open the Main List.\nCtrl + Left click to open the Mini List.\nShift + Left click to Refresh Collections.";
-	--TODO: L.TOP_ROW_INSTRUCTIONS = "|cff3399ffLeft Click and Drag to Move|r\n|cff3399ffRight Click to Open the Settings Menu|r\n|cff3399ffShift + Click to Refresh Collections|r\n|cff3399ffCtrl + Click to Expand/Collapse Recursively|r";
-	--TODO: L.OTHER_ROW_INSTRUCTIONS = "|cff3399ffLeft Click to Expand/Collapse|r\n|cff3399ffRight Click to Pop Out to Mini List|r\n|cff3399ffShift + Click to Refresh Collections|r\n|cff3399ffCtrl + Click to Expand/Collapse Recursively|r\n|cff3399ffAlt + Right Click to Plot Waypoints|r";
-	--TODO: L.TOP_ROW_INSTRUCTIONS_AH = "|cff3399ffLeft Click and Drag to Move|r\n|cff3399ffRight Click to Open the Settings Menu|r\n|cff3399ffShift + Click to Search the Auction House|r";
-	--TODO: L.OTHER_ROW_INSTRUCTIONS_AH = "|cff3399ffLeft Click to Expand/Collapse|r\n|cff3399ffRight Click to Pop Out to Mini List|r\n|cff3399ffShift + Click to Search the Auction House|r";
+	--TODO: L.TOP_ROW_INSTRUCTIONS = "|cff3399ffLeft Click and Drag to Move\nRight Click to Open the Settings Menu\nShift + Click to Refresh Collections\nCtrl + Click to Expand/Collapse Recursively\nShift + Right Click to Sort Groups/Popout Lists|r";
+	--TODO: L.OTHER_ROW_INSTRUCTIONS = "|cff3399ffLeft Click to Expand/Collapse\nRight Click to Pop Out to Mini List\nShift + Click to Refresh Collections\nCtrl + Click to Expand/Collapse Recursively\nShift + Right Click to Sort Groups/Popout Lists\nAlt + Right Click to Plot Waypoints|r";
+	--TODO: L.TOP_ROW_INSTRUCTIONS_AH = "|cff3399ffLeft Click and Drag to Move\nRight Click to Open the Settings Menu\nShift + Click to Search the Auction House|r";
+	--TODO: L.OTHER_ROW_INSTRUCTIONS_AH = "|cff3399ffLeft Click to Expand/Collapse\nRight Click to Pop Out to Mini List\nShift + Click to Search the Auction House|r";
 	--TODO: L.RECENTLY_MADE_OBTAINABLE = "|CFFFF0000If this recently dropped for you (anywhere but Salvage\nCrates), please post in Discord where you got it to drop!|r";
 	--TODO: L.RECENTLY_MADE_OBTAINABLE_PT2 = "|CFFFF0000The more information, the better.  Thanks!|r";
 	--TODO: L.TOP_ROW_TO_LOCK = "|cff3399ffAlt + Click to Lock this Window";
@@ -494,6 +501,7 @@ local L = app.L;
 		--TODO: L.SECRETS_HEADER = "Secrets";
 		--TODO: L.SELFIE_FILTERS_HEADER = "Selfie Filters";
 		--TODO: L.LIMITED_QUANTITY = "This has a limited quantity and may not always be present on the vendor.";
+		--TODO: L.SOURCE_ID_MISSING = "Item Source not found in the database.\nPlease report this Item and where it was acquired to the ATT Discord in #errors!";
 
 	-- Artifact Relic Completion
 		--TODO: L.ARTIFACT_RELIC_CACHE = "Open your Artifact UI for all of your Artifact Weapons to cache whether this is an upgrade or not. This is useful for determining if you can trade this item to a Twink or not.";
@@ -550,8 +558,6 @@ do a[key] = value; end
 
 local a = L.FILTER_ID_TYPES;
 for key,value in pairs({
-	-- Enter translated FILTER_ID_TYPES's here
-
 	-- "Armor Types"
 		--TODO: [11] = "Artifacts";									-- Artifacts
 
@@ -571,8 +577,6 @@ do a[key] = value; end
 
 local a = L.NPC_ID_NAMES;
 for key,value in pairs({
-	-- Enter translated NPCID's here
-
 	-- Commonly used
 		--TODO: [0] = ZONE.." "..BATTLE_PET_SOURCE_1,				-- Zone Drop
 		--TODO: [-1] = BATTLE_PET_BREED_QUALITY2.." "..TRANSMOG_SOURCE_1,	-- Common Boss Drop
@@ -587,7 +591,7 @@ for key,value in pairs({
 		--TODO: [-16] = BATTLE_PET_BREED_QUALITY4,					-- Rares
 
 		--TODO: [-40] = LFG_LIST_LEGACY,							-- Legacy
-		[-41] = "Cache of Madness",
+		--TODO: [-41] = "Cache of Madness",
 	-- Armor Types
 		--TODO: [-43] = GetItemSubClassInfo(4,1).." "..RESISTANCE0_NAME,-- Cloth
 		--TODO: [-44] = GetItemSubClassInfo(4,2).." "..RESISTANCE0_NAME,-- Leather
@@ -613,7 +617,7 @@ for key,value in pairs({
 		--TODO: [-101] = "Followers",
 	-- Alliance [Swaps based on faction ONLY after a reloadui]
 		--TODO: [-130] = "Duskwood "..GetSpellInfo(133137),			-- Duskwood Active
-		--TODO: [-131] = "The Hinterlands "..GetSpellInfo(133137),-- The Hinterlands Active
+		--TODO: [-131] = "The Hinterlands "..GetSpellInfo(133137),	-- The Hinterlands Active
 		--TODO: [-132] = "Feralas "..GetSpellInfo(133137),			-- Feralas Active
 		--TODO: [-133] = "Duskwood "..GetSpellInfo(78741),			-- Duskwood Activated
 	-- Invasions TODO: what levels?
@@ -724,6 +728,7 @@ for key,value in pairs({
 		-- PvP Set Names
 			--TODO: [-659] = "Aspirant Gear",						-- Aspirant PvP Gear (WoD, BfA)
 			--TODO: [-660] = "Combatant Gear",						-- Combatant PvP Gear (WoD, Legion)
+			--TODO: [-694] = "Duelist Gear",						-- Duelist Gear (SL)
 			--TODO: [-661] = "Gladiator Gear",						-- Gladiator PvP Gear
 			--TODO: [-662] = "Elite Gear",							-- Elite PvP Gear
 
@@ -798,9 +803,11 @@ for key,value in pairs({
 			--TODO: [-922] = "Theater of Pain",						-- Theater of Pain
 			--TODO: [-923] = "Abomination Factory",					-- Abomination Factory (Necrolord)
 			--TODO: [-924] = "Transport Network",					-- Transport Network (Necrolord)
-			--TODO: [-925] = "Tier 1: Build A Buddy",				-- Abomination Factory (Necrolord) Tier 1
-			--TODO: [-926] = "Tier 2: Crafting Limbs",				-- Abomination Factory (Necrolord) Tier 2
-			--TODO: [-927] = "Tier 3: Bring Them to Life",			-- Abomination Factory (Necrolord) Tier 3
+			[-925] = "Nível 1: Construção do Amigão",				-- Abomination Factory (Necrolord) Tier 1
+			[-926] = "Nível 2: Criação de Membros",					-- Abomination Factory (Necrolord) Tier 2
+			[-927] = "Nível 3: Dar Vida",							-- Abomination Factory (Necrolord) Tier 3
+			[-928] = "Nível 4: Amigos Forjados",					-- Abomination Factory (Necrolord) Tier 4
+			[-938] = "Nível 5: Amigo Bom pra Diabo",				-- Abomination Factory (Necrolord) Tier 5
 
 		-- SL Ardenweald/Night Fae
 			--TODO: [-929] = "Covenant: Night Fae",					-- Covenant: Night Fae
@@ -1164,6 +1171,9 @@ for key,value in pairs({
 				--TODO: [-1433957] = "Broken Mirror C-1",			-- Broken Mirror
 				--TODO: [-1433958] = "Broken Mirror C-2",			-- Broken Mirror
 				--TODO: [-1433959] = "Broken Mirror C-3",			-- Broken Mirror
+				--TODO: [-1433960] = "Broken Mirror D-1",			-- Broken Mirror
+				--TODO: [-1433961] = "Broken Mirror D-2",			-- Broken Mirror
+				--TODO: [-1433962] = "Broken Mirror D-3",			-- Broken Mirror
 })
 do a[key] = value; end
 
@@ -1175,7 +1185,6 @@ do a[key] = value; end
 
 local a = L.OBJECT_ID_NAMES;
 for key,value in pairs({
-	-- Enter translated OBJECTID's here
 	[31] = "Estátua de Leão Antiga",
 	[34] = "Velho Garrafão",
 	[55] = "Corpo semi-devorado",
@@ -1268,10 +1277,10 @@ for key,value in pairs({
 	[177964] = "Pedra das Profundezas",
 	[179485] = "Armadilha Quebrada",
 	--TODO: [179501] = "Knot Thimblejack's Cache",
-	[179832] = "Travesseiro Ornado da Alma Fada",
 	[179564] = "Homenagem a Gordok",
 	[179697] = "Baú do Tesouro da Arena",
 	--TODO: [179827] = "Wanted/Missing/Lost & Found",
+	[179832] = "Travesseiro Ornado da Alma Fada",
 	--TODO: [180327] = "Brazier of Madness",
 	--TODO: [180366] = "Battered Tackle Box",
 	--TODO: [180368] = "Tablet of Madness",
@@ -1579,10 +1588,57 @@ for key,value in pairs({
 	[220820] = "|cFFFFFFFFStep 6:|r Página 1127",
 	[220821] = "|cFFFFFFFFStep 5:|r Página 845",
 	[220832] = "Tesouro afundado",
+	[220901] = "Bolsa de Tesouro Reluzente",						-- Gleaming Treasure Chest
+	[220902] = "Baú do Tesouro Envolto em Corda",					-- Rope-Bound Treasure Chest
+	[220903] = "Estátua de Garça Rebrilhante",						-- Gleaming Crane Statue
+	[220986] = "Refugo da Guarda Negra",							-- Blackguard's Jetsam
+	[221036] = "Bolsa de Tesouro Reluzente",						-- Gleaming Treasure Satchel
 	[221376] = "Fragmento de Letreiro Velho",
 	[221413] = "Pergaminho da Família Lin",
+	[221617] = "Baú Coberto de Caveiras",							-- Skull-Covered Chest
+	[221670] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[221671] = "Baú Resistente",									-- Sturdy Chest
+	[221672] = "Baú Fumegante",										-- Smoldering Chest
+	[221673] = "Baú Fulgurante",									-- Blazing Chest
 	[222685] = "Ninho de Garça",
 	[223533] = "Oferta de Paz",
+	[223084] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223085] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223086] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223087] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223088] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223089] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223090] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223091] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223092] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223093] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223094] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223095] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223096] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223097] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223098] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223099] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223100] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223101] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223102] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223103] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223104] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223105] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223106] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223107] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223108] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223109] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223110] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223111] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223112] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223113] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223114] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223115] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
+	[223116] = "Baú Resistente",									-- Sturdy Chest
+	[223117] = "Baú Resistente",									-- Sturdy Chest
+	[223118] = "Baú Resistente",									-- Sturdy Chest
+	[223119] = "Baú Fumegante",										-- Smoldering Chest
+	[223204] = "Baú Coberto de Musgo",								-- Moss-Covered Chest
 	[224228] = "Caldeirão Borbulhante",
 	[224306] = "Correntes Partidas",
 	[224392] = "Tesouro do Escravo",
@@ -1755,12 +1811,12 @@ for key,value in pairs({
 	[233511] = "Kit do Aventureiro",
 	[233513] = "Depósito da Caveira Esquecido",
 	--TODO: [233520] = "Remains of Explorer Engineer Toldirk Ashlamp",
-	[233524] = "Ovo Petrificado Desconhecido",
-	[233525] = "Semente da Essência de Botani",
-	[233532] = "Adaga Esculpida em Osso",
 	[233522] = "Formação de Cristais de Obsidiana",
 	[233523] = "Vagem Petrificada Misteriosa",
+	[233524] = "Ovo Petrificado Desconhecido",
+	[233525] = "Semente da Essência de Botani",
 	[233526] = "Baú Titânico Antigo",
+	[233532] = "Adaga Esculpida em Osso",
 	--TODO: [233539] = "Genedar Debris",
 	--TODO: [233549] = "Genedar Debris",
 	[233550] = "Ovo Petrificado Desconhecido",
@@ -2076,6 +2132,7 @@ for key,value in pairs({
 	--TODO: [245543] = "Treasure Chest",
 	--TODO: [245545] = "Small Treasure Chest",
 	--TODO: [245547] = "Small Treasure Chest",
+	[245548] = "Baú do Tesouro",
 	--TODO: [245550] = "Treasure Chest",
 	--TODO: [245551] = "Small Treasure Chest",
 	--TODO: [245553] = "Treasure Chest",
@@ -2350,8 +2407,8 @@ for key,value in pairs({
 	--TODO: [276489] = "Legion Tower Chest",
 	[276490] = "Baú de Emergência Krokul",
 	--TODO: [276491] = "Lost Krokul Chest",
-	[276515] = "Vara de Pescar",
 	[276513] = "Muçum Intacto",
+	[276515] = "Vara de Pescar",
 	[276735] = "Oferendas dos Escolhidos",
 	--TODO: [277204] = "Forgotten Legion Supplies",
 	[277205] = "Baú de Guerra da Legião Antigo",
@@ -2558,9 +2615,9 @@ for key,value in pairs({
 	--TODO: [297906] = "Russel's Songbook",
 	--TODO: [297933] = "Dusty Songbook",
 	--TODO: [297934] = "Scoundrel's Songbook",
-	[298920] = "Baú da Voz-dos-espinhos Roubado",
-	[298858] = "Cartaz de Procura-se",
 	[298849] = "Cartaz de Procura-se",
+	[298858] = "Cartaz de Procura-se",
+	[298920] = "Baú da Voz-dos-espinhos Roubado",
 	[298921] = "Tabuleta Nazmani Ancestral",
 	[298963] = "Tabuleta Nazmani Gasta",
 	[298965] = "Tabuleta Rachada",
@@ -2738,6 +2795,7 @@ for key,value in pairs({
 	--TODO: [353793] = "Parish Chest",
 	--TODO: [353796] = "Reliquary of Remembrance",
 	--TODO: [353797] = "Stone Legion Supplies",
+	[353799] = "Mochila de Quebrafé",
 	--TODO: [353869] = "Hidden Hoard",
 	--TODO: [353870] = "Hidden Hoard",
 	--TODO: [353871] = "Hidden Hoard",
@@ -2758,6 +2816,7 @@ for key,value in pairs({
 	--TODO: [354121] = "Pugilist's Prize",
 	--TODO: [354122] = "Pugilist's Prize",
 	--TODO: [354123] = "Pugilist's Prize",
+	[354175] = "Baú dos Ascendidos",								-- Cache of the Ascended
 	--TODO: [354186] = "Stoneborn Satchel",
 	--TODO: [354187] = "Stoneborn Satchel",
 	--TODO: [354188] = "Stoneborn Satchel",
@@ -2767,40 +2826,10 @@ for key,value in pairs({
 	--TODO: [354192] = "Stoneborn Satchel",
 	--TODO: [354193] = "Stoneborn Satchel",
 	--TODO: [354211] = "Greed's Reward",
-	--TODO: [355035] = "Treasure: House of the Chosen",				-- Chosen Runecoffer
-	--TODO: [357228] = "Forgotten Chest",							-- C-3
-	--TODO: [357229] = "Forgotten Chest",							-- C-1
-	--TODO: [357230] = "Forgotten Chest",							-- B-1
-	--TODO: [357231] = "Forgotten Chest",							-- B-2
-	--TODO: [357232] = "Forgotten Chest",							-- B-3
-	--TODO: [357236] = "Forgotten Chest",							-- A-1
-	--TODO: [357237] = "Forgotten Chest",							-- A-2
-	--TODO: [357238] = "Forgotten Chest",							-- A-3
-	--TODO: [358315] = "Skeletal Hand Fragments",
-	--TODO: [358319] = "Sorceror's Note",
-	--TODO: [1278968750] = "Hanging Chain",
-	--TODO: [1278968751] = "Lunarlight Pod",						-- TODO: fix objectID when data becomes available
-	--[1278968752] = "",											-- ***REUSE ME***
-	--[1278968753] = "",											-- ***REUSE ME***
-	--[1278968754] = "",											-- ***REUSE ME***
-	--[1278968755] = "",											-- ***REUSE ME***
-	--[1278968756] = "",											-- ***REUSE ME***
-	--[1278968757] = "",											-- ***REUSE ME***
-	--[1278968758] = "",											-- ***REUSE ME***
-	--[1278968759] = "",											-- ***REUSE ME***
-	--[1278968760] = "",											-- ***REUSE ME***
-	--[1278968761] = "",											-- ***REUSE ME***
-	--[1278968762] = "",											-- ***REUSE ME***
-	--[1278968763] = "",											-- ***REUSE ME***
-	--[1278968764] = "",											-- ***REUSE ME***
-	--TODO: [1278968766] = "Rune",									-- TODO: fix objectID when data becomes available
-	--TODO: [1278968767] = "Rune",									-- TODO: fix objectID when data becomes available
-	--TODO: [1278968768] = "Rune",									-- TODO: fix objectID when data becomes available
-	--[1278968769] = "",											-- ***REUSE ME***
-	--[1278968770] = "",											-- ***REUSE ME***
 	--TODO: [354852] = "Sprouting Growth",
 	--TODO: [354853] = "Sprouting Growth",
 	--TODO: [354856] = "Slime-Coated Crate",
+	--TODO: [355035] = "Treasure: House of the Chosen",				-- Chosen Runecoffer
 	--TODO: [355037] = "Runebound Coffer",
 	--TODO: [355038] = "Runebound Coffer",
 	--TODO: [355296] = "Bounty: Beast Control",
@@ -2808,14 +2837,44 @@ for key,value in pairs({
 	--TODO: [355449] = "Gift of the Silver Wind",
 	--TODO: [355798] = "Cage",
 	--TODO: [356555] = "Eurydea's Necklace",
+	--TODO: [356693] = "Baroness Vashj's Extravagant Tribute",
+	--TODO: [356697] = "Alexandros Mograine's Extravagant Tribute",
+	[356700] = "Tributo Extravagante do Grão-mestre Vole",
+	[356705] = "Tributo Extravagante do Arquiteto da Peste Marileth",
+	--TODO: [356709] = "Lady Moonberry's Extravagant Tribute",
+	--TODO: [356712] = "Hunt-Captain Korayn's Extravagant Tribute",
+	[356716] = "Tributo Extravagante da Droman Aliothe",
+	[356720] = "Tributo Extravagante de Xufa",
+	--TODO: [356725] = "Polemarch Adrestes' Extravagant Tribute",
+	--TODO: [356728] = "Mikanikos' Extravagant Tribute",
+	[356733] = "Tributo Extravagante de Kleia e Pelagos",
+	[356737] = "Tributo Extravagante de Sika",
+	--TODO: [356741] = "The Countess' Extravagant Tribute",
+	--TODO: [356744] = "Rendle and Cudgelface's Extravagant Tribute",
+	[356748] = "Tributo Extravagante de Cabeça-de-pedra",
+	[356752] = "Tributo Extravagante do Guardião da Cripta Kassir",
+	--TODO: [356757] = "Greed's Desire",
 	--TODO: [356818] = "Penitence of Purity",
 	--TODO: [356820] = "Large Lunarlight Pod",
 	--TODO: [356823] = "Cloudwalker's Coffer",
-	--TODO: [356757] = "Greed's Desire",
+	[357228] = "Baú Esquecido",										-- C-3
+	[357229] = "Baú Esquecido",										-- C-1
+	[357230] = "Baú Esquecido",										-- B-1
+	[357231] = "Baú Esquecido",										-- B-2
+	[357232] = "Baú Esquecido",										-- B-3
+	[357233] = "Baú Esquecido",										-- D-1
+	[357234] = "Baú Esquecido",										-- D-3
+	[357235] = "Baú Esquecido",										-- D-2
+	[357236] = "Baú Esquecido",										-- A-1
+	[357237] = "Baú Esquecido",										-- A-2
+	[357238] = "Baú Esquecido",										-- A-3
 	--TODO: [357246] = "Tattered Scroll",
 	--TODO: [357565] = "Forgotten Angler's Rod",
 	--TODO: [357584] = "Vyrtha's Dredglaive",
 	--TODO: [357758] = "Plague Barrel",
+	--TODO: [358315] = "Skeletal Hand Fragments",
+	[358318] = "[R. Suavel Dredger Portrait]",
+	--TODO: [358319] = "Sorceror's Note",
 	--TODO: [358382] = "Wanted: Chelicera",
 	--TODO: [358533] = "Forgotten Supplies",
 	--TODO: [362489] = "Elysian Decree",
@@ -2907,6 +2966,26 @@ for key,value in pairs({
 	--TODO: [13000030] = "Purchase Red Crystal Monocle",
 	--TODO: [13000031] = "Red Crystal Monocle",
 	--TODO: [13000032] = "|cFFFFFFFFStep 3:|r Pick a Monocle (Or Don't!)",
+	--TODO: [1278968750] = "Hanging Chain",
+	--TODO: [1278968751] = "Lunarlight Pod",						-- TODO: fix objectID when data becomes available
+	--[1278968752] = "",											-- ***REUSE ME***
+	--[1278968753] = "",											-- ***REUSE ME***
+	--[1278968754] = "",											-- ***REUSE ME***
+	--[1278968755] = "",											-- ***REUSE ME***
+	--[1278968756] = "",											-- ***REUSE ME***
+	--[1278968757] = "",											-- ***REUSE ME***
+	--[1278968758] = "",											-- ***REUSE ME***
+	--[1278968759] = "",											-- ***REUSE ME***
+	--[1278968760] = "",											-- ***REUSE ME***
+	--[1278968761] = "",											-- ***REUSE ME***
+	--[1278968762] = "",											-- ***REUSE ME***
+	--[1278968763] = "",											-- ***REUSE ME***
+	--[1278968764] = "",											-- ***REUSE ME***
+	--TODO: [1278968766] = "Rune",									-- TODO: fix objectID when data becomes available
+	--TODO: [1278968767] = "Rune",									-- TODO: fix objectID when data becomes available
+	--TODO: [1278968768] = "Rune",									-- TODO: fix objectID when data becomes available
+	--[1278968769] = "",											-- ***REUSE ME***
+	--[1278968770] = "",											-- ***REUSE ME***
 })
 do a[key] = value; end
 

@@ -20,7 +20,6 @@ local VUHDO_SHIELDS = {
 
 --
 local VUHDO_PUMP_SHIELDS = {
-	[VUHDO_SPELL_ID.SPIRIT_SHELL] = 0.6, 
 }
 
 
@@ -153,6 +152,9 @@ local function VUHDO_initShieldValue(aUnit, aShieldName, anAmount, aDuration)
 
 	if sIsPumpAegis and VUHDO_PUMP_SHIELDS[aShieldName] then
 		VUHDO_SHIELD_SIZE[aUnit][aShieldName] = VUHDO_RAID["player"]["healthmax"] * VUHDO_PUMP_SHIELDS[aShieldName];
+	elseif aShieldName == VUHDO_SPELL_ID.SPIRIT_SHELL then
+		-- as of 9.0.5 Priest 'Spirit Shell' cap is 11 times the caster's current intellect
+		VUHDO_SHIELD_SIZE[aUnit][aShieldName] = select(1, UnitStat("player", 4)) * 11;
 	else
 		VUHDO_SHIELD_SIZE[aUnit][aShieldName] = anAmount;
 	end
@@ -293,7 +295,6 @@ end
 
 
 --
-local tSummeLeft;
 function VUHDO_getUnitOverallShieldRemain(aUnit)
 	return UnitGetTotalAbsorbs(aUnit) or 0;
 end

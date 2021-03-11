@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: The WeakAuras Team
 ## Version: 1.1.0
 ## OptionalDeps: WeakAuras,Plater,

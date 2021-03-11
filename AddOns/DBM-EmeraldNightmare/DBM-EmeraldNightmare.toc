@@ -1,6 +1,6 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: MysticalOS
-## Version: r22
+## Version: r23
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMEmeraldNightmare_AllSavedVars

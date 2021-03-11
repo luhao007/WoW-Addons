@@ -1,7 +1,6 @@
 --[[ See license.txt for license and copyright information ]]
 local addonName, addon = ...
 
-local C_Timer = C_Timer
 local CreateFrame = CreateFrame
 local GetCursorPosition = GetCursorPosition
 local InterfaceOptionsFrame_OpenToCategory = InterfaceOptionsFrame_OpenToCategory
@@ -36,7 +35,7 @@ local function MinimapButtonOnload(self)
 		right = UIParent:GetRight()
 		top = UIParent:GetTop()
 	end
-	local function ButtonDown(self)
+	local function ButtonDown()
 		if (self:IsEnabled()) then
 			_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 8, -8)
 			_G[name .. "IconOverlay"]:Show()
@@ -46,7 +45,7 @@ local function MinimapButtonOnload(self)
 		_G[name .. "Icon"]:SetPoint("TOPLEFT", self, "TOPLEFT", 6, -6)
 		_G[name .. "IconOverlay"]:Hide()
 	end
-	local function OnMouseDown(self)
+	local function OnMouseDown()
 		ButtonDown(self)
 	end
 	local function OnMouseUp()
@@ -90,7 +89,7 @@ local function MinimapButtonOnload(self)
 		preferences.position = math.atan2((By / scale) - Ay, (Bx / scale) - Ax)
 		UpdatePosition()
 	end
-	local function OnUpdate(self)
+	local function OnUpdate()
 		if (TomCats_Config and TomCats_Config:IsVisible()) then
 			self.Icon:SetDesaturated(true)
 			self:Disable()
@@ -206,7 +205,7 @@ local function CreateMinimapButton(buttonInfo)
 		_G[name .. "Icon"]:SetTexture(buttonInfo.iconTexture)
 	end
 	if (buttonInfo.name) then
-		local scope = TomCats_Account.preferences
+		local scope = _G["TomCats_Account"].preferences
 		if (scope[name]) then
 			frame:SetPreferences(scope[name])
 		else
@@ -227,13 +226,21 @@ end
 local function OpenControlPanel()
 	if (not _G["TomCats_Config"]:IsVisible()) then
 		InterfaceOptionsFrame_OpenToCategory(_G["TomCats_Config"])
-		-- todo: remove this work-around for the control panel opening to the default first tab
-		-- the first time opened... requires further investigation
-		InterfaceOptionsFrame_OpenToCategory(_G["TomCats_Config"])
 	end
 end
 
 local function OnEvent(event, arg1)
+	if (event == "PLAYER_STARTED_MOVING") then
+		if (TomCats_Account.lastVersionSeen ~= "2.2.6") then
+			TomCats_Account.lastVersionSeen = "2.2.6"
+			if (addon.minimapButton:IsVisible() and not addon.minimapButton.GetPreferences().hidden) then
+				addon.minimapButton.AlertText:SetText("TomCat's Tours has been updated!")
+				PlaySound(SOUNDKIT.UI_AZERITE_EMPOWERED_ITEM_LOOT_TOAST)
+				addon.minimapButton.MinimapAlertAnim:Play()
+			end
+		end
+		addon.UnregisterEvent("PLAYER_STARTED_MOVING", OnEvent)
+	end
 	if (event == "ADDON_LOADED" and addonName == arg1) then
 		addon.minimapButton = CreateMinimapButton({
 			name = "TomCats-MinimapButton",
@@ -252,18 +259,9 @@ local function OnEvent(event, arg1)
 				GameTooltip:Hide()
 			end
 		}
-		if (TomCats_Account.lastVersionSeen ~= "2.2.2") then
-			TomCats_Account.lastVersionSeen = "2.2.2"
-			if (not addon.minimapButton.GetPreferences().hidden) then
-				C_Timer.NewTimer(3, function()
-					addon.minimapButton.AlertText:SetText("TomCat's Tours has been updated!")
-					PlaySound(SOUNDKIT.UI_AZERITE_EMPOWERED_ITEM_LOOT_TOAST)
-					addon.minimapButton.MinimapAlertAnim:Play()
-				end)
-			end
-		end
 		addon.UnregisterEvent("ADDON_LOADED", OnEvent)
 	end
 end
 
+addon.RegisterEvent("PLAYER_STARTED_MOVING", OnEvent)
 addon.RegisterEvent("ADDON_LOADED", OnEvent)

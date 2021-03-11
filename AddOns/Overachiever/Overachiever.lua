@@ -215,9 +215,9 @@ do
     local id, ret, anyFound
     for i=1,GetCategoryNumAchievements(category) do
       id, ret = get_arg1_argN(argnum, GetAchievementInfo(category, i))
-	  if (not id) then
+	    if (not id) then
         -- Absurdly, GetCategoryNumAchievements now seems to be giving the WRONG NUMBER for at least some categories. (Confirmed in WoW 6.2.2. Might have started earlier.)
-		-- Consequently, we need to watch for nil IDs and skip them.
+		    -- Consequently, we need to watch for nil IDs and skip them.
       else
         if (anyCase) then
           if (not ret) then
@@ -236,7 +236,7 @@ do
             return id;
           end
         end
-	  end
+	    end
     end
     if (anyFound) then
       return found;
@@ -1090,6 +1090,9 @@ do
         GameTooltip:AddDoubleLine(" ", "|cff7eff00ID:|r "..id, nil, nil, nil, 0.741, 1, 0.467)
       else
         GameTooltip:AddLine("|cff7eff00ID:|r "..id, 0.741, 1, 0.467)
+      end
+      if (Overachiever_Debug) then
+        GameTooltip:AddDoubleLine(" ", "|cff7eff00Category:|r "..tostring(GetAchievementCategory(id)), 0.741, 1, 0.467)
       end
       tipset = 1 --tipset + 1
     end

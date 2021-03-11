@@ -25,6 +25,8 @@ local autoTrackedBGTimer = false
 
 local doingUntrack = false
 
+--local Overachiever_Debug = true
+
 
 local function untrackAchievement(id)
 	doingUntrack = true
@@ -89,12 +91,15 @@ local function addTrackableAch(id, priority, untrackReason)
 end
 
 local function flagRemoveTrackableAch(id, priority, untrackReason)
+	local anyFound = false
 	for i,track in ipairs(trackableAchs) do
 		if (track.id == id and (not priority or track.priority == priority) and (not untrackReason or track.untrackReason == untrackReason)) then
 			track.del = true
 			--tremove(trackableAchs, i)
+			anyFound = true
 		end
 	end
+	return anyFound
 end
 
 local function cleanTrackableAch()
@@ -109,6 +114,12 @@ local function cleanTrackableAch()
 		end
 	end
 	trackableAchs = tab
+end
+
+local function removeTrackableAch(id, priority, untrackReason)
+	if (flagRemoveTrackableAch(id, priority, untrackReason)) then
+		cleanTrackableAch()
+	end
 end
 
 local function removeAllUntrackReasonAchsExcept(untrackReason, exceptLookup)
@@ -142,9 +153,11 @@ local function getCurrentExplorationTrackable()
 				--local id = Overachiever.FindExplorationAchievementForZone(zone) -- Decided against this call because it caused slight hitching when entering a zone that has no predefined exploration achievement (so it tries to look it up the long way). So be sure to have the exploration achievements saved in AchieveID.lua!
 				local id = Overachiever.ExploreZoneIDLookup(zone)
 				if (id) then
-					local _, complete
-					_, _, _, complete = GetAchievementInfo(id)
-					if (not complete) then
+					--local _, completed
+					--_, _, _, completed = GetAchievementInfo(id)
+					local _, completed, wasEarnedByMe
+					_, _, _, completed, _, _, _, _, _, _, _, _, wasEarnedByMe = GetAchievementInfo(id)
+					if (not completed or (Overachiever_Settings.Explore_AutoTrack_Completed and not wasEarnedByMe)) then
 						return id
 					end
 				end
@@ -221,6 +234,7 @@ local function updateTracking()
 end
 
 local function updateLocationTrackables(zoneChanged)
+	--if (Overachiever_Debug) then  print("updateLocationTrackables", zoneChanged);  end
 	if (zoneChanged) then
 		wipe(manuallyUntrackedAchs)
 	end
@@ -232,25 +246,26 @@ local function updateLocationTrackables(zoneChanged)
 		end
 	end
 
-	if (zoneChanged) then
-		--local t = debugprofilestop()
-		local expID = getCurrentExplorationTrackable()
-		--print("getCurrentExplorationTrackable() took",(debugprofilestop() - t) / 1000,"seconds")
-		if (expID) then
-			addTrackableAch(expID, PRIORITY_EXPLORE, UNTRACK_SUBZONE)
-			if (not tab) then  tab = {};  end
-			tab[expID] = true
-		end
+	--local t = debugprofilestop()
+	local expID = getCurrentExplorationTrackable()
+	--print("getCurrentExplorationTrackable() took",(debugprofilestop() - t) / 1000,"seconds")
+	if (expID) then
+		addTrackableAch(expID, PRIORITY_EXPLORE, UNTRACK_SUBZONE)
+		if (not tab) then  tab = {};  end
+		tab[expID] = true
 	end
 
 	removeAllUntrackReasonAchsExcept(UNTRACK_SUBZONE, tab)
 
-	if (zoneChanged and autoTrackedBGTimer and tab) then
+	if (zoneChanged and autoTrackedBGTimer) then
 		local isInstance, instanceType = IsInInstance()
 		if (not isInstance or instanceType ~= "pvp") then
+			if (Overachiever_Debug) then  print("Untrack BG timers");  end
 			removeAllUntrackReasonAchsExcept(UNTRACK_EXIT_BG, tab)
 			autoTrackedBGTimer = false
 		end
+	--elseif (Overachiever_Debug) then
+		--print("No untrack BG timers", zoneChanged, autoTrackedBGTimer)
 	end
 
 	updateTracking()
@@ -272,7 +287,8 @@ Overachiever.TrackingFrame = trackingFrame
 trackingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 trackingFrame:RegisterEvent("PLAYER_LOGOUT")
 
-trackingFrame:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
+local function OnEvent(self, event, arg1, arg2, ...)
+	--if (Overachiever_Debug) then  print(event);  end
 	if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_NEW_AREA") then
 		--local t = debugprofilestop()
 		updateLocationTrackables(event == "ZONE_CHANGED_NEW_AREA")
@@ -285,6 +301,7 @@ trackingFrame:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
 			if (not doingUntrack and autoTrackedAchs[arg1]) then
 				autoTrackedAchs[arg1] = nil
 				manuallyUntrackedAchs[arg1] = true
+				removeTrackableAch(arg1)
 			end
 		end
 
@@ -299,11 +316,13 @@ trackingFrame:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
 		-- Untrack the auto-tracked on logout (or interface reload) to prevent auto-tracked achievements being seen as manually-tracked when you log back in.
 		untrackAllAutoTracked(true)
 	end
-end)
+end
+trackingFrame:SetScript("OnEvent", OnEvent)
 
 function Overachiever.TrackTimedAchievement(id, isBGTimer)
 	if (canTrackAchievement(id, true)) then
 		if (isBGTimer) then
+			if (Overachiever_Debug) then  print("Track BG timer", id);  end
 			autoTrackedBGTimer = true
 			addTrackableAch(id, PRIORITY_TIMER, UNTRACK_EXIT_BG)
 		else
@@ -321,12 +340,32 @@ end
 Overachiever.TrackAchievement = trackAchievement
 
 
---[[
-function Overachiever.Debug_updateLocationTrackables()
-	updateLocationTrackables(true)
-	return trackableAchs
+if (Overachiever_Debug) then
+	function Overachiever.Debug_updateLocationTrackables()
+		updateLocationTrackables(true)
+		return trackableAchs
+	end
+	
+	function Overachiever.Debug_getTrackables()
+		return trackableAchs, autoTrackedAchs, manuallyUntrackedAchs, timedAchs, autoTrackedBGTimer
+	end
+	-- /dump Overachiever.Debug_getTrackables()
+	
+	local teststate
+	function Overachiever.Debug_Test()
+		teststate = not teststate
+		if (teststate) then
+			--Overachiever.TrackTimedAchievement(5216, true)
+			Overachiever.TrackTimedAchievement(1873, false)
+		else
+			OnEvent(trackingFrame, "ZONE_CHANGED_NEW_AREA")
+		end
+		return Overachiever.Debug_getTrackables()
+	end
+	-- /dump Overachiever.Debug_Test()
+	-- /run HEYHEY = nil
+	-- /run HEYHEY = true
 end
-]]
 
 
 -- POSSIBLE TODO:

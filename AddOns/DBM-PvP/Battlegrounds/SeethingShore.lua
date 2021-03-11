@@ -3,7 +3,7 @@ if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 end
 local mod	= DBM:NewMod("z1803", "DBM-PvP")
 
-mod:SetRevision("20210211132233")
+mod:SetRevision("20210228223514")
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 mod:RegisterEvents("ZONE_CHANGED_NEW_AREA")
 
@@ -72,7 +72,7 @@ do
 					knownAzerite[pos] = true
 					local atlasName = vignette.atlasName
 					if atlasName == "AzeriteSpawning" then
-						spawnTimer:Start(nil, azeriteNames[pos])
+						spawnTimer:Start(30, azeriteNames[pos])
 					elseif atlasName == "AzeriteReady" then
 						spawnTimer:Stop(azeriteNames[pos])
 					end

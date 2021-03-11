@@ -1323,3 +1323,5 @@ VUHDO_I18N_NICKNAME = "Details!\nNickname"
 
 VUHDO_I18N_DEBUFF_SHOW_ONLY_FOR_FRIENDLY_TEXT = "Показывать только\nдля дружественных";
 VUHDO_I18N_DEBUFF_SHOW_ONLY_FOR_FRIENDLY_TOOLTIP = "Показывать дэбафы только для дружественных юнитов";
+
+VUHDO_I18N_SHOW_OVERSHIELD = "Show\nOvershield";

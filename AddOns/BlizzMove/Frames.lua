@@ -205,6 +205,10 @@ BlizzMoveAPI:RegisterFrames(
 			{
 				MinVersion = 20000,
 			},
+			["LFGListFrame.ApplicationViewer.UnempoweredCover"] =
+			{
+				MinVersion = 20000,
+			},
 			["LFGListSearchPanelScrollFrame"] =
 			{
 				MinVersion = 20000,
@@ -872,6 +876,13 @@ BlizzMoveAPI:RegisterAddOnFrames(
 		["TalkingHeadFrame"] =
 		{
 			MinVersion = 20000, -- Added when?
+		},
+	},
+	["Blizzard_TorghastLevelPicker"] =
+	{
+		["TorghastLevelPickerFrame"] =
+		{
+			MinVersion = 90000,
 		},
 	},
 	["Blizzard_TradeSkillUI"] =

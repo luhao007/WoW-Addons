@@ -1,20 +1,14 @@
-# [3.1.9](https://github.com/WeakAuras/WeakAuras2/tree/3.1.9) (2021-01-26)
+# [3.2.1](https://github.com/WeakAuras/WeakAuras2/tree/3.2.1) (2021-03-09)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.1.8...3.1.9)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.2.0...3.2.1)
 
 ## Highlights
 
- - bug fixes 
+ - Bug fix for .Pause 
 
 ## Commits
 
-InfusOnWoW (2):
+InfusOnWoW (1):
 
-- Fix oversight in 7a3d5c762 breaking remaining time check for
-- Clamp tooltips to the screen
-
-Stanzilla (2):
-
-- master -> main
-- Create CODE_OF_CONDUCT.md
+- Fix WeakAuras.Pause to not simply collapse auras
 

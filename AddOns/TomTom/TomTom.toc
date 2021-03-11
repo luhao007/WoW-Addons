@@ -1,6 +1,6 @@
-## Interface: 90002
-## Author: Cladhaire
-## Version: v90002-1.2.0
+## Interface: 90005
+## Author: Cladhaire, Ludovicus
+## Version: v90005-1.2.1
 ## OptionalDeps: HereBeDragons-2.0
 ## SavedVariables: TomTomDB, TomTomWaypoints, TomTomWaypointsM
 
@@ -11,6 +11,8 @@
 
 ## X-Localizations: enUS, enGB, deDE, frFR, zhCN, ruRU, zhTW
 ## X-CompatibleLocales: enUS, enGB, deDE, frFR, esES, esMX, zhCN, zhTW, koKR, ruRU
+## X-Curse-Project-ID: 18808
+## X-WoWI-ID: 7032
 
 AddonCore.lua
 

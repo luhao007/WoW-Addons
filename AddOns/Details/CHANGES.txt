@@ -1,46 +1,98 @@
-lightweight tag c8b02a5a38f94d935a4d2b7a1773c79fecccf12c DetailsRetail.9.0.2.8246.144
+lightweight tag 5294541c321270071b9bef711b5991d49db47e89 DetailsRetail.9.0.2.8316.144
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Wed Feb 17 14:01:53 2021 -0300
+Date:	Fri Mar 5 20:50:29 2021 -0300
 
-commit c8b02a5a38f94d935a4d2b7a1773c79fecccf12c
+commit 5294541c321270071b9bef711b5991d49db47e89
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Feb 17 14:01:53 2021 -0300
+Date:   Fri Mar 5 20:50:29 2021 -0300
 
-    Changelog for version 8246
+    Version Bump
+
+commit af696b454beeba24d5e2ad034856f9f2f326eba0
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Mar 5 19:47:04 2021 -0300
+
+    Fix for not finding the coords for nil when an enemy dies in battleground
+
+commit 0d33b510900354b44de0653cebb2386b8dcbe996
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Mar 5 19:40:18 2021 -0300
+
+    Making custom scripts support inline texts
+
+commit 0d33b510900354b44de0653cebb2386b8dcbe996
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Mar 5 19:40:18 2021 -0300
+
+    Making custom scripts support inline texts
+
+commit 1b27156227641dd9b84340988d5306730b3491cc
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Wed Mar 3 15:40:43 2021 -0600
+
+    Fix for weird segment bug when swapping segments
     
-    Added healing done to Coach feature (in testing).
-    Ignore Forgeborne Reveries healing done (Necrolords ability).
-    Arena enemy deaths now are shown in the Deaths display.
-    Guild statistics data has been wiped, this system had a major improvement overall.
-    Fixed 'Clear Overall Data' on Logout which wasn't clearing.
+    When using a custom display that uses a spell, this line sets a numerical value to the `class` key, which conflicts with the default Details metatable `:class()` function that I ensure is on every custom object. Honestly, this is such a niche bug that it's stupid it happens. But when it does happen, no new segments are created. Soo, fix.
 
-commit 8b3165a8308550312f8aea6b1a920dc2f643eee6
+commit 1b27156227641dd9b84340988d5306730b3491cc
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Wed Mar 3 15:40:43 2021 -0600
+
+    Fix for weird segment bug when swapping segments
+    
+    When using a custom display that uses a spell, this line sets a numerical value to the `class` key, which conflicts with the default Details metatable `:class()` function that I ensure is on every custom object. Honestly, this is such a niche bug that it's stupid it happens. But when it does happen, no new segments are created. Soo, fix.
+
+commit b1dd10f1667f4ccb6afd776e3fac400ad8510b4c
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Feb 17 11:51:19 2021 -0300
+Date:   Mon Mar 1 16:19:00 2021 -0300
 
-    Ignore Forgeborne Reveries healing done
+    Added actor:IsFriendlyNpc()
 
-commit 85038b0fece5ceddb7dc4a793df585cc38e0e0fd
+commit 3958b85cdb1adc1bcf91b589a38d17032b46481d
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Sat Feb 27 15:24:08 2021 -0600
+
+    Fix for Total code and Percent code not exporting
+
+commit 3958b85cdb1adc1bcf91b589a38d17032b46481d
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Sat Feb 27 15:24:08 2021 -0600
+
+    Fix for Total code and Percent code not exporting
+
+commit bfce07842a9b3f070ae52eb18cc1f4d513bd72f6
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Feb 11 11:39:12 2021 -0300
+Date:   Wed Feb 24 20:43:13 2021 -0300
 
-    Added arena enemy deaths
+    Code cleanup
 
-commit ada1552c9c0316f14267d37bc25c924ac4ff1bf7
+commit 17ed4c6d6ea7f7e1fa762320375b9c243e5ac3c7
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Feb 10 13:45:15 2021 -0300
+Date:   Tue Feb 23 20:39:50 2021 -0300
 
-    Added healing done to Coach
+    Fix for 'LUA error on arena entry (#194)'
 
-commit d0c44e6b4364e8db7e9c723136138bc73c93637e
+commit dc3d32546cea82eb55aeef83e0435736a711c381
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Feb 10 13:05:08 2021 -0300
+Date:   Mon Feb 22 19:32:05 2021 -0300
 
-    Fixed Coach feature giving error when clicking a player bar
+    Improvements for "Ignore death events after the necrolord triggers Forgeborne Reveries"
 
-commit c371a1a8e33105b587fe1057bf36bef2d9140903
+commit ee3685492e2ab01fbf5dd1564149b1f17afeb3ff
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Feb 10 13:04:28 2021 -0300
+Date:   Mon Feb 22 19:18:54 2021 -0300
 
-    Fixed Clear Overall Data on Logout
+    Ignore death events after the necrolord triggers Forgeborne Reveries
+
+commit 8085b91ad6939116726c672ab3b6af47107ec1e1
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Feb 22 16:52:17 2021 -0300
+
+    Backend stuff
+
+commit 81a9c31f75553ecef37a50a573afcece91bb10ba
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Feb 22 16:44:37 2021 -0300
+
+    Backend updates
 

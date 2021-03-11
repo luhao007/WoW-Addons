@@ -2,6 +2,7 @@ local L
 L = LibStub("AceLocale-3.0"):NewLocale("Rarity", "enUS", true)
 
 -- L["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"] = true
+L["Magni Bronzebeard"] = true
 L["Only members of the Necrolord covenant will be able to reach this cache."] = true
 L["Rarity"] = true
 L["Ascended Skymane"] = true
@@ -992,6 +993,18 @@ L["Runescale Koi School"] = true
 L["Fever of Stormrays"] = true
 L["Highmountain Salmon School"] = true
 L["Mossgill Perch School"] = true
+L["Mauve Stinger School"] = true
+L["Viper Fish School"] = true
+L["Ionized Minnows"] = true
+L["Sentry Fish School"] = true
+L["Iridescent Amberjack School"] = true
+L["Pocked Bonefish School"] = true
+L["Silvergill Pike School"] = true
+L["Elysian Thade School"] = true
+L["Lost Sole School"] = true
+L["Spinefin Piranha School"] = true
+L["Aberrant Voidfin School"] = true
+L["Malformed Gnasher School"] = true
 
 -- Mining nodes
 L["Copper Vein"] = true
@@ -1645,6 +1658,14 @@ L["Larion Pouncer"] = true
 L["Larionrider Orstus"] = true
 L["Soullocked Sinstone"] = true
 L["Secret Treasure"] = true
+L["Silessa's Battle Harness"] = true
+L["Forgotten Chest"] = true
+L["Luminous Webspinner"] = true
+L["Cache of Eyes"] = true
+L["Stony's Infused Ruby"] = true
+L["Forgotten Chest"] = true
+L["Smoldering Ember Wyrm"] = true
+L["Bottle of Gloop"] = true
 
 --[[
 					The rest of this file is auto-generated using the WoWAce localization application.

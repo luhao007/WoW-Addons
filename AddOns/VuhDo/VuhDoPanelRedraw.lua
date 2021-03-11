@@ -789,6 +789,7 @@ function VUHDO_initHealButton(aButton, aPanelNum)
 	VUHDO_getHealthBar(aButton, 5):SetIsInverted(tIsInverted);
 	VUHDO_getHealthBar(aButton, 6):SetIsInverted(tIsInverted);
 	VUHDO_getHealthBar(aButton, 14):SetIsInverted(tIsInverted);
+	VUHDO_getHealthBar(aButton, 19):SetIsInverted(tIsInverted);
 
 	tIsInverted = VUHDO_INDICATOR_CONFIG["CUSTOM"]["MANA_BAR"]["invertGrowth"];
 	VUHDO_getHealthBar(aButton, 2):SetIsInverted(tIsInverted);

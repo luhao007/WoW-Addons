@@ -1,6 +1,6 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: MysticalOS
-## Version: r22
+## Version: r23
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBrokenIsles_AllSavedVars
@@ -16,6 +16,7 @@
 ## X-DBM-StatTypes: normal
 ## X-DBM-Mod-SubCategoriesID: 1220,1779
 ## X-DBM-Mod-Name: World Bosses (Legion)
+## X-DBM-Mod-Name-ruRU: Мировые боссы (Legion)
 ## X-DBM-Mod-World-Boss: 1
 ## X-DBM-Mod-Sort: 507
 ## X-DBM-Mod-MapID: 1220,1779

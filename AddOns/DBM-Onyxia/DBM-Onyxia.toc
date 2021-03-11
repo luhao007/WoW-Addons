@@ -1,6 +1,6 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Tandanu/Nitram
-## Version: r297
+## Version: r298
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMOnyxia_AllSavedVars

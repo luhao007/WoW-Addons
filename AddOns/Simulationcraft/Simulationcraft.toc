@@ -1,6 +1,6 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Theck, navv_, seriallos
-## Version: 9.0.2-15
+## Version: 9.0.5-01
 ## SavedVariables: SimulationCraftDB
 
 ## Title: Simulationcraft

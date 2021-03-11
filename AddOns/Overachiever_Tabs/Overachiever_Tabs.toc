@@ -1,6 +1,6 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Tuhljin
-## Version: 1.1.3
+## Version: 1.1.4
 ## Dependencies: Overachiever
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_AchievementUI

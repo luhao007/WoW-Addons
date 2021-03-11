@@ -16,9 +16,7 @@ FishingTranslations["frFR"] = {
 	["BINDING_NAME_TOGGLEFISHINGBUDDY_LOC"] = "Activer le panneau de région #NAME#",
 	["BINDING_NAME_TOGGLEFISHINGBUDDY_OPT"] = "Activer le panneau d'options #NAME#",
 	["BOBBER_NAME"] = "Bouchon",
-	--[[Translation missing --]]
-	--[[ ["BR"] = [=[
-]=],--]] 
+	["BR"] = "BR",
 	--[[Translation missing --]]
 	--[[ ["BRSPCS"] = [=[
     ]=],--]] 
@@ -192,12 +190,10 @@ FishingTranslations["frFR"] = {
 	["CONFIG_WAVEBOARD_INFO"] = "Si elle est activée, utilisez la Planche de surf en bois noueux",
 	["CONFIG_WAVEBOARD_ONOFF"] = "Utiliser la Planche de surf",
 	["COPPER_COIN"] = "Pièce de cuivre",
-	--[[Translation missing --]]
-	--[[ ["COPYRIGHT"] = "(c) 2005-2015 by The Software Cobbler",--]] 
+	["COPYRIGHT"] = "(c) 2005-2015 by The Software Cobbler",
 	["CURRENT"] = "actuel",
 	["CURRENT_HELP"] = "|c#GREEN#/fb #CURRENT# #RESET#|r#BRSPCS#Remet a zéro les poissons pris au cours de cette session.",
-	--[[Translation missing --]]
-	--[[ ["DASH"] = " -- ",--]] 
+	["DASH"] = "--",
 	["DERBY"] = "Match",
 	["DESCRIPTION"] = "#DESCRIPTION1# #DESCRIPTION2#",
 	["DESCRIPTION1"] = "Se souvient des poissons pris et",
@@ -210,8 +206,7 @@ FishingTranslations["frFR"] = {
 	["FATLADYSINGS"] = "|c#RED#%s est fait|r (%d:%02d restant)",
 	["FBMACRO_HELP"] = "Exécuter le macro pour la pêche",
 	["FISH"] = "Poisson",
-	--[[Translation missing --]]
-	--[[ ["FISHCAUGHT"] = "%d/%d %s",--]] 
+	["FISHCAUGHT"] = "%d/%d %s",
 	--[[Translation missing --]]
 	--[[ ["FISHDATA"] = "fishdata",--]] 
 	["FISHDATARESET_MSG"] = "Les données de localisation des poissons ont été réinitialisées.",
@@ -309,10 +304,7 @@ FishingTranslations["frFR"] = {
 	["WATCHER_LOCK"] = "verrouiller",
 	["WATCHER_TAB"] = "Observateur",
 	["WATCHER_UNLOCK"] = "Déverrouiler",
-	--[[Translation missing --]]
-	--[[ ["WATCHERCLICKHELP"] = [=[#LEFTCLICKTODRAG#
-#RIGHTCLICKFORMENU#]=],--]] 
+	["WATCHERCLICKHELP"] = "#LEFTCLICKTODRAG# #RIGHTCLICKFORMENU#",
 	["WEEKLY"] = "hebdomadaire",
-	--[[Translation missing --]]
-	--[[ ["WINDOW_TITLE"] = "#NAME# v#VERSION#",--]]
+	["WINDOW_TITLE"] = "#NAME# v#VERSION#"
 }

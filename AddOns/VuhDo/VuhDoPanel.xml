@@ -450,7 +450,10 @@
 
 								</Frames>
 								<Layers>
-									<Layer level="OVERLAY">
+									<Layer level="OVERLAY" textureSubLevel="5">
+										<Texture name="$parentOvsBar" hidden="true" file="Interface\AddOns\VuhDo\Images\overshield_bar" hWrapMode="REPEAT" vWrapMode="REPEAT"> </Texture>
+									</Layer>
+									<Layer level="OVERLAY" textureSubLevel="6">
 										<Texture name="$parentAggro" hidden="true" file="Interface\AddOns\VuhDo\Images\aggro">
 											<Size>
 												<AbsDimension x="10" y="20" />

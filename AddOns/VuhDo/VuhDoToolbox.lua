@@ -280,13 +280,32 @@ local VUHDO_isTargetInRange = VUHDO_isTargetInRange;
 
 
 
+-- FIXME: workaround for Blizzard API bug: https://github.com/Stanzilla/WoWUIBugs/issues/49
+function VUHDO_unitPhaseReason(aUnit) 
+
+	if not aUnit then
+		return nil;
+	end
+
+	local tPhaseReason = UnitPhaseReason(aUnit);
+
+	if (tPhaseReason == Enum.PhaseReason.WarMode or tPhaseReason == Enum.PhaseReason.ChromieTime) and UnitIsVisible(aUnit) then
+		return nil;
+	else
+		return tPhaseReason;
+	end
+
+end
+
+
+
 -- returns whether or not a unit is in range
 function VUHDO_isInRange(aUnit)
 	if "player" == aUnit then 
 		return true;
 	elseif VUHDO_isSpecialUnit(aUnit) then 
 		return VUHDO_isTargetInRange(aUnit);
-	elseif UnitPhaseReason(aUnit) then
+	elseif VUHDO_unitPhaseReason(aUnit) then
 		return false;
 	elseif (sIsGuessRange) then 
 		return UnitInRange(aUnit);

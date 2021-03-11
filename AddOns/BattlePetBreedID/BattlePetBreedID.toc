@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Simca@Malfurion and Hugh@Burning Blade
 ## Version: v1.17.5
 ## SavedVariables: BPBID_Options

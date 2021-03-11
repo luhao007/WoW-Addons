@@ -2,7 +2,6 @@
 local _, addon = ...
 
 local C_ContributionCollector = C_ContributionCollector
-local C_DateAndTime = C_DateAndTime
 local C_QuestLog = C_QuestLog
 local C_TaskQuest = C_TaskQuest
 local CreateFrame = CreateFrame
@@ -77,38 +76,41 @@ local function NotifyRuleListeners()
 	end
 end
 
+local function IsTimeDurationQuestActive(questID)
+	return C_TaskQuest.GetQuestTimeLeftMinutes(questID) or C_QuestLog.IsQuestFlaggedCompleted(questID)
+end
+
 local function OnUpdate(_, elapsed)
 	timeSinceLastUpdate = timeSinceLastUpdate + elapsed
 	if (timeSinceLastUpdate > interval) then
 		timeSinceLastUpdate = 0
 		addon.globals.arathiPhase = warfrontStates[C_ContributionCollector.GetState(11)]
+		addon.globals.arathiVisible = not C_QuestLog.IsQuestFlaggedCompleted(52781)
 		addon.globals.darkshorePhase = warfrontStates[C_ContributionCollector.GetState(118)]
-		local secondsUntilWeeklyReset = C_DateAndTime.GetSecondsUntilWeeklyReset()
-		if C_TaskQuest.GetQuestTimeLeftMinutes(58705) or C_QuestLog.IsQuestFlaggedCompleted(58705) then
-			addon.globals.uldumPhase = 1
-			if secondsUntilWeeklyReset < 302400 then
-				addon.globals.valePhase = 2
-			else
-				addon.globals.valePhase = 4
-			end
-		elseif C_TaskQuest.GetQuestTimeLeftMinutes(55466) or C_QuestLog.IsQuestFlaggedCompleted(55466) then
-			addon.globals.valePhase = 1
-			if secondsUntilWeeklyReset < 302400 then
-				addon.globals.uldumPhase = 4
-			else
-				addon.globals.uldumPhase = 2
-			end
-		else
-			addon.globals.uldumPhase = nil
-			addon.globals.valePhase = nil
-		end
+		addon.globals.darkshoreVisible = not C_QuestLog.IsQuestFlaggedCompleted(54411)
 		if (addon.globals.arathiPhase and addon.globals.darkshorePhase) then
 			interval = maxInterval
 		else
 			interval = minInterval
 		end
-		addon.globals.arathiVisible = not C_QuestLog.IsQuestFlaggedCompleted(52781)
-		addon.globals.darkshoreVisible = not C_QuestLog.IsQuestFlaggedCompleted(54411)
+		if (IsTimeDurationQuestActive(57157)) then
+			addon.globals.uldumPhase = 1
+		elseif (IsTimeDurationQuestActive(56308)) then
+			addon.globals.uldumPhase = 2
+		elseif (IsTimeDurationQuestActive(55350)) then
+			addon.globals.uldumPhase = 4
+		else
+			addon.globals.uldumPhase = 0
+		end
+		if (IsTimeDurationQuestActive(56064)) then
+			addon.globals.valePhase = 1
+		elseif (IsTimeDurationQuestActive(57728)) then
+			addon.globals.valePhase = 2
+		elseif (IsTimeDurationQuestActive(57008)) then
+			addon.globals.valePhase = 4
+		else
+			addon.globals.valePhase = 0
+		end
 		addon.globals.betaEnabled = addon.IsBetaEnabled and addon.IsBetaEnabled()
 	end
 	NotifyRuleListeners()

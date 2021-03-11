@@ -14,7 +14,6 @@ local TomCatsVignetteTooltip = TomCatsVignetteTooltip
 
 local maps = { }
 local atlasSizes = { }
-local vignettes
 local interval, minInterval, maxInterval = 1, 1/15, 1
 local timeSinceLastUpdate = 0
 local vignetteInfoCache = { }
@@ -82,6 +81,24 @@ local function updateVignettePin(pin)
 	end
 end
 
+local function GetVignettePosition(vignetteGUIDs, mapID)
+	if (#vignetteGUIDs == 1) then
+		return C_VignetteInfo.GetVignettePosition(vignetteGUIDs[1], mapID)
+	end
+	local idx = C_VignetteInfo.FindBestUniqueVignette(vignetteGUIDs)
+	if (idx) then
+		local position = C_VignetteInfo.GetVignettePosition(vignetteGUIDs[idx], mapID)
+		if (position) then return position end
+	end
+	for _, v in ipairs(vignetteGUIDs) do
+		local vignetteInfo = vignetteInfoCache[v]
+		if (vignetteInfo and not vignetteInfo.isDead) then
+			local position = C_VignetteInfo.GetVignettePosition(vignetteInfo.vignetteGUID, mapID)
+			if (position) then return position end
+		end
+	end
+end
+
 local function OnUpdate(_, elapsed)
 	timeSinceLastUpdate = timeSinceLastUpdate + elapsed
 	if (timeSinceLastUpdate > interval) then
@@ -96,26 +113,24 @@ local function OnUpdate(_, elapsed)
 		end
 		local newInterval
 		if (affectedMaps) then
-			vignettes = C_VignetteInfo.GetVignettes()
+			local vignettes = C_VignetteInfo.GetVignettes()
 			local vignetteGUIDsByVignetteID
 			if (#vignettes ~= 0) then
-				newInterval = minInterval
+				newInterval = minInterval --todo: move this to when a known rare is identified
 				for _, v in ipairs(vignettes) do
-					local vignetteID = vignetteInfoCache[v]
-					if (not vignetteID) then
-						local vignetteInfo = C_VignetteInfo.GetVignetteInfo(v)
+					local vignetteInfo = vignetteInfoCache[v]
+					if (not vignetteInfo) then
+						vignetteInfo = C_VignetteInfo.GetVignetteInfo(v)
 						if (vignetteInfo) then
-							vignetteID = vignetteInfo.vignetteID
-							vignetteInfoCache[v] = vignetteID
+							vignetteInfoCache[v] = vignetteInfo
 						else
-							vignetteID = -1
-							vignetteInfoCache[v] = -1
+							vignetteInfoCache[v] = false
 						end
 					end
-					if (vignetteID >= 0) then
+					if (vignetteInfo) then
 						vignetteGUIDsByVignetteID = vignetteGUIDsByVignetteID or { }
-						vignetteGUIDsByVignetteID[vignetteID] = vignetteGUIDsByVignetteID[vignetteID] or { }
-						table.insert(vignetteGUIDsByVignetteID[vignetteID], v)
+						vignetteGUIDsByVignetteID[vignetteInfo.vignetteID] = vignetteGUIDsByVignetteID[vignetteInfo.vignetteID] or { }
+						table.insert(vignetteGUIDsByVignetteID[vignetteInfo.vignetteID], v)
 					end
 				end
 			end
@@ -126,19 +141,11 @@ local function OnUpdate(_, elapsed)
 					local spawned
 					if (pin) then
 						if (vignetteGUIDs) then
-							local coordinates
-							if (not coordinates and coordinates ~= false) then
-								local idx = C_VignetteInfo.FindBestUniqueVignette(vignetteGUIDs)
-								if (idx) then
-									coordinates = C_VignetteInfo.GetVignettePosition(vignetteGUIDs[idx], mapID)
-								else
-									coordinates = false
-								end
-							end
-							if (coordinates) then
+							local position = GetVignettePosition(vignetteGUIDs, mapID)
+							if (position) then
 								pin.isSpawned = true
 								updateVignettePin(pin)
-								pin:SetPosition(coordinates:GetXY())
+								pin:SetPosition(position:GetXY())
 								spawned = true
 							end
 						end
@@ -166,6 +173,7 @@ function TomCatsMapCanvasDataProviderMixin:OnAdded(owningMap)
 end
 
 function TomCatsMapCanvasDataProviderMixin:RefreshAllData()
+	vignetteInfoCache = { }
 	local mapFrame = self:GetMap()
 	local mapData = maps[mapFrame]
 	if (mapData) then

@@ -34,17 +34,27 @@ local FluffEvents = {};
 local unTrack = nil;
 local resetPVP = nil;
 
+local function FishTrackingEnable(enabled)
+    local findid = FL:GetFindFishID();
+    if ( findid ) then
+        if enabled then
+            local _, _, active, _ = GetTrackingInfo(findid);
+            if (not active) then
+                unTrack = true;
+                SetTracking(findid, true);
+            end
+        elseif unTrack then
+            unTrack = false;
+            SetTracking(findid, false);
+        end
+    end
+end
+FishingBuddy.FishTrackingEnable = FishTrackingEnable
+
 FluffEvents[FBConstants.FISHING_ENABLED_EVT] = function()
     if ( FishingBuddy.GetSettingBool("FishingFluff")) then
         if ( GetSettingBool("FindFish") ) then
-            local findid = FL:GetFindFishID();
-            if ( findid ) then
-                local _, _, active, _ = GetTrackingInfo(findid);
-                if (not active) then
-                    unTrack = true;
-                    SetTracking(findid, true);
-                end
-            end
+            FishTrackingEnable(true);
         end
 
         if ( GetSettingBool("TurnOffPVP") ) then
@@ -58,10 +68,7 @@ end
 
 local function Untrack(yes)
     if ( yes ) then
-        local findid = FL:GetFindFishID();
-        if ( findid ) then
-            SetTracking(findid, false);
-        end
+        FishTrackingEnable(false);
     end
 end
 

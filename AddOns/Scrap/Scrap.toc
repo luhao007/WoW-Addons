@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90005
 ## Author: Jaliborc (JoÃ£o Cardoso)
 ## Version: 9.0.1
 ## OptionalDeps: WoWUnit, TestPoncho
