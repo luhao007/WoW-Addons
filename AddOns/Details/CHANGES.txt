@@ -1,98 +1,67 @@
-lightweight tag 5294541c321270071b9bef711b5991d49db47e89 DetailsRetail.9.0.2.8316.144
+tag 00d8a039f504f313e15cc3603a97860c272fee73 v9.0.5.8357.144
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Fri Mar 5 20:50:29 2021 -0300
+Date:	Mon Mar 15 15:33:42 2021 -0300
 
-commit 5294541c321270071b9bef711b5991d49db47e89
+commit f0554a633668ad81d3530f5c132d52f1e833d0e1
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Mar 5 20:50:29 2021 -0300
+Date:   Mon Mar 15 15:33:29 2021 -0300
 
-    Version Bump
+    v9.0.5.8357.144
 
-commit af696b454beeba24d5e2ad034856f9f2f326eba0
+commit c6e17b199e3a584882bf972fec40bde7e1179556
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Mar 5 19:47:04 2021 -0300
+Date:   Mon Mar 15 14:43:03 2021 -0300
 
-    Fix for not finding the coords for nil when an enemy dies in battleground
+    Fixed an issue where sometimes exporting a profile wouldn't work
 
-commit 0d33b510900354b44de0653cebb2386b8dcbe996
+commit 089497782ebbe8c2024532302ffe1d46b15c3a96
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Mar 5 19:40:18 2021 -0300
+Date:   Sat Mar 13 14:06:43 2021 -0300
 
-    Making custom scripts support inline texts
+    ToC Update
 
-commit 0d33b510900354b44de0653cebb2386b8dcbe996
+commit 8736751d59104b8763189ac1f84e5a03aed516a0
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Mar 5 19:40:18 2021 -0300
+Date:   Thu Mar 11 18:54:48 2021 -0300
 
-    Making custom scripts support inline texts
+    Fixed Spirit Shell overhealing
 
-commit 1b27156227641dd9b84340988d5306730b3491cc
-Author: Flamanis <Flamanis@users.noreply.github.com>
-Date:   Wed Mar 3 15:40:43 2021 -0600
+commit 4c50ae9c6e3e3ed9a0b37c517b7afb21f5acebf3
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 11 16:16:06 2021 -0300
 
-    Fix for weird segment bug when swapping segments
+    Make the damage done tooltip more organized
+
+commit 5887877b4bf05cb6dae31287af5322001ba8009d
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 11 13:34:50 2021 -0300
+
+    Maximum amount of segments raised to 40, this change will help with the mythic+ overall segment
+
+commit f466d8723cac1dd324ad8a6b21d5ba20a75b30cf
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 11 13:10:37 2021 -0300
+
+    Renamed 'Custom Displays' to just 'Scripts'
+
+commit 34019fd81bf9859c16633a1a1fa6c30600d7fb0b
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 11 11:44:06 2021 -0300
+
+    Attempt to fix the Sanguine affix healing done
+
+commit 72e5b4c8a5a89978d442598453c40c42825306df
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 11 11:26:48 2021 -0300
+
+    After a profile import, reset all the mythic dungeon settings to default.
     
-    When using a custom display that uses a spell, this line sets a numerical value to the `class` key, which conflicts with the default Details metatable `:class()` function that I ensure is on every custom object. Honestly, this is such a niche bug that it's stupid it happens. But when it does happen, no new segments are created. Soo, fix.
+    - After a profile import, reset all the mythic dungeon settings to default.
+    - Framework update to 237.
 
-commit 1b27156227641dd9b84340988d5306730b3491cc
-Author: Flamanis <Flamanis@users.noreply.github.com>
-Date:   Wed Mar 3 15:40:43 2021 -0600
-
-    Fix for weird segment bug when swapping segments
-    
-    When using a custom display that uses a spell, this line sets a numerical value to the `class` key, which conflicts with the default Details metatable `:class()` function that I ensure is on every custom object. Honestly, this is such a niche bug that it's stupid it happens. But when it does happen, no new segments are created. Soo, fix.
-
-commit b1dd10f1667f4ccb6afd776e3fac400ad8510b4c
+commit 662308230637fa8bfa6b6d3d3dbb392e02ffc9a2
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Mar 1 16:19:00 2021 -0300
+Date:   Sat Mar 6 20:58:19 2021 -0300
 
-    Added actor:IsFriendlyNpc()
-
-commit 3958b85cdb1adc1bcf91b589a38d17032b46481d
-Author: Flamanis <Flamanis@users.noreply.github.com>
-Date:   Sat Feb 27 15:24:08 2021 -0600
-
-    Fix for Total code and Percent code not exporting
-
-commit 3958b85cdb1adc1bcf91b589a38d17032b46481d
-Author: Flamanis <Flamanis@users.noreply.github.com>
-Date:   Sat Feb 27 15:24:08 2021 -0600
-
-    Fix for Total code and Percent code not exporting
-
-commit bfce07842a9b3f070ae52eb18cc1f4d513bd72f6
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Feb 24 20:43:13 2021 -0300
-
-    Code cleanup
-
-commit 17ed4c6d6ea7f7e1fa762320375b9c243e5ac3c7
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Feb 23 20:39:50 2021 -0300
-
-    Fix for 'LUA error on arena entry (#194)'
-
-commit dc3d32546cea82eb55aeef83e0435736a711c381
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Feb 22 19:32:05 2021 -0300
-
-    Improvements for "Ignore death events after the necrolord triggers Forgeborne Reveries"
-
-commit ee3685492e2ab01fbf5dd1564149b1f17afeb3ff
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Feb 22 19:18:54 2021 -0300
-
-    Ignore death events after the necrolord triggers Forgeborne Reveries
-
-commit 8085b91ad6939116726c672ab3b6af47107ec1e1
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Feb 22 16:52:17 2021 -0300
-
-    Backend stuff
-
-commit 81a9c31f75553ecef37a50a573afcece91bb10ba
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Feb 22 16:44:37 2021 -0300
-
-    Backend updates
+    Check if the dispel amount is valid before work with the value
 

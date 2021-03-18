@@ -1,3 +1,7 @@
+__ New in 3.13 - By Kharthus __
+
+* TOC update for 9.0.5 patch
+
 __ New in 3.12 - By Kharthus __
 
 * TOC update for 9.0.2 patch

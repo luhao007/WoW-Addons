@@ -5,19 +5,37 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB
     name = BtWQuests_GetAchievementNameDelayed(11546),
     category = BTWQUESTS_CATEGORY_LEGION_BROKENSHORE,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {45, 50},
     prerequisites = {
         {
             type = "level",
             level = 45,
         },
+        {
+            type = "quest",
+            ids = {43341, 45727}
+        },
+    },
+    active = {
+        type = "quest",
+        id = 46730,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
         id = 46246,
     },
-    major = true,
-    range = {110},
     items = {
+        {
+            type = "npc",
+            id = 120215,
+            x = 3,
+            y = -1,
+            connections = {
+                1
+            },
+        },
         {
             type = "quest",
             id = 46730,
@@ -244,23 +262,36 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_TREASURE_MASTER_IK
 	},
     category = BTWQUESTS_CATEGORY_LEGION_BROKENSHORE,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {45, 50},
     prerequisites = {
+        {
+            type = "level",
+            level = 45,
+        },
+        {
+            type = "quest",
+            ids = {43341, 45727},
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
             upto = 46845,
         },
     },
+    active = {
+        type = "quest",
+        id = 46499,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 46666,
     },
-    range = {110},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
-            upto = 46845,
+            type = "npc",
+            id = 119886,
             x = 3,
             y = 0,
             connections = {
@@ -318,13 +349,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_TREASURE_MASTER_IK
             x = 3,
             y = 6,
         },
-        {
-            type = "quest",
-            id = 45379,
-            aside = true,
-            x = 3,
-            y = 7,
-        },
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_A_FOUND_MEMENTO, {
@@ -338,11 +362,27 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_A_FOUND_MEMENTO, {
         type = "faction",
         id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
+    range = {45, 50},
     prerequisites = {
         {
-            type = "quest",
-            id = 46734,
+            type = "level",
+            level = 45,
         },
+        {
+            type = "quest",
+            ids = {43341, 45727},
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
+            upto = 46734,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 46268,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -351,9 +391,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_A_FOUND_MEMENTO, {
     range = {110},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
-            breadcrumb = true,
+            type = "object",
+            id = 268478,
             x = 3,
             y = 0,
             connections = {
@@ -370,7 +409,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_BROKENSHORE_A_FOUND_MEMENTO, {
             },
         },
         {
-            name = "Wait for daily reset",
+            name = L["BTWQUESTS_WAIT_FOR_DAILY_RESET"],
             breadcrumb = true,
             x = 3,
             y = 2,

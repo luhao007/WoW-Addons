@@ -1,7 +1,7 @@
 --[[
 Name: LibTourist-3.0
-Revision: $Rev: 251 $
-Author(s): Odica (maintainer), originally created by ckknight and Arrowmaster
+Revision: $Rev: 253 $
+Author(s): Odica (owner), originally created by ckknight and Arrowmaster
 Documentation: https://www.wowace.com/projects/libtourist-3-0/pages/api-reference
 SVN: svn://svn.wowace.com/wow/libtourist-3-0/mainline/trunk
 Description: A library to provide information about zones and instances.
@@ -9,7 +9,7 @@ License: MIT
 ]]
 
 local MAJOR_VERSION = "LibTourist-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Revision: 251 $"):match("(%d+)"))
+local MINOR_VERSION = 90000 + tonumber(("$Revision: 253 $"):match("(%d+)"))
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 local C_Map = C_Map
@@ -1457,10 +1457,10 @@ local MapIdLookupTable = {
 	[1645] = "Torghast",
 	[1647] = "The Shadowlands",
 	[1648] = "The Maw",
-	[1649] = "MAL_Micro_A",
-	[1650] = "MAL_Micro_B",
-	[1651] = "MAL_Micro_C",
-	[1652] = "MAL_Micro_D",
+	[1649] = "Etheric Vault",  -- "MAL_Micro_A",
+	[1650] = "Sightless Hold",  -- "MAL_Micro_B",
+	[1651] = "Molten Forge",  -- "MAL_Micro_C",
+	[1652] = "Vault of Souls",  -- "MAL_Micro_D",
 	[1656] = "Torghast - Map Floor 10 [Deprecated]",
 	[1658] = "Alpha_TG_R02",
 	[1659] = "Alpha_TG_R03",
@@ -1494,7 +1494,7 @@ local MapIdLookupTable = {
 	[1687] = "Theater of Pain",
 	[1688] = "Revendreth",
 	[1689] = "Maldraxxus",
-	[1690] = "Bastion_Micro_A",
+	[1690] = "Aspirant's Quarters",  -- "Bastion_Micro_A",
 	[1691] = "Shattered Grove",
 	[1692] = "Spires Of Ascension",
 	[1693] = "Spires Of Ascension",
@@ -1513,14 +1513,14 @@ local MapIdLookupTable = {
 	[1709] = "Ardenweald",
 	[1711] = "Ascension Coliseum",
 	[1712] = "Torghast",
-	[1713] = "Bastion_Micro_C",
-	[1714] = "Bastion_Micro_B",
+	[1713] = "Path of Wisdom",  -- "Bastion_Micro_C",
+	[1714] = "Third Chamber of Kalliope",  -- "Bastion_Micro_B",
 	[1715] = "Vestibule Of Eternity",
 	[1716] = "Torghast - Map Floor 22",
 	[1717] = "Chill's Reach",
 	[1720] = "Covenant_Ard_Torghast",
 	[1721] = "Torghast",
-	[1724] = "Necropolis_Vortrexxis",
+	[1724] = "Vortrexxis",  -- "Necropolis_Vortrexxis",
 	[1725] = "Necropolis_Zerekriss",
 	[1726] = "The North Sea",
 	[1727] = "The North Sea",
@@ -1603,17 +1603,17 @@ local MapIdLookupTable = {
 	[1812] = "Torghast",
 	[1813] = "Bastion",
 	[1814] = "Maldraxxus",
-	[1816] = "Ardenweald_Micro_A",
-	[1818] = "Ardenweald_Micro_C",
-	[1819] = "Ardenweald_Mushroom_A",
-	[1820] = "Maw_Micro_PitOfAnguish_A",
-	[1821] = "Maw_Micro_PitOfAnguish_B",
-	[1822] = "Maw_Micro_Tremaculum",
-	[1823] = "Maw_Micro_Domination",
-	[1824] = "Ardenweald_Micro_D",
-	[1825] = "Ardenweald_Mushroom_B",
-	[1826] = "Ardenweald_Mushroom_C",
-	[1827] = "Ardenweald_Mushroom_D",
+	[1816] = "Claw's Edge",  -- "Ardenweald_Micro_A",
+	[1818] = "Tirna Vaal",  -- "Ardenweald_Micro_C",
+	[1819] = "Fungal Terminus",  -- "Ardenweald_Mushroom_A",
+	[1820] = "Pit of Anguish",  -- "Maw_Micro_PitOfAnguish_A",
+	[1821] = "Pit of Anguish",  -- "Maw_Micro_PitOfAnguish_B",
+	[1822] = "Extractor's Sanatorium",  -- "Maw_Micro_Tremaculum",
+	[1823] = "Altar of Domination",  -- "Maw_Micro_Domination",
+	[1824] = "Matriarch's Den",  -- "Ardenweald_Micro_D",
+	[1825] = "The Root Cellar",  -- "Ardenweald_Mushroom_B",
+	[1826] = "The Root Cellar",  -- "Ardenweald_Mushroom_C",
+	[1827] = "The Root Cellar",  -- "Ardenweald_Mushroom_D",
 	[1828] = "Ardenweald_Mushroom_E",
 	[1829] = "Ardenweald_Micro_B",
 	[1833] = "Torghast",
@@ -1695,6 +1695,13 @@ local MapIdLookupTable = {
 	[1910] = "Torghast - Map Floor 91",
 	[1911] = "Torghast - Entrance",
 	[1912] = "The Runecarver",
+	[1913] = "Torghast",
+	[1914] = "Torghast",
+	[1917] = "De Other Side",
+	[1920] = "Torghast",
+	[1921] = "Torghast",
+	[1958] = "Firelands",
+	[1959] = "Firelands",
 }
 
 
@@ -2083,121 +2090,10 @@ local fishingExpansionSkillCategoryIDs = {
     [8] = 1114,		-- Kul Tiras Fishing
 	[9] = 1391,		-- Shadowlands Fishing
 }
-	
--- Used by GetExpansionIndex2
--- local continent_maps = {
-    -- [12] = 1,		-- Kalimdor
-	-- [986] = 1,		-- Kalimdor
-	-- [1209] = 1,		-- Kalimdor
-    -- [13] = 1,		-- Eastern Kingdoms
-	-- [985] = 1,		-- Eastern Kingdoms
-	-- [1208] = 1,		-- Eastern Kingdoms
-    -- [101] = 2,		-- Outland
-	-- [987] = 2,		-- Outland
-	-- [1467] = 2,		-- Outland
-    -- [113] = 3,		-- Northrend
-	-- [988] = 3,		-- Northrend
-	-- [1384] = 3,		-- Northrend
-    -- [276] = 4,      -- The Maelstrom
-	-- [725] = 4,      -- The Maelstrom
-	-- [726] = 4,      -- The Maelstrom
-	-- [839] = 4,      -- The Maelstrom
-	-- [948] = 4,      -- The Maelstrom
-    -- [407] = 4,		-- Darkmoon Island
-	-- [408] = 4,		-- Darkmoon Island
-    -- [424] = 5,		-- Pandaria
-	-- [989] = 5,		-- Pandaria
-    -- [572] = 6,		-- Draenor
-	-- [990] = 6,		-- Draenor
-    -- [619] = 7,		-- Broken Isles
-	-- [993] = 7,		-- Broken Isles
-	-- [994] = 7, 		-- Argus
-    -- [876] = 8,		-- Kul Tiras
-	-- [992] = 8,		-- Kul Tiras
-	-- [1014] = 8,		-- Kul Tiras
-    -- [1355] = 8,     -- Nazjatar
-	-- [1504] = 8,     -- Nazjatar
-	-- [1528] = 8,     -- Nazjatar
-	-- [875] = 8,     	-- Zandalar
-	-- [991] = 8,     	-- Zandalar
-	-- [1011] = 8, 	-- Zandalar
--- }
-
--- Used by GetExpansionIndex2
--- local special_maps = {
-    -- [122] = 2,		-- Isle of Quel'Danas
-	-- [1270] = 2,		-- Isle of Quel'Danas
-    -- [198] = 4,		-- Mount Hyjal
-	-- [1328] = 4,		-- Mount Hyjal
-    -- [203] = 4,		-- Vashj'ir
-	-- [1272] = 4,		-- Vashj'ir
-    -- [207] = 4,		-- Deepholm
-    -- [241] = 4,		-- Twilight Highlands
-	-- [1275] = 4,		-- Twilight Highlands
-	-- [1476] = 4,		-- Twilight Highlands
-    -- [244] = 4,		-- Tol Barad
-	-- [773] = 4,		-- Tol Barad
-	-- [774] = 4,		-- Tol Barad
-	-- [1276] = 4,		-- Tol Barad
-    -- [245] = 4,		-- Tol Barad Peninsula
-	-- [1277] = 4,		-- Tol Barad Peninsula
-    -- [249] = 4,		-- Uldum
-	-- [1330] = 4,		-- Uldum
-	-- [1527] = 4,     -- Uldum
-	-- [1571] = 4,     -- Uldum
-    -- [338] = 4,		-- Molten Front
-	-- [378] = 5, 		-- The Wandering Isle
-	-- [1408] = 6, 	-- Ashran
-	-- [1337] = 8, 	-- Jorundall
-	-- -- Other mapIDs that don't yield an expansionIndex using HBD.mapData for unkown reasons:
-	-- [997] = 1, 		-- Tirisfal Glades
-	-- [1158] = 1, 	-- Arathi Highlands
-	-- [1334] = 3, 	-- Wintergrasp
-	-- [1196] = 8, 	-- Tiragarde Sound
-	-- [1198] = 8, 	-- Stormsong Valley	
-	-- [1197] = 8, 	-- Drustvar	
-	-- [1195] = 8, 	-- Vol'dun
-	-- [1193] = 8, 	-- Zuldazar
-	-- [1194] = 8, 	-- Nazmir
--- }
-
--- Used during initialisation of trade skill data by FillExpansionIndexLookup
--- Based on code by Sutorix, borrowed from LibFishing-1.0
--- 9.0.1: replaced by GetExpansionIndex
--- local function GetExpansionIndex2(mapId)
-	-- local expansionIndex = -1
-    -- if mapId then
-        -- if special_maps[mapId] then
-            -- expansionIndex = special_maps[mapId]
-        -- elseif continent_maps[mapId] then
-			-- expansionIndex = continent_maps[mapId]
-		-- else
-			-- if HBD.mapData[mapId] then
-				-- local found  = false
-				-- local cMapId = mapId
-				-- local parent = HBD.mapData[cMapId].parent
-				-- -- Navigate up to find the continent
-				-- while (parent ~= 946 and parent ~= 947 and HBD.mapData[parent] and found == false) do
-					-- cMapId = parent
-					-- if special_maps[cMapId] then
-						-- expansionIndex = special_maps[cMapId]
-						-- found = true
-					-- elseif continent_maps[cMapId] then
-						-- expansionIndex = continent_maps[cMapId]
-						-- found = true
-					-- else				
-						-- parent = HBD.mapData[cMapId].parent
-					-- end
-				-- end
-			-- end
-		-- end
-    -- end
-	-- return expansionIndex
--- end
 
 -- 9.0.1: New function using new expansion lookup
 local function GetExpansionIndex(zone)
-	local expansionIndex = -1
+	local expansionIndex = nil
 	if zone then
 		local zoneName = Tourist:GetMapNameByIDAlt(zone) or zone
 		if zoneName then
@@ -2299,23 +2195,6 @@ end
 function Tourist:GetSkinningSkillInfo(zone)
 	return GetSkillInfo(SKINNING_SKILL, zone)
 end
-
-
--- function FillExpansionIndexLookup()
-	-- local found, notFound = 0, 0
-	-- for mapId, name in pairs(MapIdLookupTable) do
-		-- local expansionIndex = GetExpansionIndex(mapId)
-		-- if expansionIndex and expansionIndex > 0 then
-			-- found = found + 1
-			-- zoneMapIDtoExpansionIndex[mapId] = expansionIndex
-		-- else
-			-- notFound = notFound + 1
-			-- --trace("|r|cffff4422! -- Tourist:|r Expansion index not found ("..tostring(expansionIndex)..") for mapId "..tostring(mapId).." ("..tostring(name)..")" )				
-		-- end
-	-- end
-	-- trace("Expansion found: "..tostring(found)..", not found: "..tostring(notFound))
--- end
-
 
 
 
@@ -8551,10 +8430,10 @@ do
 			[BZ["Darkmaul Citadel"]] = true,
 		},
 		-- Unlear what these flight nodes are. Alliance only, with only one flight path, connecting them to each other. Don't show up on map.
---		flightnodes = {
---			[2401] = true,     	-- Ogre Citadel, Exile's Reach Island
---			[2402] = true,     	-- Alliance Outpost, Exile's Reach 
---		},
+		flightnodes = {
+			[2401] = true,     	-- Ogre Citadel, Exile's Reach Island
+			[2402] = true,     	-- Alliance Outpost, Exile's Reach 
+		},
 --		continent = ??,    -- No continent
 		expansion = Shadowlands,
 		faction = (isHorde and "Horde" or "Alliance"),  -- Always friendly: zone exists for both factions separately
@@ -8579,9 +8458,9 @@ do
 --		paths = {
 --			[transports["STORMWIND_TELDRASSIL_PORTAL"]] = true,
 --		},
---		flightnodes = {
---			[2395] = true,     	-- Oribos
---		},
+		flightnodes = {
+			[2395] = true,     	-- Oribos
+		},
 		type = "City",
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
@@ -8680,10 +8559,12 @@ do
 		instances = {
 			[BZ["Halls of Atonement"]] = true,
 			[BZ["Sanguine Depths"]] = true,
+			[BZ["Castle Nathria"]] = true,
 		},
 		paths = {
 			[BZ["Halls of Atonement"]] = true,
 			[BZ["Sanguine Depths"]] = true,
+			[BZ["Castle Nathria"]] = true,
 		},
 		flightnodes = {
 			[2537] = true,     	-- Charred Ramparts, Revendreth
@@ -10140,7 +10021,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Bastion"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Bastion"], 0, 0 }, -- TODO
 	}
@@ -10152,7 +10033,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Bastion"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 --		--entrancePortal = { BZ["Bastion"], 0, 0 }, -- TODO
 	}
@@ -10164,7 +10045,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Maldraxxus"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Maldraxxus"], 0, 0 }, -- TODO
 	}
@@ -10176,7 +10057,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Maldraxxus"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Maldraxxus"], 0, 0 }, -- TODO
 	}
@@ -10188,7 +10069,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Ardenweald"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Ardenweald"], 0, 0 }, -- TODO
 	}
@@ -10200,7 +10081,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Ardenweald"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Ardenweald"], 0, 0 }, -- TODO
 	}
@@ -10212,7 +10093,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Ardenweald"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Ardenweald"], 0, 0 }, -- TODO
 	}
@@ -10224,7 +10105,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Revendreth"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Revendreth"], 0, 0 }, -- TODO
 	}
@@ -10236,7 +10117,7 @@ do
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 		paths = BZ["Revendreth"],
-		altGroupSize = 5,
+		groupSize = 5,
 		type = "Instance",
 		--entrancePortal = { BZ["Revendreth"], 0, 0 }, -- TODO
 	}
@@ -10714,6 +10595,21 @@ do
 		--entrancePortal = { BZ["Antoran Wastes"], 0, 0 }, TODO
 	}
 
+	
+	-- Shadowlands raids
+	
+	zones[BZ["Castle Nathria"]] = {
+		low = 60,
+		high = 60,
+		continent = The_Shadowlands,
+		expansion = Shadowlands,
+		paths = BZ["Revendreth"],
+		groupMinSize = 10,
+		groupMaxSize = 30,
+		type = "Instance",
+		entrancePortal = { BZ["Revendreth"], 45.7, 41.4 }, 
+	}
+	
 	
 	
 	-- ==============BATTLEGROUNDS================

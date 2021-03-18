@@ -8,23 +8,32 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARGUS_THE_ASSAULT_BEGINS, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(12066, 1),
     category = BTWQUESTS_CATEGORY_LEGION_ARGUS,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {45},
     prerequisites = {
         {
-            type = "quest",
-            id = 46734,
+            type = "level",
+            level = 45,
         },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
+            upto = 46734,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 46268,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
         id = 48929,
     },
-    major = true,
-    range = {110},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
-            breadcrumb = true,
+            type = "npc",
+            id = 120215,
             x = 3,
             y = 0,
             connections = {
@@ -443,22 +452,37 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARGUS_DARK_AWAKENINGS, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(12066, 2),
     category = BTWQUESTS_CATEGORY_LEGION_ARGUS,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {45},
     prerequisites = {
+        {
+            type = "level",
+            level = 45,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
+            upto = 46734,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_ARGUS_THE_ASSAULT_BEGINS,
         },
     },
+    active = {
+        type = "quest",
+        id = 47889,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 48107,
     },
-    major = true,
-    range = {110},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_ARGUS_THE_ASSAULT_BEGINS,
+            type = "npc",
+            id = 124312,
             x = 3,
             y = 0,
             connections = {
@@ -762,26 +786,43 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARGUS_WAR_OF_LIGHT_AND_SHADOW,
     name = BtWQuests_GetAchievementCriteriaNameDelayed(12066, 3),
     category = BTWQUESTS_CATEGORY_LEGION_ARGUS,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {45},
     prerequisites = {
+        {
+            type = "level",
+            level = 45,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
+            upto = 46734,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_ARGUS_THE_ASSAULT_BEGINS,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_ARGUS_DARK_AWAKENINGS,
+            upto = 48461,
         },
-        {
-            type = "quest",
-            id = 48461,
-        },
+    },
+    active = {
+        type = "quest",
+        id = 48461,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
         id = 47220,
     },
-    major = true,
-    range = {110},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_ARGUS_DARK_AWAKENINGS,
+            type = "npc",
+            id = 126408,
             x = 3,
             y = 0,
             connections = {
@@ -1011,22 +1052,37 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARGUS_WRANGLERS, {
     },
     category = BTWQUESTS_CATEGORY_LEGION_ARGUS,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {45},
     prerequisites = {
         {
-            type = "quest",
-            id = 48199,
+            type = "level",
+            level = 45,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_BROKENSHORE_BREACHING_THE_TOMB,
+            upto = 46734,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_ARGUS_THE_ASSAULT_BEGINS,
+            upto = 48199,
         },
     },
+    active = {
+        type = "quest",
+        ids = {48460, 48453, 48542, 48455},
+        status = {'active', 'completed'}
+    },  
     completed = {
         type = "quest",
         id = 48601,
     },
-    range = {110},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_ARGUS_THE_ASSAULT_BEGINS,
-            breadcrumb = true,
+            type = "npc",
+            id = 48460,
             x = 3,
             y = 0,
             connections = {

@@ -21,10 +21,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_BALANCEOFPOWER, {
             id = BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOSE,
         },
         {
-            type = "achievement",
             name = L["BTWQUESTS_COMPLETE_ORDER_HALL_CAMPAIGN"],
+            type = "achievement",
             id = 10746,
         },
+    },
+    active = {
+        type = "quest",
+        ids = {43496, 43503, 43501, 43505},
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -432,6 +437,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_XYLEM, {
             },
         },
     },
+    active = {
+        type = "quest",
+        ids = {46744, 46765},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 45865,
@@ -816,6 +826,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_TIDESKORN, {
                 BTWQUESTS_CLASS_ID_WARLOCK,
             },
         },
+    },
+    active = {
+        type = "quest",
+        ids = {46744, 46765},
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -1238,6 +1253,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_TANKS, {
                 BTWQUESTS_CLASS_ID_WARRIOR,
             },
         },
+    },
+    active = {
+        type = "quest",
+        ids = {46744, 46765},
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -1696,6 +1716,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_HEALERS, {
             },
         },
     },
+    active = {
+        type = "quest",
+        ids = {46744, 46765},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 45864,
@@ -2134,6 +2159,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_FELTOTEM, {
             },
         },
     },
+    active = {
+        type = "quest",
+        ids = {46744, 46765},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 45842,
@@ -2501,6 +2531,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_IMPMOTHER, {
                 BTWQUESTS_CLASS_ID_WARRIOR,
             },
         },
+    },
+    active = {
+        type = "quest",
+        ids = {46744, 46765},
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -2994,6 +3029,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ARTIFACT_TWINS, {
                 BTWQUESTS_CLASS_ID_WARLOCK,
             },
         },
+    },
+    active = {
+        type = "quest",
+        ids = {46744, 46765},
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",

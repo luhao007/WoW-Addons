@@ -1,7 +1,6 @@
 --[[ See license.txt for license and copyright information ]]
 local _, addon = ...
 
-local CreateFrame = CreateFrame
 local BlizzardOptionsPanel_OnLoad = BlizzardOptionsPanel_OnLoad
 local BlizzardOptionsPanel_RegisterControl = BlizzardOptionsPanel_RegisterControl
 local InterfaceAddOnsList_Update = InterfaceAddOnsList_Update
@@ -10,7 +9,8 @@ local InterfaceOptionsPanel_Cancel = InterfaceOptionsPanel_Cancel
 local InterfaceOptionsPanel_Default = InterfaceOptionsPanel_Default
 local InterfaceOptionsPanel_Refresh = InterfaceOptionsPanel_Refresh
 local CONTROLTYPE_CHECKBOX = CONTROLTYPE_CHECKBOX
-local UIParent = UIParent
+
+local TomCats_Config = TomCats_Config
 
 local function Config_Okay(self)
 	for _, v in ipairs(self.controls) do
@@ -59,11 +59,10 @@ local function OnHyperlinkLeave(self)
 end
 
 do
-	local configFrame = CreateFrame("FRAME", "TomCats_Config", UIParent, "TomCats_ConfigTemplate")
-	configFrame.name = "TomCat's Tours"
-	configFrame.controls = { }
-	configFrame.Header.Text:SetFont(configFrame.Header.Text:GetFont(), 64)
-	local checkBox_minimapButton = configFrame.checkBox_minimapButton
+	TomCats_Config.name = "TomCat's Tours"
+	TomCats_Config.controls = { }
+	TomCats_Config.Header.Text:SetFont(TomCats_Config.Header.Text:GetFont(), 64)
+	local checkBox_minimapButton = TomCats_Config.checkBox_minimapButton
 	checkBox_minimapButton.type = CONTROLTYPE_CHECKBOX
 	checkBox_minimapButton.Text:SetText("Show \"TomCat's Tours\" Minimap Button")
 	local function setTooltipText(value)
@@ -87,9 +86,9 @@ do
 	checkBox_minimapButton.okay = function()
 		addon.minimapButton:SetEnabled(checkBox_minimapButton.value == "1")
 	end
-	BlizzardOptionsPanel_RegisterControl(checkBox_minimapButton, configFrame)
+	BlizzardOptionsPanel_RegisterControl(checkBox_minimapButton, TomCats_Config)
 
-	local checkBox_betaFeatures = configFrame.checkBox_betaFeatures
+	local checkBox_betaFeatures = TomCats_Config.checkBox_betaFeatures
 	checkBox_betaFeatures.type = CONTROLTYPE_CHECKBOX
 	checkBox_betaFeatures.Text:SetText("Enable the Beta Features")
 	local function setTooltipText1(value)
@@ -113,18 +112,18 @@ do
 	checkBox_betaFeatures.okay = function()
 		addon.SetBetaEnabled(checkBox_betaFeatures.value == "1")
 	end
-	BlizzardOptionsPanel_RegisterControl(checkBox_betaFeatures, configFrame)
+	BlizzardOptionsPanel_RegisterControl(checkBox_betaFeatures, TomCats_Config)
 
-	configFrame.html1:SetScript("OnHyperlinkClick", OnHyperlinkClick)
-	configFrame.html1:SetScript("OnHyperlinkEnter", OnHyperlinkEnter)
-	configFrame.html1:SetScript("OnHyperlinkLeave", OnHyperlinkLeave)
+	TomCats_Config.html1:SetScript("OnHyperlinkClick", OnHyperlinkClick)
+	TomCats_Config.html1:SetScript("OnHyperlinkEnter", OnHyperlinkEnter)
+	TomCats_Config.html1:SetScript("OnHyperlinkLeave", OnHyperlinkLeave)
 	BlizzardOptionsPanel_OnLoad(
-			configFrame,
+			TomCats_Config,
 			Config_Okay,
 			InterfaceOptionsPanel_Cancel,
 			InterfaceOptionsPanel_Default,
 			InterfaceOptionsPanel_Refresh
 	)
-	InterfaceOptions_AddCategory(configFrame)
+	InterfaceOptions_AddCategory(TomCats_Config)
 	InterfaceAddOnsList_Update()
 end

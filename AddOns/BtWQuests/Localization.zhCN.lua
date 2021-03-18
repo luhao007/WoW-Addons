@@ -5,9 +5,12 @@ if GetLocale() ~= "zhCN" then
 end
 
 local L = BtWQuests.L
+L["ALLIANCE_ZONES"] = "联盟区域"
 L["BTWQUESTS_ACTIVE"] = "可接"
+L["BTWQUESTS_ALLIED_RACE"] = "同盟种族"
 L["BTWQUESTS_ALLIED_RACES"] = "同盟种族"
 L["BTWQUESTS_AVAILABLE"] = "可用"
+L["BTWQUESTS_COLLECT"] = "收集 %s"
 L["BTWQUESTS_COMPLETED"] = "已完成"
 L["BTWQUESTS_COSMETIC"] = "装饰品"
 L["BTWQUESTS_COUNTDOWN_DHM"] = "%d 天, %d 小时 %d 分钟"
@@ -58,4 +61,6 @@ L["BTWQUESTS_VIEW_ALL"] = "查看所有"
 L["BTWQUESTS_WORLD_QUESTS"] = "世界任务"
 L["OTHER"] = "其它"
 L["RANK"] = "%s 等级 %d"
+L["TOGGLE_BTWQUESTS"] = "启用BtWQuests"
 L["UNKNOWN"] = "未知"
+L["USE_TOMTOM_WAYPOINTS"] = "使用 TomTom 导航点"

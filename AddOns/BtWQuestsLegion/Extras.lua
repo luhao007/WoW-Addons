@@ -4,18 +4,23 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_EPILOGUE, {
     name = L["BTWQUESTS_EPILOGUE"],
     category = nil,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {45},
     prerequisites = {
         {
             type = "level",
             level = 45,
         },
     },
+    active = {
+        type = "quest",
+        ids = {50046, 50052, 50047, 50053, 50229},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         ids = {50374, 50364},
         count = 1,
     },
-    range = {110},
     items = {
         --[[
         {
@@ -135,11 +140,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_EPILOGUE, {
                     },
                 },
             },
+            x = 1,
+            y = 0,
+            aside = true,
             connections = {
                 2,
             },
-            x = 1,
-            y = 0,
         },
         {
             variations = {
@@ -195,6 +201,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_EPILOGUE, {
                     },
                 },
             },
+            aside = true,
             x = 1,
         },
         {
@@ -227,6 +234,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_EPILOGUE, {
         {
             type = "object",
             id = 280948,
+            aside = true,
             connections = {
                 3,
             },
@@ -293,6 +301,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_EPILOGUE, {
         {
             type = "quest",
             id = 50229,
+            aside = true,
         },
 
         
@@ -467,14 +476,27 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_EPILOGUE, {
     },
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_LOST_MAIL, {
-    name = L["LOST_MAIL"],
+    name = { -- Lost Mail
+        type = "quest",
+        id = 41368,
+    },
     category = nil,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 41368,
+    },
     completed = {
         type = "quest",
         id = 50247,
     },
-    range = {110},
     items = {
         {
             type = "quest",

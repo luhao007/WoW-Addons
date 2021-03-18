@@ -1,7 +1,7 @@
 <!-- See license.txt for license and copyright information -->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Frame name="TomCats_ConfigTemplate" parent="InterfaceOptionsFramePanelContainer" virtual="true" hidden="true">
+	<Frame name="TomCats_Config" parent="InterfaceOptionsFramePanelContainer" hidden="true">
 		<Frames>
 			<Frame parentKey="Header" parentArray="components">
 				<Size x="80" y="80" />
@@ -24,7 +24,7 @@
 								<Anchor point="RIGHT" relativeKey="$parent.$parent" relativePoint="RIGHT" x="-4" />
 							</Anchors>
 						</FontString>
-						<FontString parentKey="VersionText" font="GameFontNormal" text="Version: 2.2.6">
+						<FontString parentKey="VersionText" font="GameFontNormal" text="Version: 2.2.12">
 							<Anchors>
 								<Anchor point="TOPLEFT" relativeKey="$parent.Text" relativePoint="BOTTOMLEFT" />
 								<Anchor point="TOPRIGHT" relativeKey="$parent.Text" relativePoint="BOTTOMRIGHT" />
@@ -36,7 +36,7 @@
 			<SimpleHTML parentKey="html1" file="Interface\AddOns\TomCats\configuration1.html">
 				<Size x="580" y="1" />
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.Header" relativePoint="BOTTOMLEFT" x="0" y="-16"/>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Header" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
 					<Anchor point="RIGHT" relativeTo="$parent" relativePoint="RIGHT" x="-16" y="0" />
 				</Anchors>
 				<Scripts>
@@ -101,9 +101,31 @@
 				<FontString inherits="GameFontHighlight" justifyH="LEFT" spacing="1" />
 				<FontStringHeader1 inherits="GameFontNormalMed2" justifyH="LEFT" spacing="3"/>
 			</SimpleHTML>
+			<Button parentKey="discoveriesButton" inherits="UIPanelButtonTemplate">
+				<Size x="200" y="22"/>
+				<Scripts>
+					<OnLoad>
+						local parent = self:GetParent()
+						local regions = { parent.html1:GetRegions() }
+						for k, v in ipairs(regions) do
+							if (v.GetText) then
+								local text = v:GetText()
+								if (string.find(text, "|c00000001|r")) then
+									self:ClearAllPoints()
+									self:SetPoint("RIGHT", v, "RIGHT", 0, -3)
+									self:SetText("Discoveries: 0")
+								end
+							end
+						end
+					</OnLoad>
+					<OnClick>
+						InterfaceOptionsFrame_OpenToCategory(_G["TomCats_ConfigDiscoveries"])
+					</OnClick>
+				</Scripts>
+			</Button>
 			<CheckButton parentKey="checkBox_betaFeatures" parentArray="components" inherits="InterfaceOptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.html1" relativePoint="BOTTOMLEFT" x="0" y="-6"/>
+					<Anchor point="TOPLEFT" relativeKey="$parent.html1" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
 				</Anchors>
 			</CheckButton>
 			<CheckButton parentKey="checkBox_minimapButton" parentArray="components" inherits="InterfaceOptionsCheckButtonTemplate">
@@ -114,7 +136,7 @@
 			<SimpleHTML parentKey="html2" file="Interface\AddOns\TomCats\configuration2.html">
 				<Size x="580" y="1" />
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.checkBox_betaFeatures" relativePoint="BOTTOMLEFT" x="0" y="-16"/>
+					<Anchor point="TOPLEFT" relativeKey="$parent.checkBox_betaFeatures" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
 					<Anchor point="RIGHT" relativeTo="$parent" relativePoint="RIGHT" x="-16" y="0" />
 				</Anchors>
 				<Scripts>

@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: syndenbock
-## Version: 1.4.4
+## Version: 1.4.5
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: TomTom
 ## SavedVariables: storedData

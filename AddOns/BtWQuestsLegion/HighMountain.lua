@@ -6,16 +6,40 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE, 
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10059, 1),
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 39733,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 39487,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "quest",
-            id = 39733,
+            variations = {
+                {
+                    type = "quest",
+                    id = 39733,
+                    restrictions = {
+                        type = "quest",
+                        id = 39733,
+                        status = {'active', 'completed'}
+                    }
+                },
+                {
+                    type = "npc",
+                    id = 97666,
+                },
+            },
             x = 3,
             y = 1,
             connections = {
@@ -152,22 +176,31 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10059, 2),
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
         },
     },
+    active = {
+        type = "quest",
+        id = 39498,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 38909,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
+            type = "npc",
+            id = 96038,
             x = 3,
             y = 0,
             connections = {
@@ -264,19 +297,42 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SKYHORN_TRIBE, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10059, 3),
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND,
         },
     },
+    active = {
+        type = "quest",
+        id = 38913,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 39387,
     },
-    major = true,
-    range = {98,45},
     items = {
+        {
+            type = "npc",
+            id = 93826,
+            x = 3,
+            y = -1,
+            connections = {
+                1
+            },
+        },
         {
             type = "quest",
             id = 38913,
@@ -373,19 +429,42 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE,
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10059, 4),
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND,
         },
     },
+    active = {
+        type = "quest",
+        id = 38912,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 39426,
     },
-    major = true,
-    range = {98,45},
     items = {
+        {
+            type = "npc",
+            id = 93826,
+            x = 3,
+            y = -1,
+            connections = {
+                1
+            },
+        },
         {
             type = "quest",
             id = 38912,
@@ -552,22 +631,36 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HULNS_WAR, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10059, 5),
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND,
         },
     },
+    active = {
+        type = "quest",
+        id = 40515,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 39992,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND,
+            type = "npc",
+            id = 93826,
             x = 3,
             y = 0,
             connections = {
@@ -668,22 +761,41 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SECRETS_OF_HIGHMO
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10059, 6),
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HULNS_WAR,
         },
     },
+    active = {
+        type = "quest",
+        id = 38916,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 39579,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HULNS_WAR,
+            type = "npc",
+            id = 98825,
             x = 3,
             y = 0,
             connections = {
@@ -787,7 +899,28 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SNOWBLIND_MESA, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10059, 7),
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HULNS_WAR,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE,
@@ -801,13 +934,25 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SNOWBLIND_MESA, {
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_SECRETS_OF_HIGHMOUNTAIN,
         },
     },
+    active = {
+        type = "quest",
+        id = 38915,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 39780,
     },
-    major = true,
-    range = {98,45},
     items = {
+        {
+            type = "npc",
+            id = 108434,
+            x = 3,
+            y = -1,
+            connections = {
+                1,
+            },
+        },
         {
             type = "quest",
             id = 38915,
@@ -896,11 +1041,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RAZIK, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {39386, 39670, 40000},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 39656,
     },
-    range = {98,45},
     items = {
         {
             variations = {
@@ -1007,11 +1163,23 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
     name = BtWQuests_GetAreaName(7733), -- Nesingwary's Retreat
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {39417, 40217, 40170, 39859},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
-        id = 40228,
+        ids = {40228, 39867, 39178},
+        count = 3,
     },
-    range = {98,45},
     items = {
         {
             variations = {
@@ -1138,24 +1306,17 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
             id = 39867,
             x = 0,
             y = 3,
-            connections = {
-                2,
-            },
         },
         {
             type = "quest",
             id = 39178,
             x = 2,
             y = 3,
-            connections = {
-                1,
-            },
         },
         {
             type = "quest",
             id = 40228,
-            x = 3,
-            y = 4,
+            x = 5,
             connections = {
                 1, 2,
             },
@@ -1191,8 +1352,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
                 id = 39386,
                 status = {'active', 'completed'}
             },
-            x = 2,
-            y = 5,
+            x = 4,
         },
         {
             type = "chain",
@@ -1229,8 +1389,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_HEMET, {
                 id = 40244,
                 status = {'active', 'completed'}
             },
-            x = 4,
-            y = 5,
         },
     }
 })
@@ -1241,33 +1399,41 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_STONEDARK, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERMANE_TRIBE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_RIVERBEND,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE,
-            upto = {
-                type = "quest",
-                id = 40229,
-            },
+            upto = 40229,
         },
+    },
+    active = {
+        type = "quest",
+        id = 39440,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
         id = 39439,
     },
-    range = {98,45},
     items = {
         {
-            type = "quest",
-            id = 40229,
-            onClick = {
-                type = "chain",
-                id = BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_BLOODTOTEM_TRIBE,
-                scrollTo = {
-                    type = "quest",
-                    id = 40229
-                },
-            },
+            type = "npc",
+            id = 95799,
             x = 3,
             y = 0,
             connections = {
@@ -1312,11 +1478,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIGHMOUNTAIN_MURKY, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_HIGHMOUNTAIN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {40244, 40045, 40047, 40049},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 40102,
     },
-    range = {98,45},
     items = {
         {
             variations = {

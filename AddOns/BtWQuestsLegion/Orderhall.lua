@@ -4,17 +4,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_LIGHTSHEART, {
     name = L["BTWQUESTS_LIGHTS_HEART"],
     category = BTWQUESTS_CATEGORY_LEGION_ORDERHALL,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
     prerequisites = {
         {
             type = "level",
             level = 10,
         },
     },
+    active = {
+        type = "quest",
+        ids = {42866, 44009},
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 45177,
     },
-    range = {100,45},
     items = {
         {
             type = "chain",
@@ -65,7 +70,32 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_LIGHTSHEART, {
             x = 3,
             y = 1,
             connections = {
-                2,
+                3,
+            }
+        },
+        {
+            type = "npc",
+            id = 90417,
+            restrictions = {
+                type = "class",
+                ids = {
+                    BTWQUESTS_CLASS_ID_WARRIOR,
+                    BTWQUESTS_CLASS_ID_HUNTER,
+                    BTWQUESTS_CLASS_ID_ROGUE,
+                    BTWQUESTS_CLASS_ID_PRIEST,
+                    BTWQUESTS_CLASS_ID_DEATHKNIGHT,
+                    BTWQUESTS_CLASS_ID_SHAMAN,
+                    BTWQUESTS_CLASS_ID_MAGE,
+                    BTWQUESTS_CLASS_ID_WARLOCK,
+                    BTWQUESTS_CLASS_ID_MONK,
+                    BTWQUESTS_CLASS_ID_DRUID,
+                    BTWQUESTS_CLASS_ID_DEMONHUNTER,
+                },
+            },
+            x = 3,
+            y = 0,
+            connections = {
+                1,
             }
         },
         {
@@ -92,7 +122,17 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_LIGHTSHEART, {
             x = 3,
             y = 1,
             connections = {
-                1,
+                2,
+            }
+        },
+        {
+            type = "npc",
+            id = 110695,
+            aside = true,
+            x = 1,
+            y = 1,
+            connections = {
+                2,
             }
         },
         {
@@ -367,6 +407,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ORDERHALL_MEATBALL, {
                 },
             },
         },
+    },
+    active = {
+        type = "quest",
+        id = 45302,
+        status = {'active', 'completed'},
     },
     completed = {
         type = "quest",

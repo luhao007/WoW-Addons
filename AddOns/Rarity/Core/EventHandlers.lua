@@ -141,6 +141,12 @@ function R:OnSpellcastSucceeded(event, unitID, castGUID, spellID)
 		self:Debug("Finished searching mailbox in a Horrific Vision")
 		addAttemptForItem("Mail Muncher", "mounts")
 	end
+
+	-- Detects opening on Dirty Glinting Object which may contain Lucy's Lost Collar
+	if spellID == 345071 and Rarity.lastNode and Rarity.lastNode == L["Dirty Glinting Object"] then
+		Rarity:Debug("Detected Opening on " .. L["Dirty Glinting Object"] .. " (method = SPECIAL)")
+		addAttemptForItem("Lucy's Lost Collar", "pets")
+	end
 end
 
 -------------------------------------------------------------------------------------
@@ -1146,7 +1152,10 @@ function R:OnEvent(event, ...)
 		end
 
 		-- Handle opening Silver Strongbox & Gilded Chest (Shadowlands, Bastion nodes for Acrobatic Steward toy)
-		if Rarity.isFishing and Rarity.isOpening and Rarity.lastNode and (Rarity.lastNode == L["Silver Strongbox"] or Rarity.lastNode == L["Gilded Chest"]) then
+		if
+			Rarity.isFishing and Rarity.isOpening and Rarity.lastNode and
+				(Rarity.lastNode == L["Silver Strongbox"] or Rarity.lastNode == L["Gilded Chest"])
+		 then
 			local names = {"Acrobatic Steward"}
 			if (Rarity.lastNode == L["Silver Strongbox"]) then
 				Rarity:Debug("Detected Opening on " .. L["Silver Strongbox"] .. " (method = SPECIAL)")
@@ -1167,7 +1176,10 @@ function R:OnEvent(event, ...)
 		end
 
 		-- Handle opening Broken Bell & Skyward Bell (Shadowlands, Bastion nodes for Soothing Vesper toy)
-		if Rarity.isFishing and Rarity.isOpening and Rarity.lastNode and (Rarity.lastNode == L["Broken Bell"] or Rarity.lastNode == L["Skyward Bell"]) then
+		if
+			Rarity.isFishing and Rarity.isOpening and Rarity.lastNode and
+				(Rarity.lastNode == L["Broken Bell"] or Rarity.lastNode == L["Skyward Bell"])
+		 then
 			local names = {"Soothing Vesper"}
 			if (Rarity.lastNode == L["Broken Bell"]) then
 				Rarity:Debug("Detected Opening on " .. L["Broken Bell"] .. " (method = SPECIAL)")

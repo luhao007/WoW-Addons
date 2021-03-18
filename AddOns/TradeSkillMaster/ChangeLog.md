@@ -1,6 +1,5 @@
-## v4.10.31 Changes
+## v4.10.32 Changes
 
-* [Retail] Updated TOC for patch 9.0.5
-* [Retail] Some profession related fixes
+* Fixed error some users were getting when opening the Dashboard
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

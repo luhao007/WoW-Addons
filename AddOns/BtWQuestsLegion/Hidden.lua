@@ -25,11 +25,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIDDEN_MINDWORM, {
     name = L["BTWQUESTS_MOUNT_RIDDLERS"],
     category = BTWQUESTS_CATEGORY_LEGION_HIDDEN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 45,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 45470,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "mount",
         id = 947,
     },
-    range = {110},
     items = {
         {
             type = "quest",
@@ -189,11 +200,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIDDEN_LUCIDNIGHTMARE, {
     name = L["BTWQUESTS_MOUNT_LUCID_NIGHTMARE"],
     category = BTWQUESTS_CATEGORY_LEGION_HIDDEN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 45,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 47826,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "mount",
         id = 961,
     },
-    range = {110},
     items = {
         {
             type = "quest",
@@ -281,11 +303,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_HIDDEN_UUNA, {
     },
     category = BTWQUESTS_CATEGORY_LEGION_HIDDEN,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 45,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 50098,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 50147,
     },
-    range = {110},
     items = {
         {
             name = "Collect Uuna from the Many-Faced Devourer",

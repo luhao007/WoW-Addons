@@ -14,24 +14,29 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_LIGHTFORGED_DRAEN
     },
     prerequisites = {
         {
+            type = "level",
+            level = 45,
+        },
+        {
             type = "expansion",
             id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+            visible = false,
         },
         {
             type = "achievement",
             id = 12066,
             anyone = true,
         },
-        {
-            type = "achievement",
-            id = 12081,
-            name = {
-                type = "reputation",
-                id = 2165,
-                standing = 8,
-            },
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2165,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12081,
+        --     anyone = true,
+        -- },
     },
     completed = {
         type = "achievement",
@@ -81,24 +86,29 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_VOID_ELF, {
     },
     prerequisites = {
         {
+            type = "level",
+            level = 45,
+        },
+        {
             type = "expansion",
             id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+            visible = false,
         },
         {
             type = "achievement",
             id = 12066,
             anyone = true,
         },
-        {
-            type = "achievement",
-            id = 12076,
-            name = {
-                type = "reputation",
-                id = 2170,
-                standing = 8,
-            },
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2170,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12076,
+        --     anyone = true,
+        -- },
     },
     completed = {
         type = "achievement",
@@ -139,24 +149,29 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_NIGHTBORNE, {
     },
     prerequisites = {
         {
+            type = "level",
+            level = 45,
+        },
+        {
             type = "expansion",
             id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+            visible = false,
         },
         {
             type = "achievement",
             id = 11340,
             anyone = true,
         },
-        {
-            type = "achievement",
-            id = 10778,
-            name = {
-                type = "reputation",
-                id = 1859,
-                standing = 8,
-            },
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 1859,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 10778,
+        --     anyone = true,
+        -- },
     },
     completed = {
         type = "achievement",
@@ -215,24 +230,29 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_HIGHMOUNTAIN_TAUR
     },
     prerequisites = {
         {
+            type = "level",
+            level = 45,
+        },
+        {
             type = "expansion",
             id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+            visible = false,
         },
         {
             type = "achievement",
             id = 10059,
             anyone = true,
         },
-        {
-            type = "achievement",
-            id = 12292,
-            name = {
-                type = "reputation",
-                id = 1828,
-                standing = 8,
-            },
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 1828,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12292,
+        --     anyone = true,
+        -- },
     },
     completed = {
         type = "achievement",

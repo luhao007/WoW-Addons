@@ -1082,6 +1082,17 @@ function module.options:Load()
 		end
 	end)
 
+	self.chkReadyCheckColDecLine = ELib:DecorationLine(self.tab.tabs[2]):Point("TOP",self.chkReadyCheckFrameClassSort,"BOTTOM",0,-5):Size(0,1):Point("LEFT",0,0):Point("RIGHT",0,0)
+
+	self.chkReadyCheckColText = ELib:Text(self.tab.tabs[2],L.cd2Columns..":",12):Point("TOPLEFT",self.chkReadyCheckFrameClassSort,"BOTTOMLEFT",0,-10)
+	
+	self.chkReadyCheckColSoulstone = ELib:Check(self.tab.tabs[2],GetSpellInfo(20707) or "Soulstone",VExRT.RaidCheck.ReadyCheckSoulstone):Point("TOPLEFT",self.chkReadyCheckFrameClassSort,"BOTTOMLEFT",0,-30):OnClick(function(self) 
+		if self:GetChecked() then
+			VExRT.RaidCheck.ReadyCheckSoulstone = true
+		else
+			VExRT.RaidCheck.ReadyCheckSoulstone = nil
+		end
+	end)	
 
 	self.chkReadyCheckConsumables = ELib:Check(self.tab.tabs[3],L.Enable,not VExRT.RaidCheck.DisableConsumables):Point(15,-10):AddColorState():OnClick(function(self) 
 		if self:GetChecked() then
@@ -1093,12 +1104,20 @@ function module.options:Load()
 		end
 	end)
 
+	self.chkReadyCheckConsumablesOnlyCuadFlask = ELib:Check(self.tab.tabs[3],L.RaidCheckOnlyCauldron,VExRT.RaidCheck.DisableNotCauldronFlask):Point("TOPLEFT",self.chkReadyCheckConsumables,"BOTTOMLEFT",0,-5):OnClick(function(self) 
+		VExRT.RaidCheck.DisableNotCauldronFlask = self:GetChecked()
+	end)
+
 	if ExRT.isClassic then
 		self.tab.tabs[3].button:Hide()
 		self.tab.tabs[1].button:Hide()
 		self.tab.tabs[2].button:ClearAllPoints()
 		self.tab.tabs[2].button:SetPoint("TOPLEFT", 10, 24)
 		self.tab:SetTo(2)
+
+		self.chkReadyCheckColDecLine:Hide()
+		self.chkReadyCheckColText:Hide()
+		self.chkReadyCheckColSoulstone:Hide()
 	end
 end
 
@@ -1312,6 +1331,8 @@ function module:slash(arg)
 		GetRaidBuffs(1)
 	elseif arg == "check" then
 		module:ReadyCheckWindow(nil,nil,true)
+	elseif arg == "help" then
+		print("|cff00ff00/rt check|r - show raid buffs window")
 	end
 end
 
@@ -1575,6 +1596,73 @@ local function RCW_AddIcon(parent,texture)
 	return icon
 end
 
+local function CreateCol(line,key,i)
+	line[key.."pointer"] = CreateFrame("Frame",nil,line)
+	line[key.."pointer"]:SetSize(RCW_iconsListWide[i] and 60 or 30,14)
+
+	if i==1 then
+		line[key.."pointer"]:SetPoint("CENTER",line.name,"RIGHT",15 - 5,0)
+	else
+		line[key.."pointer"]:SetPoint("CENTER",line[ RCW_iconsList[i-1].."pointer" ],"CENTER",30+(RCW_iconsListWide[i-1] and 15 or 0)+(RCW_iconsListWide[i] and 15 or 0),0)
+	end
+
+	line[key] = RCW_AddIcon(line,RCW_iconsListDebugIcons[i])
+	line[key]:Point("CENTER",line[key.."pointer"],"CENTER",0,0)
+
+	line[key].UpdatePos = function(self,pointFrame)
+		line[key.."pointer"]:ClearAllPoints()
+		line[key.."pointer"]:SetPoint("CENTER",pointFrame,"CENTER",30,0)
+		return line[key.."pointer"]
+	end
+
+	for j=2,4 do
+		line[key..j] = RCW_AddIcon(line,RCW_iconsListDebugIcons[i])
+		line[key..j]:Point("LEfT",line[key..((j-1) == 1 and "" or tostring(j-1))],"RIGHT",0,0)
+		line[key..j]:Hide()
+	end
+end
+
+local RCW_iconsList_ORIGIN = #RCW_iconsList
+function module.frame:UpdateCols()
+	for i=RCW_iconsList_ORIGIN+1,#RCW_iconsList do
+		RCW_iconsList[i] = nil
+		if module.frame.headers[i] then
+			module.frame.headers[i]:SetText("")
+		end
+	end
+	local colsAdd = 0
+	if VExRT.RaidCheck.ReadyCheckSoulstone then
+		colsAdd = colsAdd + 1
+		RCW_iconsList[RCW_iconsList_ORIGIN+colsAdd] = "ss"
+		RCW_iconsListHeaders[RCW_iconsList_ORIGIN+colsAdd] = GetSpellInfo(20707) or "Soulstone"
+		RCW_iconsListDebugIcons[RCW_iconsList_ORIGIN+colsAdd] = 136210
+		local header = module.frame.headers[RCW_iconsList_ORIGIN+colsAdd]
+		if not header then
+			header = ELib:Text(module.frame.headers,"",10):Color(1,1,1):Point("BOTTOMLEFT",module.frame.headers[RCW_iconsList_ORIGIN+colsAdd-1],"BOTTOMLEFT",30,0)
+			module.frame.headers[RCW_iconsList_ORIGIN+colsAdd] = header
+		end
+		header:SetText(RCW_iconsListHeaders[RCW_iconsList_ORIGIN+colsAdd])
+	end
+	for i=1,40 do
+		local line = module.frame.lines[i]
+		line:SetSize(420+(ExRT.isClassic and 30*RCW_liveToClassicDiff or 0)+RCW_liveToslDiff+colsAdd*30,14)
+
+		local prevPointer = line[ RCW_iconsList[RCW_iconsList_ORIGIN].."pointer" ]
+
+		if VExRT.RaidCheck.ReadyCheckSoulstone then
+			if not line["ss"] then
+				CreateCol(line,"ss",RCW_iconsList_ORIGIN+1)
+			end
+			prevPointer = line["ss"]:UpdatePos(prevPointer)
+			line["ss"]:Show()
+		elseif line["ss"] then
+			line["ss"]:Hide()
+		end
+		
+	end	
+	module.frame:SetWidth(430+(ExRT.isClassic and 30*RCW_liveToClassicDiff or 0)+RCW_liveToslDiff+colsAdd*30)
+end
+
 function module.frame:Create()
 	if self.isCreated then
 		return
@@ -1599,23 +1687,7 @@ function module.frame:Create()
 		line.icon = ELib:Icon(line,"Interface\\RaidFrame\\ReadyCheck-Waiting",14):Point("LEFT",0,0)
 
 		for i,key in pairs(RCW_iconsList) do
-			line[key.."pointer"] = CreateFrame("Frame",nil,line)
-			line[key.."pointer"]:SetSize(RCW_iconsListWide[i] and 60 or 30,14)
-
-			if i==1 then
-				line[key.."pointer"]:SetPoint("CENTER",line.name,"RIGHT",15 - 5,0)
-			else
-				line[key.."pointer"]:SetPoint("CENTER",line[ RCW_iconsList[i-1].."pointer" ],"CENTER",30+(RCW_iconsListWide[i-1] and 15 or 0)+(RCW_iconsListWide[i] and 15 or 0),0)
-			end
-
-			line[key] = RCW_AddIcon(line,RCW_iconsListDebugIcons[i])
-			line[key]:Point("CENTER",line[key.."pointer"],"CENTER",0,0)
-
-			for j=2,4 do
-				line[key..j] = RCW_AddIcon(line,RCW_iconsListDebugIcons[i])
-				line[key..j]:Point("LEfT",line[key..((j-1) == 1 and "" or tostring(j-1))],"RIGHT",0,0)
-				line[key..j]:Hide()
-			end
+			CreateCol(line,key,i)
 		end
 
 		if i%2 == 0 then
@@ -2028,7 +2100,7 @@ function module.frame:UpdateData(onlyLine)
 						line[key..j].subIcon:Hide()
 					end
 				end
-				for i=1,40 do
+				for i=1,60 do
 					local name,icon,_,_,duration,expirationTime,_,_,_,spellId,_,_,_,_,_,val1 = UnitAura(line.unit, i,"HELPFUL")
 					if not spellId then
 						break
@@ -2145,6 +2217,8 @@ function module.frame:UpdateData(onlyLine)
 						line[key].text:SetText(val or "")
 
 						line[key].tooltip = "spell:"..spellId
+					elseif spellId == 20707 and line.ss then
+						line.ss.texture:SetTexture(136210)
 					end
 				end
 				if line.dur and not self.isTest then
@@ -2354,6 +2428,15 @@ function module:ReadyCheckWindow(starter,isTest,manual)
 	self.frame:Create()
 
 	module.db.RaidCheckReadyCheckTime = nil
+
+	local colsAdd = 0
+	if VExRT.RaidCheck.ReadyCheckSoulstone then
+		colsAdd = bit.bor(colsAdd,0x1)
+	end
+	if (self.frame.colsAdd or 0) ~= colsAdd then
+		self.frame.colsAdd = colsAdd
+		self.frame:UpdateCols()
+	end
 
 	self.frame.isManual = manual
 
@@ -2806,7 +2889,7 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 	end
 	
 	function module.consumables:Enable()
-		self:RegisterEvent("READY_CHECK")
+		self:RegisterEvent("READY_CHECK","READY_CHECK_FINISHED")
 		self:Show()
 	end
 	function module.consumables:Disable()
@@ -2825,7 +2908,7 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 		end
 
 		local isWarlockInRaid
-		for _, name, subgroup, class, guid, rank, level, online, isDead, combatRole in ExRT.F.IterateRoster, ExRT.F.GetRaidDiffMaxGroup() do
+		for _, name, _, class in ExRT.F.IterateRoster, ExRT.F.GetRaidDiffMaxGroup() do
 			if class == "WARLOCK" then
 				isWarlockInRaid = true
 				break
@@ -2873,7 +2956,7 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 				self.buttons.flask.texture:SetDesaturated(false)
 				self.buttons.flask.timeleft:SetFormattedText(GARRISON_DURATION_MINUTES,ceil((expires-now)/60))
 				isFlask = true
-				if expires - now <= 900 then
+				if expires - now <= 600 then
 					isFlask = false
 				end
 			elseif module.db.tableRunes[spellId] then
@@ -2897,7 +2980,7 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 
 		local flaskCount = GetItemCount(171276,false,false)
 		local flaskCanCount = GetItemCount(171280,false,false)
-		if not isFlask and ((flaskCount and flaskCount > 0) or (flaskCanCount and flaskCanCount > 0)) then
+		if not isFlask and ((flaskCount and flaskCount > 0 and not VExRT.RaidCheck.DisableNotCauldronFlask) or (flaskCanCount and flaskCanCount > 0)) then
 			if not InCombatLockdown() then
 				local itemID = (flaskCanCount and flaskCanCount > 0) and 171280 or 171276
 				local itemName = GetItemInfo(itemID)
@@ -2918,7 +3001,7 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 		end
 		self.buttons.flask.count:SetFormattedText("%d%s",flaskCount,flaskCanCount > 0 and "+|cff00ff00"..flaskCanCount or "")
 		if LCG then
-			if not isFlask and ((flaskCount and flaskCount > 0) or (flaskCanCount and flaskCanCount > 0)) then
+			if not isFlask and ((flaskCount and flaskCount > 0 and not VExRT.RaidCheck.DisableNotCauldronFlask) or (flaskCanCount and flaskCanCount > 0)) then
 				LCG.PixelGlow_Start(self.buttons.flask)
 			else
 				LCG.PixelGlow_Stop(self.buttons.flask)
@@ -3066,11 +3149,29 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 		end
 	end
 
-	module.consumables:SetScript("OnEvent",function(self,event,arg1)
+	function module.consumables:OnHide()
+		self:UnregisterEvent("UNIT_AURA")
+		self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+		if self.cancelDelay then
+			self.cancelDelay:Cancel()
+			self.cancelDelay = nil
+		end
+	end
+
+	module.consumables:SetScript("OnEvent",function(self,event,arg1,arg2)
 		if event == "READY_CHECK" then
 			self:Update()
 			self:RegisterEvent("UNIT_AURA")
 			self:RegisterEvent("UNIT_INVENTORY_CHANGED")
+			if self.cancelDelay then
+				self.cancelDelay:Cancel()
+			end
+			self.cancelDelay = C_Timer.NewTimer(arg2 or 40,function()
+				self:UnregisterEvent("UNIT_AURA")
+				self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+			end)
+		elseif event == "READY_CHECK_FINISHED" then
+			module.consumables:OnHide()
 		elseif event == "UNIT_AURA" then
 			if arg1 == "player" then
 				self:Update()
@@ -3085,8 +3186,7 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 	end)
 
 	module.consumables:SetScript("OnHide",function(self)
-		self:UnregisterEvent("UNIT_AURA")
-		self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+		module.consumables:OnHide()
 	end)
 
 	module.consumables.Test = function()
@@ -3097,7 +3197,3 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 	end
 	--/run GExRT.A.RaidCheck.consumables.Test()
 end
-
---[[
-spell 307157
-]]

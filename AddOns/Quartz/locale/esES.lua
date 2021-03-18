@@ -19,6 +19,7 @@ L["Adjust the Y position of the name text"] = "Ajusta la posición Y del texto n
 L["Adjust the Y position of the time text"] = "Ajusta la posición Y del texto tiempo"
 L["Alpha"] = "Alfa"
 L["Anchor Frame"] = "Marco de anclaje"
+L["Anchor point"] = "Punto de anclaje"
 L["AOE Rez"] = "AOE Rez"
 L["Background"] = "Fondo"
 L["Background Alpha"] = "Alfa Fondo"

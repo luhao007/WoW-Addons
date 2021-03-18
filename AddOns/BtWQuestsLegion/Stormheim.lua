@@ -6,18 +6,27 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALL
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 1),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     restrictions = {
+        type = "faction",
+        id = BTWQUESTS_FACTION_ID_ALLIANCE,
+    },
+    prerequisites = {
         {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_ALLIANCE,
+            type = "level",
+            level = 10,
         },
+    },
+    active = {
+        type = "quest",
+        ids = {39735, 44700, 38035},
+        status = {'active', 'completed'},
     },
     completed = {
         type = "quest",
         id = 39800,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
             type = "quest",
@@ -91,32 +100,55 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 2),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     restrictions = {
-        {
-            type = "faction",
-            id = BTWQUESTS_FACTION_ID_ALLIANCE,
-        },
+        type = "faction",
+        id = BTWQUESTS_FACTION_ID_ALLIANCE,
     },
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
         },
+    },
+    active = {
+        type = "quest",
+        ids = {38036, 38052, 38053, 38558},
+        status = {'active', 'completed'},
     },
     completed = {
         type = "quest",
         id = 38060,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
-            x = 3,
+            type = "npc",
+            id = 90783,
+            aside = true,
+            x = 0,
             y = 0,
             connections = {
-                1, 2, 3, 4
+                3
+            }
+        },
+        {
+            type = "npc",
+            id = 90749,
+            connections = {
+                3
+            }
+        },
+        {
+            type = "npc",
+            id = 90866,
+            x = 5,
+            connections = {
+                3, 4
             }
         },
         {
@@ -124,13 +156,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
             id = 38036,
             aside = true,
             x = 0,
-            y = 1,
         },
         {
             type = "quest",
             id = 38052,
-            x = 2,
-            y = 1,
             connections = {
                 3, 4
             },
@@ -138,8 +167,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
         {
             type = "quest",
             id = 38053,
-            x = 4,
-            y = 1,
             connections = {
                 2, 3
             },
@@ -147,8 +174,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
         {
             type = "quest",
             id = 38558,
-            x = 6,
-            y = 1,
             connections = {
                 1, 2
             },
@@ -160,7 +185,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
             id = 38057,
             aside = true,
             x = 2,
-            y = 2,
             connections = {
                 2
             },
@@ -168,8 +192,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
         {
             type = "quest",
             id = 38058,
-            x = 4,
-            y = 2,
             connections = {
                 2
             },
@@ -179,13 +201,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
             id = 38059,
             aside = true,
             x = 2,
-            y = 3,
         },
         {
             type = "quest",
             id = 38060,
-            x = 4,
-            y = 3,
             connections = {
                 1
             },
@@ -193,8 +212,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIAN
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT,
-            x = 3,
-            y = 4,
+            x = 4,
         },
     }
 })
@@ -376,79 +394,78 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT, 
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 3),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_HORDE,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIANCE,
-            restrictions = {
-                {
-                    type = "faction",
-                    id = BTWQUESTS_FACTION_ID_ALLIANCE,
-                },
-            },
         },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
-            restrictions = {
-                {
-                    type = "faction",
-                    id = BTWQUESTS_FACTION_ID_HORDE,
-                },
-            },
         },
+    },
+    active = {
+        type = "quest",
+        ids = {39735, 44700, 38035},
+        status = {'active', 'completed'},
     },
     completed = {
         type = "quest",
         id = 39597,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIANCE,
-            x = 3,
-            y = 0,
-            connections = {
-                2
-            },
-        },
-        {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
-            x = 3,
-            y = 0,
-            connections = {
-                1, 2
-            },
-        },
-        {
-            type = "quest",
-            id = 38210,
-            restrictions = {
+            variations = {
                 {
-                    type = "faction",
-                    id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                    type = "npc",
+                    id = 97306,
+                    restrictions = {
+                        type = "faction",
+                        id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                    },
+                },
+                {
+                    type = "npc",
+                    id = 97305,
                 },
             },
             x = 3,
-            y = 1,
             connections = {
-                2
+                1
             },
         },
         {
-            type = "quest",
-            id = 38459,
-            restrictions = {
+            variations = {
                 {
-                    type = "faction",
-                    id = BTWQUESTS_FACTION_ID_HORDE,
+                    type = "quest",
+                    id = 38210,
+                    restrictions = {
+                        type = "faction",
+                        id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 38459,
                 },
             },
             x = 3,
-            y = 1,
             connections = {
                 1
             },
@@ -457,7 +474,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT, 
             type = "quest",
             id = 38331,
             x = 3,
-            y = 2,
             connections = {
                 1
             },
@@ -466,7 +482,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT, 
             type = "quest",
             id = 39590,
             x = 3,
-            y = 3,
             connections = {
                 3, 4, 5
             },
@@ -548,26 +563,55 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 4),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT,
         },
     },
+    active = {
+        type = "quest",
+        ids = {38473, 38611},
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 38624,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT,
+            type = "npc",
+            id = 96254,
             x = 3,
             y = 0,
             connections = {
-                1, 2
+                1,
             },
         },
         {
@@ -632,7 +676,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL, {
             name = L["BTWQUESTS_KILL_DRAGONS"],
             breadcrumb = true,
             aside = true,
-            x = 1,
+            x = 0,
             y = 3,
             connections = {
                 3
@@ -661,8 +705,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL, {
                     },
                 },
             },
-            x = 3,
-            y = 3,
             connections = {
                 3, 
             },
@@ -690,9 +732,9 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL, {
                     },
                 },
             },
-            aside = true,
-            x = 5,
-            y = 3,
+            connections = {
+                2, 
+            },
         },
         {
             variations = {
@@ -718,7 +760,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL, {
                 },
             },
             aside = true,
-            x = 1,
+            x = 0,
             y = 4,
         },
         {
@@ -865,22 +907,56 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR, 
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 5),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL,
         },
     },
+    active = {
+        type = "quest",
+        ids = {38473, 38611},
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 38818,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL,
+            type = "npc",
+            id = 97074,
             x = 3,
             y = 0,
             connections = {
@@ -968,17 +1044,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR, 
             id = 39791,
             x = 4,
             y = 6,
-            connections = {
-                1, 2, 3
-            },
+            aside = true,
         },
 
 
         {
             type = "quest",
-            id = 38823,
+            id = 38816,
             x = 1,
-            y = 7,
             connections = {
                 3
             },
@@ -986,17 +1059,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR, 
         {
             type = "quest",
             id = 38817,
-            x = 3,
-            y = 7,
             connections = {
                 2
             },
         },
         {
             type = "quest",
-            id = 38816,
-            x = 5,
-            y = 7,
+            id = 38823,
             connections = {
                 1
             },
@@ -1032,22 +1101,61 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_TO_HELHEIM_AND_BACK,
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 6),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR,
         },
     },
+    active = {
+        type = "quest",
+        id = 39837,
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 39855,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR,
+            type = "npc",
+            id = 97319,
             x = 3,
             y = 0,
             connections = {
@@ -1177,11 +1285,57 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_SECRETS_OF_THE_SHIEL
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 7),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_TO_HELHEIM_AND_BACK,
         },
+    },
+    active = {
+        type = "quest",
+        ids = {39059, 38872},
+        status = {'active', 'completed'},
     },
     completed = {
         {
@@ -1205,12 +1359,30 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_SECRETS_OF_THE_SHIEL
             },
         },
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_TO_HELHEIM_AND_BACK,
+            variations = {
+                {
+                    type = "npc",
+                    id = 94346,
+                    restrictions = {
+                        {
+                            type = "faction",
+                            id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                        },
+                    },
+                },
+                {
+                    type = "npc",
+                    id = 93624,
+                    restrictions = {
+                        {
+                            type = "faction",
+                            id = BTWQUESTS_FACTION_ID_HORDE,
+                        },
+                    },
+                },
+            },
             x = 3,
             y = 0,
             connections = {
@@ -1243,7 +1415,35 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_SECRETS_OF_THE_SHIEL
             x = 3,
             y = 1,
             connections = {
-                1, 2, 
+                2, 3, 
+            },
+        },
+        {
+            variations = {
+                {
+                    type = "object",
+                    id = 243700,
+                    restrictions = {
+                        {
+                            type = "faction",
+                            id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                        },
+                    },
+                },
+                {
+                    type = "object",
+                    id = 243454,
+                    restrictions = {
+                        {
+                            type = "faction",
+                            id = BTWQUESTS_FACTION_ID_HORDE,
+                        },
+                    },
+                },
+            },
+            x = 6,
+            connections = {
+                3
             },
         },
 
@@ -1462,22 +1662,66 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_CHAMPION_OF_STOR
     name = BtWQuests_GetAchievementCriteriaNameDelayed(10790, 8),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    major = true,
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_GREYMANES_GAMBIT_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_ALLIANCE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_AFTERMATH_HORDE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_MIGHT,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_WILL,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_THE_TRIAL_OF_VALOR,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_TO_HELHEIM_AND_BACK,
         },
     },
+    active = {
+        type = "quest",
+        id = 40078,
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 40005,
     },
-    major = true,
-    range = {98,45},
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_STORMHEIM_TO_HELHEIM_AND_BACK,
+            type = "npc",
+            id = 92539,
             x = 3,
             y = 0,
             connections = {
@@ -1556,11 +1800,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_A_MURKY_FATE, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 40120,
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 40120,
     },
-    range = {98,45},
     items = {
         {
             type = "npc",
@@ -1586,11 +1841,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_DREYRGROT, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {42635, 42639, 42640},
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 42640,
     },
-    range = {98,45},
     items = {
         {
             type = "npc",
@@ -1657,11 +1923,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_RAVENBEAR, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 42444,
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 42447,
     },
-    range = {98,45},
     items = {
         {
             type = "npc",
@@ -1712,11 +1989,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_STORMHEIM_GOBLINS, {
     name = BtWQuests_GetAchievementNameDelayed(11232),
     category = BTWQUESTS_CATEGORY_LEGION_STORMHEIM,
     expansion = BTWQUESTS_EXPANSION_LEGION,
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 39789,
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "quest",
         id = 43331,
     },
-    range = {98,45},
     items = {
         {
             type = "npc",

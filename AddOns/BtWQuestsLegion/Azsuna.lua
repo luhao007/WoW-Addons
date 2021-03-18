@@ -8,17 +8,36 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 38834,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 37449,
     },
     items = {
         {
+            type = "npc",
+            id = 93337,
+            x = 3,
+            y = 0,
+            connections = {
+                1,
+            }, 
+        },
+        {
             type = "quest",
             id = 38834,
             x = 3,
-            y = 0,
             connections = {
                 1, 2
             }, 
@@ -27,7 +46,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             type = "quest",
             id = 37658,
             x = 2,
-            y = 1, 
             connections = {
                 2
             }, 
@@ -36,7 +54,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             type = "quest",
             id = 37653,
             x = 4,
-            y = 1,
             connections = {
                 1
             }, 
@@ -45,7 +62,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             type = "quest",
             id = 37660,
             x = 3,
-            y = 2,
             connections = {
                 1
             }, 
@@ -54,7 +70,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             type = "quest",
             id = 36920,
             x = 3,
-            y = 3,
             connections = {
                 1, 2, 3
             }, 
@@ -64,13 +79,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             id = 36811,
             aside = true,
             x = 5,
-            y = 3.25,
+            y = 4.25,
         },
         {
             type = "quest",
             id = 37450,
             x = 2,
-            y = 4,
+            y = 5,
             connections = {
                 2,
             }, 
@@ -79,7 +94,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             type = "quest",
             id = 37656,
             x = 4,
-            y = 4,
             connections = {
                 1
             }, 
@@ -88,7 +102,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             type = "quest",
             id = 37449,
             x = 3,
-            y = 5,
             connections = {
                 1
             }, 
@@ -97,7 +110,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES, {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOSE,
             x = 3,
-            y = 6,
         },
     }
 })
@@ -106,12 +118,21 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOS
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES,
         },
+    },
+    active = {
+        type = "quest",
+        id = 38443,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -119,8 +140,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOS
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES,
+            type = "npc",
+            id = 93326,
             x = 3,
             y = 0,
             connections = {
@@ -166,6 +187,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOS
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA,
+            aside = true,
             x = 5,
             y = 4.25,
         },
@@ -188,11 +210,23 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOS
             }, 
         },
         {
-            type = "quest",
-            id = 37858,
+            variations = {
+                {
+                    type = "quest",
+                    id = 37858,
+                    restrictions = {
+                        type = "quest",
+                        id = 37858,
+                        status = {'active', 'completed'}
+                    }
+                },
+                {
+                    type = "npc",
+                    id = 90065,
+                }
+            },
             x = 3,
             y = 6,
-            breadcrumb = true,
             connections = {
                 2
             }, 
@@ -230,7 +264,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOS
             x = 2,
             y = 9,
             connections = {
-                3
+                3, 4
             }, 
         },
         {
@@ -239,12 +273,13 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOS
             x = 4,
             y = 9,
             connections = {
-                3
+                2, 3
             }, 
         },
         {
             type = "quest",
             id = 37963,
+            aside = true,
             x = 5,
             y = 8.25, 
         },
@@ -324,12 +359,27 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
         {
-            type = "quest",
-            id = 42271,
+            type = "level",
+            level = 10,
         },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_AZSUNA_BEHINDENEMYLINES,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOSE,
+            upto = 42271,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 37690,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -337,11 +387,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA, {
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_AZSUNA_DEFENDINGAZUREWINGREPOSE,
+            type = "npc",
+            id = 89975,
             x = 3,
             y = 0,
-            breadcrumb = true,
             connections = {
                 1
             }, 
@@ -361,17 +410,33 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA, {
             x = 3,
             y = 2,
             connections = {
-                1
+                1, 2, 3
             },
+        },
+        {
+            type = "npc",
+            id = 89341,
+            x = 1,
+            y = 3,
+            aside = true,
+            connections = {
+                3, 4
+            }, 
         },
         {
             type = "quest",
             id = 37733,
-            x = 3,
-            y = 3,
             connections = {
-                1, 2, 3, 4
+                4
             },
+        },
+        {
+            type = "npc",
+            id = 88798,
+            aside = true,
+            connections = {
+                4
+            }, 
         },
 
 
@@ -398,7 +463,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA, {
             x = 4,
             y = 4,
             connections = {
-                3
+                4
             },
         },
         {
@@ -409,69 +474,76 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA, {
             y = 4,
         },
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_AZSUNA_AGAINSTTHEGIANTS,
-            aside = true,
-            x = 1,
-            y = 5,
-        },
-        {
-            type = "quest",
-            id = 37497,
-            x = 3,
-            y = 5,
-            connections = {
-                2
-            },
-        },
-
-
-        
-        {
-            type = "quest",
-            id = 37466,
+            type = "npc",
+            id = 89326,
             aside = true,
             x = 0,
-            y = 6,
-        },
-
-
-        {
-            type = "quest",
-            id = 37486,
-            x = 2,
-            y = 6,
             connections = {
                 4
             },
         },
+        {
+            type = "npc",
+            id = 108328,
+            aside = true,
+            connections = {
+                4
+            },
+        },
+        {
+            type = "quest",
+            id = 37497,
+            connections = {
+                4
+            },
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_AZSUNA_AGAINSTTHEGIANTS,
+            aside = true,
+        },
+
 
 
         {
             type = "quest",
             id = 42692,
             aside = true,
-            x = 4,
-            y = 6,
+            x = 0,
             connections = {
-                2
+                4
             },
         },
         {
             type = "quest",
             id = 42693,
             aside = true,
-            x = 6,
-            y = 6,
             connections = {
-                1
+                3
             },
         },
+        
+
+
+        {
+            type = "quest",
+            id = 37486,
+            connections = {
+                3
+            },
+        },
+
+        {
+            type = "quest",
+            id = 37466,
+            aside = true,
+        },
+
         {
             type = "quest",
             id = 42694,
             aside = true,
-            x = 5,
+            x = 1,
             y = 7,
         },
 
@@ -480,7 +552,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AZSUNAVERSUSAZSHARA, {
             type = "quest",
             id = 37467,
             x = 3,
-            y = 7,
             connections = {
                 1
             },
@@ -617,7 +688,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AGAINSTTHEGIANTS, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        id = 38407,
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 37566,
@@ -701,7 +783,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_AGAINSTTHEGIANTS, {
             x = 3,
             y = 7,
             connections = {
-                2
+                3
+            },
+        },
+        {
+            type = "npc",
+            id = 88863,
+            aside = true,
+            connections = {
+                3
             },
         },
         {
@@ -750,80 +840,116 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_MAKRANA, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {38857, 37654, 37657},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
-        id = 40794,
+        ids = {37657, 40794},
+        count = 2,
     },
     items = {
         {
-            type = "quest",
-            id = 38857,
+            type = "npc",
+            id = 88863,
             aside = true,
             x = 0,
             y = 0,
+            connections = {
+                3
+            },
         },
         {
-            type = "quest",
-            id = 37654,
-            x = 2,
-            y = 0,
+            type = "npc",
+            id = 91419,
+            x = 3,
+            connections = {
+                3, 4
+            },
+        },
+        {
+            type = "area",
+            id = 7345,
+            x = 6,
+            locations = {
+                [630] = {
+                    {
+                        x = 0.6141,
+                        y = 0.585917,
+                    },
+                },
+            },
             connections = {
                 4
             },
         },
         {
             type = "quest",
+            id = 38857,
+            aside = true,
+            x = 0,
+        },
+        {
+            type = "quest",
+            id = 37654,
+            connections = {
+                3
+            },
+        },
+        {
+            type = "quest",
             id = 37657,
-            x = 4,
-            y = 0,
         },
         {
-            type = "quest",
-            id = 42220,
-            restrictions = {
+            variations = {
                 {
-                    type = "faction",
-                    id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                    type = "quest",
+                    id = 42220,
+                    restrictions = {
+                        type = "faction",
+                        id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 42268,
                 }
             },
             aside = true,
-            x = 6,
-            y = 0,
-        },
-        {
-            type = "quest",
-            id = 42268,
-            restrictions = {
-                {
-                    type = "faction",
-                    id = BTWQUESTS_FACTION_ID_HORDE,
-                }
-            },
-            aside = true,
-            x = 6,
-            y = 0,
         },
         {
             type = "quest",
             id = 37659,
             x = 3,
-            y = 1,
             connections = {
-                1, 2
+                1,
             },
         },
         {
-            type = "quest",
-            id = 40794,
+            variations = {
+                {
+                    type = "quest",
+                    id = 40794,
+                    restrictions = {
+                        type = "faction",
+                        id = BTWQUESTS_FACTION_ID_ALLIANCE,
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 42244,
+                },
+            },
             x = 3,
-            y = 2
-        },
-        {
-            type = "quest",
-            id = 42244,
-            x = 3,
-            y = 2
         },
     }
 })
@@ -834,16 +960,39 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_DAGLOP, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {42238, 38460},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 38237,
     },
     items = {
         {
-            type = "quest",
-            id = 42238,
-            breadcrumb = true,
+            variations = {
+                {
+                    type = "quest",
+                    id = 42238,
+                    restrictions = {
+                        type = "quest",
+                        id = 42238,
+                        status = {'active', 'completed'}
+                    }
+                },
+                {
+                    type = "npc",
+                    id = 91166,
+                }
+            },
             x = 3,
             y = 0,
             connections = {
@@ -891,22 +1040,54 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_VINEYARD, {
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     range = {98,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {37965, 38203},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 38203,
     },
     items = {
         {
+            type = "area",
+            id = 7517,
+            x = -1,
+            y = 0,
+            locations = {
+                [630] = {
+                    {
+                        x = 0.4432,
+                        y = 0.0910,
+                    },
+                },
+            },
+            connections = {
+                2
+            },
+        },
+        {
+            type = "npc",
+            id = 91061,
+            connections = {
+                2
+            },
+        },
+        {
             type = "quest",
             id = 37965,
-            x = 1,
-            y = 0,
+            x = -1,
         },
         {
             type = "quest",
             id = 38203,
-            x = 3,
-            y = 0,
         },
         -- {
         --     type = "quest",
@@ -924,16 +1105,39 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_AZSUNA_FELBLAZE, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_AZSUNA,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {37965, 38203},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 42369,
     },
     items = {
         {
-            type = "quest",
-            id = 42372,
-            breadcrumb = true,
+            variations = {
+                {
+                    type = "quest",
+                    id = 42372,
+                    restrictions = {
+                        type = "quest",
+                        id = 42372,
+                        status = {'active', 'completed'}
+                    }
+                },
+                {
+                    type = "npc",
+                    id = 107244,
+                }
+            },
             x = 3,
             y = 0,
             connections = {

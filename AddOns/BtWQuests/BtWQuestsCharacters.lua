@@ -514,7 +514,7 @@ end
 function BtWQuestsCharactersPlayerMixin:GetHeartOfAzerothLevel()
     if C_AzeriteItem.HasActiveAzeriteItem() then
         local itemLocation = C_AzeriteItem.FindActiveAzeriteItem();
-        if itemLocation then
+        if itemLocation and itemLocation:IsValid() then
             return C_AzeriteItem.GetPowerLevel(itemLocation)
         end
     end

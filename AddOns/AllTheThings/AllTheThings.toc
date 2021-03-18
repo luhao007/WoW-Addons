@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: Crieve-Sargeras
-## Version: 2.2.8
+## Version: Shadowlands-2.2.9
 ## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionConfig, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 

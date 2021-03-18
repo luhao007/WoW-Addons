@@ -1,12 +1,16 @@
 ------------------------------------------------------------------------
-r251 | Odica_Jaedenar | 2020-11-19 21:02:09 +0000 (Thu, 19 Nov 2020) | 4 lines
+r253 | Odica_Jaedenar | 2021-03-12 23:19:48 +0000 (Fri, 12 Mar 2021) | 8 lines
 Changed paths:
    M /trunk/LibTourist-3.0.lua
    M /trunk/LibTourist-3.0.toc
 
-- Updated TOC version to 90002
-- Exile's Reach and Darkmaul Citadel are now Friendly for both Horde and Alliance, instead of contested
-- Corrected group size for Darkmaul Citadel
-- Removed road connection between Tiragarde Sound and Tol Dagor
+- updated TOC to version 90005
+- added Castle Nathria (raid)
+- fixed missing group size for all Shadowlands dungeons
+- corrected 19 map names in MapIDLookupTable
+- added 7 MapIDs to MapIDLookupTable
+- added 3 flight nodes
+- fixed a bug in local function GetExpansionIndex that could cause a lua error
+- removed some obsolete code
 ------------------------------------------------------------------------
 

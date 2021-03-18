@@ -1,34 +1,39 @@
 # Deadly Boss Mods Core
 
-## [9.0.22](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/9.0.22) (2021-03-09)
-[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/9.0.21...9.0.22) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
+## [9.0.23](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/9.0.23) (2021-03-15)
+[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/9.0.22...9.0.23) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
 
-- Fixed a bug where AddMsg would fail to read chatframe setting when AddMsg is called by a mod and not core. Self would inherit the wrong parent.  
-    bump version  
-- TOC Bump  
-- Disabled Xira's ability, per hottfixes  
-- no changes, just removed obsolete comment  
-- Added user request, dreadbindings in sanguine depths  
-- restore backup method for volatile ejection, CLEU not consistent  
-- went over cap, revert this  
-- Fix typo  
-- Fixes to last to actually do what was intended  
-- Allow CreatePizzaTimer object to be called with "whisper" arg by external modders using function to unicast timers. Also allows DBM to accept pizza timers sent this way via whisper sync handler.  
-- Update koKR (#518)  
-- Missed some schedules  
-- Save cpu on hungering destroyer by using new hotfixed events and no longer rely on cpu heavier spell\_damage and scheduling  
-    Also moved volatile to combat log events so it no longer relies on victims running boss mods for them to get marked  
-- Fix Lua exception (#517)  
-    Bad table entry, reported by user :)  
-- Clear paused status on a bar when :Start or :Stop is called on a timer object. Start should always clear previous status of timer.  
-- Add new test condition  
-- Update README.md  
-- Update README.md  
-- Forgot these  
-- tiny bit of post tier cleanup  
+- Prep release  
+- Added moveme buttons to other timer options panels  
+- Revert nerf to icon settings. let users have both icons if they want. Also fixes regression where toggling icons in GUI didn't live update the dummy timers.  
+- Dbt Fixes (#529)  
+- remove debug stuff.  
+- Update bug\_report.md  
+    Remove twitch notice  
+- DBT Update. Revert last text change to bar sorting option, because the rapid bar sorting bug is now fixed because of following changes:  
+    1. Bars will no longer sort every single bar update since it's a bit of a cpu waste to sort bars when time remaining on any of bars has not changed.  
+    2. Instead, bar sorting will only run when any of events happen (a new timer starts, the time on an existing bar has changed, a bar has been paused, a bar has been unpaused, or a bar configuration has been changed).  
+- Label bar sorting as Not yet implimented so people using updated DBM know why it's not working anymore  
+- small cleanup  
+- Update bug\_report.md  
+- Small micro optimize to backdrop template checks  
+- Fix renew warnings in De Other Side (#525)  
+- Backwards compat code for weak auras for now to prevent errors/freezes related to that  
+- Fix regression that caused timers to tick twice as fast  
+    Fix bar pausing for real  
+    disable bar sorting in non debug mode for now since it's still royally fucked up when bars are paused  
+- readded bar pausing to new timer object  
+- Fix error and slim it some  
+- Seems skin api needs whole damn thing to not error out, so restore literally the whole thing temporarily for migration  
+- Fix default skin return again, this time it shouldn't error anymore even if users fail to remove it.  
+- More error silencing for user migration  
+- Fixed double updating bars, which seems to have fixed the massive anchoring bugs that were occuring as ewll  
+    Fixed bars ignoring the sort setting as well.  
+- Update banned mods  
+- More fixes (bugs from original)  
 - Fix  
-- updated timer recovery to send paused bar status. This will fix a bug where a user reloading bars they think are "stuck" won't ACTUALLY break them for real when recovery gets them back.  
-    Changed sync handler for it to avoid out of date syncs also messing it up that don't have paused status.  
-- tweak last  
-- Maybe this will fix bar errors. bar frame names will now generate unique integer EVERY SINGLE COMMIT. Shouldn't break DBMs bar handling but should make it an utter NIGHTMARE for anyone trying to modify them. Hate having to ruin 3rd party skinning like this, but if it's breaking DBM it has to come to a stop.  
+- Merge in unfinished DBT rewrite now. it's buggy but it shouldn't have freezng issues like whatever the hell blizzard did with last couple patches that strongly dislike old DBT code  
+- Update ci.yml  
+    Prep WAGO API Token  
+- Add Wago project ID  
 - bump alpha  

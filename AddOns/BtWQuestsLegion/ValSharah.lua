@@ -7,24 +7,44 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {40122, 38305},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 38384,
     },
     items = {
+        -- {
+        --     type = "quest",
+        --     id = 39731,
+        --     x = 3,
+        --     y = 0,
+        --     connections = {
+        --         1
+        --     }, 
+        -- },
+        -- {
+        --     type = "quest",
+        --     id = 39861,
+        --     x = 3,
+        --     y = 1,
+        --     connections = {
+        --         1
+        --     }, 
+        -- },
         {
-            type = "quest",
-            id = 39731,
-            x = 3,
-            y = 0,
-            connections = {
-                1
-            }, 
-        },
-        {
-            type = "quest",
-            id = 39861,
+            type = "npc",
+            id = 91462,
             x = 3,
             y = 1,
             connections = {
@@ -33,7 +53,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION, {
         },
         {
             type = "quest",
-            id = 38305,
+            ids = {40122, 38305},
             x = 3,
             y = 2,
             connections = {
@@ -74,12 +94,21 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_VAL
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
         },
+    },
+    active = {
+        type = "quest",
+        id = 38382,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -87,8 +116,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_VAL
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
+            type = "npc",
+            id = 94179,
             x = 3,
             y = 0,
             connections = {
@@ -101,7 +130,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_VAL
             x = 3,
             y = 1,
             connections = {
-                1
+                1, 2
             },
         },
         {
@@ -151,12 +180,21 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_CLA
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
         },
+    },
+    active = {
+        type = "quest",
+        id = 38142,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -164,8 +202,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_CLA
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
+            type = "npc",
+            id = 94179,
             x = 3,
             y = 0,
             connections = {
@@ -275,12 +313,21 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_LORE, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
         },
+    },
+    active = {
+        type = "quest",
+        id = 38381,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -288,8 +335,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_LORE, {
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
+            type = "npc",
+            id = 94179,
             x = 3,
             y = 0,
             connections = {
@@ -302,7 +349,23 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_LORE, {
             x = 3,
             y = 1,
             connections = {
-                1, 2
+                2, 3
+            },
+        },
+        {
+            type = "area",
+            id = 7605,
+            x = 6,
+            locations = {
+                [641] = {
+                    {
+                        x = 0.4470,
+                        y = 0.7610,
+                    },
+                },
+            },
+            connections = {
+                3
             },
         },
         {
@@ -342,8 +405,17 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE, 
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_VALE,
@@ -356,6 +428,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE, 
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_LORE,
         },
+    },
+    active = {
+        type = "quest",
+        ids = {38148, 38322, 38323},
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -395,7 +472,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE, 
             x = 3,
             y = 1,
             connections = {
-                3
+                1
             },
         },
         {
@@ -413,14 +490,30 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE, 
             x = 3,
             y = 3,
             connections = {
-                2, 3
+                3, 4
+            },
+        },
+        {
+            type = "area",
+            id = 7677,
+            x = 6,
+            aside = true,
+            locations = {
+                [641] = {
+                    {
+                        x = 0.5909,
+                        y = 0.538,
+                    },
+                },
+            },
+            connections = {
+                4
             },
         },
         {
             type = "kill",
             id = 92802,
-            -- name = "Kill Gravax the Desecrator",
-            -- breadcrumb = true,
+            aside = true,
             x = 0,
             y = 4,
             connections = {
@@ -439,6 +532,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE, 
         {
             type = "quest",
             id = 38655,
+            aside = true,
             x = 4,
             y = 4,
         },
@@ -452,6 +546,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE, 
         {
             type = "quest",
             id = 38656,
+            aside = true,
             x = 0,
             y = 5,
         },
@@ -504,12 +599,41 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ALL_NIGHTMARE_LONG, 
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTRODUCTION,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_VALE,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_THE_CLAW,
+            lowPriority = true,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_ARCHDRUID_OF_LORE,
+            lowPriority = true,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE,
         },
+    },
+    active = {
+        type = "quest",
+        id = 41056,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -517,8 +641,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ALL_NIGHTMARE_LONG, 
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE,
+            type = "npc",
+            id = 102938,
             x = 3,
             y = 0,
             connections = {
@@ -572,7 +696,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ALL_NIGHTMARE_LONG, 
             x = 3,
             y = 4,
             connections = {
-                1, 2
+                2, 3
+            },
+        },
+        {
+            type = "area",
+            id = 7702,
+            x = 6,
+            aside = true,
+            locations = {
+                [641] = {
+                    {
+                        x = 0.6380,
+                        y = 0.4709,
+                    },
+                },
+            },
+            connections = {
+                3
             },
         },
         {
@@ -606,7 +747,24 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_ALL_NIGHTMARE_LONG, 
             x = 3,
             y = 6,
             connections = {
-                1
+                2
+            },
+        },
+        {
+            type = "area",
+            id = 7665,
+            x = 5,
+            aside = true,
+            locations = {
+                [641] = {
+                    {
+                        x = 0.6104,
+                        y = 0.357,
+                    },
+                },
+            },
+            connections = {
+                2
             },
         },
         {
@@ -655,12 +813,17 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE,
+            type = "level",
+            level = 10,
         },
+    },
+    active = {
+        type = "quest",
+        ids = {38643, 39149, 39015, 38711},
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -668,8 +831,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK, {
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_INTO_THE_NIGHTMARE,
+            type = "npc",
+            id = 92688,
             x = 3,
             y = 0,
             connections = {
@@ -686,25 +849,23 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK, {
                 3
             },
         },
-        { -- @TODO Alternative? 39149
+        {
             type = "quest",
-            id = 38643,
+            ids = {38643, 39149},
             x = 3,
             y = 1,
             connections = {
-                3, 4
+                3, 5, 6, 7, 8
             },
         },
         {
             type = "kill",
             id = 94366,
-            -- name = "Kill Lelyn Swiftshadow, near Hearthrow Manor",
-            -- breadcrumb = true,
             aside = true,
             x = 6,
             y = 1,
             connections = {
-                4
+                3
             },
         },
         {
@@ -714,23 +875,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK, {
             x = 0,
             y = 2,
         },
+
         {
             type = "quest",
-            id = 38645,
-            x = 2,
-            y = 2,
+            id = 39117,
             connections = {
                 6
             },
-        },
-        {
-            type = "quest",
-            id = 38644,
-            x = 4,
-            y = 2,
-            connections = {
-                5
-            },
+            x = 3,
         },
         {
             type = "quest",
@@ -741,36 +893,38 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK, {
         },
         {
             type = "quest",
-            id = 38647,
+            id = 38645,
+            x = 0,
+            connections = {
+                4
+            },
+        },
+        {
+            type = "quest",
+            id = 38644,
             connections = {
                 3
             },
-            x = 0,
-            y = 3,
+        },
+
+        {
+            type = "quest",
+            id = 38647,
+            connections = {
+                2
+            },
         },
         {
             type = "quest",
             id = 38646,
             connections = {
-                2
-            },
-            x = 6,
-            y = 3,
-        },
-        {
-            type = "quest",
-            id = 39117,
-            connections = {
                 1
             },
-            x = 0,
-            y = 4,
         },
         {
             type = "quest",
             id = 38691,
             x = 3,
-            y = 3,
             connections = {
                 1
             },
@@ -779,7 +933,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK, {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_BLACK_ROOK_HOLD,
             x = 3,
-            y = 4,
         },
     }
 })
@@ -788,12 +941,21 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BLACK_ROOK_HOLD, {
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
     major = true,
-    range = {98,45},
+    range = {10,45},
     prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_LEGION_VALSHARAH_BRADENSBROOK,
         },
+    },
+    active = {
+        type = "quest",
+        id = 38718,
+        status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
@@ -815,7 +977,23 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_BLACK_ROOK_HOLD, {
             x = 3,
             y = 1,
             connections = {
-                1, 2
+                2, 3
+            },
+        },
+        {
+            type = "area",
+            id = 7780,
+            x = 6,
+            locations = {
+                [641] = {
+                    {
+                        x = 0.4103,
+                        y = 0.5103,
+                    },
+                },
+            },
+            connections = {
+                3
             },
         },
         {
@@ -883,7 +1061,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_WILDKIN, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {42747, 42748, 42750, 42786},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
         id = 42751,
@@ -967,12 +1156,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_WILDKIN, {
             x = 2,
             y = 2,
         },
-        {
-            type = "quest",
-            id = 43324,
-            x = 6,
-            y = 2,
-        },
     }
 })
 BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_GRIZZLEWEALD, {
@@ -982,10 +1165,22 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_GRIZZLEWEALD, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {42865, 42884, 42883, 42857},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
-        id = 42865,
+        ids = {42865, 42884, 42883, 42857},
+        count = 4,
     },
     items = {
         {
@@ -1049,22 +1244,45 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_LUNARWING, {
 	},
     category = BTWQUESTS_CATEGORY_LEGION_VALSHARAH,
     expansion = BTWQUESTS_EXPANSION_LEGION,
-    range = {98,45},
+    range = {10,45},
+    prerequisites = {
+        {
+            type = "level",
+            level = 10,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {40220, 40221, 38862},
+        status = {'active', 'completed'}
+    },
     completed = {
         type = "quest",
-        id = 40220,
+        ids = {40220, 40221, 38862},
+        count = 3,
     },
     items = {
         {
+            type = "area",
+            id = 7680,
+            x = 0,
+            y = 0,
+            locations = {
+                [641] = {
+                    {
+                        x = 0.5460,
+                        y = 0.8354,
+                    },
+                },
+            },
+            connections = {
+                3
+            },
+        },
+        {
             type = "npc",
             id = 93600,
-            -- name = "Go to Saylanna Riverbreeze",
-            -- breadcrumb = true,
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(MAP_ID, 0.5375, 0.7983, "Saylanna Riverbreeze")
-            -- end,
             x = 3,
-            y = 0,
             connections = {
                 3, 4,
             },
@@ -1073,7 +1291,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_LUNARWING, {
             name = "Kill Thistleleaf",
             breadcrumb = true,
             x = 6,
-            y = 0,
             connections = {
                 4,
             },
@@ -1083,25 +1300,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_VALSHARAH_LUNARWING, {
             id = 38842,
             aside = true,
             x = 0,
-            y = 1,
         },
         {
             type = "quest",
             id = 40220,
-            x = 2,
-            y = 1,
         },
         {
             type = "quest",
             id = 40221,
-            x = 4,
-            y = 1,
         },
         {
             type = "quest",
             id = 38862,
-            x = 6,
-            y = 1,
         },
     }
 })

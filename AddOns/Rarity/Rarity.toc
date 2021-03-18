@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: Allara
-## Version: 1.0 (r705-release)
+## Version: 1.0 (r706-release-2)
 ## OptionalDeps: Ace3,LibDualSpec-1.0,LibQTip-1.0,LibDBIcon-1.0,LibBabble-Zone-3.0,LibSink-2.0,LibBabble-SubZone-3.0,LibSharedMedia-3.0,AceGUI-3.0-SharedMediaWidgets,LibBabble-CreatureType-3.0,LibBabble-Boss-3.0,HereBeDragons
 ## LoadManagers: AddonLoader
 ## SavedVariables: RarityDB
@@ -28,13 +28,51 @@ DB\Nodes.lua
 DB\SharedConstants.lua
 DB\Spells.lua
 
+# Collectibles Database (makes use of the shared constants, so load those first)
+DB\ItemDB.lua
+
+DB\Mounts\HolidayEvents.lua
+DB\Mounts\Classic.lua
+DB\Mounts\TheBurningCrusade.lua
+DB\Mounts\WrathOfTheLichKing.lua
+DB\Mounts\Cataclysm.lua
+DB\Mounts\MistsOfPandaria.lua
+DB\Mounts\WarlordsOfDraenor.lua
+DB\Mounts\Legion.lua
+DB\Mounts\BattleForAzeroth.lua
+DB\Mounts\Shadowlands.lua
+
+DB\Pets\HolidayEvents.lua
+DB\Pets\Classic.lua
+DB\Pets\TheBurningCrusade.lua
+DB\Pets\WrathOfTheLichKing.lua
+DB\Pets\Cataclysm.lua
+DB\Pets\MistsOfPandaria.lua
+DB\Pets\WarlordsOfDraenor.lua
+DB\Pets\Legion.lua
+DB\Pets\BattleForAzeroth.lua
+DB\Pets\Shadowlands.lua
+
+DB\Toys\HolidayEvents.lua
+DB\Toys\Classic.lua
+DB\Toys\TheBurningCrusade.lua
+DB\Toys\WrathOfTheLichKing.lua
+DB\Toys\Cataclysm.lua
+DB\Toys\MistsOfPandaria.lua
+DB\Toys\WarlordsOfDraenor.lua
+DB\Toys\Legion.lua
+DB\Toys\BattleForAzeroth.lua
+DB\Toys\Shadowlands.lua
+
 # Utility/Helpers
 Utils\DatabaseMaintenanceHelper.lua
 Utils\DebugCache.lua
 Utils\PrettyPrint.lua
 Utils\Sorting.lua
 Utils\Time.lua
-Utils\TradeSkillMaster.lua
+
+# Wrappers for external libraries (to provide a consistent API)
+Core\Interfaces\AuctionDB.lua
 
 # Addon Core
 Core\Caching.lua

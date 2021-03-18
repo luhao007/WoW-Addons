@@ -1704,15 +1704,6 @@ Database:AddChain(Chain.TheHouseOfRituals, {
             type = "quest",
             id = 61761,
             x = 0,
-            connections = {
-                1, 
-            },
-        },
-        {
-            type = "quest",
-            id = 60111,
-            aside = true,
-            x = 0,
         },
     },
 })
@@ -1858,6 +1849,15 @@ Database:AddChain(Chain.AssaultOnTheHouseOfRituals, {
         {
             type = "quest",
             id = 62406,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 60111,
+            aside = true,
             x = 0,
         },
     },
