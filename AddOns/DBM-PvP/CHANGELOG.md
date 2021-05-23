@@ -1,7 +1,6 @@
 # <DBM> PvP
 
-## [r117](https://github.com/DeadlyBossMods/DBM-PvP/tree/r117) (2021-03-09)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-PvP/compare/r116...r117) [Previous Releases](https://github.com/DeadlyBossMods/DBM-PvP/releases)
+## [r124](https://github.com/DeadlyBossMods/DBM-PvP/tree/r124) (2021-05-20)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-PvP/compare/r123...r124) [Previous Releases](https://github.com/DeadlyBossMods/DBM-PvP/releases)
 
-- TOC Bump  
-- Use a hardcoded value for timer starting. (#86)  
+- Fix AV timers for TBC prepatch (#102)  

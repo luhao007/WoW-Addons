@@ -1,10 +1,10 @@
--- $Id: Atlas_OutdoorRaids-deDE.lua 56 2020-01-05 13:33:38Z arith $
+-- $Id: Atlas_OutdoorRaids-deDE.lua 68 2021-05-20 15:30:47Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 	Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -33,10 +33,8 @@ L["Battle for Azeroth"] = "Battle for Azeroth"
 L["Broken Isles World Bosses"] = "Weltbosse der Verheerten Inseln"
 L["Broken Shore World Bosses"] = "Weltbosse der Verheerten Küste"
 L["Darkscreecher Akkarai"] = "Dunkelkreischer Akkarai"
---[[Translation missing --]]
---[[ L["Doom Lord Kazzak"] = ""--]] 
---[[Translation missing --]]
---[[ L["Doomwalker"] = ""--]] 
+L["Doom Lord Kazzak"] = "Verdammnislord Kazzak"
+L["Doomwalker"] = "Verdammniswandler"
 L["Draenor World Bosses"] = "Weltbosse von Draenor"
 L["Eastern Kingdoms World Bosses"] = "Weltbosse der Östlichen Königreiche"
 L["Gezzarak the Huntress"] = "Gezzarak die Jägerin"

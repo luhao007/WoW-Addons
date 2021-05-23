@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "El destino de la Acusadora",
     },
-    [57189] = {
-        name = "La destrucción de los rompesperanzas",
-    },
     [57190] = {
         name = "Se llevarán una sorpresa",
     },
@@ -2279,6 +2276,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [60498] = {
         name = "Una prueba por delante",
+    },
+    [60501] = {
+        name = "Redención para el redentor",
     },
     [60504] = {
         name = "Fortalecer el lazo",

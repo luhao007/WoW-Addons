@@ -5,8 +5,8 @@ if GetLocale() ~= "zhTW" then
 end
 
 local L = BtWQuests.L
-L["ALLIED_RACE_MECHAGNOME"] = "Allied Race：機械地精"
-L["ALLIED_RACE_VULPERA"] = "Allied Race：狐狸人"
+L["ALLIED_RACE_MECHAGNOME"] = "同盟種族: 解鎖機械地精"
+L["ALLIED_RACE_VULPERA"] = "同盟種族：狐狸人"
 L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"] = "造型：光陰"
 L["BTWQUESTS_GIFT_OF_NZOTH"] = "恩若司之賜"
 L["BTWQUESTS_HATI_REBORN"] = "哈提重生"

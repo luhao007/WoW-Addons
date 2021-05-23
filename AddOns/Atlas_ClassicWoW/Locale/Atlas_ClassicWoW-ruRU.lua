@@ -1,10 +1,10 @@
--- $Id: Atlas_ClassicWoW-ruRU.lua 55 2020-01-14 15:00:30Z arith $
+-- $Id: Atlas_ClassicWoW-ruRU.lua 73 2021-05-20 15:17:09Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 	Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -54,9 +54,9 @@ L["Antu'sul"] = "Анту'сул"
 L["Anub'Rekhan"] = "Ануб'Рекан"
 L["Anub'shiah"] = "Ануб'шиа"
 L["Aoren Sunglow <The Reliquary>"] = "Аорен Солнечное Сияние <Реликварий>"
-L["AQ"] = "АКУ"
-L["AQ20"] = "РА20"
-L["AQ40"] = "АКУ40"
+L["AQ"] = "АК"
+L["AQ20"] = "АК20"
+L["AQ40"] = "АК40"
 L["Arcanist Doan"] = "Чародей Доан"
 L["Archaedas"] = "Аркедас"
 L["Archivist Galford"] = "Архивариус Галфорд"

@@ -13,12 +13,8 @@ local function ArrayContains(a, item)
     return false
 end
 
---@REMOVE AFTER 9.0
-local GetLogIndexForQuestID = C_QuestLog.GetLogIndexForQuestID
-local IsQuestFlaggedCompleted = C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted or IsQuestFlaggedCompleted;
-if select(4, GetBuildInfo()) < 90000 then
-    GetLogIndexForQuestID = GetQuestLogIndexByID
-end
+local GetLogIndexForQuestID = C_QuestLog and C_QuestLog.GetLogIndexForQuestID or GetQuestLogIndexByID
+local IsQuestFlaggedCompleted = C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted or IsQuestFlaggedCompleted
 
 local BtWQuestsCharactersMap = {} -- Map from name-realm to Character Mixin
 
@@ -491,9 +487,11 @@ end
 function BtWQuestsCharactersPlayerMixin:GetSex()
     return UnitSex("player")
 end
-function BtWQuestsCharactersPlayerMixin:GetSkillInfo(skillID)
-    local _, level, maxLevel = C_TradeSkillUI.GetTradeSkillLineInfoByID(skillID)
-    return level, maxLevel
+if C_TradeSkillUI then
+    function BtWQuestsCharactersPlayerMixin:GetSkillInfo(skillID)
+        local _, level, maxLevel = C_TradeSkillUI.GetTradeSkillLineInfoByID(skillID)
+        return level, maxLevel
+    end
 end
 function BtWQuestsCharactersPlayerMixin:GetFactionInfoByID(faction)
     local factionName, _, standing, barMin, barMax, value = GetFactionInfoByID(faction)
@@ -578,15 +576,17 @@ xpTooltip:SetScript("OnTooltipSetItem", function (self)
 end)
 local function PlayerXPModifier()
     local modifier = 0;
-    for inventorySlotId=INVSLOT_HEAD,INVSLOT_TABARD do
-        local itemLink = GetInventoryItemLink("player", inventorySlotId);
-        if itemLink then
-            for index=1,3 do
-                local _, gemLink = GetItemGem(itemLink, index);
-                if gemLink then
-                    local itemID = GetItemInfoInstant(gemLink);
-                    if gemXpByID[itemID] then
-                        modifier = modifier + gemXpByID[itemID];
+    if GetItemGem then
+        for inventorySlotId=INVSLOT_HEAD,INVSLOT_TABARD do
+            local itemLink = GetInventoryItemLink("player", inventorySlotId);
+            if itemLink then
+                for index=1,3 do
+                    local _, gemLink = GetItemGem(itemLink, index);
+                    if gemLink then
+                        local itemID = GetItemInfoInstant(gemLink);
+                        if gemXpByID[itemID] then
+                            modifier = modifier + gemXpByID[itemID];
+                        end
                     end
                 end
             end
@@ -598,10 +598,10 @@ function BtWQuestsCharactersPlayerMixin:GetXPModifier()
     return PlayerXPModifier();
 end
 function BtWQuestsCharactersPlayerMixin:IsWarModeDesired()
-    return C_PvP.IsWarModeDesired();
+    return C_PvP and C_PvP.IsWarModeDesired and C_PvP.IsWarModeDesired() or false;
 end
 function BtWQuestsCharactersPlayerMixin:GetWarModeRewardBonus()
-    return C_PvP.GetWarModeRewardBonus();
+    return C_PvP and C_PvP.GetWarModeRewardBonus and C_PvP.GetWarModeRewardBonus() or 0;
 end
 
 function BtWQuestsCharactersPlayerMixin:GetNumQuestLeaderBoards(questID)
@@ -747,7 +747,7 @@ function BtWQuestsCharacters:RemoveCharacter(name, realm)
     end
 end
 function BtWQuestsCharacters:GetPlayer()
-    if C_QuestSession.HasJoined() then
+    if C_QuestSession and C_QuestSession.HasJoined() then
         return self:GetCharacter("-partysync")
     else
         return self:GetCharacter(UnitName("player"), GetRealmName())
@@ -987,8 +987,12 @@ function BtWQuestsCharacters:OnEvent(event, ...)
         character.achievements = GetAchievements(character.achievements, self.achievements or {});
     end
     if event == "TRADE_SKILL_LIST_UPDATE" or event == "PLAYER_ENTERING_WORLD" then
-        character.skills = GetSkills(character.skills);
-        character.professions = GetKnownProfessions(character.professions, GetProfessions());
+        if C_TradeSkillUI then
+            character.skills = GetSkills(character.skills);
+        end
+        if GetProfessions then
+            character.professions = GetKnownProfessions(character.professions, GetProfessions());
+        end
     end
     if event == "QUEST_ACCEPTED" or event == "QUEST_COMPLETE" or event == "QUEST_REMOVED" or event == "QUEST_TURNED_IN" or event == "PLAYER_ENTERING_WORLD" then
         character.questsActive = character.questsActive or {}
@@ -1000,9 +1004,11 @@ function BtWQuestsCharacters:OnEvent(event, ...)
         character.questsActive = GetQuestsActive(character.questsActive);
         character.questsCompleted = GetQuestsCompleted(character.questsCompleted);
     end
-    if event == "WAR_MODE_STATUS_UPDATE" or event == "PLAYER_FLAGS_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
-        character.warMode = C_PvP.IsWarModeDesired();
-        character.warModeBonus = C_PvP.GetWarModeRewardBonus();
+    if C_PvP.IsWarModeDesired then
+        if event == "WAR_MODE_STATUS_UPDATE" or event == "PLAYER_FLAGS_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
+            character.warMode = C_PvP.IsWarModeDesired();
+            character.warModeBonus = C_PvP.GetWarModeRewardBonus();
+        end
     end
     if event == "PLAYER_EQUIPMENT_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
         character.xpModifier = PlayerXPModifier();
@@ -1017,9 +1023,9 @@ function BtWQuestsCharacters:OnEvent(event, ...)
         character.reputations = GetFactions(character.reputations);
         character.friendships = GetFriendships(character.friendships, self.friendships or {});
 
-        if C_AzeriteItem.HasActiveAzeriteItem() then
+        if C_AzeriteItem and C_AzeriteItem.HasActiveAzeriteItem() then
             local itemLocation = C_AzeriteItem.FindActiveAzeriteItem();
-            if itemLocation then
+            if itemLocation and itemLocation:IsValid() then
                 character.heartOfAzerothLevel = C_AzeriteItem.GetPowerLevel(itemLocation)
             end
         end
@@ -1060,18 +1066,23 @@ end
 
 local eventHandler = CreateFrame("Frame")
 eventHandler:RegisterEvent("PLAYER_ENTERING_WORLD");
-eventHandler:RegisterEvent("ACHIEVEMENT_EARNED");
 eventHandler:RegisterEvent("TRADE_SKILL_LIST_UPDATE");
 eventHandler:RegisterEvent("QUEST_ACCEPTED");
 eventHandler:RegisterEvent("QUEST_COMPLETE");
 eventHandler:RegisterEvent("QUEST_REMOVED");
 eventHandler:RegisterEvent("QUEST_TURNED_IN");
-eventHandler:RegisterEvent("WAR_MODE_STATUS_UPDATE");
 eventHandler:RegisterEvent("PLAYER_LOGIN");
 eventHandler:RegisterEvent("PLAYER_FLAGS_CHANGED");
 eventHandler:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 eventHandler:RegisterEvent("PLAYER_LEAVING_WORLD");
 eventHandler:RegisterEvent("PLAYER_LOGOUT");
+if GetAchievementInfo then
+    eventHandler:RegisterEvent("ACHIEVEMENT_EARNED");
+end
+if C_PvP and C_PvP.IsWarModeDesired then
+    eventHandler:RegisterEvent("WAR_MODE_STATUS_UPDATE");
+end
+
 eventHandler:SetScript("OnEvent", function (self, event, ...)
     BtWQuestsCharacters:OnEvent(event, ...)
 end)

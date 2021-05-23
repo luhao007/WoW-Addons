@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "규탄자의 운명",
     },
-    [57189] = {
-        name = "희망파괴자 파괴하기",
-    },
     [57190] = {
         name = "의표를 찌르는 묘수",
     },

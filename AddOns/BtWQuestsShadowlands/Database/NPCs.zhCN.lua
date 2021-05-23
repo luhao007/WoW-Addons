@@ -1155,9 +1155,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [171001] = {
         name = "米卡尼科斯",
     },
-    [171028] = {
-        name = "珊蒂斯·羽月",
-    },
     [171099] = {
         name = "守护者科塔",
     },

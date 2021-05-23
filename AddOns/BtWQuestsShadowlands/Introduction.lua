@@ -1151,6 +1151,134 @@ Database:AddChain(Chain.NewRules, {
         },
     },
 })
+Database:AddChain(Chain.PeeringIntoDarkness, {
+    name = L["PEERING_INTO_DARKNESS"],
+    questline = 1138,
+    expansion = EXPANSION_ID,
+    range = LEVEL_RANGE,
+    major = true,
+    prerequisites = {
+        {
+            type = "level",
+            level = 60,
+        },
+        {
+            type = "chain",
+            id = Chain.Kyrian.AmongTheKyrian or 90601,
+            lowPriority = true,
+            restrictions = {
+                type = "covenant",
+                id = 1,
+            },
+        },
+        {
+            type = "chain",
+            id = Chain.Venthyr.Sinfall or 90901,
+            lowPriority = true,
+            restrictions = {
+                type = "covenant",
+                id = 2,
+            },
+        },
+        {
+            type = "chain",
+            id = Chain.NightFae.ForQueenAndGrove or 90801,
+            lowPriority = true,
+            restrictions = {
+                type = "covenant",
+                id = 3,
+            },
+        },
+        {
+            type = "chain",
+            id = Chain.Necrolord.LoyalToThePrimus or 90701,
+            lowPriority = true,
+            restrictions = {
+                type = "covenant",
+                id = 4,
+            },
+        },
+        {
+            type = "chain",
+            id = Chain.Torghast,
+            upto = 62836,
+        },
+    },
+    active = {
+        type = "quest",
+        ids = {60501, 61730},
+        status = {'active', 'completed'},
+        count = 2,
+    },
+    completed = {
+        type = "quest",
+        id = 62569,
+    },
+    rewards = {
+    },
+    items = {
+        {
+            type = "kill",
+            id = 167406,
+            x = -1,
+            connections = {
+                2, 
+            },
+        },
+        {
+            type = "chain",
+            id = Chain.Torghast,
+            upto = 62836,
+            connections = {
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 60501,
+            x = -1,
+            connections = {
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 61730,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 61557,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 61558,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 61559,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 62569,
+            x = 0,
+        },
+    },
+})
 
 BtWQuestsDatabase:AddExpansionItems(EXPANSION_ID, {
     {
@@ -1206,4 +1334,25 @@ BtWQuestsDatabase:AddExpansionItems(EXPANSION_ID, {
         type = "chain",
         id = Chain.NewRules,
     },
+    {
+        type = "chain",
+        id = Chain.PeeringIntoDarkness,
+    },
+})
+
+Database:AddMapRecursive(1648, {
+    type = "chain",
+    id = Chain.IntoTheMaw,
+})
+Database:AddMapRecursive(1911, {
+    type = "chain",
+    id = Chain.Torghast,
+})
+Database:AddMapRecursive(1912, {
+    type = "chain",
+    id = Chain.Torghast,
+})
+Database:AddMap(1543, {
+    type = "chain",
+    id = Chain.NewRules,
 })

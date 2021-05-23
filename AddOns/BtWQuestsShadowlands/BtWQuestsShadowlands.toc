@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: Breen
-## Version: 1.14
+## Version: 1.16
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsShadowlandsPrologue
 ## LoadOnDemand: 1

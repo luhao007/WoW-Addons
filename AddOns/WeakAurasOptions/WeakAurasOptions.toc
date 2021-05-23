@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: The WeakAuras Team
-## Version: 3.2.2
+## Version: 3.4.1
 ## Dependencies: WeakAuras
 ## LoadOnDemand: 1
 ## SavedVariables: WeakAurasOptionsSaved
@@ -8,7 +8,7 @@
 
 ## Title: WeakAuras Options
 ## Notes: Options for WeakAuras
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF图形提示|r |cFF0055FF设置|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFF0055FF设置|r
 
 ## X-Category: Interface Enhancements
 ## X-Part-Of: WeakAuras
@@ -55,14 +55,16 @@ ConditionOptions.lua
 AuthorOptions.lua
 
 OptionsFrames\OptionsFrame.lua
-# -- Groups
+
+# Groups
 OptionsFrames\CodeReview.lua
 OptionsFrames\IconPicker.lua
 OptionsFrames\ImportExport.lua
 OptionsFrames\ModelPicker.lua
 OptionsFrames\TextEditor.lua
 OptionsFrames\TexturePicker.lua
-# -- misc Frames
+
+# Misc frames
 OptionsFrames\MoverSizer.lua
 OptionsFrames\FrameChooser.lua
 
@@ -72,6 +74,8 @@ AceGUI-Widgets\AceGUIWidget-WeakAurasIcon.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasNewHeaderButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasLoadedHeaderButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasDisplayButton.lua
+AceGUI-Widgets\AceGUIWidget-WeakAurasPendingInstallButton.lua
+AceGUI-Widgets\AceGUIWidget-WeakAurasPendingUpdateButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasTextureButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasIconButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasMultiLineEditBox.lua

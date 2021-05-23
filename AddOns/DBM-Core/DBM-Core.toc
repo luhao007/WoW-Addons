@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: Tandanu and Nitram and MysticalOS
-## Version: 9.0.23
+## Version: 9.0.28
 ## Dependencies: DBM-StatusBarTimers
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon
@@ -18,6 +18,9 @@
 ## X-WoWI-ID: 8814
 ## X-Wago-ID: qv633o6b
 ## X-Part-Of: DBM-Core
+
+#@no-lib-strip@
+#@end-no-lib-strip@
 
 localization.en.lua
 localization.de.lua

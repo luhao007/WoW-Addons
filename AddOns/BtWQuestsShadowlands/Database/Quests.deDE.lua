@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "Das Schicksal der Anklägerin",
     },
-    [57189] = {
-        name = "Die Hoffnungsbrecher brechen",
-    },
     [57190] = {
         name = "Sie werden nicht wissen, wie ihnen geschieht",
     },
@@ -2276,6 +2273,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [60498] = {
         name = "Die Prüfung bewältigen",
+    },
+    [60501] = {
+        name = "Erlösung für den Erlöser",
     },
     [60504] = {
         name = "Das Band stärken",

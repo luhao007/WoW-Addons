@@ -139,24 +139,6 @@
 		<Anchors>
 			<Anchor point="CENTER" x="0" y="0"/>
 		</Anchors>
-		<Layers>
-			<Layer level="OVERLAY">
-				<Texture parentKey="CharacterSeparator" file="Interface\Addons\BtWQuests\UI-Frame-Metal">
-					<Size x="23" y="132"/>
-					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.NineSlice.TopEdge" relativePoint="RIGHT" x="0" y="0"/>
-					</Anchors>
-					<TexCoords left="0.2578125" right="0.302734375" top="0.2578125" bottom="0.515625"/>
-				</Texture>
-				<Texture parentKey="CharacterBackground" atlas="_UI-Frame-Metal-EdgeTop">
-					<Size x="61" y="132"/>
-					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.CharacterSeparator" relativePoint="RIGHT" x="0" y="0"/>
-						<Anchor point="RIGHT" relativeKey="$parent.NineSlice.TopRightCorner" relativePoint="LEFT" x="0" y="0"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-		</Layers>
 		<Frames>
 			<EditBox parentKey="SearchBox" inherits="BtWQuestsSearchBoxTemplate" letters="40">
 				<Size x="210" y="20"/>
@@ -239,7 +221,7 @@
 				<Size x="32" y="32"/>
 				<HitRectInsets left="5" right="5" top="5" bottom="5"/>
 				<Anchors>
-					<Anchor point="RIGHT" relativeKey="$parent.CloseButton" relativePoint="LEFT" x="8.5" y="0"/>
+					<Anchor point="RIGHT" relativeKey="$parent.CloseButton" relativePoint="LEFT" x="8" y="0"/>
 				</Anchors>
 				<DisabledTexture file="Interface\Addons\BtWQuests\UI-Frame-OptionsButton-Disabled"/>
 				<NormalTexture file="Interface\Addons\BtWQuests\UI-Frame-OptionsButton-Up"/>
@@ -255,7 +237,7 @@
 			<Frame parentKey="CharacterDropDown" mixin="BtWQuestsCharacterDropDownMixin" inherits="BarDropDownMenuTemplate">
 				<Size x="156" y="32"/>
 				<Anchors>
-					<Anchor point="RIGHT" relativeKey="$parent.OptionsButton" relativePoint="LEFT" x="-6.5" y="-4"/>
+					<Anchor point="RIGHT" relativeKey="$parent.OptionsButton" relativePoint="LEFT" x="-6" y="-4"/>
 				</Anchors>
 				<Scripts>
 					<OnLoad method="OnLoad"/>

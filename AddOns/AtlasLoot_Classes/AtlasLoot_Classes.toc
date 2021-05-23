@@ -1,16 +1,21 @@
-## Interface: 70300
-## Title: AtlasLoot |cFF87ff1e[Classes]|r
-## Notes: AtlasLoot loot tables of class and racial abilities.
-## Author: cybermind, Zinival	
+## Interface: 90005
+## Author: cybermind, Zinival
 ## Version: v3.1
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 0
+
+## Title: AtlasLoot |cFF87ff1e[Classes]|r
+## Notes: AtlasLoot loot tables of class and racial abilities.
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0职业|r
+## Notes-zhCN: AtlasLoot 职业技能插件
+
 ## X-AtlasLoot-LootModule: 1
 ## X-AtlasLoot-ModuleName: Classes
 ## X-Curse-Packaged-Version: v3.1
 ## X-Curse-Project-Name: AtlasLoot Classes
 ## X-Curse-Project-ID: atlasloot_classes
 ## X-Curse-Repository-ID: wow/atlasloot_classes/mainline
+## X-Part-Of: AtlasLoot
 
 type_classesspell.lua
 atlasloot_hooks.lua

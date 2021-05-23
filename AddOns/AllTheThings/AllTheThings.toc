@@ -1,7 +1,7 @@
 ## Interface: 90005
 ## Author: Crieve-Sargeras
-## Version: Shadowlands-2.2.9
-## SavedVariables: AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionConfig, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
+## Version: SL-2.3.1
+## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems, AllTheThingsArtifactsItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
 ## Title: AllTheThings |TInterface\Addons\AllTheThings\assets\logo_32x32:0|t
@@ -10,6 +10,7 @@
 ## Notes-zhCN: 追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况
 
 ## X-Curse-Project-ID: 267285
+## X-Wago-ID: yQKyY5K7
 
 src\base.lua
 locales\enUS.lua

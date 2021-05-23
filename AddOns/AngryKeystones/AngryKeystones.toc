@@ -7,7 +7,7 @@
 ## Notes: Displays additional information for Mythic Keystone dungeons
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF钥石助手|r |cFFFFE00AAngryKeystones|r
 
-## X-Packaged-Version: v0.19.9
+## X-Packaged-Version: v0.20.0
 
 Core.lua
 Locale.lua

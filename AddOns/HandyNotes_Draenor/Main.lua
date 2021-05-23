@@ -1,28 +1,34 @@
 HandyNotes_Draenor = LibStub("AceAddon-3.0"):GetAddon("HandyNotes_Draenor")
+
 local HandyNotes = LibStub("AceAddon-3.0"):GetAddon("HandyNotes", true)
 
 local nodes = HandyNotes_Draenor.nodes
 local info = {}
-local ClickedMapFile = nil
+
+local ClickedMapUID = nil
 local ClickedCoord = nil
 
+function GetRewardLinkByID(ID)
 
-local function GetRewardNameByID(ID)
+    if ID ~= nil then
 
-    if ID == "824" or ID == "823" then
+        local _, Reward
 
-        local Reward = C_CurrencyInfo.GetCurrencyInfo(ID)
+        if ID == "824" or ID == "823" then
 
-        if Reward ~= nil then
-            return Reward.name
-        end
+            Reward = C_CurrencyInfo.GetCurrencyInfo(ID)
 
-    else
+            if Reward ~= nil then
+                return Reward.name
+            end
 
-       local Reward = GetItemInfo(ID)
+        else
 
-       if Reward ~= nil then
-            return Reward
+            _, Reward = GetItemInfo(ID)
+
+            if Reward ~= nil then
+                return Reward
+            end
         end
 
     end
@@ -31,46 +37,25 @@ local function GetRewardNameByID(ID)
 
 end
 
-local function GetRewardLinkByID(ID)
+function GetRewardIconByID(ID)
 
-    if ID == "824" or ID == "823" then
+    if ID ~= nil then
 
-        local Reward = C_CurrencyInfo.GetCurrencyInfo(ID)
+        local _, Icon
 
-        if Reward ~= nil then
-            return Reward.name
+        if ID == "824" or ID == "823" then
+            _, _, Icon = C_CurrencyInfo.GetCurrencyInfo(ID)
+        else
+            _, _, _, _, Icon = GetItemInfoInstant(ID)
         end
 
-    else
-
-       local _, Reward = GetItemInfo(ID)
-
-       if Reward ~= nil then
-            return Reward
+        if Icon ~= nil then
+            return Icon
         end
+
     end
 
-    return nil
-
-end
-
-local function GetRewardIconByID(ID)
-
-    if ID == "824" or ID == "823" then
-         local _, _, Icon = C_CurrencyInfo.GetCurrencyInfo(ID)
-
-         if Icon ~= nil then
-            return Icon
-         end
-    else
-         local _, _, _, _, Icon = GetItemInfoInstant(ID)
-
-         if Icon ~= nil then
-            return Icon
-         end
-    end
-
-    return "Interface\\Icons\\TRADE_ARCHAEOLOGY_CHESTOFTINYGLASSANIMALS"
+    return Icon_Treasure_Default
 end
 
 local function generateMenu(button, level)
@@ -88,7 +73,7 @@ local function generateMenu(button, level)
             info.notCheckable = 0
             info.text = "Remove POI from Map"
             info.func = DisablePOI
-            info.arg1 = ClickedMapFile
+            info.arg1 = ClickedMapUID
             info.arg2 = ClickedCoord
             UIDropDownMenu_AddButton(info, level)
             
@@ -96,7 +81,7 @@ local function generateMenu(button, level)
                 info.notCheckable = 0
                 info.text = "Create TomTom Waypoint"
                 info.func = TomTomCreateArrow
-                info.arg1 = ClickedMapFile
+                info.arg1 = ClickedMapUID
                 info.arg2 = ClickedCoord
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -106,7 +91,7 @@ local function generateMenu(button, level)
                     info.notCheckable = 0
                     info.text = "Create DBM-Arrow"
                     info.func = DBMCreateArrow
-                    info.arg1 = ClickedMapFile
+                    info.arg1 = ClickedMapUID
                     info.arg2 = ClickedCoord
                     UIDropDownMenu_AddButton(info, level)
                 else
@@ -140,9 +125,9 @@ function ResetPOIDatabase()
     HandyNotes_Draenor:Refresh()
 end
 
-function DisablePOI(button, mapFile, coord)
+function DisablePOI(button, MapUID, coord)
 
-    local POI = nodes[mapFile][coord][2]
+    local POI = nodes[MapUID][coord][2]
 
     if (POI ~= nil) then
         HandyNotes_Draenor.db.char[POI] = true;
@@ -151,21 +136,56 @@ function DisablePOI(button, mapFile, coord)
     HandyNotes_Draenor:Refresh()
 end
 
-function TomTomCreateArrow(button, mapFile, coord)
+function GetZoneByMapID(ID)
+
+    if ID == 525 then
+
+        return "FrostfireRidge"
+
+    elseif ID == 534 then
+
+        return "TanaanJungle"
+
+    elseif ID == 535 then
+
+        return "Talador"
+
+    elseif ID == 550 then
+
+        return "Nagrand"
+
+    elseif ID == 543 then
+
+        return "Gorgrond"
+
+    elseif ID == 539 then
+
+        return "ShadowmoonValley"
+
+    elseif ID == 542 then
+
+        return "SpiresOfArak"
+
+    end
+
+    return "Unknown Zone"
+
+end
+
+function TomTomCreateArrow(button, MapUID, coord)
     if HandyNotes_Draenor.db.profile.Integration.TomTom.Loaded == true then
-        local mapId = HandyNotes:GetMapFiletoMapID(mapFile)
+
         local x, y = HandyNotes:getXY(coord)
 
-        local Zone = nodes[mapFile][coord][1]
-        local ID = nodes[mapFile][coord][2]
-        local Name = nodes[mapFile][coord][3]
-        local Loot = nodes[mapFile][coord][4]
-        local Note = nodes[mapFile][coord][5]
-        local Icon = nodes[mapFile][coord][6]
-        local Tag = nodes[mapFile][coord][7]
-        local ItemID = nodes[mapFile][coord][8]
-        local AchievementID = nodes[mapFile][coord][10]
-        local AchievementCriteriaIndex = nodes[mapFile][coord][9]
+        local Zone = nodes[MapUID][coord][1]
+        local ID = nodes[MapUID][coord][2]
+        local Name = nodes[MapUID][coord][3]
+        local Note = nodes[MapUID][coord][4]
+        local Icon = nodes[MapUID][coord][5]
+        local Tag = nodes[MapUID][coord][6]
+        local ItemID = nodes[MapUID][coord][7]
+        local AchievementID = nodes[MapUID][coord][9]
+        local AchievementCriteriaIndex = nodes[MapUID][coord][8]
 
         local ArrowDescription = ""
 
@@ -174,22 +194,19 @@ function TomTomCreateArrow(button, mapFile, coord)
                 ArrowDescription = ArrowDescription.."\n"..Name;
                 ArrowDescription = ArrowDescription.."\n"..Zone;
 
-                if ItemID ~= nil and ItemID ~= "nil" then
+                if ItemID ~= nil then
                     ArrowDescription = ArrowDescription.."\n\n"
                     ArrowDescription = ArrowDescription..GetRewardLinkByID(ItemID)
-                else
-                    ArrowDescription = ArrowDescription.."\n\n"
-                    ArrowDescription = ArrowDescription..Loot
                 end
 
-                if Note ~= nil and Note ~= "nil" then
+                if Note ~= nil and Note ~= nil then
                     ArrowDescription = ArrowDescription.."\n\n"
                     ArrowDescription = ArrowDescription.."\n"..Note
                 end
             end
         end
 
-        TomTom:AddMFWaypoint(mapId, nil, x, y, {
+        TomTom:AddWaypoint(MapUID, x, y, {
             title = ArrowDescription,
             persistent = nil,
             minimap = true,
@@ -198,7 +215,7 @@ function TomTomCreateArrow(button, mapFile, coord)
     end
 end
 
-function DBMCreateArrow(button, mapFile, coord)
+function DBMCreateArrow(button, MapUID, coord)
     if HandyNotes_Draenor.db.profile.Integration.DBM.Loaded == true then
 
         if HandyNotes_Draenor.db.profile.Integration.DBM.ArrowNote == nil then
@@ -215,16 +232,15 @@ function DBMCreateArrow(button, mapFile, coord)
 
         local x, y = HandyNotes:getXY(coord)
 
-        local Zone = nodes[mapFile][coord][1]
-        local ID = nodes[mapFile][coord][2]
-        local Name = nodes[mapFile][coord][3]
-        local Loot = nodes[mapFile][coord][4]
-        local Note = nodes[mapFile][coord][5]
-        local Icon = nodes[mapFile][coord][6]
-        local Tag = nodes[mapFile][coord][7]
-        local ItemID = nodes[mapFile][coord][8]
-        local AchievementID = nodes[mapFile][coord][10]
-        local AchievementCriteriaIndex = nodes[mapFile][coord][9]
+        local Zone = nodes[MapUID][coord][1]
+        local ID = nodes[MapUID][coord][2]
+        local Name = nodes[MapUID][coord][3]
+        local Note = nodes[MapUID][coord][4]
+        local Icon = nodes[MapUID][coord][5]
+        local Tag = nodes[MapUID][coord][6]
+        local ItemID = nodes[MapUID][coord][7]
+        local AchievementID = nodes[MapUID][coord][9]
+        local AchievementCriteriaIndex = nodes[MapUID][coord][8]
 
         local ArrowDescription = ""
 
@@ -233,15 +249,12 @@ function DBMCreateArrow(button, mapFile, coord)
                 ArrowDescription = ArrowDescription.."\n"..Name;
                 ArrowDescription = ArrowDescription.."\n"..Zone;
 
-                if ItemID ~= nil and ItemID ~= "nil" then
+                if ItemID ~= nil then
                     ArrowDescription = ArrowDescription.."\n\n"
                     ArrowDescription = ArrowDescription..GetRewardLinkByID(ItemID)
-                else
-                    ArrowDescription = ArrowDescription.."\n\n"
-                    ArrowDescription = ArrowDescription..Loot
                 end
 
-                if Note ~= nil and Note ~= "nil" then
+                if Note ~= nil and Note ~= nil then
                     ArrowDescription = ArrowDescription.."\n\n"
                     ArrowDescription = ArrowDescription.."\n"..Note
                 end
@@ -264,14 +277,12 @@ function DBMHideArrow()
     HandyNotes_Draenor.db.profile.Integration.DBM.ArrowCreated = false
 end
 
-function HandyNotes_Draenor:OnEnter(mapFile, coord)
+function HandyNotes_Draenor:OnEnter(MapUID, coord)
 
-    local Zone = nodes[mapFile][coord][1]
-    local ItemHeader = nodes[mapFile][coord][3]
-    local ItemDescription = nodes[mapFile][coord][4]
-    local ItemNote = nodes[mapFile][coord][5]
-    local ItemID = nodes[mapFile][coord][8]
-
+    local Zone = GetZoneByMapID(MapUID)
+    local ItemHeader = nodes[MapUID][coord][3]
+    local ItemNote = nodes[MapUID][coord][4]
+    local ItemID = nodes[MapUID][coord][7]
     local Reward = GetRewardLinkByID(ItemID)
 
     local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
@@ -282,27 +293,55 @@ function HandyNotes_Draenor:OnEnter(mapFile, coord)
         tooltip:SetOwner(self, "ANCHOR_RIGHT")
     end
 
-    if Reward == nil and ItemID ~= "nil" then
+    if Reward == nil and ItemID ~= nil then
 
         HandyNotes_Draenor:RegisterEvent("GET_ITEM_INFO_RECEIVED", function()
 
             Reward = GetRewardLinkByID(ItemID)
 
-            tooltip:SetText(ItemHeader) 
+            if IsShiftKeyDown() == false and HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults == false or IsShiftKeyDown() == true and HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults == true then
 
-            if ItemNote ~= "nil" and HandyNotes_Draenor.db.profile.Settings.General.ShowNotes == true then
-                tooltip:AddLine(" ")
-                tooltip:AddLine("Note")
-                tooltip:AddLine(ItemNote, 1, 1, 1, 1)
-            end
+                tooltip:SetText(ItemHeader) 
 
-            tooltip:AddLine(" ")
-            tooltip:AddLine("Reward")
+                if ItemNote ~= nil and HandyNotes_Draenor.db.profile.Settings.General.ShowNotes == true then
+                    tooltip:AddLine(" ")
+                    tooltip:AddLine("Additional Information")
+                    tooltip:AddLine(ItemNote, 1, 1, 1, 1)
+                end
 
-            if Reward ~= nil then
-                tooltip:AddLine(Reward, 1, 1, 1, 1)
+                if Reward ~= nil then
+                    tooltip:AddLine(" ")
+                    tooltip:AddLine("Reward")
+                    tooltip:AddLine(Reward, 1, 1, 1, 1)
+
+                    if HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults == true then
+                        tooltip:AddLine(" ")
+                        tooltip:AddLine("Release Shift while hovering over the Node to display the Reward's tooltip")
+                    else
+                        tooltip:AddLine(" ")
+                        tooltip:AddLine("Press Shift while hovering over the Node to display the Reward's tooltip")
+                    end
+                end
+            
             else
-                tooltip:AddLine(ItemDescription, 1, 1, 1, 1)
+                if Reward ~= nil and string.match(Reward, ":") then
+                    tooltip:SetHyperlink(Reward)
+                else
+                    if ItemNote ~= nil and HandyNotes_Draenor.db.profile.Settings.General.ShowNotes == true then
+                        tooltip:AddLine(" ")
+                        tooltip:AddLine("Note")
+                        tooltip:AddLine(ItemNote, 1, 1, 1, 1)
+                    end
+    
+                    tooltip:AddLine(" ")
+                    tooltip:AddLine("Reward")
+    
+                    if Reward ~= nil then
+                        tooltip:AddLine(" ")
+                        tooltip:AddLine("Reward")
+                        tooltip:AddLine(Reward, 1, 1, 1, 1)
+                    end
+                end
             end
 
             HandyNotes_Draenor:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
@@ -313,31 +352,62 @@ function HandyNotes_Draenor:OnEnter(mapFile, coord)
 
     else
 
-        tooltip:SetText(ItemHeader)
+        if IsShiftKeyDown() == false and HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults == false or IsShiftKeyDown() == true and HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults == true then
 
-        if ItemNote ~= "nil" and HandyNotes_Draenor.db.profile.Settings.General.ShowNotes == true then
-            tooltip:AddLine(" ")
-            tooltip:AddLine("Note")
-            tooltip:AddLine(ItemNote, 1, 1, 1, 1)
-        end
+            tooltip:SetText(ItemHeader)
 
-        tooltip:AddLine(" ")
-        tooltip:AddLine("Reward")
+            if ItemNote ~= nil and HandyNotes_Draenor.db.profile.Settings.General.ShowNotes == true then
+                tooltip:AddLine(" ")
+                tooltip:AddLine("Note")
+                tooltip:AddLine(ItemNote, 1, 1, 1, 1)
+            end
 
-        if Reward ~= nil then
-            tooltip:AddLine(Reward, 1, 1, 1, 1)
-        else
-            tooltip:AddLine(ItemDescription, 1, 1, 1, 1)
+            if Reward ~= nil then
+                tooltip:AddLine(" ")
+                tooltip:AddLine("Reward")
+                tooltip:AddLine(Reward, 1, 1, 1, 1)
+
+                if HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults == true then
+                    tooltip:AddLine(" ")
+                    tooltip:AddLine("Release Shift while hovering over the Node to display the Reward's tooltip")
+                else
+                    tooltip:AddLine(" ")
+                    tooltip:AddLine("Press Shift while hovering over the Node to display the Reward's tooltip")
+                end
+            end
+
+        else 
+            
+            if Reward ~= nil and string.match(Reward, ":") then
+                tooltip:SetHyperlink(Reward)
+            else
+                
+                tooltip:SetText(ItemHeader)
+
+                if ItemNote ~= nil and HandyNotes_Draenor.db.profile.Settings.General.ShowNotes == true then
+                    tooltip:AddLine(" ")
+                    tooltip:AddLine("Note")
+                    tooltip:AddLine(ItemNote, 1, 1, 1, 1)
+                end
+
+                if Reward ~= nil then
+                    tooltip:AddLine(" ")
+                    tooltip:AddLine("Reward")
+                    tooltip:AddLine(Reward, 1, 1, 1, 1)
+                end
+
+            end
         end
 
         tooltip:Show()
 
     end
+    
 end
 
-function HandyNotes_Draenor:OnClick(button, down, mapFile, coord)
+function HandyNotes_Draenor:OnClick(button, down, MapUID, coord)
     if button == "RightButton" and down then
-        ClickedMapFile = mapFile
+        ClickedMapUID = MapUID
         ClickedCoord = coord
         ToggleDropDownMenu(1, nil, HandyNotes_DraenorDropdownMenu, self, 0, 0)
     end
@@ -366,6 +436,15 @@ function HandyNotes_Draenor:WorldEnter()
         HandyNotes:RegisterPluginDB("HandyNotes_Draenor", self, HandyNotes_Draenor.options)
     end
 
+    self:RegisterBucketEvent({"LOOT_CLOSED"}, 1, "LOOT_CLOSED")
+
+end
+
+function HandyNotes_Draenor:WorldLeave()
+
+    HandyNotes.plugins["HandyNotes_Draenor"] = nil
+    self = nil
+
 end
 
 function HandyNotes_Draenor:RegisterWithHandyNotes()
@@ -377,18 +456,17 @@ function HandyNotes_Draenor:RegisterWithHandyNotes()
 
             while state do
 
-                local Zone = value[1]
+                local Zone = GetZoneByMapID(value[1])
                 local ID = value[2]
-                local Name = value[3]
-                local Loot = value[4]
-                local Note = value[5]
-                local Icon = value[6]
-                local Tag = value[7]
-                local ItemID = value[8]
-                local AchievementID = value[10]
-                local AchievementCriteriaIndex = value[9]
+                --local Name = value[3]
+                --local Note = value[4]
+                local Icon = value[5]
+                local Tag = value[6]
+                local ItemID = value[7]
+                local AchievementID = value[9]
+                local AchievementCriteriaIndex = value[8]
 
-                if ID then
+                if ID and Zone then
 
                     if Tag == "Rare" then
 
@@ -396,18 +474,18 @@ function HandyNotes_Draenor:RegisterWithHandyNotes()
 
                             if self.db.profile.Settings.Rares.ShowAlreadyKilled == true or not self.db.char[ID] then
 
-                                if C_QuestLog.IsQuestFlaggedCompleted(ID) == false then
+                                if C_QuestLog.IsQuestFlaggedCompleted(ID) == false or self.db.profile.Settings.Rares.ShowAlreadyKilled == true then
 
-                                    if AchievementCriteriaIndex ~= nil and AchievementCriteriaIndex ~= "nil" then
+                                    if AchievementID ~= nil and AchievementCriteriaIndex ~= nil then
 
-                                        local _, _, Completed = GetAchievementCriteriaInfoByID(10070, AchievementCriteriaIndex)
+                                        local _, _, Completed = GetAchievementCriteriaInfoByID(AchievementID, AchievementCriteriaIndex)
 
                                         if Completed == false then
-                                            return state, nil, self.DefaultIcons[Icon], self.db.profile.Settings.Rares.IconScale, self.db.profile.Settings.Rares.IconAlpha
+                                            return state, nil, Icon, self.db.profile.Settings.Rares.IconScale, self.db.profile.Settings.Rares.IconAlpha
                                         end
 
                                     else
-                                        return state, nil, self.DefaultIcons[Icon], self.db.profile.Settings.Rares.IconScale, self.db.profile.Settings.Rares.IconAlpha
+                                        return state, nil, Icon, self.db.profile.Settings.Rares.IconScale, self.db.profile.Settings.Rares.IconAlpha
                                     end
 
                                 end
@@ -416,57 +494,45 @@ function HandyNotes_Draenor:RegisterWithHandyNotes()
 
                         end
 
-                    elseif Tag == "Treasure" then
+                    elseif string.match(Tag, "Treasure") then
 
                         if self.db.profile.Zones[Zone]["Treasures"] then
 
                             if self.db.profile.Settings.Treasures.ShowAlreadyCollected == true or not self.db.char[ID] then
 
-                                if C_QuestLog.IsQuestFlaggedCompleted(ID) == false then
+                                if string.match(Tag, "Quest") then
 
-                                    if ItemID ~= nil and ItemID ~= "nil" then
-                                        return state, nil, GetRewardIconByID(ItemID), self.db.profile.Settings.Treasures.IconScale, self.db.profile.Settings.Treasures.IconAlpha
-                                    else
-                                        return state, nil, self.DefaultIcons[Icon], self.db.profile.Settings.Treasures.IconScale, self.db.profile.Settings.Treasures.IconAlpha
-                                    end
+                                    if C_QuestLog.IsQuestFlaggedCompleted(AchievementCriteriaIndex) or self.db.profile.Settings.Treasures.ShowAlreadyCollected == true then
 
-                                end
-
-                            end
-
-                        end
-
-                    elseif Tag == "Treasure-Quest" then
-
-                        if self.db.profile.Zones[Zone]["Treasures"] then
-
-                            if self.db.profile.Settings.Treasures.ShowAlreadyCollected == true or not self.db.char[ID] then
-
-                                if self.db.profile.Settings.Treasures.ShowAlreadyCollected == false then
-
-                                    if C_QuestLog.IsQuestFlaggedCompleted(AchievementCriteriaIndex) then
-
-                                        if ItemID ~= nil and ItemID ~= "nil" then
+                                        if ItemID ~= nil then
                                             return state, nil, GetRewardIconByID(ItemID), self.db.profile.Settings.Treasures.IconScale, self.db.profile.Settings.Treasures.IconAlpha
                                         end
 
                                     end
 
                                 else
-                                    if ItemID ~= nil and ItemID ~= "nil" then
-                                        return state, nil, GetRewardIconByID(ItemID), self.db.profile.Settings.Treasures.IconScale, self.db.profile.Settings.Treasures.IconAlpha
+
+                                    if C_QuestLog.IsQuestFlaggedCompleted(ID) == false or self.db.profile.Settings.Treasures.ShowAlreadyCollected == true then
+
+                                        if ItemID ~= nil then
+                                            return state, nil, GetRewardIconByID(ItemID), self.db.profile.Settings.Treasures.IconScale, self.db.profile.Settings.Treasures.IconAlpha
+                                        else
+                                            return state, nil, Icon, self.db.profile.Settings.Treasures.IconScale, self.db.profile.Settings.Treasures.IconAlpha
+                                        end
+    
                                     end
+
                                 end
 
                             end
 
                         end
 
-                    elseif string.match(Tag, "Mount_") then
+                    elseif string.match(Tag, "Mount") then
 
                         if self.db.profile.Mounts[Tag] and not self.db.char[ID] then
 
-                            return state, nil, self.DefaultIcons[Icon], self.db.profile.Settings.Rares.IconScale, self.db.profile.Settings.Rares.IconAlpha
+                            return state, nil, Icon, self.db.profile.Settings.Rares.IconScale, self.db.profile.Settings.Rares.IconAlpha
 
                         end
 
@@ -479,16 +545,19 @@ function HandyNotes_Draenor:RegisterWithHandyNotes()
         end
     end
 
-    function HandyNotes_Draenor:GetNodes(mapFile, isMinimapUpdate, dungeonLevel)
-        return iter, nodes[mapFile], nil
+    function HandyNotes_Draenor:GetNodes2(uiMapID, minimap)
+        return iter, nodes[uiMapID], nil
     end
-
-    self:RegisterBucketEvent({ "LOOT_CLOSED" }, 2, function()
-        self:Refresh();
-    end)
 
     self:Refresh()
 end
+
+function HandyNotes_Draenor:LOOT_CLOSED()
+    if GetZoneByMapID(C_Map.GetBestMapForUnit("player")) ~= "Unknown Zone" then
+        self:Refresh()
+    end
+end
+
 
 function HandyNotes_Draenor:Refresh()
     self:SendMessage("HandyNotes_NotifyUpdate", "HandyNotes_Draenor")

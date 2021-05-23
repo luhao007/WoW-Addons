@@ -20,6 +20,7 @@ LibMapPinHandlerMixin.SetGlobalPinScale = MapCanvasMixin.SetGlobalPinScale
 LibMapPinHandlerMixin.OnMapChanged = MapCanvasMixin.OnMapChanged
 LibMapPinHandlerMixin.AddDataProvider = MapCanvasMixin.AddDataProvider
 LibMapPinHandlerMixin.SetPinTemplateType = MapCanvasMixin.SetPinTemplateType
+LibMapPinHandlerMixin.EnumeratePinsByTemplate = MapCanvasMixin.EnumeratePinsByTemplate
 LibMapPinHandlerMixin.RemoveAllPinsByTemplate = MapCanvasMixin.RemoveAllPinsByTemplate
 LibMapPinHandlerMixin.EnumerateAllPins = MapCanvasMixin.EnumerateAllPins
 LibMapPinHandlerMixin.AcquirePin = MapCanvasMixin.AcquirePin

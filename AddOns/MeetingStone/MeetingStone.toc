@@ -5,7 +5,7 @@
 ## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB
 
 ## Title: Meeting Stone
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF集合石|r |cFFFFE00AMeetingStone|r
+## Title-zhCN: |cFFFFE00A<|r|cFFF48CBA社交|r|cFFFFE00A>|r |cFFFFFFFF集合石|r |cFFFFE00AMeetingStone|r
 ## Notes-zhCN: 帮助您更好的组建队伍
 
 ## X-LoadOn-Always: delayed

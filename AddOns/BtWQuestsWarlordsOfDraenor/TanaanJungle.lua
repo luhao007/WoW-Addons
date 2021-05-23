@@ -30,7 +30,7 @@ Database:AddChain(Chain.AllHandsOnDeckAlliance, {
     questline = 140,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.AllHandsOnDeckAlliance,
@@ -51,7 +51,7 @@ Database:AddChain(Chain.AllHandsOnDeckAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             name = "Upgrade your garrison to tier 3",
@@ -165,7 +165,7 @@ Database:AddChain(Chain.TheInvasionOfTanaanAlliance, {
     questline = 142,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.TheInvasionOfTanaanAlliance,
@@ -186,7 +186,7 @@ Database:AddChain(Chain.TheInvasionOfTanaanAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -332,7 +332,7 @@ Database:AddChain(Chain.BaneOfTheBleedingHollowAlliance, {
     questline = 85,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.BaneOfTheBleedingHollowHorde,
@@ -341,7 +341,7 @@ Database:AddChain(Chain.BaneOfTheBleedingHollowAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -421,7 +421,7 @@ Database:AddChain(Chain.DarkAscensionAlliance, {
     questline = 123,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.DarkAscensionHorde,
@@ -430,7 +430,7 @@ Database:AddChain(Chain.DarkAscensionAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -500,7 +500,7 @@ Database:AddChain(Chain.TheFateOfTeronGorAlliance, {
     questline = 121,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.TheFateOfTeronGorHorde,
@@ -509,7 +509,7 @@ Database:AddChain(Chain.TheFateOfTeronGorAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -565,7 +565,7 @@ Database:AddChain(Chain.TheCipherOfDamnationAlliance, {
     questline = 124,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.TheCipherOfDamnationHorde,
@@ -574,7 +574,7 @@ Database:AddChain(Chain.TheCipherOfDamnationAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -636,7 +636,7 @@ Database:AddChain(Chain.AllHandsOnDeckAllianceDemonHunter, {
     questline = 140,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.AllHandsOnDeckAlliance,
@@ -654,7 +654,7 @@ Database:AddChain(Chain.AllHandsOnDeckAllianceDemonHunter, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             name = "Upgrade your garrison to tier 3",
@@ -821,7 +821,7 @@ Database:AddChain(Chain.AllHandsOnDeckHorde, {
     questline = 139,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.AllHandsOnDeckAlliance,
@@ -842,7 +842,7 @@ Database:AddChain(Chain.AllHandsOnDeckHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             name = "Upgrade your garrison to tier 3",
@@ -947,7 +947,7 @@ Database:AddChain(Chain.TheInvasionOfTanaanHorde, {
     questline = 141,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.TheInvasionOfTanaanAlliance,
@@ -968,7 +968,7 @@ Database:AddChain(Chain.TheInvasionOfTanaanHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -1123,7 +1123,7 @@ Database:AddChain(Chain.BaneOfTheBleedingHollowHorde, {
     questline = 84,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.BaneOfTheBleedingHollowAlliance,
@@ -1132,7 +1132,7 @@ Database:AddChain(Chain.BaneOfTheBleedingHollowHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -1212,7 +1212,7 @@ Database:AddChain(Chain.DarkAscensionHorde, {
     questline = 125,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.DarkAscensionAlliance,
@@ -1221,7 +1221,7 @@ Database:AddChain(Chain.DarkAscensionHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -1291,7 +1291,7 @@ Database:AddChain(Chain.TheFateOfTeronGorHorde, {
     questline = 122,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.TheFateOfTeronGorAlliance,
@@ -1300,7 +1300,7 @@ Database:AddChain(Chain.TheFateOfTeronGorHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -1356,7 +1356,7 @@ Database:AddChain(Chain.TheCipherOfDamnationHorde, {
     questline = 126,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.TheCipherOfDamnationAlliance,
@@ -1365,7 +1365,7 @@ Database:AddChain(Chain.TheCipherOfDamnationHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             type = "quest",
@@ -1427,7 +1427,7 @@ Database:AddChain(Chain.AllHandsOnDeckHordeDemonHunter, {
     questline = 139,
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {100,100},
+    range = {40,60},
     major = true,
     alternatives = {
         Chain.AllHandsOnDeckAlliance,
@@ -1445,7 +1445,7 @@ Database:AddChain(Chain.AllHandsOnDeckHordeDemonHunter, {
     prerequisites = {
         {
             type = "level",
-            level = 100,
+            level = 40,
         },
         {
             name = "Upgrade your garrison to tier 3",

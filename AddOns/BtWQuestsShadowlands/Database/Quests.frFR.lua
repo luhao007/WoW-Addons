@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "Le sort de l’Accusatrice",
     },
-    [57189] = {
-        name = "Briser les brisespoirs",
-    },
     [57190] = {
         name = "Ils ne verront rien venir",
     },

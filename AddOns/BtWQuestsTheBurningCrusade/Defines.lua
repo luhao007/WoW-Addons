@@ -12,6 +12,7 @@ Category.Nagrand = 204
 Category.BladesEdgeMountains = 205
 Category.Netherstorm = 206
 Category.ShadowmoonValley = 207
+Category.Attunements = 208
 
 Chain.HellfirePeninsula = {}
 Chain.Zangarmarsh = {}
@@ -20,6 +21,7 @@ Chain.Nagrand = {}
 Chain.BladesEdgeMountains = {}
 Chain.Netherstorm = {}
 Chain.ShadowmoonValley = {}
+Chain.Attunements = {}
 
 BtWQuestsDatabase:AddExpansion(BtWQuests.Constant.Expansions.TheBurningCrusade, {
     background = {

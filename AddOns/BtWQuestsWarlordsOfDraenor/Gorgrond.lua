@@ -30,7 +30,7 @@ Database:AddChain(Chain.WeNeedAnOutpost, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.YourBaseYourChoice,
@@ -39,7 +39,7 @@ Database:AddChain(Chain.WeNeedAnOutpost, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
     },
     active = {
@@ -132,7 +132,7 @@ Database:AddChain(Chain.SupportingYourGarrisonLumberYardAlliance, {
     name = L['SUPPORTING_YOUR_GARRISON_HIGHPASS_LOGGING_CAMP'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.SupportingYourGarrisonLumberYardHorde,
@@ -141,7 +141,7 @@ Database:AddChain(Chain.SupportingYourGarrisonLumberYardAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -211,7 +211,7 @@ Database:AddChain(Chain.SupportingYourGarrisonSparringArenaAlliance, {
     name = L['SUPPORTING_YOUR_GARRISON_HIGHPASS_SPARRING_RING'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.SupportingYourGarrisonSparringArenaHorde,
@@ -220,7 +220,7 @@ Database:AddChain(Chain.SupportingYourGarrisonSparringArenaAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -318,7 +318,7 @@ Database:AddChain(Chain.InTheLandOfGiantsLumberYardAlliance, {
     name = L['IN_THE_LAND_OF_GIANTS_HIGHPASS_LOGGING_CAMP'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.InTheLandOfGiantsLumberYardHorde,
@@ -327,7 +327,7 @@ Database:AddChain(Chain.InTheLandOfGiantsLumberYardAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -512,7 +512,7 @@ Database:AddChain(Chain.InTheLandOfGiantsSparringArenaAlliance, {
     name = L['IN_THE_LAND_OF_GIANTS_HIGHPASS_SPARRING_RING'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.InTheLandOfGiantsSparringArenaHorde,
@@ -521,7 +521,7 @@ Database:AddChain(Chain.InTheLandOfGiantsSparringArenaAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -692,7 +692,7 @@ Database:AddChain(Chain.TheIronApproachLumberYardAlliance, {
     name = L['THE_IRON_APPROACH_HIGHPASS_LOGGING_CAMP'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.YourBaseYourChoice,
@@ -701,7 +701,7 @@ Database:AddChain(Chain.TheIronApproachLumberYardAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -750,7 +750,7 @@ Database:AddChain(Chain.TheIronApproachSparringArenaAlliance, {
     name = L['THE_IRON_APPROACH_HIGHPASS_SPARRING_RING'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.TheIronApproachSparringArenaHorde,
@@ -759,7 +759,7 @@ Database:AddChain(Chain.TheIronApproachSparringArenaAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -809,7 +809,7 @@ Database:AddChain(Chain.YourBaseYourChoice, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.WeNeedAnOutpost,
@@ -818,7 +818,7 @@ Database:AddChain(Chain.YourBaseYourChoice, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
     },
     active = {
@@ -904,7 +904,7 @@ Database:AddChain(Chain.SupportingYourGarrisonLumberYardHorde, {
     name = L['SUPPORTING_YOUR_GARRISON_LOWLANDS_LUMBER_YARD'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     alternatives = {
         Chain.SupportingYourGarrisonLumberYardAlliance,
     },
@@ -912,7 +912,7 @@ Database:AddChain(Chain.SupportingYourGarrisonLumberYardHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -982,7 +982,7 @@ Database:AddChain(Chain.SupportingYourGarrisonSparringArenaHorde, {
     name = L['SUPPORTING_YOUR_GARRISON_SAVAGE_FIGHT_CLUB'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.SupportingYourGarrisonSparringArenaAlliance,
@@ -991,7 +991,7 @@ Database:AddChain(Chain.SupportingYourGarrisonSparringArenaHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -1089,7 +1089,7 @@ Database:AddChain(Chain.InTheLandOfGiantsLumberYardHorde, {
     name = L['IN_THE_LAND_OF_GIANTS_LOWLANDS_LUMBER_YARD'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     alternatives = {
         Chain.InTheLandOfGiantsLumberYardAlliance,
     },
@@ -1097,7 +1097,7 @@ Database:AddChain(Chain.InTheLandOfGiantsLumberYardHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -1288,7 +1288,7 @@ Database:AddChain(Chain.InTheLandOfGiantsSparringArenaHorde, {
     name = L['IN_THE_LAND_OF_GIANTS_SAVAGE_FIGHT_CLUB'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.InTheLandOfGiantsSparringArenaAlliance,
@@ -1297,7 +1297,7 @@ Database:AddChain(Chain.InTheLandOfGiantsSparringArenaHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -1481,7 +1481,7 @@ Database:AddChain(Chain.TheIronApproachLumberYardHorde, {
     name = L['THE_IRON_APPROACH_LOWLANDS_LUMBER_YARD'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     major = true,
     alternatives = {
         Chain.TheIronApproachLumberYardAlliance,
@@ -1490,7 +1490,7 @@ Database:AddChain(Chain.TheIronApproachLumberYardHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",
@@ -1539,7 +1539,7 @@ Database:AddChain(Chain.TheIronApproachSparringArenaHorde, {
     name = L['THE_IRON_APPROACH_SAVAGE_FIGHT_CLUB'],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {92, 100},
+    range = {15, 60},
     alternatives = {
         Chain.TheIronApproachSparringArenaAlliance,
     },
@@ -1547,7 +1547,7 @@ Database:AddChain(Chain.TheIronApproachSparringArenaHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 92,
+            level = 15,
         },
         {
             type = "chain",

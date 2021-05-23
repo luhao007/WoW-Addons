@@ -28,16 +28,16 @@ Database:AddChain(Chain.DarkIronDwarves, {
             id = 12510,
             anyone = true,
         },
-        {
-            name = {
-                type = "reputation",
-                id = 2159,
-                standing = 8,
-            },
-            type = "achievement",
-            id = 12954,
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2159,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12954,
+        --     anyone = true,
+        -- },
     },
     active = {
         type = "quest",
@@ -131,16 +131,16 @@ Database:AddChain(Chain.MagharOrc, {
             id = 12509,
             anyone = true,
         },
-        {
-            name = {
-                type = "reputation",
-                id = 2157,
-                standing = 8,
-            },
-            type = "achievement",
-            id = 12957,
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2157,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12957,
+        --     anyone = true,
+        -- },
     },
     active = {
         type = "quest",
@@ -273,16 +273,16 @@ Database:AddChain(Chain.KulTiran, {
             id = 13467,
             anyone = true,
         },
-        {
-            name = {
-                type = "reputation",
-                id = 2160,
-                standing = 8,
-            },
-            type = "achievement",
-            id = 12951,
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2160,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12951,
+        --     anyone = true,
+        -- },
     },
     active = {
         type = "quest",
@@ -481,16 +481,16 @@ Database:AddChain(Chain.ZandalariTroll, {
             id = 13466,
             anyone = true,
         },
-        {
-            name = {
-                type = "reputation",
-                id = 2103,
-                standing = 8,
-            },
-            type = "achievement",
-            id = 12950,
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2103,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12950,
+        --     anyone = true,
+        -- },
     },
     active = {
         type = "quest",
@@ -655,16 +655,16 @@ Database:AddChain(Chain.Vulpera, {
             id = 12478,
             anyone = true,
         },
-        {
-            name = {
-                type = "reputation",
-                id = 2158,
-                standing = 8,
-            },
-            type = "achievement",
-            id = 12949,
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2158,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 12949,
+        --     anyone = true,
+        -- },
     },
     active = {
         type = "quest",
@@ -900,16 +900,16 @@ Database:AddChain(Chain.Mechagnomes, {
             id = 13553,
             anyone = true,
         },
-        {
-            name = {
-                type = "reputation",
-                id = 2391,
-                standing = 8,
-            },
-            type = "achievement",
-            id = 13557,
-            anyone = true,
-        },
+        -- {
+        --     name = {
+        --         type = "reputation",
+        --         id = 2391,
+        --         standing = 8,
+        --     },
+        --     type = "achievement",
+        --     id = 13557,
+        --     anyone = true,
+        -- },
     },
     active = {
         type = "quest",

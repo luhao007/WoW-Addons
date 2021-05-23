@@ -120,7 +120,7 @@ local vignetteIDBlackList = {
 	[4478] = true, --[[
 		Final Thread is located in Maldraxxus
 		Coordinates: 0.31559833884239 0.35319924354553 x6
-		Night Fae is required to see the Final Thread (anima conductor based spawn)
+		Necrolord is required to see the Final Thread (anima conductor based spawn)
 		This is used to start the encounter with Gieger (vignette ID 4071)
 		Quest tracking ID is 58872 for both vignette IDs
 	]]
@@ -211,7 +211,9 @@ local vignetteIDBlackList = {
 		Coordinates: 0.58187514543533 0.7424983382225 x 23
 	]]
 	[4401] = true, --[[
-		Astra, As Azshara (not yet seen)
+		Astra, As Azshara - is part of the Dapperdew encounter (see ID 4475)
+		Coordinates: 0.41280442476273 0.44340083003044 - spawned on the Wow day spanning 3/18-3/19
+		Quest tracking ID = 61202
 	]]
 	[4402] = true, --[[
 		Mi'kai, As Argus, the Unmaker - is part of the Dapperdew encounter (see ID 4475)
@@ -224,7 +226,9 @@ local vignetteIDBlackList = {
 		Quest tracking ID = 61203
 	]]
 	[4404] = true, --[[
-		Senthii, As Gul'dan (not yet seen)
+		Senthii, As Gul'dan is part of the Dapperdew encounter (see ID 4475)
+		Glimmerdust spawns at 0.41280442476273 0.44340083003044 x43 - spawned on the Wow day spanning 3/20-3/21
+		Quest tracking ID = 61204
 	]]
 	[4405] = true, --[[
 		Glimmerdust, As Jaina - is part of the Dapperdew encounter (see ID 4475)
@@ -232,19 +236,26 @@ local vignetteIDBlackList = {
 		Quest tracking ID = 61205
 	]]
 	[4406] = true, --[[
-		Dreamweaver, As N'Zoth (not yet seen)
+		Dreamweaver, As N'Zoth is part of the Dapperdew encounter (see ID 4475)
+		Glimmerdust spawns at 0.41280442476273 0.44340083003044	x32 - spawned on the Wow day spanning 3/19-3/20
+		Quest tracking ID = 61206
 	]]
 	[4407] = true, --[[
 		Niya, As Xavius - is part of the Dapperdew encounter (see ID 4475)
 		Niya spawns at 0.41280442476273 0.44340083003044 - spawned on the Wow day spanning 3/14-3/15
 		Quest tracking ID = 61207
 	 ]]
-	[154] = true, -- rare near the border in vale
+	[4108] = true, --[[
+		Amalgamation of Flesh sighted in Uldum during the last Black Empire assault
+		coordinates: 0.59921550750732 0.72384291887283
+		Currently we have vignetteID 3878 for this, but may be incorrect or may be associated with the related event
+		that ultimately spawns the amalgamation.  See posts on Wowhead regarding the event as it is described for this
+		NPC.
+	]]
 }
 
 do
 	local tmp1 = {
-		["Warfront-NeutralHero"] = true, -- special events in the maw
 		["poi-nzothpylon"] = true, -- minor n'zoth vision
 		["VignetteEventElite"] = true, -- special events in the n'zoth zones
 		["VignetteLoot"] = true, -- Black Empire Cache
@@ -270,6 +281,7 @@ do
 		atlasNameBlackList[string.lower(k)] = true
 	end
 	local tmp2 = {
+		["Warfront-NeutralHero"] = true, -- special events in the maw
 		["VignetteEvent"] = true, -- star icon (sl)
 		["VignetteKill"] = true, -- star icon (bfa)
 	}
@@ -414,14 +426,15 @@ end
 
 local function OnUpdate(_, elapsed)
 	timeSinceLastUpdate = timeSinceLastUpdate + elapsed
+	local mapID = C_Map.GetBestMapForUnit("player")
+	if (mapID ~= lastVignetteMapID) then
+		lastVignetteMapID = mapID
+		vignettes = addon.getVignettes(lastVignetteMapID)
+		checkedVignetteGUIDs = { }
+		timeSinceLastUpdate = 0
+	end
 	if (timeSinceLastUpdate >= interval) then
 		timeSinceLastUpdate = 0
-		local mapID = C_Map.GetBestMapForUnit("player")
-		if (mapID ~= lastVignetteMapID) then
-			lastVignetteMapID = mapID
-			vignettes = addon.getVignettes(lastVignetteMapID)
-			checkedVignetteGUIDs = { }
-		end
 		if (vignettes) then
 			local vignetteGUIDs = C_VignetteInfo.GetVignettes()
 			if (#vignetteGUIDs ~= 0) then
@@ -465,11 +478,11 @@ local function OnEvent(event, arg1)
 	if (event == "ADDON_LOADED") then
 		if (addonName == arg1) then
 			TomCatsDiscoveryAlertSystem = AlertFrame:AddQueuedAlertFrameSubSystem("TomCatsDiscoveryAlertFrameTemplate", TomCatsDiscoveryAlertFrame_SetUp);
-			if (_G["TomCats_Account"].discoveriesVersion ~= "2.2.12") then
+			if (_G["TomCats_Account"].discoveriesVersion ~= "2.2.16") then
 				_G["TomCats_Account"].discoveries.vignettes = { }
 				_G["TomCats_Account"].discoveries.vignetteAtlases = { }
 				_G["TomCats_Account"].discoveriesResetCount = 0
-				_G["TomCats_Account"].discoveriesVersion = "2.2.12"
+				_G["TomCats_Account"].discoveriesVersion = "2.2.16"
 			end
 			local discoveries = 0
 			discoveredVignettes = _G["TomCats_Account"].discoveries.vignettes

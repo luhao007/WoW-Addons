@@ -10,11 +10,11 @@ BtWQuestsDatabase:AddChain(Chain.Introduction, {
     category = nil,
     expansion = EXPANSION_ID,
     major = true,
-    range = {110,120},
+    range = {10,60},
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
     },
     active = {

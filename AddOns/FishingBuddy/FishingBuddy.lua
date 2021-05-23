@@ -1507,9 +1507,6 @@ FishingBuddy.OnEvent = function(self, event, ...)
         if (handlerframe:IsShown()) then
             handlerframe:Hide();
         end
-    elseif ( event == "CURSOR_CHANGED" or event == "CURSOR_UPDATE") then
-        isDefault, newCursorType, oldCursorType = ...
-        FishingBuddy.Debug(event, isDefault, newCursorType, oldCursorType)
     end
     if FishingBuddy.Extravaganza then
         FishingBuddy.Extravaganza.IsTime(true);
@@ -1529,7 +1526,6 @@ FishingBuddy.OnLoad = function(self)
     self:RegisterEvent("LOOT_OPENED");
     self:RegisterEvent("LOOT_CLOSED");
 
-    self:RegisterEvent("CURSOR_CHANGED");
     self:RegisterEvent("CURSOR_UPDATE");
 
     -- Handle item lock separately to reduce churn during world load

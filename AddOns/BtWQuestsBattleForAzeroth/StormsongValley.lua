@@ -1440,9 +1440,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_STORMSONG_VALLEY_B
         },
         {
             type = "quest",
-            id = 50367, -- Actually required further down
+            id = 50367,
             x = 6,
             y = 2,
+            connections = {
+                4, 
+            },
         },
 
 

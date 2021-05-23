@@ -71,6 +71,8 @@ local L = WeakAuras.L
 	L["Frost"] = "Froid"
 	L["General"] = "Général"
 	L["Health"] = "Vie"
+	--[[Translation missing --]]
+	L["Highlight while action is queued."] = "Highlight while action is queued."
 	L["Highlight while active, red when out of range."] = "Mettre en surbrillance pendant qu'il est actif, rouge quand hors de portée."
 	L["Highlight while active."] = "Mettez en surbrillance pendant qu 'il est actif."
 	L["Highlight while buffed, red when out of range."] = "En surbrillance quand amélioré, rouge quand hors de portée"
@@ -89,16 +91,12 @@ local L = WeakAuras.L
 	L["Next"] = "Suivant"
 	L["Only show the aura if the target has the debuff."] = "Montre l'aura que si la cible a l'affaiblissement."
 	L["Only show the aura when the item is on cooldown."] = "Afficher uniquement l'aura quand l'objet est en recharge."
-	--[[Translation missing --]]
-	L["Only shows if the weapon is enchanted."] = "Only shows if the weapon is enchanted."
-	--[[Translation missing --]]
-	L["Only shows if the weapon is not enchanted."] = "Only shows if the weapon is not enchanted."
+	L["Only shows if the weapon is enchanted."] = "N'afficher que si l'arme est enchanté"
+	L["Only shows if the weapon is not enchanted."] = "N'afficher que si l'arme n'est pas enchanté."
 	L["Only shows the aura if the target has the buff."] = "Montre l'aura que si la cible a l'amélioration."
 	L["Only shows the aura when the ability is on cooldown."] = "Afficher uniquement l'aura quand la technique est en recharge."
-	--[[Translation missing --]]
-	L["Only shows the aura when the ability is ready to use."] = "Only shows the aura when the ability is ready to use."
-	--[[Translation missing --]]
-	L["Other cooldown"] = "Other cooldown"
+	L["Only shows the aura when the ability is ready to use."] = "Afficher uniquement l'aura quand la technique est prête à être utilisée."
+	L["Other cooldown"] = "Autre temps de recharge"
 	L["Pet alive"] = "Familier vivant"
 	L["Pet Behavior"] = "Comportement du Familier"
 	L["PvP Talents"] = "Talents JcJ"
@@ -116,6 +114,8 @@ local L = WeakAuras.L
 	L["Show Charges with Proc Tracking"] = "Afficher les Charges avec le Suivi des Procs"
 	L["Show Charges with Range Tracking"] = "Afficher les Charges avec Vérification de la Portée"
 	L["Show Charges with Usable Check"] = "Afficher les Charges avec Vérification si Utilisable"
+	--[[Translation missing --]]
+	L["Show Cooldown and Action Queued"] = "Show Cooldown and Action Queued"
 	L["Show Cooldown and Buff"] = "Afficher les Temps de Recharges et Améliorations"
 	L["Show Cooldown and Buff and Check for Target"] = "Afficher le Temps de Recharge et l'Amélioration et Vérifier si il y a une Cible"
 	L["Show Cooldown and Buff and Check Usable"] = "Afficher le Temps de Recharge et l'Amélioration et Vérifier si c'est Utilisable"

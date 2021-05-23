@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: MysticalOS, Pardua, Cigawoot
-## Version: 1.6.9
+## Version: 1.6.10
 ## RequiredDeps: DBM-Core
 ## DefaultState: enabled
 
@@ -15,6 +15,7 @@
 ## X-DBM-MusicPack: 1
 ## X-DBM-MusicPack-GlobalName: DBMMPSoundEventsPack
 ## X-Curse-Project-ID: 289311
+## X-Wago-ID: qv63WD6b
 ## X-Part-Of: DBM-Core
 
 LoadList.lua

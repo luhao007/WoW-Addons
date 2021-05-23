@@ -810,9 +810,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [170999] = {
         name = "Général Draven",
     },
-    [171028] = {
-        name = "Shandris Pennelune",
-    },
     [171099] = {
         name = "Gardienne Kota",
     },
@@ -884,9 +881,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [172805] = {
         name = "Vyn la Chuchoteuse",
-    },
-    [172923] = {
-        name = "Kel'Thuzad",
     },
     [172924] = {
         name = "Baronne Ninadar",

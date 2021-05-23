@@ -23,13 +23,13 @@ Database:AddChain(Chain.EstablishingAFoothold, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {90,100},
+    range = {10,60},
     major = true,
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
     },
     active = {
@@ -170,13 +170,13 @@ Database:AddChain(Chain.ShadowsAwaken, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 2),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {90,100},
+    range = {10,60},
     major = true,
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -263,13 +263,13 @@ Database:AddChain(Chain.DarkSideOfTheMoon, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 3),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {90,100},
+    range = {10,60},
     major = true,
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -359,6 +359,9 @@ Database:AddChain(Chain.DarkSideOfTheMoon, {
         {
             type = "quest",
             id = 33081,
+            connections = {
+                2, 
+            },
         },
         {
             type = "chain",
@@ -442,13 +445,13 @@ Database:AddChain(Chain.TheLightPrevails, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 4),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {90,100},
+    range = {10,60},
     major = true,
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -525,13 +528,13 @@ Database:AddChain(Chain.GloomshadeGrove, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 5),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {90,100},
+    range = {10,60},
     major = true,
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -622,13 +625,13 @@ Database:AddChain(Chain.ThePursuitOfJustice, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 6),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {90,100},
+    range = {10,60},
     major = true,
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -793,13 +796,13 @@ Database:AddChain(Chain.PurifyingTheGenePool, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 7),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {90,100},
+    range = {10,60},
     major = true,
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
     },
     active = {
@@ -1012,4 +1015,5 @@ Database:AddMapRecursive(582, {
 })
 
 Database:AddContinentItems(CONTINENT_ID, {
+    { type = "chain", id = Chain.Chain02 }
 })

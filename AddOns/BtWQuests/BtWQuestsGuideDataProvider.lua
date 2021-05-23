@@ -143,15 +143,17 @@ function BtWQuestsGuidePinMixin:OnClick(button)
     end
 end
 
-hooksecurefunc(C_Map, "SetUserWaypoint", function (waypoint)
-    if Guide.UserWaypoint ~= waypoint then
-        Guide.UserWaypoint = nil
-    end
-end)
-hooksecurefunc(C_Map, "ClearUserWaypoint", function ()
-    if Guide.UserWaypoint then
-        Guide.UserWaypoint = nil
-        Guide.Waypoints[Guide.Focus.mapId][Guide.Focus] = nil
-        Guide.DataProvider:RefreshAllData()
-    end
-end)
+if C_Map and C_Map.SetUserWaypoint then
+    hooksecurefunc(C_Map, "SetUserWaypoint", function (waypoint)
+        if Guide.UserWaypoint ~= waypoint then
+            Guide.UserWaypoint = nil
+        end
+    end)
+    hooksecurefunc(C_Map, "ClearUserWaypoint", function ()
+        if Guide.UserWaypoint then
+            Guide.UserWaypoint = nil
+            Guide.Waypoints[Guide.Focus.mapId][Guide.Focus] = nil
+            Guide.DataProvider:RefreshAllData()
+        end
+    end)
+end

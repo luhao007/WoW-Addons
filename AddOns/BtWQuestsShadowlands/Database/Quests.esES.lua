@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "El destino de la acusadora",
     },
-    [57189] = {
-        name = "Romper a los rompeesperanzas",
-    },
     [57190] = {
         name = "Ni se lo verán venir",
     },

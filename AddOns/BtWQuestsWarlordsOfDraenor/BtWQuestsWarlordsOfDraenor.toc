@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: Breen
-## Version: 3.1
+## Version: 3.2
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
 

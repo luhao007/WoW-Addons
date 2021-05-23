@@ -231,9 +231,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [160045] = {
         name = "Fada Prestativa",
     },
-    [160091] = {
-        name = "Ta'ruca",
-    },
     [160100] = {
         name = "Fornecedor Dracho",
     },
@@ -801,9 +798,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [171001] = {
         name = "Mikâniko",
     },
-    [171028] = {
-        name = "Shandris Plumaluna",
-    },
     [171099] = {
         name = "Guardiã Kota",
     },
@@ -872,9 +866,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [172805] = {
         name = "Murmurante Vyn",
-    },
-    [172923] = {
-        name = "Kel'Thuzad",
     },
     [172924] = {
         name = "Baronesa Ninadar",

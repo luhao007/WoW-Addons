@@ -349,10 +349,19 @@ HandyNotes_Draenor.options = {
                     type = "toggle",
                     name = "Show Notes",
                     desc = "Display Notes for some POI's",
-                    order = 2,
+                    order = 1,
 
                     get = function(info) return HandyNotes_Draenor.db.profile.Settings.General.ShowNotes end,
                     set = function(info, value) HandyNotes_Draenor.db.profile.Settings.General.ShowNotes = value; HandyNotes_Draenor:Refresh() end,
+                },
+                DisplayRewardsInsteadDefault = {
+                    type = "toggle",
+                    name = "Display Reward-Tooltip",
+                    desc = "Display Rewards instead of the default tooltip style while hovering over nodes",
+                    order = 2,
+
+                    get = function(info) return HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults end,
+                    set = function(info, value) HandyNotes_Draenor.db.profile.Settings.General.DisplayRewardsInsteadDefaults = value; HandyNotes_Draenor:Refresh() end,
                 },
             },
         },

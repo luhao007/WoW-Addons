@@ -1686,7 +1686,13 @@ OUT:
 - true (IsVisible) or false
 --]]
 function TitanPanelRightClickMenu_IsVisible()
-	return _G[drop_down_1]:IsVisible();
+	local res = false
+	if _G[drop_down_1] and _G[drop_down_1]:IsVisible() then
+		res = true
+	else
+		res = false
+	end
+	return res
 end
 
 --[[ Titan
@@ -1696,7 +1702,7 @@ VAR:  None
 OUT:  None
 --]]
 function TitanPanelRightClickMenu_Close()
-	if _G[drop_down_1]:IsVisible() then
+	if _G[drop_down_1] and _G[drop_down_1]:IsVisible() then
 		_G[drop_down_1]:Hide()
 	end
 end

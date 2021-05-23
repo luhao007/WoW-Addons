@@ -1,14 +1,13 @@
 ## Interface: 90005
 ## Author: Lorade
-## Version: 1.4
+## Version: 2.1
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotesDraenorDB
 
 ## Title: HandyNotes: Draenor
-## Notes: Notes for Draenor Rares and Treasures
+## Notes: Find Draenor Rares and Treasures easily
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C德拉诺|r
 
-## X-Embeds: Ace3
 ## X-Part-Of: HandyNotes
 
 Init.lua
@@ -16,7 +15,6 @@ Interface.lua
 
 Zones\SpiresOfArak.lua
 Zones\FrostfireRidge.lua
-Zones\Garrison.lua
 Zones\Gorgrond.lua
 Zones\Nagrand.lua
 Zones\ShadowmoonValley.lua

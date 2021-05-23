@@ -1,10 +1,10 @@
--- $Id: Atlas_GlobalStrings.lua 356 2020-07-26 14:58:22Z arith $
+-- $Id: Atlas_GlobalStrings.lua 368 2021-05-20 15:03:14Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert at gmail dot com>
 	Copyright 2010 - Lothaer <lothayer at gmail dot com>, Atlas Team
-	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -29,7 +29,7 @@ local LibStub = _G.LibStub
 local L = LibStub("AceLocale-3.0"):GetLocale("Atlas")
 local format = string.format
 
-local WoWClassic = select(4, GetBuildInfo()) < 20000
+local WoWClassic = select(4, GetBuildInfo()) < 30000
 
 -- Expansion Icons
 local icon_E0 = "Interface\\ICONS\\expansionicon_classic" -- Classic

@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "A sina da Acusadora",
     },
-    [57189] = {
-        name = "Quebrando os Quebrafés",
-    },
     [57190] = {
         name = "Devorados na porrada",
     },

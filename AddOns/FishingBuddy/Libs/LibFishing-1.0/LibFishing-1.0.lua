@@ -10,7 +10,7 @@ Licensed under a Creative Commons "Attribution Non-Commercial Share Alike" Licen
 local _
 
 local MAJOR_VERSION = "LibFishing-1.0"
-local MINOR_VERSION = 101077
+local MINOR_VERSION = 101078
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 
@@ -84,8 +84,13 @@ FishLib.registered = FishLib.registered or CBH:New(FishLib, nil, nil, false)
 local SABUTTONNAME = "LibFishingSAButton";
 FishLib.UNKNOWN = "UNKNOWN";
 
-function FishLib:GetFishingSpellInfo()
+function FishLib:GetFishingProfession()
     local _, _, _, fishing, _, _ = GetProfessions();
+    return fishing
+end
+
+function FishLib:GetFishingSpellInfo()
+    local fishing = self:GetFishingProfession();
     if not fishing then
         return 9, PROFESSIONS_FISHING
     end
@@ -232,7 +237,7 @@ end
 
 
 function FishLib:UpdateFishingSkill()
-    local _, _, _, fishing, _, _ = GetProfessions();
+    local fishing = self:GetFishingProfession();
     if (fishing) then
         local continent, _ = self:GetCurrentMapContinent();
         local info = FishLib.continent_fishing[continent];
@@ -251,7 +256,7 @@ end
 
 -- get the fishing skill for the specified continent
 function FishLib:GetContinentSkill(continent)
-    local _, _, _, fishing, _, _ = GetProfessions();
+    local fishing = self:GetFishingProfession();
     if (fishing) then
         local info = FishLib.continent_fishing[continent];
         if (info) then

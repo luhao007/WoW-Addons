@@ -737,7 +737,15 @@ Database:AddChain(Chain.TheRebellion, {
         {
             type = "quest",
             id = 57189,
-            x = -3,
+            variations = {
+                {
+                    x = -3,
+                    restrictions = 87203,
+                },
+                {
+                    x = -2,
+                }
+            },
             connections = {
                 4,
             },
@@ -759,6 +767,7 @@ Database:AddChain(Chain.TheRebellion, {
         {
             type = "quest",
             id = 59211,
+            restrictions = 87203,
         },
         {
             type = "quest",

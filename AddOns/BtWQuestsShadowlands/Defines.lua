@@ -42,6 +42,7 @@ BtWQuests.Constant.Chain.Shadowlands = {
     TheMawEmbed = 90004,
     Torghast = 90005,
     NewRules = 90006,
+    PeeringIntoDarkness = 90007,
 
     Bastion = {
         EternitysCall = 90101,
@@ -305,4 +306,9 @@ Database:AddExpansion(BtWQuests.Constant.Expansions.Shadowlands, {
         texture = "Interface\\AddOns\\BtWQuestsShadowlands\\UI-Expansion",
         texCoords = {0, 0.90625, 0, 0.8125}
     }
+})
+
+Database:AddMapRecursive(1670, {
+    type = "expansion",
+    id = BtWQuests.Constant.Expansions.Shadowlands,
 })

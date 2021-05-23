@@ -29,7 +29,7 @@ Database:AddChain(Chain.ShadowsGatherAlliance, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26023),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.ShadowsGatherHorde,
@@ -38,7 +38,7 @@ Database:AddChain(Chain.ShadowsGatherAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
     },
     active = {
@@ -178,7 +178,7 @@ Database:AddChain(Chain.ShadowsGatherHorde, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_HORDE, 26023),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.ShadowsGatherAlliance,
@@ -187,7 +187,7 @@ Database:AddChain(Chain.ShadowsGatherHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
     },
     active = {
@@ -327,7 +327,7 @@ Database:AddChain(Chain.AdmiralTaylorsGarrisonAlliance, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26022),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.AdmiralTaylorsGarrisonHorde,
@@ -336,7 +336,7 @@ Database:AddChain(Chain.AdmiralTaylorsGarrisonAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             type = "quest",
@@ -445,7 +445,7 @@ Database:AddChain(Chain.AdmiralTaylorsGarrisonHorde, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_HORDE, 26035),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.AdmiralTaylorsGarrisonAlliance,
@@ -454,7 +454,7 @@ Database:AddChain(Chain.AdmiralTaylorsGarrisonHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             type = "quest",
@@ -553,12 +553,12 @@ Database:AddChain(Chain.SecretsOfTheTalonpriests, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26024),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             type = "quest",
@@ -643,12 +643,12 @@ Database:AddChain(Chain.TheGodsOfArak, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26025),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             type = "quest",
@@ -761,12 +761,12 @@ Database:AddChain(Chain.LegacyOfTheApexis, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26027),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             type = "quest",
@@ -861,12 +861,12 @@ Database:AddChain(Chain.TerokksLegend, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26028),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             type = "quest",
@@ -969,7 +969,7 @@ Database:AddChain(Chain.SecuringSouthportVeilZekk, {
     name = L["SECURING_SOUTHPORT_VEIL_ZEKK"],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.EstablishingAxefallVeilZekk,
@@ -978,7 +978,7 @@ Database:AddChain(Chain.SecuringSouthportVeilZekk, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             name = L["SMUGGLERS_DEN_BUILT"],
@@ -1085,7 +1085,7 @@ Database:AddChain(Chain.EstablishingAxefallVeilZekk, {
     name = L["ESTABLISHING_AXEFALL_VEIL_ZEKK"],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.SecuringSouthportVeilZekk,
@@ -1094,7 +1094,7 @@ Database:AddChain(Chain.EstablishingAxefallVeilZekk, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             name = L["SMUGGLERS_DEN_BUILT"],
@@ -1201,7 +1201,7 @@ Database:AddChain(Chain.SecuringSouthportTheAntidote, {
     name = L["SECURING_SOUTHPORT_THE_ANTIDOTE"],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.EstablishingAxefallTheAntidote,
@@ -1210,7 +1210,7 @@ Database:AddChain(Chain.SecuringSouthportTheAntidote, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             name = L["STOKTRON_BREWERY_BUILT"],
@@ -1326,7 +1326,7 @@ Database:AddChain(Chain.EstablishingAxefallTheAntidote, {
     name = L["ESTABLISHING_AXEFALL_THE_ANTIDOTE"],
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     alternatives = {
         Chain.SecuringSouthportTheAntidote,
@@ -1335,7 +1335,7 @@ Database:AddChain(Chain.EstablishingAxefallTheAntidote, {
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             name = L["HEARTHFIRE_TAVERN_BUILT"],
@@ -1452,12 +1452,12 @@ Database:AddChain(Chain.PinchwhistleGearworks, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26030),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
     },
     active = {
@@ -1609,12 +1609,12 @@ Database:AddChain(Chain.WhenTheRavenSwallowsTheDay, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 26029),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {96,100},
+    range = {30,60},
     major = true,
     prerequisites = {
         {
             type = "level",
-            level = 96,
+            level = 30,
         },
         {
             type = "quest",

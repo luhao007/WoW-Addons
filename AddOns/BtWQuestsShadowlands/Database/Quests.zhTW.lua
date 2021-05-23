@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "控罪者的命運",
     },
-    [57189] = {
-        name = "擊破希望破除者",
-    },
     [57190] = {
         name = "他們連自己怎麼死的都不知道",
     },

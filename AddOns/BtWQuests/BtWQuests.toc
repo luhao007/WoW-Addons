@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: Breen
-## Version: 1.77.0
+## Version: 2.7.0
 ## SavedVariables: BtWQuests_Characters
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad
 
@@ -29,6 +29,7 @@ Localization.zhTW.lua
 BtWQuestsTemplates.xml
 BtWQuests.xml
 BtWQuestsQuestDataProvider.xml
+BtWQuestsQuestPOIDataProvider.xml
 BtWQuestsGuideDataProvider.xml
 BtWQuestsMinimapButton.xml
 LibMapPinHandler.lua

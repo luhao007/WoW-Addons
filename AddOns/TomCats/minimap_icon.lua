@@ -256,6 +256,7 @@ local function OnEvent(event, arg1)
 			backgroundColor = { 0.0,0.0,0.0,1.0 },
 			handler_onclick = OpenControlPanel
 		})
+		addon.minimapButton.ShowHandlers = { }
 		addon.minimapButton.tooltip = {
 			Show = function(this)
 				GameTooltip:ClearLines()
@@ -264,9 +265,12 @@ local function OnEvent(event, arg1)
 				if (addon.discoveries) then
 					if (addon.discoveries > 1) then
 						GameTooltip:AddLine("You've made " .. addon.discoveries .. " new discoveries", nil, nil, nil, true)
-					else
+					elseif (addon.discoveries == 1) then
 						GameTooltip:AddLine("You've made " .. addon.discoveries .. " new discovery", nil, nil, nil, true)
 					end
+				end
+				for _, v in ipairs(addon.minimapButton.ShowHandlers) do
+					v(this)
 				end
 				GameTooltip:Show()
 			end,

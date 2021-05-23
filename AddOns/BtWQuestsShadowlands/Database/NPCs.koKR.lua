@@ -1155,9 +1155,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [171001] = {
         name = "미카니코스",
     },
-    [171028] = {
-        name = "샨드리스 페더문",
-    },
     [171099] = {
         name = "수호자 코타",
     },

@@ -435,6 +435,8 @@ Plater.TargetIndicators = {
 		desaturated = false,
 		width = 8,
 		height = 10,
+		autoScale = true,
+		--scale = 1,
 		x = 2,
 		y = 2,
 	},
@@ -445,6 +447,8 @@ Plater.TargetIndicators = {
 		desaturated = true,
 		width = 10,
 		height = 10,
+		autoScale = true,
+		--scale = 1,
 		x = 2,
 		y = 2,
 	},
@@ -455,6 +459,8 @@ Plater.TargetIndicators = {
 		desaturated = 1,
 		width = 4,
 		height = 4,
+		autoScale = false,
+		--scale = 1,
 		x = 2,
 		y = 2,
 	},
@@ -470,6 +476,8 @@ Plater.TargetIndicators = {
 		desaturated = false,
 		width = 6,
 		height = 6,
+		autoScale = true,
+		--scale = 1,
 		x = 1,
 		y = 1,
 	},
@@ -483,7 +491,11 @@ Plater.TargetIndicators = {
 		desaturated = false,
 		width = 18,
 		height = 12,
-		x = 18,
+		wscale = 1,
+		hscale = 1.2,
+		autoScale = true,
+		--scale = 1,
+		x = 14,
 		y = 0,
 	},
 	
@@ -496,6 +508,10 @@ Plater.TargetIndicators = {
 		desaturated = false,
 		width = 8,
 		height = 12,
+		wscale = 1,
+		hscale = 1.2,
+		autoScale = true,
+		--scale = 1,
 		x = 0,
 		y = 0,
 	},
@@ -510,6 +526,10 @@ Plater.TargetIndicators = {
 		width = 8,
 		height = 12,
 		alpha = 0.7,
+		wscale = 1,
+		hscale = 1.2,
+		autoScale = true,
+		--scale = 1,
 		x = 0,
 		y = 0,
 		color = "red",
@@ -524,6 +544,10 @@ Plater.TargetIndicators = {
 		desaturated = false,
 		width = 6,
 		height = 12,
+		wscale = 1,
+		hscale = 1.2,
+		autoScale = true,
+		--scale = 1,
 		x = 3,
 		y = 0,
 		blend = "ADD",
@@ -709,7 +733,19 @@ Plater.DefaultSpellRangeListF = {
 	[72] = 30, --> warrior fury
 	[73] = 30, --> warrior protect
 	
-	[1444] = 40, --> DAMAGER (low-level chars)
+	-- low-level (without spec)
+	[1444] = 40, --> Initial SHAMAN
+	[1446] = 40, --> Initial WARRIOR
+	[1447] = 40, --> Initial DRUID
+	[1448] = 40, --> Initial HUNTER
+	[1449] = 40, --> Initial MAGE
+	[1450] = 40, --> Initial MONK
+	[1451] = 40, --> Initial PALADIN
+	[1452] = 40, --> Initial PRIEST
+	[1453] = 40, --> Initial ROGUE
+	[1454] = 40, --> Initial WARLOCK
+	[1455] = 40, --> Initial DK
+	[1456] = 40, --> Initial DH
 }
 
 local class_specs_coords = {
@@ -961,6 +997,14 @@ local class_specs_coords = {
 							end
 							LDBIcon:Refresh ("Plater", PlaterDBChr.minimap)
 						end
+						
+						GameCooltip:AddMenu (1, function() Plater.EnableProfiling(true) end, true, nil, nil, "Start profiling", nil, true)
+						GameCooltip:AddIcon ([[Interface\Addons\Plater\media\sphere_full_64]], 1, 1, 14, 14, 0, 1, 0, 1, "red")
+						GameCooltip:AddMenu (1, function() Plater.DisableProfiling() end, true, nil, nil, "Stop profiling", nil, true)
+						GameCooltip:AddIcon ([[Interface\Addons\Plater\media\square_64]], 1, 1, 14, 14, 0, 1, 0, 1, "blue")
+						GameCooltip:AddMenu (1, function() Plater.ShowPerfData() end, true, nil, nil, "Show profiling data", nil, true)
+						GameCooltip:AddIcon ([[Interface\Addons\Plater\media\eye_64]], 1, 1, 14, 14, 0, 1, 0, 1, "green")
+						GameCooltip:AddLine ("$div")
 						GameCooltip:AddMenu (1, disable_minimap, true, nil, nil, "Hide/Show Minimap Icon", nil, true)
 						GameCooltip:AddIcon ([[Interface\Buttons\UI-Panel-HideButton-Disabled]], 1, 1, 14, 14, 7/32, 24/32, 8/32, 24/32, "gray")
 						
@@ -1104,7 +1148,9 @@ local class_specs_coords = {
 			unitFrame.BuffFrame:SetAlpha (1)
 			unitFrame.BuffFrame2:SetAlpha (1)
 			
+			Plater.EndLogPerformanceCore("Plater-Core", "Update", "CheckRange")
 			return
+			
 		elseif (plateFrame [MEMBER_NOCOMBAT] or unitFrame.isWidgetOnlyMode) then
 			if unitFrame.isWidgetOnlyMode then
 				unitFrame:SetAlpha (1)
@@ -1120,6 +1166,7 @@ local class_specs_coords = {
 			unitFrame.BuffFrame:SetAlpha (1)
 			unitFrame.BuffFrame2:SetAlpha (1)
 			
+			Plater.EndLogPerformanceCore("Plater-Core", "Update", "CheckRange")
 			return
 		
 		--the unit is friendly or not using range check and non targets alpha
@@ -1135,6 +1182,8 @@ local class_specs_coords = {
 			
 			plateFrame [MEMBER_RANGE] = true
 			unitFrame [MEMBER_RANGE] = true
+			
+			Plater.EndLogPerformanceCore("Plater-Core", "Update", "CheckRange")
 			return
 		end
 		
@@ -1174,6 +1223,7 @@ local class_specs_coords = {
 		
 		if not rangeChecker then
 			rangeChecker = function (unit)
+				Plater.EndLogPerformanceCore("Plater-Core", "Update", "CheckRange")
 				return (LibRangeCheck:GetRange(unit) or 0) < (rangeCheckRange or 40)
 			end
 			Plater.GetSpellForRangeCheck()
@@ -1892,10 +1942,19 @@ local class_specs_coords = {
 			buffSpecial:SetFrameStrata (profile.ui_parent_buff_special_strata)
 			
 			--level
-			castBar:SetFrameLevel (profile.ui_parent_cast_level)
-			buffFrame1:SetFrameLevel (profile.ui_parent_buff_level)
-			buffFrame2:SetFrameLevel (profile.ui_parent_buff2_level)
-			buffSpecial:SetFrameLevel (profile.ui_parent_buff_special_level)
+			local baseLevel = unitFrame:GetFrameLevel()
+			
+			local tmplevel = baseLevel + profile.ui_parent_cast_level + 3
+			castBar:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
+			
+			tmplevel = baseLevel + profile.ui_parent_buff_level + 3
+			buffFrame1:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
+			
+			tmplevel = baseLevel + profile.ui_parent_buff2_level + 10
+			buffFrame2:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
+			
+			tmplevel = baseLevel + profile.ui_parent_buff_special_level + 10
+			buffSpecial:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
 			
 			--raid-target marker adjust:
 			unitFrame.PlaterRaidTargetFrame:SetFrameStrata(unitFrame.healthBar:GetFrameStrata())
@@ -2225,7 +2284,7 @@ local class_specs_coords = {
 
 			Plater.RefreshTankCache()
 			
-			Plater.UpdateAuraCache()
+			--Plater.UpdateAuraCache()
 			Plater.UpdateAllPlates()
 			
 			--check if can run combat enter hook and schedule it true
@@ -2935,9 +2994,17 @@ local class_specs_coords = {
 			--> border
 				--create a border using default borders from the retail game
 				local healthBarBorder = CreateFrame("frame", nil, plateFrame.unitFrame.healthBar, "NamePlateFullBorderTemplate", BackdropTemplateMixin and "BackdropTemplate")
+				healthBarBorder.Left:SetDrawLayer("OVERLAY", 6)
+				healthBarBorder.Right:SetDrawLayer("OVERLAY", 6)
+				healthBarBorder.Top:SetDrawLayer("OVERLAY", 6)
+				healthBarBorder.Bottom:SetDrawLayer("OVERLAY", 6)
 				plateFrame.unitFrame.healthBar.border = healthBarBorder
 				
 				local powerBarBorder = CreateFrame("frame", nil, plateFrame.unitFrame.powerBar, "NamePlateFullBorderTemplate", BackdropTemplateMixin and "BackdropTemplate")
+				powerBarBorder.Left:SetDrawLayer("OVERLAY", 6)
+				powerBarBorder.Right:SetDrawLayer("OVERLAY", 6)
+				powerBarBorder.Top:SetDrawLayer("OVERLAY", 6)
+				powerBarBorder.Bottom:SetDrawLayer("OVERLAY", 6)
 				plateFrame.unitFrame.powerBar.border = powerBarBorder
 				powerBarBorder:SetVertexColor (0, 0, 0, 1)
 
@@ -3164,6 +3231,8 @@ local class_specs_coords = {
 			unitFrame.namePlateThreatPercent = 0
 			unitFrame.namePlateThreatIsTanking = nil
 			unitFrame.namePlateThreatStatus = nil
+			unitFrame.namePlateThreatOffTankIsTanking = false
+			unitFrame.namePlateThreatOffTankName = nil
 			
 			--get and format the reaction to always be the value of the constants, then cache the reaction in some widgets for performance
 			local reaction = UnitReaction (unitID, "player") or 1
@@ -3194,6 +3263,8 @@ local class_specs_coords = {
 			healthBar.ExecuteGlowUp:Hide()
 			healthBar.ExecuteGlowDown:Hide()
 			
+			--reset color values
+			healthBar.R, healthBar.G, healthBar.B = nil, nil, nil
 			
 			local actorType
 			
@@ -4137,8 +4208,8 @@ function Plater.OnInit() --private --~oninit ~init
 			local unitFrame = castBar.unitFrame
 			local borderShield = castBar.BorderShield
 			
-			icon:SetDrawLayer ("OVERLAY", 5)
-			borderShield:SetDrawLayer ("OVERLAY", 6)
+			--icon:SetDrawLayer ("OVERLAY", 5)
+			--borderShield:SetDrawLayer ("OVERLAY", 6)
 			local castBarHeight = castBar:GetHeight()
 			
 			if (profile.castbar_icon_customization_enabled) then
@@ -4513,6 +4584,8 @@ function Plater.OnInit() --private --~oninit ~init
 				local originalColor = plateFrame.PlateConfig.healthbar_color
 				local r, g, b = DF:LerpLinearColor (abs (currentHealth / currentHealthMax - 1), 1, originalColor[1], originalColor[2], originalColor[3], 1, .4, 0)
 				Plater.ChangeHealthBarColor_Internal (self, r, g, b, (originalColor[4] or 1), true)
+			--else
+				--Plater.ChangeHealthBarColor_Internal (self, unpack (plateFrame.PlateConfig.healthbar_color))
 			end
 			
 			Plater.CheckLifePercentText (unitFrame)
@@ -4524,6 +4597,7 @@ function Plater.OnInit() --private --~oninit ~init
 				if (not UnitExists (unitFrame.unit) or self.CurrentHealth < 1) then
 					--the unit died!
 					unitFrame:Hide()
+					Plater.EndLogPerformanceCore("Plater-Core", "Health", "OnUpdateHealth")
 					return
 				end
 			end
@@ -4776,7 +4850,7 @@ end
 				end
 
 				--check if the mob is a quest mob
-				if (unitFrame [MEMBER_QUEST]) then
+				if (unitFrame [MEMBER_QUEST] and DB_PLATE_CONFIG [unitFrame.ActorType].quest_color_enabled) then
 					Plater.SetQuestColorByReaction (unitFrame)
 					return
 				end
@@ -5091,9 +5165,9 @@ end
 			if (DB_USE_HEALTHCUTOFF and not unitFrame.IsSelf and not unitFrame.PlayerCannotAttack) then
 				local healthPercent = (healthBar.currentHealth or 1) / (healthBar.currentHealthMax or 1)
 				if (healthPercent < DB_HEALTHCUTOFF_AT) then
-					if (not healthBar.healthCutOff:IsShown() or healthBar.healthCutOff.isLower) then
-						healthBar.healthCutOff.isUpper = true
-						healthBar.healthCutOff.isLower = false
+					if (not healthBar.healthCutOff:IsShown() or healthBar.healthCutOff.isUpper) then
+						healthBar.healthCutOff.isUpper = false
+						healthBar.healthCutOff.isLower = true
 						healthBar.healthCutOff:ClearAllPoints()
 						healthBar.healthCutOff:SetSize (healthBar:GetHeight(), healthBar:GetHeight())
 						healthBar.healthCutOff:SetPoint ("center", healthBar, "left", healthBar:GetWidth() * DB_HEALTHCUTOFF_AT, 0)
@@ -5122,9 +5196,9 @@ end
 					
 					unitFrame.InExecuteRange = true
 				elseif (healthPercent > DB_HEALTHCUTOFF_AT_UPPER and healthPercent < 0.999) then
-					if (not healthBar.healthCutOff:IsShown() or healthBar.healthCutOff.isUpper) then
-						healthBar.healthCutOff.isUpper = false
-						healthBar.healthCutOff.isLower = true
+					if (not healthBar.healthCutOff:IsShown() or healthBar.healthCutOff.isLower) then
+						healthBar.healthCutOff.isUpper = true
+						healthBar.healthCutOff.isLower = false
 						healthBar.healthCutOff:ClearAllPoints()
 						healthBar.healthCutOff:SetSize (healthBar:GetHeight(), healthBar:GetHeight())
 						healthBar.healthCutOff:SetPoint ("center", healthBar, "right", - (healthBar:GetWidth() * (1-DB_HEALTHCUTOFF_AT_UPPER)), 0)
@@ -5382,6 +5456,8 @@ end
 		self.namePlateThreatStatus = threatStatus
 		self.namePlateThreatPercent = threatpct or 0
 		-- (3 = securely tanking, 2 = insecurely tanking, 1 = not tanking but higher threat than tank, 0 = not tanking and lower threat than tank)
+		self.namePlateThreatOffTankIsTanking = false
+		self.namePlateThreatOffTankName = nil
 		
 		self.aggroGlowUpper:Hide()
 		self.aggroGlowLower:Hide()
@@ -5411,6 +5487,8 @@ end
 
 						--another tank is tanking the unit
 						if (unitOffTank) then
+							self.namePlateThreatOffTankIsTanking = true
+							self.namePlateThreatOffTankName = unitOffTank
 							--as the unit is being tanked by the off-tank, check if the player it self which is the other tank is about to accidently pull aggro just by hitting the mob
 							if (threatpct and otherThreatpct) then
 								--threatpct = player threat on the mob
@@ -5586,11 +5664,13 @@ end
 									--check if this isn't a false positive where the mob target another unit to cast a spell
 									local hasTankAggro = false
 									for tankName, _ in pairs (TANK_CACHE) do
-										local threatStatus = UnitThreatSituation (tankName, self.displayedUnit)
-										if (threatStatus and threatStatus >= 2) then
-											--a tank has aggro on this unit, it is a false positive
-											hasTankAggro = true
-											break
+										if UnitExists(tankName) then
+											local threatStatus = UnitThreatSituation (tankName, self.displayedUnit)
+											if (threatStatus and threatStatus >= 2) then
+												--a tank has aggro on this unit, it is a false positive
+												hasTankAggro = true
+												break
+											end
 										end
 									end
 									
@@ -5802,15 +5882,18 @@ end
 		end
 		
 		local width, height = preset.width, preset.height
-		local x, y = preset.x, preset.y
+		local wscale, hscale = preset.wscale or 1, preset.hscale or 1
+		local x, y = preset.x or 0, preset.y or 0
 		local desaturated = preset.desaturated
 		local coords = preset.coords
 		local path = preset.path
 		local blend = preset.blend or "BLEND"
 		local alpha = preset.alpha or 1
+		local doScale = preset.autoScale
+		local custScale = preset.scale
 		local overlayColorR, overlayColorG, overlayColorB = DF:ParseColors (preset.color or "white")
 		
-		local scale = healthBarHeight / 10
+		local scale = (not doScale and custScale) or (healthBarHeight / (doScale and height or 10))
 		
 		--four parts (textures)
 		if (#coords == 4) then
@@ -5819,22 +5902,22 @@ end
 				texture:Show()
 				texture:SetTexture (path)
 				texture:SetTexCoord (unpack (coords [i]))
-				texture:SetSize (width * scale, height * scale)
+				texture:SetSize (width * scale * wscale, height * scale * hscale)
 				texture:SetAlpha (alpha)
 				texture:SetVertexColor (overlayColorR, overlayColorG, overlayColorB)
 				texture:SetDesaturated (desaturated)
 				
 				if (i == 1) then
-					PixelUtil.SetPoint (texture, "topleft", plateFrame.unitFrame.healthBar, "topleft", -x, y)
+					PixelUtil.SetPoint (texture, "topleft", plateFrame.unitFrame.healthBar, "topleft", -x * scale, y * scale)
 					
 				elseif (i == 2) then
-					PixelUtil.SetPoint (texture, "bottomleft", plateFrame.unitFrame.healthBar, "bottomleft", -x, -y)
+					PixelUtil.SetPoint (texture, "bottomleft", plateFrame.unitFrame.healthBar, "bottomleft", -x * scale, -y * scale)
 					
 				elseif (i == 3) then
-					PixelUtil.SetPoint (texture, "bottomright", plateFrame.unitFrame.healthBar, "bottomright", x, -y)
+					PixelUtil.SetPoint (texture, "bottomright", plateFrame.unitFrame.healthBar, "bottomright", x * scale, -y * scale)
 					
 				elseif (i == 4) then
-					PixelUtil.SetPoint (texture, "topright", plateFrame.unitFrame.healthBar, "topright", x, y)
+					PixelUtil.SetPoint (texture, "topright", plateFrame.unitFrame.healthBar, "topright", x * scale, y * scale)
 					
 				end
 			end
@@ -5851,16 +5934,18 @@ end
 				texture:SetTexture (path)
 				texture:SetBlendMode (blend)
 				texture:SetTexCoord (unpack (coords [i]))
-				PixelUtil.SetSize (texture, width * scale, height * scale)
+				--PixelUtil.SetSize (texture, width * scale, height * scale)
+				PixelUtil.SetSize (texture, width * scale * wscale, height * scale * hscale)
+				--texture:SetSize (width * scale * wscale, height * scale * hscale)
 				texture:SetDesaturated (desaturated)
 				texture:SetAlpha (alpha)
 				texture:SetVertexColor (overlayColorR, overlayColorG, overlayColorB)
 				
 				if (i == 1) then
-					PixelUtil.SetPoint (texture, "left", plateFrame.unitFrame.healthBar, "left", -x, y)
+					PixelUtil.SetPoint (texture, "left", plateFrame.unitFrame.healthBar, "left", -x * scale, y * scale)
 					
 				elseif (i == 2) then
-					PixelUtil.SetPoint (texture, "right", plateFrame.unitFrame.healthBar, "right", x, -y)
+					PixelUtil.SetPoint (texture, "right", plateFrame.unitFrame.healthBar, "right", x * scale, -y * scale)
 				end
 			end
 			
@@ -6435,7 +6520,7 @@ end
 	end
 
 	--updates the level text and the color
-	function Plater.UpdateLevelTextAndColor (levelString, unitId) --private
+	function Plater.UpdateLevelTextAndColor (levelString, unitId)
 		--level text
 		local level = UnitLevel (unitId)
 		if (not level) then
@@ -6632,6 +6717,17 @@ end
 						end
 					else
 						Plater.ChangeHealthBarColor_Internal (healthBar, unpack (DB_PLATE_CONFIG [actorType].fixed_class_color))
+					end
+				elseif unitFrame.IsSelf then
+					--refresh color
+					if (plateFrame.PlateConfig.healthbar_color_by_hp) then
+						local currentHealth = healthBar.currentHealth
+						local currentHealthMax = healthBar.currentHealthMax
+						local originalColor = plateFrame.PlateConfig.healthbar_color
+						local r, g, b = DF:LerpLinearColor (abs (currentHealth / currentHealthMax - 1), 1, originalColor[1], originalColor[2], originalColor[3], 1, .4, 0)
+						Plater.ChangeHealthBarColor_Internal (healthBar, r, g, b, (originalColor[4] or 1), true)
+					else
+						Plater.ChangeHealthBarColor_Internal (healthBar, unpack (DB_PLATE_CONFIG [actorType].healthbar_color))
 					end
 				else
 					-- could be a pet
@@ -6953,7 +7049,7 @@ end
 			end
 			if (config.indicator_spec) then
 				-- use BG info if available
-				local texture, L, R, T, B = Plater.GetSpecIconForUnitFromBG(plateFrame [MEMBER_UNITID])
+				local texture, L, R, T, B = Plater.GetSpecIconForUnitFromBG(plateFrame.unitFrame [MEMBER_UNITID])
 				if texture then
 					Plater.AddIndicator (plateFrame, "specicon", texture, L, R, T, B)
 				else
@@ -8249,25 +8345,58 @@ end
 	
 	local BG_PLAYER_CACHE = {}
 	function Plater.UpdateBgPlayerRoleCache()
-		local curNumScores = GetNumBattlefieldScores()
 		wipe(BG_PLAYER_CACHE)
-		for i = 1, curNumScores do
-			local name, _, _, _, _, faction, race, class, classToken, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
-			if name then
-				BG_PLAYER_CACHE[name] = {faction = faction, race = race, class = class, classToken = classToken, talentSpec = talentSpec}
+		if Plater.ZoneInstanceType == "pvp" then
+			local curNumScores = GetNumBattlefieldScores()
+			for i = 1, curNumScores do
+				local info = C_PvP.GetScoreInfo(i)
+				if info then
+					local name, faction, race, class, classToken, talentSpec = info.name, info.faction, info.raceName, info.className, info.classToken, info.talentSpec
+					if name then
+						BG_PLAYER_CACHE[name] = {faction = faction, race = race, class = class, classToken = classToken, talentSpec = talentSpec, specID = (CLASS_INFO_CACHE[classToken] and CLASS_INFO_CACHE[classToken][talentSpec] and CLASS_INFO_CACHE[classToken][talentSpec].specID), name = name}
+					end
+				end
+			end
+		elseif Plater.ZoneInstanceType == "arena" then
+			local numOpps = GetNumArenaOpponentSpecs();
+			for i=1, numOpps do
+				local specID, gender = GetArenaOpponentSpec(i);
+				if (specID > 0) then
+					local name = GetUnitName ("arena"..i, true)
+					if name then
+						local id, talentSpec, _, _, _, class = GetSpecializationInfoByID(specID, gender);
+						local class, classToken = UnitClass("arena"..i);
+						local race = UnitRace("arena"..i);
+						BG_PLAYER_CACHE[name] = {faction = nil, race = race, class = class, classToken = classToken, talentSpec = talentSpec, specID = specID, name = name}
+					end
+				end
 			end
 		end
 	end
-	
-	function Plater.GetSpecIconForUnitFromBG(unit)
+
+	function Plater.GetUnitBGInfo(unit)
+
+		if (not UnitIsPlayer(unit)) then
+			return nil
+		end
+		
+		if (not Plater.ZoneInstanceType == "pvp" and not Plater.ZoneInstanceType == "arena") then
+			return nil
+		end
+
 		local name = GetUnitName(unit, true)
 		if not BG_PLAYER_CACHE[name] then
 			Plater.UpdateBgPlayerRoleCache()
 		end
+
+		return BG_PLAYER_CACHE[name]
+	end
+	
+	function Plater.GetSpecIconForUnitFromBG(unit)
 		
-		local cache = BG_PLAYER_CACHE[name]
-		if cache then
-			return Plater.GetSpecIcon(CLASS_INFO_CACHE[cache.classToken] and CLASS_INFO_CACHE[cache.classToken][cache.talentSpec] and CLASS_INFO_CACHE[cache.classToken][cache.talentSpec].specID)
+		local cache = Plater.GetUnitBGInfo(unit)
+		if cache and cache.specID then
+			return Plater.GetSpecIcon(cache.specID)
 		end
 		return nil
 	end
@@ -9518,8 +9647,8 @@ end
 			["CommHandler"] = true,
 			["CommReceived"] = true,
 			["GetAllShownPlates"] = false,
-			["GetHashKey"] = true,
-			["IsShowingResourcesOnTarget"] = true,
+			["GetHashKey"] = false,
+			["IsShowingResourcesOnTarget"] = false,
 			["OnRetailNamePlateShow"] = true,
 			["UpdateSelfPlate"] = true,
 			["CastBarOnShow_Hook"] = true,
@@ -9538,7 +9667,7 @@ end
 			["UpdatePlateText"] = true,
 			["CheckLifePercentText"] = true,
 			["UpdateAllNames"] = true,
-			["UpdateLevelTextAndColor"] = true,
+			--["UpdateLevelTextAndColor"] = true,
 			["UpdatePlateFrame"] = true,
 			["ForceChangeBorderColor"] = true,
 			["UpdatePlateBorders"] = true,
@@ -9568,7 +9697,32 @@ end
 			["RefreshTankCache"] = true,
 			["ForceFindPetOwner"] = true,
 			["UpdateBgPlayerRoleCache"] = false,
+			["GetSpecIconForUnitFromBG"] = false,
+			["GetUnitBGInfo"] = false,
+			["GetSpecIcon"] = false,
 			["InitLDB"] = true,
+			["APIList"] = true,
+			["FrameworkList"] = true,
+			["UnitFrameMembers"] = true,
+			["NameplateComponents"] = true,
+			["UpdateOptionsTabUpdateState"] = true,
+			["EnableProfiling"] = false,
+			["DisableProfiling"] = false,
+			["StartLogPerformance"] = false,
+			["StartLogPerformanceCore"] = false,
+			["StartLogPerformanceCore"] = false,
+			["EndLogPerformanceCore"] = false,
+			["DumpPerformance"] = true,
+			["ShowPerfData"] = true,
+			["CheckOptionsTab"] = true,
+			["OpenOptionsPanel"] = true,
+			["TriggerDefaultMembers"] = true,
+			["OpenCopyUrlDialog"] = true,
+			["CreateOptionTableForScriptObject"] = true,
+			["HasWagoUpdate"] = true,
+			["GetWagoUpdateDataFromCompanion"] = true,
+			["UpdateWagoStashData"] = true,
+			["CheckWagoUpdates"] = true,
 		},
 		
 		["DetailsFramework"] = {
@@ -9634,11 +9788,11 @@ end
 
 		--deny messing addons with script support
 		["PlaterDB"] = true,
+		["PlaterDBChr"] = true,
 		["_detalhes_global"] = true,
 		["WeakAurasSaved"] = true,
 	}
 	
-	--UNUSED (for now)
 	--this allows full shadowing on 'Plater' global with the filter above
 	local function buildShadowTable(privateFunctionsTable, tableKey, shadowTable)
 		if not privateFunctionsTable then return end
@@ -9812,9 +9966,9 @@ end
 			else
 				--store the function to execute
 				--setfenv (compiledScript, functionFilter)
-				if not Plater.db.profile.shadowMode then
+				if (Plater.db.profile.shadowMode and Plater.db.profile.shadowMode == 0) then -- legacy mode
 					DF:SetEnvironment(compiledScript, nil, platerModEnvironment)
-				elseif Plater.db.profile.shadowMode == 1 then
+				elseif (not Plater.db.profile.shadowMode or Plater.db.profile.shadowMode == 1) then
 					SetPlaterEnvironment(compiledScript)
 				end
 				
@@ -9991,9 +10145,9 @@ end
 				else
 					--store the function to execute inside the global script object
 					--setfenv (compiledScript, functionFilter)
-					if (not Plater.db.profile.shadowMode) then
+					if (Plater.db.profile.shadowMode and Plater.db.profile.shadowMode == 0) then -- legacy mode
 						DF:SetEnvironment(compiledScript, nil, platerModEnvironment)
-					elseif (Plater.db.profile.shadowMode == 1) then
+					elseif (not Plater.db.profile.shadowMode or Plater.db.profile.shadowMode == 1) then
 						SetPlaterEnvironment(compiledScript)
 					end
 					
@@ -10105,9 +10259,9 @@ end
 			else
 				--get the function to execute
 				--setfenv (compiledScript, functionFilter)
-				if (not Plater.db.profile.shadowMode) then
+				if (Plater.db.profile.shadowMode and Plater.db.profile.shadowMode == 0) then -- legacy mode
 					DF:SetEnvironment(compiledScript, nil, platerModEnvironment)
-				elseif (Plater.db.profile.shadowMode == 1) then
+				elseif (not Plater.db.profile.shadowMode or Plater.db.profile.shadowMode == 1) then
 					SetPlaterEnvironment(compiledScript)
 				end
 				scriptFunctions [scriptType] = compiledScript()

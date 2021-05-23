@@ -47,10 +47,12 @@ select(2, ...).FlightPathDB = {
 	{
 		["name"] = "Refuge Pointe, Arathi",
 		["faction"] = 2,
+		["coord"] = { 39.8, 47.4, 14 },
 	}, -- [16]
 	{
 		["name"] = "Hammerfall, Arathi",
 		["faction"] = 1,
+		["coord"] = { 68.2, 33.4, 14 },
 	}, -- [17]
 	{
 		["name"] = "Booty Bay, Stranglethorn",
@@ -148,7 +150,12 @@ select(2, ...).FlightPathDB = {
 		["name"] = "Bilgewater Harbor, Azshara",
 		["faction"] = 1,
 	}, -- [44]
-	nil, -- [45]
+	{
+		["name"] = "Nethergarde Keep, Blasted Lands",
+		["description"] = "Speak to Zidormi to visit the past to access this point.",
+		["coord"] = { 61.2, 21.6, 17 },
+		["faction"] = 2,
+	}, -- [45]
 	nil, -- [46]
 	nil, -- [47]
 	nil, -- [48]
@@ -187,12 +194,12 @@ select(2, ...).FlightPathDB = {
 		["faction"] = 1,
 	}, -- [61]
 	{
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Nighthaven, Moonglade",
 		["faction"] = 2,
 	}, -- [62]
 	{
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Nighthaven, Moonglade",
 		["faction"] = 1,
 	}, -- [63]
@@ -227,10 +234,14 @@ select(2, ...).FlightPathDB = {
 	}, -- [71]
 	{
 		["name"] = "Cenarion Hold, Silithus",
+		["description"] = "Speak to Zidormi to visit the past to access this point.",
+		["coord"] = { 52.8, 34.6, 81 },
 		["faction"] = 1,
 	}, -- [72]
 	{
 		["name"] = "Cenarion Hold, Silithus",
+		["description"] = "Speak to Zidormi to visit the past to access this point.",
+		["coord"] = { 54.4, 32.8, 81 },
 		["faction"] = 2,
 	}, -- [73]
 	{
@@ -463,7 +474,7 @@ select(2, ...).FlightPathDB = {
 		["faction"] = 2,
 	},
 	[2162] = {
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Devoted Sanctuary, Vol'dun",
 		["faction"] = 0,
 	},
@@ -621,6 +632,30 @@ select(2, ...).FlightPathDB = {
 	[600] = {
 		["name"] = "The Harborage, Swamp of Sorrows",
 		["faction"] = 2,
+	},
+	[601] = {
+		["name"] = "Galen's Fall, Arathi",
+		["coord"] = { 13.4, 34.8, 14 },
+		["faction"] = 1,
+		-- TODO: requires sourceQuests/altQuests as it is not collectible for my main
+	},
+	[602] = {
+		["name"] = "Surwich, Blasted Lands",
+		["description"] = "Speak to Zidormi to visit the past to access this point.",
+		["coord"] = { 47.0, 89.2, 17 },
+		["faction"] = 2,
+	},
+	[603] = {
+		["name"] = "Sunveil Excursion, Blasted Lands",
+		["description"] = "Speak to Zidormi to visit the past to access this point.",
+		["coord"] = { 50.8, 72.8, 17 },
+		["faction"] = 1,
+	},
+	[604] = {
+		["name"] = "Dreadmaul Hold, Blasted Lands",
+		["description"] = "Speak to Zidormi to visit the past to access this point.",
+		["coord"] = { 43.6, 14.2, 17 },
+		["faction"] = 1,
 	},
 	[2398] = {
 		["name"] = "Bleak Redoubt, Maldraxxus",
@@ -818,7 +853,7 @@ select(2, ...).FlightPathDB = {
 	},
 	[2530] = {
 		["name"] = "Dreamsong Fenn, Ardenweald",
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 	},
 	[634] = {
 		["name"] = "Dragon's Mouth, Badlands",
@@ -872,11 +907,12 @@ select(2, ...).FlightPathDB = {
 		["faction"] = 1,
 	},
 	[646] = {
-		["altQuests"] = {
-			27438, -- [1]
-		},
 		["name"] = "Forsaken Forward Command, Gilneas",
 		["faction"] = 1,
+		["altQuests"] = { 27438 }, -- The Great Escape
+		["sourceQuests"] = { 27290 },	-- To Forsaken Forward Command
+		["description"] = "Becomes available during |cFFFFD700To Forsaken Forward Command|r and is no longer available after |cFFFFD700The Great Escape|r.",
+		["coord"] = { 57.2, 17.8, 217 },
 	},
 	[1293] = {
 		["name"] = "Tushui Landing, Timeless Isle",
@@ -1392,10 +1428,14 @@ select(2, ...).FlightPathDB = {
 	},
 	[1537] = {
 		["name"] = "Shattered Landing, Blasted Lands",
+		["description"] = "Must be in the current version of Blasted Lands to access this point.",
+		["coord"] = { 73.0, 48.6, 17 },
 		["faction"] = 1,
 	},
 	[1538] = {
 		["name"] = "Shattered Beachhead, Blasted Lands",
+		["description"] = "Must be in the current version of Blasted Lands to access this point.",
+		["coord"] = { 67.6, 28.0, 17 },
 		["faction"] = 2,
 	},
 	[2053] = {
@@ -1423,7 +1463,7 @@ select(2, ...).FlightPathDB = {
 		["faction"] = 2,
 	},
 	[2071] = {
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Dreadpearl, Zuldazar",
 		["faction"] = 0,
 	},
@@ -1854,7 +1894,7 @@ select(2, ...).FlightPathDB = {
 	},
 	[2565] = {
 		["name"] = "Starlit Overlook, Ardenweald",
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 	},
 	[2569] = {
 		["name"] = "Plague Watch, Maldraxxus",
@@ -1941,7 +1981,7 @@ select(2, ...).FlightPathDB = {
 		},
 	},
 	[1849] = {
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Dalaran",
 		["c"] = {
 			3, -- [1]
@@ -1987,6 +2027,9 @@ select(2, ...).FlightPathDB = {
 			6, -- [1]
 		},
 		["faction"] = 0,
+		["sourceQuests"] = {
+			39017,	-- HQT representing if the player has completed any of their artifacts (assumed)
+		},
 	},
 	[1863] = {
 		["name"] = "Hafr Fjall, Stormheim",
@@ -2047,7 +2090,7 @@ select(2, ...).FlightPathDB = {
 		["name"] = "Glitterfall Basin, Ardenweald",
 	},
 	[2059] = {
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Southwind Village, Silithus",
 		["faction"] = 1,
 	},
@@ -2112,7 +2155,7 @@ select(2, ...).FlightPathDB = {
 		["faction"] = 2,
 	},
 	[2066] = {
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Atal'Gral, Zuldazar",
 		["faction"] = 0,
 	},
@@ -2519,7 +2562,7 @@ select(2, ...).FlightPathDB = {
 		["faction"] = 0,
 	},
 	[1567] = {
-		["u"] = 1,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
 		["name"] = "Temple of Karabor, Shadowmoon Valley",
 		["faction"] = 2,
 	},
@@ -2570,5 +2613,17 @@ select(2, ...).FlightPathDB = {
 	[1054] = {
 		["name"] = "Gao-Ran Battlefront, Townlong Steppes",
 		["faction"] = 0,
+	},
+	[2401] = {
+		["name"] = "Alliance Outpost, Exile's Reach Outpost",
+		["faction"] = 2,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
+		-- TODO: likely requires customCollect/sourceQuests/altQuests?
+	},
+	[2402] = {
+		["name"] = "Ogre Citadel, Exile's Reach Island",
+		["faction"] = 2,
+		["u"] = 1,	-- NEVER_IMPLEMENTED
+		-- TODO: likely requires customCollect/sourceQuests/altQuests?
 	},
 };

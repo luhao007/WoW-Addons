@@ -620,6 +620,8 @@ L["Haste Rating"] = "Haste Rating"
 --[[Translation missing --]]
 L["Heal"] = "Heal"
 --[[Translation missing --]]
+L["Heal Absorbed"] = "Heal Absorbed"
+--[[Translation missing --]]
 L["Health"] = "Health"
 --[[Translation missing --]]
 L["Health (%)"] = "Health (%)"
@@ -1049,6 +1051,8 @@ L["Orientation"] = "Orientation"
 --[[Translation missing --]]
 L["Ossirian the Unscarred"] = "Ossirian the Unscarred"
 --[[Translation missing --]]
+L["Other"] = "Other"
+--[[Translation missing --]]
 L["Other Addons"] = "Other Addons"
 --[[Translation missing --]]
 L["Other Events"] = "Other Events"
@@ -1190,6 +1194,10 @@ L["Rare"] = "Rare"
 --[[Translation missing --]]
 L["Rare Elite"] = "Rare Elite"
 --[[Translation missing --]]
+L["Rated Arena"] = "Rated Arena"
+--[[Translation missing --]]
+L["Rated Battleground"] = "Rated Battleground"
+--[[Translation missing --]]
 L["Raw Threat Percent"] = "Raw Threat Percent"
 --[[Translation missing --]]
 L["Razorgore the Untamed"] = "Razorgore the Untamed"
@@ -1305,6 +1313,8 @@ L["Separator"] = "Separator"
 --[[Translation missing --]]
 L["Set IDs can be found on websites such as classic.wowhead.com/item-sets"] = "Set IDs can be found on websites such as classic.wowhead.com/item-sets"
 --[[Translation missing --]]
+L["Set IDs can be found on websites such as tbc.wowhead.com/item-sets"] = "Set IDs can be found on websites such as tbc.wowhead.com/item-sets"
+--[[Translation missing --]]
 L["Set IDs can be found on websites such as wowhead.com/item-sets"] = "Set IDs can be found on websites such as wowhead.com/item-sets"
 --[[Translation missing --]]
 L["Set Maximum Progress"] = "Set Maximum Progress"
@@ -1391,8 +1401,6 @@ L["Source Reaction"] = "Source Reaction"
 L["Source Unit"] = "Origem da unidade"
 --[[Translation missing --]]
 L["Source Unit Name/Realm"] = "Source Unit Name/Realm"
---[[Translation missing --]]
-L["Source: "] = "Source: "
 --[[Translation missing --]]
 L["Space"] = "Space"
 L["Spacing"] = "Espaçamento"

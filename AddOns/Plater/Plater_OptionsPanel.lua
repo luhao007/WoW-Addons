@@ -103,6 +103,7 @@ local update_wago_update_icons = function()
 	local scriptButton = mainFrame.AllButtons [6]
 	local modButton = mainFrame.AllButtons [7]
 	local profileButton = mainFrame.AllButtons [20]
+	local importButton = mainFrame.AllButtons [23]
 	
 	if countMods > 0 then
 		modButton.updateIcon:Show()
@@ -120,6 +121,13 @@ local update_wago_update_icons = function()
 		profileButton.updateIcon:Show()
 	else
 		profileButton.updateIcon:Hide()
+	end
+	
+	--wago_imports
+	if PlaterDB.wago_stash_data and next(PlaterDB.wago_stash_data) then
+		--importButton.updateIcon:Show()
+	else
+		--importButton.updateIcon:Hide()
 	end
 end
 Plater.UpdateOptionsTabUpdateState = update_wago_update_icons
@@ -207,8 +215,7 @@ function Plater.OpenOptionsPanel()
 		{name = "ProfileManagement", title = L["OPTIONS_TABNAME_PROFILES"]},
 		{name = "AdvancedConfig", title = L["OPTIONS_TABNAME_ADVANCED"]},
 		{name = "SearchFrame", title = "Search"}, --localize-me
-
-		--L["OPTIONS_TABNAME_CREDITS"] --to be removed when 9.0 launches
+		--{name = "WagoIo", title = "Wago Imports"}, --wago_imports --localize-me
 		
 	}, 
 	frame_options)
@@ -247,12 +254,14 @@ function Plater.OpenOptionsPanel()
 	local profilesFrame = mainFrame.AllFrames [20]
 	local advancedFrame = mainFrame.AllFrames [21]
 	local searchFrame = mainFrame.AllFrames [22]
+	--local wagoIoFrame = mainFrame.AllFrames [23] --wago_imports
 	
 	--
 	local colorNpcsButton = mainFrame.AllButtons [17]
 	local scriptButton = mainFrame.AllButtons [6]
 	local modButton = mainFrame.AllButtons [7]
 	local profileButton = mainFrame.AllButtons [20]
+	local importButton = mainFrame.AllButtons [23]
 	
 	local generalOptionsAnchor = CreateFrame ("frame", "$parentOptionsAnchor", frontPageFrame, BackdropTemplateMixin and "BackdropTemplate")
 	generalOptionsAnchor:SetSize (1, 1)
@@ -299,6 +308,14 @@ function Plater.OpenOptionsPanel()
 	updateIconProfile:SetPoint("bottomright", profileButton.button, "bottomright", -2, 2)
 	updateIconProfile:Hide()
 	profileButton.updateIcon = updateIconProfile
+	
+	--wago_imports
+	--local updateIconImports = importButton.button:CreateTexture ("$parentIcon", "overlay")
+	--updateIconImports:SetSize (16, 10)
+	--updateIconImports:SetTexture([[Interface\AddOns\Plater\images\wagologo.tga]])
+	--updateIconImports:SetPoint("bottomright", importButton.button, "bottomright", -2, 2)
+	--updateIconImports:Hide()
+	--importButton.updateIcon = updateIconImports
 	
 	f.AllMenuFrames = {}
 	for _, frame in ipairs (mainFrame.AllFrames) do
@@ -11100,6 +11117,7 @@ end
 --> ~scripts ~scripting ~code �nimations ~animations
 	Plater.CreateScriptingPanel()
 	Plater.CreateHookingPanel()
+	--Plater.CreateWagoPanel() --wago_imports
 	Plater.CreateSpellAnimationPanel()
 	
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -11244,7 +11262,7 @@ end
 				Plater.RefreshDBUpvalues()
 				Plater.UpdateAllPlates()
 			end,
-			min = 1,
+			min = -5000,
 			max = 5000,
 			step = 1,
 			name = "Cast Bar",
@@ -11259,7 +11277,7 @@ end
 				Plater.RefreshDBUpvalues()
 				Plater.UpdateAllPlates()
 			end,
-			min = 1,
+			min = -5000,
 			max = 5000,
 			step = 1,
 			name = "Aura Frame 1",
@@ -11274,7 +11292,7 @@ end
 				Plater.RefreshDBUpvalues()
 				Plater.UpdateAllPlates()
 			end,
-			min = 1,
+			min = -5000,
 			max = 5000,
 			step = 1,
 			name = "Aura Frame 2",
@@ -11289,7 +11307,7 @@ end
 				Plater.RefreshDBUpvalues()
 				Plater.UpdateAllPlates()
 			end,
-			min = 1,
+			min = -5000,
 			max = 5000,
 			step = 1,
 			name = "Buff Special Frame",
@@ -12784,6 +12802,17 @@ end
 			usedecimals = true,
 		},
 		
+		{type = "blank"},
+		{type = "label", get = function() return "Region:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+		
+		{
+			type = "select",
+			get = function() return Plater.db.profile.number_region end,
+			values = function() return build_number_format_options() end,
+			name = "Number Format",
+			desc = "Number format",
+		},
+		
 		{type = "breakline"},
 		{type = "label", get = function() return "Misc:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 		
@@ -12848,143 +12877,140 @@ end
 			name = "In/Out of Combat Settings - Use Player Combat State",
 			desc = "Use the players combat state instead of the units when applying settings for In/Out of Combat.",
 		},
+	
+		{type = "blank"},
+		{type = "label", get = function() return "Personal Bar Custom Position:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+		{
+			type = "range",
+			get = function() return tonumber (GetCVar ("nameplateSelfTopInset")*100) end,
+			set = function (self, fixedparam, value) 
+				--Plater.db.profile.plate_config.player.y_position_offset = value
+
+				if (InCombatLockdown()) then
+					Plater:Msg (L["OPTIONS_ERROR_CVARMODIFY"])
+					self:SetValue (tonumber (GetCVar ("nameplateSelfTopInset")*100))
+					return
+				end
+
+				--SetCVar ("nameplateSelfBottomInset", value / 100)
+				SetCVar ("nameplateSelfTopInset", abs (value - 99) / 100)
+				
+				if (not Plater.PersonalAdjustLocationTop) then
+					Plater.PersonalAdjustLocationTop = CreateFrame ("frame", "PlaterPersonalBarLocation", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+					local frame = Plater.PersonalAdjustLocationTop
+					frame:SetWidth (GetScreenWidth())
+					frame:SetHeight (20)
+					frame.Texture = frame:CreateTexture (nil, "background")
+					frame.Texture:SetTexture ([[Interface\AddOns\Plater\images\bar4_vidro]], true)
+					frame.Texture:SetAllPoints()
+					frame.Shadow = frame:CreateTexture (nil, "border")
+					frame.Shadow:SetTexture ([[Interface\ACHIEVEMENTFRAME\UI-Achievement-RecentHeader]], true)
+					frame.Shadow:SetPoint ("center")
+					frame.Shadow:SetSize (256, 18)
+					frame.Shadow:SetTexCoord (0, 1, 0, 22/32)
+					frame.Shadow:SetVertexColor (0, 0, 0, 1)
+					frame.Text = frame:CreateFontString (nil, "artwork", "GameFontNormal")
+					frame.Text:SetText ("Plater: Top Constraint")
+					frame.Text:SetPoint ("center")
+					
+					frame.HideAnimation = DF:CreateAnimationHub (frame, nil, function() frame:Hide() end)
+					DF:CreateAnimation (frame.HideAnimation, "Alpha", 1, 1, 1, 0)
+					
+					frame.CancelFunction = function()
+						frame.HideAnimation:Play()
+					end
+				end
+				
+				if (Plater.PersonalAdjustLocationTop.HideAnimation:IsPlaying()) then
+					Plater.PersonalAdjustLocationTop.HideAnimation:Stop()
+					Plater.PersonalAdjustLocationTop:SetAlpha (1)
+				end
+				Plater.PersonalAdjustLocationTop:Show()
+				
+				local percentValue = GetScreenHeight()/100
+				Plater.PersonalAdjustLocationTop:SetPoint ("bottom", UIParent, "bottom", 0, percentValue * value)
+				
+				if (Plater.PersonalAdjustLocationTop.Timer) then
+					Plater.PersonalAdjustLocationTop.Timer:Cancel()
+				end
+				Plater.PersonalAdjustLocationTop.Timer = C_Timer.NewTimer (10, Plater.PersonalAdjustLocationTop.CancelFunction)
+				
+				Plater.UpdateAllPlates()
+				Plater.UpdateSelfPlate()
+			end,
+			min = 2,
+			max = 51,
+			step = 1,
+			nocombat = true,
+			name = "Top Constrain" .. CVarIcon,
+			desc = "Adjust the top constrain position where the personal bar cannot pass.\n\n|cFFFFFFFFDefault: 50|r" .. CVarDesc,
+		},
 		
-			--=[ --removed top and bottom constrain options
-			--added back for debug
-			{type = "blank"},
-			{type = "label", get = function() return "Personal Bar Custom Position:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
-			{
-				type = "range",
-				get = function() return tonumber (GetCVar ("nameplateSelfTopInset")*100) end,
-				set = function (self, fixedparam, value) 
-					--Plater.db.profile.plate_config.player.y_position_offset = value
+		{
+			type = "range",
+			get = function() return tonumber (GetCVar ("nameplateSelfBottomInset")*100) end,
+			set = function (self, fixedparam, value) 
+				--Plater.db.profile.plate_config.player.y_position_offset = value
 
-					if (InCombatLockdown()) then
-						Plater:Msg (L["OPTIONS_ERROR_CVARMODIFY"])
-						self:SetValue (tonumber (GetCVar ("nameplateSelfTopInset")*100))
-						return
-					end
+				if (InCombatLockdown()) then
+					Plater:Msg (L["OPTIONS_ERROR_CVARMODIFY"])
+					self:SetValue (tonumber (GetCVar ("nameplateSelfBottomInset")*100))
+					return
+				end
 
-					--SetCVar ("nameplateSelfBottomInset", value / 100)
-					SetCVar ("nameplateSelfTopInset", abs (value - 99) / 100)
+				SetCVar ("nameplateSelfBottomInset", value / 100)
+				--SetCVar ("nameplateSelfTopInset", value / 100)
+				
+				if (not Plater.PersonalAdjustLocationBottom) then
+					Plater.PersonalAdjustLocationBottom = CreateFrame ("frame", "PlaterPersonalBarLocation", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+					local frame = Plater.PersonalAdjustLocationBottom
+					frame:SetWidth (GetScreenWidth())
+					frame:SetHeight (20)
+					frame.Texture = frame:CreateTexture (nil, "background")
+					frame.Texture:SetTexture ([[Interface\AddOns\Plater\images\bar4_vidro]], true)
+					frame.Texture:SetAllPoints()
+					frame.Shadow = frame:CreateTexture (nil, "border")
+					frame.Shadow:SetTexture ([[Interface\ACHIEVEMENTFRAME\UI-Achievement-RecentHeader]], true)
+					frame.Shadow:SetPoint ("center")
+					frame.Shadow:SetSize (256, 18)
+					frame.Shadow:SetTexCoord (0, 1, 0, 22/32)
+					frame.Shadow:SetVertexColor (0, 0, 0, 1)
+					frame.Text = frame:CreateFontString (nil, "artwork", "GameFontNormal")
+					frame.Text:SetText ("Plater: Bottom Constraint")
+					frame.Text:SetPoint ("center")
 					
-					if (not Plater.PersonalAdjustLocationTop) then
-						Plater.PersonalAdjustLocationTop = CreateFrame ("frame", "PlaterPersonalBarLocation", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-						local frame = Plater.PersonalAdjustLocationTop
-						frame:SetWidth (GetScreenWidth())
-						frame:SetHeight (20)
-						frame.Texture = frame:CreateTexture (nil, "background")
-						frame.Texture:SetTexture ([[Interface\AddOns\Plater\images\bar4_vidro]], true)
-						frame.Texture:SetAllPoints()
-						frame.Shadow = frame:CreateTexture (nil, "border")
-						frame.Shadow:SetTexture ([[Interface\ACHIEVEMENTFRAME\UI-Achievement-RecentHeader]], true)
-						frame.Shadow:SetPoint ("center")
-						frame.Shadow:SetSize (256, 18)
-						frame.Shadow:SetTexCoord (0, 1, 0, 22/32)
-						frame.Shadow:SetVertexColor (0, 0, 0, 1)
-						frame.Text = frame:CreateFontString (nil, "artwork", "GameFontNormal")
-						frame.Text:SetText ("Plater: Top Constraint")
-						frame.Text:SetPoint ("center")
-						
-						frame.HideAnimation = DF:CreateAnimationHub (frame, nil, function() frame:Hide() end)
-						DF:CreateAnimation (frame.HideAnimation, "Alpha", 1, 1, 1, 0)
-						
-						frame.CancelFunction = function()
-							frame.HideAnimation:Play()
-						end
+					frame.HideAnimation = DF:CreateAnimationHub (frame, nil, function() frame:Hide() end)
+					DF:CreateAnimation (frame.HideAnimation, "Alpha", 1, 1, 1, 0)
+					
+					frame.CancelFunction = function()
+						frame.HideAnimation:Play()
 					end
-					
-					if (Plater.PersonalAdjustLocationTop.HideAnimation:IsPlaying()) then
-						Plater.PersonalAdjustLocationTop.HideAnimation:Stop()
-						Plater.PersonalAdjustLocationTop:SetAlpha (1)
-					end
-					Plater.PersonalAdjustLocationTop:Show()
-					
-					local percentValue = GetScreenHeight()/100
-					Plater.PersonalAdjustLocationTop:SetPoint ("bottom", UIParent, "bottom", 0, percentValue * value)
-					
-					if (Plater.PersonalAdjustLocationTop.Timer) then
-						Plater.PersonalAdjustLocationTop.Timer:Cancel()
-					end
-					Plater.PersonalAdjustLocationTop.Timer = C_Timer.NewTimer (10, Plater.PersonalAdjustLocationTop.CancelFunction)
-					
-					Plater.UpdateAllPlates()
-					Plater.UpdateSelfPlate()
-				end,
-				min = 2,
-				max = 51,
-				step = 1,
-				nocombat = true,
-				name = "Top Constrain" .. CVarIcon,
-				desc = "Adjust the top constrain position where the personal bar cannot pass.\n\n|cFFFFFFFFDefault: 50|r" .. CVarDesc,
-			},
-			
-			{
-				type = "range",
-				get = function() return tonumber (GetCVar ("nameplateSelfBottomInset")*100) end,
-				set = function (self, fixedparam, value) 
-					--Plater.db.profile.plate_config.player.y_position_offset = value
-
-					if (InCombatLockdown()) then
-						Plater:Msg (L["OPTIONS_ERROR_CVARMODIFY"])
-						self:SetValue (tonumber (GetCVar ("nameplateSelfBottomInset")*100))
-						return
-					end
-
-					SetCVar ("nameplateSelfBottomInset", value / 100)
-					--SetCVar ("nameplateSelfTopInset", value / 100)
-					
-					if (not Plater.PersonalAdjustLocationBottom) then
-						Plater.PersonalAdjustLocationBottom = CreateFrame ("frame", "PlaterPersonalBarLocation", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-						local frame = Plater.PersonalAdjustLocationBottom
-						frame:SetWidth (GetScreenWidth())
-						frame:SetHeight (20)
-						frame.Texture = frame:CreateTexture (nil, "background")
-						frame.Texture:SetTexture ([[Interface\AddOns\Plater\images\bar4_vidro]], true)
-						frame.Texture:SetAllPoints()
-						frame.Shadow = frame:CreateTexture (nil, "border")
-						frame.Shadow:SetTexture ([[Interface\ACHIEVEMENTFRAME\UI-Achievement-RecentHeader]], true)
-						frame.Shadow:SetPoint ("center")
-						frame.Shadow:SetSize (256, 18)
-						frame.Shadow:SetTexCoord (0, 1, 0, 22/32)
-						frame.Shadow:SetVertexColor (0, 0, 0, 1)
-						frame.Text = frame:CreateFontString (nil, "artwork", "GameFontNormal")
-						frame.Text:SetText ("Plater: Bottom Constraint")
-						frame.Text:SetPoint ("center")
-						
-						frame.HideAnimation = DF:CreateAnimationHub (frame, nil, function() frame:Hide() end)
-						DF:CreateAnimation (frame.HideAnimation, "Alpha", 1, 1, 1, 0)
-						
-						frame.CancelFunction = function()
-							frame.HideAnimation:Play()
-						end
-					end
-					
-					if (Plater.PersonalAdjustLocationBottom.HideAnimation:IsPlaying()) then
-						Plater.PersonalAdjustLocationBottom.HideAnimation:Stop()
-						Plater.PersonalAdjustLocationBottom:SetAlpha (1)
-					end
-					Plater.PersonalAdjustLocationBottom:Show()
-					
-					local percentValue = GetScreenHeight()/100
-					Plater.PersonalAdjustLocationBottom:SetPoint ("bottom", UIParent, "bottom", 0, percentValue * value)
-					
-					if (Plater.PersonalAdjustLocationBottom.Timer) then
-						Plater.PersonalAdjustLocationBottom.Timer:Cancel()
-					end
-					Plater.PersonalAdjustLocationBottom.Timer = C_Timer.NewTimer (10, Plater.PersonalAdjustLocationBottom.CancelFunction)
-					
-					Plater.UpdateAllPlates()
-					Plater.UpdateSelfPlate()
-				end,
-				min = 2,
-				max = 51,
-				step = 1,
-				nocombat = true,
-				name = "Bottom Constrain" .. CVarIcon,
-				desc = "Adjust the bottom constrain position where the personal bar cannot pass.\n\n|cFFFFFFFFDefault: 20|r" .. CVarDesc,
-			},
-			--]= --end of top and bottom constrain		
+				end
+				
+				if (Plater.PersonalAdjustLocationBottom.HideAnimation:IsPlaying()) then
+					Plater.PersonalAdjustLocationBottom.HideAnimation:Stop()
+					Plater.PersonalAdjustLocationBottom:SetAlpha (1)
+				end
+				Plater.PersonalAdjustLocationBottom:Show()
+				
+				local percentValue = GetScreenHeight()/100
+				Plater.PersonalAdjustLocationBottom:SetPoint ("bottom", UIParent, "bottom", 0, percentValue * value)
+				
+				if (Plater.PersonalAdjustLocationBottom.Timer) then
+					Plater.PersonalAdjustLocationBottom.Timer:Cancel()
+				end
+				Plater.PersonalAdjustLocationBottom.Timer = C_Timer.NewTimer (10, Plater.PersonalAdjustLocationBottom.CancelFunction)
+				
+				Plater.UpdateAllPlates()
+				Plater.UpdateSelfPlate()
+			end,
+			min = 2,
+			max = 51,
+			step = 1,
+			nocombat = true,
+			name = "Bottom Constrain" .. CVarIcon,
+			desc = "Adjust the bottom constrain position where the personal bar cannot pass.\n\n|cFFFFFFFFDefault: 20|r" .. CVarDesc,
+		},	
 		
 		{type = "blank"},
 		{type = "label", get = function() return "Animations:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
@@ -13043,17 +13069,6 @@ end
 		},
 
 		{type = "blank"},
-		{type = "label", get = function() return "Region:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
-		
-		{
-			type = "select",
-			get = function() return Plater.db.profile.number_region end,
-			values = function() return build_number_format_options() end,
-			name = "Number Format",
-			desc = "Number format",
-		},
-		
-		{type = "breakline"},
 
 		{type = "label", get = function() return "Unit Widget Bars:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 	

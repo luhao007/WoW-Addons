@@ -5,7 +5,8 @@ if GetLocale() ~= "ptBR" then
 end
 
 local L = BtWQuests.L
-L["ALLIED_RACE_MECHAGNOME"] = "Allied Race: Gnomecânico"
+L["ALLIED_RACE_MECHAGNOME"] = "Raças Aliadas: Gnomecânico"
+L["ALLIED_RACE_VULPERA"] = "Raças Aliadas: Vulpera"
 L["BTWQUESTS_COSMETIC_WAIST_OF_TIME"] = "Cosmético: Cinto pelo Tempo Perdido"
 L["BTWQUESTS_GIFT_OF_NZOTH"] = "Dádiva de N'Zoth"
 L["BTWQUESTS_HATI_REBORN"] = "Hati Renascido"

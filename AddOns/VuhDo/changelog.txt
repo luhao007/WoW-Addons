@@ -1,3 +1,44 @@
+Version 3.123  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+-- Fixed HoT icon clock sweep for auras with zero duration  
+-- Fixed entry selection of comboboxes with over 100 options  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.122  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+-- Fixed inverted health display when shield bar is disabled  
+  
+  
+Improvements:  
+-- Added bouquet validator 'Statusbar: Power % (Tank Only)'  
+-- Added default bouquet 'Manabars: Power (Tank Only)'  
+  
+  
+--------------------------------------------------------------  
 Version 3.121  
   
   

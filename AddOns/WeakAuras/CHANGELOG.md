@@ -1,34 +1,20 @@
-# [3.2.2](https://github.com/WeakAuras/WeakAuras2/tree/3.2.2) (2021-03-14)
+# [3.4.1](https://github.com/WeakAuras/WeakAuras2/tree/3.4.1) (2021-05-19)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.2.1...3.2.2)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.4.0...3.4.1)
 
 ## Highlights
 
- - DBM triggers rework
-- Bug fixes 
+ - More fixes for BCC. 
 
 ## Commits
 
-InfusOnWoW (2):
+Stanzilla (1):
 
-- Fix aura_env being unavailable in some condition checks
-- Fix Legendary ID mapping
-
-Stanzilla (5):
-
-- Publish Classic to Wago Addons as well
-- Publish Retail to Wago Addons as well
-- Update WeakAurasModelPaths from wow.tools
-- Update WeakAurasModelPaths from wow.tools
 - Update WeakAurasModelPaths from wow.tools
 
-mrbuds (7):
+mrbuds (3):
 
-- fix nameFunc for "Cooldown Ready (Equipment Slot)" trigger fixes #2976
-- set tocversion as an internal field for import diff
-- add DBT (DBM options) to .luacheckrc
-- DBM bars options table was moved
-- handle BigWigs_PauseBar and BigWigs_ResumeBar events
-- handle DBM_TimerPause & DBM_TimerResume callbacks fixes #2951
-- add state.paused support for timed progress auras
+- use weakauras fork of LibRangeCheck-2.0 for all versions
+- BCC & Classic packages fixes
+- retail pkgmeta should ignore ModelPathsBCC
 

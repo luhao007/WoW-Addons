@@ -33,7 +33,7 @@ Database:AddChain(Chain.TheMightOfSteelAndBloodAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheMightOfSteelAndBloodHorde,
@@ -42,7 +42,7 @@ Database:AddChain(Chain.TheMightOfSteelAndBloodAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
     },
     active = {
@@ -136,7 +136,7 @@ Database:AddChain(Chain.TheRingOfTrialsAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 2),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheRingOfTrialsHorde,
@@ -145,7 +145,7 @@ Database:AddChain(Chain.TheRingOfTrialsAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -216,7 +216,7 @@ Database:AddChain(Chain.CalledToTheThroneAlliance, {
     },
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     alternatives = {
         Chain.CalledToTheThroneHorde,
     },
@@ -224,7 +224,7 @@ Database:AddChain(Chain.CalledToTheThroneAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
     },
     active = {
@@ -341,7 +341,7 @@ Database:AddChain(Chain.TheShadowOfTheVoidAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 3),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheShadowOfTheVoidHorde,
@@ -350,7 +350,7 @@ Database:AddChain(Chain.TheShadowOfTheVoidAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -438,7 +438,7 @@ Database:AddChain(Chain.TheDarkHeartOfOshugunAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 4),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheDarkHeartOfOshugunHorde,
@@ -447,7 +447,7 @@ Database:AddChain(Chain.TheDarkHeartOfOshugunAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -504,7 +504,7 @@ Database:AddChain(Chain.ABlademastersHonorAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 5),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.RemainsOfTelaarHorde,
@@ -513,7 +513,7 @@ Database:AddChain(Chain.ABlademastersHonorAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -603,7 +603,7 @@ Database:AddChain(Chain.TroubleAtTheOverwatchAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 6),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TroubleAtTheOverwatchHorde,
@@ -612,7 +612,7 @@ Database:AddChain(Chain.TroubleAtTheOverwatchAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -680,7 +680,7 @@ Database:AddChain(Chain.TheTakingOfLokrathAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 7),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheTakingOfLokrathHorde,
@@ -689,7 +689,7 @@ Database:AddChain(Chain.TheTakingOfLokrathAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -773,7 +773,7 @@ Database:AddChain(Chain.TheLegacyOfGarroshHellscreamAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 8),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheLegacyOfGarroshHellscreamHorde,
@@ -782,7 +782,7 @@ Database:AddChain(Chain.TheLegacyOfGarroshHellscreamAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -835,7 +835,7 @@ Database:AddChain(Chain.TheMightOfSteelAndBloodHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheMightOfSteelAndBloodAlliance,
@@ -844,7 +844,7 @@ Database:AddChain(Chain.TheMightOfSteelAndBloodHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
     },
     active = {
@@ -941,7 +941,7 @@ Database:AddChain(Chain.TheRingOfTrialsHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 2),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheRingOfTrialsAlliance,
@@ -950,7 +950,7 @@ Database:AddChain(Chain.TheRingOfTrialsHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -1021,7 +1021,7 @@ Database:AddChain(Chain.CalledToTheThroneHorde, {
     },
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     alternatives = {
         Chain.CalledToTheThroneAlliance,
     },
@@ -1029,7 +1029,7 @@ Database:AddChain(Chain.CalledToTheThroneHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
     },
     active = {
@@ -1146,7 +1146,7 @@ Database:AddChain(Chain.TheShadowOfTheVoidHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 3),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheShadowOfTheVoidAlliance,
@@ -1155,7 +1155,7 @@ Database:AddChain(Chain.TheShadowOfTheVoidHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -1242,7 +1242,7 @@ Database:AddChain(Chain.TheDarkHeartOfOshugunHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 4),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheDarkHeartOfOshugunAlliance,
@@ -1251,7 +1251,7 @@ Database:AddChain(Chain.TheDarkHeartOfOshugunHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -1308,7 +1308,7 @@ Database:AddChain(Chain.RemainsOfTelaarHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 5),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.ABlademastersHonorAlliance,
@@ -1317,7 +1317,7 @@ Database:AddChain(Chain.RemainsOfTelaarHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -1383,7 +1383,7 @@ Database:AddChain(Chain.TroubleAtTheOverwatchHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 6),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TroubleAtTheOverwatchAlliance,
@@ -1392,7 +1392,7 @@ Database:AddChain(Chain.TroubleAtTheOverwatchHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -1474,7 +1474,7 @@ Database:AddChain(Chain.TheTakingOfLokrathHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 7),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheTakingOfLokrathAlliance,
@@ -1483,7 +1483,7 @@ Database:AddChain(Chain.TheTakingOfLokrathHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",
@@ -1576,7 +1576,7 @@ Database:AddChain(Chain.TheLegacyOfGarroshHellscreamHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 8),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {98,100},
+    range = {35,60},
     major = true,
     alternatives = {
         Chain.TheLegacyOfGarroshHellscreamAlliance,
@@ -1585,7 +1585,7 @@ Database:AddChain(Chain.TheLegacyOfGarroshHellscreamHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 98,
+            level = 35,
         },
         {
             type = "chain",

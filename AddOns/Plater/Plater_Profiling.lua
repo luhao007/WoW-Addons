@@ -53,6 +53,9 @@ function Plater.DisableProfiling()
 	Plater.StartLogPerformance = function() end
 	Plater.EndLogPerformance = function() end
 	
+	Plater.StartLogPerformanceCore = function() end
+	Plater.EndLogPerformanceCore = function() end
+	
 	Plater.DumpPerformance(true) -- for VDT mainly atm
 	Plater:Msg("Plater stopped profiling.")
 	
@@ -158,10 +161,14 @@ local function getPerfData()
 			local pTypeSufExec = 0
 			--printStrPType = printStrPType .. indent .. "Sub-Events:" .. "\n"
 			for subType, sufData in pairs(pData.subTypeData) do
-				perfTable[pType][event]._subTypeData[subType] = "avg: " .. roundTime(sufData.totalTime / sufData.count) .. "ms - count: " .. sufData.count .. " - total: " .. roundTime(sufData.totalTime) .. "ms"
-				pTypeSufTime = pTypeSufTime + sufData.totalTime
-				pTypeSufExec = pTypeSufExec + sufData.count
-				printStrPType = printStrPType .. indent .. indent .. subType .. " - " .. perfTable[pType][event]._subTypeData[subType] .. "\n"
+				if sufData.totalTime then -- sanity check for bad data
+					perfTable[pType][event]._subTypeData[subType] = "avg: " .. roundTime(sufData.totalTime / sufData.count) .. "ms - count: " .. sufData.count .. " - total: " .. roundTime(sufData.totalTime) .. "ms"
+					pTypeSufTime = pTypeSufTime + sufData.totalTime
+					pTypeSufExec = pTypeSufExec + sufData.count
+					printStrPType = printStrPType .. indent .. indent .. subType .. " - " .. perfTable[pType][event]._subTypeData[subType] .. "\n"
+				else
+					printStrPType = printStrPType .. indent .. indent .. subType .. " - ERROR - NO TOTAL LOGGED\n"
+				end
 			end
 			perfTable[pType][event].pTypeSufTime = pTypeSufTime
 			perfTable[pType][event].pTypeSufExec = pTypeSufExec

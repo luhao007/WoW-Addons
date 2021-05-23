@@ -3,23 +3,53 @@ local BtWQuestsCharacters = BtWQuestsCharacters
 
 local L = BtWQuests.L;
 
+local INTERFACE_NUMBER = select(4, GetBuildInfo())
+
 BINDING_HEADER_BTWQUESTS = "BtWQuests"
 BINDING_NAME_TOGGLE_BTWQUESTS = L["TOGGLE_BTWQUESTS"]
 
---@REMOVE AFTER 9.0
 local CreateFramePoolCollection = CreateFramePoolCollection or CreatePoolCollection
-local GetLogIndexForQuestID = C_QuestLog.GetLogIndexForQuestID
-if select(4, GetBuildInfo()) < 90000 then
-    GetLogIndexForQuestID = GetQuestLogIndexByID
+local GetLogIndexForQuestID = C_QuestLog and C_QuestLog.GetLogIndexForQuestID or GetQuestLogIndexByID
+local IsQuestComplete = C_QuestLog and C_QuestLog.IsComplete or IsQuestComplete
+local GetQuestIDForQuestIndex = C_QuestLog and C_QuestLog.GetInfo and function (questLogIndex)
+    return C_QuestLog.GetInfo(questLogIndex).questID
+end or function (questLogIndex)
+    return (select(8, GetQuestLogTitle(questLogIndex)))
 end
+local GetQuestLogIsAutoComplete = C_QuestLog and C_QuestLog.GetInfo and function (questLogIndex)
+    return C_QuestLog.GetInfo(questLogIndex).isAutoComplete
+end or GetQuestLogIsAutoComplete or function () return false end
+local ShowQuestDetails = QuestMapFrame_OpenToQuestDetails and function (questID)
+    QuestMapFrame_OpenToQuestDetails(questID)
 
-local BTWQUESTS_CATEGORY_ITEM_WIDTH = 174
-local BTWQUESTS_CATEGORY_ITEM_HEIGHT = 96
-local BTWQUESTS_CATEGORY_ITEM_PADDING = 12
-local BTWQUESTS_CATEGORY_NUM_ITEMS_PER_ROW = 4
+    return true
+end or function (questID)
+    local mapID
+    local quest = BtWQuestsDatabase:GetQuestByID(questID)
+    if IsQuestComplete(questID) then
+        if BtWQuestSettingsData:GetValue("showMapTurnIns") and quest:HasTarget() then
+            mapID = quest:GetTargetMapID()
+        end
+    elseif quest:HasObjectives() then
+        if BtWQuestSettingsData:GetValue("showMapPOIs") then
+            mapID = quest:GetCurrentObjectiveMapID()
+        end
+    end
 
-local BTWQUESTS_CHAIN_ITEM_WIDTH = 174 / 2
-local BTWQUESTS_CHAIN_ITEM_HEIGHT = 80
+    if mapID then
+        ShowUIPanel(WorldMapFrame);
+        MaximizeUIPanel(WorldMapFrame);
+        WorldMapFrame:SetMapID(mapID)
+    else
+        ShowUIPanel(QuestLogFrame);
+        QuestLog_SetSelection(GetQuestLogIndexByID(questID))
+    end
+
+    return true
+end
+local function CanCompleteQuest(questLogIndex)
+    return IsQuestComplete(GetQuestIDForQuestIndex(questLogIndex)) and GetQuestLogIsAutoComplete(questLogIndex)
+end
 
 BtWQuestsFrameChainViewMixin = {}
 function BtWQuestsFrameChainViewMixin:GetTooltip()
@@ -52,6 +82,48 @@ BtWQuestSettingsData = {
                     BtWQuestsFrame:OnEvent("PLAYER_ENTERING_WORLD")
                 end
 
+                if WorldMapFrame:IsShown() then
+                    WorldMapFrame:RefreshAllDataProviders()
+                end
+            end,
+            default = true,
+        },
+        {
+            name = L["SHOW_MAP_OBJECTIVES"],
+            value = "showMapPOIs",
+            onChange = function (id, value)
+                if value then
+                    -- Trigger creation of map pins
+                    BtWQuestsFrame:OnEvent("PLAYER_ENTERING_WORLD")
+                end
+
+                if WorldMapFrame:IsShown() then
+                    WorldMapFrame:RefreshAllDataProviders()
+                end
+            end,
+            default = GetQuestPOIs == nil,
+            visible = GetQuestPOIs == nil,
+        },
+        {
+            name = L["SHOW_MAP_TURN_INS"],
+            value = "showMapTurnIns",
+            onChange = function (id, value)
+                if value then
+                    -- Trigger creation of map pins
+                    BtWQuestsFrame:OnEvent("PLAYER_ENTERING_WORLD")
+                end
+
+                if WorldMapFrame:IsShown() then
+                    WorldMapFrame:RefreshAllDataProviders()
+                end
+            end,
+            default = GetQuestPOIs == nil,
+            visible = GetQuestPOIs == nil,
+        },
+        {
+            name = L["USE_SMALL_MAP_ICONS"],
+            value = "smallMapPins",
+            onChange = function (id, value)
                 if WorldMapFrame:IsShown() then
                     WorldMapFrame:RefreshAllDataProviders()
                 end
@@ -139,14 +211,16 @@ function BtWQuestsOptionsMenuMixin:Initialize()
     -- info.keepShownOnClick = true
 
     for _,option in ipairs(BtWQuestSettingsData.options) do
-        info.text = option.name
-        info.value = option.value
-        info.checked = BtWQuests_Settings[option.value]
-        info.func = Select
-        if info.checked == nil then
-            info.checked = option.default
+        if option.visible ~= false then
+            info.text = option.name
+            info.value = option.value
+            info.checked = BtWQuests_Settings[option.value]
+            info.func = Select
+            if info.checked == nil then
+                info.checked = option.default
+            end
+            self:AddButton(info)
         end
-        self:AddButton(info)
     end
 end
 
@@ -287,17 +361,6 @@ function BtWQuestsMixin:SelectChain(id, scrollTo, noHistory)
         self:AddCurrentToHistory()
     end
 end
-local CanCompleteQuest
-if select(4, GetBuildInfo()) < 90000 then
-    function CanCompleteQuest(questLogIndex)
-        return IsQuestComplete(questID) and GetQuestLogIsAutoComplete(questLogIndex)
-    end
-else
-    function CanCompleteQuest(questLogIndex)
-        local info = C_QuestLog.GetInfo(questLogIndex)
-        return C_QuestLog.IsComplete(info.questID) and info.isAutoComplete
-    end
-end
 function BtWQuestsMixin:SelectFromLink(link, scrollTo)
     local _, _, color, type, text, name = string.find(link, "|cff(%x*)|H([^:]+):([^|]+)|h%[([^%[%]]*)%]|h|r")
     if not color then
@@ -321,7 +384,7 @@ function BtWQuestsMixin:SelectFromLink(link, scrollTo)
 
                 return true
             else
-                QuestMapFrame_OpenToQuestDetails(id)
+                ShowQuestDetails(id)
 
                 return true
             end
@@ -687,23 +750,26 @@ function BtWQuestsMixin:OnLoad()
     self:RegisterEvent("ZONE_CHANGED_INDOORS")
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
-    self:RegisterEvent("QUEST_SESSION_JOINED")
-    self:RegisterEvent("QUEST_SESSION_LEFT")
+    if C_QuestSession then
+        self:RegisterEvent("QUEST_SESSION_JOINED")
+        self:RegisterEvent("QUEST_SESSION_LEFT")
+    end
 
     self:RegisterEvent("MODIFIER_STATE_CHANGED")
 
 	self.TitleText:SetText(L["BTWQUESTS_QUEST_JOURNAL"]);
     SetPortraitToTexture(self.portrait, "Interface\\QuestFrame\\UI-QuestLog-BookIcon");
 
-    -- Updated the NineSlice frame for our extra buttons
-    self.NineSlice.TopLeftCorner:SetTexture("Interface\\Addons\\BtWQuests\\UI-Frame-Metal")
-    self.NineSlice.TopLeftCorner:SetWidth(196)
-    self.NineSlice.TopLeftCorner:SetTexCoord(0, 0.3828125, 0, 0.2578125)
+    if self.NineSlice then
+        -- Updated the NineSlice frame for our extra buttons
+        self.NineSlice.TopLeftCorner:SetTexture("Interface\\Addons\\BtWQuests\\UI-Frame-Metal")
+        self.NineSlice.TopLeftCorner:SetWidth(196)
+        self.NineSlice.TopLeftCorner:SetTexCoord(0, 0.3828125, 0, 0.2578125)
 
-    self.NineSlice.TopRightCorner:SetTexture("Interface\\Addons\\BtWQuests\\UI-Frame-Metal")
-    self.NineSlice.TopRightCorner:SetTexCoord(0, 0.2578125, 0.2578125, 0.515625)
-
-    self.NineSlice.TopEdge:SetPoint("TOPRIGHT", self.CharacterDropDown, "TOPLEFT", 0, 0);
+        self.NineSlice.TopRightCorner:SetTexture("Interface\\Addons\\BtWQuests\\UI-Frame-Metal")
+        self.NineSlice.TopRightCorner:SetTexCoord(0, 0.51171875, 0.2578125, 0.515625)
+        self.NineSlice.TopRightCorner:SetWidth(262)
+    end
 
     self.categoryItemPool = CreateFramePoolCollection()--CreateFramePool("BUTTON", self.Category.Scroll.Child, "BtWQuestsCategoryButtonTemplate");
 	self.categoryItemPool:CreatePool("BUTTON", self.Category.Scroll.Child, "BtWQuestsCategoryHeaderTemplate");
@@ -793,21 +859,50 @@ function BtWQuestsMixin:OnEvent(event, ...)
                     end
                 end
             end
+
+            if not BtWQuestsDatabase:HasMultipleExpansion() then
+                BtWQuestsDatabase:GetFirstExpansion():Load()
+            end
+
             -- hooksecurefunc("QuestObjectiveTracker_OnOpenDropDown", function (self)
             --     BtWQuests_AddOpenChainMenuItem(self, self.activeFrame.id)
             -- end)
             -- hooksecurefunc(QuestMapQuestOptionsDropDown, "initialize", function (self)
             --     BtWQuests_AddOpenChainMenuItem(self, self.questID)
             -- end)
+
+            if select(5, GetAddOnInfo("BtWQuestsEditor")) == "DEMAND_LOADED" then
+                local option = {
+                    name = "Enable Editor (reload on disable)",
+                    value = "enableEditor",
+                    default = false,
+                    onChange = function(id, value)
+                        if value then
+                            LoadAddOn("BtWQuestsEditor")
+                        else
+                            ReloadUI() -- Gotta reload to disable an addon
+                        end
+                    end
+                };
+                BtWQuestSettingsData.optionsByID[option.value] = option
+                BtWQuestSettingsData.options[#BtWQuestSettingsData.options+1] = option;
+
+                if BtWQuestSettingsData:GetValue("enableEditor") then
+                    LoadAddOn("BtWQuestsEditor")
+                end
+            end
         elseif (...):sub(1, 9) == "BtWQuests" then
             if self:IsShown() then
                 self:UpdateHereButton()
             end
         end
     elseif event == "PLAYER_ENTERING_WORLD" then
-        if not self.addedQuestDataProviders and BtWQuestSettingsData:GetValue("showMapPins") then
+        if not self.addedQuestDataProviders and (BtWQuestSettingsData:GetValue("showMapPins") or BtWQuestSettingsData:GetValue("showMapPOIs") or BtWQuestSettingsData:GetValue("showMapTurnIns")) then
             self.addedQuestDataProviders = true
             LibMapPinHandler[WorldMapFrame]:AddDataProvider(CreateFromMixins(BtWQuestsQuestDataProviderMixin));
+            if not GetQuestPOIs then
+                LibMapPinHandler[WorldMapFrame]:AddDataProvider(CreateFromMixins(BtWQuestsQuestPOIDataProviderMixin));
+            end
         end
     elseif event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA" then
         if self:IsShown() then
@@ -890,13 +985,17 @@ function BtWQuestsMixin:OnShow()
 
         self.navBar:EnableExpansions(BtWQuestsDatabase:HasMultipleExpansion())
 
-        if self:GetExpansion() == nil and not BtWQuestsDatabase:HasMultipleExpansion() then -- Not guessed/set an expansion yet
-            self:SetExpansion(BtWQuestsDatabase:GetBestExpansionForCharacter(self.Character))
-            self:DisplayCurrentExpansion()
+        if self:GetExpansion() == nil then -- Not guessed/set an expansion yet
+            local expansion = BtWQuestsDatabase:GetLoadedExpansion()
+            if expansion then
+                self:SelectExpansion(expansion:GetID(), nil, true)
+            elseif not BtWQuestsDatabase:HasMultipleExpansion() then
+                self:SelectExpansion(BtWQuestsDatabase:GetFirstExpansion():GetID(), nil, true)
+            end
         end
 
         -- Quick fix for AddOnSkins issue
-        if self.Chain.Scroll.ScrollBar.ThumbTexture.Backdrop then
+        if self.Chain.Scroll.ScrollBar.ThumbTexture and self.Chain.Scroll.ScrollBar.ThumbTexture.Backdrop then
             self.Chain.Scroll.ScrollBar.ThumbTexture.Backdrop:SetFrameLevel(self.Chain.Scroll.ScrollBar.Backdrop:GetFrameLevel())
             self.Category.Scroll.ScrollBar.ThumbTexture.Backdrop:SetFrameLevel(self.Category.Scroll.ScrollBar.Backdrop:GetFrameLevel())
         end
@@ -924,7 +1023,9 @@ function BtWQuestsChainFrame_OnShow(self)
     self:RegisterEvent("QUEST_COMPLETE")
     self:RegisterEvent("QUEST_FINISHED")
     self:RegisterEvent("QUEST_TURNED_IN")
-    self:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE")
+    if INTERFACE_NUMBER >= 70200 then
+        self:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE")
+    end
     self:RegisterEvent("QUEST_WATCH_LIST_CHANGED")
     self:RegisterEvent("QUEST_WATCH_UPDATE")
 end
@@ -998,7 +1099,11 @@ function BtWQuests_ShowMapWithWaypoint(mapId, x, y, name)
     BtWQuests_AddWaypoint(mapId, x, y, name)
 
     if not IsModifiedClick("CHATLINK") then
-        OpenQuestLog(mapId)
+        ShowUIPanel(WorldMapFrame);
+        if INTERFACE_NUMBER < 90000 then
+            MaximizeUIPanel(WorldMapFrame);
+        end
+        WorldMapFrame:SetMapID(mapId);
     end
 end
 

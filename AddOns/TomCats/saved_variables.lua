@@ -10,6 +10,10 @@ local defaultSavedVariables = {
 				position = -2.888,
 				hidden = false
 			},
+			MapOptions = {
+				iconAnimationEnabled = true,
+				iconScale = 1.0
+			},
 			betaEnabled = false
 		},
 		lastVersionSeen = "NONE",

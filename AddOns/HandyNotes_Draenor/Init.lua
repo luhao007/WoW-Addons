@@ -1,19 +1,37 @@
-HandyNotes_Draenor = LibStub("AceAddon-3.0"):NewAddon("HandyNotes_Draenor", "AceTimer-3.0", "AceBucket-3.0", "AceConsole-3.0", "AceEvent-3.0")
-HandyNotes_Draenor.nodes = { nil }
+HandyNotes_Draenor = LibStub("AceAddon-3.0"):NewAddon("HandyNotes_Draenor", "AceEvent-3.0", "AceBucket-3.0")
+
+HandyNotes_Draenor.nodes = {}
+
+HandyNotes_Draenor.DefaultNodeTypes = {
+    Treasure = "Treasure",
+    Treasure_Quest = "Treasure_Quest",
+    Rare = "Rare",
+    Mount_VoidTalon = "Mount_VoidTalon",
+    Mount_Pathrunner = "Mount_Pathrunner",
+    Mount_Poundfist = "Mount_Poundfist",
+    Mount_NakkTheThunderer = "Mount_NakkTheThunderer",
+    Mount_Lukhok = "Mount_Lukhok",
+    Mount_Silthide = "Mount_Silthide",
+    Mount_Gorok = "Mount_Gorok",
+    Mount_NokKarosh = "Mount_NokKarosh",
+    Mount_Doomroller = "Mount_Doomroller",
+    Mount_Vengeance = "Mount_Vengeance",
+    Mount_Deathtalon = "Mount_Deathtalon",
+    Mount_Terrorfist = "Mount_Terrorfist",
+}
 
 HandyNotes_Draenor.DefaultIcons = {
-    Icon_Treasure_Default = "Interface\\Icons\\TRADE_ARCHAEOLOGY_CHESTOFTINYGLASSANIMALS",
-    Icon_Glider = "Interface\\Icons\\inv_feather_04",
-    Icon_Rocket = "Interface\\Icons\\ability_mount_rocketmount",
-    Icon_Skull_Blue = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\RareIconBlue.tga",
-    Icon_Skull_Green = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\RareIconGreen.tga",
-    Icon_Skull_Grey = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\RareIcon.tga",
-    Icon_Skull_Orange = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\RareIconOrange.tga",
-    Icon_Skull_Purple = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\RareIconPurple.tga",
-    Icon_Skull_Red = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\RareIconRed.tga",
-    Icon_Skull_Yellow = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\RareIconYellow.tga",
-    Icon_Fossil_Snail = "Interface\\Icons\\Trade_Archaeology_Fossil_SnailShell",
+    Icon_Treasure_Default = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Chest.blp",
+    Icon_Skull_Blue = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Skull-Blue.blp",
+    Icon_Skull_Grey = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Skull-White.tga",
+    Icon_Mount_Green = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Portal-Green.blp",
+    Icon_Mount_Red = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Portal-Red.blp",
+    Icon_Mount_Blue = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Portal-Blue.blp",
+    Icon_Mount_Purple = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Portal-Purple.blp",
+    Icon_Scroll = "Interface\\Addons\\HandyNotes_Draenor\\Artwork\\Scroll.blp",
 }
+
+-- HandyNotes_Draenor.DefaultIcons.Icon_Treasure_Default
 
 function HandyNotes_Draenor:OnInitialize()
 
@@ -22,6 +40,7 @@ function HandyNotes_Draenor:OnInitialize()
             Settings = {
                 General = {
                     ShowNotes = true,
+                    DisplayRewardsInsteadDefaults = false,
                 },
                 Treasures = {
                     ShowAlreadyCollected = false,
@@ -95,8 +114,10 @@ function HandyNotes_Draenor:OnInitialize()
 
     if HandyNotes then 
         self:RegisterEvent("PLAYER_ENTERING_WORLD", "WorldEnter")
+        self:RegisterEvent("PLAYER_LEAVING_WORLD", "WorldLeave")
     else
-        return 
+        print("HandyNotes Draenor: Addon HandyNotes is not installed")
+        return
     end
 
 end

@@ -2,6 +2,8 @@ local BtWQuests = BtWQuests;
 local L = BtWQuests.L;
 local OUTDATED_LEVEL = 110;
 
+local INTERFACE_NUMBER = select(4, GetBuildInfo())
+
 local wipe = table.wipe
 local format = string.format
 local lower = string.lower
@@ -16,7 +18,7 @@ local GetLogIndexForQuestID = C_QuestLog.GetLogIndexForQuestID
 local GetQuestWatchType = C_QuestLog.GetQuestWatchType
 local AddQuestWatch = C_QuestLog.AddQuestWatch
 local RemoveQuestWatch = C_QuestLog.RemoveQuestWatch
-if select(4, GetBuildInfo()) < 90000 then
+if INTERFACE_NUMBER < 90000 then
     GetLogIndexForQuestID = GetQuestLogIndexByID
     function GetQuestWatchType(questID)
         return IsQuestWatched(GetLogIndexForQuestID(questID)) and 0 or nil
@@ -726,8 +728,12 @@ function DataMixin:GetPrerequisites()
         self.prerequisitesItems = {}
 
         if self.prerequisites then
-            for _,prerequisite in ipairs(self.prerequisites) do
-                self.prerequisitesItems[#self.prerequisitesItems+1] = self.database:CreateItem(-1, prerequisite, item);
+            if self.prerequisites[1] == nil then
+                self.prerequisitesItems[#self.prerequisitesItems+1] = self.database:CreateItem(-1, self.prerequisites, item);
+            else
+                for _,prerequisite in ipairs(self.prerequisites) do
+                    self.prerequisitesItems[#self.prerequisitesItems+1] = self.database:CreateItem(-1, prerequisite, item);
+                end
             end
         end
     end
@@ -764,7 +770,7 @@ end
 function QuestMixin:GetLevelFlag()
     return self.levelFlag or 0
 end
-if select(4, GetBuildInfo()) < 90000 then
+if INTERFACE_NUMBER < 90000 then
     function QuestMixin:GetLink()
         if self.link == nil then
             self.link = format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(), self:GetLevel(), self:GetRequiredLevel(), self:GetMaxLevel(), self:GetLevelFlag(), self:GetName())
@@ -802,6 +808,22 @@ function QuestMixin:GetSource(character)
     end
 
     return nil;
+end
+function QuestMixin:HasTarget()
+    return self.target ~= nil or self.targets ~= nil
+end
+function QuestMixin:GetTargetMapID()
+    return (self.target and self.target.uiMapID) or (self.targets and self.targets.mapID)
+end
+function QuestMixin:HasObjectives()
+    return self.objectives ~= nil
+end
+function QuestMixin:GetCurrentObjectiveMapID()
+    for index,objective in ipairs(C_QuestLog.GetQuestObjectives(self:GetID())) do
+        if not objective.finished then
+            return self.objectives[index].uiMapID or self.objectives[index].mapID
+        end
+    end
 end
 
 local MissionMixin = CreateFromMixins(DataMixin);
@@ -1758,7 +1780,7 @@ end
 function QuestItemMixin:GetLevelFlag(database, item)
     return item.levelFlag or self:GetTarget(database, item):GetLevelFlag();
 end
-if select(4, GetBuildInfo()) < 90000 then
+if INTERFACE_NUMBER < 90000 then
     function QuestItemMixin:GetLink(database, item)
         return format("\124cffffff00\124Hquest:%d:%d:%d:%d:%d\124h[%s]\124h\124r", self:GetID(database, item), self:GetLevel(database, item), self:GetRequiredLevel(database, item), self:GetMaxLevel(database, item), self:GetLevelFlag(database, item), self:GetName(database, item));
     end
@@ -1808,12 +1830,12 @@ function QuestItemMixin:OnEnter(database, item, character, button, frame, toolti
         return ItemMixin.OnEnter(self, database, item, character, button, frame, tooltip)
     end
 
-    if tooltip ~= nil then
+    if tooltip ~= nil and INTERFACE_NUMBER >= 20000 then
         local target = self:GetTarget(database, item)
         local userdata = self:GetUserdata(database, item)
         local link = userdata and userdata.link or (target and self:GetLink(database, item))
 
-        if link then
+        if link and QuestEventListener then
             QuestEventListener:AddCallback(target:GetID(), function()
                 if button:IsMouseOver() then
                     tooltip:SetPoint("TOPLEFT", button, "TOPRIGHT")
@@ -2953,13 +2975,28 @@ function Database:HasMultipleExpansion()
 
     return first ~= nil and next(self.expansion, first) ~= nil
 end
+function Database:GetFirstExpansion()
+    return (select(2, next(self.expansion)))
+end
+function Database:GetLoadedExpansion()
+    local loadedExpansion = nil
+
+    for i=0,LE_EXPANSION_LEVEL_CURRENT do
+        local expansion = self:GetExpansionByID(i);
+        if expansion and expansion:IsLoaded() then
+            loadedExpansion = loadedExpansion == nil and expansion or false
+        end
+    end
+
+    return loadedExpansion
+end
 function Database:HasExpansion(id)
     local expansion = self:GetData("expansion", id);
     return expansion ~= nil -- and expansion.items ~= nil and #expansion.items > 0;
 end
 function Database:GetExpansionList()
     local items = {}
-    
+
     for i=0,LE_EXPANSION_LEVEL_CURRENT do
         local expansion = self:GetExpansionByID(i);
         if expansion then
@@ -3495,8 +3532,11 @@ function Database:AddContinentItems(id, t)
     if self.Continents[id] == nil then
         self.Continents[id] = {}
     end
-    
+
     for _,item in ipairs(t) do
+        if item.type == "chain" then 
+            assert(self:GetChainByID(item.id) ~= nil, string.format("Chain %d doesnt exist", item.id))
+        end
         table.insert(self.Continents[id], item)
     end
 end
@@ -3515,7 +3555,7 @@ function Database:GetAvailableMapItems(mapID, character)
         for _,item in ipairs(items) do
             local chain = self:GetChainByID(item.id)
             assert(chain ~= nil, string.format("Missing chain %d on map %d within continent %d", item.id, mapID, continentID))
-            if chain:IsValidForCharacter(character) and not chain:IsCompleted(character) and chain:IsAvailable(character) then
+            if chain:IsValidForCharacter(character) and not chain:IsCompleted(character) and (chain:IsAvailable(character) or chain:IsActive(character)) then
                 local item = chain:GetNextItem(character)
                 
                 if item and not item:IsActive(character) then
@@ -3645,11 +3685,15 @@ Database:RegisterConditionClearCacheEvent("QUEST_AUTOCOMPLETE")
 Database:RegisterConditionClearCacheEvent("QUEST_COMPLETE")
 Database:RegisterConditionClearCacheEvent("QUEST_FINISHED")
 Database:RegisterConditionClearCacheEvent("QUEST_TURNED_IN")
-Database:RegisterConditionClearCacheEvent("QUEST_LOG_CRITERIA_UPDATE")
 Database:RegisterConditionClearCacheEvent("QUEST_WATCH_LIST_CHANGED")
 Database:RegisterConditionClearCacheEvent("QUEST_WATCH_UPDATE")
-Database:RegisterConditionClearCacheEvent("QUEST_SESSION_JOINED")
-Database:RegisterConditionClearCacheEvent("QUEST_SESSION_LEFT")
+if INTERFACE_NUMBER >= 70200 then
+    Database:RegisterConditionClearCacheEvent("QUEST_LOG_CRITERIA_UPDATE")
+end
+if C_QuestSession then
+    Database:RegisterConditionClearCacheEvent("QUEST_SESSION_JOINED")
+    Database:RegisterConditionClearCacheEvent("QUEST_SESSION_LEFT")
+end
 
 BtWQuestsDatabase = Database;
 BtWQuests.Database = Database;

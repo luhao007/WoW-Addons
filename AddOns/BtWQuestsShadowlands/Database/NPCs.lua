@@ -3295,6 +3295,9 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [167406] = {
+        name = "Sire Denathrius",
+    },
     [167410] = {
         name = "Devos",
     },

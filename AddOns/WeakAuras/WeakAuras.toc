@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: The WeakAuras Team
-## Version: 3.2.2
+## Version: 3.4.1
 ## OptionalDeps: Ace3, LibCompress, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, Masque, GTFO, LibButtonGlow-1.0, LibSpellRange-1.0, LibRangeCheck-2.0, LibDBIcon-1.0, LibClassicDurations, LibClassicCasterino, LibGetFrame-1.0
 ## LoadOnDemand: 0
 ## SavedVariables: WeakAurasSaved
@@ -8,8 +8,8 @@
 
 ## Title: WeakAuras
 ## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF图形提示|r |cFFFFE00AWeakAuras|r
-## Notes-zhCN: 自定义显示基于增益、减益以及其他触发的图形以及信息
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFFFFE00AWeakAuras|r
+## Notes-zhCN: 自定义界面显示、辅助信息，支持一定程度上的LUA脚本（迷你插件）
 
 ## X-Category: Interface Enhancements
 ## X-Website: https://www.curseforge.com/wow/addons/weakauras
@@ -17,14 +17,16 @@
 ## X-WoWI-ID: 24910
 ## X-Wago-ID: VBNBxKx5
 
-# external code + initialization
+# External code + initialization
 embeds.xml
+
+# Client flavor specific libs
 Init.lua
 locales.xml
 ArchiveTypes\Repository.lua
 DefaultOptions.lua
 
-# core files
+# Core files
 Prototypes.lua
 Types.lua
 Profiling.lua
@@ -35,14 +37,14 @@ Modernize.lua
 Animations.lua
 Conditions.lua
 
-# trigger systems
+# Trigger systems
 BuffTrigger.lua
 BuffTrigger2.lua
 GenericTrigger.lua
 AuraWarnings.lua
 AuraEnvironment.lua
 
-# region support
+# Region support
 RegionTypes\RegionPrototype.lua
 RegionTypes\ProgressTexture.lua
 RegionTypes\Texture.lua
@@ -54,12 +56,12 @@ RegionTypes\DynamicGroup.lua
 RegionTypes\StopMotion.lua
 RegionTypes\Model.lua
 
-# sub region support
+# Sub-region support
 SubRegionTypes\SubText.lua
 SubRegionTypes\Border.lua
 SubRegionTypes\Glow.lua
 SubRegionTypes\Tick.lua
 SubRegionTypes\BarModel.lua
 
-# misc
+# Misc
 Legendaries.lua

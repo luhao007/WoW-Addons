@@ -1,10 +1,10 @@
--- $Id: Atlas_OutdoorRaids-esMX.lua 56 2020-01-05 13:33:38Z arith $
+-- $Id: Atlas_OutdoorRaids-esMX.lua 68 2021-05-20 15:30:47Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 	Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 

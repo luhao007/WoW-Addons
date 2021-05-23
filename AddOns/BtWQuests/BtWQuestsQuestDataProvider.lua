@@ -21,6 +21,11 @@ function BtWQuestsQuestDataProviderMixin:RefreshAllData(fromOnShow)
 			for _,item in ipairs(items) do
 				local pin = self:GetMap():AcquirePin("BtWQuestsQuestPinTemplate", item.itemName);
 				pin:SetPosition(item.x, item.y);
+				if BtWQuestSettingsData:GetValue("smallMapPins") then
+					pin:SetSize(16, 16);
+				else
+					pin:SetSize(22, 22);
+				end
 				pin:Show();
 			end
 		end
@@ -32,29 +37,51 @@ function BtWQuestsQuestPinMixin:OnLoad()
 	self:SetScalingLimits(1, 1.0, 1.2);
 	self:UseFrameLevelType("PIN_FRAME_LEVEL_STORY_LINE");
 end
-
 function BtWQuestsQuestPinMixin:OnAcquired(itemName)
 	self.itemName = itemName;
 	self.mapID = self:GetMap():GetMapID();
 end
-
 function BtWQuestsQuestPinMixin:SetName(value)
-    self.name = value
+    self.itemName = value
 end
+function BtWQuestsQuestPinMixin:IsMouseWithin()
+    return MouseIsOver(self)
+end
+function BtWQuestsQuestPinMixin:OnUpdate()
+    local x, y = GetCursorPosition()
+    if x == self.lastMouseX and y == self.lastMouseY then
+        return
+    end
+    self.lastMouseX, self.lastMouseY = x, y
 
-function BtWQuestsQuestPinMixin:OnMouseEnter()
+	local quests = {}
+    for pin in self:GetMap():EnumeratePinsByTemplate("BtWQuestsQuestPinTemplate") do
+        if pin:IsMouseWithin() then
+			quests[#quests+1] = pin.itemName
+        end
+    end
     local tooltip = WorldMapTooltip or GameTooltip
 	tooltip:SetOwner(self, "ANCHOR_LEFT");
-	tooltip:SetText(self.itemName);
-	tooltip:AddLine(AVAILABLE_QUEST, 1, 1, 1, true);
+	if #quests == 1 then
+		tooltip:AddLine(quests[1]);
+		tooltip:AddLine(AVAILABLE_QUEST, 1, 1, 1, true);
+	else
+		tooltip:AddLine(AVAILABLE_QUESTS, 1, 1, 1, true);
+		for _,itemName in ipairs(quests) do
+			tooltip:AddLine(itemName);
+		end
+	end
 	tooltip:Show();
 end
-
+function BtWQuestsQuestPinMixin:OnMouseEnter()
+	self:SetScript("OnUpdate", self.OnUpdate)
+end
 function BtWQuestsQuestPinMixin:OnMouseLeave()
+    self:SetScript("OnUpdate", nil)
+
     local tooltip = WorldMapTooltip or GameTooltip
 	tooltip:Hide();
 end
-
 function BtWQuestsQuestPinMixin:OnClick()
 	local x, y = self:GetPosition()
 	BtWQuests_AddWaypoint(self.mapID, x, y, self.itemName)

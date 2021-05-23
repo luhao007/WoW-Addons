@@ -306,7 +306,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
             type = "quest",
             id = 52654,
             breadcrumb = true,
-            x = 3,
+            x = 2,
             y = 1,
             connections = {
                 1,
@@ -315,8 +315,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
         {
             type = "quest",
             id = 52544,
-            x = 3,
-            y = 2,
+            x = 2,
             connections = {
                 1,
             },
@@ -324,8 +323,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
         {
             type = "quest",
             id = 53332,
-            x = 3,
-            y = 3,
+            x = 2,
             connections = {
                 1,
             },
@@ -333,37 +331,37 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_CAMPAIGN,
         {
             type = "quest",
             id = 51714,
-            x = 3,
-            y = 4,
+            x = 2,
             connections = {
-                1, 2,
+                1,
             },
         },
         {
             type = "quest",
             id = 51715,
             x = 2,
-            y = 5,
             connections = {
-                2,
+                1,
             },
         },
-        {
-            type = "quest",
-            id = 51569,
-            x = 4,
-            y = 5,
-            connections = {
-                2,
-            },
-        },
-
         {
             type = "quest",
             id = 53074,
             x = 2,
-            y = 6,
         },
+
+
+
+        {
+            type = "quest",
+            id = 51569,
+            x = 4,
+            y = 1,
+            connections = {
+                1,
+            },
+        },
+
         {
             variations = {
                 {

@@ -1,3 +1,37 @@
+**r708:**
+
+Additions:
+> Added tracking for Gilded Water (pet)
+> Added tracking for Outrider's Bridle Chain (toy)
+> Added a holiday-style reminder for when Dunegorger Kraulok is available (experimental)
+
+Changes:
+> The /rarity verify slash command used for validating the item database is now available as /rarity validate
+
+Fixes:
+> Items obtainable from the Black Market auction house are now flagged as such
+> All items should now be assigned a zone, so that filtering by the current zone no longer incorrectly excludes them
+> Tracking for the Ascended Skymane mount should now be working on non-English client locales
+
+Contributors (in alphabetical order):
+> Tommy Godejord
+
+-----
+
+**r707:**
+
+Changes:
+> The tooltip text for faction-restricted items is now dynamically colored based on whether it's available to the logged-in character
+
+Fixes:
+> Fixed an issue where looting Forgotten Chests in Stormsong Valley would cause attempts to be added for Silessa's Battle Harness and Stony's Infused Ruby
+
+Contributors (in alphabetical order):
+> Nick Bayley
+> Tommy Godejord
+
+-----
+
 **r706:**
 
 Additions:
@@ -54,35 +88,3 @@ Fixes:
 
 Contributors (in alphabetical order):
 > Tommy Godejord (https://github.com/godejord)
-
------
-
-**r703:**
-
-Additions:
-> Added tracking for various Shadowlands pets and toys that were previously missing
-> Added a setting to show the addon's tooltip on click instead of hover
-
-Changes:
-> Removed tracking for various items that appear to have never made it to live servers
-
-Fixes:
-> Removed restrictions placed on the tracking for Theater of Pain rares (to account for Blizzard's stealth hotfix)
-> Fixed an issue where killing covenant-restricted rares on characters that haven't selected a covenant yet would cause an error
-> Fixed tracking for Lightbinders (pet)
-
-Contributors (in alphabetical order):
-> Nick Bayley (https://github.com/nickbayley)
-> Tommy Godejord (https://github.com/godejord)
-> Mikael Jelveby (https://github.com/jelveby)
-
------
-
-**r702:**
-
-Additions:
-> Added most rare collectibles available in the Shadowlands expansion (many thanks to Tommy Godejord for helping with this task)
-> Added a button to always track battle pets repeatedly. Note: This will overwrite all individual settings for the 'repeatable' flag, so beware and/or make a backup of your saved variables first if you're at all unsure
-
-Changes:
-> Many collectibles from the Battle for Azeroth expansion are no longer considered group content and have been moved to the 'solo-able' category

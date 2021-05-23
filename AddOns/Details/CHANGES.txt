@@ -1,67 +1,34 @@
-tag 00d8a039f504f313e15cc3603a97860c272fee73 v9.0.5.8357.144
+tag e923523f4d682c56bfc8ef5c6917cc13671223a9 DetailsRetail.9.0.5.8513.144
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Mon Mar 15 15:33:42 2021 -0300
+Date:	Fri May 21 15:13:31 2021 -0300
 
-commit f0554a633668ad81d3530f5c132d52f1e833d0e1
+commit a13bc630be296bd2f7716cc777ca02db9542d496
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Mar 15 15:33:29 2021 -0300
+Date:   Fri May 21 15:12:41 2021 -0300
 
-    v9.0.5.8357.144
+    Warlock fixes
 
-commit c6e17b199e3a584882bf972fec40bde7e1179556
+commit e8a0380153fd775985c9fd867d5711b4df18e068
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Mar 15 14:43:03 2021 -0300
+Date:   Thu May 20 21:15:50 2021 -0300
 
-    Fixed an issue where sometimes exporting a profile wouldn't work
+    Fix for Battleground One Segment
 
-commit 089497782ebbe8c2024532302ffe1d46b15c3a96
+commit 9ea6081abb249ea18b99a8588b6679d84ab106dc
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Mar 13 14:06:43 2021 -0300
+Date:   Thu May 20 16:14:55 2021 -0300
 
-    ToC Update
+    slash command now shows the correct game version; framework update
 
-commit 8736751d59104b8763189ac1f84e5a03aed516a0
+commit 4882b39a2c370ec196ab4e759acda140c68e2e36
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Mar 11 18:54:48 2021 -0300
+Date:   Wed May 19 20:23:16 2021 -0300
 
-    Fixed Spirit Shell overhealing
+    Added option for arena colors
 
-commit 4c50ae9c6e3e3ed9a0b37c517b7afb21f5acebf3
+commit 4882b39a2c370ec196ab4e759acda140c68e2e36
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Mar 11 16:16:06 2021 -0300
+Date:   Wed May 19 20:23:16 2021 -0300
 
-    Make the damage done tooltip more organized
-
-commit 5887877b4bf05cb6dae31287af5322001ba8009d
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Mar 11 13:34:50 2021 -0300
-
-    Maximum amount of segments raised to 40, this change will help with the mythic+ overall segment
-
-commit f466d8723cac1dd324ad8a6b21d5ba20a75b30cf
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Mar 11 13:10:37 2021 -0300
-
-    Renamed 'Custom Displays' to just 'Scripts'
-
-commit 34019fd81bf9859c16633a1a1fa6c30600d7fb0b
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Mar 11 11:44:06 2021 -0300
-
-    Attempt to fix the Sanguine affix healing done
-
-commit 72e5b4c8a5a89978d442598453c40c42825306df
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Mar 11 11:26:48 2021 -0300
-
-    After a profile import, reset all the mythic dungeon settings to default.
-    
-    - After a profile import, reset all the mythic dungeon settings to default.
-    - Framework update to 237.
-
-commit 662308230637fa8bfa6b6d3d3dbb392e02ffc9a2
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Mar 6 20:58:19 2021 -0300
-
-    Check if the dispel amount is valid before work with the value
+    Added option for arena colors
 

@@ -1474,8 +1474,7 @@ L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "Rechtsklick zum Schließen"
 L["STRING_RIGHTCLICK_TYPEVALUE"] = "Rechtsklick, um den Wert einzugeben"
 L["STRING_SCORE_BEST"] = "Du erzieltest |cFF00FF00%s|r - dein bestes Ergebnis !Gratulation!"
 L["STRING_SCORE_NOTBEST"] = "Du erzieltest |cFFFFFF00%s|r, bester Wert ist |cFFFFFF00%s|r von %s mit %d Itemlevel."
---[[Translation missing --]]
---[[ L["STRING_SCRIPTS_TITLE"] = ""--]] 
+L["STRING_SCRIPTS_TITLE"] = "Scripte"
 L["STRING_SEE_BELOW"] = "siehe unten"
 L["STRING_SEGMENT"] = "Segment"
 L["STRING_SEGMENT_EMPTY"] = "dieses Segment ist leer"
@@ -1560,7 +1559,7 @@ L["STRING_UNLOCK"] = [=[Fenstergruppe auflösen
  mit dieser Schaltfläche]=]
 L["STRING_UNLOCK_WINDOW"] = "freigeben"
 L["STRING_UPTADING"] = "aktualisiere"
-L["STRING_VERSION_AVAILABLE"] = "Eine neue Version ist verfügbar, lade es von der Twitch App oder der Curse Webseite herunter."
+L["STRING_VERSION_AVAILABLE"] = "Eine neue Version ist verfügbar, lade es von der Curse Forge App oder der Curse Webseite herunter."
 L["STRING_VERSION_UPDATE"] = "Neue Version: Was hat sich geändert? Klicke hier"
 L["STRING_VOIDZONE_TOOLTIP"] = "Schaden und Zeit"
 L["STRING_WAITPLUGIN"] = [=[warte auf

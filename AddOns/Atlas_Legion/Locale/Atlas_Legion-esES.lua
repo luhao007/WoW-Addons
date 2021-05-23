@@ -1,8 +1,8 @@
--- $Id: Atlas_Legion-esES.lua 153 2020-01-07 16:09:25Z arith $
+-- $Id: Atlas_Legion-esES.lua 161 2021-05-20 15:26:33Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
-	Copyright 2016 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2016 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 

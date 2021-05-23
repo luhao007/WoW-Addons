@@ -177,9 +177,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [160045] = {
         name = "Hilfreiche Fee",
     },
-    [160091] = {
-        name = "Ta'ruca",
-    },
     [160100] = {
         name = "Versorger Dracho",
     },
@@ -633,9 +630,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [170624] = {
         name = "Wilona Dorn",
     },
-    [171028] = {
-        name = "Shandris Mondfeder",
-    },
     [171099] = {
         name = "Wächterin Kota",
     },
@@ -686,9 +680,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [172805] = {
         name = "Flüsterin Vyn",
-    },
-    [172923] = {
-        name = "Kel'Thuzad",
     },
     [172924] = {
         name = "Baronin Ninadar",

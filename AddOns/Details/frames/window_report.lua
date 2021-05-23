@@ -130,7 +130,7 @@ local _UIParent = UIParent --> wow api locals
 		_detalhes.janela_report.ativa = true
 		_detalhes.janela_report.enviar:SetScript ("OnClick", function() func (_G ["Details_Report_CB_1"]:GetChecked(), _G ["Details_Report_CB_2"]:GetChecked(), _detalhes.report_lines) end)
 		
-		gump:Fade (_detalhes.janela_report, 0)
+		Details.FadeHandler.Fader (_detalhes.janela_report, 0)
 		
 		return true
 	end
@@ -233,7 +233,7 @@ local _UIParent = UIParent --> wow api locals
 		end
 		
 		_detalhes.janela_report.ativa = true
-		gump:Fade (_detalhes.janela_report, 0)
+		Details.FadeHandler.Fader (_detalhes.janela_report, 0)
 	end
 	
 --> build report frame gump -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -354,17 +354,19 @@ local function cria_drop_down (este_gump)
 				reportChannelsTable [#reportChannelsTable + 1] = {iconsize = iconsize, value = "CHANNEL|"..channels [i+1], label = channels [i]..". "..channels [i+1], onclick = on_click, icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], texcoord = {0.3046875, 0.4453125, 0.109375, 0.390625}, iconcolor = {149/255, 112/255, 112/255}}
 			end
 			
-			local _, numBNetOnline = BNGetNumFriends()
-			for i = 1, numBNetOnline do
-				local accountInfo = C_BattleNet.GetFriendAccountInfo(i)
-				local gameAccountInfo = accountInfo and accountInfo.gameAccountInfo
+			if (not DetailsFramework.IsTimewalkWoW()) then
+				local _, numBNetOnline = BNGetNumFriends()
+				for i = 1, numBNetOnline do
+					local accountInfo = C_BattleNet.GetFriendAccountInfo(i)
+					local gameAccountInfo = accountInfo and accountInfo.gameAccountInfo
 
-				if (gameAccountInfo) then
-					local isOnline = gameAccountInfo.isOnline
-					if (isOnline) then
-						local bTag = accountInfo.battleTag
-						local bTagNoNumber = bTag:gsub("#.*", "")
-						reportChannelsTable[#reportChannelsTable + 1] = {iconsize = iconsize, value = "REALID|" .. accountInfo.bnetAccountID, label = bTagNoNumber, onclick = on_click, icon = [[Interface\FriendsFrame\Battlenet-Battleneticon]], texcoord = {0.125, 0.875, 0.125, 0.875}, iconcolor = {1, 1, 1}}
+					if (gameAccountInfo) then
+						local isOnline = gameAccountInfo.isOnline
+						if (isOnline) then
+							local bTag = accountInfo.battleTag
+							local bTagNoNumber = bTag:gsub("#.*", "")
+							reportChannelsTable[#reportChannelsTable + 1] = {iconsize = iconsize, value = "REALID|" .. accountInfo.bnetAccountID, label = bTagNoNumber, onclick = on_click, icon = [[Interface\FriendsFrame\Battlenet-Battleneticon]], texcoord = {0.125, 0.875, 0.125, 0.875}, iconcolor = {1, 1, 1}}
+						end
 					end
 				end
 			end
@@ -1072,7 +1074,7 @@ local function cria_drop_down (este_gump)
 		--> close button
 		window.fechar = CreateFrame ("Button", nil, window, "UIPanelCloseButton")
 		window.fechar:SetScript ("OnClick", function()
-			gump:Fade (window, 1)
+			Details.FadeHandler.Fader (window, 1)
 			_detalhes.janela_report.ativa = false
 		end)	
 
@@ -1092,7 +1094,7 @@ local function cria_drop_down (este_gump)
 		window.enviar:SetHeight (15)
 		window.enviar:SetText (Loc ["STRING_REPORTFRAME_SEND"])
 
-		gump:Fade (window, 1)
+		Details.FadeHandler.Fader (window, 1)
 		gump:CreateFlashAnimation (window)
 		
 		--apply the current skin

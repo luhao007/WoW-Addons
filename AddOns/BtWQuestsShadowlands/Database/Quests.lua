@@ -1306,48 +1306,6 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
-    [57189] = {
-        name = "Breaking the Hopebreakers",
-        contentTuningID = 1427,
-        source = {
-            type = "npc",
-            id = 168217,
-        },
-        rewards = {
-            {
-                type = "experience",
-                variations = {
-                    {
-                        amounts = {
-                            9650, 9850, 10050, 10200, 10400, 10600, 10800, 11000, 11200, 11350, 
-                        },
-                        minLevel = 50,
-                        maxLevel = 59,
-                        restrictions = 86994,
-                    },
-                    {
-                        amount = 11350,
-                    },
-                },
-            },
-            {
-                type = "money",
-                variations = {
-                    {
-                        amounts = {
-                            468000, 472680, 477360, 482040, 486720, 491400, 496080, 500760, 505440, 510120, 514800, 
-                        },
-                        minLevel = 50,
-                        maxLevel = 60,
-                        restrictions = 86994,
-                    },
-                    {
-                        amount = 510120,
-                    },
-                },
-            },
-        },
-    },
     [57190] = {
         name = "They Won't Know What Hit Them",
         contentTuningID = 1427,
@@ -22616,12 +22574,21 @@ BtWQuestsDatabase:AddQuestsTable({
     },
     [59825] = {
         name = "Seed Hunting",
-        contentTuningID = 2060,
+        contentTuningID = 837,
         rewards = {
             {
+                type = "experience",
+                amounts = {
+                    7700, 7850, 8000, 8200, 8350, 8500, 8650, 8800, 8950, 9100, 
+                },
+                minLevel = 50,
+                maxLevel = 59,
+                restrictions = 86994,
+            },
+            {
                 type = "reputation",
-                id = 2422,
-                amount = 75,
+                id = 2465,
+                amount = 125,
             },
         },
     },
@@ -28710,10 +28677,36 @@ BtWQuestsDatabase:AddQuestsTable({
                 type = "money",
                 amount = 514800,
             },
+        },
+    },
+    [60501] = {
+        name = "Redemption for the Redeemer",
+        contentTuningID = 837,
+        rewards = {
             {
-                type = "currency",
-                id = 1819,
-                amount = 5,
+                type = "experience",
+                amounts = {
+                    15450, 15750, 16050, 16350, 16650, 16950, 17250, 17550, 17900, 18200, 
+                },
+                minLevel = 50,
+                maxLevel = 59,
+                restrictions = 86994,
+            },
+            {
+                type = "money",
+                variations = {
+                    {
+                        amounts = {
+                            936000, 945360, 954720, 964080, 973440, 982800, 992160, 1001520, 1010880, 1020240, 1029600, 
+                        },
+                        minLevel = 50,
+                        maxLevel = 60,
+                        restrictions = 86994,
+                    },
+                    {
+                        amount = 1029600,
+                    },
+                },
             },
         },
     },
@@ -33570,6 +33563,24 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
+    [61557] = {
+        name = "An Echo in the Darkness",
+        contentTuningID = 2060,
+        rewards = {
+            {
+                type = "money",
+                amount = 128700,
+            },
+        },
+    },
+    [61558] = {
+        name = "The Highlord's Vision",
+        contentTuningID = 837,
+    },
+    [61559] = {
+        name = "A Mourneblade Born",
+        contentTuningID = 837,
+    },
     [61567] = {
         name = "Grave Intent",
         contentTuningID = 837,
@@ -36282,6 +36293,10 @@ BtWQuestsDatabase:AddQuestsTable({
             },
         },
     },
+    [62569] = {
+        name = "The Jailer's Grasp",
+        contentTuningID = 837,
+    },
     [62605] = {
         name = "Broker Business",
         contentTuningID = 1331,
@@ -36585,7 +36600,7 @@ BtWQuestsDatabase:AddQuestsTable({
         },
     },
     [62714] = {
-        name = "A Gift for An Acolyte",
+        name = "A Gift for an Acolyte",
         contentTuningID = 1315,
         source = {
             type = "npc",
@@ -38456,7 +38471,7 @@ BtWQuestsDatabase:AddQuestsTable({
         },
     },
     [63064] = {
-        name = "Sanctum Upgrade: Adventures Scouting Map",
+        name = "Sanctum Upgrade: Command Table",
         contentTuningID = 2060,
         source = {
             type = "npc",

@@ -22,13 +22,13 @@ Database:AddChain(Chain.FootholdInASavageLand, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {1,60},
+    range = {10,60},
     major = true,
     restrictions = HORDE_RESTRICTION,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
     },
     active = {
@@ -181,13 +181,13 @@ Database:AddChain(Chain.SiegeOfBladespireCitadel, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 2),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {1,60},
+    range = {10,60},
     major = true,
     restrictions = HORDE_RESTRICTION,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -310,13 +310,13 @@ Database:AddChain(Chain.DefenseOfWorGol, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 3),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {1,60},
+    range = {10,60},
     major = true,
     restrictions = HORDE_RESTRICTION,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -395,13 +395,13 @@ Database:AddChain(Chain.GaNarsVengeance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 4),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {1,60},
+    range = {10,60},
     major = true,
     restrictions = HORDE_RESTRICTION,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -505,13 +505,13 @@ Database:AddChain(Chain.ThundersFall, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 5),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {1,60},
+    range = {10,60},
     major = true,
     restrictions = HORDE_RESTRICTION,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",
@@ -637,13 +637,13 @@ Database:AddChain(Chain.TheBattleOfThunderPass, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID, 6),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {1,60},
+    range = {10,60},
     major = true,
     restrictions = HORDE_RESTRICTION,
     prerequisites = {
         {
             type = "level",
-            level = 90,
+            level = 10,
         },
         {
             type = "chain",

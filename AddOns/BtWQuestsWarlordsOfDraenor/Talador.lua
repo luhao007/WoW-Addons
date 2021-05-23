@@ -35,7 +35,7 @@ Database:AddChain(Chain.EstablishingYourMageTowerHorde, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_HORDE, 27689),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.EstablishingYourMageTowerAlliance,
@@ -44,7 +44,7 @@ Database:AddChain(Chain.EstablishingYourMageTowerHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
     },
     active = {
@@ -196,7 +196,7 @@ Database:AddChain(Chain.EstablishingYourArmoryHorde, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_HORDE, 27688),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.EstablishingYourArmoryAlliance,
@@ -205,7 +205,7 @@ Database:AddChain(Chain.EstablishingYourArmoryHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
     },
     active = {
@@ -349,7 +349,7 @@ Database:AddChain(Chain.TheBattleForShattrathHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 2),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.TheBattleForShattrathAlliance,
@@ -358,7 +358,7 @@ Database:AddChain(Chain.TheBattleForShattrathHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
         {
             variations = {
@@ -537,7 +537,7 @@ Database:AddChain(Chain.ThePlightOfTheArakkoaHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 3),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.ThePlightOfTheArakkoaAlliance,
@@ -546,7 +546,7 @@ Database:AddChain(Chain.ThePlightOfTheArakkoaHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
         {
             variations = {
@@ -677,7 +677,7 @@ Database:AddChain(Chain.InTheShadowsOfAuchindounHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 4),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.InTheShadowsOfAuchindounAlliance,
@@ -686,7 +686,7 @@ Database:AddChain(Chain.InTheShadowsOfAuchindounHorde, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
         {
             variations = {
@@ -956,7 +956,7 @@ Database:AddChain(Chain.EstablishingYourOutpostHorde, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_HORDE, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     completed = {
         type = "quest",
@@ -980,7 +980,7 @@ Database:AddChain(Chain.EstablishingYourMageTowerAlliance, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 27691),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.EstablishingYourMageTowerHorde,
@@ -989,7 +989,7 @@ Database:AddChain(Chain.EstablishingYourMageTowerAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
     },
     active = {
@@ -1141,7 +1141,7 @@ Database:AddChain(Chain.EstablishingYourArmoryAlliance, {
     name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID_ALLIANCE, 27690),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.EstablishingYourArmoryHorde,
@@ -1150,7 +1150,7 @@ Database:AddChain(Chain.EstablishingYourArmoryAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
     },
     active = {
@@ -1294,7 +1294,7 @@ Database:AddChain(Chain.TheBattleForShattrathAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 2),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.TheBattleForShattrathHorde,
@@ -1303,7 +1303,7 @@ Database:AddChain(Chain.TheBattleForShattrathAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
         {
             variations = {
@@ -1454,7 +1454,7 @@ Database:AddChain(Chain.ThePlightOfTheArakkoaAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 3),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.ThePlightOfTheArakkoaHorde,
@@ -1463,7 +1463,7 @@ Database:AddChain(Chain.ThePlightOfTheArakkoaAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
         {
             variations = {
@@ -1594,7 +1594,7 @@ Database:AddChain(Chain.InTheShadowsOfAuchindounAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 4),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     alternatives = {
         Chain.InTheShadowsOfAuchindounHorde,
@@ -1603,7 +1603,7 @@ Database:AddChain(Chain.InTheShadowsOfAuchindounAlliance, {
     prerequisites = {
         {
             type = "level",
-            level = 94,
+            level = 20,
         },
         {
             variations = {
@@ -1851,7 +1851,7 @@ Database:AddChain(Chain.EstablishingYourOutpostAlliance, {
     name = BtWQuests_GetAchievementCriteriaNameDelayed(ACHIEVEMENT_ID_ALLIANCE, 1),
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
-    range = {94, 100},
+    range = {20, 60},
     major = true,
     items = {
         {

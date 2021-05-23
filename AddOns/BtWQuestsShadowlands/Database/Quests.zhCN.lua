@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "指控者的命运",
     },
-    [57189] = {
-        name = "灭愿粉碎者",
-    },
     [57190] = {
         name = "无形之敌",
     },

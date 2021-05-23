@@ -519,7 +519,7 @@
 						<Scripts>
 							<OnLoad>
 								VUHDO_lnfSetModel(self, "VUHDO_PANEL_SETUP.BAR_COLORS.OVERSHIELD");
-								VUHDO_lnfInitColorSwatch(self, "Overshield Bar", "Overshield Bar");
+								VUHDO_lnfInitColorSwatch(self, VUHDO_I18N_OVERSHIELD_BAR, VUHDO_I18N_OVERSHIELD_BAR);
 								VUHDO_lnfSetTooltip(self, nil);
 							</OnLoad>
 						</Scripts>

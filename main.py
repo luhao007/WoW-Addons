@@ -1,9 +1,9 @@
 import logging
-import os
 import click
 
 from instawow_manager import InstawowManager
 from manage import Manager
+import utils
 
 
 class Context:
@@ -11,14 +11,10 @@ class Context:
     def __init__(self, ctx, verbose: bool):
         """Basic content for CLI."""
         ctx.params['log_level'] = verbose
-        self.game_flavour = 'classic' if self.is_classic else 'retail'
-        self.manager = InstawowManager(ctx, self.game_flavour, False)
-        self.manager_lib = InstawowManager(ctx, self.game_flavour, True)
-        self.manager_lib_classic = InstawowManager(ctx, 'classic', True, True)
-
-    @property
-    def is_classic(self):
-        return '_classic_' in os.getcwd()
+        platform = utils.get_platform()
+        self.game_flavour = 'vanilla_classic' if platform == 'classic_era' else platform
+        self.manager = InstawowManager(self.game_flavour, False)
+        self.manager_lib = InstawowManager(self.game_flavour, True)
 
 
 def _manage():
@@ -46,11 +42,23 @@ def manage():
 
 @main.command()
 @click.argument('addons', required=True, nargs=-1)
+@click.option('--strategy', '-s', help='Specify a strategy')
 @click.pass_obj
-def install(obj, addons):
+def install(obj, addons, strategy=None):
     """Install addons."""
-    obj.manager.install(addons)
+    if strategy:
+        strategy = strategy.replace('=', '').strip()
+    obj.manager.install(addons, strategy)
     obj.manager.export()
+    _manage()
+
+
+@main.command()
+@click.argument('file', required=True)
+@click.pass_obj
+def reinstall(obj, file):
+    """Reinstall addons."""
+    obj.manager.reinstall(file)
     _manage()
 
 
@@ -65,24 +73,11 @@ def install_lib(obj, libs):
 
 
 @main.command()
-@click.argument('libs', required=True, nargs=-1)
+@click.argument('file', required=True)
 @click.pass_obj
-def install_lib_classic(obj, libs):
-    """Install libraries."""
-    if not obj.is_classic:
-        raise RuntimeError('Cannot manage classic libs in retail game folder')
-    obj.manager_lib_classic.install(libs)
-    obj.manager_lib_classic.export()
-    Manager().process_libs()
-
-
-@main.command()
-@click.pass_obj
-def reinstall(obj):
-    obj.manager.reinstall()
-    obj.manager_lib.reinstall()
-    if obj.is_classic:
-        obj.manager_lib_classic.reinstall()
+def reinstall_libs(obj, file):
+    """Reinstall libs."""
+    obj.manager_lib.reinstall(file)
     _manage()
 
 
@@ -92,8 +87,6 @@ def update(obj):
     """Update all addons."""
     obj.manager.update()
     obj.manager_lib.update()
-    if obj.is_classic:
-        obj.manager_lib_classic.update()
     _manage()
 
 
@@ -116,17 +109,6 @@ def remove_lib(obj, libs):
 
 
 @main.command()
-@click.argument('libs', required=True, nargs=-1)
-@click.pass_obj
-def remove_lib_classic(obj, libs):
-    """Install libraries."""
-    if not obj.is_classic:
-        raise RuntimeError('Cannot manage classic libs in retail game folder')
-    obj.manager_lib_classic.remove(libs)
-    obj.manager_lib_classic.export()
-
-
-@main.command()
 @click.pass_obj
 def show(obj):
     """Show all addons."""
@@ -142,15 +124,5 @@ def show_libs(obj):
     obj.manager_lib.export()
 
 
-@main.command()
-@click.pass_obj
-def show_libs_classic(obj):
-    """Install libraries."""
-    if not obj.is_classic:
-        raise RuntimeError('Cannot manage classic libs in retail game folder')
-    obj.manager_lib_classic.show()
-    obj.manager_lib_classic.export()
-
-
 if __name__ == "__main__":
-    main()  # pylint: disable=no-value-for-parameter
+    main()  # pylint:disable=no-value-for-parameter

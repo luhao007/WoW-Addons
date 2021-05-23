@@ -1,39 +1,19 @@
 # Deadly Boss Mods Core
 
-## [9.0.23](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/9.0.23) (2021-03-15)
-[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/9.0.22...9.0.23) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
+## [9.0.28](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/9.0.28) (2021-05-13)
+[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/9.0.27...9.0.28) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
 
-- Prep release  
-- Added moveme buttons to other timer options panels  
-- Revert nerf to icon settings. let users have both icons if they want. Also fixes regression where toggling icons in GUI didn't live update the dummy timers.  
-- Dbt Fixes (#529)  
-- remove debug stuff.  
-- Update bug\_report.md  
-    Remove twitch notice  
-- DBT Update. Revert last text change to bar sorting option, because the rapid bar sorting bug is now fixed because of following changes:  
-    1. Bars will no longer sort every single bar update since it's a bit of a cpu waste to sort bars when time remaining on any of bars has not changed.  
-    2. Instead, bar sorting will only run when any of events happen (a new timer starts, the time on an existing bar has changed, a bar has been paused, a bar has been unpaused, or a bar configuration has been changed).  
-- Label bar sorting as Not yet implimented so people using updated DBM know why it's not working anymore  
-- small cleanup  
-- Update bug\_report.md  
-- Small micro optimize to backdrop template checks  
-- Fix renew warnings in De Other Side (#525)  
-- Backwards compat code for weak auras for now to prevent errors/freezes related to that  
-- Fix regression that caused timers to tick twice as fast  
-    Fix bar pausing for real  
-    disable bar sorting in non debug mode for now since it's still royally fucked up when bars are paused  
-- readded bar pausing to new timer object  
-- Fix error and slim it some  
-- Seems skin api needs whole damn thing to not error out, so restore literally the whole thing temporarily for migration  
-- Fix default skin return again, this time it shouldn't error anymore even if users fail to remove it.  
-- More error silencing for user migration  
-- Fixed double updating bars, which seems to have fixed the massive anchoring bugs that were occuring as ewll  
-    Fixed bars ignoring the sort setting as well.  
-- Update banned mods  
-- More fixes (bugs from original)  
-- Fix  
-- Merge in unfinished DBT rewrite now. it's buggy but it shouldn't have freezng issues like whatever the hell blizzard did with last couple patches that strongly dislike old DBT code  
-- Update ci.yml  
-    Prep WAGO API Token  
-- Add Wago project ID  
-- bump alpha  
+- Slight tweak to mythic eye and tag new release  
+- Fixes  
+- Post testing KT update, which fixes some bugs but not all, more work is needed, especially after blizz fixes couple bugs with fight.  
+    Full painsmith Raznal drycode for tomorrows testing  
+    Full Nine update from PTR LFR testing, but some things may not match it on heroic, some heroic stuff should use more reliable ai timers though with phasing fixed  
+- Hate this luacheck sometime, it couldn't bother to report that in last run :\  
+- Fix stupid  
+- Changed mythic add icon method (for sire) to be one that's faster but has risk of being less consistent with other boss mods since it doesn't use combat log/GUID order matching. It should mark BEFORE first cast though which is intent of change.  
+    Preliminary fixes to fatescribe, remannt, eye, and soulrender  
+- Attempt to fix rare cases of missing spec info from api by using exiles reach templates as fallbacks. This will have a quirk of creatig a different className mod profile when it happens but it'll avoid errors.  
+- Core will no longer perform ilvl check on ptrs/betas, disabling the warning about gear on pulls  
+    Few KT fixes that could be done quickly  
+- Fixed missing spellid for normal/LFR version of Eye of the jailer  
+- Bump alpha  

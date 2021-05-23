@@ -17,6 +17,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_TH
     },
     prerequisites = {
         {
+            type = "level",
+            level = 10,
+        },
+        {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCTION,
         },
@@ -157,6 +161,15 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FR
     },
     prerequisites = {
         {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCTION,
+            lowPriority = true,
+        },
+        {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_THE_ASHVANE_TRADING_COMPANY,
         },
@@ -198,11 +211,6 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FR
         {
             type = "object",
             id = 281551,
-            -- name = "Go to the Help Wanted Poster",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(895, 0.755499, 0.499419, "Help Wanted Poster")
-            -- end,
-            -- breadcrumb = true,
             relationship = {
                 breadcrumb = 50544,
                 blockers = {48874, 48873},
@@ -210,6 +218,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FR
             visible = BtWQuestsItem_RelationshipSourceVisible,
             x = 0,
             y = 0,
+            aside = true,
             connections = {
                 4,
             },
@@ -217,22 +226,14 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FR
         {
             type = "npc",
             id = 133550,
-            -- name = "Go to Junior Miner Joe",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(895, 0.756956, 0.506281, "Junior Miner Joe")
-            -- end,
-            -- breadcrumb = true,
-            x = 2,
-            y = 0,
+            aside = true,
             connections = {
                 4,
             },
         },
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_THE_ASHVANE_TRADING_COMPANY,
-            x = 4,
-            y = 0,
+            type = "npc",
+            id = 134166,
             connections = {
                 4,
             },
@@ -240,13 +241,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FR
         {
             type = "npc",
             id = 136576,
-            -- name = "Go to Dockmaster Leighton",
-            -- onClick = function ()
-            --     BtWQuests_ShowMapWithWaypoint(895, 0.750697, 0.497147, "Dockmaster Leighton")
-            -- end,
-            -- breadcrumb = true,
-            x = 6,
-            y = 0,
+            aside = true,
             connections = {
                 4,
             },
@@ -516,8 +511,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_DE
     },
     prerequisites = {
         {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCTION,
+            lowPriority = true,
+        },
+        {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_THE_ASHVANE_TRADING_COMPANY,
+            lowPriority = true,
         },
         {
             type = "chain",
@@ -559,12 +564,12 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_DE
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FREEHOLD,
+            type = "npc",
+            id = 130159,
             x = 3,
             y = 0,
             connections = {
-                3,
+                1,
             },
         },
         {
@@ -591,9 +596,19 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_DE
             x = 3,
             y = 3,
             connections = {
-                1, 2, 3, 4,
+                2, 3, 4, 5,
             },
         },
+        {
+            type = "npc",
+            id = 131654,
+            aside = true,
+            x = 6,
+            connections = {
+                4,
+            },
+        },
+
         {
             type = "quest",
             id = 52787,
@@ -641,6 +656,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_DE
                 1, 2, 3, 4,
             },
         },
+
         {
             type = "quest",
             id = 49741,
@@ -699,20 +715,32 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_EN
     },
     prerequisites = {
         {
+            type = "level",
+            level = 10,
+        },
+        {
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCTION,
+            lowPriority = true,
+        },
+        {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_THE_ASHVANE_TRADING_COMPANY,
+            lowPriority = true,
         },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FREEHOLD,
+            lowPriority = true,
         },
         {
             type = "chain",
             id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_DEFENDERS_OF_DAELINS_GATE,
         },
         {
-            type = "quest",
-            id = 49741,
+            type = "chain",
+            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_DEFENDERS_OF_DAELINS_GATE,
+            upto = 49741,
         },
     },
     completed = {
@@ -750,8 +778,16 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_EN
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_DEFENDERS_OF_DAELINS_GATE,
+            type = "npc",
+            id = 142393,
+            locations = {
+                [895] = {
+                    {
+                        x = 0.565062,
+                        y = 0.612504,
+                    },
+                },
+            },
             x = 3,
             y = 0,
             connections = {
@@ -1967,13 +2003,8 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_CH
     },
     items = {
         {
-            type = "chain",
-            id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_TIRAGARDE_SOUND_FREEHOLD,
-            compeleted = {
-                type = "quest",
-                id = 49290,
-                status = {'active', 'completed'},
-            },
+            type = "npc",
+            id = 128702,
             x = 3,
             y = 0,
             connections = {

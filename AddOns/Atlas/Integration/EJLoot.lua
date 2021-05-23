@@ -1,10 +1,10 @@
--- $Id: EJLoot.lua 359 2020-10-18 07:01:18Z arith $
+-- $Id: EJLoot.lua 368 2021-05-20 15:03:14Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert at gmail dot com>
 	Copyright 2010 - Lothaer <lothayer at gmail dot com>, Atlas Team
-	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -42,14 +42,17 @@ local math = _G.math
 -- Libraries
 local floor = math.floor
 local format = string.format
-local UIDropDownMenu_Initialize, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton = L_UIDropDownMenu_Initialize, L_UIDropDownMenu_CreateInfo, L_UIDropDownMenu_AddButton
-local WoWClassic, WoWRetail
+
+local WoWClassicEra, WoWClassicTBC, WoWRetail
 local wowtocversion  = select(4, GetBuildInfo())
-if wowtocversion < 19999 then
-	WoWClassic = true
+if wowtocversion < 20000 then
+	WoWClassicEra = true
+elseif wowtocversion > 19999 and wowtocversion < 90000 then 
+	WoWClassicTBC = true
 else
 	WoWRetail = true
 end
+
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
@@ -57,6 +60,8 @@ local FOLDER_NAME, private = ...
 
 local LibStub = _G.LibStub
 local L = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)
+-- UIDropDownMenu
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 local EJ_SetDifficulty, EJ_SetLootFilter = EJ_SetDifficulty, EJ_SetLootFilter
 local EJ_GetLootInfoByIndex = EJ_GetLootInfoByIndex
@@ -110,7 +115,7 @@ local BOSS_LOOT_BUTTON_HEIGHT = 45
 local INSTANCE_LOOT_BUTTON_HEIGHT = 64
 
 function Atlas_EJ_ResetLootFilter()
-	if WoWClassic then return end
+	if (WoWClassicEra or WoWClassicTBC) then return end
 	EJ_ResetLootFilter()
 end
 
@@ -124,7 +129,7 @@ function Atlas_EncounterJournal_DisplayLoot(instanceID, encounterId)
 end
 
 function Atlas_EncounterJournal_OnLoad(self)
-	if WoWClassic then return end
+	if (WoWClassicEra or WoWClassicTBC) then return end
 --	EncounterJournalTitleText:SetText(ADVENTURE_JOURNAL)
 --	SetPortraitToTexture(EncounterJournalPortrait,"Interface\\EncounterJournal\\UI-EJ-PortraitIcon")
 --	self:RegisterEvent("EJ_LOOT_DATA_RECIEVED")
@@ -175,8 +180,8 @@ function Atlas_EncounterJournal_OnLoad(self)
 	}
 ]]
 --	NavBar_Initialize(self.navBar, "NavButtonTemplate", homeData, self.navBar.home, self.navBar.overflow)
-	UIDropDownMenu_Initialize(self.lootScroll.lootFilter, Atlas_EncounterJournal_InitLootFilter, "MENU")
-	UIDropDownMenu_Initialize(self.lootScroll.lootSlotFilter, Atlas_EncounterJournal_InitLootSlotFilter, "MENU")
+	LibDD:UIDropDownMenu_Initialize(self.lootScroll.lootFilter, Atlas_EncounterJournal_InitLootFilter, "MENU")
+	LibDD:UIDropDownMenu_Initialize(self.lootScroll.lootSlotFilter, Atlas_EncounterJournal_InitLootSlotFilter, "MENU")
 
 	-- initialize tabs
 --	local instanceSelect = base.JournalInstanceID
@@ -241,8 +246,8 @@ function Atlas_EncounterJournal_OnShow(self)
 	PlaySound(839);
 	Atlas_EncounterJournal_LootUpdate();
 	Atlas_EncounterJournal_UpdateDifficulty();
-	--UIDropDownMenu_Initialize(self.lootScroll.lootFilter, Atlas_EncounterJournal_InitLootFilter, "MENU");
-	--UIDropDownMenu_Initialize(self.lootScroll.lootSlotFilter, Atlas_EncounterJournal_InitLootSlotFilter, "MENU");
+	--LibDD:UIDropDownMenu_Initialize(self.lootScroll.lootFilter, Atlas_EncounterJournal_InitLootFilter, "MENU");
+	--LibDD:UIDropDownMenu_Initialize(self.lootScroll.lootSlotFilter, Atlas_EncounterJournal_InitLootSlotFilter, "MENU");
 
 --	local instanceSelect = EncounterJournal.instanceSelect;
 
@@ -490,7 +495,7 @@ end
 
 function Atlas_EncounterJournal_DifficultyInit(self, level)
 	local currDifficulty = EJ_GetDifficulty and EJ_GetDifficulty() or nil
-	local info = UIDropDownMenu_CreateInfo();
+	local info = LibDD:UIDropDownMenu_CreateInfo();
 	for i=1,#ATLAS_EJ_DIFFICULTIES do
 		local entry = ATLAS_EJ_DIFFICULTIES[i];
 		if EJ_IsValidInstanceDifficulty and EJ_IsValidInstanceDifficulty(entry.difficultyID) then
@@ -502,12 +507,12 @@ function Atlas_EncounterJournal_DifficultyInit(self, level)
 			end
 			info.arg1 = entry.difficultyID;
 			info.checked = currDifficulty == entry.difficultyID;
-			UIDropDownMenu_AddButton(info);
+			LibDD:UIDropDownMenu_AddButton(info);
 		end
 	end
 end
 function Atlas_EncounterJournal_OnFilterChanged(self)
-	L_CloseDropDownMenus(1);
+	LibDD:CloseDropDownMenus(1);
 	Atlas_EncounterJournal_LootUpdate();
 end
 
@@ -565,7 +570,7 @@ function Atlas_EncounterJournal_InitLootFilter(self, level)
 	local filterClassID, filterSpecID = EJ_GetLootFilter and EJ_GetLootFilter() or nil
 	local sex = UnitSex("player");
 	local classDisplayName, classTag, classID;
-	local info = UIDropDownMenu_CreateInfo();
+	local info = LibDD:UIDropDownMenu_CreateInfo();
 	info.keepShownOnClick = nil;
 
 	if (L_UIDROPDOWNMENU_MENU_VALUE == CLASS_DROPDOWN) then
@@ -574,7 +579,7 @@ function Atlas_EncounterJournal_InitLootFilter(self, level)
 		info.arg1 = 0;
 		info.arg2 = 0;
 		info.func = Atlas_EncounterJournal_SetClassAndSpecFilter;
-		UIDropDownMenu_AddButton(info, level);
+		LibDD:UIDropDownMenu_AddButton(info, level);
 
 		local numClasses = GetNumClasses();
 		for i = 1, numClasses do
@@ -584,7 +589,7 @@ function Atlas_EncounterJournal_InitLootFilter(self, level)
 			info.arg1 = classID;
 			info.arg2 = 0;
 			info.func = Atlas_EncounterJournal_SetClassAndSpecFilter;
-			UIDropDownMenu_AddButton(info, level);
+			LibDD:UIDropDownMenu_AddButton(info, level);
 		end
 	end
 
@@ -594,7 +599,7 @@ function Atlas_EncounterJournal_InitLootFilter(self, level)
 		info.notCheckable = true;
 		info.hasArrow = true;
 		info.value = CLASS_DROPDOWN;
-		UIDropDownMenu_AddButton(info, level)
+		LibDD:UIDropDownMenu_AddButton(info, level)
 
 		if ( filterClassID > 0 ) then
 			classID = filterClassID;
@@ -613,7 +618,7 @@ function Atlas_EncounterJournal_InitLootFilter(self, level)
 		info.arg2 = nil;
 		info.func =  nil;
 		info.hasArrow = false;
-		UIDropDownMenu_AddButton(info, level);
+		LibDD:UIDropDownMenu_AddButton(info, level);
 
 		info.notCheckable = nil;
 		local numSpecs = GetNumSpecializationsForClassID(classID);
@@ -625,7 +630,7 @@ function Atlas_EncounterJournal_InitLootFilter(self, level)
 			info.arg1 = classID;
 			info.arg2 = specID;
 			info.func = Atlas_EncounterJournal_SetClassAndSpecFilter;
-			UIDropDownMenu_AddButton(info, level);
+			LibDD:UIDropDownMenu_AddButton(info, level);
 		end
 
 		info.text = ALL_SPECS;
@@ -634,19 +639,19 @@ function Atlas_EncounterJournal_InitLootFilter(self, level)
 		info.arg1 = classID;
 		info.arg2 = 0;
 		info.func = Atlas_EncounterJournal_SetClassAndSpecFilter;
-		UIDropDownMenu_AddButton(info, level);
+		LibDD:UIDropDownMenu_AddButton(info, level);
 	end
 end
 
 function Atlas_EncounterJournal_InitLootSlotFilter(self, level)
 	local slotFilter = C_EncounterJournal.GetSlotFilter();
 
-	local info = UIDropDownMenu_CreateInfo();
+	local info = LibDD:UIDropDownMenu_CreateInfo();
 	info.text = ALL_INVENTORY_SLOTS;
 	info.checked = slotFilter == Enum.ItemSlotFilterType.NoFilter;
 	info.arg1 = Enum.ItemSlotFilterType.NoFilter;
 	info.func = Atlas_EncounterJournal_SetSlotFilter;
-	UIDropDownMenu_AddButton(info);
+	LibDD:UIDropDownMenu_AddButton(info);
 
 	C_EncounterJournal.ResetSlotFilter();
 	local isLootSlotPresent = {};
@@ -664,7 +669,7 @@ function Atlas_EncounterJournal_InitLootSlotFilter(self, level)
 			info.text = SlotFilterToSlotName[filter];
 			info.checked = slotFilter == filter;
 			info.arg1 = filter;
-			UIDropDownMenu_AddButton(info);
+			LibDD:UIDropDownMenu_AddButton(info);
 		end
 	end
 end

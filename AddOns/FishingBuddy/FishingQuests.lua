@@ -44,10 +44,10 @@ _fqframe:Register('GOSSIP_SHOW', function()
 			--  if max rank, don't do turn-in
 			if (nextThreshold  and GSB("DrownedMana")) then
 				local mana = GetItemCount(138777);
-				if (mana > 10) then
-					API_C_GossipInfo.SelectOption(5, true)
-				elseif (mana > 1) then
-					API_C_GossipInfo.SelectOption(4, true)
+				if (mana >= 10) then
+					C_GossipInfo.SelectOption(5)
+				elseif (mana >= 1) then
+					C_GossipInfo.SelectOption(4)
 				end
 			end
 		end

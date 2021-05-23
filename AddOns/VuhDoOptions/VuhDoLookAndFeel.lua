@@ -1026,7 +1026,7 @@ function VUHDO_lnfComboSetSelectedValue(aComboBox, aValue, anIsEditBox)
 	for tIndex, tInfo in ipairs(tTable) do
 		if (aComboBox.isScrollable) then
 			tTexture = _G[aComboBox:GetName() .. "ScrollPanelSelectPanelItem" .. tIndex .. "CheckTexture"];
-		elseif (tIndex > 100) then
+		elseif (tIndex > 500) then
 			break;
 		else
 			tTexture = _G[aComboBox:GetName() .. "SelectPanelItem" .. tIndex .. "CheckTexture"];

@@ -168,9 +168,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [160045] = {
         name = "Hada servicial",
     },
-    [160091] = {
-        name = "Ta'ruca",
-    },
     [160100] = {
         name = "Proveedor Dracho",
     },
@@ -633,9 +630,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [170533] = {
         name = "Plumaligera",
     },
-    [171028] = {
-        name = "Shandris Plumaluna",
-    },
     [171099] = {
         name = "Guardiana Kota",
     },
@@ -689,9 +683,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [172805] = {
         name = "Susurradora Vyn",
-    },
-    [172923] = {
-        name = "Kel'Thuzad",
     },
     [172924] = {
         name = "Baronesa Ninadar",

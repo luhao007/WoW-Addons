@@ -1,5 +1,5 @@
 ## Interface: 90005
-## Version: Plater-v9.0.2.326b-Retail
+## Version: Plater-v329
 ## SavedVariables: PlaterDB
 ## SavedVariablesPerCharacter: PlaterDBChr
 
@@ -8,6 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF血条增强|r |cFFFFE00APlater|r
 ## Notes-zhCN: 自定义血条显示
 
+## X-Curse-Project-ID: 100547
 
 #@no-lib-strip@
 libs\libs.xml

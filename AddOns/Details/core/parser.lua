@@ -305,6 +305,10 @@
 	
 	--> is parser allowed to replace spellIDs?
 		local is_using_spellId_override = false
+
+	--> is this a timewalking exp?
+		local is_classic_exp = DetailsFramework.IsClassicWow()
+		local is_timewalk_exp = DetailsFramework.IsTimewalkWoW()
 	
 	--> recording data options flags
 		local _recording_self_buffs = false
@@ -368,7 +372,7 @@
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 	function parser:swing (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing, isoffhand)
-		return parser:spell_dmg (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 1, "Corpo-a-Corpo", 00000001, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing, isoffhand) --> localize-me
+		return parser:spell_dmg (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 1, _G["MELEE"], 00000001, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing, isoffhand) --> localize-me
 																		--spellid, spellname, spelltype
 	end
 
@@ -466,16 +470,14 @@
 	end
 	
 	function parser:spell_dmg (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing, isoffhand, isreflected)
-	
-	------------------------------------------------------------------------------------------------
-	--> early checks and fixes
 
+		------------------------------------------------------------------------------------------------
+		--> early checks and fixes
 		if (who_serial == "") then
 			if (who_flags and _bit_band (who_flags, OBJECT_TYPE_PETS) ~= 0) then --> � um pet
 				--> pets must have a serial
 				return
 			end
-			--who_serial = nil
 		end
 
 		if (not alvo_name) then
@@ -493,18 +495,24 @@
 		if (damage_spells_to_ignore [spellid]) then
 			return
 		end
-		
+
+		if (is_classic_exp) then
+			spellid = spellname
+
+		else --retail
+			--REMOVE ON 10.0
+			if (spellid == SPELLID_KYRIAN_DRUID_DAMAGE) then
+				local ownerTable = druid_kyrian_bounds[who_name]
+				if (ownerTable) then
+					who_serial, who_name, who_flags = unpack(ownerTable)
+				end
+			end
+		end
+
 		--check if the target actor isn't in the temp blacklist
 		--if (ignore_actors [alvo_serial]) then
 		--	return
 		--end
-
-		if (spellid == SPELLID_KYRIAN_DRUID_DAMAGE) then
-			local ownerTable = druid_kyrian_bounds[who_name]
-			if (ownerTable) then
-				who_serial, who_name, who_flags = unpack(ownerTable)
-			end
-		end
 
 		------------------------------------------------------------------------------------------------
 		--> spell reflection
@@ -727,7 +735,7 @@
 
 		if (not jogador_alvo) then
 			local instanceName, _, _, _, _, _, _, instanceId = GetInstanceInfo()
-			Details:Msg("Report 0x885488", alvo_name, instanceName, instanceId, damage_cache[alvo_serial] and "true")
+			Details:Msg("D! Report 0x885488", alvo_name, instanceName, instanceId, damage_cache[alvo_serial] and "true")
 			return
 		end
 		
@@ -1581,8 +1589,22 @@
 			return
 		end
 		
+--print(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellName)
+--Player-3209-083BBABE Kastfall 1297 Creature-0-4229-1642-17-69792-00005E1CC4 Earth Spirit 8465 0 138121 Storm, Earth, and Fire
+--Player-3209-083BBABE Kastfall 1297 Creature-0-4229-1642-17-69791-00005E1CC4 Fire Spirit 8465 0 138123 Storm, Earth, and Fire
+
 		if (not who_name) then
 			who_name = "[*] " .. spellName
+		end
+
+		local npcId = _tonumber(_select (6, _strsplit ("-", alvo_serial)) or 0)
+
+		--rename monk's "Storm, Earth, and Fire" adds
+		--desligado pois poderia estar causando problemas
+		if (npcId == 69792) then 
+			--alvo_name = "Earth Spirit"
+		elseif (npcId == 69791) then
+			--alvo_name = "Fire Spirit"
 		end
 	
 		--> pet summon another pet
@@ -1704,14 +1726,37 @@
 	
 	function parser:heal_absorb (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, owner_serial, owner_name, owner_flags, owner_flags2, shieldid, shieldname, shieldtype, amount)
 		--[[statistics]]-- _detalhes.statistics.absorbs_calls = _detalhes.statistics.absorbs_calls + 1
-		
-		if (_type(shieldname) == "boolean") then
-			owner_serial, owner_name, owner_flags, owner_flags2, shieldid, shieldname, shieldtype, amount = spellid, spellname, spellschool, owner_serial, owner_name, owner_flags, owner_flags2, shieldid
+
+		if (is_timewalk_exp) then
+			if (not amount) then
+				--melee
+				owner_serial, owner_name, owner_flags, owner_flags2, shieldid, shieldname, shieldtype, amount = spellid, spellname, spellschool, owner_serial, owner_name, owner_flags, owner_flags2, shieldid
+			end
+
+			--normal: is this for melee?
+			--token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, playerGUID, playerName, flag, flag2, AbsorbedSpellId, AbsorbedSpellName, school, absorbedAmount, nil, nil, nil
+
+			--new: is this for spells?
+			--token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellId?, spellName, "32", playerGUID, playerName, flag, flag2, AbsorbedSpellId, AbsorbedSpellName, school, absorbedAmount
+
+			--17 parameters on tbc beta on april 1st, shieldname isn't boolean but the parameters need to be arranged
+			--owner_serial, owner_name, owner_flags, owner_flags2, shieldid, shieldname, shieldtype, amount = spellid, spellname, spellschool, owner_serial, owner_name, owner_flags, owner_flags2, shieldid
+
+			--spellid = spellname --not necessary anymore on tbc beta
+			--shieldid = shieldname
+
+			parser:heal (token, time, owner_serial, owner_name, owner_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, shieldid, shieldname, shieldtype, amount, 0, 0, nil, true)
+			return
+		else
+			--retail
+			if (_type(shieldname) == "boolean") then
+				owner_serial, owner_name, owner_flags, owner_flags2, shieldid, shieldname, shieldtype, amount = spellid, spellname, spellschool, owner_serial, owner_name, owner_flags, owner_flags2, shieldid
+			end
 		end
-	
+
 		if (ignored_shields [shieldid]) then
 			return
-		
+
 		elseif (shieldid == 110913) then
 			--dark bargain
 			local max_health = _UnitHealthMax (owner_name)
@@ -1719,7 +1764,7 @@
 				return
 			end
 		end
-		
+
 		--> diminuir o escudo nas tabelas de escudos
 		local shields_on_target = escudo [alvo_name]
 		if (shields_on_target) then
@@ -1733,12 +1778,12 @@
 		end
 		
 		--> chamar a fun��o de cura pra contar a cura
-		return parser:heal (token, time, owner_serial, owner_name, owner_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, shieldid, shieldname, shieldtype, amount, 0, 0, nil, true)
+		parser:heal (token, time, owner_serial, owner_name, owner_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, shieldid, shieldname, shieldtype, amount, 0, 0, nil, true)
 		
 	end
 
 	function parser:heal (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
-
+		
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
 	
@@ -1773,6 +1818,10 @@
 			return
 		end
 		
+		if (is_classic_exp) then
+			spellid = spellname
+		end
+
 		--> spirit link toten
 		if (spellid == SPELLID_SHAMAN_SLT) then
 			return parser:SLT_healing (token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
@@ -2418,7 +2467,6 @@ SPELL_HEAL,Player-3209-0A79112C,"Symantec-Azralon",0x511,0x0,Player-3209-065BAED
 	--> recording debuffs applied by player
 
 		elseif (tipo == "DEBUFF") then
-		--print ("debuff - ", token, spellname)
 
 			--Eye of Corruption 8.3 REMOVE ON 9.0
 			if (spellid == 315161) then
@@ -3962,7 +4010,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 					local max_health = _UnitHealthMax (alvo_name)
 
 					for _, func in _ipairs (_hook_deaths_container) do 
-						local copiedDeathTable = table_deepcopy(t)
+						local copiedDeathTable = Details.CopyTable(t)
 						local successful, errortext = pcall(func, nil, token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, copiedDeathTable, este_jogador.last_cooldown, death_at, max_health)
 						if (not successful) then
 							_detalhes:Msg ("error occurred on a death hook function:", errortext)
@@ -4187,7 +4235,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 	function _detalhes:CaptureEnable (capture_type)
 
 		capture_type = string.lower (capture_type)
-		
+		--retail
 		if (capture_type == "damage") then
 			token_list ["SPELL_PERIODIC_DAMAGE"] = parser.spell_dmg
 			token_list ["SPELL_EXTRA_ATTACKS"] = parser.spell_dmg_extra_attacks
@@ -4242,7 +4290,6 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			token_list ["UNIT_DESTROYED"] = parser.dead
 			
 		end
-
 	end
 
 	parser.original_functions = {
@@ -4401,13 +4448,14 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 	function _detalhes:GetZoneType()
 		return _detalhes.zone_type
 	end
+
 	function _detalhes.parser_functions:ZONE_CHANGED_NEW_AREA (...)
-		return _detalhes:ScheduleTimer ("Check_ZONE_CHANGED_NEW_AREA", 0.5)
+		return Details.Schedules.After(1, Details.Check_ZONE_CHANGED_NEW_AREA)
 	end
 	
-	function _detalhes:Check_ZONE_CHANGED_NEW_AREA (...)
+	function _detalhes:Check_ZONE_CHANGED_NEW_AREA()
+
 		local zoneName, zoneType, _, _, _, _, _, zoneMapID = _GetInstanceInfo()
-		--print (GetInstanceInfo())
 		
 		_detalhes.zone_type = zoneType
 		_detalhes.zone_id = zoneMapID
@@ -4443,6 +4491,8 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		if (_detalhes.is_in_arena and zoneType ~= "arena") then
 			_detalhes:LeftArena()
 		end
+
+		--check if the player left a battleground
 		if (_detalhes.is_in_battleground and zoneType ~= "pvp") then
 			_detalhes.pvp_parser_frame:StopBgUpdater()
 			_detalhes.is_in_battleground = nil
@@ -4530,12 +4580,12 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		_detalhes:CheckForPerformanceProfile()
 	end
 	
-	function _detalhes.parser_functions:PLAYER_ENTERING_WORLD (...)
-		return _detalhes.parser_functions:ZONE_CHANGED_NEW_AREA (...)
+	function _detalhes.parser_functions:PLAYER_ENTERING_WORLD ()
+		return _detalhes.parser_functions:ZONE_CHANGED_NEW_AREA()
 	end
 	
 	-- ~encounter
-	function _detalhes.parser_functions:ENCOUNTER_START (...)
+	function _detalhes.parser_functions:ENCOUNTER_START(...)
 		if (_detalhes.debug) then
 			_detalhes:Msg ("(debug) |cFFFFFF00ENCOUNTER_START|r event triggered.")
 		end
@@ -4971,7 +5021,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 	function _detalhes.parser_functions:PLAYER_SPECIALIZATION_CHANGED()
 	
 		--some parts of details! does call this function, check first for past expansions
-		if (DetailsFramework.IsClassicWow()) then
+		if (DetailsFramework.IsTimewalkWoW()) then
 			return
 		end
 	
@@ -5119,53 +5169,52 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		_detalhes:SchedulePetUpdate (6)
 	end
 
-	function _detalhes.parser_functions:START_TIMER (...)
+	function _detalhes.parser_functions:START_TIMER(...)
 	
 		if (_detalhes.debug) then
-			_detalhes:Msg ("(debug) found a timer.")
+			_detalhes:Msg("(debug) found a timer.")
 		end
-	
-		--if (C_Scenario.IsChallengeMode() and _detalhes.overall_clear_newchallenge) then
---		if (_detalhes.overall_clear_newchallenge) then --C_Scenario.IsChallengeMode() and  parece que n�o existe mais
---			_detalhes.historico:resetar_overall()
---			if (_detalhes.debug) then
---				_detalhes:Msg ("(debug) timer is a challenge mode start.")
---			end
-		
-	
-		if (_detalhes.is_in_arena) then
+
+		local _, zoneType = _GetInstanceInfo()
+
+		--check if the player is inside an arena
+		if (zoneType == "arena") then
 			if (_detalhes.debug) then
 				_detalhes:Msg ("(debug) timer is an arena countdown.")
 			end
+
 			_detalhes:StartArenaSegment (...)
 		
-		elseif (_detalhes.is_in_battleground) then
-			if (_detalhes.debug) then
-				_detalhes:Msg ("(debug) timer is a battleground countdown.")
+		--check if the player is inside a battleground
+		elseif (zoneType == "battleground") then
+			if (Details.debug) then
+				Details:Msg ("(debug) timer is a battleground countdown.")
 			end
 			
-			local timerType, timeSeconds, totalTime = select (1, ...)
+			local _, timeSeconds = select (1, ...)
 			
-			if (_detalhes.start_battleground) then
-				_detalhes:CancelTimer (_detalhes.start_battleground, true)
+			if (Details.start_battleground) then
+				Details.Schedules.Cancel(Details.start_battleground)
 			end
-			
-			_detalhes.start_battleground = _detalhes:ScheduleTimer ("CreateBattlegroundSegment", timeSeconds)
+
+			--create new schedule
+			Details.start_battleground = Details.Schedules.NewTimer(timeSeconds, Details.CreateBattlegroundSegment)
+			Details.Schedules.SetName(Details.start_battleground, "Battleground Start Timer")
 		end
 	end
 	
-	function _detalhes:CreateBattlegroundSegment()
+	function Details:CreateBattlegroundSegment()
 		if (_in_combat) then
 			_detalhes.tabela_vigente.discard_segment = true
-			_detalhes:SairDoCombate()
+			Details:EndCombat()
 		end
-		_detalhes:EntrarEmCombate()
+		Details:StartCombat()
 	end
 
 	-- ~load
 	local start_details = function()
 		if (not _detalhes.gump) then
-			--> failed to load the framework.
+			--> failed to load the framework
 			
 			if (not _detalhes.instance_load_failed) then
 				_detalhes:CreatePanicWarning()
@@ -5327,7 +5376,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
 		--> save the nicktag cache
 			tinsert (_detalhes_global.exit_log, "8 - Saving nicktag cache.")
-			_detalhes_database.nick_tag_cache = table_deepcopy (_detalhes_database.nick_tag_cache)
+			_detalhes_database.nick_tag_cache = Details.CopyTable (_detalhes_database.nick_tag_cache)
 	end)
 	
 	--> end
@@ -5340,7 +5389,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		
 		local funcao = token_list [token]
 		if (funcao) then
-			return funcao (nil, token, time, who_serial, who_name, who_flags, target_serial, target_name, target_flags, target_flags2, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
+			funcao (nil, token, time, who_serial, who_name, who_flags, target_serial, target_name, target_flags, target_flags2, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
 		else
 			return
 		end
@@ -5741,9 +5790,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> battleground parser
-	
-	
-	
+
 	_detalhes.pvp_parser_frame:SetScript ("OnEvent", function (self, event)
 		self:ReadPvPData()
 	end)
@@ -5752,30 +5799,32 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		RequestBattlefieldScoreData()
 	end
 	
+	--start the virtual parser
 	function _detalhes.pvp_parser_frame:StartBgUpdater()
-	
-		_detalhes.pvp_parser_frame:RegisterEvent ("UPDATE_BATTLEFIELD_SCORE")
+		_detalhes.pvp_parser_frame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
+
 		if (_detalhes.pvp_parser_frame.ticker) then
-			_detalhes:CancelTimer (_detalhes.pvp_parser_frame.ticker)
+			Details.Schedules.Cancel(_detalhes.pvp_parser_frame.ticker)
 		end
-		_detalhes.pvp_parser_frame.ticker = _detalhes:ScheduleRepeatingTimer ("BgScoreUpdate", 10)
+		_detalhes.pvp_parser_frame.ticker = Details.Schedules.NewTicker(10, Details.BgScoreUpdate)
+		Details.Schedules.SetName(_detalhes.pvp_parser_frame.ticker, "Battleground Updater")
 	end
 	
+	--stop the virtual parser
 	function _detalhes.pvp_parser_frame:StopBgUpdater()
-		_detalhes.pvp_parser_frame:UnregisterEvent ("UPDATE_BATTLEFIELD_SCORE")
-		_detalhes:CancelTimer (_detalhes.pvp_parser_frame.ticker)
+		_detalhes.pvp_parser_frame:UnregisterEvent("UPDATE_BATTLEFIELD_SCORE")
+		Details.Schedules.Cancel(_detalhes.pvp_parser_frame.ticker)
 		_detalhes.pvp_parser_frame.ticker = nil
 	end
 	
 	function _detalhes.pvp_parser_frame:ReadPvPData()
-	
 		local players = GetNumBattlefieldScores()
 
 		for i = 1, players do
-		
-			local name, killingBlows, honorableKills, deaths, honorGained, faction, race, class, classToken, damageDone, healingDone, bgRating, ratingChange, preMatchMMR, mmrChange, talentSpec = GetBattlefieldScore (i)
+			local name, killingBlows, honorableKills, deaths, honorGained, faction, race, class, classToken, damageDone, healingDone, bgRating, ratingChange, preMatchMMR, mmrChange, talentSpec = GetBattlefieldScore(i)
 			
-			local actor = _detalhes.tabela_vigente (1, name)
+			--damage done
+			local actor = _detalhes.tabela_vigente(1, name)
 			if (actor) then
 				if (damageDone == 0) then
 					damageDone = damageDone + _detalhes:GetOrderNumber()
@@ -5803,7 +5852,8 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 				end
 			end
 			
-			local actor = _detalhes.tabela_vigente (2, name)
+			--healing done
+			local actor = _detalhes.tabela_vigente(2, name)
 			if (actor) then
 				if (healingDone == 0) then
 					healingDone = healingDone + _detalhes:GetOrderNumber()
@@ -5831,9 +5881,5 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 					end
 				end
 			end
-			
 		end
-		
 	end
-	
-	

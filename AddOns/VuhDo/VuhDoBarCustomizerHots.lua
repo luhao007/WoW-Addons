@@ -260,7 +260,7 @@ local function VUHDO_customizeHotIcons(aButton, aHotName, aRest, aTimes, anIcon,
 
 		tTimer:SetText(tDuration);
 		tStarted = floor(10 * (GetTime() - aDuration + aRest) + 0.5) * 0.1;
-		if tClock:GetAlpha() == 0 or (tClock:GetAttribute("started") or tStarted) ~= tStarted then
+		if aDuration > 0 and (tClock:GetAlpha() == 0 or (tClock:GetAttribute("started") or tStarted) ~= tStarted) then
 			tClock:SetAlpha(1);
 			tClock:SetCooldown(tStarted, aDuration);
 			tClock:SetAttribute("started", tStarted);

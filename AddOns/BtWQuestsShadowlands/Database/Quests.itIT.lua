@@ -114,9 +114,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "Il fato dell'Accusatrice",
     },
-    [57189] = {
-        name = "Infrangere i Frangifede",
-    },
     [57190] = {
         name = "Non sapranno mai cosa li ha colpiti",
     },

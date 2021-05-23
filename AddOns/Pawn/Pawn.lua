@@ -1,16 +1,16 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2021 Green Eclipse.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2021 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0416
+PawnVersion = 2.0503
 
 -- Pawn requires this version of VgerCore:
-local PawnVgerCoreVersionRequired = 1.12
+local PawnVgerCoreVersionRequired = 1.13
 
 -- Floating point math
 local PawnEpsilon = 0.0000000001
@@ -98,7 +98,7 @@ local PawnItemEquipLocToSlot1 =
 	INVTYPE_TABARD = 19,
 }
 -- In Classic, ranged weapons get their own slot.
-if VgerCore.IsClassic then
+if VgerCore.RangedSlotExists then
 	PawnItemEquipLocToSlot1.INVTYPE_RANGED = 18
 	PawnItemEquipLocToSlot1.INVTYPE_RANGEDRIGHT = 18
 	PawnItemEquipLocToSlot1.INVTYPE_RELIC = 18
@@ -205,13 +205,13 @@ function PawnInitialize()
 		end)
 	
 	-- Main game tooltip
-	if VgerCore.IsClassic then
+	if not VgerCore.IsShadowlands then
 		-- SetAuctionItem was removed in 8.3.0 but is still there on Classic.  The (incorrect) way that BankItems hooks this function
 		-- causes the detection to fail, so just directly check the version.
 		hooksecurefunc(GameTooltip, "SetAuctionItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetAuctionItem", ...) end)
 		hooksecurefunc(GameTooltip, "SetAuctionSellItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetAuctionSellItem", ...) end)
 	end
-	if not VgerCore.IsClassic then
+	if VgerCore.IsShadowlands then
 		hooksecurefunc(GameTooltip, "SetItemKey", function(self, ItemID, ItemLevel, Suffix, ...) PawnUpdateTooltip("GameTooltip", "SetItemKey", ItemID, ItemLevel, Suffix, ...) end)
 	end
 	hooksecurefunc(GameTooltip, "SetBagItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "SetBagItem", ...) end)
@@ -378,6 +378,13 @@ function PawnInitialize()
 	if LinkWrangler then
 		LinkWrangler.RegisterCallback("Pawn", PawnLinkWranglerOnTooltip, "refresh")
 		LinkWrangler.RegisterCallback("Pawn", PawnLinkWranglerOnTooltip, "refreshcomp")
+	end
+
+	-- ArkInventory integration: register the pawnupgrade() and pawnnotupgrade() rules
+	if ArkInventoryRules then
+		local arkInventoryModule = ArkInventoryRules:NewModule("Pawn")
+		ArkInventoryRules.Register(arkInventoryModule, "PAWNUPGRADE", ArkInventoryRulePawnUpgrade)
+		ArkInventoryRules.Register(arkInventoryModule, "PAWNNOTUPGRADE", ArkInventoryRulePawnNotUpgrade)
 	end
 
 	-- In-bag upgrade icons
@@ -616,10 +623,10 @@ function PawnInitializeOptions()
 	end
 	if PawnCommon.LastVersion < 2.0101 then
 		-- The new Bag Upgrade Advisor is on by default, but it's not supported in Classic.
-		if VgerCore.IsClassic then
-			PawnCommon.ShowBagUpgradeAdvisor = false
-		else
+		if VgerCore.IsShadowlands then
 			PawnCommon.ShowBagUpgradeAdvisor = true
+		else
+			PawnCommon.ShowBagUpgradeAdvisor = false
 		end
 	end
 	if PawnOptions.LastVersion < 2.0219 then
@@ -636,10 +643,10 @@ function PawnInitializeOptions()
 	end
 	if PawnCommon.LastVersion < 2.0244 then
 		-- The "show item level upgrades" option is new for 2.2.44 and on by default, but NOT in Classic.
-		if VgerCore.IsClassic then
-			PawnCommon.ShowItemLevelUpgrades = false
-		else
+		if VgerCore.IsShadowlands then
 			PawnCommon.ShowItemLevelUpgrades = true
+		else
+			PawnCommon.ShowItemLevelUpgrades = false
 		end
 	end
 	if PawnCommon.LastVersion < 2.0403 then
@@ -652,14 +659,14 @@ function PawnInitializeOptions()
 		-- If we already did that back in 2.4.0 we don't need to do this part again.
 		PawnClearBestItemLevelData()
 	end
-	if PawnCommon.LastVersion < 2.0402 and not VgerCore.IsClassic then
+	if PawnCommon.LastVersion < 2.0402 and VgerCore.DeathKnightsExist then
 		-- Frost death knights can fully use 2H weapons again, but the setting to hide 2H upgrades is persistent.
 		-- Clear it this one time; people can go back to hiding them if they want.
 		local FrostDK = PawnCommon.Scales["\"MrRobot\":DEATHKNIGHT2"]
 		if FrostDK then FrostDK.DoNotShow2HUpgrades = false end
 	end
-	if ((not VgerCore.IsClassic) and PawnCommon.LastVersion < PawnMrRobotLastUpdatedVersion) or
-		(VgerCore.IsClassic and PawnCommon.LastVersion < PawnClassicLastUpdatedVersion) then
+	if ((VgerCore.IsShadowlands) and PawnCommon.LastVersion < PawnMrRobotLastUpdatedVersion) or
+		((VgerCore.IsClassic or VgerCore.IsBurningCrusade) and PawnCommon.LastVersion < PawnClassicLastUpdatedVersion) then
 		-- If the Ask Mr. Robot scales have been updated since the last time they used Pawn, re-scan gear.
 		PawnInvalidateBestItems()
 	end
@@ -667,13 +674,13 @@ function PawnInitializeOptions()
 	PawnOptions.LastVersion = PawnVersion
 
 	-- Pawn on WoW Classic doesn't have Automatic mode.
-	if VgerCore.IsClassic then
+	if not VgerCore.SpecsExist then
 		PawnOptions.AutoSelectScales = false
 	end
 
 	-- Finally, this stuff needs to get done after options are changed.
 	PawnRecreateAnnotationFormats()
-	
+
 end
 
 -- If the specified setting does not exist in the common settings list, this function first tries to migrate it from the
@@ -694,7 +701,7 @@ end
 -- Once per new version of Pawn that adds keybindings, bind the new actions to default keys.
 function PawnSetDefaultKeybindings()
 	-- SaveBindings doesn't work on WoW Classic.
-	if VgerCore.IsClassic then return end
+	if not VgerCore.IsShadowlands then return end
 
 	-- It's possible that this will happen before the main initialization code, so we need to ensure that the
 	-- default Pawn options have been set already.  Doing this multiple times is harmless.
@@ -743,7 +750,7 @@ end
 function PawnGetEmptyScale()
 	return
 	{
-		["UpgradesFollowSpecialization"] = not VgerCore.IsClassic,
+		["UpgradesFollowSpecialization"] = (PawnArmorSpecializationLevel > 0),
 		["PerCharacterOptions"] = { },
 		["Values"] = { },
 	}
@@ -755,7 +762,7 @@ function PawnGetDefaultScale(ClassID, SpecID, NoStats)
 	if ClassID == nil then
 		_, _, ClassID = UnitClass("player")
 	end
-	if VgerCore.IsClassic then
+	if not VgerCore.SpecsExist then
 		SpecID = nil
 	elseif SpecID == nil then
 		SpecID = GetSpecialization()
@@ -766,7 +773,7 @@ function PawnGetDefaultScale(ClassID, SpecID, NoStats)
 	{
 		["ClassID"] = ClassID,
 		["SpecID"] = SpecID,
-		["UpgradesFollowSpecialization"] = not VgerCore.IsClassic,
+		["UpgradesFollowSpecialization"] = (PawnArmorSpecializationLevel > 0),
 		["PerCharacterOptions"] = { },
 		["Values"] = ScaleValues,
 	}
@@ -778,6 +785,76 @@ function PawnLinkWranglerOnTooltip(Tooltip, ItemLink)
 	if not Tooltip then return end
 	PawnUpdateTooltip(Tooltip:GetName(), "SetHyperlink", ItemLink)
 	PawnAttachIconToTooltip(Tooltip, false, ItemLink)
+end
+
+-- ArkInventory rules
+function GetPawnStatusForArkInventoryRule(...)
+	if not PawnIsInitialized then VgerCore.Fail("Can't check to see if items are upgrades until Pawn is initialized") return end
+
+	-- Verify that the item string information is loaded and not nil and that it is a valid item before continuing.
+	if not ArkInventoryRules.Object.h or ArkInventoryRules.Object.class ~= "item" then return false end
+
+	-- Parse the incoming item and retrieve the data
+	local Info = ArkInventory.ObjectInfoArray(ArkInventoryRules.Object.h)
+
+	-- Extract the itemLink from the ArkInventory info object
+	local ItemLink = Info.info[2]
+
+	-- Use the same logic for determining whether or not an arrow should be shown, for consistency
+	return PawnIsItemDefinitivelyAnUpgrade(ItemLink, true)
+end
+
+function ArkInventoryRulePawnUpgrade(...)
+	local fn = "PAWNUPGRADE" -- Rule name for errors
+
+	-- For pawnupgrade(), we only want to return true if Pawn is sure that it is an upgrade.
+	-- This means for nil or false, we return false.
+	return GetPawnStatusForArkInventoryRule(...) == true
+end
+
+function ArkInventoryRulePawnNotUpgrade(...)
+	local fn = "PAWNNOTUPGRADE" -- Rule name for errors
+
+	-- For pawnnotupgrade(), we only want to return true if Pawn is sure that it is not an upgrade
+	-- This means for nil or true, we return false.
+	return GetPawnStatusForArkInventoryRule(...) == false
+end
+
+-- This is a variant of PawnShouldItemLinkHaveUpgradeArrow for the ArkInventory rules.
+-- It decidedly does not offer an opinion on items that are not gear or do not have stats. This means a true is a definitive upgrade
+-- and a false is definitively not an upgrade. Otherwise, this function returns nil.
+-- Returns:
+--   true: This item is indeed an upgrade for something.
+--   false: This item is not an upgrade.
+--   nil: We're not sure or don't care because it isn't gear.
+function PawnIsItemDefinitivelyAnUpgrade(ItemLink, CheckLevel)
+	-- REVIEW: This was copied from PawnShouldItemLinkHaveUpgradeArrow. This stuff could use some refactoring.
+
+	if not PawnIsInitialized then VgerCore.Fail("Can't check to see if items are upgrades until Pawn is initialized") return nil end
+
+	local _, _, _, _, MinLevel = GetItemInfo(ItemLink)
+
+	-- If it doesn't have a minlevel, we don't care because it isn't gear
+	if MinLevel == nil then return nil end
+
+	-- If the gear minlevel is higher than the player, we don't care to determine if it is an upgrade, since they can't use it yet
+	-- but may not want to mark it as not an upgrade
+	if CheckLevel and UnitLevel("player") < MinLevel then return nil end
+
+	if PawnCanItemHaveStats(ItemLink) then
+		local Item = PawnGetItemData(ItemLink)
+		-- If there are no stats, we don't know what's happening, so we won't make a judgment
+		if Item == nil or Item.Link == nil then return nil end
+		local UpgradeInfo, ItemLevelIncrease = PawnIsItemAnUpgrade(Item)
+		-- If upgrade info was returned, it's an upgrade OR if there is an item level increase, it's an upgrade
+		return UpgradeInfo ~= nil or (PawnCommon.ShowItemLevelUpgrades and ItemLevelIncrease ~= nil)
+	elseif PawnCommon.ShowRelicUpgrades and PawnCanItemBeArtifactUpgrade(ItemLink) then
+		-- If there is relic upgrade information, it's an upgrade.
+		return PawnGetRelicUpgradeInfo(ItemLink) ~= nil
+	else
+		-- If the item can't have stats, it isn't gear (probably), so we don't care.
+		return nil
+	end
 end
 
 -- If debugging is enabled, show a message; otherwise, do nothing.
@@ -871,7 +948,7 @@ function PawnGetCachedItem(ItemLink, ItemName, NumLines)
 	if PawnCommon.Debug then return end
 	-- If this is WoW Classic, the cache is also disabled.
 	-- (There's a problem I haven't tracked down yet where item tooltips are returned with incomplete stats and then get cached in that incomplete state.)
-	if VgerCore.IsClassic then return end
+	if VgerCore.IsClassic or VgerCore.IsBurningCrusade then return end
 
 	-- Otherwise, search the item cache for this item.
 	local _
@@ -892,7 +969,7 @@ function PawnCacheItem(CachedItem)
 	if PawnCommon.Debug then return end
 	-- If this is WoW Classic, the cache is also disabled.
 	-- (There's a problem I haven't tracked down yet where item tooltips are returned with incomplete stats and then get cached in that incomplete state.)
-	if VgerCore.IsClassic then return end
+	if VgerCore.IsClassic or VgerCore.IsBurningCrusade then return end
 	
 	-- Cache it.
 	if PawnItemCacheMaxSize <= 0 then return end
@@ -1036,7 +1113,7 @@ local function PawnCheckItemTypeCore(ItemLink, AllowEquippable, AllowStatGems, A
 		return
 			(AllowStatGems and ItemClassID == LE_ITEM_CLASS_GEM and ItemSubClassID ~= LE_ITEM_GEM_ARTIFACTRELIC) or
 			(AllowRelics and ItemClassID == LE_ITEM_CLASS_GEM and ItemSubClassID == LE_ITEM_GEM_ARTIFACTRELIC)
-	elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RELIC" or InvType == "INVTYPE_THROWN")) or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_BODY" then
+	elseif ((not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_RELIC" or InvType == "INVTYPE_THROWN")) or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_BODY" then
 		-- Old (grey, pre-artifact) relics might have sockets and therefore "stats" but they aren't equippable anymore so they shouldn't get values, so just bail out now.
 		-- Thrown items, tabards, bags, and shirts (invtype_body) can also never have stats.
 		return false
@@ -1117,7 +1194,7 @@ function PawnGetItemData(ItemLink)
 		Item.Stats, Item.SocketBonusStats, Item.UnknownLines, Item.PrettyLink = PawnGetStatsFromTooltipWithMethod(PawnPrivateTooltipName, true, "SetHyperlink", Item.Link)
 		Item.NumLines = (_G[PawnPrivateTooltipName]):NumLines()
 
-		if (not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT") then
+		if (not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT") then
 			-- We convert ranged weapons into the correct "handedness" of weapons since there's no ranged slot anymore.
 			if Item.Stats and Item.Stats.IsWand then
 				InvType = "INVTYPE_WEAPONMAINHAND"
@@ -1714,7 +1791,7 @@ function PawnGetInventoryItemValues(UnitName)
 					local ScaleName, Value = Entry[1], Entry[2]
 					PawnAddStatToTable(Total, ScaleName, Value) -- (not actually stats, but the function does what we want)
 				end
-			elseif Slot == 13 or Slot == 14 or (VgerCore.IsClassic and Slot == 18) then
+			elseif Slot == 13 or Slot == 14 or (VgerCore.RangedSlotExists and Slot == 18) then
 				-- Failures to get stats from trinkets is normal, so don't bail out.  See if we can get the item level in a simpler way.
 				-- (Same with the relic slot in WoW Classic.)
 				local ItemLink = GetInventoryItemLink(UnitName, Slot)
@@ -1745,7 +1822,7 @@ function PawnGetInventoryItemValues(UnitName)
 	end
 	sort(TotalValues, PawnItemValueCompare)
 	-- Return our totals.
-	TotalItemLevel = math.floor(TotalItemLevel / (VgerCore.IsClassic and 17 or 16) + .05)
+	TotalItemLevel = math.floor(TotalItemLevel / (VgerCore.RangedSlotExists and 17 or 16) + .05)
 	return TotalValues, Count, TotalItemLevel
 end
 
@@ -2322,15 +2399,16 @@ local PawnFindStringInRegexTable_ShownOneError
 --		Returns {}, {} if the string was ignored.
 function PawnFindStringInRegexTable(String, RegexTable)
 	if (String == nil) or (String == "") or (String == " ") then return {}, {} end
-	local Entry, LastRegex
+	local Entry, LastRegex, LastStat
 	for _, Entry in pairs(RegexTable) do
 		if Entry[1] == nil then
 			if not PawnFindStringInRegexTable_ShownOneError then
-				VgerCore.Fail("Localization error in regex table in the entry after \"" .. VgerCore.Color.Blue .. PawnEscapeString(tostring(LastRegex)) .. "|r\".")
+				VgerCore.Fail("Localization error in regex table in the entry after " .. LastStat .. " \"" .. VgerCore.Color.Blue .. PawnEscapeString(tostring(LastRegex)) .. "|r\".")
 				PawnFindStringInRegexTable_ShownOneError = true
 			end
 		else
 			LastRegex = Entry[1]
+			LastStat = Entry[2]
 			local StartPos, EndPos, m1, m2, m3, m4, m5 = strfind(String, LastRegex)
 			if StartPos then return Entry, { m1, m2, m3, m4, m5 } end
 		end
@@ -2364,7 +2442,7 @@ function PawnGetItemValue(Item, ItemLevel, SocketBonus, ScaleName, DebugMessages
 	local ThisValue, Stat, Quantity
 	for Stat, Quantity in pairs(Item) do
 		ThisValue = ScaleValues[Stat]
-		if not VgerCore.IsClassic then
+		if VgerCore.IsShadowlands then
 			-- When not in Classic:
 			-- Attack Power gets converted into Strength or Agility, whichever is most valuable.
 			-- BUG: Since Attack Power doesn't appear in the Values tab, it also won't show on the Compare tab.  The Compare tab
@@ -2777,8 +2855,8 @@ function PawnCorrectScaleErrors(ScaleName)
 		ThisScaleOptions.Values = ThisScale
 	end
 	
-	-- Pawn 1.5.5 adds an option to follow specialization when upgrading.
-	if ThisScaleOptions.UpgradesFollowSpecialization == nil then ThisScaleOptions.UpgradesFollowSpecialization = not VgerCore.IsClassic end
+	-- Pawn 1.5.5 adds an option to follow armor specialization when upgrading.
+	if ThisScaleOptions.UpgradesFollowSpecialization == nil then ThisScaleOptions.UpgradesFollowSpecialization = (PawnArmorSpecializationLevel > 0) end
 	
 	-- Pawn 1.3 adds per-character options to each scale.
 	if ThisScaleOptions.PerCharacterOptions == nil then ThisScaleOptions.PerCharacterOptions = {} end
@@ -2811,7 +2889,6 @@ function PawnCorrectScaleErrors(ScaleName)
 	ThisScale.MetaSocketEffect = nil
 
 	-- These stats aren't used in the live OR classic realms.
-	ThisScale.ExpertiseRating = nil
 	ThisScale.ArmorPenetration = nil
 	ThisScale.Mana = nil
 	ThisScale.Health = nil
@@ -2820,8 +2897,13 @@ function PawnCorrectScaleErrors(ScaleName)
 	ThisScale.BonusArmor = nil
 	ThisScale.Multistrike = nil
 	ThisScale.SpellPower = nil
-	ThisScale.ResilienceRating = nil
-	ThisScale.SpellPenetration = nil
+
+	-- These were introduced in Burning Crusade Classic.
+	if not VgerCore.IsBurningCrusade then
+		ThisScale.ExpertiseRating = nil
+		ThisScale.ResilienceRating = nil
+		ThisScale.SpellPenetration = nil
+	end
 
 	-- Pawn 1.9.7 makes it impossible to ignore primary stats, since they're on all armor now.
 	if ThisScale.Stamina == PawnIgnoreStatValue then ThisScale.Stamina = nil end
@@ -3092,7 +3174,7 @@ function PawnIsItemAnUpgrade(Item, DoNotRescan)
 	-- If an artifact is involved, we only compare using item level, since artifacts are complicated and one item can fill multiple slots.
 	local CompareUsingItemLevelOnly = (Item.Rarity == 6)
 	local InvType = Item.InvType
-	if not InvType or InvType == "" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_QUIVER" or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BODY" or ((not VgerCore.IsClassic) and (InvType == "INVTYPE_THROWN" or InvType == "INVTYPE_AMMO" or InvType == "INVTYPE_RELIC")) then return nil end
+	if not InvType or InvType == "" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_QUIVER" or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BODY" or ((not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_THROWN" or InvType == "INVTYPE_AMMO" or InvType == "INVTYPE_RELIC")) then return nil end
 	local SkipScoreBasedUpgrades = InvType == "INVTYPE_TRINKET"
 	local UnenchantedItemLink, NeedsEnhancements = PawnUnenchantItemLink(Item.Link, true)
 	VgerCore.Assert(UnenchantedItemLink ~= nil, "PawnIsItemAnUpgrade failed to get an item link for item " .. tostring(Item.ID))
@@ -3133,7 +3215,7 @@ function PawnIsItemAnUpgrade(Item, DoNotRescan)
 			if PawnIsScaleVisible(ScaleName) and not
 				(Scale.DoNotShow1HUpgrades and (InvType == "INVTYPE_WEAPON" or InvType == "INVTYPE_WEAPONMAINHAND" or InvType == "INVTYPE_WEAPONOFFHAND" or InvType == "INVTYPE_SHIELD" or InvType == "INVTYPE_HOLDABLE")) and not
 				(Scale.DoNotShow2HUpgrades and InvType == "INVTYPE_2HWEAPON") and
-				(VgerCore.IsClassic or (not Scale.UpgradesFollowSpecialization) or PawnIsArmorBestTypeForPlayer(Item))
+				((PawnArmorSpecializationLevel == 0) or (not Scale.UpgradesFollowSpecialization) or PawnIsArmorBestTypeForPlayer(Item))
 			then
 				-- Find the best item for that slot.  Or, if a second-best item is available, compare versus that.
 				local CharacterOptions = Scale.PerCharacterOptions[PawnPlayerFullName]
@@ -3426,7 +3508,7 @@ function PawnFindBestItems(ScaleName, InventoryOnly)
 			InvType = "INVTYPE_WEAPONOFFHAND"
 		elseif InvType == "INVTYPE_ROBE" then
 			InvType = "INVTYPE_CHEST"
-		elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
+		elseif ((not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
 			-- A ranged weapon could be one-handed (wands) or two-handed (everything else) but it always goes in the main hand.
 			InvType = "INVTYPE_WEAPONMAINHAND"
 		end
@@ -3481,8 +3563,7 @@ function PawnFindBestItems(ScaleName, InventoryOnly)
 	end end
 	
 	-- Now, scan all of the items in the player's equipment sets.
-	-- (Equipment sets don't exist on Classic.)
-	if not InventoryOnly and not VgerCore.IsClassic then
+	if not InventoryOnly and VgerCore.EquipmentSetsExist then
 		local _, i
 		for _, i in pairs(C_EquipmentSet.GetEquipmentSetIDs()) do
 			local _, _, EquipmentSetID = C_EquipmentSet.GetEquipmentSetInfo(i)
@@ -3662,7 +3743,7 @@ function PawnOnItemLost(ItemLink)
 		InvType = "INVTYPE_WEAPONOFFHAND"
 	elseif InvType == "INVTYPE_ROBE" then
 		InvType = "INVTYPE_CHEST"
-	elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
+	elseif ((not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
 		-- A ranged weapon could be one-handed (wands) or two-handed (everything else) but it always goes in the main hand.
 		InvType = "INVTYPE_WEAPONMAINHAND"
 	end
@@ -4014,11 +4095,11 @@ function PawnGetItemLinkParts(ItemLink, ReusableTable)
    local Parts = ReusableTable or {}
    local Match
    for Match in gmatch(ItemLink, ":(%-?%d*)") do
-      if strlen(Match) == 0 then
-         tinsert(Parts, 0)
-      else
-         tinsert(Parts, tonumber(Match))
-      end
+	  if strlen(Match) == 0 then
+		 tinsert(Parts, 0)
+	  else
+		 tinsert(Parts, tonumber(Match))
+	  end
    end
    return Parts
 end
@@ -4266,11 +4347,11 @@ function PawnIsPlayingWith(TargetName, TargetRealm)
 	if Test then
 		UnitID = "player"
 	else
-		if VgerCore.IsClassic then return end
+		if not VgerCore.IsShadowlands then return end
 		if PawnCommon.HasPlayedWithVger then return end
 		local Show
 		Show, UnitID = PawnIsPlayingWith("Vger", "Azjol-Nerub")
-		if not Show then return end 
+		if not Show then return end
 	end
 
 	-- Okay, we're gonna do it!
@@ -4734,7 +4815,7 @@ function PawnImportScale(ScaleTag, Overwrite)
 	Values.Spec = nil
 	if SpecID and not ClassID then
 		SpecID = nil
-	elseif SpecID and VgerCore.IsClassic then
+	elseif SpecID and (not VgerCore.SpecsExist) then
 		SpecID = nil
 	end
 	if SpecID then _, _, _, IconTexturePath, Role = PawnGetSpecializationInfoForClassID(ClassID, SpecID) end
@@ -4750,7 +4831,7 @@ function PawnImportScale(ScaleTag, Overwrite)
 	-- don't change other options about this scale, such as the color.
 
 	if not AlreadyExists then
-		if ClassID and (SpecID or VgerCore.IsClassic) then
+		if ClassID and (SpecID or not VgerCore.SpecsExist) then
 			PawnCommon.Scales[ScaleName] = PawnGetDefaultScale(ClassID, SpecID, true)
 			local Color = strsub(RAID_CLASS_COLORS[UnlocalizedClassName].colorStr, 3)
 			-- Choose a lighter color for death knights so it's easier to read.
@@ -5258,7 +5339,7 @@ function PawnGetClassInfo(ClassID)
 	return LOCALIZED_CLASS_NAMES_MALE[UnlocalizedClassName], UnlocalizedClassName
 end
 
-if VgerCore.IsClassic then
+if not VgerCore.SpecsExist then
 	-- Classic doesn't have a Guardian spec for druids, so rename.
 	PawnLocal.Specs[11][3].Name = PawnLocal.Specs[11][2].Name .. " (" .. TANK .. ")"
 	PawnLocal.Specs[11][2].Name = PawnLocal.Specs[11][2].Name .. " (" .. DAMAGER .. ")"
@@ -5333,7 +5414,7 @@ function PawnGetBestItemLink(ScaleName, InvType, Index, DoNotRescan)
 		InvType = "INVTYPE_WEAPONOFFHAND"
 	elseif InvType == "INVTYPE_ROBE" then
 		InvType = "INVTYPE_CHEST"
-	elseif ((not VgerCore.IsClassic) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
+	elseif ((not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT")) then
 		-- All ranged weapons go in the main hand now.
 		InvType = "INVTYPE_WEAPONMAINHAND"
 	end
