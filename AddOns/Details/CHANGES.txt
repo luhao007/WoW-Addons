@@ -1,34 +1,38 @@
-tag e923523f4d682c56bfc8ef5c6917cc13671223a9 DetailsRetail.9.0.5.8513.144
+tag bcb9a337aac3486200d39186a8c13dbb441dedb2 DetailsRetail.9.0.5.8514.144
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Fri May 21 15:13:31 2021 -0300
+Date:	Tue May 25 15:32:39 2021 -0300
 
-commit a13bc630be296bd2f7716cc777ca02db9542d496
+commit 6bde881fb809e06042c74244b4cccb3a2a4bc72f
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri May 21 15:12:41 2021 -0300
+Date:   Tue May 25 15:29:12 2021 -0300
 
-    Warlock fixes
+    Bug fixes
+    
+    - Fixed an error showing SetBorderSizes().
+    - Fixed an error while on a Battleground.
+    - Fixed tiny threat green icon.
 
-commit e8a0380153fd775985c9fd867d5711b4df18e068
+commit 3355e5588fe6a7b7579fc360c86ad44b89dc8b19
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu May 20 21:15:50 2021 -0300
+Date:   Mon May 24 11:34:20 2021 -0300
 
-    Fix for Battleground One Segment
+    Framework update
 
-commit 9ea6081abb249ea18b99a8588b6679d84ab106dc
+commit 3355e5588fe6a7b7579fc360c86ad44b89dc8b19
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu May 20 16:14:55 2021 -0300
+Date:   Mon May 24 11:34:20 2021 -0300
 
-    slash command now shows the correct game version; framework update
+    Framework update
 
-commit 4882b39a2c370ec196ab4e759acda140c68e2e36
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed May 19 20:23:16 2021 -0300
+commit 517a61905f1e47031ec794de0ca9a08562e497df
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Sun May 23 18:40:21 2021 -0500
 
-    Added option for arena colors
+    Add local _
 
-commit 4882b39a2c370ec196ab4e759acda140c68e2e36
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed May 19 20:23:16 2021 -0300
+commit 517a61905f1e47031ec794de0ca9a08562e497df
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Sun May 23 18:40:21 2021 -0500
 
-    Added option for arena colors
+    Add local _
 

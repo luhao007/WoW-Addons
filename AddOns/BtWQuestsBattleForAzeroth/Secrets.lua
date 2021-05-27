@@ -9,6 +9,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_BAAL, {
     category = BTWQUESTS_CATEGORY_BATTLE_FOR_AZEROTH_SECRETS,
     expansion = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
     range = {50,50},
+    active = {
+        type = "quest",
+        id = 52819,
+    },
     completed = {
         type = "pet",
         id = 2352,
@@ -413,6 +417,10 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_WAIST_OF_T
                 id = BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_SECRETS_BAAL,
             },
         },
+    },
+    active = {
+        type = "quest",
+        id = 52830,
     },
     completed = {
         type = "quest",

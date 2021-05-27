@@ -1,5 +1,5 @@
 ## Interface: 90005
-## Version: Plater-v329
+## Version: Plater-v330-BCC
 ## SavedVariables: PlaterDB
 ## SavedVariablesPerCharacter: PlaterDBChr
 
@@ -9,6 +9,10 @@
 ## Notes-zhCN: 自定义血条显示
 
 ## X-Curse-Project-ID: 100547
+## X-Wago-ID: kRNLep6o
+
+#@version-bc@
+#@end-version-bc@
 
 #@no-lib-strip@
 libs\libs.xml
@@ -26,9 +30,12 @@ locales\ruRU.lua
 locales\zhCN.lua
 locales\zhTW.lua
 
+Plater.xml
+
 Plater_DefaultSettings.lua
 
 Plater.lua
+Plater_Comms.lua
 Plater_Auras.lua
 Plater_Resources.lua
 Plater_OptionsPanel.lua

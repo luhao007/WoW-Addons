@@ -30,7 +30,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_ALLIANCE_INTRODUCT
     },
     active = {
         type = "quest",
-        id = 53370,
+        id = 46727,
         status = {'active', 'completed'},
     },
     completed = {
@@ -161,7 +161,7 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_BATTLE_FOR_AZEROTH_HORDE_INTRODUCTION
     },
     active = {
         type = "quest",
-        id = 53372,
+        id = 51443,
         status = {'active', 'completed'},
     },
     completed = {
