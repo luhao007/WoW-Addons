@@ -1140,10 +1140,10 @@
     "name": "BtWQuests: Battle for Azeroth",
     "description": "Battle for Azeroth data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-battle-for-azeroth",
-    "download_url": "https://edge.forgecdn.net/files/3311/27/BtWQuestsBattleForAzeroth-v53.8.zip",
-    "date_published": "2021-05-15T22:13:20.480000+00:00",
-    "version": "v53.8",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297381/file/3311027/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3323/898/BtWQuestsBattleForAzeroth-v53.9.zip",
+    "date_published": "2021-05-25T02:12:36.420000+00:00",
+    "version": "v53.9",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297381/file/3323898/changelog",
     "folders": [
       {
         "name": "BtWQuestsBattleForAzeroth"
@@ -1158,6 +1158,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v53.9",
+        "install_time": "2021-05-27T04:36:19+00:00"
+      },
       {
         "version": "v53.8",
         "install_time": "2021-05-23T13:51:31+00:00"
@@ -1501,10 +1505,10 @@
     "name": "Deadly Boss Mods (DBM)",
     "description": "The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods",
-    "download_url": "https://edge.forgecdn.net/files/3308/222/DBM-Core-9.0.28.zip",
-    "date_published": "2021-05-13T15:12:45.320000+00:00",
-    "version": "9.0.28",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/3358/file/3308222/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3326/454/DBM-Core-9.0.29.zip",
+    "date_published": "2021-05-27T04:03:55.717000+00:00",
+    "version": "9.0.29",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/3358/file/3326454/changelog",
     "folders": [
       {
         "name": "DBM-Brawlers"
@@ -1542,6 +1546,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.0.29",
+        "install_time": "2021-05-27T04:36:20+00:00"
+      },
       {
         "version": "9.0.28",
         "install_time": "2021-05-23T13:51:31+00:00"
@@ -2318,10 +2326,10 @@
     "name": "Details! Damage Meter",
     "description": "Complete combat analysis, gathering damage, healing, and other importante stuff.",
     "url": "https://www.curseforge.com/wow/addons/details",
-    "download_url": "https://edge.forgecdn.net/files/3318/321/Details-DetailsRetail.9.0.5.8513.144.zip",
-    "date_published": "2021-05-21T18:13:46.743000+00:00",
-    "version": "DetailsRetail.9.0.5.8513.144",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3318321/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3324/647/Details-DetailsRetail.9.0.5.8514.144.zip",
+    "date_published": "2021-05-25T18:32:55.123000+00:00",
+    "version": "DetailsRetail.9.0.5.8514.144",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3324647/changelog",
     "folders": [
       {
         "name": "Details"
@@ -2350,6 +2358,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DetailsRetail.9.0.5.8514.144",
+        "install_time": "2021-05-27T04:36:20+00:00"
+      },
       {
         "version": "DetailsRetail.9.0.5.8513.144",
         "install_time": "2021-05-23T13:51:32+00:00"
@@ -4332,10 +4344,10 @@
     "name": "Pawn",
     "description": "Pawn helps you compare items and find upgrades.",
     "url": "https://www.curseforge.com/wow/addons/pawn",
-    "download_url": "https://edge.forgecdn.net/files/3318/645/Pawn-2.5.3.zip",
-    "date_published": "2021-05-21T22:42:18.443000+00:00",
-    "version": "2.5.3",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3318645/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3323/955/Pawn-2.5.4.zip",
+    "date_published": "2021-05-25T03:58:30.363000+00:00",
+    "version": "2.5.4",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3323955/changelog",
     "folders": [
       {
         "name": "Pawn"
@@ -4346,6 +4358,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.5.4",
+        "install_time": "2021-05-27T04:36:20+00:00"
+      },
       {
         "version": "2.5.3",
         "install_time": "2021-05-23T13:51:33+00:00"
@@ -4463,10 +4479,10 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3291/56/Plater-v329-Retail.zip",
-    "date_published": "2021-04-27T19:02:58.650000+00:00",
-    "version": "Plater-v329",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100547/file/3291056/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3323/362/Plater-v330-Retail.zip",
+    "date_published": "2021-05-24T18:57:43.970000+00:00",
+    "version": "Plater-v330",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100547/file/3323362/changelog",
     "folders": [
       {
         "name": "Plater"
@@ -4477,6 +4493,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v330",
+        "install_time": "2021-05-27T04:36:20+00:00"
+      },
       {
         "version": "Plater-v329",
         "install_time": "2021-05-23T13:51:34+00:00"
@@ -5727,10 +5747,10 @@
     "name": "WeakAuras",
     "description": "A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.",
     "url": "https://www.curseforge.com/wow/addons/weakauras-2",
-    "download_url": "https://edge.forgecdn.net/files/3314/531/WeakAuras-3.4.1.zip",
-    "date_published": "2021-05-19T00:25:54.673000+00:00",
-    "version": "3.4.1",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/65387/file/3314531/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3327/547/WeakAuras-3.4.2.zip",
+    "date_published": "2021-05-27T22:48:58.187000+00:00",
+    "version": "3.4.2",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/65387/file/3327547/changelog",
     "folders": [
       {
         "name": "WeakAuras"
@@ -5753,6 +5773,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "3.4.2",
+        "install_time": "2021-05-30T04:46:20+00:00"
+      },
       {
         "version": "3.4.1",
         "install_time": "2021-05-23T13:51:35+00:00"

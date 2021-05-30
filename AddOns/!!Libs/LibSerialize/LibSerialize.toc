@@ -1,15 +1,10 @@
-## Interface: 40300
-## X-Compatible-With: 40300
-## Title: Lib: Serialize
-## Version: 0.9.1.beta
-## Notes: Serialized
-## Author: Dieen@twobears.cz
-## SavedVariables:
-## OptionalDeps: LibStub
-## X-Curse-Packaged-Version: 0.9.1.beta
-## X-Curse-Project-Name: Lib: Serialize
-## X-Curse-Project-ID: libserialize
-## X-Curse-Repository-ID: wow/libserialize/mainline
+## Interface: 90002
+## Title: Lib: LibSerialize
+## Notes: LibSerialize is a Lua library for efficiently serializing/deserializing arbitrary values
+## Author: Ross Nichols
+## Version: @project-version@
+## X-Category: Library
+## X-License: MIT
 
-embeds.xml
-serializer.lua
+lib.xml
+tests.lua

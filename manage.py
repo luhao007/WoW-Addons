@@ -214,6 +214,7 @@ class Manager:
                         '\n',
                         '# Libs Needs to be Imported before Other Libs\n',
                         'LibCompress\\lib.xml\n',
+                        'LibDeflate\\lib.xml\n',
                         'UTF8\\utf8data.lua\n',
                         'UTF8\\utf8.lua\n',
                         '\n',
@@ -230,7 +231,8 @@ class Manager:
         root = Path('Addons/!!Libs')
         libs = set(os.listdir(root))
         libs -= {'!!Libs.toc', 'Ace3', 'AceGUI-3.0-SharedMediaWidgets', 'HereBeDragons', 'UTF8', 'FrameXML',
-                    '!LibUIDropDownMenu', '!LibUIDropDownMenu-2.0', 'LibCompress', 'LibDataBroker-1.1', 'LibSharedMedia-3.0'}
+                 '!LibUIDropDownMenu', '!LibUIDropDownMenu-2.0', 'LibCompress', 'LibDeflate',
+                 'LibDataBroker-1.1', 'LibSharedMedia-3.0'}
 
         if 'LibBabble' in libs:
             toc.contents += lib_babble_to_toc()
