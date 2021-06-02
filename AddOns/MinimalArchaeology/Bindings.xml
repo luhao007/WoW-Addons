@@ -1,0 +1,10 @@
+<Bindings>
+	<Binding name="MINARCH_SHOWHIDE" runOnUp="true" header="MINARCH_HEADER">
+		if (keystate == "down") then
+			MinArchMain:Toggle(true);
+		end
+	</Binding>
+	<Binding name="SPELL Survey" runOnUp="true">
+
+	</Binding>
+</Bindings>

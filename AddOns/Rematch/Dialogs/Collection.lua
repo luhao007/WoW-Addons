@@ -28,7 +28,7 @@ function rematch:ShowCollectionReport()
 	dialog.CollectionReport:SetPoint("TOP",0,-40)
 	dialog.CollectionReport:Show()
 
-	local frame = dialog.CollectionReport -- the frame that contains the report 
+	local frame = dialog.CollectionReport -- the frame that contains the report
 
 	frame.InGame:SetText(format(L["There are %s%d\124r unique pets in the journal"],rematch.hexWhite,report.ingame))
 	frame.OwnedLabel:SetText(L["Pets Collected"])
@@ -81,7 +81,7 @@ function rematch:ShowCollectionReport()
 		frame.ChartTypeComboBox.Text:SetFontObject(GameFontNormal)
 		frame.ChartTypesRadioButton.Text:SetText(L["Pet Types"])
 		frame.ChartSourcesRadioButton.Text:SetText(L["Sources"])
-		
+
 		frame.Chart.Columns = {}
 		for i=1,10 do
 			frame.Chart.Columns[i] = CreateFrame("Button",nil,frame.Chart,"RematchChartColumnTemplate")
@@ -96,7 +96,7 @@ function rematch:ShowCollectionReport()
 end
 
 function collection:UpdateChart()
-	local frame = rematch.Dialog.CollectionReport -- the frame that contains the report 
+	local frame = rematch.Dialog.CollectionReport -- the frame that contains the report
 
 	frame.ChartTypeComboBox.Text:SetText(collection.chartNames[settings.CollectionChartType])
 	frame.ChartTypesRadioButton:SetChecked(not settings.CollectionChartSources)
@@ -169,7 +169,7 @@ function collection:GatherReportHash(forRarity)
 			local speciesID,_,level,_,_,_,_,_,_,petType = C_PetJournal.GetPetInfoByPetID(petID)
 			local _,_,_,_,rarity = C_PetJournal.GetPetStats(petID)
 			local chart = showSources and roster:GetSpeciesSource(speciesID) or petType
-			if showSources and chart>10 then
+			if showSources and chart and chart>10 then
 				chart = 1 -- chart 11 is "Discovery" sources; adding them to Drop category
 			end
 			local hash

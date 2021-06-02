@@ -25,7 +25,7 @@ wlDailies, wlWorldQuests = "", "";
 wlRegionBuildings = {};
 
 -- SavedVariablesPerCharacter
-wlSetting = {minimap=false};
+wlSetting = {};
 wlScans = {
     guid = nil,
     toys = "",

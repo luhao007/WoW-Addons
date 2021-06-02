@@ -81,6 +81,7 @@ LibDurability\LibDurability\LibDurability.xml
 LibGetFrame-1.0\LibGetFrame-1.0.xml
 LibGraph-2.0\LibGraph-2.0\LibGraph-2.0.lua
 LibGroupInSpecT-1.1\lib.xml
+LibIconPath\Core.lua
 LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
 LibLatency\LibLatency\LibLatency.xml
 LibNotify-1.0\lib.xml

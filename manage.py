@@ -16,12 +16,6 @@ CLASSIC_VER = '20501'
 RETAIL_VER = '90005'
 
 
-NOT_WORKING = ['!Swatter', 'Auc-Advanced', 'Auc-Filter-Basic', 'Auc-ScanData', 'Auc-Stat-Histogram', 'Auc-Stat-iLevel',
-                'Auc-Stat-Purchased', 'Auc-Stat-Simple', 'Auc-Stat-StdDev', 'Auc-Util-FixAH',
-                'BeanCounter', 'ClassicCastbars', 'ClassicCastbars_Options', 'Enchantrix', 'Enchantrix-Barker',
-                'Informant', 'MerInspect', 'SlideBar', 'Stubby']
-
-
 def available_on(platforms):
     def decorator(func):
         def wrapper(*args):
@@ -102,7 +96,7 @@ class Manager:
         colors = {
             '基础库': 'C41F3B',     # Red - DK
             '任务': '00FF96',       # Spring green - Monk
-            '物品': '0070DE',       # Doget blue - Shaman
+            '专业': '0070DE',       # Doget blue - Shaman
             '界面': 'A330C9',       # Dark Magenta - DH
             '副本': 'FF7D0A',       # Orange - Druid
             '战斗': 'C79C6E',       # Tan - Warrior
@@ -151,9 +145,6 @@ class Manager:
                 toc = TOC(lines)
 
                 toc.tags['Interface'] = self.interface
-
-                if utils.get_platform() == 'classic' and addon in NOT_WORKING:
-                    toc.tags['Interface'] = '10000'
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
                 namespace = {'x': 'https://www.github.com/luhao007'}
@@ -350,22 +341,22 @@ class Manager:
 
         if utils.get_platform() == 'retail':
             addons += ['AllTheThings', 'Details_ChartViewer',
-                        'Details_DeathGraphs', 'Details_EncounterDetails',
-                        'Details_RaidCheck', 'Details_TimeLine',
-                        'Details_Vanguard', 'FasterCamera',
-                        'GladiatorlosSA2', 'Gladius',
-                        'HandyNotes_Argus', 'HandyNotes_BrokenShore',
-                        'HandyNotes_BattleForAzeroth',
-                        'HandyNotes_Draenor',
-                        'HandyNotes_DraenorTreasures',
-                        'HandyNotes_LegionClassOrderHalls',
-                        'HandyNotes_LegionRaresTreasures',
-                        'HandyNotes_Shadowlands',
-                        'HandyNotes_SuramarShalAranTelemancy',
-                        'HandyNotes_TimelessIsleChests',
-                        'HandyNotes_VisionsOfNZoth',
-                        'NPCScan', 'Omen',
-                        'RelicInspector', 'Simulationcraft', 'Titan']
+                       'Details_DeathGraphs', 'Details_EncounterDetails',
+                       'Details_RaidCheck', 'Details_TimeLine',
+                       'Details_Vanguard', 'FasterCamera',
+                       'GladiatorlosSA2', 'Gladius',
+                       'HandyNotes_Argus', 'HandyNotes_BrokenShore',
+                       'HandyNotes_BattleForAzeroth',
+                       'HandyNotes_Draenor',
+                       'HandyNotes_DraenorTreasures',
+                       'HandyNotes_LegionClassOrderHalls',
+                       'HandyNotes_LegionRaresTreasures',
+                       'HandyNotes_Shadowlands',
+                       'HandyNotes_SuramarShalAranTelemancy',
+                       'HandyNotes_TimelessIsleChests',
+                       'HandyNotes_VisionsOfNZoth',
+                       'MinimalArchaeology', 'NPCScan', 'Omen',
+                       'RelicInspector', 'Simulationcraft', 'Titan']
         else:
             addons += ['alaTalentEmu', 'alaCalendar', 'AtlasLootClassic', 'AtlasLootClassic_Options',
                         'ATT-Classic', 'ClassicCastbars_Options',
@@ -442,25 +433,6 @@ class Manager:
         utils.change_defaults(
             'Addons/AtlasLootClassic/db.lua',
             '		shown = true,'
-        )
-
-    @staticmethod
-    @available_on(['classic', 'classic_era'])
-    def handle_auctioneer():
-        addons = ['Auc-Advanced', 'BeanCounter', 'Enchantrix', 'Informant']
-
-        for addon in addons:
-            utils.rm_tree(Path('AddOns') / addon / 'Libs' / 'LibDataBroker')
-            utils.process_file(
-                Path('AddOns') / addon / 'Libs' / 'Load.xml',
-                lambda lines: [line for line in lines
-                                if 'LibDataBroker' not in line]
-            )
-
-        utils.rm_tree('AddOns/SlideBar/Libs')
-        utils.process_file(
-            'AddOns/SlideBar/Load.xml',
-            lambda lines: [line for line in lines if 'Libs' not in line]
         )
 
     @staticmethod

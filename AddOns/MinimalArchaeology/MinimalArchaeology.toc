@@ -1,0 +1,16 @@
+## Interface: 90005
+## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
+## Version: 9.0.5.3
+## LoadOnDemand: 0
+## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
+## SavedVariablesPerCharacter: MinArchOptions
+## DefaultState: Enabled
+
+## Title: Minimal Archaeology
+## Notes: Archaeology UI replacement, Archaeology History and more...
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r |cFFFFFFFF考古助手|r |cFFFFE00AMinimalArchaeology|r
+## Notes-zhCN: 独立考古窗口
+
+
+# Special thanks to joevt for the contribution
+addon\addon.xml

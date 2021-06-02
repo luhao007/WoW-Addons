@@ -2419,10 +2419,10 @@
     "name": "Details! Damage Meter: Advanced Death Logs (plugin)",
     "description": "Plugin for Details",
     "url": "https://www.curseforge.com/wow/addons/details-advanced-death-logs-plug",
-    "download_url": "https://edge.forgecdn.net/files/3238/263/Details_DeathGraphs-v9.0.5.103.zip",
-    "date_published": "2021-03-13T17:48:11.330000+00:00",
-    "version": "v9.0.5.103",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3329/685/Details_DeathGraphs-9.0.5.103.zip",
+    "date_published": "2021-05-29T19:03:09.533000+00:00",
+    "version": "9.0.5.103",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/75162/file/3329685/changelog",
     "folders": [
       {
         "name": "Details_DeathGraphs"
@@ -2433,6 +2433,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.0.5.103",
+        "install_time": "2021-05-30T04:58:16+00:00"
+      },
       {
         "version": "v9.0.5.103",
         "install_time": "2021-03-18T14:42:03+00:00"
@@ -2853,10 +2857,10 @@
     "name": "GladiatorlosSA2",
     "description": "A PvP announcer addon that vocalizes many spells cast by your opponents.",
     "url": "https://www.curseforge.com/wow/addons/gladiatorlossa2",
-    "download_url": "https://edge.forgecdn.net/files/3283/146/GSA2_3.7.1.zip",
-    "date_published": "2021-04-20T17:30:51.817000+00:00",
-    "version": "GSA2_3.7.1",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101136/file/3283146/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3329/258/GSA2_3.8.zip",
+    "date_published": "2021-05-29T10:58:21.063000+00:00",
+    "version": "GSA2_3.8",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101136/file/3329258/changelog",
     "folders": [
       {
         "name": "GladiatorlosSA2"
@@ -2867,6 +2871,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "GSA2_3.8",
+        "install_time": "2021-05-30T04:58:16+00:00"
+      },
       {
         "version": "GSA2_3.7.1",
         "install_time": "2021-05-23T13:51:33+00:00"
@@ -3962,6 +3970,33 @@
   },
   {
     "source": "curse",
+    "id": "28160",
+    "slug": "minimal-archaeology",
+    "name": "Minimal Archaeology",
+    "description": "Archaeology UI replacement, Archaeology History and more...",
+    "url": "https://www.curseforge.com/wow/addons/minimal-archaeology",
+    "download_url": "https://edge.forgecdn.net/files/3236/541/MinimalArchaeology-v9.0.5.3.zip",
+    "date_published": "2021-03-12T06:11:18.957000+00:00",
+    "version": "v9.0.5.3",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/28160/file/3236541/changelog",
+    "folders": [
+      {
+        "name": "MinimalArchaeology"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "v9.0.5.3",
+        "install_time": "2021-05-31T14:32:06+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "30961",
     "slug": "mogit",
     "name": "MogIt",
@@ -4344,10 +4379,10 @@
     "name": "Pawn",
     "description": "Pawn helps you compare items and find upgrades.",
     "url": "https://www.curseforge.com/wow/addons/pawn",
-    "download_url": "https://edge.forgecdn.net/files/3323/955/Pawn-2.5.4.zip",
-    "date_published": "2021-05-25T03:58:30.363000+00:00",
-    "version": "2.5.4",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3323955/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3329/109/Pawn-2.5.8.zip",
+    "date_published": "2021-05-29T06:39:03.707000+00:00",
+    "version": "2.5.8",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3329109/changelog",
     "folders": [
       {
         "name": "Pawn"
@@ -4358,6 +4393,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.5.8",
+        "install_time": "2021-05-30T04:58:17+00:00"
+      },
       {
         "version": "2.5.4",
         "install_time": "2021-05-27T04:36:20+00:00"
@@ -5580,10 +5619,10 @@
     "name": "TradeSkillMaster",
     "description": "Powerful addon to help you make gold from crafting to selling on the auction house to buying vendor items and much more!",
     "url": "https://www.curseforge.com/wow/addons/tradeskill-master",
-    "download_url": "https://edge.forgecdn.net/files/3316/951/TradeSkillMaster_v4.10.39.zip",
-    "date_published": "2021-05-20T18:26:08.583000+00:00",
-    "version": "v4.10.39",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26886/file/3316951/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3328/847/TradeSkillMaster_v4.10.40.zip",
+    "date_published": "2021-05-28T23:58:41.870000+00:00",
+    "version": "v4.10.40",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26886/file/3328847/changelog",
     "folders": [
       {
         "name": "TradeSkillMaster"
@@ -5594,6 +5633,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.10.40",
+        "install_time": "2021-05-30T04:58:17+00:00"
+      },
       {
         "version": "v4.10.39",
         "install_time": "2021-05-23T13:50:48+00:00"

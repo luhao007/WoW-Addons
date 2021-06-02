@@ -7,7 +7,7 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0508
+PawnVersion = 2.0509
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.13
@@ -2224,7 +2224,7 @@ function PawnGetStatsFromTooltip(TooltipName, DebugMessages)
 		SocketBonusStats = {}
 	else
 		-- If the socket bonus is not valid, then we need to check for sockets.
-		if Stats["PrismaticSocket"] then
+		if Stats["PrismaticSocket"] or Stats["RedSocket"] or Stats["YellowSocket"] or Stats["BlueSocket"]or Stats["MetaSocket"] then
 			-- There are sockets left, so the player could still meet the requirements.
 		else
 			-- There are no sockets left and the socket bonus requirements were not met.  Ignore the
@@ -2443,7 +2443,8 @@ end
 --		NoNormalization: If true, the user's normalization factor will be ignored.
 --	Returns: Value, TotalSocketValue
 --		Value: The numeric value of an item based on the given scale values.  (example: 21.75)
---		TotalSocketValue: The total value of just sockets and socket bonuses.  (This is already factored into the total value.)
+--		TotalSocketValue: The total value of the sockets and socket bonus if applicable. (This is already factored into the total value.)
+--		SocketBonusValue: The total value of the socket bonus, IF it's worthwhile. (This is already factored into the previous two values.)
 function PawnGetItemValue(Item, ItemLevel, SocketBonus, ScaleName, DebugMessages, NoNormalization)
 	-- If either the item or scale is empty, exit now.
 	if (not Item) or (not ScaleName) then return end
@@ -2455,6 +2456,8 @@ function PawnGetItemValue(Item, ItemLevel, SocketBonus, ScaleName, DebugMessages
 	-- Calculate the value.
 	local Total = 0
 	local TotalSocketValue = 0
+	local ProperSocketValue = 0
+	local SocketBonusValue = 0
 	local IsUnusable
 	local ThisValue, Stat, Quantity
 	for Stat, Quantity in pairs(Item) do
@@ -2515,51 +2518,66 @@ function PawnGetItemValue(Item, ItemLevel, SocketBonus, ScaleName, DebugMessages
 		if ThisScaleBestGems then
 
 			local ShouldIncludeSockets = (not PawnCommon.IgnoreGemsWhileLeveling) or (ItemLevel ~= nil and ItemLevel >= PawnMinimumItemLevelToConsiderGems)
-			local GemQualityLevel
 
 			-- Decide what to do with sockets.
-			if ShouldIncludeSockets then
+			if ShouldIncludeSockets and (
+				Item.PrismaticSocket or
+				Item.RedSocket or
+				Item.YellowSocket or
+				Item.BlueSocket or
+				Item.MetaSocket
+			) then
 
-				local ProcessSockets = function(Stat)
-					Quantity = Item[Stat]
+				local GemQualityLevel = PawnGetGemQualityForItem(PawnGemQualityLevels, ItemLevel)
+
+				local SocketValue = function(Stat)
+					local Quantity = Item[Stat]
 					if Quantity then
-						GemQualityLevel = PawnGetGemQualityForItem(PawnGemQualityLevels, ItemLevel)
-						ThisValue = ThisScaleBestGems[Stat .. "Value"][GemQualityLevel]
+						local ThisValue = ThisScaleBestGems[Stat .. "Value"][GemQualityLevel]
 						if ThisValue then
-							TotalSocketValue = TotalSocketValue + Quantity * ThisValue
-							Total = Total + Quantity * ThisValue
+							if DebugMessages then PawnDebugMessage(format(PawnLocal.ValueCalculationMessage, Quantity, Stat, ThisValue, Quantity * ThisValue)) end
+							return Quantity * ThisValue
+						end
+					end
+					return 0
+				end
+
+				local BasicSocketsCount = (Item.PrismaticSocket or 0) + (Item.RedSocket or 0) + (Item.YellowSocket or 0) + (Item.BlueSocket or 0)
+
+				-- First, find the total value of the sockets assuming we ignore the socket bonus.
+				local BestGemName = PawnGetGemListString(ScaleName, true, ItemLevel, "Prismatic")
+				local BestGemValue = ThisScaleBestGems["PrismaticSocketValue"][GemQualityLevel] or 0
+				local MissocketedValue = BasicSocketsCount * BestGemValue
+
+				-- Then, see if we can get a better value by going for the socket bonus.
+				if SocketBonus then
+					for Stat, Quantity in pairs(SocketBonus) do
+						ThisValue = ScaleValues[Stat]
+						if ThisValue then
+							SocketBonusValue = SocketBonusValue + ThisValue * Quantity
 							if DebugMessages then PawnDebugMessage(format(PawnLocal.ValueCalculationMessage, Quantity, Stat, ThisValue, Quantity * ThisValue)) end
 						end
 					end
+					if DebugMessages then PawnDebugMessage(format(PawnLocal.SocketBonusValueCalculationMessage, SocketBonusValue)) end
+					ProperSocketValue =
+						SocketValue("PrismaticSocket") +
+						SocketValue("RedSocket") +
+						SocketValue("YellowSocket") +
+						SocketValue("BlueSocket") +
+						SocketBonusValue
+				end -- if SocketBonus
+				
+				if MissocketedValue > ProperSocketValue then
+					if DebugMessages then PawnDebugMessage(string.format(PawnLocal.MissocketWorthwhileMessage, BestGemName)) end
+					TotalSocketValue = MissocketedValue
+				else
+					TotalSocketValue = ProperSocketValue
 				end
-				ProcessSockets("PrismaticSocket")
-				ProcessSockets("RedSocket")
-				ProcessSockets("YellowSocket")
-				ProcessSockets("BlueSocket")
+				Total = Total + TotalSocketValue
 
 				-- TODO: Handle meta sockets ***
-			end
 
-			-- Decide what to do with socket bonuses.
-			if SocketBonus then
-				local SocketBonusValue = 0
-				for Stat, Quantity in pairs(SocketBonus) do
-					ThisValue = ScaleValues[Stat]
-					if ThisValue then
-						SocketBonusValue = SocketBonusValue + ThisValue * Quantity
-						if DebugMessages and ShouldIncludeSockets then PawnDebugMessage(format(PawnLocal.ValueCalculationMessage, Quantity, Stat, ThisValue, Quantity * ThisValue)) end
-					end
-				end
-				if DebugMessages and ShouldIncludeSockets then
-					PawnDebugMessage(format(PawnLocal.SocketBonusValueCalculationMessage, SocketBonusValue))
-				end
-				if ShouldIncludeSockets then
-					Total = Total + SocketBonusValue
-					TotalSocketValue = TotalSocketValue + SocketBonusValue
-				end
-
-				-- TODO: Handle breaking socket bonuses ***
-			end
+			end -- if ShouldIncludeSockets
 
 		else
 			-- This error case is acceptable if we're calculating data FOR the gems themselves.  (In that case, normalization will be off.)
@@ -2578,18 +2596,23 @@ function PawnGetItemValue(Item, ItemLevel, SocketBonus, ScaleName, DebugMessages
 	
 	if DebugMessages then PawnDebugMessage(format(PawnLocal.TotalValueMessage, Total)) end
 	
-	return Total, TotalSocketValue
+	return Total, TotalSocketValue, SocketBonusValue
 end
 
 -- Returns a friendly description of the best gems to use for a given scale.
-function PawnGetGemListString(ScaleName, ListAll, ItemLevel)
+--		GemListString: A string description of the best gems to use.
+--		IsVague: true if the returned string is not particularly specific.
+function PawnGetGemListString(ScaleName, ListAll, ItemLevel, Color)
+	Socket = Socket or "Prismatic"
 	local Gems = PawnScaleBestGems[ScaleName]
-	if Gems and Gems.PrismaticSocket then
+	if Gems and Gems[Color .. "Socket"] then
 		local GemQuality = PawnGetGemQualityForItem(PawnGemQualityLevels, ItemLevel)
-		local GemTable = Gems.PrismaticSocket[GemQuality]
+		local GemTable = Gems[Color .. "Socket"][GemQuality]
 
-		if ListAll then
+		if ListAll or (Color == "Prismatic" and #GemTable > 2) then
 			local _, GemInfo, GemList
+			local Separator
+			if ListAll then Separator = "\n" else Separator = ", " end
 			for _, GemInfo in pairs(GemTable) do
 				local ThisGemName
 				local Item = PawnGetItemData("item:" .. GemInfo.ID)
@@ -2600,7 +2623,7 @@ function PawnGetGemListString(ScaleName, ListAll, ItemLevel)
 					break
 				end
 				if GemList then
-					GemList = GemList .. ("\n" .. ThisGemName)
+					GemList = GemList .. (Separator .. ThisGemName)
 				else
 					GemList = ThisGemName
 				end
@@ -2624,14 +2647,14 @@ function PawnGetGemListString(ScaleName, ListAll, ItemLevel)
 					return format(PawnLocal.GemList2, ItemName1, Item.Name)
 				end
 			end
-		end
-		if #GemTable > 0 then
-			return format(PawnLocal.GemListMany, #GemTable)
+		elseif Color == "Red" or Color == "Yellow" or Color == "Blue" then
+			-- If there are three or more best gems AND it's a specific color, we can at least return the socket color.
+			return _G[toupper(Color) .. "_GEM"], true
 		end
 	end
 
 	-- If we don't have something better to display, so be it.
-	return nil
+	return "?", true
 end
 
 -- Returns the type of hyperlink passed in, or nil if it's not a hyperlink.

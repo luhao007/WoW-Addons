@@ -1,38 +1,28 @@
-tag bcb9a337aac3486200d39186a8c13dbb441dedb2 DetailsRetail.9.0.5.8514.144
+tag f6878036da75dda78d50c13578cc18385f1a4815 DetailsRetail.9.0.5.8516.144
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Tue May 25 15:32:39 2021 -0300
+Date:	Mon May 31 15:40:31 2021 -0300
 
-commit 6bde881fb809e06042c74244b4cccb3a2a4bc72f
+commit 361264a5f432c9fda2f52698c4daa0d0c2601e43
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue May 25 15:29:12 2021 -0300
+Date:   Mon May 31 15:39:20 2021 -0300
 
-    Bug fixes
-    
-    - Fixed an error showing SetBorderSizes().
-    - Fixed an error while on a Battleground.
-    - Fixed tiny threat green icon.
+    Version stuff
 
-commit 3355e5588fe6a7b7579fc360c86ad44b89dc8b19
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon May 24 11:34:20 2021 -0300
-
-    Framework update
-
-commit 3355e5588fe6a7b7579fc360c86ad44b89dc8b19
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon May 24 11:34:20 2021 -0300
-
-    Framework update
-
-commit 517a61905f1e47031ec794de0ca9a08562e497df
+commit 3374a15932e8307b32dd497a0f316fc3faa821ad
 Author: Flamanis <Flamanis@users.noreply.github.com>
-Date:   Sun May 23 18:40:21 2021 -0500
+Date:   Mon May 31 13:15:20 2021 -0500
 
-    Add local _
+    Tiny Threat Resizing Fixes
 
-commit 517a61905f1e47031ec794de0ca9a08562e497df
+commit 3374a15932e8307b32dd497a0f316fc3faa821ad
 Author: Flamanis <Flamanis@users.noreply.github.com>
-Date:   Sun May 23 18:40:21 2021 -0500
+Date:   Mon May 31 13:15:20 2021 -0500
 
-    Add local _
+    Tiny Threat Resizing Fixes
+
+commit 4b6c229d8b93f2aeaa6442f286b9258469ca4cd1
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat May 29 20:02:17 2021 -0300
+
+    Old Twitch strings fixed, bar border updated to the new framework border
 

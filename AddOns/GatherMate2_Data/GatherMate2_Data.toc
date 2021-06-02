@@ -6,7 +6,7 @@
 
 ## Title: GatherMate2Data
 ## Notes: Wowhead Data dump for GatherMate2
-## Title-zhCN: |cFFFFE00A<|r|cFF0070DE物品|r|cFFFFE00A>|r |cFFFFFFFF采集助手|r |cFF69CCF0数据|r
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r |cFFFFFFFF采集助手|r |cFF69CCF0数据|r
 
 ## X-Category: Map
 ## X-Email: sal.scotto@gmail.com

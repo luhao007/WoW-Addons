@@ -1013,6 +1013,33 @@
   },
   {
     "source": "curse",
+    "id": "101626",
+    "slug": "libiconpath",
+    "name": "LibIconPath",
+    "description": "A library to get the texture name of an icon by its ID (and vice versa)",
+    "url": "https://www.curseforge.com/wow/addons/libiconpath",
+    "download_url": "https://edge.forgecdn.net/files/2476/122/LibIconPath_1.6.zip",
+    "date_published": "2017-09-05T16:40:00.073000+00:00",
+    "version": "v1.6",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101626/file/2476122/changelog",
+    "folders": [
+      {
+        "name": "LibIconPath"
+      }
+    ],
+    "options": {
+      "strategy": "any_flavour"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "v1.6",
+        "install_time": "2021-05-31T14:34:51+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "52100",
     "slug": "libitemupgradeinfo-1-0",
     "name": "LibItemUpgradeInfo-1.0",
