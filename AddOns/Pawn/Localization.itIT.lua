@@ -119,6 +119,7 @@ Per maggiori informazioni su come personalizzare Pawn, per favore leggere il fil
 		["Mail"] = "Maglia",
 		["MailInfo"] = "Punti da assegnare se l'oggetto è in maglia",
 		["MasteryInfo"] = "Maestria. Aumenta l'abilità unica della tua specializzazione di classe",
+		["MetaSocketEffectInfo"] = "Effetti speciali con meta gemma. Punti da assegnare per la parte non statistica di una meta gemma (ad esempio, un aumento minore della velocità di corsa o un riflesso dell'incantesimo dell'1%).",
 		["MinorStats"] = "Attributi minori",
 		["MovementSpeedInfo"] = "Velocità di movimento. Fà si che il tuo personaggio corra più veloce.",
 		["Mp5"] = "Mana per 5",
@@ -310,6 +311,8 @@ Per maggiori informazioni su come personalizzare Pawn, per favore leggere il fil
 		--[[Translation missing --]]
 		["ExpertiseRating"] = "^Equip: Increases your expertise rating by #%.$",
 		["FeralAp"] = "^Equip: %+# Attack Power in Cat, Bear, and Dire Bear forms only%.$",
+		--[[Translation missing --]]
+		["FeralApMoonkin"] = "^Equip: %+# Attack Power in Cat, Bear, Dire Bear, and Moonkin forms only%.$",
 		["FireResist"] = "^%+?# Fire Resistance$",
 		["FireSpellDamage"] = "^%+# Fire Spell Damage$",
 		["FireSpellDamage2"] = "^Equip: Increases damage done by Fire spells and effects by up to #%.$",
@@ -327,8 +330,9 @@ Per maggiori informazioni su come personalizzare Pawn, per favore leggere il fil
 		--[[Translation missing --]]
 		["HasteRatingShort"] = "^%+?# Haste Rating$",
 		["HaventCollectedAppearance"] = "^Non hai ottenuto questo aspetto$",
-		["Healing"] = "^%+# Healing Spells$",
-		["Healing2"] = "^Equip: Increases healing done by spells and effects by up to #%.$",
+		["Healing"] = "^UNUSED$",
+		["Healing2"] = "^UNUSED$",
+		["Healing3"] = "^UNUSED$",
 		["HeirloomLevelRange"] = "^Richiede un livello da %d+ a (%d+)",
 		["HeirloomXpBoost"] = "^Equipaggia: Aumenta l'esperienza",
 		["HeirloomXpBoost2"] = "UNUSED",
@@ -409,8 +413,8 @@ Per maggiori informazioni su come personalizzare Pawn, per favore leggere il fil
 		["SpellDamage2"] = "^Equip: Increases damage and healing done by magical spells and effects by up to #%.$",
 		["SpellDamage3"] = "^UNUSED$",
 		["SpellDamage4"] = "^UNUSED$",
-		--[[Translation missing --]]
-		["SpellDamageAndHealing"] = "^Equip: Increases healing done by up to # and damage done by up to # for all magical spells and effects%.$",
+		["SpellDamageAndHealing"] = "^UNUSED$",
+		["SpellDamageAndHealingEnchant"] = "^UNUSED$",
 		["SpellDamageAndHealingShort"] = "^UNUSED$",
 		--[[Translation missing --]]
 		["SpellHasteRating"] = "^Equip: Improves spell haste rating by #%.$",

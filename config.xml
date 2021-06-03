@@ -1308,6 +1308,10 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="SimpleChat">
+		<Title>简单聊天增强</Title>
+		<Category>社交</Category>
+	</Addon>
 	<Addon name="SimpleChatClassic">
 		<Title>简单聊天增强</Title>
 		<Category>社交</Category>
