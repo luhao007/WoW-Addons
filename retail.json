@@ -6,10 +6,10 @@
     "name": "ALL THE THINGS",
     "description": "Addon for Tracking Collections & Account Completion",
     "url": "https://www.curseforge.com/wow/addons/all-the-things",
-    "download_url": "https://edge.forgecdn.net/files/3317/410/AllTheThings-SL-2.3.1.zip",
-    "date_published": "2021-05-21T01:47:01.423000+00:00",
-    "version": "SL-2.3.1",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/267285/file/3317410/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3338/424/AllTheThings-SL-2.3.2.zip",
+    "date_published": "2021-06-05T00:26:06.337000+00:00",
+    "version": "SL-2.3.2",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/267285/file/3338424/changelog",
     "folders": [
       {
         "name": "AllTheThings"
@@ -20,6 +20,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "SL-2.3.2",
+        "install_time": "2021-06-08T12:12:01+00:00"
+      },
       {
         "version": "SL-2.3.1",
         "install_time": "2021-05-23T13:50:45+00:00"
@@ -190,10 +194,10 @@
     "name": "Angry Keystones",
     "description": "Displays additional information for Mythic Keystone dungeons",
     "url": "https://www.curseforge.com/wow/addons/angry-keystones",
-    "download_url": "https://edge.forgecdn.net/files/3298/278/AngryKeystones-v0.20.0.zip",
-    "date_published": "2021-05-04T15:23:19.540000+00:00",
-    "version": "v0.20.0",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/102522/file/3298278/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3340/902/AngryKeystones-v0.20.2.zip",
+    "date_published": "2021-06-06T14:41:51.597000+00:00",
+    "version": "v0.20.2",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/102522/file/3340902/changelog",
     "folders": [
       {
         "name": "AngryKeystones"
@@ -204,6 +208,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v0.20.2",
+        "install_time": "2021-06-08T12:12:01+00:00"
+      },
       {
         "version": "v0.20.0",
         "install_time": "2021-05-23T13:50:45+00:00"
@@ -874,6 +882,37 @@
   },
   {
     "source": "curse",
+    "id": "4918",
+    "slug": "atlas-quest-fan-update",
+    "name": "AtlasQuest - Fan Update",
+    "description": "AtlasQuest - Fan Update",
+    "url": "https://www.curseforge.com/wow/addons/atlas-quest-fan-update",
+    "download_url": "https://edge.forgecdn.net/files/3323/994/AtlasQuest_4.12.02.zip",
+    "date_published": "2021-05-25T05:16:20.533000+00:00",
+    "version": "4.12.02 (Shadowlands)",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4918/file/3323994/changelog",
+    "folders": [
+      {
+        "name": "AtlasQuest"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [
+      {
+        "id": "301"
+      }
+    ],
+    "logged_versions": [
+      {
+        "version": "4.12.02 (Shadowlands)",
+        "install_time": "2021-06-06T21:40:46+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "1592",
     "slug": "bagnon",
     "name": "Bagnon",
@@ -973,10 +1012,10 @@
     "name": "BlizzMove",
     "description": "Makes the default frames moveable via simple drag and drop",
     "url": "https://www.curseforge.com/wow/addons/blizzmove",
-    "download_url": "https://edge.forgecdn.net/files/3316/504/BlizzMove-v3.0.18.zip",
-    "date_published": "2021-05-20T13:05:54.757000+00:00",
-    "version": "v3.0.18",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/17809/file/3316504/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3337/62/BlizzMove-v3.0.19.zip",
+    "date_published": "2021-06-03T23:53:57.310000+00:00",
+    "version": "v3.0.19",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/17809/file/3337062/changelog",
     "folders": [
       {
         "name": "BlizzMove"
@@ -990,6 +1029,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.0.19",
+        "install_time": "2021-06-08T12:12:01+00:00"
+      },
       {
         "version": "v3.0.18",
         "install_time": "2021-05-23T13:51:30+00:00"
@@ -1406,37 +1449,6 @@
       },
       {
         "version": "Button Forge v0.9.50",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "320648",
-    "slug": "tomcats-tours-childrens-week",
-    "name": "Children's Week by TomCat's Tours",
-    "description": "In-game guide and completion trackers for the Children's Week holiday",
-    "url": "https://www.curseforge.com/wow/addons/tomcats-tours-childrens-week",
-    "download_url": "https://edge.forgecdn.net/files/3120/315/TomCats-ChildrensWeek[retail]-1.99.99.zip",
-    "date_published": "2020-11-23T02:01:58.497000+00:00",
-    "version": "1.99.99",
-    "changelog_url": "data:,",
-    "folders": [
-      {
-        "name": "TomCats-ChildrensWeek"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "1.99.99",
-        "install_time": "2020-11-23T02:52:29+00:00"
-      },
-      {
-        "version": "v1.0.8",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
@@ -2326,10 +2338,10 @@
     "name": "Details! Damage Meter",
     "description": "Complete combat analysis, gathering damage, healing, and other importante stuff.",
     "url": "https://www.curseforge.com/wow/addons/details",
-    "download_url": "https://edge.forgecdn.net/files/3324/647/Details-DetailsRetail.9.0.5.8514.144.zip",
-    "date_published": "2021-05-25T18:32:55.123000+00:00",
-    "version": "DetailsRetail.9.0.5.8514.144",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3324647/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3331/397/Details-DetailsRetail.9.0.5.8516.144.zip",
+    "date_published": "2021-05-31T18:40:45.903000+00:00",
+    "version": "DetailsRetail.9.0.5.8516.144",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3331397/changelog",
     "folders": [
       {
         "name": "Details"
@@ -2358,6 +2370,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DetailsRetail.9.0.5.8516.144",
+        "install_time": "2021-06-01T04:24:47+00:00"
+      },
       {
         "version": "DetailsRetail.9.0.5.8514.144",
         "install_time": "2021-05-27T04:36:20+00:00"
@@ -2660,6 +2676,33 @@
   },
   {
     "source": "curse",
+    "id": "43444",
+    "slug": "flc",
+    "name": "Friend List Colors",
+    "description": "Customize how your friends appear in your friends list!",
+    "url": "https://www.curseforge.com/wow/addons/flc",
+    "download_url": "https://edge.forgecdn.net/files/3085/131/FriendListColors-v9.0.1.201018.zip",
+    "date_published": "2020-10-18T08:26:38.690000+00:00",
+    "version": "v9.0.1.201018",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/43444/file/3085131/changelog",
+    "folders": [
+      {
+        "name": "FriendListColors"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "v9.0.1.201018",
+        "install_time": "2021-06-06T21:18:26+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "20697",
     "slug": "gtfo",
     "name": "GTFO",
@@ -2857,10 +2900,10 @@
     "name": "GladiatorlosSA2",
     "description": "A PvP announcer addon that vocalizes many spells cast by your opponents.",
     "url": "https://www.curseforge.com/wow/addons/gladiatorlossa2",
-    "download_url": "https://edge.forgecdn.net/files/3329/258/GSA2_3.8.zip",
-    "date_published": "2021-05-29T10:58:21.063000+00:00",
-    "version": "GSA2_3.8",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101136/file/3329258/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3343/72/GSA2_3.8.1.zip",
+    "date_published": "2021-06-08T06:43:45.443000+00:00",
+    "version": "GSA2_3.8.1",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101136/file/3343072/changelog",
     "folders": [
       {
         "name": "GladiatorlosSA2"
@@ -2871,6 +2914,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "GSA2_3.8.1",
+        "install_time": "2021-06-08T12:12:02+00:00"
+      },
       {
         "version": "GSA2_3.8",
         "install_time": "2021-05-30T04:58:16+00:00"
@@ -2959,10 +3006,10 @@
     "name": "Grail",
     "description": "Library of quest information",
     "url": "https://www.curseforge.com/wow/addons/grail",
-    "download_url": "https://edge.forgecdn.net/files/3175/424/Grail-114.zip",
-    "date_published": "2021-01-20T22:24:36.507000+00:00",
-    "version": "114",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3334/184/Grail-115.zip",
+    "date_published": "2021-06-01T20:53:16.623000+00:00",
+    "version": "115",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/28774/file/3334184/changelog",
     "folders": [
       {
         "name": "Grail"
@@ -3132,6 +3179,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "115",
+        "install_time": "2021-06-03T09:09:19+00:00"
+      },
       {
         "version": "114",
         "install_time": "2021-02-14T14:50:26+00:00"
@@ -4179,37 +4230,6 @@
   },
   {
     "source": "curse",
-    "id": "320050",
-    "slug": "tomcats-tours-noblegarden",
-    "name": "Noblegarden by TomCat's Tours",
-    "description": "Noblegarden by TomCat's Tours",
-    "url": "https://www.curseforge.com/wow/addons/tomcats-tours-noblegarden",
-    "download_url": "https://edge.forgecdn.net/files/3120/320/TomCats-Noblegarden[retail]-1.99.99.zip",
-    "date_published": "2020-11-23T02:04:14.737000+00:00",
-    "version": "1.99.99",
-    "changelog_url": "data:,",
-    "folders": [
-      {
-        "name": "TomCats-Noblegarden"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "1.99.99",
-        "install_time": "2020-11-23T02:52:32+00:00"
-      },
-      {
-        "version": "01.00.06",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "19406",
     "slug": "opie",
     "name": "OPie\u200b",
@@ -4379,10 +4399,10 @@
     "name": "Pawn",
     "description": "Pawn helps you compare items and find upgrades.",
     "url": "https://www.curseforge.com/wow/addons/pawn",
-    "download_url": "https://edge.forgecdn.net/files/3329/109/Pawn-2.5.8.zip",
-    "date_published": "2021-05-29T06:39:03.707000+00:00",
-    "version": "2.5.8",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3329109/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3343/48/Pawn-2.5.15.zip",
+    "date_published": "2021-06-08T05:24:00.330000+00:00",
+    "version": "2.5.15",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3343048/changelog",
     "folders": [
       {
         "name": "Pawn"
@@ -4393,6 +4413,18 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.5.15",
+        "install_time": "2021-06-08T12:12:02+00:00"
+      },
+      {
+        "version": "2.5.11",
+        "install_time": "2021-06-03T09:09:19+00:00"
+      },
+      {
+        "version": "2.5.9",
+        "install_time": "2021-06-01T04:24:47+00:00"
+      },
       {
         "version": "2.5.8",
         "install_time": "2021-05-30T04:58:17+00:00"
@@ -4518,10 +4550,10 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3323/362/Plater-v330-Retail.zip",
-    "date_published": "2021-05-24T18:57:43.970000+00:00",
-    "version": "Plater-v330",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100547/file/3323362/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3338/94/Plater-v331.1-Retail.zip",
+    "date_published": "2021-06-04T20:13:42.117000+00:00",
+    "version": "Plater-v331.1",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100547/file/3338094/changelog",
     "folders": [
       {
         "name": "Plater"
@@ -4532,6 +4564,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v331.1",
+        "install_time": "2021-06-08T12:12:02+00:00"
+      },
       {
         "version": "Plater-v330",
         "install_time": "2021-05-27T04:36:20+00:00"
@@ -5439,138 +5475,6 @@
   },
   {
     "source": "curse",
-    "id": "304762",
-    "slug": "tomcats-tours-hallows-end",
-    "name": "TomCat's Tours: Hallow's End (Candy Buckets / Tricky Treats)",
-    "description": "Map icons and objectives tracking for Hallow's End",
-    "url": "https://www.curseforge.com/wow/addons/tomcats-tours-hallows-end",
-    "download_url": "https://edge.forgecdn.net/files/3120/323/TomCats-HallowsEnd[retail]-1.99.99.zip",
-    "date_published": "2020-11-23T02:05:22.700000+00:00",
-    "version": "1.99.99",
-    "changelog_url": "data:,",
-    "folders": [
-      {
-        "name": "TomCats-HallowsEnd"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "1.99.99",
-        "install_time": "2020-11-23T02:52:33+00:00"
-      },
-      {
-        "version": "01.06.10",
-        "install_time": "2020-11-05T11:54:48+00:00"
-      },
-      {
-        "version": "01.06.07",
-        "install_time": "2020-11-03T14:01:50+00:00"
-      },
-      {
-        "version": "01.06.06",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "313948",
-    "slug": "tomcats-tours-love-is-in-the-air",
-    "name": "TomCat's Tours: Love is in the Air",
-    "description": "TomCat's Tours: Love is in the Air",
-    "url": "https://www.curseforge.com/wow/addons/tomcats-tours-love-is-in-the-air",
-    "download_url": "https://edge.forgecdn.net/files/3120/324/TomCats-LoveIsInTheAir[retail]-1.99.99.zip",
-    "date_published": "2020-11-23T02:05:44.190000+00:00",
-    "version": "1.99.99",
-    "changelog_url": "data:,",
-    "folders": [
-      {
-        "name": "TomCats-LoveIsInTheAir"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "1.99.99",
-        "install_time": "2020-11-23T02:52:33+00:00"
-      },
-      {
-        "version": "01.00.18",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "310332",
-    "slug": "tomcats-tours-lunar-festival",
-    "name": "TomCat's Tours: Lunar Festival (Insta-Looting and Advanced Maps)",
-    "description": "TomCat's Tours: Lunar Festival makes it quick and easy to collect your coins of ancestry",
-    "url": "https://www.curseforge.com/wow/addons/tomcats-tours-lunar-festival",
-    "download_url": "https://edge.forgecdn.net/files/3120/325/TomCats-LunarFestival[retail]-1.99.99.zip",
-    "date_published": "2020-11-23T02:06:11.840000+00:00",
-    "version": "1.99.99",
-    "changelog_url": "data:,",
-    "folders": [
-      {
-        "name": "TomCats-LunarFestival"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "1.99.99",
-        "install_time": "2020-11-23T02:52:33+00:00"
-      },
-      {
-        "version": "01.00.26",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "308336",
-    "slug": "tomcats-tours-warfronts-command-center",
-    "name": "TomCat's Tours: Warfronts Command Center",
-    "description": "Open the Warfronts table from anywhere and add your other TomCat's Tours of the Warfronts Rares addons to it",
-    "url": "https://www.curseforge.com/wow/addons/tomcats-tours-warfronts-command-center",
-    "download_url": "https://edge.forgecdn.net/files/3120/327/TomCats-WarfrontsCommandCenter[retail]-1.99.99.zip",
-    "date_published": "2020-11-23T02:06:59.300000+00:00",
-    "version": "1.99.99",
-    "changelog_url": "data:,",
-    "folders": [
-      {
-        "name": "TomCats-WarfrontsCommandCenter"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "1.99.99",
-        "install_time": "2020-11-23T02:52:34+00:00"
-      },
-      {
-        "version": "v1.2.8-retail",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "18808",
     "slug": "tomtom",
     "name": "TomTom",
@@ -5619,10 +5523,10 @@
     "name": "TradeSkillMaster",
     "description": "Powerful addon to help you make gold from crafting to selling on the auction house to buying vendor items and much more!",
     "url": "https://www.curseforge.com/wow/addons/tradeskill-master",
-    "download_url": "https://edge.forgecdn.net/files/3328/847/TradeSkillMaster_v4.10.40.zip",
-    "date_published": "2021-05-28T23:58:41.870000+00:00",
-    "version": "v4.10.40",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26886/file/3328847/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3341/28/TradeSkillMaster_v4.10.42.zip",
+    "date_published": "2021-06-06T16:07:54.167000+00:00",
+    "version": "v4.10.42",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26886/file/3341028/changelog",
     "folders": [
       {
         "name": "TradeSkillMaster"
@@ -5633,6 +5537,14 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.10.42",
+        "install_time": "2021-06-08T12:12:02+00:00"
+      },
+      {
+        "version": "v4.10.41",
+        "install_time": "2021-06-03T09:09:19+00:00"
+      },
       {
         "version": "v4.10.40",
         "install_time": "2021-05-30T04:58:17+00:00"
@@ -5728,10 +5640,10 @@
     "name": "VuhDo",
     "description": "Raid Frames providing click-heal functionality, buff and debuff control, main tank management and much more.",
     "url": "https://www.curseforge.com/wow/addons/vuhdo",
-    "download_url": "https://edge.forgecdn.net/files/3305/530/VuhDo-v3.123.zip",
-    "date_published": "2021-05-11T05:39:07.847000+00:00",
-    "version": "v3.123",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/7950/file/3305530/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3334/413/VuhDo-v3.124.zip",
+    "date_published": "2021-06-01T23:23:21.203000+00:00",
+    "version": "v3.124",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/7950/file/3334413/changelog",
     "folders": [
       {
         "name": "VuhDo"
@@ -5745,6 +5657,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.124",
+        "install_time": "2021-06-03T09:09:20+00:00"
+      },
       {
         "version": "v3.123",
         "install_time": "2021-05-23T13:51:35+00:00"
@@ -5873,10 +5789,10 @@
     "name": "Wholly",
     "description": "Shows quests in zones and puts pins on maps where quest givers are.",
     "url": "https://www.curseforge.com/wow/addons/wholly",
-    "download_url": "https://edge.forgecdn.net/files/3175/426/Wholly-082.zip",
-    "date_published": "2021-01-20T22:26:24.667000+00:00",
-    "version": "082",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3334/219/Wholly-083.zip",
+    "date_published": "2021-06-01T21:14:28.590000+00:00",
+    "version": "083",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/30118/file/3334219/changelog",
     "folders": [
       {
         "name": "Wholly"
@@ -5887,6 +5803,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "083",
+        "install_time": "2021-06-03T09:09:20+00:00"
+      },
       {
         "version": "082",
         "install_time": "2021-02-14T14:50:29+00:00"

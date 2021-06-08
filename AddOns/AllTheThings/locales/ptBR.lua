@@ -87,6 +87,7 @@ local L = app.L;
 	--TODO: L.COMPLETED_YEARLY = "This can be completed yearly.";
 	--TODO: L.COMPLETED_MULTIPLE = "This can be repeated multiple times.";
 	--TODO: L.CRITERIA_FOR = "Criteria for";
+	--TODO: L.CURRENCY_FOR = "Currency for";
 	--TODO: L.LOOT_TABLE_CHANCE = "Loot Table Chance";
 	--TODO: L.BEST_BONUS_ROLL_CHANCE = "Best Bonus Roll Chance";
 	--TODO: L.BEST_PERSONAL_LOOT_CHANCE = "Best Personal Loot Chance";
@@ -222,6 +223,8 @@ local L = app.L;
 	--TODO: L.TOP_ROW_TO_LOCK = "|cff3399ffAlt + Click to Lock this Window";
 	--TODO: L.TOP_ROW_TO_UNLOCK = "|cffcf0000Alt + Click to Unlock this Window";
 	--TODO: L.QUEST_ROW_INSTRUCTIONS = "Right Click to see any Quest Chain Requirements";
+	--TODO: L.QUEST_ONCE_PER_ACCOUNT = "Once-Per-Account Quest";
+	--TODO: L.QUEST_ONCE_PER_ACCOUNT_FORMAT = "Completed By: %s";
 
 -- Settings.lua
 	-- General tab
@@ -252,6 +255,7 @@ local L = app.L;
 		--TODO: L.MAIN_ONLY_MODE_TOOLTIP = "Turn this setting on if you additionally want ATT to *pretend* that you've earned all shared appearances not locked by a different race or class.\n\nAs an example, if you have collected a Hunter-Only Tier Piece from ICC and there is a shared appearance from the raid without class/race restrictions, ATT will *pretend* that you've earned that source of the appearance as well.\n\nNOTE: Switching to a different race/class will incorrectly report that you've earned appearance sources that you haven't collected for that new chararacter when unlocked in this way.";
 		--TODO: L.ACCOUNT_MODE = "|Cff00ab00Account Mode|r (All)";
 		--TODO: L.ACCOUNT_MODE_TOOLTIP = "Turn this setting on if you want to track all of the Things for all of your characters regardless of class and race filters.\n\nUnobtainable filters still apply.";
+		--TODO: L.FACTION_MODE = "Only Current Faction";
 		--TODO: L.FACTION_MODE_TOOLTIP = "Turn this setting on if you want to see Account Mode data only for races and classes of your current faction.";
 		--TODO: L.PRECISION_SLIDER = "Level of Precision for Percentage";
 		--TODO: L.PRECISION_SLIDER_TOOLTIP = 'Use this to customize your desired level of precision in percentage calculations.\n\nDefault: 2';
@@ -346,8 +350,9 @@ local L = app.L;
 		--TODO: L.ALL_BUTTON_TOOLTIP = "Click this button to enable all equipment filters at once.";
 		--TODO: L.UNCHECK_ALL_BUTTON = "Uncheck All";
 		--TODO: L.UNCHECK_ALL_BUTTON_TOOLTIP = "Click this button to disable all equipment filters at once.";
-		--TODO: L.LEGACY_FILTERS_LABEL = "Legacy / Unobtainable Filters";
-		--TODO: L.LEGACY_FILTERS_TEMP_LABEL = "|CFFFFFFFFI'm going to completely rework how our Legacy, Unobtainable, and Seasonal filters work.\n\nComing Soon™.|r";
+		--TODO: L.CUSTOM_FILTERS_LABEL = "Automatic Filters";
+		--TODO: L.CUSTOM_FILTERS_EXPLAIN_LABEL = "|CFFFFFFFFThese filters are automatically applied based on your current character, but may be overridden by being checked, allowing you to see additional Things your character cannot currently collect.\nNone of these filters are ever enabled in Account or Debug modes regardless of the selections below.|r";
+		--TODO: L.CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT = "Enable this setting to forcibly show %s content even if it is not available to the current character.";
 
 	-- Unobtainables tab
 		--TODO: L.UNOBTAINABLES_TAB = "Unobtainables";
@@ -467,8 +472,8 @@ local L = app.L;
 
 	-- About tab
 		--TODO: L.ABOUT = "About";
-		--TODO: L.ABOUT_1 = " |CFFFFFFFFis a collection tracking addon that shows you where and how to get everything in the game! We have a large community of users on our Discord (link at the bottom) where you can ask questions, submit suggestions as well as report bugs or missing items. If you find something collectible or a quest that isn't documented, you can tell us on the Discord, or for the more technical savvy, we have a Git that you may contribute directly to.\n\nWhile we do strive for completion, there's a lot of stuff getting added into the game each patch, so if we're missing something, please understand that we're a small team trying to keep up with changes as well as collect things ourselves. :D\n\nFeel free to ask me questions when I'm streaming and I'll try my best to answer it, even if it's not directly related to ATT (general WoW addon programming as well).\n\n- |r|Cffff8000Crieve|CFFFFFFFF\n\nPS: Check out All The Things Classic!\n\nYes, I intend to play Classic WoW, but between working full time and developing the two versions of the addon, there won't be a lot of time for raiding.\n\nNo, ATT is not the addon that places icons on your bag icons. That's CanIMogIt and Caerdon Wardrobe!\n\nWebsite for comparing Collections coming Soon™.|r";
-		--TODO: L.ABOUT_2 = "Additional Contributors: |CFFFFFFFF(in order of joining the team)\nDaktar, Lucetia, Slumber, Gold, Avella, Aiue, Dead Serious, Oiche, Oxlotus, Eiltherune, Blueyleader, Iyanden, Pr3vention, BigBlaris, Talonzor, Heallie, Eckhardt, Boohyaka, Sadidorf, Sanctuari, Molkree, Runawaynow and the rest of the ALL THE THINGS Discord!\n\nSpecial Shoutout to AmiYuy (CanIMogIt) and Caerdon (Caerdon Wardrobe).|r  ";
+		--TODO: L.ABOUT_1 = " |CFFFFFFFFis a collection tracking addon that shows you where and how to get everything in the game! We have a large community of users on our Discord (link at the bottom) where you can ask questions, submit suggestions as well as report bugs or missing items. If you find something collectible or a quest that isn't documented, you can tell us on the Discord, or for the more technical savvy, we have a Git that you may contribute directly to.\n\nWhile we do strive for completion, there's a lot of stuff getting added into the game each patch, so if we're missing something, please understand that we're a small team trying to keep up with changes as well as collect things ourselves. :D\n\nFeel free to ask me questions when I'm streaming and I'll try my best to answer it, even if it's not directly related to ATT (general WoW addon programming as well).\n\n- |r|Cffff8000Crieve|CFFFFFFFF\n\nPS: Check out All The Things Classic and TBC Classic!\n\nYes, I intend to play Classic WoW, but between working full time and developing the two versions of the addon, there won't be a lot of time for raiding.\n\nNo, ATT is not the addon that places icons on your bag icons. That's CanIMogIt and Caerdon Wardrobe!\n\nFor online collection comparing check out DataForAzeroth.com from shoogen!|r";
+		--TODO: L.ABOUT_2 = "Additional Contributors: |CFFFFFFFF(in no particular order)\nDaktar, Lucetia, Slumber, Gold, Avella, Aiue, Dead Serious, Oiche, Oxlotus, Eiltherune, Blueyleader, Iyanden, Pr3vention, BigBlaris, Talonzor, Mogwai, Heallie, Eckhardt, Boohyaka, Sadidorf, Sanctuari, Molkree, Runawaynow and the rest of the ALL THE THINGS Discord!\n\nSpecial Shoutout to AmiYuy (CanIMogIt) and Caerdon (Caerdon Wardrobe).|r  ";
 		--TODO: L.ABOUT_3 = "\n|CFFFFFFFFYou should absolutely download their addons to get the collection icons on items in your bags!|r";
 
 	-- Binding Localizations
@@ -534,7 +539,9 @@ for key,value in pairs({
 		--TODO: ["Expansion Pre"] = "Pre",
 		--TODO: ["Expansion Features"] = "EF",
 		--TODO: ["Dungeons & Raids"] = "D&R",
+		--TODO: ["The Burning Crusade"] = "BC",
 		--TODO: ["Burning Crusade"] = "BC",
+		--TODO: ["The BC"] = "BC",
 		--TODO: ["Wrath of the Lich King"] = "WotLK",
 		--TODO: ["Cataclysm"] = "Cata",
 		--TODO: ["Mists of Pandaria"] = "MoP",
@@ -739,6 +746,8 @@ for key,value in pairs({
 		--TODO: [-650] = "Quest Items",								-- Quest Items
 
 	-- PvP Header
+		-- Special Season Tags
+			--TODO: [-655] = "Ensemble Gear", 						-- Ensemble Gear (PvP)
 		-- PvP Set Names
 			--TODO: [-659] = "Aspirant Gear",						-- Aspirant PvP Gear (WoD, BfA)
 			--TODO: [-660] = "Combatant Gear",						-- Combatant PvP Gear (WoD, Legion)
@@ -749,6 +758,7 @@ for key,value in pairs({
 			--TODO: [-663] = "Classic Pre-Season Gear",				-- Classic Pre-Season PvP Gear (need a icon)
 
 		-- The Burning Crusade PvP Seasons
+			--TODO: [-658] = "BC Pre-Season",						-- Pre-Season (PvP BC)
 			--TODO: [-664] = select(2, GetAchievementInfo(2091))..": Season 1",-- Gladiator: Season 1
 			--TODO: [-665] = select(2, GetAchievementInfo(418))..": Season 2",-- Merciless Gladiator: Season 2
 			--TODO: [-666] = select(2, GetAchievementInfo(419))..": Season 3",-- Vengeful Gladiator: Season 3
@@ -756,18 +766,24 @@ for key,value in pairs({
 
 		-- Wrath of the Lich-King PvP Seasons
 			--TODO: [-668] = select(2, GetAchievementInfo(3336))..": Season 5",-- Deadly Gladiator: Season 5
+			--TODO: [-657] = "Hateful Gladiator",					-- Hateful Gladiator: Season 5 ("medium pvp gear")
 			--TODO: [-669] = select(2, GetAchievementInfo(3436))..": Season 6",-- Furious Gladiator: Season 6
 			--TODO: [-670] = select(2, GetAchievementInfo(3758))..": Season 7",-- Relentless Gladiator: Season 7
 			--TODO: [-671] = select(2, GetAchievementInfo(4599))..": Season 8",-- Wrathful Gladiator: Season 8
 
 		-- Cataclysm PvP Seasons
 			--TODO: [-672] = select(2, GetAchievementInfo(6002))..": Season 9",-- Vicious Gladiator: Season 9
+			--TODO: [-656] = "Honor Gear Ruthless Season",			-- Honor Gear Ruthless Season
 			--TODO: [-673] = select(2, GetAchievementInfo(6124))..": Season 10",-- Ruthless Gladiator: Season 10
+			--TODO: [-654] = "Honor Gear Cataclysmic Season",		-- Honor Gear Cataclysmic Season
 			--TODO: [-674] = select(2, GetAchievementInfo(6938))..": Season 11",-- Cataclysmic Gladiator: Season 11
 
 		-- Mists of Pandaria PvP Seasons
 			--TODO: [-675] = select(2, GetAchievementInfo(8214))..": Season 12",-- Malevolent Gladiator: Season 12
+			--TODO: [-653] = "Honor Gear Tyrannical Season",		-- Honor Gear Tyrannical Season
 			--TODO: [-676] = select(2, GetAchievementInfo(8791))..": Season 13",-- Tyrannical Gladiator: Season 13
+			--TODO: [-652] = "Honor Gear Grievous Season",			-- Honor Gear Grievous Season
+			--TODO: [-651] = "Honor Gear Prideful Season",			-- Honor Gear Prideful Season
 
 	[-799] = "Fardo da Eternidade",									-- Burden of Eternity
 
@@ -780,6 +796,7 @@ for key,value in pairs({
 		--TODO: [-850] = "Mechanized Chest",						-- Mechanized Chest
 		--TODO: [-851] = "Irontide Chest",							-- Irontide Chest
 
+	-- 8.2 Neck Stuff
 		--TODO: [-852] = "Azerite Essences",						-- Azerite Essences
 		--TODO: [-853] = "All Roles",								-- All Roles
 		--TODO: [-854] = "DPS",										-- DPS
@@ -991,7 +1008,6 @@ for key,value in pairs({
 
 	-- PvP Sets
 	-- Note: Some of these may go away once I check as I think I am localizing with gear sets, but leave for now
-		--TODO: [-4190] = "Pre-Season",
 		--TODO: [-4191] = "Tournament",
 	-- Tier/Dungeon/Event/Holiday Sets
 		-- Artifact Strings
@@ -1098,7 +1114,7 @@ for key,value in pairs({
 })
 do a[key] = value; end
 
-local a = L.OBJECT_ID_NAMES;
+local a = app.ObjectNames;
 for key,value in pairs({
 	[31] = "Estátua de Leão Antiga",	-- Old Lion Statue
 	[55] = "Corpo semi-devorado",	-- A half-eaten body
@@ -1109,7 +1125,6 @@ for key,value in pairs({
 	[261] = "Caixote Danificado",	-- Damaged Crate
 	[270] = "Barril de Cerveja do Trovão Desprotegido",	-- Unguarded Thunder Ale Barrel	--TODO: This was taken from classic Wowhead
 	[711] = "Procura-se!",	-- Wanted!	--TODO: This was taken from classic Wowhead
-	--TODO: [908] = "",	--
 	[1593] = "Barco Cheio de Cadáveres",	-- Corpse Laden Boat	--TODO: This was taken from classic Wowhead
 	[1599] = "Cova Rasa",	-- Shallow Grave	--TODO: This was taken from classic Wowhead
 	[1627] = "Caixote de Dalaran",	-- Dalaran Crate
@@ -1123,17 +1138,14 @@ for key,value in pairs({
 	[2701] = "Fragmentos Iridescentes",	-- Iridescent Shards
 	[2702] = "Pedra da União Interna",	-- Stone of Inner Binding
 	[2703] = "Tumba de Matatroll",	-- Trollbane's Tomb	--TODO: This was taken from classic Wowhead
-	--TODO: [2706] = "",	--
 	[2713] = "Quadro de Procurados",	-- Wanted Board
+	[2908] = "Caixote de Suprimentos Lacrado",	-- Sealed Supply Crate
 	[3238] = "Barril Vazio do Chen",	-- Chen's Empty Keg	--TODO: This was taken from classic Wowhead
 	[3972] = "PROCURA-SE",	-- WANTED
 	[4141] = "Painel de Controle",	-- Control Console
 	[6751] = "Planta Frutífera Estranha",	-- Strange Fruited Plant
 	[6752] = "Planta Frondosa Estranha",	-- Strange Fronded Plant
 	[7510] = "Fronde Desenvolvida",	-- Sprouted Frond
-	--TODO: [10879] = "",	--
-	--TODO: [10880] = "",	--
-	--TODO: [10881] = "",	--
 	[19023] = "|cFFFFFFFFStep 7:|r Página 2351",	-- |cFFFFFFFFStep 7:|r Page 2351
 	[20805] = "Projeto Desprotegido do Rebu",	-- Rizzle's Unguarded Plans	--TODO: This was taken from classic Wowhead
 	[20985] = "Terra Solta",	-- Loose Dirt
@@ -1764,7 +1776,6 @@ for key,value in pairs({
 	[233137] = "Baú da Lâmina Ardente",	-- Burning Blade Cache
 	[233139] = "Baú Titânico Antigo",	-- Ancient Titan Chest
 	[233149] = "Tesouro Gargaveira",	-- Laughing Skull Cache
-	[233157] = "Vitalidade de Abu'gar",	-- Abu'gar's Vitality
 	[233206] = "Carga Abandonada",	-- Abandoned Cargo
 	[233218] = "Kit do Aventureiro",	-- Adventurer's Pack
 	[233241] = "Cogumelo da Caverna Brilhante",	-- Glowing Cave Mushroom
@@ -1777,7 +1788,6 @@ for key,value in pairs({
 	[233501] = "Vagem Petrificada Misteriosa",	-- Mysterious Petrified Pod
 	[233504] = "Restos de Grimnir Cinzafura",	-- Remains of Grimnir Ashpick
 	[233505] = "Ovo Petrificado Desconhecido",	-- Unknown Petrified Egg
-	[233506] = "Molinete Perdido de Abu'Gar",	-- Abu'gar's Missing Reel
 	[233507] = "Depósito Ôgrico Esquecido",	-- Forgotten Ogre Cache
 	[233511] = "Kit do Aventureiro",	-- Adventurer's Pack
 	[233513] = "Depósito da Caveira Esquecido",	-- Forgotten Skull Cache
@@ -1807,7 +1817,6 @@ for key,value in pairs({
 	[233623] = "Bolsa do Aventureiro",	-- Adventurer's Pouch
 	[233626] = "Pilha de Ossos de Bocaina Velha",	-- Grizzlemaw's Bonepile
 	[233633] = "Pilha de Lenha Não Utilizada",	-- Unused Wood Pile
-	[233642] = "Isca Preferida de Abu'Gar",	-- Abu'Gar's Favorite Lure
 	[233645] = "Elmo do Brado Guerreiro",	-- Warsong Helm
 	[233650] = "Maça do Aventureiro",	-- Adventurer's Mace
 	[233651] = "Pingente Perdido",	-- Lost Pendant
@@ -2205,6 +2214,7 @@ for key,value in pairs({
 	[251857] = "Baú do Tesouro",	-- Treasure Chest
 	[251991] = "A Égide de Aggramar",	-- The Aegis of Aggramar
 	[252107] = "Sinalizador de Telemancia Desernegizado",	-- Unpowered Telemancy Beacon
+	[252232] = "Incunábulo de Aponi",	-- Aponi's Libram
 	[252258] = "Fonte do Meridiano",	-- Leyline Feed
 	[252259] = "Fonte do Meridiano",	-- Leyline Feed
 	[252260] = "Fonte do Meridiano",	-- Leyline Feed
@@ -2280,12 +2290,7 @@ for key,value in pairs({
 	[252882] = "Baú do Tesouro",	-- Treasure Chest
 	[252883] = "Baú do Tesouro",	-- Treasure Chest
 	[252884] = "Baú do Tesouro Luzente",	-- Glimmering Treasure Chest
-	[253118] = "Flores do Bosque Onírico",	-- Dreamgrove Blossoms
-	[253157] = "Frutinhas Espirituais",	-- Spirit Berries
 	[253161] = "Vinha do Bosque",	-- Grove Vine
-	[253176] = "Flores de G'Hanir",	-- G'Hanir Blossoms
-	[253179] = "Helianto",	-- Sunblossom
-	[253181] = "Caulespinho",	-- Thornstalk
 	[253280] = "Estrato de Pedra de Meridiano",	-- Leystone Seam
 	[253994] = "Tesouro Aparentemente Desprotegido",	-- Seemingly Unguarded Treasure
 	[254007] = "Altar do Carrasco",	-- Executioner's Altar
@@ -2293,7 +2298,6 @@ for key,value in pairs({
 	[254025] = "Baú do Tesouro Pequeno",	-- Small Treasure Chest
 	[254027] = "Baú do Tesouro Pequeno",	-- Small Treasure Chest
 	[254028] = "Baú do Tesouro Pequeno",	-- Small Treasure Chest
-	[254087] = "Os Alfanjes do Terror",	-- The Dreadblades
 	[254126] = "Baú do Tesouro Pequeno",	-- Small Treasure Chest
 	[254127] = "Baú do Tesouro Pequeno",	-- Small Treasure Chest
 	[254128] = "Baú do Tesouro",	-- Treasure Chest
@@ -2364,7 +2368,6 @@ for key,value in pairs({
 	[273538] = "Suprimentos de Guerra da Legião",	-- Legion War Supplies
 	[273814] = "Amuleto Laminado",	-- Bladed Charm
 	[273854] = "Mochila",	-- Backpack
-	--TODO: [275059] = "",	--
 	[276187] = "Junji",	-- Junji
 	[276223] = "Baú do Tesouro Eredar",	-- Eredar Treasure Cache
 	[276224] = "Baú dos Ganhos Desonestos",	-- Chest of Ill-Gotten Gains
@@ -2426,16 +2429,6 @@ for key,value in pairs({
 	[280619] = "Baú Férreo Antigo",	-- Old Ironbound Chest
 	[280727] = "Bilhete Chamuscado",	-- Charred Note
 	--TODO: [280755] = "Quintin's Satchel",	-- Quintin's Satchel
-	[280815] = "|cFFFFFFFFStep 1:|r Carta da Srta. Graham I",	-- |cFFFFFFFFStep 1:|r Letter from Ms. Graham I
-	[280836] = "|cFFFFFFFFStep 2:|r Carta da Srta. Graham II",	-- |cFFFFFFFFStep 2:|r Letter from Ms. Graham II
-	[280837] = "|cFFFFFFFFStep 3:|r Carta da Srta. Graham III",	-- |cFFFFFFFFStep 3:|r Letter from Ms. Graham III
-	[280838] = "|cFFFFFFFFStep 4:|r Carta da Srta. Graham IV",	-- |cFFFFFFFFStep 4:|r Letter from Ms. Graham IV
-	[280842] = "|cFFFFFFFFStep 5:|r Carta da Srta. Graham V",	-- |cFFFFFFFFStep 5:|r Letter from Ms. Graham V
-	[280843] = "|cFFFFFFFFStep 6:|r Carta da Srta. Graham VI",	-- |cFFFFFFFFStep 6:|r Letter from Ms. Graham VI
-	[280844] = "|cFFFFFFFFStep 7:|r Carta da Srta. Graham VII",	-- |cFFFFFFFFStep 7:|r Letter from Ms. Graham VII
-	[280845] = "|cFFFFFFFFStep 8:|r Presente da Srta. Graham",	-- |cFFFFFFFFStep 8:|r Gift for Ms. Graham
-	--TODO: [280883] = "Sun-Worn Chest",	-- Sun-Worn Chest
-	--TODO: [280886] = "Star-Touched Chest",	-- Star-Touched Chest
 	[280951] = "Espólios de Grimpagris",	-- Ashvane Spoils
 	--TODO: [280957] = "Zukashi's Satchel",	-- Zukashi's Satchel
 	[281092] = "Tesouro do Mandingueiro",	-- Witch Doctor's Hoard
@@ -2511,6 +2504,7 @@ for key,value in pairs({
 	[292686] = "Altar Agourento",	-- Ominous Altar
 	[292812] = "Safira Amaraina",	-- Sapphire Amaraina
 	[292823] = "Ira de Krag'wa",	-- Krag'wa's Ire
+	[292825] = "Flor-pétrea",	-- Stonebloom
 	[293349] = "Marmita Descartada",	-- Discarded Lunchbox
 	[293350] = "Baú de Madeira Entalhado",	-- Carved Wooden Chest
 	[293568] = "Cartaz de Procura-se",	-- Wanted Poster
@@ -2947,84 +2941,11 @@ for key,value in pairs({
 	--TODO: [9999921] = "Placement",	-- Placement
 	--TODO: [9999938] = "Uuna's World Tour",	-- Uuna's World Tour
 	--TODO: [9999946] = "Summon Baa'l",	-- Summon Baa'l
-	--TODO: [9999972] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999973] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999974] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999978] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999979] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999980] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999985] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999986] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999987] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999988] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999989] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [9999990] = "Treasure Chest",	-- Treasure Chest
-	--TODO: [10000000] = "Amathet Reliquary",	-- Amathet Reliquary
-	--TODO: [10000001] = "Amathet Reliquary",	-- Amathet Reliquary
-	--TODO: [11000000] = "Amathet Cache",	-- Amathet Cache
-	--TODO: [11000001] = "Amathet Cache",	-- Amathet Cache
-	--TODO: [11000002] = "Amathet Cache",	-- Amathet Cache
-	--TODO: [11000003] = "Amathet Cache",	-- Amathet Cache
-	--TODO: [11000004] = "Amathet Cache",	-- Amathet Cache
-	--TODO: [12000000] = "Black Empire Cache",	-- Black Empire Cache
-	--TODO: [12000001] = "Black Empire Cache",	-- Black Empire Cache
-	--TODO: [12000002] = "Black Empire Cache",	-- Black Empire Cache
-	--TODO: [12000003] = "Black Empire Cache",	-- Black Empire Cache
-	--TODO: [12000004] = "Black Empire Cache",	-- Black Empire Cache
-	--TODO: [12000005] = "Black Empire Cache",	-- Black Empire Cache
-	--TODO: [13000000] = "|cFFFFFFFFStep 1:|r Purchase Talisman of True Treasure Tracking",	-- |cFFFFFFFFStep 1:|r Purchase Talisman of True Treasure Tracking
-	--TODO: [13000001] = "|cFFFFFFFFStep 2:|r Equip Talisman",	-- |cFFFFFFFFStep 2:|r Equip Talisman
-	--TODO: [13000002] = "|cFFFFFFFFItem 1:|r Scintillating Murloc Skin Lotion",	-- |cFFFFFFFFItem 1:|r Scintillating Murloc Skin Lotion
-	--TODO: [13000003] = "Glittergill Glitter",	-- Glittergill Glitter
-	--TODO: [13000004] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
-	--TODO: [13000005] = "|cFFFFFFFFStep 2:|r Cavity-Free Great Shark Tooth",	-- |cFFFFFFFFStep 2:|r Cavity-Free Great Shark Tooth
-	--TODO: [13000006] = "|cFFFFFFFFStep 3:|r Razoreel Larva",	-- |cFFFFFFFFStep 3:|r Razoreel Larva
-	--TODO: [13000007] = "|cFFFFFFFFStep 4:|r Well-Fed Doctor Fish",	-- |cFFFFFFFFStep 4:|r Well-Fed Doctor Fish
-	--TODO: [13000008] = "|cFFFFFFFFStep 5:|r Freshly Molted Crab Skin",	-- |cFFFFFFFFStep 5:|r Freshly Molted Crab Skin
-	--TODO: [13000009] = "|cFFFFFFFFStep 6:|r Glittergill Glitter",	-- |cFFFFFFFFStep 6:|r Glittergill Glitter
-	--TODO: [13000010] = "Symbiotic Plankton",	-- Symbiotic Plankton
-	--TODO: [13000011] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
-	--TODO: [13000012] = "|cFFFFFFFFStep 2:|r Giant Giant Toenail Clipping",	-- |cFFFFFFFFStep 2:|r Giant Giant Toenail Clipping
-	--TODO: [13000013] = "|cFFFFFFFFStep 3:|r Makrura Eye",	-- |cFFFFFFFFStep 3:|r Makrura Eye
-	--TODO: [13000014] = "|cFFFFFFFFStep 4:|r Accidentally-Severed Seahorse Fin",	-- |cFFFFFFFFStep 4:|r Accidentally-Severed Seahorse Fin
-	--TODO: [13000015] = "|cFFFFFFFFStep 5:|r Shiny Sea Serpent Scale",	-- |cFFFFFFFFStep 5:|r Shiny Sea Serpent Scale
-	--TODO: [13000016] = "|cFFFFFFFFStep 6:|r Symbiotic Plankton",	-- |cFFFFFFFFStep 6:|r Symbiotic Plankton
-	--TODO: [13000017] = "Scintillating Murloc Skin Lotion",	-- Scintillating Murloc Skin Lotion
-	--TODO: [13000018] = "|cFFFFFFFFItem 2:|r Potent Gastropod Gloop",	-- |cFFFFFFFFItem 2:|r Potent Gastropod Gloop
-	--TODO: [13000019] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
-	--TODO: [13000020] = "|cFFFFFFFFStep 2:|r Vantus Black Squid Ink",	-- |cFFFFFFFFStep 2:|r Vantus Black Squid Ink
-	--TODO: [13000021] = "|cFFFFFFFFStep 3:|r Super Slick Eel Slime",	-- |cFFFFFFFFStep 3:|r Super Slick Eel Slime
-	--TODO: [13000022] = "|cFFFFFFFFStep 4:|r Rock-Encrusted Whelk Shell",	-- |cFFFFFFFFStep 4:|r Rock-Encrusted Whelk Shell
-	--TODO: [13000023] = "|cFFFFFFFFStep 5:|r Potent Gastropod Gloop",	-- |cFFFFFFFFStep 5:|r Potent Gastropod Gloop
-	--TODO: [13000024] = "|cFFFFFFFFItem 3:|r Captured Cavitation Bubble",	-- |cFFFFFFFFItem 3:|r Captured Cavitation Bubble
-	--TODO: [13000025] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
-	--TODO: [13000026] = "|cFFFFFFFFStep 2:|r Very Pretty Coral",	-- |cFFFFFFFFStep 2:|r Very Pretty Coral
-	--TODO: [13000027] = "|cFFFFFFFFStep 3:|r Iridescent Shimmerray Skin",	-- |cFFFFFFFFStep 3:|r Iridescent Shimmerray Skin
-	--TODO: [13000028] = "|cFFFFFFFFStep 4:|r Luxurous Luxscale Scale",	-- |cFFFFFFFFStep 4:|r Luxurous Luxscale Scale
-	--TODO: [13000029] = "|cFFFFFFFFStep 5:|r Captured Cavitation Bubble",	-- |cFFFFFFFFStep 5:|r Captured Cavitation Bubble
-	--TODO: [13000030] = "Purchase Red Crystal Monocle",	-- Purchase Red Crystal Monocle
-	--TODO: [13000031] = "Red Crystal Monocle",	-- Red Crystal Monocle
-	--TODO: [13000032] = "|cFFFFFFFFStep 3:|r Pick a Monocle (Or Don't!)",	-- |cFFFFFFFFStep 3:|r Pick a Monocle (Or Don't!)
 	--TODO: [1278968750] = "Hanging Chain",	-- Hanging Chain
 	--TODO: [1278968751] = "Lunarlight Pod",	-- Lunarlight Pod
-	--TODO: [1278968752] = "",	--
-	--TODO: [1278968753] = "",	--
-	--TODO: [1278968754] = "",	--
-	--TODO: [1278968755] = "",	--
-	--TODO: [1278968756] = "",	--
-	--TODO: [1278968757] = "",	--
-	--TODO: [1278968758] = "",	--
-	--TODO: [1278968759] = "",	--
-	--TODO: [1278968760] = "",	--
-	--TODO: [1278968761] = "",	--
-	--TODO: [1278968762] = "",	--
-	--TODO: [1278968763] = "",	--
-	--TODO: [1278968764] = "",	--
 	--TODO: [1278968766] = "Rune",	-- Rune
 	--TODO: [1278968767] = "Rune",	-- Rune
 	--TODO: [1278968768] = "Rune",	-- Rune
-	--TODO: [1278968769] = "",	--
-	--TODO: [1278968770] = "",	--
 })
 do a[key] = value; end
 
@@ -3075,7 +2996,7 @@ for key,value in pairs({
 		{3, "|CFFFF0000The source of this item has been removed and is only available with the Black Market Auction House.|r", "Black Market AH [BMAH] (9)"}, -- There is Hope -- 9
 		{3, "|CFFFF0000Item from TCG card is no longer in print, but still purchaseable online, sometimes BMAH, and possibly AH.|r", "Trading Card  Game [TCG] (10)"}, -- There is Hope -- 10
 		{3, "|CFFFF0000This item is Bind on Pickup but can be obtained if you have access to the items to summon the boss.|r", "Requires Summoning Items (11)"}, -- There is Hope -- 11
-		{0, "", ""}, -- 12
+		{3, "|CFFFF0000This item requires Player vs Player activities or a currency related to those activities. |r", "Requires PvP (12)"}, -- There is Hope --, ""}, -- 12
 		{1, "|CFFFF0000Your followers are too high and the mission for the cache will no longer spawn.|r", "Legacy Cache (13)"}, -- 13
 		{3, "|CFFFF0000These items can't be purchased unless you have the required PvP Rating or were in the Top % of that season.|r", "PvP Elite/Gladiator (14)"}, -- 14
 		{1, "|CFFFF0000This item has a Source ID (Tempest Keep Legendaries), but can't be learned (training recipes). |r", "Training Recipes / Unlearnable (15)"}, -- 15

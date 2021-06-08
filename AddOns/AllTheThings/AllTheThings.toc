@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Author: Crieve-Sargeras
-## Version: SL-2.3.1
+## Version: SL-2.3.2
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems, AllTheThingsArtifactsItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
@@ -13,9 +13,13 @@
 ## X-Wago-ID: yQKyY5K7
 
 src\base.lua
+db\Presets.lua
+db\CategoryDB.lua
+db\FlightPathDB.lua
+db\ObjectDB.lua
+db\RaceDB.lua
 locales\enUS.lua
 locales\esES.lua
-locales\esMX.lua
 locales\deDE.lua
 locales\frFR.lua
 locales\itIT.lua
@@ -23,9 +27,6 @@ locales\koKR.lua
 locales\ptBR.lua
 locales\ruRU.lua
 locales\zhCN.lua
-db\Presets.lua
 Settings.lua
 AllTheThings.lua
-db\FlightPathDB.lua
-db\RaceDB.lua
 db\Categories.lua
