@@ -62,8 +62,8 @@ if MODERN then -- mount: mount ID
 			curID, oldID = not hide and (not factionLocked or factionId == myFactionId) and sid ~= 0
 			               and have and RW:IsSpellCastable(sid) and mid or nil, mountMap[sid]
 			if oldID ~= curID then
-				local sname, srank, rname = GetSpellInfo(sid)
-				rname = (sname .. "(" .. (srank or "") .. ")") -- Paladin/Warlock/Death Knight horses have spell ranks
+				local sname, srank, rname = GetSpellInfo(sid), GetSpellSubtext(sid)
+				rname = sname .. "(" .. (srank or "") .. ")" -- Paladin/Warlock/Death Knight horses have spell ranks
 				changed, mountMap[sid], mountMap[sname], mountMap[sname:lower()], mountMap[rname], mountMap[rname:lower()] =
 					true, curID, curID, curID, curID, curID
 			end
@@ -816,6 +816,7 @@ if MODERN then -- toy: item ID, forceShow
 		[103685]=1, [115468]="[horde]", [115472]="[alliance]", [119160]="[horde]", [119182]="[alliance]",
 		[122283]=1, [142531]=1, [142532]=1,
 		[85500]="[fish5]",
+		[182773]="[coven:necro]", [184353]="[coven:kyrian]", [180290]="[coven:fae]", [183716]="[coven:venthyr]",
 	}
 	function toyHint(iid)
 		local _, name, icon = C_ToyBox.GetToyInfo(iid)

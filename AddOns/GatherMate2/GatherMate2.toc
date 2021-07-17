@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: kagaro, xinhuan, nevcairiel
-## Version: 1.46.7
+## Version: 1.46.8
 ## OptionalDeps: Ace3, LibDataBroker-1.1, HereBeDragons
 ## LoadManagers: AddonLoader
 ## SavedVariables: GatherMate2DB, GatherMate2HerbDB, GatherMate2MineDB, GatherMate2FishDB, GatherMate2GasDB, GatherMate2TreasureDB, GatherMate2ArchaeologyDB, GatherMate2LoggingDB
@@ -17,6 +17,9 @@
 ## X-LoadOn-Always: delayed
 ## X-Curse-Project-ID: 26120
 ## X-WoWI-ID: 21293
+
+#@no-lib-strip@
+#@end-no-lib-strip@
 
 Locales\GatherMate2-enUS.lua
 Locales\GatherMate2-esES.lua

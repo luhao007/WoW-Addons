@@ -45,6 +45,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [156644] = {
         name = "Sir Denathrius",
     },
+    [156688] = {
+        name = "Anfitrião Ta'rela",
+    },
     [156822] = {
         name = "Senhora Mihaela",
     },
@@ -935,6 +938,24 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [176100] = {
         name = "Iona Lâmina Celeste",
+    },
+    [177155] = {
+        name = "Escreve-caminhos Roh-Vess",
+    },
+    [177167] = {
+        name = "Baronesa Vashj",
+    },
+    [177194] = {
+        name = "O Prócer",
+    },
+    [177919] = {
+        name = "Mensagem Urgente de Ardena",
+    },
+    [178260] = {
+        name = "A Litorita",
+    },
+    [179356] = {
+        name = "Thênios",
     },
 })
 ]])()

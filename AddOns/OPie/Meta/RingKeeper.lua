@@ -484,7 +484,7 @@ local function RK_SyncRing(name, force, tok)
 			collection[e.sliceToken], collection[cn], cn = e._action, e.sliceToken, cn + 1
 			collection['__visibility-' .. e.sliceToken], e._show = e.show or nil, e.show
 			collection['__embed-' .. e.sliceToken], e._embed = e.embed, e.embed
-			ORI:SetDisplayOptions(e.sliceToken, e.icon, e.caption, e._r, e._g, e._b)
+			ORI:SetDisplayOptions(e.sliceToken, e.icon, nil, e._r, e._g, e._b)
 		end
 	end
 	collection['__embed'], desc._embed = desc.embed, desc.embed
@@ -699,6 +699,7 @@ function RingKeeper:GetRingSnapshot(name)
 			if v[1] == nil and type(v.id) == "string" then
 				v.id, first = encodeMacro(RK_QuantizeMacro(v.id, not first)), false
 			end
+			v.caption = nil -- DEPRECATED [2101/3.105/X4]
 			v.sliceToken = nil
 		end
 	end
@@ -713,7 +714,7 @@ function RingKeeper:GetSnapshotRing(snap)
 			if not v then
 				return
 			else
-				v.caption = type(v.caption) == "string" and v.caption:gsub("|?|", "||") or nil
+				v.caption = nil -- DEPRECATED [2101/3.105/X4]
 				if v[1] == nil and type(v.id) == "string" then
 					v.id = decodeMacro(v.id)
 				end

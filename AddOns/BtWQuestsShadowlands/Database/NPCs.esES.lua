@@ -27,6 +27,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [156634] = {
         name = "Reina del Invierno",
     },
+    [156688] = {
+        name = "Anfitrión Ta'rela",
+    },
     [156822] = {
         name = "Maestra Mihaela",
     },
@@ -734,6 +737,21 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [176100] = {
         name = "Iona Filo Celeste",
+    },
+    [177155] = {
+        name = "Escriba de caminos Roh-Vess",
+    },
+    [177167] = {
+        name = "Baronesa Vashj",
+    },
+    [177194] = {
+        name = "El Prelado",
+    },
+    [177919] = {
+        name = "Mensaje urgente de Ardenweald",
+    },
+    [178260] = {
+        name = "La Pedregosa",
     },
 })
 ]])()

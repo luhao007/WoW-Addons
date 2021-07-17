@@ -91,10 +91,10 @@
     "name": "DRList-1.0 (Diminishing Returns Data)",
     "description": "Library for crowd control diminishing return data.",
     "url": "https://www.curseforge.com/wow/addons/drlist-1-0",
-    "download_url": "https://edge.forgecdn.net/files/3294/171/DRList-1.0-v1.2.4.zip",
-    "date_published": "2021-04-30T19:06:03.183000+00:00",
-    "version": "v1.2.4",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/315757/file/3294171/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3373/261/DRList-1.0-v1.2.5.zip",
+    "date_published": "2021-07-01T23:28:23.880000+00:00",
+    "version": "v1.2.5",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/315757/file/3373261/changelog",
     "folders": [
       {
         "name": "DRList-1.0"
@@ -105,6 +105,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.2.5",
+        "install_time": "2021-07-17T04:48:21+00:00"
+      },
       {
         "version": "v1.2.4",
         "install_time": "2021-05-23T13:50:51+00:00"
@@ -206,6 +210,33 @@
       {
         "version": "2.04-release",
         "install_time": "2020-11-03T06:02:13+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "498471",
+    "slug": "krowis-world-map-buttons",
+    "name": "Krowi's World Map Buttons",
+    "description": "A simply library to add buttons to the world map",
+    "url": "https://www.curseforge.com/wow/addons/krowis-world-map-buttons",
+    "download_url": "https://edge.forgecdn.net/files/3367/599/Krowi_WorldMapButtons-1.0.zip",
+    "date_published": "2021-06-28T13:58:44.137000+00:00",
+    "version": "Krowi_WorldMapButtons-1.0",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/498471/file/3367599/changelog",
+    "folders": [
+      {
+        "name": "Krowi_WorldMapButtons-1.0"
+      }
+    ],
+    "options": {
+      "strategy": "any_flavour"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "Krowi_WorldMapButtons-1.0",
+        "install_time": "2021-07-17T07:03:48+00:00"
       }
     ]
   },
@@ -452,10 +483,10 @@
     "name": "LibBabble-SubZone-3.0",
     "description": "A library to help with localization of in-game subzone names.",
     "url": "https://www.curseforge.com/wow/addons/libbabble-subzone-3-0",
-    "download_url": "https://edge.forgecdn.net/files/3093/364/LibBabble-SubZone-3.0-9.0-release1.zip",
-    "date_published": "2020-10-26T15:12:25.337000+00:00",
-    "version": "9.0-release1",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3367/733/LibBabble-SubZone-3.0-9.1-release2.zip",
+    "date_published": "2021-06-28T15:59:49.430000+00:00",
+    "version": "9.1-release2",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/24454/file/3367733/changelog",
     "folders": [
       {
         "name": "LibBabble-SubZone-3.0"
@@ -466,6 +497,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.1-release2",
+        "install_time": "2021-07-17T04:48:21+00:00"
+      },
       {
         "version": "9.0-release1",
         "install_time": "2020-11-03T06:02:13+00:00"
@@ -754,10 +789,10 @@
     "name": "LibDogTag-3.0",
     "description": "A library to provide a markup syntax",
     "url": "https://www.curseforge.com/wow/addons/libdogtag-3-0",
-    "download_url": "https://edge.forgecdn.net/files/3288/850/LibDogTag-3.0-v90000.6.zip",
-    "date_published": "2021-04-25T18:01:16.450000+00:00",
-    "version": "v90000.6",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/14280/file/3288850/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3368/840/LibDogTag-3.0-v90100.1.zip",
+    "date_published": "2021-06-29T13:12:06.700000+00:00",
+    "version": "v90100.1",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/14280/file/3368840/changelog",
     "folders": [
       {
         "name": "LibDogTag-3.0"
@@ -768,6 +803,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v90100.1",
+        "install_time": "2021-07-17T04:48:21+00:00"
+      },
       {
         "version": "v90000.6",
         "install_time": "2021-05-23T13:50:52+00:00"
@@ -820,10 +859,10 @@
     "name": "LibDogTag-Unit-3.0",
     "description": "A library to provide unit-oriented tags to LibDogTag-3.0",
     "url": "https://www.curseforge.com/wow/addons/libdogtag-unit-3-0",
-    "download_url": "https://edge.forgecdn.net/files/3248/493/LibDogTag-Unit-3.0-v90000.5.zip",
-    "date_published": "2021-03-23T02:41:12.297000+00:00",
-    "version": "v90000.5",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3368/842/LibDogTag-Unit-3.0-v90100.1.zip",
+    "date_published": "2021-06-29T13:12:12.637000+00:00",
+    "version": "v90100.1",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/14282/file/3368842/changelog",
     "folders": [
       {
         "name": "LibDogTag-Unit-3.0"
@@ -834,6 +873,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v90100.1",
+        "install_time": "2021-07-17T04:48:21+00:00"
+      },
       {
         "version": "v90000.5",
         "install_time": "2021-03-27T07:42:48+00:00"
@@ -1093,33 +1136,6 @@
       {
         "version": "r25-release",
         "install_time": "2020-12-19T15:54:36+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "257942",
-    "slug": "libnotify-1-0",
-    "name": "LibNotify-1.0",
-    "description": "A library to provide unobtrusive notifications.",
-    "url": "https://www.curseforge.com/wow/addons/libnotify-1-0",
-    "download_url": "https://edge.forgecdn.net/files/3081/292/LibNotify-1.0-1.0.3.zip",
-    "date_published": "2020-10-15T00:40:53.607000+00:00",
-    "version": "1.0.3",
-    "changelog_url": "data:,",
-    "folders": [
-      {
-        "name": "LibNotify-1.0"
-      }
-    ],
-    "options": {
-      "strategy": "default"
-    },
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "1.0.3",
-        "install_time": "2020-11-03T06:02:13+00:00"
       }
     ]
   },
@@ -1428,10 +1444,10 @@
     "name": "LibTourist-3.0",
     "description": "A library to provide information about zones and instances.",
     "url": "https://www.curseforge.com/wow/addons/libtourist-3-0",
-    "download_url": "https://edge.forgecdn.net/files/3238/636/LibTourist-3.0-WoW-9.0.5-release1.zip",
-    "date_published": "2021-03-13T23:52:46.897000+00:00",
-    "version": "WoW-9.0.5-release1",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3379/178/LibTourist-3.0-WoW-9.1.0-release1.zip",
+    "date_published": "2021-07-06T21:02:24.273000+00:00",
+    "version": "WoW-9.1.0-release1",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/14330/file/3379178/changelog",
     "folders": [
       {
         "name": "LibTourist-3.0"
@@ -1442,6 +1458,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "WoW-9.1.0-release1",
+        "install_time": "2021-07-17T04:48:21+00:00"
+      },
       {
         "version": "WoW-9.0.5-release1",
         "install_time": "2021-03-18T14:42:25+00:00"
@@ -1490,10 +1510,10 @@
     "name": "LibUIDropDownMenu",
     "description": "A Replacement for standard UIDropDownMenu",
     "url": "https://www.curseforge.com/wow/addons/libuidropdownmenu",
-    "download_url": "https://edge.forgecdn.net/files/3313/910/!LibUIDropDownMenu-v4.03.9000538556.zip",
-    "date_published": "2021-05-18T17:04:52.360000+00:00",
-    "version": "v4.03.9000538556",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/268264/file/3313910/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3370/942/!LibUIDropDownMenu-v4.06.9010039185.zip",
+    "date_published": "2021-06-30T13:29:39.380000+00:00",
+    "version": "v4.06.9010039185",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/268264/file/3370942/changelog",
     "folders": [
       {
         "name": "!LibUIDropDownMenu"
@@ -1504,6 +1524,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.06.9010039185",
+        "install_time": "2021-07-17T04:48:21+00:00"
+      },
       {
         "version": "v4.03.9000538556",
         "install_time": "2021-05-23T13:50:52+00:00"
@@ -1525,10 +1549,10 @@
     "name": "LibWindow-1.1",
     "description": "A library that handles the basics of \"window\" style frames",
     "url": "https://www.curseforge.com/wow/addons/libwindow-1-1",
-    "download_url": "https://edge.forgecdn.net/files/925/188/LibWindow-1.1-r15-70000.zip",
-    "date_published": "2016-07-19T06:39:09.957000+00:00",
-    "version": "r15-70000",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3368/633/LibWindow-1.1-r23-90100.zip",
+    "date_published": "2021-06-29T09:33:38.723000+00:00",
+    "version": "r23-90100",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/16386/file/3368633/changelog",
     "folders": [
       {
         "name": "LibWindow-1.1"
@@ -1539,6 +1563,10 @@
     },
     "deps": [],
     "logged_versions": [
+      {
+        "version": "r23-90100",
+        "install_time": "2021-07-17T04:48:21+00:00"
+      },
       {
         "version": "r15-70000",
         "install_time": "2020-11-03T06:02:13+00:00"

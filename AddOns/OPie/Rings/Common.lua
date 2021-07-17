@@ -56,7 +56,10 @@ do -- OPieAutoQuest
 	local exclude, questItems, IsQuestItem = PC:RegisterPVar("AutoQuestExclude", {}), {}
 	if MODERN then
 		questItems[30148] = "72986 72985"
-		local include = {[33634]=true, [35797]=true, [37888]=true, [37860]=true, [37859]=true, [37815]=true, [46847]=true, [47030]=true, [39213]=true, [42986]=true, [49278]=true, [86425]={31332, 31333, 31334, 31335, 31336, 31337}, [87214]={31752, 34774}, [90006]=true, [86536]=true, [86534]=true, [97268]=true, [111821]={34774, 31752}}
+		local include = {[33634]=true, [35797]=true, [37888]=true, [37860]=true, [37859]=true, [37815]=true, [46847]=true, [47030]=true, [39213]=true, [42986]=true, [49278]=true, [86425]={31332, 31333, 31334, 31335, 31336, 31337}, [87214]={31752, 34774}, [90006]=true, [86536]=true, [86534]=true, [97268]=true, [111821]={34774, 31752},
+			[180008]={60609}, [180009]={60609}, [180170]={60649},
+			[174464]=true, [168035]=true,
+		}
 		function IsQuestItem(iid, bag, slot)
 			if exclude[iid] then return false end
 			local isQuest, startQuestId, isQuestActive = GetContainerItemQuestInfo(bag, slot)

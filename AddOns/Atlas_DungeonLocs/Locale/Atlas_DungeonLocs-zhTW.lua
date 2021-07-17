@@ -32,6 +32,10 @@ L["Blue"] = "藍"
 L["Dungeon Locations"] = "副本位置"
 L["Green"] = "綠"
 L["Instances"] = "副本"
+--[[Translation missing --]]
+--[[ L["Meeting stone is inside the Sanctum of Order"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Raid entrance is inside the Sanctum Depths of Sanctum of Order"] = ""--]] 
 L["White"] = "白"
 
 end

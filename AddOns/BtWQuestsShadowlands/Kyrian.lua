@@ -2000,11 +2000,6 @@ Database:AddChain(Chain.Chain04, {
             type = "money",
             amount = 1724580,
         },
-        {
-            type = "currency",
-            id = 1819,
-            amount = 10,
-        },
     },
     items = {
         {

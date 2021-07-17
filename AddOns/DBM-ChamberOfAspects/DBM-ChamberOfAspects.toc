@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Tandanu/Nitram/MysticalOS
-## Version: r298
+## Version: r299
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMChamberOfAspects_AllSavedVars
@@ -12,7 +12,7 @@
 ## X-Min-Interface: 80000
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
-## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-Category: WOTLK
 ## X-DBM-StatTypes: normal,normal25,heroic,heroic25
 ## X-DBM-Mod-SubCategories: The Obsidian Sanctum, The Ruby Sanctum
 ## X-DBM-Mod-SubCategories-deDE: Das Obsidiansanktum, Das Rubinsanktum
@@ -36,8 +36,6 @@
 ## X-DBM-Mod-MapID: 615,724
 ## X-DBM-Mod-MinCoreRevision: 20200524142133
 ## X-DBM-Mod-MinExpansion: 2
-## X-Curse-Project-ID: 43970
-## X-WoWI-ID: 21522
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

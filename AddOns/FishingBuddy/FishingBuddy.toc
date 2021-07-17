@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Sutorix=AT=hotmail.com
-## Version: 1.16.1
+## Version: 1.16.7
 ## OptionalDeps: FB_Debugging, Outfitter, myAddOns, Titan
 ## SavedVariables: FishingBuddy_Info
 ## SavedVariablesPerCharacter: FishingBuddy_Player
@@ -9,10 +9,10 @@
 ## Notes: Help with fishing related tasks -- clothing, fish information, etc.
 ## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r |cFFFFFFFF钓鱼助手|r |cFFFFE00AFishingBuddy|r
 
-## X-Date: July 21, 2005
-## X-Help: FBConstants.HELPMSG
 ## X-Curse-Project-ID: 15093
 ## X-WoWI-ID: 4239
+## X-Date: July 21, 2005
+## X-Help: FBConstants.HELPMSG
 
 Libs\Libs.xml
 localization.enUS.lua

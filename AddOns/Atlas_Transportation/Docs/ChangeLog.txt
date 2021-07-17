@@ -1,12 +1,21 @@
-$Id: ChangeLog.txt 125 2021-05-22 14:07:10Z arithmandar $
+$Id: ChangeLog.txt 129 2021-07-01 14:27:11Z arithmandar $
 Atlas, a World of Warcraft instance map browser
 Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail.com>
+Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail.com>
 
 ==============
 = Change Log =
 ==============
+
+v1.49.02 (Jul. 01, 2021)
+------------------------
+- Added Ardenweald, Bastion, Maldraxxus, Revendreth
+
+v1.49.01 (Jun. 30, 2021)
+------------------------
+- ToC update to support WoW 9.1.0
+- Added Nazjatar which was missing from BfA
 
 v1.49.00 (May 22, 2021)
 ------------------------

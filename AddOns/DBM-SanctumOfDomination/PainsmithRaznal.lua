@@ -1,81 +1,92 @@
 local mod	= DBM:NewMod(2443, "DBM-SanctumOfDomination", nil, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210527010846")
+mod:SetRevision("20210714171034")
 mod:SetCreatureID(176523)
 mod:SetEncounterID(2430)
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
-mod:SetHotfixNoticeRev(20210513000000)--2021-05-13
-mod:SetMinSyncRevision(20210513000000)
+mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7)
+mod:SetHotfixNoticeRev(20210714000000)--2021-07-14
+mod:SetMinSyncRevision(20210714000000)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 357735",
-	"SPELL_CAST_SUCCESS 348508 355568 355778 352052 348456 355504 355534",
-	"SPELL_AURA_APPLIED 348508 355568 355778 355786 348456 355505 355525",
+	"SPELL_CAST_SUCCESS 348508 355568 355778 348456 355504 355534",
+	"SPELL_AURA_APPLIED 348508 355568 355778 355786 348456 355505 355525 352052",
 --	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED 348508 355568 355778 355786 348456 355505 355525",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED",
-	"UNIT_AURA_UNFILTERED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, like 90% of this boss is omitted from combat log, limiting mod functionality. Biggest standout is flameclasp trap since it has no alternative for debuffs
 --TODO, verify infoframe usefulness
 --TODO,
 --https://ptr.wowhead.com/spells/uncategorized/name:spike?filter=21;2;90100
-local warnShadowsteelChains						= mod:NewTargetNoFilterAnnounce(355505, 2)
-local warnFlameclaspTrap						= mod:NewTargetNoFilterAnnounce(348456, 2)
+--[[
+ability.id = 357735 and type = "begincast"
+ or (ability.id = 348508 or ability.id = 355568 or ability.id = 355778 or ability.id = 348456 or ability.id = 355504 or ability.id = 355534) and type = "cast"
+ or ability.id = 355525 or ability.id = 352052
+ or (ability.id = 348456) and type = "applydebuff"
+ or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
+--]]
+local warnShadowsteelChains						= mod:NewTargetNoFilterAnnounce(355505, 2, nil, nil, 246367)
+local warnFlameclaspTrap						= mod:NewTargetNoFilterAnnounce(348456, 2, nil, nil, 8312)
 
-local specWarnRipplingHammer					= mod:NewSpecialWarningMoveAway(348508, nil, nil, nil, 1, 2)
-local yellRipplingHammer						= mod:NewShortYell(348508)
-local yellRipplingHammerFades					= mod:NewShortFadesYell(348508)
-local specWarnRipplingHammerTaunt				= mod:NewSpecialWarningTaunt(348508, nil, nil, nil, 1, 2)
-local specWarnCruciformAxe						= mod:NewSpecialWarningMoveAway(355568, nil, nil, nil, 1, 2)
-local yellCruciformAxe							= mod:NewShortYell(355568)
-local yellCruciformAxeFades						= mod:NewShortFadesYell(355568)
-local specWarnCruciformAxeTaunt					= mod:NewSpecialWarningTaunt(355568, nil, nil, nil, 1, 2)--This might never target tanks, remove if it doesn't
-local specWarnDualbladeScythe					= mod:NewSpecialWarningMoveAway(355778, nil, nil, nil, 1, 2)
-local yellDualbladeScythe						= mod:NewShortYell(355778)
-local yellDualbladeScytheFades					= mod:NewShortFadesYell(355778)
-local specWarnDualbladeScytheTaunt				= mod:NewSpecialWarningTaunt(355778, nil, nil, nil, 1, 2)--This might never target tanks, remove if it doesn't
-local specWarnFlameclaspTrap					= mod:NewSpecialWarningMoveAway(348456, nil, nil, nil, 1, 2)
-local yellFlameclaspTrap						= mod:NewShortYell(348456)
-local yellFlameclaspTrapFades					= mod:NewShortFadesYell(348456)
-local specWarnShadowsteelChains					= mod:NewSpecialWarningYouPos(355505, nil, nil, nil, 1, 2)
-local yellShadowsteelChains						= mod:NewShortPosYell(355505)
-local yellShadowsteelChainsFades				= mod:NewIconFadesYell(355505)
+local specWarnCruciformAxe						= mod:NewSpecialWarningMoveAway(355568, nil, 184055, nil, 1, 2)
+local yellCruciformAxe							= mod:NewShortYell(355568, 184055)
+local yellCruciformAxeFades						= mod:NewShortFadesYell(355568, 184055)
+local specWarnCruciformAxeTaunt					= mod:NewSpecialWarningTaunt(355568, nil, 184055, nil, 1, 2)--This might never target tanks, remove if it doesn't
+local specWarnReverberatingHammer				= mod:NewSpecialWarningMoveAway(348508, nil, 175798, nil, 1, 2)
+local yellReverberatingHammer					= mod:NewShortYell(348508, 175798)
+local yellReverberatingHammerFades				= mod:NewShortFadesYell(348508, 175798)
+local specWarnReverberatingHammerTaunt			= mod:NewSpecialWarningTaunt(348508, nil, 175798, nil, 1, 2)
+local specWarnDualbladeScythe					= mod:NewSpecialWarningMoveAway(355778, nil, 327953, nil, 1, 2)
+local yellDualbladeScythe						= mod:NewShortYell(355778, 327953)
+local yellDualbladeScytheFades					= mod:NewShortFadesYell(355778, 327953)
+local specWarnDualbladeScytheTaunt				= mod:NewSpecialWarningTaunt(355778, nil, 327953, nil, 1, 2)--This might never target tanks, remove if it doesn't
+local specWarnSpikedBalls						= mod:NewSpecialWarningSwitchCount(352052, nil, nil, nil, 1, 2)
+local specWarnFlameclaspTrap					= mod:NewSpecialWarningYouPos(348456, nil, 8312, nil, 1, 2)
+local yellFlameclaspTrap						= mod:NewShortPosYell(348456, 8312)
+local yellFlameclaspTrapFades					= mod:NewIconFadesYell(348456, 8312)
+local specWarnShadowsteelChains					= mod:NewSpecialWarningYouPos(355505, nil, 246367, nil, 1, 2)
+local yellShadowsteelChains						= mod:NewShortPosYell(355505, 246367)
+local yellShadowsteelChainsFades				= mod:NewIconFadesYell(355505, 246367)
 --local specWarnExsanguinatingBite				= mod:NewSpecialWarningDefensive(328857, nil, nil, nil, 1, 2)
---local specWarnGTFO								= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
+--local specWarnGTFO							= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 
 --mod:AddTimerLine(BOSS)
-local timerRipplingHammerCD						= mod:NewCDTimer(32.8, 348508, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
-local timerCruciformAxeCD						= mod:NewCDTimer(32.8, 355568, nil, nil, nil, 3)
-local timerDualbladeScytheCD					= mod:NewCDTimer(32.8, 355778, nil, nil, nil, 3)
-local timerSpikedBallsCD						= mod:NewCDTimer(62.1, 352052, nil, nil, nil, 3)
-local timerFlameclaspTrapCD						= mod:NewCDTimer(40.2, 348456, nil, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON)
-local timerShadowsteelChainsCD					= mod:NewCDTimer(30.1, 355504, nil, nil, nil, 3)
+local timerCruciformAxeCD						= mod:NewCDCountTimer(19.4, 355568, 184055, nil, nil, 3, nil, DBM_CORE_L.TANK_ICON)--"Axe"
+local timerReverberatingHammerCD				= mod:NewCDCountTimer(19.4, 348508, 175798, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)--"Hammer"
+local timerDualbladeScytheCD					= mod:NewCDCountTimer(19.4, 355778, 327953, nil, nil, 3, nil, DBM_CORE_L.TANK_ICON)--"Scythe"
+local timerSpikedBallsCD						= mod:NewCDCountTimer(41.4, 352052, nil, nil, nil, 3, nil, DBM_CORE_L.DAMAGE_ICON)
+local timerFlameclaspTrapCD						= mod:NewCDCountTimer(47.9, 348456, 8312, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON)--"Trap"
+local timerShadowsteelChainsCD					= mod:NewCDCountTimer(40.1, 355504, 246367, nil, nil, 3)--"Chains"
 local timerForgeWeapon							= mod:NewCastTimer(48, 355525, nil, nil, nil, 6)
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
 --mod:AddRangeFrameOption("8")
 mod:AddInfoFrameOption(355786, true)
-mod:AddSetIconOption("SetIconOnChains", 355505, true, false, {1, 2, 3, 4, 5, 6})
+mod:AddSetIconOption("SetIconOnChains", 355505, true, false, {1, 2, 3})
+mod:AddSetIconOption("SetIconOnTraps", 348456, true, false, {4, 5, 6, 7})
 mod:AddNamePlateOption("NPAuraOnFinalScream", 357735)
 
-mod.vb.phase = 1
 mod.vb.ChainsIcon = 1
+mod.vb.trapsIcon = 4
+mod.vb.weaponCount = 0
+mod.vb.ballsCount = 0
+mod.vb.trapCount = 0
+mod.vb.chainCount = 0
 
 local debuffedPlayers = {}
 
 local updateInfoFrame
 do
-	local twipe, tsort = table.wipe, table.sort
+	local twipe, tsort, mfloor = table.wipe, table.sort, math.floor
 	local lines = {}
 	local tempLines = {}
 	local tempLinesSorted = {}
@@ -112,7 +123,8 @@ do
 				local spellName, _, _, _, _, expires = DBM:UnitDebuff(uId, 355786)
 				if expires then
 					local unitName = DBM:GetUnitFullName(uId)
-					tempLines[unitName] = expires
+					local debuffTime = expires - GetTime()
+					tempLines[unitName] = mfloor(debuffTime)
 					tempLinesSorted[#tempLinesSorted + 1] = unitName
 				end
 			end
@@ -127,14 +139,25 @@ do
 end
 
 function mod:OnCombatStart(delay)
-	self.vb.phase = 1
+	self:SetStage(1)
 	self.vb.ChainsIcon = 1
+	self.vb.weaponCount = 0
+	self.vb.ballsCount = 0
+	self.vb.trapCount = 0
+	self.vb.chainCount = 0
 	table.wipe(debuffedPlayers)
-	timerShadowsteelChainsCD:Start(8.7-delay)
-	timerRipplingHammerCD:Start(16-delay)
-	timerSpikedBallsCD:Start(32.2-delay)
-	if self:IsHard() then
-		timerFlameclaspTrapCD:Start(48.2-delay)
+	if self:IsMythic() then
+		timerShadowsteelChainsCD:Start(8.1-delay, 1)
+		timerCruciformAxeCD:Start(15-delay, 1)
+		timerSpikedBallsCD:Start(23.4-delay, 1)
+		timerFlameclaspTrapCD:Start(42.2-delay, 1)
+	else
+		timerShadowsteelChainsCD:Start(10.8-delay, 1)
+		timerCruciformAxeCD:Start(16-delay, 1)
+		timerSpikedBallsCD:Start(23.9-delay, 1)
+		if self:IsHeroic() then
+			timerFlameclaspTrapCD:Start(45-delay, 1)
+		end
 	end
 --	berserkTimer:Start(-delay)
 	if self.Options.InfoFrame then
@@ -170,19 +193,24 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 348508 then
-		DBM:AddMsg("Rippling Hammer added to combat log, please report to DBM author")
+		self.vb.weaponCount = self.vb.weaponCount + 1
+		timerReverberatingHammerCD:Start(nil, self.vb.weaponCount+1)
 	elseif spellId == 355568 then
-		DBM:AddMsg("Cruciform Axe added to combat log, please report to DBM author")
+		self.vb.weaponCount = self.vb.weaponCount + 1
+		timerCruciformAxeCD:Start(nil, self.vb.weaponCount+1)
 	elseif spellId == 355778 then
-		DBM:AddMsg("Dualblade Scythe added to combat log, please report to DBM author")
-	elseif spellId == 352052 then
-		DBM:AddMsg("Spiked Balls added to combat log, please report to DBM author")
+		self.vb.weaponCount = self.vb.weaponCount + 1
+		timerDualbladeScytheCD:Start(nil, self.vb.weaponCount+1)
 	elseif spellId == 348456 then
-		DBM:AddMsg("Flameclasp Trap added to combat log, please report to DBM author")
+		DBM:Debug("Traps added to combat log")
 	elseif spellId == 355504 then
-		DBM:AddMsg("Shadowsteel Chains added to combat log, please report to DBM author")
+		self.vb.ChainsIcon = 1
+		self.vb.chainCount = self.vb.chainCount + 1
+		--They apply custom rule to only heroic in phase 2 and 3
+		local timer = (self:IsHeroic() and self.vb.phase > 1 and 48.9) or 40.1
+		timerShadowsteelChainsCD:Start(timer, self.vb.chainCount+1)
 	elseif spellId == 355534 then--Shadowsteel Ember
-		timerRipplingHammerCD:Stop()
+		timerReverberatingHammerCD:Stop()
 		timerCruciformAxeCD:Stop()
 		timerDualbladeScytheCD:Stop()
 		timerSpikedBallsCD:Stop()
@@ -206,25 +234,21 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		warnShadowsteelChains:CombinedShow(0.5, args.destName)
 		self.vb.ChainsIcon = self.vb.ChainsIcon + 1
-		if self.vb.ChainsIcon > 8 then
-			self.vb.ChainsIcon = 1
-			DBM:AddMsg("Cast event for Chains is wrong, doing backup icon reset")
-		end
 	elseif spellId == 355786 then
 		if not tContains(debuffedPlayers, args.destName) then
 			table.insert(debuffedPlayers, args.destName)
 		end
 	elseif spellId == 355525 then
 		timerForgeWeapon:Start()
---[[elseif spellId == 348508 then
+	elseif spellId == 348508 then
 		if args:IsPlayer() then
-			specWarnRipplingHammer:Show()
-			specWarnRipplingHammer:Play("runout")
-			yellRipplingHammer:Yell()
-			yellRipplingHammerFades:Countdown(spellId)
+			specWarnReverberatingHammer:Show()
+			specWarnReverberatingHammer:Play("runout")
+			yellReverberatingHammer:Yell()
+			yellReverberatingHammerFades:Countdown(spellId)
 		else
-			specWarnRipplingHammerTaunt:Show(args.destName)
-			specWarnRipplingHammerTaunt:Play("tauntboss")
+			specWarnReverberatingHammerTaunt:Show(args.destName)
+			specWarnReverberatingHammerTaunt:Play("tauntboss")
 		end
 	elseif spellId == 355568 then
 		if args:IsPlayer() then
@@ -247,21 +271,46 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDualbladeScytheTaunt:Play("tauntboss")
 		end
 	elseif spellId == 348456 then
+		if self:AntiSpam(5, 1) then
+			self.vb.trapsIcon = 4
+			self.vb.trapCount = self.vb.trapCount + 1
+			local timer = (self:IsHeroic() and self.vb.phase > 1 and 47.9) or 40
+			timerFlameclaspTrapCD:Start(timer, self.vb.trapCount+1)--Mythic still 47.9?
+		end
+		local icon = self.vb.trapsIcon
+		if self.Options.SetIconOnTraps then
+			self:SetIcon(args.destName, icon)
+		end
 		if args:IsPlayer() then
-			specWarnFlameclaspTrap:Show()
-			specWarnFlameclaspTrap:Play("runout")
-			yellFlameclaspTrap:Yell()
-			yellFlameclaspTrapFades:Countdown(spellId)
-		end--]]
+			specWarnFlameclaspTrap:Show(self:IconNumToTexture(icon))
+			specWarnFlameclaspTrap:Play("mm"..icon)
+			yellFlameclaspTrap:Yell(icon, icon)
+			yellFlameclaspTrapFades:Countdown(spellId, nil, icon)
+		end
+		warnFlameclaspTrap:CombinedShow(0.5, args.destName)
+		self.vb.trapsIcon = self.vb.trapsIcon + 1
+	elseif spellId == 352052 then
+		self.vb.ballsCount = self.vb.ballsCount + 1
+		specWarnSpikedBalls:Show(self.vb.ballsCount)
+		specWarnSpikedBalls:Play("targetchange")
+		local timer = (self:IsHeroic() and self.vb.phase > 1 and 47.9) or 40.1
+		timerSpikedBallsCD:Start(timer, self.vb.ballsCount+1)
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 348508 then
+	if spellId == 355505 then
+		if self.Options.SetIconOnChains then
+			self:SetIcon(args.destName, 0)
+		end
 		if args:IsPlayer() then
-			yellRipplingHammerFades:Cancel()
+			yellShadowsteelChainsFades:Cancel()
+		end
+	elseif spellId == 348508 then
+		if args:IsPlayer() then
+			yellReverberatingHammerFades:Cancel()
 		end
 	elseif spellId == 355568 then
 		if args:IsPlayer() then
@@ -274,99 +323,55 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 355786 then
 		tDeleteItem(debuffedPlayers, args.destName)
 	elseif spellId == 348456 then
+		if self.Options.SetIconOnTraps then
+			self:SetIcon(args.destName, 0)
+		end
 		if args:IsPlayer() then
 			yellFlameclaspTrapFades:Cancel()
 		end
 	elseif spellId == 355525 then--Forge Weapon ending, boss returning
 		timerForgeWeapon:Stop()
-		self.vb.phase = self.vb.phase + 1
+		self:SetStage(0)
+		self.vb.weaponCount = 0
+		self.vb.ballsCount = 0
+		self.vb.trapCount = 0
+		--Technically timers between stage 2 and 3 are same (minus weapon type change)
+		--But I like having knobs to adjust in place if fight recieves adjustments down the line
 		if self.vb.phase == 2 then
-			timerShadowsteelChainsCD:Start(15.5)
-			timerCruciformAxeCD:Start(24)
-			timerSpikedBallsCD:Start(40)
-			if self:IsHard() then
-				timerFlameclaspTrapCD:Start(55.8)
+			if self:IsMythic() then
+				timerShadowsteelChainsCD:Start(15, 1)
+				timerReverberatingHammerCD:Start(23.6, 1)
+				timerSpikedBallsCD:Start(4, 1)
+				timerFlameclaspTrapCD:Start(52.8, 1)
+			elseif self:IsHeroic() then
+				timerShadowsteelChainsCD:Start(14.7, 1)
+				timerReverberatingHammerCD:Start(17.1, 1)
+				timerSpikedBallsCD:Start(26.1, 1)
+				if self:IsHeroic() then
+					timerFlameclaspTrapCD:Start(48.1, 1)
+				end
+			else
+				timerShadowsteelChainsCD:Start(10.9, 1)
+				timerReverberatingHammerCD:Start(16.9, 1)
+				timerSpikedBallsCD:Start(24.3, 1)
 			end
 		else--phase 3
-			timerShadowsteelChainsCD:Start(15.5)
-			timerDualbladeScytheCD:Start(24)
-			timerSpikedBallsCD:Start(40)
-			if self:IsHard() then
-				timerFlameclaspTrapCD:Start(55.8)
-			end
-		end
-	end
-end
-
-do
-	--Gross because of no CLEU events
-	local hasHammer, hasAxe, hasScythe, hasTrap = {}, {}, {}, {}
-	function mod:UNIT_AURA_UNFILTERED(uId)
-		local name = DBM:GetUnitFullName(uId)
-		local hasDebuff, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 348508)
-		if not hasDebuff and hasHammer[name] then
-			hasHammer[name] = nil
-			yellRipplingHammerFades:Cancel()
-		elseif hasDebuff and not hasHammer[name] then
-			hasHammer[name] = true
-			if UnitIsUnit(uId, "player") then
-				specWarnRipplingHammer:Show()
-				specWarnRipplingHammer:Play("runout")
-				yellRipplingHammer:Yell()
-				local remaining = expireTime-GetTime()
-				yellRipplingHammerFades:Countdown(remaining)
+			if self:IsMythic() then
+				timerShadowsteelChainsCD:Start(15, 1)
+				timerDualbladeScytheCD:Start(24, 1)
+				timerSpikedBallsCD:Start(4, 1)
+				timerFlameclaspTrapCD:Start(52, 1)
+			elseif self:IsHeroic() then
+				timerShadowsteelChainsCD:Start(14.6, 1)
+				timerDualbladeScytheCD:Start(17.1, 1)
+				timerSpikedBallsCD:Start(26.1, 1)
+				if self:IsHeroic() then
+					timerFlameclaspTrapCD:Start(48.1, 1)
+				end
 			else
-				specWarnRipplingHammerTaunt:Show(name)
-				specWarnRipplingHammerTaunt:Play("tauntboss")
-			end
-		end
-		local hasDebuff2, _, _, _, _, expireTime2 = DBM:UnitDebuff(uId, 355568)
-		if not hasDebuff2 and hasAxe[name] then
-			hasAxe[name] = nil
-			yellCruciformAxeFades:Cancel()
-		elseif hasDebuff2 and not hasAxe[name] then
-			hasAxe[name] = true
-			if UnitIsUnit(uId, "player") then
-				specWarnCruciformAxe:Show()
-				specWarnCruciformAxe:Play("runout")
-				yellCruciformAxe:Yell()
-				local remaining = expireTime2-GetTime()
-				yellCruciformAxeFades:Countdown(remaining)
-			else
-				specWarnCruciformAxeTaunt:Show(name)
-				specWarnCruciformAxeTaunt:Play("tauntboss")
-			end
-		end
-		local hasDebuff3, _, _, _, _, expireTime3 = DBM:UnitDebuff(uId, 355778)
-		if not hasDebuff3 and hasScythe[name] then
-			hasScythe[name] = nil
-			yellDualbladeScytheFades:Cancel()
-		elseif hasDebuff3 and not hasScythe[name] then
-			hasScythe[name] = true
-			if UnitIsUnit(uId, "player") then
-				specWarnDualbladeScythe:Show()
-				specWarnDualbladeScythe:Play("runout")
-				yellDualbladeScythe:Yell()
-				local remaining = expireTime3-GetTime()
-				yellDualbladeScytheFades:Countdown(remaining)
-			else
-				specWarnDualbladeScytheTaunt:Show(name)
-				specWarnDualbladeScytheTaunt:Play("tauntboss")
-			end
-		end
-		local hasDebuff4, _, _, _, _, expireTime4 = DBM:UnitDebuff(uId, 355778)
-		if not hasDebuff4 and hasTrap[name] then
-			hasTrap[name] = nil
-			yellFlameclaspTrapFades:Cancel()
-		elseif hasDebuff4 and not hasTrap[name] then
-			hasTrap[name] = true
-			warnFlameclaspTrap:CombinedShow(0.5, name)
-			if UnitIsUnit(uId, "player") then
-				specWarnFlameclaspTrap:Show()
-				specWarnFlameclaspTrap:Play("runout")
-				yellFlameclaspTrap:Yell()
-				local remaining = expireTime4-GetTime()
-				yellFlameclaspTrapFades:Countdown(remaining)
+				timerShadowsteelChainsCD:Start(10.9, 1)
+				timerDualbladeScytheCD:Start(16.9, 1)
+				timerSpikedBallsCD:Start(24.3, 1)
 			end
 		end
 	end
@@ -395,26 +400,12 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 --"<67.84 22:36:16> [UNIT_SPELLCAST_SUCCEEDED] Painsmith Raznal(Andybruwu) -[DNT] Upstairs- [[boss1:Cast-3-2012-2450-9254-355555-003A1D8DC1:355555]]", -- [1092]
 --"<70.30 22:36:19> [CLEU] SPELL_AURA_APPLIED#Creature-0-2012-2450-9254-176523-00001D8D02#Painsmith Raznal#Creature-0-2012-2450-9254-176523-00001D8D02#Painsmith Raznal#355525#Forge Weapon#BUFF#nil", -- [1138]
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 348508 then--Rippling Hammer
-		timerRipplingHammerCD:Start()
-	elseif spellId == 355568 then--Cruciform Axe
-		timerCruciformAxeCD:Start()
-	elseif spellId == 355778 then--Dualblade Scythe
-		timerDualbladeScytheCD:Start()
-	elseif spellId == 352052 then--Spiked Balls
-		timerSpikedBallsCD:Start()
-	elseif spellId == 355504 then--Shadowsteel Chains
-		timerShadowsteelChainsCD:Start()
-	elseif spellId == 348456 then--Flameclasp Trap
-		timerFlameclaspTrapCD:Start()
-	elseif spellId == 355555 then--Upstairs (Boss leaving, faster to stop timers than Forge Weapon)
-		timerRipplingHammerCD:Stop()
+	if spellId == 355555 then--Upstairs (Boss leaving, faster to stop timers than Forge Weapon which happens 2 sec later)
+		timerReverberatingHammerCD:Stop()
 		timerCruciformAxeCD:Stop()
 		timerDualbladeScytheCD:Stop()
 		timerSpikedBallsCD:Stop()
 		timerFlameclaspTrapCD:Stop()
 		timerShadowsteelChainsCD:Stop()
---	elseif spellId == 356416 then--Weapon Picker (global picker)
-
 	end
 end

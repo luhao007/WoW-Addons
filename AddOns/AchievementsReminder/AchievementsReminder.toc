@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Shurshik
 ## LoadOnDemand: 0
 ## SavedVariables: ralllocationnames,ralltactics,ralltacticsver,ralltacticsdif

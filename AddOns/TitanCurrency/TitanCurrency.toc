@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Greenhorns@Vek'Nilash
-## Version: 9.0.2
+## Version: 9.1
 ## RequiredDeps: Titan
 ## LoadOnDemand: 0
 ## DefaultState: Enabled

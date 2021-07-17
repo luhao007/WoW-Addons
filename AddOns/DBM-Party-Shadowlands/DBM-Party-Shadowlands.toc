@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyShadowlands_AllSavedVars
@@ -73,7 +73,7 @@ SanguineDepths\SanguineDepthsTrash.lua
 Tazavesh\ZophextheSentinel.lua
 Tazavesh\TheMenagerie.lua
 Tazavesh\MailroomMayhem.lua
-Tazavesh\AumyzaOasis.lua
+Tazavesh\MyzasOasis.lua
 Tazavesh\Soazmi.lua
 Tazavesh\Hylbrande.lua
 Tazavesh\TimecapnHooktail.lua

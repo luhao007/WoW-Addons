@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Arta/MysticalOS
-## Version: r24
+## Version: r25
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyBC_AllSavedVars
@@ -34,6 +34,7 @@
 ## X-DBM-Mod-MinExpansion: 1
 ## X-Curse-Project-ID: 314994
 ## X-WoWI-ID: 24904
+## X-Wago-ID: xZKxZENk
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

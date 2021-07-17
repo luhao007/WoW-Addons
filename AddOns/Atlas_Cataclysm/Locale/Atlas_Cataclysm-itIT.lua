@@ -1,10 +1,10 @@
--- $Id: Atlas_Cataclysm-itIT.lua 37 2020-01-01 14:59:34Z arith $
+-- $Id: Atlas_Cataclysm-itIT.lua 43 2021-06-28 13:06:56Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
 	Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 	Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-	Copyright 2011 ~ 2020 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 

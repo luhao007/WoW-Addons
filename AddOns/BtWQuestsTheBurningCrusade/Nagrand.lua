@@ -2312,6 +2312,7 @@ Database:AddChain(Chain.EmbedChain18, {
         {
             type = "quest",
             id = 9882,
+            breadcrumb = true,
             x = 0,
             connections = {
                 1, 
@@ -2326,15 +2327,9 @@ Database:AddChain(Chain.EmbedChain18, {
                 id = 9882,
             },
             completed = {
-                {
-                    type = "quest",
-                    id = 9882,
-                },
-                {
-                    type = "reputation",
-                    id = 933,
-                    standing = 5,
-                },
+                type = "reputation",
+                id = 933,
+                standing = 5,
             },
             x = 0,
         },
@@ -2366,6 +2361,7 @@ Database:AddChain(Chain.EmbedChain19, {
         {
             type = "quest",
             id = 9914,
+            breadcrumb = true,
             x = 0,
             connections = {
                 1, 
@@ -2380,15 +2376,9 @@ Database:AddChain(Chain.EmbedChain19, {
                 id = 9914,
             },
             completed = {
-                {
-                    type = "quest",
-                    id = 9914,
-                },
-                {
-                    type = "reputation",
-                    id = 933,
-                    standing = 5,
-                },
+                type = "reputation",
+                id = 933,
+                standing = 5,
             },
             x = 0,
         },
@@ -2432,6 +2422,7 @@ Database:AddChain(Chain.EmbedChain20, {
         {
             type = "quest",
             id = 9893,
+            breadcrumb = true,
             x = 0,
             connections = {
                 1, 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2424, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210524134429")
+mod:SetRevision("20210706053825")
 mod:SetCreatureID(167406)
 mod:SetEncounterID(2407)
 mod:SetUsedIcons(1, 2, 3, 4, 7, 8)
@@ -20,7 +20,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED_DOSE 326699",
 	"SPELL_PERIODIC_DAMAGE 327992",
 	"SPELL_PERIODIC_MISSED 327992",
-	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"
 )
@@ -29,6 +28,7 @@ mod:RegisterEventsInCombat(
 --TODO, https://shadowlands.wowhead.com/spell=336008/smoldering-ire need anything special?
 --TODO, verify spellIds for two different blood prices, and make sure there isn't overlap/double triggering for any of them
 --TODO, handling of https://www.wowhead.com/spell=341391/searing-censure 5 second loop timer
+--TODO, likely doing not enough for tank stuff in terms of warnings, probably have to confur with some tanks on best approach
 --[[
 (ability.id = 326707 or ability.id = 326851 or ability.id = 327227 or ability.id = 328117 or ability.id = 329181 or ability.id = 333932) and type = "begincast"
  or (ability.id = 327796 or ability.id = 329943 or ability.id = 339196 or ability.id = 330042 or ability.id = 326005 or ability.id = 332849 or ability.id = 333980 or ability.id = 332619 or ability.id = 327039 or ability.id = 333979) and type = "cast"
@@ -128,7 +128,6 @@ mod:AddSetIconOption("SetIconOnImpale", 329951, true, false, {1, 2, 3, 4})
 mod:AddSetIconOption("SetIconOnFatalFinesse", 332794, true, false, {1, 2, 3})
 mod:AddSetIconOption("SetIconOnBalefulShadows", 344313, false, true, {7, 8})
 
-mod.vb.phase = 1
 mod.vb.priceCount = 0
 mod.vb.painCount = 0
 mod.vb.RavageCount = 0
@@ -275,7 +274,7 @@ function mod:OnCombatStart(delay)
 	table.wipe(stage2Adds)
 	table.wipe(deadAdds)
 	table.wipe(castsPerGUID)
-	self.vb.phase = 1
+	self:SetStage(1)
 	self.vb.priceCount = 0
 	self.vb.painCount = 0
 	self.vb.RavageCount = 0
@@ -353,7 +352,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnCommandRavage:Play("specialsoon")
 		timerCommandRavageCD:Start(self:IsEasy() and 59.5 or 57.3, self.vb.RavageCount+1)
 	elseif spellId == 328117 then--March of the Penitent (first intermission)
-		self.vb.phase = 1.5
+		self:SetStage(1.5)
 		specWarnMarchofthePenitent:Show()
 		timerCleansingPainCD:Stop()
 		timerBloodPriceCD:Stop()
@@ -434,7 +433,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnCommandMassacre:Play("watchstep")--Perhaps farfromline?
 		timerCommandMassacreCD:Start(self:IsMythic() and 41.4 or 47.4, self.vb.MassacreCount+1)--Mythic 41-45
 	elseif spellId == 326005 then
-		self.vb.phase = 3
+		self:SetStage(3)
 		self.vb.priceCount = 0
 		self.vb.painCount = 0--reused for shattering pain
 		self.vb.RavageCount = 0
@@ -555,14 +554,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnNightHunter:Play("mm"..icon)
 			yellNightHunter:Yell(icon, icon)
 			yellNightHunterFades:Countdown(spellId, nil, icon)
-		elseif self.Options.SpecWarn327796target then
+		elseif self.Options.SpecWarn327796target and not DBM:UnitDebuff("player", spellId) then
 			--Don't show special warning if you're one of victims
-			if not DBM:UnitDebuff("player", spellId) then
-				specWarnNightHunterTarget:CombinedShow(0.5, args.destName)
-				specWarnNightHunterTarget:ScheduleVoice(0.5, "helpsoak")
-			end
+			specWarnNightHunterTarget:CombinedShow(0.5, args.destName)
+			specWarnNightHunterTarget:ScheduleVoice(0.5, "helpsoak")
+		else
+			warnNightHunter:CombinedShow(0.5, args.destName)
 		end
-		warnNightHunter:CombinedShow(0.5, args.destName)
 		self.vb.DebuffIcon = self.vb.DebuffIcon + 1
 	elseif spellId == 327992 and args:IsPlayer() and self:AntiSpam(2, 2) then
 		specWarnGTFO:Show(args.spellName)
@@ -692,7 +690,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 328117 and self:IsInCombat() then--March of the Penitent
-		self.vb.phase = 2
+		self:SetStage(2)
 		self.vb.painCount = 0
 		self.vb.DebuffCount = 0
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
@@ -705,7 +703,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerWrackingPainCD:Start(21.1, 1)
 			timerHandofDestructionCD:Start(44.2, 1)
 			timerCommandMassacreCD:Start(63.7, 1)
-			timerNextPhase:Start(219.4)
+			timerNextPhase:Start(234.4)
 		else
 			--Remornia
 			timerImpaleCD:Start(27.5, 1)
@@ -714,6 +712,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerWrackingPainCD:Start(21.1, 1)
 			timerHandofDestructionCD:Start(46.6, 1)
 			timerCommandMassacreCD:Start(64.9, 1)
+			timerNextPhase:Start(219.4)
 		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(DBM_CORE_L.ADDS)

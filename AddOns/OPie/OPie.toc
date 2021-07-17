@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: foxlit
-## Version: Xe 2a
+## Version: Xe 6
 ## SavedVariables: OneRing_Config, OPie_SavedData
 
 ## Title: OPie

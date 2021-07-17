@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Kemayo
-## Version: v21
+## Version: v22
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_LegionTreasuresDB
 ## DefaultState: enabled

@@ -42,6 +42,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [156644] = {
         name = "Graf Denathrius",
     },
+    [156688] = {
+        name = "Beherberger Ta'rela",
+    },
     [156822] = {
         name = "Herrin Mihaela",
     },
@@ -712,7 +715,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Maske von Bwonsamdi",
     },
     [174871] = {
-        name = "Schicksalsschreiber Ro-Tahl",
+        name = "Schicksalsschreiber Roh-Tahl",
     },
     [174900] = {
         name = "Akolythin Amalthina",
@@ -721,10 +724,25 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Wächter Arkoban",
     },
     [175133] = {
-        name = "Pfadschreiber Ro-Avonavi",
+        name = "Pfadschreiber Roh-Avonavi",
     },
     [176100] = {
         name = "Iona Himmelsklinge",
+    },
+    [177155] = {
+        name = "Pfadschreiber Roh-Vess",
+    },
+    [177167] = {
+        name = "Baronin Vashj",
+    },
+    [177194] = {
+        name = "Der Primus",
+    },
+    [177919] = {
+        name = "Dringende Nachricht aus dem Ardenwald",
+    },
+    [178260] = {
+        name = "Die Steinhauerin",
     },
 })
 ]])()

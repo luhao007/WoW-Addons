@@ -2253,6 +2253,7 @@ Database:AddChain(Chain.EmbedChain16, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2283,6 +2284,7 @@ Database:AddChain(Chain.EmbedChain17, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2321,6 +2323,7 @@ Database:AddChain(Chain.EmbedChain18, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2359,6 +2362,7 @@ Database:AddChain(Chain.EmbedChain19, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2389,6 +2393,7 @@ Database:AddChain(Chain.EmbedChain20, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2419,6 +2424,7 @@ Database:AddChain(Chain.EmbedChain21, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = HORDE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2449,6 +2455,7 @@ Database:AddChain(Chain.EmbedChain22, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = HORDE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2479,6 +2486,7 @@ Database:AddChain(Chain.EmbedChain23, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2509,6 +2517,7 @@ Database:AddChain(Chain.EmbedChain24, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = HORDE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2539,6 +2548,7 @@ Database:AddChain(Chain.EmbedChain25, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = HORDE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",
@@ -2569,6 +2579,7 @@ Database:AddChain(Chain.EmbedChain26, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = HORDE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",

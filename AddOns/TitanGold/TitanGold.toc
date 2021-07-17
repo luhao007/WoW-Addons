@@ -1,11 +1,11 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## Version: 5.20.3.90005
+## Version: 5.20.4.90005
 ## Dependencies: Titan
 ## OptionalDeps: 
 ## SavedVariables: GoldSave
 
-## Title: Titan Panel [|cffeda55fGold|r] |cff00aa005.20.3.90005|r
+## Title: Titan Panel [|cffeda55fGold|r] |cff00aa005.20.4.90005|r
 ## Notes: Keeps track of all gold held by a player's toons on a per server/faction basis.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0金币|r
 ## Notes-zhCN: 泰坦面板的金币模块

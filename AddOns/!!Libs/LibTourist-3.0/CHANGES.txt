@@ -1,16 +1,8 @@
 ------------------------------------------------------------------------
-r253 | Odica_Jaedenar | 2021-03-12 23:19:48 +0000 (Fri, 12 Mar 2021) | 8 lines
+r259 | Odica_Jaedenar | 2021-07-06 21:01:25 +0000 (Tue, 06 Jul 2021) | 1 line
 Changed paths:
    M /trunk/LibTourist-3.0.lua
-   M /trunk/LibTourist-3.0.toc
 
-- updated TOC to version 90005
-- added Castle Nathria (raid)
-- fixed missing group size for all Shadowlands dungeons
-- corrected 19 map names in MapIDLookupTable
-- added 7 MapIDs to MapIDLookupTable
-- added 3 flight nodes
-- fixed a bug in local function GetExpansionIndex that could cause a lua error
-- removed some obsolete code
+- Added Elysian Hold, Seat of the Primus, Heart of the Forest and Sinfall (Covenant Sanctums)
 ------------------------------------------------------------------------
 

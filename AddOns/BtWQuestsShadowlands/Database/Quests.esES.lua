@@ -114,6 +114,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "El destino de la acusadora",
     },
+    [57189] = {
+        name = "Romper a los rompeesperanzas",
+    },
     [57190] = {
         name = "Ni se lo verán venir",
     },
@@ -723,6 +726,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [58060] = {
         name = "El Mercado Nocturno",
     },
+    [58062] = {
+        name = "Una visita muy especial",
+    },
     [58068] = {
         name = "¡Hasta la petición más ridícula!",
     },
@@ -862,7 +868,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Cada cual debe cargar con sus propios pecados",
     },
     [58388] = {
-        name = "Traidores balanegra",
+        name = "Traidores Balanegra",
     },
     [58389] = {
         name = "Armas maldraxxi",
@@ -2274,6 +2280,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [60498] = {
         name = "Superar la prueba",
     },
+    [60501] = {
+        name = "Redención para el redentor",
+    },
     [60504] = {
         name = "Refuerza el vínculo",
     },
@@ -2598,6 +2607,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [61252] = {
         name = "Un favor",
     },
+    [61303] = {
+        name = "Lluvia de chispas",
+    },
     [61323] = {
         name = "Mira lo que has hecho",
     },
@@ -2621,6 +2633,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61404] = {
         name = "Corte de Ascuas: El saloncito de té de Moche",
+    },
+    [61411] = {
+        name = "Nuestro corazón seguirá latiendo",
     },
     [61412] = {
         name = "Un final temprano",
@@ -2663,6 +2678,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61553] = {
         name = "Saber dónde golpear",
+    },
+    [61557] = {
+        name = "Un eco en la oscuridad",
+    },
+    [61558] = {
+        name = "La visión del Alto Señor",
+    },
+    [61559] = {
+        name = "El nacimiento de la hoja de agonía",
     },
     [61567] = {
         name = "Serias intenciones",
@@ -2943,6 +2967,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [62557] = {
         name = "Nuestro reino recuperado",
     },
+    [62569] = {
+        name = "El influjo del Carcelero",
+    },
+    [62605] = {
+        name = "Cosas de Especuladores",
+    },
     [62654] = {
         name = "Caminante de Las Fauces",
     },
@@ -2984,6 +3014,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [62719] = {
         name = "Las piezas finales",
+    },
+    [62785] = {
+        name = "Puedo competir",
     },
     [62789] = {
         name = "De gran renombre",
@@ -3187,7 +3220,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "En un instante",
     },
     [63064] = {
-        name = "Mejora del sagrario: Mapa de exploración de aventuras",
+        name = "Mejora del sagrario: Mesa de mando",
     },
     [63066] = {
         name = "Mejora del sagrario: Conductor de ánima",
@@ -3209,6 +3242,408 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [63215] = {
         name = "Presentarse ante Draven",
+    },
+    [63576] = {
+        name = "El primer paso",
+    },
+    [63578] = {
+        name = "La batalla de Ardenweald",
+    },
+    [63579] = {
+        name = "Alma de paladín",
+    },
+    [63580] = {
+        name = "Recuerdos de dolor",
+    },
+    [63581] = {
+        name = "Entrar en la Luz",
+    },
+    [63582] = {
+        name = "Era mi discípulo",
+    },
+    [63583] = {
+        name = "Tengo intención de vivir eternamente",
+    },
+    [63584] = {
+        name = "Un regreso triunfal",
+    },
+    [63585] = {
+        name = "Lealtad ciega",
+    },
+    [63586] = {
+        name = "Compasión en la devoción",
+    },
+    [63587] = {
+        name = "Ánima recuperable",
+    },
+    [63588] = {
+        name = "La reconstrucción de la fe",
+    },
+    [63589] = {
+        name = "Dedicación redirigida",
+    },
+    [63590] = {
+        name = "El tañido de la campana de vísperas",
+    },
+    [63591] = {
+        name = "La gran recepción",
+    },
+    [63592] = {
+        name = "El nuevo camino",
+    },
+    [63593] = {
+        name = "El nuevo sigilo de los kyrianos",
+    },
+    [63612] = {
+        name = "Cadenas de mando",
+    },
+    [63613] = {
+        name = "Los portones de los condenados",
+    },
+    [63614] = {
+        name = "Arma en mano",
+    },
+    [63615] = {
+        name = "Cortarles las alas",
+    },
+    [63616] = {
+        name = "Un trabajo bien hecho",
+    },
+    [63617] = {
+        name = "Barrotes doblados",
+    },
+    [63618] = {
+        name = "La especialidad de Maldraxxus",
+    },
+    [63619] = {
+        name = "Abjurantes y olvidados",
+    },
+    [63620] = {
+        name = "El precio de la traición",
+    },
+    [63622] = {
+        name = "Victoria en nuestro nombre",
+    },
+    [63623] = {
+        name = "El trono vacante",
+    },
+    [63624] = {
+        name = "Las sendas que recorremos",
+    },
+    [63638] = {
+        name = "No podemos darles la espalda",
+    },
+    [63639] = {
+        name = "De vuelta a Oribos",
+    },
+    [63644] = {
+        name = "Malas noticias",
+    },
+    [63645] = {
+        name = "El prisionero del Torreón del Alba",
+    },
+    [63646] = {
+        name = "El convoy de las curias",
+    },
+    [63647] = {
+        name = "Los invitados ocultos",
+    },
+    [63649] = {
+        name = "Espía contra espía",
+    },
+    [63650] = {
+        name = "Desinfiltración",
+    },
+    [63651] = {
+        name = "Criptogramas",
+    },
+    [63652] = {
+        name = "Los invitados \"no deseados\"",
+    },
+    [63653] = {
+        name = "El poder de una corona",
+    },
+    [63654] = {
+        name = "Los Nathrezim",
+    },
+    [63655] = {
+        name = "El medallón de cólera",
+    },
+    [63656] = {
+        name = "El sentido de la cólera",
+    },
+    [63659] = {
+        name = "¡Señores del Terror!",
+    },
+    [63660] = {
+        name = "Abrir Las Fauces",
+    },
+    [63661] = {
+        name = "Enlace a Las Fauces",
+    },
+    [63662] = {
+        name = "Misterios de Las Fauces",
+    },
+    [63663] = {
+        name = "Korthia, la Ciudad de los Secretos",
+    },
+    [63665] = {
+        name = "Acceso a Oribos",
+    },
+    [63672] = {
+        name = "Un grito desde el corazón",
+    },
+    [63673] = {
+        name = "Búsqueda entre las casas",
+    },
+    [63674] = {
+        name = "Con la venia",
+    },
+    [63675] = {
+        name = "No puedes huir",
+    },
+    [63676] = {
+        name = "No puedes esconderte",
+    },
+    [63677] = {
+        name = "Solo te queda morir",
+    },
+    [63678] = {
+        name = "Venganza por Akarek",
+    },
+    [63679] = {
+        name = "¡Un viaje misterioso y mágico!",
+    },
+    [63680] = {
+        name = "Justo al límite",
+    },
+    [63681] = {
+        name = "De vuelta al Corazón",
+    },
+    [63682] = {
+        name = "El poder de Elune",
+    },
+    [63683] = {
+        name = "El sigilo del invierno",
+    },
+    [63703] = {
+        name = "La Cámara de los Secretos",
+    },
+    [63704] = {
+        name = "Venganza para Korthia",
+    },
+    [63705] = {
+        name = "Los custodios del conocimiento",
+    },
+    [63706] = {
+        name = "Que fluya el ánima",
+    },
+    [63709] = {
+        name = "Secretos de la cámara",
+    },
+    [63710] = {
+        name = "El rastro de ánima",
+    },
+    [63711] = {
+        name = "Herramientas de hueso",
+    },
+    [63712] = {
+        name = "Registros perdidos",
+    },
+    [63713] = {
+        name = "Con mucho gancho",
+    },
+    [63714] = {
+        name = "Hacia la cámara",
+    },
+    [63717] = {
+        name = "La defensa de la cámara",
+    },
+    [63722] = {
+        name = "Custodios de Korthia",
+    },
+    [63725] = {
+        name = "Al interior de la cámara",
+    },
+    [63726] = {
+        name = "Desenmarañar el sigilo",
+    },
+    [63727] = {
+        name = "El retorno del Prelado",
+    },
+    [63728] = {
+        name = "Búsqueda entre las casas",
+    },
+    [63731] = {
+        name = "Investigando reliquias korthianas",
+    },
+    [63732] = {
+        name = "Interrupción de los interrogatorios",
+    },
+    [63733] = {
+        name = "Un camino para escapar",
+    },
+    [63734] = {
+        name = "El bastón hendido",
+    },
+    [63736] = {
+        name = "Una infusión de ánima",
+    },
+    [63737] = {
+        name = "Encontrar el auténtico propósito",
+    },
+    [63738] = {
+        name = "Los cimientos del archivo",
+    },
+    [63739] = {
+        name = "Esperanza ascendente",
+    },
+    [63740] = {
+        name = "Consultar a los expertos",
+    },
+    [63754] = {
+        name = "El pájaro enjaulado",
+    },
+    [63755] = {
+        name = "Un asunto acuciante",
+    },
+    [63756] = {
+        name = "Rescate del tormento",
+    },
+    [63757] = {
+        name = "Saqueadores saqueados",
+    },
+    [63758] = {
+        name = "Donde menos te lo esperas",
+    },
+    [63759] = {
+        name = "Redirigir la búsqueda",
+    },
+    [63760] = {
+        name = "Ecos del destino",
+    },
+    [63761] = {
+        name = "Venganza retrasada",
+    },
+    [63762] = {
+        name = "Bajo la ilusión",
+    },
+    [63763] = {
+        name = "Podría ser cualquiera",
+    },
+    [63764] = {
+        name = "La conquista de los cielos",
+    },
+    [63810] = {
+        name = "En compañía de pájaros",
+    },
+    [63811] = {
+        name = "Una relación de auténtico odio",
+    },
+    [63831] = {
+        name = "Que resuene la furia",
+    },
+    [63844] = {
+        name = "Los pocos elegidos",
+    },
+    [63845] = {
+        name = "La ira de Odyn",
+    },
+    [63848] = {
+        name = "Una muestra de gratitud",
+    },
+    [63849] = {
+        name = "Dispositivos de escucha",
+    },
+    [63855] = {
+        name = "Facilidad de paso",
+    },
+    [63856] = {
+        name = "Una reunión de curias",
+    },
+    [63857] = {
+        name = "Voces de los Eternos",
+    },
+    [63867] = {
+        name = "Controlar la ira",
+    },
+    [63895] = {
+        name = "Bolsa de sorpresas",
+    },
+    [63896] = {
+        name = "Las lágrimas de los condenados",
+    },
+    [63901] = {
+        name = "Enfocando la Mirada",
+    },
+    [63902] = {
+        name = "¡Buenas noticias, amigos!",
+    },
+    [63904] = {
+        name = "El Corazón de Ardenweald",
+    },
+    [63976] = {
+        name = "Al'gato callejero de Oribos",
+    },
+    [63977] = {
+        name = "Comercio interior",
+    },
+    [63979] = {
+        name = "Que no se sepa",
+    },
+    [63980] = {
+        name = "Buscando contrabandistas",
+    },
+    [63982] = {
+        name = "Estación inalcanzable",
+    },
+    [63983] = {
+        name = "Ariete destructor",
+    },
+    [63984] = {
+        name = "Monedas para el barquero",
+    },
+    [63985] = {
+        name = "El Mercado Velado",
+    },
+    [63986] = {
+        name = "Tazavesh: En busca del artefacto perdido",
+    },
+    [63990] = {
+        name = "La hoja en la noche",
+    },
+    [63994] = {
+        name = "¿Quién camina en Las Fauces?",
+    },
+    [64007] = {
+        name = "El asalto de las curias",
+    },
+    [64014] = {
+        name = "El cuerno de Las Fauces",
+    },
+    [64042] = {
+        name = "Rituales nocturnos",
+    },
+    [64090] = {
+        name = "El gran aprieto",
+    },
+    [64091] = {
+        name = "Mal'Genio",
+    },
+    [64092] = {
+        name = "En busca de Huln",
+    },
+    [64106] = {
+        name = "Un esfuerzo conjunto",
+    },
+    [64437] = {
+        name = "Informar al Prelado",
+    },
+    [64555] = {
+        name = "Estudiar secretos",
+    },
+    [64556] = {
+        name = "Necesitan ayuda",
     },
 })
 ]])()

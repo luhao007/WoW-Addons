@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Fabys
-## Version: 4.3.1
+## Version: 4.4.1
 ## SavedVariables: MythicPlusTimerDB
 
 ## Title: MythicPlusTimer

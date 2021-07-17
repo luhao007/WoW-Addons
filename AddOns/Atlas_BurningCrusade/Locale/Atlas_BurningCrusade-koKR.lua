@@ -578,8 +578,7 @@ L["Watcher Jhang"] = "감시자 쟝"
 --[[ L["Watchkeeper Gargolmar"] = ""--]] 
 L["Weeder Greenthumb"] = "약초학자 그린썸"
 L["Windcaller Claw"] = "바람소환사 클로"
---[[Translation missing --]]
---[[ L["Wizard of Oz"] = ""--]] 
+L["Wizard of Oz"] = "오즈의 마법사"
 --[[Translation missing --]]
 --[[ L["Wrath-Scryer Soccothrates"] = ""--]] 
 L["Wravien <The Mage>"] = "레비엔 <마법사>"

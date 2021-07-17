@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Xinhuan
 ## Version: 3.2.4
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSink-2.0, LibDBIcon-1.0, !ClassColors

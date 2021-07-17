@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: MysticalOS
-## Version: r23
+## Version: r24
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBrokenIsles_AllSavedVars
@@ -25,6 +25,7 @@
 ## X-DBM-Mod-MinExpansion: 6
 ## X-Curse-Project-ID: 301324
 ## X-WoWI-ID: 24905
+## X-Wago-ID: lQNlbaKe
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

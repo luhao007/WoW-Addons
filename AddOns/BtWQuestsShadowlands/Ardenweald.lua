@@ -1035,7 +1035,7 @@ Database:AddChain(Chain.VisionsOfTheDreamer, {
             variations = {
                 {
                     amounts = {
-                        41425, 42225, 43050, 44000, 44850, 45650, 46500, 47300, 48100, 48900, 
+                        51075, 52075, 53100, 54200, 55250, 56250, 57300, 58300, 59300, 60250, 
                     },
                     minLevel = 50,
                     maxLevel = 59,
@@ -1043,7 +1043,7 @@ Database:AddChain(Chain.VisionsOfTheDreamer, {
                 },
                 {
                     amounts = {
-                        48100, 48900, 
+                        59300, 60100, 
                     },
                     minLevel = 58,
                     maxLevel = 59,
@@ -1055,14 +1055,14 @@ Database:AddChain(Chain.VisionsOfTheDreamer, {
             variations = {
                 {
                     amounts = {
-                        1427400, 1441675, 1455950, 1470220, 1484495, 1498770, 1513045, 1527320, 1541590, 1555865, 1570140, 
+                        1895400, 1914355, 1933310, 1952260, 1971215, 1990170, 2009125, 2028080, 2047030, 2065985, 2084940, 
                     },
                     minLevel = 50,
                     maxLevel = 60,
                     restrictions = 86994,
                 },
                 {
-                    amount = 1541590,
+                    amount = 2047030,
                 },
             },
         },

@@ -843,10 +843,12 @@ function VUHDO_slashCmd(aCommand)
 		end
 	elseif strfind(tCommandWord, "mm")
 		or strfind(tCommandWord, "map") then
-		VUHDO_CONFIG["SHOW_MINIMAP"] = VUHDO_forceBooleanValue(VUHDO_CONFIG["SHOW_MINIMAP"]);
-		VUHDO_CONFIG["SHOW_MINIMAP"] = not VUHDO_CONFIG["SHOW_MINIMAP"];
+		VUHDO_MM_SETTINGS["hide"] = VUHDO_forceBooleanValue(VUHDO_MM_SETTINGS["hide"]);
+		VUHDO_MM_SETTINGS["hide"] = not VUHDO_MM_SETTINGS["hide"];
+
 		VUHDO_initShowMinimap();
-		VUHDO_Msg(VUHDO_I18N_MM_ICON .. (VUHDO_CONFIG["SHOW_MINIMAP"] and VUHDO_I18N_CHAT_SHOWN or VUHDO_I18N_CHAT_HIDDEN));
+
+		VUHDO_Msg(VUHDO_I18N_MM_ICON .. (VUHDO_MM_SETTINGS["hide"] and VUHDO_I18N_CHAT_HIDDEN or VUHDO_I18N_CHAT_SHOWN));
 	elseif tCommandWord == "ui" then
 		VUHDO_reloadUI(false);
 	elseif strfind(tCommandWord, "role") then

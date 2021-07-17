@@ -114,6 +114,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [57182] = {
         name = "Das Schicksal der Anklägerin",
     },
+    [57189] = {
+        name = "Die Hoffnungsbrecher brechen",
+    },
     [57190] = {
         name = "Sie werden nicht wissen, wie ihnen geschieht",
     },
@@ -722,6 +725,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [58060] = {
         name = "Der Nachtmarkt",
+    },
+    [58062] = {
+        name = "Ein ganz besonderer Gast",
     },
     [58068] = {
         name = "... Sogar die lächerlichste Bitte!",
@@ -1852,7 +1858,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Die Schlächter der Bastion",
     },
     [59917] = {
-        name = "Natürlich töten",
+        name = "Sie müssen sterben",
     },
     [59919] = {
         name = "Ein verdientes Band",
@@ -1927,7 +1933,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Die Klinge aufladen",
     },
     [60048] = {
-        name = "Stickzeit",
+        name = "Zeit zum Flicken",
     },
     [60049] = {
         name = "Zu Euren Diensten",
@@ -2601,6 +2607,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [61252] = {
         name = "Neue Fachkraft heraufbeschwören",
     },
+    [61303] = {
+        name = "Es regnet Funken",
+    },
     [61323] = {
         name = "Seht, was Ihr getan habt",
     },
@@ -2624,6 +2633,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61404] = {
         name = "Gluthof: Tubbins' Teekränzchen",
+    },
+    [61411] = {
+        name = "Irgendwie, irgendwo, irgendwann",
     },
     [61412] = {
         name = "Ein jähes Ende",
@@ -2666,6 +2678,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61553] = {
         name = "Wissen ist Macht",
+    },
+    [61557] = {
+        name = "Ein Echo im Dunkeln",
+    },
+    [61558] = {
+        name = "Die Vision des Hochlords",
+    },
+    [61559] = {
+        name = "Geburt einer Gramklinge",
     },
     [61567] = {
         name = "Finstere Absichten",
@@ -2932,7 +2953,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Die Andre Seite",
     },
     [62461] = {
-        name = "Auf Pirsch im Brachland",
+        name = "Auf Pirsch im Labyrinth",
     },
     [62462] = {
         name = "GESUCHT: Schlüssel der Augen",
@@ -2945,6 +2966,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [62557] = {
         name = "Unser Reich in unseren Händen",
+    },
+    [62569] = {
+        name = "Im Griff des Kerkermeisters",
+    },
+    [62605] = {
+        name = "Mittlergeschäfte",
     },
     [62654] = {
         name = "Schlundgänger",
@@ -2987,6 +3014,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [62719] = {
         name = "Die letzten Teile",
+    },
+    [62785] = {
+        name = "Ich könnte ein Streiter sein",
     },
     [62789] = {
         name = "Von hohem Ruhm",
@@ -3190,7 +3220,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Im Handumdrehen",
     },
     [63064] = {
-        name = "Sanktumaufwertung: Abenteuerspäherkarte",
+        name = "Sanktumaufwertung: Befehlstisch",
     },
     [63066] = {
         name = "Sanktumaufwertung: Animaleiter",
@@ -3212,6 +3242,405 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [63215] = {
         name = "Meldet Euch bei Draven",
+    },
+    [63576] = {
+        name = "Die erste Schritt",
+    },
+    [63578] = {
+        name = "Die Schlacht um den Ardenwald",
+    },
+    [63579] = {
+        name = "Die Seele eines Paladins",
+    },
+    [63580] = {
+        name = "Verwundete Erinnerungen",
+    },
+    [63581] = {
+        name = "Ins Licht treten",
+    },
+    [63582] = {
+        name = "Er war mein Schüler",
+    },
+    [63583] = {
+        name = "Ich beabsichtige, ewig zu leben",
+    },
+    [63584] = {
+        name = "Eine triumphale Rückkehr",
+    },
+    [63585] = {
+        name = "Blinde Loyalität",
+    },
+    [63586] = {
+        name = "Mitfühlende Hingabe",
+    },
+    [63587] = {
+        name = "Zurückgewinnbare Anima",
+    },
+    [63588] = {
+        name = "Vertrauen zurückgewinnen",
+    },
+    [63589] = {
+        name = "Hingabe hervorbringen",
+    },
+    [63590] = {
+        name = "Das Vesperglockenläuten",
+    },
+    [63591] = {
+        name = "Der große Empfang",
+    },
+    [63592] = {
+        name = "Der Neue Pfad",
+    },
+    [63593] = {
+        name = "Neues Siegel der Kyrianer",
+    },
+    [63612] = {
+        name = "Die Befehlsketten",
+    },
+    [63613] = {
+        name = "Tore der Verdammten",
+    },
+    [63614] = {
+        name = "Mit der Waffe in der Hand",
+    },
+    [63615] = {
+        name = "Die Flügel stutzen",
+    },
+    [63616] = {
+        name = "Korrekt ausgeführte Aufgabe",
+    },
+    [63617] = {
+        name = "Eisenbiegen",
+    },
+    [63618] = {
+        name = "Was Maldraxxus am besten kann",
+    },
+    [63619] = {
+        name = "Verschmäht und vergessen",
+    },
+    [63620] = {
+        name = "Die Schuld eines Verräters",
+    },
+    [63622] = {
+        name = "Sieg in unserem Namen",
+    },
+    [63623] = {
+        name = "Einen leeren Thron ausfüllen",
+    },
+    [63624] = {
+        name = "Die Wege, die wir beschreiten",
+    },
+    [63638] = {
+        name = "Nicht den Rücken zuwenden",
+    },
+    [63639] = {
+        name = "Bericht in Oribos",
+    },
+    [63644] = {
+        name = "Finstere Nachrichten",
+    },
+    [63645] = {
+        name = "Gefangener von Morgenfels",
+    },
+    [63646] = {
+        name = "Konvoi der Pakte",
+    },
+    [63647] = {
+        name = "Die Ungesehenen Gäste",
+    },
+    [63649] = {
+        name = "Spion gegen Spion",
+    },
+    [63651] = {
+        name = "Kryptogramme",
+    },
+    [63652] = {
+        name = "Die \"ungebetenen\" Gäste",
+    },
+    [63653] = {
+        name = "Die Macht einer Krone",
+    },
+    [63654] = {
+        name = "Die Nathrezim",
+    },
+    [63655] = {
+        name = "Medaillon des Zorns",
+    },
+    [63656] = {
+        name = "Die Bedeutung des Zorns",
+    },
+    [63659] = {
+        name = "Schreckenslords!",
+    },
+    [63660] = {
+        name = "Der Weg in den Schlund",
+    },
+    [63661] = {
+        name = "Die Verbindung zum Schlund",
+    },
+    [63662] = {
+        name = "Geheimnisse des Schlunds",
+    },
+    [63663] = {
+        name = "Korthia, die Stadt der Geheimnisse",
+    },
+    [63665] = {
+        name = "Der Weg nach Oribos",
+    },
+    [63672] = {
+        name = "Ein Ruf aus tiefstem Herzen",
+    },
+    [63673] = {
+        name = "Jagd zwischen den Häusern",
+    },
+    [63674] = {
+        name = "Wenn Ihr gestattet",
+    },
+    [63675] = {
+        name = "Es gibt kein Entkommen",
+    },
+    [63676] = {
+        name = "Verstecken ist zwecklos",
+    },
+    [63677] = {
+        name = "Ihr könnt nur sterben",
+    },
+    [63678] = {
+        name = "Rache für Akarek",
+    },
+    [63679] = {
+        name = "Magische Mysterien!",
+    },
+    [63680] = {
+        name = "Am Abgrund",
+    },
+    [63681] = {
+        name = "Zurück zum Herz",
+    },
+    [63682] = {
+        name = "Die Macht von Elune",
+    },
+    [63683] = {
+        name = "Siegel des Winters",
+    },
+    [63703] = {
+        name = "Archiv der Geheimnisse",
+    },
+    [63704] = {
+        name = "Rache für Korthia",
+    },
+    [63705] = {
+        name = "Die Hüter des Wissens",
+    },
+    [63706] = {
+        name = "Lasst die Anima fließen",
+    },
+    [63709] = {
+        name = "Geheimnisse des Archivs",
+    },
+    [63710] = {
+        name = "Die Animaspur",
+    },
+    [63711] = {
+        name = "Knochenwerkzeug",
+    },
+    [63712] = {
+        name = "Verlorene Aufzeichnungen",
+    },
+    [63713] = {
+        name = "Ganz schön hakelig",
+    },
+    [63714] = {
+        name = "Auf zum Archiv",
+    },
+    [63717] = {
+        name = "Die Verteidigung des Archivs",
+    },
+    [63722] = {
+        name = "Die Hüter von Korthia",
+    },
+    [63725] = {
+        name = "Auf in das Archiv",
+    },
+    [63726] = {
+        name = "Entwirrung des Siegels",
+    },
+    [63727] = {
+        name = "Die Rückkehr des Primus",
+    },
+    [63728] = {
+        name = "Jagd zwischen den Häusern",
+    },
+    [63731] = {
+        name = "Korthianische Relikte erforschen",
+    },
+    [63732] = {
+        name = "Verhören stören",
+    },
+    [63733] = {
+        name = "Auf Biegen und Breschen",
+    },
+    [63734] = {
+        name = "Der gesplitterte Stab",
+    },
+    [63736] = {
+        name = "Eine Animainfusion",
+    },
+    [63737] = {
+        name = "Die wahre Vorsehung finden",
+    },
+    [63738] = {
+        name = "Aufbau des Archivs",
+    },
+    [63739] = {
+        name = "Aufsteigende Hoffnung",
+    },
+    [63740] = {
+        name = "Expertenrat einholen",
+    },
+    [63754] = {
+        name = "Der Vogel im Käfig",
+    },
+    [63755] = {
+        name = "Eine dringliche Angelegenheit",
+    },
+    [63756] = {
+        name = "Rettung aus der Qual",
+    },
+    [63757] = {
+        name = "Plündert die Plünderer",
+    },
+    [63758] = {
+        name = "Wo man zuletzt nachsieht",
+    },
+    [63759] = {
+        name = "Neuausrichtung der Suche",
+    },
+    [63760] = {
+        name = "Echos des Schicksals",
+    },
+    [63761] = {
+        name = "Verzögerte Rache",
+    },
+    [63762] = {
+        name = "Im Bann der Illusion",
+    },
+    [63763] = {
+        name = "Es könnte jeder sein",
+    },
+    [63764] = {
+        name = "Der Griff nach dem Himmel",
+    },
+    [63810] = {
+        name = "Kommt ein Vogel geflogen",
+    },
+    [63811] = {
+        name = "Eine reine Hassbeziehung",
+    },
+    [63831] = {
+        name = "Das Instrument des Zorns",
+    },
+    [63844] = {
+        name = "Die wenigen Auserwählten",
+    },
+    [63845] = {
+        name = "Odyns Zorn",
+    },
+    [63848] = {
+        name = "Ein Zeichen der Dankbarkeit",
+    },
+    [63849] = {
+        name = "Hörhilfe",
+    },
+    [63855] = {
+        name = "Erleichterter Übergang",
+    },
+    [63856] = {
+        name = "Ein Zusammentreffen der Pakte",
+    },
+    [63857] = {
+        name = "Stimmen der Ewigen",
+    },
+    [63867] = {
+        name = "Aggressionsmanagement",
+    },
+    [63895] = {
+        name = "Wundertüte",
+    },
+    [63896] = {
+        name = "Tränen der Verdammten",
+    },
+    [63901] = {
+        name = "Fokussieren des Auges",
+    },
+    [63902] = {
+        name = "Eine gute Nachricht, Freunde!",
+    },
+    [63904] = {
+        name = "Das Herz des Ardenwalds",
+    },
+    [63976] = {
+        name = "Al'ter Gauner von Oribos",
+    },
+    [63977] = {
+        name = "Insidergeschäfte",
+    },
+    [63979] = {
+        name = "Manches bleibt besser verborgen",
+    },
+    [63980] = {
+        name = "Schmugglersuche",
+    },
+    [63982] = {
+        name = "Außerhalb meiner Befugnis",
+    },
+    [63983] = {
+        name = "Akquise",
+    },
+    [63984] = {
+        name = "Münzen für den Fährmann",
+    },
+    [63985] = {
+        name = "Der Verhüllte Markt",
+    },
+    [63986] = {
+        name = "Tazavesh: Jäger des verlorenen Artefakts",
+    },
+    [63990] = {
+        name = "Die Klinge in der Nacht",
+    },
+    [63994] = {
+        name = "Wer ist der Schlundgänger?",
+    },
+    [64007] = {
+        name = "Angriff der Pakte",
+    },
+    [64014] = {
+        name = "Schlundforschung",
+    },
+    [64042] = {
+        name = "Rituale der Nacht",
+    },
+    [64090] = {
+        name = "Ausgequetscht",
+    },
+    [64091] = {
+        name = "Ein fragwürdiges Angebot",
+    },
+    [64092] = {
+        name = "Die Jagd auf Huln",
+    },
+    [64106] = {
+        name = "Vereinte Bemühungen",
+    },
+    [64437] = {
+        name = "Informiert den Primus",
+    },
+    [64555] = {
+        name = "Geheimnis und Erkenntnis",
+    },
+    [64556] = {
+        name = "Freunde in der Not",
     },
 })
 ]])()

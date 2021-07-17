@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Cladhaire, Ludovicus
-## Version: v3.0.1
+## Version: v3.0.2
 ## OptionalDeps: HereBeDragons-2.0
 ## SavedVariables: TomTomDB, TomTomWaypoints, TomTomWaypointsM
 

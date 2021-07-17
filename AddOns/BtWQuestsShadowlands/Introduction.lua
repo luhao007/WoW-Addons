@@ -541,33 +541,33 @@ Database:AddChain(Chain.ArrivalInTheShadowlandsAlt, {
             id = 62275,
             aside = true,
             x = -3,
-            connections = {
-                4,
-            },
+            -- connections = {
+            --     4,
+            -- },
         },
         {
             type = "quest",
             id = 62278,
             aside = true,
-            connections = {
-                4,
-            },
+            -- connections = {
+            --     4,
+            -- },
         },
         {
             type = "quest",
             id = 62277,
             aside = true,
-            connections = {
-                4,
-            },
+            -- connections = {
+            --     4,
+            -- },
         },
         {
             type = "quest",
             id = 62279,
             aside = true,
-            connections = {
-                4,
-            },
+            -- connections = {
+            --     4,
+            -- },
         },
         -- {
         --     type = "chain",
@@ -696,7 +696,7 @@ Database:AddChain(Chain.TheMawEmbed, {
 })
 Database:AddChain(Chain.Torghast, {
     name = BtWQuests_GetMapName(1762),
-    questline = {1136, 1210},
+    questline = {1136, 1210, 1242, 1243, 1244, 1245},
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
     major = true,
@@ -763,7 +763,7 @@ Database:AddChain(Chain.Torghast, {
         {
             type = "experience",
             amounts = {
-                135150, 137800, 140400, 143100, 145700, 148350, 150950, 153600, 156600, 159250, 
+                150600, 153550, 156450, 159450, 162350, 165300, 168200, 171150, 174500, 177450, 
             },
             minLevel = 50,
             maxLevel = 59,
@@ -774,21 +774,21 @@ Database:AddChain(Chain.Torghast, {
             variations = {
                 {
                     amounts = {
-                        7979400, 8056620, 8133840, 8211060, 8288280, 8365500, 8442720, 8519940, 8597160, 8674380, 8751600, 
+                        8915400, 9001980, 9088560, 9175140, 9261720, 9348300, 9434880, 9521460, 9608040, 9694620, 9781200, 
                     },
                     minLevel = 50,
                     maxLevel = 60,
                     restrictions = 86994,
                 },
                 {
-                    amount = 8751600,
+                    amount = 9781200,
                 },
             },
         },
         {
             type = "currency",
             id = 1828,
-            amount = 950,
+            amount = 1150,
         },
     },
     items = {
@@ -1215,6 +1215,36 @@ Database:AddChain(Chain.PeeringIntoDarkness, {
         id = 62569,
     },
     rewards = {
+        {
+            type = "experience",
+            amounts = {
+                23150, 23600, 24050, 24550, 25000, 25450, 25900, 26350, 26850, 27300, 
+            },
+            minLevel = 50,
+            maxLevel = 59,
+            restrictions = 86994,
+        },
+        {
+            type = "money",
+            variations = {
+                {
+                    amounts = {
+                        1298700, 1310400, 1322100, 1333800, 1345500, 1357200, 1368900, 1380600, 1392300, 1404000, 1415700, 
+                    },
+                    minLevel = 50,
+                    maxLevel = 60,
+                    restrictions = 86994,
+                },
+                {
+                    amount = 1415700,
+                },
+            },
+        },
+        {
+            type = "currency",
+            id = 1828,
+            amount = 250,
+        },
     },
     items = {
         {

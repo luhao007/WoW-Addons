@@ -1,3 +1,15 @@
+07/01/2021 version 4.11.16
+- Fix for actions in journal mode that should switch to the team panel not switching; such as clicking a team tab, searching for teams a pet belongs to, etc.
+
+06/29/2021 version 4.11.15
+- Toolbar buttons that contain an item or spell can now be picked up on the cursor by dragging from the toolbar button. Note that these are the items or spells themselves, and don't include Rematch-specific behavior (such as not healing if pets are at full health or summononing a random pet from all pets on right-click).
+- Added Anthea (daily quest Temple Throwdown) to Shadowlands/Pandaria targets.
+- toc update for 9.1.0
+
+06/13/2021 version 4.11.14
+- Better handling of bugged pets on the 9.1 PTR.
+- Fix for topmost wrong-covenant pets in the queue (or pets otherwise unsummonable for reasons other than being dead) causing teams to silently fail to load completely.
+
 04/24/2021 version 4.11.13
 - Pet cards now display a background based on the expansion the pet is from, when applicable.
 - Fix for Gnawface and Gorefu target recognition.

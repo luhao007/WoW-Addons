@@ -2536,8 +2536,8 @@ function VUHDO_loadProfileNoInit(aName)
 	end
 
 	-- @TODO: Warum werden die nicht direkt geladen (ipairs-Problem?)
-	if tProfile["CONFIG"]["CUSTOM_DEBUFF"] and tProfile["CONFIG"]["CUSTOM_DEBUFF"]["STORED"] and VUHDO_CONFIG["CUSTOM_DEBUFF"] then
-		VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED"] = VUHDO_deepCopyTable(tProfile["CONFIG"]["CUSTOM_DEBUFF"]["STORED"]);
+	if tProfile["CONFIG"]["CUSTOM_DEBUFF"] and VUHDO_CONFIG["CUSTOM_DEBUFF"] then
+		VUHDO_CONFIG["CUSTOM_DEBUFF"] = VUHDO_deepCopyTable(tProfile["CONFIG"]["CUSTOM_DEBUFF"]);
 	end
 
 	if tProfile["CONFIG"]["SPELL_TRACE"] and VUHDO_CONFIG["SPELL_TRACE"] then

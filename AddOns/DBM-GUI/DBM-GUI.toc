@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Nitram and Tandanu
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1

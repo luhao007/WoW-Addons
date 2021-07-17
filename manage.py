@@ -13,7 +13,7 @@ logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11307'
 CLASSIC_VER = '20501'
-RETAIL_VER = '90005'
+RETAIL_VER = '90100'
 
 
 def available_on(platforms):
@@ -334,7 +334,7 @@ class Manager:
     @staticmethod
     def handle_dup_libraries():
         addons = ['Atlas', 'BlizzMove', 'DBM-Core', 'Details_Streamer',
-                    'Details_TinyThreat', 'ExRT', 'GatherMate2', 'GTFO',
+                    'Details_TinyThreat', 'MRT', 'GatherMate2', 'GTFO',
                     'HandyNotes', 'ItemRack', 'ItemRackOptions', 'MapSter',
                     'MikScrollingBattleText', 'OmniCC', 'OmniCC_Config',
                     'Quartz', 'RangeDisplay', 'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
@@ -358,10 +358,10 @@ class Manager:
                        'MinimalArchaeology', 'NPCScan', 'Omen',
                        'RelicInspector', 'Simulationcraft', 'Titan']
         else:
-            addons += ['alaTalentEmu', 'alaCalendar', 'AtlasLootClassic', 'AtlasLootClassic_Options',
-                        'ATT-Classic', 'ClassicCastbars_Options',
-                        'Fizzle', 'GroupCalendar', 'HandyNotes_NPCs (Classic)',
-                        'PallyPower', 'SimpleChatClassic', 'TradeLog', 'TitanClassic', 'WclPlayerScore']
+            addons += ['alaCalendar', 'AtlasLootClassic', 'AtlasLootClassic_Options',
+                       'ATT-Classic', 'ClassicCastbars_Options',
+                       'Fizzle', 'GroupCalendar', 'HandyNotes_NPCs (Classic)',
+                       'PallyPower', 'SimpleChatClassic', 'TradeLog', 'TitanClassic', 'WclPlayerScore']
 
 
         for addon in addons:
@@ -392,8 +392,8 @@ class Manager:
     def handle_ate():
         utils.remove_libraries(
                 ['CallbackHandler-1.0', 'LibDataBroker-1.1',
-                    'LibDbIcon-1.0', 'LibStub'],
-                'AddOns/alaTalentEmu/Lib',
+                 'LibDbIcon-1.0', 'LibStub'],
+                'AddOns/alaTalentEmu/Libs',
                 'AddOns/alaTalentEmu/alaTalentEmu.xml'
             )
 
@@ -452,7 +452,7 @@ class Manager:
         )
 
     @staticmethod
-    @available_on(['retail'])
+    @available_on(['classic', 'retail'])
     def handle_btwquest():
         def process(lines):
             ret = []
@@ -555,7 +555,7 @@ class Manager:
         utils.process_file('AddOns/Fizzle/Core.lua', process)
 
     @staticmethod
-    @available_on(['classic', 'classic_era'])
+    @available_on(['classic_era'])
     def handle_goodleader():
         utils.remove_libraries(
             ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceDB-3.0',
@@ -576,15 +576,10 @@ class Manager:
             if 'Grail' not in folder:
                 continue
 
-            if (('NPCs' in folder or 'Quests' in folder) and
-               not folder.endswith('_') and
-               ('enUS' not in folder and 'zhCN' not in folder)):
-                utils.rm_tree(Path('AddOns') / folder)
+            local = folder[-4:]
+            if local in ['deDE', 'esES', 'esMX', 'frFR', 'itIT', 'koKR', 'ptBR', 'ruRU', 'zhTW']:
+                utils.rm_tree(Path('Addons') / folder)
 
-            if ((utils.get_platform() == 'retail' and 'classic' in folder) or
-                (not utils.get_platform() == 'retail' and
-                 ('retail' in folder or 'Achievements' in folder))):
-                utils.rm_tree(Path('AddOns') / folder)
 
     @staticmethod
     @available_on(['classic', 'classic_era'])
@@ -642,23 +637,6 @@ class Manager:
             'Addons/MerInspect/Options.lua',
             ['    ShowCharacterItemSheet = false,          --玩家自己裝備列表',
                 '    ShowCharacterItemStats = false,          --玩家自己屬性統計']
-        )
-
-    @staticmethod
-    @available_on(['retail'])
-    def handle_mogit():
-        utils.remove_libraries(
-            ['AceConfig-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceGUI-3.0',
-                'CallbackHandler-1.0', 'LibBabble-Boss-3.0',
-                'LibBabble-Inventory-3.0', 'LibBabble-Race-3.0', 'LibDBIcon-1.0',
-                'LibDataBroker-1.1', 'LibStub'],
-            'Addons/MogIt/Libs',
-            'Addons/MogIt/Libs/Embeds.xml'
-        )
-
-        utils.change_defaults(
-            'Addons/Mogit/Core/Core.lua',
-            '		minimap = { hide = true },'
         )
 
     @staticmethod
@@ -753,8 +731,9 @@ class Manager:
             'AddOns/Questie/embeds.xml'
         )
 
-        for postfix in ['', '-BCC', '-Classic']:
-            utils.remove_libraries([ 'LibUIDropDownMenu'], 'AddOns/Questie/Libs', f'AddOns/Questie/Questie{postfix}.toc')
+        if utils.get_platform() == 'classic_era':
+            for postfix in ['', '-BCC', '-Classic']:
+                utils.remove_libraries([ 'LibUIDropDownMenu'], 'AddOns/Questie/Libs', f'AddOns/Questie/Questie{postfix}.toc')
 
         root = Path('AddOns/Questie')
         with open(root / 'Questie.toc', 'r', encoding='utf-8') as file:

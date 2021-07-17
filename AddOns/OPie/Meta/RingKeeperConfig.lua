@@ -741,10 +741,10 @@ sliceDetail = CreateFrame("Frame", nil, ringContainer) do
 		local modes = {
 			false, "cycle", "shuffle", "random", "reset", "jump",
 			[false]=L"Remember last rotation",
-			cycle=L"Advance after use",
-			shuffle=L"Shuffle after use",
-			random=L"Randomize on display",
-			reset=L"Reset on display",
+			cycle=L"Advance rotation after use",
+			shuffle=L"Randomize rotation after use",
+			random=L"Randomize rotation on display",
+			reset=L"Reset rotation on display",
 			jump=L"Display a jump slice",
 		}
 		function w:set(opt)
@@ -1470,12 +1470,13 @@ function api.updateSliceOptions(slice)
 	local extraY, isCollection = 0, securecall(isCollectionSlice, RK:UnpackABAction(slice))
 	local fc, cd = sliceDetail.fastClick, sliceDetail.collectionDrop
 	fc:SetChecked(not not slice.fastClick)
-	if OneRingLib:GetOption("CenterAction", currentRingName) then
+	if OneRingLib:GetOption("CenterAction", currentRingName) or OneRingLib:GetOption("MotionAction", currentRingName) then
 		fc:SetEnabled(true)
 		fc.tooltipText = nil
 		fc.Text:SetVertexColor(1, 1, 1)
 	else
-		fc.tooltipText = (L"You must enable the %s option for this ring in OPie options to use quick actions."):format("|cffffffff" .. L"Quick action at ring center" .. "|r")
+		fc.tooltipText = (L"You must enable the %s option for this ring in OPie options to use quick actions."):format(
+			"|cffffffff" .. L"Quick action at ring center" .. "|r|cff909090 / |r|cffffffff" .. L"Quick action if mouse remains still" .. "|r")
 		fc:SetChecked(false)
 		fc:SetEnabled(false)
 		fc.Text:SetVertexColor(0.6, 0.6, 0.6)

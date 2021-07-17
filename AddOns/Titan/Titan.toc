@@ -1,10 +1,10 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Titan Panel Development Team
-## Version: 5.20.3.90005
+## Version: 5.20.4.90005
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, LibSharedMedia-3.0, LibQTip-1.0, !LibUIDropDownMenu
 ## SavedVariables: TitanAll, TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat
 
-## Title: Titan Panel |cff00aa005.20.3.90005|r
+## Title: Titan Panel |cff00aa005.20.4.90005|r
 ## Notes: Adds a display bar on the top and/or bottom of the screen. Allows users to show and control information/launcher plugins.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFFFFE00ATitan|r
 ## Notes-zhCN: 在屏幕顶端/底端增加一个可视化侧边栏

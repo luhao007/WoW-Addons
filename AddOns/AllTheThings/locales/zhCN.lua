@@ -30,6 +30,8 @@ local L = app.L;
 	--TODO: L.ITEM_GIVES_REP = "Provides Reputation with '";
 	L.COST = "花费";
 	L.COST_DESC = "这里面包含了获得或购买这个物品所需要的物品";
+	--TODO: L.SOURCES = "Source(s)";
+	--TODO: L.SOURCES_DESC = "Shows the Source of this Thing.\n\nParticularly, a specific Vendor/NPC, Quest, Encounter, etc.";
 	L.WRONG_FACTION = "可能需要在另一个阵营中查看此内容.";
 	L.ARTIFACT_INTRO_REWARD = "完成该神器的介绍任务后获得.";
 	L.WE_JUST_HATE_TIMEWALKING = "时光难度为物品创建新的源ID, 尽管它们的名称、外观和在收藏选项卡中的显示完全相同.\n\n向暴雪开发部提出请求: 请清理源码数据库让时光/泰坦造物物品使用相同的源码作为基础, 前提是外观和名称完全相同. 这不仅会让数据库变得更加干净, 而且会让完成者们对更多的时光内容的感到兴奋而不是恐惧.\n\n - Crieve, 非常苦逼的战网完成度, 本来有99%的奥杜尔完成度, 现在只有64%, 因为暴雪团队复制了源码, 而不是重复使用现有的源码.";
@@ -180,7 +182,6 @@ local L = app.L;
 	L.CHANGE_SEARCH_FILTER = "更改搜索过滤";
 	L.CHANGE_SEARCH_FILTER_DESC = "单击此按钮可更改搜索过滤.";
 	--TODO: L.REROLL_2 = "Reroll: ";
-	L.SELECT = "选择";
 	L.NOTHING_TO_SELECT_FROM = "没有什么可以随意选择的.";
 	L.NO_SEARCH_METHOD = "未指定搜索方法.";
 	L.PROFESSION_LIST = "专业列表";
@@ -205,7 +206,10 @@ local L = app.L;
 	L.AH_SCAN_SUCCESSFUL_2 = " 物品.";
 	L.REAGENT_CACHE_OUT_OF_DATE = "缓存已过期, 打开专业界面后会重新缓存!";
 	--TODO: L.QUEST_LOOP = "Likely just broke out of an infinite source quest loop.";
-	--TODO: L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' [%d] will prevent collection of Breadcrumb Quest [%d]";
+	--TODO: L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' [%d] will prevent collection of Breadcrumb Quest '%s' [%d]";
+	--TODO: L.QUEST_OBJECTIVE_INVALID = "Invalid Quest Objective";
+	--TODO: L.REFRESHING_COLLECTION = "Refreshing collection...";
+	--TODO: L.DONE_REFRESHING = "Done refreshing collection.";
 
 	-- Item Filter Window
 		--TODO: L.ITEM_FILTER_TEXT = "Item Filters";
@@ -229,6 +233,10 @@ local L = app.L;
 	--TODO: L.QUEST_ONCE_PER_ACCOUNT_FORMAT = "Completed By: %s";
 
 -- Settings.lua
+	--TODO: L.SKIP_AUTO_REFRESH = "Do Not Auto-Refresh!";
+	--TODO: L.SKIP_AUTO_REFRESH_TOOLTIP = "By default (unchecked), any Settings change which may affect visible data will cause an automatic refresh.\n\nBy enabling this option, Settings changes won't take effect until the User performs a Full Refresh by Shift-Clicking on an ATT window.";
+	--TODO: L.AFTER_REFRESH = "After Refresh";
+
 	-- General tab
 		-- Mod Title
 			L.MODE = "模式";
@@ -316,6 +324,8 @@ local L = app.L;
 		L.FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP = "如果只想查看当前级别角色可用的事物, 请启用此设置.\n\n注意: 这对新战网特别有用.";
 		L.HIDE_BOE_CHECKBOX = "隐藏BoE/BoA物品";
 		L.HIDE_BOE_CHECKBOX_TOOLTIP = "如果要隐藏BoE/BoA物品, 请启用此设置.\n\n当你尝试为角色完成经典旧世并且不想专门用于可以在小号或拍卖行上放置的物品时, 此设置非常有用.\n\n即: 不要因为毁灭之锤而扰乱你的思绪.";
+		--TODO: L.HIDE_PVP_CHECKBOX = "Hide PvP Content";
+		--TODO: L.HIDE_PVP_CHECKBOX_TOOLTIP = "Enable this setting if you want to hide any content which 'may' require Player vs. Player interactions within the game.";
 		L.IGNORE_FILTERS_FOR_BOES_CHECKBOX = "忽略BoE/BoA的筛选";
 		L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "如果要忽略BOEBoE/BoA物品的装备、武器、种族、等级或职业要求, 请启用此设置.\n\n如果你正试图通过拍卖行扫描收集你的物品, 此模式可能对你有用.";
 		L.EXPAND_DIFFICULTY_CHECKBOX = "展开当前难度";
@@ -471,11 +481,13 @@ local L = app.L;
 		L.CELEBRATE_COLLECTED_CHECKBOX_TOOLTIP = "如果你想在获得新的事物时听到庆祝'fanfare'效果请启用这个选项.\n\n这个功能可以极大地帮助你保持动力.";
 		L.WARN_REMOVED_CHECKBOX = "移除事物触发警告";
 		L.WARN_REMOVED_CHECKBOX_TOOLTIP = "如果你想在你不小心卖掉或交易一个给予你外观的物品从而导致收藏中失去该外观时听到警告的声音效果, 请启用这个选项.\n\n如果你的商品有购买计时这可能非常有用. 该插件会告诉你你犯了一个错误.";
+		--TODO: L.SCREENSHOT_COLLECTED_CHECKBOX = "Collected Things Trigger a Screenshot";
+		--TODO: L.SCREENSHOT_COLLECTED_CHECKBOX_TOOLTIP = "Enable this option if you want to take a screenshot for every Thing you collect.";
 
 	-- About tab
 		L.ABOUT = "关于";
 		L.ABOUT_1 = " |CFFFFFFFF是一个收集追踪插件, 告诉你在哪里以及如何获得游戏中的所有事物! 在我们的Discord上有一个庞大的用户社区(链接在底部), 你可以在这里提出问题、提交建议以及报告错误或丢失的物品. 如果你发现了一些可收藏的事物或没有记录, 你可以在Discord上告诉我们, 或者对于更懂技术的人来说, 我们有一个Git, 你可以直接贡献给我们.\n\n虽然我们力求完美, 但每个补丁都会有很多事物加入到游戏中, 所以如果我们可能遗漏了一些事物, 请理解我们是一个试图跟上变化以及自己收集事物的小团队 :D\n\n欢迎在直播的时候向我提问, 即使不是直接与ATT相关的问题, 我也会尽力回答(常见的WoW插件编程也行).\n\n- |r|Cffff8000Crieve|CFFFFFFFF\n\nPS: 下载ATT怀旧服版本!\n\n是的, 我打算玩WoW怀旧服, 但在全职工作和开发两个版本的插件, 不会有太多的时间去打团.\n\n不，ATT不是将图标放在背包图标上的插件. 那个是CanIMogIt和Caerdon Wardrobe!\n\n即将推出的比较收藏的网站.|r";	-- TODO: add TBC Classic here and add "For online collection comparing check out DataForAzeroth.com from shoogen!"
-		L.ABOUT_2 = "其他贡献者: |CFFFFFFFF(加入团队顺序)\nDaktar, Lucetia, Slumber, Gold, Avella, Aiue, Dead Serious, Oiche, Oxlotus, Eiltherune, Blueyleader, Iyanden, Pr3vention, BigBlaris, Talonzor, Mogwai, Heallie, Eckhardt, Boohyaka, Sadidorf, Sanctuari, Molkree, Runawaynow和其他ATT Discord的人们!\n\n特别鸣谢AmiYuy (CanIMogIt)和Caerdon (Caerdon Wardrobe).|r  ";	-- TODO: change to "in no particular order"
+		L.ABOUT_2 = "其他贡献者: |CFFFFFFFF(加入团队顺序)\nDaktar, Lucetia, Slumber, Gold, Avella, Aiue, Dead Serious, Oiche, Oxlotus, Eiltherune, Blueyleader, Iyanden, Pr3vention, BigBlaris, Talonzor, Mogwai, Heallie, Eckhardt, Boohyaka, Sadidorf, Sanctuari, Molkree, Runawaynow, Braghe, Myrhial, Darkal和其他ATT Discord的人们!\n\n特别鸣谢AmiYuy (CanIMogIt)和Caerdon (Caerdon Wardrobe).|r  ";	-- TODO: change to "in no particular order"
 		L.ABOUT_3 = "\n|CFFFFFFFF你绝对应该下载他们的插件，以便在你的背包里的物品上获得收集图标!|r";
 
 	-- Binding Localizations 按键设置
@@ -515,7 +527,6 @@ local L = app.L;
 		L["SPLIT"] = "Per Difficulty"
 		L["REQUIRES_LEVEL"] = "要求等级" -- Requires Level
 		L["SECRETS_HEADER"] = "解密"
-		L["SELFIE_FILTERS_HEADER"] = "自拍滤镜"
 		L["LIMITED_QUANTITY"] = "此物品有数量限制，在商人处并非总是可见。"
 		L.SOURCE_ID_MISSING = "请在#errors中向ATT Discord报告此物品及其获取地点!";
 
@@ -565,6 +576,7 @@ local L = app.L;
 		L["INCOMPLETE"] = "|T" .. app.asset("incomplete") .. ":0|t |cffff9333未完成|r" -- Acquired the colors and icon from CanIMogIt.
 		L["KNOWN_ON_CHARACTER"] = "|T" .. app.asset("known") .. ":0|t |cff15abff当前角色已习得|r"
 		L["UNKNOWN_ON_CHARACTER"] = "|T" .. app.asset("unknown") .. ":0|t |cffff9333当前角色未习得|r"
+		--TODO: L.COST_TEXT = "|T" .. app.asset("Currency") .. ":0|t |cff0891ffCurrency|r";
 
 local a = L.ABBREVIATIONS;
 for key,value in pairs({
@@ -805,7 +817,7 @@ for key,value in pairs({
 			[-662] = "精锐套装",										-- Elite PvP Gear
 
 		-- Classic PvP Seasons
-			--TODO: [-663] = "Classic Pre-Season Gear",				-- Classic Pre-Season PvP Gear (need a icon)
+			--TODO: [-663] = "Classic Honor System",				-- Classic Honor System
 
 		-- The Burning Crusade PvP Seasons
 			--TODO: [-658] = "BC Pre-Season",						-- Pre-Season (PvP BC)
@@ -835,19 +847,14 @@ for key,value in pairs({
 			--TODO: [-652] = "Honor Gear Grievous Season",			-- Honor Gear Grievous Season
 			--TODO: [-651] = "Honor Gear Prideful Season",			-- Honor Gear Prideful Season
 
-	[-799] = "不朽之责",												-- Burden of Eternity
-
 	-- Secret Header [Maybe need to change the numbers again when I need more space for PvP -- sadidorf]
-		[-806] = "钟示贤德腰带",										-- Waist of Time
-		[-807] = "主脑",												-- Hivemind
-		[-808] = "被缚的影犬",										-- Bound Shadehound
+	[-806] = "钟示贤德腰带",												-- Waist of Time
 
 	-- Mechagon
 		[-850] = "机械化的宝箱",										-- Mechanized Chest
 		[-851] = "铁潮宝箱",											-- Irontide Chest
 
 	-- 8.2 Neck Stuff
-		[-852] = "艾泽里特精华",										-- Azerite Essences
 		[-853] = "全部角色",											-- All Roles
 		--TODO: [-854] = "DPS",										-- DPS
 		[-855] = "治疗",												-- Healers
@@ -870,12 +877,16 @@ for key,value in pairs({
 		--TODO: [-910] = "Hunt: Alpha Devourers",					-- Hunt: Alpha Devourers
 		--TODO: [-911] = "Hunt: Shadehounds",						-- Hunt: Shadehounds
 		--TODO: [-912] = "Hunt: Winged Soul Eaters",				-- Hunt: Winged Soul Eaters
+		--TODO: [-913] = "Tormentors of Torghast",					-- Tormentors of Torghast
 		--TODO: [-914] = "Adventures",								-- Adventures
 		[-915] = "心能导流器",										-- Anima Conductor
 		[-916] = "等级 1: 流动卷须",									-- Tier 1: Flowing Tendrils
 		[-917] = "等级 2: 涌动丝缕",									-- Tier 2: Streaming Threads
 		[-918] = "等级 3: 流动能量",									-- Tier 3: Flowing Power
 		[-919] = "梦魇骒马",											-- Night Mare
+		[-977] = "游荡者梅莉",											-- Maelie the Wanderer
+		[-979] = "掮灵威·肯 & 掮灵威·诺特",									-- Broker Ve'ken & Broker Ve'nott
+		--TODO: [-980] = "Shared Treasures",						-- Shared Treasures
 
 		-- SL Maldraxxus/Necrolord
 			[-920] = "盟约: 通灵领主",								-- Covenant: Necrolord
@@ -944,6 +955,7 @@ for key,value in pairs({
 			--TODO: [-970] = "Set C",								-- Set C
 			--TODO: [-971] = "Set D",								-- Set D
 
+			--TODO: [-976] = "Korthian Sets",						-- Korthian Sets
 			--TODO: [-1001] = "The Black Vault",
 
 	-- Warrior order hall lore items
@@ -1089,6 +1101,7 @@ for key,value in pairs({
 		[-10080] = "惊魂幻象",										-- Horrific Visions
 		[-10081] = "腐化区域",										-- Corrupted Area
 		[-10082] = "失落区域",										-- Lost Area
+		--TODO: [-10083] = "Covenant Assaults",						-- Covenant Assaults
 
 		-- Shadowlands Achievement Header
 			-- Achieve 14339 Sub-Criteira
@@ -1192,9 +1205,13 @@ for key, value in pairs({
 	[2703] = "托尔贝恩的墓室",	-- Trollbane's Tomb	--TODO: This was taken from classic Wowhead
 	[2713] = "通缉板",	-- Wanted Board
 	[2908] = "密封的补给箱",	-- Sealed Supply Crate
+	[3189] = "进攻计划：试炼谷",	-- Attack Plan: Valley of Trials
+	[3190] = "进攻计划：森金村",	-- Attack Plan: Sen'jin Village
+	[3192] = "进攻计划：奥格瑞玛",	-- Attack Plan: Orgrimmar
 	[3238] = "老陈的空酒桶",	-- Chen's Empty Keg	--TODO: This was taken from classic Wowhead
 	[3972] = "通缉",	-- WANTED
 	[4141] = "控制台",	-- Control Console
+	[5620] = "有裂痕的能量石",	-- Flawed Power Stones
 	[6751] = "奇怪的果树",	-- Strange Fruited Plant	--TODO: This was taken from classic Wowhead
 	[6752] = "奇怪的树木",	-- Strange Fronded Plant	--TODO: This was taken from classic Wowhead
 	[7510] = "发芽的树叶",	-- Sprouted Frond	--TODO: This was taken from classic Wowhead
@@ -1286,7 +1303,7 @@ for key, value in pairs({
 	--TODO: [181334] = "Flame of Darnassus",	-- Flame of Darnassus
 	--TODO: [181335] = "Flame of the Undercity",	-- Flame of the Undercity
 	--TODO: [181336] = "Flame of Orgrimmar",	-- Flame of Orgrimmar
-	--TODO: [181337] = "Flame of Thunder Bluff",	-- Flame of Thunder Bluff
+	[181337] = "雷霆崖烈焰",	-- Flame of Thunder Bluff
 	[181638] = "通缉布告",	-- Wanted Poster
 	--TODO: [181748] = "Blood Crystal",	-- Blood Crystal
 	--TODO: [181756] = "Battered Ancient Book",	-- Battered Ancient Book
@@ -2968,6 +2985,69 @@ for key, value in pairs({
 	[364932] = "灼光矿锭",	-- Blazing Ingot
 	[364937] = "相位虹吸仪",	-- Phasic Siphoner
 	[364987] = "掮灵日志",	-- Broker Journal
+	[368205] = "渊誓之箱",	-- Mawsworn Cache
+	[368206] = "渊誓之箱",	-- Mawsworn Cache
+	[368207] = "渊誓之箱",	-- Mawsworn Cache
+	[368208] = "渊誓之箱",	-- Mawsworn Cache
+	[368213] = "渊誓之箱",	-- Mawsworn Cache
+	[368214] = "渊誓之箱",	-- Mawsworn Cache
+	[368347] = "隙隐宝箱",	-- Rift Hidden Cache
+	[368645] = "隙隐宝箱",	-- Rift Hidden Cache
+	[368646] = "隙隐宝箱",	-- Rift Hidden Cache
+	[368648] = "隙隐宝箱",	-- Rift Hidden Cache
+	[368649] = "隙隐宝箱",	-- Rift Hidden Cache
+	[368650] = "隙隐宝箱",	-- Rift Hidden Cache
+	[368653] = "以太浮蛇囚笼",	-- Etherwyrm Cage
+	--TODO: [368663] = "Lil'Abom's Right Hand",	-- Lil'Abom's Right Hand
+	[368665] = "憎憎的备用手臂",	-- Lil'Abom's Spare Arm
+	[368666] = "憎憎的头",	-- Lil'Abom's Head
+	--TODO: [368667] = "Lil'Abom's Torso",	-- Lil'Abom's Torso
+	[368668] = "憎憎的大腿",	-- Lil'Abom's Trunk
+	[368772] = "刻印卷轴",	-- Sigilscored Scroll
+	[368876] = "渊誓之箱",	-- Mawsworn Cache
+	--TODO: [369129] = "Nilganihmaht's Gold Band",	-- Nilganihmaht's Gold Band
+	[369132] = "统御封印之箱",	-- Domination Sealed Chest
+	[369133] = "统御封印 #1",	-- Domination Seal #1
+	[369134] = "统御封印之笼",	-- Domination Sealed Cage
+	[369135] = "统御封印 #2",	-- Domination Seal #2
+	[369138] = "统御宝箱封印",	-- Domination Chest Seal
+	[369141] = "渊誓之箱",	-- Mawsworn Cache
+	--TODO: [369143] = "Quartered Ancient Ring",	-- Quartered Ancient Ring
+	[369144] = "掠心者的钥匙链",	-- The Harrower's Key Ring
+	[369145] = "冥锋补给箱",	-- Helgarde Supply Cache
+	[369148] = "闪光的巢穴材料",	-- Glittering Nest Material
+	[369149] = "被遗忘的羽毛",	-- Forgotten Feather
+	[369172] = "失落的纪念卷轴",	-- Lost Memento
+	[369183] = "移位的巢穴",	-- Dislodged Nest
+	[369185] = "刻希亚圣物箱",	-- Korthian Relic Box
+	[369194] = "装满心能的蛋",	-- Anima Laden Egg
+	[369204] = "散失的圣物",	-- Displaced Relic
+	[369216] = "冥誓宝箱",	-- Helsworn Chest
+	[369224] = "伊瑟基尔的宝石之心",	-- Jeweled Heart of Ezekiel
+	[369225] = "孳生残迹",	-- Infested Vestige
+	[369232] = "供品盒",	-- Offering Box
+	[369245] = "刻希亚圣物箱",	-- Korthian Relic Box
+	[369292] = "圣物宝箱",	-- Relic Cache
+	[369296] = "碎皮贮藏",	-- Shardhide Stash
+	[369297] = "骨堆",	-- Pile of Bones
+	[369304] = "刻希亚圣物箱",	-- Korthian Relic Box
+	[369327] = "入侵的渊菇",	-- Invasive Mawshroom
+	[369329] = "入侵的渊菇",	-- Invasive Mawshroom
+	[369330] = "入侵的渊菇",	-- Invasive Mawshroom
+	[369331] = "入侵的渊菇",	-- Invasive Mawshroom
+	[369332] = "入侵的渊菇",	-- Invasive Mawshroom
+	[369333] = "异常材料之巢",	-- Nest of Unusual Materials
+	[369334] = "异常材料之巢",	-- Nest of Unusual Materials
+	[369335] = "异常材料之巢",	-- Nest of Unusual Materials
+	[369336] = "异常材料之巢",	-- Nest of Unusual Materials
+	[369337] = "异常材料之巢",	-- Nest of Unusual Materials
+	[369339] = "渊誓之箱",	-- Mawsworn Cache
+	[369340] = "刻希亚圣物箱",	-- Korthian Relic Box
+	[369341] = "渊誓之箱",	-- Mawsworn Cache
+	[369437] = "隙缚宝箱",	-- Riftbound Cache
+	[369438] = "隙缚宝箱",	-- Riftbound Cache
+	[369439] = "隙缚宝箱",	-- Riftbound Cache
+	[369440] = "隙缚宝箱",	-- Riftbound Cache
 	--TODO: [9999890] = "Corrupted Loot",	-- Corrupted Loot
 	--TODO: [9999891] = "Main Objective Only",	-- Main Objective Only
 	--TODO: [9999892] = "Main Objective + 2 Bonus Areas",	-- Main Objective + 2 Bonus Areas
@@ -3048,7 +3128,7 @@ for key,value in pairs({
 	{3, "|CFFFF0000此物品的获得方式已被移除，只能从黑市拍卖行获得。|r", "黑市拍卖行 (9)"}, -- There is Hope -- 9
 	{3, "|CFFFF0000此物品通过TCG卡牌获得，卡牌不再发行，但网络上、黑市拍卖行甚至交易行仍可能出现。国服也可能有积分兑换活动。|r", "TCG卡牌 (10)"}, -- There is Hope -- 10
 	{3, "|CFFFF0000此物品拾取后绑定，但是如果你有召唤首领所需的物品仍可获得。|r", "需要召唤道具 (11)"}, -- There is Hope -- 11
-	{3, "|CFFFF0000This item requires Player vs Player activities or a currency related to those activities. |r", "Requires PvP (12)"}, -- There is Hope --, ""}, -- 12
+	{0, "|CFF00FFDEThis item or achievement requires Player vs Player activities or a currency related to those activities. |r", "Requires PvP (12)"}, -- There is Hope --, ""}, -- 12
 	{1, "|CFFFF0000你的追随者等级过高，奖励此物品的任务不再刷新。|r", "绝版物资 (13)"}, -- 13
 	{3, "|CFFFF0000此物品无法购买，除非你在对应赛季的PvP评分或排名达标。|r", "PvP Elite/Gladiator (14)"}, -- 14
 	{1, "|CFFFF0000This item has a Source ID (Tempest Keep Legendaries), but can't be learned (training recipes). |r", "Training Recipes / Unlearnable (15)"}, -- 15

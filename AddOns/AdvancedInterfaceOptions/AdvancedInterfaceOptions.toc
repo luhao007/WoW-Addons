@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Stanzilla, Semlar
-## Version: 1.5.0
+## Version: 1.6.0
 ## LoadOnDemand: 0
 ## SavedVariables: AdvancedInterfaceOptionsSaved
 ## DefaultState: Enabled

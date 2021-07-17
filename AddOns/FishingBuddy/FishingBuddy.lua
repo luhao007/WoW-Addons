@@ -110,6 +110,12 @@ local GeneralOptions = {
         ["v"] = 1,
         ["default"] = true,
     },
+    ["ConservatoryPools"] = {
+        ["text"] = FBConstants.CONFIG_CONSERVATORY_ONOFF,
+        ["tooltip"] = FBConstants.CONFIG_CONSERVATORY_INFO,
+        ["v"] = 1,
+        ["default"] = true
+    },
 };
 
 -- x87bliss has implemented IsFishWardenEnabled as a public function, so

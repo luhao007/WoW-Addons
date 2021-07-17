@@ -42,6 +42,10 @@ L["Blue"] = "Azul"
 L["Dungeon Locations"] = "Lugares de Mazmorras"
 L["Green"] = "Verde"
 L["Instances"] = "Mazmorras"
+--[[Translation missing --]]
+--[[ L["Meeting stone is inside the Sanctum of Order"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Raid entrance is inside the Sanctum Depths of Sanctum of Order"] = ""--]] 
 L["White"] = "Blanco"
 
 end

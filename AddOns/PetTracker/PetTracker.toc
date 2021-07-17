@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Jaliborc (JoÃ£o Cardoso)
-## Version: 9.0.8
+## Version: 9.1.0
 ## OptionalDeps: WoWUnit
 ## SavedVariables: PetTracker_Sets
 ## SavedVariablesPerCharacter: PetTracker_State

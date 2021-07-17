@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Lorade
-## Version: 2.1
+## Version: 2.2
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotesDraenorDB
 

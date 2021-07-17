@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: MysticalOS/nBlueWiz
-## Version: r140
+## Version: r141
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPandaria_AllSavedVars
@@ -22,6 +22,7 @@
 ## X-DBM-Mod-MinExpansion: 4
 ## X-Curse-Project-ID: 85688
 ## X-WoWI-ID: 23199
+## X-Wago-ID: 0mNwz4Go
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

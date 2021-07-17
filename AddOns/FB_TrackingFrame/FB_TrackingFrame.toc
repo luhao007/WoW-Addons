@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Sutorix=AT=hotmail.com
 ## Version: 1.15.1
 ## RequiredDeps: FishingBuddy

@@ -1,5 +1,5 @@
-## Interface: 90005
-## Version: r24
+## Interface: 90100
+## Version: r25
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWoD_AllSavedVars

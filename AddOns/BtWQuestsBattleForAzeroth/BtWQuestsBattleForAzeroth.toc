@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Breen
 ## Version: 53.9
 ## Dependencies: BtWQuests

@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: luhao007
 
 ## Title: Libraries
@@ -58,10 +58,11 @@ LibBabble\LibBabble-Race-3.0\lib.xml
 LibBabble\LibBabble-SubZone-3.0\lib.xml
 
 # DR Libs
-DRData-1.0\DRData-1.0.xml
 DRList-1.0\DRList-1.0.xml
+DRData-1.0\DRData-1.0.xml
 
 # Other Libs
+Krowi_WorldMapButtons-1.0\Krowi_WorldMapButtons-1.0.xml
 LibAboutPanel\lib.xml
 LibAlts-1.0\lib.xml
 LibBossIDs-1.0\lib.xml
@@ -84,7 +85,6 @@ LibGroupInSpecT-1.1\lib.xml
 LibIconPath\Core.lua
 LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
 LibLatency\LibLatency\LibLatency.xml
-LibNotify-1.0\lib.xml
 LibOO-1.0\lib.xml
 LibPetJournal-2.0\LibPetJournal-2.0.lua
 LibQTip-1.0\lib.xml
@@ -99,3 +99,6 @@ LibTourist-3.0\lib.xml
 LibTranslit-1.0\LibTranslit-1.0.xml
 LibWindow-1.1\LibWindow-1.1\LibWindow-1.1.lua
 NickTag-1.0\NickTag-1.0.xml
+
+# Custom Luas
+HFixInv.lua

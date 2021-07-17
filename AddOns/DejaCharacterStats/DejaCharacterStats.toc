@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Dejablue, Kakjens, loudsoul
 ## Version: 900r2
 ## SavedVariables: DCS_ClassSpecDB

@@ -302,6 +302,8 @@ end
 -- Elder Clearwater yells: NAME has won the Kalu'ak Fishing Derby!
 
 FishingBuddy.Extravaganza.OnEvent = function(self, event, ...)
+	local GSB = FishingBuddy.GetSettingBool;
+
 	if ( event == "CHAT_MSG_YELL" or event == "CHAT_MSG_MONSTER_YELL") then
 		if ( CurrentContest ) then
 			-- Riggle Bassbait yells: We have a winner! (.*) is the Master Angler!
@@ -320,11 +322,13 @@ FishingBuddy.Extravaganza.OnEvent = function(self, event, ...)
 			self:UnregisterEvent("CHAT_MSG_MONSTER_YELL");
 		end
 		local mapId = FL:GetCurrentMapId();
-		-- Auto fish tracking
-		if mapId == 1662 then
-			FishingBuddy.FishTrackingEnable(true)
-		else
-			FishingBuddy.FishTrackingEnable(false)
+		-- Auto fish tracking in the conservatory
+		if GSB("ConservatoryPools") then
+			if mapId == 1662 then
+				FishingBuddy.FishTrackingEnable(true)
+			else
+				FishingBuddy.FishTrackingEnable(false)
+			end
 		end
 	elseif ( event == "VARIABLES_LOADED" ) then
 		for _,contest in ipairs(Contests) do

@@ -36,6 +36,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [156634] = {
         name = "Regina dell'Inverno",
     },
+    [156688] = {
+        name = "Organizzatore Ta'rela",
+    },
     [156822] = {
         name = "Signora Mihaela",
     },
@@ -598,7 +601,7 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Baronessa Vashj",
     },
     [167205] = {
-        name = "Malefik Yondare",
+        name = "Yondare Malefik",
     },
     [167269] = {
         name = "Discepolo Apolon",
@@ -872,6 +875,21 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [176100] = {
         name = "Iona Lamaceleste",
+    },
+    [177155] = {
+        name = "Scriba del Cammino Roh-Vess",
+    },
+    [177167] = {
+        name = "Baronessa Vashj",
+    },
+    [177194] = {
+        name = "Il Primus",
+    },
+    [177919] = {
+        name = "Messaggio Urgente da Selvarden",
+    },
+    [178260] = {
+        name = "La Madrepietra",
     },
 })
 ]])()

@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: arith
-## Version: v0.21
+## Version: v0.23
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: LibBabble-SubZone-3.0, !LibUIDropDownMenu
 ## SavedVariables: HandyNotes_ArgusDB
@@ -11,7 +11,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C阿古斯|r
 ## Notes-zhCN: 显示阿古斯的 POI 位置
 
-## X-Date: 2021-05-19T13:42:34Z
+## X-Date: 2021-06-30T13:35:30Z
 ## X-License: GPLv2
 ## X-Category: Map
 ## X-Part-Of: HandyNotes

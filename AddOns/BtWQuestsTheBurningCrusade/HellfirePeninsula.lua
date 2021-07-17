@@ -5345,6 +5345,7 @@ Database:AddChain(Chain.EmbedChain30, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",

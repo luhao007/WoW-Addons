@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: arith
-## Version: v1.39
+## Version: v1.41
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: LibBabble-SubZone-3.0, !LibUIDropDownMenu
 ## SavedVariables: HandyNotes_LegionClassOrderHallsDB
@@ -11,7 +11,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0职业大厅|r
 ## Notes-zhCN: 显示各职业大厅里 NPC 与主要的 POI 的位置
 
-## X-Date: 2021-05-19T13:46:00Z
+## X-Date: 2021-06-30T13:38:12Z
 ## X-License: GPLv2
 ## X-Category: Map
 ## X-Part-Of: HandyNotes

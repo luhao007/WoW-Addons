@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Lag, Proteyer, Arith
 ## Version: v8.13.00
 ## Dependencies: AtlasLoot

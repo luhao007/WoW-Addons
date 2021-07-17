@@ -1449,14 +1449,9 @@ Database:AddChain(Chain.TheHouseOfRituals, {
     },
     rewards = {
         {
-            name = L["SOULBIND_BONESMITH_HEIRMIR"],
-            type = "spell",
-            id = 344969,
-        },
-        {
             type = "experience",
             amounts = {
-                177400, 180900, 184350, 188100, 191700, 195200, 198800, 202400, 205600, 209250, 
+                173550, 176950, 180350, 184000, 187550, 190950, 194500, 198000, 201150, 204700, 
             },
             minLevel = 50,
             maxLevel = 59,
@@ -1467,14 +1462,14 @@ Database:AddChain(Chain.TheHouseOfRituals, {
             variations = {
                 {
                     amounts = {
-                        6692400, 6759330, 6826260, 6893160, 6960090, 7027020, 7093950, 7160880, 7227780, 7294710, 7361640, 
+                        6575400, 6641160, 6706920, 6772650, 6838410, 6904170, 6969930, 7035690, 7101420, 7167180, 7232940, 
                     },
                     minLevel = 50,
                     maxLevel = 60,
                     restrictions = 86994,
                 },
                 {
-                    amount = 7361640,
+                    amount = 7232940,
                 },
             },
         },
@@ -1783,9 +1778,14 @@ Database:AddChain(Chain.AssaultOnTheHouseOfRituals, {
     },
     rewards = {
         {
+            name = L["SOULBIND_BONESMITH_HEIRMIR"],
+            type = "spell",
+            id = 344969,
+        },
+        {
             type = "experience",
             amounts = {
-                19300, 19650, 20050, 20450, 20850, 21200, 21600, 22000, 22350, 22750, 
+                23150, 23600, 24050, 24550, 25000, 25450, 25900, 26400, 26800, 27300, 
             },
             minLevel = 50,
             maxLevel = 59,
@@ -1796,14 +1796,14 @@ Database:AddChain(Chain.AssaultOnTheHouseOfRituals, {
             variations = {
                 {
                     amounts = {
-                        1708200, 1717560, 1726920, 1736280, 1745640, 1755000, 1764360, 1773720, 1783080, 1792440, 1801800, 
+                        1825200, 1835730, 1846260, 1856790, 1867320, 1877850, 1888380, 1898910, 1909440, 1919970, 1930500, 
                     },
                     minLevel = 50,
                     maxLevel = 60,
                     restrictions = 86994,
                 },
                 {
-                    amount = 1801800,
+                    amount = 1930500,
                 },
             },
         },

@@ -34,6 +34,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [154629] = {
+        name = "Thenios",
+        locations = {
+            [1533] = {
+                {
+                    x = 0.401425,
+                    y = 0.199301,
+                },
+            },
+        },
+    },
     [155533] = {
         name = "Lord Chamberlain",
         locations = {
@@ -206,6 +217,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.574203,
                     y = 0.494462,
+                },
+            },
+        },
+    },
+    [156688] = {
+        name = "Host Ta'rela",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.674732,
+                    y = 0.50308,
                 },
             },
         },
@@ -807,6 +829,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [158890] = {
+        name = "Bounty Hunter Ta'oku",
+        locations = {
+            [1533] = {
+                {
+                    x = 0.325123,
+                    y = 0.323336,
+                },
+            },
+        },
+    },
     [158921] = {
         name = "Guardian Kota",
         locations = {
@@ -913,6 +946,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.590737,
                     y = 0.243513,
+                },
+            },
+        },
+    },
+    [159475] = {
+        name = "Highlord Bolvar Fordragon",
+        locations = {
+            [1673] = {
+                {
+                    x = 0.501041,
+                    y = 0.429953,
                 },
             },
         },
@@ -1111,6 +1155,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.537997,
                     y = 0.275749,
+                },
+            },
+        },
+    },
+    [160090] = {
+        name = "Ta'nla the Identifier",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.51335,
+                    y = 0.827074,
                 },
             },
         },
@@ -2844,6 +2899,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [165866] = {
+        name = "The Stonewright",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.342747,
+                    y = 0.219145,
+                },
+            },
+        },
+    },
     [165867] = {
         name = "Archivist Dreyden",
         locations = {
@@ -3653,6 +3719,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [168517] = {
+        name = "Kalisthene",
+        locations = {
+            [1707] = {
+                {
+                    x = 0.371111,
+                    y = 0.611667,
+                },
+            },
+        },
+    },
     [168618] = {
         name = "Tessle the Snitch",
         locations = {
@@ -3726,6 +3803,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.354532,
                     y = 0.265042,
+                },
+            },
+        },
+    },
+    [168898] = {
+        name = "Prince Renathal",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.229189,
+                    y = 0.437424,
                 },
             },
         },
@@ -4901,5 +4989,682 @@ BtWQuestsDatabase:AddNPCsTable({
                 },
             },
         },
+    },
+    [177116] = {
+        name = "Polemarch Adrestes",
+        locations = {
+            [1533] = {
+                {
+                    x = 0.399595,
+                    y = 0.20102,
+                },
+            },
+        },
+    },
+    [177123] = {
+        name = "Kleia",
+        locations = {
+            [1533] = {
+                {
+                    x = 0.24172,
+                    y = 0.299799,
+                },
+            },
+        },
+    },
+    [177141] = {
+        name = "Lady Moonberry",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.406862,
+                    y = 0.664961,
+                },
+            },
+        },
+    },
+    [177148] = {
+        name = "Lady Moonberry",
+        locations = {
+            [1565] = {
+                {
+                    x = 0.487153,
+                    y = 0.433492,
+                },
+            },
+        },
+    },
+    [177155] = {
+        name = "Pathscribe Roh-Vess",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.6426,
+                    y = 0.228843,
+                },
+            },
+        },
+    },
+    [177167] = {
+        name = "Baroness Vashj",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.607003,
+                    y = 0.276551,
+                },
+            },
+        },
+    },
+    [177194] = {
+        name = "The Primus",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.629635,
+                    y = 0.254064,
+                },
+            },
+        },
+    },
+    [177202] = {
+        name = "Ve'nari",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.583645,
+                    y = 0.143467,
+                },
+            },
+        },
+    },
+    [177227] = {
+        name = "Tal-Galan",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.638824,
+                    y = 0.237963,
+                },
+            },
+        },
+    },
+    [177228] = {
+        name = "Highlord Bolvar Fordragon",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.63036,
+                    y = 0.257385,
+                },
+            },
+        },
+    },
+    [177230] = {
+        name = "Highlord Bolvar Fordragon",
+        locations = {
+            [1671] = {
+                {
+                    x = 0.397418,
+                    y = 0.368795,
+                },
+            },
+        },
+    },
+    [177288] = {
+        name = "Fallen Disciple Nikolon",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.65608,
+                    y = 0.461102,
+                },
+            },
+        },
+    },
+    [177300] = {
+        name = "Fallen Disciple Nikolon",
+        locations = {
+            [1533] = {
+                {
+                    x = 0.244261,
+                    y = 0.299999,
+                },
+            },
+        },
+    },
+    [177423] = {
+        name = "Tal-Galan",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.574553,
+                    y = 0.30049,
+                },
+            },
+        },
+    },
+    [177434] = {
+        name = "Ysera",
+        locations = {
+            [1701] = {
+                {
+                    x = 0.71564,
+                    y = 0.459102,
+                },
+            },
+        },
+    },
+    [177435] = {
+        name = "Khaliiq",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.421124,
+                    y = 0.233254,
+                },
+            },
+        },
+    },
+    [177437] = {
+        name = "Khaliiq",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.721759,
+                    y = 0.44873,
+                },
+            },
+        },
+    },
+    [177449] = {
+        name = "Bonesmith Heirmir",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.572262,
+                    y = 0.299622,
+                },
+            },
+        },
+    },
+    [177451] = {
+        name = "Tal-Galan",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.349131,
+                    y = 0.351264,
+                },
+            },
+        },
+    },
+    [177452] = {
+        name = "Bonesmith Heirmir",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.348696,
+                    y = 0.354851,
+                },
+            },
+        },
+    },
+    [177459] = {
+        name = "Protector Kah-Rev",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.494918,
+                    y = 0.649324,
+                },
+            },
+        },
+    },
+    [177460] = {
+        name = "Winter Queen",
+        locations = {
+            [1565] = {
+                {
+                    x = 0.470581,
+                    y = 0.486232,
+                },
+            },
+        },
+    },
+    [177471] = {
+        name = "Huln Highmountain",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.427791,
+                    y = 0.251111,
+                },
+            },
+        },
+    },
+    [177560] = {
+        name = "Baroness Draka",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.628727,
+                    y = 0.659804,
+                },
+            },
+        },
+    },
+    [177569] = {
+        name = "The Primus",
+        locations = {
+            [1912] = {
+                {
+                    x = 0.504444,
+                    y = 0.54,
+                },
+            },
+        },
+    },
+    [177586] = {
+        name = "Baroness Draka",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.628694,
+                    y = 0.659754,
+                },
+            },
+        },
+    },
+    [177589] = {
+        name = "Thrall",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.628694,
+                    y = 0.659754,
+                },
+            },
+        },
+    },
+    [177597] = {
+        name = "Danica the Reclaimer",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.673176,
+                    y = 0.55837,
+                },
+            },
+        },
+    },
+    [177603] = {
+        name = "Danica the Reclaimer",
+        locations = {
+            [1971] = {
+                {
+                    x = 0.576291,
+                    y = 0.589153,
+                },
+            },
+        },
+    },
+    [177610] = {
+        name = "Caretaker Kah-Than",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.562639,
+                    y = 0.387463,
+                },
+            },
+        },
+    },
+    [177628] = {
+        name = "Kael'thas Sunstrider",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.358422,
+                    y = 0.22742,
+                },
+            },
+        },
+    },
+    [177637] = {
+        name = "Baroness Vashj",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.35927,
+                    y = 0.228676,
+                },
+            },
+        },
+    },
+    [177644] = {
+        name = "Prince Renathal",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.250067,
+                    y = 0.279693,
+                },
+            },
+        },
+    },
+    [177726] = {
+        name = "Odyn",
+        locations = {
+            [1971] = {
+                {
+                    x = 0.5833,
+                    y = 0.853264,
+                },
+            },
+        },
+    },
+    [177850] = {
+        name = "Protector Rih-Mat",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.555291,
+                    y = 0.22228,
+                },
+            },
+        },
+    },
+    [177919] = {
+        name = "Urgent Message from Ardenweald",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.634748,
+                    y = 0.244545,
+                },
+            },
+        },
+    },
+    [177924] = {
+        name = "Concerned Attendant",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.562639,
+                    y = 0.387463,
+                },
+            },
+        },
+    },
+    [177927] = {
+        name = "Tal-Galan",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.629193,
+                    y = 0.248414,
+                },
+            },
+        },
+    },
+    [177928] = {
+        name = "Archivist Roh-Senara",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.394278,
+                    y = 0.512987,
+                },
+            },
+        },
+    },
+    [177962] = {
+        name = "Lady Moonberry",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.253536,
+                    y = 0.290572,
+                },
+            },
+        },
+    },
+    [177967] = {
+        name = "Lady Moonberry",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.356771,
+                    y = 0.227216,
+                },
+            },
+        },
+    },
+    [177968] = {
+        name = "Dredger Guide",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.377756,
+                    y = 0.234603,
+                },
+            },
+        },
+    },
+    [178103] = {
+        name = "Baroness Draka",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.61974,
+                    y = 0.415448,
+                },
+            },
+        },
+    },
+    [178260] = {
+        name = "The Stonewright",
+        locations = {
+            [1699] = {
+                {
+                    x = 0.551338,
+                    y = 0.399301,
+                },
+            },
+        },
+    },
+    [178337] = {
+        name = "The Stonewright",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.251501,
+                    y = 0.451258,
+                },
+            },
+        },
+    },
+    [178413] = {
+        name = "Prince Renathal",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.23076,
+                    y = 0.458588,
+                },
+            },
+        },
+    },
+    [178470] = {
+        name = "Ve'nari",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.659939,
+                    y = 0.22966,
+                },
+            },
+        },
+    },
+    [178640] = {
+        name = "Protector Attendant",
+    },
+    [178669] = {
+        name = "Winter Queen",
+        locations = {
+            [1565] = {
+                {
+                    x = 0.452513,
+                    y = 0.650293,
+                },
+            },
+        },
+    },
+    [178676] = {
+        name = "Tal-Galan",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.502888,
+                    y = 0.759406,
+                },
+            },
+        },
+    },
+    [178694] = {
+        name = "Scholar Roh-Suir",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.590613,
+                    y = 0.581442,
+                },
+            },
+        },
+    },
+    [178713] = {
+        name = "Archivist Roh-Senara",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.591232,
+                    y = 0.581041,
+                },
+            },
+        },
+    },
+    [178792] = {
+        name = "Ta'meri",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.298301,
+                    y = 0.666291,
+                },
+            },
+        },
+    },
+    [178908] = {
+        name = "Al'dalil",
+        locations = {
+            [1672] = {
+                {
+                    x = 0.56691,
+                    y = 0.31877,
+                },
+            },
+        },
+    },
+    [178950] = {
+        name = "Danica",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.409229,
+                    y = 0.218109,
+                },
+            },
+        },
+    },
+    [178991] = {
+        name = "Archivist Roh-Senara",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.358223,
+                    y = 0.321645,
+                },
+            },
+        },
+    },
+    [178992] = {
+        name = "Scholar Roh-Suir",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.360731,
+                    y = 0.323056,
+                },
+            },
+        },
+    },
+    [179078] = {
+        name = "Projection of Ve'nari",
+        locations = {
+            [1543] = {
+                {
+                    x = 0.616497,
+                    y = 0.590821,
+                },
+            },
+        },
+    },
+    [179327] = {
+        name = "Mal'Ganis",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.379533,
+                    y = 0.233004,
+                },
+            },
+        },
+    },
+    [179356] = {
+        name = "Thenios",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.625656,
+                    y = 0.256768,
+                },
+            },
+        },
+    },
+    [179379] = {
+        name = "Adrestes",
+        locations = {
+            [2018] = {
+                {
+                    x = 0.459188,
+                    y = 0.578791,
+                },
+            },
+        },
+    },
+    [179978] = {
+        name = "The Stonewright",
+        locations = {
+            [1525] = {
+                {
+                    x = 0.230914,
+                    y = 0.45964,
+                },
+            },
+        },
+    },
+    [180733] = {
+        name = "Uther",
     },
 })

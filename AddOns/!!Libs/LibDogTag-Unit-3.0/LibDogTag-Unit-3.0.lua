@@ -1,12 +1,12 @@
 --[[
 Name: LibDogTag-Unit-3.0
-Revision: 280
+Revision: 289
 Website: https://www.wowace.com/projects/libdogtag-unit-3-0
 Description: A library to provide a markup syntax - unit-specific tags
 ]]
 
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + (tonumber(("20210322154600"):match("%d+")) or 33333333333333)
+local MINOR_VERSION = tonumber(("20210629130945"):match("%d+")) or 33333333333333
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -22,10 +22,9 @@ local L = DogTag_Unit.L
 local newList = DogTag.newList
 local del = DogTag.del
 
-local wow_ver = select(4, GetBuildInfo())
-local wow_500 = wow_ver >= 50000
 local PartyChangedEvent = "PARTY_MEMBERS_CHANGED"
-if wow_500 then
+if UnitIsGroupLeader then
+	-- Changed in wow 5.0
 	PartyChangedEvent = "GROUP_ROSTER_UPDATE"
 end
 

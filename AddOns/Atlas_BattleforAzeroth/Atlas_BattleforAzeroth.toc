@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: arith
-## Version: v1.49.00
+## Version: v1.49.01
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Battle for Azeroth]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0争霸艾泽拉斯|r
 ## Notes-zhCN: 争霸艾泽拉斯副本地图
 
-## X-Date: 2021-05-20T15:21:55Z
+## X-Date: 2021-06-30T15:30:15Z
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com
 ## X-Category: Map

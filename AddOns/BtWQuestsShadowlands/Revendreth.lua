@@ -1921,15 +1921,6 @@ Database:AddChain(Chain.Chain06, {
     },
     rewards = {
         {
-            type = "experience",
-            amounts = {
-                11600, 11800, 12050, 12250, 12500, 12700, 12950, 13200, 13400, 13650, 
-            },
-            minLevel = 50,
-            maxLevel = 59,
-            restrictions = 86994,
-        },
-        {
             type = "reputation",
             id = 2413,
             amount = 550,
@@ -2463,9 +2454,6 @@ Database:AddChain(Chain.EmbedChain07, {
             type = "quest",
             id = 62189,
             x = 0,
-            connections = {
-                1,
-            },
         },
     },
 })

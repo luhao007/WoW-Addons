@@ -534,6 +534,12 @@ function AtlasQuest_Instanzenchecken()
 	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Transportation\\Images\\TransAllianceBrokenIsles") then
 		AQINSTANZ = 199;
 
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Transportation\\Images\\TransAllianceAshran") then
+		AQINSTANZ = 200;
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Transportation\\Images\\TransAllianceNazjatar") then
+		AQINSTANZ = 201;
+
 
 --[[
 		
@@ -552,7 +558,7 @@ function AtlasQuest_Instanzenchecken()
 	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Shadowlands\\Images\\TheaterofPain") then
 		AQINSTANZ = 195;
 
-	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Shadowlands\\Images\\DeOtherSide") then
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Shadowlands\\Images\\TheOtherSide") then
 		AQINSTANZ = 196;
 
 	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Shadowlands\\Images\\SpiresofAscension") then
@@ -563,6 +569,12 @@ function AtlasQuest_Instanzenchecken()
 
 	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Shadowlands\\Images\\CastleNathria") then
 		AQINSTANZ = 199;
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Transportation\\Images\\SanctumofDomination") then
+		AQINSTANZ = 200;
+
+	elseif (AQATLASMAP == "Interface\\AddOns\\Atlas_Transportation\\Images\\Tazavesh") then
+		AQINSTANZ = 201;
 
 --]]
 
@@ -900,10 +912,11 @@ end
 -- 193 = DUNGEON: Mists of Tirna Scithe
 -- 194 = DUNGEON: Halls of Atonement
 -- 195 = DUNGEON: Theater of Pain
--- 196 = DUNGEON: De Other Side
+-- 196 = DUNGEON: The Other Side
 -- 197 = DUNGEON: Spires of Ascension
 -- 198 = DUNGEON: Sanguine Depths
 -- 199 = RAID: Castle Nathria
-
+-- 200 = RAID: Sanctum of Domination
+-- 201 = DUNGEON: Tazavesh
 
 

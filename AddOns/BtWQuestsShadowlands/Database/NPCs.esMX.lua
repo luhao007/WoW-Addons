@@ -36,6 +36,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [156644] = {
         name = "Sir Denathrius",
     },
+    [156688] = {
+        name = "Anfitrión Ta'rela",
+    },
     [156822] = {
         name = "Dama Mihaela",
     },
@@ -474,6 +477,8 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [165841] = {
         name = "Huln Altamontaña",
     },
+    [165859] = {
+    },
     [165864] = {
         name = "Nadjia la Hojaniebla",
     },
@@ -773,6 +778,27 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [176100] = {
         name = "Iona Filo Celeste",
+    },
+    [177155] = {
+        name = "Sendaescriba Roh-Vess",
+    },
+    [177167] = {
+        name = "Baronesa Vashj",
+    },
+    [177194] = {
+        name = "El Primus",
+    },
+    [177628] = {
+        name = "Rompepecados venthyr",
+    },
+    [177637] = {
+        name = "Élite de la guardia del príncipe",
+    },
+    [177919] = {
+        name = "Mensaje urgente de Ardenweald",
+    },
+    [178260] = {
+        name = "La Piedramadre",
     },
 })
 ]])()

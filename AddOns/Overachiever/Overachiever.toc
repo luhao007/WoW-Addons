@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Tuhljin
 ## Version: 1.1.4
 ## OptionalDeps: LibBabble-SubZone-3.0, LibBabble-Inventory-3.0, LibSharedMedia-3.0

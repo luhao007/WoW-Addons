@@ -1274,9 +1274,11 @@ Database:AddChain(Chain.ATripWithTheSporelings, {
                 3, 
             },
         },
-        {
+        { -- This quest becomes unavailable after hitting friendly,
+          -- marking it as a breadcrumb will show it as completed at that time
             type = "quest",
             id = 9808,
+            breadcrumb = true,
             aside = true,
             connections = {
                 3, 
@@ -2113,6 +2115,7 @@ Database:AddChain(Chain.EmbedChain16, {
     category = CATEGORY_ID,
     expansion = EXPANSION_ID,
     range = LEVEL_RANGE,
+    restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = LEVEL_PREREQUISITES,
     active = {
         type = "quest",

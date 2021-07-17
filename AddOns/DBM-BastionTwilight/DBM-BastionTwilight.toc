@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: MysticalOS
-## Version: r212
+## Version: r213
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBastionTwilight_AllSavedVars
@@ -18,8 +18,6 @@
 ## X-DBM-Mod-Sort: 804
 ## X-DBM-Mod-MinCoreRevision: 20200524142133
 ## X-DBM-Mod-MinExpansion: 3
-## X-Curse-Project-ID: 43971
-## X-WoWI-ID: 21469
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

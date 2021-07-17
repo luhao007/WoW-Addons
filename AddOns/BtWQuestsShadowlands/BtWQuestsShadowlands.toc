@@ -1,6 +1,6 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Breen
-## Version: 1.16
+## Version: 3.0
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsShadowlandsPrologue
 ## LoadOnDemand: 1
@@ -80,6 +80,7 @@ Database/Index.zhCN.lua
 Database/Index.zhTW.lua
 
 Introduction.lua
+ChainsOfDomination.lua
 Bastion.lua
 Maldraxxus.lua
 Ardenweald.lua

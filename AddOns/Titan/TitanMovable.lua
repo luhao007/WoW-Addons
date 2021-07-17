@@ -74,7 +74,8 @@ local function DoAdjust(place, force)
 			end
 		end
 	elseif place == TITAN_PANEL_PLACE_BOTTOM then
-		if TitanPanelGetVar("AuxScreenAdjust") == 1 then
+		if TitanPanelGetVar("AuxScreenAdjust") == 1
+			or ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_OVERRIDE then
 			-- do not adjust
 		else
 			if force then
@@ -696,17 +697,14 @@ local MData = {
 		move = function (force) 
 			MoveFrame("MultiBarRight", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
 		addonAdj = false, },
-	[8] = {frameName = "OverrideActionBar", 
-		move = function (force) MoveFrame("OverrideActionBar", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
-		addonAdj = false, },
-	[9] = {frameName = "MicroButtonAndBagsBar", 
+	[8] = {frameName = "MicroButtonAndBagsBar", 
 		move = function (force) MoveFrame("MicroButtonAndBagsBar", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
 		addonAdj = false, },
-	[10] = {frameName = "MainMenuBar", -- MainMenuBar
+	[9] = {frameName = "MainMenuBar", -- MainMenuBar
 		move = function (force) 
 			MoveMenuFrame("MainMenuBar", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
 		addonAdj = false, },
-	[11] = {frameName = "ExtraActionBarFrame",
+	[10] = {frameName = "ExtraActionBarFrame",
 		move = function (force)
 			-- Only spend cycles if the frame is shown.
 			if ExtraActionBarFrame
@@ -759,6 +757,9 @@ TitanDebug ("move y :"
 			end,
 		addonAdj = false, },
 --[[
+	[8] = {frameName = "OverrideActionBar", 
+		move = function (force) MoveFrame("OverrideActionBar", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
+		addonAdj = false, },
 	[12] = {frameName = "OrderHallCommandBar",
 		move = function (force) 
 			MoveFrame("OrderHallCommandBar", 0, TITAN_PANEL_PLACE_TOP, force) end, 
@@ -951,12 +952,35 @@ function Titan_Hook_Target()
 	TitanPanel_AdjustFrames(false, "Hook TargetFrame_Update ")
 end
 
+--[[
 function Titan_Hook_Override_Show()
 	TitanPanel_AdjustFrames(false, "Hook OverrideActionBar Show")
 end
+--]]
 
-function Titan_Hook_Override_Hide()
-	TitanPanel_AdjustFrames(false, "Hook OverrideActionBar Hide")
+function Titan_Hook_Override()
+	-- We need a post hook here...
+	local bar_state = ActionBarController_GetCurrentActionBarState()
+	if bar_state == LE_ACTIONBAR_STATE_MAIN then
+		-- normal state, show / restore the user requested bars
+		if InCombatLockdown() or UnitInVehicle("player") then
+			-- wait until out of combat just in case...
+			-- Putting back a bar (especially bottom bar) could cause the 
+			-- main menu bar to not work as expected.
+		else
+			TitanPanelBarButton_DisplayBarsWanted()
+		end
+	elseif bar_state == LE_ACTIONBAR_STATE_OVERRIDE then
+		-- override bar in place, look at bottom bars
+		if TitanPanelGetVar("AuxBar_Show") then
+			TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."AuxBar")
+		end
+		if TitanPanelGetVar("AuxBar2_Show") then
+			TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."AuxBar2")
+		end
+	else
+		-- no other known states
+	end
 end
 
 function Titan_Hook_Map()
@@ -1008,12 +1032,24 @@ function TitanMovable_SecureFrames()
 		TitanPanelAce:SecureHook(TicketStatusFrame, "Show", Titan_Hook_Ticket_Show) -- HelpFrame.xml
 		TitanPanelAce:SecureHook(TicketStatusFrame, "Hide", Titan_Hook_Ticket_Hide) -- HelpFrame.xml
 		TitanPanelAce:SecureHook("TargetFrame_Update", Titan_Hook_Target) -- TargetFrame.lua
-		TitanPanelAce:SecureHook(OverrideActionBar, "Show", Titan_Hook_Override_Show) -- HelpFrame.xml
-		TitanPanelAce:SecureHook(OverrideActionBar, "Hide", Titan_Hook_Override_Hide) -- HelpFrame.xml
+--		TitanPanelAce:SecureHook(OverrideActionBar, "Show", Titan_Hook_Override_Show) -- HelpFrame.xml
+--		TitanPanelAce:SecureHook(OverrideActionBar, "Hide", Titan_Hook_Override_Hide) -- HelpFrame.xml
 		TitanPanelAce:SecureHook("UpdateContainerFrameAnchors", Titan_ContainerFrames_Relocate) -- ContainerFrame.lua
 		TitanPanelAce:SecureHook(WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MinimizeButton, "Show", Titan_Hook_Map) -- WorldMapFrame.lua
 
 		TitanPanelAce:SecureHook("OrderHall_CheckCommandBar", Titan_Hook_OrderHall)
+	end
+
+		-- Updated fix for change to Override Bar which allows a player to be knocked off a 'vehicle' while in
+		-- combat. This can cause Titan bottom bar to cover the main menu bar.
+		--[[ From ActionBarController.lua
+				Slight kludge to build the frame name here, they are used in TitanVariables to define each bar
+		--]]
+
+	if TitanPanelAce:IsHooked("ActionBarController_UpdateAll", Titan_Hook_Override) then
+		--  nothing to do
+	else
+		TitanPanelAce:SecureHook("ActionBarController_UpdateAll", Titan_Hook_Override)
 	end
 		
 	if not TitanPanelAce:IsHooked("VideoOptionsFrameOkay_OnClick", Titan_AdjustUIScale) then

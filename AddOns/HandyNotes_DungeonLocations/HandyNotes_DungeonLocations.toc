@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Caliaha of Cairne
 ## Version: 1.53
 ## RequiredDeps: HandyNotes

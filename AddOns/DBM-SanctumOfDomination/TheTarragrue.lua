@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(2435, "DBM-SanctumOfDomination", nil, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210515225647")
+mod:SetRevision("20210714022611")
 mod:SetCreatureID(175611)
 mod:SetEncounterID(2423)
 mod:SetUsedIcons(1)
-mod:SetHotfixNoticeRev(20200417000000)--2021-04-17
+mod:SetHotfixNoticeRev(20210706000000)--2021-07-06
 --mod:SetMinSyncRevision(20201222000000)
 --mod.respawnTime = 29
 
@@ -14,9 +14,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 346985 347283 347668 347679 350280 347490",
 	"SPELL_CAST_SUCCESS 352368 352382 352389 352398",
-	"SPELL_AURA_APPLIED 346986 347269 347283 347490 347369 347274"
---	"SPELL_AURA_APPLIED_DOSE",
---	"SPELL_AURA_REMOVED",
+	"SPELL_AURA_APPLIED 346986 347269 347283 347490 347369 347274 352384 352387 352392",
+	"SPELL_AURA_APPLIED_DOSE 352384 352387 352392"
+--	"SPELL_AURA_REMOVED2"
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"UNIT_DIED"
@@ -29,20 +29,24 @@ mod:RegisterEventsInCombat(
  or (ability.id = 352368 or ability.id = 352382 or ability.id = 352389 or ability.id = 352398) and type = "cast"
 --]]
 local warnChainsofEternity							= mod:NewTargetNoFilterAnnounce(347269, 2)
-local warnEternalRuin								= mod:NewTargetAnnounce(347274, 4)
+local warnAnnihilatingSmash							= mod:NewTargetAnnounce(347274, 4)
 local warnPedatorsHowl								= mod:NewTargetAnnounce(347283, 2)
 local warnForgottenTorments							= mod:NewSoonAnnounce(352368, 2)--When it's soon
 local warnUpperReachesMight							= mod:NewSpellAnnounce(352382, 2)--When it's happening
 local warnMortregarsEchoes							= mod:NewSpellAnnounce(352389, 2)--When it's happening
 local warnSoulforgeHeat								= mod:NewSpellAnnounce(352398, 2)--When it's happening
 local warnTheJailersGaze							= mod:NewTargetNoFilterAnnounce(347369, 4)
+mod:AddBoolOption("warnRemnant", false, "announce")--3 options are combined into 1
+local warnRemantPhysical							= mod:NewCountAnnounce(352384, 2, nil, nil, false)--Physical
+local warnRemantShadow								= mod:NewCountAnnounce(352387, 2, nil, nil, false)--Shadow
+local warnRemnantFire								= mod:NewCountAnnounce(352392, 2, nil, nil, false)--Fire
 
 local specWarnOverpower								= mod:NewSpecialWarningDefensive(346985, nil, nil, nil, 1, 2)
 local specWarnCrushedArmor							= mod:NewSpecialWarningTaunt(346986, nil, nil, nil, 1, 2)
 local specWarnChainsofEternity						= mod:NewSpecialWarningYou(347269, nil, nil, nil, 1, 2)
 local yellChainsofEternity							= mod:NewYell(347269)
 local yellChainsofEternityFades						= mod:NewShortFadesYell(347269)
-local specWarnEternalRuin							= mod:NewSpecialWarningYou(347274, nil, nil, nil, 1, 2)
+local specWarnAnnihilatingSmash						= mod:NewSpecialWarningYou(347274, nil, nil, nil, 1, 2)
 local specWarnPredatorsHowl							= mod:NewSpecialWarningMoveAway(347283, nil, nil, nil, 1, 2)
 local yellPredatorsHowl								= mod:NewYell(347283, nil, false)--Lots of targets, so opt in?
 local specWarnHungeringMist							= mod:NewSpecialWarningDodge(347679, nil, nil, nil, 2, 2)
@@ -52,17 +56,16 @@ local specWarnFuryoftheAges							= mod:NewSpecialWarningDispel(347490, "RemoveE
 
 --mod:AddTimerLine(BOSS)
 local timerOverpowerCD								= mod:NewCDCountTimer(27.9, 346985, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_L.TANK_ICON)
-local timerChainsofEternityCD						= mod:NewCDCountTimer(28.1, 347269, nil, nil, nil, 3, nil, nil, nil, 1, 3)
+local timerChainsofEternityCD						= mod:NewCDCountTimer(27.9, 347269, nil, nil, nil, 3, nil, nil, nil, 1, 3)
 local timerPedatorsHowlCD							= mod:NewCDCountTimer(25.5, 347283, nil, nil, nil, 3, nil, DBM_CORE_L.MAGIC_ICON)
 local timerHungeringMistCD							= mod:NewNextCountTimer(95.1, 347679, nil, nil, nil, 6, nil, DBM_CORE_L.DEADLY_ICON)
 local timerRemnantofForgottenTormentsCD				= mod:NewCDCountTimer(30.4, 352368, L.Remnant, nil, nil, 2, nil, DBM_CORE_L.HEROIC_ICON)
-local timerGraspofDeathCD							= mod:NewCDCountTimer(27.8, 347668, nil, nil, nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)
-local timerFuryoftheAgesCD							= mod:NewCDCountTimer(46.2, 347490, nil, "Tank|RemoveEnrage", nil, 5, nil, DBM_CORE_L.ENRAGE_ICON)
+local timerGraspofDeathCD							= mod:NewCDCountTimer(26.7, 347668, nil, nil, nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)
+local timerFuryoftheAgesCD							= mod:NewCDCountTimer(36.4, 347490, nil, "Tank|RemoveEnrage", nil, 5, nil, DBM_CORE_L.ENRAGE_ICON)
 
 local berserkTimer									= mod:NewBerserkTimer(600)
 
 mod:AddRangeFrameOption(6, 347283)
---mod:AddInfoFrameOption(328897, true)
 mod:AddSetIconOption("SetIconOnChains", 347269, true, false, {1})
 
 mod.vb.graspCount = 0
@@ -74,6 +77,7 @@ mod.vb.overpowerCount = 0
 mod.vb.furyCount = 0
 
 function mod:OnCombatStart(delay)
+	self:SetStage(1)
 	self.vb.graspCount = 0
 	self.vb.mistCount = 0
 	self.vb.remnantcount = 0
@@ -81,34 +85,27 @@ function mod:OnCombatStart(delay)
 	self.vb.chainsCount = 0
 	self.vb.overpowerCount = 0
 	self.vb.furyCount = 0
-	if self:IsMythic() then--Mythic verified, recheck heroic for changes
-		timerPedatorsHowlCD:Start(5.1-delay, 1)
-		timerGraspofDeathCD:Start(7.6-delay, 1)
+	if self:IsMythic() then--Mythic PTR timers, need checking on live
+		timerPedatorsHowlCD:Start(5-delay, 1)
+		timerGraspofDeathCD:Start(7-delay, 1)
 		timerOverpowerCD:Start(10-delay, 1)
-		timerChainsofEternityCD:Start(13.6-delay, 1)
+		timerChainsofEternityCD:Start(13.5-delay, 1)
 		timerHungeringMistCD:Start(24.2-delay, 1)
 	--	berserkTimer:Start(420-delay)
-	else--Heroic verified
-		timerPedatorsHowlCD:Start(3.4-delay, 1)
-		timerGraspofDeathCD:Start(6-delay, 1)
-		timerOverpowerCD:Start(12.2-delay, 1)
-		timerChainsofEternityCD:Start(16.9-delay, 1)
-		timerHungeringMistCD:Start(24.4-delay, 1)
+	else--Heroic verified on live, might be same as mythic PTR
+		timerPedatorsHowlCD:Start(5.6-delay, 1)
+		timerGraspofDeathCD:Start(8.1-delay, 1)
+		timerOverpowerCD:Start(10.5-delay, 1)
+		timerChainsofEternityCD:Start(13-delay, 1)
+		timerHungeringMistCD:Start(24-delay, 1)--24-25
 		berserkTimer:Start(420-delay)
 	end
---	if self.Options.InfoFrame then
---		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(328897))
---		DBM.InfoFrame:Show(10, "table", ExsanguinatedStacks, 1)
---	end
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(6)
 	end
 end
 
 function mod:OnCombatEnd()
---	if self.Options.InfoFrame then
---		DBM.InfoFrame:Hide()
---	end
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
@@ -143,8 +140,8 @@ function mod:SPELL_CAST_START(args)
 --		end
 	elseif spellId == 350280 then
 		self.vb.chainsCount = self.vb.chainsCount + 1
-		if timerHungeringMistCD:GetRemaining(self.vb.mistCount+1) >= 28.1 then
-			timerChainsofEternityCD:Start(nil, self.vb.chainsCount+1)--28.1--29.2
+		if timerHungeringMistCD:GetRemaining(self.vb.mistCount+1) >= 27.9 then
+			timerChainsofEternityCD:Start(nil, self.vb.chainsCount+1)--27.9--29.2
 		end
 	elseif spellId == 347490 then
 		self.vb.furyCount = self.vb.furyCount + 1
@@ -156,21 +153,14 @@ function mod:SPELL_CAST_START(args)
 		specWarnHungeringMist:Show()
 		specWarnHungeringMist:Play("watchstep")
 		--Start timers for after
-		if self:IsMythic() then
-			timerPedatorsHowlCD:Start(21.1, self.vb.howlcount+1)
-			timerOverpowerCD:Start(25.5, self.vb.overpowerCount+1)
-			timerGraspofDeathCD:Start(28, self.vb.graspCount+1)
+		timerPedatorsHowlCD:Start(21.1, self.vb.howlcount+1)
+		timerOverpowerCD:Start(24.3, self.vb.overpowerCount+1)
+		timerGraspofDeathCD:Start(26.7, self.vb.graspCount+1)
+		if self:IsHard() then
 			timerRemnantofForgottenTormentsCD:Start(28.3, self.vb.remnantcount+1)--Activation, not pre warning for emote
-			timerFuryoftheAgesCD:Start(32.8, self.vb.furyCount+1)
-			timerChainsofEternityCD:Start(58.3, self.vb.chainsCount+1)
-		else--Most likely the same, but recheck heroic and other modes later
-			timerPedatorsHowlCD:Start(21.1, self.vb.howlcount+1)
-			timerOverpowerCD:Start(25.5, self.vb.overpowerCount+1)
-			timerGraspofDeathCD:Start(28, self.vb.graspCount+1)
-			timerRemnantofForgottenTormentsCD:Start(30.4, self.vb.remnantcount+1)--Activation, not pre warning for emote
-			timerFuryoftheAgesCD:Start(32.9, self.vb.furyCount+1)
-			timerChainsofEternityCD:Start(57.2, self.vb.chainsCount+1)
 		end
+		timerChainsofEternityCD:Start(31.5, self.vb.chainsCount+1)
+		timerFuryoftheAgesCD:Start(32.8, self.vb.furyCount+1)
 		timerHungeringMistCD:Start(95, self.vb.mistCount+1)
 	end
 end
@@ -224,6 +214,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnFuryoftheAges:Show(args.destName)
 		specWarnFuryoftheAges:Play("enrage")
 	elseif spellId == 347369 then
+		self:SetStage(2)
 		warnTheJailersGaze:Show(args.destName)
 		timerPedatorsHowlCD:Stop()
 		timerOverpowerCD:Stop()
@@ -234,14 +225,25 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerHungeringMistCD:Stop()
 	elseif spellId == 347274 then
 		if args:IsPlayer() then
-			specWarnEternalRuin:Show()
-			specWarnEternalRuin:Play("targetyou")
+			specWarnAnnihilatingSmash:Show()
+			specWarnAnnihilatingSmash:Play("targetyou")
 		else
-			warnEternalRuin:Show(args.destName)
+			warnAnnihilatingSmash:Show(args.destName)
+		end
+	elseif spellId == 352384 or spellId == 352387 or spellId == 352392 then--Physical, Shadow, Fire
+		if args:IsPlayer() and self.Options.warnRemnant then
+			local amount = args.amount or 1
+			if spellId == 352384 then
+				warnRemantPhysical:Show(amount)
+			elseif spellId == 352387 then
+				warnRemantShadow:Show(amount)
+			elseif spellId == 352392 then
+				warnRemnantFire:Show(amount)
+			end
 		end
 	end
 end
---mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId

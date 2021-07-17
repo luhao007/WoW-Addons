@@ -40,6 +40,8 @@ app.L = {
 	["ITEM_GIVES_REP"] = "Provides Reputation with '";
 	["COST"] = "Cost";
 	["COST_DESC"] = "This contains the visual breakdown of what is required to obtain or purchase this Thing";
+	["SOURCES"] = "Source(s)";
+	["SOURCES_DESC"] = "Shows the Source of this Thing.\n\nParticularly, a specific Vendor/NPC, Quest, Encounter, etc.";
 	["WRONG_FACTION"] = "You might need to be on the other faction to view this.";
 	["ARTIFACT_INTRO_REWARD"] = "Awarded for completing the introductory quest for this Artifact.";
 	["WE_JUST_HATE_TIMEWALKING"] = "Timewalking difficulties needlessly create new Source IDs for items despite having the exact same name, appearance, and display in the Collections Tab.\n\nA plea to the Blizzard Devs: Please clean up the Source ID database and have your Timewalking / Titanforged item variants use the same Source ID as their base assuming the appearances and names are exactly the same. Not only will this make your database much cleaner, but it will also make Completionists excited for rather than dreading the introduction of more Timewalking content.\n\n - Crieve, the Very Bitter Account Completionist that had 99% Ulduar completion and now only has 64% because your team duplicated the Source IDs rather than reuse the existing one.";
@@ -190,7 +192,6 @@ app.L = {
 	["CHANGE_SEARCH_FILTER"] = "Change Search Filter";
 	["CHANGE_SEARCH_FILTER_DESC"] = "Click this to change your search filter.";
 	["REROLL_2"] = "Reroll: ";
-	["SELECT"] = "Select";
 	["NOTHING_TO_SELECT_FROM"] = "There was nothing to randomly select from.";
 	["NO_SEARCH_METHOD"] = "No search method specified.";
 	["PROFESSION_LIST"] = "Profession List";
@@ -216,7 +217,10 @@ app.L = {
 	["REAGENT_CACHE_OUT_OF_DATE"] = "Reagent Cache is out-of-date and will be re-cached when opening your professions!";
 	["ARTIFACT_CACHE_OUT_OF_DATE"] = "Artifact Cache is out-of-date/inaccurate and will be re-cached when logging onto each character!";
 	["QUEST_LOOP"] = "Likely just broke out of an infinite source quest loop.";
-	["QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT"] = "Quest '%s' [%d] will prevent collection of Breadcrumb Quest [%d]";
+	["QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT"] = "Quest '%s' [%d] will prevent collection of Breadcrumb Quest '%s' [%d]";
+	["QUEST_OBJECTIVE_INVALID"] = "Invalid Quest Objective";
+	["REFRESHING_COLLECTION"] = "Refreshing collection...";
+	["DONE_REFRESHING"] = "Done refreshing collection.";
 
 	-- Item Filter Window
 	["ITEM_FILTER_TEXT"] = "Item Filters";
@@ -240,21 +244,24 @@ app.L = {
 	["QUEST_ONCE_PER_ACCOUNT_FORMAT"] = "Completed By: %s";
 
 	-- Settings.lua
-		-- General tab
-			-- Mod Title
+		["SKIP_AUTO_REFRESH"] = "Do Not Auto-Refresh!";
+		["SKIP_AUTO_REFRESH_TOOLTIP"] = "By default (unchecked), any Settings change which may affect visible data will cause an automatic refresh.\n\nBy enabling this option, Settings changes won't take effect until the User performs a Full Refresh by Shift-Clicking on an ATT window.";
+		["AFTER_REFRESH"] = "After Refresh";
 
-	["MODE"] = "Mode";
-	["TITLE_COMPLETIONIST"] = "Completionist ";
-	["TITLE_UNIQUE_APPEARANCE"] = "Unique Appearance ";
-	["TITLE_DEBUG"] = "Debug ";
-	["TITLE_ACCOUNT"] = "Account ";
-	["TITLE_MAIN_ONLY"] = " (Main Only)";
-	["TITLE_NONE_THINGS"] = "None of the Things ";
-	["TITLE_ONLY"] = " Only ";
-	["TITLE_INSANE"] = "Insane ";
-	["TITLE_SOME_THINGS"] = "Some of the Things ";
-	["TITLE_LEVEL"] = "Level ";
-	["_BETA_LABEL"] = " |CFF4AA7FF[Beta]|R";
+		-- General tab
+			-- Mode Title
+				["MODE"] = "Mode";
+				["TITLE_COMPLETIONIST"] = "Completionist ";
+				["TITLE_UNIQUE_APPEARANCE"] = "Unique Appearance ";
+				["TITLE_DEBUG"] = "Debug ";
+				["TITLE_ACCOUNT"] = "Account ";
+				["TITLE_MAIN_ONLY"] = " (Main Only)";
+				["TITLE_NONE_THINGS"] = "None of the Things ";
+				["TITLE_ONLY"] = " Only ";
+				["TITLE_INSANE"] = "Insane ";
+				["TITLE_SOME_THINGS"] = "Some of the Things ";
+				["TITLE_LEVEL"] = "Level ";
+				["_BETA_LABEL"] = " |CFF4AA7FF[Beta]|R";
 
 
 	["GENERAL_TAB"] = "General";
@@ -329,7 +336,9 @@ app.L = {
 	["FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP"] = "Enable this setting if you only want to see content available to your current level character.\n\nNOTE: This is especially useful on Starter Accounts.";
 	["HIDE_BOE_CHECKBOX"] = "Hide BoE/BoA Items";
 	["HIDE_BOE_CHECKBOX_TOOLTIP"] = "Enable this setting if you want to hide Bind-on-Equip/Account items.\n\nThis setting is useful for when you are trying to finish a Classic Dungeon for a character and don't want to farm specifically for items that can be farmed on alts or on the Auction House.\n\nIE: Don't lose your mind grinding for Pendulum of Doom.";
-	["IGNORE_FILTERS_FOR_BOES_CHECKBOX"] = "Ignore Filters for BoE/BoA Items";
+	["HIDE_PVP_CHECKBOX"] = "Hide PvP Content";
+	["HIDE_PVP_CHECKBOX_TOOLTIP"] = "Enable this setting if you want to hide any content which 'may' require Player vs. Player interactions within the game.";
+	["IGNORE_FILTERS_FOR_BOES_CHECKBOX"] = "Ignore BoE/BoA Item Filters";
 	["IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP"] = "Enable this setting if you want to ignore armor, weapon, race, class, or profession requirements for BoE/BoA items.\n\nIf you are trying to collect things for your alts via Auction House scanning, this mode may be useful to you.";
 	["EXPAND_DIFFICULTY_CHECKBOX"] = "Expand Current Difficulty";
 	["EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP"] = "Enable this option if you want to automatically minimize difficulty headers in the mini list that are not active when you enter a dungeon or raid.\n\nExample: Minimize the Heroic header when in a Normal difficulty dungeon.";
@@ -484,11 +493,13 @@ app.L = {
 	["CELEBRATE_COLLECTED_CHECKBOX_TOOLTIP"] = "Enable this option if you want to hear a celebratory 'fanfare' sound effect when you obtain a new Thing.\n\nThis feature can greatly help keep you motivated.";
 	["WARN_REMOVED_CHECKBOX"] = "Removed Things Trigger a Warning";
 	["WARN_REMOVED_CHECKBOX_TOOLTIP"] = "Enable this option if you want to hear a warning sound effect when you accidentally sell back or trade an item that granted you an appearance that would cause you to lose that appearance from your collection.\n\nThis can be extremely helpful if you vendor an item with a purchase timer. The addon will tell you that you've made a mistake.";
+	["SCREENSHOT_COLLECTED_CHECKBOX"] = "Collected Things Trigger a Screenshot";
+	["SCREENSHOT_COLLECTED_CHECKBOX_TOOLTIP"] = "Enable this option if you want to take a screenshot for every Thing you collect.";
 
 	-- About tab
 	["ABOUT"] = "About";
 	["ABOUT_1"] = " |CFFFFFFFFis a collection tracking addon that shows you where and how to get everything in the game! We have a large community of users on our Discord (link at the bottom) where you can ask questions, submit suggestions as well as report bugs or missing items. If you find something collectible or a quest that isn't documented, you can tell us on the Discord, or for the more technical savvy, we have a Git that you may contribute directly to.\n\nWhile we do strive for completion, there's a lot of stuff getting added into the game each patch, so if we're missing something, please understand that we're a small team trying to keep up with changes as well as collect things ourselves. :D\n\nFeel free to ask me questions when I'm streaming and I'll try my best to answer it, even if it's not directly related to ATT (general WoW addon programming as well).\n\n- |r|Cffff8000Crieve|CFFFFFFFF\n\nPS: Check out All The Things Classic and TBC Classic!\n\nYes, I intend to play Classic WoW, but between working full time and developing the two versions of the addon, there won't be a lot of time for raiding.\n\nNo, ATT is not the addon that places icons on your bag icons. That's CanIMogIt and Caerdon Wardrobe!\n\nFor online collection comparing check out DataForAzeroth.com from shoogen!|r";
-	["ABOUT_2"] = "Additional Contributors: |CFFFFFFFF(in no particular order)\nDaktar, Lucetia, Slumber, Gold, Avella, Aiue, Dead Serious, Oiche, Oxlotus, Eiltherune, Blueyleader, Iyanden, Pr3vention, BigBlaris, Talonzor, Mogwai, Heallie, Eckhardt, Boohyaka, Sadidorf, Sanctuari, Molkree, Runawaynow and the rest of the ALL THE THINGS Discord!\n\nSpecial Shoutout to AmiYuy (CanIMogIt) and Caerdon (Caerdon Wardrobe).|r  ";
+	["ABOUT_2"] = "Additional Contributors: |CFFFFFFFF(in no particular order)\nDaktar, Lucetia, Slumber, Gold, Avella, Aiue, Dead Serious, Oiche, Oxlotus, Eiltherune, Blueyleader, Iyanden, Pr3vention, BigBlaris, Talonzor, Mogwai, Heallie, Eckhardt, Boohyaka, Sadidorf, Sanctuari, Molkree, Runawaynow, Braghe, Myrhial, Darkal and the rest of the ALL THE THINGS Discord!\n\nSpecial Shoutout to AmiYuy (CanIMogIt) and Caerdon (Caerdon Wardrobe).|r  ";
 	["ABOUT_3"] = "\n|CFFFFFFFFYou should absolutely download their addons to get the collection icons on items in your bags!|r";
 
 	-- Binding Localizations
@@ -528,7 +539,6 @@ app.L = {
 	["SPLIT"] = "Per Difficulty";
 	["REQUIRES_LEVEL"] = "Requires Level";
 	["SECRETS_HEADER"] = "Secrets";
-	["SELFIE_FILTERS_HEADER"] = "Selfie Filters";
 	["LIMITED_QUANTITY"] = "This has a limited quantity and may not always be present on the vendor.";
 	["SOURCE_ID_MISSING"] = "Please report this Item and where it was acquired to the ATT Discord in #errors!";
 
@@ -585,6 +595,8 @@ app.L = {
 	["INCOMPLETE"] = "|T" .. app.asset("incomplete") .. ":0|t |cff15abffIncomplete|r";	-- Acquired the colors and icon from CanIMogIt.
 	["KNOWN_ON_CHARACTER"] = "|T" .. app.asset("known") .. ":0|t |cff15abffKnown on current character|r";
 	["UNKNOWN_ON_CHARACTER"] = "|T" .. app.asset("unknown") .. ":0|t |cffff9333Unknown on current character|r";
+	["COST_ICON"] = "|T" .. app.asset("Currency") .. ":0|t";
+	["COST_TEXT"] = "|T" .. app.asset("Currency") .. ":0|t |cffdedadeCurrency|r";
 
 	["ABBREVIATIONS"] = {
 		["ALL THE THINGS"] = "ATT",
@@ -905,6 +917,7 @@ app.L = {
 		[-149] = "Interface\\Icons\\ClassIcon_Paladin",										-- Paladin
 		[-150] = "Interface\\Icons\\ClassIcon_Hunter",										-- Hunter
 		[-152] = "Interface\\Icons\\achievement_zone_draenor_01",							-- Garrison Campaign
+		[-153] = 1103070,																	-- Work Orders (Inv_icon_mission_complete_order)
 	--	[-155] = 236566,																	-- Level 48 (old Level 110)
 		[-155] = 236566,																	-- Level 50 (old Level 120)
 		[-160] = app.asset("Category_Mounts"),												-- Mounts
@@ -1093,7 +1106,7 @@ app.L = {
 		[-660] = "Interface\\Worldmap\\GlowSkull_64Blue",									-- Combatant PvP Gear
 		[-661] = "Interface\\Worldmap\\GlowSkull_64Purple",									-- Gladator PvP Gear
 		[-662] = "Interface\\Worldmap\\GlowSkull_64Red",									-- Elite PvP Gear
-		--[-663] = "Interface\\Icons\\",													-- Classic Pre-Season PvP Gear (Placeholder)
+		[-663] = 463450,																	-- Classic Honor System
 		[-664] = "Interface\\Icons\\achievement_featsofstrength_gladiator_01",				-- Gladiator: Season 1
 		[-665] = "Interface\\Icons\\achievement_featsofstrength_gladiator_01",				-- Merciless Gladiator: Season 2
 		[-666] = "Interface\\Icons\\achievement_featsofstrength_gladiator_02",				-- Vengeful Gladiator: Season 3
@@ -1124,6 +1137,10 @@ app.L = {
 		[-691] = "Interface\\Icons\\inv_protodrakegladiatormount_purple",					-- Notorious Gladiator: Battle for Azeroth Season 3
 		[-692] = "Interface\\Icons\\inv_protodrakegladiatormount_black",					-- Corrupted Gladiator: Battle for Azeroth Season 4
 		[-693] = "Interface\\Icons\\inv_shadebeastmount",									-- Sinful Gladiator: Shadowlands Season 1
+		[-694] = 3949827,																	-- Unchained Gladiator: Shadowlands Season 2
+		[-796] = app.asset("Category_PetBattles"),											-- Battle
+		[-797] = 631719,																	-- Journal
+		[-798] = app.asset("Category_SelfieFilters"),										-- Selfie Filter
 		[-799] = "775461",																	-- Burden of Eternity
 		[-800] = "Interface\\Icons\\inv_horse2purple",										-- Lucid Nightmare
 		[-801] = "Interface\\Icons\\inv_serpentmount_darkblue",								-- Riddler's Mind-Worm
@@ -1154,6 +1171,7 @@ app.L = {
 		[-905] = 3675495,																	-- Command Table
 		[-906] = 3675495,																	-- Tier 1: Tactical Insight
 		[-908] = 901746,																	-- Rewards
+		[-913] = "Interface\\Icons\\ui_torghast",											-- Tormentors of Torghast
 
 		[-915] = "Interface\\Icons\\sanctum_features_animadiversion",						-- Anima Conductor
 		[-916] = "Interface\\Icons\\sanctum_features_animadiversion",						-- Tier 1: Flowing Tendrils
@@ -1219,6 +1237,9 @@ app.L = {
 		[-973] = 3536186,																	-- Loyalty
 		[-974] = 3536184,																	-- Wisdom
 		[-975] = 3536187,																	-- Humility
+		[-976] = 4076799,																	-- Korthian Sets
+		[-978] = 651097,																	-- The Rift
+		[-980] = 133650,																	-- Shared Treasures
 		[-1000] = "Interface\\Icons\\achievement_transmog_collections",						-- Sets
 		[-1001] = "Interface\\Icons\\Racial_Dwarf_FindTreasure",							-- The Black Vault
 		[-2200] = "Interface\\Icons\\inv_scroll_11",										-- Warrior order hall lore item
@@ -1447,12 +1468,14 @@ app.L = {
 		[-10080] = "Interface\\Icons\\trade_alchemy_potiond2",						-- Horrific Visions
 		[-10081] = "Interface\\Icons\\spell_shadow_shadowmend",						-- Corrupted Area (Vision Scenario)
 		[-10082] = "Interface\\Icons\\spell_priest_psyfiend",						-- Lost Area (Vision Scenario)
+		[-10083] = "236373",														-- Covenant Assaults
 
 		[-10100] = app.asset("Expansion_SL"),										-- Shadowlands
 		[-10101] = "Interface\\Icons\\Paladin_Protection",							-- Shadowlands Dungeon
 		[-10102] = "Interface\\Icons\\Paladin_Protection",							-- Shadowlands Raid
 		[-10103] = "Interface\\Icons\\Paladin_Protection",							-- The Maw and Torghast
 		[-10104] = "Interface\\Icons\\Paladin_Protection",							-- Covenant Sanctums
+		[-10105] = 236373,															-- Covenant Assaults
 
 
 		[-101501] = "Interface\\FriendsFrame\\achievements_zone_azsuna",
@@ -1640,7 +1663,7 @@ app.L = {
 		[-161] = TOY,															-- Toy
 		[-162] = PETS,															-- Pets
 		[-163] = RESISTANCE0_NAME,												-- Armor
-		[-165] = GetItemSubClassInfo(13,1),
+		[-165] = GetItemSubClassInfo(13,1),										-- Lockpick
 		[-167] = GetSpellInfo(7738),											-- Fishing Poles
 		[-168] = FACTION_OTHER .. " " ..QUESTS_LABEL,							-- Other Quests
 		[-169] = BOUNTY_BOARD_LOCKED_TITLE,										-- Emissary Quests
@@ -1869,7 +1892,7 @@ app.L = {
 		[-662] = "Elite Gear",													-- Elite PvP Gear
 
 	-- Classic PvP Seasons
-		[-663] = "Classic Pre-Season Gear",										-- Classic Pre-Season PvP Gear (need a icon)
+		[-663] = "Classic Honor System",										-- Classic Honor System
 
 	-- The Burning Crusade PvP Seasons
 		[-658] = "BC Pre-Season",												-- Pre-Season (PvP BC)
@@ -1923,9 +1946,16 @@ app.L = {
 
 	-- Shadowlands PvP Seasons
 		[-693] = select(2, GetAchievementInfo(14690)),							-- Sinful Gladiator: Shadowlands Season 1
+		[-694] = select(2, GetAchievementInfo(14973)),							-- Unchained Gladiator: Shadowlands Season 2
 
+	-- Pets
+		[-796] = BATTLE_PET_SOURCE_5,											-- Pet Battle
+		[-797] = PET_JOURNAL,													-- Pet Journal
 
-		[-799] = "Burden of Eternity",											-- Burden of Eternity
+	-- Toys
+		[-798] = GetSpellInfo(181765),											-- S.E.L.F.I.E. Camera
+
+		[-799] = GetSpellInfo(147343),											-- Burden of Eternity
 
 	-- Secret Header [Maybe need to change the numbers again when I need more space for PvP -- sadidorf]
 		[-800] = GetSpellInfo(247402), 											-- Lucid Nightmare
@@ -1934,15 +1964,15 @@ app.L = {
 		[-804] = GetSpellInfo(254763),											-- Uuna
 		[-805] = GetSpellInfo(277461),											-- Baa'l
 		[-806] = "Waist of Time",												-- Waist of Time
-		[-807] = "Hivemind",													-- Hivemind
-		[-808] = "Bound Shadehound",											-- Bound Shadehound
+		[-807] = GetSpellInfo(261395),											-- The Hivemind
+		[-808] = GetSpellInfo(344577),											-- Bound Shadehound
 
 	-- Mechagon
 		[-850] = "Mechanized Chest",											-- Mechanized Chest
 		[-851] = "Irontide Chest",												-- Irontide Chest
 
 	-- 8.2 Neck Stuff
-		[-852] = "Azerite Essences",											-- Azerite Essences
+		[-852] = SPLASH_BATTLEFORAZEROTH_8_2_0_FEATURE2_TITLE,					-- Heart of Azeroth Essences
 		[-853] = "All Roles",													-- All Roles
 		[-854] = "DPS",															-- DPS
 		[-855] = "Healers",														-- Healers
@@ -1968,12 +1998,17 @@ app.L = {
 		[-910] = "Hunt: Alpha Devourers",										-- Hunt: Alpha Devourers
 		[-911] = "Hunt: Shadehounds",											-- Hunt: Shadehounds
 		[-912] = "Hunt: Winged Soul Eaters",									-- Hunt: Winged Soul Eaters
+		[-913] = "Tormentors of Torghast",										-- Tormentors of Torghast
 		[-914] = "Adventures",													-- Adventures
 		[-915] = "Anima Conductor",												-- Anima Conductor
 		[-916] = "Tier 1: Flowing Tendrils",									-- Tier 1: Flowing Tendrils
 		[-917] = "Tier 2: Streaming Threads",									-- Tier 2: Streaming Threads
 		[-918] = "Tier 3: Flowing Power",										-- Tier 3: Flowing Power
 		[-919] = "Night Mare",													-- Night Mare
+		[-977] = "Maelie the Wanderer",											-- Maelie the Wanderer
+		[-978] = select(1, GetSpellInfo(354778)),								-- The Rift
+		[-979] = "Broker Ve'ken & Broker Ve'nott",								-- Broker Ve'ken & Broker Ve'nott
+		[-980] = "Shared Treasures",											-- Shared Treasures
 
 	-- SL Maldraxxus/Necrolord
 		[-920] = "Covenant: Necrolord",											-- Covenant: Necrolord
@@ -2043,6 +2078,7 @@ app.L = {
 		[-970] = "Set C",														-- Set C
 		[-971] = "Set D",														-- Set D
 
+		[-976] = "Korthian Sets",												-- Korthian Sets
 		[-1000] = WARDROBE_SETS, 												-- Sets
 		[-1001] = "The Black Vault",
 
@@ -2332,6 +2368,7 @@ app.L = {
 		[-10080] = "Horrific Visions",
 		[-10081] = "Corrupted Area",
 		[-10082] = "Lost Area",
+		[-10083] = "Covenant Assaults",											-- Covenant Assaults
 
 	-- Shadowlands Achievement Header
 		[-10100] = select(1,GetCategoryInfo(15422)),							-- Shadowlands
@@ -2486,7 +2523,7 @@ app.L = {
 		{3, "|CFFFF0000The source of this item has been removed and is only available with the Black Market Auction House.|r", "Black Market AH [BMAH] (9)"}, -- There is Hope -- 9
 		{3, "|CFFFF0000Item from TCG card is no longer in print, but still purchaseable online, sometimes BMAH, and possibly AH.|r", "Trading Card  Game [TCG] (10)"}, -- There is Hope -- 10
 		{3, "|CFFFF0000This item is Bind on Pickup but can be obtained if you have access to the items to summon the boss.|r", "Requires Summoning Items (11)"}, -- There is Hope -- 11
-		{3, "|CFFFF0000This item requires Player vs Player activities or a currency related to those activities. |r", "Requires PvP (12)"}, -- There is Hope --, ""}, -- 12
+		{0, "|CFF00FFDEThis item or achievement requires Player vs Player activities or a currency related to those activities. |r", "Requires PvP (12)"}, -- There is Hope --, ""}, -- 12
 		{1, "|CFFFF0000Your followers are too high and the mission for the cache will no longer spawn.|r", "Legacy Cache (13)"}, -- 13
 		{3, "|CFFFF0000These items can't be purchased unless you have the required PvP Rating or were in the Top % of that season.|r", "PvP Elite/Gladiator (14)"}, -- 14
 		{1, "|CFFFF0000This item has a Source ID (for example, Tempest Keep Legendaries), but can't be learned (training recipes). |r", "Training Recipes / Unlearnable (15)"}, -- 15

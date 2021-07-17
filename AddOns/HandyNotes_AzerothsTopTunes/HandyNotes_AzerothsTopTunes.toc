@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Author: Ravendwyr
 ## Version: v1.3.1
 ## RequiredDeps: HandyNotes

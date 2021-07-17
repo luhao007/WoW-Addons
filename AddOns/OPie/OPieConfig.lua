@@ -759,8 +759,9 @@ end
 local OPC_OptionSets = {
 	{ L"Behavior",
 		{"bool", "RingAtMouse", caption=L"Center rings at mouse"},
-		{"bool", "CenterAction", caption=L"Quick action at ring center"},
 		{"bool", "ClickPriority", caption=L"Make rings top-most"},
+		{"bool", "CenterAction", caption=L"Quick action at ring center"},
+		{"bool", "MotionAction", caption=L"Quick action if mouse remains still"},
 		{"bool", "SliceBinding", caption=L"Per-slice bindings"},
 		{"bool", "ClickActivation", caption=L"Activate on left click"},
 		{"bool", "NoClose", caption=L"Leave open after use", depOn="ClickActivation", depValue=true, otherwise=false},
@@ -780,6 +781,7 @@ local OPC_OptionSets = {
 	}, { L"Animation",
 		{"bool", "MIScale", caption=L"Enlarge selected slice"},
 		{"bool", "MISpinOnHide", caption=L"Outward spiral on hide"},
+		{"bool", "XTPointerSnap", caption=L"Snap pointer to mouse cursor"},
 		{"range", "XTZoomTime", 0, 1, 0.1, caption=L"Zoom-in/out time", suffix=L"(%.1f sec)"},
 	}
 }
