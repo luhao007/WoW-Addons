@@ -3006,6 +3006,133 @@
   },
   {
     "source": "curse",
+    "id": "28774",
+    "slug": "grail",
+    "name": "Grail",
+    "description": "Library of quest information",
+    "url": "https://www.curseforge.com/wow/addons/grail",
+    "download_url": "https://edge.forgecdn.net/files/3371/808/Grail-116.zip",
+    "date_published": "2021-06-30T22:15:36.430000+00:00",
+    "version": "116",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/28774/file/3371808/changelog",
+    "folders": [
+      {
+        "name": "Grail"
+      },
+      {
+        "name": "Grail-Achievements"
+      },
+      {
+        "name": "Grail-NPCs"
+      },
+      {
+        "name": "Grail-NPCs-deDE"
+      },
+      {
+        "name": "Grail-NPCs-enUS"
+      },
+      {
+        "name": "Grail-NPCs-esES"
+      },
+      {
+        "name": "Grail-NPCs-esMX"
+      },
+      {
+        "name": "Grail-NPCs-frFR"
+      },
+      {
+        "name": "Grail-NPCs-itIT"
+      },
+      {
+        "name": "Grail-NPCs-koKR"
+      },
+      {
+        "name": "Grail-NPCs-ptBR"
+      },
+      {
+        "name": "Grail-NPCs-ruRU"
+      },
+      {
+        "name": "Grail-NPCs-zhCN"
+      },
+      {
+        "name": "Grail-NPCs-zhTW"
+      },
+      {
+        "name": "Grail-Quests"
+      },
+      {
+        "name": "Grail-Quests-deDE"
+      },
+      {
+        "name": "Grail-Quests-enUS"
+      },
+      {
+        "name": "Grail-Quests-esES"
+      },
+      {
+        "name": "Grail-Quests-esMX"
+      },
+      {
+        "name": "Grail-Quests-frFR"
+      },
+      {
+        "name": "Grail-Quests-itIT"
+      },
+      {
+        "name": "Grail-Quests-koKR"
+      },
+      {
+        "name": "Grail-Quests-ptBR"
+      },
+      {
+        "name": "Grail-Quests-ruRU"
+      },
+      {
+        "name": "Grail-Quests-zhCN"
+      },
+      {
+        "name": "Grail-Quests-zhTW"
+      },
+      {
+        "name": "Grail-Reputations"
+      },
+      {
+        "name": "Grail-Rewards"
+      },
+      {
+        "name": "Grail-When"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "116",
+        "install_time": "2021-07-17T04:49:00+00:00"
+      },
+      {
+        "version": "115",
+        "install_time": "2021-06-03T09:09:19+00:00"
+      },
+      {
+        "version": "114",
+        "install_time": "2021-02-14T14:50:26+00:00"
+      },
+      {
+        "version": "113",
+        "install_time": "2020-11-25T11:06:42+00:00"
+      },
+      {
+        "version": "112",
+        "install_time": "2020-11-03T06:02:12+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "46679",
     "slug": "hpetbattleany",
     "name": "HPetBattleAny",
@@ -5538,6 +5665,49 @@
       {
         "version": "3.1.2",
         "install_time": "2020-11-23T02:52:37+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "30118",
+    "slug": "wholly",
+    "name": "Wholly",
+    "description": "Shows quests in zones and puts pins on maps where quest givers are.",
+    "url": "https://www.curseforge.com/wow/addons/wholly",
+    "download_url": "https://edge.forgecdn.net/files/3371/812/Wholly-084.zip",
+    "date_published": "2021-06-30T22:17:46.700000+00:00",
+    "version": "084",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/30118/file/3371812/changelog",
+    "folders": [
+      {
+        "name": "Wholly"
+      }
+    ],
+    "options": {
+      "strategy": "default"
+    },
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "084",
+        "install_time": "2021-07-17T04:49:51+00:00"
+      },
+      {
+        "version": "083",
+        "install_time": "2021-06-03T09:09:20+00:00"
+      },
+      {
+        "version": "082",
+        "install_time": "2021-02-14T14:50:29+00:00"
+      },
+      {
+        "version": "081",
+        "install_time": "2020-11-25T11:06:45+00:00"
+      },
+      {
+        "version": "80",
+        "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
   },
