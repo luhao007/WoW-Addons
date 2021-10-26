@@ -22,6 +22,46 @@
 			--Was I drunk when I did this??
 			[345231] = "battlemaster",
 
+			-- Crowd Controls
+			--Polymorph (Mage)
+			[118] = "success", -- Sheep
+			[28271] = "success", -- Turtle
+			[28272] = "success", -- Pig
+			[61305] = "success", -- Black Cat
+			[61721] = "success", -- Rabbit
+			[61025] = "success", -- Serpent
+			[61780] = "success", -- Turkey
+			[161372] = "success", -- Peacock
+			[161355] = "success", -- Penguin
+			[161353] = "success", -- Polar Bear Cub
+			[161354] = "success", -- Monkey
+			[126819] = "success", -- Porcupine
+			[277787] = "success", -- Direhorn
+			[277792] = "success", -- Bumblebee
+
+			--Hex (Shaman)
+			[51514] = "success", -- Frog
+			[210873] = "success", -- Compy
+			[211004] = "success", -- Spider
+			[211015] = "success", -- Cockroach
+			[211010] = "success", -- Snake
+			[269352] = "success", -- Skeletal Hatchling
+			[277778] = "success", -- Zandalari Tendonripper
+			[277784] = "success", -- Wicker Mongrel
+			[309328] = "success", -- Living Honey
+			-- Others
+			[5782] = "success", -- Fear (Warlock)
+			[118699] = "success", -- Fear (Warlock) because different spellID for some stupid reason
+			[33786] = "success", -- Cyclone (Druid)
+			--[209753] = "success", -- Cyclone (Druid)
+			[19386] = "success", --Wyvern Sting (Hunter)
+			[20066] = "success", -- Repentence (Paladin)
+			[605] = "success", -- Mind Control (Priest)
+			[2637] = "success", -- Hibernate (Druid)
+			[1513] = "success", -- Scare Beast (Hunter)
+			[339] = "success", -- Entangling Roots
+			[235963] = "success", -- Entangling Roots Feral Talent
+
 			-- Covenant Abilities
 			[310143] = "soulshape", -- Nightfae Signature
 			[319217] = "podtender", -- Nightfae Cheat Death
@@ -30,6 +70,7 @@
 			[323095] = "UltimateForm", -- Necro
 			[323524] = "UltimateForm", -- Necro
 			[330752] = "AscendantPhial", -- Kyrian Kleia Soulbind debuff immunity for SOME REASON THIS IS A THING
+			[331937] = "euphoria",
 
 			-- Backlash (Aura Applied)
 			[87204] = "backlashFear", -- Vampiric Touch Dispel (Priest)
@@ -130,6 +171,9 @@
 			[342246] = "alterTime",
 			[108978] = "alterTime",
 			[324220] = "deathborne", -- Necrolord
+			[353128] = "arcanosphere",
+			[82691] = "frozen", -- Ring of Froze Debuff
+			[353084] = "burns", -- Ring of Fire Debuff
 
 			-- Monk (Aura Applied)
 			[122278] = "dampenHarm",
@@ -375,10 +419,11 @@
 			[132158] = "swiftnessDown",
 			[10060] = "infusionDown", -- Power Infusion
 			[335903] = "doomwindsDown",
-			[199027] = "veilOfMidnight",
+			[199027] = "veilOfMidnightDown",
 
 			-- COVENANTS
 			[310143] = "soulshapeDown", -- Nightfae Signature
+			[331937] = "euphoriaDown",
 			--[324867] = "fleshcraftDown", -- Necrolord Signature
 		--TANK TAUNTS
 			--[206891] = "tankTauntsOFF", 			-- Tank Taunts Down
@@ -466,7 +511,7 @@
 			[314793] = "mirrorsOfTorment",
 			[307443] = "radiantspark", -- Kyrian
 			[353082] = "ringOfFire", -- and it burns burns burns
-			[353128] = "arcanosphere",
+			--[353128] = "arcanosphere",
 			[352278] = "iceWall",
 			
 			-- Monk (Spell Casting)
@@ -565,47 +610,14 @@
 			[212620] = "dispel",	-- Singe Magic (PvP Talent, looks to be unused)
 			
 			-- CastSuccess (Major, cast-time CCs that went off)
-				--Polymorph (Mage)
-			[118] = "success", -- Sheep
-			[28271] = "success", -- Turtle
-			[28272] = "success", -- Pig
-			[61305] = "success", -- Black Cat
-			[61721] = "success", -- Rabbit
-			[61025] = "success", -- Serpent
-			[61780] = "success", -- Turkey
-			[161372] = "success", -- Peacock
-			[161355] = "success", -- Penguin
-			[161353] = "success", -- Polar Bear Cub
-			[161354] = "success", -- Monkey
-			[126819] = "success", -- Porcupine
-			[277787] = "success", -- Direhorn
-			[277792] = "success", -- Bumblebee
-			
 			[113724] = "success", -- Ring of Frost
-				--Hex (Shaman)
-			[51514] = "success", -- Frog
-			[210873] = "success", -- Compy
-			[211004] = "success", -- Spider
-			[211015] = "success", -- Cockroach
-			[211010] = "success", -- Snake		
-			[269352] = "success", -- Skeletal Hatchling
-			[277778] = "success", -- Zandalari Tendonripper
-			[277784] = "success", -- Wicker Mongrel
-			[309328] = "success", -- Living Honey
-				--
-			[5782] = "success", -- Fear (Warlock)
-			[33786] = "success", -- Cyclone (Druid)
-			--[209753] = "success", -- Cyclone (Druid)
-			[19386] = "success", --Wyvern Sting (Hunter)
-			[20066] = "success", -- Repentence (Paladin)
-			[605] = "success", -- Mind Control (Priest)
-			[2637] = "success", -- Hibernate (Druid)/leave/lea
-			[1513] = "success", -- Scare Beast (Hunter)
-			
+
+
 			-- Connected (Big Beefy cast-time abilities that successfully connect.)
 			[203286] = "connected", -- Greater Pyro
 			[116858] = "connected", -- Chaos Bolt
 			[323673] = "connected", -- Mind Games
+			[323639] = "connected", -- The Hunt
 			
 			-- Purges
 			[528] = "purge",		-- Dispel Magic (Priest)
@@ -654,10 +666,19 @@
 			[256948] = "SpatialRift", -- Spatial Rift (Void Elf)
 			[257040] = "SpatialRift2", -- Spatial Rift Teleport (Spatial Warp) (Void Elf)
 			[255654] = "BullRush", -- Bull Rush (Highmountain Racial)
+			[356567] = "maledict",
 
 			-- Covenant (Cast Success)
 			[324631] = "fleshcraft", -- Necrolord signature
 			[323436] = "phialofserenity", -- Kyrian signature
+			[332423] = "driftglobe", -- Mikanikos Stun
+			[331612] = "driftglobe", -- ^
+			[323916] = "sulfuricEmission", -- Emeni Fear
+			[324263] = "sulfuricEmission", -- ^
+			[347684] = "sulfuricEmission", -- ^
+			[352366] = "nimbleSteps", -- Nadjia Root
+			[354051] = "nimbleSteps", -- ^
+			[354052] = "nimbleSteps", -- ^
 			
 			-- Death Knight (Cast Success)
 			[47528] = "mindFreeze",
@@ -707,7 +728,7 @@
 			[207682] = "silenceSigil",
 			[211881] = "felEruption",
 			[203704] = "manaBreak",
-			[217832] = "imprison",		-- Demons Only (until 7.1.5 because lol holinka)
+			[217832] = "imprison",
 			[221527] = "imprison",		-- Honor Talent (on Players)
 			[196718] = "darkness",
 			[198013] = "eyeBeam",
@@ -895,6 +916,7 @@
 			[1856] = "vanish",
 			--[76577] = "smokeBomb",
 			[212182] = "smokeBomb",
+			[359053] = "smokeBomb",
 			[79140] = "vendetta",
 			[207777] = "dismantle",
 			[200806] = "exsanguinate",
@@ -1007,7 +1029,7 @@
 			[236236] = "disarm",
 			[236320] = "warBanner",
 			[6544] = "heroicLeap",
-			[206572] = "DragonCharge", -- Dragon Charge
+			[206572] = "DragonCharge",
 			[325886] = "ancientAftershock",
 			[324143] = "conquerorbanner", -- Necrolord
 			[307865] = "spearofbastion", -- Kyrian
@@ -1015,7 +1037,7 @@
 			[167105] = "colossusSmash",
 			[262161] = "colossusSmash", -- Warbreaker Talent
 		},
-		friendlyInterrupt = {			--friendly interrupt [spellid] = ".mp3 file name",
+		friendlyInterrupt = {
 			[19647] = "lockout", -- Spell Locks begin
 			[119910] = "lockout",
 			[171140] = "lockout",

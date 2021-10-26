@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: Boshi Lian(farmer1992@gmail.com)
-## Version: v5.5.1
+## Version: v5.7.0
 ## SavedVariables: MyslotExports
 ## SavedVariablesPerCharacter: MyslotSettings
 

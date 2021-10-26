@@ -3636,8 +3636,26 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64106] = {
         name = "Todos juntos",
     },
+    [64211] = {
+        name = "Entrada a la oscuridad",
+    },
+    [64212] = {
+        name = "Entrada a la oscuridad",
+    },
+    [64213] = {
+        name = "Un símbolo de esperanza",
+    },
+    [64214] = {
+        name = "Un símbolo de esperanza",
+    },
+    [64314] = {
+        name = "Pactos renovados",
+    },
     [64437] = {
         name = "Informe al Primus",
+    },
+    [64441] = {
+        name = "Tomo perdido",
     },
     [64555] = {
         name = "Investigación de secretos",

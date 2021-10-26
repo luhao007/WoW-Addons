@@ -1003,7 +1003,7 @@ Database:AddChain(Chain.TheTempleOfCourage, {
             type = "level",
             variations = {
                 { level = 50, restrictions = 86994, },
-                { level = 52, },
+                { level = 53, },
             },
         },
         {

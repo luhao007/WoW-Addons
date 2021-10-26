@@ -1648,3 +1648,34 @@ Change Log:
 4.63.6
 * Fixed SL spells for Tazavesh, the Veiled Market
 * Added SL spells for Tazavesh, the Veiled Market
+
+4.63.7
+* Added Shadowlands spells (world)
+* Added SL spells for Torghast
+* Added SL spells for Sanctum of Domination
+
+4.64
+* Don't alert when the player is mind-controlled
+* Fixed SL spells for Sanctum of Domination
+* Added Shadowlands spells (world)
+* Added SL spells for Sanctum of Domination
+* Added SL spells for Torghast
+
+4.64.1
+* Updated ToCs for all versions
+* Added SL spells for Sanctum of Domination
+
+4.64.2
+* Added Generic spells
+
+4.64.3
+* Added Shadowlands spells (world)
+* Added SL spells for Mists of Tirna Scithe
+* Added SL spells for Theater of Pain
+* Added SL spells for Torghast
+* Added SL spells for Sanctum of Domination
+* Added BC spells for Magtheridon's Lair
+* Added BC spells for The Eye
+* Added BC spells for Serpentshrine Cavern
+
+

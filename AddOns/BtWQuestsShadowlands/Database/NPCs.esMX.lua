@@ -477,8 +477,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [165841] = {
         name = "Huln Altamontaña",
     },
-    [165859] = {
-    },
     [165864] = {
         name = "Nadjia la Hojaniebla",
     },
@@ -788,6 +786,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "El Primus",
     },
+    [177228] = {
+        name = "Alto señor Bolvar Fordragón",
+    },
     [177628] = {
         name = "Rompepecados venthyr",
     },
@@ -799,6 +800,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [178260] = {
         name = "La Piedramadre",
+    },
+    [180074] = {
+        name = "Lady Jaina Valiente",
     },
 })
 ]])()

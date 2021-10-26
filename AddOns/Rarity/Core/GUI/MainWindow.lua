@@ -20,7 +20,6 @@ local GetMapNameByID = Rarity.MapInfo.GetMapNameByID
 -- LibQTip stuff
 
 -- Externals
-local qtip = LibStub("LibQTip-1.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("Rarity")
 local lbz = LibStub("LibBabble-Zone-3.0"):GetUnstrictLookupTable()
 local lbsz = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable()
@@ -39,6 +38,7 @@ local headers = {}
 
 -- Constants
 -- Sort parameters
+local SORT_NONE = CONSTANTS.SORT_METHODS.SORT_NONE
 local SORT_NAME = CONSTANTS.SORT_METHODS.SORT_NAME
 local SORT_DIFFICULTY = CONSTANTS.SORT_METHODS.SORT_DIFFICULTY
 local SORT_PROGRESS = CONSTANTS.SORT_METHODS.SORT_PROGRESS
@@ -64,7 +64,7 @@ local white = Rarity.Enum.Colors.White
 
 -- Addon-scoped functions
 function R:InTooltip()
-	return qtip:IsAcquired("RarityTooltip")
+	return Rarity.Tooltips:IsTooltipAcquired("RarityTooltip")
 end
 
 function R:HideQuicktip()
@@ -79,7 +79,7 @@ function R:ShowQuicktip(hidden)
 	end
 	renderingQuicktip = true
 
-	if qtip:IsAcquired("RarityQuicktip") and quicktip then
+	if Rarity.Tooltips:IsTooltipAcquired("RarityQuicktip") and quicktip then
 		-- Don't show the tooltip if it's already showing
 		if quicktip:IsVisible() then
 			renderingQuicktip = false
@@ -87,7 +87,7 @@ function R:ShowQuicktip(hidden)
 		end
 		quicktip:Clear()
 	else
-		quicktip = qtip:Acquire("RarityQuicktip", 3, "LEFT", "LEFT")
+		quicktip = Rarity.Tooltips:AcquireTooltip("RarityQuicktip", 3, "LEFT", "LEFT")
 		-- intentionally one column more than we need to avoid text clipping
 		quicktip:SetScale(self.db.profile.tooltipScale or 1)
 	end
@@ -104,7 +104,7 @@ function R:ShowQuicktip(hidden)
 		Rarity.frame,
 		function()
 			quicktip = nil
-			qtip:Release("RarityQuicktip")
+			Rarity.Tooltips:ReleaseTooltip("RarityQuicktip")
 		end
 	)
 
@@ -133,7 +133,8 @@ end
 
 local function tooltip2AddDoubleLine(value1, value2)
 	local lineIndex = tooltip2:AddLine()
-	tooltip2:SetCell(lineIndex, 1, value1, nil, nil, 1, qtip.LabelProvider, nil, nil, STATUS_TOOLTIP_MAX_WIDTH)
+	local labelProvider = Rarity.Tooltips:GetLabelProvider()
+	tooltip2:SetCell(lineIndex, 1, value1, nil, nil, 1, labelProvider, nil, nil, STATUS_TOOLTIP_MAX_WIDTH)
 	tooltip2:SetCell(lineIndex, 2, value2)
 end
 
@@ -240,7 +241,8 @@ end
 
 local function tooltip2AddLine(value)
 	local lineIndex = tooltip2:AddLine()
-	tooltip2:SetCell(lineIndex, 1, value, nil, nil, 2, qtip.LabelProvider, nil, nil, STATUS_TOOLTIP_MAX_WIDTH)
+	local labelProvider = Rarity.Tooltips:GetLabelProvider()
+	tooltip2:SetCell(lineIndex, 1, value, nil, nil, 2, labelProvider, nil, nil, STATUS_TOOLTIP_MAX_WIDTH)
 end
 
 local function showSubTooltip(cell, item)
@@ -248,11 +250,11 @@ local function showSubTooltip(cell, item)
 		return
 	end
 
-	if qtip:IsAcquired("RaritySubTooltip") and tooltip2 then
-		qtip:Release(tooltip2)
+	if Rarity.Tooltips:IsTooltipAcquired("RaritySubTooltip") and tooltip2 then
+		Rarity.Tooltips:ReleaseTooltip(tooltip2)
 		tooltip2 = nil
 	end
-	tooltip2 = qtip:Acquire("RaritySubTooltip", 3, "LEFT", "RIGHT")
+	tooltip2 = Rarity.Tooltips:AcquireTooltip("RaritySubTooltip", 3, "LEFT", "RIGHT")
 	tooltip2:ClearAllPoints()
 	tooltip2:SetClampedToScreen(true)
 
@@ -760,8 +762,8 @@ local function onClickGroup(cell, group)
 		if tooltip then
 			tooltip:Hide()
 		end
-		if qtip:IsAcquired("RarityTooltip") then
-			qtip:Release("RarityTooltip")
+		if Rarity.Tooltips:IsTooltipAcquired("RarityTooltip") then
+			Rarity.Tooltips:ReleaseTooltip("RarityTooltip")
 		end
 		Rarity:ShowTooltip()
 	end
@@ -777,8 +779,8 @@ local function onClickGroup2(cell, group)
 		if tooltip then
 			tooltip:Hide()
 		end
-		if qtip:IsAcquired("RarityTooltip") then
-			qtip:Release("RarityTooltip")
+		if Rarity.Tooltips:IsTooltipAcquired("RarityTooltip") then
+			Rarity.Tooltips:ReleaseTooltip("RarityTooltip")
 		end
 		Rarity:ShowTooltip()
 	end
@@ -786,7 +788,7 @@ end
 
 local function hideSubTooltip()
 	if tooltip2 then
-		qtip:Release(tooltip2)
+		Rarity.Tooltips:ReleaseTooltip(tooltip2)
 		tooltip2 = nil
 	end
 	GameTooltip:Hide()
@@ -1280,8 +1282,8 @@ function GUI:SelectNextSortOrder()
 	if tooltip then
 		tooltip:Hide()
 	end
-	if qtip:IsAcquired("RarityTooltip") then
-		qtip:Release("RarityTooltip")
+	if Rarity.Tooltips:IsTooltipAcquired("RarityTooltip") then
+		Rarity.Tooltips:ReleaseTooltip("RarityTooltip")
 	end
 	Rarity:ShowTooltip()
 end
@@ -1293,7 +1295,7 @@ function R:ShowTooltip(hidden)
 	end
 	renderingTip = true
 
-	if qtip:IsAcquired("RarityTooltip") and tooltip then
+	if Rarity.Tooltips:IsTooltipAcquired("RarityTooltip") and tooltip then
 		-- Don't show the tooltip if it's already showing
 		if tooltip:IsVisible() then
 			renderingTip = false
@@ -1301,7 +1303,7 @@ function R:ShowTooltip(hidden)
 		end
 		tooltip:Clear()
 	else
-		tooltip = qtip:Acquire("RarityTooltip", 9, "LEFT", "LEFT", "RIGHT", "RIGHT", "RIGHT", "CENTER", "CENTER", "CENTER")
+		tooltip = Rarity.Tooltips:AcquireTooltip("RarityTooltip", 9, "LEFT", "LEFT", "RIGHT", "RIGHT", "RIGHT", "CENTER", "CENTER", "CENTER")
 		-- intentionally one column more than we need to avoid text clipping
 		tooltip:SetScale(self.db.profile.tooltipScale or 1)
 	end
@@ -1322,7 +1324,7 @@ function R:ShowTooltip(hidden)
 		Rarity.frame,
 		function()
 			tooltip = nil
-			qtip:Release("RarityTooltip")
+			Rarity.Tooltips:ReleaseTooltip("RarityTooltip")
 		end
 	)
 
@@ -1364,8 +1366,10 @@ function R:ShowTooltip(hidden)
 		sortDesc = L["Sorting by percent complete"]
 	elseif self.db.profile.sortMode == SORT_CATEGORY then
 		sortDesc = L["Sorting by category, then name"]
-	elseif self.db.profile.sortMode == SORT_ZONE then
-		sortDesc = L["Sorting by zone"]
+		elseif self.db.profile.sortMode == SORT_ZONE then
+			sortDesc = L["Sorting by zone"]
+		elseif self.db.profile.sortMode == SORT_NONE then
+			sortDesc = L["Sorting is disabled"]
 	end
 	sortDesc = sortDesc .. colorize(" (" .. L["Ctrl-Click to change sort order"] .. ")", gray)
 	local line = tooltip:AddLine()

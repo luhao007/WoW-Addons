@@ -3645,8 +3645,26 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64106] = {
         name = "Un effort commun",
     },
+    [64211] = {
+        name = "Une porte dans les ténèbres",
+    },
+    [64212] = {
+        name = "Une porte dans les ténèbres",
+    },
+    [64213] = {
+        name = "Un symbole d’espoir",
+    },
+    [64214] = {
+        name = "Un symbole d’espoir",
+    },
+    [64314] = {
+        name = "Le renouveau des congrégations",
+    },
     [64437] = {
         name = "Informer le Primat",
+    },
+    [64441] = {
+        name = "À la recherche du tome perdu",
     },
     [64555] = {
         name = "Secrets d’enquête",

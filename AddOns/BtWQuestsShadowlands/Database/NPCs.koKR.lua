@@ -1359,6 +1359,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "시초자",
     },
+    [177228] = {
+        name = "대영주 볼바르 폴드라곤",
+    },
     [177919] = {
         name = "몽환숲에서 보낸 긴급 전갈",
     },
@@ -1370,6 +1373,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [179356] = {
         name = "테니오스",
+    },
+    [180073] = {
+        name = "스랄",
+    },
+    [180074] = {
+        name = "여군주 제이나 프라우드무어",
     },
 })
 ]])()

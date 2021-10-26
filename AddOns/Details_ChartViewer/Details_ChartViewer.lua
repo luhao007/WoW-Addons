@@ -226,7 +226,7 @@ end
 				tabname = data_preset_name
 			end
 			
-			local new_tab = table_deepcopy (ChartViewer.tab_prototype)
+			local new_tab = _detalhes.CopyTable (ChartViewer.tab_prototype)
 			new_tab.name = tabname
 			new_tab.segment_type = segment_type
 			new_tab.data = tabdata

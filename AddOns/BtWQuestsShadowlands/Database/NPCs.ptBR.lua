@@ -948,6 +948,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "O Prócer",
     },
+    [177228] = {
+        name = "Grão-lorde Bolvar Fordragon",
+    },
     [177919] = {
         name = "Mensagem Urgente de Ardena",
     },
@@ -956,6 +959,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [179356] = {
         name = "Thênios",
+    },
+    [180074] = {
+        name = "Grã-senhora Jaina Proudmore",
     },
 })
 ]])()

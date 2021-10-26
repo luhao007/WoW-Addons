@@ -47,7 +47,6 @@ end
 function TaskListUI.Toggle()
 	if private.frame then
 		private.frame:Hide()
-		assert(not private.frame)
 	else
 		if TSM.TaskList.GetNumTasks() == 0 then
 			Log.PrintUser(L["Your task list is currently empty."])

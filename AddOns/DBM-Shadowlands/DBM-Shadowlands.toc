@@ -1,5 +1,6 @@
 ## Interface: 90100
 ## Author: MysticalOS
+## Version: 9.1.18
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMShadowlands_AllSavedVars
@@ -23,6 +24,9 @@
 ## X-DBM-Mod-LoadCID: 167524,167525,167527,167526,178958
 ## X-DBM-Mod-MinCoreRevision: 17286
 ## X-DBM-Mod-MinExpansion: 8
+## X-Curse-Project-ID: 3358
+## X-WoWI-ID: 8814
+## X-Wago-ID: qv633o6b
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

@@ -1462,6 +1462,50 @@ function Util.ApplySlashCommands(Commands, Bar)
 		Bar:SetButtonGap(tonumber(Commands["-gap"][1]));
 	end
 
+	if (Commands["-where"]) then
+
+		local mapID = C_Map.GetBestMapForUnit("player");
+		Util.SlashShowMessageByLine(format("You are in %s |c"..Const.LightBlue.."(%d)|r", C_Map.GetMapInfo(mapID).name, mapID));
+
+	end
+
+	if (Commands["-quests"]) then
+
+		local String = "";
+
+		-- check super track
+		superTrackedQuestID = C_SuperTrack.GetSuperTrackedQuestID();
+		if(superTrackedQuestID > 0) then
+			title = C_QuestLog.GetTitleForQuestID(superTrackedQuestID);
+			String = String .. "|c"..Const.DarkOrange..title.."|r |c"..Const.LightBlue.."("..superTrackedQuestID..")|r\n";
+		end
+		
+		-- quests log
+		local numEntries = C_QuestLog.GetNumQuestLogEntries();
+		QuestMapFrame.ignoreQuestLogUpdate = true;
+
+		-- visible quests
+		for questLogIndex = 1, numEntries do
+			local info = C_QuestLog.GetInfo(questLogIndex);
+			if ( info.questID > 0 and info.isHidden == false ) then
+				String = String .. info.title.." |c"..Const.LightBlue.."("..info.questID..")|r\n";
+			end
+		end
+
+		-- hidden quests
+		for questLogIndex = 1, numEntries do
+			local info = C_QuestLog.GetInfo(questLogIndex);
+			if ( info.questID > 0 and info.isHidden == true ) then
+				String = String .. "|c"..Const.DarkBlue.."(Hidden) "..info.title.."|r |c"..Const.LightBlue.."("..info.questID..")|r\n";
+			end
+		end
+
+		if (String ~= "") then
+			Util.SlashShowMessageByLine(String);
+		end
+
+	end
+
 	if (Commands["-info"]) then
 		--print out the bar info's
 		local String = 	Util.GetLocaleString("InfoLabel")..": "..(Bar:GetLabel() or "").."\n"..
@@ -1580,7 +1624,10 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 		else
 			-- Shadowlands Covenants spells seem to be different from standard spell
 			-- attempt to detect them because PickupSpell won't work with those
-			skillType, contextualID = GetSpellBookItemInfo(name);
+			contextualID = nil;
+			if name ~= nil then
+				skillType, contextualID = GetSpellBookItemInfo(name);
+			end
 			if contextualID ~= nil then
 				PickupSpell(Subsubvalue);
 			else
@@ -1925,6 +1972,74 @@ function Util.RefreshZoneAbility()
 		ZoneAbilityFrame:SetShown(false);
 	else
 		ZoneAbilityFrame:SetShown(true);
+	end
+end
+
+function Util.CustomMacro_Map(VDText)
+	local match, mapIds = string.match(VDText, '(map%s*:%s*(%d+[%s;%s%d+]*))');
+	if ( match ~= nil and mapIds ~= nil ) then
+
+		-- current map location
+		local currentMapID = C_Map.GetBestMapForUnit("player");
+		for mapId in string.gmatch(mapIds, "([^;]+)") do
+			if ( currentMapID == (mapId + 0) ) then
+				return VDText:gsub(match, ""); -- always true
+			end
+		end
+
+		return VDText:gsub(match, "dead, nodead"); -- always false
+
+	end
+	return VDText;
+end
+
+function Util.CustomMacro_Quest(VDText)
+	local match, questIds = string.match(VDText, '(quest%s*:%s*(%d+[%s;%s%d+]*))');
+	if ( match ~= nil and questIds ~= nil ) then
+
+		-- check super track
+		superTrackedQuestID = C_SuperTrack.GetSuperTrackedQuestID();
+		for questId in string.gmatch(questIds, "([^;]+)") do
+			if ( superTrackedQuestID == tonumber(questId) ) then
+				return VDText:gsub(match, ""); -- always true
+			end
+		end
+
+		-- search quest log
+		local numEntries = C_QuestLog.GetNumQuestLogEntries();
+		QuestMapFrame.ignoreQuestLogUpdate = true;
+		for questId in string.gmatch(questIds, "([^;]+)") do
+			for questLogIndex = 1, numEntries do
+				local info = C_QuestLog.GetInfo(questLogIndex);
+				if ( info.questID > 0 ) then
+					if ( info.questID == tonumber(questId) ) then
+						return VDText:gsub(match, ""); -- always true
+					end
+				end
+			end
+		end
+
+		return VDText:gsub(match, "dead, nodead"); -- always false
+
+	end
+	return VDText;
+end
+
+
+function Util.TriggerZoneChanged()
+	-- Refesh Zone Abilities
+	Util.RefreshZoneAbility();
+
+	-- Support for custom macros
+	for i = 1, #Util.ActiveBars do
+		Util.ActiveBars[i]:ApplyCustomMacrosVD();
+	end
+end
+
+function Util.TriggerQuestsChanged()
+	-- Support for custom macros
+	for i = 1, #Util.ActiveBars do
+		Util.ActiveBars[i]:ApplyCustomMacrosVD();
 	end
 end
 

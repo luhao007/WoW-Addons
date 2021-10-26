@@ -8,7 +8,7 @@ import utils
 
 class Context:
 
-    def __init__(self, ctx, verbose: bool):
+    def __init__(self, ctx: click.Context, verbose: bool):
         """Basic content for CLI."""
         ctx.params['log_level'] = verbose
         platform = utils.get_platform()

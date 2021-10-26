@@ -10,7 +10,7 @@ if GetLocale() == "zhCN" then
 DogTag_Stats_funcs[#DogTag_Stats_funcs+1] = function(DogTag_Stats, DogTag)
 	local L = DogTag_Stats.L
 	
-L["Defense"] = "防御"
+	L["Defense"] = "防御"
 L["Melee"] = "近战"
 L["PvP"] = "PvP"
 L["Ranged"] = "远程"

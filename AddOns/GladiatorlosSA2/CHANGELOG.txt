@@ -10,6 +10,63 @@ If you maintain forks or translations of GSA2, any X or Y increment may require 
 Note: I do NOT support ANY version of GSA2 outside of the latest Retail/BCC Live or PTR/Beta versions.
 Please do not ask me for help with Vanilla Classic or private server versions. I will not help you.
 ===========================================
+- version 3.10.2 (9.1)
+
+Covenants
+* [Nadjia] Added Euphoria (+Down) to Aura Applied/Removed.
+* [Mikanikos] Added Sparkling Driftglobe Core to Cast Success.
+* [Emeni] Added Sulfuric Emission to Cast Success.
+* [Nadjia] Added Nimble Steps to Cast Success.
+* Hey Blizz maybe don't make game-changing auto-proc CC passives as soulbinds? Just a thought.
+
+Rogue
+* Fixed Smoke Bomb for Subtlety rogues.
+
+Warlock
+* Fixed "Success" alert for Fear.
+(Was yet another case of having a million spellIDs for the exact same thing. Blizz likes doing this for warlocks.)
+
+===========================================
+- version 3.10.1 (9.1)
+
+Demon Hunter
+* Added "Connected" alert for a successful cast of The Hunt.
+
+===========================================
+- version 3.10 (9.1)
+
+General
+* Crowd Control "Success!" alerts now only fire if the target is actually affected by the CC. The option has been moved from Cast Success to Buff Applied.
+* I'm really not sure why I didn't do this sooner.
+
+Druid
+* Entangling Roots has been added to the "Success" alert.
+
+Mage
+* Ring of Frost now has a separate alert when it successfully freezes a player (Frozen). This is found in the Buff Applied section.
+* Ring of Frost continues to announce "Sucess" when the spell is finished casting, if CC Success option is enabled.
+* Ring of Fire now has a separate alert when an ally triggers its effect (Burns).
+
+===========================================
+- version 3.9.2 (9.1)
+
+General
+* Added Gladiator's Shackles ("Mally") to Cast Success.
+Blizzard if you are reading this, please for the love of god remove this thing.
+
+Hunter
+* Fixed Mend Pet's missing spell option.
+
+Mage
+* Moved Arcanosphere to Aura Applied from Spell Casting (because combat log is weird)
+
+Priest
+* Added back Surrender to Madness Down in Buff Down, with a proper alert now.
+
+Rogue
+* Fixed Veil of Midnight to properly alert its falloff.
+
+===========================================
 - version 3.9.1 (9.1)
 
 Priest

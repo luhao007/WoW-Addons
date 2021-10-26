@@ -6,5 +6,8 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
+    [369432] = {
+        name = "Потерянная вентирская книга",
+    },
 })
 ]])()

@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: MysticalOS
-## Version: r141
+## Version: r143
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMThroneofThunder_AllSavedVars
@@ -41,7 +41,7 @@ Durumu.lua
 Primordius.lua
 DarkAnimus.lua
 IronQon.lua
-TwinConsorts.lua
+TwinEmpyreans.lua
 LeiShen.lua
 Raden.lua
 ToTTrash.lua

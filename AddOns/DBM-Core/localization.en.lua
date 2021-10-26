@@ -5,16 +5,17 @@ local L = DBM_CORE_L
 L.DEADLY_BOSS_MODS					= "Deadly Boss Mods" -- NO TRANSLATE
 L.DBM								= "DBM" -- NO TRANSLATE
 
-if C_DateAndTime and C_DateAndTime.GetCurrentCalendarTime then
-	local dateTable = C_DateAndTime.GetCurrentCalendarTime()
-	if dateTable.monthDay and dateTable.month and dateTable.monthDay == 1 and dateTable.month == 4 then
-		L.DEADLY_BOSS_MODS			= "Harmless Boss Mods"
-		L.DBM						= "HBM"
-	end
+local dateTable = date("*t")
+if dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
+	L.DEADLY_BOSS_MODS			= "Harmless Boss Mods"
+	L.DBM						= "HBM"
 end
 
 L.HOW_TO_USE_MOD					= "Welcome to " .. L.DBM .. ". Type /dbm help for a list of supported commands. To access options type /dbm in your chat to begin configuration. Load specific zones manually to configure any boss specific settings to your liking as well. " .. L.DBM .. " will setup defaults for your spec, but you may want to fine tune these."
 L.SILENT_REMINDER					= "Reminder: " .. L.DBM .. " is still in silent mode."
+L.NEWS_UPDATE						= "|h|c11ff1111News|r|h: This update is basically a re-release of 9.1.9 to clear a false malware detection on the hash of the previous file release. Read more about it |Hgarrmission:DBM:news|h|cff3588ff[here]|r|h"
+
+L.COPY_URL_DIALOG_NEWS				= "To read latest news, visit link below"
 
 L.LOAD_MOD_ERROR					= "Error while loading boss mods for %s: %s"
 L.LOAD_MOD_SUCCESS					= "Loaded '%s' mods. For more options such as custom alert sounds and personalized warning notes, type /dbm."
@@ -116,10 +117,10 @@ L.NOTESHAREERRORALREADYOPEN			= "Cannot open a shared note link while note edito
 L.ALLMOD_DEFAULT_LOADED				= "Default options for all mods in this instance have been loaded."
 L.ALLMOD_STATS_RESETED				= "All mod stats have been reset."
 L.MOD_DEFAULT_LOADED				= "Default options for this fight have been loaded."
-L.SOUNDKIT_MIGRATION				= "One or more of your warning/special warning sounds were reset to defaults do to incompatability media type or invalid sound path. " .. L.DBM .. " now only supports sound files residing your addons folder, or SoundKit IDs for playing media"
 
 L.WORLDBOSS_ENGAGED					= "%s was possibly engaged on your realm at %s percent health. (Sent by %s)"
 L.WORLDBOSS_DEFEATED				= "%s was possibly defeated on your realm (Sent by %s)."
+L.WORLDBUFF_STARTED					= "%s buff has started on your realm for %s faction (Sent by %s)."
 
 L.TIMER_FORMAT_SECS					= "%.2f |4second:seconds;"
 L.TIMER_FORMAT_MINS					= "%d |4minute:minutes;"
@@ -198,11 +199,10 @@ L.DBMLDB							= "WARNING: DBM-LDB is now built into DBM-Core. While it won't do
 L.DBMLOOTREMINDER					= "WARNING: 3rd party mod DBM-LootReminder is installed. This addon is no longer compatible with Retail WoW client and will cause " .. L.DBM .. " to break and not be able to send pull timers. Uninstall of this addon recommended"
 L.UPDATE_REQUIRES_RELAUNCH			= "WARNING: This " .. L.DBM .. " update will not work correctly if you don't fully restart your game client. This update contains new files or .toc file changes that cannot be loaded via ReloadUI. You may encounter broken functionality or errors if you continue without a client restart."
 L.OUT_OF_DATE_NAG					= "Your version of " .. L.DBM.. " is out-of-date and this specific fight mod has newer features or bug fixes. It is recommended you update for this fight to improve your experience."
-L.RETAIL_ONLY						= "WARNING: This version of " .. L.DBM .. " is only meant to be used with latest retail version World of Warcraft. Uninstall this version and install correct version of " .. L.DBM .. " for Classic WoW."
 
 L.MOVABLE_BAR						= "Drag me!"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h sent you a " .. L.DBM .. " timer: '%2$s'\n|HDBM:cancel:%2$s:nil|h|cff3588ff[Cancel this timer]|r|h  |HDBM:ignore:%2$s:%1$s|h|cff3588ff[Ignore timers from %1$s]|r|h"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h sent you a " .. L.DBM .. " timer: '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[Cancel this timer]|r|h  |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignore timers from %1$s]|r|h"
 --L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h sent you a " .. L.DBM .. " timer"
 L.PIZZA_CONFIRM_IGNORE				= "Do you really want to ignore " .. L.DBM .. " timers from %s for this session?"
 L.PIZZA_ERROR_USAGE					= "Usage: /dbm [broadcast] timer <time> <text>. <time> must be 3 or greater."
@@ -302,6 +302,8 @@ L.SOUTH								= "South"
 L.INTERMISSION						= "Intermission"--No blizz global for this, and will probably be used in most end tier fights with intermission phases
 L.ORB								= "Orb"
 L.ORBS								= "Orbs"
+L.RING								= "Ring"
+L.RINGS								= "Rings"
 L.CHEST								= "Chest"--As in Treasure 'Chest'. Not Chest as in body part.
 L.NO_DEBUFF							= "Not %s"--For use in places like info frame where you put "Not Spellname"
 L.ALLY								= "Ally"--Such as "Move to Ally"
@@ -421,6 +423,7 @@ L.AUTO_SPEC_WARN_TEXTS = {
 	moveawaycount					= "%s (%%s) - move away from others",
 	moveto							= "%s - move to >%%s<",
 	soak							= "%s - soak it",
+	soakcount						= "%s - soak %%s",
 	jump							= "%s - jump",
 	run								= "%s - run away",
 	cast							= "%s - stop casting",
@@ -467,6 +470,7 @@ L.AUTO_SPEC_WARN_OPTIONS = {
 	moveawaycount					= "Show special warning (with count) to move away from others for $spell:%s",
 	moveto							= "Show special warning to move to someone or some place for $spell:%s",
 	soak							= "Show special warning to soak for $spell:%s",
+	soakcount						= "Show special warning (with count) to soak for $spell:%s",
 	jump							= "Show special warning to move to jump for $spell:%s",
 	run 							= "Show special warning to run away from $spell:%s",
 	cast 							= "Show special warning to stop casting for $spell:%s",--Spell Interrupt
@@ -485,6 +489,7 @@ L.AUTO_SPEC_WARN_OPTIONS = {
 -- Auto-generated Timer Localizations
 L.AUTO_TIMER_TEXTS = {
 	target							= "%s: %%s",
+	targetcount						= "%s (%%2$s): %%1$s",
 	cast							= "%s",
 	castshort						= "%s ",--if short timers enabled, cast and next are same timer text, this is a conflict. the space resolves it
 	castcount						= "%s (%%s)",
@@ -496,7 +501,7 @@ L.AUTO_TIMER_TEXTS = {
 	ai								= "%s AI",
 	cd								= "%s CD",
 	cdshort							= "~%s",
-	cdcount							= "%s CD (%%s)",
+	cdcount							= "%s (%%s) CD",
 	cdcountshort					= "~%s (%%s)",
 	cdsource						= "%s CD: >%%s<",
 	cdsourceshort					= "~%s: >%%s<",
@@ -517,11 +522,12 @@ L.AUTO_TIMER_TEXTS = {
 	addsshort						= "Adds",
 	addscustom						= "Incoming Adds (%%s)",
 	addscustomshort					= "Adds (%%s)",
-	roleplay						= GUILD_INTEREST_RP
+	roleplay						= GUILD_INTEREST_RP or "Roleplay"
 }
 
 L.AUTO_TIMER_OPTIONS = {
 	target							= "Show timer for $spell:%s debuff",
+	targetcount						= "Show timer (with count) for $spell:%s debuff",
 	cast							= "Show timer for $spell:%s cast",
 	castcount						= "Show timer (with count) for $spell:%s cast",
 	castsource						= "Show timer (with source) for $spell:%s cast",
@@ -639,36 +645,45 @@ L.DUR_HEADER						= L.DEADLY_BOSS_MODS.. " - Durability Results"
 L.DUR_ENTRY							= "%s: Durability [%d percent] / Gear broken [%s]"
 L.LAG_FOOTER						= "No Response: %s"
 
+local EJIconPath = WOW_PROJECT_ID == (WOW_PROJECT_MAINLINE or 1) and "EncounterJournal" or "AddOns\\DBM-Core\\textures"
 --Role Icons
-L.TANK_ICON							= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:7:27|t" -- NO TRANSLATE
-L.DAMAGE_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:7:27|t" -- NO TRANSLATE
-L.HEALER_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:7:27|t" -- NO TRANSLATE
+L.TANK_ICON							= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:7:27|t" -- NO TRANSLATE
+L.DAMAGE_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:7:27|t" -- NO TRANSLATE
+L.HEALER_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:7:27|t" -- NO TRANSLATE
 
-L.TANK_ICON_SMALL					= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:6:21:7:27|t" -- NO TRANSLATE
-L.DAMAGE_ICON_SMALL					= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:39:55:7:27|t" -- NO TRANSLATE
-L.HEALER_ICON_SMALL					= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:70:86:7:27|t" -- NO TRANSLATE
+L.TANK_ICON_SMALL					= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:12:12:0:0:255:66:6:21:7:27|t" -- NO TRANSLATE
+L.DAMAGE_ICON_SMALL					= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:12:12:0:0:255:66:39:55:7:27|t" -- NO TRANSLATE
+L.HEALER_ICON_SMALL					= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:12:12:0:0:255:66:70:86:7:27|t" -- NO TRANSLATE
 --Importance Icons
-L.HEROIC_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:102:118:7:27|t" -- NO TRANSLATE
-L.DEADLY_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:7:27|t" -- NO TRANSLATE
-L.IMPORTANT_ICON					= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:7:27|t" -- NO TRANSLATE
-L.MYTHIC_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:40:58|t" -- NO TRANSLATE
+L.HEROIC_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:22:22:0:0:255:66:102:118:7:27|t" -- NO TRANSLATE
+L.DEADLY_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:7:27|t" -- NO TRANSLATE
+L.IMPORTANT_ICON					= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:7:27|t" -- NO TRANSLATE
+L.MYTHIC_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:40:58|t" -- NO TRANSLATE
 
-L.HEROIC_ICON_SMALL					= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:102:118:7:27|t" -- NO TRANSLATE
-L.DEADLY_ICON_SMALL					= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:133:153:7:27|t" -- NO TRANSLATE
-L.IMPORTANT_ICON_SMALL				= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:168:182:7:27|t" -- NO TRANSLATE
+L.HEROIC_ICON_SMALL					= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:14:14:0:0:255:66:102:118:7:27|t" -- NO TRANSLATE
+L.DEADLY_ICON_SMALL					= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:14:14:0:0:255:66:133:153:7:27|t" -- NO TRANSLATE
+L.IMPORTANT_ICON_SMALL				= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:12:12:0:0:255:66:168:182:7:27|t" -- NO TRANSLATE
 --Type Icons
-L.INTERRUPT_ICON					= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:198:214:7:27|t" -- NO TRANSLATE
-L.MAGIC_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:229:247:7:27|t" -- NO TRANSLATE
-L.CURSE_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:40:58|t" -- NO TRANSLATE
-L.POISON_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:40:58|t" -- NO TRANSLATE
-L.DISEASE_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:40:58|t" -- NO TRANSLATE
-L.ENRAGE_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:102:118:40:58|t" -- NO TRANSLATE
-L.BLEED_ICON						= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:40:58|t" -- NO TRANSLATE
+L.INTERRUPT_ICON					= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:198:214:7:27|t" -- NO TRANSLATE
+L.MAGIC_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:229:247:7:27|t" -- NO TRANSLATE
+L.CURSE_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:40:58|t" -- NO TRANSLATE
+L.POISON_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:40:58|t" -- NO TRANSLATE
+L.DISEASE_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:40:58|t" -- NO TRANSLATE
+L.ENRAGE_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:102:118:40:58|t" -- NO TRANSLATE
+L.BLEED_ICON						= "|TInterface\\" .. EJIconPath .. "\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:40:58|t" -- NO TRANSLATE
 
 --LDB
 L.LDB_TOOLTIP_HELP1					= "Click to open " .. L.DBM
+L.LDB_TOOLTIP_HELP2					= "Alt+right click to toggle Silent Mode"
 L.SILENTMODE_IS						= "SilentMode is "
 
-L.LDB_LOAD_MODS						= "Load boss mods"
-
-L.LDB_ENABLE_BOSS_MOD				= "Enable boss mod"
+L.WORLD_BUFFS = {
+	hordeOny						= "People of the Horde, citizens of Orgrimmar, come, gather round and celebrate a hero of the Horde",
+	allianceOny						= "Citizens and allies of Stormwind, on this day, history has been made.",
+	hordeNef						= "NEFARIAN IS SLAIN! People of Orgrimmar",
+	allianceNef						= "Citizens of the Alliance, the Lord of Blackrock is slain!",
+	zgHeart							= "Now, only one step remains to rid us of the Soulflayer's threat",
+	zgHeartBooty					= "The Blood God, the Soulflayer, has been defeated!  We are imperiled no longer!",
+	zgHeartYojamba					= "Begin the ritual, my servants.  We must banish the heart of Hakkar back into the void!",
+	rendHead						= "The false Warchief, Rend Blackhand, has fallen!"
+}

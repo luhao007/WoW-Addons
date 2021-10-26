@@ -29,8 +29,6 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
-	AgathaBlade		= "내 칼날 앞에 쓰러져라!",
-	AradneStrike	= "상대조차 안 되는군!",
 	Fragment		= "조각 "--Space is intentional, leave a space to add a number after it
 })
 
@@ -53,6 +51,12 @@ L:SetMiscLocalization({
 --  Guardian of the First Ones --
 ---------------------------
 L= DBM:GetModLocalization(2446)
+
+L:SetOptionLocalization({
+	IconBehavior	= "공격대 징표 방식 설정 (공대장이면 설정이 공격대 전체에 적용)",
+	TypeOne			= "DBM 기본값 (근접 > 원거리)",
+	TypeTwo			= "BW 기본값 (전투기록상 순서)"
+})
 
 L:SetMiscLocalization({
 	Dissection	= "해부를 시작합니다!",

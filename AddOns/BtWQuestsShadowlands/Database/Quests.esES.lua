@@ -3636,8 +3636,26 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64106] = {
         name = "Un esfuerzo conjunto",
     },
+    [64211] = {
+        name = "Un portal en la oscuridad",
+    },
+    [64212] = {
+        name = "Un portal en la oscuridad",
+    },
+    [64213] = {
+        name = "Un símbolo de esperanza",
+    },
+    [64214] = {
+        name = "Un símbolo de esperanza",
+    },
+    [64314] = {
+        name = "Curias renovadas",
+    },
     [64437] = {
         name = "Informar al Prelado",
+    },
+    [64441] = {
+        name = "Un cabo suelto",
     },
     [64555] = {
         name = "Estudiar secretos",

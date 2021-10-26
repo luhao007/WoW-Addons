@@ -29,8 +29,6 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
-	AgathaBlade		= "死在我的利刃之下！",
-	AradneStrike	= "你們毫無勝算！",
 	Fragment		= "裂片 "--Space is intentional, leave a space to add a number after it
 })
 
@@ -53,6 +51,12 @@ L:SetMiscLocalization({
 --  Guardian of the First Ones 首創者的守護者--
 ---------------------------
 L= DBM:GetModLocalization(2446)
+
+L:SetOptionLocalization({
+	IconBehavior	= "為團隊設定標記行為 (如果您為團隊領隊將覆蓋團隊設定)",
+	TypeOne			= "DBM預設 (近戰 > 遠程)",
+	TypeTwo			= "BW預設 (依據戰鬥紀錄順序)"
+})
 
 L:SetMiscLocalization({
 	Dissection	= "分解。",

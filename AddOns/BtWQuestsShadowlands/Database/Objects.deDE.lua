@@ -66,5 +66,8 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [358533] = {
         name = "Vergessene Vorräte",
     },
+    [369432] = {
+        name = "Verlegter Venthyrfoliant",
+    },
 })
 ]])()

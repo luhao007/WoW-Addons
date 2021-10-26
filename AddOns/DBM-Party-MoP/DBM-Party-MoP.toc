@@ -1,5 +1,5 @@
 ## Interface: 90100
-## Version: r25
+## Version: r28
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyMoP_AllSavedVars

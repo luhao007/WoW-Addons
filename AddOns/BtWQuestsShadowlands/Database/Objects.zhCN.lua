@@ -6,5 +6,8 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
+    [369432] = {
+        name = "放错的温西尔书典",
+    },
 })
 ]])()

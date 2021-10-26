@@ -3244,7 +3244,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Meldet Euch bei Draven",
     },
     [63576] = {
-        name = "Die erste Schritt",
+        name = "Der erste Schritt",
     },
     [63578] = {
         name = "Die Schlacht um den Ardenwald",
@@ -3633,8 +3633,26 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64106] = {
         name = "Vereinte Bemühungen",
     },
+    [64211] = {
+        name = "Durchgang im Dunkel",
+    },
+    [64212] = {
+        name = "Durchgang im Dunkel",
+    },
+    [64213] = {
+        name = "Ein Symbol der Hoffnung",
+    },
+    [64214] = {
+        name = "Ein Symbol der Hoffnung",
+    },
+    [64314] = {
+        name = "Erneuerte Pakte",
+    },
     [64437] = {
         name = "Informiert den Primus",
+    },
+    [64441] = {
+        name = "Ein loser Faden",
     },
     [64555] = {
         name = "Geheimnis und Erkenntnis",

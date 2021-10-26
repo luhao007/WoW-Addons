@@ -885,11 +885,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "Il Primus",
     },
+    [177228] = {
+        name = "Gran Signore Bolvar Domadraghi",
+    },
     [177919] = {
         name = "Messaggio Urgente da Selvarden",
     },
     [178260] = {
         name = "La Madrepietra",
+    },
+    [180074] = {
+        name = "Dama Jaina Marefiero",
     },
 })
 ]])()

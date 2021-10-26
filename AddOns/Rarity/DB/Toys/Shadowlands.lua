@@ -308,6 +308,7 @@ local shadowlandsToys = {
 		isToy = true,
 		itemId = 183901,
 		npcs = {158025},
+		questId = {62282},
 		chance = 100, -- Blind guess
 		unique = true,
 		coords = {
@@ -353,6 +354,77 @@ local shadowlandsToys = {
 		unique = true,
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 50.2, y = 75.4, n = L["Observer Yorik"]}
+		}
+	},
+	["Intact Aquilon Core"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		method = CONSTANTS.DETECTION_METHODS.NPC,
+		name = L["Intact Aquilon Core"],
+		itemId = 187282,
+		npcs = {180032},
+		chance = 100, -- Blind guess
+		unique = true,
+		requiresCovenant = true,
+		requiredCovenantID = CONSTANTS.COVENANT_IDS.KYRIAN,
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 47.0, y = 35.5, n = L["Wild Worldcracker"]}
+		}
+	},
+	["Wilderling Saddle"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEMS,
+		method = CONSTANTS.DETECTION_METHODS.LOOT_TOAST, -- This method doesn't exist, it's effectively SPECIAL but with a better name
+		name = L["Wilderling Saddle"],
+		itemId = 187281,
+		spellId = 353859,
+		tooltipNpcs = {180014, 180013},
+		chance = 100, -- Estimate,
+		requiresCovenant = true,
+		requiredCovenantID = CONSTANTS.COVENANT_IDS.NIGHT_FAE,
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 33.49, y = 39.54, n = L["Escaped Wilderling"]}
+		}
+	},
+	["Personal Ball and Chain"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		isToy = true,
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		name = L["Personal Ball and Chain"],
+		itemId = 187113,
+		chance = 10, -- Estimate,
+		sourceText = L["This treasure can only be found within the rift phase of The Maw."],
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.THE_MAW}
+		}
+	},
+	["Jailer's Cage"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		isToy = true,
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		name = L["Jailer's Cage"],
+		itemId = 187416,
+		chance = 15, -- Estimate,
+		sourceText = L["This treasure can only be found within the rift phase of The Maw."],
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.THE_MAW}
+		}
+	},
+	["Adamant Vaults Cell"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		method = CONSTANTS.DETECTION_METHODS.NPC,
+		name = L["Adamant Vaults Cell"],
+		isToy = true,
+		itemId = 187417,
+		npcs = {176578, 179526, 179433},
+		chance = 11, -- Blind guess
+		unique = true,
+		sourceText = L["This item can only drop in the Adamant Vaults section of Torghast."],
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.TORGHAST}
 		}
 	},
 }

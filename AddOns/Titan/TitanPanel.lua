@@ -520,13 +520,37 @@ end
 
 function TitanPanelBarButton:PLAYER_REGEN_DISABLED()
 	-- If in combat close all control frames and menus
+	if TITAN_PANEL_VARS.debug.movable 
+	or TITAN_PANEL_VARS.debug.events then
+		TitanDebug ("PLAYER_REGEN_DISABLED"
+		.." c: "..tostring(InCombatLockdown())
+		.." v: "..tostring(UnitInVehicle("player"))
+		)
+	end
+	
 	TitanUtils_CloseAllControlFrames();
 	TitanUtils_CloseRightClickMenu();
 end
 
 function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
-	-- Outside combat check to see if frames need correction
-	TitanPanel_AdjustFrames(true, "Regen enabled")
+	--[[
+	- Outside combat check to see if frames need correction
+	- Note: Quests can replace the main menu bar which hides Titan bottom bar(s)...
+	On completion / exit these may enable regen AFTER exiting the vehicle.
+	--]]
+	if TITAN_PANEL_VARS.debug.movable
+	or TITAN_PANEL_VARS.debug.events then
+		TitanDebug ("PLAYER_REGEN_ENABLED"
+		.." c: "..tostring(InCombatLockdown())
+		.." v: "..tostring(UnitInVehicle("player"))
+		)
+	end
+
+	if InCombatLockdown() or UnitInVehicle("player") then
+		-- Wait for both to clear
+	else
+		TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_ENABLED")
+	end
 end
 --[
 function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
@@ -534,15 +558,42 @@ function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
 end
 
 function TitanPanelBarButton:UNIT_ENTERED_VEHICLE(self, ...)
+	if TITAN_PANEL_VARS.debug.movable
+	or TITAN_PANEL_VARS.debug.events then
+		TitanDebug ("UNIT_ENTERED_VEHICLE"
+		.." c: "..tostring(InCombatLockdown())
+		.." v: "..tostring(UnitInVehicle("player"))
+		)
+	end
 	TitanUtils_CloseAllControlFrames();
 	TitanUtils_CloseRightClickMenu();
 
 	-- Needed because 8.0 made changes to the menu bar processing (see TitanMovable)
 	TitanMovable_MenuBar_Disable()
+	--[[
+	NOTE: Hiding the Titan bottom bars is not desired here. We cannot (I do not know how :))
+	distinguish between a player on a quest or on flight path.
+	--]]	
 end
 function TitanPanelBarButton:UNIT_EXITED_VEHICLE(self, ...)
-	-- A combat check will be done inside the adjust
-	TitanPanel_AdjustFrames(true, "Exit vehicle")
+	--[[
+	- Note: Some quests replace the menu bar which cause Titan Panel to hide
+	bottom bar(s). So we need to be certain to make them appear again.
+	- A combat check will be done inside the adjust which may
+	FAIL because a regen enabled may come after this event.
+	--]]
+	if TITAN_PANEL_VARS.debug.movable
+	or TITAN_PANEL_VARS.debug.events then
+		TitanDebug ("UNIT_EXITED_VEHICLE"
+		.." c: "..tostring(InCombatLockdown())
+		.." v: "..tostring(UnitInVehicle("player"))
+		)
+	end
+	if InCombatLockdown() or UnitInVehicle("player") then
+		-- Wait for both to clear
+	else
+		TitanPanelBarButton_DisplayBarsWanted("UNIT_EXITED_VEHICLE")
+	end
 end
 --]]
 --
@@ -553,7 +604,7 @@ function TitanPanelBarButton:PET_BATTLE_OPENING_START()
 end
 function TitanPanelBarButton:PET_BATTLE_CLOSE()
 	-- A combat check will be done inside the adjust
-	TitanPanelBarButton_DisplayBarsWanted()
+	TitanPanelBarButton_DisplayBarsWanted("PET_BATTLE_CLOSE")
 end
 --
 --
@@ -1229,7 +1280,7 @@ DESC: Show all the Titan bars the user has selected.
 VAR:  None
 OUT:  None
 --]]
-function TitanPanelBarButton_DisplayBarsWanted()
+function TitanPanelBarButton_DisplayBarsWanted(reason)
 	-- Check all bars to see if the user has requested they be shown
 	for idx,v in pairs (TitanBarData) do
 		-- Show / hide plus kick auto hide, if needed
@@ -1240,7 +1291,7 @@ function TitanPanelBarButton_DisplayBarsWanted()
 	TitanAnchors()
 	
 	-- Adjust other frames because the bars shown / hidden may have changed
-	TitanPanel_AdjustFrames(true, "_DisplayBarsWanted")
+	TitanPanel_AdjustFrames(true, reason)
 end
 
 --[[ Titan
@@ -1274,6 +1325,44 @@ TitanDebug("_HideAllBars: "
 			hider:SetPoint(hide.top.pt, hide.top.rel_fr, hide.top.rel_pt, hide.top.x, hide.top.y); 
 			hider:SetPoint(hide.bot.pt, hide.bot.rel_fr, hide.bot.rel_pt, hide.bot.x, hide.bot.y);
 		end
+	end
+end
+
+--[[ Titan
+NAME: TitanPanelBarButton_HideTopBars
+DESC: This routine will hide the bars Titan bars (and hiders) regardless of what the user has selected.  
+VAR:  None
+OUT:  None
+NOTE: 
+- For example when the class hall
+- We only need to hide the bars (and hiders) - not adjust frames
+:NOTE
+--]]
+function TitanPanelBarButton_HideTopBars()
+	if TitanPanelGetVar("Bar_Show") then
+		TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."Bar")
+	end
+	if TitanPanelGetVar("Bar2_Show") then
+		TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."Bar2")
+	end
+end
+
+--[[ Titan
+NAME: TitanPanelBarButton_HideBottomBars
+DESC: This routine will hide the bottom Titan bars (and hiders) regardless of what the user has selected.  
+VAR:  None
+OUT:  None
+NOTE: 
+- For example when the override bar is being used
+- We only need to hide the bars (and hiders) - not adjust frames
+:NOTE
+--]]
+function TitanPanelBarButton_HideBottomBars()
+	if TitanPanelGetVar("AuxBar_Show") then
+		TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."AuxBar")
+	end
+	if TitanPanelGetVar("AuxBar2_Show") then
+		TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."AuxBar2")
 	end
 end
 
@@ -1423,7 +1512,7 @@ function TitanPanel_InitPanelButtons()
 			}
 	end
 --	
-	TitanPanelBarButton_DisplayBarsWanted();
+	TitanPanelBarButton_DisplayBarsWanted("TitanPanel_InitPanelButtons");
 
 	-- Position all the buttons 
 	for i = 1, table.maxn(TitanPanelSettings.Buttons) do 

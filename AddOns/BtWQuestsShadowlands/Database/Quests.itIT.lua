@@ -3642,8 +3642,26 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64106] = {
         name = "Uno sforzo unito",
     },
+    [64211] = {
+        name = "La porta verso il buio",
+    },
+    [64212] = {
+        name = "La porta verso il buio",
+    },
+    [64213] = {
+        name = "Un simbolo di speranza",
+    },
+    [64214] = {
+        name = "Un simbolo di speranza",
+    },
+    [64314] = {
+        name = "Congreghe rinnovate",
+    },
     [64437] = {
         name = "Informare il Primus",
+    },
+    [64441] = {
+        name = "Una questione da sistemare",
     },
     [64555] = {
         name = "A caccia di segreti",

@@ -3639,8 +3639,26 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64106] = {
         name = "Esforço unificado",
     },
+    [64211] = {
+        name = "Um portal na escuridão",
+    },
+    [64212] = {
+        name = "Um portal na escuridão",
+    },
+    [64213] = {
+        name = "Um símbolo de esperança",
+    },
+    [64214] = {
+        name = "Um símbolo de esperança",
+    },
+    [64314] = {
+        name = "Pactos renovados",
+    },
     [64437] = {
         name = "Informe o Prócer",
+    },
+    [64441] = {
+        name = "Ponta solta",
     },
     [64555] = {
         name = "Sondando segredos",

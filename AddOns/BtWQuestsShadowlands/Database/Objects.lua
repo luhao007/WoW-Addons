@@ -331,4 +331,15 @@ BtWQuestsDatabase:AddObjectsTable({
             },
         },
     },
+    [369432] = {
+        name = "Misplaced Venthyr Tome",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.609486,
+                    y = 0.255755,
+                },
+            },
+        },
+    },
 })

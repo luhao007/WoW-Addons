@@ -395,7 +395,7 @@ local shadowlandsMounts = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW}
 		}
 	},
-	["Soulbound Gloomcharger's Reins"] = {	
+	["Soulbound Gloomcharger's Reins"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.USE,
@@ -408,7 +408,7 @@ local shadowlandsMounts = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW}
 		}
 	},
-	["Tamed Mauler Harness"] = {	
+	["Tamed Mauler Harness"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.USE,
@@ -421,20 +421,21 @@ local shadowlandsMounts = {
 			{m = CONSTANTS.UIMAPIDS.KORTHIA}
 		}
 	},
-	["Chain of Bahmethra"] = {	
+	["Chain of Bahmethra"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.USE,
 		name = L["Chain of Bahmethra"],
 		spellId = 352309,
 		itemId = 185973,
+		questId = {63854},
 		items = {185972},
 		chance = 100, -- Blind guess
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW}
 		}
 	},
-	["Rampaging Mauler"] = {	
+	["Rampaging Mauler"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.NPC,
@@ -442,12 +443,13 @@ local shadowlandsMounts = {
 		itemId = 187183,
 		spellId = 356501,
 		npcs = {179472},
+		questId = {64246},
 		chance = 50, -- Estimate,
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.KORTHIA, n = L["Konthrogz the Obliterator"]}
 		}
 	},
-	["Garnet Razorwing"] = {	
+	["Garnet Razorwing"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.NPC,
@@ -455,12 +457,13 @@ local shadowlandsMounts = {
 		itemId = 186652,
 		spellId = 354360,
 		npcs = {180160},
+		questId = {64455},
 		chance = 100, -- Estimate,
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 56.3, y = 66.3, n = L["Reliwik the Defiant"]}
 		}
 	},
-	["Crimson Shardhide"] = {	
+	["Crimson Shardhide"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.NPC,
@@ -468,12 +471,13 @@ local shadowlandsMounts = {
 		itemId = 186645,
 		spellId = 354357,
 		npcs = {179684},
+		questId = {64233},
 		chance = 100, -- Estimate,
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 45.35, y = 30.34, n = L["Malbog"]}
 		}
 	},
-	["Fallen Charger's Reins"] = {	
+	["Fallen Charger's Reins"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.NPC,
@@ -481,39 +485,9 @@ local shadowlandsMounts = {
 		itemId = 186659,
 		spellId = 354353,
 		npcs = {179460},
-		chance = 100, -- Estimate,
+		chance = 7,
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW, n = L["Fallen Charger"]}
-		}
-	},
-	["Foresworn Aquilon"] = {	
-		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
-		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.NPC,
-		name = L["Foresworn Aquilon"],
-		itemId = 186483,
-		spellId = 353877,
-		npcs = {180032},
-		chance = 100, -- Estimate,
-		requiresCovenant = true,
-		requiredCovenantID = CONSTANTS.COVENANT_IDS.KYRIAN,
-		coords = {
-			{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 47.0, y = 35.5, n = L["Wild Worldcracker"]}
-		}
-	},
-	["Summer Wilderling Harness"] = {	
-		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
-		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.NPC,
-		name = L["Summer Wilderling Harness"],
-		itemId = 186492,
-		spellId = 353859,
-		npcs = {180014},
-		chance = 100, -- Estimate,
-		requiresCovenant = true,
-		requiredCovenantID = CONSTANTS.COVENANT_IDS.NIGHT_FAE,
-		coords = {
-			{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 33.49, y = 39.54, n = L["Escaped Wilderling"]}
 		}
 	},
 	["Cartel Master's Gearglider"] = {
@@ -592,7 +566,7 @@ local shadowlandsMounts = {
 			{m = CONSTANTS.UIMAPIDS.SANCTUM_OF_DOMINATION, i = true}
 		}
 	},
-	["Undying Darkhound's Harness"] = {	
+	["Undying Darkhound's Harness"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.USE,
@@ -605,7 +579,7 @@ local shadowlandsMounts = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW}
 		}
 	},
-	["Legsplitter War Harness"] = {	
+	["Legsplitter War Harness"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.USE,
@@ -618,7 +592,7 @@ local shadowlandsMounts = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW}
 		}
 	},
-	["Harvester's Dredwing Saddle"] = {	
+	["Harvester's Dredwing Saddle"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
 		method = CONSTANTS.DETECTION_METHODS.USE,
@@ -630,6 +604,37 @@ local shadowlandsMounts = {
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW}
 		}
+	},
+	["Dusklight Razorwing"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.MOUNT,
+		method = CONSTANTS.DETECTION_METHODS.COLLECTION,
+		name = L["Dusklight Razorwing"],
+		spellId = 354361,
+		itemId = 186651,
+		collectedItemId = {187054},
+		chance = 10,
+		obtain = L["Dropped from various creatures in Korthia"],
+		tooltipNpcs = {177913, 177645, 177295, 179472, 179859, 177646, 177245, 177582},
+		sourceText = L[
+			"Bring the 10 Lost Razorwing Egg to the Razorwing Nest in Korthia."
+		],
+		coords = {{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 25.6, y = 51.1, n = L["Razorwing Nest"]}}
+	},
+	["Darkmaul"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.MOUNT,
+		method = CONSTANTS.DETECTION_METHODS.COLLECTION,
+		name = L["Darkmaul"],
+		spellId = 354358,
+		itemId = 186646,
+		collectedItemId = {187153},
+		chance = 10,
+		obtain = L["The Mawshrooms are obtained from treasure nodes called Invasive Mawshroom in Korthia."],
+		sourceText = L[
+			"Darkmaul is obtained by feeding a friendly NPC in Korthia called Darkmaul 10 Tasty Mawshroom"
+		],
+		coords = {{m = CONSTANTS.UIMAPIDS.KORTHIA, x = 42.8, y = 32.7, n = L["Darkmaul"]}}
 	},
 }
 

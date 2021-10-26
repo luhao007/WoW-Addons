@@ -1,36 +1,37 @@
-# [3.5.0](https://github.com/WeakAuras/WeakAuras2/tree/3.5.0) (2021-06-29)
+# [3.7.2](https://github.com/WeakAuras/WeakAuras2/tree/3.7.2) (2021-10-02)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.4.3...3.5.0)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.7.1...3.7.2)
 
 ## Highlights
 
- - Added a few new Patch 9.1 features
-- Performance Optimizations
-- Added BCC Encounter IDs 
+ - New sounds and textures (thanks Leo!)
+- TOC update for Classic Era
+- Bug fixes 
 
 ## Commits
 
-InfusOnWoW (8):
+InfusOnWoW (1):
 
-- Make translations a bit easier
-- Add new soul bind traits and new conduits
-- Add most new legendary effects
-- Add Shards of Domination buffs
-- Move some StopMotion texture definitions to the plugin
-- Fix New from Templates adding two glows
-- Only update ViewTexture if it changed
-- Be less brain dead for updating the "eye" texture in the Options
+- Add Textures and Sounds by Leo
 
-Stanzilla (2):
+Stanzilla (9):
 
-- Update TOC for Patch 9.1.0
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
+- Update WeakAurasModelPaths from wow.tools
 - Update WeakAurasModelPaths from wow.tools
 
-mrbuds (1):
+mrbuds (6):
 
-- add bcc encounter ids and show list in correct order
-
-nullKomplex (1):
-
-- Update map of legendary ids and bonus ids. (#3170)
+- update toc files for classic era 1.14.0
+- fix castbar latency overlay nil error fixes #3314
+- character stats trigger: add block value fixes  #3303
+- rework cast trigger latency overlay fixes #3294
+- fix error when hovering ZoneID fixes  #3306
+- Enable TTS actions for TBC, fixes #3288
 

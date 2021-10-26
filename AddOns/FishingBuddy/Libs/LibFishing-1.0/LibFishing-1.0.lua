@@ -10,7 +10,7 @@ Licensed under a Creative Commons "Attribution Non-Commercial Share Alike" Licen
 local _
 
 local MAJOR_VERSION = "LibFishing-1.0"
-local MINOR_VERSION = 101084
+local MINOR_VERSION = 101085
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 
@@ -134,13 +134,13 @@ local FISHING_LEVELS = {
     200,        -- Shadowlands
 }
 
+local CHECKINTERVAL = 0.5
 local itsready = C_TradeSkillUI.IsTradeSkillReady
 local OpenTradeSkill = C_TradeSkillUI.OpenTradeSkill
 local GetTradeSkillLine = C_TradeSkillUI.GetTradeSkillLine
 local GetCategoryInfo = C_TradeSkillUI.GetCategoryInfo
 local CloseTradeSkill = C_TradeSkillUI.CloseTradeSkill
 local itsempty = C_TradeSkillUI.IsEmptySkillLineCategory
-local CHECKINTERVAL = 0.5
 
 function FishLib:UpdateFishingSkillData()
     for _,info in pairs(self.continent_fishing) do

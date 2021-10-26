@@ -1,4 +1,4 @@
---Mini Dragon <流浪者酒馆-Brilla@金色平原> 20210619
+--Mini Dragon <流浪者酒馆-Brilla@金色平原> 20210902
 if GetLocale() ~= "zhCN" then return end
 local L
 
@@ -30,8 +30,6 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
-	AgathaBlade		= "倒在我的剑下吧！",
-	AradneStrike	= "你们绝无胜算！",
 	Fragment		= "残片 "--Space is intentional, leave a space to add a number after it
 })
 
@@ -54,6 +52,13 @@ L:SetMiscLocalization({
 --  Guardian of the First Ones 初诞者的卫士--
 ---------------------------
 L= DBM:GetModLocalization(2446)
+
+L:SetOptionLocalization({
+	IconBehavior	= "设置团队标记方式(团长覆盖全团)",
+	TypeOne			= "DBM预设(先近战后远程)",
+	TypeTwo			= "BigWigs(按照战斗日志先后顺序)"
+})
+
 
 L:SetMiscLocalization({
 	Dissection	= "解剖！",

@@ -738,11 +738,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "Der Primus",
     },
+    [177228] = {
+        name = "Hochlord Bolvar Fordragon",
+    },
     [177919] = {
         name = "Dringende Nachricht aus dem Ardenwald",
     },
     [178260] = {
         name = "Die Steinhauerin",
+    },
+    [180074] = {
+        name = "Lady Jaina Prachtmeer",
     },
 })
 ]])()

@@ -1894,31 +1894,57 @@ Database:AddChain(Chain.WhatLiesAhead, {
     },
     items = {
         {
-            type = "quest",
-            id = 64211,
-            x = -1,
+            type = "npc",
+            id = 177194,
+            locations = {
+                [1961] = {
+                    {
+                        x = 0.629635,
+                        y = 0.254064,
+                    },
+                },
+            },
+            x = 0,
             connections = {
-                2, 
+                1, 
             },
         },
         {
-            type = "quest",
-            id = 64212,
+            variations = {
+                {
+                    type = "quest",
+                    id = 64211,
+                    restrictions = {
+                        type = "faction",
+                        id = BtWQuests.Constant.Faction.Alliance,
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 64212,
+                },
+            },
+            x = 0,
             connections = {
-                2, 
+                1, 
             },
         },
         {
-            type = "quest",
-            id = 64213,
-            x = -1,
-            connections = {
-                2, 
+            variations = {
+                {
+                    type = "quest",
+                    id = 64213,
+                    restrictions = {
+                        type = "faction",
+                        id = BtWQuests.Constant.Faction.Alliance,
+                    },
+                },
+                {
+                    type = "quest",
+                    id = 64214,
+                },
             },
-        },
-        {
-            type = "quest",
-            id = 64214,
+            x = 0,
             connections = {
                 1, 
             },
@@ -1926,6 +1952,15 @@ Database:AddChain(Chain.WhatLiesAhead, {
         {
             type = "quest",
             id = 64314,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 64441,
+            aside = true,
             x = 0,
         },
     },
@@ -2400,10 +2435,10 @@ Database:AddCategory(CATEGORY_ID, {
             type = "chain",
             id = Chain.ANewPath,
         },
-        -- {
-        --     type = "chain",
-        --     id = Chain.WhatLiesAhead,
-        -- },
+        {
+            type = "chain",
+            id = Chain.WhatLiesAhead,
+        },
         {
             type = "chain",
             id = Chain.ArchivistsOfKorthia,

@@ -255,9 +255,9 @@ local function enc64(data)
 	return ((data:gsub(
 		".",
 		function(x)
-			local r, b = "", x:byte()
+			local r, byte = "", x:byte()
 			for i = 8, 1, -1 do
-				r = r .. (b % 2 ^ i - b % 2 ^ (i - 1) > 0 and "1" or "0")
+				r = r .. (byte % 2 ^ i - byte % 2 ^ (i - 1) > 0 and "1" or "0")
 			end
 			return r
 		end
@@ -340,6 +340,32 @@ function R:PrepareOptions()
 				order = newOrder(),
 				childGroups = "tree",
 				args = {
+					community = {
+						type = "group",
+						name = L["Community"],
+						order = newOrder(),
+						inline = true,
+						args = {
+							github = {
+								type = "execute",
+								name = L["Contribute on GitHub"],
+								desc = L["You can follow the development process or contribute to the project on our public GitHub repository. What could be more fun than browsing a gigantic backlog of unresolved issues?"],
+								func = function(info)
+									Rarity.CopyPastePopup:SetEditBoxText("https://github.com/WowRarity/Rarity")
+									Rarity.CopyPastePopup:Show()
+								end,
+							},
+							discord = {
+								type = "execute",
+								name = L["Join the Rarity Discord"],
+								desc = L["You can ask questions, follow the latest Rarity news and share the excitement of finally getting that one elusive drop with your fellow collectors in our Discord server.\n\nPS: We have cookies."],
+								func = function(info)
+									Rarity.CopyPastePopup:SetEditBoxText("https://discord.gg/sQ3UqtSh6m")
+									Rarity.CopyPastePopup:Show()
+								end,
+							}
+						}
+					},
 					general = {
 						type = "group",
 						name = L["General Options"],
@@ -368,8 +394,7 @@ function R:PrepareOptions()
 								type = "toggle",
 								order = newOrder(),
 								name = L["Holiday reminders"],
-								desc = L[
-									"When on, Rarity will remind you to go farm holiday items you're missing if the holiday is active and the item is set as Undefeated. (This only works for items that originate from holiday dungeons or daily quests.) The reminder occurs each time you log in or reload your UI, and stops for the day once you defeat the holiday dungeon or complete the	quest."
+								desc = L["When on, Rarity will remind you to go farm holiday items you're missing if the holiday is active and the item is set as Undefeated. (This only works for items that originate from holiday dungeons or daily quests.) The reminder occurs each time you log in or reload your UI, and stops for the day once you defeat the holiday dungeon or complete the quest."
 								],
 								get = function()
 									return self.db.profile.holidayReminder
@@ -687,7 +712,7 @@ function R:PrepareOptions()
 							tooltipShowDelay = {
 								order = newOrder(),
 								type = "range",
-				 				width = "double",
+								width = "double",
 								name = L["Primary tooltip show delay"],
 								desc = L["When you move your mouse over the Rarity minimap icon, it will take this long before the GUI opens."],
 								min = 0,
@@ -695,7 +720,7 @@ function R:PrepareOptions()
 								step = .1,
 								get = function() return self.db.profile.tooltipShowDelay or 0.1 end,
 								set = function(_, val)
-				  				self.db.profile.tooltipShowDelay = val
+								self.db.profile.tooltipShowDelay = val
 								end,
 							}
 						} -- args
@@ -1497,7 +1522,7 @@ function R:PrepareOptions()
 
 							alertWithCopy(
 								L[
-									"Copy the generated Rarity Item Pack string below using Ctrl-C. You can then paste it elsewhere using Ctrl-V.\n\nFeel free to comment on the Curse web site to share your Item Pack. Allara will promote the best ones to the main add-on page."
+									"Copy the generated Rarity Export String below using Ctrl-C. You can then paste it elsewhere using Ctrl-V.\n\nFeel free to post it on Curse, GitHub, or Discord to share your Item Pack. We will publish the best ones to the main add-on page."
 								],
 								enc
 							)
@@ -1653,6 +1678,45 @@ function R:PrepareOptions()
 						end
 					}
 				}
+			},
+			profilingTools = {
+				name = L["Performance"],
+				type = "group",
+				order = newOrder(),
+				inline = true,
+				args = {
+					disableSorting = {
+						type = "execute",
+						order = newOrder(),
+						-- width = "full",
+						name = L["Disable sorting"],
+						desc = L["Disable sorting inside the main window. Can be used to troubleshoot performance issues."] ..
+							" " .. L["Note: Your existing settings will be overwritten."],
+						func = function(info, val)
+							self.db.profile.sortMode = C.SORT_METHODS.SORT_NONE
+						end
+					},
+					showAccumulatedTimes = {
+						type = "execute",
+						order = newOrder(),
+						-- width = "full",
+						name = L["Show profiling data"],
+						desc = L["Displays accumulated profiling data for the current session."] .. " " ..  L["This is merely a shortcut introduced to make life easier for developers, and as a regular player you can safely ignore it."],
+						func = function(info, val)
+							Rarity.Profiling:InspectAccumulatedTimes()
+						end
+					},
+					resetAccumulatedTimes = {
+						type = "execute",
+						order = newOrder(),
+						-- width = "full",
+						name = L["Reset profiling data"],
+						desc = L["Deletes accumulated profiling data for the current session."] .. " " ..  L["This is merely a shortcut introduced to make life easier for developers, and as a regular player you can safely ignore it."],
+						func = function(info, val)
+							Rarity.Profiling:ResetAccumulatedTimes()
+						end
+					},
+				}
 			}
 		}
 	}
@@ -1782,6 +1846,23 @@ function R:CreateGroup(options, group, isUser)
 					order = newOrder(),
 					name = item.sourceText or "",
 					hidden = item.sourceText == nil or item.sourceText == ""
+				},
+				currentAttemptsDesc = {
+					type = "description",
+					order = newOrder(),
+					name = colorize(L["Current Attempts"] .. ": ", green) .. tostring((item.attempts or 0) - (item.lastAttempts or 0))
+				},
+				lastAttemptsDesc = {
+					type = "description",
+					order = newOrder(),
+					name = colorize(L["Last Obtained In"] .. ": ", green) .. tostring(item.lastAttempts or 0),
+					hidden = (item.lastAttempts or 0) == 0
+				},
+				totalAttemptsDesc = {
+					type = "description",
+					order = newOrder(),
+					name = colorize(L["Total Attempts"] .. ": ", green) .. tostring(item.attempts or 0),
+					hidden = (item.lastAttempts or 0) == 0
 				},
 				worldBossFactionless = {
 					type = "description",
@@ -2506,7 +2587,7 @@ function R:CreateGroup(options, group, isUser)
 					type = "toggle",
 					name = L["Holiday reminders"],
 					desc = L[
-						"When on, Rarity will remind you to go farm holiday items you're missing if the holiday is active and the item is set as Undefeated. (This only works for items that originate from holiday dungeons or daily quests.) The reminder occurs each time you log in or reload your UI, and stops for the day once you defeat the holiday dungeon or complete the	quest."
+						"When on, Rarity will remind you to go farm holiday items you're missing if the holiday is active and the item is set as Undefeated. (This only works for items that originate from holiday dungeons or daily quests.) The reminder occurs each time you log in or reload your UI, and stops for the day once you defeat the holiday dungeon or complete the quest."
 					],
 					get = function()
 						if item.holidayReminder == false then

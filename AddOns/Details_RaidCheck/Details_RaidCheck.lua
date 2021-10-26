@@ -10,6 +10,8 @@ local DF = DetailsFramework
 
 local UnitGroupRolesAssigned = DF.UnitGroupRolesAssigned
 
+local version = "95"
+
 --> build the list of buffs to track
 local flask_list = DF.FlaskIDs
 
@@ -67,7 +69,6 @@ end
 	tinsert (UISpecialFrames, "Details_RaidCheck")
 	DetailsRaidCheck:SetPluginDescription (Loc ["STRING_RAIDCHECK_PLUGIN_DESC"])
 
-	local version = "v3.0.1"
 	
 	local debugmode = false
 	--local debugmode = true
@@ -255,7 +256,7 @@ end
 			{text = "Flask", width = 45},
 			{text = "Rune", width = 45},
 			--{text = "Pre-Pot Last Try", width = 100},
-			{text = "Using Details!", width = 100},
+			--{text = "Using Details!", width = 100},
 		}
 		local headerOptions = {
 			padding = 2,
@@ -333,7 +334,7 @@ end
 			--no pre pot
 			--local PrePotIndicator = DF:CreateImage (line, "", scroll_line_height, scroll_line_height)
 			--using details!
-			local DetailsIndicator = DF:CreateImage(line, "", scroll_line_height, scroll_line_height)
+			--local DetailsIndicator = DF:CreateImage(line, "", scroll_line_height, scroll_line_height)
 			
 			line:AddFrameToHeaderAlignment(roleIcon)
 			line:AddFrameToHeaderAlignment(talentsRow)
@@ -343,7 +344,7 @@ end
 			line:AddFrameToHeaderAlignment(FlaskIndicator)
 			line:AddFrameToHeaderAlignment(RuneIndicator)
 			--line:AddFrameToHeaderAlignment(PrePotIndicator)
-			line:AddFrameToHeaderAlignment(DetailsIndicator)
+			--line:AddFrameToHeaderAlignment(DetailsIndicator)
 			
 			line:AlignWithHeader (DetailsRaidCheck.Header, "left")
 			
@@ -358,7 +359,7 @@ end
 			line.FlaskIndicator = FlaskIndicator
 			line.RuneIndicator = RuneIndicator
 			--line.PrePotIndicator = PrePotIndicator
-			line.DetailsIndicator = DetailsIndicator
+			--line.DetailsIndicator = DetailsIndicator
 			
 			return line
 		end
@@ -379,12 +380,10 @@ end
 			--table.sort (dataInOrder, DF.SortOrder1R) --alphabetical
 			data = dataInOrder
 
-			local raidStatusLib = LibStub:GetLibrary("LibRaidStatus-1.0")
+			local openRaidLib = LibStub:GetLibrary("LibOpenRaid-1.0")
 			--get the information of all players
-			local playersInfoData = raidStatusLib.playerInfoManager.GetAllPlayersInfo()
-			local playersGearData = raidStatusLib.gearManager.GetAllPlayersGear()
-
-			local libRaidStatus = 0
+			local playersInfoData = openRaidLib.playerInfoManager.GetAllPlayersInfo()
+			local playersGearData = openRaidLib.gearManager.GetAllPlayersGear()
 		
 			for i = 1, total_lines do
 				local index = i + offset
@@ -398,7 +397,7 @@ end
 						if (thisPlayerInfo) then
 							local playerCovenantId = thisPlayerInfo.covenantId
 							if (playerCovenantId > 0) then
-								line.CovenantIcon:SetTexture(LIB_RAID_STATUS_COVENANT_ICONS[playerCovenantId])
+								line.CovenantIcon:SetTexture(LIB_OPEN_RAID_COVENANT_ICONS[playerCovenantId])
 								line.CovenantIcon:SetTexCoord(.05, .95, .05, .95)
 							else
 								line.CovenantIcon:SetTexture("")
@@ -465,7 +464,7 @@ end
 						line.FlaskIndicator.texture = playerTable.Flask and [[Interface\Scenarios\ScenarioIcon-Check]] or ""
 						line.RuneIndicator.texture = playerTable.Rune and [[Interface\Scenarios\ScenarioIcon-Check]] or ""
 						--line.PrePotIndicator.texture = playerTable.PrePot and [[Interface\Scenarios\ScenarioIcon-Check]] or ""
-						line.DetailsIndicator.texture = playerTable.UseDetails and [[Interface\Scenarios\ScenarioIcon-Check]] or ""
+						--line.DetailsIndicator.texture = playerTable.UseDetails and [[Interface\Scenarios\ScenarioIcon-Check]] or ""
 					end
 				end
 			end
@@ -716,7 +715,18 @@ end
 		DetailsRaidCheck.ToolbarButton:SetScript ("OnEnter", function (self)
 			show_panel:Show()
 			show_panel:ClearAllPoints()
-			show_panel:SetPoint ("bottom", DetailsRaidCheck.ToolbarButton, "top", 0, 10)
+
+			local bottomPosition = self:GetBottom()
+			local screenHeight = GetScreenHeight()
+
+			local positionHeightPercent = bottomPosition / screenHeight
+
+			if (positionHeightPercent > 0.7) then
+				show_panel:SetPoint("top", DetailsRaidCheck.ToolbarButton, "bottom", 0, -10)
+			else
+				show_panel:SetPoint("bottom", DetailsRaidCheck.ToolbarButton, "top", 0, 10)
+			end
+
 			show_panel.NextUpdate = UpdateSpeed
 			update_panel (show_panel, 1)
 			show_panel:SetScript ("OnUpdate", update_panel)

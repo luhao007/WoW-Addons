@@ -449,7 +449,7 @@ if raambitun then
 		local id=raGetUnitID(id2)
 		if (id==52558 or id==52577 or id==53087) then
 
-	local bar, min_power = UnitAlternatePowerInfo("player")
+	local _,bar, min_power = GetUnitPowerBarInfo("player")
 	if bar then
 		local curpower = UnitPower("player", 10)
 		if min_power > curpower then

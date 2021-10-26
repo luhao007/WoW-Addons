@@ -103,7 +103,6 @@ L.NOTESHAREERRORALREADYOPEN	= "Impossibile aprire il collegamento a una nota con
 L.ALLMOD_DEFAULT_LOADED		= "Le opzioni predefinite delle mod di quest'istanza sono state caricate."
 L.ALLMOD_STATS_RESETED		= "Le statistiche della mod sono state resettate."
 L.MOD_DEFAULT_LOADED			= "Le opzioni predefinite del combattimento sono state caricate."
-L.SOUNDKIT_MIGRATION			= "Uno o più avvisi/avvisi speciali sonori sono stati ripristinati a causa di incompatibilità con la patch 8.2 e successive. DBM supporta solo file sonori nella cartella addons o ID SoundKit per riprodurre contenuti multimediali"
 
 L.WORLDBOSS_ENGAGED			= "%s è stato probabilmente ingaggiato sul reame con il %s di vita. (Inviato da %s)"
 L.WORLDBOSS_DEFEATED			= "%s è stato probabilmente sconfitto sul reame (Inviato da %s)."
@@ -182,11 +181,10 @@ L.DPMCORE						= "AVVISO: Deadly PvP mods è discontinuato e incompatibile con q
 L.DBMLDB							= "AVVISO: DBM-LDB è ora incluso in DBM-Core. Anche se non dannoso, è consigliabile rimuovere 'DBM-LDB' dalla cartella addon"
 L.UPDATE_REQUIRES_RELAUNCH		= "AVVISO: Questo aggiornamento DBM non funzionerà correttamente a meno di un riavvio del gioco. Questo aggiornamento contiene nuovi file o modifiche al file .toc che non possono essere caricate con ReloadUI. Potresti avere malfunzionamenti o errori se continui senza riavviare."
 L.OUT_OF_DATE_NAG				= "La versione di Deadly Boss Mods è obsoleta. E' consigliabile aggiornare per questo combattimento in modo da non perdere importanti avvisi, temporizzatori o urlare al resto del raid cose importanti."
-L.RETAIL_ONLY					= "AVVISO: Questa versione di DBM è da utilizzare con l'ultima versione retail di World of Warcraft. Disinstallala e installa quella per WoW Classic."
 
 L.MOVABLE_BAR				= "Trascinami!"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h ti ha mandato un Timer DBM: '%2$s'\n|HDBM:cancella:%2$s:nil|h|cff3588ff[Cancella questo Timer]|r|h  |HDBM:ignora:%2$s:%1$s|h|cff3588ff[Ignora timer da %1$s]|r|h"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h ti ha mandato un Timer DBM: '%2$s'\n|Hgarrmission:DBM:cancella:%2$s:nil|h|cff3588ff[Cancella questo Timer]|r|h  |Hgarrmission:DBM:ignora:%2$s:%1$s|h|cff3588ff[Ignora timer da %1$s]|r|h"
 --L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h ti ha inviato un temporizzatore DBM"
 L.PIZZA_CONFIRM_IGNORE			= "Sei sicuro di voler ignorare i Timer DMB da %s per questa sessione?"
 L.PIZZA_ERROR_USAGE				= "Uso: /dbm [broadcast] timer <time> <text>"
@@ -464,7 +462,7 @@ L.AUTO_TIMER_TEXTS.active		= "%s terminato" -- Buff/Debuff/Eventi su boss
 L.AUTO_TIMER_TEXTS.fades			= "%s svanito" -- Buff/Debuff su giocatori
 L.AUTO_TIMER_TEXTS.ai			= "%s IA"
 L.AUTO_TIMER_TEXTS.cd			= "%s CD"
-L.AUTO_TIMER_TEXTS.cdcount		= "%s CD (%%s)"
+L.AUTO_TIMER_TEXTS.cdcount		= "%s (%%s) CD"
 L.AUTO_TIMER_TEXTS.cdsource		= "%s CD: >%%s<"
 L.AUTO_TIMER_TEXTS.cdspecial		= "CD Speciale"
 L.AUTO_TIMER_TEXTS.next			= "Prossimo %s"
@@ -590,35 +588,6 @@ L.DUR_HEADER					= "Deadly Boss Mods - Risultati Stato Equipaggiamento"
 L.DUR_ENTRY					= "%s: Durata [%d percento] / Equip rotto [%s]"
 L.LAG_FOOTER					= "Nessuna Risposta: %s"
 
---Role Icons
--- L.TANK_ICON			= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:7:27|t"
--- L.DAMAGE_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:7:27|t"
--- L.HEALER_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:7:27|t"
-
--- L.TANK_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:6:21:7:27|t"
--- L.DAMAGE_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:39:55:7:27|t"
--- L.HEALER_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:70:86:7:27|t"
---Importance Icons
--- L.HEROIC_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:102:118:7:27|t"
--- L.DEADLY_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:7:27|t"
--- L.IMPORTANT_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:7:27|t"
--- L.MYTHIC_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:40:58|t"
-
--- L.HEROIC_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:102:118:7:27|t"
--- L.DEADLY_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:133:153:7:27|t"
--- L.IMPORTANT_ICON_SMALL= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:168:182:7:27|t"
---Type Icons
--- L.INTERRUPT_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:198:214:7:27|t"
--- L.MAGIC_ICON			= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:229:247:7:27|t"
--- L.CURSE_ICON			= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:40:58|t"
--- L.POISON_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:40:58|t"
--- L.DISEASE_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:40:58|t"
--- L.ENRAGE_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:102:118:40:58|t"
-
 --LDB
 L.LDB_TOOLTIP_HELP1	= "Click SX per aprire DBM"
 L.LDB_TOOLTIP_HELP2	= "Click DX per aprire la configurazione"
-
-L.LDB_LOAD_MODS		= "Carica i Moduli Boss"
-
-L.LDB_ENABLE_BOSS_MOD	= "Abilita Boss Mod"

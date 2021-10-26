@@ -1,7 +1,7 @@
 -- L.Core
 -- Diablohu(diablohudream@gmail.com)
 -- yleaf(yaroot@gmail.com)
--- Mini Dragon(projecteurs@gmail.com) <流浪者酒馆-Brilla@金色平原> 20210108
+-- Mini Dragon(projecteurs@gmail.com) <流浪者酒馆-Brilla@金色平原> 20210924
 
 if GetLocale() ~= "zhCN" then return end
 if not DBM_CORE_L then DBM_CORE_L = {} end
@@ -10,6 +10,9 @@ local L = DBM_CORE_L
 
 L.HOW_TO_USE_MOD					= "欢迎使用" .. L.DBM .. "。在聊天框输入 /dbm help 以获取可用命令的帮助。输入 /dbm 可打开设置窗口，并对各个Boss模块进行设置，也可以浏览首领击杀记录。DBM 会自动按你的专精做出相应配置，但是你可以进行微调。"
 L.SILENT_REMINDER					= "提示：" .. L.DBM .. " 正处于静音模式。"
+L.NEWS_UPDATE						= "|h|c11ff1111News|r|h: 此次更新主要在 9.1.9 的版本上去除了导致杀毒软件误报警的情况。详情点击 |Hgarrmission:DBM:news|h|cff3588ff[这里]|r|h"
+
+L.COPY_URL_DIALOG_NEWS				= "阅读最新新闻，请点击下方连接"
 
 L.LOAD_MOD_ERROR				= "读取%s模块时发生错误：%s"
 L.LOAD_MOD_SUCCESS			= "'%s' 模块已加载。在聊天框输入 /dbm 可设置自定义语音或注记等选项。"
@@ -115,6 +118,7 @@ L.SOUNDKIT_MIGRATION			= "一个或多个警报的声音因文件丢失而被设
 
 L.WORLDBOSS_ENGAGED			= "世界Boss-%s可能正在作战。当前还有%s的生命值。 (由 %s 的" .. L.DBM .. "发送)"
 L.WORLDBOSS_DEFEATED			= "世界Boss-%s可能战斗结束了。 (由 %s 的" .. L.DBM .. "发送)"
+L.WORLDBUFF_STARTED			    = "世界增益 %s 已开始释放，阵营- %s  (由%s的" .. L.DBM .. "发送)."
 
 L.TIMER_FORMAT_SECS			= "%.2f秒"
 L.TIMER_FORMAT_MINS			= "%d分钟"
@@ -190,12 +194,10 @@ L.DPMCORE						= "警告: DBM-PVP已经已经很久没人维护了,并无法兼�
 L.DBMLDB							= "警告: DBM-LDB 已经集成入" .. L.DBM .. "核心。建议在插件目录删掉'DBM-LDB'。"
 L.UPDATE_REQUIRES_RELAUNCH		= "警告: 如果你不完全重启游戏，" .. L.DBM .. "可能会工作不正常。此次更新包含了新的文件，或者toc文件的改变，这是重载界面无法加载的。不重启游戏可能导致作战模块功能错误。"
 L.OUT_OF_DATE_NAG				= "你的" .. L.DBM .. "版本已经过期，新版本针对特定的首领战斗增加新的功能和错误的修复。建议您进行更新来改善您的游戏体验。"
-L.RETAIL_ONLY					= "警告: 你所用的是怀旧服版本的" .. L.DBM .. "。请删掉这个" .. L.DBM .. "并下载正式服的" .. L.DBM .. "。"
-
 
 L.MOVABLE_BAR				= "拖动我！"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h向你发送了一个" .. L.DBM .. "计时条"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h向你发送了一个" .. L.DBM .. " 计时条: '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[取消此倒计时]|r|h |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[忽略来自%1$s的计时条]|r|h"
 L.PIZZA_CONFIRM_IGNORE			= "是否要在该次游戏连接中屏蔽来自%s的计时条？"
 L.PIZZA_ERROR_USAGE				= "命令：/dbm [broadcast] timer <时间（秒）> <文本>"
 
@@ -286,9 +288,11 @@ L.EAST						= "东"
 L.WEST						= "西"
 L.NORTH						= "北"
 L.SOUTH						= "南"
-L.INTERMISSION				= "中场时间"
+L.INTERMISSION				= "转场"
 L.ORB						= "球"
 L.ORBS						= "球"
+L.RING						= "环"
+L.RINGS						= "环"
 L.CHEST						= "奖励宝箱"
 L.NO_DEBUFF					= "没有%s"
 L.ALLY						= "队友"
@@ -458,6 +462,7 @@ L.AUTO_SPEC_WARN_OPTIONS.targetchange	= "特殊警报：需要立刻切换目标
 
 -- Auto-generated Timer Localizations
 L.AUTO_TIMER_TEXTS.target				= "%s: >%%s<"
+L.AUTO_TIMER_TEXTS.targetcount 			= "%s: >%%s< (%%s)"
 L.AUTO_TIMER_TEXTS.cast					= "%s"
 L.AUTO_TIMER_TEXTS.castcount				= "%s (%%s)"
 L.AUTO_TIMER_TEXTS.castsource			= "%s: %%s"
@@ -476,9 +481,10 @@ L.AUTO_TIMER_TEXTS.achievement 			= "%s"
 L.AUTO_TIMER_TEXTS.stage					= "下一阶段"
 L.AUTO_TIMER_TEXTS.adds					= "下一波小怪"
 L.AUTO_TIMER_TEXTS.addscustom			= "小怪 (%%s)"
-L.AUTO_TIMER_TEXTS.roleplay				= GUILD_INTEREST_RP
+L.AUTO_TIMER_TEXTS.roleplay				= GUILD_INTEREST_RP or "剧情"
 
 L.AUTO_TIMER_OPTIONS.target				= "计时条：$spell:%s减益效果持续时间"
+L.AUTO_TIMER_OPTIONS.targetcount		= "计时条：$spell:%s减益效果持续时间(带计数)"
 L.AUTO_TIMER_OPTIONS.cast				= "计时条：$spell:%s施法时间"
 L.AUTO_TIMER_OPTIONS.castcount			= "计时条：$spell:%s施法时间(带计数)"
 L.AUTO_TIMER_OPTIONS.castsource			= "计时条：$spell:%s施法时间(带来源)"
@@ -595,6 +601,11 @@ L.LDB_TOOLTIP_HELP1	= "左键 打开" .. L.DBM
 L.LDB_TOOLTIP_HELP2	= "右键 启用安静模式"
 L.SILENTMODE_IS     = "静音模式为："
 
-L.LDB_LOAD_MODS		= "载入首领模块"
-
-L.LDB_ENABLE_BOSS_MOD	= "启用首领模块"
+L.WORLD_BUFFS.hordeOny		 = "部落的人民，奥格瑞玛的居民，来吧，聚集在一起，欢庆部落英雄的诞生"
+L.WORLD_BUFFS.allianceOny	 = "暴风城的城民和盟友们，今天，有人创造了历史"
+L.WORLD_BUFFS.hordeNef		 = "奈法利安被杀掉了！奥格瑞玛的居民"
+L.WORLD_BUFFS.allianceNef	 = "联盟的人民们，黑石领主已经被干掉了！"
+L.WORLD_BUFFS.zgHeart		 = "我们就要摆脱夺灵者的威胁了，只差最后一步……"
+L.WORLD_BUFFS.zgHeartBooty	 = "夺灵者已经被打败了！我们不再有危险了！"
+L.WORLD_BUFFS.zgHeartYojamba = "开始仪式，我的仆从们。我们必须把哈卡完全打回扭曲虚空中！"
+L.WORLD_BUFFS.rendHead		 = "那个假的酋长，雷德·黑手，已经倒下了！"

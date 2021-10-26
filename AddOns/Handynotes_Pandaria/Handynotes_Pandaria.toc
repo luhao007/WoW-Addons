@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: syndenbock
-## Version: 1.4.5
+## Version: 1.4.6
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: TomTom
 ## SavedVariables: storedData
@@ -9,6 +9,7 @@
 ## Notes: Shows locations of treasures and rares in Pandaria
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C潘达利亚|r
 
+## X-Curse-Project-ID: 352950
 ## X-Part-Of: HandyNotes
 
 # addon files

@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: MysticalOS
-## Version: r24
+## Version: r26
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMEmeraldNightmare_AllSavedVars

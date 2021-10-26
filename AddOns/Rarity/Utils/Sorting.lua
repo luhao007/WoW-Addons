@@ -146,29 +146,11 @@ local function compareZone(a, b)
 	return (zoneTextA or "") < (zoneTextB or "")
 end
 
-function Sorting.sort2(t)
-	local nt = {}
-	local n = 0
-	local min
-	for k, v in pairs(t) do
-		if type(v) == "table" and v.num then
-			n = n + 1
-			nt[n] = v
-		end
-	end
-	for i = 1, n, 1 do
-		min = i
-		for j = i + 1, n, 1 do
-			if compareNum(nt[j], nt[min]) then
-				min = j
-			end
-		end
-		nt[i], nt[min] = nt[min], nt[i]
-	end
-	return nt
-end
-
 function Sorting:SortGroup(group, method)
+
+	if method == CONSTANTS.SORT_METHODS.SORT_NONE then return self:DebugNoOp(group) end
+
+	Rarity.Profiling:StartTimer("SortGroup")
 	local sortedGroup = group
 	if method == CONSTANTS.SORT_METHODS.SORT_NAME then
 		sortedGroup = self:sort(group)
@@ -181,118 +163,62 @@ function Sorting:SortGroup(group, method)
 	elseif method == CONSTANTS.SORT_METHODS.SORT_PROGRESS then
 		sortedGroup = self:sort_progress(group)
 	end
+	Rarity.Profiling:EndTimer("SortGroup")
 
 	return sortedGroup
 end
 
-function Sorting:sort(t)
+-- Minimum impact NO OP "sort" (for debugging purposes); introduced since disabling sorting entirely didn't work
+function Sorting:DebugNoOp(t)
+
 	local nt = {}
 	local n = 0
-	local min
+
 	for k, v in pairs(t) do
 		if type(v) == "table" and v.name then
 			n = n + 1
 			nt[n] = v
 		end
 	end
-	for i = 1, n, 1 do
-		min = i
-		for j = i + 1, n, 1 do
-			if compareName(nt[j], nt[min]) then
-				min = j
-			end
-		end
-		nt[i], nt[min] = nt[min], nt[i]
-	end
+
 	return nt
+end
+
+local function sort_copy_with(t, comparator)
+	local nt = {}
+	local n = 0
+	for _, v in pairs(t) do
+		if type(v) == "table" and v.name then
+			n = n + 1
+			nt[n] = v
+		end
+	end
+	table.sort(nt, comparator)
+	return nt
+end
+
+function Sorting:sort(t)
+	return sort_copy_with(t, compareName)
+end
+
+function Sorting.sort2(t)
+	return sort_copy_with(t, compareNum)
 end
 
 function Sorting:sort_difficulty(t)
-	local nt = {}
-	local n = 0
-	local min
-	for k, v in pairs(t) do
-		if type(v) == "table" and v.name then
-			n = n + 1
-			nt[n] = v
-		end
-	end
-	for i = 1, n, 1 do
-		min = i
-		for j = i + 1, n, 1 do
-			if compareDifficulty(nt[j], nt[min]) then
-				min = j
-			end
-		end
-		nt[i], nt[min] = nt[min], nt[i]
-	end
-	return nt
+	return sort_copy_with(t, compareDifficulty)
 end
 
 function Sorting:sort_progress(t)
-	local nt = {}
-	local n = 0
-	local min
-	for k, v in pairs(t) do
-		if type(v) == "table" and v.name then
-			n = n + 1
-			nt[n] = v
-		end
-	end
-	for i = 1, n, 1 do
-		min = i
-		for j = i + 1, n, 1 do
-			if compareProgress(nt[j], nt[min]) then
-				min = j
-			end
-		end
-		nt[i], nt[min] = nt[min], nt[i]
-	end
-	return nt
+	return sort_copy_with(t, compareProgress)
 end
 
 function Sorting:sort_category(t)
-	local nt = {}
-	local n = 0
-	local min
-	for k, v in pairs(t) do
-		if type(v) == "table" and v.name then
-			n = n + 1
-			nt[n] = v
-		end
-	end
-	for i = 1, n, 1 do
-		min = i
-		for j = i + 1, n, 1 do
-			if compareCategory(nt[j], nt[min]) then
-				min = j
-			end
-		end
-		nt[i], nt[min] = nt[min], nt[i]
-	end
-	return nt
+	return sort_copy_with(t, compareCategory)
 end
 
 function Sorting:sort_zone(t)
-	local nt = {}
-	local n = 0
-	local min
-	for k, v in pairs(t) do
-		if type(v) == "table" and v.name then
-			n = n + 1
-			nt[n] = v
-		end
-	end
-	for i = 1, n, 1 do
-		min = i
-		for j = i + 1, n, 1 do
-			if compareZone(nt[j], nt[min]) then
-				min = j
-			end
-		end
-		nt[i], nt[min] = nt[min], nt[i]
-	end
-	return nt
+	return sort_copy_with(t, compareZone)
 end
 
 Rarity.Utils.Sorting = Sorting

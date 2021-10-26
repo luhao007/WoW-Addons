@@ -294,6 +294,38 @@ GTFO.SpellID["335447"] = {
   sound = 3;
 };
 
+GTFO.SpellID["358357"] = {
+  --desc = "Effigy of Torment (Towering Exterminator)";
+  sound = 3;
+};
+
+GTFO.SpellID["358091"] = {
+  --desc = "Devouring Rift (Xyraxz the Unknowable)";
+  sound = 3;
+};
+
+GTFO.SpellID["356414"] = {
+  --desc = "Frost Lance (Oros Coldheart)";
+  sound = 3;
+};
+
+GTFO.SpellID["358973"] = {
+  --desc = "Wave of Terror (Executioner Varruth)";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["353763"] = {
+  --desc = "Leeching Cleave (Nal'ragas)";
+  sound = 3;
+};
+
+GTFO.SpellID["355737"] = {
+  --desc = "Scorching Blast (Incinerator Arkolath)";
+  sound = 3;
+};
+
+
 --- **********************
 --- * Halls of Atonement *
 --- **********************
@@ -592,6 +624,17 @@ GTFO.SpellID["331748"] = {
   sound = 3;
 };
 
+GTFO.SpellID["340304"] = {
+  --desc = "Poisonous Secreations (Mistveil Gorgegullet)";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["336759"] = {
+  --desc = "Dodge Ball (Mistcaller)";
+  sound = 3;
+};
+
 GTFO.SpellID["321834"] = {
   --desc = "Dodge Ball (Mistcaller)";
   sound = 3;
@@ -623,6 +666,16 @@ GTFO.SpellID["326263"] = {
 
 GTFO.SpellID["332708"] = {
   --desc = "Ground Smash (Heavin the Breaker)";
+  sound = 3;
+};
+
+GTFO.SpellID["342126"] = {
+  --desc = "Brutal Leap (Dokigg the Brutalizer)";
+  sound = 3;
+};
+
+GTFO.SpellID["334025"] = {
+  --desc = "Bloodthirsty Charge (Harugia the Bloodthirsty)";
   sound = 3;
 };
 
@@ -965,6 +1018,50 @@ GTFO.SpellID["330813"] = {
   sound = 3;
 };
 
+GTFO.SpellID["355173"] = {
+  --desc = "Bombardment";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["352223"] = {
+  --desc = "Tortured Stomp (Vault Sentinel)";
+  sound = 3;
+};
+
+GTFO.SpellID["319689"] = {
+  --desc = "Spinning Blade";
+  sound = 3;
+};
+
+GTFO.SpellID["355226"] = {
+  --desc = "Lesser Subjugate Essence";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["355224"] = {
+  --desc = "Lesser Subjugate Spirit";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["352265"] = {
+  --desc = "Ritual of Pain";
+  sound = 3;
+};
+
+GTFO.SpellID["351931"] = {
+  --desc = "Pain Bringer";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["351811"] = {
+  --desc = "Fire and Brimestone (Mawsworn Cremator)";
+  sound = 3;
+};
+
 --- ******************
 --- * Castle Nathria *
 --- ******************
@@ -1197,6 +1294,12 @@ GTFO.SpellID["350076"] = {
   sound = 3;
 };
 
+GTFO.SpellID["349890"] = {
+  --desc = "Suffering (Remnant of Ner'zhul)";
+  sound = 3;
+  tankSound = 0;
+};
+
 GTFO.SpellID["357435"] = {
   --desc = "Seeds of Fire (Borr-Gahn)";
   sound = 3;
@@ -1255,6 +1358,23 @@ GTFO.SpellID["346469"] = {
   sound = 3;
 };
 
+GTFO.SpellID["355058"] = {
+  --desc = "Glacial Winds (Kel'Thuzad)";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["352381"] = {
+  --desc = "Freezing Blast (Kel'Thuzad)";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["352355"] = {
+  --desc = "Undying Wrath (Kel'Thuzad)";
+  sound = 3;
+};
+
 GTFO.SpellID["352002"] = {
   --desc = "Shadow Fissure (Kel'Thuzad)";
   sound = 3;
@@ -1278,11 +1398,16 @@ GTFO.SpellID["352318"] = {
 GTFO.SpellID["347704"] = {
   --desc = "Veil of Darkness (Sylvanas Windrunner)";
   applicationOnly = true;
-  sound = 3;
+  sound = 2;
 };
 
 GTFO.SpellID["348145"] = {
   --desc = "Rive (Sylvanas Windrunner)";
+  sound = 3;
+};
+
+GTFO.SpellID["356649"] = {
+  --desc = "Calamity (Sylvanas Windrunner)";
   sound = 3;
 };
 
@@ -1310,9 +1435,37 @@ GTFO.SpellID["348109"] = {
 
 GTFO.SpellID["357091"] = {
   --desc = "Cleave Flesh (Bonesteel)";
+  applicationOnly = true;
   sound = 3;
   tankSound = 0;
 };
+
+GTFO.SpellID["355063"] = {
+  --desc = "Crushing Strike (Mawsworn Guard)";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["358747"] = {
+  --desc = "Magma Wave (Borr-Gahn)";
+  sound = 3;
+  tankSound = 0;
+};
+
+GTFO.SpellID["353069"] = {
+  --desc = "Fractured Soul";
+  applicationOnly = true;
+  sound = 3;
+  test = true;
+};
+
+GTFO.SpellID["358205"] = {
+  --desc = "Incinerating Cleave (Screamspike)";
+  applicationOnly = true;
+  sound = 3;
+  tankSound = 0;
+};
+
 
 --- *******************************
 --- * Tazavesh, the Veiled Market *

@@ -1,6 +1,7 @@
-## v4.11.8 Changes
+## v4.11.13 Changes
 
-* [Retail] Fixes some crafting issues with some optional materials
-* Fixed errors related to scrolling tables
+* [Classic/BCC] Added Bank gathering source
+* [BCC] Implemented Guild Bank support
+* Some crafting/inventory optimisations
 
-[Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)
+[Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

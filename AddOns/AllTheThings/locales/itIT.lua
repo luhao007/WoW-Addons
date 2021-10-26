@@ -24,7 +24,7 @@ local L = app.L;
 	--TODO: L.RACE_LOCKED = "Race Locked";
 	--TODO: L.PLEASE_REPORT_MESSAGE = ": Please report this to the ATT Discord in #errors! Thanks!";
 	--TODO: L.NOT_AVAILABLE_IN_PL = "Not available in Personal Loot.";
-	--TODO: L.MARKS_OF_HONOR_DESC = "Marks of Honor must be viewed in a Popout window to see all of the normal 'Contains' content\n(Type '/att ' in chat then Shift-Click to link the item)";
+	--TODO: L.MARKS_OF_HONOR_DESC = "Marks of Honor must be viewed in a Popout window to see all of the normal 'Contains' content.\n(Type '/att ' in chat then Shift-Click to link the item)\n\n|cFFfe040fAfter purchasing and using an ensemble, relogging & a forced ATT refresh (in this order)\nmay be required to register all the items correctly.|r";
 	--TODO: L.ITEM_GIVES_REP = "Provides Reputation with '";
 	--TODO: L.COST = "Cost";
 	--TODO: L.COST_DESC = "This contains the visual breakdown of what is required to obtain or purchase this Thing";
@@ -188,6 +188,7 @@ local L = app.L;
 	--TODO: L.CACHED_RECIPES_2 = " known recipes!";
 	--TODO: L.WORLD_QUESTS = "World Quests";
 	--TODO: L.WORLD_QUESTS_DESC = "These are World Quests and other time-limited Things that are currently available somewhere. Go get 'em!";
+	--TODO: L.QUESTS_DESC = "Shows all possible QuestID's in the game in ascending numeric order.";
 	--TODO: L.UPDATE_WORLD_QUESTS = "Update World Quests Now";
 	--TODO: L.UPDATE_WORLD_QUESTS_DESC = "Sometimes the World Quest API is slow or fails to return new data. If you wish to forcibly refresh the data without changing zones, click this button now!\n\nAlt + Click to include currently-available Things which may not be time-limited";
 	--TODO: L.CLEAR_WORLD_QUESTS = "Clear World Quests";
@@ -204,10 +205,11 @@ local L = app.L;
 	--TODO: L.AH_SCAN_SUCCESSFUL_2 = " item(s).";
 	--TODO: L.REAGENT_CACHE_OUT_OF_DATE = "Reagent Cache is out-of-date and will be re-cached when opening your professions!";
 	--TODO: L.QUEST_LOOP = "Likely just broke out of an infinite source quest loop.";
-	--TODO: L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' [%d] will prevent collection of Breadcrumb Quest '%s' [%d]";
+	--TODO: L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of Breadcrumb Quest '%s' %s";
 	--TODO: L.QUEST_OBJECTIVE_INVALID = "Invalid Quest Objective";
 	--TODO: L.REFRESHING_COLLECTION = "Refreshing collection...";
 	--TODO: L.DONE_REFRESHING = "Done refreshing collection.";
+	--TODO: L.ADHOC_UNIQUE_COLLECTED_INFO = "This Item is Unique-Collected but failed to be detected due to missing Blizzard API information.\n\nIt will be fixed after the next Force-Refresh.";
 
 	-- Item Filter Window
 		--TODO: L.ITEM_FILTER_TEXT = "Item Filters";
@@ -274,7 +276,6 @@ local L = app.L;
 		--TODO: L.ACHIEVEMENTS_CHECKBOX_TOOLTIP = "Enable this option to track achievements.";
 		--TODO: L.TMOG_CHECKBOX = "Appearances / Transmog";
 		--TODO: L.TMOG_CHECKBOX_TOOLTIP = "Enable this option to track appearance acquisition.\n\nNOTE: Disabling this option also disables all fanfares and acquisition logic.  You can use this toggle as a way to prevent lag spikes while doing important group content, but bear in mind the computation will need to occur once re-enabled.\n\nTracked Account Wide by Default.";
-		--TODO: L.AZERITE_ESSENCES_CHECKBOX = "Azerite Essences";
 		--TODO: L.AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "Enable this option to track Azerite Essences.\n\nTracked per character by default.";
 		--TODO: L.BATTLE_PETS_CHECKBOX = "Battle Pets / Companions";
 		--TODO: L.BATTLE_PETS_CHECKBOX_TOOLTIP = "Enable this option to track battle pets and companions. These can be found in the open world or via boss drops in various Dungeons and Raids as well as from Vendors and Reputation.\n\nTracked Account Wide by Default.";
@@ -300,6 +301,9 @@ local L = app.L;
 		--TODO: L.RECIPES_CHECKBOX_TOOLTIP = "Enable this option to track recipes for your professions.\n\nNOTE: You must open your professions list in order to cache these.";
 		--TODO: L.REPUTATIONS_CHECKBOX = "Reputations";
 		--TODO: L.REPUTATIONS_CHECKBOX_TOOLTIP = "Enable this option to track reputations.\n\nOnce you reach Exalted or Best Friend with a reputation, it will be marked Collected.\n\nYou may have to do a manual refresh for this to update correctly.";
+		--TODO: L.RUNEFORGELEGENDARIES_CHECKBOX = "|T"..app.asset("Expansion_SL")..":0|t Runecarving Powers";
+		--TODO: L.RUNEFORGELEGENDARIES_CHECKBOX_TOOLTIP = "Enable this option to track Shadowlands Runecarving Powers.";
+		--TODO: L.SOULBINDCONDUITS_CHECKBOX_TOOLTIP = "Enable this option to track Shadowlands Soulbind Conduits.";
 		--TODO: L.TITLES_CHECKBOX = "Titles";
 		--TODO: L.TITLES_CHECKBOX_TOOLTIP = "Enable this option to track titles.\n\nThese can make your character stand out and look like you've played for awhile. Typically only new players do not have a title active.";
 		--TODO: L.TOYS_CHECKBOX = "Toys";
@@ -349,6 +353,8 @@ local L = app.L;
 		--TODO: L.ACCOUNT_WIDE_QUESTS_TOOLTIP = "Quest completion is typically per Character, but this will consider a Quest as completed if ANY Character has completed that specific Quest.";
 		--TODO: L.ACCOUNT_WIDE_RECIPES_TOOLTIP = "Recipes are not normally tracked account wide in Blizzard's database, but we can do that.\n\nIt is impossible to collect them all on one character, so with this, you can give your alts and their professions meaning.";
 		--TODO: L.ACCOUNT_WIDE_REPUTATIONS_TOOLTIP = "Reputations are now tracked account wide in Blizzard's database for achievements, so turning this on may be a good idea.";
+		--TODO: L.ACCOUNT_WIDE_RUNEFORGELEGENDARIES_TOOLTIP = "Not sure this will help at all for collection... enjoy moving at least one character of every class through every Covenant and Renown progression...";
+		--TODO: L.ACCOUNT_WIDE_SOULBINDCONDUITS_TOOLTIP = "Enable this to consider a Soulbind Conduit as collected for all characters if at least one character has learned it.";
 		--TODO: L.ACCOUNT_WIDE_TITLES_TOOLTIP = "Most titles are tracked account wide, but some prestigious titles in WoW are locked to the character that earned them.\n\nToggle this if you don't care about that and want to see those titles marked Collected for your alts.";
 
 	-- Filters tab
@@ -397,7 +403,9 @@ local L = app.L;
 		--TODO: L.COORDINATES_CHECKBOX = "Coordinates";
 		--TODO: L.COORDINATES_CHECKBOX_TOOLTIP = "Enable this option if you want to see coordinates in the tooltip when hovering over an entry in the mini list.";
 		--TODO: L.DESCRIPTIONS_CHECKBOX = "Descriptions";
-		--TODO: L.DESCRIPTIONS_CHECKBOX_TOOLTIP = "Enable this option to show descriptions within the tooltip. This may include the descriptive text supplied by the Dungeon Journal or a custom description added by a Contributor who felt some additional information was necessary.\n\nYou might want to keep this turned on.";
+		--TODO: L.DESCRIPTIONS_CHECKBOX_TOOLTIP = "Enable this option to show descriptions within the tooltip. This may include the descriptive text added by a Contributor that felt some additional information was necessary.\n\nYou might want to keep this turned on.";
+		--TODO: L.LORE_CHECKBOX = "Lore";
+		--TODO: L.LORE_CHECKBOX_TOOLTIP = "Enable this option to show lore within the tooltip. This may include the descriptive text supplied by the Dungeon Journal or for flavor by a Contributor.";
 		--TODO: L.KNOWN_BY_CHECKBOX = "Known By";
 		--TODO: L.KNOWN_BY_CHECKBOX_TOOLTIP = "Enable this option if you want to see the full list of characters on all servers that know this recipe in the tooltip.";
 		--TODO: L.SHOW_MODELS_CHECKBOX = "Model Preview";
@@ -450,10 +458,12 @@ local L = app.L;
 	-- Features tab
 		--TODO: L.FEATURES_TAB = "Features";
 		--TODO: L.MODULES_LABEL = "Modules & Mini Lists";
+		--TODO: L.ADHOC_UPDATES_CHECKBOX = "Use Ad-Hoc Window Updates";
+		--TODO: L.ADHOC_UPDATES_CHECKBOX_TOOLTIP = "Enable this option if you want only visible ATT windows to be updated.\n\nThis can greatly reduce loading times and prevent large framerate spikes in some situations.";
 		--TODO: L.SKIP_CUTSCENES_CHECKBOX = "Automatically Skip Cutscenes";
 		--TODO: L.SKIP_CUTSCENES_CHECKBOX_TOOLTIP = "Enable this option if you want ATT to automatically skip all cutscenes on your behalf.";
 		--TODO: L.AUTO_BOUNTY_CHECKBOX = "Automatically Open the Bounty List";
-		--TODO: L.AUTO_BOUNTY__CHECKBOX_TOOLTIP = "Enable this option if you want to see the items that have an outstanding collection bounty. If you manage to snag one of the items posted on this list, you could make a good sum of gold.\n\nShortcut Command: /attbounty";
+		--TODO: L.AUTO_BOUNTY_CHECKBOX_TOOLTIP = "Enable this option if you want to see the items that have an outstanding collection bounty. If you manage to snag one of the items posted on this list, you could make a good sum of gold.\n\nShortcut Command: /attbounty";
 		--TODO: L.AUTO_MAIN_LIST_CHECKBOX = "Automatically Open the Main List";
 		--TODO: L.AUTO_MAIN_LIST_CHECKBOX_TOOLTIP = "Enable this option if you want to automatically open the Main List when you login.\n\nYou can also bind this setting to a Key:\n\nKey Bindings -> Addons -> ALL THE THINGS -> Toggle Main List\n\nShortcut Command: /att";
 		--TODO: L.AUTO_MINI_LIST_CHECKBOX = "Automatically Open the Mini List";
@@ -464,8 +474,8 @@ local L = app.L;
 		--TODO: L.AUTO_RAID_ASSISTANT_CHECKBOX_TOOLTIP = "Enable this option if you want to see an alternative group/party/raid settings manager called the 'Raid Assistant'. The list will automatically update whenever group settings change.\n\nYou can also bind this setting to a Key.\n\nKey Bindings -> Addons -> ALL THE THINGS -> Toggle Raid Assistant\n\nShortcut Command: /attra";
 		--TODO: L.AUTO_WQ_LIST_CHECKBOX = "Automatically Open the World Quests List";
 		--TODO: L.AUTO_WQ_LIST_CHECKBOX_TOOLTIP = "Enable this option if you want the 'World Quests' list to appear automatically. The list will automatically update whenever you switch zones.\n\nYou can also bind this setting to a Key.\n\nKey Bindings -> Addons -> ALL THE THINGS -> Toggle World Quests List\n\nShortcut Command: /attwq";
-		--TODO: L.CURRENCIES_IN_WQ_CHECKBOX = "Treat Currencies as Containers";
-		--TODO: L.CURRENCIES_IN_WQ_CHECKBOX_TOOLTIP = "Enable this option if you want to treat currencies awarded by World Quests as if all of the Things they are used to acquire counted as +1 in the list.";
+		--TODO: L.CURRENCIES_IN_WQ_CHECKBOX = "Allow Collectible Cost Groups";
+		--TODO: L.CURRENCIES_IN_WQ_CHECKBOX_TOOLTIP = "Enable this option if you want to allow Items/Currencies which are used to purchase collectible Things to be considered collectible and show under dynamically-populated Quests.";
 		--TODO: L.AUCTION_TAB_CHECKBOX = "Show the Auction House Module Tab";
 		--TODO: L.AUCTION_TAB_CHECKBOX_TOOLTIP = "Enable this option if you want to see the Auction House Module provided with ATT.\n\nSome addons are naughty and modify this frame extensively. ATT doesn't always play nice with those toys.";
 		--TODO: L.SORT_BY_PROGRESS_CHECKBOX = "Sort By Progress";
@@ -547,10 +557,10 @@ local L = app.L;
 
 local a = L.ABBREVIATIONS;
 for key,value in pairs({
-		--TODO: ["Antorus, the Burning Throne"] = "Antorus",
+		["Antorus, il Trono Infuocato"] = "Antorus",	-- ["Antorus, the Burning Throne"] = "Antorus"
 		--TODO: ["Expansion Pre"] = "Pre",
 		--TODO: ["Expansion Features"] = "EF",
-		--TODO: ["Dungeons & Raids"] = "D&R",
+		--TODO: [GROUP_FINDER] = "D&R",	-- ["Dungeons & Raids"] = "D&R"
 		--TODO: ["The Burning Crusade"] = "BC",
 		--TODO: ["Burning Crusade"] = "BC",
 		--TODO: ["The BC"] = "BC",
@@ -567,7 +577,8 @@ for key,value in pairs({
 		--TODO: ["Normal"] = "N",
 		--TODO: ["Heroic"] = "H",
 		--TODO: ["Mythic"] = "M",
-		--TODO: ["Ny'alotha, the Waking City"] = "Ny'alotha",
+		["Ny'alotha, la Città Risvegliata"] = "Ny'alotha",	-- ["Ny'alotha, the Waking City"] = "Ny'alotha"
+		["Tazavesh, il Bazar Celato"] = "Tazavesh",	-- ["Tazavesh, the Veiled Market"] = "Tazavesh"
 		--TODO: ["10 Player"] = "10M",
 		--TODO: ["10 Player (Heroic)"] = "10M (H)",
 		--TODO: ["25 Player"] = "25M",
@@ -608,20 +619,17 @@ for key,value in pairs({
 	-- Commonly used
 		--TODO: [0] = ZONE.." "..BATTLE_PET_SOURCE_1,				-- Zone Drop
 		--TODO: [-1] = BATTLE_PET_BREED_QUALITY2.." "..TRANSMOG_SOURCE_1,	-- Common Boss Drop
-		--TODO: [-5] = "Prospecting",
 		--TODO: [-7] = WORLD.." "..RAID_BOSSES,						-- World Bosses
-		--TODO: [-10] = "Party Sync",								-- Party Sync
 		--TODO: [-11] = "Common Box Drops",							-- Common Box Drops
 		--TODO: [-12] = DUNGEON_FLOOR_DIREMAUL5.." [East - Demons]",-- Warpwood Quarter [East - Demon]
 		--TODO: [-13] = DUNGEON_FLOOR_DIREMAUL1.." [North - Ogres]",-- Gordok Commons [North - Ogres]
 		--TODO: [-14] = DUNGEON_FLOOR_DIREMAUL2.." [West - Elves]",	-- Capital Gardens [West - Elves]
 		--TODO: [-15] = "Exploration",								-- Exploration
-		--TODO: [-16] = BATTLE_PET_BREED_QUALITY4,					-- Rares
 		--TODO: [-19] = "Dragons of Nightmare",						-- Dragons of Nightmare
 		--TODO: [-20] = "Common Vendor Items",						-- Common Vendor Items
 		--TODO: [-21] = "Captains",									-- Captains
-
-		--TODO: [-40] = LFG_LIST_LEGACY,							-- Legacy
+		--TODO: [-22] = "Secrets",									-- Secrets
+		--TODO: [-23] = "Common Dungeon Drop",						-- WoD Common Dungeon Drop
 		--TODO: [-41] = "Cache of Madness",
 	-- Armor Types
 		--TODO: [-43] = GetItemSubClassInfo(4,1).." "..RESISTANCE0_NAME,-- Cloth
@@ -632,131 +640,84 @@ for key,value in pairs({
 		--TODO: [-53] = "Midsummer Fire Festival",					-- Midsummer Fire Festival
 		--TODO: [-55] = "Pirates' Day",
 		--TODO: [-59] = "Day of the Dead",
-		--TODO: [-62] = "Stranglethorn Fishing Extravaganza",
-		--TODO: [-65] = GetSpellInfo(190357).." "..select(1,GetCategoryInfo(15268)),-- Blizzard Promotions
-		--TODO: [-72] = "Sargerei War Council",
+		--TODO: [-62] = "Stranglethorn Fishing Extravaganza",		-- Stranglethorn Fishing Extravaganza
+	-- Zul'Aman
 		--TODO: [-78] = "Timed Event",
 		--TODO: [-79] = "First Chest",
 		--TODO: [-80] = "Second Chest",
 		--TODO: [-81] = "Third Chest",
 		--TODO: [-82] = "Final Chest",
+	-- SM
 		--TODO: [-85] = "Graveyard",
 		--TODO: [-86] = "Library",
 		--TODO: [-87] = "Armory",
 		--TODO: [-88] = "Cathedral",
-		--TODO: [-90] = ELITE,										-- Elite
-		--TODO: [-93] = "Silithus (The Wound)",
-		--TODO: [-94] = "Black Market Auction House",				-- Black Market Auction House
 	-- TODO: Garrison Note: These will be changed into a new class soon(TM)
 		--[-99] = select(2,C_Garrison.GetBuildingInfo(65)),			-- Stables
 		--TODO: [-99] = "Buildings",
-		--TODO: [-101] = "Followers",
 	-- Alliance [Swaps based on faction ONLY after a reloadui]
-		--TODO: [-130] = "Duskwood "..GetSpellInfo(133137),			-- Duskwood Active
-		--TODO: [-131] = "The Hinterlands "..GetSpellInfo(133137),	-- The Hinterlands Active
-		--TODO: [-132] = "Feralas "..GetSpellInfo(133137),			-- Feralas Active
-		--TODO: [-133] = "Duskwood "..GetSpellInfo(78741),			-- Duskwood Activated
-	-- Invasions TODO: what levels?
-		--TODO: [-137] = "Level 90",								-- Level 90
-		--TODO: [-138] = "Level 100",								-- Level 100
-	-- Class Trial Sets
-		--TODO: [-140] = "Communal",
-		--TODO: [-141] = "Felsoul",
-		--TODO: [-142] = "Heart-Lesion",
-		--TODO: [-143] = "Lightdrinker",
-		--TODO: [-144] = "Mistdancer",
-		--TODO: [-145] = "Mountainsage",
-		--TODO: [-146] = "Oathsworn",
-		--TODO: [-147] = "Springrain",
-		--TODO: [-148] = "Streamtalker",
-		--TODO: [-149] = "Sunsoul",
-		--TODO: [-150] = "Trailseeker",
+		--TODO: [-130] = DUNGEON_FLOOR_NIGHTMARERAID8.." "..GetSpellInfo(133137),	-- Duskwood Active
+		--TODO: [-131] = DUNGEON_FLOOR_NIGHTMARERAID7.." "..GetSpellInfo(133137),	-- The Hinterlands Active
+		--TODO: [-132] = DUNGEON_FLOOR_NIGHTMARERAID9.." "..GetSpellInfo(133137),	-- Feralas Active
+		--TODO: [-133] = DUNGEON_FLOOR_NIGHTMARERAID8.." "..GetSpellInfo(78741),	-- Duskwood Activated
+	-- Garrison
 		--TODO: [-152] = "Garrison Campaign",
-		--TODO: [-157] = "The Hinterlands "..GetSpellInfo(78741),	-- The Hinterlands Activated
-		--TODO: [-158] = "Feralas "..GetSpellInfo(78741),			-- Feralas Activated
+	-- Druid Feral Druid Hidden Artifact Appearance
+		--TODO: [-157] = DUNGEON_FLOOR_NIGHTMARERAID7.." "..GetSpellInfo(78741),	-- The Hinterlands Activated
+		--TODO: [-158] = DUNGEON_FLOOR_NIGHTMARERAID9.." "..GetSpellInfo(78741),	-- Feralas Activated
+	-- Class Hall /Artifact
 		--TODO: [-159] = "Event Roll",								-- Daily Dreamway Event Roll
 	-- Other
-		--TODO: [-163] = RESISTANCE0_NAME,							-- Armor
-		--TODO: [-165] = GetItemSubClassInfo(13,1),
-		--TODO: [-168] = FACTION_OTHER .. " " ..QUESTS_LABEL,		-- Other Quests
-		--TODO: [-171] = "Quest Chains",
-
 		--TODO: [-211] = NEW.." "..CHARACTER,						-- New Character
 		--TODO: [-212] = GetSpellInfo(225652).." "..GetSpellInfo(168498),-- Treasure Chest
-		--TODO: [-214] = GetSpellInfo(262061).." "..HOME,			-- Nightborne Home
+	-- Fishing
 		--TODO: [-217] = "Lures",									-- Lures (for Fishing)
 		--TODO: [-218] = "Coastal",									-- Coastal (for Fishing)
-		--TODO: [-224] = "Illidari",								-- Illidari
-		--TODO: [-228] = GetSpellInfo(218950),						-- GetSpellInfo(218950),  -- Flight Path
-		--TODO: [-236] = "Alliance War Campaign",					-- Alliance War Campaign
 		--TODO: [-242] = "Unrated",									-- Unrated
 		--TODO: [-243] = "Bounty",									-- Bounty
-		--TODO: [-244] = "Dark Iron Dwarf",							-- Dark Iron Dwarf
-		--TODO: [-245] = "Mag'har Orc",								-- Mag'har Orc
-		--TODO: [-246] = "Is Another Man's Treasure",				-- Is Another Man's Treasure
-		--TODO: [-247] = "Riches of Pandaria",						-- Riches of Pandaria
-		--TODO: [-251] = "Zandalari Troll",							-- Zandalari Troll
-		--TODO: [-252] = "Kul Tiran",								-- Kul Tiran
-		--TODO: [-253] = "Horde War Campaign",						-- Horde War Campaign
-		--TODO: [-254] = "Heritage Armor",							-- Heritage Armor
-		--TODO: [-255] = "Vulpera",
-		--TODO: [-256] = "Mechagnome",
-	-- Other
-		--TODO: [-351] = "Boss Drop",								-- Boss Drop
-		--TODO: [-356] = "Assault on the Dark Portal",
+	-- Allied Races
+		[-254] = "Razze Alleate & Armatura Retaggio",				-- Allied Races & Heritage
+	-- First Questline Draenor
+		--TODO: [-356] = "Assault on the Dark Portal",				-- Assault on the Dark Portal
+	-- Outposts in Draenor
 		--TODO: [-361] = GetSpellInfo(182108).." Tower",			-- Artillery Tower
-		--TODO: [-362] = "Peak of Serenity",						-- Peak of Serenity
+	-- Legendaries
 		--TODO: [-364] = LOOT_JOURNAL_LEGENDARIES,					-- Legendaries
-		--TODO: [-366] = WEAPON.." "..WARDROBE_SETS,				-- Weapons Sets
-	-- Dungeon/Raid Wing Info
+	-- Operation: Mechagon
 		--TODO: [-379] = "Junkyard",								-- Junkyard
-		--TODO: [-380] = "Workshop",								-- Workshop
-		--TODO: [-388] = "Main Gate",								-- Main Gate (Stratholme)
-		--TODO: [-389] = "Service Entrance",						-- Service Entrance (Stratholme)
-		--TODO: [-390] = "Smuggler's Den",							-- Smuggler's Den (Spires of Arak)
-		--TODO: [-391] = "Stoktron Brewery",						-- Stoktron Brewery (Spires of Arak)
-		--TODO: [-392] = "Hearthfire Tavern",						-- Hearthfire Tavern
+	-- Icecrown Citadel
 		--TODO: [-393] = "Storming the Citadel",					-- Storming the Citadel
 		--TODO: [-394] = "The Plagueworks",							-- The Plagueworks
-		--TODO: [-395] = "The Crimson Halls",						-- The Crimson Halls
-		--TODO: [-396] = "The Frostwing Halls",						-- The Frostwing Halls
+	-- BFA Outposts
 		--TODO: [-397] = "Outposts",								-- Outposts
+	-- T0.5
 		--TODO: [-420] = "Tier 0.5 Sets",							-- Tier 0.5 Sets
-	-- Blizzard Events and Anniversaries
-	-- Lucetia Note: Leave these for now, some may be swapped to achieves instead.
+	-- BFA War Chest
 		--TODO: [-488] = "War Chest",								-- Daily War Chest
+	-- Tarot Cards
 		--TODO: [-491] = "Tarot Cards",
-		--TODO: [-498] = "Круговерть Пустоты",						-- Twisting Nether (Demon Hunter Order Hall advancement)
-
-		--TODO: [-520] = "Expansion Pre-Launch",
-		--TODO: [-521] = "Burning Crusade: Dark Portal Opens",
-		--TODO: [-522] = "Wrath of the Lich King: Zombie Infestation",
-		--TODO: [-523] = "Cataclysm: Elemental Unrest",
-		--TODO: [-525] = "Warlords of Draenor: Iron Horde Incursion",
-		--TODO: [-526] = "Legion: Legion Invasion",
-		--TODO: [-527] = "Battle for Azeroth: War of the Thorns",
-		--TODO: [-528] = "Broken Isles",							-- Broken Isles [Mole Machine]
-		--TODO: [-531] = "2008 Spirit of Competition Event",
-		--TODO: [-532] = "Heroes of the Storm Promotion",
-		--TODO: [-533] = "Hearthstone Promotion",
-		--TODO: [-534] = "Collector's Edition",
-
-		--TODO: [-538] = "Diablo 20th Anniversary Promotion",
-		--TODO: [-539] = "The Scepter of the Shifting Sands",
-		--TODO: [-540] = "The Scourge Invasion",
-		--TODO: [-543] = "Legion Invasions",
-		--TODO: [-544] = "WoW Collector's Edition",
-		--TODO: [-547] = "EU Only",
-		--TODO: [-548] = "China Only",
-		--TODO: [-549] = "Korea Only",
-		--TODO: [-550] = "Starcraft Collector's Edition",
-		--TODO: [-551] = "Diablo Collector's Edition",
-		--TODO: [-556] = "Arena Tournament",
-
-		--TODO: [-563] = "Azeroth's Choppers",
-
-		--TODO: [-650] = "Quest Items",								-- Quest Items
-
+	-- Blizzard Events and Anniversaries
+		--TODO: [-520] = "Expansion Pre-Launch",					-- Expansion Pre-Launch
+		--TODO: [-522] = EXPANSION_NAME2..": Zombie Infestation",	-- Wrath of the Lich King: Zombie Infestation
+		--TODO: [-523] = EXPANSION_NAME3..": Elemental Unrest",		-- Cataclysm: Elemental Unrest
+		--TODO: [-525] = EXPANSION_NAME5..": Iron Horde Incursion",	-- Warlords of Draenor: Iron Horde Incursion
+		--TODO: [-526] = EXPANSION_NAME6..": Legion Invasion",		-- Legion: Legion Invasion
+		--TODO: [-527] = EXPANSION_NAME7..": War of the Thorns",	-- Battle for Azeroth: War of the Thorns
+		--TODO: [-532] = "Heroes of the Storm",						-- Heroes of the Storm
+		--TODO: [-533] = "Hearthstone",								-- Hearthstone
+		--TODO: [-534] = "Collector's Edition",						-- Collector's Edition
+		[-536] = "Hearthstone Mercenari",							-- Hearthstone Mercenaries
+		--TODO: [-537] = "Diablo 20th Anniversary",					-- Diablo 20th Anniversary
+		--TODO: [-538] = "The Ahn'Qiraj War Effort",				-- The Ahn'Qiraj War Effort
+		[-539] = "Scettro delle Sabbie Mutevoli",					-- The Scepter of the Shifting Sands
+		--TODO: [-540] = "The Scourge Invasion",					-- The Scourge Invasion
+		--TODO: [-541] = "The Silithyst Must Flow",					-- The Silithyst Must Flow
+		[-542] = "L'apertura del Portale Oscuro",					-- The Opening of the Dark Portal
+		--TODO: [-543] = "Legion Invasions",						-- Legion Invasions
+		--TODO: [-544] = "WoW Collector's Edition",					-- WoW Collector's Edition
+		--TODO: [-550] = "Starcraft Collector's Edition",			-- Starcraft Collector's Edition
+		--TODO: [-551] = "Diablo Collector's Edition",				-- Diablo Collector's Edition
+		--TODO: [-556] = "Arena Tournament",						-- Arena Tournament
 	-- PvP Header
 		-- Special Season Tags
 			--TODO: [-655] = "Ensemble Gear", 						-- Ensemble Gear (PvP)
@@ -765,46 +726,38 @@ for key,value in pairs({
 			--TODO: [-660] = "Combatant Gear",						-- Combatant PvP Gear (WoD, Legion)
 			--TODO: [-661] = "Gladiator Gear",						-- Gladiator PvP Gear
 			--TODO: [-662] = "Elite Gear",							-- Elite PvP Gear
-
 		-- Classic PvP Seasons
 			--TODO: [-663] = "Classic Honor System",				-- Classic Honor System
-
 		-- The Burning Crusade PvP Seasons
 			--TODO: [-658] = "BC Pre-Season",						-- Pre-Season (PvP BC)
 			--TODO: [-664] = select(2, GetAchievementInfo(2091))..": Season 1",-- Gladiator: Season 1
 			--TODO: [-665] = select(2, GetAchievementInfo(418))..": Season 2",-- Merciless Gladiator: Season 2
 			--TODO: [-666] = select(2, GetAchievementInfo(419))..": Season 3",-- Vengeful Gladiator: Season 3
 			--TODO: [-667] = select(2, GetAchievementInfo(420))..": Season 4",-- Brutal Gladiator: Season 4
-
 		-- Wrath of the Lich-King PvP Seasons
 			--TODO: [-668] = select(2, GetAchievementInfo(3336))..": Season 5",-- Deadly Gladiator: Season 5
 			--TODO: [-657] = "Hateful Gladiator",					-- Hateful Gladiator: Season 5 ("medium pvp gear")
 			--TODO: [-669] = select(2, GetAchievementInfo(3436))..": Season 6",-- Furious Gladiator: Season 6
 			--TODO: [-670] = select(2, GetAchievementInfo(3758))..": Season 7",-- Relentless Gladiator: Season 7
 			--TODO: [-671] = select(2, GetAchievementInfo(4599))..": Season 8",-- Wrathful Gladiator: Season 8
-
 		-- Cataclysm PvP Seasons
 			--TODO: [-672] = select(2, GetAchievementInfo(6002))..": Season 9",-- Vicious Gladiator: Season 9
 			--TODO: [-656] = "Honor Gear Ruthless Season",			-- Honor Gear Ruthless Season
 			--TODO: [-673] = select(2, GetAchievementInfo(6124))..": Season 10",-- Ruthless Gladiator: Season 10
 			--TODO: [-654] = "Honor Gear Cataclysmic Season",		-- Honor Gear Cataclysmic Season
 			--TODO: [-674] = select(2, GetAchievementInfo(6938))..": Season 11",-- Cataclysmic Gladiator: Season 11
-
 		-- Mists of Pandaria PvP Seasons
 			--TODO: [-675] = select(2, GetAchievementInfo(8214))..": Season 12",-- Malevolent Gladiator: Season 12
 			--TODO: [-653] = "Honor Gear Tyrannical Season",		-- Honor Gear Tyrannical Season
 			--TODO: [-676] = select(2, GetAchievementInfo(8791))..": Season 13",-- Tyrannical Gladiator: Season 13
 			--TODO: [-652] = "Honor Gear Grievous Season",			-- Honor Gear Grievous Season
 			--TODO: [-651] = "Honor Gear Prideful Season",			-- Honor Gear Prideful Season
-
-	-- Secret Header [Maybe need to change the numbers again when I need more space for PvP -- sadidorf]
+	-- Secret Header
 		[-806] = "Cinta del Perditempo",							-- Waist of Time
-
-	-- Mechagon
-		--TODO: [-850] = "Mechanized Chest",						-- Mechanized Chest
-		--TODO: [-851] = "Irontide Chest",							-- Irontide Chest
-
-	-- 8.2 Neck Stuff
+	-- Chests
+		[-850] = "Forziere Meccanizzato",							-- Mechanized Chest
+		[-851] = "Cassa dell'Impero Nero",							-- Black Empire Cache
+	-- Heart of Azeroth
 		--TODO: [-853] = "All Roles",								-- All Roles
 		--TODO: [-854] = "DPS",										-- DPS
 		--TODO: [-855] = "Healers",									-- Healers
@@ -814,104 +767,80 @@ for key,value in pairs({
 		--TODO: [-859] = "Rank 2",									-- Rank 2
 		--TODO: [-860] = "Rank 3",									-- Rank 3
 		--TODO: [-861] = "Rank 4",									-- Rank 4
-
 	-- Shadowlands Header
-		--TODO: [-900] = "Covenant Sanctum",						-- Covenant Sanctum
 		--TODO: [-903] = "Zone Rewards",							-- Zone Rewards
-		--TODO: [-904] = "Wrath of the Jailer",						-- Wrath of the Jailer
-		--TODO: [-905] = "Command Table",							-- Command Table
 		--TODO: [-906] = "Tier 1: Tactical Insight",				-- Tier 1: Tactical Insight
-		--TODO: [-907] = "Dead Blanchy",							-- Dead Blanchy
-		--TODO: [-908] = "Rewards",									-- Rewards
-		--TODO: [-909] = "Hunt: Death Elementals",					-- Hunt: Death Elementals
+		[-907] = "Defunta Blanchy",									-- Dead Blanchy
+		[-909] = "Caccia: Elementali della Morte",					-- Hunt: Death Elementals
 		--TODO: [-910] = "Hunt: Alpha Devourers",					-- Hunt: Alpha Devourers
 		--TODO: [-911] = "Hunt: Shadehounds",						-- Hunt: Shadehounds
 		--TODO: [-912] = "Hunt: Winged Soul Eaters",				-- Hunt: Winged Soul Eaters
 		--TODO: [-913] = "Tormentors of Torghast",					-- Tormentors of Torghast
 		--TODO: [-914] = "Adventures",								-- Adventures
 		--TODO: [-915] = "Anima Conductor",							-- Anima Conductor
-		--TODO: [-916] = "Tier 1: Flowing Tendrils",				-- Tier 1: Flowing Tendrils
-		--TODO: [-917] = "Tier 2: Streaming Threads",				-- Tier 2: Streaming Threads
-		--TODO: [-918] = "Tier 3: Flowing Power",					-- Tier 3: Flowing Power
-		--TODO: [-919] = "Night Mare",								-- Night Mare
+		[-916] = string.format(COVENANT_SANCTUM_TIER, 1)..": Tentacoli Fluenti",	-- Tier 1: Flowing Tendrils
+		[-917] = string.format(COVENANT_SANCTUM_TIER, 2)..": Fili Raggianti",-- Tier 2: Streaming Threads
+		[-918] = string.format(COVENANT_SANCTUM_TIER, 3)..": Potere Fluente",	-- Tier 3: Flowing Power
 		[-977] = "Maelie la Girovaga",								-- Maelie the Wanderer
 		[-979] = "Alienatore Ve'ken & Alienatore Ve'nott",			-- Broker Ve'ken & Broker Ve'nott
-		--TODO: [-980] = "Shared Treasures",						-- Shared Treasures
-
 		-- SL Maldraxxus/Necrolord
-			--TODO: [-920] = "Covenant: Necrolord",					-- Covenant: Necrolord
 			--TODO: [-921] = "Sanctum Upgrades",					-- Sanctum Upgrades (Necrolord)
-			--TODO: [-922] = "Theater of Pain",						-- Theater of Pain
-			--TODO: [-923] = "Abomination Factory",					-- Abomination Factory (Necrolord)
 			--TODO: [-924] = "Transport Network",					-- Transport Network (Necrolord)
-			[-925] = "FIla 1: Crea un Compagno",					-- Abomination Factory (Necrolord) Tier 1
-			[-926] = "FIla 2: Creazione arti",						-- Abomination Factory (Necrolord) Tier 2
-			[-927] = "FIla 3: Portare in Vita",						-- Abomination Factory (Necrolord) Tier 3
-			[-928] = "FIla 4: Amici Plasmati",						-- Abomination Factory (Necrolord) Tier 4
-			[-938] = "FIla 5: Un abominio è per sempre",			-- Abomination Factory (Necrolord) Tier 5
-
+			[-925] = string.format(COVENANT_SANCTUM_TIER, 1)..": Crea un Compagno",	-- Abomination Factory (Necrolord) Tier 1
+			[-926] = string.format(COVENANT_SANCTUM_TIER, 2)..": Creazione arti",	-- Abomination Factory (Necrolord) Tier 2
+			[-927] = string.format(COVENANT_SANCTUM_TIER, 3)..": Portare in Vita",	-- Abomination Factory (Necrolord) Tier 3
+			[-928] = string.format(COVENANT_SANCTUM_TIER, 4)..": Amici Plasmati",	-- Abomination Factory (Necrolord) Tier 4
+			[-938] = string.format(COVENANT_SANCTUM_TIER, 5)..": Un abominio è per sempre",	-- Abomination Factory (Necrolord) Tier 5
 		-- SL Ardenweald/Night Fae
-			--TODO: [-929] = "Covenant: Night Fae",					-- Covenant: Night Fae
-			--TODO: [-930] = "Queen's Conservatory",				-- Queen's Conservatory
-			--TODO: [-931] = GetSpellInfo(7851),					-- Lesser Spirit
-			--TODO: [-932] = GetSpellInfo(172153),					-- Spirit
-			--TODO: [-933] = GetSpellInfo(13826),					-- Greater Spirit
-			--TODO: [-934] = "Star Lake Amphitheater",				-- Star Lake Amphitheater
 			--TODO: [-935] = "Sanctum Upgrades",					-- Sanctum Upgrades (Night Fae)
 			--TODO: [-936] = "Soulshape Forms",						-- Soulshape Forms (Night Fae)
 			--TODO: [-937] = "Transport Network",					-- Transport Network (Night Fae)
-
+			[-1002] = "Spirito Diligente",							-- Dutiful Spirit
+			[-1003] = "Spirito Marziale",							-- Martial Spirit
+			[-1004] = "Spirito Orgoglioso",							-- Prideful Spirit
+			[-1005] = "Spirito Indomito",							-- Untamed Spirit
 		-- SL Bastion/Kyrian
-			--TODO: [-939] = "Covenant: Kyrian",					-- Covenant: Kyrian
-			--TODO: [-940] = "Ascended Council",					-- Ascended Counil
+			[-940] = "Concilio degli Ascesi",						-- Ascended Counil
 			--TODO: [-941] = "Sanctum Upgrades",					-- Sanctum Upgrades (Kyrian)
-			--TODO: [-942] = "Path of Ascension",					-- Path of Ascension
-			--TODO: [-943] = "Tier 1: First Steps",					-- Tier 1: First Steps
-			--TODO: [-944] = "Tier 2: Sacred Trials",				-- Tier 2: Sacred Trials
-			--TODO: [-945] = "Tier 3: Continued Training",			-- Tier 3: Continued Teaching
-			--TODO: [-946] = "Tier 4: Teachings of Wisdom",			-- Tier 4: Teachings of Wisdom
-			--TODO: [-947] = "Tier 5: Trials of Humility",			-- Tier 5: Trials of Humility
+			[-943] = string.format(COVENANT_SANCTUM_TIER, 1)..": Primi Passi",	-- Tier 1: First Steps
+			[-944] = string.format(COVENANT_SANCTUM_TIER, 2)..": Prove Sacre",	-- Tier 2: Sacred Trials
+			[-945] = string.format(COVENANT_SANCTUM_TIER, 3)..": Addestramento Continuato",	-- Tier 3: Continued Teaching
+			[-946] = string.format(COVENANT_SANCTUM_TIER, 4)..": Insegnamenti della Saggezza",	-- Tier 4: Teachings of Wisdom
+			[-947] = string.format(COVENANT_SANCTUM_TIER, 5)..": Prove dell'Umiltà",	-- Tier 5: Trials of Humility
 			--TODO: [-948] = "Transport Network",					-- Transport Network (Kyrian)
-			--TODO: [-3348] = "Tier 1: Step of Faith",				-- Tier 1: Step of Faith
-			--TODO: [-3349] = "Tier 2: Leap of Power",				-- Tier 2: Leap of Power
-			--TODO: [-3350] = "Tier 3: Eternal Paths",				-- Tier 3: Eternal Paths
+			[-3348] = string.format(COVENANT_SANCTUM_TIER, 1)..": Passo della Fede",	-- Tier 1: Step of Faith
+			[-3349] = string.format(COVENANT_SANCTUM_TIER, 2)..": Salto del Potere",	-- Tier 2: Leap of Power
+			[-3350] = string.format(COVENANT_SANCTUM_TIER, 3)..": Sentieri Eterni",	-- Tier 3: Eternal Paths
 			--TODO: [-966] = "Blueprints & Crafting",				-- Blueprints (for Path of Ascension)
-			--TODO: [-972] = "Courage",								-- Courage
 			--TODO: [-973] = "Loyalty",								-- Loyalty
-			--TODO: [-974] = "Wisdom",								-- Wisdom
 			--TODO: [-975] = "Humility",							-- Humility
-
 		-- SL Revendreth/Venthyr
-			--TODO: [-949] = "Covenant: Venthyr",					-- Covenant: Venthyr
 			--TODO: [-950] = "Transport Network",					-- Transport Network
-			--TODO: [-951] = "Tier 1: Mirror Mirror",				-- Tier 1: Mirror Mirror
-			--TODO: [-952] = "Tier 2: Looking Glass",				-- Tier 2: Looking Glass"
-			--TODO: [-953] = "Tier 3: Mirror's Edge",				-- Tier 3: Mirror's Edge
+			[-951] = string.format(COVENANT_SANCTUM_TIER, 1)..": Specchio, Specchio...",	-- Tier 1: Mirror, Mirror
+			[-952] = string.format(COVENANT_SANCTUM_TIER, 2)..": Nello Specchio",	-- Tier 2: Looking Glass
+			[-953] = string.format(COVENANT_SANCTUM_TIER, 3)..": Oltre lo Specchio",	-- Tier 3: Mirror's Edge
 			--TODO: [-954] = "Inquisitors",							-- Inquisitors
 			--TODO: [-955] = "High Inquisitors",					-- High Inquisitors
 			--TODO: [-956] = "Grand Inquisitors",					-- Grand Inquisitors
 			--TODO: [-957] = "Sanctum Upgrades",					-- Sanctum Upgrades (Venthyr)
-			--TODO: [-958] = "Tier 2: Deserved Feast",				-- Tier 2: Deserved Feast
-			--TODO: [-959] = "Tier 3: Superior Efficiency",			-- Tier 3: Superior Efficiency
-			--TODO: [-960] = "The Ember Court",						-- The Ember Court
-			--TODO: [-961] = "Tier 1: A New Court",					-- Tier 1: A New Court
-			--TODO: [-962] = "Tier 2: Homegrown Help",				-- Tier 2: Homegrown Help
-			--TODO: [-963] = "Tier 3: Court Influencer",			-- Tier 3: Court Influencer
-			--TODO: [-964] = "Tier 4: Discerning Taste",			-- Tier 4: Discerning Taste
-			--TODO: [-965] = "Tier 5: The Professionals",			-- Tier 5: The Professionals
-			--TODO: [-967] = "Mirror Restoration",					-- "Mirror Restoration",
+			[-958] = string.format(COVENANT_SANCTUM_TIER, 2)..": Banchetto Meritato",	-- Tier 2: Deserved Feast
+			[-959] = string.format(COVENANT_SANCTUM_TIER, 3)..": Efficienza Superiore",	-- Tier 3: Superior Efficiency
+			[-961] = string.format(COVENANT_SANCTUM_TIER, 1)..": Una nuova corte",	-- Tier 1: A New Court
+			[-962] = string.format(COVENANT_SANCTUM_TIER, 2)..": Aiuto Locale",	-- Tier 2: Homegrown Help
+			[-963] = string.format(COVENANT_SANCTUM_TIER, 3)..": Influenzatore della Corte",	-- Tier 3: Court Influencer
+			[-964] = string.format(COVENANT_SANCTUM_TIER, 4)..": Gusto Attento",	-- Tier 4: Discerning Taste
+			[-965] = string.format(COVENANT_SANCTUM_TIER, 5)..": Professionisti",	-- Tier 5: The Professionals
+			[-967] = "Ripristino degli specchi",					-- "Mirror Restoration",
 			--TODO: [-968] = "Set A",								-- Set A
 			--TODO: [-969] = "Set B",								-- Set B
 			--TODO: [-970] = "Set C",								-- Set C
 			--TODO: [-971] = "Set D",								-- Set D
-
-			--TODO: [-976] = "Korthian Sets",						-- Korthian Sets
+		-- Black Vault
 			--TODO: [-1001] = "The Black Vault",
-
 	-- Warrior order hall lore items
 		--TODO: [-2200] = "Great Odyn and the Firelord",
 		--TODO: [-2201] = "The Wanderer and the Serpent",
-		--TODO: [-2202] = "Halls of GOld and Glory",
+		--TODO: [-2202] = "Halls of Gold and Glory",
 		--TODO: [-2203] = "The Keeper's Eye",
 		--TODO: [-2204] = "First of the Val'kyr",
 		--TODO: [-2205] = "The Sealing of the Halls of Valor",
@@ -921,67 +850,8 @@ for key,value in pairs({
 		--TODO: [-2209] = "The Prophecy of Rythas the Oracle",
 		--TODO: [-2210] = "The Lessons of the Blacklist",
 		--TODO: [-2211] = "Volund's Folly",
-
-	-- Other Sets
+	-- T3
 		--TODO: [-3179] = string.format(GARRISON_CURRENT_LEVEL.." "..WARDROBE_SETS, 3),
-
-	-- Holiday Sets
-		--TODO: [-3199] = "Midsummer Reveler Set",
-	-- Anti-Undead Armor Sets [Scourge Event]
-		--TODO: [-3218] = "Blessed Regalia of Undead Cleansing",
-		--TODO: [-3219] = "Undead Slayer's Blessed Armor",
-		--TODO: [-3220] = "Blessed Garb of the Undead Slayer",
-		--TODO: [-3221] = "Blessed Battlegear of the Undead Slaying",
-	-- Anti-Undead Armor Sets [Vanilla Scourge Event]
-		--TODO: [-3222] = "Regalia of Undead Cleansing",
-		--TODO: [-3223] = "Undead Slayer's Armor",
-		--TODO: [-3224] = "Garb of the Undead Slayer",
-		--TODO: [-3225] = "Battlegear of Undead Slaying",
-	-- Cloth WQ Gear
-		--TODO: [-3241] = "Arcane Singed Set",
-		--TODO: [-3242] = "Bonespeaker Set",
-		--TODO: [-3243] = "Manawracker Set",
-		--TODO: [-3244] = "Netherwhisper Set",
-		--TODO: [-3245] = "Night Dreamer Set",
-		--TODO: [-3246] = "Riven Priesthood Set",
-		--TODO: [-3247] = "Roggthread Set",
-		--TODO: [-3248] = "Seawitch Set",
-		--TODO: [-3249] = "Sunfrost Set",
-		--TODO: [-3259] = "Terrorweave Set",
-	-- Leather WQ Gear
-		--TODO: [-3262] = "Swordsinger's Set",
-		--TODO: [-3263] = "Rivermane Set",
-		--TODO: [-3264] = "Mana-Saber Set",
-		--TODO: [-3265] = "Felbat Leather Set",
-		--TODO: [-3266] = "Biornskin Set",
-		--TODO: [-3268] = "Tranquil Bough Set",
-		--TODO: [-3269] = "Dreadhide Set",
-		--TODO: [-3270] = "Steelgazer Set",
-		--TODO: [-3271] = "Brinewashed Set",
-		--TODO: [-3272] = "Lunarblight Set",
-	-- Mail WQ Gear
-		--TODO: [-3274] = "Ley Dragoon Set",
-		--TODO: [-3275] = "Skyhorn Set",
-		--TODO: [-3276] = "Sea Stalker's Set",
-		--TODO: [-3277] = "Mardum Chain Set",
-		--TODO: [-3278] = "Tideskorn Set",
-		--TODO: [-3279] = "Vilescale Set",
-		--TODO: [-3281] = "Bramblemail Set",
-		--TODO: [-3282] = "Manaburst Set",
-		--TODO: [-3283] = "Shrinebreaker Set",
-		--TODO: [-3346] = "Isle Watcher's Set";
-	-- Plate WQ Gear
-		--TODO: [-3299] = "Arcane Defender Set",
-		--TODO: [-3300] = "Greystone Set",
-		--TODO: [-3301] = "Portalguard Set",
-		--TODO: [-3302] = "Skoldiir Set",
-		--TODO: [-3303] = "Wracksoul Set",
-		--TODO: [-3304] = "Ley-Scarred Set",
-		--TODO: [-3305] = "Coral Plate Set",
-		--TODO: [-3306] = "Moonshatter Set",
-		--TODO: [-3307] = "Nightsfall Set",
-		--TODO: [-3308] = "Rockbound Set",
-		--TODO: [-3309] = "Wardbreaker Set",
 	-- Island Expedition Sets
 		--TODO: [-3315] = "Spider Acolyte",
 		--TODO: [-3316] = "Hydraxian",
@@ -990,7 +860,6 @@ for key,value in pairs({
 		--TODO: [-3319] = "Swarmfury",
 		--TODO: [-3340] = "Dark Animator",
 		--TODO: [-3341] = "Duskhaven",
-
 		--TODO: [-3343] = "Choking Winter",
 		--TODO: [-3342] = "Fallen Runelord",
 		--TODO: [-3320] = "Spiritbough",
@@ -999,7 +868,6 @@ for key,value in pairs({
 		--TODO: [-3323] = "Whirling Dervish",
 		--TODO: [-3324] = "Feralbark",
 		--TODO: [-3325] = "Firekin",
-
 		--TODO: [-3344] = "Frostsworn",
 		--TODO: [-3326] = "Wild Marauder",
 		--TODO: [-3327] = "Dragonrider",
@@ -1007,7 +875,6 @@ for key,value in pairs({
 		--TODO: [-3329] = "Mrrglurggl",
 		--TODO: [-3330] = "Headshrinker",
 		--TODO: [-3331] = "Voodoo Stalker",
-
 		--TODO: [-3332] = "Geocrag",
 		--TODO: [-3333] = "Razorfin",
 		--TODO: [-3345] = "Sanctified Scourgelord",
@@ -1016,16 +883,11 @@ for key,value in pairs({
 		--TODO: [-3336] = "Rattling Bone",
 		--TODO: [-3337] = "Twilight Dragon",
 		--TODO: [-3347] = "Black Tooth Grunt",
-	-- Chromie Scenario
-
-	-- PvP Sets
-	-- Note: Some of these may go away once I check as I think I am localizing with gear sets, but leave for now
-		--TODO: [-4191] = "Tournament",
 	-- Tier/Dungeon/Event/Holiday Sets
 		-- Artifact Strings
 			--TODO: [-5200] = "Base Appearance",
 			--TODO: [-5201] = "Class Hall Campaign",
-			--TODO: [-5202] = "Balance of Power",
+			[-5202] = "Equilibrio di potere",						-- Balance of Power
 			--TODO: [-5203] = "Prestige Rewards",
 			--TODO: [-5204] = "Challenge Appearance",
 			--TODO: [-5205] = "Hidden Appearance",
@@ -1033,97 +895,45 @@ for key,value in pairs({
 			--TODO: [-5350] = "Class Trial Item Sets",				-- Class Trial
 
 		--TODO: [-7776] = "Winter Revelers",						-- Winter Revelers (for Winter Veil)
-
 	------ ACHIEVEMENT HEADER SECTION ------
-		--TODO: [-10066] = BATTLE_PET_BREED_QUALITY6,				-- "Legendary";
-		--TODO: [-10069] = "Scenarios",
 		--TODO: [-10071] = "Visions of N'Zoth",
 		--TODO: [-10072] = "N'Zoth Assault",
 		--TODO: [-10073] = "Horrific Vision of Orgrimmar",
 		--TODO: [-10074] = "Horrific Vision of Stormwind",
-		--TODO: [-10075] = "Assault: Amathet Advance",
-		--TODO: [-10076] = "Assault: The Black Empire",
-		--TODO: [-10077] = "Assault: The Warring Clans",
-		--TODO: [-10078] = "Assault: The Endless Swarm",
-		--TODO: [-10079] = "Assault: Aqir Unearthed",
-		--TODO: [-10080] = "Horrific Visions",
+		[-10075] = "Assalto: L'avanzata degli Amathet",				-- Assault: Amathet Advance
+		[-10076] = "Assalto: L'Impero Nero",						-- Assault: The Black Empire
+		[-10077] = "Assalto: I clan in guerra",						-- Assault: The Warring Clans
+		[-10078] = "Assalto: Lo sciame infinito",					-- Assault: The Endless Swarm
+		[-10079] = "Assalto: L'avvento degli Aqir",					-- Assault: Aqir Unearthed
 		--TODO: [-10081] = "Corrupted Area",
 		--TODO: [-10082] = "Lost Area",
 		--TODO: [-10083] = "Covenant Assaults",						-- Covenant Assaults
-
 		-- Shadowlands Achievement Header
 			-- Achieve 14339 Sub-Criteira
-				--TODO: [-1433901] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433902] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433903] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433904] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433905] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433906] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433907] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433908] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433909] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433910] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433911] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433912] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433913] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433914] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433915] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433916] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433917] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433918] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433919] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433920] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433921] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433922] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433923] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433924] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433925] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433926] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433927] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433928] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433929] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433930] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433931] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433932] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433933] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433934] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433935] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433936] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433937] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433938] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433939] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433940] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433941] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433942] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433943] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433944] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433945] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433946] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433947] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433948] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433949] = "Anima Crystal Shard",			-- Anima Crystal Shard
-				--TODO: [-1433950] = "Anima Crystal Shard",			-- Anima Crystal Shard
-
+				[-1433901] = "Frammento di Cristallo d'Animum",		-- Anima Crystal Shard
 			--	hopefully temp objects, these currently do not have accessible object data on wowhead
-				--TODO: [-1433951] = "Broken Mirror A-1",			-- Broken Mirror
-				--TODO: [-1433952] = "Broken Mirror A-2",			-- Broken Mirror
-				--TODO: [-1433953] = "Broken Mirror A-3",			-- Broken Mirror
-				--TODO: [-1433954] = "Broken Mirror B-1",			-- Broken Mirror
-				--TODO: [-1433955] = "Broken Mirror B-2",			-- Broken Mirror
-				--TODO: [-1433956] = "Broken Mirror B-3",			-- Broken Mirror
-				--TODO: [-1433957] = "Broken Mirror C-1",			-- Broken Mirror
-				--TODO: [-1433958] = "Broken Mirror C-2",			-- Broken Mirror
-				--TODO: [-1433959] = "Broken Mirror C-3",			-- Broken Mirror
-				--TODO: [-1433960] = "Broken Mirror D-1",			-- Broken Mirror
-				--TODO: [-1433961] = "Broken Mirror D-2",			-- Broken Mirror
-				--TODO: [-1433962] = "Broken Mirror D-3",			-- Broken Mirror
+				[-1433951] = "Specchio Rotto A-1",					-- Broken Mirror
+				[-1433952] = "Specchio Rotto A-2",					-- Broken Mirror
+				[-1433953] = "Specchio Rotto A-3",					-- Broken Mirror
+				[-1433954] = "Specchio Rotto B-1",					-- Broken Mirror
+				[-1433955] = "Specchio Rotto B-2",					-- Broken Mirror
+				[-1433956] = "Specchio Rotto B-3",					-- Broken Mirror
+				[-1433957] = "Specchio Rotto C-1",					-- Broken Mirror
+				[-1433958] = "Specchio Rotto C-2",					-- Broken Mirror
+				[-1433959] = "Specchio Rotto C-3",					-- Broken Mirror
+				[-1433960] = "Specchio Rotto D-1",					-- Broken Mirror
+				[-1433961] = "Specchio Rotto D-2",					-- Broken Mirror
+				[-1433962] = "Specchio Rotto D-3",					-- Broken Mirror
 })
 do a[key] = value; end
 
 local a = L.HEADER_DESCRIPTIONS;
 for key,value in pairs({
+	--TODO: [-22] = "Naughty secrets...",
 	--TODO: [-34] = "World Quests are time-limited Quests available in specific locations with variable rewards.\n\nMake sure to check the ATT World Quests window (/attwq) often to see what time-limited Things you should go collect!",
+	--TODO: [-169] = "These items can be obtained by doing Emissary Quests or gaining a paragon box.",
 	--TODO: [-799] = "The following items can be created by using a Burden of Eternity on a Timeless Armor Token for a double dose of pointless RNG.",
+	--TODO: [-903] = "These items can drop from repeatable treasure chests, wish crickets, world quests or table missions.",
 })
 do a[key] = value; end
 
@@ -1163,7 +973,9 @@ for key,value in pairs({
 	[6751] = "Strana Pianta da Frutto",	-- Strange Fruited Plant
 	[6752] = "Strana Pianta Frondosa",	-- Strange Fronded Plant
 	[7510] = "Pianta Rigogliosa",	-- Sprouted Frond
+	[19022] = "Forziere Consumato",	-- Worn Chest
 	[19023] = "|cFFFFFFFFStep 7:|r Pagina 2.351",	-- |cFFFFFFFFStep 7:|r Page 2351
+	[19024] = "Santuario Nascosto",	-- Hidden Shrine
 	[20805] = "Rizzle's Unguarded Plans",	-- Rizzle's Unguarded Plans	--TODO: This was taken from classic Wowhead
 	[20985] = "Terra Smossa",	-- Loose Dirt
 	[20992] = "Scudo Nero",	-- Black Shield
@@ -1197,6 +1009,7 @@ for key,value in pairs({
 	[164820] = "Targa del Guardiano Oscuro",	-- Dark Keeper Nameplate
 	[164867] = "RICERCATO",	-- WANTED
 	[164868] = "UCCIDERE A VISTA",	-- KILL ON SIGHT
+	[164869] = "Calice Spettrale",	-- Spectral Chalice
 	[164887] = "Corrupted Windblossom",	-- Corrupted Windblossom	--TODO: This was taken from classic Wowhead
 	[164888] = "Corrupted Whipper Root",	-- Corrupted Whipper Root	--TODO: This was taken from classic Wowhead
 	[164955] = "Pilastro di Cristallo Settentrionale",	-- Northern Crystal Pylon
@@ -1222,19 +1035,27 @@ for key,value in pairs({
 	[177787] = "Diario di Rackmore",	-- Rackmore's Log
 	[177904] = "Wanted Poster: Besseleth",	-- Wanted Poster: Besseleth	--TODO: This was taken from classic Wowhead
 	[177964] = "Pietra Profonda",	-- Fathom Stone
+	[178144] = "Cassa dei Troll",	-- Troll Chest
+	[178227] = "Cesto del Totem di Murgut",	-- Murgut's Totem Basket
 	[179485] = "Trappola Rotta",	-- A Broken Trap
 	[179501] = "Knot Thimblejack's Cache",	-- Knot Thimblejack's Cache	--TODO: This was taken from classic Wowhead
 	[179564] = "Tributo dei Gordok",	-- Gordok Tribute Chest
 	[179697] = "Cassa del Tesoro dell'Arena",	-- Arena Treasure Chest
 	[179827] = "Wanted/Missing/Lost & Found",	-- Wanted/Missing/Lost & Found	--TODO: This was taken from classic Wowhead
 	[179832] = "Cuscino Decorato di Pillaclencher",	-- Pillaclencher's Ornate Pillow
+	[180229] = "Jinxed Hoodoo Pile",	-- Jinxed Hoodoo Pile	--TODO: This was taken from classic Wowhead
 	--TODO: [180327] = "Brazier of Madness",	-- Brazier of Madness
 	[180366] = "Battered Tackle Box",	-- Battered Tackle Box	--TODO: This was taken from classic Wowhead
 	[180368] = "Tablet of Madness",	-- Tablet of Madness	--TODO: This was taken from classic Wowhead
 	[180448] = "Manifesto dei Ricercati: Chelafunesta",	-- Wanted Poster: Deathclasp
+	[180456] = "Pietra del Vento Minore",	-- Lesser Wind Stone
+	[180461] = "Pietra del Vento",	-- Wind Stone
+	[180466] = "Pietra del Vento Maggiore",	-- Greater Wind Stone
 	[180503] = "Libro di Ricette Insabbiato",	-- Sandy Cookbook
+	[180570] = "Barile",	-- Keg
 	[180633] = "Lacrima di Cristallo",	-- Crystalline Tear
 	[180642] = "Cassa Incospicua",	-- Inconspicuous Crate
+	[180652] = "Freshly Dug Dirt",	-- Freshly Dug Dirt	--TODO: This was taken from classic Wowhead
 	[180690] = "Grande Forziere dello Scarabeo",	-- Large Scarab Coffer
 	[180691] = "Forziere dello Scarabeo",	-- Scarab Coffer
 	[180717] = "The Scarab Gong",	-- The Scarab Gong	--TODO: This was taken from classic Wowhead
@@ -1246,17 +1067,14 @@ for key,value in pairs({
 	[181147] = "Manifesto dei Ricercati",	-- Wanted Poster
 	[181150] = "Diario Impolverato",	-- Dusty Journal
 	[181153] = "Manifesto dei Ricercati: Kel'gash il Perfido",	-- Wanted Poster: Kel'gash the Wicked
-	[181332] = "Falò di Roccavento",	-- Flame of Stormwind
-	[181333] = "Falò di Forgiardente",	-- Flame of Ironforge
-	[181334] = "Falò di Darnassus",	-- Flame of Darnassus
-	[181335] = "Falò di Sepulcra",	-- Flame of the Undercity
-	[181336] = "Falò di Orgrimmar",	-- Flame of Orgrimmar
-	[181337] = "Falò di Picco del Tuono",	-- Flame of Thunder Bluff
 	[181638] = "Manifesto dei Ricercati",	-- Wanted Poster
+	[181672] = "Effige dell'Uomo di Paglia",	-- Wickerman Effigy
+	[181698] = "Pietra del Vuoto",	-- Voidstone
 	[181748] = "Cristallo di Sangue",	-- Blood Crystal
 	[181756] = "Antico Libro Rovinato",	-- Battered Ancient Book
 	[181889] = "Manifesto dei Ricercati",	-- Wanted Poster
 	[182032] = "Diario di Galaen",	-- Galaen's Journal
+	[182058] = "Carro dei Morti del Flagello",	-- Scourge Meat Wagon
 	[182115] = "Manifesto dei Ricercati",	-- Wanted Poster
 	[182165] = "Manifesto dei Ricercati",	-- Wanted Poster
 	[182392] = "Bacheca di Garadar",	-- Garadar Bulletin Board
@@ -1280,8 +1098,10 @@ for key,value in pairs({
 	[185165] = "Comunicatore della Legione",	-- Legion Communicator
 	[185166] = "Manifesto dei Ricercati",	-- Wanted Poster
 	[185168] = "Cassa Rinforzata di Vilferro",	-- Reinforced Fel Iron Chest
+	[186267] = "Santuario della Zucca",	-- Pumpkin Shrine
 	[186426] = "Manifesto dei Ricercati",	-- Wanted Poster
 	[186585] = "Rotolo di Pelle di Drago",	-- Dragonskin Scroll
+	--TODO: [186881] = "Dark Iron Sabotage Plans",	-- Dark Iron Sabotage Plans
 	[186887] = "Grande Jack Lanterna",	-- Large Jack-o'-Lantern
 	[187273] = "Impronta di Zoccolo Sospetta",	-- Suspicious Hoofprint
 	[187559] = "Falò dell'Orda",	-- Horde Bonfire
@@ -1301,8 +1121,11 @@ for key,value in pairs({
 	[187925] = "Falò dell'Alleanza",	-- Alliance Bonfire
 	[187926] = "Falò dell'Alleanza",	-- Alliance Bonfire
 	[187927] = "Falò dell'Alleanza",	-- Alliance Bonfire
+	[187928] = "Falò dell'Alleanza",	-- Alliance Bonfire
 	[187929] = "Falò dell'Alleanza",	-- Alliance Bonfire
 	[187930] = "Falò dell'Alleanza",	-- Alliance Bonfire
+	[187931] = "Falò dell'Alleanza",	-- Alliance Bonfire
+	[187932] = "Falò dell'Alleanza",	-- Alliance Bonfire
 	[187933] = "Falò dell'Alleanza",	-- Alliance Bonfire
 	[187934] = "Falò dell'Alleanza",	-- Alliance Bonfire
 	[187935] = "Falò dell'Alleanza",	-- Alliance Bonfire
@@ -1324,6 +1147,7 @@ for key,value in pairs({
 	[187951] = "Falò dell'Orda",	-- Horde Bonfire
 	[187952] = "Falò dell'Orda",	-- Horde Bonfire
 	[187953] = "Falò dell'Orda",	-- Horde Bonfire
+	[187954] = "Falò dell'Orda",	-- Horde Bonfire
 	[187955] = "Falò dell'Orda",	-- Horde Bonfire
 	[187956] = "Falò dell'Orda",	-- Horde Bonfire
 	[187957] = "Falò dell'Orda",	-- Horde Bonfire
@@ -1342,10 +1166,10 @@ for key,value in pairs({
 	[187970] = "Falò dell'Orda",	-- Horde Bonfire
 	[187971] = "Falò dell'Orda",	-- Horde Bonfire
 	[187972] = "Falò dell'Orda",	-- Horde Bonfire
+	[187973] = "Falò dell'Orda",	-- Horde Bonfire
+	[187974] = "Falò dell'Orda",	-- Horde Bonfire
 	[187975] = "Falò dell'Orda",	-- Horde Bonfire
 	[188085] = "Grano Infetto",	-- Plagued Grain
-	[188128] = "Falò di Exodar",	-- Flame of the Exodar
-	[188129] = "Falò di Lunargenta",	-- Flame of Silvermoon
 	[188261] = "Diario Rovinato",	-- Battered Journal
 	[188364] = "Trappola per Granchi Distrutta",	-- Wrecked Crab Trap
 	[188365] = "Cuore degli Antichi",	-- Heart of the Ancients
@@ -1465,6 +1289,8 @@ for key,value in pairs({
 	[205540] = "Scheletro Decrepito",	-- Decrepit Skeleton
 	[205874] = "Geroglifici Coperti dalla Sabbia",	-- Sand-Covered Hieroglyphs
 	[205875] = "Bengala del Crociato",	-- Crusader's Flare
+	[206109] = "Bacheca degli Ordini del Capoguerra",	-- Warchief's Command Board
+	[206111] = "Bacheca degli Eroi",	-- Hero's Call Board
 	[206293] = "Terminale A.I.D.A.",	-- A.I.D.A. Terminal
 	[206335] = "Lastrone di Pietra",	-- Stone Slab
 	[206336] = "Lastra di Marmo",	-- Marble Slab
@@ -1557,6 +1383,7 @@ for key,value in pairs({
 	[213972] = "Lama della Mente Velenosa",	-- Blade of the Poisoned Mind
 	[213973] = "Ripetitore Sonico dei Klaxxi",	-- Klaxxi Sonic Relay
 	[214062] = "Ambra Luminosa",	-- Glowing Amber
+	[214175] = "Sacca di Rifornimenti dei Wu Kao",	-- Bag of Wu Kao Supplies
 	[214325] = "Scrigno Dimenticato",	-- Forgotten Lockbox
 	[214337] = "Nascondiglio delle Gemme",	-- Stash of Gems
 	[214338] = "Offerta di Ricordo",	-- Offering of Remembrance
@@ -1784,11 +1611,13 @@ for key,value in pairs({
 	[233032] = "Zaino dello Scalatore",	-- Mountain Climber's Pack
 	[233033] = "Rifornimenti degli Spargifumo",	-- Steamwheedle Supplies
 	[233034] = "Rifornimenti degli Spargifumo",	-- Steamwheedle Supplies
+	[233048] = "Petalonirico Lucente",	-- Brilliant Dreampetal
 	[233052] = "Rifornimenti degli Spargifumo",	-- Steamwheedle Supplies
 	[233101] = "Nave da Pesca Affondata",	-- Sunken Fishing Boat
 	[233107] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
 	[233113] = "Lancia dei Cantaguerra",	-- Warsong Spear
 	[233126] = "Tesoro dei Torvaluna",	-- Shadowmoon Treasure
+	[233132] = "Mollusco d'Acqua Dolce",	-- Freshwater Clam
 	[233134] = "Uovo di Kaliri Dorato",	-- Golden Kaliri Egg
 	[233137] = "Cassa delle Lame Ardenti",	-- Burning Blade Cache
 	[233139] = "Antica Cassa dei Titani",	-- Ancient Titan Chest
@@ -1840,6 +1669,8 @@ for key,value in pairs({
 	[233658] = "Borsa dell'Avventuriero",	-- Adventurer's Pouch
 	[233696] = "Importanti Rifornimenti per Esplorazioni",	-- Important Exploration Supplies
 	[233697] = "Cassa dei Saberon",	-- Saberon Stash
+	[233715] = "Bottino di Ditodorato",	-- Goldtoe's Plunder
+	[233768] = "Elisir dei Pallidi",	-- Pale Elixir
 	[233773] = "Sacca di Erbe",	-- Bag of Herbs
 	[233792] = "Mucchio di Macerie",	-- Pile of Rubble
 	[233917] = "Femore dell'Improbabilità",	-- Femur of Improbability
@@ -1850,12 +1681,16 @@ for key,value in pairs({
 	[234147] = "Beni degli Esiliati",	-- Outcast's Belongings
 	[234154] = "Pergamene Smarrite",	-- Misplaced Scrolls
 	[234155] = "Reliquie degli Esiliati",	-- Relics of the Outcasts
+	[234157] = "Pietrasole Fratturata",	-- Fractured Sunstone
+	[234159] = "Borsa di Erbe Perduta",	-- Lost Herb Satchel
+	[234432] = "Bottino degli Ogron",	-- Ogron Plunder
 	[234446] = "Reliquie degli Esiliati",	-- Relics of the Outcasts
 	[234449] = "Reliquie degli Esiliati",	-- Relics of the Outcasts
 	[234451] = "Reliquie degli Esiliati",	-- Relics of the Outcasts
 	[234454] = "Reliquie degli Esiliati",	-- Relics of the Outcasts
 	[234455] = "Reliquie degli Esiliati",	-- Relics of the Outcasts
 	[234456] = "Scrigno dei Manomozza",	-- Shattered Hand Lockbox
+	[234472] = "Rum Invecchiato del Marinaio Zazzuk",	-- Sailor Zazzuk's 180-Proof Rum
 	[234473] = "Contributi alla Campagna",	-- Campaign Contributions
 	[234474] = "Cassa dei Saberon",	-- Saberon Stash
 	[234618] = "Dono di Anzu",	-- Gift of Anzu
@@ -1866,6 +1701,11 @@ for key,value in pairs({
 	[234735] = "Elisir della Visione d'Ombra",	-- Elixir of Shadow Sight
 	[234736] = "Elisir della Visione d'Ombra",	-- Elixir of Shadow Sight
 	[234740] = "Corno da Segnalazione degli Orchi",	-- Orchish Signaling Horn
+	[234744] = "Offerte alla Madre dei Corvi",	-- Offering to the Raven Mother
+	[234746] = "Offerte alla Madre dei Corvi",	-- Offering to the Raven Mother
+	[234748] = "Offerte alla Madre dei Corvi",	-- Offering to the Raven Mother
+	[235073] = "Offerte alla Madre dei Corvi",	-- Offering to the Raven Mother
+	[235090] = "Offerte alla Madre dei Corvi",	-- Offering to the Raven Mother
 	[235091] = "Anello Perduto",	-- Lost Ring
 	[235097] = "Grimorio Oscuro di Ephial",	-- Ephial's Dark Grimoire
 	[235104] = "Cassa del Tocco Solare",	-- Sun-Touched Cache
@@ -1873,10 +1713,14 @@ for key,value in pairs({
 	[235127] = "Baccello Misterioso Pietrificato",	-- Mysterious Petrified Pod
 	[235129] = "Semi Arricchiti",	-- Enriched Seeds
 	[235135] = "Manufatti Apexis di Contrabbando",	-- Smuggled Apexis Artifacts
+	[235141] = "Esplosivi dell'Orda di Ferro",	-- Iron Horde Explosives
 	[235143] = "Lancia dell'Assassino",	-- Assassin's Spear
 	[235168] = "Borsa dell'Esiliato",	-- Outcast's Pouch
 	[235172] = "Beni degli Esiliati",	-- Outcast's Belongings
+	[235282] = "Bevanda Rituale dei Sethekk",	-- Sethekk Ritual Brew
 	[235289] = "Martello da Lavoratore della Guarnigione",	-- Garrison Workman's Hammer
+	[235299] = "Pagamento di Piegamonete",	-- Coinbender's Payment
+	[235300] = "Funghi Misteriosi",	-- Mysterious Mushrooms
 	[235307] = "Borsa Fradicia",	-- Watertight Bag
 	[235313] = "Piccone da Minatore Abbandonato",	-- Abandoned Mining Pick
 	[235859] = "Sacca di Brokor",	-- Brokor's Sack
@@ -1930,6 +1774,7 @@ for key,value in pairs({
 	[236406] = "Antica Cassa degli Ogre",	-- Ancient Ogre Cache
 	[236407] = "Antica Cassa degli Ogre",	-- Ancient Ogre Cache
 	[236483] = "Dono degli Antichi",	-- Gift of the Ancients
+	[236610] = "Dono dello Spirito",	-- Spirit's Gift
 	[236693] = "Munizioni dell'Orda di Ferro",	-- Iron Horde Munitions
 	[236715] = "Teschio Strano",	-- Odd Skull
 	[236755] = "Scrigno Impolverato",	-- Dusty Lockbox
@@ -1943,6 +1788,7 @@ for key,value in pairs({
 	[239194] = "Cassa di Norana",	-- Norana's Cache
 	[239198] = "Cassa di Isaari",	-- Isaari's Cache
 	[239328] = "Scrigno del Capitano",	-- Captain's Foot Locker
+	[239791] = "Appunti sulla Caccia alle Reliquie",	-- Relic Hunting Notes
 	[239803] = "Cassa del Tesoro",	-- Treasure Chest
 	[239828] = "Confini della Realtà",	-- Edge of Reality
 	--TODO: [239901] = "Voidtalon Egg",	-- Voidtalon Egg
@@ -1951,6 +1797,7 @@ for key,value in pairs({
 	[240317] = "Tomo delle Ombre di Iskar",	-- Iskar's Tome of Shadows
 	[240354] = "Tesoro Non Sorvegliato",	-- Genuinely Unguarded Treasure
 	[240519] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
+	[240547] = "Teschio di Orco",	-- Orc Skull
 	[240577] = "Lama di Kra'nak",	-- The Blade of Kra'nak
 	[240580] = "Gioiello del Fuoco Infernale",	-- Jewel of Hellfire
 	[240605] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
@@ -2297,7 +2144,7 @@ for key,value in pairs({
 	[252839] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
 	[252840] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
 	[252841] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
-	[252842] = "Cassa del Tesoro",	-- Small Treasure Chest
+	[252842] = "Cassa del Tesoro",	-- Treasure Chest
 	[252844] = "Cassa del Tesoro",	-- Treasure Chest
 	[252850] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
 	[252860] = "Cassa del Tesoro Piccola",	-- Small Treasure Chest
@@ -2446,6 +2293,17 @@ for key,value in pairs({
 	[280619] = "Vecchia Cassa Rinforzata",	-- Old Ironbound Chest
 	[280727] = "Nota Carbonizzata",	-- Charred Note
 	[280755] = "Borsa di Quintin",	-- Quintin's Satchel
+	[280815] = "|cFFFFFFFFStep 1:|r Lettera da Dama Graham I",	-- |cFFFFFFFFStep 1:|r Letter from Ms. Graham I
+	[280836] = "|cFFFFFFFFStep 2:|r Lettera da Dama Graham II",	-- |cFFFFFFFFStep 2:|r Letter from Ms. Graham II
+	[280837] = "|cFFFFFFFFStep 3:|r Lettera da Dama Graham III",	-- |cFFFFFFFFStep 3:|r Letter from Ms. Graham III
+	[280838] = "|cFFFFFFFFStep 4:|r Lettera da Dama Graham IV",	-- |cFFFFFFFFStep 4:|r Letter from Ms. Graham IV
+	[280842] = "|cFFFFFFFFStep 5:|r Lettera da Dama Graham V",	-- |cFFFFFFFFStep 5:|r Letter from Ms. Graham V
+	[280843] = "|cFFFFFFFFStep 6:|r Lettera da Dama Graham VI",	-- |cFFFFFFFFStep 6:|r Letter from Ms. Graham VI
+	[280844] = "|cFFFFFFFFStep 7:|r Lettera da Dama Graham VII",	-- |cFFFFFFFFStep 7:|r Letter from Ms. Graham VII
+	[280845] = "|cFFFFFFFFStep 8:|r Dono da Dama Graham",	-- |cFFFFFFFFStep 8:|r Gift for Ms. Graham
+	[280883] = "Cassa Consumata dal Sole",	-- Sun-Worn Chest
+	[280886] = "Cassa Toccata dalle Stelle",	-- Star-Touched Chest
+	--TODO: [280903] = "Lost Cat Toy",	-- Lost Cat Toy
 	[280951] = "Spoglie dei Bracescura",	-- Ashvane Spoils
 	--TODO: [280957] = "Zukashi's Satchel",	-- Zukashi's Satchel
 	[281092] = "Scorta del Taumaturgo",	-- Witch Doctor's Hoard
@@ -2689,12 +2547,17 @@ for key,value in pairs({
 	[327592] = "Lucchetto Incantato",	-- Enchanted Lock
 	[327596] = "Focus Abissale Rotto",	-- Broken Abyssal Focus
 	--TODO: [327669] = "Contained Alemental",	-- Contained Alemental
+	--TODO: [328343] = "Direbrew Cog",	-- Direbrew Cog
 	--TODO: [328413] = "Hozen Totem",	-- Hozen Totem
 	[329641] = "Ricercati: Junkmatt e Roadtrogg",	-- Wanted: Junkbrat and Roadtrogg
 	--TODO: [329783] = "Glowing Arcane Trunk",	-- Glowing Arcane Trunk
 	[329805] = "Cristallo Strano",	-- Strange Crystal
-	[329918] = "Tesori dei Verrospino",	-- Quilboar Treasure
+	[329918] = "Tesori dei Verrospino",	-- Quilboar Treasures
 	[329919] = "Rifornimenti Rubati",	-- Stolen Supplies
+	[330168] = "Elementale Alcolico Contenuto",	-- Contained Alemental
+	--TODO: [330169] = "Direbrew Cog",	-- Direbrew Cog
+	--TODO: [330170] = "Hozen Totem",	-- Hozen Totem
+	[330183] = "Scrigno dei Marferreo",	-- Irontide Lockbox
 	[330627] = "Segnale di Pericolo",	-- Danger Sign
 	--TODO: [332220] = "Glowing Arcane Trunk",	-- Glowing Arcane Trunk
 	[332568] = "Statuetta Felina Cristallina",	-- Crystalline Cat Figurine
@@ -2765,7 +2628,7 @@ for key,value in pairs({
 	[352520] = "Medaglione dell'Orgoglio",	-- Medallion of Pride
 	[352596] = "Crescita Germogliante",	-- Sprouting Growth
 	[352703] = "La Mietitura",	-- The Harvest
-	--TODO: [352754] = "Silver Strongbox",	-- Silver Strongbox
+	[352754] = "Forziere d'Argento",	-- Silver Strongbox
 	[353019] = "Forziere d'Argento",	-- Silver Strongbox
 	[353205] = "Forziere d'Argento",	-- Silver Strongbox
 	[353231] = "Cassa Legaossa",	-- Bonebound Chest
@@ -2792,13 +2655,14 @@ for key,value in pairs({
 	[353516] = "Forziere d'Argento",	-- Silver Strongbox
 	[353626] = "Cassetta degli Attrezzi Chiusa",	-- Locked Toolbox
 	[353627] = "Razioni del Fronte di Battaglia",	-- Battlefront Rations
-	--TODO: [353643] = "Silver Strongbox",	-- Silver Strongbox
+	[353643] = "Forziere d'Argento",	-- Silver Strongbox
 	[353645] = "Diario di Marileth",	-- Marileth's Journal
 	[353650] = "Forziere Dorato del Factotum",	-- Steward's Golden Chest
 	[353681] = "Baccello della Luce Lunare",	-- Lunarlight Pod
 	[353683] = "Baccello della Luce Lunare",	-- Lunarlight Pod
 	[353684] = "Baccello della Luce Lunare",	-- Lunarlight Pod
 	[353685] = "Baccello della Luce Lunare",	-- Lunarlight Pod
+	[353686] = "Baccello della Luce Lunare",	-- Lunarlight Pod
 	[353687] = "Campana Rotta",	-- Broken Bell
 	[353688] = "Campana Rotta",	-- Broken Bell
 	[353691] = "Campana della Vetta",	-- Skyward Bell
@@ -2856,9 +2720,10 @@ for key,value in pairs({
 	[354650] = "Cuore di Cantonirico",	-- Dreamsong Heart
 	[354651] = "Acchiappasogni Incantato",	-- Enchanted Dreamcatcher
 	[354652] = "Collezione dei Silfidi",	-- Faerie Trove
+	[354662] = "Scrigno Elusivo dei Silfidi",	-- Elusive Faerie Cache
 	[354852] = "Crescita Germogliante",	-- Sprouting Growth
 	[354853] = "Crescita Germogliante",	-- Sprouting Growth
-	--TODO: [354856] = "Slime-Coated Crate",	-- Slime-Coated Crate
+	[354856] = "Cassa Coperta di Poltiglia",	-- Slime-Coated Crate
 	[354911] = "Seme dell'Animum Rigonfio",	-- Swollen Anima Seed
 	[355000] = "Scrigno della Notte",	-- Cache of the Night
 	[355035] = "Scrigno Runico Prescelto",	-- Treasure: House of the Chosen
@@ -2878,10 +2743,10 @@ for key,value in pairs({
 	[355947] = "Cassa di Glutharn",	-- Glutharn's Stash
 	[356555] = "La Collana di Eurydea",	-- Eurydea's Necklace
 	--TODO: [356693] = "Baroness Vashj's Extravagant Tribute",	-- Baroness Vashj's Extravagant Tribute
-	--TODO: [356697] = "Alexandros Mograine's Extravagant Tribute",	-- Alexandros Mograine's Extravagant Tribute
+	[356697] = "Tributo Smodato di Alexandros Mograine",	-- Alexandros Mograine's Extravagant Tribute
 	[356700] = "Tributo Smodato del Gran Maestro Vole",	-- Grandmaster Vole's Extravagant Tribute
-	--TODO: [356705] = "Plague Deviser Marileth's Extravagant Tribute",	-- Plague Deviser Marileth's Extravagant Tribute
-	--TODO: [356709] = "Lady Moonberry's Extravagant Tribute",	-- Lady Moonberry's Extravagant Tribute
+	[356705] = "Tributo Smodato dell'Architetto della Piaga Marileth",	-- Plague Deviser Marileth's Extravagant Tribute
+	[356709] = "Tributo Smodato di Dama Baccaluna",	-- Lady Moonberry's Extravagant Tribute
 	[356712] = "Tributo Smodato del Capitano della Caccia Korayn",	-- Hunt-Captain Korayn's Extravagant Tribute
 	--TODO: [356716] = "Droman Aliothe's Extravagant Tribute",	-- Droman Aliothe's Extravagant Tribute
 	--TODO: [356720] = "Choofa's Extravagant Tribute",	-- Choofa's Extravagant Tribute
@@ -2923,9 +2788,10 @@ for key,value in pairs({
 	[358318] = "Ritratto del Dragatore di R. Suavel",	-- R. Suavel Dredger Portrait
 	[358319] = "Nota dell'Occultista",	-- Sorceror's Note
 	[358382] = "Ricercato: Chelicera",	-- Wanted: Chelicera
+	[358531] = "Cassa Gigante di Tesori Epici",	-- Giant Cache of Epic Treasure
 	[358533] = "Rifornimenti Dimenticati",	-- Forgotten Supplies
 	[358855] = "Zaino della Caduta Sicura Danneggiato",	-- Damaged Safe Fall Pack
-	--TODO: [360054] = "Slime Cat",	-- Slime Cat
+	[360054] = "Gatto Appiccicoso",	-- Sticky Cat
 	[362489] = "Decreto Elisio",	-- Elysian Decree
 	[364483] = "Barile di Cicchetti Vuoto",	-- Empty Nightcap Cask
 	[364899] = "Stigia Cristallizzata",	-- Crystallized Stygia
@@ -2953,6 +2819,14 @@ for key,value in pairs({
 	[368668] = "Tronco di Abominietto",	-- Lil'Abom's Trunk
 	[368772] = "Pergamena con Sigillo",	-- Sigilscored Scroll
 	[368876] = "Scrigno dei Giurafauce",	-- Mawsworn Cache
+	--TODO: [368935] = "Sinfall Screecher Cage",	-- Sinfall Screecher Cage
+	[368946] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
+	[368948] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
+	[368949] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
+	[368950] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
+	[368951] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
+	[368952] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
+	[368953] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
 	[369129] = "Vera d'Oro di Nilganihmaht",	-- Nilganihmaht's Gold Band
 	[369132] = "Cassa Sigillata del Dominio",	-- Domination Sealed Chest
 	[369133] = "Sigillo del Dominio #1",	-- Domination Seal #1
@@ -2960,7 +2834,7 @@ for key,value in pairs({
 	[369135] = "Sigillo del Dominio #2",	-- Domination Seal #2
 	[369138] = "Sigillo della Cassa del Dominio",	-- Domination Chest Seal
 	[369141] = "Scrigno dei Giurafauce",	-- Mawsworn Cache
-	--TODO: [369143] = "Quartered Ancient Ring",	-- Quartered Ancient Ring
+	[369143] = "Anello Antico Diviso in Quattro",	-- Quartered Ancient Ring
 	[369144] = "Mazzo di Chiavi della Straziatrice",	-- The Harrower's Key Ring
 	[369145] = "Cassa di Rifornimenti di Helgarde",	-- Helgarde Supply Cache
 	[369148] = "Materiale del Nido Scintillante",	-- Glittering Nest Material
@@ -2973,7 +2847,10 @@ for key,value in pairs({
 	[369216] = "Cassa degli Helsvorn",	-- Helsworn Chest
 	[369224] = "Cuore di Ezekiel Ingioiellato",	-- Jeweled Heart of Ezekiel
 	[369225] = "Vestigia Infestate",	-- Infested Vestige
+	[369227] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
 	[369232] = "Scatola delle Offerte",	-- Offering Box
+	[369235] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
+	[369236] = "Ricettacolo d'Animum Rubato",	-- Stolen Anima Vessel
 	[369245] = "Scatola di Reliquie di Korthia",	-- Korthian Relic Box
 	[369292] = "Cassa di Reliquie",	-- Relic Cache
 	[369296] = "Scorte dei Pellescheggia",	-- Shardhide Stash
@@ -2992,6 +2869,7 @@ for key,value in pairs({
 	[369339] = "Scrigno dei Giurafauce",	-- Mawsworn Cache
 	[369340] = "Scatola di Reliquie di Korthia",	-- Korthian Relic Box
 	[369341] = "Scrigno dei Giurafauce",	-- Mawsworn Cache
+	[369432] = "Tomo dei Venthyr Smarrito",	-- Misplaced Venthyr Tome
 	[369437] = "Cassa Vincolata alla Fenditura",	-- Riftbound Cache
 	[369438] = "Cassa Vincolata alla Fenditura",	-- Riftbound Cache
 	[369439] = "Cassa Vincolata alla Fenditura",	-- Riftbound Cache
@@ -3021,8 +2899,44 @@ for key,value in pairs({
 	--TODO: [9999921] = "Placement",	-- Placement
 	--TODO: [9999938] = "Uuna's World Tour",	-- Uuna's World Tour
 	--TODO: [9999946] = "Summon Baa'l",	-- Summon Baa'l
-	--TODO: [1278968750] = "Hanging Chain",	-- Hanging Chain
-	--TODO: [1278968751] = "Lunarlight Pod",	-- Lunarlight Pod
+	--TODO: [13000000] = "|cFFFFFFFFStep 1:|r Purchase Talisman of True Treasure Tracking",	-- |cFFFFFFFFStep 1:|r Purchase Talisman of True Treasure Tracking
+	--TODO: [13000001] = "|cFFFFFFFFStep 2:|r Equip Talisman",	-- |cFFFFFFFFStep 2:|r Equip Talisman
+	--TODO: [13000002] = "|cFFFFFFFFItem 1:|r Scintillating Murloc Skin Lotion",	-- |cFFFFFFFFItem 1:|r Scintillating Murloc Skin Lotion
+	--TODO: [13000003] = "Glittergill Glitter",	-- Glittergill Glitter
+	--TODO: [13000004] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
+	--TODO: [13000005] = "|cFFFFFFFFStep 2:|r Cavity-Free Great Shark Tooth",	-- |cFFFFFFFFStep 2:|r Cavity-Free Great Shark Tooth
+	--TODO: [13000006] = "|cFFFFFFFFStep 3:|r Razoreel Larva",	-- |cFFFFFFFFStep 3:|r Razoreel Larva
+	--TODO: [13000007] = "|cFFFFFFFFStep 4:|r Well-Fed Doctor Fish",	-- |cFFFFFFFFStep 4:|r Well-Fed Doctor Fish
+	--TODO: [13000008] = "|cFFFFFFFFStep 5:|r Freshly Molted Crab Skin",	-- |cFFFFFFFFStep 5:|r Freshly Molted Crab Skin
+	--TODO: [13000009] = "|cFFFFFFFFStep 6:|r Glittergill Glitter",	-- |cFFFFFFFFStep 6:|r Glittergill Glitter
+	--TODO: [13000010] = "Symbiotic Plankton",	-- Symbiotic Plankton
+	--TODO: [13000011] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
+	--TODO: [13000012] = "|cFFFFFFFFStep 2:|r Giant Giant Toenail Clipping",	-- |cFFFFFFFFStep 2:|r Giant Giant Toenail Clipping
+	--TODO: [13000013] = "|cFFFFFFFFStep 3:|r Makrura Eye",	-- |cFFFFFFFFStep 3:|r Makrura Eye
+	--TODO: [13000014] = "|cFFFFFFFFStep 4:|r Accidentally-Severed Seahorse Fin",	-- |cFFFFFFFFStep 4:|r Accidentally-Severed Seahorse Fin
+	--TODO: [13000015] = "|cFFFFFFFFStep 5:|r Shiny Sea Serpent Scale",	-- |cFFFFFFFFStep 5:|r Shiny Sea Serpent Scale
+	--TODO: [13000016] = "|cFFFFFFFFStep 6:|r Symbiotic Plankton",	-- |cFFFFFFFFStep 6:|r Symbiotic Plankton
+	--TODO: [13000017] = "Scintillating Murloc Skin Lotion",	-- Scintillating Murloc Skin Lotion
+	--TODO: [13000018] = "|cFFFFFFFFItem 2:|r Potent Gastropod Gloop",	-- |cFFFFFFFFItem 2:|r Potent Gastropod Gloop
+	--TODO: [13000019] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
+	--TODO: [13000020] = "|cFFFFFFFFStep 2:|r Vantus Black Squid Ink",	-- |cFFFFFFFFStep 2:|r Vantus Black Squid Ink
+	--TODO: [13000021] = "|cFFFFFFFFStep 3:|r Super Slick Eel Slime",	-- |cFFFFFFFFStep 3:|r Super Slick Eel Slime
+	--TODO: [13000022] = "|cFFFFFFFFStep 4:|r Rock-Encrusted Whelk Shell",	-- |cFFFFFFFFStep 4:|r Rock-Encrusted Whelk Shell
+	--TODO: [13000023] = "|cFFFFFFFFStep 5:|r Potent Gastropod Gloop",	-- |cFFFFFFFFStep 5:|r Potent Gastropod Gloop
+	--TODO: [13000024] = "|cFFFFFFFFItem 3:|r Captured Cavitation Bubble",	-- |cFFFFFFFFItem 3:|r Captured Cavitation Bubble
+	--TODO: [13000025] = "|cFFFFFFFFStep 1:|r Seashell",	-- |cFFFFFFFFStep 1:|r Seashell
+	--TODO: [13000026] = "|cFFFFFFFFStep 2:|r Very Pretty Coral",	-- |cFFFFFFFFStep 2:|r Very Pretty Coral
+	--TODO: [13000027] = "|cFFFFFFFFStep 3:|r Iridescent Shimmerray Skin",	-- |cFFFFFFFFStep 3:|r Iridescent Shimmerray Skin
+	--TODO: [13000028] = "|cFFFFFFFFStep 4:|r Luxurous Luxscale Scale",	-- |cFFFFFFFFStep 4:|r Luxurous Luxscale Scale
+	--TODO: [13000029] = "|cFFFFFFFFStep 5:|r Captured Cavitation Bubble",	-- |cFFFFFFFFStep 5:|r Captured Cavitation Bubble
+	--TODO: [13000030] = "Purchase Red Crystal Monocle",	-- Purchase Red Crystal Monocle
+	--TODO: [13000031] = "Red Crystal Monocle",	-- Red Crystal Monocle
+	--TODO: [13000032] = "|cFFFFFFFFStep 3:|r Pick a Monocle (Or Don't!)",	-- |cFFFFFFFFStep 3:|r Pick a Monocle (Or Don't!)
+	--TODO: [13000033] = "|cFFFFFFFFStep 4:|r Suramar Beams",	-- |cFFFFFFFFStep 4:|r Suramar Beams
+	--TODO: [13000034] = "|cFFFFFFFFStep 5:|r Cat Code",	-- |cFFFFFFFFStep 5:|r Cat Code
+	--TODO: [13000035] = "|cFFFFFFFFStep 6:|r Jumping Puzzle",	-- |cFFFFFFFFStep 6:|r Jumping Puzzle
+	--TODO: [13000036] = "|cFFFFFFFFStep 7:|r Arcane Lava",	-- |cFFFFFFFFStep 7:|r Arcane Lava
+	--TODO: [13000037] = "|cFFFFFFFFStep 8:|r Hivemind",	-- |cFFFFFFFFStep 8:|r Hivemind
 	--TODO: [1278968766] = "Rune",	-- Rune
 	--TODO: [1278968767] = "Rune",	-- Rune
 	--TODO: [1278968768] = "Rune",	-- Rune
@@ -3034,82 +2948,31 @@ do a[key] = value; end
 -- didn't use the same localization for the instance. Sorry.
 local a = L.SAVED_TO_DJ_INSTANCES;
 for key,value in pairs({
-	--TODO: ["The Escape from Durnholde"] = "Old Hillsbrad Foothills";
-	--TODO: ["Opening of the Dark Portal"] = "The Black Morass";
-	--TODO: ["Auchindoun: Auchenai Crypts"] = "Auchenai Crypts";
-	--TODO: ["Auchindoun: Mana-Tombs"] = "Mana-Tombs";
-	--TODO: ["Auchindoun: Sethekk Halls"] = "Sethekk Halls";
-	--TODO: ["Auchindoun: Shadow Labyrinth"] = "Shadow Labyrinth";
-	--TODO: ["Coilfang: Serpentshrine Cavern"] = "Serpentshrine Cavern";
-	--TODO: ["Coilfang: The Slave Pens"] = "The Slave Pens";
-	--TODO: ["Coilfang: The Steamvault"] = "The Steamvault";
-	--TODO: ["Coilfang: The Underbog"] = "The Underbog";
-	--TODO: ["Hellfire Citadel: Ramparts"] = "Hellfire Ramparts";
-	--TODO: ["Hellfire Citadel: The Blood Furnace"] = "The Blood Furnace";
-	--TODO: ["Hellfire Citadel: The Shattered Halls"] = "The Shattered Halls";
-	--TODO: ["Tempest Keep: The Arcatraz"] = "The Arcatraz";
-	--TODO: ["Tempest Keep: The Botanica"] = "The Botanica";
-	--TODO: ["Tempest Keep: The Mechanar"] = "The Mechanar";
-	--TODO: ["Stormwind Stockade"] = "The Stockade";
-	--TODO: ["Ahn'Qiraj Temple"] = "Temple of Ahn'Qiraj";
-	--TODO: ["Sunken Temple"] = "The Temple of Atal'hakkar";
-	--TODO: ["The Sunwell"] = "Sunwell Plateau";
-	--TODO: ["Tempest Keep"] = "The Eye";
-	--TODO: ["The Violet Hold"] = "Violet Hold";
-	--TODO: ["Magister's Terrace"] = "Magisters' Terrace";
-	--TODO: ["Violet Hold"] = "The Violet Hold";
 })
 do a[key] = value; end
 
 -- TODO:
 local a = L.UNOBTAINABLE_ITEM_REASONS;
 for key,value in pairs({
-		-- {header, description, name}, header: header id, 1-3 as above, 4 is legacy.
-		{1, "|CFFFF0000This was never available to players.|r", "Never Available (1)"}, -- No Hope -- 1
-		{1, "|CFFFF0000This has been removed from the game.|r", "Removed From Game (2)"}, -- No Hope -- 2
-		{0, "", ""}, -- 3
-		{0, "", ""}, -- 4
-		{0, "", ""}, -- 5
-		{0, "", ""}, -- 6
-		{0, "", ""}, -- 7
-		{0, "", ""}, -- 8
-		{3, "|CFFFF0000The source of this item has been removed and is only available with the Black Market Auction House.|r", "Black Market AH [BMAH] (9)"}, -- There is Hope -- 9
-		{3, "|CFFFF0000Item from TCG card is no longer in print, but still purchaseable online, sometimes BMAH, and possibly AH.|r", "Trading Card  Game [TCG] (10)"}, -- There is Hope -- 10
-		{3, "|CFFFF0000This item is Bind on Pickup but can be obtained if you have access to the items to summon the boss.|r", "Requires Summoning Items (11)"}, -- There is Hope -- 11
-		{0, "|CFF00FFDEThis item or achievement requires Player vs Player activities or a currency related to those activities. |r", "Requires PvP (12)"}, -- There is Hope --, ""}, -- 12
-		{1, "|CFFFF0000Your followers are too high and the mission for the cache will no longer spawn.|r", "Legacy Cache (13)"}, -- 13
-		{3, "|CFFFF0000These items can't be purchased unless you have the required PvP Rating or were in the Top % of that season.|r", "PvP Elite/Gladiator (14)"}, -- 14
-		{1, "|CFFFF0000This item has a Source ID (Tempest Keep Legendaries), but can't be learned (training recipes). |r", "Training Recipes / Unlearnable (15)"}, -- 15
-		{0, "", ""},--16
-		{6, "|CFF00FFDEMay require Lunar Festival to be active to obtain this item.|r", "Lunar Festival (17)"},--17
-		{7, "|CFF00FFDEMay require Love is In the Air to be active to obtain this item.|r", "Love is In the Air (18)"},--18
-		{8, "|CFF00FFDEMay require Noblegarden to be active to obtain this item.|r", "Noblegarden (19)"},--19
-		{9, "|CFF00FFDEMay require Children's Week to be active to obtain this item.|r", "Children's Week (20)"},--20
-		{10, "|CFF00FFDEMay require Midsummer Fire Festival to be active to obtain this item.|r", "Midsummer Fire Festival (21)"},--21
-		{11, "", "Micro-Holiday (22)"},--22 Description written on item
-		{12, "|CFF00FFDEMay require Pirates' Day to be active to obtain this item.|r", "Pirates' Day (23)"},--23
-		{13, "|CFF00FFDEMay require Brewfest to be active to obtain this item.|r", "Brewfest (24)"},--24
-		{14, "|CFF00FFDEMay require Harvest Festival to be active to obtain this item.|r", "Harvest Festival (25)"},--25
-		{15, "|CFF00FFDEMay require Hallow's End to be active to obtain this item.|r", "Hallow's End (26)"},--26
-		{16, "|CFF00FFDEMay require Day of the Dead to be active to obtain this item.|r", "Day of the Dead (27)"},--27
-		{17, "|CFF00FFDEMay require Pilgrim's Bounty to be active to obtain this item.|r", "Pilgrim's Bounty (28)"},--28
-		{18, "|CFF00FFDEMay require Feast of Winter Veil to be active to obtain this item.|r", "Feast of Winter Veil (29)"},--29
-		{19, "|CFF00FFDEMay require Stranglethorn Fishing Extravaganza to be active.|r", "Stranglethorn Fishing Extravaganza (30) "},--30
-		{20, "|CFF00FFDEThis was only obtainable during the WoW Anniversary it was active.\nIt's a possibility future anniversaries may include this item.|r\n", "WoW Anniversary (31)"},--31
-		{0, "", ""}, --32
-		{0, "", ""}, -- 33
-		{0, "", ""}, --34
-		{3, "|CFFFF0000This may be locked behind a paywall, probably the in-game shop, another Blizzard game, or Recruit A Friend.|r", "Blizzard Balance (35)"}, --35
-		{1, "|CFFFF0000This was obtainable only during the WoW Anniversary when it was active and is no longer available.|r\n", "WoW Anniversary [Removed] (36)"}, -- 36
-		{0, "", ""}, --37
-		{1, "|CFFFF0000These items are only available for players that completed the Legendary Cloak quest chain during Mists of Pandaria or via the BMAH|r", "Ordos - Legendary Cloak (38)"}, --38
-		{0, "", ""}, --39
-		{0, "", ""}, -- 40
-		{1, "|CFFFF0000These appearances are only available for players that completed the respective Mage Tower Artifact Challenges and earned the base appearance.|r", "Mage Tower Appearances (41)"}, -- 41
-		{21, "|CFFFF0000These appearances are only available during the weekly Timewalking Event.\nOnly dungeons released during the featured expansion will be available.|r", "Timewalking (42)"}, -- 42
-		{0, "", ""}, -- 43
-		{0, "", ""}, -- 44
-		{1, "|CFFFF0000Blizzard's Loot changes broke several Items and made them Unobtainable.\nHouse of Nobles Cape/Gurubashi Empire Greatcloak (both BFA Emissary Rewards) & Ogom the Mangler \nare currently broken and need to be fixed.|r", "Broken Loot (45)"}, -- 45
+	-- Seasonal Filters
+		[1000] = {4, "|CFF00FFDEThis requires the Brewfest Holiday to be Active.|r", "Festa della Birra"},
+		[1001] = {4, "|CFF00FFDEThis requires the Children's Week Holiday to be Active.|r", "Settimana dei Bambini"},
+		[1012] = {4, "|CFF00FFDEThis requires the Darkmoon Faire Holiday to be Active.|r", "Fiera di Lunacupa" },
+		[1002] = {4, "|CFF00FFDEThis requires the Day of the Dead Holiday to be Active.|r", "Giorno dei Morti"},
+		[1003] = {4, "|CFF00FFDEThis requires the Feast of Winter Veil Holiday to be Active.|r", "Vigilia di Grande Inverno"},
+		[1009] = {4, "|CFF00FFDEThis requires the Fireworks Celebration Holiday to be Active.|r", "Celebrazione Pirotecnica" },
+		[1004] = {4, "|CFF00FFDEThis requires the Hallow's End Holiday to be Active.|r", "Veglia delle Ombre"},
+		[1005] = {4, "|CFF00FFDEThis requires the Harvest Festival Holiday to be Active.|r", "Sagra del Raccolto"},
+		[1006] = {4, "|CFF00FFDEThis requires the Love is in the Air Holiday to be Active.|r", "Amore nell'Aria"},
+		[1007] = {4, "|CFF00FFDEThis requires the Lunar Festival Holiday to be Active.|r", "Celebrazione della Luna"},
+		[1014] = {4, "|CFF00FFDEThis requires a Specific Micro Holiday to be Active.|r", "Micro Holiday"},
+		[1008] = {4, "|CFF00FFDEThis requires the Midsummer Fire Festival Holiday to be Active.|r", "Fuochi di Mezza Estate"},
+		[1010] = {4, "|CFF00FFDEThis requires the Noblegarden Holiday to be Active.|r", "Festa di Nobiluova"},
+		[1013] = {4, "|CFF00FFDEThis requires the Pilgrim's Bounty Holiday to be Active.|r", "Ringraziamento del Pellegrino"},
+		[1011] = {4, "|CFF00FFDEThis requires the Pirates' Day Holiday to be Active.|r", "Giorno dei Pirati"},
+		[1015] = {4, "|CFF00FFDEThis requires the Stranglethorn Fishing Extravaganza to be active.|r", "Gara di Pesca a Rovotorto"},
+		[1016] = {4, "|CFF00FFDEThis requires the Timewalking Event to be active.|r", "Viaggio nel Tempo"},
+		[1017] = {4, "|CFF00FFDEThis requires the WoW's Anniversary to be active.|r", "Anniversario di WoW"},
 })
 do a[key] = value; end
 

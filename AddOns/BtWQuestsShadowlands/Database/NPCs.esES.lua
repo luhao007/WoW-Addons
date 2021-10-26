@@ -747,11 +747,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "El Prelado",
     },
+    [177228] = {
+        name = "Alto señor Bolvar Fordragón",
+    },
     [177919] = {
         name = "Mensaje urgente de Ardenweald",
     },
     [178260] = {
         name = "La Pedregosa",
+    },
+    [180074] = {
+        name = "Lady Jaina Valiente",
     },
 })
 ]])()

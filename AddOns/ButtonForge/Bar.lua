@@ -1640,7 +1640,19 @@ function Bar:SetVD(VDText)
 		VDText = VDText or "";
 		if (VDText ~= "") then
 			self.VDButton:SetNormalTexture(Const.ImagesDir.."VDriverSet.tga");
-			RegisterStateDriver(self.ButtonFrame, "visibility", Text..VDText);
+
+			-- Note: Only 1 custom macro per type is allowed
+
+			VDText_Modified = VDText;
+
+			-- Support for custom macro "[map:mapID]"
+			VDText_Modified = Util.CustomMacro_Map(VDText_Modified);
+
+			-- Support for custom macro "[quest:questID]"
+			VDText_Modified = Util.CustomMacro_Quest(VDText_Modified);
+
+			RegisterStateDriver(self.ButtonFrame, "visibility", Text..VDText_Modified);
+
 			self.VDButton.Tooltip = Util.GetLocaleString("VisibilityTooltip").."|c"..Const.DarkBlue..VDText.."|r";
 		else
 			self.VDButton:SetNormalTexture(Const.ImagesDir.."VDriver.tga");
@@ -1658,6 +1670,15 @@ function Bar:SetVD(VDText)
 end
 function Bar:GetVD()
 	return self.BarSave["VDriver"];
+end
+function Bar:ApplyCustomMacrosVD()
+	VDText = self:GetVD();
+	-- we only need to reapply the VD for custom macros
+	local VDText_Map   = Util.CustomMacro_Map(VDText);
+	local VDText_Quest = Util.CustomMacro_Quest(VDText);
+	if ( VDText_Map ~= VDText or VDText_Quest ~= VDText ) then
+		self:SetVD(VDText);
+	end
 end
 function Bar:CancelInputVD()
 	self.VDButton:SetChecked(false);

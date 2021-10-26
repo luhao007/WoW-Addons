@@ -1011,6 +1011,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [168485] = {
         name = "阿波隆",
     },
+    [168517] = {
+        name = "卡莉賽恩",
+    },
     [168618] = {
         name = "告密者泰斯勒",
     },
@@ -1359,6 +1362,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "統御者",
     },
+    [177228] = {
+        name = "大領主伯瓦爾‧弗塔根",
+    },
     [177919] = {
         name = "亞登曠野的緊急通知",
     },
@@ -1368,8 +1374,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [178260] = {
         name = "石鑄宗匠",
     },
+    [178792] = {
+        name = "塔梅利",
+    },
     [179356] = {
         name = "薩尼歐斯",
+    },
+    [180073] = {
+        name = "索爾",
+    },
+    [180074] = {
+        name = "珍娜‧普勞德摩爾女士",
     },
 })
 ]])()

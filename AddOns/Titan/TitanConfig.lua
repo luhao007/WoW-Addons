@@ -710,7 +710,7 @@ local optionsBars = {
 			get = function() return (TitanPanelGetVar("Bar_Show")) end,
 			set = function()
 					TitanPanelToggleVar("Bar_Show")
-					TitanPanelBarButton_DisplayBarsWanted()
+					TitanPanelBarButton_DisplayBarsWanted("Bar_Show "..tostring(TitanPanelGetVar("Bar_Show")))
 					end,
 		},
 		optiontophide = {
@@ -747,7 +747,7 @@ local optionsBars = {
 			get = function() return TitanPanelGetVar("Bar2_Show") end,
 			set = function()
 					TitanPanelToggleVar("Bar2_Show")
-					TitanPanelBarButton_DisplayBarsWanted()
+					TitanPanelBarButton_DisplayBarsWanted("Bar2_Show "..tostring(TitanPanelGetVar("Bar2_Show")))
 					end,
 		},
 		optionbottomhide = {
@@ -828,7 +828,7 @@ local optionsAuxBars = {
 			get = function() return (TitanPanelGetVar("AuxBar_Show")) end,
 			set = function()
 					TitanPanelToggleVar("AuxBar_Show")
-					TitanPanelBarButton_DisplayBarsWanted()
+					TitanPanelBarButton_DisplayBarsWanted("AuxBar_Show "..tostring(TitanPanelGetVar("AuxBar_Show")))
 					end,
 		},
 		optiontophide = {
@@ -861,7 +861,7 @@ local optionsAuxBars = {
 			get = function() return TitanPanelGetVar("AuxBar2_Show") end,
 			set = function()
 					TitanPanelToggleVar("AuxBar2_Show")
-					TitanPanelBarButton_DisplayBarsWanted()
+					TitanPanelBarButton_DisplayBarsWanted("AuxBar2_Show "..tostring(TitanPanelGetVar("AuxBar2_Show")))
 					end,
 		},
 		optionbottomhide = {

@@ -942,6 +942,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "Le Primat",
     },
+    [177228] = {
+        name = "Généralissime Bolvar Fordragon",
+    },
     [177919] = {
         name = "Message urgent de Sylvarden",
     },
@@ -950,6 +953,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [179356] = {
         name = "Thénios",
+    },
+    [180074] = {
+        name = "Dame Jaina Portvaillant",
     },
 })
 ]])()

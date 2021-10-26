@@ -5,6 +5,7 @@ local DF = _G.DetailsFramework
 
 local IS_WOW_PROJECT_MAINLINE = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 local IS_WOW_PROJECT_NOT_MAINLINE = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
+local IS_WOW_PROJECT_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 --stop yellow lines on my editor
 local tinsert = _G.tinsert
@@ -27,7 +28,6 @@ local UnitAuraSlots = _G.UnitAuraSlots
 local UnitAuraBySlot = _G.UnitAuraBySlot
 local UnitAura = _G.UnitAura
 local BackdropTemplateMixin = _G.BackdropTemplateMixin
-local NamePlateTooltip = _G.NamePlateTooltip
 local BUFF_MAX_DISPLAY = _G.BUFF_MAX_DISPLAY
 local _
 
@@ -37,14 +37,18 @@ local DB_AURA_PADDING
 local DB_AURA_SEPARATE_BUFFS
 local DB_SHOW_PURGE_IN_EXTRA_ICONS
 local DB_SHOW_ENRAGE_IN_EXTRA_ICONS
+local DB_SHOW_MAGIC_IN_EXTRA_ICONS
 local DB_DEBUFF_BANNED
 local DB_AURA_SHOW_IMPORTANT
 local DB_AURA_SHOW_BYPLAYER
+local DB_AURA_SHOW_BYOTHERPLAYERS
 local DB_BUFF_BANNED
 local DB_AURA_SHOW_DISPELLABLE
 local DB_AURA_SHOW_ENRAGE
+local DB_AURA_SHOW_MAGIC
 local DB_AURA_SHOW_BYUNIT
 local DB_AURA_ALPHA
+local DB_AURA_ENABLED
 
 local DebuffTypeColor = _G.DebuffTypeColor
 
@@ -92,20 +96,35 @@ local MANUAL_TRACKING_DEBUFFS = {}
 local AUTO_TRACKING_EXTRA_BUFFS = {}
 local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 
+-- support for LibClassicDurations from https://github.com/rgd87/LibClassicDurations by d87
+local UnitAura = _G.UnitAura
+local LCD = LibStub:GetLibrary("LibClassicDurations", true)
+if IS_WOW_PROJECT_CLASSIC_ERA and LCD then
+	LCD:Register(Plater)
+	LCD.RegisterCallback(Plater, "UNIT_BUFF", function(event, unit)end)
+	UnitAura = LCD.UnitAuraWithBuffs
+end
 
+local NamePlateTooltip = _G.NamePlateTooltip -- can be removed later
+local PlaterNamePlateAuraTooltip = CreateFrame("GameTooltip", "PlaterNamePlateAuraTooltip", UIParent, "GameTooltipTemplate")
+PlaterNamePlateAuraTooltip:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Buttons\WHITE8X8]], tileSize = 0, tile = false, tileEdge = true})
+PlaterNamePlateAuraTooltip:SetBackdropColor (0.05, 0.05, 0.05, 0.8)
+PlaterNamePlateAuraTooltip:SetBackdropBorderColor (0, 0, 0, 1)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> aura buffs and debuffs ~aura ~buffs ~debuffs ~auras
 
 	--> show the tooltip in the aura icon
 	function Plater.OnEnterAura (iconFrame) --private
-		NamePlateTooltip:SetOwner (iconFrame, "ANCHOR_LEFT")
-		NamePlateTooltip:SetUnitAura (iconFrame:GetParent().unit, iconFrame:GetID(), iconFrame.filter)
+		PlaterNamePlateAuraTooltip:SetOwner (iconFrame, "ANCHOR_LEFT")
+		PlaterNamePlateAuraTooltip:SetUnitAura (iconFrame:GetParent().unit, iconFrame:GetID(), iconFrame.filter)
 		iconFrame.UpdateTooltip = Plater.OnEnterAura
 	end
 
 	function Plater.OnLeaveAura (iconFrame) --private
-		NamePlateTooltip:Hide()
+		PlaterNamePlateAuraTooltip:Hide()
+		if NamePlateTooltip:IsForbidden() then return end
+		NamePlateTooltip:Hide() -- backwards compatibility for mods (should be removed later)
 	end
 	
 	--called from the options panel, request a refresh on all auras shown
@@ -565,6 +584,10 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		local auraIconFrame = self.PlaterBuffList [i]
 		self.NextAuraIcon = self.NextAuraIcon + 1
 		
+		auraIconFrame:SetAlpha(1)
+		auraIconFrame.Icon:SetDesaturated(false)
+		auraIconFrame.Cooldown:Show()
+
 		return auraIconFrame, self
     end
     
@@ -1000,9 +1023,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
 					if IS_WOW_PROJECT_MAINLINE then
 						local slot = slots[i]
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot(unit, slot)
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot(unit, slot)
 					else
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId = UnitAura(unit, i-1, "HELPFUL")
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAura(unit, i-1, "HELPFUL")
 						if not name then
 							break
 						end
@@ -1027,7 +1050,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> check for special auras auto added by setting like 'show crowd control' or 'show dispellable'
 						--> SPECIAL_AURAS_AUTO_ADDED has a list of crowd control not do not have a list of dispellable, so check if canStealOrPurge.
 						--> in addition, we want to check if enrage tracking is enabled and show enrage effects
-						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE)) then
+						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE) or (DB_SHOW_MAGIC_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_MAGIC)) then
 							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HELPFUL", buffIndex)
 						
 						--> check for special auras added by the user it self
@@ -1057,9 +1080,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
 					if IS_WOW_PROJECT_MAINLINE then
 						local slot = slots[i]
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot(unit, slot)
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot(unit, slot)
 					else
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId = UnitAura(unit, i-1, "HARMFUL")
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAura(unit, i-1, "HARMFUL")
 						if not name then
 							break
 						end
@@ -1150,9 +1173,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
 					if IS_WOW_PROJECT_MAINLINE then
 						local slot = slots[i]
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot(unit, slot)
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot(unit, slot)
 					else
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId = UnitAura(unit, i-1, "HARMFUL")
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAura(unit, i-1, "HARMFUL")
 						if not name then
 							break
 						end
@@ -1186,6 +1209,10 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> is casted by the player
 						elseif (DB_AURA_SHOW_BYPLAYER and caster and (UnitIsUnit (caster, "player") or UnitIsUnit (caster, "pet") or Plater.PlayerPetCache[UnitGUID(caster)])) then
 							can_show_this_debuff = true
+							
+						--> is casted by other players
+						elseif (DB_AURA_SHOW_BYOTHERPLAYERS and isCastByPlayer and caster and not UnitIsUnit (caster, "player")) then
+							can_show_this_debuff = true	
 							
 						--> user added this buff to track in the buff tracking tab
 						elseif (AUTO_TRACKING_EXTRA_DEBUFFS [name] or AUTO_TRACKING_EXTRA_DEBUFFS [spellId]) then
@@ -1233,9 +1260,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
 					if IS_WOW_PROJECT_MAINLINE then
 						local slot = slots[i]
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot(unit, slot)
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot(unit, slot)
 					else
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId = UnitAura(unit, i-1, "HELPFUL")
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAura(unit, i-1, "HELPFUL")
 						if not name then
 							break
 						end
@@ -1267,7 +1294,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--> check for special auras auto added by setting like 'show crowd control' or 'show dispellable'
 						--> SPECIAL_AURAS_AUTO_ADDED has a list of crowd control not do not have a list of dispellable, so check if canStealOrPurge
 						--> in addition, we want to check if enrage tracking is enabled and show enrage effects
-						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE)) then
+						if (SPECIAL_AURAS_AUTO_ADDED [name] or SPECIAL_AURAS_AUTO_ADDED [spellId] or (DB_SHOW_PURGE_IN_EXTRA_ICONS and canStealOrPurge) or (DB_SHOW_ENRAGE_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_ENRAGE) or (DB_SHOW_MAGIC_IN_EXTRA_ICONS and actualAuraType == AURA_TYPE_MAGIC)) then
 							Plater.AddExtraIcon (self, name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, "HELPFUL", buffIndex)
 						else
 							--> important aura
@@ -1285,11 +1312,21 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 								local auraIconFrame, buffFrame = Plater.GetAuraIcon (self, true)
 								Plater.AddAura (buffFrame, auraIconFrame, buffIndex, name, texture, count, auraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, nil, nil, nil, nil, actualAuraType)
 							
+							--> is magic
+							elseif (DB_AURA_SHOW_MAGIC and actualAuraType == AURA_TYPE_MAGIC) then
+								local auraIconFrame, buffFrame = Plater.GetAuraIcon (self, true)
+								Plater.AddAura (buffFrame, auraIconFrame, buffIndex, name, texture, count, auraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, nil, nil, nil, nil, actualAuraType)
+							
 							--> is casted by the player
 							elseif (DB_AURA_SHOW_BYPLAYER and caster and UnitIsUnit (caster, "player")) then
 								local auraIconFrame, buffFrame = Plater.GetAuraIcon (self, true)
 								Plater.AddAura (buffFrame, auraIconFrame, buffIndex, name, texture, count, auraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, nil, nil, nil, nil, actualAuraType)
-							
+								
+							--> is casted by other players
+							elseif (DB_AURA_SHOW_BYOTHERPLAYERS and isCastByPlayer and caster and not UnitIsUnit (caster, "player")) then
+								local auraIconFrame, buffFrame = Plater.GetAuraIcon (self, true)
+								Plater.AddAura (buffFrame, auraIconFrame, buffIndex, name, texture, count, auraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, nil, nil, nil, nil, actualAuraType)
+								
 							--> is casted by the unit it self
 							elseif (DB_AURA_SHOW_BYUNIT and caster and UnitIsUnit (caster, unit) and not isCastByPlayer) then
 								local auraIconFrame, buffFrame = Plater.GetAuraIcon (self, true)
@@ -1335,10 +1372,10 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			continuationToken = slots[1]
 			for i=2, #slots do
 				local slot = slots[i];
-				local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot(unitId, slot)
+				local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot(unitId, slot)
 				if (name) then
 					if (name:lower()  == spellName) then
-						return name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
+						return name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod
 					end
 				end
 			end
@@ -1350,10 +1387,10 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			continuationToken = slots[1]
 			for i=2, #slots do
 				local slot = slots[i];
-				local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot(unitId, slot)
+				local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot(unitId, slot)
 				if (name) then
 					if (name:lower()  == spellName) then
-						return name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
+						return name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod
 					end
 				end
 			end
@@ -1386,9 +1423,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
 					if IS_WOW_PROJECT_MAINLINE then
 						local slot = slots[i]
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot("player", slot)
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot("player", slot)
 					else
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId = UnitAura("player", i-1, "HARMFUL")
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAura("player", i-1, "HARMFUL")
 						if not name then
 							break
 						end
@@ -1443,9 +1480,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					local name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll
 					if IS_WOW_PROJECT_MAINLINE then
 						local slot = slots[i]
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll = UnitAuraBySlot("player", slot)
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAuraBySlot("player", slot)
 					else
-						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId = UnitAura("player", i-1, "HELPFUL|PLAYER")
+						name, texture, count, actualAuraType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod = UnitAura("player", i-1, "HELPFUL|PLAYER")
 						if not name then
 							break
 						end
@@ -1481,7 +1518,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 
 
     --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> aura test - when the options panel is opened at the buff settings
+--> aura ~test - when the options panel is opened at the buff settings
 
 	function Plater.CreateAuraTesting()
 
@@ -1638,6 +1675,7 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 
 		DB_SHOW_PURGE_IN_EXTRA_ICONS = profile.extra_icon_show_purge
 		DB_SHOW_ENRAGE_IN_EXTRA_ICONS = profile.extra_icon_show_enrage
+		DB_SHOW_MAGIC_IN_EXTRA_ICONS = profile.extra_icon_show_magic
 
 		--list of auras the user added into the track list for special auras
 		wipe (SPECIAL_AURAS_USER_LIST)
@@ -1721,7 +1759,9 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 		DB_AURA_SHOW_IMPORTANT = profile.aura_show_important
 		DB_AURA_SHOW_DISPELLABLE = profile.aura_show_dispellable
 		DB_AURA_SHOW_ENRAGE = profile.aura_show_enrage
+		DB_AURA_SHOW_MAGIC = profile.aura_show_magic
 		DB_AURA_SHOW_BYPLAYER = profile.aura_show_aura_by_the_player
+		DB_AURA_SHOW_BYOTHERPLAYERS = profile.aura_show_aura_by_other_players
 		DB_AURA_SHOW_BYUNIT = profile.aura_show_buff_by_the_unit
 		DB_AURA_PADDING = profile.aura_padding
 
@@ -1769,9 +1809,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 			
 			wipe (AUTO_TRACKING_EXTRA_BUFFS)
 			wipe (AUTO_TRACKING_EXTRA_DEBUFFS)
-			
-			CAN_TRACK_EXTRA_BUFFS = false
-			CAN_TRACK_EXTRA_DEBUFFS = false
 
 			for spellId, flag in pairs (extraBuffsToTrack) do
 				local spellName = GetSpellInfo (tonumber(spellId) or spellId)
@@ -1781,7 +1818,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					else
 						AUTO_TRACKING_EXTRA_BUFFS [spellId] = true
 					end
-					CAN_TRACK_EXTRA_BUFFS = true
 				end
 			end
 			
@@ -1793,7 +1829,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 					else
 						AUTO_TRACKING_EXTRA_DEBUFFS [spellId] = true
 					end
-					CAN_TRACK_EXTRA_DEBUFFS = true
 				end
 			end
 			
@@ -1804,7 +1839,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--AUTO_TRACKING_EXTRA_DEBUFFS [spellName] = true
 						AUTO_TRACKING_EXTRA_DEBUFFS [spellId] = true
 						CROWDCONTROL_AURA_IDS [spellId] = true
-						CAN_TRACK_EXTRA_BUFFS = true
 					end
 				end
 			end
@@ -1816,7 +1850,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--AUTO_TRACKING_EXTRA_BUFFS [spellName] = true
 						AUTO_TRACKING_EXTRA_BUFFS [spellId] = true
 						OFFENSIVE_AURA_IDS [spellId] = true
-						CAN_TRACK_EXTRA_BUFFS = true
 					end
 				end
 			end
@@ -1828,7 +1861,6 @@ local AUTO_TRACKING_EXTRA_DEBUFFS = {}
 						--AUTO_TRACKING_EXTRA_BUFFS [spellName] = true
 						AUTO_TRACKING_EXTRA_BUFFS [spellId] = true
 						DEFENSIVE_AURA_IDS [spellId] = true
-						CAN_TRACK_EXTRA_BUFFS = true
 					end
 				end
 			end

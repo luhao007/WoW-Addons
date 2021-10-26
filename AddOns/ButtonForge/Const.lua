@@ -11,8 +11,13 @@ Const.SUMMON_RANDOM_FAVORITE_MOUNT_SPELL = 150544;
 Const.SUMMON_RANDOM_FAVORITE_MOUNT_ID = 268435455;
 Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_ID = "BattlePet-0-FFFFFFFFFFFFFF";
 Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_TEXTURE = "Interface/Icons/INV_Pet_Achievement_CaptureAPetFromEachFamily_Battle";
+Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_ID = 215769;
+Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_NAME = "Spirit of Redemption(PVP Talent)";
+Const.PRIEST_PVP_TALENT_INNER_LIGHT_ID = 355897;
+Const.PRIEST_PVP_TALENT_INNER_SHADOW_ID = 355898;
+Const.COVENANT_WARRIOR_FURY_CONDEMN_ID = 330325;
 Const.Version				= 1.0;
-Const.VersionMinor			= 0.4;
+Const.VersionMinor			= 0.9;
 Const.MAX_ACCOUNT_MACROS 	= 120;
 Const.ButtonNaming 			= "ButtonForge"
 Const.ButtonSeq 			= 1;					--This value will increment (so not technically a const...)
@@ -138,6 +143,9 @@ Const.SlashCommands["-macrocheckdelay"] = {params = "^%s*(%d+)%s*$", group = "gl
 Const.SlashCommands["-removemissingmacros"] = {params = "bool", group = "globalsettings"};
 Const.SlashCommands["-forceoffcastonkeydown"] = {params = "bool", group = "globalsettings"};
 Const.SlashCommands["-usecollectionsfavoritemountbutton"] = {params = "bool", group = "globalsettings"};
+
+Const.SlashCommands["-quests"] = {params = "^()$", incompat = {"ALL"}};
+Const.SlashCommands["-where"] = {params = "^()$", incompat = {"ALL"}};
 
 
 

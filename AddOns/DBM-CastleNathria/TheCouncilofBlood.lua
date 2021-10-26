@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210614184808")
+mod:SetRevision("20211011144558")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetBossHPInfoToHighest()
@@ -154,11 +154,11 @@ local allTimers = {
 		[330965] = {0, 0, 60},
 
 		--Drain Essence
-		[346654] = {27.3, 19.8, 48.3},
+		[346654] = {27.3, 19.8, 46.6},
 		--Prideful Eruption (P2+)
-		[346657] = {0, 43.3, 48.3},
+		[346657] = {0, 43.3, 46.6},
 		--Soul Spikes (P3+)
-		[346762] = {0, 0, 48.3},
+		[346762] = {0, 0, 46.6},
 
 		--Evasive Lunge
 		[327497] = {25, 19.6, 13.3},--Phase 2 lunge can get in a bugged state and spam every 10 seconds in rare cases
@@ -648,7 +648,7 @@ function mod:SPELL_CAST_START(args)
 			timerDutifulAttendantCD:UpdateInline(DBM_CORE_L.MYTHIC_ICON)
 		end
 		if self.Options.SetIconOnDutiful then
-			self:ScanForMobs(175992, 2, 8, 1, 0.2, 25, "SetIconOnDutiful")--creatureID, iconSetMethod, mobIcon, maxIcon, scanInterval, scanningTime, optionName
+			self:ScanForMobs(175992, 2, 8, 1, nil, 25, "SetIconOnDutiful")--creatureID, iconSetMethod, mobIcon, maxIcon, scanInterval, scanningTime, optionName
 		end
 	elseif spellId == 346800 then
 		specWarnWaltzofBlood:Show()
@@ -745,7 +745,12 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnDualistsRiposte:Show(amount)
 				specWarnDualistsRiposte:Play("stackhigh")
 			else
-				if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", spellId) then
+				local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if (not remaining or remaining and remaining < 18.7) and not UnitIsDeadOrGhost("player") then
 					specWarnDualistsRiposteTaunt:Show(args.destName)
 					specWarnDualistsRiposteTaunt:Play("tauntboss")
 				else
@@ -982,7 +987,7 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 	if msg:find("spell:337110") then
 		if self.Options.SetIconOnImage  then
-			self:ScanForMobs(172803, 2, 6, 1, 0.2, 10, "SetIconOnImage")--creatureID, iconSetMethod, mobIcon, maxIcon, scanInterval, scanningTime, optionName
+			self:ScanForMobs(172803, 2, 6, 1, nil, 10, "SetIconOnImage")--creatureID, iconSetMethod, mobIcon, maxIcon, scanInterval, scanningTime, optionName
 		end
 		local timer = allTimers[difficultyName][337110][self.vb.phase]
 		if timer then

@@ -372,12 +372,12 @@ Database:AddChain(Chain.SerpentshrineCavern, {
     },
     active = {
         type = "quest",
-        id = 13431,
+        ids = {13431, 10901},
         status = {'active', 'completed'},
     },
     completed = {
         type = "quest",
-        id = 13431,
+        ids = {13431, 10901},
     },
     items = {
         {
@@ -390,7 +390,7 @@ Database:AddChain(Chain.SerpentshrineCavern, {
         },
         {
             type = "quest",
-            id = 13431,
+            ids = {13431, 10901},
             x = 0,
         },
     },

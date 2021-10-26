@@ -1,6 +1,6 @@
 ## Interface: 90100
-## Author: Abatorlos(of Spinebreaker), DuskAshes, superk521, zuhligan, Grit (Legion Update), Mini_Dragon, LordKuper
-## Version: 3.9
+## Author: xGrit
+## Version: 3.10.2
 ## SavedVariables: GladiatorlosSADB
 
 ## Title: GladiatorlosSA

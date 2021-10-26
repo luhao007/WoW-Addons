@@ -122,7 +122,8 @@ C.DETECTION_METHODS = {
 	ARCH = "ARCH",
 	SPECIAL = "SPECIAL",
 	MINING = "MINING",
-	COLLECTION = "COLLECTION"
+	COLLECTION = "COLLECTION",
+	LOOT_TOAST = "LOOT_TOAST" -- Unused/NYI (but we'll get there later)
 }
 
 -- Categories (expansions-based, with some special types of items)
@@ -170,6 +171,7 @@ C.TOOLTIP_POSITIONS = {
 }
 
 C.SORT_METHODS = {
+	SORT_NONE = "None",
 	SORT_NAME = "SORT_NAME",
 	SORT_DIFFICULTY = "SORT_DIFFICULTY",
 	SORT_PROGRESS = "SORT_PROGRESS",

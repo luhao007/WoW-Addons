@@ -1,12 +1,9 @@
 # <DBM> World Bosses (Legion)
 
-## [r24](https://github.com/DeadlyBossMods/DBM-Legion/tree/r24) (2021-06-29)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Legion/compare/r23...r24) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Legion/releases)
+## [r26](https://github.com/DeadlyBossMods/DBM-Legion/tree/r26) (2021-10-11)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Legion/compare/r25...r26) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Legion/releases)
 
-- toc bump  
-- All Rights Reserved license (#8)  
-- Debom files (#7)  
-- De-BOM some TOC files  
-- Wago TOC  
-- Update ci.yml  
-    wago  
+- Fix improperly assigned icon method on scorpyron  
+- updated scanformobs  
+- Compat code cleanup  
+- Make skipped mark an optional behavior on Aggramar, since it's fixed with latest core.  

@@ -454,6 +454,13 @@ function GSA:OnOptionCreate()
 								type = 'toggle',
 								name = L["Alert Drinking"],
 								desc = L["In arena, alert when enemy is drinking"],
+								order = 15,
+							},
+							success = { -- CastSuccess
+								type = 'toggle',
+								name = L["CastingSuccess"],
+								desc = L["CastingSuccess_Desc"],
+								--disabled = function() return gsadb.castStart end,
 								order = 20,
 							},
 							--tankTauntsON = { -- AuraApplied
@@ -474,7 +481,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["CovenantAbilities"],
 								order = 32,
-								args = listOption({310143,327676,323095,323524,330752}, "auraApplied"),
+								args = listOption({310143,327676,323095,323524,330752,331937}, "auraApplied"),
 							},
 							dispelkickback = { -- AuraApplied
 								type = 'group',
@@ -516,7 +523,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cff69CCF0Mage|r"],
 								order = 90,
-								args = listOption({45438,12042,12472,198111,198144,86949,87024,190319,110909,342246,324220},"auraApplied"),
+								args = listOption({45438,12042,12472,198111,198144,86949,87024,190319,110909,342246,324220,353128,82691,353084},"auraApplied"),
 							},
 							monk = { -- AuraApplied
 								type = 'group',
@@ -601,7 +608,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["CovenantAbilities"],
 								order = 32,
-								args = listOption({323095,323524,330752}, "auraRemoved"),
+								args = listOption({323095,323524,330752,331937}, "auraRemoved"),
 							},
 							dk = { -- AuraRemoved
 								type = 'group',
@@ -754,7 +761,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cff69CCF0Mage|r"],
 								order = 80,
-								args = listOption({28271,28272,61305,61721,61025,61780,161372,161355,161353,161354,126819,118,31687,203286,199786,113724,257537,314793,307443,353082,353128,352278},"castStart"),
+								args = listOption({28271,28272,61305,61721,61025,61780,161372,161355,161353,161354,126819,118,31687,203286,199786,113724,257537,314793,307443,353082,352278},"castStart"),
 							},
 							monk = { -- CastStart
 								type = 'group',
@@ -827,13 +834,6 @@ function GSA:OnOptionCreate()
 								--disabled = function() return not gsadb.trinket end,
 								order = 13,
 							},
-							success = { -- CastSuccess
-								type = 'toggle',
-								name = L["CastingSuccess"],
-								desc = L["CastingSuccess_Desc"],
-								--disabled = function() return gsadb.castStart end,
-								order = 15,
-							},
 							connected = { -- CastSuccess
 								type = 'toggle',
 								name = L["Connected"],
@@ -864,14 +864,14 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["General Abilities"],
 								order = 30,
-								args = listOption({178207,2825,272678,80353,90355,160452,32182,204361,204362,28730,232633,25046,50613,69179,155145,129597,202719,80483,107079,20549,58984,20594,7744,59752,287712,295707,42292,214027,195710,208683,23034,23035,213664,6262,265221,256948,257040,255654},"castSuccess"),
+								args = listOption({178207,2825,272678,80353,90355,160452,32182,204361,204362,28730,232633,25046,50613,69179,155145,129597,202719,80483,107079,20549,58984,20594,7744,59752,287712,295707,42292,214027,195710,208683,23034,23035,213664,6262,265221,256948,257040,255654,356567},"castSuccess"),
 							},
 							covenants = { -- CastSuccess
 								type = 'group',
 								inline = true,
 								name = L["CovenantAbilities"],
 								order = 32,
-								args = listOption({324631,323436}, "castSuccess"),
+								args = listOption({324631,323436,332423,323916,352366}, "castSuccess"),
 							},
 							enemyInterrupts = { -- CastSuccess
 								type = 'group',
@@ -906,7 +906,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cffABD473Hunter|r"],
 								order = 80,
-								args = listOption({109248,109304,131894,208652,205691,201430,213691,187650,186387,1543,199483,236776,248518,325028,308491,257284,19577,324149,328231,212431,19574,356719,356707},"castSuccess"),
+								args = listOption({109248,109304,131894,208652,205691,201430,213691,187650,186387,1543,199483,236776,248518,325028,308491,257284,19577,324149,328231,212431,19574,356719,356707,136},"castSuccess"),
 							},
 							mage = { -- CastSuccess
 								type = 'group',

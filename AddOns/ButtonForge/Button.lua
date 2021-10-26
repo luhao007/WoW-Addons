@@ -621,14 +621,22 @@ end
 --[[ Set the individual types of actions (all data needed is supplied to the functions as args) --]]
 function Button:SetCommandExplicitSpell(Id, NameRank, Name, Book)
 	local IsTalent = Util.IsSpellIdTalent(Id);
+
+	-- PVP talent with a Passive base spell has a weird behavior. There might be other spells with the same issue. Temporary fix until we find something more generic
+	if (Id == Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_ID) then
+		NameRank = Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_NAME;
+    	Name = Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_NAME;
+    	IsTalent = true;
+    end
+
 	self:SetEnvSpell(Id, NameRank, Name, Book, IsTalent);
 	if (IsTalent) then
 		-- Talents only can be triggered off the name, The API is really random as to when it works better with the name vs ID
-		self:SetAttributes("spell", NameRank);	
+		self:SetAttributes("spell", NameRank);
 	else
 		-- Normal spells work both ways... But! some spells like Shaman Hex() have same name variants, in those cases I need to cast the specific ID
 		-- And yes, as it stands if Blizz do same name variant Talents, then well bugger...
-		self:SetAttributes("spell", Id);	
+		self:SetAttributes("spell", Id);
 	end
 	self:SaveSpell(Id, NameRank, Name, Book);
 end
@@ -697,6 +705,12 @@ function Button:SetEnvSpell(Id, NameRank, Name, Book, IsTalent)
 		-- This spell may update its icon to the wisp state...
 		self.UpdateTexture = Button.UpdateTextureWispSpell;		
 	end
+
+	local BaseSpellID = FindBaseSpellByID(Id);
+    if (BaseSpellID ~= Id and BaseSpellID ~= nil) then
+    	local name = GetSpellInfo(BaseSpellID);
+    	self.Widget:SetAttribute("spell", name);
+    end
 
 	self.Mode 			= "spell";
 	self.SpellId 		= Id;
@@ -1158,7 +1172,7 @@ function Button:SetAttributes(Type, Value)
 			prof2_name, _, _, _, _, _, prof2_skillLine = GetProfessionInfo(prof2);
 		end
 
-		local SpellName = GetSpellInfo(Value);
+		local SpellName, _, _, _, _, _, SpellId = GetSpellInfo(Value);
 		-- Patch to fix tradeskills
 		if ( prof1 and SpellName == prof1_name ) then
 			self.Widget:SetAttribute("type", "macro");
@@ -1166,12 +1180,23 @@ function Button:SetAttributes(Type, Value)
 		elseif ( prof2 and SpellName == prof2_name ) then
 			self.Widget:SetAttribute("type", "macro");
 			self.Widget:SetAttribute("macrotext", "/run RunScript('if (select(6, C_TradeSkillUI.GetTradeSkillLine()) == prof2_skillLine) then C_TradeSkillUI.CloseTradeSkill() else C_TradeSkillUI.OpenTradeSkill("..prof2_skillLine..") end')");
+
+		-- Patch for Priest PVP Talent "Inner Light and Shadow" (Thanks to techno_tpuefol)
+		elseif (SpellId == Const.PRIEST_PVP_TALENT_INNER_LIGHT_ID or SpellId == Const.PRIEST_PVP_TALENT_INNER_SHADOW_ID) then
+			self.Widget:SetAttribute("type", "macro");
+			self.Widget:SetAttribute("macrotext", "/cast !Inner Light");
+
 		-- Patch to fix some spell that doesnt like to be cast with ID (Thrash, Stampeding Roar, ...)
 		elseif ( SpellName ) then
+			-- PVP talent with a Passive base spell has a weird behavior. There might be other spells with the same issue. Temporary fix until we find something more generic
+			if (SpellId == Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_ID) then
+				SpellName = Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_NAME;
+			end
 			self.Widget:SetAttribute("type", Type);
 			self.Widget:SetAttribute(Type, SpellName);
+
+		-- fallback to the old method if the name cannot be resolved
 		else
-			-- fallback to the old method if the name cannot be resolved
 			self.Widget:SetAttribute("type", Type);
 			self.Widget:SetAttribute(Type, Value);
 		end
@@ -1527,7 +1552,12 @@ function Button:UpdateCooldown()
 
 end
 function Button:UpdateCooldownSpell()
-	local Start, Duration, Enable = GetSpellCooldown(self.SpellNameRank);
+	local Start, Duration, Enable;
+	if(self.SpellId == Const.COVENANT_WARRIOR_FURY_CONDEMN_ID) then -- it seems there is an exception with that spell and GetSpellCooldown called from the spellname return a wrong duration.
+		Start, Duration, Enable = GetSpellCooldown(self.SpellId);
+	else
+		Start, Duration, Enable = GetSpellCooldown(self.SpellNameRank);
+	end
 	local Charges, MaxCharges, ChargeStart, ChargeDuration = GetSpellCharges(self.SpellNameRank);
 
 	if (Start ~= nil) then

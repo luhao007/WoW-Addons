@@ -12,6 +12,12 @@ TITAN_NOT_REGISTERED = _G["RED_FONT_COLOR_CODE"].."Not_Registered_Yet".._G["FONT
 TITAN_REGISTERED = _G["GREEN_FONT_COLOR_CODE"].."Registered".._G["FONT_COLOR_CODE_CLOSE"]
 TITAN_REGISTER_FAILED = _G["RED_FONT_COLOR_CODE"].."Failed_to_Register".._G["FONT_COLOR_CODE_CLOSE"]
 
+-- For debug across Titan Panel
+TITAN_PANEL_VARS = {}
+TITAN_PANEL_VARS.debug = {}
+TITAN_PANEL_VARS.debug.movable = false
+TITAN_PANEL_VARS.debug.events = false
+
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local media = LibStub("LibSharedMedia-3.0")

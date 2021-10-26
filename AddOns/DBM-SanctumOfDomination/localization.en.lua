@@ -28,8 +28,6 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
-	AgathaBlade		= "Fall before my blade!",
-	AradneStrike	= "You are all outmatched!",
 	Fragment		= "Fragment "--Space is intentional, leave a space to add a number after it
 })
 
@@ -52,6 +50,12 @@ L:SetMiscLocalization({
 --  Guardian of the First Ones --
 ---------------------------
 L= DBM:GetModLocalization(2446)
+
+L:SetOptionLocalization({
+	IconBehavior	= "Set marking behavior for raid (If raid leader, overrides raid)",
+	TypeOne			= "DBM Default (Melee > Ranged)",
+	TypeTwo			= "BW Default (Combatlog order)"
+})
 
 L:SetMiscLocalization({
 	Dissection	= "Dissection!",

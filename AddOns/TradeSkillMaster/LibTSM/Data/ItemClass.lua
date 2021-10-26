@@ -108,7 +108,7 @@ do
 			end
 		end
 	else
-		for i = 0, NUM_LE_INVENTORY_TYPES do
+		for i = 0, NUM_LE_INVENTORY_TYPES or Enum.InventoryTypeMeta.NumValues do
 			local invType = GetItemInventorySlotInfo(i)
 			if invType then
 				STATIC_DATA.inventorySlotIdLookup[strlower(invType)] = i

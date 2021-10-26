@@ -1,210 +1,275 @@
-tag 38c1e2739e46554def7523e30847e3ea6adf55ed v9.0.5.237
+tag dda07e1903304a2aad8fe3791abaf49564c5e71b v9.1.0.271
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Mon Mar 15 14:40:34 2021 -0300
+Date:	Sun Sep 5 15:17:36 2021 -0300
 
-commit 95958982b9fa67281d1fe58d6fd1c9296b13a51f
+commit ab1b4ed01ce543a18381ea676d69c4ae51d5c56e
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Mar 15 14:39:33 2021 -0300
+Date:   Sat Sep 4 19:40:17 2021 -0300
 
-    Removed a print debug
+    Added setmember alias for button to be equal as the Label
 
-commit 93f0a487c37e1c3c083885150706cc7d380ab738
+commit ad4369b7d283a04227c4bfc70bd1f898a0cd6b4a
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Mar 13 15:39:44 2021 -0300
+Date:   Tue Aug 31 20:47:55 2021 -0300
 
-    ToC Update
+    Added GetClassTCoordsAndTexture(class)
 
-commit 88e43b8c83d55b0cff547400299ae4c4f338d913
+commit 85b438609ee1b3db0b28d32316c5674a6f55180c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Aug 27 18:02:43 2021 -0300
+
+    Added DF:SplitTextInLines(text), this get a text string and split into lines by \n and add each line to a table
+
+commit bdbfcddc5526ba46370194953906e456e6b3f3c5
 Author: Continuity <continuity@gmx.net>
-Date:   Wed Mar 10 14:43:22 2021 +0100
+Date:   Wed Aug 25 11:23:17 2021 +0200
 
-    - auras panel callbacks updated for removal
+    - fixing an issue with cast / channel data initialization
 
-commit ed7a8612f75336c111d8873121277b80c18cc293
+commit b8d6e95f4c9852aa517deac8a42377837a5495fb
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Feb 9 17:40:37 2021 -0300
+Date:   Mon Aug 23 14:22:35 2021 -0300
 
-    Updates for the List Box
+    bug fix
 
-commit a03e9a3b0c8543690d77abc1d19ab390ebd5971d
+commit a72f88ea4578e209563f22d49d71e64b486a51a9
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Aug 23 14:16:50 2021 -0300
+
+    AddClassIconToText(text, playerName, class, useSpec, iconSize)
+
+commit 2dbe968f9386614eb458345fd073a3e54bdc049f
 Author: Continuity <continuity@gmx.net>
-Date:   Mon Feb 8 19:47:48 2021 +0100
+Date:   Sun Aug 22 19:43:54 2021 +0200
 
-    - adding options for Buff Tracking to track by SpellID or Name
+    - fixing global leak pickup
 
-commit 41a578d5c169800f5c1c638469984d7f6c12e06e
+commit 45686aece22ea8211e4b35e7780dc103738f28f6
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Wed Aug 18 14:05:53 2021 -0300
+
+    Added food buffs
+
+commit 54f57ea580d6e85905469e8a6227e3085e296bfd
 Author: Continuity <continuity@gmx.net>
-Date:   Mon Feb 8 19:03:22 2021 +0100
+Date:   Tue Aug 10 19:50:57 2021 +0200
 
-    - opening interface options directly, if available
+    - ensuring interrupts are caught for channels as well
 
-commit 615d49a8843ba8b088813005e15b70f6e71adff2
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Feb 8 19:02:56 2021 +0100
-
-    - small bugfix for overlayFrame framelevel
-
-commit da07a1e84e425843434ad760266c32b392293044
+commit 409c5c45ca4ec442a80077950696a6fddc8965b7
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Feb 5 21:57:31 2021 -0300
+Date:   Tue Aug 3 10:44:07 2021 -0300
 
-    Added DF.ClassSpecIds
-
-commit da07a1e84e425843434ad760266c32b392293044
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Feb 5 21:57:31 2021 -0300
-
-    Added DF.ClassSpecIds
-
-commit 3e0d7256bb2b257bcbdfae34c03de151c5738c29
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Feb 1 10:38:32 2021 +0100
-
-    - adding missing CCs
-
-commit 6dcbdcbb2ffb2ffadf55da57a0fae0fd238dd112
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Jan 28 12:58:47 2021 -0300
-
-    Added 'DF:AddRoleIconToText(text, role, size)'
-
-commit 6dcbdcbb2ffb2ffadf55da57a0fae0fd238dd112
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Jan 28 12:58:47 2021 -0300
-
-    Added 'DF:AddRoleIconToText(text, role, size)'
-
-commit e3f0fc936c96c57cdb6fb868c9f49c569f9285f3
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Jan 27 12:51:22 2021 +0100
-
-    - adding WL talent "Howl of Terror" as CC
-
-commit f026326746ab25df3fd64088ae9473422880232b
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Jan 21 17:51:10 2021 -0300
-
-    Added more food ids
-
-commit bffca4d5807d7206cbfdb4d3425bd4a1784cc8ab
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Jan 21 12:52:52 2021 -0300
-
-    Added 'add' button to add a new row on 'ListBox'
-
-commit 7ab5388d40f89c667d21918493b66246db7c85aa
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Jan 20 12:10:03 2021 -0300
-
-    Listbox now have auto width size and delete entry button
-
-commit d4fbc212d6c22e7725bc81bb66eeae028682d6fc
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Jan 19 14:58:07 2021 -0300
-
-    Added a working concept of a ListBox frame
-
-commit 09cab8f46733945e5c47cb5b9ef09741c31cf2df
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Jan 17 00:25:46 2021 +0100
-
-    - fixing allied race names
+    Added DF:CreateRightClickToClose(parent, xOffset, yOffset, color, fontSize)
     
-    (Why not use the default race info for this as well?)
+    Create a text string in the bottom right of the frame
 
-commit 3a6fe5c40f10df974a18c696c9d568ef527bc399
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Jan 17 00:25:04 2021 +0100
-
-    - fixing issue with spec load conditions
-
-commit 6669ab84c5aabdb89bcb1194ea16eae674346f7d
+commit 26c2f9eb05cfe2f6c1274a6f85e026875dee62f7
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Jan 14 21:03:23 2021 -0300
+Date:   Wed Jul 7 16:38:42 2021 -0300
 
-    Timebar Updates
+    260
 
-commit f1ca0d71a9e4200676b0dd2bf7273b4f805255c5
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Jan 9 02:06:08 2021 +0100
-
-    - version bump
-
-commit 4d1965f1c6ee043a1bd4071146727678b2219510
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Jan 9 02:06:02 2021 +0100
-
-    - fixing issue with spec recognition
-
-commit 4cb305a9661c7db6e9b0ca8a950f6c8d9e2f3d18
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Jan 9 02:05:46 2021 +0100
-
-    - fixing issue with hidden stack text on infinite auras
-
-commit fffb09c69ddc307b314718695cd6d0930fb78142
-Author: Continuity <continuity@gmx.net>
-Date:   Sat Jan 9 02:05:21 2021 +0100
-
-    - Freddy090909: adding glxphed HEX spellIDs
-
-commit 52764f49eb1ed6d2e8fb687d139ba0d681750554
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Dec 31 23:30:55 2020 +0100
-
-    - ading Ursol's Vortex to Druid CCs
-
-commit 8e0638fc57e56b9227e225709c69d3e8c820e358
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Dec 31 13:32:24 2020 +0100
-
-    - adding Binding Shot to Hunter CC
-
-commit 5409e02ed418881418357d57a9bac7f3c5e91dca
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Dec 22 18:35:13 2020 +0100
-
-    - correcting Rake stun spellID
-
-commit 11b5d9c71d3bff9cbd59ebdca44720580854b4e5
+commit 26c2f9eb05cfe2f6c1274a6f85e026875dee62f7
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Dec 22 11:39:28 2020 -0300
+Date:   Wed Jul 7 16:38:42 2021 -0300
 
-    added druid's Rake to crowd control spells
+    260
 
-commit d57a6d640e7f3fd0dae04f0029fa34cd4154fccb
+commit 049cf2e44da7631b4299b8272227b02fd18c3103
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Jul 7 21:31:19 2021 +0200
+
+    - fixing an issue with load conditions for encounters not being parsed correctly due to wago encoding
+
+commit 1798478a82ee8281434461e1806eba19a0879973
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Jul 7 21:30:46 2021 +0200
+
+    - updating encounter IDs
+
+commit cd2e764a247cc5c9dfbea8d71a2d19fbffad2458
+Author: Continuity <continuity@gmx.net>
+Date:   Wed Jul 7 21:15:44 2021 +0200
+
+    - update (from details)
+
+commit f625b3cc16f67e87dfa9402df31513dd85a23349
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Dec 17 13:28:47 2020 -0300
+Date:   Mon Jul 5 15:18:32 2021 -0300
 
-    Fixed GroupIterator on party not calling "player"
+    259
 
-commit ebf3740830faf73a3fca490da398f3a547dbd299
+commit 9550c484605bd9e8d540e8ffafbcf89f4e39d601
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sun Dec 13 19:12:54 2020 -0300
+Date:   Sat Jul 3 20:32:50 2021 -0300
 
-    updates on Time Bar
+    Increased the amount of alpha in the scale bar
 
-commit 707fb03ccf30a30ef12e196c7b0efa35f2b7f604
+commit 56b34e98fe999d872170ae83f6142487cfcfa230
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Dec 12 18:09:47 2020 -0300
+Date:   Tue Jun 22 16:55:42 2021 -0300
 
-    spell change
+    DF.UnitGroupRolesAssigned auto return DAMAGER if a class has only damage roles
 
-commit 7365fe9f0a1b9a2843d413f99d611e663431d17c
+commit 56b34e98fe999d872170ae83f6142487cfcfa230
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Dec 11 19:38:54 2020 -0300
+Date:   Tue Jun 22 16:55:42 2021 -0300
 
-    Added Timebar widget
+    DF.UnitGroupRolesAssigned auto return DAMAGER if a class has only damage roles
 
-commit 16f9e14bfe713f1e50eb912fdff3ce6d38a73e63
+commit 5e2e31c8e24aa3a3e8a12380025e80636c53ef01
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Jun 14 21:43:38 2021 +0200
+
+    - cleanup
+
+commit 5f08a7a3bc0175051059c970168cd3344c6aff9c
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Dec 7 16:16:55 2020 -0300
+Date:   Sat May 29 19:31:48 2021 -0300
 
-    Added WeaponEnchantIds
+    Scheduler updates
 
-commit 1af6117e68b0e80fca8e588b0b58af390edd5676
+commit 52a1be51b444b6661d5305cd84dfb4fad413007d
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Nov 30 12:21:02 2020 -0300
+Date:   Sat May 29 18:30:59 2021 -0300
 
-    two new modules added, they are under development
+    Added Schedules to allow C_Timer to pass payload
+
+commit 8e4f3e7edb54842cfd9fe90299b4fd2b1efb079f
+Author: Continuity <continuity@gmx.net>
+Date:   Fri May 28 08:24:32 2021 +0200
+
+    - removing demo roar in classic (just ap reduction)
+
+commit 3d4faf8ccac4caecf4ccc882f8c2b6648ea6bf37
+Author: Continuity <continuity@gmx.net>
+Date:   Thu May 27 16:55:33 2021 +0200
+
+    - consistency for potentially unavailable API
+
+commit e0fc02c0e1aa361335f45f20f810b9c4f36aa78f
+Author: Continuity <continuity@gmx.net>
+Date:   Wed May 26 11:53:42 2021 +0200
+
+    - adding 'DF:CreateFullBorder (name, parent)' as replacement for DFNamePlateFullBorderTemplate
+
+commit b1e56148df39d51db9482c6eb08318be9515b934
+Author: Continuity <continuity@gmx.net>
+Date:   Wed May 26 11:51:07 2021 +0200
+
+    Revert "- adding DFNamePlateFullBorderTemplate"
+    
+    This reverts commit 4a57afa7609ea20e9c40eea5e586f78f1d2a89ce.
+
+commit 4a57afa7609ea20e9c40eea5e586f78f1d2a89ce
+Author: Continuity <continuity@gmx.net>
+Date:   Tue May 25 19:31:01 2021 +0200
+
+    - adding DFNamePlateFullBorderTemplate
+
+commit 07e82c503d13bca7f657d06f8973c97837bdf949
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon May 24 11:34:48 2021 -0300
+
+    version up to 249
+
+commit 34aa51d3c71470d7ce8feb283ab2210e02c21f95
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon May 24 11:33:34 2021 -0300
+
+    Added member 'hidden' to option table, if true the option is skipped while building the menu
+
+commit 617f59c6b07704701c95aa621f7533b022953c33
+Author: Continuity <continuity@gmx.net>
+Date:   Sun May 23 20:22:55 2021 +0200
+
+    - no alt power in classic...
+
+commit 1fa15a653ce7a90579a3a95b53bbc2335e9035c0
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu May 20 14:22:21 2021 -0300
+
+    Splitbar using backdrop template
+
+commit d32ee56cbb67fe8907b797821fd30a2f31fd71a7
+Author: Continuity <continuity@gmx.net>
+Date:   Wed May 19 22:40:34 2021 +0200
+
+    - fixing tbc load conditions
+
+commit e340c03f02a6c2a3dd4165608e94cf63228cb23f
+Author: Continuity <continuity@gmx.net>
+Date:   Wed May 19 21:36:47 2021 +0200
+
+    - fixing cast interruptible state for classic
+
+commit 2d5af3ac4d964b79304d3fc437d1d88ba80b315c
+Author: Continuity <continuity@gmx.net>
+Date:   Sun May 16 23:34:24 2021 +0200
+
+    - adding spell ranks for CCs and CDs for classic
+
+commit adc3b849c1819e0be416f577d32dfcbce825c20c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu May 6 18:35:48 2021 -0300
+
+    Improvements on Split Bar
+    
+    - Added: splitBar:SetValueWithAnimation(value)
+    Adjust the value playing an animation
+
+commit 8514d192e6fa2283286347c35b54e0ce60d400d7
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Apr 26 19:59:34 2021 +0200
+
+    - enabling `UNIT_HEALTH_FREQUENT` for TBC/Classic again
+
+commit af543209447d67161a934e2b031a911fa7d3b3a5
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Apr 22 21:41:41 2021 -0300
+
+    Updates to SplitBar allowing animation on it
+
+commit 21043087acfb7f94e1616da0c4d08ee21c8de3ed
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Apr 13 15:56:58 2021 +0200
+
+    - siwtching checks for WOW_PROJECT_MAINLINE
+
+commit c4a818bfe3d58f8ae4def3d5a686efaee2fe2e9c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Apr 1 11:54:08 2021 -0300
+
+    Added DF.IsTimewalkWoW() return true if IsClassic or IsTBC
+
+commit c4a818bfe3d58f8ae4def3d5a686efaee2fe2e9c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Apr 1 11:54:08 2021 -0300
+
+    Added DF.IsTimewalkWoW() return true if IsClassic or IsTBC
+
+commit b39583e75bd077e309fe05d1f0b81647ebd19d8f
+Author: Continuity <continuity@gmx.net>
+Date:   Thu Apr 1 16:53:12 2021 +0200
+
+    - first updates for TBC support (mainly Plater)
+
+commit 519d048e80207be819d327ebc5cc0274e4e99b3d
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Apr 1 11:37:13 2021 -0300
+
+    Declare PixelUtil if not exists, added DF.IsTBCWow()
+
+commit 99825cbdfac7393fdb9b05208149bf6b30b62723
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Mar 23 20:08:39 2021 +0100
+
+    - small adjustment
+
+commit c57e7bbf750074090c0cad9c3d6442a4e3801ac8
+Author: Continuity <continuity@gmx.net>
+Date:   Tue Mar 23 19:00:40 2021 +0100
+
+    - continiusly increase base frame level of nameplates
 

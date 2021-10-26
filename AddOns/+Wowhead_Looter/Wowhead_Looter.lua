@@ -4,7 +4,7 @@
 --                                     --
 --                                     --
 --    Patch: 9.1.0                     --
---    Updated: July 9, 2021            --
+--    Updated: September 16, 2021      --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
@@ -185,6 +185,8 @@ local WL_LOOT_TOAST_BAGS = {
     [253747] = 152922,  -- brittle krokul chest
     [254385] = 152650,  -- scuffed krokul cache
 
+    -- 9.1
+    [356539] = 187187, -- Korthian Armaments
 
 };
 
@@ -297,6 +299,7 @@ local WL_LOOT_TOAST_NOSPELL =
     [187354] = true,
     [187278] = true,
     [187029] = true,
+    [186650] = true,
 };
 
 local WL_REP_MODS = {
@@ -4228,27 +4231,22 @@ function wlScanFollowers()
     local followerTable = {}
     local followerTableIdx = #followerTable
 
-    local followerTypes = { LE_FOLLOWER_TYPE_GARRISON_6_0, LE_FOLLOWER_TYPE_SHIPYARD_6_2, LE_FOLLOWER_TYPE_GARRISON_7_0 };
+    for typeName,typeId in pairs(Enum.GarrisonFollowerType) do
+        local followers = C_Garrison.GetFollowers(typeId);
+        if (followers ~= nil) then
+            for i=1,#followers do
+                if (followers[i].isCollected) then
+                    local id = followers[i].followerID
+                    local followerString = Match(GetLink(id), "garrfollower:([%-?%d:]+)")
 
-    for ftIdx=1,#followerTypes do
-        local ft = followerTypes[ftIdx];
-        if (ft ~= nil) then
-            local followers = C_Garrison.GetFollowers(ft);
-            if (followers ~= nil) then
-                for i=1,#followers do
-                    if (followers[i].isCollected) then
-                        local id = followers[i].followerID
-                        local followerString = Match(GetLink(id), "garrfollower:([%-?%d:]+)")
+                    if (followerString) then
+                        local isActive
+                        if GetStatus(id) ~= INACTIVE then isActive = 1 else isActive = 0 end
 
-                        if (followerString) then
-                            local isActive
-                            if GetStatus(id) ~= INACTIVE then isActive = 1 else isActive = 0 end
+                        local _,weaponLevel,_,armorLevel = GetItems(id)
 
-                            local _,weaponLevel,_,armorLevel = GetItems(id)
-
-                            followerTableIdx = followerTableIdx + 1
-                            followerTable[followerTableIdx] = Concat({isActive, weaponLevel, armorLevel, followerString}, ':')
-                        end
+                        followerTableIdx = followerTableIdx + 1
+                        followerTable[followerTableIdx] = Concat({isActive, weaponLevel, armorLevel, followerString}, ':')
                     end
                 end
             end

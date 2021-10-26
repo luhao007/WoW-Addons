@@ -1011,6 +1011,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [168485] = {
         name = "阿波罗恩",
     },
+    [168517] = {
+        name = "卡莉丝塞茵",
+    },
     [168618] = {
         name = "告密者泰斯勒",
     },
@@ -1359,6 +1362,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177194] = {
         name = "兵主",
     },
+    [177228] = {
+        name = "大领主伯瓦尔·弗塔根",
+    },
     [177919] = {
         name = "炽蓝仙野的紧急消息",
     },
@@ -1370,6 +1376,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [179356] = {
         name = "塞尼厄斯",
+    },
+    [180073] = {
+        name = "萨尔",
+    },
+    [180074] = {
+        name = "吉安娜·普罗德摩尔",
     },
 })
 ]])()

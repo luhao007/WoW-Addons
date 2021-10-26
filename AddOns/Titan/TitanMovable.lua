@@ -8,6 +8,45 @@ Addons that replace all or parts of the Blizzard UI use this.
 
 The user can turn turn on / off the adjusting of all top frames or all bottom frames.
 :DESC
+
+NOTE: The Override Bar has changed over time. Titan has had to evolve with it, making several attempts to
+create a reasonable fix to minimize the impact to the player.
+Titan Panel hooks 3 areas:
+- OverrideActionBar show 
+- OverrideActionBar hide
+- ActionBarController_UpdateAll
+This covers various quests and other situations that replace the main menu bar temporarily.
+
+When the player uses bottom bar(s), the bars are hidden while the override is active then
+put back when the bar is removed.
+
+While on some quests where the player is in a vehicle, they could be knocked out of said vehicle.
+If Titan shows the bottom bar, the main menu could be unusable. Titan will wait for the player to be out of
+combat while in a vehicle.
+On some quests (for example, some turtle quests in BfA) it takes seconds for the player to fall out of combat
+at the end of the quest. This will cause Titan bars to be delayed before appearing.
+:NOTE
+
+NOTE: Some quests replace the menu bar with an Override Bar which causes Titan Panel
+to hide the bottom bar(s). 
+When the menu bar is active again Titan needs to show the bottom bar(s).
+A check is made when :
+- Override is hidden (hook)
+- Vehicle exit (event)
+- Combat over (event)
+All three are needed to show bottom bar(s) because the order is not guaranteed. Some quests do not use Override bar.
+:NOTE
+
+NOTE: When the player is in their class hall, Titan will hide the top bars to not conflict with the Class Command Bar.
+:NOTE
+
+NOTE: Vehicle enter and leave have become complicated because a vehicle could be a flight path or a quest.
+On vehicle enter Titan closes any Titan menus and states the menu bar as 'user controlled' but does not close bottom bars(s).
+Stating 'user controlled' is for quests using a vehicle but does not impact flights. 
+Closing bottom bars will be done on Override show / ActionBarController_UpdateAll invocation 
+Closing the bottom bars on flights would be inconsistent and remove player functionality.
+:NOTE
+
 --]]
 -- Globals
 
@@ -17,6 +56,7 @@ local InCombatLockdown = _G.InCombatLockdown;
 local hooks_done = false;
 
 local move_count = 0
+
 --[[ Titan
 Declare the Ace routines
  local AceTimer = LibStub("AceTimer-3.0")
@@ -52,6 +92,31 @@ end)
 --]]
 
 --[[ local
+NAME: f_list table
+DESC: Holds the list of frames Titan may adjust with additional data. 
+Each record contains:
+name - frame name (string) to adjust
+user_movable - true if Blizzard allows the user to move the frame via its UI
+debug - set true if debugging the adjust of that frame
+:DESC
+NOTE:
+- The index MUST be the frame name as used by MData.
+:NOTE
+--]]
+local f_list = {
+	PlayerFrame = {name = "PlayerFrame", place = TITAN_PANEL_PLACE_TOP, user_movable = true, debug = false},
+	TargetFrame = {name = "TargetFrame", place = TITAN_PANEL_PLACE_TOP, user_movable = true, debug = false},
+	PartyMemberFrame1 = {name = "PartyMemberFrame1", place = TITAN_PANEL_PLACE_TOP, user_movable = false, debug = false},
+	TicketStatusFrame = {name = "TicketStatusFrame", place = TITAN_PANEL_PLACE_TOP, user_movable = false, debug = false},
+	BuffFrame = {name = "BuffFrame", place = TITAN_PANEL_PLACE_TOP, user_movable = false, debug = false},
+	MinimapCluster = {name = "MinimapCluster", place = TITAN_PANEL_PLACE_TOP, user_movable = false, debug = false},
+	MultiBarRight = {name = "MultiBarRight", place = TITAN_PANEL_PLACE_BOTTOM, user_movable = false, debug = false},
+	MicroButtonAndBagsBar = {name = "MicroButtonAndBagsBar", place = TITAN_PANEL_PLACE_BOTTOM, user_movable = false, debug = false},
+	MainMenuBar = {name = "MainMenuBar", place = TITAN_PANEL_PLACE_BOTTOM, user_movable = false, debug = false},
+	ExtraActionBarFrame = {name = "ExtraActionBarFrame", place = TITAN_PANEL_PLACE_BOTTOM, user_movable = false, debug = false},
+}
+
+--[[ local
 NAME: DoAdjust
 DESC: See if Titan should adjust based only on its own flags.
 VAR: place   - top or bottom
@@ -63,7 +128,7 @@ local function DoAdjust(place, force)
 	-- When that happens we need to adjust
 
 	-- We did it to ourselves - if (Aux)ScreenAdjust is true / 1 it means the user wants Titan to NOT adjust...
-	if place == TITAN_PANEL_PLACE_TOP then
+	if place == TITAN_PANEL_PLACE_TOP or place == TITAN_PANEL_PLACE_BOTH then
 		if TitanPanelGetVar("ScreenAdjust") == 1 then
 			-- do not adjust
 		else
@@ -73,9 +138,8 @@ local function DoAdjust(place, force)
 				res = true
 			end
 		end
-	elseif place == TITAN_PANEL_PLACE_BOTTOM then
-		if TitanPanelGetVar("AuxScreenAdjust") == 1
-			or ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_OVERRIDE then
+	elseif place == TITAN_PANEL_PLACE_BOTTOM or place == TITAN_PANEL_PLACE_BOTH then
+		if TitanPanelGetVar("AuxScreenAdjust") == 1 then
 			-- do not adjust
 		else
 			if force then
@@ -119,9 +183,14 @@ NOTE:
 --]]
 function TitanMovable_MenuBar_Disable()
 	if DoAdjust(TITAN_PANEL_PLACE_BOTTOM, false) then
---TitanPrint("TitanMovable_MenuBar_Disable - DoAdjust", "warning")
 		MainMenuBar:SetMovable(true);
 		MainMenuBar:SetUserPlaced(false);
+	end
+
+	if TITAN_PANEL_VARS.debug.movable then
+		TitanDebug ("_MenuBar_Disable :"
+			.." likely UNIT_ENTERED_VEHICLE"
+			)
 	end
 end
 
@@ -157,26 +226,13 @@ DESC: Get the Y axis offset Titan needs (1 or 2 bars) at the given position - to
 VAR: framePosition - TITAN_PANEL_PLACE_TOP or TITAN_PANEL_PLACE_BOTTOM
 OUT: Y axis offset, in pixels
 NOTE:
-- The preferred method to determine the Y offset needed by using TitanUtils_GetBarAnchors().
+- The preferred method to determine the Y offset needed to use TitanUtils_GetBarAnchors()
+which provides anchors (frames) for an addon to use.
 :NOTE
 --]]
 function TitanMovable_GetPanelYOffset(framePosition) -- used by other addons
--- TitanPanelTopAnchor, TitanPanelBottomAnchor
-
-
 	-- Both top & bottom are figured out but only the
 	-- requested position is returned
---[[
-	local barnum_top = TitanPanelTopAnchor:GetBottom()
-	local barnum_bot = TitanPanelBottomAnchor:GetTop()
-
-	if framePosition == TITAN_PANEL_PLACE_TOP then
-		return -barnum_top
-	elseif framePosition == TITAN_PANEL_PLACE_BOTTOM then
-		return barnum_bot - 1; 
-		-- no idea why -1 is needed... seems anchoring to bottom is off a pixel
-	end
---]]
 	local barnum_top = 0
 	local barnum_bot = 0
 	-- If user has the top adjust set then determine the
@@ -260,31 +316,24 @@ Titan does not control the frames as other addons so we honor a user placed fram
 :NOTE
 --]]
 local function SetPosition(frame, ...)
-	local function UserMovable(frame)
-		local fname = frame:GetName()
-		local res = false
-		-- user may move these frames via the UI
-		if (fname == 'PlayerFrame' or fname == 'TargetFrame')
-		then
-			res = true 
-		else
-			res = false
-		end
-		return res
+	local fname = frame:GetName()
+	local um = false
+	if f_list[fname] and f_list[fname].user_movable then
+		um = true
+	else
+		um = false
 	end
+
     if type(frame) == 'string' then
         UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil
         frame = _G[frame]
     end
     if type(frame) == 'table' and type(frame.IsObjectType) == 'function' and frame:IsObjectType('Frame') then
-		if UserMovable(frame) then
+		if um then
 			-- Back off if the user has moved them via the UI
 		else
-			local name = frame:GetName()
 			-- Titan does not set in case the user needs to 
-			if name then
-				UIPARENT_MANAGED_FRAME_POSITIONS[name] = nil
-			end
+			UIPARENT_MANAGED_FRAME_POSITIONS[fname] = nil
         end
 
         frame:SetMovable(true)          -- allow frame to move
@@ -300,7 +349,7 @@ local function SetPosition(frame, ...)
             frame:SetPoint(...)
         end
 		-- Need to add in case user (not an addon) wants to move this frames
-		if UserMovable(frame) then
+		if um then
 			-- do nothing
 		else
 			frame:SetMovable(false)         -- lock frame from moving
@@ -351,76 +400,49 @@ NAME: MoveFrame
 DESC: Adjust the given frame. Expected are frames where :GetPoint works
 VAR: frame_ptr - Text string of the frame name
 VAR: start_y - Any offset due to the specific frame
-OUT: top_bottom - Frame is at top or bottom, expecting Titan constant for top or bottom
+VAR: top_bottom - Frame is at top or bottom, expecting Titan constant for top or bottom
+VAR: force - Force the adjust; passed through
+OUT: None
 --]]
 local function MoveFrame(frame_ptr, start_y, top_bottom, force)
 	local frame = _G[frame_ptr]
+	local y = 0
+	local op = "?"
 
 	if frame and (frame:IsUserPlaced() or
 			frame.MALockPointHook  -- Allow MoveAnything to be used w/o error
 		)
 	then
 		-- skip this frame
+		op = "skip - MoveAnything"
 	else
---[[
-TitanDebug ("MoveFrame :"
-	.." "..tostring(frame_ptr)
-	.." y:"..tostring(start_y)
-	)
---]]
 		if DoAdjust(top_bottom, force) and frame:IsShown() then
 			local scale = TitanPanelGetVar("Scale")
-			local y = 0
-				y = TitanMovable_GetPanelYOffset(top_bottom) 
-					+ (start_y or 0)
+			y = TitanMovable_GetPanelYOffset(top_bottom) 
+				+ (start_y or 0)
 			local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
 			-- check for nil which will cause an error
 			if point and relativeTo and relativePoint and xOfs then -- do not care about yOfs
 				-- should be safe...
---				frame:ClearAllPoints();		
---				frame:SetPoint(point, relativeTo:GetName(), relativePoint, xOfs, y)
---[[
---				if tostring(relativeTo:GetName()) == "UIParent" then
-				if tostring(frame:GetName()) == "ExtraAbilityContainer" then
---				else
-				TitanDebug ("MoveFrame :"
-					.." "..tostring(frame:GetName())
-					.." point:"..tostring(point)
-					.." relativeTo:"..tostring(relativeTo:GetName())
-					.." relativePoint:"..tostring(relativePoint)
-					.." xOfs:"..tostring(xOfs)
-					.." y:"..tostring(y)
-					.." adj:"..tostring(DoAdjust(top_bottom, force))
-					.." tb:"..tostring(top_bottom)
-					.." f:"..tostring(force)
-					)
-				end
---]]
 				SetPosition(frame, point, relativeTo:GetName(), relativePoint, xOfs, y)
+				op = "move - y "..tostring(y)
 			else
+				op = "skip - :GetPoint invalid"
 				-- do not proceed
---[[
-				TitanDebug ("MoveFrame nil :"
-					.." "..tostring(frame:GetName())
-					.."point:"..tostring(point)
-					.."relativeTo:"..tostring(relativeTo:GetName())
-					.."relativePoint:"..tostring(relativePoint)
-					.."xOfs:"..tostring(xOfs)
-					)
---]]
 			end
 		else
 			--[[
 			Some frames such as the ticket frame may not be visible or even created
 			--]]
---[[
-				TitanDebug ("MoveFrame no adj :"
-					.." "..tostring(frame:GetName())
-					.." adj: "..tostring(DoAdjust(top_bottom, force))
-					.." shown: "..tostring(frame:IsShown())
-					)
---]]
+			op = "skip - adj "..tostring(DoAdjust(top_bottom, force)).." shown "..tostring(frame:IsShown())
 		end
+	end
+	
+	if f_list[frame_ptr] and f_list[frame_ptr].debug then
+		TitanDebug ("MoveFrame"
+		.." "..tostring(frame_ptr)
+		.." "..tostring(op)
+		)
 	end
 end
 
@@ -431,7 +453,9 @@ This is modeled after MoveFrame to keep it similar.
 Titan sets the IsUserPlaced for the MainMenuBar frame so Titan needs to adjust.
 VAR: frame_ptr - Text string of the frame name
 VAR: start_y - Any offset due to the specific frame
-OUT: top_bottom - Frame is at top or bottom, expecting Titan constant for top or bottom
+VAR: top_bottom - Frame is at top or bottom, expecting Titan constant for top or bottom
+VAR: force - Force the adjust; passed through
+OUT: None
 --]]
 local function MoveMenuFrame(frame_ptr, start_y, top_bottom, force)
 	local frame = _G[frame_ptr]
@@ -461,9 +485,10 @@ NOTE:
 - This is required because Blizz adjusts the chat frame relative to other frames so some of the Blizz code is copied.
 - If in combat or if the user has moved the chat frame then no action is taken.
 - The frame is adjusted in the Y axis only.
+- See See FCF_UpdateDockPosition if this is no longer working - This routine may need to change.
 :NOTE
 --]]
-local function Titan_FCF_UpdateDockPosition()
+local function Titan_FCF_UpdateDockPosition() -- See FCF_UpdateDockPosition
 	if not Titan__InitializedPEW
 	or not TitanPanelGetVar("LogAdjust") 
 	or TitanPanelGetVar("AuxScreenAdjust") then 
@@ -478,24 +503,6 @@ local function Titan_FCF_UpdateDockPosition()
 			panelYOffset = panelYOffset + (24 * scale) -- after 3.3.5 an additional adjust was needed. why? idk
 		end
 
---[[ Blizz code
-		if _G["DEFAULT_CHAT_FRAME"]:IsUserPlaced() then
-			if _G["SIMPLE_CHAT"] ~= "1" then return end
-		end
-		
-		local chatOffset = 85 + panelYOffset;
-		if GetNumShapeshiftForms() > 0 or HasPetUI() or PetHasActionBar() then
-			if MultiBarBottomLeft:IsVisible() then
-				chatOffset = chatOffset + 55;
-			else
-				chatOffset = chatOffset + 15;
-			end
-		elseif MultiBarBottomLeft:IsVisible() then
-			chatOffset = chatOffset + 15;
-		end
-		_G["DEFAULT_CHAT_FRAME"]:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, chatOffset);
-		FCF_DockUpdate();
---]]
 		if ( DEFAULT_CHAT_FRAME:IsUserPlaced() ) then
 			return;
 		end
@@ -558,17 +565,6 @@ local function Titan_ContainerFrames_Relocate()
 	end
 end
 
-local function has_pet_bar()
-	local hasPetBar = false
-	if ( ( PetActionBarFrame and PetActionBarFrame:IsShown() ) or ( StanceBarFrame and StanceBarFrame:IsShown() ) or
-		 ( MultiCastActionBarFrame and MultiCastActionBarFrame:IsShown() ) or ( PossessBarFrame and PossessBarFrame:IsShown() ) or
-		 ( MainMenuBarVehicleLeaveButton and MainMenuBarVehicleLeaveButton:IsShown() ) ) then
---		tinsert(yOffsetFrames, "pet");
-		hasPetBar = true;
-	end
-	return hasPetBar
-end
-
 local function calc_bars() -- extra action button
 	local res = 0
 	local out = ""
@@ -612,19 +608,7 @@ local function calc_bars() -- extra action button
 	end
 
 	res = main + left + pet + stance + cast + poss + vehicle
---[[
-TitanDebug ("calc_bars :"
-	.." "..tostring(out:GetName())
-	.." y: "..tostring(res)
-	.." m: "..tostring(main)
-	.." l: "..tostring(left)
-	.." p: "..tostring(pet)
-	.." s: "..tostring(stance)
-	.." c: "..tostring(cast)
-	.." p: "..tostring(poss)
-	.." v: "..tostring(vehicle)
-	)
---]]
+
 	return res
 end
 XXZZ_calc_bars = calc_bars
@@ -633,31 +617,46 @@ XXZZ_calc_bars = calc_bars
 NAME: MData table
 DESC: MData is a local table that holds each frame Titan may need to adjust. It controls the offsets needed to make room for the Titan bar(s).
 Each frame can be adjusted by modifying its 'move' function.
-The index is the frame name. Each record contains:
-frameName - frame name (string) to adjust
+The f_list and MData MUST have matching index so the name and move function correspond.
+Each record contains:
+move - function to adjust that frame
 addonAdj - true if another addon is taking responsibility of adjusting this frame, if false Titan will use the user settings to adjust or not
 :DESC
 NOTE:
+- f_list MUST have frame name as the index so the extra data can be used.
 - MoveFrame calculates and offsets for the Titan bars, if shown
 - When calculating the initial Y offset, consider the points and relative points of the frame being adjusted. See the move function for specific frame adjustments
 - Of course Blizzard had to make the MainMenuBar act differently <sigh>. :GetPoint() does not work on it so a special helper routine was needed.
+- The move function sets info in the frame itself. It so inside the move because some frames, such as the ticket frame, may not be created until needed.
 :NOTE
 --]]
-local save_y = 0
 local MData = {
-	[1] = {frameName = "PlayerFrame", 
-		move = function (force) MoveFrame("PlayerFrame", 0, TITAN_PANEL_PLACE_TOP, force) end, 
+	[1] = {
+		frameName = "PlayerFrame",
+		move = function (force)
+			MoveFrame("PlayerFrame", 0, TITAN_PANEL_PLACE_TOP, force) 
+			end, 
 		addonAdj = false, },
-	[2] = {frameName = "TargetFrame", 
-		move = function (force) MoveFrame("TargetFrame", 0, TITAN_PANEL_PLACE_TOP, force) end, 
+	[2] = {
+		frameName = "TargetFrame", 
+		move = function (force) 
+			MoveFrame("TargetFrame", 0, TITAN_PANEL_PLACE_TOP, force)  
+			end, 
 		addonAdj = false, },
-	[3] = {frameName = "PartyMemberFrame1", 
-		move = function (force) MoveFrame("PartyMemberFrame1", 0, TITAN_PANEL_PLACE_TOP, force) end, 
+	[3] = {
+		frameName = "PartyMemberFrame1",
+		move = function (force) 
+			MoveFrame("PartyMemberFrame1", 0, TITAN_PANEL_PLACE_TOP, force)  
+			end, 
 		addonAdj = false, },
-	[4] = {frameName = "TicketStatusFrame", 
-		move = function (force) MoveFrame("TicketStatusFrame", 0, TITAN_PANEL_PLACE_TOP, force) end, 
+	[4] = {
+		frameName = "TicketStatusFrame", 
+		move = function (force) 
+			MoveFrame("TicketStatusFrame", 0, TITAN_PANEL_PLACE_TOP, force)  
+			end, 
 		addonAdj = false, },
-	[5] = {frameName = "BuffFrame", 
+	[5] = {
+		frameName = "BuffFrame", 
 		move = function (force) 
 			-- The main frames have no adjustment (tops align) to UIParent.
 			-- But we need to properly adjust for
@@ -684,34 +683,44 @@ local MData = {
 			MoveFrame("BuffFrame", yOffset, TITAN_PANEL_PLACE_TOP, force) 
 			end, 
 		addonAdj = false, },
-	[6] = {frameName = "MinimapCluster", 
+	[6] = {
+		frameName = "MinimapCluster", 
 		move = function (force) 
 			local yOffset = 0
 			if MinimapBorderTop 
 			and not MinimapBorderTop:IsShown() then
 				yOffset = yOffset + (MinimapBorderTop:GetHeight() * 3/5) - 5
 			end
-			MoveFrame("MinimapCluster", yOffset, TITAN_PANEL_PLACE_TOP, force) end, 
+			MoveFrame("MinimapCluster", yOffset, TITAN_PANEL_PLACE_TOP, force)  
+			end, 
 		addonAdj = false, },
-	[7] = {frameName = "MultiBarRight", 
+	[7] = {
+		frameName = "MultiBarRight", 
 		move = function (force) 
-			MoveFrame("MultiBarRight", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
+			MoveFrame("MultiBarRight", 0, TITAN_PANEL_PLACE_BOTTOM, force)  
+			end, 
 		addonAdj = false, },
-	[8] = {frameName = "MicroButtonAndBagsBar", 
-		move = function (force) MoveFrame("MicroButtonAndBagsBar", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
-		addonAdj = false, },
-	[9] = {frameName = "MainMenuBar", -- MainMenuBar
+	[8] = {
+		frameName = "MicroButtonAndBagsBar", 
 		move = function (force) 
-			MoveMenuFrame("MainMenuBar", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
+			MoveFrame("MicroButtonAndBagsBar", 0, TITAN_PANEL_PLACE_BOTTOM, force)  
+			end, 
 		addonAdj = false, },
-	[10] = {frameName = "ExtraActionBarFrame",
+	[9] = {
+		frameName = "MainMenuBar", -- MainMenuBar
+		move = function (force) 
+			MoveMenuFrame("MainMenuBar", 0, TITAN_PANEL_PLACE_BOTTOM, force)  
+			end, 
+		addonAdj = false, },
+	[10] = {
+		frameName = "ExtraActionBarFrame",
 		move = function (force)
 			-- Only spend cycles if the frame is shown.
 			if ExtraActionBarFrame
 			and ExtraActionBarFrame:IsShown() then
-				-- Need to calc Y because Y depends on what else is shown
-				-- The extra action button is calculated from the center of the screen so this needs more effort than the other buttons
-				--[=[ UIParent
+				--[=[ 
+				Need to calc Y because Y depends on what else is shown
+				The extra action button is calculated from the center of the screen so this needs more effort than the other buttons
 				Look at UIParent.lua for logic (UIParent_ManageFramePosition)
 				--]=]
 				local actionBarOffset = 45;
@@ -723,48 +732,13 @@ local MData = {
 				local rel_start = UIParent:GetHeight() / 2 -- CENTER of UIParent
 				local yOfs = 0 
 				local yOfs1 = 0 
---[[				
-				if MainMenuBar and MainMenuBar:IsShown() then
-					yOfs2 = MainMenuBar:GetTop() -- menuBarTop
-				end
-				if (MultiBarBottomLeft and MultiBarBottomLeft:IsShown())
-				or (MultiBarBottomRight and MultiBarBottomRight:IsShown())
-				then
-					yOfs2 = MultiBarBottomRight:GetTop() -- actionBarOffset
-				end
-				if (has_pet_bar())
-				and (MultiBarBottomRight and MultiBarBottomRight:IsShown())
-				then
-					yOfs2 = petBattleTop
-				end
-				--(yOfs + start_y) * -1
---]]
 				yOfs = (rel_start * -1) -- bottom of screen
 					+ calc_bars() -- offset of WoW bars shown
 					+ start_y -- center of extra action button
---[[
-TitanDebug ("move y :"
-	.." "..tostring(ExtraActionBarFrame:GetName())
-	.." y: "..tostring(yOfs)
-	.." b/2: "..tostring(start_y)
-	.." b+: "..tostring(calc_bars())
-	.." rs: "..tostring(rel_start)
-	)
---]]
-				--MoveFrame("ExtraActionBarFrame", yOfs, TITAN_PANEL_PLACE_BOTTOM, force)
 				MoveFrame("ExtraAbilityContainer", yOfs, TITAN_PANEL_PLACE_BOTTOM, force)
-			end
+			end 
 			end,
 		addonAdj = false, },
---[[
-	[8] = {frameName = "OverrideActionBar", 
-		move = function (force) MoveFrame("OverrideActionBar", 0, TITAN_PANEL_PLACE_BOTTOM, force) end, 
-		addonAdj = false, },
-	[12] = {frameName = "OrderHallCommandBar",
-		move = function (force) 
-			MoveFrame("OrderHallCommandBar", 0, TITAN_PANEL_PLACE_TOP, force) end, 
-		addonAdj = false, },
---]]
 }
 
 --[[ Titan
@@ -808,13 +782,13 @@ DESC: Loop through MData calling each frame's 'move' function for each Titan con
 Then update the chat and open bag frames.
 OUT: None
 --]]
-local function TitanMovableFrame_MoveFrames(force)
+local function TitanMovableFrame_MoveFrames(place, force)
 	local move_count = 0 -- debug
 	local str = "" -- debug
 	local force = force or false
 	--[[
-	Setting the MainMenuBar as user placed is needed because in 8.0.0 Blizzard changed something in the 
-	way they controlled the frame. With Titan panel and bottom bars enabled the MainMenuBar
+	Setting the MainMenuBar as user placed is needed because in 8.0.0 because Blizzard changed something in the 
+	way they controlled the frame. With Titan Panel and bottom bars enabled the MainMenuBar
 	would 'bounce'. Figuring out the true root cause was a bust.
 	This idea of user placed came from a Titan user who is an addon developer.
 	However setting user placed causes the main menu bar to not act as we desire due to the way Blizzard coded the bar.
@@ -832,18 +806,11 @@ local function TitanMovableFrame_MoveFrames(force)
 				if MData[i].addonAdj then
 					-- An addon has taken control of the frame so skip
 				else
-					-- Adjust the frame per MData
-					MData[i].move(force)
---[[
-					local ok, msg = pcall(function () MData[i].move() end)
-					if ok then
-						-- all is well
-					else
-						TitanPrint("Cannot Move"
-							.." '"..(MData[i].frameName or "?").."."
-							.." "..msg, "error")
+					local md = MData[i]
+					if place == f_list[md.frameName].place or place == TITAN_PANEL_PLACE_BOTH then
+						-- Adjust the frame per MData
+						md.move(force)
 					end
---]]
 				end
 			end
 		end
@@ -870,17 +837,19 @@ NAME: TitanPanel_AdjustFrames
 DESC: Adjust the frames for the Titan visible bars.
 This is a shell for the actual Movable routine used by other Titan routines and secure hooks
 VAR:  force - Force an adjust such as when the user changes bars shown
+VAR:  reason - Debug to determine where and why an adjust is requested
 OUT:  None
 NOTE:
 :NOTE
 --]]
 function TitanPanel_AdjustFrames(force, reason)
---[[
-TitanDebug ("_AdjustFrames :"
-	.." "..tostring(force)
-	.." reason: '"..tostring(reason).."'"
-	)
---]]
+	if TITAN_PANEL_VARS.debug.movable then
+		TitanDebug ("_AdjustFrames :"
+			.." f: "..tostring(force)
+			.." r: '"..tostring(reason).."'"
+			)
+	end
+
 	local f = false -- do not require the parameter
 	if force == true then -- but force it to be boolean
 		f = true
@@ -890,7 +859,7 @@ TitanDebug ("_AdjustFrames :"
 
 	-- Adjust frame positions top and bottom based on user choices
 	if hooks_done then
-		TitanMovableFrame_MoveFrames(f)
+		TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_BOTH, f)
 	end
 end
 
@@ -917,12 +886,12 @@ function Titan_AdjustScale()
 		end
 
 		TitanPanel_AdjustFrames(false, "_AdjustScale ")
---		TitanPanelBarButton_DisplayBarsWanted()
 		TitanPanel_RefreshPanelButtons();
 	end
 end
 
---[[ =============
+--[[ Titan
+=============
 NAME: Titan_Hook_*
 DESC: Set of routines to front the adjust the frames routine.
 VAR:  None
@@ -936,8 +905,74 @@ This group of Titan_Hook_* is :
 These may be called from any Titan Panel code
 :NOTE
 --]]
-function Titan_Hook_Frames()
-	TitanPanel_AdjustFrames(false, "Hook UIParent_ManageFramePositions ")
+
+function Titan_Hook_Frames() -- UIParent_ManageFramePositions hook
+	--[[ 
+	This is the routine that will be called the most. It is the general purpose routine for WoW frames.
+	As Blizzard has changed (or in some cases added) ways to handle the various bars it has across expansions,
+	this routine has had to become more complex. 
+	Especially to handle the main menu bar processing along with override bar which also handles 'in vehicle' bars.
+	The processing is needed to sometimes handle hiding or delaying Titan bars to not interfere with the normal WoW
+	bars - top or bottom.
+	
+	This can hide top or bottom bars to avoid conflicts visually or functionally with WoW bars.
+	When a normal adjust is requested, this calls TitanPanelBarButton_DisplayBarsWanted rather than 
+	TitanPanel_AdjustFrames because bars to show bars that may have been hidden in a prior invocation. It is
+	a touch 'heavy' but will force bars back if hidden for any reason.
+	--]]
+--	TitanPanel_AdjustFrames(false, "Hook UIParent_ManageFramePositions ")
+	local reason = "Hook UIParent_* - "
+	--[[
+	Code from ActionBarController.lua ActionBarController_UpdateAll modified for Titan
+	This hook relies on _UpdateAll calling UIParent_ManageFramePositions near the end of its processing
+	--]]
+	-- If we have a skinned vehicle bar or skinned override bar, display the OverrideActionBar
+	if ((HasVehicleActionBar() and UnitVehicleSkin("player") and UnitVehicleSkin("player") ~= "")
+	or (HasOverrideActionBar() and GetOverrideBarSkin() and GetOverrideBarSkin() ~= 0)) then
+		reason = reason.."skinned override bar"
+		-- Override bar in place; hide Titan bottom bar(s)
+		TitanPanelBarButton_HideBottomBars()
+		
+		-- Blizzard could have updated player frame or other
+		TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_TOP, false)
+		
+	-- If we have a non-skinned override bar of some sort, use the MainMenuBarArtFrame
+	elseif ( HasBonusActionBar() or HasOverrideActionBar() or HasVehicleActionBar() or HasTempShapeshiftActionBar() or C_PetBattles.IsInBattle() ) then
+		reason = reason.."non-skinned override bar"
+		-- BonusActionBar is rogue in stealth
+		-- TitanPanelBarButton_HideBottomBars()
+	elseif ( OrderHallCommandBar and OrderHallCommandBar:IsShown() ) then
+		reason = reason.."Order Hall bar"
+		-- Override bar in place; hide Titan bottom bar(s)
+		TitanPanelBarButton_HideAllBars()
+	else
+		if InCombatLockdown() or UnitVehicleSkin("player") then
+			reason = reason.."waiting..."
+			--[[
+			wait until out of combat just in case...
+			Putting back a bar (especially bottom bar) in combat could cause the 
+			main menu bar to not work as expected.
+			--]]
+		else
+			reason = reason.."Adjust"
+			-- Overkill but bottom bars could have been hidden
+			TitanPanelBarButton_DisplayBarsWanted("Hook _Frames*")
+		end
+	end
+
+	if TITAN_PANEL_VARS.debug.movable then
+		TitanDebug (tostring(reason)
+		.." c: "..tostring(InCombatLockdown())
+		.." b1: "..tostring(TitanPanelGetVar("AuxBar_Show"))
+		.." b2: "..tostring(TitanPanelGetVar("AuxBar2_Show"))
+		.." vb+: "..tostring((HasVehicleActionBar() and UnitVehicleSkin("player") and UnitVehicleSkin("player") ~= "") and true or false)
+		.." ob+: "..tostring((HasOverrideActionBar() and GetOverrideBarSkin() and GetOverrideBarSkin() ~= 0) and true or false)
+		.." bb: "..tostring(HasBonusActionBar())
+		.." ob: "..tostring(HasOverrideActionBar())
+		.." sb: "..tostring(HasTempShapeshiftActionBar())
+		.." pb: "..tostring(C_PetBattles.IsInBattle())
+		)
+	end
 end
 
 function Titan_Hook_Ticket_Show()
@@ -952,43 +987,8 @@ function Titan_Hook_Target()
 	TitanPanel_AdjustFrames(false, "Hook TargetFrame_Update ")
 end
 
---[[
-function Titan_Hook_Override_Show()
-	TitanPanel_AdjustFrames(false, "Hook OverrideActionBar Show")
-end
---]]
-
-function Titan_Hook_Override()
-	-- We need a post hook here...
-	local bar_state = ActionBarController_GetCurrentActionBarState()
-	if bar_state == LE_ACTIONBAR_STATE_MAIN then
-		-- normal state, show / restore the user requested bars
-		if InCombatLockdown() or UnitInVehicle("player") then
-			-- wait until out of combat just in case...
-			-- Putting back a bar (especially bottom bar) could cause the 
-			-- main menu bar to not work as expected.
-		else
-			TitanPanelBarButton_DisplayBarsWanted()
-		end
-	elseif bar_state == LE_ACTIONBAR_STATE_OVERRIDE then
-		-- override bar in place, look at bottom bars
-		if TitanPanelGetVar("AuxBar_Show") then
-			TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."AuxBar")
-		end
-		if TitanPanelGetVar("AuxBar2_Show") then
-			TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX.."AuxBar2")
-		end
-	else
-		-- no other known states
-	end
-end
-
 function Titan_Hook_Map()
 	TitanPanel_AdjustFrames(false, "Hook WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MinimizeButton ")
-end
-
-function Titan_Hook_OrderHall()
-	TitanPanel_AdjustFrames(false, "Hook OrderHall_CheckCommandBar ")
 end
 
 function Titan_Hook_PEW()
@@ -999,11 +999,11 @@ function Titan_Hook_SpecSwitch()
 	TitanPanel_AdjustFrames(false, "Hook SpecSwitch Config timer ")
 end
 
-function Titan_Hook_MoveAdj()
+function Titan_Hook_MoveAdj() -- in config but not used
 	TitanPanel_AdjustFrames(false, "Hook MoveAdj Config timer ")
 end
 
-function Titan_Hook_Vehicle()
+function Titan_Hook_Vehicle() -- in config but not used
 	TitanPanel_AdjustFrames(false, "Hook Vehicle Config timer ")
 end
 
@@ -1032,32 +1032,20 @@ function TitanMovable_SecureFrames()
 		TitanPanelAce:SecureHook(TicketStatusFrame, "Show", Titan_Hook_Ticket_Show) -- HelpFrame.xml
 		TitanPanelAce:SecureHook(TicketStatusFrame, "Hide", Titan_Hook_Ticket_Hide) -- HelpFrame.xml
 		TitanPanelAce:SecureHook("TargetFrame_Update", Titan_Hook_Target) -- TargetFrame.lua
---		TitanPanelAce:SecureHook(OverrideActionBar, "Show", Titan_Hook_Override_Show) -- HelpFrame.xml
---		TitanPanelAce:SecureHook(OverrideActionBar, "Hide", Titan_Hook_Override_Hide) -- HelpFrame.xml
 		TitanPanelAce:SecureHook("UpdateContainerFrameAnchors", Titan_ContainerFrames_Relocate) -- ContainerFrame.lua
 		TitanPanelAce:SecureHook(WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MinimizeButton, "Show", Titan_Hook_Map) -- WorldMapFrame.lua
 
-		TitanPanelAce:SecureHook("OrderHall_CheckCommandBar", Titan_Hook_OrderHall)
+--		TitanPanelAce:SecureHook("OrderHall_CheckCommandBar", Titan_Hook_OrderHall)
 	end
 
-		-- Updated fix for change to Override Bar which allows a player to be knocked off a 'vehicle' while in
-		-- combat. This can cause Titan bottom bar to cover the main menu bar.
-		--[[ From ActionBarController.lua
-				Slight kludge to build the frame name here, they are used in TitanVariables to define each bar
-		--]]
-
-	if TitanPanelAce:IsHooked("ActionBarController_UpdateAll", Titan_Hook_Override) then
-		--  nothing to do
-	else
-		TitanPanelAce:SecureHook("ActionBarController_UpdateAll", Titan_Hook_Override)
-	end
-		
 	if not TitanPanelAce:IsHooked("VideoOptionsFrameOkay_OnClick", Titan_AdjustUIScale) then
-		-- Properly Adjust UI Scale if set
-		-- Note: These are the least intrusive hooks we could think of, to properly adjust the Titan Bar(s)
-		-- without having to resort to a SetCvar secure hook. Any addon using SetCvar should make sure to use the 3rd
-		-- argument in the API call and trigger the CVAR_UPDATE event with an appropriate argument so that other addons
-		-- can detect this behavior and fire their own functions (where applicable).
+		--[[
+		Properly Adjust UI Scale if set
+		Note: These are the least intrusive hooks we could think of, to properly adjust the Titan Bar(s)
+		without having to resort to a SetCvar secure hook. Any addon using SetCvar should make sure to use the 3rd
+		argument in the API call and trigger the CVAR_UPDATE event with an appropriate argument so that other addons
+		can detect this behavior and fire their own functions (where applicable).
+		--]]
 		TitanPanelAce:SecureHook("VideoOptionsFrameOkay_OnClick", Titan_AdjustUIScale) -- VideoOptionsFrame.lua
 		TitanPanelAce:SecureHook(VideoOptionsFrame, "Hide", Titan_AdjustUIScale) -- VideoOptionsFrame.xml
 	end
@@ -1067,9 +1055,18 @@ function TitanMovable_SecureFrames()
 	
 	hooks_done = true
 end
-function TitanMovable_Unhook_SecureFrames()
+
 --[[
-This is a debug attempt to fix an issue when a player is dumped from a vehicle while still in combat.
+	TitanDebug ("MoveFrame :"
+		.." "..tostring(frame:GetName())
+		.." point:"..tostring(point)
+		.." relativeTo:"..tostring(relativeTo:GetName())
+		.." relativePoint:"..tostring(relativePoint)
+		.." xOfs:"..tostring(xOfs)
+		.." y:"..tostring(y)
+		.." adj:"..tostring(DoAdjust(top_bottom, force))
+		.." tb:"..tostring(top_bottom)
+		.." f:"..tostring(force)
+		)
+	end
 --]]
-	TitanPanelAce:UnhookAll()
-end

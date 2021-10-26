@@ -21,7 +21,7 @@ L.LOOT_SPEC_REMINDER         = "Votre spécialisation actuelle est %s. Votre cho
 
 L.BIGWIGS_ICON_CONFLICT      = "DBM a détecté que vous avez activé vos icônes de raid sur DBM et Bigwigs simultanément. Désactivez les icônes de l'un d'entre-eux pour éviter tout conflit avec votre raid leader"
 
-L.MOD_AVAILABLE				= "%s est disponible pour ce contenu. Vous pouvez trouver sur |HDBM:forums|h|cff3588ffdeadlybossmods.com|r ou sur Curse. Ce message ne s'affichera qu'une fois."
+L.MOD_AVAILABLE				= "%s est disponible pour ce contenu. Vous pouvez trouver sur |Hgarrmission:DBM:forums|h|cff3588ffdeadlybossmods.com|r ou sur Curse. Ce message ne s'affichera qu'une fois."
 
 L.COMBAT_STARTED				= "%s engagé. Bonne chance et amusez-vous bien ! :)";
 L.COMBAT_STARTED_IN_PROGRESS = "Vous êtes engagé dans un combat en cours contre %s. Bonne chance et amusez-vous bien ! :)"
@@ -89,6 +89,7 @@ L.MOD_DEFAULT_LOADED			= "Les options par défaut pour ce combat ont été charg
 
 L.WORLDBOSS_ENGAGED          = "%s a probablement été engagé sur votre royaume à %s de vie. (Envoyé par %s)"
 L.WORLDBOSS_DEFEATED         = "%s a probablement été tué sur votre royaume (Envoyé par %s)."
+L.WORLDBUFF_STARTED			= "%s a commencé sur votre royaume depuis la faction de %s (Envoyé par %s)."
 
 L.TIMER_FORMAT_SECS			= "%.2f |4seconde:secondes;"
 L.TIMER_FORMAT_MINS			= "%d |4minute:minutes;"
@@ -154,7 +155,7 @@ L.OUT_OF_DATE_NAG				= "Votre version de DBM est périmée. Il est recommandé q
 
 L.MOVABLE_BAR				= "Bougez-moi !"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h vous a envoyé un délai DBM: '%2$s'\n|HDBM:cancel:%2$s:nil|h|cff3588ff[Annuler ce délais]|r|h  |HDBM:ignore:%2$s:%1$s|h|cff3588ff[Ignorer les délais de %1$s]|r|h"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h vous a envoyé un délai DBM: '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[Annuler ce délais]|r|h  |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignorer les délais de %1$s]|r|h"
 L.PIZZA_CONFIRM_IGNORE			= "Voulez-vous réellement ignorer les délais DBM de %s durant cette session ?"
 L.PIZZA_ERROR_USAGE				= "Utilisation: /dbm [broadcast] timer <durée> <texte>"
 
@@ -424,3 +425,12 @@ L.LAG_CHECKING               = "Vérification de la latence du raid..."
 L.LAG_HEADER                 = "Deadly Boss Mods - Résultats sur la latence"
 L.LAG_ENTRY                  = "%s: délai monde [%d ms] / délai domicile [%d ms]"
 L.LAG_FOOTER                 = "Pas de réponse: %s"
+
+L.WORLD_BUFFS.hordeOny		= "Peuple de la Horde, citoyens d’Orgrimmar, venez, rassemblez-vous et célébrez un héros de la Horde"
+L.WORLD_BUFFS.allianceOny	= "Citoyens et alliés de Stormwind, ce jour est historique."
+L.WORLD_BUFFS.hordeNef		= "NEFARIAN A ÉTÉ TUÉ ! Peuple d'Orgrimmar"
+L.WORLD_BUFFS.allianceNef	= "Citoyens de l'Alliance, le seigneur du clan Blackrock a été tué !"
+L.WORLD_BUFFS.zgHeart		= "Il ne reste plus qu'une étape avant que prenne fin la menace de l'Écorcheur d'âmes"
+L.WORLD_BUFFS.zgHeartBooty	= "Le Dieu sanglant, l'Écorcheur d'âmes, a été vaincu ! Nous ne sommes plus menacés !"
+L.WORLD_BUFFS.zgHeartYojamba	= "Commencez le rituel, mes serviteurs. Nous devons renvoyer le cœur d'Hakkar dans le vide !"
+L.WORLD_BUFFS.rendHead		= "Le faux chef Rend Blackhand est tombé !"

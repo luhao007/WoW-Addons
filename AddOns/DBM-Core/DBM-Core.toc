@@ -1,6 +1,6 @@
 ## Interface: 90100
-## Author: Tandanu and Nitram and MysticalOS
-## Version: 9.1.5
+## Author: MysticalOS, QartemisT
+## Version: a3ea5f8
 ## Dependencies: DBM-StatusBarTimers
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon
@@ -13,14 +13,10 @@
 ## Notes-zhCN: 功能强大的副本助手，支持所有Boss。
 
 ## X-Min-Interface: 90100
-## X-Website: http://www.deadlybossmods.com
-## X-Curse-Project-ID: 3358
-## X-WoWI-ID: 8814
-## X-Wago-ID: qv633o6b
+## X-Min-Interface-Classic: 11400
+## X-Min-Interface-BCC: 20502
+## X-Website: https://deadlybossmods.com
 ## X-Part-Of: DBM-Core
-
-#@no-lib-strip@
-#@end-no-lib-strip@
 
 localization.en.lua
 localization.de.lua
@@ -32,6 +28,13 @@ localization.tw.lua
 localization.kr.lua
 localization.es.lua
 localization.br.lua
+
+# Pre-core modules
+modules\Modules.lua
+
+modules\Icons.lua
+
+# Core
 DBM-Core.lua
 DBM-Arrow.lua
 DBM-Flash.lua
@@ -39,3 +42,10 @@ DBM-RangeCheck.lua
 DBM-InfoFrame.lua
 DBM-HudMap.lua
 DBM-Nameplate.lua
+
+# Modules
+modules\MinimapButton.lua
+modules\Sounds.lua
+modules\SpecRole.lua
+
+modules\objects\Localization.lua

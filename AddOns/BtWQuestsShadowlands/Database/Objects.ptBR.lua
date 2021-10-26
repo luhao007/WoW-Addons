@@ -6,5 +6,8 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateObjectsTable({
+    [369432] = {
+        name = "Tomo Venthyr Perdido",
+    },
 })
 ]])()

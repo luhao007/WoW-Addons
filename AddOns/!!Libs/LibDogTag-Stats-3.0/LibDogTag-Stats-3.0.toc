@@ -1,4 +1,5 @@
-## Interface: 80000
+## Interface: 90100
+## X-Curse-Project-ID: 58908
 ## LoadOnDemand: 1
 ## Title: Lib: DogTag-Stats-3.0
 ## Notes: A library to provide tags for player combat stats to LibDogTag-3.0

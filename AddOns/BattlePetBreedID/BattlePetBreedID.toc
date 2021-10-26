@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: Simca@Malfurion and Hugh@Burning Blade
-## Version: v1.18.1
+## Version: v1.18.2
 ## SavedVariables: BPBID_Options
 
 ## Title: Battle Pet BreedID
@@ -9,7 +9,7 @@
 ## Notes-zhCN: 显示战斗宠物的品种（如速度型）
 
 ## X-Category: Pet Battles
-## X-Date: 2021-07-02T07:34:19Z
+## X-Date: 2021-09-03T03:47:49Z
 ## X-License: BSD
 ## X-Localizations: enUS
 ## X-Curse-Project-ID: 45935

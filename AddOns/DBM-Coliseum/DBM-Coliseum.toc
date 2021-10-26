@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: Nitram
-## Version: r299
+## Version: r301
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMColiseum_AllSavedVars

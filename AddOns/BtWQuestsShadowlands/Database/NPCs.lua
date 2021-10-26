@@ -5061,8 +5061,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1961] = {
                 {
-                    x = 0.629635,
-                    y = 0.254064,
+                    x = 0.630045,
+                    y = 0.248306,
                 },
             },
         },
@@ -5094,8 +5094,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1961] = {
                 {
-                    x = 0.63036,
-                    y = 0.257385,
+                    x = 0.631204,
+                    y = 0.244087,
                 },
             },
         },
@@ -5660,6 +5660,28 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.230914,
                     y = 0.45964,
+                },
+            },
+        },
+    },
+    [180073] = {
+        name = "Thrall",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.628699,
+                    y = 0.2564,
+                },
+            },
+        },
+    },
+    [180074] = {
+        name = "Lady Jaina Proudmoore",
+        locations = {
+            [1961] = {
+                {
+                    x = 0.630199,
+                    y = 0.256277,
                 },
             },
         },

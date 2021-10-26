@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(2439, "DBM-SanctumOfDomination", nil, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210714022611")
+mod:SetRevision("20211011144558")
 mod:SetCreatureID(175726)--Skyja (TODO, add other 2 and set health to highest?)
 mod:SetEncounterID(2429)
 mod:SetUsedIcons(8, 7, 6, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(20210713000000)--2021-07-13
+mod:SetHotfixNoticeRev(20210720000000)--2021-07-20
 mod:SetMinSyncRevision(20210713000000)
 --mod.respawnTime = 29
 
@@ -14,21 +14,19 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 350202 350342 350339 350365 350283 350385 350467 352744 350541 350482 350687 350475 355294 352756 352752",
 	"SPELL_CAST_SUCCESS 350286 350745",
-	"SPELL_AURA_APPLIED 350202 350158 350109 351139 350039 350542 350184 350483",
+	"SPELL_AURA_APPLIED 350202 350158 350109 351139 350039 350542 350184 350483 350012 350078",
 	"SPELL_AURA_APPLIED_DOSE 350202 350542",
 	"SPELL_AURA_REMOVED 350158 350109 351139 350039 350542 350184 350483",
 --	"SPELL_AURA_REMOVED_DOSE 350542",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
-	"UNIT_DIED",
-	"CHAT_MSG_MONSTER_YELL"
+	"UNIT_DIED"
 --	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --TODO, tank swap stacks
 --TODO, how many formless mass spawn in higher difficulties? Find out total needed icons
 --TODO, marking anything else??
---TODO, mythic timer updates when I have more patience to actually resolve how they update on phase 2 transition. It'd be nice if phase 2 was actually in combat log
 --[[
 (ability.id = 350202 or ability.id = 350342 or ability.id = 350365 or ability.id = 352756 or ability.id = 350385 or ability.id = 352752 or ability.id = 350467 or ability.id = 352744 or ability.id = 350541 or ability.id = 350482 or ability.id = 350687 or ability.id = 350475 or ability.id = 355294 or ability.id = 350339) and type = "begincast"
  or (ability.id = 350745 or ability.id = 350286) and type = "cast"
@@ -82,7 +80,7 @@ local yellFragmentsofDestiny					= mod:NewShortPosYell(350542)--TODO, probably c
 --Stage Two: The First of the Mawsworn
 local specWarnPierceSoul						= mod:NewSpecialWarningStack(350475, nil, 4, nil, nil, 1, 6)
 local specWarnPierceSoulTaunt					= mod:NewSpecialWarningTaunt(350475, nil, nil, nil, 1, 2)
-local specWarnLinkEssence						= mod:NewSpecialWarningYou(350482, nil, nil, nil, 1, 2, 3)
+local specWarnLinkEssence						= mod:NewSpecialWarningDefensive(350482, nil, nil, nil, 1, 2, 3)
 local specWarnWordofRecall						= mod:NewSpecialWarningSpell(350687, nil, nil, nil, 2, 2, 3)
 --local specWarnGTFO							= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 
@@ -114,7 +112,7 @@ mod:AddNamePlateOption("NPAuraOnBrightAegis", 350158)
 
 local castsPerGUID = {}
 local fragmentTargets = {[1] = false, [2] = false, [3] = false, [4] = false}
-local expectedDebuffs = 3
+--local expectedDebuffs = 3
 
 mod.vb.valksDead = 11--1 not dead, 2 dead. 10s Kyra and 1s Signe
 --mod.vb.addIcon = 8
@@ -141,7 +139,7 @@ do
 	updateInfoFrame = function()
 		table.wipe(lines)
 		table.wipe(sortedLines)
-		for i = 1, expectedDebuffs do
+		for i = 1, 8 do
 			if fragmentTargets[i] then
 				local name = fragmentTargets[i]
 				addLine(L.Fragment..i, name)
@@ -154,7 +152,7 @@ end
 function mod:OnCombatStart(delay)
 	table.wipe(castsPerGUID)
 	fragmentTargets = {[1] = false, [2] = false, [3] = false, [4] = false}
-	expectedDebuffs = self:IsMythic() and 4 or 3
+--	expectedDebuffs = self:IsMythic() and 4 or 3
 	self:SetStage(1)
 	self.vb.valksDead = 11
 --	self.vb.addIcon = 8
@@ -211,13 +209,13 @@ function mod:SPELL_CAST_START(args)
 		specWarnFormlessMass:Play("killmob")
 		timerFormlessMassCD:Start(nil, self.vb.massCount+1)
 		if self.Options.SetIconOnFormlessMass then--Only use up to 5 icons
-			self:ScanForMobs(177407, 0, 8, 2, 0.2, 12, "SetIconOnFormlessMass")
+			self:ScanForMobs(177407, 0, 8, 2, nil, 12, "SetIconOnFormlessMass")
 		end
 	elseif spellId == 350339 then
 		if not castsPerGUID[args.sourceGUID] then
 			castsPerGUID[args.sourceGUID] = 0
 --			if self.Options.SetIconOnFormlessMass and self.vb.addIcon > 3 then--Only use up to 5 icons
---				self:ScanForMobs(args.sourceGUID, 2, self.vb.addIcon, 1, 0.2, 12, "SetIconOnFormlessMass")
+--				self:ScanForMobs(args.sourceGUID, 2, self.vb.addIcon, 1, nil, 12, "SetIconOnFormlessMass")
 --			end
 --			self.vb.addIcon = self.vb.addIcon - 1
 		end
@@ -326,7 +324,12 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnUnendingStrike:Show(amount)
 				specWarnUnendingStrike:Play("stackhigh")
 			else
-				if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", spellId) then
+				local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if (not remaining or remaining and remaining < 6.7) and not UnitIsDeadOrGhost("player") then
 					specWarnUnendingStrikeTaunt:Show(args.destName)
 					specWarnUnendingStrikeTaunt:Play("tauntboss")
 				else
@@ -347,11 +350,11 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnPierceSoulTaunt:Show(args.destName)
 					specWarnPierceSoulTaunt:Play("tauntboss")
 				else
-					warnUnendingStrike:Show(args.destName, amount)
+					warnPierceSoul:Show(args.destName, amount)
 				end
 			end
 		else
-			warnUnendingStrike:Show(args.destName, amount)
+			warnPierceSoul:Show(args.destName, amount)
 		end
 	elseif spellId == 350158 then
 		warnAnnhyldesBrightAegis:CombinedShow(0.3, args.destName)
@@ -378,14 +381,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 350542 then
 		local amount = args.amount or 1
 		local icon = 0
-		for i = 1, expectedDebuffs do
+		local uId = DBM:GetRaidUnitId(args.destName)
+		for i = 1, 8 do--Only up to 8 icons
 			if not fragmentTargets[i] then--Not yet assigned!
 				icon = i
 				fragmentTargets[i] = args.destName--Assign player name for infoframe even if they already have icon
-				if self.Options.SetIconOnFragments then--Now do icon stuff, if enabled
-					local uId = DBM:GetRaidUnitId(args.destName)
-					local currentIcon = GetRaidTargetIndex(uId) or 9--We want to set "no icon" as max index for below logic
-					if currentIcon > i then--Automatically set lowest icon index on target, meaning star favored over circle, circle favored over triangle, etc.
+				local currentIcon = GetRaidTargetIndex(uId) or 9--We want to set "no icon" as max index for below logic
+				if currentIcon > i then--Automatically set lowest icon index on target, meaning star favored over circle, circle favored over triangle, etc.
+					if self.Options.SetIconOnFragments then--Now do icon stuff, if enabled
 						self:SetIcon(args.destName, i)
 					end
 				end
@@ -396,7 +399,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() then
 				specWarnFragmentsofDestiny:Show(self:IconNumToTexture(icon))
 				specWarnFragmentsofDestiny:Play("targetyou")
-				yellFragmentsofDestiny:Yell(icon, icon)
+				if icon < 9 then
+					yellFragmentsofDestiny:Yell(icon, icon)
+				end
 			end
 			warnFragmentsofDestiny:CombinedShow(0.3, args.destName)
 		else
@@ -411,16 +416,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnLinkEssence:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnLinkEssence:Show()
-			specWarnLinkEssence:Play("targetyou")
+			specWarnLinkEssence:Play("defensive")
 		end
 	elseif spellId == 350184 then
 		warnDaschlasMightyAnvil:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDaschlasMightyAnvil:Show()
-			specWarnDaschlasMightyAnvil:Play("watchstep")
+			specWarnDaschlasMightyAnvil:Play("scatter")
 			yellDaschlasMightyAnvil:Yell()
 			yellDaschlasMightyAnvilFades:Countdown(spellId)
 		end
+	elseif spellId == 350012 then
+		specWarnAgathasEternalblade:Show()
+		specWarnAgathasEternalblade:Play("farfromline")
+	elseif spellId == 350078 then
+		specWarnAradnesFallingStrike:Show()
+		specWarnAradnesFallingStrike:Play("helpsoak")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -440,28 +451,14 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellArthurasCrushingGazeFades:Cancel()
 		end
 	elseif spellId == 350542 then
---		local oneRemoved = false
 		--Combat log doesn't fire for each dose, removed removes ALL stacks
-		for i = 1, expectedDebuffs do
+		for i = 1, 8 do
 			if fragmentTargets[i] and fragmentTargets[i] == args.destName then--Found assignment matching this units name
---				if not oneRemoved then
-					fragmentTargets[i] = false--remove first assignment we find
---					oneRemoved = true
---					local uId = DBM:GetRaidUnitId(args.destName)
---					local stillDebuffed = DBM:UnitDebuff(uId, spellId)--Check for remaining debuffs
---					if not stillDebuffed then--Terminate loop and remove icon if enabled
-						if self.Options.SetIconOnFragments then
-							self:SetIcon(args.destName, 0)
-						end
---						break--Break loop, nothing further to do
---					end
---				else
---					if self.Options.SetIconOnFragments then
---						self:SetIcon(args.destName, i)
---						break--Break loop, Icon updated to next
---					end
---				end
+				fragmentTargets[i] = false--remove assignment
 			end
+		end
+		if self.Options.SetIconOnFragments then
+			self:SetIcon(args.destName, 0)
 		end
 		if DBM.InfoFrame:IsShown() then
 			DBM.InfoFrame:Update()
@@ -487,18 +484,6 @@ function mod:UNIT_DIED(args)
 		self.vb.valksDead = self.vb.valksDead + 1
 		timerSongofDissolutionCD:Stop()
 		timerReverberatingRefrainCD:Stop()
-	end
-end
-
-function mod:CHAT_MSG_MONSTER_YELL(msg, _, _, _, target)
-	--"<22.56 20:59:16> [CHAT_MSG_MONSTER_YELL] Fall before my blade!#Agatha#####0#0##0#1227#nil#0#false#false#false#false", -- [821]
-	if msg == L.AgathaBlade or msg:find(L.AgathaBlade) then
-		specWarnAgathasEternalblade:Show()
-		specWarnAgathasEternalblade:Play("farfromline")
-	--"<240.03 21:02:54> [CHAT_MSG_MONSTER_YELL] You are all outmatched!#Aradne#####0#0##0#1273#nil#0#false#false#false#false", -- [4657]
-	elseif msg == L.AradneStrike or msg:find(L.AradneStrike) then
-		specWarnAradnesFallingStrike:Show()
-		specWarnAradnesFallingStrike:Play("helpsoak")
 	end
 end
 

@@ -1,10 +1,30 @@
-tag 495290031658c2e4a20f5f1a4ccff50a205c3cd0 v9.0.5.071
+tag d773625b4843eb04ea6d6ec6eb6e602f2bfe51fa v9.1.0.072
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Sat Mar 13 14:48:39 2021 -0300
+Date:	Sat Sep 4 10:49:59 2021 -0300
 
-commit d4521c8cd6c09514b18ad1cb7a1b25c4134e9f74
+commit 8205c218ae45ac3d9abf52e491b97b4a28f4f05c
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Mar 13 14:42:34 2021 -0300
+Date:   Sat Sep 4 10:49:37 2021 -0300
 
-    Toc Update
+    ToC Update to 90100
+
+commit 92280d7ed6b7b095084aefaad0c5892b506d376e
+Author: Matt Smith <psykzz@users.noreply.github.com>
+Date:   Sat Sep 4 14:47:44 2021 +0100
+
+    Use correct global
+
+commit 92280d7ed6b7b095084aefaad0c5892b506d376e
+Author: Matt Smith <psykzz@users.noreply.github.com>
+Date:   Sat Sep 4 14:47:44 2021 +0100
+
+    Use correct global
+
+commit 0003def568feb910d6ce3e58c9deedf9d3b29682
+Author: Matt Smith <psykzz@users.noreply.github.com>
+Date:   Sat Sep 4 14:46:04 2021 +0100
+
+    Replace global_deepcopy with Details.CopyTable
+    
+    deepcopy was removed around 4months ago.
 
