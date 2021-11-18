@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: arith, Dynaletik, dubcat
 ## Version: v1.49.01
 ## RequiredDeps: Atlas

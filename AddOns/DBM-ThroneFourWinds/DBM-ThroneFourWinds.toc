@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: MysticalOS
-## Version: r214
+## Version: r215
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMThroneFourWinds_AllSavedVars

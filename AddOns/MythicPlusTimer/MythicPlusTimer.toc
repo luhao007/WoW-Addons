@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Fabys
 ## Version: 4.4.1
 ## SavedVariables: MythicPlusTimerDB

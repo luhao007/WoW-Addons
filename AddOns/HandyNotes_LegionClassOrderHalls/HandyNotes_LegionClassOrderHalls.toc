@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: arith
 ## Version: v1.41
 ## RequiredDeps: HandyNotes

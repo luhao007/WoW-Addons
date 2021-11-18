@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: xGrit
-## Version: 3.10.2
+## Version: 3.11
 ## SavedVariables: GladiatorlosSADB
 
 ## Title: GladiatorlosSA
@@ -13,3 +13,6 @@ Locales\locales.xml
 GladiatorlosSA2.lua
 spelllist.lua
 options.lua
+
+ClassicEra\options_TBC.lua
+ClassicEra\spelllist_TBC.lua

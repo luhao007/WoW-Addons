@@ -68,13 +68,17 @@ class InstawowManager:
         else:
             print(f'All {self.profile} addons are up-to-date!')
 
-    def install(self, addons: str | list[str], strategy=None):
+    def install(self, addons: str | list[str], reinstall=False, strategy=None):
         defns = self.to_defns(addons)
 
         if '_lib' in self.profile:
             defns = [d.with_(strategy='any_flavour' if d.source == 'curse' else 'default') for d in defns]
         elif strategy:
             defns = [d.with_(strategy=strategy) for d in defns]
+
+        if reinstall:
+            results = instawow.cli.run_with_progress(self.manager.remove(defns, False))
+            print(instawow.cli.Report(results.items()))
         results = instawow.cli.run_with_progress(self.manager.install(defns, replace=False))
         print(instawow.cli.Report(results.items()))
 

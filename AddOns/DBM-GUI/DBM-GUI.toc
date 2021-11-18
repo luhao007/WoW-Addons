@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: MysticalOS, QartemisT
-## Version: a3ea5f8
+## Version: edca2ba
 ## Dependencies: DBM-Core
 ## LoadOnDemand: 1
 ## DefaultState: enabled

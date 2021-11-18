@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: MysticalOS
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
@@ -8,7 +8,7 @@
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Sanctum of Domination|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0统御圣所|r
 
-## X-Min-Interface: 90100
+## X-Min-Interface: 90105
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: SHADOWLANDS

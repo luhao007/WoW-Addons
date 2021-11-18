@@ -1,11 +1,8 @@
 # <DBM> Dungeons (BC)
 
-## [r28](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r28) (2021-10-11)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r27...r28) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
+## [r29](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r29) (2021-11-02)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r28...r29) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
 
-- Update scanformobs  
-- Fix error  
-- Fixed warning type on Yanzhu blackout brew  
-    Added voice pack support to Stormstoute Brewery in prep for timewalking  
-    Improved color bar by type support to stormstoute brewery for timewalking  
-    Did some redundant warning/spam cleanup of Stormstoute Brewery for timewalking  
+- tweak option default for mighty blow  
+- bump tocs  
+- Updated Scholomance with voice pack and better color bar by type support for timewalking in 9.1.5  

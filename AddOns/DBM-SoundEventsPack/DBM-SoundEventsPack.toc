@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: MysticalOS, Pardua, Cigawoot
-## Version: 1.6.12
+## Version: 1.6.13
 ## RequiredDeps: DBM-Core
 ## DefaultState: enabled
 

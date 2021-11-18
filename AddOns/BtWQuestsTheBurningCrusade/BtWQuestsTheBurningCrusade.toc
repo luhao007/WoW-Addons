@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Breen
-## Version: 4.5
+## Version: 4.6
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
 

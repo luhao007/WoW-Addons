@@ -1,11 +1,11 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## Version: 5.21.1.90100
+## Version: 5.21.2.90105
 ## Dependencies: Titan
 ## OptionalDeps: 
 ## SavedVariables: 
 
-## Title: Titan Panel [|cffeda55fPerformance|r] |cff00aa005.21.1.90100|r
+## Title: Titan Panel [|cffeda55fPerformance|r] |cff00aa005.21.2.90105|r
 ## Notes: Adds FPS and Garbage collection information to Titan Panel
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0性能|r
 ## Notes-zhCN: 泰坦面板的性能模块

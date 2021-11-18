@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Oleg "Rowaa[SR13]" Volkov
 ## Version: v62
 ## RequiredDeps: Blizzard_GarrisonUI, Blizzard_OrderHallUI

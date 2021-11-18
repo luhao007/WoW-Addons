@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Version: 90002.03
 ## LoadManagers: AddonLoader
 ## SavedVariables: MEETINGSTONE_UI_DB

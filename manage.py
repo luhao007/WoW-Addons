@@ -11,9 +11,9 @@ from toc import TOC
 
 logger = logging.getLogger('manager')
 
-CLASSIC_ERA_VER = '11307'
-CLASSIC_VER = '20501'
-RETAIL_VER = '90100'
+CLASSIC_ERA_VER = '11401'
+CLASSIC_VER = '20502'
+RETAIL_VER = '90105'
 
 
 def available_on(platforms):
@@ -162,7 +162,7 @@ class Manager:
 
                 return toc.to_lines()
 
-            for postfix in ['', '-Classic', '-BCC', '-Mainline']:
+            for postfix in ['', '-Classic', '-BCC', '-Mainline', '_TBC', '_Vanilla']:
                 path = os.path.join('AddOns', addon, f'{addon}{postfix}.toc')
                 if os.path.exists(path):
                     utils.process_file(path, functools.partial(process, config, addon))
@@ -394,7 +394,7 @@ class Manager:
                 ['CallbackHandler-1.0', 'LibDataBroker-1.1',
                  'LibDbIcon-1.0', 'LibStub'],
                 'AddOns/alaTalentEmu/Libs',
-                'AddOns/alaTalentEmu/alaTalentEmu.xml'
+                'AddOns/alaTalentEmu/Libs/libs.xml'
             )
 
     @staticmethod
@@ -732,7 +732,7 @@ class Manager:
         )
 
         if utils.get_platform() == 'classic_era':
-            for postfix in ['', '-BCC', '-Classic']:
+            for postfix in ['', '-BCC']:
                 utils.remove_libraries([ 'LibUIDropDownMenu'], 'AddOns/Questie/Libs', f'AddOns/Questie/Questie{postfix}.toc')
 
         root = Path('AddOns/Questie')

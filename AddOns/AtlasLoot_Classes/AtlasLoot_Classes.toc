@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: cybermind, Zinival
 ## Version: v3.1
 ## Dependencies: AtlasLoot

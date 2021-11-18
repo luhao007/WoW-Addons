@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: kagaro, xinhuan, nevcairiel
 ## Version: 1.46.8
 ## OptionalDeps: Ace3, LibDataBroker-1.1, HereBeDragons

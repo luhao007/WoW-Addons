@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: MysticalOS, QartemisT
-## Version: a3ea5f8
+## Version: edca2ba
 ## LoadOnDemand: 0
 ## SavedVariables: DBT_AllPersistentOptions
 ## DefaultState: enabled

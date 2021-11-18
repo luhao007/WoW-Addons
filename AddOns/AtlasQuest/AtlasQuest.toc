@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Thandrenn
 ## Version: 4.12.04
 ## RequiredDeps: Atlas

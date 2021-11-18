@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Ermad
 ## SavedVariables: AngryKeystones_Config, AngryKeystones_Data
 ## SavedVariablesPerCharacter: AngryKeystones_CharacterConfig

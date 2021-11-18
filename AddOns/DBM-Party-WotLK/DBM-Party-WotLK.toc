@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Arta
-## Version: r28
+## Version: r29
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWotLK_AllSavedVars

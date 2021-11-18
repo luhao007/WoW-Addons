@@ -1,5 +1,5 @@
 @cont1nuity:
-- Small adjustments for profile names and additional information during imports.
-- Fixing an issue with profile updates not working.
-- Adding support for Classic Era.
+- TOC update for 9.1.5.
+- Improvements to profile import and wrong data recognition.
+- Adjustments for tooltip backdrop changes in 9.1.5.
 

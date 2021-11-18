@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Omega
-## Version: r43
+## Version: r44
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_Archaeology_Settings

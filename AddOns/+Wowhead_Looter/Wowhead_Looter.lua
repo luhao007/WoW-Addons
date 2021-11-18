@@ -3,15 +3,15 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 9.1.0                     --
---    Updated: September 16, 2021      --
+--    Patch: 9.1.5                     --
+--    Updated: November 15, 2021       --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 90100;
+local WL_VERSION = 90105;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -65,6 +65,9 @@ local WL_LOOT_TOAST_BOSS = {
     [244182] = 121913, -- emeriss
     [244184] = 121821, -- lethon
     [244183] = 121912, -- ysondre
+};
+local WL_LOOT_TOAST_BOSSES = {
+    [167749] = true,
 };
 local WL_LOOT_TOAST_BAGS = {
     [142397] = 98134,     -- Heroic Cache of Treasures
@@ -554,6 +557,9 @@ local WL_DAILY_NPCS = {
 
     -- Night Fae Amphitheater
     '166135', '166138', '166139', '166140', '166142', '166145', '166146',
+
+    -- Notable Korthia Rares
+    '177336', '179768', '179108', '180160',
 };
 
 -- dungeon difficulty -> npcs we're looking for in that difficulty
@@ -597,6 +603,15 @@ local WL_DAILY_BUT_NOT_REALLY = {
     60255, -- A Valuable Find: The Other Side
     60250, -- A Valuable Find: Theater of Pain
     60254, -- A Valuable Find: Tirna Scithe
+
+    -- Covenant Assault achievement-related
+    63846, -- The Ember Count
+    63773, -- You and What Army
+    63545, -- Putting a Plan Together
+    63972, -- Just Don't Ask Me to Spell It
+    63951, -- A Shady Place
+    63836, -- Fangcrack's Fan Club
+    63837, -- A Tea for Every Occasion
 }
 
 local WL_DAILY_VENDOR_ITEMS = { 141713, 141861, 141884, 141860, 141712, 141862, } -- Xur'ios
@@ -2859,7 +2874,17 @@ function wlEvent_SHOW_LOOT_TOAST(self, typeIdentifier, itemLink, quantity, specI
         return;
     end
 
-    if wlLootToastSourceId or
+    local now = wlGetTime();
+    local isToastBoss = false;
+
+    if (wlMostRecentEliteKilled and wlMostRecentEliteKilled.id and
+        wlMostRecentEliteKilled.timeOfDeath and wlConsecutiveNpcKills == 0 and
+        now <= (wlMostRecentEliteKilled.timeOfDeath + 2000) and
+        WL_LOOT_TOAST_BOSSES[tonumber(wlMostRecentEliteKilled.id)]) then
+        isToastBoss = true;
+    end
+
+    if wlLootToastSourceId or isToastBoss or
         (wlTracker.spell and
          wlTracker.spell.action == "Opening" and
          wlTracker.spell.kind == "item" and
@@ -2879,10 +2904,10 @@ function wlEvent_SHOW_LOOT_TOAST(self, typeIdentifier, itemLink, quantity, specI
         end
         local eventId = wlCurrentLootToastEventId;
 
-        if WL_LOOT_TOAST_BOSS[wlLootToastSourceId] then
+        if WL_LOOT_TOAST_BOSS[wlLootToastSourceId] or isToastBoss then
             wlTracker.spell.action = "Killing";
             wlTracker.spell.kind = "npc";
-            wlTracker.spell.id = WL_LOOT_TOAST_BOSS[wlLootToastSourceId];
+            wlTracker.spell.id = isToastBoss and wlMostRecentEliteKilled.id or WL_LOOT_TOAST_BOSS[wlLootToastSourceId];
             wlUpdateVariable(wlEvent, wlId, wlN, eventId, "initArray", 0);
             wlEvent[wlId][wlN][eventId].what = "loot";
             wlTableCopy(wlEvent[wlId][wlN][eventId], wlTracker.spell);

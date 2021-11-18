@@ -5,7 +5,7 @@ Author: Massiner of Nathrezim
 Contributor: xfsbill
 Past Contributors: DT85, DandierSphinx
 
-Version: 1.0.9
+Version: 1.0.10
 
 Description: Graphically create as many Action Bars and Buttons in the game as you choose
 
@@ -23,8 +23,12 @@ Restrictions:
 
 
 History:
+11-November-2021	v1.0.10  - Updated for Wow v9.1.5
+							 - Experimental: Support custom visibility macro aura:spellID
+							 - Adds slash commands to list active auras (spellID)
+
 25-October-2021		v1.0.9  - Fixed an issue with new custom visibility macro map:mapID
-							- Expirmental: Support custom visibility macro quest:questID
+							- Experimental: Support custom visibility macro quest:questID
 							- Adds slash commands to list current location (mapID) and quests (questID)
 
 14-October-2021		v1.0.8  - Experimental: Support custom visibility macro map:mapID. Get current mapID with /run print(C_Map.GetBestMapForUnit("player"))

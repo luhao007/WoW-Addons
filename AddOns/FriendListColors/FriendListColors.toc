@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Vladinator
 ## Version: 9.0.1.201018
 ## SavedVariables: FriendListColorsDB

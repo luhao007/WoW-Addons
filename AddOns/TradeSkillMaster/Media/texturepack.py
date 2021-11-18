@@ -36,7 +36,7 @@ for file_name, frame_info in info['frames'].items():
     y = frame_info['frame']['y']
     w = frame_info['frame']['w']
     h = frame_info['frame']['h']
-    inner_parts += [f"\t\t\t[\"{file_name}\"] = {{ {x}, {x + w}, {y}, {y + h} }}"]
+    inner_parts += ["\t\t\t[\"{}\"] = {{ {}, {}, {}, {} }}".format(file_name, x, x + w, y, y + h)]
 inner_parts.sort()
 
 with open(name + ".lua", 'w') as f:

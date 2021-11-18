@@ -4,6 +4,11 @@ local Plater = _G.Plater
 local DF = DetailsFramework
 local _
 
+local IS_WOW_PROJECT_MAINLINE = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+local IS_WOW_PROJECT_NOT_MAINLINE = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
+local IS_WOW_PROJECT_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+local IS_WOW_PROJECT_CLASSIC_TBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+
 --[=[
     search keys:
     ~monk
@@ -15,6 +20,8 @@ local CONST_SPECID_ROGUE_ASSASSINATION = 259
 local CONST_SPECID_ROGUE_OUTLAW = 260
 local CONST_SPECID_ROGUE_SUBTLETY = 261
 local CONST_SPECID_DRUID_FERAL = 103
+local CONST_SPECID_PALADIN_HOLY = 65
+local CONST_SPECID_PALADIN_PROTECTION = 66
 local CONST_SPECID_PALADIN_RETRIBUTION = 70
 local CONST_SPECID_WARLOCK_AFFLICTION = 265
 local CONST_SPECID_WARLOCK_DEMONOLOGY = 266
@@ -178,3 +185,199 @@ local resourceCreationFunctions = Plater.Resources.GetResourceWidgetCreationTabl
         widgetFrame.ShowAnimation = MainAnimationGroup
         return widgetFrame
     end
+
+
+    local comboPointFunc = function(parent, frameName)
+        --> create the main frame
+        local widgetFrame = CreateFrame("frame", frameName, parent)
+
+        --> create background
+        local backgroundTexture = parent:CreateTexture("$parenttopCircleTexture", "BACKGROUND")
+        backgroundTexture:SetAtlas("ClassOverlay-ComboPoint-Off")
+        backgroundTexture:SetDrawLayer("OVERLAY", 1)
+        backgroundTexture:SetPoint("center", widgetFrame, "center", 0, 0)
+        backgroundTexture:SetSize(20, 20)
+        backgroundTexture:SetVertexColor(0.96470373868942, 0.99999779462814, 0.98823314905167, 0.99999779462814)
+        widgetFrame.background = backgroundTexture
+        parent.widgetsBackground[#parent.widgetsBackground + 1] = backgroundTexture
+
+        --> single animation group
+        local MainAnimationGroup = widgetFrame:CreateAnimationGroup()
+        MainAnimationGroup:SetLooping("NONE")
+        MainAnimationGroup:SetToFinalAlpha(true)
+
+        ----------------------------------------------
+
+        local comboPointTexture  = widgetFrame:CreateTexture("$parentcomboPointTextureTexture", "ARTWORK")
+        comboPointTexture:SetAtlas("ClassOverlay-ComboPoint")
+        comboPointTexture:SetDrawLayer("BORDER", 0)
+        comboPointTexture:SetPoint("center", widgetFrame, "center", 0, 0)
+        comboPointTexture:SetSize(20, 20)
+        
+        widgetFrame.texture = comboPointTexture
+
+        --> animations for comboPointTexture
+
+        comboPointTexture.alpha1 = MainAnimationGroup:CreateAnimation("ALPHA")
+        comboPointTexture.alpha1:SetTarget(comboPointTexture)
+        comboPointTexture.alpha1:SetOrder(1)
+        comboPointTexture.alpha1:SetDuration(0.195999994874)
+        comboPointTexture.alpha1:SetFromAlpha(0)
+        comboPointTexture.alpha1:SetToAlpha(0.49912714958191)
+        comboPointTexture.scale1 = MainAnimationGroup:CreateAnimation("SCALE")
+        comboPointTexture.scale1:SetTarget(comboPointTexture)
+        comboPointTexture.scale1:SetOrder(1)
+        comboPointTexture.scale1:SetDuration(0.195999994874)
+        comboPointTexture.scale1:SetFromScale(0.29999998211861, 0.29999998211861)
+        comboPointTexture.scale1:SetToScale(1.3999999761581, 1.3999999761581)
+        comboPointTexture.scale1:SetOrigin("center", 0, 0)
+        comboPointTexture.scale2 = MainAnimationGroup:CreateAnimation("SCALE")
+        comboPointTexture.scale2:SetTarget(comboPointTexture)
+        comboPointTexture.scale2:SetOrder(2)
+        comboPointTexture.scale2:SetDuration(0.096000000834465)
+        comboPointTexture.scale2:SetFromScale(0.9899999499321, 0.9899999499321)
+        comboPointTexture.scale2:SetToScale(0.79999995231628, 0.78999996185303)
+        comboPointTexture.scale2:SetOrigin("center", 0, 0)
+        comboPointTexture.alpha1 = MainAnimationGroup:CreateAnimation("ALPHA")
+        comboPointTexture.alpha1:SetTarget(comboPointTexture)
+        comboPointTexture.alpha1:SetOrder(2)
+        comboPointTexture.alpha1:SetDuration(0.096000000834465)
+        comboPointTexture.alpha1:SetFromAlpha(0.69999998807907)
+        comboPointTexture.alpha1:SetToAlpha(1)
+
+        --> test the animation
+        --MainAnimationGroup:Play()
+
+        widgetFrame.ShowAnimation = MainAnimationGroup
+        return widgetFrame
+    end
+
+
+    local arcaneChargesFunc = function(parent, frameName)
+        --> create the main frame
+        local widgetFrame = CreateFrame("frame", frameName, parent)
+
+        --> create background
+        local backgroundTexture = widgetFrame:CreateTexture("$parentbackgroundTexture", "OVERLAY")
+        backgroundTexture:SetTexture([[Interface\PLAYERFRAME\MageArcaneCharges]])
+        backgroundTexture:SetDrawLayer("OVERLAY", 0)
+        backgroundTexture:SetPoint("center", widgetFrame, "center", 0, 0)
+        backgroundTexture:SetSize(20, 20)
+        backgroundTexture:SetDesaturated(true)
+        backgroundTexture:SetTexCoord(0.23063896179199, 0.39712070465088, 0.15204653739929, 0.45421440124512)
+        backgroundTexture:SetBlendMode("ADD")
+        widgetFrame.background = backgroundTexture
+        parent.widgetsBackground[#parent.widgetsBackground + 1] = backgroundTexture
+
+        --> single animation group
+        local MainAnimationGroup = widgetFrame:CreateAnimationGroup("widgetFrameAnimationGroup")
+        MainAnimationGroup:SetLooping("NONE")
+        MainAnimationGroup:SetToFinalAlpha(true)
+
+        widgetFrame:SetScript("OnHide", function()
+            MainAnimationGroup:Stop()
+        end)
+
+        ----------------------------------------------
+
+        local comboPointTexture  = widgetFrame:CreateTexture("$parentcomboPointTextureTexture", "ARTWORK")
+        comboPointTexture:SetTexture([[Interface\PLAYERFRAME\MageArcaneCharges]])
+        comboPointTexture:SetDrawLayer("ARTWORK", 0)
+        comboPointTexture:SetPoint("center", widgetFrame, "center", 0, 0)
+        comboPointTexture:SetSize(20, 20)
+        comboPointTexture:SetTexCoord(0.25749048233032, 0.36221286773682, 0.51534648895264, 0.73018249511719)
+
+        --> animations for comboPointTexture
+
+        comboPointTexture.scale = MainAnimationGroup:CreateAnimation("SCALE")
+        comboPointTexture.scale:SetTarget(comboPointTexture)
+        comboPointTexture.scale:SetOrder(1)
+        comboPointTexture.scale:SetDuration(0.096000000834465)
+        comboPointTexture.scale:SetFromScale(0, 0)
+        comboPointTexture.scale:SetToScale(1, 1)
+        comboPointTexture.scale:SetOrigin("center", 0, 0)
+        comboPointTexture.alpha = MainAnimationGroup:CreateAnimation("ALPHA")
+        comboPointTexture.alpha:SetTarget(comboPointTexture)
+        comboPointTexture.alpha:SetOrder(1)
+        comboPointTexture.alpha:SetDuration(0.096000000834465)
+        comboPointTexture.alpha:SetFromAlpha(0)
+        comboPointTexture.alpha:SetToAlpha(1)
+        comboPointTexture.scale = MainAnimationGroup:CreateAnimation("SCALE")
+        comboPointTexture.scale:SetTarget(comboPointTexture)
+        comboPointTexture.scale:SetOrder(2)
+        comboPointTexture.scale:SetDuration(0.096000000834465)
+        comboPointTexture.scale:SetFromScale(1.3097063302994, 1.3097063302994)
+        comboPointTexture.scale:SetToScale(1, 1)
+        comboPointTexture.scale:SetOrigin("center", 0, 0)
+
+        --> test the animation
+        --MainAnimationGroup:Play()
+
+        widgetFrame.ShowAnimation = MainAnimationGroup
+        return widgetFrame
+    end
+
+    local paladinChargesFunc = function(parent, frameName)
+
+        --> create the main frame
+        local widgetFrame = CreateFrame("frame", frameName, parent)
+
+        --> create background
+        local backgroundTexture = widgetFrame:CreateTexture("$parentbackgroundTexture", "BACKGROUND")
+        backgroundTexture:SetTexture([[Interface\AddOns\Plater\images\paladin_combo_point_deactive]])
+        backgroundTexture:SetDrawLayer("BACKGROUND", 0)
+        backgroundTexture:SetPoint("center", widgetFrame, "center", 0, 0)
+        backgroundTexture:SetSize(20, 20)
+        backgroundTexture:SetDesaturated(true)
+        backgroundTexture:SetTexCoord(0, 1, 0, 1)
+        widgetFrame.background = backgroundTexture
+        parent.widgetsBackground[#parent.widgetsBackground + 1] = backgroundTexture
+
+        --> single animation group
+        local MainAnimationGroup = widgetFrame:CreateAnimationGroup("widgetFrameAnimationGroup")
+        MainAnimationGroup:SetLooping("NONE")
+        MainAnimationGroup:SetToFinalAlpha(true)
+
+        widgetFrame:SetScript("OnHide", function()
+            MainAnimationGroup:Stop()
+        end)
+
+        local comboPointOn  = widgetFrame:CreateTexture("$parentcomboPointOnTexture", "ARTWORK")
+        comboPointOn:SetTexture([[Interface\AddOns\Plater\images\paladin_combo_point_active]])
+        comboPointOn:SetDrawLayer("ARTWORK", 0)
+        comboPointOn:SetPoint("center", widgetFrame, "center", 0, 0)
+        comboPointOn:SetSize(20, 20)
+        comboPointOn:SetTexCoord(0, 1, 0, 1)
+
+        --> animations for comboPointOn
+
+        comboPointOn.scale = MainAnimationGroup:CreateAnimation("SCALE")
+        comboPointOn.scale:SetTarget(comboPointOn)
+        comboPointOn.scale:SetOrder(1)
+        comboPointOn.scale:SetDuration(0.096000000834465)
+        comboPointOn.scale:SetFromScale(0.44999998807907, 0.59999996423721)
+        comboPointOn.scale:SetToScale(1, 1)
+        comboPointOn.scale:SetOrigin("center", 0, 0)
+        comboPointOn.scale2 = MainAnimationGroup:CreateAnimation("SCALE")
+        comboPointOn.scale2:SetTarget(comboPointOn)
+        comboPointOn.scale2:SetOrder(2)
+        comboPointOn.scale2:SetDuration(0.056000001728535)
+        comboPointOn.scale2:SetFromScale(1.0951955318451, 1.0951955318451)
+        comboPointOn.scale2:SetToScale(1, 1)
+        comboPointOn.scale2:SetOrigin("center", 0, 0)
+
+        --> test the animation
+        --MainAnimationGroup:Play()
+
+        widgetFrame.ShowAnimation = MainAnimationGroup
+        return widgetFrame
+    end
+
+    resourceCreationFunctions[CONST_SPECID_DRUID_FERAL] = comboPointFunc
+    resourceCreationFunctions[CONST_SPECID_ROGUE_ASSASSINATION] = comboPointFunc
+    resourceCreationFunctions[CONST_SPECID_ROGUE_OUTLAW] = comboPointFunc
+    resourceCreationFunctions[CONST_SPECID_ROGUE_SUBTLETY] = comboPointFunc
+    resourceCreationFunctions[CONST_SPECID_MAGE_ARCANE] = arcaneChargesFunc
+    resourceCreationFunctions[CONST_SPECID_PALADIN_HOLY] = paladinChargesFunc
+    resourceCreationFunctions[CONST_SPECID_PALADIN_PROTECTION] = paladinChargesFunc
+    resourceCreationFunctions[CONST_SPECID_PALADIN_RETRIBUTION] = paladinChargesFunc

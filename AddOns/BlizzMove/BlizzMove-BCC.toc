@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Kiatra - github.com/Kiatra/BlizzMove/
-## Version: v3.1.7
+## Version: v3.2.3
 ## OptionalDeps: Ace3
 ## SavedVariables: BlizzMoveDB
 

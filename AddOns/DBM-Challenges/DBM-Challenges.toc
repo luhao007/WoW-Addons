@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: MysticalOS
-## Version: r142
+## Version: r143
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMChallenges_AllSavedVars

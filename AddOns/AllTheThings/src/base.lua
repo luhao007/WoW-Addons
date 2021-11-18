@@ -39,14 +39,7 @@ app.SetScript = function(self, ...)
 end
 
 (function()
-local button = CreateFrame("BUTTON", nil, _);
-local checkbutton = CreateFrame("CHECKBUTTON", nil, _);
-local texture = _:CreateTexture(nil, "ARTWORK");
-local frameClass = getmetatable(_).__index;
-local buttonClass = getmetatable(button).__index;
-local checkbuttonClass = getmetatable(checkbutton).__index;
-local textureClass = getmetatable(texture).__index;
-buttonClass.SetATTTooltip = function(self, text)
+local SetATTTooltip = function(self, text)
 	self:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
 		GameTooltip:SetText(text, nil, nil, nil, nil, true);
@@ -58,8 +51,23 @@ buttonClass.SetATTTooltip = function(self, text)
 		end
 	end);
 end
-checkbuttonClass.SetATTTooltip = buttonClass.SetATTTooltip;
-frameClass.SetATTTooltip = buttonClass.SetATTTooltip;
+local button = CreateFrame("BUTTON", nil, _);
+button:Hide();
+local editbox = CreateFrame("EDITBOX", nil, _);
+editbox:Hide();
+local checkbutton = CreateFrame("CHECKBUTTON", nil, _);
+checkbutton:Hide();
+local texture = _:CreateTexture(nil, "ARTWORK");
+texture:Hide();
+local frameClass = getmetatable(_).__index;
+local buttonClass = getmetatable(button).__index;
+local editboxClass = getmetatable(editbox).__index;
+local checkbuttonClass = getmetatable(checkbutton).__index;
+local textureClass = getmetatable(texture).__index;
+buttonClass.SetATTTooltip = SetATTTooltip;
+checkbuttonClass.SetATTTooltip = SetATTTooltip;
+frameClass.SetATTTooltip = SetATTTooltip;
+editboxClass.SetATTTooltip = SetATTTooltip;
 textureClass.SetATTSprite = function(self, name, x, y, w, h, sourceW, sourceH)
 	self:SetTexture(app.asset("content"));
 	self:SetTexCoord(x / sourceW, (x + w) / sourceW, y / sourceH, (y + h) / sourceH);
@@ -70,8 +78,6 @@ buttonClass.SetATTHighlightSprite = function(self, name, x, y, w, h, sourceW, so
 	hl:SetATTSprite(name, x, y, w, h, sourceW, sourceH);
 	return hl;
 end
-texture:Hide();
-button:Hide();
 end)();
 
 -- ReloadUI slash command (for ease of use)
@@ -125,7 +131,7 @@ function app:ShowPopupDialogWithEditBox(msg, text, callback, timeout)
 		self.editBox:SetWidth(240);
 		self.editBox:HighlightText();
 	end;
-	popup.text = msg or "Ctrl+C to Copy to your Clipboard.";
+	popup.text = (msg or "")..app.L["REPORT_TIP"];
 	popup.callback = callback;
 	StaticPopup_Hide ("ALL_THE_THINGS_EDITBOX");
 	StaticPopup_Show ("ALL_THE_THINGS_EDITBOX");

@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Tandanu/Nitram
-## Version: r301
+## Version: r302
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMOnyxia_AllSavedVars

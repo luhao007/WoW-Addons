@@ -115,14 +115,30 @@ VAR: frame
 --]]
 function LDBToTitan:TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
 	if frame:GetName() == "GameTooltip" then
+		-- Changes for 9.1.5. The background template was removed from the GameTooltip
+		local tip_name = frame:GetName()
+		
+		local tip_back_name = tip_name.."Backdrop"
+		local tip_back_frame = _G[tip_back_name] or CreateFrame("Frame", tip_back_name, frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
+		tip_back_frame:SetFrameLevel(frame:GetFrameLevel() - 1) -- By creating this after the parent, need to set it behind the parent
+
+		tip_back_frame:SetAllPoints()
+		tip_back_frame:SetBackdrop(back_drop_info)
+		-- set alpha (transparency) for the Game Tooltip
+		local tool_trans = TitanPanelGetVar("TooltipTrans")
+		tip_back_frame:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b, tool_trans)
+		tip_back_frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, tool_trans)
+		frame.MenuBackdrop = tip_back_frame
+
 		frame:SetOwner(parent, "ANCHOR_NONE");
+--[[
 		-- set alpha (transparency) for the Game Tooltip
 		local red, green, blue = GameTooltip:GetBackdropColor();
 		local red2, green2, blue2 = GameTooltip:GetBackdropBorderColor();
 		frame:SetBackdropColor(red,green,blue,TitanPanelGetVar("TooltipTrans"));
 		frame:SetBackdropBorderColor(red2,green2,blue2,
 			TitanPanelGetVar("TooltipTrans"));
-
+--]]
 		-- set font size for the Game Tooltip
 		if not TitanPanelGetVar("DisableTooltipFont") then
 			if TitanTooltipScaleSet < 1 then

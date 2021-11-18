@@ -1,3 +1,27 @@
+**r713:**
+
+Additions:
+> Attempts for Reins of the Infinite Timereaver should now also accumulate in Legion Timewalking dungeons
+<br>REVERTED: Added tracking for Illidari Doomhawk and Doomwalker Trophy Stand (17th anniversary)
+
+Developer Notes:
+> Blizzard hotfixed the anniversary drops to be guaranteed. As such they've been removed from Rarity again.
+
+-----
+
+**r712:**
+
+Additions:
+> Added tracking for Gilded Darknight
+
+Fixes:
+> The main window should again be rendered properly (previously broken by patch 9.1.5 API changes)
+
+Contributors (in alphabetical order):
+> Tommy Godejord
+
+-----
+
 **r711:**
 
 Additions:
@@ -58,37 +82,3 @@ Developer Notes:
 
 Contributors (in alphabetical order):
 > Tommy Godejord
-
------
-
-**r708:**
-
-Additions:
-> Added tracking for Gilded Water (pet)
-<br>Added tracking for Outrider's Bridle Chain (toy)
-<br>Added a holiday-style reminder for when Dunegorger Kraulok is available (experimental)
-
-Changes:
-> The /rarity verify slash command used for validating the item database is now available as /rarity validate
-
-Fixes:
-> Items obtainable from the Black Market auction house are now flagged as such
-<br>All items should now be assigned a zone, so that filtering by the current zone no longer incorrectly excludes them
-<br>Tracking for the Ascended Skymane mount should now be working on non-English client locales
-
-Contributors (in alphabetical order):
-> Tommy Godejord
-
------
-
-**r707:**
-
-Changes:
-> The tooltip text for faction-restricted items is now dynamically colored based on whether it's available to the logged-in character
-
-Fixes:
-> Fixed an issue where looting Forgotten Chests in Stormsong Valley would cause attempts to be added for Silessa's Battle Harness and Stony's Infused Ruby
-
-Contributors (in alphabetical order):
-> Nick Bayley
-<br>Tommy Godejord

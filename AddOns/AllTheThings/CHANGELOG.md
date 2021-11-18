@@ -1,23 +1,23 @@
 # AllTheThings
 
-## [SL-2.4.9](https://github.com/DFortun81/AllTheThings/tree/SL-2.4.9) (2021-10-12)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/SL-2.4.8...SL-2.4.9) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
-
-### Highlights of this update
-
-Mainly fixes after the last release that had lots of reworked logic.
+## [SL-2.5.3](https://github.com/DFortun81/AllTheThings/tree/SL-2.5.3) (2021-11-14)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/SL-2.5.2...SL-2.5.3) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
 ### Notable changes:
 
-- Recipe reagents in the tradeskill UI will once again properly show ATT information.
-- For all you Unique collectors out there fixed a special case when Blizzard returns invalid data about items. You will see in the tooltip if you need another manual refresh (Shift+Click) to fix it.
-- Fixed tooltips showing "---" when using "Collection Progress > Icon Only".
-- Fixed Recipes not showing collection status in tooltip.
-- "Known by" list is properly alphabetized again.
-- Drop chance logic:
-    - Best Loot Spec chance now shows all specs which were calculated to have the same best chance
-    - Adjusted alignment/colors for drop chances
-- Added "Sarge's Tale", new Hearthstone mount. In order to receive this mount, complete Hearthstone's Mercenaries Mode tutorial and send your party on a mission.
+- WoW 17th Anniversary!
+- More WoD Garrison unification/cleanup.
+- WoD pets/quests/achievements improvements.
+- 9.1.5 has new questchain to get another murloc pet. You can find it in Secrets->Gurgl.
+- More PvP items fixes.
+- Fixed duplicating Lore information for Friendship factions.
+- Another round of fixes and improvements for `/attwq` feature.
+- Added new lvl 60 boost and new items associated with it. Reorganized (removed) trials/boosts while at it.
+- More unification between retail/classic versions of ATT, this time in classic dungeons.
+- Quests that are listed inside instances but have their starting point in the open world will now properly map their coordinates.
+- Invasion Points for Argus return to minilists once again.
+- Other fixes.
 
-### Known issues:
-If you track recipes, some extra things (like talents or "Revive all Battle Pets" abilities) will have the "Collected/Not collected" text.
+### Notable changes:
+
+Next release will probably have Profiles support!

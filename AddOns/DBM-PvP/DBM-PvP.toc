@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Nitram/Tandanu/Arta
-## Version: r127
+## Version: r128
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPvP_AllSavedVars

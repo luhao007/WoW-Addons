@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: MysticalOS, QartemisT
-## Version: a3ea5f8
+## Version: edca2ba
 ## Dependencies: DBM-StatusBarTimers
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon
@@ -12,7 +12,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFFFFE00ADBM|r
 ## Notes-zhCN: 功能强大的副本助手，支持所有Boss。
 
-## X-Min-Interface: 90100
+## X-Min-Interface: 90105
 ## X-Min-Interface-Classic: 11400
 ## X-Min-Interface-BCC: 20502
 ## X-Website: https://deadlybossmods.com
@@ -32,7 +32,10 @@ localization.br.lua
 # Pre-core modules
 modules\Modules.lua
 
+modules\Scheduler.lua
+modules\DevTools.lua
 modules\Icons.lua
+modules\TargetScanning.lua
 
 # Core
 DBM-Core.lua

@@ -51,7 +51,6 @@ local InCombatLockdown = InCombatLockdown
 local UnitIsPlayer = UnitIsPlayer
 local UnitClassification = UnitClassification
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
-local AuraUtilForEachAura = AuraUtil.ForEachAura
 local UnitCanAttack = UnitCanAttack
 local IsSpellInRange = IsSpellInRange
 local abs = math.abs
@@ -3713,6 +3712,9 @@ local class_specs_coords = {
 			--range
 			--Plater.CheckRange (plateFrame, true)
 			
+			--resources - TODO:
+			Plater.Resources.UpdatePlaterResourceFramePosition() --~resource
+			
 			--hooks
 			if (HOOK_NAMEPLATE_ADDED.ScriptAmount > 0) then
 				for i = 1, HOOK_NAMEPLATE_ADDED.ScriptAmount do
@@ -6266,7 +6268,7 @@ end
 			end
 		end
 
-		Plater.Resources.CanUsePlaterResourceFrame() --~resource
+		Plater.Resources.UpdatePlaterResourceFramePosition() --~resource
 	end
 
 	function Plater.UpdateTargetHighlight (plateFrame)

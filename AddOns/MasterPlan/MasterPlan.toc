@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: foxlit
 ## Version: 0.122
 ## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA

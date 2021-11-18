@@ -1,6 +1,6 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: The WeakAuras Team
-## Version: 3.7.2
+## Version: 3.7.3
 ## Dependencies: WeakAuras, WeakAurasOptions
 ## LoadOnDemand: 1
 ## DefaultState: Enabled

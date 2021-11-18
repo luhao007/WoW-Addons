@@ -91,6 +91,21 @@ local function TitanTooltip_AddTooltipText(text)
 	end
 end
 
+local back_drop_info =
+	{
+		bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
+		edgeFile="Interface\\Tooltips\\UI-Tooltip-Border",
+		tile = true,
+		insets = {
+			left = 6,
+			right = 6,
+			top = 3,
+			bottom = 3,
+		},
+		tileSize = 8,
+		edgeSize = 8,
+	}
+
 --[[ local
 NAME: TitanTooltip_SetOwnerPosition
 DESC: Set both the parent and the position of GameTooltip for the plugin tooltip.
@@ -107,15 +122,32 @@ local function TitanTooltip_SetOwnerPosition(parent, anchorPoint, relativeToFram
 	if not frame then
 		frame = _G["GameTooltip"]
 	end
+	-- Changes for 9.1.5. The background template was removed from the GameTooltip
+	local tip_name = frame:GetName()
+	
+	local tip_back_name = tip_name.."Backdrop"
+	local tip_back_frame = _G[tip_back_name] or CreateFrame("Frame", tip_back_name, frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
+	tip_back_frame:SetFrameLevel(frame:GetFrameLevel() - 1) -- By creating this after the parent, need to set it behind the parent
+
+	tip_back_frame:SetAllPoints()
+	tip_back_frame:SetBackdrop(back_drop_info)
+	-- set alpha (transparency) for the Game Tooltip
+	local tool_trans = TitanPanelGetVar("TooltipTrans")
+	tip_back_frame:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b, tool_trans)
+	tip_back_frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, tool_trans)
+	frame.MenuBackdrop = tip_back_frame
+	
 	frame:SetOwner(parent, "ANCHOR_NONE");
 	frame:SetPoint(anchorPoint, relativeToFrame, relativePoint, 
 		xOffset, yOffset);
+--[[
 	-- set alpha (transparency) for the Game Tooltip
-	local red, green, blue = frame:GetBackdropColor();
-	local red2, green2, blue2 = frame:GetBackdropBorderColor();
+	local red, green, blue = tip_back_frame:GetBackdropColor();
+	local red2, green2, blue2 = tip_back_frame:GetBackdropBorderColor();
 	local tool_trans = TitanPanelGetVar("TooltipTrans")
-	frame:SetBackdropColor(red,green,blue,tool_trans);
-	frame:SetBackdropBorderColor(red2,green2,blue2,tool_trans);
+	tip_back_frame:SetBackdropColor(red,green,blue,tool_trans);
+	tip_back_frame:SetBackdropBorderColor(red2,green2,blue2,tool_trans);
+--]]
 	-- set font size for the Game Tooltip
 	if not TitanPanelGetVar("DisableTooltipFont") then
 		if TitanTooltipScaleSet < 1 then
@@ -455,41 +487,6 @@ local function TitanPanelButton_OnDragStop(self, ChildButton)
 		-- Restore the OnEnter script handler
 		if pluginOnEnter then self:SetScript("OnEnter", pluginOnEnter) end
 		pluginOnEnter = nil;
-	end
-end
-
---[[ local
-NAME: TitanTooltip_SetOwnerPosition
-DESC: Set both the parent and the position of GameTooltip for the plugin tooltip.
-VAR: parent - reference to the frame to attach the tooltip to
-VAR: anchorPoint - tooltip anchor location (side or corner) to use
-VAR: relativeToFrame - string name name of the frame, usually the plugin), to attach the tooltip to
-VAR: relativePoint - parent anchor location (side or corner) to use
-VAR: xOffset - X offset from the anchor point
-VAR: yOffset - Y offset from the anchor point
-VAR: frame - reference to the tooltip
-OUT:  None
---]]
-local function TitanTooltip_SetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
-	if not frame then
-		frame = _G["GameTooltip"]
-	end
-	frame:SetOwner(parent, "ANCHOR_NONE");
-	frame:SetPoint(anchorPoint, relativeToFrame, relativePoint, 
-		xOffset, yOffset);
-	-- set alpha (transparency) for the Game Tooltip
-	local red, green, blue = frame:GetBackdropColor();
-	local red2, green2, blue2 = frame:GetBackdropBorderColor();
-	local tool_trans = TitanPanelGetVar("TooltipTrans")
-	frame:SetBackdropColor(red,green,blue,tool_trans);
-	frame:SetBackdropBorderColor(red2,green2,blue2,tool_trans);
-	-- set font size for the Game Tooltip
-	if not TitanPanelGetVar("DisableTooltipFont") then
-		if TitanTooltipScaleSet < 1 then
-		TitanTooltipOrigScale = frame:GetScale();
-		TitanTooltipScaleSet = TitanTooltipScaleSet + 1;
-		end
-		frame:SetScale(TitanPanelGetVar("TooltipFont"));
 	end
 end
 

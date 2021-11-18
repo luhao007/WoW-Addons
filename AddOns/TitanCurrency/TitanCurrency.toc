@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90105
 ## Author: Greenhorns@Vek'Nilash
 ## Version: 9.1
 ## RequiredDeps: Titan

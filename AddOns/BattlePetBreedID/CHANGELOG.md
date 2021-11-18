@@ -1,6 +1,7 @@
 # Battle Pet BreedID
 
-## v1.18.2 (2021-09-03)
+## v1.19.0 (2021-11-04)
  
 
-- Added remaining almost all remaining breed data from Patch 9.1.0.  
+- Added Patch 9.1.5 battle pet base stat and breed data and updated the TOC as well.  
+- Fixed an issue where tooltip backgrounds would appear to be the wrong color.  

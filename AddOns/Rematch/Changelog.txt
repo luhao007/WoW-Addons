@@ -1,3 +1,10 @@
+11/02/2021 version 4.11.18
+- Fix for backdrop error when mousing over some of the toolbar buttons.
+
+11/02/2021 version 4.11.17
+- Added Leveling Queue Option 'Random Pet When Queue Empty' to load random high-level pets in leveling slots when the leveling queue is empty.
+- toc update for 9.1.5
+
 07/01/2021 version 4.11.16
 - Fix for actions in journal mode that should switch to the team panel not switching; such as clicking a team tab, searching for teams a pet belongs to, etc.
 

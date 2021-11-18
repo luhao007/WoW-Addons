@@ -1,275 +1,36 @@
-tag dda07e1903304a2aad8fe3791abaf49564c5e71b v9.1.0.271
+tag 24771a30813ce6442b3daabbf9ffb3422c594c7c v9.1.5.278
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Sun Sep 5 15:17:36 2021 -0300
+Date:	Tue Nov 2 19:28:22 2021 -0300
 
-commit ab1b4ed01ce543a18381ea676d69c4ae51d5c56e
+commit e7577c7c5e0cfe1b0926345be2b86b8e7de5a960
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Sep 4 19:40:17 2021 -0300
+Date:   Tue Nov 2 19:27:43 2021 -0300
 
-    Added setmember alias for button to be equal as the Label
+    Fixed some visuals with tooltips
 
-commit ad4369b7d283a04227c4bfc70bd1f898a0cd6b4a
+commit ca2517c3b5f61b86d972e188642b7a8fb36cb6f4
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Aug 31 20:47:55 2021 -0300
+Date:   Sun Oct 3 17:45:01 2021 -0300
 
-    Added GetClassTCoordsAndTexture(class)
+    Added OnReset and OnAcquire functions to Pool system
 
-commit 85b438609ee1b3db0b28d32316c5674a6f55180c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Aug 27 18:02:43 2021 -0300
-
-    Added DF:SplitTextInLines(text), this get a text string and split into lines by \n and add each line to a table
-
-commit bdbfcddc5526ba46370194953906e456e6b3f3c5
+commit 357777bea626c8a9742e8772254daa29bcc8025d
 Author: Continuity <continuity@gmx.net>
-Date:   Wed Aug 25 11:23:17 2021 +0200
+Date:   Thu Sep 30 21:34:58 2021 +0200
 
-    - fixing an issue with cast / channel data initialization
-
-commit b8d6e95f4c9852aa517deac8a42377837a5495fb
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Aug 23 14:22:35 2021 -0300
-
-    bug fix
-
-commit a72f88ea4578e209563f22d49d71e64b486a51a9
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Aug 23 14:16:50 2021 -0300
-
-    AddClassIconToText(text, playerName, class, useSpec, iconSize)
-
-commit 2dbe968f9386614eb458345fd073a3e54bdc049f
-Author: Continuity <continuity@gmx.net>
-Date:   Sun Aug 22 19:43:54 2021 +0200
-
-    - fixing global leak pickup
-
-commit 45686aece22ea8211e4b35e7780dc103738f28f6
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Aug 18 14:05:53 2021 -0300
-
-    Added food buffs
-
-commit 54f57ea580d6e85905469e8a6227e3085e296bfd
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Aug 10 19:50:57 2021 +0200
-
-    - ensuring interrupts are caught for channels as well
-
-commit 409c5c45ca4ec442a80077950696a6fddc8965b7
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Aug 3 10:44:07 2021 -0300
-
-    Added DF:CreateRightClickToClose(parent, xOffset, yOffset, color, fontSize)
+    - adding/changing support for classic era and tbc
     
-    Create a text string in the bottom right of the frame
+    - Using LibClassicCasterino if available in classic era
 
-commit 26c2f9eb05cfe2f6c1274a6f85e026875dee62f7
+commit 0a7c8335bb0041459d8d068f6f9971b63048d49c
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Jul 7 16:38:42 2021 -0300
+Date:   Fri Sep 24 19:48:43 2021 -0300
 
-    260
+    add the alias 'GetLines' for the scrollBox
 
-commit 26c2f9eb05cfe2f6c1274a6f85e026875dee62f7
+commit 8f95fb1648eae6805f4e1c3f3a2ca12b3d3e7cc6
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Jul 7 16:38:42 2021 -0300
+Date:   Mon Sep 20 23:50:17 2021 -0300
 
-    260
-
-commit 049cf2e44da7631b4299b8272227b02fd18c3103
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Jul 7 21:31:19 2021 +0200
-
-    - fixing an issue with load conditions for encounters not being parsed correctly due to wago encoding
-
-commit 1798478a82ee8281434461e1806eba19a0879973
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Jul 7 21:30:46 2021 +0200
-
-    - updating encounter IDs
-
-commit cd2e764a247cc5c9dfbea8d71a2d19fbffad2458
-Author: Continuity <continuity@gmx.net>
-Date:   Wed Jul 7 21:15:44 2021 +0200
-
-    - update (from details)
-
-commit f625b3cc16f67e87dfa9402df31513dd85a23349
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Jul 5 15:18:32 2021 -0300
-
-    259
-
-commit 9550c484605bd9e8d540e8ffafbcf89f4e39d601
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Jul 3 20:32:50 2021 -0300
-
-    Increased the amount of alpha in the scale bar
-
-commit 56b34e98fe999d872170ae83f6142487cfcfa230
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Jun 22 16:55:42 2021 -0300
-
-    DF.UnitGroupRolesAssigned auto return DAMAGER if a class has only damage roles
-
-commit 56b34e98fe999d872170ae83f6142487cfcfa230
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Jun 22 16:55:42 2021 -0300
-
-    DF.UnitGroupRolesAssigned auto return DAMAGER if a class has only damage roles
-
-commit 5e2e31c8e24aa3a3e8a12380025e80636c53ef01
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Jun 14 21:43:38 2021 +0200
-
-    - cleanup
-
-commit 5f08a7a3bc0175051059c970168cd3344c6aff9c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat May 29 19:31:48 2021 -0300
-
-    Scheduler updates
-
-commit 52a1be51b444b6661d5305cd84dfb4fad413007d
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat May 29 18:30:59 2021 -0300
-
-    Added Schedules to allow C_Timer to pass payload
-
-commit 8e4f3e7edb54842cfd9fe90299b4fd2b1efb079f
-Author: Continuity <continuity@gmx.net>
-Date:   Fri May 28 08:24:32 2021 +0200
-
-    - removing demo roar in classic (just ap reduction)
-
-commit 3d4faf8ccac4caecf4ccc882f8c2b6648ea6bf37
-Author: Continuity <continuity@gmx.net>
-Date:   Thu May 27 16:55:33 2021 +0200
-
-    - consistency for potentially unavailable API
-
-commit e0fc02c0e1aa361335f45f20f810b9c4f36aa78f
-Author: Continuity <continuity@gmx.net>
-Date:   Wed May 26 11:53:42 2021 +0200
-
-    - adding 'DF:CreateFullBorder (name, parent)' as replacement for DFNamePlateFullBorderTemplate
-
-commit b1e56148df39d51db9482c6eb08318be9515b934
-Author: Continuity <continuity@gmx.net>
-Date:   Wed May 26 11:51:07 2021 +0200
-
-    Revert "- adding DFNamePlateFullBorderTemplate"
-    
-    This reverts commit 4a57afa7609ea20e9c40eea5e586f78f1d2a89ce.
-
-commit 4a57afa7609ea20e9c40eea5e586f78f1d2a89ce
-Author: Continuity <continuity@gmx.net>
-Date:   Tue May 25 19:31:01 2021 +0200
-
-    - adding DFNamePlateFullBorderTemplate
-
-commit 07e82c503d13bca7f657d06f8973c97837bdf949
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon May 24 11:34:48 2021 -0300
-
-    version up to 249
-
-commit 34aa51d3c71470d7ce8feb283ab2210e02c21f95
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon May 24 11:33:34 2021 -0300
-
-    Added member 'hidden' to option table, if true the option is skipped while building the menu
-
-commit 617f59c6b07704701c95aa621f7533b022953c33
-Author: Continuity <continuity@gmx.net>
-Date:   Sun May 23 20:22:55 2021 +0200
-
-    - no alt power in classic...
-
-commit 1fa15a653ce7a90579a3a95b53bbc2335e9035c0
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu May 20 14:22:21 2021 -0300
-
-    Splitbar using backdrop template
-
-commit d32ee56cbb67fe8907b797821fd30a2f31fd71a7
-Author: Continuity <continuity@gmx.net>
-Date:   Wed May 19 22:40:34 2021 +0200
-
-    - fixing tbc load conditions
-
-commit e340c03f02a6c2a3dd4165608e94cf63228cb23f
-Author: Continuity <continuity@gmx.net>
-Date:   Wed May 19 21:36:47 2021 +0200
-
-    - fixing cast interruptible state for classic
-
-commit 2d5af3ac4d964b79304d3fc437d1d88ba80b315c
-Author: Continuity <continuity@gmx.net>
-Date:   Sun May 16 23:34:24 2021 +0200
-
-    - adding spell ranks for CCs and CDs for classic
-
-commit adc3b849c1819e0be416f577d32dfcbce825c20c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu May 6 18:35:48 2021 -0300
-
-    Improvements on Split Bar
-    
-    - Added: splitBar:SetValueWithAnimation(value)
-    Adjust the value playing an animation
-
-commit 8514d192e6fa2283286347c35b54e0ce60d400d7
-Author: Continuity <continuity@gmx.net>
-Date:   Mon Apr 26 19:59:34 2021 +0200
-
-    - enabling `UNIT_HEALTH_FREQUENT` for TBC/Classic again
-
-commit af543209447d67161a934e2b031a911fa7d3b3a5
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Apr 22 21:41:41 2021 -0300
-
-    Updates to SplitBar allowing animation on it
-
-commit 21043087acfb7f94e1616da0c4d08ee21c8de3ed
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Apr 13 15:56:58 2021 +0200
-
-    - siwtching checks for WOW_PROJECT_MAINLINE
-
-commit c4a818bfe3d58f8ae4def3d5a686efaee2fe2e9c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Apr 1 11:54:08 2021 -0300
-
-    Added DF.IsTimewalkWoW() return true if IsClassic or IsTBC
-
-commit c4a818bfe3d58f8ae4def3d5a686efaee2fe2e9c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Apr 1 11:54:08 2021 -0300
-
-    Added DF.IsTimewalkWoW() return true if IsClassic or IsTBC
-
-commit b39583e75bd077e309fe05d1f0b81647ebd19d8f
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Apr 1 16:53:12 2021 +0200
-
-    - first updates for TBC support (mainly Plater)
-
-commit 519d048e80207be819d327ebc5cc0274e4e99b3d
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Apr 1 11:37:13 2021 -0300
-
-    Declare PixelUtil if not exists, added DF.IsTBCWow()
-
-commit 99825cbdfac7393fdb9b05208149bf6b30b62723
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Mar 23 20:08:39 2021 +0100
-
-    - small adjustment
-
-commit c57e7bbf750074090c0cad9c3d6442a4e3801ac8
-Author: Continuity <continuity@gmx.net>
-Date:   Tue Mar 23 19:00:40 2021 +0100
-
-    - continiusly increase base frame level of nameplates
+    Improvements on Timer Bar
 

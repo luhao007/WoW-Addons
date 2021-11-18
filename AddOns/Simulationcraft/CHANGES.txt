@@ -1,16 +1,22 @@
-lightweight tag aaa13656bdb4b495f875e6b5cb2feb7a70de28ba v9.1.0-01
+lightweight tag e1104e64537152d495593db5c60a0ad7c690e4b0 v9.1.5-01
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Wed Jun 30 08:17:33 2021 -0700
+Date:	Tue Nov 2 13:23:57 2021 -0700
 
-commit aaa13656bdb4b495f875e6b5cb2feb7a70de28ba
+commit e1104e64537152d495593db5c60a0ad7c690e4b0
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Wed Jun 30 08:17:33 2021 -0700
+Date:   Tue Nov 2 13:23:57 2021 -0700
 
-    Add enhanced conduit detection, bump version for 9.1
+    Update TOC version for 9.1.5
 
-commit fd9cfabbd79652b3bfd7090c9f8a01c0c9e3e245
-Author: Dave Hendler <sollaires@gmail.com>
-Date:   Mon Jun 21 16:44:23 2021 -0700
+commit fd435e17eb1992d319693dbf23b24678cae697ad
+Author: Julien Rechaussat <Kutikuti@users.noreply.github.com>
+Date:   Wed Jun 30 21:24:42 2021 +0200
 
-    Update addon version
+    Ignore vscode files
+
+commit 98d93e89d8427c1aefd957ba1fd50d05bcc51b5a
+Author: Julien Rechaussat <Kutikuti@users.noreply.github.com>
+Date:   Wed Jun 30 21:24:30 2021 +0200
+
+    Some cleanup, variable declaration, lua checker pleasing
 
