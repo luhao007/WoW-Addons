@@ -95,7 +95,7 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
         if os.path.exists(path):
             os.remove(path)
 
-    for lib in ['.xml', '.toc', '-Classic.toc', '-BCC.toc', '-Mainline.toc', '_TBC.toc', '_Vanilla.toc']:
+    for lib in ['.xml', '.toc', '-Classic.toc', '-BCC.toc', '-Mainline.toc', '_TBC.toc', '_Vanilla.toc', '_Mainline.toc']:
         path = Path('AddOns') / addon
         path /= f"{addon.split('/')[-1]}{lib}"
         if os.path.exists(str(path)):

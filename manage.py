@@ -162,7 +162,7 @@ class Manager:
 
                 return toc.to_lines()
 
-            for postfix in ['', '-Classic', '-BCC', '-Mainline', '_TBC', '_Vanilla']:
+            for postfix in ['', '-Classic', '-BCC', '-Mainline', '_TBC', '_Vanilla', '_Mainline']:
                 path = os.path.join('AddOns', addon, f'{addon}{postfix}.toc')
                 if os.path.exists(path):
                     utils.process_file(path, functools.partial(process, config, addon))
