@@ -6,10 +6,10 @@
     "name": "ALL THE THINGS",
     "description": "Addon for Tracking Collections & Account Completion",
     "url": "https://www.curseforge.com/wow/addons/all-the-things",
-    "download_url": "https://edge.forgecdn.net/files/3489/284/AllTheThings-SL-2.4.9.zip",
-    "date_published": "2021-10-12T20:50:25.303000+00:00",
-    "version": "SL-2.4.9",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/267285/file/3489284/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3620/899/AllTheThings-SL-2.6.10.zip",
+    "date_published": "2022-01-23T18:33:36.180000+00:00",
+    "version": "SL-2.6.10",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/267285/file/3620899/changelog",
     "options": {
       "strategy": "default"
     },
@@ -20,6 +20,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "SL-2.6.10",
+        "install_time": "2022-01-30T05:44:50+00:00"
+      },
+      {
+        "version": "SL-2.5.3",
+        "install_time": "2021-11-18T04:42:48+00:00"
+      },
       {
         "version": "SL-2.4.9",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -51,14 +59,6 @@
       {
         "version": "Shadowlands 2.2.3",
         "install_time": "2021-02-14T14:50:23+00:00"
-      },
-      {
-        "version": "Shadowlands 2.2.0",
-        "install_time": "2021-01-11T15:13:21+00:00"
-      },
-      {
-        "version": "Shadowlands 2.1.9",
-        "install_time": "2020-12-18T05:39:42+00:00"
       }
     ]
   },
@@ -69,10 +69,10 @@
     "name": "AchievementsReminder",
     "description": "Informs about achievements when you enter the instance or take boss to the target",
     "url": "https://www.curseforge.com/wow/addons/achievementsreminder",
-    "download_url": "https://edge.forgecdn.net/files/3446/188/AchievementsReminder9.102.zip",
-    "date_published": "2021-09-01T17:29:31.777000+00:00",
-    "version": "9.102",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/56954/file/3446188/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3620/877/AchievementsReminder9.152.zip",
+    "date_published": "2022-01-23T18:20:18.397000+00:00",
+    "version": "9.152",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/56954/file/3620877/changelog",
     "options": {
       "strategy": "default"
     },
@@ -83,6 +83,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.152",
+        "install_time": "2022-01-30T05:44:50+00:00"
+      },
+      {
+        "version": "9.103",
+        "install_time": "2021-11-18T04:42:48+00:00"
+      },
       {
         "version": "9.102",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -139,10 +147,10 @@
     "name": "AdvancedInterfaceOptions",
     "description": "Restores access to removed interface options in Legion",
     "url": "https://www.curseforge.com/wow/addons/advancedinterfaceoptions",
-    "download_url": "https://edge.forgecdn.net/files/3369/327/AdvancedInterfaceOptions-1.6.0.zip",
-    "date_published": "2021-06-29T17:08:53.243000+00:00",
-    "version": "1.6.0",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/99982/file/3369327/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3533/369/AdvancedInterfaceOptions-1.7.0.zip",
+    "date_published": "2021-11-22T02:03:55.033000+00:00",
+    "version": "1.7.0",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/99982/file/3533369/changelog",
     "options": {
       "strategy": "default"
     },
@@ -153,6 +161,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "1.7.0",
+        "install_time": "2022-01-30T05:44:50+00:00"
+      },
       {
         "version": "1.6.0",
         "install_time": "2021-07-17T04:48:14+00:00"
@@ -190,10 +202,10 @@
     "name": "Angry Keystones",
     "description": "Displays additional information for Mythic Keystone dungeons",
     "url": "https://www.curseforge.com/wow/addons/angry-keystones",
-    "download_url": "https://edge.forgecdn.net/files/3495/621/AngryKeystones-v0.22.1.zip",
-    "date_published": "2021-10-18T20:39:51.143000+00:00",
-    "version": "v0.22.1",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/102522/file/3495621/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3594/20/AngryKeystones-v0.23.1.zip",
+    "date_published": "2022-01-04T19:49:28.640000+00:00",
+    "version": "v0.23.1",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/102522/file/3594020/changelog",
     "options": {
       "strategy": "default"
     },
@@ -204,6 +216,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v0.23.1",
+        "install_time": "2022-01-30T05:44:50+00:00"
+      },
       {
         "version": "v0.22.1",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -249,10 +265,10 @@
     "name": "Atlas",
     "description": "Instance map browser",
     "url": "https://www.curseforge.com/wow/addons/atlas",
-    "download_url": "https://edge.forgecdn.net/files/3371/141/Atlas-v1.49.02.zip",
-    "date_published": "2021-06-30T15:26:07.773000+00:00",
-    "version": "v1.49.02",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/301/file/3371141/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3624/476/Atlas-v1.49.04.zip",
+    "date_published": "2022-01-26T16:09:32.423000+00:00",
+    "version": "v1.49.04",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/301/file/3624476/changelog",
     "options": {
       "strategy": "default"
     },
@@ -263,6 +279,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.49.04",
+        "install_time": "2022-01-30T05:44:50+00:00"
+      },
       {
         "version": "v1.49.02",
         "install_time": "2021-07-17T04:48:15+00:00"
@@ -985,10 +1005,10 @@
     "name": "Bagnon",
     "description": "All in one displays for your inventory, bank, and keyring",
     "url": "https://www.curseforge.com/wow/addons/bagnon",
-    "download_url": "https://edge.forgecdn.net/files/3481/584/Bagnon-9.1.3-9.1.0.zip",
-    "date_published": "2021-10-04T21:03:18.413000+00:00",
-    "version": "9.1.3",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/1592/file/3481584/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3545/587/Bagnon-9.1.4-9.1.5.zip",
+    "date_published": "2021-12-02T19:23:43.310000+00:00",
+    "version": "9.1.4",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/1592/file/3545587/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1011,6 +1031,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.1.4",
+        "install_time": "2022-01-30T05:44:50+00:00"
+      },
       {
         "version": "9.1.3",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -1048,10 +1072,10 @@
     "name": "Battle Pet BreedID",
     "description": "Battle Pet BreedID displays the BreedID of pets in your journal, in battle, in chat links, and in AH tooltips.",
     "url": "https://www.curseforge.com/wow/addons/battle_pet_breedid",
-    "download_url": "https://edge.forgecdn.net/files/3447/749/BattlePetBreedID-v1.18.2.zip",
-    "date_published": "2021-09-03T04:17:58.227000+00:00",
-    "version": "v1.18.2",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/45935/file/3447749/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3515/534/BattlePetBreedID-v1.19.0.zip",
+    "date_published": "2021-11-04T19:14:08.730000+00:00",
+    "version": "v1.19.0",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/45935/file/3515534/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1062,6 +1086,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.19.0",
+        "install_time": "2021-11-18T04:42:48+00:00"
+      },
       {
         "version": "v1.18.2",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -1095,10 +1123,10 @@
     "name": "BlizzMove",
     "description": "Makes the default frames moveable via simple drag and drop",
     "url": "https://www.curseforge.com/wow/addons/blizzmove",
-    "download_url": "https://edge.forgecdn.net/files/3494/64/BlizzMove-v3.1.7.zip",
-    "date_published": "2021-10-17T14:07:38.913000+00:00",
-    "version": "v3.1.7",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/17809/file/3494064/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3586/262/BlizzMove-v3.2.9.zip",
+    "date_published": "2021-12-30T23:30:45.410000+00:00",
+    "version": "v3.2.9",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/17809/file/3586262/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1112,6 +1140,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.2.9",
+        "install_time": "2022-01-30T05:44:50+00:00"
+      },
+      {
+        "version": "v3.2.3",
+        "install_time": "2021-11-18T04:42:48+00:00"
+      },
       {
         "version": "v3.1.7",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -1143,14 +1179,6 @@
       {
         "version": "v3.0.9",
         "install_time": "2021-01-11T15:13:21+00:00"
-      },
-      {
-        "version": "v3.0.8",
-        "install_time": "2020-12-26T15:05:03+00:00"
-      },
-      {
-        "version": "v3.0.7a",
-        "install_time": "2020-12-15T12:29:09+00:00"
       }
     ]
   },
@@ -1188,10 +1216,10 @@
     "name": "BtWQuests",
     "description": "A quest journal that shows your progress within quest chains",
     "url": "https://www.curseforge.com/wow/addons/btw-quests",
-    "download_url": "https://edge.forgecdn.net/files/3432/293/BtWQuests-v2.10.2.zip",
-    "date_published": "2021-08-20T11:03:36.433000+00:00",
-    "version": "v2.10.2",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/280369/file/3432293/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3513/516/BtWQuests-v2.12.0.zip",
+    "date_published": "2021-11-03T02:49:15.687000+00:00",
+    "version": "v2.12.0",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/280369/file/3513516/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1205,6 +1233,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v2.12.0",
+        "install_time": "2021-11-18T04:42:48+00:00"
+      },
       {
         "version": "v2.10.2",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -1240,10 +1272,6 @@
       {
         "version": "v1.75.1",
         "install_time": "2020-11-26T09:02:13+00:00"
-      },
-      {
-        "version": "v1.75.0",
-        "install_time": "2020-11-24T05:16:30+00:00"
       }
     ]
   },
@@ -1254,10 +1282,10 @@
     "name": "BtWQuests: Battle for Azeroth",
     "description": "Battle for Azeroth data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-battle-for-azeroth",
-    "download_url": "https://edge.forgecdn.net/files/3323/898/BtWQuestsBattleForAzeroth-v53.9.zip",
-    "date_published": "2021-05-25T02:12:36.420000+00:00",
-    "version": "v53.9",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297381/file/3323898/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3512/966/BtWQuestsBattleForAzeroth-v53.10.zip",
+    "date_published": "2021-11-02T18:47:32.703000+00:00",
+    "version": "v53.10",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297381/file/3512966/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1272,6 +1300,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v53.10",
+        "install_time": "2021-11-18T04:42:48+00:00"
+      },
       {
         "version": "v53.9",
         "install_time": "2021-05-27T04:36:19+00:00"
@@ -1301,10 +1333,10 @@
     "name": "BtWQuests: Cataclysm",
     "description": "Cataclysm data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-cataclysm",
-    "download_url": "https://edge.forgecdn.net/files/3269/811/BtWQuestsCataclysm-v2.3.zip",
-    "date_published": "2021-04-08T22:03:11.203000+00:00",
-    "version": "v2.3",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3512/980/BtWQuestsCataclysm-v2.4.zip",
+    "date_published": "2021-11-02T19:01:40.930000+00:00",
+    "version": "v2.4",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297378/file/3512980/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1319,6 +1351,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v2.4",
+        "install_time": "2021-11-18T04:42:49+00:00"
+      },
       {
         "version": "v2.3",
         "install_time": "2021-04-14T11:23:11+00:00"
@@ -1336,10 +1372,10 @@
     "name": "BtWQuests: Legion",
     "description": "Legion data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-legion",
-    "download_url": "https://edge.forgecdn.net/files/3242/332/BtWQuestsLegion-v30.0.zip",
-    "date_published": "2021-03-17T05:26:51.290000+00:00",
-    "version": "v30.0",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3512/972/BtWQuestsLegion-v30.1.zip",
+    "date_published": "2021-11-02T18:55:10.423000+00:00",
+    "version": "v30.1",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297374/file/3512972/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1354,6 +1390,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v30.1",
+        "install_time": "2021-11-18T04:42:49+00:00"
+      },
       {
         "version": "v30.0",
         "install_time": "2021-03-18T14:41:57+00:00"
@@ -1375,10 +1415,10 @@
     "name": "BtWQuests: Mists of Pandaria",
     "description": "Mists of Pandaria data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-mists-of-pandaria",
-    "download_url": "https://edge.forgecdn.net/files/3269/807/BtWQuestsMistsOfPandaria-v4.2.zip",
-    "date_published": "2021-04-08T21:59:28.437000+00:00",
-    "version": "v4.2",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3512/982/BtWQuestsMistsOfPandaria-v4.3.zip",
+    "date_published": "2021-11-02T19:01:44.173000+00:00",
+    "version": "v4.3",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297379/file/3512982/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1393,6 +1433,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v4.3",
+        "install_time": "2021-11-18T04:42:49+00:00"
+      },
       {
         "version": "v4.2",
         "install_time": "2021-04-14T11:23:11+00:00"
@@ -1410,10 +1454,10 @@
     "name": "BtWQuests: The Burning Crusade",
     "description": "The Burning Crusade data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-the-burning-crusade",
-    "download_url": "https://edge.forgecdn.net/files/3432/290/BtWQuestsTheBurningCrusade-v4.5.zip",
-    "date_published": "2021-08-20T10:59:28.447000+00:00",
-    "version": "v4.5",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297376/file/3432290/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3512/992/BtWQuestsTheBurningCrusade-v4.6.zip",
+    "date_published": "2021-11-02T19:05:32.853000+00:00",
+    "version": "v4.6",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297376/file/3512992/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1428,6 +1472,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v4.6",
+        "install_time": "2021-11-18T04:42:49+00:00"
+      },
       {
         "version": "v4.5",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -1461,10 +1509,10 @@
     "name": "BtWQuests: Warlords of Draenor",
     "description": "Warlords of Draenor data for BtWQuests",
     "url": "https://www.curseforge.com/wow/addons/btw-quests-warlords-of-draenor",
-    "download_url": "https://edge.forgecdn.net/files/3269/801/BtWQuestsWarlordsOfDraenor-v3.2.zip",
-    "date_published": "2021-04-08T21:54:15.627000+00:00",
-    "version": "v3.2",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3512/983/BtWQuestsWarlordsOfDraenor-v3.3.zip",
+    "date_published": "2021-11-02T19:01:47.617000+00:00",
+    "version": "v3.3",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/297380/file/3512983/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1479,6 +1527,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v3.3",
+        "install_time": "2021-11-18T04:42:50+00:00"
+      },
       {
         "version": "v3.2",
         "install_time": "2021-04-14T11:23:11+00:00"
@@ -1496,10 +1548,10 @@
     "name": "Button Forge",
     "description": "Add as many additional action bars and buttons as you want using a simple gui",
     "url": "https://www.curseforge.com/wow/addons/button-forge",
-    "download_url": "https://edge.forgecdn.net/files/3504/896/ButtonForge_v1.0.9.zip",
-    "date_published": "2021-10-25T23:53:29.997000+00:00",
-    "version": "Button Forge v1.0.9",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/25215/file/3504896/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3522/644/ButtonForge_v1.0.10.zip",
+    "date_published": "2021-11-11T19:37:31.387000+00:00",
+    "version": "Button Forge v1.0.10",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/25215/file/3522644/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1510,6 +1562,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Button Forge v1.0.10",
+        "install_time": "2021-11-18T04:42:50+00:00"
+      },
       {
         "version": "Button Forge v1.0.9",
         "install_time": "2021-10-26T14:48:10+00:00"
@@ -1604,10 +1660,10 @@
     "name": "Deadly Boss Mods (DBM)",
     "description": "The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods",
-    "download_url": "https://edge.forgecdn.net/files/3488/982/DBM-9.1.18.zip",
-    "date_published": "2021-10-12T15:46:43.093000+00:00",
-    "version": "DBM-9.1.18",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/3358/file/3488982/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3626/125/DBM-9.1.26.zip",
+    "date_published": "2022-01-27T22:11:50.103000+00:00",
+    "version": "DBM-9.1.26",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/3358/file/3626125/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1634,10 +1690,16 @@
         "name": "DBM-SanctumOfDomination"
       },
       {
+        "name": "DBM-Sepulcher"
+      },
+      {
         "name": "DBM-Shadowlands"
       },
       {
         "name": "DBM-StatusBarTimers"
+      },
+      {
+        "name": "DBM-VPVEM"
       },
       {
         "name": "DBM-WorldEvents"
@@ -1645,6 +1707,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DBM-9.1.26",
+        "install_time": "2022-01-30T05:44:51+00:00"
+      },
+      {
+        "version": "DBM-9.1.20",
+        "install_time": "2021-11-18T04:42:50+00:00"
+      },
       {
         "version": "DBM-9.1.18",
         "install_time": "2021-10-26T14:48:11+00:00"
@@ -1676,14 +1746,6 @@
       {
         "version": "9.0.21",
         "install_time": "2021-02-23T13:44:12+00:00"
-      },
-      {
-        "version": "9.0.19",
-        "install_time": "2021-02-14T14:50:24+00:00"
-      },
-      {
-        "version": "9.0.17",
-        "install_time": "2021-01-11T15:13:24+00:00"
       }
     ]
   },
@@ -1694,10 +1756,10 @@
     "name": "Deadly Boss Mods (DBM) - Archaeology",
     "description": "Brings the old gods right to your dig site to give archaeology a more epic feel.",
     "url": "https://www.curseforge.com/wow/addons/dbm-archaeology",
-    "download_url": "https://edge.forgecdn.net/files/3369/352/DBM-Archaeology-r43.zip",
-    "date_published": "2021-06-29T17:14:42.703000+00:00",
-    "version": "r43",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/29493/file/3369352/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3512/889/DBM-Archaeology-r44.zip",
+    "date_published": "2021-11-02T17:41:44.767000+00:00",
+    "version": "r44",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/29493/file/3512889/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1712,6 +1774,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "r44",
+        "install_time": "2021-11-18T04:42:50+00:00"
+      },
       {
         "version": "r43",
         "install_time": "2021-07-17T04:48:58+00:00"
@@ -1741,10 +1807,10 @@
     "name": "Deadly Boss Mods (DBM) - BC & Vanilla mods (Retail)",
     "description": "Deadly Boss Mods (DBM) - BC & Vanilla mods (Retail)",
     "url": "https://www.curseforge.com/wow/addons/dbm-bc",
-    "download_url": "https://edge.forgecdn.net/files/3489/105/DBM-Outlands-r682.zip",
-    "date_published": "2021-10-12T17:57:50.203000+00:00",
-    "version": "r682",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/16442/file/3489105/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3607/975/DBM-Outlands-r685.zip",
+    "date_published": "2022-01-16T04:32:27.507000+00:00",
+    "version": "r685",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/16442/file/3607975/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1790,6 +1856,14 @@
     ],
     "logged_versions": [
       {
+        "version": "r685",
+        "install_time": "2022-01-30T05:44:51+00:00"
+      },
+      {
+        "version": "r683",
+        "install_time": "2021-11-18T04:42:50+00:00"
+      },
+      {
         "version": "r682",
         "install_time": "2021-10-26T14:48:11+00:00"
       },
@@ -1826,10 +1900,10 @@
     "name": "Deadly Boss Mods (DBM) - Cataclysm mods",
     "description": "Boss Mods for all Cataclysm Raids",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-cataclysm-mods",
-    "download_url": "https://edge.forgecdn.net/files/3489/110/DBM-DragonSoul-r214.zip",
-    "date_published": "2021-10-12T17:58:46.457000+00:00",
-    "version": "r214",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/43971/file/3489110/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3607/973/DBM-DragonSoul-r216.zip",
+    "date_published": "2022-01-16T04:32:04.537000+00:00",
+    "version": "r216",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/43971/file/3607973/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1860,6 +1934,14 @@
     ],
     "logged_versions": [
       {
+        "version": "r216",
+        "install_time": "2022-01-30T05:44:51+00:00"
+      },
+      {
+        "version": "r215",
+        "install_time": "2021-11-18T04:42:51+00:00"
+      },
+      {
         "version": "r214",
         "install_time": "2021-10-26T14:48:11+00:00"
       },
@@ -1885,13 +1967,13 @@
     "source": "curse",
     "id": "61621",
     "slug": "dbm-challenges",
-    "name": "Deadly Boss Mods (DBM) - Challenges (Visions/Torghast)",
+    "name": "Deadly Boss Mods (DBM) - Challenges (Mage Tower/Torghast)",
     "description": "This mod will add support for singe player challenges such as Torghast, Horrific Visions, Proving Grounds, and Legion Mage Tower to DBM",
     "url": "https://www.curseforge.com/wow/addons/dbm-challenges",
-    "download_url": "https://edge.forgecdn.net/files/3453/141/DBM-Challenges-r142.zip",
-    "date_published": "2021-09-07T15:03:40.367000+00:00",
-    "version": "r142",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61621/file/3453141/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3581/524/DBM-Challenges-r146.zip",
+    "date_published": "2021-12-27T07:35:46.743000+00:00",
+    "version": "r146",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61621/file/3581524/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1906,6 +1988,14 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "r146",
+        "install_time": "2022-01-30T05:44:52+00:00"
+      },
+      {
+        "version": "r143",
+        "install_time": "2021-11-18T04:42:51+00:00"
+      },
       {
         "version": "r142",
         "install_time": "2021-10-26T14:48:11+00:00"
@@ -1947,10 +2037,10 @@
     "name": "Deadly Boss Mods (DBM) - Event Pack",
     "description": "Several media files for DBM encounter Event feature.",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-dbm-event-sound-pack",
-    "download_url": "https://edge.forgecdn.net/files/3445/54/DBM-SoundEventsPack-1.6.12.zip",
-    "date_published": "2021-08-31T17:41:09.307000+00:00",
-    "version": "1.6.12",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/289311/file/3445054/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3612/410/DBM-SoundEventsPack-1.6.14.zip",
+    "date_published": "2022-01-18T19:26:38.790000+00:00",
+    "version": "1.6.14",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/289311/file/3612410/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1965,6 +2055,14 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "1.6.14",
+        "install_time": "2022-01-30T05:44:52+00:00"
+      },
+      {
+        "version": "1.6.13",
+        "install_time": "2021-11-18T04:42:51+00:00"
+      },
       {
         "version": "1.6.12",
         "install_time": "2021-10-26T14:48:11+00:00"
@@ -1998,10 +2096,10 @@
     "name": "Deadly Boss Mods (DBM) - Legion",
     "description": "DBM modules for Legion raids",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-dbm-legion",
-    "download_url": "https://edge.forgecdn.net/files/3489/115/DBM-BrokenIsles-r26.zip",
-    "date_published": "2021-10-12T18:00:48.027000+00:00",
-    "version": "r26",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/301324/file/3489115/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3608/416/DBM-BrokenIsles-r29.zip",
+    "date_published": "2022-01-16T14:48:26.830000+00:00",
+    "version": "r29",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/301324/file/3608416/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2027,6 +2125,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "r29",
+        "install_time": "2022-01-30T05:44:52+00:00"
+      },
+      {
+        "version": "r27",
+        "install_time": "2021-11-18T04:42:51+00:00"
+      },
       {
         "version": "r26",
         "install_time": "2021-10-26T14:48:11+00:00"
@@ -2056,10 +2162,10 @@
     "name": "Deadly Boss Mods (DBM) - Mists of Pandaria (MoP) mods",
     "description": "DBM modules for Mists of Pandaria raids",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-mop",
-    "download_url": "https://edge.forgecdn.net/files/3489/113/DBM-Pandaria-r143.zip",
-    "date_published": "2021-10-12T18:00:03.013000+00:00",
-    "version": "r143",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/85688/file/3489113/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3607/968/DBM-Pandaria-r145.zip",
+    "date_published": "2022-01-16T04:31:05.477000+00:00",
+    "version": "r145",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/85688/file/3607968/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2093,6 +2199,14 @@
     ],
     "logged_versions": [
       {
+        "version": "r145",
+        "install_time": "2022-01-30T05:44:52+00:00"
+      },
+      {
+        "version": "r144",
+        "install_time": "2021-11-18T04:42:51+00:00"
+      },
+      {
         "version": "r143",
         "install_time": "2021-10-26T14:48:12+00:00"
       },
@@ -2121,10 +2235,10 @@
     "name": "Deadly Boss Mods (DBM) - Old Dungeon Mods",
     "description": "This mod will add support for 5 player dungeons from Classic to Battle for Azeroth",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-dbm-dungeons",
-    "download_url": "https://edge.forgecdn.net/files/3489/104/DBM-Party-BC-r28.zip",
-    "date_published": "2021-10-12T17:57:46.307000+00:00",
-    "version": "r28",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/314994/file/3489104/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3608/699/DBM-Party-BC-r31.zip",
+    "date_published": "2022-01-16T18:55:24.240000+00:00",
+    "version": "r31",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/314994/file/3608699/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2161,6 +2275,14 @@
     ],
     "logged_versions": [
       {
+        "version": "r31",
+        "install_time": "2022-01-30T05:44:53+00:00"
+      },
+      {
+        "version": "r29",
+        "install_time": "2021-11-18T04:42:52+00:00"
+      },
+      {
         "version": "r28",
         "install_time": "2021-10-26T14:48:12+00:00"
       },
@@ -2193,10 +2315,10 @@
     "name": "Deadly Boss Mods (DBM) - PvP Mods",
     "description": "Deadly Boss Mods for Battlegrounds and Arenas",
     "url": "https://www.curseforge.com/wow/addons/dbm-pvp",
-    "download_url": "https://edge.forgecdn.net/files/3445/46/DBM-PvP-r127.zip",
-    "date_published": "2021-08-31T17:39:48.703000+00:00",
-    "version": "r127",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61882/file/3445046/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3612/418/DBM-PvP-r130.zip",
+    "date_published": "2022-01-18T19:27:03.613000+00:00",
+    "version": "r130",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61882/file/3612418/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2211,6 +2333,14 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "r130",
+        "install_time": "2022-01-30T05:44:53+00:00"
+      },
+      {
+        "version": "r128",
+        "install_time": "2021-11-18T04:42:52+00:00"
+      },
       {
         "version": "r127",
         "install_time": "2021-10-26T14:48:12+00:00"
@@ -2242,14 +2372,6 @@
       {
         "version": "r115",
         "install_time": "2021-02-14T14:50:24+00:00"
-      },
-      {
-        "version": "r102",
-        "install_time": "2021-01-11T15:13:24+00:00"
-      },
-      {
-        "version": "r100",
-        "install_time": "2020-12-18T05:39:44+00:00"
       }
     ]
   },
@@ -2287,10 +2409,10 @@
     "name": "Deadly Boss Mods (DBM) - Warlords of Draenor (WoD) mods",
     "description": "DBM modules for Warlords of Draenor content",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-wod",
-    "download_url": "https://edge.forgecdn.net/files/3489/108/DBM-Draenor-r58.zip",
-    "date_published": "2021-10-12T17:58:29.937000+00:00",
-    "version": "r58",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101956/file/3489108/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3607/970/DBM-Draenor-r60.zip",
+    "date_published": "2022-01-16T04:31:36.567000+00:00",
+    "version": "r60",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101956/file/3607970/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2314,6 +2436,14 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "r60",
+        "install_time": "2022-01-30T05:44:53+00:00"
+      },
+      {
+        "version": "r59",
+        "install_time": "2021-11-18T04:42:52+00:00"
+      },
       {
         "version": "r58",
         "install_time": "2021-10-26T14:48:12+00:00"
@@ -2343,10 +2473,10 @@
     "name": "Deadly Boss Mods (DBM) - Wrath of the Lich King mods",
     "description": "DBM modules for WotLK raids",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods-wotlk",
-    "download_url": "https://edge.forgecdn.net/files/3489/107/DBM-Icecrown-r301.zip",
-    "date_published": "2021-10-12T17:58:09.293000+00:00",
-    "version": "r301",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/43970/file/3489107/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3608/711/DBM-Icecrown-r304.zip",
+    "date_published": "2022-01-16T19:02:10.910000+00:00",
+    "version": "r304",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/43970/file/3608711/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2383,6 +2513,14 @@
     ],
     "logged_versions": [
       {
+        "version": "r304",
+        "install_time": "2022-01-30T05:44:53+00:00"
+      },
+      {
+        "version": "r302",
+        "install_time": "2021-11-18T04:42:52+00:00"
+      },
+      {
         "version": "r301",
         "install_time": "2021-10-26T14:48:12+00:00"
       },
@@ -2411,10 +2549,10 @@
     "name": "Decursive",
     "description": "Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.",
     "url": "https://www.curseforge.com/wow/addons/decursive",
-    "download_url": "https://edge.forgecdn.net/files/3390/819/Decursive-2.7.8.3.zip",
-    "date_published": "2021-07-16T16:16:53.940000+00:00",
-    "version": "2.7.8.3",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/2154/file/3390819/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3522/492/Decursive-2.7.8.4.zip",
+    "date_published": "2021-11-11T17:05:16.640000+00:00",
+    "version": "2.7.8.4",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/2154/file/3522492/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2425,6 +2563,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.7.8.4",
+        "install_time": "2021-11-18T04:42:52+00:00"
+      },
       {
         "version": "2.7.8.3",
         "install_time": "2021-07-17T04:48:59+00:00"
@@ -2450,10 +2592,10 @@
     "name": "DejaCharacterStats",
     "description": "Dejablue's restored and improved character stats panel.",
     "url": "https://www.curseforge.com/wow/addons/dejacharacterstats",
-    "download_url": "https://edge.forgecdn.net/files/3425/765/DejaCharacterStats901r3.zip",
-    "date_published": "2021-08-15T03:25:06.977000+00:00",
-    "version": "901r3",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/99861/file/3425765/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3595/431/DejaCharacterStats901r4.zip",
+    "date_published": "2022-01-05T23:40:29.237000+00:00",
+    "version": "901r4",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/99861/file/3595431/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2464,6 +2606,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "901r4",
+        "install_time": "2022-01-30T05:44:53+00:00"
+      },
       {
         "version": "901r3",
         "install_time": "2021-10-26T14:48:12+00:00"
@@ -2485,10 +2631,10 @@
     "name": "Details! Damage Meter",
     "description": "Complete combat analysis, gathering damage, healing, and other importante stuff.",
     "url": "https://www.curseforge.com/wow/addons/details",
-    "download_url": "https://edge.forgecdn.net/files/3489/458/Details-DetailsRetail.v9.1.0.8889.145.zip",
-    "date_published": "2021-10-13T00:02:28.967000+00:00",
-    "version": "DetailsRetail.v9.1.0.8889.145",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3489458/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3558/633/Details-DetailsRetail.9.1.5.9213.145.zip",
+    "date_published": "2021-12-10T19:58:23.703000+00:00",
+    "version": "DetailsRetail.9.1.5.9213.145",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3558633/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2517,6 +2663,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DetailsRetail.9.1.5.9213.145",
+        "install_time": "2022-01-30T05:44:54+00:00"
+      },
+      {
+        "version": "DetailsRetail.9.1.5.9108.145",
+        "install_time": "2021-11-18T04:42:53+00:00"
+      },
       {
         "version": "DetailsRetail.v9.1.0.8889.145",
         "install_time": "2021-10-26T14:48:13+00:00"
@@ -2548,14 +2702,6 @@
       {
         "version": "DetailsRetail.9.0.2.8316.144",
         "install_time": "2021-03-11T04:26:12+00:00"
-      },
-      {
-        "version": "DetailsRetail.9.0.2.8246.144",
-        "install_time": "2021-02-23T13:44:12+00:00"
-      },
-      {
-        "version": "DetailsRetail.9.0.2.8203.144",
-        "install_time": "2021-02-14T14:50:24+00:00"
       }
     ]
   },
@@ -2566,10 +2712,10 @@
     "name": "Details! Damage Meter: Advanced Death Logs (plugin)",
     "description": "Plugin for Details",
     "url": "https://www.curseforge.com/wow/addons/details-advanced-death-logs-plug",
-    "download_url": "https://edge.forgecdn.net/files/3451/318/Details_DeathGraphs-v9.1.0.104.zip",
-    "date_published": "2021-09-05T18:16:59.023000+00:00",
-    "version": "v9.1.0.104",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/75162/file/3451318/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3607/269/Details_DeathGraphs-v9.1.5.105.zip",
+    "date_published": "2022-01-15T18:37:47.270000+00:00",
+    "version": "v9.1.5.105",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/75162/file/3607269/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2580,6 +2726,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v9.1.5.105",
+        "install_time": "2022-01-30T05:44:54+00:00"
+      },
       {
         "version": "v9.1.0.104",
         "install_time": "2021-10-26T14:48:13+00:00"
@@ -2609,10 +2759,10 @@
     "name": "Details! Damage Meter: Chart Viewer (plugin)",
     "description": "Plugin for Details",
     "url": "https://www.curseforge.com/wow/addons/details-chart-viewer-plugin",
-    "download_url": "https://edge.forgecdn.net/files/3449/120/Details_ChartViewer-v9.1.0.072.zip",
-    "date_published": "2021-09-04T13:50:07.020000+00:00",
-    "version": "v9.1.0.072",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/79620/file/3449120/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3607/265/Details_ChartViewer-v9.1.5.073.zip",
+    "date_published": "2022-01-15T18:36:57.293000+00:00",
+    "version": "v9.1.5.073",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/79620/file/3607265/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2623,6 +2773,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v9.1.5.073",
+        "install_time": "2022-01-30T05:44:54+00:00"
+      },
       {
         "version": "v9.1.0.072",
         "install_time": "2021-10-26T14:48:13+00:00"
@@ -2644,10 +2798,10 @@
     "name": "FasterCamera",
     "description": "Accelerates Camera Zooming",
     "url": "https://www.curseforge.com/wow/addons/fastercamera",
-    "download_url": "https://edge.forgecdn.net/files/3087/286/FasterCamera-v2.4.5.zip",
-    "date_published": "2020-10-20T06:53:39.970000+00:00",
-    "version": "v2.4.5",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3526/465/FasterCamera-v2.4.8.zip",
+    "date_published": "2021-11-15T08:04:20.800000+00:00",
+    "version": "v2.4.8",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/33597/file/3526465/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2658,6 +2812,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v2.4.8",
+        "install_time": "2021-11-18T04:42:53+00:00"
+      },
       {
         "version": "v2.4.5",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -2671,10 +2829,10 @@
     "name": "Fishing Buddy",
     "description": "Fishing Buddy",
     "url": "https://www.curseforge.com/wow/addons/fishingbuddy",
-    "download_url": "https://edge.forgecdn.net/files/3395/422/FishingBuddy-1.16.8.zip",
-    "date_published": "2021-07-20T20:49:21.787000+00:00",
-    "version": "1.16.8",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/15093/file/3395422/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3565/896/FishingBuddy-1.16.10.zip",
+    "date_published": "2021-12-14T01:47:01.720000+00:00",
+    "version": "1.16.10",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/15093/file/3565896/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2685,6 +2843,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "1.16.10",
+        "install_time": "2022-01-30T05:44:54+00:00"
+      },
+      {
+        "version": "1.16.9",
+        "install_time": "2021-11-18T04:42:53+00:00"
+      },
       {
         "version": "1.16.8",
         "install_time": "2021-10-26T14:48:13+00:00"
@@ -2716,14 +2882,6 @@
       {
         "version": "1.12",
         "install_time": "2020-11-29T14:42:42+00:00"
-      },
-      {
-        "version": "1.11",
-        "install_time": "2020-11-08T08:16:38+00:00"
-      },
-      {
-        "version": "1.10.10",
-        "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
   },
@@ -2734,10 +2892,10 @@
     "name": "Fishing Buddy -- Tracking",
     "description": "Fishing Buddy -- Tracking",
     "url": "https://www.curseforge.com/wow/addons/fishing-buddy-tracking",
-    "download_url": "https://edge.forgecdn.net/files/3300/474/FB_TrackingFrame-1.15.1.zip",
-    "date_published": "2021-05-06T15:27:50.790000+00:00",
-    "version": "1.15.1",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/5260/file/3300474/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3566/4/FB_TrackingFrame-1.15.3.zip",
+    "date_published": "2021-12-14T03:47:49.123000+00:00",
+    "version": "1.15.3",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/5260/file/3566004/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2748,6 +2906,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "1.15.3",
+        "install_time": "2022-01-30T05:44:54+00:00"
+      },
       {
         "version": "1.15.1",
         "install_time": "2021-05-23T13:51:32+00:00"
@@ -2796,10 +2958,10 @@
     "name": "GTFO",
     "description": "GTFO warns you when you're standing in fire or other bad stuff.",
     "url": "https://www.curseforge.com/wow/addons/gtfo",
-    "download_url": "https://edge.forgecdn.net/files/3475/370/GTFO-4.64.3.zip",
-    "date_published": "2021-09-28T06:42:49.470000+00:00",
-    "version": "4.64.3",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/20697/file/3475370/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3520/498/GTFO-4.65.2.zip",
+    "date_published": "2021-11-09T15:48:52.693000+00:00",
+    "version": "4.65.2-Retail",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/20697/file/3520498/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2810,6 +2972,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "4.65.2-Retail",
+        "install_time": "2021-11-18T04:42:53+00:00"
+      },
       {
         "version": "4.64.3",
         "install_time": "2021-10-26T14:48:13+00:00"
@@ -2845,10 +3011,6 @@
       {
         "version": "4.57.3",
         "install_time": "2020-12-26T15:05:07+00:00"
-      },
-      {
-        "version": "4.57.1",
-        "install_time": "2020-12-18T06:48:09+00:00"
       }
     ]
   },
@@ -3004,10 +3166,10 @@
     "name": "GladiatorlosSA2",
     "description": "A PvP announcer addon that vocalizes many spells cast by your opponents.",
     "url": "https://www.curseforge.com/wow/addons/gladiatorlossa2",
-    "download_url": "https://edge.forgecdn.net/files/3480/541/GSA2_3.10.2.zip",
-    "date_published": "2021-10-03T20:36:18.230000+00:00",
-    "version": "GSA2_3.10.2",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101136/file/3480541/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3595/891/GSA2_3.12.zip",
+    "date_published": "2022-01-06T12:24:50.487000+00:00",
+    "version": "GSA2_3.12",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/101136/file/3595891/changelog",
     "options": {
       "strategy": "default"
     },
@@ -3018,6 +3180,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "GSA2_3.12",
+        "install_time": "2022-01-30T05:44:56+00:00"
+      },
+      {
+        "version": "GSA2_3.11",
+        "install_time": "2021-11-18T04:42:54+00:00"
+      },
       {
         "version": "GSA2_3.10.2",
         "install_time": "2021-10-26T14:48:14+00:00"
@@ -3049,14 +3219,6 @@
       {
         "version": "GSA2_3.4",
         "install_time": "2021-03-18T14:42:10+00:00"
-      },
-      {
-        "version": "GSA2_3.3.1",
-        "install_time": "2021-02-23T13:44:13+00:00"
-      },
-      {
-        "version": "GSA2_3.3",
-        "install_time": "2021-02-14T14:50:26+00:00"
       }
     ]
   },
@@ -3098,10 +3260,10 @@
     "name": "Grail",
     "description": "Library of quest information",
     "url": "https://www.curseforge.com/wow/addons/grail",
-    "download_url": "https://edge.forgecdn.net/files/3371/808/Grail-116.zip",
-    "date_published": "2021-06-30T22:15:36.430000+00:00",
-    "version": "116",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/28774/file/3371808/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3517/785/Grail-117.zip",
+    "date_published": "2021-11-06T21:59:05.810000+00:00",
+    "version": "117",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/28774/file/3517785/changelog",
     "options": {
       "strategy": "default"
     },
@@ -3196,6 +3358,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "117",
+        "install_time": "2021-11-18T04:42:54+00:00"
+      },
       {
         "version": "116",
         "install_time": "2021-07-17T04:49:00+00:00"
@@ -3513,10 +3679,10 @@
     "name": "HandyNotes Pandaria",
     "description": "Shows rares and treasures in Pandaria zones",
     "url": "https://www.curseforge.com/wow/addons/handynotes-pandaria",
-    "download_url": "https://edge.forgecdn.net/files/3392/774/Handynotes_Pandaria-1.4.6.zip",
-    "date_published": "2021-07-18T15:05:59.840000+00:00",
-    "version": "1.4.6",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/352950/file/3392774/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3516/896/Handynotes_Pandaria-1.5.zip",
+    "date_published": "2021-11-06T02:56:32.700000+00:00",
+    "version": "1.5",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/352950/file/3516896/changelog",
     "options": {
       "strategy": "default"
     },
@@ -3531,6 +3697,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "1.5",
+        "install_time": "2021-11-18T04:42:54+00:00"
+      },
       {
         "version": "1.4.6",
         "install_time": "2021-10-26T14:48:14+00:00"
@@ -3552,10 +3722,10 @@
     "name": "HandyNotes: Battle for Azeroth",
     "description": "Rares, treasures, battle pets and everything else for the Battle for Azeroth expansion.",
     "url": "https://www.curseforge.com/wow/addons/handynotes-battle-for-azeroth",
-    "download_url": "https://edge.forgecdn.net/files/3369/588/HandyNotes_BattleForAzeroth-v6.zip",
-    "date_published": "2021-06-29T20:01:33.150000+00:00",
-    "version": "v6",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/413922/file/3369588/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3520/205/HandyNotes_BattleForAzeroth-v7.zip",
+    "date_published": "2021-11-09T05:11:34.023000+00:00",
+    "version": "v7",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/413922/file/3520205/changelog",
     "options": {
       "strategy": "default"
     },
@@ -3570,6 +3740,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v7",
+        "install_time": "2021-11-18T04:42:55+00:00"
+      },
       {
         "version": "v6",
         "install_time": "2021-07-17T04:49:01+00:00"
@@ -3603,10 +3777,10 @@
     "name": "HandyNotes: Draenor",
     "description": "HandyNotes for Draenor",
     "url": "https://www.curseforge.com/wow/addons/handynotes-draenor",
-    "download_url": "https://edge.forgecdn.net/files/3375/676/HandyNotes_Draenor-2.2.zip",
-    "date_published": "2021-07-04T04:11:33.987000+00:00",
-    "version": "HandyNotes_Draenor-2.2.zip",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/397565/file/3375676/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3515/13/HandyNotes_Draenor-2.3.zip",
+    "date_published": "2021-11-04T07:46:55.443000+00:00",
+    "version": "HandyNotes_Draenor-2.3.zip",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/397565/file/3515013/changelog",
     "options": {
       "strategy": "default"
     },
@@ -3621,6 +3795,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "HandyNotes_Draenor-2.3.zip",
+        "install_time": "2021-11-18T04:42:55+00:00"
+      },
       {
         "version": "HandyNotes_Draenor-2.2.zip",
         "install_time": "2021-07-17T04:49:01+00:00"
@@ -3720,10 +3898,10 @@
     "name": "HandyNotes: Shadowlands",
     "description": "Rares, treasures, battle pets and everything else for the Shadowlands expansion.",
     "url": "https://www.curseforge.com/wow/addons/handynotes-shadowlands",
-    "download_url": "https://edge.forgecdn.net/files/3421/950/HandyNotes_Shadowlands-v38.zip",
-    "date_published": "2021-08-11T04:39:18.410000+00:00",
-    "version": "v38",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/363739/file/3421950/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3520/208/HandyNotes_Shadowlands-v39.zip",
+    "date_published": "2021-11-09T05:18:44.480000+00:00",
+    "version": "v39",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/363739/file/3520208/changelog",
     "options": {
       "strategy": "default"
     },
@@ -3738,6 +3916,10 @@
       }
     ],
     "logged_versions": [
+      {
+        "version": "v39",
+        "install_time": "2021-11-18T04:42:55+00:00"
+      },
       {
         "version": "v38",
         "install_time": "2021-10-26T14:48:14+00:00"
@@ -3773,10 +3955,6 @@
       {
         "version": "v21",
         "install_time": "2020-11-25T11:06:43+00:00"
-      },
-      {
-        "version": "v20",
-        "install_time": "2020-11-24T05:16:34+00:00"
       }
     ]
   },
@@ -3907,10 +4085,10 @@
     "name": "ItemRack",
     "description": "ItemRack",
     "url": "https://www.curseforge.com/wow/addons/itemrack",
-    "download_url": "https://edge.forgecdn.net/files/3375/73/ItemRack-3.14.zip",
-    "date_published": "2021-07-03T14:50:36.543000+00:00",
-    "version": "3.14",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/1186/file/3375073/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3626/897/ItemRack-3.15.zip",
+    "date_published": "2022-01-28T15:57:21.073000+00:00",
+    "version": "3.15",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/1186/file/3626897/changelog",
     "options": {
       "strategy": "default"
     },
@@ -3924,6 +4102,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "3.15",
+        "install_time": "2022-01-30T05:44:56+00:00"
+      },
       {
         "version": "3.14",
         "install_time": "2021-07-17T04:49:01+00:00"
@@ -4065,10 +4247,10 @@
     "name": "Method Raid Tools",
     "description": "Helpful addon for raiding",
     "url": "https://www.curseforge.com/wow/addons/method-raid-tools",
-    "download_url": "https://edge.forgecdn.net/files/3461/303/MRT4580.zip",
-    "date_published": "2021-09-16T17:40:27.683000+00:00",
-    "version": "Method Raid Tools v.4580",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/79879/file/3461303/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3512/712/MRT4600.zip",
+    "date_published": "2021-11-02T15:36:19.577000+00:00",
+    "version": "Method Raid Tools v.4600",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/79879/file/3512712/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4082,6 +4264,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Method Raid Tools v.4600",
+        "install_time": "2021-11-18T04:42:55+00:00"
+      },
       {
         "version": "Method Raid Tools v.4580",
         "install_time": "2021-10-26T14:48:14+00:00"
@@ -4117,10 +4303,6 @@
       {
         "version": "Exorsus Raid Tools v.4400",
         "install_time": "2020-12-15T12:29:13+00:00"
-      },
-      {
-        "version": "Exorsus Raid Tools v.4390",
-        "install_time": "2020-11-17T10:27:43+00:00"
       }
     ]
   },
@@ -4131,10 +4313,10 @@
     "name": "MikScrollingBattleText",
     "description": "MikScrollingBattleText",
     "url": "https://www.curseforge.com/wow/addons/mik-scrolling-battle-text",
-    "download_url": "https://edge.forgecdn.net/files/3081/987/MikScrollingBattleText-5.7.152.zip",
-    "date_published": "2020-10-15T16:12:57.747000+00:00",
-    "version": "v5.7.152",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/3518/419/MikScrollingBattleText-5.7.153.zip",
+    "date_published": "2021-11-07T14:12:36.703000+00:00",
+    "version": "v5.7.153",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/2450/file/3518419/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4148,6 +4330,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v5.7.153",
+        "install_time": "2021-11-18T04:42:55+00:00"
+      },
       {
         "version": "v5.7.152",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -4219,10 +4405,10 @@
     "name": "Myslot",
     "description": "Myslot is for transferring settings between accounts. Feedback farmer1992@gmail.com",
     "url": "https://www.curseforge.com/wow/addons/myslot",
-    "download_url": "https://edge.forgecdn.net/files/3468/352/Myslot-v5.7.0.zip",
-    "date_published": "2021-09-22T11:09:01.263000+00:00",
-    "version": "v5.7.0",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/48863/file/3468352/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3526/551/Myslot-v5.8.0.zip",
+    "date_published": "2021-11-15T11:24:17.300000+00:00",
+    "version": "v5.8.0",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/48863/file/3526551/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4233,6 +4419,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v5.8.0",
+        "install_time": "2021-11-18T04:42:55+00:00"
+      },
       {
         "version": "v5.7.0",
         "install_time": "2021-10-26T14:48:14+00:00"
@@ -4394,10 +4584,10 @@
     "name": "OmniCC",
     "description": "Cooldown count for everything",
     "url": "https://www.curseforge.com/wow/addons/omni-cc",
-    "download_url": "https://edge.forgecdn.net/files/3374/211/OmniCC-9.1.0.zip",
-    "date_published": "2021-07-02T19:22:49.030000+00:00",
-    "version": "9.1.0",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/2057/file/3374211/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3584/650/OmniCC-9.1.6.zip",
+    "date_published": "2021-12-29T17:46:13.027000+00:00",
+    "version": "9.1.6",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/2057/file/3584650/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4411,6 +4601,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.1.6",
+        "install_time": "2022-01-30T05:44:56+00:00"
+      },
       {
         "version": "9.1.0",
         "install_time": "2021-07-17T04:49:01+00:00"
@@ -4504,10 +4698,10 @@
     "name": "Pawn",
     "description": "Pawn helps you compare items and find upgrades.",
     "url": "https://www.curseforge.com/wow/addons/pawn",
-    "download_url": "https://edge.forgecdn.net/files/3459/10/Pawn-2.5.28.zip",
-    "date_published": "2021-09-14T02:28:48.097000+00:00",
-    "version": "2.5.28",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3459010/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3625/236/Pawn-2.5.32.zip",
+    "date_published": "2022-01-27T05:43:58.843000+00:00",
+    "version": "2.5.32",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4646/file/3625236/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4518,6 +4712,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.5.32",
+        "install_time": "2022-01-30T05:44:56+00:00"
+      },
+      {
+        "version": "2.5.30",
+        "install_time": "2021-11-18T04:42:55+00:00"
+      },
       {
         "version": "2.5.28",
         "install_time": "2021-10-26T14:48:14+00:00"
@@ -4549,14 +4751,6 @@
       {
         "version": "2.5.3",
         "install_time": "2021-05-23T13:51:33+00:00"
-      },
-      {
-        "version": "2.4.18",
-        "install_time": "2021-04-14T11:23:13+00:00"
-      },
-      {
-        "version": "2.4.17",
-        "install_time": "2021-03-21T09:20:35+00:00"
       }
     ]
   },
@@ -4567,10 +4761,10 @@
     "name": "PetTracker",
     "description": "Tracks pets, alerts for upgrades and helps you in pet battles.",
     "url": "https://www.curseforge.com/wow/addons/pettracker",
-    "download_url": "https://edge.forgecdn.net/files/3373/140/PetTracker-9.1.0-9.1.0.zip",
-    "date_published": "2021-07-01T21:41:12.557000+00:00",
-    "version": "9.1.0",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/45502/file/3373140/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3546/740/PetTracker-9.1.2-9.1.5.zip",
+    "date_published": "2021-12-03T16:42:27.407000+00:00",
+    "version": "9.1.2",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/45502/file/3546740/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4590,6 +4784,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.1.2",
+        "install_time": "2022-01-30T05:44:56+00:00"
+      },
       {
         "version": "9.1.0",
         "install_time": "2021-07-17T04:49:02+00:00"
@@ -4623,10 +4821,10 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/3484/682/Plater-v341-Retail.zip",
-    "date_published": "2021-10-08T07:53:40.767000+00:00",
-    "version": "Plater-v341-Retail",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100547/file/3484682/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3571/169/Plater-v343-Retail.zip",
+    "date_published": "2021-12-18T20:46:56.673000+00:00",
+    "version": "Plater-v343-Retail",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100547/file/3571169/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4637,6 +4835,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v343-Retail",
+        "install_time": "2022-01-30T05:44:56+00:00"
+      },
+      {
+        "version": "Plater-v342-Retail",
+        "install_time": "2021-11-18T04:42:56+00:00"
+      },
       {
         "version": "Plater-v341-Retail",
         "install_time": "2021-10-26T14:48:15+00:00"
@@ -4668,14 +4874,6 @@
       {
         "version": "Plater-v9.0.2.326b-Retail",
         "install_time": "2021-02-25T15:43:53+00:00"
-      },
-      {
-        "version": "Plater-v9.0.2.326-Retail",
-        "install_time": "2021-02-24T15:20:28+00:00"
-      },
-      {
-        "version": "Plater-v9.0.2.325-Retail",
-        "install_time": "2021-02-14T14:50:27+00:00"
       }
     ]
   },
@@ -4716,10 +4914,10 @@
     "name": "Quartz",
     "description": "Modular casting bar.",
     "url": "https://www.curseforge.com/wow/addons/quartz",
-    "download_url": "https://edge.forgecdn.net/files/3467/485/Quartz-3.6.7.zip",
-    "date_published": "2021-09-21T07:23:13.643000+00:00",
-    "version": "3.6.7",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4558/file/3467485/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3567/386/Quartz-3.6.8.zip",
+    "date_published": "2021-12-15T10:58:29.143000+00:00",
+    "version": "3.6.8",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/4558/file/3567386/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4730,6 +4928,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "3.6.8",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
       {
         "version": "3.6.7",
         "install_time": "2021-10-26T14:48:15+00:00"
@@ -4763,10 +4965,10 @@
     "name": "RaidAchievement",
     "description": "RaidAchievement shows when achievement, that you can't track is failed or when all criterias are done and you need to kill boss.",
     "url": "https://www.curseforge.com/wow/addons/raidachievement",
-    "download_url": "https://edge.forgecdn.net/files/3470/145/RaidAchievement9.104.zip",
-    "date_published": "2021-09-24T12:46:06.770000+00:00",
-    "version": "9.104",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/20921/file/3470145/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3620/878/RaidAchievement9.152.zip",
+    "date_published": "2022-01-23T18:20:26.003000+00:00",
+    "version": "9.152",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/20921/file/3620878/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4783,6 +4985,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.152",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
+      {
+        "version": "9.105",
+        "install_time": "2021-11-18T04:42:56+00:00"
+      },
       {
         "version": "9.104",
         "install_time": "2021-10-26T14:48:15+00:00"
@@ -4812,10 +5022,10 @@
     "name": "RaidAchievement_OldModules",
     "description": "Old modules for RaidAchievement addon from previous expansions",
     "url": "https://www.curseforge.com/wow/addons/raidachievement_oldmodules",
-    "download_url": "https://edge.forgecdn.net/files/3476/171/RaidAchievement_OldModules9.103.zip",
-    "date_published": "2021-09-29T06:24:26.003000+00:00",
-    "version": "9.103",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/56935/file/3476171/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3620/876/RaidAchievement_OldModules9.152.zip",
+    "date_published": "2022-01-23T18:20:12.277000+00:00",
+    "version": "9.152",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/56935/file/3620876/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4845,6 +5055,14 @@
     "deps": [],
     "logged_versions": [
       {
+        "version": "9.152",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
+      {
+        "version": "9.105",
+        "install_time": "2021-11-18T04:42:56+00:00"
+      },
+      {
         "version": "9.103",
         "install_time": "2021-10-26T14:48:15+00:00"
       },
@@ -4869,10 +5087,10 @@
     "name": "RaidAchievement_WoD",
     "description": "RaidAchievement_WoD",
     "url": "https://www.curseforge.com/wow/addons/raidachievement_wod",
-    "download_url": "https://edge.forgecdn.net/files/3376/195/RaidAchievement_WoD9.100.zip",
-    "date_published": "2021-07-04T14:53:49.520000+00:00",
-    "version": "9.100",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/102380/file/3376195/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3529/546/RaidAchievement_WoD9.150.zip",
+    "date_published": "2021-11-18T13:25:43.493000+00:00",
+    "version": "9.150",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/102380/file/3529546/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4886,6 +5104,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.150",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
       {
         "version": "9.100",
         "install_time": "2021-07-17T04:49:48+00:00"
@@ -4949,10 +5171,10 @@
     "name": "Rarity",
     "description": "Tracks rare drops, including companions and mounts",
     "url": "https://www.curseforge.com/wow/addons/rarity",
-    "download_url": "https://edge.forgecdn.net/files/3474/654/Rarity-r711-release-2.zip",
-    "date_published": "2021-09-27T10:56:15.307000+00:00",
-    "version": "r711-release-2",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/30801/file/3474654/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3625/289/Rarity-r714-release.zip",
+    "date_published": "2022-01-27T07:49:28.923000+00:00",
+    "version": "r714-release",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/30801/file/3625289/changelog",
     "options": {
       "strategy": "default"
     },
@@ -4966,6 +5188,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "r714-release",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
+      {
+        "version": "r713-release-2",
+        "install_time": "2021-11-18T04:42:56+00:00"
+      },
       {
         "version": "r711-release-2",
         "install_time": "2021-10-26T14:48:15+00:00"
@@ -4997,14 +5227,6 @@
       {
         "version": "r703-release",
         "install_time": "2021-02-14T14:50:27+00:00"
-      },
-      {
-        "version": "r702-release-6",
-        "install_time": "2020-12-18T05:39:45+00:00"
-      },
-      {
-        "version": "r702-release-3",
-        "install_time": "2020-12-15T12:29:18+00:00"
       }
     ]
   },
@@ -5015,10 +5237,10 @@
     "name": "Rematch",
     "description": "Rematch is a pet journal alternative to help manage battle pet teams and pets.",
     "url": "https://www.curseforge.com/wow/addons/rematch",
-    "download_url": "https://edge.forgecdn.net/files/3372/432/Rematch_4_11_16.zip",
-    "date_published": "2021-07-01T10:23:16.657000+00:00",
-    "version": "Rematch_4_11_16.zip",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/66047/file/3372432/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3607/303/Rematch_4_11_19.zip",
+    "date_published": "2022-01-15T19:02:00.280000+00:00",
+    "version": "Rematch_4_11_19.zip",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/66047/file/3607303/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5029,6 +5251,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Rematch_4_11_19.zip",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
+      {
+        "version": "Rematch_4_11_18.zip",
+        "install_time": "2021-11-18T04:42:56+00:00"
+      },
       {
         "version": "Rematch_4_11_16.zip",
         "install_time": "2021-07-17T04:49:49+00:00"
@@ -5060,10 +5290,6 @@
       {
         "version": "Rematch_4_11_7.zip",
         "install_time": "2020-11-24T05:16:36+00:00"
-      },
-      {
-        "version": "Rematch_4_11_6.zip",
-        "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
   },
@@ -5074,10 +5300,10 @@
     "name": "Scrap (Junk Seller)",
     "description": "Sells all your junk when you visit a merchant. Intuitive & Easy to use.",
     "url": "https://www.curseforge.com/wow/addons/scrap",
-    "download_url": "https://edge.forgecdn.net/files/3371/581/Scrap-9.1.0-9.1.0.zip",
-    "date_published": "2021-06-30T20:03:00.737000+00:00",
-    "version": "9.1.0",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/5422/file/3371581/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3545/861/Scrap-9.1.2-9.1.5.zip",
+    "date_published": "2021-12-02T22:47:00.863000+00:00",
+    "version": "9.1.2",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/5422/file/3545861/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5094,6 +5320,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.1.2",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
       {
         "version": "9.1.0",
         "install_time": "2021-07-17T04:49:49+00:00"
@@ -5119,10 +5349,10 @@
     "name": "Simulationcraft",
     "description": "An addon that generates a Simulationcraft profile for your character",
     "url": "https://www.curseforge.com/wow/addons/simulationcraft",
-    "download_url": "https://edge.forgecdn.net/files/3371/133/Simulationcraft-v9.1.0-01.zip",
-    "date_published": "2021-06-30T15:18:01.280000+00:00",
-    "version": "v9.1.0-01",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/82745/file/3371133/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3513/83/Simulationcraft-v9.1.5-01.zip",
+    "date_published": "2021-11-02T20:24:22.803000+00:00",
+    "version": "v9.1.5-01",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/82745/file/3513083/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5133,6 +5363,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v9.1.5-01",
+        "install_time": "2021-11-18T04:42:56+00:00"
+      },
       {
         "version": "v9.1.0-01",
         "install_time": "2021-07-17T04:49:49+00:00"
@@ -5271,10 +5505,10 @@
     "name": "Titan Panel",
     "description": "Titan Panel",
     "url": "https://www.curseforge.com/wow/addons/titan-panel",
-    "download_url": "https://edge.forgecdn.net/files/3403/40/TitanPanel-5.21.1.90100.zip",
-    "date_published": "2021-07-27T16:10:42.553000+00:00",
-    "version": "5.21.1.90100",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/489/file/3403040/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3583/451/TitanPanel-5.22.0.90105.zip",
+    "date_published": "2021-12-28T19:38:42.350000+00:00",
+    "version": "5.22.0.90105",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/489/file/3583451/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5312,6 +5546,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "5.22.0.90105",
+        "install_time": "2022-01-30T05:44:57+00:00"
+      },
+      {
+        "version": "5.21.2.90105",
+        "install_time": "2021-11-18T04:42:57+00:00"
+      },
       {
         "version": "5.21.1.90100",
         "install_time": "2021-10-26T14:48:16+00:00"
@@ -5450,10 +5692,10 @@
     "name": "TomCat's Tours (now includes Shadowlands & Korthia Rares, TBC Dungeon Maps and more!) ",
     "description": "Maps, quests, rare trackers and holiday tour guides",
     "url": "https://www.curseforge.com/wow/addons/tomcats",
-    "download_url": "https://edge.forgecdn.net/files/3480/981/TomCats[retail]-2.3.20.zip",
-    "date_published": "2021-10-04T07:49:20.053000+00:00",
-    "version": "2.3.20",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/306085/file/3480981/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3627/991/TomCats[retail]-2.3.27.zip",
+    "date_published": "2022-01-29T12:56:05.403000+00:00",
+    "version": "2.3.27",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/306085/file/3627991/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5464,6 +5706,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.3.27",
+        "install_time": "2022-01-30T05:44:58+00:00"
+      },
+      {
+        "version": "2.3.23",
+        "install_time": "2021-11-18T04:42:57+00:00"
+      },
       {
         "version": "2.3.20",
         "install_time": "2021-10-26T14:48:16+00:00"
@@ -5495,14 +5745,6 @@
       {
         "version": "2.2.3",
         "install_time": "2021-03-05T08:35:22+00:00"
-      },
-      {
-        "version": "2.2.2",
-        "install_time": "2021-03-03T12:04:42+00:00"
-      },
-      {
-        "version": "2.1.10",
-        "install_time": "2021-02-23T13:44:13+00:00"
       }
     ]
   },
@@ -5513,10 +5755,10 @@
     "name": "TomTom",
     "description": "Acts as your portable navigation assistant",
     "url": "https://www.curseforge.com/wow/addons/tomtom",
-    "download_url": "https://edge.forgecdn.net/files/3369/967/TomTom-v3.0.2.zip",
-    "date_published": "2021-06-29T23:03:11.127000+00:00",
-    "version": "v3.0.2",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/18808/file/3369967/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3515/528/TomTom-v3.0.3.zip",
+    "date_published": "2021-11-04T19:12:42.127000+00:00",
+    "version": "v3.0.3",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/18808/file/3515528/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5527,6 +5769,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.0.3",
+        "install_time": "2021-11-18T04:42:57+00:00"
+      },
       {
         "version": "v3.0.2",
         "install_time": "2021-07-17T04:49:49+00:00"
@@ -5560,10 +5806,10 @@
     "name": "TradeSkillMaster",
     "description": "Powerful addon to help you make gold from crafting to selling on the auction house to buying vendor items and much more!",
     "url": "https://www.curseforge.com/wow/addons/tradeskill-master",
-    "download_url": "https://edge.forgecdn.net/files/3458/819/TradeSkillMaster_v4.11.13.zip",
-    "date_published": "2021-09-13T21:54:43.760000+00:00",
-    "version": "v4.11.13",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26886/file/3458819/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3540/861/TradeSkillMaster_v4.11.17.zip",
+    "date_published": "2021-11-29T17:23:51+00:00",
+    "version": "v4.11.17",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26886/file/3540861/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5574,6 +5820,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.11.17",
+        "install_time": "2022-01-30T05:44:58+00:00"
+      },
+      {
+        "version": "v4.11.16",
+        "install_time": "2021-11-18T04:42:57+00:00"
+      },
       {
         "version": "v4.11.13",
         "install_time": "2021-10-26T14:48:16+00:00"
@@ -5605,14 +5859,6 @@
       {
         "version": "v4.10.31",
         "install_time": "2021-03-11T04:26:13+00:00"
-      },
-      {
-        "version": "v4.10.30",
-        "install_time": "2021-02-14T14:50:28+00:00"
-      },
-      {
-        "version": "v4.10.28",
-        "install_time": "2021-01-11T15:13:31+00:00"
       }
     ]
   },
@@ -5653,10 +5899,10 @@
     "name": "VuhDo",
     "description": "Raid Frames providing click-heal functionality, buff and debuff control, main tank management and much more.",
     "url": "https://www.curseforge.com/wow/addons/vuhdo",
-    "download_url": "https://edge.forgecdn.net/files/3460/89/VuhDo-v3.128.zip",
-    "date_published": "2021-09-15T05:04:05.600000+00:00",
-    "version": "v3.128",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/7950/file/3460089/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3612/858/VuhDo-v3.131.zip",
+    "date_published": "2022-01-19T01:19:32.500000+00:00",
+    "version": "v3.131",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/7950/file/3612858/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5670,6 +5916,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.131",
+        "install_time": "2022-01-30T05:44:58+00:00"
+      },
+      {
+        "version": "v3.129",
+        "install_time": "2021-11-18T04:42:58+00:00"
+      },
       {
         "version": "v3.128",
         "install_time": "2021-10-26T14:48:16+00:00"
@@ -5701,14 +5955,6 @@
       {
         "version": "v3.119",
         "install_time": "2021-01-11T15:13:32+00:00"
-      },
-      {
-        "version": "v3.118",
-        "install_time": "2020-12-15T12:29:22+00:00"
-      },
-      {
-        "version": "v3.117",
-        "install_time": "2020-11-18T14:59:10+00:00"
       }
     ]
   },
@@ -5719,10 +5965,10 @@
     "name": "WeakAuras",
     "description": "A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.",
     "url": "https://www.curseforge.com/wow/addons/weakauras-2",
-    "download_url": "https://edge.forgecdn.net/files/3480/793/WeakAuras-3.7.2.zip",
-    "date_published": "2021-10-04T00:55:53.253000+00:00",
-    "version": "3.7.2",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/65387/file/3480793/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3626/173/WeakAuras-3.7.8.zip",
+    "date_published": "2022-01-27T22:52:59.083000+00:00",
+    "version": "3.7.8",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/65387/file/3626173/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5745,6 +5991,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "3.7.8",
+        "install_time": "2022-01-30T05:44:59+00:00"
+      },
+      {
+        "version": "3.7.3",
+        "install_time": "2021-11-18T04:42:58+00:00"
+      },
       {
         "version": "3.7.2",
         "install_time": "2021-10-26T14:48:17+00:00"
@@ -5776,14 +6030,6 @@
       {
         "version": "3.1.9",
         "install_time": "2021-02-14T14:50:29+00:00"
-      },
-      {
-        "version": "3.1.8",
-        "install_time": "2021-01-11T15:13:34+00:00"
-      },
-      {
-        "version": "3.1.4",
-        "install_time": "2020-12-15T12:29:24+00:00"
       }
     ]
   },
@@ -5794,10 +6040,10 @@
     "name": "Wholly",
     "description": "Shows quests in zones and puts pins on maps where quest givers are.",
     "url": "https://www.curseforge.com/wow/addons/wholly",
-    "download_url": "https://edge.forgecdn.net/files/3371/812/Wholly-084.zip",
-    "date_published": "2021-06-30T22:17:46.700000+00:00",
-    "version": "084",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/30118/file/3371812/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3517/791/Wholly-085.zip",
+    "date_published": "2021-11-06T22:02:32.457000+00:00",
+    "version": "085",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/30118/file/3517791/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5808,6 +6054,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "085",
+        "install_time": "2021-11-18T04:42:58+00:00"
+      },
       {
         "version": "084",
         "install_time": "2021-07-17T04:49:51+00:00"
@@ -5837,10 +6087,10 @@
     "name": "World Quests List",
     "description": "World Quests List",
     "url": "https://www.curseforge.com/wow/addons/world-quests-list",
-    "download_url": "https://edge.forgecdn.net/files/3369/58/WorldQuestsList101.zip",
-    "date_published": "2021-06-29T15:12:11.673000+00:00",
-    "version": "World Quests List v.10.1",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100436/file/3369058/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3512/716/WorldQuestsList102.zip",
+    "date_published": "2021-11-02T15:37:13.613000+00:00",
+    "version": "World Quests List v.10.2",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/100436/file/3512716/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5851,6 +6101,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "World Quests List v.10.2",
+        "install_time": "2021-11-18T04:42:59+00:00"
+      },
       {
         "version": "World Quests List v.10.1",
         "install_time": "2021-07-17T04:49:51+00:00"
@@ -5888,10 +6142,10 @@
     "name": "tullaRange",
     "description": "Colors out of range action buttons",
     "url": "https://www.curseforge.com/wow/addons/tullarange",
-    "download_url": "https://edge.forgecdn.net/files/3374/272/tullaRange-9.1.0.zip",
-    "date_published": "2021-07-02T20:09:50.650000+00:00",
-    "version": "9.1.0",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26753/file/3374272/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3583/254/tullaRange-9.1.5.zip",
+    "date_published": "2021-12-28T16:50:06.180000+00:00",
+    "version": "9.1.5",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/26753/file/3583254/changelog",
     "options": {
       "strategy": "default"
     },
@@ -5905,6 +6159,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "9.1.5",
+        "install_time": "2022-01-30T05:44:59+00:00"
+      },
       {
         "version": "9.1.0",
         "install_time": "2021-07-17T04:49:51+00:00"
