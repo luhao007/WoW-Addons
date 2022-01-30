@@ -1,4 +1,4 @@
-﻿-- New Options
+-- New Options
 -- @EXACT = false
 VUHDO_I18N_SCANNERS = "Scanners";
 VUHDO_I18N_RESURRECT_SHORT = "Resurrect";
@@ -1146,3 +1146,6 @@ VUHDO_I18N_DEBUFF_SHOW_ONLY_FOR_FRIENDLY_TOOLTIP = "Shows debuffs only for frien
 
 VUHDO_I18N_SHOW_OVERSHIELD = "Show\nOvershield";
 VUHDO_I18N_OVERSHIELD_BAR = "Overshield Bar";
+
+VUHDO_I18N_SHOW_HEAL_ABSORB = "Show\nHeal Absorb";
+VUHDO_I18N_HEAL_ABSORB_BAR = "Heal Absorb Bar";

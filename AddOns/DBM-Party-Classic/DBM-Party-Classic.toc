@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: MysticalOS
-## Version: r29
+## Version: r31
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyClassic_AllSavedVars

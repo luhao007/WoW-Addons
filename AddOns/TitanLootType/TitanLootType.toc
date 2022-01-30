@@ -1,11 +1,11 @@
 ## Interface: 90105
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## Version: 5.21.2.90105
+## Version: 5.22.0.90105
 ## Dependencies: Titan
 ## OptionalDeps: 
 ## SavedVariables: 
 
-## Title: Titan Panel [|cffeda55fLootType|r] |cff00aa005.21.2.90105|r
+## Title: Titan Panel [|cffeda55fLootType|r] |cff00aa005.22.0.90105|r
 ## Notes: Adds group loot and instance difficulty information to Titan Panel
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0分配方式|r
 ## Notes-zhCN: 泰坦面板的分配方式模块

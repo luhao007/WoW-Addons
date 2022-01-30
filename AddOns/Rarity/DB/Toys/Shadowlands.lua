@@ -55,7 +55,7 @@ local shadowlandsToys = {
 		name = L["Smolderheart"],
 		itemId = 180873,
 		npcs = {160857},
-		chance = 25,
+		chance = 20,
 		questId = {58263},
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.REVENDRETH, x = 34.08, y = 55.47, n = L["Sire Ladinas"]}
@@ -336,8 +336,9 @@ local shadowlandsToys = {
 		isToy = true,
 		itemId = 187139,
 		npcs = {179735},
-		chance = 100, -- Blind guess
+		chance = 8,
 		unique = true,
+		questId = {64232},
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.THE_MAW, x = 28.5, y = 24.9, n = L["Torglluun"]}
 		}
@@ -425,6 +426,79 @@ local shadowlandsToys = {
 		sourceText = L["This item can only drop in the Adamant Vaults section of Torghast."],
 		coords = {
 			{m = CONSTANTS.UIMAPIDS.TORGHAST}
+		}
+	},
+	["Steward's First Feather"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		isToy = true,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		name = L["Steward's First Feather"],
+		itemId = 187419,
+		items = {181741, 181372},
+		chance = 100, -- Blind guess
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.BASTION}
+		}
+	},
+	["Apprentice Slimemancer's Boots"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		isToy = true,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		name = L["Apprentice Slimemancer's Boots"],
+		itemId = 187913,
+		items = {181732, 181733},
+		chance = 100, -- Blind guess
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.MALDRAXXUS}
+		}
+	},
+	["Sparkle Wings"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		isToy = true,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		name = L["Sparkle Wings"],
+		itemId = 187840,
+		items = {181475, 181476},
+		chance = 100, -- Blind guess
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.ARDENWEALD}
+		}
+	},
+	["Tome of Small Sins"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		isToy = true,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		name = L["Tome of Small Sins"],
+		itemId = 187512,
+		items = {181556, 181557},
+		chance = 100, -- Blind guess
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.REVENDRETH}
+		}
+	},
+	["Shaded Judgment Stone"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.ITEM,
+		method = CONSTANTS.DETECTION_METHODS.NPC,
+		name = L["Shaded Judgment Stone"],
+		isToy = true,
+		itemId = 187174,
+		npcs = {
+			179913,
+			179608,
+			179914,
+			179911,
+			179853
+		},
+		chance = 100, -- Blind guess
+		sourceText = L["This item can only drop in the rift phase of Korthia and The Maw."],
+		coords = {
+			{m = CONSTANTS.UIMAPIDS.KORTHIA},
+			{m = CONSTANTS.UIMAPIDS.THE_MAW}
 		}
 	},
 }

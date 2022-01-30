@@ -15,7 +15,7 @@ local updateTable = {TITAN_LOCATION_ID, TITAN_PANEL_UPDATE_BUTTON};
 -- ******************************** Variables *******************************
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true);
 local AceTimer = LibStub("AceTimer-3.0");
-local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+--local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local LocationTimer = nil;
 -- ******************************** Functions *******************************
 
@@ -39,7 +39,7 @@ function TitanPanelLocationButton_OnLoad(self)
 			ShowLabelText = true,
 			ShowRegularText = false,
 			ShowColoredText = true,
-			DisplayOnRightSide = false
+			DisplayOnRightSide = true,
 		},
 		savedVariables = {
 			ShowZoneText = 1,
@@ -53,6 +53,7 @@ function TitanPanelLocationButton_OnLoad(self)
 			CoordsFormat2 = false,
 			CoordsFormat3 = false,
 			UpdateWorldmap = false,
+			DisplayOnRightSide = false,
 		}
 	};
 
@@ -298,20 +299,20 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 			info.text = L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"];
 			info.func = TitanPanelLocationButton_ToggleDisplay;
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowZoneText");
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"];
 			info.func = TitanPanelLocationButton_ToggleLocationOnMap;
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap");
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_LOC_ON_MINIMAP_TEXT"];
 			info.func = TitanPanelLocationButton_ToggleLocOnMiniMap;
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap");
 			info.disabled = InCombatLockdown()
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_UPDATE_WORLD_MAP"];
@@ -320,7 +321,7 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "UpdateWorldmap");
 			info.disabled = InCombatLockdown()
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "CoordFormat" then
 			TitanPanelRightClickMenu_AddTitle(L["TITAN_LOCATION_FORMAT_COORD_LABEL"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
@@ -333,7 +334,7 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat1");
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["TITAN_LOCATION_FORMAT2_LABEL"];
@@ -344,7 +345,7 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat2");
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["TITAN_LOCATION_FORMAT3_LABEL"];
@@ -355,7 +356,7 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat3");
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 		return
 	end
@@ -368,19 +369,20 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 	info.text = L["TITAN_PANEL_OPTIONS"];
 	info.value = "Options"
 	info.hasArrow = 1;
-	DDM:UIDropDownMenu_AddButton(info);
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	info = {};
 	info.notCheckable = true
 	info.text = L["TITAN_LOCATION_FORMAT_COORD_LABEL"];
 	info.value = "CoordFormat"
 	info.hasArrow = 1;
-	DDM:UIDropDownMenu_AddButton(info);
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddToggleIcon(TITAN_LOCATION_ID);
 	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_LOCATION_ID);
 	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_LOCATION_ID);
+	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_LOCATION_ID);
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_LOCATION_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 end

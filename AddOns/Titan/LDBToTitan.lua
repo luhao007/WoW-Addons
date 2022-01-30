@@ -115,6 +115,13 @@ VAR: frame
 --]]
 function LDBToTitan:TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
 	if frame:GetName() == "GameTooltip" then
+
+		-- Changes for 9.1.5. The background template was removed from the GameTooltip; backdrop color was changed to a NineSlice scheme...
+		local tool_trans = TitanPanelGetVar("TooltipTrans")
+		local bgR, bgG, bgB = TOOLTIP_DEFAULT_BACKGROUND_COLOR:GetRGB();
+		frame.NineSlice:SetCenterColor(bgR, bgG, bgB, tool_trans);
+
+--[[
 		-- Changes for 9.1.5. The background template was removed from the GameTooltip
 		local tip_name = frame:GetName()
 		
@@ -129,7 +136,7 @@ function LDBToTitan:TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFram
 		tip_back_frame:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b, tool_trans)
 		tip_back_frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, tool_trans)
 		frame.MenuBackdrop = tip_back_frame
-
+--]]
 		frame:SetOwner(parent, "ANCHOR_NONE");
 --[[
 		-- set alpha (transparency) for the Game Tooltip

@@ -1,13 +1,13 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2021 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2022 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0530
+PawnVersion = 2.0532
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.13
@@ -861,7 +861,7 @@ function PawnDebugMessage(Message)
 	end
 end
 
--- Processes an Pawn slash command.
+-- Processes a Pawn slash command.
 function PawnCommand(Command)
 	if Command == "" then
 		PawnUIShow()
@@ -875,6 +875,17 @@ function PawnCommand(Command)
 		if PawnUIFrame_DebugCheck then PawnUIFrame_DebugCheck:SetChecked(PawnCommon.Debug) end
 	elseif Command == "backup" then
 		PawnUIExportAllScales()
+	elseif strsub(Command, 1, 7) == "tooltip" then
+		local ItemLink = strsub(Command, 9)
+		local ItemID = tonumber(ItemLink)
+		ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE")
+		if ItemID then
+			ItemRefTooltip:SetItemByID(ItemID)
+		else
+			if strsub(ItemLink, 1, 5) ~= "item:" then ItemLink = "item:" .. ItemLink end
+			ItemRefTooltip:SetHyperlink(ItemLink)
+		end
+		ItemRefTooltip:Show()
 	elseif strsub(Command, 1, 7) == "compare" then
 		local CompareIndex, ItemLink1, ItemLink2
 		if strsub(Command, 9, 13) == "left " then

@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: MysticalOS
-## Version: r59
+## Version: r60
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMHighmaul_AllSavedVars

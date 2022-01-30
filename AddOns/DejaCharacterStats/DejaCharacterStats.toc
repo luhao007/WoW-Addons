@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Dejablue, Kakjens, loudsoul
-## Version: 901r3
+## Version: 901r4
 ## SavedVariables: DCS_ClassSpecDB
 ## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
 

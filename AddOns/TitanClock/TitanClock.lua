@@ -446,11 +446,10 @@ function TitanPanelClockControlFrame_OnLoad(self)
 Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands) 
 so inherit the template (XML)
 and set the values in the code (Lua)
---]]
-	self:SetBackdrop(BACKDROP_SLIDER_8_8) -- use a pre-set from Backdrop.lua  BACKDROP_TOOLTIP_16_16_5555
 
-	self:SetBackdropBorderColor(1, 1, 1);
-	self:SetBackdropColor(0, 0, 0, 1);
+9.5 The tooltip template was removed from the GameTooltip.
+--]]
+	TitanPanelRightClickMenu_SetCustomBackdrop(self)
 end
 
 -- **************************************************************************

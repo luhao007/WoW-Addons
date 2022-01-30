@@ -5,7 +5,7 @@ Titan uses Ace libraries to place the Titan options within the Blizzard option s
 
 Most routines in this file are local because they create the Titan options. 
 These routines are called first when Titan processes the 'player entering world' event.
-If an options list (skins, extra, etc) is changed by the user then the Ace table needs to be updated and Blizz informed to 'redraw'.
+If an options list (skins, extra, etc) is changed by the user then the Ace table needs to be updated and WoW server informed to 'redraw'.
 :DESC
 --]]
 
@@ -1482,9 +1482,9 @@ local optionsAddons = {
 	type = "group",
 	args = {}
 }
-local function ColorVisible(name)
+local function ColorVisible(id, name)
 	local res = "?"
-	if TitanPanel_IsPluginShown(name) then 
+	if TitanPanel_IsPluginShown(id) then 
 		res = (name or "")
 	else 
 		res = "|cff808080"..name.._G["FONT_COLOR_CODE_CLOSE"]
@@ -1531,7 +1531,7 @@ local function TitanUpdateConfigAddons()
 			end
 			args[plug_in.id] = {
 				type = "group",
-				name = ColorVisible(plug_in.menuText or ""),
+				name = ColorVisible(plug_in.id or "", plug_in.menuText),
 				order = idx,
 				args = {
 					name = {

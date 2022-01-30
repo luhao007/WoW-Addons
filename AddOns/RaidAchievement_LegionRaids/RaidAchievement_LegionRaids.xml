@@ -10,15 +10,31 @@
 
 
 <Frame name="legionrramain6" hidden="true" parent="PSFeamain1">
-
+		<Scripts>
+			<OnLoad>
+						self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+						self.background:SetAllPoints()
+						self.background:SetBackdrop(
+							{
+								bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+								edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+								tile = true,
+								tileSize = 16,
+								edgeSize = 8,
+								insets = { left = 3, right = 3, top = 3, bottom = 3, },
+							})
+						self.background:SetBackdropColor(.03, .03, .03, .3)
+						self.background:SetBackdropBorderColor(.4, .4, .4)
+					</OnLoad>
+		</Scripts>
 <Size x="750" y="500"/>
 	<Anchors>
 	<Anchor point="RIGHT"/>
 	</Anchors>
 	<Layers>
 	<Layer level="ARTWORK">
-<FontString name="$parent_Text" inherits="GameFontNormal" text="legionrratitle">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+<FontString name="$parent_Text" inherits="GameFontNormal" text="Legion - raids">
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT">><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 <FontString name="$parent_Text" inherits="GameFontNormal" text="pseareports">
 	<Anchors><Anchor point="LEFT" relativePoint="BOTTOMLEFT"><Offset x="131" y="25"/></Anchor></Anchors>

@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Tandanu/Nitram
-## Version: r302
+## Version: r304
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMEyeOfEternity_AllSavedVars

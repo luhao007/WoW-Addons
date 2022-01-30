@@ -1,23 +1,18 @@
 # AllTheThings
 
-## [SL-2.5.3](https://github.com/DFortun81/AllTheThings/tree/SL-2.5.3) (2021-11-14)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/SL-2.5.2...SL-2.5.3) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [SL-2.6.10](https://github.com/DFortun81/AllTheThings/tree/SL-2.6.10) (2022-01-23)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/SL-2.6.9...SL-2.6.10) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+
 
 ### Notable changes:
 
-- WoW 17th Anniversary!
-- More WoD Garrison unification/cleanup.
-- WoD pets/quests/achievements improvements.
-- 9.1.5 has new questchain to get another murloc pet. You can find it in Secrets->Gurgl.
-- More PvP items fixes.
-- Fixed duplicating Lore information for Friendship factions.
-- Another round of fixes and improvements for `/attwq` feature.
-- Added new lvl 60 boost and new items associated with it. Reorganized (removed) trials/boosts while at it.
-- More unification between retail/classic versions of ATT, this time in classic dungeons.
-- Quests that are listed inside instances but have their starting point in the open world will now properly map their coordinates.
-- Invasion Points for Argus return to minilists once again.
+- Delayed some event registration until after ATT is ready to handle them.
+- Added an extra API call to population of quest objects (like in `/attwq`) to hopefully get data more accurately.
+- Fixed minilist Professions category not capturing certain 'Profession' content.
+- Micro-adjustments to minilist tech.
+- Adjusted the logic that checks if the current Instance difficulty is 'completed'. This should fix "You have completed this difficulty" messages for Timewalking.
+- Ongoing achievements cleanup: attaching required quests, maps, etc. Mainly in Necrolord achievements.
+- Fixed Legion engineering questline.
+- Random duplicate quests removed.
+- More quests added and fixed.
 - Other fixes.
-
-### Notable changes:
-
-Next release will probably have Profiles support!

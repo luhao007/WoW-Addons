@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2021 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2022 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 -- 
@@ -362,7 +362,7 @@ Weitere Informationen zur Anpassung von Pawn findet ihr in der Hilfedatei (Readm
 		["Mp5"] = "^Anlegen: Stellt alle 5 Sek%. # Mana wieder her%.$",
 		["Mp52"] = "^%+?# Mana alle 5 Sek%.$",
 		["Mp53"] = "^Alle 5 Sek%. # Mana$",
-		["Mp54"] = "^UNUSED$",
+		["Mp54"] = "^Anlegen: Stellt alle 5 Sek%. # Punkt%(e%) Mana wieder her%.$",
 		["Mp55"] = "^UNUSED$",
 		["MultiStatHeading"] = "^Mehrere Werte$",
 		["MultiStatSeparator1"] = "und",

@@ -83,6 +83,7 @@ function TitanPanelPerformanceButton_OnLoad(self)
 			ShowIcon = 1,
 			ShowLabelText = false,
 			ShowColoredText = 1,
+			DisplayOnRightSide = false,
 		}
 	};
 
@@ -602,6 +603,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 	TitanPanelRightClickMenu_AddToggleIcon(TITAN_PERFORMANCE_ID);
 	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_PERFORMANCE_ID);
 	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_PERFORMANCE_ID);
+	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_PERFORMANCE_ID);
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_PERFORMANCE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 end
@@ -726,7 +728,7 @@ function TitanPanelPerfControlSlider_OnShow(self)
 	self:SetObeyStepOnDrag(true) -- since 5.4.2 (Mists of Pandaria)
 	self:SetValue(CalcAppNum(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons")));
 --	self:SetValue((TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons")));
-	TitanPanelPerfControlFrame:SetBackdropColor(0, 0, 0, 1)
+--	TitanPanelPerfControlFrame:SetBackdropColor(0, 0, 0, 1)
 --[[
 TitanDebug("Slider_OnShow:"
 .." : "..(self:GetValue() or "?")
@@ -812,11 +814,10 @@ function TitanPanelPerfControlFrame_OnLoad(self)
 Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands) 
 so inherit the template (XML)
 and set the values in the code (Lua)
---]]
-	self:SetBackdrop(BACKDROP_TOOLTIP_16_16_5555) -- use a pre-set from Backdrop.lua
 
-	self:SetBackdropBorderColor(1, 1, 1);
-	self:SetBackdropColor(0, 0, 0, 1);
+9.5 The tooltip template was removed from the GameTooltip.
+--]]
+	TitanPanelRightClickMenu_SetCustomBackdrop(self)
 end
 
 -- **************************************************************************

@@ -35,7 +35,6 @@ app.Settings = settings;
 settings.name = app:GetName();
 settings.MostRecentTab = nil;
 settings.Tabs = {};
-settings.ModifierKeys = { "None", "Shift", "Ctrl", "Alt" };
 settings:SetBackdrop({
 	bgFile = "Interface/RAIDFRAME/UI-RaidFrame-GroupBg",
 	edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -53,6 +52,16 @@ settings.Open = function(self)
 		InterfaceOptionsFrame_OpenToCategory(self.name);
 	end
 end
+-- Provides a Unique Counter value for the Key referenced on each reference
+settings.UniqueCounter = setmetatable({}, {
+	__index = function(t, key)
+		local trackKey = "_"..key;
+		local next = (rawget(t, trackKey) or 0) + 1;
+		-- print("UniqueCounter",key,next)
+		t[trackKey] = next;
+		return next;
+	end
+});
 
 -- Music / Sound Management (You can add your own sounds for this if you want.)
 settings.AUDIO_COMPLETE_TABLE = {
@@ -84,26 +93,26 @@ local GeneralSettingsBase = {
 		["Repeatable"] = false,
 		["RepeatableFirstTime"] = false,
 		["AccountWide:Achievements"] = true,
-		["AccountWide:AzeriteEssences"] = false,
+		["AccountWide:AzeriteEssences"] = true,
 		-- ["AccountWide:BattlePets"] = true,
 		["AccountWide:Conduits"] = true,
 		["AccountWide:FlightPaths"] = true,
 		["AccountWide:Followers"] = true,
 		-- ["AccountWide:Heirlooms"] = true,
-		["AccountWide:Illusions"] = true,
+		-- ["AccountWide:Illusions"] = true,
 		-- ["AccountWide:Mounts"] = true,
 		["AccountWide:MusicRollsAndSelfieFilters"] = true,
-		["AccountWide:Quests"] = false,
+		["AccountWide:Quests"] = true,
 		["AccountWide:Recipes"] = true,
 		["AccountWide:Reputations"] = true,
-		["AccountWide:RuneforgeLegendaries"] = true,
+		-- ["AccountWide:RuneforgeLegendaries"] = true,
 		["AccountWide:Titles"] = true,
 		-- ["AccountWide:Toys"] = true,
 		-- ["AccountWide:Transmog"] = true,
 		["Thing:Achievements"] = true,
 		["Thing:AzeriteEssences"] = true,
 		["Thing:BattlePets"] = true,
-		["Thing:Conduits"] = false,
+		["Thing:Conduits"] = true,
 		["Thing:FlightPaths"] = true,
 		["Thing:Followers"] = true,
 		["Thing:Heirlooms"] = true,
@@ -111,8 +120,8 @@ local GeneralSettingsBase = {
 		["Thing:Illusions"] = true,
 		["Thing:Mounts"] = true,
 		["Thing:MusicRollsAndSelfieFilters"] = true,
-		["Thing:Quests"] = false,
-		["Thing:QuestBreadcrumbs"] = false,
+		["Thing:Quests"] = true,
+		["Thing:QuestBreadcrumbs"] = true,
 		["Thing:Recipes"] = true,
 		["Thing:Reputations"] = true,
 		["Thing:RuneforgeLegendaries"] = true,
@@ -124,16 +133,44 @@ local GeneralSettingsBase = {
 		["Skip:AutoRefresh"] = false,
 		["Show:PetBattles"] = true,
 		["Hide:PvP"] = false,
+		["Dynamic:Style"] = 1,
+		["CC:SL_COV_KYR"] = true,
+		["CC:SL_COV_VEN"] = true,
+		["CC:SL_COV_NFA"] = true,
+		["CC:SL_COV_NEC"] = true,
 	},
 };
 local FilterSettingsBase = {};
+local SeasonalSettingsBase = {
+	__index = {
+		["DoFiltering"] = false,
+		[1012] = true,
+		[1015] = true,
+		[1016] = true,
+		[1014] = true,
+		[1007] = true,
+		[1006] = true,
+		[1010] = true,
+		[1001] = true,
+		[1008] = true,
+		[1005] = true,
+		[1011] = true,
+		[1000] = true,
+		[1004] = true,
+		[1002] = true,
+		[1017] = true,
+		[1013] = true,
+		[1003] = true,
+	},
+};
 local TooltipSettingsBase = {
 	__index = {
-		["Auto:BountyList"] = true,
+		["Auto:BountyList"] = false,
 		["Auto:MiniList"] = false,
 		["Auto:ProfessionList"] = true,
-		["Auto:AH"] = true,
+		["Auto:AH"] = false,
 		["Celebrate"] = true,
+		["Coordinates"] = true,
 		["Screenshot"] = false,
 		["Channel"] = "master",
 		["ClassRequirements"] = true,
@@ -148,6 +185,7 @@ local TooltipSettingsBase = {
 		["MinimapSize"] = 36,
 		["MinimapStyle"] = true,
 		["Models"] = true,
+		["KnownBy"] = true,
 		["LiveScan"] = false,
 		["Locations"] = 5,
 		["Lore"] = true,
@@ -162,7 +200,7 @@ local TooltipSettingsBase = {
 		["SharedAppearances"] = true,
 		["Show:Remaining"] = false,
 		["Show:Percentage"] = true,
-		["UseMoreColors"] = false,
+		["UseMoreColors"] = true,
 		["Show:TooltipHelp"] = true,
 		["Skip:Cutscenes"] = false,
 		["SourceLocations"] = true,
@@ -172,8 +210,9 @@ local TooltipSettingsBase = {
 		["DropChances"] = true,
 		["SpecializationRequirements"] = true,
 		["SummarizeThings"] = true,
-		["Warn:Difficulty"] = false,
+		["Warn:Difficulty"] = true,
 		["Warn:Removed"] = true,
+		["Currencies"] = true,
 	},
 };
 
@@ -185,8 +224,10 @@ local OnClickForTab = function(self)
 	for i,tab in ipairs(parent.Tabs) do
 		if i == id then
 			for j,o in ipairs(tab.objects) do
+				-- print(":Show()",o.text or (o.GetText and o:GetText() or (o.Text and o.Text.GetText and o.Text:GetText())))
 				o:Show();
 			end
+			if tab.OnRefresh then tab:OnRefresh(); end
 		else
 			for j,o in ipairs(tab.objects) do
 				o:Hide();
@@ -200,23 +241,17 @@ settings.Initialize = function(self)
 	PanelTemplates_SetNumTabs(self, #self.Tabs);
 
 	-- Assign the default settings
-	if AllTheThingsProfiles then
-		local key = AllTheThingsProfiles.Assignments[app.GUID] or "Default";
-		RawSettings = AllTheThingsProfiles.Profiles[key];
-		if not RawSettings then
-			RawSettings = settings:NewProfile(key);
-		end
-		app.print("Profile:",key);
-	else
+	if not settings:ApplyProfile() then
 		if not AllTheThingsSettings then AllTheThingsSettings = {}; end
 		RawSettings = AllTheThingsSettings;
 		if not RawSettings.General then RawSettings.General = {}; end
 		if not RawSettings.Tooltips then RawSettings.Tooltips = {}; end
-		if not RawSettings.Seasonal then RawSettings.Seasonal = app.GetDataMember("SeasonalFilters") or {}; end
-		if not RawSettings.Unobtainable then RawSettings.Unobtainable = app.GetDataMember("UnobtainableItemFilters") or {}; end
+		if not RawSettings.Seasonal then RawSettings.Seasonal = {}; end
+		if not RawSettings.Unobtainable then RawSettings.Unobtainable = {}; end
+		setmetatable(RawSettings.General, GeneralSettingsBase);
+		setmetatable(RawSettings.Seasonal, SeasonalSettingsBase);
+		setmetatable(RawSettings.Tooltips, TooltipSettingsBase);
 	end
-	setmetatable(RawSettings.General, GeneralSettingsBase);
-	setmetatable(RawSettings.Tooltips, TooltipSettingsBase);
 
 	-- Assign the preset filters for your character class as the default states
 	if not AllTheThingsSettingsPerCharacter then AllTheThingsSettingsPerCharacter = {}; end
@@ -258,40 +293,143 @@ settings.Initialize = function(self)
 		app:GetWindow("WorldQuests"):Show();
 	end
 end
+local function rawcopy(source, copy)
+	if source and copy then
+		for k,v in pairs(source) do
+			rawset(copy, k, v);
+		end
+	end
+end
 -- Creates, assigns, and returns a RawSettings object for a given Profile Key
 settings.NewProfile = function(self, key)
-	local raw = {
-		General = {},
-		Tooltips = {},
-		Seasonal = {},
-		Unobtainable = {},
-	};
-	AllTheThingsProfiles.Profiles[key] = raw;
-	return raw;
+	if AllTheThingsProfiles and key then
+		-- cannot create existing profile name
+		if AllTheThingsProfiles.Profiles[key] then return; end
+
+		local raw = {
+			General = {},
+			Tooltips = {},
+			Seasonal = {},
+			Unobtainable = {},
+			Windows = {},
+		};
+		-- Use Ad-Hoc for new Profiles, to remove initial lag
+		raw.Tooltips["Updates:AdHoc"] = true;
+		AllTheThingsProfiles.Profiles[key] = raw;
+		return raw;
+	end
 end
 -- Creates, assigns, copies existing, and returns a RawSettings object for a given Profile Key
 settings.CopyProfile = function(self, key, copyKey)
-	local raw = settings:NewProfile(key);
-	local copy = AllTheThingsProfiles.Profiles[copyKey];
-	if copy then
-		for k,v in pairs(copy.General) do
-			rawset(raw.General, k, v);
+	if AllTheThingsProfiles then
+		key = key or settings:GetProfile();
+		-- don't try to copy the same profile
+		if key == copyKey then return; end
+		-- delete the existing profile manually
+		AllTheThingsProfiles.Profiles[key] = nil;
+		-- re-create the profile
+		local raw = settings:NewProfile(key);
+		local copy = AllTheThingsProfiles.Profiles[copyKey];
+		if copy then
+			rawcopy(copy.General, raw.General);
+			rawcopy(copy.Tooltips, raw.Tooltips);
+			rawcopy(copy.Seasonal, raw.Seasonal);
+			rawcopy(copy.Unobtainable, raw.Unobtainable);
+			rawcopy(copy.Windows, raw.Windows);
 		end
-		for k,v in pairs(copy.Tooltips) do
-			rawset(raw.Tooltips, k, v);
-		end
-		for k,v in pairs(copy.Seasonal) do
-			rawset(raw.Seasonal, k, v);
-		end
-		for k,v in pairs(copy.Unobtainable) do
-			rawset(raw.Unobtainable, k, v);
-		end
+		return raw;
 	end
-	return raw;
 end
 -- Removes a Profile
 settings.DeleteProfile = function(self, key)
-	AllTheThingsProfiles.Profiles[key] = nil;
+	if AllTheThingsProfiles and key and key ~= "Default" then
+		AllTheThingsProfiles.Profiles[key] = nil;
+		-- deleting the current character's profile, reassign to Default
+		if key == AllTheThingsProfiles.Assignments[app.GUID] then
+			AllTheThingsProfiles.Assignments[app.GUID] = nil;
+			settings.ApplyProfile();
+		end
+		-- deleting a profile used by other characters, they too will reset to default
+		for char,profKey in pairs(AllTheThingsProfiles.Assignments) do
+			if profKey == key then
+				AllTheThingsProfiles.Assignments[char]  = nil;
+			end
+		end
+		return true;
+	end
+end
+-- Gets the Profile for the current character
+settings.GetProfile = function(self, localized)
+	if AllTheThingsProfiles then
+		return AllTheThingsProfiles.Assignments[app.GUID] or (localized and DEFAULT or "Default");
+	end
+end
+-- Sets a Profile for the current character
+settings.SetProfile = function(self, key)
+	if AllTheThingsProfiles and key then
+		-- don't assign Default... it's Default...
+		if key == "Default" then key = nil; end
+		AllTheThingsProfiles.Assignments[app.GUID] = key;
+	end
+end
+-- Applies the profile for the current character as the base settings table
+settings.ApplyProfile = function()
+	if AllTheThingsProfiles then
+		local key = settings:GetProfile();
+		RawSettings = AllTheThingsProfiles.Profiles[key];
+		if not RawSettings then
+			RawSettings = settings:NewProfile(key);
+		end
+		setmetatable(RawSettings.General, GeneralSettingsBase);
+		setmetatable(RawSettings.Seasonal, SeasonalSettingsBase);
+		setmetatable(RawSettings.Tooltips, TooltipSettingsBase);
+
+		-- apply window positions when applying a Profile
+		if RawSettings.Windows then
+			for suffix,_ in pairs(RawSettings.Windows) do
+				settings.SetWindowFromProfile(suffix);
+			end
+		end
+
+		if app.IsReady then
+			app.print(L["PROFILE"]..":",settings:GetProfile(true));
+		end
+		return true;
+	end
+end
+-- Allows moving an ATT window based on the position stored in the current Profile
+-- This would be used when creating a Window initially during a game session
+settings.SetWindowFromProfile = function(suffix)
+	local points = RawSettings and RawSettings.Windows and RawSettings.Windows[suffix];
+	local window = app.Windows[suffix];
+	-- print("SetWindowFromProfile",suffix,points,window)
+	if window then
+		if RawSettings then
+			if suffix == "Prime" then
+				window:SetScale(settings:GetTooltipSetting("MainListScale"));
+			else
+				window:SetScale(settings:GetTooltipSetting("MiniListScale"));
+			end
+		end
+		if points then
+			window:ClearAllPoints();
+			for _,point in ipairs(points) do
+				if point.Point then
+					window:SetPoint(point.Point, UIParent, point.PointRef, point.X, point.Y);
+					-- print("SetPoint",suffix,point.Point, point.PointRef, point.X, point.Y)
+				end
+			end
+			if points.Width then
+				window:SetWidth(points.Width);
+				-- print("SetWidth",suffix,points.Width)
+			end
+			if points.Height then
+				window:SetHeight(points.Height);
+				-- print("SetHeight",suffix,points.Height)
+			end
+			window.isLocked = points.Locked;
+		end
+	end
 end
 settings.Get = function(self, setting, container)
 	return RawSettings.General[setting];
@@ -336,8 +474,11 @@ settings.GetModeString = function(self)
 		local things = {};
 		local thingCount = 0;
 		local totalThingCount = 0;
+		local keyPrefix;
+		local solo = true;
 		for key,_ in pairs(GeneralSettingsBase.__index) do
-			if string.sub(key, 1, 6) == "Thing:" then
+			keyPrefix = string.sub(key, 1, 6);
+			if keyPrefix == "Thing:" then
 				totalThingCount = totalThingCount + 1;
 				if settings:Get(key) and
 					-- Quest Breadcrumbs only count when Quests are enabled
@@ -348,6 +489,9 @@ settings.GetModeString = function(self)
 					thingCount = thingCount + 1;
 					table.insert(things, string.sub(key, 7));
 				end
+			elseif solo and keyPrefix == "Accoun" and settings:Get(key) then
+				-- TODO: a bit wonky that a disabled Thing with AccountWide checked can make it non-solo...
+				solo = nil;
 			end
 		end
 		if thingCount == 0 then
@@ -366,6 +510,9 @@ settings.GetModeString = function(self)
 		elseif not settings:Get("Thing:Transmog") then
 			mode = L["TITLE_SOME_THINGS"] .. mode;
 		end
+		if solo then
+			mode = L["TITLE_SOLO"]..mode;
+		end
 	end
 	if self:Get("Filter:ByLevel") then
 		mode = L["TITLE_LEVEL"] .. app.Level .. " " .. mode;
@@ -383,8 +530,11 @@ settings.GetShortModeString = function(self)
 		local things = {};
 		local thingCount = 0;
 		local totalThingCount = 0;
+		local keyPrefix;
+		local solo = true;
 		for key,_ in pairs(GeneralSettingsBase.__index) do
-			if string.sub(key, 1, 6) == "Thing:" then
+			keyPrefix = string.sub(key, 1, 6);
+			if keyPrefix == "Thing:" then
 				totalThingCount = totalThingCount + 1;
 				if settings:Get(key) and
 					-- Quest Breadcrumbs only count when Quests are enabled
@@ -395,6 +545,8 @@ settings.GetShortModeString = function(self)
 					thingCount = thingCount + 1;
 					table.insert(things, string.sub(key, 7));
 				end
+			elseif solo and keyPrefix == "Accoun" and settings:Get(key) then
+				solo = nil;
 			end
 		end
 		local style;
@@ -409,6 +561,9 @@ settings.GetShortModeString = function(self)
 			end
 		else
 			style = "";
+		end
+		if solo then
+			style = "S"..style;
 		end
 		-- Waiting on Refresh to properly show values
 		if self.NeedsRefresh then
@@ -444,10 +599,10 @@ settings.NonInsane = function(self)
 	or self:GetValue("Seasonal", "DoFiltering")
 	-- Non-Account Mode with Covenants filtered
 	or (not self:Get("AccountMode")
-		and (not self:GetFilter("CC:SL_COV_KYR")
-			or not self:GetFilter("CC:SL_COV_NEC")
-			or not self:GetFilter("CC:SL_COV_NFA")
-			or not self:GetFilter("CC:SL_COV_VEN")));
+		and (not self:Get("CC:SL_COV_KYR")
+			or not self:Get("CC:SL_COV_NEC")
+			or not self:Get("CC:SL_COV_NFA")
+			or not self:Get("CC:SL_COV_VEN")));
 end
 settings.GetPersonal = function(self, setting)
 	return AllTheThingsSettingsPerCharacter[setting];
@@ -501,6 +656,22 @@ settings.Refresh = function(self)
 		settings._Refreshing = nil;
 	end
 end
+-- Applies a basic backdrop color to a given frame
+-- r/g/b expected in 1-255 range
+settings.ApplyBackdropColor = function(frame, r, g, b, a)
+	frame.back = frame:CreateTexture(nil, "BACKGROUND");
+	frame.back:SetColorTexture(r/255,g/255,b/255,a);
+	frame.back:SetAllPoints(frame);
+end
+-- Creates a font string attached to the top of the provided frame with the given text
+local function AddLabel(frame, text)
+	local label = frame:CreateFontString(frame, "OVERLAY", "GameFontNormalSmall");
+	label:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, -2);
+	label:SetJustifyH("LEFT");
+	label:SetHeight(18);
+	label:SetText(text);
+	return label;
+end
 settings.CreateCheckBox = function(self, text, OnRefresh, OnClick)
 	if not text then
 		print("Invalid Checkbox Info");
@@ -508,7 +679,7 @@ settings.CreateCheckBox = function(self, text, OnRefresh, OnClick)
 	end
 	local cb = CreateFrame("CheckButton", self:GetName() .. "-" .. text, self, "InterfaceOptionsCheckButtonTemplate");
 	if self.MostRecentTab then table.insert(self.MostRecentTab.objects, cb); end
-	cb:SetScript("OnClick", OnClick);
+	if OnClick then cb:SetScript("OnClick", OnClick); end
 	cb.OnRefresh = OnRefresh;
 	cb.Text:SetText(text);
 	local textWidth = math.ceil(cb.Text:GetUnboundedStringWidth());
@@ -526,7 +697,7 @@ end
 settings.CreateTab = function(self, text)
 	local id = #self.Tabs + 1;
 	local tab = CreateFrame("Button", self:GetName() .. "-Tab" .. id, self, "OptionsFrameTabButtonTemplate");
-	if id > 1 then tab:SetPoint("TOPLEFT", self.Tabs[id - 1], "TOPRIGHT", 0, 0); end
+	if id > 1 then tab:SetPoint("TOPLEFT", self.Tabs[id - 1], "TOPRIGHT", -10, 0); end
 	table.insert(self.Tabs, tab);
 	self.MostRecentTab = tab;
 	tab.objects = {};
@@ -543,62 +714,261 @@ end
 ---     changeFunc (Function): A custom function to be called, after selecting a dropdown option.
 -- Reference: https://medium.com/@JordanBenge/creating-a-wow-dropdown-menu-in-pure-lua-db7b2f9c0364
 settings.CreateDropdown = function(self, opts, OnRefresh)
-	print("DO NOT USE THIS METHOD");
-    local dropdown_name = self:GetName() .. "-DD-" .. opts["name"];
-    local menu_items = opts["items"] or {};
-    local title_text = opts["title"] or "";
-    local dropdown_width = 0;
-    local default_val = opts["defaultVal"] or "";
-    local change_func = opts["changeFunc"] or function (dropdown_val) end;
+	error("DO NOT USE THIS METHOD");
+	local dropdown_name = self:GetName().."DD"..(opts.name or settings.UniqueCounter.CreateDropdown);
+    local menu_items = opts.items or {};
+    local title_text = opts.title or "";
+    local width = opts.width or 0;
+    local default_val = opts.defaultVal or "";
+    local change_func = opts.changeFunc or function() end;
+	local template = opts.template or "UIDropDownMenuTemplate";
 
-    local dropdown = CreateFrame("Frame", dropdown_name, self, "UIDropDownMenuTemplate");
-    local dd_title = dropdown:CreateFontString(dropdown, "OVERLAY", "GameFontNormal");
-	dd_title:SetPoint("BOTTOMLEFT", dropdown, "TOPLEFT", 20, 0);
+    local dropdown = CreateFrame("Frame", dropdown_name, self, template);
+	dropdown:SetHeight(19);
+	-- dropdown:SetBackdrop({
+	-- 	bgFile = "Interface\\COMMON\\Common-Input-Border",
+	-- 	-- edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border.PNG",
+	-- 	-- tile = true,
+	-- 	-- tileEdge = true,
+	-- 	-- tileSize = 8,
+	-- 	-- edgeSize = 3,
+	-- 	insets = { left = 1, right = 1, top = 1, bottom = 1 },
+	-- });
+    local dd_title = AddLabel(dropdown, title_text);
 
  	-- Sets the dropdown width to the largest item string width.
-    for _, item in ipairs(menu_items) do
-        dd_title:SetText(item);
-        local text_width = dd_title:GetStringWidth() + 20;
-        if text_width > dropdown_width then
-            dropdown_width = text_width;
-        end
-    end
-
-    UIDropDownMenu_SetWidth(dropdown, dropdown_width);
-	UIDropDownMenu_SetText(dropdown, default_val);
+	 if width == 0 then
+		for _,item in ipairs(menu_items) do
+			dd_title:SetText(item);
+			local text_width = dd_title:GetStringWidth() + 5;
+			if text_width > width then
+				width = text_width;
+			end
+		end
+	end
     dd_title:SetText(title_text);
-	dropdown:SetHitRectInsets(0,0,0,0);
 
-	-- for whatever reason, using a UIDropdown from an addon initially will taint the dropdown itself and
-	-- various frames beneath it, thus leading to ADDON_ACTION_BLOCKED during use of CompactRaidFrames (i.e. default raid frames)
-	-- http://web.archive.org/web/20120924210349/http://us.battle.net/wow/en/forum/topic/6413024969?page=1
-	-- putting the dropdown initialize into a securecall seems to ensure that the addon taint does not propogate into the secure blizzard frames
-	securecall(
-		UIDropDownMenu_Initialize,
-		dropdown,
-		function(self, level, _)
-			local info = {};
+	--[[
+	function UIDropDownMenu_Initialize(frame, initFunction, displayMode, level, menuList)
+		frame.menuList = menuList;
+		securecall("UIDropDownMenu_InitializeHelper", frame); -- <-- this function is cancer
+		-- Set the initialize function and call it.  The initFunction populates the dropdown list.
+		if ( initFunction ) then
+			UIDropDownMenu_SetInitializeFunction(frame, initFunction);
+			initFunction(frame, level, frame.menuList);
+		end
+		--master frame
+		if(level == nil) then
+			level = 1;
+		end
+		local dropDownList = _G["DropDownList"..level];
+		dropDownList.dropdown = frame;
+		dropDownList.shouldRefresh = true;
+		UIDropDownMenu_SetDisplayMode(frame, displayMode);
+	end
+	]]
+	-- UIDROPDOWNMENU_OPEN_MENU = dropdown;
+	UIDropDownMenu_SetInitializeFunction(dropdown,
+		function(self)
+			local info;
 			for key, val in pairs(menu_items) do
+				info = {};
 				info.text = val;
 				info.checked = false;
-				info.menuList = key;
+				-- info.menuList = key;
 				info.hasArrow = false;
 				info.owner = dropdown;
-				info.func = function(b)
-					UIDropDownMenu_SetSelectedName(dropdown, b.value, b.value);
-					UIDropDownMenu_SetText(dropdown, b.value);
+				info.func = function(b, arg1, arg2, checked)
+					-- print("Dropdown option clicked",b.value,arg1,arg2,checked)
+					UIDropDownMenu_SetSelectedName(dropdown, b.value);
 					b.checked = true;
 					change_func(dropdown, b.value);
 				end
 				UIDropDownMenu_AddButton(info);
 			end
-		end,
-		"MENU");
+		end);
+	-- call the initialize function now that it's been set
+	dropdown:initialize();
+	UIDropDownMenu_SetDisplayMode(dropdown, "MENU");
+    UIDropDownMenu_SetWidth(dropdown, width, 5);
+	UIDropDownMenu_SetSelectedName(dropdown, default_val);
+	-- UIDropDownMenu_Initialize(dropdown,
+	-- 	,
+	-- 	"MENU",
+	-- 	dropdown_name);
+	-- UIDROPDOWNMENU_OPEN_MENU = nil;
 
 	table.insert(self.MostRecentTab.objects, dropdown);
 	dropdown.OnRefresh = OnRefresh;
+
+	-- UIDropDownMenu_SetText(dropdown, default_val);
+	dropdown:SetHitRectInsets(0,0,0,0);
+
     return dropdown
 end
+settings.CreateTextbox = function(self, opts, functions)
+
+	local name = self:GetName().."TB"..(opts.name or settings.UniqueCounter.CreateTextbox);
+	local title = opts.title;
+	local text = opts.text;
+	local width = opts.width or 150;
+	local template = opts.template or "InputBoxTemplate";
+
+	local editbox = CreateFrame("EditBox", name, self, template);
+	editbox:SetAutoFocus(false);
+	editbox:SetTextInsets(0, 0, 3, 3);
+	editbox:SetMaxLetters(256);
+	editbox:SetHeight(19);
+	editbox:SetWidth(width);
+
+	if text then
+		editbox:SetText(text);
+	end
+
+	if title then
+		AddLabel(editbox, title);
+	end
+
+	-- setup textbox functions
+	if functions then
+		for k,f in pairs(functions) do
+			editbox[k] = f;
+		end
+	end
+	-- print("created custom EditBox using",template)
+
+	table.insert(self.MostRecentTab.objects, editbox);
+
+	return editbox;
+	--[[ https://www.townlong-yak.com/framexml/live/go/BoxTemplate
+Virtual EditBox AuctionHouseLevelRangeEditBoxTemplate
+Virtual EditBox AuctionHouseQuantityInputEditBoxTemplate
+Virtual EditBox AuctionHouseSearchBoxTemplate
+Virtual EditBox AuthChallengeEditBoxTemplate
+Virtual EditBox AutoCompleteEditBoxTemplate
+Virtual EditBox BagSearchBoxTemplate
+Virtual EditBox ChatFrameEditBoxTemplate
+Virtual EditBox CommunitiesChatEditBoxTemplate
+Virtual EditBox CreateChannelPopupEditBoxTemplate
+Virtual EditBox InputBoxTemplate
+Virtual EditBox LargeInputBoxTemplate
+Virtual EditBox LargeMoneyInputBoxTemplate
+Virtual EditBox LFGListEditBoxTemplate
+Virtual EditBox NameChangeEditBoxTemplate
+Virtual EditBox SearchBoxTemplate
+Virtual EditBox SharedEditBoxTemplate
+Virtual EditBox StoreEditBoxTemplate
+	]]
+end
+settings.CreateButton = function(self, opts, functions)
+
+	local name = self:GetName().."B"..(opts.name or settings.UniqueCounter.CreateButton);
+	local text = opts.text;
+	local width = opts.width;
+	local tooltip = opts.tooltip;
+	local refs = opts.refs;
+	local template = opts.template or "OptionsButtonTemplate";
+
+	local f = CreateFrame("Button", name, self, template);
+	f:SetText(text);
+	if width then
+		f:SetWidth(width);
+	else
+		f:SetWidth(f:GetFontString():GetUnboundedStringWidth() + 20);
+	end
+	f:SetHeight(26);
+	f:RegisterForClicks("AnyUp");
+
+	if functions then
+		for k,func in pairs(functions) do
+			f:SetScript(k, func);
+		end
+	end
+
+	if refs then
+		for k,ref in pairs(refs) do
+			f[k] = ref;
+		end
+	end
+
+	if tooltip then
+		f:SetATTTooltip(tooltip);
+	end
+
+	if self.MostRecentTab then table.insert(self.MostRecentTab.objects, f); end
+	return f;
+end
+-- Small library for building a scrolling frame with minimal setup
+(function()
+local scrollWidth = 16;
+local function OnScrollBarMouseWheel(self, delta)
+	self.ScrollBar:SetValue(self.ScrollBar.CurrentValue - (delta * 40)); -- Last number here controls scroll speed.
+end
+local function OnScrollBarValueChanged(self, value)
+	local un = math.floor(value);
+	local up = un + 1;
+	self.CurrentValue = (up - value) > (-(un - value)) and un or up;
+	self.child:SetPoint("TOP", 0, self.CurrentValue * 2);
+end
+local function CreateCheckBox(self, text, OnRefresh, OnClick)
+	local box = settings:CreateCheckBox(text, OnRefresh, OnClick);
+	box:SetParent(self);
+	if not self.ATT then self.ATT = { CB = { }, CB_Count = 0 }; end
+	if not self.ATT.CB then self.ATT.CB = {}; self.ATT.CB_Count = 0; end
+	local count = self.ATT.CB_Count + 1;
+	self.ATT.CB[count] = box;
+	self.ATT.CB_Count = count;
+	return box;
+end
+local function AddScrollbar(scrollFrame)
+	local scrollbar = CreateFrame("Slider", settings:GetName().."SB"..settings.UniqueCounter.AddScrollbar, scrollFrame, "UIPanelScrollBarTemplate");
+	scrollbar:SetPoint("TOPRIGHT", scrollFrame, 0, -scrollWidth);
+	scrollbar:SetPoint("BOTTOMRIGHT", scrollFrame, 0, scrollWidth);
+	scrollbar:SetScript("OnValueChanged", OnScrollBarValueChanged);
+	scrollbar.back = scrollbar:CreateTexture(nil, "BACKGROUND");
+	scrollbar.back:SetColorTexture(0.1,0.1,0.1,1);
+	scrollbar.back:SetAllPoints(scrollbar);
+	scrollbar:SetMinMaxValues(0, 10); -- Adding more max value to the scrollbar is what controls the vertical size.
+	scrollbar:SetValueStep(1);
+	scrollbar.CurrentValue = 0;
+	scrollbar:SetWidth(scrollWidth);
+	if settings.MostRecentTab then table.insert(settings.MostRecentTab.objects, scrollbar); end
+	return scrollbar;
+end
+local function AddScrollframe()
+	local scrollFrame = CreateFrame("Frame", settings:GetName().."SF"..settings.UniqueCounter.AddScrollframe, settings);
+	scrollFrame:SetClipsChildren(true);
+	scrollFrame:EnableMouseWheel(true);
+	scrollFrame.ScrollBar = AddScrollbar(scrollFrame);
+	scrollFrame:SetScript("OnMouseWheel", OnScrollBarMouseWheel);
+	if settings.MostRecentTab then table.insert(settings.MostRecentTab.objects, scrollFrame); end
+	return scrollFrame;
+end
+local function AddScrollableFrame()
+	local child = CreateFrame("Frame", settings:GetName().."SCF"..settings.UniqueCounter.AddScrollableframe, AddScrollframe());
+	child:SetPoint("TOP");
+	child:SetPoint("RIGHT", -scrollWidth, 0);
+	child:SetPoint("LEFT");
+	if settings.MostRecentTab then table.insert(settings.MostRecentTab.objects, child); end
+	return child;
+end
+-- Returns the frame which will be offset by the associated scrollbar
+-- .ScrollContainer - the frame which acts as the scrollable area within which the scrollframe will be visible
+-- .ScrollBar - the scrollbar which moves the scrollframe
+-- :SetMaxScroll(max) - change how much the scrollbar is able to scroll the scrollframe
+-- :CreateCheckBox(text, OnRefresh, OnClick) - create a checkbox attached to the scrollable area
+settings.CreateScrollFrame = function()
+	local scrollframe = AddScrollableFrame();
+	scrollframe.ScrollContainer = scrollframe:GetParent();
+	scrollframe.ScrollBar = scrollframe.ScrollContainer.ScrollBar;
+	scrollframe.ScrollBar.child = scrollframe;
+	scrollframe.SetMaxScroll = function(frame, max)
+		frame.ScrollBar:SetMinMaxValues(0, max);
+	end;
+	scrollframe.CreateCheckBox = CreateCheckBox;
+	return scrollframe;
+end
+end)();
 settings.ShowCopyPasteDialog = function(self)
 	app:ShowPopupDialogWithEditBox(nil, self:GetText(), nil, 10);
 end
@@ -743,7 +1113,6 @@ settings.UpdateMode = function(self, doRefresh)
 		app.AccountWideQuests = true;
 		app.AccountWideRecipes = true;
 		app.AccountWideReputations = true;
-		app.AccountWideRuneforgeLegendaries = true;
 		app.AccountWideSelfieFilters = true;
 		app.AccountWideTitles = true;
 		app.AccountWideToys = true;
@@ -805,7 +1174,6 @@ settings.UpdateMode = function(self, doRefresh)
 		app.AccountWideQuests = self:Get("AccountWide:Quests");
 		app.AccountWideRecipes = self:Get("AccountWide:Recipes");
 		app.AccountWideReputations = self:Get("AccountWide:Reputations");
-		app.AccountWideRuneforgeLegendaries = self:Get("AccountWide:RuneforgeLegendaries");
 		app.AccountWideTitles = self:Get("AccountWide:Titles");
 		app.AccountWideToys = self:Get("AccountWide:Toys");
 		app.AccountWideTransmog = self:Get("AccountWide:Transmog");
@@ -917,6 +1285,10 @@ settings.UpdateMode = function(self, doRefresh)
 
 	-- ensure the settings pane itself is refreshed
 	self:Refresh();
+	-- and refresh any open ATT windows
+	if app.UpdateWindows then
+		app:UpdateWindows();
+	end
 end
 
 -- The ALL THE THINGS Epic Logo!
@@ -998,7 +1370,7 @@ settings.merch = f;
 local line;
 (function()
 local tab = settings:CreateTab(L["GENERAL_LABEL"]);
-tab:SetPoint("TOPLEFT", settings.logo, "BOTTOMRIGHT", -20, 0);
+tab:SetPoint("TOPLEFT", settings.logo, "BOTTOMRIGHT", -36, 0);
 line = settings:CreateTexture(nil, "ARTWORK");
 line:SetPoint("LEFT", settings, "LEFT", 4, 0);
 line:SetPoint("RIGHT", settings, "RIGHT", -4, 0);
@@ -1006,48 +1378,12 @@ line:SetPoint("TOP", settings.Tabs[1], "BOTTOM", 0, 0);
 line:SetColorTexture(1, 1, 1, 0.4);
 line:SetHeight(2);
 
-local function OnScrollBarMouseWheel(self, delta)
-	self.ScrollBar:SetValue(self.ScrollBar.CurrentValue - (delta * 40)); -- Last number here controls scroll speed.
-end
-local function OnScrollBarValueChanged(self, value)
-	local un = math.floor(value);
-	local up = un + 1;
-	self.CurrentValue = (up - value) > (-(un - value)) and un or up;
-	self.child:SetPoint("TOP", 0, (self.CurrentValue / 100) * 200);
-end
-local scrollbar = CreateFrame("Slider", nil, settings, "UIPanelScrollBarTemplate");
-scrollbar:SetPoint("TOP", line, "BOTTOM", -3, -16);
-scrollbar:SetPoint("BOTTOMRIGHT", settings, "BOTTOMRIGHT", -3, 20);
-scrollbar:SetScript("OnValueChanged", OnScrollBarValueChanged);
-scrollbar.back = scrollbar:CreateTexture(nil, "BACKGROUND");
-scrollbar.back:SetColorTexture(0,0,0,0.4)
-scrollbar.back:SetAllPoints(scrollbar);
-scrollbar:SetMinMaxValues(0, 43); -- Adding more max value to the scrollbar is what controls the vertical size.
-scrollbar:SetValueStep(1);
-scrollbar.CurrentValue = 0;
-scrollbar:SetWidth(16);
-table.insert(settings.MostRecentTab.objects, scrollbar);
-
-local scrollFrame = CreateFrame("Frame", nil, settings);
-scrollFrame:SetPoint("TOP", line, "BOTTOM", 0, 0);
+local child = settings:CreateScrollFrame();
+child:SetMaxScroll(60); -- Adding more max value to the scrollbar is what controls the vertical size.
+local scrollFrame = child.ScrollContainer;
+scrollFrame:SetPoint("TOP", line, "BOTTOM", 0, -1);
 scrollFrame:SetPoint("LEFT", settings, "LEFT", 0, 0);
-scrollFrame:SetPoint("BOTTOMRIGHT", settings, "BOTTOMRIGHT", -20, 4);
-scrollFrame:SetClipsChildren(true);
-scrollFrame:EnableMouseWheel(true);
-scrollFrame.ScrollBar = scrollbar;
-scrollFrame:SetScript("OnMouseWheel", OnScrollBarMouseWheel);
-table.insert(settings.MostRecentTab.objects, scrollFrame);
-
-local child = CreateFrame("Frame", nil, scrollFrame);
-child:SetPoint("TOP", 0, 0);
-child:SetSize(600, 500);
-scrollbar.child = child;
-table.insert(settings.MostRecentTab.objects, child);
-child.CreateCheckBox = function(self, label, onRefresh, onClick)
-	local checkBox = settings:CreateCheckBox(label, onRefresh, onClick);
-	checkBox:SetParent(child);
-	return checkBox;
-end
+scrollFrame:SetPoint("BOTTOMRIGHT", settings, "BOTTOMRIGHT", -3, 4);
 
 local ModeLabel = child:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
 ModeLabel:SetPoint("TOPLEFT", child, "TOPLEFT", 10, -8);
@@ -1786,21 +2122,15 @@ RuneforgeLegendariesCheckBox:SetPoint("TOPLEFT", SoulbindConduitsCheckBox, "BOTT
 
 local RuneforgeLegendariesAccountWideCheckBox = child:CreateCheckBox("",
 function(self)
-	self:SetChecked(settings:Get("AccountWide:RuneforgeLegendaries"));
-	if settings:Get("DebugMode") or not settings:Get("Thing:RuneforgeLegendaries") then
-		self:Disable();
-		self:SetAlpha(0.2);
-	else
-		self:Enable();
-		self:SetAlpha(1);
-	end
+	-- always account-wide
+	self:SetChecked(true);
+	self:Disable();
+	self:SetAlpha(0.2);
 end,
 function(self)
-	settings:Set("AccountWide:RuneforgeLegendaries", self:GetChecked());
-	settings:UpdateMode(1);
+	-- no clicking
 end);
 RuneforgeLegendariesAccountWideCheckBox:SetCheckedTexture("Interface\\AddOns\\AllTheThings\\assets\\TrackAccountWide");
-RuneforgeLegendariesAccountWideCheckBox:SetATTTooltip(L["ACCOUNT_WIDE_RUNEFORGELEGENDARIES_TOOLTIP"]);
 RuneforgeLegendariesAccountWideCheckBox:SetPoint("RIGHT", RuneforgeLegendariesCheckBox, "LEFT", 4, 0);
 
 local ExtraThingsLabel = child:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
@@ -2136,10 +2466,93 @@ PrecisionSlider.OnRefresh = function(self)
 	end
 end;
 
+-- Dynamic Category Toggles
+local DynamicCategoryLabel = child:CreateFontString(nil, "ARTWORK", "GameFontNormal");
+DynamicCategoryLabel:SetJustifyH("LEFT");
+DynamicCategoryLabel:SetText(L["DYNAMIC_CATEGORY_LABEL"]);
+DynamicCategoryLabel:Show();
+table.insert(settings.MostRecentTab.objects, DynamicCategoryLabel);
+DynamicCategoryLabel:SetPoint("LEFT", ShowPercentagesCheckBox, "LEFT", 0, 0);
+DynamicCategoryLabel:SetPoint("TOP", PrecisionSlider, "BOTTOM", 0, -8);
+
+local settingName = "Dynamic:Style";
+-- Create Unique Disable methods for callbacks
+local function Off_Disable(self)
+	self:Disable();
+end
+local function Simple_Disable(self)
+	self:Disable();
+end
+local function Nested_Disable(self)
+	self:Disable();
+end
+local DynamicCategoryOffCheckbox = child:CreateCheckBox(L["DYNAMIC_CATEGORY_OFF"],
+function(self)
+	-- act like a radio button
+	self:SetAlpha(1);
+	if settings:Get(settingName) == 0 then
+		self:SetChecked(true);
+		app.Callback(Off_Disable, self);
+	else
+		self:SetChecked(false);
+		self:Enable();
+	end
+end,
+function(self)
+	if self:GetChecked() then
+		settings:Set(settingName, 0);
+	end
+end);
+DynamicCategoryOffCheckbox:SetPoint("TOP", DynamicCategoryLabel, "BOTTOM", 0, 0);
+DynamicCategoryOffCheckbox:SetPoint("LEFT", DynamicCategoryLabel, "LEFT", 0, 0);
+DynamicCategoryOffCheckbox:SetATTTooltip(L["DYNAMIC_CATEGORY_OFF_TOOLTIP"]..L["DYNAMIC_CATEGORY_TOOLTIP_NOTE"]);
+
+local DynamicCategorySimpleCheckbox = child:CreateCheckBox(L["DYNAMIC_CATEGORY_SIMPLE"],
+function(self)
+	-- act like a radio button
+	self:SetAlpha(1);
+	if settings:Get(settingName) == 1 then
+		self:SetChecked(true);
+		app.Callback(Simple_Disable, self);
+	else
+		self:SetChecked(false);
+		self:Enable();
+	end
+end,
+function(self)
+	if self:GetChecked() then
+		settings:Set(settingName, 1);
+	end
+end);
+DynamicCategorySimpleCheckbox:SetPoint("TOP", DynamicCategoryOffCheckbox, "TOP", 0, 0);
+DynamicCategorySimpleCheckbox:SetPoint("LEFT", DynamicCategoryOffCheckbox.Text, "RIGHT", 4, 0);
+DynamicCategorySimpleCheckbox:SetATTTooltip(L["DYNAMIC_CATEGORY_SIMPLE_TOOLTIP"]..L["DYNAMIC_CATEGORY_TOOLTIP_NOTE"]);
+
+local DynamicCategoryNestedCheckbox = child:CreateCheckBox(L["DYNAMIC_CATEGORY_NESTED"],
+function(self)
+	-- act like a radio button
+	self:SetAlpha(1);
+	if settings:Get(settingName) == 2 then
+		self:SetChecked(true);
+		app.Callback(Nested_Disable, self);
+	else
+		self:SetChecked(false);
+		self:Enable();
+	end
+end,
+function(self)
+	if self:GetChecked() then
+		settings:Set(settingName, 2);
+	end
+end);
+DynamicCategoryNestedCheckbox:SetPoint("TOP", DynamicCategorySimpleCheckbox, "TOP", 0, 0);
+DynamicCategoryNestedCheckbox:SetPoint("LEFT", DynamicCategorySimpleCheckbox.Text, "RIGHT", 4, 0);
+DynamicCategoryNestedCheckbox:SetATTTooltip(L["DYNAMIC_CATEGORY_NESTED_TOOLTIP"]..L["DYNAMIC_CATEGORY_TOOLTIP_NOTE"]);
+
 end)();
 
 ------------------------------------------
--- The "Filters" Tab.	--
+-- The "Tracking" Tab.	--
 ------------------------------------------
 (function()
 local tab = settings:CreateTab(L["FILTERS_TAB"]);
@@ -2150,48 +2563,13 @@ tab.OnRefresh = function(self)
 		PanelTemplates_EnableTab(settings, self:GetID());
 	end
 end;
-local function OnScrollBarMouseWheel(self, delta)
-	self.ScrollBar:SetValue(self.ScrollBar.CurrentValue - (delta * 40)); -- Last number here controls scroll speed.
-end
-local function OnScrollBarValueChanged(self, value)
-	local un = math.floor(value);
-	local up = un + 1;
-	self.CurrentValue = (up - value) > (-(un - value)) and un or up;
-	self.child:SetPoint("TOP", 0, (self.CurrentValue / 100) * 200);
-end
-local scrollbar = CreateFrame("Slider", nil, settings, "UIPanelScrollBarTemplate");
-scrollbar:SetPoint("TOP", line, "BOTTOM", -3, -16);
-scrollbar:SetPoint("BOTTOMRIGHT", settings, "BOTTOMRIGHT", -3, 20);
-scrollbar:SetScript("OnValueChanged", OnScrollBarValueChanged);
-scrollbar.back = scrollbar:CreateTexture(nil, "BACKGROUND");
-scrollbar.back:SetColorTexture(0,0,0,0.4)
-scrollbar.back:SetAllPoints(scrollbar);
-scrollbar:SetMinMaxValues(0, 194); -- Adding more max value to the scrollbar is what controls the vertical size.
-scrollbar:SetValueStep(1);
-scrollbar.CurrentValue = 0;
-scrollbar:SetWidth(16);
-table.insert(settings.MostRecentTab.objects, scrollbar);
 
-local scrollFrame = CreateFrame("Frame", nil, settings);
-scrollFrame:SetPoint("TOP", line, "BOTTOM", 0, 0);
+local child = settings:CreateScrollFrame();
+child:SetMaxScroll(194); -- Adding more max value to the scrollbar is what controls the vertical size.
+local scrollFrame = child.ScrollContainer;
+scrollFrame:SetPoint("TOP", line, "BOTTOM", 0, -1);
 scrollFrame:SetPoint("LEFT", settings, "LEFT", 0, 0);
-scrollFrame:SetPoint("BOTTOMRIGHT", settings, "BOTTOMRIGHT", -20, 4);
-scrollFrame:SetClipsChildren(true);
-scrollFrame:EnableMouseWheel(true);
-scrollFrame.ScrollBar = scrollbar;
-scrollFrame:SetScript("OnMouseWheel", OnScrollBarMouseWheel);
-table.insert(settings.MostRecentTab.objects, scrollFrame);
-
-local child = CreateFrame("Frame", nil, scrollFrame);
-child:SetPoint("TOP", 0, 0);
-child:SetSize(600, 500);
-scrollbar.child = child;
-table.insert(settings.MostRecentTab.objects, child);
-child.CreateCheckBox = function(self, label, onRefresh, onClick)
-	local checkBox = settings:CreateCheckBox(label, onRefresh, onClick);
-	checkBox:SetParent(child);
-	return checkBox;
-end
+scrollFrame:SetPoint("BOTTOMRIGHT", settings, "BOTTOMRIGHT", -3, 4);
 
 local ItemFiltersLabel = child:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
 ItemFiltersLabel:SetJustifyH("LEFT");
@@ -2486,7 +2864,7 @@ local reason = L["CUSTOM_COLLECTS_REASONS"]["NPE"]
 local text = reason["icon"].." "..reason["text"]
 local NPE_CheckBox = child:CreateCheckBox(text,
 function(self)
-	self:SetChecked(settings:GetFilter("CC:NPE"));
+	self:SetChecked(settings:Get("CC:NPE"));
 	if settings:Get("AccountMode") then
 		self:Disable();
 		self:SetAlpha(0.2);
@@ -2496,7 +2874,7 @@ function(self)
 	end
 end,
 function(self)
-	settings:SetFilter("CC:NPE", self:GetChecked());
+	settings:Set("CC:NPE", self:GetChecked());
 	settings:UpdateMode(1);
 end);
 NPE_CheckBox:SetATTTooltip(reason["desc"]);
@@ -2506,7 +2884,7 @@ reason = L["CUSTOM_COLLECTS_REASONS"]["SL_SKIP"]
 text = reason["icon"].." "..reason["text"]
 local SL_SKIP_CheckBox = child:CreateCheckBox(text,
 function(self)
-	self:SetChecked(settings:GetFilter("CC:SL_SKIP"));
+	self:SetChecked(settings:Get("CC:SL_SKIP"));
 	if settings:Get("AccountMode") then
 		self:Disable();
 		self:SetAlpha(0.2);
@@ -2516,7 +2894,7 @@ function(self)
 	end
 end,
 function(self)
-	settings:SetFilter("CC:SL_SKIP", self:GetChecked());
+	settings:Set("CC:SL_SKIP", self:GetChecked());
 	settings:UpdateMode(1);
 end);
 SL_SKIP_CheckBox:SetATTTooltip(reason["desc"]);
@@ -2527,7 +2905,7 @@ reason = L["CUSTOM_COLLECTS_REASONS"]["SL_COV_KYR"]
 text = reason["icon"].." "..insane_color..reason["text"].."|r"
 local SL_COV_KYR_CheckBox = child:CreateCheckBox(text,
 function(self)
-	self:SetChecked(settings:GetFilter("CC:SL_COV_KYR"));
+	self:SetChecked(settings:Get("CC:SL_COV_KYR"));
 	if settings:Get("AccountMode") then
 		self:Disable();
 		self:SetAlpha(0.2);
@@ -2537,7 +2915,7 @@ function(self)
 	end
 end,
 function(self)
-	settings:SetFilter("CC:SL_COV_KYR", self:GetChecked());
+	settings:Set("CC:SL_COV_KYR", self:GetChecked());
 	settings:UpdateMode(1);
 end);
 SL_COV_KYR_CheckBox:SetATTTooltip(string.format(L["CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT"], text));
@@ -2547,7 +2925,7 @@ reason = L["CUSTOM_COLLECTS_REASONS"]["SL_COV_NEC"]
 text = reason["icon"].." "..insane_color..reason["text"].."|r"
 local SL_COV_NEC_CheckBox = child:CreateCheckBox(text,
 function(self)
-	self:SetChecked(settings:GetFilter("CC:SL_COV_NEC"));
+	self:SetChecked(settings:Get("CC:SL_COV_NEC"));
 	if settings:Get("AccountMode") then
 		self:Disable();
 		self:SetAlpha(0.2);
@@ -2557,7 +2935,7 @@ function(self)
 	end
 end,
 function(self)
-	settings:SetFilter("CC:SL_COV_NEC", self:GetChecked());
+	settings:Set("CC:SL_COV_NEC", self:GetChecked());
 	settings:UpdateMode(1);
 end);
 SL_COV_NEC_CheckBox:SetATTTooltip(string.format(L["CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT"], text));
@@ -2567,7 +2945,7 @@ reason = L["CUSTOM_COLLECTS_REASONS"]["SL_COV_NFA"]
 text = reason["icon"].." "..insane_color..reason["text"].."|r"
 local SL_COV_NFA_CheckBox = child:CreateCheckBox(text,
 function(self)
-	self:SetChecked(settings:GetFilter("CC:SL_COV_NFA"));
+	self:SetChecked(settings:Get("CC:SL_COV_NFA"));
 	if settings:Get("AccountMode") then
 		self:Disable();
 		self:SetAlpha(0.2);
@@ -2577,7 +2955,7 @@ function(self)
 	end
 end,
 function(self)
-	settings:SetFilter("CC:SL_COV_NFA", self:GetChecked());
+	settings:Set("CC:SL_COV_NFA", self:GetChecked());
 	settings:UpdateMode(1);
 end);
 SL_COV_NFA_CheckBox:SetATTTooltip(string.format(L["CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT"], text));
@@ -2587,7 +2965,7 @@ reason = L["CUSTOM_COLLECTS_REASONS"]["SL_COV_VEN"]
 text = reason["icon"].." "..insane_color..reason["text"].."|r"
 local SL_COV_VEN_CheckBox = child:CreateCheckBox(text,
 function(self)
-	self:SetChecked(settings:GetFilter("CC:SL_COV_VEN"));
+	self:SetChecked(settings:Get("CC:SL_COV_VEN"));
 	if settings:Get("AccountMode") then
 		self:Disable();
 		self:SetAlpha(0.2);
@@ -2597,7 +2975,7 @@ function(self)
 	end
 end,
 function(self)
-	settings:SetFilter("CC:SL_COV_VEN", self:GetChecked());
+	settings:Set("CC:SL_COV_VEN", self:GetChecked());
 	settings:UpdateMode(1);
 end);
 SL_COV_VEN_CheckBox:SetATTTooltip(string.format(L["CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT"], text));
@@ -2897,11 +3275,24 @@ TooltipModifierLabel.OnRefresh = function(self)
 	end
 end;
 
+-- Create Unique Disable methods for callbacks
+local function None_Disable(self)
+	self:Disable();
+end
+local function Shift_Disable(self)
+	self:Disable();
+end
+local function Ctrl_Disable(self)
+	self:Disable();
+end
+local function Alt_Disable(self)
+	self:Disable();
+end
 local TooltipModifierNoneCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_NONE"],
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "None");
 	if not settings:GetTooltipSetting("Enabled") then
-		self:Disable();
+		app.Callback(None_Disable, self);
 		self:SetAlpha(0.2);
 	else
 		self:SetAlpha(1);
@@ -2909,7 +3300,7 @@ function(self)
 		if not self:GetChecked() then
 			self:Enable();
 		else
-			self:Disable();
+			app.Callback(None_Disable, self);
 		end
 	end
 end,
@@ -2925,7 +3316,7 @@ local TooltipModifierShiftCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_SHIF
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "Shift");
 	if not settings:GetTooltipSetting("Enabled") then
-		self:Disable();
+		app.Callback(Shift_Disable, self);
 		self:SetAlpha(0.2);
 	else
 		self:SetAlpha(1);
@@ -2933,7 +3324,7 @@ function(self)
 		if not self:GetChecked() then
 			self:Enable();
 		else
-			self:Disable();
+			app.Callback(Shift_Disable, self);
 		end
 	end
 end,
@@ -2949,7 +3340,7 @@ local TooltipModifierCtrlCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_CTRL"
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "Ctrl");
 	if not settings:GetTooltipSetting("Enabled") then
-		self:Disable();
+		app.Callback(Ctrl_Disable, self);
 		self:SetAlpha(0.2);
 	else
 		self:SetAlpha(1);
@@ -2957,7 +3348,7 @@ function(self)
 		if not self:GetChecked() then
 			self:Enable();
 		else
-			self:Disable();
+			app.Callback(Ctrl_Disable, self);
 		end
 	end
 end,
@@ -2973,7 +3364,7 @@ local TooltipModifierAltCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_ALT"],
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "Alt");
 	if not settings:GetTooltipSetting("Enabled") then
-		self:Disable();
+		app.Callback(Alt_Disable, self);
 		self:SetAlpha(0.2);
 	else
 		self:SetAlpha(1);
@@ -2981,7 +3372,7 @@ function(self)
 		if not self:GetChecked() then
 			self:Enable();
 		else
-			self:Disable();
+			app.Callback(Alt_Disable, self);
 		end
 	end
 end,
@@ -3264,6 +3655,23 @@ function(self)
 end);
 ShowModelsCheckBox:SetATTTooltip(L["SHOW_MODELS_CHECKBOX_TOOLTIP"]);
 ShowModelsCheckBox:SetPoint("TOPLEFT", ShowLoreCheckBox, "BOTTOMLEFT", 0, 4);
+
+local ShowCurrencyCalculationsCheckBox = settings:CreateCheckBox(L["SHOW_CURRENCY_CALCULATIONS_CHECKBOX"],
+function(self)
+	self:SetChecked(settings:GetTooltipSetting("Currencies"));
+	if not settings:GetTooltipSetting("Enabled") then
+		self:Disable();
+		self:SetAlpha(0.2);
+	else
+		self:Enable();
+		self:SetAlpha(1);
+	end
+end,
+function(self)
+	settings:SetTooltipSetting("Currencies", self:GetChecked());
+end);
+ShowCurrencyCalculationsCheckBox:SetATTTooltip(L["SHOW_CURRENCY_CALCULATIONS_CHECKBOX_TOOLTIP"]);
+ShowCurrencyCalculationsCheckBox:SetPoint("TOPLEFT", ShowModelsCheckBox, "BOTTOMLEFT", 0, 4);
 
 local ShowSharedAppearancesCheckBox = settings:CreateCheckBox(L["SHARED_APPEARANCES_CHECKBOX"],
 function(self)
@@ -3724,24 +4132,28 @@ end);
 OpenWorldQuestsListAutomatically:SetATTTooltip(L["AUTO_WQ_LIST_CHECKBOX_TOOLTIP"]);
 OpenWorldQuestsListAutomatically:SetPoint("TOPLEFT", OpenRaidAssistantAutomatically, "BOTTOMLEFT", 0, 4);
 
+-- TODO: eventually AH module gets fixed...
 local ShowAuctionHouseModuleTab = settings:CreateCheckBox(L["AUCTION_TAB_CHECKBOX"],
 function(self)
-	self:SetChecked(settings:GetTooltipSetting("Auto:AH"));
+	self:SetChecked(false);
+	self:Disable();
+	self:SetAlpha(0.2);
+	-- self:SetChecked(settings:GetTooltipSetting("Auto:AH"));
 end,
 function(self)
-	settings:SetTooltipSetting("Auto:AH", self:GetChecked());
-	if app.Blizzard_AuctionHouseUILoaded then
-		if app.AuctionModuleTabID then
-			if self:GetChecked() then
-				PanelTemplates_EnableTab(AuctionHouseFrame, app.AuctionModuleTabID);
-				app:OpenAuctionModule();
-			else
-				PanelTemplates_DisableTab(AuctionHouseFrame, app.AuctionModuleTabID);
-			end
-		else
-			app:OpenAuctionModule();
-		end
-	end
+	-- settings:SetTooltipSetting("Auto:AH", self:GetChecked());
+	-- if app.Blizzard_AuctionHouseUILoaded then
+	-- 	if app.AuctionModuleTabID then
+	-- 		if self:GetChecked() then
+	-- 			PanelTemplates_EnableTab(AuctionHouseFrame, app.AuctionModuleTabID);
+	-- 			app:OpenAuctionModule();
+	-- 		else
+	-- 			PanelTemplates_DisableTab(AuctionHouseFrame, app.AuctionModuleTabID);
+	-- 		end
+	-- 	else
+	-- 		app:OpenAuctionModule();
+	-- 	end
+	-- end
 end);
 ShowAuctionHouseModuleTab:SetATTTooltip(L["AUCTION_TAB_CHECKBOX_TOOLTIP"]);
 ShowAuctionHouseModuleTab:SetPoint("TOPLEFT", OpenWorldQuestsListAutomatically, "BOTTOMLEFT", 0, 4);
@@ -3857,6 +4269,309 @@ ChatCommandsText:SetJustifyH("LEFT");
 ChatCommandsText:SetText(L["CHAT_COMMANDS_TEXT"]);
 ChatCommandsText:Show();
 table.insert(settings.MostRecentTab.objects, ChatCommandsText);
+
+end)();
+
+
+
+------------------------------------------
+-- The "Profiles" Tab.					--
+------------------------------------------
+(function()
+local tab = settings:CreateTab(L["PROFILES_TAB"]);
+
+local ProfilesLabel = settings:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
+ProfilesLabel:SetPoint("TOPLEFT", line, "BOTTOMLEFT", 8, -8);
+ProfilesLabel:SetJustifyH("LEFT");
+ProfilesLabel:SetText(L["PROFILES_TAB"]);
+ProfilesLabel:Show();
+table.insert(settings.MostRecentTab.objects, ProfilesLabel);
+
+local CurrentProfileLabel = settings:CreateFontString(nil, "ARTWORK", "GameFontNormal");
+CurrentProfileLabel:SetPoint("TOPLEFT", ProfilesLabel, "BOTTOMLEFT", 0, -4);
+CurrentProfileLabel:SetJustifyH("LEFT");
+CurrentProfileLabel:SetText(REFORGE_CURRENT..":");
+CurrentProfileLabel:Show();
+table.insert(settings.MostRecentTab.objects, CurrentProfileLabel);
+
+local CurrentProfileNameLabel = settings:CreateFontString(nil, "ARTWORK", "GameFontNormal");
+CurrentProfileNameLabel:SetPoint("TOPLEFT", CurrentProfileLabel, "TOPRIGHT", 5, 0);
+CurrentProfileNameLabel:SetJustifyH("LEFT");
+CurrentProfileNameLabel:SetTextColor(1, 1, 1, 1);
+CurrentProfileNameLabel:Show();
+table.insert(settings.MostRecentTab.objects, CurrentProfileNameLabel);
+
+-- New Profile Textbox + Label
+local NewProfileTextBox = settings:CreateTextbox(
+-- textbox settings
+{
+	title = NEW_COMPACT_UNIT_FRAME_PROFILE,
+	width = 200,
+},
+-- function hooks for the textbox
+{
+	["OnRefresh"] = function(self)
+		self:SetText("");
+	end,
+});
+NewProfileTextBox:SetPoint("TOPLEFT", CurrentProfileLabel, "BOTTOMLEFT", 5, -20);
+NewProfileTextBox:SetATTTooltip(L["PROFILE_NEW_TOOLTIP"]);
+NewProfileTextBox:Show();
+
+-- Profiles selector scrollbox
+local ProfileSelector = settings:CreateScrollFrame();
+local ProfileScroller = ProfileSelector.ScrollContainer;
+ProfileScroller:SetPoint("TOPLEFT", NewProfileTextBox, "BOTTOMLEFT", 0, -36);
+ProfileScroller:SetPoint("RIGHT", NewProfileTextBox, "RIGHT", 25, 0);
+ProfileScroller:SetPoint("BOTTOM", settings, "BOTTOM", 0, 20);
+settings.ApplyBackdropColor(ProfileScroller, 20, 20, 20, 1);
+ProfileSelector:SetHeight(100);
+
+-- Initialize Profiles Button
+local function InitProfilesButton_Disable(self)
+	self:Disable();
+end
+local InitializeProfilesButton = settings:CreateButton(
+-- button settings
+{
+	text = L["PROFILE_INITIALIZE"],
+	tooltip = L["PROFILE_INITIALIZE_TOOLTIP"],
+},
+-- function hooks for the button
+{
+	["OnClick"] = function(self)
+		app:ShowPopupDialog(L["PROFILE_INITIALIZE_CONFIRM"],
+		function()
+			app.SetupProfiles();
+			OnClickForTab(tab);
+			app.Callback(InitProfilesButton_Disable, self);
+		end);
+	end,
+});
+InitializeProfilesButton:SetPoint("TOPLEFT", ProfilesLabel, "TOPRIGHT", 10, 5);
+InitializeProfilesButton:Show();
+
+-- common function for setting the current profile
+local UseProfile = function(profile)
+	tab.SelectedProfile = nil;
+	settings:SetProfile(profile);
+	settings:ApplyProfile();
+	settings:UpdateMode(1);
+end
+local refreshProfiles;
+
+-- Create Button
+local CreateProfileButton = settings:CreateButton(
+-- button settings
+{
+	text = CREATE_COMPACT_UNIT_FRAME_PROFILE,
+	tooltip = CREATE_NEW_COMPACT_UNIT_FRAME_PROFILE,
+},
+-- function hooks for the button
+{
+	["OnClick"] = function(self)
+		-- if self.ATTActionObject and self.ATTActionObject.GetText then
+			local newProfile = NewProfileTextBox:GetText();
+			if newProfile and newProfile ~= "" then
+				if settings:NewProfile(newProfile) then
+					UseProfile(newProfile);
+					refreshProfiles();
+					return true;
+				end
+				-- TODO dialog about existing profile
+				-- app:ShowPopupDialog("Profile already exists!", function() end);
+			end
+		-- end
+	end,
+});
+CreateProfileButton:SetPoint("TOPLEFT", NewProfileTextBox, "TOPRIGHT", 5, 4);
+CreateProfileButton:Show();
+
+-- Switch Button
+local SwitchProfileButton = settings:CreateButton(
+-- button settings
+{
+	text = SWITCH,
+	tooltip = L["PROFILE_SWITCH_TOOLTIP"],
+},
+-- function hooks for the button
+{
+	["OnClick"] = function(self)
+		local profile = tab.SelectedProfile;
+		if profile then
+			UseProfile(profile);
+			refreshProfiles();
+			return true;
+		end
+	end
+});
+SwitchProfileButton:SetPoint("TOPLEFT", NewProfileTextBox, "BOTTOMLEFT", 0, -4);
+SwitchProfileButton:Show();
+
+-- Copy Button
+local CopyProfileButton = settings:CreateButton(
+-- button settings
+{
+	text = CALENDAR_COPY_EVENT,
+	tooltip = L["PROFILE_COPY_TOOLTIP"],
+},
+-- function hooks for the button
+{
+	["OnClick"] = function(self)
+		local profile = tab.SelectedProfile;
+		if profile then
+			settings:CopyProfile(nil, profile);
+			settings:ApplyProfile();
+			settings:UpdateMode(1);
+			refreshProfiles();
+			return true;
+		end
+	end
+});
+CopyProfileButton:SetPoint("TOPLEFT", SwitchProfileButton, "TOPRIGHT", 10, 0);
+CopyProfileButton:Show();
+
+-- Delete Button
+local DeleteProfileButton = settings:CreateButton(
+-- button settings
+{
+	text = DELETE,
+	tooltip = L["PROFILE_DELETE_TOOLTIP"],
+},
+-- function hooks for the button
+{
+	["OnClick"] = function(self)
+		local profile = tab.SelectedProfile;
+		if profile then
+			if settings:DeleteProfile(profile) then
+				settings:UpdateMode(1);
+				refreshProfiles();
+				return true;
+			end
+			-- TODO dialog about not deleting a profile
+			-- app:ShowPopupDialog("Profile cannot be deleted!", function() end);
+		end
+	end
+});
+DeleteProfileButton:SetPoint("BOTTOMLEFT", ProfileScroller, "BOTTOMRIGHT", 5, 0);
+DeleteProfileButton:Show();
+
+local function ProfileCheckbox_Disable(self)
+	self:Disable();
+end
+refreshProfiles = function()
+	local mostRecentTab = settings.MostRecentTab;
+	-- make sure to use the correct tab when adding the UI elements
+	settings.MostRecentTab = tab;
+	-- print("SelectedProfile",tab.SelectedProfile)
+
+	-- update the current profile label
+	local currentProfile = settings:GetProfile(true);
+	CurrentProfileNameLabel:SetText(currentProfile or NOT_APPLICABLE);
+
+	-- print("refresh profiles scrollbox")
+	local settingProfileItems = {};
+	if AllTheThingsProfiles then
+		-- buttons have no OnRefresh script, so have to hide it externally
+		InitializeProfilesButton:Hide();
+
+		for k,v in pairs(AllTheThingsProfiles.Profiles) do
+			-- print("added",k)
+			tinsert(settingProfileItems, k == "Default" and DEFAULT or k);
+		end
+	end
+	-- sort the profiles
+	app.insertionSort(settingProfileItems, function(a,b) return string.lower(a) < string.lower(b); end);
+
+	local profileCount, existingBoxes, lastProfileSelect = 0, ProfileSelector.ATT and ProfileSelector.ATT.CB_Count or 0;
+	local maxProfileNameWidth = ProfileSelector:GetWidth() - 50;
+
+	-- create checkboxes for the profiles in the scrollframe
+	for _,profile in ipairs(settingProfileItems) do
+		local profileBox;
+		profileCount = profileCount + 1;
+		if existingBoxes >= profileCount then
+			-- print("replace-profileCB",profileCount,profile)
+			profileBox = ProfileSelector.ATT.CB[profileCount];
+			profileBox.Text:SetText(profile);
+		else
+			-- print("new-profileCB",profileCount,profile)
+			profileBox = ProfileSelector:CreateCheckBox(profile,
+				function(self)
+					-- print("CB.OnRefresh",self.Text:GetText())
+					local myProfile = self.Text:GetText();
+					local activeProfile = settings:GetProfile(true);
+					if activeProfile == myProfile then
+						self:SetAlpha(0.5);
+						self:SetChecked(true);
+						app.Callback(ProfileCheckbox_Disable, self);
+					elseif tab.SelectedProfile == myProfile then
+						self:SetAlpha(1);
+						self:Enable();
+						self:SetChecked(true);
+					else
+						self:SetAlpha(1);
+						self:Enable();
+						self:SetChecked(false);
+					end
+				end,
+				function(self)
+					-- logic when the respective profile checkbox is selected
+					-- holding shift will switch profiles instead of selecting one
+					local myProfile = self.Text:GetText();
+					local activeProfile = settings:GetProfile(true);
+					-- print("clicked",profile)
+					if tab.SelectedProfile == myProfile then
+						tab.SelectedProfile = nil;
+					elseif myProfile ~= activeProfile then
+						tab.SelectedProfile = myProfile;
+					end
+					if IsShiftKeyDown() then
+						if myProfile ~= activeProfile then
+							UseProfile(myProfile);
+						end
+					end
+					refreshProfiles();
+					return true;
+				end);
+			if lastProfileSelect then
+				profileBox:SetPoint("TOPLEFT", lastProfileSelect, "BOTTOMLEFT", 0, 4);
+			else
+				profileBox:SetPoint("TOPLEFT", ProfileSelector, "TOPLEFT", 5, -5);
+			end
+		end
+		profileBox.Text:SetWidth(math.min(maxProfileNameWidth, math.ceil(profileBox.Text:GetUnboundedStringWidth())));
+		profileBox:SetHitRectInsets(0,0 - profileBox.Text:GetWidth(),0,0);
+		profileBox:SetATTTooltip(profile);
+		profileBox:OnRefresh();
+		profileBox:Show();
+		lastProfileSelect = profileBox;
+	end
+
+	-- enable/disable buttons if profile is 'selected'
+	if tab.SelectedProfile then
+		SwitchProfileButton:Enable();
+		CopyProfileButton:Enable();
+		DeleteProfileButton:Enable();
+	else
+		SwitchProfileButton:Disable();
+		CopyProfileButton:Disable();
+		DeleteProfileButton:Disable();
+	end
+
+	-- hide extra checkboxes if they've been deleted during this game session
+	if existingBoxes > profileCount then
+		-- print("removing extra checkboxes",profileCount,existingBoxes)
+		for i=profileCount + 1,existingBoxes do
+			ProfileSelector.ATT.CB[i]:Hide();
+		end
+	end
+
+	ProfileSelector:SetMaxScroll(profileCount * 6);
+	-- make sure to switch back to the previous tab once done
+	settings.MostRecentTab = mostRecentTab;
+end
+tab.OnRefresh = refreshProfiles;
 
 end)();
 

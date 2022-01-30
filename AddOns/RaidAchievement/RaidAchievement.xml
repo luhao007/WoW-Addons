@@ -37,11 +37,24 @@
 
 
 <Frame name="PSFeamain2" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 	<Size x="180" y="500"/>
 	<Anchors>
@@ -50,7 +63,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="   RaidAchievement">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>
@@ -123,11 +136,24 @@
 	</Frame>
 
 <Frame name="PSFeamainWotlk" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -136,7 +162,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="pseaoldmodules2">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>
@@ -208,11 +234,24 @@
 
 
 <Frame name="PSFeamain3" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 	<Size x="750" y="500"/>
 	<Anchors>
@@ -337,11 +376,24 @@
 
 
 <Frame name="PSFeamain12" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -350,7 +402,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="pseauinomodule1">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 <FontString name="$parent_Text2" inherits="GameFontNormal" text="pseauinomodule2">
 	<Anchors><Anchor point="CENTER" relativePoint="CENTER"><Offset x="0" y="90"/></Anchor></Anchors>
@@ -371,11 +423,24 @@
 	</Frame>
 
 <Frame name="PSFeamain10" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -384,7 +449,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="pseauierror">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 <FontString name="$parent_Text2" inherits="GameFontNormal" text="pseauierroraddonoff">
 	<Anchors><Anchor point="CENTER" relativePoint="CENTER"><Offset x="0" y="90"/></Anchor></Anchors>
@@ -405,11 +470,24 @@
 	</Frame>
 
 <Frame name="PSFeamain11" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -418,7 +496,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="pseauierror">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 <FontString name="$parent_Text2" inherits="GameFontNormal" text="pseapsaddonanet">
 	<Anchors><Anchor point="CENTER" relativePoint="CENTER"><Offset x="0" y="90"/></Anchor></Anchors>
@@ -444,11 +522,24 @@
 	
 	
 <Frame name="PSFeaerrorgeneral" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -457,7 +548,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="pseauierror">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 
 	</Layer>
@@ -476,11 +567,24 @@
 	</Frame>
 
 <Frame name="RAthanks" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -489,7 +593,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="racredits2">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>
@@ -507,11 +611,24 @@
 	</Frame>
 
 <Frame name="RApromo" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -520,7 +637,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="racredits2">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>
@@ -538,11 +655,24 @@
 	</Frame>
 
 <Frame name="RAthanks2" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -551,7 +681,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="    Info about donations">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>
@@ -569,11 +699,24 @@
 	</Frame>
 
 <Frame name="PSFeamainmanyach" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 	<Size x="750" y="500"/>
 	<Anchors>
@@ -582,7 +725,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="pseamanyachtitle">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 <FontString name="$parent_Textmarkon" hidden="true" inherits="GameFontNormal" text="psmoduletxton">
 	<Anchors><Anchor point="CENTER" relativePoint="TOPLEFT"><Offset x="300" y="-253"/></Anchor></Anchors><Color r="0" g="1" b="0" a="1"/>
@@ -635,11 +778,24 @@
 	
 
 <Frame name="raralistach" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -648,7 +804,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="rallmenutxt1">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>
@@ -677,11 +833,24 @@
 	</Frame>
 
 <Frame name="raralistach2" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -690,7 +859,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="rallmenutxt2">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>
@@ -723,11 +892,24 @@
 	</Frame>
 
 <Frame name="raralistach3" hidden="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.25" type="number"/>
-    </KeyValues>
+	<Scripts>
+		<OnLoad>
+					self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
+					self.background:SetAllPoints()
+					self.background:SetBackdrop(
+						{
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 3, bottom = 3, },
+						})
+					self.background:SetBackdropColor(.03, .03, .03, .3)
+					self.background:SetBackdropBorderColor(.4, .4, .4)
+				</OnLoad>
+	</Scripts>
+
 
 <Size x="750" y="500"/>
 	<Anchors>
@@ -736,7 +918,7 @@
 	<Layers>
 	<Layer level="ARTWORK">
 <FontString name="$parent_Text" inherits="GameFontNormal" text="rallmenutxt3">
-	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"/></Anchors>
+	<Anchors><Anchor point="LEFT" relativePoint="TOPLEFT"><Offset x="0" y="8"/></Anchor></Anchors>
 	</FontString>
 	</Layer>
 	</Layers>

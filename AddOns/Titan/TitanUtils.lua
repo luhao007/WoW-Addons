@@ -696,6 +696,52 @@ end
 -- "TitanPanelRightClickMenu_Prepare"..<registry.id>.."Menu"
 --
 --[[ API
+NAME: TitanPanelRightClickMenu_GetDropdownLevel
+DESC: Menu - add given info (button) at the given level in the form of a button.
+VAR: None
+OUT:  int - dropdown menu level
+--]]
+function TitanPanelRightClickMenu_GetDropdownLevel()
+    return _G["L_UIDROPDOWNMENU_MENU_LEVEL"]
+end
+
+--[[ API
+NAME: TitanPanelRightClickMenu_AddButton
+DESC: Menu - add given info (button) at the given level in the form of a button.
+VAR: info - text / button / command to show
+VAR: level - level to put text
+OUT:  None
+--]]
+function TitanPanelRightClickMenu_AddButton(info, level)
+    if (info) then
+        DDM:UIDropDownMenu_AddButton(info, level);
+    end
+end
+
+--[[ API
+NAME: TitanPanelRightClickMenu_AddToggleRightSide
+DESC: Menu - add a toggle Right Side (localized) command at the given level in the form of a button. Titan will properly control the "DisplayOnRightSide"
+VAR: id - id of the plugin
+VAR: level - level to put the line
+OUT:  None
+--]]
+function TitanPanelRightClickMenu_AddToggleRightSide(id, level)
+    -- copy of TitanPanelRightClickMenu_AddToggleVar adding a remove button
+    local info = {};
+    info.text = L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"];
+    info.value = {id, "DisplayOnRightSide"};
+    info.func = function()
+        local bar = TitanUtils_GetWhichBar(id)
+        TitanPanelRightClickMenu_ToggleVar({id, "DisplayOnRightSide"})
+        TitanPanel_RemoveButton(id);
+        TitanUtils_AddButtonOnBar(bar, id)
+    end
+    info.checked = TitanGetVar(id, "DisplayOnRightSide");
+    info.keepShownOnClick = 1;
+    DDM:UIDropDownMenu_AddButton(info, level);
+end
+
+--[[ API
 NAME: TitanPanelRightClickMenu_AddTitle
 DESC: Menu - add a title at the given level in the form of a button.
 VAR: title - text to show
@@ -893,6 +939,34 @@ OUT:  None
 function TitanPanelRightClickMenu_ToggleColoredText(value)
 	TitanToggleVar(value, "ShowColoredText");
 	TitanPanelButton_UpdateButton(value, 1);
+end
+
+--[[ API
+NAME: TitanPanelRightClickMenu_SetCustomBackdrop
+DESC: This will set the backdrop of the given button. This is used for custom created controls such as Clock offset or Volume sliders to give a consistent look.
+VAR: frame - the control frame of the plugin
+OUT:  None
+--]]
+function TitanPanelRightClickMenu_SetCustomBackdrop(frame)
+	frame:SetBackdrop({
+		bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
+		edgeFile="Interface\\Tooltips\\UI-Tooltip-Border",
+		tile = true,
+		tileEdge = true,
+		insets = { left = 1, right = 1, top = 1, bottom = 1 },
+		tileSize = 8,
+		edgeSize = 8,
+	})
+
+	frame:SetBackdropBorderColor(
+		TOOLTIP_DEFAULT_COLOR.r, 
+		TOOLTIP_DEFAULT_COLOR.g, 
+		TOOLTIP_DEFAULT_COLOR.b);
+	frame:SetBackdropColor(
+		TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, 
+		TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, 
+		TOOLTIP_DEFAULT_BACKGROUND_COLOR.b
+		, 1);
 end
 
 --------------------------------------------------------------

@@ -1,3 +1,43 @@
+Version 3.131  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Added debuff absorb overlay bar to display healing absorption amount  
+-- Added new default bouquet 'Counter: All Heal Absorb #k'  
+-- Added new bouquet validator 'Counter: All Heal Absorb #k'  
+-- Added new bouquet validator 'Statusbar: Heal Absorb'  
+  
+  
+--------------------------------------------------------------  
+Version 3.130  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.129  
   
   

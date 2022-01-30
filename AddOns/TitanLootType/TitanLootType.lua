@@ -42,12 +42,13 @@ function TitanPanelLootTypeButton_OnLoad(self)
 			ShowLabelText = true,
 			ShowRegularText = false,
 			ShowColoredText = false,
-			DisplayOnRightSide = false
+			DisplayOnRightSide = true,
 		},
 		savedVariables = {
 			ShowIcon = 1,
 			ShowLabelText = 1,
 			RandomRoll = 100,
+			DisplayOnRightSide = false,
 			ShowDungeonDiff = false,
 			DungeonDiffType = "AUTO",
 		}
@@ -236,29 +237,32 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		info.value = 100;
 		info.func = TitanPanelLootType_Random100;
 		info.checked = TitanPanelLootType_GetRoll(info.value);
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
 		info = {};
 		info.text = "1000";
 		info.value = 1000;
 		info.func = TitanPanelLootType_Random1000;
 		info.checked = TitanPanelLootType_GetRoll(info.value);
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 	elseif _G["L_UIDROPDOWNMENU_MENU_LEVEL"] == 2 and _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "ShowDungeonDiffMenu" then
 		info = {};
 		info.text = _G["LFG_TYPE_DUNGEON"];
 		info.func = function() TitanSetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType", "DUNGEON"); TitanPanelButton_UpdateButton(TITAN_LOOTTYPE_ID) end
 		info.checked = function() if TitanGetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType") == "DUNGEON" then return true end return false end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
 		info = {};
 		info.text = _G["LFG_TYPE_RAID"];
 		info.func = function() TitanSetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType", "RAID"); TitanPanelButton_UpdateButton(TITAN_LOOTTYPE_ID) end
 		info.checked = function() if TitanGetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType") == "RAID" then return true end return false end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
 		info = {};
 		info.text = L["TITAN_LOOTTYPE_AUTODIFF_LABEL"];
 		info.func = function() TitanSetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType", "AUTO"); TitanPanelButton_UpdateButton(TITAN_LOOTTYPE_ID) end
 		info.checked = function() if TitanGetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType") == "AUTO" then return true end return false end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 	elseif _G["L_UIDROPDOWNMENU_MENU_LEVEL"] == 2 and _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "SetDungeonDiff" then
 		info = {};
 		info.text = _G["GREEN_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY1"].."|r";
@@ -279,7 +283,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		else
 			info.disabled = false
 		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {}
 		info.text = _G["ORANGE_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY2"].."|r";
@@ -300,7 +304,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		else
 			info.disabled = false
 		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {}
 		info.text = _G["RED_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY6"].."|r";
@@ -321,7 +325,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		else
 			info.disabled = false
 		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {}
 		info.text = _G["RED_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY5"].."|r";
@@ -342,7 +346,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		else
 			info.disabled = false
 		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 
 	elseif _G["L_UIDROPDOWNMENU_MENU_LEVEL"] == 2  and _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "SetRaidDiff" then
@@ -365,7 +369,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		else
 			info.disabled = false
 		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {};
 		info.text = _G["ORANGE_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY2"].."|r";
@@ -386,7 +390,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		else
 			info.disabled = false
 		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {};
 		info.text = _G["RED_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY6"].."|r";
@@ -407,29 +411,8 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		else
 			info.disabled = false
 		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
---[[		info = {};
-		info.text = _G["RED_FONT_COLOR_CODE"].._G["RAID_DIFFICULTY4"].."|r";
-		info.func = function() SetRaidDifficultyID(4) end
-		info.checked = function() if GetRaidDifficultyID() == 4 then return true end return false end
-		local inParty = 0;
-		if (UnitExists("party1") or GetNumGroupMembers() > 0) then
-			inParty = 1;
-		end
-		local isLeader = 0;
-		if (UnitIsGroupLeader("player")) then
-			isLeader = 1;
-		end
-		local inInstance = IsInInstance()
-		local playerlevel = UnitLevel("player")
-		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 65 and GetRaidDifficultyID() == 1) then
-			info.disabled = 1
-		else
-			info.disabled = false
-		end
-		DDM:UIDropDownMenu_AddButton(info,_G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
---]]
 
 	else
 		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_LOOTTYPE_ID].menuText);
@@ -441,29 +424,32 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		info.checked = TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff");
 		info.keepShownOnClick = 1;
 		info.hasArrow = 1;
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
 		info = {}
 		info.notCheckable = true
 		info.text = L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"];
 		info.value = "SetDungeonDiff";
 		info.hasArrow = 1;
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
 		info = {}
 		info.notCheckable = true
 		info.text = L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"];
 		info.value = "SetRaidDiff";
 		info.hasArrow = 1;
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
 		info = {};
 		info.notCheckable = true
 		info.text = L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"];
 		info.value = "RandomRoll";
 		info.hasArrow = 1;
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		TitanPanelRightClickMenu_AddSpacer();
 		TitanPanelRightClickMenu_AddToggleIcon(TITAN_LOOTTYPE_ID);
 		TitanPanelRightClickMenu_AddToggleLabelText(TITAN_LOOTTYPE_ID);
-
+		TitanPanelRightClickMenu_AddToggleRightSide(TITAN_LOOTTYPE_ID);
 		TitanPanelRightClickMenu_AddSpacer();
 		TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_LOOTTYPE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 	end

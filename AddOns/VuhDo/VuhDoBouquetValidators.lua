@@ -1196,7 +1196,8 @@ local VUHDO_BLOCKED_FUNCTIONS = {
 	SetBindingMacro = true, 
 	GuildDisband = true, 
 	GuildUninvite = true, 
-	securecall = true
+	securecall = true, 
+	DeleteCursorItem = true
 };
 
 local VUHDO_BLOCKED_TABLES = {
@@ -1338,6 +1339,25 @@ local tShieldLeft, tHealthMax;
 local function VUHDO_statusShieldFromHealthValidator(anInfo, _)
 	tHealthMax = anInfo["healthmax"];
 	tShieldLeft = VUHDO_getUnitOverallShieldRemain(anInfo["unit"]);
+	return true, nil, tShieldLeft < tHealthMax and tShieldLeft or tHealthMax, -1, tHealthMax;
+end
+
+
+
+--
+local tShieldLeft;
+local function VUHDO_healAbsorbCountValidator(anInfo, _)
+	tShieldLeft = UnitGetTotalHealAbsorbs(anInfo["unit"]) or 0;
+	return tShieldLeft >= 1000, nil, -1, floor(tShieldLeft * 0.001 + 0.5), -1;
+end
+
+
+
+--
+local tShieldLeft, tHealthMax;
+local function VUHDO_statusHealAbsorbFromHealthValidator(anInfo, _)
+	tHealthMax = anInfo["healthmax"];
+	tShieldLeft = UnitGetTotalHealAbsorbs(anInfo["unit"]) or 0;
 	return true, nil, tShieldLeft < tHealthMax and tShieldLeft or tHealthMax, -1, tHealthMax;
 end
 
@@ -1978,6 +1998,19 @@ VUHDO_BOUQUET_BUFFS_SPECIAL = {
 	["SHIELD_OVERSHIELD"] = {
 		["displayName"] = VUHDO_I18N_DEF_STATUS_OVERSHIELDED,
 		["validator"] = VUHDO_statusShieldOvershieldValidator,
+		["custom_type"] = VUHDO_BOUQUET_CUSTOM_TYPE_STATUSBAR,
+		["interests"] = { VUHDO_UPDATE_SHIELD },
+	},
+
+	["HEAL_ABSORB_COUNTER"] = {
+		["displayName"] = VUHDO_I18N_DEF_COUNTER_HEAL_ABSORB,
+		["validator"] = VUHDO_healAbsorbCountValidator,
+		["interests"] = { VUHDO_UPDATE_SHIELD },
+	},
+
+	["HEAL_ABSORB_STATUS"] = {
+		["displayName"] = VUHDO_I18N_DEF_STATUS_HEAL_ABSORB,
+		["validator"] = VUHDO_statusHealAbsorbFromHealthValidator,
 		["custom_type"] = VUHDO_BOUQUET_CUSTOM_TYPE_STATUSBAR,
 		["interests"] = { VUHDO_UPDATE_SHIELD },
 	},

@@ -1,3 +1,9 @@
+01/15/2022 version 4.11.19
+- Random pet slots should no longer pick wrong-factioned or revoked pets.
+- Wrong-factioned pets are now tinted red to make it more obvious they can't be used.
+- Pets that can't be used/summoned now have a more descriptive reason on the pet card. (eg. "Wrong Faction")
+- Revoked pets only display the revoked status and not a redundant can't summon status on the pet card.
+
 11/02/2021 version 4.11.18
 - Fix for backdrop error when mousing over some of the toolbar buttons.
 

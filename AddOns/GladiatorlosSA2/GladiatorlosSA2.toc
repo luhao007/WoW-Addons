@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: xGrit
-## Version: 3.11
+## Version: 3.12
 ## SavedVariables: GladiatorlosSADB
 
 ## Title: GladiatorlosSA

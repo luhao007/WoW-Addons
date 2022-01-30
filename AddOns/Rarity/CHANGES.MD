@@ -1,11 +1,37 @@
+**r714:**
+
+Additions:
+> Added tracking for Shaded Judgement Stone (Korthia/The Maw)
+<br>Added tracking for the various 'dice' toys obtainable only via pickpocketing
+
+Changes:
+> Adjusted the drop rate of several Shadowlands collectibles to more accurately reflect wowhead's data
+
+Fixes:
+> Attempts for the Infinite Timereaver mount should now correctly be detected in the recently-added Timewalking dungeons
+<br>Collectibles that require being affiliated with a different covenant should now correctly be marked as 'unavailable' in the addon's main window
+
+Contributors (in alphabetical order):
+> ithappenedagain
+<br>Tommy Godejord
+
+-----
+
 **r713:**
 
 Additions:
 > Attempts for Reins of the Infinite Timereaver should now also accumulate in Legion Timewalking dungeons
 <br>REVERTED: Added tracking for Illidari Doomhawk and Doomwalker Trophy Stand (17th anniversary)
+<br>Added tracking for the convenant-specific toys added in patch 9.1.5 (obtained from Callings)
+
+Fixes:
+> Fixed an error in the spell detection that caused attempts for custom items using Pick Pocket to not be detected
 
 Developer Notes:
 > Blizzard hotfixed the anniversary drops to be guaranteed. As such they've been removed from Rarity again.
+
+Contributors (in alphabetical order):
+> Tommy Godejord
 
 -----
 
@@ -61,24 +87,3 @@ Contributors (in alphabetical order):
 > AySz88
 <br>Tommy Godejord
 <br>Matthew Rowland
-
------
-
-**r709:**
-
-Additions:
-> Added tracking for mounts introduced in Chains of Domination 
-<br>Added tracking for various toys introduced in Chains of Domination
-<br>Added tracking for most pets introduced in Chains of Domination
-
-Changes:
-> Rarity's achievement toast now also supports two lines of text properly, similar to Blizzard's recently-updated version
-
-Fixes:
-> Fixed an issue where two icons would be displayed in the achievement toast
-
-Developer Notes:
-> There are a number of collectibles we don't currently have sufficient data on. These will be added as soon™ as possible, but it might still take a while.
-
-Contributors (in alphabetical order):
-> Tommy Godejord

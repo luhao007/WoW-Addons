@@ -1,36 +1,10 @@
-tag 24771a30813ce6442b3daabbf9ffb3422c594c7c v9.1.5.278
+tag ad5a348a183617cde6ccbcc37b5881ee409d6716 v9.1.5.283
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Tue Nov 2 19:28:22 2021 -0300
+Date:	Sat Jan 15 15:42:58 2022 -0300
 
-commit e7577c7c5e0cfe1b0926345be2b86b8e7de5a960
+commit 9a4d2b242629c4bce67d3249ee6ef41e8e11b129
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Nov 2 19:27:43 2021 -0300
+Date:   Mon Jan 10 16:16:05 2022 -0300
 
-    Fixed some visuals with tooltips
-
-commit ca2517c3b5f61b86d972e188642b7a8fb36cb6f4
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sun Oct 3 17:45:01 2021 -0300
-
-    Added OnReset and OnAcquire functions to Pool system
-
-commit 357777bea626c8a9742e8772254daa29bcc8025d
-Author: Continuity <continuity@gmx.net>
-Date:   Thu Sep 30 21:34:58 2021 +0200
-
-    - adding/changing support for classic era and tbc
-    
-    - Using LibClassicCasterino if available in classic era
-
-commit 0a7c8335bb0041459d8d068f6f9971b63048d49c
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Sep 24 19:48:43 2021 -0300
-
-    add the alias 'GetLines' for the scrollBox
-
-commit 8f95fb1648eae6805f4e1c3f3a2ca12b3d3e7cc6
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Sep 20 23:50:17 2021 -0300
-
-    Improvements on Timer Bar
+    Fixed CreateImage() not accepting a table color for SetColorTexture
 

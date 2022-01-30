@@ -14,7 +14,7 @@ local TitanPanelXPButton_ButtonAdded = nil;
 local found = nil;
 local lastMobXP, lastXP, XPGain = 0, 0, 0
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
-local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+--local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 -- ******************************** Functions *******************************
 
 --[[
@@ -53,7 +53,7 @@ function TitanPanelXPButton_OnLoad(self)
 			ShowLabelText = true,
 			ShowRegularText = false,
 			ShowColoredText = false,
-			DisplayOnRightSide = false
+			DisplayOnRightSide = true
 		},
 		savedVariables = {
 			DisplayType = "ShowXPPerHourSession",
@@ -65,6 +65,7 @@ function TitanPanelXPButton_OnLoad(self)
 			ShowSimpleNumOfGains = false,
 			UseSeperatorComma = true, 
 			UseSeperatorPeriod = false, 
+			DisplayOnRightSide = false,
 		}
 	};
 
@@ -349,81 +350,81 @@ function TitanPanelRightClickMenu_PrepareXPMenu()
 		info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_XP_ID, "ShowSimpleRested"}) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleRested"), 1, nil);
 		info.keepShownOnClick = 1;
-		DDM:UIDropDownMenu_AddButton(info, 2);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"];
 		info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_XP_ID, "ShowSimpleToLevel"}) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleToLevel"), 1, nil);
 		info.keepShownOnClick = 1;
-		DDM:UIDropDownMenu_AddButton(info, 2);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"];
 		info.func = function() TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", true) TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleNumOfKills"), 1, nil);
-		DDM:UIDropDownMenu_AddButton(info, 2);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"];
 		info.func = function() TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", true) TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", false) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleNumOfGains"), 1, nil);
-		DDM:UIDropDownMenu_AddButton(info, 2);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 	else
+	end
 		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_XP_ID].menuText);
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"];
 		info.func = TitanPanelXPButton_ShowXPPerHourSession;
 		info.checked = TitanUtils_Ternary("ShowXPPerHourSession" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL"];
 		info.func = TitanPanelXPButton_ShowXPPerHourLevel;
 		info.checked = TitanUtils_Ternary("ShowXPPerHourLevel" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_SESSION_TIME"];
 		info.func = TitanPanelXPButton_ShowSessionTime;
 		info.checked = TitanUtils_Ternary("ShowSessionTime" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
  
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"];
 		info.func = TitanPanelXPButton_ShowXPSimple;
 		info.hasArrow = 1;
 		info.checked = TitanUtils_Ternary("ShowXPSimple" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		DDM:UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 		TitanPanelRightClickMenu_AddSpacer();
 		TitanPanelRightClickMenu_AddCommand(L["TITAN_XP_MENU_RESET_SESSION"], TITAN_XP_ID, "TitanPanelXPButton_ResetSession");
 		TitanPanelRightClickMenu_AddCommand(L["TITAN_XP_MENU_REFRESH_PLAYED"], TITAN_XP_ID, "TitanPanelXPButton_RefreshPlayed");
 
-		TitanPanelRightClickMenu_AddSpacer();
-		TitanPanelRightClickMenu_AddToggleIcon(TITAN_XP_ID);
-		TitanPanelRightClickMenu_AddToggleLabelText(TITAN_XP_ID);
+	TitanPanelRightClickMenu_AddSpacer();
 
-		TitanPanelRightClickMenu_AddSpacer();
-
-		local info = {};
-		info.text = L["TITAN_USE_COMMA"];
-		info.checked = TitanGetVar(TITAN_XP_ID, "UseSeperatorComma");
-		info.func = function()
-			Seperator("UseSeperatorComma")
-		end
-	DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+	local info = {};
+	info.text = L["TITAN_USE_COMMA"];
+	info.checked = TitanGetVar(TITAN_XP_ID, "UseSeperatorComma");
+	info.func = function()
+		Seperator("UseSeperatorComma")
+	end
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 	local info = {};
 	info.text = L["TITAN_USE_PERIOD"];
 	info.checked = TitanGetVar(TITAN_XP_ID, "UseSeperatorPeriod");
 	info.func = function()
 		Seperator("UseSeperatorPeriod")
 	end
-	DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	TitanPanelRightClickMenu_AddSpacer();
+	TitanPanelRightClickMenu_AddToggleIcon(TITAN_XP_ID);
+	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_XP_ID);
+	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_XP_ID);
+	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_XP_ID, TITAN_PANEL_MENU_FUNC_HIDE);
-	end
 end
 
 -- **************************************************************************
