@@ -1,71 +1,70 @@
 # <DBM> World Bosses (Shadowlands)
 
-## [9.1.26](https://github.com/DeadlyBossMods/DBM-Retail/tree/9.1.26) (2022-01-27)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Retail/compare/9.1.25...9.1.26) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Retail/releases)
+## [9.1.28](https://github.com/DeadlyBossMods/DBM-Retail/tree/9.1.28) (2022-02-08)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Retail/compare/9.1.27...9.1.28) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Retail/releases)
 
-- - Make default voice pack options VEM instead of none. - Removed the reminder messages for having a voice pack installed but disabled (since it'll be expected that not everyone wants to use them and it's no longer something users install themselves) - Disabled the reminder message for having a voice pack selected in options that's disabled, if the selected pack is VEM. We want users who disable the module instead of the menu to also be viable path to disabling VEM. Likewise, if users re-enable vem, for the most part it'll just start working again since we didn't tell them to go into GUI and change it to none.  
-- Ignore DBM-VPVEM/README.md explicitically  
-- Move the VEM directory even more, it's nested.  
-- Move VEM into folder correctly.  
-- Add VEM external dependency  
-- Update localization.ru.lua (#49) Added and translated missing phrases.  
-- Typo fix  
-- Enable commented GroupSpells now that a NOOP exists, and add NewOptions flag if you're on the gui branch of unified  
-- fix two invalid voice sounds  
-- cleanup a comment  
-- missed that  
-- Chains of Domination update:  
-     - Fixed two mods that had invalid spellIds for options/warning text and caused completely wrong spell to be shown  
-     - Added user requested feature to Tarragrue to have cast bar for each of the 3 casts of Hungering Mists.  
-     - Tweaked spellIds for a few other objects to match across objects for better bundling.  
-     - Cleaned up some unused stuff  
-- Update koKR (#48)  
-- forgot to set defaults table.  
-- create a controller wrapper vibrate function and throttle it to once per 2 seconds to prevent multiple calls to api happening within a fixed period of time, hopefully avoid api breaking and blizzard vibrating forever.  
-- Maybe this will work  
-- Code review:  
-    Fixed two timer types on anduin not being correctly set off AI timers after they were completed  
-    Changed march of the damned from special announce to regular one since it's every 7.5 seconds on anduin  
-    Fixed inconsistent short name text for tears on xymox so they are all "wormhole" and not half "wormhole" and half "tear"  
-- Adjust two LFR timers on sylvanas, Closes #718  
-- Fix guardian for mythic and normal, at least to best of ability, it was bugged on mythic and never cast one of his abilities  
-- hal timer tweaks  
-- Fix glyph of relocation timer  
-- Updated anduin to support normal mode timers  
-    In addition, updated mythic and heroic timers through extrapolation  
-- oops  
-- actually this particular one should still be on for healers  
-- niche infoframes are now off by default in sepulcher. Niche being ones that give information only a handful need to know (like raid managers) or if they present something that's already fairly obvious like boss energy.  
-- Repair xymox so it now detects the undocumente stage 4 timer reset  
-- bump classic alpha cycle  
-- prep new classic release  
-- luacheck for last  
-- add search tags  
-- Update jailer to reflect that intermission was deleted from fight  
-- Update localization.ru.lua (#44)  
-- Fix Luacheck  
-- Update anduin and hal from mythic testing  
-- Wicked Star changes  
-     - Raid icon settingn for it removed.  
-     - Target announce now aggregates each set  
-     - Yells now assign star, circle, diamond to all people in each set for SAY messages  
-     - Target timer is now off by default.  
-- Create localization.tw.lua (#717)  
-- Update zhTW (#47)  
-- Update koKR (#46)  
-- Update koKR (#716)  
-- uniform some options text  
-    cleaned unused  
-- Add RL setting delay to anduin to match other mods and ensure it works better  
-    Also removed print message from pantheon, no one really wants to see that every pull. it should work seemlessly not noisily  
-- Ooh, forgot the getremaining call  
-- fixed bugs with crushing timer on Hal and added extended icon support for crushing debuffs  
-- Tweak icons used in say messages on mythic Hal to more cosely match the glyph symbols they represent  
-- clarify help message  
-- small tweak to march ai timer for. mythic testing on anduin  
-- Update Halondrus for mythic testing using latest journal spells  
-- Bar desaturating was turning bars white  
-- More robust checks for timer tables to ensure phase isn't nil, to prevent mid fight lua errors during timer recovery, if a user reloads ui in middle of fight.  
-- apparently fated conjunction timer has been spamming lua errors, sincce 9.1 launched, and no one reported it, until today. Turns out, another difficulty did use one of those ??? spellids and passed it off to table, which was expecting 350421 and only 350421, causing a lua error when it didn't match (and it doesn't, in LFR)  
-- Account for fact that M+ can now be in form of under leveled timewalking content...that isn't flagged as timewalking content (because it's index 8). Should no longer treat legion timewalking M+ as trivial content.  
-- prep next cycle  
+- Prep new tags  
+- Bump Classic TOC version to 1.14.2  
+- Fixed Auto expand defaults for retail Tweaked Panel prototype to reduce unnessesary calls to getspellinfo by using the already existing check in main gui file Also added a check that if blank or no description, insert a text saying there isn't one so it isn't just an empty box  
+- ContinueOnSpellLoad fails horribly if the spellid used is not actually a valid one (might be cause if loading a PTR mod on retail or blizzard deletes/changes a spellId. Fixed by adding validation and if not valid it'll revert to just setting text as text  
+- more grouping tweaks/fixes  
+- Update commonlocal.ru.lua (#76)  
+- Because of alpha users, this needs to be forced, or it'll look bad in classic and tbc  
+- Removed "newoptions" flags  
+- ATUALLY push update, apparently it was dumb and pushed an update without changes  
+- Complete Rygelon's phasing code  
+- Fix bad removal  
+- I forget every boss that I used wrong template for this zone that had random variables in shitty places.  
+- More rygelon work, but this mod is just going to have to stay half done until live. the journal for it has conflicting information to spell data that leads me to believe either journal is wrong on some points, or spell data is and it's impossible to know which is wrong. Hopefully blizzard gives it more clarity before launch, otherwise it's just going to stay a half assed mod until week 2 of raid when everyone sees it for first time.  
+- Dropdown bgFile renders super weird in classic era  
+- Fix  
+- initial pass on new options layouts for Sepulcher  
+    Also a half done Rygelon mod (will finish second half tomorrow)  
+- Fix some cases of text not being centered.  
+- improve fatescribe option readabiity by splitting by stage  
+- Make forced misc lines insert into misc area only. if misc is defined, it's probably meant to go there and not into groupings. Fixes visibility of all the drop downs.  
+- Add the crappy dropdown bug work around to mods that are missing it.  
+- Update localization.ru.lua (#75) Minor typos.  
+- Fix typo  
+- Update localization.ru.lua (#74)  
+- Also missed this in the first pass  
+- That was missing because it was useless, actually fix specWarnParasiticInfester by deleting it instead  
+- Update koKR (#73) Co-authored-by: Adam <MysticalOS@users.noreply.github.com>  
+- Update koKR (Retail) (#730)  
+    Co-authored-by: Artemis <QartemisT@gmail.com>  
+- Full pass on dungeons and updated 20 mods to fix douplicate groups, or reorganized by phase or caster and added headers  
+- set stats type for dungeons and world bosses and go from there. will begin review now  
+- Update zhTW (#72)  
+- Update localization.cn.lua (#71)  
+- made eye of jailer better looking  
+- Enable the audio expand option as well, another easy add. :D  
+- Fixed bug where not all ice and earth bridge spells were grouped on sylvanas  
+- Add option to toggle whether updated mods use the new guid layout or old one. Added option to choose whether or not icon options are included in new layout when it is enabled  
+- Fix some options being positioned a little weirdly.  
+- make movie skipping off by default for good until such a time CINEMATIC\_START get an Id system.  
+- Remove one useless infoframe  
+    turn another off by default  
+- Fix another error  
+- apparently luacheck is just dumb and can't report an error accurately  
+- Updated Halondrus and Lihuvim encounter mods to latest changes  
+- Fixed stats page looking a little quirky, due to textarea changes  
+- Fix CI  
+- fix some altimor ordering  
+- updated two bools  
+- Fix grouping being a little quirky when setting custom groups  
+- it's late, no idea why i commented that  
+- mis named that  
+- Finished review on castle and sanctum and got all groupings setup and fixed some mismatching spellids or spellids that lacked descriptions with ones that didn't  
+- Make grouping title a little more visible (tiny hint larger, and different color)  
+- Fix weird error when clicking NEAR the toggle button  
+- Fixed critical bug in new ui code that caused most warnings and timers to fail and spam errors instead  
+- begin work on spell grouping and mod re-sorting  
+- Fix something that got merged badly  
+- Gui (#67) - Make new objects an OrderedTable, so they appear in the order they were coded in - Add a variable for \"newOptions\" at an addon level (So old mods don't parse over and break badly) - Replace GroupOptions with GroupSpells, and do automatic detection - Improve rendering in GUI for new options, and fix some other quirky bugs - Improve CreateLine positioning code  
+- Update localization.ru.lua (#727)  
+    Accurate translation.  
+- Update localization.ru.lua (#69) Missing phrases and their translation.  
+- Update localization.ru.lua (#728)  
+    Added SetOptionLocalization. Minor fixes.  
+- Update zhTW (#68)  
+- bump alpha revisions  

@@ -342,4 +342,48 @@ BtWQuestsDatabase:AddObjectsTable({
             },
         },
     },
+    [375021] = {
+        name = "Perished Automa",
+        locations = {
+            [2027] = {
+                {
+                    x = 0.293441,
+                    y = 0.153514,
+                },
+            },
+        },
+    },
+    [375283] = {
+        name = "Percolation Array",
+        locations = {
+            [2028] = {
+                {
+                    x = 0.748416,
+                    y = 0.688568,
+                },
+            },
+        },
+    },
+    [375517] = {
+        name = "Suspicious Rubble Pile",
+        locations = {
+            [1970] = {
+                {
+                    x = 0.484363,
+                    y = 0.271782,
+                },
+            },
+        },
+    },
+    [375972] = {
+        name = "Wanted: Custos",
+        locations = {
+            [1970] = {
+                {
+                    x = 0.354144,
+                    y = 0.655289,
+                },
+            },
+        },
+    },
 })

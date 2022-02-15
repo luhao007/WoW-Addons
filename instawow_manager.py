@@ -31,7 +31,7 @@ class InstawowManager:
             addon_dir /= '!!Libs'
         global_config = GlobalConfig()
         global_config.write()
-        config = Config(global_config = global_config, addon_dir=addon_dir, game_flavour=Flavour[game_flavour], profile=self.profile)
+        config = Config(global_config = global_config, addon_dir=addon_dir, game_flavour=Flavour(game_flavour), profile=self.profile)
         config.write()
 
         setup_logging(config.logging_dir)

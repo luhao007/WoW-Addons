@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: arith
-## Version: v1.49.01
+## Version: v1.49.02
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Class Order Halls]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0职业大厅|r
 ## Notes-zhCN: 职业大厅地图
 
-## X-Date: 2021-06-30T15:36:22Z
+## X-Date: 2022-02-02T17:17:58Z
 ## X-Email: atlas.addon at gmail.com
 ## X-Website: http://www.atlasmod.com
 ## X-Category: Map

@@ -2617,6 +2617,27 @@ function GarrisonTalentTreeItemMixin:IsCompleted(database, item, character)
         return rank >= 0
     end
 end
+local GarrisonTalentItemMixin = CreateFromMixins(ItemMixin);
+function GarrisonTalentItemMixin:GetName(database, item, character)
+    local info = C_Garrison.GetTalentInfo(item.id)
+    if item.rank then
+        return string.format(L["RESEARCH_RANK"], info and info.name or L["UNKNOWN"], item.rank)
+    else
+        return string.format(L["RESEARCH"], info and info.name or L["UNKNOWN"])
+    end
+end
+function GarrisonTalentItemMixin:IsActive(database, item, character)
+	local info = C_Garrison.GetTalentInfo(item.id);
+    return info.isBeingResearched
+end
+function GarrisonTalentItemMixin:IsCompleted(database, item, character)
+	local info = C_Garrison.GetTalentInfo(item.id);
+    if item.rank then
+        return item.rank <= info.talentRank
+    else
+        return info.researched
+    end
+end
 local CampaignItemMixin = CreateFromMixins(ItemMixin);
 function CampaignItemMixin:GetName(database, item, character)
     local info = C_CampaignInfo.GetCampaignInfo(item.id)
@@ -3692,6 +3713,7 @@ Database:RegisterItemType("equipped", EquippedItemMixin);
 Database:RegisterItemType("questline", QuestLineItemMixin);
 Database:RegisterItemType("follower", FollowerItemMixin);
 Database:RegisterItemType("garrisontalenttree", GarrisonTalentTreeItemMixin);
+Database:RegisterItemType("garrisontalent", GarrisonTalentItemMixin);
 Database:RegisterItemType("campaign", CampaignItemMixin);
 Database:RegisterItemType("spell", ItemMixin); -- Is just used to track with rewards spells are used
 Database:RegisterItemType("area", AreaItemMixin);

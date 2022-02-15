@@ -12,5 +12,8 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [369432] = {
         name = "Tomo venthyriano extraviado",
     },
+    [375972] = {
+        name = "Se busca: Custos",
+    },
 })
 ]])()

@@ -9,10 +9,10 @@ AL["Always show item comparison."] = "Toujours afficher la comparaison d'objets.
 AL["Always show quick preview."] = "Toujours afficher l'aperçu rapide."
 AL["AtlasLoot Options"] = [=[Options d'AtlasLoot
 Options]=]
-AL["Auto select current instance's loot tables."] = "Auto-sélection des tables de butins de l'instance en cours."
-AL["Background"] = "Arrière-plan"
-AL["Background color/alpha"] = "Couleur du fond /alpha"
-AL["Change will take effect in next login."] = "Les changements prendront effets à la prochaine connexion. "
+AL["Auto select current instance's loot tables."] = "Sélection automatique des tables de butin de l'instance en cours."
+AL["Background"] = "Fond"
+AL["Background color/alpha"] = "Couleur du fond/alpha"
+AL["Change will take effect in next login."] = "Le changement prendra effet lors de la prochaine connexion."
 AL["Content"] = "Contenu"
 AL["Content bottom bar"] = "Contenu de la barre inférieure"
 AL["Content top bar"] = "Contenu de la barre supérieure"
@@ -40,8 +40,8 @@ AL["Show expansion icons in module dropdown."] = "Afficher les icônes d’exten
 AL["Show minimap button."] = "Afficher le bouton de la minicarte."
 AL["Subtitle"] = "Sous-titre"
 AL["Title"] = "Titre"
-AL["Use content color if available."] = "Utiliser la couleur du contenu si disponible"
-AL["Use GameTooltip"] = "Utiliser l'info-bulle en jeu"
-AL["Use the standard GameTooltip instead of the custom AtlasLoot tooltip"] = "Utiliser l'info-bulle en jeu standard plutôt que l'info-bulle personnalisée AtlasLoot"
+AL["Use content color if available."] = "Utilisez la couleur du contenu si elle est disponible."
+AL["Use GameTooltip"] = "Utiliser l'info-bulle"
+AL["Use the standard GameTooltip instead of the custom AtlasLoot tooltip"] = "Utilisez l'infobulle standard au lieu de l'infobulle personnalisée AtlasLoot"
 AL["Windows"] = "Fenêtres"
 

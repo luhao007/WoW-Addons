@@ -1,7 +1,24 @@
-$Id: Revision.txt 84 2022-01-26 14:56:53Z arithmandar $
+$Id: Revision.txt 91 2022-02-13 14:57:00Z arithmandar $
 
 Revision History:
 =================
+
+v4.07.9020042277 (2022/02/13)
+-----------------------------
+- function sync with build 42277
+- enhanced the auto hide feature in ClassicEra and Classic TBC
+
+v4.07.9020042257 (2022/02/10)
+-----------------------------
+- function sync with build 42257
+- BCC ToC update to support WoW 2.5.3
+- Classic ToC update to support WoW 1.14.2
+
+v4.07.9020042174 (2022/02/09)
+-----------------------------
+- Support multiple ToC
+- BCC ToC update to support WoW 2.5.3
+- Classic ToC update to support WoW 1.14.1
 
 v4.07.9020042069 (2022/01/26)
 -----------------------------

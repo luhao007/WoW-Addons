@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: MysticalOS, QartemisT
-## Version: 28f01ab
+## Version: e74c090
 ## Dependencies: DBM-StatusBarTimers
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon
@@ -13,7 +13,7 @@
 ## Notes-zhCN: 功能强大的副本助手，支持所有Boss。
 
 ## X-Min-Interface: 90105
-## X-Min-Interface-Classic: 11401
+## X-Min-Interface-Classic: 11402
 ## X-Min-Interface-BCC: 20503
 ## X-Website: https://deadlybossmods.com
 ## X-Part-Of: DBM-Core

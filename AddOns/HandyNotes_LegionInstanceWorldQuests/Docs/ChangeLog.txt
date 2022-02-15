@@ -1,7 +1,16 @@
-$Id: ChangeLog.txt 69 2021-06-30 13:39:37Z arithmandar $
+$Id: ChangeLog.txt 73 2022-02-14 17:07:10Z arithmandar $
 
 Revision History:
 =================
+
+* v1.29 (Feb. 15, 2022)
+-----------------------
+- Library update - LibUIDropDownMenu
+
+* v1.28 (Feb. 3, 2022)
+-----------------------
+- ToC update to support WoW 9.1.5
+- Library update - LibUIDropDownMenu
 
 * v1.27 (Jun. 30, 2021)
 -----------------------

@@ -3648,6 +3648,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64214] = {
         name = "Un símbolo de esperanza",
     },
+    [64218] = {
+        name = "Peligro en todos los frentes",
+    },
+    [64219] = {
+        name = "Una voz misteriosa",
+    },
+    [64223] = {
+        name = "El núcleo de la cuestión",
+    },
+    [64224] = {
+        name = "En busca de lo desconocido",
+    },
+    [64225] = {
+        name = "En busca de Firim",
+    },
+    [64226] = {
+        name = "Medidas de seguridad",
+    },
+    [64227] = {
+        name = "Agentes invisibles",
+    },
+    [64228] = {
+        name = "Ya puedes hablar",
+    },
+    [64230] = {
+        name = "Códigos de los Primeros",
+    },
     [64314] = {
         name = "Pactos renovados",
     },
@@ -3662,6 +3689,474 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [64556] = {
         name = "Se necesita asistencia",
+    },
+    [64641] = {
+        name = "Follaje misterioso",
+    },
+    [64642] = {
+        name = "Limpieza en las ruinas",
+    },
+    [64643] = {
+        name = "Soluciones de bajo presupuesto",
+    },
+    [64644] = {
+        name = "Una gota de eternidad",
+    },
+    [64645] = {
+        name = "El momento de la verdad",
+    },
+    [64646] = {
+        name = "Más energía",
+    },
+    [64647] = {
+        name = "Engranajes extraños",
+    },
+    [64648] = {
+        name = "Cosecharás tu siembra",
+    },
+    [64706] = {
+        name = "Una cuestión de motivación",
+    },
+    [64713] = {
+        name = "Recolección fragmentaria",
+    },
+    [64718] = {
+        name = "Las llaves para la victoria",
+    },
+    [64720] = {
+        name = "Despejar el camino",
+    },
+    [64722] = {
+        name = "En las puertas de la muerte",
+    },
+    [64723] = {
+        name = "Proyecto de restauración",
+    },
+    [64725] = {
+        name = "Intrusión imperdonable",
+    },
+    [64726] = {
+        name = "El orden de las cosas",
+    },
+    [64727] = {
+        name = "El círculo infinito",
+    },
+    [64728] = {
+        name = "Conocidos olvidados",
+    },
+    [64729] = {
+        name = "Repercusiones milenarias",
+    },
+    [64730] = {
+        name = "El punto de inflexión",
+    },
+    [64731] = {
+        name = "Por todas las almas",
+    },
+    [64733] = {
+        name = "Ayuda del más allá",
+    },
+    [64739] = {
+        name = "Yugo de Zovaal",
+    },
+    [64741] = {
+        name = "Verificación de seguridad",
+    },
+    [64742] = {
+        name = "Rastros de sabotaje",
+    },
+    [64743] = {
+        name = "El enigma de Xy",
+    },
+    [64744] = {
+        name = "Negocios transparentes",
+    },
+    [64745] = {
+        name = "Preservación altruista",
+    },
+    [64758] = {
+        name = "Tras el líder",
+    },
+    [64759] = {
+        name = "La basura perdura",
+    },
+    [64760] = {
+        name = "Dificultades técnicas",
+    },
+    [64761] = {
+        name = "Carga de núcleo",
+    },
+    [64762] = {
+        name = "Reanimación del más fuerte",
+    },
+    [64763] = {
+        name = "Modo de mantenimiento",
+    },
+    [64766] = {
+        name = "Solicitud de acceso",
+    },
+    [64767] = {
+        name = "La última canción",
+    },
+    [64771] = {
+        name = "Éxodo Iluminado",
+    },
+    [64772] = {
+        name = "Círculo roto",
+    },
+    [64773] = {
+        name = "Guía jiro: cómo evitar que te coman",
+    },
+    [64775] = {
+        name = "Habilidades multifaucéticas",
+    },
+    [64778] = {
+        name = "Reconocimiento de fallas",
+    },
+    [64779] = {
+        name = "Una libra de carne",
+    },
+    [64780] = {
+        name = "Voluntad de fauceacero",
+    },
+    [64794] = {
+        name = "El conocimiento es la mitad de la batalla",
+    },
+    [64796] = {
+        name = "Registra las arenas",
+    },
+    [64797] = {
+        name = "Armonía y discordia",
+    },
+    [64798] = {
+        name = "Lo que no nos mata",
+    },
+    [64799] = {
+        name = "La corona rota",
+    },
+    [64800] = {
+        name = "Nuestra última opción",
+    },
+    [64801] = {
+        name = "Antigua Eru",
+    },
+    [64802] = {
+        name = "Hola, oscuridad",
+    },
+    [64803] = {
+        name = "Uno, dos... probando",
+    },
+    [64804] = {
+        name = "Catálogo críptico",
+    },
+    [64805] = {
+        name = "El método no-científico",
+    },
+    [64806] = {
+        name = "El hogar de la memoria",
+    },
+    [64807] = {
+        name = "Lo que deseamos olvidar",
+    },
+    [64808] = {
+        name = "El motivo de nuestra fuerza",
+    },
+    [64809] = {
+        name = "Una mitad de la ecuación",
+    },
+    [64810] = {
+        name = "Opresión y destrucción",
+    },
+    [64811] = {
+        name = "Excavación agresiva",
+    },
+    [64812] = {
+        name = "Forja de dominación",
+    },
+    [64813] = {
+        name = "La Corona de voluntades",
+    },
+    [64814] = {
+        name = "La batalla por la forja",
+    },
+    [64815] = {
+        name = "Avanzamos juntos",
+    },
+    [64816] = {
+        name = "El umbral de la realidad",
+    },
+    [64817] = {
+        name = "A la vista de todos",
+    },
+    [64818] = {
+        name = "Puede que necesitemos refuerzos",
+    },
+    [64820] = {
+        name = "Es tu culpa, arréglalo",
+    },
+    [64821] = {
+        name = "Nada es verdad",
+    },
+    [64822] = {
+        name = "Comunicación fallida",
+    },
+    [64823] = {
+        name = "Duelo de dobles",
+    },
+    [64824] = {
+        name = "La pelea por la Forja",
+    },
+    [64825] = {
+        name = "En busca de Refugio",
+    },
+    [64829] = {
+        name = "En busca de Tahli",
+    },
+    [64830] = {
+        name = "Que los Iluminados nos iluminen",
+    },
+    [64831] = {
+        name = "Vestigios de los Primeros",
+    },
+    [64832] = {
+        name = "La recuperación de Provis Esper",
+    },
+    [64833] = {
+        name = "De la diversidad nace la unión",
+    },
+    [64834] = {
+        name = "El significado del brillo",
+    },
+    [64835] = {
+        name = "Escapen de las hiedras",
+    },
+    [64836] = {
+        name = "Corte de raíz",
+    },
+    [64837] = {
+        name = "El viaje de un peregrino",
+    },
+    [64838] = {
+        name = "Peregrino en su tierra",
+    },
+    [64839] = {
+        name = "La raíz del problema",
+    },
+    [64840] = {
+        name = "Crecimiento desenfrenado",
+    },
+    [64841] = {
+        name = "Descarga",
+    },
+    [64842] = {
+        name = "Frenesí floral",
+    },
+    [64843] = {
+        name = "Fabricación de llave",
+    },
+    [64844] = {
+        name = "El fin del peregrinaje",
+    },
+    [64853] = {
+        name = "Dos caminos que andar",
+    },
+    [64875] = {
+        name = "Algo maravilloso",
+    },
+    [64876] = {
+        name = "Música de las esferas",
+    },
+    [64878] = {
+        name = "Un largo y raro viaje",
+    },
+    [64879] = {
+        name = "Un descubrimiento monumental",
+    },
+    [64888] = {
+        name = "Poder prestado",
+    },
+    [64889] = {
+        name = "Una pareja formada en Zereth Mortis",
+    },
+    [64935] = {
+        name = "Entre una roca y otra roca",
+    },
+    [64936] = {
+        name = "Por lo alto y por lo bajo",
+    },
+    [64937] = {
+        name = "Enciendes mi vida",
+    },
+    [64942] = {
+        name = "El llamado del Primus",
+    },
+    [64944] = {
+        name = "Un viaje apresurado",
+    },
+    [64945] = {
+        name = "Forasteros en una tierra extraña",
+    },
+    [64947] = {
+        name = "Dame una mano",
+    },
+    [64949] = {
+        name = "Con fines de investigación",
+    },
+    [64950] = {
+        name = "Un intercambio mutuo",
+    },
+    [64951] = {
+        name = "El camino a Refugio",
+    },
+    [64952] = {
+        name = "La destrucción de los destructores",
+    },
+    [64953] = {
+        name = "La defensa de Refugio",
+    },
+    [64957] = {
+        name = "Esta antigua piedra de camino",
+    },
+    [64958] = {
+        name = "Se reúnen las fuerzas",
+    },
+    [64962] = {
+        name = "Como estaba predicho",
+    },
+    [64969] = {
+        name = "Entre las hierbas",
+    },
+    [65064] = {
+        name = "¡Mira a quién encontré!",
+    },
+    [65066] = {
+        name = "Aroma floral",
+    },
+    [65067] = {
+        name = "El vaso del negociante",
+    },
+    [65068] = {
+        name = "Cascadas de magnitud",
+    },
+    [65069] = {
+        name = "Control de caos",
+    },
+    [65070] = {
+        name = "¿Me lo puedo quedar?",
+    },
+    [65149] = {
+        name = "Estudio de los códigos",
+    },
+    [65219] = {
+        name = "El giro heroico de los jiros",
+    },
+    [65237] = {
+        name = "Oráculo, sánate",
+    },
+    [65238] = {
+        name = "Almas entrelazadas",
+    },
+    [65245] = {
+        name = "La devoración del devorador",
+    },
+    [65271] = {
+        name = "Forjar conexiones",
+    },
+    [65305] = {
+        name = "El camino a seguir",
+    },
+    [65324] = {
+        name = "Patrones dentro de los patrones",
+    },
+    [65328] = {
+        name = "Árbitro en ciernes",
+    },
+    [65329] = {
+        name = "Refugio seguro",
+    },
+    [65331] = {
+        name = "Remedios herbales",
+    },
+    [65335] = {
+        name = "Noticias de Oribos",
+    },
+    [65349] = {
+        name = "Gracia perdida",
+    },
+    [65350] = {
+        name = "Restaurar el flujo",
+    },
+    [65353] = {
+        name = "Una dieta libre de automas",
+    },
+    [65370] = {
+        name = "Flora intestinal dañada",
+    },
+    [65380] = {
+        name = "Reasimilación esquemática: Trotamuertes",
+    },
+    [65419] = {
+        name = "Síntesis de protoformas",
+    },
+    [65420] = {
+        name = "Decisión a conciencia",
+    },
+    [65426] = {
+        name = "El componente perdido",
+    },
+    [65427] = {
+        name = "La nueva identidad del arquitecto",
+    },
+    [65431] = {
+        name = "Investigación más profunda: Laélico",
+    },
+    [65432] = {
+        name = "Investigación más profunda: Reélico",
+    },
+    [65433] = {
+        name = "Investigación más profunda: Clasolés",
+    },
+    [65448] = {
+        name = "El retorno de la gracia",
+    },
+    [65456] = {
+        name = "La pérdida de Firim",
+    },
+    [65460] = {
+        name = "Tu primer protocerrojo cantárico",
+    },
+    [65461] = {
+        name = "Tu primer protocerrojo mezzónico",
+    },
+    [65463] = {
+        name = "El Manantial de los Primeros",
+    },
+    [65466] = {
+        name = "Tu primer protocerrojo fugal",
+    },
+    [65674] = {
+        name = "¿Qué es esto?",
+    },
+    [65700] = {
+        name = "Controles básicos",
+    },
+    [65727] = {
+        name = "El bufónido enterrado",
+    },
+    [65735] = {
+        name = "SE BUSCA: Custos",
+    },
+    [65749] = {
+        name = "Se necesita equipamiento",
+    },
+    [65768] = {
+        name = "Nuestros exploradores",
+    },
+    [65771] = {
+        name = "El favor de los Primeros",
+    },
+    [65772] = {
+        name = "Sacrificio necesario",
     },
 })
 ]])()

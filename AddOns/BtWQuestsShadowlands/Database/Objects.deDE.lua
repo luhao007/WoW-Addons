@@ -69,5 +69,8 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [369432] = {
         name = "Verlegter Venthyrfoliant",
     },
+    [375972] = {
+        name = "Gesucht: Custos",
+    },
 })
 ]])()

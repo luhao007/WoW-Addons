@@ -194,6 +194,16 @@ Database:AddChain(Chain.LoyalToThePrimus, {
         {
             type = "chain",
             id = Chain.ReturnToTheMaw,
+            completed = {
+                {
+                    type = "quest",
+                    id = 61397,
+                },
+                {
+                    type = "chain",
+                    id = Chain.ReturnToTheMaw,
+                }
+            },
             x = 0,
             connections = {
                 1, 
@@ -300,7 +310,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
     },
     completed = {
         type = "quest",
-        id = 62844,
+        ids = { 62844, 62796, 62894, 62870 },
     },
     rewards = {
         {
@@ -382,7 +392,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
         },
         {
             type = "quest",
-            id = 62844,
+            ids = { 62844, 62796, 62894, 62870 },
             x = 0,
         },
     },

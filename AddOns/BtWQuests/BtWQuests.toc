@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Breen
-## Version: 2.12.0
+## Version: 2.13.0
 ## SavedVariables: BtWQuests_Characters
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad
 

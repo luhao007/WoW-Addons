@@ -236,6 +236,16 @@ Database:AddChain(Chain.ForQueenAndGrove, {
         {
             type = "chain",
             id = Chain.ReturnToTheMaw,
+            completed = {
+                {
+                    type = "quest",
+                    id = 62892,
+                },
+                {
+                    type = "chain",
+                    id = Chain.ReturnToTheMaw,
+                }
+            },
             x = 0,
             connections = {
                 1, 
@@ -342,7 +352,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
     },
     completed = {
         type = "quest",
-        id = 62894,
+        ids = { 62894, 62796, 62844, 62870 },
     },
     rewards = {
         {
@@ -424,7 +434,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
         },
         {
             type = "quest",
-            id = 62894,
+            ids = { 62894, 62796, 62844, 62870 },
             x = 0,
         },
     },

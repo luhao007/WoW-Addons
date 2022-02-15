@@ -9,5 +9,8 @@ BtWQuestsDatabase:UpdateObjectsTable({
     [369432] = {
         name = "Tomo dei Venthyr Smarrito",
     },
+    [375972] = {
+        name = "Ricercato: Custos",
+    },
 })
 ]])()

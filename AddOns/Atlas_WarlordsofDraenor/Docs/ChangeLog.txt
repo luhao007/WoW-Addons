@@ -1,10 +1,14 @@
-$Id: ChangeLog.txt 63 2021-07-06 09:48:23Z arithmandar $
+$Id: ChangeLog.txt 65 2022-02-02 17:24:28Z arithmandar $
 Atlas, a World of Warcraft instance map browser
-Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+Copyright 2011 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 ==============
 = Change Log =
 ==============
+
+v1.49.02 (Feb. 3, 2022)
+------------------------
+- ToC update to support WoW 9.1.5
 
 v1.49.01 (Jul. 06, 2021)
 ------------------------

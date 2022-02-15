@@ -951,8 +951,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177228] = {
         name = "Grão-lorde Bolvar Fordragon",
     },
+    [177486] = {
+        name = "Ancião Kreth",
+    },
     [177919] = {
         name = "Mensagem Urgente de Ardena",
+    },
+    [178015] = {
+        name = "Ancião Zoor",
+    },
+    [178016] = {
+        name = "Anciã Ara",
     },
     [178260] = {
         name = "A Litorita",
@@ -962,6 +971,21 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [180074] = {
         name = "Grã-senhora Jaina Proudmore",
+    },
+    [180630] = {
+        name = "Ancião Amir",
+    },
+    [180799] = {
+        name = "Lumenala",
+    },
+    [181091] = {
+        name = "Hanoa, a Exilada",
+    },
+    [181183] = {
+        name = "Grão-lorde Bolvar Fordragon",
+    },
+    [183677] = {
+        name = "Uther, o Arauto da Luz",
     },
 })
 ]])()

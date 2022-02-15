@@ -888,14 +888,41 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177228] = {
         name = "Gran Signore Bolvar Domadraghi",
     },
+    [177486] = {
+        name = "Anziano Kreth",
+    },
     [177919] = {
         name = "Messaggio Urgente da Selvarden",
+    },
+    [178015] = {
+        name = "Anziano Zoor",
+    },
+    [178016] = {
+        name = "Anziana Ara",
     },
     [178260] = {
         name = "La Madrepietra",
     },
     [180074] = {
         name = "Dama Jaina Marefiero",
+    },
+    [180630] = {
+        name = "Anziano Amir",
+    },
+    [180799] = {
+        name = "Brillastaffa",
+    },
+    [180936] = {
+        name = "Ranah",
+    },
+    [181091] = {
+        name = "Hanoa l'Esiliata",
+    },
+    [181183] = {
+        name = "Gran Signore Bolvar Domadraghi",
+    },
+    [183677] = {
+        name = "Uther l'Araldo della Luce",
     },
 })
 ]])()

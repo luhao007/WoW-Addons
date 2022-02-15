@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Lag, Proteyer, Arith
-## Version: v8.13.00
+## Version: v8.13.01
 ## Dependencies: AtlasLoot
 ## OptionalDeps: 
 ## LoadOnDemand: 1

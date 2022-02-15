@@ -3645,6 +3645,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [64214] = {
         name = "Ein Symbol der Hoffnung",
     },
+    [64218] = {
+        name = "Gefahr von nah und fern",
+    },
+    [64219] = {
+        name = "Eine geheimnisvolle Stimme",
+    },
+    [64223] = {
+        name = "Der Kern der Angelegenheit",
+    },
+    [64224] = {
+        name = "Die Suche nach dem Unbekannten",
+    },
+    [64225] = {
+        name = "Findet Firim",
+    },
+    [64226] = {
+        name = "Sicherheitsvorkehrungen",
+    },
+    [64227] = {
+        name = "Ungesehene Agenten",
+    },
+    [64228] = {
+        name = "Jetzt bin ich ansprechbar",
+    },
+    [64230] = {
+        name = "Chiffren der Ersten",
+    },
     [64314] = {
         name = "Erneuerte Pakte",
     },
@@ -3659,6 +3686,474 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [64556] = {
         name = "Freunde in der Not",
+    },
+    [64641] = {
+        name = "Mysteriöses Grünzeug",
+    },
+    [64642] = {
+        name = "Aufräumen in den Ruinen",
+    },
+    [64643] = {
+        name = "Schrott wird wieder flott",
+    },
+    [64644] = {
+        name = "Ein Spritzer der Äonen",
+    },
+    [64645] = {
+        name = "Moment der Wahrheit",
+    },
+    [64646] = {
+        name = "Hochfahren",
+    },
+    [64647] = {
+        name = "Seltsames Innenleben",
+    },
+    [64648] = {
+        name = "Ernten, was gesät wurde",
+    },
+    [64706] = {
+        name = "Eine Frage der Motivation",
+    },
+    [64713] = {
+        name = "Kleinteilige Angelegenheit",
+    },
+    [64718] = {
+        name = "Schlüssel zum Sieg",
+    },
+    [64720] = {
+        name = "Den Weg bereiten",
+    },
+    [64722] = {
+        name = "An der Pforte des Todes",
+    },
+    [64723] = {
+        name = "Projekt zur Wiederherstellung",
+    },
+    [64725] = {
+        name = "Unverzeihliches Eindringen",
+    },
+    [64726] = {
+        name = "In guter Ordnung",
+    },
+    [64727] = {
+        name = "Der unendliche Kreis",
+    },
+    [64728] = {
+        name = "Vergessene Bekannte",
+    },
+    [64729] = {
+        name = "Lange Auswirkungen",
+    },
+    [64730] = {
+        name = "Der Wendepunkt",
+    },
+    [64731] = {
+        name = "Für alle Seelen",
+    },
+    [64733] = {
+        name = "Hilfe aus der Ferne",
+    },
+    [64739] = {
+        name = "Zovaals Umklammerung",
+    },
+    [64741] = {
+        name = "Sicherheitsprüfung",
+    },
+    [64742] = {
+        name = "Spuren der Manipulation",
+    },
+    [64743] = {
+        name = "Xyso sind sie hier?",
+    },
+    [64744] = {
+        name = "Enttarnte Mittler",
+    },
+    [64745] = {
+        name = "Selbstlose Verwahrung",
+    },
+    [64758] = {
+        name = "Folgt dem Anführer",
+    },
+    [64759] = {
+        name = "Durchaus noch nützlich",
+    },
+    [64760] = {
+        name = "Technische Schwierigkeiten",
+    },
+    [64761] = {
+        name = "Kernkompetenz",
+    },
+    [64762] = {
+        name = "Wiederleben des Stärkeren",
+    },
+    [64763] = {
+        name = "Wartungsmodus",
+    },
+    [64766] = {
+        name = "Zügiger Zugang",
+    },
+    [64767] = {
+        name = "Das letzte Lied",
+    },
+    [64771] = {
+        name = "Erleuchteter Exodus",
+    },
+    [64772] = {
+        name = "Der gebrochene Kreis",
+    },
+    [64773] = {
+        name = "Verschlungenwerden vermeiden für Jiro",
+    },
+    [64775] = {
+        name = "Von Schlund auf anders",
+    },
+    [64778] = {
+        name = "Rissanalyse",
+    },
+    [64779] = {
+        name = "Pfundweise Fleisch",
+    },
+    [64780] = {
+        name = "Kein Schlundstahl, kein Problem",
+    },
+    [64794] = {
+        name = "Wissen ist die halbe Schlacht",
+    },
+    [64796] = {
+        name = "Durchkämmt die Sande",
+    },
+    [64797] = {
+        name = "Harmonie und Zwietracht",
+    },
+    [64798] = {
+        name = "Was wir meistern",
+    },
+    [64799] = {
+        name = "Die zerbrochene Krone",
+    },
+    [64800] = {
+        name = "Unsere letzte Option",
+    },
+    [64801] = {
+        name = "Älteste Eru",
+    },
+    [64802] = {
+        name = "Finstere Vergangenheit",
+    },
+    [64803] = {
+        name = "Probieren gehört zum Studieren",
+    },
+    [64804] = {
+        name = "Kryptischer Katalog",
+    },
+    [64805] = {
+        name = "Die unwissenschaftliche Methode",
+    },
+    [64806] = {
+        name = "Der Hort der Erinnerung",
+    },
+    [64807] = {
+        name = "Was wir vergessen wollen",
+    },
+    [64808] = {
+        name = "Was uns stark macht",
+    },
+    [64809] = {
+        name = "Eine Hälfte der Gleichung",
+    },
+    [64810] = {
+        name = "Unterdrücken und zerstören",
+    },
+    [64811] = {
+        name = "Aggressive Ausgrabung",
+    },
+    [64812] = {
+        name = "Schmiede der Herrschaft",
+    },
+    [64813] = {
+        name = "Die Krone der Willen",
+    },
+    [64814] = {
+        name = "Die Schlacht um die Schmiede",
+    },
+    [64815] = {
+        name = "Wir reiten zusammen",
+    },
+    [64816] = {
+        name = "An der Schwelle der Realität",
+    },
+    [64817] = {
+        name = "Direkt vor der Nase",
+    },
+    [64818] = {
+        name = "Verstärkung wäre hilfreich",
+    },
+    [64820] = {
+        name = "Eure Schuld, Eure Pflicht",
+    },
+    [64821] = {
+        name = "Nichts ist wahr",
+    },
+    [64822] = {
+        name = "Kommunikationsprobleme",
+    },
+    [64823] = {
+        name = "Duell der Doppelgänger",
+    },
+    [64824] = {
+        name = "Der Kampf um die Schmiede",
+    },
+    [64825] = {
+        name = "Zuflucht gesucht",
+    },
+    [64829] = {
+        name = "Findet Tahli",
+    },
+    [64830] = {
+        name = "Mit dem Licht der Erleuchteten",
+    },
+    [64831] = {
+        name = "Überreste der Ersten",
+    },
+    [64832] = {
+        name = "Die Rückeroberung von Provis Esper",
+    },
+    [64833] = {
+        name = "Die Summe des Ganzen",
+    },
+    [64834] = {
+        name = "Es wurde Licht",
+    },
+    [64835] = {
+        name = "Ränkespiele",
+    },
+    [64836] = {
+        name = "Mit Stumpf und Stiel",
+    },
+    [64837] = {
+        name = "Des Pilgers Reise",
+    },
+    [64838] = {
+        name = "Wo ein Pilger ist, ist auch ein Weg",
+    },
+    [64839] = {
+        name = "Die Wurzel des Problems",
+    },
+    [64840] = {
+        name = "Ungezügeltes Wachstum",
+    },
+    [64841] = {
+        name = "Schwer geladen",
+    },
+    [64842] = {
+        name = "Furiose Flora",
+    },
+    [64843] = {
+        name = "Schlüsseldienst",
+    },
+    [64844] = {
+        name = "Das Ende der Pilgerfahrt",
+    },
+    [64853] = {
+        name = "Zwei Pfade, ein Weg",
+    },
+    [64875] = {
+        name = "Wahrlich wunderbar",
+    },
+    [64876] = {
+        name = "Sphärenklänge",
+    },
+    [64878] = {
+        name = "Welch lange und seltsame Reise",
+    },
+    [64879] = {
+        name = "Eine monumentale Entdeckung",
+    },
+    [64888] = {
+        name = "Geliehene Macht",
+    },
+    [64889] = {
+        name = "Was Zereth Mortis zusammenfügt",
+    },
+    [64935] = {
+        name = "Hart auf Hart",
+    },
+    [64936] = {
+        name = "Oben, unten, überall",
+    },
+    [64937] = {
+        name = "Licht meines Lebens",
+    },
+    [64942] = {
+        name = "Ruf des Primus",
+    },
+    [64944] = {
+        name = "Eine hastige Reise",
+    },
+    [64945] = {
+        name = "Fremde in einem fremden Land",
+    },
+    [64947] = {
+        name = "Habt Ihr mal 'ne Hand frei?",
+    },
+    [64949] = {
+        name = "Nur zu Forschungszwecken",
+    },
+    [64950] = {
+        name = "Gegenseitiger Austausch",
+    },
+    [64951] = {
+        name = "Der Weg in Zuflucht",
+    },
+    [64952] = {
+        name = "Zerstörung der Zerstörer",
+    },
+    [64953] = {
+        name = "Die Verteidigung der Zuflucht",
+    },
+    [64957] = {
+        name = "Der alte Portalstein",
+    },
+    [64958] = {
+        name = "Die Streitkräfte sammeln sich",
+    },
+    [64962] = {
+        name = "Wie prophezeit",
+    },
+    [64969] = {
+        name = "Im Unkraut",
+    },
+    [65064] = {
+        name = "Seht mal wer da ist!",
+    },
+    [65066] = {
+        name = "Floraaroma",
+    },
+    [65067] = {
+        name = "Mittlerbehälter",
+    },
+    [65068] = {
+        name = "Reichhaltige Kaskaden",
+    },
+    [65069] = {
+        name = "Ausmerzen des Mahlstroms",
+    },
+    [65070] = {
+        name = "Kann ich ihn behalten?",
+    },
+    [65149] = {
+        name = "Chiffren auf dem Prüfstand",
+    },
+    [65219] = {
+        name = "Jiroische Taten",
+    },
+    [65237] = {
+        name = "Orakel, heilt Euch selbst",
+    },
+    [65238] = {
+        name = "Verflochtene Seelen",
+    },
+    [65245] = {
+        name = "Schluss mit der Schlingerei",
+    },
+    [65271] = {
+        name = "Verbindungen schaffen",
+    },
+    [65305] = {
+        name = "Das weitere Vorgehen",
+    },
+    [65324] = {
+        name = "Verschachtelte Muster",
+    },
+    [65328] = {
+        name = "Ein werdender Richter",
+    },
+    [65329] = {
+        name = "Sichere Zuflucht",
+    },
+    [65331] = {
+        name = "Pflanzliche Heilmittel",
+    },
+    [65335] = {
+        name = "Neuigkeiten aus Oribos",
+    },
+    [65349] = {
+        name = "Verlorene Huld",
+    },
+    [65350] = {
+        name = "Den Fluss wiederherstellen",
+    },
+    [65353] = {
+        name = "Eine Automa-freie Kost",
+    },
+    [65370] = {
+        name = "Bauchgefühl",
+    },
+    [65380] = {
+        name = "Bauplanreassimilierung: Todesläufer",
+    },
+    [65419] = {
+        name = "Protoformsynthese",
+    },
+    [65420] = {
+        name = "Ermessensfragen",
+    },
+    [65426] = {
+        name = "Die verlorene Komponente",
+    },
+    [65427] = {
+        name = "Architektenneuling",
+    },
+    [65431] = {
+        name = "Weitere Nachforschungen: Akkolarisch",
+    },
+    [65432] = {
+        name = "Weitere Nachforschungen: Dacaparisch",
+    },
+    [65433] = {
+        name = "Weitere Nachforschungen: Violonisch",
+    },
+    [65448] = {
+        name = "Pilger erneut willkommen",
+    },
+    [65456] = {
+        name = "Firim, der Verlorengeglaubte",
+    },
+    [65460] = {
+        name = "Euer erstes kantarisches Protoschloss",
+    },
+    [65461] = {
+        name = "Euer erstes mezzonisches Protoschloss",
+    },
+    [65463] = {
+        name = "Die Quelle der Ersten",
+    },
+    [65466] = {
+        name = "Euer erstes fugalisches Protoschloss",
+    },
+    [65674] = {
+        name = "Was ist das für ein Ding?",
+    },
+    [65700] = {
+        name = "Kernkontrolle",
+    },
+    [65727] = {
+        name = "Der vergrabene Bufonid",
+    },
+    [65735] = {
+        name = "GESUCHT: Custos",
+    },
+    [65749] = {
+        name = "Die nötige Ausrüstung",
+    },
+    [65768] = {
+        name = "Unsere Späher",
+    },
+    [65771] = {
+        name = "Die Gunst der Ersten",
+    },
+    [65772] = {
+        name = "Nötige Nahrungsbeschaffung",
     },
 })
 ]])()

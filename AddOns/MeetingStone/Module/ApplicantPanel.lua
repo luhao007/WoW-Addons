@@ -90,6 +90,21 @@ local APPLICANT_LIST_HEADER = {
             return _PartySortHandler(applicant) or tostring(9999 - applicant:GetItemLevel())
         end
     },
+    {
+        key = 'Score',
+        text = L['评分'],
+        width = 52,
+        showHandler = function(applicant)
+            
+            local info = applicant:GetBestDungeonScore() or {}
+            local mapScore = info.mapScore or 0
+            local text = format("|cffffffff%d/%d|r", applicant:GetDungeonScore(), mapScore)
+            return text
+        end,
+        sortHandler = function(applicant)
+            return _PartySortHandler(applicant) or tostring(9999 - applicant:GetDungeonScore())
+        end
+    },
     -- {
     --     key = 'PvPRating',
     --     text = L['PvP'],
@@ -185,14 +200,16 @@ function ApplicantPanel:OnInitialize()
         end)
     end
 
-    -- local AutoInvite = GUI:GetClass('CheckBox'):New(self) do
-    --     AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -80, 7)
-    --     AutoInvite:SetText(L['自动邀请'])
-    --     AutoInvite:SetScript('OnClick', function(AutoInvite)
-    --         local checked = AutoInvite:GetChecked()
-    --         self:SetAutoInvite(checked)
-    --     end)
-    -- end
+    local AutoInvite = GUI:GetClass('CheckBox'):New(self)
+    do
+        AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -80, 7)
+        AutoInvite:SetText(L['自动邀请'])
+        AutoInvite:SetChecked(not not Profile:GetSetting('AUTO_INVITE_JOIN'))
+        AutoInvite:SetScript('OnClick', function()
+            Profile:SetSetting('AUTO_INVITE_JOIN', AutoInvite:GetChecked())
+            self:UpdateAutoInvite()
+        end)
+    end
 
     self.ApplicantList = ApplicantList
     self.AutoInvite = AutoInvite
@@ -210,6 +227,7 @@ function ApplicantPanel:LFG_LIST_APPLICANT_LIST_UPDATED(_, hasNewPending, hasNew
     self.hasNewPending = hasNewPending and hasNewPendingWithData and IsActivityManager()
     self:UpdateApplicantsList()
     self:SendMessage('MEETINGSTONE_NEW_APPLICANT_STATUS_UPDATE')
+    self:UpdateAutoInvite()
 end
 
 function ApplicantPanel:HasNewPending()
@@ -316,8 +334,36 @@ function ApplicantPanel:ToggleEventMenu(button, applicant)
     }, 'cursor')
 end
 
-function ApplicantPanel:SetAutoInvite(flag)
-    LFGListUtil_SetAutoAccept(flag)
+function ApplicantPanel:UpdateAutoInvite()
+    if self.AutoInvite:GetChecked() and UnitIsGroupLeader('player') then
+        local applicants = C_LFGList.GetApplicants() or {}
+        for k, v in pairs(applicants) do
+            if self:CheckCanInvite(v) then
+                C_LFGList.InviteApplicant(v)
+            end
+        end
+    end
+end
+
+function ApplicantPanel:CheckCanInvite(id)
+    local applicantInfo = C_LFGList.GetApplicantInfo(id)
+    local status = applicantInfo.applicationStatus
+    local numMembers = applicantInfo.numMembers
+
+    local numAllowed = select(ACTIVITY_RETURN_VALUES.maxPlayers, C_LFGList.GetActivityInfo(CreatePanel:GetCurrentActivity():GetActivityID()))
+    
+    if numAllowed == 0 then
+        numAllowed = MAX_RAID_MEMBERS
+    end
+
+    local currentCount = GetNumGroupMembers(LE_PARTY_CATEGORY_HOME)
+    local numInvited = C_LFGList.GetNumInvitedApplicantMembers()
+
+    if numMembers + currentCount + numInvited > numAllowed then
+        return
+    elseif status == 'applied' then
+        return true
+    end
 end
 
 function ApplicantPanel:CanInvite(applicant)
@@ -346,7 +392,7 @@ function ApplicantPanel:StartInvite()
     for i, v in ipairs(list) do
         if self:CanInvite(v) then
             if self:Invite(v:GetID(), v:GetNumMembers()) then
-                
+                debug('invite: ' .. v:GetName() .. ' ' .. v:GetLocalizedClass())
             end
             break
         end

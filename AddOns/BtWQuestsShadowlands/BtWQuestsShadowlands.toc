@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Breen
-## Version: 4.2
+## Version: 5.0
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsShadowlandsPrologue
 ## LoadOnDemand: 1
@@ -80,6 +80,7 @@ Database/Index.zhCN.lua
 Database/Index.zhTW.lua
 
 Introduction.lua
+EternitysEnd.lua
 ChainsOfDomination.lua
 Bastion.lua
 Maldraxxus.lua

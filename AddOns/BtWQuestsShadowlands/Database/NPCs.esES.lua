@@ -750,14 +750,41 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177228] = {
         name = "Alto señor Bolvar Fordragón",
     },
+    [177486] = {
+        name = "Anciano Kreth",
+    },
     [177919] = {
         name = "Mensaje urgente de Ardenweald",
+    },
+    [178015] = {
+        name = "Anciano Zoor",
+    },
+    [178016] = {
+        name = "Anciana Ara",
     },
     [178260] = {
         name = "La Pedregosa",
     },
     [180074] = {
         name = "Lady Jaina Valiente",
+    },
+    [180630] = {
+        name = "Anciano Amir",
+    },
+    [180799] = {
+        name = "Varalumbre",
+    },
+    [180936] = {
+        name = "Rhana",
+    },
+    [181091] = {
+        name = "Hanoa la Exiliada",
+    },
+    [181183] = {
+        name = "Alto señor Bolvar Fordragón",
+    },
+    [183677] = {
+        name = "Uther el Iluminado",
     },
 })
 ]])()

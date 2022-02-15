@@ -789,6 +789,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177228] = {
         name = "Alto señor Bolvar Fordragón",
     },
+    [177486] = {
+        name = "Antiguo Kreth",
+    },
     [177628] = {
         name = "Rompepecados venthyr",
     },
@@ -798,11 +801,35 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177919] = {
         name = "Mensaje urgente de Ardenweald",
     },
+    [178015] = {
+        name = "Antiguo Zoor",
+    },
+    [178016] = {
+        name = "Antigua Ara",
+    },
     [178260] = {
         name = "La Piedramadre",
     },
     [180074] = {
         name = "Lady Jaina Valiente",
+    },
+    [180630] = {
+        name = "Antiguo Amir",
+    },
+    [180799] = {
+        name = "Fulgoria",
+    },
+    [180936] = {
+        name = "Ranah",
+    },
+    [181091] = {
+        name = "Hanoa, la Exiliada",
+    },
+    [181183] = {
+        name = "Alto señor Bolvar Fordragón",
+    },
+    [183677] = {
+        name = "Uther el Iluminado",
     },
 })
 ]])()

@@ -24,6 +24,8 @@ Activity:InitAttr{
     'DisplayType',
     'MaxMembers',
     'KilledBossCount',
+    'LeaderScore',
+    'LeaderScoreInfo',
 }
 
 Activity._Objects = setmetatable({}, {__mode = 'v'})
@@ -58,6 +60,8 @@ function Activity:Update()
     local isDelisted = info.isDelisted
     local leader = info.leaderName
     local numMembers = info.numMembers
+    local leaderOverallDungeonScore = info.leaderOverallDungeonScore
+    local leaderDungeonScoreInfo = info.leaderDungeonScoreInfo
 
     if not activityId then
         return false
@@ -94,6 +98,8 @@ function Activity:Update()
     self:SetPendingStatus(pendingStatus)
     self:SetApplicationDuration(appDuration)
     self:SetApplicationExpiration(GetTime() + appDuration)
+    self:SetLeaderScore(leaderOverallDungeonScore or 0)
+    self:SetLeaderScoreInfo(leaderDungeonScoreInfo)
 
     if not self:UpdateCustomData(comment, title) then
         return false
@@ -151,10 +157,10 @@ function Activity:UpdateSortValue()
     self._statusSortValue = self:IsApplication() and (
                             self:IsApplicationFinished() and 1 or 0) or
                             self:IsDelisted() and 9 or
-                            self:IsAnyFriend() and 2 or
-                            self:IsSelf() and 3 or
-                            self:IsInActivity() and 4 or 7
-
+                            self:IsAnyFriend() and 5 or
+                            self:IsSelf() and 2 or
+                            self:IsGoldLeader() and 4 or
+                            self:IsInActivity() and 3 or 7
     self._baseSortValue = format('%d%04x%s%02x%02x%08x',
         self._statusSortValue,
         0xFFFF - self:GetItemLevel(),
@@ -279,4 +285,9 @@ end
 
 function Activity:IsBossKilled(name)
     return self.killedBosses[name]
+end
+
+function Activity:IsGoldLeader()
+    local Leader = self:GetLeaderFullName() 
+    return APP_LEADER_MAPS and APP_LEADER_MAPS[Leader]
 end

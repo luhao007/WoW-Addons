@@ -1,8 +1,8 @@
--- $Id: Data.lua 43 2021-06-28 13:06:56Z arithmandar $
+-- $Id: Data.lua 47 2022-02-02 17:15:15Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
-	Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2011 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 

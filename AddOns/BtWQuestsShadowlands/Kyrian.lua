@@ -172,11 +172,14 @@ Database:AddChain(Chain.AmongTheKyrian, {
             type = "chain",
             id = Chain.ReturnToTheMaw,
             completed = {
-                type = "quest",
-                ids = {
-                    57905, 62796, 
+                {
+                    type = "quest",
+                    id = 57905,
                 },
-                count = 2,
+                {
+                    type = "chain",
+                    id = Chain.ReturnToTheMaw,
+                }
             },
             x = 0,
             connections = {
@@ -288,7 +291,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
     },
     completed = {
         type = "quest",
-        id = 62796,
+        ids = { 62796, 62844, 62894, 62870 },
     },
     rewards = {
         {
@@ -370,7 +373,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
         },
         {
             type = "quest",
-            id = 62796,
+            ids = { 62796, 62844, 62894, 62870 },
             x = 0,
         },
     },

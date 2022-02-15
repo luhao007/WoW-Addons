@@ -1,7 +1,7 @@
 Atlas —— 一款魔兽世界副本地图浏览器
 Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
-Copyright 2011 ~ 2021 - Arith Hsu, Atlas Team
+Copyright 2011 ~ 2022 - Arith Hsu, Atlas Team
 
 
 

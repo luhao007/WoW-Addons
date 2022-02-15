@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: TomCat
-## Version: 2.3.27
+## Version: 2.3.29
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
@@ -13,7 +13,7 @@
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1646052849
+## X-TomCats-Expiry: 1646146488
 ## X-Part-Of: TomCats
 
 constants.lua

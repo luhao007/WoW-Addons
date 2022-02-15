@@ -741,14 +741,38 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177228] = {
         name = "Hochlord Bolvar Fordragon",
     },
+    [177486] = {
+        name = "Ältester Kreth",
+    },
     [177919] = {
         name = "Dringende Nachricht aus dem Ardenwald",
+    },
+    [178015] = {
+        name = "Ältester Zoor",
+    },
+    [178016] = {
+        name = "Älteste Ara",
     },
     [178260] = {
         name = "Die Steinhauerin",
     },
     [180074] = {
         name = "Lady Jaina Prachtmeer",
+    },
+    [180630] = {
+        name = "Ältester Amir",
+    },
+    [180799] = {
+        name = "Glimmerstöckchen",
+    },
+    [181091] = {
+        name = "Hanoa die Verbannte",
+    },
+    [181183] = {
+        name = "Hochlord Bolvar Fordragon",
+    },
+    [183677] = {
+        name = "Uther der Lichtbringer",
     },
 })
 ]])()

@@ -202,6 +202,16 @@ Database:AddChain(Chain.Sinfall, {
         {
             type = "chain",
             id = Chain.ReturnToTheMaw,
+            completed = {
+                {
+                    type = "quest",
+                    id = 62904,
+                },
+                {
+                    type = "chain",
+                    id = Chain.ReturnToTheMaw,
+                }
+            },
             x = 0,
             connections = {
                 1, 
@@ -288,7 +298,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
     },
     completed = {
         type = "quest",
-        id = 62870,
+        ids = { 62870, 62796, 62844, 62894 },
     },
     rewards = {
         {
@@ -370,7 +380,7 @@ Database:AddChain(Chain.ReturnToTheMaw, {
         },
         {
             type = "quest",
-            id = 62870,
+            ids = { 62870, 62796, 62844, 62894 },
             x = 0,
         },
     },

@@ -1,14 +1,14 @@
 ## Interface: 90105
-## X-Min-Interface: 90200
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Sepulcher of the First Ones|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0태초의 존재의 매장터|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0初诞者圣墓|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0首創者墓穴|r
 ## Author: MysticalOS
-## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMSepulcher_AllSavedVars
 ## SavedVariablesPerCharacter: DBMSepulcher_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Sepulcher of the First Ones|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0初诞者圣墓|r
+
+## X-Min-Interface: 90200
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: SHADOWLANDS
@@ -21,8 +21,10 @@
 ## X-DBM-Mod-MapID: 2481
 ## X-DBM-Mod-MinCoreRevision: 17286
 ## X-DBM-Mod-MinExpansion: 8
+## X-Part-Of: DBM-Core
 
 localization.en.lua
+localization.ru.lua
 localization.kr.lua
 localization.cn.lua
 localization.tw.lua

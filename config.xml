@@ -624,6 +624,9 @@
 				<Title>声音特效</Title>
 				<Notes>为DBM添加声音特效（如战斗胜利等）</Notes>
 			</SubAddon>
+			<SubAddon name="DBM-Sepulcher">
+				<Title>初诞者圣墓</Title>
+			</SubAddon>
 			<SubAddon name="DBM-StatusBarTimers">
 				<Title>状态条计时器</Title>
 			</SubAddon>
@@ -663,6 +666,9 @@
 			</SubAddon>
 			<SubAddon name="DBM-VPYike">
 				<Title>夏一可语音包</Title>
+			</SubAddon>
+			<SubAddon name="DBM-VPVEM">
+				<Title>VEM语音包</Title>
 			</SubAddon>
 			<SubAddon name="DBM-WorldEvents">
 				<Title>世界事件</Title>

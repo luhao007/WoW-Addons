@@ -166,6 +166,25 @@ local FACTION_IMAGES = {
 	[2045] = "Interface\\Icons\\INV_Legion_Faction_LegionFall", 		-- Armies of Legionfall
 	[2165] = "Interface\\Icons\\INV_Legion_Faction_ArmyoftheLight", 	-- Army of the Light
 	[2170] = "Interface\\Icons\\INV_legion_Faction_ArgussianReach", 	-- Argussian Reach
+	
+	-- BfA
+	[2164] = "Interface\\Icons\\inv_faction_championsofazeroth", 	-- Champions of Azeroth
+	[2163] = "Interface\\Icons\\inv_faction_tortollanseekers", 	-- Tortollan Seekers
+	[2159] = "Interface\\Icons\\inv_tabard_alliancewareffort", 	-- 7th Legion
+	[2161] = "Interface\\Icons\\inv_faction_orderofembers", 	-- Order of Embers
+	[2160] = "Interface\\Icons\\inv_faction_proudmooreadmiralty", -- Proudmoore Admiralty
+	[2162] = "Interface\\Icons\\inv_faction_stormswake", -- Storm's Wake
+	[2156] = "Interface\\Icons\\inv_faction_talanjisexpedition", -- Talanji's Expedition
+	[2157] = "Interface\\Icons\\inv_tabard_hordewareffort", -- The Honorbound
+	[2158] = "Interface\\Icons\\inv_faction_voldunai", -- Voldunai
+	[2103] = "Interface\\Icons\\inv_faction_zandalariempire", -- Zandalari Empire
+	[2391] = "Interface\\Icons\\inv_mechagon_junkyardtinkeringcrafting", -- Rustbolt Resistance
+	[2415] = "Interface\\Icons\\inv_faction_83_rajani", -- Rajani 
+	[2417] = "Interface\\Icons\\inv_faction_83_uldumaccord", -- Uldum Accord
+	[2373] = "Interface\\Icons\\inv_faction_unshackled", -- The Unshackled
+	[2400] = "Interface\\Icons\\inv_faction_akoan", -- Waveblade Ankoan
+	
+	-- Shadowlands
 }
 
 local FACTION_KEY = {
@@ -275,7 +294,25 @@ local FACTION_KEY = {
 	[2045] = "Armies of Legionfall",
 	[2165] = "Army of the Light",
 	[2170] = "Argussian Reach",
-	-- Bfa
+	-- BfA
+	[2164] = "Champions of Azeroth",
+	[2163] = "Tortollan Seekers",
+	[2159] = "7th Legion",
+	[2161] = "Order of Embers",
+	[2160] = "Proudmoore Admiralty",
+	[2162] = "Storm's Wake",
+	[2156] = "Talanji's Expedition",
+	[2157] = "The Honorbound",
+	[2158] = "Voldunai",
+	[2103] = "Zandalari Empire",
+	[2391] = "Rustbolt Resistance",
+	[2415] = "Rajani ",
+	[2417] = "Uldum Accord",
+	[2373] = "The Unshackled",
+	[2400] = "Waveblade Ankoan",
+	
+	-- Shadowlands
+	
 	--- Alliance
 	[2159] = "7th Legion",
 	[2160] = "Proudmoore Admiralty",

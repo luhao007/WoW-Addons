@@ -1,6 +1,5 @@
 ## Interface: 90105
-## Author: Tuhljin
-## Version: 1.1.5
+## Version: 1.2.3
 ## Dependencies: Overachiever
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_AchievementUI

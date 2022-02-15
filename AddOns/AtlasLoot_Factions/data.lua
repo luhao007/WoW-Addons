@@ -16,6 +16,19 @@ local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
 
 local FACTION_CONTENT = data:AddContentType(AL["Factions"], ATLASLOOT_FACTION_COLOR)
 
+--[[
+	-- rep info ("f1435rep3" = Unfriendly rep @ Shado-Pan Assault)
+	1. Hated
+	2. Hostile
+	3. Unfriendly
+	4. Neutral
+	5. Friendly
+	6. Honored
+	7. Revered
+	8. Exalted
+	-- if rep index is in between 11 and 16, means it has friendship reputation
+]]
+
 data["BFAFACTIONS"] = {
 	name = EXPANSION_NAME7,
 	ContentType = FACTION_CONTENT,
@@ -69,11 +82,11 @@ data["BFAFACTIONS"] = {
 				{ 19, 162301, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Formula: Enchant Ring - Seal of Versatility
 				{ 20, 162023, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Technique: Glyph of the Dolphin
 				{ 21, 162352, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Inscribed Vessel of Mysticism
-				{ 22, 162355, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Inked Vessel of Robust Regeneration
-				{ 23, 162358, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Codex of the Quiet Mind
-				{ 24, 162376, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Tome of the Quiet Mind
-				{ 25, 162377, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Darkmoon Card of War
-				{ 26, 163026, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Pattern: Embroidered Deep Sea Bag
+--				{ 22, 162355, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Inked Vessel of Robust Regeneration
+				{ 22, 162358, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Codex of the Quiet Mind
+				{ 23, 162376, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Tome of the Quiet Mind
+				{ 24, 162377, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Recipe: Darkmoon Card of War
+				{ 25, 163026, [PRICE_EXTRA_ITTYPE] = "money:12000000" }, --Pattern: Embroidered Deep Sea Bag
 				{ 101, "f2163rep8" },
 				{ 102, 161503, [PRICE_EXTRA_ITTYPE] = "money:15000000" }, --Wristwraps of Scrollbinding
 				{ 103, 161519, [PRICE_EXTRA_ITTYPE] = "money:15000000" }, --Supple Moccasins of Pilgrimage
@@ -370,6 +383,37 @@ data["BFAFACTIONS"] = {
 
 			},			
 		},
+		{ -- AH Rustbolt Resistance
+			FactionID = 2391,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1, "f2391rep4" },
+				{ 2, 168908, }, -- Blueprint: Experimental Adventurer Augment
+				{ 4, "f2391rep5" },
+				{ 5, 168906, }, -- Blueprint: Holographic Digitalization Relay
+				{ 6, 168960, }, -- Contract: Rustbolt Resistance
+				{ 7, 167693, }, -- Neural Autonomy
+				{ 9, "f2391rep6" },
+				{ 10, 169112, }, -- Blueprint: Advanced Adventurer Augment
+				{ 11, 169380, }, -- Mustyfur Snooter
+				{ 13, "f2391rep7" },
+				{ 14, 167672, }, -- Cyclotronic Blast
+				{ 15, 169134, }, -- Blueprint: Extraordinary Adventurer Augment
+				{ 16, 169547, }, -- Recipe: Contract: Rustbolt Resistance
+				{ 17, 168533, }, -- Schematic: Ub3r-Module: P.O.G.O.
+				{ 18, 168534, }, -- Schematic: Ub3r-Module: Ub3r-Coil
+				{ 19, 168535, }, -- Schematic: Ub3r-Module: Scrap Cannon
+				{ 20, 169108, }, -- Rustbolt Banner
+				{ 22, "f2391rep7" },
+				{ 23, 168368, }, -- Recipe: Famine Evaluator And Snack Table
+				{ 24, 168369, }, -- Recipe: Famine Evaluator And Snack Table
+				{ 25, 168493, }, -- Blueprint: Battle Box
+				{ 26, 168619, }, -- Rustbolt Resistance Tabard
+				{ 27, 168660, }, -- Schematic: Blingtron 7000
+				{ 28, 168829, }, -- Rustbolt Resistor
+			},    
+		},
+
 	}
 }
 

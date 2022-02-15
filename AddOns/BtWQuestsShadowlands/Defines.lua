@@ -35,6 +35,7 @@ BtWQuests.Constant.Category.Shadowlands = {
     NightFae = 908,
     Venthyr = 909,
     ChainsOfDomination = 910,
+    EternitysEnd = 911,
 }
 BtWQuests.Constant.Chain.Shadowlands = {
     IntoTheMaw = 90001,
@@ -44,6 +45,36 @@ BtWQuests.Constant.Chain.Shadowlands = {
     Torghast = 90005,
     NewRules = 90006,
     PeeringIntoDarkness = 90007,
+
+    EternitysEnd = {
+        IntoTheUnknown = 91101,
+        WeBattleOnward = 91102,
+        FormingAnUnderstanding = 91103,
+        ForgingANewPath = 91104,
+        CrownOfWills = 91105,
+        AMeansToAnEnd = 91106,
+        StartingOver = 91107,
+        EpilogueJudgment = 91108,
+
+        NotAlAreLost = 91109,
+        SmallPetProblems = 91110,
+        TheWatersOfGrace = 91111,
+        CyphersOfTheFirstOnes = 91112,
+
+        JiroToHero = 91113,
+        TheFinalSong = 91114,
+        ReapWhatYouSow = 91115,
+        ANewArchitect = 91116,
+
+        Chain01 = 91117,
+        Chain02 = 91118,
+        Chain03 = 91119,
+        Chain04 = 91120,
+        Chain05 = 91121,
+        Chain06 = 91122,
+        Chain07 = 91123,
+        Chain08 = 91124,
+    },
 
     ChainsOfDomination = {
         BattleOfArdenweald = 91001,
@@ -325,7 +356,7 @@ Database:AddExpansion(BtWQuests.Constant.Expansions.Shadowlands, {
     }
 })
 
-Database:AddMapRecursive(1550, {
+Database:AddMapRecursive(1670, {
     type = "expansion",
     id = BtWQuests.Constant.Expansions.Shadowlands,
 })

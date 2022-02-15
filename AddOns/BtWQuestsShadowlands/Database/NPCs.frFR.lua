@@ -945,8 +945,17 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [177228] = {
         name = "Généralissime Bolvar Fordragon",
     },
+    [177486] = {
+        name = "Ancien Kreth",
+    },
     [177919] = {
         name = "Message urgent de Sylvarden",
+    },
+    [178015] = {
+        name = "Ancien Zoor",
+    },
+    [178016] = {
+        name = "Ara l’Ancienne",
     },
     [178260] = {
         name = "La Créalithe",
@@ -954,8 +963,32 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [179356] = {
         name = "Thénios",
     },
+    [179611] = {
+        name = "Pélagos",
+    },
     [180074] = {
         name = "Dame Jaina Portvaillant",
+    },
+    [180630] = {
+        name = "Ancien Amir",
+    },
+    [180799] = {
+        name = "Brillecane",
+    },
+    [181003] = {
+        name = "Al’dalil",
+    },
+    [181091] = {
+        name = "Hanoa l’Exilée",
+    },
+    [181183] = {
+        name = "Généralissime Bolvar Fordragon",
+    },
+    [182556] = {
+        name = "Pélagos",
+    },
+    [183677] = {
+        name = "Uther le Porteur de Lumière",
     },
 })
 ]])()
