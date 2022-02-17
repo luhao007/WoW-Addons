@@ -1,28 +1,154 @@
-tag 8b2c90acef5313f7d767ed1d90049a687cbdda09 DetailsRetail.9.1.5.9213.145
+tag a9ad7f03f1213a991c4a2f9d9f2284e13791ce6e DetailsRetail.v9.1.5.9688.146
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Fri Dec 10 16:58:11 2021 -0300
+Date:	Tue Feb 15 19:20:54 2022 -0300
 
-commit 8be58e717b9ad373c819e1e21bec13074038641b
+commit 1850624374c96cb4a70c16dc919247725e651d97
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Dec 10 16:57:26 2021 -0300
+Date:   Tue Feb 15 19:19:46 2022 -0300
 
-    v9213
+    version 9688 core 146 release
+
+commit 1dc29028748d54de55a8daf3653d7972c1cc0c5a
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Feb 8 17:16:36 2022 -0300
+
+    small fixes for the npc ids update
+
+commit 989b62c4f387e2c943073129b9cd6a7639454066
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Feb 8 13:13:34 2022 -0300
+
+    Fixed a bug where the options panel won't open and show an error in the chat window
+
+commit f0d66e6cba440e11ef0867676c1df4b0ef356f29
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Feb 8 12:59:34 2022 -0300
+
+    logs
+
+commit fa87956e029a383449c355c1f14bbdec7c436dac
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Feb 8 12:57:31 2022 -0300
+
+    Ignoring damage done to fodder to the flames DH adds.
+
+commit 84ec6a1ef8a6f4a8a4d2dd5bc70513493428394e
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Feb 4 19:58:39 2022 -0300
+
+    Aligned Text Columns enabled is now default for new installs
+
+commit b21b4b2a1112c012cad77b9352af83595f7afc1e
+Author: Cruz Ogden <tcogden23@gmail.com>
+Date:   Fri Feb 4 03:40:05 2022 -0700
+
+    Fix height typo in hover tutorial
+
+commit d3a6524c3d4cec6bc44f364496d1ee9df729f594
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Thu Feb 3 00:01:13 2022 -0600
+
+    Allow Custom Scripts to show Nicknames
+
+commit b21b4b2a1112c012cad77b9352af83595f7afc1e
+Author: Cruz Ogden <tcogden23@gmail.com>
+Date:   Fri Feb 4 03:40:05 2022 -0700
+
+    Fix height typo in hover tutorial
+
+commit d3a6524c3d4cec6bc44f364496d1ee9df729f594
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Thu Feb 3 00:01:13 2022 -0600
+
+    Allow Custom Scripts to show Nicknames
+
+commit d5bfd1cd62b07c93b12b1aa1886f65db892fccb9
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Tue Jan 25 00:43:11 2022 -0600
+
+    Fix for Attribute menu on top screen
     
-    Fixed an issue where after reloading, overall data won't show the players nickname.
-    Fixed overkill damage on death log tooltip.
-    Fixed the percent bars for the healing done target on the player breakdown window.
-    Fixed an issue with resource tooltips.
-    And more...
+    Fixes the position of the attribute menu overlapping the buttons when the direction is changed because too close to the edge of the screen
 
-commit 7adae64a152661fb31851ffdfbf479990c7d9480
+commit d5bfd1cd62b07c93b12b1aa1886f65db892fccb9
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Tue Jan 25 00:43:11 2022 -0600
+
+    Fix for Attribute menu on top screen
+    
+    Fixes the position of the attribute menu overlapping the buttons when the direction is changed because too close to the edge of the screen
+
+commit 285ef27e41861dda4b4f68ddacb02e221701e58e
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Nov 10 11:47:02 2021 -0300
+Date:   Mon Jan 24 15:29:11 2022 -0300
 
-    Added support for Tab replacement on the breakdown window
+    Added combatObject.bloodlust where values on this table are seconds in combat where the player received bloodlust
 
-commit 8539e3b3abf2797d6927559f78af834d922e67a8
+commit 8678f611a039031c3a5cdead46bcb103100a2c13
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Nov 3 13:05:55 2021 -0300
+Date:   Fri Jan 21 19:36:56 2022 -0300
 
-    Merging fixes from tbc
+    Fixed another instance of Division by Zero on PTR
+
+commit aedc9ea2eab17bf734d453d640e2efe7ff3dab89
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Jan 18 14:53:59 2022 -0300
+
+    Added Power Infusion buff to the buff update of the target
+
+commit 28f28f22128759e80aa7b93f827d96a41f56846e
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Jan 15 14:32:25 2022 -0300
+
+    Scaling fixes; Added player bar color
+
+commit 229949dba380ffe8c879bd32c96fc56ff93e98bb
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Thu Jan 13 20:51:14 2022 -0600
+
+    Mass show/hide grouping
+    
+    Preserve the grouping on a mass hide.
+    
+    Break the grouping on a solo show. That way if a mass hide happens, you don't drag invisible windows around.
+
+commit 229949dba380ffe8c879bd32c96fc56ff93e98bb
+Author: Flamanis <Flamanis@users.noreply.github.com>
+Date:   Thu Jan 13 20:51:14 2022 -0600
+
+    Mass show/hide grouping
+    
+    Preserve the grouping on a mass hide.
+    
+    Break the grouping on a solo show. That way if a mass hide happens, you don't drag invisible windows around.
+
+commit a087e611a12d7aad8c30ea5b2c2ad7ae9dbbfa0a
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun Jan 2 12:45:19 2022 -0300
+
+    Fixed a typo on font declaration
+
+commit a087e611a12d7aad8c30ea5b2c2ad7ae9dbbfa0a
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun Jan 2 12:45:19 2022 -0300
+
+    Fixed a typo on font declaration
+
+commit a087e611a12d7aad8c30ea5b2c2ad7ae9dbbfa0a
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun Jan 2 12:45:19 2022 -0300
+
+    Fixed a typo on font declaration
+
+commit e6f75ac9bfe663bdc6982c05283c6a17647d73c2
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Jan 1 16:11:15 2022 -0300
+
+    Officially adding Lib OpenRaid
+
+commit 0ccb8a1b9d261eaa6597f4299ed5fa9854d8234a
+Author: baugstein <84510839+baugstein@users.noreply.github.com>
+Date:   Fri Dec 17 20:38:24 2021 +0000
+
+    '/details me' error #260
 

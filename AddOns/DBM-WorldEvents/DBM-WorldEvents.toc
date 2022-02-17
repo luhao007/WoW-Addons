@@ -29,7 +29,7 @@
 ## X-DBM-Mod-Name-ruRU: Игровые события
 ## X-DBM-Mod-Name-zhTW: 世界事件
 ## X-DBM-Mod-Name-zhCN: 世界事件
-## X-DBM-Mod-Name-koKR: 이벤트
+## X-DBM-Mod-Name-koKR: 월드 이벤트
 ## X-DBM-Mod-Name-deDE: Weltereignisse
 ## X-DBM-Mod-Name-ptBR: Eventos Mundiais
 ## X-DBM-Mod-Name-frFR: Évènements Mondiaux

@@ -16,7 +16,7 @@
 ## X-DBM-Mod-Name: Sepulcher of the First Ones
 ## X-DBM-Mod-Name-koKR: 태초의 존재의 매장터
 ## X-DBM-Mod-Name-zhCN: 初诞者圣墓
-## X-DBM-Mod-Name-zhTW: 首創者墓穴
+## X-DBM-Mod-Name-zhTW: 首創者聖塚
 ## X-DBM-Mod-Sort: 306
 ## X-DBM-Mod-MapID: 2481
 ## X-DBM-Mod-MinCoreRevision: 17286

@@ -1748,10 +1748,10 @@
     "name": "Deadly Boss Mods (DBM)",
     "description": "The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.",
     "url": "https://www.curseforge.com/wow/addons/deadly-boss-mods",
-    "download_url": "https://edge.forgecdn.net/files/3641/209/DBM-9.1.28.zip",
-    "date_published": "2022-02-08T16:51:56.313000+00:00",
-    "version": "DBM-9.1.28",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/3358/file/3641209/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3649/539/DBM-9.1.29.zip",
+    "date_published": "2022-02-16T01:18:03.980000+00:00",
+    "version": "DBM-9.1.29",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/3358/file/3649539/changelog",
     "options": {
       "strategy": "default"
     },
@@ -1796,6 +1796,10 @@
     "deps": [],
     "logged_versions": [
       {
+        "version": "DBM-9.1.29",
+        "install_time": "2022-02-16T04:25:50+00:00"
+      },
+      {
         "version": "DBM-9.1.28",
         "install_time": "2022-02-12T09:42:37+00:00"
       },
@@ -1830,10 +1834,6 @@
       {
         "version": "9.0.23",
         "install_time": "2021-03-18T14:42:00+00:00"
-      },
-      {
-        "version": "9.0.22",
-        "install_time": "2021-03-11T04:26:10+00:00"
       }
     ]
   },
@@ -2723,10 +2723,10 @@
     "name": "Details! Damage Meter",
     "description": "Complete combat analysis, gathering damage, healing, and other importante stuff.",
     "url": "https://www.curseforge.com/wow/addons/details",
-    "download_url": "https://edge.forgecdn.net/files/3558/633/Details-DetailsRetail.9.1.5.9213.145.zip",
-    "date_published": "2021-12-10T19:58:23.703000+00:00",
-    "version": "DetailsRetail.9.1.5.9213.145",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3558633/changelog",
+    "download_url": "https://edge.forgecdn.net/files/3649/408/Details-DetailsRetail.v9.1.5.9688.146.zip",
+    "date_published": "2022-02-15T22:21:12.537000+00:00",
+    "version": "DetailsRetail.v9.1.5.9688.146",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/61284/file/3649408/changelog",
     "options": {
       "strategy": "default"
     },
@@ -2755,6 +2755,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DetailsRetail.v9.1.5.9688.146",
+        "install_time": "2022-02-16T04:25:51+00:00"
+      },
       {
         "version": "DetailsRetail.9.1.5.9213.145",
         "install_time": "2022-01-30T05:44:54+00:00"
@@ -2790,10 +2794,6 @@
       {
         "version": "DetailsRetail.9.0.5.8357.144",
         "install_time": "2021-03-18T14:42:03+00:00"
-      },
-      {
-        "version": "DetailsRetail.9.0.2.8316.144",
-        "install_time": "2021-03-11T04:26:12+00:00"
       }
     ]
   },
@@ -6018,6 +6018,33 @@
   },
   {
     "source": "curse",
+    "id": "498644",
+    "slug": "venture-plan",
+    "name": "Venture Plan",
+    "description": "Interface improvements for Adventure Campaign missions.",
+    "url": "https://www.curseforge.com/wow/addons/venture-plan",
+    "download_url": "https://edge.forgecdn.net/files/3367/442/VenturePlan-4.16a.zip",
+    "date_published": "2021-06-28T09:57:52.750000+00:00",
+    "version": "4.16a",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/498644/file/3367442/changelog",
+    "options": {
+      "strategy": "default"
+    },
+    "folders": [
+      {
+        "name": "VenturePlan"
+      }
+    ],
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "4.16a",
+        "install_time": "2022-02-17T16:16:44+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
     "id": "7950",
     "slug": "vuhdo",
     "name": "VuhDo",
@@ -6079,6 +6106,33 @@
       {
         "version": "v3.119",
         "install_time": "2021-01-11T15:13:32+00:00"
+      }
+    ]
+  },
+  {
+    "source": "curse",
+    "id": "303892",
+    "slug": "war-plan",
+    "name": "War Plan",
+    "description": "Interface replacement for War Campaign missions",
+    "url": "https://www.curseforge.com/wow/addons/war-plan",
+    "download_url": "https://edge.forgecdn.net/files/3367/419/WarPlan-3.16.zip",
+    "date_published": "2021-06-28T09:20:28.797000+00:00",
+    "version": "3.16",
+    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/303892/file/3367419/changelog",
+    "options": {
+      "strategy": "default"
+    },
+    "folders": [
+      {
+        "name": "WarPlan"
+      }
+    ],
+    "deps": [],
+    "logged_versions": [
+      {
+        "version": "3.16",
+        "install_time": "2022-02-17T16:14:55+00:00"
       }
     ]
   },

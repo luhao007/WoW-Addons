@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<AddonConfig xmlns="https://www.github.com/luhao007"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			 xsi:schemaLocation="https://www.github.com/luhao007 addon.xsd">
+<my:AddonConfig xmlns:my="https://www.github.com/luhao007"
+			    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			    xsi:schemaLocation="https://www.github.com/luhao007 addon.xsd">
 	<Addon name="!!Libs">
 		<Title>|cFF7FFF7FAce核心库|r |cFFFF0000必须加载|r</Title>
 		<Category>基础库</Category>
@@ -1112,8 +1112,8 @@
 	</Addon>
 	<Addon name="NovaWorldBuffs">
 		<Title>世界增益</Title>
-		<Category>辅助</Category>
 		<Notes>与其他玩家共享世界BUFF刷新时间</Notes>
+		<Category>辅助</Category>
 	</Addon>
 	<Addon name="NPCScan">
 		<Title>NPC扫描</Title>
@@ -1571,6 +1571,10 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="VenturePlan">
+		<Title>冒险助手</Title>
+		<Category>任务</Category>
+	</Addon>
 	<Addon name="VuhDo">
 		<Title>团队面板</Title>
 		<Notes>强大的团队面板，可实现鼠标点击治疗、上BUFF等一系列操作</Notes>
@@ -1580,6 +1584,10 @@
 				<Title>设置</Title>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="WarPlan">
+		<Title>阵营战役助手</Title>
+		<Category>任务</Category>
 	</Addon>
 	<Addon name="WeakAuras">
 		<Title>辅助增强</Title>
@@ -1624,4 +1632,4 @@
 		<Title>世界任务追踪</Title>
 		<Category>任务</Category>
 	</Addon>
-</AddonConfig>
+</my:AddonConfig>
