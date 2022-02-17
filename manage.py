@@ -82,16 +82,15 @@ class Manager:
 
     def get_title(self, addon):
         parts = []
-        namespace = {'x': 'https://www.github.com/luhao007'}
 
         config = self.get_addon_config(addon)
         if config.tag.endswith('SubAddon'):
             parent_config = self.get_addon_parent_config(addon)
-            cat = parent_config.find('x:Category', namespace).text
-            title = parent_config.find('x:Title', namespace).text
+            cat = parent_config.find('Category').text
+            title = parent_config.find('Title').text
         else:
-            cat = config.find('x:Category', namespace).text
-            title = config.find('x:Title', namespace).text
+            cat = config.find('Category').text
+            title = config.find('Title').text
 
         colors = {
             '基础库': 'C41F3B',     # Red - DK
@@ -113,7 +112,7 @@ class Manager:
         parts.append(f'|cFFFFFFFF{title}|r')
 
         if config.tag.endswith('SubAddon'):
-            sub = config.find('x:Title', namespace).text
+            sub = config.find('Title').text
             if sub == '设置':
                 color = 'FF0055FF'
             else:
@@ -122,13 +121,13 @@ class Manager:
         elif not (('DBM' in addon and addon != 'DBM-Core') or
                   'Grail-' in addon or
                   addon == '!!Libs'):
-            if config.find('x:Title-en', namespace) is not None:
-                title_en = config.find('x:Title-en', namespace).text
+            if config.find('Title-en') is not None:
+                title_en = config.find('Title-en').text
             else:
                 title_en = addon
             parts.append(f'|cFFFFE00A{title_en}|r')
 
-        ext = config.find('x:TitleExtra', namespace)
+        ext = config.find('TitleExtra')
         if ext is not None:
             parts.append(f'|cFF22B14C{ext.text}|r')
 
@@ -147,8 +146,7 @@ class Manager:
                 toc.tags['Interface'] = self.interface
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
-                namespace = {'x': 'https://www.github.com/luhao007'}
-                note = config.find('x:Notes', namespace)
+                note = config.find('Notes')
                 if note is not None:
                     toc.tags['Notes-zhCN'] = note.text
 

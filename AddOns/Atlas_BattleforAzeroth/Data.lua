@@ -1,4 +1,4 @@
--- $Id: Data.lua 19 2022-02-02 17:10:50Z arithmandar $
+-- $Id: Data.lua 21 2022-02-17 14:53:48Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -28,6 +28,7 @@
 local _G = getfenv(0)
 local pairs = _G.pairs
 -- Libraries
+local UnitFactionGroup = _G.UnitFactionGroup
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
@@ -59,12 +60,179 @@ local WHIT = "|cffffffff"
 local YLOW = "|cffcccc33"
 local INDENT = "      "
 
+local Horde = false
+local Alliance = false
+if ( UnitFactionGroup("player") == "Alliance" ) then
+	Alliance = true
+elseif ( UnitFactionGroup("player") == "Horde" ) then
+	Horde = true
+end
+
 db.AtlasMaps = {
 	-- /////////////////////////////////
 	-- Kul Tiras instances
 	-- /////////////////////////////////
 	-- Battle of Dazar'alor, Raid
-	BattleofDazaralor = {
+	--[[
+	BattleofDazaralor = { -- Alliance
+		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2333), 2333},
+		{ WHIT..INDENT..Atlas_GetBossName("Frida Ironbellows", 2333, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Anointed Disciple", 2333, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Darkforged Crusader", 2333, 3), },
+		{ WHIT.." 2) "..Atlas_GetBossName("Grong, the Jungle Lord", 2325), 2325},
+		{ WHIT..INDENT..Atlas_GetBossName("Grong", 2325, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Flying Ape Wranglers", 2325, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Apetagonizer 3000", 2325, 3), },
+		{ WHIT.." 3) "..Atlas_GetBossName("Jadefire Masters", 2341), 2341},
+		{ WHIT..INDENT..Atlas_GetBossName("Manceroy Flamefist", 2341, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Mestrah", 2341, 2), },
+
+		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2334), 2334},
+		{ WHIT..INDENT..Atlas_GetBossName("High Tinker Mekkatorque", 2334, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Spark Bot", 2334, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Explosive Sheep", 2334, 3), },
+		{ WHIT.." 2) "..Atlas_GetBossName("Jadefire Masters", 2323), 2323},
+		{ WHIT..INDENT..Atlas_GetBossName("Ma'ra Grimfang", 2323, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Anathos Firecaller", 2323, 2), },
+		{ WHIT.." 3) "..Atlas_GetBossName("Grong, the Revenant", 2340), 2340},
+		{ WHIT..INDENT..Atlas_GetBossName("Death Specter", 2340, 2), },
+		
+		{ WHIT.." 4) "..Atlas_GetBossName("King Rastakhan", 2335), 2335},
+		{ WHIT..INDENT..Atlas_GetBossName("Bwonsamdi", 2335, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Prelate Za'lan", 2335, 3), },
+		{ WHIT..INDENT..Atlas_GetBossName("Headhunter Gal'wana", 2335, 4), },
+		{ WHIT..INDENT..Atlas_GetBossName("Siegebreaker Roka", 2335, 5), },
+		{ WHIT..INDENT..Atlas_GetBossName("Rastari Honorguard", 2335, 6), },
+
+		{ WHIT.." 5) "..Atlas_GetBossName("Opulence", 2342), 2342},
+		
+		{ WHIT.." 6) "..Atlas_GetBossName("Conclave of the Chosen", 2330), 2330},
+		{ WHIT..INDENT..Atlas_GetBossName("Pa'ku's Aspect", 2330, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Gonk's Aspect", 2330, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Kimbul's Aspect", 2330, 3), },
+		{ WHIT..INDENT..Atlas_GetBossName("Akunda's Aspect", 2330, 4), },
+		
+		{ WHIT.." 8) "..Atlas_GetBossName("Stormwall Blockade", 2337), 2337},
+		{ WHIT..INDENT..Atlas_GetBossName("Laminaria", 2337, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Sister Katherine", 2337, 2), },
+		{ WHIT.." 8) "..Atlas_GetBossName("Lady Jaina Proudmoore", 2343), 2343},
+	},
+]]
+	BattleofDazaralorA = { -- The Zocalo, Horde
+		ZoneName = { BZ["Battle of Dazar'alor"]..ALC["MapA"] },
+		Location = { BZ["Tiragarde Sound"] },
+		DungeonID = 1942,
+		DungeonHeroicID = 1943,
+		DungeonMythicID = 1944,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1358,
+		JournalInstanceID = 1176,
+		ZoneID = 0,
+		Module = "Atlas_BattleforAzeroth",
+		NextMap = "BattleofDazaralorA",
+		{ BLUE.." A) "..ALC["Entrance"]..ALC["L-Parenthesis"]..FACTION_HORDE..ALC["R-Parenthesis"], 10001 },
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2333), 2333},
+		{ WHIT..INDENT..Atlas_GetBossName("Frida Ironbellows", 2333, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Anointed Disciple", 2333, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Darkforged Crusader", 2333, 3), },
+		{ WHIT.." 2) "..Atlas_GetBossName("Grong, the Jungle Lord", 2325), 2325},
+		{ WHIT..INDENT..Atlas_GetBossName("Grong", 2325, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Flying Ape Wranglers", 2325, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Apetagonizer 3000", 2325, 3), },
+		{ WHIT.." 3) "..Atlas_GetBossName("Jadefire Masters", 2341), 2341},
+		{ WHIT..INDENT..Atlas_GetBossName("Manceroy Flamefist", 2341, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Mestrah", 2341, 2), },
+	},
+	BattleofDazaralorB = { -- Port of Zandalar, Alliance
+		ZoneName = { BZ["Battle of Dazar'alor"]..ALC["MapB"] },
+		Location = { BZ["Tiragarde Sound"] },
+		DungeonID = 1942,
+		DungeonHeroicID = 1943,
+		DungeonMythicID = 1944,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1352,
+		JournalInstanceID = 1176,
+		ZoneID = 0,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "BattleofDazaralorA",
+		NextMap = "BattleofDazaralorC",
+		{ BLUE.." A) "..ALC["Entrance"]..ALC["L-Parenthesis"]..FACTION_ALLIANCE..ALC["R-Parenthesis"], 10001 },
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2334), 2334},
+		{ WHIT..INDENT..Atlas_GetBossName("High Tinker Mekkatorque", 2334, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Spark Bot", 2334, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Explosive Sheep", 2334, 3), },
+		{ WHIT.." 2) "..Atlas_GetBossName("Jadefire Masters", 2323), 2323},
+		{ WHIT..INDENT..Atlas_GetBossName("Ma'ra Grimfang", 2323, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Anathos Firecaller", 2323, 2), },
+		{ WHIT.." 3) "..Atlas_GetBossName("Grong, the Revenant", 2340), 2340}, -- Alliance
+		{ WHIT..INDENT..Atlas_GetBossName("Death Specter", 2340, 2), },
+	},
+	BattleofDazaralorC = { -- Halls of Opulence
+		ZoneName = { BZ["Battle of Dazar'alor"]..ALC["MapC"] },
+		Location = { BZ["Tiragarde Sound"] },
+		DungeonID = 1942,
+		DungeonHeroicID = 1943,
+		DungeonMythicID = 1944,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1353,
+		JournalInstanceID = 1176,
+		ZoneID = 0,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "BattleofDazaralorB",
+		NextMap = "BattleofDazaralorD",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 5) "..Atlas_GetBossName("Opulence", 2342), 2342},
+	},
+	BattleofDazaralorD = { -- Loa's Sanctum
+		ZoneName = { BZ["Battle of Dazar'alor"]..ALC["MapD"] },
+		Location = { BZ["Tiragarde Sound"] },
+		DungeonID = 1942,
+		DungeonHeroicID = 1943,
+		DungeonMythicID = 1944,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1354,
+		JournalInstanceID = 1176,
+		ZoneID = 0,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "BattleofDazaralorC",
+		NextMap = "BattleofDazaralorE",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 6) "..Atlas_GetBossName("Conclave of the Chosen", 2330), 2330},
+		{ WHIT..INDENT..Atlas_GetBossName("Pa'ku's Aspect", 2330, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Gonk's Aspect", 2330, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Kimbul's Aspect", 2330, 3), },
+		{ WHIT..INDENT..Atlas_GetBossName("Akunda's Aspect", 2330, 4), },
+
+	},
+	BattleofDazaralorE = { -- Heart of the Empire
+		ZoneName = { BZ["Battle of Dazar'alor"]..ALC["MapE"] },
+		Location = { BZ["Tiragarde Sound"] },
+		DungeonID = 1942,
+		DungeonHeroicID = 1943,
+		DungeonMythicID = 1944,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1357,
+		JournalInstanceID = 1176,
+		ZoneID = 0,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "BattleofDazaralorD",
+		NextMap = "BattleofDazaralorF",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 4) "..Atlas_GetBossName("King Rastakhan", 2335), 2335},
+		{ WHIT..INDENT..Atlas_GetBossName("Bwonsamdi", 2335, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Prelate Za'lan", 2335, 3), },
+		{ WHIT..INDENT..Atlas_GetBossName("Headhunter Gal'wana", 2335, 4), },
+		{ WHIT..INDENT..Atlas_GetBossName("Siegebreaker Roka", 2335, 5), },
+		{ WHIT..INDENT..Atlas_GetBossName("Rastari Honorguard", 2335, 6), },
+	},
+	BattleofDazaralorF = {
 		ZoneName = { BZ["Battle of Dazar'alor"] },
 		Location = { BZ["Tiragarde Sound"] },
 		DungeonID = 1942,
@@ -76,45 +244,11 @@ db.AtlasMaps = {
 		JournalInstanceID = 1176,
 		ZoneID = 0,
 		Module = "Atlas_BattleforAzeroth",
-		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2333), 2333},
-		{ WHIT..INDENT..Atlas_GetBossName("Frida Ironbellows", 2333, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Anointed Disciple", 2333, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Darkforged Crusader", 2333, 3), },
-		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2334), 2334},
-		{ WHIT..INDENT..Atlas_GetBossName("High Tinker Mekkatorque", 2334, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Spark Bot", 2334, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Explosive Sheep", 2334, 3), },
-		{ WHIT.." 2) "..Atlas_GetBossName("Jadefire Masters", 2323), 2323},
-		{ WHIT..INDENT..Atlas_GetBossName("Ma'ra Grimfang", 2323, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Anathos Firecaller", 2323, 2), },
-		{ WHIT.." 2) "..Atlas_GetBossName("Grong, the Jungle Lord", 2325), 2325},
-		{ WHIT..INDENT..Atlas_GetBossName("Grong", 2325, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Flying Ape Wranglers", 2325, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Apetagonizer 3000", 2325, 3), },
-		{ WHIT.." 2) "..Atlas_GetBossName("Grong, the Revenant", 2340), 2340},
-		{ WHIT..INDENT..Atlas_GetBossName("Death Specter", 2340, 2), },
-		{ WHIT.." 3) "..Atlas_GetBossName("Jadefire Masters", 2341), 2341},
-		{ WHIT..INDENT..Atlas_GetBossName("Manceroy Flamefist", 2341, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Mestrah", 2341, 2), },
-		{ WHIT.." 3) "..Atlas_GetBossName("Opulence", 2342), 2342},
-		{ WHIT.." 4) "..Atlas_GetBossName("Conclave of the Chosen", 2330), 2330},
-		{ WHIT..INDENT..Atlas_GetBossName("Pa'ku's Aspect", 2330, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Gonk's Aspect", 2330, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Kimbul's Aspect", 2330, 3), },
-		{ WHIT..INDENT..Atlas_GetBossName("Akunda's Aspect", 2330, 4), },
-		{ WHIT.." 6) "..Atlas_GetBossName("King Rastakhan", 2335), 2335},
-		{ WHIT..INDENT..Atlas_GetBossName("Bwonsamdi", 2335, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Prelate Za'lan", 2335, 3), },
-		{ WHIT..INDENT..Atlas_GetBossName("Headhunter Gal'wana", 2335, 4), },
-		{ WHIT..INDENT..Atlas_GetBossName("Siegebreaker Roka", 2335, 5), },
-		{ WHIT..INDENT..Atlas_GetBossName("Rastari Honorguard", 2335, 6), },
-		{ WHIT.." 7) "..Atlas_GetBossName("High Tinker Mekkatorque", 2334), 2334},
-		{ WHIT..INDENT..Atlas_GetBossName("Spark Bot", 2334, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Explosive Sheep", 2334, 3), },
-		{ WHIT.." 8) "..Atlas_GetBossName("Stormwall Blockade", 2337), 2337},
-		{ WHIT..INDENT..Atlas_GetBossName("Laminaria", 2337, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Sister Katherine", 2337, 2), },
-		{ WHIT.." 9) "..Atlas_GetBossName("Lady Jaina Proudmoore", 2343), 2343},
+		PrevMap = "BattleofDazaralorE",
+--		{ WHIT.." 8) "..Atlas_GetBossName("Stormwall Blockade", 2337), 2337},
+--		{ WHIT..INDENT..Atlas_GetBossName("Laminaria", 2337, 1), },
+--		{ WHIT..INDENT..Atlas_GetBossName("Sister Katherine", 2337, 2), },
+		{ WHIT.." 7) "..Atlas_GetBossName("Lady Jaina Proudmoore", 2343), 2343},
 	},
 	-- Crucible of Storms, Raid
 	CrucibleofStorms = {
@@ -430,6 +564,41 @@ db.AtlasMaps = {
  };
 /////////////////////////////////////////////]]
 db.AtlasMaps_NPC_DB = {
+	BattleofDazaralorA = {
+		{ "A", 10001, 58, 53 },
+		{ "B", 10002, 293, 393 },
+		{ 1, 2333, 111, 173 },
+		{ 2, 2325, 219, 332 },
+		{ 3, 2341, 294, 360 },
+	},
+	BattleofDazaralorB = {
+		{ "A", 10001, 276, 479 },
+		{ "C", 10001, 276, 53 },
+		{ 1, 2334, 276, 373 },
+		{ 2, 2323, 276, 277 },
+		{ 3, 2340, 276, 173 },
+	},
+	BattleofDazaralorC = {
+		{ "C", 10002, 248, 457 }, 
+		{ "D", 10002, 174, 27 },
+		{ 5, 2342, 248, 276 },
+	},
+	BattleofDazaralorD = {
+		{ "D", 10002, 320, 115 },
+		{ "E", 10002, 438, 434 },
+		{ "E", 10002, 192, 172 },
+		{ "F", 10002, 59, 124 },
+		{ 6, 2330, 320, 357 },
+	},
+	BattleofDazaralorE = {
+		{ "B", 10002, 286, 16 },
+		{ "F", 10002, 286, 218 },
+		{ "G", 10002, 286, 479 },
+		{ 4, 2335, 286, 315 },
+	},
+	BattleofDazaralorF = {
+		{ 7, 2343, 231, 232 },
+	},
 	Freehold = {
 		{  1, 2102, 458, 276 },
 		{  2, 2093, 238, 302 },
@@ -590,12 +759,18 @@ db.InstToEntMatches = {
 }
 
 db.MapSeries = {
-	["ShrineoftheStormA"] = 		{"ShrineoftheStormA", "ShrineoftheStormB"},
-	["ShrineoftheStormB"] = 		{"ShrineoftheStormA", "ShrineoftheStormB"},
+	["BattleofDazaralorA"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
+	["BattleofDazaralorB"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
+	["BattleofDazaralorC"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
+	["BattleofDazaralorD"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
+	["BattleofDazaralorE"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
+	["BattleofDazaralorF"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
+	["ShrineoftheStormA"] = 	{"ShrineoftheStormA", "ShrineoftheStormB"},
+	["ShrineoftheStormB"] = 	{"ShrineoftheStormA", "ShrineoftheStormB"},
 	["TolDagorA"] = 			{"TolDagorA", "TolDagorB"},
 	["TolDagorB"] = 			{"TolDagorA", "TolDagorB"},
-	["WaycrestManorA"] = 			{"WaycrestManorA", "WaycrestManorB"},
-	["WaycrestManorB"] = 			{"WaycrestManorA", "WaycrestManorB"},
+	["WaycrestManorA"] = 		{"WaycrestManorA", "WaycrestManorB"},
+	["WaycrestManorB"] = 		{"WaycrestManorA", "WaycrestManorB"},
 }
 
 db.SubZoneAssoc = {
@@ -628,7 +803,12 @@ db.DropDownLayouts = {
 	[ATLAS_DDL_CONTINENT] = {
 		[ATLAS_DDL_CONTINENT_KULTIRAS] = {
 --			"CrucibleofStorms", -- Raid
---			"BattleofDazaralor", -- Raid
+			"BattleofDazaralorA",
+			"BattleofDazaralorB",
+			"BattleofDazaralorC",
+			"BattleofDazaralorD",
+			"BattleofDazaralorE",
+			"BattleofDazaralorF",
 			"Freehold",
 			"SiegeofBoralus",
 			"ShrineoftheStormA",
@@ -651,7 +831,12 @@ db.DropDownLayouts = {
 		[ATLAS_DDL_EXPANSION_BFA] = {
 			"AtalDazar",
 			"SiegeofBoralus",
---			"BattleofDazaralor",
+			"BattleofDazaralorA",
+			"BattleofDazaralorB",
+			"BattleofDazaralorC",
+			"BattleofDazaralorD",
+			"BattleofDazaralorE",
+			"BattleofDazaralorF",
 --			"CrucibleofStorms",
 			"Freehold",
 			"ShrineoftheStormA",
@@ -683,7 +868,12 @@ db.DropDownLayouts = {
 			"TheUnderrot",
 		},
 		[ATLAS_DDL_LEVEL_120PLUS] = {
---			"BattleofDazaralor",
+			"BattleofDazaralorA",
+			"BattleofDazaralorB",
+			"BattleofDazaralorC",
+			"BattleofDazaralorD",
+			"BattleofDazaralorE",
+			"BattleofDazaralorF",
 --			"CrucibleofStorms",
 			"KingsRest",
 --			"Uldir",
@@ -706,7 +896,12 @@ db.DropDownLayouts = {
 			"TheUnderrot",
 		},
 		[ATLAS_DDL_PARTYSIZE_10] = {
---			"BattleofDazaralor",
+			"BattleofDazaralorA",
+			"BattleofDazaralorB",
+			"BattleofDazaralorC",
+			"BattleofDazaralorD",
+			"BattleofDazaralorE",
+			"BattleofDazaralorF",
 --			"CrucibleofStorms",
 --			"Uldir",
 		},
@@ -717,7 +912,12 @@ db.DropDownLayouts = {
 		[ATLAS_DDL_TYPE_INSTANCE] = {
 			"AtalDazar",
 			"SiegeofBoralus",
---			"BattleofDazaralor",
+			"BattleofDazaralorA",
+			"BattleofDazaralorB",
+			"BattleofDazaralorC",
+			"BattleofDazaralorD",
+			"BattleofDazaralorE",
+			"BattleofDazaralorF",
 --			"CrucibleofStorms",
 			"Freehold",
 			"ShrineoftheStormA",
