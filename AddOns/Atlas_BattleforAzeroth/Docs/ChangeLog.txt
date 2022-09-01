@@ -1,4 +1,4 @@
-$Id: ChangeLog.txt 21 2022-02-17 14:53:48Z arithmandar $
+$Id: ChangeLog.txt 25 2022-02-19 09:20:03Z arithmandar $
 Atlas, a World of Warcraft instance map browser
 Copyright 2020 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
@@ -6,9 +6,17 @@ Copyright 2020 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 = Change Log =
 ==============
 
+v1.49.05 (Feb. 19, 2022)
+------------------------
+- Added maps of Uldir
+
+v1.49.04 (Feb. 19, 2022)
+------------------------
+- Added maps of Crucible of Storms
+
 v1.49.03 (Feb. 17, 2022)
 ------------------------
-- Added maps for Battle of Dazar'alor
+- Added maps of Battle of Dazar'alor
 
 v1.49.02 (Feb. 3, 2022)
 ------------------------

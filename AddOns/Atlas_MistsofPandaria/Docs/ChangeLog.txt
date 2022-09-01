@@ -1,4 +1,4 @@
-$Id: ChangeLog.txt 45 2022-02-02 17:21:21Z arithmandar $
+$Id: ChangeLog.txt 47 2022-02-19 13:47:42Z arithmandar $
 Atlas, a World of Warcraft instance map browser
 Copyright 2005 ~ 2010 - Dan Gilbert <dan.b.gilbert@gmail.com>
 Copyright 2010 - Lothaer <lothayer@gmail.com>, Atlas Team
@@ -7,6 +7,10 @@ Copyright 2011 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 ==============
 = Change Log =
 ==============
+
+v1.49.03 (Feb. 19, 2022)
+------------------------
+- Update categorize by level's group criteria
 
 v1.49.02 (Feb. 3, 2022)
 ------------------------

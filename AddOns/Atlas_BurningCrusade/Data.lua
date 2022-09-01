@@ -1,4 +1,4 @@
--- $Id: Data.lua 55 2022-02-02 17:13:50Z arithmandar $
+-- $Id: Data.lua 59 2022-02-19 13:44:17Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -1405,8 +1405,7 @@ if (WoWRetail) then
 			ATLAS_DDL_CONTINENT_OUTLAND,
 		},
 		[ATLAS_DDL_LEVEL] = {
-			ATLAS_DDL_LEVEL_60TO70,
-			ATLAS_DDL_LEVEL_70TO80,
+			ATLAS_DDL_LEVEL_10TO30,
 		},
 		[ATLAS_DDL_EXPANSION] = {
 			ATLAS_DDL_EXPANSION_BC,
@@ -1495,7 +1494,7 @@ if (WoWRetail) then
 			},
 		},
 		[ATLAS_DDL_LEVEL] = {
-			[ATLAS_DDL_LEVEL_60TO70] = {
+			[ATLAS_DDL_LEVEL_10TO30] = {
 				"AuchAuchenaiCrypts",		-- Burning Crusade
 				"AuchindounEnt",		-- Burning Crusade
 				"AuchManaTombs",		-- Burning Crusade
@@ -1518,8 +1517,6 @@ if (WoWRetail) then
 				"TempestKeepArcatraz",		-- Burning Crusade
 				"TempestKeepBotanica",		-- Burning Crusade
 				"TempestKeepMechanar",		-- Burning Crusade
-			},
-			[ATLAS_DDL_LEVEL_70TO80] = {
 				"BlackTempleBasement",		-- Burning Crusade
 				"BlackTempleStart",		-- Burning Crusade
 				"BlackTempleTop",		-- Burning Crusade

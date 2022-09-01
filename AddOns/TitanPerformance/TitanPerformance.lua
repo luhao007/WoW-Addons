@@ -9,8 +9,7 @@ local TITAN_PERFORMANCE_ID = "Performance";
 local TITAN_PERF_FRAME_SHOW_TIME = 0.5;
 local updateTable = {TITAN_PERFORMANCE_ID, TITAN_PANEL_UPDATE_ALL};
 
--- The LibUIDropDownMenu lib is used over the Blizzard frame
-local drop_down = "L_DropDownList" 
+local drop_down = "DropDownList" -- Boo!! Per hard-coded Blizz UIDropDownMenu.lua
 
 local APP_MIN = 1
 local APP_MAX = 40
@@ -35,13 +34,12 @@ local topAddOns;
 local memUsageSinceGC = {};
 local counter = 1; --counter for active addons
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
-local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local AceTimer = LibStub("AceTimer-3.0")
 local PerfTimer = nil;
 -- ******************************** Functions *******************************
 local function CalcAppNum(val)
 	local new_val = 1 -- always monitor at least one
-	
+
 	if val == nil or val < APP_MIN then
 		-- keep the default min
 	else
@@ -152,7 +150,7 @@ I also added NumOfAddons below the TitanDebug to avoid the problem later on.
 end
 
 -- **************************************************************************
--- NAME : TitanPanelPerformanceButton_GetButtonText(id) 
+-- NAME : TitanPanelPerformanceButton_GetButtonText(id)
 -- DESC : Calculate performance based logic for button text
 -- VARS : id = button ID
 -- **************************************************************************
@@ -302,7 +300,7 @@ local function Stats_UpdateAddonsList(self, watchingCPU)
 				local diff = addon.value/total * 100;
 				local incrate = "";
 				incrate = format("(%.2f%%)", diff);
-				if (showAddonRate == 1) then 
+				if (showAddonRate == 1) then
 					GameTooltip:AddDoubleLine(NORMAL_FONT_COLOR_CODE..addon.name," |cffffffff"..format("%.3f",addon.value)..L["TITAN_MILLISECOND"].." "..GREEN_FONT_COLOR_CODE..incrate);
 				else
 					GameTooltip:AddDoubleLine(NORMAL_FONT_COLOR_CODE..addon.name," |cffffffff"..format("%.3f",addon.value)..L["TITAN_MILLISECOND"]);
@@ -315,7 +313,7 @@ local function Stats_UpdateAddonsList(self, watchingCPU)
 				local incrate = "";
 				if diff > 0 then
 					incrate = format("(+%.2f) "..L["TITAN_KILOBYTES_PER_SECOND"], diff);
-				end 
+				end
 				if (showAddonRate == 1) then
 					if TitanGetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType") == 1 then
 					GameTooltip:AddDoubleLine(NORMAL_FONT_COLOR_CODE..addon.name," |cffffffff"..format(L["TITAN_MEMORY_FORMAT"], addon.value/1000).." "..GREEN_FONT_COLOR_CODE..incrate)
@@ -446,15 +444,15 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 	local info
 
 	-- level 3
-	if _G["L_UIDROPDOWNMENU_MENU_LEVEL"] == 3 and _G["L_UIDROPDOWNMENU_MENU_VALUE"]== "AddonControlFrame" then
+	if TitanPanelRightClickMenu_GetDropdownLevel() == 3 and TitanPanelRightClickMenu_GetDropdMenuValue() == "AddonControlFrame" then
 		TitanPanelPerfControlFrame:Show()
 		return
 	end
 
 	-- level 2
-	if _G["L_UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+	if TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "Options" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], TitanPanelRightClickMenu_GetDropdownLevel());
 
 			local temptable = {TITAN_PERFORMANCE_ID, "ShowFPS"};
 			info = {};
@@ -465,7 +463,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 			end
 			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
 			info.keepShownOnClick = 1;
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			local temptable = {TITAN_PERFORMANCE_ID, "ShowLatency"};
 			info = {};
@@ -476,7 +474,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 			end
 			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
 			info.keepShownOnClick = 1;
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			local temptable = {TITAN_PERFORMANCE_ID, "ShowWorldLatency"};
 			info = {};
@@ -487,7 +485,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 			end
 			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowWorldLatency");
 			info.keepShownOnClick = 1;
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			local temptable = {TITAN_PERFORMANCE_ID, "ShowMemory"};
 			info = {};
@@ -498,11 +496,11 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 			end
 			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
 			info.keepShownOnClick = 1;
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "AddonUsage" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDONS"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "AddonUsage" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDONS"], TitanPanelRightClickMenu_GetDropdownLevel());
 
 			local temptable = {TITAN_PERFORMANCE_ID, "ShowAddonMemory"};
 			info = {};
@@ -513,7 +511,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 			end
 			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
 			info.keepShownOnClick = 1;
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			local temptable = {TITAN_PERFORMANCE_ID, "ShowAddonIncRate"};
 			info = {};
@@ -524,45 +522,45 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 			end
 			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonIncRate");
 			info.keepShownOnClick = 1;
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.notCheckable = true
 			info.text = L["TITAN_PERFORMANCE_CONTROL_TOOLTIP"]..LIGHTYELLOW_FONT_COLOR_CODE..tostring(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
 			info.value = "AddonControlFrame"
 			info.hasArrow = 1;
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "AddonMemoryFormat" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDON_MEM_FORMAT_LABEL"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "AddonMemoryFormat" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDON_MEM_FORMAT_LABEL"], TitanPanelRightClickMenu_GetDropdownLevel());
 			info = {};
 			info.text = L["TITAN_MEGABYTE"];
 			info.checked = function() if TitanGetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType") == 1 then return true else return nil end
 			end
 			info.func = function() TitanSetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType", 1) end
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			info = {};
 			info.text = L["TITAN_MEMORY_KBMB_LABEL"];
 			info.checked = function() if TitanGetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType") == 2 then return true else return nil end
 			end
 			info.func = function() TitanSetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType", 2) end
-			DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "CPUProfiling" then
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "CPUProfiling" then
 			if ( GetCVar("scriptProfile") == "1" ) then
-				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_ENABLED"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_ENABLED"], TitanPanelRightClickMenu_GetDropdownLevel());
 				info = {};
 				info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL_OFF"]..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
 				info.func = function() SetCVar("scriptProfile", "0", 1) ReloadUI() end
-				DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			else
-				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..RED_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_DISABLED"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..RED_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_DISABLED"], TitanPanelRightClickMenu_GetDropdownLevel());
 				info = {};
 				info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL_ON"]..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
 				info.func = function() SetCVar("scriptProfile", "1", 1) ReloadUI() end
-				DDM:UIDropDownMenu_AddButton(info, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			end
 		end
 		return
@@ -576,28 +574,28 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 	info.text = L["TITAN_PANEL_OPTIONS"];
 	info.value = "Options"
 	info.hasArrow = 1;
-	DDM:UIDropDownMenu_AddButton(info);
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	info = {};
 	info.notCheckable = true
 	info.text = L["TITAN_PERFORMANCE_ADDONS"];
 	info.value = "AddonUsage"
 	info.hasArrow = 1;
-	DDM:UIDropDownMenu_AddButton(info);
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	info = {};
 	info.notCheckable = true
 	info.text = L["TITAN_PERFORMANCE_ADDON_MEM_FORMAT_LABEL"];
 	info.value = "AddonMemoryFormat"
 	info.hasArrow = 1;
-	DDM:UIDropDownMenu_AddButton(info);
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	info = {};
 	info.notCheckable = true
 	info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"];
 	info.value = "CPUProfiling"
 	info.hasArrow = 1;
-	DDM:UIDropDownMenu_AddButton(info);
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddToggleIcon(TITAN_PERFORMANCE_ID);
@@ -719,7 +717,7 @@ end
 -- NAME : TitanPanelPerfControlSlider_OnShow()
 -- DESC : Display slider tooltip
 -- **************************************************************************
-function TitanPanelPerfControlSlider_OnShow(self)     
+function TitanPanelPerfControlSlider_OnShow(self)
 	_G[self:GetName().."Text"]:SetText(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
 	_G[self:GetName().."High"]:SetText(L["TITAN_PERFORMANCE_CONTROL_LOW"]);
 	_G[self:GetName().."Low"]:SetText(L["TITAN_PERFORMANCE_CONTROL_HIGH"]);
@@ -756,7 +754,7 @@ end
 -- **************************************************************************
 function TitanPanelPerfControlSlider_OnValueChanged(self, a1)
 	local val = CalcAppNum(self:GetValue()) -- grab new value
-	
+
 --[[
 TitanDebug("Slider_OnValueChanged:"
 .." : "..(self:GetValue() or "?")
@@ -811,7 +809,7 @@ end
 function TitanPanelPerfControlFrame_OnLoad(self)
 	_G[self:GetName().."Title"]:SetText(L["TITAN_PERFORMANCE_CONTROL_TITLE"]);
 --[[
-Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands) 
+Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands)
 so inherit the template (XML)
 and set the values in the code (Lua)
 
@@ -826,8 +824,8 @@ end
 -- VARS : elapsed = <research>
 -- **************************************************************************
 function TitanPanelPerfControlFrame_OnUpdate(self, elapsed)
-	if not MouseIsOver(_G["TitanPanelPerfControlFrame"]) 
-	and not MouseIsOver (_G[drop_down.."2Button4"]) 
+	if not MouseIsOver(_G["TitanPanelPerfControlFrame"])
+	and not MouseIsOver (_G[drop_down.."2Button4"])
 	and not MouseIsOver (_G[drop_down.."2Button4ExpandArrow"]) then
 		TitanUtils_CheckFrameCounting(self, elapsed);
 	end

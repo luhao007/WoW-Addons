@@ -1,4 +1,4 @@
--- $Id: ClassicData.lua 77 2022-02-02 17:16:33Z arithmandar $
+-- $Id: Data-Classic.lua 81 2022-02-19 13:43:14Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -64,6 +64,7 @@ local function Atlas_GetBossName(bossname, encounterID, creatureIndex)
 
 	return bossname
 end
+
 if (WoWClassicEra or WoWClassicTBC) then
 	local db = {}
 	addon.db = db
@@ -1207,12 +1208,12 @@ if (WoWClassicEra or WoWClassicTBC) then
 		The table value is map's key-name.
 	]]
 	db.AssocDefaults = {
-		[BZ["Blackrock Mountain"]] =		"CL_BlackrockMountainEnt",
+		[BZ["Blackrock Mountain"]] =	"CL_BlackrockMountainEnt",
 		[BZ["Blackrock Spire"]] =		"CL_BlackrockSpireLower",
 		[BZ["Hall of Blackhand"]] =		"CL_BlackrockSpireLower",
-		[BZ["Dire Maul"]] =			"CL_DireMaulNorth",
+		[BZ["Dire Maul"]] =				"CL_DireMaulNorth",
 		[BZ["The Deadmines"]] = 		"CL_TheDeadmines",
-		[BZ["The Wailing Caverns"]] = 		"CL_WailingCavernsEnt",
+		[BZ["The Wailing Caverns"]] = 	"CL_WailingCavernsEnt",
 		[BZ["Sunken Temple"]] = 		"CL_TheSunkenTemple",
 	}
 
@@ -1422,9 +1423,7 @@ if (WoWClassicEra or WoWClassicTBC) then
 			ATLAS_DDL_CONTINENT_KALIMDOR,
 		},
 		[ATLAS_DDL_LEVEL] = {
-			ATLAS_DDL_LEVEL_UNDER45,
-			ATLAS_DDL_LEVEL_45TO60,
-			ATLAS_DDL_LEVEL_60TO70,
+			ATLAS_DDL_LEVEL_UNDER30,
 		},
 		[ATLAS_DDL_EXPANSION] = {
 			ATLAS_DDL_EXPANSION_OLD,
@@ -1531,7 +1530,7 @@ if (WoWClassicEra or WoWClassicTBC) then
 			},
 		},
 		[ATLAS_DDL_LEVEL] = {
-			[ATLAS_DDL_LEVEL_UNDER45] = {
+			[ATLAS_DDL_LEVEL_UNDER30] = {
 				"CL_BlackfathomDeepsA",		-- Classic WoW
 				"CL_BlackfathomDeepsB",		-- Classic WoW
 				"CL_BlackfathomDeepsC",		-- Classic WoW
@@ -1554,8 +1553,6 @@ if (WoWClassicEra or WoWClassicTBC) then
 				"CL_UldamanEnt",			-- Classic WoW
 				"CL_WailingCaverns",		-- Classic WoW
 				"CL_WailingCavernsEnt",		-- Classic WoW
-			},
-			[ATLAS_DDL_LEVEL_45TO60] = {
 				"CL_BlackrockMountainEnt",		-- Classic WoW
 				"CL_BlackrockDepths",		-- Classic WoW
 				"CL_DireMaulEast",			-- Classic WoW
@@ -1571,8 +1568,6 @@ if (WoWClassicEra or WoWClassicTBC) then
 				"CL_TheSunkenTemple",		-- Classic WoW
 				"CL_TheSunkenTempleEnt",		-- Classic WoW
 				"CL_ZulFarrak",			-- Classic WoW
-			},
-			[ATLAS_DDL_LEVEL_60TO70] = {
 				"CL_BlackrockMountainEnt",		-- Classic WoW
 				"CL_BlackwingLair",		-- Classic WoW
 				"CL_MoltenCore",			-- Classic WoW

@@ -1,3 +1,6 @@
+02/22/2022 version 4.11.20
+- toc update for 9.2
+
 01/15/2022 version 4.11.19
 - Random pet slots should no longer pick wrong-factioned or revoked pets.
 - Wrong-factioned pets are now tinted red to make it more obvious they can't be used.

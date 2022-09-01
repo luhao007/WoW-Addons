@@ -32,12 +32,9 @@ L["Abandoned Kite"] = "被遺棄的鳶"
 L["Airship"] = "飛行器"
 L["Aludane Whitecloud <Flight Master>"] = "艾魯丹·白雲 <飛行管理員>"
 L["Blue"] = "藍"
---[[Translation missing --]]
---[[ L["Boat to Echo Isles, Durotar"] = ""--]] 
---[[Translation missing --]]
---[[ L["Boat to Stormwind City"] = ""--]] 
---[[Translation missing --]]
---[[ L["Camp Taurajo"] = ""--]] 
+L["Boat to Echo Isles, Durotar"] = "行駛到回音群島/杜洛塔的航線"
+L["Boat to Stormwind City"] = "行駛到暴風城的航線"
+L["Camp Taurajo"] = "陶拉祖營地"
 L["Class Order Halls"] = "職業大廳"
 L["Class Specific Only"] = "僅限特定職業"
 L["Climbing Rope"] = "登山繩"
@@ -52,8 +49,7 @@ L["Great Eagle"] = "巨鷹"
 L["Green"] = "綠"
 L["Gryphon"] = "獅鷲獸"
 L["Gryphon Master"] = "獅鷲獸管理員"
---[[Translation missing --]]
---[[ L["Honored with Sha'tari Skyguard"] = ""--]] 
+L["Honored with Sha'tari Skyguard"] = "需薩塔空防陣營榮譽"
 L["Hunter Only"] = "僅限獵人"
 L["Illidari Gateway"] = "伊利達瑞傳送門"
 L["Jump to Skyhold"] = "跳到擎天堡"
@@ -83,18 +79,15 @@ L["South of the path along Lake Elune'ara"] = "月神湖南方小徑"
 L["Special transportation"] = "特殊運輸工具"
 L["Talua <Eagle Keeper>"] = "塔陸亞 <飼鷹者>"
 L["Taxi Nodes"] = "航行點"
---[[Translation missing --]]
---[[ L["Teleport Beacon"] = ""--]] 
+L["Teleport Beacon"] = "光鑄信標傳送點"
 L["Teleportation Nexus"] = "傳送網路"
---[[Translation missing --]]
---[[ L["The Barrens"] = ""--]] 
+L["The Barrens"] = "貧瘠之地"
 L["The Bogpaddle Bullet"] = "沼槳火箭"
 L["Transportation Maps"] = "交通網路地圖"
 L["Transporter"] = "輸送者"
 L["Transporters by the sea and on the cliff"] = "傳送器位於懸崖上與懸崖下"
 L["Two ways portal"] = "雙向傳送門"
---[[Translation missing --]]
---[[ L["Vindicaar"] = ""--]] 
+L["Vindicaar"] = "梵迪卡爾"
 L["Warning: Drop"] = "小心輕放"
 L["Warrior's landing / jumping point (from or back to Skyhold)"] = "戰士的降落 / 跳躍點（往返擎天堡）"
 L["West of the path to Timbermaw Hold"] = "往木喉要塞小徑西方"

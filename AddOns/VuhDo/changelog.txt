@@ -1,3 +1,23 @@
+Version 3.132  
+  
+  
+Known issues:  
+-- Shadowlands stat squish cleanup still a work in progress  
+--   AOE Advice spell equations need complete overhaul  
+--   Some text providers need changes to better display small numbers  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump TOC interface for 9.2.0  
+-- Added class color option for incoming heal/shield/etc. bars  
+  
+  
+--------------------------------------------------------------  
 Version 3.131  
   
   

@@ -1,4 +1,4 @@
--- $Id: Atlas_BattleforAzeroth-enUS.lua 19 2022-02-02 17:10:50Z arithmandar $
+-- $Id: Atlas_BattleforAzeroth-enUS.lua 25 2022-02-19 09:20:03Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -26,6 +26,8 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local L = AceLocale:NewLocale("Atlas_BattleforAzeroth", "enUS", true, true);
 
 if L then
+L["ATLAS_DDL_EXPANSION_BFA"] = "Battle for Azeroth Instances"
+L["ATLAS_DDL_EXPANSION_BFA2"] = "Battle for Azeroth Raids"
 
 
 end

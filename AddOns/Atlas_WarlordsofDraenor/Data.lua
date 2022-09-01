@@ -1,4 +1,4 @@
--- $Id: Data.lua 65 2022-02-02 17:24:28Z arithmandar $
+-- $Id: Data.lua 67 2022-02-19 13:46:53Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -1037,8 +1037,7 @@ db.DropDownLayouts_Order = {
 		ATLAS_DDL_CONTINENT_DRAENOR,
 	},
 	[ATLAS_DDL_LEVEL] = {
-		ATLAS_DDL_LEVEL_90TO100,
-		ATLAS_DDL_LEVEL_100TO110,
+		ATLAS_DDL_LEVEL_35TO40,
 	},
 	[ATLAS_DDL_EXPANSION] = {
 		ATLAS_DDL_EXPANSION_WOD,
@@ -1097,13 +1096,11 @@ db.DropDownLayouts = {
 		},
 	},
 	[ATLAS_DDL_LEVEL] = {
-		[ATLAS_DDL_LEVEL_90TO100] = {
+		[ATLAS_DDL_LEVEL_35TO40] = {
 			"Auchindoun",			-- Draenor
 			"BloodmaulSlagMines",		-- Draenor
 			"IronDocks",			-- Draenor
 			"Skyreach",			-- Draenor
-		},
-		[ATLAS_DDL_LEVEL_100TO110] = {
 			"BlackrockFoundryA",		-- Draenor
 			"BlackrockFoundryB",		-- Draenor
 			"TheEverbloomA",		-- Draenor

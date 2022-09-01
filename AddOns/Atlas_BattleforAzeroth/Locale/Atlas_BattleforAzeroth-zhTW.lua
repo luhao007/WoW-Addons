@@ -26,6 +26,8 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local L = AceLocale:NewLocale("Atlas_BattleforAzeroth", "zhTW", false);
 
 if L then
+L["ATLAS_DDL_EXPANSION_BFA"] = "決戰艾澤拉斯副本"
+L["ATLAS_DDL_EXPANSION_BFA2"] = "決戰艾澤拉斯團隊副本"
 
 
 end

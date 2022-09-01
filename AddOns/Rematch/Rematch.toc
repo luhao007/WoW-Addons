@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Gello
-## Version: 4.11.19
+## Version: 4.11.20
 ## SavedVariables: RematchSaved, RematchSettings
 
 ## Title: Rematch

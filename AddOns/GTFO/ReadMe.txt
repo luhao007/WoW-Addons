@@ -1699,3 +1699,8 @@ Change Log:
 * Added Shadowlands spells (world)
 * Added SL spells for Sepulcher of the First Ones
 * Added BC spells for Black Temple
+
+4.65.4
+* Updated for patch 9.2
+* Added SL spells for Sepulcher of the First Ones
+* Added BC spells for Black Temple

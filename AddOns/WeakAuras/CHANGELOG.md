@@ -1,21 +1,28 @@
-# [3.7.8](https://github.com/WeakAuras/WeakAuras2/tree/3.7.8) (2022-01-27)
+# [3.7.11](https://github.com/WeakAuras/WeakAuras2/tree/3.7.11) (2022-02-22)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.7.7...3.7.8)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.7.10...3.7.11)
 
 ## Highlights
 
- - Bug fixes 
+ - Bug fixes
+- Enable Autocast Glow for Classic/BCC 
 
 ## Commits
 
-Translit (1):
+InfusOnWoW (3):
 
-- additional WA logo textures (#3451)
+- BCC: Correctly disabled Glaives and enable Thrown Weapons
+- BCC: Correctly disable Goblins
+- Fix Order of Subelements in Dynamic Groups
+
+Stanzilla (1):
+
+- Update TOC for 9.2.0 and 1.14.2
 
 mrbuds (4):
 
-- fix cast trigger for tbc 2.5.3 #3448
-- Fixing transmission and add a 5mn expiration timer on linked auras
-- fix glow in templates
-- fix bad order of aurabar foreground when importing old version, #3449
+- enable autocast glow for bcc & som
+- clear scripts on import/export frame fixes #3496
+- restore hastepercent to previous state on retail
+- Faction Reputation trigger: support friendship standing
 

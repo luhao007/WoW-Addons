@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Arta/MysticalOS
-## Version: r31
+## Version: r32
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyBC_AllSavedVars

@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: MysticalOS
-## Version: r31
+## Version: r32
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyCataclysm_AllSavedVars

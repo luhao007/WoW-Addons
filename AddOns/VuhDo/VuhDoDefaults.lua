@@ -2321,26 +2321,31 @@ local VUHDO_DEFAULT_PANEL_SETUP = {
 			["R"] = 0, ["G"] = 0, ["B"] = 0.4, ["O"] = 0.2,
 			["TR"] = 1, ["TG"] = 0.82, ["TB"] = 0, ["TO"] = 1,
 			["useText"] = false, ["useBackground"] = false, ["useOpacity"] = true,
+			["useClassColor"] = false,
 		},
 		["INCOMING"] = {
 			["R"] = 0, ["G"] = 0, ["B"] = 0, ["O"] = 0.33,
 			["TR"] = 1, ["TG"] = 0.82, ["TB"] = 0, ["TO"] = 1,
 			["useText"] = false, ["useBackground"] = false,	["useOpacity"] = true,
+			["useClassColor"] = false,
 		},
 		["SHIELD"] = {
 			["R"] = 0.35, ["G"] = 0.52, ["B"] = 1, ["O"] = 1,
 			["TR"] = 0.35, ["TG"] = 0.52, ["TB"] = 1, ["TO"] = 1,
 			["useText"] = false, ["useBackground"] = true,	["useOpacity"] = true,
+			["useClassColor"] = false,
 		},
 		["OVERSHIELD"] = {
 			["R"] = 0.35, ["G"] = 0.52, ["B"] = 1, ["O"] = 1,
 			["TR"] = 0.35, ["TG"] = 0.52, ["TB"] = 1, ["TO"] = 1,
 			["useText"] = false, ["useBackground"] = true,	["useOpacity"] = true,
+			["useClassColor"] = false,
 		},
 		["HEAL_ABSORB"] = {
 			["R"] = 1, ["G"] = 0.4, ["B"] = 0.4, ["O"] = 1,
 			["TR"] = 0.35, ["TG"] = 0.52, ["TB"] = 1, ["TO"] = 1,
 			["useText"] = false, ["useBackground"] = true,	["useOpacity"] = true,
+			["useClassColor"] = false,
 		},
 		["DIRECTION"] = {
 			["R"] = 1, ["G"] = 0.4, ["B"] = 0.4, ["O"] = 1,

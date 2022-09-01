@@ -257,6 +257,10 @@ function VUHDO_getDiffColor(aBaseColor, aModColor)
 		aBaseColor["O"], aBaseColor["TO"] = aModColor["O"], aModColor["TO"];
 	end
 
+	if aModColor["useClassColor"] then
+		aBaseColor["useClassColor"] = true;
+	end
+
 	return aBaseColor;
 end
 

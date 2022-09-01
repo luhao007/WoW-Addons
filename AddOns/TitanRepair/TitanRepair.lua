@@ -7,7 +7,6 @@
 -- ******************************** Constants *******************************
 local TITAN_REPAIR_ID = "Repair";
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
---local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local TitanRepairModule = LibStub("AceAddon-3.0"):NewAddon("TitanRepair", "AceHook-3.0", "AceTimer-3.0")
 local _G = getfenv(0);
 local TPR = TitanRepairModule
@@ -1117,9 +1116,9 @@ function TitanPanelRightClickMenu_PrepareRepairMenu()
 local info;
 
 	-- level 2
-	if _G["L_UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "Discount" then
-			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["discount"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+	if TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "Discount" then
+			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["discount"], TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["buttonNormal"];
@@ -1187,8 +1186,8 @@ local info;
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "Options" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["percentage"];
@@ -1240,8 +1239,8 @@ local info;
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "AutoRepair" then
-			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["AutoReplabel"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "AutoRepair" then
+			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["AutoReplabel"], TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["popup"];
@@ -1262,7 +1261,7 @@ local info;
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "GuildBank" then
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "GuildBank" then
 			totalGBCP = GetGuildBankMoney();
 			withdrawGBCP = GetGuildBankWithdrawMoney();
 			if IsGuildLeader() ~= true then
@@ -1272,8 +1271,8 @@ local info;
 			if (totalGBCP < withdrawGBCP) or IsGuildLeader() == true then
 				withdrawGB = totalGB;
 			end
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_TOTAL"].." "..totalGB, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_WITHDRAW"].." "..withdrawGB, _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_TOTAL"].." "..totalGB, TitanPanelRightClickMenu_GetDropdownLevel());
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_WITHDRAW"].." "..withdrawGB, TitanPanelRightClickMenu_GetDropdownLevel());
 			info = {}
 			info.text = L["TITAN_REPAIR_GBANK_USEFUNDS"]
 			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "UseGuildBank"); end
@@ -1281,8 +1280,8 @@ local info;
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "TooltipOptions" then
-			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["TooltipOptions"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "TooltipOptions" then
+			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["TooltipOptions"], TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["ShowItems"];

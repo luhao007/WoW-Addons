@@ -1,4 +1,4 @@
--- $Id: Data.lua 165 2022-02-02 17:20:10Z arithmandar $
+-- $Id: Data.lua 167 2022-02-19 13:48:33Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -2593,8 +2593,7 @@ db.DropDownLayouts_Order = {
 		ATLAS_DDL_CONTINENT_BROKENISLES2,
 	},
 	[ATLAS_DDL_LEVEL] = {
-		ATLAS_DDL_LEVEL_100TO110,
-		ATLAS_DDL_LEVEL_110PLUS,
+		ATLAS_DDL_LEVEL_40TO45,
 	},
 	[ATLAS_DDL_EXPANSION] = {
 		ATLAS_DDL_EXPANSION_LEGION1,
@@ -2760,7 +2759,7 @@ db.DropDownLayouts = {
 		},
 	},
 	[ATLAS_DDL_LEVEL] = {
-		[ATLAS_DDL_LEVEL_100TO110] = {
+		[ATLAS_DDL_LEVEL_40TO45] = {
 			"AssaultonVioletHold",		-- Legion
 			"DarkheartThicket",		-- Legion
 			"EyeofAzshara",			-- Legion
@@ -2768,8 +2767,6 @@ db.DropDownLayouts = {
 			"HallsofValorB",		-- Legion
 			"HallsofValorC",		-- Legion
 			"NeltharionsLair",		-- Legion
-		},
-		[ATLAS_DDL_LEVEL_110PLUS] = {
 			"AntorustheBurningThroneA",
 			"AntorustheBurningThroneB",
 			"AntorustheBurningThroneC",

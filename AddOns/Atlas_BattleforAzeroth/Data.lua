@@ -1,4 +1,4 @@
--- $Id: Data.lua 21 2022-02-17 14:53:48Z arithmandar $
+-- $Id: Data.lua 25 2022-02-19 09:20:03Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -44,6 +44,11 @@ local BfA = Atlas:GetModule(private.module_name)
 local db = {}
 BfA.db = db
 
+local icon_E7 = "Interface\\ICONS\\ability_racial_cityofgold" -- BfA
+
+local ATLAS_DDL_EXPANSION_BFA		= format("|T%s:0:0|t %s", icon_E7, L["ATLAS_DDL_EXPANSION_BFA"])
+local ATLAS_DDL_EXPANSION_BFA2		= format("|T%s:0:0|t %s", icon_E7, L["ATLAS_DDL_EXPANSION_BFA2"])
+
 local function Atlas_GetBossName(bossname, encounterID, creatureIndex)
 	return Atlas:GetBossName(bossname, encounterID, creatureIndex, private.module_name)
 end
@@ -68,56 +73,13 @@ elseif ( UnitFactionGroup("player") == "Horde" ) then
 	Horde = true
 end
 
+-- /script print(WorldMapFrame:GetMapID())
+
 db.AtlasMaps = {
 	-- /////////////////////////////////
 	-- Kul Tiras instances
 	-- /////////////////////////////////
 	-- Battle of Dazar'alor, Raid
-	--[[
-	BattleofDazaralor = { -- Alliance
-		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2333), 2333},
-		{ WHIT..INDENT..Atlas_GetBossName("Frida Ironbellows", 2333, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Anointed Disciple", 2333, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Darkforged Crusader", 2333, 3), },
-		{ WHIT.." 2) "..Atlas_GetBossName("Grong, the Jungle Lord", 2325), 2325},
-		{ WHIT..INDENT..Atlas_GetBossName("Grong", 2325, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Flying Ape Wranglers", 2325, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Apetagonizer 3000", 2325, 3), },
-		{ WHIT.." 3) "..Atlas_GetBossName("Jadefire Masters", 2341), 2341},
-		{ WHIT..INDENT..Atlas_GetBossName("Manceroy Flamefist", 2341, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Mestrah", 2341, 2), },
-
-		{ WHIT.." 1) "..Atlas_GetBossName("Champion of the Light", 2334), 2334},
-		{ WHIT..INDENT..Atlas_GetBossName("High Tinker Mekkatorque", 2334, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Spark Bot", 2334, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Explosive Sheep", 2334, 3), },
-		{ WHIT.." 2) "..Atlas_GetBossName("Jadefire Masters", 2323), 2323},
-		{ WHIT..INDENT..Atlas_GetBossName("Ma'ra Grimfang", 2323, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Anathos Firecaller", 2323, 2), },
-		{ WHIT.." 3) "..Atlas_GetBossName("Grong, the Revenant", 2340), 2340},
-		{ WHIT..INDENT..Atlas_GetBossName("Death Specter", 2340, 2), },
-		
-		{ WHIT.." 4) "..Atlas_GetBossName("King Rastakhan", 2335), 2335},
-		{ WHIT..INDENT..Atlas_GetBossName("Bwonsamdi", 2335, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Prelate Za'lan", 2335, 3), },
-		{ WHIT..INDENT..Atlas_GetBossName("Headhunter Gal'wana", 2335, 4), },
-		{ WHIT..INDENT..Atlas_GetBossName("Siegebreaker Roka", 2335, 5), },
-		{ WHIT..INDENT..Atlas_GetBossName("Rastari Honorguard", 2335, 6), },
-
-		{ WHIT.." 5) "..Atlas_GetBossName("Opulence", 2342), 2342},
-		
-		{ WHIT.." 6) "..Atlas_GetBossName("Conclave of the Chosen", 2330), 2330},
-		{ WHIT..INDENT..Atlas_GetBossName("Pa'ku's Aspect", 2330, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Gonk's Aspect", 2330, 2), },
-		{ WHIT..INDENT..Atlas_GetBossName("Kimbul's Aspect", 2330, 3), },
-		{ WHIT..INDENT..Atlas_GetBossName("Akunda's Aspect", 2330, 4), },
-		
-		{ WHIT.." 8) "..Atlas_GetBossName("Stormwall Blockade", 2337), 2337},
-		{ WHIT..INDENT..Atlas_GetBossName("Laminaria", 2337, 1), },
-		{ WHIT..INDENT..Atlas_GetBossName("Sister Katherine", 2337, 2), },
-		{ WHIT.." 8) "..Atlas_GetBossName("Lady Jaina Proudmoore", 2343), 2343},
-	},
-]]
 	BattleofDazaralorA = { -- The Zocalo, Horde
 		ZoneName = { BZ["Battle of Dazar'alor"]..ALC["MapA"] },
 		Location = { BZ["Tiragarde Sound"] },
@@ -233,7 +195,7 @@ db.AtlasMaps = {
 		{ WHIT..INDENT..Atlas_GetBossName("Rastari Honorguard", 2335, 6), },
 	},
 	BattleofDazaralorF = {
-		ZoneName = { BZ["Battle of Dazar'alor"] },
+		ZoneName = { BZ["Battle of Dazar'alor"]..ALC["MapF"] },
 		Location = { BZ["Tiragarde Sound"] },
 		DungeonID = 1942,
 		DungeonHeroicID = 1943,
@@ -251,21 +213,39 @@ db.AtlasMaps = {
 		{ WHIT.." 7) "..Atlas_GetBossName("Lady Jaina Proudmoore", 2343), 2343},
 	},
 	-- Crucible of Storms, Raid
-	CrucibleofStorms = {
-		ZoneName = { BZ["Crucible of Storms"] },
+	CrucibleofStormsA = {
+		ZoneName = { BZ["Crucible of Storms"]..ALC["MapA"] },
 		Location = { BZ["Stormsong Valley"] },
 		DungeonID = 1952,
 		DungeonHeroicID = 1953,
 		DungeonMythicID = 1954,
 		PlayerLimit = { 10, 30 },
 --		Acronym = "",
-		WorldMapID = 1345, -- 1346
+		WorldMapID = 1345,
 		JournalInstanceID = 1177,
 		ZoneID = 10057,
 		Module = "Atlas_BattleforAzeroth",
+		NextMap = "CrucibleofStormsB",
+		{ BLUE.." A) "..ALC["Entrance"], 10001 },
+		{ BLUE.." B) "..ALC["Connection"], 10002 },
 		{ WHIT.." 1) "..Atlas_GetBossName("The Restless Cabal", 2328), 2328},
 		{ WHIT..INDENT..Atlas_GetBossName("Zaxasj the Speaker", 2328, 1) },
 		{ WHIT..INDENT..Atlas_GetBossName("Fa'thuul the Feared", 2328, 2) },
+	},
+	CrucibleofStormsB = {
+		ZoneName = { BZ["Crucible of Storms"]..ALC["MapB"] },
+		Location = { BZ["Stormsong Valley"] },
+		DungeonID = 1952,
+		DungeonHeroicID = 1953,
+		DungeonMythicID = 1954,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1346,
+		JournalInstanceID = 1177,
+		ZoneID = 10057,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "CrucibleofStormsA",
+		{ BLUE.." B) "..ALC["Connection"], 10002 },
 		{ WHIT.." 2) "..Atlas_GetBossName("Uu'nat, Harbinger of the Void", 2332), 2332},
 	},
 	-- Freehold
@@ -493,8 +473,8 @@ db.AtlasMaps = {
 		{ WHIT..INDENT..Atlas_GetBossName("Plague Doctor", 2145, 4), },
 	},
 	-- Uldir
-	Uldir = {
-		ZoneName = { BZ["Uldir"] },
+	UldirA = {
+		ZoneName = { BZ["Uldir"]..ALC["MapA"] },
 		Location = { BZ["Nazmir"] },
 		DungeonID = 1887,
 		DungeonHeroicID = 1888,
@@ -504,7 +484,9 @@ db.AtlasMaps = {
 		WorldMapID = 1148,
 		JournalInstanceID = 1031,
 		Module = "Atlas_BattleforAzeroth",
---		{ WHIT..INDENT..Atlas_GetBossName("", 2168, 2), },
+		NextMap = "UldirB",
+		{ BLUE.." A) "..ALC["Entrance"], 10001 },
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
 		{ WHIT.." 1) "..Atlas_GetBossName("Taloc", 2168), 2168},
 		{ WHIT..INDENT..Atlas_GetBossName("Volatile Droplet", 2168, 2), },
 		{ WHIT..INDENT..Atlas_GetBossName("Coalesced Blood", 2168, 3), },
@@ -514,18 +496,122 @@ db.AtlasMaps = {
 		{ WHIT..INDENT..Atlas_GetBossName("Viral Contagion", 2167, 4), },
 		{ WHIT.." 3) "..Atlas_GetBossName("Fetid Devourer", 2146), 2146},
 		{ WHIT..INDENT..Atlas_GetBossName("Corruption Corpuscle", 2146, 2), },
-		{ WHIT.." 3) "..Atlas_GetBossName("Zek'voz, Herald of N'zoth", 2169), 2169},
+		{ WHIT.." 4) "..Atlas_GetBossName("Zek'voz, Herald of N'zoth", 2169), 2169},
 		{ WHIT..INDENT..Atlas_GetBossName("Zek'voz", 2169, 1), },
 		{ WHIT..INDENT..Atlas_GetBossName("Silithid Warrior", 2169, 2), },
 		{ WHIT..INDENT..Atlas_GetBossName("Nerubian Voidweaver", 2169, 3), },
-		{ WHIT.." 4) "..Atlas_GetBossName("Vectis", 2166), 2166},
+		{ WHIT.." 5) "..Atlas_GetBossName("Vectis", 2166), 2166},
 		{ WHIT.." 6) "..Atlas_GetBossName("Zul, Reborn", 2195), 2195},
 		{ WHIT..INDENT..Atlas_GetBossName("Zul", 2195, 1), },
 		{ WHIT..INDENT..Atlas_GetBossName("Nazmani Crusher", 2195, 2), },
 		{ WHIT..INDENT..Atlas_GetBossName("Nazmani Bloodhexer", 2195, 3), },
 		{ WHIT..INDENT..Atlas_GetBossName("Bloodthirsty Crawg", 2195, 4), },
-		{ WHIT.." 8) "..Atlas_GetBossName("Mythrax the Unraveler", 2194), 2194},
-		{ WHIT.." 11) "..Atlas_GetBossName("G'huun", 2147), 2147},
+	},
+	UldirB = {
+		ZoneName = { BZ["Uldir"]..ALC["MapB"] },
+		Location = { BZ["Nazmir"] },
+		DungeonID = 1887,
+		DungeonHeroicID = 1888,
+		DungeonMythicID = 1889,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1148,
+		JournalInstanceID = 1031,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "UldirA",
+		NextMap = "UldirC",
+		{ BLUE.." A) "..ALC["Entrance"], 10001 },
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 1) "..Atlas_GetBossName("Taloc", 2168), 2168},
+		{ WHIT..INDENT..Atlas_GetBossName("Volatile Droplet", 2168, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Coalesced Blood", 2168, 3), },
+	},
+	UldirC = {
+		ZoneName = { BZ["Uldir"]..ALC["MapC"] },
+		Location = { BZ["Nazmir"] },
+		DungeonID = 1887,
+		DungeonHeroicID = 1888,
+		DungeonMythicID = 1889,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1149,
+		JournalInstanceID = 1031,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "UldirB",
+		NextMap = "UldirD",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 2) "..Atlas_GetBossName("MOTHER", 2167), 2167},
+		{ WHIT..INDENT..Atlas_GetBossName("Remnant of Corruption", 2167, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Resistant Bacterium", 2167, 3), },
+		{ WHIT..INDENT..Atlas_GetBossName("Viral Contagion", 2167, 4), },
+	},
+	UldirD = {
+		ZoneName = { BZ["Uldir"]..ALC["MapD"] },
+		Location = { BZ["Nazmir"] },
+		DungeonID = 1887,
+		DungeonHeroicID = 1888,
+		DungeonMythicID = 1889,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1153,
+		JournalInstanceID = 1031,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "UldirC",
+		NextMap = "UldirE",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 3) "..Atlas_GetBossName("Fetid Devourer", 2146), 2146},
+		{ WHIT..INDENT..Atlas_GetBossName("Corruption Corpuscle", 2146, 2), },
+	},
+	UldirE = {
+		ZoneName = { BZ["Uldir"]..ALC["MapE"] },
+		Location = { BZ["Nazmir"] },
+		DungeonID = 1887,
+		DungeonHeroicID = 1888,
+		DungeonMythicID = 1889,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1151,
+		JournalInstanceID = 1031,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "UldirD",
+		NextMap = "UldirF",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 4) "..Atlas_GetBossName("Zek'voz, Herald of N'zoth", 2169), 2169},
+		{ WHIT..INDENT..Atlas_GetBossName("Zek'voz", 2169, 1), },
+		{ WHIT..INDENT..Atlas_GetBossName("Silithid Warrior", 2169, 2), },
+		{ WHIT..INDENT..Atlas_GetBossName("Nerubian Voidweaver", 2169, 3), },
+	},
+	UldirF = {
+		ZoneName = { BZ["Uldir"]..ALC["MapF"] },
+		Location = { BZ["Nazmir"] },
+		DungeonID = 1887,
+		DungeonHeroicID = 1888,
+		DungeonMythicID = 1889,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1152,
+		JournalInstanceID = 1031,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "UldirE",
+		NextMap = "UldirG",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 5) "..Atlas_GetBossName("Vectis", 2166), 2166},
+	},
+	UldirG = {
+		ZoneName = { BZ["Uldir"]..ALC["MapG"] },
+		Location = { BZ["Nazmir"] },
+		DungeonID = 1887,
+		DungeonHeroicID = 1888,
+		DungeonMythicID = 1889,
+		PlayerLimit = { 10, 30 },
+--		Acronym = "",
+		WorldMapID = 1155,
+		JournalInstanceID = 1031,
+		Module = "Atlas_BattleforAzeroth",
+		PrevMap = "UldirF",
+		{ BLUE.." B-G) "..ALC["Connection"], 10002 },
+		{ WHIT.." 7) "..Atlas_GetBossName("Mythrax the Unraveler", 2194), 2194},
+		{ WHIT.." 8) "..Atlas_GetBossName("G'huun", 2147), 2147},
 		{ WHIT..INDENT..Atlas_GetBossName("Blightspreader Tendril", 2147, 2), },
 		{ WHIT..INDENT..Atlas_GetBossName("Cyclopean Terror", 2147, 3), },
 		{ WHIT..INDENT..Atlas_GetBossName("Dark Young", 2147, 4), },
@@ -552,6 +638,47 @@ db.AtlasMaps = {
 	TheEternalPalace = {
 		ZoneName = { BZ["The Eternal Palace"] },
 		Location = { BZ["Nazjatar"] },
+		DungeonID = 2014,
+		DungeonHeroicID = 2014,
+		DungeonMythicID = 2016,
+--		Acronym = "",
+		WorldMapID = 1512,
+		JournalInstanceID = 1179,
+		PlayerLimit = { 10, 30 },
+		Module = "Atlas_BattleforAzeroth",
+		{ WHIT.." 1) "..Atlas_GetBossName("Abyssal Commander Sivara", 2352), 2352},
+		{ WHIT.." 2) "..Atlas_GetBossName("Blackwater Behemoth", 2347), 2347},
+		{ WHIT.." 3) "..Atlas_GetBossName("Radiance of Azshara", 2353), 2353},
+		{ WHIT.." 4) "..Atlas_GetBossName("Lady Ashvane", 2354), 2354},
+		{ WHIT.." 5) "..Atlas_GetBossName("Orgozoa", 2351), 2351},
+		{ WHIT.." 6) "..Atlas_GetBossName("The Queen's Court", 2359), 2359},
+		{ WHIT.." 7) "..Atlas_GetBossName("Za'qul, Harbinger of Ny'alotha", 2349), 2349},
+		{ WHIT.." 8) "..Atlas_GetBossName("Queen Azshara", 2361), 2361},
+	},
+	
+	-- Ny'alotha
+	Nyalotha = {
+		ZoneName = { BZ["Ny'alotha, the Waking City"] },
+		DungeonID = 2033,
+		DungeonHeroicID = 2034,
+		DungeonMythicID = 2035,
+--		Acronym = "",
+		WorldMapID = 1581,
+		JournalInstanceID = 1180,
+		PlayerLimit = { 10, 30 },
+		Module = "Atlas_BattleforAzeroth",
+		{ WHIT.." 5) "..Atlas_GetBossName("rathion, the Black Emperor", 2368), 2368},
+		{ WHIT.." 5) "..Atlas_GetBossName("Maut", 2365), 2365},
+		{ WHIT.." 5) "..Atlas_GetBossName("The Prophet Skitra", 2369), 2369},
+		{ WHIT.." 5) "..Atlas_GetBossName("Dark Inquisitor Xanesh", 2377), 2377},
+		{ WHIT.." 5) "..Atlas_GetBossName("The Hivemind", 2372), 2372},
+		{ WHIT.." 5) "..Atlas_GetBossName("Shad'har the Insatiable", 2367), 2367},
+		{ WHIT.." 5) "..Atlas_GetBossName("Drest'agath", 2373), 2373},
+		{ WHIT.." 5) "..Atlas_GetBossName("Il'gynoth, Corruption Reborn", 2374), 2374},
+		{ WHIT.." 5) "..Atlas_GetBossName("Vexiona", 2370), 2370},
+		{ WHIT.." 5) "..Atlas_GetBossName("Ra-den the Despoiled", 2364), 2364},
+		{ WHIT.." 5) "..Atlas_GetBossName("Carapace of N'Zoth", 2366), 2366},
+		{ WHIT.." 5) "..Atlas_GetBossName("N'Zoth the Corruptor", 2375), 2375},
 	},
 }
 
@@ -564,6 +691,15 @@ db.AtlasMaps = {
  };
 /////////////////////////////////////////////]]
 db.AtlasMaps_NPC_DB = {
+	CrucibleofStormsA = {
+		{ "A", 10001, 312, 451 },
+		{ "B", 10002, 245, 273 },
+		{ 1, 2328, 227, 302 },
+	},
+	CrucibleofStormsB = {
+		{ "B", 10002, 452, 191 },
+		{ 2, 2332, 94, 265 },
+	},
 	BattleofDazaralorA = {
 		{ "A", 10001, 58, 53 },
 		{ "B", 10002, 293, 393 },
@@ -690,6 +826,48 @@ db.AtlasMaps_NPC_DB = {
 		{ 3, 2130, 382, 175 },
 		{ 4, 2158, 65, 44 },
 	},
+	UldirA = {
+		{ "A", 10001, 236, 489 },
+		{ "B", 10002, 236, 455 },
+		{ "C", 10002, 236, 312 },
+		{ "D", 10002, 327, 217 },
+		{ "E", 10002, 133, 217 },
+		{ "F", 10002, 236, 127 },
+		{ "G", 10002, 236, 252 },
+		{ 1, 2168, 236, 430 },
+		{ 2, 2167, 236, 381 },
+		{ 3, 2146, 418, 217 },
+		{ 4, 2169, 54, 217 },
+		{ 5, 2166, 236, 36 },
+		{ 6, 2195, 236, 217 },
+	},
+	UldirB = {
+		{ "A", 10001, 252, 483 },
+		{ "B", 10002, 252, 252 },
+		{ 1, 2168, 252, 167 },
+	},
+	UldirC = {
+		{ "B", 10002, 252, 466 },
+		{ "C", 10002, 252, 39 },
+		{ 2, 2167, 252, 270 },
+	},
+	UldirD = {
+		{ "D", 10002, 26, 252 },
+		{ 3, 2146, 353, 252 },
+	},
+	UldirE = {
+		{ "E", 10002, 493, 252 },
+		{ 4, 2169, 175, 252 },
+	},
+	UldirF = {
+		{ "F", 10002, 252, 484 },
+		{ 5, 2166, 252, 158 },
+	},
+	UldirG = {
+		{ "G", 10002, 252, 474 },
+		{ 7, 2195, 252, 409 },
+		{ 8, 2195, 252, 93 },
+	},
 }
 
 --[[
@@ -759,6 +937,8 @@ db.InstToEntMatches = {
 }
 
 db.MapSeries = {
+	["CrucibleofStormsA"] = 	{"CrucibleofStormsA", "CrucibleofStormsB"},
+	["CrucibleofStormsB"] = 	{"CrucibleofStormsA", "CrucibleofStormsB"},
 	["BattleofDazaralorA"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
 	["BattleofDazaralorB"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
 	["BattleofDazaralorC"] = 	{"BattleofDazaralorA", "BattleofDazaralorB", "BattleofDazaralorC", "BattleofDazaralorD", "BattleofDazaralorE", "BattleofDazaralorF"},
@@ -771,6 +951,13 @@ db.MapSeries = {
 	["TolDagorB"] = 			{"TolDagorA", "TolDagorB"},
 	["WaycrestManorA"] = 		{"WaycrestManorA", "WaycrestManorB"},
 	["WaycrestManorB"] = 		{"WaycrestManorA", "WaycrestManorB"},
+	["UldirA"] = 				{"UldirA", "UldirB", "UldirC", "UldirD", "UldirE", "UldirF", "UldirG"},
+	["UldirB"] = 				{"UldirA", "UldirB", "UldirC", "UldirD", "UldirE", "UldirF", "UldirG"},
+	["UldirC"] = 				{"UldirA", "UldirB", "UldirC", "UldirD", "UldirE", "UldirF", "UldirG"},
+	["UldirD"] = 				{"UldirA", "UldirB", "UldirC", "UldirD", "UldirE", "UldirF", "UldirG"},
+	["UldirE"] = 				{"UldirA", "UldirB", "UldirC", "UldirD", "UldirE", "UldirF", "UldirG"},
+	["UldirF"] = 				{"UldirA", "UldirB", "UldirC", "UldirD", "UldirE", "UldirF", "UldirG"},
+	["UldirG"] = 				{"UldirA", "UldirB", "UldirC", "UldirD", "UldirE", "UldirF", "UldirG"},
 }
 
 db.SubZoneAssoc = {
@@ -783,11 +970,12 @@ db.DropDownLayouts_Order = {
 		ATLAS_DDL_CONTINENT_ZANDALAR,
 	},
 	[ATLAS_DDL_LEVEL] = {
-		ATLAS_DDL_LEVEL_110TO120,
-		ATLAS_DDL_LEVEL_120PLUS,
+		ATLAS_DDL_LEVEL_45TO50,
+		ATLAS_DDL_LEVEL_50TO60,
 	},
 	[ATLAS_DDL_EXPANSION] = {
 		ATLAS_DDL_EXPANSION_BFA,
+		ATLAS_DDL_EXPANSION_BFA2,
 	},
 	[ATLAS_DDL_PARTYSIZE] = {
 		ATLAS_DDL_PARTYSIZE_5,
@@ -802,7 +990,8 @@ db.DropDownLayouts_Order = {
 db.DropDownLayouts = {
 	[ATLAS_DDL_CONTINENT] = {
 		[ATLAS_DDL_CONTINENT_KULTIRAS] = {
---			"CrucibleofStorms", -- Raid
+			"CrucibleofStormsA",
+			"CrucibleofStormsB",
 			"BattleofDazaralorA",
 			"BattleofDazaralorB",
 			"BattleofDazaralorC",
@@ -821,9 +1010,16 @@ db.DropDownLayouts = {
 		[ATLAS_DDL_CONTINENT_ZANDALAR] = {
 			"AtalDazar",
 			"KingsRest",
+--			"TheEternalPalace",
 			"TheMOTHERLODE",
 			"TempleofSethraliss",
---			"Uldir", -- Raid
+			"UldirA",
+			"UldirB",
+			"UldirC",
+			"UldirD",
+			"UldirE",
+			"UldirF",
+			"UldirG",
 			"TheUnderrot",
 		},
 	},
@@ -831,13 +1027,6 @@ db.DropDownLayouts = {
 		[ATLAS_DDL_EXPANSION_BFA] = {
 			"AtalDazar",
 			"SiegeofBoralus",
-			"BattleofDazaralorA",
-			"BattleofDazaralorB",
-			"BattleofDazaralorC",
-			"BattleofDazaralorD",
-			"BattleofDazaralorE",
-			"BattleofDazaralorF",
---			"CrucibleofStorms",
 			"Freehold",
 			"ShrineoftheStormA",
 			"ShrineoftheStormB",
@@ -848,12 +1037,30 @@ db.DropDownLayouts = {
 			"KingsRest",
 			"TheMOTHERLODE",
 			"TempleofSethraliss",
---			"Uldir",
 			"TheUnderrot",
+		},
+		[ATLAS_DDL_EXPANSION_BFA2] = {
+			"BattleofDazaralorA",
+			"BattleofDazaralorB",
+			"BattleofDazaralorC",
+			"BattleofDazaralorD",
+			"BattleofDazaralorE",
+			"BattleofDazaralorF",
+			"CrucibleofStormsA",
+			"CrucibleofStormsB",
+			"UldirA",
+			"UldirB",
+			"UldirC",
+			"UldirD",
+			"UldirE",
+			"UldirF",
+			"UldirG",
+--			"TheEternalPalace",
+--			"Nyalotha",
 		},
 	},
 	[ATLAS_DDL_LEVEL] = {
-		[ATLAS_DDL_LEVEL_110TO120] = {
+		[ATLAS_DDL_LEVEL_45TO50] = {
 			"AtalDazar",
 			"SiegeofBoralus",
 			"Freehold",
@@ -867,16 +1074,25 @@ db.DropDownLayouts = {
 			"TempleofSethraliss",
 			"TheUnderrot",
 		},
-		[ATLAS_DDL_LEVEL_120PLUS] = {
+		[ATLAS_DDL_LEVEL_50TO60] = {
 			"BattleofDazaralorA",
 			"BattleofDazaralorB",
 			"BattleofDazaralorC",
 			"BattleofDazaralorD",
 			"BattleofDazaralorE",
 			"BattleofDazaralorF",
---			"CrucibleofStorms",
+			"CrucibleofStormsA",
+			"CrucibleofStormsB",
+--			"TheEternalPalace",
 			"KingsRest",
---			"Uldir",
+			"UldirA",
+			"UldirB",
+			"UldirC",
+			"UldirD",
+			"UldirE",
+			"UldirF",
+			"UldirG",
+--			"Nyalotha",
 		},
 	},
 	[ATLAS_DDL_PARTYSIZE] = {
@@ -902,8 +1118,16 @@ db.DropDownLayouts = {
 			"BattleofDazaralorD",
 			"BattleofDazaralorE",
 			"BattleofDazaralorF",
---			"CrucibleofStorms",
---			"Uldir",
+			"CrucibleofStormsA",
+			"CrucibleofStormsB",
+--			"TheEternalPalace",
+			"UldirA",
+			"UldirB",
+			"UldirC",
+			"UldirD",
+			"UldirE",
+			"UldirF",
+			"UldirG",
 		},
 		[ATLAS_DDL_PARTYSIZE_20TO40] = {
 		},
@@ -918,7 +1142,8 @@ db.DropDownLayouts = {
 			"BattleofDazaralorD",
 			"BattleofDazaralorE",
 			"BattleofDazaralorF",
---			"CrucibleofStorms",
+			"CrucibleofStormsA",
+			"CrucibleofStormsB",
 			"Freehold",
 			"ShrineoftheStormA",
 			"ShrineoftheStormB",
@@ -927,9 +1152,16 @@ db.DropDownLayouts = {
 			"WaycrestManorA",
 			"WaycrestManorB",
 			"KingsRest",
+--			"TheEternalPalace",
 			"TheMOTHERLODE",
 			"TempleofSethraliss",
---			"Uldir",
+			"UldirA",
+			"UldirB",
+			"UldirC",
+			"UldirD",
+			"UldirE",
+			"UldirF",
+			"UldirG",
 			"TheUnderrot",
 		},
 		[ATLAS_DDL_TYPE_ENTRANCE] = {

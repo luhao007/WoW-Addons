@@ -1,8 +1,22 @@
 ------------------------------------------------------------------------
-r240 | arithmandar | 2022-02-02 17:34:02 +0000 (Wed, 02 Feb 2022) | 1 line
+r242 | arithmandar | 2022-02-20 15:40:36 +0000 (Sun, 20 Feb 2022) | 3 lines
 Changed paths:
-   M /trunk/LibBabble-SubZone-3.0.toc
+   A /trunk/LibBabble-SubZone-3.0-BCC.toc
+   A /trunk/LibBabble-SubZone-3.0-Classic.toc
+   M /trunk/LibBabble-SubZone-3.0.lua
+   M /trunk/LibBabble-SubZone-3.0_deDE.lua
+   M /trunk/LibBabble-SubZone-3.0_esES.lua
+   M /trunk/LibBabble-SubZone-3.0_esMX.lua
+   M /trunk/LibBabble-SubZone-3.0_frFR.lua
+   M /trunk/LibBabble-SubZone-3.0_itIT.lua
+   M /trunk/LibBabble-SubZone-3.0_koKR.lua
+   M /trunk/LibBabble-SubZone-3.0_ptBR.lua
+   M /trunk/LibBabble-SubZone-3.0_ruRU.lua
+   M /trunk/LibBabble-SubZone-3.0_zhCN.lua
+   M /trunk/LibBabble-SubZone-3.0_zhTW.lua
 
-Toc update to support 9.1.5
+Added UiMap zone names; 
+Added new zones and translation for 9.2.0.42423
+Added Classic and BCC ToC
 ------------------------------------------------------------------------
 

@@ -1,8 +1,10 @@
+--[[
 -- **************************************************************************
 -- * TitanXP.lua
 -- *
 -- * By: The Titan Panel Development Team
 -- **************************************************************************
+--]]
 
 -- ******************************** Constants *******************************
 local TITAN_XP_ID = "XP";
@@ -14,7 +16,6 @@ local TitanPanelXPButton_ButtonAdded = nil;
 local found = nil;
 local lastMobXP, lastXP, XPGain = 0, 0, 0
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
---local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 -- ******************************** Functions *******************************
 
 --[[
@@ -34,12 +35,14 @@ local function comma_value(amount)
 	return formatted
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXP_OnLoad()
 -- DESC : Registers the plugin upon it loading
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_OnLoad(self)
-	self.registry = { 
+	self.registry = {
 		id = TITAN_XP_ID,
 		category = "Built-ins",
 		version = TITAN_VERSION,
@@ -63,8 +66,8 @@ function TitanPanelXPButton_OnLoad(self)
 			ShowSimpleToLevel = false,
 			ShowSimpleNumOfKills = false,
 			ShowSimpleNumOfGains = false,
-			UseSeperatorComma = true, 
-			UseSeperatorPeriod = false, 
+			UseSeperatorComma = true,
+			UseSeperatorPeriod = false,
 			DisplayOnRightSide = false,
 		}
 	};
@@ -95,10 +98,10 @@ end
 
 function TitanPanelXPButton_OnHide()
 	if (TitanPanelSettings) then
-		for i = 1, table.getn(TitanPanelSettings.Buttons) do		
+		for i = 1, table.getn(TitanPanelSettings.Buttons) do
 			if(TitanPanelSettings.Buttons[i] == TITAN_XP_ID) then
-				found = true;			
-			end	
+				found = true;
+			end
 		end
 		if not found then
 			TitanPanelXPButton_ButtonAdded = nil
@@ -284,8 +287,8 @@ function TitanPanelXPButton_GetTooltipText()
 		L["TITAN_XP_TOOLTIP_LEVEL_TIME"].."\t"..TitanUtils_GetHighlightText(TitanUtils_GetAbbrTimeText(levelTime)).."\n"..
 		L["TITAN_XP_TOOLTIP_SESSION_TIME"].."\t"..TitanUtils_GetHighlightText(TitanUtils_GetAbbrTimeText(sessionTime)).."\n"..
 		"\n"..
-		L["TITAN_XP_TOOLTIP_TOTAL_XP"].."\t"..TitanUtils_GetHighlightText(comma_value(totalXP)).."\n".. 
-		L["TITAN_XP_TOTAL_RESTED"].."\t"..TitanUtils_GetHighlightText(comma_value(GetXPExhaustion()==nil and "0" or GetXPExhaustion())).."\n".. 
+		L["TITAN_XP_TOOLTIP_TOTAL_XP"].."\t"..TitanUtils_GetHighlightText(comma_value(totalXP)).."\n"..
+		L["TITAN_XP_TOTAL_RESTED"].."\t"..TitanUtils_GetHighlightText(comma_value(GetXPExhaustion()==nil and "0" or GetXPExhaustion())).."\n"..
 		L["TITAN_XP_TOOLTIP_LEVEL_XP"].."\t"..TitanUtils_GetHighlightText(comma_value(currentXP).." "..format(L["TITAN_XP_PERCENT_FORMAT"], currentXPPercent)).."\n"..
 		L["TITAN_XP_TOOLTIP_TOLEVEL_XP"].."\t"..TitanUtils_GetHighlightText(comma_value(toLevelXP).." "..format(L["TITAN_XP_PERCENT_FORMAT"], toLevelXPPercent)).."\n"..
 		L["TITAN_XP_TOOLTIP_SESSION_XP"].."\t"..TitanUtils_GetHighlightText(comma_value(TitanPanelXPButton.sessionXP)).."\n"..
@@ -342,7 +345,7 @@ end
 function TitanPanelRightClickMenu_PrepareXPMenu()
 
 	local info = {};
-	if L_UIDROPDOWNMENU_MENU_LEVEL == 2 then
+	if TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
 		TitanPanelRightClickMenu_AddTitle(L["TITAN_XP_MENU_SIMPLE_BUTTON_TITLE"], 2);
 
 		info = {};
@@ -370,8 +373,8 @@ function TitanPanelRightClickMenu_PrepareXPMenu()
 		info.func = function() TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", true) TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", false) end
 		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleNumOfGains"), 1, nil);
 		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-	else
-	end
+		return
+	elseif TitanPanelRightClickMenu_GetDropdownLevel() == 1 then
 		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_XP_ID].menuText);
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"];
@@ -390,7 +393,7 @@ function TitanPanelRightClickMenu_PrepareXPMenu()
 		info.func = TitanPanelXPButton_ShowSessionTime;
 		info.checked = TitanUtils_Ternary("ShowSessionTime" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
 		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
- 
+
 		info = {};
 		info.text = L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"];
 		info.func = TitanPanelXPButton_ShowXPSimple;
@@ -401,6 +404,7 @@ function TitanPanelRightClickMenu_PrepareXPMenu()
 		TitanPanelRightClickMenu_AddSpacer();
 		TitanPanelRightClickMenu_AddCommand(L["TITAN_XP_MENU_RESET_SESSION"], TITAN_XP_ID, "TitanPanelXPButton_ResetSession");
 		TitanPanelRightClickMenu_AddCommand(L["TITAN_XP_MENU_REFRESH_PLAYED"], TITAN_XP_ID, "TitanPanelXPButton_RefreshPlayed");
+	end
 
 	TitanPanelRightClickMenu_AddSpacer();
 

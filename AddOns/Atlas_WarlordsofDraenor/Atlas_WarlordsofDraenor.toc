@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: arith, Dynaletik, dubcat
-## Version: v1.49.02
+## Version: v1.49.03
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Warlords of Draenor]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0德拉诺之王|r
 ## Notes-zhCN: 德拉诺之王副本地图
 
-## X-Date: 2022-02-02T17:24:28Z
+## X-Date: 2022-02-19T13:46:53Z
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com
 ## X-Category: Map

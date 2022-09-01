@@ -15,7 +15,6 @@ local updateTable = {TITAN_LOCATION_ID, TITAN_PANEL_UPDATE_BUTTON};
 -- ******************************** Variables *******************************
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true);
 local AceTimer = LibStub("AceTimer-3.0");
---local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local LocationTimer = nil;
 -- ******************************** Functions *******************************
 
@@ -292,9 +291,9 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 	local info
 
 	-- level 2
-	if _G["L_UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+	if TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "Options" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], TitanPanelRightClickMenu_GetDropdownLevel());
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"];
 			info.func = TitanPanelLocationButton_ToggleDisplay;
@@ -323,8 +322,8 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 			info.disabled = InCombatLockdown()
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "CoordFormat" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_LOCATION_FORMAT_COORD_LABEL"], _G["L_UIDROPDOWNMENU_MENU_LEVEL"]);
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "CoordFormat" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_LOCATION_FORMAT_COORD_LABEL"], TitanPanelRightClickMenu_GetDropdownLevel());
 			info = {};
 			info.text = L["TITAN_LOCATION_FORMAT_LABEL"];
 			info.func = function()

@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: Kemayo
-## Version: v22
+## Version: v23
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_LegionTreasuresDB
 ## DefaultState: enabled
@@ -12,6 +12,7 @@
 ## X-Category: Map
 ## X-eMail: kemayo @ gmail DOT com
 ## X-Curse-Project-ID: 96500
+## X-Wago-ID: 0mKOnY6x
 ## X-Part-Of: HandyNotes
 
 handler.lua

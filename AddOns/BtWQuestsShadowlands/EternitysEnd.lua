@@ -998,11 +998,11 @@ Database:AddChain(Chain.CrownOfWills, {
             type = "chain",
             id = Chain.ForgingANewPath,
         },
-        {
-            type = "achievement",
-            id = 15417,
-            criteriaId = 53158,
-        }
+        -- { -- Not sure if this is actually required
+        --     type = "achievement",
+        --     id = 15417,
+        --     criteriaId = 53158,
+        -- }
     },
     active = {
         type = "quest",

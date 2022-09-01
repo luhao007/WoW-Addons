@@ -15,7 +15,6 @@ local updateTable = {TITAN_BAG_ID, TITAN_PANEL_UPDATE_BUTTON};
 -- ******************************** Variables *******************************
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
---local DDM = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local BagTimer
 
 local bag_info = {
@@ -162,7 +161,7 @@ end
 
 -- **************************************************************************
 -- NAME : isBag(id)
--- DESC : Determine if this is a bag. Then check for a profession bag using its id 
+-- DESC : Determine if this is a bag. Then check for a profession bag using its id
 -- against the table of known ids.
 -- If it is a profession bag then grab its 'color' in case the user requested it.
 -- VARS : name = text (localized) of the bag to check
@@ -181,11 +180,11 @@ print("isBag:"
 	local is_bag = false
 	local bag_type = "none"
 	local color = {r=0,g=0,b=0} -- black (should never be used...)
-	
+
 	if bag_name == nil then
 		-- no bag found, return defaults
 	else
-		local itemID, itemType, itemSubType, itemEquipLoc, icon, itemClassID, itemSubClassID = GetItemInfoInstant(bag_name) 
+		local itemID, itemType, itemSubType, itemEquipLoc, icon, itemClassID, itemSubClassID = GetItemInfoInstant(bag_name)
 --[[
 print("isBag:"
 .." ID:'"..tostring(itemID).."'"
@@ -201,7 +200,7 @@ print("isBag:"
 		-- so create a default so routine is successful
 		itemID = itemID or 0
 		is_bag = true -- assume non nil is a valid bag name
-		
+
 		if bags[itemID] then
 			bag_type = bags[itemID].style
 			color = bag_info[bag_type].color
@@ -210,7 +209,7 @@ print("isBag:"
 			bag_type = "normal"
 		end
 	end
-	
+
 --[[
 TitanDebug("isBag: "..tostring(itemID)
 .." '"..tostring(bag_name).."'"
@@ -337,7 +336,7 @@ function TitanPanelBagButton_GetTooltipText()
 			totalSlots = GetContainerNumSlots(bag) or 0;
 			availableSlots = GetContainerNumFreeSlots(bag) or 0;
 			usedSlots = totalSlots - availableSlots;
-			local itemlink  = bag > 0 and GetInventoryItemLink("player", ContainerIDToInventoryID(bag)) 
+			local itemlink  = bag > 0 and GetInventoryItemLink("player", ContainerIDToInventoryID(bag))
 				or TitanUtils_GetHighlightText(L["TITAN_BAG_BACKPACK"]).. FONT_COLOR_CODE_CLOSE;
 
 			if itemlink then
@@ -384,32 +383,29 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 	local info
 	-- level 2
 	if TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
-		if _G["L_UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
+		if TitanPanelRightClickMenu_GetDropdMenuValue() == "Options" then
 			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], TitanPanelRightClickMenu_GetDropdownLevel())
 			info = {};
 			info.text = L["TITAN_BAG_MENU_SHOW_USED_SLOTS"];
 			info.func = TitanPanelBagButton_ShowUsedSlots;
 			info.checked = TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots");
---			DDM:UIDropDownMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"];
 			info.func = TitanPanelBagButton_ShowAvailableSlots;
 			info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots"));
---			DDM:UIDropDownMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
 			info.text = L["TITAN_BAG_MENU_SHOW_DETAILED"];
 			info.func = TitanPanelBagButton_ShowDetailedInfo;
 			info.checked = TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo");
---			DDM:UIDropDownMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 		return
 	end
-	
+
 	-- level 1
 	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_BAG_ID].menuText);
 
@@ -418,7 +414,6 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 	info.text = L["TITAN_PANEL_OPTIONS"];
 	info.value = "Options"
 	info.hasArrow = 1;
---	DDM:UIDropDownMenu_AddButton(info);
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	TitanPanelRightClickMenu_AddSpacer();
@@ -426,7 +421,6 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 	info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
 	info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
 	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
---	DDM:UIDropDownMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	TitanPanelRightClickMenu_AddSpacer();

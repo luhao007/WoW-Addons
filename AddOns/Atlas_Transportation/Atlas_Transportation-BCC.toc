@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: arith, Dynaletik, dubcat
-## Version: v1.49.06
+## Version: v1.49.07
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Transportation]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0交通|r
 ## Notes-zhCN: 交通地图
 
-## X-Date: 2022-02-13T8:57:29Z
+## X-Date: 2022-02-20T7:16:06Z
 ## X-Credits: Dan Gilbert, Lothaer
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com
@@ -26,4 +26,5 @@
 #@end-debug@
 
 Locale\Locales.xml
-Atlas_Transportation.lua
+Core.lua
+Data-BCC.lua
