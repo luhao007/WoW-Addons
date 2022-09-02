@@ -68,7 +68,7 @@ local function InitializeDropdownMenu(level, mapID, coord)
             notCheckable = 1,
             func = function(button)
                 Addon.db.char[mapID .. '_coord_' .. coord] = true
-                Addon:Refresh()
+                Addon:RefreshImmediate()
             end
         }, level)
 
@@ -77,7 +77,7 @@ local function InitializeDropdownMenu(level, mapID, coord)
             notCheckable = 1,
             func = function()
                 wipe(Addon.db.char)
-                Addon:Refresh()
+                Addon:RefreshImmediate()
             end
         }, level)
 
@@ -105,17 +105,24 @@ function Addon:OnEnter(mapID, coord)
         GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
     end
 
-    node:Render(GameTooltip, map:CanFocus(node))
-    map:SetFocus(node, true, true)
-    ns.MinimapDataProvider:RefreshAllData()
-    ns.WorldMapDataProvider:RefreshAllData()
-    GameTooltip:Show()
+    -- items do not appear to have their info loaded consistently when the map is
+    -- prepared, so we prepare the node's assets again here before rendering
+    node:Prepare()
+    map:SetFocus(node, coord, true, true)
+
+    -- Rendering in the next frame appears to help asset name issues
+    C_Timer.After(0, function()
+        node:Render(GameTooltip, map:CanFocus(node))
+        ns.MinimapDataProvider:RefreshAllData()
+        ns.WorldMapDataProvider:RefreshAllData()
+        GameTooltip:Show()
+    end)
 end
 
 function Addon:OnLeave(mapID, coord)
     local map = ns.maps[mapID]
     local node = map.nodes[coord]
-    map:SetFocus(node, false, true)
+    map:SetFocus(node, coord, false, true)
     ns.MinimapDataProvider:RefreshAllData()
     ns.WorldMapDataProvider:RefreshAllData()
     node:Unrender(GameTooltip)
@@ -132,8 +139,8 @@ function Addon:OnClick(button, down, mapID, coord)
         ToggleDropDownMenu(1, nil, DropdownMenu, self, 0, 0)
     elseif button == 'LeftButton' and down then
         if map:CanFocus(node) then
-            map:SetFocus(node, not node._focus)
-            Addon:Refresh()
+            map:SetFocus(node, coord, not map:IsFocused(coord))
+            Addon:RefreshImmediate()
         end
     end
 end
@@ -184,14 +191,14 @@ function Addon:RegisterWithHandyNotes()
             end
             return nil, nil, nil, nil
         end
-        function Addon:GetNodes2(mapID, _minimap)
+        function Addon:GetNodes2(mapID, isMinimap)
             if ns:GetOpt('show_debug_map') then
                 ns.Debug('Loading nodes for map: ' .. mapID .. ' (minimap=' ..
-                             tostring(_minimap) .. ')')
+                             tostring(isMinimap) .. ')')
             end
 
             map = ns.maps[mapID]
-            minimap = _minimap
+            minimap = isMinimap
             force = ns:GetOpt('force_nodes') or ns.dev_force
 
             if map then
@@ -210,24 +217,40 @@ function Addon:RegisterWithHandyNotes()
 
     -- Refresh in any cases where node status may have changed
     self:RegisterBucketEvent({
-        'BAG_UPDATE', 'CRITERIA_EARNED', 'CRITERIA_UPDATE', 'LOOT_CLOSED',
-        'PLAYER_MONEY', 'SHOW_LOOT_TOAST', 'SHOW_LOOT_TOAST_UPGRADE',
-        'QUEST_TURNED_IN', 'ZONE_CHANGED_NEW_AREA'
+        'BAG_UPDATE_DELAYED', -- looted an item
+        'CRITERIA_EARNED', -- new achievement criteria earned
+        'CRITERIA_UPDATE', -- criteria progress
+        'LOOT_CLOSED', -- loot window closed
+        'PLAYER_MONEY', -- player earned gold
+        'PLAYER_REGEN_ENABLED', -- exited combat
+        'QUEST_TURNED_IN', -- complete button pressed or WQ completed
+        'SHOW_LOOT_TOAST_UPGRADE', -- special loot obtained w/ upgrades
+        'SHOW_LOOT_TOAST', -- special loot obtained
+        'ZONE_CHANGED_NEW_AREA' -- player entered new zone
     }, 2, 'Refresh')
 
     -- Also refresh whenever the size of the world map frame changes
-    hooksecurefunc(WorldMapFrame, 'OnFrameSizeChanged',
-        function() self:Refresh() end)
+    hooksecurefunc(WorldMapFrame, 'OnFrameSizeChanged', function(...)
+        if self.world_map_maximized ~= WorldMapFrame:IsMaximized() then
+            self.world_map_maximized = WorldMapFrame:IsMaximized()
+            self:RefreshImmediate()
+        end
+    end)
+    self.world_map_maximized = WorldMapFrame:IsMaximized()
 
     self:Refresh()
 end
 
 function Addon:Refresh()
-    if self._refreshTimer then return end
+    if self._refreshTimer or InCombatLockdown() then return end
     self._refreshTimer = C_Timer.NewTimer(0.1, function()
         self._refreshTimer = nil
-        self:SendMessage('HandyNotes_NotifyUpdate', ADDON_NAME)
-        ns.MinimapDataProvider:RefreshAllData()
-        ns.WorldMapDataProvider:RefreshAllData()
+        self:RefreshImmediate()
     end)
+end
+
+function Addon:RefreshImmediate()
+    self:SendMessage('HandyNotes_NotifyUpdate', ADDON_NAME)
+    ns.MinimapDataProvider:RefreshAllData()
+    ns.WorldMapDataProvider:RefreshAllData()
 end

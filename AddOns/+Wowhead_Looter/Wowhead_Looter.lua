@@ -3,15 +3,15 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 9.2.0                     --
---    Updated: February 22, 2021       --
+--    Patch: 9.2.5                     --
+--    Updated: May 12, 2022            --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 90200;
+local WL_VERSION = 90205;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -25,7 +25,7 @@ wlDailies, wlWorldQuests = "", "";
 wlRegionBuildings = {};
 
 -- SavedVariablesPerCharacter
-wlSetting = {};
+wlSetting = {minimap=false};
 wlScans = {
     guid = nil,
     toys = "",
@@ -113,6 +113,7 @@ local WL_LOOT_TOAST_BOSSES = {
     [144796] = true,
     [167749] = true,
     [175726] = true,
+    [182466] = true,
 };
 local WL_LOOT_TOAST_BAGS = {
     [142397] = 98134,     -- Heroic Cache of Treasures
@@ -361,6 +362,12 @@ local WL_LOOT_TOAST_NOSPELL =
     [190823] = true,
     [191040] = true,
     [191041] = true,
+    [191139] = true,
+};
+
+local WL_LOOT_COUNT_KILLED_NPCS =
+{
+    [182120] = true,
 };
 
 local WL_REP_MODS = {
@@ -620,7 +627,7 @@ local WL_DAILY_NPCS = {
     '177336', '179768', '179108', '180160',
 
     -- Notable Zereth Mortis Rares
-    '184409', '183747', '181360', '178963', '183748', '183596', '183722', '183737', '178563', '179006', '182318',
+    '184409', '183747', '181360', '178963', '183596', '183722', '183737', '178563', '179006', '182318', '181249',
 };
 
 -- dungeon difficulty -> npcs we're looking for in that difficulty
@@ -743,21 +750,14 @@ end
 
 local GetProgressText = GetProgressText;
 local GetQuestID = GetQuestID;
-local GetQuestLogLeaderBoard = GetQuestLogLeaderBoard;
-local GetQuestLogPushable = GetQuestLogPushable;
-local GetQuestLogSelection = GetQuestLogSelection;
-local GetQuestLogTimeLeft = GetQuestLogTimeLeft;
 local GetRealZoneText = GetRealZoneText;
 local GetRewardText = GetRewardText;
 local GetSpellInfo = GetSpellInfo;
-local GetTradeSkillInfo = GetTradeSkillInfo;
 local GetTrainerServiceCost = GetTrainerServiceCost;
 local GetTrainerServiceInfo = GetTrainerServiceInfo;
 local GetTrainerServiceSkillReq = GetTrainerServiceSkillReq;
-local IsEquippedItem = IsEquippedItem;
 local IsFishingLoot = IsFishingLoot;
 local IsPartyLFG = IsPartyLFG;
-local SelectQuestLogEntry = SelectQuestLogEntry;
 local SendAddonMessage = C_ChatInfo.SendAddonMessage;
 local UnitClass = UnitClass;
 local UnitExists = UnitExists;
@@ -767,8 +767,6 @@ local UnitHealthMax = UnitHealthMax;
 local UnitIsDead = UnitIsDead;
 local UnitIsFriend = UnitIsFriend;
 local UnitIsPlayer = UnitIsPlayer;
-local UnitIsTapped = UnitIsTapped;
-local UnitIsTappedByPlayer = UnitIsTappedByPlayer;
 local UnitIsTapDenied = UnitIsTapDenied;
 local UnitIsTrivial = UnitIsTrivial;
 local UnitLevel = UnitLevel;
@@ -1374,14 +1372,14 @@ end
 
 function wlEvent_MERCHANT_UPDATE(self)
 
-    local id, kind = wlUnitGUID("npc");
+    local unitId, kind = wlUnitGUID("npc");
 
-    if not id or kind ~= "npc" or not wlUnit[id] then
+    if not unitId or kind ~= "npc" or not wlUnit[unitId] then
         return;
     end
 
     if CanMerchantRepair() then
-        wlUpdateVariable(wlUnit, id, "canRepair", "init", 1);
+        wlUpdateVariable(wlUnit, unitId, "canRepair", "init", 1);
     end
 
     local standing = select(2, wlUnitFaction("npc"));
@@ -1396,21 +1394,23 @@ function wlEvent_MERCHANT_UPDATE(self)
     local currencyInfos = {};
     for index = 1, numCurrencies do
         local cInfo = C_CurrencyInfo.GetCurrencyInfo(currencies[index]);
-        local cName, cCount, cIcon = cInfo.name, cInfo.quantity, cInfo.iconFileID;
-        currencyInfos[cName] = { currencies[index], cIcon };
+        if (cInfo) then
+            local cName, cCount, cIcon = cInfo.name, cInfo.quantity, cInfo.iconFileID;
+            currencyInfos[cName] = { currencies[index], cIcon };
+        end
     end
 
     for slot=1, GetMerchantNumItems() do
         local name, icon, price, stack, numAvailable, _, _, extendedCost = GetMerchantItemInfo(slot);
-        local id, subId = wlParseItemLink(GetMerchantItemLink(slot));
-        if (id ~= 0 or ((currencyInfos[name] ~= nil) and (currencyInfos[name][2] == icon))) then
+        local itemId, subId, _, _, _, _, _, _, _, _, _, numBonus, bonuses = wlParseItemLink(GetMerchantItemLink(slot));
+        if (itemId ~= 0 or ((currencyInfos[name] ~= nil) and (currencyInfos[name][2] == icon))) then
 
-            if (id == 0) then
-                id = currencyInfos[name][1];
+            if (itemId == 0) then
+                itemId = currencyInfos[name][1];
                 subId = -2; -- this is a currency
             else
-                if tContains(WL_DAILY_VENDOR_ITEMS, id) then
-                    wlSeenDaily('i'..id)
+                if tContains(WL_DAILY_VENDOR_ITEMS, itemId) then
+                    wlSeenDaily('i'..itemId)
                 end
             end
 
@@ -1501,12 +1501,12 @@ function wlEvent_MERCHANT_UPDATE(self)
                 price = wlConcat(price, extendedCost);
             end
 
-            merchantItemList[wlConcat(id, subId, stack, price)] = numAvailable;
+            merchantItemList[wlConcat(itemId, subId, stack, price, table.concat(bonuses, ':'))] = numAvailable;
         end
     end
 
     for link, numAvailable in pairs(merchantItemList) do
-        wlUpdateVariable(wlUnit, id, "merchant", link, "max", numAvailable);
+        wlUpdateVariable(wlUnit, unitId, "merchant", link, "max", numAvailable);
     end
 
     SetMerchantFilter(merchantFilters);
@@ -1636,6 +1636,7 @@ local WL_MINDCONTROL_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_PET, COMBATLOG_OBJECT
 local WL_PURE_NPC_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_NPC, COMBATLOG_OBJECT_CONTROL_NPC, COMBATLOG_OBJECT_REACTION_HOSTILE, COMBATLOG_OBJECT_AFFILIATION_OUTSIDER);
 local wlMostRecentEliteKilled = {};
 local wlConsecutiveNpcKills = 0;
+local wlMostRecentKilled = {};
 
 function wlEvent_COMBAT_LOG_EVENT_UNFILTERED()
 
@@ -1716,8 +1717,33 @@ function wlEvent_COMBAT_LOG_EVENT_UNFILTERED()
             wlClearTracker("spell");
         end
 
-    elseif event == "UNIT_DIED" then -- or event == "UNIT_DESTROYED"
+    elseif event == "PARTY_KILL" then
         local id, now = wlCheckUnitForRep(destGUID, destName);
+
+        if (wlMostRecentKilled and wlMostRecentKilled.id and wlMostRecentKilled.timeOfDeath and
+                wlMostRecentKilled.timeOfDeath + 300000 >= now) then
+            wlMostRecentKilled = {};
+        end
+
+        if (WL_LOOT_COUNT_KILLED_NPCS[tonumber(id)] and
+                wlEvent and wlId and wlEvent[wlId] and wlN and wlEvent[wlId][wlN]) then
+            local eventId = wlGetNextEventId();
+            wlUpdateVariable(wlEvent, wlId, wlN, eventId, "initArray", 0);
+            wlEvent[wlId][wlN][eventId].what = "loot";
+            wlEvent[wlId][wlN][eventId].action = "Killing";
+            wlEvent[wlId][wlN][eventId].kind = "npc";
+            wlEvent[wlId][wlN][eventId].dd = wlGetInstanceDifficulty();
+            wlEvent[wlId][wlN][eventId].flags = wlGetFactionFlags();
+            wlEvent[wlId][wlN][eventId].id = id;
+            wlUpdateVariable(wlEvent, wlId, wlN, eventId, "drop", 1, "set", wlConcat(0, 0, 0, 0));
+            wlMostRecentKilled = {
+                ["eventId"] = eventId;
+                ["guid"] = destGUID,
+                ["id"] = tonumber(id),
+                ["timeOfDeath"] = now,
+            };
+        end
+
         if bit_band(destFlags, WL_PURE_NPC_FLAGS) ~= WL_PURE_NPC_FLAGS then
             return;
         end
@@ -3204,6 +3230,10 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
             wlTracker.spell.kind = "npc";
             wlTracker.spell.id = wlUnitGUID("target");
 
+            if (wlMostRecentKilled.id and tonumber(wlTracker.spell.id) == wlMostRecentKilled.id) then
+                eventId = wlMostRecentKilled.eventId;
+                wlMostRecentKilled = {};
+            end
 
         else -- pets
             return;
@@ -3252,13 +3282,7 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
         wlEvent[wlId][wlN][eventId].uiMapID = wlGetCurrentUiMapID();
     end
 
-    local flags = 0;
-    local faction = UnitFactionGroup("player");
-    if faction == "Alliance" then
-        flags = flags + 1024;
-    elseif faction == "Horde" then
-        flags = flags + 2048;
-    end
+    local flags = wlGetFactionFlags("player");
 
     wlEvent[wlId][wlN][eventId].flags = flags;
 
@@ -3723,13 +3747,7 @@ function wlEvent_CURRENCY_DISPLAY_UPDATE(...)
                 wlEvent[wlId][wlN][eventId].dd = wlGetInstanceDifficulty();
 
                 -- Alliance or Horde
-                local flags = 0;
-                local faction = UnitFactionGroup("player");
-                if faction == "Alliance" then
-                    flags = flags + 1024;
-                elseif faction == "Horde" then
-                    flags = flags + 2048;
-                end
+                local flags = wlGetFactionFlags("player");
 
                 wlEvent[wlId][wlN][eventId].flags = flags;
 
@@ -4230,6 +4248,10 @@ local wlScanAppearances_processing = false
 local function wlGetCollectedTransmogAppearances(category, enableFilter)
     local app = nil;
 
+    -- Dummy transmog location table since 9.2.5 PTR API change.
+    local transmogLocation = TransmogUtil.GetTransmogLocation("HEADSLOT",
+        Enum.TransmogType.Appearance, Enum.TransmogModification.Main)
+
     -- enable filter if wardrobe frame is invisible.
     if enableFilter then
         -- save user preferences
@@ -4248,7 +4270,7 @@ local function wlGetCollectedTransmogAppearances(category, enableFilter)
         C_TransmogCollection.SetAllSourceTypeFilters(true)
 
         -- fetch appearances
-        app = C_TransmogCollection.GetCategoryAppearances(category)
+        app = C_TransmogCollection.GetCategoryAppearances(category, transmogLocation)
 
         -- reset back to user preferences
         C_TransmogCollection.SetCollectedShown(collectedChecked)
@@ -4258,7 +4280,7 @@ local function wlGetCollectedTransmogAppearances(category, enableFilter)
         end
     else
         -- fetch appearances
-        app = C_TransmogCollection.GetCategoryAppearances(category)
+        app = C_TransmogCollection.GetCategoryAppearances(category, transmogLocation)
     end
 
     return app
@@ -5430,11 +5452,11 @@ function wlParseItemLink(link)
                 wlUpdateVariable(wlItemBonuses, id, bonusContext, "add", 1);
             end
 
+            local allBonuses = {};
             if numBonus and numBonus > 0 and bonuses then
                 local p1, p2 = bonuses:find(":");
                 if p1 and p1 == 1 then
                     bonuses = { strsplit(":", bonuses:sub(2)) };
-                    local allBonuses = {};
                     for index = 1, math.min(16, numBonus), 1 do
                         table.insert(allBonuses, bonuses[index]);
                     end
@@ -5444,11 +5466,11 @@ function wlParseItemLink(link)
                 end
             end
 
-            return id, subId, tonumber(enchant) or 0, tonumber(socket1) or 0, tonumber(socket2) or 0, tonumber(socket3) or 0, tonumber(socket4) or 0, name, color, guid, tonumber(pLevel) or 0, numBonus;
+            return id, subId, tonumber(enchant) or 0, tonumber(socket1) or 0, tonumber(socket2) or 0, tonumber(socket3) or 0, tonumber(socket4) or 0, name, color, guid, tonumber(pLevel) or 0, numBonus, allBonuses;
         end
     end
 
-    return 0, 0, 0, 0, 0, 0, 0, "", "", 0, 0, 0;
+    return 0, 0, 0, 0, 0, 0, 0, "", "", 0, 0, 0, {};
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -6165,3 +6187,15 @@ function wlGetCurrentUiMapID()
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
+
+-- Returns the faction flags for the given unit
+function wlGetFactionFlags(unit)
+    local flags = 0;
+    local faction = UnitFactionGroup(unit or "player");
+    if faction == "Alliance" then
+        flags = 1024;
+    elseif faction == "Horde" then
+        flags = 2048;
+    end
+    return flags;
+end

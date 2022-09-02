@@ -23,6 +23,28 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [144119] = {
+        name = "Kasea Angerforge",
+        locations = {
+            [1186] = {
+                {
+                    x = 0.476823,
+                    y = 0.470506,
+                },
+            },
+        },
+    },
+    [144154] = {
+        name = "Anvil-Thane Thurgaden",
+        locations = {
+            [1186] = {
+                {
+                    x = 0.572156,
+                    y = 0.319712,
+                },
+            },
+        },
+    },
     [154627] = {
         name = "Xandria",
         locations = {
@@ -966,8 +988,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1670] = {
                 {
-                    x = 0.389161,
-                    y = 0.700035,
+                    x = 0.388685,
+                    y = 0.699083,
                 },
             },
         },
@@ -2673,8 +2695,8 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1700] = {
                 {
-                    x = 0.56035,
-                    y = 0.785736,
+                    x = 0.55873,
+                    y = 0.785714,
                 },
             },
         },
@@ -4767,6 +4789,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [173386] = {
+        name = "Calia Menethil",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.411927,
+                    y = 0.693578,
+                },
+            },
+        },
+    },
     [173422] = {
         name = "Balmedar's Oculus",
         locations = {
@@ -4926,7 +4959,7 @@ BtWQuestsDatabase:AddNPCsTable({
         locations = {
             [1670] = {
                 {
-                    x = 0.19211,
+                    x = 0.196636,
                     y = 0.502752,
                 },
             },
@@ -4986,6 +5019,105 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.427607,
                     y = 0.702686,
+                },
+            },
+        },
+    },
+    [176789] = {
+        name = "Lady Liadrin",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.254541,
+                    y = 0.521846,
+                },
+            },
+        },
+    },
+    [176796] = {
+        name = "Lady Liadrin",
+        locations = {
+            [110] = {
+                {
+                    x = 0.900774,
+                    y = 0.375211,
+                },
+            },
+        },
+    },
+    [176826] = {
+        name = "Lady Liadrin",
+        locations = {
+            [95] = {
+                {
+                    x = 0.485355,
+                    y = 0.321214,
+                },
+            },
+        },
+    },
+    [176828] = {
+        name = "Strongarm Jarden",
+        locations = {
+            [1186] = {
+                {
+                    x = 0.517986,
+                    y = 0.331425,
+                },
+            },
+        },
+    },
+    [176829] = {
+        name = "Archmage Aethas Sunreaver",
+        locations = {
+            [95] = {
+                {
+                    x = 0.486515,
+                    y = 0.321063,
+                },
+            },
+        },
+    },
+    [176882] = {
+        name = "Lady Liadrin",
+        locations = {
+            [95] = {
+                {
+                    x = 0.355658,
+                    y = 0.72985,
+                },
+            },
+        },
+    },
+    [176915] = {
+        name = "Fightlord San",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.467405,
+                    y = 0.458482,
+                },
+            },
+        },
+    },
+    [176930] = {
+        name = "Salandria",
+        locations = {
+            [1533] = {
+                {
+                    x = 0.450184,
+                    y = 0.688847,
+                },
+            },
+        },
+    },
+    [176932] = {
+        name = "Vandellor",
+        locations = {
+            [1533] = {
+                {
+                    x = 0.450562,
+                    y = 0.688913,
                 },
             },
         },
@@ -5371,6 +5503,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.5833,
                     y = 0.853264,
+                },
+            },
+        },
+    },
+    [177782] = {
+        name = "Margrave Sin'dane",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.748426,
+                    y = 0.336587,
                 },
             },
         },
@@ -6448,6 +6591,28 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [183822] = {
+        name = "Uther",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.522018,
+                    y = 0.407339,
+                },
+            },
+        },
+    },
+    [183830] = {
+        name = "Arbiter Pelagos",
+        locations = {
+            [1673] = {
+                {
+                    x = 0.690909,
+                    y = 0.481818,
+                },
+            },
+        },
+    },
     [184062] = {
         name = "Firim",
         locations = {
@@ -6580,6 +6745,61 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [185512] = {
+        name = "Calia Menethil",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.607985,
+                    y = 0.513693,
+                },
+            },
+        },
+    },
+    [185513] = {
+        name = "Lilian Voss",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.609022,
+                    y = 0.513434,
+                },
+            },
+        },
+    },
+    [185514] = {
+        name = "Dark Ranger Velonara",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.619709,
+                    y = 0.505063,
+                },
+            },
+        },
+    },
+    [185517] = {
+        name = "Plague Deviser Marileth",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.711442,
+                    y = 0.714682,
+                },
+            },
+        },
+    },
+    [185525] = {
+        name = "Genn Greymane",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.416283,
+                    y = 0.628795,
+                },
+            },
+        },
+    },
     [185713] = {
         name = "Hadja",
         locations = {
@@ -6587,6 +6807,116 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.351643,
                     y = 0.657457,
+                },
+            },
+        },
+    },
+    [185797] = {
+        name = "Calia Menethil",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.619713,
+                    y = 0.556515,
+                },
+            },
+        },
+    },
+    [185803] = {
+        name = "Calia Menethil",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.711415,
+                    y = 0.713782,
+                },
+            },
+        },
+    },
+    [185825] = {
+        name = "Plague Deviser Marileth",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.68668,
+                    y = 0.81754,
+                },
+            },
+        },
+    },
+    [185829] = {
+        name = "Lilian Voss",
+        locations = {
+            [1536] = {
+                {
+                    x = 0.686204,
+                    y = 0.818016,
+                },
+            },
+        },
+    },
+    [185839] = {
+        name = "Calia Menethil",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.658441,
+                    y = 0.603651,
+                },
+            },
+        },
+    },
+    [185848] = {
+        name = "Calia Menethil",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.617943,
+                    y = 0.677676,
+                },
+            },
+        },
+    },
+    [185851] = {
+        name = "Dark Ranger Velonara",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.619202,
+                    y = 0.677814,
+                },
+            },
+        },
+    },
+    [185852] = {
+        name = "Lilian Voss",
+        locations = {
+            [2070] = {
+                {
+                    x = 0.618607,
+                    y = 0.677676,
+                },
+            },
+        },
+    },
+    [187436] = {
+        name = "Dori'thur",
+        locations = {
+            [1671] = {
+                {
+                    x = 0.465994,
+                    y = 0.559052,
+                },
+            },
+        },
+    },
+    [187905] = {
+        name = "Lilacsprig",
+        locations = {
+            [1670] = {
+                {
+                    x = 0.606249,
+                    y = 0.411422,
                 },
             },
         },

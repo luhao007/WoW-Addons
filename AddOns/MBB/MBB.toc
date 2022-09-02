@@ -1,4 +1,4 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: karlsnyder, vallantv
 ## Version: 4.0.7
 ## SavedVariablesPerCharacter: MBB_Exclude, MBB_Options

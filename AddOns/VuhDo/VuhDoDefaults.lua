@@ -261,6 +261,8 @@ VUHDO_DEFAULT_SPELL_CONFIG = {
 	["IS_LOAD_HOTS"] = false,
 	["smartCastModi"] = "all",
 	["autoBattleRez"] = true,
+	["custom1Unit"] = "@player",
+	["custom2Unit"] = "@player",
 }
 
 
@@ -389,7 +391,9 @@ end
 --
 local function VUHDO_makeFullColorWoOpacity(...)
 	local tColor = VUHDO_makeFullColor(...);
+	
 	tColor["useOpacity"] = false;
+	
 	return tColor;
 end
 
@@ -398,10 +402,14 @@ end
 --
 local function VUHDO_makeHotColor(...)
 	local tColor = VUHDO_makeFullColor(...);
+	
 	tColor["isFullDuration"] = false;
 	tColor["isClock"] = false;
 	tColor["countdownMode"] = 1;
 	tColor["useOpacity"] = false;
+	tColor["isFadeOut"] = false;
+	tColor["isFlashWhenLow"] = false;
+	
 	return tColor;
 end
 
@@ -2174,6 +2182,77 @@ function VUHDO_loadDefaultConfig()
 		347704  -- Veil of Darkness (heal absorb)
 	);
 
+	-- 9.2.0 - Shadowlands
+	VUHDO_addCustomSpellIds(52,
+		-- [[ Sepulcher of the First Ones ]]
+		-- Vigilant Guardian
+		360458, -- Unstable Core
+		366393, -- Searing Ablation
+		367571, -- Sear
+		-- Skolex, the Insatiable Ravener
+		-- 359778, -- Ephemera Dust
+		-- 364522, -- Devouring Blood (dispel, magic)
+		360448, -- Retch
+		359981, -- Rend
+		366070, -- Volatile Residue (ground damage)
+		-- Artificer Xy'mox
+		362882, -- Stasis Trap
+		362803, -- Glyph Of Relocation
+		364030, -- Debilitating Ray
+		365681, -- Massive Blast
+		-- Halondrus the Reclaimer
+		361309, -- Lightshatter Beam
+		-- 365297, -- Crushing Prism (dispel, magic)
+		368957, -- Volatile Charges
+		369207, -- Planetcracker Beam (ground damage)
+		-- Dausegne, the Fallen Oracle
+		-- 361966, -- Infused Strikes (tank)
+		364289, -- Staggering Barrage
+		361018, -- Staggering Barrage
+		361225, -- Encroaching Dominion (ground damage)
+		-- Prototype Pantheon
+		360259, -- Gloom Bolt
+		-- 360687, -- Runecarvers Deathtouch (dispel, magic)
+		361067, -- Bastions Ward
+		362352, -- Pinned
+		362383, -- Anima Bolt
+		-- Lihuvim, Principal Architect
+		362622, -- Unstable Mote
+		363795, -- Deconstructing Energy
+		364073, -- Degenerate
+		360869, -- Requisitioned (fixate)
+		-- 360159, -- Unstable Mote (ground damage)
+		-- Anduin Wrynn
+		365293, -- Befouled Barrier
+		-- 364031, -- Gloom (dispel, magic)
+		365024, -- Wicked Star
+		365021, -- Wicked Star
+		366849, -- Domination Word: Pain
+		-- Lords of Dread
+		360006, -- Cloud of Carrion
+		360012, -- Cloud of Carrion
+		359963, -- Opened Veins
+		-- 360148, -- Bursting Dread (dispel, magic)
+		-- 360241, -- Unsettling Dreams (dispel, magic)
+		360287, -- Anguishing Strike
+		-- Rygelon
+		361548, -- Dark Eclipse
+		362806, -- Dark Eclipse
+		362081, -- Cosmic Ejection
+		-- 362172, -- Corrupted Wound (tank)
+		362798, -- Cosmic Radiation (ground damage)
+		362088, -- Cosmic Irregularity
+		-- The Jailer
+		365153, -- Dominating Will
+		359868, -- Shattering Blast
+		-- 362075, -- Domination (mind control)
+		366132, -- Tyranny
+		366020, -- Mark Of Tyranny
+		360282, -- Rune of Damnation
+		360281, -- Rune of Damnation
+		365219  -- Chains Of Anguish
+	);
+
 	local debuffRemovalList = {};
 
 	for tIndex, tName in pairs(VUHDO_CONFIG["CUSTOM_DEBUFF"]["STORED"]) do
@@ -2722,7 +2801,7 @@ function VUHDO_loadDefaultPanelSetup()
 
 		VUHDO_PANEL_SETUP[tPanelNum] = VUHDO_ensureSanity("VUHDO_PANEL_SETUP[" .. tPanelNum .. "]", VUHDO_PANEL_SETUP[tPanelNum], VUHDO_DEFAULT_PER_PANEL_SETUP);
 	end
-
+	
 	VUHDO_PANEL_SETUP = VUHDO_ensureSanity("VUHDO_PANEL_SETUP", VUHDO_PANEL_SETUP, VUHDO_DEFAULT_PANEL_SETUP);
 	VUHDO_DEFAULT_PANEL_SETUP = VUHDO_compressAndPackTable(VUHDO_DEFAULT_PANEL_SETUP);
 	VUHDO_DEFAULT_PER_PANEL_SETUP = VUHDO_compressAndPackTable(VUHDO_DEFAULT_PER_PANEL_SETUP);

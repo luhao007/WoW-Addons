@@ -629,6 +629,7 @@ if MODERN then -- [coven]
 		[3]="fae/nightfae",
 		[4]="necro/necrolord",
 	}
+	local p8, c8 = {1, 4, 3, 2}, false
 	local function syncCoven(e)
 		if InCombatLockdown() then
 			if noPendingSync then
@@ -642,9 +643,21 @@ if MODERN then -- [coven]
 			cv = nv
 			KR:SetStateConditionalValue("coven", nv)
 		end
+		local n8 = false
+		for i=1,4 do
+			if select(3, GetAchievementCriteriaInfo(15646, i)) then
+				n8 = n8 and (n8 .. "/" .. covMap[p8[i]]) or covMap[p8[i]]
+			end
+		end
+		if n8 ~= c8 then
+			c8 = n8
+			KR:SetStateConditionalValue("acoven80", n8)
+		end
 		return e == "PLAYER_REGEN_ENABLED" and "remove"
 	end
 	KR:SetStateConditionalValue("coven", false)
+	KR:SetStateConditionalValue("acoven80", false)
 	KR:SetAliasConditional("covenant", "coven")
-	EV.COVENANT_CHOSEN, EV.PLAYER_ENTERING_WORLD = syncCoven, syncCoven
+	KR:SetAliasConditional("acovenant80", "acoven80")
+	EV.COVENANT_CHOSEN, EV.COVENANT_SANCTUM_RENOWN_LEVEL_CHANGED, EV.PLAYER_ENTERING_WORLD = syncCoven, syncCoven, syncCoven
 end

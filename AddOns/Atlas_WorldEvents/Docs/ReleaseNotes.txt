@@ -1,9 +1,25 @@
 Atlas World Events, a World of Warcraft world events map browser plug-in for Atlas
-Copyright 2011 ~ 2020 - Arith Hsu
+Copyright 2011 ~ 2022 - Arith Hsu
 
 ==============
 = Change Log =
 ==============
+
+* 3.31 (2022/08/17)
+- ToC update to support WoW 9.2.7
+
+* 3.30 (2022/07/24)
+- ToC update to support WoW 9.2.5
+- Updated MidSummer map legend color in Broken Isles, Draenor, and Pandaria
+
+* 3.29 (2022/02/28)
+- Fixed faction error while showing achievement info
+- Added MidSummer Festival maps in Kul Tiras and Zandalar
+
+* 3.28 (2022/02/28)
+- ToC update to support WoW 9.2.0
+- Formatting event's date infor to table, instead of update them as strings for localization
+- Coloring Alliance and Horde text
 
 * 3.27 (2020/10/18)
 - ToC update to support WoW 9.0.1

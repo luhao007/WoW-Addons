@@ -26,9 +26,7 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local L = AceLocale:NewLocale("Atlas_BattleforAzeroth", "deDE", false);
 
 if L then
---[[Translation missing --]]
---[[ L["ATLAS_DDL_EXPANSION_BFA"] = ""--]] 
---[[Translation missing --]]
---[[ L["ATLAS_DDL_EXPANSION_BFA2"] = ""--]] 
+L["ATLAS_DDL_EXPANSION_BFA"] = "Battle for Azeroth Instanzen"
+L["ATLAS_DDL_EXPANSION_BFA2"] = "Battle for Azeroth Schlachtzüge"
 
 end

@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Sculptacier",
     },
-    [14720] = {
-        name = "Haut seigneur Saurcroc",
-    },
     [16802] = {
         name = "Lor’themar Theron",
     },
@@ -422,9 +419,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130341] = {
         name = "Gardelame Kaja",
-    },
-    [130368] = {
-        name = "Samuel D. Colton III\0",
     },
     [130375] = {
         name = "Tallis Coeur-Céleste",
@@ -858,9 +852,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "Second Jamboya",
     },
-    [136907] = {
-        name = "Magni Barbe-de-Bronze",
-    },
     [136933] = {
         name = "Frère Pike",
     },
@@ -1056,9 +1047,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142651] = {
         name = "Lucille Malvoie",
     },
-    [142930] = {
-        name = "Halford Verroctone",
-    },
     [143536] = {
         name = "Grand seigneur de guerre Volrath",
     },
@@ -1088,9 +1076,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143908] = {
         name = "Corps mutilé",
-    },
-    [144095] = {
-        name = "Maître Mathias Shaw",
     },
     [145005] = {
         name = "Pérégrin d'élite",

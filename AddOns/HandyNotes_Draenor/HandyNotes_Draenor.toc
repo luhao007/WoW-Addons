@@ -1,11 +1,11 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: Lorade
-## Version: 2.3
+## Version: 2.7
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotesDraenorDB
 
 ## Title: HandyNotes: Draenor
-## Notes: Find Draenor Rares and Treasures easily
+## Notes: Draenor Rares and Treasures simplified
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C德拉诺|r
 
 ## X-Part-Of: HandyNotes

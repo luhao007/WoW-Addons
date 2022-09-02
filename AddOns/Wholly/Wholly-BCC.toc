@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: Scott M Harrison
-## Version: 085
+## Version: 086
 ## Dependencies: Grail
 ## OptionalDeps: LibStub, LibDataBroker, TomTom, Gatherer, Questie
 ## SavedVariablesPerCharacter: WhollyDatabase

@@ -257,6 +257,7 @@ R:SetRing("CommonHearth", {
 	{"toy", 184353, _u="k"},
 	{"toy", 180290, _u="nf"},
 	{"toy", 183716, _u="ve"},
+	{"toy", 190237, _u="bt"},
 	name=L"Hearthstones", internal=true, _u="OPCHS"
 })
 R:SetRing("SpecMenu", {

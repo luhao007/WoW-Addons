@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: TomCat
-## Version: 2.4.1
+## Version: 2.4.13
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
@@ -13,7 +13,7 @@
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1646158394
+## X-TomCats-Expiry: 1662004800
 ## X-Part-Of: TomCats
 
 constants.lua
@@ -60,6 +60,6 @@ minimap_icon.lua
 discoveries.xml
 discoveries.lua
 beta.lua
-#noblegarden/Main.xml
+noblegarden/Main.xml
 beta/maelie.xml
 beta/maelie.lua

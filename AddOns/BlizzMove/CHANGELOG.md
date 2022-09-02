@@ -1,8 +1,7 @@
-# [v3.2.11](https://github.com/Kiatra/BlizzMove/tree/v3.2.11) (2022-02-23)
+# BlizzMove
 
-[Full Changelog](https://github.com/Kiatra/BlizzMove/compare/v3.2.10...v3.2.11)
+## [v3.4.4](https://github.com/Kiatra/BlizzMove/tree/v3.4.4) (2022-08-17)
+[Full Changelog](https://github.com/Kiatra/BlizzMove/compare/v3.4.3...v3.4.4) [Previous Releases](https://github.com/Kiatra/BlizzMove/releases)
 
-Mark W (1):
-
-- TOC bump
-
+- TOC bump  
+- minor improvements  

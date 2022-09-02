@@ -1,4 +1,4 @@
--- $Id: Atlas_OutdoorRaids-enUS.lua 72 2022-02-02 17:22:23Z arithmandar $
+-- $Id: Atlas_OutdoorRaids-enUS.lua 80 2022-08-30 14:09:26Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -31,6 +31,7 @@ local L = AceLocale:NewLocale("Atlas_OutdoorRaids", "enUS", true);
 
 if L then
 L["Ancient Skull Pile"] = "Ancient Skull Pile"
+L["Azuregos"] = "Azuregos"
 L["Battle for Azeroth"] = "Battle for Azeroth"
 L["Broken Isles World Bosses"] = "Broken Isles World Bosses"
 L["Broken Shore World Bosses"] = "Broken Shore World Bosses"
@@ -38,16 +39,26 @@ L["Darkscreecher Akkarai"] = "Darkscreecher Akkarai"
 L["Doom Lord Kazzak"] = "Doom Lord Kazzak"
 L["Doomwalker"] = "Doomwalker"
 L["Draenor World Bosses"] = "Draenor World Bosses"
+L["Dragons of Nightmare"] = "Dragons of Nightmare"
+L["Dreamroarer"] = "Dreamroarer"
+L["Dreamstalker"] = "Dreamstalker"
+L["Dreamtracker"] = "Dreamtracker"
 L["Eastern Kingdoms World Bosses"] = "Eastern Kingdoms World Bosses"
+L["Emeriss"] = "Emeriss"
 L["Gezzarak the Huntress"] = "Gezzarak the Huntress"
 L["Grella <Skyguard Quartermaster>"] = "Grella <Skyguard Quartermaster>"
 L["Hazzik"] = "Hazzik"
 L["Hazzik's Package"] = "Hazzik's Package"
+L["Highlord Kruul"] = "Highlord Kruul"
 L["Kalimdor World Bosses"] = "Kalimdor World Bosses"
 L["Karrog"] = "Karrog"
 L["Kul Tiras World Bosses"] = "Kul Tiras World Bosses"
+L["Lethlas"] = "Lethlas"
+L["Lethon"] = "Lethon"
 L["Outdoor Raid Encounters"] = "Outdoor Raid Encounters"
 L["Pandaria World Bosses"] = "Pandaria World Bosses"
+L["Phantim"] = "Phantim"
+L["Rothos"] = "Rothos"
 L["Sahaak <Keeper of Scrolls>"] = "Sahaak <Keeper of Scrolls>"
 L["Severin <Skyguard Medic>"] = "Severin <Skyguard Medic>"
 L["Skull Pile"] = "Skull Pile"
@@ -55,11 +66,15 @@ L["Sky Commander Adaris"] = "Sky Commander Adaris"
 L["Sky Sergeant Doryn"] = "Sky Sergeant Doryn"
 L["Skyguard Handler Deesak"] = "Skyguard Handler Deesak"
 L["Skyguard Prisoner"] = "Skyguard Prisoner"
+L["Taerar"] = "Taerar"
 L["Talonpriest Ishaal"] = "Talonpriest Ishaal"
 L["Talonpriest Skizzik"] = "Talonpriest Skizzik"
 L["Talonpriest Zellek"] = "Talonpriest Zellek"
 L["Terokk"] = "Terokk"
+L["The Dragons"] = "The Dragons"
 L["Vakkiz the Windrager"] = "Vakkiz the Windrager"
+L["Various"] = "Various"
+L["Ysondre"] = "Ysondre"
 L["Zandalar World Bosses"] = "Zandalar World Bosses"
 
 end

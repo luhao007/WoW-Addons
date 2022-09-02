@@ -1,4 +1,4 @@
-local versionMajor, versionRev, ADDON, T, ORI = 3, 106, ...
+local versionMajor, versionRev, ADDON, T, ORI = 3, 107, ...
 local MODERN = select(4,GetBuildInfo()) >= 8e4
 local api, OR_Rings, OR_ModifierLockState, TL, EV, OR_LoadedState = {ext={ActionBook=T.ActionBook}}, {}, nil, T.L, T.Evie, 1
 local defaultConfig = {
@@ -117,7 +117,7 @@ do -- Click dispatcher
 	OR_SecCore:Execute([=[-- OR_SecCore
 		ORL_GlobalOptions, ORL_RingData, ORL_RingDataN = newtable(), newtable(), newtable()
 		ORL_KnownCollections, ORL_StoredCA = newtable(), newtable()
-		POL_RUN_ONOPEN_ON_SWITCH = true
+		POL_RUN_ONOPEN_ON_SWITCH, POL_JUMP_COUNT_LIMIT = true, 50
 		collections, ctokens, rotation, rtokens, fcIgnore, rotationMode, emptyTable = newtable(), newtable(), newtable(), newtable(), newtable(), newtable(), newtable()
 		modState, sizeSq, bindProxy, sliceProxy, overProxy = "", 16*9001^2, self:GetFrameRef("bindProxy"), self:GetFrameRef("sliceBindProxy"), self:GetFrameRef("overBindProxy")
 		sliceBindState, visitedSlices = newtable(), newtable()
@@ -309,14 +309,16 @@ do -- Click dispatcher
 
 			owner:CallMethod("NotifyState", "open", ring.name, ring.action, fastClick, fastSwitch or fastSwitch2, modLockState)
 			owner:Run(fastClick and ring.MotionAction and ORL_ArmMouseMotionTrap or ORL_DisarmMouseMotionTrap)
-			return owner:RunFor(self, ORL_PerformAB, openAction)
+			if openCollection[0] then
+				return owner:RunFor(self, ORL_PerformSliceAction, 0, false, true, "on-open")
+			end
 		]==]
 		ORL_SwitchRing = [==[-- ORL_SwitchRing
 			local colID, switchCause = ...
 			local ringID = ORL_KnownCollections[colID]
 			local col, ring = collections[colID], ORL_RingData[ringID]
 			if not col then
-				print("|cffff0000[OPie] Cannot switch to unknown collection " .. tostring(colID))
+				owner:CallMethod("Throw", "Cannot switch to unknown collection " .. tostring(colID))
 				return false
 			end
 			if switchCause == "switch-binding" then
@@ -331,8 +333,8 @@ do -- Click dispatcher
 			openCollection, openCollectionID, fastClick = col, colID, nil
 			owner:RunFor(self, ORL_UpdateInteractionBindings) -- setToVirtualKey?
 			owner:CallMethod("NotifyState", "switch", ring and ring.name, openCollectionID, fastClick, true, modState)
-			if openCollection[0] and POL_RUN_ONOPEN_ON_SWITCH then
-				return owner:RunFor(self, ORL_PerformAB, openCollection[0])
+			if openCollection[0] and POL_RUN_ONOPEN_ON_SWITCH and (JUMP_COUNT or 0) < POL_JUMP_COUNT_LIMIT then
+				return owner:RunFor(self, ORL_PerformSliceAction, 0, false, true, "switch-onopen")
 			end
 		]==]
 		ORL_GetCursorSlice = [[-- ORL_GetCursorSlice
@@ -396,26 +398,23 @@ do -- Click dispatcher
 				visitedSlices[ct], col, index = aid, aid, rotation[ct] or 1
 			end
 		]==]
-		ORL_PerformAB = [[-- ORL_PerformAB
-			local action = ...
-			if action then
-				self:SetAttribute("type", "macro")
-				self:SetAttribute("macrotext", AB:RunAttribute("UseAction", action))
-			end
-			return action or false, 0
-		]]
 		ORL_PerformSliceAction = [[-- ORL_PerformSliceAction
 			local pureSlice, shouldUpdateFastClick, noClose, interactionSource = ...
 			local pureToken = ctokens[openCollectionID][pureSlice]
 			local action, at = owner:Run(ORL_ResolveNestedSlice, openCollectionID, pureSlice, true)
 			activeRing.fcToken = shouldUpdateFastClick and activeRing.CenterAction and not fcIgnore[pureToken] and pureToken or activeRing.fcToken
 			if at == "jump" then
-				return owner:RunFor(self, ORL_SwitchRing, action, interactionSource == "primary-binding" and "jump-slice-release" or "switch-binding")
+				JUMP_COUNT = (JUMP_COUNT or 0) + 1
+				return owner:RunFor(self, ORL_SwitchRing, action, interactionSource == "primary-binding" and "jump-slice-release" or "switch-binding"), 0
 			end
 			if not noClose then
 				owner:Run(ORL_CloseActiveRing, nil, pureSlice, action)
 			end
-			return owner:RunFor(self, ORL_PerformAB, action)
+			if action then
+				self:SetAttribute("type", "macro")
+				self:SetAttribute("macrotext", AB:RunAttribute("UseAction", action))
+			end
+			return action or false, 0
 		]]
 		ORL_OnWheel = [==[-- ORL_OnWheel
 			local slice = owner:Run(ORL_GetCursorSlice)
@@ -516,10 +515,14 @@ do -- Click dispatcher
 			end
 			return false
 		]==]
+		ORL_PostClick = [[-- ORL_PostClick
+			self:SetAttribute('type', nil)
+			JUMP_COUNT = nil
+		]]
 		ORL_OpenClick = [[-- OpenClick
 			local rdata, cur = ORL_RingDataN[...], activeRing
 			if not rdata then
-				return print("|cffff0000[OPie] Unknown ring alias: ".. tostring((...)))
+				return print("|cffff0000[OPie] Cannot open unknown ring \"".. tostring((...)) .. '".')
 			elseif cur then
 				owner:Run(ORL_CloseActiveRing)
 				if cur == rdata then return end
@@ -539,8 +542,8 @@ do -- Click dispatcher
 		end
 		return self:Run(ORL_OnWheel, delta)
 	]])
-	OR_SecCore:WrapScript(OR_SecCore, "OnClick", "return self:Run(ORL_OnClick, button, down)", "self:SetAttribute('type', nil)")
-	OR_SecCore:WrapScript(OR_OpenProxy, "OnClick", "return owner:RunFor(self, ORL_OpenClick, button)", "self:SetAttribute('type', nil)")
+	OR_SecCore:WrapScript(OR_SecCore, "OnClick", "return self:Run(ORL_OnClick, button, down)", "owner:RunFor(self, ORL_PostClick)")
+	OR_SecCore:WrapScript(OR_OpenProxy, "OnClick", "return owner:RunFor(self, ORL_OpenClick, button)", "owner:RunFor(self, ORL_PostClick)")
 	OR_SecCore:WrapScript(bindProxy, "OnAttributeChanged", [[-- ORL.BindProxy-OnAttributeChanged
 		local data = ORL_RingData[tonumber(type(name) == "string" and name:match("^binding%-r(%d+)$"))]
 		if data then
@@ -555,6 +558,9 @@ do -- Click dispatcher
 			end
 		end
 	]])
+	function OR_SecCore:Throw(msg)
+		return error(msg)
+	end
 	OR_SecEnv = GetManagedEnvironment(OR_SecCore)
 end
 local function OR_GetRingOption(ringName, option)
@@ -588,7 +594,7 @@ local OR_SyncRingBinding do -- Binding management
 		if not OR_SecCore:GetAttribute("frameref-proxy" .. id) then
 			local f = CreateFrame("Button", "ORL_RProxy" .. id, nil, "SecureActionButtonTemplate")
 			f:RegisterForClicks("AnyUp", "AnyDown")
-			OR_SecCore:WrapScript(f, "OnClick", "return owner:RunFor(self, ORL_OnClick, button, down)", 'self:SetAttribute("type", nil)')
+			OR_SecCore:WrapScript(f, "OnClick", "return owner:RunFor(self, ORL_OnClick, button, down)", 'owner:RunFor(self, ORL_PostClick)')
 			OR_SecCore:SetFrameRef("proxy" .. id, f)
 			_G["BINDING_NAME_CLICK ".. f:GetName() .. ":r" .. id] = (L"OPie ring: %s"):format(props.name or "?")
 		end
@@ -836,7 +842,7 @@ function OR_SecCore:NotifyState(state, _ringName, collection, ...)
 		if ORI then
 			securecall(ORI.Show, ORI, collection, fastClick, fastOpen, self)
 		end
-		local psm = MODERN and C_GamePad.IsEnabled() and OR_SecEnv.ORL_GlobalOptions.PadSupportMode
+		local psm = C_GamePad.IsEnabled() and OR_SecEnv.ORL_GlobalOptions.PadSupportMode
 		if psm == "freelook" then
 			if not OR_PadRestoreState.saved then
 				OR_PadRestoreState.InFreeLook = IsGamePadFreelookEnabled()
@@ -901,7 +907,7 @@ local function OR_ForceResync(filter)
 			safequote(OR_GetRingOption(nil, "OpenNestedRingButton")),
 			safequote(OR_GetRingOption(nil, "ScrollNestedRingUpButton")),
 			safequote(OR_GetRingOption(nil, "ScrollNestedRingDownButton")),
-			safequote(MODERN and OR_GetRingOption(nil, "PadSupportMode") or "none")
+			safequote(OR_GetRingOption(nil, "PadSupportMode") or "none")
 		)
 	end
 end

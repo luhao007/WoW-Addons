@@ -6,6 +6,9 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
+    [51483] = {
+        name = "L’héritage des Sombrefer",
+    },
     [56829] = {
         name = "Tout en bas de la chaîne alimentaire",
     },
@@ -3249,6 +3252,60 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [63215] = {
         name = "Se présenter au général Draven",
     },
+    [63479] = {
+        name = "La convocation de la matriarche",
+    },
+    [63480] = {
+        name = "Réunion de crise",
+    },
+    [63481] = {
+        name = "Le siège de Tranquillien",
+    },
+    [63482] = {
+        name = "Mort au Fléau",
+    },
+    [63483] = {
+        name = "Des mages en renfort",
+    },
+    [63484] = {
+        name = "Une arme de chevalier",
+    },
+    [63485] = {
+        name = "Un cœur honnête",
+    },
+    [63486] = {
+        name = "Une volonté inébranlable",
+    },
+    [63487] = {
+        name = "Retour dans les terres Fantômes",
+    },
+    [63488] = {
+        name = "Le bras armé de la Lumière",
+    },
+    [63489] = {
+        name = "Justice tardive",
+    },
+    [63490] = {
+        name = "Chevalier de sang",
+    },
+    [63494] = {
+        name = "Les plans du thane-enclume",
+    },
+    [63498] = {
+        name = "Baston ou bibine",
+    },
+    [63501] = {
+        name = "C’est ce qu’on appelle un « emprunt »",
+    },
+    [63502] = {
+        name = "Les armes des Sombrefer",
+    },
+    [63519] = {
+        name = "Un combat inégal",
+    },
+    [63522] = {
+        name = "Une course à la loyale",
+    },
     [63576] = {
         name = "Premier acte",
     },
@@ -4143,6 +4200,63 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [65466] = {
         name = "Votre premier proto-verrou fuguéal",
     },
+    [65563] = {
+        name = "Une livraison pour Kasea",
+    },
+    [65564] = {
+        name = "Canidé incendiaire",
+    },
+    [65652] = {
+        name = "La convocation de la matriarche",
+    },
+    [65653] = {
+        name = "Victoire pour les Sin’dorei",
+    },
+    [65655] = {
+        name = "Les yeux du loup",
+    },
+    [65656] = {
+        name = "Appel à Lordaeron",
+    },
+    [65657] = {
+        name = "Rassemblement des Réprouvés",
+    },
+    [65658] = {
+        name = "Cette terre est nôtre",
+    },
+    [65659] = {
+        name = "Congrès sur la peste",
+    },
+    [65660] = {
+        name = "La marche de la foi",
+    },
+    [65661] = {
+        name = "Consulter nos alliés",
+    },
+    [65662] = {
+        name = "Maison de la Peste",
+    },
+    [65663] = {
+        name = "Nourrir le pestivore",
+    },
+    [65664] = {
+        name = "Essence de peste",
+    },
+    [65665] = {
+        name = "Incarnation",
+    },
+    [65666] = {
+        name = "Retour à Brill",
+    },
+    [65667] = {
+        name = "Le remède de Lordaeron",
+    },
+    [65668] = {
+        name = "Le Conseil austère",
+    },
+    [65669] = {
+        name = "Rapport à Grisetête",
+    },
     [65674] = {
         name = "Qu’est-ce donc ?",
     },
@@ -4166,6 +4280,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [65772] = {
         name = "Une question de survie",
+    },
+    [65788] = {
+        name = "Cheminer parmi les fantômes",
+    },
+    [66170] = {
+        name = "Veille silencieuse",
+    },
+    [66243] = {
+        name = "Un don d’espoir",
     },
 })
 ]])()

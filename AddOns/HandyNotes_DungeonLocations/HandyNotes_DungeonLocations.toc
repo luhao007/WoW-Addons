@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: Caliaha of Cairne
-## Version: 1.53
+## Version: 1.54
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_DungeonLocationsDB
 

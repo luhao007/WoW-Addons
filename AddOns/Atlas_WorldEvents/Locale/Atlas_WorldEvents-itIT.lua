@@ -1,8 +1,8 @@
--- $Id: Atlas_WorldEvents-itIT.lua 113 2020-10-18 15:14:01Z arith $
+-- $Id: Atlas_WorldEvents-itIT.lua 115 2022-02-28 04:16:59Z arithmandar $
 --[[
 
 	Atlas World Events, a World of Warcraft map browser for world events
-	Copyright 2011 ~ 2020 Arith Hsu
+	Copyright 2011 ~ 2022 Arith Hsu
 
 	This file is a plugin of Atlas.
 
@@ -432,6 +432,8 @@ L["Valadar Starsong"] = "Valadar Cantastella"
 L["World Events Maps"] = "Mappa degli Eventi Mondiali"
 --[[Translation missing --]]
 --[[ L["Wulmort Jinglepocket"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Yellow"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["You're a Mean One..."] = ""--]] 
 L["Zina Sharpworth <Game Tokens>"] = "Zina Aspramoneta <Gettoni dei Giochi>"

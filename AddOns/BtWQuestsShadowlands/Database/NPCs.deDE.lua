@@ -6,6 +6,12 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
+    [144119] = {
+        name = "Kasea Zornesschmied",
+    },
+    [144154] = {
+        name = "Ambossthan Thurgaden",
+    },
     [155533] = {
         name = "Der Oberste Kämmerer",
     },
@@ -773,6 +779,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [183677] = {
         name = "Uther der Lichtbringer",
+    },
+    [187905] = {
+        name = "Fliederzweig",
     },
 })
 ]])()

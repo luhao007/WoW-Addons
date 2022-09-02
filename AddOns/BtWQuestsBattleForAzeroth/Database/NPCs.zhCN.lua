@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "格鲁努斯·削钢",
     },
-    [14720] = {
-        name = "萨鲁法尔大王",
-    },
     [15192] = {
         name = "阿纳克洛斯",
     },
@@ -1476,9 +1473,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "大副加博亚",
     },
-    [136907] = {
-        name = "麦格尼·铜须",
-    },
     [136933] = {
         name = "派克修士",
     },
@@ -1785,9 +1779,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142721] = {
         name = "莱斯顿·卡尔恩",
     },
-    [142930] = {
-        name = "哈尔弗·维姆班恩",
-    },
     [143536] = {
         name = "高阶督军沃拉斯",
     },
@@ -1829,9 +1820,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143913] = {
         name = "伊崔格",
-    },
-    [144095] = {
-        name = "马迪亚斯·肖尔大师",
     },
     [144152] = {
         name = "茉艾拉·索瑞森",

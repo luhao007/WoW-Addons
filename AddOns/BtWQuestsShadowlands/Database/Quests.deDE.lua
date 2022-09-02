@@ -6,6 +6,9 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
+    [51483] = {
+        name = "Tradition der Dunkeleisenzwerge",
+    },
     [56829] = {
         name = "Gründler",
     },
@@ -3243,6 +3246,60 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [63215] = {
         name = "Meldet Euch bei Draven",
     },
+    [63479] = {
+        name = "Gerufen von der Matriarchin",
+    },
+    [63480] = {
+        name = "Besprechung",
+    },
+    [63481] = {
+        name = "Belagerung von Tristessa",
+    },
+    [63482] = {
+        name = "Tod der Geißel",
+    },
+    [63483] = {
+        name = "Magusinstallation",
+    },
+    [63484] = {
+        name = "Die Waffe eines Ritters",
+    },
+    [63485] = {
+        name = "Ein ehrliches Herz",
+    },
+    [63486] = {
+        name = "Ein unbeugsamer Wille",
+    },
+    [63487] = {
+        name = "Rückkehr in die Geisterlande",
+    },
+    [63488] = {
+        name = "Ich bin die Klinge des Lichts",
+    },
+    [63489] = {
+        name = "Lange überfällige Gerechtigkeit",
+    },
+    [63490] = {
+        name = "Blutritter",
+    },
+    [63494] = {
+        name = "Die Entwürfe des Ambossthans",
+    },
+    [63498] = {
+        name = "Raufen oder Saufen",
+    },
+    [63501] = {
+        name = "Das nennt man Ausborgen",
+    },
+    [63502] = {
+        name = "Dunkeleisenwaffen",
+    },
+    [63519] = {
+        name = "Unfairer Kampf",
+    },
+    [63522] = {
+        name = "Ein faires Rennen",
+    },
     [63576] = {
         name = "Der erste Schritt",
     },
@@ -4131,6 +4188,63 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [65466] = {
         name = "Euer erstes fugalisches Protoschloss",
     },
+    [65563] = {
+        name = "Lieferung für Kasea",
+    },
+    [65564] = {
+        name = "Guter feuriger Junge",
+    },
+    [65652] = {
+        name = "Gerufen von der Matriarchin",
+    },
+    [65653] = {
+        name = "Sieg für die Sin'dorei",
+    },
+    [65655] = {
+        name = "Augen des Wolfs",
+    },
+    [65656] = {
+        name = "Berufung nach Lordaeron",
+    },
+    [65657] = {
+        name = "Versammelt die Verlassenen",
+    },
+    [65658] = {
+        name = "Dieses Land gehört uns",
+    },
+    [65659] = {
+        name = "Die Seuchentagung",
+    },
+    [65660] = {
+        name = "Weg des Glaubens",
+    },
+    [65661] = {
+        name = "Anhörung der Verbündeten",
+    },
+    [65662] = {
+        name = "Haus der Seuchen",
+    },
+    [65663] = {
+        name = "Den Fresser füttern",
+    },
+    [65664] = {
+        name = "Essenz der Seuche",
+    },
+    [65665] = {
+        name = "Verkörperung",
+    },
+    [65666] = {
+        name = "Rückkehr nach Brill",
+    },
+    [65667] = {
+        name = "Hilfe von Lordaeron",
+    },
+    [65668] = {
+        name = "Der trostlose Rat",
+    },
+    [65669] = {
+        name = "Bericht für Graumähne",
+    },
     [65674] = {
         name = "Was ist das für ein Ding?",
     },
@@ -4154,6 +4268,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [65772] = {
         name = "Nötige Nahrungsbeschaffung",
+    },
+    [65788] = {
+        name = "Spaziergang mit Geistern",
+    },
+    [66170] = {
+        name = "Stille Wache",
+    },
+    [66243] = {
+        name = "Ein Geschenk der Hoffnung",
     },
 })
 ]])()

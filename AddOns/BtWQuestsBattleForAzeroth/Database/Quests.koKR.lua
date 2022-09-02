@@ -204,9 +204,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "블러드워처의 유산",
     },
-    [47332] = {
-        name = "향후 계획",
-    },
     [47418] = {
         name = "성장통",
     },
@@ -1506,9 +1503,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49370] = {
         name = "기록가 구출하기",
     },
-    [49375] = {
-        name = "[LARRY TEST QUEST]",
-    },
     [49377] = {
         name = "복수의 전리품",
     },
@@ -2610,9 +2604,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "꿀을 두른 샘",
     },
-    [50520] = {
-        name = "샘은 어디에?",
-    },
     [50530] = {
         name = "마녀의 손아귀로부터",
     },
@@ -3303,9 +3294,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "힘센 그록피스트",
     },
-    [51211] = {
-        name = "아제로스의 심장",
-    },
     [51214] = {
         name = "아직 살 만한 세상",
     },
@@ -3510,9 +3498,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "보고",
     },
-    [51403] = {
-        name = "대변자의 당부",
-    },
     [51407] = {
         name = "글에 담긴 의미",
     },
@@ -3559,7 +3544,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "내가 바로 선장",
     },
     [51443] = {
-        name = "사명",
+        name = "격전의 아제로스: 사명",
     },
     [51445] = {
         name = "파멸의 땅 트로스",
@@ -3840,12 +3825,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "치안대장 M. 발렌타인이 남긴 것",
     },
-    [51795] = {
-        name = "로데론 전투",
-    },
-    [51796] = {
-        name = "로데론 전투",
-    },
     [51797] = {
         name = "파도현자 추적",
     },
@@ -4047,14 +4026,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "치명적인 월척: 현재를 즐겨라",
     },
-    [52131] = {
-        name = "서로에게 필요한 존재",
-    },
     [52132] = {
         name = "해적의 증표",
-    },
-    [52139] = {
-        name = "시급한 문제",
     },
     [52146] = {
         name = "모래 위의 피",
@@ -4223,9 +4196,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "던지기만 하는 놀이",
-    },
-    [52428] = {
-        name = "심장 강화",
     },
     [52431] = {
         name = "상륙 금지",
@@ -4431,9 +4401,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "전투로 다져진 인연",
     },
-    [52946] = {
-        name = "죽어가는 세계",
-    },
     [52948] = {
         name = "전장으로: 티라가드 해협",
     },
@@ -4472,12 +4439,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "누가 살짝 흔들어 본 선물",
-    },
-    [53028] = {
-        name = "죽어가는 세계",
-    },
-    [53031] = {
-        name = "대변자의 당부",
     },
     [53041] = {
         name = "표본 수집",
@@ -4632,14 +4593,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "로의 고독한 모험",
     },
-    [53370] = {
-        name = "심판의 시간",
-    },
     [53371] = {
         name = "우리 친구가 되어 벌까?",
-    },
-    [53372] = {
-        name = "심판의 시간",
     },
     [53406] = {
         name = "심장의 방",

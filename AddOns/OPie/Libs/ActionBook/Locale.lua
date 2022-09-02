@@ -12,12 +12,12 @@ V =
     }
     or C == "esES" and { -- 25/29 (86%)
       "Habilidades", "Usar otros artículos con el mismo nombre", "Mascota de duelo", "Mascotas de duelo", "Macro personalizado", "Conjunto de equipamientos", "Conjuntos de equipamientos", "Botón de acción extra", "Montura voladora", "Monutra de tierra",
-      "Artículo", "Artículos", "Macro", "Macros", "Misceláneo", "Montura", "Monutras", z, "Mostrar sólo al equipar", z,
+      "Artículo", "Artículos", "Macro", "Macros", "Misceláneo", "Montura", "Monturas", z, "Mostrar sólo al equipar", z,
       "Habilidades de mascota", "Marcador del mundo", "Marcador del mundo", "Marcadores del mundo", "Mostrar esta rodaja siempre", "Hechizo", "Juegete", z, z,
     }
     or C == "esMX" and { -- 25/29 (86%)
       "Habilidades", "Usar otros artículos con el mismo nombre", "Mascota de duelo", "Mascotas de duelo", "Macro personalizado", "Conjunto de equipamientos", "Conjuntos de equipamientos", "Botón de acción extra", "Montura voladora", "Monutra de tierra",
-      "Artículo", "Artículos", "Macro", "Macros", "Misceláneo", "Montura", "Monutras", z, "Mostrar sólo al equipar", z,
+      "Artículo", "Artículos", "Macro", "Macros", "Misceláneo", "Montura", "Monturas", z, "Mostrar sólo al equipar", z,
       "Habilidades de mascota", "Marcador del mundo", "Marcador del mundo", "Marcadores del mundo", "Mostrar esta rodaja siempre", "Hechizo", "Juegete", z, z,
     }
     or C == "frFR" and { -- 28/29 (96%)
@@ -30,10 +30,10 @@ V =
       "아이템", "아이템", "매크로", "매크로", "기타", "탈것", "탈것", "새 매크로", "착용 시에만 표시", "소환수 능력",
       "소환수 능력", "공격대 징표", "공격대 위치 표시기", "공격대 징표", "이 조각 항상 표시", "주문", "장난감", "장난감", "알려진 최고 레벨 사용",
     }
-    or C == "ruRU" and { -- 24/29 (82%)
+    or C == "ruRU" and { -- 25/29 (86%)
       "Способности", "Использовать предметы с таким же именем", "Боевой питомец", "Боевые питомцы", "Пользовательские макросы", "Комплект экипировки", "Комплекты экипировки", z, "Воздушные средства передвижения", "Наземные средства передвижения",
       "Предмет", "Предметы", "Макрос", "Макросы", "Разное", "Средство передвижения", "Средства передвижения", z, "Показывать только если надет", z,
-      "Способности питомцев", "Рейдовая метка", z, "Рейдовые метки", "Всегда показывать этот фрагмент", "Заклинание", "Игрушки", "Игрушки", z,
+      "Способности питомцев", "Рейдовая метка", z, "Рейдовые метки", "Всегда показывать этот фрагмент", "Заклинание", "Игрушки", "Игрушки", "Использовать наивысший изученный ранг",
     }
     or C == "zhCN" and { -- 29/29 (100%)
       "技能", "同样使用具有相同名字的物品", "战斗宠物", "战斗宠物", "自定义宏", "套装方案", "套装方案", "额外动作按钮", "飞行坐骑", "地面坐骑",

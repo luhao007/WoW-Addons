@@ -2,12 +2,12 @@
 -- www.vgermods.com
 -- © 2006-2022 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
--- 
+--
 -- Gem information
 ------------------------------------------------------------
 
 
-if VgerCore.IsShadowlands then
+if VgerCore.IsMainline then
 
 
 -- Gem table row format:
@@ -285,4 +285,4 @@ PawnMetaGemQualityLevels =
 
 PawnMinimumItemLevelToConsiderGems = 144 -- Sockets on items below this ilvl are ignored by default
 
-end -- if VgerCore.IsShadowlands
+end -- if VgerCore.IsMainline

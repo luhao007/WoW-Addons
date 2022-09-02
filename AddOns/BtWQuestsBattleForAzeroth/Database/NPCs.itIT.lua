@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Plasmacciaio",
     },
-    [14720] = {
-        name = "Gran Supremo Faucisaure",
-    },
     [15192] = {
         name = "Anacronos",
     },
@@ -410,9 +407,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130341] = {
         name = "Guardia di Spade Kaja",
-    },
-    [130368] = {
-        name = "Samuel D. Colton III\0",
     },
     [130375] = {
         name = "Tallis Cuorceleste",
@@ -816,9 +810,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "Primo Ufficiale Jamboya",
     },
-    [136907] = {
-        name = "Magni Barbabronzea",
-    },
     [136933] = {
         name = "Fratello Pike",
     },
@@ -1002,9 +993,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142651] = {
         name = "Lucille Crestabianca",
     },
-    [142930] = {
-        name = "Halford Sventradraghi",
-    },
     [143536] = {
         name = "Gran Signore della Guerra Volrath",
     },
@@ -1037,9 +1025,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143908] = {
         name = "Corpo Mutilato",
-    },
-    [144095] = {
-        name = "Maestro Mathias Shaw",
     },
     [145005] = {
         name = "Lungopasso Élite",

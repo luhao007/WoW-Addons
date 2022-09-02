@@ -13,8 +13,9 @@ L:SetGeneralLocalization({
 L:SetTimerLocalization({
 	TimerCap		= "%s",
 	TimerInvite		= "%s",
-	TimerWin		= "Победа в",
-	TimerStart		= "Начиная с"
+	TimerWin		= "Победа в", -- May need verification for a more accurate translation
+	TimerStart		= "Начиная с", -- May need verification for a more accurate translation
+	TimerShadow		= "Сумеречное зрение"
 })
 
 L:SetOptionLocalization({
@@ -33,6 +34,9 @@ L:SetMiscLocalization({
 	BgStart120          = "Битва начнется через 2 минуты.",
 	BgStart60			= "Битва начнется через 1 минуту.",
 	BgStart30			= "Битва начнется через 30 секунд. Приготовиться!",
+	ArenaStart60		= "Одна минута до начала боя на Арене!",
+	ArenaStart30		= "Тридцать секунд до начала боя на Арене!",
+	ArenaStart15		= "Пятнадцать секунд до начала боя на Арене!",
 	ArenaInvite			= "Приглашение на Арену",
 	BasesToWin			= "Базы для победы: %d",
 	WinBarText			= "%s выигрывает",

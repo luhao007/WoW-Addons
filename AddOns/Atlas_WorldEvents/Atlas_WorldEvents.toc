@@ -1,5 +1,5 @@
-## Interface: 90105
-## Version: v3.27
+## Interface: 90207
+## Version: v3.31
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[World Events]|r
@@ -7,7 +7,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0世界事件|r
 ## Notes-zhCN: Atlas 世界事件地图插件。
 
-## X-Date: 2020-10-18T15:14:01Z
+## X-Date: 2022-08-17T15:00:12Z
 ## X-Category: Map
 ## X-Part-Of: Atlas
 

@@ -938,6 +938,10 @@
 			<SubAddon name="HandyNotes_NPCs (Burning Crusade Classic)">
 				<Title>NPC</Title>
 			</SubAddon>
+			<SubAddon name="HandyNotes_MistsOfPandariaTreasures">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>潘达利亚</TitleExtra>
+			</SubAddon>
 			<SubAddon name="Handynotes_Pandaria">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>潘达利亚</TitleExtra>
@@ -961,6 +965,9 @@
 				<Title>旅行指南</Title>
 			</SubAddon>
 			<SubAddon name="HandyNotes_TravelGuide (BCC)">
+				<Title>旅行指南</Title>
+			</SubAddon>
+			<SubAddon name="HandyNotes_TravelGuide">
 				<Title>旅行指南</Title>
 			</SubAddon>
 			<SubAddon name="HandyNotes_WarfrontRares">
@@ -1323,6 +1330,10 @@
 	<Addon name="Skada">
 		<Title>伤害统计</Title>
 		<Notes>伤害统计窗口</Notes>
+		<Category>战斗</Category>
+	</Addon>
+	<Addon name="TalentEmu">
+		<Title>天赋模拟器</Title>
 		<Category>战斗</Category>
 	</Addon>
 	<Addon name="TalentSetManager">

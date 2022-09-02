@@ -32,6 +32,8 @@ local L = AceLocale:NewLocale("Atlas_DungeonLocs", "zhCN", false);
 
 if L then
 L["Blue"] = "蓝色"
+--[[Translation missing --]]
+--[[ L["Change will take effect after next login; or type '/reload' command to reload addon"] = ""--]] 
 L["Dungeon Locations"] = "副本区域"
 L["Green"] = "绿色"
 L["Instances"] = "副本"
@@ -39,6 +41,8 @@ L["Instances"] = "副本"
 --[[ L["Meeting stone is inside the Sanctum of Order"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Raid entrance is inside the Sanctum Depths of Sanctum of Order"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Show %s's dungeon location maps"] = ""--]] 
 L["White"] = "白色"
 
 end

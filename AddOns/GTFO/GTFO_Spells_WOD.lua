@@ -22,6 +22,10 @@ GTFO.SpellID["164177"] = {
 	sound = 1;
 };
 
+GTFO.SpellID["165677"] = {
+  --desc = "Void Slice (Taskmaster Gurran)";
+  sound = 1;
+};
 
 GTFO.SpellID["166031"] = {
 	--desc = "Crush (Ogron Warcrusher)";
@@ -458,9 +462,19 @@ GTFO.SpellID["166570"] = {
 -- Barbed Arrow Barrage (Fleshrender Nok'gar)
 -- Shredding Swipes (Fleshrender Nok'gar) - Fail?
 
+GTFO.SpellID["172636"] = {
+	--desc = "Slippery Grease (Grom'kar Technician)";
+	sound = 2;
+};
+
 GTFO.SpellID["164632"] = {
 	--desc = "Burning Arrows (Fleshrender Nok'gar)";
 	sound = 1;
+};
+
+GTFO.SpellID["167233"] = {
+	--desc = "Bladestorm (Grom'kar Battlemaster)";
+	soundChallenge = 1;
 };
 
 GTFO.SpellID["168540"] = {

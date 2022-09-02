@@ -31,7 +31,7 @@
 ## X-eMail: arithmandarjp at yahoo.co.jp
 ## X-Category: Library
 ## X-License: MIT
-## X-Date: 2022-02-15T13:56:12Z
+## X-Date: 2022-02-23T11:59:52Z
 ## X-Website: http://www.wowace.com/addons/libbabble-itemset-3-0/
 
 LibStub\LibStub.lua

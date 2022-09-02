@@ -12,6 +12,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [141159] = {
         name = "奥尔法",
     },
+    [144119] = {
+        name = "凯西亚·怒炉",
+    },
+    [144154] = {
+        name = "铁砧守卫索加登",
+    },
     [154627] = {
         name = "山德里娅",
     },
@@ -1296,6 +1302,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [173384] = {
         name = "大领主伯瓦尔·弗塔根",
     },
+    [173386] = {
+        name = "佳莉娅·米奈希尔",
+    },
     [173422] = {
         name = "巴米达尔之眼",
     },
@@ -1352,6 +1361,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [176100] = {
         name = "伊娥娜·天刃",
+    },
+    [176789] = {
+        name = "女伯爵莉亚德琳",
     },
     [177155] = {
         name = "路途撰写师罗-威斯",
@@ -1442,6 +1454,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [185713] = {
         name = "哈德加",
+    },
+    [187436] = {
+        name = "多莉苏尔",
+    },
+    [187905] = {
+        name = "香枝",
     },
 })
 ]])()

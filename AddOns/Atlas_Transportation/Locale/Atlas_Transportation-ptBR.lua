@@ -39,6 +39,8 @@ L["Blue"] = "Azul"
 --[[Translation missing --]]
 --[[ L["Camp Taurajo"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["Change will take effect after next login; or type '/reload' command to reload addon"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["Class Order Halls"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Class Specific Only"] = ""--]] 
@@ -94,9 +96,13 @@ L["Require to complete \"Meet the Scout\" quest line first."] = "Exigido para co
 L["Requires honored faction with Sha'tari Skyguard"] = "Requer honrado com a facção Guarda Aérea Sha'tari"
 --[[Translation missing --]]
 --[[ L["Requires Teleportation Nexus Advancement"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Return to Zuldazar"] = ""--]] 
 L["Seahorse"] = "Cavalo-Marinho"
 L["Shado-Pan Rope"] = "Corda Shado-Pan"
 L["Ship / Zeppelin sailing path to destination"] = "Caminho do Navio / Zeppelin para o destino"
+--[[Translation missing --]]
+--[[ L["Show %s's transportation maps"] = ""--]] 
 L["South of the path along Lake Elune'ara"] = "Caminho sul ao longo do lago Elune'ara"
 L["Special transportation"] = "Transporte especial"
 L["Talua <Eagle Keeper>"] = "Talua <Tratadora de Águias>"

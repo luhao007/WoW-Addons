@@ -198,9 +198,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "El legado Mirasangre",
     },
-    [47332] = {
-        name = "Tu siguiente paso",
-    },
     [47418] = {
         name = "Los problemas crecen",
     },
@@ -1479,9 +1476,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49370] = {
         name = "Rescata al cronista",
     },
-    [49375] = {
-        name = "[LARRY TEST QUEST]",
-    },
     [49377] = {
         name = "¡Que le corten la cabeza!",
     },
@@ -2577,9 +2571,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "Sam caramelizado",
     },
-    [50520] = {
-        name = "¿Dónde está Sam?",
-    },
     [50530] = {
         name = "Fuera, bruja",
     },
@@ -3264,9 +3255,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "Poderoso Puñogrokk",
     },
-    [51211] = {
-        name = "El Corazón de Azeroth",
-    },
     [51214] = {
         name = "Haz el favor",
     },
@@ -3468,9 +3456,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "A la orden",
     },
-    [51403] = {
-        name = "El imperativo del portavoz",
-    },
     [51407] = {
         name = "Busca sus palabras",
     },
@@ -3514,7 +3499,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Ahora soy yo el capitán",
     },
     [51443] = {
-        name = "El objetivo de la misión",
+        name = "Battle for Azeroth: El objetivo de la misión",
     },
     [51445] = {
         name = "Thros, las Tierras Contagiadas",
@@ -3792,12 +3777,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "Lo que queda del mariscal M. Valentine",
     },
-    [51795] = {
-        name = "La batalla por Lordaeron",
-    },
-    [51796] = {
-        name = "La batalla por Lordaeron",
-    },
     [51797] = {
         name = "En busca de Sabiomar",
     },
@@ -3999,14 +3978,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "Alijo mortal: Carpe Diem",
     },
-    [52131] = {
-        name = "Nos necesitamos mutuamente",
-    },
     [52132] = {
         name = "La prueba de piratería",
-    },
-    [52139] = {
-        name = "Asuntos candentes",
     },
     [52146] = {
         name = "Sangre en la arena",
@@ -4175,9 +4148,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "No ptomar, solo lanzar",
-    },
-    [52428] = {
-        name = "Imbuir el corazón",
     },
     [52431] = {
         name = "Zona de no-desembarco",
@@ -4383,9 +4353,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "Lazos forjados en la batalla",
     },
-    [52946] = {
-        name = "Un mundo agonizante",
-    },
     [52948] = {
         name = "Llamamiento a las armas: Estrecho de Tiragarde",
     },
@@ -4424,12 +4391,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "Un obsequio ligeramente agitado",
-    },
-    [53028] = {
-        name = "Un mundo agonizante",
-    },
-    [53031] = {
-        name = "El imperativo del portavoz",
     },
     [53041] = {
         name = "Probar la mercancía",
@@ -4584,14 +4545,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "De Loh Coh",
     },
-    [53370] = {
-        name = "La hora de la verdad",
-    },
     [53371] = {
         name = "Abeja mía",
-    },
-    [53372] = {
-        name = "La hora de la verdad",
     },
     [53406] = {
         name = "La Cámara del Corazón",

@@ -1,4 +1,4 @@
--- $Id: Atlas_Transportation-enUS.lua 131 2022-02-02 17:23:30Z arithmandar $
+-- $Id: Atlas_Transportation-enUS.lua 156 2022-03-20 06:34:12Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -101,5 +101,8 @@ if L then
 	L["Boat to Stormwind City"] = "Boat to Stormwind City"
 	L["Boat to Echo Isles, Durotar"] = "Boat to Echo Isles, Durotar"
 	L["Honored with Sha'tari Skyguard"] = "Honored with Sha'tari Skyguard"
-	
+	-- Options
+	L["Return to Zuldazar"] = "Return to Zuldazar"
+	L["Show %s's transportation maps"] = "Show %s's transportation maps"
+	L["Change will take effect after next login; or type '/reload' command to reload addon"] = "Change will take effect after next login; or type '/reload' command to reload addon"
 end

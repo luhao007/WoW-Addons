@@ -1,7 +1,7 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: Crieve-Sargeras
-## Version: SL-2.7.0
-## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSettings, AllTheThingsAD, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems, AllTheThingsArtifactsItems, AllTheThingsProfiles
+## Version: SL-2.9.4
+## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
 ## Title: AllTheThings |TInterface\Addons\AllTheThings\assets\logo_32x32:0|t

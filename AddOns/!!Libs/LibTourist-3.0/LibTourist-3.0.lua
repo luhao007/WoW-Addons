@@ -1,6 +1,6 @@
 --[[
 Name: LibTourist-3.0
-Revision: $Rev: 263 $
+Revision: $Rev: 274 $
 Author(s): Odica (owner), originally created by ckknight and Arrowmaster
 Documentation: https://www.wowace.com/projects/libtourist-3-0/pages/api-reference
 SVN: svn://svn.wowace.com/wow/libtourist-3-0/mainline/trunk
@@ -9,7 +9,7 @@ License: MIT
 ]]
 
 local MAJOR_VERSION = "LibTourist-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Revision: 263 $"):match("(%d+)"))
+local MINOR_VERSION = 90000 + tonumber(("$Revision: 274 $"):match("(%d+)"))
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 local C_Map = C_Map
@@ -172,13 +172,6 @@ elseif GetLocale() == "ptBR" then
 	X_Y_TELEPORT = "%s - %s Teleporte"
 	X_Y_WAYSTONE = "%s - %s Pedra caminho"
 	X_Y_FLIGHTPATH = "%s - %s Rota de Vôo"
-elseif GetLocale() == "ruRU" then
-	X_Y_ZEPPELIN = "%s - %s дирижабль"
-	X_Y_BOAT = "%s - %s Лодка"
-	X_Y_PORTAL = "%s - %s Портал"
-	X_Y_TELEPORT = "%s - %s Телепорт"		
-	X_Y_WAYSTONE = "%s - %s Путевой камень"
-	X_Y_FLIGHTPATH = "%s - %s Полоса взлета"
 end
 
 local recZones = {}
@@ -1759,6 +1752,7 @@ local MapIdLookupTable = {
     [1967] = "Torghast",
     [1968] = "Torghast",
     [1969] = "Torghast",
+    [1970] = "Zereth Mortis",
     [1971] = "Skyhold",
     [1974] = "Torghast",
     [1975] = "Torghast",
@@ -1801,6 +1795,24 @@ local MapIdLookupTable = {
     [2017] = "Spires of Ascension",
     [2018] = "Spires of Ascension",
     [2019] = "Torghast",
+	[2027] = "Blooming Foundry",
+	[2028] = "Locrian Esper",
+	[2029] = "Gravid Repose",
+	[2030] = "Nexus of Actualization",
+	[2031] = "Crypts of the Eternal",
+	[2042] = "The Crucible",
+	[2046] = "Zereth Mortis",
+	[2047] = "Sepulcher of the First Ones",
+	[2048] = "Sepulcher of the First Ones",
+	[2049] = "Sepulcher of the First Ones",
+	[2050] = "Sepulcher of the First Ones",
+	[2051] = "Sepulcher of the First Ones",
+	[2052] = "Sepulcher of the First Ones",
+	[2055] = "Sepulcher of the First Ones",
+	[2059] = "Resonant Peaks",
+	[2061] = "Sepulcher of the First Ones",
+	[2066] = "Catalyst Wards",
+	[2070] = "Tirisfal Glades",
 }
 
 
@@ -1831,6 +1843,10 @@ local zoneTranslation = {
 		[3702] = "Blade's Edge Arena",  -- was 562
 		[4378] = "Dalaran Arena",
 		[6732] = "The Tiger's Peak",
+		[9279] = "Hook Point",
+		[9992] = "Mugambala",
+		[10497] = "The Robodrome",
+		[14083] = "Enigma Crucible",
 
 		-- Other
 		[3508] = "Amani Pass",
@@ -1858,6 +1874,10 @@ local zoneTranslation = {
 		[3702] = "Arena des Schergrats",
 		[4378] = "Arena von Dalaran",
 		[6732] = "Der Tigergipfel", 
+		[9279] = "Das Hakenkap",
+		[9992] = "Mugambala",
+		[10497] = "Das Robodrom",
+		[14083] = "Enigmatiegel",
 
 		-- Other
 		[3508] = "Amanipass",
@@ -1885,6 +1905,10 @@ local zoneTranslation = {
 		[3702] = "Arena Filospada",
 		[4378] = "Arena de Dalaran",
 		[6732] = "La Cima del Tigre",
+		[9279] = "Puntagarfio",
+		[9992] = "Mugambala",
+		[10497] = "Robotódromo",
+		[14083] = "Crisol Enigma",
 
 		-- Other
 		[3508] = "Paso de Amani",
@@ -1912,6 +1936,10 @@ local zoneTranslation = {
 		[3702] = "Arena Filospada",
 		[4378] = "Arena de Dalaran",
 		[6732] = "La Cima del Tigre",
+		[9279] = "Punta Garfio",
+		[9992] = "Mugambala",
+		[10497] = "El Robódromo",
+		[14083] = "Crisol Enigmático",
 
 		-- Other
 		[3508] = "Paso de Amani",
@@ -1939,6 +1967,10 @@ local zoneTranslation = {
 		[3702] = "Arène des Tranchantes",
 		[4378] = "Arène de Dalaran",
 		[6732] = "Le croc du Tigre",
+		[9279] = "Pointe du Crochet",
+		[9992] = "Mugambala",
+		[10497] = "Le Robodrome",
+		[14083] = "Creuset des Énigmes",
 
 		-- Other
 		[3508] = "Passage des Amani",
@@ -1966,6 +1998,10 @@ local zoneTranslation = {
 		[3702] = "Arena di Spinaguzza",
 		[4378] = "Arena di Dalaran",
 		[6732] = "Picco della Tigre",
+		[9279] = "Presidio della Pesca",
+		[9992] = "Mugambala",
+		[10497] = "Robodromo",
+		[14083] = "Crogiolo dell'Enigma",
 
 		-- Other
 		[3508] = "Passo degli Amani",
@@ -1993,6 +2029,10 @@ local zoneTranslation = {
 		[3702] = "칼날 산맥 투기장",
 		[4378] = "달라란 투기장",
 		[6732] = "범의 봉우리",
+		[9279] = "갈고리 시장",
+		[9992] = "무감발라",
+		[10497] = "로봇 전투장",
+		[14083] = "수수께끼 도가니",
 
 		-- Other
 		[3508] = "아마니 고개",
@@ -2020,37 +2060,14 @@ local zoneTranslation = {
 		[3702] = "Arena da Lâmina Afiada",
 		[4378] = "Arena de Dalaran",
 		[6732] = "O Pico do Tigre",
+		[9279] = "Ponta do Gancho",
+		[9992] = "Mugambala",
+		[10497] = "Robódromo",
+		[14083] = "Crisol do Enigma",
 		
 		-- Other
 		[3508] = "Desfiladeiro Amani",
 		[3979] = "Mar Congelado",
-	},
-	ruRU = {
-		-- Complexes
-		[4406] = "Арена Доблести",
-		[3905] = "Резервуар Кривого Клыка",
-		[3893] = "Ритуальный Круг",
-		[4024] = "Хладарра",
-
-		-- Transports
-		[72] = "Темный портал",
-
-		-- Dungeons
-		[5914] = "Забытый город – восток",
-		[5913] = "Забытый город – север",
-		[5915] = "Забытый город – запад",
-		[8443] = "Возвращение в Каражан",
-		[12837] = "Шпили Перерождения",
-
-		-- Arenas
-		[3698] = "Арена Награнда",
-		[3702] = "Арена Острогорья",
-		[4378] = "Арена Даларана",
-		[6732] = "Пик Тигра",
-		
-		-- Other
-		[3508] = "Перевал Амани",
-		[3979] = "Ледяное море",
 	},
 	zhCN = {
 		-- Complexes
@@ -2074,6 +2091,10 @@ local zoneTranslation = {
 		[3702] = "刀锋山竞技场",
 		[4378] = "达拉然竞技场",
 		[6732] = "虎踞峰",
+		[9279] = "锚角港",
+		[9992] = "穆贾巴拉",
+		[10497] = "机械天穹",
+		[14083] = "迷阵竞技场",
 		
 		-- Other
 		[3508] = "阿曼尼小径",
@@ -2101,6 +2122,10 @@ local zoneTranslation = {
 		[3702] = "劍刃競技場",
 		[4378] = "達拉然競技場",
 		[6732] = "猛虎峰",
+		[9279] = "勾角地",
+		[9992] = "穆干巴拉",
+		[10497] = "超爆機械鬥場",
+		[14083] = "神秘之爐",
 		
 		-- Other
 		[3508] = "阿曼尼小徑",
@@ -2415,9 +2440,11 @@ local function GatherFlightnodeData()
 	
 	local missingNodes = {}
 	
+	trace("GatherFlightnodeData...")
 	
 	-- Add node objects from the C_TaxiMap interface to the lookup
-	for zMapID, zName in pairs(MapIdLookupTable) do	
+	for zMapID = 1, 10000, 1 do
+--	for zMapID, zName in pairs(MapIdLookupTable) do	
 		-- Use MapIdLookupTable instead of iterating through continents and zones to be sure all known zones are checked for flight nodes
 --		cMapID = Tourist:GetContinentMapID(zMapID)
 --		cName = MapIdLookupTable[cMapID]
@@ -4423,6 +4450,13 @@ do
 	transports["REVENDRETH_ORIBOS_FLIGHTPATH"] = string.format(X_Y_FLIGHTPATH, BZ["Revendreth"], BZ["Oribos"])
 	transports["BASTION_ELYSIANHOLD_FLIGHTPATH"] = string.format(X_Y_FLIGHTPATH, BZ["Bastion"], BZ["Elysian Hold"])
 	transports["ELYSIANHOLD_BASTION_FLIGHTPATH"] = string.format(X_Y_FLIGHTPATH, BZ["Elysian Hold"], BZ["Bastion"])
+	transports["ORIBOS_TAZAVESH_FLIGHTPATH"] = string.format(X_Y_FLIGHTPATH, BZ["Oribos"], BZ["Tazavesh, the Veiled Market"])
+	transports["TAZAVESH_ORIBOS_FLIGHTPATH"] = string.format(X_Y_FLIGHTPATH, BZ["Tazavesh, the Veiled Market"], BZ["Oribos"])
+	transports["ORIBOS_ZERETHMORTIS_WAYSTONE"] = string.format(X_Y_WAYSTONE, BZ["Oribos"], BZ["Zereth Mortis"])
+	transports["ZERETHMORTIS_ORIBOS_WAYSTONE"] = string.format(X_Y_WAYSTONE, BZ["Zereth Mortis"], BZ["Oribos"])
+
+
+
 	
 	-- Argus teleport connections
 	transports["VINDICAAR_KROKUUN_TELEPORT"] = string.format(X_Y_TELEPORT, BZ["The Vindicaar"], BZ["Krokuun"])
@@ -5902,6 +5936,34 @@ do
 			[BZ["Oribos"]] = true,
 		},
 		type = "Flightpath",
+	}	
+	
+	zones[transports["ORIBOS_TAZAVESH_FLIGHTPATH"]] = {
+		paths = {
+			[BZ["Tazavesh, the Veiled Market"]] = true,
+		},
+		type = "Flightpath",
+	}
+
+	zones[transports["TAZAVESH_ORIBOS_FLIGHTPATH"]] = {
+		paths = {
+			[BZ["Oribos"]] = true,
+		},
+		type = "Flightpath",
+	}		
+	
+	zones[transports["ORIBOS_ZERETHMORTIS_WAYSTONE"]] = {
+		paths = {
+			[BZ["Zereth Mortis"]] = true,
+		},
+		type = "Portal",
+	}
+
+	zones[transports["ZERETHMORTIS_ORIBOS_WAYSTONE"]] = {
+		paths = {
+			[BZ["Oribos"]] = true,
+		},
+		type = "Portal",
 	}	
 	
 	zones[transports["IRONFORGE_KELPTHAR_FLIGHTPATH"]] = {
@@ -9220,7 +9282,7 @@ do
 			[BZ["Atal'Dazar"]] = true,
 			[BZ["Kings' Rest"]] = true,
 			[BZ["Battle of Dazar'alor"]] = true,
---			[BZ["Mugambala"]] = true, -- Arena
+			[BZ["Mugambala"]] = true, -- Arena
 		},
 		paths = {
 			[BZ["Dazar'alor"]] = true,
@@ -9229,6 +9291,7 @@ do
 			[BZ["Atal'Dazar"]] = true,
 			[BZ["Kings' Rest"]] = true,
 			[BZ["Battle of Dazar'alor"]] = true,
+			[BZ["Mugambala"]] = true, -- Arena
 		},	
 		flightnodes = {
 			[1975] = true,    -- Zeb'ahari, Zuldazar (H)
@@ -9264,9 +9327,9 @@ do
 	-- Kul Tiras cities and zones (Alliance)
 	
 	zones[BZ["Boralus"]] = {
---		instances = {
---			[BZ["Hook Point"]] = true,
---		},	
+		instances = {
+			[BZ["Hook Point"]] = true,
+		},	
 		paths = {
 			[BZ["Tiragarde Sound"]] = true,
 			[transports["TIRAGARDESOUND_STORMWIND_BOAT"]] = true,
@@ -9276,6 +9339,7 @@ do
 			[transports["TIRAGARDESOUND_SILITHUS_PORTAL"]] = true,
 			[transports["TIRAGARDESOUND_NAZJATAR_PORTAL"]] = true,
 			[transports["TIRAGARDESOUND_MECHAGON_FLIGHTPATH"]] = true,
+			[BZ["Hook Point"]] = true,
 		},	
 		flightnodes = {
 			[2083] = true,    -- Tradewinds Market, Tiragarde Sound (A)
@@ -9435,10 +9499,11 @@ do
 			[transports["MECHAGON_ZULDAZAR_BOAT"]] = true,
 			[transports["MECHAGON_TIRAGARDESOUND_FLIGHTPATH"]] = true,
 			[BZ["Mechagon"]] = true, -- Operation: Mechagon (no map for this name in C_Map?)
+--			[BZ["The Robodrome"]] = true, -- Arena
 		},
 		instances = {
 			[BZ["Mechagon"]] = true, -- Operation: Mechagon (no map for this name in C_Map?)
---			[BZ["Robodrome"]] = true, -- Arena
+--			[BZ["The Robodrome"]] = true, -- Arena
 		},
 		flightnodes = {
 			[2441] = true,    -- Prospectus Bay, Mechagon (H)
@@ -9488,6 +9553,9 @@ do
 	
 	-- 10565
 	zones[BZ["Oribos"]] = {
+		instances = {
+			[BZ["Tazavesh, the Veiled Market"]] = true,
+		},
 		paths = {
 			[transports["ORIBOS_ORGRIMMAR_PORTAL"]] = true,
 			[transports["ORIBOS_STORMWIND_PORTAL"]] = true,
@@ -9497,11 +9565,14 @@ do
 			[transports["ORIBOS_MALDRAXXUS_FLIGHTPATH"]] = true,
 			[transports["ORIBOS_ARDENWEALD_FLIGHTPATH"]] = true,
 			[transports["ORIBOS_REVENDRETH_FLIGHTPATH"]] = true,
+			[transports["ORIBOS_TAZAVESH_FLIGHTPATH"]] = true,
+			[transports["ORIBOS_ZERETHMORTIS_WAYSTONE"]] = true,			
 		},
 		flightnodes = {
 			[2395] = true,     	-- Oribos
 		},
 		type = "City",
+		faction = "Sanctuary",
 		continent = The_Shadowlands,
 		expansion = Shadowlands,
 	}
@@ -9692,8 +9763,13 @@ do
 			[transports["MAW_ORIBOS_WAYSTONE"]] = true,
 			[BZ["Sanctum of Domination"]] = true,
 			[BZ["Korthia"]] = true,
-		},		
+		},
+		flightnodes = {
+			[2700] = true,    -- Ve'nari's Refuge
+		},
 	}
+
+
 
 	-- Korthia, City of Secrets
 	zones[BZ["Korthia"]] = {
@@ -9704,13 +9780,38 @@ do
 		paths = {
 			[transports["KORTHIA_ORIBOS_WAYSTONE"]] = true,
 			[BZ["The Maw"]] = true,
-		},			
+		},
+		flightnodes = {
+			[2698] = true,    -- Keeper's Respite
+		},
 	}
 
 
-
-
-
+	-- 13536
+	zones[BZ["Zereth Mortis"]] = {
+		low = 60,
+		high = 60,
+		instances = {
+			[BZ["Sepulcher of the First Ones"]] = true,
+			[BZ["Enigma Crucible"]] = true,
+		},
+		paths = {
+			[transports["ZERETHMORTIS_ORIBOS_WAYSTONE"]] = true,
+			[BZ["Sepulcher of the First Ones"]] = true,
+			[BZ["Enigma Crucible"]] = true,
+		},
+		flightnodes = {
+			[2724] = true,    -- Haven, Zereth Mortis
+			[2728] = true,    -- Pilgrim's Grace, Zereth Mortis
+			[2725] = true,    -- Faith's Repose, Zereth Mortis
+			[2737] = true,    -- Sepulcher Of The First Ones, Zereth Mortis
+			[2734] = true,    -- Antecedent Isle, Zereth Mortis
+			[2733] = true,    -- Zovaal's Grasp, Zereth Mortis
+			[2736] = true,    -- Sepulcher Overlook, Zereth Mortis
+		},		
+		continent = The_Shadowlands,
+		expansion = Shadowlands,
+	}
 
 
 
@@ -11236,7 +11337,22 @@ do
 		--entrancePortal = { BZ["Revendreth"], 0, 0 }, -- TODO
 	}
 
-
+	-- 13577
+	zones[BZ["Tazavesh, the Veiled Market"]] = {
+		low = 60,
+		high = 60,
+		continent = The_Shadowlands,
+		expansion = Shadowlands,
+		paths = {
+			[transports["TAZAVESH_ORIBOS_FLIGHTPATH"]] = true,
+		},
+		flightnodes = {
+			[2703] = true,    -- Tazavesh, the Veiled Market
+		},
+		groupSize = 5,
+		type = "Instance",
+		--entrancePortal = { BZ["Revendreth"], 0, 0 }, -- TODO
+	}
 
 
 	-- ==================RAIDS=====================
@@ -11736,6 +11852,18 @@ do
 		entrancePortal = { BZ["The Maw"], 68.4, 32.5 }, 
 	}	
 	
+	zones[BZ["Sepulcher of the First Ones"]] = {
+		low = 60,
+		high = 60,
+		continent = The_Shadowlands,
+		expansion = Shadowlands,
+		paths = BZ["Zereth Mortis"],
+		groupMinSize = 10,
+		groupMaxSize = 30,
+		type = "Instance",
+		entrancePortal = { BZ["Zereth Mortis"], 68.4, 32.5 }, 
+	}	
+	
 	-- ==============BATTLEGROUNDS================
 
 	zones[BZ["Arathi Basin"]] = {
@@ -11928,26 +12056,28 @@ do
 --		type = "Arena",
 --	}
 	
+	-- Added in patch 8.0.1
 	-- Zone name = KulTirasArena
 	-- MapID = 1825. AreaID is 9279.
-	-- Arena appears to be buggy and not much appreciated by players. Removed from game?
---	zones[BZ["Hook Point"]] = {
---		continent = Kul_Tiras,
---		expansion = Battle_for_Azeroth,
---		paths = BZ["Boralus"],
---		faction = "Alliance",
---		type = "Arena",
---	}
+	-- Arena appears to be buggy and not much appreciated by players.
+	zones[BZ["Hook Point"]] = {
+		continent = Kul_Tiras,
+		expansion = Battle_for_Azeroth,
+		paths = BZ["Boralus"],
+		faction = "Alliance",
+		type = "Arena",
+	}
 
+	-- Added in patch 8.0.1
 	-- Zone name = MugambalaArena
 	-- MapID = 1911. AreaID is 9992.
---	zones[BZ["Mugambala"]] = {
---		continent = Zuldazar,
---		expansion = Battle_for_Azeroth,
---		paths = BZ["Zuldazar"],
---		faction = "Horde",
---		type = "Arena",
---	}
+	zones[BZ["Mugambala"]] = {
+		continent = Zuldazar,
+		expansion = Battle_for_Azeroth,
+		paths = BZ["Zuldazar"],
+		faction = "Horde",
+		type = "Arena",
+	}
 
 	-- Added in patch 8.2.0
 	-- Zone name = MechagonArena
@@ -11959,6 +12089,16 @@ do
 --		type = "Arena",
 --	}
 	
+	
+	-- Added in patch 9.2.5
+	-- Zone name = EnigmaCrucible
+	-- MapID is 2547. AreaID is 14083.	
+	zones[BZ["Enigma Crucible"]] = {
+		continent = The_Shadowlands,
+		expansion = Shadowlands,
+		paths = BZ["Zereth Mortis"],
+		type = "Arena",
+	}	
 	
 	-- ==============COMPLEXES================
 

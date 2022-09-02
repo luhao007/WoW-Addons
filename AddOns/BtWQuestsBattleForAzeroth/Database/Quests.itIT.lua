@@ -198,9 +198,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "Il retaggio dei Mirasangue",
     },
-    [47332] = {
-        name = "La prossima mossa",
-    },
     [47418] = {
         name = "Mal di Crescita",
     },
@@ -2580,9 +2577,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "Sam il mieloso",
     },
-    [50520] = {
-        name = "Dov'è Sam?",
-    },
     [50530] = {
         name = "Chiavi in mano",
     },
@@ -3270,9 +3264,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "Grokk Pugnoatroce il possente",
     },
-    [51211] = {
-        name = "Il Cuore di Azeroth",
-    },
     [51214] = {
         name = "Sii gentile",
     },
@@ -3477,9 +3468,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "A rapporto!",
     },
-    [51403] = {
-        name = "Priorità dell'Oratore",
-    },
     [51407] = {
         name = "Trovare le parole",
     },
@@ -3523,7 +3511,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Sono io il capitano, ora",
     },
     [51443] = {
-        name = "Notifica di missione",
+        name = "(Battle for Azeroth) Comunicare gli obiettivi",
     },
     [51445] = {
         name = "Thros, le Terre Ammorbate",
@@ -3801,12 +3789,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "Ciò che resta del Maresciallo M. Valentine",
     },
-    [51795] = {
-        name = "La Battaglia per Lordaeron",
-    },
-    [51796] = {
-        name = "La Battaglia per Lordaeron",
-    },
     [51797] = {
         name = "Sulle tracce del Saggio delle Maree",
     },
@@ -4008,14 +3990,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "Preda letale: Carpa Diem",
     },
-    [52131] = {
-        name = "Reciproca utilità",
-    },
     [52132] = {
         name = "Prova di pirateria",
-    },
-    [52139] = {
-        name = "Faccende pressanti",
     },
     [52146] = {
         name = "Sangue sulla sabbia",
@@ -4184,9 +4160,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "Tu lanci, io ptrendo",
-    },
-    [52428] = {
-        name = "Infondere il Cuore",
     },
     [52431] = {
         name = "Divieto di attracco",
@@ -4392,9 +4365,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "Legami forgiati in battaglia",
     },
-    [52946] = {
-        name = "Un mondo morente",
-    },
     [52948] = {
         name = "Chiamata alle armi: Baia di Tiragarde",
     },
@@ -4433,12 +4403,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "Dono Dolcemente Scosso",
-    },
-    [53028] = {
-        name = "Un mondo morente",
-    },
-    [53031] = {
-        name = "Priorità dell'Oratore",
     },
     [53041] = {
         name = "Provare la merce",
@@ -4593,14 +4557,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "Lohmanji",
     },
-    [53370] = {
-        name = "L'ora della Resa dei Conti",
-    },
     [53371] = {
         name = "Apicizia",
-    },
-    [53372] = {
-        name = "L'ora della Resa dei Conti",
     },
     [53406] = {
         name = "Sala del Cuore",

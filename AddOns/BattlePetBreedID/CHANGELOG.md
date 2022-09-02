@@ -1,6 +1,6 @@
 # Battle Pet BreedID
 
-## v1.20.0 (2022-02-22)
+## v1.21.1 (2022-07-20)
  
 
-- Added Patch 9.2.0 battle pet base stat and breed data and updated the TOC as well.  
+- Updated base data and breeds for encrypted pets.  

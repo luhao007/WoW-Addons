@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Forjacero",
     },
-    [14720] = {
-        name = "Alto señor supremo Colmillosauro",
-    },
     [15192] = {
         name = "Anacronos",
     },
@@ -83,9 +80,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [122370] = {
         name = "Cyrus Catacresta",
-    },
-    [122672] = {
-        name = "Olivia",
     },
     [122702] = {
         name = "Encantadora Quinni",
@@ -336,9 +330,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [128618] = {
         name = "Maestro de embarcadero Herrington",
     },
-    [128679] = {
-        name = "Rosalina Madison",
-    },
     [128680] = {
         name = "Okri Tirallave",
     },
@@ -573,9 +564,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [132720] = {
         name = "Maestro de halcones Lloyd",
     },
-    [132966] = {
-        name = "Lynn Dulce",
-    },
     [132988] = {
         name = "Parche",
     },
@@ -662,9 +650,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [134752] = {
         name = "Alcaldesa Roz",
-    },
-    [134776] = {
-        name = "Davey Atigrado",
     },
     [135021] = {
         name = "Inquisidora Albaclara",
@@ -813,9 +798,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "Contramaestre Jamboya",
     },
-    [136907] = {
-        name = "Magni Barbabronce",
-    },
     [136933] = {
         name = "Hermano Pike",
     },
@@ -915,9 +897,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [139089] = {
         name = "Guardia de Vaderia",
     },
-    [139568] = {
-        name = "Magíster Umbric",
-    },
     [139705] = {
         name = "Halford Aterravermis",
     },
@@ -999,9 +978,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142651] = {
         name = "Lucille Crestavía",
     },
-    [142930] = {
-        name = "Halford Aterravermis",
-    },
     [143536] = {
         name = "Gran señor de la guerra Volrath",
     },
@@ -1037,9 +1013,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143908] = {
         name = "Cuerpo destrozado",
-    },
-    [144095] = {
-        name = "Maestro Mathias Shaw",
     },
     [145005] = {
         name = "Errante de élite",

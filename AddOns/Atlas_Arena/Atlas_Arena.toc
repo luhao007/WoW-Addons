@@ -1,5 +1,5 @@
-## Interface: 90105
-## Version: v1.07.05
+## Interface: 90207
+## Version: v1.07.07
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Arena]|r
@@ -7,7 +7,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0竞技场|r
 ## Notes-zhCN: Atlas 竞技场地图插件。
 
-## X-Date: 2020-10-18T15:16:16Z
+## X-Date: 2022-08-17T14:47:31Z
 ## X-Category: Map
 ## X-Part-Of: Atlas
 

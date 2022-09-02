@@ -12,8 +12,10 @@ from toc import TOC
 logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
-CLASSIC_VER = '20502'
-RETAIL_VER = '90105'
+CLASSIC_VER = '30400'
+RETAIL_VER = '90207'
+
+IGNORED = ['FishingBuddy', 'GTFO', 'Details', 'ATT-Classic', 'TrinketMenu', 'TalentEmu']
 
 
 def available_on(platforms):
@@ -143,7 +145,10 @@ class Manager:
             def process(config, addon, lines):
                 toc = TOC(lines)
 
-                toc.tags['Interface'] = self.interface
+                if addon in IGNORED and utils.get_platform() == 'classic':
+                    toc.tags['Interface'] = 10000
+                else:
+                    toc.tags['Interface'] = self.interface
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
                 note = config.find('Notes')
@@ -160,7 +165,7 @@ class Manager:
 
                 return toc.to_lines()
 
-            for postfix in ['', '-Classic', '-BCC', '-Mainline', '_TBC', '_Vanilla', '_Mainline']:
+            for postfix in ['', '-Classic', '-BCC', '-WOTLKC', '-Mainline', '_TBC', '_Vanilla', '_Wrath', '_Mainline']:
                 path = os.path.join('AddOns', addon, f'{addon}{postfix}.toc')
                 if os.path.exists(path):
                     utils.process_file(path, functools.partial(process, config, addon))
@@ -386,7 +391,7 @@ class Manager:
         utils.process_file('Addons/ACP/ACP.xml', handle)
 
     @staticmethod
-    @available_on(['classic', 'classic_era'])
+    @available_on(['classic_era'])
     def handle_ate():
         utils.remove_libraries(
                 ['CallbackHandler-1.0', 'LibDataBroker-1.1',
@@ -734,7 +739,7 @@ class Manager:
                 utils.remove_libraries([ 'LibUIDropDownMenu'], 'AddOns/Questie/Libs', f'AddOns/Questie/Questie{postfix}.toc')
 
         root = Path('AddOns/Questie')
-        with open(root / 'Questie.toc', 'r', encoding='utf-8') as file:
+        with open(root / 'Questie-BCC.toc', 'r', encoding='utf-8') as file:
             lines = file.readlines()
 
         toc = TOC(lines)

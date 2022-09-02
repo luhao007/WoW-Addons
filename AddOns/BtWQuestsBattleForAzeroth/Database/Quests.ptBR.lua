@@ -198,9 +198,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "O Legado Vigiassangre",
     },
-    [47332] = {
-        name = "Seu próximo passo",
-    },
     [47418] = {
         name = "Dor de crescimento",
     },
@@ -1479,9 +1476,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49370] = {
         name = "Ao resgate do cronista",
     },
-    [49375] = {
-        name = "[LARRY TEST QUEST]",
-    },
     [49377] = {
         name = "Cortem a cabeça dela",
     },
@@ -2577,9 +2571,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "Sam melado",
     },
-    [50520] = {
-        name = "Cadê o Sam?",
-    },
     [50530] = {
         name = "Bruxa vida, para onde agora?",
     },
@@ -3264,9 +3255,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "O poderoso Mão-de-grok",
     },
-    [51211] = {
-        name = "O Coração de Azeroth",
-    },
     [51214] = {
         name = "Um amor de pessoa",
     },
@@ -3468,9 +3456,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "Relatório em três vias",
     },
-    [51403] = {
-        name = "Imperativo do mensageiro",
-    },
     [51407] = {
         name = "Encontre as palavras deles",
     },
@@ -3514,7 +3499,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Agora o capitão sou eu",
     },
     [51443] = {
-        name = "Instrução de missão",
+        name = "Battle for Azeroth: instrução de missão",
     },
     [51445] = {
         name = "Thros, a Terra Morta",
@@ -3792,12 +3777,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "Os restos mortais do Marechal M. Valentim",
     },
-    [51795] = {
-        name = "A Batalha por Lordaeron",
-    },
-    [51796] = {
-        name = "A Batalha por Lordaeron",
-    },
     [51797] = {
         name = "No rastro dos sábios das marés",
     },
@@ -3999,14 +3978,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "Baú Mortífero: Carpe Diem",
     },
-    [52131] = {
-        name = "Precisamos um do outro",
-    },
     [52132] = {
         name = "A prova da pirataria",
-    },
-    [52139] = {
-        name = "Ao que importa",
     },
     [52146] = {
         name = "Sangue na areia",
@@ -4175,9 +4148,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "Não ptira, só joga",
-    },
-    [52428] = {
-        name = "Infusão do Coração",
     },
     [52431] = {
         name = "Zona de pouso proibido",
@@ -4383,9 +4353,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "Vínculos forjados em combate",
     },
-    [52946] = {
-        name = "Um mundo moribundo",
-    },
     [52948] = {
         name = "Chamado às armas: Estreito Tiragarde",
     },
@@ -4424,12 +4391,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "Um presente chacoalhado gentilmente",
-    },
-    [53028] = {
-        name = "Um mundo moribundo",
-    },
-    [53031] = {
-        name = "Imperativo do Mensageiro",
     },
     [53041] = {
         name = "Amostra da mercadoria",
@@ -4584,14 +4545,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "Vai logo, Loh",
     },
-    [53370] = {
-        name = "Ajuste de contas",
-    },
     [53371] = {
         name = "Vamos ser amelgos",
-    },
-    [53372] = {
-        name = "Ajuste de contas",
     },
     [53406] = {
         name = "A Câmara do Coração",

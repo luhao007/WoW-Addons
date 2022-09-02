@@ -1,4 +1,4 @@
--- $Id: Atlas_Transportation-zhTW.lua 131 2022-02-02 17:23:30Z arithmandar $
+-- $Id: Atlas_Transportation-zhTW.lua 170 2022-04-10 08:57:02Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -35,6 +35,7 @@ L["Blue"] = "藍"
 L["Boat to Echo Isles, Durotar"] = "行駛到回音群島/杜洛塔的航線"
 L["Boat to Stormwind City"] = "行駛到暴風城的航線"
 L["Camp Taurajo"] = "陶拉祖營地"
+L["Change will take effect after next login; or type '/reload' command to reload addon"] = "變更會在下次登入後生效；或輸入 /reload 指令重新載入插件"
 L["Class Order Halls"] = "職業大廳"
 L["Class Specific Only"] = "僅限特定職業"
 L["Climbing Rope"] = "登山繩"
@@ -72,9 +73,11 @@ L["Require to complete \"Meet the Scout\" quest line first."] = "需要先完成
 L["Requires Eagle Ally Advancement"] = "需要升級飛鷹盟友"
 L["Requires honored faction with Sha'tari Skyguard"] = "需薩塔空防陣營榮譽"
 L["Requires Teleportation Nexus Advancement"] = "需要升級傳送網路"
+L["Return to Zuldazar"] = "返回贊達拉"
 L["Seahorse"] = "海馬"
 L["Shado-Pan Rope"] = "影潘索 "
 L["Ship / Zeppelin sailing path to destination"] = "船隻 / 飛船航向目的地的路徑"
+L["Show %s's transportation maps"] = "顯示%s陣營的交通網路圖"
 L["South of the path along Lake Elune'ara"] = "月神湖南方小徑"
 L["Special transportation"] = "特殊運輸工具"
 L["Talua <Eagle Keeper>"] = "塔陸亞 <飼鷹者>"

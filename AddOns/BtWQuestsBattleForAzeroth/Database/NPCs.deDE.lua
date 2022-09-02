@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Scharfstahl",
     },
-    [14720] = {
-        name = "Hochfürst Saurfang",
-    },
     [36648] = {
         name = "Baine Bluthuf",
     },
@@ -981,9 +978,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "Erster Maat Jamboya",
     },
-    [136907] = {
-        name = "Magni Bronzebart",
-    },
     [136933] = {
         name = "Bruder Pike",
     },
@@ -1176,9 +1170,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142651] = {
         name = "Luzilla Kronsteig",
     },
-    [142930] = {
-        name = "Halford Wyrmbann",
-    },
     [143536] = {
         name = "Oberster Kriegsfürst Volrath",
     },
@@ -1214,9 +1205,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143913] = {
         name = "Etrigg",
-    },
-    [144095] = {
-        name = "Meister Mathias Shaw",
     },
     [145005] = {
         name = "Elitereiter der Weltenwanderer",

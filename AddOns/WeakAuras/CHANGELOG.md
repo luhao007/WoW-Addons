@@ -1,28 +1,20 @@
-# [3.7.11](https://github.com/WeakAuras/WeakAuras2/tree/3.7.11) (2022-02-22)
+# [4.1.2](https://github.com/WeakAuras/WeakAuras2/tree/4.1.2) (2022-08-29)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/3.7.10...3.7.11)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/4.1.1...4.1.2)
 
 ## Highlights
 
- - Bug fixes
-- Enable Autocast Glow for Classic/BCC 
+ - More Wrath fixes 
 
 ## Commits
 
-InfusOnWoW (3):
+asakawa (1):
 
-- BCC: Correctly disabled Glaives and enable Thrown Weapons
-- BCC: Correctly disable Goblins
-- Fix Order of Subelements in Dynamic Groups
+- Add the LoC type NONE
 
-Stanzilla (1):
+mrbuds (3):
 
-- Update TOC for 9.2.0 and 1.14.2
-
-mrbuds (4):
-
-- enable autocast glow for bcc & som
-- clear scripts on import/export frame fixes #3496
-- restore hastepercent to previous state on retail
-- Faction Reputation trigger: support friendship standing
+- Fix error in talent lazy migration, when use_talent is true but talent.single is nil
+- Talent load condition skip testing talents not existing for player class
+- Aura trigger: fix options not available for current version of the game handled as if they were
 

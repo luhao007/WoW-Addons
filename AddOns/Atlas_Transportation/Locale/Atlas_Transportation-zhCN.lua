@@ -40,6 +40,8 @@ L["Blue"] = "蓝"
 --[[Translation missing --]]
 --[[ L["Boat to Stormwind City"] = ""--]] 
 L["Camp Taurajo"] = "陶拉祖营地"
+--[[Translation missing --]]
+--[[ L["Change will take effect after next login; or type '/reload' command to reload addon"] = ""--]] 
 L["Class Order Halls"] = "职业大厅"
 L["Class Specific Only"] = "职业特定专用"
 L["Climbing Rope"] = "登山绳索"
@@ -78,9 +80,13 @@ L["Require to complete \"Meet the Scout\" quest line first."] = "需要先完成
 L["Requires Eagle Ally Advancement"] = "需要升级巨鹰盟友"
 L["Requires honored faction with Sha'tari Skyguard"] = "需要沙塔尔天空卫队声望尊敬"
 L["Requires Teleportation Nexus Advancement"] = "需要升级传送中枢"
+--[[Translation missing --]]
+--[[ L["Return to Zuldazar"] = ""--]] 
 L["Seahorse"] = "海马"
 L["Shado-Pan Rope"] = "影踪派绳索"
 L["Ship / Zeppelin sailing path to destination"] = "船只 / 飞船航向目的地的路径"
+--[[Translation missing --]]
+--[[ L["Show %s's transportation maps"] = ""--]] 
 L["South of the path along Lake Elune'ara"] = "月神湖旁小径的南方"
 L["Special transportation"] = "特殊交通"
 L["Talua <Eagle Keeper>"] = "塔鲁瓦 <雄鹰管理员>"

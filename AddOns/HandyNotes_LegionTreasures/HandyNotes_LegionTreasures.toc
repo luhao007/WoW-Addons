@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: Kemayo
-## Version: v23
+## Version: v27
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_LegionTreasuresDB
 ## DefaultState: enabled
@@ -15,8 +15,9 @@
 ## X-Wago-ID: 0mKOnY6x
 ## X-Part-Of: HandyNotes
 
-handler.lua
-config.lua
+handler\handler.xml
+
+legion.lua
 
 zones\BrokenIsles.lua
 zones\Dalaran.lua

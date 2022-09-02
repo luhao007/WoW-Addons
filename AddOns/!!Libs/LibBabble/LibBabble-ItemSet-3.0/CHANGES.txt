@@ -1,19 +1,8 @@
 ------------------------------------------------------------------------
-r112 | arithmandar | 2022-02-15 13:56:12 +0000 (Tue, 15 Feb 2022) | 1 line
+r114 | arithmandar | 2022-02-23 11:59:52 +0000 (Wed, 23 Feb 2022) | 1 line
 Changed paths:
-   M /trunk/LibBabble-ItemSet-3.0.lua
-
-prepare for release
-------------------------------------------------------------------------
-r111 | arithmandar | 2022-02-15 13:52:26 +0000 (Tue, 15 Feb 2022) | 1 line
-Changed paths:
-   M /trunk/.pkgmeta
-   A /trunk/LibBabble-ItemSet-3.0-BCC.toc
-   A /trunk/LibBabble-ItemSet-3.0-Classic.toc
-   M /trunk/LibBabble-ItemSet-3.0.lua
    M /trunk/LibBabble-ItemSet-3.0.toc
-   A /trunk/LibBabble-ItemSet-3.0_Template.lua
 
-to trigger DB update; DO NOT use this revision
+- Toc update to support WoW 9.2.0
 ------------------------------------------------------------------------
 

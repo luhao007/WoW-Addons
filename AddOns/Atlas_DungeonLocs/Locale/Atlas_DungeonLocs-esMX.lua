@@ -39,6 +39,8 @@ local L = AceLocale:NewLocale("Atlas_DungeonLocs", "esMX", false);
 
 if L then
 L["Blue"] = "Azul"
+--[[Translation missing --]]
+--[[ L["Change will take effect after next login; or type '/reload' command to reload addon"] = ""--]] 
 L["Dungeon Locations"] = "Lugares de Mazmorras"
 L["Green"] = "Verde"
 L["Instances"] = "Mazmorras"
@@ -46,6 +48,8 @@ L["Instances"] = "Mazmorras"
 --[[ L["Meeting stone is inside the Sanctum of Order"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Raid entrance is inside the Sanctum Depths of Sanctum of Order"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Show %s's dungeon location maps"] = ""--]] 
 L["White"] = "Blanco"
 
 end

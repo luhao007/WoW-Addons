@@ -1,7 +1,7 @@
 --[[
 
 	Atlas World Events, a World of Warcraft map browser for world events
-	Copyright 2011 ~ 2020 - Arith Hsu
+	Copyright 2011 ~ 2022 - Arith Hsu
 
 	This file is a plugin of Atlas.
 
@@ -21,6 +21,9 @@
 
 --]]
 local _G = getfenv(0)
+local string, unpack = _G.string, _G.unpack
+local format = string.format
+
 local LibStub = _G.LibStub
 local Atlas = LibStub("AceAddon-3.0"):GetAddon("Atlas")
 local BZ = Atlas_GetLocaleLibBabble("LibBabble-SubZone-3.0")
@@ -39,18 +42,49 @@ local WHIT = "|cffffffff"
 local CYAN = "|cff11cfff"
 local LBLU = "|cff33cccc"
 local INVIS = "|c00000000"
+local ALAN = "|cff7babe0" -- Alliance's taxi node
+local HRDE = "|cffda6955" -- Horde's taxi node
+local NUTL = "|cfffee570" -- Nutral taxi node
 local INDENT = "    "
 local DASH = GREY..ALC["Hyphen"]
 
 local faction = UnitFactionGroup("player")
 
+local Alliance = (faction == "Alliance") and true or false
+local Horde = (faction == "Horde") and true or false
+
+
 local myCategory = L["World Events Maps"]
+
+local dates = {
+	-- Event = { start_month, start_date, end_month, end_date },
+	Brewfest = { 9, 20, 10, 6 },
+	WinterVeil = { 12, 16, 1, 2 },
+	Hallow = { 10, 18, 11, 1 },
+	Harvest = { 9, 6, 9, 13 },
+	Love = { 2, 6, 2, 20 },
+	Lunar = { 1, 20, 2, 3 },
+	MidSummer = { 6, 21, 7, 5 },
+}
+
+local function ShowEventDates(event)
+	if (not event or not dates[event]) then
+		return nil
+	end
+	local start_month, start_date, end_month, end_date = unpack(dates[event])
+	
+	if (LOCALE_enGB) then
+		return SHORTDATENOYEAR_EU:format(start_date, start_month).." ~ "..SHORTDATENOYEAR_EU:format(end_date, end_month)
+	else
+		return SHORTDATENOYEAR:format(start_date, start_month).." ~ "..SHORTDATENOYEAR:format(end_date, end_month)
+	end
+end
 
 local myData = {
 	Brewfest_Alliance_MajorCities = {
-		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..FACTION_ALLIANCE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
+		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
 		Location = { BZ["Ironforge"]..ALC["Slash"]..BZ["Stormwind City"]..ALC["Slash"]..BZ["Darnassus"]..ALC["Slash"]..BZ["The Exodar"] },
-		{ ORNG..L["Brewfest"]..ALC["Hyphen"]..L["Brewfest_Date"] },
+		{ ORNG..L["Brewfest"]..ALC["Colon"]..ShowEventDates("Brewfest") },
 		{ "" },
 		{ BLUE..L["Alliance Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Brewfest!"] },
@@ -68,9 +102,9 @@ local myData = {
 		{ BLUE..INDENT.." 6) "..L["End"]..ALC["Colon"]..L["Larkin Thunderbrew"] },
 		{ GREY..INDENT..INDENT.."(19, 53) "..BZ["Ironforge"] },	},
 	Brewfest_Alliance = {
-		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..FACTION_ALLIANCE },
+		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE },
 		Location = { BZ["Dun Morogh"] },
-		{ ORNG..L["Brewfest"]..ALC["Hyphen"]..L["Brewfest_Date"] },
+		{ ORNG..L["Brewfest"]..ALC["Colon"]..ShowEventDates("Brewfest") },
 		{ "" },
 		{ BLUE..L["Alliance Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Brewfest!"] },
@@ -112,9 +146,9 @@ local myData = {
 		{ GREY..INDENT..INDENT.."(54, 38) "..BZ["Dun Morogh"] },
 	},
 	Brewfest_Horde_MajorCities = {
-		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..FACTION_HORDE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
+		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..HRDE..FACTION_HORDE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
 		Location = { BZ["Orgrimmar"]..ALC["Slash"]..BZ["Undercity"]..ALC["Slash"]..BZ["Thunder Bluff"]..ALC["Slash"]..BZ["Silvermoon City"] },
-		{ ORNG..L["Brewfest"]..ALC["Hyphen"]..L["Brewfest_Date"] },
+		{ ORNG..L["Brewfest"]..ALC["Colon"]..ShowEventDates("Brewfest") },
 		{ "" },
 		{ BLUE..L["Horde Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Brewfest!"] },
@@ -135,9 +169,9 @@ local myData = {
 		{ GREY..INDENT..INDENT.."(50, 73) "..BZ["Orgrimmar"] },
 	},
 	Brewfest_Horde = {
-		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..FACTION_HORDE },
+		ZoneName = { L["Brewfest"]..ALC["Hyphen"]..HRDE..FACTION_HORDE },
 		Location = { BZ["Durotar"] },
-		{ ORNG..L["Brewfest"]..ALC["Hyphen"]..L["Brewfest_Date"] },
+		{ ORNG..L["Brewfest"]..ALC["Colon"]..ShowEventDates("Brewfest") },
 		{ "" },
 		{ _RED..L["Horde Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Brewfest!"] },
@@ -179,9 +213,9 @@ local myData = {
 		{ GREY..INDENT..INDENT.."(41, 17) "..BZ["Durotar"] },
 	},
 	WinterVeil_Alliance = {
-		ZoneName = { L["Feast of Winter Veil"]..ALC["Hyphen"]..FACTION_ALLIANCE },
+		ZoneName = { L["Feast of Winter Veil"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE },
 		Location = { BZ["Ironforge"]..ALC["Slash"]..BZ["Hillsbrad Foothills"] },
-		{ ORNG..L["Feast of Winter Veil"]..ALC["Hyphen"]..L["Winter_Date"] },
+		{ ORNG..L["Feast of Winter Veil"]..ALC["Colon"]..ShowEventDates("WinterVeil") },
 		{ "" },
 		{ BLUE..L["Alliance Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Greatfather Winter is Here!"] },
@@ -214,9 +248,9 @@ local myData = {
 		{ GREY..INDENT..INDENT.."(39, 56) "..BZ["Ironforge"] },
 	},
 	WinterVeil_Horde = {
-		ZoneName = { L["Feast of Winter Veil"]..ALC["Hyphen"]..FACTION_HORDE },
+		ZoneName = { L["Feast of Winter Veil"]..ALC["Hyphen"]..HRDE..FACTION_HORDE },
 		Location = { BZ["Orgrimmar"]..ALC["Slash"]..BZ["Thunder Bluff"]..ALC["Slash"]..BZ["Hillsbrad Foothills"] },
-		{ ORNG..L["Feast of Winter Veil"]..ALC["Hyphen"]..L["Winter_Date"] },
+		{ ORNG..L["Feast of Winter Veil"]..ALC["Colon"]..ShowEventDates("WinterVeil") },
 		{ "" },
 		{ BLUE..L["Horde Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Great-father Winter is Here!"] },
@@ -299,7 +333,7 @@ local myData = {
 	},
 	Hallow_End = {
 		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..QUESTS_LABEL },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ _RED..L["Horde Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Masked Orphan Matron"] },
@@ -382,8 +416,8 @@ local myData = {
 		{ GREY..INDENT..INDENT..BZ["Craftsmen's Terrace"]..ALC["Comma"]..BZ["Darnassus"] },
 	},
 	Hallow_End_Alliance_Azeroth = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Eastern Kingdoms"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Eastern Kingdoms"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ ORNG.." 1) "..BZ["Light's Hope Chapel"].." (75.6, 52.3), "..BZ["Eastern Plaguelands"] },
@@ -422,8 +456,8 @@ local myData = {
 		{ BLUE.."33) "..BZ["Darkbreak Cove"].." (54.7, 72.1), "..BZ["Abyssal Depths"] },
 	},
 	Hallow_End_Horde_Azeroth = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_HORDE..ALC["Hyphen"]..BZ["Eastern Kingdoms"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..HRDE..FACTION_HORDE..ALC["Hyphen"]..BZ["Eastern Kingdoms"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ _RED.." 1) "..BZ["Silvermoon City Inn"].." (79.4, 57.7), "..BZ["Silvermoon City"] },
@@ -462,8 +496,8 @@ local myData = {
 		{ _RED.."34) "..BZ["Tenebrous Cavern"].." (51.3, 60.5), "..BZ["Abyssal Depths"] },
 	},
 	Hallow_End_Alliance_Kalimdor = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Kalimdor"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Kalimdor"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ BLUE.." 1) "..BZ["Blood Watch"].." (55.7, 60.0), "..BZ["Bloodmyst Isle"] },
@@ -502,8 +536,8 @@ local myData = {
 		{ ORNG.."34) "..BZ["Ramkahen"].." (54.7, 33.0), "..BZ["Uldum"] },
 	},
 	Hallow_End_Horde_Kalimdor = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_HORDE..ALC["Hyphen"]..BZ["Kalimdor"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..HRDE..FACTION_HORDE..ALC["Hyphen"]..BZ["Kalimdor"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ ORNG.." 1) "..BZ["Everlook"].." (59.8 51.1), "..BZ["Winterspring"] },
@@ -543,8 +577,8 @@ local myData = {
 		{ ORNG.."35) "..BZ["Ramkahen"].." (54.7, 33.0), "..BZ["Uldum"] },
 	},
 	Hallow_End_Alliance_Northrend = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Northrend"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Northrend"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ BLUE.." 1) "..BZ["Valiance Keep"].." (58.5, 67.8), "..BZ["Borean Tundra"] },
@@ -571,8 +605,8 @@ local myData = {
 		{ BLUE.."22) "..BZ["Valgarde"].." (58.3, 62.8), "..BZ["Howling Fjord"] },
 	},
 	Hallow_End_Horde_Northrend = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_HORDE..ALC["Hyphen"]..BZ["Northrend"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..HRDE..FACTION_HORDE..ALC["Hyphen"]..BZ["Northrend"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ _RED.." 1) "..BZ["Warsong Hold"].." (41.7, 54.4), "..BZ["Borean Tundra"] },
@@ -601,8 +635,8 @@ local myData = {
 		{ _RED.."24) "..BZ["New Agamand"].." (52.1, 66.1), "..BZ["Howling Fjord"] },
 	},
 	Hallow_End_Alliance_Outland = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Outland"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Outland"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ ORNG.." 1) "..BZ["The Stormspire"].." (43.4, 36.1), "..BZ["Netherstorm"] },
@@ -624,8 +658,8 @@ local myData = {
 		{ ORNG.."17) "..BZ["Sanctum of the Stars"].." (56.3, 59.8), "..BZ["Shadowmoon Valley"] },
 	},
 	Hallow_End_Horde_Outland = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_HORDE..ALC["Hyphen"]..BZ["Outland"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..HRDE..FACTION_HORDE..ALC["Hyphen"]..BZ["Outland"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ ORNG.." 1) "..BZ["The Stormspire"].." (43.4, 36.1), "..BZ["Netherstorm"] },
@@ -646,8 +680,8 @@ local myData = {
 		{ ORNG.."16) "..BZ["Sanctum of the Stars"].." (56.3, 59.8), "..BZ["Shadowmoon Valley"] },
 	},
 	Hallow_End_Alliance_Pandaria = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Pandaria"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE..ALC["Hyphen"]..BZ["Pandaria"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ BLUE.." 1) "..BZ["Pearlfin Village"].." (59.6, 83.2), "..BZ["The Jade Forest"] },
@@ -674,8 +708,8 @@ local myData = {
 		{ ORNG.."22) "..BZ["Marista"].." (51.4, 77.2), "..BZ["Krasarang Wilds"] },
 	},		
 	Hallow_End_Horde_Pandaria = {
-		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..FACTION_HORDE..ALC["Hyphen"]..BZ["Pandaria"] },
-		{ ORNG..L["Hallow's End"]..ALC["Hyphen"]..L["Hallow_Date"] },
+		ZoneName = { L["Hallow's End"]..ALC["Hyphen"]..HRDE..FACTION_HORDE..ALC["Hyphen"]..BZ["Pandaria"] },
+		{ ORNG..L["Hallow's End"]..ALC["Colon"]..ShowEventDates("Hallow") },
 		{ "" },
 		{ WHIT..L["Candy Buckets"] },
 		{ _RED.." 1) "..BZ["Honeydew Village"].." (28.4, 13.2), "..BZ["The Jade Forest"] },
@@ -706,7 +740,7 @@ local myData = {
 	Harvest = {
 		ZoneName = { L["Harvest Festival"] },
 		Location = { BZ["Dun Morogh"]..ALC["Slash"]..BZ["Western Plaguelands"]..ALC["Slash"]..BZ["Durotar"]..ALC["Slash"]..BZ["Ashenvale"] },
-		{ ORNG..L["Harvest Festival"]..ALC["Hyphen"]..L["Harvest_Date"] },
+		{ ORNG..L["Harvest Festival"]..ALC["Colon"]..ShowEventDates("Harvest") },
 		{ "" },
 		{ BLUE..L["Alliance Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Honoring a Hero"] },
@@ -723,9 +757,9 @@ local myData = {
 		{ GREY..INDENT..INDENT..BZ["Ashenvale"] },
 	},
 	Love_Alliance_MajorCities = {
-		ZoneName = { L["Love is in the Air"]..ALC["Hyphen"]..FACTION_ALLIANCE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
+		ZoneName = { L["Love is in the Air"]..ALC["Hyphen"]..ALAN..FACTION_ALLIANCE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
 		Location = { BZ["Ironforge"]..ALC["Slash"]..BZ["Stormwind City"]..ALC["Slash"]..BZ["Darnassus"]..ALC["Slash"]..BZ["The Exodar"] },
-		{ ORNG..L["Love is in the Air"]..ALC["Hyphen"]..L["Love_Date"] },
+		{ ORNG..L["Love is in the Air"]..ALC["Colon"]..ShowEventDates("Love") },
 		{ "" },
 		{ BLUE..L["Alliance Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Uncommon Scents"] },
@@ -793,9 +827,9 @@ local myData = {
 		{ GREN..INDENT..INDENT.." 4) "..GREY.."(61, 75) "..BZ["Stormwind City"] },
 	},
 	Love_Horde_MajorCities = {
-		ZoneName = { L["Love is in the Air"]..ALC["Hyphen"]..FACTION_HORDE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
+		ZoneName = { L["Love is in the Air"]..ALC["Hyphen"]..HRDE..FACTION_HORDE..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
 		Location = { BZ["Orgrimmar"]..ALC["Slash"]..BZ["Undercity"]..ALC["Slash"]..BZ["Thunder Bluff"]..ALC["Slash"]..BZ["Silvermoon City"] },
-		{ ORNG..L["Love is in the Air"]..ALC["Hyphen"]..L["Love_Date"] },
+		{ ORNG..L["Love is in the Air"]..ALC["Colon"]..ShowEventDates("Love") },
 		{ "" },
 		{ BLUE..L["Horde Questline"] },
 		{ YELL.." 1) "..QUESTS_COLON..L["Uncommon Scents"] },
@@ -864,7 +898,7 @@ local myData = {
 	},
 	Lunar_Azeroth = {
 		ZoneName = { L["Lunar Festival"]..ALC["Hyphen"]..BZ["Eastern Kingdoms"] },
-		{ ORNG..L["Lunar Festival"]..ALC["Hyphen"]..L["Lunar_Date"] },
+		{ ORNG..L["Lunar Festival"]..ALC["Colon"]..ShowEventDates("Lunar") },
 		{ "" },
 		{ WHIT.." 1) "..L["Elder Hammershout"]	..DASH..BLUE..BZ["Stormwind City"]..ALC["Comma"]..BZ["Elwynn Forest"] },
 		{ GREY..INDENT..L["(Outside the city gate)"] },
@@ -905,7 +939,7 @@ local myData = {
 	},
 	Lunar_Kalimdor = {
 		ZoneName = { L["Lunar Festival"]..ALC["Hyphen"]..BZ["Kalimdor"] },
-		{ ORNG..L["Lunar Festival"]..ALC["Hyphen"]..L["Lunar_Date"] },
+		{ ORNG..L["Lunar Festival"]..ALC["Colon"]..ShowEventDates("Lunar") },
 		{ "" },
 		{ GREN.." 1') "..L["Valadar Starsong"]..DASH..BZ["Nighthaven"]..ALC["Comma"]..BZ["Moonglade"] },
 		{ GREY..INDENT..L["Quest: Elune's Blessing"] },
@@ -949,7 +983,7 @@ local myData = {
 	},
 	Lunar_Northrend = {
 		ZoneName = { L["Lunar Festival"]..ALC["Hyphen"]..BZ["Northrend"] },
-		{ ORNG..L["Lunar Festival"]..ALC["Hyphen"]..L["Lunar_Date"] },
+		{ ORNG..L["Lunar Festival"]..ALC["Colon"]..ShowEventDates("Lunar") },
 		{ "" },
 		{ WHIT.." 1) "..L["Elder Sardis"]	..DASH..BZ["Valiance Keep"]..ALC["Comma"]..BZ["Borean Tundra"] },
 		{ WHIT.." 3) "..L["Elder Pamuya"]	..DASH..BZ["Warsong Hold"]..ALC["Comma"]..BZ["Borean Tundra"] },
@@ -986,14 +1020,14 @@ local myData = {
 	},
 	Lunar_Deepholm = {
 		ZoneName = { L["Lunar Festival"]..ALC["Hyphen"]..BZ["Deepholm"] },
-		{ ORNG..L["Lunar Festival"]..ALC["Hyphen"]..L["Lunar_Date"] },
+		{ ORNG..L["Lunar Festival"]..ALC["Colon"]..ShowEventDates("Lunar") },
 		{ "" },
 		{ WHIT.." 1) "..L["Elder Stonebrand"]	..DASH..BZ["Temple of Earth"] },
 		{ WHIT.." 2) "..L["Elder Deepforge"]	..DASH..BZ["Stonehearth"] },
 	},
 	MidSummer_Azeroth = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Eastern Kingdoms"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
 		{ ORNG.." 1) "..BZ["Court of the Sun"].." (70, 43), "..BZ["Silvermoon City"] },
 		{ _RED.." 2) "..BZ["North Sanctum"].." (46, 50), "..BZ["Eversong Woods"] },
@@ -1034,20 +1068,20 @@ local myData = {
 		{ PURP.."37) "..BZ["Silver Tide Hollow"].."(49, 42), "..BZ["Shimmering Expanse"]..ALC["Comma"]..BZ["Vashj'ir"] },
 		{ "" },
 		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
-		{ (faction == "Alliance") and "Flame Warden of Eastern Kingdoms" or "Flame Keeper of Eastern Kingdoms", (faction == "Alliance") and "ac=1022" or "ac=1025" },
-		{ "Extinguishing Eastern Kingdoms", (faction == "Alliance") and "ac=1028" or "ac=1031" },
-		{ "The Fires of Azeroth", (faction == "Alliance") and "ac=1034" or "ac=1036" },
-		{ (faction == "Alliance") and "Desecration of the Horde" or "Desecration of the Alliance", (faction == "Alliance") and "ac=1035" or "ac=1037" },
+		{ (Alliance) and "Flame Warden of Eastern Kingdoms" or "Flame Keeper of Eastern Kingdoms", (Alliance) and "ac=1022" or "ac=1025" },
+		{ "Extinguishing Eastern Kingdoms", (Alliance) and "ac=1028" or "ac=1031" },
+		{ "The Fires of Azeroth", (Alliance) and "ac=1034" or "ac=1036" },
+		{ (Alliance) and "Desecration of the Horde" or "Desecration of the Alliance", (Alliance) and "ac=1035" or "ac=1037" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
 		{ ORNG..L["Orange: "]..L["Major Cities"] },
 		{ PURP..L["Purple: "]..FACTION_STANDING_LABEL4 },
 	
 	},
 	MidSummer_Kalimdor = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Kalimdor"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
 		{ BLUE.." 1) "..BZ["Dolanaar"].." (54, 52), "..BZ["Teldrassil"] },
 		{ ORNG.." 2) "..BZ["Warrior's Terrace"].." (62, 49), "..BZ["Darnassus"] },
@@ -1086,19 +1120,19 @@ local myData = {
 		{ _RED.."35) "..BZ["Camp Mojache"].." (72, 47), "..BZ["Feralas"] },
 		{ "" },
 		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
-		{ (faction == "Alliance") and "Flame Warden of Kalimdor" or "Flame Keeper of Kalimdor", (faction == "Alliance") and "ac=1023" or "ac=1026" },
-		{ "Extinguishing Kalimdor", (faction == "Alliance") and "ac=1029" or "ac=1032" },
-		{ "The Fires of Azeroth", (faction == "Alliance") and "ac=1034" or "ac=1036" },
-		{ (faction == "Alliance") and "Desecration of the Horde" or "Desecration of the Alliance", (faction == "Alliance") and "ac=1035" or "ac=1037" },
+		{ (Alliance) and "Flame Warden of Kalimdor" or "Flame Keeper of Kalimdor", (Alliance) and "ac=1023" or "ac=1026" },
+		{ "Extinguishing Kalimdor", (Alliance) and "ac=1029" or "ac=1032" },
+		{ "The Fires of Azeroth", (Alliance) and "ac=1034" or "ac=1036" },
+		{ (Alliance) and "Desecration of the Horde" or "Desecration of the Alliance", (Alliance) and "ac=1035" or "ac=1037" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
 		{ ORNG..L["Orange: "]..L["Major Cities"] },
 		{ PURP..L["Purple: "]..FACTION_STANDING_LABEL4 },
 	},
 	MidSummer_Outland = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Outland"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
 		{ BLUE.." 1) "..BZ["Honor Hold"].." (62, 58), "..BZ["Hellfire Peninsula"] },
 		{ _RED.." 2) "..BZ["Thrallmar"].." (55, 40), "..BZ["Hellfire Peninsula"] },
@@ -1116,18 +1150,18 @@ local myData = {
 		{ BLUE.."14) "..BZ["Wildhammer Stronghold"].." (40, 55), "..BZ["Shadowmoon Valley"] },
 		{ "" },
 		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
-		{ (faction == "Alliance") and "Flame Warden of Outland" or "Flame Keeper of Outland", (faction == "Alliance") and "ac=1024" or "ac=1027" },
-		{ "Extinguishing Outland", (faction == "Alliance") and "ac=1030" or "ac=1033" },
-		{ "The Fires of Azeroth", (faction == "Alliance") and "ac=1034" or "ac=1036" },
-		{ (faction == "Alliance") and "Desecration of the Horde" or "Desecration of the Alliance", (faction == "Alliance") and "ac=1035" or "ac=1037" },
+		{ (Alliance) and "Flame Warden of Outland" or "Flame Keeper of Outland", (Alliance) and "ac=1024" or "ac=1027" },
+		{ "Extinguishing Outland", (Alliance) and "ac=1030" or "ac=1033" },
+		{ "The Fires of Azeroth", (Alliance) and "ac=1034" or "ac=1036" },
+		{ (Alliance) and "Desecration of the Horde" or "Desecration of the Alliance", (Alliance) and "ac=1035" or "ac=1037" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
 		{ ORNG..L["Orange: "]..L["Major Cities"] },
 	},
 	MidSummer_Northrend = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Northrend"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
 		{ BLUE.." 1) "..BZ["Fizzcrank Airstrip"].." (55, 20), "..BZ["Borean Tundra"] },
 		{ _RED.." 2) "..BZ["Bor'gorok Outpost"].." (51, 12), "..BZ["Borean Tundra"] },
@@ -1147,18 +1181,18 @@ local myData = {
 		{ BLUE.."16) "..BZ["Fort Wildervar"].." (58, 16), "..BZ["Howling Fjord"] },
 		{ "" },
 		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
-		{ (faction == "Alliance") and "Flame Warden of Northrend" or "Flame Keeper of Northrend", (faction == "Alliance") and "ac=1024" or "ac=1027" },
-		{ "Extinguishing Northrend", (faction == "Alliance") and "ac=1030" or "ac=1033" },
-		{ "The Fires of Azeroth", (faction == "Alliance") and "ac=1034" or "ac=1036" },
-		{ (faction == "Alliance") and "Desecration of the Horde" or "Desecration of the Alliance", (faction == "Alliance") and "ac=1035" or "ac=1037" },
+		{ (Alliance) and "Flame Warden of Northrend" or "Flame Keeper of Northrend", (Alliance) and "ac=1024" or "ac=1027" },
+		{ "Extinguishing Northrend", (Alliance) and "ac=1030" or "ac=1033" },
+		{ "The Fires of Azeroth", (Alliance) and "ac=1034" or "ac=1036" },
+		{ (Alliance) and "Desecration of the Horde" or "Desecration of the Alliance", (Alliance) and "ac=1035" or "ac=1037" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
 		{ ORNG..L["Orange: "]..L["Major Cities"] },
 	},
 	MidSummer_Azeroth_MajorCities = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Eastern Kingdoms"]..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
 		{ BLUE.." 1) "..BZ["Hall of Explorers"]..ALC["Comma"]..BZ["Ironforge"] },
 		{ BLUE.." 2) "..BZ["Mage Quarter"]..ALC["Comma"]..BZ["Stormwind City"] },
@@ -1178,13 +1212,13 @@ local myData = {
 		{ "" },
 		{ "" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
 		{ ORNG..L["Orange: "]..L["Major Cities"] },
 	},
 	MidSummer_Kalimdor_MajorCities = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Kalimdor"]..ALC["L-Parenthesis"]..L["Major Cities"]..ALC["R-Parenthesis"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
 		{ BLUE.." 1) "..BZ["Warrior's Terrace"].." (63, 47), "..BZ["Darnassus"] },
 		{ BLUE.." 2) "..BZ["The Crystal Hall"].." (41, 26), "..BZ["The Exodar"] },
@@ -1204,13 +1238,13 @@ local myData = {
 		{ "" },
 		{ "" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
 		{ ORNG..L["Orange: "]..L["Major Cities"] },
 	},
 	MidSummer_Deepholm = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Deepholm"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
 		{ PURP.." 1) "..BZ["Temple of Earth"].." (49, 51)" },
 		{ "" },
@@ -1236,66 +1270,86 @@ local myData = {
 	},
 	MidSummer_Pandaria = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Pandaria"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
 		{ "" },
-		{ PURP.." 1) "..BZ["Dawn's Blossom"].." (47.2, 47.2), "..BZ["The Jade Forest"] },
-		{ PURP.." 2) "..BZ["Zhu's Watch"].." (74.0, 9.49), "..BZ["Krasarang Wilds"] },
-		{ PURP.." 3) "..BZ["Halfhill"].." (51.8, 51.4), "..BZ["Valley of the Four Winds"] },
-		{ PURP.." 4) "..BZ["Soggy's Gamble"].." (56.1, 69.5), "..BZ["Dread Wastes"] },
-		{ PURP.." 5) "..BZ["Longying Outpost"].." (71.5, 56.3), "..BZ["Townlong Steppes"] },
-		{ PURP.." 6) "..BZ["Binan Village"].." (71.1, 90.9), "..BZ["Kun-Lai Summit"] },
-		{ PURP.." 7) "..BZ["Mogu'shan Palace"].." (77.8, 33.9), "..BZ["Vale of Eternal Blossoms"] },
+		{ NUTL.." 1) "..BZ["Dawn's Blossom"].." (47.2, 47.2), "..BZ["The Jade Forest"] },
+		{ NUTL.." 2) "..BZ["Zhu's Watch"].." (74.0, 9.49), "..BZ["Krasarang Wilds"] },
+		{ NUTL.." 3) "..BZ["Halfhill"].." (51.8, 51.4), "..BZ["Valley of the Four Winds"] },
+		{ NUTL.." 4) "..BZ["Soggy's Gamble"].." (56.1, 69.5), "..BZ["Dread Wastes"] },
+		{ NUTL.." 5) "..BZ["Longying Outpost"].." (71.5, 56.3), "..BZ["Townlong Steppes"] },
+		{ NUTL.." 6) "..BZ["Binan Village"].." (71.1, 90.9), "..BZ["Kun-Lai Summit"] },
+		{ NUTL.." 7) "..BZ["Mogu'shan Palace"].." (77.8, 33.9), "..BZ["Vale of Eternal Blossoms"] },
 		{ "" },
 		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
-		{ (faction == "Alliance") and "Flame Warden of Pandaria" or "Flame Keeper of Pandaria", (faction == "Alliance") and "ac=8045" or "ac=8044" },
-		{ "Extinguishing Pandaria", (faction == "Alliance") and "ac=8042" or "ac=8043" },
+		{ (Alliance) and "Flame Warden of Pandaria" or "Flame Keeper of Pandaria", (Alliance) and "ac=8045" or "ac=8044" },
+		{ "Extinguishing Pandaria", (Alliance) and "ac=8042" or "ac=8043" },
 		{ "" },
-		{ PURP..L["Purple: "]..FACTION_STANDING_LABEL4 },
+		{ NUTL..L["Yellow"]..ALC["Colon"]..FACTION_STANDING_LABEL4 },
 	},
 	MidSummer_Draenor = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Draenor"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
+		{ "" },
 		{ BLUE.." 1) "..BZ["Embaari Village"]..ALC["Comma"]..BZ["Shadowmoon Valley"].." (42.65, 35.97)" }, -- quest: alliance 44579, horde: 44582, draenor coords: 56.44, 66.89
-		{ PURP.." 2) "..BZ["Veil Terokk"]..ALC["Comma"]..BZ["Spires of Arak"].." (48.01, 44.72)" }, -- quest: 44570, draenor coords: 46.05, 76.64
-		{ PURP.." 3) "..BZ["Auchindoun"]..ALC["Comma"]..BZ["Talador"].." (43.50, 71.81)" }, -- quest: 44571, draenor coords: 39.60, 63.46
-		{ PURP.." 4) "..BZ["The Ring of Trials"]..ALC["Comma"]..BZ["Nagrand"].." (80.57, 47.68)" }, -- quest: 44572, draenor coords: 33.01, 53.27
-		{ PURP.." 5) "..BZ["Iron Pass"]..ALC["Comma"]..BZ["Gorgrond"].." (43.92, 93.79)" }, -- quest: 44573, draenor coords: 47.36, 44.30
+		{ NUTL.." 2) "..BZ["Veil Terokk"]..ALC["Comma"]..BZ["Spires of Arak"].." (48.01, 44.72)" }, -- quest: 44570, draenor coords: 46.05, 76.64
+		{ NUTL.." 3) "..BZ["Auchindoun"]..ALC["Comma"]..BZ["Talador"].." (43.50, 71.81)" }, -- quest: 44571, draenor coords: 39.60, 63.46
+		{ NUTL.." 4) "..BZ["The Ring of Trials"]..ALC["Comma"]..BZ["Nagrand"].." (80.57, 47.68)" }, -- quest: 44572, draenor coords: 33.01, 53.27
+		{ NUTL.." 5) "..BZ["Iron Pass"]..ALC["Comma"]..BZ["Gorgrond"].." (43.92, 93.79)" }, -- quest: 44573, draenor coords: 47.36, 44.30
 		{ _RED.." 6) "..BZ["Frostfire Ridge"].." (72.65, 65.23)" }, -- quest: alliance: 44583, horde: 44580, draenor coords: 40.37, 36.80
 		{ "" },
 		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
-		{ (faction == "Alliance") and "Flame Warden of Draenor" or "Flame Keeper of Draenor", (faction == "Alliance") and "ac=11283" or "ac=11284" },
-		{ "Extinguishing Draenor", (faction == "Alliance") and "ac=11276" or "ac=11277" },
+		{ (Alliance) and "Flame Warden of Draenor" or "Flame Keeper of Draenor", (Alliance) and "ac=11283" or "ac=11284" },
+		{ "Extinguishing Draenor", (Alliance) and "ac=11276" or "ac=11277" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
-		{ PURP..L["Purple: "]..FACTION_STANDING_LABEL4 },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
+		{ NUTL..L["Yellow"]..ALC["Colon"]..FACTION_STANDING_LABEL4 },
 	},
 	MidSummer_BrokenIsles = {
 		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Broken Isles"] },
-		{ ORNG..L["Midsummer Fire Festival"]..ALC["Hyphen"]..L["Midsummer_Date"] },
-		{ PURP.." 1) "..BZ["Llothien Highlands"]..ALC["Comma"]..BZ["Azsuna"].." (48.26, 26.69)" }, -- quest: 44574, draenor coords: 34.23, 53.83
-		{ PURP.." 2) "..BZ["Howling Dale"]..ALC["Comma"]..BZ["Val'sharah"].." (48.044.88, 57.93)" }, -- quest: 44575, draenor coords: 31.68, 35.24
-		{ PURP.." 3) "..BZ["Ironhorn Enclave"]..ALC["Comma"]..BZ["Highmountain"].." (55.52, 84.45)" }, -- quest: 44576, draenor coords: 49.56, 34.07
-		{ PURP.." 4) "..BZ["Stormheim"].." (32.50, 42.13)" }, -- quest: 44577, draenor coords: 52.83, 29.58
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
+		{ "" },
+		{ NUTL.." 1) "..BZ["Llothien Highlands"]..ALC["Comma"]..BZ["Azsuna"].." (48.26, 26.69)" }, -- quest: 44574, draenor coords: 34.23, 53.83
+		{ NUTL.." 2) "..BZ["Howling Dale"]..ALC["Comma"]..BZ["Val'sharah"].." (48.044.88, 57.93)" }, -- quest: 44575, draenor coords: 31.68, 35.24
+		{ NUTL.." 3) "..BZ["Ironhorn Enclave"]..ALC["Comma"]..BZ["Highmountain"].." (55.52, 84.45)" }, -- quest: 44576, draenor coords: 49.56, 34.07
+		{ NUTL.." 4) "..BZ["Stormheim"].." (32.50, 42.13)" }, -- quest: 44577, draenor coords: 52.83, 29.58
 		{ BLUE.." 5) "..BZ["Suramar"].." (22.98, 58.32)" }, -- quest: alliance: 44613, horde: 44624, draenor coords: 40.97, 47.58
 		{ _RED.." 6) "..BZ["Ambervale"]..ALC["Comma"]..BZ["Suramar"].." (30.33, 45.34)" }, -- quest: alliance: 44627, horde: 44614, draenor coords: 43.13, 43.75
 		{ "" },
 		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
-		{ (faction == "Alliance") and "Flame Warden of Broken Isles" or "Flame Keeper of Broken Isles", (faction == "Alliance") and "ac=11280" or "ac=11282" },
-		{ "Extinguishing the Broken Isles", (faction == "Alliance") and "ac=11278" or "ac=11279" },
+		{ (Alliance) and "Flame Warden of Broken Isles" or "Flame Keeper of Broken Isles", (Alliance) and "ac=11280" or "ac=11282" },
+		{ "Extinguishing the Broken Isles", (Alliance) and "ac=11278" or "ac=11279" },
 		{ "" },
-		{ _RED..L["Red: "]..FACTION_HORDE },
-		{ BLUE..L["Blue: "]..FACTION_ALLIANCE },
-		{ PURP..L["Purple: "]..FACTION_STANDING_LABEL4 },
+		{ _RED..L["Red: "]..HRDE..FACTION_HORDE },
+		{ BLUE..L["Blue: "]..ALAN..FACTION_ALLIANCE },
+		{ NUTL..L["Yellow"]..ALC["Colon"]..FACTION_STANDING_LABEL4 },
 	},
-	--[[
-	Tanaan_JungleHunter = {
-		ZoneName = { BZ["Tanaan Jungle"]..ALC["Comma"]..BZ["Draenor"] },
-		{ ORNG..ACHIEVEMENTS..ALC["Colon"] },
-		{ INDENT..ORNG..L["Jungle Hunter"]..ALC["Slash"]..L["Jungle Stalker"] },
-		{ INDENT..INDENT..GREY..L["Defeat rare creatures in Tanaan Jungle"] },
+	MidSummer_KulTiras = {
+		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Kul Tiras"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
+		{ "" },
+		{ NUTL.." 1) "..BZ["Arom's Stand"]..ALC["Comma"]..BZ["Drustvar"].." (40.2 47.5)" }, 
+		{ NUTL.." 2) "..BZ["Fort Daelin"]..ALC["Comma"]..BZ["Stormsong Valley"].." (35.9 51.4)" }, 
+		{ NUTL.." 3) "..BZ["Bridgeport"]..ALC["Comma"]..BZ["Tiragarde Sound"].." (76.3 49.8)" }, 
+		{ "" },
+		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
+		{ (Alliance) and "Flame Warden of Kul Tiras" or "Extinguishing Kul Tiras", (Alliance) and "ac=13341" or "ac=13342" },
+		{ "" },
+		{ NUTL..L["Yellow"]..ALC["Colon"]..FACTION_STANDING_LABEL4 },
 	},
-	]]
+	MidSummer_Zandalar = {
+		ZoneName = { L["Midsummer Fire Festival"]..ALC["Hyphen"]..BZ["Zandalar"] },
+		{ ORNG..L["Midsummer Fire Festival"]..ALC["Colon"]..ShowEventDates("MidSummer") },
+		{ "" },
+		{ NUTL.." 1) "..BZ["Zul'jan Ruins"]..ALC["Comma"]..BZ["Nazmir"].." (40 74.2)" }, 
+		{ NUTL.." 2) "..BZ["Vulpera Hideaway"]..ALC["Comma"]..BZ["Vol'dun"].." (56 47.7)" }, 
+		{ NUTL.." 3) "..BZ["Dazar'alor"]..ALC["Comma"]..BZ["Zuldazar"].." (53.3 48)" }, 
+		{ "" },
+		{ LBLU..ACHIEVEMENTS..ALC["Colon"] },
+		{ (Alliance) and "Extinguishing Zandalar" or "Flame Keeper of Zandalar", (Alliance) and "ac=13343" or "ac=13340" },
+		{ "" },
+		{ NUTL..L["Yellow"]..ALC["Colon"]..FACTION_STANDING_LABEL4 },
+	},
 }
 
 local MapSeries = {
@@ -1312,16 +1366,18 @@ local MapSeries = {
 	["Lunar_Kalimdor"] = { "Lunar_Azeroth", "Lunar_Kalimdor", "Lunar_Northrend", "Lunar_Deepholm" },
 	["Lunar_Northrend"] = { "Lunar_Azeroth", "Lunar_Kalimdor", "Lunar_Northrend", "Lunar_Deepholm" },
 	["Lunar_Deepholm"] = { "Lunar_Azeroth", "Lunar_Kalimdor", "Lunar_Northrend", "Lunar_Deepholm" },
-	["MidSummer_Azeroth"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Kalimdor"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Outland"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Northrend"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Azeroth_MajorCities"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Kalimdor_MajorCities"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Deepholm"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Pandaria"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_Draenor"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
-	["MidSummer_BrokenIsles"] = { "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles" },
+	["MidSummer_Azeroth"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Kalimdor"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Outland"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Northrend"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Azeroth_MajorCities"] = 	{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Kalimdor_MajorCities"] = 	{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Deepholm"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Pandaria"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Draenor"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_BrokenIsles"] = 	{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_KulTiras"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
+	["MidSummer_Zandalar"] = 		{ "MidSummer_Azeroth", "MidSummer_Kalimdor", "MidSummer_Outland", "MidSummer_Northrend", "MidSummer_Azeroth_MajorCities", "MidSummer_Kalimdor_MajorCities", "MidSummer_Deepholm", "MidSummer_Pandaria", "MidSummer_Draenor", "MidSummer_BrokenIsles", "MidSummer_KulTiras", "MidSummer_Zandalar" },
 }
 
 Atlas:RegisterPlugin("Atlas_WorldEvents", myCategory, myData)

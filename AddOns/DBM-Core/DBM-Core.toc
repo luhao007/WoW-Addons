@@ -1,4 +1,4 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: MysticalOS, QartemisT
 ## Version: 80137cb
 ## Dependencies: DBM-StatusBarTimers

@@ -204,9 +204,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "一脈相傳",
     },
-    [47332] = {
-        name = "你的下一步",
-    },
     [47418] = {
         name = "成長之痛",
     },
@@ -2607,9 +2604,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "塗蜜的山姆",
     },
-    [50520] = {
-        name = "山姆在哪？",
-    },
     [50530] = {
         name = "巫路可逃？",
     },
@@ -3300,9 +3294,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "強大的果克菲斯",
     },
-    [51211] = {
-        name = "艾澤拉斯之心",
-    },
     [51214] = {
         name = "當個好心人",
     },
@@ -3507,9 +3498,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "報到",
     },
-    [51403] = {
-        name = "代言者的當務之急",
-    },
     [51407] = {
         name = "找出他們的語言",
     },
@@ -3556,7 +3544,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "現在我是船長了",
     },
     [51443] = {
-        name = "任務聲明",
+        name = "決戰艾澤拉斯：任務聲明",
     },
     [51445] = {
         name = "瑟洛斯，荒疫之原",
@@ -3837,12 +3825,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "莫‧瓦倫泰元帥的遺骸",
     },
-    [51795] = {
-        name = "羅德隆之戰",
-    },
-    [51796] = {
-        name = "羅德隆之戰",
-    },
     [51797] = {
         name = "追蹤浪潮賢者",
     },
@@ -4044,14 +4026,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "玩命戰利品：及時行樂",
     },
-    [52131] = {
-        name = "相互需要",
-    },
     [52132] = {
         name = "海盜的證明",
-    },
-    [52139] = {
-        name = "事關重大",
     },
     [52146] = {
         name = "血染黃沙",
@@ -4220,9 +4196,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "不用撿，只管丟",
-    },
-    [52428] = {
-        name = "灌注艾澤拉斯之心",
     },
     [52431] = {
         name = "禁止登陸區",
@@ -4428,9 +4401,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "戰火鑄造的羈絆",
     },
-    [52946] = {
-        name = "步入死亡的世界",
-    },
     [52948] = {
         name = "戰鬥的號角：提拉加德海灣",
     },
@@ -4469,12 +4439,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "輕輕搖晃過的禮物",
-    },
-    [53028] = {
-        name = "垂危的世界",
-    },
-    [53031] = {
-        name = "代言者的當務之急",
     },
     [53041] = {
         name = "物品採樣",
@@ -4629,14 +4593,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "樂樂快跑",
     },
-    [53370] = {
-        name = "決勝時刻",
-    },
     [53371] = {
         name = "與蜂共舞",
-    },
-    [53372] = {
-        name = "決勝時刻",
     },
     [53406] = {
         name = "心之室",

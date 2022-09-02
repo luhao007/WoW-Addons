@@ -12,6 +12,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [141159] = {
         name = "烏爾法",
     },
+    [144119] = {
+        name = "凱曦安格弗",
+    },
+    [144154] = {
+        name = "鐵砧族長索爾加登",
+    },
     [154627] = {
         name = "珊卓亞",
     },
@@ -1296,6 +1302,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [173384] = {
         name = "大領主伯瓦爾‧弗塔根",
     },
+    [173386] = {
+        name = "卡莉雅‧米奈希爾",
+    },
     [173422] = {
         name = "巴爾米達之眼",
     },
@@ -1352,6 +1361,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [176100] = {
         name = "埃歐娜‧天刃",
+    },
+    [176789] = {
+        name = "莉雅德倫女士",
     },
     [177155] = {
         name = "路引師羅維斯",
@@ -1445,6 +1457,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [185713] = {
         name = "哈亞",
+    },
+    [187436] = {
+        name = "多利蘇爾",
+    },
+    [187905] = {
+        name = "小紫丁香",
     },
 })
 ]])()

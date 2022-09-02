@@ -49,6 +49,8 @@ L["Aludane Whitecloud <Flight Master>"] = "Aludane Nubeblanca <Maestro de vuelo>
 --[[Translation missing --]]
 --[[ L["Camp Taurajo"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["Change will take effect after next login; or type '/reload' command to reload addon"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["Class Order Halls"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Class Specific Only"] = ""--]] 
@@ -110,9 +112,13 @@ L["Rappelling Rope"] = "Soga de rápel"
 L["Requires honored faction with Sha'tari Skyguard"] = "Requiere honorable con la facción Guardia del cielo Sha'tari"
 --[[Translation missing --]]
 --[[ L["Requires Teleportation Nexus Advancement"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Return to Zuldazar"] = ""--]] 
 L["Seahorse"] = "Cabllito de mar"
 L["Shado-Pan Rope"] = "Cuerda del Shadopan"
 L["Ship / Zeppelin sailing path to destination"] = "Barco / Velero Zepelín con destino"
+--[[Translation missing --]]
+--[[ L["Show %s's transportation maps"] = ""--]] 
 L["South of the path along Lake Elune'ara"] = "Sur del camino a Lago Elune'ara"
 L["Special transportation"] = "Transporte especial"
 L["Talua <Eagle Keeper>"] = "Talua <Guardiana de águilas>"

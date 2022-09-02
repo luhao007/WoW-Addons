@@ -2525,6 +2525,10 @@ Database:AddChain(Chain.Chain03, {
 Database:AddCategory(CATEGORY_ID, {
     name = BtWQuests.GetMapName(MAP_ID),
     expansion = EXPANSION_ID,
+	buttonImage = {
+		texture = 1851127,
+		texCoords = {0,1,0,1},
+	},
     items = {
         {
             type = "chain",

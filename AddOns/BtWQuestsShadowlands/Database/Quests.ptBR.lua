@@ -6,6 +6,9 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
+    [51483] = {
+        name = "Herança do clã Ferro Negro",
+    },
     [56829] = {
         name = "A base da cadeia",
     },
@@ -3246,6 +3249,60 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [63215] = {
         name = "Apresentação a Draven",
     },
+    [63479] = {
+        name = "Convocação da Matriarca",
+    },
+    [63480] = {
+        name = "Instrução",
+    },
+    [63481] = {
+        name = "Tranquillien sob cerco",
+    },
+    [63482] = {
+        name = "Morte ao Flagelo",
+    },
+    [63483] = {
+        name = "Instalação do Magus",
+    },
+    [63484] = {
+        name = "A arma de um cavaleiro",
+    },
+    [63485] = {
+        name = "Um coração honesto",
+    },
+    [63486] = {
+        name = "Determinação inabalável",
+    },
+    [63487] = {
+        name = "Retorno à Terra Fantasma",
+    },
+    [63488] = {
+        name = "Eu sou a lâmina da Luz",
+    },
+    [63489] = {
+        name = "A justiça há muito devida",
+    },
+    [63490] = {
+        name = "Cavaleiro Sangrento",
+    },
+    [63494] = {
+        name = "Diagramas do Thane de Bigorna",
+    },
+    [63498] = {
+        name = "Briga ou breja",
+    },
+    [63501] = {
+        name = "O nome é emprestar",
+    },
+    [63502] = {
+        name = "Armas do clã Ferro Negro",
+    },
+    [63519] = {
+        name = "Luta Injusta",
+    },
+    [63522] = {
+        name = "Uma corrida justa",
+    },
     [63576] = {
         name = "A primeira manobra",
     },
@@ -4137,6 +4194,63 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [65466] = {
         name = "Sua primeira prototranca fugueal",
     },
+    [65563] = {
+        name = "Uma entrega para Kasea",
+    },
+    [65564] = {
+        name = "Bom garoto flamejante",
+    },
+    [65652] = {
+        name = "Convocação da Matriarca",
+    },
+    [65653] = {
+        name = "Vitória para os Sin'dorei",
+    },
+    [65655] = {
+        name = "Olhos do Lobo",
+    },
+    [65656] = {
+        name = "Chamado a Lordaeron",
+    },
+    [65657] = {
+        name = "Reúna os Renegados",
+    },
+    [65658] = {
+        name = "Esta terra é nossa",
+    },
+    [65659] = {
+        name = "Congresso da Praga",
+    },
+    [65660] = {
+        name = "Caminhada da Fé",
+    },
+    [65661] = {
+        name = "Consulta aos aliados",
+    },
+    [65662] = {
+        name = "Casa das Pestes",
+    },
+    [65663] = {
+        name = "Alimente o comedor",
+    },
+    [65664] = {
+        name = "Essência da Peste",
+    },
+    [65665] = {
+        name = "Encarnação",
+    },
+    [65666] = {
+        name = "Retorne a Montalvo",
+    },
+    [65667] = {
+        name = "O remédio de Lordaeron",
+    },
+    [65668] = {
+        name = "O Conselho Desolado",
+    },
+    [65669] = {
+        name = "Apresente-se a Greymane",
+    },
     [65674] = {
         name = "O que é essa coisa?",
     },
@@ -4160,6 +4274,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [65772] = {
         name = "Colheita inevitável",
+    },
+    [65788] = {
+        name = "Caminhada com fantasmas",
+    },
+    [66170] = {
+        name = "Vigília silenciosa",
+    },
+    [66243] = {
+        name = "Uma dádiva da esperança",
     },
 })
 ]])()

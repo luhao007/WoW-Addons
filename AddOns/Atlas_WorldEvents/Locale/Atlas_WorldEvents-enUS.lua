@@ -1,8 +1,8 @@
--- $Id: Atlas_WorldEvents-enUS.lua 113 2020-10-18 15:14:01Z arith $
+-- $Id: Atlas_WorldEvents-enUS.lua 117 2022-02-28 05:12:07Z arithmandar $
 --[[
 
 	Atlas World Events, a World of Warcraft map browser for world events
-	Copyright 2011 ~ 2020 Arith Hsu
+	Copyright 2011 ~ 2022 Arith Hsu
 
 	This file is a plugin of Atlas.
 
@@ -38,6 +38,7 @@ if L then
 	L["Blue: "] = "Blue: ";
 	L["Orange: "]  = "Orange: ";
 	L["Purple: "] = "Purple: ";
+	L["Yellow"] 	= "Yellow";
 	L["Quest: "] = "Quest: ";
 	L["Start"] = "Start"; -- The quest started NPC
 	L["End"] = "End"; -- The quest ended NPC

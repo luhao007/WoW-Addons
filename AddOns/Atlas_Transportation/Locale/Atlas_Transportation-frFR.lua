@@ -38,6 +38,8 @@ L["Boat to Stormwind City"] = "Bateau vers Hurlevent"
 --[[Translation missing --]]
 --[[ L["Camp Taurajo"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["Change will take effect after next login; or type '/reload' command to reload addon"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["Class Order Halls"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Class Specific Only"] = ""--]] 
@@ -91,9 +93,13 @@ L["Red"] = "Rouge"
 L["Requires honored faction with Sha'tari Skyguard"] = "Honoré avec la Garde-ciel sha'tari"
 --[[Translation missing --]]
 --[[ L["Requires Teleportation Nexus Advancement"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Return to Zuldazar"] = ""--]] 
 L["Seahorse"] = "Hippocampe"
 L["Shado-Pan Rope"] = "Corde pandashan"
 L["Ship / Zeppelin sailing path to destination"] = "Chemin de navigation de Vaisseau / Zeppelin"
+--[[Translation missing --]]
+--[[ L["Show %s's transportation maps"] = ""--]] 
 L["South of the path along Lake Elune'ara"] = "Sud du chemin du lac d'Elune'ara"
 L["Special transportation"] = "Transport spécial"
 L["Talua <Eagle Keeper>"] = "Talua <Responsable des aigles>"

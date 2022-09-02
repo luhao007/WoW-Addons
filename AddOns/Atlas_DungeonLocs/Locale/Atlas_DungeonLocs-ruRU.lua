@@ -38,6 +38,8 @@ local L = AceLocale:NewLocale("Atlas_DungeonLocs", "ruRU", false);
 
 if L then
 L["Blue"] = "Синий"
+--[[Translation missing --]]
+--[[ L["Change will take effect after next login; or type '/reload' command to reload addon"] = ""--]] 
 L["Dungeon Locations"] = "Расположение подземелий"
 L["Green"] = "Зелёный"
 L["Instances"] = "Подземелья"
@@ -45,6 +47,8 @@ L["Instances"] = "Подземелья"
 --[[ L["Meeting stone is inside the Sanctum of Order"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Raid entrance is inside the Sanctum Depths of Sanctum of Order"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Show %s's dungeon location maps"] = ""--]] 
 L["White"] = "Белый"
 
 end

@@ -3,27 +3,27 @@ local _, T = ...
 
 local C, z, V, K = GetLocale(), nil
 V =
-    C == "deDE" and { -- 168/171 (98%)
-      "(%.1f sek)", "(Standard)", "(Gebe hier einen Icon-Namen oder Pfad ein)", "Aktion", "Mit Linksklick aktivieren", "Ring hinzufügen", "Neuen Abschnitt hinzufügen", "Fahre fort nach Gebrauch", "Alle %s-Charaktere", "Alle %s-Spezialisierungen",
-      "Alle Charaktere", "Als Schnellaktion erlauben", "Alt-Linksklick auf einen Knopf, um eine bedingte Tastenbelegung festzulegen, erkennbar an %s.", "Animation", "Aussehen", "Aspekte", "Basiert auf der Aktion des Abschnitts", "Verhalten", "Belegung", "Tastaturbelegungskollision",
-      "Tastaturbelegung:", "Segen", "Abbrechen", "Ringe am Mauszeiger zentrieren", "Aktion ändern", "Änderungen werden nicht gespiechert", "Wähle eine Belegung für diese diesen Ring aus, oder aktiviere die Option %s in den OPie-Optionen.", "Farbe:", "Kampf", "Bedingte Tastaturbelegungen",
+    C == "deDE" and { -- 170/177 (96%)
+      "(%.1f sek)", "(Standard)", "(Gebe hier einen Icon-Namen oder Pfad ein)", "Aktion", "Mit Linksklick aktivieren", "Ring hinzufügen", "Neuen Abschnitt hinzufügen", "Weiter nach Gebrauch", "Alle %s-Charaktere", "Alle %s-Spezialisierungen",
+      "Alle Charaktere", "Als Schnellaktion erlauben", "Alt-Linksklick auf einen Knopf, um eine bedingte Tastenbelegung festzulegen, erkennbar an %s.", "Animation", "Aussehen", "Aspekte", "Basiert auf der Aktion des Abschnitts", "Verhalten", "Belegung", "Tastaturbelegungskonflikt",
+      "Tastaturbelegung:", "Segen", "Abbrechen", "Ringe am Mauszeiger zentrieren", "Aktion ändern", "Änderungen werden nicht gespeichert", "Wähle eine Belegung für diesen Ring aus oder aktiviere die Option %s in den OPie-Optionen.", "Farbe:", "Kampf", "Bedingte Tastaturbelegungen",
       "Bedingte Sichtbarkeit", "Kollidiert mit: %s", "Profil erstellen", "Neues Profil erstellen", "Neuen Ring erstellen", "Neues Profil erstellen", "Eigene Ringe", "Benutzerdefinierter Abschnitt", "Passe OPie an, indem du bestehende Ringe änderst oder eigene erstellst. ", "Hier können die Tastaturbelegungen für OPie angepasst werden. |cffa0a0a0Graue|r und |cffFA2800Rote|r Belegungen kollidieren mit anderen und sind im Moment nicht aktiv.",
-      "Passe OPies Aussehen und Verhalten an. Ein Rechtsklick auf eine Checkbox stellt den Standardwert wieder her. ", "Tastenkombinationen anpassen", "Einstellungen anpassen", "Benutzerdefiniertes Symbol", "Standardbelegung deaktiviert", "Standards", "Standards für alle Ringe", "Aktuelles Profil löschen", "Ring löschen", "Abschnitt löschen",
-      "Dämonen", z, "Darstellung als verschachtelter Ring", "Darstellen als:", "In andere Ringe standardmäßig einbetten", "Eingebettete Abschnitte in diesem Ring", "Leerer Ring", "Ausgewählten Abschnitt vergrößern", "Ausrüstungsset:", "Beispiel: %s.",
+      "Passe OPies Aussehen und Verhalten an. Ein Rechtsklick auf eine Checkbox stellt den Standardwert wieder her. ", "Tastaturbelegungen anpassen", "Einstellungen anpassen", "Benutzerdefiniertes Symbol", "Standardbelegung deaktiviert", "Standards", "Standards für alle Ringe", "Aktuelles Profil löschen", "Ring löschen", "Abschnitt löschen",
+      "Dämonen", "Zeige einen ausklappbaren Abschnitt an", "Darstellung als verschachtelter Ring", "Darstellen als:", "In andere Ringe standardmäßig einbetten", "Bette Abschnitte in diesen Ring ein", "Leerer Ring", "Ausgewählten Abschnitt vergrößern", "Ausrüstungsset:", "Beispiel: %s.",
       "Zusätzliche Portale", "Wildheit", "Wächter", "Ruhesteine", "Versteckte Ringe", "Haltungsleiste verstecken", "Diesen Ring verstecken", "Symbol:", "Der Abschnitt wird versteckt, wenn diese Makro-Bedingung als %s ausgewertet wird oder keine ihrer Klauseln gelten.", "Schnappschuss Importieren",
-      "Klick auf %s oben, um Schnappschüsse zu importieren.", z, "Inaktive Ringe", z, "Nach Benutzung offen lassen", "Ringe in den Vordergrund holen", "Stelle diesen Ring zur Verfügung für:", "Minikartenverfolgung", "Mehr aktive Ringe", "Ringe nach unten bewegen",
+      "Klick auf %s oben, um Schnappschüsse zu importieren.", z, "Inaktive Ringe", "Gib eine Aktionsdefinition für den Abschnitt ein: ", "Nach Benutzung offen lassen", "Ringe in den Vordergrund holen", "Stelle diesen Ring zur Verfügung für:", "Minikartenverfolgung", "Mehr aktive Ringe", "Ringe nach unten bewegen",
       "Ringe nach rechts bewegen", "Verschachtelter Ring: %s", "Verschachtelte Ringe", "Neuer Ring...", "Name des neuen Profils:", "Keine %s-Spezialisierungen", "Nicht belegt", "Nicht angepasst", "Wird vom ausgewählten Erscheinungsbild nicht unterstützt.", "OPie-Ring",
       "OPie-Ring: %s", "OPie-Ringe", "Nur %s", "Verschachtelten Ring öffnen", "Optionen:", "Auswärtsspirale beim Ausblenden", "Paladinstärkungszauber", "Abschnittsspezifische Tastenbelegungen", "Begleiter", "Verwandlungen",
-      "Portale und Teleportierungen", "Abschnitt für die Schnellwahl auswählen", "Drücke ENTER, um zu speichern.", "Drücke |cffffffffENTER|r, um zu suchen", "Profil", "Profile werden automatisch aktiviert, wenn man die Spezialisierung wechselt.", "Profile enthalten Einstellungen und Tastaturbelegung der Ringe.", "Questgegenstände", "Schnellwahl in der Ringmitte", "Schnellbefehl wenn die Maus nicht bewegt wird",
-      "Nach Gebrauch mischen", "Beim Darstellen zufällig anordnen", "An die letzte Drehung erinnern", "Bei Darstellung zurücksetzen", "Standard wiederherstellen", "Standardoptionen wiederherstellen", "Ring", "Tastaturbelegungen", "Name des Rings", "Ringskalierung",
-      "Ring: %s", "Ringrotation:", "Verschachtelten Ring scrollen (nach unten)", "Verschachtelten Ring scrollen (nach oben)", "Empfindlichkeit des Scrollrades", "Suche", "Wähle Ring zur Modifizierung", "Doppelklick eine Aktion, um sie dem Ring hinzuzufügen.", "Ausgewählter Abschnitt (Ring offenhalten)", "Gestaltwandlungen",
-      "Ring weitergeben", "Abklingzeit numerisch anzeigen", "Aufladungen als Zahl zeigen", "Zeige Abschnitt Beschriftungen", "Zeige diesen Abschnitt für:", "Tooltips zeigen", "Simuliere einen Rechtsklick", "Abschnitt #%d", "Zeiger auf Mauszeiger ausrichten", "Schnappschuss:",
+      "Portale und Teleportierungen", "Abschnitt für die Schnellwahl auswählen", "Drücke ENTER, um zu speichern.", "Drücke |cffffffffENTER|r, um zu suchen", "Profil", "Profile werden automatisch aktiviert, wenn man die Spezialisierung wechselt.", "Profile enthalten Einstellungen und Tastaturbelegungen der Ringe.", "Questgegenstände", "Schnellwahl in der Ringmitte", "Schnellbefehl, wenn die Maus nicht bewegt wird",
+      "Nach Gebrauch mischen", "Beim Darstellen zufällig anordnen", "Letzte Drehung merken", "Beim Anzeigen zurücksetzen", "Standard wiederherstellen", "Standardoptionen wiederherstellen", "Ring", "Tastaturbelegungen", "Name des Rings", "Ringskalierung",
+      "Ring: %s", "Ringrotation:", "Verschachtelten Ring scrollen (nach unten)", "Verschachtelten Ring scrollen (nach oben)", "Empfindlichkeit des Scrollrades", "Suche", "Wähle Ring zur Modifizierung", "Doppelklick eine Aktion, um sie dem Ring hinzuzufügen.", "Ausgewählter Abschnitt (Ring offenhalten)", "Gestaltwandeln",
+      "Ring teilen", "Abklingzeit numerisch anzeigen", "Aufladungen als Zahl zeigen", "Zeige Abschnitt-Beschriftungen", "Zeige diesen Abschnitt für:", "Tooltips zeigen", "Simuliere einen Rechtsklick", "Abschnitt #%d", "Zeiger auf Mauszeiger ausrichten", "Schnappschuss:",
       "Spezialisierungen und Reise", "Speichert eine Momentaufnahme dieses Ringes, um ihn mit anderen Spielern zu teilen.", "Zielmarkierungen", "Die Tastaturbelegung wird aktualisiert, um den Wert dieser Makro-Bedingung widerzuspiegeln.", "Der folgende Makrobefehl öffnet diesen Ring:", "Dieses Erscheinungsbild unterstützt möglicherweise nicht alle OPie-Funktionen.", "Diese Belegung wird bereits von einem anderen Addon benutzt.", "Diese Belegung ist nicht aktiv, weil sie mit ein anderen kollidiert.", "Wähle dieses Feld oder ändere die Belegung, um die Standardbelegung zu nutzen.", "Handwerksfertigkeiten",
       "Fallen", "Schmuckstücke", "Belegung löschen", "Verstanden. Trotzdem bearbeiten.", "Änderungen rückgängig machen", "Update erforderlich", "Standardbelegungen nutzen", "Benutze den ersten Abschnitt beim öffnen", "Verwende globale Einstellungen", "Nützlichkeit",
       "Sichtbarkeitsbedingung:", "Hexenmeister - Kampf", "Hexenmeister - Allgemein", "Weltmarkierungen", "World of Warcraft könnte die Einstellungen von OPie aufgrund unzureichenden Speichers nicht laden. Versucht, einige Addons zu deaktivieren.\n\nAlle jetzt getätigten Änderungen werden nicht gespeichert.", "Man kann erweiterte Makro-Bedingungen benutzen; siehe %s für Details.", "Um die Schnellwahl nutzen zu können, muss die Option %s in den OPie-Einstellungen aktiviert sein.", "Dauer des Herein-/Herauszoomens", "Standard", "|cffffffffStrg-Enter|r, um in aktuellen Ergebnissen zu suchen",
       "|cffffffffESC|r, um abzubrechen",
     }
-    or C == "esES" and { -- 135/171 (78%)
+    or C == "esES" and { -- 135/177 (76%)
       "(%.1f seg)", "(predeterminado)", z, "Acción", "Activar al clic izquierdo", "Añadir un anillo", "Añadir una rodaja", z, "Todos caracteres %s", "Todas espec. de %s",
       "Todos personajes", "Permitir al acción rapida", "Alt-clic izquierdo para asignar un teclado condicional, indicado por %s.", "Animación", "Aparencia", "Aspectos", "Basado en acción de rodaja", "Funcionalidad", "Teclado", "Conflicto de teclados",
       "Teclado:", "Benediciones", "Cancelar", "Centrar anillos al ratón", z, "No se guardarán los cambios", "Asigna un teclado para este anillo, o activar la opción %s in la configuración de OPie.", "Color:", "Combate", "Teclados condicionales",
@@ -43,7 +43,7 @@ V =
       "Condición de visibilidad:", "Brujo - Combate", "Brujo - General", "Marcadores del mundo", "World of Warcraft no se ha podido cargar las variables guardadas de OPie debido a la falta de memoria. Trate a desactivar algunos otros addons.\n\nLos cambios realizados ahora no se guardarán.", "Es posible usar condiciones de macro extendidas; consulte %s para detalles.", "Debes activar la opción %s para este anillo en la configuración de OPie para usar acciones rapidas.", "Velocidad para alejar/acercar", z, "|cffffffffCtrl+Enter|r para buscar en resultados actuales",
       "|cffffffffEscape|r para cancelar",
     }
-    or C == "esMX" and { -- 135/171 (78%)
+    or C == "esMX" and { -- 135/177 (76%)
       "(%.1f seg)", "(predeterminado)", z, "Acción", "Activar al clic izquierdo", "Añadir un anillo", "Añadir una rodaja", z, "Todos caracteres %s", "Todas espec. de %s",
       "Todos personajes", "Permitir al acción rapida", "Alt-clic izquierdo para asignar un teclado condicional, indicado por %s.", "Animación", "Aparencia", "Aspectos", "Basado en acción de rodaja", "Funcionalidad", "Teclado", "Conflicto de teclados",
       "Teclado:", "Benediciones", "Cancelar", "Centrar anillos al ratón", z, "No se guardarán los cambios", "Asigna un teclado para este anillo, o activar la opción %s in la configuración de OPie.", "Color:", "Combate", "Teclados condicionales",
@@ -63,14 +63,14 @@ V =
       "Condición de visibilidad:", "Brujo - Combate", "Brujo - General", "Marcadores del mundo", "World of Warcraft no se ha podido cargar las variables guardadas de OPie debido a la falta de memoria. Trate a desactivar algunos otros addons.\n\nLos cambios realizados ahora no se guardarán.", "Es posible usar condiciones de macro extendidas; consulte %s para detalles.", "Debes activar la opción %s para este anillo en la configuración de OPie para usar acciones rapidas.", "Velocidad para alejar/acercar", z, "|cffffffffCtrl+Enter|r para buscar en resultados actuales",
       "|cffffffffEscape|r para cancelar",
     }
-    or C == "frFR" and { -- 130/171 (76%)
+    or C == "frFR" and { -- 131/177 (74%)
       "(%.1f sec)", "(défaut)", "(Entrer le nom ou le chemin de l’icône ici)", "Action", "Activer lors du clic gauche", "Ajouter un cercle", "Ajouter une nouvelle action", z, "Tous les personnages %s", "Toutes les spécialisations des %s",
-      "Tous les personnages", "Permettre une action rapide", "Alt + Clic gauche sur un bouton pour régler une condition de liaison, indiqué par %s.", "Animation", "Apparence", "Aspects", "Selon l'action", "Comportement", "Raccourcis", z,
+      "Tous les personnages", "Permettre une action rapide", "Alt + Clic gauche sur un bouton pour régler une condition de liaison, indiqué par %s.", "Animation", "Apparence", "Aspects", "Selon l'action", "Comportement", "Raccourcis", "Conflit de raccourcis",
       "Raccourcis:", "bénédictions", "Annuler", "Centre anneaux à la souris", z, "Les changements ne seront pas enregistrés", "Choisissez un raccourcis pour ce cercle, ou activer l'option %s dans les options Opie.", "Couleur", "Combat", "Raccourcis Conditionnels",
       "Visibilité conditionnelle", "Conflits avec: %s", "Créer un profil", "Créer un nouveau profil", "Créer un nouveau cercle", "Création d'un nouveau profil", "Cercles personnalisés", z, "Personnaliser Opie en modifiant les cercles existants, ou créer le votre.", "Personnaliser Opie avec le raccourcis clavier ci-dessous. |cffa0a0a0Gray|r et |cffFA2800red|r sont en conflit avec d'autres et ne sont pas actuellement actif.",
-      "Personnaliser l'apparence et le comportement de Opie. Un clic droit sur une case restaure son état par défaut.", z, z, "icône personnalisée", "Raccourcis par défaut désactivé", "défauts", "Par défaut pour tous les cercles", "Supprimer profil actuel", "Supprimer le cercle\r\n", "Supprimer l'action",
+      "Personnaliser l'apparence et le comportement de Opie. Un clic droit sur une case restaure son état par défaut.", z, z, "icône personnalisée", "Raccourcis par défaut désactivé", "défauts", "Par défaut pour tous les cercles", "Supprimer profil actuel", "Supprimer le cercle\n", "Supprimer l'action",
       "Demons", z, z, z, z, z, "Cercle vide", "Agrandir l'action sélectionnée", z, "Exemple: %s",
-      z, "Feral", "Guardians", z, "Cercles cachés", "Masquer la barre d'appui", "Cachez ce cercle", "Icône:\r\n", "Si les conditions de cette macro sont à %s, ou si aucune de ses clauses n'est appliqué alors cette action sera caché.", "Importer un cercle",
+      z, "Feral", "Guardians", z, "Cercles cachés", "Masquer la barre d'appui", "Cachez ce cercle", "Icône:\n", "Si les conditions de cette macro sont à %s, ou si aucune de ses clauses n'est appliqué alors cette action sera caché.", "Importer un cercle",
       "Importer la capture en cliquant sur %s au dessus.", z, "Cercles inactifs", z, "Laissez ouvert après utilisation", z, "Faire que ce cercle soit disponible pour:", "Suivi minimap", z, "Déplacer l'anneaux vers le bas",
       "Déplacer l'anneaux vers la droite", z, "cycles imbriqués", "Nouveau Cercle...", "Nom du nouveau profil:", "Aucune spécialisations %s", "Pas liée", z, z, "OPie Anneau",
       "OPies cercle: %s", "OPie Anneau", "Seulement %s", "Anneau imbriquée ouvert", "Options:", "Spirale vers l'extérieur quand caché", z, "Raccourcis par action", "Familiers", z,
@@ -80,10 +80,30 @@ V =
       "Partager le cercle", "Afficher le temp de recharge", "Afficher les numéros de recharge", z, "Montrer cette action pour:", "Afficher les infobulles", z, "Action #%d", z, "Capture:",
       "Spécialisations et Voyage", "Prendre une capture de ce cercle pour le partager.", "Marqueurs de Cible", "La liaison sera mise à jour afin de refléter la valeur de cette macro conditionnelle.", "La macro suivante ouvre ce cercle:", z, "Ce raccourcis est actuellement utilisé par un autre addon.", "Ce raccourci est inactif, car il est en conflit avec un autre.", "Pour activer le raccourcis par défaut de ce cercle, cochez cette case ou modifier le raccourcis.", "Professions",
       "Pièges", "Bijoux activables", "délier", "Bien noté modifier de toute façon", "Annuler les modifications", z, "Utiliser les raccourcis par défaut", z, z, "Utilitaire",
-      "Condition de visibilité", z, z, "Marqueurs de Terrain", "World of Warcraft n'a pas pu charger les variables enregistrées de OPie en raison d'un manque de mémoire. Essayez de désactiver d'autres addons.\r\n\r\nToutes les modifications que vous effectuez maintenant ne seront pas sauvegardées.", z, "Vous devez activer l'option %s pour ce cercle dans les options Opie pour utiliser des actions rapides.", "Vitesse du zoom avant / arrière", z, "|cffffffffCtrl+Enter|r  à la recherche dans les résultats actuels",
+      "Condition de visibilité", z, z, "Marqueurs de Terrain", "World of Warcraft n'a pas pu charger les variables enregistrées de OPie en raison d'un manque de mémoire. Essayez de désactiver d'autres addons.\n\nToutes les modifications que vous effectuez maintenant ne seront pas sauvegardées.", z, "Vous devez activer l'option %s pour ce cercle dans les options Opie pour utiliser des actions rapides.", "Vitesse du zoom avant / arrière", z, "|cffffffffCtrl+Enter|r  à la recherche dans les résultats actuels",
       "|cffffffffEscape|r pour annuler",
     }
-    or C == "koKR" and { -- 155/171 (90%)
+    or C == "itIT" and { -- 157/177 (88%)
+      "(%.1f secondi)", "(predefinito)", "(inserisci qui il nome o il percorso di un'icona)", "Azione", "Attivazione al click sinistro", "Aggiungi anello", "Aggiungi una nuova sezione", "Avanzare dopo l'uso", "Tutti i %s personaggi", "Tutte le %s specializzazioni",
+      "Tutti i personaggi", "Consenti come azione rapida", "Alt+Clic Sinistro su un pulsante per impostare un collegamento condizionale, indicato da %s.", "Animazione", "Apparenza", "Aspetti", "Basato sull'azione della sezione", "Comportamento", "Collegamento", "Conflitto di collegamento",
+      "Collegamento:", "Benedizioni", "Annulla", "Anelli centrati sul mouse", "Cambia azione", "Le modifiche non verranno salvate", "Scegli un collegamento per questo anello o abilita l'opzione %s nelle opzioni OPie.", "Colore:", "Combattimento", "Collegamenti condizionati",
+      "Visibilità condizionale", "Conflitti con: %s", "Crea profilo", "Crea un nuovo profilo", "Crea un nuovo anello", "Crea un nuovo profilo", "Anelli personalizzati", "Personalizza sezione", "Personalizza OPie modificando gli anelli esistenti o creandone uno tuo.", "Personalizza le associazioni di tasti OPie di seguito. I collegamenti |cffa0a0a0Grigio|r e |cffFA2800rosso|r sono in conflitto con altri e non sono attualmente attivi.",
+      "Personalizza l'aspetto e il comportamento di OPie. Clic destro su una casella di controllo ripristina lo stato predefinito.", "Personalizza i collegamenti", "Personalizza le opzioni", "Icona personalizzata", "Collegamento predefinito disabilitato", "Predefiniti", "Predefiniti per tutti gli anelli", "Elimina il profilo corrente", "Elimina anello", "Cancella sezione",
+      "Dimostrazione", "Visualizza una sezione di salto", "Visualizza come un anello annidato", "Mostra come:", "Incorpora in altri anelli per impostazione predefinita", "Incorpora le sezioni in questo anello", "Anello vuoto", "Ingrandisci la sezione selezionata", "Equipaggia il set:", "Esempio: %s.",
+      "Portali extra", "Aggressore ferino", "Guardiani ferini", "Pietre del ritorno", "Anelli nascosti", "Nascondi la barra della posizione", "Nascondi questo anello", "Icona:", "Se questa macro condizionale restituisce %s, o se nessuna delle sue clausole si verifica, questa sezione verrà nascosta.", "Importa istantanea",
+      "Importa le istantanee cliccando su %s.", "Collegamenti ad anello", "Anelli inattivi", "Immettere una specifica azione di sezione:", "Lascia aperto dopo l'uso", "Crea anelli in alto", "Rendi questo anello disponibile a:", "Monitoraggio minimappa", "Più anelli attivi", "Sposta gli anelli verso il basso",
+      "Sposta gli anelli verso destra", "Anelli annidati: %s", "Anelli annidati", "Crea un nuovo anello", "Nuovo nome profilo:", "Nessuna specializzazione %s", "Non vincolato", "Non personalizzato", "Non supportato dall'aspetto selezionato.", "Anello OPie",
+      "Anello OPie: %s", "Anelli OPie", "Solo %s", "Aprire l'anello annidato", "Opzioni:", "Spirale esterna su nascosta", "Potenziamenti del paladino", "Collegamenti per sezione", "Famigli", "Metamorfosi",
+      "Portali e teletrasporti", "Preseleziona una sezione di azione rapida", "Premere INVIO per salvare.", "Premere |cffffffffInvio|r per cercare", "Profilo", "I profili si attivano automaticamente quando cambi le specializzazioni del personaggio.", "I profili salvano le opzioni e i collegamenti ad anello.", "Oggetti missione", "Azione rapida nell'anello centrale", "Azione rapida se il mouse rimane fermo",
+      "Randomizza la rotazione dopo l'uso", "Randomizza la rotazione sulla visualizzazione", "Ricorda l'ultima rotazione", "Resetta la rotazione sulla visualizzazione", "Ripristino predefinito", "Ripristina le impostazioni predefinite", "Anello", "Anello di collegamento", "Nome dell'anello:", "Scala dell'anello",
+      "Anello: %s", "Rotazione:", "Scorri anello annidato (in basso)", "Scorri anello annidato (in alto)", "Sensibilità della rotella di scorrimento", "Ricerca", "Seleziona un anello da modificare", "Seleziona un'azione facendo doppio clic.", "Seleziona sezione (mantieni l'anello aperto)", "Cambiare forme",
+      "Condividi anello", "Mostra i numeri del tempo di recupero", "Mostra i numeri di ricarica", "Mostra le etichette delle sezioni", "Mostra questa sezione per:", "Mostra suggerimenti", "Simula un clic destro", "Sezione #%d", "Aggancia il puntatore al cursore del mouse", "Fotografia:",
+      "Specializzazioni e viaggi", "Scatta un'istantanea di questo anello per condividerlo con gli altri.", "Marcatori di destinazione", "Il collegamento verrà aggiornato per riflettere il valore di questa macro condizionale.", "La seguente macro di comando apre questo anello:", "Questo aspetto potrebbe non supportare tutte le funzionalità di OPie.", "Questo collegamento è attualmente utilizzato da un altro addon.", "Questo collegamento non è attualmente attivo perché è in conflitto con un altro.", "Per abilitare l'associazione predefinita per questo anello, seleziona questa casella o modifica il collegamento.", z,
+      "Trappole", "Monili", "Scollega", "Capito; modifica comunque", "Cancella i cambiamenti", z, z, z, z, z,
+      z, z, z, z, z, z, z, z, "predefinito", "|cffffffffCtrl+Invio|r per cercare nei risultati correnti",
+      "|cffffffffEsc|r per annullare",
+    }
+    or C == "koKR" and { -- 155/177 (87%)
       "(%.1f초)", "(기본값)", "(여기에 아이콘 이름이나 경로를 입력하세요)", "행동", "좌클릭으로 작동", "고리 추가", "새로운 조각 추가", z, "모든 %s 캐릭터", "모든 %s  전문화",
       "모든 캐릭터", "빠른 행동으로 허용", "버튼을 Alt+좌클릭하여 조건부 단축키를 설정할 수 있고, %s로 표시됩니다.", "애니메이션", "모양", "상", "조각 행동 기반", "동작", "단축키", "단축키 중복",
       "단축키:", "축복", "취소", "고리 중앙을 마우스에", z, "변경 사항이 저장되지 않습니다.", "이 고리에 대해 단축키를 선택하거나, OPie 옵션의 %s 설정을 사용합니다.", "색상:", "전투", "조건부 단축키",
@@ -103,7 +123,7 @@ V =
       "조각 보임 조건:", "흑마법사 전투", "흑마법사 일반", "위치 표시기", "월드오브 워 크래프트가 메모리 부족으로 OPie의 저장된 변수들을 불러올 수 없습니다. 다른 애드온을 비활성화하고 다시 시도하십시오.", "확장 매크로 조건들을 사용하려면, 자세한 사항은 %s를 참조하십시오.", "이 고리의 빠른 행동을 사용하려면 OPie 옵션의 %s 설정을 사용해야 합니다.", "확대/축소 시간", "기본값", "|cffffffffCtrl+Enter|r 로 현재 결과 내에서 검색하기",
       "|cffffffffEsc|r 로 취소",
     }
-    or C == "ruRU" and { -- 124/171 (72%)
+    or C == "ruRU" and { -- 124/177 (70%)
       "(%.1f сек)", "(по умолчанию)", "(введите название иконки или путь к ней)", "Действие", "Активация левой кнопкой", "Создать кольцо", "Добавить новый фрагмент", z, "Все персонажи   %s", "Все специализаций  %s",
       "Все персонажи", "Разрешить быстрое применение", "АЛТ+ЛКМ на кнопку, чтобы установить условную привязку, обозначенную как %s.", "Анимация", "Внешний вид", "Аспекты", "Нажмите, чтобы изменить иконку", "Поведение", "Назначение", "Противоречие назначения горячей клавиши",
       "Назначение клавиши:", "Благославление", "Отмена", "Показывать под курсором", "Изменить действие", "Изменения не будут сохранены", "Выберите горячую клавишу для этого кольца, или включите опцию %s в настройках OPie.", "Цвет:", "Бой", "Условные привязки",
@@ -123,7 +143,7 @@ V =
       "Видимые условия:", z, z, "Световые метки", "World of Warcraft не удалось загрузить сохраненные переменные OPie из-за нехватки памяти. Попробуйте отключить другие аддоны.\n\nВсе внесенные изменения в настоящее время не будут сохраняться.", "Вы можете использовать расширенные макро условия; см. %s.", "Вы должны включить опцию %s в настройках OPie.", "Скорость появления/сворачивания", "по умолчанию", "|cffffffffCtrl+Enter|r для поиска в текущих результатах",
       "|cffffffffEscape|r для отмены",
     }
-    or C == "zhCN" and { -- 156/171 (91%)
+    or C == "zhCN" and { -- 156/177 (88%)
       "(%.1f 秒)", "(默认)", "（输入图标名称或路径）", "技能", "左键点击时激活", "添加环", "添加一个新功能", z, "所有%s角色", "%s的所有专精",
       "全部角色", "允许作为快捷动作", "Alt+左键点击按钮设置情景绑定，由 %s 表示。", "动画", "外观", z, "按功能显示", "行为", "快捷键", "快捷键冲突",
       "快捷键：", "祝福", "取消", "在鼠标位置打开环", z, "修改将不被保存", "为此环绑定快捷键，或在OPie设置中启用%s选项。", "颜色：", "战斗", "条件快捷键",
@@ -143,7 +163,7 @@ V =
       "可见条件：", "术士战斗", "术士通用", "世界标记", "由于内存不足，魔兽世界不能加载已保存的OPie变量。请尝试禁用其他插件。现在你所做的任何改动都不会被保存。", "你可以使用扩展的宏条件；详情见%s。", "必须为此环启用%s选项以使用快捷动作。", "旋入/旋出时间", "默认", "|cffffffffCtrl+回车|r在当前结果内搜索",
       "|cffffffffESC|r取消",
     }
-    or C == "zhTW" and { -- 155/171 (90%)
+    or C == "zhTW" and { -- 155/177 (87%)
       "(%.1f 秒)", "(預設)", "(在此輸入圖示名稱或路徑)", "技能", "左鍵點擊使用", "新增環", "加入一個新的功能", z, "所有 %s 角色。", "所有 %s 的專精角色",
       "所有角色", "設為快速動作", "Alt+左鍵點擊按鈕設定綁定條件，由 %s 表示。", "動畫", "外觀", "守護", "依據自身的功能顯示圖示", "行為", "快捷鍵", "快捷鍵已被使用",
       "快捷鍵:", "祝福", "取消", "在滑鼠位置顯示環", z, "不會被儲存變更", "替這個環選擇快捷鍵，或是在 OPie 選項中啟用 %s。", "顏色:", "戰鬥", "條件式綁定",
@@ -163,7 +183,7 @@ V =
       "顯示條件:", "術士戰鬥", "術士一般", "世界標記圖示", "記憶體不足! 魔獸世界無法載入 OPie 所儲存的變數，請停用其它插件。", "可以使用擴充的巨集條件式；請參考 %s 的詳細內容。", "要使用快速功能，必須在 OPie 選項中替這個環啟用 %s。", "旋入/旋出時間", "預設", "|cffffffffCtrl+Enter|r 在目前的結果內搜尋",
       "|cffffffffESC|r 取消",
     }
-    or C == "ptBR" and { -- 98/171 (57%)
+    or C == "ptBR" and { -- 120/177 (67%)
       "(%.1f seg)", "(padrão)", "(insira o nome ou o caminho do ícone aqui)", "Ação", "Ativa com clique esquerdo", "Adicionar anel", "Adicionar nova fatia", "Avançar após uso", "Todos os personagens %s", "Todas as especializações de %s",
       "Todos os personagens", "Permitir como ação rápida", "Alt + Clique esquerdo em um botão para definir um atalho condicional, indicado por %s.", "Animação", "Aparência", "Aspectos", "Baseado na ação da fatia", "Comportamento", "Atalho", "Conflito de atalhos",
       "Atalho:", "Bênçãos", "Cancelar", "Centralizar os anéis no cursor", "Mudar ação", "As alterações não serão salvas", "Escolha um atalho para este anel ou ative a opção de %s nas opções do OPie.", "Cor:", "Combate", "Atalhos Condicionais",
@@ -171,16 +191,16 @@ V =
       "Personalize a aparência e o comportamento do OPie. Clicar com o botão direito do mouse em uma caixa de seleção restaura-a para seu estado padrão.", "Customizar atalhos", "Customizar opções", "Ícone personalizado", "Atalhos padrão desativados", "Padrões", "Padrões para todos os anéis", "Excluir perfil atual", "Excluir anel", "Excluir fatia",
       "Demônios", "Mostrar uma fatia intermediária", "Mostrar como anel aninhado", "Mostrar como:", "Incorporar em outros anéis por padrão", "Incorporar fatias neste anel", "Anel vazio", "Ampliar fatia selecionada", "Equipar conjunto:", "Exemplo: %s.",
       "Portais Extra", "Feral", "Guardiões", "Pedras de Regresso", "Aneis ocultos", "Ocultar a barra de posturas", "Ocultar este anel", "Ícone:", "Se essa condicional de macro retornar %s ou se nenhuma das cláusulas se aplicarem, esta fatia ficará oculta.", "Importar imagem",
-      "Importe imagens clicando acima em %s.", "Atalhos Internos de Anéis", "Anéis inativos", "Entre uma especificação de ação de fatia:", "Manter aberto após uso", "Dá prioridade aos anéis", "Disponibilizar este anel a:", "Rastreamento no Minimapa", z, z,
-      z, z, z, z, z, z, z, z, z, z,
-      z, z, z, z, z, z, z, z, z, z,
-      z, z, z, z, z, z, z, z, z, z,
+      "Importe imagens clicando acima em %s.", "Atalhos Internos de Anéis", "Anéis inativos", "Entre uma especificação de ação de fatia:", "Manter aberto após uso", "Dá prioridade aos anéis", "Disponibilizar este anel a:", "Rastreamento no Minimapa", "Mais Anéis ativos", "Mover Anéis para baixo",
+      "Mover Anéis para a direita ", "Anel aninhado: %s", "Anéis aninhados ", "Novo Anel...", "Novo nome do perfil:", "Sem %s especializações", "Não designado", "Não personalizado", "Não suportado pela aparência selecionada.", "Anel OPie",
+      "Anel OPie: %s", "Anéis OPie", "Apenas %s", "Abrir Anel aninhado", "Opções:", "Espiral externa ao esconder", z, z, z, z,
+      "Portais e Teleportes", z, "Pressione ENTER para salvar.", z, "Perfil", "Perfis ativam-se automaticamente quando você troca sua especialização.", z, z, z, z,
       z, z, z, z, z, z, z, z, z, z,
       z, z, z, z, z, z, z, "Clique duas vezes em uma ação para adicioná-la ao anel.", z, z,
       z, z, z, z, z, z, z, z, z, z,
       z, "Criar uma imagem deste anél para compartilhar com outros jogadores.", z, "O vínculos serão atualizados utilizando os valores definidos na macro condicional.", "Este comando de macro exibe este anél:", z, "O vínculo que está tentando criar, já é utilizado por outro addon.", "Este vínculo não está ativo, pois entra em conflito com outro vínculo definido anteriormente.", "Para ativar o vínculo padrão para este anel, marque essa caixa de texto ou altere o vínculo.", "Profissões",
       "Armadilhas", "Pingentes", "Desvincular", "Entendi; alterar mesmo assim", "Desfazer mudanças", z, z, z, z, z,
-      "Visibilidade condicional:", z, z, z, "O World of Warcraft não conseguiu carregar as variáveis salvas do OPie por falta de memória. Tente desabilitar outros addons.\r\n\r\nQualquer modificação feita agora, não será salva.", "Você pode usar condicionais de macros extendidas; veja %s para mais detalhes.", "Voce deve habilitar a opção %s para este anél nas opções do OPie para usar ações rápidas.", z, "padrão", "|cffffffffCtrl+Enter|r para procurar dentro dos resultados atuais",
+      "Visibilidade condicional:", z, z, z, "O World of Warcraft não conseguiu carregar as variáveis salvas do OPie por falta de memória. Tente desabilitar outros addons.\n\nQualquer modificação feita agora, não será salva.", "Você pode usar condicionais de macros extendidas; veja %s para mais detalhes.", "Voce deve habilitar a opção %s para este anél nas opções do OPie para usar ações rápidas.", z, "padrão", "|cffffffffCtrl+Enter|r para procurar dentro dos resultados atuais",
       "|cffffffffEscape|r para cancelar",
     } or nil
 

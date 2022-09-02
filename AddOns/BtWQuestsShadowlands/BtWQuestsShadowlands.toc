@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: Breen
-## Version: 5.2
+## Version: 6.3
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsShadowlandsPrologue
 ## LoadOnDemand: 1
@@ -16,6 +16,9 @@
 ## X-BtWQuests-Expansion-Movie-ID: 936
 ## X-BtWQuests-AutoLoad: 1
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 370493
+## X-WoWI-ID: 25655
+## X-Wago-ID: ME6gQOG1
 
 Defines.lua
 
@@ -79,11 +82,10 @@ Database/Index.ruRU.lua
 Database/Index.zhCN.lua
 Database/Index.zhTW.lua
 
-Database/Index.EternitysEnd.lua
-
 Introduction.lua
 EternitysEnd.lua
 ChainsOfDomination.lua
+Patch_9_2_5.lua
 Bastion.lua
 Maldraxxus.lua
 Ardenweald.lua

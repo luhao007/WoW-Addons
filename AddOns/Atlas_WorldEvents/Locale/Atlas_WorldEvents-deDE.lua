@@ -1,8 +1,8 @@
--- $Id: Atlas_WorldEvents-deDE.lua 113 2020-10-18 15:14:01Z arith $
+-- $Id: Atlas_WorldEvents-deDE.lua 115 2022-02-28 04:16:59Z arithmandar $
 --[[
 
 	Atlas World Events, a World of Warcraft map browser for world events
-	Copyright 2011 ~ 2020 Arith Hsu
+	Copyright 2011 ~ 2022 Arith Hsu
 
 	This file is a plugin of Atlas.
 
@@ -331,6 +331,7 @@ L["Windsong the Elder"] = "Urahnin Windsang"
 L["Winter_Date"] = "16. Dez. – 02. Jan."
 L["World Events Maps"] = "Weltereigniskarten"
 L["Wulmort Jinglepocket"] = "Wulmort Klingeltaschen"
+L["Yellow"] = "Gelb"
 L["You're a Mean One..."] = "So was Gemeines..."
 L["Zina Sharpworth <Game Tokens>"] = "Zina Schnittwert <Spieljetons>"
 

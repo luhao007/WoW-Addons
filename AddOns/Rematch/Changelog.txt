@@ -1,3 +1,26 @@
+08/16/2022 version 4.12.1
+- toc update for 9.2.7 patch
+
+07/23/2022 version 4.12.0
+- Added Pet Card & Notes Option 'Notes Font Size' with options Small, Normal, Large to change the relative size of text in pet and team notes.
+- If a pet has notes saved, a note button will appear beside its icon/portrait the top of the default Battle UI. As with elsewhere in the addon, mouseover of the button will display the notes and clicking the button will lock the notes in place.
+- Added Pet Card & Notes Option 'Hide Notes Buttons In Battle UI' to hide the new notes buttons (in case they conflict with buttons/textures another addon puts there)
+- Added the menu item "Set Notes" to the right-click menu of pets at the top of the default Battle UI, to summon/edit the notes for the pet.
+- If a breed addon is enabled (like Battle Pet BreedID) then the import dialog will have a checkbox 'Prioritize Breed On Import' to match the best-fit breed (if one specified in import string) instead of level. This is the same setting that's been buried in options.
+- If a breed addon is not enabled, then 'Prioritize Breed On Import' will not appear in options.
+
+05/31/2022 version 4.11.24
+- toc update for 9.2.5 patch
+
+05/22/2022 version 4.11.23
+- Added wago and curse project IDs to toc
+
+05/12/2022 version 4.11.22
+- Fix to make wowup recognize the wowinterface provider. (May require a rescan of folders in wowup)
+
+04/24/2022 version 4.11.21
+- Restored ability to search for icons by name when creating or editing a team tab.
+
 02/22/2022 version 4.11.20
 - toc update for 9.2
 

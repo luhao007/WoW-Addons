@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Forjacero",
     },
-    [14720] = {
-        name = "Alto señor supremo Colmillosauro",
-    },
     [15192] = {
         name = "Anacronos",
     },
@@ -398,9 +395,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130341] = {
         name = "Guardafilada Kaja",
-    },
-    [130368] = {
-        name = "Samuel D. Colton III\0",
     },
     [130375] = {
         name = "Tallis Almacielo",
@@ -801,9 +795,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "Contramaestre Jamboya",
     },
-    [136907] = {
-        name = "Magni Barbabronce",
-    },
     [136933] = {
         name = "Hermano Pike",
     },
@@ -984,9 +975,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142651] = {
         name = "Lucille Crestavía",
     },
-    [142930] = {
-        name = "Halford Aterravermis",
-    },
     [143536] = {
         name = "Gran señor de la guerra Volrath",
     },
@@ -1022,9 +1010,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143908] = {
         name = "Cuerpo destrozado",
-    },
-    [144095] = {
-        name = "Maestro Mathias Shaw",
     },
     [145005] = {
         name = "Errante de élite",

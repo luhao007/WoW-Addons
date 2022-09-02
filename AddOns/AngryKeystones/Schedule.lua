@@ -8,20 +8,21 @@ local requestPartyKeystones
 -- 1:Overflowing, 2:Skittish, 3:Volcanic, 4:Necrotic, 5:Teeming, 6:Raging, 7:Bolstering, 8:Sanguine, 9:Tyrannical, 10:Fortified, 11:Bursting, 12:Grievous, 13:Explosive, 14:Quaking, 16:Infested, 117: Reaping, 119:Beguiling 120:Awakened, 121:Prideful, 122:Inspiring, 123:Spiteful, 124:Storming
 local affixSchedule = {
 	-- Shadowlands Season 2
-	[1] =  {[1]=11, [2]=124,[3]=10}, -- 1 Bursting Storming Fortified
-	[2] =  {[1]=6,  [2]=3,  [3]=9},  -- 2 Raging Volcanic Tyrannical
-	[3] =  {[1]=122,[2]=12, [3]=10}, -- 3 Inspiring Grievous Fortified
-	[4] =  {[1]=123,[2]=4,  [3]=9},  -- 4 Spiteful Necrotic Tyrannical
-	[5] =  {[1]=7,  [2]=14, [3]=10}, -- 5 Bolstering Quaking Fortified
-	[6] =  {[1]=8,  [2]=124,[3]=9},  -- 6 Sanguine Storming Tyrannical
-	[7] =  {[1]=6,  [2]=13, [3]=10}, -- 7 Raging Explosive Fortified
-	[8] =  {[1]=11, [2]=3,  [3]=9},  -- 8 Bursting Volcanic Tyrannical
-	[9] =  {[1]=123,[2]=12, [3]=10}, -- 9 Spiteful Grievous Fortified
-	[10] = {[1]=122,[2]=14, [3]=9},  --10 Inspiring Quaking Tyrannical
-	[11] = {[1]=8,  [2]=4,  [3]=10}, --11 Sanguine Necrotic Fortified
-	[12] = {[1]=7,  [2]=13, [3]=9},  --12 Bolstering Explosive Tyrannical
+	[1] =  {[1]=11, [2]=124,[3]=10}, -- 1 Bursting Storming Fortified - march 8,2022
+	[2] =  {[1]=6,  [2]=3,  [3]=9},  -- 2 Raging Volcanic Tyrannical - march 15, 2022
+	[3] =  {[1]=122,[2]=12, [3]=10}, -- 3 Inspiring Grievous Fortified - march 22, 2022
+	[4] =  {[1]=123,[2]=4,  [3]=9},  -- 4 Spiteful Necrotic Tyrannical - march 29, 2022
+	[5] =  {[1]=7,  [2]=14, [3]=10}, -- 5 Bolstering Quaking Fortified - april 5, 2022
+	[6] =  {[1]=8,  [2]=124,[3]=9},  -- 6 Sanguine Storming Tyrannical - april 12, 2022
+	[7] =  {[1]=6,  [2]=13, [3]=10}, -- 7 Raging Explosive Fortified - april 19, 2022
+	[8] =  {[1]=11, [2]=3,  [3]=9},  -- 8 Bursting Volcanic Tyrannical - april 26, 2022
+	[9] =  {[1]=123,[2]=4, [3]=10}, -- 9 Spiteful Necrotic Fortified - may 3, 2022
+	[10] = {[1]=122,[2]=14, [3]=9},  --10 Inspiring Quaking Tyrannical - may 10, 2022
+	[11] = {[1]=8,  [2]=12,  [3]=10}, --11 Sanguine Grievous Fortified - may 17, 2022
+	[12] = {[1]=7,  [2]=13, [3]=9},  --12 Bolstering Explosive Tyrannical - may 24, 2022
 }
 
+local scheduleEnabled = true
 local affixScheduleUnknown = false
 local currentWeek
 local currentKeystoneMapID
@@ -31,6 +32,8 @@ local unitKeystones = {}
 local function GetNameForKeystone(keystoneMapID, keystoneLevel)
 	local keystoneMapName = keystoneMapID and C_ChallengeMode.GetMapUIInfo(keystoneMapID)
 	if keystoneMapID and keystoneMapName then
+		keystoneMapName = gsub(keystoneMapName, ".-%-", "") -- Mechagon
+		keystoneMapName = gsub(keystoneMapName, ".-"..HEADER_COLON, "") -- Tazavesh
 		return string.format("%s (%d)", keystoneMapName, keystoneLevel)
 	end
 end
@@ -41,6 +44,7 @@ local function UpdatePartyKeystones()
 		Mod:SendPartyKeystonesRequest()
 	end
 
+	if not scheduleEnabled then return end
 	if not IsAddOnLoaded("Blizzard_ChallengesUI") then return end
 
 	local playerRealm = select(2, UnitFullName("player")) or ""
@@ -71,13 +75,7 @@ local function UpdatePartyKeystones()
 					local color = RAID_CLASS_COLORS[class]
 					entry.Text:SetText(name)
 					entry.Text:SetTextColor(color:GetRGBA())
-
-					local _, suffix = strsplit("-", keystoneName)
-					if suffix then
-						keystoneName = suffix
-					end
 					entry.Text2:SetText(keystoneName)
-
 					e = e + 1
 				end
 			end
@@ -99,6 +97,8 @@ local function UpdatePartyKeystones()
 end
 
 local function UpdateFrame()
+	if not scheduleEnabled then return end
+	
 	Mod:CheckAffixes()
 	Mod.AffixFrame:Show()
 	Mod.PartyFrame:Show()
@@ -165,6 +165,8 @@ local function makeAffix(parent)
 end
 
 function Mod:Blizzard_ChallengesUI()
+	if not scheduleEnabled then return end
+	
 	local frame = CreateFrame("Frame", nil, ChallengesFrame)
 	frame:SetSize(246, 92)
 	frame:SetPoint("TOPLEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "TOPRIGHT", -20, 30)
@@ -431,6 +433,8 @@ function Mod:CHALLENGE_MODE_UPDATED()
 end
 
 function Mod:Startup()
+	scheduleEnabled = Addon.Config.schedule
+	
 	self:RegisterAddOnLoaded("Blizzard_ChallengesUI")
 	self:RegisterEvent("GROUP_ROSTER_UPDATE", "SetPartyKeystoneRequest")
 	self:RegisterEvent("BAG_UPDATE")

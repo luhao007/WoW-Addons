@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: Theck, navv_, seriallos
-## Version: 9.1.5-01
+## Version: 9.2.5
 ## SavedVariables: SimulationCraftDB
 
 ## Title: Simulationcraft

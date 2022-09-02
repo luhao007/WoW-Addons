@@ -95,6 +95,7 @@ function widgets:checkbox(parent, config, labelText)
     local frame = CreateFrame("CheckButton", nil, parent, "InterfaceOptionsCheckButtonTemplate")
     frame.keystring = config.keystring
     frame.tooltipText = labelText or L[config.keystring]
+    frame.Text:SetWidth(0)
     frame.Text:SetText(labelText or L[config.keystring])
     frame:SetChecked(GetVariable(config.keystring))
     frame:SetScript("OnClick", function(self) SetVariable(self.keystring, self:GetChecked()) end)
@@ -370,8 +371,13 @@ saframe:SetScript("OnHide", function() grid:Hide() end)
 local caframe = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "ThinBorderTemplate,BackdropTemplate" or "ThinBorderTemplate")
 caframe:Hide()
 caframe:SetFrameStrata("DIALOG")
--- caframe:SetBackdrop(GameTooltip:GetBackdrop())
--- caframe:SetBackdropColor(GameTooltip:GetBackdropColor())
+caframe:SetBackdrop({
+    bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+    tile = true, tileSize = 8, edgeSize = 16,
+    insets = {left = 4, right = 4, top = 4, bottom = 4}
+})
+caframe:SetBackdropColor(0.2,0.2,0.2,0.85)
 caframe:SetSize(200, 200)
 caframe:SetPoint("CENTER")
 caframe:SetClampedToScreen(true)
@@ -812,7 +818,7 @@ end
 
 
 ----------------
--- DIY Frame
+-- DIY Frame 
 ----------------
 
 local diytable, diyPlayerTable = {}, {}

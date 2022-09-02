@@ -408,6 +408,10 @@ BtWQuestsDatabase:AddObjectsTable({
         locations = {
             [942] = {
                 {
+                    restrictions = {
+                        type = "faction",
+                        id = BtWQuests.Constant.Faction.Horde,
+                    },
                     x = 0.5,
                     y = 0.318,
                 },

@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: foxlit
-## Version: 4.16a
+## Version: 4.30
 ## SavedVariablesPerCharacter: VP_SPC
 
 ## Title: Venture Plan
@@ -14,7 +14,6 @@ Libs/Evie.lua
 Locale.lua
 Util.lua
 Widgets.lua
-vs-spells.lua
 vs.lua
 MissionList.lua
 MissionView.lua

@@ -6,6 +6,9 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
+    [51483] = {
+        name = "Il retaggio dei Ferroscuro",
+    },
     [56829] = {
         name = "Fino in fondo",
     },
@@ -3249,6 +3252,60 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [63215] = {
         name = "Rapporto a Draven",
     },
+    [63479] = {
+        name = "Convocazione della matriarca",
+    },
+    [63480] = {
+        name = "Istruzioni",
+    },
+    [63481] = {
+        name = "Tranquillien assediata",
+    },
+    [63482] = {
+        name = "Morte al Flagello",
+    },
+    [63483] = {
+        name = "Insediamento del Magus",
+    },
+    [63484] = {
+        name = "L'arma di un cavaliere",
+    },
+    [63485] = {
+        name = "Un cuore onesto",
+    },
+    [63486] = {
+        name = "Una volontà incrollabile",
+    },
+    [63487] = {
+        name = "Ritorno nelle Terre Spettrali",
+    },
+    [63488] = {
+        name = "Io sono la lama della Luce",
+    },
+    [63489] = {
+        name = "Una giustizia a lungo attesa",
+    },
+    [63490] = {
+        name = "Cavaliere del Sangue",
+    },
+    [63494] = {
+        name = "Progetti per il Thane della Forgia",
+    },
+    [63498] = {
+        name = "Rissa o birra",
+    },
+    [63501] = {
+        name = "Questione di prestiti",
+    },
+    [63502] = {
+        name = "Armi dei Ferroscuro",
+    },
+    [63519] = {
+        name = "Combattimento sleale",
+    },
+    [63522] = {
+        name = "Una gara onesta",
+    },
     [63576] = {
         name = "Prima mossa",
     },
@@ -4140,6 +4197,63 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [65466] = {
         name = "Il tuo primo Protolucchetto Fuguelico",
     },
+    [65563] = {
+        name = "Una consegna per Kasea",
+    },
+    [65564] = {
+        name = "Bravo e ardente",
+    },
+    [65652] = {
+        name = "Convocazione della matriarca",
+    },
+    [65653] = {
+        name = "Vittoria per i Sin'dorei",
+    },
+    [65655] = {
+        name = "Occhi del lupo",
+    },
+    [65656] = {
+        name = "Chiamata a Lordaeron",
+    },
+    [65657] = {
+        name = "Riunire i Reietti",
+    },
+    [65658] = {
+        name = "Questa terra è nostra",
+    },
+    [65659] = {
+        name = "Il congresso ammorbato",
+    },
+    [65660] = {
+        name = "La strada della fede",
+    },
+    [65661] = {
+        name = "Consultare gli alleati",
+    },
+    [65662] = {
+        name = "La Casata delle Piaghe",
+    },
+    [65663] = {
+        name = "Nutrire il mangiatore",
+    },
+    [65664] = {
+        name = "Essenza della piaga",
+    },
+    [65665] = {
+        name = "Personificazione",
+    },
+    [65666] = {
+        name = "Ritorno a Brill",
+    },
+    [65667] = {
+        name = "Il rimedio di Lordaeron",
+    },
+    [65668] = {
+        name = "Il Concilio Desolato",
+    },
+    [65669] = {
+        name = "Rapporto a Mantogrigio",
+    },
     [65674] = {
         name = "Cos'è quest'affare?",
     },
@@ -4163,6 +4277,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [65772] = {
         name = "Raccolto necessario",
+    },
+    [65788] = {
+        name = "Una passeggiata coi fantasmi",
+    },
+    [66170] = {
+        name = "Veglia Silente",
+    },
+    [66243] = {
+        name = "Un dono di speranza",
     },
 })
 ]])()

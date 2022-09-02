@@ -198,9 +198,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "Das Erbe der Blutwächter",
     },
-    [47332] = {
-        name = "Der nächste Schritt",
-    },
     [47418] = {
         name = "Wachstumsschmerzen",
     },
@@ -1479,9 +1476,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49370] = {
         name = "Rettung des Chronisten",
     },
-    [49375] = {
-        name = "[LARRY TEST QUEST]",
-    },
     [49377] = {
         name = "Runter mit ihrem Kopf",
     },
@@ -2571,9 +2565,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "Mit Honig glasierter Sven",
     },
-    [50520] = {
-        name = "Wo ist Sam?",
-    },
     [50530] = {
         name = "Wie verhext",
     },
@@ -2732,9 +2723,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [50679] = {
         name = "Den Schild durchbohren",
-    },
-    [50690] = {
-        name = "Mit Moxi",
     },
     [50691] = {
         name = "Nicht für unser Geld",
@@ -3258,9 +3246,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "Mächtiger Grokkfaust",
     },
-    [51211] = {
-        name = "Das Herz von Azeroth",
-    },
     [51214] = {
         name = "Seid ein Schatz",
     },
@@ -3462,9 +3447,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "Bericht erstatten",
     },
-    [51403] = {
-        name = "Das Gebot des Sprechers",
-    },
     [51407] = {
         name = "Findet ihre Worte",
     },
@@ -3508,7 +3490,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Wer ist hier der Käpt'n?",
     },
     [51443] = {
-        name = "Missionsrichtlinie",
+        name = "Battle for Azeroth: Missionsrichtlinie",
     },
     [51445] = {
         name = "Thros, die Verseuchten Lande",
@@ -3780,12 +3762,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "Was von Marschall M. Valentin übrig blieb",
     },
-    [51795] = {
-        name = "Die Schlacht um Lordaeron",
-    },
-    [51796] = {
-        name = "Die Schlacht um Lordaeron",
-    },
     [51797] = {
         name = "Gezeitenweisen aufspüren",
     },
@@ -3981,14 +3957,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "Seemannsgarn: Carpe Diem",
     },
-    [52131] = {
-        name = "Wir brauchen einander",
-    },
     [52132] = {
         name = "Beweis für Piraterie",
-    },
-    [52139] = {
-        name = "Wichtige Angelegenheiten",
     },
     [52146] = {
         name = "Blutgetränkter Sand",
@@ -4157,9 +4127,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "Nicht nehmen, nur werfen",
-    },
-    [52428] = {
-        name = "Das Herz erfüllen",
     },
     [52431] = {
         name = "Nicht-Landezone",
@@ -4362,9 +4329,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "Bindungen, im Kampf geschmiedet",
     },
-    [52946] = {
-        name = "Eine sterbende Welt",
-    },
     [52948] = {
         name = "Ruf zu den Waffen: Tiragardesund",
     },
@@ -4403,12 +4367,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "Ein leicht geschütteltes Geschenk",
-    },
-    [53028] = {
-        name = "Eine sterbende Welt",
-    },
-    [53031] = {
-        name = "Das Gebot des Sprechers",
     },
     [53041] = {
         name = "Stichproben",
@@ -4560,14 +4518,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "Na'logo muss wandern",
     },
-    [53370] = {
-        name = "Stunde der Abrechnung",
-    },
     [53371] = {
         name = "Flotte Biene",
-    },
-    [53372] = {
-        name = "Stunde der Abrechnung",
     },
     [53406] = {
         name = "Die Herzkammer",

@@ -5,7 +5,7 @@ function wodhraonload()
 	_, wodhraenglishclass = UnitClass("player")
 	wodhrahuntertime=0
 	
-	raWoDModVers=9.150
+	raWoDModVers=9.200
 
 local _, a2 = GetInstanceInfo()
 if select(3,GetInstanceInfo())==2 and a2=="party" then

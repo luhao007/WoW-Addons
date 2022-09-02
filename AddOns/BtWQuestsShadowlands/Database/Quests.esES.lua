@@ -6,6 +6,9 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateQuestsTable({
+    [51483] = {
+        name = "Legado de los Hierro Negro",
+    },
     [56829] = {
         name = "Limpiafondos",
     },
@@ -3243,6 +3246,60 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [63215] = {
         name = "Presentarse ante Draven",
     },
+    [63479] = {
+        name = "Invocaciones de la matriarca",
+    },
+    [63480] = {
+        name = "Sesión informativa",
+    },
+    [63481] = {
+        name = "Tranquillien bajo asedio",
+    },
+    [63482] = {
+        name = "Muerte a la Plaga",
+    },
+    [63483] = {
+        name = "Instalación de magus",
+    },
+    [63484] = {
+        name = "El arma de un caballero",
+    },
+    [63485] = {
+        name = "Un corazón honrado",
+    },
+    [63486] = {
+        name = "Una voluntad inquebrantable",
+    },
+    [63487] = {
+        name = "Regreso a las Tierras Fantasma",
+    },
+    [63488] = {
+        name = "Soy la espada de la Luz",
+    },
+    [63489] = {
+        name = "Justicia con mucho retraso",
+    },
+    [63490] = {
+        name = "Caballero de sangre",
+    },
+    [63494] = {
+        name = "Los diseños del maestro del yunque",
+    },
+    [63498] = {
+        name = "Pelea o bebe",
+    },
+    [63501] = {
+        name = "Se dice \"pedir prestado\"",
+    },
+    [63502] = {
+        name = "Armas de los Hierro Negro",
+    },
+    [63519] = {
+        name = "Una pelea injusta",
+    },
+    [63522] = {
+        name = "Una carrera justa",
+    },
     [63576] = {
         name = "El primer paso",
     },
@@ -4134,6 +4191,63 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [65466] = {
         name = "Tu primer protocierre de fuga",
     },
+    [65563] = {
+        name = "Una entrega para Kasea",
+    },
+    [65564] = {
+        name = "Buen chico ígneo",
+    },
+    [65652] = {
+        name = "Invocaciones de la matriarca",
+    },
+    [65653] = {
+        name = "Victoria para los sin'dorei",
+    },
+    [65655] = {
+        name = "Los ojos del lobo",
+    },
+    [65656] = {
+        name = "Llamada a Lordaeron",
+    },
+    [65657] = {
+        name = "Reunir a los Renegados",
+    },
+    [65658] = {
+        name = "Esta tierra es nuestra",
+    },
+    [65659] = {
+        name = "El congreso del añublo",
+    },
+    [65660] = {
+        name = "Pasos de fe",
+    },
+    [65661] = {
+        name = "Consultar a nuestros aliados",
+    },
+    [65662] = {
+        name = "Casa de las Plagas",
+    },
+    [65663] = {
+        name = "Alimentar al devorador",
+    },
+    [65664] = {
+        name = "Esencia de peste",
+    },
+    [65665] = {
+        name = "Encarnación",
+    },
+    [65666] = {
+        name = "Regreso a Rémol",
+    },
+    [65667] = {
+        name = "La cura de Lordaeron",
+    },
+    [65668] = {
+        name = "El Consejo Desolado",
+    },
+    [65669] = {
+        name = "Informar a Cringrís",
+    },
     [65674] = {
         name = "¿Qué es esto?",
     },
@@ -4157,6 +4271,15 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [65772] = {
         name = "Cosecha necesaria",
+    },
+    [65788] = {
+        name = "Un paseo con fantasmas",
+    },
+    [66170] = {
+        name = "Vigía silencioso",
+    },
+    [66243] = {
+        name = "Un regalo de esperanza",
     },
 })
 ]])()

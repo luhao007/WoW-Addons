@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "그룸누스 스틸셰이퍼",
     },
-    [14720] = {
-        name = "대군주 사울팽",
-    },
     [15192] = {
         name = "아나크로노스",
     },
@@ -1476,9 +1473,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "일등항해사 잠보야",
     },
-    [136907] = {
-        name = "마그니 브론즈비어드",
-    },
     [136933] = {
         name = "수사 파이크",
     },
@@ -1785,9 +1779,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142721] = {
         name = "랄스톤 카른",
     },
-    [142930] = {
-        name = "할포드 웜베인",
-    },
     [143536] = {
         name = "대장군 볼라스",
     },
@@ -1829,9 +1820,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143913] = {
         name = "아이트리그",
-    },
-    [144095] = {
-        name = "단장 마티아스 쇼",
     },
     [144152] = {
         name = "모이라 타우릿산",

@@ -12,20 +12,22 @@ app.asset = function(path)
 end
 -- Consolidated debug-only print with preceding precise timestamp
 app.PrintDebug = function(...)
+	app.DEBUG_PRINT_LAST = GetTimePreciseSec();
 	if app.DEBUG_PRINT then print(GetTimePreciseSec(),...) end
 end
--- Consolidated debug-only print with precise duration since last successful print
+-- Consolidated debug-only print with precise frame duration since last successful print
 app.PrintDebugPrior = function(...)
 	if app.DEBUG_PRINT then
 		if app.DEBUG_PRINT_LAST then
-			print(GetTimePreciseSec() - app.DEBUG_PRINT_LAST,...)
+			local frames = math.ceil((GetTimePreciseSec() - app.DEBUG_PRINT_LAST) / 0.000166666) / 100;
+			print("@60",frames,...)
 		else
 			print(0,...)
 		end
 		app.DEBUG_PRINT_LAST = GetTimePreciseSec();
 	end
 end
---[[] Performance Tracking section
+--[[ Performance Tracking section ]
 (function()
 	app.__perf = {};
 	app.PrintPerf = function()
@@ -87,11 +89,11 @@ app.SetScript = function(self, ...)
 		_:SetScript(scriptName, nil);
 	end
 end
+-- Setup the callback tables since they are heavily used
+app.__callbacks = {};
+app.__combatcallbacks = {};
 -- Triggers a timer callback method to run on the next game frame with the provided params; the method can only be set to run once per frame
 local function Callback(method, ...)
-	if not app.__callbacks then
-		app.__callbacks = {};
-	end
 	if not app.__callbacks[method] then
 		app.__callbacks[method] = ... and {...} or true;
 		-- print("Callback:",method, ...)

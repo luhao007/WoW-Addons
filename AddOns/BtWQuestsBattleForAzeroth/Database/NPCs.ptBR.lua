@@ -12,9 +12,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [5164] = {
         name = "Grumnus Mold'aço",
     },
-    [14720] = {
-        name = "Lorde Supremo Saurfang",
-    },
     [15192] = {
         name = "Anacronos",
     },
@@ -1011,9 +1008,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [136779] = {
         name = "Imediato Jamboya",
     },
-    [136907] = {
-        name = "Magni Barbabronze",
-    },
     [136933] = {
         name = "Irmão Pique",
     },
@@ -1218,9 +1212,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [142721] = {
         name = "Dalton Karn",
     },
-    [142930] = {
-        name = "Haraldo Serpecida",
-    },
     [143536] = {
         name = "Sumo Senhor da Guerra Volrath",
     },
@@ -1256,9 +1247,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [143908] = {
         name = "Corpo Mutilado",
-    },
-    [144095] = {
-        name = "Mestre Mathias Shaw",
     },
     [145005] = {
         name = "Elite dos Andarilhos",

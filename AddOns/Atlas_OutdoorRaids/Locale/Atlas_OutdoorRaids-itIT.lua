@@ -30,6 +30,8 @@ local L = AceLocale:NewLocale("Atlas_OutdoorRaids", "frFR", false);
 if L then
 L["Ancient Skull Pile"] = "Ancienne pile de crânes"
 --[[Translation missing --]]
+--[[ L["Azuregos"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["Battle for Azeroth"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Broken Isles World Bosses"] = ""--]] 
@@ -42,18 +44,38 @@ L["Darkscreecher Akkarai"] = "Akkarai le Hurle-sombre"
 --[[ L["Doomwalker"] = ""--]] 
 L["Draenor World Bosses"] = "Boss de Monde de Draenor"
 --[[Translation missing --]]
+--[[ L["Dragons of Nightmare"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Dreamroarer"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Dreamstalker"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Dreamtracker"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["Eastern Kingdoms World Bosses"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Emeriss"] = ""--]] 
 L["Gezzarak the Huntress"] = "Gezzarak la Chasseresse"
 L["Grella <Skyguard Quartermaster>"] = "Grella <Intendante de la Garde-ciel>"
 L["Hazzik"] = "Hazzik"
 L["Hazzik's Package"] = "Paquet d'Hazzik"
 --[[Translation missing --]]
+--[[ L["Highlord Kruul"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["Kalimdor World Bosses"] = ""--]] 
 L["Karrog"] = "Karrog"
 --[[Translation missing --]]
 --[[ L["Kul Tiras World Bosses"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Lethlas"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Lethon"] = ""--]] 
 L["Outdoor Raid Encounters"] = "Rencontres de raids extérieurs"
 L["Pandaria World Bosses"] = "Boss de Monde de Pandarie"
+--[[Translation missing --]]
+--[[ L["Phantim"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Rothos"] = ""--]] 
 L["Sahaak <Keeper of Scrolls>"] = "Sahaak <Gardiens des parchemins>"
 L["Severin <Skyguard Medic>"] = "Séverin <Infirmier de la Garde-ciel>"
 L["Skull Pile"] = "Pile de crânes"
@@ -61,11 +83,19 @@ L["Sky Commander Adaris"] = "Commandant Adaris de la Garde-ciel"
 L["Sky Sergeant Doryn"] = "Sergent Doryn de la Garde-ciel"
 L["Skyguard Handler Deesak"] = "Dresseur Deesak de la Garde-ciel"
 L["Skyguard Prisoner"] = "Prisonnier de la Garde-ciel"
+--[[Translation missing --]]
+--[[ L["Taerar"] = ""--]] 
 L["Talonpriest Ishaal"] = "Prêtre de la serre Ishaal"
 L["Talonpriest Skizzik"] = "Prêtre de la serre Skizzik"
 L["Talonpriest Zellek"] = "Prêtre de la serre Zellek"
 L["Terokk"] = "Terokk"
+--[[Translation missing --]]
+--[[ L["The Dragons"] = ""--]] 
 L["Vakkiz the Windrager"] = "Vakkiz le Ragevent"
+--[[Translation missing --]]
+--[[ L["Various"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Ysondre"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Zandalar World Bosses"] = ""--]] 
 

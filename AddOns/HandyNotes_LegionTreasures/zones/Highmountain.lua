@@ -12,8 +12,7 @@ ns.RegisterPoints(650, { -- Highmountain
     [39704830] = {quest=39494, loot={131763}, label="Floating Treasure", note="On river surface, moves"},
     [42203482] = {quest=40480, label=ns.CHEST_SM},
     [42212730] = {quest=40479, label=ns.CHEST},
-    [43582510] = {quest=40478, label=ns.CHEST, note="Cave entrance @ 42.5, 25.4"},
-    [42502540] = ns.path{quest=40478},
+    [43582510] = {quest=40478, label=ns.CHEST, note="Cave entrance @ 42.5, 25.4", path=42502540},
     [43757275] = {quest=40510, label=ns.CHEST_SM},
     [45192746] = {quest=44279, label=ns.CHEST_SM, note="Underwater cave"},
     [45573462] = {quest=40481, label=ns.CHEST_SM},
@@ -29,16 +28,13 @@ ns.RegisterPoints(650, { -- Highmountain
     [50983647] = {quest=40496, label=ns.CHEST, note="Cave @ 51.6, 37.4"},
     [50983880] = {quest=40498, label=ns.CHEST},
     [52023241] = {quest=40505, label=ns.CHEST},
-    [53035224] = {quest=40493, label=ns.CHEST_SM},
-    [49905380] = ns.path{quest=40493, label="Crystal Fissure"},
-    [51175305] = {quest=39471, label=ns.CHEST_GLIM, note="Path past the Skyhorn"},
+    [53035224] = {quest=40493, label=ns.CHEST_SM, path={49905380, label="Crystal Fissure"}},
+    [51175305] = {quest=39471, label=ns.CHEST_GLIM, note="Path past the Skyhorn", path={53004830, label="Path to Reflection Peak"}},
     [52566637] = {quest=42453, label=ns.CHEST, note="Only after Battle of Snowblind Mesa quests are done?"},
-    [53004830] = ns.path{quest=39471, label="Path to Reflection Peak"},
     [53063946] = {quest=40499, label=ns.CHEST_SM},
     [53414868] = {quest=40500, label=ns.CHEST_SM},
     [53454352] = {quest=40484, label=ns.CHEST_SM, note="Cave entrance @ 55.1, 44.3"},
-    [53615103] = {quest=39824, loot={131810}, label=ns.CHEST, note="1/4 of slow fall toy; on ledge, path to southeast", toy=true},
-    [55405270] = ns.path{quest=39824, label="Path to Derelict Skyhorn Kite"},
+    [53615103] = {quest=39824, loot={131810}, label=ns.CHEST, note="1/4 of slow fall toy; on ledge, path to southeast", toy=true, path={55405270, label="Path to Derelict Skyhorn Kite"}},
     [54174159] = {quest=40483, label=ns.CHEST_GLIM, note="Cave entrance @ 55.1, 44.3"},
     [55104430] = ns.path{quest={40483, 40484, 40414}, label="Candle Rock"},
     [55134965] = {quest=40487, label=ns.CHEST_SM},
@@ -47,7 +43,7 @@ ns.RegisterPoints(650, { -- Highmountain
     [44707230] = ns.path{quest={39606, 40508, 40509, 48381}, label="Neltharion's Vault"},
     [51603740] = ns.path{quest={40496, 40497, 40406}, label="Rockcrawler Chasm"},
     [48103390] = ns.path{quest={40496, 40497, 40406}, label="Rockcrawler Chasm"},
-    [32206680] = {achievement=10774, loot={139773}, toy=true}, -- Emerald Winds
+    [32206680] = {achievement=10774, loot={{139773, toy=true}}}, -- Emerald Winds
 }, {achievement=11257})
 ns.RegisterPoints(651, { -- BitestoneEnclave, Highmountain
     [85213787] = {quest=40489, label=ns.CHEST},
@@ -99,7 +95,7 @@ ns.RegisterPoints(650, { -- Highmountain
     [49202710] = {quest=40242, npc=96621, criteria=33321, loot={131808}}, -- Mellok, Son of Torok 
     [50803460] = {quest=40406, npc=98024, criteria=33332, loot={131776}, note="In cave"}, -- Luggut the Eggeater
     [51052570] = {quest=39762, npc=97093, criteria=33322, loot={131791}}, -- Shara Felbreath
-    [51054825] = {quest=39802, npc=97326, criteria=33325, loot={138783}}, -- Hartli the Snatcher
+    [51054825] = {quest=39802, npc=97326, criteria=33325, loot={129190}}, -- Hartli the Snatcher
     [51453190] = {quest=39465, npc=95872, criteria=33318, loot={131769}}, -- Skullhat (Skywhisker Taskmaster)
     [53755125] = {quest=39872, npc=97653, criteria=33330, loot={131800}, note="Loot chest afterwards"}, -- Taurson (Beastly Boxer)
     [54404110] = {quest=40414, npc=100495, criteria=33337, loot={131780}, note="Cave entrance @ 55.1, 44.3. Blow out candles."}, -- Devouring Darkness
@@ -112,7 +108,7 @@ ns.RegisterPoints(650, { -- Highmountain
 
 ns.RegisterPoints(650, { -- Highmountain
     [40955775] = {quest=39963, npc=97793, criteria=333, loot={131773}, note="Abandoned Fishing Pole"}, -- Flamescale
-    [54447454] = {quest=40773, npc=101649, criteria=333, loot={1220}}, -- Frostshard
+    [54447454] = {quest=40773, npc=101649, criteria=333}, -- Frostshard
     [56357250] = {quest=39235, npc=94877, criteria=333, loot={138396}}, -- Brogrul the Mighty
 })
 ns.RegisterPoints(658, { -- Path of Huln, floor 2, Highmountain

@@ -204,9 +204,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "血望者的遗产",
     },
-    [47332] = {
-        name = "下一步行动",
-    },
     [47418] = {
         name = "成长的烦恼",
     },
@@ -2607,9 +2604,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "抹了蜜的萨姆",
     },
-    [50520] = {
-        name = "萨姆在哪？",
-    },
     [50530] = {
         name = "拯救平民",
     },
@@ -3300,9 +3294,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "强大的格洛菲斯特",
     },
-    [51211] = {
-        name = "艾泽拉斯之心",
-    },
     [51214] = {
         name = "乖乖做事",
     },
@@ -3507,9 +3498,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "战况报告",
     },
-    [51403] = {
-        name = "代言人的命令",
-    },
     [51407] = {
         name = "寻找他们的文字",
     },
@@ -3556,7 +3544,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "现在我是船长了",
     },
     [51443] = {
-        name = "使命宣言",
+        name = "争霸艾泽拉斯：使命宣言",
     },
     [51445] = {
         name = "兹洛斯，枯败之界",
@@ -3837,12 +3825,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "瓦伦丁元帅的记忆",
     },
-    [51795] = {
-        name = "洛丹伦之战",
-    },
-    [51796] = {
-        name = "洛丹伦之战",
-    },
     [51797] = {
         name = "追踪海潮贤者",
     },
@@ -4044,14 +4026,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "最危险的战利品：及时行乐",
     },
-    [52131] = {
-        name = "各取所需",
-    },
     [52132] = {
         name = "海盗之证",
-    },
-    [52139] = {
-        name = "手头要事",
     },
     [52146] = {
         name = "血之沙",
@@ -4220,9 +4196,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "只扔不接",
-    },
-    [52428] = {
-        name = "灌注世界之心",
     },
     [52431] = {
         name = "禁止登陆",
@@ -4428,9 +4401,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "战铸盟约",
     },
-    [52946] = {
-        name = "垂死的世界",
-    },
     [52948] = {
         name = "战斗的召唤：提拉加德海峡",
     },
@@ -4469,12 +4439,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "轻轻摇晃过的礼品",
-    },
-    [53028] = {
-        name = "垂死的世界",
-    },
-    [53031] = {
-        name = "代言人的命令",
     },
     [53041] = {
         name = "货物采样",
@@ -4629,14 +4593,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "小洛快跑",
     },
-    [53370] = {
-        name = "清算的时刻",
-    },
     [53371] = {
         name = "独家闺蜜",
-    },
-    [53372] = {
-        name = "清算的时刻",
     },
     [53406] = {
         name = "心之秘室",

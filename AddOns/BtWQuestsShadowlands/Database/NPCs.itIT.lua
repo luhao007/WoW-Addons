@@ -6,6 +6,12 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
+    [144119] = {
+        name = "Kasea Forgiarabbia",
+    },
+    [144154] = {
+        name = "Thane della Forgia Thurgaden",
+    },
     [155533] = {
         name = "Ciambellano Supremo",
     },
@@ -876,6 +882,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [176100] = {
         name = "Iona Lamaceleste",
     },
+    [176789] = {
+        name = "Dama Liadrin",
+    },
     [177155] = {
         name = "Scriba del Cammino Roh-Vess",
     },
@@ -923,6 +932,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [183677] = {
         name = "Uther l'Araldo della Luce",
+    },
+    [187905] = {
+        name = "Ramolillà",
     },
 })
 ]])()

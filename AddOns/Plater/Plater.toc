@@ -1,5 +1,5 @@
-## Interface: 90105
-## Version: Plater-v343-Retail
+## Interface: 90207
+## Version: Plater-v353.1-Retail
 ## SavedVariables: PlaterDB
 ## SavedVariablesPerCharacter: PlaterDBChr
 
@@ -37,6 +37,8 @@ Plater_Auras.lua
 Plater_Resources.lua
 Plater_Resources_Frames.lua
 Plater_Resources_Options.lua
+Plater_GhostAuras.lua
+Plater_GhostAurasFrames.lua
 Plater_OptionsPanel.lua
 Plater_ScriptingOptions.lua
 Plater_ScriptingPanels.lua

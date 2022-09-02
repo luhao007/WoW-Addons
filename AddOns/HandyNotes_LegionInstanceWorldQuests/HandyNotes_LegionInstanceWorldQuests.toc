@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: arith
-## Version: v1.29
+## Version: v1.33
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: !LibUIDropDownMenu
 ## SavedVariables: HandyNotes_LegionInstanceWorldQuestsDB
@@ -10,7 +10,7 @@
 ## Notes: Shows the World Quest related rare bosses' locations and quests in Legion instances
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0军团副本世界任务|r
 
-## X-Date: 2022-02-14T17:07:10Z
+## X-Date: 2022-08-17T15:05:46Z
 ## X-License: GPLv2
 ## X-Category: Map
 ## X-Part-Of: HandyNotes

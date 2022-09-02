@@ -1,6 +1,6 @@
-## Interface: 90105
+## Interface: 90207
 ## Author: foxlit
-## Version: 0.122
+## Version: 0.124
 ## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: MasterPlanPC
@@ -10,13 +10,12 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF要塞助手|r |cFFFFE00AMasterPlan|r
 
 ## X-Website: https://www.townlong-yak.com/addons/master-plan/
-## X-Version-Key: parts 2, 5, and 7
+## X-Version-Key: sky unsundered
 
 Libs/Evie.lua
 Libs/Reframe.lua
 Locale.lua
 Mark-50.lua
-Nine.lua
 GarrisonAPI-Data.lua
 GarrisonAPI.lua
 MasterPlan.lua

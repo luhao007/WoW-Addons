@@ -1,6 +1,5 @@
 local AB, _, T = assert(OneRingLib.ext.ActionBook:compatible(2,14), "Requires a compatible version of ActionBook"), ...
 local MODERN = select(4,GetBuildInfo()) >= 8e4
-local NINE = select(4,GetBuildInfo()) >= 9e4
 local ORI, EV, L, PC = OPie.UI, T.Evie, T.L, T.OPieCore
 
 if MODERN then -- OPieTracker
@@ -76,7 +75,7 @@ do -- OPieAutoQuest
 		end
 	else
 		local hexclude, include = {}, PC:RegisterPVar("AutoQuestWhitelist", {})
-		local QUEST_ITEM = LE_ITEM_CLASS_QUESTITEM
+		local QUEST_ITEM = Enum.ItemClass.Questitem
 		for i in ("12460 12451 12450 12455 12457 12458 12459"):gmatch("%d+") do
 			hexclude[i+0] = true
 		end
@@ -105,7 +104,7 @@ do -- OPieAutoQuest
 			end
 		end
 	end
-	local GetQuestLogTitle_NINE = NINE and function(i)
+	local GetQuestLogTitle = GetQuestLogTitle or function(i)
 		local q = C_QuestLog.GetInfo(i)
 		if q then
 			local qid = q.questID
@@ -116,8 +115,7 @@ do -- OPieAutoQuest
 	local colId, current, changed
 	local collection, inring, ctok = MODERN and {"EB", EB=AB:GetActionSlot("extrabutton", 1)} or {}, {}, 0
 	local function scanQuests(i)
-		local GetQuestLogTitle = GetQuestLogTitle_NINE or GetQuestLogTitle
-		for i=i or 1, NINE and C_QuestLog.GetNumQuestLogEntries() or GetNumQuestLogEntries() do
+		for i=i or 1, (MODERN and C_QuestLog.GetNumQuestLogEntries or GetNumQuestLogEntries)() do
 			local _, _, _, isHeader, isCollapsed, isComplete, _, qid = GetQuestLogTitle(i)
 			if isHeader and isCollapsed then
 				ExpandQuestHeader(i)

@@ -1,4 +1,4 @@
-## Interface: 90105
+## Interface: 90207
 ## Version: 1.2.3
 ## OptionalDeps: LibBabble-SubZone-3.0, LibBabble-Inventory-3.0, LibSharedMedia-3.0
 ## SavedVariables: Overachiever_Settings, Overachiever_CharVars_Default

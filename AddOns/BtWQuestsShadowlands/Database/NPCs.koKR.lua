@@ -12,6 +12,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [141159] = {
         name = "울파르",
     },
+    [144119] = {
+        name = "카시 앵거포지",
+    },
+    [144154] = {
+        name = "엔빌테인 터르가덴",
+    },
     [154627] = {
         name = "잔드리아",
     },
@@ -1293,6 +1299,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [173384] = {
         name = "대영주 볼바르 폴드라곤",
     },
+    [173386] = {
+        name = "칼리아 메네실",
+    },
     [173422] = {
         name = "발메다르의 눈",
     },
@@ -1349,6 +1358,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [176100] = {
         name = "이오나 스카이블레이드",
+    },
+    [176789] = {
+        name = "여군주 리아드린",
     },
     [177155] = {
         name = "여행필경사 로베스",
@@ -1439,6 +1451,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [185713] = {
         name = "하자",
+    },
+    [187436] = {
+        name = "도리투르",
+    },
+    [187905] = {
+        name = "라일락스프릭",
     },
 })
 ]])()

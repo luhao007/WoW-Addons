@@ -198,9 +198,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [47329] = {
         name = "L’héritage des Guette-le-sang",
     },
-    [47332] = {
-        name = "Un choix stratégique",
-    },
     [47418] = {
         name = "Poussée de croissance",
     },
@@ -1482,9 +1479,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [49370] = {
         name = "Au secours du chroniqueur",
     },
-    [49375] = {
-        name = "[LARRY TEST QUEST]",
-    },
     [49377] = {
         name = "Elle a perdu la tête",
     },
@@ -2586,9 +2580,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [50504] = {
         name = "Dans la mielasse",
     },
-    [50520] = {
-        name = "Où est Sam ?",
-    },
     [50530] = {
         name = "Sorcières mal-aimées",
     },
@@ -3279,9 +3270,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51209] = {
         name = "Le puissant Grokkfrap",
     },
-    [51211] = {
-        name = "Le Cœur d’Azeroth",
-    },
     [51214] = {
         name = "Soyez un ange",
     },
@@ -3486,9 +3474,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51402] = {
         name = "Le point sur la situation",
     },
-    [51403] = {
-        name = "L’exigence de l’orateur",
-    },
     [51407] = {
         name = "Maux pour mots",
     },
@@ -3532,7 +3517,7 @@ BtWQuestsDatabase:UpdateQuestsTable({
         name = "Le capitaine, c’est moi maintenant",
     },
     [51443] = {
-        name = "Ordres de mission",
+        name = "Battle for Azeroth : Ordres de mission",
     },
     [51445] = {
         name = "Ulterres, les confins Corrompus",
@@ -3810,12 +3795,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [51789] = {
         name = "Ce qu’il reste du maréchal M. Valentine",
     },
-    [51795] = {
-        name = "La bataille de Lordaeron",
-    },
-    [51796] = {
-        name = "La bataille de Lordaeron",
-    },
     [51797] = {
         name = "À la recherche d’un eaugure",
     },
@@ -4017,14 +3996,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52130] = {
         name = "Cache mortelle : carpe diem",
     },
-    [52131] = {
-        name = "Un prêté pour un rendu",
-    },
     [52132] = {
         name = "Les pirates piratés",
-    },
-    [52139] = {
-        name = "Une question de priorité",
     },
     [52146] = {
         name = "Du sang sur le sable",
@@ -4193,9 +4166,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [52317] = {
         name = "Attention les doigts",
-    },
-    [52428] = {
-        name = "Remplir le Cœur",
     },
     [52431] = {
         name = "Interdiction d’accoster",
@@ -4401,9 +4371,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [52945] = {
         name = "Des liens forgés dans le sang",
     },
-    [52946] = {
-        name = "Un monde à l’agonie",
-    },
     [52948] = {
         name = "Appel aux armes : la rade de Tiragarde",
     },
@@ -4442,12 +4409,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [53011] = {
         name = "Un cadeau secoué doucement",
-    },
-    [53028] = {
-        name = "Un monde à l’agonie",
-    },
-    [53031] = {
-        name = "L’exigence de l’orateur",
     },
     [53041] = {
         name = "Un prélèvement furtif",
@@ -4602,14 +4563,8 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [53369] = {
         name = "Allez, Loh !",
     },
-    [53370] = {
-        name = "Une juste revanche",
-    },
     [53371] = {
         name = "Mieux vaut dard que jamais",
-    },
-    [53372] = {
-        name = "Une juste revanche",
     },
     [53406] = {
         name = "La chambre du Cœur",

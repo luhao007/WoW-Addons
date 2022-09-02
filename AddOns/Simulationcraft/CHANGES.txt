@@ -1,22 +1,10 @@
-lightweight tag e1104e64537152d495593db5c60a0ad7c690e4b0 v9.1.5-01
+lightweight tag b747ea1222ee0403c5b4e5528ffe32791dfadcda 9.2.5-01
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Tue Nov 2 13:23:57 2021 -0700
+Date:	Mon Jun 6 10:28:06 2022 -0700
 
-commit e1104e64537152d495593db5c60a0ad7c690e4b0
+commit b747ea1222ee0403c5b4e5528ffe32791dfadcda
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Tue Nov 2 13:23:57 2021 -0700
+Date:   Mon Jun 6 10:28:06 2022 -0700
 
-    Update TOC version for 9.1.5
-
-commit fd435e17eb1992d319693dbf23b24678cae697ad
-Author: Julien Rechaussat <Kutikuti@users.noreply.github.com>
-Date:   Wed Jun 30 21:24:42 2021 +0200
-
-    Ignore vscode files
-
-commit 98d93e89d8427c1aefd957ba1fd50d05bcc51b5a
-Author: Julien Rechaussat <Kutikuti@users.noreply.github.com>
-Date:   Wed Jun 30 21:24:30 2021 +0200
-
-    Some cleanup, variable declaration, lua checker pleasing
+    Use newer BigWigs packager
 
