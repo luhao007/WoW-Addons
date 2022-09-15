@@ -1,5 +1,8 @@
 BuildEnv(...)
 
+LE_LFG_LIST_FILTER_PVE = Enum.LFGListFilter.PvE
+LE_LFG_LIST_FILTER_PVP = Enum.LFGListFilter.PvP
+
 local memorize = require('NetEaseMemorize-1.0')
 local nepy = require('NetEasePinyin-1.0')
 local Base64 = LibStub('NetEaseBase64-1.0')
@@ -121,9 +124,9 @@ function GetSafeSummaryLength(activityId, customId, mode, loot)
                                                         GetPlayerRaidProgression(activityId, customId),
                                                         GetPlayerPvPRating(activityId), 999, 999,
                                                         IsUsePvPRating(activityId) and 9999 or nil, GetAddonSource(),
-                                                        GetPlayerFullName(), GetPlayerSavedInstance(customId), format(
-                                                            '%s-%s-%s', GetModeName(mode), GetLootName(loot),
-                                                            GetActivityName(activityId, customId)), CompressNumber(
+                                                        GetPlayerFullName(), GetPlayerSavedInstance(customId),
+                                                        format('%s-%s-%s', GetModeName(mode), GetLootName(loot),
+                                                               GetActivityName(activityId, customId)), CompressNumber(
                                                             IsUseHonorLevel(activityId) and UnitHonorLevel('player') or
                                                                 nil)))
     return min(MAX_MEETINGSTONE_SUMMARY_LETTERS, MAX_SUMMARY_LETTERS - strlenutf8(data))
@@ -475,6 +478,11 @@ local function UrlButtonOnClick(self)
 end
 
 function ApplyUrlButton(button, url)
-    button:SetScript('OnClick', UrlButtonOnClick)
-    button.url = url
+    if url then
+        button:SetScript('OnClick', UrlButtonOnClick)
+        button.url = url
+    else
+        button:SetScript('OnClick', nil)
+        button.url = nil
+    end
 end

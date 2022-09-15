@@ -207,7 +207,7 @@ function CreatePanel:OnInitialize()
     --- voice and item level
     local VoiceItemLevelWidget = GUI:GetClass('TitleWidget'):New(CreateWidget) do
         VoiceItemLevelWidget:SetPoint('BOTTOMLEFT')
-        VoiceItemLevelWidget:SetSize(219, 100)
+        VoiceItemLevelWidget:SetSize(219, 123)
     end
 
     local ItemLevel = GUI:GetClass('NumericBox'):New(VoiceItemLevelWidget) do
@@ -266,6 +266,22 @@ function CreatePanel:OnInitialize()
         PrivateGroup:SetHighlightFontObject('GameFontNormalSmall')
         PrivateGroup:SetDisabledFontObject('GameFontDisableSmall')
         PrivateGroup:SetText(L['仅战网好友和公会成员可见'])
+    end
+    local IsCrossFaction = CreateFrame('CheckButton', nil, VoiceItemLevelWidget) do
+        IsCrossFaction:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
+        IsCrossFaction:SetPushedTexture([[Interface\Buttons\UI-CheckBox-Down]])
+        IsCrossFaction:SetHighlightTexture([[Interface\Buttons\UI-CheckBox-Highlight]])
+        IsCrossFaction:SetCheckedTexture([[Interface\Buttons\UI-CheckBox-Check]])
+        IsCrossFaction:SetDisabledCheckedTexture([[Interface\Buttons\UI-CheckBox-Check-Disabled]])
+        IsCrossFaction:SetSize(22, 22)
+        IsCrossFaction:SetPoint('TOPLEFT', PrivateGroup, 'BOTTOMLEFT', 0, 0)
+        local text = IsCrossFaction:CreateFontString(nil, 'ARTWORK')
+        text:SetPoint('LEFT', IsCrossFaction, 'RIGHT', 2, 0)
+        IsCrossFaction:SetFontString(text)
+        IsCrossFaction:SetNormalFontObject('GameFontHighlightSmall')
+        IsCrossFaction:SetHighlightFontObject('GameFontNormalSmall')
+        IsCrossFaction:SetDisabledFontObject('GameFontDisableSmall')
+        IsCrossFaction:SetText(L['仅限同阵营'])
     end
 
     --- summary
@@ -387,6 +403,7 @@ function CreatePanel:OnInitialize()
     self.ActivityType = ActivityType
     self.HonorLevel = HonorLevel
     self.PrivateGroup = PrivateGroup
+    self.IsCrossFaction = IsCrossFaction
 
     self.ViewBoardWidget = ViewBoardWidget
     self.InfoWidget = InfoWidget
@@ -421,16 +438,22 @@ function CreatePanel:UpdateControlState()
     end
 
     local activityItem = self.ActivityType:GetItem()
-
     local isSolo = activityItem and IsSoloCustomID(activityItem.customId)
     local isCreated = self:IsActivityCreated()
     local isLeader = IsGroupLeader()
     local enable = activityItem
     local editable = enable and not isSolo
-
+	local shouldDisableCrossFactionToggle = false
+    if activityItem then
+        local categoryInfo = C_LFGList.GetLfgCategoryInfo(activityItem.categoryId);
+        local activityInfo = C_LFGList.GetActivityInfoTable(activityItem.activityId);
+        shouldDisableCrossFactionToggle = (categoryInfo.allowCrossFaction) and (activityInfo.allowCrossFaction)
+    end
+    
     self.ActivityType:SetEnabled(isLeader and not isCreated)
 
     self.PrivateGroup:SetEnabled(editable)
+    self.IsCrossFaction:SetEnabled(shouldDisableCrossFactionToggle)
     self.ItemLevel:SetEnabled(editable)
     self.VoiceBox:SetEnabled(editable)
     self.TitleBox:SetEnabled(editable)
@@ -505,6 +528,7 @@ function CreatePanel:CreateActivity()
 
         HonorLevel = self.HonorLevel:GetNumber(),
         PrivateGroup = self.PrivateGroup:GetChecked(),
+        IsCrossFaction = self.IsCrossFaction:GetChecked(),
     })
     if self:Create(activity, true) then
         self.CreateButton:Disable()
@@ -542,6 +566,7 @@ function CreatePanel:ClearAllContent()
     self.HonorLevel:SetNumber(0)
     self.ActivityType:SetValue(nil)
     self.PrivateGroup:SetChecked(false)
+    self.IsCrossFaction:SetChecked(false)
 end
 
 function CreatePanel:UpdateActivity()
@@ -558,6 +583,7 @@ function CreatePanel:UpdateActivity()
     self.ItemLevel:SetText(activity:GetItemLevel())
     self.HonorLevel:SetText(activity:GetHonorLevel() or '')
     self.PrivateGroup:SetChecked(activity:GetPrivateGroup())
+    self.IsCrossFaction:SetChecked(activity:IsCrossFaction())
 end
 
 function CreatePanel:UpdateActivityView()

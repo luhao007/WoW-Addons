@@ -52,7 +52,7 @@ local PawnStatsUnfiltered =
 	{STAT_MASTERY, "MasteryRating", L.MasteryInfo, PawnStatNormal, nil, { PawnStatMainline = true }},
 	{STAT_VERSATILITY, "Versatility", L.VersatilityInfo, PawnStatNormal, nil, { PawnStatMainline = true }},
 	{ITEM_MOD_ATTACK_POWER_SHORT, "Ap", L.ApInfo, PawnStatNormal, nil, { PawnStatClassic = true, PawnStatBurningCrusade = true, PawnStatWrath = true }},
-	{ITEM_MOD_RANGED_ATTACK_POWER_SHORT, "Rap", L.RapInfo, PawnStatNormal, nil, { PawnStatClassic = true, PawnStatBurningCrusade = true }},
+	{ITEM_MOD_RANGED_ATTACK_POWER_SHORT, "Rap", L.RapInfo, PawnStatNormal, nil, { PawnStatClassic = true, PawnStatBurningCrusade = true, PawnStatWrath = true }},
 	{ITEM_MOD_FERAL_ATTACK_POWER_SHORT, "FeralAp", L.FeralApInfo, PawnStatNormal, nil, { PawnStatClassic = true, PawnStatBurningCrusade = true, PawnStatWrath = true }},
 	{L.SpellDamage, "SpellDamage", L.SpellDamageInfo, PawnStatNormal, nil, { PawnStatClassic = true, PawnStatBurningCrusade = true }},
 	{L.Healing, "Healing", L.HealingInfo, PawnStatNormal, nil, { PawnStatClassic = true, PawnStatBurningCrusade = true }},
@@ -190,6 +190,7 @@ PawnUIHeaders = -- (%s is the name of the current scale)
 
 -- Configuration UI, Scale selector
 PawnUIFrame_ScaleSelector_Header_Text = L.ScaleSelectorHeader
+PawnUIFrame_ScaleSelector_NoneWarning_Text = L.ScaleSelectorNoneWarning
 PawnUIFrame_ShowScaleCheck_Label_Text = L.ScaleSelectorShowScale
 PawnUIFrame_ShowScaleCheck_Tooltip = L.ScaleSelectorShowScaleTooltip
 PawnUIFrame_ScaleSelector_ShowingSuggestionsFor_Text = L.ScaleSelectorShowingSuggestionsFor

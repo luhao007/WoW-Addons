@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Iza@Gilneas, humfras, Ivaria@Hyjal
-## Version: 3.137
+## Version: 3.138
 ## Dependencies: VuhDo
 ## LoadOnDemand: 0
 ## SavedVariables: VUHDO_OPTIONS_SETTINGS

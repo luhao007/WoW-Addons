@@ -1,3 +1,19 @@
+# v2.20.0
+
+- Fixed error setting title text on Dragonflight Beta 
+
+# v2.19.0
+
+- Updated for Dragonflight frame design changes
+- Fixed support for Evokers
+
+# v2.18.0
+
+- Updated GetSkillInfo for Dragonflight
+- Updated some Dragonflight Constants
+- Fixed GetPoint error for Dragonflight
+- Fixed a bug setting the text of the expansion dropdown which is hidden and deprecated
+
 # v2.17.0
 
 - Updated for 9.2.7

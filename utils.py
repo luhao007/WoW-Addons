@@ -12,6 +12,7 @@ from chardet.universaldetector import UniversalDetector
 
 logger = logging.getLogger('process')
 
+TOCS = ['.toc'] + [f'{s}{p}.toc' for s in ('-', '_') for p in ('Classic', 'BCC', 'WOTLKC', 'Mainline', 'TBC', 'Vanilla', 'Wrath')]
 
 def process_file(path: str | Path, func: Callable):
     """Helper function to process the files.
@@ -95,8 +96,7 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
         if os.path.exists(path):
             os.remove(path)
 
-    for lib in ['.xml', '.toc', '-Classic.toc', '-BCC.toc', 'WOTLKC.toc',
-                '-Mainline.toc', '_TBC.toc', '_Vanilla.toc', '_Wrath.toc', '_Mainline.toc']:
+    for lib in ['.xml'] + TOCS:
         path = Path('AddOns') / addon
         path /= f"{addon.split('/')[-1]}{lib}"
         if os.path.exists(str(path)):

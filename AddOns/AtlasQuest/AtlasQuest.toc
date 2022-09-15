@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Thandrenn
-## Version: 4.12.04
+## Version: 4.12.05
 ## RequiredDeps: Atlas
 ## Dependencies: 
 ## OptionalDeps: 
@@ -21,7 +21,7 @@
 ## X-License: GPLv2
 ## X-Credits: AtlasQuest Team
 ## X-Localizations: enUS, deDE
-## X-Date: August 19, 2021
+## X-Date: September 4, 2022
 ## X-Help: AtlasQuestHelp
 
 AtlasQuest_InsideFrame.xml

@@ -1,5 +1,5 @@
 ## Interface: 90207
-## Version: 90100.07
+## Version: 90205.05
 ## LoadManagers: AddonLoader
 ## SavedVariables: MEETINGSTONE_UI_DB
 ## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB

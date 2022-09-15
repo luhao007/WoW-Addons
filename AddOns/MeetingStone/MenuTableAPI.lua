@@ -1,4 +1,3 @@
-
 BuildEnv(...)
 
 local makedCategorys = {}
@@ -35,7 +34,7 @@ local function isCategoryValid(categoryId)
 end
 
 local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
-    local fullName, _, categoryId, groupId, _, filters = C_LFGList.GetActivityInfo(activityId)
+    local fullName, diff, categoryId, groupId, _, filters = C_LFGList.GetActivityInfo(activityId)
 
     if customId then
         fullName = ACTIVITY_CUSTOM_NAMES[customId]
@@ -43,7 +42,11 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
 
     local data = {}
 
-    data.text = fullName
+    if categoryId == 113 then
+        data.text = diff
+    else
+        data.text = fullName
+    end
     data.fullName = fullName
     data.categoryId = categoryId
     data.groupId = groupId
@@ -54,6 +57,8 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
     data.value = GetActivityCode(activityId, customId, categoryId, groupId)
     if menuType == ACTIVITY_FILTER_BROWSE then
         data.full = C_LFGList.GetCategoryInfo(categoryId)
+    elseif categoryId == 113 then
+        data.full = format('%s - %s', fullName, diff)
     end
 
     currentCodeCache[data.value] = data

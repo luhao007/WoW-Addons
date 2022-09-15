@@ -1211,7 +1211,7 @@ end
 -- Attempts to return the displayID for the data, or every displayID if 'all' is specified
 local function GetDisplayID(data, all)
 	-- don't create a displayID for groups with a sourceID/itemID already
-	if data.s or data.itemID then return; end
+	if data.s or data.itemID or data.difficultyID then return; end
 	if all then
 		local displayInfo, _ = {};
 		-- specific displayID
@@ -1499,9 +1499,9 @@ app.TryColorizeName = function(group, name)
 				return Colorize(name, app.Colors.Alliance);
 			end
 		-- un-acquirable color
-		-- TODO: grey color for things which are otherwise not available to the current character (would only show in account mode due to filtering)
-		-- elseif not app.FilterItemClass(group) then
-		-- 	return Colorize(name, "ff808080");
+		-- grey color for things which are otherwise not available to the current character (would only show in account mode due to filtering)
+		elseif not app.CurrentCharacterFilters(group) then
+			return Colorize(name, "ff808080");
 		end
 	end
 	return name;
@@ -2857,6 +2857,9 @@ local function CreateHash(t)
 					hash = hash .. t.crs[1] .. t.crs[2] .. t.crs[3];
 				end
 			end
+		elseif key == "difficultyID" then
+			local instanceID = GetRelativeValue(t, "instanceID");
+			if instanceID then hash = hash .. "-" .. instanceID; end
 		elseif key == "headerID" then
 			-- for custom headers, they may be used in conjunction with other bits of data that we don't want to merge together (because it makes no sense)
 			-- Separate if using Class requirements
@@ -3081,6 +3084,8 @@ local function FillSymLinks(group, recursive)
 end
 
 (function()
+local select, tremove, unpack =
+	  select, tremove, unpack;
 local subroutines;
 subroutines = {
 	["pvp_gear_base"] = function(tierID, headerID1, headerID2)
@@ -3493,11 +3498,110 @@ local function Resolve_Extract(results, group, field)
 	end
 	return results;
 end
--- Pops the provided group, returning the results from the combined 'g' and 'sym' properties of the group
-local function Resolve_Pop(group)
-	-- insert raw & symlinked Things from this group
-	return ArrayAppend(nil, group.g, ResolveSymbolicLink(group));
-end
+
+
+-- Defines a known set of functions which can be run via symlink resolution. The inputs to each function will be identical in order when called.
+-- searchResults - the current set of searchResults when reaching the current sym command
+-- o - the specific group object which contains the symlink commands
+-- (various expected components of the respective sym command)
+local ResolveFunctions = {
+	["select"] = function(searchResults, o, cmd, field, ...)
+		-- Instruction to search the full database for multiple of a given type
+		local cache, val;
+		local vals = select("#", ...);
+		for i=1,vals do
+			val = select(i, ...);
+			cache = app.CleanSourceIgnoredGroups(app.SearchForField(field, val));
+			if cache then
+				ArrayAppend(searchResults, cache);
+			else
+				print("Failed to select ", field, val);
+			end
+		end
+	end,
+	["selectparent"] = function(searchResults, o, cmd, level)
+		-- Instruction to select the parent object of the parent that owns the symbolic link.
+		if level and level > 0 then
+			local parent = o.parent;
+			while level > 1 do
+				parent = parent and parent.parent;
+				level = level - 1;
+			end
+			if parent then
+				tinsert(searchResults, parent);
+			else
+				print("Failed to select parent " .. level .. " levels up.");
+			end
+		else
+			-- Select the direct parent object.
+			tinsert(searchResults, o.parent);
+		end
+	end,
+	["selectprofession"] = function(searchResults, o, cmd, requireSkill)
+		-- Instruction to find all content marked with the specified 'requireSkill'
+		ArrayAppend(searchResults, app:BuildSearchResponse(app:GetDataCache().g, "requireSkill", requireSkill));
+	end,
+	["fill"] = function(searchResults, o)
+		-- Instruction to fill with identical content cached elsewhere for this group (no symlinks)
+		local okey = o.key;
+		if okey then
+			local okeyval = o[okey];
+			if okeyval then
+				local cache = app.CleanSourceIgnoredGroups(app.SearchForField(okey, okeyval));
+				if cache then
+					for _,s in ipairs(cache) do
+						ArrayAppend(searchResults, s.g);
+					end
+				end
+			end
+		end
+	end,
+	["push"] = function(searchResults, o, cmd, field, value)
+		-- Instruction to "push" all of the group values into an object as specified
+		local orig = RawCloneData(searchResults);
+		wipe(searchResults);
+		searchResults[1] = CreateObject({[field] = value, g = orig });
+	end,
+	["pop"] = function(searchResults)
+		-- Instruction to "pop" all of the group values up one level.
+		local orig = RawCloneData(searchResults);
+		wipe(searchResults);
+		for _,s in ipairs(orig) do
+			-- insert raw & symlinked Things from this group
+			ArrayAppend(searchResults, s.g, ResolveSymbolicLink(s));
+		end
+	end,
+	["where"] = function(searchResults, o, cmd, field, value)
+		-- Instruction to include only search results where a key value is a value
+		for k=#searchResults,1,-1 do
+			local s = searchResults[k];
+			if not s[field] or s[field] ~= value then
+				tremove(searchResults, k);
+			end
+		end
+	end,
+	["extract"] = function(searchResults, o, cmd, field)
+		-- Instruction to extract all nested results which contain a given field
+		local orig = RawCloneData(searchResults);
+		wipe(searchResults);
+		for _,o in ipairs(orig) do
+			Resolve_Extract(searchResults, o, field);
+		end
+	end,
+	["index"] = function(searchResults, o, cmd, index)
+		-- Instruction to include the search result with a given index within each of the selection's groups.
+		local orig = RawCloneData(searchResults);
+		wipe(searchResults);
+		local s, g;
+		for k=#orig,1,-1 do
+			s = orig[k];
+			g = s.g;
+			if g and index <= #g then
+				tinsert(searchResults, g[index]);
+			end
+		end
+	end,
+};
 local ResolveCache = {};
 ResolveSymbolicLink = function(o)
 	if o.resolved or (o.key and app.ThingKeys[o.key] and ResolveCache[o.hash]) then
@@ -3509,101 +3613,14 @@ ResolveSymbolicLink = function(o)
 	if o and o.sym then
 		-- app.PrintDebug("Fresh Resolve:",o.hash)
 		local searchResults, finalized, ipairs, tremove = {}, {}, ipairs, tremove;
-		local newModID;
+		local newModID, cmd, cmdFunc;
 		for j,sym in ipairs(o.sym) do
-			local cmd = sym[1];
+			cmd = sym[1];
+			cmdFunc = ResolveFunctions[cmd];
 			-- app.PrintDebug("sym: '",cmd,"' with [",sym[2],"] & [",sym[3],"] for",o.key,o.key and o[o.key])
-			if cmd == "select" then
-				-- Instruction to search the full database for multiple of a given type
-				local field = sym[2];
-				local cache;
-				for i=3,#sym do
-					cache = app.CleanSourceIgnoredGroups(app.SearchForField(field, sym[i]));
-					if cache then
-						for _,s in ipairs(cache) do
-							if s == o or (s.hash and s.hash == o.hash) then
-								print("symlink selected itself and will be ignored in results!",o.hash);
-							else
-								tinsert(searchResults, s);
-							end
-						end
-					else
-						print("Failed to select ", field, sym[i]);
-					end
-				end
-			elseif cmd == "selectparent" then
-				-- Instruction to select the parent object of the parent that owns the symbolic link.
-				local cache = sym[2];
-				if cache and cache > 0 then
-					local parent = o.parent;
-					while cache > 1 do
-						parent = parent.parent;
-						cache = cache - 1;
-					end
-					if parent then
-						tinsert(searchResults, parent);
-					else
-						print("Failed to select parent " .. sym[2] .. " levels up.");
-					end
-				else
-					-- Select the direct parent object.
-					tinsert(searchResults, o.parent);
-				end
-			elseif cmd == "selectprofession" then
-				local cache = app:BuildSearchResponse(app:GetDataCache().g, "requireSkill", sym[2]);
-				if cache and #cache > 0 then
-					for _,k in ipairs(cache) do
-						tinsert(searchResults, k);
-					end
-				end
-			elseif cmd == "fill" then
-				-- Instruction to fill with identical content cached elsewhere for this group (no symlinks)
-				if o.key and o[o.key] then
-					local cache = app.CleanSourceIgnoredGroups(app.SearchForField(o.key, o[o.key]));
-					if cache then
-						for _,s in ipairs(cache) do
-							ArrayAppend(searchResults, s.g);
-						end
-					end
-				end
-			elseif cmd == "pop" then
-				-- Instruction to "pop" all of the group values up one level.
-				local orig = searchResults;
-				searchResults = {};
-				for _,s in ipairs(orig) do
-					ArrayAppend(searchResults, Resolve_Pop(s));
-				end
-			elseif cmd == "push" then
-				-- Instruction to "push" all of the group values into an object as specified
-				searchResults = { CreateObject({[sym[2]] = sym[3], g = searchResults }) };
-			elseif cmd == "where" then
-				-- Instruction to include only search results where a key value is a value
-				local key, value = sym[2], sym[3];
-				for k=#searchResults,1,-1 do
-					local s = searchResults[k];
-					if not s[key] or s[key] ~= value then
-						tremove(searchResults, k);
-					end
-				end
-			elseif cmd == "extract" then
-				-- Instruction to extract all nested results which contain a given field
-				local field = sym[2];
-				local results = {};
-				for _,o in ipairs(searchResults) do
-					Resolve_Extract(results, o, field);
-				end
-				searchResults = results;
-			elseif cmd == "index" then
-				-- Instruction to include the search result with a given index within each of the selection's groups.
-				local index = sym[2];
-				local orig = searchResults;
-				searchResults = {};
-				for k=#orig,1,-1 do
-					local s = orig[k];
-					if s.g and index <= #s.g then
-						tinsert(searchResults, s.g[index]);
-					end
-				end
+			if cmdFunc then
+				-- app.PrintDebug("sym:",cmd,"via ResolveFunction")
+				cmdFunc(searchResults, o, unpack(sym));
 			elseif cmd == "not" then
 				-- Instruction to include only search results where a key value is not a value
 				if #sym > 3 then
@@ -3803,24 +3820,46 @@ ResolveSymbolicLink = function(o)
 					local achievementID = o.achievementID;
 					local cache;
 					for criteriaID=1,GetAchievementNumCriteria(achievementID),1 do
-						local criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString = GetAchievementCriteriaInfo(achievementID, criteriaID);
+						local criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, id = GetAchievementCriteriaInfo(achievementID, criteriaID);
 						if criteriaType == 27 then
 							cache = app.SearchForField("questID", assetID);
+						elseif criteriaType == 110 or criteriaType == 43 then
+							-- Ignored
 						else
-							print("Unhandled Criteria Type", criteriaType);
+							print("Unhandled Criteria Type", criteriaType, assetID);
 						end
+						local criteriaObject = app.CreateAchievementCriteria(id);
 						if cache then
 							local uniques = {};
 							MergeObjects(uniques, cache);
 							for i,o in ipairs(uniques) do
-								o.g = nil;
-								o.achievementID = nil;
-								app.CacheFields(o);
-								o.achievementID = achievementID;
-								tinsert(searchResults, app.CreateAchievementCriteria(criteriaID, o));
+								rawset(o, "text", nil);
+								for key,value in pairs(o) do
+									criteriaObject[key] = value;
+								end
+								rawset(o, "text", criteriaObject.text);
 							end
 						end
+						criteriaObject.achievementID = achievementID;
+						criteriaObject.parent = o;
+						tinsert(searchResults, criteriaObject);
 					end
+				end
+			elseif cmd == "meta_achievement" then
+				-- Instruction to search the full database for multiple achievementID's
+				local cache;
+				for i=2,#sym do
+					cache = app.CleanSourceIgnoredGroups(app.SearchForField("achievementID", sym[i]));
+					if cache then
+						ArrayAppend(searchResults, cache);
+					else
+						print("Failed to select achievementID",sym[i]);
+					end
+				end
+				-- Remove any Criteria groups associated with those achievements
+				for k=#searchResults,1,-1 do
+					local s = searchResults[k];
+					if s.criteriaID then tremove(searchResults, k); end
 				end
 			end
 			-- if app.DEBUG_PRINT then print("Results",searchResults and #searchResults,"from '",cmd,"' with [",sym[2],"] & [",sym[3],"] for",o.key,o.key and o[o.key]) end
@@ -5048,9 +5087,9 @@ local function DetermineSymlinkGroups(group)
 	end
 end
 local function FillGroupsRecursive(group, depth)
-	-- do not fill 'saved' groups
+	-- do not fill 'saved' groups in ATT windows
 	-- or groups directly under saved groups unless in Acct or Debug mode
-	if not app.MODE_DEBUG_OR_ACCOUNT then
+	if isInWindow and not app.MODE_DEBUG_OR_ACCOUNT then
 		-- (unless they are actual Maps or Instances, or a Difficulty header. Also 'saved' Items usually means tied to a questID directly)
 		if group.saved and not (group.instanceID or group.mapID or group.difficultyID or group.itemID) then return; end
 		local parent = group.parent;
@@ -5086,15 +5125,15 @@ local function FillGroupsRecursive(group, depth)
 end
 -- Appends sub-groups into the item group based on what is required to have this item (cost, source sub-group, reagents, symlinks)
 app.FillGroups = function(group)
-	-- app.PrintDebug("FillGroups",group.hash,group.__type)
 	-- Clear search history -- never re-list the starting Thing
 	included = { [group.hash or ""] = 0, [group.itemID or 0] = 0 };
 	-- Get tradeskill cache
 	knownSkills = app.CurrentCharacter.Professions;
 	-- Check if this group is inside a Window or not
 	isInWindow = app.RecursiveFirstParentWithField(group, "window") and true;
-	-- app.PrintDebug("isInWindow",isInWindow)
 	app.FunctionRunner.SetPerFrame(1);
+
+	-- app.PrintDebug("FillGroups",group.hash,group.__type,"window?",isInWindow)
 
 	-- Fill the group with all nestable content
 	FillGroupsRecursive(group);
@@ -5187,14 +5226,15 @@ app.BuildSourceParent = function(group)
 
 	-- pull all listings of this 'Thing'
 	local keyValue = group[groupKey];
-	local things = specificSource and { group } or app.SearchForLink(groupKey .. ":" .. keyValue);
+	local things = specificSource and { group } or app.CleanSourceIgnoredGroups(app.SearchForLink(groupKey .. ":" .. keyValue));
 	if things then
 		local groupHash = group.hash;
+		local isAchievement = groupKey == "achievementID";
 		-- app.PrintDebug("Found Source things",#things,groupHash)
 		local parents, parentKey, parent;
 		-- collect all possible parent groups for all instances of this Thing
 		for _,thing in pairs(things) do
-			if thing.hash == groupHash then
+			if thing.hash == groupHash or isAchievement then
 				parent = thing.parent;
 				while parent do
 					-- app.PrintDebug("parent",parent.text,parent.key)
@@ -5204,14 +5244,13 @@ app.BuildSourceParent = function(group)
 						-- or if the parent is directly tied to an NPC
 						if thingKeys[parentKey] or parent.npcID or parent.creatureID then
 							-- keep the Criteria nested for Achievements, to show proper completion tracking under various Sources
-							if groupKey == "achievementID" then
+							if isAchievement then
+								-- app.PrintDebug("isAchieve:keepSource",keyValue)
 								parent._keepSource = keyValue;
-								if parents then tinsert(parents, parent);
-								else parents = { parent }; end
-							else
-								if parents then tinsert(parents, parent);
-								else parents = { parent }; end
 							end
+							-- add the parent for display later
+							if parents then tinsert(parents, parent);
+							else parents = { parent }; end
 							break;
 						end
 						-- TODO: maybe handle mapID/instanceID in a different way as a fallback for things nested under headers within a zone....?
@@ -5826,7 +5865,7 @@ fieldConverters = {
 		CacheField(group, "instanceID", value);
 	end,
 	["itemID"] = function(group, value, raw)
-		if group.filterID == 102 or group.isToy then CacheField(group, "toyID", value); end
+		if group.isToy then CacheField(group, "toyID", value); end
 		if not raw then
 			-- only cache the modItemID if it is not the same as the itemID
 			-- pulling .modItemID directly will cause a rawset on the group and break iteration while caching
@@ -5865,8 +5904,9 @@ fieldConverters = {
 	["spellID"] = function(group, value)
 		CacheField(group, "spellID", value);
 		-- cache as a mount if it is
-		if group.mountID then
-			CacheField(group, "mountID", group.mountID);
+		local mountID = group.mountID;
+		if mountID then
+			CacheField(group, "mountID", mountID);
 		end
 	end,
 	["tierID"] = function(group, value)
@@ -5874,9 +5914,6 @@ fieldConverters = {
 	end,
 	["titleID"] = function(group, value)
 		CacheField(group, "titleID", value);
-	end,
-	["toyID"] = function(group, value)
-		CacheField(group, "toyID", value);
 	end,
 
 	-- Complex Converters
@@ -5892,21 +5929,24 @@ fieldConverters = {
 	end,
 	["titleIDs"] = function(group, value)
 		_cache = rawget(fieldConverters, "titleID");
-		for i,titleID in ipairs(value) do
+		for _,titleID in ipairs(value) do
 			_cache(group, titleID);
 		end
 	end,
 	["providers"] = function(group, value)
+		local t, p;
 		for _,v in pairs(value) do
-			if v[2] > 0 then
-				if v[1] == "n" then
-					cacheCreatureID(group, v[2]);
-				elseif v[1] == "i" then
-					CacheField(group, "itemIDAsCost", v[2]);
-				elseif v[1] == "c" then
-					CacheField(group, "currencyIDAsCost", v[2]);
-				elseif v[1] == "o" then
-					cacheObjectID(group, v[2]);
+			p = v[2];
+			if p > 0 then
+				t = v[1];
+				if t == "n" then
+					cacheCreatureID(group, p);
+				elseif t == "i" then
+					CacheField(group, "itemIDAsCost", p);
+				elseif t == "c" then
+					CacheField(group, "currencyIDAsCost", p);
+				elseif t == "o" then
+					cacheObjectID(group, p);
 				end
 			end
 		end
@@ -5945,13 +5985,18 @@ fieldConverters = {
 		if type(value) == "number" then
 			return;
 		else
+			local t, p;
 			for _,v in pairs(value) do
-				if v[1] == "i" and v[2] > 0 then
-					CacheField(group, "itemIDAsCost", v[2]);
-				elseif v[1] == "c" and v[2] > 0 then
-					CacheField(group, "currencyIDAsCost", v[2]);
-				elseif v[1] == "o" and v[2] > 0 then
-					cacheObjectID(group, v[2]);
+				p = v[2];
+				if p > 0 then
+					t = v[1];
+					if t == "i" then
+						CacheField(group, "itemIDAsCost", p);
+					elseif t == "c" then
+						CacheField(group, "currencyIDAsCost", p);
+					elseif t == "o" then
+						cacheObjectID(group, p);
+					end
 				end
 			end
 		end
@@ -5972,6 +6017,30 @@ fieldConverters = {
 		end
 	end,
 };
+
+-- Performance Tracking for Caching
+if app.__perf then
+	local GetTimePreciseSec = GetTimePreciseSec;
+	local type = "CacheFields";
+	-- init table for this object type
+	if type and not app.__perf[type] then
+		app.__perf[type] = {};
+	end
+	local cacheConverters = {};
+	for key,func in pairs(fieldConverters) do
+		-- replace each function with itself wrapped in a perf update
+		-- app.PrintDebug("Replaced Cache function",key)
+		cacheConverters[key] = function(group, value)
+			local now = GetTimePreciseSec();
+			func(group, value);
+			local typeData = rawget(app.__perf, type);
+			rawset(typeData, key, (rawget(typeData, key) or 0) + 1);
+			rawset(typeData, key.."_Time", (rawget(typeData, key.."_Time") or 0) + (GetTimePreciseSec() - now));
+		end
+	end
+	fieldConverters = cacheConverters;
+end
+
 local uncacheMap = function(group, mapID)
 	if mapID and currentMaps[mapID] == group then
 		currentMaps[mapID] = nil;
@@ -7566,6 +7635,14 @@ local ObjectFunctions = {
 	["text"] = function(t)
 		return t.name and app.TryColorizeName(t, t.name) or t.link;
 	end,
+	-- the total cost of a Thing is based on it being collectible as a cost or not
+	["costTotal"] = function(t)
+		return t.collectibleAsCost and 1 or 0;
+	end,
+	-- the cost progress is currently always 0 since it is not considered a cost once it's no longer needed
+	["costProgress"] = function(t)
+		return 0;
+	end,
 };
 local objFunc;
 -- Creates a Base Object Table which will evaluate the provided set of 'fields' (each field value being a keyed function)
@@ -7969,43 +8046,48 @@ local criteriaFuncs = {
     end,
 };
 app.QuestLockCriteriaFunctions = criteriaFuncs;
+local function IsGroupLocked(t)
+	local lockCriteria = t.lc;
+	if lockCriteria then
+		local criteriaRequired = lockCriteria[1];
+		local critKey, critFunc, nonQuestLock;
+		local i, limit = 2, #lockCriteria;
+		while i < limit do
+			critKey = lockCriteria[i];
+			critFunc = criteriaFuncs[critKey];
+			i = i + 1;
+			if critFunc then
+				if critFunc(lockCriteria[i]) then
+					criteriaRequired = criteriaRequired - 1;
+					if not nonQuestLock and critKey ~= "questID" then
+						nonQuestLock = true;
+					end
+				end
+			else
+				app.print("Unknown 'lockCriteria' key:",critKey,lockCriteria[i]);
+			end
+			-- enough criteria met to consider this quest locked
+			if criteriaRequired <= 0 then
+				-- we can rawset this since there's no real way for a player to 'remove' this lock during a session
+				-- and this does not come into play during party sync
+				rawset(t, "locked", true);
+				-- if this was locked due to something other than a Quest specifically, indicate it cannot be done in Party Sync
+				if nonQuestLock then
+					-- app.PrintDebug("Automatic DisablePartySync", app:Linkify(questID, app.Colors.ChatLink, "search:questID:" .. questID))
+					rawset(t, "DisablePartySync", true);
+				end
+				return true;
+			end
+			i = i + 1;
+		end
+	end
+end
+app.IsGroupLocked = IsGroupLocked;
 local function LockedAsQuest(t)
 	local questID = t.questID;
 	if not IsQuestFlaggedCompleted(questID) then
-		local lockCriteria = t.lc;
-		if lockCriteria then
-			local criteriaRequired = lockCriteria[1];
-			local critKey, critFunc, nonQuestLock;
-			local i, limit = 2, #lockCriteria;
-			while i < limit do
-				critKey = lockCriteria[i];
-				critFunc = criteriaFuncs[critKey];
-				i = i + 1;
-				if critFunc then
-					if critFunc(lockCriteria[i]) then
-						criteriaRequired = criteriaRequired - 1;
-						if not nonQuestLock and critKey ~= "questID" then
-							nonQuestLock = true;
-						end
-					end
-				else
-					app.print("Unknown 'lockCriteria' key:",critKey,lockCriteria[i]);
-				end
-				-- enough criteria met to consider this quest locked
-				if criteriaRequired <= 0 then
-					-- we can rawset this since there's no real way for a player to 'remove' this lock during a session
-					-- and this does not come into play during party sync
-					rawset(t, "locked", true);
-					-- if this was locked due to something other than a Quest specifically, indicate it cannot be done in Party Sync
-					if nonQuestLock then
-						-- app.PrintDebug("Automatic DisablePartySync", app:Linkify(questID, app.Colors.ChatLink, "search:questID:" .. questID))
-						rawset(t, "DisablePartySync", true);
-					end
-					return true;
-				end
-				i = i + 1;
-			end
-		end
+		-- generic locked functionality based on lockCriteria
+		if IsGroupLocked(t) then return true; end
 		-- if an alt-quest is completed, then this quest is locked
 		if t.altcollected then
 			rawset(t, "locked", t.altcollected);
@@ -8106,42 +8188,43 @@ local questFields = {
 		return QuestConsideredSaved(t.questID);
 	end,
 	["indicatorIcon"] = app.GetQuestIndicator,
-	["collectibleAsReputation"] = function(t)
+	["collectibleAsCost"] = function(t)
 		-- If Collectible by providing reputation towards a Faction with which the character is below the rep-granting Standing
 		-- and the Faction itself is Collectible & Not Collected
 		-- and the Quest is not locked from being completed
-		if app.CollectibleReputations and not t.locked then
+		if app.CollectibleReputations and t.maxReputation and not t.locked then
 			local factionID = t.maxReputation[1];
 			local factionRef = app.SearchForObject("factionID", factionID);
 			if factionRef and not factionRef.collected and (select(6, GetFactionInfoByID(factionID)) or 0) < t.maxReputation[2] then
+				-- app.PrintDebug("Quest",t.questID,"collectible for Faction",factionID,factionRef.text)
 				return true;
 			end
 		end
 		-- If Collectible by being a Quest
-		if app.CollectibleQuests or app.CollectibleQuestsLocked then
-			return app.CollectibleAsQuest(t);
-		end
+		-- if app.CollectibleQuests or app.CollectibleQuestsLocked then
+		-- 	return app.CollectibleAsQuest(t);
+		-- end
 	end,
-	["collectedAsReputation"] = function(t)
-		-- If the Quest is completed on this character, then it doesn't matter about the faction
-		if IsQuestFlaggedCompleted(t.questID) then
-			return 1;
-		end
-		-- Check whether this Quest can provide Rep towards an incomplete Faction
-		if app.CollectibleReputations and t.maxReputation then
-			local factionID = t.maxReputation[1];
-			local factionRef = app.SearchForObject("factionID", factionID);
-			-- Completing the quest will increase the Faction, so it is incomplete
-			if factionRef and not factionRef.collected and (select(6, GetFactionInfoByID(factionID)) or 0) < t.maxReputation[2] then
-				return false;
-			elseif not app.CollectibleQuests and not app.CollectibleQuestsLocked then
-			-- Completing the quest will not increase the Faction, but User doesn't care about Quests, then consider it 'collected'
-				return 2;
-			end
-		end
-		-- Finally, check if the quest is otherwise considered 'collected' by normal logic
-		return IsQuestFlaggedCompletedForObject(t);
-	end,
+	-- ["collectedAsReputation"] = function(t)
+	-- 	-- If the Quest is completed on this character, then it doesn't matter about the faction
+	-- 	if IsQuestFlaggedCompleted(t.questID) then
+	-- 		return 1;
+	-- 	end
+	-- 	-- Check whether this Quest can provide Rep towards an incomplete Faction
+	-- 	if app.CollectibleReputations and t.maxReputation then
+	-- 		local factionID = t.maxReputation[1];
+	-- 		local factionRef = app.SearchForObject("factionID", factionID);
+	-- 		-- Completing the quest will increase the Faction, so it is incomplete
+	-- 		if factionRef and not factionRef.collected and (select(6, GetFactionInfoByID(factionID)) or 0) < t.maxReputation[2] then
+	-- 			return false;
+	-- 		elseif not app.CollectibleQuests and not app.CollectibleQuestsLocked then
+	-- 		-- Completing the quest will not increase the Faction, but User doesn't care about Quests, then consider it 'collected'
+	-- 			return 2;
+	-- 		end
+	-- 	end
+	-- 	-- Finally, check if the quest is otherwise considered 'collected' by normal logic
+	-- 	return IsQuestFlaggedCompletedForObject(t);
+	-- end,
 	["altcollected"] = function(t)
 		-- determine if an altQuest is considered completed for this quest for this character
 		if t.altQuests then
@@ -8425,11 +8508,11 @@ app.CheckForBreadcrumbPrevention = function(title, questID)
 end
 
 -- Quest with Reputation
-local fields = RawCloneData(questFields, {
-	["collectible"] = questFields.collectibleAsReputation,
-	["collected"] = questFields.collectedAsReputation,
-});
-app.BaseQuestWithReputation = app.BaseObjectFields(fields, "BaseQuestWithReputation");
+-- local fields = RawCloneData(questFields, {
+-- 	["collectible"] = questFields.collectibleAsReputation,
+-- 	["collected"] = questFields.collectedAsReputation,
+-- });
+-- app.BaseQuestWithReputation = app.BaseObjectFields(fields, "BaseQuestWithReputation");
 app.CreateQuest = function(id, t)
 	if t then
 		-- extract specific faction data
@@ -8442,9 +8525,9 @@ app.CreateQuest = function(id, t)
 				for key,value in pairs(aqd) do t[key] = value; end
 			end
 		end
-		if rawget(t, "maxReputation") then
-			return setmetatable(constructor(id, t, "questID"), app.BaseQuestWithReputation);
-		end
+		-- if rawget(t, "maxReputation") then
+		-- 	return setmetatable(constructor(id, t, "questID"), app.BaseQuestWithReputation);
+		-- end
 	end
 	return setmetatable(constructor(id, t, "questID"), app.BaseQuest);
 end
@@ -8848,7 +8931,7 @@ local fields = {
 		end
 		return 0;
 	end,
-	["OnUpdate"] = function(t) ResolveSymbolicLink(t); end,
+	-- ["OnUpdate"] = function(t) ResolveSymbolicLink(t); end,
 };
 app.BaseAchievement = app.BaseObjectFields(fields, "BaseAchievement");
 app.CreateAchievement = function(id, t)
@@ -8905,19 +8988,17 @@ local criteriaFields = {
 	["name"] = function(t)
 		if t.link then return t.link; end
 		if t.encounterID then
-			rawset(t, "name", select(1, EJ_GetEncounterInfo(t.encounterID)));
-			return rawget(t, "name");
+			return select(1, EJ_GetEncounterInfo(t.encounterID));
 		end
 		local achievementID = t.achievementID;
 		if achievementID then
 			local criteriaID = t.criteriaID;
 			if criteriaID then
 				if criteriaID <= GetAchievementNumCriteria(achievementID) then
-					rawset(t, "name", select(1, GetAchievementCriteriaInfo(achievementID, criteriaID, true)));
+					return select(1, GetAchievementCriteriaInfo(achievementID, criteriaID, true));
 				elseif criteriaID > 50 then
-					rawset(t, "name", select(1, GetAchievementCriteriaInfoByID(achievementID, criteriaID)));
+					return select(1, GetAchievementCriteriaInfoByID(achievementID, criteriaID));
 				end
-				return rawget(t, "name");
 			end
 		end
 		return L["WRONG_FACTION"];
@@ -8980,11 +9061,10 @@ local criteriaFields = {
 			local criteriaID = t.criteriaID;
 			if criteriaID then
 				if criteriaID <= GetAchievementNumCriteria(achievementID) then
-					rawset(t, "saved", select(3, GetAchievementCriteriaInfo(achievementID, criteriaID, true)));
+					return select(3, GetAchievementCriteriaInfo(achievementID, criteriaID, true));
 				elseif criteriaID > 50 then
-					rawset(t, "saved", select(3, GetAchievementCriteriaInfoByID(achievementID, criteriaID)));
+					return select(3, GetAchievementCriteriaInfoByID(achievementID, criteriaID));
 				end
-				return rawget(t, "saved");
 			end
 		end
 	end,
@@ -9882,13 +9962,6 @@ local fields = {
 		return cache.GetCachedField(t, "costCollectibles", default_costCollectibles);
 	end,
 	["collectibleAsCost"] = app.CollectibleAsCost,
-	-- ["collectedAsCost"] = app.CollectedAsCost,
-	["costTotal"] = function(t)
-		return t.collectibleAsCost and 1 or 0;
-	end,
-	["costProgress"] = function(t)
-		return t.collectedAsCost and 1 or 0;
-	end,
 };
 app.BaseCurrencyClass = app.BaseObjectFields(fields, "BaseCurrencyClass");
 app.CreateCurrencyClass = function(id, t)
@@ -10005,7 +10078,20 @@ local fields = {
 		return "difficultyID";
 	end,
 	["text"] = function(t)
-		return L["CUSTOM_DIFFICULTIES"][t.difficultyID] or GetDifficultyInfo(t.difficultyID) or "Unknown Difficulty";
+		local text = L["CUSTOM_DIFFICULTIES"][t.difficultyID] or GetDifficultyInfo(t.difficultyID) or "Unknown Difficulty";
+		-- don't follow sourceParent
+		local parent = rawget(t, "parent");
+		local parentInstance = parent and parent.instanceID;
+		if parentInstance then
+			return text;
+		else
+			-- append the name of the Source Instance which contains this diffculty group to help distinguish (LFR Queue NPCs)
+			parentInstance = t.sourceParent;
+			if parentInstance then
+				text = sformat("%s [%s]", text, parentInstance and parentInstance.text or UNKNOWN);
+			end
+			return text;
+		end
 	end,
 	["icon"] = function(t)
 		return app.DifficultyIcons[t.difficultyID];
@@ -10149,6 +10235,11 @@ local StandingByID = {
 		["color"] = GetProgressColor(1),
 		["threshold"] = 42000,
 	},
+};
+StandingByID[0] =
+{	-- 0: No Standing (Not in a Guild)
+	["color"] = "00404040",
+	["threshold"] = -99999,
 };
 app.FactionNameByID = setmetatable({}, { __index = function(t, id)
 	local name = select(1, GetFactionInfoByID(id)) or select(4, GetFriendshipReputation(id));
@@ -11471,12 +11562,6 @@ local itemFields = {
 	["savedAsQuest"] = function(t)
 		return IsQuestFlaggedCompleted(t.questID);
 	end,
-	["costTotal"] = function(t)
-		return t.collectibleAsCost and 1 or 0;
-	end,
-	["costProgress"] = function(t)
-		return t.collectedAsCost and 1 or 0;
-	end,
 };
 app.BaseItem = app.BaseObjectFields(itemFields, "BaseItem");
 
@@ -12485,19 +12570,12 @@ local mountFields = {
 		return cache.GetCachedField(t, "costCollectibles", default_costCollectibles);
 	end,
 	["collectibleAsCost"] = app.CollectibleAsCost,
-	-- ["collectedAsCost"] = app.CollectedAsCost,
 	["collected"] = function(t)
 		if ATTAccountWideData.Spells[t.spellID] then return 1; end
 		if app.IsSpellKnownHelper(t.spellID) or (t.questID and IsQuestFlaggedCompleted(t.questID)) then
 			ATTAccountWideData.Spells[t.spellID] = 1;
 			return 1;
 		end
-	end,
-	["costTotal"] = function(t)
-		return t.collectibleAsCost and 1 or 0;
-	end,
-	["costProgress"] = function(t)
-		return t.collectedAsCost and 1 or 0;
 	end,
 	["b"] = function(t)
 		return (t.parent and t.parent.b) or 1;
@@ -14976,6 +15054,9 @@ function app:CreateMiniListForGroup(group)
 		-- if popping out a thing with a Cost, generate a Cost group to allow referencing the Cost things directly
 		app.BuildCost(group);
 
+		-- TODO: Crafting Information
+		-- TODO: Lock Criteria
+
 		-- custom Update method for the popout so we don't have to force refresh
 		popout.Update = function(self, force, got)
 			-- app.PrintDebug("Update.ExpireTime", self.Suffix, force, got)
@@ -15448,42 +15529,41 @@ local function SetRowData(self, row, data)
 			self.processingLinks = true;
 		-- WARNING: DEV ONLY START
 		-- no or bad sourceID or requested to reSource and is of a proper source-able quality
-		elseif data.reSource and (not data.q or data.q > 1) then
-			-- If it doesn't, the source ID will need to be harvested.
-			local s, success = GetSourceID(text) or (data.artifactID and data.s);
-			if s and s > 0 then
-				data.reSource = nil;
-				-- only save the source if it is different than what we already have
-				if not data.s or data.s < 1 or data.s ~= s or (data.artifactID and data.s) then
-					print("SourceID Update",data.text,data.s,"=>",s);
-					-- print(GetItemInfo(text))
-					data.s = s;
-					if data.collected then
-						data.parent.progress = data.parent.progress + 1;
-					end
-					if data.artifactID then
-						local artifact = AllTheThingsArtifactsItems[data.artifactID];
-						if not artifact then
-							artifact = {};
+		elseif data.reSource then
+			if not data.q or data.q > 1 then
+				-- If it doesn't, the source ID will need to be harvested.
+				local s, success = GetSourceID(text) or (data.artifactID and data.s);
+				if s and s > 0 then
+					-- only save the source if it is different than what we already have
+					if not data.s or data.s < 1 or data.s ~= s or (data.artifactID and data.s) then
+						print("SourceID Update",data.text,data.s,"=>",s);
+						-- print(GetItemInfo(text))
+						data.s = s;
+						if data.collected then
+							data.parent.progress = data.parent.progress + 1;
 						end
-						artifact[data.isOffHand and 1 or 2] = s;
-						AllTheThingsArtifactsItems[data.artifactID] = artifact;
-					else
-						app.SaveHarvestSource(data);
+						if data.artifactID then
+							local artifact = AllTheThingsArtifactsItems[data.artifactID];
+							if not artifact then
+								artifact = {};
+							end
+							artifact[data.isOffHand and 1 or 2] = s;
+							AllTheThingsArtifactsItems[data.artifactID] = artifact;
+						else
+							app.SaveHarvestSource(data);
+						end
 					end
+				elseif success then
+					print("Success without a SourceID", text);
+				else
+					-- print("NARP", text);
+					data.s = nil;
+					data.parent.total = data.parent.total - 1;
 				end
-			elseif success then
-				print("Success without a SourceID", text);
-			else
-				-- print("NARP", text);
-				data.s = nil;
-				data.reSource = nil;
-				data.parent.total = data.parent.total - 1;
 			end
-		-- else
-			-- data.reSource = nil;
-		-- WARNING: DEV ONLY END
+			data.reSource = nil;
 		end
+		-- WARNING: DEV ONLY END
 		local leftmost, relative, iconSize, rowPad = row, "LEFT", 16, 8;
 		local x = CalculateRowIndent(data) * rowPad + rowPad;
 		row.indent = x;
@@ -15722,15 +15802,15 @@ end
 -- Adds ATT information about the list of Quests into the provided tooltip
 local function AddQuestInfoToTooltip(tooltip, quests)
 	if quests and tooltip.AddLine then
-		local text;
+		local text, mapID;
 		for _,q in ipairs(quests) do
 			text = GetCompletionIcon(q.saved) .. " [" .. q.questID .. "] " .. (q.text or RETRIEVING_DATA);
-			if q.mapID then
-				text = text .. " (" .. (app.GetMapName(q.mapID) or RETRIEVING_DATA) .. ")";
-			elseif q.maps then
-				text = text .. " (" .. (app.GetMapName(q.maps[1]) or RETRIEVING_DATA) .. ")";
-			elseif q.coords then
-				text = text .. " (" .. (app.GetMapName(q.coords[1][3]) or RETRIEVING_DATA) .. ")";
+			mapID = q.mapID
+				or (q.maps and q.maps[1])
+				or (q.coord and q.coord[3])
+				or (q.coords and q.coords[1] and q.coords[1][3]);
+			if mapID then
+				text = text .. " (" .. (app.GetMapName(mapID) or RETRIEVING_DATA) .. ")";
 			end
 			tooltip:AddLine(text);
 		end
@@ -19696,11 +19776,12 @@ customWindowUpdates["ItemFinder"] = function(self, ...)
 		self:BaseUpdate(true);
 	end
 end;
-customWindowUpdates["Harvester"] = function(self)
+customWindowUpdates["Harvester"] = function(self, force)
 	if self:IsVisible() then
 		if not self.initialized then
 			self.initialized = true;
 			self.doesOwnUpdate = true;
+			force = true;
 			-- ensure Debug is enabled to fully capture all information
 			if not app.MODE_DEBUG then
 				app.print("Enabled Debug Mode");
@@ -19710,7 +19791,7 @@ customWindowUpdates["Harvester"] = function(self)
 
 			local db = {};
 			db.g = {};
-			db.text = "Harvesting All Items";
+			db.text = "Harvesting All Item SourceIDs";
 			db.icon = "Interface\\Icons\\Spell_Warlock_HarvestofLife";
 			db.description = "This is a contribution debug tool. NOT intended to be used by the majority of the player base.\n\nUsing this tool will lag your WoW a lot!";
 			db.visible = true;
@@ -19721,7 +19802,6 @@ customWindowUpdates["Harvester"] = function(self)
 
 			local harvested = {};
 			local minID,maxID,oldRetries = app.customHarvestMin or self.min,app.customHarvestMax or self.max,app.MaximumItemInfoRetries;
-			local tremove, tonumber = tremove, tonumber;
 			self.min = minID;
 			self.max = maxID;
 			app.MaximumItemInfoRetries = 10;
@@ -19782,57 +19862,61 @@ customWindowUpdates["Harvester"] = function(self)
 					end
 				end
 			end
+			-- total doesnt change
+			local total = #db.g;
+			db.total = total;
+			db.progress = 0;
 			self:SetData(db);
-			BuildGroups(db, db.g);
-			self.ScrollBar:SetValue(#db.g);
+			self:BuildData();
+			self.ScrollBar:SetValue(1);
 			self.UpdateDone = function(self)
-				-- Hide data which have completed their harvest
-				local progress = 0;
-				local total = 0;
-				for i,group in ipairs(db.g) do
-					total = total + 1;
-					if not group.reSource then
-						group.visible = false;
+				-- rowdata = set of visible groups which can show in the window
+				local rowData = self.rowData;
+				-- Remove up to 100 completed rows each frame (no need to process through thousands of rows when only a few update each frame)
+				local progress = rowData[1].progress;
+				-- Adjust progress of first chunk of completed harvests
+				local group, rowSourced;
+				for i=2,100 do
+					group = rowData[i];
+					-- count how many visible & processed groups we find to increment the progress
+					if group and group.visible and not group.reSource then
+						group.visible = nil;
 						progress = progress + 1;
-						group.reSource = nil;
+						rowSourced = true;
 					end
 				end
-				if self.rowData then
-					-- Remove up to 100 completed rows each frame (no need to process through thousands of rows when only a few update each frame)
-					local count = #self.rowData;
-					if count > 1 then
-						self.rowData[1].progress = progress;
-						self.rowData[1].total = total;
-						for i=count,count-100,-1 do
-							if self.rowData[i] and not self.rowData[i].visible then
-								tremove(self.rowData, i);
-							end
-						end
-						self.ScrollBar:SetValue(count);
-					else
-						app.Sort(AllTheThingsHarvestItems);
-						app.Sort(AllTheThingsArtifactsItems);
-						-- revert Debug if it was enabled by the harvester
-						if self.forcedDebug then
-							app.print("Reverted Debug Mode");
-							app.Settings:ToggleDebugMode();
-							self.forcedDebug = nil;
-						end
-						app.print("Source Harvest Complete! ItemIDs:",self.min,"->",self.max);
-						-- revert the number of retries to retrieve item information
-						app.MaximumItemInfoRetries = oldRetries or 400;
-						-- reset the window so it can be used to harvest again without reloading
-						self.UpdateDone = nil;
-						self.initialized = nil;
-						self:SetData(nil);
-						return;
+				-- for some reason the total changes outside of this function... so make sure it stays constant
+				rowData[1].total = total;
+				rowData[1].progress = progress;
+				if progress >= total then
+					app.Sort(AllTheThingsHarvestItems);
+					app.Sort(AllTheThingsArtifactsItems);
+					-- revert Debug if it was enabled by the harvester
+					if self.forcedDebug then
+						app.print("Reverted Debug Mode");
+						app.Settings:ToggleDebugMode();
+						self.forcedDebug = nil;
 					end
+					app.print("Source Harvest Complete! ItemIDs:",self.min,"->",self.max);
+					-- revert the number of retries to retrieve item information
+					app.MaximumItemInfoRetries = oldRetries or 400;
+					-- TODO: reset the window so it can be used to harvest again without reloading, only via the command, not another update
+					self.UpdateDone = nil;
+					-- self.initialized = nil;
+					-- self:SetData(nil);
+					self:BaseUpdate();
+					return;
 				end
-				-- Update the Harvester Window to re-populate row data for next refresh
-				Callback(self.Refresh, self);
+				if not rowSourced then
+					-- Soft-Update if needed to remove processed items
+					self:BaseUpdate();
+				else
+					-- Otherwise refresh the Harvester Window to harvest current row data for next refresh
+					self:Refresh();
+				end
 			end
 		end
-		self:BaseUpdate(true);
+		self:BaseUpdate(force);
 	end
 end;
 customWindowUpdates["SourceFinder"] = function(self)
@@ -21225,6 +21309,17 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 						end
 						-- recipe is learned, so cache that it's learned regardless of being craftable
 						if spellRecipeInfo.learned then
+							-- Shadowlands recipes are weird...
+							local rank = spellRecipeInfo.unlockedRecipeLevel or 0;
+							if rank > 0 then
+								-- when the recipeID specifically is available, it will show as available for ALL possible ranks
+								-- so we can check if the next known rank is also considered available for this recipeID
+								spellRecipeInfo = C_TradeSkillUI_GetRecipeInfo(recipeID, rank + 1);
+								-- app.PrintDebug("NextRankCheck",recipeID,rank + 1, spellRecipeInfo.learned)
+							end
+						end
+						-- recipe is learned, so cache that it's learned regardless of being craftable
+						if spellRecipeInfo.learned then
 							charSpells[recipeID] = 1;
 							if not acctSpells[recipeID] then
 								acctSpells[recipeID] = 1;
@@ -21420,6 +21515,7 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 				end
 				self:RefreshRecipes();
 			elseif e == "NEW_RECIPE_LEARNED" then
+				-- spellID, rank, previousSpellID
 				local spellID = ...;
 				if spellID then
 					local previousState = ATTAccountWideData.Spells[spellID];

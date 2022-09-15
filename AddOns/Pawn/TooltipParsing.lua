@@ -151,7 +151,7 @@ PawnRegexes =
 	{L.TemporaryBuffMinutes}, -- Temporary item buff
 	{PawnGameConstantIgnoredPlaceholder(ENCHANT_ITEM_REQ_SKILL)}, -- Seen on the enchanter-only ring enchantments when you're not an enchanter, and socketed jewelcrafter-only BoP gems
 	{L.Corruption}, -- /pawn compare item:172198::::::::120:262::3:1:3524
-	
+
 	-- ========================================
 	-- Strings that represent statistics that Pawn cares about
 	-- ========================================
@@ -241,9 +241,10 @@ PawnRegexes =
 	{L.SpellHitRating2, "SpellHitRating"}, -- Burning Crusade, /pawn compare 24266
 	{L.SpellHitRatingShort, "SpellHitRating"}, -- Burning Crusade, https://tbc.wowhead.com/item=31861/great-dawnstone
 	{L.ExpertiseRating, "ExpertiseRating"}, -- Burning Crusade, /pawn compare 19351
-	-- {L.ExpertiseRatingShort, "ExpertiseRating"}, -- Wrath, /pawn compare 39910
+	{L.ExpertiseRatingShort, "ExpertiseRating"}, -- Wrath, Precise Bloodstone
 	{L.ArmorPenetration, "ArmorPenetration"}, -- Burning Crusade, /pawn compare 34703
-	-- {L.ArmorPenetrationShort, "ArmorPenetration"}, -- Wrath, Fractured Scarlet Ruby
+	{L.ArmorPenetrationRating, "ArmorPenetration"}, -- Burning Crusade, /pawn compare 34703
+	{L.ArmorPenetrationShort, "ArmorPenetration"}, -- Wrath, Fractured Scarlet Ruby
 	{L.Resilience, "ResilienceRating"}, -- Mystic Dawnstone
 	{L.Resilience2, "ResilienceRating"}, -- unused in English
 	{L.ResilienceRating, "ResilienceRating"}, -- /pawn compare 29181
@@ -270,9 +271,11 @@ PawnRegexes =
 	{L.Ap, "Ap"}, -- /pawn compare item:789::::::1547
 	{L.Ap2, "Ap"}, -- /pawn compare 15062
 	{L.Ap3, "Ap"}, -- /pawn compare 18821
-	{L.Rap, "Rap"}, -- /pawn compare 18473
+	{L.Rap, "Rap"}, -- Classic, /pawn compare 18473
+	{L.Rap2, "Rap"}, -- Burning Crusade and Wrath Classic, /pawn compare 18713
 	{L.FeralAp, "FeralAp"}, -- Classic, /pawn compare 22988
 	{L.FeralApMoonkin, "FeralAp"}, -- Burning Crusade, /pawn compare 22988
+	{L.FeralApWrath}, -- Wrath, /pawn compare 22988 (in Wrath it only appears on druid items and is not a real stat, but it shouldn't get an orange diamond)
 	{L.Mp5, "Mp5"}, -- /pawn compare 22988
 	{L.Mp52, "Mp5"}, -- /pawn compare item:789::::::2074
 	{L.Mp53, "Mp5"}, -- Burning Crusade, socket bonus on /pawn compare 34360
@@ -328,6 +331,7 @@ PawnRegexes =
 	{L.Healing3, "Healing"}, -- Burning Crusade, /pawn compare item:789::::::-38
 	{L.SpellPower, "SpellPower"}, -- /pawn tooltip 39998
 	{L.SpellPower2, "SpellPower"}, -- /pawn compare 40585
+	{L.SpellPower3, "SpellPower"}, -- /pawn compare item:20686::::::2159
 	{PawnGameConstant(EMPTY_SOCKET_RED), "RedSocket", 1, PawnMultipleStatsFixed},
 	{PawnGameConstant(EMPTY_SOCKET_YELLOW), "YellowSocket", 1, PawnMultipleStatsFixed},
 	{PawnGameConstant(EMPTY_SOCKET_BLUE), "BlueSocket", 1, PawnMultipleStatsFixed},

@@ -1,3 +1,13 @@
+09/14/2022 version 4.13.1
+- Fix for picking up pets on Dragonflight clients.
+- Fix for minimap button path.
+- Known issues on Dragonflight clients: Close buttons appear weird (I'm aware textures changed and where to find them); some toolbar buttons are not working (SecureActionButtonTemplate is bugged)
+
+09/11/2022 version 4.13.0
+- Added initial support for 10.x (Dragonflight) PTR/Beta clients.
+- PTR/Beta clients will still need to load out of date addons for this version.
+- Numerous XML issues cleared up.
+
 08/16/2022 version 4.12.1
 - toc update for 9.2.7 patch
 

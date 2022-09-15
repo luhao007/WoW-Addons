@@ -419,7 +419,7 @@ function BtWQuestsChainViewMixin:SetChain(chainID, scrollTo, zoom)
             local hShift = -(rect.left) * CHAIN_GRID_HORIZONTAL_SIZE;
             local vShift = rect.top * CHAIN_GRID_VERTICAL_SIZE;
             for itemButton in self.itemPool:EnumerateActive() do
-                local x, y = select(4, itemButton:GetPoint("CENTER"));
+                local x, y = select(4, itemButton:GetPoint(1)); -- CENTER - Can no longer look up point by name
                 itemButton:SetPoint(
                     "CENTER", itemButton:GetParent(), "TOPLEFT",
                     x + hShift,
@@ -454,7 +454,7 @@ function BtWQuestsChainViewMixin:SetChain(chainID, scrollTo, zoom)
 
         if self.scrollToButton then
             local scale = self:GetZoom()
-            local x, y = select(4, self.scrollToButton:GetPoint("CENTER"))
+            local x, y = select(4, self.scrollToButton:GetPoint(1)); -- CENTER - Can no longer look up point by name
 
             -- self:SetHorizontalScroll(x - (self:GetWidth() / scale) / 2)
             self:SetVerticalScroll(-y - (self:GetHeight() / scale) / 2)

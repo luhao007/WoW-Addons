@@ -6,6 +6,7 @@ CurrentActivity = Addon:NewClass('CurrentActivity', BaseActivity)
 CurrentActivity:InitAttr{
     'Title',
     'PrivateGroup',
+    'IsCrossFaction',
 }
 
 function CurrentActivity:FromAddon(data)
@@ -36,6 +37,7 @@ function CurrentActivity:UpdateBySystem(info)
     self:SetVoiceChat(info.voiceChat)
     self:UpdateCustomData(info.comment, info.name)
     self:SetPrivateGroup(info.privateGroup)
+    self:SetIsCrossFaction(info.isCrossFactionListing)
 end
 
 function CurrentActivity:GetTitle()
@@ -48,5 +50,10 @@ function CurrentActivity:GetCreateArguments(autoAccept)
             self:GetItemLevel(),
             self:GetHonorLevel(),
             autoAccept,
-            self:GetPrivateGroup()
+            self:GetPrivateGroup(),
+            nil,
+            nil,
+            nil,
+            nil,
+            self:IsCrossFaction()
 end

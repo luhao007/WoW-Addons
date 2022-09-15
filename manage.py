@@ -15,7 +15,7 @@ CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30400'
 RETAIL_VER = '90207'
 
-IGNORED = ['FishingBuddy', 'GTFO', 'Details', 'ATT-Classic', 'TrinketMenu', 'TalentEmu']
+IGNORED = ['TrinketMenu']
 
 
 def available_on(platforms):
@@ -139,7 +139,10 @@ class Manager:
         for addon in os.listdir('AddOns'):
             config = self.get_addon_config(addon)
             if not config:
-                logger.warning('%s not found!', addon)
+                for file in os.listdir(os.path.join('AddOns', addon)):
+                    if '.toc' in file:
+                        logger.warning('%s not found!', addon)
+                        break
                 continue
 
             def process(config, addon, lines):
@@ -165,8 +168,8 @@ class Manager:
 
                 return toc.to_lines()
 
-            for postfix in ['', '-Classic', '-BCC', '-WOTLKC', '-Mainline', '_TBC', '_Vanilla', '_Wrath', '_Mainline']:
-                path = os.path.join('AddOns', addon, f'{addon}{postfix}.toc')
+            for postfix in utils.TOCS:
+                path = os.path.join('AddOns', addon, f'{addon}{postfix}')
                 if os.path.exists(path):
                     utils.process_file(path, functools.partial(process, config, addon))
 
@@ -219,7 +222,7 @@ class Manager:
                         '\n'
                         '# Dropdown menus\n',
                         '!LibUIDropDownMenu\\LibUIDropDownMenu\\LibUIDropDownMenu.xml\n',
-                        '!LibUIDropDownMenu-2.0\\LibUIDropDownMenu.xml\n',
+                        '!LibUIDropDownMenu-2.0\\LibUIDropDownMenu\\LibUIDropDownMenu.xml\n',
                         '\n']
 
         root = Path('Addons/!!Libs')
@@ -337,16 +340,15 @@ class Manager:
     @staticmethod
     def handle_dup_libraries():
         addons = ['Atlas', 'BlizzMove', 'DBM-Core', 'Details_Streamer',
-                    'Details_TinyThreat', 'MRT', 'GatherMate2', 'GTFO',
+                    'Details_TinyThreat',  'Details_EncounterDetails',
+                    'Details_RaidCheck', 'Details_Vanguard', 'MRT', 'GatherMate2', 'GTFO',
                     'HandyNotes', 'ItemRack', 'ItemRackOptions', 'MapSter',
                     'MikScrollingBattleText', 'OmniCC', 'OmniCC_Config',
                     'Quartz', 'RangeDisplay', 'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
 
         if utils.get_platform() == 'retail':
             addons += ['AllTheThings', 'Details_ChartViewer',
-                       'Details_DeathGraphs', 'Details_EncounterDetails',
-                       'Details_RaidCheck', 'Details_TimeLine',
-                       'Details_Vanguard', 'FasterCamera',
+                       'Details_DeathGraphs', 'Details_TimeLine', 'FasterCamera',
                        'GladiatorlosSA2', 'Gladius',
                        'HandyNotes_Argus', 'HandyNotes_BrokenShore',
                        'HandyNotes_BattleForAzeroth',
@@ -354,17 +356,17 @@ class Manager:
                        'HandyNotes_DraenorTreasures',
                        'HandyNotes_LegionClassOrderHalls',
                        'HandyNotes_LegionRaresTreasures',
-                       'HandyNotes_Shadowlands',
-                       'HandyNotes_SuramarShalAranTelemancy',
+                       'HandyNotes_Shadowlands','HandyNotes_SuramarShalAranTelemancy',
                        'HandyNotes_TimelessIsleChests',
                        'HandyNotes_VisionsOfNZoth',
                        'MinimalArchaeology', 'NPCScan', 'Omen',
                        'RelicInspector', 'Simulationcraft', 'Titan']
         else:
             addons += ['alaCalendar', 'AtlasLootClassic', 'AtlasLootClassic_Options',
-                       'ATT-Classic', 'ClassicCastbars_Options',
-                       'Fizzle', 'GroupCalendar', 'HandyNotes_NPCs (Classic)',
-                       'PallyPower', 'SimpleChatClassic', 'TradeLog', 'TitanClassic', 'WclPlayerScore']
+                       'ATT-Classic', 'ClassicCastbars_Options', 'Fizzle', 'GroupCalendar',
+                       'HandyNotes_NPCs (Classic)', 'HandyNotes_NPCs (Burning Crusade Classic)',
+                       'PallyPower', 'SimpleChatClassic', 'TradeLog',
+                       'TitanClassic', 'WclPlayerScore']
 
 
         for addon in addons:
@@ -527,9 +529,8 @@ class Manager:
     def handle_fb():
         utils.remove_libraries(
             ['CallbackHandler-1.0', 'HereBeDragons',
-                'LibBabble-SubZone-3.0', 'LibDataBroker-1.1',
-                'LibDBIcon-1.0', 'LibPetJournal-2.0',
-                'LibStub', 'LibTourist-3.0', 'LibWindow-1.1'],
+             'LibBabble-SubZone-3.0', 'LibDataBroker-1.1',
+             'LibDBIcon-1.0', 'LibStub', 'LibWindow-1.1'],
             'AddOns/FishingBuddy/Libs',
             'AddOns/FishingBuddy/Libs/Libs.xml'
         )
@@ -593,7 +594,7 @@ class Manager:
                 'AceGUI-3.0-SharedMediaWidgets', 'AceLocale-3.0',
                 'AceSerializer-3.0', 'CallbackHandler-1.0', 'HereBeDragons',
                 'LibCandyBar-3.0', 'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
-                'LibSharedMedia-3.0', 'LibStub'],
+                'LibDurability', 'LibSharedMedia-3.0', 'LibStub'],
             'Addons/NovaWorldBuffs/Lib',
             'Addons/NovaWorldBuffs/embeds.xml',
         )
@@ -620,7 +621,7 @@ class Manager:
     @available_on(['classic', 'classic_era'])
     def handle_meetinghorn():
         utils.remove_libraries(
-            ['AceAddon-3.0', 'AceComm-3.0', 'AceConfig-3.0',
+            ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
                 'AceDB-3.0', 'AceEvent-3.0', 'AceGUI-3.0', 'AceHook-3.0',
                 'AceLocale-3.0', 'AceSerializer-3.0', 'AceTimer-3.0',
                 'CallbackHandler-1.0', 'LibDBIcon-1.0', 'LibDataBroker-1.1',
@@ -739,7 +740,7 @@ class Manager:
                 utils.remove_libraries([ 'LibUIDropDownMenu'], 'AddOns/Questie/Libs', f'AddOns/Questie/Questie{postfix}.toc')
 
         root = Path('AddOns/Questie')
-        with open(root / 'Questie-BCC.toc', 'r', encoding='utf-8') as file:
+        with open(root / 'Questie-WOTLKC.toc', 'r', encoding='utf-8') as file:
             lines = file.readlines()
 
         toc = TOC(lines)
@@ -810,6 +811,21 @@ class Manager:
         utils.change_defaults(
             'Addons/Simulationcraft/core.lua',
             '        hide = true,'
+        )
+
+    @staticmethod
+    @available_on(['classic'])
+    def handle_simple_item_level():
+        utils.remove_libraries(
+            ['LibStub'],
+            'Addons/SimpleItemLevel/lib',
+            'Addons/SimpleItemLevel/embeds.xml'
+        )
+        utils.change_defaults(
+            'Addons/SimpleItemLevel/addon.lua',
+            ['                character = false,',
+             '                bags = false,',
+             '                color = false,']
         )
 
     @staticmethod
@@ -905,16 +921,17 @@ class Manager:
                 'AceSerializer-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0',
                 'LibCustomGlow-1.0', 'LibCompress', 'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibDeflate',
                 'LibGetFrame-1.0', 'LibRangeCheck-2.0', 'LibSharedMedia-3.0',
-                'LibSerialize', 'LibSpellRange-1.0', 'LibStub'],
+                'LibSerialize', 'LibSpecialization', 'LibSpellRange-1.0', 'LibStub'],
             'Addons/WeakAuras/Libs',
             'Addons/WeakAuras/embeds.xml'
         )
 
-        utils.remove_libraries(
-            ['LibClassicCasterino', 'LibClassicDurations', 'LibClassicSpellActionCount-1.0', ],
-            'Addons/WeakAuras/Libs',
-            'Addons/WeakAuras/WeakAuras.toc'
-        )
+        for toc in ['WeakAuras.toc', 'WeakAuras_TBC.toc', 'WeakAuras_Wrath.toc', 'WeakAuras_Vanilla.toc']:
+            utils.remove_libraries(
+                ['LibClassicCasterino', 'LibClassicDurations', 'LibClassicSpellActionCount-1.0', ],
+                'Addons/WeakAuras/Libs',
+                f'Addons/WeakAuras{toc}'
+            )
 
         utils.remove_libraries_all('WeakAuras/Libs/Archivist')
 

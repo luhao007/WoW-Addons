@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: QartemisT
-## Version: r135
+## Version: r137
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPvP_AllSavedVars

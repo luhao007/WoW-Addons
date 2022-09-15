@@ -22,7 +22,12 @@ function BrowsePanel:OnInitialize()
             return activity:BaseSortHandler()
         end)
         ActivityList:RegisterFilter(function(activity, ...)
-            return activity:Match(...)
+            local isFilteFaction = true
+            if Profile:GetSetting("ONLY_SHOW_SELF_GROUP") then
+                local PLAYER_FACTION = UnitFactionGroup("player") == 'Alliance' and 1 or 0
+                isFilteFaction = PLAYER_FACTION == activity:GetLeaderFactionGroup()
+            end
+            return isFilteFaction and activity:Match(...)
         end)
         ActivityList:InitHeader{
             {
@@ -41,7 +46,9 @@ function BrowsePanel:OnInitialize()
                     elseif activity:IsApplication() then
                         return [[Interface\AddOns\MeetingStone\Media\Icons]], 0.5, 0.625, 0, 1
                     elseif activity:IsGoldLeader() then
-                        return [[Interface\AddOns\MeetingStone\Media\Icons]], 0.625, 0.75, 0, 1
+                        return [[Interface\AddOns\MeetingStone\Media\GlodLeaderIcon]], 0.0, 1.0, 0, 1
+                    elseif activity:IsSilverLeader() then
+                        return [[Interface\AddOns\MeetingStone\Media\SilverLeaderIcon]], 0.0, 1.0, 0, 1
                     elseif activity:IsAnyFriend() then
                         return [[Interface\AddOns\MeetingStone\Media\Icons]], 0, 0.125, 0, 1
                     end
@@ -189,10 +196,11 @@ function BrowsePanel:OnInitialize()
                 style = 'LEFT',
                 width = 178,
                 showHandler = function(activity)
+                    local icon = activity:GetLeaderFactionGroup() == 1 and [[|TInterface\WORLDSTATEFRAME\AllianceIcon:16|t]] or [[|TInterface\WORLDSTATEFRAME\HordeIcon:16|t]]
                     if activity:IsUnusable() then
-                        return activity:GetLeaderFullName(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
+                        return icon..(activity:GetLeaderFullName() or ""), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
                     else
-                        return activity:GetLeaderFullName(), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g,
+                        return icon..(activity:GetLeaderFullName() or ""), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g,
                                HIGHLIGHT_FONT_COLOR.b
                     end
                 end,
@@ -267,11 +275,16 @@ function BrowsePanel:OnInitialize()
         ActivityList:SetCallback('OnGridEnter_@', function(_, button, activity)
             if not (activity:IsSelf() or
                 activity:IsInActivity() or
-                activity:IsApplication()) and
-                activity:IsGoldLeader() then
-                GameTooltip:SetOwner(button.Icon, 'ANCHOR_RIGHT')
-                GameTooltip:SetText(L['金牌导师'],1.0, 1.0, 1.0)
-                GameTooltip:Show()
+                activity:IsApplication()) then
+                if activity:IsGoldLeader() then
+                    GameTooltip:SetOwner(button.Icon, 'ANCHOR_RIGHT')
+                    GameTooltip:SetText(L['金牌导师'],1.0, 1.0, 1.0)
+                    GameTooltip:Show()
+                elseif activity:IsSilverLeader() then
+                    GameTooltip:SetOwner(button.Icon, 'ANCHOR_RIGHT')
+                    GameTooltip:SetText(L['银牌导师'],1.0, 1.0, 1.0)
+                    GameTooltip:Show()
+                end
             end
         end)
         ActivityList:SetCallback('OnGridLeave_@', GameTooltip_Hide)
@@ -548,9 +561,12 @@ function BrowsePanel:OnInitialize()
                                     [[|TInterface\AddOns\MeetingStone\Media\Icons:20:20:0:0:256:32:128:160:0:32|t %s]],
                                     L['申请中活动']), 1, 1, 1)
             local title = format(
-                [[|TInterface\AddOns\MeetingStone\Media\Icons:20:20:0:0:256:32:160:192:0:32|t %s]],-- 宽：高：左：右：上：下
+                [[|TInterface\AddOns\MeetingStone\Media\GlodLeaderIcon:20:20:0:0:128:128:0:128:0:128|t %s]],-- 宽：高：左：右：上：下
                 L['金牌导师'])
             GameTooltip:AddLine(title, 1, 1, 1)
+            GameTooltip:AddLine(format(
+                [[|TInterface\AddOns\MeetingStone\Media\SilverLeaderIcon:20:20:0:0:128:128:0:128:0:128|t %s]],
+                L['银牌导师']), 1, 1, 1)
             GameTooltip:AddLine(format([[|TInterface\AddOns\MeetingStone\Media\Icons:20:20:0:0:256:32:0:32:0:32|t %s]],
                                        L['好友或公会成员参与的活动']), 1, 1, 1)
             GameTooltip:Show()
@@ -678,6 +694,17 @@ function BrowsePanel:OnInitialize()
         autoJoinCheckBox:SetChecked(not not Profile:GetSetting("AUTO_JOIN"))
         autoJoinCheckBox:SetScript("OnClick", function()
             Profile:SetSetting("AUTO_JOIN", autoJoinCheckBox:GetChecked())
+		end)
+    end
+
+    local showGroupCheckBox = GUI:GetClass('CheckBox'):New(self) do
+        showGroupCheckBox:SetSize(24, 24)
+        showGroupCheckBox:SetPoint('LEFT', autoJoinCheckBox, 'RIGHT', 80, 0)
+        showGroupCheckBox:SetText("仅展示本阵营活动")
+        showGroupCheckBox:SetChecked(not not Profile:GetSetting("ONLY_SHOW_SELF_GROUP"))
+        showGroupCheckBox:SetScript("OnClick", function()
+            Profile:SetSetting("ONLY_SHOW_SELF_GROUP", showGroupCheckBox:GetChecked())
+            self:UpdateFilters()
 		end)
     end
 

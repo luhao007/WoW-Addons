@@ -288,6 +288,17 @@ CATEGORY = {
             [270] = true,
             [271] = true,
             [272] = true,
+
+            [273] = true,
+            [274] = true,
+            [275] = true,
+            [276] = true,
+            [277] = true,
+            [278] = true,
+            [279] = true,
+            [280] = true,
+            [281] = true,
+            [282] = true,
         },
         activities = {
             [723] = true, -- 世界首领

@@ -311,6 +311,10 @@
 				<Title>公会银行</Title>
 				<Notes>Bagnon公会银行模块</Notes>
 			</SubAddon>
+			<SubAddon name="Bagnon_ItemInfo">
+				<Title>物品等级</Title>
+				<Notes>Bagnon物品等级模块</Notes>
+			</SubAddon>
 			<SubAddon name="Bagnon_VoidStorage">
 				<Title>虚空仓库</Title>
 				<Notes>Bagnon虚空仓库模块</Notes>
@@ -426,6 +430,9 @@
 		<Notes>功能强大的副本助手，支持所有Boss。</Notes>
 		<Category>副本</Category>
 		<SubAddons>
+			<SubAddon name="DBM-Affixes">
+				<Title>副本词缀</Title>
+			</SubAddon>
 			<SubAddon name="DBM-AntorusBurningThrone">
 				<Title>安托鲁斯，燃烧王座</Title>
 			</SubAddon>
@@ -499,6 +506,10 @@
 			<SubAddon name="DBM-Draenor">
 				<Title>户外</Title>
 				<TitleExtra>德拉诺</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-DragonIsles">
+				<Title>户外</Title>
+				<TitleExtra>巨龙时代</TitleExtra>
 			</SubAddon>
 			<SubAddon name="DBM-DragonSoul">
 				<Title>巨龙之魂</Title>
@@ -678,6 +689,9 @@
 			</SubAddon>
 			<SubAddon name="DBM-ZG">
 				<Title>祖尔格拉布</Title>
+			</SubAddon>
+			<SubAddon name="DBM-ZulAman">
+				<Title>祖阿曼</Title>
 			</SubAddon>
 		</SubAddons>
 	</Addon>
@@ -937,10 +951,6 @@
 			</SubAddon>
 			<SubAddon name="HandyNotes_NPCs (Burning Crusade Classic)">
 				<Title>NPC</Title>
-			</SubAddon>
-			<SubAddon name="HandyNotes_MistsOfPandariaTreasures">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>潘达利亚</TitleExtra>
 			</SubAddon>
 			<SubAddon name="Handynotes_Pandaria">
 				<Title>宝藏/稀有</Title>
@@ -1321,6 +1331,10 @@
 	<Addon name="SimpleChatClassic">
 		<Title>简单聊天增强</Title>
 		<Category>社交</Category>
+	</Addon>
+	<Addon name="SimpleItemLevel">
+		<Title>简易装备等级</Title>
+		<Category>界面</Category>
 	</Addon>
 	<Addon name="Simulationcraft">
 		<Title>输出模拟器</Title>
