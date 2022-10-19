@@ -470,6 +470,10 @@
 			<SubAddon name="DBM-BastionTwilight">
 				<Title>暮光堡垒</Title>
 			</SubAddon>
+			<SubAddon name="DBM-BfA">
+				<Title>户外</Title>
+				<TitleExtra>艾泽拉斯（争霸艾泽拉斯）</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-BlackrockFoundry">
 				<Title>黑石铸造厂</Title>
 			</SubAddon>
@@ -683,6 +687,9 @@
 			</SubAddon>
 			<SubAddon name="DBM-Ulduar">
 				<Title>奥杜尔</Title>
+			</SubAddon>
+			<SubAddon name="DBM-VaultoftheIncarnates">
+				<Title>化身巨龙牢窟</Title>
 			</SubAddon>
 			<SubAddon name="DBM-VoA">
 				<Title>阿尔卡冯的宝库</Title>
@@ -921,6 +928,10 @@
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>争霸艾泽拉斯</TitleExtra>
 			</SubAddon>
+			<SubAddon name="HandyNotes_BattleForAzerothTreasures">
+				<Title>宝藏</Title>
+				<TitleExtra>争霸艾泽拉斯</TitleExtra>
+			</SubAddon>
 			<SubAddon name="HandyNotes_BrokenShore">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>破碎海滩</TitleExtra>
@@ -969,6 +980,10 @@
 				<TitleExtra>潘达利亚</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_Shadowlands">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>暗影国度</TitleExtra>
+			</SubAddon>
+			<SubAddon name="HandyNotes_ShadowlandsTreasures">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>暗影国度</TitleExtra>
 			</SubAddon>
@@ -1451,6 +1466,10 @@
 				<Notes>泰坦面板的修理模块</Notes>
 			</SubAddon>
 			<SubAddon name="TitanReputation">
+				<Title>声望</Title>
+				<Notes>泰坦面板的声望模块</Notes>
+			</SubAddon>
+			<SubAddon name="TitanReputations">
 				<Title>声望</Title>
 				<Notes>泰坦面板的声望模块</Notes>
 			</SubAddon>

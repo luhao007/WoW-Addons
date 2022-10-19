@@ -1,13 +1,14 @@
 ## Interface: 90207
-## X-Min-Interface: 90205
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Vault of the Incarnates|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0현신의 금고|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Хранилище Воплощений|r
 ## Author: MysticalOS
-## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
 ## SavedVariables: DBMVaultoftheIncarnates_AllSavedVars
 ## SavedVariablesPerCharacter: DBMVaultoftheIncarnates_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Vault of the Incarnates|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0化身巨龙牢窟|r
+
+## X-Min-Interface: 90205
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: DRAGONFLIGHT
@@ -19,6 +20,7 @@
 ## X-DBM-Mod-MapID: 2522
 ## X-DBM-Mod-MinCoreRevision: 17286
 ## X-DBM-Mod-MinExpansion: 9
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.kr.lua
