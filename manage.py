@@ -15,8 +15,6 @@ CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30400'
 RETAIL_VER = '90207'
 
-IGNORED = ['TrinketMenu']
-
 
 def available_on(platforms):
     def decorator(func):
@@ -148,10 +146,7 @@ class Manager:
             def process(config, addon, lines):
                 toc = TOC(lines)
 
-                if addon in IGNORED and utils.get_platform() == 'classic':
-                    toc.tags['Interface'] = 10000
-                else:
-                    toc.tags['Interface'] = self.interface
+                toc.tags['Interface'] = self.interface
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
                 note = config.find('Notes')
@@ -344,7 +339,7 @@ class Manager:
                     'Details_RaidCheck', 'Details_Vanguard', 'MRT', 'GatherMate2', 'GTFO',
                     'HandyNotes', 'ItemRack', 'ItemRackOptions', 'MapSter',
                     'MikScrollingBattleText', 'OmniCC', 'OmniCC_Config',
-                    'Quartz', 'RangeDisplay', 'RangeDisplay_Options', 'TellMeWhen', 'TomTom']
+                    'Quartz', 'RangeDisplay', 'RangeDisplay_Options', 'TellMeWhen', 'TrinketMenu', 'TomTom']
 
         if utils.get_platform() == 'retail':
             addons += ['AllTheThings', 'Details_ChartViewer',
@@ -393,13 +388,13 @@ class Manager:
         utils.process_file('Addons/ACP/ACP.xml', handle)
 
     @staticmethod
-    @available_on(['classic_era'])
+    @available_on(['classic_era', 'classic'])
     def handle_ate():
         utils.remove_libraries(
                 ['CallbackHandler-1.0', 'LibDataBroker-1.1',
                  'LibDbIcon-1.0', 'LibStub'],
-                'AddOns/alaTalentEmu/Libs',
-                'AddOns/alaTalentEmu/Libs/libs.xml'
+                'AddOns/TalentEmu/Libs',
+                'AddOns/TalentEmu/Libs/libs.xml'
             )
 
     @staticmethod
@@ -514,6 +509,15 @@ class Manager:
 
         utils.remove_libraries(libs, 'Addons/Details/Libs', 'Addons/Details/Libs/libs.xml')
 
+        if utils.get_platform() == 'classic_era':
+            utils.remove_libraries(
+                ['AceAddon-3.0', 'AceBucket-3.0', 'AceComm-3.0', 'AceConfig-3.0',
+                    'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
+                    'AceGUI-3.0', 'AceHook-3.0', 'AceLocale-3.0', 'AceSerializer-3.0',
+                    'AceTab-3.0', 'AceTimer-3.0', 'CallbackHandler-1.0', 'LibStub'],
+                'Addons/Details/Libs/LibThreatClassic2/Libs',
+                'Addons/Details/Libs/LibThreatClassic2/lib.xml'
+            )
         utils.change_defaults(
             'Addons/Details/functions/profiles.lua',
             ('		minimap = {hide = true, radius = 160, minimapPos = 220, '
@@ -655,6 +659,16 @@ class Manager:
         )
 
     @staticmethod
+    @available_on(['classic'])
+    def handle_mj():
+        utils.remove_libraries(
+            ['CallbackHandler-1.0', 'LibDBIcon-1.0', 'LibDataBroker-1.1',
+             'LibStub'],
+            'Addons/MountsJournal/libs',
+            'Addons/MountsJournal/embeds.xml'
+        )
+
+    @staticmethod
     def handle_myslot():
         utils.remove_libraries(
             ['CallbackHandler-1.0', 'LibDBIcon-1.0', 'LibDataBroker-1.1', 'LibStub'],
@@ -678,7 +692,7 @@ class Manager:
         )
 
     @staticmethod
-    @available_on(['retail'])
+    @available_on(['retail', 'classic'])
     def handle_oa():
         utils.remove_libraries(
             ['CallbackHandler-1.0', 'LibBabble-Inventory-3.0',
@@ -747,6 +761,7 @@ class Manager:
 
         version = toc.tags['Version']
         major, minor, patch = version.split(' ')[0].split('.')
+        major = major.replace('v', '')
 
         def handle(lines):
             func = 'function QuestieLib:GetAddonVersionInfo()'
@@ -770,6 +785,11 @@ class Manager:
 
         utils.process_file(root / 'Modules/Libs/QuestieLib.lua', handle)
 
+        utils.change_defaults(
+            'AddOns/Questie/Modules/Network/QuestieComms.lua',
+            f'    pkt.data.ver = "{major}.{minor}.{patch}";'
+        )
+
     @staticmethod
     @available_on(['classic', 'classic_era'])
     def handle_rl():
@@ -778,6 +798,17 @@ class Manager:
                 'LibStub'],
             'Addons/RaidLedger/lib',
             'Addons/RaidLedger/RaidLedger.toc'
+        )
+
+    @staticmethod
+    @available_on(['classic'])
+    def handle_rarescanner():
+        utils.remove_libraries(
+            ['AceAddon-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceGUI-3.0', 'AceGUI-3.0-SharedMediaWidgets',
+             'AceLocale-3.0', 'AceSerializer-3.0', 'CallbackHandler-1.0', 'HereBeDragons', 'LibAboutPanel-2.0',
+             'LibDBIcon-1.0', 'LibRangeCheck-2.0', 'LibSharedMedia-3.0', 'LibStub', 'LibUIDropDownMenu'],
+            'Addons/RareScanner/ExternalLibs',
+            'Addons/RareScanner/ExternalLibs/Libs.xml'
         )
 
     @staticmethod
@@ -926,12 +957,11 @@ class Manager:
             'Addons/WeakAuras/embeds.xml'
         )
 
-        for toc in ['WeakAuras.toc', 'WeakAuras_TBC.toc', 'WeakAuras_Wrath.toc', 'WeakAuras_Vanilla.toc']:
-            utils.remove_libraries(
-                ['LibClassicCasterino', 'LibClassicDurations', 'LibClassicSpellActionCount-1.0', ],
-                'Addons/WeakAuras/Libs',
-                f'Addons/WeakAuras{toc}'
-            )
+        utils.remove_libraries(
+            ['LibClassicCasterino', 'LibClassicDurations', 'LibClassicSpellActionCount-1.0', ],
+            'Addons/WeakAuras/Libs',
+            'Addons/WeakAuras/WeakAuras.toc'
+        )
 
         utils.remove_libraries_all('WeakAuras/Libs/Archivist')
 

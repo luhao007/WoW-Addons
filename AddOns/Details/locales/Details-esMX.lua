@@ -157,6 +157,8 @@ L["STRING_CUSTOM_SPELLID_DESC"] = "Opcional. El hechizo que la fuente utiliza pa
 L["STRING_CUSTOM_TARGET"] = "Objetivo:"
 L["STRING_CUSTOM_TARGET_DESC"] = "Este está el objetivo del fuente. El botón a la derecha muestra una lista de PNJs de los encuentros de banda."
 L["STRING_CUSTOM_TEMPORARILY"] = " (|cFFFFC000temporalmente|r)"
+--[[Translation missing --]]
+--[[ L["STRING_CUSTOM_TEXTURE_GUIDE"] = ""--]] 
 L["STRING_DAMAGE"] = "Daño"
 L["STRING_DAMAGE_DPS_IN"] = "DPS recibido por"
 L["STRING_DAMAGE_FROM"] = "Recibió daño por"
@@ -379,6 +381,20 @@ L["STRING_OPTIONS_3D_UANCHOR"] = "Modelo 3D superior:"
 L["STRING_OPTIONS_3D_UENABLED_DESC"] = "Activado o desactivado el uso de un marco de modelo 3D sobre las barras."
 L["STRING_OPTIONS_3D_USELECT_DESC"] = "Elija qué modelo se utilizará en la barra de modelo superior."
 L["STRING_OPTIONS_ADVANCED"] = "Avanzado"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_WARNING"] = ""--]] 
 L["STRING_OPTIONS_ALPHAMOD_ANCHOR"] = "Modificadores de opacidad:"
 L["STRING_OPTIONS_ALWAYS_USE"] = "Usar en todos los personajes"
 L["STRING_OPTIONS_ALWAYS_USE_DESC"] = "Se usa el mismo perfil en todos los personajes. Puede anular esto en cualquier personaje simplemente seleccionando otro perfil existente."
@@ -445,7 +461,6 @@ L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2"] = ""
 L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2_DESC"] = "|cFFFFFF00{data1}|r: es el primer número pasado, generalmente este número representa el total realizado.  |cFFFFFF00{data2}|r: es el segundo número aprobado, la mayoría de las veces representa el promedio por segundo.  |cFFFFFF00{data3}|r: tercer número aprobado, normalmente es el porcentaje.  |cFFFFFF00{func}|r: ejecuta una función Lua personalizada agregando su valor de retorno al texto. Ejemplo:  {func return 'hello azeroth'}  |cFFFFFF00Secuencias de escape|r: usa para cambiar el color o agregar texturas. Busque 'Secuencias de escape de IU' para obtener más información."
 L["STRING_OPTIONS_BARS"] = "Configuración de barras"
 L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE"] = "Archivo de textura personalizado"
-L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE_DESC"] = "|cFFFFFF00Importanet|r: la imagen debe ser de 256x32 píxeles."
 L["STRING_OPTIONS_BARS_DESC"] = "Estas opciónes cambien la aparencia de las barras."
 L["STRING_OPTIONS_BARSORT"] = "Orden de clasificación de barra"
 L["STRING_OPTIONS_BARSORT_DESC"] = "Ordenar barras en orden descendente o ascendente."
@@ -565,10 +580,14 @@ L["STRING_OPTIONS_ED_DESC"] = [=[|cFFFFFF00Manualmente|r: El usuario necesita ha
 L["STRING_OPTIONS_ED1"] = "Manualmente"
 L["STRING_OPTIONS_ED2"] = "Mensaje"
 L["STRING_OPTIONS_ED3"] = "Auto"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_EDIT_CUSTOM_TEXT"] = ""--]] 
 L["STRING_OPTIONS_EDITIMAGE"] = "Editar imagen"
 L["STRING_OPTIONS_EDITINSTANCE"] = "Configurando ventana:"
 L["STRING_OPTIONS_ERASECHARTDATA"] = "Borrar gráficos"
 L["STRING_OPTIONS_ERASECHARTDATA_DESC"] = "Durante el cierre de sesión, se borran todos los datos de combate recopilados para crear gráficos."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_EXPORT_PROFILE"] = ""--]] 
 L["STRING_OPTIONS_EXTERNALS_TITLE"] = "Artilugios externos"
 L["STRING_OPTIONS_EXTERNALS_TITLE2"] = "Estas opciones controlan el comportamiento de muchos artilugios extranjeros."
 L["STRING_OPTIONS_GENERAL"] = "Opciones generales"
@@ -590,12 +609,14 @@ L["STRING_OPTIONS_IGNORENICKNAME_DESC"] = "Cuando está habilitado, los apodos y
 L["STRING_OPTIONS_ILVL_TRACKER"] = "Rastreador de nivel de objeto:"
 L["STRING_OPTIONS_ILVL_TRACKER_DESC"] = "Cuando está habilitado y fuera de combate, el addon consulta y rastrea el nivel de objeto de los jugadores en la banda. Si está deshabilitado, aún lee el nivel de objeto de las consultas de otros addons cuando inspecciona manualmente a otro jugador."
 L["STRING_OPTIONS_ILVL_TRACKER_TEXT"] = "Habilitado"
-L["STRING_OPTIONS_INSTANCE_ALPHA2"] = "Color del fondo"
-L["STRING_OPTIONS_INSTANCE_ALPHA2_DESC"] = "Cambiar el color del fondo de la ventana."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_IMPORT_PROFILE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_IMPORT_PROFILE_NAME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_IMPORT_PROFILE_PASTE"] = ""--]] 
 L["STRING_OPTIONS_INSTANCE_BACKDROP"] = "Textura del fondo"
 L["STRING_OPTIONS_INSTANCE_BACKDROP_DESC"] = "Escoger la textura del fondo de la ventana. |cffffff00Defecto|r: Details Background."
-L["STRING_OPTIONS_INSTANCE_COLOR"] = "Color de ventana"
-L["STRING_OPTIONS_INSTANCE_COLOR_DESC"] = "Cambiar el color y la opacidad de esta ventana. |cFFFFFF00Importante|r La opacidad seleccionada aquí se anula por los valores de |cFFFFFF00opacidad automáticamente|r si se activa. |cFFFFFF00Importante|r La selección de una color de ventana anula la personalización del color de la barra estada."
 L["STRING_OPTIONS_INSTANCE_CURRENT"] = "Auto-cambiar al actual"
 L["STRING_OPTIONS_INSTANCE_CURRENT_DESC"] = "Cambiar automaticamente al segmento actual al entrar en combate si ninguna otra ventana ya lo muestra."
 L["STRING_OPTIONS_INSTANCE_DELETE"] = "Eliminar"
@@ -610,7 +631,6 @@ L["STRING_OPTIONS_INSTANCE_STRATA"] = "Estrato"
 L["STRING_OPTIONS_INSTANCE_STRATA_DESC"] = "Escoger el estrato en que colocar el objeto. El estrato 'bajo' es el valor por defecto, y hacer que la ventana aparece detrás de la mayoría de las otras ventanas en la interfaz. El estrato 'alta' hacer que la ventana parace en frente de la mayoría de las otras ventanas en la interfaz."
 L["STRING_OPTIONS_INSTANCES"] = "Ventanas:"
 L["STRING_OPTIONS_INTERFACEDIT"] = "Modo de edición de interfaz"
-L["STRING_OPTIONS_LEFT_MENU_ANCHOR"] = "Configuración de menú:"
 L["STRING_OPTIONS_LOCKSEGMENTS"] = "Segmentos bloqueados"
 L["STRING_OPTIONS_LOCKSEGMENTS_DESC"] = "Al cambiar el segmento in una ventana, no se cambien los segmentos en las otras ventanas mostradas."
 L["STRING_OPTIONS_MANAGE_BOOKMARKS"] = "Administrar marcadores"
@@ -687,6 +707,8 @@ L["STRING_OPTIONS_NICKNAME"] = "Apodo"
 L["STRING_OPTIONS_NICKNAME_DESC"] = "Reemplazar el nombre de su personaje. El apodo se envía a los miembres de la hermandad, y se muestra en Details! en vez del nombre de su personaje."
 L["STRING_OPTIONS_OPEN_ROWTEXT_EDITOR"] = "Editor de texto de fila"
 L["STRING_OPTIONS_OPEN_TEXT_EDITOR"] = "Abrir editor de texto"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_OPENBROKER"] = ""--]] 
 L["STRING_OPTIONS_OVERALL_ALL"] = "Todos segmentos"
 L["STRING_OPTIONS_OVERALL_ALL_DESC"] = "Todos segmentos se inclyen en los datos globales."
 L["STRING_OPTIONS_OVERALL_ANCHOR"] = "Datos globales:"
@@ -795,7 +817,6 @@ L["STRING_OPTIONS_REPORT_SCHEMA1"] = "Total / Por segundo / Porcentaje"
 L["STRING_OPTIONS_REPORT_SCHEMA2"] = "Porcentaje / Por segundo / Total"
 L["STRING_OPTIONS_REPORT_SCHEMA3"] = "Porcentaje / Total / Por segundo"
 L["STRING_OPTIONS_RESET_TO_DEFAULT"] = "Restablece a los predeterminados"
-L["STRING_OPTIONS_ROW_SETTING_ANCHOR"] = "General:"
 L["STRING_OPTIONS_ROWADV_TITLE"] = "Configuración avanzada de fila"
 L["STRING_OPTIONS_ROWADV_TITLE_DESC"] = "Estas opciones le permiten modificar las filas."
 L["STRING_OPTIONS_RT_COOLDOWN1"] = "¡%s utilizado en %s!"
@@ -978,6 +999,8 @@ L["STRING_OPTIONS_TEXTEDITOR_TOK_TOOLTIP"] = [=[Añadir una función para abrevi
 Por ejemplo: 1500000 a 1.5kk.]=]
 L["STRING_OPTIONS_TIMEMEASURE"] = "Medida de tiempo"
 L["STRING_OPTIONS_TIMEMEASURE_DESC"] = "|cFFFFFF00Actividad|r: el temporizador de cada miembro de la banda se pone en espera si se detiene su actividad y vuelve a contar cuando se reanuda, forma común de medir DPS y SPS.  |cFFFFFF00Efectivo|r: utilizado en las clasificaciones, este método utiliza el tiempo de combate transcurrido para medir el DPS y el SPS de todos los miembros de la banda."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_TITLEBAR_MENUBUTTONS_HEADER"] = ""--]] 
 L["STRING_OPTIONS_TOOLBAR_SETTINGS"] = "Configuración del botón de la barra de título"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS_DESC"] = "Estas opciones cambian el menú principal en la parte superior de la ventana."
 L["STRING_OPTIONS_TOOLBARSIDE"] = "Barra de título en el lado superior"
@@ -1085,8 +1108,16 @@ L["STRING_OPTIONS_WINDOW"] = "Opciones"
 L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = "Anclas:"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = "Ignorar alternar masa"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = "Cuando está habilitada, esta ventana no se ve afectada al ocultar, mostrar o alternar todas las ventanas."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR_DESC"] = ""--]] 
 L["STRING_OPTIONS_WINDOW_SCALE"] = "Escala"
 L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = "Ajusta la escala de la ventana. |cFFFFFF00Consejo|r: Haga clic derecho para escribir el valor. |cFFFFFF00Actual|r: %s"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_SKIN_COLOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_SKIN_COLOR_DESC"] = ""--]] 
 L["STRING_OPTIONS_WINDOW_TITLE"] = "Configuración de ventana"
 L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Estas opciones se permiten personalizar la aparencia de la ventana seleccionada."
 L["STRING_OPTIONS_WINDOWSPEED"] = "Intervalo de actualización"

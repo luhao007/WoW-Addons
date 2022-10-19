@@ -1,7 +1,8 @@
 ## Interface: 90207
 ## Author: Kemayo
-## Version: v28
+## Version: v29
 ## RequiredDeps: HandyNotes
+## OptionalDeps: !LibUIDropDownMenu
 ## SavedVariables: HandyNotes_LegionTreasuresDB
 ## DefaultState: enabled
 
@@ -14,6 +15,8 @@
 ## X-Curse-Project-ID: 96500
 ## X-Wago-ID: 0mKOnY6x
 ## X-Part-Of: HandyNotes
+
+lib\LibUIDropDownMenu\LibUIDropDownMenu.xml
 
 handler\handler.xml
 

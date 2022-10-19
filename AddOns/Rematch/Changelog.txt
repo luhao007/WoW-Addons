@@ -1,7 +1,15 @@
+10/10/2022 version 4.13.3
+- Added Dragon Isles targets for Dragonflight clients.
+- Note: There appears to be a bug on the beta client (but not PTR) that's causing messed up npcID-derived target names in the target and team lists.
+
+09/23/2022 version 4.13.2
+- Fix for toolbar buttons not working in Dragonflight clients.
+- Fix for close button appearances in Dragonflight clients.
+
 09/14/2022 version 4.13.1
 - Fix for picking up pets on Dragonflight clients.
 - Fix for minimap button path.
-- Known issues on Dragonflight clients: Close buttons appear weird (I'm aware textures changed and where to find them); some toolbar buttons are not working (SecureActionButtonTemplate is bugged)
+- Known issues on Dragonflight clients: Close buttons appear weird (I'm aware textures changed and where to find them) and some toolbar buttons are not working (SecureActionButtonTemplate is bugged)
 
 09/11/2022 version 4.13.0
 - Added initial support for 10.x (Dragonflight) PTR/Beta clients.

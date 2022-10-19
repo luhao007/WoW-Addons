@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "DRList-1.0", 42 -- Don't forget to change this in DRList-1.0.lua aswell!
+local MAJOR, MINOR = "DRList-1.0", 46 -- Don't forget to change this in DRList-1.0.lua aswell!
 local Lib = LibStub(MAJOR)
 if Lib.spellListVersion and Lib.spellListVersion >= MINOR then
     return
@@ -53,8 +53,10 @@ if Lib.gameExpansion == "retail" then
         [161372]  = "incapacitate",    -- Polymorph (Peacock)
         [277787]  = "incapacitate",    -- Polymorph (Baby Direhorn)
         [277792]  = "incapacitate",    -- Polymorph (Bumblebee)
+        [321395]  = "incapacitate",    -- Polymorph (Mawrat)
         [82691]   = "incapacitate",    -- Ring of Frost
         [115078]  = "incapacitate",    -- Paralysis
+        [357768]  = "incapacitate",    -- Paralysis 2 (Perpetual Paralysis?)
         [20066]   = "incapacitate",    -- Repentance
         [9484]    = "incapacitate",    -- Shackle Undead
         [200196]  = "incapacitate",    -- Holy Word: Chastise
@@ -80,6 +82,8 @@ if Lib.gameExpansion == "retail" then
 --      [78675]   = "silence",         -- Solar Beam (has no DR)
         [202933]  = "silence",         -- Spider Sting
         [356727]  = "silence",         -- Spider Venom
+        [354831]  = "silence",         -- Wailing Arrow 1
+        [355596]  = "silence",         -- Wailing Arrow 2
         [217824]  = "silence",         -- Shield of Virtue
         [15487]   = "silence",         -- Silence
         [1330]    = "silence",         -- Garrote
@@ -132,6 +136,7 @@ if Lib.gameExpansion == "retail" then
         [204085]  = "root",            -- Deathchill (Chains of Ice)
         [233395]  = "root",            -- Deathchill (Remorseless Winter)
         [339]     = "root",            -- Entangling Roots
+        [235963]  = "root",            -- Entangling Roots (Earthen Grasp)
         [170855]  = "root",            -- Entangling Roots (Nature's Grasp)
         [102359]  = "root",            -- Mass Entanglement
         [117526]  = "root",            -- Binding Shot
@@ -186,6 +191,13 @@ if Lib.gameExpansion == "retail" then
         [51490]   = "knockback",        -- Thunderstorm
 --      [287712]  = "knockback",        -- Haywire (Kul'Tiran Racial)
     }
+
+    if GetSpellInfo(372245) and GetSpellInfo(372245) ~= "" then -- is Dragonflight Beta (quick temporary fix)
+        Lib.spellList[391622]  = "incapacitate"    -- Polymorph (Duck)
+        Lib.spellList[355689]  = "root"            -- Landslide
+        Lib.spellList[372245]  = "stun"            -- Terror of the Skies
+        Lib.spellList[360806]  = "disorient"       -- Sleep Walk
+    end
 
 elseif Lib.gameExpansion == "tbc" then
 
@@ -360,7 +372,7 @@ elseif Lib.gameExpansion == "tbc" then
         [27067] = "counterattack",       -- Counterattack (Rank 4)
     }
 
-elseif Lib.gameExpansion == "wotlk" then -- STILL WORK IN PROGRESS, I DON'T HAVE BETA ACCESS
+elseif Lib.gameExpansion == "wotlk" then
 
     -- SpellID list for Wrath of the Lich King.
     -- spellID for every rank is used over spell name to avoid name collisions, and faster lookups
@@ -415,6 +427,9 @@ elseif Lib.gameExpansion == "wotlk" then -- STILL WORK IN PROGRESS, I DON'T HAVE
         [30216] = "incapacitate", -- Fel Iron Bomb
         [30461] = "incapacitate", -- The Bigger One
         [30217] = "incapacitate", -- Adamantite Grenade
+        [67769] = "incapacitate", -- Cobalt Frag Bomb
+        [67890] = "incapacitate", -- Cobalt Frag Bomb (Frag Belt)
+        [54466] = "incapacitate", -- Saronite Grenade
 
         [47481] = "stun", -- Gnaw (Ghoul Pet)
         [5211]  = "stun", -- Bash (Rank 1)
@@ -527,6 +542,7 @@ elseif Lib.gameExpansion == "wotlk" then -- STILL WORK IN PROGRESS, I DON'T HAVE
         [42917] = "root", -- Frost Nova (Rank 6)
         [39965] = "root", -- Frost Grenade (Item)
         [63685] = "root", -- Freeze (Frost Shock)
+        [55536] = "root", -- Frostweave Net (Item)
 
         [12494] = "random_root",         -- Frostbite
         [55080] = "random_root",         -- Shattered Barrier
@@ -542,6 +558,7 @@ elseif Lib.gameExpansion == "wotlk" then -- STILL WORK IN PROGRESS, I DON'T HAVE
         [53540] = "disarm", -- Snatch (Rank 4)
         [53542] = "disarm", -- Snatch (Rank 5)
         [53543] = "disarm", -- Snatch (Rank 6)
+        [64346] = "disarm", -- Fiery Payback
         [64058] = "disarm", -- Psychic Horror Disarm Effect
         [51722] = "disarm", -- Dismantle
         [676]   = "disarm", -- Disarm
@@ -592,6 +609,7 @@ elseif Lib.gameExpansion == "wotlk" then -- STILL WORK IN PROGRESS, I DON'T HAVE
         [33786] = "cyclone",        -- Cyclone
         [605]   = "mind_control",   -- Mind Control
         [13181] = "mind_control",   -- Gnomish Mind Control Cap
+        [67799] = "mind_control",   -- Mind Amplification Dish
         [7922]  = "charge",         -- Charge Stun
         [19306] = "counterattack",  -- Counterattack 1
         [20909] = "counterattack",  -- Counterattack 2
@@ -600,8 +618,6 @@ elseif Lib.gameExpansion == "wotlk" then -- STILL WORK IN PROGRESS, I DON'T HAVE
         [48998] = "counterattack",  -- Counterattack 5
         [48999] = "counterattack",  -- Counterattack 6
         --Storm, Earth and Fire has no DR
-
-        -- TODO: profession stuff
     }
 
 elseif Lib.gameExpansion == "classic" then

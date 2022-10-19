@@ -47,16 +47,16 @@ local L = app.L;
 	--TODO: L.OPPOSITE_FACTION_EQ = "Opposite faction equivalent: ";
 	--TODO: L.SELFIE_DESC = "Take a selfie using your ";
 	--TODO: L.SELFIE_DESC_2 = " with |cffff8000";
-	--TODO: L.CLASSIC_TIER_DESC = "Four years after the Battle of Mount Hyjal, tensions between the Alliance & the Horde begin to arise once again. Intent on settling the arid region of Durotar, Thrall's new Horde expanded its ranks, inviting the undead Forsaken to join orcs, tauren, & trolls. Meanwhile, dwarves, gnomes & the ancient night elves pledged their loyalties to a reinvigorated Alliance, guided by the human kingdom of Stormwind. After Stormwind's king, Varian Wrynn, mysteriously disappeared, Highlord Bolvar Fordragon served as Regent but his service was marred by the manipulations & mind control of the Onyxia, who ruled in disguise as a human noblewoman. As heroes investigated Onyxia's manipulations, ancient foes surfaced in lands throughout the world to menace Horde & Alliance alike.";
-	--TODO: L.TBC_TIER_DESC = "The Burning Crusade is the first expansion. Its main features include an increase of the level cap up to 70, the introduction of the blood elves & the draenei as playable races, & the addition of the world of Outland, along with many new zones, dungeons, items, quests, & monsters.";
-	--TODO: L.WOTLK_TIER_DESC = "Wrath of the Lich King is the second expansion. The majority of the expansion content takes place in Northrend & centers around the plans of the Lich King. Content highlights include the increase of the level cap from 70 to 80, the introduction of the death knight Hero class, & new PvP/World PvP content.";
-	--TODO: L.CATA_TIER_DESC = "Cataclysm is the third expansion. Set primarily in a dramatically reforged Kalimdor & Eastern Kingdoms on the world of Azeroth, the expansion follows the return of Deathwing, who causes a new Sundering as he makes his cataclysmic re-entrance into the world from Deepholm. Cataclysm returns players to the two continents of Azeroth for most of their campaigning, opening new zones such as Mount Hyjal, the sunken world of Vashj'ir, Deepholm, Uldum and the Twilight Highlands. It includes two new playable races, the worgen & the goblins. The expansion increases level cap to 85, adds the ability to fly in Kalimdor & Eastern Kingdoms, introduces Archaeology & reforging, & restructures the world itself.";
-	--TODO: L.MOP_TIER_DESC = "Mists of Pandaria is the fourth expansion pack. The expansion refocuses primarily on the war between the Alliance & Horde, in the wake of the accidental rediscovery of Pandaria. Adventurers rediscover the ancient pandaren people, whose wisdom will help guide them to new destinies; the Pandaren Empire's ancient enemy, the mantid; and their legendary oppressors, the enigmatic mogu. The land changes over time & the conflict between Varian Wrynn & Garrosh Hellscream escalates. As civil war wracks the Horde, the Alliance & forces in the Horde opposed to Hellscream's violent uprising join forces to take the battle directly to Hellscream & his Sha-touched allies in Orgrimmar.";
-	--TODO: L.WOD_TIER_DESC = "Warlords of Draenor is the fifth expansion. Across Draenor's savage jungles & battle-scarred plains, Azeroth's heroes will engage in a mythic conflict involving mystical draenei champions & mighty orc clans, & cross axes with the likes of Grommash Hellscream, Blackhand, & Ner'zhul at the height of their primal power. Players will need to scour this unwelcoming land in search of allies to help build a desperate defense against the old Horde's formidable engine of conquest, or else watch their own world's bloody, war-torn history repeat itself.";
-	--TODO: L.LEGION_TIER_DESC = "Legion is the sixth expansion. Gul'dan is expelled into Azeroth to reopen the Tomb of Sargeras & the gateway to Argus, commencing the third invasion of the Burning Legion. After the defeat at the Broken Shore, the defenders of Azeroth search for the Pillars of Creation, which were Azeroth's only hope for closing the massive demonic portal at the heart of the Tomb. However, the Broken Isles came with their own perils to overcome, from Xavius, to God-King Skovald, to the nightborne, & to Tidemistress Athissa. Khadgar moved Dalaran to the shores of this land, the city serves as a central hub for the heroes. The death knights of Acherus also took their floating necropolis to the Isles. The heroes of Azeroth sought out legendary artifact weapons to wield in battle, but also found unexpected allies in the form of the Illidari. Ongoing conflict between the Alliance & the Horde led to the formation of the class orders, with exceptional commanders putting aside faction to lead their classes in the fight against the Legion.";
-	--TODO: L.BFA_TIER_DESC = "Battle for Azeroth is the seventh expansion. Azeroth paid a terrible price to end the apocalyptic march of the Legion's crusade—but even as the world's wounds are tended, it is the shattered trust between the Alliance and Horde that may prove the hardest to mend. In Battle for Azeroth, the fall of the Burning Legion sets off a series of disastrous incidents that reignites the conflict at the heart of the Warcraft saga. As a new age of warfare begins, Azeroth's heroes must set out on a journey to recruit new allies, race to claim the world's mightiest resources, and fight on several fronts to determine whether the Horde or Alliance will lead Azeroth into its uncertain future.";
-	--TODO: L.SL_TIER_DESC = "Shadowlands is the eighth expansion. What lies beyond the world you know? The Shadowlands, resting place for every mortal soul—virtuous or vile—that has ever lived.";
-	L.DF_TIER_DESC = "Dragonflight is the ninth expansion. As revoadas dragônicas de Azeroth retornaram, convocadas a defender seu lar ancestral, as Ilhas do Dragão. Repletas de magia elemental e das energias vitais de Azeroth, as Ilhas despertam uma vez mais. Cabe a você explorar suas maravilhas primordiais e revelar segredos há muito esquecidos.";	--TODO: First sentence
+	--TODO: L.TIER_DATA[1].lore = "Four years after the Battle of Mount Hyjal, tensions between the Alliance & the Horde begin to arise once again. Intent on settling the arid region of Durotar, Thrall's new Horde expanded its ranks, inviting the undead Forsaken to join orcs, tauren, & trolls. Meanwhile, dwarves, gnomes & the ancient night elves pledged their loyalties to a reinvigorated Alliance, guided by the human kingdom of Stormwind. After Stormwind's king, Varian Wrynn, mysteriously disappeared, Highlord Bolvar Fordragon served as Regent but his service was marred by the manipulations & mind control of the Onyxia, who ruled in disguise as a human noblewoman. As heroes investigated Onyxia's manipulations, ancient foes surfaced in lands throughout the world to menace Horde & Alliance alike.";
+	--TODO: L.TIER_DATA[2].lore = "The Burning Crusade is the first expansion. Its main features include an increase of the level cap up to 70, the introduction of the blood elves & the draenei as playable races, & the addition of the world of Outland, along with many new zones, dungeons, items, quests, & monsters.";
+	--TODO: L.TIER_DATA[3].lore = "Wrath of the Lich King is the second expansion. The majority of the expansion content takes place in Northrend & centers around the plans of the Lich King. Content highlights include the increase of the level cap from 70 to 80, the introduction of the death knight Hero class, & new PvP/World PvP content.";
+	--TODO: L.TIER_DATA[4].lore = "Cataclysm is the third expansion. Set primarily in a dramatically reforged Kalimdor & Eastern Kingdoms on the world of Azeroth, the expansion follows the return of Deathwing, who causes a new Sundering as he makes his cataclysmic re-entrance into the world from Deepholm. Cataclysm returns players to the two continents of Azeroth for most of their campaigning, opening new zones such as Mount Hyjal, the sunken world of Vashj'ir, Deepholm, Uldum and the Twilight Highlands. It includes two new playable races, the worgen & the goblins. The expansion increases level cap to 85, adds the ability to fly in Kalimdor & Eastern Kingdoms, introduces Archaeology & reforging, & restructures the world itself.";
+	--TODO: L.TIER_DATA[5].lore = "Mists of Pandaria is the fourth expansion pack. The expansion refocuses primarily on the war between the Alliance & Horde, in the wake of the accidental rediscovery of Pandaria. Adventurers rediscover the ancient pandaren people, whose wisdom will help guide them to new destinies; the Pandaren Empire's ancient enemy, the mantid; and their legendary oppressors, the enigmatic mogu. The land changes over time & the conflict between Varian Wrynn & Garrosh Hellscream escalates. As civil war wracks the Horde, the Alliance & forces in the Horde opposed to Hellscream's violent uprising join forces to take the battle directly to Hellscream & his Sha-touched allies in Orgrimmar.";
+	--TODO: L.TIER_DATA[6].lore = "Warlords of Draenor is the fifth expansion. Across Draenor's savage jungles & battle-scarred plains, Azeroth's heroes will engage in a mythic conflict involving mystical draenei champions & mighty orc clans, & cross axes with the likes of Grommash Hellscream, Blackhand, & Ner'zhul at the height of their primal power. Players will need to scour this unwelcoming land in search of allies to help build a desperate defense against the old Horde's formidable engine of conquest, or else watch their own world's bloody, war-torn history repeat itself.";
+	--TODO: L.TIER_DATA[7].lore = "Legion is the sixth expansion. Gul'dan is expelled into Azeroth to reopen the Tomb of Sargeras & the gateway to Argus, commencing the third invasion of the Burning Legion. After the defeat at the Broken Shore, the defenders of Azeroth search for the Pillars of Creation, which were Azeroth's only hope for closing the massive demonic portal at the heart of the Tomb. However, the Broken Isles came with their own perils to overcome, from Xavius, to God-King Skovald, to the nightborne, & to Tidemistress Athissa. Khadgar moved Dalaran to the shores of this land, the city serves as a central hub for the heroes. The death knights of Acherus also took their floating necropolis to the Isles. The heroes of Azeroth sought out legendary artifact weapons to wield in battle, but also found unexpected allies in the form of the Illidari. Ongoing conflict between the Alliance & the Horde led to the formation of the class orders, with exceptional commanders putting aside faction to lead their classes in the fight against the Legion.";
+	--TODO: L.TIER_DATA[8].lore = "Battle for Azeroth is the seventh expansion. Azeroth paid a terrible price to end the apocalyptic march of the Legion's crusade—but even as the world's wounds are tended, it is the shattered trust between the Alliance and Horde that may prove the hardest to mend. In Battle for Azeroth, the fall of the Burning Legion sets off a series of disastrous incidents that reignites the conflict at the heart of the Warcraft saga. As a new age of warfare begins, Azeroth's heroes must set out on a journey to recruit new allies, race to claim the world's mightiest resources, and fight on several fronts to determine whether the Horde or Alliance will lead Azeroth into its uncertain future.";
+	--TODO: L.TIER_DATA[9].lore = "Shadowlands is the eighth expansion. What lies beyond the world you know? The Shadowlands, resting place for every mortal soul—virtuous or vile—that has ever lived.";
+	L.TIER_DATA[10].lore = "Dragonflight is the ninth expansion. As revoadas dragônicas de Azeroth retornaram, convocadas a defender seu lar ancestral, as Ilhas do Dragão. Repletas de magia elemental e das energias vitais de Azeroth, as Ilhas despertam uma vez mais. Cabe a você explorar suas maravilhas primordiais e revelar segredos há muito esquecidos.";	--TODO: First sentence
 	--TODO: L.TITLES_DESC = "Titles are tracked across your account, however, your individual character must qualify for certain titles to be usable on that character.";
 	--TODO: L.SHARED_APPEARANCES_LABEL = "Shared Appearances";
 	--TODO: L.SHARED_APPEARANCES_LABEL_DESC = "The items in this list are shared appearances for the above item. In Unique Appearance Mode, this list can help you understand why or why not a specific item would be marked Collected.";
@@ -768,7 +768,9 @@ for key,value in pairs({
 		--TODO: [-543] = "Legion Invasions",						-- Legion Invasions
 		[-579] = "Passe do Portal Negro",							-- Dark Portal Pass
 		--TODO: [-580] = "Shadowlands Seasonal Promotions",			-- Shadowlands Seasonal Promotions
-		[-581] = "Great Push: Temporada 2",							-- The Great Push: Season 2
+		--TODO: [-581] = "TBC Classic Deluxe Edition",				-- TBC Classic Deluxe Edition
+		--TODO: [-582] = "WotLK Classic Northrend Heroic Upgrade",	-- WotLK Classic Northrend Heroic Upgrade ("Cheap")
+		--TODO: [-583] = "WotLK Classic Northrend Epic Upgrade",	-- WotLK Classic Northrend Epic Upgrade
 	-- PvP Header
 		-- PvP Set Names
 			--TODO: [-659] = "Aspirant Gear",						-- Aspirant PvP Gear (WoD, BfA)
@@ -1127,7 +1129,7 @@ for key,value in pairs({
 	[181150] = "Diário Empoeirado",	-- Dusty Journal
 	[181153] = "Cartaz de Procura-se: Kel'gash, o Perverso",	-- Wanted Poster: Kel'gash the Wicked
 	[181638] = "Cartaz de Procura-se",	-- Wanted Poster
-	[181643] = "Restos Mortais de Barbapena",	-- Featherbeard's Remains	--TODO: This was taken from tbc Wowhead
+	[181643] = "Restos Mortais de Barbapena",	-- Featherbeard's Remains	--TODO: This was taken from wotlk Wowhead
 	[181649] = "Diário de Barbapena",	-- Featherbeard's Journal
 	[181672] = "Efígie do Homem de Palha",	-- Wickerman Effigy
 	[181698] = "Pedra do Caos",	-- Voidstone
@@ -1259,8 +1261,14 @@ for key,value in pairs({
 	[191766] = "Ordens de Drakuru",	-- Orders From Drakuru
 	[192049] = "Cardume de Arenques Presadentes",	-- Fangtooth Herring School
 	[192060] = "Bigorna de Fjorn",	-- Fjorn's Anvil
+	[192071] = "Bigorna de Fjorn",	-- Fjorn's Anvil
 	[192072] = "Caixote de Arpões",	-- Harpoon Crate
+	[192078] = "Trompa de Hodir",	-- Hodir's Horn
+	[192079] = "Lança de Hodir",	-- Hodir's Spear
+	[192080] = "Elmo de Hodir",	-- Hodir's Helm
+	[192524] = "Arngrim, o Insaciável",	-- Arngrim the Insatiable
 	[192833] = "Posses do Brindeiro",	-- Bridenbrad's Possessions
+	[193051] = "Ovo Nerubiano do Flagelo",	-- Nerubian Scourge Egg
 	[193195] = "Cristal Pulsante",	-- Pulsing Crystal
 	[193400] = "Pilha de Bombas de Saronita",	-- Saronite Bomb Stack
 	[194032] = "Fogueira da Aliança",	-- Alliance Bonfire
@@ -1287,6 +1295,7 @@ for key,value in pairs({
 	[194389] = "Documento Roubado da Liga dos Exploradores",	-- Stolen Explorers' League Document
 	[194390] = "Documento Roubado da Liga dos Exploradores",	-- Stolen Explorers' League Document
 	[194391] = "Documento Roubado da Liga dos Exploradores",	-- Stolen Explorers' League Document
+	[194555] = "Console do Arquivo",	-- Archivum Console
 	[194714] = "Bancada de Trabalho Nojenta",	-- Disgusting Workbench
 	[195134] = "A Bomba",	-- The Bomb
 	[195431] = "Rádio do Centro de Operações",	-- Headquarters Radio
@@ -2621,6 +2630,7 @@ for key,value in pairs({
 	[303016] = "|cFFFFFFFFStep 14:|r Cascalho Comum XIII",	-- |cFFFFFFFFStep 14:|r Ordinary Pebble XIII
 	[303017] = "|cFFFFFFFFStep 13:|r Cascalho Comum XII",	-- |cFFFFFFFFStep 13:|r Ordinary Pebble XII
 	[303018] = "|cFFFFFFFFStep 12:|r Cascalho Comum XI",	-- |cFFFFFFFFStep 12:|r Ordinary Pebble XI
+	[303039] = "Saco de Grãos Curioso",	-- Curious Grain Sack
 	[307265] = "Cartaz de Procura-se",	-- Wanted Poster
 	[307277] = "Velho Garrafão",	-- Old Jug
 	[307307] = "Barril Quebrado",	-- Broken Barrel
@@ -2827,6 +2837,7 @@ for key,value in pairs({
 	[353686] = "Vagem de Lunalúmia",	-- Lunarlight Pod
 	[353687] = "Sino Quebrado",	-- Broken Bell
 	[353688] = "Sino Quebrado",	-- Broken Bell
+	[353689] = "Sino Quebrado",	-- Broken Bell
 	[353691] = "Sino Celestino",	-- Skyward Bell
 	[353791] = "Caixa-forte do Castelo",	-- Castle Strongbox
 	[353792] = "Caixa-forte da Vila",	-- Village Strongbox

@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Crieve-Sargeras
-## Version: SL-2.9.6
+## Version: SL-2.9.12
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 

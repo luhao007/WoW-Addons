@@ -378,6 +378,10 @@
 				<Title>德拉诺之王</Title>
 				<Notes>BtWQuests 德拉诺之王模块</Notes>
 			</SubAddon>
+			<SubAddon name="BtWQuestsWrathOfTheLichKing">
+				<Title>巫妖王之怒</Title>
+				<Notes>BtWQuests 巫妖王之怒模块</Notes>
+			</SubAddon>
 		</SubAddons>
 	</Addon>
 	<Addon name="ButtonForge">
@@ -1113,6 +1117,11 @@
 		<Notes>显示当前移动速度</Notes>
 		<Category>界面</Category>
 	</Addon>
+	<Addon name="MountsJournal">
+		<Title>坐骑手册</Title>
+		<Notes>坐骑手册增强，支持随机坐骑。</Notes>
+		<Category>收藏</Category>
+	</Addon>
 	<Addon name="MRT">
 		<Title>Method团队助手</Title>
 		<Notes>提供团队和小队的一些辅助功能</Notes>
@@ -1274,6 +1283,10 @@
 				<Title>设置</Title>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="RareScanner">
+		<Title>稀有精英追踪</Title>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="Rarity">
 		<Title>稀有物品追踪</Title>

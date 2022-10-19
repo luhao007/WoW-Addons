@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Tuller & Jaliborc (JoÃ£o Cardoso)
-## Version: 9.1.4
+## Version: 9.2.2
 ## OptionalDeps: BagBrother, WoWUnit, TestPoncho
 ## SavedVariables: Bagnon_Sets
 

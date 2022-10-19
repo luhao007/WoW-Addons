@@ -9,7 +9,7 @@ License: MIT
 
 --- DRList-1.0
 -- @module DRList-1.0
-local MAJOR, MINOR = "DRList-1.0", 42 -- Don't forget to change this in Spells.lua aswell!
+local MAJOR, MINOR = "DRList-1.0", 46 -- Don't forget to change this in Spells.lua aswell!
 local Lib = assert(LibStub, MAJOR .. " requires LibStub."):NewLibrary(MAJOR, MINOR)
 if not Lib then return end -- already loaded
 
@@ -131,12 +131,8 @@ Lib.gameExpansion = ({
     [WOW_PROJECT_MAINLINE] = "retail",
     [WOW_PROJECT_CLASSIC] = "classic",
     [WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5] = "tbc",
+    [WOW_PROJECT_WRATH_CLASSIC or 11] = "wotlk",
 })[WOW_PROJECT_ID]
-
-local tocVersion = select(4, GetBuildInfo())
-if tocVersion >= 30400 and tocVersion < 40000 then
-    Lib.gameExpansion = "wotlk" -- temporary check for wotlk build until new constant is added
-end
 
 -- How long it takes for a DR to expire, in seconds.
 Lib.resetTimes = {
@@ -205,7 +201,7 @@ Lib.categoryNames = {
         ["counterattack"] = L.COUNTERATTACK,
     },
 
-    wotlk = { -- WORK IN PROGRESS
+    wotlk = {
         ["incapacitate"] = L.INCAPACITATES,
         ["stun"] = L.STUNS,
         ["random_stun"] = L.RANDOM_STUNS,

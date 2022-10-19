@@ -468,7 +468,7 @@ function EV:I_LOAD_HOOKS()
 	UIParent:UnregisterEvent("ADVENTURE_MAP_OPEN")
 	UIParent:UnregisterEvent("GARRISON_MISSION_NPC_OPENED")
 	function EV:ADVENTURE_MAP_OPEN(followerTypeID)
-		if followerTypeID ~= 22 or not C.IsAtGarrisonMissionNPC() then
+		if followerTypeID ~= 22 or not C.IsAtGarrisonMissionNPC() or not C_Garrison.HasGarrison(9) then
 			UIParent:GetScript("OnEvent")(UIParent, "ADVENTURE_MAP_OPEN", followerTypeID)
 			return
 		end

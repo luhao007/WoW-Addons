@@ -289,9 +289,9 @@ local contains = function(arr, value)
 		if value2 == value then return true; end
 	end
 end
-local containsAny = function(arr, otherArr)
+local containsAny = function(arr, arr2)
 	for _,v in ipairs(arr) do
-		for _,w in ipairs(otherArr) do
+		for _,w in ipairs(arr2) do
 			if v == w then return true; end
 		end
 	end
@@ -500,6 +500,23 @@ local defaultHierarchyComparison = function(a,b)
 	bcomp = b.g and #b.g or 0;
 	return acomp < bcomp;
 end
+local defaultTotalComparison = function(a,b)
+	-- If either object doesn't exist
+	if a then
+		if not b then
+			return true;
+		end
+	elseif b then
+		return false;
+	else
+		-- neither a or b exists, equality returns false
+		return false;
+	end
+	local acomp, bcomp;
+	acomp = a.total or 0;
+	bcomp = b.total or 0;
+	return acomp < bcomp;
+end
 app.SortDefaults = {
 	["Global"] = defaultComparison,
 	["Text"] = defaultTextComparison,
@@ -507,6 +524,8 @@ app.SortDefaults = {
 	["Value"] = defaultValueComparison,
 	-- Sorts objects first by whether they do not have sub-groups [.g] defined
 	["Hierarchy"] = defaultHierarchyComparison,
+	-- Sorts objects first by how many total collectibles they contain
+	["Total"] = defaultTotalComparison,
 };
 local function Sort(t, compare, nested)
 	if t then
@@ -1374,8 +1393,8 @@ app.AlwaysShowUpdate = function(data) data.visible = true; return true; end
 app.AlwaysShowUpdateWithoutReturn = function(data) data.visible = true; end
 
 -- Screenshot
-function app:TakeScreenShot()
-	if app.Settings:GetTooltipSetting("Screenshot") then
+function app:TakeScreenShot(type)
+	if app.Settings:GetTooltipSetting("Screenshot") and (not type or app.Settings:Get("Thing:"..type)) then
 		Screenshot();
 	end
 end
@@ -1443,6 +1462,7 @@ app.Colors = {
 	["ChatLinkHQT"] = "ff7aff92",
 	["ChatLink"] = "ff149bfd",
 	["TooltipDescription"] = "ff66ccff",
+	["TooltipLore"] = "ff42a7eb",
 	["DefaultDifficulty"] = "ff1eff00",
 	["RemovedWithPatch"] = "ffffaaaa",
 };
@@ -1466,7 +1486,7 @@ app.TryColorizeName = function(group, name)
 		return Colorize(name, app.Colors.SourceIgnored);
 	-- faction rep status
 	elseif group.factionID and group.standing then
-		return app.ColorizeStandingText((group.saved and 8) or (group.standing + (group.isFriend and 2 or 0)), name);
+		return app.GetCurrentFactionStandingText(group.factionID, group.standing, name);
 	-- locked/breadcrumb things
 	elseif group.locked or group.isBreadcrumb then
 		return Colorize(name, app.Colors.Locked);
@@ -2426,7 +2446,7 @@ local function GetFixedItemSpecInfo(itemID)
 					local numSpecializations = GetNumSpecializations();
 					if numSpecializations and numSpecializations > 0 then
 						for i=1,numSpecializations,1 do
-							local specID = select(1, GetSpecializationInfo(i));
+							local specID = GetSpecializationInfo(i);
 							tinsert(specs, specID);
 						end
 					end
@@ -2448,9 +2468,10 @@ app.BuildDiscordQuestInfoTable = function(id, infoText, questChange, questRef)
 	local coord;
 	local mapID = app.GetCurrentMapID();
 	local position = mapID and C_Map.GetPlayerMapPosition(mapID, "player");
-	local covID, covData = C_Covenants.GetActiveCovenantID();
+	local covID, covData, covRenown = C_Covenants.GetActiveCovenantID();
 	if covID and covID > 0 then
 		covData = C_Covenants.GetCovenantData(covID);
+		covRenown = C_CovenantSanctumUI.GetRenownLevel();
 	end
 	if position then
 		local x,y = position:GetXY();
@@ -2471,7 +2492,8 @@ app.BuildDiscordQuestInfoTable = function(id, infoText, questChange, questRef)
 		"lvl:"..app.Level,
 		"u:"..tostring(questRef and questRef.u),
 		"sq:"..app.SourceQuestString(questRef or id),
-		"cov:"..(covData and covData.name or "N/A");
+		"lq:"..(app.LastQuestTurnedIn or ""),
+		"cov:"..(covData and covData.name or "N/A")..(covRenown and ":"..covRenown or ""),
 		mapID and ("mapID:"..mapID.." ("..C_Map_GetMapInfo(mapID).name..")") or "mapID:??",
 		coord and ("coord:"..coord) or "coord:??",
 		"ver:"..app.Version,
@@ -2559,13 +2581,12 @@ local PrintQuestInfo = function(questID, new, info)
 		print("Quest",questChange,chatMsg,(info or ""));
 	end
 end
-local DirtyQuests = {};
+local DirtyQuests, TotalQuests = {}, 0;
 local CompletedQuests = setmetatable({}, {__newindex = function (t, key, value)
 	key = tonumber(key);
-	local total = rawget(t, "_TOTAL") or 0;
 	if value then
 		if not rawget(t, key) then
-			rawset(t, "_TOTAL", total + 1);
+			TotalQuests = TotalQuests + 1;
 		end
 		rawset(t, key, value);
 		rawset(DirtyQuests, key, true);
@@ -2574,7 +2595,7 @@ local CompletedQuests = setmetatable({}, {__newindex = function (t, key, value)
 		app.CurrentCharacter.Quests[key] = 1;
 		PrintQuestInfo(key);
 	elseif value == false then
-		rawset(t, "_TOTAL", total - 1);
+		TotalQuests = TotalQuests - 1;
 		rawset(DirtyQuests, key, true);
 		rawset(DirtyQuests, "DIRTY", true);
 		-- no need to actually set the key in the table since it's been marked as incomplete
@@ -2836,7 +2857,8 @@ local function CreateHash(t)
 	local key = t.key or GetKey(t) or t.text;
 	if key then
 		local hash = key .. (rawget(t, key) or t[key] or "NOKEY");
-		if key == "criteriaID" and t.achievementID then hash = hash .. ":" .. t.achievementID;
+		if key == "criteriaID" and t.achievementID then
+			hash = hash .. ":" .. t.achievementID;
 		elseif key == "itemID" and t.modItemID and t.modItemID ~= t.itemID then
 			hash = key .. t.modItemID;
 		elseif key == "creatureID" then
@@ -3050,6 +3072,8 @@ local function ExpandGroupsRecursively(group, expanded, manual)
 		if (manual or
 				-- it's not an item
 				(not group.itemID and
+				-- not a difficulty
+				not group.difficultyID and
 				-- incomplete things actually exist below itself
 				((group.total or 0) > (group.progress or 0)) and
 				-- account/debug mode is active or it is not a 'saved' thing for this character
@@ -3086,408 +3110,19 @@ end
 (function()
 local select, tremove, unpack =
 	  select, tremove, unpack;
-local subroutines;
-subroutines = {
-	["pvp_gear_base"] = function(tierID, headerID1, headerID2)
-		return {
-			{"select", "tierID", tierID },	-- Select the Expansion header
-			{"pop"},	-- Discard the Expansion header and acquire the children.
-			{"where", "headerID", headerID1 },	-- Select the Season header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID2 },	-- Select the Set header
-		};
-	end,
-	["pvp_gear_faction_base"] = function(tierID, headerID1, headerID2, headerID3)
-		return {
-			{"select", "tierID", tierID },	-- Select the Expansion header
-			{"pop"},	-- Discard the Expansion header and acquire the children.
-			{"where", "headerID", headerID1 },	-- Select the Season header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID2 },	-- Select the Faction header
-			{"pop"},	-- Discard the Faction header and acquire the children.
-			{"where", "headerID", headerID3 },	-- Select the Set header
-		};
-	end,
-	-- Set Gear
-	["pvp_set_ensemble"] = function(tierID, headerID1, headerID2, classID)
-		return {
-			{"select", "tierID", tierID },	-- Select the Expansion header
-			{"pop"},	-- Discard the Expansion header and acquire the children.
-			{"where", "headerID", headerID1 },	-- Select the Season header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID2 },	-- Select the Set header
-			{"pop"},	-- Discard the Set header and acquire the children.
-			{"where", "classID", classID },	-- Select all the class header.
-			{"pop"},	-- Discard the class header and acquire the children.
-			{"is", "itemID"},
-			{"is", "s"},	-- If it has a sourceID, keep it, otherwise throw it away.
-		};
-	end,
-	["pvp_set_faction_ensemble"] = function(tierID, headerID1, headerID2, headerID3, classID)
-		return {
-			{"select", "tierID", tierID },	-- Select the Expansion header
-			{"pop"},	-- Discard the Expansion header and acquire the children.
-			{"where", "headerID", headerID1 },	-- Select the Season header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID2 },	-- Select the Faction header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID3 },	-- Select the Set header
-			{"pop"},	-- Discard the Set header and acquire the children.
-			{"where", "classID", classID },	-- Select all the class header.
-			{"pop"},	-- Discard the class header and acquire the children.
-			{"is", "itemID"},
-			{"is", "s"},	-- If it has a sourceID, keep it, otherwise throw it away.
-		};
-	end,
-	-- Weapons
-	["pvp_weapons_ensemble"] = function(tierID, headerID1, headerID2)
-		return {
-			{"select", "tierID", tierID },	-- Select the Expansion header
-			{"pop"},	-- Discard the Expansion header and acquire the children.
-			{"where", "headerID", headerID1 },	-- Select the Season header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID2 },	-- Select the Set header
-			{"pop"},	-- Discard the Set header and acquire the children.
-			{"where", "headerID", -319 },	-- Select the "Weapons" header.
-			{"pop"},	-- Discard the class header and acquire the children.
-			{"is", "itemID"},
-			{"is", "s"},	-- If it has a sourceID, keep it, otherwise throw it away.
-		};
-	end,
-	["pvp_weapons_faction_ensemble"] = function(tierID, headerID1, headerID2, headerID3)
-		return {
-			{"select", "tierID", tierID },	-- Select the Expansion header
-			{"pop"},	-- Discard the Expansion header and acquire the children.
-			{"where", "headerID", headerID1 },	-- Select the Season header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID2 },	-- Select the Faction header
-			{"pop"},	-- Discard the Season header and acquire the children.
-			{"where", "headerID", headerID3 },	-- Select the Set header
-			{"pop"},	-- Discard the Set header and acquire the children.
-			{"where", "headerID", -319 },	-- Select the "Weapons" header.
-			{"pop"},	-- Discard the class header and acquire the children.
-			{"is", "itemID"},
-			{"is", "s"},	-- If it has a sourceID, keep it, otherwise throw it away.
-		};
-	end,
-	["legion_relinquished_base"] = function()
-		return {
-			-- Legion Legendaries
-			--[[
-			{"select", "npcID", 106655},	-- Arcanomancer Vridiel
-			{"pop"},	-- Remove Arcanomancer Vridiel and push his children into the processing queue.
-			{ "exclude", "itemID", 154879, 157796 },	-- Exclude the Purified Titan Essence and the Awoken Titan Essence
-			{"pop"},	-- Remove the Legendary Tokens and push the children into the processing queue.
-			{"finalize"},	-- Push the items to the finalized list.
-			]]--
-
-			-- PVP Gear
-			--[[
-			-- Demonic Combatant & Gladiator Season 7 Gear
-			{"select", "headerID", -688},	-- Demonic Gladiator Season 7
-			{"pop"},	-- Remove Season Header and push the children into the processing queue.
-			{"pop"},	-- Remove Faction Header and push the children into the processing queue.
-			{"contains", "headerID", -660, -661},	-- Select only the Aspirant / Combatant Gear & Gladiator Headers.
-			{"pop"},	-- Remove Aspirant / Combatant Gear Header and push the children into the processing queue.
-			{"pop"},	-- Remove Class / Armor Header and push the children into the processing queue.
-			{"finalize"},	-- Push the items to the finalized list.
-			]]--
-
-			-- Unsullied Gear
-			{"select", "itemID",
-				152740,	-- Unsullied Cloak
-				152738,	-- Unsullied Cloth Cap
-				152734,	-- Unsullied Cloth Mantle
-				153135,	-- Unsullied Cloth Robes
-				152742,	-- Unsullied Cloth Cuffs
-				153141,	-- Unsullied Cloth Mitts
-				153156,	-- Unsullied Cloth Sash
-				153154,	-- Unsullied Cloth Leggings
-				153144,	-- Unsullied Cloth Slippers
-				153139,	-- Unsullied Leather Headgear
-				153145,	-- Unsullied Leather Spaulders
-				153151,	-- Unsullied Leather Tunic
-				153142,	-- Unsullied Leather Armbands
-				152739,	-- Unsullied Leather Grips
-				153148,	-- Unsullied Leather Belt
-				152737,	-- Unsullied Leather Trousers
-				153136,	-- Unsullied Leather Treads
-				153147,	-- Unsullied Mail Coif
-				153137,	-- Unsullied Mail Spaulders
-				152741,	-- Unsullied Mail Chestguard
-				153158,	-- Unsullied Mail Bracers
-				153149,	-- Unsullied Mail Gloves
-				152744,	-- Unsullied Mail Girdle
-				153138,	-- Unsullied Mail Legguards
-				153152,	-- Unsullied Mail Boots
-				153155,	-- Unsullied Plate Helmet
-				153153,	-- Unsullied Plate Pauldrons
-				153143,	-- Unsullied Plate Breasplate
-				153150,	-- Unsullied Plate Vambraces
-				153157,	-- Unsullied Plate Gauntlets
-				153140,	-- Unsullied Plate Waistplate
-				153146,	-- Unsullied Plate Greaves
-				152743,	-- Unsullied Plate Sabatons
-				152736,	-- Unsullied Necklace
-				152735,	-- Unsullied Ring
-				152733,	-- Unsullied Trinket
-				152799,	-- Unsullied Relic
-			},
-			{"pop"},	-- Remove the Unsullied Tokens and push the children into the processing queue.
-			{"finalize"},	-- Push the Unsullied items to the finalized list.
-
-			-- World Bosses
-			{"select", "encounterID",
-				1790,	-- Ana-Mouz
-				1956,	-- Apocron
-				1883,	-- Brutallus
-				1774,	-- Calamir
-				1789,	-- Drugon the Frostblood
-				1795,	-- Flotsam
-				1770,	-- Humongris
-				1769,	-- Levantus
-				1884,	-- Malificus
-				1783,	-- Na'zak the Fiend
-				1749,	-- Nithogg
-				1763,	-- Shar'thos
-				1885,	-- Si'vash
-				1756,	-- The Soultakers
-				1796,	-- Withered J'im
-			},
-			{"pop"},	-- Remove the World Bosses and push the children into the processing queue.
-			{"finalize"},	-- Push the unprocessed Items to the finalized list.
-
-			-- Raids
-			{"select", "instanceID",
-				768,	-- Emerald Nightmare
-				861,	-- Trial of Valor
-				786,	-- The Nighthold
-				875,	-- Tomb of Sargeras
-			},
-
-			-- Process the Raids, Normal Mode Only Loot for boots.
-			{"pop"},	-- Discard the Instance Headers and acquire all of their children.
-			{"where", "difficultyID", 14},	-- Select only the Normal Difficulty Headers.
-			{"pop"},	-- Discard the Difficulty Headers and acquire all of their children.
-			{"is", "encounterID"},	-- Only use the encounters themselves, no zone drops.
-			{"pop"},	-- Discard the Encounter Headers and acquire all of their children.
-			{"finalize"},	-- Push the unprocessed Items to the finalized list.
-
-			-- Dungeons
-			{"select", "instanceID",
-				777,	-- Assault on Violet Hold
-				740,	-- Blackrook Hold
-				900,	-- Cathedral of Eternal Night
-				800,	-- Court of Stars
-				762,	-- Darkheart Thicket
-				716,	-- Eye of Azshara
-				721,	-- Halls of Valor
-				727,	-- Maw of Souls
-				767,	-- Neltharion's Lair
-				860,	-- Return to Karazhan
-				945,	-- Seat of the Triumvirate
-				749,	-- The Arcway
-				707,	-- Vault of the Wardens
-			},
-
-			-- Process the Dungeons, Mythic Mode Only Loot for boots.
-			{"pop"},	-- Discard the Instance Headers and acquire all of their children.
-			{"where", "difficultyID", 23},	-- Select only the Mythic Difficulty Headers.
-			{"pop"},	-- Discard the Difficulty Headers and acquire all of their children.
-			{"pop"},	-- Discard the Encounter Headers and acquire all of their children.
-			{"finalize"},	-- Push the unprocessed Items to the finalized list.
-
-			-- World Quest Rewards
-			{"select", "mapID",
-				905,	-- Argus
-				630,	-- Azsuna
-				646,	-- Broken Shore
-				650,	-- Highmountain
-				634,	-- Stormheim
-				680,	-- Suramar
-				641,	-- Val'sharah
-			},
-
-			-- Process the World Quest Rewards
-			{"pop"},	-- Discard the Map Headers and acquire all of their children.
-			{"where", "headerID", -34},	-- Select only the World Quest Headers
-			{"pop"},	-- Discard the World Quest Headers and acquire all of their children.
-			{"is", "headerID"},	-- Only use the item sets themselves, no zone drops.
-			{"pop"},	-- Discard the item set Headers and acquire all of their children.
-			{"finalize"},	-- Push the unprocessed Items to the finalized list.
-
-			{"merge"},	-- Merge the finalized items back into the processing queue.
-			{"is", "itemID"},	-- Only Items!
-		};
-	end,
-	["legion_relinquished"] = function(invtypes, ...)
-		local f = {...};
-		local commands = subroutines["legion_relinquished_base"]();
-		if type(invtypes) == 'number' then tinsert(f, invtypes); end
-		if #f > 0 then tinsert(commands, {"contains", "f", unpack(f) }); end	-- Specific filterIDs only!
-		if type(invtypes) == 'table' then tinsert(commands, {"invtype", unpack(invtypes)}); end	-- Only pay attention to items equipped in the slots.
-		tinsert(commands, {"postprocess"});	-- Post Process the search results to ensure no duplicate keys exist.
-		tinsert(commands, {"modID", 43});	-- Reassign the ModID to 43.
-		return commands;
-	end,
-	["legion_relinquished_relic"] = function(relictype)
-		local commands = subroutines["legion_relinquished_base"]();
-		if relictype then tinsert(commands, {"relictype", relictype}); end	-- Only pay attention to relics of a certain kind
-		tinsert(commands, {"postprocess"});	-- Post Process the search results to ensure no duplicate keys exist.
-		tinsert(commands, {"modID", 43});	-- Reassign the ModID to 43.
-		return commands;
-	end,
-	["bfa_azerite_armor_chest_dungeons"] = function()
-		return {
-			-- Dungeons
-			{"select", "instanceID",
-				968,	-- Atal'Dazar
-				1001,	-- Freehold
-				1041,	-- King's Rest
-				1178,	-- Operation: Mechagon ??
-				1036,	-- Shrine of the Storm
-				1023,	-- Siege of Boralus
-				1030,	-- Temple of Sethraliss
-				1012,	-- The MOTHERLODE!!
-				1022,	-- The Underrot
-				1002,	-- Tol Dagor
-				1021,	-- Waycrest Manor
-			},
-
-			-- Process the Dungeons, Normal Mode Only Loot for the azerite pieces.
-			{"pop"},	-- Discard the Instance Headers and acquire all of their children.
-			{"where", "difficultyID", 1},	-- Select only the Normal Difficulty Headers.
-			{"pop"},	-- Discard the Difficulty Headers and acquire all of their children.
-			{"pop"},	-- Discard the Encounter Headers and acquire all of their children.
-			{"is", "itemID"},	-- Only Items!
-			{"invtype", "INVTYPE_HEAD", "INVTYPE_SHOULDER", "INVTYPE_CHEST", "INVTYPE_ROBE" },	-- Only Head, Shoulders, and Chest items. (azerite)
-			{"modID", 1},	-- Normal
-		};
-	end,
-	["bfa_azerite_armor_chest_warfront"] = function()
-		return {
-			{"select", "headerID", -10057},	-- War Effort
-			{"pop"},	-- Discard the War Effort Header and acquire the children.
-			{"where", "mapID", 14},	-- Arathi Highlands
-			{"pop"},	-- Discard the Map Header and acquire the children.
-			{"where", "headerID", -1 },	-- Select the Common Boss Drop Header.
-			{"pop"},	-- Discard the Common Boss Drop Header and acquire the children.
-			{"postprocess"},	-- Post Process the search results to ensure no duplicate keys exist.
-			{"is", "itemID"},	-- Only Items!
-			{"invtype", "INVTYPE_HEAD", "INVTYPE_SHOULDER", "INVTYPE_CHEST", "INVTYPE_ROBE" },	-- Only Head, Shoulders, and Chest items. (azerite)
-			{"modID", 5},	-- iLvl 340
-		}
-	end,
-	["bfa_azerite_armor_chest_zonedrops"] = function()
-		return {
-			-- World Quest Rewards
-			{"select", "mapID",
-				896,	-- Drustvar
-				942,	-- Stormsong Valley
-				895,	-- Tiragarde Sound
-				863,	-- Nazmir
-				864,	-- Vol'dun
-				862,	-- Zuldazar
-			},
-
-			-- Process the World Quest Rewards
-			{"pop"},	-- Discard the Map Headers and acquire all of their children.
-			{"where", "headerID", -903},	-- Select only the Zone Rewards Headers
-			{"pop"},	-- Discard the Zone Rewards Headers and acquire all of their children.
-
-			-- Process the headers for the Azerite Armor pieces.
-			{"is", "itemID"},	-- Only Items!
-			{"invtype", "INVTYPE_HEAD", "INVTYPE_SHOULDER", "INVTYPE_CHEST", "INVTYPE_ROBE" },	-- Only Head, Shoulders, and Chest items. (azerite)
-			{"myModID"},
-		};
-	end,
-	["bfa_azerite_armor_chest"] = function()
-		return {
-			{ "subif", "bfa_azerite_armor_chest_dungeons", function(o) return o.modID == 1 or o.modID == 2; end },
-			{ "finalize" },
-			{ "subif", "bfa_azerite_armor_chest_warfront", function(o) return o.modID == 5; end },
-			{ "finalize" },
-			{ "subif", "bfa_azerite_armor_chest_zonedrops", function(o) return not o.modID or (o.modID ~= 1 and o.modID ~= 2 and o.modID ~= 5); end },
-			{ "merge" },
-		};
-	end,
-	-- Common Northrend/Cataclysm Recipes Vendor
-	["common_recipes_vendor"] = function(npcID)
-		return {
-			{"select", "creatureID", npcID},	-- Main Vendor
-			{"pop"},	-- Remove Main Vendor and push his children into the processing queue.
-			{"is", "itemID"},	-- Only Items
-			-- Borya <Tailoring Supplies> Cataclysm Tailoring
-			{"exclude", "itemID", 6270},	-- Pattern: Blue Linen Vest
-			{"exclude", "itemID", 6274},	-- Pattern: Blue Overalls
-			{"exclude", "itemID", 10314},	-- Pattern: Lavender Mageweave Shirt
-			{"exclude", "itemID", 10317},	-- Pattern: Pink Mageweave Shirt
-			{"exclude", "itemID", 5772},	-- Pattern: Red Woolen Bag
-			-- Sumi <Blacksmithing Supplies> Cataclysm Blacksmithing
-			{"exclude", "itemID", 12162},	-- Plans: Hardened Iron Shortsword
-			-- Tamar <Leatherworking Supplies> Cataclysm Leatherworking
-			{"exclude", "itemID", 18731},	-- Pattern: Heavy Leather Ball
-			-- Kithas <Enchanting Supplies> Cataclysm Enchanting
-			{"exclude", "itemID", 6349},	-- Formula: Enchant 2H Weapon - Lesser Intellect
-			{"exclude", "itemID", 20753},	-- Formula: Lesser Wizard Oil
-			{"exclude", "itemID", 20752},	-- Formula: Minor Mana Oil
-			{"exclude", "itemID", 20758},	-- Formula: Minor Wizard Oil
-			{"exclude", "itemID", 22307},	-- Pattern: Enchanted Mageweave Pouch
-			-- Marith Lazuria <Jewelcrafting Supplies> Cataclysm Jewelcrafting
-			-- Shazdar <Sous Chef> Cataclysm Cooking
-			-- Tiffany Cartier <Jewelcrafting Supplies> Northrend Jewelcrafting
-			-- Timothy Jones <Jewelcrafting Trainer> Northrend Jewelcrafting
-		}
-	end,
-	["common_vendor"] = function(npcID)
-		return {
-			{"select", "creatureID", npcID},	-- Main Vendor
-			{"pop"},	-- Remove Main Vendor and push his children into the processing queue.
-			{"is", "itemID"},	-- Only Items
-		}
-	end,
-	-- TW Instance
-	["tw_instance"] = function(instanceID)
-		return  {
-			{"select", "itemID", 133543},			-- Infinite Timereaver
-			{"postprocess"},						-- de-duplicate
-			{"push", "headerID", -1},				-- Push into 'Common Boss Drops' header
-			{"finalize"},							-- capture current results
-			{"select", "instanceID", instanceID},	-- select this instance
-			{"where", "u", 1016},					-- only the instance which is marked as TIMEWALKING
-			{"pop"},								-- pop the instance header
-		}
-	end,
-	-- Wod Dungeon
-	["common_wod_dungeon_drop"] = function(difficultyID, headerID)
-		return {
-			{"select", "headerID", -23},				-- Common Dungeon Drops
-			{"pop"},									-- Discard the Header and acquire all of their children.
-			{"where", "difficultyID", difficultyID},	-- Normal/Heroic/Mythic/Timewalking
-			{"pop"},									-- Discard the Diffculty Header and acquire all of their children.
-			{"where", "headerID", headerID},			-- Head/Shoulder/Chest/Legs/Feet/Wrist/Hands/Waist
-		}
-	end,
-	-- Wod Dungeon TW
-	["common_wod_dungeon_drop_tw"] = function(difficultyID, headerID)
-		return {
-			{"select", "headerID", -23},				-- Common Dungeon Drops
-			{"where", "u", 1016 },						-- only the Common Dungeon Drops which is marked as TIMEWALKING
-			{"pop"},									-- Discard the Header and acquire all of their children.
-			{"where", "headerID", headerID},			-- Head/Shoulder/Chest/Legs/Feet/Wrist/Hands/Waist
-		}
-	end,
-	-- Korthian Armaments
-	["korthian_armaments"] = function(invtyp)
-		return {
-			{"select", "itemID", 187187 },				-- Korthian Armaments
-			{"pop"},									-- Discard the Item Header and acquire all of their children.
-			{"pop"},									-- Discard the Headers and acquire all of their children.
-			{"invtype", invtyp },						-- Only slot-specific
-		}
-	end,
-};
+local FinalizeModID;
 local ArrayAppend = app.ArrayAppend;
+-- Checks if any of the provided arguments can be found within the first array object
+local function ContainsAnyValue(arr, ...)
+	local value;
+	local vals = select("#", ...);
+	for i=1,vals do
+		value = select(i, ...);
+		for _,v in ipairs(arr) do
+			if v == value then return true; end
+		end
+	end
+end
 local function Resolve_Extract(results, group, field)
 	if group[field] then
 		tinsert(results, group);
@@ -3499,14 +3134,13 @@ local function Resolve_Extract(results, group, field)
 	return results;
 end
 
-
 -- Defines a known set of functions which can be run via symlink resolution. The inputs to each function will be identical in order when called.
 -- searchResults - the current set of searchResults when reaching the current sym command
 -- o - the specific group object which contains the symlink commands
 -- (various expected components of the respective sym command)
 local ResolveFunctions = {
-	["select"] = function(searchResults, o, cmd, field, ...)
-		-- Instruction to search the full database for multiple of a given type
+	-- Instruction to search the full database for multiple of a given type
+	["select"] = function(finalized, searchResults, o, cmd, field, ...)
 		local cache, val;
 		local vals = select("#", ...);
 		for i=1,vals do
@@ -3519,30 +3153,42 @@ local ResolveFunctions = {
 			end
 		end
 	end,
-	["selectparent"] = function(searchResults, o, cmd, level)
-		-- Instruction to select the parent object of the parent that owns the symbolic link.
-		if level and level > 0 then
-			local parent = o.parent;
-			while level > 1 do
-				parent = parent and parent.parent;
-				level = level - 1;
-			end
-			if parent then
-				tinsert(searchResults, parent);
-			else
-				print("Failed to select parent " .. level .. " levels up.");
-			end
+	-- Instruction to select the parent object of the group that owns the symbolic link
+	["selectparent"] = function(finalized, searchResults, o, cmd, level)
+		level = level or 1;
+		local parent = o.parent;
+		-- app.PrintDebug("selectparent",level,parent and parent.hash)
+		while level > 1 do
+			parent = parent and parent.parent;
+			level = level - 1;
+			-- app.PrintDebug("selectparent",level,parent and parent.hash)
+		end
+		if parent then
+			tinsert(searchResults, parent);
 		else
-			-- Select the direct parent object.
-			tinsert(searchResults, o.parent);
+			-- an extra search for the specific 'o' to retrieve the source parent since the parent is not actually attached to the reference resolving the symlink
+			local searchedObject = app.SearchForMergedObject(o.key, o[o.key]);
+			if searchedObject then
+				parent = searchedObject.parent;
+				while level > 1 do
+					parent = parent and parent.parent;
+					level = level - 1;
+				end
+				if parent then
+					tinsert(searchResults, parent);
+					return;
+				end
+			end
+			print("Failed to select parent for",o.hash);
 		end
 	end,
-	["selectprofession"] = function(searchResults, o, cmd, requireSkill)
-		-- Instruction to find all content marked with the specified 'requireSkill'
-		ArrayAppend(searchResults, app:BuildSearchResponse(app:GetDataCache().g, "requireSkill", requireSkill));
+	-- Instruction to find all content marked with the specified 'requireSkill'
+	["selectprofession"] = function(finalized, searchResults, o, cmd, requireSkill)
+		local search = app:BuildSearchResponse(app:GetDataCache().g, "requireSkill", requireSkill);
+		ArrayAppend(searchResults, search);
 	end,
-	["fill"] = function(searchResults, o)
-		-- Instruction to fill with identical content cached elsewhere for this group (no symlinks)
+	-- Instruction to fill with identical content cached elsewhere for this group (no symlinks)
+	["fill"] = function(finalized, searchResults, o)
 		local okey = o.key;
 		if okey then
 			local okeyval = o[okey];
@@ -3556,23 +3202,49 @@ local ResolveFunctions = {
 			end
 		end
 	end,
-	["push"] = function(searchResults, o, cmd, field, value)
-		-- Instruction to "push" all of the group values into an object as specified
-		local orig = RawCloneData(searchResults);
+	-- Instruction to finalize the current search results and prevent additional queries from affecting this selection
+	["finalize"] = function(finalized, searchResults)
+		ArrayAppend(finalized, searchResults);
+		wipe(searchResults);
+	end,
+	-- Instruction to take all of the finalized and non-finalized search results and merge them back in to the processing queue
+	["merge"] = function(finalized, searchResults)
+		local orig;
+		if #searchResults > 0 then
+			orig = RawCloneData(searchResults);
+		end
+		wipe(searchResults);
+		-- finalized first
+		ArrayAppend(searchResults, finalized);
+		wipe(finalized);
+		-- then any existing searchResults
+		ArrayAppend(searchResults, orig);
+	end,
+	-- Instruction to "push" all of the group values into an object as specified
+	["push"] = function(finalized, searchResults, o, cmd, field, value)
+		local orig;
+		if #searchResults > 0 then
+			orig = RawCloneData(searchResults);
+		end
 		wipe(searchResults);
 		searchResults[1] = CreateObject({[field] = value, g = orig });
 	end,
-	["pop"] = function(searchResults)
-		-- Instruction to "pop" all of the group values up one level.
-		local orig = RawCloneData(searchResults);
+	-- Instruction to "pop" all of the group values up one level
+	["pop"] = function(finalized, searchResults)
+		local orig;
+		if #searchResults > 0 then
+			orig = RawCloneData(searchResults);
+		end
 		wipe(searchResults);
-		for _,s in ipairs(orig) do
-			-- insert raw & symlinked Things from this group
-			ArrayAppend(searchResults, s.g, ResolveSymbolicLink(s));
+		if orig then
+			for _,s in ipairs(orig) do
+				-- insert raw & symlinked Things from this group
+				ArrayAppend(searchResults, s.g, ResolveSymbolicLink(s));
+			end
 		end
 	end,
-	["where"] = function(searchResults, o, cmd, field, value)
-		-- Instruction to include only search results where a key value is a value
+	-- Instruction to include only search results where a key value is a value
+	["where"] = function(finalized, searchResults, o, cmd, field, value)
 		for k=#searchResults,1,-1 do
 			local s = searchResults[k];
 			if not s[field] or s[field] ~= value then
@@ -3580,325 +3252,746 @@ local ResolveFunctions = {
 			end
 		end
 	end,
-	["extract"] = function(searchResults, o, cmd, field)
-		-- Instruction to extract all nested results which contain a given field
-		local orig = RawCloneData(searchResults);
-		wipe(searchResults);
-		for _,o in ipairs(orig) do
-			Resolve_Extract(searchResults, o, field);
+	-- Instruction to extract all nested results which contain a given field
+	["extract"] = function(finalized, searchResults, o, cmd, field)
+		local orig;
+		if #searchResults > 0 then
+			orig = RawCloneData(searchResults);
 		end
-	end,
-	["index"] = function(searchResults, o, cmd, index)
-		-- Instruction to include the search result with a given index within each of the selection's groups.
-		local orig = RawCloneData(searchResults);
 		wipe(searchResults);
-		local s, g;
-		for k=#orig,1,-1 do
-			s = orig[k];
-			g = s.g;
-			if g and index <= #g then
-				tinsert(searchResults, g[index]);
+		if orig then
+			for _,o in ipairs(orig) do
+				Resolve_Extract(searchResults, o, field);
 			end
 		end
 	end,
+	-- Instruction to include the search result with a given index within each of the selection's groups
+	["index"] = function(finalized, searchResults, o, cmd, index)
+		local orig;
+		if #searchResults > 0 then
+			orig = RawCloneData(searchResults);
+		end
+		wipe(searchResults);
+		if orig then
+			local s, g;
+			for k=#orig,1,-1 do
+				s = orig[k];
+				g = s.g;
+				if g and index <= #g then
+					tinsert(searchResults, g[index]);
+				end
+			end
+		end
+	end,
+	-- Instruction to include only search results where a key value is not a value
+	["not"] = function(finalized, searchResults, o, cmd, field, ...)
+		local vals = select("#", ...);
+		if vals < 1 then
+			print("'",cmd,"' had empty value set")
+			return;
+		end
+		local s, value;
+		for k=#searchResults,1,-1 do
+			s = searchResults[k];
+			for i=1,vals do
+				value = select(i, ...);
+				if s[field] == value then
+					tremove(searchResults, k);
+					break;
+				end
+			end
+		end
+	end,
+	-- Instruction to include only search results where a key exists
+	["is"] = function(finalized, searchResults, o, cmd, field)
+		for k=#searchResults,1,-1 do
+			local s = searchResults[k];
+			if not s[field] then tremove(searchResults, k); end
+		end
+	end,
+	-- Instruction to include only search results where a key doesn't exist
+	["isnt"] = function(finalized, searchResults, o, cmd, field)
+		for k=#searchResults,1,-1 do
+			local s = searchResults[k];
+			if s[field] then tremove(searchResults, k); end
+		end
+	end,
+	-- Instruction to include only search results where a key value/table contains a value
+	["contains"] = function(finalized, searchResults, o, cmd, field, ...)
+		local vals = select("#", ...);
+		if vals < 1 then
+			print("'",cmd,"' had empty value set")
+			return;
+		end
+		local s, kval;
+		for k=#searchResults,1,-1 do
+			s = searchResults[k];
+			kval = s[field];
+			-- key doesn't exist at all on the result
+			if not kval then
+				tremove(searchResults, k);
+			-- none of the values match the contains values
+			elseif type(kval) == "table" then
+				if not ContainsAnyValue(kval, ...) then
+					tremove(searchResults, k);
+				end
+			-- key exists with single value on the result
+			else
+				local match;
+				for i=1,vals do
+					if kval == select(i, ...) then
+						match = true;
+						break;
+					end
+				end
+				if not match then
+					tremove(searchResults, k);
+				end
+			end
+		end
+	end,
+	-- Instruction to exclude search results where a key value contains a value
+	["exclude"] = function(finalized, searchResults, o, cmd, field, ...)
+		local vals = select("#", ...);
+		if vals < 1 then
+			print("'",cmd,"' had empty value set")
+			return;
+		end
+		local s, kval;
+		for k=#searchResults,1,-1 do
+			s = searchResults[k];
+			kval = s[field];
+			-- key exists
+			if kval then
+				local match;
+				for i=1,vals do
+					if kval == select(i, ...) then
+						match = true;
+						break;
+					end
+				end
+				if match then
+					-- TEMP logic to allow Ensembles to continue working until they get fixed again...
+					if field == "itemID" and s.g and kval == o[field] then
+						ArrayAppend(searchResults, s.g);
+					end
+					tremove(searchResults, k);
+				end
+			end
+		end
+	end,
+	-- Instruction to include only search results where an item is of a specific inventory type
+	["invtype"] = function(finalized, searchResults, o, cmd, ...)
+		local vals = select("#", ...);
+		if vals < 1 then
+			print("'",cmd,"' had empty value set")
+			return;
+		end
+		local s, invtype;
+		for k=#searchResults,1,-1 do
+			s = searchResults[k];
+			if s.itemID then
+				invtype = select(4, GetItemInfoInstant(s.itemID));
+				local match;
+				for i=1,vals do
+					if invtype == select(i, ...) then
+						match = true;
+						break;
+					end
+				end
+				if not match then
+					tremove(searchResults, k);
+				end
+			end
+		end
+	end,
+	-- Instruction to search the full database for multiple achievementID's and persist only actual achievements
+	["meta_achievement"] = function(finalized, searchResults, o, cmd, ...)
+		local vals = select("#", ...);
+		if vals < 1 then
+			print("'",cmd,"' had empty value set")
+			return;
+		end
+		local cache, value;
+		for i=1,vals do
+			value = select(i, ...);
+			cache = app.CleanSourceIgnoredGroups(app.SearchForField("achievementID", value));
+			if cache then
+				ArrayAppend(searchResults, cache);
+			else
+				print("Failed to select achievementID",value);
+			end
+		end
+		-- Remove any Criteria groups associated with those achievements
+		for k=#searchResults,1,-1 do
+			local s = searchResults[k];
+			if s.criteriaID then tremove(searchResults, k); end
+		end
+	end,
+	-- Instruction to include only search results where an item is of a specific relic type
+	["relictype"] = function(finalized, searchResults, o, cmd, ...)
+		local vals = select("#", ...);
+		if vals < 1 then
+			print("'",cmd,"' had empty value set")
+			return;
+		end
+		--[[
+		RELIC_SLOT_TYPE_ARCANE = "Arcane";
+		RELIC_SLOT_TYPE_BLOOD = "Blood";
+		RELIC_SLOT_TYPE_FEL = "Fel";
+		RELIC_SLOT_TYPE_FIRE = "Fire";
+		RELIC_SLOT_TYPE_FROST = "Frost";
+		RELIC_SLOT_TYPE_HOLY = "Holy";
+		RELIC_SLOT_TYPE_IRON = "Iron";
+		RELIC_SLOT_TYPE_LIFE = "Life";
+		RELIC_SLOT_TYPE_SHADOW = "Shadow";
+		RELIC_SLOT_TYPE_WATER = "Water";
+		RELIC_SLOT_TYPE_WIND = "Storm";
+		]]--
+		local types = {...};
+		-- replace the short constant values with in-game localized values
+		for i=#types,1,-1 do
+			types[i] = _G["RELIC_SLOT_TYPE_" .. types[i]];
+		end
+		local s, itemID;
+		for k=#searchResults,1,-1 do
+			s = searchResults[k];
+			itemID = s.itemID;
+			if itemID and IsArtifactRelicItem(itemID) and contains(types, select(3, C_ArtifactUI.GetRelicInfoByItemID(itemID))) then
+				-- We're good.
+			else
+				tremove(searchResults, k);
+			end
+		end
+	end,
+	-- Instruction to apply a specific modID to any Items within the finalized search results
+	["modID"] = function(finalized, searchResults, o, cmd, modID)
+		FinalizeModID = modID;
+	end,
+	-- Instruction to apply the modID from the Source object to any Items within the finalized search results
+	["myModID"] = function(finalized, searchResults, o)
+		FinalizeModID = o.modID;
+	end,
+	["achievement_criteria"] = function(finalized, searchResults, o)
+		-- Instruction to select the criteria provided by the achievement this is attached to. (maybe build this into achievements?)
+		if GetAchievementNumCriteria then
+			local achievementID = o.achievementID;
+			local cache;
+			local criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, id, criteriaObject;
+			for criteriaID=1,GetAchievementNumCriteria(achievementID),1 do
+				criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, id = GetAchievementCriteriaInfo(achievementID, criteriaID);
+				criteriaObject = app.CreateAchievementCriteria(id);
+				if criteriaType == 27 then
+					cache = app.SearchForField("questID", assetID);
+				elseif criteriaType == 36 or criteriaType == 42 then	-- Items
+					criteriaObject.providers = {{ "i", assetID }};
+				elseif criteriaType == 110	-- Casting spells on specific target
+					or criteriaType == 43 then	-- Exploration
+					-- Ignored
+				else
+					print("Unhandled Criteria Type", criteriaType, assetID);
+				end
+				if cache then
+					local uniques = {};
+					MergeObjects(uniques, cache);
+					for i,o in ipairs(uniques) do
+						rawset(o, "text", nil);
+						for key,value in pairs(o) do
+							criteriaObject[key] = value;
+						end
+						rawset(o, "text", criteriaObject.text);
+					end
+				end
+				criteriaObject.achievementID = achievementID;
+				criteriaObject.parent = o;
+				tinsert(searchResults, criteriaObject);
+				app.CacheFields(criteriaObject);
+			end
+		end
+	end,
+	-- Instruction to include only search results where an item is a relic (Not used currently)
+	-- ["isrelic"] = function(finalized, searchResults)
+	-- 	local s, itemID;
+	-- 	for k=#searchResults,1,-1 do
+	-- 		s = searchResults[k];
+	-- 		itemID = s.itemID;
+	-- 		if not itemID or not IsArtifactRelicItem(itemID) then
+	-- 			tremove(searchResults, k);
+	-- 		end
+	-- 	end
+	-- end,
 };
+-- Subroutine Logic Cache
+local SubroutineCache = {
+	["pvp_gear_base"] = function(finalized, searchResults, o, cmd, tierID, headerID1, headerID2)
+		local select, pop, where = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where;
+		select(finalized, searchResults, o, "select", "tierID", tierID);	-- Select the Expansion header
+		pop(finalized, searchResults);	-- Discard the Expansion header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID1);	-- Select the Season header
+		pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Set header
+	end,
+	["pvp_gear_faction_base"] = function(finalized, searchResults, o, cmd, tierID, headerID1, headerID2, headerID3)
+		local select, pop, where = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where;
+		select(finalized, searchResults, o, "select", "tierID", tierID);	-- Select the Expansion header
+		pop(finalized, searchResults);	-- Discard the Expansion header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID1);	-- Select the Season header
+		pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Faction header
+		pop(finalized, searchResults);	-- Discard the Faction header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID3);	-- Select the Set header
+	end,
+	-- Set Gear
+	["pvp_set_ensemble"] = function(finalized, searchResults, o, cmd, tierID, headerID1, headerID2, classID)
+		local select, pop, where, extract = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.extract;
+		select(finalized, searchResults, o, "select", "tierID", tierID);	-- Select the Expansion header
+		pop(finalized, searchResults);	-- Discard the Expansion header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID1);	-- Select the Season header
+		pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Set header
+		pop(finalized, searchResults);	-- Discard the Set header and acquire the children.
+		where(finalized, searchResults, o, "where", "classID", classID);	-- Select all the class header.
+		extract(finalized, searchResults, o, "extract", "s");	-- Extract all Items with a SourceID
+	end,
+	["pvp_set_faction_ensemble"] = function(finalized, searchResults, o, cmd, tierID, headerID1, headerID2, headerID3, classID)
+		local select, pop, where, extract = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.extract;
+		select(finalized, searchResults, o, "select", "tierID", tierID);	-- Select the Expansion header
+		pop(finalized, searchResults);	-- Discard the Expansion header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID1);	-- Select the Season header
+		pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Faction header
+		pop(finalized, searchResults);	-- Discard the Faction header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID3);	-- Select the Set header
+		pop(finalized, searchResults);	-- Discard the Set header and acquire the children.
+		where(finalized, searchResults, o, "where", "classID", classID);	-- Select all the class header.
+		extract(finalized, searchResults, o, "extract", "s");	-- Extract all Items with a SourceID
+	end,
+	-- Weapons
+	["pvp_weapons_ensemble"] = function(finalized, searchResults, o, cmd, tierID, headerID1, headerID2)
+		local select, pop, where, extract = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.extract;
+		select(finalized, searchResults, o, "select", "tierID", tierID);	-- Select the Expansion header
+		pop(finalized, searchResults);	-- Discard the Expansion header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID1);	-- Select the Season header
+		pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Set header
+		pop(finalized, searchResults);	-- Discard the Set header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", -319);	-- Select the "Weapons" header.
+		extract(finalized, searchResults, o, "extract", "s");	-- Extract all Items with a SourceID
+	end,
+	["pvp_weapons_faction_ensemble"] = function(finalized, searchResults, o, cmd, tierID, headerID1, headerID2, headerID3)
+		local select, pop, where, extract = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.extract;
+		select(finalized, searchResults, o, "select", "tierID", tierID);	-- Select the Expansion header
+		pop(finalized, searchResults);	-- Discard the Expansion header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID1);	-- Select the Season header
+		pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Faction header
+		pop(finalized, searchResults);	-- Discard the Faction header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", headerID3);	-- Select the Set header
+		pop(finalized, searchResults);	-- Discard the Set header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", -319);	-- Select the "Weapons" header.
+		extract(finalized, searchResults, o, "extract", "s");	-- Extract all Items with a SourceID
+	end,
+	-- Common Northrend/Cataclysm Recipes Vendor
+	["common_recipes_vendor"] = function(finalized, searchResults, o, cmd, npcID)
+			local select, pop, is, exclude = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.is, ResolveFunctions.exclude;
+		select(finalized, searchResults, o, "select", "creatureID", npcID);	-- Main Vendor
+		pop(finalized, searchResults);	-- Remove Main Vendor and push his children into the processing queue.
+		is(finalized, searchResults, o, "is", "itemID");	-- Only Items
+		-- Exclude items specific to certain vendors
+		exclude(finalized, searchResults, o, "exclude", "itemID",
+			-- Borya <Tailoring Supplies> Cataclysm Tailoring
+			6270,	-- Pattern: Blue Linen Vest
+			6274,	-- Pattern: Blue Overalls
+			10314,	-- Pattern: Lavender Mageweave Shirt
+			10317,	-- Pattern: Pink Mageweave Shirt
+			5772,	-- Pattern: Red Woolen Bag
+			-- Sumi <Blacksmithing Supplies> Cataclysm Blacksmithing
+			12162,	-- Plans: Hardened Iron Shortsword
+			-- Tamar <Leatherworking Supplies> Cataclysm Leatherworking
+			18731,	-- Pattern: Heavy Leather Ball
+			-- Kithas <Enchanting Supplies> Cataclysm Enchanting
+			6349,	-- Formula: Enchant 2H Weapon - Lesser Intellect
+			20753,	-- Formula: Lesser Wizard Oil
+			20752,	-- Formula: Minor Mana Oil
+			20758,	-- Formula: Minor Wizard Oil
+			22307,	-- Pattern: Enchanted Mageweave Pouch
+			-- Marith Lazuria <Jewelcrafting Supplies> Cataclysm Jewelcrafting
+			-- Shazdar <Sous Chef> Cataclysm Cooking
+			-- Tiffany Cartier <Jewelcrafting Supplies> Northrend Jewelcrafting
+			-- Timothy Jones <Jewelcrafting Trainer> Northrend Jewelcrafting
+		0);	-- 0 allows the trailing comma on previous itemIDs for cleanliness
+	end,
+	["common_vendor"] = function(finalized, searchResults, o, cmd, npcID)
+		local select, pop, is = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.is;
+		select(finalized, searchResults, o, "select", "creatureID", npcID);	-- Main Vendor
+		pop(finalized, searchResults);	-- Remove Main Vendor and push his children into the processing queue.
+		is(finalized, searchResults, o, "is", "itemID");	-- Only Items
+	end,
+	-- TW Instance
+	["tw_instance"] = function(finalized, searchResults, o, cmd, instanceID)
+		local select, pop, where, push, finalize = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.push, ResolveFunctions.finalize;
+		select(finalized, searchResults, o, "select", "itemID", 133543);	-- Infinite Timereaver
+		push(finalized, searchResults, o, "push", "headerID", -1);	-- Push into 'Common Boss Drops' header
+		finalize(finalized, searchResults);	-- capture current results
+		select(finalized, searchResults, o, "select", "instanceID", instanceID);	-- select this instance
+		where(finalized, searchResults, o, "where", "u", 1016);	-- only the instance which is marked as TIMEWALKING
+		pop(finalized, searchResults);	-- pop the instance header
+	end,
+	-- Wod Dungeon
+	["common_wod_dungeon_drop"] = function(finalized, searchResults, o, cmd, difficultyID, headerID)
+		local select, pop, where = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where;
+		select(finalized, searchResults, o, "select", "headerID", -23);	-- Common Dungeon Drops
+		pop(finalized, searchResults);	-- Discard the Header and acquire all of their children.
+		where(finalized, searchResults, o, "where", "difficultyID", difficultyID);	-- Normal/Heroic/Mythic/Timewalking
+		pop(finalized, searchResults);	-- Discard the Diffculty Header and acquire all of their children.
+		where(finalized, searchResults, o, "where", "headerID", headerID);	-- Head/Shoulder/Chest/Legs/Feet/Wrist/Hands/Waist
+	end,
+	-- Wod Dungeon TW
+	["common_wod_dungeon_drop_tw"] = function(finalized, searchResults, o, cmd, difficultyID, headerID)
+		local select, pop, where = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where;
+		select(finalized, searchResults, o, "select", "headerID", -23);	-- Common Dungeon Drops
+		where(finalized, searchResults, o, "where", "u", 1016);	-- only the Common Dungeon Drops which is marked as TIMEWALKING
+		pop(finalized, searchResults);	-- Discard the Header and acquire all of their children.
+		where(finalized, searchResults, o, "where", "headerID", headerID);	-- Head/Shoulder/Chest/Legs/Feet/Wrist/Hands/Waist
+	end,
+	-- Korthian Armaments
+	["korthian_armaments"] = function(finalized, searchResults, o, cmd, inv)
+		local select, pop, invtype = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.invtype;
+		select(finalized, searchResults, o, "select", "itemID", 187187);	-- Korthian Armaments
+		pop(finalized, searchResults);	-- Discard the Item Header and acquire all of their children.
+		pop(finalized, searchResults);	-- Discard the Headers and acquire all of their children.
+		invtype(finalized, searchResults, o, "invtype", inv);	-- Only slot-specific
+	end,
+	["bfa_azerite_armor_chest_dungeons"] = function(finalized, searchResults, o)
+		local select, pop, where, is, invtype, modID = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.is, ResolveFunctions.invtype, ResolveFunctions.modID;
+		-- Dungeons
+		select(finalized, searchResults, o, "select", "instanceID",
+			968,	-- Atal'Dazar
+			1001,	-- Freehold
+			1041,	-- King's Rest
+			1178,	-- Operation: Mechagon ??
+			1036,	-- Shrine of the Storm
+			1023,	-- Siege of Boralus
+			1030,	-- Temple of Sethraliss
+			1012,	-- The MOTHERLODE!!
+			1022,	-- The Underrot
+			1002,	-- Tol Dagor
+			1021	-- Waycrest Manor
+		);
+
+		-- Process the Dungeons, Normal Mode Only Loot for the azerite pieces.
+		pop(finalized, searchResults);	-- Discard the Instance Headers and acquire all of their children.
+		where(finalized, searchResults, o, "where", "difficultyID", 1);	-- Select only the Normal Difficulty Headers.
+		pop(finalized, searchResults);	-- Discard the Difficulty Headers and acquire all of their children.
+		pop(finalized, searchResults);	-- Discard the Encounter Headers and acquire all of their children.
+		is(finalized, searchResults, o, "is", "itemID");	-- Only Items!
+		invtype(finalized, searchResults, o, "invtype", "INVTYPE_HEAD", "INVTYPE_SHOULDER", "INVTYPE_CHEST", "INVTYPE_ROBE");	-- Only Head, Shoulders, and Chest items. (azerite)
+		modID(finalized, searchResults, 1);	-- Normal
+	end,
+	["bfa_azerite_armor_chest_warfront"] = function(finalized, searchResults, o)
+		local select, pop, where, is, invtype, modID = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.is, ResolveFunctions.invtype, ResolveFunctions.modID;
+		select(finalized, searchResults, o, "select", "headerID", -10057);	-- War Effort
+		pop(finalized, searchResults);	-- Discard the War Effort Header and acquire the children.
+		where(finalized, searchResults, o, "where", "mapID", 14);	-- Arathi Highlands
+		pop(finalized, searchResults);	-- Discard the Map Header and acquire the children.
+		where(finalized, searchResults, o, "where", "headerID", -1);	-- Select the Common Boss Drop Header.
+		pop(finalized, searchResults);	-- Discard the Common Boss Drop Header and acquire the children.
+		is(finalized, searchResults, o, "is", "itemID");	-- Only Items!
+		invtype(finalized, searchResults, o, "invtype", "INVTYPE_HEAD", "INVTYPE_SHOULDER", "INVTYPE_CHEST", "INVTYPE_ROBE");	-- Only Head, Shoulders, and Chest items. (azerite)
+		modID(finalized, searchResults, 5);	-- iLvl 340
+	end,
+	["bfa_azerite_armor_chest_zonedrops"] = function(finalized, searchResults, o)
+		local select, pop, where, is, invtype, myModID = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.is, ResolveFunctions.invtype, ResolveFunctions.myModID;
+		-- World Quest Rewards
+		select(finalized, searchResults, o, "select", "mapID",
+			896,	-- Drustvar
+			942,	-- Stormsong Valley
+			895,	-- Tiragarde Sound
+			863,	-- Nazmir
+			864,	-- Vol'dun
+			862	-- Zuldazar
+		);
+
+		-- Process the World Quest Rewards
+		pop(finalized, searchResults);	-- Discard the Map Headers and acquire all of their children.
+		where(finalized, searchResults, o, "where", "headerID", -903);	-- Select only the Zone Rewards Headers
+		pop(finalized, searchResults);	-- Discard the Zone Rewards Headers and acquire all of their children.
+
+		-- Process the headers for the Azerite Armor pieces.
+		is(finalized, searchResults, o, "is", "itemID");	-- Only Items!
+		invtype(finalized, searchResults, o, "invtype", "INVTYPE_HEAD", "INVTYPE_SHOULDER", "INVTYPE_CHEST", "INVTYPE_ROBE");	-- Only Head, Shoulders, and Chest items. (azerite)
+		myModID(finalized, searchResults, o);	-- Apply matching ModID as source
+
+	end,
+	["bfa_azerite_armor_chest"] = function(finalized, searchResults, o)
+		local sub = ResolveFunctions.sub;
+		local modID = o.modID;
+		-- Conditional checks to see which subroutine applies to this chest
+		if modID == 1 or modID == 2 then
+			sub(finalized, searchResults, o, "sub", "bfa_azerite_armor_chest_dungeons");
+			return;
+		end
+		if modID == 5 then
+			sub(finalized, searchResults, o, "sub", "bfa_azerite_armor_chest_warfront");
+			return;
+		end
+		sub(finalized, searchResults, o, "sub", "bfa_azerite_armor_chest_zonedrops");
+	end,
+	["legion_relinquished_base"] = function(finalized, searchResults, o)
+		local select, pop, where, is, finalize, merge, extract = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where, ResolveFunctions.is, ResolveFunctions.finalize, ResolveFunctions.merge, ResolveFunctions.extract;
+		-- Legion Legendaries
+		--[[
+		{"select", "npcID", 106655},	-- Arcanomancer Vridiel
+		{"pop"},	-- Remove Arcanomancer Vridiel and push his children into the processing queue.
+		{ "exclude", "itemID", 154879, 157796 },	-- Exclude the Purified Titan Essence and the Awoken Titan Essence
+		{"pop"},	-- Remove the Legendary Tokens and push the children into the processing queue.
+		{"finalize"},	-- Push the items to the finalized list.
+		]]--
+
+		-- PVP Gear
+		--[[
+		-- Demonic Combatant & Gladiator Season 7 Gear
+		{"select", "headerID", -688},	-- Demonic Gladiator Season 7
+		{"pop"},	-- Remove Season Header and push the children into the processing queue.
+		{"pop"},	-- Remove Faction Header and push the children into the processing queue.
+		{"contains", "headerID", -660, -661},	-- Select only the Aspirant / Combatant Gear & Gladiator Headers.
+		{"pop"},	-- Remove Aspirant / Combatant Gear Header and push the children into the processing queue.
+		{"pop"},	-- Remove Class / Armor Header and push the children into the processing queue.
+		{"finalize"},	-- Push the items to the finalized list.
+		]]--
+
+		-- Unsullied Gear
+		select(finalized, searchResults, o, "select", "itemID",
+			152740,	-- Unsullied Cloak
+			152738,	-- Unsullied Cloth Cap
+			152734,	-- Unsullied Cloth Mantle
+			153135,	-- Unsullied Cloth Robes
+			152742,	-- Unsullied Cloth Cuffs
+			153141,	-- Unsullied Cloth Mitts
+			153156,	-- Unsullied Cloth Sash
+			153154,	-- Unsullied Cloth Leggings
+			153144,	-- Unsullied Cloth Slippers
+			153139,	-- Unsullied Leather Headgear
+			153145,	-- Unsullied Leather Spaulders
+			153151,	-- Unsullied Leather Tunic
+			153142,	-- Unsullied Leather Armbands
+			152739,	-- Unsullied Leather Grips
+			153148,	-- Unsullied Leather Belt
+			152737,	-- Unsullied Leather Trousers
+			153136,	-- Unsullied Leather Treads
+			153147,	-- Unsullied Mail Coif
+			153137,	-- Unsullied Mail Spaulders
+			152741,	-- Unsullied Mail Chestguard
+			153158,	-- Unsullied Mail Bracers
+			153149,	-- Unsullied Mail Gloves
+			152744,	-- Unsullied Mail Girdle
+			153138,	-- Unsullied Mail Legguards
+			153152,	-- Unsullied Mail Boots
+			153155,	-- Unsullied Plate Helmet
+			153153,	-- Unsullied Plate Pauldrons
+			153143,	-- Unsullied Plate Breasplate
+			153150,	-- Unsullied Plate Vambraces
+			153157,	-- Unsullied Plate Gauntlets
+			153140,	-- Unsullied Plate Waistplate
+			153146,	-- Unsullied Plate Greaves
+			152743,	-- Unsullied Plate Sabatons
+			152736,	-- Unsullied Necklace
+			152735,	-- Unsullied Ring
+			152733,	-- Unsullied Trinket
+			152799	-- Unsullied Relic
+		);
+		pop(finalized, searchResults);	-- Remove the Unsullied Tokens and push the children into the processing queue.
+		finalize(finalized, searchResults);	-- Push the Unsullied items to the finalized list.
+
+		-- World Bosses
+		select(finalized, searchResults, o, "select", "encounterID",
+			1790,	-- Ana-Mouz
+			1956,	-- Apocron
+			1883,	-- Brutallus
+			1774,	-- Calamir
+			1789,	-- Drugon the Frostblood
+			1795,	-- Flotsam
+			1770,	-- Humongris
+			1769,	-- Levantus
+			1884,	-- Malificus
+			1783,	-- Na'zak the Fiend
+			1749,	-- Nithogg
+			1763,	-- Shar'thos
+			1885,	-- Si'vash
+			1756,	-- The Soultakers
+			1796	-- Withered J'im
+		);
+		finalize(finalized, searchResults);	-- Push the unprocessed Bosses to the finalized list.
+
+		-- Raids
+		select(finalized, searchResults, o, "select", "instanceID",
+			768,	-- Emerald Nightmare
+			861,	-- Trial of Valor
+			786,	-- The Nighthold
+			875		-- Tomb of Sargeras
+		);
+
+		-- Process the Raids, Normal Mode Only Loot for bosses
+		pop(finalized, searchResults);	-- Discard the Instance Headers and acquire all of their children.
+		where(finalized, searchResults, o, "where", "difficultyID", 14);	-- Select only the Normal Difficulty Headers.
+		pop(finalized, searchResults);	-- Discard the Difficulty Headers and acquire all of their children.
+		is(finalized, searchResults, o, "is", "encounterID");	-- Only use the encounters themselves, no zone drops.
+		finalize(finalized, searchResults);	-- Push the unprocessed Bosses to the finalized list.
+
+		-- Dungeons
+		select(finalized, searchResults, o, "select", "instanceID",
+			777,	-- Assault on Violet Hold
+			740,	-- Blackrook Hold
+			900,	-- Cathedral of Eternal Night
+			800,	-- Court of Stars
+			762,	-- Darkheart Thicket
+			716,	-- Eye of Azshara
+			721,	-- Halls of Valor
+			727,	-- Maw of Souls
+			767,	-- Neltharion's Lair
+			860,	-- Return to Karazhan
+			945,	-- Seat of the Triumvirate
+			749,	-- The Arcway
+			707		-- Vault of the Wardens
+		);
+
+		-- Process the Dungeons, Mythic Mode Only Loot for bosses
+		pop(finalized, searchResults);	-- Discard the Instance Headers and acquire all of their children.
+		where(finalized, searchResults, o, "where", "difficultyID", 23);	-- Select only the Mythic Difficulty Headers.
+		pop(finalized, searchResults);	-- Discard the Difficulty Headers and acquire all of their children.
+		finalize(finalized, searchResults);	-- Push the unprocessed Bosses to the finalized list.
+
+		-- World Quest Rewards
+		select(finalized, searchResults, o, "select", "mapID",
+			905,	-- Argus
+			630,	-- Azsuna
+			646,	-- Broken Shore
+			650,	-- Highmountain
+			634,	-- Stormheim
+			680,	-- Suramar
+			641		-- Val'sharah
+		);
+
+		-- Process the World Quest Rewards
+		pop(finalized, searchResults);	-- Discard the Map Headers and acquire all of their children.
+		where(finalized, searchResults, o, "where", "headerID", -34);	-- Select only the World Quest Headers
+		pop(finalized, searchResults);	-- Discard the World Quest Headers and acquire all of their children.
+		is(finalized, searchResults, o, "is", "headerID");	-- Only use the item sets themselves, no zone drops.
+		finalize(finalized, searchResults);	-- Push the unprocessed Headers to the finalized list.
+
+		merge(finalized, searchResults);	-- Merge the finalized Groups back into the processing queue.
+		extract(finalized, searchResults, o, "extract", "itemID");	-- Extract all Items
+	end,
+	["legion_relinquished"] = function(finalized, searchResults, o, cmd, invtypes, ...)
+		local sub, merge, invtype, contains, modID = ResolveFunctions.sub, ResolveFunctions.merge, ResolveFunctions.invtype, ResolveFunctions.contains, ResolveFunctions.modID;
+		sub(finalized, searchResults, o, "sub", "legion_relinquished_base");	-- collect the base set of possible relinquished items
+		merge(finalized, searchResults);	-- merge them back to be processed
+		invtype(finalized, searchResults, o, "invtype", unpack(invtypes));	-- invtypes is a table of inventory slot strings to filter
+		if select("#", ...) > 0 then
+			contains(finalized, searchResults, o, "contains", "f", ...);	-- extra params are a set of allowed filterID (f) values
+		end
+		modID(finalized, searchResults, o, "modID", 43);	-- apply the relinquished modID
+	end,
+	["legion_relinquished_relic"] = function(finalized, searchResults, o, cmd, ...)
+		local sub, merge, relictype, modID = ResolveFunctions.sub, ResolveFunctions.merge, ResolveFunctions.relictype, ResolveFunctions.modID;
+		sub(finalized, searchResults, o, "sub", "legion_relinquished_base");	-- collect the base set of possible relinquished items
+		merge(finalized, searchResults);	-- merge them back to be processed
+		if select("#", ...) > 0 then
+			relictype(finalized, searchResults, o, "relictype", ...);	-- only specific relic type(s)
+		end
+		modID(finalized, searchResults, o, "modID", 43);	-- apply the relinquished modID
+	end,
+};
+-- Instruction to perform a specific subroutine using provided input values
+ResolveFunctions.sub = function(finalized, searchResults, o, cmd, sub, ...)
+	local subroutine = SubroutineCache[sub];
+	-- new logic: no metatable cloning, no table creation for sub-commands
+	if subroutine then
+		-- app.PrintDebug("sub",o.hash,sub,...)
+		subroutine(finalized, searchResults, o, cmd, ...);
+		-- each subroutine result is finalized after being processed
+		ResolveFunctions.finalize(finalized, searchResults);
+		return;
+	end
+	print("Could not find subroutine", sub);
+end;
 local ResolveCache = {};
 ResolveSymbolicLink = function(o)
 	if o.resolved or (o.key and app.ThingKeys[o.key] and ResolveCache[o.hash]) then
-		-- app.PrintDebug("Cache Resolve:",o.hash,#(o.resolved or ResolveCache[o.hash]))
+		-- app.PrintDebug(o.resolved and "Object Resolve" or "Cache Resolve",o.hash,#(o.resolved or ResolveCache[o.hash]))
 		local cloned = {};
 		MergeObjects(cloned, o.resolved or ResolveCache[o.hash], true);
 		return cloned;
 	end
 	if o and o.sym then
+		FinalizeModID = nil;
 		-- app.PrintDebug("Fresh Resolve:",o.hash)
-		local searchResults, finalized, ipairs, tremove = {}, {}, ipairs, tremove;
-		local newModID, cmd, cmdFunc;
-		for j,sym in ipairs(o.sym) do
+		local searchResults, finalized = {}, {};
+		local cmd, cmdFunc;
+		for _,sym in ipairs(o.sym) do
 			cmd = sym[1];
 			cmdFunc = ResolveFunctions[cmd];
-			-- app.PrintDebug("sym: '",cmd,"' with [",sym[2],"] & [",sym[3],"] for",o.key,o.key and o[o.key])
+			-- app.PrintDebug("sym: '",cmd,"' for",o.hash,"with:",unpack(sym))
 			if cmdFunc then
-				-- app.PrintDebug("sym:",cmd,"via ResolveFunction")
-				cmdFunc(searchResults, o, unpack(sym));
-			elseif cmd == "not" then
-				-- Instruction to include only search results where a key value is not a value
-				if #sym > 3 then
-					local dict = {};
-					for k=2,#sym,2 do
-						dict[sym[k]] = sym[k + 1];
-					end
-					for k=#searchResults,1,-1 do
-						local s = searchResults[k];
-						local matched = true;
-						for key,value in pairs(dict) do
-							if not s[key] or s[key] ~= value then
-								matched = false;
-								break;
-							end
-						end
-						if matched then
-							tremove(searchResults, k);
-						end
-					end
-				else
-					local key, value = sym[2], sym[3];
-					for k=#searchResults,1,-1 do
-						local s = searchResults[k];
-						if s[key] and s[key] == value then
-							tremove(searchResults, k);
-						end
-					end
-				end
-			elseif cmd == "is" then
-				-- Instruction to include only search results where a key exists
-				local key = sym[2];
-				for k=#searchResults,1,-1 do
-					local s = searchResults[k];
-					if not s[key] then tremove(searchResults, k); end
-				end
-			elseif cmd == "isnt" then
-				-- Instruction to include only search results where a key doesn't exist
-				local key = sym[2];
-				for k=#searchResults,1,-1 do
-					local s = searchResults[k];
-					if s[key] then tremove(searchResults, k); end
-				end
-			elseif cmd == "contains" then
-				-- Instruction to include only search results where a key value/table contains a value.
-				local key = sym[2];
-				local clone = {unpack(sym)};
-				tremove(clone, 1);
-				tremove(clone, 1);
-				if #clone > 0 then
-					for k=#searchResults,1,-1 do
-						local s = searchResults[k];
-						-- key doesn't exist at all on the result
-						if not s[key] then
-							tremove(searchResults, k);
-						-- key exists with multiple values on the result
-						elseif type(s[key]) == "table" then
-							-- none of the values match the contains values
-							if not containsAny(clone, s[key]) then
-								tremove(searchResults, k);
-							end
-						-- key exists with single value on the result
-						elseif not contains(clone, s[key]) then
-							tremove(searchResults, k);
-						end
-					end
-				end
-			elseif cmd == "exclude" then
-				-- Instruction to exclude search results where a key value contains a value.
-				local key = sym[2];
-				local clone = {unpack(sym)};
-				tremove(clone, 1);
-				tremove(clone, 1);
-				if #clone > 0 then
-					for k=#searchResults,1,-1 do
-						local s = searchResults[k];
-						if s[key] and contains(clone, s[key]) then
-							-- TEMP logic to allow Ensembles to continue working until they get fixed again...
-							if key == "itemID" and s.g and s[key] == o[key] then
-								ArrayAppend(searchResults, s.g);
-							end
-							tremove(searchResults, k);
-						end
-					end
-				end
-			elseif cmd == "isrelic" then
-				-- Instruction to include only search results where an item is a relic.
-				for k=#searchResults,1,-1 do
-					local s = searchResults[k];
-					if s.itemID and IsArtifactRelicItem(s.itemID) then
-						-- We're good.
-					else
-						tremove(searchResults, k);
-					end
-				end
-			elseif cmd == "finalize" then
-				-- Instruction to finalize the current search results and prevent additional queries from affecting this selection.
-				ArrayAppend(finalized, searchResults);
-				wipe(searchResults);
-			elseif cmd == "merge" then
-				-- Instruction to take all of the finalized and non-finalized search results and merge them back in to the processing queue.
-				ArrayAppend(finalized, searchResults);
-				searchResults = finalized;
-				finalized = {};
-			elseif cmd == "postprocess" then
-				-- Instruction to take all of the current search results and ensure that there are no duplicated primary keys.
-				local uniques = {};
-				MergeObjects(uniques, searchResults);
-				searchResults = uniques;
-			elseif cmd == "invtype" then
-				-- Instruction to include only search results where an item is of a specific inventory type.
-				local types = {unpack(sym)};
-				tremove(types, 1);
-				if #types > 0 then
-					for k=#searchResults,1,-1 do
-						local s = searchResults[k];
-						if s.itemID and not contains(types, select(4, GetItemInfoInstant(s.itemID))) then
-							tremove(searchResults, k);
-						end
-					end
-				end
-			elseif cmd == "relictype" then
-				-- Instruction to include only search results where an item is of a specific relic type.
-				local types = {unpack(sym)};
-				tremove(types, 1);
-				if #types > 0 then
-					--[[
-					RELIC_SLOT_TYPE_ARCANE = "Arcane";
-					RELIC_SLOT_TYPE_BLOOD = "Blood";
-					RELIC_SLOT_TYPE_FEL = "Fel";
-					RELIC_SLOT_TYPE_FIRE = "Fire";
-					RELIC_SLOT_TYPE_FROST = "Frost";
-					RELIC_SLOT_TYPE_HOLY = "Holy";
-					RELIC_SLOT_TYPE_IRON = "Iron";
-					RELIC_SLOT_TYPE_LIFE = "Life";
-					RELIC_SLOT_TYPE_SHADOW = "Shadow";
-					RELIC_SLOT_TYPE_WATER = "Water";
-					RELIC_SLOT_TYPE_WIND = "Storm";
-					]]--
-					for i=#types,1,-1 do
-						types[i] = _G["RELIC_SLOT_TYPE_" .. types[i]];
-					end
-					for k=#searchResults,1,-1 do
-						local s = searchResults[k];
-						if s.itemID and IsArtifactRelicItem(s.itemID) and contains(types, select(3, C_ArtifactUI.GetRelicInfoByItemID(s.itemID))) then
-							-- We're good.
-						else
-							tremove(searchResults, k);
-						end
-					end
-				end
-			elseif cmd == "modID" then
-				newModID = sym[2];
-			elseif cmd == "myModID" then
-				newModID = o.modID;
-			elseif cmd == "sub" then
-				local subroutine = subroutines[sym[2]];
-				if subroutine then
-					local args = {unpack(sym)};
-					tremove(args, 1);
-					tremove(args, 1);
-					local commands = subroutine(unpack(args));
-					if commands then
-						-- app.PrintDebug("ResolveSymbolicLink:sub",sym[2],sym[3],sym[4])
-						local resolved = ResolveSymbolicLink(setmetatable({sym=commands,key=false}, {__index=o}));
-						-- app.PrintDebug("Added:",#resolved)
-						ArrayAppend(searchResults, resolved);
-					end
-				else
-					print("Could not find subroutine", sym[2]);
-				end
-			elseif cmd == "subif" then
-				-- Instruction to perform a set of commands if a conditional is returned true.
-				local subroutine = subroutines[sym[2]];
-				if subroutine then
-					-- If the subroutine's conditional was successful.
-					local conditionFunction = sym[3];
-					if conditionFunction and conditionFunction(o) then
-						local args = {unpack(sym)};
-						tremove(args, 1);
-						tremove(args, 1);
-						tremove(args, 1);
-						local commands = subroutine(unpack(args));
-						if commands then
-							-- app.PrintDebug("ResolveSymbolicLink:subif",sym[2],sym[3],sym[4])
-							local resolved = ResolveSymbolicLink(setmetatable({sym=commands,key=false}, {__index=o}));
-							-- app.PrintDebug("Added:",#resolved)
-							ArrayAppend(searchResults, resolved);
-						end
-					end
-				else
-					print("Could not find subroutine", sym[2]);
-				end
-			elseif cmd == "achievement_criteria" then
-				-- Instruction to select the criteria provided by the achievement this is attached to. (maybe build this into achievements?)
-				if GetAchievementNumCriteria then
-					local achievementID = o.achievementID;
-					local cache;
-					for criteriaID=1,GetAchievementNumCriteria(achievementID),1 do
-						local criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, id = GetAchievementCriteriaInfo(achievementID, criteriaID);
-						if criteriaType == 27 then
-							cache = app.SearchForField("questID", assetID);
-						elseif criteriaType == 110 or criteriaType == 43 then
-							-- Ignored
-						else
-							print("Unhandled Criteria Type", criteriaType, assetID);
-						end
-						local criteriaObject = app.CreateAchievementCriteria(id);
-						if cache then
-							local uniques = {};
-							MergeObjects(uniques, cache);
-							for i,o in ipairs(uniques) do
-								rawset(o, "text", nil);
-								for key,value in pairs(o) do
-									criteriaObject[key] = value;
-								end
-								rawset(o, "text", criteriaObject.text);
-							end
-						end
-						criteriaObject.achievementID = achievementID;
-						criteriaObject.parent = o;
-						tinsert(searchResults, criteriaObject);
-					end
-				end
-			elseif cmd == "meta_achievement" then
-				-- Instruction to search the full database for multiple achievementID's
-				local cache;
-				for i=2,#sym do
-					cache = app.CleanSourceIgnoredGroups(app.SearchForField("achievementID", sym[i]));
-					if cache then
-						ArrayAppend(searchResults, cache);
-					else
-						print("Failed to select achievementID",sym[i]);
-					end
-				end
-				-- Remove any Criteria groups associated with those achievements
-				for k=#searchResults,1,-1 do
-					local s = searchResults[k];
-					if s.criteriaID then tremove(searchResults, k); end
-				end
+				cmdFunc(finalized, searchResults, o, unpack(sym));
+			else
+				print("Unknown symlink command",cmd);
 			end
-			-- if app.DEBUG_PRINT then print("Results",searchResults and #searchResults,"from '",cmd,"' with [",sym[2],"] & [",sym[3],"] for",o.key,o.key and o[o.key]) end
+			-- app.PrintDebug("Finalized",#finalized,"Results",#searchResults,"after '",cmd,"' for",o.hash,"with:",unpack(sym))
 		end
 
 		-- If we have any pending finalizations to make, then merge them into the finalized table. [Equivalent to a "finalize" instruction]
 		if #searchResults > 0 then
 			for _,s in ipairs(searchResults) do
-				-- if somehow the symlink pulls in the same item as used as the source of the symlink, then skip putting it in the final group
-				if s == o or (s.hash and s.hash == o.hash) then
-					print("Symlink group pulled itself into final group!",o.key,o.key and o[o.key])
-				else
-					tinsert(finalized, s);
-				end
+				tinsert(finalized, s);
 			end
 		end
 		-- if app.DEBUG_PRINT then print("Forced Finalize",o.key,o.key and o[o.key],#finalized) end
 
-		-- If we had any finalized search results, then clone all the records and return it.
+		-- If we had any finalized search results, then clone all the records, store the results, and return them
 		if #finalized > 0 then
-			if o.key and app.ThingKeys[o.key] then
-				-- global resolve cache if it's a 'Thing'
-				ResolveCache[o.hash] = finalized;
-			elseif o.key ~= false then
-				-- otherwise can store it in the object itself (like a header from the Main list with symlink), if it's not specifically a pseudo-symlink resolve group
-				o.resolved = finalized;
-			end
 			local cloned = {};
 			MergeObjects(cloned, finalized, true);
 			-- if app.DEBUG_PRINT then print("Symbolic Link for", o.key,o.key and o[o.key], "contains", #cloned, "values after filtering.") end
 			-- if any symlinks are left at the lowest level, go ahead and fill them
-			for _,s in ipairs(cloned) do
-				if newModID and s.itemID then
-					s.modID = newModID;
+			-- Apply any modID if necessary
+			if FinalizeModID then
+				-- app.PrintDebug("Applying FinalizeModID",FinalizeModID)
+				for _,s in ipairs(cloned) do
+					if s.itemID then
+						s.modID = FinalizeModID;
+					end
+					-- in symlinking a Thing to another Source, we are effectively declaring that it is Sourced within this Source, for the specific scope
+					s.sourceParent = nil;
+					s.parent = nil;
+					-- if somehow the symlink pulls in the same item as used as the source of the symlink, then skip putting it in the final group
+					if s.hash and s.hash == o.hash then
+						print("Symlink group pulled itself into finalized results!",o.hash)
+					else
+						FillSymLinks(s);
+					end
 				end
-				-- in symlinking a Thing to another Source, we are effectively declaring that it is Sourced within this Source, for the specific scope
-				s.sourceParent = nil;
-				s.parent = nil;
-				FillSymLinks(s);
+			else
+				for _,s in ipairs(cloned) do
+					-- in symlinking a Thing to another Source, we are effectively declaring that it is Sourced within this Source, for the specific scope
+					s.sourceParent = nil;
+					s.parent = nil;
+					-- if somehow the symlink pulls in the same item as used as the source of the symlink, then skip putting it in the final group
+					if s.hash and s.hash == o.hash then
+						print("Symlink group pulled itself into finalized results!",o.hash)
+					else
+						FillSymLinks(s);
+					end
+				end
+			end
+			if o.key and app.ThingKeys[o.key] then
+				-- global resolve cache if it's a 'Thing'
+				-- app.PrintDebug("Thing Results",o.hash)
+				ResolveCache[o.hash] = cloned;
+			elseif o.key ~= false then
+				-- otherwise can store it in the object itself (like a header from the Main list with symlink), if it's not specifically a pseudo-symlink resolve group
+				o.resolved = cloned;
+				-- app.PrintDebug("Object Results",o.hash)
 			end
 			return cloned;
 		else
@@ -3918,8 +4011,8 @@ local function ResolveSymlinkGroupAsync(group)
 		-- on the initial pass due to the async nature
 		app.FillGroups(group);
 		BuildGroups(group);
-		-- auto-expand the symlink
-		ExpandGroupsRecursively(group, true, true);
+		-- auto-expand the symlink group
+		ExpandGroupsRecursively(group, true);
 		app.DirectGroupUpdate(group);
 	end
 end
@@ -3928,6 +4021,7 @@ app.FillSymlinkAsync = function(o)
 	app.FunctionRunner.Run(ResolveSymlinkGroupAsync, o);
 end
 end)();
+
 local function BuildContainsInfo(item, entries, indent, layer)
 	if item and item.g then
 		for i,group in ipairs(item.g) do
@@ -4491,6 +4585,7 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 
 		-- Clone all the groups so that things don't get modified in the Source
 		local cloned = {};
+		local clearSourceParent = #group > 1;
 		for _,o in ipairs(group) do
 			tinsert(cloned, CreateObject(o));
 		end
@@ -4636,9 +4731,11 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 
 		-- Replace as the group
 		group = root;
-		-- Ensure no weird parent references attached to the base search result
-		group.sourceParent = nil;
+		-- Ensure no weird parent references attached to the base search result if there were multiple search results
 		group.parent = nil;
+		if clearSourceParent then
+			group.sourceParent = nil;
+		end
 
 		-- app.PrintDebug(group.g and #group.g,"Merge total");
 		-- app.PrintDebug("Final Group",group.key,group[group.key],group.collectible,group.collected,group.parent,group.sourceParent,rawget(group, "parent"),rawget(group, "sourceParent"));
@@ -4680,7 +4777,7 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 		end
 		-- Description for Items
 		if group.lore and app.Settings:GetTooltipSetting("Lore") then
-			tinsert(info, 1, { left = group.lore, wrap = true, color = app.Colors.TooltipDescription });
+			tinsert(info, 1, { left = group.lore, wrap = true, color = app.Colors.TooltipLore });
 		end
 		if group.description and app.Settings:GetTooltipSetting("Descriptions") then
 			tinsert(info, 1, { left = group.description, wrap = true, color = app.Colors.TooltipDescription });
@@ -5130,7 +5227,7 @@ app.FillGroups = function(group)
 	-- Get tradeskill cache
 	knownSkills = app.CurrentCharacter.Professions;
 	-- Check if this group is inside a Window or not
-	isInWindow = app.RecursiveFirstParentWithField(group, "window") and true;
+	isInWindow = app.RecursiveFirstDirectParentWithField(group, "window") and true;
 	app.FunctionRunner.SetPerFrame(1);
 
 	-- app.PrintDebug("FillGroups",group.hash,group.__type,"window?",isInWindow)
@@ -5357,89 +5454,89 @@ app.HasCost = function(group, idType, id)
 	return false;
 end
 
-app.NestSourceQuests = function(root, addedQuests, depth)
-	-- root is already the cloned source of the new list, just add each sourceQuest cloned into sub-groups
-	-- setup tracking which quests have been added as a sub-group, so we can only add them once
-	if not addedQuests then addedQuests = {}; end
-	root.hideText = true;
-	root.depth = depth or 0;
-	if root.sourceQuests and #root.sourceQuests > 0 then
-		local qs;
-		-- we will ignore custom collect if the root quest is already out of scope
-		local checkCustomCollects = app.CheckCustomCollects(root);
-		local prereqs;
-		for _,sourceQuestID in ipairs(root.sourceQuests) do
-			if not addedQuests[sourceQuestID] then
-				addedQuests[sourceQuestID] = true;
-				qs = sourceQuestID < 1 and app.SearchForField("creatureID", math.abs(sourceQuestID)) or app.SearchForField("questID", sourceQuestID);
-				if qs and #qs > 0 then
-					local i, sq = #qs;
-					while not sq and i > 0 do
-						if qs[i].questID == sourceQuestID then sq = qs[i]; end
-						i = i - 1;
-					end
-					if sq and sq.questID then
-						if sq.parent and sq.parent.questID == sq.questID then
-							sq = sq.parent;
-						end
-						-- clone the object so as to not modify actual data
-						sq = CreateObject(sq);
-						sq.hideText = true;
-						-- clean anything out of it so that items don't show in the quest requirements
-						sq.g = nil;
+-- app.NestSourceQuests = function(root, addedQuests, depth)
+-- 	-- root is already the cloned source of the new list, just add each sourceQuest cloned into sub-groups
+-- 	-- setup tracking which quests have been added as a sub-group, so we can only add them once
+-- 	if not addedQuests then addedQuests = {}; end
+-- 	root.hideText = true;
+-- 	root.depth = depth or 0;
+-- 	if root.sourceQuests and #root.sourceQuests > 0 then
+-- 		local qs;
+-- 		-- we will ignore custom collect if the root quest is already out of scope
+-- 		local checkCustomCollects = app.CheckCustomCollects(root);
+-- 		local prereqs;
+-- 		for _,sourceQuestID in ipairs(root.sourceQuests) do
+-- 			if not addedQuests[sourceQuestID] then
+-- 				addedQuests[sourceQuestID] = true;
+-- 				qs = sourceQuestID < 1 and app.SearchForField("creatureID", math.abs(sourceQuestID)) or app.SearchForField("questID", sourceQuestID);
+-- 				if qs and #qs > 0 then
+-- 					local i, sq = #qs;
+-- 					while not sq and i > 0 do
+-- 						if qs[i].questID == sourceQuestID then sq = qs[i]; end
+-- 						i = i - 1;
+-- 					end
+-- 					if sq and sq.questID then
+-- 						if sq.parent and sq.parent.questID == sq.questID then
+-- 							sq = sq.parent;
+-- 						end
+-- 						-- clone the object so as to not modify actual data
+-- 						sq = CreateObject(sq);
+-- 						sq.hideText = true;
+-- 						-- clean anything out of it so that items don't show in the quest requirements
+-- 						sq.g = nil;
 
-						-- force collectible for normally un-collectible things to make sure it shows in list if the quest needs to be completed to progess
-						if not sq.collectible and sq.missingSourceQuests then
-							sq.collectible = true;
-						end
+-- 						-- force collectible for normally un-collectible things to make sure it shows in list if the quest needs to be completed to progess
+-- 						if not sq.collectible and sq.missingSourceQuests then
+-- 							sq.collectible = true;
+-- 						end
 
-						-- If the user is in a Party Sync session, then force showing pre-req quests which are replayable if they are collected already
-						if app.IsInPartySync and sq.collected then
-							sq.OnUpdate = app.ShowIfReplayableQuest;
-						end
+-- 						-- If the user is in a Party Sync session, then force showing pre-req quests which are replayable if they are collected already
+-- 						if app.IsInPartySync and sq.collected then
+-- 							sq.OnUpdate = app.ShowIfReplayableQuest;
+-- 						end
 
-						sq = (not checkCustomCollects or app.CheckCustomCollects(sq)) and app.RecursiveGroupRequirementsFilter(sq) and app.NestSourceQuests(sq, addedQuests, (depth or 0) + 1);
-					elseif sourceQuestID > 0 then
-						-- Create a Quest Object.
-						sq = app.CreateQuest(sourceQuestID, { ['hideText'] = true, });
-					else
-						-- Create a NPC Object.
-						sq = app.CreateNPC(math.abs(sourceQuestID), { ['hideText'] = true, });
-					end
+-- 						sq = (not checkCustomCollects or app.CheckCustomCollects(sq)) and app.RecursiveGroupRequirementsFilter(sq) and app.NestSourceQuests(sq, addedQuests, (depth or 0) + 1);
+-- 					elseif sourceQuestID > 0 then
+-- 						-- Create a Quest Object.
+-- 						sq = app.CreateQuest(sourceQuestID, { ['hideText'] = true, });
+-- 					else
+-- 						-- Create a NPC Object.
+-- 						sq = app.CreateNPC(math.abs(sourceQuestID), { ['hideText'] = true, });
+-- 					end
 
-					if sq then
-						-- track how many quests levels are nested so it can be sorted in a decent-ish looking way
-						root.depth = math.max((root.depth or 0),(sq.depth or 1));
-						if prereqs then tinsert(prereqs, sq);
-						else prereqs = { sq }; end
-					else
-						addedQuests[sourceQuestID] = nil;
-					end
-				end
-			end
-		end
-		-- sort quests with less sub-quests to the top
-		if prereqs then
-			app.Sort(prereqs, function(a, b) return (a.depth or 0) < (b.depth or 0); end);
-			NestObjects(root, prereqs);
-		end
-	end
-	-- If the root quest is provided by an Item, then show that Item directly under the root Quest so it can easily show tooltip/Source information if desired
-	if root.providers then
-		for _,p in ipairs(root.providers) do
-			if p[1] == "i" then
-				-- print("Root Provider",p[1], p[2]);
-				local pRef = app.SearchForObject("itemID", p[2]);
-				if pRef then
-					NestObject(root, pRef, true, 1);
-				else
-					NestObject(root, app.CreateItem(p[2]), nil, 1);
-				end
-			end
-		end
-	end
-	return root;
-end
+-- 					if sq then
+-- 						-- track how many quests levels are nested so it can be sorted in a decent-ish looking way
+-- 						root.depth = math.max((root.depth or 0),(sq.depth or 1));
+-- 						if prereqs then tinsert(prereqs, sq);
+-- 						else prereqs = { sq }; end
+-- 					else
+-- 						addedQuests[sourceQuestID] = nil;
+-- 					end
+-- 				end
+-- 			end
+-- 		end
+-- 		-- sort quests with less sub-quests to the top
+-- 		if prereqs then
+-- 			app.Sort(prereqs, function(a, b) return (a.depth or 0) < (b.depth or 0); end);
+-- 			NestObjects(root, prereqs);
+-- 		end
+-- 	end
+-- 	-- If the root quest is provided by an Item, then show that Item directly under the root Quest so it can easily show tooltip/Source information if desired
+-- 	if root.providers then
+-- 		for _,p in ipairs(root.providers) do
+-- 			if p[1] == "i" then
+-- 				-- print("Root Provider",p[1], p[2]);
+-- 				local pRef = app.SearchForObject("itemID", p[2]);
+-- 				if pRef then
+-- 					NestObject(root, pRef, true, 1);
+-- 				else
+-- 					NestObject(root, app.CreateItem(p[2]), nil, 1);
+-- 				end
+-- 			end
+-- 		end
+-- 	end
+-- 	return root;
+-- end
 local function SendGroupMessage(msg)
 	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then
 		C_ChatInfo.SendAddonMessage("ATT", msg, "INSTANCE_CHAT")
@@ -7754,7 +7851,7 @@ local function CheckCollectible(ref)
 		-- Used as a cost for something which is collectible as a cost itself and not collected
 		elseif ref.collectibleAsCost then
 			-- app.PrintDebug("Cost Required via collectibleAsCost",ref.hash)
-			return true,ref.collectedAsCost;
+			return true;	-- we never have 'collected costs'
 		end
 		-- If this group has sub-groups and not yet updated, then update this group and check the total to see if it has collectibles
 		if ref.g and (total or 0) == 0 then
@@ -7820,19 +7917,19 @@ app.CollectibleAsCost = function(t)
 	local collectibles = t.costCollectibles;
 	-- literally nothing to collect with 't' as a cost, so don't process the logic anymore
 	if not collectibles or #collectibles == 0 then
-		t.collectibleAsCost = false;
+		rawset(t, "collectibleAsCost", false);
 		return;
 	end
 	-- This instance of the Thing 't' is not actually collectible for this character if it is under a saved quest parent
 	if not app.MODE_DEBUG_OR_ACCOUNT then
-		local parent = t.parent;
+		local parent = rawget(t, "parent");
 		if parent and parent.questID and parent.saved then
 			-- app.PrintDebug("CollectibleAsCost:t.parent.saved",t.hash)
 			return;
 		end
 	end
 	-- mark this group as not collectible by cost while it is processing, in case it has sub-content which can be used to obtain this 't'
-	t.collectibleAsCost = false;
+	rawset(t, "collectibleAsCost", false);
 	-- check the collectibles if any are considered collectible currently
 	local collectible, collected;
 	for _,ref in ipairs(collectibles) do
@@ -7843,13 +7940,11 @@ app.CollectibleAsCost = function(t)
 			-- app.PrintDebug("CollectibleAsCost:true",t.hash,"from",ref.hash)
 			-- Found something collectible for t, make sure t is actually obtainable as well
 			-- Make sure this thing can actually be collectible via hierarchy
-			if GetRelativeValue(t, "altcollected") then
-				-- literally have not seen this message in months, maybe is pointless...
-				app.PrintDebug("CollectibleAsCost:altcollected",t.hash)
-				return;
-			end
-			-- Costs are only collectible until all purchases are collected, thus to be collectible means being not collected as well
-			t.collectedAsCost = false;
+			-- if GetRelativeValue(t, "altcollected") then
+			-- 	-- literally have not seen this message in months, maybe is pointless...
+			-- 	app.PrintDebug("CollectibleAsCost:altcollected",t.hash)
+			-- 	return;
+			-- end
 			return true;
 		end
 	end
@@ -8025,7 +8120,7 @@ local criteriaFuncs = {
     end,
 	["label_spellID"] = L["LOCK_CRITERIA_SPELL_LABEL"],
     ["text_spellID"] = function(v)
-        return select(1, GetSpellInfo(v));
+        return GetSpellInfo(v);
     end,
 
     ["factionID"] = function(v)
@@ -8116,6 +8211,160 @@ local function LockedAsQuest(t)
 	rawset(t, "locked", false);
 end
 app.LockedAsQuest = LockedAsQuest;
+
+local Search = app.SearchForObject;
+-- Traces backwards in the sequence for 'questID' via parent relationships within 'parents' to see if 'checkQuestID' is reached and returns true if so
+local function BackTraceForSelf(parents, questID, checkQuestID)
+	-- app.PrintDebug("Backtrace",questID)
+	local next = parents[questID];
+	while next do
+		-- app.PrintDebug("->",next)
+		if next == checkQuestID then return true; end
+		next = parents[next];
+	end
+end
+local function MapSourceQuestsRecursive(parentQuestID, questID, currentDepth, depths, parents, refs, inFilters)
+	if not questID then return; end
+
+	-- Compare current depth to existing depth in 'depths' if the current parent of the questID is already in filters
+	local prevDepth = depths[questID];
+	local currentParent = parents[questID];
+	if prevDepth and prevDepth >= currentDepth and inFilters[currentParent] then
+		-- app.PrintDebug("Ignore Depth Quest",questID,"@",currentDepth,"Previous",prevDepth)
+		return;
+	end
+
+	-- Find the quest being added (either existing clone or new search)
+	local questRef = refs[questID];
+	if questRef then
+		-- Verify this quest isn't in the current parent chain
+		if BackTraceForSelf(parents, parentQuestID, questID) then
+			-- app.PrintDebug("Ignore Backtrace Quest",questID)
+			return;
+		else
+			-- maybe a better fix at some point? still possible to write really strange quest sequences that can trigger this
+			if currentDepth > 1000 then
+				if not app._reportedBadQuestSequence then
+					app._reportedBadQuestSequence = true;
+					app.report("Likely bad Quest chain sequence encountered @ 1000 depth for",questID);
+				end
+				return;
+			end
+			-- app.PrintDebug("Not in Backtrace",questID)
+		end
+	else
+		questRef = Search("questID",questID);
+		if not questRef then
+			app.report("Failed to find Source Quest",questID)
+			return;
+		end
+
+		-- Save this questRef (depth doesn't change the ref so only clone it once)
+		questRef = CreateObject(questRef, true);
+
+		-- force collectible for normally un-collectible but trackable things to make sure it shows in list if the quest needs to be completed to progess
+		if not questRef.collectible and questRef.trackable then
+			questRef.collectible = true;
+		end
+
+		-- If the user is in a Party Sync session, then force showing pre-req quests which are replayable if they are collected already
+		if app.IsInPartySync and questRef.collected then
+			questRef.OnUpdate = app.ShowIfReplayableQuest;
+		end
+
+		-- If the quest is provided by an Item, then show that Item directly under the quest so it can easily show tooltip/Source information if desired
+		if questRef.providers then
+			local id;
+			for _,p in ipairs(questRef.providers) do
+				if p[1] == "i" then
+					id = p[2];
+					-- print("Quest Item Provider",p[1], id);
+					local pRef = app.SearchForObject("itemID", id);
+					if pRef then
+						NestObject(questRef, pRef, true, 1);
+					else
+						pRef = app.CreateItem(id);
+						NestObject(questRef, pRef, nil, 1);
+					end
+					-- Make sure to always show the Quest starting item
+					pRef.OnUpdate = app.AlwaysShowUpdate;
+					-- Quest started by this Item should be represented using any sourceQuests on the Item
+					if pRef.sourceQuests then
+						if not questRef.sourceQuests then questRef.sourceQuests = {}; end
+						-- app.PrintDebug("Add Provider SQs to Quest")
+						app.ArrayAppend(questRef.sourceQuests, pRef.sourceQuests);
+					end
+				end
+			end
+		end
+
+		refs[questID] = questRef;
+	end
+
+	-- Save the new depth that this questID will be placed if it has a parent
+	depths[questID] = currentDepth;
+	-- Save the parentQuestID for this questID, but only if this quest has no parent yet, or specifically meets character filters for a different parent
+	if not currentParent then
+		parents[questID] = parentQuestID;
+	elseif currentParent ~= parentQuestID and not inFilters[currentParent] then
+		-- app.PrintDebug("Check Current Parent Filter",questID,"=>",currentParent)
+		if app.CurrentCharacterFilters(refs[parentQuestID]) then
+			-- app.PrintDebug("New Filter Parent",questID,"=>",parentQuestID)
+			parents[questID] = parentQuestID;
+			inFilters[parentQuestID] = true;
+		-- else
+		-- 	app.PrintDebug("New Parent, Filtered",questID,"=>",parentQuestID)
+		end
+	end
+
+	-- Traverse recursive quests via 'sourceQuests'
+	local sqs = questRef.sourceQuests;
+	if not sqs then return; end
+
+	-- Mark the new depth
+	local nextDepth = currentDepth + 1;
+	for _,sq in ipairs(sqs) do
+		-- Recurse against sourceQuests of sq
+		MapSourceQuestsRecursive(questID, sq, nextDepth, depths, parents, refs, inFilters);
+	end
+end
+-- Will find, clone, and nest into 'root' all known source quests starting from the provided 'root', listing each quest once at the maximum depth that it has been encountered
+app.NestSourceQuestsV2 = function(questChainRoot, questID)
+	if not questID then
+		if not questChainRoot.sourceQuests then return; end
+		questID = 0;
+	end
+
+	-- Treat the starting questID as an extremely high depth so that it will not be replaced if it is encountered again due to a looping quest chain
+	local depths = {[questID] = 9999};
+	local parents = {};
+	local refs = {[questID] = questChainRoot};
+	-- represents quests that had to be confirmed for current character filters already
+	local inFilters = {};
+
+	-- Map out the relative positions of the entire quest sequence based on depth from the root quest
+	-- Find the quest being added
+	local questRef = questID > 0 and Search("questID",questID) or app.EmptyTable;
+	-- Traverse recursive quests via 'sourceQuests'
+	local sqs = questRef.sourceQuests or questChainRoot.sourceQuests;
+	if not sqs then return; end
+
+	app._reportedBadQuestSequence = nil;
+	for _,sq in ipairs(sqs) do
+		-- Recurse against sourceQuests of sq
+		MapSourceQuestsRecursive(questID, sq, 1, depths, parents, refs, inFilters);
+	end
+
+	-- app.PrintDebug("depths")
+	-- app.PrintTable(depths)
+	-- app.PrintDebug("parents")
+	-- app.PrintTable(parents)
+
+	-- Perform a pass along the parents table to move clone references into the appropriate parent quest references
+	for qID,pID in pairs(parents) do
+		NestObject(refs[pID], refs[qID]);
+	end
+end
 
 local questFields = {
 	["key"] = function(t)
@@ -8593,43 +8842,44 @@ app.ShowIfReplayableQuest = function(data)
 	data.visible = C_QuestLog_IsQuestReplayable(data.questID) or app.CollectedItemVisibilityFilter(data);
 	return true;
 end
-local UpdateQuestIDs = {};
+local UpdateQuestIDs, CompletedKeys = {}, {};
 local function QueryCompletedQuests()
 	local freshCompletes = C_QuestLog_GetAllCompletedQuestIDs();
 	-- sometimes Blizz pretends that 0 Quests are completed. How silly of them!
 	if not freshCompletes or #freshCompletes == 0 then
 		return;
 	end
-	local t = CompletedQuests;
-	-- print("total completed quests new/previous",#freshCompletes,rawget(t, "_TOTAL") or 0)
+	-- print("total completed quests new/previous",#freshCompletes,TotalQuests)
 	local oldReportSetting = app.Settings:GetTooltipSetting("Report:CompletedQuests");
 	-- check if Blizzard is being dumb / should we print a summary instead of individual lines
-	local questDiff = #freshCompletes - (rawget(t, "_TOTAL") or 0);
-	if app.IsReady then
-		if oldReportSetting and questDiff > 50 then
+	local questDiff = #freshCompletes - TotalQuests;
+	local manyQuests;
+	if app.IsReady and oldReportSetting then
+		if questDiff > 50 then
+			manyQuests = true;
 			print(questDiff,"Quests Completed");
-		elseif oldReportSetting and questDiff < -50 then
+		elseif questDiff < -50 then
+			manyQuests = true;
 			print(questDiff,"Quests Unflagged");
 		end
 	end
-	questDiff = math.abs(questDiff);
-	if questDiff > 50 then
+	if manyQuests then
 		app.Settings:SetTooltipSetting("Report:CompletedQuests", false);
 	end
-	local completedKeys = {};
+	wipe(CompletedKeys);
 	-- allow individual prints
 	for _,v in ipairs(freshCompletes) do
-		t[v] = true;
-		completedKeys[v] = true;
+		CompletedQuests[v] = true;
+		CompletedKeys[v] = true;
 	end
 	-- check for 'unflagged' questIDs (this seems to basically not impact lag at all... i hope)
-	for q,_ in pairs(t) do
-		if not completedKeys[q] and q ~= "_TOTAL" then
-			t[q] = nil;		-- delete the key
-			t[q] = false;	-- trigger the metatable function
+	for q,_ in pairs(CompletedQuests) do
+		if not CompletedKeys[q] then
+			CompletedQuests[q] = nil;	-- delete the key
+			CompletedQuests[q] = false;	-- trigger the metatable function
 		end
 	end
-	if questDiff > 50 then
+	if manyQuests then
 		app.Settings:SetTooltipSetting("Report:CompletedQuests", oldReportSetting);
 	end
 end
@@ -8988,16 +9238,16 @@ local criteriaFields = {
 	["name"] = function(t)
 		if t.link then return t.link; end
 		if t.encounterID then
-			return select(1, EJ_GetEncounterInfo(t.encounterID));
+			return EJ_GetEncounterInfo(t.encounterID);
 		end
 		local achievementID = t.achievementID;
 		if achievementID then
 			local criteriaID = t.criteriaID;
 			if criteriaID then
 				if criteriaID <= GetAchievementNumCriteria(achievementID) then
-					return select(1, GetAchievementCriteriaInfo(achievementID, criteriaID, true));
+					return GetAchievementCriteriaInfo(achievementID, criteriaID, true);
 				elseif criteriaID > 50 then
-					return select(1, GetAchievementCriteriaInfoByID(achievementID, criteriaID));
+					return GetAchievementCriteriaInfoByID(achievementID, criteriaID);
 				end
 			end
 		end
@@ -9330,13 +9580,13 @@ harvesterFields.text = function(t)
 			end
 
 			HarvestedAchievementDatabase[achievementID] = info;
-			AllTheThingsHarvestItems = HarvestedAchievementDatabase;
 			setmetatable(t, app.BaseAchievement);
 			rawset(t, "collected", true);
 			return Name;
 		end
 	end
 
+	AllTheThingsHarvestItems = HarvestedAchievementDatabase;
 	local name = t.name;
 	-- retries exceeded, so check the raw .name on the group (gets assigned when retries exceeded during cache attempt)
 	if name then rawset(t, "collected", true); end
@@ -9659,19 +9909,19 @@ app.CreateSpecies = function(id, t)
 end
 
 app.events.NEW_PET_ADDED = function(petID)
-	local speciesID = select(1, C_PetJournal_GetPetInfoByPetID(petID));
+	local speciesID = C_PetJournal_GetPetInfoByPetID(petID);
 	-- app.PrintDebug("NEW_PET_ADDED", petID, speciesID);
 	if speciesID and C_PetJournal_GetNumCollectedInfo(speciesID) > 0 and not rawget(CollectedSpeciesHelper, speciesID) then
 		rawset(CollectedSpeciesHelper, speciesID, 1);
 		UpdateSearchResults(SearchForField("speciesID", speciesID));
 		app:PlayFanfare();
-		app:TakeScreenShot();
+		app:TakeScreenShot("BattlePets");
 		wipe(searchCache);
 	end
 end
 app.events.PET_JOURNAL_PET_DELETED = function(petID)
 	-- /dump C_PetJournal.GetPetInfoByPetID("BattlePet-0-00001006503D")
-	-- local speciesID = select(1, C_PetJournal.GetPetInfoByPetID(petID));
+	-- local speciesID = C_PetJournal.GetPetInfoByPetID(petID);
 	-- NOTE: Above APIs do not work in the DELETED API, THANKS BLIZZARD
 	-- app.PrintDebug("PET_JOURNAL_PET_DELETED",petID);
 
@@ -10203,6 +10453,10 @@ end)();
 (function()
 local GetFriendshipReputation, GetFriendshipReputationRanks = GetFriendshipReputation, GetFriendshipReputationRanks;
 local StandingByID = {
+	[0] = {	-- 0: No Standing (Not in a Guild)
+		["color"] = "00404040",
+		["threshold"] = -99999,
+	},
 	{	-- 1: HATED
 		["color"] = GetProgressColor(0),
 		["threshold"] = -42000,
@@ -10235,11 +10489,6 @@ local StandingByID = {
 		["color"] = GetProgressColor(1),
 		["threshold"] = 42000,
 	},
-};
-StandingByID[0] =
-{	-- 0: No Standing (Not in a Guild)
-	["color"] = "00404040",
-	["threshold"] = -99999,
 };
 app.FactionNameByID = setmetatable({}, { __index = function(t, id)
 	local name = select(1, GetFactionInfoByID(id)) or select(4, GetFriendshipReputation(id));
@@ -10287,15 +10536,6 @@ app.FACTION_RACES = {
 		36,	-- Mag'har
 	}
 };
-app.ColorizeStandingText = function(standingID, text)
-	local standing = StandingByID[standingID];
-	if standing then
-		return Colorize(text, standing.color);
-	else
-		local rgb = FACTION_BAR_COLORS[standingID];
-		return Colorize(text, RGBToHex(rgb.r * 255, rgb.g * 255, rgb.b * 255));
-	end
-end
 app.GetFactionIDByName = function(name)
 	name = strtrim(name);
 	return app.FactionIDByName[name] or name;
@@ -10303,6 +10543,9 @@ end
 app.GetFactionStanding = function(reputationPoints)
 	-- Total earned rep from GetFactionInfoByID is a value AWAY FROM ZERO, not a value within the standing bracket.
 	if reputationPoints then
+		if type(reputationPoints) == "table" then
+			return app.GetReputationStanding(reputationPoints);
+		end
 		for i=#StandingByID,1,-1 do
 			local threshold = StandingByID[i].threshold;
 			if reputationPoints >= threshold then
@@ -10311,6 +10554,30 @@ app.GetFactionStanding = function(reputationPoints)
 		end
 	end
 	return 1, 0
+end
+-- Given a maxReputation/minReputation table, will return the proper StandingID and Amount into that Standing associated with the data
+app.GetReputationStanding = function(reputationInfo)
+	local factionID, standingOrAmount = reputationInfo[1], reputationInfo[2];
+	-- make it really easy to use threshold checks by directly providing the expected standing
+	-- incoming value can also be negative for hostile standings, so check directly on the table
+	if standingOrAmount > 0 and StandingByID[standingOrAmount] then
+		return standingOrAmount, 0;
+	else
+		local friend = GetFriendshipReputation(factionID);
+		if friend then
+			-- don't think there's a good standard way to determine friendship rank from an arbitrary amount of reputation...
+			print("Convert Friendship Reputation Threshold to StandingID",factionID,standingOrAmount)
+			return 1, standingOrAmount;
+		else
+			-- Total earned rep from GetFactionInfoByID is a value AWAY FROM ZERO, not a value within the standing bracket.
+			for i=#StandingByID,1,-1 do
+				local threshold = StandingByID[i].threshold;
+				if standingOrAmount >= threshold then
+					return i, threshold < 0 and (threshold - standingOrAmount) or (standingOrAmount - threshold);
+				end
+			end
+		end
+	end
 end
 local function GetCurrentFactionStandings(factionID)
 	local standing, maxStanding = 0, 8;
@@ -10323,12 +10590,33 @@ local function GetCurrentFactionStandings(factionID)
 	return standing or 1, maxStanding;
 end
 app.GetCurrentFactionStandings = GetCurrentFactionStandings;
--- Returns StandingText or Requested Standing
-app.GetCurrentFactionStandingText = function(factionID, requestedStanding)
+-- Returns the 'text' colorized to match a specific standard 'StandingID'
+local function ColorizeStandingText(standingID, text)
+	local standing = StandingByID[standingID];
+	if standing then
+		return Colorize(text, standing.color);
+	else
+		local rgb = FACTION_BAR_COLORS[standingID];
+		return Colorize(text, RGBToHex(rgb.r * 255, rgb.g * 255, rgb.b * 255));
+	end
+end
+-- Returns StandingText or Requested Standing colorzing the 'Standing' text for the Faction, or otherwise the provided 'textOverride'
+app.GetCurrentFactionStandingText = function(factionID, requestedStanding, textOverride)
 	local standing = requestedStanding or GetCurrentFactionStandings(factionID);
 	local friendStandingText = select(7, GetFriendshipReputation(factionID));
-	-- friend factions are shifted up 2 to match regular factions at exalted
-	return app.ColorizeStandingText(standing + (friendStandingText and 2 or 0), friendStandingText or _G["FACTION_STANDING_LABEL" .. standing] or UNKNOWN);
+	if friendStandingText then
+		local _, maxStanding = GetFriendshipReputationRanks(factionID);
+		-- adjust relative to max based on the actual max ranks of the friendship faction
+		-- prevent any weirdness of requesting a standing higher than the max for the friendship
+		local progress = math.min(standing, maxStanding) / maxStanding;
+		-- if we requested a specific standing, we can't rely on the friendship text to be accurate
+		if requestedStanding then
+			friendStandingText = "Rank "..requestedStanding;
+		end
+		-- friendships simply colored based on rank progress, some friendships have more ranks than faction standings... makes it weird to correlate them
+		return Colorize(textOverride or friendStandingText, GetProgressColor(progress));
+	end
+	return ColorizeStandingText(standing, textOverride or friendStandingText or _G["FACTION_STANDING_LABEL" .. standing] or UNKNOWN);
 end
 app.GetFactionStandingThresholdFromString = function(replevel)
 	replevel = strtrim(replevel);
@@ -10339,7 +10627,7 @@ app.GetFactionStandingThresholdFromString = function(replevel)
 	end
 end
 app.IsFactionExclusive = function(factionID)
-	return factionID == 934 or factionID == 932;
+	return factionID == 934 or factionID == 932 or factionID == 1104 or factionID == 1105;
 end
 local cache = app.CreateCache("factionID");
 local function CacheInfo(t, field)
@@ -10470,7 +10758,7 @@ local fields = {
 		end
 	end,
 	["isFriend"] = function(t)
-		if select(1, GetFriendshipReputation(t.factionID)) then
+		if GetFriendshipReputation(t.factionID) then
 			rawset(t, "isFriend", true);
 			return true;
 		else
@@ -10479,17 +10767,18 @@ local fields = {
 		end
 	end,
 	["reputation"] = function(t)
-		return select(6, GetFactionInfoByID(t.factionID));
+		return select(6, GetFactionInfoByID(t.factionID)) or 0;
 	end,
 	["ceiling"] = function(t)
 		local _, _, _, m, ma = GetFactionInfoByID(t.factionID);
 		return ma and m and (ma - m);
 	end,
 	["standing"] = function(t)
-		return select(1, GetCurrentFactionStandings(t.factionID));
+		return GetCurrentFactionStandings(t.factionID);
 	end,
 	["maxstanding"] = function(t)
 		if t.minReputation and t.minReputation[1] == t.factionID then
+			app.PrintDebug("Faction with MinReputation??",t.factionID)
 			return app.GetFactionStanding(t.minReputation[2]);
 		end
 		local _, maxStanding = GetCurrentFactionStandings(t.factionID);
@@ -10553,9 +10842,9 @@ local arrOfNodes = {
 	-- Argus only returns specific Flight Points per map
 	885,	-- Antoran Wastes
 	830,	-- Krokuun
-	882,	-- Mac'Aree
+	882,	-- Eredath
 	831,	-- Upper Deck [The Vindicaar: Krokuun]
-	883,	-- Upper Deck [The Vindicaar: Mac'Aree]
+	883,	-- Upper Deck [The Vindicaar: Eredath]
 	886,	-- Upper Deck [The Vindicaar: Antoran Wastes]
 
 	862,	-- Zuldazar
@@ -11018,7 +11307,7 @@ local fields = {
 		return t.itemID and select(2, GetItemInfo(t.itemID));
 	end,
 	["name"] = function(t)
-		return t.itemID and select(1, GetItemInfo(t.itemID));
+		return t.itemID and GetItemInfo(t.itemID);
 	end,
 	["icon"] = function(t)
 		return t.itemID and select(5, GetItemInfoInstant(t.itemID));
@@ -11509,7 +11798,6 @@ local itemFields = {
 		return cache.GetCachedField(t, "costCollectibles", default_costCollectibles);
 	end,
 	["collectibleAsCost"] = app.CollectibleAsCost,
-	-- ["collectedAsCost"] = app.CollectedAsCost,
 	["costsCount"] = function(t)
 		if t.costCollectibles then return #t.costCollectibles; end
 	end,
@@ -11799,14 +12087,15 @@ app.BaseHeirloomLevel = app.BaseObjectFields(fields, "BaseHeirloomLevel");
 -- copy base Item fields
 -- TODO: heirlooms need to cache item information as well
 local fields = RawCloneData(itemFields);
-fields.b = function(t) return 2; end
-fields.filterID = function(t) return 109; end
 fields.icon = function(t) return select(4, C_Heirloom_GetHeirloomInfo(t.itemID)) or select(5, GetItemInfoInstant(t.itemID)); end
 fields.link = function(t) return C_Heirloom_GetHeirloomLink(t.itemID) or select(2, GetItemInfo(t.itemID)); end
 fields.collectibleAsCost = app.ReturnFalse;
 fields.collectible = function(t)
-		if t.factionID then return app.CollectibleReputations; end
-		return t.s and app.CollectibleTransmog;
+		-- Heirloom Token for a Reputation
+		if t.factionID and app.CollectibleReputations then return true; end
+		-- Heirloom Appearance
+		if t.s and app.CollectibleTransmog then return true; end
+		-- Otherwise the Heirloom Item itself is not inherently collectible
 	end
 fields.collected = function(t)
 		if t.factionID then
@@ -11829,7 +12118,8 @@ fields.saved = function(t)
 		return t.collected == 1;
 	end
 fields.isWeapon = function(t)
-		if t.f and contains(isWeapon, t.f) then
+		local f = t.f;
+		if f and contains(isWeapon, f) then
 			rawset(t, "isWeapon", true);
 			return true;
 		end
@@ -11839,7 +12129,7 @@ fields.isWeapon = function(t)
 fields.g = function(t)
 		-- unlocking the heirloom is the only thing contained in the heirloom
 		if C_Heirloom_GetHeirloomMaxUpgradeLevel(t.itemID) then
-			rawset(t, "g", { setmetatable({ ["heirloomUnlockID"] = t.itemID, ["u"] = t.u, ["f"] = t.f }, app.BaseHeirloomUnlocked) });
+			rawset(t, "g", { setmetatable({ ["heirloomUnlockID"] = t.itemID, ["u"] = t.u }, app.BaseHeirloomUnlocked) });
 			return rawget(t, "g");
 		end
 	end
@@ -11847,6 +12137,10 @@ fields.g = function(t)
 app.BaseHeirloom = app.BaseObjectFields(fields, "BaseHeirloom");
 app.CreateHeirloom = function(id, t)
 	tinsert(heirloomIDs, id);
+	if t then
+		-- Heirlooms are always BoA
+		t.b = 2;
+	end
 	return setmetatable(constructor(id, t, "itemID"), app.BaseHeirloom);
 end
 
@@ -11898,7 +12192,7 @@ app.CacheHeirlooms = function()
 						heirloomHeader = CloneData(heirloom);
 						heirloomHeader.collectible = false;
 						-- put the upgrade object into the header heirloom object
-						heirloomHeader.g = { setmetatable({ ["level"] = i, ["heirloomLevelID"] = itemID, ["u"] = heirloom.u, ["f"] = heirloom.f }, app.BaseHeirloomLevel) };
+						heirloomHeader.g = { setmetatable({ ["level"] = i, ["heirloomLevelID"] = itemID, ["u"] = heirloom.u }, app.BaseHeirloomLevel) };
 
 						-- add the header into the appropriate upgrade token
 						if isWeapon then
@@ -12429,7 +12723,7 @@ local mapFields = {
 		end
 	end,
 	["lvl"] = function(t)
-		return select(1, C_Map_GetMapLevels(t.mapID));
+		return C_Map_GetMapLevels(t.mapID);
 	end,
 	["iconForAchievement"] = function(t)
 		return t.achievementID and select(10, GetAchievementInfo(t.achievementID)) or app.asset("Category_Zones");
@@ -12627,9 +12921,9 @@ local RefreshMounts = function(newMountID)
 		end
 	end
 	UpdateRawIDs("spellID", newMounts);
-	if #newMounts > 0 then
+	if newMounts and #newMounts > 0 then
 		app:PlayRareFindSound();
-		app:TakeScreenShot();
+		app:TakeScreenShot("Mounts");
 	end
 end
 app.events.NEW_MOUNT_ADDED = function(newMountID, ...)
@@ -12706,7 +13000,7 @@ local fields = {
 		return select(3, GetSpellInfo(t.spellID));
 	end,
 	["link"] = function(t)
-		return select(1, GetSpellLink(t.spellID));
+		return GetSpellLink(t.spellID);
 	end,
 	["description"] = function(t)
 		if t.crs and #t.crs > 0 then
@@ -13192,8 +13486,8 @@ local fields = {
 	end,
 	--[[
 	["name"] = function(t)
-		if app.GetSpecializationBaseTradeSkill(t.professionID) then return select(1, GetSpellInfo(t.professionID)); end
-		if t.professionID == 129 then return select(1, GetSpellInfo(t.spellID)); end
+		if app.GetSpecializationBaseTradeSkill(t.professionID) then return GetSpellInfo(t.professionID); end
+		if t.professionID == 129 then return GetSpellInfo(t.spellID); end
 		return C_TradeSkillUI.GetTradeSkillDisplayName(t.professionID);
 	end,
 	["icon"] = function(t)
@@ -13397,6 +13691,19 @@ SpellNameToSpellID = setmetatable({}, {
 	end
 });
 app.SpellNameToSpellID = SpellNameToSpellID;
+-- Represents a small lookup of a select set of Profession/Skill-related icons
+local SkillIcons = setmetatable({
+	[2720] = 2620862,	-- Junkyard Tinkering
+	[2819] = 3747898,	-- Protoform Synthesis
+}, { __index = function(t, key)
+	if not key then return; end
+	local skillSpellID = app.SkillIDToSpellID[key];
+	if skillSpellID then
+		local _, _, icon = GetSpellInfo(skillSpellID);
+		return icon;
+	end
+end
+});
 
 local cache = app.CreateCache("_cachekey");
 local function CacheInfo(t, field)
@@ -13411,7 +13718,8 @@ local function CacheInfo(t, field)
 	else
 		local name, _, icon = GetSpellInfo(id);
 		_t.name = name;
-		_t.icon = icon or 136243;	-- Trade_engineering
+		-- typically, the profession's spell icon will be a better representation of the spell if the spell is tied to a skill
+		_t.icon = SkillIcons[t.skillID] or icon;
 		local link = GetSpellLink(id);
 		_t.link = link;
 	end
@@ -13419,7 +13727,8 @@ local function CacheInfo(t, field)
 	local retries = (_t.retries or 0) + 1;
 	if retries > app.MaximumItemInfoRetries then
 		_t.name = t.itemID and "Item #"..t.itemID or "Spell #"..t.spellID;
-		_t.icon = 136243;
+		-- fallback to skill icon if possible
+		_t.icon = SkillIcons[t.skillID] or 136243;	-- Trade_engineering
 		_t.link = _t.name;
 	end
 	_t.retries = retries;
@@ -13503,63 +13812,7 @@ end
 end)();
 
 -- Tier Lib
-(function()
-local tiers = {
-	{	-- Classic
-		["icon"] = app.asset("Expansion_CLASSIC"),
-		["lore"] = L["CLASSIC_TIER_DESC"],
-	},
-	{	-- Burning Crusade
-		["icon"] = app.asset("Expansion_TBC"),
-		["lore"] = L["TBC_TIER_DESC"],
-		["lvl"] = 10,
-	},
-	{	-- Wrath of the Lich King
-		["icon"] = app.asset("Expansion_WOTLK"),
-		["lore"] = L["WOTLK_TIER_DESC"],
-		["lvl"] = 10,
-	},
-	{	-- Cataclysm
-		["icon"] = app.asset("Expansion_CATA"),
-		["lore"] = L["CATA_TIER_DESC"],
-		["lvl"] = 10,
-	},
-	{	-- Mists of Pandaria
-		["icon"] = app.asset("Expansion_MOP"),
-		["lore"] = L["MOP_TIER_DESC"],
-		["lvl"] = 10,
-	},
-	{	-- Warlords of Draenor
-		["icon"] = app.asset("Expansion_WOD"),
-		["lore"] = L["WOD_TIER_DESC"],
-		["lvl"] = 10,
-	},
-	{	-- Legion
-		["icon"] = app.asset("Expansion_LEGION"),
-		["lore"] = L["LEGION_TIER_DESC"],
-		["lvl"] = 10,
-	},
-	{	-- Battle for Azeroth
-		["icon"] = app.asset("Expansion_BFA"),
-		["lore"] = L["BFA_TIER_DESC"],
-		["lvl"] = 10,
-	},
-	{	-- Shadowlands
-		["icon"] = app.asset("Expansion_SL"),
-		["lore"] = L["SL_TIER_DESC"],
-		["lvl"] = 50,
-	},
-	{	-- Dragonflight
-		["icon"] = app.asset("Expansion_SL"),	-- TODO: Change asset
-		["lore"] = L["DF_TIER_DESC"],
-		["lvl"] = 60,
-	},
-};
-local function GetTierInfo(tierID, key)
-	if rawget(tiers, tierID) then
-		return rawget(rawget(tiers, tierID), key);
-	end
-end
+do
 local EJ_GetTierInfo = EJ_GetTierInfo;
 local math_floor = math.floor;
 local cache = app.CreateCache("tierID");
@@ -13568,14 +13821,24 @@ local function CacheInfo(t, field)
 	-- patch can be included in the id
 	local tierID = math_floor(id);
 	rawset(t, "tierKey", tierID);
-	local patch_decimal = 100 * (id - tierID);
-	local patch = math_floor(patch_decimal + 0.0001);
-	local rev = math_floor(10 * (patch_decimal - patch) + 0.0001);
-	-- print("tier cache",id,tierID,patch_decimal,patch,rev)
+	local info = rawget(L.TIER_DATA, tierID);
+	-- assign the cached values from locale
+	if info then
+		-- app.PrintDebug("tier cache locale data",id,tierID,"via",field)
+		for key,val in pairs(info) do
+			-- app.PrintDebug("--",key,val)
+			rawset(_t, key, val);
+		end
+	end
 	if id > tierID then
+		local patch_decimal = 100 * (id - tierID);
+		local patch = math_floor(patch_decimal + 0.0001);
+		local rev = math_floor(10 * (patch_decimal - patch) + 0.0001);
+		-- app.PrintDebug("tier cache patch ID",id,tierID,patch_decimal,patch,rev)
 		_t.name = tostring(tierID).."."..tostring(patch).."."..tostring(rev);
 	else
-		_t.name = EJ_GetTierInfo(tierID);
+		-- only use API for name if not set from locale
+		_t.name = _t.name or EJ_GetTierInfo(tierID);
 	end
 	if field then return _t[field]; end
 end
@@ -13586,23 +13849,21 @@ local fields = {
 	["name"] = function(t)
 		return cache.GetCachedField(t, "name", CacheInfo);
 	end,
-	-- Keyed values from 'tiers' data
 	["icon"] = function(t)
-		return GetTierInfo(t.tierKey or t.tierID, "icon");
+		return cache.GetCachedField(t, "icon", CacheInfo);
 	end,
 	["lore"] = function(t)
-		return GetTierInfo(t.tierKey or t.tierID, "lore");
+		return cache.GetCachedField(t, "lore", CacheInfo);
 	end,
 	["lvl"] = function(t)
-		return GetTierInfo(t.tierKey or t.tierID, "lvl");
+		return cache.GetCachedField(t, "lvl", CacheInfo);
 	end,
 };
-
 app.BaseTier = app.BaseObjectFields(fields, "BaseTier");
 app.CreateTier = function(id, t)
 	return setmetatable(constructor(id, t, "tierID"), app.BaseTier);
 end
-end)();
+end -- Tier Lib
 
 -- Title Lib
 (function()
@@ -13872,8 +14133,13 @@ local function FilterItemClass_RequireClasses(item)
 	return not item.nmc;
 end
 local function FilterItemClass_RequireItemFilter(item)
-	if item.f then
-		return app.Settings:GetFilter(item.f);	-- Filter applied via Settings (character-equippable or manually set)
+	local f = item.f;
+	if f then
+		-- don't filter Heirlooms by their Type if they are collectible as Heirlooms
+		if item.__type == "BaseHeirloom" and app.CollectibleHeirlooms then
+			return true;
+		end
+		return app.Settings:GetFilter(f);	-- Filter applied via Settings (character-equippable or manually set)
 	else
 		return true;
 	end
@@ -13883,18 +14149,20 @@ local function FilterItemClass_RequireRaces(item)
 end
 local function FilterItemClass_RequireRacesCurrentFaction(item)
 	if item.nmr then
-		if item.r then
-			if item.r == app.FactionID then
+		local r = item.r;
+		if r then
+			if r == app.FactionID then
 				return true;
 			else
 				return false;
 			end
 		end
-		if item.races then
+		local races = item.races;
+		if races then
 			if app.FactionID == Enum.FlightPathFaction.Horde then
-				return containsAny(item.races, HORDE_ONLY);
+				return containsAny(races, HORDE_ONLY);
 			else
-				return containsAny(item.races, ALLIANCE_ONLY);
+				return containsAny(races, ALLIANCE_ONLY);
 			end
 		else
 			return false;
@@ -14093,7 +14361,8 @@ local function MarkUniqueCollectedSourcesBySource(knownSourceID, currentCharacte
 		local knownSource = C_TransmogCollection_GetSourceInfo(knownSourceID);
 		local acctSources = ATTAccountWideData.Sources;
 		local checkItem, checkSource, valid;
-		local knownRaces, knownClasses, knownFaction = knownItem.races, knownItem.c, knownItem.r;
+		local knownRaces, knownClasses, knownFaction, knownFilter = knownItem.races, knownItem.c, knownItem.r, knownItem.f;
+		local checkFilter;
 		-- this source unlocks a visual that the current character may tmog, so all shared visuals should be considered 'collected' regardless of restriction
 		local currentCharacterUsable = currentCharacterOnly and not knownItem.nmc and not knownItem.nmr;
 		-- For each shared Visual SourceID
@@ -14125,7 +14394,8 @@ local function MarkUniqueCollectedSourcesBySource(knownSourceID, currentCharacte
 					checkItem = SearchForSourceIDQuickly(sourceID);
 					if checkItem then
 						-- filter matches or one item is Cosmetic
-						if checkItem.f == knownItem.f or checkItem.f == 2 or knownItem.f == 2 then
+						checkFilter = checkItem.f;
+						if checkFilter == knownFilter or checkFilter == 2 or knownFilter == 2 then
 							valid = true;
 							-- verify all possible restrictions that the known source may have against restrictions on the source in question
 							-- if known source has no equivalent restrictions, then restrictions on the source are irrelevant
@@ -14339,6 +14609,12 @@ app.RecursiveFirstParentWithField = function(group, field, followSource)
 		return group[field] or app.RecursiveFirstParentWithField(followSource and group.sourceParent or group.parent, field);
 	end
 end
+-- Returns the first encountered group tracing upwards in direct parent hierarchy which has a value for the provided field
+app.RecursiveFirstDirectParentWithField = function(group, field)
+	if group then
+		return group[field] or app.RecursiveFirstDirectParentWithField(rawget(group, "parent"), field);
+	end
+end
 -- Returns the first found recursive Parent of the group which meets the provided field and value combination
 app.RecursiveFirstParentWithFieldValue = function(group, field, value)
 	if group and field then
@@ -14419,7 +14695,7 @@ local function SetThingVisibility(parent, group)
 	end
 end
 local UpdateGroups;
-local function UpdateGroup(parent, group, window)
+local function UpdateGroup(parent, group)
 	-- if group.key == "runeforgePowerID" and group[group.key] == 134 then app.DEBUG_PRINT = 134; end
 	-- if not app.DEBUG_PRINT and shouldLog then
 	-- 	app.DEBUG_PRINT = shouldLog;
@@ -14485,11 +14761,11 @@ local function UpdateGroup(parent, group, window)
 			if ItemBindFilter ~= NoFilter and ItemBindFilter(group) then
 				app.ItemBindFilter = NoFilter;
 				-- Update the subgroups recursively...
-				UpdateGroups(group, g, window);
+				UpdateGroups(group, g);
 				-- reapply the previous BoE filter
 				app.ItemBindFilter = ItemBindFilter;
 			else
-				UpdateGroups(group, g, window);
+				UpdateGroups(group, g);
 			end
 
 			-- if app.DEBUG_PRINT then print("UpdateGroup.g.Updated",group.progress,group.total,group.__type) end
@@ -14516,19 +14792,19 @@ local function UpdateGroup(parent, group, window)
 	-- if app.DEBUG_PRINT == 134 then app.DEBUG_PRINT = nil; end
 end
 app.UpdateGroup = UpdateGroup;
-UpdateGroups = function(parent, g, window)
+UpdateGroups = function(parent, g)
 	if g then
 		for _,group in ipairs(g) do
 			if group.OnUpdate then
 				if not group:OnUpdate() then
-					UpdateGroup(parent, group, window);
+					UpdateGroup(parent, group);
 				elseif group.visible then
 					group.total = nil;
 					group.progress = nil;
-					UpdateGroups(group, group.g, window);
+					UpdateGroups(group, group.g);
 				end
 			else
-				UpdateGroup(parent, group, window);
+				UpdateGroup(parent, group);
 			end
 		end
 	end
@@ -14545,23 +14821,25 @@ local function AdjustParentProgress(group, progChange, totalChange)
 		parent.total = (parent.total or 0) + totalChange;
 		parent.progress = (parent.progress or 0) + progChange;
 		-- app.PrintDebug("END:",parent.progress,parent.total)
-		-- verify visibility of the group, always a 'group' since it is already a parent of another group
-		SetGroupVisibility(rawget(parent, "parent"), parent);
+		-- verify visibility of the group, always a 'group' since it is already a parent of another group, as long as it's not the root window data
+		if not parent.window then
+			SetGroupVisibility(rawget(parent, "parent"), parent);
+		end
 		AdjustParentProgress(parent, progChange, totalChange);
 	end
 end
 -- For directly applying the full Update operation for the top-level data group within a window
-local function TopLevelUpdateGroup(group, window)
+local function TopLevelUpdateGroup(group)
 	group.total = 0;
 	group.progress = 0;
 	local ItemBindFilter = app.ItemBindFilter;
 	if ItemBindFilter ~= app.NoFilter and ItemBindFilter(group) then
 		app.ItemBindFilter = app.NoFilter;
-		UpdateGroups(group, group.g, window);
+		UpdateGroups(group, group.g);
 		-- reapply the previous BoE filter
 		app.ItemBindFilter = ItemBindFilter;
 	else
-		UpdateGroups(group, group.g, window);
+		UpdateGroups(group, group.g);
 	end
 	if group.collectible then
 		group.total = group.total + 1;
@@ -14613,7 +14891,7 @@ local function DirectGroupUpdate(group, got)
 		AdjustParentProgress(group, progChange, totalChange);
 	end
 	-- After completing the Direct Update, setup a soft-update on the affected Window, if any
-	local window = app.RecursiveFirstParentWithField(group, "window");
+	local window = app.RecursiveFirstDirectParentWithField(group, "window");
 	if window then
 		-- app.PrintDebug("DGU:Callback Update",group.hash,">",window.Suffix,window.Update,window.isQuestChain)
 		DelayedCallback(window.Update, 0.5, window, window.isQuestChain, got);
@@ -14648,7 +14926,7 @@ function app.CompletionistItemCollectionHelper(sourceID, oldState)
 				app:PlayReportSound();
 			end
 			Callback(app.PlayFanfare);
-			Callback(app.TakeScreenShot);
+			Callback(app.TakeScreenShot, "Transmog");
 		end
 
 		-- Update the groups for the sourceID results
@@ -14697,7 +14975,7 @@ function app.UniqueModeItemCollectionHelperBase(sourceID, oldState, filter)
 				app:PlayReportSound();
 			end
 			Callback(app.PlayFanfare);
-			Callback(app.TakeScreenShot);
+			Callback(app.TakeScreenShot, "Transmog");
 		end
 
 		-- Update the groups for the sourceIDs
@@ -15243,11 +15521,12 @@ function app:CreateMiniListForGroup(group)
 
 			-- Show Quest Prereqs
 			if root.sourceQuests then
-				local gTop;
-				if app.Settings:GetTooltipSetting("QuestChain:Nested") then
+				-- local gTop;
+				local useNested = app.Settings:GetTooltipSetting("QuestChain:Nested");
+				if useNested then
 					-- clean out the sub-groups of the root since it will be listed at the top of the popout
-					root.g = nil;
-					gTop = app.NestSourceQuests(root).g or {};
+					-- root.g = nil;
+					-- gTop = app.NestSourceQuests(root).g or {};
 				else
 					local sourceQuests, sourceQuest, subSourceQuests, prereqs = root.sourceQuests;
 					local addedQuests = {};
@@ -15377,15 +15656,23 @@ function app:CreateMiniListForGroup(group)
 				end
 
 				local questChainHeader = {
-					["text"] = gTop and L["NESTED_QUEST_REQUIREMENTS"] or L["QUEST_CHAIN_REQ"],
+					["text"] = useNested and L["NESTED_QUEST_REQUIREMENTS"] or L["QUEST_CHAIN_REQ"],
 					["description"] = L["QUEST_CHAIN_REQ_DESC"],
 					["icon"] = "Interface\\Icons\\Spell_Holy_MagicalSentry.blp",
-					["g"] = gTop or g,
-					["hideText"] = true,
 					["OnUpdate"] = app.AlwaysShowUpdate,
 					["sourceIgnored"] = true,
+					-- copy any sourceQuests into the header incase the root is not actually a quest
+					["sourceQuests"] = root.sourceQuests,
 				};
 				NestObject(group, questChainHeader);
+				if useNested then
+					app.NestSourceQuestsV2(questChainHeader, group.questID);
+					-- Sort by the totals of the quest chain on the next game frame
+					Callback(app.Sort, questChainHeader.g, app.SortDefaults.Total, true);
+				else
+					questChainHeader.g = g;
+				end
+				questChainHeader.sourceQuests = nil;
 			end
 		end
 
@@ -15421,6 +15708,9 @@ function app:CreateMiniListForGroup(group)
 			-- Populate the Quest Rewards
 			-- think this causes quest popouts to somehow break...
 			-- app.TryPopulateQuestRewards(group)
+
+			-- Then trigger a soft update of the window afterwards
+			DelayedCallback(popout.Update, 0.25, popout);
 		end
 	end
 	popout:Toggle(true);
@@ -16223,7 +16513,7 @@ RowOnEnter = function (self)
 		end
 		if reference.factionID and app.Settings:GetTooltipSetting("factionID") then GameTooltip:AddDoubleLine(L["FACTION_ID"], tostring(reference.factionID)); end
 		if reference.minReputation and not reference.maxReputation then
-			local standingId, offset = app.GetFactionStanding(reference.minReputation[2])
+			local standingId, offset = app.GetReputationStanding(reference.minReputation)
 			local factionID = reference.minReputation[1];
 			local factionName = GetFactionInfoByID(factionID) or "the opposite faction";
 			local msg = L["MINUMUM_STANDING"]
@@ -16232,7 +16522,7 @@ RowOnEnter = function (self)
 			GameTooltip:AddLine(msg);
 		end
 		if reference.maxReputation and not reference.minReputation then
-			local standingId, offset = app.GetFactionStanding(reference.maxReputation[2])
+			local standingId, offset = app.GetReputationStanding(reference.maxReputation)
 			local factionID = reference.maxReputation[1];
 			local factionName = GetFactionInfoByID(factionID) or "the opposite faction";
 			local msg = L["MAXIMUM_STANDING"]
@@ -16241,8 +16531,8 @@ RowOnEnter = function (self)
 			GameTooltip:AddLine(msg);
 		end
 		if reference.minReputation and reference.maxReputation then
-			local minStandingId, minOffset = app.GetFactionStanding(reference.minReputation[2])
-			local maxStandingId, maxOffset = app.GetFactionStanding(reference.maxReputation[2])
+			local minStandingId, minOffset = app.GetReputationStanding(reference.minReputation)
+			local maxStandingId, maxOffset = app.GetReputationStanding(reference.maxReputation)
 			local factionID = reference.minReputation[1];
 			local factionName = GetFactionInfoByID(factionID) or "the opposite faction";
 			local msg = L["MIN_MAX_STANDING"]
@@ -18709,8 +18999,8 @@ customWindowUpdates["AchievementHarvester"] = function(self, ...)
 		if not self.initialized then
 			self.doesOwnUpdate = true;
 			self.initialized = true;
-			self.Limit = 15575;
-			self.PartitionSize = 1000;
+			self.Limit = 15596;	-- MissingAchievements:9.2.5.42850
+			self.PartitionSize = 2000;
 			local db = {};
 			local CleanUpHarvests = function()
 				local g, partition, pg, pgcount, refresh = self.data.g;
@@ -19336,36 +19626,36 @@ customWindowUpdates["CurrentInstance"] = function(self, force, got)
 				end
 
 				-- Check for difficulty groups
-				local cbd, zd = -1, -1;
-				local groupHeaderID, g;
-				for _,group in ipairs(groups) do
-					g = group.g;
-					if g and group.difficultyID then
-						cbd, zd = -1, -1;
-						-- Look for special headers
-						for j,subgroup in ipairs(g) do
-							groupHeaderID = subgroup.headerID;
-							-- Common Boss Drops
-							if groupHeaderID == -1 then
-								cbd = j;
-							end
-							-- Zone Drops
-							if groupHeaderID == 0 then
-								zd = j;
-							end
-						end
+				-- local cbd, zd = -1, -1;
+				-- local groupHeaderID, g;
+				-- for _,group in ipairs(groups) do
+				-- 	g = group.g;
+				-- 	if g and group.difficultyID then
+				-- 		cbd, zd = -1, -1;
+				-- 		-- Look for special headers
+				-- 		for j,subgroup in ipairs(g) do
+				-- 			groupHeaderID = subgroup.headerID;
+				-- 			-- Common Boss Drops
+				-- 			if groupHeaderID == -1 then
+				-- 				cbd = j;
+				-- 			end
+				-- 			-- Zone Drops
+				-- 			if groupHeaderID == 0 then
+				-- 				zd = j;
+				-- 			end
+				-- 		end
 
-						-- Push the Common Boss Drop header to the top
-						if cbd > -1 then
-							tinsert(g, 1, table.remove(g, cbd));
-						end
+				-- 		-- Push the Common Boss Drop header to the top
+				-- 		if cbd > -1 then
+				-- 			tinsert(g, 1, table.remove(g, cbd));
+				-- 		end
 
-						-- Push the Zone Drop header to the bottom
-						if zd > -1 then
-							tinsert(g, table.remove(g, zd));
-						end
-					end
-				end
+				-- 		-- Push the Zone Drop header to the bottom
+				-- 		if zd > -1 then
+				-- 			tinsert(g, table.remove(g, zd));
+				-- 		end
+				-- 	end
+				-- end
 
 				header.u = nil;
 				header.mapID = self.mapID;
@@ -19400,13 +19690,13 @@ customWindowUpdates["CurrentInstance"] = function(self, force, got)
 									ExpandGroupsRecursively(row, false, true);
 								end
 							-- Zone Drops/Common Boss Drops should also be expanded within instances
-							elseif row.headerID == 0 or row.headerID == -1 then
-								if not row.expanded then ExpandGroupsRecursively(row, true, true); expanded = true; end
+							-- elseif row.headerID == 0 or row.headerID == -1 then
+							-- 	if not row.expanded then ExpandGroupsRecursively(row, true); expanded = true; end
 							end
 						end
 						-- No difficulty found to expand, so just expand everything in the list
 						if not expanded then
-							ExpandGroupsRecursively(header, true, true);
+							ExpandGroupsRecursively(header, true);
 							expanded = true;
 						end
 					end
@@ -20448,7 +20738,7 @@ customWindowUpdates["RaidAssistant"] = function(self)
 		self.Spec = GetLootSpecialization();
 		if not self.Spec or self.Spec == 0 then
 			local s = GetSpecialization();
-			if s then self.Spec = select(1, GetSpecializationInfo(s)); end
+			if s then self.Spec = GetSpecializationInfo(s); end
 		end
 
 		-- Update the window and all of its row data
@@ -21388,7 +21678,7 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 				UpdateRawIDs("spellID", learned);
 				if #learned > 0 then
 					app:PlayRareFindSound();
-					app:TakeScreenShot();
+					app:TakeScreenShot("Recipes");
 					self.force = true;
 				end
 			end
@@ -21525,7 +21815,7 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 						UpdateSearchResults(SearchForField("spellID",spellID));
 						if not previousState or not app.Settings:Get("AccountWide:Recipes") then
 							app:PlayFanfare();
-							app:TakeScreenShot();
+							app:TakeScreenShot("Recipes");
 							if app.Settings:GetTooltipSetting("Report:Collected") then
 								local link = app:Linkify(spellID, app.Colors.ChatLink, "search:spellID:"..spellID);
 								print(NEW_RECIPE_LEARNED_TITLE, link);
@@ -23968,7 +24258,7 @@ app:RegisterEvent("ADDON_LOADED");
 
 -- Define Event Behaviours
 app.events.ARTIFACT_UPDATE = function(...)
-	local itemID = select(1, C_ArtifactUI.GetArtifactInfo());
+	local itemID = C_ArtifactUI.GetArtifactInfo();
 	if itemID then
 		local count = C_ArtifactUI.GetNumRelicSlots();
 		if count and count > 0 then
@@ -24195,7 +24485,7 @@ app.events.HEIRLOOMS_UPDATED = function(itemID, kind, ...)
 		app.RefreshQuestInfo();
 		UpdateSearchResults(SearchForField("itemID", itemID));
 		app:PlayFanfare();
-		app:TakeScreenShot();
+		app:TakeScreenShot("Heirlooms");
 		wipe(searchCache);
 
 		if app.Settings:GetTooltipSetting("Report:Collected") then
@@ -24207,12 +24497,12 @@ end
 -- Seems to be some sort of hidden tracking for HQTs and other sorts of things...
 app.events.CRITERIA_UPDATE = function(...)
 	-- print("CRITERIA_UPDATE",...)
-	-- sometimes triggers many times at once but refresh quest info is a 1 sec callback threshold
+	-- sometimes triggers many times at once but RefreshQuestInfo unhooks CRITERIA_UPDATE until quest refresh completes
 	app.RefreshQuestInfo();
-	app:RefreshWindows();
 end
 app.events.QUEST_TURNED_IN = function(questID)
 	-- print("QUEST_TURNED_IN")
+	app.LastQuestTurnedIn = questID;
 	app.RefreshQuestInfo(questID);
 end
 app.events.QUEST_LOG_UPDATE = function()
@@ -24322,7 +24612,7 @@ app.events.TOYS_UPDATED = function(itemID, new)
 		ATTAccountWideData.Toys[itemID] = 1;
 		UpdateSearchResults(SearchForField("itemID", itemID));
 		app:PlayFanfare();
-		app:TakeScreenShot();
+		app:TakeScreenShot("Toys");
 		wipe(searchCache);
 
 		if app.Settings:GetTooltipSetting("Report:Collected") then

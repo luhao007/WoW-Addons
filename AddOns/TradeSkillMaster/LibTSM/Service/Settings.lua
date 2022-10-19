@@ -182,9 +182,11 @@ local DEFAULT_DB = {
 -- [101] updated factionrealm.internalData.craftingQueue
 -- [102] removed global.internalData.optionalMatBonusIdLookup
 -- [103] updated global.auctionUIContext.auctioningAuctionScrollingTable, global.auctionUIContext.myAuctionsScrollingTable, global.auctionUIContext.shoppingAuctionScrollingTable, global.auctionUIContext.sniperScrollingTable, global.auctionUIContext.professionScrollingTable
+-- [104] removed factionrealm.internalData.{csvAuctionDBScan,auctionDBScanTime,auctionDBScanHash}
+-- [105] updated factionrealm.internalData.crafts, factionrealm.userData.craftingCooldownIgnore, char.internalData.craftingCooldowns
 
 local SETTINGS_INFO = {
-	version = 103,
+	version = 105,
 	global = {
 		debug = {
 			chatLoggingEnabled = { type = "boolean", default = false, lastModifiedVersion = 19 },
@@ -214,7 +216,7 @@ local SETTINGS_INFO = {
 			myAuctionsScrollingTable = { type = "table", default = { colWidth = { item = 248, stackSize = 30, timeLeft = 40, highbidder = TSM.IsWowClassic() and 110 or nil, group = TSM.IsWowClassic() and 110 or 228, currentBid = 100, buyout = 100 }, colHidden = {} }, lastModifiedVersion = 103 },
 			shoppingSelectionDividedContainer = { type = "table", default = { leftWidth = 272 }, lastModifiedVersion = 55 },
 			shoppingAuctionScrollingTable = { type = "table", default = { colWidth = { item = 226, ilvl = 32, qty = not TSM.IsWowClassic() and 40 or nil, posts = TSM.IsWowClassic() and 40 or nil, stack = TSM.IsWowClassic() and 40 or nil, timeLeft = 26, seller = TSM.IsWowClassic() and 88 or 136, itemBid = 115, bid = 115, itemBuyout = 115, buyout = 115, bidPct = 40, pct = 40 }, colHidden = { bid = true, buyout = true, bidPct = true } }, lastModifiedVersion = 103 },
-			sniperScrollingTable = { type = "table", default = { colWidth = { icon = 24, item = 230, ilvl = 32, qty = not TSM.IsWowClassic() and 40 or nil, posts = TSM.IsWowClassic() and 40 or nil, stack = TSM.IsWowClassic() and 40 or nil, seller = TSM.IsWowClassic() and 86 or 134, itemBid = 115, bid = 115, itemBuyout = 115, buyout = 115,  bidPct = 40, pct = 40 }, colHidden = { bid = true, buyout = true, bidPct = true } }, lastModifiedVersion = 103 },
+			sniperScrollingTable = { type = "table", default = { colWidth = { icon = 24, item = 230, ilvl = 32, qty = not TSM.IsWowClassic() and 40 or nil, posts = TSM.IsWowClassic() and 40 or nil, stack = TSM.IsWowClassic() and 40 or nil, seller = TSM.IsWowClassic() and 86 or 134, itemBid = 115, bid = 115, itemBuyout = 115, buyout = 115, bidPct = 40, pct = 40 }, colHidden = { bid = true, buyout = true, bidPct = true } }, lastModifiedVersion = 103 },
 			shoppingSearchesTabGroup = { type = "table", default = { pathIndex = 1 }, lastModifiedVersion = 55 },
 			auctioningTabGroup = { type = "table", default = { pathIndex = 1 }, lastModifiedVersion = 93 },
 		},
@@ -226,7 +228,7 @@ local SETTINGS_INFO = {
 		craftingUIContext = {
 			frame = { type = "table", default = { width = 820, height = 587, centerX = -200, centerY = 0, scale = 1, page = 1 }, lastModifiedVersion = 55 },
 			showDefault = { type = "boolean", default = false, lastModifiedVersion = 55 },
-			craftsScrollingTable = { type = "table", default = { colWidth = { queued = 30, craftName = 218, operation = 80, bags = 28, ah = 24, craftingCost = 100, itemValue = 100, profit = 100, profitPct = 50,  saleRate = 32 }, colHidden = { profitPct = true } }, lastModifiedVersion = 86 },
+			craftsScrollingTable = { type = "table", default = { colWidth = { queued = 30, craftName = 218, operation = 80, bags = 28, ah = 24, craftingCost = 100, itemValue = 100, profit = 100, profitPct = 50, saleRate = 32 }, colHidden = { profitPct = true } }, lastModifiedVersion = 86 },
 			matsScrollingTable = { type = "table", default = { colWidth = { name = 242, price = 100, professions = 310, num = 100 }, colHidden = {} }, lastModifiedVersion = 55 },
 			gatheringDividedContainer = { type = "table", default = { leftWidth = 284 }, lastModifiedVersion = 55 },
 			gatheringScrollingTable = { type = "table", default = { colWidth = { name = 206, sources = 160, have = 50, need = 50 }, colHidden = {} }, lastModifiedVersion = 55 },
@@ -317,8 +319,8 @@ local SETTINGS_INFO = {
 			maxDeSearchLvl = { type = "number", default = 500, lastModifiedVersion = 79 },
 			maxDeSearchPercent = { type = "number", default = 100, lastModifiedVersion = 23 },
 			pctSource = { type = "string", default = "dbmarket", lastModifiedVersion = 12 },
-			buyoutConfirm  = { type = "boolean", default = false, lastModifiedVersion = 46 },
-			buyoutAlertSource  = { type = "string", default = "min(100000g, 200% dbmarket)", lastModifiedVersion = 46 },
+			buyoutConfirm = { type = "boolean", default = false, lastModifiedVersion = 46 },
+			buyoutAlertSource = { type = "string", default = "min(100000g, 200% dbmarket)", lastModifiedVersion = 46 },
 			searchAutoFocus = { type = "boolean", default = true, lastModifiedVersion = 88 },
 		},
 		sniperOptions = {
@@ -378,14 +380,11 @@ local SETTINGS_INFO = {
 			mailDisenchantablesChar = { type = "string", default = "", lastModifiedVersion = 49 },
 			mailExcessGoldChar = { type = "string", default = "", lastModifiedVersion = 49 },
 			mailExcessGoldLimit = { type = "number", default = 10000000000, lastModifiedVersion = 49 },
-			crafts = { type = "table", default = {}, lastModifiedVersion = 99 },
+			crafts = { type = "table", default = {}, lastModifiedVersion = 105 },
 			craftingQueue = { type = "table", default = {}, lastModifiedVersion = 101 },
 			mats = { type = "table", default = {}, lastModifiedVersion = 10 },
 			guildGoldLog = { type = "table", default = {}, lastModifiedVersion = 25 },
 			guildGoldLogLastUpdate = { type = "table", default = {}, lastModifiedVersion = 83 },
-			csvAuctionDBScan = { type = "string", default = "", lastModifiedVersion = 50 },
-			auctionDBScanTime = { type = "number", default = 0, lastModifiedVersion = 50 },
-			auctionDBScanHash = { type = "number", default = 0, lastModifiedVersion = 50 },
 			isCraftFavorite = { type = "table", default = {}, lastModifiedVersion = 56 },
 		},
 		coreOptions = {
@@ -399,7 +398,7 @@ local SETTINGS_INFO = {
 			professions = { type = "table", default = {}, lastModifiedVersion = 32 },
 		},
 		userData = {
-			craftingCooldownIgnore = { type = "table", default = {}, lastModifiedVersion = 99 },
+			craftingCooldownIgnore = { type = "table", default = {}, lastModifiedVersion = 105 },
 		},
 	},
 	realm = {
@@ -421,7 +420,7 @@ local SETTINGS_INFO = {
 		internalData = {
 			auctionPrices = { type = "table", default = {}, lastModifiedVersion = 10 },
 			auctionMessages = { type = "table", default = {}, lastModifiedVersion = 10 },
-			craftingCooldowns = { type = "table", default = {}, lastModifiedVersion = 99 },
+			craftingCooldowns = { type = "table", default = {}, lastModifiedVersion = 105 },
 			auctionSaleHints = { type = "table", default = {}, lastModifiedVersion = 45 },
 		},
 		auctionUIContext = {
@@ -701,6 +700,18 @@ Settings:OnSettingsLoad(function()
 					cooldownData["c:"..spellId] = data
 				end
 				db:Set("char", factionrealm, "internalData", "craftingCooldowns", cooldownData)
+			end
+		end
+	end
+	if prevVersion < 105 and not TSM.IsWowClassic() then
+		for key, value in upgradeObj:RemovedSettingIterator() do
+			local scopeType, factionrealm, namespace, settingKey = upgradeObj:GetKeyInfo(key)
+			if scopeType == "factionrealm" and namespace == "internalData" and settingKey == "crafts" then
+				db:Set("factionrealm", factionrealm, "internalData", "crafts", value)
+			elseif scopeType == "factionrealm" and namespace == "userData" and settingKey == "craftingCooldownIgnore" then
+				db:Set("factionrealm", factionrealm, "userData", "craftingCooldownIgnore", value)
+			elseif scopeType == "char" and namespace == "internalData" and settingKey == "craftingCooldowns" then
+				db:Set("char", factionrealm, "internalData", "craftingCooldowns", value)
 			end
 		end
 	end

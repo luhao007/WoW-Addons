@@ -262,6 +262,7 @@ function private.ScanProfession()
 				name, _, skillType = GetCraftInfo(i)
 				if skillType ~= "header" then
 					hash = Math.CalculateHash(name)
+					hash = Math.CalculateHash(GetCraftIcon(i), hash)
 					for j = 1, GetCraftNumReagents(i) do
 						local _, _, quantity = GetCraftReagentInfo(i, j)
 						hash = Math.CalculateHash(ItemString.Get(GetCraftReagentItemLink(i, j)), hash)
@@ -272,6 +273,7 @@ function private.ScanProfession()
 				name, skillType = GetTradeSkillInfo(i)
 				if skillType ~= "header" then
 					hash = Math.CalculateHash(name)
+					hash = Math.CalculateHash(GetTradeSkillIcon(i), hash)
 					for j = 1, GetTradeSkillNumReagents(i) do
 						local _, _, quantity = GetTradeSkillReagentInfo(i, j)
 						hash = Math.CalculateHash(ItemString.Get(GetTradeSkillReagentItemLink(i, j)), hash)
@@ -415,18 +417,27 @@ function private.ScanRecipe(professionName, craftString)
 	assert(itemLink, "Invalid craft: "..tostring(craftString))
 
 	-- get the itemString and craft name
-	local itemString, craftName = nil, nil
+	local itemString, craftName, indirectSpellId = nil, nil, nil
 	if strfind(itemLink, "enchant:") then
-		if TSM.IsWowClassic() then
+		if TSM.IsWowClassic() and not TSM.IsWowWrathClassic() then
 			return true
 		else
 			-- result of craft is not an item
-			itemString = ProfessionInfo.GetIndirectCraftResult(spellId)
+			if TSM.IsWowWrathClassic() then
+				indirectSpellId = strmatch(itemLink, "enchant:(%d+)")
+				indirectSpellId = indirectSpellId and tonumber(indirectSpellId)
+				if not indirectSpellId then
+					return true
+				end
+			else
+				indirectSpellId = spellId
+			end
+			itemString = ProfessionInfo.GetIndirectCraftResult(indirectSpellId)
 			if not itemString then
 				-- we don't care about this craft
 				return true
 			end
-			craftName = GetSpellInfo(spellId)
+			craftName = GetSpellInfo(indirectSpellId)
 		end
 	elseif strfind(itemLink, "item:") then
 		-- result of craft is item
@@ -447,7 +458,7 @@ function private.ScanRecipe(professionName, craftString)
 
 	-- get the result number
 	local numResult = nil
-	local isEnchant = professionName == GetSpellInfo(7411) and strfind(itemLink, "enchant:")
+	local isEnchant, vellumable = TSM.Crafting.ProfessionUtil.IsEnchant(craftString)
 	if isEnchant then
 		numResult = 1
 	else
@@ -496,14 +507,14 @@ function private.ScanRecipe(professionName, craftString)
 		matQuantities[matItemString] = quantity
 	end
 	-- if this is an enchant, add a vellum to the list of mats
-	if isEnchant then
-		local matItemString = ProfessionInfo.GetVellumItemString()
+	if isEnchant and vellumable then
+		local matItemString = ProfessionInfo.GetVellumItemString(indirectSpellId)
 		TSM.db.factionrealm.internalData.mats[matItemString] = TSM.db.factionrealm.internalData.mats[matItemString] or {}
 		matQuantities[matItemString] = 1
 	end
 
 	if not haveInvalidMats then
-		local optionalMats = private.GetOptionalMats(spellId)
+		local optionalMats = private.GetOptionalMats(spellId, level)
 		if optionalMats then
 			for _, matStr in ipairs(optionalMats) do
 				local _, _, mats = strsplit(":", matStr)
@@ -520,11 +531,11 @@ function private.ScanRecipe(professionName, craftString)
 	return not haveInvalidMats
 end
 
-function private.GetOptionalMats(spellId)
+function private.GetOptionalMats(spellId, level)
 	if TSM.IsWowClassic() then
 		return nil
 	end
-	local optionalMats = C_TradeSkillUI.GetOptionalReagentInfo(spellId)
+	local optionalMats = C_TradeSkillUI.GetOptionalReagentInfo(spellId, level)
 	if not optionalMats or #optionalMats == 0 then
 		return nil
 	end

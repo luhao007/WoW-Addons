@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: MysticalOS
-## Version: 9.2.0
+## Version: 9.2.37
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMShadowlands_AllSavedVars
@@ -17,10 +17,10 @@
 ## X-DBM-Mod-Name-esES: Jefes de Mundo (SL)
 ## X-DBM-Mod-Name-esMX: Jefes de Mundo (SL)
 ## X-DBM-Mod-Name-koKR: 필드 보스 (어둠땅)
-## X-DBM-Mod-Name-ruRU: Мировые боссы (SL)
+## X-DBM-Mod-Name-ruRU: Мировые боссы (Темные Земли)
 ## X-DBM-Mod-World-Boss: 1
 ## X-DBM-Mod-Sort: 310
-## X-DBM-Mod-MapID: 2222
+## X-DBM-Mod-MapID: 2222, 2374
 ## X-DBM-Mod-LoadCID: 167524,167525,167527,167526,178958,182466
 ## X-DBM-Mod-MinCoreRevision: 17286
 ## X-DBM-Mod-MinExpansion: 8

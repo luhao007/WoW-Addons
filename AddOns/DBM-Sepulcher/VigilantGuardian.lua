@@ -1,11 +1,10 @@
 local mod	= DBM:NewMod(2458, "DBM-Sepulcher", nil, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220206083607")
+mod:SetRevision("20220908201246")
 mod:SetCreatureID(180773)
 mod:SetEncounterID(2512)
---mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
-mod:SetHotfixNoticeRev(20220125000000)
+mod:SetHotfixNoticeRev(20220301000000)
 mod:SetMinSyncRevision(20220125000000)
 --mod.respawnTime = 29
 
@@ -13,15 +12,12 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 360412 361001 360176 360162 364447",
-	"SPELL_CAST_SUCCESS 360412 366693 359610 361001 360404 365315 360658 364881",--364425
+	"SPELL_CAST_SUCCESS 360412 359610 361001 360404 365315 360658 364881 360906",--364425
 	"SPELL_SUMMON 360848 360623",
-	"SPELL_AURA_APPLIED 360458 364447 359610 360415 364881 364962",
-	"SPELL_AURA_APPLIED_DOSE 364447 360415",
+	"SPELL_AURA_APPLIED 360458 364447 359610 360415 360414 364881 364962",
+	"SPELL_AURA_APPLIED_DOSE 364447 360415 360414",
 	"SPELL_AURA_REMOVED 364881 360879",
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
-	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
+	"UNIT_DIED"
 )
 
 --TODO, improvements for https://ptr.wowhead.com/spell=360403/force-field?
@@ -31,13 +27,12 @@ mod:RegisterEventsInCombat(
 --TODO, proper energy Conversion cast and alert prio
 --[[
 (ability.id = 360412 or ability.id = 360162) and type = "begincast"
- or (ability.id = 359610 or ability.id = 365315 or ability.id = 360658 or ability.id = 364881) and type = "cast"
+ or (ability.id = 359610 or ability.id = 365315 or ability.id = 360658 or ability.id = 364881 or ability.id = 360906 or ability.id = 364843) and type = "cast"
  or ability.id = 360879
 --]]
 --General
 local warnPhase									= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 
---local berserkTimer							= mod:NewBerserkTimer(600)
 --Automa
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(24374))
 local warnUnstableCore							= mod:NewTargetNoFilterAnnounce(360458, 3)
@@ -47,29 +42,27 @@ local warnWaveofDesintegration					= mod:NewCountAnnounce(361001, 4, nil, "Melee
 local warnDissonance							= mod:NewStackAnnounce(364447, 2, nil, "Tank|Healer")
 local warnBlast									= mod:NewSpellAnnounce(360176, 3, nil, false)--Spammy
 
-local specWarnPreFabricatedSentry				= mod:NewSpecialWarningSwitch(360848, "Tank", nil, nil, 1, 2)
-local specWarnDissonance						= mod:NewSpecialWarningStack(350202, nil, 3, nil, nil, 1, 6)
-local specWarnDissonanceTaunt					= mod:NewSpecialWarningTaunt(350202, nil, nil, nil, 1, 2)
---local specWarnBlast								= mod:NewSpecialWarningMoveAway(350202, nil, nil, nil, 1, 2)
---local yellBlast									= mod:NewYell(360176)
+local specWarnPreFabricatedSentry				= mod:NewSpecialWarningSwitch(360658, "Tank", nil, nil, 1, 2)
+local specWarnDissonance						= mod:NewSpecialWarningStack(364447, nil, 3, nil, nil, 1, 6)
+local specWarnDissonanceTaunt					= mod:NewSpecialWarningTaunt(364447, nil, nil, nil, 1, 2)
 
+local timerSentryCD								= mod:NewNextTimer(71.2, 360658, nil, nil, nil, 1, nil, DBM_COMMON_L.TANK_ICON)--Every odd Volatile
 local timerWaveofDisintegrationCD				= mod:NewCDTimer(12.2, 361001, nil, nil, nil, 3)--Time between first and second cast usually 14-15 then 12.2 repeating
-local timerDissonanceCD							= mod:NewCDTimer(12.2, 350202, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Second is 16-18 then rest are 12.2-14
+local timerDissonanceCD							= mod:NewCDTimer(12.2, 364447, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Second is 16-18 then rest are 12.2-14
 --Stage One: Systems Online!
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(23875))
 local warnRefractedBlast						= mod:NewCountAnnounce(366693, 2)
 local warnDeresolution							= mod:NewTargetAnnounce(359610, 3)
-local warnExposedCore							= mod:NewCastAnnounce(360412, 4)
 
 local specWarnDeresolution						= mod:NewSpecialWarningMoveAway(359610, nil, nil, nil, 1, 2)--Change once clear how it works
 local yellDeresolution							= mod:NewYell(359610)
 local specWarnExposedCore						= mod:NewSpecialWarningMoveTo(360412, nil, nil, nil, 3, 2)
 
 local timerVolatileMateriumCD					= mod:NewNextTimer(30.6, 365315, nil, nil, nil, 1)
-local timerSentryCD								= mod:NewNextTimer(71.2, 360658, nil, nil, nil, 1, nil, DBM_COMMON_L.TANK_ICON)--Every odd Volatile
 local timerRefractedBlastCD						= mod:NewCDCountTimer(15, 366693, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--15 but can be delayed by shit
 local timerDeresolutionCD						= mod:NewCDTimer(35.3, 359610, nil, nil, nil, 3)
-local timerExposedCore							= mod:NewCastTimer(10, 360412, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerExposedCore							= mod:NewCastTimer(5, 360412, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerExposedCoreCD						= mod:NewCDTimer(35.3, 360412, nil, nil, nil, 2)
 
 mod:AddInfoFrameOption(360403, true)
 --Stage Two: Roll Out, then Transform
@@ -77,18 +70,13 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(23877))
 local warnMatterDisoilution						= mod:NewTargetNoFilterAnnounce(364881, 4)
 
 local specWarnSplitResolution					= mod:NewSpecialWarningDefensive(360162, nil, nil, nil, 1, 2)
-local specWarnDefenseless						= mod:NewSpecialWarningTaunt(360415, nil, nil, nil, 1, 2)
+local specWarnPneumaticImpact					= mod:NewSpecialWarningTaunt(360414, nil, nil, nil, 1, 2)
 local specWarnMatterDisolution					= mod:NewSpecialWarningYou(364881, nil, nil, nil, 1, 2)--Initial
 local specWarnMatterDisolutionOut				= mod:NewSpecialWarningMoveAway(364881, nil, nil, nil, 1, 2)--Delayed
 local yellMatterDisolutionFades					= mod:NewShortFadesYell(364881)
---local specWarnDespair							= mod:NewSpecialWarningInterrupt(357144, "HasInterrupt", nil, nil, 1, 2)
---local specWarnGTFO							= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 
-local timerSplitResolutionCD					= mod:NewCDTimer(30.2, 360412, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)--30.2-34 (also acts as Pneumatic Impact timer)
-local timerMatterDisolutionCD					= mod:NewCDTimer(30.4, 364881, nil, nil, nil, 3)
-
---mod:AddRangeFrameOption("8")
---mod:AddSetIconOption("SetIconOnCallofEternity", 350554, true, false, {1, 2, 3, 4, 5})
+local timerSplitResolutionCD					= mod:NewCDTimer(30.2, 360162, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)--30.2-34 (also acts as Pneumatic Impact timer)
+local timerMatterDisolutionCD					= mod:NewCDTimer(20.6, 364881, nil, nil, nil, 3)
 
 mod:GroupSpells(360412, 360403)--Exposed Core and the shield you seek need to deal with mechanic
 
@@ -97,41 +85,23 @@ local castsPerGUID = {}
 
 local shieldName = DBM:GetSpellInfo(360403)
 
---[[
-function mod:BlastTarget(targetname, uId)
-	if not targetname then return end
-	if targetname == UnitName("player") then
-		specWarnBlast:Show()
-		specWarnBlast:Play("runout")
-		yellBlast:Yell()
-	else
-		warnBlast:CombinedShow(1, targetname)
-	end
-end
---]]
-
 function mod:OnCombatStart(delay)
 	self:SetStage(1)
 	self.vb.refractedCount = 0
 	--Every fucking difficulty has different timers, because why make it easy
 	if self:IsMythic() then
-		timerVolatileMateriumCD:Start(21.9-delay)
-		timerRefractedBlastCD:Start(29.5-delay, 1)
-		timerDeresolutionCD:Start(54.7-delay)
-		timerSentryCD:Start(74.6-delay)
+		timerVolatileMateriumCD:Start(13.3-delay)
+		timerRefractedBlastCD:Start(21-delay, 1)
+		timerDeresolutionCD:Start(46.6-delay)
+		timerSentryCD:Start(66-delay)
 		--Boss Timers
 		timerSplitResolutionCD:Start(46.2)
 --		timerMatterDisolutionCD:Start()--Not used?
-	elseif self:IsHeroic() then
-		timerVolatileMateriumCD:Start(18.6-delay)
-		timerSentryCD:Start(18.6)
-		timerRefractedBlastCD:Start(14.9-delay, 1)
-		timerDeresolutionCD:Start(26.3-delay)
-	else--Normal, LFR will probably be different too
-		timerVolatileMateriumCD:Start(5-delay)
-		timerSentryCD:Start(39-delay)
-		timerRefractedBlastCD:Start(16.1-delay, 1)
-		timerDeresolutionCD:Start(38.1-delay)
+	else--Heroic, Normal. LFR will probably be different too
+		timerVolatileMateriumCD:Start(5-delay)--5-6
+		timerRefractedBlastCD:Start(15.3-delay, 1)
+		timerDeresolutionCD:Start(36.9-delay)
+		timerSentryCD:Start(35-delay)
 	end
 end
 
@@ -143,29 +113,23 @@ function mod:OnCombatEnd()
 	end
 end
 
---[[
-function mod:OnTimerRecovery()
-
-end
---]]
-
-local function delayedCoreCheck()
-	if not DBM:UnitAura("player", 360403) then--Use unit buff or unit debuff when known
-		specWarnExposedCore:Show(shieldName)
-		specWarnExposedCore:Play("findshelter")
-	end
-end
-
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 360412 then
-		warnExposedCore:Show()
 		timerExposedCore:Start()
-		self:Schedule(6, delayedCoreCheck)
+--		timerExposedCoreCD:Start(self:IsMythic() and 105 or 109)--Approx, since it is dps based after all
+		if not DBM:UnitAura("player", 360403) then--Use unit buff or unit debuff when known
+			specWarnExposedCore:Show(shieldName)
+			specWarnExposedCore:Play("findshelter")
+		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(shieldName)
 			DBM.InfoFrame:Show(10, "playerbuff", shieldName)
 		end
+		timerRefractedBlastCD:Stop()
+		timerDeresolutionCD:Stop()
+		timerRefractedBlastCD:Start(self:IsMythic() and 20 or 22.4, self.vb.refractedCount+1)
+		timerDeresolutionCD:Start(self:IsMythic() and 24.7 or 36)
 	elseif spellId == 361001 then
 		if not castsPerGUID[args.sourceGUID] then--Shouldn't happen, but failsafe
 			castsPerGUID[args.sourceGUID] = {}
@@ -182,7 +146,6 @@ function mod:SPELL_CAST_START(args)
 		castsPerGUID[args.sourceGUID][1] = castsPerGUID[args.sourceGUID][1] + 1
 		timerDissonanceCD:Start(castsPerGUID[args.sourceGUID][1] == 1 and 16 or 12.2, args.sourceGUID)
 	elseif spellId == 360176 and self:AntiSpam(3, 1) then
---		self:BossTargetScanner(args.sourceGUID, "BlastTarget", 0.1, 12)
 		warnBlast:Show()
 	elseif spellId == 360162 then
 		if self:IsTanking("player", "boss1", nil, true) then
@@ -199,9 +162,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Hide()
 		end
---	elseif spellId == 364425 then
---		warnSurge:Show()
---	elseif spellId == 366693 then
 	elseif spellId == 359610 then
 		timerDeresolutionCD:Start()
 	elseif spellId == 361001 then
@@ -211,15 +171,21 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 360404 then
 		warnForceField:Show()
 	elseif spellId == 365315 then--Volatile Materium
-		timerVolatileMateriumCD:Start(self:IsMythic() and 40 or 30)
+		timerVolatileMateriumCD:Stop()--Max timer, but come early if defeated fast, per March 1st hotfixes
+		timerVolatileMateriumCD:Start(self:IsMythic() and 40 or 60)
 	elseif spellId == 360658 then--Pre-Fabricated Sentry
-		timerSentryCD:Start(self:IsMythic() and 100 or 71.2)
+		timerSentryCD:Stop()
+		timerSentryCD:Start(self:IsMythic() and 100 or 81.2)--Timer based but also comes early if last one is defeated
 		--scan for sentry being added to boss frames, so we can grab it's guid
 		self:RegisterShortTermEvents(
 			"INSTANCE_ENCOUNTER_ENGAGE_UNIT"
 		)
 	elseif spellId == 364881 then--Matter Disolution
 		timerMatterDisolutionCD:Start()
+	elseif spellId == 360906 then--Refracted Blast
+		self.vb.refractedCount = self.vb.refractedCount + 1
+		warnRefractedBlast:Show(self.vb.refractedCount)
+		timerRefractedBlastCD:Start(self:IsMythic() and 20 or 15.7, self.vb.refractedCount+1)
 	end
 end
 
@@ -247,7 +213,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				if expireTime then
 					remaining = expireTime-GetTime()
 				end
-				if (not remaining or remaining and remaining < 6.7) and not UnitIsDeadOrGhost("player") then--TODO, adjust remaining when Cd known
+				if (not remaining or remaining and remaining < 6.1) and not UnitIsDeadOrGhost("player") then
 					specWarnDissonanceTaunt:Show(args.destName)
 					specWarnDissonanceTaunt:Play("tauntboss")
 				else
@@ -265,15 +231,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnDeresolution:Show(args.destName)
 		end
-	elseif spellId == 360415 then
+	elseif spellId == 360415 or spellId == 360414 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			if args:IsPlayer() then
-				specWarnDefenseless:Cancel()
-				specWarnDefenseless:CancelVoice()
+				specWarnPneumaticImpact:Cancel()
+				specWarnPneumaticImpact:CancelVoice()
 			else
-				specWarnDefenseless:CombinedShow(0.5, args.destName)
-				specWarnDefenseless:ScheduleVoice(0.5, "tauntboss")
+				specWarnPneumaticImpact:CombinedShow(0.5, args.destName)
+				specWarnPneumaticImpact:ScheduleVoice(0.5, "tauntboss")
 			end
 		end
 	elseif spellId == 364881 then
@@ -314,9 +280,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerRefractedBlastCD:Stop()
 		timerDeresolutionCD:Stop()
 		timerRefractedBlastCD:Start(20.6, self.vb.refractedCount+1)
-		--Blizzard swapped these two in normal testing, recheck heroic
-		timerSplitResolutionCD:Start(self:IsHeroic() and 25.8 or 45.9)
-		timerMatterDisolutionCD:Start(self:IsHeroic() and 46.5 or 25.5)
+		timerMatterDisolutionCD:Start(25.1)
+		timerSplitResolutionCD:Start(45.9)
 	end
 end
 
@@ -327,22 +292,8 @@ function mod:UNIT_DIED(args)
 		timerDissonanceCD:Stop(args.destGUID)
 		timerWaveofDisintegrationCD:Stop(args.destGUID)
 		castsPerGUID[args.destGUID] = nil
---	elseif cid == 181859 then--Reclamated Materium
-
---	elseif cid == 181856 then--Point Defense Drone
-
 	end
 end
-
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 340324 and destGUID == UnitGUID("player") and not playerDebuff and self:AntiSpam(2, 3) then
-		specWarnGTFO:Show(spellName)
-		specWarnGTFO:Play("watchfeet")
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
---]]
 
 --NOTE: This may actually be buggy for now since sentries can inherit the bosses guid (and thus not be unique
 function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
@@ -361,17 +312,5 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 				self:UnregisterShortTermEvents()
 			end
 		end
-	end
-end
-
---"<215.22 23:31:43> [CLEU] SPELL_AURA_REMOVED##nil#Creature-0-4170-2481-3623-180773-00003D0E8C#Vigilant Guardian#360879#Ancient Defenses#DEBUFF#nil", -- [15642]
---"<229.41 23:31:57> [UNIT_SPELLCAST_SUCCEEDED] Vigilant Guardian(Cuteymw) -ROLL OUT!- boss1:Cast-3-4170-2481-3623-361936-00033D0FD0:361936", -- [16622]
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 360906 then--Refracted Blast
-		self.vb.refractedCount = self.vb.refractedCount + 1
-		warnRefractedBlast:Show(self.vb.refractedCount)
-		timerRefractedBlastCD:Start(self:IsMythic() and 20 or 15.7, self.vb.refractedCount+1)
---	elseif spellId == 361936 then--ROLL OUT!
-
 	end
 end

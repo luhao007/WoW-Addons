@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: foxlit
-## Version: 3.16
+## Version: 3.17
 ## SavedVariables: WarPlanData
 ## SavedVariablesPerCharacter: WarPlanDataPC
 

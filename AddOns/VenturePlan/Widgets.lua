@@ -4,11 +4,12 @@ local PROGRESS_MIN_STEP = 0.2
 local CovenKit = "NightFae"
 local UIBUTTON_HEIGHT = ({zhCN=24, zhTW=24, koKR=24})[GetLocale()] or 22
 local GROUPLIST_PARTY_ORDER = {[0]=2, 0, 3, 1, 4}
-local SHARED_TOOLTIP_PROGRESS, SHARED_GROUP_LIST
+local SHARED_WIDGETS = {}
 local tooltipShopWatch
+local MissonButton_Hint_AllowNUI_Until
 
 local CreateObject do
-	local skip, peekO = {SharedTooltipProgressBar=1, ObjectGroup=1, TexSlice=1, CommonHoverTooltip=1, Shadow=1}
+	local skip, peekO = {OneTime=1, Singleton=1, ObjectGroup=1, TexSlice=1, CommonHoverTooltip=1, Shadow=1}
 	local function peek(k)
 		local o = peekO and peekO[k]
 		return o and o.GetObjectType and o or nil
@@ -53,6 +54,14 @@ local function SetTexSlice(tex, p, w, h, ...)
 		tex:SetHeight(h)
 	end
 	tex:SetTexCoord(...)
+end
+local function CreateTargetAnimation(kind, ag, target, duration, start, order)
+	local a = ag:CreateAnimation(kind)
+	a:SetTarget(target)
+	a:SetOrder(order or 0)
+	a:SetDuration(duration)
+	a:SetStartDelay(start or 0)
+	return a
 end
 local function AugmentFollowerInfo(info)
 	info.autoCombatantStats = C_Garrison.GetFollowerAutoCombatStats(info.followerID)
@@ -190,7 +199,7 @@ local function CommonTooltip_OnEnter(self)
 			return
 		end
 		label = label .. " - " .. BreakUpLargeNumbers(cur) .. " / " .. BreakUpLargeNumbers(max)
-		CreateObject("SharedTooltipProgressBar"):Activate(GameTooltip, cur, max, label, self.isRetrospective and 0 or q1)
+		CreateObject("Singleton", "TooltipProgressBar"):Activate(GameTooltip, cur, max, label, self.isRetrospective and 0 or q1)
 	end
 end
 local function CommonTooltip_DelayedRefresh_OnUpdate(self, elapsed)
@@ -1180,8 +1189,15 @@ local function MissionButton_OnHintEnterTimer(self)
 	self:SetScript("OnUpdate", nil)
 end
 local function MissionButton_OnHintEnter(self, motion)
+	local now = GetTime()
+	if MissonButton_Hint_AllowNUI_Until then
+		if now <= MissonButton_Hint_AllowNUI_Until and not motion then
+			motion, now = true, now + 0.35
+		end
+		MissonButton_Hint_AllowNUI_Until = nil
+	end
 	if motion and (self:GetParent():GetParent():GetParent():GetTop()-self:GetTop()) > 100 then
-		self.enterTime = GetTime()
+		self.enterTime = now
 		self:SetScript("OnUpdate", MissionButton_OnHintEnterTimer)
 	end
 end
@@ -1198,6 +1214,7 @@ local function GroupList_Acquire(selfs, owner, topExtend, bottomExtend, denyClic
 	selfs.fakeClickTime = denyClick and selfs.showTime or nil
 	selfs.bottomExtend, selfs.topExtend = bottomExtend or 0, topExtend and selfs.showTime
 	selfs.minHeight = noMinHeight and 0 or 173
+	f:SetFrameStrata("TOOLTIP")
 	f:Show()
 end
 local function GroupList_OnKeyDown(self, k)
@@ -1222,34 +1239,41 @@ local function GroupList_OnUpdate(self)
 	end
 end
 local function GroupList_SetPredictionIcon(gs, sres, maxMTL, isCurrent)
+	local ptex = "Interface/RaidFrame/ReadyCheck-Waiting"
+	if not sres then
+	elseif sres.hadLosses and sres.hadWins then
+		ptex = "Interface/Buttons/UI-GroupLoot-Dice-Up"
+	elseif sres.isFinished then
+		ptex = sres.hadWins and "Interface/RaidFrame/ReadyCheck-Ready" or "Interface/RaidFrame/ReadyCheck-NotReady"
+	end
 	if maxMTL then
 		gs.StateIcon:SetTexture("Interface/PetBattles/PetBattle-LockIcon")
-	elseif not sres then
-		gs.StateIcon:SetTexture("Interface/RaidFrame/ReadyCheck-Waiting")
-	elseif sres.hadLosses and sres.hadWins then
-		gs.StateIcon:SetTexture("Interface/Buttons/UI-GroupLoot-Dice-Up")
-	elseif sres.isFinished then
-		gs.StateIcon:SetTexture(sres.hadWins and "Interface/RaidFrame/ReadyCheck-Ready" or "Interface/RaidFrame/ReadyCheck-NotReady")
 	else
-		gs.StateIcon:SetTexture("Interface/RaidFrame/ReadyCheck-Waiting")
+		gs.StateIcon:SetTexture(ptex)
 	end
+	gs.StateIcon2:SetTexture(ptex)
+	gs.StateIcon2:SetShown(not not maxMTL)
 	gs.WarnIcon:SetShown(not isCurrent)
 end
-local function GroupList_SetGroup(selfs, idx, fgid, g, gi, mid, offerEndTime)
+local function GroupList_SetGroupInfo(selfs, idx, fgid, g, gi, mid, offerEndTime)
 	local now, gs, ns, ss = GetTime(), selfs.groups[idx], 1
+	local cost, hasTentativeBusy = selfs.baseCost, false
 	gs.fgid = fgid
 	for b=0,4 do
 		local f = g[GROUPLIST_PARTY_ORDER[b]]
 		if f then
 			ss, ns = gs.slots[ns], ns + 1
+			cost = cost and (cost + (f.troop and 1 or 0))
 			local port, mtl, tmid = C_Garrison.GetFollowerPortraitIconID(f.id), C_Garrison.GetFollowerMissionTimeLeftSeconds(f.id), U.FollowerHasTentativeGroup(f.id)
 			local vm = mtl and 0.55 or 1
+			local isTentativeBusy = tmid and tmid ~= mid or false
+			hasTentativeBusy = hasTentativeBusy or isTentativeBusy
 			ss.Portrait:SetDesaturated(not not mtl)
 			ss.Portrait:SetTexture(port)
 			ss.Portrait2:SetTexture(port)
 			ss.Portrait2:SetVertexColor(0.05, 0.35, 0.35, mtl and 1 or 0)
 			ss.Portrait:SetVertexColor(mtl and 0.95 or 1, vm, vm)
-			ss.TentativeRing:SetShown(tmid and tmid ~= mid or false)
+			ss.TentativeRing:SetShown(isTentativeBusy)
 			if f.troop then
 				ss.Health:SetHealth()
 			else
@@ -1264,9 +1288,11 @@ local function GroupList_SetGroup(selfs, idx, fgid, g, gi, mid, offerEndTime)
 	end
 	local maxMTL = gi.readyAt and math.max(0, gi.readyAt-now)
 	local sres, _, isCurrent = U.GetMissionPrediction(mid, g, fgid)
-	gs.maxMTL, gs.isSaved = maxMTL, gi.saved
+	hasTentativeBusy = not maxMTL and hasTentativeBusy
+	gs.maxMTL, gs.isSaved, gs.cost = maxMTL, gi.saved, cost
 	gs.TimeLeft:SetText(gi.readyAt and offerEndTime and (gi.readyAt >= offerEndTime and "|cffe00000" or "") .. U.GetTimeStringFromSeconds(maxMTL, true, true) or "")
-	gs.StateIcon:SetPoint("RIGHT", -6, maxMTL and 6 or 0)
+	gs.StateIcon:SetPoint("RIGHT", hasTentativeBusy and -10 or -6, maxMTL and 6 or 0)
+	gs.TentIcon:SetShown(hasTentativeBusy)
 	GroupList_SetPredictionIcon(gs, sres, maxMTL, isCurrent)
 	gs.host:SetEnabled(not maxMTL)
 	gs.host:Show()
@@ -1276,13 +1302,20 @@ local function GroupList_OnEnterGroup(self, motion)
 	if motion ~= true and ms.topExtend and (GetTime()-ms.topExtend) < 0.1 then return end
 	local pc = ms.owner:GetParent():GetParent()
 	local gs = ms.groups[self:GetID()]
-	local l = self:GetLeft()+self:GetWidth()/2 < pc:GetLeft()+pc:GetWidth()/2
+	local cost, fgid = gs.cost, gs.fgid
+	if cost then
+		local animaTex = C_CurrencyInfo.GetBasicCurrencyInfo(1813)
+		animaTex = animaTex and animaTex.icon or 3528288
+		cost = HIGHLIGHT_FONT_COLOR_CODE .. cost .. " |T" .. animaTex .. ":0:0:0:0:64:64:4:60:4:60|t"
+	end
+	
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip.NineSlice:SetCenterColor(0,0,0)
+	local l = self:GetLeft()+self:GetWidth()/2 < pc:GetLeft()+pc:GetWidth()/2
 	GameTooltip:SetPoint(l and "LEFT" or "RIGHT", self, l and "RIGHT" or "LEFT", l and 6 or -6, 0)
-	GameTooltip:SetText(gs.isSaved and L"Accomplished Party" or L"Unproven Party")
-	local fgid = gs.fgid
-	local c1,c2,c3,c4,c5 = U.GetSavedGroupCompanions(fgid)
+	GameTooltip:AddDoubleLine(gs.isSaved and L"Accomplished Party" or L"Unproven Party", cost)
 	local mid, hadMTL = ms.missionID, false
+	local c1,c2,c3,c4,c5 = U.GetSavedGroupCompanions(fgid)
 	c1,c2,c3,c4,c5 = c3,c1,c4,c2,c5
 	for i=1,5 do
 		if c1 then
@@ -1363,7 +1396,12 @@ local function GroupList_OnClickGroup(self, button)
 	local viewingMission = CovenantMissionFrame.MissionTab.MissionPage:IsVisible()
 	if button == "RightButton" then
 		U.StoreMissionGroup(hs.missionID, g, true)
-		if viewingMission then CovenantMissionFrame:CloseMission() end
+		PlaySound(SOUNDKIT.UI_ADVENTURES_ADVENTURER_SLOTTED)
+		if viewingMission then
+			CovenantMissionFrame:CloseMission()
+		else
+			MissonButton_Hint_AllowNUI_Until = GetTime()+0.1
+		end
 	elseif viewingMission then
 		U.SetMissionBoard(g)
 	else
@@ -1371,15 +1409,15 @@ local function GroupList_OnClickGroup(self, button)
 	end
 	self:GetParent():Hide()
 end
-local function GroupList_SetGroups(selfs, mid, offerEndTime, ga)
-	selfs.missionID, selfs.offerEndTime, selfs.numGroups = mid, offerEndTime, #ga.ord
+local function GroupList_SetGroups(selfs, mid, offerEndTime, baseCost, ga)
+	selfs.missionID, selfs.offerEndTime, selfs.numGroups, selfs.baseCost = mid, offerEndTime, #ga.ord, baseCost
 	if selfs.tipOwner and GameTooltip:IsShown() and GameTooltip:IsOwned(selfs.tipOwner) then
 		GameTooltip:Hide()
 	end
 	selfs.tipOwner = nil
 	for i=1, selfs.numGroups do
 		local fgid = ga.ord[i]
-		GroupList_SetGroup(selfs, i, fgid, ga.groups[fgid], ga.info[fgid], mid, offerEndTime)
+		GroupList_SetGroupInfo(selfs, i, fgid, ga.groups[fgid], ga.info[fgid], mid, offerEndTime)
 	end
 	for i=selfs.numGroups+1, #selfs.groups do
 		selfs.groups[i].host:Hide()
@@ -2421,10 +2459,6 @@ function Factory.IconButton(parent, sz, tex)
 	mb.Icon = t
 	return mb
 end
-function Factory.SharedTooltipProgressBar()
-	SHARED_TOOLTIP_PROGRESS = SHARED_TOOLTIP_PROGRESS or CreateObject("TooltipProgressBar")
-	return SHARED_TOOLTIP_PROGRESS
-end
 function Factory.MiniHealthBar(p, w, h)
 	local f, t = CreateFrame("Frame", nil, p)
 	f:SetSize(w,h)
@@ -2491,9 +2525,6 @@ function Factory.BoardEx()
 	return f
 end
 function Factory.GroupList()
-	if SHARED_GROUP_LIST then
-		return SHARED_GROUP_LIST, S[SHARED_GROUP_LIST]
-	end
 	local f, t = CreateFrame("Frame")
 	local s = CreateObject("Shadow", f)
 	f:EnableMouse(true)
@@ -2584,25 +2615,203 @@ function Factory.GroupList()
 		t = c:CreateTexture(nil, "ARTWORK")
 		t:SetTexture("Interface/RaidFrame/ReadyCheck-NotReady")
 		t:SetSize(24, 24)
-		t:SetPoint("RIGHT", -4, 6)
-		t, sg.StateIcon = c:CreateFontString(nil, nil, "GameFontNormal"), t
+		t:SetPoint("RIGHT", -10, 6)
+		t, sg.StateIcon = c:CreateTexture(nil, "ARTWORK", nil, 1), t
+		t:SetAtlas("levelup-dot-gold")
+		t:SetSize(14, 14)
+		t:SetPoint("TOPRIGHT", sg.StateIcon, "TOPRIGHT", 8, 4)
+		t:SetVertexColor(1,0.5,0.5)
+		t, sg.TentIcon = c:CreateTexture(nil, "ARTWORK", nil, 1), t
+		t:SetSize(14, 14)
+		t:SetPoint("BOTTOMRIGHT", sg.StateIcon, "BOTTOMRIGHT", 2, -2)
+		t, sg.StateIcon2 = c:CreateFontString(nil, nil, "GameFontNormal"), t
 		t:SetPoint("TOP", sg.StateIcon, "BOTTOM", 0, 0)
 		t:SetTextColor(1, 0.85, 0.5)
 		t, sg.TimeLeft = c:CreateTexture(nil, "ARTWORK", nil, 1), t
 		t:SetTexture("Interface/EncounterJournal/UI-EJ-WarningTextIcon")
 		t:SetSize(14,14)
-		t:SetPoint("BOTTOMRIGHT", sg.StateIcon, "BOTTOMRIGHT", -0.5, 0.5)
+		t:SetPoint("BOTTOMRIGHT", sg.StateIcon, "BOTTOMRIGHT", 2.5, 0.5)
 		sg.WarnIcon = t
 	end
 	f:SetScript("OnUpdate", GroupList_OnUpdate)
 	f:SetScript("OnKeyDown", GroupList_OnKeyDown)
 	s.SetGroups = GroupList_SetGroups
 	s.Acquire = GroupList_Acquire
-	SHARED_GROUP_LIST = f
 	EV.I_MPQ_ITEM_FINISHED = function() GroupList_UpdateGroupPredictions(s) end
 	return f, s
 end
+function Factory.ThinkingAnim(p)
+	local f, w = CreateFrame("Frame", nil, p), p:GetWidth()
+	f:SetSize(w, 12)
+	f:SetPoint("BOTTOM", p, "TOP", 0, 2)
+	local ag = f:CreateAnimationGroup()
+	for i=1, 3 do
+		local t = f:CreateTexture(nil, "ARTWORK")
+		t:SetSize(16, 16)
+		t:SetTexture("Interface/QuestFrame/UI-Quest-BulletPoint")
+		t:SetPoint("LEFT", (i-1)*(w-12)/2-2, 0)
+		t:SetAlpha(0)
+		local a = CreateTargetAnimation("Alpha", ag, t, 0.25, 0, i)
+		a:SetFromAlpha(0)
+		a:SetToAlpha(1)
+		a:SetSmoothing("OUT")
+		local a = CreateTargetAnimation("Alpha", ag, t, 0.25, 0, 3+i)
+		a:SetFromAlpha(1)
+		a:SetToAlpha(0)
+		a:SetSmoothing("IN")
+		a:SetEndDelay(0.1)
+	end
+	ag:SetLooping("REPEAT")
+	f:Hide()
+	f:SetScript("OnShow", function()
+		ag:Restart()
+	end)
+	return f
+end
+function Factory.FlareAnim(h, f)
+	local ag = h:CreateAnimationGroup()
+	local t1 = h:CreateTexture(nil, "BACKGROUND")
+	t1:SetTexture("Interface/Glues/Models/UI_mechagnome/Soft_Flare_")
+	t1:SetVertexColor(0.15,1,0.15)
+	t1:SetBlendMode("ADD")
+	t1:SetPoint("CENTER", f, "CENTER", 0, 0)
+	t1:SetSize(20,20)
+	t1:SetAlpha(0)
+	local t3 = h:CreateTexture(nil, "BACKGROUND", nil, 1)
+	t3:SetAtlas("Adventures-Buff-Heal-Ring")
+	t3:SetPoint("CENTER", f, "CENTER", 0,0)
+	t3:SetBlendMode("ADD")
+	t3:SetVertexColor(0, 1, 0)
+	t3:SetSize(25, 25)
+	for i=1,2 do
+		local t = i == 1 and t1 or t3
+		local a = CreateTargetAnimation("Alpha", ag, t, 0.14)
+		a:SetFromAlpha(0)
+		a:SetToAlpha(1)
+		a = CreateTargetAnimation("Scale", ag, t, i == 1 and 0.24 or 0.5)
+		a:SetFromScale(0.85, 0.85)
+		a:SetToScale(i < 2 and 25 or 55, i < 2 and 25 or 55)
+		a:SetSmoothing(i == 1 and "IN_OUT" or "IN")
+		a = CreateTargetAnimation("Alpha", ag, t, 0.35, 0.15)
+		a:SetFromAlpha(1)
+		a:SetToAlpha(0)
+		a:SetSmoothing("IN")
+		if i == 1 then
+			a = CreateTargetAnimation("Rotation", ag, t, 0.5)
+			a:SetDegrees(-180)
+			a = CreateTargetAnimation("Scale", ag, t, 0.25, 0.25)
+			a:SetSmoothing("IN")
+			a:SetFromScale(1, 1)
+			a:SetToScale(0.1, 0.1)
+		end
+	end
+	return ag
+end
+function Factory.DoomAnim(h, f)
+	local ag, nc, cd = h:CreateAnimationGroup(), 4, 0.075
+	local a, t
+	for k=0, nc do
+		local kd = k*cd
+		t = h:CreateTexture(nil, "BACKGROUND")
+		t:SetTexture("Interface/Glues/Models/UI_MainMenu_Legion/SC_Spirits_05")
+		t:SetTexCoord(0.55,0.9,0,0.55)
+		t:SetSize(20, 20)
+		t:SetDesaturated(true)
+		t:SetVertexColor(1,0.15 + math.random()*0.25,0)
+		t:SetBlendMode("ADD")
+		t:SetPoint("CENTER", f, "CENTER", 0, 0)
+		t:SetAlpha(0)
+		a = CreateTargetAnimation("Path", ag, t, 0.6)
+		a:SetCurve("Smooth")
+		a:SetStartDelay(kd)
+		local ap = {}
+		for i=0,10 do
+			ap[i] = a:CreateControlPoint()
+			ap[i]:SetOrder(i)
+		end
+		a:SetScript("OnPlay", function()
+			local rand = math.random
+			local ly, sy = 30, 5+5*rand()
+			local sx, sp, sxm = rand()*360, 8+16*rand(), 15*(1+rand())
+			ap[0]:SetOffset(sxm*cos(sx), ly)
+			for i=1,#ap do
+				local p = ap[i]
+				ly, sy = ly + sy*(0.8+0.4*rand()), sy + 2.5*i*(0.25+rand())
+				p:SetOffset((1+i/5)*sxm*cos(360*i/sp+sx), ly)
+			end
+		end)
+		a = CreateTargetAnimation("Alpha", ag, t, 0.15, kd)
+		a:SetFromAlpha(0)
+		a:SetToAlpha(1)
+		a:SetSmoothing("OUT")
+		a = CreateTargetAnimation("Alpha", ag, t, 0.15, 0.45+kd)
+		a:SetFromAlpha(1)
+		a:SetToAlpha(0)
+		a:SetSmoothing("IN")
+		a = CreateTargetAnimation("Scale", ag, t, 0.35, kd)
+		a:SetFromScale(1.5,1.5)
+		a:SetToScale(6,6)
+		a:SetEndDelay(0.15)
+		a:SetScript("OnPlay", function(a)
+			local es = 2.5 + 3.5*math.random()
+			a:SetToScale(es, es)
+		end)
+	end
+	local t = h:CreateTexture()
+	t:SetTexture("Interface/Buttons/CheckButtonGlow")
+	t:SetPoint("CENTER", f, "CENTER", 0, 0)
+	t:SetSize(f:GetSize())
+	t:SetScale(1.6)
+	t:SetBlendMode("ADD")
+	t:SetDesaturated(true)
+	t:SetVertexColor(1,0,0)
+	t:SetAlpha(0)
+	local a = CreateTargetAnimation("Alpha", ag, t, 0.15)
+	a:SetFromAlpha(0)
+	a:SetToAlpha(1)
+	a = CreateTargetAnimation("Alpha", ag, t, 0.25, 0.25 + nc*cd)
+	a:SetFromAlpha(1)
+	a:SetToAlpha(0)
+	a:SetSmoothing("IN")
+	a = CreateTargetAnimation("Scale", ag, t, 0.25)
+	a:SetFromScale(1,1)
+	a:SetToScale(1.15, 1.15)
+	a = CreateTargetAnimation("Scale", ag, t, 0.25, 0.25 + nc*cd)
+	a:SetFromScale(1,1)
+	a:SetToScale(0.85, 0.85)
+	if f and f.Icon then
+		local t = h:CreateTexture()
+		t:SetTexture(f.Icon:GetTexture())
+		t:SetAllPoints(f.Icon)
+		t:SetBlendMode("ADD")
+		t:SetDesaturated(true)
+		t:SetVertexColor(1,0,0)
+		t:SetAlpha(0)
+		a = CreateTargetAnimation("Alpha", ag, t, 0.25)
+		a:SetFromAlpha(0)
+		a:SetToAlpha(1)
+		a:SetSmoothing("OUT")
+		a = CreateTargetAnimation("Alpha", ag, t, 0.44, 0.26)
+		a:SetFromAlpha(1)
+		a:SetToAlpha(0)
+		a:SetSmoothing("IN")
+	end
+	return ag
+end
 
+function Factory.Singleton(t, ...)
+	local w = SHARED_WIDGETS[t]
+	if w == nil then
+		w = CreateObject(t, ...)
+		SHARED_WIDGETS[t], Factory[t] = w
+	end
+	return w, S[w]
+end
+function Factory.OneTime(...)
+	local r1, r2 = Factory.Singleton(...)
+	SHARED_WIDGETS[...] = nil
+	return r1, r2
+end
 function Factory.Shadow(t)
 	if t ~= nil then
 		local s = S[t] or {}

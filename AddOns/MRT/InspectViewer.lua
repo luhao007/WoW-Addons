@@ -968,6 +968,7 @@ function module.options:Load()
 						item.azeriteExtra = nil
 						item.star:Hide()
 						item.type_icon:Hide()
+						item.showonhover = nil
 					end
 					line.perksData = nil
 
@@ -1031,7 +1032,7 @@ function module.options:Load()
 							end
 						end
 					elseif module.db.page == 2 and ExRT.isClassic then
-						local data = VMRT.Inspect and VMRT.Inspect.TalentsClassic and VMRT.Inspect.TalentsClassic[name]
+						local data = data.talentsStr or (VMRT.Inspect and VMRT.Inspect.TalentsClassic and VMRT.Inspect.TalentsClassic[name])
 
 						line.spec:Hide()
 						line.refreshSoulbind:Show()
@@ -1063,7 +1064,10 @@ function module.options:Load()
 									icon.link = "spell:"..spellID
 									icon.sid = nil
 									icon.text:SetText((rankSelected == rankMax and "|cff00ff00" or "")..rankSelected.."/"..rankMax)
-									icon:Show()
+									if not icon.hideonhover then
+										icon:Show()
+									end
+									icon.showonhover = true
 
 									it = it + 1
 								end
@@ -1407,9 +1411,17 @@ function module.options:Load()
 
 					local cR,cG,cB = ExRT.F.classColorNum(class)
 					if name and UnitName(name) then
-						line.back:SetGradientAlpha("HORIZONTAL", cR,cG,cB, 0.5, cR,cG,cB, 0)
+						if ExRT.is10 then
+							line.back:SetGradient("HORIZONTAL",CreateColor(cR,cG,cB, 0.5), CreateColor(cR,cG,cB, 0))
+						else
+							line.back:SetGradientAlpha("HORIZONTAL", cR,cG,cB, 0.5, cR,cG,cB, 0)
+						end
 					else
-						line.back:SetGradientAlpha("HORIZONTAL", cR,cG,cB, 0, cR,cG,cB, 0.5)
+						if ExRT.is10 then
+							line.back:SetGradient("HORIZONTAL",CreateColor(cR,cG,cB, 0), CreateColor(cR,cG,cB, 0.5))
+						else
+							line.back:SetGradientAlpha("HORIZONTAL", cR,cG,cB, 0, cR,cG,cB, 0.5)
+						end
 					end
 				else
 					for j=-1,18 do
@@ -1439,7 +1451,11 @@ function module.options:Load()
 
 					line.apinfo:SetText("")
 
-					line.back:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 0, 0, 0, 0)
+					if ExRT.is10 then
+						line.back:SetGradient("HORIZONTAL",CreateColor(0, 0, 0, 0.5), CreateColor(0, 0, 0, 0))
+					else
+						line.back:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 0, 0, 0, 0)
+					end
 
 					line.perksData = nil
 				end
@@ -1682,10 +1698,18 @@ function module.options:Load()
 	end
 
 	local function Line_OnEnter(self)
-
+		for _,item in pairs(self.items) do
+			if item.hideonhover and item.showonhover then
+				item:Show()
+			end
+		end
 	end
-	local function Line_OnLeave()
-
+	local function Line_OnLeave(self)
+		for _,item in pairs(self.items) do
+			if item.hideonhover then
+				item:Hide()
+			end
+		end
 	end
 
 	self.lines = {}
@@ -1708,7 +1732,7 @@ function module.options:Load()
 		line.ilvl = ELib:Text(line,"630.52",11):Color():Point(180,0):Size(50,30):Shadow():Center()
 
 		line.items = {}
-		for j=-1,18 do
+		for j=-1,25 do
 			local item = ELib:Icon(line,nil,21,true):Point("LEFT",235+(24*(j-1)),0)
 			line.items[j] = item
 			item:SetScript("OnEnter",Lines_ItemIcon_OnEnter)
@@ -1739,6 +1763,10 @@ function module.options:Load()
 			item.type_icon:SetPoint("CENTER",item,"TOPLEFT",2,-2)
 			item.type_icon:SetSize(18,18)
 			item.type_icon:Hide()
+
+			if j > 18 then
+				item.hideonhover = true
+			end
 
 			item.border:Hide()
 			item:Hide()
@@ -1778,7 +1806,11 @@ function module.options:Load()
 		line.back:SetPoint("TOPLEFT",0,0)
 		line.back:SetPoint("BOTTOMRIGHT",0,0)
 		line.back:SetColorTexture(1, 1, 1, 1)
-		line.back:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 1, 0, 0, 0, 0)
+		if ExRT.is10 then
+			line.back:SetGradient("HORIZONTAL",CreateColor(0, 0, 0, 1), CreateColor(0, 0, 0, 0))
+		else
+			line.back:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 1, 0, 0, 0, 0)
+		end
 
 		line.refreshArtifact = ELib:Button(line,REFRESH):Point("LEFT",245,0):Size(100,20):OnClick(Lines_RefreshArtifactButton_OnClick)
 		line.refreshArtifact:Hide()

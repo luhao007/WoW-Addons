@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: MysticalOS, QartemisT
-## Version: 80137cb
+## Version: 30070dd
 ## Dependencies: DBM-Core
 ## LoadOnDemand: 1
 ## DefaultState: enabled

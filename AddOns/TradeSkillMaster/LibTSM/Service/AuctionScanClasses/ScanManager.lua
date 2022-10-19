@@ -231,8 +231,7 @@ end
 
 function AuctionScanManager.PlaceBidOrBuyout(self, index, bidBuyout, subRow, quantity)
 	if TSM.IsWowClassic() then
-		PlaceAuctionBid("list", index, bidBuyout)
-		return true
+		return AuctionHouseWrapper.PlaceBid(index, bidBuyout)
 	else
 		local itemString = subRow:GetItemString()
 		local future = nil
@@ -244,12 +243,7 @@ function AuctionScanManager.PlaceBidOrBuyout(self, index, bidBuyout, subRow, qua
 			future = AuctionHouseWrapper.PlaceBid(auctionId, bidBuyout)
 			quantity = 1
 		end
-		if not future then
-			return false
-		end
-		-- TODO: return this future and record the buyout once the future is done
-		future:Cancel()
-		return true
+		return future
 	end
 end
 

@@ -51,7 +51,6 @@ Data\Constants.lua
 Data\AreaIDs.lua
 Data\AreaIDs_ClassicEra.lua
 Data\AreaIDs_ClassicTBC.lua
-Libs\Libs.xml
 Locale\Locales.xml
 
 Core\FontsTemplates.xml

@@ -1,26 +1,25 @@
 # AllTheThings
 
-## [SL-2.9.6](https://github.com/DFortun81/AllTheThings/tree/SL-2.9.6) (2022-09-11)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/SL-2.9.5...SL-2.9.6) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [SL-2.9.12](https://github.com/DFortun81/AllTheThings/tree/SL-2.9.12) (2022-10-16)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/SL-2.9.11...SL-2.9.12) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
 
 ### Functional changes
 
-- Modified Quests slightly such that any normally uncollectible Quests marked as providing reputation up to a certain threshold with a faction will now show as a 'Cost' for the respective Faction instead of showing as Uncollected. Example: repeatable Sporeggar quests that you can do for rep.
+- Added a bit of logic for Nested Source Quests in case very strange situations can still cause infinite loops and to report the offending quest.
+- If you care about level filtering we will consider Shadowlands content as level 48+ and Dragonflights as 58+ now (was 50+ and 60+ respectively).
+- Couple minor performance improvements for full Quest completion checking.
 
 
 ### Logic fixes
 
-- Removed accidentally left debug print.
-- We will no longer consider all Shadowlands legendary craftable ranks collected when you craft the first rank. This bug was present the whole expansion!
+- Removed an unnecessary window refresh on some events.
 
 
 ### Data fixes
 
-- Fixes for PvP: Wrath of the Lich King, Battle for Azeroth, Shadowlands. While it is better than before we still have some missing data, please report on our Discord server.
-- Burning Crusade, Wrath of the Lich King achievements adjustments.
-- Brewfest, Hallow's End achievements adjustments.
-- Moved a bunch of mount achievements out of Feats of Strength and into where they belong.
-- Updated all of the meta exploration achievements.
-- Updated all Northrend Rares.
+- Removed more duplicated profession quests after recent profession changes (Enchanting, Blacksmithing).
+- Moved all Blacksmithing quests to their respective source locations.
+- More various quest fixes here and there.
+- More WotLK content adjustments that have some spillover effect of Retail content (Achievements in Dalaran and zones, updated Ulduar, etc).
 - Other fixes.

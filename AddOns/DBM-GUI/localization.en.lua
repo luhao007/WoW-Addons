@@ -17,6 +17,7 @@ L.OTabOptions	= GAMEOPTIONS_MENU
 L.OTabAbout		= "About"
 
 L.TabCategory_OTHER			= "Other Mods"
+L.TabCategory_AFFIXES		= "Affixes"
 
 L.BossModLoaded 			= "%s statistics"
 L.BossModLoad_now 			= [[This boss mod is not loaded.
@@ -105,11 +106,24 @@ L.SKT_Enabled				= "Show record victory timer for current fight if available"
 L.ShowRespawn				= "Show boss respawn timer after a wipe"
 L.ShowQueuePop				= "Show time remaining to accept a queue pop (LFG,BG,etc)"
 --
-L.Area_AutoLogging			= "Auto Logging Options"
-L.AutologBosses				= "Automatically record dungeons/raids using blizzard combat log"
-L.AdvancedAutologBosses		= "Automatically record dungeons/raids with Transcriptor"
-L.RecordOnlyBosses			= "Only record Bosses (Excludes all trash. Use '/dbm pull' before bosses to capture pre pull pots &amp; ENCOUNTER_START)"
-L.LogOnlyNonTrivial			= "Only record non trivial content (normal or harder current content raids &amp; Mythic+ Dungeons)"
+--Auto Logging: Logging toggles/types
+L.Area_AutoLogging			= "Auto Logging Toggles"
+L.AutologBosses				= "Automatically record selected content using blizzard combat log"
+L.AdvancedAutologBosses		= "Automatically record selected content with Transcriptor"
+--Auto Logging: Global filter Options
+L.Area_AutoLoggingFilters	= "Auto Logging Filters"
+L.RecordOnlyBosses			= "Do not record trash (Only records Bosses. Use '/dbm pull' before bosses to capture pre pull pots &amp; ENCOUNTER_START)"
+L.DoNotLogLFG				= "Do not record LFG or LFR (queued content)"
+--Auto Logging: Recorded Content types
+L.Area_AutoLoggingContent	= "Auto Logging Content"
+L.LogCurrentMythicRaids		= "Current level Mythic raids"--Retail Only
+L.LogCurrentRaids			= "Current level non Mythic raids (Heroic, Normal, and LFR if LFG/LFR filter is disabled)"
+L.LogTWRaids				= "Timewalking or Chromie Time raids"--Retail Only
+L.LogTrivialRaids			= "Trivial (below character level) raids"
+L.LogCurrentMPlus			= "Current level M+ dungeons"--Retail Only
+L.LogCurrentMythicZero		= "Current level Mythic 0 dungeons"--Retail Only
+L.LogTWDungeons				= "Timewalking or Chromie Time dungeons"--Retail Only
+L.LogCurrentHeroic			= "Current level Heroic dungeons (Note: if you are doing heroic via queuing and want it logged, turn off LFG filter)"
 --
 L.Area_3rdParty				= "3rd Party Addon Options"
 L.oRA3AnnounceConsumables	= "Announce oRA3 consumables check on combat start"
@@ -119,7 +133,6 @@ L.AutoAcceptGuildInvite		= "Automatically accept group invites from guild member
 L.Area_Advanced				= "Advanced Options"
 L.FakeBW					= "Pretend to be BigWigs in version checks instead of DBM (Useful for guilds that force using BigWigs)"
 L.AITimer					= "Automatically generate timers for never before seen fights using DBM's built in timer AI (Useful for pulling a test boss for the very first time such as beta or PTR). Recommended to always leave this turned ON"
-L.ExtendIcons				= "Extend the raid target icons API to use up to 16 icons (instead of 8). IMPORTANT: These icons will NOT be visible to anyone who hasn't installed custom 'UI-RaidTargetingIcons.blp' texture file that supports 16 icons. Must reload UI after enabling or disabling this feature"
 
 -- Panel: Profiles
 L.Panel_Profile				= "Profiles"
@@ -234,6 +247,7 @@ L.Area_VoiceSelection		= "Voice Selections"
 L.CountdownVoice			= "Set primary voice for count sounds"
 L.CountdownVoice2			= "Set secondary voice for count sounds"
 L.CountdownVoice3			= "Set tertiary voice for count sounds"
+L.PullVoice					= "Set voice for pull timers"
 L.VoicePackChoice			= "Set voice pack for spoken alerts"
 L.MissingVoicePack			= "Missing Voice Pack (%s)"
 L.Area_CountdownOptions		= "Countdown Options"
@@ -341,6 +355,8 @@ L.BarSpark					= "Bar spark"
 L.BarFlash					= "Flash bar about to expire"
 L.BarSort					= "Sort by remaining time"
 L.BarColorByType			= "Color by type"
+L.Highest					= "Highest at top"
+L.Lowest					= "Lowest at top"
 L.NoBarFade					= "Use Start/End colors as Small/Large colors instead of gradual color change"
 L.BarInlineIcons			= "Show inline icons"
 L.ShortTimerText			= "Use short timer text (when available)"
@@ -361,14 +377,15 @@ L.SpamBlockNoShowTgtAnnounce		= "Do not show text or play sound for TARGET gener
 L.SpamBlockNoTrivialSpecWarnSound	= "Do not play special announce sounds or show screen flash for content that is trivial for your level (plays user selected regular announce sound instead)"
 
 L.Area_SpamFilter_SpecRoleFilters	= "Special Announce Type Filters (control how much handholding DBM does)"
-L.SpamSpecRoleDispel				= "Filter 'dispel' alerts"
-L.SpamSpecRoleInterrupt				= "Filter 'interrupt' alerts"
-L.SpamSpecRoleDefensive				= "Filter 'defensive' alerts"
-L.SpamSpecRoleTaunt					= "Filter 'taunt' alerts"
-L.SpamSpecRoleSoak					= "Filter 'soak' alerts"
-L.SpamSpecRoleStack					= "Filter 'high stack' alerts"
-L.SpamSpecRoleSwitch				= "Filter 'target swap' &amp; 'adds' alerts"
-L.SpamSpecRoleGTFO					= "Filter 'gtfo' alerts"
+L.SpamSpecInformationalOnly			= "Remove all instructional text/spoken alerts from special announcements (Requires UI Reload). Alerts still show and play audio but will be generic and non directive"
+L.SpamSpecRoleDispel				= "Filter 'dispel' alerts entirely (No text or sound at all)"
+L.SpamSpecRoleInterrupt				= "Filter 'interrupt' alerts (No text or sound at all)"
+L.SpamSpecRoleDefensive				= "Filter 'defensive' alerts (No text or sound at all)"
+L.SpamSpecRoleTaunt					= "Filter 'taunt' alerts (No text or sound at all)"
+L.SpamSpecRoleSoak					= "Filter 'soak' alerts (No text or sound at all)"
+L.SpamSpecRoleStack					= "Filter 'high stack' alerts (No text or sound at all)"
+L.SpamSpecRoleSwitch				= "Filter 'target swap' &amp; 'adds' alerts (No text or sound at all)"
+L.SpamSpecRoleGTFO					= "Filter 'gtfo' alerts (No text or sound at all)"
 
 L.Area_SpamFilter_SpecFeatures		= "Toggle specific Special Announce Features"
 L.SpamBlockNoSpecWarnText			= "Do not show special announce text"
@@ -407,10 +424,9 @@ L.SWFNever					= "Never"
 L.FilterInterrupts			= "If caster is not current target/focus (Always)."
 L.FilterInterrupts2			= "If caster is not current target/focus (Always) or interrupt on CD (Boss Only)"
 L.FilterInterrupts3			= "If caster is not current target/focus (Always) or interrupt on CD (Boss & Trash)"
-L.FilterInterrupts4			= "Always filter interrupt announcements (you don't want to see them period)"
 L.FilterInterruptNoteName	= "Filter announcements for interruptable spells (with count) if announce does not contain your name in the custom note"
 L.FilterDispels				= "Filter announcements for dispelable spells if your dispel is on cooldown"
-L.FilterTrashWarnings		= "Filter all trash mob announcements in normal &amp; heroic dungeons"
+L.FilterTrashWarnings		= "Filter all trash mob announcements in normal, heroic, and trivial (outleveled) dungeons"
 
 L.Area_PullTimer			= "Pull, Break, Combat, & Custom Timer Filter Options"
 L.DontShowPTNoID			= "Block DBM Pull Timers if not sent from same zone as you (will never block BigWigs timers that are sent with no zone ID)"
@@ -457,7 +473,7 @@ L.Panel_Range				= "Rangeframe"
 
 -- Panel: Nameplate
 L.Panel_Nameplates			= "Nameplates"
-L.UseNameplateHandoff		= "Hand off nameplate aura requests to supported nameplate addons (KuiNameplates, Threat Plates, Plater) instead of handling internally. This is recommended option as it allows more advanted features and configuration to be done via nameplate addon"
+L.UseNameplateHandoff		= "Hand off nameplate aura requests to supported nameplate addons (KuiNameplates, Threat Plates, Plater) instead of handling internally. This is recommended option as it allows more advanced features and configuration to be done via nameplate addon"
 L.Area_NPStyle				= "Style (Note: Only configures style when DBM is handling nameplates.)"
 L.NPAuraSize				= "Aura Pixel size (squared): %d"
 

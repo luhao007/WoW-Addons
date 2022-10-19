@@ -1,5 +1,5 @@
-## v4.11.17 Changes
+## v4.11.56 Changes
 
-* [Classic] Fixed TSM macro not updating properly
+* [Classic] Fix various issues while buying in the Browse tab of the AH
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

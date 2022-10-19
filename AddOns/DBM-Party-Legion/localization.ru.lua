@@ -131,13 +131,17 @@ L= DBM:GetModLocalization(1487)
 -----------------------
 L= DBM:GetModLocalization(1488)
 
+L:SetMiscLocalization({
+	SkovaldRP		= "Нет! Я, Король-бог Сковальд, тоже доказал, что достоин. Эти смертные не посмеют оспорить мое право владеть Эгидой!"
+})
+
 -----------------------
 -- Odyn --
 -----------------------
 L= DBM:GetModLocalization(1489)
 
 L:SetMiscLocalization({
-	tempestModeMessage		=	"Not tempest sequence: %s. Rechecking in 8 seconds."
+	tempestModeMessage		=	"Нет последовательности бури: %s. Перепроверка через 8 секунд."
 })
 
 -----------------------
@@ -250,7 +254,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "Помочь идентифицировать шпиона"
+	SpyHelper	= "Помочь идентифицировать шпиона",
+	SendToChat	= "Также отправлять подсказки в чат (требуется включенная выше опция)"
 })
 
 L:SetMiscLocalization({
@@ -415,7 +420,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		=	"Lord Malgath"
+	Malgath		=	"Лорд Малгат"
 })
 
 -----------------------
@@ -530,3 +535,70 @@ L:SetMiscLocalization({
 	speedRun		=	"Странный холод возвещает о темном присутствии..."
 })
 
+-----------------------
+-- <<<Cathedral of Eternal Night >>> --
+-----------------------
+-----------------------
+-- Agronox --
+-----------------------
+L= DBM:GetModLocalization(1905)
+
+-----------------------
+-- Trashbite the Scornful  --
+-----------------------
+L= DBM:GetModLocalization(1906)
+
+L:SetMiscLocalization({
+	bookCase	=	"За книжным шкафом"
+})
+
+-----------------------
+-- Domatrax --
+-----------------------
+L= DBM:GetModLocalization(1904)
+
+-----------------------
+-- Mephistroth  --
+-----------------------
+L= DBM:GetModLocalization(1878)
+
+-----------------------
+--Cathedral of Eternal Night Trash
+-----------------------
+L = DBM:GetModLocalization("CoENTrash")
+
+L:SetGeneralLocalization({
+	name =	"Трэш мобы Собор Вечной Ночи"
+})
+
+-----------------------
+-- <<<Seat of Triumvirate >>> --
+-----------------------
+-----------------------
+-- Zuraal --
+-----------------------
+L= DBM:GetModLocalization(1979)
+
+-----------------------
+-- Saprish  --
+-----------------------
+L= DBM:GetModLocalization(1980)
+
+-----------------------
+-- Viceroy Nezhar --
+-----------------------
+L= DBM:GetModLocalization(1981)
+
+-----------------------
+-- L'ura  --
+-----------------------
+L= DBM:GetModLocalization(1982)
+
+-----------------------
+--Seat of Triumvirate Trash
+-----------------------
+L = DBM:GetModLocalization("SoTTrash")
+
+L:SetGeneralLocalization({
+	name =	"Трэш мобы Престол Триумвирата"
+})

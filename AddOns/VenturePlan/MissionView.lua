@@ -1,6 +1,7 @@
 local _, T = ...
 local EV, L, U, S = T.Evie, T.L, T.Util, T.Shadows
 
+local Animations = {}
 local FollowerList, MissionRewards, BoardEX, CAGHost
 local MissionGroup_HoldUpdate
 
@@ -51,6 +52,16 @@ local function Board_SetSimResult(sim)
 		end
 	end
 	BoardEX:SetSimResult(sim, lm)
+end
+local function Board_IsEqualToGroup(g)
+	local f = CovenantMissionFrame.MissionTab.MissionPage.Board.framesByBoardIndex
+	for i=0,4 do
+		local ii, gi = f[i].info, g[i]
+		if (not ii) ~= (not gi) or (ii and ii.followerID ~= gi.id) then
+			return false
+		end
+	end
+	return true
 end
 
 local CAG, SetSimResultHint = {} do
@@ -317,20 +328,21 @@ local Tact = {} do
 		end
 		local os, ht, it = state, GetGroupTags()
 		if os and not (it ~= os.itag or (os.finished and os.htag ~= ht)) then
-			return true
+			return
 		end
 		state = self:GatherMissionData()
 		local ng = 3^(7-#state.pool)
 		for i=1, #state.pool-2 do
 			ng = ng * (6-i)
 		end
-		state.numGroups, state.nextGroup, state.bestGroup, state.bestScore, self.transferGroup = ng, 0, false, -1e12, nil
+		state.numGroups, state.nextGroup, state.bestGroup, state.bestScore = ng, 0, false, -1e12
 		state.numFutures, state.htag, state.itag = 0, ht, it
 		if os and os.itag == state.itag and os.bestGroup then
 			state.zeroGroup = os.bestGroup
 		else
 			state.zeroGroup = Board_GetZeroGroup()
 		end
+		self.zeroGroup, self.transferGroup = state.zeroGroup, nil
 		return true
 	end
 	function Tact:IsRunning()
@@ -693,7 +705,7 @@ local HealAllButton_ScheduleUpdate do
 end
 local function MissionView_OnShow()
 	if not FollowerList then
-		FollowerList = T.CreateObject("AdventurerRoster", CovenantMissionFrame)
+		FollowerList = T.CreateObject("OneTime", "AdventurerRoster", CovenantMissionFrame)
 		FollowerList:ClearAllPoints()
 		FollowerList:SetPoint("BOTTOM", CovenantMissionFrameFollowers, "BOTTOM", 0, -32)
 		S[FollowerList].HealAllButton:SetScript("OnUpdate", HealAllButton_OnUpdate)
@@ -776,14 +788,14 @@ local function Shuffler_OnEnter(self, source)
 	GameTooltip:Hide()
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
 	GameTooltip:SetText(ITEM_QUALITY_COLORS[5].hex .. L"Cursed Tactical Guide")
-	local sb = T.CreateObject("SharedTooltipProgressBar")
+	local sb = T.CreateObject("Singleton", "TooltipProgressBar")
 	sb:Hide()
 	local isRunning, a1, a2, a3, a4 = Tact:IsRunning()
 	if isRunning then
 		local nc = NORMAL_FONT_COLOR
 		GameTooltip:AddDoubleLine(L"Futures considered:", BreakUpLargeNumbers(a3), 1,1,1, nc.r, nc.g, nc.b)
 		if a4 then
-			local ex = a4 and Tact.transferGroup and a4 ~= Tact.transferGroup and "|A:flightpath:0:0|a " or ""
+			local ex = a4 and a4 ~= Tact.transferGroup and a4 ~= Tact.zeroGroup and "|A:flightpath:0:0|a " or ""
 			GameTooltip:AddLine(ex .. L"Use: Interrupt the guide's deliberations.", 0, 1, 0, 1)
 		end
 		sb:Activate(GameTooltip, a1, a2)
@@ -820,31 +832,52 @@ local function Shuffler_AssignGroup(g, sim)
 	MissionGroup_OnUpdate()
 end
 local function Shuffler_OnUpdate(self)
-	local fin, g = Tact:Run()
+	local sself, fin, g = S[self], Tact:Run()
+	local t = GameTooltip:IsOwned(self)
+	sself.ThinkingIcon:SetShown(not (fin or t))
 	if fin then
 		self:SetScript("OnUpdate", nil)
+		sself.NewGroupIcon:Hide()
+		sself.ThinkingIcon:Hide()
 		if g then
-			Shuffler_AssignGroup(Tact:GetBest(g))
+			if not Board_IsEqualToGroup(g) then
+				Shuffler_AssignGroup(Tact:GetBest(g))
+			else
+				PlaySound(SOUNDKIT.UI_ADVENTURES_ADVENTURER_SLOTTED)
+			end
+			Animations.Flare:Restart()
 			Shuffler_OnLeave(self)
 			return
+		elseif not t and select(2, Tact:IsRunning()) then
+			Animations.Doom:Restart()
 		end
+	else
+		local _, _1, _2, _3, a4 = Tact:IsRunning()
+		sself.NewGroupIcon:SetShown(a4 and a4 ~= Tact.transferGroup and a4 ~= Tact.zeroGroup or false)
 	end
-	if GameTooltip:IsOwned(self) then
+	if t then
 		Shuffler_OnEnter(self, "update")
 	end
 end
 local function Shuffler_OnClick(self)
-	local ir, _, _, hg = Tact:IsRunning()
+	local ir, a1, a2 = Tact:IsRunning()
 	if ir then
-		local g = hg and Tact:Interrupt()
+		local g, sim = Tact:GetBest()
 		if g then
-			Shuffler_AssignGroup(Tact:GetBest(g))
+			Shuffler_AssignGroup(g, sim)
 		end
-	else
-		if Tact:Start() then
-			self:SetScript("OnUpdate", Shuffler_OnUpdate)
-			Shuffler_OnUpdate(self)
+	elseif not a1 and Tact:Start() then
+		self:SetScript("OnUpdate", Shuffler_OnUpdate)
+		Shuffler_OnUpdate(self)
+	elseif a2 then
+		local g, sim = Tact:GetBest()
+		if not Board_IsEqualToGroup(g) then
+			Shuffler_AssignGroup(g, sim)
+		else
+			PlaySound(SOUNDKIT.UI_ADVENTURES_ADVENTURER_SLOTTED)
 		end
+		Animations.Flare:Restart()
+		Shuffler_OnLeave(self)
 	end
 	PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON)
 end
@@ -865,10 +898,10 @@ local function Hinter_OnClick(self)
 	local ga = U.GetSuggestedGroups(mid, 8, 3, mi.offerEndTime)
 	if ga and #ga.ord > 0 then
 		if GameTooltip:IsOwned(self) then GameTooltip:Hide() end
-		local gl, sl = T.CreateObject("GroupList")
+		local gl, sl = T.CreateObject("Singleton", "GroupList")
 		U.FlushMissionPredictionQueue()
 		sl:Acquire(self, nil, 24, nil, true)
-		sl:SetGroups(mid, mi.offerEndTime, ga)
+		sl:SetGroups(mid, mi.offerEndTime, mi.cost, ga)
 		gl:SetPoint("BOTTOM", self, "TOP", 32, 0)
 		gl:SetFrameLevel(2000)
 	else
@@ -920,13 +953,36 @@ function EV:I_ADVENTURES_UI_LOADED()
 	cal:SetScript("OnEnter", Hinter_OnEnter)
 	cal:SetScript("OnClick", Hinter_OnClick)
 	function EV.I_MPQ_ITEM_ADDED() cal:SetScript("OnUpdate", Hinter_OnUpdate) end
-	local cat = T.CreateObject("IconButton", MP.Board, 32, "Interface/Icons/INV_Misc_Book_06")
-	cat:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	cat:SetPoint("TOPLEFT", CAGHost, "TOPRIGHT", 4, 1)
-	cat:SetScript("OnEnter", Shuffler_OnEnter)
-	cat:SetScript("OnLeave", Shuffler_OnLeave)
-	cat:SetScript("OnClick", Shuffler_OnClick)
-	cat:SetScript("OnHide", Shuffler_OnHide)
+	local cat = T.CreateObject("IconButton", MP.Board, 32, "Interface/Icons/INV_Misc_Book_06") do
+		local f, s = CreateFrame("Frame", nil, cat), T.CreateObject("Shadow", cat)
+		f:SetAllPoints()
+		local t = f:CreateTexture(nil, "OVERLAY")
+		t:SetAtlas("worldquest-tracker-questmarker")
+		t:SetPoint("TOPRIGHT", 6, 6)
+		t:SetSize(16,16)
+		t:Hide()
+		s.NewGroupIcon = t
+		s.ThinkingIcon = T.CreateObject("OneTime", "ThinkingAnim", cat)
+		cat:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+		cat:SetPoint("TOPLEFT", CAGHost, "TOPRIGHT", 4, 1)
+		cat:SetScript("OnEnter", Shuffler_OnEnter)
+		cat:SetScript("OnLeave", Shuffler_OnLeave)
+		cat:SetScript("OnClick", Shuffler_OnClick)
+		cat:SetScript("OnHide", Shuffler_OnHide)
+	end
+	do -- Animations
+		local lowHost = CreateFrame("Frame", nil, MP.Board)
+		lowHost:SetClipsChildren(true)
+		lowHost:SetPoint("BOTTOMLEFT", 0, -40)
+		lowHost:SetPoint("TOPRIGHT", MP.Board, "BOTTOMRIGHT", 0, 255)
+		local highHost = CreateFrame("Frame", nil, MP.Board)
+		highHost:SetPoint("BOTTOMLEFT", 0, -40)
+		highHost:SetPoint("TOPRIGHT")
+		highHost:SetClipsChildren(true)
+		highHost:SetFrameLevel(2000)
+		Animations.Flare = T.CreateObject("OneTime", "FlareAnim", lowHost, cat)
+		Animations.Doom = T.CreateObject("OneTime", "DoomAnim", highHost, cat)
+	end
 	MP.Stage.EnvironmentEffectFrame:SetScript("OnEnter", EnvironmentEffect_OnEnter)
 	MP.Stage.EnvironmentEffectFrame:SetScript("OnLeave", EnvironmentEffect_OnLeave)
 	hooksecurefunc(MP.Stage.EnvironmentEffectFrame.Name, "SetText", EnvironmentEffect_OnNameUpdate)
@@ -961,6 +1017,6 @@ function EV:I_ADVENTURES_UI_LOADED()
 		end
 	end)
 	MP.Stage.Title:SetWidth(320)
-	BoardEX = T.CreateObject("BoardEx")
+	BoardEX = T.CreateObject("OneTime", "BoardEx")
 	return "remove"
 end

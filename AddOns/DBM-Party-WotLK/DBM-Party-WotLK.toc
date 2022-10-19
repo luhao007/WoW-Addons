@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Arta
-## Version: r32
+## Version: r41
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWotLK_AllSavedVars
@@ -26,11 +26,11 @@
 ## X-DBM-Mod-Name: Dungeons (WotLK)
 ## X-DBM-Mod-Name-frFR: Groupe-WotLK
 ## X-DBM-Mod-Name-deDE: Gruppe (WotLK)
-## X-DBM-Mod-Name-ruRU: Групповые подземелья-WotLK
+## X-DBM-Mod-Name-ruRU: Подземелья (Король-лич)
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (巫妖王之怒)
 ## X-DBM-Mod-Name-zhCN: 队伍首领-WotLK
 ## X-DBM-Mod-Name-esES: Mazmorras (WotLK)
-## X-DBM-Mod-Name-koKR: 5인 던전(리치왕의 분노)
+## X-DBM-Mod-Name-koKR: 던전 (리분)
 ## X-DBM-Mod-Name-esMX: Mazmorras-WotLK
 ## X-DBM-Mod-Sort: 915
 ## X-DBM-Mod-MapID: 619,601,595,600,604,602,599,576,578,574,575,608,658,632,668,650

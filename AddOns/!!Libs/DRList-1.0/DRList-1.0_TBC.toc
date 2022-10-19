@@ -1,6 +1,6 @@
 ## Interface: 20504
 ## Title: Lib: DRList-1.0
-## Version: v1.3.2
+## Version: v1.3.4
 ## X-Category: Library
 ## X-License: MIT
 ## X-Curse-Project-ID: 315757

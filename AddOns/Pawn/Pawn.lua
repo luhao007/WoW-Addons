@@ -7,7 +7,7 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0606
+PawnVersion = 2.0703
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.17
@@ -195,12 +195,20 @@ function PawnInitialize()
 		function()
 			PawnOnItemLost(PawnLastCursorItemLink)
 		end)
-	hooksecurefunc("UseContainerItem",
-		function(BagID, Slot)
+	if C_Container and C_Container.UseContainerItem then
+		-- WoW 10.0 moved UseContainerItem into C_Container.
+		hooksecurefunc(C_Container, "UseContainerItem", function(BagID, Slot)
 			if MerchantFrame:IsShown() then
-				if ItemLink then PawnOnItemLost(GetContainerItemLink(BagID, Slot)) end
+				PawnOnItemLost(C_Container.GetContainerItemLink(BagID, Slot))
 			end
 		end)
+	else
+		hooksecurefunc("UseContainerItem", function(BagID, Slot)
+			if MerchantFrame:IsShown() then
+				PawnOnItemLost(GetContainerItemLink(BagID, Slot))
+			end
+		end)
+	end
 	hooksecurefunc("PickupMerchantItem",
 		function(Index)
 			if Index == 0 then PawnOnItemLost(PawnLastCursorItemLink) end
@@ -399,8 +407,7 @@ function PawnInitialize()
 	end
 
 	-- In-bag upgrade icons
-	if ContainerFrame_UpdateItemUpgradeIcons then
-
+	if VgerCore.IsMainline then
 		PawnOriginalIsContainerItemAnUpgrade = IsContainerItemAnUpgrade
 		PawnIsContainerItemAnUpgrade = function(bagID, slot, ...)
 			if PawnCommon.ShowBagUpgradeAdvisor then
@@ -413,23 +420,50 @@ function PawnInitialize()
 				return PawnOriginalIsContainerItemAnUpgrade(bagID, slot, ...)
 			end
 		end
-
-		-- Changing IsContainerItemAnUpgrade now causes taint errors, and replacing this function with a copy of itself
-		-- works on its own, but breaks other addons that hook this function like CanIMogIt. So, our best option appears to
-		-- be to just let the default version run, and then change its results immediately after.
-		hooksecurefunc("ContainerFrameItemButton_UpdateItemUpgradeIcon", function(self)
+		PawnUpdateItemUpgradeIcon = function(self)
 			if self.isExtended then return end
 			local IsUpgrade = PawnIsContainerItemAnUpgrade(self:GetParent():GetID(), self:GetID())
 
 			if IsUpgrade == nil then
 				self.UpgradeIcon:SetShown(false)
-				self:SetScript("OnUpdate", ContainerFrameItemButton_TryUpdateItemUpgradeIcon)
+				self:SetScript("OnUpdate", self.TryUpdateItemUpgradeIcon or ContainerFrameItemButton_TryUpdateItemUpgradeIcon)
 			else
 				self.UpgradeIcon:SetShown(IsUpgrade)
 				self:SetScript("OnUpdate", nil)
 			end
-		end)
+		end
+	end
 
+	if ContainerFrameItemButtonMixin and ContainerFrameItemButtonMixin.UpdateItemUpgradeIcon then
+		-- Dragonflight onward
+
+		-- IMPORTANT: As of October 1, this does not work with the new combined bags, only the traditional style.
+		-- But, the built-in upgrade arrows don't appear to work with either version, so... improvement?
+
+		-- First, hook ContainerFrameItemButtonMixin to affect all future bag frames.
+		hooksecurefunc(ContainerFrameItemButtonMixin, "UpdateItemUpgradeIcon", PawnUpdateItemUpgradeIcon)
+		-- Unfortunately, the Mixin is not a prototype and changes are not retroactive to bags that have already been created,
+		-- so now we need to update all of those.
+		for i = 1, NUM_TOTAL_BAG_FRAMES do
+			local Bag = _G["ContainerFrame" .. i]
+			if Bag.Items then
+				for j, Button in Bag:EnumerateItems() do
+					Mixin(Button, ContainerFrameItemButtonMixin)
+				end
+			end
+		end
+	elseif ContainerFrame_UpdateItemUpgradeIcons then
+		-- Legion through Shadowlands
+
+		-- Changing IsContainerItemAnUpgrade now causes taint errors, and replacing this function with a copy of itself
+		-- works on its own, but breaks other addons that hook this function like CanIMogIt. So, our best option appears to
+		-- be to just let the default version run, and then change its results immediately after.
+		hooksecurefunc("ContainerFrameItemButton_UpdateItemUpgradeIcon", PawnUpdateItemUpgradeIcon)
+	end
+
+	-- Dragonflight professions UI
+	if C_TradeSkillUI and C_TradeSkillUI.SetTooltipRecipeResultItem then
+		hooksecurefunc(C_TradeSkillUI, "SetTooltipRecipeResultItem", function(self, ...) PawnUpdateTooltip("GameTooltip", "C_TradeSkillUI.SetTooltipRecipeResultItem") end)
 	end
 
 	-- We're now effectively initialized.  Just the last steps of scale initialization remain.
@@ -2095,7 +2129,7 @@ end
 -- Parameters: TooltipName, DebugMessages
 --		TooltipName: The tooltip to read.
 --		DebugMessages: If true (default), debug messages will be shown.
--- Return value: Stats, UnknownLines
+-- Return value: Stats, SocketBonusStats, UnknownLines, PrettyLink
 --		Stats: The table of stats for the item.
 --		SocketBonusStats: The table of stats for the item's socket bonus.
 --		UnknownLines: A list of lines in the tooltip that were not understood.
@@ -3021,7 +3055,7 @@ end
 
 local ClassNameToIDMap =
 {
-	["WARRIOR"] = 1, ["PALADIN"] = 2, ["HUNTER"] = 3, ["ROGUE"] = 4, ["PRIEST"] = 5, ["DEATHKNIGHT"] = 6, ["SHAMAN"] = 7, ["MAGE"] = 8, ["WARLOCK"] = 9, ["MONK"] = 10, ["DRUID"] = 11, ["DEMONHUNTER"] = 12
+	["WARRIOR"] = 1, ["PALADIN"] = 2, ["HUNTER"] = 3, ["ROGUE"] = 4, ["PRIEST"] = 5, ["DEATHKNIGHT"] = 6, ["SHAMAN"] = 7, ["MAGE"] = 8, ["WARLOCK"] = 9, ["MONK"] = 10, ["DRUID"] = 11, ["DEMONHUNTER"] = 12, ["EVOKER"] = 13,
 }
 local SpecNameToIDMap =
 {
@@ -3037,10 +3071,11 @@ local SpecNameToIDMap =
 	[10] = { BREWMASTER = 1, MISTWEAVER = 2, WINDWALKER = 3 },
 	[11] = { BALANCE = 1, FERAL = 2, GUARDIAN = 3, RESTORATION = 4 },
 	[12] = { HAVOC = 1, VENGEANCE = 2 },
+	[13] = { DEVASTATION = 1, PRESERVATION = 2}
 }
 local ClassIDToEnglishNameMap =
 {
-	[1] = "Warrior", [2] = "Paladin", [3] = "Hunter", [4] = "Rogue", [5] = "Priest", [6] = "DeathKnight", [7] = "Shaman", [8] = "Mage", [9] = "Warlock", [10] = "Monk", [11] = "Druid", [12] = "DemonHunter"
+	[1] = "Warrior", [2] = "Paladin", [3] = "Hunter", [4] = "Rogue", [5] = "Priest", [6] = "DeathKnight", [7] = "Shaman", [8] = "Mage", [9] = "Warlock", [10] = "Monk", [11] = "Druid", [12] = "DemonHunter", [13] = "Evoker",
 }
 local SpecIDToEnglishNameMap =
 {
@@ -3056,6 +3091,7 @@ local SpecIDToEnglishNameMap =
 	[10] = { [1] = "Brewmaster", [2] = "Mistweaver", [3] = "Windwalker" },
 	[11] = { [1] = "Balance", [2] = "Feral", [3] = "Guardian", [4] = "Restoration" },
 	[12] = { [1] = "Havoc", [2] = "Vengeance" },
+	[13] = { [1] = "Devastation", [2] = "Preservation" },
 }
 
 -- Returns a class ID number (1-12) from the string passed in, or nil if the string isn't a class name.
@@ -3874,7 +3910,11 @@ function PawnFindBestItems(ScaleName, InventoryOnly)
 						VgerCore.Assert(IsOnPlayer or IsInBank, "Equipment set contains new location data that Pawn doesn't understand; EquipmentManager_UnpackLocation may have been updated.")
 						ItemLink = GetInventoryItemLink("player", Slot)
 					else
-						ItemLink = GetContainerItemLink(Bag, Slot)
+						if C_Container and C_Container.GetContainerItemLink then
+							ItemLink = C_Container.GetContainerItemLink(Bag, Slot)
+						else
+							ItemLink = GetContainerItemLink(Bag, Slot)
+						end
 					end
 
 					-- Now that we have an item link we can proceed as usual.
@@ -4027,6 +4067,7 @@ end)
 function PawnOnItemLost(ItemLink)
 	if not ItemLink then return end
 	ItemLink = PawnUnenchantItemLink(ItemLink, true)
+	if not ItemLink then return end -- If it's, say, a battle pet.
 	local _, _, _, _, _, _, _, _, InvType = GetItemInfo(ItemLink)
 	if not InvType or InvType == "" or InvType == "INVTYPE_TRINKET" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_QUIVER" or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BODY" then return end
 	if InvType == "INVTYPE_SHIELD" or InvType == "INVTYPE_HOLDABLE" then
@@ -4085,7 +4126,11 @@ function PawnOnItemLocked(arg1, arg2)
 	if arg2 == nil then
 		ItemLink = GetInventoryItemLink("player", arg1)
 	else
-		ItemLink = GetContainerItemLink(arg1, arg2)
+		if C_Container and C_Container.GetContainerItemLink then
+			ItemLink = C_Container.GetContainerItemLink(arg1, arg2)
+		else
+			ItemLink = GetContainerItemLink(arg1, arg2)
+		end
 	end
 	if ItemLink then
 		PawnLastCursorItemLink = PawnUnenchantItemLink(ItemLink, true)
@@ -4166,7 +4211,7 @@ function PawnIsArmorBestTypeForPlayer(Item)
 		else
 			return false
 		end
-	elseif Class == "HUNTER" or Class == "SHAMAN" then
+	elseif Class == "HUNTER" or Class == "SHAMAN" or Class == "EVOKER" then
 		if IsLevelForSpecialization then
 			if Stats.IsMail then return true else return false end
 		elseif Stats.IsLeather or Stats.IsCloth then
@@ -4243,6 +4288,10 @@ function PawnOnSpecChanged()
 
 	local _, _, ClassID = UnitClass("player")
 	local SpecID = GetSpecialization()
+	-- If the player hasn't chosen a spec yet, choose one for them.
+	if SpecID == 5 then
+		SpecID = PawnNewbieSpec[ClassID]
+	end
 
 	-- Disable all scales that don't match the current spec, activate any that do, and then select one
 	-- of them in the UI.
@@ -5576,8 +5625,9 @@ function PawnAddPluginScaleFromTemplate(ProviderInternalName, ClassID, SpecID, S
 	else
 		VgerCore.Fail("An addon changed the class color for " .. UnlocalizedClassName .. " but didn't finish the job. That class will show up in the wrong color in Pawn.")
 	end
-	-- Choose a lighter color for death knights so it's easier to read.
+	-- Choose a lighter color for death knights and evokers so it's easier to read.
 	if ClassID == 6 then Color = "ff4d6b" end
+	if ClassID == 13 then Color = "8cc2b7" end
 
 	-- Then, transfer control to the regular plugin scale codepath.
 	local ScaleInternalName = UnlocalizedClassName .. (SpecID or "")

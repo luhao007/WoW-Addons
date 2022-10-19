@@ -38,9 +38,9 @@ local function Mission_OnHintRequested(me, isMotionInduced)
 	local ga = U.GetSuggestedGroups(mid, 4, 2, ms.offerEndTime)
 	if #ga.ord == 0 then return false end
 	U.FlushMissionPredictionQueue()
-	local gl, sl = T.CreateObject("GroupList")
+	local gl, sl = T.CreateObject("Singleton", "GroupList")
 	sl:Acquire(me, me:GetParent():GetParent():ScrollToward(me) == 1, 0, isMotionInduced)
-	sl:SetGroups(mid, ms.offerEndTime, ga)
+	sl:SetGroups(mid, ms.offerEndTime, ms.baseCost, ga)
 	gl:SetFrameLevel(me:GetFrameLevel()+10)
 	return true
 end
@@ -52,7 +52,7 @@ local function ConfigureMission(me, mi, haveSpareCompanions, availAnima)
 	local ms = S[me]
 	mi.encounterIconInfo, mi.isElite, mi.isRare = emi, emi.isElite, emi.isRare
 	
-	ms.missionID, ms.baseXPReward, ms.winXPReward = mid, mi.xp or 0, mi.xp2 or 0
+	ms.missionID, ms.baseXPReward, ms.winXPReward, ms.baseCost = mid, mi.xp or 0, mi.xp2 or 0, mi.cost
 	ms.Name:SetText(mi.name)
 	if (mi.description or "") ~= "" then
 		ms.Description:SetText(mi.description)
@@ -324,7 +324,7 @@ local function HookAndCallOnShow(frame, f)
 	end
 end
 function EV:I_ADVENTURES_UI_LOADED()
-	MissionPage = T.CreateObject("MissionPage", CovenantMissionFrame.MissionTab)
+	MissionPage = T.CreateObject("OneTime", "MissionPage", CovenantMissionFrame.MissionTab)
 	MissionList = MissionPage.MissionList
 	T.MissionList = MissionList
 	HookAndCallOnShow(CovenantMissionFrame.MissionTab.MissionList, function(self)

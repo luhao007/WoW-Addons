@@ -15,6 +15,7 @@ L.OTabPlugins	= "핵심 플러그인"
 L.OTabAbout		= "소개"
 
 L.TabCategory_OTHER			= "기타 모드"
+L.TabCategory_AFFIXES		= "어픽스"
 
 L.BossModLoaded 			= "%s 통계"
 L.BossModLoad_now 			= [[보스 모드가 로딩되지 않았습니다.
@@ -82,11 +83,11 @@ L.Editbox_WindowWidth		= "설정 창 너비"
 L.Editbox_WindowHeight		= "설정 창 높이"
 
 L.UIGroupingOptions			= "UI 그룹 설정 (이미 로딩이 된 모드는 UI 재시작을 해야 변경됩니다)"
-L.GroupOptionsBySpell		= "모드 설정 주문별 그룹화 (지원하는 모드만)"
-L.GroupOptionsExcludeIcon	= "주문별 그룹화에서 '공격대 징표 설정' 제외 (이전처럼 관련 설정은 '공격대 징표' 카테고리에 배치됩니다)"
-L.AutoExpandSpellGroups		= "주문별로 그룹화된 설정들 자동으로 펼치기"
---L.ShowSpellDescWhenExpanded	= "그룹화된 설정이 펼쳐진 상태에서도 주문 설명 계속 표시"--Might not be used
-L.NoDescription				= "설명이 없습니다"
+L.GroupOptionsBySpell		= "주문별로 설정 그룹 형성 (지원하는 모드만)"
+L.GroupOptionsExcludeIcon	= "주문별로 형성된 그룹에서 '공격대 징표 설정'은 제외 (이전처럼 관련 설정은 '공격대 징표' 카테고리에 배치됩니다)"
+L.AutoExpandSpellGroups		= "주문별로 그룹이 형성된 설정들을 자동으로 펼치기"
+--L.ShowSpellDescWhenExpanded	= "설정 그룹이 펼쳐진 상태에서도 주문 설명 계속 표시"--Might not be used
+L.NoDescription				= "이 능력에 대한 설명이 없습니다"
 
 -- Panel: Extra Features
 L.Panel_ExtraFeatures		= "기타 기능"
@@ -103,11 +104,24 @@ L.SKT_Enabled				= "가능할 경우 현재 전투의 최고 승리 기록 타�
 L.ShowRespawn				= "전멸 후 보스 재생성 타이머 표시"
 L.ShowQueuePop				= "입장 수락 남은 시간 타이머 표시 (공격대 찾기,전장 등)"
 --
-L.Area_AutoLogging			= "자동 전투 기록 설정"
-L.AutologBosses				= "블리자드 전투 로그를 사용해 자동으로 던전/레이드 기록"
-L.AdvancedAutologBosses		= "Transcriptor를 사용해 자동으로 던전/레이드 기록"
-L.RecordOnlyBosses			= "보스만 기록 (모든 일반몹은 제외됩니다. 보스 전투 시작 물약과 ENCOUNTER_START 이벤트를 기록하고 싶으면 '/dbm pull' 명령어를 사용하세요)"
-L.LogOnlyNonTrivial			= "주요 콘텐츠만 기록 (최신 확장팩 일반 이상 레이드와 신화+ 던전)"
+--Auto Logging: Logging toggles/types
+L.Area_AutoLogging			= "자동 전투 기록 켜기/끄기"
+L.AutologBosses				= "블리자드 전투 로그를 사용해 선택한 콘텐트를 자동으로 기록"
+L.AdvancedAutologBosses		= "Transcriptor를 사용해 선택한 콘텐트를 자동으로 기록"
+--Auto Logging: Global filter Options
+L.Area_AutoLoggingFilters	= "자동 기록 필터"
+L.RecordOnlyBosses			= "일반몹 기록 안함 (보스만 기록합니다. 보스전 시작 물약과 ENCOUNTER_START 이벤트를 기록하고 싶으면 '/dbm pull' 명령어를 사용하세요)"
+L.DoNotLogLFG				= "던전 찾기와 공격대 찾기 기록 안함 (대기열 등록 콘텐트)"
+--Auto Logging: Recorded Content types
+L.Area_AutoLoggingContent	= "자동으로 기록할 콘텐트"
+L.LogCurrentMythicRaids		= "현재 확장팩 신화 레이드"--Retail Only
+L.LogCurrentRaids			= "현재 확장팩 비 신화 레이드 (영웅, 일반 그리고 던전 찾기와 공찾 기록 안함 옵션이 꺼져있을 경우엔 공찾까지)"
+L.LogTWRaids				= "시간여행 또는 크로미의 시간 레이드"--Retail Only
+L.LogTrivialRaids			= "구 레이드 (이전 확장팩)"
+L.LogCurrentMPlus			= "현재 확장팩 신화+ 던전"--Retail Only
+L.LogCurrentMythicZero		= "현재 확장팩 신화 0단 던전"--Retail Only
+L.LogTWDungeons				= "시간여행 또는 크로미의 시간 레이드"--Retail Only
+L.LogCurrentHeroic			= "현재 확장팩 영웅 던전 (알림: 던전 찾기를 통해 영던을 돌면서 로그를 기록하고 싶다면 던전 찾기 기록 안함 옵션을 끄세요)"
 --
 L.Area_3rdParty				= "써드파티 애드온 설정"
 L.oRA3AnnounceConsumables	= "전투 시작시 oRA3 버프 검사 알림"
@@ -117,7 +131,6 @@ L.AutoAcceptGuildInvite		= "길드원의 파티/공격대 초대 자동 수락"
 L.Area_Advanced				= "고급 설정"
 L.FakeBW					= "DBM 대신 BigWigs 사용자로 위장하기 (BigWigs 사용을 강제하는 공격대에서 유용)"
 L.AITimer					= "DBM 내장 인공지능 타이머를 사용하여 처음 하는 전투의 타이머를 자동으로 생성합니다. (베타나 테스트 서버에서 보스 테스트시 유용) 이 옵션은 항상 켜놓는걸 권장합니다."
-L.ExtendIcons				= "공격대 징표 API를 16개까지 사용할 수 있도록 확장합니다. (기존 8개) 중요: 16개 징표를 지원하는 사용자 정의 텍스쳐 파일 'UI-RaidTargetingIcons.blp'를 설치하지 않은 사람에게는 보이지 않습니다. 이 기능을 켜거나 끈 뒤에는 반드시 UI를 재시작해야 합니다"
 
 -- Panel: Profiles
 L.Panel_Profile				= "프로필"
@@ -238,6 +251,7 @@ L.Area_VoiceSelection		= "음성 선택"
 L.CountdownVoice			= "1순위 초읽기 음성 설정"
 L.CountdownVoice2			= "2순위 초읽기 음성 설정"
 L.CountdownVoice3			= "3순위 초읽기 음성 설정"
+L.PullVoice					= "풀링 타이머 음성 설정"
 L.VoicePackChoice			= "음성 경고에 쓸 음성팩 설정"
 L.Area_CountdownOptions		= "초읽기 설정"
 L.Area_VoicePackOptions		= "음성팩 설정"
@@ -342,6 +356,8 @@ L.BarSpark					= "바 끝 강조"
 L.BarFlash					= "만료 전에 바 점멸"
 L.BarSort					= "남은 시간 기준으로 정렬"
 L.BarColorByType			= "종류별로 색상 변경"
+L.Highest					= "가장 높은 순"
+L.Lowest					= "가장 낮은 순"
 L.NoBarFade					= "시작/종료시 색상 변화를 그라데이션 효과 대신 작은/큰 바 색을 사용"
 L.BarInlineIcons			= "바 안쪽에 아이콘 사용"
 L.ShortTimerText			= "짧은 타이머 텍스트 사용 (사용 가능할 때만)"
@@ -362,14 +378,15 @@ L.SpamBlockNoShowTgtAnnounce = "대상자 알림 중 타인에게 영향이 없�
 L.SpamBlockNoTrivialSpecWarnSound	= "현재 레벨에 맞는 콘텐츠 이외에는 특수 알림 효과음 재생이나 화면 점멸 효과 사용 안함 (대신 사용자가 선택한 정규 알림 효과음 재생)"
 
 L.Area_SpamFilter_SpecRoleFilters	= "특수 알림 유형 필터 (DBM 알림 내역 조정)"
-L.SpamSpecRoleDispel				= "'해제' 경고 빼기"
-L.SpamSpecRoleInterrupt				= "'차단' 경고 빼기"
-L.SpamSpecRoleDefensive				= "'생존기' 경고 빼기"
-L.SpamSpecRoleTaunt					= "'도발' 경고 빼기"
-L.SpamSpecRoleSoak					= "'바닥 밟기' 경고 빼기"
-L.SpamSpecRoleStack					= "'고중첩' 경고 빼기"
-L.SpamSpecRoleSwitch				= "'대상 변경' &amp; '쫄' 경고 빼기"
-L.SpamSpecRoleGTFO					= "'바닥 피하기' 경고 빼기"
+L.SpamSpecInformationalOnly			= "특수 알림에서 행동 지시 텍스트/음성 알림을 전부 삭제합니다. (UI 재시작 필요) 알림은 여전히 표시되며 음성도 출력되지만 일반적인 사항만 보여주며 직접적인 지시 사항은 없습니다"
+L.SpamSpecRoleDispel				= "'해제' 경고 완전히 빼기 (텍스트와 효과음 전부)"
+L.SpamSpecRoleInterrupt				= "'차단' 경고 빼기 (텍스트와 효과음 전부)"
+L.SpamSpecRoleDefensive				= "'생존기' 경고 빼기 (텍스트와 효과음 전부)"
+L.SpamSpecRoleTaunt					= "'도발' 경고 빼기 (텍스트와 효과음 전부)"
+L.SpamSpecRoleSoak					= "'바닥 밟기' 경고 빼기 (텍스트와 효과음 전부)"
+L.SpamSpecRoleStack					= "'중첩 높음' 경고 빼기 (텍스트와 효과음 전부)"
+L.SpamSpecRoleSwitch				= "'대상 변경' &amp; '쫄 등장' 경고 빼기 (텍스트와 효과음 전부)"
+L.SpamSpecRoleGTFO					= "'바닥 피하기' 경고 빼기 (텍스트와 효과음 전부)"
 
 L.Area_SpamFilter_SpecFeatures		= "특정 특수 알림 기능 켜기/끄기"
 L.SpamBlockNoSpecWarnText	= "특수 알림 텍스트 표시 안함"
@@ -406,13 +423,12 @@ L.FilterInterruptsHeader	= "상황에 따라 주문 차단 알림을 표시하�
 L.FilterInterrupts			= "주문 시전 몹이 현재 대상/주시 대상이 아닐 때 (항상)"
 L.FilterInterrupts2			= "주문 시전 몹이 현재 대상/주시 대상이 아니거나 (항상) 차단기가 쿨타임일 때 (보스 전투만)"
 L.FilterInterrupts3			= "주문 시전 몹이 현재 대상/주시 대상이 아니거나 (항상) 차단기가 쿨타임일 때 (보스 및 쫄 정리시)"
-L.FilterInterrupts4			= "모든 차단 알림 표시하지 않음 (아예 보고 싶지 않을때)"
 L.FilterInterruptNoteName	= "사용자 메모에 자기 이름이 포함되지 않은 경우 차단 가능 주문의 알림 보지 않기"
 L.FilterDispels				= "해제 주문이 쿨타임일땐 해제 알림 보지 않기"
-L.FilterTrashWarnings		= "일반 및 영웅 던전에선 일반몹 알림 보지 않기"
+L.FilterTrashWarnings		= "일반, 영웅, 이전 확장팩 던전에선 일반몹 알림 보지 않기"
 
 L.Area_PullTimer			= "풀링, 휴식, 전투, 사용자 지정 바 관련 필터 설정"
-L.DontShowPTNoID			= "같은 지역에 없는 사용자가 보낸 DBM 풀링 타이머 차단 (지역ID가 포함되지 않은 상태로 전송된 BigWigs 타이머는 절대 차단하지 않음)"
+L.DontShowPTNoID			= "같은 지역에 없는 사용자가 보낸 DBM 풀링 타이머 차단 (지역의 ID가 포함되지 않은 상태로 전송된 BigWigs 타이머는 절대 차단하지 않음)"
 L.DontShowPT				= "풀링/휴식 타이머 표시 안함"
 L.DontShowPTText			= "풀링/휴식 알림 텍스트 표시 안함"
 L.DontShowPTCountdownText	= "풀링 초읽기 숫자 표시 안함"

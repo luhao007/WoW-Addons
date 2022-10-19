@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: TomCat
-## Version: 2.4.14
+## Version: 2.4.16
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
@@ -13,7 +13,7 @@
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1664643082
+## X-TomCats-Expiry: 1668734760
 ## X-Part-Of: TomCats
 
 constants.lua
@@ -52,6 +52,7 @@ ui_vignettes_pins.lua
 ui_vignettes_pins.xml
 lunarfestival/Main.xml
 loveisintheair/Main.xml
+hallowsend/Main.xml
 announcements.lua
 configuration.xml
 configuration.lua

@@ -1,10 +1,6 @@
 # Lib: DRList-1.0
 
-## v1.3.2 (2022-08-04)
+## v1.3.4 (2022-10-11)
  
 
-- fix typo :D  
-- update deploy script version check  
-- Merge pull request #9 from XiconQoo/master  
-    fix conflict when newer lib version is loaded  
-- fix conflict when newer lib version is loaded  
+- only add new dragonflight ids to table when on beta client (avoid nil GetSpellInfo results)  

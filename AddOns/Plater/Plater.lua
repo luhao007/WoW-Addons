@@ -81,7 +81,7 @@ local LDB = LibStub ("LibDataBroker-1.1", true)
 local LDBIcon = LDB and LibStub ("LibDBIcon-1.0", true)
 local _
 
-local Plater = DF:CreateAddOn ("Plater", "PlaterDB", PLATER_DEFAULT_SETTINGS, { --options table
+local Plater = DF:CreateAddOn ("Plater", "PlaterDB", PLATER_DEFAULT_SETTINGS, InterfaceOptionsFrame and { --options table --TODO: DISABLED FOR DRAGONFLIGHT FOR NOW!
 	name = "Plater Nameplates",
 	type = "group",
 	args = {
@@ -90,13 +90,18 @@ local Plater = DF:CreateAddOn ("Plater", "PlaterDB", PLATER_DEFAULT_SETTINGS, { 
 			desc = "Opens the Plater Options Menu.",
 			type = "execute",
 			func = function()
-				InterfaceOptionsFrame:Hide()
+				if InterfaceOptionsFrame then
+					InterfaceOptionsFrame:Hide()
+				elseif SettingsPanel then
+					SettingsPanel:Hide()
+				end
 				HideUIPanel(GameMenuFrame)
 				Plater.OpenOptionsPanel()
 			end,
 		},
 	}
 })
+
 Plater.versionString = GetAddOnMetadata("Plater_dev", "Version") or GetAddOnMetadata("Plater", "Version")
 Plater.fullVersionInfo = Plater.versionString .. " - DF v" .. select(2,LibStub:GetLibrary("DetailsFramework-1.0")) .. " - " .. GetBuildInfo()
 function Plater.GetVersionInfo(printOut)
@@ -372,8 +377,8 @@ local PLATER_GLOBAL_MOD_ENV = {}  -- contains modEnv for each mod, identified by
 local PLATER_GLOBAL_SCRIPT_ENV = {} -- contains modEnv for each script, identified by "<script name>"
 
 --> addon comm
-local COMM_PLATER_PREFIX = "PLT"
-local COMM_SCRIPT_GROUP_EXPORTED = "GE"
+Plater.COMM_PLATER_PREFIX = "PLT"
+Plater.COMM_SCRIPT_GROUP_EXPORTED = "GE"
 Plater.COMM_SCRIPT_MSG = "PLTM"
 
 --> cvars just to make them easier to read
@@ -690,6 +695,10 @@ Plater.SpecList = { --private
 		[268] = true, 
 		[269] = true, 
 		[270] = true, 
+	},
+	["EVOKER"] = {
+		[1467] = true,
+		[1468] = true,
 	},
 }
 
@@ -1030,6 +1039,8 @@ local class_specs_coords = {
 	
 	--store quests the player is in
 	Plater.QuestCache = {}
+	--store only campaign quests
+	Plater.QuestCacheCampaign = {}
 	
 	--cache the profile settings for each actor type on this table, so scripts can have access to profile
 	Plater.ActorTypeSettingsCache = { --private
@@ -1248,7 +1259,7 @@ local class_specs_coords = {
 			end
 		
 		else
-			-- TBC and classic
+			-- WotLK and classic
 			local classLoc, class = UnitClass ("player")
 			if (class) then
 				if (class == "WARRIOR") then
@@ -1259,6 +1270,18 @@ local class_specs_coords = {
 				elseif (class == "PALADIN") then
 					-- Hammer of Wrath
 					if GetSpellInfo(GetSpellInfo(24275)) then
+						lowExecute = 0.2
+					end
+				elseif (class == "WARLOCK") then
+					-- Decimation
+					if IsPlayerSpell(63156) or IsPlayerSpell(63158) then
+						lowExecute = 0.35
+					else
+						lowExecute = 0.25
+					end
+				elseif (class == "HUNTER") then
+					-- Kill Shot
+					if GetSpellInfo(GetSpellInfo(53351)) then
 						lowExecute = 0.2
 					end
 				end
@@ -1602,14 +1625,19 @@ local class_specs_coords = {
 				return spec and GetSpecializationRole (spec) == "TANK"
 			end
 			return assignedRole == "TANK"
-		else
-			if IS_WOW_PROJECT_CLASSIC_WRATH then
-				local assignedRole = UnitGroupRolesAssigned ("player")
-				if assignedRole == "NONE" then
-					assignedRole = GetTalentGroupRole(GetActiveTalentGroup())
-				end
-				hasTankAura = assignedRole == "TANK"
+		elseif IS_WOW_PROJECT_CLASSIC_WRATH then
+			local assignedRole = UnitGroupRolesAssigned ("player")
+			if assignedRole == "NONE" and UnitLevel ("player") >= 10 then
+				assignedRole = GetTalentGroupRole(GetActiveTalentGroup())
 			end
+			local playerIsTank = assignedRole == "TANK"
+			
+			if not playerIsTank then
+				playerIsTank = GetPartyAssignment("MAINTANK", "player") or false
+			end
+			
+			return playerIsTank
+		else
 		
 			local playerIsTank = hasTankAura or false
 		
@@ -1640,8 +1668,14 @@ local class_specs_coords = {
 
 	--return true if the unit is in tank role
 	local function IsUnitEffectivelyTank (unit)
-		if IS_WOW_PROJECT_MAINLINE or IS_WOW_PROJECT_CLASSIC_WRATH then
+		if IS_WOW_PROJECT_MAINLINE then
 			return UnitGroupRolesAssigned (unit) == "TANK"
+		elseif IS_WOW_PROJECT_CLASSIC_WRATH then
+			if IsInRaid() then
+				return GetPartyAssignment("MAINTANK", unit)
+			else
+				return UnitGroupRolesAssigned (unit) == "TANK"
+			end
 		else
 			return GetPartyAssignment("MAINTANK", unit)
 		end
@@ -2528,6 +2562,8 @@ local class_specs_coords = {
 	end
 	
 	--store all functions for all events that will be registered inside OnInit
+	local last_UPDATE_SHAPESHIFT_FORM = GetTime()
+	local last_GetShapeshiftForm = GetShapeshiftForm()
 	local eventFunctions = {
 
 		--when a unit from unatackable change its state, this event triggers several times, a schedule is used to only update once
@@ -2564,6 +2600,14 @@ local class_specs_coords = {
 			end
 		end,
 
+		ACTIVE_TALENT_GROUP_CHANGED = function()
+			C_Timer.After (0.5, UpdatePlayerTankState)
+			C_Timer.After (0.5, Plater.Resources.OnSpecChanged) --~resource
+			C_Timer.After (2, Plater.GetSpellForRangeCheck)
+			C_Timer.After (2, Plater.GetHealthCutoffValue)
+			C_Timer.After (1, Plater.DispatchTalentUpdateHookEvent)
+		end,
+		
 		PLAYER_SPECIALIZATION_CHANGED = function()
 			C_Timer.After (0.5, Plater.Resources.OnSpecChanged) --~resource
 			C_Timer.After (2, Plater.GetSpellForRangeCheck)
@@ -3534,7 +3578,7 @@ local class_specs_coords = {
 				plateFrame.unitFrame.FocusIndicator = focusIndicator
 			
 			--> low aggro warning
-				plateFrame.unitFrame.aggroGlowUpper = plateFrame:CreateTexture (nil, "background", -4)
+				plateFrame.unitFrame.aggroGlowUpper = plateFrame:CreateTexture (nil, "background", nil, -4)
 				PixelUtil.SetPoint (plateFrame.unitFrame.aggroGlowUpper, "bottomleft", plateFrame.unitFrame.healthBar, "topleft", -3, 0)
 				PixelUtil.SetPoint (plateFrame.unitFrame.aggroGlowUpper, "bottomright", plateFrame.unitFrame.healthBar, "topright", 3, 0)
 				plateFrame.unitFrame.aggroGlowUpper:SetTexture ([[Interface\BUTTONS\UI-Panel-Button-Glow]])
@@ -3543,7 +3587,7 @@ local class_specs_coords = {
 				plateFrame.unitFrame.aggroGlowUpper:SetHeight (4)
 				plateFrame.unitFrame.aggroGlowUpper:Hide()
 				
-				plateFrame.unitFrame.aggroGlowLower = plateFrame:CreateTexture (nil, "background", -4)
+				plateFrame.unitFrame.aggroGlowLower = plateFrame:CreateTexture (nil, "background", nil, -4)
 				PixelUtil.SetPoint (plateFrame.unitFrame.aggroGlowLower, "topleft", plateFrame.unitFrame.healthBar, "bottomleft", -3, 0)
 				PixelUtil.SetPoint (plateFrame.unitFrame.aggroGlowLower, "topright", plateFrame.unitFrame.healthBar, "bottomright", 3, 0)
 				plateFrame.unitFrame.aggroGlowLower:SetTexture ([[Interface\BUTTONS\UI-Panel-Button-Glow]])
@@ -3554,7 +3598,7 @@ local class_specs_coords = {
 				
 			--> widget container
 			if IS_WOW_PROJECT_MAINLINE then
-				plateFrame.unitFrame.WidgetContainer = CreateFrame("frame", nil, plateFrame.unitFrame, "UIWidgetContainerNoResizeTemplate")
+				plateFrame.unitFrame.WidgetContainer = CreateFrame("frame", "", plateFrame.unitFrame, "UIWidgetContainerNoResizeTemplate")
 				plateFrame.unitFrame.WidgetContainer.horizontalRowContainerPool = CreateFramePool("FRAME", plateFrame.unitFrame.WidgetContainer);
 				Plater.SetAnchor (plateFrame.unitFrame.WidgetContainer, Plater.db.profile.widget_bar_anchor, plateFrame.unitFrame)
 				plateFrame.unitFrame.WidgetContainer:SetScale(Plater.db.profile.widget_bar_scale)
@@ -3765,8 +3809,10 @@ local class_specs_coords = {
 			
 			plateFrame.QuestAmountCurrent = nil
 			plateFrame.QuestAmountTotal = nil
+			plateFrame.QuestIsCampaign = nil
 			unitFrame.QuestAmountCurrent = nil
 			unitFrame.QuestAmountTotal = nil
+			unitFrame.QuestIsCampaign = nil
 			
 			--cache the unit target id, so it doesnt need to waste cycles building up on aggro checks
 			unitFrame.targetUnitID = unitID .. "target"
@@ -3896,7 +3942,8 @@ local class_specs_coords = {
 					--setup castbar
 					unitFrame.Settings.ShowCastBar = DB_PLATE_CONFIG.player.castbar_enabled
 					if (not DB_PLATE_CONFIG.player.castbar_enabled) then
-						CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+						--CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+						unitFrame.castBar:SetUnit(nil, nil)
 					elseif not castBarWasEnabled then
 						unitFrame.castBar:SetUnit (unitID, unitID)
 					end
@@ -3921,7 +3968,8 @@ local class_specs_coords = {
 							Plater.UpdatePlateFrame (plateFrame, ACTORTYPE_FRIENDLY_PLAYER, nil, true)
 							unitFrame.Settings.ShowCastBar = not DB_CASTBAR_HIDE_FRIENDLY
 							if (DB_CASTBAR_HIDE_FRIENDLY) then
-								CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								--CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								unitFrame.castBar:SetUnit(nil, nil)
 							elseif not castBarWasEnabled then
 								unitFrame.castBar:SetUnit (unitID, unitID)
 							end
@@ -3931,7 +3979,8 @@ local class_specs_coords = {
 							Plater.UpdatePlateFrame (plateFrame, ACTORTYPE_ENEMY_PLAYER, nil, true)
 							unitFrame.Settings.ShowCastBar = not DB_CASTBAR_HIDE_ENEMIES
 							if (DB_CASTBAR_HIDE_ENEMIES) then
-								CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								--CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								unitFrame.castBar:SetUnit(nil, nil)
 							elseif not castBarWasEnabled then
 								unitFrame.castBar:SetUnit (unitID, unitID)
 							end
@@ -3945,7 +3994,8 @@ local class_specs_coords = {
 							Plater.UpdatePlateFrame (plateFrame, ACTORTYPE_FRIENDLY_NPC, nil, true)
 							unitFrame.Settings.ShowCastBar = not DB_CASTBAR_HIDE_FRIENDLY
 							if (DB_CASTBAR_HIDE_FRIENDLY) then
-								CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								--CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								unitFrame.castBar:SetUnit(nil, nil)
 							elseif not castBarWasEnabled then
 								unitFrame.castBar:SetUnit (unitID, unitID)
 							end
@@ -3955,7 +4005,8 @@ local class_specs_coords = {
 							Plater.UpdatePlateFrame (plateFrame, ACTORTYPE_FRIENDLY_NPC, nil, true)
 							unitFrame.Settings.ShowCastBar = not DB_CASTBAR_HIDE_FRIENDLY
 							if (DB_CASTBAR_HIDE_FRIENDLY) then
-								CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								--CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								unitFrame.castBar:SetUnit(nil, nil)
 							elseif not castBarWasEnabled then
 								unitFrame.castBar:SetUnit (unitID, unitID)
 							end
@@ -3975,7 +4026,8 @@ local class_specs_coords = {
 							Plater.UpdatePlateFrame (plateFrame, ACTORTYPE_ENEMY_NPC, nil, true)
 							unitFrame.Settings.ShowCastBar = not DB_CASTBAR_HIDE_ENEMIES
 							if (DB_CASTBAR_HIDE_ENEMIES) then
-								CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								--CastingBarFrame_SetUnit (castBar, nil, nil, nil)
+								unitFrame.castBar:SetUnit(nil, nil)
 							elseif not castBarWasEnabled then
 								unitFrame.castBar:SetUnit (unitID, unitID)
 							end
@@ -4171,9 +4223,19 @@ local class_specs_coords = {
 		end,
 		
 		UPDATE_SHAPESHIFT_FORM = function()
+			local curTime = GetTime()
+			--this is to work around UPDATE_SHAPESHIFT_FORM firing for all units and not just the player... causing lag...
+			--if (curTime - last_UPDATE_SHAPESHIFT_FORM) < 1 or last_GetShapeshiftForm == GetShapeshiftForm() then
+			if last_GetShapeshiftForm == GetShapeshiftForm() then
+				return
+			end
+			last_UPDATE_SHAPESHIFT_FORM = curTime
+			last_GetShapeshiftForm = GetShapeshiftForm()
+			
 			UpdatePlayerTankState()
 			Plater.UpdateAllNameplateColors()
 			Plater.UpdateAllPlates()
+			Plater.Resources.UpdateResourceFramePosition()
 		end,
 		
 		TALENT_GROUP_ROLE_CHANGED = function()
@@ -4331,6 +4393,9 @@ function Plater.OnInit() --private --~oninit ~init
 	--who is the player
 		Plater.PlayerGUID = UnitGUID ("player")
 		Plater.PlayerClass = select (2, UnitClass ("player"))
+	
+	--track player auras
+		Plater.AddToAuraUpdate("player")
 
 	--load scripts from the script library
 		Plater.ImportScriptsFromLibrary()
@@ -4446,6 +4511,9 @@ function Plater.OnInit() --private --~oninit ~init
 		Plater.EventHandlerFrame:RegisterEvent ("UNIT_QUEST_LOG_CHANGED")
 		if IS_WOW_PROJECT_MAINLINE then
 			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SPECIALIZATION_CHANGED")
+			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_TALENT_UPDATE")
+		elseif IS_WOW_PROJECT_CLASSIC_WRATH then
+			Plater.EventHandlerFrame:RegisterEvent ("ACTIVE_TALENT_GROUP_CHANGED")
 			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_TALENT_UPDATE")
 		end
 		
@@ -4768,6 +4836,7 @@ function Plater.OnInit() --private --~oninit ~init
 
 						if (castBar.finished and not castBar.playedFinishedTest) then
 							Plater.CastBarOnEvent_Hook (castBar, "UNIT_SPELLCAST_STOP", plateFrame.unitFrame.unit, plateFrame.unitFrame.unit)
+							castBar:Hide()
 							castBar.playedFinishedTest = true
 						end
 					end
@@ -5408,11 +5477,19 @@ function Plater.OnInit() --private --~oninit ~init
 			C_Timer.After (i, Plater.RefreshDBUpvalues)
 		end
 		
-	CastingBarFrame:HookScript ("OnShow", function (self)
-		if (Plater.db.profile.hide_blizzard_castbar) then
-			self:Hide()
-		end
-	end)
+	if CastingBarFrame then
+		CastingBarFrame:HookScript ("OnShow", function (self)
+			if (Plater.db.profile.hide_blizzard_castbar) then
+				self:Hide()
+			end
+		end)
+	elseif PlayerCastingBarFrame then
+		PlayerCastingBarFrame:HookScript ("OnShow", function (self)
+			if (Plater.db.profile.hide_blizzard_castbar) then
+				self:Hide()
+			end
+		end)		
+	end
 	
 	-- fill class-info cache data
 	if IS_WOW_PROJECT_MAINLINE then
@@ -5429,8 +5506,12 @@ function Plater.OnInit() --private --~oninit ~init
 	end
 	
 	-- hook to the InterfaceOptionsFrame and VideoOptionsFrame to update the nameplate sizes, as blizzard somehow messes things up there on hide...
-	InterfaceOptionsFrame:HookScript('OnHide',Plater.UpdatePlateClickSpace)
-	VideoOptionsFrame:HookScript('OnHide',Plater.UpdatePlateClickSpace)
+	if InterfaceOptionsFrame then
+		InterfaceOptionsFrame:HookScript('OnHide',Plater.UpdatePlateClickSpace)
+		VideoOptionsFrame:HookScript('OnHide',Plater.UpdatePlateClickSpace)
+	elseif SettingsPanel then
+		SettingsPanel:HookScript('OnHide',Plater.UpdatePlateClickSpace)
+	end
 end
 
 
@@ -6074,7 +6155,7 @@ end
 				if (DB_TRACK_METHOD == 0x1) then --automatic
 					if (tickFrame.actorType == ACTORTYPE_PLAYER) then
 						--update auras on the personal bar
-						Plater.UpdateAuras_Self_Automatic (tickFrame.BuffFrame)
+						Plater.UpdateAuras_Self_Automatic (tickFrame.BuffFrame, tickFrame.unit)
 					else
 						Plater.UpdateAuras_Automatic (tickFrame.BuffFrame, tickFrame.unit)
 					end
@@ -8597,12 +8678,12 @@ end
 					animationHub.ScaleDown:SetDuration (animationTable.duration)
 					
 					local scaleUpX, scaleUpY = animationTable.scale_upX, animationTable.scale_upY
-					local scaleDownX, scaleDownY = animationTable.scale_downX, animationTable.scale_downY
+					local scaleDownX, scaleDownY = animationTable.scale_downX, animationTable.scale_downY;
 					
-					animationHub.ScaleUp:SetFromScale (1, 1)
-					animationHub.ScaleUp:SetToScale (scaleUpX, scaleUpY)
-					animationHub.ScaleDown:SetFromScale (1, 1)
-					animationHub.ScaleDown:SetToScale (scaleDownX, scaleDownY)
+					(animationHub.ScaleUp.SetFromScale or animationHub.ScaleUp.SetScaleFrom) (animationHub.ScaleUp, 1, 1);
+					(animationHub.ScaleUp.SetToScale or animationHub.ScaleUp.SetScaleTo) (animationHub.ScaleUp, scaleUpX, scaleUpY);
+					(animationHub.ScaleDown.SetFromScale or animationHub.ScaleDown.SetScaleFrom) (animationHub.ScaleDown, 1, 1);
+					(animationHub.ScaleDown.SetToScale or animationHub.ScaleDown.SetScaleTo) (animationHub.ScaleDown, scaleDownX, scaleDownY)
 					
 					--play it
 					animationHub:Play()
@@ -9019,6 +9100,7 @@ end
 --> cvars - ~cvars
 	
 function Plater.CreatePlaterButtonAtInterfaceOptions()
+	if not InterfaceOptionsFrame then return end --DF does not has this anymore TODO
 	local f = CreateFrame ("frame", nil, InterfaceOptionsNamesPanel, BackdropTemplateMixin and "BackdropTemplate")
 	f:SetSize (300, 200)
 	f:SetPoint ("topleft", InterfaceOptionsNamesPanel, "topleft", 10, -440)
@@ -9113,7 +9195,7 @@ function Plater.SetCVarsOnFirstRun()
 
 	--> view distance
 	if IS_WOW_PROJECT_MAINLINE then
-		SetCVar ("nameplateMaxDistance", 100)
+		SetCVar ("nameplateMaxDistance", 60)
 	else
 		SetCVar ("nameplateMaxDistance", 41)
 	end
@@ -9232,6 +9314,9 @@ end
 					total = 0,
 					yourQuest = false,
 				}
+
+				local isCampaignQuest = Plater.QuestCacheCampaign[text]
+
 				local amount1, amount2, questText = nil, nil, nil
 				local j = i
 				while (ScanQuestTextCache [j+1]) do
@@ -9289,11 +9374,13 @@ end
 					plateFrame.QuestAmountCurrent = amount1
 					plateFrame.QuestAmountTotal = amount2
 					plateFrame.QuestText = questText
+					plateFrame.QuestIsCampaign = isCampaignQuest
 					
 					--expose to scripts
 					plateFrame.unitFrame.QuestAmountCurrent = amount1
 					plateFrame.unitFrame.QuestAmountTotal = amount2
 					plateFrame.unitFrame.QuestText = questText
+					plateFrame.unitFrame.QuestIsCampaign = isCampaignQuest
 				end
 				
 				if not isGroupQuest then
@@ -9320,6 +9407,7 @@ end
 
 		--clear the quest cache
 		wipe (Plater.QuestCache)
+		wipe (Plater.QuestCacheCampaign)
 
 		--do not update if is inside an instance
 		local isInInstance = IsInInstance()
@@ -9336,6 +9424,9 @@ end
 				--ViragDevTool_AddData({questDetails = questDetails, QuestObjectives = C_QuestLog.GetQuestObjectives(questDetails.questID), Title = C_QuestLog.GetTitleForLogIndex(questLogId)}, "QuestUpdate - " .. questLogId)
 				if (questDetails and not questDetails.isHeader and questDetails.title and type (questDetails.questID) == "number" and questDetails.questID > 0) then
 					Plater.QuestCache [questDetails.title] = true
+					if (questDetails.campaignID) then
+						Plater.QuestCacheCampaign[questDetails.title] = true
+					end
 				end
 			else
 				local title, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questId, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isStory = GetQuestLogTitle (questLogId)
@@ -10891,6 +10982,9 @@ end
 			["CreateAuraIcon"] = true,
 			["PerformanceUnits"] = true,
 			["ForceBlizzardNameplateUnits"] = true,
+			["COMM_PLATER_PREFIX"] = true,
+			["COMM_SCRIPT_GROUP_EXPORTED"] = true,
+			["COMM_SCRIPT_MSG"] = true,
 		},
 		
 		["DetailsFramework"] = {
@@ -11338,6 +11432,7 @@ end
 			HotReload = -1,
 			DBScriptObject = scriptObject,
 			Build = PLATER_HOOK_BUILD,
+			scriptId = scriptObject.scriptId,
 		}
 		
 		--init modEnv if necessary
@@ -11421,7 +11516,12 @@ end
 				--store the function to execute inside the global script object
 				globalScriptObject [hookName] = compiledScript()
 				
-				--insert the script in the global script container, no need to check if already exists, hook containers cache are cleaned before script compile
+				--insert the script in the global script container, remove existing, as option changes re-compile only single mod without wipe
+				for i, curScriptObject in ipairs(globalScriptContainer) do
+					if scriptObject.scriptId == curScriptObject.scriptId then
+						tremove(globalScriptContainer, i)
+					end
+				end
 				tinsert (globalScriptContainer, globalScriptObject)
 				globalScriptContainer.ScriptAmount = globalScriptContainer.ScriptAmount + 1
 				
@@ -12274,10 +12374,10 @@ end
 			local LibAceSerializer = LibStub:GetLibrary ("AceSerializer-3.0")
 			
 			if (IsInRaid (LE_PARTY_CATEGORY_HOME)) then
-				Plater:SendCommMessage (COMM_PLATER_PREFIX, LibAceSerializer:Serialize (COMM_SCRIPT_GROUP_EXPORTED, UnitName ("player"), GetRealmName(), UnitGUID ("player"), encodedString), "RAID")
+				Plater:SendCommMessage (Plater.COMM_PLATER_PREFIX, LibAceSerializer:Serialize (Plater.COMM_SCRIPT_GROUP_EXPORTED, UnitName ("player"), GetRealmName(), UnitGUID ("player"), encodedString), "RAID")
 				
 			elseif (IsInGroup (LE_PARTY_CATEGORY_HOME)) then
-				Plater:SendCommMessage (COMM_PLATER_PREFIX, LibAceSerializer:Serialize (COMM_SCRIPT_GROUP_EXPORTED, UnitName ("player"), GetRealmName(), UnitGUID ("player"), encodedString), "PARTY")
+				Plater:SendCommMessage (Plater.COMM_PLATER_PREFIX, LibAceSerializer:Serialize (Plater.COMM_SCRIPT_GROUP_EXPORTED, UnitName ("player"), GetRealmName(), UnitGUID ("player"), encodedString), "PARTY")
 				
 			else
 				Plater:Msg ("Failed to send the script: your group isn't home group.")
@@ -12595,18 +12695,18 @@ function SlashCmdList.PLATER (msg, editbox)
 		
 		return
 	
-	elseif (msg == "profstart" or msg == "profstartcore") then
-		Plater.EnableProfiling(true)
+	elseif (msg == "profstart" or msg == "profstartcore" or msg == "profstartadvance") then
+		Plater.EnableProfiling(true, true)
 		
 		return
 	
 	elseif (msg == "profstartmods") then
-		Plater.EnableProfiling(false)
+		Plater.EnableProfiling(false, true)
 		
 		return
 	
-	elseif (msg == "profstartadvance") then
-		Plater.EnableProfiling(true, true)
+	elseif (msg == "profstartold") then
+		Plater.EnableProfiling(true, false)
 		
 		return
 	

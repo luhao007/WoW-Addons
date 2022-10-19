@@ -159,6 +159,8 @@ L["STRING_CUSTOM_SPELLID_DESC"] = "Facoltativo, l'incantesimo viene utilizzato d
 L["STRING_CUSTOM_TARGET"] = "Bersaglio:"
 L["STRING_CUSTOM_TARGET_DESC"] = "Questo è il bersaglio della sorgente. Il pulsante in basso a destra mostra una lista degli npcs dagli incontri raid."
 L["STRING_CUSTOM_TEMPORARILY"] = "(|cFFFFC000temporaneo|r)"
+--[[Translation missing --]]
+--[[ L["STRING_CUSTOM_TEXTURE_GUIDE"] = ""--]] 
 L["STRING_DAMAGE"] = "Danno"
 L["STRING_DAMAGE_DPS_IN"] = "DPS ricevuto da"
 L["STRING_DAMAGE_FROM"] = "Ha subito danni da"
@@ -384,6 +386,20 @@ L["STRING_OPTIONS_3D_UANCHOR"] = "Modello 3D Superiore:"
 L["STRING_OPTIONS_3D_UENABLED_DESC"] = "Attiva o Disattiva l'uso di un frame di un modello 3d sopra le barre."
 L["STRING_OPTIONS_3D_USELECT_DESC"] = "Scegli quale modello verrà utilizzato sulla barra del modello superiore."
 L["STRING_OPTIONS_ADVANCED"] = "Avanzate"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_WARNING"] = ""--]] 
 L["STRING_OPTIONS_ALPHAMOD_ANCHOR"] = "Nascondimento Automatico:"
 L["STRING_OPTIONS_ALWAYS_USE"] = "Usa Su Tutti i Personaggi"
 L["STRING_OPTIONS_ALWAYS_USE_DESC"] = "Lo stesso profilo viene usato su tutti i personaggi. Potresti dover sovrascrivere questo su tutti i personaggi selezionando un altro profilo esistente."
@@ -449,7 +465,6 @@ L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2"] = "‎"
 L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2_DESC"] = "|cFFFFFF00{data1}|r:è il primo numero passato, generalmente questo numero rappresenta il totale fatto. |cFFFFFF00{data2}|r: è il secondo numero passato, la maggior parte delle volte rappresenta la media al secondo. |cFFFFFF00{data3}|r:terzo numero passato, normalmente è la percentuale. |cFFFFFF00{func}|r: esegue una funzione Lua personalizzata aggiungendo il suo valore di ritorno al testo. Esempio: {func return 'hello azeroth'} |cFFFFFF00Escape Sequences|r: utilizzare per cambiare colore o aggiungere texture. Cerca 'sequenza uscita UI' per avere più informazioni."
 L["STRING_OPTIONS_BARS"] = "Impostazioni Generali della Barra"
 L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE"] = "File Texture Personalizzato"
-L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE_DESC"] = "|cFFFFFF00Importante|r: l'immagine deve essere 256x32 pixel."
 L["STRING_OPTIONS_BARS_DESC"] = "Queste opzioni controllano l'aspetto della barra."
 L["STRING_OPTIONS_BARSORT"] = "Ordine di Classificazione del Grado della Barra"
 L["STRING_OPTIONS_BARSORT_DESC"] = "Ordina le barre in ordine decrescente o crescente."
@@ -568,10 +583,14 @@ L["STRING_OPTIONS_ED_DESC"] = "|cFFFFFF00Manualmente|r: l'utente deve premere su
 L["STRING_OPTIONS_ED1"] = "Manualmente"
 L["STRING_OPTIONS_ED2"] = "Prompt"
 L["STRING_OPTIONS_ED3"] = "Auto"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_EDIT_CUSTOM_TEXT"] = ""--]] 
 L["STRING_OPTIONS_EDITIMAGE"] = "Modifica Immagine"
 L["STRING_OPTIONS_EDITINSTANCE"] = "Modifica Finestra:"
 L["STRING_OPTIONS_ERASECHARTDATA"] = "Cancella Grafici"
 L["STRING_OPTIONS_ERASECHARTDATA_DESC"] = "Durante il logout, tutti i dati di combattimento raccolti per creare i grafici vengono cancellati."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_EXPORT_PROFILE"] = ""--]] 
 L["STRING_OPTIONS_EXTERNALS_TITLE"] = "Widget Esterni"
 L["STRING_OPTIONS_EXTERNALS_TITLE2"] = "Queste opzioni controllano il comportamento di molti widget esterni."
 L["STRING_OPTIONS_GENERAL"] = "Impostazioni Generali"
@@ -593,12 +612,14 @@ L["STRING_OPTIONS_IGNORENICKNAME_DESC"] = "Quando è abilitato, i nickname e gli
 L["STRING_OPTIONS_ILVL_TRACKER"] = "Tracker del Livello Oggetti:"
 L["STRING_OPTIONS_ILVL_TRACKER_DESC"] = "Quando attivo e fuori dal combattimento, l'addon indaga e traccia il livello oggetti dei giocatori nell'incursione. Se disattivato, esso leggerà comunque il livello oggetti dai queries degli altri addon o quando ispezioni manualmente un altro player."
 L["STRING_OPTIONS_ILVL_TRACKER_TEXT"] = "Attivato"
-L["STRING_OPTIONS_INSTANCE_ALPHA2"] = "Colore di Sfondo"
-L["STRING_OPTIONS_INSTANCE_ALPHA2_DESC"] = "Questa opzione ti permette di cambiare il colore dello sfondo della finestra."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_IMPORT_PROFILE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_IMPORT_PROFILE_NAME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_IMPORT_PROFILE_PASTE"] = ""--]] 
 L["STRING_OPTIONS_INSTANCE_BACKDROP"] = "Texture di Sfondo"
 L["STRING_OPTIONS_INSTANCE_BACKDROP_DESC"] = "Seleziona la texture di sfondo usata da questa finestra. Sfondo |cFFFFFF00Predefinito|r: Details."
-L["STRING_OPTIONS_INSTANCE_COLOR"] = "Colore FInestra"
-L["STRING_OPTIONS_INSTANCE_COLOR_DESC"] = "Cambia il colore e l'alfa di questa finestra. |cFFFFFF00Importante|r: l'alfa scelto qui viene sovrascritto con i valori dell'|cFFFFFF00Auto Transparenza|r quando attivo. |cFFFFFF00Importante|r: selezionare il colore della finestra sovrascrive qualsiasi personalizzazione al colore sulla barra di stato."
 L["STRING_OPTIONS_INSTANCE_CURRENT"] = "Auto Scambio Ad Attuale"
 L["STRING_OPTIONS_INSTANCE_CURRENT_DESC"] = "Ogni qualvolta un combattimento inizia, questa finestra cambia automaticamente al segmento attuale."
 L["STRING_OPTIONS_INSTANCE_DELETE"] = "Elimina"
@@ -612,7 +633,6 @@ L["STRING_OPTIONS_INSTANCE_STRATA"] = "Layer Strata"
 L["STRING_OPTIONS_INSTANCE_STRATA_DESC"] = "Seleziona l'altezza del livello su cui verrà posizionato il frame. Il basso Layer è l'impostazione predefinita e fa sì che la finestra rimanga dietro la maggior parte degli altri pannelli di interfaccia. Utilizzando il Layer alto la finestra potrebbe rimanere davanti agli altri pannelli principali. Quando si modifica l'altezza del livello, è possibile che si riscontrino conflitti con altri pannelli che si sovrappongono."
 L["STRING_OPTIONS_INSTANCES"] = "Finestre:"
 L["STRING_OPTIONS_INTERFACEDIT"] = "Modalità Modifica Interfaccia"
-L["STRING_OPTIONS_LEFT_MENU_ANCHOR"] = "Menu Impostazioni:"
 L["STRING_OPTIONS_LOCKSEGMENTS"] = "Segmenti bloccati"
 L["STRING_OPTIONS_LOCKSEGMENTS_DESC"] = "Quando attivo, cambiare segmento imposta tutte le altre finestre nel segmento selezionato."
 L["STRING_OPTIONS_MANAGE_BOOKMARKS"] = "Gestisci Segnalibri"
@@ -689,6 +709,8 @@ L["STRING_OPTIONS_NICKNAME"] = "NIckname"
 L["STRING_OPTIONS_NICKNAME_DESC"] = "Imposta un nickname per te. I nickname vengono inviati ai membri della gilda e ai dettagli! lo usa al posto del nome del tuo personaggio."
 L["STRING_OPTIONS_OPEN_ROWTEXT_EDITOR"] = "Editor Righe di Testo"
 L["STRING_OPTIONS_OPEN_TEXT_EDITOR"] = "Apri Editor di Testo"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_OPENBROKER"] = ""--]] 
 L["STRING_OPTIONS_OVERALL_ALL"] = "Tutti i Segmenti"
 L["STRING_OPTIONS_OVERALL_ALL_DESC"] = "Tutti i segmenti vengono aggiunti ai dati complessivi."
 L["STRING_OPTIONS_OVERALL_ANCHOR"] = "Dati Complessivi:"
@@ -795,7 +817,6 @@ L["STRING_OPTIONS_REPORT_SCHEMA1"] = "Totale / Al Secondo / Percentuale"
 L["STRING_OPTIONS_REPORT_SCHEMA2"] = "Percentuale / Al Secondo / Totale"
 L["STRING_OPTIONS_REPORT_SCHEMA3"] = "Percentuale / Totale / Al Secondo"
 L["STRING_OPTIONS_RESET_TO_DEFAULT"] = "Reimposta al predefinito"
-L["STRING_OPTIONS_ROW_SETTING_ANCHOR"] = "Layout:"
 L["STRING_OPTIONS_ROWADV_TITLE"] = "Impostazioni Righe Avanzate"
 L["STRING_OPTIONS_ROWADV_TITLE_DESC"] = "Queste opzioni consentono di modificare le righe in modo più approfondito."
 L["STRING_OPTIONS_RT_COOLDOWN1"] = "%s usato su %s!"
@@ -974,6 +995,8 @@ L["STRING_OPTIONS_TEXTEDITOR_TOK"] = "ToK"
 L["STRING_OPTIONS_TEXTEDITOR_TOK_TOOLTIP"] = "Aggiungi una funzione per formattare i numeri abbreviando i suoi valori. Esempio: 1500000 a 1,5kk."
 L["STRING_OPTIONS_TIMEMEASURE"] = "Misura del Tempo"
 L["STRING_OPTIONS_TIMEMEASURE_DESC"] = "|cFFFFFF00Attività|r: il timer di ogni membro dell'istanza viene messo in attesa se la loro attività viene interrotta e torna a contare quando riprende, modo comune di misurare DPS e HPS.|cFFFFFF00Effettivo|r: utilizzato nelle classifiche, questo metodo utilizza il tempo di combattimento trascorso per misurare il DPS e l'HPS di tutti i membri del raid."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_TITLEBAR_MENUBUTTONS_HEADER"] = ""--]] 
 L["STRING_OPTIONS_TOOLBAR_SETTINGS"] = "Impostazioni dei Pulsanti della Barra del Titolo"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS_DESC"] = "Queste opzioni modificano il menu principale nella parte superiore della finestra."
 L["STRING_OPTIONS_TOOLBARSIDE"] = "Barra del Titolo nella Lato Superiore"
@@ -1070,8 +1093,16 @@ L["STRING_OPTIONS_WINDOW"] = "Pannello Opzioni"
 L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = "Ancore:"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = "Ignora il Toggle di Massa"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = "Quando è abilitata, questa finestra non viene influenzata quando si nascondono, mostrano o si alternano tutte le finestre."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR_DESC"] = ""--]] 
 L["STRING_OPTIONS_WINDOW_SCALE"] = "Scala"
 L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = "Regola la scala della finestra. |cFFFFFF00Consiglio|r: tasto destro per scrivere il tipo di valore. |cFFFFFF00Attuale|r: %s"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_SKIN_COLOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_SKIN_COLOR_DESC"] = ""--]] 
 L["STRING_OPTIONS_WINDOW_TITLE"] = "Titolo mostrato nell'intestazione di Finestre: Impostazioni generali"
 L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Queste opzioni controllano l'aspetto della finestra della finestra selezionata."
 L["STRING_OPTIONS_WINDOWSPEED"] = "Intervallo Aggiornamento"

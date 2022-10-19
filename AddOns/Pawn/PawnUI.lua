@@ -218,6 +218,7 @@ function PawnUIFrame_ScaleSelector_Refresh()
 	PawnUITotalScaleLines = 0
 
 	-- Get a sorted list of scale data and display it all.
+	local ScaleData
 	local ScaleList = PawnGetAllScalesEx()
 	PawnUIIsShowingNoneWarning = true
 	for _, ScaleData in pairs(ScaleList) do
@@ -232,7 +233,7 @@ function PawnUIFrame_ScaleSelector_Refresh()
 		PawnUIFrame_ScaleSelector_NoneWarning:Hide()
 	end
 
-	local NewSelectedScale, FirstScale, ScaleData, LastHeader, _
+	local NewSelectedScale, FirstScale, LastHeader, _
 	for _, ScaleData in pairs(ScaleList) do
 		local ScaleName = ScaleData.Name
 		if ScaleName == PawnUICurrentScale then NewSelectedScale = ScaleName end
@@ -1986,7 +1987,15 @@ function PawnUIFrame_ShowBagUpgradeAdvisorCheck_OnClick()
 	local BagIndex
 	for BagIndex = 1, NUM_CONTAINER_FRAMES, 1 do
 		local BagFrame = _G["ContainerFrame" .. BagIndex];
-		if BagFrame:IsShown() then ContainerFrame_UpdateItemUpgradeIcons(BagFrame) end
+		if BagFrame:IsShown() then
+			if BagFrame.UpdateItemUpgradeIcons then
+				-- Dragonflight onward
+				BagFrame:UpdateItemUpgradeIcons()
+			else
+				-- Legion through Shadowlands
+				ContainerFrame_UpdateItemUpgradeIcons(BagFrame)
+			end
+		end
 	end
 end
 
@@ -2100,11 +2109,10 @@ function PawnUI_OnSocketUpdate()
 		local ScaleName = Entry[1]
 		if PawnIsScaleVisible(ScaleName) then
 			local Scale = PawnCommon.Scales[ScaleName]
-			local ScaleValues = Scale.Values
 			local TextColor = VgerCore.Color.Blue
 			if Scale.Color and strlen(Scale.Color) == 6 then TextColor = "|cff" .. Scale.Color end
 
-			local _, _, SocketBonusValue = PawnGetItemValue(Item.UnenchantedStats, Item.Level, Item.SocketBonusStats, ScaleName, false, true)
+			local _, _, SocketBonusValue = PawnGetItemValue(Item.UnenchantedStats, Item.Level, Item.UnenchantedSocketBonusStats, ScaleName, false, true)
 			local GemListString, IsVague
 			if SocketBonusValue and SocketBonusValue > 0 then
 				local ThisColorGemList
@@ -2455,6 +2463,39 @@ end
 -- Usage: <OnLoad function="PawnUIRegisterRightClickOnLoad" />
 function PawnUIRegisterRightClickOnLoad(self)
 	self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+end
+
+-- Create the tab strip under the Pawn UI.
+-- We need to do this in Lua because there's no tab template that exists in every version of the game.
+function PawnUICreateTabs()
+	local TabCount = #PawnUITabList
+	local TabTemplate
+	if VgerCore.IsDragonflight then
+		TabTemplate = "PanelTabButtonTemplate"
+	else
+		TabTemplate = "CharacterFrameTabButtonTemplate"
+	end
+
+	local LastTab
+	for i = 1, TabCount do
+		local ThisTab = CreateFrame("Button", "PawnUIFrameTab" .. i, PawnUIFrame, TabTemplate, i)
+		ThisTab:SetText(PawnUITabLabels[i])
+		if i == 1 then
+			ThisTab:SetPoint("LEFT", PawnUIFrame, "BOTTOMLEFT", 196, -8)
+		else
+			ThisTab:SetPoint("LEFT", LastTab, "RIGHT", -16, 0)
+		end
+		ThisTab:SetScript("OnClick", PawnUITab_OnClick)
+		LastTab = ThisTab
+	end
+
+	PanelTemplates_SetNumTabs(PawnUIFrame, TabCount)
+end
+
+function PawnUITab_OnClick(self)
+	local TabNumber = self:GetID()
+	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+	PawnUISwitchToTab(PawnUITabList[TabNumber])
 end
 
 -- Switches to a tab by its Page.

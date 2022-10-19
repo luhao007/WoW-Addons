@@ -1,5 +1,5 @@
 ## Interface: 90207
-## Version: r32
+## Version: r41
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWoD_AllSavedVars
@@ -15,9 +15,9 @@
 ## X-DBM-StatTypes: normal,heroic,mythic,challenge
 ## X-DBM-Mod-SubCategoriesID: 1182, 1175, 1208, 1195, 1279, 1176, 1209, 1358
 ## X-DBM-Mod-Name: Dungeons (WoD)
-## X-DBM-Mod-Name-koKR: 5인 던전(드레노어의 전쟁군주)
+## X-DBM-Mod-Name-koKR: 던전 (드군)
 ## X-DBM-Mod-Name-deDE: Gruppe (WoD)
-## X-DBM-Mod-Name-ruRU: Групповые подземелья (WoD)
+## X-DBM-Mod-Name-ruRU: Подземелья (Дренор)
 ## X-DBM-Mod-Name-esES: Mazmorras (WoD)
 ## X-DBM-Mod-Name-esMX: Mazmorras (WoD)
 ## X-DBM-Mod-Name-ptBR: Masmorras (WoD)

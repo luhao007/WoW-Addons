@@ -1,4 +1,4 @@
---Mini Dragon <流浪者酒馆-Brilla@金色平原> 20210117
+--Mini Dragon <流浪者酒馆-Brilla@金色平原> 20220330
 
 if GetLocale() ~= "zhCN" then return end
 local L
@@ -34,15 +34,14 @@ L= DBM:GetModLocalization(2460)
 L:SetOptionLocalization({
 	RitualistIconSetting	= "设置仪式的图标行为 (团长覆盖全团)",
 	SetOne					= "与种子/午夜猎手不同 (无冲突) |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:16:32|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:16:32|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:16:32|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:48:64:16:32|t",--5-8 (Default)
-	SetTwo					= "与种子/午夜猎手配对 (如果种子与仪式同时出现则冲突) |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:0:16|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:0:16|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:0:16|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:48:64:0:16|t",-- 1-4
-	SetThree				= "与种子/午夜猎手配对 (不冲突，但需要团队成员安装特殊扩展图标来看见他们) |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:32:48|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:32:48|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:32:48|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:48:64:32:48|t"--9-12
+	SetTwo					= "与种子/午夜猎手配对 (如果种子与仪式同时出现则冲突) |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:0:16|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:0:16|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:0:16|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:48:64:0:16|t"-- 1-4
+--	SetThree				= "与种子/午夜猎手配对 (不冲突，但需要团队成员安装特殊扩展图标来看见他们) |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:32:48|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:32:48|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:32:48|t |TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:48:64:32:48|t"--9-12
 })
 
 L:SetMiscLocalization({
 	Deathtouch		= "死亡之触",
 	Dispel			= "驱散",
-	Sin				= "罪孽",
-	Stacks			= "层"
+	ExtendReset		= "你的仪式图标下拉选项已被重置，因为不再用了"
 })
 
 ---------------------------
@@ -56,7 +55,7 @@ L:SetMiscLocalization({
 --L= DBM:GetModLocalization(2465)
 
 L:SetTimerLocalization{
-	timerComboCD		= "~坦克组合技"
+	timerComboCD		= "~坦克组合技 (%d)"
 }
 
 L:SetOptionLocalization({
@@ -67,6 +66,10 @@ L:SetOptionLocalization({
 --  Halondrus the Reclaimer -- 回收者黑伦度斯
 ---------------------------
 --L= DBM:GetModLocalization(2463)
+
+L:SetMiscLocalization({
+	Mote		= "微尘"
+})
 
 ---------------------------
 --  Anduin Wrynn -- 安度因·乌瑞恩
@@ -95,8 +98,28 @@ L:SetOptionLocalization({
 ---------------------------
 --L= DBM:GetModLocalization(2464)
 
+L:SetWarningLocalization({
+	warnHealAzeroth		= "治疗艾泽拉斯 (%s)",
+	warnDispel			= "驱散 (%s)"
+})
+
+L:SetTimerLocalization{
+	timerPits			= "坑洞开启",
+	timerHealAzeroth	= "治疗艾泽拉斯 (%s)",
+	timerDispels		= "驱散 (%s)"
+}
+
+L:SetOptionLocalization({
+	timerPits			= "计时器：楼层坑洞暴露时，你可以跳入。",
+	warnHealAzeroth		= "警告：在史诗难度下，提示你何时治疗艾泽拉斯（基于Echo的策略）。",
+	warnDispel			= "警告：在实施难度下，提示你何时驱散死亡宣判（基于Echo的策略）。",
+	timerHealAzeroth	= "计时器：在史诗难度下，提示你何时治疗艾泽拉斯（基于Echo的策略）。",
+	timerDispels		= "计时器：在实施难度下，提示你何时驱散死亡宣判（基于Echo的策略）。"
+})
+
 L:SetMiscLocalization({
-	Pylon		= "高塔"
+	Pylon				= "晶塔",
+	AzerothSoak			= "艾泽拉斯分摊伤害"
 })
 
 -------------

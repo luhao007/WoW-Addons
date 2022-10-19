@@ -527,7 +527,7 @@ function W.ObserveAvailableMissions(arr)
 end
 
 function W.GetFollowers(mtype, followerMissionInfo)
-	local followers = C.GetFollowers(mtype)
+	local followers = C.GetFollowers(mtype) or {}
 	table.sort(followers, cmpFollowerBaseID)
 	for i=1,#followers do
 		local fi = followers[i]

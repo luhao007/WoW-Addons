@@ -22,13 +22,15 @@ end
 
 do
 	local CL = DBM_COMMON_L
+
 	local bossTargetuIds = {
-		"boss1", "boss2", "boss3", "boss4", "boss5", "focus", "target"
+		"boss1", "boss2", "boss3", "boss4", "boss5", "boss6", "boss7", "boss8", "boss9", "boss10", "focus", "target"
 	}
 
 	local function getBossTarget(guid, scanOnlyBoss)
 		local name, uid, bossuid
 		local cacheuid = bossuIdCache[guid] or "boss1"
+		--Try to check last used unit token cache before iterating again.
 		if UnitGUID(cacheuid) == guid then
 			bossuid = cacheuid
 			name = DBM:GetUnitFullName(cacheuid.."target")
@@ -36,48 +38,13 @@ do
 			bossuIdCache[guid] = bossuid
 		end
 		if name then return name, uid, bossuid end
-		for _, uId in ipairs(bossTargetuIds) do
-			if UnitGUID(uId) == guid then
-				bossuid = uId
-				name = DBM:GetUnitFullName(uId.."target")
-				uid = uId.."target"
-				bossuIdCache[guid] = bossuid
-				break
-			end
-		end
-		if name or scanOnlyBoss then return name, uid, bossuid end
-		-- Now lets check nameplates
-		for i = 1, 40 do
-			if UnitGUID("nameplate"..i) == guid then
-				bossuid = "nameplate"..i
-				name = DBM:GetUnitFullName("nameplate"..i.."target")
-				uid = "nameplate"..i.."target"
-				bossuIdCache[guid] = bossuid
-				break
-			end
-		end
-		if name then return name, uid, bossuid end
-		-- failed to detect from default uIds, scan all group members's target.
-		if IsInRaid() then
-			for i = 1, GetNumGroupMembers() do
-				if UnitGUID("raid"..i.."target") == guid then
-					bossuid = "raid"..i.."target"
-					name = DBM:GetUnitFullName("raid"..i.."targettarget")
-					uid = "raid"..i.."targettarget"
-					bossuIdCache[guid] = bossuid
-					break
-				end
-			end
-		elseif IsInGroup() then
-			for i = 1, GetNumSubgroupMembers() do
-				if UnitGUID("party"..i.."target") == guid then
-					bossuid = "party"..i.."target"
-					name = DBM:GetUnitFullName("party"..i.."targettarget")
-					uid = "party"..i.."targettarget"
-					bossuIdCache[guid] = bossuid
-					break
-				end
-			end
+		--Else, perform iteration again
+		local unitID = DBM:GetUnitIdFromGUID(guid, scanOnlyBoss)
+		if unitID then
+			bossuid = unitID
+			name = DBM:GetUnitFullName(unitID.."target")
+			uid = unitID.."target"
+			bossuIdCache[guid] = bossuid
 		end
 		return name, uid, bossuid
 	end
@@ -189,9 +156,22 @@ end
 do
 	--UNIT_TARGET Target scanning method
 	local eventsRegistered = false
+	--Validate target is in group (I'm not sure why i actually required this since I didn't comment code when I added requirement, so I leave it for now)
+	--If I determine this check isn't needed and it continues to be a problem i'll kill it off.
+	--For now, I'll have check be smart and switch between raid and party and just disable when solo
+	local function validateGroupTarget(unit)
+		if IsInGroup() then
+			if UnitPlayerOrPetInRaid(unit) or UnitPlayerOrPetInParty(unit) then
+				return true
+			end
+		else--Solo
+			return true
+		end
+	end
 	function module:UNIT_TARGET_UNFILTERED(uId)
 		--Active BossUnitTargetScanner
-		if unitMonitor[uId] and UnitExists(uId.."target") and UnitPlayerOrPetInRaid(uId.."target") then
+		DBM:Debug("UNIT_TARGET_UNFILTERED fired for :"..uId, 3)
+		if unitMonitor[uId] and UnitExists(uId.."target") and validateGroupTarget(uId.."target") then
 			DBM:Debug("unitMonitor for this unit exists, target exists in group", 2)
 			local modId, returnFunc = unitMonitor[uId].modid, unitMonitor[uId].returnFunc
 			DBM:Debug("unitMonitor: "..modId..", "..uId..", "..returnFunc, 2)
@@ -223,7 +203,7 @@ do
 			return
 		end
 		--If tank is allowed, return current target when scan ends no matter what.
-		if unitMonitor[uId] and unitMonitor[uId].allowTank and UnitExists(uId.."target") and UnitPlayerOrPetInRaid(uId.."target") then
+		if unitMonitor[uId] and (unitMonitor[uId].allowTank or not IsInGroup()) and validateGroupTarget(uId.."target") then
 			DBM:Debug("unitMonitor unit exists, allowTank target exists", 2)
 			local modId, returnFunc = unitMonitor[uId].modid, unitMonitor[uId].returnFunc
 			DBM:Debug("unitMonitor: "..modId..", "..uId..", "..returnFunc, 2)

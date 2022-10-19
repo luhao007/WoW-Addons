@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Boshi Lian(farmer1992@gmail.com)
-## Version: v5.8.0-v9.2.7
+## Version: v5.8.2-v9.2.7
 ## SavedVariables: MyslotExports
 ## SavedVariablesPerCharacter: MyslotSettings
 

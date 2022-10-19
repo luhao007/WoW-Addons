@@ -1,5 +1,5 @@
 ## Interface: 90207
-## Version: r32
+## Version: r41
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyMoP_AllSavedVars
@@ -15,9 +15,9 @@
 ## X-DBM-StatTypes: normal,heroic,challenge
 ## X-DBM-Mod-SubCategoriesID: 960, 961, 959, 962, 994, 1011, 1007, 1001, 1004
 ## X-DBM-Mod-Name: Dungeons (MoP)
-## X-DBM-Mod-Name-koKR: 5인 던전(판다리아의 안개)
+## X-DBM-Mod-Name-koKR: 던전 (판다)
 ## X-DBM-Mod-Name-deDE: Gruppe (MoP)
-## X-DBM-Mod-Name-ruRU: Групповые подземелья (MoP)
+## X-DBM-Mod-Name-ruRU: Подземелья (Пандария)
 ## X-DBM-Mod-Name-esES: Mazmorras (MoP)
 ## X-DBM-Mod-Name-esMX: Mazmorras (MoP)
 ## X-DBM-Mod-Name-ptBR: Masmorras (MoP)

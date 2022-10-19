@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Sutorix=AT=hotmail.com
-## Version: 1.17
+## Version: 1.18.1
 ## RequiredDeps: FishingBuddy
 ## SavedVariables: PBTF_Info
 

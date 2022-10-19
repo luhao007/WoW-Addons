@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: MysticalOS
-## Version: r32
+## Version: r41
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyClassic_AllSavedVars
@@ -18,7 +18,7 @@
 ## X-DBM-Mod-Name: Dungeons (Classic)
 ## X-DBM-Mod-Name-deDE: Gruppe (Classic)
 ## X-DBM-Mod-Name-esES: Mazmorras (Clásico)
-## X-DBM-Mod-Name-koKR: 5인 던전(오리지널)
+## X-DBM-Mod-Name-koKR: 던전 (클래식)
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (傳統)
 ## X-DBM-Mod-Name-zhCN: 队伍首领(经典旧世)
 ## X-DBM-Mod-Name-ruRU: Классические подземелья
@@ -33,6 +33,7 @@
 localization.en.lua
 localization.es.lua
 localization.cn.lua
+localization.kr.lua
 BlackfathomDeeps\GhamooRa.lua
 BlackfathomDeeps\Domina.lua
 BlackfathomDeeps\Korul.lua
