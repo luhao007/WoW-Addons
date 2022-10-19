@@ -91,21 +91,6 @@ local function TitanTooltip_AddTooltipText(text)
 	end
 end
 
-local back_drop_info =
-	{
-		bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
-		edgeFile="Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true,
-		insets = {
-			left = 6,
-			right = 6,
-			top = 3,
-			bottom = 3,
-		},
-		tileSize = 8,
-		edgeSize = 8,
-	}
-
 --[[ local
 NAME: TitanTooltip_SetOwnerPosition
 DESC: Set both the parent and the position of GameTooltip for the plugin tooltip.
@@ -122,32 +107,13 @@ local function TitanTooltip_SetOwnerPosition(parent, anchorPoint, relativeToFram
 	if not frame then
 		frame = _G["GameTooltip"]
 	end
-	-- Changes for 9.1.5. The background template was removed from the GameTooltip
-	local tip_name = frame:GetName()
-
-	local tip_back_name = tip_name.."Backdrop"
-	local tip_back_frame = _G[tip_back_name] or CreateFrame("Frame", tip_back_name, frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
-	tip_back_frame:SetFrameLevel(frame:GetFrameLevel() - 1) -- By creating this after the parent, need to set it behind the parent
-
-	tip_back_frame:SetAllPoints()
-	tip_back_frame:SetBackdrop(back_drop_info)
-	-- set alpha (transparency) for the Game Tooltip
-	local tool_trans = TitanPanelGetVar("TooltipTrans")
-	tip_back_frame:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b, tool_trans)
-	tip_back_frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, tool_trans)
-	frame.MenuBackdrop = tip_back_frame
+	-- Changes for 9.1.5 Removed the background template from the GameTooltip
+	-- Making changes to it difficult and possibly changing the tooltip globally.
 
 	frame:SetOwner(parent, "ANCHOR_NONE");
 	frame:SetPoint(anchorPoint, relativeToFrame, relativePoint,
 		xOffset, yOffset);
---[[
-	-- set alpha (transparency) for the Game Tooltip
-	local red, green, blue = tip_back_frame:GetBackdropColor();
-	local red2, green2, blue2 = tip_back_frame:GetBackdropBorderColor();
-	local tool_trans = TitanPanelGetVar("TooltipTrans")
-	tip_back_frame:SetBackdropColor(red,green,blue,tool_trans);
-	tip_back_frame:SetBackdropBorderColor(red2,green2,blue2,tool_trans);
---]]
+
 	-- set font size for the Game Tooltip
 	if not TitanPanelGetVar("DisableTooltipFont") then
 		if TitanTooltipScaleSet < 1 then
@@ -247,23 +213,44 @@ local function TitanPanelButton_SetTooltip(self, id)
 	-- ensure that the 'self' passed is a valid frame reference
 	if not self:GetName() then return end
 
+	local call_success = nil
+	local tmp_txt = ""
+	local use_mod = TitanAllGetVar("UseTooltipModifer")
+	local use_alt = TitanAllGetVar("TooltipModiferAlt")
+	local use_ctrl = TitanAllGetVar("TooltipModiferCtrl")
+	local use_shift = TitanAllGetVar("TooltipModiferShift")
+	local ok = false
+	
+	if use_mod then
+		if (use_alt and IsAltKeyDown())
+		or (use_ctrl and IsControlKeyDown())
+		or (use_shift and IsShiftKeyDown())
+		then
+			ok = true
+		end
+	else
+		ok = true
+	end
+
 	self.tooltipCustomFunction = nil;
-	if (id and TitanUtils_IsPluginRegistered(id)) then
+	if ok and (id and TitanUtils_IsPluginRegistered(id)) then
 		local plugin = TitanUtils_GetPlugin(id);
 		if ( plugin.tooltipCustomFunction ) then
 			self.tooltipCustomFunction = plugin.tooltipCustomFunction;
 			TitanTooltip_SetPanelTooltip(self, id);
 		elseif ( plugin.tooltipTitle ) then
-			self.tooltipTitle = plugin.tooltipTitle;
 			local tooltipTextFunc = _G[plugin.tooltipTextFunction];
 			if ( tooltipTextFunc ) then
-				local tmp_txt = ""
-				local call_success, -- for pcall
-					tmp_txt = pcall (tooltipTextFunc);
-				self.tooltipText = tmp_txt
---				self.tooltipText = tooltipTextFunc();
+
+				if ok then  -- display the tooltip
+					self.tooltipTitle = plugin.tooltipTitle;
+					call_success, -- for pcall
+						tmp_txt = pcall (tooltipTextFunc);
+					self.tooltipText = tmp_txt
+	--				self.tooltipText = tooltipTextFunc();
+					TitanTooltip_SetPanelTooltip(self, id);
+				end
 			end
-			TitanTooltip_SetPanelTooltip(self, id);
 		end
 	end
 end
@@ -558,6 +545,7 @@ function TitanPanelPluginHandle_OnUpdate(table, oldarg) -- Used by plugins
 			if TitanPanelRightClickMenu_IsVisible() or TITAN_PANEL_MOVING == 1 then
 				return
 			end
+
 			TitanPanelButton_SetTooltip(_G["TitanPanel"..id.."Button"], id)
 		end
 	end
@@ -600,6 +588,23 @@ function TitanPanelDetectPluginMethod(id, isChildButton)
 			TitanPanelButton_OnDragStop(self);
 		end
 	end)
+--[[
+	-- Set the key down script - for modifiers
+	TitanPluginframe:SetScript("OnKeyDown", function(self)
+		if IsModifierKeyDown() then
+			TitanPanelButton_SetTooltip(self, id)
+		end
+	end)
+
+	-- Set the key up script - for modifiers
+	TitanPluginframe:SetScript("OnKeyUp", function(self)
+		if IsModifierKeyDown() then
+			-- ? do nothing
+		else
+			GameTooltip:Hide()
+		end
+	end)
+--]]
 end
 
 --[[ API
@@ -812,7 +817,15 @@ local function TitanPanelButton_SetButtonText(id)
 	local values = 0
 	if label1 or value1 then
 		values = 1
-		if not show_label then label1 = "" end
+		if show_label then 
+			if TitanGetVar(id, "CustomLabelTextShow") then
+				-- override the label per the user
+				label1 = TitanGetVar(id, "CustomLabelText")
+			else
+			end
+		else
+			label1 = "" 
+		end
 		if label2 or value2 then
 			values = 2
 			if not show_label then label2 = "" end
@@ -969,6 +982,7 @@ function TitanPanelButton_UpdateTooltip(self) -- Used by plugins
 	if not self then return end
 	if (GameTooltip:IsOwned(self)) then
 		local id = TitanUtils_GetButtonID(self:GetName());
+
 		TitanPanelButton_SetTooltip(self, id);
 	end
 end

@@ -313,6 +313,7 @@ L["TITAN_LOCATION_TOOLTIP_INN"] = "Gasthaus: ";
 L["TITAN_LOCATION_MENU_TEXT"] = "Position";
 L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"] = "Zonentext in der Leiste anzeigen";
 L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"] = "Koordinaten auf der Weltkarte anzeigen";
+L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_PANEL_TEXT"] = "Show Text Coordinates";
 L["TITAN_LOCATION_MAP_CURSOR_COORDS_TEXT"] = "Mauszeiger (X,Y): %s";
 L["TITAN_LOCATION_MAP_PLAYER_COORDS_TEXT"] = "Spieler (X,Y): %s";
 L["TITAN_LOCATION_NO_COORDS"] = "Keine Koordinaten";
@@ -525,6 +526,9 @@ L["TITAN_GOLD_ONLY"] = "Zeige nur Gold";
 L["TITAN_GOLD_COLORS"] = "Zeige Gold (und Bruchteil)-Farben";
 L["TITAN_GOLD_MERGE"] = "Zusammengelegte Servers";
 L["TITAN_GOLD_SEPARATE"] = "Getrennte Servers";
+L["TITAN_GOLD_ALL"] = "All Servers";
+L["TITAN_GOLD_IGNORE_FACTION"] = IGNORE.." "..FACTION
+L["TITAN_GOLD_MERGED"] = "Merged"
 
 L["TITAN_VOLUME_TOOLTIP"] = "Lautst\195\164rke einstellen";
 L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "Momentane Gesamtlautst\195\164rke: ";

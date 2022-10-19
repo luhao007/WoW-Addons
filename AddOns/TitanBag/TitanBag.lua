@@ -30,6 +30,8 @@ local bag_info = {
 }
 -- "Khorium Toolbox" removed???
  -- names are for debug only
+ -- Can use wowdb.com to look at bags by profession
+ 
 local bags = {
 	[333]    = {style = "", name = ""},
 	[21858]  = {style = "ENCHANTING", name = "Spellfire Bag"},
@@ -70,9 +72,9 @@ local bags = {
 	[67396]  = {style = "MINING", name = "\"Carriage - Christina\" Precious Metal Bag"},
 	[70136]  = {style = "INSCRIPTION", name = "Royal Scribe's Satchel"}, -- *
 	[70137]  = {style = "MINING", name = "Triple-Reinforced Mining Bag"},-- *
-	[92746]  = {style = "COOKING", name = "Portable Refrigerator"}, -- repeat, which one is real?
+	[92746]  = {style = "COOKING", name = "Portable Refrigerator [28]"}, -- repeat, which one is real?
 	[92747]  = {style = "COOKING", name = "Advanced Refrigeration Unit"},
-	[92748]  = {style = "COOKING", name = "Portable Refrigerator"}, -- repeat, which one is real?
+	[92748]  = {style = "COOKING", name = "Portable Refrigerator [32]"},
 	[70138]  = {style = "JEWELCRAFTING", name = "Luxurious Silk Gem Bag"}, -- *
 	[95536]  = {style = "LEATHERWORKING", name = "Magnificent Hide Pack"}, -- *
 	[116259] = {style = "LEATHERWORKING", name = "Burnished Leather Bag"},
@@ -82,11 +84,11 @@ local bags = {
 	[130943] = {style = "COOKING", name = "Reusable Tote Bag"}, -- *
 	[162588] = {style = "INSCRIPTION", name = "Weathered Scrollcase"},
 --[[
+ZZbags = bags
 print("--")
 print(ZZbags[21858].style)
 --]]
 }
-ZZbags = bags
 
 -- ******************************** Functions *******************************
 

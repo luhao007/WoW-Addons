@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(861, "DBM-Pandaria", nil, 322, 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210721041539")
+mod:SetRevision("20220516021321")
 mod:SetCreatureID(72057)
 mod:SetReCombatTime(20, 10)
 mod:SetUsedIcons(8, 7, 6)
@@ -29,8 +29,8 @@ local timerBurningSoul			= mod:NewBuffFadesTimer(10, 144689)
 
 local berserkTimer				= mod:NewBerserkTimer(300)
 
-mod:AddBoolOption("SetIconOnBurningSoul")
-mod:AddBoolOption("RangeFrame", true)
+mod:AddSetIconOption("SetIconOnBurningSoul", 144689, true, false, {8, 7, 6})
+mod:AddRangeFrameOption(8, 144689)
 mod:AddReadyCheckOption(33118, false, 90)
 
 function mod:OnCombatStart(delay, yellTriggered)
@@ -76,7 +76,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 		if self.Options.SetIconOnBurningSoul then--Set icons on first debuff to get an earlier spread out.
-			self:SetSortedIcon(1.2, args.destName, 8, 3, true)
+			self:SetSortedIcon("roster", 1.2, args.destName, 8, 3, true)
 		end
 	elseif spellId == 144693 and args:IsPlayer() then
 		specWarnPoolOfFire:Show()--One warning is enough, because it honestly isn't worth moving for unless blizz buffs it.

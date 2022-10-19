@@ -346,15 +346,6 @@ local achDarkmoonFaire = {
 	11921, -- Mosh Pit
 	11920, -- Perfect Performance
 	11919, -- Taking this Show on the Road
-	15213, -- Don't Stop Dancing
-	15215, -- Can't Stop the Feeling
-	15212, -- First Dance
-	15222, -- You Got the Beat
-	15221, -- Dancing Machine
-	15223, -- Feeling It
-	15216, -- Make You Sweat
-	15217, -- Maniac on the Dance Floor
-	15214, -- What a Feeling
 }
 -- To get base data:
 -- 1. /run Overachiever.Debug_GetIDsInCat(15101, true)
@@ -950,11 +941,6 @@ local ACHID_ZONE_MISC = {
 		14799, -- Sojourner of Maldraxxus
 		14802, -- Bloodsport
 		14336, -- Undying Army
-		14684,
-		14748,
-		14751,
-		14752,
-		14833,
 	},
 	["Ardenweald"] = {
 		14164, -- Awaken, Ardenweald
@@ -999,63 +985,6 @@ local ACHID_ZONE_MISC = {
 		14747, -- Make it Double!
 		14761, -- Deciphering Death's Intentions - !! tooltips?
 		14894, -- To 'Ghast, Two Curios
-		15107, -- Conquering Korthia
-		15054, -- Minions of the Cold Dark
-		15000, -- United Front
-		14943, -- Guarmageddon
-		15044, -- Krrprripripkraak's Heroes
-		15042, -- Tea for the Troubled
-		15039, -- Up For Grabs
-		15036, -- Rooting Out the Evil
-		15035, -- On the Offensive
-		15034, -- Wings Against the Flames
-		15033, -- Taking the Tremaculum
-		15032, -- Breaking Their Hold
-		15037, -- This Army
-		15041, -- The Zovaal Shuffle
-		15042, -- Tea for the Troubled
-		15001, -- Jailer's Personal Stash
-		15043, -- Hoarder of Torghast
-		14961, -- Chains of Domination
-		15064, -- Breaking the Chains
-		15004, -- A Sly Fox
-	},
-	["Korthia"] = { 
-		15107, -- Conquering Korthia
-		15066, -- Reliquary Restoration
-		15057, -- Friend of Plaguey
-		15055, -- Friend of Ooz
-		15056, -- Friend of Bloop
-		14961, -- Chains of Domination
-		15064, -- Breaking the Chains
-	},
-	["Zereth Mortis"] = {
-		15211, -- Completing the Code
-		15229, -- Traversing the Spheres
-		15331, -- Treasures of Zereth Mortis
-		15514, -- Unlocking the Secrets
-		15391, -- Adventurer of Zereth Mortis
-		15509, -- Tales of the Exile
-		15402, -- Cyphers of the First Ones
-		15513, -- Curious Collections
-		15224, -- Explore Zereth Mortis
-		15392, -- Dune Dominance
-		15512, -- Adventures in Zereth Mortis
-		15502, -- Sand Sand Everywhere
-		15508, -- Fashion of the First Ones
-		15411, -- Synthe Supersized
-		15406, -- Synthesized
-		15407, -- Synthe Fived
-		15404, -- Cosmic Empowerment
-		15542, -- Apocopocolypse Now
-		15410, -- Synthe Superfived
-		15336,
-		15402,
-		15513,
-		15518,
-		15515,
-		15404,
-		
 	},
 	["Covenant (Kyrian)"] = {
 		14851, -- Bastion of Protection
@@ -1634,62 +1563,6 @@ local ACHID_INSTANCES = {
 
 -- Shadowlands Dungeons / Torghast
 	["Torghast, Tower of the Damned"] = getSuggestionsFromCategory(15440),
--- Shadowlands Raids
-	["Castle Nathria"] = {
-		14293,
-		14294,
-		14355,
-		14376,
-		14523,
-		14524,
-		14525,
-		14608,
-		14610,
-		14614,
-		14617,
-		14619,
-		14715,
-		14717,
-		14718,
-	},
-	["Sanctum of Domination"] = {
-		14998,
-		15003,
-		15058,
-		15065,
-		15105,
-		15108,
-		15110,
-		15122,
-		15123,
-		15124,
-		15125,
-		15126,
-		15127,
-		15128,
-		15130,
-		15131,
-		15132,
-		15133,
-	},
-	["Sepulcher of the First Ones"] = {
-		15315,
-		15397,
-		15386,
-		15396,
-		15401,
-		15494,
-		15399,
-		15381,
-		15419,
-		15400,
-		15398,
-		15478,
-		15490,
-		15491,
-		15409,
-		
-	},
 }
 -- Aliases
 ACHID_INSTANCES["Molten Core"] = ACHID_INSTANCES["The Molten Core"]
@@ -2205,102 +2078,6 @@ local ACHID_INSTANCES_MYTHIC = {
 		14052,
 		14054,
 		14055,
-	},
--- Shadowlands Dungeons
-	["De Other Side"] = {
-		14354,
-		14374,
-		14409,
-		14606,
-	},
-	["Halls of Atonement"] = {
-		14284,
-		14352,
-		14411,
-		14567,		
-	},
-	["Mists of Tirna Scithe"] = {
-		14291,
-		14375,
-		14413,
-		14503,
-	},
-	["Plaguefall"] = {
-		14292,
-		14296,
-		14347,
-		14415,
-	},
-	["Sanguine Depths"] = {
-		14199,
-		14286,
-		14289,
-		14290,
-	},
-	["Spires of Ascension"] = {
-		14323,
-		14325,
-		14327,
-		14331,
-	},
-	["Tazavesh, the Veiled Market"] = {
-		15106,
-		15109,
-		15177,
-		15178,
-		15179,
-		15190,
-	},
-	["The Necrotic Wake"] = {
-		14285,
-		14295,
-		14320,
-		14368,
-	},
-	["Theater of Pain"] = {
-		14297,
-		14417,
-		14533,
-		14607,
-	},
-	
--- Shadowlands Raids
-	["Castle Nathria"] = {
-		14356,
-		14357,
-		14358,
-		14359,
-		14360,
-		14361,
-		14362,
-		14363,
-		14364,
-		14365,
-	},
-	["Sanctum of Somination"] = {
-		15112,
-		15113,
-		15114,
-		15115,
-		15116,
-		15117,
-		15118,
-		15119,
-		15120,
-		15121,
-	},
-	["Sepulcher of the First Ones"] = {
-		15479,
-		15481,
-		15483,
-		15485,
-		15487,
-		15489,
-		15480,
-		15482,
-		15484,
-		15486,
-		15488,
 	},
 }
 
@@ -2939,6 +2716,7 @@ ShowHiddenCheckbox:SetHitRectInsets(0, -1 * min(Overachiever_SuggestionsFrameSho
 
 ShowHiddenCheckbox:SetScript("OnEnter", function(self)
   GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+  GameTooltip:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b)
   GameTooltip:AddLine(L.SUGGESTIONS_SHOWHIDDEN_TIP, nil, nil, nil, 1)
   GameTooltip:AddLine(L.SUGGESTIONS_SHOWHIDDEN_TIP2, nil, nil, nil, 1)
   GameTooltip:Show()

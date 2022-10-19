@@ -316,6 +316,7 @@ L["TITAN_LOCATION_TOOLTIP_INN"] = "Auberge : ";
 L["TITAN_LOCATION_MENU_TEXT"] = "Position";
 L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"] = "Montrer le texte de la zone";
 L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"] = "Montrer les coordonnées sur la carte du monde";
+L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_PANEL_TEXT"] = "Show Text Coordinates";
 L["TITAN_LOCATION_MAP_CURSOR_COORDS_TEXT"] = "Curseur : %s";
 L["TITAN_LOCATION_MAP_PLAYER_COORDS_TEXT"] = "Joueur : %s";
 L["TITAN_LOCATION_NO_COORDS"] = "Pas de coords";
@@ -526,6 +527,9 @@ L["TITAN_GOLD_COIN_ICONS"] = "Afficher les images des pièces";
 L["TITAN_GOLD_ONLY"] = "Afficher uniquement les pièces d'or";
 L["TITAN_GOLD_MERGE"] = "Merge Servers";
 L["TITAN_GOLD_SEPARATE"] = "Separate Servers";
+L["TITAN_GOLD_ALL"] = "All Servers";
+L["TITAN_GOLD_IGNORE_FACTION"] = IGNORE.." "..FACTION
+L["TITAN_GOLD_MERGED"] = "Merged"
 
 L["TITAN_VOLUME_TOOLTIP"] = "Contrôle du volume";
 L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "Volume global : ";

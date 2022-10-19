@@ -635,6 +635,19 @@ function TitanUtils_GetColoredText(text, color) -- Used by plugins
 end
 
 --[[ API
+NAME: TitanUtils_GetHexText
+DESC: Make the given text a custom color.
+VAR: text - text to color
+VAR: hex - color as a 6 char hex code
+OUT: string - Custom color string with proper start and end font encoding
+--]]
+function TitanUtils_GetHexText(text, hex) -- Used by plugins
+	if (text and hex) then
+		return "|cff"..tostring(hex)..text.._G["FONT_COLOR_CODE_CLOSE"];
+	end
+end
+
+--[[ API
 NAME: TitanUtils_GetThresholdColor
 DESC: Flexable routine that returns the threshold color for a given value using a table as input.
 VAR: ThresholdTable - table holding the list of colors and values
@@ -1340,6 +1353,16 @@ function TitanUtils_PluginFail(plugin)
 		}
 end
 
+local function NoColor(name)
+	local no_color = name
+	
+	-- Remove any color formatting from the name in the list
+	no_color = string.gsub(no_color, "|c........", "")
+	no_color = string.gsub(no_color, "|r", "")
+	
+	return no_color
+end
+
 --[[ local
 NAME: TitanUtils_RegisterPluginProtected
 DESC: This routine is intended to be called in a protected manner (pcall) by Titan when it attempts to register a plugin.
@@ -1391,11 +1414,28 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 				else
 					-- A sanity check just in case it was already in the list
 					if (not TitanUtils_TableContainsValue(TitanPluginsIndex, id)) then
+						-- Herein lies any special per plugin variables Titan wishes to control
+						-- These will be overwritten from saved vars, if any
+						--
+						-- Sanity check
+						if self.registry.savedVariables then
+							-- Custom labels
+							self.registry.savedVariables.CustomLabelTextShow = false
+							self.registry.savedVariables.CustomLabelText = ""
+						end
+
 						-- Assign and Sort the list of plugins
 						TitanPlugins[id] = self.registry;
+						-- Set the name used for menus
+						if TitanPlugins[id].menuText == nil then
+							TitanPlugins[id].menuText = TitanPlugins[id].id;
+						end
+						TitanPlugins[id].menuText = NoColor(TitanPlugins[id].menuText)
+						
 						table.insert(TitanPluginsIndex, self.registry.id);
 						table.sort(TitanPluginsIndex,
 							function(a, b)
+--[[
 								-- if the .menuText is missing then use .id
 								if TitanPlugins[a].menuText == nil then
 									TitanPlugins[a].menuText = TitanPlugins[a].id;
@@ -1403,6 +1443,7 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 								if TitanPlugins[b].menuText == nil then
 									TitanPlugins[b].menuText = TitanPlugins[b].id;
 								end
+--]]
 								return string.lower(TitanPlugins[a].menuText)
 									< string.lower(TitanPlugins[b].menuText);
 							end

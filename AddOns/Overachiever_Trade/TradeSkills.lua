@@ -28,7 +28,6 @@ do
 	  GourmetDraenor = true,
 	  LegionMenu = true,
 	  BattleMenu = true,
-    --FashionAbomination = true,
     }
   }
   local id, recipeID, _, completed
@@ -103,7 +102,6 @@ local function TradeSkillCheck(tradeName, recipeID, getList)
 
     if (anyIncomplete) then  return list;  end
   end
-  
 end
 
 local function TradeSkillCheckAll(recipeID, getList)
@@ -329,6 +327,7 @@ skillButtonOnEnter = skillButtonOnEnter or function(self, _, calledByExamine)
     if (achlist) then
       GameTooltip:SetOwner(self, "ANCHOR_NONE")
       GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", -45, 0)
+      GameTooltip:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b)
       GameTooltip:AddLine(L.REQUIREDFORMETATIP)
       GameTooltip:AddLine(" ")
       Overachiever.AddAchListToTooltip(GameTooltip, achlist)

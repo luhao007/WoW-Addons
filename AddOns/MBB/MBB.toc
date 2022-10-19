@@ -1,14 +1,15 @@
 ## Interface: 90207
-## Author: karlsnyder, vallantv
-## Version: 4.0.7
+## Author: skunfly (former: karlsnyder, vallantv)
+## Version: 4.0.9
 ## SavedVariablesPerCharacter: MBB_Exclude, MBB_Options
 
-## Title: MinimapButtonBag
+## Title: MinimapButtonBag-Reborn
 ## Notes: Cleans up minimap buttons and makes them accessible through a pop out menu!
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF小地图按钮整合|r |cFFFFE00AMBB|r
 ## Notes-zhCN: 将小地图的按钮整合成一个
 
 ## X-Category: Map
+## X-Curse-Project-ID: 436829
 
 localization-enGB.lua
 localization-frFR.lua

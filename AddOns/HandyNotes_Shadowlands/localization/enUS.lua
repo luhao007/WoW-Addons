@@ -253,7 +253,7 @@ L['flayedwing_transporter_note'] = 'Click on {npc:178633} to fly to or from the 
 L['fleshwing_note'] = 'Talk to {npc:180079} to start the collection event.'
 L['forgotten_feather_note'] = 'Floating on a small island accessed by jumping down from Keeper\'s Respite.'
 L['konthrogz_note'] = 'Spawns from a devourer\'s portal event. The event can appear in many places throughout Korthia.'
-L['korthia_limited_rare'] = '|cFFFF8C00This rare is not available on some days.|r'
+L['sl_limited_rare'] = '|cFFFF8C00This rare is not available on some days.|r'
 L['krelva_note'] = 'Moves to another platform at 80%, then moves to the mainland at 60%. |cFFFF8C00You must tag the rare after 60% to get kill credit!|r'
 L['kroke_note'] = 'Slay {npc:179029s} in the area until he appears. Cannot spawn on days when {npc:179029s} are missing.'
 L['maelie_wanderer'] = '{npc:179912} will spawn in a set location for the day. Once you have used {spell:355862} on her 6 different days return to {npc:179930} to earn the mount.'
@@ -672,9 +672,31 @@ A tormentor event spawns every 2 hours on the hour. The bosses will always spawn
 The {item:185972} can be looted once a week and contains 50 {currency:1906}.
 ]]
 
+L['options_icons_mawsworn_blackguard'] = '{achievement:14742}'
+L['options_icons_mawsworn_blackguard_desc'] = 'Mawsworn Blackguard locations for {achievement:14742}'
+
+L['mawsworn_blackguard'] = 'Mawsworn Blackguard'
+L['mawsworn_blackguard_note'] = 'Easily target a stealthed {npc:183173}:'
+
 -------------------------------------------------------------------------------
 -------------------------------- ZERETH MORTIS --------------------------------
 -------------------------------------------------------------------------------
+
+local HIDDEN_ALCOVE = [[
+To access the |cFFFFFD00%s Alcove|r:
+
+1. Complete chapter 6 of the Zereth Mortis campaign.
+2. Find the |cFFFFFD00%s Alcove Arrangement|r %s.
+3. In the |cFFFFFD00Resonant Peaks|r, Kill the mobs who have {spell:362651} or stand in white pool to got 60 {npc:183569}.
+4. Use the {npc:184329} inside the Gravid Repose to access the Inner Chamber. (Requires 30 {npc:183569})
+5. Use {npc:184485} to access the %s Alcove. (Requires 30 {npc:183569})
+]]
+
+L['camber_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Camber', 'Camber', 'behind the building at the |cFFFFFD00Ultimus Locus|r', 'Camber')
+L['dormant_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Dormant', 'Dormant', 'in the |cFFFFFD00Resonant Peaks|r', 'Dormant')
+L['fulgor_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Fulgor', 'Fulgor', 'in the |cFFFFFD00Resonant Peaks|r', 'Fulgor')
+L['rondure_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Rondure', 'Rondure', 'on the |cFFFFFD00Tertius Locus|r platform', 'Rondure')
+L['repertory_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Repertory', 'Repertory', 'inside the |cFFFFFD00Terrestial Cache|r cave', 'Repertory')
 
 L['corrupted_architect_note'] = 'Engage {npc:183958} and {npc:183961} to activate the rare.'
 L['dune_dominance_note'] = 'All three rare elites for the {achievement:15392} achievement spawn at this location.'
@@ -682,12 +704,17 @@ L['feasting_note'] = 'Will sometimes circle the area before returning to this sp
 L['furidian_note'] = 'Activate three |cFFFFFD00Empowered Keys|r in the area, then unlock the |cFFFFFD00Suspiciously Angry Vault|r.'
 L['garudeon_note'] = 'Collect {npc:183562s} from the surrounding area and use {spell:362655} to feed the {npc:183554s}. Once all three are fed, {npc:180924} will activate.'
 L['gluttonous_overgrowth_note'] = 'Break all nearby {npc:184048s} to activate the rare.'
+L['helmix_note'] = [[
+Kill {npc:179005s} in the area until they emotes and spawns.
+
+|cFFFF8C00The ground vibrates... something burrows beneath the surface!|r
+]]
 L['hirukon_note'] = [[
 To entice {npc:180978} to the surface, an {item:187923} must be created.
 
-1. Fish up some {item:187662} from the nearby waters.
+1. Fish up a {item:187662} from the nearby waters.
 
-2. Fish up a {item:187915} from the |cFFFFFD00Pungent Blobfish Cluster|r inside Coilfang Reservoir in Zangarmarsh. The pool is to the right when you enter the cavern.
+2. Fish up a {item:187915} from the |cFFFFFD00Pungent Blobfish Cluster|r inside Coilfang Reservoir in Zangarmarsh.
 
 3. Fish up a {item:187922} from the |cFFFFFD00Flipper Fish School|r near the Kelya's Grave flight point in Nazjatar.
 
@@ -697,23 +724,25 @@ To entice {npc:180978} to the surface, an {item:187923} must be created.
 
 6. Use the {item:187923}, allowing you to see the |cFFFFFD00Aurelid Cluster|r fishing pool near {npc:180978} for 15min. Fish in it to summon {npc:180978} to the surface.
 ]] -- Breaking my rule of no coords in the notes for this one
+L['orixal_note'] = 'Shares a spawn with the {npc:185487} patrolling the area.'
 L['protector_first_ones_note'] = 'Requires two people. Bring the matching runes to each console (found in the surrounding area) to open the barrier.'
 L['the_engulfer_note'] = 'Defend {npc:183505} until {npc:183516} jumps out of the rift.'
-L['zatojin_note'] = 'Pull nearby {npc:183721s} and let them apply 20 stacks of {spell:362976} until you are {spell:362983}. You must be standing over the {npc:183774} corpses when you are paralyzed for {npc:183764} to notice you.'
+L['zatojin_note'] = 'Pull nearby {npc:183721s} and let you apply 20 stacks of {spell:362976} until you are {spell:362983}. You must be standing over the {npc:183774} corpses when you are paralyzed for {npc:183764} to notice you.'
 
-L['architects_reserve_note'] = 'Complete the {quest:64829} questline from {npc:180630} in Pilgrim\'s Grace. The next day, complete {quest:65426} questline from {npc:181273} to unlock the treasure.'
+L['architects_reserve_note'] = 'Complete the {quest:64829} questline from {npc:180630} in Pilgrim\'s Grace to unlock the treasure.'
 L['bushel_of_produce_note'] = 'Kill a {npc:182368} to the north while it is buffed with {spell:360945} to gain the buff yourself. Kill more {npc:182368s} (they do not need the buff) until you are at 5 stacks, then break down the door to the treasure.'
-L['crushed_crate_note'] = 'Loot the {item:189767} from the indent in the large orb to the north. Give it to {npc:185151} in exchange for the {item:189768} which can break the fallen rocks.'
+L['crushed_crate_note'] = 'Loot the {item:189767} sitting on the fallen pillar above the treasure. Give it to {npc:185151} in exchange for the {item:189768} which can break the fallen rocks.'
 L['domination_cache_note'] = 'The {item:189704} has a low chance to drop from {npc:181403s} and {npc:182426s} in the area.'
 L['drowned_broker_supplies_note'] = 'Tell {npc:181059} to take control of the nearby {npc:185282}.'
 L['forgotten_protovault_note'] = 'Only available during the {wq:Frog\'it} world quest.'
 L['grateful_boon_note'] = 'Difficult to reach without flying; use {spell:300728} or {spell:111771} to ascend the mountain. Soothe all 12 creatures in the area and {npc:185293} will spawn the treasure.'
 L['library_vault_note'] = 'Click tablets in the Lexical Grotto until you find the correct {spell:362062} buff to open the vault.'
-L['mistaken_ovoid_note'] = 'Inside Dimensional Falls cavern, behind the balls.'
-L['ripened_protopear_note'] = 'Begin the {quest:64641} quest chain to gain access to the Blooming Foundry. Collect 5 {spell:367180} (green clouds) inside and bring them to the {npc:185416} to pollinate it.'
+L['mistaken_ovoid_note'] = 'Inside Dimensional Falls cavern. You must collect 5x {item:190239} and bring them to the {npc:185280}.'
+L['ripened_protopear_note'] = 'Begin the {quest:64641} quest chain to gain access to the Blooming Foundry. Collect 5 {spell:367180} (green clouds) inside and bring them one by one to the {npc:185416} to pollinate it. Once it has grown 5 times, it will fall.'
 L['sphere_treasure_note'] = 'Carefully jump up the spheres until you reach the treasure.'
 L['submerged_chest_note'] = 'Absorb the |cFFFFFD00Dangerous Orb of Power|r to the south, then interact with the |cFFFFFD00Forgotten Pump|r near the treasure.'
 L['symphonic_vault_note'] = 'Examine the {npc:183998} to hear a sequence of four sounds. Each {npc:183950} in the room plays a single sound. Interact with them in the matching order to unlock the treasure.'
+L['syntactic_vault_note'] = 'To unlock the treasure, you must gain 6 stacks of {spell:367499} by interacting with |cFFFFFD00Runic Syllables|r in the Sepulcher of the First Ones area.'
 L['template_archive_note'] = 'Push the {npc:183339} in the room into the {npc:183337} blocking the path to the treasure.'
 L['undulating_foliage_note'] = [[
 Press the four {npc:185390s} to activate the teleporter in the center room of the Catalyst Wards.
@@ -724,11 +753,43 @@ Press the four {npc:185390s} to activate the teleporter in the center room of th
 • In the south-east room of the wards
 ]]
 
+L['provis_cache'] = 'Locked Provis Cache'
+L['provis_cache_note'] = [[
+Complete the {quest:64717} daily quest from {npc:177958} at least once.
+
+Use {item:187516} at forges across the zone to collect 15 {item:187728} and combine them into an {item:187787}. This orb has a chance to contain the key.
+]]
 L['prying_eye_discovery'] = 'Prying Eye Discovery'
 L['prying_eye_discovery_note'] = 'Easier to reach once flying is unlocked.'
 L['pulp_covered_relic'] = 'Pulp-Covered Relic'
+L['requisites_originator_note'] = [[
+A machine that will give you different rewards once a week:
+
+• {spell:366667} = Enchanting mats + gold
+• {spell:366668} = Anima
+• {spell:366669} = Cyphers
+• {spell:366670} = Genesis Motes + {item:189179} (chance)
+• {spell:366671} = Cyphers/Motes/Anima
+• {spell:366672} = Cypher Equipment
+]]
+L['rondure_cache'] = 'Rondure Cache'
+L['rondure_cache_note'] = 'An interactable forge at the top of a jumping puzzle inside the |cFFFFFD00Rondure Alcove|r.'
 L['sandworn_chest'] = 'Sandworn Chest'
 L['sandworn_chest_note'] = 'Loot 5x {item:190198} from mobs in the area to construct the {item:190197}.'
+L['sand_piles'] = 'Sand Piles'
+L['sand_piles_note'] = [[
+All sand piles are found in the hidden Dormant Alcove chamber. Each pile requires a {item:189863}, which can be found in other treasures in the zone:
+
+• Domination Cache
+• Fallen Vault
+• Filched Artifact
+• Stolen Scroll
+• Submerged Chest
+• Symphonic Vault
+• Undulating Foliage
+]]
+L['torn_ethereal_drape'] = 'Torn Ethereal Drape'
+L['torn_ethereal_drape_note'] = 'Found inside the |cFFFFFD00Fulgor Alcove|r. Activate the |cFFFFFD00Automa Consoles|r, then ride the {npc:183565s} to reach the ceiling.'
 
 L['cache_avian_nest'] = 'Avian Nest'
 L['cache_cypher_bound'] = 'Cypher Bound Chest'
@@ -736,6 +797,12 @@ L['cache_discarded_automa'] = 'Discarded Automa Scrap'
 L['cache_forgotten_vault'] = 'Forgotten Treasure Vault'
 L['cache_mawsworn_supply'] = 'Mawsworn Supply Chest'
 L['cache_tarachnid_eggs'] = 'Tarachnid Eggs'
+L['cache_shrouded_cypher'] = 'Shrouded Cypher Cache'
+L['cache_shrouded_cypher_note'] = [[
+These caches can only be seen while having {spell:361917} buff and wearing an appropriate Cypher Equipment item:
+
+|cFF00FF00Enhances Pocopoc's perception, allowing it to discover additional hidden caches.|r
+]]
 
 L['cache_cantaric'] = 'Cantaric Cache'
 L['cache_fugueal'] = 'Fugueal Cache'
@@ -746,10 +813,11 @@ L['cache_toccatian'] = 'Toccatian Cache'
 L['schematic_treasure_note'] = '|cFFFF8C00This treasure will not contain the protoform schematic if you have not yet unlocked the synthesizer. If you have already looted the treasure, you will find the schematic on the ground nearby.|r'
 L['schematic_treasure_mount_note'] = '|cFFFF8C00This schematic is found in a nearby one-time treasure. If the treasure is opened prior to unlocking the mount synthesizer, the schematic can be found here.|r'
 L['schematic_treasure_pet_note'] = '|cFFFF8C00This schematic is found in a nearby one-time treasure. If the treasure is opened prior to unlocking the pet synthesizer, the schematic can be found here.|r'
-L['schematic_bronze_helicid_note'] = 'Chance to be found in the {item:190610} from the bi-weekly quest {quest:65324}.'
+L['schematic_bronze_helicid_note'] = 'Chance to be found in the {item:190610} from the weekly quest {quest:65324}.'
 L['schematic_ambystan_darter_note'] = 'Hidden under the water next to the {npc:185312}.'
 L['schematic_bronzewing_vespoid_note'] = 'Inside the Gravid Repose.'
 L['schematic_buzz_note'] = 'Chance to be found in a {npc:185265}.'
+L['schematic_curious_crystalsniffer_note'] = 'Available for a short time after {npc:184915} is defeated inside the |cFFFFFD00Sepulcher of the First Ones|r raid.'
 L['schematic_darkened_vombata_note'] = 'Inside a floating cage.'
 L['schematic_deathrunner_note'] = 'Obtained as part of the {spell:366367} unlock quest chain.'
 L['schematic_desertwing_hunter_note'] = 'Located on top of the pillar.'
@@ -758,19 +826,25 @@ L['schematic_forged_spiteflyer_note'] = 'Sticking out of a vespoid hive cluster.
 L['schematic_genesis_crawler_note'] = 'Found on top of the entrance to the Genesis Alcove.'
 L['schematic_goldplate_bufonid_note'] = 'Small chance to drop from {npc:178803s}.'
 L['schematic_heartbond_lupine_note'] = 'Small chance to drop from the {npc:179939}.'
+L['schematic_ineffable_skitterer_note'] = 'Kill yourself! No, really ... you can only see the {npc:185092} in |cFFFFFD00Exile\'s Hollow|r when you are a ghost.'
 L['schematic_leaping_leporid_note'] = 'Found on top of a floating tree.'
+L['schematic_mawdapted_raptora_note'] = 'Small chance to drop from {npc:181412s} in the |cFFFFFD00Endless Sands|r.'
 L['schematic_microlicid_note'] = 'On the lowest branch of the floating tree, underneath some foliage.'
-L['schematic_pale_regal_cervid_note'] = 'Research all cyphers at the {npc:181397} to earn {achievement:15402}.'
+L['schematic_omnipotential_core_note'] = 'Found in the |cFFFFFD00Rondure Alcove|r. The schematic is hidden behind the upper lip of the archway on the south-west side of the room.'
 L['schematic_prototickles_note'] = 'Attached to a floating chain inside the vines above the {npc:180978} rare.'
+L['schematic_prototype_fleetpod_note'] = 'Found inside the |cFFFFFD00Camber Alcove|r. Interact with the {npc:184900} to start a minigame. Guide the snail through 5 rings without touching {npc:185455s} to win the schematic.'
 L['schematic_raptora_swooper_note'] = 'Found inside the Chamber of Shaping.'
 L['schematic_resonant_echo_note'] = 'Chance to be found inside a |cFFFFFD00Crystallized Echo of the First Song|r.'
 L['schematic_russet_bufonid_note'] = 'Chance to be found in the {item:187780} paragon cache.'
 L['schematic_scarlet_helicid_note'] = 'Found on top of the arch structure.'
+L['schematic_serenade_note'] = 'Located in a chain underneath a floating platform in the |cFFFFFD00Immortal Hearth|r area of the raid.'
 L['schematic_shelly_note'] = 'Located on the back side of a shelf in the Lexical Grotto. Requires a teleport ability to climb the shelf.'
-L['schematic_tarachnid_creeper_note'] = 'Inside a small structure in the Endless Sands.'
+L['schematic_stabilized_geomental_note'] = 'Chance to be dropped by {npc:182169} inside the |cFFFFFD00Sepulcher of the First Ones|r raid.'
+L['schematic_tarachnid_creeper_note'] = 'Inside a small structure in the |cFFFFFD00Endless Sands|r. Requires chapter 5 campaign progress to clear the boulders.'
 L['schematic_terror_jelly_note'] = 'On top of the square pylon next to the ramp.'
 L['schematic_tunneling_vombata_note'] = 'Next to some rubble in a blocked tunnel inside the Locrian Esper complex.'
 L['schematic_vespoid_flutterer_note'] = 'Sticking out of a pile of sand on the Primus Locus tier of the Resonant Peaks.'
+L['schematic_violent_poultrid_note'] = 'Chance to drop from the {daily:65256} daily quest.'
 
 L['concordance_excitable'] = 'Excitable Concordance'
 L['concordance_mercurial'] = 'Mercurial Concordance'
@@ -780,10 +854,22 @@ L['concordance_note'] = 'Read each concordance to unlock entries at the |cFFFFFD
 L['echoed_jiro_note'] = 'Spend {npc:181059} energy to gain temporary buffs. Requires |cFFFFFD00Creatian|r research at the {npc:181397}.'
 
 L['bygone_elemental_note'] = 'A {npc:181221} can spawn in place of any {npc:179007} in the area.'
-L['gaiagantic_note'] = 'Only spawns when {npc:177958} offers the {quest:64785} daily quest.'
-L['misaligned_enforcer_note'] = 'Patrols the area and then despawns at the end of his route.'
+L['dominated_irregular_note'] = 'A {npc:184819} can spawn in place of any {npc:183184} in the area.'
+L['gaiagantic_note'] = 'Only spawns when {npc:177958} offers the {daily:64785} daily quest.'
+L['misaligned_enforcer_note'] = 'Spawns here. Patrols the area and then despawns at the end of his route.'
 L['overcharged_vespoid_note'] = 'Can spawn as part of any swarm pack in the area.'
 L['runethief_xylora_note'] = 'Spawns stealthed in the Pilgrim\'s Grace area.'
+
+local proto_area = 'Chance to be found in forges around the |cFFFFFD00%s|r.'
+L['proto_material_zone_chance'] = 'Chance to be found in select forges across the zone.'
+L['anima_charged_yolk_note'] = 'Collect {item:187728} from any forge and combine them into an {item:187787}, which has a chance to contain an {item:187890}.'
+L['energized_firmament_note'] = string.format(proto_area, 'Resonant Peaks')
+L['honeycombed_lattice_note'] = string.format(proto_area, 'Droning Precipice')
+L['incorporeal_sand_note'] = 'Chance to be found in forges in the desert areas of the zone.'
+L['pollinated_extraction_note'] = string.format(proto_area, 'Untamed Verdure')
+L['serene_pigment_note'] = 'In a forge above the entrance to |cFFFFFD00Exile\'s Hollow|r. May require multiple tries.'
+L['volatile_precursor_note'] = 'Found in the smaller forge on top. May require multiple tries.'
+L['wayward_essence_note'] = 'In a floating forge behind |cFFFFFD00Exile\'s Hollow|r. Stand in the indent to tap the forge.'
 
 L['patient_bufonid_note'] = 'Progress in the Zereth Mortis story until {npc:180950} offers {quest:65727}. Complete the quests each day to lure the {npc:185798} out of the pond.'
 L['patient_bufonid_note_day1'] = 'Collect 15x {item:190852} from Vespoid in the zone.'
@@ -794,6 +880,15 @@ L['patient_bufonid_note_day5'] = 'Collect 5x {item:187704} from mobs in the zone
 L['patient_bufonid_note_day6'] = 'Purchase 5x {item:190880} from {npc:185748} near Pilgrim\'s Grace.'
 L['patient_bufonid_note_day7'] = 'Purchase 1x {item:187171} from the {npc:180114} in the Tazavesh dungeon.'
 
+L['lost_comb'] = 'Lost Comb'
+L['soulshape_penguin_note'] = 'Located on top of the floating forge.'
+
+L['coreless_automa'] = 'wildlife automas'
+L['coreless_automa_note'] = 'Equipping an item with {spell:364480} will grant |cFFFFFD00Pocopoc|r the ability to take over creatures without consuming energy and will make earning this achievement faster.'
+L['coreless_automa_warning'] = '|cFFFF8C00Wait for the automa to actually start following you before telling Pocopoc to leave to avoid causing a bug that requires you to relog.|r'
+
+L['olea_manu'] = 'Sells collectibles and recipes in exchange for {currency:1979}.'
+
 L['options_icons_code_creature'] = '{achievement:15211}'
 L['options_icons_code_creature_desc'] = 'Display creature locations for the {achievement:15211} achievement.'
 L['options_icons_concordances'] = 'Lore Concordances'
@@ -802,9 +897,17 @@ L['options_icons_echoed_jiros'] = 'Echoed Jiro'
 L['options_icons_echoed_jiros_desc'] = 'Display locations of |cFFFFFD00Echoed Jiro|r offering buffs.'
 L['options_icons_exile_tales'] = '{achievement:15509}'
 L['options_icons_exile_tales_desc'] = 'Display tale locations for the {achievement:15509} achievement.'
+L['options_icons_proto_materials'] = '{achievement:15229}'
+L['options_icons_proto_materials_desc'] = 'Display rare protoform material locations for the {achievement:15229} achievement.'
 L['options_icons_protoform_schematics'] = 'Protoform Schematics'
 L['options_icons_protoform_schematics_desc'] = 'Display locations of mount and pet schematics.'
 L['options_icons_puzzle_caches'] = 'Puzzle Caches'
 L['options_icons_puzzle_caches_desc'] = 'Display possible locations of puzzle caches.'
 L['options_icons_zereth_caches'] = 'Cypher Caches'
 L['options_icons_zereth_caches_desc'] = 'Display possible locations for cypher caches.'
+L['options_icons_shrouded_cyphers'] = 'Shrouded Cypher Caches'
+L['options_icons_shrouded_cyphers_desc'] = 'Display possible locations for hidden cypher caches.'
+L['options_icons_mawsworn_supply_cache'] = 'Mawsworn Supply Caches'
+L['options_icons_mawsworn_supply_cache_desc'] = 'Display possible locations for mawsworn supply caches.'
+L['options_icons_coreless_automa'] = '{achievement:15542}'
+L['options_icons_coreless_automa_desc'] = 'Coreless automa locations for the {achievement:15542} achievement.'

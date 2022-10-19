@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(691, "DBM-Pandaria", nil, 322)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210721041539")
+mod:SetRevision("20220516021321")
 mod:SetCreatureID(60491)
 mod:SetEncounterID(1564)
 mod:SetReCombatTime(20, 10)
@@ -28,8 +28,8 @@ local timerGrowingAngerCD		= mod:NewCDTimer(32, 119622, nil, nil, nil, 3)--Min 3
 local timerUnleashedWrathCD		= mod:NewCDTimer(53, 119488, nil, nil, nil, 2)--Based on rage, but timing is consistent enough to use a CD bar, might require some perfecting later, similar to xariona's special, if rage doesn't reset after wipes, etc.
 local timerUnleashedWrath		= mod:NewBuffActiveTimer(24, 119488, nil, "Tank|Healer")
 
-mod:AddBoolOption("RangeFrame", true)--For Mind control spreading.
-mod:AddBoolOption("SetIconOnMC2", false)
+mod:AddRangeFrameOption(5, 119622)
+mod:AddSetIconOption("SetIconOnMC2", 119626, false, false, {8, 7, 6, 5, 4, 3, 2, 1})
 mod:AddReadyCheckOption(32099, false)
 
 local bitterThought, growingAnger = DBM:GetSpellInfo(119601), DBM:GetSpellInfo(119622)
@@ -84,7 +84,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 119626 then
 		--Maybe add in function to update icons here in case of a spread that results in more then the original 3 getting the final MC debuff.
 		if self.Options.SetIconOnMC2 then--Set icons on first debuff to get an earlier spread out.
-			self:SetSortedIcon(1.2, args.destName, 8, 3, true)
+			self:SetSortedIcon("roster", 1.2, args.destName, 8, 3, true)
 		end
 		warnAggressiveBehavior:CombinedShow(2.5, args.destName)
 		if args:IsPlayer() then

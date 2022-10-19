@@ -102,6 +102,26 @@ local iconTitanDefault = "Interface\\PVPFrame\\\PVP-ArenaPoints-Icon";
 LDBToTitan:RegisterEvent("PLAYER_LOGIN")
 LDBToTitan:RegisterEvent("PLAYER_ENTERING_WORLD")
 
+local function If_Show_Tooltip()
+				local use_mod = TitanAllGetVar("UseTooltipModifer")
+				local use_alt = TitanAllGetVar("TooltipModiferAlt")
+				local use_ctrl = TitanAllGetVar("TooltipModiferCtrl")
+				local use_shift = TitanAllGetVar("TooltipModiferShift")
+				local ok = false
+				local tmp_txt = ""
+				if use_mod then
+					if (use_alt and IsAltKeyDown())
+					or (use_ctrl and IsControlKeyDown())
+					or (use_shift and IsShiftKeyDown())
+					then
+						ok = true
+					end
+				else
+					ok = true
+				end
+	return ok
+end
+
 --[[ Titan
 NAME: LDBToTitan:TitanLDBSetOwnerPosition
 DESC: Properly anchor tooltips of the Titan (LDB) plugin
@@ -115,37 +135,11 @@ VAR: frame
 --]]
 function LDBToTitan:TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
 	if frame:GetName() == "GameTooltip" then
+	-- Changes for 9.1.5 Removed the background template from the GameTooltip
+	-- Making changes to it difficult and possibly changing the tooltip globally.
 
-		-- Changes for 9.1.5. The background template was removed from the GameTooltip; backdrop color was changed to a NineSlice scheme...
-		local tool_trans = TitanPanelGetVar("TooltipTrans")
-		local bgR, bgG, bgB = TOOLTIP_DEFAULT_BACKGROUND_COLOR:GetRGB();
-		frame.NineSlice:SetCenterColor(bgR, bgG, bgB, tool_trans);
-
---[[
-		-- Changes for 9.1.5. The background template was removed from the GameTooltip
-		local tip_name = frame:GetName()
-		
-		local tip_back_name = tip_name.."Backdrop"
-		local tip_back_frame = _G[tip_back_name] or CreateFrame("Frame", tip_back_name, frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
-		tip_back_frame:SetFrameLevel(frame:GetFrameLevel() - 1) -- By creating this after the parent, need to set it behind the parent
-
-		tip_back_frame:SetAllPoints()
-		tip_back_frame:SetBackdrop(back_drop_info)
-		-- set alpha (transparency) for the Game Tooltip
-		local tool_trans = TitanPanelGetVar("TooltipTrans")
-		tip_back_frame:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b, tool_trans)
-		tip_back_frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, tool_trans)
-		frame.MenuBackdrop = tip_back_frame
---]]
 		frame:SetOwner(parent, "ANCHOR_NONE");
---[[
-		-- set alpha (transparency) for the Game Tooltip
-		local red, green, blue = GameTooltip:GetBackdropColor();
-		local red2, green2, blue2 = GameTooltip:GetBackdropBorderColor();
-		frame:SetBackdropColor(red,green,blue,TitanPanelGetVar("TooltipTrans"));
-		frame:SetBackdropBorderColor(red2,green2,blue2,
-			TitanPanelGetVar("TooltipTrans"));
---]]
+
 		-- set font size for the Game Tooltip
 		if not TitanPanelGetVar("DisableTooltipFont") then
 			if TitanTooltipScaleSet < 1 then
@@ -205,7 +199,7 @@ function LDBToTitan:TitanLDBSetTooltip(name, frame, func)
 	else
 	end
 
-	if func then func(frame) end; -- TODO: use pcall??
+	if func and If_Show_Tooltip() then func(frame) end; -- TODO: use pcall??
 	frame:Show();
 end
 
@@ -271,7 +265,7 @@ function LDBToTitan:TitanLDBHandleScripts(event, name, _, func, obj)
 			if TITAN_PANEL_MOVING == 0 and func then
 				LDBToTitan:TitanLDBSetTooltip(NAME_PREFIX..name, GameTooltip, func);
 			end
-				TitanPanelButton_OnEnter(self);
+			TitanPanelButton_OnEnter(self);
 			end
 			)
 		TitanPluginframe:SetScript("OnLeave", function(self)
@@ -346,9 +340,10 @@ function LDBToTitan:TitanLDBHandleScripts(event, name, _, func, obj)
 				TitanTooltipOrigScale = GameTooltip:GetScale();
 			end
 			-- call OnEnter on LDB Object
-			if TITAN_PANEL_MOVING == 0 and func then
+			if TITAN_PANEL_MOVING == 0 and func and If_Show_Tooltip() then
 				func(self)
 			end
+
 			TitanPanelButton_OnEnter(self);
 			-- LibQTip-1.0 support code
 			if LibQTip then

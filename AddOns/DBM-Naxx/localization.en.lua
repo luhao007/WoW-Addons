@@ -206,7 +206,7 @@ L:SetMiscLocalization({
 L:SetOptionLocalization({
 	WarningChargeChanged	= "Show special warning when your polarity changed",
 	WarningChargeNotChanged	= "Show special warning when your polarity did not change",
-	ArrowsEnabled			= "Show arrows during $spell:28089",
+	AirowEnabled			= "Show arrows during Polarity Shift",
 	TwoCamp					= "Show arrows (normal \"2 camp\" run through strategy)",
 	ArrowsRightLeft			= "Show left/right arrows for the \"4 camp\" strategy (show left arrow if polarity changed, right if not)",
 	ArrowsInverse			= "Inverse \"4 camp\" strategy (show right arrow if polarity changed, left if not)"
@@ -234,11 +234,11 @@ L:SetMiscLocalization({
 })
 
 L:SetOptionLocalization({
-	WarningShieldWallSoon	= "Show pre-warning for Shield Wall ending"
+	WarningShieldWallSoon	= "Show pre-warning for Bone Barrier ending"
 })
 
 L:SetWarningLocalization({
-	WarningShieldWallSoon	= "Shield Wall ends in 5 seconds"
+	WarningShieldWallSoon	= "Bone Barrier ends in 5 seconds"
 })
 
 ----------------------------
@@ -294,11 +294,14 @@ L:SetGeneralLocalization({
 L:SetOptionLocalization({
 	WarningMarkSoon				= "Show pre-warning for Mark",
 	WarningMarkNow				= "Show warning for Mark",
-	SpecialWarningMarkOnPlayer	= "Show special warning when you are affected by more than 4 marks"
+	SpecialWarningMarkOnPlayer	= "Show special warning when you are affected by more than 4 marks",
+	timerMark					= "Show timer for next horseman's Mark (with count)"
 })
 
 L:SetTimerLocalization({
+	timerMark	= "Mark %d",
 })
+
 
 L:SetWarningLocalization({
 	WarningMarkSoon				= "Mark %d in 3 seconds",
@@ -327,9 +330,7 @@ L:SetOptionLocalization({
 	WarningAirPhaseNow	= "Announce air phase",
 	WarningLanded		= "Announce ground phase",
 	TimerAir			= "Show timer for air phase",
-	TimerLanding		= "Show timer for landing",
-	TimerIceBlast		= "Show timer for Frost Breath",
-	WarningDeepBreath	= "Show special warning for Frost Breath"
+	TimerLanding		= "Show timer for landing"
 })
 
 L:SetMiscLocalization({
@@ -339,14 +340,12 @@ L:SetMiscLocalization({
 L:SetWarningLocalization({
 	WarningAirPhaseSoon	= "Air phase in 10 seconds",
 	WarningAirPhaseNow	= "Air phase",
-	WarningLanded		= "Sapphiron landed",
-	WarningDeepBreath	= "Frost Breath"
+	WarningLanded		= "Sapphiron landed"
 })
 
 L:SetTimerLocalization({
 	TimerAir		= "Air phase",
-	TimerLanding	= "Landing",
-	TimerIceBlast	= "Frost Breath"
+	TimerLanding	= "Landing"
 })
 
 ------------------

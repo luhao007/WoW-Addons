@@ -926,15 +926,22 @@ function Titan_Hook_Frames() -- UIParent_ManageFramePositions hook
 	Code from ActionBarController.lua ActionBarController_UpdateAll modified for Titan
 	This hook relies on _UpdateAll calling UIParent_ManageFramePositions near the end of its processing
 	--]]
-	-- If we have a skinned vehicle bar or skinned override bar, display the OverrideActionBar
+	-- If we have a skinned vehicle bar
+	--	or skinned override bar then likely the OverrideActionBar is active
+	-- If user does not want bottom bar adjust do not hide the bottom bar for vehicles.
+	-- When a user is using an action bar replacement (Bartender or ElvUI), hiding the bottom bar may not make sense.
 	if ((HasVehicleActionBar() and UnitVehicleSkin("player") and UnitVehicleSkin("player") ~= "")
-	or (HasOverrideActionBar() and GetOverrideBarSkin() and GetOverrideBarSkin() ~= 0)) then
-		reason = reason.."skinned override bar"
-		-- Override bar in place; hide Titan bottom bar(s)
-		TitanPanelBarButton_HideBottomBars()
-		
-		-- Blizzard could have updated player frame or other
-		TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_TOP, false)
+	or (HasOverrideActionBar() and GetOverrideBarSkin() and GetOverrideBarSkin() ~= 0)) 
+	then -- Override bar in place; hide Titan bottom bar(s)
+		if (TitanPanelGetVar("AuxScreenAdjust") == 1) then
+			-- do nothing, the user has turned off adjust
+		else
+			reason = reason.."skinned override bar"
+			TitanPanelBarButton_HideBottomBars()
+			
+			-- Blizzard could have updated player frame or other
+			TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_TOP, false)
+		end
 		
 	-- If we have a non-skinned override bar of some sort, use the MainMenuBarArtFrame
 	elseif ( HasBonusActionBar() or HasOverrideActionBar() or HasVehicleActionBar() or HasTempShapeshiftActionBar() or C_PetBattles.IsInBattle() ) then

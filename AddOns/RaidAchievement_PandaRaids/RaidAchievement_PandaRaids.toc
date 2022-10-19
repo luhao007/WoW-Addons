@@ -1,0 +1,15 @@
+## Interface: 90207
+## Author: Shurshik
+## Dependencies: RaidAchievement
+## LoadOnDemand: 1
+## SavedVariablesPerCharacter: prraspisokon
+
+## Title: Raid|cff7fff7fAchievement|r - Pandaria raids
+## Notes: RaidAchievement Pandaria Raids Module
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0熊猫人之谜团队|r
+
+## X-Part-Of: RaidAchievement
+
+RaidAchievement_PandaRaids.lua
+RaidAchievement_PandaRaids.xml
+RaidAchievement_PandaRaidsbosses.lua

@@ -297,6 +297,10 @@ TITAN_ALL_SAVED_VARIABLES = {
 	Registered = false, -- for debug
 	-- OrderHallCommandBar Status
 	OrderHall = true,
+	UseTooltipModifer = false,
+	TooltipModiferAlt = false,
+	TooltipModiferCtrl = false,
+	TooltipModiferShift = false,
 };
 
 -- The skins released with Titan

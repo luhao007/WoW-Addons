@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1829, "DBM-TrialofValor", nil, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220116144653")
+mod:SetRevision("20220516021220")
 mod:SetCreatureID(114537)
 mod:SetEncounterID(2008)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -322,7 +322,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if self:IsHealer(uId) then--On All difficulties as of Dec 6th, a tank isn't chosen, just 1 healer and 2 dps
 				self:SetIcon(args.destName, 1)--Star
 			else
-				self:SetSortedIcon(1, args.destName, 2, 2)--Circle and Diamond
+				self:SetSortedIcon("roster", 1, args.destName, 2, 2)--Circle and Diamond
 			end
 		end
 	elseif spellId == 227982 then
@@ -582,7 +582,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not self.vb.phase == 2 then
+	if self.vb.phase ~= 2 then
 		self:UnregisterShortTermEvents()
 		return
 	end

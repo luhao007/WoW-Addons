@@ -7,37 +7,23 @@ local L
 --------------------------
 L= DBM:GetModLocalization(156)
 
-L:SetWarningLocalization({
-})
-
-L:SetTimerLocalization({
-})
-
 L:SetOptionLocalization({
-	ShowDrakeHealth		= "Показать здоровье подчиненного дракона<br/>(Должна быть включена опции отображения здоровья босса)"
+	ShowDrakeHealth		= "Показать здоровье подчиненного дракона<br/>(должна быть включена опция отображения здоровья босса)"
 })
 
-L:SetMiscLocalization({
-})
 
 ---------------------------
 --  Valiona & Theralion  --
 ---------------------------
 L= DBM:GetModLocalization(157)
 
-L:SetWarningLocalization({
-})
-
-L:SetTimerLocalization({
-})
-
 L:SetOptionLocalization({
 	TBwarnWhileBlackout		= "Предупреждение о $spell:92898, когда активно $spell:86788",
 	TwilightBlastArrow		= "Показывать стрелку DBM, когда $spell:92898 около вас",
 	RangeFrame				= "Показывать окно проверки дистанции (10м)",
 	BlackoutShieldFrame		= "Показывать полоску здоровья для $spell:92878",
-	BlackoutIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(92878),
-	EngulfingIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(86622)
+	BlackoutIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(92878),
+	EngulfingIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(86622)
 })
 
 L:SetMiscLocalization({
@@ -61,20 +47,20 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	specWarnBossLow			= "Спец-предупреждение, когда здоровье боссов опускается до 30%",
-	SpecWarnGrounded		= "Спец-предупреждение, когда у вас не хватает ауры $spell:83581<br/>(~10сек перед началом применения)",
-	SpecWarnSearingWinds	= "Спец-предупреждение, когда у вас не хватает ауры $spell:83500<br/>(~10сек перед началом применения)",
+	specWarnBossLow			= "Спецпредупреждение, когда здоровье боссов опускается до 30%",
+	SpecWarnGrounded		= "Спецпредупреждение, когда у Вас не хватает ауры $spell:83581<br/>(~10сек перед началом применения)",
+	SpecWarnSearingWinds	= "Спецпредупреждение, когда у Вас не хватает ауры $spell:83500<br/>(~10сек перед началом применения)",
 	timerTransition			= "Показывать таймер перехода в другую фазу",
 	RangeFrame				= "Автоматически показывать окно проверки дистанции при надобности",
-	yellScrewed				= "Кричать, когда на вас одновременно $spell:83099 и $spell:92307",
+	yellScrewed				= "Кричать, когда на Вас одновременно $spell:83099 и $spell:92307",
 	InfoFrame				= "Показывать игроков без $spell:83581 или $spell:83500",
-	HeartIceIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(82665),
-	BurningBloodIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(82660),
-	LightningRodIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(83099),
-	GravityCrushIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(84948),
-	FrostBeaconIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(92307),
-	StaticOverloadIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(92067),
-	GravityCoreIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(92075)
+	HeartIceIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(82665),
+	BurningBloodIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(82660),
+	LightningRodIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(83099),
+	GravityCrushIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(84948),
+	FrostBeaconIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(92307),
+	StaticOverloadIcon		= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(92067),
+	GravityCoreIcon			= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(92075)
 })
 
 L:SetMiscLocalization({
@@ -92,17 +78,11 @@ L:SetMiscLocalization({
 ----------------
 L= DBM:GetModLocalization(167)
 
-L:SetWarningLocalization({
-})
-
-L:SetTimerLocalization({
-})
-
 L:SetOptionLocalization({
 	CorruptingCrashArrow	= "Показывать стрелку DBM, когда $spell:93178 около вас",
 	InfoFrame				= "Показывать информационное окно для $journal:3165",
 	RangeFrame				= "Показывать окно проверки дистанции (5м) для $spell:82235",
-	SetIconOnWorship		= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(91317)
+	SetIconOnWorship		= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(91317)
 })
 
 ----------------
@@ -125,15 +105,15 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	WarnOrbSoon			= "Предупреждение о появлении сфер (за 5с до начала, каждую 1с)<br/>(Предупреждение может быть неточным!)",
+	WarnOrbSoon			= "Предупреждение о появлении сфер (за 5с до начала, каждую 1с)<br/>Предупреждение может быть неточным!",
 	warnWrackJump		= "Показывать цели, на которые прыгает $spell:92955",
 	warnAggro			= "Показывать игроков, имеющих агро от сфер (возможные цели сфер)",
-	SpecWarnAggroOnYou	= "Спец-предупреждение, если на вас есть агро при появлении сфер",
-	SpecWarnOrbs		= "Спец-предупреждение при появлении сфер<br/>(Предупреждение может быть неточным)",
+	SpecWarnAggroOnYou	= "Спецпредупреждение, если на вас есть агро при появлении сфер",
+	SpecWarnOrbs		= "Спецпредупреждение при появлении сфер<br/>Предупреждение может быть неточным",
 	TimerEggWeakening	= "Отсчет времени до снятия $spell:87654",
 	TimerEggWeaken		= "Отсчет времени восстановления $spell:87654",
 	TimerOrbs			= "Отсчет времени до следующих сфер (таймер может быть неточным)",
-	SetIconOnOrbs		= "Устанавливать метки на игроков, имеющих агро от сфер<br/>(Предполагаемые цели сфер)",
+	SetIconOnOrbs		= "Устанавливать метки на игроков, имеющих агро от сфер<br/>Предполагаемые цели сфер",
 	InfoFrame			= "Показывать список игроков, имеющих агро"
 })
 
@@ -149,17 +129,5 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("BoTrash")
 
 L:SetGeneralLocalization({
-	name =	"Существа Сумеречного бастион"
-})
-
-L:SetWarningLocalization({
-})
-
-L:SetTimerLocalization({
-})
-
-L:SetOptionLocalization({
-})
-
-L:SetMiscLocalization({
+	name =	"Трэш мобы Сумеречного бастион"
 })

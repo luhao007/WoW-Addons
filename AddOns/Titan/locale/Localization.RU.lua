@@ -314,6 +314,7 @@ L["TITAN_LOCATION_TOOLTIP_INN"] = "Дом: ";
 L["TITAN_LOCATION_MENU_TEXT"] = "Координаты";
 L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"] = "Показывать зону";
 L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"] = "Показывать координаты на мировой карте";
+L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_PANEL_TEXT"] = "Show Text Coordinates";
 L["TITAN_LOCATION_MAP_CURSOR_COORDS_TEXT"] = "Курсор(X,Y): %s";
 L["TITAN_LOCATION_MAP_PLAYER_COORDS_TEXT"] = "Игрок(X,Y): %s";
 L["TITAN_LOCATION_NO_COORDS"] = "Нет координат";
@@ -527,6 +528,9 @@ L["TITAN_GOLD_ONLY"] = "Показать только золото";
 L["TITAN_GOLD_COLORS"] = "Показать окраску золота";
 L["TITAN_GOLD_MERGE"] = "Merge Servers";
 L["TITAN_GOLD_SEPARATE"] = "Separate Servers";
+L["TITAN_GOLD_ALL"] = "All Servers";
+L["TITAN_GOLD_IGNORE_FACTION"] = IGNORE.." "..FACTION
+L["TITAN_GOLD_MERGED"] = "Merged"
 
 L["TITAN_VOLUME_TOOLTIP"] = "Контроль звука";
 L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "Громкость общего звука: ";

@@ -1,11 +1,11 @@
 ## Interface: 90207
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## Version: 5.23.0.90204
+## Version: 5.23.7.90207
 ## Dependencies: Titan
 ## OptionalDeps: 
 ## SavedVariables: 
 
-## Title: Titan Panel [|cffeda55fVolume|r] |cff00aa005.23.0.90204|r
+## Title: Titan Panel [|cffeda55fVolume|r] |cff00aa005.23.7.23.7.90207|r
 ## Notes: Adds a volume control icon on your Titan Bar
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0音量|r
 ## Notes-zhCN: 泰坦面板的音量模块

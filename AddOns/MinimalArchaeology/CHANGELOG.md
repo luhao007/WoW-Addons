@@ -1,6 +1,14 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 9.2.0
+
+- Fixed a lua error
+- Bump toc version
+- **9.2.0.1** bump toc
+- **9.2.0.2** New options to reset companion frame position
+- **9.2.0.3** Fix lua error when a database entry is missing for certain locales
+
 ### 9.1.0
 
 - Bump toc version

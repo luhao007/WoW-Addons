@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: syndenbock
-## Version: 1.5
+## Version: 1.5.3
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: TomTom
 ## SavedVariables: HandyNotes_Pandaria_savedData

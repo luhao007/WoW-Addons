@@ -1,0 +1,40 @@
+## Interface: 90207
+## Author: MysticalOS
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+## SavedVariables: DBMZuldazarRaid_AllSavedVars
+## SavedVariablesPerCharacter: DBMZuldazarRaid_SavedStats
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Battle of Dazar'alor|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0达萨罗之战|r
+
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: BFA
+## X-DBM-StatTypes: lfr,normal,heroic,mythic
+## X-DBM-Mod-SubCategories: Shared,Alliance,Horde
+## X-DBM-Mod-SubCategories-koKR: 공통,얼라이언스,호드
+## X-DBM-Mod-SubCategories-zhTW: 共通,聯盟,部落
+## X-DBM-Mod-SubCategories-itIT: Condiviso,Alleanza,Orda
+## X-DBM-Mod-Sort: 407
+## X-DBM-Mod-MapID: 2070
+## X-DBM-Mod-MinCoreRevision: 17286
+## X-DBM-Mod-MinExpansion: 7
+## X-Part-Of: DBM-Core
+
+localization.en.lua
+localization.kr.lua
+localization.es.lua
+localization.cn.lua
+localization.tw.lua
+localization.ru.lua
+ChampionofLight.lua
+JadefireMasters.lua
+Grong.lua
+Opulence.lua
+ConclaveoftheChosen.lua
+Rastakhan.lua
+Mekkatorque.lua
+StormwallBlockade.lua
+Jaina.lua
+ZuldazarRaidTrash.lua

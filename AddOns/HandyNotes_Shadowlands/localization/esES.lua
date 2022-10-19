@@ -254,7 +254,7 @@ L['flayedwing_transporter_note'] = 'Haz click en el {npc:178633} para volar a o 
 L['fleshwing_note'] = 'Habla con {npc:180079} para empezar el evento de recolección.'
 L['forgotten_feather_note'] = 'Flotando en una isla pequeña que se accede saltando hacia abajo desde el Respiro del Guardían.'
 L['konthrogz_note'] = 'Aparece de un portal del evento de los devoradores. El evento puede aparecer en varios sitios a lo largo de Korthia.'
-L['korthia_limited_rare'] = '|cFFFF8C00Este raro no está disponible algunos días.|r'
+L['sl_limited_rare'] = '|cFFFF8C00Este raro no está disponible algunos días.|r'
 L['krelva_note'] = 'Se mueve a otra plataforma al 80%, entonces se mueve al suelo al 60%. |cFFFF8C00¡Has de darle al boss después del 60% para que te cuente!|r'
 L['kroke_note'] = 'Mata a los {npc:179029} de la zona hasta que aparezca. No puede aparecer los días que no estén los {npc:179029}.'
 L['maelie_wanderer'] = '{npc:179912} aparecerá en varios sitios durante el día. Una vez se haya usado {spell:355862} en ella 6 días distintos hay que volver con {npc:179930} para aprender la montura.'
@@ -673,22 +673,49 @@ Los eventos de torturadores aparecen cada 2 horas impares en punto. Aparecerán 
 El {item:185972} se puede despojar una vez a la semana y contiene 50 {currency:1906}.
 ]]
 
+L['options_icons_mawsworn_blackguard'] = '{achievement:14742}'
+L['options_icons_mawsworn_blackguard_desc'] = 'Muestra dónde están los Guardanegro Jurafauces para el logro {achievement:14742}.'
+
+L['mawsworn_blackguard'] = 'Guardanegro Jurafauces'
+L['mawsworn_blackguard_note'] = 'Forma fácil de seleccionar a un {npc:183173} en sigilo.'
+
 -------------------------------------------------------------------------------
 -------------------------------- ZERETH MORTIS --------------------------------
 -------------------------------------------------------------------------------
+
+local HIDDEN_ALCOVE = [[
+Para acceder a la |cFFFFFD00Alcoba %s|r tienes que:
+
+1. Completar el capítulo 6 de la campaña de Zereth Mortis.
+2. Encontrar la |cFFFFFD00Disposición de la Casa %s|r %s.
+3. En las |cFFFFFD00Cumbres Resonantes|r, matar enemigos que estén {spell:362651} o quedarse de pie en el círculo blanco hasta llegar a 60 de {npc:183569}.
+4. Usar el {npc:184329} que hay en el Reposo Grávido para acceder al Enclave Interior. (Requiere 30 de {npc:183569})
+5. Usar un {npc:184485} diferente para acceder a la Alcoba %s. (Requiere 30 de {npc:183569})
+]]
+
+L['camber_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Combada', 'Combada', 'detrás del edificio en el |cFFFFFD00Enclave Ultimus|r', 'Combada')
+L['dormant_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Durmiente', 'Durmiente', 'en las |cFFFFFD00Cumbres Resonantes|r', 'Durmiente')
+L['fulgor_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Refulgente', 'Refulgente', 'en las |cFFFFFD00Cumbres Resonantes|r', 'Refulgente')
+L['rondure_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Circular', 'Circular', 'en la plataforma del |cFFFFFD00Enclave Tertius|r', 'Circular')
+L['repertory_alcove_note'] = string.format(HIDDEN_ALCOVE, 'de Repertorio', 'de Repertorio', 'dentro de la cueva |cFFFFFD00Escondite Terrestre|r', 'de Repertorio')
 
 L['corrupted_architect_note'] = 'Ataca a {npc:183958} y a {npc:183961} para activar el raro.'
 L['dune_dominance_note'] = 'Los tres élites raros para el logro {achievement:15392} aparecen en el mismo sitio.'
 L['feasting_note'] = 'A veces rodeará la zona antes de volver a este sitio.'
 L['furidian_note'] = 'Activa tres |cFFFFFD00Llave Potenciada|r de la zona, y desbloquea la |cFFFFFD00Cámara Sospechosamente Enfadada|r.'
 L['garudeon_note'] = 'Recoge varios {npc:183562} de los alrededores y usa {spell:362655} para alimentar a los {npc:183554}. Cuando los tres estén alimentados, se activará {npc:180924}.'
-L['gluttonous_overgrowth_note'] = 'Rompe todas las {npc:184048} cercanas para activar al {npc:178778}.'
+L['gluttonous_overgrowth_note'] = 'Rompe todas las {npc:184048} cercanas para activar la {npc:178778}.'
+L['helmix_note'] = [[
+Mata {npc:179005} de la zona hasta que aparezca el siguiente mensaje.
+
+|cFFFF8C00El suelo vibra... ¡Hay algo bajo la superfície!|r
+]]
 L['hirukon_note'] = [[
 Para atraer a {npc:180978} a la superfície, tiene que crearse un {item:187923}.
 
-1. Pesca algún {item:187662} de las aguas cercanas.
+1. Pesca un {item:187662} de las aguas cercanas.
 
-2. Pesca un {item:187915} del |cFFFFFD00Banco de Pez mancha acre|r dentro la Reserva Colmillo Torcido en Zangarmarsh. El banco está a la derecha cuando entras en la caverna.
+2. Pesca un {item:187915} del |cFFFFFD00Banco de Pez mancha acre|r dentro la Reserva Colmillo Torcido en Zangarmarsh.
 
 3. Pesca un {item:187922} del |cFFFFFD00Banco de Pez aletón|r cerca del punto de vuelo Tumba de Kelya en Nazjatar.
 
@@ -698,23 +725,25 @@ Para atraer a {npc:180978} a la superfície, tiene que crearse un {item:187923}.
 
 6. Usa el {item:187923} que te permitirá ver los |cFFFFFD00Banco de Aurélido|r junto a {npc:180978} durante 15min. Pesca dentro para invocar a {npc:180978} a la superfície.
 ]]
+L['orixal_note'] = 'Comparte punto de aparición con el {npc:185487} que patrulla la zona.'
 L['protector_first_ones_note'] = 'Requiere dos personas. Lleva las runas correspondientes a cada consola (están en los alrededores) para abrir la barrera.'
 L['the_engulfer_note'] = 'Defiende a {npc:183505} hasta que {npc:183516} salte de la grieta.'
-L['zatojin_note'] = 'Atrae a los {npc:183721} cercanos y deja que te pongan 20 acumulaciones de {spell:362976} hasta que estés {spell:362983}. Tienes que estar sobre los cuerpos de los {npc:183774} cuando seas paralizado para que {npc:183764} se fije en ti.'
+L['zatojin_note'] = 'Atrae a los {npc:183721} cercanos y deja que te pongan 20 acumulaciones de {spell:362976} hasta que estés {spell:362983}. Tienes que estar dentro del anillo de cuerpos de los {npc:183774} cuando seas paralizado para que {npc:183764} se fije en ti.'
 
-L['architects_reserve_note'] = 'Completa la cadena de misiones {quest:64829} que da {npc:180630} en Gracia del Peregrino. Al día seguiente, completa la cadena de misiones {quest:65426} que da {npc:181273} para desbloquear el tesoro.'
+L['architects_reserve_note'] = 'Completa la cadena de misiones {quest:64829} que da {npc:180630} en Gracia del Peregrino para desbloquear el tesoro.'
 L['bushel_of_produce_note'] = 'Mata al {npc:182368} al norte mientras tenga el buff {spell:360945} para ganártelo tú. Mata más {npc:182368} (no necesitan tener el buff) hasta que tengas 5 acumulaciones. Ya puedes romper la puerta que da al tesoro.'
-L['crushed_crate_note'] = 'Despoja la {item:189767} de la hendidura sobre el gran orbe al norte. Dásela a {npc:185151} a cambio del {item:189768} el cual puede romper las rocas caidas.'
+L['crushed_crate_note'] = 'Despoja la {item:189767} que reposa encima del pilar caido por encima del tesoro. Dásela a {npc:185151} a cambio del {item:189768} el cual puede romper las rocas caidas.'
 L['domination_cache_note'] = 'La {item:189704} tiene pocas probabilidades de caer de los {npc:181403} y de los {npc:182426} de la zona.'
 L['drowned_broker_supplies_note'] = 'Dile a {npc:181059} que coja el control de un {npc:185282} cercano.'
 L['forgotten_protovault_note'] = 'Sólo está disponible durante la misión del mundo {wq:A salto de rana}.'
-L['grateful_boon_note'] = 'Es dificul de alcanzar sin volar; usa {spell:300728} o {spell:111771} para subir la montaña. Tranquiliza a las 12 criaturas de la zona y {npc:185293} hará aparecer el tesoro.'
-L['library_vault_note'] = 'Haz click en las tablillas de la Gruta del Léxico hasta que encuentres el orden correcto y ganes el buff {spell:362062} para abrir la cámara.'
-L['mistaken_ovoid_note'] = 'Dentro de la caverna Cataratas Dimensionales, detrás de las bolas.'
-L['ripened_protopear_note'] = 'Inicia la cadena de misiones {quest:64641} para ganar accesso a la Fundición Floreciente. Recoge 5 {spell:367180} (nubes verdes) dentro and y llévalas a la {npc:185416} para polinizarla.'
+L['grateful_boon_note'] = 'Es difícil de alcanzar sin volar; usa {spell:300728} o {spell:111771} para subir la montaña. Tranquiliza a las 12 criaturas de la zona y {npc:185293} hará aparecer el tesoro.'
+L['library_vault_note'] = 'Haz click en las tablillas de la Gruta Léxica hasta que encuentres el orden correcto y ganes el buff {spell:362062} para abrir la cámara.'
+L['mistaken_ovoid_note'] = 'Dentro de la caverna Cataratas Dimensionales. Has de recoger {item:190239} x5, y llevarlos a la {npc:185280}.'
+L['ripened_protopear_note'] = 'Inicia la cadena de misiones {quest:64641} para ganar accesso a la Fundición Floreciente. Recoge 5 {spell:367180} (nubes verdes) dentro y llévalas de una en una a la {npc:185416} para polinizarla. Una vez haya crecido 5 veces, caerá.'
 L['sphere_treasure_note'] = 'Salta las esferas con cuidado hasta llegar al tesoro.'
 L['submerged_chest_note'] = 'Absorbe el |cFFFFFD00Orbe de Poder Peligroso|r al sur. Ahora interactúa con la |cFFFFFD00Bomba Olvidada|r junto al tesoro.'
 L['symphonic_vault_note'] = 'Examina al {npc:183998} para escuchar una secuencia de cuatro sonidos. Cada {npc:183950} de la sala reproduce un sonido. Interactúa con ellas en el orden adecuado para desbloquear el tesoro.'
+L['syntactic_vault_note'] = 'Para desbloquear el tesoro, has de ganar 6 acumulaciones de {spell:367499} interactuando con las |cFFFFFD00Sílabas Rúnicas|r en la zona del Sepulcro de los Primeros.'
 L['template_archive_note'] = 'Empuja el {npc:183339} de la sala dentro del {npc:183337} que bloquea el paso al tesoro.'
 L['undulating_foliage_note'] = [[
 Pulsa los cuatro {npc:185390} para activar el teleportador del centro de la sala de los Distritos Catalizadores.
@@ -725,11 +754,43 @@ Pulsa los cuatro {npc:185390} para activar el teleportador del centro de la sala
 • En la habitación sureste de los distritos
 ]]
 
+L['provis_cache'] = 'Alijo de Provis cerrado'
+L['provis_cache_note'] = [[
+Completa la misión diaria {quest:64717} que te da {npc:177958} al menos una vez.
+
+Usa el {item:187516} en las forjas de la zona para conseguir {item:187728} x15 y combinarlas en el {item:187787}. Este orbe tiene probabilidad de tener la llave.
+]]
 L['prying_eye_discovery'] = 'Descubrimiento del Ojo Fisgón'
 L['prying_eye_discovery_note'] = 'Es más fácil de alcanzar cuando el volar esté desbloqueado.'
 L['pulp_covered_relic'] = 'Reliquia Cubierta de Pulpa'
+L['requisites_originator_note'] = [[
+Es una máquina que te dará recompensas distintas una vez a la semana:
+
+• {spell:366667} = Materiales de Encantamiento + oro
+• {spell:366668} = Ánima
+• {spell:366669} = Claves
+• {spell:366670} = Motas de Génesis + {item:189179} (probabilidad)
+• {spell:366671} = Claves/Motas/Ánima
+• {spell:366672} = Equipo de Claves
+]]
+L['rondure_cache'] = 'Alijo Circular'
+L['rondure_cache_note'] = 'Una forja interactuable en la cima del puzzle de saltos que hay dentro de la |cFFFFFD00Alcoba Circular|r.'
 L['sandworn_chest'] = 'Cofre Erosionado por la Arena'
 L['sandworn_chest_note'] = 'Despoja {item:190198} x5 de los enemigos de la zona para construir la {item:190197}.'
+L['sand_piles'] = 'Montones de Arena'
+L['sand_piles_note'] = [[
+Todos los montones de arena están en la cámara escondida Alcoba Durmiente. Cada montón requiere un {item:189863}, los cuales se pueden encontrar en otros tesoros de la zona:
+
+• Alijo de Dominación
+• Caja Fuerte Caída
+• Artefacto Birlado
+• Pergamino Robado
+• Cofre Sumergido
+• Cámara Sinfónica
+• Follaje Ondulante
+]]
+L['torn_ethereal_drape'] = 'Mantón Etéreo Deshilachado'
+L['torn_ethereal_drape_note'] = 'Está dentro de la |cFFFFFD00Alcoba Refulgente|r. Activa las |cFFFFFD00Consolas de Automa|r y monta en los {npc:183565} para alcanzar el techo.'
 
 L['cache_avian_nest'] = 'Nido Aviario'
 L['cache_cypher_bound'] = 'Cofre Reforzado con Clave'
@@ -737,6 +798,12 @@ L['cache_discarded_automa'] = 'Chatarra de Automa Desechada'
 L['cache_forgotten_vault'] = 'Cámara del Tesoro Olvidada'
 L['cache_mawsworn_supply'] = 'Cofre de Suministros Jurafauces'
 L['cache_tarachnid_eggs'] = 'Huevos de Tarácnido'
+L['cache_shrouded_cypher'] = 'Alijo de Claves Camuflado'
+L['cache_shrouded_cypher_note'] = [[
+Estos alijos sólo se pueden ver teniendo el buff {spell:361917} y llevando el objeto apropiado de Equipo de Claves:
+
+|cFF00FF00Mejora la percepción de Pocopoc y le permite descubrir más alijos ocultos.|r
+]]
 
 L['cache_cantaric'] = 'Alijo Cantárico'
 L['cache_fugueal'] = 'Alijo de Fuga'
@@ -747,10 +814,11 @@ L['cache_toccatian'] = 'Alijo Tocata'
 L['schematic_treasure_note'] = '|cFFFF8C00Este tesoro no tendrá el esquema de la protoforma si no has desbloqueado todavía la forja de síntesis. Si ya has despojado el tesoro, encontrarás el esquema cerca en el suelo.|r'
 L['schematic_treasure_mount_note'] = '|cFFFF8C00Este esquema está en un tesoro cercano la primera vez. Si el tesoro se abrió antes de desbloquear la forja de síntesis de monturas, el esquema estará aquí.|r'
 L['schematic_treasure_pet_note'] = '|cFFFF8C00Este esquema está en un tesoro cercano la primera vez. Si el tesoro se abrió antes de desbloquear la forja de síntesis de mascotas, el esquema estará aquí.|r'
-L['schematic_bronze_helicid_note'] = 'Probabilidad de que esté en el {item:190610} de la misión bisemanal {quest:65324}.'
+L['schematic_bronze_helicid_note'] = 'Probabilidad de que esté en el {item:190610} de la misión semanal {quest:65324}.'
 L['schematic_ambystan_darter_note'] = 'Escondido bajo el agua junto al {npc:185312}.'
 L['schematic_bronzewing_vespoid_note'] = 'Dentro del Reposo Grávido.'
 L['schematic_buzz_note'] = 'Probabilidad de que esté en una {npc:185265}.'
+L['schematic_curious_crystalsniffer_note'] = 'Disponible durante unos minutos tras derrotar a {npc:184915} en la banda |cFFFFFD00Sepulcro de los Primeros|r, en la segunda sala del combate. También sale en LFR.'
 L['schematic_darkened_vombata_note'] = 'Dentro de una jaula flotante.'
 L['schematic_deathrunner_note'] = 'Obtenido a través de la cadena de misiones para la {spell:366367}.'
 L['schematic_desertwing_hunter_note'] = 'Está encima del pilar.'
@@ -759,19 +827,25 @@ L['schematic_forged_spiteflyer_note'] = 'Sobresaliendo de un grupo de colmenas v
 L['schematic_genesis_crawler_note'] = 'Está encima de la entrada a la Alcoba de Génesis.'
 L['schematic_goldplate_bufonid_note'] = 'Pequeña probabilidad de caer de los {npc:178803}.'
 L['schematic_heartbond_lupine_note'] = 'Pequeña probabilidad de caer del {npc:179939}.'
+L['schematic_ineffable_skitterer_note'] = '¡Mátate! En serio... sólo puedes ver a la {npc:185092} dentro de la |cFFFFFD00Cuenca del Exilio|r cuando eres un fantasma.'
 L['schematic_leaping_leporid_note'] = 'Encima de un árbol flotante.'
+L['schematic_mawdapted_raptora_note'] = 'Pequeña probabilidad de que lo suelte una {npc:181412} en las |cFFFFFD00Arenas Infinitas|r.'
 L['schematic_microlicid_note'] = 'En la rama más baja del árbol flotante, debajo de algo de follaje.'
-L['schematic_pale_regal_cervid_note'] = 'Investiga todas las Claves de la {npc:181397} para conseguir {achievement:15402}.'
+L['schematic_omnipotential_core_note'] = 'Está en la |cFFFFFD00Alcoba Circular|r. El esquema está escondido detrás del borde superior del arco en el lado sur-oeste de la habitación.'
 L['schematic_prototickles_note'] = 'Unido a una cadena flotante dentro de las vides de encima del raro {npc:180978}.'
+L['schematic_prototype_fleetpod_note'] = 'Está dentro de la Alcoba Combada. Interactúa con el {npc:184900} para comenzar un minijuego. Guía el caracol sin tocar los {npc:185455} del suelo y hazlo pasar a través de 5 anillos para ganar el esquema.'
 L['schematic_raptora_swooper_note'] = 'Dentro de la Cámara de Formación.'
 L['schematic_resonant_echo_note'] = 'Probabilidad de que esté dentro de un |cFFFFFD00Eco Cristalizado de la Primera Canción|r.'
 L['schematic_russet_bufonid_note'] = 'Probabilidad de que esté en el cofre de reputación {item:187780}.'
 L['schematic_scarlet_helicid_note'] = 'Está encima del arco de la estructura.'
+L['schematic_serenade_note'] = 'Está en una cadena debajo de una plataforma flotante en el |cFFFFFD00Hogar Inmortal|r dentro de la banda.'
 L['schematic_shelly_note'] = 'Situado en la parte trasera de un estante en la Gruta Léxica. Requiere una habilidad de teleportación para saltar al estante.'
+L['schematic_stabilized_geomental_note'] = 'Probabilidad de caer de {npc:182169} dentro de la banda |cFFFFFD00Sepulcro de los Primeros|r.'
 L['schematic_tarachnid_creeper_note'] = 'Dentro de una estructura pequeña en las Arenas Infinitas.'
 L['schematic_terror_jelly_note'] = 'Encima del pilón cuadrado junto a la rampa.'
 L['schematic_tunneling_vombata_note'] = 'Junto a unos escombros en un túnel bloqueado dentro del complejo Locris Esper.'
-L['schematic_vespoid_flutterer_note'] = 'Sobresaliendo de un montón de arena encima del nivel Enclave del Prelado de las Cúspides Resonantes.'
+L['schematic_vespoid_flutterer_note'] = 'Sobresaliendo de un montón de arena encima del nivel Enclave Primus de las Cúspides Resonantes.'
+L['schematic_violent_poultrid_note'] = 'Probabilidad de caer como recompensa al entregar la misión diaria {quest:65256}.'
 
 L['concordance_excitable'] = 'Concordancia Excitable'
 L['concordance_mercurial'] = 'Concordancia Mercúrica'
@@ -781,10 +855,22 @@ L['concordance_note'] = 'Lee cada concordancia para desbloquear entradas en la |
 L['echoed_jiro_note'] = 'Gasta energia de {npc:181059} para ganar bufos temporales. Requiere investigar |cFFFFFD00Creatiano|r en la {npc:181397}.'
 
 L['bygone_elemental_note'] = 'Un {npc:181221} puede aparecer en lugar de cualquier {npc:179007} de la zona.'
+L['dominated_irregular_note'] = 'Un {npc:184819} puede aparecer en lugar de cualquier {npc:183184} de la zona.'
 L['gaiagantic_note'] = 'Sólo aparece cuando {npc:177958} te ofrece la misión diaria {quest:64785}.'
-L['misaligned_enforcer_note'] = 'Patrulla la zona y entonces desaparece cuando acaba su ruta.'
+L['misaligned_enforcer_note'] = 'Aparece aquí. Patrulla la zona y entonces desaparece cuando acaba su ruta.'
 L['overcharged_vespoid_note'] = 'Puede aparecer como parte de una multitud de la zona.'
 L['runethief_xylora_note'] = 'Aparece en sigilo en la zona de Gracia del Peregrino.'
+
+local proto_area = 'Probabilidad de ser encontrado en las forjas alrededor de |cFFFFFD00%s|r.'
+L['proto_material_zone_chance'] = 'Probabilidad de ser encontrado en forjas seleccionadas por toda la zona.'
+L['anima_charged_yolk_note'] = 'Recoge {item:187728} de cualquier forja y combínalas para un {item:187787}, el cual tiene probabilidad de contener {item:187890}.'
+L['energized_firmament_note'] = string.format(proto_area, 'Cúspides Resonantes')
+L['honeycombed_lattice_note'] = string.format(proto_area, 'Precipicio del Zángano')
+L['incorporeal_sand_note'] = 'Probabilidad de ser encontrado en forjas en las áreas de desierto de la zona.'
+L['pollinated_extraction_note'] = string.format(proto_area, 'Verdor Indómito')
+L['serene_pigment_note'] = 'En una forja sobre la entrada a |cFFFFFD00Cuenca del Exilio|r. Puede necesitar varios intentos.'
+L['volatile_precursor_note'] = 'Está encima de la forja más pequeña. Puede necesitar varios intentos.'
+L['wayward_essence_note'] = 'Es difícil de alcanzar sin volar; usa {spell:300728} o {spell:111771}. Está en una forja flotante detrás de la |cFFFFFD00Cuenca del Exilio|r por la que da vueltas una {npc:178094}. Ponte encima de la hendidura para absorver.'
 
 L['patient_bufonid_note'] = 'Progresa en la historia de Zereth Mortis hasta que {npc:180950} ofrezca la misión {quest:65727}. Completa las misiones cada día para atraer un {npc:185798} fuera del estanque.'
 L['patient_bufonid_note_day1'] = 'Recoge {item:190852} x15 de los Vespoide de la zona.'
@@ -795,6 +881,15 @@ L['patient_bufonid_note_day5'] = 'Recoge {item:187704} x5 de los enemigos de la 
 L['patient_bufonid_note_day6'] = 'Compra {item:190880} x5 a {npc:185748} cerca de Gracia del Peregrino.'
 L['patient_bufonid_note_day7'] = 'Compra {item:187171} x1 a {npc:180114} en la mazmorra de Tazavesh.'
 
+L['lost_comb'] = 'Panal Perdido'
+L['soulshape_penguin_note'] = 'Está encima de la forja flotante.'
+
+L['coreless_automa'] = 'Automas Salvajes'
+L['coreless_automa_note'] = 'Equipando un objeto con la {spell:364480} otorgará a |cFFFFFD00Pocopoc|r la habilidad de asumir el control de criaturas sin consumir energía y podrás hacer el logro más rápido.'
+L['coreless_automa_warning'] = '|cFFFF8C00Espera a que el automa te siga de verdad antes de decirle a Pocopoc que se vaya para evitar causar un error que requiere que vuelvas a iniciar sesión.|r'
+
+L['olea_manu'] = 'Vende transfiguraciones y recetas a cambio de {currency:1979}.'
+
 L['options_icons_code_creature'] = '{achievement:15211}'
 L['options_icons_code_creature_desc'] = 'Muestra dónde están las criaturas para el logro {achievement:15211}.'
 L['options_icons_concordances'] = 'Concordancias de Conocimiento'
@@ -803,9 +898,17 @@ L['options_icons_echoed_jiros'] = 'Jiro en Eco'
 L['options_icons_echoed_jiros_desc'] = 'Muestra dónde están los |cFFFFFD00Jiro en Eco|r que dan bufos.'
 L['options_icons_exile_tales'] = '{achievement:15509}'
 L['options_icons_exile_tales_desc'] = 'Muestra dónde están los libros para el logro {achievement:15509}.'
+L['options_icons_proto_materials'] = '{achievement:15229}'
+L['options_icons_proto_materials_desc'] = 'Muestra dónde están los materiales de protoforma raros para el logro {achievement:15229}.'
 L['options_icons_protoform_schematics'] = 'Esquemas de Protoforma'
 L['options_icons_protoform_schematics_desc'] = 'Muestra dónde están los esquemas de monturas y mascotas.'
 L['options_icons_puzzle_caches'] = 'Alijos Puzzles'
 L['options_icons_puzzle_caches_desc'] = 'Muestra los sitios posibles para los alijos puzzle.'
 L['options_icons_zereth_caches'] = 'Cofres con Clave'
 L['options_icons_zereth_caches_desc'] = 'Muestra los sitios posibles para los cofres con clave.'
+L['options_icons_shrouded_cyphers'] = 'Alijos de claves camuflado'
+L['options_icons_shrouded_cyphers_desc'] = 'Muestra los sitios posibles para los alijos de claves camuflado.'
+L['options_icons_mawsworn_supply_cache'] = 'Cofres de Suministros Jurafauces'
+L['options_icons_mawsworn_supply_cache_desc'] = 'Muestra los sitios posibles para los cofres de suministros Jurafauces.'
+L['options_icons_coreless_automa'] = '{achievement:15542}'
+L['options_icons_coreless_automa_desc'] = 'Sitios donde encontrar Automas salvajes que controlar para el logro {achievement:15542}.'

@@ -229,7 +229,10 @@ local optionsTrans = {
 				name = L["TITAN_TRANS_MENU_DESC"].."\n",
 				cmdHidden = true
 			},
-		tooltiptrans = {
+	},
+ }
+ --[[
+ 		tooltiptrans = {
 			name = L["TITAN_TRANS_CONTROL_TITLE_TOOLTIP"],
 			desc = L["TITAN_TRANS_TOOLTIP_DESC"],
 			order = 50, type = "range", width = "full",
@@ -239,8 +242,7 @@ local optionsTrans = {
 				TitanPanelSetVar("TooltipTrans", a);
 			end,
 		},
-	},
- }
+--]]
 --[[ local
 NAME: TitanPanel_TransOptions
 DESC: This will add each Titan bar to the transparency option table so it can be adjusted by the user. Each bar is shown whether ot not the user has them displayed.
@@ -965,9 +967,65 @@ local optionsFrames = {
 		optiontooltipcombat = {
 			name = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"],
 --			desc = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"],
-			order = 201, type = "toggle", width = "full",
+			order = 210, type = "toggle", width = "full",
 			get = function() return TitanPanelGetVar("HideTipsInCombat") end,
 			set = function() TitanPanelToggleVar("HideTipsInCombat"); end,
+		},
+		conftooltipdesc = {
+			name = "Tooltip Modifier",
+			type = "group", inline = true,
+			order = 220,
+			args = {
+				confdesc = {
+					order = 110,
+					type = "description",
+					name = "",
+					cmdHidden = true,
+					},
+				advname = {
+					name = "Use Modifier to Show Tooltip", --L["TITAN_PANEL_MENU_ADV_PEW"],
+					desc = "", -- L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
+					order = 120, type = "toggle", width = "full",
+					get = function() return TitanAllGetVar("UseTooltipModifer") end,
+					set = function(_, a)
+						TitanAllSetVar("UseTooltipModifer", a);
+					end,
+				},
+				tooltipmod = {
+					name = "",
+					type = "group", inline = true,
+					order = 140,
+					args = {
+						alt_key = {
+							name = ALT_KEY_TEXT,
+							desc = ALT_KEY,
+							order = 110, type = "toggle", --width = "full",
+							get = function() return TitanAllGetVar("TooltipModiferAlt") end,
+							set = function(_, a)
+								TitanAllSetVar("TooltipModiferAlt", a);
+							end,
+						},
+						ctrl_key = {
+							name = CTRL_KEY_TEXT,
+							desc = CTRL_KEY,
+							order = 120, type = "toggle", --width = "full",
+							get = function() return TitanAllGetVar("TooltipModiferCtrl") end,
+							set = function(_, a)
+								TitanAllSetVar("TooltipModiferCtrl", a);
+							end,
+						},
+						shift_key = {
+							name = SHIFT_KEY_TEXT,
+							desc = SHIFT_KEY,
+							order = 130, type = "toggle", --width = "full",
+							get = function() return TitanAllGetVar("TooltipModiferShift") end,
+							set = function(_, a)
+								TitanAllSetVar("TooltipModiferShift", a);
+							end,
+						},
+					},
+				},
+			},
 		},
 		confdesc = {
 			order = 300,
@@ -1531,7 +1589,7 @@ local function TitanUpdateConfigAddons()
 			end
 			args[plug_in.id] = {
 				type = "group",
-				name = ColorVisible(plug_in.id or "", plug_in.menuText),
+				name = ColorVisible(plug_in.id, plug_in.menuText or ""),
 				order = idx,
 				args = {
 					name = {
@@ -1697,6 +1755,40 @@ local function TitanUpdateConfigAddons()
 					cmdHidden = true,
 				}
 			end
+			args[plug_in.id].args.space_50_2 = {
+				order = 59,
+				type = "description",
+				name = "  ",
+				cmdHidden = true,
+			}
+			-- 
+			-- Custom Label
+			args[plug_in.id].args.custom_labels = {
+				order = 60,
+				type = "header",
+				name = SHOW.." "..CUSTOM.." ".."Labels",
+			}
+			args[plug_in.id].args.custom_label_show = {
+				type = "toggle",
+				name = SHOW,
+				order = 62,
+				get = function(info) return (TitanGetVar(info[1], "CustomLabelTextShow") or false) end,
+				set = function(info, v)
+					TitanToggleVar(info[1], "CustomLabelTextShow");
+					TitanPanelButton_UpdateButton(info[1])
+				end,
+			}
+			args[plug_in.id].args.custom_label_text = {
+				order = 64,
+				name = CUSTOM,
+				desc = "Custom label text to show",
+				type = "input", width = "full",
+				get = function(info) return (TitanGetVar(info[1], "CustomLabelText") or "") end,
+				set = function(info,v) 
+					TitanSetVar(info[1], "CustomLabelText", v);
+					TitanPanelButton_UpdateButton(info[1])
+					end,
+			}
 		end
 	end
 

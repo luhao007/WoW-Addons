@@ -254,7 +254,7 @@ L['flayedwing_transporter_note'] = 'Cliquez sur {npc:178633} pour voler vers ou 
 L['fleshwing_note'] = 'Parlez à {npc:180079} pour commencer l\'événement de collecte.'
 L['forgotten_feather_note'] = 'Flottant sur une petite île à laquelle on accède en sautant depuis le Répit du gardien.'
 L['konthrogz_note'] = 'Apparaît lors d\'un événement lié à un portail de dévoreur. L\'événement peut apparaître dans de nombreux endroits de Korthia.'
-L['korthia_limited_rare'] = '|cFFFF8C00Ce monstre rare n\'est pas disponible certains jours.|r'
+L['sl_limited_rare'] = '|cFFFF8C00Ce monstre rare n\'est pas disponible certains jours.|r'
 L['krelva_note'] = 'Se déplace vers une autre plateforme à 80%, puis se déplace vers la terre ferme à 60%. |cFFFF8C00Vous devez attaquer le rare après 60% pour être compté dans le combat !|r'
 L['kroke_note'] = 'Tuez des {npc:179029s} dans la zone jusqu\'à ce qu\'il apparaisse. Ne peut pas apparaître les jours où les {npc:179029s} sont absents.'
 L['maelie_wanderer'] = '{npc:179912} apparaîtra à un endroit défini pour la journée. Une fois que vous avez utilisé {spell:355862} sur elle 6 jours différents, revenez voir {npc:179930} pour obtenir la monture.'
@@ -675,9 +675,30 @@ Un événement de tourmenteur apparaît toutes les 2 heures à heure pile. Les b
 La {item:185972} peut être obtenue une fois par semaine et contient 50 {currency:1906}.
 ]]
 
+L['options_icons_mawsworn_blackguard'] = '{achievement:14742}'
+L['options_icons_mawsworn_blackguard_desc'] = 'Emplacements des {npc:183173} pour le haut-fait {achievement:14742}'
+
+L['mawsworn_blackguard'] = 'Garde sombre antrelige'
+L['mawsworn_blackguard_note'] = 'Cibler facilement un {npc:183173} camouflé :'
+
 -------------------------------------------------------------------------------
 -------------------------------- ZERETH MORTIS --------------------------------
 -------------------------------------------------------------------------------
+
+local HIDDEN_ALCOVE = [[
+Pour accéder à l'|cFFFFFD00Alcôve %s|r :
+1. Terminez le chapitre 6 de la campagne de Zereth Mortis.
+2. Trouvez l'|cFFFFFD00Agencement de l'alcôve %s|r %s.
+3. Aux |cFFFFFD00Pics Résonnants|r, tuez les monstres affectés par {spell:362651} ou placez-vous dans les zones blanches pour obtenir 60 {npc:183569}.
+4. Utilisez le {npc:184329} à l'intérieur du Repos de la fertilité pour accéder à la Chambre Intérieure. (Nécessite 30 {npc:183569})
+5. Utilisez le {npc:184485} pour accéder à l'Alcôve %s. (Nécessite 30 {npc:183569})
+]]
+
+L['camber_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Concave', 'Concave', 'derrière le bâtiment du |cFFFFFD00Locus Ultimus|r', 'Concave')
+L['dormant_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Dormante', 'Dormante', 'aux |cFFFFFD00Pics Résonnants|r', 'Dormante')
+L['fulgor_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Aveuglante', 'Aveuglante', 'aux |cFFFFFD00Pics Résonnants|r', 'Aveuglante')
+L['rondure_alcove_note'] = string.format(HIDDEN_ALCOVE, 'Incurvée', 'Incurvée', 'sur la plateforme du |cFFFFFD00Locus Tertius|r', 'Incurvée')
+L['repertory_alcove_note'] = string.format(HIDDEN_ALCOVE, 'du Répertoire', 'du Répertoire', 'à l\'intérieur de la grotte de la |cFFFFFD00Cache Terrestre|r', 'du Répertoire')
 
 L['corrupted_architect_note'] = 'Engagez en combat {npc:183958} et {npc:183961} pour activer le monstre rare.'
 L['dune_dominance_note'] = 'Les trois monstres élites rares pour le haut-fait {achievement:15392} apparaissent à cet endroit.'
@@ -685,12 +706,16 @@ L['feasting_note'] = 'Va parfois faire le tour de la zone avant de revenir à ce
 L['furidian_note'] = 'Activez trois |cFFFFFD00Serrures renforcées|r dans la zone, puis déverrouillez le |cFFFFFD00Coffre étrangement remonté|r.'
 L['garudeon_note'] = 'Ramassez des {npc:183562s} dans les environs et utilisez {spell:362655} pour nourrir les {npc:183554s}. Une fois les trois nourris, {npc:180924} s\'activera.'
 L['gluttonous_overgrowth_note'] = 'Brisez toutes les {npc:184048s} proches pour activer le monstre rare.'
+L['helmix_note'] = [[
+Tuez des {npc:179005s} dans la zone jusqu'à ce qu'il émette un signal et apparaisse.
+|cFFFF8C00Le sol tremble... Quelque chose se déplace sous la surface !|r
+]]
 L['hirukon_note'] = [[
 Pour attirer {npc:180978} à la surface, il est nécessaire de créer un {item:187923}.
 
 1. Pêchez une {item:187662} dans les eaux voisines.
 
-2. Pêchez un {item:187915} dans l'|cFFFFFD00Amas de Poissons-blobs âcres|r à l'intérieur du Réservoir de Glissecroc au Marécage de Zangar. Le bassin se trouve à droite lorsque vous entrez dans la caverne.
+2. Pêchez un {item:187915} dans l'|cFFFFFD00Amas de Poissons-blobs âcres|r à l'intérieur du Réservoir de Glissecroc au Marécage de Zangar.
 
 3. Pêchez un {item:187922} dans le |cFFFFFD00Banc de Nectalies|r près du point de vol de la Tombe de Kelya à Nazjatar.
 
@@ -700,23 +725,25 @@ Pour attirer {npc:180978} à la surface, il est nécessaire de créer un {item:1
 
 6. Utilisez l'{item:187923}, qui vous permettra de voir le point de pêche d'|cFFFFFD00Amas d'Aurélides|r près de {npc:180978} pendant 15min. Pêchez dedans pour faire remonter {npc:180978} à la surface.
 ]] -- Needs Review on fishing spots names
+L['orixal_note'] = 'Partage son apparition avec l\'{npc:185487} patrouillant dans la zone.'
 L['protector_first_ones_note'] = 'Nécessite deux personnes. Apportez les runes correspondantes à chaque console (trouvées dans les environs) pour ouvrir la barrière.'
 L['the_engulfer_note'] = 'Défendez {npc:183505} jusqu\'à ce que {npc:183516} surgisse de la faille.'
 L['zatojin_note'] = 'Attirez les {npc:183721} proches et laissez-les appliquer 20 charges de {spell:362976} jusqu\'à ce que vous soyez {spell:362983}. Vous devez vous tenir au-dessus des cadavres de {npc:183774} lorsque vous êtes paralysé pour que {npc:183764} vous remarque.'
 
-L['architects_reserve_note'] = 'Complétez la suite de quêtes {quest:64829} de l\'{npc:180630} à la Grâce du Pèlerin. Le lendemain, accomplissez la suite de quêtes {quest:65426} de {npc:181273} pour déverrouiller le trésor.'
+L['architects_reserve_note'] = 'Complétez la suite de quêtes {quest:64829} de l\'{npc:180630} à la Grâce du Pèlerin pour déverrouiller le trésor.'
 L['bushel_of_produce_note'] = 'Tuez un {npc:182368} au nord alors qu\'il est affecté par {spell:360945} pour obtenir le buff vous-même. Tuez d\'autres {npc:182368} (ils n\'ont pas besoin d\'avoir le buff) jusqu\'à ce que vous ayez accumulé 5 charges, puis brisez la porte menant au trésor.'
-L['crushed_crate_note'] = 'Ramassez l\'{item:189767} dans le creux de la grande sphère au nord. Donnez-le à {npc:185151} en échange du {item:189768} qui peut briser les pierres tombées.'
+L['crushed_crate_note'] = 'Ramassez l\'{item:189767} reposant sur le pilier effondré au-dessus du trésor. Donnez-le à {npc:185151} en échange du {item:189768} qui peut briser les pierres tombées.'
 L['domination_cache_note'] = 'La {item:189704} a une faible chance de tomber sur les {npc:181403s} et {npc:182426s} de la zone.'
 L['drowned_broker_supplies_note'] = 'Dites à {npc:181059} de prendre le contrôle de l\'{npc:185282} à proximité.'
 L['forgotten_protovault_note'] = 'Uniquement disponible pendant l\'expédition {wq:Frog\'it}.'
 L['grateful_boon_note'] = 'Difficile à atteindre sans voler, utilisez {spell:300728} ou {spell:111771} pour gravir la montagne. Apaisez les 12 créatures de la zone et {npc:185293} fera apparaître le trésor.'
 L['library_vault_note'] = 'Cliquez sur les tablettes dans la Grotte Lexicale jusqu\'à ce que vous trouviez le buff {spell:362062} approprié pour ouvrir le caveau.'
-L['mistaken_ovoid_note'] = 'Dans la Grotte des Chutes dimensionnelles, derrière les sphères.'
-L['ripened_protopear_note'] = 'Commencez la suite de quêtes {quest:64641} pour accéder à la Fonderie de l’Éclosion. Collectez 5 {spell:367180} (nuages verts) à l\'intérieur et apportez-les à la {npc:185416} pour la polliniser.'
+L['mistaken_ovoid_note'] = 'Dans la Grotte des Chutes dimensionnelles, vous devez collecter 5x {item:190239} et les amener à {npc:185280}.'
+L['ripened_protopear_note'] = 'Commencez la suite de quêtes {quest:64641} pour accéder à la Fonderie de l’Éclosion. Collectez 5 {spell:367180} (nuages verts) à l\'intérieur et apportez-les un par un à la {npc:185416} pour la polliniser. Une fois qu\'elle aura grandi 5 fois, elle tombera.'
 L['sphere_treasure_note'] = 'Sautez prudemment sur les sphères jusqu\'à ce que vous atteigniez le trésor.'
 L['submerged_chest_note'] = 'Absorbez le |cFFFFFD00Dangereux orbe de puissance|r au sud, puis interagissez avec la |cFFFFFD00Pompe oubliée|r près du trésor.' -- Needs Review
 L['symphonic_vault_note'] = 'Examinez l\'{npc:183998} pour entendre une séquence de quatre sons. Chaque {npc:183950} dans la pièce joue un seul son. Interagissez avec elles dans le bon ordre pour déverrouiller le trésor.'
+L['syntactic_vault_note'] = 'Pour déverrouiller le trésor, vous devez accumuler 6 charges de {spell:367499} en interagissant avec les |cFFFFFD00Syllabes Runiques|r dans la zone du Sépulcre des Fondateurs.'
 L['template_archive_note'] = 'Poussez l\'{npc:183339} dans la salle jusqu\'à l\'{npc:183337} bloquant le chemin vers le trésor.'
 L['undulating_foliage_note'] = [[
 Pressez les quatre {npc:185390s} pour activer le téléporteur dans la salle centrale des Champs Catalyseurs.
@@ -727,11 +754,42 @@ Pressez les quatre {npc:185390s} pour activer le téléporteur dans la salle cen
 • Dans la salle sud-est des champs
 ]]
 
+L['provis_cache'] = 'Cache verrouillée de Provis'
+L['provis_cache_note'] = [[
+Accomplissez au moins une fois la quête journalière {quest:64717} de {npc:177958}.
+Utilisez le {item:187516} aux forges de la zone pour récupérer 15 {item:187728} et combinez-les en un {item:187787}. Cet orbe a une chance de contenir la clé.
+]]
 L['prying_eye_discovery'] = 'Découverte d\'œil indiscret'
 L['prying_eye_discovery_note'] = 'Plus facile à atteindre une fois que le vol est déverrouillé.'
 L['pulp_covered_relic'] = 'Relique couverte de pulpe'
+L['requisites_originator_note'] = [[
+Une machine qui vous donnera différentes récompenses une fois par semaine :
+
+• {spell:366667} = Matériaux d'Enchantement + or
+• {spell:366668} = Anima
+• {spell:366669} = Cryptogrammes
+• {spell:366670} = Granules de genèse + {item:189179} (possible)
+• {spell:366671} = Cryptogrammes/Granules/Anima
+• {spell:366672} = Équipement Cryptique
+]]
+L['rondure_cache'] = 'Cache incurvée'
+L['rondure_cache_note'] = 'Une forge pouvant être cliquée au sommet d\'un parcours de sauts dans l\'|cFFFFFD00Alcôve Incurvée|r.'
 L['sandworn_chest'] = 'Coffre erodé'
 L['sandworn_chest_note'] = 'Récupérez 5x {item:190198} sur les monstres de la zone pour construire la {item:190197}.'
+L['sand_piles'] = 'Tas de sable'
+L['sand_piles_note'] = [[
+Tous les tas de sable se trouvent dans la chambre cachée de l'Alcôve Dormante. Chaque tas requiert un {item:189863}, qui peut être trouvé dans d'autres trésors de la zone :
+
+• Cache de domination
+• Caveau déchu
+• Artéfact chipé
+• Parchemin volé
+• Coffre submergé
+• Caveau symphonique
+• Feuillage ondulant
+]]
+L['torn_ethereal_drape'] = 'Drapé éthérien déchiré'
+L['torn_ethereal_drape_note'] = 'Se trouve à l\'intérieur de l\'|cFFFFFD00Alcôve Aveuglante|r. Activez les |cFFFFFD00Console d’Automa|r, puis montez sur les {npc:183565s} pour atteindre le plafond.'
 
 L['cache_avian_nest'] = 'Nid d\'oiseau'
 L['cache_cypher_bound'] = 'Coffre lié par un cryptogramme'
@@ -739,6 +797,12 @@ L['cache_discarded_automa'] = 'Débris d\'Automa abandonné'
 L['cache_forgotten_vault'] = 'Salle du trésor oubliée'
 L['cache_mawsworn_supply'] = 'Coffre de fournitures antreliges'
 L['cache_tarachnid_eggs'] = 'Oeufs de Tarachnidé'
+L['cache_shrouded_cypher'] = 'Cache cryptique dissimulée'
+L['cache_shrouded_cypher_note'] = [[
+Ces caches ne peuvent être vues que si l'on possède le buff {spell:361917} et l'on porte un Équipement Cryptique approprié :
+
+|cFF00FF00Améliore la perception de Pocopoc, ce qui lui permet de détecter des caches supplémentaires.|r
+]]
 
 L['cache_cantaric'] = 'Cache cantabilienne'
 L['cache_fugueal'] = 'Cache fuguéal'
@@ -749,10 +813,11 @@ L['cache_toccatian'] = 'Cache toccatienne'
 L['schematic_treasure_note'] = '|cFFFF8C00Ce trésor ne contiendra pas le schéma de protoforme si vous n\'avez pas encore débloqué le synthétiseur. Si vous avez déjà récupéré le trésor, vous trouverez le schéma sur le sol à proximité.|r'
 L['schematic_treasure_mount_note'] = '|cFFFF8C00Ce schéma se trouve dans un trésor à usage unique situé à proximité. Si le trésor est ouvert avant le déverrouillage du synthétiseur de montures, le schéma peut être trouvé ici.|r'
 L['schematic_treasure_pet_note'] = '|cFFFF8C00Ce schéma se trouve dans un trésor à usage unique situé à proximité. Si le trésor est ouvert avant le déverrouillage du synthétiseur de familiers, le schéma peut être trouvé ici.|r'
-L['schematic_bronze_helicid_note'] = 'Peut être trouvé dans le {item:190610} de la quête bi-hebdomadaire {quest:65324}.'
+L['schematic_bronze_helicid_note'] = 'Peut être trouvé dans le {item:190610} de la quête hebdomadaire {quest:65324}.'
 L['schematic_ambystan_darter_note'] = 'Dissimulé sous l\'eau, près du {npc:185312}.'
 L['schematic_bronzewing_vespoid_note'] = 'A l\'intérieur du Repos de la fertilité.'
 L['schematic_buzz_note'] = 'Peut être trouvé dans une {npc:185265}.'
+L['schematic_curious_crystalsniffer_note'] = 'Disponible pendant une courte période après la mort de {npc:184915} dans le raid |cFFFFFD00Le sépulcre des Fondateurs|r.'
 L['schematic_darkened_vombata_note'] = 'Dans une cage flottante.'
 L['schematic_deathrunner_note'] = 'Obtenu au cours de la suite de quêtes déverrouillant la {spell:366367}.'
 L['schematic_desertwing_hunter_note'] = 'Situé au sommet du pilier.'
@@ -761,19 +826,25 @@ L['schematic_forged_spiteflyer_note'] = 'Dépassant d\'un amas de ruches vespoï
 L['schematic_genesis_crawler_note'] = 'Trouvé au sommet de l\'entrée de l\'Alcôve de la Genèse.'
 L['schematic_goldplate_bufonid_note'] = 'Faible chance de tomber sur les {npc:178803s}.'
 L['schematic_heartbond_lupine_note'] = 'Faible chance de tomber sur un {npc:179939}.'
+L['schematic_ineffable_skitterer_note'] = 'Suicidez-vous ! Non, sérieusement... vous ne pouvez voir l\'{npc:185092} au |cFFFFFD00Creux de l’Exil|r que lorsque vous êtes un fantôme.'
 L['schematic_leaping_leporid_note'] = 'Trouvé au sommet d\'un arbre flottant.'
+L['schematic_mawdapted_raptora_note'] = 'Faible chance d\'être trouvé sur les {npc:181412s} dans les |cFFFFFD00Sables Infinis|r.'
 L['schematic_microlicid_note'] = 'Sur la branche la plus basse de l\'arbre flottant, sous le feuillage.'
-L['schematic_pale_regal_cervid_note'] = 'Recherchez tous les cryptogrammes à la {npc:181397} pour recevoir {achievement:15402}.'
+L['schematic_omnipotential_core_note'] = 'Se trouve dans l\'|cFFFFFD00Alcôve Incurvée|r. Le schéma est caché derrière le bord supérieur de la voûte du côté sud-ouest de la pièce.'
 L['schematic_prototickles_note'] = 'Attaché à une chaîne flottante à l\'intérieur des vignes au-dessus du monstre rare {npc:180978}.'
+L['schematic_prototype_fleetpod_note'] = 'Se trouve dans l\'|cFFFFFD00Alcôve Concave|r. Interagissez avec le {npc:184900} pour déclencher un mini-jeu. Guidez l\'escargot à travers 5 anneaux sans toucher les {npc:185455s} pour obtenir le schéma.'
 L['schematic_raptora_swooper_note'] = 'Trouvé à l\'intérieur de la Chambre de Façonnage.'
 L['schematic_resonant_echo_note'] = 'Peut être trouvé dans un |cFFFFFD00Écho du premier chant cristallisé|r.'
 L['schematic_russet_bufonid_note'] = 'Peut être trouvé dans la cache de parangon {item:187780}.'
 L['schematic_scarlet_helicid_note'] = 'Trouvé au sommet de la structure de l\'arche.'
+L['schematic_serenade_note'] = 'Situé dans une chaîne sous une plateforme flottante dans la zone |cFFFFFD00Foyer immortel|r du raid.'
 L['schematic_shelly_note'] = 'Situé à l\'arrière d\'une étagère dans la Grotte Lexicale. Nécessite une capacité de téléportation pour escalader l\'étagère.'
-L['schematic_tarachnid_creeper_note'] = 'A l\'intérieur d\'une petite structure dans les Sables Infinis.'
+L['schematic_stabilized_geomental_note'] = 'A une chance d\'être lâché par {npc:182169} dans le raid |cFFFFFD00Le sépulcre des Fondateurs|r.'
+L['schematic_tarachnid_creeper_note'] = 'A l\'intérieur d\'une petite structure dans les |cFFFFFD00Sables Infinis|r. Nécessite d\'avoir progressé dans la campagne jusqu\'au chapitre 5 pour dégager les rochers.'
 L['schematic_terror_jelly_note'] = 'Au sommet du pylône carré à côté de la rampe.'
 L['schematic_tunneling_vombata_note'] = 'A côté de quelques décombres dans un tunnel bloqué à l\'intérieur du complexe Esper locrien.'
 L['schematic_vespoid_flutterer_note'] = 'Dépasse d\'un tas de sable au niveau Locus primus des Pics Résonnants.'
+L['schematic_violent_poultrid_note'] = 'A une chance d\'être obtenu à partir de la quête journalière {daily:65256}.'
 
 L['concordance_excitable'] = 'Harmonique fébrile'
 L['concordance_mercurial'] = 'Harmonique changeant'
@@ -783,10 +854,22 @@ L['concordance_note'] = 'Lisez chaque harmonique pour déverrouiller les donnée
 L['echoed_jiro_note'] = 'Dépensez l\'énergie de {npc:181059} pour obtenir des buffs temporaires. Nécessite la recherche |cFFFFFD00Créatien|r à la {npc:181397}.'
 
 L['bygone_elemental_note'] = 'Un {npc:181221} peut apparaître à la place de n\'importe quel {npc:179007} dans la zone.'
-L['gaiagantic_note'] = 'Apparaît uniquement lorsque {npc:177958} propose la quête journalière {quest:64785}.'
-L['misaligned_enforcer_note'] = 'Patrouille la zone et disparaît à la fin de son itinéraire.'
+L['dominated_irregular_note'] = 'Un {npc:184819} peut apparaître à la place de n\'importe quel {npc:183184} dans la zone.'
+L['gaiagantic_note'] = 'Apparaît uniquement lorsque {npc:177958} propose la quête journalière {daily:64785}.'
+L['misaligned_enforcer_note'] = 'Apparaît ici. Patrouille la zone et disparaît à la fin de son itinéraire.'
 L['overcharged_vespoid_note'] = 'Peut apparaître dans n\'importe quel essaim de la zone.'
 L['runethief_xylora_note'] = 'Apparaît camouflé à la Grâce du Pèlerin.'
+
+local proto_area = 'Peut être trouvé dans les forges autour de la zone |cFFFFFD00%s|r.'
+L['proto_material_zone_chance'] = 'Peut être trouvé dans certaines forges de la zone.'
+L['anima_charged_yolk_note'] = 'Récupérez des {item:187728} provenant de n\'importe quelle forge et combinez-les en un {item:187787}, qui a une chance de contenir un {item:187890}.'
+L['energized_firmament_note'] = string.format(proto_area, 'Pics Résonnants')
+L['honeycombed_lattice_note'] = string.format(proto_area, 'Précipice Bourdonnant')
+L['incorporeal_sand_note'] = 'Peut être trouvé dans les forges des zones désertiques de la zone.'
+L['pollinated_extraction_note'] = string.format(proto_area, 'Verdure Indomptée')
+L['serene_pigment_note'] = 'Dans une forge au-dessus de l\'entrée du |cFFFFFD00	Creux de l’Exil|r. Peut nécessiter plusieurs essais.'
+L['volatile_precursor_note'] = 'Trouvé dans la petite forge au sommet. Peut nécessiter plusieurs essais.'
+L['wayward_essence_note'] = 'Difficile à atteindre sans voler; utilisez {spell:300728} ou {spell:111771}. Dans une forge flottante derrière le |cFFFFFD00Creux de l’Exil|r. Placez-vous dans le renfoncement pour siphonner la forge.'
 
 L['patient_bufonid_note'] = 'Progressez dans l\'histoire de Zereth Mortis jusqu\'à ce que {npc:180950} propose {quest:65727}. Complétez les quêtes chaque jour pour attirer le {npc:185798} hors de l\'étang.'
 L['patient_bufonid_note_day1'] = 'Récupérez 15x {item:190852} sur des Vespoïdes dans la zone.'
@@ -797,17 +880,34 @@ L['patient_bufonid_note_day5'] = 'Récupérez 5x {item:187704} sur des monstres 
 L['patient_bufonid_note_day6'] = 'Achetez 5x {item:190880} à {npc:185748} près de la Grâce du Pèlerin.'
 L['patient_bufonid_note_day7'] = 'Acheter 1x {item:187171} auprès du {npc:180114} dans le donjon Tazavesh.'
 
+L['lost_comb'] = 'Rayon de miel égaré'
+L['soulshape_penguin_note'] = 'Situé au sommet de la forge flottante.'
+
+L['coreless_automa'] = 'Automas sauvages'
+L['coreless_automa_note'] = 'Équiper un objet avec {spell:364480} donnera à |cFFFFFD00Pocopoc|r la capacité de prendre le contrôle de créatures sans consommer d\'énergie et permettra d\'obtenir ce haut-fait plus rapidement.'
+L['coreless_automa_warning'] = '|cFFFF8C00Attendez que l\'automa commence réellement à vous suivre avant de dire à Pocopoc de partir pour éviter de provoquer un bug qui vous obligerait à vous reconnecter.|r'
+
+L['olea_manu'] = 'Vend des objets et des recettes en échange de {currency:1979}.'
+
 L['options_icons_code_creature'] = '{achievement:15211}'
 L['options_icons_code_creature_desc'] = 'Afficher les emplacements des créatures pour le haut-fait {achievement:15211}.'
-L['options_icons_concordances'] = 'Harmoniques d\'histoire'
+L['options_icons_concordances'] = 'Histoires Harmoniques'
 L['options_icons_concordances_desc'] = 'Afficher les emplacements des consoles d\'harmoniques d\'histoire.'
 L['options_icons_echoed_jiros'] = 'Jiro sonore'
 L['options_icons_echoed_jiros_desc'] = 'Afficher les emplacements des buffs d\'offrandes des |cFFFFFD00Jiros sonores|r.'
 L['options_icons_exile_tales'] = '{achievement:15509}'
 L['options_icons_exile_tales_desc'] = 'Afficher les emplacements des tomes pour le haut-fait {achievement:15509}.'
+L['options_icons_proto_materials'] = '{achievement:15229}'
+L['options_icons_proto_materials_desc'] = 'Afficher les emplacements des matériaux de protoforme rares pour le haut-fait {achievement:15229}.'
 L['options_icons_protoform_schematics'] = 'Schémas de protoforme'
 L['options_icons_protoform_schematics_desc'] = 'Afficher les emplacements des schémas de montures et familiers.'
-L['options_icons_puzzle_caches'] = 'Caches des puzzles'
+L['options_icons_puzzle_caches'] = 'Caches de la création (Puzzle)'
 L['options_icons_puzzle_caches_desc'] = 'Afficher les emplacements possibles des caches de puzzles'
 L['options_icons_zereth_caches'] = 'Caches cryptiques' -- Needs Review
 L['options_icons_zereth_caches_desc'] = 'Afficher les emplacements possibles des Caches cryptiques' -- Needs Review
+L['options_icons_shrouded_cyphers'] = 'Caches cryptiques dissimulées'
+L['options_icons_shrouded_cyphers_desc'] = 'Afficher les emplacements possibles des Caches cryptiques dissimulées.'
+L['options_icons_mawsworn_supply_cache'] = 'Coffres de fournitures antreliges'
+L['options_icons_mawsworn_supply_cache_desc'] = 'Afficher les emplacements possibles des Coffres de fournitures antreliges.'
+L['options_icons_coreless_automa'] = '{achievement:15542}'
+L['options_icons_coreless_automa_desc'] = 'Emplacements des Automas sans noyaux pour le haut-fait {achievement:15542}.'

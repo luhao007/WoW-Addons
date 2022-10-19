@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: MysticalOS
-## Version: r29
+## Version: r33
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMTombofSargeras_AllSavedVars
@@ -23,6 +23,7 @@
 ## X-Part-Of: DBM-Core
 
 localization.en.lua
+localization.ru.lua
 localization.kr.lua
 localization.de.lua
 localization.cn.lua

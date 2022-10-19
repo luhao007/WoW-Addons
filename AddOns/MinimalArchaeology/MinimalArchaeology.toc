@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
-## Version: 9.1.0
+## Version: 9.2.0.3
 ## LoadOnDemand: 0
 ## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
 ## SavedVariablesPerCharacter: MinArchOptions

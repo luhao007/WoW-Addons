@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: MysticalOS
-## Version: r60
+## Version: r65
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMDraenor_AllSavedVars
@@ -15,7 +15,7 @@
 ## X-DBM-Mod-Category: WOD
 ## X-DBM-StatTypes: normal
 ## X-DBM-Mod-Name: World Bosses (WoD)
-## X-DBM-Mod-Name-ruRU: Мировые боссы (WoD)
+## X-DBM-Mod-Name-ruRU: Мировые боссы (Дренор)
 ## X-DBM-Mod-SubCategories: Draenor,Garrison Invasions
 ## X-DBM-Mod-SubCategories-deDE: Draenor,Garnisonsinvasionen
 ## X-DBM-Mod-SubCategories-esES: Draenor,Invasiones de la ciudadela

@@ -11,8 +11,6 @@ gFactionID = 1168
 --check Glamour version
 --
 
-local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
-
 if(IsAddOnLoaded("Glamour")) then
 	local min_version = 1.2
 	local major, minor, _ = strsplit(".", Glamour_VERSION)
@@ -173,8 +171,8 @@ function TitanPanelReputationButton_OnLoad(self)
     self:RegisterEvent("ADDON_LOADED")
 
     --Temporary Patch for Titan Panel RightClick bug.
-    TitanPanelBarButton_OnClick(Titan_Bar__Display_Bar,"RightButton")
-    LibDD:CloseDropDownMenus()
+    TitanPanelBarButton_OnClick(Titan_Bar__Display_Bar,"RightButton")   
+    L_CloseDropDownMenus() 
 end
 
 -- event handling
@@ -193,7 +191,7 @@ function TitanPanelReputationButton_OnEvent(event, ...)
 		if not TitanRep_Data then
 			TitanRep_Data = { }
 		end
-
+	
 		TITANREP_InitTime = GetTime();
 		print("TITANREP_InitTime Set:",TITANREP_InitTime);
 	end
@@ -254,7 +252,7 @@ end
 local TITANREP_OldScale
 local TITANREP_isTooltipShowing = false
 function TITANREP_TooltipHook()
-	if GameTooltip:GetOwner() == TitanPanelReputationButton then
+	if GameTooltip:GetOwner() == TitanPanelReputationButton then 
 		if not TITANREP_isTooltipShowing then
 			TITANREP_isTooltipShowing = true
 			TITANREP_OldScale = GameTooltip:GetScale()
@@ -364,7 +362,7 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
 
 	if isFriendship then
 		friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(isFriendship)
-        if not nextFriendThreshold then
+        if not nextFriendThreshold then 
             adjustedId = 8
             TOTAL_BESTFRIENDS = TOTAL_BESTFRIENDS + 1
         end
@@ -416,7 +414,7 @@ function TitanPanelReputation_BuildToolTipText(name, parentName, standingID, top
 		end
 
 
-		if(showrep == 1) then
+		if(showrep == 1) then 
 
 			local LABEL = getglobal("FACTION_STANDING_LABEL"..standingID)
 			if isFriendship then LABEL = friendTextLevel end
@@ -480,13 +478,13 @@ function TitanPanelRightClickMenu_AddTitle2(title, level)
 		info.notClickable = 1
 		info.isTitle = 1
        		info.notCheckable = true
-		LibDD:UIDropDownMenu_AddButton(info, level)
+		L_UIDropDownMenu_AddButton(info, level)
 	end
 end
 
 
 function TitanPanelRightClickMenu_AddToggleVar2(text, id, var, toggleTable, level, noclose)
-	if not level then level = 2 end
+	if not level then level = 2 end	
 	local info = {}
 	info.text = text
 	info.value = {id, var, toggleTable}
@@ -758,7 +756,7 @@ end
 
 -- this method adds a line to the level2 right-click menu (to build up factions for parent header)
 function TitanPanelReputation_BuildFactionSubMenu(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, isInactive, hasRep, isChild, isFriendship, factionID)
-	local friendID , friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold
+	local friendID , friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold 
 	local adjustedId = standingID
 	if isFriendship then
 		friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(isFriendship)
@@ -879,7 +877,7 @@ function TitanPanelReputation_GatherValues(name, parentName, standingID, topValu
 
 	if TITANREP_TABLE_INIT then
 		if((not isHeader and name) or (isHeader and hasRep)) then
-			if not TITANREP_TABLE[factionID] and GetTime() - TITANREP_InitTime > 30 then
+			if not TITANREP_TABLE[factionID] and GetTime() - TITANREP_InitTime > 30 then		
 				local adjustedId = standingID
 				local msg = ""
 				local dsc = "You have obtained "
@@ -1083,11 +1081,11 @@ function TitanPanelReputation_GatherFactions(method)
 			if(percent:len()<5) then percent = "0"..percent; end
 
 			if(isHeader) then parentName = name; end
-
+			
             method(name, parentName, standingID, topValue, earnedValue, percent, isHeader, isCollapsed, IsFactionInactive(index), hasRep, isChild, friendID, factionID)
-
+			
             index = index+1
-
+			
             if(index>count) then done = true; end
 		end
 end

@@ -947,13 +947,11 @@ do
   end
 
   function achbtnOnEnter(self)
-
-	local f = CreateFrame("Frame", nil, self, BackdropTemplateMixin and "BackdropTemplate")
     local id, tipset, guildtip = self.id, 0
 	-- If tipset is 1, then if adding a new line, you should add an empty line first. 0 means nothing is on the tooltip yet. Otherwise, use 2.
     GameTooltip:SetOwner(self, "ANCHOR_NONE")
     GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", 8, 0)
-    f:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b)
+    GameTooltip:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b)
 
 	-- This section based on part of AchievementShield_OnEnter:
 	if ( self.accountWide ) then
@@ -1197,16 +1195,27 @@ local function OverachieverAlertFrame_SetUp(frame, achievementID, alreadyEarned,
 	else
 		frame:SetScript("OnLeave", AlertFrame_ResumeOutAnimation)
 	end
+  -- See function AchievementAlertFrame_SetUp in AlertFrameSystems.lua -- https://www.townlong-yak.com/framexml/39229/AlertFrameSystems.lua/diff
 	if (icon) then
 		--HEY = HEY or { frame.Icon.Texture:GetTexCoord() }
 		frame.Icon.Texture:SetTexture(icon)
 		frame.Icon.Texture:SetTexCoord(0.0, 0.7109375, 0.0, 0.7109375)
-
+    local background = frame.Background
+    background:SetTexture(TexAlert)
+    background:SetTexCoord(0, 0.605, 0, 0.703)
+		background:SetPoint("TOPLEFT", 0, 0)
+		background:SetPoint("BOTTOMRIGHT", 0, 0)
+		frame.OldAchievement:SetTexture(TexAlertBorders)
+    frame.OldAchievement:Show()
 	else
 		frame.Icon.Texture:SetTexCoord(0, 0, 0, 1, 1, 0, 1, 1)
 		frame.Background:SetTexture("Interface\\AchievementFrame\\UI-Achievement-Alert-Background")
-
+		--frame.OldAchievement:SetTexture("Interface\\AchievementFrame\\UI-Achievement-Borders")
+    frame.OldAchievement:Hide()
 	end
+  --local shieldIcon = frame.Shield.Icon
+  --shieldIcon:Show()
+  --shieldIcon:SetAtlas("UI-Achievement-Shield-NoPoints", TextureKitConstants.UseAtlasSize)
 end
 -- /run Overachiever.ToastFakeAchievement("test")
 -- /run Overachiever.ToastForEvents(true, true, true, true)

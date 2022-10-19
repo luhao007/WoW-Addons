@@ -230,12 +230,18 @@ ns.groups.INVASIVE_MAWSHROOM = Group('invasive_mawshroom', 134534,
     {defaults = ns.GROUP_HIDDEN75})
 ns.groups.KORTHIA_SHARED = Group('korthia_dailies', 1506458,
     {defaults = ns.GROUP_HIDDEN75})
+ns.groups.MAWSWORN_BLACKGUARD = Group('mawsworn_blackguard', 236173,
+    {defaults = ns.GROUP_HIDDEN})
 ns.groups.MAWSWORN_CACHE = Group('mawsworn_cache', 3729814,
+    {defaults = ns.GROUP_HIDDEN75})
+ns.groups.MAWSWORN_SUPPLY_CACHE = Group('mawsworn_supply_cache', 'chest_bk',
     {defaults = ns.GROUP_HIDDEN75})
 ns.groups.NEST_MATERIALS = Group('nest_materials', 136064,
     {defaults = ns.GROUP_HIDDEN75})
 ns.groups.NILGANIHMAHT_MOUNT = Group('nilganihmaht', 1391724,
     {defaults = ns.GROUP_HIDDEN75})
+ns.groups.PROTO_MATERIALS = Group('proto_materials', 838813,
+    {defaults = ns.GROUP_HIDDEN})
 ns.groups.PROTOFORM_SCHEMATICS = Group('protoform_schematics', 4217590,
     {defaults = ns.GROUP_HIDDEN})
 ns.groups.PUZZLE_CACHE = Group('puzzle_caches', 'star_chest_g',
@@ -255,6 +261,8 @@ ns.groups.STYGIAN_CACHES = Group('stygian_caches', 'chest_nv',
     {defaults = ns.GROUP_HIDDEN75})
 ns.groups.VESPERS = Group('vespers', 3536181, {defaults = ns.GROUP_HIDDEN})
 ns.groups.ZERETH_CACHE = Group('zereth_caches', 3950362,
+    {defaults = ns.GROUP_HIDDEN75})
+ns.groups.SHROUDED_CYPHER = Group('shrouded_cyphers', 'chest_pp',
     {defaults = ns.GROUP_HIDDEN75})
 ns.groups.ZOVAAL_VAULT = Group('zovault', 'star_chest_g',
     {defaults = ns.GROUP_ALPHA75})
@@ -289,6 +297,17 @@ ns.groups.RELIC = Group('relic', 'star_chest_b', {
     IsEnabled = function(self)
         -- Relics cannot be collected until the quest "What Must Be Found" is completed
         if not C_QuestLog.IsQuestFlaggedCompleted(64506) then
+            return false
+        end
+        return Group.IsEnabled(self)
+    end
+})
+
+ns.groups.CORELESS_AUTOMA = Group('coreless_automa', 4327618, {
+    defaults = ns.GROUP_HIDDEN,
+    IsEnabled = function(self)
+        -- Coreless automa cannot be controlled by Pocopoc until the quest "Core Control" is complete
+        if not C_QuestLog.IsQuestFlaggedCompleted(65700) then
             return false
         end
         return Group.IsEnabled(self)
