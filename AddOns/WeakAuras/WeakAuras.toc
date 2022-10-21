@@ -22,8 +22,6 @@
 embeds.xml
 
 # Client flavor specific libs
-Libs\LibSpecialization\LibSpecialization.lua
-
 Init.lua
 locales.xml
 ArchiveTypes\Repository.lua
