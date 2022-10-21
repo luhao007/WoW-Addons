@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: MysticalOS
-## Version: 9.2.37
+## Version: 9.2.37-3-g29c1083
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMShadowlands_AllSavedVars

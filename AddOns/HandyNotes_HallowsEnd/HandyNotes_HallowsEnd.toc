@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: Taraezor
-## Version: 1.01
+## Version: 1.03
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_HallowsEndDB
 

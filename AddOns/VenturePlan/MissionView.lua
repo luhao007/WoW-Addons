@@ -65,7 +65,7 @@ local function Board_IsEqualToGroup(g)
 end
 
 local CAG, SetSimResultHint = {} do
-	local simArch, reSim, state, deadline
+	local simArch, simArch2, reSim, state, deadline
 	local function GetGroupTags()
 		local f = CovenantMissionFrame.MissionTab.MissionPage.Board.framesByBoardIndex
 		local mi  = CovenantMissionFrame.MissionTab.MissionPage.missionInfo
@@ -172,9 +172,12 @@ local CAG, SetSimResultHint = {} do
 		local tag, rtag = GetGroupTags()
 		if not state or state.tag ~= tag then
 			local os, md = state, CAG:GatherMissionData()
+			local isRefresh = os and os.rtag == rtag
 			state, md.tag, md.rtag, reSim = md, tag, rtag, nil
-			if os and os.rtag == rtag and os.reFinish and md.reStart then
+			if isRefresh and os.reFinish and md.reStart then
 				md.reFinish, md.reStart, md.reRange, md.reRangeT, md.reLow = os.reFinish, nil, nil
+			elseif simArch2 and not isRefresh then
+				simArch2 = nil
 			end
 			simArch = T.VSim:New(md.team, md.enemies, md.espell, md.mid, md.msc)
 			md.missingSpells, simArch.dropForks = simArch.res.hadMissingSpells, true
@@ -209,8 +212,15 @@ local CAG, SetSimResultHint = {} do
 		end
 		return simArch, state and state.missingSpells, state and (state.reFinish or state.reStart and true) or nil, rc, (state and state.reHigh and state.reHigh*state.reRangeT)
 	end
+	function CAG:GetCachedResultSim()
+		if simArch and not isDone(simArch) and simArch2 and isDone(simArch2) then
+			return simArch2
+		end
+		simArch2 = nil
+		return simArch
+	end
 	function CAG:Reset()
-		simArch, reSim, state = nil
+		simArch, simArch2, reSim, state = nil
 	end
 	function SetSimResultHint(g, sim)
 		state = CAG:GatherMissionData()
@@ -223,7 +233,7 @@ local CAG, SetSimResultHint = {} do
 			ng[#ng+1] = nge
 		end
 		state.tag, state.rtag = GetComputedGroupTags(ng)
-		simArch, state.team, state.missingSpells = sim, ng, sim.res.hadMissingSpells
+		simArch, simArch2, state.team, state.missingSpells = sim, sim, ng, sim.res.hadMissingSpells
 	end
 	EV.GARRISON_MISSION_NPC_CLOSED = CAG.Reset
 end
@@ -610,7 +620,7 @@ local function Predictor_OnUpdate(self, elapsed)
 	local rcd, isDone = (self.rsCooldown or 0) - elapsed, CAG:Run()
 	if isDone then
 		self:SetScript("OnUpdate", nil)
-		Board_SetSimResult((CAG:GetResult()))
+		Board_SetSimResult(CAG:GetCachedResultSim())
 	end
 	if (rcd < 0 or isDone) and GameTooltip:IsOwned(self) then
 		Predictor_ShowResult(self, CAG:GetResult())
@@ -655,7 +665,7 @@ local function MissionGroup_OnUpdate()
 	end
 	FollowerList:SyncToBoard()
 	Predictor_DoStart(CAGHost, 1)
-	Board_SetSimResult((CAG:GetResult()))
+	Board_SetSimResult(CAG:GetCachedResultSim())
 end
 local function MissionRewards_OnShow(self)
 	local MP = CovenantMissionFrame.MissionTab.MissionPage
@@ -982,6 +992,10 @@ function EV:I_ADVENTURES_UI_LOADED()
 		highHost:SetFrameLevel(2000)
 		Animations.Flare = T.CreateObject("OneTime", "FlareAnim", lowHost, cat)
 		Animations.Doom = T.CreateObject("OneTime", "DoomAnim", highHost, cat)
+		lowHost:SetScript("OnHide", function()
+			Animations.Flare:Stop()
+			Animations.Doom:Stop()
+		end)
 	end
 	MP.Stage.EnvironmentEffectFrame:SetScript("OnEnter", EnvironmentEffect_OnEnter)
 	MP.Stage.EnvironmentEffectFrame:SetScript("OnLeave", EnvironmentEffect_OnLeave)

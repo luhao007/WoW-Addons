@@ -1237,6 +1237,25 @@ local function GroupList_OnUpdate(self)
 		GameTooltip:Hide()
 		selfs.tipOwner = nil
 	end
+	if now >= (selfs.timerRefreshAt or now) then
+		local offerEndTime, minTL = selfs.offerEndTime, math.huge
+		for i=1, selfs.numGroups do
+			local gs = selfs.groups[i]
+			local readyAt = gs.readyAt
+			if readyAt then
+				local tl = readyAt >= now and readyAt-now or 0
+				local nt = (offerEndTime and readyAt >= offerEndTime and "|cffe00000" or "") .. U.GetTimeStringFromSeconds(tl, true, true)
+				if gs.TimeLeft:GetText() ~= nt then
+					gs.TimeLeft:SetText(nt)
+				end
+				if selfs.tipOwner == gs.host and GameTooltip:IsOwned(gs.host) then
+					gs.host:GetScript("OnEnter")(gs.host, "up")
+				end
+				minTL = tl < minTL and tl > 0 and tl or minTL
+			end
+		end
+		selfs.timerRefreshAt = now + (minTL > 120 and 60 or minTL > 99 and (minTL-99) or 0.5)
+	end
 end
 local function GroupList_SetPredictionIcon(gs, sres, maxMTL, isCurrent)
 	local ptex = "Interface/RaidFrame/ReadyCheck-Waiting"
@@ -1255,8 +1274,9 @@ local function GroupList_SetPredictionIcon(gs, sres, maxMTL, isCurrent)
 	gs.StateIcon2:SetShown(not not maxMTL)
 	gs.WarnIcon:SetShown(not isCurrent)
 end
-local function GroupList_SetGroupInfo(selfs, idx, fgid, g, gi, mid, offerEndTime)
+local function GroupList_SetGroupInfo(selfs, idx, fgid, g, gi, mid)
 	local now, gs, ns, ss = GetTime(), selfs.groups[idx], 1
+	local offerEndTime = selfs.offerEndTime
 	local cost, hasTentativeBusy = selfs.baseCost, false
 	gs.fgid = fgid
 	for b=0,4 do
@@ -1289,7 +1309,7 @@ local function GroupList_SetGroupInfo(selfs, idx, fgid, g, gi, mid, offerEndTime
 	local maxMTL = gi.readyAt and math.max(0, gi.readyAt-now)
 	local sres, _, isCurrent = U.GetMissionPrediction(mid, g, fgid)
 	hasTentativeBusy = not maxMTL and hasTentativeBusy
-	gs.maxMTL, gs.isSaved, gs.cost = maxMTL, gi.saved, cost
+	gs.maxMTL, gs.isSaved, gs.cost, gs.readyAt = maxMTL, gi.saved, cost, gi.readyAt
 	gs.TimeLeft:SetText(gi.readyAt and offerEndTime and (gi.readyAt >= offerEndTime and "|cffe00000" or "") .. U.GetTimeStringFromSeconds(maxMTL, true, true) or "")
 	gs.StateIcon:SetPoint("RIGHT", hasTentativeBusy and -10 or -6, maxMTL and 6 or 0)
 	gs.TentIcon:SetShown(hasTentativeBusy)
@@ -1315,12 +1335,13 @@ local function GroupList_OnEnterGroup(self, motion)
 	GameTooltip:SetPoint(l and "LEFT" or "RIGHT", self, l and "RIGHT" or "LEFT", l and 6 or -6, 0)
 	GameTooltip:AddDoubleLine(gs.isSaved and L"Accomplished Party" or L"Unproven Party", cost)
 	local mid, hadMTL = ms.missionID, false
+	local maxDelay = ms.offerEndTime and (ms.offerEndTime-GetTime()-5) or math.huge
 	local c1,c2,c3,c4,c5 = U.GetSavedGroupCompanions(fgid)
 	c1,c2,c3,c4,c5 = c3,c1,c4,c2,c5
 	for i=1,5 do
 		if c1 then
 			local mtl = C_Garrison.GetFollowerMissionTimeLeftSeconds(c1)
-			local rt = mtl and (NORMAL_FONT_COLOR_CODE .. U.GetTimeStringFromSeconds(mtl, false, true, true))
+			local rt = mtl and ((maxDelay < mtl and RED_FONT_COLOR_CODE or NORMAL_FONT_COLOR_CODE) .. U.GetTimeStringFromSeconds(mtl, false, true, true))
 			if not mtl then
 				local tmid = U.FollowerHasTentativeGroup(c1)
 				if tmid and tmid ~= mid then
@@ -1414,10 +1435,10 @@ local function GroupList_SetGroups(selfs, mid, offerEndTime, baseCost, ga)
 	if selfs.tipOwner and GameTooltip:IsShown() and GameTooltip:IsOwned(selfs.tipOwner) then
 		GameTooltip:Hide()
 	end
-	selfs.tipOwner = nil
+	selfs.tipOwner, selfs.timerRefreshAt = nil, nil
 	for i=1, selfs.numGroups do
 		local fgid = ga.ord[i]
-		GroupList_SetGroupInfo(selfs, i, fgid, ga.groups[fgid], ga.info[fgid], mid, offerEndTime)
+		GroupList_SetGroupInfo(selfs, i, fgid, ga.groups[fgid], ga.info[fgid], mid)
 	end
 	for i=selfs.numGroups+1, #selfs.groups do
 		selfs.groups[i].host:Hide()

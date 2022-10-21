@@ -1,7 +1,8 @@
 <!-- See license.txt for license and copyright information -->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Frame name="TomCats_Config" parent="InterfaceOptionsFramePanelContainer" hidden="true">
+
+	<Frame name="TomCats_Config" parent="TomCats_InterfaceOptionsFramePanelContainer" hidden="true">
 		<Frames>
 			<Frame parentKey="Header" parentArray="components">
 				<Size x="80" y="80" />
@@ -24,7 +25,7 @@
 								<Anchor point="RIGHT" relativeKey="$parent.$parent" relativePoint="RIGHT" x="-4" />
 							</Anchors>
 						</FontString>
-						<FontString parentKey="VersionText" font="GameFontNormal" text="Version: 2.4.16">
+						<FontString parentKey="VersionText" font="GameFontNormal" text="Version: 2.4.18">
 							<Anchors>
 								<Anchor point="TOPLEFT" relativeKey="$parent.Text" relativePoint="BOTTOMLEFT" />
 								<Anchor point="TOPRIGHT" relativeKey="$parent.Text" relativePoint="BOTTOMRIGHT" />
@@ -119,7 +120,12 @@
 						end
 					</OnLoad>
 					<OnClick>
-						InterfaceOptionsFrame_OpenToCategory(_G["TomCats_ConfigDiscoveries"])
+						local _, _, _, tocversion = GetBuildInfo()
+						if (tocversion >= 100000) then
+							SettingsPanel:SelectCategory(TomCats_ConfigDiscoveries.category)
+						else
+							InterfaceOptionsFrame_OpenToCategory(_G["TomCats_ConfigDiscoveries"])
+						end
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -231,7 +237,7 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="TomCats_Config_MapIcons" parent="InterfaceOptionsFramePanelContainer" hidden="true">
+	<Frame name="TomCats_Config_MapIcons" parent="TomCats_InterfaceOptionsFramePanelContainer" hidden="true">
 		<Frames>
 			<Frame parentKey="Header" parentArray="components">
 				<Size x="80" y="80" />
@@ -254,7 +260,7 @@
 								<Anchor point="RIGHT" relativeKey="$parent.$parent" relativePoint="RIGHT" x="-4" />
 							</Anchors>
 						</FontString>
-						<FontString parentKey="VersionText" font="GameFontNormal" text="Version: 2.4.16">
+						<FontString parentKey="VersionText" font="GameFontNormal" text="Version: 2.4.18">
 							<Anchors>
 								<Anchor point="TOPLEFT" relativeKey="$parent.Text" relativePoint="BOTTOMLEFT" />
 								<Anchor point="TOPRIGHT" relativeKey="$parent.Text" relativePoint="BOTTOMRIGHT" />

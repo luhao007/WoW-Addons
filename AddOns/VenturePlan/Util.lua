@@ -680,17 +680,17 @@ end
 function U.GetTimeStringFromSeconds(sec, shorter, roundUp, disallowSeconds)
 	local h = roundUp and math.ceil or math.floor
 	if sec < 90 and not disallowSeconds then
-		return (shorter and COOLDOWN_DURATION_SEC or INT_GENERAL_DURATION_SEC):format(sec < 0 and 0 or h(sec))
+		return "|t" .. (shorter and COOLDOWN_DURATION_SEC or INT_GENERAL_DURATION_SEC):format(sec < 0 and 0 or h(sec))
 	elseif (sec < 3600*(shorter and shorter ~= 2 and 3 or 1.65) and (sec % 3600 >= 1 or sec < 3600)) then
-		return (shorter and COOLDOWN_DURATION_MIN or INT_GENERAL_DURATION_MIN):format(h(sec/60))
+		return "|t" .. (shorter and COOLDOWN_DURATION_MIN or INT_GENERAL_DURATION_MIN):format(h(sec/60))
 	elseif sec <= 3600*72 and not shorter then
 		sec = h(sec/60)*60
 		local m = math.ceil(sec % 3600 / 60)
-		return INT_GENERAL_DURATION_HOURS:format(math.floor(sec / 3600)) .. (m > 0 and " " .. INT_GENERAL_DURATION_MIN:format(m) or "")
+		return "|t" .. INT_GENERAL_DURATION_HOURS:format(math.floor(sec / 3600)) .. (m > 0 and " " .. INT_GENERAL_DURATION_MIN:format(m) or "")
 	elseif sec <= 3600*72 then
-		return (shorter and COOLDOWN_DURATION_HOURS or INT_GENERAL_DURATION_HOURS):format(h(sec/3600))
+		return "|t" .. (shorter and COOLDOWN_DURATION_HOURS or INT_GENERAL_DURATION_HOURS):format(h(sec/3600))
 	else
-		return (shorter and COOLDOWN_DURATION_DAYS or INT_GENERAL_DURATION_DAYS):format(h(sec/84600))
+		return "|t" .. (shorter and COOLDOWN_DURATION_DAYS or INT_GENERAL_DURATION_DAYS):format(h(sec/84600))
 	end
 end
 function U.SetFollowerInfo(GameTooltip, info, autoCombatSpells, autoCombatantStats, _mid, boardIndex, boardMask, showHealthFooter, postStatsLine)

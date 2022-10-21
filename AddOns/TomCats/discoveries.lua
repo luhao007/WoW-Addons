@@ -1,6 +1,8 @@
 --[[ See license.txt for license and copyright information ]]
 local addonName, addon = ...
 
+local _, _, _, tocversion = GetBuildInfo()
+
 local AlertFrame = AlertFrame
 local BlizzardOptionsPanel_OnLoad = BlizzardOptionsPanel_OnLoad
 local C_Map = C_Map
@@ -24,6 +26,16 @@ local vignettes
 local TomCatsDiscoveryAlertSystem
 local TomCats_Config = TomCats_Config
 local TomCats_ConfigDiscoveries = TomCats_ConfigDiscoveries
+
+
+if (tocversion >= 100000) then
+	InterfaceOptions_AddCategory = function(frame)
+		local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(TomCats_Config.category, frame, frame.name);
+		frame.category = subcategory
+	end
+	BlizzardOptionsPanel_OnLoad = nop
+	InterfaceAddOnsList_Update = nop
+end
 
 local atlasNameExclusions = { }
 local atlasNameInclusions = { }
@@ -375,6 +387,7 @@ do
 	for k in pairs(tmp2) do
 		atlasNameInclusions[string.lower(k)] = true
 	end
+
 	TomCats_ConfigDiscoveries.name = "Discoveries"
 	TomCats_ConfigDiscoveries.parent = "TomCat's Tours"
 	TomCats_ConfigDiscoveries.controls = { }
@@ -571,12 +584,12 @@ local function OnEvent(event, arg1)
 	if (event == "ADDON_LOADED") then
 		if (addonName == arg1) then
 			TomCatsDiscoveryAlertSystem = AlertFrame:AddQueuedAlertFrameSubSystem("TomCatsDiscoveryAlertFrameTemplate", TomCatsDiscoveryAlertFrame_SetUp);
-			if (_G["TomCats_Account"].discoveriesVersion ~= "2.4.16") then
+			if (_G["TomCats_Account"].discoveriesVersion ~= "2.4.18") then
 				_G["TomCats_Account"].discoveries.vignettes = { }
 				_G["TomCats_Account"].discoveries.vignetteAtlases = { }
-				_G["TomCats_Account"].discoveries.version = "2.4.16"
+				_G["TomCats_Account"].discoveries.version = "2.4.18"
 				_G["TomCats_Account"].discoveriesResetCount = 0
-				_G["TomCats_Account"].discoveriesVersion = "2.4.16"
+				_G["TomCats_Account"].discoveriesVersion = "2.4.18"
 			end
 			local discoveries = 0
 			discoveredVignettes = _G["TomCats_Account"].discoveries.vignettes

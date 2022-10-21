@@ -1,28 +1,28 @@
-lightweight tag a19754e527815b0bf26986559843144cfa780cf5 4.0.9-release
+lightweight tag e0974bd4e7d65130b16e78fca07eb90dea257612 4.0.10-release
 Author:	GitHub <noreply@github.com>
-Date:	Sun Dec 12 00:31:05 2021 +0000
+Date:	Wed Oct 19 19:44:56 2022 +0100
 
-commit a19754e527815b0bf26986559843144cfa780cf5
+commit e0974bd4e7d65130b16e78fca07eb90dea257612
 Author: pereira-a <pereirasmandre@gmail.com>
-Date:   Sun Dec 12 00:31:05 2021 +0000
-
-    update addon version 4.0.9
-
-commit 6693f9c3d6bdc18e71eb447ce99c09a30f75606e
-Author: pereira-a <pereirasmandre@gmail.com>
-Date:   Sun Dec 12 00:29:38 2021 +0000
+Date:   Wed Oct 19 19:44:56 2022 +0100
 
     update addon version
 
-commit 7822ddb19b83b73e99aca2e0bf8e37e2a3b0ce94
-Author: Stefan Wixfort <stefan.wixfort@wixfort-dev.de>
-Date:   Thu Dec 9 17:35:38 2021 +0100
+commit 6a118c004bf884283f26648221cefcfad5bfa8c0
+Author: Gerrit Alex <admin@gerritalex.de>
+Date:   Wed Oct 19 01:24:13 2022 +0200
 
-    bump interface version to 9.1.5
+    update toc to 10.0
 
-commit 7822ddb19b83b73e99aca2e0bf8e37e2a3b0ce94
-Author: Stefan Wixfort <stefan.wixfort@wixfort-dev.de>
-Date:   Thu Dec 9 17:35:38 2021 +0100
+commit 6a118c004bf884283f26648221cefcfad5bfa8c0
+Author: Gerrit Alex <admin@gerritalex.de>
+Date:   Wed Oct 19 01:24:13 2022 +0200
 
-    bump interface version to 9.1.5
+    update toc to 10.0
+
+commit 0de72b37a5ce9c2f0a3c1fece183042d34ae372f
+Author: Gerrit Alex <admin@gerritalex.de>
+Date:   Wed Oct 19 01:20:11 2022 +0200
+
+    remove Anchor.relativeFrom
 

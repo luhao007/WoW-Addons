@@ -1,6 +1,6 @@
 ## Interface: 90207
 ## Author: foxlit
-## Version: 4.32
+## Version: 4.33
 ## SavedVariablesPerCharacter: VP_SPC
 
 ## Title: Venture Plan
