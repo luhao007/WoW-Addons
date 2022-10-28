@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: foxlit
 ## Version: Xe 9
 ## SavedVariables: OneRing_Config, OPie_SavedData

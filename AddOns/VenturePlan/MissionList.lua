@@ -237,6 +237,9 @@ local function UpdateMissions()
 	MissionPage.hasCompletedMissions = cMissions and #cMissions > 0 or false
 	MissionPage.UnButton:Sync()
 	MissionPage.CompanionCounter:SetText(numFreeCompanions-numAssignedCompanions)
+	if GameTooltip:IsOwned(MissionPage.CompanionCounter) then
+		MissionPage.CompanionCounter:GetScript("OnEnter")(MissionPage.CompanionCounter)
+	end
 end
 local function CheckItemRewards(w)
 	local hadItems, hadUnknowns = false, false

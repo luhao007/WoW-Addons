@@ -804,7 +804,17 @@ local function TitanPanelButton_SetButtonText(id)
 		label1, value1, label2, value2, label3, value3, label4, value4 =
 			pcall(buttonTextFunction, id)
 
-	if not call_success then buttonText:SetText("<?>") return end
+--	if not call_success then buttonText:SetText("<?>") return end
+	if call_success then 
+		-- All is good
+	else
+		buttonText:SetText("<?>")
+--[[
+		local msg = tostring(id).." '"..label1.."'"
+		TitanPrint(msg, "error")
+--]]
+		return 
+	end
 
 	if label1 and
 		not (label2 or label3 or label4

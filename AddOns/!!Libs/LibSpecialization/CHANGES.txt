@@ -1,45 +1,7 @@
 ------------------------------------------------------------------------
-r16 | funkehdude | 2022-09-05 17:14:52 +0000 (Mon, 05 Sep 2022) | 1 line
+r18 | funkehdude | 2022-10-26 00:43:30 +0000 (Wed, 26 Oct 2022) | 1 line
 Changed paths:
    M /trunk/LibSpecialization/LibSpecialization.lua
-
-Add the Evoker class
-------------------------------------------------------------------------
-r15 | funkehdude | 2022-09-05 17:08:27 +0000 (Mon, 05 Sep 2022) | 1 line
-Changed paths:
-   A /trunk/LibSpecialization_Wrath.toc
-
-Add Wrath toc
-------------------------------------------------------------------------
-r14 | funkehdude | 2022-09-05 16:33:27 +0000 (Mon, 05 Sep 2022) | 1 line
-Changed paths:
-   M /trunk/.luacheckrc
-   M /trunk/LibSpecialization/LibSpecialization.lua
-
-Prevent loading on classic for now
-------------------------------------------------------------------------
-r13 | funkehdude | 2022-09-05 16:28:57 +0000 (Mon, 05 Sep 2022) | 1 line
-Changed paths:
-   M /trunk/LibSpecialization.toc
-
-Bump toc
-------------------------------------------------------------------------
-r12 | funkehdude | 2022-08-03 17:35:28 +0000 (Wed, 03 Aug 2022) | 1 line
-Changed paths:
-   M /trunk/.luacheckrc
-   M /trunk/LibSpecialization/LibSpecialization.lua
-
-Prevent the starter specs from causing an error
-------------------------------------------------------------------------
-r11 | funkehdude | 2022-07-24 22:27:07 +0000 (Sun, 24 Jul 2022) | 1 line
-Changed paths:
-   M /trunk/.luacheckrc
-   M /trunk/LibSpecialization/LibSpecialization.lua
-
-Push new implementation, now it is always active, transmitting specialization changes
-------------------------------------------------------------------------
-r10 | funkehdude | 2022-06-01 06:03:15 +0000 (Wed, 01 Jun 2022) | 1 line
-Changed paths:
    M /trunk/LibSpecialization.toc
 
 bump toc

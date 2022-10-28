@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: luhao007
 
 ## Title: Libraries
@@ -45,7 +45,7 @@ HereBeDragons\HereBeDragons-Migrate.lua
 
 # Dropdown menus
 !LibUIDropDownMenu\LibUIDropDownMenu\LibUIDropDownMenu.xml
-!LibUIDropDownMenu-2.0\LibUIDropDownMenu\LibUIDropDownMenu.xml
+!LibUIDropDownMenu-2.0\LibUIDropDownMenu.xml
 
 # LibBabbles
 LibBabble\LibBabble-3.0.lua
@@ -99,7 +99,6 @@ LibToast-1.0\lib.xml
 LibTourist-3.0\lib.xml
 LibTranslit-1.0\LibTranslit-1.0.xml
 LibWindow-1.1\LibWindow-1.1\LibWindow-1.1.lua
-NickTag-1.0\NickTag-1.0.xml
 
 # Custom Luas
 HFixInv.lua

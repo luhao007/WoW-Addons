@@ -404,7 +404,7 @@ function TitanPanelVolumeButton_GetTooltipText()
 --	local volumeSpeakerText = TitanPanelVolume_GetVolumeText(GetCVar("InboundChatVolume"));
 	return ""..
 		MASTER_VOLUME.."\t"..TitanUtils_GetHighlightText(volumeMasterText).."\n"..
-		SOUND_VOLUME.."\t"..TitanUtils_GetHighlightText(volumeSoundText).."\n"..
+		SOUND.." "..VOLUME.."\t"..TitanUtils_GetHighlightText(volumeSoundText).."\n"..
 		MUSIC_VOLUME.."\t"..TitanUtils_GetHighlightText(volumeMusicText).."\n"..
 		AMBIENCE_VOLUME.."\t"..TitanUtils_GetHighlightText(volumeAmbienceText).."\n"..
 		DIALOG_VOLUME.."\t"..TitanUtils_GetHighlightText(volumeDialogText).."\n"..

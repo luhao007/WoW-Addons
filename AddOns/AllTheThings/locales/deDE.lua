@@ -699,12 +699,8 @@ for key,value in pairs({
 		--TODO: [-131] = DUNGEON_FLOOR_NIGHTMARERAID7.." "..GetSpellInfo(133137),	-- The Hinterlands Active
 		--TODO: [-132] = DUNGEON_FLOOR_NIGHTMARERAID9.." "..GetSpellInfo(133137),	-- Feralas Active
 		--TODO: [-133] = DUNGEON_FLOOR_NIGHTMARERAID8.." "..GetSpellInfo(78741),	-- Duskwood Activated
-	-- Class Trial
-		--TODO: [-148] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." ".."(Trial)",	-- Level 50 (Trial)
 	-- Garrison
 		--TODO: [-152] = "Garrison Campaign",						-- Garrison Campaign
-	-- Class Trial
-		--TODO: [-155] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." ".."(Boost)",	-- Level 50 (Boost)
 	-- Druid Feral Druid Hidden Artifact Appearance
 		--TODO: [-157] = DUNGEON_FLOOR_NIGHTMARERAID7.." "..GetSpellInfo(78741),	-- The Hinterlands Activated
 		--TODO: [-158] = DUNGEON_FLOOR_NIGHTMARERAID9.." "..GetSpellInfo(78741),	-- Feralas Activated
@@ -855,6 +851,18 @@ for key,value in pairs({
 		[-1009] = "Mythisch Alternative",							-- TODO: Mythic Alternative
 		[-1010] = "Gladiator Alternative",							-- TODO: Gladiator Alternative
 		[-1011] = "Elite Alternative",								-- TODO: Elite Alternative
+	-- Temp
+		--TODO: [-1098] = "Side Quests",							-- Side Quests
+	-- Dragonflight
+		--TODO: [-1100] = "Dragon Customization",					-- Dragon Customization
+		--TODO: [-1101] = "Primal Storms",							-- Primal Storms
+		[-1110] = "Drachenschuppenexpedition",						-- Dragonscale Expedition
+		--TODO: [-1111] = "Climbing",								-- Climbing
+		[-1120] = "Zentauren der Maruuk",							-- Maruuk Centaur
+		[-1121] = "Klan Aylaag",									-- Clan Aylaag
+		--TODO: [-1122] = "Grand Hunts",							-- Grand Hunts
+		[-1130] = "Tuskarr von Iskaara",							-- Iskaara Tuskarr
+		[-1140] = "Valdrakkenabkommen",								-- Valdrakken Accord
 	-- Warrior order hall lore items
 		[-2200] = "Der große Odyn und der Feuerlord",				-- Great Odyn and the Firelord
 		[-2201] = "Der Wanderer und die Schlange",					-- The Wanderer and the Serpent
@@ -879,7 +887,7 @@ for key,value in pairs({
 			--TODO: [-5204] = "Challenge Appearance",
 			--TODO: [-5205] = "Hidden Appearance",
 		-- Class Sets
-			--TODO: [-5350] = "Class Trial Item Sets",				-- Class Trial
+			--TODO: [-5350] = CHARACTER_TYPE_FRAME_TRIAL_BOOST_CHARACTER.." Item Sets",	-- Class Trial Item Sets
 
 		--TODO: [-7776] = "Winter Revelers",						-- Winter Revelers (for Winter Veil)
 	------ ACHIEVEMENT HEADERS SECTION ------
@@ -2223,6 +2231,7 @@ for key,value in pairs({
 	[252282] = "Glitzernder Schlüsselsatz",	-- Sparkling Set of Keys
 	[252284] = "Haufen Haftbomben",	-- Pile of Sticky Bombs
 	[252289] = "Rauchpulver",	-- Vanishing Powder
+	[252395] = "Anbindepfosten für Todesstreitrösser",	-- Deathcharger Hitching Post
 	[252412] = "|cFFFFFFFFSchritt 2:|r Erdhaufen",	-- |cFFFFFFFFStep 2:|r Mound of Dirt
 	[252432] = "Schimmernde uralte Manazusammenballung",	-- Shimmering Ancient Mana Cluster
 	[252434] = "|cFFFFFFFFSchritt 12:|r Hungernde Kugel X",	-- |cFFFFFFFFStep 12:|r Hungering Orb X
@@ -3194,6 +3203,35 @@ for key,value in pairs({
 	[375987] = "Firim im Exil, Teil 7",	-- Firim in Exile, Part 7
 	[375988] = "Firim im Exil, Epilog",	-- Firim in Exile, Epilogue
 	[376041] = "Verhüllte Chiffrentruhe",	-- Shrouded Cypher Cache
+	--TODO: [376124] = "Bag of Enchanted Wind",	-- Bag of Enchanted Wind
+	--TODO: [376175] = "Fullsails Supply Chest",	-- Fullsails Supply Chest
+	--TODO: [376213] = "Mysterious Wand",	-- Mysterious Wand
+	--TODO: [376386] = "Disturbed Dirt",	-- Disturbed Dirt
+	--TODO: [376451] = "Bronze Stopwatch",	-- Bronze Stopwatch
+	--TODO: [376587] = "Expedition Scout's Pack",	-- Expedition Scout's Pack
+	--TODO: [376757] = "WANTED: Frigellus",	-- WANTED: Frigellus
+	--TODO: [377114] = "Coil of Heavy Rope",	-- Coil of Heavy Rope
+	--TODO: [377317] = "Treasure Hoard",	-- Treasure Hoard
+	--TODO: [377499] = "On the Origin of Draconic Species",	-- On the Origin of Draconic Species
+	--TODO: [379290] = "Ornamented Statue",	-- Ornamented Statue
+	--TODO: [379321] = "Mysterious Paw Print",	-- Mysterious Paw Print
+	--TODO: [380547] = "Decay-Infused Tanning Oil",	-- Decay-Infused Tanning Oil
+	--TODO: [380902] = "Fields of Ferocity",	-- Fields of Ferocity
+	--TODO: [381045] = "Replica Dragon Goblet",	-- Replica Dragon Goblet
+	--TODO: [381296] = "Horrible Mess",	-- Horrible Mess
+	--TODO: [381297] = "Misplaced Luggage",	-- Misplaced Luggage
+	--TODO: [381650] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381653] = "Fang Flap Fire Signups",	-- Fang Flap Fire Signups
+	--TODO: [381667] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381668] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381669] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381670] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381671] = "Archivists' Request",	-- Archivists' Request
+	--TODO: [381672] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381687] = "Discarded Note",	-- Discarded Note
+	--TODO: [381701] = "WANTED: Mara'nar the Thunderous",	-- WANTED: Mara'nar the Thunderous
+	--TODO: [382029] = "Disturbed Dirt",	-- Disturbed Dirt
+	--TODO: [382166] = "The Ruby Fest!",	-- The Ruby Fest!
 	[9962198] = "Behelfsmäßige Schlammlache des Ausgestoßenen",	-- Outcast's Makeshift Muckpool
 	--TODO: [9999890] = "Corrupted Loot",	-- Corrupted Loot
 	--TODO: [9999891] = "Main Objective Only",	-- Main Objective Only

@@ -230,19 +230,39 @@ local function GetButtonText(id)
 	local availableProfBagSlots = {0,0,0,0,0};
 	local bagRichTextProf = {"","","","",""};
 
+	-- DF difference between betga and ptr??
+	local get_bag = nil
+	if C_Container.GetBagName then
+		get_bag = C_Container.GetBagName
+	elseif GetBagName then
+		get_bag = GetBagName
+	end
+	local get_slots = nil
+	if C_Container.GetContainerNumSlots then
+		get_slots = C_Container.GetContainerNumSlots
+	elseif GetContainerNumSlots then
+		get_slots = GetContainerNumSlots
+	end
+	local get_info = nil
+	if C_Container.GetContainerItemInfo then
+		get_info = C_Container.GetContainerItemInfo
+	elseif GetContainerItemInfo then
+		get_info = GetContainerItemInfo
+	end
+
 --[[
 TitanDebug("GetButtonText: >>>")
 --]]
 	totalBagSlots = 0;
 	usedBagSlots = 0;
 	for bag = 0, 4 do -- assuming 0 (Backpack) will not be a profession bag
-		local is_bag, bag_type, color = isBag(GetBagName(bag), bag)
+		local is_bag, bag_type, color = isBag(get_bag(bag), bag)
 
 		if is_bag then
 			if bag_type == "profession" then -- found a profession bag
 				-- when user wants profession bags counted, they are listed separately in the plugin
 				if TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots") then
-					local size = GetContainerNumSlots(bag);
+					local size = get_slots(bag);
 					if (size and size > 0) then
 						totalProfBagSlots[bag] = size;
 						for slot = 1, size do
@@ -265,11 +285,11 @@ TitanDebug("GetButtonText: >>>")
 					end
 				end
 			elseif bag_type == "normal" then -- not a profession bag so get used & available counts
-				local size = GetContainerNumSlots(bag);
+				local size = get_slots(bag);
 				if (size and size > 0) then
 					totalBagSlots = totalBagSlots + size;
 					for slot = 1, size do
-						if (GetContainerItemInfo(bag, slot)) then
+						if (get_info(bag, slot)) then
 							usedBagSlots = usedBagSlots + 1;
 						end
 					end
@@ -324,6 +344,26 @@ function TitanPanelBagButton_GetTooltipText()
 	local totalSlots, usedSlots, availableSlots;
 	local returnstring = "";
 
+	-- DF difference between betga and ptr??
+	local get_slots = nil
+	if C_Container.GetContainerNumSlots then
+		get_slots = C_Container.GetContainerNumSlots
+	elseif GetContainerNumSlots then
+		get_slots = GetContainerNumSlots
+	end
+	local get_free = nil
+	if C_Container.GetContainerNumFreeSlots then
+		get_free = C_Container.GetContainerNumFreeSlots
+	elseif GetContainerNumFreeSlots then
+		get_free = GetContainerNumFreeSlots
+	end
+	local get_id = nil
+	if C_Container.ContainerIDToInventoryID then
+		get_id = C_Container.ContainerIDToInventoryID
+	elseif ContainerIDToInventoryID then
+		get_id = ContainerIDToInventoryID
+	end
+
 	if TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo") then
 		returnstring = "\n";
 		if TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots") then
@@ -335,10 +375,10 @@ function TitanPanelBagButton_GetTooltipText()
 		end
 
 		for bag = 0, 4 do
-			totalSlots = GetContainerNumSlots(bag) or 0;
-			availableSlots = GetContainerNumFreeSlots(bag) or 0;
+			totalSlots = get_slots(bag) or 0;
+			availableSlots = get_free(bag) or 0;
 			usedSlots = totalSlots - availableSlots;
-			local itemlink  = bag > 0 and GetInventoryItemLink("player", ContainerIDToInventoryID(bag))
+			local itemlink  = bag > 0 and GetInventoryItemLink("player", get_id(bag))
 				or TitanUtils_GetHighlightText(L["TITAN_BAG_BACKPACK"]).. FONT_COLOR_CODE_CLOSE;
 
 			if itemlink then
@@ -346,7 +386,7 @@ function TitanPanelBagButton_GetTooltipText()
 				itemlink = string.gsub( itemlink, "%]", "" );
 			end
 
-			if bag > 0 and not GetInventoryItemLink("player", ContainerIDToInventoryID(bag)) then
+			if bag > 0 and not GetInventoryItemLink("player", get_id(bag)) then
 				itemlink = nil;
 			end
 

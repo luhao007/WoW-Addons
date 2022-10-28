@@ -187,7 +187,7 @@ function VUHDO_inspectRole(aUnit)
 			else
 				return VUHDO_ID_RANGED_DAMAGE;
 			end
-		else
+		else -- e.g. Evoker Devastation
 			return VUHDO_ID_RANGED_DAMAGE;
 		end
 	else
@@ -280,7 +280,8 @@ local function VUHDO_determineDfToolRole(anInfo)
 			or anInfo["classId"] == VUHDO_ID_WARLOCKS 
 			or anInfo["classId"] == VUHDO_ID_MAGES 
 			or anInfo["classId"] == VUHDO_ID_SHAMANS 
-			or anInfo["classId"] == VUHDO_ID_DRUIDS then
+			or anInfo["classId"] == VUHDO_ID_DRUIDS 
+			or anInfo["classId"] == VUHDO_ID_EVOKERS then
 			VUHDO_DF_TOOL_ROLES[tName] = VUHDO_ID_RANGED_DAMAGE;
 			tReturnRole = VUHDO_ID_RANGED_DAMAGE;
 		else -- Hunters default to ranged but requires inspect to determine spec ID so no return
@@ -445,6 +446,14 @@ function VUHDO_determineRole(aUnit)
 			else
 				return 60; -- VUHDO_ID_MELEE_TANK
 			end
+		end
+
+	elseif 32 == tClassId then -- VUHDO_ID_EVOKERS
+		-- FIXME: at max level does Devastation still have this low cap?
+		if UnitPowerMax(aUnit) == 10000 then
+			return 62; -- VUHDO_ID_RANGED_DAMAGE
+		else
+			return 63; -- VUHDO_ID_RANGED_HEAL
 		end
 
 	end

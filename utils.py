@@ -1,7 +1,6 @@
 import functools
 import logging
 import os
-import re
 import shutil
 from collections.abc import Callable
 from pathlib import Path
@@ -60,24 +59,25 @@ def get_platform():
     return 'retail'
 
 
-def remove_libs_in_file(path: str | Path, libs: list[str]):
+def remove_libs_in_file(path: str | Path, libs: list[str] | set[str]):
     def process(lines):
-        if str(path).endswith('.toc'):
-            pattern = r'\s*(?i){}.*'
-        else:
-            pattern = r'\s*<((Script)|(Include))+ file\s*=\s*"(?i){}[\\\"\.].*'
-
         return [line for line in lines
-                if not any(re.match(pattern.format(lib), line)
-                            for lib in libs)]
+                if not any(f'{lib}\\'.lower() in line.lower() for lib in libs)]
 
     process_file(path, process)
 
 
+@functools.lru_cache
+def get_libraries_list():
+    libs = [os.path.split(x[0])[-1] for x in os.walk(Path('AddOns') / '!!Libs')]
+    libs += [os.path.split(x[0])[-1] for x in os.walk(Path('AddOns') / '!!Libs' / 'Ace3')]
+    return libs
+
+
 def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
-    """Remove all embedded libraries."""
+    """Remove all duplicate embedded libraries."""
     if not lib_path:
-        for lib in ['libs', 'lib']:
+        for lib in ['Libs', 'Lib', 'ExternalLibs']:
             path = Path('Addons') / addon / lib
             if os.path.exists(path):
                 lib_path = lib
@@ -85,21 +85,28 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
         else:
             return
 
-    rm_tree(Path('AddOns') / addon / lib_path)
+    libs = set(get_libraries_list()).intersection(os.listdir(Path('AddOns') / addon / lib_path))
 
-    # Extra library that need to be removed
-    libs = ['embeds.xml', 'Embeds.xml', 'libs.xml', 'include.xml', 'Include.xml',
-            'Libs.xml', 'LibDataBroker-1.1.lua']
+    if not libs:
+        return
+
+    print(f'Removing {libs} in {addon}')
+
     for lib in libs:
-        path = Path('AddOns') / addon / lib
-        if os.path.exists(path):
-            os.remove(path)
+        rm_tree(Path('AddOns') / addon / lib_path / lib)
 
-    for lib in ['.xml'] + TOCS:
-        path = Path('AddOns') / addon
-        path /= f"{addon.split('/')[-1]}{lib}"
-        if os.path.exists(str(path)):
-            remove_libs_in_file(path, libs + [lib_path])
+    # Remove lib entry in root folder
+    lib_files = [Path('AddOns') / addon / f"{addon.split('/')[-1]}{postfix}" for postfix in ['.xml'] + TOCS]
+    lib_files += [Path('Addons') / addon / 'embeds.xml']
+    lib_files = [path for path in lib_files if os.path.exists(str(path))]
+    for path in lib_files:
+        remove_libs_in_file(path, [f'{lib_path}\\{lib}' for lib in libs])
+
+    # Remove lib entry in lib folder
+    lib_files = [Path('Addons') / addon / lib_path / lib_file for lib_file in ['Includes.xml', 'Libs.xml']]
+    lib_files = [path for path in lib_files if os.path.exists(str(path))]
+    for path in lib_files:
+        remove_libs_in_file(path, libs)
 
 
 def remove_libraries(libs, root: str, xml_path: str):
@@ -107,11 +114,7 @@ def remove_libraries(libs, root: str, xml_path: str):
     for lib in libs:
         rm_tree(Path(root) / lib)
 
-    process_file(
-        xml_path,
-        lambda lines: [line for line in lines
-                        if not any(lib.lower()+'\\' in line.lower() for lib in libs)]
-    )
+    remove_libs_in_file(xml_path, libs)
 
 
 def change_defaults(path: str, defaults: str | list[str]):

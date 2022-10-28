@@ -249,6 +249,10 @@ VUHDO_CLASS_BUFFS = {
 	["DEMONHUNTER"] = {
 		-- TODO: add the class buffs that Demon Hunters provide
 	},
+
+	["EVOKER"] = {
+		-- TODO: add the class buffs that Evokers provide
+	},
 };
 
 

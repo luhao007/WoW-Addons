@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
-## Version: 9.2.0.3
+## Version: 10.0.0
 ## LoadOnDemand: 0
 ## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
 ## SavedVariablesPerCharacter: MinArchOptions
@@ -13,4 +13,5 @@
 
 
 # Special thanks to joevt for the contribution
+embeds.xml
 addon\addon.xml

@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: The WeakAuras Team
-## Version: 4.1.4
+## Version: 5.0.4
 ## OptionalDeps: Ace3, LibCompress, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, Masque, GTFO, LibButtonGlow-1.0, LibSpellRange-1.0, LibRangeCheck-2.0, LibDBIcon-1.0, LibClassicDurations, LibClassicCasterino, LibGetFrame-1.0
 ## LoadOnDemand: 0
 ## SavedVariables: WeakAurasSaved
@@ -22,7 +22,6 @@
 embeds.xml
 
 # Client flavor specific libs
-Libs\LibClassicDurations\LibClassicDurations.xml
 Libs\LibClassicCasterino\LibClassicCasterino.lua
 Libs\LibClassicSpellActionCount-1.0\LibClassicSpellActionCount-1.0.lua
 
@@ -44,13 +43,13 @@ Animations.lua
 Conditions.lua
 
 # Trigger systems
-BuffTrigger.lua
 BuffTrigger2.lua
 GenericTrigger.lua
 
 # Helper Systems
 AuraWarnings.lua
 AuraEnvironment.lua
+AuraEnvironmentWrappedSystems.lua
 DebugLog.lua
 
 # Region support
@@ -72,6 +71,3 @@ SubRegionTypes\Border.lua
 SubRegionTypes\Glow.lua
 SubRegionTypes\Tick.lua
 SubRegionTypes\Model.lua
-
-# Misc
-Legendaries.lua

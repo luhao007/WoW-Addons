@@ -1,3 +1,23 @@
+10/28/2022 version 4.14.3
+- Fix for potential lua errors due to C_Timer calls.
+- Names in the keybindings interface changed for Rematch keybinds.
+
+10/26/2022 version 4.14.2
+- Fix for tab textures not appearing.
+
+10/25/2022 version 4.14.1
+- toc update for 10.0.0
+
+10/25/2022 verion 4.14.0
+- Updated for Dragonflight pre-patch.
+- Titlebar buttons (pin, lock/unlock, minimize/maximize) have been reworked to better fit Dragonflight aesthetics.
+- Panel tabs across the bottom of the window (Pets, Teams, Queue, Options) have been reworked to better fit Dragonflight aesthetics.
+- The option 'Minimal Minimized View' has been removed.
+- Note: More modernization of the Rematch UI is coming over the new few weeks.
+
+10/15/2022 version 4.13.4
+- On Dragonflight beta clients (10.0.2), after using a battle or training stone from your bags, you can now click on a pet in the pet list to cast the stone to that pet without summoning it.
+
 10/10/2022 version 4.13.3
 - Added Dragon Isles targets for Dragonflight clients.
 - Note: There appears to be a bug on the beta client (but not PTR) that's causing messed up npcID-derived target names in the target and team lists.

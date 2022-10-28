@@ -21,8 +21,10 @@ local BtWQuestsCharactersMap = {} -- Map from name-realm to Character Mixin
 local ClassMap = {}
 for classID=1,GetNumClasses() do
     local info = C_CreatureInfo.GetClassInfo(classID)
-    ClassMap[info.classFile] = info
-    ClassMap[info.classID] = info
+    if info then
+        ClassMap[info.classFile] = info
+        ClassMap[info.classID] = info
+    end
 end
 
 BtWQuestsCharactersCharacterMixin = {}
@@ -567,25 +569,27 @@ local itemXpCache = {};
 local gemXpByID = {
     [153714] = 0.05,
 };
-xpTooltip:SetScript("OnTooltipSetItem", function (self)
-    local itemName, itemLink = self:GetItem();
-
-    for i=1,15 do
-        local text = _G[self:GetName().."TextLeft"..i];
-        if text and text:IsShown() then
-            local text = text:GetText();
-            local percent = string.match(text, "^Equip: Experience gained is increased by ([%d]+)%%.$");
-            if not percent then
-                percent = string.match(text, "^Equip: Experience gained from killing monsters and completing quests increased by ([%d]+)%%.$");
-            end
-
-            if percent then
-                itemXpCache[itemLink] = tonumber(percent) * 0.01;
-                break
+if not TooltipDataProcessor or not TooltipDataProcessor.AddTooltipPostCall then
+    xpTooltip:SetScript("OnTooltipSetItem", function (self)
+        local itemName, itemLink = self:GetItem();
+    
+        for i=1,15 do
+            local text = _G[self:GetName().."TextLeft"..i];
+            if text and text:IsShown() then
+                local text = text:GetText();
+                local percent = string.match(text, "^Equip: Experience gained is increased by ([%d]+)%%.$");
+                if not percent then
+                    percent = string.match(text, "^Equip: Experience gained from killing monsters and completing quests increased by ([%d]+)%%.$");
+                end
+    
+                if percent then
+                    itemXpCache[itemLink] = tonumber(percent) * 0.01;
+                    break
+                end
             end
         end
-    end
-end)
+    end)
+end
 local function PlayerXPModifier()
     local modifier = 0;
     if GetItemGem then

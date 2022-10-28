@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Greenhorns@Vek'Nilash
 ## Version: 9.1
 ## RequiredDeps: Titan

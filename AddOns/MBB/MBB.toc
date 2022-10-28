@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: skunfly (former: karlsnyder, vallantv)
-## Version: 4.0.10
+## Version: 4.0.11
 ## SavedVariablesPerCharacter: MBB_Exclude, MBB_Options
 
 ## Title: MinimapButtonBag-Reborn

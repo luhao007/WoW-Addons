@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBWL_AllSavedVars

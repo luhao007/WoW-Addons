@@ -1,10 +1,10 @@
-tag 8b39a0e30b705a2f8a23339d6e77039dfe14544b v9.2.7.379
+tag a244b1a0faa97f42c9ae2a941a85971ecd7779fe v10.0.0.384
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Sun Oct 9 16:28:22 2022 -0300
+Date:	Wed Oct 26 10:19:47 2022 -0300
 
-commit 87dca65e40f01caba999a9b2c448eb717e7c0d60
+commit 9c274088bf6ece0044f003f8ac4ac796732f4997
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sun Oct 9 16:28:09 2022 -0300
+Date:   Wed Oct 26 10:19:24 2022 -0300
 
-    Fixed BuildMenu() sometimes not applying the text to font strings
+    Framework update
 

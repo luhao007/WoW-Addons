@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Vladinator
-## Version: 9.2.7.221007
+## Version: 10.0.0.221026
 ## SavedVariables: FriendListColorsDB
 
 ## Title: FriendListColors

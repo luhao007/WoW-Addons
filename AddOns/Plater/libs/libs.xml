@@ -2,6 +2,7 @@
 
 	<Script file="indent.lua"/>
 
+	<Script file="LibClassicCasterino\LibClassicCasterino.lua"/>
 
 	<Include file="DF\load.xml"/>
 </Ui>

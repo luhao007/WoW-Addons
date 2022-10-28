@@ -7,7 +7,6 @@ rematch:InitModule(function()
 	rematch.Notes = notes
 	settings = RematchSettings
 	notes.needsInit = true
-	rematch:ConvertTitlebarCloseButton(notes.CloseButton)
 end)
 
 -- if maybe is true, notes only hide if card isn't locked; otherwise hide regardless
@@ -237,7 +236,7 @@ end
 
 -- autofocus editboxes can lose focus now by clicking elsewhere
 function notes:OnFocusLost()
-	C_Timer.After(0.15,notes.OnFocusLostDelayed)
+	rematch:StartTimer("OnFocusLostDelayed",0.15,notes.OnFocusLostDelayed)
 end
 
 -- when focus lost, the control buttons are hidden and the notes are saved

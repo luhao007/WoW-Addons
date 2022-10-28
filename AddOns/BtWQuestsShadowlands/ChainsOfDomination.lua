@@ -2196,7 +2196,7 @@ Database:AddChain(Chain.ArchivistsOfKorthia, {
     },
     rewards = {
         {
-            type = "faction",
+            type = "reputation",
             id = 2472,
         },
         {

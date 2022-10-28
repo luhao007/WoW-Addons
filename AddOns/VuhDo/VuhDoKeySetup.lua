@@ -134,14 +134,14 @@ local function _VUHDO_setupHealButtonAttributes(aModiKey, aButtonId, anAction, a
 				tName = RAID_TARGET_ICON;
 			end
 
-			UIDropDownMenu_Initialize(VuhDoUnitButtonDropDown, 
+			UIDropDownMenu_SetInitializeFunction(VuhDoUnitButtonDropDown, 
 				function(self) 
 					if tMenu then
 						UnitPopup_ShowMenu(self, tMenu, tUnit, tName, tNumber);
 					end
-				end, 
-				"MENU"
+				end
 			);
+			UIDropDownMenu_SetDisplayMode(VuhDoUnitButtonDropDown, "MENU");
 			
 			ToggleDropDownMenu(1, nil, VuhDoUnitButtonDropDown, "cursor", 0, 0);
 		end

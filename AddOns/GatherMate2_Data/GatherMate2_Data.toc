@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: kagaro, Xinhuan
 ## Version: v37.1
 ## Dependencies: GatherMate2

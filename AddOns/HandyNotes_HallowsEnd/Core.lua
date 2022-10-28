@@ -3,7 +3,7 @@
 
                                             Hallow's End
 
-                                      v1.03 - 21st October 2022
+                                      v1.06 - 26th October 2022
                                 Copyright (C) Taraezor / Chris Birch
 
                                 ----o----(||)----oo----(||)----o----
@@ -24,7 +24,7 @@ ns.colour.highlight = "\124cFFFFA500" -- Orange W3C
 ns.colour.plaintext = "\124cFFFDD017" -- Bright Gold
 
 local defaults = { profile = { icon_scale = 1.7, icon_alpha = 1, showCoords = true,
-								icon_tricksTreat = 11, icon_dailies = 12 } }
+								icon_tricksTreat = 11, icon_dailies = 10, icon_special = 15 } }
 local continents = {}
 local pluginHandler = {}
 
@@ -393,7 +393,7 @@ end
 -- Plugin handler for HandyNotes
 local function infoFromCoord(mapFile, coord)
 	local point = ns.points[mapFile] and ns.points[mapFile][coord]
-	return point[1], point[2], point[3], point[4], point[5]
+	return point[1], point[2], point[3], point[4]
 end
 
 function pluginHandler:OnEnter(mapFile, coord)
@@ -403,25 +403,42 @@ function pluginHandler:OnEnter(mapFile, coord)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 
-	local aID, aIndex, aTitle, tip, fifth = infoFromCoord(mapFile, coord)
-	local completed, aName;
+	local aID, aIndex, aTitle, tip = infoFromCoord(mapFile, coord)
+	local completed, aName, completedMe;
 	local pName = UnitName( "player" )
 
-	_, aName, _, completed = GetAchievementInfo( aID )
-	GameTooltip:AddDoubleLine( ns.colour.prefix ..aName ..ns.colour.highlight .." (" ..ns.faction ..")",
-				( completed == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..L["Account"] ..")" ) 
-									or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..L["Account"] ..")" ) )
-	aName, _, completed = GetAchievementCriteriaInfo( aID, aIndex )
-	GameTooltip:AddDoubleLine( ns.colour.highlight.. aName,
-				( completed == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..pName ..")" ) 
-									or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..pName ..")" ) )
-	
-	if ( aID == 1040 ) or ( aID == 1041 ) then -- Rotten Hallow daily quests and associated achievement
-		completed = C_QuestLog.IsQuestFlaggedCompleted( aTitle )
-		GameTooltip:AddDoubleLine( "\124cFF1F45FC".. "Daily Quest",
+	if aID < 0 then
+		completed = C_QuestLog.IsQuestFlaggedCompleted( aIndex )
+		GameTooltip:AddDoubleLine( ns.colour.prefix ..aTitle,
 					( completed == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..pName ..")" ) 
 										or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..pName ..")" ) )
-	end	
+	elseif aID == 0 then
+		-- Unused at present
+	elseif aIndex == 0 then
+		_, aName, _, completed, _, _, _, _, _, _, _, _, completedMe = GetAchievementInfo( aID )
+		GameTooltip:AddDoubleLine( ns.colour.prefix ..aName ..ns.colour.highlight .." (" ..ns.faction ..")",
+					( completed == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..L["Account"] ..")" ) 
+										or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..L["Account"] ..")" ) )
+		GameTooltip:AddDoubleLine( " ",
+					( completedMe == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..pName ..")" ) 
+										or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..pName ..")" ) )										
+	else
+		_, aName, _, completed = GetAchievementInfo( aID )
+		GameTooltip:AddDoubleLine( ns.colour.prefix ..aName ..ns.colour.highlight .." (" ..ns.faction ..")",
+					( completed == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..L["Account"] ..")" ) 
+										or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..L["Account"] ..")" ) )
+		aName, _, completed = GetAchievementCriteriaInfo( aID, aIndex )
+		GameTooltip:AddDoubleLine( ns.colour.highlight.. aName,
+					( completed == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..pName ..")" ) 
+										or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..pName ..")" ) )
+	
+		if ( aID == 1040 ) or ( aID == 1041 ) then -- Rotten Hallow daily quests and associated achievement
+			completed = C_QuestLog.IsQuestFlaggedCompleted( aTitle )
+			GameTooltip:AddDoubleLine( "\124cFF1F45FC".. "Daily Quest",
+						( completed == true ) and ( "\124cFF00FF00" ..L["Completed"] .." (" ..pName ..")" ) 
+											or ( "\124cFFFF0000" ..L["Not Completed"] .." (" ..pName ..")" ) )
+		end
+	end
 	if ( tip ~= "" ) then
 		GameTooltip:AddLine( ns.colour.plaintext ..tip )
 	end	
@@ -444,7 +461,20 @@ do
 		local coord, v = next(t, prev)
 		while coord do
 			if v then
-				if ( v[1] == 1040 ) then
+				if ( v[1] < 0 ) then
+					if ( v[1] <= -2 ) then
+						if ns.faction == "Horde" then
+							return coord, nil, ns.texturesS[ns.db.icon_special],
+									ns.db.icon_scale * ns.scalingS[ns.db.icon_special], ns.db.icon_alpha
+						end
+					end
+					if ( v[1] >= -2 ) then
+						if ns.faction == "Alliance" then
+							return coord, nil, ns.texturesS[ns.db.icon_special],
+									ns.db.icon_scale * ns.scalingS[ns.db.icon_special], ns.db.icon_alpha
+						end
+					end
+				elseif ( v[1] == 1040 ) then
 					if ns.faction == "Alliance" then
 						return coord, nil, ns.texturesS[ns.db.icon_dailies],
 								ns.db.icon_scale * ns.scalingS[ns.db.icon_dailies], ns.db.icon_alpha
@@ -466,6 +496,9 @@ do
 						return coord, nil, ns.texturesL[ns.db.icon_tricksTreat],
 								ns.db.icon_scale * ns.scalingL[ns.db.icon_tricksTreat], ns.db.icon_alpha
 					end
+				elseif ( v[1] == 291 ) then
+					return coord, nil, ns.texturesS[ns.db.icon_special],
+							ns.db.icon_scale * ns.scalingS[ns.db.icon_special], ns.db.icon_alpha
 				end
 			end
 			coord, v = next(t, coord)
@@ -552,6 +585,20 @@ ns.options = {
 					min = 1, max = 15, step = 1,
 					arg = "icon_dailies",
 					order = 6,
+				},
+				icon_special = {
+					type = "range",
+					name = L["Extra Candy Buckets"],
+					desc = "1 = " ..L["Ring"] .." - " ..L["Gold"] .."\n2 = " ..L["Ring"] .." - " ..L["Red"] 
+							.."\n3 = " ..L["Ring"] .." - " ..L["Blue"] .."\n4 = " ..L["Ring"] .." - " 
+							..L["Green"] .."\n5 = " ..L["Cross"] .." - " ..L["Red"] .."\n6 = "
+							..L["Diamond"] .." - " ..L["White"] .."\n7 = " ..L["Frost"] .."\n8 = " ..L["Cogwheel"]
+							.."\n9 = " ..L["Candy Swirl"] .."\n10 = " ..L["Pumpkin"] .."\n11 = " ..L["Evil Pumpkin"] 
+							.."\n12 = " ..L["Bat"] .."\n13 = " ..L["Cat"] .."\n14 = " ..L["Ghost"] 
+							.."\n15 = " ..L["Witch"], 
+					min = 1, max = 15, step = 1,
+					arg = "icon_special",
+					order = 7,
 				},
 			},
 		},

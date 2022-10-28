@@ -22,6 +22,7 @@ local numOfTexturesHider = 0;
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 --	TitanDebug (cmd.." : "..p1.." "..p2.." "..p3.." "..#cmd_list)
 
@@ -300,13 +301,13 @@ end
 -- Event registration
 --_G[TITAN_PANEL_CONTROL]:RegisterEvent("ADDON_LOADED");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_DISABLED");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_ENABLED");
+--_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_DISABLED");
+--_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_ENABLED");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("CVAR_UPDATE");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_LOGOUT");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_ENTERED_VEHICLE");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_EXITED_VEHICLE");
+--_G[TITAN_PANEL_CONTROL]:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
+--_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_ENTERED_VEHICLE");
+--_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_EXITED_VEHICLE");
 _G[TITAN_PANEL_CONTROL]:SetScript("OnEvent", function(_, event, ...)
 	_G[TITAN_PANEL_CONTROL][event](_G[TITAN_PANEL_CONTROL], ...)
 end)
@@ -431,7 +432,8 @@ function TitanPanel_PlayerEnteringWorld()
 	-- On longer game loads (log in, reload, instances, etc Titan will adjust
 	-- then Blizz will adjust putting the action buttons over / under Titan
 	-- if the user has aux 1/2 shown.
-	TitanMovable_AdjustTimer("EnterWorld")
+-- DF With DragonFlight, no longer needed
+--	TitanMovable_AdjustTimer("EnterWorld")
 
 end
 
@@ -519,6 +521,7 @@ function TitanPanelBarButton:PLAYER_LOGOUT()
 	Titan__InitializedPEW = nil
 end
 
+--[====[
 function TitanPanelBarButton:PLAYER_REGEN_DISABLED()
 	-- If in combat close all control frames and menus
 	if TITAN_PANEL_VARS.debug.movable
@@ -553,7 +556,7 @@ function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
 		TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_ENABLED")
 	end
 end
---[
+
 function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
 	TitanMovable_AdjustTimer("DualSpec")
 end
@@ -596,7 +599,7 @@ function TitanPanelBarButton:UNIT_EXITED_VEHICLE(self, ...)
 		TitanPanelBarButton_DisplayBarsWanted("UNIT_EXITED_VEHICLE")
 	end
 end
---]]
+--]====]
 --
 function TitanPanelBarButton:PET_BATTLE_OPENING_START()
 --	TitanDebug("Pet_battle start: ")
@@ -778,15 +781,20 @@ local function handle_giu_cmds(cmd_list)
 		return
 	end
 
+-- DF changed how options are called. The best I get is the Titan 'about', not deeper.
+	Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About, TITAN_PANEL_CONFIG.topic.scale)
+-- so the below does not work as expected...
+--[[  
 	if p1 == "control" then
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_UISCALE_MENU_TEXT_SHORT"])
+		Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About, TITAN_PANEL_CONFIG.topic.scale)
 	elseif p1 == "trans" then
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_TRANS_MENU_TEXT_SHORT"])
+		Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.trans)
 	elseif p1 == "skin" then
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"])
+		Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About, TITAN_PANEL_CONFIG.topic.skins)
 	else
 		handle_slash_help("gui")
 	end
+--]]
 end
 
 --[[ local
@@ -1805,8 +1813,7 @@ local function TitanPanel_MainMenu()
 	info.text = L["TITAN_PANEL_MENU_CONFIGURATION"];
 	info.value = "Bars";
 	info.func = function()
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_PANEL_MENU_TOP_BARS"]);
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_PANEL_MENU_TOP_BARS"]); -- hack for a Blizz bug...
+		Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About)
 	end
 	TitanPanelRightClickMenu_AddButton(info);
 

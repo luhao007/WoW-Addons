@@ -15,11 +15,13 @@ local VUHDO_SHIELDS = {
 	[114893] = 10, -- Stone Bulwark Totem (shaman talent)
 	[187805] = 15, -- VUHDO_SPELL_ID.BUFF_ETHERALUS
 	[114908] = 10, -- VUHDO_SPELL_ID.SPIRIT_SHELL
+	[47753] = 17, -- VUHDO_SPELL_ID.DIVINE_AEGIS
 }
 
 
 --
 local VUHDO_PUMP_SHIELDS = {
+	[VUHDO_SPELL_ID.DIVINE_AEGIS] = 0.3,
 }
 
 
@@ -184,9 +186,11 @@ local function VUHDO_updateShieldValue(aUnit, aShieldName, anAmount, aDuration, 
 
 	if aDuration then 
 		VUHDO_SHIELD_EXPIRY[aUnit][aShieldName] = GetTime() + aDuration;
-		
-		VUHDO_SHIELD_SIZE[aUnit][aShieldName] = anAmount;
-		--VUHDO_xMsg("Shield overwritten");
+
+		if not sIsPumpAegis or not VUHDO_PUMP_SHIELDS[aShieldName] then
+			VUHDO_SHIELD_SIZE[aUnit][aShieldName] = anAmount;
+			--VUHDO_xMsg("Shield overwritten");
+		end
 	elseif (aExpirationTime or 0) > VUHDO_SHIELD_EXPIRY[aUnit][aShieldName] then
 		VUHDO_SHIELD_EXPIRY[aUnit][aShieldName] = aExpirationTime;
 	elseif VUHDO_SHIELD_SIZE[aUnit][aShieldName] < anAmount then

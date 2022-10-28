@@ -122,7 +122,9 @@ function TitanPanelLocationButton_GetButtonText(id)
 		if (TitanUtils_ToString(button.subZoneText) == '') then
 			if (button.zoneText == '') then
 				local _
-				_, _, button.zoneText = C_Map.GetMapInfo(C_Map.GetBestMapUnit("player"));
+-- DF change of API
+--				_, _, button.zoneText = C_Map.GetMapInfo(C_Map.GetBestMapUnit("player"));
+				_, _, button.zoneText = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
 			end
 			locationText = TitanUtils_ToString(button.zoneText)..' '..locationText;
 		else
@@ -198,19 +200,23 @@ end
 -- **************************************************************************
 --]]
 function TitanPanelLocationButton_OnEvent(self, event, ...)
+-- DF TODO See if we can turn off zone on minimap
+--[=[
 	if event == "PLAYER_ENTERING_WORLD" then
 		if not TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap") and MinimapBorderTop and MinimapBorderTop:IsShown() then
 			TitanPanelLocationButton_LocOnMiniMap()
 		end
 	end
-
+--]=]
 	TitanPanelLocationButton_UpdateZoneInfo(self);
 	TitanPanelPluginHandle_OnUpdate(updateTable);
 	TitanPanelLocation_HandleUpdater();
+--[[
 	if TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap") and MinimapBorderTop:IsShown() then
 		if not MinimapZoneTextButton:IsShown() then MinimapZoneTextButton:Show() end
 		if not MiniMapWorldMapButton:IsShown() then MiniMapWorldMapButton:Show() end
 	end
+--]]
 end
 
 --[[
@@ -301,7 +307,7 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsText");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
+--[=[
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"];
 			info.func = TitanPanelLocationButton_ToggleLocationOnMap;
@@ -317,7 +323,7 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap");
 			info.disabled = InCombatLockdown()
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
+--]=]
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_UPDATE_WORLD_MAP"];
 			info.func = function()
@@ -484,6 +490,12 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 			TitanMapPlayerLocation:SetText("");
 			TitanMapCursorLocation:SetText("");
 		end
+--[==[
+print("TLoc"
+.." c "..tostring(cursorLocationText).." "
+.." p "..tostring(playerLocationText).." "
+)
+--]==]
 end
 
 --[[
@@ -526,6 +538,7 @@ function TitanPanelLocation_CreateMapFrames()
 
 		-- create the frame to hold the font strings, and simulate an "OnUpdate" script handler using C_Timer for efficiency
 		local frame = CreateFrame("FRAME", "TitanMapFrame", WorldMapFrame.BorderFrame)
+		frame:SetFrameStrata("DIALOG") -- DF need to raise the strata to be seen
 		local function updateFunc()
 			TitanMapFrame_OnUpdate(frame, 0.07);	-- simulating an OnUpdate call
 		end
@@ -547,13 +560,41 @@ function TitanPanelLocation_CreateMapFrames()
 			cursortext:ClearAllPoints();
 			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -28)
 			cursortext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -43)
+--[==[
+print("TLoc max"
+.." p "..tostring(playertext and true or false).." "
+.." c "..tostring(cursortext and true or false).." "
+)
+--]==]
 		end);
 		hooksecurefunc(WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "Minimize", function()
 			playertext:ClearAllPoints();
 			cursortext:ClearAllPoints();
 			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -50, -5)
+--			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -50, 15)
 			cursortext:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 95, -5)
+--			cursortext:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 95, 5)
+--[==[
+print("TLoc min"
+.." p "..tostring(playertext and true or false).." "
+.."  "..tostring(playertext:GetText()).." "
+.."  "..tostring(frame:GetFrameStrata()).." "
+.."  "..tostring(frame:GetFrameLevel()).." "
+.." c "..tostring(cursortext and true or false).." "
+.."  "..tostring(cursortext:GetText()).." "
+.."  "..tostring(WorldMapFrame:GetFrameStrata()).." "
+.."  "..tostring(WorldMapFrame:GetFrameLevel()).." "
+)
+--]==]
 		end);
+--[==[
+print("TLoc"
+.." f "..tostring(frame and true or false).." "
+.." ut "..tostring(frame.updateTicker and true or false).." "
+.." p "..tostring(playertext and true or false).." "
+.." c "..tostring(cursortext and true or false).." "
+)
+--]==]
 
 	end
 end

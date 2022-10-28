@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Kemayo
-## Version: v27
+## Version: v28.1
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: !LibUIDropDownMenu
 ## SavedVariables: HandyNotes_BattleForAzerothTreasuresDB
@@ -15,8 +15,6 @@
 ## X-Curse-Project-ID: 297435
 ## X-Wago-ID: ME6gYXG1
 ## X-Part-Of: HandyNotes
-
-lib\LibUIDropDownMenu\LibUIDropDownMenu.xml
 
 handler\handler.xml
 

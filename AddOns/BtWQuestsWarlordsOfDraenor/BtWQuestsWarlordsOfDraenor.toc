@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Breen
 ## Version: 3.6
 ## Dependencies: BtWQuests

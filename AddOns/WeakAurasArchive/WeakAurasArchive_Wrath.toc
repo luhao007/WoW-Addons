@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: The WeakAuras Team
-## Version: 4.1.4
+## Version: 5.0.4
 ## Dependencies: WeakAuras
 ## LoadOnDemand: 1
 ## SavedVariables: WeakAurasArchive

@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: MysticalOS
 ## Version: r147
 ## RequiredDeps: DBM-Core

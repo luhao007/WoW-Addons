@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: MysticalOS
-## Version: r65
+## Version: r66
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMBlackrockFoundry_AllSavedVars

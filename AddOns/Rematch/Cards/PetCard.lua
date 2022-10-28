@@ -36,7 +36,6 @@ rematch:InitModule(function()
 	for i=1,6 do
 		card.Front.Bottom.Abilities[i]:RegisterForClicks("AnyUp")
 	end
-	rematch:ConvertTitlebarCloseButton(card.CloseButton)
 	rematch:SetTitlebarButtonIcon(card.PinButton,"pin")
 
 	-- "Unwrap Pet" menu that replaces regular pet menu when a wrapped pet is right clicked
@@ -256,11 +255,11 @@ function rematch:ShowPetCard(parent,petID,force)
 		middle.LevelingModel:Hide()
 		if isSpecial then -- if this is a card for a leveling pet (or ignored or random)
 			middle.ModelScene:Hide()
-		local m2 = isSpecial=="ignored" and "Interface\\Buttons\\talktomered.m2" or isSpecial=="random" and "Interface\\Buttons\\talktomequestionmark.m2" or "Interface\\Buttons\\talktomequestion_ltblue.m2"
-		C_Timer.After(0,function() -- not sure why this delay is necessary to set model
-			middle.LevelingModel:Show()
-			middle.LevelingModel:SetModel(m2)
-		end)
+			local m2 = isSpecial=="ignored" and "Interface\\Buttons\\talktomered.m2" or isSpecial=="random" and "Interface\\Buttons\\talktomequestionmark.m2" or "Interface\\Buttons\\talktomequestion_ltblue.m2"
+			C_Timer.After(0,function() -- not sure why this delay is necessary to set model
+				middle.LevelingModel:Show()
+				middle.LevelingModel:SetModel(m2)
+			end)
 		elseif petInfo.displayID~=card.displayID or card.forceSceneChange then
 			middle.ModelScene:Show()
 			middle.LevelingModel:Hide()

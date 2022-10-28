@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Dependencies: ItemRack, Blizzard_MacroUI
 ## LoadOnDemand: 1
 

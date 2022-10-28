@@ -686,12 +686,8 @@ for key,value in pairs({
 		[-131] = "Внутренние земли - активен",						-- The Hinterlands Active
 		[-132] = "Фералас - активен",								-- Feralas Active
 		[-133] = "Сумеречный лес - активирован",					-- Duskwood Activated
-	-- Class Trial
-		[-148] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." ".."(Пробный)",	-- Level 50 (Trial)
 	-- Garrison
 		[-152] = "Гарнизонная кампания",							-- Garrison Campaign
-	-- Class Trial
-		[-155] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." ".."(Мгновенное повышение уровня)",	-- Level 50 (Boost)
 	-- Druid Feral Druid Hidden Artifact Appearance
 		[-157] = "Внутренние земли - активирован",					-- The Hinterlands Activated
 		[-158] = "Фералас - активирован",							-- Feralas Activated
@@ -841,6 +837,18 @@ for key,value in pairs({
 		[-1009] = "Эпохальный Реколор",								-- Mythic Alternative
 		[-1010] = "Гладиатор Реколор",								-- Gladiator Alternative
 		[-1011] = "Ветеран Реколор",								-- Elite Alternative
+	-- Temp
+		[-1098] = "Побочные Задания",								-- Side Quests
+	-- Dragonflight
+		[-1100] = "Кастомизации Драконов",							-- Dragon Customization
+		--TODO: [-1101] = "Primal Storms",							-- Primal Storms
+		[-1110] = "Драконья экспедиция",							-- Dragonscale Expedition
+		--TODO: [-1111] = "Climbing",								-- Climbing
+		[-1120] = "Кентавры Маруук",								-- Maruuk Centaur
+		[-1121] = "Клан Айлааг",									-- Clan Aylaag
+		--TODO: [-1122] = "Grand Hunts",							-- Grand Hunts
+		[-1130] = "Искарские клыкарры",								-- Iskaara Tuskarr
+		[-1140] = "Союз Вальдраккена",								-- Valdrakken Accord
 	-- Warrior order hall lore items
 		[-2200] = "Великий Один и Повелитель Огня",
 		[-2201] = "Странник и змей",
@@ -2212,6 +2220,7 @@ for key,value in pairs({
 	[252282] = "Связка блестящих ключей",	-- Sparkling Set of Keys
 	[252284] = "Куча бомб-липучек",	-- Pile of Sticky Bombs
 	[252289] = "Стирающий порошок",	-- Vanishing Powder
+	[252395] = "Коновязь коня смерти",	-- Deathcharger Hitching Post
 	[252412] = "|cFFFFFFFFШаг 2:|r Куча грязи",	-- |cFFFFFFFFStep 2:|r Mound of Dirt
 	[252432] = "Скопление мерцающих кристаллов древней маны",	-- Shimmering Ancient Mana Cluster
 	[252434] = "|cFFFFFFFFШаг 12:|r Алчущая сфера X",	-- |cFFFFFFFFStep 12:|r Hungering Orb X
@@ -3183,6 +3192,35 @@ for key,value in pairs({
 	[375987] = "Фирим в изгнании, часть 7",	-- Firim in Exile, Part 7
 	[375988] = "Фирим в изгнании, эпилог",	-- Firim in Exile, Epilogue
 	[376041] = "Замаскированный тайник шифров",	-- Shrouded Cypher Cache
+	--TODO: [376124] = "Bag of Enchanted Wind",	-- Bag of Enchanted Wind
+	--TODO: [376175] = "Fullsails Supply Chest",	-- Fullsails Supply Chest
+	--TODO: [376213] = "Mysterious Wand",	-- Mysterious Wand
+	--TODO: [376386] = "Disturbed Dirt",	-- Disturbed Dirt
+	--TODO: [376451] = "Bronze Stopwatch",	-- Bronze Stopwatch
+	--TODO: [376587] = "Expedition Scout's Pack",	-- Expedition Scout's Pack
+	--TODO: [376757] = "WANTED: Frigellus",	-- WANTED: Frigellus
+	--TODO: [377114] = "Coil of Heavy Rope",	-- Coil of Heavy Rope
+	--TODO: [377317] = "Treasure Hoard",	-- Treasure Hoard
+	--TODO: [377499] = "On the Origin of Draconic Species",	-- On the Origin of Draconic Species
+	--TODO: [379290] = "Ornamented Statue",	-- Ornamented Statue
+	--TODO: [379321] = "Mysterious Paw Print",	-- Mysterious Paw Print
+	--TODO: [380547] = "Decay-Infused Tanning Oil",	-- Decay-Infused Tanning Oil
+	--TODO: [380902] = "Fields of Ferocity",	-- Fields of Ferocity
+	--TODO: [381045] = "Replica Dragon Goblet",	-- Replica Dragon Goblet
+	--TODO: [381296] = "Horrible Mess",	-- Horrible Mess
+	--TODO: [381297] = "Misplaced Luggage",	-- Misplaced Luggage
+	--TODO: [381650] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381653] = "Fang Flap Fire Signups",	-- Fang Flap Fire Signups
+	--TODO: [381667] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381668] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381669] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381670] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381671] = "Archivists' Request",	-- Archivists' Request
+	--TODO: [381672] = "Archivist's Request",	-- Archivist's Request
+	--TODO: [381687] = "Discarded Note",	-- Discarded Note
+	--TODO: [381701] = "WANTED: Mara'nar the Thunderous",	-- WANTED: Mara'nar the Thunderous
+	--TODO: [382029] = "Disturbed Dirt",	-- Disturbed Dirt
+	--TODO: [382166] = "The Ruby Fest!",	-- The Ruby Fest!
 	[9962198] = "Самодельная лужа жижи изгоя",	-- Outcast's Makeshift Muckpool
 	[9999890] = "Оскверненная добыча",	-- Corrupted Loot
 	[9999891] = "Только Основная Задача",	-- Main Objective Only

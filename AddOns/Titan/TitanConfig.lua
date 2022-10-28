@@ -18,6 +18,25 @@ local TitanSkinToRemove = "None";
 local TitanSkinName, TitanSkinPath = "", "";
 local TitanGlobalProfile = ""
 
+TITAN_PANEL_CONFIG = {
+	topic = {
+		About			= L["TITAN_PANEL"],
+		top				= L["TITAN_PANEL_MENU_TOP_BARS"],
+		bottom			= L["TITAN_PANEL_MENU_BOTTOM_BARS"],
+		plugins			= L["TITAN_PANEL_MENU_PLUGINS"],
+		profiles		= L["TITAN_PANEL_MENU_PROFILES"],
+		tooltips		= L["TITAN_PANEL_MENU_OPTIONS_SHORT"],
+		scale			= L["TITAN_UISCALE_MENU_TEXT_SHORT"],
+		trans			 = L["TITAN_TRANS_MENU_TEXT_SHORT"],
+		skins			= L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"],
+		skinscust		= L["TITAN_SKINS_OPTIONS_CUSTOM"],
+		extras			= L["TITAN_PANEL_EXTRAS_SHORT"],
+		attempts		= L["TITAN_PANEL_ATTEMPTS_SHORT"],
+		advanced		= L["TITAN_PANEL_MENU_ADV"],
+		}
+	}
+-- TITAN_PANEL_CONFIG.topic.trans
+
 -- Titan local helper funcs
 local function TitanPanel_GetTitle()
 	return GetAddOnMetadata(TITAN_ID, "Title") or L["TITAN_NA"];
@@ -140,7 +159,8 @@ NAME: optionsControl
 DESC: Local table to hold the 'about' Titan info in the options.
 --]]
 local optionsControl = {
-	name = L["TITAN_PANEL"],
+	name = TITAN_PANEL_CONFIG.topic.About,
+	desc = L["TITAN_PANEL"],
 	type = "group",
 	args = {
 		confgendesc = {
@@ -220,7 +240,7 @@ This is the starting shell
 :DESC
 --]]
 local optionsTrans = {
-	name = L["TITAN_TRANS_MENU_TEXT"],
+	name = TITAN_PANEL_CONFIG.topic.trans, --L["TITAN_TRANS_MENU_TEXT"],
 	type = "group",
 	args = {
 		confdesc = {
@@ -339,7 +359,7 @@ NAME: optionsSkins
 DESC: Local table to hold the Titan skins options. Shows default Titan and any custom skins the user has added.
 --]]
 local optionsSkins = {
-	name = L["TITAN_SKINS_TITLE"],
+	name = TITAN_PANEL_CONFIG.topic.skins, --L["TITAN_SKINS_TITLE"],
 	type = "group",
 	args = {
 		setskinhdear = {
@@ -405,7 +425,7 @@ DESC: Local table to hold the Titan custom skins options that allow a user to ad
 :DESC
 --]]
 local optionsSkinsCustom = {
-	name = L["TITAN_SKINS_TITLE_CUSTOM"],
+	name = TITAN_PANEL_CONFIG.topic.skinscust, --L["TITAN_SKINS_TITLE_CUSTOM"],
 	type = "group",
 	args = {
 		confdesc = {
@@ -552,7 +572,7 @@ DESC: Local table to hold the Titan options that allow a user to adjust:
 :DESC
 --]]
 local optionsUIScale = {
-	name = L["TITAN_UISCALE_MENU_TEXT"],
+	name = TITAN_PANEL_CONFIG.topic.scale, --L["TITAN_UISCALE_MENU_TEXT"],
 	type = "group",
 	args = {
 		confdesc = {
@@ -697,7 +717,7 @@ Main (top) controls:
 :DESC
 --]]
 local optionsBars = {
-	name = L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"],
+	name = TITAN_PANEL_CONFIG.topic.top, --L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"],
 	type = "group",
 	args = {
 		confdesc1 = {
@@ -770,6 +790,10 @@ local optionsBars = {
 			end,
 			set = function() TitanPanelBarButton_ToggleAlign("Bar2_Align"); end,
 		},
+	}
+}
+-- DF do not need adjust
+--[=[
 		confdesc3 = {
 			order = 300,
 			type = "header",
@@ -798,8 +822,7 @@ local optionsBars = {
 			get = function() return TitanPanelGetVar("TicketAdjust"); end,
 			set = function() TitanPanel_TicketReload() end,
 		},
-	}
-}
+--]=]
 
 --[[ local
 NAME: optionsAuxBars
@@ -815,7 +838,7 @@ Main (top) controls:
 :DESC
 --]]
 local optionsAuxBars = {
-	name = L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"],
+	name = TITAN_PANEL_CONFIG.topic.bottom, --L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"],
 	type = "group",
 	args = {
 		confdesc1 = {
@@ -885,6 +908,94 @@ local optionsAuxBars = {
 			set = function() TitanPanelBarButton_ToggleAlign("AuxBar2_Align"); end,
 		},
 		confdesc3 = {
+				order = 400,
+				type = "header",
+				name = "Vertical Adjustment", --L["TITAN_PANEL_MENU_BOTTOM2"],
+		},
+		confmainmenudesc = {
+			name = "Menu and Bag Buttons",
+			type = "group", inline = true,
+			order = 401,
+			args = {
+				confbuffdesc = {
+					order = 110,
+					type = "description",
+					name = "Adjust Micro menu and Bag Buttons Vertically", --L["TITAN_PANEL_MENU_ADV_DESC"],
+					cmdHidden = true
+					},
+				optionadjon = {
+					name = USE, -- "On.", --["TITAN_PANEL_MENU_CENTER_TEXT"],
+					desc = "Adjust Menu and Bag Bar",  --L["TITAN_PANEL_MENU_CENTER_TEXT"],
+					order = 115, type = "toggle", width = "full",
+					get = function() 
+						return TitanPanelGetVar("MenuAndBagVerticalAdjOn") 
+					end,
+					set = function(_, a)
+						TitanPanelSetVar("MenuAndBagVerticalAdjOn", a) 
+-- DF switch to sliding menu & bag bar since 10.0 allows user to adjust most frames
+						TitanPanel_AdjustFrames(true, "MenuAndBagVerticalAdj")
+					end,
+				},
+				advbuffadj = {
+					name = "Menu and Bags", --L["TITAN_PANEL_MENU_ADV_PEW"],
+					desc = "", -- L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
+					order = 120, type = "range", width = "full",
+					min = -100, max = 500, step = 1,
+					get = function() return TitanPanelGetVar("MenuAndBagVerticalAdj") end,
+					set = function(_, a)
+						TitanPanelSetVar("MenuAndBagVerticalAdj", a);
+						-- Adjust frame positions
+-- DF switch to sliding menu & bag bar since 10.0 allows user to adjust most frames
+						TitanPanel_AdjustFrames(true, "MenuAndBagVerticalAdj")
+					end,
+				},
+			},
+		},
+		confxpbardesc = {
+			name = "Status Bar",
+			type = "group", inline = true,
+			order = 410,
+			args = {
+				confbuffdesc = {
+					order = 110,
+					type = "description",
+					name = "Adjust XP Bar Vertically", --L["TITAN_PANEL_MENU_ADV_DESC"],
+					cmdHidden = true
+					},
+				optionadjon = {
+					name = USE, -- "On.", --["TITAN_PANEL_MENU_CENTER_TEXT"],
+					desc = "Adjust Status Bar",  --L["TITAN_PANEL_MENU_CENTER_TEXT"],
+					order = 115, type = "toggle", width = "full",
+					get = function() 
+						return TitanPanelGetVar("XPBarVerticalAdjOn") 
+					end,
+					set = function(_, a)
+						TitanPanelSetVar("XPBarVerticalAdjOn", a) 
+-- DF switch to sliding menu & bag bar since 10.0 allows user to adjust most frames
+						TitanPanel_AdjustFrames(true, "XPBarVerticalAdj")
+					end,
+				},
+				advbuffadj = {
+					name = "XP and Status", --L["TITAN_PANEL_MENU_ADV_PEW"],
+					desc = "", -- L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
+					order = 120, type = "range", width = "full",
+					min = -20, max = 500, step = 1,
+					get = function() return TitanPanelGetVar("XPBarVerticalAdj") end,
+					set = function(_, a)
+						TitanPanelSetVar("XPBarVerticalAdj", a);
+						-- Adjust frame positions
+-- DF switch to sliding menu & bag bar since 10.0 allows user to adjust most frames
+						TitanPanel_AdjustFrames(true, "XPBarVerticalAdj")
+					end,
+				},
+			},
+		},
+	}
+}
+-- DF do not need adjust
+
+--[=[
+		confdesc3 = {
 			order = 300,
 			type = "header",
 			name = L["TITAN_PANEL_OPTIONS"],
@@ -927,8 +1038,7 @@ local optionsAuxBars = {
 				TitanPanel_AdjustFrames(true, "Config: Adjust X (right / left)")
 			end,
 		},
-	}
-}
+--]=]
 -------------
 
 -------------
@@ -949,7 +1059,7 @@ Actions:
 :DESC
 --]]
 local optionsFrames = {
-	name = L["TITAN_PANEL_MENU_OPTIONS"],
+	name = TITAN_PANEL_CONFIG.topic.tooltips, --L["TITAN_PANEL_MENU_OPTIONS"],
 	type = "group",
 	args = {
 		confdesc2 = {
@@ -1100,7 +1210,7 @@ NAME: optionsAddonAttempts
 DESC: This is the table shell. The plugin info will be added by another routine.
 --]]
 local optionsAddonAttempts = {
-	name = L["TITAN_PANEL_ATTEMPTS"],
+	name = TITAN_PANEL_CONFIG.topic.attempts, --L["TITAN_PANEL_ATTEMPTS"],
 	type = "group",
 	args = {}
 }
@@ -1229,7 +1339,7 @@ NAME: optionsExtras
 DESC: This is the table shell. The plugin info will be added by another routine.
 --]]
 local optionsExtras = {
-	name = L["TITAN_PANEL_EXTRAS"],
+	name = TITAN_PANEL_CONFIG.topic.extras, --L["TITAN_PANEL_EXTRAS"],
 	type = "group",
 	args = {}
  }
@@ -1299,7 +1409,7 @@ NAME: optionsChars
 DESC: This is the table shell. The toon info will be added by another routine.
 --]]
 local optionsChars = {
-	name = "Titan "..L["TITAN_PANEL_MENU_PROFILES"],
+	name = TITAN_PANEL_CONFIG.topic.profiles, --"Titan "..L["TITAN_PANEL_MENU_PROFILES"],
 	type = "group",
 	args = {}
 }
@@ -1536,7 +1646,7 @@ NAME: optionsAddons
 DESC: This is the table shell. The plugin controls will be added by another routine.
 --]]
 local optionsAddons = {
-	name = "Titan "..L["TITAN_PANEL_MENU_PLUGINS"],
+	name = TITAN_PANEL_CONFIG.topic.plugins, --"Titan "..L["TITAN_PANEL_MENU_PLUGINS"],
 	type = "group",
 	args = {}
 }
@@ -1804,10 +1914,7 @@ Controls:
 - Vehicle timer - some users need Titan to wait longer whenever entering or leaving a vehicle before adjusting frames.
 :DESC
 --]]
-local optionsAdvanced = {
-	name = L["TITAN_PANEL_MENU_ADV"],
-	type = "group",
-	args = {
+--[[
 		conftimerdesc = {
 			name = "Timers",
 			type = "group", inline = true,
@@ -1830,6 +1937,8 @@ local optionsAdvanced = {
 						TitanTimers["EnterWorld"].delay = a
 					end,
 				},
+			},
+		},
 				advtimervehicle = {
 					name = L["TITAN_PANEL_MENU_ADV_VEHICLE"],
 					desc = L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"],
@@ -1841,33 +1950,11 @@ local optionsAdvanced = {
 						TitanTimers["Vehicle"].delay = a
 					end,
 				},
-			},
-		},
-		confbuffdesc = {
-			name = "Buff Icon Vertical Adjustment",
-			type = "group", inline = true,
-			order = 2,
-			args = {
-				confbuffdesc = {
-					order = 110,
-					type = "description",
-					name = "Adjust Buff icons only as needed. This will override the Titan default adjustment.", --L["TITAN_PANEL_MENU_ADV_DESC"],
-					cmdHidden = true
-					},
-				advbuffadj = {
-					name = "Buff", --L["TITAN_PANEL_MENU_ADV_PEW"],
-					desc = "", -- L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
-					order = 120, type = "range", width = "full",
-					min = -100, max = 100, step = 1,
-					get = function() return TitanPanelGetVar("BuffIconVerticalAdj") end,
-					set = function(_, a)
-						TitanPanelSetVar("BuffIconVerticalAdj", a);
-						-- Adjust frame positions
-						TitanPanel_AdjustFrames(true, "BuffIconVerticalAdj")
-					end,
-				},
-			},
-		},
+--]]
+local optionsAdvanced = {
+	name = TITAN_PANEL_CONFIG.topic.advanced, --L["TITAN_PANEL_MENU_ADV"],
+	type = "group",
+	args = {
 		confoutputdesc = {
 			name = "Output",
 			type = "group", inline = true,
@@ -1948,7 +2035,10 @@ end
 --[[
 Register the options tables with Ace then register the options with Blizz so the user can use them.
 --]]
--- Add Blizzard Configuration Panel
+-- Add Blizzard Configuration Panels
+--[[ The first param needs to used for the 'add to options'
+The second param must be the table Ace will use to create the user options
+--]]
 AceConfig:RegisterOptionsTable("Titan Panel Main", optionsControl)
 AceConfig:RegisterOptionsTable("Titan Panel Bars", optionsBars)
 AceConfig:RegisterOptionsTable("Titan Panel Aux Bars", optionsAuxBars)
@@ -1962,18 +2052,24 @@ AceConfig:RegisterOptionsTable("Titan Panel Addon Attempts", optionsAddonAttempt
 AceConfig:RegisterOptionsTable("Titan Panel Addon Extras", optionsExtras)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Chars", optionsChars)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Advanced", optionsAdvanced)
+--]]
 -- Set the main options pages
-AceConfigDialog:AddToBlizOptions("Titan Panel Main", L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Bars", L["TITAN_PANEL_MENU_TOP_BARS"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Aux Bars", L["TITAN_PANEL_MENU_BOTTOM_BARS"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Control", L["TITAN_PANEL_MENU_PLUGINS"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Chars", L["TITAN_PANEL_MENU_PROFILES"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Frames", L["TITAN_PANEL_MENU_OPTIONS_SHORT"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Panel Control", L["TITAN_UISCALE_MENU_TEXT_SHORT"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Transparency Control", L["TITAN_TRANS_MENU_TEXT_SHORT"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Skin Control", L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Skin Custom", L["TITAN_SKINS_OPTIONS_CUSTOM"], L["TITAN_PANEL"]) 
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Extras", L["TITAN_PANEL_EXTRAS_SHORT"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Attempts", L["TITAN_PANEL_ATTEMPTS_SHORT"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Advanced", L["TITAN_PANEL_MENU_ADV"], L["TITAN_PANEL"])
+--[[ The first param must be the same as the cooresponding 'Ace register'
+The second param should be the same as the .name of the cooresponding table that was registered,
+if not, any 'open' may fail.
+--]]
+--AceConfigDialog:AddToBlizOptions("Titan Panel Main", L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Main", optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Bars", optionsBars.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Aux Bars", optionsAuxBars.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Control", optionsAddons.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Chars", optionsChars.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Frames", optionsFrames.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Panel Control", optionsUIScale.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Transparency Control", optionsTrans.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Skin Control", optionsSkins.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Skin Custom", optionsSkinsCustom.name, optionsControl.name) 
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Extras", optionsExtras.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Attempts", optionsAddonAttempts.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Advanced", optionsAdvanced.name, optionsControl.name)
 

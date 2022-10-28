@@ -232,7 +232,7 @@
 						<Layers>
 							<Layer level="OVERLAY">
 								-- Raid Icon
-								<Texture name="$parentIc50" toplevel="true" hidden="true" file="interface\targetingframe\ui-raidtargetingicons">
+								<Texture name="$parentIc50" hidden="true" file="interface\targetingframe\ui-raidtargetingicons">
 								</Texture>
 							</Layer>
 						</Layers>

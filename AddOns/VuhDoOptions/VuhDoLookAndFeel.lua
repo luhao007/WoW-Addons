@@ -1135,7 +1135,7 @@ do
 
 		if tValue.textSize and tValue.font then
 			local tFont = VUHDO_getFont(tValue["font"]);
-			_G[aColorSwatch:GetName() .. "TitleString"]:SetFont(tFont, tValue["textSize"]);
+			_G[aColorSwatch:GetName() .. "TitleString"]:SetFont(tFont, tValue["textSize"], "");
 		end
 	end
 end

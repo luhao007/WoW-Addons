@@ -62,7 +62,9 @@ and set the values in the code.
 					</OnLeave>
 				</Scripts>
 			</Slider>
-			<CheckButton name="TitanPanelClockControlCheckButton" inherits="OptionsCheckButtonTemplate">
+<!-- DF made a change to the options templates
+OptionsCheckButtonTemplate -->
+			<CheckButton name="TitanPanelClockControlCheckButton" inherits="InterfaceOptionsBaseCheckButtonTemplate">
 				<Size>
 					<AbsDimension x="24" y="24"/>
 				</Size>

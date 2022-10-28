@@ -67,7 +67,7 @@ local function VUHDO_setTooltipLine(aText, anIsLeft, aLineNum, aColor, aTextSize
 	if aColor then tLabel:SetTextColor(VUHDO_textColor(aColor)); end
 
 	if (aTextSize or 0) ~= 0 then
-		tLabel:SetFont(GameFontNormal:GetFont(), aTextSize);
+		tLabel:SetFont(GameFontNormal:GetFont(), aTextSize, "");
 	end
 
 	if anIsLeft then

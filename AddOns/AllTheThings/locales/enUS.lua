@@ -10,6 +10,10 @@
 --				This script is called directly after the Core.lua file. 	  --
 --------------------------------------------------------------------------------
 
+-- Globals that Blizzard broke/removed in 10.0
+CHARACTER_TYPE_FRAME_TRIAL_BOOST_CHARACTER = "Class Trial";
+CHARACTER_UPGRADE_CHARACTER_LIST_LABEL = "Character Boost";
+
 local name, app = ...;
 app.L = {
 	["TAB_SPACING"] = -10;	-- This is to control spacing between tab names in Settings
@@ -232,6 +236,8 @@ app.L = {
 	["LOCK_CRITERIA_FACTION_LABEL"] = "Faction Reputation";
 	["LOCK_CRITERIA_FACTION_FORMAT"] = "%s with %s (Current: %s)";
 	["FORCE_REFRESH_REQUIRED"] = "This may require a Force Refresh ("..SHIFT_KEY_TEXT.."-Click) to properly be collected.";
+	["FUTURE_UNOBTAINABLE"] = "Future Unobtainable!";
+	["FUTURE_UNOBTAINABLE_TOOLTIP"] = "This is content that has been confirmed or is highly-probable to be made unobtainable in a known future patch.";
 
 	["TIER_DATA"] = {
 		{	-- Classic
@@ -280,7 +286,7 @@ app.L = {
 			["lvl"] = 48,
 		},
 		{	-- Dragonflight
-			["icon"] = app.asset("Expansion_SL"),	-- TODO: Change asset
+			["icon"] = app.asset("Expansion_DF"),
 			["lore"] = "Dragonflight is the ninth expansion. The dragonflights of Azeroth have returned, called upon to defend their ancestral home, the Dragon Isles. Surging with elemental magic and the life energies of Azeroth, the Isles are awakening once more, and it's up to you to explore their primordial wonder and discover long-forgotten secrets.",
 			["lvl"] = 58,
 		},
@@ -1062,7 +1068,7 @@ app.L = {
 		[-146] = select(6, EJ_GetInstanceInfo(556)),										-- The Everbloom
 		[-147] = select(6, EJ_GetInstanceInfo(559)),										-- Upper Blackrock Spire
 	-- Class Trial
-		[-148] = 236566,																	-- Level 50 (Trial)
+		[-148] = 236566,																	-- Level 50 Class Trial
 		[-149] = 1408997,																	-- Level 110
 		[-150] = 2065613,																	-- Level 120
 	-- Garrison
@@ -1070,11 +1076,13 @@ app.L = {
 		[-153] = 1103070,																	-- Work Orders
 	-- Class Trial
 		[-154] = "Interface\\Icons\\ability_bossmagistrix_timewarp1",						-- Level 48
-		[-155] = 236566,																	-- Level 50 (Boost)
-		[-156] = 236567,																	-- Level 60
+		[-155] = 236566,																	-- Level 50 Character Boost
+		[-156] = 236567,																	-- Level 60 Character Boost
 	-- Druid Feral Druid Hidden Artifact Appearance
 		[-157] = "Interface\\Icons\\achievement_zone_hinterlands_01",						-- The Hinterlands Activated
 		[-158] = "Interface\\Icons\\achievement_zone_feralas",								-- Feralas Activated
+	-- Class Trial
+		[-160] = 236568,																	-- Level 60 Class Trial
 	-- Junkboxes
 		[-165] = "Interface\\Icons\\inv_box_01",											-- Junkboxes
 	-- Emissary
@@ -1199,7 +1207,7 @@ app.L = {
 		[-519] = app.asset("Category_Event"),												-- World Events
 		[-520] = "Interface\\Icons\\inv_misc_missilesmallcluster_green",					-- Expansion Pre-Launch
 		[-522] = "Interface\\Icons\\expansionicon_wrathofthelichking",						-- Wotlk: Zombie Infestation
-		[-523] = "Interface\\Icons\\expansionicon_cataclysm",								-- Cataclysm: Elemental Unrest
+		[-523] = app.asset("Expansion_CATA"),												-- Elemental Unrest
 		[-525] = "Interface\\Icons\\Achievement_Boss_Blackhand",							-- WoD: Iron Horde Incursion
 		[-526] = "Interface\\Icons\\inv_legionadventure",									-- Legion: Legion Invasion
 		[-527] = "Interface\\Icons\\Spell_Shaman_StormEarthFire",							-- BFA: War of the Thorns
@@ -1234,6 +1242,7 @@ app.L = {
 		[-581] = app.asset("Expansion_TBC"),												-- TBC Classic Deluxe Edition
 		[-582] = app.asset("Expansion_WOTLK"),												-- Northrend Heroic Upgrade ("Cheap")
 		[-583] = app.asset("Expansion_WOTLK"),												-- Northrend Epic Upgrade
+		[-584] = app.asset("Expansion_DF"),													-- Dragonflight Seasonal Promotions
 	-- PvP Headers
 		[-650] = 1455894,																	-- Rated Battlegrounds
 		--[-651] = "Interface\\Worldmap\\GlowSkull_64Grey",									-- Not used yet. Future PvP Icons if needed
@@ -1290,6 +1299,8 @@ app.L = {
 		[-694] = "Interface\\Icons\\inv_shadebeastmount_blue",								-- Unchained Gladiator: Shadowlands Season 2
 		[-695] = "Interface\\Icons\\inv_shadebeastmount_red",								-- Cosmic Gladiator: Shadowlands Season 3
 		[-696] = "Interface\\Icons\\inv_shadebeastmount_orange",							-- Eternal Gladiator: Shadowlands Season 4
+	-- Dragonflight PvP Seasons
+		[-697] = "Interface\\Icons\\inv_drake2mountgladiator",								-- Crimson Gladiator: Dragonflight Season 1
 	-- More PvP Seasons are likely to come dont use IDs here
 	-- Pets
 		[-795] = app.asset("Pet_Dungeon"),													-- Pet Battle Dungeons
@@ -1392,6 +1403,20 @@ app.L = {
 		[-1009] = app.asset("Difficulty_Mythic"),
 		[-1010] = "Interface\\Worldmap\\GlowSkull_64Purple",
 		[-1011] = "Interface\\Worldmap\\GlowSkull_64Red",
+	-- Temp
+		[-1098] = 236785,																			-- Side Quests
+		[-1099] = "Interface\\Icons\\inv_legioncampaign04",											-- Campaign
+	-- Dragonflight
+		[-1100] = "Interface\\Icons\\ability_dragonriding_glyph01",									-- Dragon Customization
+		[-1101] = "Interface\\Icons\\inv_10_dungeonjewelry_primalist_trinket_1ragingelement_air",	-- Primal Storms
+		[-1110] = "Interface\\Icons\\ui_majorfaction_expedition",									-- Dragonscale Expedition
+		[-1111] = "Interface\\Icons\\inv_cape_special_climbingpack_b_01",							-- Climbing
+		[-1120] = "Interface\\Icons\\ui_majorfaction_centaur",										-- Maruuk Centaur
+		[-1121] = "Interface\\Icons\\ability_racial_returntocamp",									-- Clan Aylaag
+		[-1122] = "Interface\\Icons\\inv_scroll_11",												-- Grand Hunts
+		[-1130] = "Interface\\Icons\\ui_majorfaction_tuskarr",										-- Iskaara Tuskarr
+		[-1131] = "Interface\\Icons\\inv_polearm_2h_kultirasharpoon_a_01",							-- Iskaara Fishing
+		[-1140] = "Interface\\Icons\\ui_majorfaction_valdrakken",									-- Valdrakken Accord
 	-- Warrior order hall lore items
 		[-2200] = "Interface\\Icons\\inv_scroll_11",										-- Warrior order hall lore item
 		[-2201] = "Interface\\Icons\\inv_scroll_11",										-- Warrior order hall lore item
@@ -1587,7 +1612,7 @@ app.L = {
 		[-146] = select(2, GetAchievementInfo(9044)),							-- The Everbloom
 		[-147] = select(2, GetAchievementInfo(9042)),							-- Upper Blackrock Spire
 	-- Class Trial
-		[-148] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." ".."(Trial)",		-- Level 50 (Trial)
+		[-148] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." "..CHARACTER_TYPE_FRAME_TRIAL_BOOST_CHARACTER,	-- Level 50 Class Trial
 		[-149] = string.format(SPELLBOOK_AVAILABLE_AT, 110),					-- Level 110
 		[-150] = string.format(SPELLBOOK_AVAILABLE_AT, 120),					-- Level 120
 	-- Garrison
@@ -1595,13 +1620,15 @@ app.L = {
 		[-153] = CAPACITANCE_WORK_ORDERS,										-- Work Orders
 	-- Class Trial
 		[-154] = string.format(SPELLBOOK_AVAILABLE_AT, 48),						-- Level 48
-		[-155] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." ".."(Boost)",		-- Level 50 (Boost)
-		[-156] = string.format(SPELLBOOK_AVAILABLE_AT, 60),						-- Level 60
+		[-155] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." "..CHARACTER_UPGRADE_CHARACTER_LIST_LABEL,	-- Level 50 Character Boost
+		[-156] = string.format(SPELLBOOK_AVAILABLE_AT, 60).." "..CHARACTER_UPGRADE_CHARACTER_LIST_LABEL,	-- Level 60 Character Boost
 	-- Druid Feral Druid Hidden Artifact Appearance
 		[-157] = DUNGEON_FLOOR_NIGHTMARERAID7.." "..GetSpellInfo(78741),		-- The Hinterlands Activated
 		[-158] = DUNGEON_FLOOR_NIGHTMARERAID9.." "..GetSpellInfo(78741),		-- Feralas Activated
 	-- Class Hall /Artifact
 		[-159] = "Event Roll",													-- Daily Dreamway Event Roll
+	-- Class Trial
+		[-160] = string.format(SPELLBOOK_AVAILABLE_AT, 60).." "..CHARACTER_TYPE_FRAME_TRIAL_BOOST_CHARACTER,	-- Level 60 Class Trial
 	-- Junkboxes
 		[-165] = GetItemSubClassInfo(13,1),										-- Junkboxes
 	-- Emissary
@@ -1730,7 +1757,7 @@ app.L = {
 		[-519] = "World Events",												-- World Events
 		[-520] = "Expansion Pre-Launch",										-- Expansion Pre-Launch
 		[-522] = EXPANSION_NAME2..": Zombie Infestation",						-- Wrath of the Lich King: Zombie Infestation
-		[-523] = EXPANSION_NAME3..": Elemental Unrest",							-- Cataclysm: Elemental Unrest
+		[-523] = "Elemental Unrest",											-- Elemental Unrest
 		[-525] = EXPANSION_NAME5..": Iron Horde Incursion",						-- Warlords of Draenor: Iron Horde Incursion
 		[-526] = EXPANSION_NAME6..": Legion Invasion",							-- Legion: Legion Invasion
 		[-527] = EXPANSION_NAME7..": War of the Thorns",						-- Battle for Azeroth: War of the Thorns
@@ -1765,6 +1792,7 @@ app.L = {
 		[-581] = "TBC Classic Deluxe Edition",									-- TBC Classic Deluxe Edition
 		[-582] = "WotLK Classic Northrend Heroic Upgrade",						-- WotLK Classic Northrend Heroic Upgrade ("Cheap")
 		[-583] = "WotLK Classic Northrend Epic Upgrade",						-- WotLK Classic Northrend Epic Upgrade
+		[-584] = "Dragonflight Seasonal Promotions",							-- Dragonflight Seasonal Promotions
 	-- PvP Header
 		-- Special Season Tags
 		--[-650] = "Rated Battleground",										-- Listed under Cata PvP Seasons
@@ -1827,6 +1855,8 @@ app.L = {
 		[-694] = select(2, GetAchievementInfo(14973)),							-- Unchained Gladiator: Shadowlands Season 2
 		[-695] = select(2, GetAchievementInfo(15353)),							-- Cosmic Gladiator: Shadowlands Season 3
 		[-696] = select(2, GetAchievementInfo(15606)),							-- Eternal Gladiator: Shadowlands Season 4
+	-- Dragonflight PvP Seasons
+		[-697] = select(2, GetAchievementInfo(15951)),							-- Crimson Gladiator: Dragonflight Season 1
 	-- More PvP Seasons are likely to come dont use IDs here
 	-- Pets
 		[-795] = "Pet Battle Dungeons",											-- Pet Battle Dungeons
@@ -1942,6 +1972,20 @@ app.L = {
 		[-1009] = "Mythic Alternative",												-- Mythic Alternative
 		[-1010] = "Gladiator Alternative",											-- Gladiator Alternative
 		[-1011] = "Elite Alternative",												-- Elite Alternative
+	-- Temp
+		[-1098] = "Side Quests",													-- Side Quests
+		[-1099] = TRACKER_HEADER_CAMPAIGN_QUESTS,									-- Campaign
+	-- Dragonflight
+		[-1100] = "Dragon Customization",											-- Dragon Customization
+		[-1101] = "Primal Storms",													-- Primal Storms
+		[-1110] = "Dragonscale Expedition",											-- Dragonscale Expedition
+		[-1111] = "Climbing",														-- Climbing
+ 		[-1120] = "Maruuk Centaur",													-- Maruuk Centaur
+		[-1121] = "Clan Aylaag",													-- Clan Aylaag
+		[-1122] = "Grand Hunts",													-- Grand Hunts
+		[-1130] = "Iskaara Tuskarr",												-- Iskaara Tuskarr
+		[-1131] = "Iskaara Fishing",												-- Iskaara Fishing
+		[-1140] = "Valdrakken Accord",												-- Valdrakken Accord
 	-- Warrior order hall lore items
 		[-2200] = "Great Odyn and the Firelord",
 		[-2201] = "The Wanderer and the Serpent",
@@ -1970,7 +2014,7 @@ app.L = {
 		[-5204] = "Challenge Appearance",
 		[-5205] = "Hidden Appearance",
 		-- Class Sets
-		[-5350] = "Class Trial Item Sets",										-- Class Trial
+		[-5350] = CHARACTER_TYPE_FRAME_TRIAL_BOOST_CHARACTER.." Item Sets",		-- Class Trial Item Sets
 		-- Note!! We are localizing them here so when we filter the achievement we don't filter the entire section which is bad!
 		[-5353] = select(2,GetAchievementInfo(2398)),							-- 4th Anniversary
 		[-5354] = select(2,GetAchievementInfo(4400)),							-- 5th Anniversary
@@ -2125,7 +2169,7 @@ app.L = {
 		-- #if BEFORE BFA
 		--[41] = {1, "|CFFFF0000This is only available to players that completed the associated Mage Tower Artifact Challenges and earned the base appearance.|r", "Mage Tower Appearances"},
 		-- #endif
-		[45] = {1, "|CFFFF0000Blizzard's Loot changes broke several Items and made them Unobtainable.\nHouse of Nobles Cape/Gurubashi Empire Greatcloak (both BFA Emissary Rewards), Ogom the Mangler, WoD Misson loot & Class Trials are currently broken and need to be fixed.|r", "Broken Loot"},
+		[45] = {1, "|CFFFF0000Blizzard's Loot changes broke several Items and made them Unobtainable.\nHouse of Nobles Cape/Gurubashi Empire Greatcloak (both BFA Emissary Rewards), Ogom the Mangler, WoD Mission Loot & some Ulduar HM items are currently broken and need to be fixed.|r", "Broken Loot"},
 
 		-- Seasonal Filters
 		[1000] = {4, "|CFF00FFDEThis requires the Brewfest Holiday to be Active.|r", "Brewfest"},

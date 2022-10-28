@@ -122,6 +122,7 @@ local VUHDO_DEFAULT_RANGE_SPELLS = {
 	["DRUID"] = VUHDO_SPELL_ID.REJUVENATION,
 	["PRIEST"] = VUHDO_SPELL_ID.HEAL,
 	["MONK"] = VUHDO_SPELL_ID.DETOX,
+	["EVOKER"] = VUHDO_SPELL_ID.LIVING_FLAME,
 }
 
 
@@ -228,6 +229,22 @@ local VUHDO_CLASS_DEFAULT_SPELL_ASSIGNMENT = {
 		["shift2"] = { "shift-", "2", VUHDO_SPELL_ID.REVIVAL },
 	},
 
+	["EVOKER"] = {
+		["1"] = { "", "1", VUHDO_SPELL_ID.LIVING_FLAME },
+		["2"] = { "", "2", VUHDO_SPELL_ID.EMERALD_BLOSSOM },
+		["3"] = { "", "3", "menu"},
+		["4"] = { "", "4", VUHDO_SPELL_ID.ECHO },
+		["5"] = { "", "5", VUHDO_SPELL_ID.DREAM_BREATH },
+
+		["alt1"] = { "alt-", "1", "target" },
+		["alt2"] = { "alt-", "2", "focus" },
+
+		["ctrl1"] = { "ctrl-", "1", VUHDO_SPELL_ID.NATURALIZE },
+		["ctrl2"] = { "ctrl-", "2", VUHDO_SPELL_ID.CAUTERIZING_FLAME },
+
+		["shift1"] = { "shift-", "1", VUHDO_SPELL_ID.ZEPHYR },
+		["shift2"] = { "shift-", "2", VUHDO_SPELL_ID.DREAM_FLIGHT },
+	},
 };
 
 
@@ -2871,6 +2888,7 @@ VUHDO_DEFAULT_USER_CLASS_COLORS = {
 	[VUHDO_ID_DEATH_KNIGHT]  = VUHDO_makeFullColor(0.77, 0.12, 0.23, 1,   0.87, 0.22, 0.33, 1),
 	[VUHDO_ID_MONKS]         = VUHDO_makeFullColor(0,    1,    0.59, 1,   0,    1,    0.69, 1),
 	[VUHDO_ID_DEMON_HUNTERS] = VUHDO_makeFullColor(0.54, 0.09, 0.69, 1,   0.64, 0.19, 0.79, 1),
+	[VUHDO_ID_EVOKERS]       = VUHDO_makeFullColor(0.10, 0.48, 0.40, 1,   0.20, 0.58, 0.50, 1),
 	[VUHDO_ID_PETS]          = VUHDO_makeFullColor(0.4,  0.6,  0.4,  1,   0.5,  0.9,  0.5,  1),
 	["petClassColor"] = false,
 }

@@ -1,5 +1,5 @@
-## Interface: 90207
-## Version: 2.7.4
+## Interface: 100000
+## Version: 2.7.6
 ## SavedVariables: PawnCommon
 ## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
 

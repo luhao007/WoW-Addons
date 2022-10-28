@@ -1,5 +1,5 @@
-## Interface: 90207
-## Version: Plater-v536.1-Classic
+## Interface: 100000
+## Version: Plater-v537.1-Classic
 ## SavedVariables: PlaterDB
 ## SavedVariablesPerCharacter: PlaterDBChr
 

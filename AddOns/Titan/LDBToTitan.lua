@@ -83,7 +83,7 @@ local xcategories = {
 }
 local LAUNCHER = "launcher"
 local DATA_SOURCE = "data source"
-local SupportedDOTypes = {DATA_SOURCE, LAUNCHER} -- in the 1.1 spec
+local SupportedDOTypes = {DATA_SOURCE, LAUNCHER, "macro"} -- in the 1.1 spec
 
 -- constants & variables
 local CALLBACK_PREFIX = "LibDataBroker_AttributeChanged_"
@@ -725,12 +725,19 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 	-- via a check in the menu implementation, later on.
 	local addoncategory, addonversion;
 	local tempname = obj.tocname or name;
-	if IsAddOnLoaded(tempname) then
+	
+	-- This was a sanity check but does not allow for multiple 
+	-- LDB to be within an addon yet act as their own addon.
+--	if IsAddOnLoaded(tempname) then
 		addoncategory = GetAddOnMetadata(tempname, "X-Category");
-		registry["category"]= addoncategory and xcategories[addoncategory] or nil
-		addonversion = GetAddOnMetadata(tempname, "Version");
-		registry["version"]= addonversion or nil;
-	end
+		registry["category"]= (addoncategory and xcategories[addoncategory])
+							or (obj.category)
+							or nil
+		addonversion = GetAddOnMetadata(tempname, "Version")
+							or (obj.version)
+							or ""
+		registry["version"]= addonversion;
+--	end
 
 	-- Depending on the LDB type set the control and saved Variables appropriately
 	if obj.type == LAUNCHER then
@@ -755,11 +762,27 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 	-- Create the frame for this LDB addon
 	--
 	
-	-- Create the Titan Frame as a Combo
+	-- Create the Titan Frame ...
 	-- Titan _OnLoad will be used to request the plugin be registered by Titan
-	local newTitanFrame = CreateFrame("Button",
-		"TitanPanel"..NAME_PREFIX..name.."Button", 
-		UIParent, "TitanPanelComboTemplate")
+	local newTitanFrame -- a frame
+	if obj.type == "macro" then  -- custom
+		newTitanFrame = CreateFrame("Button",
+			"TitanPanel"..NAME_PREFIX..name.."Button", 
+			UIParent, "TitanPanelComboTemplate, SecureActionButtonTemplate")
+		newTitanFrame:SetAttribute("type", "macro")
+		newTitanFrame:SetAttribute("macrotext", obj.commandtext)
+--[[
+print("T_LDB"
+.." "..tostring(name).." "
+.." '"..tostring(obj.commandtext).."' "
+)
+--]]		
+	else
+		newTitanFrame = CreateFrame("Button",
+			"TitanPanel"..NAME_PREFIX..name.."Button", 
+			UIParent, "TitanPanelComboTemplate")
+	end
+
 	newTitanFrame.registry = registry
 	newTitanFrame:SetFrameStrata("FULLSCREEN");
 	newTitanFrame:SetToplevel(true);
@@ -841,7 +864,7 @@ LDBToTitan:SetScript("OnEvent", function(self, event, ...)
 		-- Ensure all plugins (for LDB) are refreshed.
 		-- Some LDB plugins may have updated text, icon, etc 
 		-- before the plugin was registered so be nice and schedule a refresh
-		TitanMovable_AdjustTimer("LDBRefresh")
+--		TitanMovable_AdjustTimer("LDBRefresh")
 	end
-	end
+end
 )

@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Breen
-## Version: 6.3
+## Version: 6.4
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsShadowlandsPrologue
 ## LoadOnDemand: 1

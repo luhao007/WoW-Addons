@@ -1077,7 +1077,8 @@ local function GetTradeSkillSpecialization(skillID)
 	return tradeSkillSpecializationMap[skillID];
 end
 app.GetTradeSkillLine = function()
-	return GetBaseTradeSkillID(C_TradeSkillUI.GetTradeSkillLine());
+	local profInfo = C_TradeSkillUI.GetBaseProfessionInfo();
+	return GetBaseTradeSkillID(profInfo.professionID);
 end
 app.GetSpecializationBaseTradeSkill = function(specializationID)
 	return specializationTradeSkillMap[specializationID];
@@ -1154,7 +1155,7 @@ for i=1,MAX_CREATURES_PER_ENCOUNTER do
 	model:SetFacing(MODELFRAME_DEFAULT_ROTATION);
 	fi = math.floor(i / 2);
 	model:SetPosition(fi * -0.1, (fi * (i % 2 == 0 and -1 or 1)) * ((MAX_CREATURES_PER_ENCOUNTER - i) * 0.1), fi * 0.2 - 0.3);
-	model:SetDepth(i);
+	--model:SetDepth(i);
 	model:Hide();
 	tinsert(GameTooltipModel.Models, model);
 end
@@ -1350,11 +1351,12 @@ GameTooltipModel.TrySetModel = function(self, reference)
 			end
 		end
 
-		if reference.model then
+		local modelID = tonumber(reference.model);
+		if modelID and modelID > 0 then
 			self.Model:SetFacing(reference.modelRotation and ((reference.modelRotation * math.pi) / 180) or MODELFRAME_DEFAULT_ROTATION);
 			self.Model:SetCamDistanceScale(reference.modelScale or 1);
 			self.Model:SetUnit("none");
-			self.Model:SetModel(reference.model);
+			self.Model:SetModel(modelID);
 			self.Model:Show();
 			self:Show();
 			return true;
@@ -1629,16 +1631,20 @@ local function GetProgressTextForRow(data)
 	local isContainer = total and (total > 1 or (total > 0 and not isCollectible));
 
 	if isContainer then
-		local costTotal = data.costTotal;
-		local isCost = costTotal and costTotal > 0;
-		local isFilledCost = data.filledCost;
 
-		-- Cost & Progress
-		if isFilledCost then
+		-- Uncollected Collectible (show uncollected icon & container info)
+		if isCollectible and not data.collected then
+			return GetCollectionIcon().." "..GetProgressColorText(data.progress or 0, total);
+		end
+
+		-- Cost & Progress (show cost icon & container info)
+		if data.filledCost then
 			return L["COST_ICON"].." "..GetProgressColorText(data.progress or 0, total);
 		end
 
-		-- Cost
+		local costTotal = data.costTotal;
+		local isCost = costTotal and costTotal > 0;
+		-- Cost (show cost icon)
 		if isCost then
 			return L["COST_ICON"];
 		end
@@ -1666,23 +1672,32 @@ local function GetProgressTextForTooltip(data, iconOnly)
 	local stateText = GetStateIcon(data, iconOnly);
 
 	if isContainer then
-		local costTotal = data.costTotal;
-		local isCost = costTotal and costTotal > 0;
-		local isFilledCost = data.filledCost;
 
-		-- Cost & Progress
-		if isFilledCost then
+		-- Uncollected Collectible (show uncollected state & container info)
+		if isCollectible and not data.collected then
 			if stateText then
-				return L["COST_TEXT"].." "..GetProgressColorText(data.progress or 0, total).." "..stateText;
+				-- this should be the case 100% of the time, unless a Type defines 'collectible' without 'collected'
+				return stateText.." "..GetProgressColorText(data.progress or 0, total);
+			else
+				return GetProgressColorText(data.progress or 0, total);
+			end
+		end
+
+		-- Cost & Progress (show cost icon & container info)
+		if data.filledCost then
+			if stateText then
+				return stateText.." "..L["COST_TEXT"].." "..GetProgressColorText(data.progress or 0, total);
 			else
 				return L["COST_TEXT"].." "..GetProgressColorText(data.progress or 0, total);
 			end
 		end
 
-		-- Cost
+		local costTotal = data.costTotal;
+		local isCost = costTotal and costTotal > 0;
+		-- Cost (show cost icon)
 		if isCost then
 			if stateText then
-				return L["COST_TEXT"].." "..stateText;
+				return stateText.." "..L["COST_TEXT"];
 			else
 				return L["COST_TEXT"];
 			end
@@ -1690,7 +1705,7 @@ local function GetProgressTextForTooltip(data, iconOnly)
 
 		-- Progress Only
 		if stateText then
-			return GetProgressColorText(data.progress or 0, total).." "..stateText;
+			return stateText.." "..GetProgressColorText(data.progress or 0, total);
 		else
 			return GetProgressColorText(data.progress or 0, total);
 		end
@@ -2766,6 +2781,7 @@ local NPCTitlesFromID = {};
 local NPCHarvester = CreateFrame("GameTooltip", "AllTheThingsNPCHarvester", UIParent, "GameTooltipTemplate");
 app.NPCNameFromID = setmetatable({}, { __index = function(t, id)
 	if not id then return; end
+	id = tonumber(id);
 	if id > 0 then
 		NPCHarvester:SetOwner(UIParent,"ANCHOR_NONE");
 		NPCHarvester:SetHyperlink(format("unit:Creature-0-0-0-0-%d-0000000000",id));
@@ -3065,6 +3081,7 @@ app.MergedObject = function(group, rootOnly)
 	return merged;
 end
 end)();
+
 local function ExpandGroupsRecursively(group, expanded, manual)
 	-- expand if there is any sub-group
 	if group.g then
@@ -5319,6 +5336,12 @@ app.BuildSourceParent = function(group)
 	if specificSource then
 		 specificSource = specificSource[group[groupKey]];
 	end
+	-- group with some Source-able data can be treated as specific Source
+	if not specificSource and (
+		group.npcID or group.creatureID or group.crs or group.providers
+	) then
+		specificSource = true;
+	end
 	if not thingCheck and not specificSource then return; end
 
 	-- pull all listings of this 'Thing'
@@ -5872,6 +5895,7 @@ fieldCache["professionID"] = {};
 fieldCache["requireSkill"] = rawget(fieldCache, "professionID");
 fieldCache["questID"] = {};
 fieldCache["runeforgePowerID"] = {};
+fieldCache["rwp"] = {};
 fieldCache["s"] = {};
 fieldCache["speciesID"] = {};
 fieldCache["spellID"] = {};
@@ -5991,6 +6015,9 @@ fieldConverters = {
 	end,
 	["runeforgePowerID"] = function(group, value)
 		CacheField(group, "runeforgePowerID", value);
+	end,
+	["rwp"] = function(group, value)
+		CacheField(group, "rwp", value);
 	end,
 	["s"] = function(group, value)
 		CacheField(group, "s", value);
@@ -8267,6 +8294,11 @@ local function MapSourceQuestsRecursive(parentQuestID, questID, currentDepth, de
 			questRef.collectible = true;
 		end
 
+		-- don't consider locked quests which have been skipped if not tracking locked quests
+		if not questRef.collected and questRef.locked and not app.Settings:Get("Thing:QuestsLocked") then
+			questRef.collectible = false;
+		end
+
 		-- If the user is in a Party Sync session, then force showing pre-req quests which are replayable if they are collected already
 		if app.IsInPartySync and questRef.collected then
 			questRef.OnUpdate = app.ShowIfReplayableQuest;
@@ -8933,7 +8965,7 @@ local function RefreshQuestCompletionState(questID)
 	-- app.PrintDebugPrior("RefreshedQuestCompletionState")
 end
 app.RefreshQuestInfo = function(questID)
-	-- print("RefreshQuestInfo",questID)
+	-- app.PrintDebug("RefreshQuestInfo",questID)
 	-- unregister criteria update until the quest refresh actually completes
 	app:UnregisterEvent("CRITERIA_UPDATE");
 	if questID then
@@ -10017,6 +10049,7 @@ local classIcons = {
 	[10] = "Interface\\Icons\\ClassIcon_Monk",
 	[11] = "Interface\\Icons\\ClassIcon_Druid",
 	[12] = "Interface\\Icons\\ClassIcon_DemonHunter",
+	[13] = "Interface\\Icons\\ClassIcon_Evoker",
 };
 local GetClassIDFromClassFile = function(classFile)
 	for i,icon in pairs(classIcons) do
@@ -10451,7 +10484,28 @@ end)();
 
 -- Faction Lib
 (function()
-local GetFriendshipReputation, GetFriendshipReputationRanks = GetFriendshipReputation, GetFriendshipReputationRanks;
+local GetFriendshipReputation, GetFriendshipReputationRanks =
+	GetFriendshipReputation, GetFriendshipReputationRanks;
+
+-- 10.0 Blizz does some weird stuff with Friendship functions now, so let's try to wrap the functionality to work with what we expected before... at least for now
+if C_GossipInfo then
+	local GetBlizzFriendship = C_GossipInfo.GetFriendshipReputation;
+	GetFriendshipReputation = function(factionID, field)
+		local friendInfo = GetBlizzFriendship(factionID);
+		local friendFactionID = friendInfo and friendInfo.friendshipFactionID or 0;
+		if friendFactionID ~= 0 then
+			return field and friendInfo[field] or true;
+		end
+	end
+	local GetBlizzFriendshipRanks = C_GossipInfo.GetFriendshipReputationRanks;
+	GetFriendshipReputationRanks = function(factionID)
+		local rankInfo = GetBlizzFriendshipRanks(factionID);
+		local maxLevel = rankInfo and rankInfo.maxLevel or 0;
+		if maxLevel ~= 0 then
+			return rankInfo.currentLevel, maxLevel;
+		end
+	end
+end
 local StandingByID = {
 	[0] = {	-- 0: No Standing (Not in a Guild)
 		["color"] = "00404040",
@@ -10491,7 +10545,7 @@ local StandingByID = {
 	},
 };
 app.FactionNameByID = setmetatable({}, { __index = function(t, id)
-	local name = select(1, GetFactionInfoByID(id)) or select(4, GetFriendshipReputation(id));
+	local name = select(1, GetFactionInfoByID(id)) or GetFriendshipReputation(id, "name");
 	if name then
 		rawset(t, id, name);
 		rawset(app.FactionIDByName, name, id);
@@ -10603,7 +10657,7 @@ end
 -- Returns StandingText or Requested Standing colorzing the 'Standing' text for the Faction, or otherwise the provided 'textOverride'
 app.GetCurrentFactionStandingText = function(factionID, requestedStanding, textOverride)
 	local standing = requestedStanding or GetCurrentFactionStandings(factionID);
-	local friendStandingText = select(7, GetFriendshipReputation(factionID));
+	local friendStandingText = GetFriendshipReputation(factionID, "reaction");
 	if friendStandingText then
 		local _, maxStanding = GetFriendshipReputationRanks(factionID);
 		-- adjust relative to max based on the actual max ranks of the friendship faction
@@ -10635,8 +10689,8 @@ local function CacheInfo(t, field)
 	-- do not attempt caching more than 1 time per factionID since not every cached field may have a cached value
 	if _t.name then return end
 	local factionInfo = { GetFactionInfoByID(id) };
-	local friendshipInfo = { GetFriendshipReputation(id) };
-	local name = factionInfo[1] or friendshipInfo[4];
+	local friendshipName = GetFriendshipReputation(id, "name");
+	local name = factionInfo[1] or friendshipName;
 	local lore = factionInfo[2];
 	_t.name = name or (t.creatureID and app.NPCNameFromID[t.creatureID]) or (FACTION .. " #" .. id);
 	if lore then
@@ -10644,9 +10698,9 @@ local function CacheInfo(t, field)
 	elseif not name then
 		_t.description = L["FACTION_SPECIFIC_REP"];
 	end
-	if friendshipInfo[1] then
+	if friendshipName then
 		rawset(t, "isFriend", true);
-		local friendship = friendshipInfo[5];
+		local friendship = GetFriendshipReputation(id, "text");
 		if friendship then
 			if _t.lore then
 		 		_t.lore = _t.lore.."\n\n"..friendship;
@@ -10673,7 +10727,7 @@ local fields = {
 	["icon"] = function(t)
 		return t.achievementID and select(10, GetAchievementInfo(t.achievementID))
 			or L["FACTION_ID_ICONS"][t.factionID]
-			or t.isFriend and select(6, GetFriendshipReputation(t.factionID))
+			or t.isFriend and GetFriendshipReputation(t.factionID, "texture")
 			or app.asset("Category_Factions");
 	end,
 	["link"] = function(t)
@@ -10722,12 +10776,6 @@ local fields = {
 		local factionID = t.factionID;
 		if app.CurrentCharacter.Factions[factionID] then return true; end
 		if t.standing >= t.maxstanding then
-			app.CurrentCharacter.Factions[factionID] = 1;
-			ATTAccountWideData.Factions[factionID] = 1;
-			return true;
-		end
-		local friendID, _, _, _, _, _, _, _, nextFriendThreshold = GetFriendshipReputation(factionID);
-		if friendID and not nextFriendThreshold then
 			app.CurrentCharacter.Factions[factionID] = 1;
 			ATTAccountWideData.Factions[factionID] = 1;
 			return true;
@@ -15757,6 +15805,7 @@ app._RefreshWindows = function()
 	for _,window in pairs(app.Windows) do
 		window:Refresh();
 	end
+	-- app.PrintDebugPrior("_RefreshWindows")
 end
 function app:RefreshWindows()
 	-- no need to update windows when a refresh is pending
@@ -17451,7 +17500,7 @@ function app:GetWindow(suffix, parent, onUpdate)
 		window:SetMovable(true);
 		window:SetResizable(true);
 		window:SetPoint("CENTER");
-		window:SetMinResize(96, 32);
+		--window:SetMinResize(96, 32);
 		window:SetSize(300, 300);
 
 		-- set the scaling for the new window if settings have been initialized
@@ -17481,12 +17530,13 @@ function app:GetWindow(suffix, parent, onUpdate)
 
 		-- The Close Button. It's assigned as a local variable so you can change how it behaves.
 		window.CloseButton = CreateFrame("Button", nil, window, "UIPanelCloseButton");
-		window.CloseButton:SetPoint("TOPRIGHT", window, "TOPRIGHT", 4, 3);
+		window.CloseButton:SetPoint("TOPRIGHT", window, "TOPRIGHT", -1, -1);
+		window.CloseButton:SetSize(20, 20);
 		window.CloseButton:SetScript("OnClick", OnCloseButtonPressed);
 
 		-- The Scroll Bar.
 		local scrollbar = CreateFrame("Slider", nil, window, "UIPanelScrollBarTemplate");
-		scrollbar:SetPoint("TOP", window.CloseButton, "BOTTOM", 0, -10);
+		scrollbar:SetPoint("TOP", window.CloseButton, "BOTTOM", 0, -15);
 		scrollbar:SetPoint("BOTTOMRIGHT", window, "BOTTOMRIGHT", -4, 36);
 		scrollbar:SetScript("OnValueChanged", OnScrollBarValueChanged);
 		scrollbar.back = scrollbar:CreateTexture(nil, "BACKGROUND");
@@ -17700,6 +17750,17 @@ function app:GetDataCache()
 		-- don't cache maps for dynamic content because it's already source-cached for the respective maps
 		app.ToggleCacheMaps(true);
 		app.print(sformat(L["LOADING_FORMAT"], L["DYNAMIC_CATEGORY_LABEL"]));
+
+		-- Future Unobtainable
+		local db = {}; -- temp
+		db.parent = primeData;
+		db.back = 1;
+		db.name = L["FUTURE_UNOBTAINABLE"];
+		db.text = db.name;
+		db.description = L["FUTURE_UNOBTAINABLE_TOOLTIP"];
+		db.icon = 134399; -- inv_misc_qirajicrystal_05
+		db.dynamic_withsubgroups = true;
+		tinsert(g, DynamicCategory(db, "rwp"));
 
 		-- Artifacts (Dynamic)
 		local db = app.CreateNPC(-10067);
@@ -19867,93 +19928,68 @@ customWindowUpdates["CurrentInstance"] = function(self, force, got)
 		self:BaseUpdate(force or got, got);
 	end
 end;
-customWindowUpdates["ItemFilter"] = function(self)
+customWindowUpdates["ItemFilter"] = function(self, force)
 	if self:IsVisible() then
 		if not self.initialized then
 			self.initialized = true;
-			self.dirty = true;
+			-- self.dirty = true;
+
+			self.Clear = function(self)
+				local temp = self.data.g[1];
+				wipe(self.data.g);
+				tinsert(self.data.g, temp);
+			end
 
 			-- Item Filter
-			local actions = {
+			local data = {
 				['text'] = L["ITEM_FILTER_TEXT"],
 				['icon'] = "Interface\\Icons\\Achievement_Dungeon_HEROIC_GloryoftheRaider",
 				["description"] = L["ITEM_FILTER_DESCRIPTION"],
 				['visible'] = true,
 				['expanded'] = true,
 				['back'] = 1,
-				['OnUpdate'] = function(data)
-					if not self.dirty then return nil; end
-					self.dirty = nil;
-
-					local g = {};
-					tinsert(g, 1, data.setItemFilter);
-					if data.results and #data.results > 0 then
-						for i,result in ipairs(data.results) do
-							tinsert(g, result);
-						end
-					end
-					data.g = g;
-
-					-- Update the groups without forcing Debug Mode.
-					local visibilityFilter = app.VisibilityFilter;
-					app.VisibilityFilter = app.ObjectVisibilityFilter;
-					data.progress = 0;
-					data.total = 0;
-					self.ExpandInfo = { Expand = true };
-					BuildGroups(data, data.g);
-					self:BaseUpdate(true);
-					app.VisibilityFilter = visibilityFilter;
-				end,
-				['g'] = {},
-				['results'] = {},
-				['setItemFilter'] = {
-					['text'] = L["ITEM_FILTER_BUTTON_TEXT"],
-					['icon'] = "Interface\\Icons\\INV_MISC_KEY_12",
-					['description'] = L["ITEM_FILTER_BUTTON_DESCRIPTION"],
-					['visible'] = true,
-					['OnClick'] = function(row, button)
-						app:ShowPopupDialogWithEditBox(L["ITEM_FILTER_POPUP_TEXT"], "", function(text)
-							text = string_lower(text);
-							local f = tonumber(text);
-							if tostring(f) ~= text then
-								-- The string form did not match, the filter must have been by name.
-								for id,filter in pairs(L["FILTER_ID_TYPES"]) do
-									if string.match(string_lower(filter), text) then
-										f = tonumber(id);
-										break;
+				['g'] = {
+					{
+						['text'] = L["ITEM_FILTER_BUTTON_TEXT"],
+						['icon'] = "Interface\\Icons\\INV_MISC_KEY_12",
+						['description'] = L["ITEM_FILTER_BUTTON_DESCRIPTION"],
+						['visible'] = true,
+						['OnUpdate'] = app.AlwaysShowUpdate,
+						['OnClick'] = function(row, button)
+							app:ShowPopupDialogWithEditBox(L["ITEM_FILTER_POPUP_TEXT"], "", function(text)
+								text = string_lower(text);
+								local f = tonumber(text);
+								if text ~= "" and tostring(f) ~= text then
+									-- The string form did not match, the filter must have been by name.
+									for id,filter in pairs(L["FILTER_ID_TYPES"]) do
+										if string.match(string_lower(filter), text) then
+											f = tonumber(id);
+											break;
+										end
 									end
 								end
-							end
-							if f then
-								self.data.results = app:BuildSearchResponse(app:GetWindow("Prime").data.g, "f", f);
-								row.ref.f = f;
-								self.dirty = true;
-							end
-							wipe(searchCache);
-							self:Update();
-						end);
-						return true;
-					end,
-					['OnUpdate'] = app.AlwaysShowUpdate,
+
+								self:Clear();
+
+								if f then
+									local g = self.data.g;
+									app.ArrayAppend(g, app:BuildSearchResponse(app:GetDataCache().g, "f", f));
+								end
+
+								self:BuildData();
+								self:Update(true);
+							end);
+							return true;
+						end,
+					},
 				},
 			};
 
-			self.Reset = function()
-				self:SetData(actions);
-			end
-
-			-- Setup Event Handlers and register for events
-			self:SetScript("OnEvent", function(self, e, ...)
-				self.dirty = true;
-				self:Update();
-			end);
-			self:Reset();
+			self:SetData(data);
+			self:BuildData();
 		end
 
-		-- Update the window and all of its row data
-		if self.data.OnUpdate then self.data.OnUpdate(self.data, self); end
-		-- soft update since collection content isn't changing within the window normally
-		self:BaseUpdate();
+		self:BaseUpdate(force);
 	end
 end;
 customWindowUpdates["ItemFinder"] = function(self, ...)
@@ -21526,10 +21562,7 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 		local C_TradeSkillUI = C_TradeSkillUI;
 		local C_TradeSkillUI_GetCategoryInfo = C_TradeSkillUI.GetCategoryInfo;
 		local C_TradeSkillUI_GetRecipeInfo = C_TradeSkillUI.GetRecipeInfo;
-		local C_TradeSkillUI_GetRecipeItemLink = C_TradeSkillUI.GetRecipeItemLink;
-		local C_TradeSkillUI_GetRecipeNumReagents = C_TradeSkillUI.GetRecipeNumReagents;
-		local C_TradeSkillUI_GetRecipeReagentInfo = C_TradeSkillUI.GetRecipeReagentInfo;
-		local C_TradeSkillUI_GetRecipeReagentItemLink = C_TradeSkillUI.GetRecipeReagentItemLink;
+		local C_TradeSkillUI_GetRecipeSchematic = C_TradeSkillUI.GetRecipeSchematic;
 
 		self.initialized = true;
 		self.SkillsInit = {};
@@ -21552,6 +21585,46 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 			['g'] = { },
 		});
 
+		-- Adds the pertinent information about a given recipeID to the reagentcache
+		local function CacheRecipeSchematic(recipeID, skipcaching, reagentCache)
+			local schematic = C_TradeSkillUI_GetRecipeSchematic(recipeID, false);
+			local craftedItemID = schematic.outputItemID;
+			-- app.PrintDebug("Recipe",recipeID,"==>",craftedItemID)
+			local reagentItem, reagentCount;
+			-- Recipes now have Slots for available Regeants...
+			for _,reagentSlot in ipairs(schematic.reagentSlotSchematics) do
+				-- reagentType: 1 = required, 0 = optional
+				if reagentSlot.reagentType == 1 then
+					reagentCount = reagentSlot.quantityRequired;
+					-- Each available Reagent for the Slot can be associated to the Recipe/Output Item
+					for _,reagentItemID in ipairs(reagentSlot.reagents) do
+						-- Make sure a cache table exists for this item.
+						-- Index 1: The Recipe Skill IDs => { craftedID, reagentCount }
+						-- Index 2: The Crafted Item IDs => reagentCount
+						-- TODO: potentially re-design this structure
+						if reagentItemID then
+							reagentItem = reagentCache[reagentItemID];
+							if skipcaching then
+								-- remove any existing cached recipes
+								if reagentItem then
+									-- app.PrintDebug("removing reagent cache info",reagentItemID,recipeID,craftedItemID)
+									reagentItem[1][recipeID] = nil;
+									reagentItem[2][craftedItemID] = nil;
+								end
+							else
+								if not reagentItem then
+									reagentItem = { {}, {} };
+									reagentCache[reagentItemID] = reagentItem;
+								end
+								reagentItem[1][recipeID] = { craftedItemID, reagentCount };
+								reagentItem[2][craftedItemID] = reagentCount;
+							end
+						end
+
+					end
+				end
+			end
+		end
 		local function UpdateLocalizedCategories(self, updates)
 			if not updates["Categories"] then
 				-- app.PrintDebug("UpdateLocalizedCategories",self.lastTradeSkillID)
@@ -21578,7 +21651,7 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 				local reagentCache = app.GetDataMember("Reagents", {});
 				local recipeIDs = C_TradeSkillUI.GetAllRecipeIDs();
 				local acctSpells, charSpells = ATTAccountWideData.Spells, app.CurrentCharacter.Spells;
-				local skipcaching, spellRecipeInfo, categoryData, cachedRecipe, currentCategoryID, reagentItem;
+				local skipcaching, spellRecipeInfo, categoryData, cachedRecipe, currentCategoryID;
 				local categories = AllTheThingsAD.LocalizedCategoryNames;
 				-- print("Scanning recipes",#recipeIDs)
 				for i = 1,#recipeIDs do
@@ -21635,42 +21708,9 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 							end
 						end
 
-						local recipeLink = C_TradeSkillUI_GetRecipeItemLink(recipeID);
-						local craftedItemID = recipeLink and GetItemInfoInstant(recipeLink);
-						if craftedItemID then
-							local reagentLink, itemID, reagentCount;
-							for i=1,C_TradeSkillUI_GetRecipeNumReagents(recipeID) do
-								reagentCount = select(3, C_TradeSkillUI_GetRecipeReagentInfo(recipeID, i));
-								reagentLink = C_TradeSkillUI_GetRecipeReagentItemLink(recipeID, i);
-								itemID = reagentLink and GetItemInfoInstant(reagentLink);
-								-- print(recipeID, itemID, "=",reagentCount,">", craftedItemID);
-
-								-- Make sure a cache table exists for this item.
-								-- Index 1: The Recipe Skill IDs => { craftedID, reagentCount }
-								-- Index 2: The Crafted Item IDs => reagentCount
-								-- TODO: potentially re-design this structure
-								if itemID then
-									reagentItem = reagentCache[itemID];
-									if skipcaching then
-										-- remove any existing cached recipes
-										if reagentItem then
-											-- print("removing reagent cache info", itemID,recipeID,craftedItemID)
-											reagentItem[1][recipeID] = nil;
-											reagentItem[2][craftedItemID] = nil;
-										end
-									else
-										if not reagentItem then
-											reagentItem = { {}, {} };
-											reagentCache[itemID] = reagentItem;
-										end
-										reagentItem[1][recipeID] = { craftedItemID, reagentCount };
-										-- if craftedItemID then reagentItem[2][craftedItemID] = reagentCount; end
-										reagentItem[2][craftedItemID] = reagentCount;
-									end
-								end
-							end
-						-- else
-						-- 	print("recipe does not craft an item",recipeLink)
+						-- Does this Recipe craft an Item?
+						if spellRecipeInfo.createsItem then
+							CacheRecipeSchematic(recipeID, skipcaching, reagentCache);
 						end
 					end
 				end
@@ -21756,6 +21796,11 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 				-- Default Alignment on the WoW UI.
 				self:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 0, 0);
 				self:SetPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 0, 0);
+				self:SetMovable(false);
+			elseif ProfessionsFrame then
+				-- Default Alignment on the 10.0 WoW UI
+				self:SetPoint("TOPLEFT", ProfessionsFrame, "TOPRIGHT", 0, 0);
+				self:SetPoint("BOTTOMLEFT", ProfessionsFrame, "BOTTOMRIGHT", 0, 0);
 				self:SetMovable(false);
 			else
 				self:SetMovable(false);
@@ -22706,7 +22751,7 @@ app.LoadDebugger = function()
 					end
 					local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid;
 					if guid then type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid); end
-					if app.DEBUG_PRINT then print("QUEST_DETAIL", questStartItemID, " => Quest #", questID, type, npc_id); end
+					if app.DEBUG_PRINT then print("QUEST_DETAIL", questStartItemID, " => Quest #", questID, type, npc_id, app.NPCNameFromID[npc_id]); end
 
 					local rawGroups = {};
 					for i=1,GetNumQuestRewards(),1 do
@@ -22825,7 +22870,7 @@ hooksecurefunc(GameTooltip, "SetToyByItemID", function(self, itemID, ...)
 end)
 hooksecurefunc(GameTooltip, "SetRecipeReagentItem", function(self, recipeID, reagentID, ...)
 	if CanAttachTooltips() then
-		local link = C_TradeSkillUI.GetRecipeReagentItemLink(recipeID, reagentID);
+		local link = C_TradeSkillUI.GetRecipeFixedReagentItemLink(recipeID, reagentID);
 		if link then
 			AttachTooltipSearchResults(self, 1, link, SearchForLink, link);
 			self:Show();

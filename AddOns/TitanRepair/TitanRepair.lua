@@ -472,7 +472,17 @@ function TitanRepair_GetInventoryInformation(bag)
 	TPR.INVENTORY_STATUS[bag].values.val = 0
 	TPR.INVENTORY_STATUS[bag].values.max = 0
 	TPR.INVENTORY_STATUS[bag].values.cost = 0
-	for slot = 1, GetContainerNumSlots(bag) do
+
+-- DF
+--	for slot = 1, GetContainerNumSlots(bag) do
+	local get_slots = nil
+	if C_Container.GetContainerNumSlots then
+		get_slots = C_Container.GetContainerNumSlots
+	elseif GetContainerNumSlots then
+		get_slots = GetContainerNumSlots
+	end
+
+	for slot = 1, get_slots(bag) do
 		-- retrieve item repair status of this slot in the bag
 		local act_status, act_val, act_max, act_cost = TitanRepair_GetStatus(slot, bag);
 		if act_max ~= 0 then
@@ -606,9 +616,18 @@ function TitanRepair_GetStatus(index, bag)
 	--tit_debug_bis("_GetStatus index="..(index or "NIL").." bag="..(bag or "NIL"))
 	TitanRepairTooltip:ClearLines()
 
+	-- DF difference in Beta versus PTR??
+	local get_dur = nil
+	if C_Container.GetContainerItemDurability then
+		get_dur = C_Container.GetContainerItemDurability
+	elseif GetContainerItemDurability then
+		get_dur = GetContainerItemDurability
+	end
+	
 	if (bag) then
 		_, repairCost = TitanRepairTooltip:SetBagItem(bag, index)
-		curDurability, maxDurability = GetContainerItemDurability(bag, index)
+--		curDurability, maxDurability = C_Container.GetContainerItemDurability(bag, index)
+		curDurability, maxDurability = get_dur(bag, index)
 	else
 		local slotName = TPR.ITEM_STATUS[index].slot.."Slot"
 		--tit_debug_bis("_GetStatus index="..index..", slotName="..(slotName or "NIL"))
@@ -1525,7 +1544,9 @@ function TitanRepair_GetRepairInvCost()
 	TitanRepairTooltip:SetOwner(UIParent, "ANCHOR_NONE");
 
 	for bag = 0, 4 do
-		for slot = 1, GetContainerNumSlots(bag) do
+	
+--		for slot = 1, GetContainerNumSlots(bag) do
+		for slot = 1, ContainerFrame_GetContainerNumSlotsWithBase(bag) do
 			local _, repairCost = TitanRepairTooltip:SetBagItem(bag, slot);
 			if (repairCost and (repairCost > 0)) then
 				result = result + repairCost;

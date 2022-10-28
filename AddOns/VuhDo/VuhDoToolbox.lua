@@ -39,6 +39,15 @@ local pairs = pairs;
 local type = type;
 local abs = abs;
 
+-- talent cache maps for new large Dragonflight talent trees
+local VUHDO_TALENT_CACHE_SPELL_ID = {
+	-- [<spell ID>] = <spell name>,
+};
+
+local VUHDO_TALENT_CACHE_SPELL_NAME = {
+	-- [<spell name>] = <spell ID>,
+};
+
 local sEmpty = { };
 setmetatable(sEmpty, { __newindex = function(aTable, aKey, aValue) VUHDO_xMsg("WARNING: newindex on dummy array: ", aKey, aValue); end });
 
@@ -539,21 +548,60 @@ end
 
 
 --
-function VUHDO_getTalentSpellId(aTalentName)
-	for tier=1,7 do
-		for column=1,3 do
-			-- as of Legion "active spec group" is always 1
-			local _, name, _, selected, _, spellId, _, _, _, _, _ = GetTalentInfo(tier, column, 1);
-	
-			if selected and (name == aTalentName 
-				or (type(aTalentName) == "number" and spellId == aTalentName)) then
-				return spellId;
+function VUHDO_initTalentSpellCaches()
+
+	local tActiveConfigId = C_ClassTalents.GetActiveConfigID();
+
+	-- on initial PLAYER_ENTER_WORLD talents are not yet available
+	if not tActiveConfigId then
+		return;
+	end
+
+	twipe(VUHDO_TALENT_CACHE_SPELL_ID);
+	twipe(VUHDO_TALENT_CACHE_SPELL_NAME);
+
+	local tConfigInfo = C_Traits.GetConfigInfo(tActiveConfigId);
+
+	for _, tTreeId in pairs(tConfigInfo.treeIDs) do
+		local tTreeNodes = C_Traits.GetTreeNodes(tTreeId);
+
+		for _, tNodeId in pairs(tTreeNodes) do
+			local tNodeInfo = C_Traits.GetNodeInfo(tActiveConfigId, tNodeId);
+
+			if tNodeInfo and tNodeInfo.ranksPurchased > 0 then
+				local tEntryInfo = C_Traits.GetEntryInfo(tActiveConfigId, tNodeInfo.entryIDs[1]);
+				
+				if tEntryInfo then
+					local tDefinitionInfo = C_Traits.GetDefinitionInfo(tEntryInfo.definitionID);
+
+					if tDefinitionInfo then
+						local tSpellName = GetSpellInfo(tDefinitionInfo.spellID);
+
+						VUHDO_TALENT_CACHE_SPELL_ID[tDefinitionInfo.spellID] = tSpellName;
+						VUHDO_TALENT_CACHE_SPELL_NAME[tSpellName] = tDefinitionInfo.spellID;
+					end
+				end
 			end
 		end
 	end
 
-	return nil;
+	return;
+
 end
+
+
+
+--
+function VUHDO_getTalentSpellId(aTalentName)
+
+	if type(aTalentName) == "number" then
+		return VUHDO_TALENT_CACHE_SPELL_ID[aTalentName] and aTalentName or nil;
+	else
+		return VUHDO_TALENT_CACHE_SPELL_NAME[aTalentName] or nil;
+	end
+
+end
+
 
 
 --

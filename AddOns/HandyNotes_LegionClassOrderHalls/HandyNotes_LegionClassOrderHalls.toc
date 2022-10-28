@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: arith
 ## Version: v1.48
 ## RequiredDeps: HandyNotes

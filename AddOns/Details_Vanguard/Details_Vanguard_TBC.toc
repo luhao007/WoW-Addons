@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## RequiredDeps: Details
 ## OptionalDeps: Ace3
 ## SavedVariablesPerCharacter: _detalhes_databaseVanguard
@@ -11,6 +11,7 @@
 ## X-Part-Of: Details
 
 #@no-lib-strip@
+embeds.xml
 #@end-no-lib-strip@
 
 Details_Vanguard.lua

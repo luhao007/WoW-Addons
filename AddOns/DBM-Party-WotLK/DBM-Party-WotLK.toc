@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Arta
-## Version: r41
+## Version: r42
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWotLK_AllSavedVars

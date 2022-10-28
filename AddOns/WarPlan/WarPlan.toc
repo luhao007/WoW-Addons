@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: foxlit
 ## Version: 3.17
 ## SavedVariables: WarPlanData

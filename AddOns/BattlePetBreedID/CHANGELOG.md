@@ -1,6 +1,6 @@
 # Battle Pet BreedID
 
-## v1.21.1 (2022-07-20)
+## v1.22.1 (2022-10-25)
  
 
-- Updated base data and breeds for encrypted pets.  
+- Rewrote options panel to work in Patch 10.0.  

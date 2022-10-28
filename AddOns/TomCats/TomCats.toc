@@ -1,23 +1,22 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: TomCat
-## Version: 2.4.18
+## Version: 2.4.22
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
 
 ## Title: TomCat's Tours
-## Notes: Version: 2.4.18
+## Notes: Version: 2.4.22
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFFFFE00ATomCats|r
 ## Notes-zhCN: TomCats的旅行指南
 
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1666930214
+## X-TomCats-Expiry: 1668136027
 ## X-Part-Of: TomCats
 
 # See license.txt for license and copyright information
-compat.lua
 constants.lua
 slashcommands.lua
 event.lua
@@ -64,5 +63,3 @@ discoveries.xml
 discoveries.lua
 beta.lua
 noblegarden/Main.xml
-beta/maelie.xml
-beta/maelie.lua

@@ -38,7 +38,16 @@ function AuctionUI.OnInitialize()
 		:AddKey("global", "auctionUIContext", "showDefault")
 		:AddKey("global", "auctionUIContext", "frame")
 	UIParent:UnregisterEvent("AUCTION_HOUSE_SHOW")
-	Event.Register("AUCTION_HOUSE_SHOW", private.AuctionFrameInit)
+	if TSM.IsWowClassic() then
+		Event.Register("AUCTION_HOUSE_SHOW", private.AuctionFrameInit)
+	else
+		hooksecurefunc(PlayerInteractionFrameManager, "ShowFrame", function(_, interaction)
+			if interaction ~= Enum.PlayerInteractionType.Auctioneer or GameLimitedMode_IsActive() then
+				return
+			end
+			private.AuctionFrameInit()
+		end)
+	end
 	Event.Register("AUCTION_HOUSE_CLOSED", private.HideAuctionFrame)
 	if TSM.IsWowClassic() then
 		Delay.AfterTime(1, function() LoadAddOn("Blizzard_AuctionUI") end)
@@ -168,6 +177,10 @@ end
 -- Main Frame
 -- ============================================================================
 
+local function NoOp()
+	-- do nothing - what did you expect?
+end
+
 function private.AuctionFrameInit()
 	local tabTemplateName = nil
 	if TSM.IsWowClassic() then
@@ -205,8 +218,16 @@ function private.AuctionFrameInit()
 		end
 	end
 	if private.settings.showDefault then
-		UIParent_OnEvent(UIParent, "AUCTION_HOUSE_SHOW")
+		if TSM.IsWowClassic() then
+			UIParent_OnEvent(UIParent, "AUCTION_HOUSE_SHOW")
+		end
 	else
+		if not TSM.IsWowClassic() then
+			local origCloseAuctionHouse = C_AuctionHouse.CloseAuctionHouse
+			C_AuctionHouse.CloseAuctionHouse = NoOp
+			HideUIPanel(private.defaultFrame)
+			C_AuctionHouse.CloseAuctionHouse = origCloseAuctionHouse
+		end
 		PlaySound(SOUNDKIT.AUCTION_WINDOW_OPEN)
 		private.ShowAuctionFrame()
 	end
@@ -284,10 +305,6 @@ function private.SwitchBtnOnClick(button)
 	private.HideAuctionFrame()
 	UIParent_OnEvent(UIParent, "AUCTION_HOUSE_SHOW")
 	private.isSwitching = false
-end
-
-local function NoOp()
-	-- do nothing - what did you expect?
 end
 
 function private.TSMTabOnClick()

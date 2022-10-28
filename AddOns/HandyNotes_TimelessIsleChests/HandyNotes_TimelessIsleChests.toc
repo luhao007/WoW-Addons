@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Bartruby of Cairne
 ## Version: 1.24b
 ## RequiredDeps: HandyNotes

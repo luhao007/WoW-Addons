@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: TradeSkillMaster Team
-## Version: v4.11.56
+## Version: v4.11.61
 ## OptionalDeps: ArkInventory, Auc-Advanced, Auctionator, TheUndermineJournal, BootyBayGazette, AuctionDB
 ## SavedVariables: TradeSkillMasterDB, TSMItemInfoDB
 

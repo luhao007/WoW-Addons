@@ -1,8 +1,0 @@
-## Interface: 70300
-## Title: Nyx Textures Library
-## Author: Vildiesel - EU Well of Eternity
-## Notes: A texture paths database used by addons
-## eMail: n_rhygar@yahoo.it
-## DefaultState: Enabled
-## LoadOnDemand: 0
-NyxTL.xml

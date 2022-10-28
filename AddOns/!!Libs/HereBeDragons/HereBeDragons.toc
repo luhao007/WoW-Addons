@@ -6,10 +6,13 @@
 ## X-Category: Library
 ## X-License: BSD
 ## X-Website: http://www.wowace.com/addons/herebedragons/
-## Version: 2.09-release
+## Version: 2.10-release
 ## X-Curse-Project-ID: 94348
 
 
 # WoW 8.0+ version
+HereBeDragons-2.0.lua
+HereBeDragons-Pins-2.0.lua
 
 # Migration Data for 7.x -> 8.0 migration
+HereBeDragons-Migrate.lua

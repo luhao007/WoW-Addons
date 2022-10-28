@@ -1637,7 +1637,9 @@ end
 BtWQuestsTooltipMixin = {}
 function BtWQuestsTooltipMixin:OnLoad()
     GameTooltip_OnLoad(self)
-    self:SetScript("OnTooltipSetQuest", self.OnSetQuest)
+    if not TooltipDataProcessor or not TooltipDataProcessor.AddTooltipPostCall then
+        self:SetScript("OnTooltipSetQuest", self.OnSetQuest)
+    end
 end
 function BtWQuestsTooltipMixin:OnSetQuest()
     local quest = BtWQuestsDatabase:GetQuestByID(self.questID)
@@ -1864,11 +1866,19 @@ function BtWQuestsTooltipMixin:SetQuest(id, character)
     self:Show()
 end
 
+if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall then
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Quest, function (self, data)
+        if self.OnSetQuest then
+            self:OnSetQuest();
+        end
+    end)
+end
+
 -- Doing this because TSM and Auctioneer tainted GameTooltip.SetHyperlink without checking if their variables exist
 local dummpGameTooltip = CreateFrame("GameTooltip", "BtWQuestsDummyTooltip", UIParent, "GameTooltipTemplate")
 dummpGameTooltip:Hide()
 function BtWQuestsTooltipMixin:SetHyperlink(link, character)
-    local _, _, color, linkstring, name = string.find(link, "|cff(%x%x%x%x%x%x)|H([^|]+)|h%[([^%[%]]*)]|h|r")
+    local _, _, color, linkstring, name = string.find(link, "^|cff(%x%x%x%x%x%x)|H([^|]+)|h%[(.*)%]|h|r$")
     linkstring = linkstring or link
 
     local _, _, type, text = string.find(linkstring, "([^:]+):([^|]+)")

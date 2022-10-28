@@ -351,12 +351,7 @@
 	<DisabledTexture file="Interface\AddOns\VuhDoOptions\Images\button_pressed_128_32">
 		<TexCoords left="0" right="1" top="0" bottom="1" />
 	</DisabledTexture>
-	<DisabledFont inherits="VuDoDefaultFontTemplate">
-		<FontHeight>
-			<AbsValue val="9" />
-		</FontHeight>
-		<Color r="0.6" g="0.2" b="0.2" />
-	</DisabledFont>
+	<DisabledFont style="VuDoButtonFont" />
 	<ButtonText name="$parentText" justifyV="TOP" justifyH="LEFT" maxLines="2">
 		<Anchors>
 			<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -369,18 +364,8 @@
 			<AbsValue val="8" />
 		</FontHeight>
 	</ButtonText>
-	<NormalFont style="VuDoButtonFont">
-		<FontHeight>
-			<AbsValue val="9" />
-		</FontHeight>
-		<Color r="0.4" g="0.4" b="1" />
-	</NormalFont>
-	<HighlightFont style="VuDoButtonFontLight">
-		<FontHeight>
-			<AbsValue val="9" />
-		</FontHeight>
-		<Color r="0.6" g="0.6" b="1" />
-	</HighlightFont>
+	<NormalFont style="VuDoButtonFont" />
+	<HighlightFont style="VuDoButtonFontLight" />
 	<Scripts>
 		<OnShow>VUHDO_lnfPatchFont(self, "Text");</OnShow>
 		<OnEnter>VUHDO_lnfShowTooltip(self)</OnEnter>
@@ -399,12 +384,7 @@
 	<DisabledTexture file="Interface\AddOns\VuhDoOptions\Images\button_pressed_128_32">
 		<TexCoords left="0" right="1" top="0" bottom="1" />
 	</DisabledTexture>
-	<DisabledFont inherits="VuDoDefaultFontTemplate">
-		<FontHeight>
-			<AbsValue val="9" />
-		</FontHeight>
-		<Color r="0.6" g="0.2" b="0.2" />
-	</DisabledFont>
+	<DisabledFont style="VuDoButtonFont" />
 	<ButtonText name="$parentText" justifyV="TOP" justifyH="LEFT" maxLines="2">
 		<Anchors>
 			<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -417,18 +397,8 @@
 			<AbsValue val="8" />
 		</FontHeight>
 	</ButtonText>
-	<NormalFont style="VuDoButtonFontDark">
-		<FontHeight>
-			<AbsValue val="9" />
-		</FontHeight>
-		<Color r="0.4" g="0.4" b="1" />
-	</NormalFont>
-	<HighlightFont style="VuDoButtonFont">
-		<FontHeight>
-			<AbsValue val="9" />
-		</FontHeight>
-		<Color r="0.6" g="0.6" b="1" />
-	</HighlightFont>
+	<NormalFont style="VuDoButtonFontDark" />
+	<HighlightFont style="VuDoButtonFont" />
 	<Scripts>
 		<OnShow>VUHDO_lnfPatchFont(self, "Text");</OnShow>
 		<OnEnter>VUHDO_lnfShowTooltip(self)</OnEnter>

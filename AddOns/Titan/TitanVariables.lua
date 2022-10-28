@@ -277,7 +277,10 @@ TITAN_PANEL_SAVED_VARIABLES = {
 	AuxBar2_Transparency = 0.7,
 	AuxBar2_Align = TITAN_PANEL_BUTTONS_ALIGN_LEFT,
 	MainMenuBarXAdj = 0,
-	BuffIconVerticalAdj = 10,
+	MenuAndBagVerticalAdjOn = false,
+	MenuAndBagVerticalAdj = 24,
+	XPBarVerticalAdjOn = false,
+	XPBarVerticalAdj = 24,
 };
 
 --[[ Titan
@@ -535,25 +538,25 @@ OUT:  None
 local function Set_Timers(reset) 
 	-- Titan is loaded so set the timers we want to use
 	TitanTimers = {
-		["EnterWorld"] = {obj = "PEW", callback = Titan_Hook_PEW, delay = 4,},
-		["DualSpec"] = {obj = "SpecSwitch", callback = Titan_Hook_SpecSwitch, delay = 2,},
+--		["EnterWorld"] = {obj = "PEW", callback = Titan_Hook_PEW, delay = 4,},
+--		["DualSpec"] = {obj = "SpecSwitch", callback = Titan_Hook_SpecSwitch, delay = 2,},
 		["LDBRefresh"] = {obj = "LDB", callback = TitanLDBRefreshButton, delay = 2,},
-		["Adjust"] = {obj = "MoveAdj", callback = Titan_Hook_MoveAdj, delay = 1,},
-		["Vehicle"] = {obj = "Vehicle", callback = Titan_Hook_Vehicle, delay = 1,},
+--		["Adjust"] = {obj = "MoveAdj", callback = Titan_Hook_MoveAdj, delay = 1,},
+--		["Vehicle"] = {obj = "Vehicle", callback = Titan_Hook_Vehicle, delay = 1,},
 	}
 	
 	if reset then
-		TitanAllSetVar("TimerPEW", TitanTimers["EnterWorld"].delay)
-		TitanAllSetVar("TimerDualSpec", TitanTimers["DualSpec"].delay)
+--		TitanAllSetVar("TimerPEW", TitanTimers["EnterWorld"].delay)
+--		TitanAllSetVar("TimerDualSpec", TitanTimers["DualSpec"].delay)
 		TitanAllSetVar("TimerLDB", TitanTimers["LDBRefresh"].delay)
-		TitanAllSetVar("TimerAdjust", TitanTimers["Adjust"].delay)
-		TitanAllSetVar("TimerVehicle", TitanTimers["Vehicle"].delay)
+--		TitanAllSetVar("TimerAdjust", TitanTimers["Adjust"].delay)
+--		TitanAllSetVar("TimerVehicle", TitanTimers["Vehicle"].delay)
 	else
-		TitanTimers["EnterWorld"].delay = TitanAllGetVar("TimerPEW")
-		TitanTimers["DualSpec"].delay = TitanAllGetVar("TimerDualSpec")
+--		TitanTimers["EnterWorld"].delay = TitanAllGetVar("TimerPEW")
+--		TitanTimers["DualSpec"].delay = TitanAllGetVar("TimerDualSpec")
 		TitanTimers["LDBRefresh"].delay = TitanAllGetVar("TimerLDB")
-		TitanTimers["Adjust"].delay = TitanAllGetVar("TimerAdjust")
-		TitanTimers["Vehicle"].delay = TitanAllGetVar("TimerVehicle")
+--		TitanTimers["Adjust"].delay = TitanAllGetVar("TimerAdjust")
+--		TitanTimers["Vehicle"].delay = TitanAllGetVar("TimerVehicle")
 	end
 end
 

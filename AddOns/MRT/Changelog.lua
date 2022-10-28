@@ -1,6 +1,14 @@
 local GlobalAddonName, ExRT = ...
 
 ExRT.Options.Changelog = [=[
+v.4690
+* Raid Check: added vers & movement buffs
+* Raid cooldowns: updated paladin and priest spells for DF
+* Major fixes
+
+v.4680
+* Updated for 10.0 Dragonflight
+
 v.4660
 * Updated for 10.0 Dragonflight beta
 * Updated 9.2.7 toc

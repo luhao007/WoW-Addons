@@ -426,10 +426,10 @@ local function VUHDO_initBarTexts(aButton, aHealthBar, aWidth)
 
 	tNameText:SetWidth(aWidth);
 	tNameText:SetHeight(sMainFontHeight);
-	tNameText:SetFont(sMainFont, sMainFontHeight, sOutlineText);
+	tNameText:SetFont(sMainFont, sMainFontHeight, sOutlineText or "");
 	tNameText:SetShadowColor(0, 0, 0, sShadowAlpha);
 
-	tLifeText:SetFont(sMainFont, sLifeFontHeight, sOutlineText);
+	tLifeText:SetFont(sMainFont, sLifeFontHeight, sOutlineText or "");
 	tLifeText:SetShadowColor(0, 0, 0, sShadowAlpha);
 	tLifeText:SetText("");
 
@@ -503,7 +503,7 @@ local function VUHDO_initOverhealText(aHealthBar, aWidth)
 	tOvhText:SetHeight(sMainFontHeight);
 	tOvhColor = VUHDO_PANEL_SETUP["BAR_COLORS"]["OVERHEAL_TEXT"];
 	tOvhText:SetTextColor(tOvhColor["TR"], tOvhColor["TG"], tOvhColor["TB"], tOvhColor["TO"]);
-	tOvhText:SetFont(sMainFont, sMainFontHeight);
+	tOvhText:SetFont(sMainFont, sMainFontHeight, "");
 	tOvhText:SetJustifyH("CENTER");
 	tOvhText:SetText("");
 

@@ -1,28 +1,22 @@
-lightweight tag e0974bd4e7d65130b16e78fca07eb90dea257612 4.0.10-release
+lightweight tag c5e79c9a04912329a82a46c5dc68e2ef6f938478 4.0.11-release
 Author:	GitHub <noreply@github.com>
-Date:	Wed Oct 19 19:44:56 2022 +0100
+Date:	Thu Oct 27 22:50:13 2022 +0100
 
-commit e0974bd4e7d65130b16e78fca07eb90dea257612
+commit c5e79c9a04912329a82a46c5dc68e2ef6f938478
 Author: pereira-a <pereirasmandre@gmail.com>
-Date:   Wed Oct 19 19:44:56 2022 +0100
+Date:   Thu Oct 27 22:50:13 2022 +0100
 
-    update addon version
+    increase version to 4.0.11
 
-commit 6a118c004bf884283f26648221cefcfad5bfa8c0
-Author: Gerrit Alex <admin@gerritalex.de>
-Date:   Wed Oct 19 01:24:13 2022 +0200
+commit 723b3bf8bc68b4001f3e28f85ae7b8dac853c7c9
+Author: pereira-a <pereirasmandre@gmail.com>
+Date:   Thu Oct 27 22:48:23 2022 +0100
 
-    update toc to 10.0
+    add tom tom minimap button to ignore list
 
-commit 6a118c004bf884283f26648221cefcfad5bfa8c0
-Author: Gerrit Alex <admin@gerritalex.de>
-Date:   Wed Oct 19 01:24:13 2022 +0200
+commit 2150eac84e70087432527da63e50f13395376b10
+Author: pereira-a <pereirasmandre@gmail.com>
+Date:   Thu Oct 27 22:46:38 2022 +0100
 
-    update toc to 10.0
-
-commit 0de72b37a5ce9c2f0a3c1fece183042d34ae372f
-Author: Gerrit Alex <admin@gerritalex.de>
-Date:   Wed Oct 19 01:20:11 2022 +0200
-
-    remove Anchor.relativeFrom
+    #20 add Dugi Guides arrow to ignore list
 

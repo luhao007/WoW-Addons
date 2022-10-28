@@ -1,20 +1,15 @@
 ------------------------------------------------------------------------
-r59 | funkehdude | 2022-09-05 22:18:00 +0000 (Mon, 05 Sep 2022) | 1 line
-Changed paths:
-   A /trunk/LibDDI-1.0_Wrath.toc
-
-Add Wrath toc
-------------------------------------------------------------------------
-r58 | funkehdude | 2022-09-05 22:16:59 +0000 (Mon, 05 Sep 2022) | 1 line
+r62 | funkehdude | 2022-10-26 00:41:44 +0000 (Wed, 26 Oct 2022) | 1 line
 Changed paths:
    M /trunk/LibDDI-1.0.toc
+   M /trunk/lib.lua
 
 bump toc
 ------------------------------------------------------------------------
-r57 | funkehdude | 2022-06-01 04:20:29 +0000 (Wed, 01 Jun 2022) | 1 line
+r61 | funkehdude | 2022-10-24 19:08:18 +0000 (Mon, 24 Oct 2022) | 1 line
 Changed paths:
-   M /trunk/LibDDI-1.0.toc
+   M /trunk/lib.lua
 
-bump toc
+Work around an issue with the font dropdown showing blank entries
 ------------------------------------------------------------------------
 

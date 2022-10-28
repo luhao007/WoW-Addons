@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Shurshik
 ## LoadOnDemand: 0
 ## SavedVariables: pseashowfailreas,pseashownewvervar,wherereportraidach, wherereportpartyach,raquantrepeatach,raquantrepeatachtm,raoldvern2, raaddoninstalledsins,raminibutshowt,RA_Settings,rasoundtoplay,raenablebg,psdonaspanvar,radonateq1

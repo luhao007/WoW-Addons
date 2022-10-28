@@ -1,3 +1,12 @@
+# v2.22.0
+
+- Updated for 10.0.0
+
+# v2.21.0
+
+- Fixed error loading class list for Wrath Classic
+- Fixed error handling links with square brackets
+
 # v2.20.0
 
 - Fixed error setting title text on Dragonflight Beta 

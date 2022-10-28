@@ -1,0 +1,8 @@
+*** 2021-02-10 ***
+* Ace3 removed : !LibUIDropDownMenu : https://www.wowace.com/projects/libuidropdownmenu
+*** 2020-12-02 ***
+* Ace3 release is used
+* Added :
+- !LibUIDropDownMenu : https://www.wowace.com/projects/libuidropdownmenu
+- AceGUI-3.0-SharedMediaWidgets : https://www.wowace.com/projects/ace-gui-3-0-shared-media-widgets
+- LibSharedMedia-3.0 : https://www.wowace.com/projects/libsharedmedia-3-0

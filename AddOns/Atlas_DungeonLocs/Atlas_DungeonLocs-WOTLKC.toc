@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: arith, Dynaletik, dubcat
 ## Version: v1.51.07
 ## RequiredDeps: Atlas

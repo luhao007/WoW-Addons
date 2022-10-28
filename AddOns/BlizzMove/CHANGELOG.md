@@ -1,6 +1,6 @@
 # BlizzMove
 
-## [v3.4.11](https://github.com/Kiatra/BlizzMove/tree/v3.4.11) (2022-10-09)
-[Full Changelog](https://github.com/Kiatra/BlizzMove/compare/v3.4.10...v3.4.11) [Previous Releases](https://github.com/Kiatra/BlizzMove/releases)
+## [v3.5.1](https://github.com/Kiatra/BlizzMove/tree/v3.5.1) (2022-10-25)
+[Full Changelog](https://github.com/Kiatra/BlizzMove/compare/v3.5.0...v3.5.1) [Previous Releases](https://github.com/Kiatra/BlizzMove/releases)
 
-- Fixed warning message related to Communities frame  
+- Dragonflight prepatch release  

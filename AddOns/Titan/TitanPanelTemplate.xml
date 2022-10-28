@@ -91,7 +91,7 @@
 			<AbsDimension x="0" y="0"/>
 		</PushedTextOffset>
 	</Button>
-	<Slider name="TitanOptionsSliderTemplate" orientation="VERTICAL" inherits="BackdropTemplate" virtual="true" enableMouse="true" EnableMouseWheel="true">
+	<Slider name="TitanOptionsSliderTemplate" orientation="VERTICAL" inherits="BackdropTemplate" virtual="true" enableMouse="true" >
 		<Size>
 			<AbsDimension x="10" y="100"/>
 		</Size>
@@ -135,8 +135,11 @@
 			</Size>
 		</ThumbTexture>
 		<Scripts>
+			<!-- DF Appears Blizz moved EnableMouseWheel from declaration to code -->
 			<OnLoad>
 				TitanOptionsSliderTemplate_OnLoad(self);
+
+				self:EnableMouseWheel(true);
 			</OnLoad>
 		</Scripts>	</Slider>
 </Ui>

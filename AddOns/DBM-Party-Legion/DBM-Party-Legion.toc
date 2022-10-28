@@ -1,5 +1,5 @@
-## Interface: 90207
-## Version: r41
+## Interface: 100000
+## Version: r42
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyLegion_AllSavedVars

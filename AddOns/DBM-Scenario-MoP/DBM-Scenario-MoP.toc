@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: MysticalOS/Arta
-## Version: r149
+## Version: r150
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMScenarioMoP_AllSavedVars

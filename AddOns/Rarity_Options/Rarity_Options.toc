@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: Allara
 ## Dependencies: Rarity
 ## LoadManagers: AddonLoader

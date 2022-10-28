@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: The WeakAuras Team
-## Version: 4.1.4
+## Version: 5.0.4
 ## Dependencies: WeakAuras
 ## LoadOnDemand: 1
 ## SavedVariables: WeakAurasOptionsSaved
@@ -46,7 +46,6 @@ ActionOptions.lua
 AnimationOptions.lua
 InformationOptions.lua
 
-BuffTrigger.lua
 BuffTrigger2.lua
 GenericTrigger.lua
 
@@ -83,7 +82,6 @@ AceGUI-Widgets\AceGUIWidget-WeakAurasIconButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasMultiLineEditBox.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasNewButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasImportButton.lua
-AceGUI-Widgets\AceGUIWidget-WeakAurasSortedDropDown.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasToolbarButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasTwoColumnDropDown.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasSnippetButton.lua

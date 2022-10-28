@@ -50,9 +50,12 @@ NAME: TitanUtils_GetMinimapAdjust
 DESC: Return the current setting of the Titan MinimapAdjust option.
 VAR: None
 OUT: The value of the MinimapAdjust option
+NOTE:
+-  As of DragonFlight Titan Loc no longer adjusts or manipulates the minimap.
 --]]
 function TitanUtils_GetMinimapAdjust() -- Used by addons
-	return not TitanPanelGetVar("MinimapAdjust")
+--	return not TitanPanelGetVar("MinimapAdjust")
+	return false
 end
 
 --[[ API
@@ -60,11 +63,13 @@ NAME: TitanUtils_SetMinimapAdjust
 DESC: Set the current setting of the Titan MinimapAdjust option.
 VAR:  bool - true (off) or false (on)
 OUT:  None
+NOTE:
+-  As of DragonFlight Titan Loc no longer adjusts or manipulates the minimap.
 --]]
 function TitanUtils_SetMinimapAdjust(bool) -- Used by addons
 	-- This routine allows an addon to turn on or off
 	-- the Titan minimap adjust.
-	TitanPanelSetVar("MinimapAdjust", not bool)
+--	TitanPanelSetVar("MinimapAdjust", not bool)
 end
 
 --[[ API
@@ -74,6 +79,8 @@ VAR: frame - is the name (string) of the frame
 VAR: bool  - true if the addon will adjust the frame or false if Titan will adjust
 OUT:  None
 Note:
+-- As of DragonFlight, this is no longer needed. The Titan user can user place - or not - a couple frames not user placeable,
+
 - Titan will NOT store the adjust value across a log out / exit.
 - This is a generic way for an addon to tell Titan to not adjust a frame. The addon will take responsibility for adjusting that frame. This is useful for UI style addons so the user can run Titan and a modifed UI.
 - The list of frames Titan adjusts is specified in TitanMovableData within TitanMovable.lua.
@@ -81,7 +88,7 @@ Note:
 :NOTE
 --]]
 function TitanUtils_AddonAdjust(frame, bool) -- Used by addons
-	TitanMovable_AddonAdjust(frame, bool)
+--	TitanMovable_AddonAdjust(frame, bool)
 end
 
 --------------------------------------------------------------
@@ -2114,8 +2121,8 @@ function TitanDumpTimers()
 		.."'"..(TitanAllGetVar("TimerPEW") or "?").."' "
 		.."'"..(TitanAllGetVar("TimerDualSpec") or "?").."' "
 		.."'"..(TitanAllGetVar("TimerLDB") or "?").."' "
-		.."'"..(TitanAllGetVar("TimerAdjust") or "?").."' "
-		.."'"..(TitanAllGetVar("TimerVehicle") or "?").."' "
+--		.."'"..(TitanAllGetVar("TimerAdjust") or "?").."' "
+--		.."'"..(TitanAllGetVar("TimerVehicle") or "?").."' "
 	TitanPrint(str, "plain")
 end
 

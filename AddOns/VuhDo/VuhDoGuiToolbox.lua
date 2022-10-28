@@ -403,16 +403,16 @@ local sFrameOrigParents = {};
 --
 local function VUHDO_hideFrame(aFrame)
 
-	if not sFrameHideParents[aFrame:GetName()] then
+	if not sFrameHideParents[aFrame] then
 		local tFrameParent = CreateFrame("Frame");
 		tFrameParent:Hide();
 
-		sFrameHideParents[aFrame:GetName()] = tFrameParent;
+		sFrameHideParents[aFrame] = tFrameParent;
 	end
 
-	if not sFrameOrigParents[aFrame:GetName()] then
-		sFrameOrigParents[aFrame:GetName()] = aFrame:GetParent();
-		aFrame:SetParent(sFrameHideParents[aFrame:GetName()]);
+	if not sFrameOrigParents[aFrame] then
+		sFrameOrigParents[aFrame] = aFrame:GetParent();
+		aFrame:SetParent(sFrameHideParents[aFrame]);
 	end
 
 end
@@ -422,11 +422,13 @@ end
 --
 local function VUHDO_showFrame(aFrame)
 
-	if sFrameOrigParents[aFrame:GetName()] then
-		aFrame:SetParent(sFrameOrigParents[aFrame:GetName()]);
+	if sFrameOrigParents[aFrame] then
+		aFrame:SetParent(sFrameOrigParents[aFrame]);
 		aFrame:Show();
 
-		sFrameOrigParents[aFrame:GetName()] = nil;
+		sFrameOrigParents[aFrame] = nil;
+	else
+		aFrame:Show();
 	end
 
 end
@@ -492,14 +494,14 @@ end
 
 --
 local function VUHDO_hideBlizzRaid()
-	VUHDO_unregisterAndSaveEvents(true, CompactRaidFrameContainer);
+	VUHDO_unregisterAndSaveEvents(true, CompactRaidFrameManager.container);
 end
 
 
 
 --
 local function VUHDO_showBlizzRaid()
-	VUHDO_registerOriginalEvents(VUHDO_GROUP_TYPE_SOLO ~= VUHDO_getCurrentGroupType(), CompactRaidFrameContainer);
+	VUHDO_registerOriginalEvents(VUHDO_GROUP_TYPE_SOLO ~= VUHDO_getCurrentGroupType(), CompactRaidFrameManager.container);
 end
 
 
@@ -528,29 +530,28 @@ end
 
 --
 local function VUHDO_hideBlizzParty()
-	HIDE_PARTY_INTERFACE = "1";
+	if not EditModeManagerFrame:UseRaidStylePartyFrames() then
+		local tPartyFrame = _G["PartyFrame"];
 
-	hooksecurefunc("ShowPartyFrame",
-		function()
-			if not InCombatLockdown() then
-				for tCnt = 1, 4 do
-					VUHDO_hideFrame(_G["PartyMemberFrame" .. tCnt]);
+		hooksecurefunc(tPartyFrame, "UpdatePartyFrames",
+			function()
+				if not InCombatLockdown() then
+					_G["PartyFrame"]:HidePartyFrames();
 				end
 			end
-		end
-	);
-
-	local tPartyFrame;
-	for tCnt = 1, 4 do
-		tPartyFrame = _G["PartyMemberFrame" .. tCnt];
-		VUHDO_unregisterAndSaveEvents(false,
-			tPartyFrame, _G["PartyMemberFrame" .. tCnt .. "HealthBar"], _G["PartyMemberFrame" .. tCnt .. "ManaBar"]
 		);
-		VUHDO_hideFrame(tPartyFrame);
-	end
 
-	if (CompactPartyFrame ~= nil and CompactPartyFrame:IsVisible()) then
-		VUHDO_unregisterAndSaveEvents(true, CompactPartyFrame);
+		for tPartyMemberFrame in tPartyFrame.PartyMemberFramePool:EnumerateActive() do
+			VUHDO_unregisterAndSaveEvents(false, tPartyMemberFrame, tPartyMemberFrame.HealthBar, tPartyMemberFrame.ManaBar);
+
+			if tPartyMemberFrame.layoutIndex > 0 and UnitExists("party" .. tPartyMemberFrame.layoutIndex) then
+				VUHDO_hideFrame(tPartyMemberFrame);
+			end
+		end
+	else
+		if (CompactPartyFrame ~= nil and CompactPartyFrame:IsVisible()) then
+			VUHDO_unregisterAndSaveEvents(true, CompactPartyFrame);
+		end
 	end
 end
 
@@ -558,29 +559,32 @@ end
 
 --
 local function VUHDO_showBlizzParty()
-	if VUHDO_GROUP_TYPE_PARTY ~= VUHDO_getCurrentGroupType() then return; end
+	if VUHDO_GROUP_TYPE_PARTY ~= VUHDO_getCurrentGroupType() then 
+		return;
+	end
 
-	if tonumber(GetCVar("useCompactPartyFrames")) == 0 then
-		HIDE_PARTY_INTERFACE = "0";
+	if not EditModeManagerFrame:UseRaidStylePartyFrames() then
+		local tPartyFrame = _G["PartyFrame"];
 
-		hooksecurefunc("ShowPartyFrame",
+		hooksecurefunc(tPartyFrame, "UpdatePartyFrames",
 			function()
 				if not InCombatLockdown() then
-					for tCnt = 1, 4 do
-						VUHDO_showFrame(_G["PartyMemberFrame" .. tCnt]);
+					for tPartyMemberFrame in _G["PartyFrame"].PartyMemberFramePool:EnumerateActive() do
+						tPartyMemberFrame:Show();
+						tPartyMemberFrame:UpdateMember();
 					end
+
+					_G["PartyFrame"]:UpdatePartyMemberBackground();
+					_G["PartyFrame"]:Layout();
 				end
 			end
 		);
 
-		local tPartyFrame;
-		for tCnt = 1, 4 do
-			tPartyFrame = _G["PartyMemberFrame" .. tCnt];
-			VUHDO_registerOriginalEvents(false,
-				tPartyFrame, _G["PartyMemberFrame" .. tCnt .. "HealthBar"], _G["PartyMemberFrame" .. tCnt .. "ManaBar"]);
+		for tPartyMemberFrame in tPartyFrame.PartyMemberFramePool:EnumerateActive() do
+			VUHDO_registerOriginalEvents(false, tPartyMemberFrame, tPartyMemberFrame.HealthBar, tPartyMemberFrame.ManaBar);
 
-			if (UnitExists("party" .. tCnt)) then
-				VUHDO_showFrame(tPartyFrame);
+			if tPartyMemberFrame.layoutIndex > 0 and UnitExists("party" .. tPartyMemberFrame.layoutIndex) then
+				VUHDO_showFrame(tPartyMemberFrame);
 			end
 		end
 	else
@@ -602,6 +606,7 @@ end
 local function VUHDO_showBlizzPlayer()
 	VUHDO_registerOriginalEvents(false, PlayerFrame, PlayerFrameHealthBar, PlayerFrameManaBar);
 	VUHDO_showFrame(PlayerFrame);
+
 	if "DEATHKNIGHT" == VUHDO_PLAYER_CLASS then
 		VUHDO_registerOriginalEvents(true, RuneFrame);
 	end
@@ -612,7 +617,8 @@ end
 --
 local function VUHDO_hideBlizzTarget()
 	VUHDO_unregisterAndSaveEvents(true, TargetFrame, TargetFrameToT, FocusFrameToT);
-	VUHDO_unregisterAndSaveEvents(false, TargetFrameHealthBar, TargetFrameManaBar);
+	VUHDO_unregisterAndSaveEvents(false, TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar, TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar);
+
 	ComboFrame:ClearAllPoints();
 end
 
@@ -621,7 +627,8 @@ end
 --
 local function VUHDO_showBlizzTarget()
 	VUHDO_registerOriginalEvents(true, TargetFrame, TargetFrameToT, FocusFrameToT);
-	VUHDO_registerOriginalEvents(false, TargetFrameHealthBar, TargetFrameManaBar);
+	VUHDO_registerOriginalEvents(false, TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar, TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar);
+
 	ComboFrame:SetPoint("TOPRIGHT", "TargetFrame", "TOPRIGHT", -44, -9);
 end
 
@@ -643,6 +650,7 @@ end
 --
 local function VUHDO_hideBlizzFocus()
 	VUHDO_unregisterAndSaveEvents(true, FocusFrame);
+	VUHDO_unregisterAndSaveEvents(false, FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar, FocusFrame.TargetFrameContent.TargetFrameContentMain.ManaBar);
 end
 
 
@@ -650,6 +658,7 @@ end
 --
 local function VUHDO_showBlizzFocus()
 	VUHDO_registerOriginalEvents(true, FocusFrame);
+	VUHDO_registerOriginalEvents(false, FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar, FocusFrame.TargetFrameContent.TargetFrameContentMain.ManaBar);
 end
 
 
@@ -720,7 +729,7 @@ end
 
 --
 function VUHDO_lnfPatchFont(aComponent, aLabelName)
-	if not sIsNotInChina then _G[aComponent:GetName() .. aLabelName]:SetFont(VUHDO_OPTIONS_FONT_NAME, 12); end
+	if not sIsNotInChina then _G[aComponent:GetName() .. aLabelName]:SetFont(VUHDO_OPTIONS_FONT_NAME, 12, ""); end
 end
 
 
@@ -790,7 +799,7 @@ function VUHDO_customizeIconText(aParent, aHeight, aLabel, aSetup)
 		aLabel:SetShadowColor(0, 0, 0, tShadowAlpha);
 	end
 
-	aLabel:SetFont(aSetup["FONT"], tFactor * aSetup["SCALE"], tOutline);
+	aLabel:SetFont(aSetup["FONT"], tFactor * aSetup["SCALE"], tOutline or "");
 	
 	aLabel:SetShadowOffset(1, -1);
 

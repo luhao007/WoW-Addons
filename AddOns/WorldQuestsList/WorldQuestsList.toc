@@ -1,6 +1,6 @@
-## Interface: 90207
+## Interface: 100000
 ## Author: ykiigor
-## Version: 104
+## Version: 105
 ## SavedVariables: VWQL
 
 ## Title: World Quests List

@@ -498,3 +498,6 @@ VUHDO_I18N_DEF_STATUS_HEAL_ABSORB = "Statusbar: Heal Absorb";
 -- 3.135
 VUHDO_I18N_TRINKET_1 = "Trinket 1";
 VUHDO_I18N_TRINKET_2 = "Trinket 2";
+
+-- 3.139
+VUHDO_I18N_EVOKERS = "Evokers";
