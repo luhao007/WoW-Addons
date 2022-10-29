@@ -1,6 +1,5 @@
 local W, ADDON, T, EV, C = {}, ...
-local Nine = T.Nine or _G
-EV, T.WrappedAPI, C = T.Evie, W, Nine.C_Garrison
+EV, T.WrappedAPI, C = T.Evie, W, C_Garrison
 
 W.MECHANIC_ISSPEC = { [138]=true, [149]=true, [147]=true }
 W.MECHANIC_ICONS = {
@@ -274,7 +273,7 @@ function W.GetLazyTimeStringFromSeconds(sec, roundUp)
 end
 function W.GetMissionLethalMask(mid, enemies)
 	if mid and enemies == nil then
-		enemies = select(8, C.GetMissionInfo(mid))
+		enemies = C_Garrison.GetMissionDeploymentInfo(mid).enemies
 	end
 	local le1, le2
 	for i=1,type(enemies) == "table" and #enemies or 0 do
@@ -350,7 +349,7 @@ function W.GetAvailableMissions(mtype, inProgressMissions, followerMissionInfo)
 			r[i] = nil
 		end
 	end
-	local _, cres = Nine.GetCurrencyInfo(1560)
+	local cres = (C_CurrencyInfo.GetCurrencyInfo(1560) or "").quantity or 0
 	for i=1,#r do
 		local e = r[i]
 		for j=1,2 do
@@ -850,7 +849,8 @@ do -- PrepareAllMissionGroups/GetMissionGroups
 			return mmGroups[mid]
 		end
 		
-		local chestXP, _, baseXP, _, _, _, _, _, enemies = 0, C.GetMissionInfo(mid)
+		local mdi = C_Garrison.GetMissionDeploymentInfo(mid)
+		local chestXP, baseXP, enemies = 0, mdi and mdi.xp or 0, mdi and mdi.enemies
 		for _,r in pairs(mi.rewards) do
 			if r.followerXP then
 				chestXP = chestXP + r.followerXP
@@ -1084,7 +1084,7 @@ function W.UnpackHistoryReward(r)
 			local ci = C_CurrencyInfo.GetBasicCurrencyInfo(typeID, quant)
 			ico = ci and ci.icon
 		end
-		return "currency", typeID, quant, ico or select(3,Nine.GetCurrencyInfo(typeID)) or 134400
+		return "currency", typeID, quant, ico or (C_CurrencyInfo.GetBasicCurrencyInfo(typeID) or "").icon or 134400
 	elseif kind == 3 then
 		return "item", typeID, floor(r / 2^24), GetItemIcon(typeID) or 134400
 	elseif r > 0 then

@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: foxlit
-## Version: 3.17
+## Version: 3.18.1
 ## SavedVariables: WarPlanData
 ## SavedVariablesPerCharacter: WarPlanDataPC
 
@@ -13,7 +13,6 @@
 
 Libs/Evie.lua
 Locale.lua
-Nine.lua
 API.lua
 Factory.lua
 MissionTable.lua

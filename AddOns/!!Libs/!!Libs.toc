@@ -58,8 +58,8 @@ LibBabble\LibBabble-Race-3.0\lib.xml
 LibBabble\LibBabble-SubZone-3.0\lib.xml
 
 # DR Libs
-DRList-1.0\DRList-1.0.xml
 DRData-1.0\DRData-1.0.xml
+DRList-1.0\DRList-1.0.xml
 
 # Other Libs
 Krowi_WorldMapButtons-1.4\Krowi_WorldMapButtons-1.4.xml
@@ -70,7 +70,7 @@ LibCandyBar-3.0\lib.xml
 LibChatAnims\LibChatAnims\LibChatAnims.xml
 LibClassicDurations\LibClassicDurations.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
-LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
+LibDBIcon-1.0\lib.xml
 LibDDI-1.0\lib.xml
 LibDFramework-1.0\load.xml
 LibDialog-1.0\lib.xml
@@ -88,11 +88,11 @@ LibLatency\LibLatency\LibLatency.xml
 LibOO-1.0\lib.xml
 LibPetJournal-2.0\LibPetJournal-2.0.lua
 LibQTip-1.0\lib.xml
-LibRangeCheck-2.0\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
+LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 LibRealmInfo\LibRealmInfo.lua
 LibSerialize\lib.xml
 LibSink-2.0\LibSink-2.0\LibSink-2.0.lua
-LibSpecialization\LibSpecialization\LibSpecialization.xml
+LibSpecialization\LibSpecialization.xml
 LibSpellRange-1.0\lib.xml
 LibTextDump-1.0\lib.xml
 LibToast-1.0\lib.xml

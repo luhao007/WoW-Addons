@@ -1,6 +1,5 @@
 local ADDON, T = ...
-local EV, Nine, W, L, CreateObject = T.Evie, T.Nine or _G, T.WrappedAPI, T.L, T.CreateObject
-local C = Nine.C_Garrison
+local EV, W, L, C, CreateObject = T.Evie, T.WrappedAPI, T.L, C_Garrison, T.CreateObject
 
 local manualMemberSet, manualMemberCount = {}, 0
 local function toggleFollowerFocus(followerID, removeOnly, audible)
@@ -144,7 +143,8 @@ local function ConfigureMission(me, mi, isAvailable)
 		me.Description:SetText(mi.description)
 	end
 	
-	local _, baseXP, envN, envD, envI, _, _, enemies = C.GetMissionInfo(mid)
+	local mdi = C_Garrison.GetMissionDeploymentInfo(mid)
+	local baseXP, envN, envD, envI, enemies = mdi.xp, mdi.environment, mdi.environmentDesc, mdi.environmentTexture, mdi.enemies
 	
 	local timeNow = GetTime()
 	local expirePrefix, expireAt, expireRoundUp = false, nil, nil, false
@@ -215,7 +215,7 @@ function EV:I_UPDATE_MISSION_SUGGESTIONS()
 	end
 
 	W.PrepareAllMissionGroups(22)
-	local curResources = select(2, Nine.GetCurrencyInfo(1560))
+	local curResources = (C_CurrencyInfo.GetCurrencyInfo(1560) or "").quantity or 0
 	local followers = W.GetFollowers(22)
 	
 	local Missions = TaskBoard.Missions
@@ -229,7 +229,8 @@ function EV:I_UPDATE_MISSION_SUGGESTIONS()
 			if not (s1 or s2 or s3 or s4) then
 				local costString = ""
 				if me.baseCost and me.baseCostCurrency then
-					costString = ("|n|r" .. L"Base mission cost: %s"):format(("%s |T%d:16|t"):format(me.baseCost, select(3, Nine.GetCurrencyInfo(me.baseCostCurrency)) or 136235))
+					local ico = (C_CurrencyInfo.GetBasicCurrencyInfo(me.baseCostCurrency) or "").icon or 136235
+					costString = ("|n|r" .. L"Base mission cost: %s"):format(("%s |T%d:16|t"):format(me.baseCost, ico))
 				end
 				me.NoGroupLabel:SetText("|cff990000" .. L"No viable groups." .. costString)
 				me.NoGroupLabel:Show()

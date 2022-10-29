@@ -1,6 +1,5 @@
 local Factory, _, T = {}, ...
-local Nine = T.Nine or _G
-local EV, W, L, C = T.Evie, T.WrappedAPI, T.L, Nine.C_Garrison
+local EV, W, L, C = T.Evie, T.WrappedAPI, T.L, C_Garrison
 
 local function CreateObject(otype, ...)
 	return Factory[otype](...)
@@ -131,7 +130,7 @@ local function CommonLinkable_OnClick(self)
 			ChatEdit_InsertLink(link)
 		end
 	elseif self.currencyID and self.currencyID ~= 0 then
-		ChatEdit_InsertLink(Nine.GetCurrencyLink(self.currencyID, self.currencyAmount or 0))
+		ChatEdit_InsertLink(C_CurrencyInfo.GetCurrencyLink(self.currencyID, self.currencyAmount or 0))
 	end
 end
 local function Button_ClickWithSpace(self, button)
@@ -145,7 +144,7 @@ local function Ability_OnEnter(self)
 		GarrisonFollowerAbilityTooltip:ClearAllPoints()
 		GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", self.Icon, "BOTTOMRIGHT")
 		GarrisonFollowerAbilityTooltip_Show(GarrisonFollowerAbilityTooltip, self.abilityID, 22)
-		GarrisonFollowerAbilityTooltip.CounterIcon:SetMask(nil)
+		GarrisonFollowerAbilityTooltip.CounterIcon:SetMask("")
 		GarrisonFollowerAbilityTooltip.CounterIcon:SetTexCoord(4/64, 60/64, 4/64, 60/64)
 	end
 end
@@ -158,7 +157,7 @@ local function Ability_OnLeave(self)
 end
 local function ChampionList_UpdateEquipmentGlow(self)
 	local isVisible = self:IsVisible()
-	self[isVisible and "RegisterEvent" or "UnregisterEvent"](self, "CURSOR_UPDATE")
+	self[isVisible and "RegisterEvent" or "UnregisterEvent"](self, "CURSOR_CHANGED")
 	self[isVisible and "RegisterEvent" or "UnregisterEvent"](self, "CURRENT_SPELL_CAST_CHANGED")
 	local Champions = self:GetParent().Champions
 	for i=1,isVisible and #Champions or 0 do
@@ -333,7 +332,7 @@ local function TroopButton_SetDurability(self, maxDurability, returnDurability)
 end
 local function ResourceButton_Update(self, _event, currencyID, quant)
 	if currencyID == self.currencyID then
-		quant = quant or select(2, Nine.GetCurrencyInfo(currencyID))
+		quant = quant or (C_CurrencyInfo.GetCurrencyInfo(currencyID) or "").quantity
 		if quant then
 			self.Text:SetText(BreakUpLargeNumbers(quant))
 			self:SetWidth(self.Text:GetStringWidth()+26)
@@ -342,7 +341,7 @@ local function ResourceButton_Update(self, _event, currencyID, quant)
 end
 local function ResourceButton_OnClick(self)
 	if IsModifiedClick("CHATLINK") then
-		ChatEdit_InsertLink(Nine.GetCurrencyLink(self.currencyID, 24))
+		ChatEdit_InsertLink(C_CurrencyInfo.GetCurrencyLink(self.currencyID, 24))
 	end
 end
 local function GroupButton_OnEnter(self)
@@ -973,7 +972,8 @@ function Factory.ResourceButton(parent, currencyID)
 	f:SetSize(60, 23)
 	t = f:CreateTexture()
 	t:SetSize(18, 18)
-	t:SetTexture((select(3, Nine.GetCurrencyInfo(f.currencyID))))
+	local ico = (C_CurrencyInfo.GetBasicCurrencyInfo(currencyID) or "").icon or "Interface/Icons/INV_Misc_QuestionMark"
+	t:SetTexture(ico)
 	t:SetTexCoord(4/64,60/64, 4/64,60/64)
 	t:SetPoint("LEFT", 1, 0)
 	t, f.Icon = f:CreateFontString(nil, "OVERLAY", "GameFontHighlightMed2")

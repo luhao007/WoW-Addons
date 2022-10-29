@@ -1,26 +1,58 @@
 local _, T = ...
-local Nine = T.Nine or _G
-local EV, L, W, C = T.Evie, T.L, T.WrappedAPI, Nine.C_Garrison
+local EV, L, W, C = T.Evie, T.L, T.WrappedAPI, C_Garrison
+local GarrisonLandingPageMinimapButton = ExpansionLandingPageMinimapButton
 
-local function ShowReportMissionExpirationTime()
+if (GARRISON_LANDING_COVIEW_PATCH_VERSION or 0) < 3 then
+	GARRISON_LANDING_COVIEW_PATCH_VERSION = 3
+	hooksecurefunc("ShowGarrisonLandingPage", function(pg)
+		if GARRISON_LANDING_COVIEW_PATCH_VERSION ~= 3 then
+			return
+		end
+		pg = (pg or C_Garrison.GetLandingPageGarrisonType() or 0)
+		if pg ~= 111 and GarrisonLandingPage.SoulbindPanel then
+			GarrisonLandingPage.FollowerTab.autoSpellPool:ReleaseAll()
+			GarrisonLandingPage.FollowerTab.autoCombatStatsPool:ReleaseAll()
+			GarrisonLandingPage.FollowerTab.AbilitiesFrame:Layout()
+			GarrisonLandingPage.FollowerTab.CovenantFollowerPortraitFrame:Hide()
+		end
+		if pg > 2 and GarrisonThreatCountersFrame then
+			GarrisonThreatCountersFrame:Hide()
+		end
+		if pg > 3 then
+			GarrisonLandingPage.FollowerTab.NumFollowers:SetText("")
+		end
+		if GarrisonLandingPageReport.Sections then
+			GarrisonLandingPageReport.Sections:SetShown(pg == 111)
+		end
+	end)
+end
+
+local function CallOwner(f, ...)
+	return f(...)
+end
+local function RegisterCallback_OnInitializedFrame(box, f)
+	box:RegisterCallback("OnInitializedFrame", CallOwner, f)
+	if box:IsVisible() then
+		box:ForEachFrame(f)
+	end
+	if type(box:GetParent().buttonInitializer) == "function" then
+		-- GarrisonFollowerList:UpdateData, hiss.
+		hooksecurefunc(box:GetParent(), "buttonInitializer", f)
+	end
+end
+
+local function ShowReportMissionExpirationTime(b, item)
 	if GarrisonLandingPage.garrTypeID ~= 9 then return end
-	local items, buttons = GarrisonLandingPageReport.List.AvailableItems, GarrisonLandingPageReport.List.listScroll.buttons
-	for i=1,#buttons do
-		local item = buttons[i]:IsShown() and items[buttons[i].id]
-		if item and item.offerTimeRemaining and item.offerEndTime then
-			if item.offerEndTime - 8640000 <= GetTime() then
-				buttons[i].MissionType:SetFormattedText("%s |cffa0a0a0(%s %s)|r",
-					item.durationSeconds >= GARRISON_LONG_MISSION_TIME and (GARRISON_LONG_MISSION_TIME_FORMAT):format(item.duration) or item.duration,
-					L"Expires in:", item.offerTimeRemaining)
-			end
+	if b and item and item.offerTimeRemaining and item.offerEndTime then
+		if item.offerEndTime - 8640000 <= GetTime() then
+			b.MissionType:SetFormattedText("%s |cffa0a0a0(%s %s)|r",
+				item.durationSeconds >= GARRISON_LONG_MISSION_TIME and (GARRISON_LONG_MISSION_TIME_FORMAT):format(item.duration) or item.duration,
+				L"Expires in:", item.offerTimeRemaining)
 		end
 	end
 end
 function EV:I_LOAD_MAINUI()
-	hooksecurefunc("GarrisonLandingPageReportList_UpdateAvailable", ShowReportMissionExpirationTime)
-	if GarrisonLandingPageReport:IsVisible() then
-		ShowReportMissionExpirationTime()
-	end
+	RegisterCallback_OnInitializedFrame(GarrisonLandingPageReportList.ScrollBox, ShowReportMissionExpirationTime)
 end
 
 local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
@@ -79,16 +111,15 @@ function EV:I_LOAD_HOOKS()
 	if IsAddOnLoaded("MasterPlanA") then
 		return
 	end
+	local followerTabNames = {[2]=GARRISON_FOLLOWERS, [3]=FOLLOWERLIST_LABEL_CHAMPIONS, [9]=FOLLOWERLIST_LABEL_CHAMPIONS, [111]=COVENANT_MISSIONS_FOLLOWERS}
 	local function ShowLanding(_, page)
 		HideUIPanel(GarrisonLandingPage)
-		local b = GarrisonLandingPageFollowerList.listScroll.buttons
-		if ((page or C_Garrison.GetLandingPageGarrisonType()) == 111) ~= (b and b[1] and not b[1].DownArrow) then
-			for i=1,#b do
-				b[i]:Hide()
-			end
-			GarrisonLandingPageFollowerList.listScroll.buttons = nil
-		end
 		ShowGarrisonLandingPage(page)
+		local fn = followerTabNames[page or C.GetLandingPageGarrisonType()]
+		if fn then
+			GarrisonLandingPage.FollowerList.LandingPageHeader:SetText(fn)
+			GarrisonLandingPageTab2:SetText(fn)
+		end
 	end
 	local function MaybeStopSound(sound)
 		return sound and StopSound(sound)

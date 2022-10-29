@@ -1,22 +1,16 @@
-lightweight tag c5e79c9a04912329a82a46c5dc68e2ef6f938478 4.0.11-release
+lightweight tag 841e380416b05409669c7edacab5727821fe8e6d 4.0.13-release
 Author:	GitHub <noreply@github.com>
-Date:	Thu Oct 27 22:50:13 2022 +0100
+Date:	Fri Oct 28 20:46:52 2022 +0100
 
-commit c5e79c9a04912329a82a46c5dc68e2ef6f938478
+commit 841e380416b05409669c7edacab5727821fe8e6d
 Author: pereira-a <pereirasmandre@gmail.com>
-Date:   Thu Oct 27 22:50:13 2022 +0100
+Date:   Fri Oct 28 20:46:52 2022 +0100
 
-    increase version to 4.0.11
+    increase version
 
-commit 723b3bf8bc68b4001f3e28f85ae7b8dac853c7c9
+commit 0623654c00b5aad3a20102f65036cc706a3f844e
 Author: pereira-a <pereirasmandre@gmail.com>
-Date:   Thu Oct 27 22:48:23 2022 +0100
+Date:   Fri Oct 28 20:46:34 2022 +0100
 
-    add tom tom minimap button to ignore list
-
-commit 2150eac84e70087432527da63e50f13395376b10
-Author: pereira-a <pereirasmandre@gmail.com>
-Date:   Thu Oct 27 22:46:38 2022 +0100
-
-    #20 add Dugi Guides arrow to ignore list
+    fix interface version
 

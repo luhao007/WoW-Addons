@@ -406,6 +406,12 @@ L["Elite"] = "Элитный"
 L["Emalon the Storm Watcher"] = "Эмалон Страж Бури"
 L["Emote"] = "Эмоция"
 --[[Translation missing --]]
+L["Empower Cast End"] = "Empower Cast End"
+--[[Translation missing --]]
+L["Empower Cast Interrupt"] = "Empower Cast Interrupt"
+--[[Translation missing --]]
+L["Empower Cast Start"] = "Empower Cast Start"
+--[[Translation missing --]]
 L["Empowered"] = "Empowered"
 --[[Translation missing --]]
 L["Empowered 1"] = "Empowered 1"
@@ -878,7 +884,6 @@ L["Play"] = "Воспроизвести"
 L["Player"] = "Игрок"
 L["Player Character"] = "Персонаж игрока"
 L["Player Class"] = "Класс игрока"
-L["Player Covenant"] = "Ковенант игрока"
 L["Player Effective Level"] = "Эффективный уровень игрока"
 L["Player Experience"] = "Опыт персонажа"
 L["Player Faction"] = "Фракция игрока"
@@ -1195,7 +1200,6 @@ L["Threat Percent"] = "Процент угрозы"
 L["Threat Situation"] = "Положение в списке угроз"
 L["Threat Value"] = "Количество угрозы"
 L["Tick"] = "Такт"
-L["Tier "] = "Тир"
 L["Time Format"] = "Время"
 L["Time in GCDs"] = "Время в GCD"
 L["Timed"] = "По истечении времени"

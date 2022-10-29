@@ -32,17 +32,13 @@ local L = WeakAuras.L
 	L["%s - Condition Custom Code %s"] = "%s - Condition Custom Code %s"
 	--[[Translation missing --]]
 	L["%s - Custom Anchor"] = "%s - Custom Anchor"
-	--[[Translation missing --]]
-	L["%s - Custom Grow"] = "%s - Custom Grow"
-	--[[Translation missing --]]
-	L["%s - Custom Sort"] = "%s - Custom Sort"
-	--[[Translation missing --]]
-	L["%s - Custom Text"] = "%s - Custom Text"
+	L["%s - Custom Grow"] = "%s - 사용자 정의 성장"
+	L["%s - Custom Sort"] = "%s - 사용자 정의 정렬"
+	L["%s - Custom Text"] = "%s - 사용자 정의 문자"
 	L["%s - Finish"] = "%s - 종료"
 	--[[Translation missing --]]
 	L["%s - Finish Action"] = "%s - Finish Action"
-	--[[Translation missing --]]
-	L["%s - Finish Custom Text"] = "%s - Finish Custom Text"
+	L["%s - Finish Custom Text"] = "%s - 사용자 정의 문자 종료"
 	--[[Translation missing --]]
 	L["%s - Init Action"] = "%s - Init Action"
 	--[[Translation missing --]]
@@ -55,8 +51,7 @@ local L = WeakAuras.L
 	L["%s - Start"] = "%s - 시작"
 	--[[Translation missing --]]
 	L["%s - Start Action"] = "%s - Start Action"
-	--[[Translation missing --]]
-	L["%s - Start Custom Text"] = "%s - Start Custom Text"
+	L["%s - Start Custom Text"] = "%s - 사용자 정의 문자 시작"
 	--[[Translation missing --]]
 	L["%s - Translate Animation"] = "%s - Translate Animation"
 	--[[Translation missing --]]
@@ -850,8 +845,7 @@ Can use \ to escape -.]=] ] = "필터 형식: '이름', '이름-서버', '-서�
 	L["Saved Data"] = "Saved Data"
 	L["Scale"] = "크기 비율"
 	L["Search"] = "검색"
-	--[[Translation missing --]]
-	L["Select Talent"] = "Select Talent"
+	L["Select Talent"] = "특성 선택"
 	L["Select the auras you always want to be listed first"] = "목록에서 첫번째로 표시할 오라를 선택하세요"
 	--[[Translation missing --]]
 	L["Selected Frame"] = "Selected Frame"
