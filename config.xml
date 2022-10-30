@@ -1043,6 +1043,10 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="Leatrix_Plus">
+		<Title>功能百宝箱</Title>
+		<Category>功能</Category>
+	</Addon>
 	<Addon name="LootMonitor">
 		<Title>黑手检测</Title>
 		<Category>功能</Category>

@@ -16,7 +16,7 @@ function UnitFramesPlus_PartyOrigin()
         local func = {};
         func.name = "UnitFramesPlus_PartyOriginSet";
         func.callback = function()
-            UnitFramesPlus_PartyOriginSet();
+            UnitFramesPlus_PartyOriginSet();            
         end;
         UnitFramesPlus_WaitforCall(func);
     end
@@ -195,7 +195,7 @@ end
 
 function UnitFramesPlus_PartyName()
     for id = 1, 4, 1 do
-        if UnitFramesPlusDB["party"]["origin"] == 1 and (UnitFramesPlusDB["party"]["colorname"] == 1
+        if UnitFramesPlusDB["party"]["origin"] == 1 and (UnitFramesPlusDB["party"]["colorname"] == 1 
         or UnitFramesPlusDB["party"]["shortname"] == 1 or UnitFramesPlusDB["party"]["portrait"] == 1) then
             _G["UFP_PartyColorName"..id]:RegisterEvent("PLAYER_ENTERING_WORLD");
             _G["UFP_PartyColorName"..id]:RegisterEvent("GROUP_ROSTER_UPDATE");
@@ -304,11 +304,11 @@ function UnitFramesPlus_PartyPortrait()
                 _G["UFP_PartyPortraitType"..id]:RegisterUnitEvent("UNIT_PET", "party"..id);
                 _G["UFP_PartyPortraitType"..id]:RegisterUnitEvent("UNIT_MODEL_CHANGED", "party"..id);
                 _G["UFP_PartyPortraitType"..id]:RegisterUnitEvent("UNIT_CONNECTION", "party"..id);
-                _G["UFP_PartyPortraitType"..id]:RegisterUnitEvent("UNIT_HEALTH", "party"..id);
+                _G["UFP_PartyPortraitType"..id]:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "party"..id);
                 _G["UFP_PartyPortraitType"..id]:SetScript("OnEvent", function(self, event, ...)
-                    if event == "PLAYER_ENTERING_WORLD" or event == "GROUP_ROSTER_UPDATE"
-                    or event == "PARTY_LEADER_CHANGED"  or event == "PARTY_MEMBER_ENABLE"
-                    or event == "PARTY_MEMBER_DISABLE"  or event == "UNIT_ENTERED_VEHICLE"
+                    if event == "PLAYER_ENTERING_WORLD" or event == "GROUP_ROSTER_UPDATE" 
+                    or event == "PARTY_LEADER_CHANGED"  or event == "PARTY_MEMBER_ENABLE" 
+                    or event == "PARTY_MEMBER_DISABLE"  or event == "UNIT_ENTERED_VEHICLE" 
                     or event == "UNIT_EXITED_VEHICLE"  or event == "UNIT_PET" then
                         if UnitExists("party"..id) then
                             if UnitFramesPlusDB["party"]["portrait3dbg"] == 1 then
@@ -319,7 +319,7 @@ function UnitFramesPlus_PartyPortrait()
                         end
                     elseif event == "UNIT_MODEL_CHANGED" or event == "UNIT_CONNECTION" or event == "UNIT_PHASE" then
                         UnitFramesPlus_PartyPortraitDisplayUpdate(id);
-                    elseif event == "UNIT_HEALTH" then
+                    elseif event == "UNIT_HEALTH_FREQUENT" then
                         if (not UnitIsConnected("party"..id)) or UnitIsGhost("party"..id) then
                             _G["UFP_Party3DPortrait"..id]:SetLight(true, false, 0, 0, 0, 1.0, 0.25, 0.25, 0.25);
                         elseif UnitIsDead("party"..id) then
@@ -346,7 +346,7 @@ function UnitFramesPlus_PartyPortrait()
                     if _G["UFP_PartyPortraitType"..id]:IsEventRegistered("UNIT_MODEL_CHANGED") then
                         _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_MODEL_CHANGED");
                         _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_CONNECTION");
-                        _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_HEALTH");
+                        _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_HEALTH_FREQUENT");
                     end
                 end
                 _G["UFP_PartyPortraitType"..id]:SetScript("OnEvent", function(self, event, ...)
@@ -374,7 +374,7 @@ function UnitFramesPlus_PartyPortrait()
                 _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_PET");
                 _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_MODEL_CHANGED");
                 _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_CONNECTION");
-                _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_HEALTH");
+                _G["UFP_PartyPortraitType"..id]:UnregisterEvent("UNIT_HEALTH_FREQUENT");
                 _G["UFP_PartyPortraitType"..id]:SetScript("OnEvent", nil);
             end
         end
@@ -384,7 +384,7 @@ end
 --刷新队友3D头像背景显示
 function UnitFramesPlus_PartyPortrait3DBGDisplayUpdate(id)
     if UnitExists("party"..id) and UnitFramesPlusDB["party"]["origin"] == 1 then
-        if UnitFramesPlusDB["party"]["portrait"] == 1
+        if UnitFramesPlusDB["party"]["portrait"] == 1 
         and UnitFramesPlusDB["party"]["portraittype"] == 1
         and UnitFramesPlusDB["party"]["portrait3dbg"] == 1 then
             _G["UFP_Party3DPortrait"..id].Background:Show();
@@ -440,7 +440,7 @@ for id = 1, 4, 1 do
     PartyHPPct.Text:SetFont(GameFontNormal:GetFont(), 10, "OUTLINE");
     PartyHPPct.Text:SetTextColor(1, 0.82, 0);
     PartyHPPct.Text:SetJustifyH("LEFT");
-
+    
     --队友死亡、灵魂提示
     local PartyDeath = CreateFrame("Frame", "UFP_PartyDeath"..id,  _G["PartyMemberFrame"..id]);
     PartyDeath:SetAttribute("unit", "party"..id);
@@ -467,7 +467,7 @@ function UnitFramesPlus_PartyHealthPct()
             _G["UFP_PartyHPPct"..id]:RegisterUnitEvent("UNIT_CONNECTION", "party"..id);
             _G["UFP_PartyHPPct"..id]:RegisterUnitEvent("UNIT_PHASE", "party"..id);
             _G["UFP_PartyHPPct"..id]:RegisterUnitEvent("UNIT_PET", "party"..id);
-            _G["UFP_PartyHPPct"..id]:RegisterUnitEvent("UNIT_HEALTH", "party"..id);
+            _G["UFP_PartyHPPct"..id]:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "party"..id);
             _G["UFP_PartyHPPct"..id]:SetScript("OnEvent", function(self, event, ...)
                 -- if tonumber(GetCVar("useCompactPartyFrames")) ~= 1 then
                     UnitFramesPlus_PartyHealthPctDisplayUpdate(id);
@@ -486,7 +486,7 @@ function UnitFramesPlus_PartyHealthPct()
                 _G["UFP_PartyHPPct"..id]:UnregisterEvent("UNIT_CONNECTION");
                 _G["UFP_PartyHPPct"..id]:UnregisterEvent("UNIT_PHASE");
                 _G["UFP_PartyHPPct"..id]:UnregisterEvent("UNIT_PET");
-                _G["UFP_PartyHPPct"..id]:UnregisterEvent("UNIT_HEALTH");
+                _G["UFP_PartyHPPct"..id]:UnregisterEvent("UNIT_HEALTH_FREQUENT");
                 _G["UFP_PartyHPPct"..id]:SetScript("OnEvent", nil);
             end
         end
@@ -1147,7 +1147,7 @@ function UnitFramesPlus_PartyMemberPosition()
         local func = {};
         func.name = "UnitFramesPlus_PartyMemberPositionSet";
         func.callback = function()
-            UnitFramesPlus_PartyMemberPositionSet();
+            UnitFramesPlus_PartyMemberPositionSet();            
         end;
         UnitFramesPlus_WaitforCall(func);
     end
@@ -1177,7 +1177,7 @@ function UnitFramesPlus_PartyScale(scale)
         local func = {};
         func.name = "UnitFramesPlus_PartyScaleSet";
         func.callback = function()
-            UnitFramesPlus_PartyScaleSet(scale);
+            UnitFramesPlus_PartyScaleSet(scale);            
         end;
         UnitFramesPlus_WaitforCall(func);
     end

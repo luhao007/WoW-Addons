@@ -179,12 +179,12 @@ function UnitFramesPlus_PlayerHealth()
     if UnitFramesPlusDB["player"]["extrabar"] == 0 and UnitFramesPlusDB["player"]["hpmp"] == 0 then
         if PlayerHealth:IsEventRegistered("PLAYER_ENTERING_WORLD") then
             PlayerHealth:UnregisterEvent("PLAYER_ENTERING_WORLD");
-            PlayerHealth:UnregisterEvent("UNIT_HEALTH");
+            PlayerHealth:UnregisterEvent("UNIT_HEALTH_FREQUENT");
             PlayerHealth:SetScript("OnEvent", nil);
         end
     else
         PlayerHealth:RegisterEvent("PLAYER_ENTERING_WORLD");
-        PlayerHealth:RegisterUnitEvent("UNIT_HEALTH", "player");
+        PlayerHealth:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "player");
         PlayerHealth:SetScript("OnEvent", function(self, event, ...)
             UnitFramesPlus_PlayerHPValueDisplayUpdate();
         end)

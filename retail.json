@@ -4163,47 +4163,6 @@
   },
   {
     "source": "curse",
-    "id": "14354",
-    "slug": "mbb",
-    "name": "MBB",
-    "description": "Cleans up minimap buttons and makes them accessible through a pop out menu!",
-    "url": "https://www.curseforge.com/wow/addons/mbb",
-    "download_url": "https://edge.forgecdn.net/files/3268/512/MBB-v4.0.7.zip",
-    "date_published": "2021-04-07T18:30:43.767000+00:00",
-    "version": "v4.0.7",
-    "changelog_url": "data:,",
-    "options": {
-      "any_flavour": false,
-      "any_release_type": false,
-      "version_eq": false
-    },
-    "folders": [
-      {
-        "name": "MBB"
-      }
-    ],
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v4.0.7",
-        "install_time": "2021-04-14T11:23:13+00:00"
-      },
-      {
-        "version": "v4.0.6",
-        "install_time": "2021-03-11T04:26:12+00:00"
-      },
-      {
-        "version": "v4.0.3",
-        "install_time": "2020-11-03T06:02:35+00:00"
-      },
-      {
-        "version": "v4.0.1",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "14376",
     "slug": "mapster",
     "name": "Mapster",
@@ -5255,57 +5214,6 @@
       {
         "version": "Rematch_4_11_13.zip",
         "install_time": "2021-05-23T13:51:34+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "5422",
-    "slug": "scrap",
-    "name": "Scrap (Junk Seller)",
-    "description": "Sells all your junk when you visit a merchant. Intuitive & Easy to use.",
-    "url": "https://www.curseforge.com/wow/addons/scrap",
-    "download_url": "https://edge.forgecdn.net/files/3545/861/Scrap-9.1.2-9.1.5.zip",
-    "date_published": "2021-12-02T22:47:00.863000+00:00",
-    "version": "9.1.2",
-    "changelog_url": "https://addons-ecs.forgesvc.net/api/v2/addon/5422/file/3545861/changelog",
-    "options": {
-      "any_flavour": false,
-      "any_release_type": false,
-      "version_eq": false
-    },
-    "folders": [
-      {
-        "name": "Scrap"
-      },
-      {
-        "name": "Scrap_Config"
-      },
-      {
-        "name": "Scrap_Merchant"
-      }
-    ],
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "9.1.2",
-        "install_time": "2022-01-30T05:44:57+00:00"
-      },
-      {
-        "version": "9.1.0",
-        "install_time": "2021-07-17T04:49:49+00:00"
-      },
-      {
-        "version": "9.0.6",
-        "install_time": "2021-05-23T13:51:34+00:00"
-      },
-      {
-        "version": "9.0.5",
-        "install_time": "2021-03-21T09:20:36+00:00"
-      },
-      {
-        "version": "9.0.1",
-        "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
   },
