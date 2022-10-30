@@ -18,7 +18,12 @@ MonkeySpeed.m_vLastPos.y = 0
 
 function MonkeySpeed_Init()
 
-	MonkeySpeedFrame:SetMinResize(20, 20)
+	if (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE) then
+		MonkeySpeedFrame:SetResizeBounds(20, 20)
+	else
+		MonkeySpeedFrame:SetMinResize(20, 20)
+	end
+
 
 	if (MonkeySpeedVars == nil) then
 	MonkeySpeedVars = {
@@ -136,7 +141,15 @@ function MonkeySpeed_Init()
 	MonkeySpeedGeneral:SetPoint("TOPLEFT", MonkeySpeedOptionsHeader, "BOTTOMLEFT", 0, -6)
 	MonkeySpeedGeneral:SetText(MONKEYSPEED_GENERAL_OPTIONS)
 
-	local MonkeySpeedCB1 = CreateFrame("CheckButton", "MonkeySpeedCB1", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local helperFrame = ""
+
+	if (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE) then
+		helperFrame = "UICheckButtonTemplate"
+	else
+		helperFrame = "OptionsCheckButtonTemplate"
+	end
+
+	local MonkeySpeedCB1 = CreateFrame("CheckButton", "MonkeySpeedCB1", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB1:SetPoint("TOPLEFT", MonkeySpeedGeneral, "BOTTOMLEFT", 2, -4)
 	MonkeySpeedCB1:SetScript("OnClick", function(self) MonkeySpeedVars.shown = (not MonkeySpeedVars.shown)
 																MonkeySpeed_shown_Changed() end)
@@ -158,7 +171,7 @@ function MonkeySpeed_Init()
 		ColorPickerFrame:Show()
 	end)
 
-	local MonkeySpeedCB2 = CreateFrame("CheckButton", "MonkeySpeedCB2", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB2 = CreateFrame("CheckButton", "MonkeySpeedCB2", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB2:SetPoint("TOPLEFT", MonkeySpeedCB1, "BOTTOMLEFT", 0, -4)
 	MonkeySpeedCB2:SetScript("OnClick", function(self) MonkeySpeedVars.showBorder = (not MonkeySpeedVars.showBorder)
 																MonkeySpeed_showBorder_Changed() end)
@@ -179,35 +192,35 @@ function MonkeySpeed_Init()
 		ColorPickerFrame:Show()
 	end)
 
-	local MonkeySpeedCB3 = CreateFrame("CheckButton", "MonkeySpeedCB3", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB3 = CreateFrame("CheckButton", "MonkeySpeedCB3", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB3:SetPoint("TOPLEFT", MonkeySpeedCB2, "BOTTOMLEFT", 0, -4)
 	MonkeySpeedCB3:SetScript("OnClick", function(self) MonkeySpeedVars.frameLocked = (not MonkeySpeedVars.frameLocked)
 																MonkeySpeed_frameLocked_Changed() end)
 	MonkeySpeedCB3Text:SetText(MONKEYSPEED_frameLocked_DESC)
 
-	local MonkeySpeedCB4 = CreateFrame("CheckButton", "MonkeySpeedCB4", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB4 = CreateFrame("CheckButton", "MonkeySpeedCB4", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB4:SetPoint("TOPLEFT", MonkeySpeedCB3, "BOTTOMLEFT", 0, -4)
 	MonkeySpeedCB4:SetScript("OnClick", function(self) MonkeySpeedVars.showBar = (not MonkeySpeedVars.showBar)
 																MonkeySpeed_showBar_Changed() end)
 	MonkeySpeedCB4Text:SetText(MONKEYSPEED_showBar_DESC)
 
-	local MonkeySpeedCB5 = CreateFrame("CheckButton", "MonkeySpeedCB5", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB5 = CreateFrame("CheckButton", "MonkeySpeedCB5", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB5:SetPoint("TOPLEFT", MonkeySpeedCB4, "BOTTOMLEFT", 0, -4)
 	MonkeySpeedCB5:SetScript("OnClick", function(self) MonkeySpeedVars.showPercent = (not MonkeySpeedVars.showPercent)
 																MonkeySpeed_showPercent_Changed() end)
 	MonkeySpeedCB5Text:SetText(MONKEYSPEED_showPercent_DESC)
 
-	local MonkeySpeedCB6 = CreateFrame("CheckButton", "MonkeySpeedCB6", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB6 = CreateFrame("CheckButton", "MonkeySpeedCB6", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB6:SetPoint("TOPLEFT", MonkeySpeedCB5, "BOTTOMLEFT", 0, -4)
 	MonkeySpeedCB6:SetScript("OnClick", function(self) MonkeySpeedVars.autoCalibration = (not MonkeySpeedVars.autoCalibration) end)
 	MonkeySpeedCB6Text:SetText(MONKEYSPEED_autoCalibration_DESC)
 
-	local MonkeySpeedCB9 = CreateFrame("CheckButton", "MonkeySpeedCB9", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB9 = CreateFrame("CheckButton", "MonkeySpeedCB9", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB9:SetPoint("TOPLEFT", MonkeySpeedCB6, "BOTTOMLEFT", 0, -4)
 	MonkeySpeedCB9:SetScript("OnClick", function(self) MonkeySpeedVars.maximumSpeed = (not MonkeySpeedVars.maximumSpeed) end)
 	MonkeySpeedCB9Text:SetText(MONKEYSPEED_maximumSpeed_DESC)
 
-	local MonkeySpeedCB8 = CreateFrame("CheckButton", "MonkeySpeedCB8", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB8 = CreateFrame("CheckButton", "MonkeySpeedCB8", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB8:SetPoint("TOPLEFT", MonkeySpeedCB9, "BOTTOMLEFT", 0, -4)
 	MonkeySpeedCB8:SetScript("OnClick", function(self) MonkeySpeedVars.showLDB = (not MonkeySpeedVars.showLDB) end)
 	MonkeySpeedCB8Text:SetText(MONKEYSPEED_showLDB_DESC)
@@ -229,7 +242,7 @@ function MonkeySpeed_Init()
 	MonkeySpeedMisc:SetPoint("TOPLEFT", MonkeySpeedCB8, "BOTTOMLEFT", -2, -4)
 	MonkeySpeedMisc:SetText(MONKEYSPEED_MISC_OPTIONS)
 
-	local MonkeySpeedCB7 = CreateFrame("CheckButton", "MonkeySpeedCB7", MonkeySpeedOptions, "OptionsCheckButtonTemplate")
+	local MonkeySpeedCB7 = CreateFrame("CheckButton", "MonkeySpeedCB7", MonkeySpeedOptions, helperFrame)
 	MonkeySpeedCB7:SetPoint("TOPLEFT", MonkeySpeedMisc, "BOTTOMLEFT", 2, -4)
 	MonkeySpeedCB7:SetScript("OnClick", function(self) MonkeySpeedVars.rightClickOpensConfig = (not MonkeySpeedVars.rightClickOpensConfig) end)
 	MonkeySpeedCB7Text:SetText(MONKEYSPEED_rightClickOpensConfig_DESC)

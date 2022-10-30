@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: MysticalOS, QartemisT
-## Version: e9585ea
+## Version: 25a28fd
 ## LoadOnDemand: 0
 ## SavedVariables: DBT_AllPersistentOptions
 ## DefaultState: enabled

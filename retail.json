@@ -752,35 +752,6 @@
   },
   {
     "source": "curse",
-    "id": "45492",
-    "slug": "atlas-scenarios",
-    "name": "Atlas Scenarios",
-    "description": "Scenarios Maps",
-    "url": "https://www.curseforge.com/wow/addons/atlas-scenarios",
-    "download_url": "https://edge.forgecdn.net/files/2600/455/Atlas_Scenarios-v1.44.00.zip",
-    "date_published": "2018-08-09T13:54:29.720000+00:00",
-    "version": "v1.44.00",
-    "changelog_url": "data:,",
-    "options": {
-      "any_flavour": false,
-      "any_release_type": false,
-      "version_eq": false
-    },
-    "folders": [
-      {
-        "name": "Atlas_Scenarios"
-      }
-    ],
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v1.44.00",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "32832",
     "slug": "atlas-transportation",
     "name": "Atlas Transportation",
@@ -976,35 +947,6 @@
       {
         "version": "v1.48.00",
         "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "35609",
-    "slug": "atlasloot_classes",
-    "name": "AtlasLoot Classes",
-    "description": "AtlasLoot loot tables of class and racial spells.",
-    "url": "https://www.curseforge.com/wow/addons/atlasloot_classes",
-    "download_url": "https://edge.forgecdn.net/files/2534/898/AtlasLoot_Classes_v3.1.zip",
-    "date_published": "2018-02-25T04:49:18.840000+00:00",
-    "version": "v3.1",
-    "changelog_url": "data:,",
-    "options": {
-      "any_flavour": false,
-      "any_release_type": false,
-      "version_eq": false
-    },
-    "folders": [
-      {
-        "name": "AtlasLoot_Classes"
-      }
-    ],
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v3.1",
-        "install_time": "2021-02-23T15:54:44+00:00"
       }
     ]
   },
@@ -1308,10 +1250,10 @@
     "name": "BlizzMove",
     "description": "Makes the default frames moveable via simple drag and drop",
     "url": "https://www.curseforge.com/wow/addons/blizzmove",
-    "download_url": "https://edge.forgecdn.net/files/4050/392/BlizzMove-v3.5.1.zip",
-    "date_published": "2022-10-25T19:09:06.383000+00:00",
-    "version": "v3.5.1",
-    "changelog_url": "https://api.curseforge.com/v1/mods/17809/files/4050392/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4056/498/BlizzMove-v3.5.2.zip",
+    "date_published": "2022-10-29T14:24:29.630000+00:00",
+    "version": "v3.5.2",
+    "changelog_url": "https://api.curseforge.com/v1/mods/17809/files/4056498/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -1327,6 +1269,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.5.2",
+        "install_time": "2022-10-30T03:10:43+00:00"
+      },
       {
         "version": "v3.5.1",
         "install_time": "2022-10-27T11:27:31+00:00"
@@ -1362,10 +1308,6 @@
       {
         "version": "v3.1.2",
         "install_time": "2021-07-17T04:48:57+00:00"
-      },
-      {
-        "version": "v3.0.19a",
-        "install_time": "2021-06-09T10:35:14+00:00"
       }
     ]
   },
@@ -4498,10 +4440,10 @@
     "name": "MonkeySpeed",
     "description": "Displays your current speed as a percentage of normal speed, everywhere and anytime.",
     "url": "https://www.curseforge.com/wow/addons/monkey-speed",
-    "download_url": "https://edge.forgecdn.net/files/3087/898/MonkeySpeed_v3.5.0.zip",
-    "date_published": "2020-10-20T19:32:36.287000+00:00",
-    "version": "v3.5.0",
-    "changelog_url": "data:,",
+    "download_url": "https://edge.forgecdn.net/files/4057/91/MonkeySpeed_v3.6.0.zip",
+    "date_published": "2022-10-29T20:36:48.650000+00:00",
+    "version": "v3.6.0",
+    "changelog_url": "https://api.curseforge.com/v1/mods/2862/files/4057091/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4514,6 +4456,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.6.0",
+        "install_time": "2022-10-30T03:10:43+00:00"
+      },
       {
         "version": "v3.5.0",
         "install_time": "2020-11-03T06:02:12+00:00"
@@ -5130,10 +5076,10 @@
     "name": "RangeDisplay",
     "description": "Estimated range display. Type /rangedisplay for config",
     "url": "https://www.curseforge.com/wow/addons/range-display",
-    "download_url": "https://edge.forgecdn.net/files/4040/427/RangeDisplay-v4.9.10.zip",
-    "date_published": "2022-10-22T09:27:13.473000+00:00",
-    "version": "v4.9.10",
-    "changelog_url": "https://api.curseforge.com/v1/mods/14570/files/4040427/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4056/655/RangeDisplay-v5.0.1.zip",
+    "date_published": "2022-10-29T16:01:58.827000+00:00",
+    "version": "v5.0.1",
+    "changelog_url": "https://api.curseforge.com/v1/mods/14570/files/4056655/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -5149,6 +5095,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v5.0.1",
+        "install_time": "2022-10-30T03:10:43+00:00"
+      },
       {
         "version": "v4.9.10",
         "install_time": "2022-10-27T11:29:13+00:00"
@@ -5182,10 +5132,10 @@
     "name": "Rarity",
     "description": "Tracks rare drops, including companions and mounts",
     "url": "https://www.curseforge.com/wow/addons/rarity",
-    "download_url": "https://edge.forgecdn.net/files/3670/265/Rarity-r715-release-4.zip",
-    "date_published": "2022-03-02T21:35:20.363000+00:00",
-    "version": "r715-release-4",
-    "changelog_url": "https://api.curseforge.com/v1/mods/30801/files/3670265/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4055/960/Rarity-r717-release.zip",
+    "date_published": "2022-10-29T04:40:24.823000+00:00",
+    "version": "r717-release",
+    "changelog_url": "https://api.curseforge.com/v1/mods/30801/files/4055960/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -5201,6 +5151,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "r717-release",
+        "install_time": "2022-10-30T03:10:44+00:00"
+      },
       {
         "version": "r715-release-4",
         "install_time": "2022-09-01T16:26:59+00:00"
@@ -5236,10 +5190,6 @@
       {
         "version": "r705-release",
         "install_time": "2021-03-11T04:26:13+00:00"
-      },
-      {
-        "version": "r704-release",
-        "install_time": "2021-02-23T13:44:13+00:00"
       }
     ]
   },
@@ -5633,35 +5583,6 @@
   },
   {
     "source": "curse",
-    "id": "102777",
-    "slug": "titan-simulationcraft",
-    "name": "Titan [Simulationcraft]",
-    "description": "Titan Panel Plugin for Simcraft Export",
-    "url": "https://www.curseforge.com/wow/addons/titan-simulationcraft",
-    "download_url": "https://edge.forgecdn.net/files/2346/679/titan-simulationcraft-v1.0.5.70100-alpha5.zip",
-    "date_published": "2016-11-19T18:36:53.403000+00:00",
-    "version": "v1.1.0.70100-release",
-    "changelog_url": "data:,",
-    "options": {
-      "any_flavour": false,
-      "any_release_type": false,
-      "version_eq": false
-    },
-    "folders": [
-      {
-        "name": "titan-simulationcraft"
-      }
-    ],
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v1.1.0.70100-release",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
     "id": "306085",
     "slug": "tomcats",
     "name": "TomCat's Tours (now includes Hallow's End Candy Buckets and Zereth Mortis rares and treasures!)",
@@ -5732,10 +5653,10 @@
     "name": "TomTom",
     "description": "Acts as your portable navigation assistant",
     "url": "https://www.curseforge.com/wow/addons/tomtom",
-    "download_url": "https://edge.forgecdn.net/files/4053/849/TomTom-v3.3.0-release.zip",
-    "date_published": "2022-10-27T17:02:56.740000+00:00",
-    "version": "v3.3.0-release",
-    "changelog_url": "https://api.curseforge.com/v1/mods/18808/files/4053849/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4056/119/TomTom-v3.3.1-release.zip",
+    "date_published": "2022-10-29T08:43:20.093000+00:00",
+    "version": "v3.3.1-release",
+    "changelog_url": "https://api.curseforge.com/v1/mods/18808/files/4056119/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -5748,6 +5669,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.3.1-release",
+        "install_time": "2022-10-30T03:10:44+00:00"
+      },
       {
         "version": "v3.3.0-release",
         "install_time": "2022-10-28T11:20:47+00:00"
@@ -5783,10 +5708,6 @@
       {
         "version": "v90005-1.2.1",
         "install_time": "2021-03-11T04:26:13+00:00"
-      },
-      {
-        "version": "v90002-1.2.0",
-        "install_time": "2020-12-26T15:05:10+00:00"
       }
     ]
   },
@@ -5929,74 +5850,6 @@
       {
         "version": "4.16a",
         "install_time": "2022-02-17T16:16:44+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "7950",
-    "slug": "vuhdo",
-    "name": "VuhDo",
-    "description": "Raid Frames providing click-heal functionality, buff and debuff control, main tank management and much more.",
-    "url": "https://www.curseforge.com/wow/addons/vuhdo",
-    "download_url": "https://edge.forgecdn.net/files/4050/961/VuhDo-v3.142.zip",
-    "date_published": "2022-10-26T00:17:31.380000+00:00",
-    "version": "v3.142",
-    "changelog_url": "https://api.curseforge.com/v1/mods/7950/files/4050961/changelog",
-    "options": {
-      "any_flavour": false,
-      "any_release_type": false,
-      "version_eq": false
-    },
-    "folders": [
-      {
-        "name": "VuhDo"
-      },
-      {
-        "name": "VuhDoOptions"
-      }
-    ],
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "v3.142",
-        "install_time": "2022-10-27T11:29:15+00:00"
-      },
-      {
-        "version": "v3.141",
-        "install_time": "2022-10-19T06:57:47+00:00"
-      },
-      {
-        "version": "v3.138",
-        "install_time": "2022-09-15T13:29:23+00:00"
-      },
-      {
-        "version": "v3.137",
-        "install_time": "2022-09-01T16:27:00+00:00"
-      },
-      {
-        "version": "v3.132",
-        "install_time": "2022-02-23T05:14:04+00:00"
-      },
-      {
-        "version": "v3.131",
-        "install_time": "2022-01-30T05:44:58+00:00"
-      },
-      {
-        "version": "v3.129",
-        "install_time": "2021-11-18T04:42:58+00:00"
-      },
-      {
-        "version": "v3.128",
-        "install_time": "2021-10-26T14:48:16+00:00"
-      },
-      {
-        "version": "v3.125",
-        "install_time": "2021-07-17T04:49:50+00:00"
-      },
-      {
-        "version": "v3.124",
-        "install_time": "2021-06-03T09:09:20+00:00"
       }
     ]
   },

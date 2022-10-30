@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: MysticalOS, QartemisT
-## Version: e9585ea
+## Version: 25a28fd
 ## Dependencies: DBM-Core
 ## LoadOnDemand: 1
 ## DefaultState: enabled
