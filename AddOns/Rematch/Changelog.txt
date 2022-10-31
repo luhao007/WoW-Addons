@@ -1,3 +1,8 @@
+10/30/2022 version 4.14.4
+- Updated appearance of option list and target list headers.
+- Updated appearance of frame titlebar/borders for main window, pet card, notes, win record and dialogs.
+- Titlebar buttons adjusted to more precisely match close buttons.
+
 10/28/2022 version 4.14.3
 - Fix for potential lua errors due to C_Timer calls.
 - Names in the keybindings interface changed for Rematch keybinds.

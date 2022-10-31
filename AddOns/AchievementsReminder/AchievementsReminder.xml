@@ -63,17 +63,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
 	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>
@@ -118,17 +111,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
 	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>
@@ -177,17 +163,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
 	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>

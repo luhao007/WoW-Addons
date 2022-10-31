@@ -5,7 +5,7 @@ function wodhraonload()
 	_, wodhraenglishclass = UnitClass("player")
 	wodhrahuntertime=0
 	
-	raWoDModVers=9.200
+	raWoDModVers=10.001
 
 local _, a2 = GetInstanceInfo()
 if select(3,GetInstanceInfo())==2 and a2=="party" then
@@ -470,7 +470,7 @@ t:SetHeight(24)
 t:SetPoint("TOPLEFT",0,0)
 
 local t = f:CreateFontString()
-t:SetFont(GameFontNormal:GetFont(), rafontsset[2])
+t:SetFont(GameFontNormal:GetFont(), rafontsset[2], 'MONOCHROME')
 t:SetWidth(248)
 if completed then
 t:SetText("|cff00ff00"..wodhraName.."|r")

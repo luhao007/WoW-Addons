@@ -67,17 +67,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <Frames>
 <Button name="$parent_Button3" inherits="UIPanelButtonTemplate" text="psealeftmenu1">
 	<Size x="150" y="21"/><Anchors><Anchor point="TOP"><Offset x="0" y="-20"/></Anchor></Anchors>
@@ -166,17 +159,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <Button name="$parent_Button5" inherits="UIPanelButtonTemplate" text="psealeftmenu4">
 	<Size x="120" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="30" y="-30"/></Anchor></Anchors>
@@ -278,17 +264,10 @@
 
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <CheckButton name="$parent_CheckButton1" inherits="UICheckButtonTemplate">
 	<Size x="25" y="25"/><Anchors><Anchor point="TOPLEFT"><Offset x="20" y="-15"/></Anchor></Anchors>
@@ -409,17 +388,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 	</Frame>
 
 <Frame name="PSFeamain10" hidden="true" inherits="BackdropTemplate">
@@ -456,17 +428,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 	</Frame>
 
 <Frame name="PSFeamain11" hidden="true" inherits="BackdropTemplate">
@@ -507,17 +472,10 @@
 
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 	</Frame>
 	
 	
@@ -553,17 +511,10 @@
 
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 	</Frame>
 
 <Frame name="RAthanks" hidden="true" inherits="BackdropTemplate">
@@ -597,17 +548,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 	</Frame>
 
 <Frame name="RApromo" hidden="true" inherits="BackdropTemplate">
@@ -641,17 +585,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 	</Frame>
 
 <Frame name="RAthanks2" hidden="true" inherits="BackdropTemplate">
@@ -685,17 +622,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 	</Frame>
 
 <Frame name="PSFeamainmanyach" hidden="true" inherits="BackdropTemplate">
@@ -742,17 +672,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <Frames>
 <Button name="$parent_Buttonon" inherits="UIPanelButtonTemplate" text="psbuttonon">
 	<Size x="125" y="26"/><Anchors><Anchor point="TOPLEFT"><Offset x="240" y="-268"/></Anchor></Anchors>
@@ -808,17 +731,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
 	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>
@@ -863,17 +779,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
 	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>
@@ -922,17 +831,10 @@
 	</FontString>
 	</Layer>
 	</Layers>
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-	<TileSize>
-	<AbsValue val="32"/>
-	</TileSize>
-	<EdgeSize>
-	<AbsValue val="32"/>
-	</EdgeSize>
-	<BackgroundInsets>
-	<AbsInset left="11" right="12" top="12" bottom="11"/>
-	</BackgroundInsets>
-	</Backdrop>
+	<KeyValues>
+		<KeyValue key="backdropColor" value="BLACK" type="global"/>
+        <KeyValue key="backdropBorderColor" value="WHITE" type="global"/>
+	</KeyValues>
 <frames>
 <Button name="$parent_Button7" inherits="UIPanelButtonTemplate" text="rallsend">
 	<Size x="130" y="21"/><Anchors><Anchor point="TOPLEFT"><Offset x="610" y="-385"/></Anchor></Anchors>

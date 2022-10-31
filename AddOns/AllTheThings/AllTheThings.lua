@@ -1091,6 +1091,7 @@ app.RefreshTradeSkillCache = function()
 	cache[2720] = true;	-- Junkyard Tinkering
 	cache[2791] = true;	-- Ascension Crafting
 	cache[2819] = true;	-- Protoform Synthesis
+	cache[2847] = true;	-- Tuskarr Fishing Gear
 	local prof1, prof2, archaeology, fishing, cooking, firstAid = GetProfessions();
 	for i,j in ipairs({prof1 or 0, prof2 or 0, archaeology or 0, fishing or 0, cooking or 0, firstAid or 0}) do
 		if j ~= 0 then
@@ -1711,6 +1712,12 @@ local function GetProgressTextForTooltip(data, iconOnly)
 		end
 	end
 	return stateText;
+end
+local function GetAddedWithPatchString(awp)
+	if awp then
+		awp = tonumber(awp);
+		return sformat(L["ADDED_WITH_PATCH_FORMAT"], math.floor(awp / 10000) .. "." .. (math.floor(awp / 100) % 10) .. "." .. (awp % 10));
+	end
 end
 local function GetRemovedWithPatchString(rwp)
 	rwp = tonumber(rwp);
@@ -4801,6 +4808,9 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 		end
 		if group.rwp then
 			tinsert(info, 1, { left = GetRemovedWithPatchString(group.rwp), wrap = true, color = app.Colors.RemovedWithPatch });
+		end
+		if group.awp then
+			tinsert(info, 1, { left = GetAddedWithPatchString(group.awp), wrap = true, color = "FFAAFFAA" });
 		end
 		if group.u and (not group.crs or group.itemID or group.s) then
 			tinsert(info, { left = L["UNOBTAINABLE_ITEM_REASONS"][group.u][2], wrap = true });
@@ -15264,7 +15274,7 @@ local function CreateMinimapButton()
 	button:UpdateStyle();
 
 	-- Button Configuration
-	local radius = 78;
+	local radius = 100;
 	local rounding = 10;
 	local MinimapShapes = {
 		-- quadrant booleans (same order as SetTexCoord)
@@ -16820,6 +16830,20 @@ RowOnEnter = function (self)
 				local rwp = GetRemovedWithPatchString(reference.rwp);
 				local _,r,g,b = HexToARGB(app.Colors.RemovedWithPatch);
 				GameTooltip:AddLine(rwp, r / 255, g / 255, b / 255, 1);
+			end
+			if reference.awp then
+				local found = false;
+				local awp = GetAddedWithPatchString(reference.awp);
+				for i=1,GameTooltip:NumLines() do
+					if _G["GameTooltipTextLeft"..i]:GetText() == awp then
+						found = true;
+						break;
+					end
+				end
+				if not found then
+					local a,r,g,b = HexToARGB("FFAAFFAA");
+					GameTooltip:AddLine(awp, r / 255, g / 255, b / 255, 1);
+				end
 			end
 			-- an item used for a faction which is repeatable
 			if reference.itemID and reference.factionID and reference.repeatable then

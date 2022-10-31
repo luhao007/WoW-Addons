@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: Crieve-Sargeras
-## Version: DF-3.0.1
+## Version: DF-3.0.2
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 

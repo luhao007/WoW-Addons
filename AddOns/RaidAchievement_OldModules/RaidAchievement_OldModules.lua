@@ -1,4 +1,4 @@
 ﻿function RaidAchievement_OldModules_OnLoad()
-  raOldModVers=9.206
+  raOldModVers=10.001
   raoldmodules=1
 end

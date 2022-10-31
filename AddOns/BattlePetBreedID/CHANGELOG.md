@@ -1,6 +1,8 @@
 # Battle Pet BreedID
 
-## v1.22.1 (2022-10-25)
+## v1.22.2 (2022-10-31)
  
 
-- Rewrote options panel to work in Patch 10.0.  
+- Removed an outdated form of GetPoint usage.  
+- Updated author attribution slightly.  
+    Hugh stopped being a co-author for this addon over a decade ago at this point.  

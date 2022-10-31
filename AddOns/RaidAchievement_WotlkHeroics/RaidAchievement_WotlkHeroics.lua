@@ -487,7 +487,7 @@ t:SetHeight(24)
 t:SetPoint("TOPLEFT",0,0)
 
 local t = f:CreateFontString()
-t:SetFont(GameFontNormal:GetFont(), rafontsset[2])
+t:SetFont(GameFontNormal:GetFont(), rafontsset[2], 'MONOCHROME')
 if completed then
 t:SetText("|cff00ff00"..whraName.."|r")
 else

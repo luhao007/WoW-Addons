@@ -941,7 +941,7 @@ t:SetHeight(24)
 t:SetPoint("TOPLEFT",0,0)
 
 local t = f:CreateFontString()
-t:SetFont(GameFontNormal:GetFont(), rafontsset[2])
+t:SetFont(GameFontNormal:GetFont(), rafontsset[2], 'MONOCHROME')
 t:SetWidth(248)
 t:SetText(crraName)
 t:SetJustifyH("LEFT")
