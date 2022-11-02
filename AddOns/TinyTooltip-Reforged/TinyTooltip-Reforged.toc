@@ -1,0 +1,30 @@
+## Interface: 100000
+## Author: M
+## Version: 9.1.0
+## SavedVariables: BigTipDB
+## SavedVariablesPerCharacter: TinyTooltipReforgedCharacterDB
+
+## Title: TinyTooltip-Reforged
+## Notes: TinyTooltip (Reforged) Small fixes for 10.0.0 game client. For options use /ttr
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF鼠标提示增强|r |cFFFFE00ATinyTooltip-Reforged|r
+## Notes-zhCN: 在鼠标提示中显示更多信息，并可选择鼠标提示窗口的位置
+
+
+libs\lib.xml
+Core.lua
+Config.lua
+General.lua
+Anchor.lua
+Unit.lua
+Target.lua
+Model.lua
+Item.lua
+Spell.lua
+Quest.lua
+LinkID.lua
+Mount.lua
+SkinFrames.lua
+
+libs\Template.xml
+locales\locales.xml
+Options.lua

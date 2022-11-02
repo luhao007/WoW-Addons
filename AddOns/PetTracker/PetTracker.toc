@@ -1,12 +1,12 @@
 ## Interface: 100000
-## Author: Jaliborc (JoÃ£o Cardoso)
-## Version: 9.2.1
+## Author: Jaliborc (João Cardoso)
+## Version: 10.0
 ## OptionalDeps: WoWUnit
 ## SavedVariables: PetTracker_Sets
 ## SavedVariablesPerCharacter: PetTracker_State
 
 ## Title: PetTracker
-## Notes: Tracking pets in and out of combat since 2012.
+## Notes: Displays species in the world map and objective tracker. Shows|nbreeds, quality and owned pets everywhere. Rivals|ncatalog. Pet battle enhancements.|n|cffbbbbbbBy João Cardoso|r|n|n|TInterface/Addons/PetTracker/Art/Paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/PetTracker/Art/Patreon:12:12:0:-4|t |cff82c5ffpatreon.com/jaliborc|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物追踪|r |cFFFFE00APetTracker|r
 
 ## X-Category: Battle Pets

@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
-## Version: 10.0.0
+## Version: 10.0.1
 ## LoadOnDemand: 0
 ## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
 ## SavedVariablesPerCharacter: MinArchOptions

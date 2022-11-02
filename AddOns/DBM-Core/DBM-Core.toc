@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: MysticalOS, QartemisT
-## Version: 25a28fd
+## Version: a6656ec
 ## Dependencies: DBM-StatusBarTimers
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon
