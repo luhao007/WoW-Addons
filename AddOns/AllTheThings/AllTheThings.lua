@@ -1468,6 +1468,7 @@ app.Colors = {
 	["TooltipLore"] = "ff42a7eb",
 	["DefaultDifficulty"] = "ff1eff00",
 	["RemovedWithPatch"] = "ffffaaaa",
+	["AddedWithPatch"] = "ffaaffaa",
 };
 Colorize = function(str, color)
 	return "|c" .. color .. str .. "|r";
@@ -1623,13 +1624,18 @@ local function GetStateIcon(data, iconOnly)
 	if data.collectible then
 		return iconOnly and GetCollectionIcon(data.collected) or GetCollectionText(data.collected);
 	elseif data.trackable then
-		return iconOnly and GetCompletionIcon(data.saved) or GetCompletionText(data.saved);
+		local saved = data.saved;
+		-- only show if the data is saved, or is not repeatable
+		if saved or not rawget(data, "repeatable") then
+			return iconOnly and GetCompletionIcon(saved) or GetCompletionText(saved);
+		end
 	end
 end
 local function GetProgressTextForRow(data)
 	local total = data.total;
 	local isCollectible = data.collectible;
 	local isContainer = total and (total > 1 or (total > 0 and not isCollectible));
+	local stateIcon = GetStateIcon(data, true);
 
 	if isContainer then
 
@@ -1652,10 +1658,8 @@ local function GetProgressTextForRow(data)
 
 		-- Progress Only
 		return GetProgressColorText(data.progress or 0, total);
-	elseif isCollectible then
-		return GetCollectionIcon(data.collected);
-	elseif data.trackable then
-		return GetCompletionIcon(data.saved);
+	elseif stateIcon then
+		return stateIcon;
 	elseif data.visible then
 		if data.count then
 			return (data.count .. "x");
@@ -3510,6 +3514,7 @@ local ResolveFunctions = {
 				elseif criteriaType == 36 or criteriaType == 42 then	-- Items
 					criteriaObject.providers = {{ "i", assetID }};
 				elseif criteriaType == 110	-- Casting spells on specific target
+					or criteriaType == 29 or criteriaType == 69	-- Buff Gained
 					or criteriaType == 43 then	-- Exploration
 					-- Ignored
 				else
@@ -3552,8 +3557,10 @@ local SubroutineCache = {
 		select(finalized, searchResults, o, "select", "tierID", tierID);	-- Select the Expansion header
 		pop(finalized, searchResults);	-- Discard the Expansion header and acquire the children.
 		where(finalized, searchResults, o, "where", "headerID", headerID1);	-- Select the Season header
-		pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
-		where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Set header
+		if headerID2 then
+			pop(finalized, searchResults);	-- Discard the Season header and acquire the children.
+			where(finalized, searchResults, o, "where", "headerID", headerID2);	-- Select the Set header
+		end
 	end,
 	["pvp_gear_faction_base"] = function(finalized, searchResults, o, cmd, tierID, headerID1, headerID2, headerID3)
 		local select, pop, where = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.where;
@@ -4810,7 +4817,7 @@ local function GetCachedSearchResults(search, method, paramA, paramB, ...)
 			tinsert(info, 1, { left = GetRemovedWithPatchString(group.rwp), wrap = true, color = app.Colors.RemovedWithPatch });
 		end
 		if group.awp then
-			tinsert(info, 1, { left = GetAddedWithPatchString(group.awp), wrap = true, color = "FFAAFFAA" });
+			tinsert(info, 1, { left = GetAddedWithPatchString(group.awp), wrap = true, color = app.Colors.AddedWithPatch });
 		end
 		if group.u and (not group.crs or group.itemID or group.s) then
 			tinsert(info, { left = L["UNOBTAINABLE_ITEM_REASONS"][group.u][2], wrap = true });
@@ -8191,7 +8198,7 @@ local function IsGroupLocked(t)
 			if critFunc then
 				if critFunc(lockCriteria[i]) then
 					criteriaRequired = criteriaRequired - 1;
-					if not nonQuestLock and critKey ~= "questID" then
+					if not nonQuestLock and critKey ~= "questID" and critKey ~= "lvl" then
 						nonQuestLock = true;
 					end
 				end
@@ -8203,11 +8210,12 @@ local function IsGroupLocked(t)
 				-- we can rawset this since there's no real way for a player to 'remove' this lock during a session
 				-- and this does not come into play during party sync
 				rawset(t, "locked", true);
-				-- if this was locked due to something other than a Quest specifically, indicate it cannot be done in Party Sync
+				-- if this was locked due to something other than a Quest/Level specifically, indicate it cannot be done in Party Sync
 				if nonQuestLock then
-					-- app.PrintDebug("Automatic DisablePartySync", app:Linkify(questID, app.Colors.ChatLink, "search:questID:" .. questID))
+					-- app.PrintDebug("Automatic DisablePartySync", app:Linkify(t.hash, app.Colors.ChatLink, "search:"..t.key..":"..t[t.key]))
 					rawset(t, "DisablePartySync", true);
 				end
+				-- app.PrintDebug("Locked", app:Linkify(t.hash, app.Colors.ChatLink, "search:"..t.key..":"..t[t.key]))
 				return true;
 			end
 			i = i + 1;
@@ -8237,6 +8245,7 @@ local function LockedAsQuest(t)
 					nq = app.SearchForObject("questID", questID);
 					if nq and (IsQuestFlaggedCompleted(nq.questID) or nq.altcollected or nq.locked) then
 						rawset(t, "locked", questID);
+						-- app.PrintDebug("Locked Quest", app:Linkify(t.hash, app.Colors.ChatLink, "search:"..t.key..":"..t[t.key]))
 						return questID;
 					end
 				end
@@ -8250,14 +8259,23 @@ end
 app.LockedAsQuest = LockedAsQuest;
 
 local Search = app.SearchForObject;
+local BackTraceChecks = {};
 -- Traces backwards in the sequence for 'questID' via parent relationships within 'parents' to see if 'checkQuestID' is reached and returns true if so
 local function BackTraceForSelf(parents, questID, checkQuestID)
 	-- app.PrintDebug("Backtrace",questID)
+	wipe(BackTraceChecks);
 	local next = parents[questID];
-	while next do
+	while next and not BackTraceChecks[next] do
 		-- app.PrintDebug("->",next)
 		if next == checkQuestID then return true; end
+		BackTraceChecks[next] = 1;
 		next = parents[next];
+	end
+
+	-- looping quest sequence exists
+	if next and BackTraceChecks[next] then
+		app.report("Looping Quest Chain encountered!",next)
+		return true;
 	end
 end
 local function MapSourceQuestsRecursive(parentQuestID, questID, currentDepth, depths, parents, refs, inFilters)
@@ -9179,11 +9197,7 @@ local fields = {
 			end
 		end
 	end,
-	["trackable"] = function(t)
-		-- don't show tracking for achievements if they have sub-groups and are within instances (still using achievements as headers under LFR...)
-		rawset(t, "trackable", not rawget(t, "g") or not GetRelativeValue(t, "instanceID"));
-		return rawget(t, "trackable");
-	end,
+	["trackable"] = app.ReturnTrue,
 	["saved"] = function(t)
 		local id = t.achievementID;
 		if app.CurrentCharacter.Achievements[id] then return true; end
@@ -11848,7 +11862,10 @@ local itemFields = {
 		return rawget(t, "modItemID");
 	end,
 	["indicatorIcon"] = app.GetQuestIndicator,
-	["trackableAsQuest"] = app.ReturnTrue,
+	["trackableAsQuest"] = function(t)
+		-- raw repeatable quests can't really be tracked since they immediately unflag
+		return not rawget(t, "repeatable");
+	end,
 	["collectibleAsAchievement"] = function(t)
 		return app.CollectibleAchievements;
 	end,
@@ -16540,6 +16557,7 @@ RowOnEnter = function (self)
 		if reference.requireSkill and app.Settings:GetTooltipSetting("Enabled") and app.Settings:GetTooltipSetting("ProfessionRequirements") then GameTooltip:AddDoubleLine(L["REQUIRES"], tostring(GetSpellInfo(app.SkillIDToSpellID[reference.requireSkill] or 0) or C_TradeSkillUI.GetTradeSkillDisplayName(reference.requireSkill))); end
 		if reference.f and reference.f > 0 and app.Settings:GetTooltipSetting("filterID") then GameTooltip:AddDoubleLine(L["FILTER_ID"], tostring(L["FILTER_ID_TYPES"][reference.f])); end
 		if reference.achievementID and app.Settings:GetTooltipSetting("achievementID") then GameTooltip:AddDoubleLine(L["ACHIEVEMENT_ID"], tostring(reference.achievementID)); end
+		if reference.achievementCategoryID and app.Settings:GetTooltipSetting("achievementCategoryID") then GameTooltip:AddDoubleLine(L["ACHIEVEMENT_CATEGORY_ID"], tostring(reference.achievementCategoryID)); end
 		if reference.artifactID and app.Settings:GetTooltipSetting("artifactID") then GameTooltip:AddDoubleLine(L["ARTIFACT_ID"], tostring(reference.artifactID)); end
 		if reference.s and not reference.link and app.Settings:GetTooltipSetting("sourceID") then GameTooltip:AddDoubleLine(L["SOURCE_ID"], tostring(reference.s)); end
 		if reference.azeriteEssenceID then
@@ -16567,10 +16585,9 @@ RowOnEnter = function (self)
 				end
 			end
 		end
-		if reference.encounterID then
-			if app.Settings:GetTooltipSetting("encounterID") then GameTooltip:AddDoubleLine(L["ENCOUNTER_ID"], tostring(reference.encounterID)); end
-		end
+		if reference.encounterID and app.Settings:GetTooltipSetting("encounterID") then GameTooltip:AddDoubleLine(L["ENCOUNTER_ID"], tostring(reference.encounterID)); end
 		if reference.factionID and app.Settings:GetTooltipSetting("factionID") then GameTooltip:AddDoubleLine(L["FACTION_ID"], tostring(reference.factionID)); end
+		if reference.headerID and app.Settings:GetTooltipSetting("headerID") then GameTooltip:AddDoubleLine(L["HEADER_ID"], tostring(reference.headerID)); end
 		if reference.minReputation and not reference.maxReputation then
 			local standingId, offset = app.GetReputationStanding(reference.minReputation)
 			local factionID = reference.minReputation[1];
@@ -16816,6 +16833,17 @@ RowOnEnter = function (self)
 			end
 		end
 
+		-- Various Settings IDs/Raw Values
+		-- TODO: maybe eventually a nice clean way of doing this instead of having to manually add every ID to tooltip
+		-- local settings = app.Settings;
+		-- local val;
+		-- for key,name in pairs(app.Settings.DataKeys) do
+		-- 	val = reference[key];
+		-- 	if val and type(val) ~= "table" and settings:GetTooltipSetting(key) then
+		-- 		GameTooltip:AddDoubleLine(name, val);
+		-- 	end
+		-- end
+
 		-- Additional information (search will insert this information if found in search)
 		if GameTooltip.AttachComplete == nil then
 			-- Lore
@@ -16832,18 +16860,9 @@ RowOnEnter = function (self)
 				GameTooltip:AddLine(rwp, r / 255, g / 255, b / 255, 1);
 			end
 			if reference.awp then
-				local found = false;
-				local awp = GetAddedWithPatchString(reference.awp);
-				for i=1,GameTooltip:NumLines() do
-					if _G["GameTooltipTextLeft"..i]:GetText() == awp then
-						found = true;
-						break;
-					end
-				end
-				if not found then
-					local a,r,g,b = HexToARGB("FFAAFFAA");
-					GameTooltip:AddLine(awp, r / 255, g / 255, b / 255, 1);
-				end
+				local rwp = GetAddedWithPatchString(reference.awp);
+				local _,r,g,b = HexToARGB(app.Colors.AddedWithPatch);
+				GameTooltip:AddLine(rwp, r / 255, g / 255, b / 255, 1);
 			end
 			-- an item used for a faction which is repeatable
 			if reference.itemID and reference.factionID and reference.repeatable then
@@ -20449,6 +20468,9 @@ customWindowUpdates["RaidAssistant"] = function(self)
 				end);
 				return true;
 			end
+			local function AttemptResetInstances()
+				ResetInstances();
+			end
 			raidassistant = {
 				['text'] = L["RAID_ASSISTANT"],
 				['icon'] = "Interface\\Icons\\Achievement_Dungeon_GloryoftheRaider.blp",
@@ -20577,7 +20599,7 @@ customWindowUpdates["RaidAssistant"] = function(self)
 									data.shouldReset = true;
 								elseif data.shouldReset then
 									data.shouldReset = nil;
-									C_Timer.After(0.5, ResetInstances);
+									C_Timer.After(0.5, AttemptResetInstances);
 								end
 							end
 						end,
@@ -20781,7 +20803,7 @@ customWindowUpdates["RaidAssistant"] = function(self)
 			self:SetData(raidassistant);
 
 			-- Setup Event Handlers and register for events
-			self:SetScript("OnEvent", function(self, e, ...) Callback(self.Update, self); end);
+			self:SetScript("OnEvent", function(self, e, ...) Callback(self.Update, self, true); end);
 			self:RegisterEvent("PLAYER_LOOT_SPEC_UPDATED");
 			self:RegisterEvent("PLAYER_DIFFICULTY_CHANGED");
 			self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
@@ -21597,6 +21619,7 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 		self:RegisterEvent("TRADE_SKILL_SHOW");
 		self:RegisterEvent("TRADE_SKILL_LIST_UPDATE");
 		self:RegisterEvent("TRADE_SKILL_CLOSE");
+		self:RegisterEvent("GARRISON_TRADESKILL_NPC_CLOSED");
 		self:RegisterEvent("NEW_RECIPE_LEARNED");
 		self:SetData({
 			['text'] = L["PROFESSION_LIST"],
@@ -21893,7 +21916,8 @@ customWindowUpdates["Tradeskills"] = function(self, force, got)
 						wipe(searchCache);
 					end
 				end
-			elseif e == "TRADE_SKILL_CLOSE" then
+			elseif e == "TRADE_SKILL_CLOSE"
+				or e == "GARRISON_TRADESKILL_NPC_CLOSED" then
 				self:SetVisible(false);
 			end
 		end);
@@ -24148,7 +24172,7 @@ SlashCmdList["AllTheThingsHARVESTER"] = function(cmd)
 	if cmd then
 		local min,max,reset = strsplit(",",cmd);
 		app.customHarvestMin = tonumber(min) or 1;
-		app.customHarvestMax = tonumber(max) or 200000;
+		app.customHarvestMax = tonumber(max) or 210000;
 		app.print("Set Harvest ItemID Bounds:",app.customHarvestMin,app.customHarvestMax);
 		AllTheThingsHarvestItems = reset and {} or AllTheThingsHarvestItems or {};
 		AllTheThingsArtifactsItems = reset and {} or AllTheThingsArtifactsItems or {};

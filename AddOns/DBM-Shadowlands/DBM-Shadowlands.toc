@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: MysticalOS
-## Version: 10.0.0-12-gd2b3018
+## Version: 10.0.1-1-gbe44bf1
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMShadowlands_AllSavedVars

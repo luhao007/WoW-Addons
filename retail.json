@@ -6,10 +6,10 @@
     "name": "ALL THE THINGS",
     "description": "Addon for Tracking Collections & Account Completion",
     "url": "https://www.curseforge.com/wow/addons/all-the-things",
-    "download_url": "https://edge.forgecdn.net/files/4054/36/AllTheThings-DF-3.0.1.zip",
-    "date_published": "2022-10-27T19:16:24.477000+00:00",
-    "version": "DF-3.0.1",
-    "changelog_url": "https://api.curseforge.com/v1/mods/267285/files/4054036/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4058/843/AllTheThings-DF-3.0.2.zip",
+    "date_published": "2022-10-30T20:31:10.793000+00:00",
+    "version": "DF-3.0.2",
+    "changelog_url": "https://api.curseforge.com/v1/mods/267285/files/4058843/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -22,6 +22,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "DF-3.0.2",
+        "install_time": "2022-10-31T10:27:55+00:00"
+      },
       {
         "version": "DF-3.0.1",
         "install_time": "2022-10-28T11:20:42+00:00"
@@ -57,10 +61,6 @@
       {
         "version": "SL-2.6.10",
         "install_time": "2022-01-30T05:44:50+00:00"
-      },
-      {
-        "version": "SL-2.5.3",
-        "install_time": "2021-11-18T04:42:48+00:00"
       }
     ]
   },
@@ -71,10 +71,10 @@
     "name": "AchievementsReminder",
     "description": "Informs about achievements when you enter the instance or take boss to the target",
     "url": "https://www.curseforge.com/wow/addons/achievementsreminder",
-    "download_url": "https://edge.forgecdn.net/files/3929/255/AchievementsReminder9.205.zip",
-    "date_published": "2022-08-11T08:56:55.887000+00:00",
-    "version": "9.205",
-    "changelog_url": "https://api.curseforge.com/v1/mods/56954/files/3929255/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4059/152/AchievementsReminder10.002.zip",
+    "date_published": "2022-10-31T00:20:34.053000+00:00",
+    "version": "10.002",
+    "changelog_url": "https://api.curseforge.com/v1/mods/56954/files/4059152/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -87,6 +87,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "10.002",
+        "install_time": "2022-10-31T10:27:55+00:00"
+      },
       {
         "version": "9.205",
         "install_time": "2022-09-01T16:26:49+00:00"
@@ -1185,10 +1189,10 @@
     "name": "Battle Pet BreedID",
     "description": "Battle Pet BreedID displays the BreedID of pets in your journal, in battle, in chat links, and in AH tooltips.",
     "url": "https://www.curseforge.com/wow/addons/battle_pet_breedid",
-    "download_url": "https://edge.forgecdn.net/files/4049/462/BattlePetBreedID-v1.22.1.zip",
-    "date_published": "2022-10-25T06:30:40.893000+00:00",
-    "version": "v1.22.1",
-    "changelog_url": "https://api.curseforge.com/v1/mods/45935/files/4049462/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4060/808/BattlePetBreedID-v1.22.3.zip",
+    "date_published": "2022-11-01T01:17:27.880000+00:00",
+    "version": "v1.22.3",
+    "changelog_url": "https://api.curseforge.com/v1/mods/45935/files/4060808/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -1201,6 +1205,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.22.3",
+        "install_time": "2022-11-01T03:17:30+00:00"
+      },
+      {
+        "version": "v1.22.2",
+        "install_time": "2022-10-31T10:27:55+00:00"
+      },
       {
         "version": "v1.22.1",
         "install_time": "2022-10-27T11:29:07+00:00"
@@ -1232,14 +1244,6 @@
       {
         "version": "v1.17.4",
         "install_time": "2021-01-11T15:13:21+00:00"
-      },
-      {
-        "version": "v1.17.1",
-        "install_time": "2020-11-29T14:42:39+00:00"
-      },
-      {
-        "version": "v1.16.0",
-        "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
   },
@@ -1250,10 +1254,10 @@
     "name": "BlizzMove",
     "description": "Makes the default frames moveable via simple drag and drop",
     "url": "https://www.curseforge.com/wow/addons/blizzmove",
-    "download_url": "https://edge.forgecdn.net/files/4056/498/BlizzMove-v3.5.2.zip",
-    "date_published": "2022-10-29T14:24:29.630000+00:00",
-    "version": "v3.5.2",
-    "changelog_url": "https://api.curseforge.com/v1/mods/17809/files/4056498/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4065/62/BlizzMove-v3.5.4.zip",
+    "date_published": "2022-11-03T11:19:30.257000+00:00",
+    "version": "v3.5.4",
+    "changelog_url": "https://api.curseforge.com/v1/mods/17809/files/4065062/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -1269,6 +1273,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.5.4",
+        "install_time": "2022-11-06T07:30:48+00:00"
+      },
+      {
+        "version": "v3.5.3",
+        "install_time": "2022-11-02T08:07:08+00:00"
+      },
       {
         "version": "v3.5.2",
         "install_time": "2022-10-30T03:10:43+00:00"
@@ -1300,14 +1312,6 @@
       {
         "version": "v3.2.3",
         "install_time": "2021-11-18T04:42:48+00:00"
-      },
-      {
-        "version": "v3.1.7",
-        "install_time": "2021-10-26T14:48:10+00:00"
-      },
-      {
-        "version": "v3.1.2",
-        "install_time": "2021-07-17T04:48:57+00:00"
       }
     ]
   },
@@ -3548,10 +3552,10 @@
     "name": "HandyNotes",
     "description": "Handy notes for your maps",
     "url": "https://www.curseforge.com/wow/addons/handynotes",
-    "download_url": "https://edge.forgecdn.net/files/4050/762/HandyNotes-v1.6.9.zip",
-    "date_published": "2022-10-25T22:25:20.853000+00:00",
-    "version": "v1.6.9",
-    "changelog_url": "https://api.curseforge.com/v1/mods/14154/files/4050762/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4059/483/HandyNotes-v1.6.10.zip",
+    "date_published": "2022-10-31T07:32:21.870000+00:00",
+    "version": "v1.6.10",
+    "changelog_url": "https://api.curseforge.com/v1/mods/14154/files/4059483/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -3564,6 +3568,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v1.6.10",
+        "install_time": "2022-10-31T10:27:55+00:00"
+      },
       {
         "version": "v1.6.9",
         "install_time": "2022-10-27T11:29:10+00:00"
@@ -4217,10 +4225,10 @@
     "name": "Master Plan",
     "description": "Improved Garrison Missions UI and follower group suggestions.",
     "url": "https://www.curseforge.com/wow/addons/master-plan",
-    "download_url": "https://edge.forgecdn.net/files/4055/373/MasterPlan-0.125.zip",
-    "date_published": "2022-10-28T19:35:09.783000+00:00",
-    "version": "0.125",
-    "changelog_url": "https://api.curseforge.com/v1/mods/86832/files/4055373/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4066/891/MasterPlan-0.126.zip",
+    "date_published": "2022-11-04T19:58:31.640000+00:00",
+    "version": "0.126",
+    "changelog_url": "https://api.curseforge.com/v1/mods/86832/files/4066891/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4236,6 +4244,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "0.126",
+        "install_time": "2022-11-06T07:30:48+00:00"
+      },
       {
         "version": "0.125",
         "install_time": "2022-10-29T02:46:52+00:00"
@@ -4522,10 +4534,10 @@
     "name": "OPie\u200b",
     "description": "Bind actions to a pop-up radial menu.",
     "url": "https://www.curseforge.com/wow/addons/opie",
-    "download_url": "https://edge.forgecdn.net/files/4001/939/OPie-xe9.zip",
-    "date_published": "2022-09-23T19:14:51.637000+00:00",
-    "version": "Xe 9",
-    "changelog_url": "https://api.curseforge.com/v1/mods/19406/files/4001939/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4064/419/OPie-yuzu1.zip",
+    "date_published": "2022-11-02T21:31:07.633000+00:00",
+    "version": "Yuzu 1",
+    "changelog_url": "https://api.curseforge.com/v1/mods/19406/files/4064419/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4538,6 +4550,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Yuzu 1",
+        "install_time": "2022-11-06T07:30:48+00:00"
+      },
       {
         "version": "Xe 9",
         "install_time": "2022-10-19T06:57:45+00:00"
@@ -4617,10 +4633,10 @@
     "name": "Pawn",
     "description": "Pawn helps you compare items and find upgrades.",
     "url": "https://www.curseforge.com/wow/addons/pawn",
-    "download_url": "https://edge.forgecdn.net/files/4052/456/Pawn-2.7.6.zip",
-    "date_published": "2022-10-26T17:55:41.270000+00:00",
-    "version": "2.7.6",
-    "changelog_url": "https://api.curseforge.com/v1/mods/4646/files/4052456/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4068/342/Pawn-2.7.7.zip",
+    "date_published": "2022-11-05T05:52:12.003000+00:00",
+    "version": "2.7.7",
+    "changelog_url": "https://api.curseforge.com/v1/mods/4646/files/4068342/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4633,6 +4649,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.7.7",
+        "install_time": "2022-11-06T07:30:48+00:00"
+      },
       {
         "version": "2.7.6",
         "install_time": "2022-10-27T11:29:11+00:00"
@@ -4668,10 +4688,6 @@
       {
         "version": "2.5.21",
         "install_time": "2021-07-17T04:49:02+00:00"
-      },
-      {
-        "version": "2.5.15",
-        "install_time": "2021-06-08T12:12:02+00:00"
       }
     ]
   },
@@ -4744,10 +4760,10 @@
     "name": "Plater Nameplates",
     "description": "Highly customizable nameplate with support to scripts and animations.",
     "url": "https://www.curseforge.com/wow/addons/plater-nameplates",
-    "download_url": "https://edge.forgecdn.net/files/4050/635/Plater-Plater-v537.1.zip",
-    "date_published": "2022-10-25T21:33:46.723000+00:00",
-    "version": "Plater-v537.1",
-    "changelog_url": "https://api.curseforge.com/v1/mods/100547/files/4050635/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4069/116/Plater-Plater-v538.zip",
+    "date_published": "2022-11-05T19:31:44.373000+00:00",
+    "version": "Plater-v538",
+    "changelog_url": "https://api.curseforge.com/v1/mods/100547/files/4069116/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4760,6 +4776,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Plater-v538",
+        "install_time": "2022-11-06T07:30:49+00:00"
+      },
       {
         "version": "Plater-v537.1",
         "install_time": "2022-10-27T11:29:12+00:00"
@@ -4795,10 +4815,6 @@
       {
         "version": "Plater-v331.1",
         "install_time": "2021-06-08T12:12:02+00:00"
-      },
-      {
-        "version": "Plater-v330",
-        "install_time": "2021-05-27T04:36:20+00:00"
       }
     ]
   },
@@ -4809,10 +4825,10 @@
     "name": "Prat 3.0",
     "description": "A framework for chat ehancement modules.",
     "url": "https://www.curseforge.com/wow/addons/prat-3-0",
-    "download_url": "https://edge.forgecdn.net/files/3092/212/Prat-3.0-3.9.1.zip",
-    "date_published": "2020-10-25T08:35:48.353000+00:00",
-    "version": "3.9.1",
-    "changelog_url": "https://api.curseforge.com/v1/mods/7473/files/3092212/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4066/852/Prat-3.0-3.9.5.zip",
+    "date_published": "2022-11-04T19:23:14.383000+00:00",
+    "version": "3.9.5",
+    "changelog_url": "https://api.curseforge.com/v1/mods/7473/files/4066852/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4829,6 +4845,10 @@
     "deps": [],
     "logged_versions": [
       {
+        "version": "3.9.5",
+        "install_time": "2022-11-06T07:30:49+00:00"
+      },
+      {
         "version": "3.9.1",
         "install_time": "2020-11-03T06:02:12+00:00"
       }
@@ -4841,10 +4861,10 @@
     "name": "RaidAchievement",
     "description": "RaidAchievement shows when achievement, that you can't track is failed or when all criterias are done and you need to kill boss.",
     "url": "https://www.curseforge.com/wow/addons/raidachievement",
-    "download_url": "https://edge.forgecdn.net/files/4041/115/RaidAchievement9.207.zip",
-    "date_published": "2022-10-22T19:06:57.280000+00:00",
-    "version": "9.207",
-    "changelog_url": "https://api.curseforge.com/v1/mods/20921/files/4041115/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4058/0/RaidAchievement10.001.zip",
+    "date_published": "2022-10-30T12:12:37.510000+00:00",
+    "version": "10.001",
+    "changelog_url": "https://api.curseforge.com/v1/mods/20921/files/4058000/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4863,6 +4883,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "10.001",
+        "install_time": "2022-10-31T10:27:56+00:00"
+      },
       {
         "version": "9.207",
         "install_time": "2022-10-27T11:29:13+00:00"
@@ -4898,10 +4922,6 @@
       {
         "version": "9.002",
         "install_time": "2020-12-26T15:05:09+00:00"
-      },
-      {
-        "version": "9.001",
-        "install_time": "2020-11-03T06:02:12+00:00"
       }
     ]
   },
@@ -4912,10 +4932,10 @@
     "name": "RaidAchievement_OldModules",
     "description": "Old modules for RaidAchievement addon from previous expansions",
     "url": "https://www.curseforge.com/wow/addons/raidachievement_oldmodules",
-    "download_url": "https://edge.forgecdn.net/files/3991/286/RaidAchievement_OldModules9.206.zip",
-    "date_published": "2022-09-16T08:59:42.920000+00:00",
-    "version": "9.206",
-    "changelog_url": "https://api.curseforge.com/v1/mods/56935/files/3991286/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4057/999/RaidAchievement_OldModules10.001.zip",
+    "date_published": "2022-10-30T12:12:33.750000+00:00",
+    "version": "10.001",
+    "changelog_url": "https://api.curseforge.com/v1/mods/56935/files/4057999/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -4946,6 +4966,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "10.001",
+        "install_time": "2022-10-31T10:27:56+00:00"
+      },
       {
         "version": "9.206",
         "install_time": "2022-09-16T09:37:55+00:00"
@@ -4987,10 +5011,10 @@
     "name": "RaidAchievement_WoD",
     "description": "RaidAchievement_WoD",
     "url": "https://www.curseforge.com/wow/addons/raidachievement_wod",
-    "download_url": "https://edge.forgecdn.net/files/3929/266/RaidAchievement_WoD9.205.zip",
-    "date_published": "2022-08-11T08:58:25.743000+00:00",
-    "version": "9.205",
-    "changelog_url": "https://api.curseforge.com/v1/mods/102380/files/3929266/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4057/997/RaidAchievement_WoD10.001.zip",
+    "date_published": "2022-10-30T12:12:25.617000+00:00",
+    "version": "10.001",
+    "changelog_url": "https://api.curseforge.com/v1/mods/102380/files/4057997/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -5006,6 +5030,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "10.001",
+        "install_time": "2022-10-31T10:27:56+00:00"
+      },
       {
         "version": "9.205",
         "install_time": "2022-09-01T16:26:59+00:00"
@@ -5035,10 +5063,10 @@
     "name": "RangeDisplay",
     "description": "Estimated range display. Type /rangedisplay for config",
     "url": "https://www.curseforge.com/wow/addons/range-display",
-    "download_url": "https://edge.forgecdn.net/files/4056/655/RangeDisplay-v5.0.1.zip",
-    "date_published": "2022-10-29T16:01:58.827000+00:00",
-    "version": "v5.0.1",
-    "changelog_url": "https://api.curseforge.com/v1/mods/14570/files/4056655/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4068/605/RangeDisplay-v5.0.3.zip",
+    "date_published": "2022-11-05T12:16:44.050000+00:00",
+    "version": "v5.0.3",
+    "changelog_url": "https://api.curseforge.com/v1/mods/14570/files/4068605/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -5054,6 +5082,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v5.0.3",
+        "install_time": "2022-11-06T07:30:49+00:00"
+      },
       {
         "version": "v5.0.1",
         "install_time": "2022-10-30T03:10:43+00:00"
@@ -5159,10 +5191,10 @@
     "name": "Rematch",
     "description": "Rematch is a pet journal alternative to help manage battle pet teams and pets.",
     "url": "https://www.curseforge.com/wow/addons/rematch",
-    "download_url": "https://edge.forgecdn.net/files/4054/721/Rematch_4_14_3.zip",
-    "date_published": "2022-10-28T09:14:49.257000+00:00",
-    "version": "Rematch_4_14_3.zip",
-    "changelog_url": "https://api.curseforge.com/v1/mods/66047/files/4054721/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4059/201/Rematch_4_14_4.zip",
+    "date_published": "2022-10-31T01:04:33.033000+00:00",
+    "version": "Rematch_4_14_4.zip",
+    "changelog_url": "https://api.curseforge.com/v1/mods/66047/files/4059201/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -5175,6 +5207,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "Rematch_4_14_4.zip",
+        "install_time": "2022-10-31T10:27:56+00:00"
+      },
       {
         "version": "Rematch_4_14_3.zip",
         "install_time": "2022-10-28T11:20:46+00:00"
@@ -5210,10 +5246,6 @@
       {
         "version": "Rematch_4_11_16.zip",
         "install_time": "2021-07-17T04:49:49+00:00"
-      },
-      {
-        "version": "Rematch_4_11_13.zip",
-        "install_time": "2021-05-23T13:51:34+00:00"
       }
     ]
   },
@@ -5312,47 +5344,6 @@
       {
         "version": "9.0.2.2",
         "install_time": "2020-12-15T12:29:19+00:00"
-      },
-      {
-        "version": "9.0.2",
-        "install_time": "2020-11-03T06:02:12+00:00"
-      }
-    ]
-  },
-  {
-    "source": "curse",
-    "id": "268266",
-    "slug": "tinytooltip",
-    "name": "TinyTooltip",
-    "description": "A powerful tooltip addon.",
-    "url": "https://www.curseforge.com/wow/addons/tinytooltip",
-    "download_url": "https://edge.forgecdn.net/files/3710/538/TinyTooltip.zip",
-    "date_published": "2022-03-24T10:40:41.260000+00:00",
-    "version": "9.0.8",
-    "changelog_url": "https://api.curseforge.com/v1/mods/268266/files/3710538/changelog",
-    "options": {
-      "any_flavour": false,
-      "any_release_type": false,
-      "version_eq": false
-    },
-    "folders": [
-      {
-        "name": "TinyTooltip"
-      }
-    ],
-    "deps": [],
-    "logged_versions": [
-      {
-        "version": "9.0.8",
-        "install_time": "2022-09-01T16:26:59+00:00"
-      },
-      {
-        "version": "9.0.3.2",
-        "install_time": "2020-12-15T12:29:19+00:00"
-      },
-      {
-        "version": "9.0.3.1",
-        "install_time": "2020-11-03T06:02:38+00:00"
       },
       {
         "version": "9.0.2",
@@ -5561,10 +5552,10 @@
     "name": "TomTom",
     "description": "Acts as your portable navigation assistant",
     "url": "https://www.curseforge.com/wow/addons/tomtom",
-    "download_url": "https://edge.forgecdn.net/files/4056/119/TomTom-v3.3.1-release.zip",
-    "date_published": "2022-10-29T08:43:20.093000+00:00",
-    "version": "v3.3.1-release",
-    "changelog_url": "https://api.curseforge.com/v1/mods/18808/files/4056119/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4059/491/TomTom-v3.3.2-release.zip",
+    "date_published": "2022-10-31T07:40:09.353000+00:00",
+    "version": "v3.3.2-release",
+    "changelog_url": "https://api.curseforge.com/v1/mods/18808/files/4059491/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -5577,6 +5568,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v3.3.2-release",
+        "install_time": "2022-10-31T10:27:56+00:00"
+      },
       {
         "version": "v3.3.1-release",
         "install_time": "2022-10-30T03:10:44+00:00"
@@ -5612,10 +5607,6 @@
       {
         "version": "v3.0.1",
         "install_time": "2021-05-23T13:51:35+00:00"
-      },
-      {
-        "version": "v90005-1.2.1",
-        "install_time": "2021-03-11T04:26:13+00:00"
       }
     ]
   },
@@ -5694,7 +5685,7 @@
     "download_url": "https://edge.forgecdn.net/files/2772/94/UnitFramesPlus1.26.4.zip",
     "date_published": "2019-08-27T10:23:15.627000+00:00",
     "version": "UnitFramesPlus_v1.26.4",
-    "changelog_url": "data:,",
+    "changelog_url": "https://api.curseforge.com/v1/mods/37332/files/2772094/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,

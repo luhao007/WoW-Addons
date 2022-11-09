@@ -4,6 +4,8 @@
 ### 10.0.0
 
 - Updated for DragonFlight
+- **10.0.1.1** Fixed some lua errors
+- **10.0.1.2** Companion: reset distance indicator when casting Survey
 
 ### 9.2.0
 

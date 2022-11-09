@@ -239,10 +239,10 @@
     "name": "HereBeDragons",
     "description": "HereBeDragons is a data API for the World of Warcraft mapping system",
     "url": "https://www.curseforge.com/wow/addons/herebedragons",
-    "download_url": "https://edge.forgecdn.net/files/4040/409/HereBeDragons-2.10-release.zip",
-    "date_published": "2022-10-22T09:07:31.810000+00:00",
-    "version": "2.10-release",
-    "changelog_url": "https://api.curseforge.com/v1/mods/94348/files/4040409/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4059/476/HereBeDragons-2.11-release.zip",
+    "date_published": "2022-10-31T07:21:33.937000+00:00",
+    "version": "2.11-release",
+    "changelog_url": "https://api.curseforge.com/v1/mods/94348/files/4059476/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -255,6 +255,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "2.11-release",
+        "install_time": "2022-10-31T10:28:00+00:00"
+      },
       {
         "version": "2.10-release",
         "install_time": "2022-10-27T11:29:23+00:00"
@@ -1513,10 +1517,10 @@
     "name": "LibRangeCheck-2.0",
     "description": "A library to determine estimated range.",
     "url": "https://www.curseforge.com/wow/addons/librangecheck-2-0",
-    "download_url": "https://edge.forgecdn.net/files/3965/24/LibRangeCheck-2.0-v4.3.7.zip",
-    "date_published": "2022-09-03T08:28:14.043000+00:00",
-    "version": "v4.3.7",
-    "changelog_url": "https://api.curseforge.com/v1/mods/14305/files/3965024/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4068/699/LibRangeCheck-2.0-v5.0.1.zip",
+    "date_published": "2022-11-05T14:06:57.207000+00:00",
+    "version": "v5.0.1",
+    "changelog_url": "https://api.curseforge.com/v1/mods/14305/files/4068699/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -1529,6 +1533,14 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v5.0.1",
+        "install_time": "2022-11-06T07:30:52+00:00"
+      },
+      {
+        "version": "v4.3.8",
+        "install_time": "2022-10-30T03:10:46+00:00"
+      },
       {
         "version": "v4.3.7",
         "install_time": "2022-09-15T13:29:27+00:00"
@@ -1887,10 +1899,10 @@
     "name": "LibUIDropDownMenu",
     "description": "A Replacement for standard UIDropDownMenu",
     "url": "https://www.curseforge.com/wow/addons/libuidropdownmenu",
-    "download_url": "https://edge.forgecdn.net/files/3947/78/!LibUIDropDownMenu-v4.12.9020745161.zip",
-    "date_published": "2022-08-22T16:12:42.813000+00:00",
-    "version": "v4.12.9020745161",
-    "changelog_url": "https://api.curseforge.com/v1/mods/268264/files/3947078/changelog",
+    "download_url": "https://edge.forgecdn.net/files/4066/217/!LibUIDropDownMenu-v4.14.10000046455.zip",
+    "date_published": "2022-11-04T08:25:52.350000+00:00",
+    "version": "v4.14.10000046455",
+    "changelog_url": "https://api.curseforge.com/v1/mods/268264/files/4066217/changelog",
     "options": {
       "any_flavour": false,
       "any_release_type": false,
@@ -1903,6 +1915,10 @@
     ],
     "deps": [],
     "logged_versions": [
+      {
+        "version": "v4.14.10000046455",
+        "install_time": "2022-11-06T07:30:52+00:00"
+      },
       {
         "version": "v4.12.9020745161",
         "install_time": "2022-09-01T16:27:05+00:00"

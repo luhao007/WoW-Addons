@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: arith, Dynaletik, dubcat
-## Version: v1.51.01
+## Version: v1.52.00
 ## RequiredDeps: Atlas
 
 ## Title: Atlas |r|cFF0099FF[Cataclysm]|r
@@ -8,7 +8,7 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0大地的裂变|r
 ## Notes-zhCN: 大地的裂变副本地图
 
-## X-Date: 2022-08-17T14:51:40Z
+## X-Date: 2022-11-06T14:29:11Z
 ## X-Credits: Dan Gilbert, Lothaer
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com

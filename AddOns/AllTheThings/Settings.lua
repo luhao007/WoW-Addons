@@ -661,17 +661,26 @@ end
 settings.GetTooltipSetting = function(self, setting)
 	return RawSettings.Tooltips[setting];
 end
+do
+local ModifierFuncs = {
+	["Shift"] = IsShiftKeyDown,
+	["Ctrl"] = IsControlKeyDown,
+	["Alt"] = IsAltKeyDown,
+	["Cmd"] = IsMetaKeyDown,
+};
 -- only returns 'true' for the requested TooltipSetting if the Setting's associated Modifier key is currently being pressed
 settings.GetTooltipSettingWithMod = function(self, setting)
 	local v = RawSettings.Tooltips[setting];
 	if not v then return v; end
-	local k = RawSettings.Tooltips[setting .. ":Mod"];
-	if k == "None"
-		or (k == "Shift" and IsShiftKeyDown())
-		or (k == "Ctrl" and IsControlKeyDown())
-		or (k == "Alt" and IsAltKeyDown()) then
+	local k = RawSettings.Tooltips[setting..":Mod"];
+	if k == "None" then
 		return v;
 	end
+	local func = ModifierFuncs[k];
+	if func and func() then
+		return v;
+	end
+end
 end
 settings.Set = function(self, setting, value)
 	RawSettings.General[setting] = value;
@@ -918,7 +927,7 @@ settings.CreateButton = function(self, opts, functions)
 	local width = opts.width;
 	local tooltip = opts.tooltip;
 	local refs = opts.refs;
-	local template = opts.template;
+	local template = opts.template or "UIPanelButtonTemplate";
 
 	local f = CreateFrame("Button", name, self, template);
 	f:SetText(text);
@@ -1393,7 +1402,7 @@ f:SetText("v" .. GetAddOnMetadata("AllTheThings", "Version"));
 f:Show();
 settings.version = f;
 
-f = CreateFrame("Button", nil, settings);
+f = CreateFrame("Button", nil, settings, "UIPanelButtonTemplate");
 f:SetPoint("TOPLEFT", settings, "BOTTOMLEFT", 0, -6);
 f:SetText(L["DISCORD_BUTTON_LABEL"]);
 f:SetWidth(100);
@@ -1403,7 +1412,7 @@ f:SetScript("OnClick", function() app:ShowPopupDialogWithEditBox(nil, "discord.g
 f:SetATTTooltip(L["DISCORD_BUTTON_TOOLTIP"]);
 settings.community = f;
 
-f = CreateFrame("Button", nil, settings);
+f = CreateFrame("Button", nil, settings, "UIPanelButtonTemplate");
 f:SetPoint("TOPLEFT", settings.community, "TOPRIGHT", 4, 0);
 f:SetText(L["TWITCH_BUTTON_LABEL"]);
 f:SetWidth(100);
@@ -1413,7 +1422,7 @@ f:SetScript("OnClick", function() app:ShowPopupDialogWithEditBox(nil, "twitch.tv
 f:SetATTTooltip(L["TWITCH_BUTTON_TOOLTIP"]);
 settings.twitch = f;
 
-f = CreateFrame("Button", nil, settings);
+f = CreateFrame("Button", nil, settings, "UIPanelButtonTemplate");
 f:SetPoint("TOPLEFT", settings.twitch, "TOPRIGHT", 4, 0);
 f:SetText(L["PATREON_BUTTON_LABEL"]);
 f:SetWidth(100);
@@ -1423,7 +1432,7 @@ f:SetScript("OnClick", function() app:ShowPopupDialogWithEditBox(nil, "patreon.c
 f:SetATTTooltip(L["PATREON_BUTTON_TOOLTIP"]);
 settings.patreon = f;
 
-f = CreateFrame("Button", nil, settings);
+f = CreateFrame("Button", nil, settings, "UIPanelButtonTemplate");
 f:SetPoint("TOPLEFT", settings.patreon, "TOPRIGHT", 4, 0);
 f:SetText(L["MERCH_BUTTON_LABEL"]);
 f:SetWidth(100);
@@ -1432,6 +1441,7 @@ f:RegisterForClicks("AnyUp");
 f:SetScript("OnClick", function() app:ShowPopupDialogWithEditBox(nil, "designbyhumans.com/shop/allthethings", nil, 10) end);
 f:SetATTTooltip(L["MERCH_BUTTON_TOOLTIP"]);
 settings.merch = f;
+
 ------------------------------------------
 -- The "General" Tab.					--
 ------------------------------------------
@@ -2747,7 +2757,7 @@ local allEquipmentFilters = {	-- Filter IDs
 	28,	-- Staves
 }
 
-f = CreateFrame("Button", nil, child);
+f = CreateFrame("Button", nil, child, "UIPanelButtonTemplate");
 f:SetPoint("LEFT", ItemFiltersLabel, "LEFT", 0, -426);
 f:SetText(L["CLASS_DEFAULTS_BUTTON"]);
 f:SetWidth(120);
@@ -2771,7 +2781,7 @@ end;
 table.insert(settings.MostRecentTab.objects, f);
 settings.equipfilterdefault = f;
 
-f = CreateFrame("Button", nil, child);
+f = CreateFrame("Button", nil, child, "UIPanelButtonTemplate");
 f:SetPoint("TOPLEFT", settings.equipfilterdefault, "TOPRIGHT", 4, 0);
 f:SetText(L["ALL_BUTTON"]);
 f:SetWidth(70);
@@ -2795,7 +2805,7 @@ end;
 table.insert(settings.MostRecentTab.objects, f);
 settings.equipfilterall = f
 
-f = CreateFrame("Button", nil, child);
+f = CreateFrame("Button", nil, child, "UIPanelButtonTemplate");
 f:SetPoint("TOPLEFT", settings.equipfilterall, "TOPRIGHT", 4, 0);
 f:SetText(L["UNCHECK_ALL_BUTTON"]);
 f:SetWidth(70);
@@ -3273,7 +3283,7 @@ EnableTooltipInformationCheckBox:SetPoint("TOPLEFT", ShowTooltipHelpCheckBox, "B
 local TooltipModifierLabel = settings:CreateFontString(nil, "ARTWORK", "GameFontNormal");
 TooltipModifierLabel:SetJustifyH("LEFT");
 TooltipModifierLabel:SetText(L["TOOLTIP_MOD_LABEL"]);
-TooltipModifierLabel:SetPoint("TOPLEFT", EnableTooltipInformationCheckBox, "BOTTOMLEFT", 10, -2);
+TooltipModifierLabel:SetPoint("TOPLEFT", EnableTooltipInformationCheckBox.Text, "TOPRIGHT", 10, 0);
 TooltipModifierLabel:SetTextColor(1, 1, 1, 1);
 TooltipModifierLabel:Show();
 table.insert(settings.MostRecentTab.objects, TooltipModifierLabel);
@@ -3285,60 +3295,46 @@ TooltipModifierLabel.OnRefresh = function(self)
 	end
 end;
 
--- Create Unique Disable methods for callbacks
-local function None_Disable(self)
-	self:Disable();
-end
-local function Shift_Disable(self)
-	self:Disable();
-end
-local function Ctrl_Disable(self)
-	self:Disable();
-end
-local function Alt_Disable(self)
-	self:Disable();
-end
 local TooltipModifierNoneCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_NONE"],
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "None");
 	if not settings:GetTooltipSetting("Enabled") then
-		app.Callback(None_Disable, self);
+		self:Disable();
 		self:SetAlpha(0.2);
 	else
+		self:Enable();
 		self:SetAlpha(1);
-		-- act like a radio button
-		if not self:GetChecked() then
-			self:Enable();
-		else
-			app.Callback(None_Disable, self);
-		end
 	end
 end,
 function(self)
+	-- re-checking the same box
+	if settings:GetTooltipSetting("Enabled:Mod") == "None" then
+		self:SetChecked(true);
+		return;
+	end
 	if self:GetChecked() then
 		settings:SetTooltipSetting("Enabled:Mod", "None");
 	end
 end);
-TooltipModifierNoneCheckBox:SetPoint("TOP", EnableTooltipInformationCheckBox, "BOTTOM", 0, 4);
-TooltipModifierNoneCheckBox:SetPoint("LEFT", TooltipModifierLabel, "RIGHT", 4, 0);
+TooltipModifierNoneCheckBox:SetPoint("TOPLEFT", EnableTooltipInformationCheckBox, "BOTTOMLEFT", 10, 4);
 
 local TooltipModifierShiftCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_SHIFT"],
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "Shift");
 	if not settings:GetTooltipSetting("Enabled") then
-		app.Callback(Shift_Disable, self);
+		self:Disable();
 		self:SetAlpha(0.2);
 	else
+		self:Enable();
 		self:SetAlpha(1);
-		-- act like a radio button
-		if not self:GetChecked() then
-			self:Enable();
-		else
-			app.Callback(Shift_Disable, self);
-		end
 	end
 end,
 function(self)
+	-- re-checking the same box
+	if settings:GetTooltipSetting("Enabled:Mod") == "Shift" then
+		self:SetChecked(true);
+		return;
+	end
 	if self:GetChecked() then
 		settings:SetTooltipSetting("Enabled:Mod", "Shift");
 	end
@@ -3350,19 +3346,19 @@ local TooltipModifierCtrlCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_CTRL"
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "Ctrl");
 	if not settings:GetTooltipSetting("Enabled") then
-		app.Callback(Ctrl_Disable, self);
+		self:Disable();
 		self:SetAlpha(0.2);
 	else
+		self:Enable();
 		self:SetAlpha(1);
-		-- act like a radio button
-		if not self:GetChecked() then
-			self:Enable();
-		else
-			app.Callback(Ctrl_Disable, self);
-		end
 	end
 end,
 function(self)
+	-- re-checking the same box
+	if settings:GetTooltipSetting("Enabled:Mod") == "Ctrl" then
+		self:SetChecked(true);
+		return;
+	end
 	if self:GetChecked() then
 		settings:SetTooltipSetting("Enabled:Mod", "Ctrl");
 	end
@@ -3374,25 +3370,51 @@ local TooltipModifierAltCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_ALT"],
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "Alt");
 	if not settings:GetTooltipSetting("Enabled") then
-		app.Callback(Alt_Disable, self);
+		self:Disable();
 		self:SetAlpha(0.2);
 	else
+		self:Enable();
 		self:SetAlpha(1);
-		-- act like a radio button
-		if not self:GetChecked() then
-			self:Enable();
-		else
-			app.Callback(Alt_Disable, self);
-		end
 	end
 end,
 function(self)
+	-- re-checking the same box
+	if settings:GetTooltipSetting("Enabled:Mod") == "Alt" then
+		self:SetChecked(true);
+		return;
+	end
 	if self:GetChecked() then
 		settings:SetTooltipSetting("Enabled:Mod", "Alt");
 	end
 end);
 TooltipModifierAltCheckBox:SetPoint("TOP", TooltipModifierCtrlCheckBox, "TOP", 0, 0);
 TooltipModifierAltCheckBox:SetPoint("LEFT", TooltipModifierCtrlCheckBox.Text, "RIGHT", 4, 0);
+
+if IsMacClient() then
+	local TooltipModifierMetaCheckBox = settings:CreateCheckBox(L["TOOLTIP_MOD_CMD"],
+	function(self)
+		self:SetChecked(settings:GetTooltipSetting("Enabled:Mod") == "Cmd");
+		if not settings:GetTooltipSetting("Enabled") then
+			self:Disable();
+			self:SetAlpha(0.2);
+		else
+			self:Enable();
+			self:SetAlpha(1);
+		end
+	end,
+	function(self)
+		-- re-checking the same box
+		if settings:GetTooltipSetting("Enabled:Mod") == "Cmd" then
+			self:SetChecked(true);
+			return;
+		end
+		if self:GetChecked() then
+			settings:SetTooltipSetting("Enabled:Mod", "Cmd");
+		end
+	end);
+	TooltipModifierMetaCheckBox:SetPoint("TOP", TooltipModifierAltCheckBox, "TOP", 0, 0);
+	TooltipModifierMetaCheckBox:SetPoint("LEFT", TooltipModifierAltCheckBox.Text, "RIGHT", 4, 0);
+end
 
 local DisplayInCombatCheckBox = settings:CreateCheckBox(L["DISPLAY_IN_COMBAT_CHECKBOX"],
 function(self)
@@ -3409,8 +3431,8 @@ function(self)
 	settings:SetTooltipSetting("DisplayInCombat", self:GetChecked());
 end);
 DisplayInCombatCheckBox:SetATTTooltip(L["DISPLAY_IN_COMBAT_CHECKBOX_TOOLTIP"]);
-DisplayInCombatCheckBox:SetPoint("LEFT", EnableTooltipInformationCheckBox, "LEFT", 8, 0);
-DisplayInCombatCheckBox:SetPoint("TOP", TooltipModifierLabel, "BOTTOM", 0, -2);
+DisplayInCombatCheckBox:SetPoint("LEFT", EnableTooltipInformationCheckBox, "LEFT", 0, 0);
+DisplayInCombatCheckBox:SetPoint("TOP", TooltipModifierNoneCheckBox, "BOTTOM", 0, 4);
 
 local SummarizeThingsCheckBox = settings:CreateCheckBox(L["SUMMARIZE_CHECKBOX"],
 function(self)
@@ -3468,7 +3490,7 @@ local TooltipShowLabel = settings:CreateFontString(nil, "ARTWORK", "GameFontNorm
 TooltipShowLabel:SetJustifyH("LEFT");
 TooltipShowLabel:SetText(L["TOOLTIP_SHOW_LABEL"]);
 TooltipShowLabel:SetPoint("TOP", ContainsSlider, "BOTTOM", 0, -14);
-TooltipShowLabel:SetPoint("LEFT", TooltipModifierLabel, "LEFT", -8, 0);
+TooltipShowLabel:SetPoint("LEFT", SummarizeThingsCheckBox, "LEFT", 0, 0);
 TooltipShowLabel:Show();
 table.insert(settings.MostRecentTab.objects, TooltipShowLabel);
 TooltipShowLabel.OnRefresh = function(self)
@@ -3494,7 +3516,8 @@ function(self)
 	settings:SetTooltipSetting("Progress", self:GetChecked());
 end);
 ShowCollectionProgressCheckBox:SetATTTooltip(L["SHOW_COLLECTION_PROGRESS_CHECKBOX_TOOLTIP"]);
-ShowCollectionProgressCheckBox:SetPoint("TOPLEFT", TooltipShowLabel, "BOTTOMLEFT", 0, -2);
+ShowCollectionProgressCheckBox:SetPoint("LEFT", SummarizeThingsCheckBox, "LEFT", 0, 0);
+ShowCollectionProgressCheckBox:SetPoint("TOP", TooltipShowLabel, "BOTTOM", 0, -2);
 
 local ShortenProgressCheckBox = settings:CreateCheckBox(L["ICON_ONLY_CHECKBOX"],
 function(self)
@@ -3932,7 +3955,9 @@ AdditionalLabel:SetText(L["ADDITIONAL_LABEL"]);
 AdditionalLabel:Show();
 table.insert(settings.MostRecentTab.objects, AdditionalLabel);
 
-local ids = {["achievementID"] = "Achievement ID",
+local ids = {
+	["achievementID"] = "Achievement ID",
+	["achievementCategoryID"] = "Achievement Category ID",
 	["artifactID"] = "Artifact ID",
 	["azeriteEssenceID"] = "Azerite Essence ID",
 	["bonusID"] = "Bonus ID",
@@ -3946,6 +3971,7 @@ local ids = {["achievementID"] = "Achievement ID",
 	["filterID"] = "Filter ID",
 	["flightPathID"] = "Flight Path ID",
 	["followerID"] = "Follower ID",
+	["headerID"] = "Header ID",
 	["iconPath"] = "Icon Path",
 	["illusionID"] = "Illusion ID",
 	["instanceID"] = "Instance ID",
@@ -3964,7 +3990,7 @@ local ids = {["achievementID"] = "Achievement ID",
 	["visualID"] = "Visual ID",
 };
 local last = nil;
-for _,id in pairs({"achievementID","artifactID","azeriteEssenceID","bonusID","creatureID","creatures","currencyID","difficultyID","displayID","encounterID","factionID","filterID","flightPathID","followerID","iconPath"}) do
+for _,id in pairs({"achievementID","achievementCategoryID","artifactID","azeriteEssenceID","bonusID","creatureID","creatures","currencyID","difficultyID","displayID","encounterID","factionID","filterID","flightPathID","followerID","headerID"}) do
 	local filter = settings:CreateCheckBox(ids[id],
 	function(self)
 		self:SetChecked(settings:GetTooltipSetting(id));
@@ -3981,7 +4007,7 @@ for _,id in pairs({"achievementID","artifactID","azeriteEssenceID","bonusID","cr
 	last = filter;
 end
 last = nil;
-for _,id in pairs({"illusionID","instanceID","itemID","itemString", "mapID","modID","objectID","questID","QuestGivers","sourceID","speciesID","spellID","tierID","titleID","visualID"}) do
+for _,id in pairs({"iconPath","illusionID","instanceID","itemID","itemString","mapID","modID","objectID","questID","QuestGivers","sourceID","speciesID","spellID","tierID","titleID","visualID"}) do
 	local filter = settings:CreateCheckBox(ids[id],
 	function(self)
 		self:SetChecked(settings:GetTooltipSetting(id));

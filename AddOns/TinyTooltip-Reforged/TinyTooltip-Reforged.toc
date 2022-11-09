@@ -1,14 +1,15 @@
 ## Interface: 100000
-## Author: M
-## Version: 9.1.0
-## SavedVariables: BigTipDB
+## Author: B
+## Version: 9.2.2
+## SavedVariables: BigTipReforgedDB
 ## SavedVariablesPerCharacter: TinyTooltipReforgedCharacterDB
 
-## Title: TinyTooltip-Reforged
-## Notes: TinyTooltip (Reforged) Small fixes for 10.0.0 game client. For options use /ttr
+## Title: TinyTooltip-Reforged |cFF69CCF0by Beezer|r
+## Notes: |cff4488ffTinyTooltip (Reforged)|r v9.2|n Options use /ttr|n Reset use /ttr reset
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF鼠标提示增强|r |cFFFFE00ATinyTooltip-Reforged|r
 ## Notes-zhCN: 在鼠标提示中显示更多信息，并可选择鼠标提示窗口的位置
 
+## X-Category: Tooltip
 
 libs\lib.xml
 Core.lua

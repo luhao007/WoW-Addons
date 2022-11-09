@@ -272,8 +272,11 @@ local function MissionButton_SetGroupPortraits(mb, g, isVeiled, altWidget)
 	local s = S[mb.Group]
 	local vc = isVeiled and 0.85 or 1
 	for i=0, hasGroup and 4 or -1 do
-		local f = g[i]
-		local t = f and C_Garrison.GetFollowerPortraitIconID(f)
+		local f, t = g[i]
+		if f then
+			local ok, tex = pcall(C_Garrison.GetFollowerPortraitIconID, f)
+			t = ok and tex or "Interface/Garrison/Portraits/FollowerPortrait_NoPortrait"
+		end
 		local c = t and vc or 0.2
 		local isTroop = f and (isVeiled and C_Garrison.GetFollowerQuality(f) == 0 or not isVeiled and f:match("^0xFFF"))
 		s[i]:SetTexture(t or "Interface/Masks/CircleMask")

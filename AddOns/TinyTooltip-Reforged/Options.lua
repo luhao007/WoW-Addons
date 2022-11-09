@@ -11,6 +11,8 @@ local UIDropDownMenu_GetSelectedValue = LibDropdown.GetSelectedValue
 local UIDropDownMenu_SetSelectedValue = LibDropdown.SetSelectedValue
 local UIDropDownMenuTemplate = "UIDropDownMenuTemplate"
 
+local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
+
 local addonName = ...
 local addon = TinyTooltipReforged
 local CopyTable = CopyTable
@@ -60,7 +62,7 @@ end
 
 local function GetVariable(keystring, tbl)
     if (keystring == "general.SavedVariablesPerCharacter") then
-        return BigTipDB.general.SavedVariablesPerCharacter
+        return BigTipReforgedDB.general.SavedVariablesPerCharacter
     end
     local keys = {strsplit(".", keystring)}
     local value = tbl or addon.db
@@ -72,7 +74,6 @@ local function GetVariable(keystring, tbl)
 end
 
 local function SetVariable(keystring, value, tbl)
-    -- fixes a double trigger bug
     if (keystring == nil) then return end
     local keys = {strsplit(".", keystring)}
     local num = #keys
@@ -171,7 +172,7 @@ function widgets:colorpick(parent, config)
     frame.Text:SetPoint("LEFT", frame, "RIGHT", 5, 0)
     frame.Text:SetText(L[config.keystring])
     frame.Text:SetShown(not config.hidetitle)    
---    frame:GetNormalTexture():SetVertexColor(r,g,b)   
+    frame:GetNormalTexture():SetVertexColor(r or 1, g or 1, b or 1, a or 1)   
     frame:SetScript("OnClick", function(self)
         local r, g, b, a = self:GetNormalTexture():GetVertexColor()
         local info = {
@@ -184,7 +185,7 @@ function widgets:colorpick(parent, config)
                 g = tonumber(format("%.4f",g))
                 b = tonumber(format("%.4f",b))
                 if (a ~= aa) then
-                    ColorPickerFrame.tipframe:GetNormalTexture():SetVertexColor(r,g,b)
+                    ColorPickerFrame.tipframe:GetNormalTexture():SetVertexColor(r,g,b,a or 1)
                     SetVariable(ColorPickerFrame.tipframe.keystring, {r,g,b,a})
                 end
             end,
@@ -194,7 +195,7 @@ function widgets:colorpick(parent, config)
                 r = tonumber(format("%.4f",r))
                 g = tonumber(format("%.4f",g))
                 b = tonumber(format("%.4f",b))
-                ColorPickerFrame.tipframe:GetNormalTexture():SetVertexColor(r,g,b)
+                ColorPickerFrame.tipframe:GetNormalTexture():SetVertexColor(r,g,b,a)
                 if (ColorPickerFrame.tipframe.colortype == "hex") then
                     SetVariable(ColorPickerFrame.tipframe.keystring, addon:GetHexColor(r,g,b))
                 else
@@ -219,7 +220,7 @@ function widgets:dropdown(parent, config, labelText)
     frame.dropdata = config.dropdata
     if (frame.Text) then frame.Text:SetWidth(90) end
     frame.Label = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	frame.Label:SetPoint("LEFT", _G[frame:GetName().."Button"], "RIGHT", 6, 0)
+	frame.Label:SetPoint("LEFT", _G[frame:GetName().."Button"], "RIGHT", 2, 0)
 	UIDropDownMenu_Initialize(frame, function(self)
         local keystring = self.keystring
         local selectedValue = UIDropDownMenu_GetSelectedValue(self)
@@ -328,10 +329,10 @@ local function CreateAnchorButton(frame, anchorPoint)
         local parent = self:GetParent()
         local cp = GetVariable(parent.cp)
         if (parent[cp]) then
-            parent[cp]:GetNormalTexture():SetVertexColor(1, 1, 1)
+            parent[cp]:GetNormalTexture():SetVertexColor(1, 1, 1, 1)
         end
         SetVariable(parent.cp, self.cp)
-        self:GetNormalTexture():SetVertexColor(1, 0.2, 0.1)
+        self:GetNormalTexture():SetVertexColor(1, 0.2, 0.1, 1)
         StaticFrameOnDragStop(frame)
     end)
     frame[anchorPoint] = button
@@ -428,7 +429,7 @@ function widgets:anchorbutton(parent, config)
             saframe.kx = self.keystring .. ".x"
             saframe.ky = self.keystring .. ".y"
             saframe.cp = self.keystring .. ".p"
-            saframe[GetVariable(saframe.cp) or "BOTTOMRIGHT"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1)
+            saframe[GetVariable(saframe.cp) or "BOTTOMRIGHT"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1, 1)
             saframe:SetPoint(GetVariable(saframe.cp) or "BOTTOMRIGHT", UIParent, GetVariable(saframe.cp) or "BOTTOMRIGHT", GetVariable(saframe.kx) or -CONTAINER_OFFSET_X-13, GetVariable(saframe.ky) or CONTAINER_OFFSET_Y)
             saframe:Show()
         elseif (value == "cursor") then
@@ -437,7 +438,7 @@ function widgets:anchorbutton(parent, config)
             caframe.cp = self.keystring .. ".cp"
             caframe.inputx:SetText(GetVariable(caframe.cx) or 0)
             caframe.inputy:SetText(GetVariable(caframe.cy) or 0)
-            caframe[GetVariable(caframe.cp) or "BOTTOM"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1)
+            caframe[GetVariable(caframe.cp) or "BOTTOM"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1, 1)
             caframe:Show()
         end
     end)
@@ -482,13 +483,13 @@ function widgets:anchor(parent, config)
     frame.anchorbutton = self:anchorbutton(frame, config)
     frame.dropdown = self:dropdown(frame, {keystring=config.keystring..".position",dropdata=config.dropdata})
     frame.dropdown:SetPoint("LEFT", 0, 0)
-    frame.anchorbutton:SetPoint("LEFT", frame.dropdown.Label, "LEFT", 1, 0)
+    frame.anchorbutton:SetPoint("LEFT", frame.dropdown.Label, "LEFT", 5, 0)
     frame.checkbox1 = self:checkbox(frame, {keystring=config.keystring..".hiddenInCombat"})
-    frame.checkbox1:SetPoint("LEFT", frame.dropdown.Label, "RIGHT", 10, -1)
-    frame.checkbox2 = self:checkbox(frame, {keystring=config.keystring..".returnInCombat"})
+    frame.checkbox1:SetPoint("LEFT", frame.dropdown.Label, "RIGHT", 25, -1)
+    frame.checkbox2 = self:checkbox(frame, {keystring=config.keystring..".defaultInCombat"})
     frame.checkbox2:SetPoint("LEFT", frame.checkbox1.Text, "RIGHT", 3, 0)
-    frame.checkbox3 = self:checkbox(frame, {keystring=config.keystring..".returnOnUnitFrame"})
-    frame.checkbox3:SetPoint("LEFT", frame.checkbox2.Text, "RIGHT", 3, 0)
+--    frame.checkbox3 = self:checkbox(frame, {keystring=config.keystring..".defaultreturnOnUnitFrame"})
+--    frame.checkbox3:SetPoint("LEFT", frame.checkbox2.Text, "RIGHT", 3, 0)
     return frame
 end
 
@@ -524,11 +525,6 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     end
 end)
 
---pc
--- { keystring = "unit.player.background",           type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.01 },
-
---font
--- { keystring = "general.headerFontFlag",     type = "dropdown", dropdata = {"default", "OUTLINE", "THICK", "MONOCHROME"} },
 
 local options = {
     general = {
@@ -540,11 +536,11 @@ local options = {
         { keystring = "general.borderSize",         type = "slider", min = 1, max = 6, step = 1 },
         { keystring = "general.borderCorner",       type = "dropdown", dropdata = widgets.borderDropdata },
         { keystring = "general.bgfile",             type = "dropdown", dropdata = widgets.bgfileDropdata },
-        { keystring = "general.anchor",             type = "anchor", dropdata = {"default","cursorRight","cursor","static"} },
+        { keystring = "general.anchor",             type = "anchor", dropdata = {"default","cursor"} },
         { keystring = "item.coloredItemBorder",     type = "checkbox" },
         { keystring = "item.showItemIcon",          type = "checkbox" },
         { keystring = "quest.coloredQuestBorder",   type = "checkbox" },
-        { keystring = "general.alwaysShowIdInfo",   type = "checkbox" },
+        { keystring = "general.alwaysShowIdInfo",   type = "checkbox" },        
         { keystring = "general.SavedVariablesPerCharacter",   type = "checkbox" },
     },
     pc = {
@@ -552,9 +548,11 @@ local options = {
         { keystring = "unit.player.showTargetBy",         type = "checkbox" },
         { keystring = "unit.player.showModel",            type = "checkbox" },
         { keystring = "unit.player.grayForDead",          type = "checkbox" },
+        { keystring = "unit.player.showIlvl",          	  type = "checkbox" },
+        { keystring = "unit.player.showSpec",             type = "checkbox" },
         { keystring = "unit.player.coloredBorder",        type = "dropdown", dropdata = widgets.colorDropdata },
-        { keystring = "unit.player.background",           type = "dropdown", dropdata = widgets.colorDropdata },
-        { keystring = "unit.player.anchor",               type = "anchor", dropdata = {"inherit", "default","cursorRight","cursor","static"} },
+        { keystring = "unit.player.background",           type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.1 },
+        { keystring = "unit.player.anchor",               type = "anchor", dropdata = {"inherit", "default","cursor"} },
         { keystring = "unit.player.elements.factionBig",  type = "element", filter = false,},
         { keystring = "unit.player.elements.raidIcon",    type = "element", filter = true, },
         { keystring = "unit.player.elements.roleIcon",    type = "element", filter = true, },
@@ -588,8 +586,8 @@ local options = {
         { keystring = "unit.npc.showModel",             type = "checkbox" },
         { keystring = "unit.npc.grayForDead",           type = "checkbox" },
         { keystring = "unit.npc.coloredBorder",         type = "dropdown", dropdata = widgets.colorDropdata },
-        { keystring = "unit.npc.background",            type = "dropdown", dropdata = widgets.colorDropdata },
-        { keystring = "unit.npc.anchor",                type = "anchor", dropdata = {"inherit","default","cursorRight","cursor","static"} },
+        { keystring = "unit.npc.background",            type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.1 },
+        { keystring = "unit.npc.anchor",                type = "anchor", dropdata = {"inherit","default","cursor"} },
         { keystring = "unit.npc.elements.factionBig",   type = "element", filter = false,},
         { keystring = "unit.npc.elements.raidIcon",     type = "element", filter = true, },
         { keystring = "unit.npc.elements.classIcon",    type = "element", filter = true, },
@@ -610,6 +608,7 @@ local options = {
         { keystring = "general.statusbarOffsetX",   type = "slider", min = -50, max = 50, step = 1 },
         { keystring = "general.statusbarOffsetY",   type = "slider", min = -50, max = 50, step = 1 },
         { keystring = "general.statusbarFontSize",  type = "slider", min = 6, max = 30, step = 1 },
+        { keystring = "general.statusbarFontFlag",  type = "dropdown", dropdata = {"default", "NORMAL", "OUTLINE", "THINOUTLINE"} },
         { keystring = "general.statusbarFont",      type = "dropdown", dropdata = widgets.fontDropdata },
         { keystring = "general.statusbarTexture",   type = "dropdown", dropdata = widgets.barDropdata },
         { keystring = "general.statusbarPosition",  type = "dropdown", dropdata = {"default","bottom","top"} },
@@ -623,20 +622,26 @@ local options = {
     font = {
         { keystring = "general.headerFont",         type = "dropdown", dropdata = widgets.fontDropdata },
         { keystring = "general.headerFontSize",     type = "dropdown", dropdata = {"default", 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 } },
+        { keystring = "general.headerFontFlag",     type = "dropdown", dropdata = {"default", "NORMAL", "OUTLINE", "THINOUTLINE"} },
         { keystring = "general.bodyFont",           type = "dropdown", dropdata = widgets.fontDropdata },
         { keystring = "general.bodyFontSize",       type = "dropdown", dropdata = {"default", 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 } },        
+ 	{ keystring = "general.bodyFontFlag",       type = "dropdown", dropdata = {"default", "NORMAL", "OUTLINE", "THINOUTLINE"} },
     },
 }
 
 local frame = CreateFrame("Frame", nil, UIParent)
 frame.anchor = CreateFrame("Frame", nil, frame)
-frame.anchor:SetPoint("TOPLEFT", 32, -25)
-frame.anchor:SetSize(100, 50)
-
+frame.anchor:SetPoint("TOPLEFT", 32, -16)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
 frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frame.title:SetPoint("TOPLEFT", 18, -16)
 frame.title:SetText(format("%s |cff33eeff%s|r", addonName, "General"))
 frame.name = addonName
+
 frame.text = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 frame.text:SetPoint("TOPLEFT", 30, -40)
 frame.text:SetText("by |cffF58CBABeezer|r |cffff00ff<The Dragon Fighters>|r - |cff33eeffAggramar EU|r")
@@ -644,7 +649,11 @@ frame.text:SetText("by |cffF58CBABeezer|r |cffff00ff<The Dragon Fighters>|r - |c
 local framePC = CreateFrame("Frame", nil, UIParent)
 framePC.anchor = CreateFrame("Frame", nil, framePC)
 framePC.anchor:SetPoint("TOPLEFT", 32, -13)
-framePC.anchor:SetSize(200, 1)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
 framePC.title = framePC:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 framePC.title:SetPoint("TOPLEFT", 18, -16)
 framePC.title:SetText(format("%s |cff33eeff%s|r", addonName, "Unit Is Player"))
@@ -657,7 +666,7 @@ framePC.diy:SetScale(0.68)
 framePC.diy:SetPoint("TOPLEFT", 332, -100)
 framePC.diy:SetNormalTexture("Interface\\LevelUp\\MinorTalents")
 framePC.diy:GetNormalTexture():SetTexCoord(0, 400/512, 341/512, 407/512)
-framePC.diy:GetNormalTexture():SetVertexColor(1, 1, 1)
+framePC.diy:GetNormalTexture():SetVertexColor(1, 1, 1, 0.8)
 framePC.diy:SetScript("OnClick", function() LibEvent:trigger("tinytooltipreforged:diy:player", "player", true, true) end)
 framePC.diy.text = framePC.diy:CreateFontString(nil, "OVERLAY", "GameFont_Gigantic")
 framePC.diy.text:SetPoint("CENTER", 0, 2)
@@ -680,7 +689,11 @@ framePCScrollFrame:Hide()
 local frameNPC = CreateFrame("Frame", nil, UIParent)
 frameNPC.anchor = CreateFrame("Frame", nil, frameNPC)
 frameNPC.anchor:SetPoint("TOPLEFT", 32, -16)
---frameNPC.anchor:SetSize(400, 1)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
 frameNPC.title = frameNPC:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameNPC.title:SetPoint("TOPLEFT", 18, -16)
 frameNPC.title:SetText(format("%s |cff33eeff%s|r", addonName, "Unit Is NPC"))
@@ -703,7 +716,11 @@ frameNPCScrollFrame.name = " - NPC"
 local frameStatusbar = CreateFrame("Frame", nil, UIParent)
 frameStatusbar.anchor = CreateFrame("Frame", nil, frameStatusbar)
 frameStatusbar.anchor:SetPoint("TOPLEFT", 32, -16)
-frameStatusbar.anchor:SetSize(858, 1)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
 frameStatusbar.title = frameStatusbar:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameStatusbar.title:SetPoint("TOPLEFT", 18, -16)
 frameStatusbar.title:SetText(format("%s |cff33eeff%s|r", addonName, "StatusBar"))
@@ -713,7 +730,11 @@ frameStatusbar.name = " - StatusBar"
 local frameSpell = CreateFrame("Frame", nil, UIParent)
 frameSpell.anchor = CreateFrame("Frame", nil, frameSpell)
 frameSpell.anchor:SetPoint("TOPLEFT", 32, -16)
-frameSpell.anchor:SetSize(858, 1)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
 frameSpell.title = frameSpell:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameSpell.title:SetPoint("TOPLEFT", 18, -16)
 frameSpell.title:SetText(format("%s |cff33eeff%s|r", addonName, "Spell"))
@@ -723,7 +744,11 @@ frameSpell.name = " - Spell"
 local frameFont = CreateFrame("Frame", nil, UIParent)
 frameFont.anchor = CreateFrame("Frame", nil, frameFont)
 frameFont.anchor:SetPoint("TOPLEFT", 32, -16)
-frameFont.anchor:SetSize(858, 1)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
 frameFont.title = frameFont:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameFont.title:SetPoint("TOPLEFT", 18, -16)
 frameFont.title:SetText(format("%s |cff33eeff%s|r", addonName, "Font"))
@@ -733,7 +758,11 @@ frameFont.name = " - Font"
 local frameVariables = CreateFrame("Frame", nil, UIParent)
 frameVariables.anchor = CreateFrame("Frame", nil, frameVariables)
 frameVariables.anchor:SetPoint("TOPLEFT", 32, -16)
-frameVariables.anchor:SetSize(858, 1)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
 frameVariables.title = frameVariables:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameVariables.title:SetPoint("TOPLEFT", 18, -16)
 frameVariables.title:SetText(format("%s |cff33eeff%s|r", addonName, "Variables"))
@@ -755,8 +784,8 @@ local function InitVariablesFrame()
         local data, errormsg = LibJSON:decode_wow(text)
         if (data and type(data) == "table") then
             addon:FixNumericKey(data)
-            local db = addon:MergeVariable(BigTipDB, data)
-            BigTipDB = db
+            local db = addon:MergeVariable(BigTipReforgedDB, data)
+            BigTipReforgedDB = db
             addon.db = db
             frameVariables.panel.textarea.text:SetText("")
             LibEvent:trigger("TINYTOOLTIP_REFORGED_GENERAL_INIT")
@@ -773,13 +802,11 @@ local function InitOptions(list, parent, height)
         if (widgets[v.type]) then
             if (v.type == "colorpick") then offsetX = 5
             elseif (v.type == "slider") then offsetX = 15
-            elseif (v.type == "dropdown" or v.type == "dropdownslider") then offsetX = -10
+            elseif (v.type == "dropdown" or v.type == "dropdownslider") then offsetX = -15
             elseif (v.type == "anchor") then offsetX = -15
             else offsetX = 0 end
-
             element = widgets[v.type](widgets, parent, v)
-            --element:SetPoint("TOPLEFT", parent.anchor, "BOTTOMLEFT", offsetX, -(i*height))
-	    element:SetPoint("TOPLEFT", 10, -30 + -(i*30))
+            element:SetPoint("TOPLEFT", 25, -30 + -(i*30))
         end
     end
 end
@@ -805,8 +832,10 @@ SLASH_TinyTooltipReforged1 = "/tinytooltipr"
 SLASH_TinyTooltipReforged2 = "/ttr"
 SLASH_TinyTooltipReforged3 = "/tip"
 function SlashCmdList.TinyTooltipReforged(msg, editbox)
-    if (msg == "reset") then
-        BigTipDB = {}
+    if (msg == "reset") then     
+        BigTipReforgedDB = {}
+	TinyTooltipReforgedCharacterDB = {}
+        ReloadUI()
     elseif (msg == "npc") then
         InterfaceOptionsFrame_OpenToCategory(frameNPC)
         InterfaceOptionsFrame_OpenToCategory(frameNPC)
@@ -825,6 +854,7 @@ function SlashCmdList.TinyTooltipReforged(msg, editbox)
         InterfaceOptionsFrame_OpenToCategory(frame)
     end
 end
+
 
 
 ----------------
@@ -851,7 +881,7 @@ frame.close:SetSize(14, 14)
 frame.close:SetPoint("TOPRIGHT", -2, -2)
 frame.close:SetNormalTexture("Interface\\\Buttons\\UI-StopButton")
 frame.close:SetPushedTexture("Interface\\\Buttons\\UI-StopButton")
--- frame.close:GetNormalTexture():SetVertexColor(0.9, 0.6, 0)
+frame.close:GetNormalTexture():SetVertexColor(0.9, 0.6, 0, 1)
 frame.close:Hide()
 frame.tips = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLargeOutline")
 frame.tips:SetPoint("BOTTOM", 0, 6)
@@ -999,7 +1029,6 @@ frame:SetScript("OnUpdate", function(self, elasped)
     end
 end)
 
-
 local placeholder = {
     statusAFK = "AFK",
     statusDND = "DND",
@@ -1073,17 +1102,18 @@ LibEvent:attachTrigger("tooltip:variables:loaded", function()
     diyPlayerTable = addon.db.unit.player
 end)
 
-LibEvent:attachTrigger("tooltip:variable:changed", function(self, keystring, value)
+LibEvent:attachTrigger("tooltip:variable:changed", function(self, keystring, value)    
     if (frame:IsShown()) then
         LibEvent:trigger("tinytooltipreforged:diy:player", "player", true)
     end
     if (keystring == "general.SavedVariablesPerCharacter") then
-        BigTipDB.general.SavedVariablesPerCharacter = value
+        BigTipReforgedDB.general.SavedVariablesPerCharacter = value
         if (value) then
-            local db = CopyTable(addon.db)
-            addon.db = addon:MergeVariable(db, TinyTooltipReforgedCharacterDB)
+            TinyTooltipReforgedCharacterDB = addon.db
+            addon.db = TinyTooltipReforgedCharacterDB
         else
-            addon.db = BigTipDB
+            BigTipReforgedDB = addon.db
+            addon.db = BigTipReforgedDB
         end
         LibEvent:trigger("tooltip:variables:loaded")
         LibEvent:trigger("TINYTOOLTIP_REFORGED_GENERAL_INIT")

@@ -19,6 +19,8 @@ You can monitor the artifacts progress, or how close you are to the fragment cap
 ### 10.0.0
 
 - Updated for Dragonflight
+- **10.0.1.1** Fixed some lua errors
+- **10.0.1.2** Companion: reset distance indicator when casting Survey
 
 **Known issues:**
 - Shortcut buttons on the main options page are not working

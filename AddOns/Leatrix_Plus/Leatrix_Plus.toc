@@ -1,7 +1,7 @@
 ## Interface: 100000
 ## Author: Leatrix
-## Version: 10.0.05
-## OptionalDeps: ElvUI
+## Version: 10.0.09
+## OptionalDeps: ElvUI, Glass, XLoot
 ## SavedVariables: LeaPlusDB
 
 ## Title: Leatrix Plus

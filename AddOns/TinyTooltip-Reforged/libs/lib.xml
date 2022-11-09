@@ -7,5 +7,5 @@
     <Script file="LibSchedule.lua"/>
     <Script file="LibDropdown.lua"/>
     <Script file="LibJSON.lua"/>
-
+    <Script file="LibItemInfo.lua"/>
 </Ui>

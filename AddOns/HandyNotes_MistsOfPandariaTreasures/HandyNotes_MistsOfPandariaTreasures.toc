@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: Kemayo
-## Version: v23.1
+## Version: v23.2
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: !LibUIDropDownMenu
 ## SavedVariables: HandyNotes_MistsOfPandariaTreasuresDB

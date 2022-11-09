@@ -4,10 +4,18 @@ local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local DEAD = DEAD
 local CopyTable = CopyTable
 
-local addon = TinyTooltipReforged
-
-BigTipDB = {}
+BigTipReforgedDB = {}
 TinyTooltipReforgedCharacterDB = {}
+
+local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
+
+-- load only on classic wotlk
+if (clientToc == 30400) then
+  local LibInspect = LibStub("LibClassicInspector")
+  local LibDetours = LibStub("LibDetours-1.0")
+end
+
+local addon = TinyTooltipReforged
 
 local function ColorStatusBar(self, value)
     if (addon.db.general.statusbarColor == "auto") then
@@ -28,6 +36,10 @@ local function ColorStatusBar(self, value)
     elseif (value and addon.db.general.statusbarColor == "smooth") then
         HealthBar_OnValueChanged(self, value, true)
     end
+end
+
+local function IsTableEmpty(table)
+    return (next(table) == nil)
 end
 
 LibEvent:attachEvent("VARIABLES_LOADED", function()
@@ -55,9 +67,8 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     end)
     bar:HookScript("OnValueChanged", function(self, hp)
         if (hp <= 0) then
-            local min, max = self:GetMinMaxValues()
-	    self.TextString:SetFormattedText("|cffffcc33%s|r", DEAD)	
---	    self.TextString:SetFormattedText("|cff999999%s|r |cffffcc33<%s>|r", AbbreviateLargeNumbers(max), DEAD)	
+            local min, max = self:GetMinMaxValues()	
+	    self.TextString:SetFormattedText("|cff999999%s|r |cffffcc33<%s>|r", AbbreviateLargeNumbers(max), DEAD)	
         else
             TextStatusBar_UpdateTextString(self)
         end
@@ -68,11 +79,17 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
             self:Hide()
         end
     end)
-    --Variable
-    addon.db = addon:MergeVariable(addon.db, BigTipDB)
+    --Variables
+    if (IsTableEmpty(BigTipReforgedDB) or 
+        (addon.db.general.SavedVariablesPerCharacter and IsTableEmpty(TinyTooltipReforgedCharacterDB)) ) then
+        print("|cFF00FFFF[TinyTooltipReforged]|r |cffFFE4E1Settings have been reset|r")
+        BigTipReforgedDB = addon.db
+        TinyTooltipReforgedCharacterDB = addon.db
+    end    
     if (addon.db.general.SavedVariablesPerCharacter) then
-        local db = CopyTable(addon.db)
-        addon.db = addon:MergeVariable(db, TinyTooltipReforgedCharacterDB)
+        addon.db = TinyTooltipReforgedCharacterDB
+    else
+        addon.db = BigTipReforgedDB
     end
     LibEvent:trigger("tooltip:variables:loaded")
     --Init

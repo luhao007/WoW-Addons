@@ -20,24 +20,14 @@ do
 	local function UpdateStatusText(b, fi, mi)
 		local mid = mi and mi.missionID
 		local tmid = G.GetFollowerTentativeMission(fi.followerID)
-		local status, ns = b.info.status or ""
+		local status, fstatus, ns = b.info.status, fi and fi.status
 		if tmid then
 			ns = tmid == mid and GARRISON_FOLLOWER_IN_PARTY or L"In Tentative Party"
 		elseif T.config.ignore[fi.followerID] then
 			if fi.status == nil and status == GARRISON_FOLLOWER_WORKING then
 				ns = L"Ignored"
-			elseif fi.status == GARRISON_FOLLOWER_INACTIVE or fi.status == GARRISON_FOLLOWER_WORKING then
-				ns = fi.status .. " " .. L"Ignored"
-			end
-			if not b.Status.Hooked then
-				b.Status.Hooked = 1
-				hooksecurefunc(b.Status, "SetText", function(_, text)
-					if text == ns then
-						b.Status.Hooked = 2
-					elseif b.Status.Hooked == 2 then
-						b.Status.Hooked = 1
-					end
-				end)
+			elseif fstatus == GARRISON_FOLLOWER_INACTIVE or fstatus == GARRISON_FOLLOWER_WORKING then
+				ns = fstatus .. " " .. L"Ignored"
 			end
 		end
 		if ns then
@@ -914,7 +904,7 @@ do -- Ship re-fitting
 				eq[i] = b
 			end
 			for i=1,6 do
-				local b = CreateFrame("Button", nil, sContainer, "SecureActionButtonTemplate", i)
+				local b = CreateFrame("Button", nil, sContainer, "InsecureActionButtonTemplate", i)
 				b:SetSize(32, 32)
 				local ico, border = b:CreateTexture(), b:CreateTexture(nil, "OVERLAY")
 				b.icon, b.border = ico, border
@@ -931,6 +921,7 @@ do -- Ship re-fitting
 				b:SetScript("OnLeave", HideOwnedGameTooltip)
 				b:SetScript("PreClick", SetUpEquipmentRefit)
 				b:SetScript("PostClick", CompleteEquipmentRefit)
+				T.TenSABT(b)
 				b:Disable()
 				b:Hide()
 				slots[i] = b

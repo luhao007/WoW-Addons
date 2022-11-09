@@ -499,6 +499,7 @@ app.L = {
 	["TOOLTIP_MOD_SHIFT"] = SHIFT_KEY_TEXT;
 	["TOOLTIP_MOD_CTRL"] = CTRL_KEY_TEXT;
 	["TOOLTIP_MOD_ALT"] = ALT_KEY_TEXT;
+	["TOOLTIP_MOD_CMD"] = CMD_KEY_TEXT;
 	["TOOLTIP_SHOW_LABEL"] = "Shown Information";
 	["SHOW_COLLECTION_PROGRESS_CHECKBOX"] = "Collection Progress";
 	["SHOW_COLLECTION_PROGRESS_CHECKBOX_TOOLTIP"] = "Enable this option if you want to see your progress towards collecting a Thing or completing a group of Things at the Top Right of its tooltip.\n\nWe recommend that you keep this setting turned on.";
@@ -690,6 +691,7 @@ app.L = {
 
 	-- Filter Text
 	["ACHIEVEMENT_ID"] = "Achievement ID";
+	["ACHIEVEMENT_CATEGORY_ID"] = "Achievement Category ID";
 	["ARTIFACT_ID"] = "Artifact ID";
 	["AZERITE_ESSENCE_ID"] = "Azerite Essence ID";
 	["CREATURE_ID"] = "Creature ID";
@@ -699,6 +701,7 @@ app.L = {
 	["EXPANSION_ID"] = "Expansion ID";
 	["FILTER_ID"] = "Filter ID";
 	["FOLLOWER_ID"] = "Follower ID";
+	["HEADER_ID"] = "Header ID";
 	["ILLUSION_ID"] = "Illusion ID";
 	["INSTANCE_ID"] = "Instance ID";
 	["ITEM_ID"] = "Item ID";
@@ -2201,6 +2204,7 @@ app.L = {
 		[1015] = {4, "|CFF00FFDEThis requires the Stranglethorn Fishing Extravaganza to be active.|r", "Stranglethorn Fishing Extravaganza"},
 		[1016] = {4, "|CFF00FFDEThis requires the Timewalking Event to be active.|r", "Timewalking"},
 		[1017] = {4, "|CFF00FFDEThis requires the WoW's Anniversary Event to be active.|r", "WoW's Anniversary"},
+		[1018] = {4, "|CFF00FFDEThis requires the Kalu'ak Fishing Derby to be active.|r", "Kalu'ak Fishing Derby"},
 	};
 
 	["CUSTOM_COLLECTS_REASONS"] = {

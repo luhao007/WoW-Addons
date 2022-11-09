@@ -1,8 +1,4 @@
 
----------------------------------
--- 事件 Author: M
----------------------------------
-
 local MAJOR, MINOR = "LibEvent.7000", 1
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 
@@ -19,7 +15,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
---模擬觸發bliz事件
 function lib:event(event, ...)
     if (not lib.events[event]) then return end
     for k, v in pairs(lib.events[event]) do
@@ -27,7 +22,6 @@ function lib:event(event, ...)
     end
 end
 
---添加bliz事件回調
 function lib:addEventListener(event, func)
     for e in string.gmatch(event, "([^,%s]+)") do
         if (not self.events[e]) then
@@ -39,7 +33,6 @@ function lib:addEventListener(event, func)
     return self
 end
 
---刪除bliz事件回調
 function lib:removeEventListener(event, func)
     if (type(event) == "function") then
         for _, funcs in pairs(self.events) do
@@ -59,7 +52,6 @@ function lib:removeEventListener(event, func)
     return self
 end
 
---一次性bliz事件回調
 function lib:addEventListenerOnce(event, func)
     return self:addEventListener(event, function(this, ...)
         func(this, ...)
@@ -67,9 +59,6 @@ function lib:addEventListenerOnce(event, func)
     end)
 end
 
-
-
---添加觸發事件 多個用逗號分隔
 function lib:addTriggerListener(event, func)
     for e in string.gmatch(event, "([^,%s]+)") do
         if (not self.triggers[e]) then
@@ -80,7 +69,6 @@ function lib:addTriggerListener(event, func)
     return self
 end
 
---刪除事件回調
 function lib:removeTriggerListener(event, func)
     if (type(event) == "function") then
         for _, funcs in pairs(self.triggers) do
@@ -100,13 +88,11 @@ function lib:removeTriggerListener(event, func)
     return self
 end
 
---刪除事件回調
 function lib:removeAllTriggers(event)
     self.triggers[event] = nil
     return self
 end
 
---一次性觸發事件
 function lib:addTriggerListenerOnce(event, func)
     return self:addTriggerListener(event, function(this, ...)
         func(this, ...)
@@ -114,7 +100,6 @@ function lib:addTriggerListenerOnce(event, func)
     end)
 end
 
---觸發事件
 function lib:trigger(event, ...)
     if (not self.triggers[event]) then return end
     for k, v in pairs(self.triggers[event]) do
@@ -122,7 +107,6 @@ function lib:trigger(event, ...)
     end
 end
 
---函數別名
 lib.attachEvent = lib.addEventListener
 lib.attachEventOnce = lib.addEventListenerOnce
 lib.detachEvent = lib.removeEventListener

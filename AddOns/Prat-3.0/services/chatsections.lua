@@ -319,7 +319,7 @@ function SplitChatMessage(frame, event, ...)
 
     s.GUID = arg12
 
-    --[===[@debug@
+    --[==[@debug@
     s.ARGS = {
       ...
     }
@@ -333,7 +333,7 @@ function SplitChatMessage(frame, event, ...)
     end
 
     s.FRAME = frame and frame:GetName()
-    --@end-debug@]===]
+    --@end-debug@]==]
 
     --        if NEW_CHATFILTERS then
     local kill, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11, newarg12, newarg13, newarg14 =
@@ -537,14 +537,12 @@ function SplitChatMessage(frame, event, ...)
       if arg6 == "GM" or arg6 == "DEV" then
         -- Add Blizzard Icon if this was sent by a GM/DEV
 	      s.FLAG = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t "
-      elseif arg6 == "GUIDE" then
-        if _G.IsActivePlayerNewcomer() then
-          -- Add guide text if player is a newcomer and this was sent by a mentor
-          s.FLAG = _G.NPEV2_CHAT_USER_TAG_GUIDE .. " "
-        end
+      elseif arg6 == "GUIDE" and _G.ChatFrame_GetMentorChannelStatus(_G.Enum.PlayerMentorshipStatus.Mentor, _G.C_ChatInfo.GetChannelRulesetForChannelID(arg7)) == _G.Enum.PlayerMentorshipStatus.Mentor then
+      -- Add guide text if the sender is a guide in the newcomer chat
+        s.FLAG = _G.NPEV2_CHAT_USER_TAG_GUIDE .. " "
       elseif arg6 == "NEWCOMER" then
-        if _G.IsActivePlayerMentor() then
-          -- Add murloc icon if player is a mentor and this was sent by a new player
+        if _G.ChatFrame_GetMentorChannelStatus(_G.Enum.PlayerMentorshipStatus.Newcomer, _G.C_ChatInfo.GetChannelRulesetForChannelID(arg7)) == _G.Enum.PlayerMentorshipStatus.Newcomer then
+          -- Add murloc icon for messages from new players in the newcomer chat
           s.FLAG = _G.NPEV2_CHAT_USER_TAG_NEWCOMER
         end
       else

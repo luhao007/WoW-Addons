@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: Kemayo
-## Version: v71.2
+## Version: v71.3
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: !LibUIDropDownMenu
 ## SavedVariables: HandyNotes_ShadowlandsTreasuresDB

@@ -13,6 +13,7 @@ local ELITE = ELITE
 local FEMALE = FEMALE
 local TARGET = TARGET
 local PLAYER = PLAYER
+local PSPEC = PSPEC
 local RARE = GARRISON_MISSION_RARE
 local OFFLINE = FRIENDS_LIST_OFFLINE
 local BASE_MOVEMENT_SPEED = BASE_MOVEMENT_SPEED or 7
@@ -437,8 +438,8 @@ function addon:GetUnitData(unit, elements, raw)
         for ii, e in ipairs(v) do
             config = elements[e]
             if (self:CheckFilter(config, raw) and raw[e]) then
-                if (e == "name") then name = #data[i]+1 end   --name位置
-                if (e == "title") then title = #data[i]+1 end --title位置
+                if (e == "name") then name = #data[i]+1 end
+                if (e == "title") then title = #data[i]+1 end
                 if (config.color and config.wildcard) then
                     if (e == "title" and name == #data[i] and raw.titleIsPrefix) then
                         tinsert(data[i], name, self:FormatData(raw[e], config, raw))
@@ -585,7 +586,11 @@ LibEvent:attachTrigger("tooltip.style.background", function(self, frame, r, g, b
     local rr, gg, bb, aa = frame.style:GetBackdropColor()
     if (rr ~= r or gg ~= g or bb ~= b or aa ~= a) then
         if (frame.SetBackdrop) then frame:SetBackdrop(nil) end
-        frame.style:SetBackdropColor(r or rr, g or gg, b or bb, a or aa)
+        local r = tonumber(r) or tonumber(rr)
+        local g = tonumber(g) or tonumber(gg)
+        local b = tonumber(b) or tonumber(bb)
+        local a = tonumber(a) or tonumber(aa)
+        frame.style:SetBackdropColor(r or 1, g or 1, b or 1, a or 1)
     end
 end)
 
@@ -683,14 +688,11 @@ LibEvent:attachTrigger("tooltip.style.font.header", function(self, frame, fontOb
     elseif (type(fontSize) == "number") then
         size = fontSize
     end
---    if (fontFlag == "default") then
---        flag = defaultHeaderFlag
---    else
---        flag = fontFlag or flag
---    end
-
-    -- disable the flags
-    flag = ""
+    if (fontFlag == "default") then
+        flag = defaultHeaderFlag
+    else
+        flag = fontFlag or flag
+    end
     GameTooltipHeaderText:SetFont(font, size, flag)
 end)
 
@@ -708,9 +710,6 @@ LibEvent:attachTrigger("tooltip.style.font.body", function(self, frame, fontObje
     else
         flag = fontFlag or flag
     end
-
-    -- disable the flags
-    flag = ""
     GameTooltipText:SetFont(font, size, flag)
 end)
 
@@ -726,12 +725,9 @@ LibEvent:attachTrigger("tooltip.statusbar.font", function(self, font, size, flag
     if (not GameTooltipStatusBar.TextString) then return end
     local origFont, origSize, origFlag = GameTooltipStatusBar.TextString:GetFont()
     font = addon:GetFont(font, NumberFontNormal:GetFont())
-    -- if (flag == "default") then flag = "THINOUTLINE" end
-    -- disable the flags
-    flag = ""
+     if (flag == "default") then flag = "THINOUTLINE" end   
     if (font ~= origFont or size ~= origSize or flag ~= origFlag) then
---        GameTooltipStatusBar.TextString:SetFont(font or origFont, size or origSize, flag or origFlag)
-        GameTooltipStatusBar.TextString:SetFont(font or origFont, size or origSize, flag)
+        GameTooltipStatusBar.TextString:SetFont(font or origFont, size or origSize, flag or origFlag)
     end
 end)
 
@@ -810,7 +806,7 @@ LibEvent:attachTrigger("tooltip.style.init", function(self, tip)
     if (tip:HasScript("OnTooltipSetUnit")) then
         tip:HookScript("OnTooltipSetUnit", function(self)
             local unit = select(2, self:GetUnit())
-            if (not unit) then return end
+            if (not unit) then return end	   
             LibEvent:trigger("tooltip:unit", self, unit)
         end)
     end
@@ -861,14 +857,11 @@ if (SharedTooltip_SetBackdropStyle) then
 end
 
 LibEvent:attachTrigger("TINYTOOLTIP_REFORGED_GENERAL_INIT", function(self)
---    LibEvent:trigger("tooltip.style.font.header", GameTooltip, addon.db.general.headerFont, addon.db.general.headerFontSize, addon.db.general.headerFontFlag)
-    LibEvent:trigger("tooltip.style.font.header", GameTooltip, addon.db.general.headerFont, addon.db.general.headerFontSize, "")
---    LibEvent:trigger("tooltip.style.font.body", GameTooltip, addon.db.general.bodyFont, addon.db.general.bodyFontSize, addon.db.general.bodyFontFlag)
-    LibEvent:trigger("tooltip.style.font.body", GameTooltip, addon.db.general.bodyFont, addon.db.general.bodyFontSize, "")
+    LibEvent:trigger("tooltip.style.font.header", GameTooltip, addon.db.general.headerFont, addon.db.general.headerFontSize, addon.db.general.headerFontFlag)
+    LibEvent:trigger("tooltip.style.font.body", GameTooltip, addon.db.general.bodyFont, addon.db.general.bodyFontSize, addon.db.general.bodyFontFlag)
     LibEvent:trigger("tooltip.statusbar.height", addon.db.general.statusbarHeight)
     LibEvent:trigger("tooltip.statusbar.text", addon.db.general.statusbarText)
---    LibEvent:trigger("tooltip.statusbar.font", addon.db.general.statusbarFont, addon.db.general.statusbarFontSize, addon.db.general.statusbarFontFlag)
-    LibEvent:trigger("tooltip.statusbar.font", addon.db.general.statusbarFont, addon.db.general.statusbarFontSize, "")
+    LibEvent:trigger("tooltip.statusbar.font", addon.db.general.statusbarFont, addon.db.general.statusbarFontSize, addon.db.general.statusbarFontFlag)
     LibEvent:trigger("tooltip.statusbar.texture", addon.db.general.statusbarTexture)
     for _, tip in pairs(addon.tooltips) do
         LibEvent:trigger("tooltip.style.init", tip)
