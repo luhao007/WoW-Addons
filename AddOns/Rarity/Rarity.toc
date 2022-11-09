@@ -16,7 +16,6 @@
 
 #@no-lib-strip@
 Libs\LibBabble-Zone-3.0\lib.xml
-Libs\HereBeDragons-2.0\HereBeDragons-2.0.lua
 #@end-no-lib-strip@
 
 Libs\LibBars-1.0\lib.xml

@@ -4,6 +4,7 @@ from pathlib import Path
 from pprint import pprint
 
 from toc import TOC
+from utils import get_libraries_list
 
 
 class CheckManagedAddOns(unittest.TestCase):
@@ -42,15 +43,7 @@ class CheckManagedAddOns(unittest.TestCase):
             )
 
     def test_check_duplicate_libraries(self):
-        root = Path('AddOns/!!Libs')
-        paths = [root, root / 'Ace3', root / 'Ace3/AceConfig-3.0',
-                 root / 'LibBabble']
-        libs = []
-        for path in paths:
-            libs += [lib for lib in os.listdir(path)
-                     if os.path.isdir(path / lib)]
-
-        libs += ['HereBeDragons-2.0']
+        libs = get_libraries_list()
 
         duplicates = {}
         for root, dirs, _ in os.walk('AddOns'):

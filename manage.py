@@ -383,6 +383,11 @@ class Manager:
         )
 
     @staticmethod
+    def handle_bagnon():
+        utils.remove_libraries_all('Bagnon/common/Wildpants')
+        utils.remove_libraries(['LibDataBroker-1.1'], 'AddOns/Bagnon/common/', 'AddOns/Bagnon/addons/main/main.xml')
+
+    @staticmethod
     @available_on(['classic', 'retail'])
     def handle_btwquest():
         def process(lines):
@@ -581,6 +586,11 @@ class Manager:
         )
 
     @staticmethod
+    @available_on(['retail'])
+    def handle_rarity():
+        utils.remove_libraries(['HereBeDragons-2.0'], 'AddOns/Rarity/Libs', 'AddOns/Rarity/Rarity.toc')
+
+    @staticmethod
     @available_on(['classic'])
     def handle_rl():
         utils.change_defaults(
@@ -696,6 +706,9 @@ class Manager:
     @staticmethod
     def handle_wa():
         utils.remove_libraries_all('WeakAuras/Libs/Archivist')
+        utils.remove_libraries(['LibClassicSpellActionCount-1.0', 'LibClassicCasterino'],
+                                'AddOns/WeakAuras/Libs/',
+                                'AddOns/WeakAuras/WeakAuras_Vanilla.toc')
 
         utils.change_defaults(
             'Addons/WeakAuras/WeakAuras.lua',
