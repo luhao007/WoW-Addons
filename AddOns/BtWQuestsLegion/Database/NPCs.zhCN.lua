@@ -141,6 +141,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [104799] = {
         name = "泰兰德·语风",
     },
+    [104824] = {
+        name = "欧内斯特·卡莱尔",
+    },
     [104885] = {
         name = "泰兰德·语风",
     },
@@ -189,6 +192,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [110018] = {
         name = "加兹瑞克斯·轮锁",
     },
+    [110488] = {
+        name = "雷特森·焰怒",
+    },
     [110987] = {
         name = "夜眼",
     },
@@ -212,6 +218,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [131963] = {
         name = "诺兰· 斯毕德",
+    },
+    [133523] = {
+        name = "季·火掌",
     },
 })
 ]])()

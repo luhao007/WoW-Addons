@@ -24,9 +24,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [90866] = {
         name = "Tüftlermeister Oberfunks",
     },
-    [91065] = {
-        name = "Kellermeister Voodani",
-    },
     [91109] = {
         name = "Malfurion Sturmgrimm",
     },
@@ -183,6 +180,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [110018] = {
         name = "Gazrix Kolbenfresser",
     },
+    [110488] = {
+        name = "Ritssyn Flammengroll",
+    },
     [110987] = {
         name = "Nachtauge",
     },
@@ -203,6 +203,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130030] = {
         name = "Kelsey Stahlfunken",
+    },
+    [133523] = {
+        name = "Ji Feuerpfote",
     },
 })
 ]])()

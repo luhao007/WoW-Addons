@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 10.0.09 (8th November 2022)
+-- 	Leatrix Plus 10.0.10 (9th November 2022)
 ----------------------------------------------------------------------
 
 --	01:Functns, 02:Locks, 03:Restart, 20:Live, 30:Isolated, 40:Player
@@ -18,7 +18,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "10.0.09"
+	LeaPlusLC["AddonVer"] = "10.0.10"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -4540,7 +4540,6 @@
 			else
 				LibDBIconStub:SetButtonRadius(1)
 			end
-			MinimapCluster:SetClampedToScreen(false)
 
 			----------------------------------------------------------------------
 			-- Configuration panel
@@ -5099,6 +5098,10 @@
 				ExpansionLandingPageMinimapButton.AlertText:ClearAllPoints()
 				ExpansionLandingPageMinimapButton.AlertText:SetPoint("RIGHT", ExpansionLandingPageMinimapButton, "LEFT", -8, 0)
 				ExpansionLandingPageMinimapButton:SetHitRectInsets(0, 0, 0, 0)
+
+				-- Set instance difficulty layout
+				MinimapCluster.InstanceDifficulty:ClearAllPoints()
+				MinimapCluster.InstanceDifficulty:SetPoint("TOPRIGHT", MinimapCluster, "TOPRIGHT", -10, -22)
 
 				-- Setup hybrid minimap when available
 				local function SetHybridMap()
@@ -11098,6 +11101,12 @@
 						LeaLockList[option] = LeaPlusLC[option]
 						LeaPlusLC:LockItem(LeaPlusCB[option], true)
 						LeaPlusCB[option].tiptext = LeaPlusCB[option].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with Glass."]
+						-- Remove hover from configuration button if there is one
+						local temp = {LeaPlusCB[option]:GetChildren()}
+						if temp and temp[1] and temp[1].t and temp[1].t:GetTexture() == 311225 then
+							temp[1]:SetHighlightTexture(0)
+							temp[1]:SetScript("OnEnter", nil)
+						end
 					end
 
 					LockOption("UseEasyChatResizing") -- Use easy resizing
@@ -11125,6 +11134,12 @@
 								LeaPlusCB[option].tiptext = LeaPlusCB[option].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with ElvUI."]
 							else
 								LeaPlusCB[option].tiptext = LeaPlusCB[option].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with ElvUI"] .. " " .. L[emodule] .. " " .. L["module"] .. "."
+							end
+							-- Remove hover from configuration button if there is one
+							local temp = {LeaPlusCB[option]:GetChildren()}
+							if temp and temp[1] and temp[1].t and temp[1].t:GetTexture() == 311225 then
+								temp[1]:SetHighlightTexture(0)
+								temp[1]:SetScript("OnEnter", nil)
 							end
 						end
 

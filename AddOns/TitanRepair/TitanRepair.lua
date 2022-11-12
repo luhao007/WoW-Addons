@@ -6,6 +6,8 @@
 
 -- ******************************** Constants *******************************
 local TITAN_REPAIR_ID = "Repair";
+local TITAN_BUTTON = "TitanPanel"..TITAN_REPAIR_ID.."Button"
+
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local TitanRepairModule = LibStub("AceAddon-3.0"):NewAddon("TitanRepair", "AceHook-3.0", "AceTimer-3.0")
 local _G = getfenv(0);
@@ -91,7 +93,6 @@ function TitanPanelRepairButton_OnLoad(self)
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
-			ShowRegularText = false,
 			ShowColoredText = true,
 			DisplayOnRightSide = true,
 		},
@@ -1370,13 +1371,7 @@ local info;
 	info.hasArrow = 1;
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddToggleIcon(TITAN_REPAIR_ID);
-	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_REPAIR_ID);
-	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_REPAIR_ID);
-	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_REPAIR_ID);
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_REPAIR_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddControlVars(TITAN_REPAIR_ID)
 end
 
 
@@ -1558,6 +1553,36 @@ function TitanRepair_GetRepairInvCost()
 	return result;
 end
 
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_BUTTON] then
+		return -- if already created
+	end
+	
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_BUTTON, f, "TitanPanelComboTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelRepairButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+	
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanPanelRepairButton_OnEvent(self, event, ...) 
+	end)
+	
+	
+	-- Tooltip frame
+	local tt = CreateFrame("GameTooltip", "TitanRepairTooltip", f, "GameTooltipTemplate")
+end
+
+
+Create_Frames() -- do the work
+
 -- Hooks
 --TitanRepairModule:SecureHook("DurabilityFrame_SetAlerts", TitanRepair_DurabilityFrame)
 TitanRepairModule:SecureHook(DurabilityFrame, "Show", function() TitanRepair_DurabilityFrame(true) end)
+

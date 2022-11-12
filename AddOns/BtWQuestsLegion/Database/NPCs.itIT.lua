@@ -21,9 +21,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [90866] = {
         name = "Mastro Meccanista Granfavilla",
     },
-    [91065] = {
-        name = "Cantiniere Voodani",
-    },
     [91109] = {
         name = "Malfurion Grantempesta",
     },
@@ -165,6 +162,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [110018] = {
         name = "Gazrix Sbloccaruote",
     },
+    [110488] = {
+        name = "Ritssyn Cigliardenti",
+    },
     [110987] = {
         name = "Occhioscuro",
     },
@@ -185,6 +185,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130030] = {
         name = "Kelsey Ferfavilla",
+    },
+    [133523] = {
+        name = "Ji Palmo Infuocato",
     },
 })
 ]])()

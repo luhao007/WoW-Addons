@@ -17,6 +17,7 @@ TITAN_PANEL_VARS = {}
 TITAN_PANEL_VARS.debug = {}
 TITAN_PANEL_VARS.debug.movable = false
 TITAN_PANEL_VARS.debug.events = false
+TITAN_PANEL_VARS.debug.ldb_setup = false
 
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
@@ -263,13 +264,15 @@ end
 --[[ API
 NAME: TitanUtils_ToRight
 DESC: See if the plugin is to be on the right.
-   There are 3 methods to place a plugin on the right:
+   These are the methods to place a plugin on the right:
    1) DisplayOnRightSide saved variable logic (preferred)
-   2) Create a plugin button using the TitanPanelIconTemplate
-   3) Place a plugin in TITAN_PANEL_NONMOVABLE_PLUGINS (NOT preferred)
+   2) Place a plugin in TITAN_PANEL_NONMOVABLE_PLUGINS (NOT preferred)
 :DESC
 VAR:  None
 OUT: bool - true or nil. true if the plugin is to be placed on the right side of a bar.
+NOTE:
+- Using the Titan template TitanPanelIconTemplate used to enforce right side only but was removed during DragonFlight to give users more flexibility.
+:NOTE
 --]]
 function TitanUtils_ToRight(id)
 	local found = nil
@@ -279,9 +282,7 @@ function TitanUtils_ToRight(id)
 		end
 	end
 
-	if TitanGetVar(id, "DisplayOnRightSide")
-	or TitanPanelButton_IsIcon(id)
-	then
+	if TitanGetVar(id, "DisplayOnRightSide") then
 		found = true
 	end
 
@@ -708,15 +709,18 @@ function TitanUtils_ToString(text)
 	return TitanUtils_Ternary(text, text, "");
 end
 
--------------------------------------------------
+--------------------------------------------------------------
+--
+-- Right click menu routines
+--
 --[[
 Right click menu routines for plugins
 The expected global function name in the plugin is:
 "TitanPanelRightClickMenu_Prepare"..<registry.id>.."Menu"
 
 This section abstracts the menu routines built into WoW.
-Over time Titan used the menu routines written by Blizzard and a lib under Ace3. Currently back to the Blizzard routines.
-Whenever there is a change to the menu routines, the abstractions allows us to update Utils rather than updating Titan using search & replace.
+Over time Titan used the menu routines written by Blizzard then a lib under Ace3. Currently back to the Blizzard routines.
+Whenever there is a change to the menu routines, the abstractions allows us to update Utils rather than updating Titan using search & replace. It also helps insulate 3rd party Titan plugin authors from Blizz or lib changes.
 --]]
 
 --[[ API
@@ -760,19 +764,22 @@ VAR: level - level to put the line
 OUT:  None
 --]]
 function TitanPanelRightClickMenu_AddToggleRightSide(id, level)
-    -- copy of TitanPanelRightClickMenu_AddToggleVar adding a remove button
-    local info = {};
-    info.text = L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"];
-    info.value = {id, "DisplayOnRightSide"};
-    info.func = function()
-        local bar = TitanUtils_GetWhichBar(id)
-        TitanPanelRightClickMenu_ToggleVar({id, "DisplayOnRightSide"})
-        TitanPanel_RemoveButton(id);
-        TitanUtils_AddButtonOnBar(bar, id)
-    end
-    info.checked = TitanGetVar(id, "DisplayOnRightSide");
-    info.keepShownOnClick = 1;
-    UIDropDownMenu_AddButton(info, level);
+	local plugin = TitanUtils_GetPlugin(id)
+	if plugin.controlVariables and plugin.controlVariables.DisplayOnRightSide then
+		-- copy of TitanPanelRightClickMenu_AddToggleVar adding a remove button
+		local info = {};
+		info.text = L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"];
+		info.value = {id, "DisplayOnRightSide"};
+		info.func = function()
+			local bar = TitanUtils_GetWhichBar(id)
+			TitanPanelRightClickMenu_ToggleVar({id, "DisplayOnRightSide"})
+			TitanPanel_RemoveButton(id);
+			TitanUtils_AddButtonOnBar(bar, id)
+		end
+		info.checked = TitanGetVar(id, "DisplayOnRightSide");
+		info.keepShownOnClick = 1;
+		UIDropDownMenu_AddButton(info, level);
+	end
 end
 
 --[[ API
@@ -877,8 +884,10 @@ VAR: level - level to put the line
 OUT:  None
 --]]
 function TitanPanelRightClickMenu_AddToggleIcon(id, level)
-	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_ICON"],
-	id, "ShowIcon", nil, level);
+	local plugin = TitanUtils_GetPlugin(id)
+	if plugin.controlVariables and plugin.controlVariables.ShowIcon then
+		TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_ICON"], id, "ShowIcon", nil, level);
+	end
 end
 
 --[[ API
@@ -889,8 +898,10 @@ VAR: level - level to put the line
 OUT:  None
 --]]
 function TitanPanelRightClickMenu_AddToggleLabelText(id, level)
-	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"],
-	id, "ShowLabelText", nil, level);
+	local plugin = TitanUtils_GetPlugin(id)
+	if plugin.controlVariables and plugin.controlVariables.ShowLabelText then
+		TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], id, "ShowLabelText", nil, level);
+	end
 end
 
 --[[ API
@@ -901,8 +912,10 @@ VAR: level - level to put the line
 OUT:  None
 --]]
 function TitanPanelRightClickMenu_AddToggleColoredText(id, level)
-	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"],
-	id, "ShowColoredText", nil, level);
+	local plugin = TitanUtils_GetPlugin(id)
+	if plugin.controlVariables and plugin.controlVariables.ShowColoredText then
+		TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"], id, "ShowColoredText", nil, level);
+	end
 end
 
 --[[ API
@@ -1008,6 +1021,27 @@ function TitanPanelRightClickMenu_SetCustomBackdrop(frame)
 		TOOLTIP_DEFAULT_BACKGROUND_COLOR.b
 		, 1);
 end
+
+--[[ API
+NAME: TitanPanelRightClickMenu_AddControlVars
+DESC: Menu - add the set of options that are in the plugin registry control variables .
+VAR: id - id of the plugin
+OUT:  None
+NOTE: Assume top level only
+--]]
+function TitanPanelRightClickMenu_AddControlVars(id, hide_text)
+	local level = 1 -- assume top menu
+    TitanPanelRightClickMenu_AddSeparator(level)
+	
+	TitanPanelRightClickMenu_AddToggleIcon(id, level)
+	TitanPanelRightClickMenu_AddToggleLabelText(id, level)
+	TitanPanelRightClickMenu_AddToggleColoredText(id, level)
+	TitanPanelRightClickMenu_AddToggleRightSide(id, level)
+
+	TitanPanelRightClickMenu_AddSpacer();
+	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_VOLUME_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+end
+
 
 --------------------------------------------------------------
 --

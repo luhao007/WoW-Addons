@@ -7,7 +7,7 @@ NAME: Titan LDB overview
 DESC: Titan will automatically convert a LDB type addon to a Titan plugin.
 Only LDB types listed in the LDB 1.1 spec are supported. Custom types are not supported.
 
-Supported
+Supported type
 - "launcher" become "icon" plugins
 	icon* - always shown
 	OnClick* - 
@@ -18,6 +18,15 @@ Supported
 	icon^ - 
 	OnClick - 
 	text*^ - or value & suffix
+	label^ - 
+	OnEnter - 
+	OnLeave - 
+	tooltip
+	OnTooltipShow -
+
+- "macro" become "combo" plugins with icon; a tooltip/Click; and optional label
+	icon^ - 
+	commandtext^ - 
 	label^ - 
 	OnEnter - 
 	OnLeave - 
@@ -100,7 +109,7 @@ local iconTitanDefault = "Interface\\PVPFrame\\\PVP-ArenaPoints-Icon";
 
 -- Events we want for LDBToTitan
 LDBToTitan:RegisterEvent("PLAYER_LOGIN")
-LDBToTitan:RegisterEvent("PLAYER_ENTERING_WORLD")
+--LDBToTitan:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local function If_Show_Tooltip()
 				local use_mod = TitanAllGetVar("UseTooltipModifer")
@@ -423,12 +432,8 @@ end
 NAME: TitanLDBShowText
 DESC: Text callback for the Titan (LDB) plugin when the LDB addon changes display text
 VAR: name -  id of the plugin
-OUT: None
-NOTE:
-- One interpretation of 1.1 spec to show text is either
-1) use .text or use .value & .suffix (Titan implements)
-2) always use .text but .value & .suffix are parts if needed
-:NOTE
+OUT: label of text to show
+OUT: text to show
 --]]
 function TitanLDBShowText(name)
 	-- Set 'label1' and 'value1' for the Titan button display
@@ -454,12 +459,14 @@ function TitanLDBShowText(name)
 		end
 
 		-- Check for display text
+		-- Check for display text
+		-- .text is required to show
+		-- .value is the text of the value - 100.0 in 100.0 FPS
+		-- .suffix is the text after the value - FPS in 100.0 FPS
 		if TitanGetVar(name, "ShowRegularText") then
-			if ldb.suffix and ldb.suffix ~="" then
-				val1 = (ldb.value or "").." "..ldb.suffix
-			else
-				val1 = (ldb.text or "")
-			end
+			val1 = (ldb.text or "")
+		else
+			val1 = ""
 		end
 	else
 		-- return values will be empty strings
@@ -555,11 +562,15 @@ NOTE:
 :NOTE
 --]]
 function LDBToTitan:TitanLDBCreateObject(_, name, obj)
-	--TitanDebug("Attempting to register "..name..".");
+ 	if TITAN_PANEL_VARS.debug.ldb_setup then
+		TitanDebug(tostring(name).." Attempting to register ");
+	end
 	
 	-- couple sanity checks
 	if not obj or not name then
---		TitanDebug(.."LDB request to create Titan plugin was unrecognizable!!!!")
+		if TITAN_PANEL_VARS.debug.ldb_setup then
+			TitanDebug("LDB request to create Titan plugin was unrecognizable!!!!");
+		end
 		return
 	end
 	
@@ -579,19 +590,23 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 	else
 		-- Create enough of a plugin to tell the user / developer
 		-- that this plugin failed miserably
+		local issue = "Unsupported LDB type '"..tostring(obj.type).."'"
 		local plugin = 
 			{
 			self = nil,
 			button = nil,
 			isChild = nil,
 			name = (name or "?"),
-			issue = "Unsupported LDB type '"..obj.type.."'",
+			issue = issue,
 			notes = "", 
 			status = TITAN_REGISTER_FAILED,
 			category = "",
 			plugin_type = (obj.type or ""),
 			}
 		TitanUtils_PluginFail(plugin)
+		if TITAN_PANEL_VARS.debug.ldb_setup then
+			TitanDebug(TITAN_REGISTER_FAILED.." "..issue);
+		end
 		return -- get out, there is nothing more that can be done
 	end
 
@@ -716,6 +731,12 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 		iconG = (obj.iconG or nil),
 	};
 
+	if TITAN_PANEL_VARS.debug.ldb_setup then
+		TitanDebug(""
+			.." type: '"..tostring(registry.ldb).."' "
+		)
+	end
+
 	-- Set the plugin category, if it exists, else default to "General"
 	-- Per the 1.1 LDB spec we check for a tocname attrib first, 
 	-- if found we use it, if not we assume that the DO "name" 
@@ -744,7 +765,7 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 		-- controls
 		-- one interpretation of the LDB spec is launchers 
 		-- should always have an icon.
-		registry["controlVariables"].ShowIcon = false;
+		registry["controlVariables"].ShowIcon = true;
 		registry["controlVariables"].ShowRegularText = false; -- no text
 		-- defaults
 		registry["savedVariables"].ShowRegularText = false;
@@ -759,29 +780,30 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 	end
  
 	--
-	-- Create the frame for this LDB addon
-	--
-	
-	-- Create the Titan Frame ...
+	-- Create the Titan frame for this LDB addon
 	-- Titan _OnLoad will be used to request the plugin be registered by Titan
 	local newTitanFrame -- a frame
 	if obj.type == "macro" then  -- custom
 		newTitanFrame = CreateFrame("Button",
 			"TitanPanel"..NAME_PREFIX..name.."Button", 
-			UIParent, "TitanPanelComboTemplate, SecureActionButtonTemplate")
+			UIParent, "SecureActionButtonTemplate, TitanPanelComboTemplate")
 		newTitanFrame:SetAttribute("type", "macro")
 		newTitanFrame:SetAttribute("macrotext", obj.commandtext)
---[[
-print("T_LDB"
-.." "..tostring(name).." "
-.." '"..tostring(obj.commandtext).."' "
-)
---]]		
+		if TITAN_PANEL_VARS.debug.ldb_setup then
+			TitanDebug(""
+				.." macro cmd: '"..tostring(obj.commandtext).."' "
+			)
+		end
 	else
 		newTitanFrame = CreateFrame("Button",
 			"TitanPanel"..NAME_PREFIX..name.."Button", 
 			UIParent, "TitanPanelComboTemplate")
 	end
+
+	newTitanFrame.TitanCreatedBy = "LDB"
+	newTitanFrame.TitanType = "macro"
+	newTitanFrame.TitanName = (name or "?")
+	newTitanFrame.TitanAction = (obj.commandtext or "None")
 
 	newTitanFrame.registry = registry
 	newTitanFrame:SetFrameStrata("FULLSCREEN");
@@ -827,6 +849,20 @@ print("T_LDB"
 			CALLBACK_PREFIX..name.."_OnDoubleClick", "TitanLDBHandleScripts")
 	end
 
+	if TITAN_PANEL_VARS.debug.ldb_setup then
+		TitanDebug(""
+			.." id: '"..tostring(registry.id).."' "
+			.." type: '"..tostring(registry.ldb).."' "
+			.." type: '"..tostring(registry.ldb).."' "
+		)
+	end
+	if TITAN_PANEL_VARS.debug.ldb_setup then
+		TitanDebug(""
+			.." id: '"..tostring(registry.id).."' "
+			.." registered"
+		)
+	end
+
 	-- If plugins have already been registered and loaded then get this one loaded
 	-- This works because the .registry is now set
 	if Titan__InitializedPEW then
@@ -842,7 +878,6 @@ VAR:  function
 OUT:  None
 NOTE:
 - PLAYER_LOGIN - Read through all the LDB object created so far and create cooresponding Titan plugins.
-- PLAYER_ENTERING_WORLD - Create a one time timer. This helps ensure the latest values are displayed on the plugin. Some LDB addons create their objects then update the addon values. Titan could have missed the updates as it created & registered the Titan plugin.
 :NOTE
 --]]
 LDBToTitan:SetScript("OnEvent", function(self, event, ...)
@@ -858,13 +893,11 @@ LDBToTitan:SetScript("OnEvent", function(self, event, ...)
 			--TitanDebug("Registered "..name..".");
 		end
 	end
-	
+
+--[[
 	if (event == "PLAYER_ENTERING_WORLD") then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		-- Ensure all plugins (for LDB) are refreshed.
-		-- Some LDB plugins may have updated text, icon, etc 
-		-- before the plugin was registered so be nice and schedule a refresh
---		TitanMovable_AdjustTimer("LDBRefresh")
 	end
+--]]
 end
 )

@@ -151,12 +151,15 @@ local function FindLine(tooltip, keyword)
     end
 end
 
+local STAT_AVERAGE_ITEM_LEVEL = "ItemLevel"
+local SPECIALIZATION = "Specialization"
+
 local LevelLabel = STAT_AVERAGE_ITEM_LEVEL .. ": "
 local SpecLabel = SPECIALIZATION .. ": "
 
 local function AppendToGameTooltip(guid, ilevel, spec, weaponLevel, isArtifact)
     spec = spec or ""
-    if (addon.db and (addon.db.unit.player.showIlvl or addon.db.unit.player.showSpec)) then
+    if (addon.db.unit.player.showIlevelAndSpecialization) then
         local _, unit = GameTooltip:GetUnit()
         if (not unit or UnitGUID(unit) ~= guid) then return end
         local ilvlLine, _, lineRight = FindLine(GameTooltip, LevelLabel)
@@ -164,27 +167,19 @@ local function AppendToGameTooltip(guid, ilevel, spec, weaponLevel, isArtifact)
         local specText = format("|cffffffff%s|r", spec)
         --local specText = format("|cffb8b8b8%s|r", spec)
         if (ilvlLine) then
-            if (addon.db.unit.player.showIlvl) then
-                ilvlLine:SetText(ilvlText)
-            end
-   	    if (addon.db.unit.player.showSpec) then
-                lineRight:SetText(specText)
-            end
-        else
-            if (addon.db.unit.player.showIlvl and addon.db.unit.player.showSpec) then
-                GameTooltip:AddDoubleLine(ilvlText, specText)
-            elseif (addon.db.unit.player.showIlvl and not addon.db.unit.player.showSpec) then
-                GameTooltip:AddDoubleLine(ilvlText, "")
-            elseif (not addon.db.unit.player.showIlvl and addon.db.unit.player.showSpec) then
-                GameTooltip:AddDoubleLine("", specText)
-            end
+            ilvlLine:SetText(ilvlText)
+            lineRight:SetText(specText)
+        else            
+            GameTooltip:AddDoubleLine(ilvlText, specText)
         end
-        GameTooltip:Show()
+	if (not GameTooltip:IsShown()) then
+            GameTooltip:Show()
+	end
     end
 end
 
 hooksecurefunc("NotifyInspect", function(unit)
-    if (addon.db.unit.player.showIlvl or addon.db.unit.player.showSpec) then
+    if (addon.db.unit.player.showIlevelAndSpecialization) then
       local guid = UnitGUID(unit)
       if (not guid) then return end
       local data = guids[guid]
@@ -292,7 +287,7 @@ end)
 
 GameTooltip:HookScript("OnTooltipSetUnit", function(self)
     -- after legion 7.1.0
-    if (addon.db and (addon.db.unit.player.showIlvl or addon.db.unit.player.showSpec) and clientToc >= 70100) then
+    if (addon.db and addon.db.unit.player.showIlevelAndSpecialization and clientToc >= 70100) then
         local _, unit = self:GetUnit()
         if (not unit) then return end
         local guid = UnitGUID(unit)
@@ -308,12 +303,12 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
             if (inspecting.guid ~= guid) then
                 return AppendToGameTooltip(guid, "n/a")
             else
-                return AppendToGameTooltip(guid, "....")
+                return AppendToGameTooltip(guid, "...")
             end
         end
         ClearInspectPlayer()
         NotifyInspect(unit)
-        AppendToGameTooltip(guid, "...")
+        AppendToGameTooltip(guid, "....")
     end
 end)
 

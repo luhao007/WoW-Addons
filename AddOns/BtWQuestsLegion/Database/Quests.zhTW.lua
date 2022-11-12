@@ -282,9 +282,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38286] = {
         name = "艾薩拉之眼：艾薩拉之怒",
     },
-    [38305] = {
-        name = "森林守護者，塞納留斯",
-    },
     [38307] = {
         name = "大酋長召見",
     },
@@ -1251,9 +1248,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39729] = {
         name = "玄鴉知識",
     },
-    [39731] = {
-        name = "寧靜之森",
-    },
     [39733] = {
         name = "孤嶺",
     },
@@ -1367,9 +1361,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39860] = {
         name = "血之祭儀",
-    },
-    [39861] = {
-        name = "收尾工作",
     },
     [39862] = {
         name = "攻城卜魯",
@@ -2168,9 +2159,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40710] = {
         name = "暮光之刃",
-    },
-    [40712] = {
-        name = "據有力量",
     },
     [40714] = {
         name = "號令參戰",
@@ -4367,9 +4355,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43318] = {
         name = "黎利斯的勇士",
-    },
-    [43324] = {
-        name = "梟獸之怒",
     },
     [43331] = {
         name = "還債的時候到了",

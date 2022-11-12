@@ -1,10 +1,14 @@
+--[[
 -- **************************************************************************
 -- * TitanBag.lua
 -- *
 -- * By: The Titan Panel Development Team
 -- **************************************************************************
+--]]
 
 local TITAN_VOLUME_ID = "Volume";
+local TITAN_VOLUME_BUTTON = "TitanPanel"..TITAN_VOLUME_ID.."Button"
+
 local TITAN_VOLUME_FRAME_SHOW_TIME = 0.5;
 local TITAN_VOLUME_ARTWORK_PATH = "Interface\\AddOns\\TitanVolume\\Artwork\\";
 local _G = getfenv(0);
@@ -20,6 +24,12 @@ function TitanPanelVolumeButton_OnLoad(self)
 		tooltipTextFunction = "TitanPanelVolumeButton_GetTooltipText",
 		iconWidth = 32,
 		iconButtonWidth = 18,
+		controlVariables = {
+			ShowIcon = false,
+			ShowLabelText = false,
+			ShowColoredText = false,
+			DisplayOnRightSide = true,
+		},
 		savedVariables = {
 			OverrideBlizzSettings = false,
 			VolumeMaster = 1,
@@ -86,18 +96,6 @@ function TitanPanelMasterVolumeControlSlider_OnShow(self)
 	self:SetValueStep(0.01);
 	self:SetObeyStepOnDrag(true) -- since 5.4.2 (Mists of Pandaria)
 	self:SetValue(1 - GetCVar("Sound_MasterVolume"));
-
-	local position = TitanUtils_GetRealPosition(TITAN_VOLUME_ID);
-
-	TitanPanelVolumeControlFrame:SetPoint("BOTTOMRIGHT", TITAN_PANEL_DISPLAY_PREFIX..TitanUtils_GetWhichBar(TITAN_VOLUME_ID), "TOPRIGHT", 0, 0);
-	if (position == TITAN_PANEL_PLACE_TOP) then
-		TitanPanelVolumeControlFrame:ClearAllPoints();
-		TitanPanelVolumeControlFrame:SetPoint("TOPLEFT", TITAN_PANEL_DISPLAY_PREFIX..TitanUtils_GetWhichBar(TITAN_VOLUME_ID), "BOTTOMLEFT", UIParent:GetRight() - TitanPanelVolumeControlFrame:GetWidth(), -4);
-	else
-		TitanPanelVolumeControlFrame:ClearAllPoints();
-		TitanPanelVolumeControlFrame:SetPoint("BOTTOMLEFT", TITAN_PANEL_DISPLAY_PREFIX..TitanUtils_GetWhichBar(TITAN_VOLUME_ID), "TOPLEFT", UIParent:GetRight() - TitanPanelVolumeControlFrame:GetWidth(), 0);
-	end
-
 end
 
 function TitanPanelMasterVolumeControlSlider_OnValueChanged(self, a1)
@@ -163,9 +161,9 @@ _G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetVa
 	end
 end
 
--- 'Sound'
+-- 'Sound Effects'
 function TitanPanelSoundVolumeControlSlider_OnEnter(self)
-	self.tooltipText = TitanOptionSlider_TooltipText(OPTION_TOOLTIP_SOUND_VOLUME, TitanPanelVolume_GetVolumeText(GetCVar("Sound_SFXVolume")));
+	self.tooltipText = TitanOptionSlider_TooltipText(OPTION_TOOLTIP_FX_VOLUME, TitanPanelVolume_GetVolumeText(GetCVar("Sound_SFXVolume")));
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT");
 	GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
 	TitanUtils_StopFrameCounting(self:GetParent());
@@ -194,14 +192,14 @@ _G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetVa
 
 	-- Update GameTooltip
 	if (self.tooltipText) then
-		self.tooltipText = TitanOptionSlider_TooltipText(OPTION_TOOLTIP_SOUND_VOLUME, TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
+		self.tooltipText = TitanOptionSlider_TooltipText(OPTION_TOOLTIP_FX_VOLUME, TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 		GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
 	end
 end
 
 -- 'Ambience'
 function TitanPanelAmbienceVolumeControlSlider_OnEnter(self)
-	self.tooltipText = TitanOptionSlider_TooltipText(OPTION_TOOLTIP_ENABLE_AMBIENCE, TitanPanelVolume_GetVolumeText(GetCVar("Sound_AmbienceVolume")));
+	self.tooltipText = TitanOptionSlider_TooltipText(OPTION_TOOLTIP_AMBIENCE_VOLUME, TitanPanelVolume_GetVolumeText(GetCVar("Sound_AmbienceVolume")));
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT");
 	GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
 	TitanUtils_StopFrameCounting(self:GetParent());
@@ -235,10 +233,6 @@ local tempval = self:GetValue();
 		self.tooltipText = TitanOptionSlider_TooltipText(OPTION_TOOLTIP_ENABLE_AMBIENCE, TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 		GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
 	end
-end
-
-function TitanPanelVolume_GetVolumeText(volume)
-	return tostring(floor(100 * volume + 0.5)) .. "%";
 end
 
 -- 'Dialog'
@@ -278,6 +272,7 @@ local tempval = self:GetValue();
 		GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
 	end
 end
+
 
 function TitanPanelVolume_GetVolumeText(volume)
 	return tostring(floor(100 * volume + 0.5)) .. "%";
@@ -358,10 +353,10 @@ end
 ]]--
 
 function TitanPanelVolumeControlFrame_OnLoad(self)
-	_G[self:GetName().."Title"]:SetText(VOLUME);
-	_G[self:GetName().."MasterTitle"]:SetText(MASTER_VOLUME);
+	_G[self:GetName().."Title"]:SetText(SOUND_OPTIONS); -- VOLUME
+	_G[self:GetName().."MasterTitle"]:SetText(VOLUME); --MASTER_VOLUME
 	_G[self:GetName().."MusicTitle"]:SetText(MUSIC_VOLUME);
-	_G[self:GetName().."SoundTitle"]:SetText(SOUND_VOLUME);
+	_G[self:GetName().."SoundTitle"]:SetText(ENABLE_SOUNDFX); -- FX_VOLUME
 	_G[self:GetName().."AmbienceTitle"]:SetText(AMBIENCE_VOLUME);
 	_G[self:GetName().."DialogTitle"]:SetText(DIALOG_VOLUME);
 --	_G[self:GetName().."MicrophoneTitle"]:SetText(L["TITAN_VOLUME_MICROPHONE_CONTROL_TITLE"]);
@@ -433,6 +428,186 @@ function TitanPanelRightClickMenu_PrepareVolumeMenu()
 	info.checked = TitanGetVar(TITAN_VOLUME_ID, "OverrideBlizzSettings");
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_VOLUME_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddControlVars(TITAN_VOLUME_ID)
 end
+
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_VOLUME_BUTTON] then
+		return -- if already created
+	end
+	
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_VOLUME_BUTTON, f, "TitanPanelIconTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelVolumeButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...w
+	
+	window:SetScript("OnShow", function(self)
+		TitanPanelVolumeButton_OnShow()
+		TitanPanelButton_OnShow(self)
+	end)
+	window:SetScript("OnEnter", function(self)
+		TitanPanelVolumeButton_OnEnter()
+		TitanPanelButton_OnEnter(self)
+	end)
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanPanelVolumeButton_OnEvent(self, event, ...) 
+-- ... not allowed here so grab the potential args that may be needed
+--		TitanPanelVolumeButton_OnEvent(self, event, arg1, arg2, arg3, arg4)
+	end)
+
+
+---[===[
+	-- Config screen
+	local cname = "TitanPanelVolumeControlFrame"
+	local config = CreateFrame("Frame", cname, f, BackdropTemplateMixin and "BackdropTemplate")
+	config:SetFrameStrata("FULLSCREEN") -- 
+	config:Hide()
+	config:SetWidth(400)
+	config:SetHeight(200)
+
+	config:SetScript("OnEnter", function(self)
+		TitanUtils_StopFrameCounting(self)
+	end)
+	config:SetScript("OnLeave", function(self)
+		TitanUtils_StartFrameCounting(self, 0.5)
+	end)
+	config:SetScript("OnUpdate", function(self, elapsed)
+--		TitanPanelVolumeControlFrame_OnUpdate(self, elapsed)
+		TitanUtils_CheckFrameCounting(self, elapsed)
+	end)
+	
+	-- Config font sections
+	local str = nil
+	local style = "GameFontNormalSmall"
+	str = config:CreateFontString(cname.."Title", "ARTWORK", style)
+	str:SetPoint("TOP", config, 0, -10)
+
+	str = config:CreateFontString(cname.."MasterTitle", "ARTWORK", style)
+	str:SetPoint("TOP", config, -160, -30)
+
+	str = config:CreateFontString(cname.."SoundTitle", "ARTWORK", style)
+	str:SetPoint("TOP", config, -90, -30)
+
+	str = config:CreateFontString(cname.."MusicTitle", "ARTWORK", style)
+	str:SetPoint("TOP", config, -20, -30)
+
+	str = config:CreateFontString(cname.."AmbienceTitle", "ARTWORK", style)
+	str:SetPoint("TOP", config, 50, -30)
+
+	str = config:CreateFontString(cname.."DialogTitle", "ARTWORK", style)
+	str:SetPoint("TOP", config, 130, -30)
+
+	-- Config slider sections
+	local slider = nil
+
+	-- Master
+	local inherit = "TitanOptionsSliderTemplate"
+	local master = CreateFrame("Slider", "TitanPanelMasterVolumeControlSlider", config, inherit)
+	master:SetPoint("TOP", config, -160, -60)
+	master:SetScript("OnShow", function(self)
+		TitanPanelMasterVolumeControlSlider_OnShow(self)
+	end)
+	master:SetScript("OnValueChanged", function(self)
+		TitanPanelMasterVolumeControlSlider_OnValueChanged(self, value)
+	end)
+	master:SetScript("OnMouseWheel", function(self)
+		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
+	end)
+	master:SetScript("OnEnter", function(self)
+		TitanPanelMasterVolumeControlSlider_OnEnter(self)
+	end)
+	master:SetScript("OnLeave", function(self)
+		TitanPanelMasterVolumeControlSlider_OnLeave(self)
+	end)
+
+	-- Sound
+	local sound = CreateFrame("Slider", "TitanPanelSoundVolumeControlSlider", config, inherit)
+	sound:SetPoint("TOP", config, -90, -60)
+	sound:SetScript("OnShow", function(self)
+		TitanPanelSoundVolumeControlSlider_OnShow(self)
+	end)
+	sound:SetScript("OnValueChanged", function(self)
+		TitanPanelSoundVolumeControlSlider_OnValueChanged(self, value)
+	end)
+	sound:SetScript("OnMouseWheel", function(self)
+		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
+	end)
+	sound:SetScript("OnEnter", function(self)
+		TitanPanelSoundVolumeControlSlider_OnEnter(self)
+	end)
+	sound:SetScript("OnLeave", function(self)
+		TitanPanelSoundVolumeControlSlider_OnLeave(self)
+	end)
+
+	-- Music
+	local music = CreateFrame("Slider", "TitanPanelMusicVolumeControlSlider", config, inherit)
+	music:SetPoint("TOP", config, -20, -60)
+	music:SetScript("OnShow", function(self)
+		TitanPanelMusicVolumeControlSlider_OnShow(self)
+	end)
+	music:SetScript("OnValueChanged", function(self)
+		TitanPanelMusicVolumeControlSlider_OnValueChanged(self, value)
+	end)
+	music:SetScript("OnMouseWheel", function(self)
+		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
+	end)
+	music:SetScript("OnEnter", function(self)
+		TitanPanelMusicVolumeControlSlider_OnEnter(self)
+	end)
+	music:SetScript("OnLeave", function(self)
+		TitanPanelMusicVolumeControlSlider_OnLeave(self)
+	end)
+
+	-- Ambience
+	local ambience = CreateFrame("Slider", "TitanPanelAmbienceVolumeControlSlider", config, inherit)
+	ambience:SetPoint("TOP", config, 50, -60)
+	ambience:SetScript("OnShow", function(self)
+		TitanPanelAmbienceVolumeControlSlider_OnShow(self)
+	end)
+	ambience:SetScript("OnValueChanged", function(self)
+		TitanPanelAmbienceVolumeControlSlider_OnValueChanged(self, value)
+	end)
+	ambience:SetScript("OnMouseWheel", function(self)
+		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
+	end)
+	ambience:SetScript("OnEnter", function(self)
+		TitanPanelAmbienceVolumeControlSlider_OnEnter(self)
+	end)
+	ambience:SetScript("OnLeave", function(self)
+		TitanPanelAmbienceVolumeControlSlider_OnLeave(self)
+	end)
+
+	-- Dialog
+	local dialog = CreateFrame("Slider", "TitanPanelDialogVolumeControlSlider", config, inherit)
+	dialog:SetPoint("TOP", config, 130, -60)
+	dialog:SetScript("OnShow", function(self)
+		TitanPanelDialogVolumeControlSlider_OnShow(self)
+	end)
+	dialog:SetScript("OnValueChanged", function(self)
+		TitanPanelDialogVolumeControlSlider_OnValueChanged(self, value)
+	end)
+	dialog:SetScript("OnMouseWheel", function(self)
+		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
+	end)
+	dialog:SetScript("OnEnter", function(self)
+		TitanPanelDialogVolumeControlSlider_OnEnter(self)
+	end)
+	dialog:SetScript("OnLeave", function(self)
+		TitanPanelDialogVolumeControlSlider_OnLeave(self)
+	end)
+
+	-- Now that the parts exist, initialize
+	TitanPanelVolumeControlFrame_OnLoad(config)
+
+--]===]
+end
+
+
+Create_Frames() -- do the work

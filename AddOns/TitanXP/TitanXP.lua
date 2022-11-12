@@ -8,6 +8,8 @@
 
 -- ******************************** Constants *******************************
 local TITAN_XP_ID = "XP";
+local TITAN_XP_BUTTON = "TitanPanel"..TITAN_XP_ID.."Button"
+
 local _G = getfenv(0);
 local TITAN_XP_FREQUENCY = 1;
 local updateTable = {TITAN_XP_ID, TITAN_PANEL_UPDATE_ALL};
@@ -54,7 +56,6 @@ function TitanPanelXPButton_OnLoad(self)
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
-			ShowRegularText = false,
 			ShowColoredText = false,
 			DisplayOnRightSide = true
 		},
@@ -79,13 +80,15 @@ function TitanPanelXPButton_OnLoad(self)
 	self:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_OnShow()
 -- DESC : Display the icon in the bar
--- NOTE : For a lack of better check at the moment TitanPanel_ButtonAdded
+-- NOTE : For a lack of better check at the moment TitanPanelXPButton_ButtonAdded
 --        is a global variable set to true only when a button has just been
 --        added to the panel
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_OnShow()
 	TitanPanelXPButton_SetIcon();
 	found = nil;
@@ -109,11 +112,13 @@ function TitanPanelXPButton_OnHide()
 	end
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_OnEvent(arg1, arg2)
 -- DESC : Parse events registered to addon and act on them
 -- VARS : arg1 = <research> , arg2 = <research>
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_OnEvent(self, event, a1, a2, ...)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		if (not self.sessionTime) then
@@ -152,11 +157,13 @@ function TitanPanelXPButton_OnEvent(self, event, a1, a2, ...)
 	end
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_OnUpdate(elapsed)
 -- DESC : Update button data
 -- VARS : elapsed = <research>
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_OnUpdate(self, elapsed)
 	TITAN_XP_FREQUENCY = TITAN_XP_FREQUENCY - elapsed;
 	if (TITAN_XP_FREQUENCY <=0) then
@@ -170,6 +177,7 @@ function TitanPanelXPButton_OnUpdate(self, elapsed)
 end
 
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_GetButtonText(id)
 -- DESC : Calculate time based logic for button text
@@ -177,6 +185,7 @@ end
 -- NOTE : Because the panel gets loaded before XP we need to check whether
 --        the variables have been initialized and take action if they haven't
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_GetButtonText(id)
 	if (TitanPanelXPButton.startSessionTime == nil) then
 		return;
@@ -257,10 +266,12 @@ function TitanPanelXPButton_GetButtonText(id)
 	end
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_GetTooltipText()
 -- DESC : Display tooltip text
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_GetTooltipText()
 	local totalTime = TitanPanelXPButton.totalTime;
 	local sessionTime = time() - TitanPanelXPButton.startSessionTime;
@@ -301,10 +312,12 @@ function TitanPanelXPButton_GetTooltipText()
 		L["TITAN_XP_TOOLTIP_TOLEVEL_SESSION"].."\t"..TitanUtils_GetHighlightText(TitanUtils_GetAbbrTimeText(estTimeToLevelThisSession));
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_SetIcon()
 -- DESC : Define icon based on faction
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_SetIcon()
 	local icon = TitanPanelXPButtonIcon;
 	local factionGroup, factionName = UnitFactionGroup("player");
@@ -338,10 +351,12 @@ TitanDebug("Sep: "
 	TitanPanelButton_UpdateButton(TITAN_XP_ID);
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelRightClickMenu_PrepareXPMenu()
 -- DESC : Display rightclick menu options
 -- **************************************************************************
+--]]
 function TitanPanelRightClickMenu_PrepareXPMenu()
 
 	local info = {};
@@ -423,18 +438,15 @@ function TitanPanelRightClickMenu_PrepareXPMenu()
 	end
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddToggleIcon(TITAN_XP_ID);
-	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_XP_ID);
-	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_XP_ID);
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_XP_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddControlVars(TITAN_XP_ID)
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_ShowSessionTime()
 -- DESC : Display session time in bar if set
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_ShowSessionTime()
 	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowSessionTime");
 	TitanPanelButton_UpdateButton(TITAN_XP_ID);
@@ -445,10 +457,12 @@ function TitanPanelXPButton_ShowSessionTime()
 end
 
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_ShowXPPerHourSession()
 -- DESC : Display per hour in session data in bar if set
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_ShowXPPerHourSession()
 	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowXPPerHourSession");
 	TitanPanelButton_UpdateButton(TITAN_XP_ID);
@@ -458,10 +472,12 @@ function TitanPanelXPButton_ShowXPPerHourSession()
 	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false);
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_ShowXPPerHourLevel()
 -- DESC : Display per hour to level data in bar if set
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_ShowXPPerHourLevel()
 	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowXPPerHourLevel");
 	TitanPanelButton_UpdateButton(TITAN_XP_ID);
@@ -471,19 +487,23 @@ function TitanPanelXPButton_ShowXPPerHourLevel()
 	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false);
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_ShowXPSimple()
 -- DESC : Display simple XP data (% level, rest, xp to level) in bar if set
 -- **************************************************************************
- function TitanPanelXPButton_ShowXPSimple()
+--]]
+function TitanPanelXPButton_ShowXPSimple()
 	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowXPSimple");
 	TitanPanelButton_UpdateButton(TITAN_XP_ID);
  end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_ResetSession()
 -- DESC : Reset session and accumulated variables
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_ResetSession()
 	TitanPanelXPButton.initXP = UnitXP("player");
 	TitanPanelXPButton.accumXP = 0;
@@ -492,10 +512,44 @@ function TitanPanelXPButton_ResetSession()
 	lastXP = TitanPanelXPButton.initXP;
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelXPButton_RefreshPlayed()
 -- DESC : Get total time played
 -- **************************************************************************
+--]]
 function TitanPanelXPButton_RefreshPlayed()
 	RequestTimePlayed();
 end
+
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_XP_BUTTON] then
+		return -- if already created
+	end
+	
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_XP_BUTTON, f, "TitanPanelComboTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelXPButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+	
+	window:SetScript("OnShow", function(self)
+		TitanPanelXPButton_OnShow()
+		TitanPanelButton_OnShow(self)
+	end)
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanPanelXPButton_OnEvent(self, event, ...) 
+	end)
+	window:SetScript("OnUpdate", function(self, elapsed)
+		TitanPanelXPButton_OnUpdate(self, elapsed) 
+	end)
+end
+
+
+Create_Frames() -- do the work

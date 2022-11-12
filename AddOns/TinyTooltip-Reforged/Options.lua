@@ -430,6 +430,7 @@ function widgets:anchorbutton(parent, config)
             saframe.ky = self.keystring .. ".y"
             saframe.cp = self.keystring .. ".p"
             saframe[GetVariable(saframe.cp) or "BOTTOMRIGHT"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1, 1)
+	    saframe:ClearAllPoints()
             saframe:SetPoint(GetVariable(saframe.cp) or "BOTTOMRIGHT", UIParent, GetVariable(saframe.cp) or "BOTTOMRIGHT", GetVariable(saframe.kx) or -CONTAINER_OFFSET_X-13, GetVariable(saframe.ky) or CONTAINER_OFFSET_Y)
             saframe:Show()
         elseif (value == "cursor") then
@@ -536,7 +537,7 @@ local options = {
         { keystring = "general.borderSize",         type = "slider", min = 1, max = 6, step = 1 },
         { keystring = "general.borderCorner",       type = "dropdown", dropdata = widgets.borderDropdata },
         { keystring = "general.bgfile",             type = "dropdown", dropdata = widgets.bgfileDropdata },
-        { keystring = "general.anchor",             type = "anchor", dropdata = {"default","cursor"} },
+        { keystring = "general.anchor",             type = "anchor", dropdata = {"default","cursor", "static"} },
         { keystring = "item.coloredItemBorder",     type = "checkbox" },
         { keystring = "item.showItemIcon",          type = "checkbox" },
         { keystring = "quest.coloredQuestBorder",   type = "checkbox" },
@@ -548,11 +549,10 @@ local options = {
         { keystring = "unit.player.showTargetBy",         type = "checkbox" },
         { keystring = "unit.player.showModel",            type = "checkbox" },
         { keystring = "unit.player.grayForDead",          type = "checkbox" },
-        { keystring = "unit.player.showIlvl",          	  type = "checkbox" },
-        { keystring = "unit.player.showSpec",             type = "checkbox" },
+        { keystring = "unit.player.showIlevelAndSpecialization", type = "checkbox" },
         { keystring = "unit.player.coloredBorder",        type = "dropdown", dropdata = widgets.colorDropdata },
         { keystring = "unit.player.background",           type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.1 },
-        { keystring = "unit.player.anchor",               type = "anchor", dropdata = {"inherit", "default","cursor"} },
+        { keystring = "unit.player.anchor",               type = "anchor", dropdata = {"inherit", "default","cursor", "static"} },
         { keystring = "unit.player.elements.factionBig",  type = "element", filter = false,},
         { keystring = "unit.player.elements.raidIcon",    type = "element", filter = true, },
         { keystring = "unit.player.elements.roleIcon",    type = "element", filter = true, },
@@ -587,7 +587,7 @@ local options = {
         { keystring = "unit.npc.grayForDead",           type = "checkbox" },
         { keystring = "unit.npc.coloredBorder",         type = "dropdown", dropdata = widgets.colorDropdata },
         { keystring = "unit.npc.background",            type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.1 },
-        { keystring = "unit.npc.anchor",                type = "anchor", dropdata = {"inherit","default","cursor"} },
+        { keystring = "unit.npc.anchor",                type = "anchor", dropdata = {"inherit","default","cursor", "static"} },
         { keystring = "unit.npc.elements.factionBig",   type = "element", filter = false,},
         { keystring = "unit.npc.elements.raidIcon",     type = "element", filter = true, },
         { keystring = "unit.npc.elements.classIcon",    type = "element", filter = true, },

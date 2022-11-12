@@ -276,9 +276,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38286] = {
         name = "Occhio di Azshara: Ira di Azshara",
     },
-    [38305] = {
-        name = "Cenarius, Custode della Selva",
-    },
     [38307] = {
         name = "La convocazione della Capoguerra",
     },
@@ -1242,9 +1239,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39729] = {
         name = "La saggezza di Corvonero",
     },
-    [39731] = {
-        name = "La foresta tranquilla",
-    },
     [39733] = {
         name = "La montagna solitaria",
     },
@@ -1358,9 +1352,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39860] = {
         name = "Rito del Sangue",
-    },
-    [39861] = {
-        name = "I nodi vengono al pettine",
     },
     [39862] = {
         name = "Lo Spaccabrul",
@@ -2159,9 +2150,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40710] = {
         name = "Una lama nel Crepuscolo",
-    },
-    [40712] = {
-        name = "Il potere posseduto",
     },
     [40714] = {
         name = "Chiamata in guerra",
@@ -4352,9 +4340,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43318] = {
         name = "Un campione per Ly'leth",
-    },
-    [43324] = {
-        name = "Rabbia dei Bestiagufo",
     },
     [43331] = {
         name = "Raccogliere i frutti",

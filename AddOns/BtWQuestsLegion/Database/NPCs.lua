@@ -2031,6 +2031,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [104732] = {
+        name = "Kira Iresoul",
+        locations = {
+            [717] = {
+                {
+                    x = 0.541281,
+                    y = 0.348963,
+                },
+            },
+        },
+    },
     [104795] = {
         name = "Ritssyn Flamescowl",
         locations = {
@@ -2049,6 +2060,28 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.578131,
                     y = 0.385892,
+                },
+            },
+        },
+    },
+    [104824] = {
+        name = "Ernest Carlisle",
+        locations = {
+            [641] = {
+                {
+                    x = 0.39203,
+                    y = 0.626364,
+                },
+            },
+        },
+    },
+    [104855] = {
+        name = "Lulubelle Fizzlebang",
+        locations = {
+            [634] = {
+                {
+                    x = 0.393709,
+                    y = 0.422379,
                 },
             },
         },
@@ -2075,6 +2108,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [105018] = {
+        name = "Ritssyn Flamescowl",
+        locations = {
+            [717] = {
+                {
+                    x = 0.553409,
+                    y = 0.371694,
+                },
+            },
+        },
+    },
     [105071] = {
         name = "Silgryn",
         locations = {
@@ -2082,6 +2126,50 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.40116,
                     y = 0.707944,
+                },
+            },
+        },
+    },
+    [105085] = {
+        name = "Spiritwalker Graysky",
+        locations = {
+            [652] = {
+                {
+                    x = 0.684,
+                    y = 0.730005,
+                },
+            },
+        },
+    },
+    [105102] = {
+        name = "Ritssyn Flamescowl",
+        locations = {
+            [717] = {
+                {
+                    x = 0.539537,
+                    y = 0.362473,
+                },
+            },
+        },
+    },
+    [105140] = {
+        name = "Shinfel Blightsworn",
+        locations = {
+            [717] = {
+                {
+                    x = 0.539719,
+                    y = 0.354633,
+                },
+            },
+        },
+    },
+    [105213] = {
+        name = "Spiritwalker Ebonhorn",
+        locations = {
+            [650] = {
+                {
+                    x = 0.57551,
+                    y = 0.923245,
                 },
             },
         },
@@ -2104,6 +2192,50 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.671351,
                     y = 0.629455,
+                },
+            },
+        },
+    },
+    [105815] = {
+        name = "Ritssyn Flamescowl",
+        locations = {
+            [717] = {
+                {
+                    x = 0.550772,
+                    y = 0.373669,
+                },
+            },
+        },
+    },
+    [105816] = {
+        name = "Kira Iresoul",
+        locations = {
+            [630] = {
+                {
+                    x = 0.608101,
+                    y = 0.306344,
+                },
+            },
+        },
+    },
+    [105928] = {
+        name = "Lulubelle Fizzlebang",
+        locations = {
+            [717] = {
+                {
+                    x = 0.544558,
+                    y = 0.39373,
+                },
+            },
+        },
+    },
+    [105951] = {
+        name = "Ritssyn Flamescowl",
+        locations = {
+            [717] = {
+                {
+                    x = 0.550772,
+                    y = 0.373669,
                 },
             },
         },
@@ -2471,6 +2603,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [110488] = {
+        name = "Ritssyn Flamescowl",
+        locations = {
+            [717] = {
+                {
+                    x = 0.36352,
+                    y = 0.306508,
+                },
+            },
+        },
+    },
     [110695] = {
         name = "Farseer Nobundo",
         locations = {
@@ -2541,11 +2684,88 @@ BtWQuestsDatabase:AddNPCsTable({
     [124312] = {
         name = "High Exarch Turalyon",
     },
+    [125454] = {
+        name = "Spiritwalker Graysky",
+        locations = {
+            [650] = {
+                {
+                    x = 0.385044,
+                    y = 0.691034,
+                },
+            },
+        },
+    },
+    [125459] = {
+        name = "Spiritwalker Graysky",
+        locations = {
+            [650] = {
+                {
+                    x = 0.570191,
+                    y = 0.462227,
+                },
+            },
+        },
+    },
+    [125466] = {
+        name = "Spiritwalker Graysky",
+        locations = {
+            [650] = {
+                {
+                    x = 0.533245,
+                    y = 0.640183,
+                },
+            },
+        },
+    },
+    [126134] = {
+        name = "Baine Bloodhoof",
+        locations = {
+            [650] = {
+                {
+                    x = 0.566979,
+                    y = 0.927723,
+                },
+            },
+        },
+    },
     [126408] = {
         name = "Illidan Stormrage",
     },
+    [129914] = {
+        name = "Baine Bloodhoof",
+        locations = {
+            [88] = {
+                {
+                    x = 0.615491,
+                    y = 0.51778,
+                },
+            },
+        },
+    },
     [130030] = {
         name = "Kelsey Steelspark",
+    },
+    [130423] = {
+        name = "Baine Bloodhoof",
+        locations = {
+            [650] = {
+                {
+                    x = 0.564899,
+                    y = 0.892321,
+                },
+            },
+        },
+    },
+    [130773] = {
+        name = "Honor Guard",
+        locations = {
+            [88] = {
+                {
+                    x = 0.616687,
+                    y = 0.521677,
+                },
+            },
+        },
     },
     [131963] = {
         name = "Nolan Speed",
@@ -2555,5 +2775,16 @@ BtWQuestsDatabase:AddNPCsTable({
     },
     [132147] = {
         name = "Grol Warblade",
+    },
+    [133523] = {
+        name = "Ji Firepaw",
+        locations = {
+            [85] = {
+                {
+                    x = 0.377518,
+                    y = 0.812073,
+                },
+            },
+        },
     },
 })

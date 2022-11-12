@@ -24,9 +24,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [90866] = {
         name = "수석땜장이 오버스파크",
     },
-    [91065] = {
-        name = "창고 관리자 부다니",
-    },
     [91109] = {
         name = "말퓨리온 스톰레이지",
     },
@@ -144,6 +141,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [104799] = {
         name = "티란데 위스퍼윈드",
     },
+    [104824] = {
+        name = "어니스트 칼라일",
+    },
     [104885] = {
         name = "티란데 위스퍼윈드",
     },
@@ -207,6 +207,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [110018] = {
         name = "가즈릭스 기어락",
     },
+    [110488] = {
+        name = "릿신 플레임스카울",
+    },
     [110987] = {
         name = "어둠파수꾼",
     },
@@ -227,6 +230,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130030] = {
         name = "켈시 스틸스파크",
+    },
+    [133523] = {
+        name = "지 파이어포우",
     },
 })
 ]])()

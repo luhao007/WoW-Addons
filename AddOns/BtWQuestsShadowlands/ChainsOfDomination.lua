@@ -568,8 +568,7 @@ Database:AddChain(Chain.TheLastSigil, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.AmongTheKyrian or 90601,
-            lowPriority = true,
+            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.TheBellTolls or 90609,
             restrictions = {
                 type = "covenant",
                 id = 1,
@@ -577,8 +576,7 @@ Database:AddChain(Chain.TheLastSigil, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Sinfall or 90901,
-            lowPriority = true,
+            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Dominion or 90909,
             restrictions = {
                 type = "covenant",
                 id = 2,
@@ -586,8 +584,7 @@ Database:AddChain(Chain.TheLastSigil, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.ForQueenAndGrove or 90801,
-            lowPriority = true,
+            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.DrustAndAshes or 90809,
             restrictions = {
                 type = "covenant",
                 id = 3,
@@ -595,8 +592,7 @@ Database:AddChain(Chain.TheLastSigil, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.LoyalToThePrimus or 90701,
-            lowPriority = true,
+            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.AssaultOnTheHouseOfRituals or 90709,
             restrictions = {
                 type = "covenant",
                 id = 4,
@@ -795,7 +791,7 @@ Database:AddChain(Chain.AnArmyOfBoneAndSteel, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.AmongTheKyrian or 90601,
+            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.TheBellTolls or 90609,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -804,7 +800,7 @@ Database:AddChain(Chain.AnArmyOfBoneAndSteel, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Sinfall or 90901,
+            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Dominion or 90909,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -813,7 +809,7 @@ Database:AddChain(Chain.AnArmyOfBoneAndSteel, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.ForQueenAndGrove or 90801,
+            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.DrustAndAshes or 90809,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -822,7 +818,7 @@ Database:AddChain(Chain.AnArmyOfBoneAndSteel, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.LoyalToThePrimus or 90701,
+            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.AssaultOnTheHouseOfRituals or 90709,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1009,7 +1005,7 @@ Database:AddChain(Chain.TheUnseenGuest, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.AmongTheKyrian or 90601,
+            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.TheBellTolls or 90609,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1018,7 +1014,7 @@ Database:AddChain(Chain.TheUnseenGuest, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Sinfall or 90901,
+            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Dominion or 90909,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1027,7 +1023,7 @@ Database:AddChain(Chain.TheUnseenGuest, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.ForQueenAndGrove or 90801,
+            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.DrustAndAshes or 90809,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1036,7 +1032,7 @@ Database:AddChain(Chain.TheUnseenGuest, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.LoyalToThePrimus or 90701,
+            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.AssaultOnTheHouseOfRituals or 90709,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1256,7 +1252,7 @@ Database:AddChain(Chain.ThePowerOfNight, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.AmongTheKyrian or 90601,
+            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.TheBellTolls or 90609,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1265,7 +1261,7 @@ Database:AddChain(Chain.ThePowerOfNight, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Sinfall or 90901,
+            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Dominion or 90909,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1274,7 +1270,7 @@ Database:AddChain(Chain.ThePowerOfNight, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.ForQueenAndGrove or 90801,
+            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.DrustAndAshes or 90809,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1283,7 +1279,7 @@ Database:AddChain(Chain.ThePowerOfNight, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.LoyalToThePrimus or 90701,
+            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.AssaultOnTheHouseOfRituals or 90709,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1526,7 +1522,7 @@ Database:AddChain(Chain.ANewPath, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.AmongTheKyrian or 90601,
+            id = BtWQuests.Constant.Chain.Shadowlands.Kyrian.TheBellTolls or 90609,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1535,7 +1531,7 @@ Database:AddChain(Chain.ANewPath, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Sinfall or 90901,
+            id = BtWQuests.Constant.Chain.Shadowlands.Venthyr.Dominion or 90909,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1544,7 +1540,7 @@ Database:AddChain(Chain.ANewPath, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.ForQueenAndGrove or 90801,
+            id = BtWQuests.Constant.Chain.Shadowlands.NightFae.DrustAndAshes or 90809,
             lowPriority = true,
             restrictions = {
                 type = "covenant",
@@ -1553,7 +1549,7 @@ Database:AddChain(Chain.ANewPath, {
         },
         {
             type = "chain",
-            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.LoyalToThePrimus or 90701,
+            id = BtWQuests.Constant.Chain.Shadowlands.Necrolord.AssaultOnTheHouseOfRituals or 90709,
             lowPriority = true,
             restrictions = {
                 type = "covenant",

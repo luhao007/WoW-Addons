@@ -282,9 +282,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38286] = {
         name = "아즈샤라의 눈: 아즈샤라의 분노",
     },
-    [38305] = {
-        name = "숲의 수호자 세나리우스",
-    },
     [38307] = {
         name = "대족장의 소환",
     },
@@ -1251,9 +1248,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39729] = {
         name = "전설을 이어받다",
     },
-    [39731] = {
-        name = "평온의 숲",
-    },
     [39733] = {
         name = "외로운 산",
     },
@@ -1367,9 +1361,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39860] = {
         name = "피의 의식",
-    },
-    [39861] = {
-        name = "마무리 매듭",
     },
     [39862] = {
         name = "공성브룰",
@@ -2168,9 +2159,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40710] = {
         name = "황혼 속의 검",
-    },
-    [40712] = {
-        name = "가는 말이 고와야 오는 유물이 곱다",
     },
     [40714] = {
         name = "전쟁의 부름",
@@ -4367,9 +4355,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43318] = {
         name = "라일레스의 용사",
-    },
-    [43324] = {
-        name = "올빼미야수의 분노",
     },
     [43331] = {
         name = "짭짤한 보상",

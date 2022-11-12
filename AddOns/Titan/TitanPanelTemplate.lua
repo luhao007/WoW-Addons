@@ -267,18 +267,6 @@ local function TitanPanelButton_IsText(id)
 	end
 end
 
---[[ Titan
-NAME: TitanPanelButton_IsIcon
-DESC: Is the given Titan plugin of type icon?
-VAR: id - string name of the plugin
-OUT: boolean
---]]
-function TitanPanelButton_IsIcon(id)
-	if (TitanPanelButton_GetType(id) == TITAN_PANEL_BUTTON_TYPE_ICON) then
-		return 1;
-	end
-end
-
 --[[ local
 NAME: TitanPanelButton_IsCombo
 DESC: Is the given Titan plugin of type combo?
@@ -287,6 +275,18 @@ OUT: boolean
 --]]
 local function TitanPanelButton_IsCombo(id)
 	if (TitanPanelButton_GetType(id) == TITAN_PANEL_BUTTON_TYPE_COMBO) then
+		return 1;
+	end
+end
+
+--[[ Titan
+NAME: TitanPanelButton_IsIcon
+DESC: Is the given Titan plugin of type icon?
+VAR: id - string name of the plugin
+OUT: boolean
+--]]
+function TitanPanelButton_IsIcon(id)
+	if (TitanPanelButton_GetType(id) == TITAN_PANEL_BUTTON_TYPE_ICON) then
 		return 1;
 	end
 end
@@ -485,7 +485,7 @@ VAR: value - the value
 OUT: string - encoded color string of text and value
 --]]
 function TitanOptionSlider_TooltipText(text, value)
-	return text .. " " .. GREEN_FONT_COLOR_CODE .. value .. FONT_COLOR_CODE_CLOSE;
+	return (text or "?") .. " " .. GREEN_FONT_COLOR_CODE .. value .. FONT_COLOR_CODE_CLOSE;
 end
 
 --[[ API
@@ -643,6 +643,17 @@ function TitanPanelButton_OnClick(self, button, isChildButton) -- Used by plugin
 			TitanUtils_GetButtonID(self:GetName()));
 	end
 
+--[[
+if self.TitanType == "macro" then
+print("TPB OnClick"
+.." "..tostring(self:GetName()).." "
+.." "..tostring(button).." "
+.." "..tostring(issecure()).." "
+.." "..tostring(self:GetAttribute("type")).." "
+.." "..tostring(self:GetAttribute("macrotext")).." "
+)
+end
+--]]
 	if id then
 		local controlFrame = TitanUtils_GetControlFrame(id);
 		local rightClickMenu = _G["TitanPanelRightClickMenu"];
@@ -663,35 +674,34 @@ function TitanPanelButton_OnClick(self, button, isChildButton) -- Used by plugin
 			local position = TitanUtils_GetWhichBar(id)
 			local scale = TitanPanelGetVar("Scale");
 			if (isControlFrameShown) then
-				local buttonCenter = (self:GetLeft() + self:GetRight()) / 2 * scale;
-				local controlFrameRight = buttonCenter + controlFrame:GetWidth() / 2;
-				local y_off = TITAN_PANEL_BAR_HEIGHT * scale
-				if ( position == TITAN_PANEL_PLACE_TOP ) then
-					controlFrame:ClearAllPoints();
-					controlFrame:SetPoint("TOP", "UIParent", "TOPLEFT", buttonCenter, -y_off);
+			
+				-- Note: This uses anchor points to place the control frame relative to the plugin on the screen.
+				local parent = self:GetName() -- plugin with the control frame
+				local point = "" -- point of the control frame
+				local rel_point = "" -- The middle - top or bottom edge - of the plugin to anchor to
+				if ( position == TitanBarOrder[1] 
+				or   position == TitanBarOrder[2] ) then -- a top bar - is there a better check???
+					point = "TOP"
+					rel_point = "BOTTOM"
+				else -- a bottom bar
+					point = "BOTTOM"
+					rel_point = "TOP"
+				end
 
-					-- Adjust control frame position if it's off the screen
-					local offscreenX, offscreenY = TitanUtils_GetOffscreen(controlFrame);
-					if ( offscreenX == -1 ) then
-						controlFrame:ClearAllPoints();
-						controlFrame:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 0, -y_off);
-					elseif ( offscreenX == 1 ) then
-						controlFrame:ClearAllPoints();
-						controlFrame:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", 0, -y_off);
-					end
-				else
+				local x = 0
+				local y = 0
+				
+				controlFrame:ClearAllPoints();
+				controlFrame:SetPoint(point.."LEFT", parent, rel_point, 0, 0) -- default left of plugin
+				
+				-- Adjust control frame position if it's off the screen
+				local offscreenX, offscreenY = TitanUtils_GetOffscreen(controlFrame);
+				if ( offscreenX == -1 ) then 
+					-- Off to left of screen which should not happen...
+				elseif ( offscreenX == 1 ) then
+					-- off to right of screen, flip to right of plugin
 					controlFrame:ClearAllPoints();
-					controlFrame:SetPoint("BOTTOM", "UIParent", "BOTTOMLEFT", buttonCenter, y_off);
-
-					-- Adjust control frame position if it's off the screen
-					local offscreenX, offscreenY = TitanUtils_GetOffscreen(controlFrame);
-					if ( offscreenX == -1 ) then
-						controlFrame:ClearAllPoints();
-						controlFrame:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, y_off);
-					elseif ( offscreenX == 1 ) then
-						controlFrame:ClearAllPoints();
-						controlFrame:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", 0, y_off);
-					end
+					controlFrame:SetPoint(point.."RIGHT", parent, rel_point, 0, 0)
 				end
 
 				controlFrame:Show();

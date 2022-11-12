@@ -21,9 +21,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [90866] = {
         name = "Maître-bricoleur Suprétincelle",
     },
-    [91065] = {
-        name = "Maître de chai Voodani",
-    },
     [91109] = {
         name = "Malfurion Hurlorage",
     },
@@ -162,6 +159,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [110018] = {
         name = "Gazrik Verrouage",
     },
+    [110488] = {
+        name = "Ritssyn Hargneflamme",
+    },
     [110987] = {
         name = "Oeil-de-nuit",
     },
@@ -182,6 +182,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130030] = {
         name = "Kelsey Etinçacier",
+    },
+    [133523] = {
+        name = "Ji Patte de Feu",
     },
 })
 ]])()

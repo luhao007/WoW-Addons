@@ -150,6 +150,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [104799] = {
         name = "泰蘭妲‧語風",
     },
+    [104824] = {
+        name = "恩尼斯特‧卡萊爾",
+    },
     [104885] = {
         name = "泰蘭妲‧語風",
     },
@@ -192,6 +195,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [110018] = {
         name = "加茲里斯‧輪鎖",
     },
+    [110488] = {
+        name = "瑞特辛‧焰慍",
+    },
     [110987] = {
         name = "夜眼",
     },
@@ -212,6 +218,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130030] = {
         name = "凱爾希‧鋼火",
+    },
+    [133523] = {
+        name = "紀‧火爪",
     },
 })
 ]])()

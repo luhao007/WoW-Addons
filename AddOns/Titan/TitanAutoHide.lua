@@ -178,3 +178,73 @@ function Handle_OnUpdateAutoHide(frame)
 		TitanPanelBarButton_Hide(frame)
 	end
 end
+
+-- ====== Create needed frames
+local function Create_Hide_Button(name, f)
+	local window = CreateFrame("Button", name, f, "TitanPanelIconTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	Titan_AutoHide_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+	
+	window:SetScript("OnShow", function(self)
+		Titan_AutoHide_OnShow(self) 
+	end)
+	window:SetScript("OnClick", function(self, button)
+		Titan_AutoHide_OnClick(self, button);
+		TitanPanelButton_OnClick(self, button);
+	end)
+end
+
+local function Create_Frames()
+	if _G["Titan_Bar__Display_Bar"] then
+		return -- if already created
+	end
+
+	-- Display & Hide bars
+	local top1_d = CreateFrame("Button", "Titan_Bar__Display_Bar", UIParent, "Titan_Bar__Display_Template")
+	top1_d:SetFrameStrata("DIALOG")
+	top1_d:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, 0)
+	top1_d:SetPoint("BOTTOMRIGHT", UIParent, "TOPRIGHT", 0, -24)
+	local top1_h = CreateFrame("Button", "Titan_Bar__Hider_Bar", UIParent, "TitanPanelBarButtonHiderTemplate")
+	top1_h:SetFrameStrata("DIALOG")
+	top1_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
+	
+	local top2_d = CreateFrame("Button", "Titan_Bar__Display_Bar2", UIParent, "Titan_Bar__Display_Template")
+	top2_d:SetFrameStrata("DIALOG")
+	top2_d:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, 24)
+	top2_d:SetPoint("BOTTOMRIGHT", UIParent, "TOPRIGHT", 0, 48)
+	local top2_h = CreateFrame("Button", "Titan_Bar__Hider_Bar2", UIParent, "TitanPanelBarButtonHiderTemplate")
+	top2_h:SetFrameStrata("DIALOG")
+	top2_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
+
+	local bot1_d = CreateFrame("Button", "Titan_Bar__Display_AuxBar", UIParent, "Titan_Bar__Display_Template")
+	bot1_d:SetFrameStrata("DIALOG")
+	bot1_d:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 0)
+	bot1_d:SetPoint("TOPRIGHT", UIParent, "BOTTOMRIGHT", 0, 24)
+	local bot1_h = CreateFrame("Button", "Titan_Bar__Hider_AuxBar", UIParent, "TitanPanelBarButtonHiderTemplate")
+	bot1_h:SetFrameStrata("DIALOG")
+	bot1_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
+
+	local bot2_d = CreateFrame("Button", "Titan_Bar__Display_AuxBar2", UIParent, "Titan_Bar__Display_Template")
+	bot2_d:SetFrameStrata("DIALOG")
+	bot2_d:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 24)
+	bot2_d:SetPoint("TOPRIGHT", UIParent, "BOTTOMRIGHT", 0, 48)
+	local bot2_h = CreateFrame("Button", "Titan_Bar__Hider_AuxBar2", UIParent, "TitanPanelBarButtonHiderTemplate")
+	bot2_h:SetFrameStrata("DIALOG")
+	bot2_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
+
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan Auto hide Buttons
+	Create_Hide_Button("TitanPanelAutoHide_BarButton", f)
+	Create_Hide_Button("TitanPanelAutoHide_Bar2Button", f)
+	Create_Hide_Button("TitanPanelAutoHide_AuxBar2Button", f)
+	Create_Hide_Button("TitanPanelAutoHide_AuxBarButton", f)
+	
+end
+
+
+Create_Frames() -- do the work

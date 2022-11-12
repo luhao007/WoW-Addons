@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: Breen
-## Version: 30.4
+## Version: 30.5
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
 
@@ -16,6 +16,9 @@
 ## X-BtWQuests-Category-Range: 701-728
 ## X-BtWQuests-Chain-Range: 70101-72804,7001,7002
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 297374
+## X-WoWI-ID: 24770
+## X-Wago-ID: BO67n0N3
 
 Defines.lua
 

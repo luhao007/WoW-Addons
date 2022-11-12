@@ -21,9 +21,6 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [90866] = {
         name = "Mestre-faz-tudo Superchispa",
     },
-    [91065] = {
-        name = "Adegueiro Vudani",
-    },
     [91109] = {
         name = "Malfurion Tempesfúria",
     },
@@ -123,6 +120,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [104799] = {
         name = "Tyrande Murmuréolo",
     },
+    [104824] = {
+        name = "Ernesto Carvalho",
+    },
     [104885] = {
         name = "Tyrande Murmuréolo",
     },
@@ -177,6 +177,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [110018] = {
         name = "Gazrix Travaporca",
     },
+    [110488] = {
+        name = "Ritssyn Esgardechama",
+    },
     [110987] = {
         name = "Noctívolho",
     },
@@ -197,6 +200,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [130030] = {
         name = "Kelsey Fagulhaço",
+    },
+    [133523] = {
+        name = "Ji Pata de Fogo",
     },
 })
 ]])()

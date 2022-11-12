@@ -1,10 +1,10 @@
 ## Interface: 100000
 ## Author: Titan Panel Development Team
-## Version: 6.00.04.100000
+## Version: 6.00.07.100000
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, LibSharedMedia-3.0, LibQTip-1.0, !LibUIDropDownMenu
 ## SavedVariables: TitanAll, TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat
 
-## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa006.00.04.100000|r
+## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa006.00.07.100000|r
 ## Notes: Adds a display bar on the top and/or bottom of the screen. Allows users to show and control information/launcher plugins.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFFFFE00ATitan|r
 ## Notes-zhCN: 在屏幕顶端/底端增加一个可视化侧边栏
@@ -36,10 +36,10 @@ locale\Localization.TW.lua
 
 TitanUtils.lua
 TitanVariables.lua
-TitanAutoHide.lua
 TitanPanelTemplate.xml
 TitanMovable.lua
 TitanConfig.lua
+TitanAutoHide.lua
 TitanPanel.xml
 TitanPanel.lua
 LDBToTitan.lua

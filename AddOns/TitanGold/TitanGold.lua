@@ -8,6 +8,7 @@
 
 -- ******************************** Constants *******************************
 local TITAN_GOLD_ID = "Gold";
+local TITAN_BUTTON = "TitanPanel"..TITAN_GOLD_ID.."Button"
 local TITAN_GOLD_COUNT_FORMAT = "%d";
 local TITAN_GOLD_VERSION = TITAN_VERSION;
 local TITAN_GOLD_SPACERBAR = "-----------------------";
@@ -188,7 +189,7 @@ function TitanPanelGoldButton_OnLoad(self)
 			ShowLabelText = true,
 			ShowRegularText = false,
 			ShowColoredText = false,
-			DisplayOnRightSide = false
+			DisplayOnRightSide = true,
 		},
 		savedVariables = {
 			Initialized = true,
@@ -202,6 +203,7 @@ function TitanPanelGoldButton_OnLoad(self)
 			ShowIcon = true,
 			ShowLabelText = false,
 			ShowColoredText = true,
+			DisplayOnRightSide = false,
 			UseSeperatorComma = true,
 			UseSeperatorPeriod = false,
 			MergeServers = false,
@@ -987,14 +989,7 @@ function TitanPanelRightClickMenu_PrepareGoldMenu()
 
 		TitanPanelRightClickMenu_AddCommand(L["TITAN_GOLD_RESET_SESS_TEXT"], TITAN_GOLD_ID, "TitanPanelGoldButton_ResetSession");
 
-		TitanPanelRightClickMenu_AddSeparator();
-		TitanPanelRightClickMenu_AddToggleIcon(TITAN_GOLD_ID);
-		TitanPanelRightClickMenu_AddToggleLabelText(TITAN_GOLD_ID);
-		TitanPanelRightClickMenu_AddToggleColoredText(TITAN_GOLD_ID);
-		TitanPanelRightClickMenu_AddSeparator();
-
-		-- Generic function to toggle and hide
-		TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_GOLD_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+		TitanPanelRightClickMenu_AddControlVars(TITAN_GOLD_ID)
 	end
 
 	-- Second (2nd) level for show / delete | sort by
@@ -1207,3 +1202,35 @@ function TitanGold_ClearDB()
 	};
 	StaticPopup_Show("TITANGOLD_CLEAR_DATABASE");
 end
+
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_BUTTON] then
+		return -- if already created
+	end
+	
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_BUTTON, f, "TitanPanelComboTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelGoldButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+	
+	window:SetScript("OnShow", function(self)
+		TitanPanelGoldButton_OnShow(self);
+		TitanPanelButton_OnShow(self);
+	end)
+	window:SetScript("OnHide", function(self)
+		TitanPanelGoldButton_OnHide(self);
+	end)
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanGold_OnEvent(self, event, ...) 
+	end)
+end
+
+
+Create_Frames() -- do the work

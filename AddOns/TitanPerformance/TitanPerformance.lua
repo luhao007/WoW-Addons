@@ -6,6 +6,7 @@
 
 -- ******************************** Constants *******************************
 local TITAN_PERFORMANCE_ID = "Performance";
+local TITAN_BUTTON = "TitanPanel"..TITAN_PERFORMANCE_ID.."Button"
 local TITAN_PERF_FRAME_SHOW_TIME = 0.5;
 local updateTable = {TITAN_PERFORMANCE_ID, TITAN_PANEL_UPDATE_ALL};
 
@@ -597,13 +598,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 	info.hasArrow = 1;
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddToggleIcon(TITAN_PERFORMANCE_ID);
-	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_PERFORMANCE_ID);
-	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_PERFORMANCE_ID);
-	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_PERFORMANCE_ID);
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_PERFORMANCE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddControlVars(TITAN_PERFORMANCE_ID)
 end
 
 -- **************************************************************************
@@ -830,3 +825,93 @@ function TitanPanelPerfControlFrame_OnUpdate(self, elapsed)
 		TitanUtils_CheckFrameCounting(self, elapsed);
 	end
 end
+
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_BUTTON] then
+		return -- if already created
+	end
+	
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_BUTTON, f, "TitanPanelComboTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelPerformanceButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+	
+	window:SetScript("OnShow", function(self)
+		TitanPanelPerformanceButton_OnShow()
+		TitanPanelButton_OnShow(self)
+	end)
+	window:SetScript("OnHide", function(self)
+		TitanPanelPerformanceButton_OnHide()
+	end)
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanPanelPerformanceButton_OnEvent(self, event, ...) 
+	end)
+	window:SetScript("OnClick", function(self, button)
+		TitanPanelPerformanceButton_OnClick(self, button)
+		TitanPanelButton_OnClick(self, button)
+	end)
+
+
+---[===[
+	-- Config screen
+	local cname = "TitanPanelPerfControlFrame"
+	local config = CreateFrame("Frame", cname, f, BackdropTemplateMixin and "BackdropTemplate")
+	config:SetFrameStrata("FULLSCREEN")
+	config:Hide()
+	config:SetWidth(120)
+	config:SetHeight(170)
+
+	config:SetScript("OnEnter", function(self)
+		TitanUtils_StopFrameCounting(self)
+	end)
+	config:SetScript("OnLeave", function(self)
+		TitanUtils_StartFrameCounting(self, 0.5)
+	end)
+	config:SetScript("OnUpdate", function(self, elapsed)
+		TitanPanelPerfControlFrame_OnUpdate(self, elapsed)
+	end)
+	
+	-- Config Title
+	local str = nil
+	local style = "GameFontNormalSmall"
+	str = config:CreateFontString(cname.."Title", "ARTWORK", style)
+	str:SetPoint("TOP", config, 0, -10)
+
+	-- Config slider sections
+	local slider = nil
+
+	-- Hours offset
+	local inherit = "TitanOptionsSliderTemplate"
+	local offset = CreateFrame("Slider", "TitanPanelClockControlSlider", config, inherit)
+	offset:SetPoint("TOP", config, 0, -40)
+	offset:SetScript("OnShow", function(self)
+		TitanPanelPerfControlSlider_OnShow(self)
+	end)
+	offset:SetScript("OnValueChanged", function(self)
+		TitanPanelPerfControlSlider_OnValueChanged(self, value)
+	end)
+	offset:SetScript("OnMouseWheel", function(self)
+		TitanPanelPerfControlSlider_OnValueChanged(self, delta)
+	end)
+	offset:SetScript("OnEnter", function(self)
+		TitanPanelPerfControlSlider_OnEnter(self)
+	end)
+	offset:SetScript("OnLeave", function(self)
+		TitanPanelPerfControlSlider_OnLeave(self)
+	end)
+
+	-- Now that the parts exist, initialize
+	TitanPanelPerfControlFrame_OnLoad(config)
+
+--]===]
+end
+
+
+Create_Frames() -- do the work

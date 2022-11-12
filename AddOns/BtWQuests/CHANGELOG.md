@@ -1,3 +1,8 @@
+# v2.23.0
+
+- Fixed an error preventing alt+clicking auction house items
+- Fixed requirements for The Last Sigil and following quest chains
+
 # v2.22.0
 
 - Updated for 10.0.0

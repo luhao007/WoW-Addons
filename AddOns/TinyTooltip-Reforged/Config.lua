@@ -29,7 +29,7 @@ addon.db = {
         bodyFont          = "default",
         bodyFontSize      = "default",
         bodyFontFlag      = "default",
-        SavedVariablesPerCharacter = true,
+        SavedVariablesPerCharacter = false,
      },
     unit = {
         player = {
@@ -41,8 +41,7 @@ addon.db = {
             showTargetBy = true,
             showModel = false,  
             grayForDead = true, 
-	    showIlvl = false,
-	    showSpec = false,
+	    showIlevelAndSpecialization = false,
             elements = {
                 raidIcon    = { enable = true, filter = "none" },
                 roleIcon    = { enable = true, filter = "none" },

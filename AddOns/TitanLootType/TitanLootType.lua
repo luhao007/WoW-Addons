@@ -1,11 +1,14 @@
+--[[
 -- **************************************************************************
 -- * TitanLootType.lua
 -- *
 -- * By: The Titan Panel Development Team
 -- **************************************************************************
+--]]
 
 -- ******************************** Constants *******************************
 local TITAN_LOOTTYPE_ID = "LootType";
+local TITAN_BUTTON = "TitanPanel"..TITAN_LOOTTYPE_ID.."Button"
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local TitanLootMethod = {};
@@ -18,13 +21,17 @@ TitanLootMethod["needbeforegreed"] = {text = L["TITAN_LOOTTYPE_NEED_BEFORE_GREED
 TitanLootMethod["personalloot"] = {text = L["TITAN_LOOTTYPE_PERSONAL"]};
 
 -- ******************************** Variables *******************************
+local loot_spec_name = ""
+local current_spec = ""
 
 -- ******************************** Functions *******************************
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelLootTypeButton_OnLoad()
 -- DESC : Registers the plugin upon it loading
 -- **************************************************************************
+--]]
 function TitanPanelLootTypeButton_OnLoad(self)
 	self.registry = {
 		id = TITAN_LOOTTYPE_ID,
@@ -39,7 +46,6 @@ function TitanPanelLootTypeButton_OnLoad(self)
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
-			ShowRegularText = false,
 			ShowColoredText = false,
 			DisplayOnRightSide = true,
 		},
@@ -50,6 +56,8 @@ function TitanPanelLootTypeButton_OnLoad(self)
 			DisplayOnRightSide = false,
 			ShowDungeonDiff = false,
 			DungeonDiffType = "AUTO",
+			ShowLootType = true,
+			ShowLootSpec = true,
 		}
 	};
 
@@ -57,6 +65,9 @@ function TitanPanelLootTypeButton_OnLoad(self)
 	self:RegisterEvent("RAID_ROSTER_UPDATE");
 	self:RegisterEvent("PARTY_LOOT_METHOD_CHANGED");
 	self:RegisterEvent("CHAT_MSG_SYSTEM");
+	
+	self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+	self:RegisterEvent("PLAYER_LOOT_SPEC_UPDATED")
 end
 
 function TitanPanelLootTypeButton_GetDungeonDifficultyIDText(isRaid, withpar)
@@ -97,10 +108,12 @@ function TitanPanelLootTypeButton_GetDungeonDifficultyIDText(isRaid, withpar)
 	return diffstr
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelLootTypeButton_OnEvent()
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
+--]]
 function TitanPanelLootTypeButton_OnEvent(self, event, ...)
 	local arg1 = ...;
 	if event == "CHAT_MSG_SYSTEM" then
@@ -138,14 +151,17 @@ function TitanPanelLootTypeButton_OnEvent(self, event, ...)
 	TitanPanelPluginHandle_OnUpdate(updateTable)
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelLootTypeButton_GetButtonText(id)
 -- DESC : Calculate loottype and then display data on button
 -- VARS : id = button ID
 -- **************************************************************************
+--]]
 function TitanPanelLootTypeButton_GetButtonText(id)
 	local lootTypeText, lootThreshold, color, dungeondiff;
 	dungeondiff = "";
+
 	if (GetNumSubgroupMembers() > 0) or (GetNumGroupMembers() > 0) then
 		lootTypeText = TitanLootMethod[GetLootMethod()].text;
 		lootThreshold = GetLootThreshold();
@@ -167,55 +183,125 @@ function TitanPanelLootTypeButton_GetButtonText(id)
 			if GetNumGroupMembers() > 0 then dungeondiff = dungeondiff.." "..TitanPanelLootTypeButton_GetDungeonDifficultyIDText(true, true) end
 		end
 	end
-	return L["TITAN_LOOTTYPE_BUTTON_LABEL"], TitanUtils_GetColoredText(lootTypeText, color)..dungeondiff;
+	
+	-- Determine current spec
+	local spec = 0
+	local id, name, descr, icon, role, is_rec, is_allowed 
+	spec = GetSpecialization() -- 1-4 ; nil or 5 (Initial) assume none
+	if spec == nil or spec == 5 then 
+		name = (NONE or "None...")
+	else 
+		id, name, descr, icon, role, is_rec, is_allowed = GetSpecializationInfo(spec)
+	end
+	current_spec = name -- for tool tip
+
+	-- Determine loot spec
+	local loot_label = (LOOT.." "..SPECIALIZATION or "Loot Spec")..": "
+	local loot_spec = GetLootSpecialization()
+	if loot_spec == 0 then -- 0 means current spec
+	else -- Id means user has set
+		id, name, descr, icon, role, is_rec, is_allowed = GetSpecializationInfoByID(loot_spec)
+	end
+	
+	loot_spec_name = name -- for tool tip
+--[[
+print("T Loot"
+.." "..tostring(spec).." "
+.." "..tostring(loot_spec).." "
+--.." "..tostring(GetSpecializationInfo(spec)).." "
+.." "..tostring(name).." "
+)
+--]]
+	local show_loot_type = TitanGetVar(TITAN_LOOTTYPE_ID, "ShowLootType")
+	local show_loot_spec = TitanGetVar(TITAN_LOOTTYPE_ID, "ShowLootSpec")
+	local ltl, ltd, csl, csd, lsl, lsd
+	
+	if show_loot_type then
+		ltl = L["TITAN_LOOTTYPE_BUTTON_LABEL"]
+		ltd = TitanUtils_GetColoredText(lootTypeText, color)..dungeondiff
+	else
+		ltl = ""
+		ltd = ""
+	end
+	
+	if show_loot_spec then
+		csl = (SPECIALIZATION or "Spec")..": "
+		csd = current_spec
+	else
+		csl = ""
+		csd = ""
+	end
+
+	if show_loot_spec then
+		lsl = loot_label
+		lsd = loot_spec_name
+	else
+		lsl = ""
+		lsd = ""
+	end
+	
+	return ltl, ltd, csl, TitanUtils_GetHighlightText(csd), lsl, TitanUtils_GetHighlightText(lsd)
+	
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelLootTypeButton_GetTooltipText()
 -- DESC : Display tooltip text
 -- **************************************************************************
+--]]
 function TitanPanelLootTypeButton_GetTooltipText()
+	local party = ""
 	if (GetNumSubgroupMembers() > 0) or (GetNumGroupMembers() > 0) then
 		local lootTypeText = TitanLootMethod[GetLootMethod()].text;
 		local lootThreshold = GetLootThreshold();
 		local itemQualityDesc = _G["ITEM_QUALITY"..lootThreshold.."_DESC"];
 		local color = _G["ITEM_QUALITY_COLORS"][lootThreshold];
-		return ""..
+		party = ""..
+			_G["LOOT_METHOD"]..": \t"..TitanUtils_GetHighlightText(lootTypeText).."\n"..
+			_G["LOOT_THRESHOLD"]..": \t"..TitanUtils_GetColoredText(itemQualityDesc, color).."\n"
+	else
+		party = TitanUtils_GetNormalText(_G["ERR_NOT_IN_GROUP"]).."\n"
+	end
+	local tt = ""..
 			L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyIDText().."\n"..
 			L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyIDText(true).."\n"..
-			_G["LOOT_METHOD"]..": \t"..TitanUtils_GetHighlightText(lootTypeText).."\n"..
-			_G["LOOT_THRESHOLD"]..": \t"..TitanUtils_GetColoredText(itemQualityDesc, color).."\n"..
+			(SPECIALIZATION or "Spec")..": \t"..current_spec.."\n"..
+			(SELECT_LOOT_SPECIALIZATION or "Loot Spec")..": \t"..loot_spec_name.."\n"..
+			party..
+			"\n"..
 			TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT1"]).."\n"..
-			TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"]);
-	else
-		return L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyIDText().."\n"..
-			L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyIDText(true).."\n"..
-			TitanUtils_GetNormalText(_G["ERR_NOT_IN_GROUP"]).."\n"..
-			TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT1"]).."\n"..
-			TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"]);
-	end
+			TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"])..
+			""
+	return tt
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelLootType_Random100()
 -- DESC : Define random 100 loottype
 -- **************************************************************************
+--]]
 function TitanPanelLootType_Random100()
 	TitanSetVar(TITAN_LOOTTYPE_ID, "RandomRoll", 100);
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelLootType_Random1000()
 -- DESC : Define random 1000 loottype
 -- **************************************************************************
+--]]
 function TitanPanelLootType_Random1000()
 	TitanSetVar(TITAN_LOOTTYPE_ID, "RandomRoll", 1000);
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelLootType_GetRoll(num)
 -- DESC : Confirm loottype is random roll
 -- **************************************************************************
+--]]
 function TitanPanelLootType_GetRoll(num)
 	local temp = TitanGetVar(TITAN_LOOTTYPE_ID, "RandomRoll");
 	if temp == num then
@@ -224,10 +310,12 @@ function TitanPanelLootType_GetRoll(num)
 	return nil;
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelRightClickMenu_PrepareLootTypeMenu()
 -- DESC : Display rightclick menu options
 -- **************************************************************************
+--]]
 function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 	local info = {};
 	if TitanPanelRightClickMenu_GetDropdownLevel() == 2 and TitanPanelRightClickMenu_GetDropdMenuValue() == "RandomRoll" then
@@ -439,27 +527,69 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		info.hasArrow = 1;
 		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
+		TitanPanelRightClickMenu_AddSpacer();
+		info = {};
+		info.text = SHOW.." "..(LOOT_METHOD or "Loot Type")
+		info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_LOOTTYPE_ID, "ShowLootType"}) end
+		info.checked = TitanGetVar(TITAN_LOOTTYPE_ID, "ShowLootType")
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+		info = {};
+		info.text = SHOW.." "..(SPECIALIZATION or "Spec")
+		info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_LOOTTYPE_ID, "ShowLootSpec"}) end
+		info.checked = TitanGetVar(TITAN_LOOTTYPE_ID, "ShowLootSpec")
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+		TitanPanelRightClickMenu_AddSpacer();
 		info = {};
 		info.notCheckable = true
 		info.text = L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"];
 		info.value = "RandomRoll";
 		info.hasArrow = 1;
 		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-		TitanPanelRightClickMenu_AddSpacer();
-		TitanPanelRightClickMenu_AddToggleIcon(TITAN_LOOTTYPE_ID);
-		TitanPanelRightClickMenu_AddToggleLabelText(TITAN_LOOTTYPE_ID);
-		TitanPanelRightClickMenu_AddToggleRightSide(TITAN_LOOTTYPE_ID);
-		TitanPanelRightClickMenu_AddSpacer();
-		TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_LOOTTYPE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+		
+		TitanPanelRightClickMenu_AddControlVars(TITAN_LOOTTYPE_ID)
 	end
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnClick(button)
 -- DESC : Generate random roll on leftclick of button
 -- **************************************************************************
+--]]
 function TitanPanelLootTypeButton_OnClick(self, button)
 	if button == "LeftButton" then
 		RandomRoll(1, TitanGetVar(TITAN_LOOTTYPE_ID, "RandomRoll"));
 	end
 end
+
+
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_BUTTON] then
+		return -- if already created
+	end
+	
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_BUTTON, f, "TitanPanelComboTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelLootTypeButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+	
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanPanelLootTypeButton_OnEvent(self, event, ...) 
+	end)
+	window:SetScript("OnClick", function(self, button)
+		TitanPanelLootTypeButton_OnClick(self, button);
+		TitanPanelButton_OnClick(self, button);
+	end)
+end
+
+
+Create_Frames() -- do the work

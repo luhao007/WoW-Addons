@@ -279,9 +279,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38286] = {
         name = "Ojo de Azshara: Cólera de Azshara",
     },
-    [38305] = {
-        name = "Cenarius, protector de la arboleda",
-    },
     [38307] = {
         name = "La Jefa de Guerra llama",
     },
@@ -1242,9 +1239,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39729] = {
         name = "El conocimiento de Torre Oscura",
     },
-    [39731] = {
-        name = "El bosque tranquilo",
-    },
     [39733] = {
         name = "La montaña solitaria",
     },
@@ -1355,9 +1349,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39860] = {
         name = "Rito de Sangre",
-    },
-    [39861] = {
-        name = "Atando los cabos sueltos",
     },
     [39862] = {
         name = "El asediabrul",
@@ -2153,9 +2144,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40710] = {
         name = "La espada en el Crepúsculo",
-    },
-    [40712] = {
-        name = "El poder poseído",
     },
     [40714] = {
         name = "El grito de guerra",
@@ -4340,9 +4328,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43318] = {
         name = "Campeón de Ly'leth",
-    },
-    [43324] = {
-        name = "Ira de las lechubestias",
     },
     [43331] = {
         name = "Momento de cobrar",

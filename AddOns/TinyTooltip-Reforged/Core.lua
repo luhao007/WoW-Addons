@@ -31,6 +31,9 @@ addon.L, addon.G = {}, {}
 setmetatable(addon.L, {__index = function(_, k) return k end})
 setmetatable(addon.G, {__index = function(_, k) return _G[k] or k end})
 
+local actualVersion = GetAddOnMetadata("TinyTooltip-Reforged", "Version") or "unknown"
+print("|cff00d200TinyTooltip Reforged v",actualVersion," loaded.|r")
+
 addon.tooltips = {
     GameTooltip,
     ItemRefTooltip,
@@ -565,10 +568,8 @@ end)
 
 LibEvent:attachTrigger("tooltip.anchor.static", function(self, frame, parent, offsetX, offsetY, anchorPoint)
     local anchor = select(2, frame:GetPoint())
-    if (anchor == UIParent) then
-        frame:ClearAllPoints()
-        frame:SetPoint(anchorPoint or "BOTTOMRIGHT", UIParent, anchorPoint or "BOTTOMRIGHT", tonumber(offsetX) or (-CONTAINER_OFFSET_X-13), tonumber(offsetY) or CONTAINER_OFFSET_Y)
-    end
+    frame:ClearAllPoints()
+    frame:SetPoint(anchorPoint or "BOTTOMRIGHT", UIParent, anchorPoint or "BOTTOMRIGHT", tonumber(offsetX) or (-CONTAINER_OFFSET_X-13), tonumber(offsetY) or CONTAINER_OFFSET_Y)
 end)
 
 LibEvent:attachTrigger("tooltip.anchor.none", function(self, frame, parent)

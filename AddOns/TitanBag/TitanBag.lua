@@ -7,6 +7,8 @@
 -- ******************************** Constants *******************************
 local _G = getfenv(0);
 local TITAN_BAG_ID = "Bag";
+local TITAN_BUTTON = "TitanPanel"..TITAN_BAG_ID.."Button"
+
 local TITAN_BAG_THRESHOLD_TABLE = {
 	Values = { 0.5, 0.75, 0.9 },
 	Colors = { HIGHLIGHT_FONT_COLOR, NORMAL_FONT_COLOR, ORANGE_FONT_COLOR, RED_FONT_COLOR },
@@ -92,10 +94,12 @@ print(ZZbags[21858].style)
 
 -- ******************************** Functions *******************************
 
+--[[ plugin
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnLoad()
 -- DESC : Registers the plugin upon it loading
 -- **************************************************************************
+--]]
 function TitanPanelBagButton_OnLoad(self)
 	self.registry = {
 		id = TITAN_BAG_ID,
@@ -110,7 +114,6 @@ function TitanPanelBagButton_OnLoad(self)
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
-			ShowRegularText = false,
 			ShowColoredText = true,
 			DisplayOnRightSide = true,
 		},
@@ -128,10 +131,12 @@ function TitanPanelBagButton_OnLoad(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
+--[[ plugin
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnEvent()
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
+--]]
 function TitanPanelBagButton_OnEvent(self, event, ...)
 	if (event == "PLAYER_ENTERING_WORLD") and (not self:IsEventRegistered("BAG_UPDATE")) then
 		self:RegisterEvent("BAG_UPDATE");
@@ -150,17 +155,20 @@ function TitanPanelBagButton_OnUpdate(self)
 	self:SetScript("OnUpdate", nil)
 end
 
+--[[ plugin
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnClick(button)
 -- DESC : Opens all bags on a LeftClick
 -- VARS : button = value of action
 -- **************************************************************************
+--]]
 function TitanPanelBagButton_OnClick(self, button)
 	if (button == "LeftButton") then
 		ToggleAllBags();
 	end
 end
 
+--[[
 -- **************************************************************************
 -- NAME : isBag(id)
 -- DESC : Determine if this is a bag. Then check for a profession bag using its id
@@ -171,6 +179,7 @@ end
 -- **************************************************************************
 	-- using GetItemInfo caused a 'script ran too long' error on Shadowlands ptr (9.x) although it worked in retail (8.x)
 	-- GetItemInfoInstant returns the needed id and uses client files - no server call.
+--]]
 local function isBag(bag_name, pos)
 --[[
 print("isBag:"
@@ -331,15 +340,18 @@ TitanDebug("GetButtonText: <<<")
 	return L["TITAN_BAG_BUTTON_LABEL"], bagRichText;
 end
 
+-- plugin
 function TitanPanelBagButton_GetButtonText(id)
 	local strA, strB = GetButtonText(id)
 	return strA, strB
 end
 
+--[[ plugin
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_GetTooltipText()
 -- DESC : Display tooltip text
 -- **************************************************************************
+--]]
 function TitanPanelBagButton_GetTooltipText()
 	local totalSlots, usedSlots, availableSlots;
 	local returnstring = "";
@@ -417,10 +429,13 @@ function TitanPanelBagButton_GetTooltipText()
 	return returnstring..TitanUtils_GetGreenText(L["TITAN_BAG_TOOLTIP_HINTS"]);
 end
 
+--[[ plugin
 -- **************************************************************************
 -- NAME : TitanPanelRightClickMenu_PrepareBagMenu()
 -- DESC : Display rightclick menu options
+-- NOTE : Titan builds this name to call on right click
 -- **************************************************************************
+--]]
 function TitanPanelRightClickMenu_PrepareBagMenu()
 	local info
 	-- level 2
@@ -465,37 +480,37 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddToggleIcon(TITAN_BAG_ID);
-	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_BAG_ID);
-	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_BAG_ID);
-	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_BAG_ID);
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_BAG_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddControlVars(TITAN_BAG_ID)
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_ShowUsedSlots()
 -- DESC : Set option to show used slots
 -- **************************************************************************
+--]]
 function TitanPanelBagButton_ShowUsedSlots()
 	TitanSetVar(TITAN_BAG_ID, "ShowUsedSlots", 1);
 	TitanPanelButton_UpdateButton(TITAN_BAG_ID);
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_ShowAvailableSlots()
 -- DESC : Set option to show available slots
 -- **************************************************************************
+--]]
 function TitanPanelBagButton_ShowAvailableSlots()
 	TitanSetVar(TITAN_BAG_ID, "ShowUsedSlots", nil);
 	TitanPanelButton_UpdateButton(TITAN_BAG_ID);
 end
 
+--[[
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_ToggleIgnoreProfBagSlots()
 -- DESC : Set option to count profession bag slots
 -- **************************************************************************
+--]]
 function TitanPanelBagButton_ToggleIgnoreProfBagSlots()
 	TitanToggleVar(TITAN_BAG_ID, "CountProfBagSlots");
 	TitanPanelButton_UpdateButton(TITAN_BAG_ID);
@@ -504,3 +519,32 @@ end
 function TitanPanelBagButton_ShowDetailedInfo()
 	TitanToggleVar(TITAN_BAG_ID, "ShowDetailedInfo");
 end
+
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_BUTTON] then
+		return -- if already created
+	end
+	
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_BUTTON, f, "TitanPanelComboTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelBagButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+	
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanPanelBagButton_OnEvent(self, event, ...) 
+	end)
+	window:SetScript("OnClick", function(self, button)
+		TitanPanelBagButton_OnClick(self, button);
+		TitanPanelButton_OnClick(self, button);
+	end)
+end
+
+
+Create_Frames() -- do the work

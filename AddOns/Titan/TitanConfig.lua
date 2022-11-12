@@ -104,54 +104,6 @@ local function TitanPanel_TicketReload()
 	StaticPopup_Show("TITAN_RELOAD");
 end
 
-local function TitanPanel_ScreenAdjustReload()
-	if TitanPanelGetVar("ScreenAdjust") then
-		-- if set then clear it - the screen will adjust
-		TitanPanelBarButton_ToggleScreenAdjust()
-	else
-		-- if NOT set then need a reload - the screen will NOT adjust
-		StaticPopupDialogs["TITAN_RELOAD"] = {
-			text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]).."\n\n"
-				..L["TITAN_PANEL_RELOAD"],
-			button1 = ACCEPT,
-			button2 = CANCEL,
-			OnAccept = function(self)
-				TitanPanelToggleVar("ScreenAdjust");
-				ReloadUI();
-				end,	
-			showAlert = 1,
-			timeout = 0,
-			whileDead = 1,
-			hideOnEscape = 1
-		};
-		StaticPopup_Show("TITAN_RELOAD");
-	end
-end
-local function TitanPanel_AuxScreenAdjustReload()
-	if TitanPanelGetVar("AuxScreenAdjust") then
-		-- if set then clear it - the screen will adjust
-		TitanPanelBarButton_ToggleAuxScreenAdjust()
-	else
-		-- if NOT set then need a reload - the screen will NOT adjust
-		StaticPopupDialogs["TITAN_RELOAD"] = {
-			text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]).."\n\n"
-				..L["TITAN_PANEL_RELOAD"],
-			button1 = ACCEPT,
-			button2 = CANCEL,
-			OnAccept = function(self)
-				TitanPanelToggleVar("AuxScreenAdjust");
-				ReloadUI();
---				TitanPanelBarButton_ToggleAuxScreenAdjust();
-				end,	
-			showAlert = 1,
-			timeout = 0,
-			whileDead = 1,
-			hideOnEscape = 1
-		};
-		StaticPopup_Show("TITAN_RELOAD");
-	end
-end
-
 -------------
 -- skins config section
 --[[ local
@@ -251,18 +203,7 @@ local optionsTrans = {
 			},
 	},
  }
- --[[
- 		tooltiptrans = {
-			name = L["TITAN_TRANS_CONTROL_TITLE_TOOLTIP"],
-			desc = L["TITAN_TRANS_TOOLTIP_DESC"],
-			order = 50, type = "range", width = "full",
-			min = 0, max = 1, step = 0.01,
-			get = function() return TitanPanelGetVar("TooltipTrans") end,
-			set = function(_, a)
-				TitanPanelSetVar("TooltipTrans", a);
-			end,
-		},
---]]
+
 --[[ local
 NAME: TitanPanel_TransOptions
 DESC: This will add each Titan bar to the transparency option table so it can be adjusted by the user. Each bar is shown whether ot not the user has them displayed.
@@ -792,37 +733,6 @@ local optionsBars = {
 		},
 	}
 }
--- DF do not need adjust
---[=[
-		confdesc3 = {
-			order = 300,
-			type = "header",
-			name = L["TITAN_PANEL_OPTIONS"],
-		},
-		optiontopscreen = {
-			name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			order = 301, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("ScreenAdjust") end,
-			set = function() TitanPanel_ScreenAdjustReload() end,
-		},
-		optionminimap = {
-			name = L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"],
-			order = 302, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("MinimapAdjust") end,
-			set = function() TitanPanelToggleVar("MinimapAdjust"); end,
-		},
-		optiontickets = {
-			name = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." "
-				.._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." "
-				.._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
-			order = 305, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("TicketAdjust"); end,
-			set = function() TitanPanel_TicketReload() end,
-		},
---]=]
 
 --[[ local
 NAME: optionsAuxBars
@@ -992,54 +902,6 @@ local optionsAuxBars = {
 		},
 	}
 }
--- DF do not need adjust
-
---[=[
-		confdesc3 = {
-			order = 300,
-			type = "header",
-			name = L["TITAN_PANEL_OPTIONS"],
-		},
-		optionbottomscreen = {
-			name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			order = 301, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("AuxScreenAdjust") end,
-			set = function() TitanPanel_AuxScreenAdjustReload(); end,
-		},
-		optionlog = {
-			name = L["TITAN_PANEL_MENU_DISABLE_LOGS"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_LOGS"],
-			order = 303, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("LogAdjust") end,
-			set = function() TitanPanelToggleVar("LogAdjust"); end,
-		},
-		optionbags = {
-			name = L["TITAN_PANEL_MENU_DISABLE_BAGS"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_BAGS"],
-			order = 304, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("BagAdjust") end,
-			set = function() TitanPanelToggleVar("BagAdjust"); end,
-		},
-		confdesc4 = {
-			order = 400,
-			type = "header",
-			name = L["TITAN_PANEL_MAIN_MENU_BAR"],
-		},
-		mainMenuBarAdj = {
-			name = L["TITAN_PANEL_MAIN_MENU_BAR_ADJ"],
-			desc = L["TITAN_PANEL_MAIN_MENU_BAR_ADJ_DESC"],
-			order = 410, type = "range", width = "full",
-			min = -200, max = 200, step = 1,
-			get = function() return TitanPanelGetVar("MainMenuBarXAdj") end,
-			set = function(_, a)
-				TitanPanelSetVar("MainMenuBarXAdj", a);
-				-- Adjust frame positions
-				TitanPanel_AdjustFrames(true, "Config: Adjust X (right / left)")
-			end,
-		},
---]=]
--------------
 
 -------------
 -- General Titan config section
@@ -1754,7 +1616,7 @@ local function TitanUpdateConfigAddons()
 					end,
 				}
 			end
-			
+
 			--ShowRegularText (LDB data sources only atm)
 			if plug_in.controlVariables and plug_in.controlVariables.ShowRegularText then
 				args[plug_in.id].args.regular_text =
@@ -1769,7 +1631,7 @@ local function TitanUpdateConfigAddons()
 						end,
 				}
 			end
-			
+
 			--ShowColoredText
 			if plug_in.controlVariables and plug_in.controlVariables.ShowColoredText then
 				args[plug_in.id].args.color_text = {
@@ -1913,43 +1775,6 @@ Controls:
 - Entering world timer - some users need Titan to wait longer whenever the splash / loading screen is shown before adjusting frames and (re)setting data.
 - Vehicle timer - some users need Titan to wait longer whenever entering or leaving a vehicle before adjusting frames.
 :DESC
---]]
---[[
-		conftimerdesc = {
-			name = "Timers",
-			type = "group", inline = true,
-			order = 1,
-			args = {
-				confdesc = {
-					order = 10,
-					type = "description",
-					name = L["TITAN_PANEL_MENU_ADV_DESC"],
-					cmdHidden = true
-					},
-				advtimerpew = {
-					name = L["TITAN_PANEL_MENU_ADV_PEW"],
-					desc = L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
-					order = 20, type = "range", width = "full",
-					min = 1, max = 10, step = 0.5,
-					get = function() return TitanAllGetVar("TimerPEW") end,
-					set = function(_, a)
-						TitanAllSetVar("TimerPEW", a);
-						TitanTimers["EnterWorld"].delay = a
-					end,
-				},
-			},
-		},
-				advtimervehicle = {
-					name = L["TITAN_PANEL_MENU_ADV_VEHICLE"],
-					desc = L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"],
-					order = 50, type = "range", width = "full",
-					min = 1, max = 10, step = 0.5,
-					get = function() return TitanAllGetVar("TimerVehicle") end,
-					set = function(_, a)
-						TitanAllSetVar("TimerVehicle", a);
-						TitanTimers["Vehicle"].delay = a
-					end,
-				},
 --]]
 local optionsAdvanced = {
 	name = TITAN_PANEL_CONFIG.topic.advanced, --L["TITAN_PANEL_MENU_ADV"],

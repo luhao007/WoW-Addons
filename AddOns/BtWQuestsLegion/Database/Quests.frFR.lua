@@ -279,9 +279,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38286] = {
         name = "L’Œil d’Azshara : le Courroux d’Azshara",
     },
-    [38305] = {
-        name = "Cénarius, gardien du Bosquet",
-    },
     [38307] = {
         name = "L’appel du chef de guerre",
     },
@@ -1242,9 +1239,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39729] = {
         name = "Le savoir du Freux",
     },
-    [39731] = {
-        name = "La forêt paisible",
-    },
     [39733] = {
         name = "Le mont solitaire",
     },
@@ -1358,9 +1352,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39860] = {
         name = "L’Épreuve de sang",
-    },
-    [39861] = {
-        name = "Les derniers détails",
     },
     [39862] = {
         name = "Le siègebrouf",
@@ -2159,9 +2150,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40710] = {
         name = "Lame crépusculaire",
-    },
-    [40712] = {
-        name = "La puissance possédée",
     },
     [40714] = {
         name = "L’appel à la guerre",
@@ -4343,9 +4331,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43318] = {
         name = "Le défenseur de Ly’leth",
-    },
-    [43324] = {
-        name = "La rage des chouettards",
     },
     [43331] = {
         name = "L’heure des comptes",

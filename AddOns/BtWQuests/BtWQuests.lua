@@ -1261,7 +1261,7 @@ end)
 
 -- Handles shift clicking btwquests links
 local original_HandleModifiedItemClick = HandleModifiedItemClick
-function HandleModifiedItemClick(link)
+function HandleModifiedItemClick(link, ...)
     if link and link:find("Hbtwquests") then
         if IsModifiedClick("CHATLINK") then
 			ChatEdit_InsertLink(link)
@@ -1269,7 +1269,7 @@ function HandleModifiedItemClick(link)
             BtWQuestsFrame:SelectFromLink(link)
 		end
     else
-        return original_HandleModifiedItemClick(link)
+        return original_HandleModifiedItemClick(link, ...)
     end
 end
 

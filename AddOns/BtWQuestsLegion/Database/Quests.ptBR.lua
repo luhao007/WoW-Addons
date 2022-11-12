@@ -276,9 +276,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38286] = {
         name = "Olho de Azshara: ira de Azshara",
     },
-    [38305] = {
-        name = "Cenarius, o Guardião do Bosque",
-    },
     [38307] = {
         name = "O chamado da Chefe Guerreira",
     },
@@ -1239,9 +1236,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39729] = {
         name = "O conhecimento do Corvo Negro",
     },
-    [39731] = {
-        name = "A Floresta Tranquila",
-    },
     [39733] = {
         name = "A Montanha Solitária",
     },
@@ -1355,9 +1349,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39860] = {
         name = "Rito de Sangue",
-    },
-    [39861] = {
-        name = "Atando os Fios Soltos",
     },
     [39862] = {
         name = "Cercolesk",
@@ -2156,9 +2147,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40710] = {
         name = "Lâmina no crepúsculo",
-    },
-    [40712] = {
-        name = "O poder possuído",
     },
     [40714] = {
         name = "Chamado à guerra",
@@ -4343,9 +4331,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43318] = {
         name = "O campeão de Ly'leth",
-    },
-    [43324] = {
-        name = "Fúria das ferujas",
     },
     [43331] = {
         name = "Hora de coletar",

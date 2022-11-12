@@ -63,7 +63,6 @@ function TitanPanel_ResetToDefault()
 		OnAccept = function(self)
 			TitanVariables_UseSettings(TitanSettings.Player, TITAN_PROFILE_RESET);
 			IsTitanPanelReset = true;
---TitanPanel_OkToReload()
 			ReloadUI()
 		end,
 		showAlert = 1,
@@ -236,22 +235,6 @@ function TitanSetPanelFont(fontname, fontsize)
 end
 
 
---[[ not_used
-local function TitanPanel_SetTransparent(frame, position)
-	local frName = _G[frame];
-
-	if (position == TITAN_PANEL_PLACE_TOP) then
-		frName:ClearAllPoints();
-		frName:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 0, 0);
-		frName:SetPoint("BOTTOMRIGHT", "UIParent", "TOPRIGHT", 0, -TITAN_PANEL_BAR_HEIGHT);
-	else
-		frName:ClearAllPoints();
-		frName:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0);
-		frName:SetPoint("TOPRIGHT", "UIParent", "BOTTOMRIGHT", 0, TITAN_PANEL_BAR_HEIGHT);
-	end
-end
---]]
-
 --[[ local
 NAME: TitanPanel_CreateABar
 DESC: Helper to create the Titan bar passed in.
@@ -299,15 +282,9 @@ end
 --------------------------------------------------------------
 --
 -- Event registration
---_G[TITAN_PANEL_CONTROL]:RegisterEvent("ADDON_LOADED");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD");
---_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_DISABLED");
---_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_ENABLED");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("CVAR_UPDATE");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_LOGOUT");
---_G[TITAN_PANEL_CONTROL]:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
---_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_ENTERED_VEHICLE");
---_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_EXITED_VEHICLE");
 _G[TITAN_PANEL_CONTROL]:SetScript("OnEvent", function(_, event, ...)
 	_G[TITAN_PANEL_CONTROL][event](_G[TITAN_PANEL_CONTROL], ...)
 end)
@@ -315,6 +292,8 @@ end)
 -- Cannot seem to move the 'top' part of the frame.
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PET_BATTLE_OPENING_START");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PET_BATTLE_CLOSE");
+-- Adjust a couple frames per user
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("EDIT_MODE_LAYOUTS_UPDATED");
 
 
 --[[ Titan
@@ -425,15 +404,6 @@ function TitanPanel_PlayerEnteringWorld()
 
 	-- Move frames
 	TitanMovable_SecureFrames()
-	TitanPanel_AdjustFrames(true, "Init: PEW (Player Entering World)")
-
-	-- Secondary failsafe check for bottom frame adjustment
-	--
-	-- On longer game loads (log in, reload, instances, etc Titan will adjust
-	-- then Blizz will adjust putting the action buttons over / under Titan
-	-- if the user has aux 1/2 shown.
--- DF With DragonFlight, no longer needed
---	TitanMovable_AdjustTimer("EnterWorld")
 
 end
 
@@ -521,85 +491,6 @@ function TitanPanelBarButton:PLAYER_LOGOUT()
 	Titan__InitializedPEW = nil
 end
 
---[====[
-function TitanPanelBarButton:PLAYER_REGEN_DISABLED()
-	-- If in combat close all control frames and menus
-	if TITAN_PANEL_VARS.debug.movable
-	or TITAN_PANEL_VARS.debug.events then
-		TitanDebug ("PLAYER_REGEN_DISABLED"
-		.." c: "..tostring(InCombatLockdown())
-		.." v: "..tostring(UnitInVehicle("player"))
-		)
-	end
-
-	TitanUtils_CloseAllControlFrames();
-	TitanUtils_CloseRightClickMenu();
-end
-
-function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
-	--[[
-	- Outside combat check to see if frames need correction
-	- Note: Quests can replace the main menu bar which hides Titan bottom bar(s)...
-	On completion / exit these may enable regen AFTER exiting the vehicle.
-	--]]
-	if TITAN_PANEL_VARS.debug.movable
-	or TITAN_PANEL_VARS.debug.events then
-		TitanDebug ("PLAYER_REGEN_ENABLED"
-		.." c: "..tostring(InCombatLockdown())
-		.." v: "..tostring(UnitInVehicle("player"))
-		)
-	end
-
-	if InCombatLockdown() or UnitInVehicle("player") then
-		-- Wait for both to clear
-	else
-		TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_ENABLED")
-	end
-end
-
-function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
-	TitanMovable_AdjustTimer("DualSpec")
-end
-
-function TitanPanelBarButton:UNIT_ENTERED_VEHICLE(self, ...)
-	if TITAN_PANEL_VARS.debug.movable
-	or TITAN_PANEL_VARS.debug.events then
-		TitanDebug ("UNIT_ENTERED_VEHICLE"
-		.." c: "..tostring(InCombatLockdown())
-		.." v: "..tostring(UnitInVehicle("player"))
-		)
-	end
-	TitanUtils_CloseAllControlFrames();
-	TitanUtils_CloseRightClickMenu();
-
-	-- Needed because 8.0 made changes to the menu bar processing (see TitanMovable)
-	TitanMovable_MenuBar_Disable()
-	--[[
-	NOTE: Hiding the Titan bottom bars is not desired here. We cannot (I do not know how :))
-	distinguish between a player on a quest or on flight path.
-	--]]
-end
-function TitanPanelBarButton:UNIT_EXITED_VEHICLE(self, ...)
-	--[[
-	- Note: Some quests replace the menu bar which cause Titan Panel to hide
-	bottom bar(s). So we need to be certain to make them appear again.
-	- A combat check will be done inside the adjust which may
-	FAIL because a regen enabled may come after this event.
-	--]]
-	if TITAN_PANEL_VARS.debug.movable
-	or TITAN_PANEL_VARS.debug.events then
-		TitanDebug ("UNIT_EXITED_VEHICLE"
-		.." c: "..tostring(InCombatLockdown())
-		.." v: "..tostring(UnitInVehicle("player"))
-		)
-	end
-	if InCombatLockdown() or UnitInVehicle("player") then
-		-- Wait for both to clear
-	else
-		TitanPanelBarButton_DisplayBarsWanted("UNIT_EXITED_VEHICLE")
-	end
-end
---]====]
 --
 function TitanPanelBarButton:PET_BATTLE_OPENING_START()
 --	TitanDebug("Pet_battle start: ")
@@ -611,6 +502,10 @@ function TitanPanelBarButton:PET_BATTLE_CLOSE()
 	TitanPanelBarButton_DisplayBarsWanted("PET_BATTLE_CLOSE")
 end
 --
+function TitanPanelBarButton:EDIT_MODE_LAYOUTS_UPDATED(layout_info, from_server)
+	TitanPanel_AdjustFrames(true, "EDIT_MODE_LAYOUTS_UPDATED "..tostring(from_server))
+end
+
 --
 
 --[[ Titan
@@ -784,17 +679,7 @@ local function handle_giu_cmds(cmd_list)
 -- DF changed how options are called. The best I get is the Titan 'about', not deeper.
 	Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About, TITAN_PANEL_CONFIG.topic.scale)
 -- so the below does not work as expected...
---[[  
-	if p1 == "control" then
-		Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About, TITAN_PANEL_CONFIG.topic.scale)
-	elseif p1 == "trans" then
-		Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.trans)
-	elseif p1 == "skin" then
-		Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About, TITAN_PANEL_CONFIG.topic.skins)
-	else
-		handle_slash_help("gui")
-	end
---]]
+
 end
 
 --[[ local
@@ -1179,35 +1064,6 @@ function TitanPanelBarButton_ToggleAutoHide(frame)
 	if frName then
 		Titan_AutoHide_ToggleAutoHide(_G[plugin])
 	end
-end
-
---[[ Titan
-NAME: TitanPanelBarButton_ToggleScreenAdjust
-DESC: Toggle whether Titan adjusts 'top' frames around Titan bars per the user's new choice.
-VAR:  None
-NOTE:
-- Another addon can tell Titan to NOT adjust some or all frames.
-:NOTE
---]]
-function TitanPanelBarButton_ToggleScreenAdjust()
-	-- Turn on / off adjusting of other frames around Titan
-	TitanPanelToggleVar("ScreenAdjust");
-	TitanPanel_AdjustFrames(true, "Config: on/off adj top frames")
-end
-
---[[ Titan
-NAME: TitanPanelBarButton_ToggleAuxScreenAdjust
-DESC: Toggle whether Titan adjusts 'bottom' frames around Titan bars per the user's new choice.
-VAR:  None
-OUT:  None
-NOTE:
-- Another addon can tell Titan to NOT adjust some or all frames.
-:NOTE
---]]
-function TitanPanelBarButton_ToggleAuxScreenAdjust()
-	-- turn on / off adjusting of frames at the bottom of the screen
-	TitanPanelToggleVar("AuxScreenAdjust");
-	TitanPanel_AdjustFrames(true, "Config: on/off adj bottom frames")
 end
 
 --[[ Titan
@@ -1709,8 +1565,7 @@ function TitanPanelButton_Justify()
 					local button = TitanUtils_GetButton(id);
 					if button and button:GetWidth() then
 						if TitanUtils_GetWhichBar(id) == bar then
-							if ( TitanPanelButton_IsIcon(id)
-							or (TitanGetVar(id, "DisplayOnRightSide")) ) then
+							if (TitanGetVar(id, "DisplayOnRightSide")) then
 								rightWidth = rightWidth
 									+ icon_spacing
 									+ button:GetWidth();
@@ -1867,20 +1722,7 @@ local function TitanPanel_MainMenu()
 	info.checked = glob --TitanAllGetVar("GlobalProfileUse")
 	info.keepShownOnClick = nil
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
---[[
-	local player, server = TitanUtils_ParseName(TitanAllGetVar("GlobalProfileName"))
-	info = {};
-	info.notCheckable = true
-	info.text = "   "..TitanUtils_GetGreenText(server)
-	info.value = "server";
-	TitanPanelRightClickMenu_AddButton(info);
 
-	info = {};
-	info.notCheckable = true
-	info.text = "      "..TitanUtils_GetGreenText(player)
-	info.value = "player";
-	TitanPanelRightClickMenu_AddButton(info);
---]]
 end
 
 --[[ local
@@ -2132,14 +1974,6 @@ local function TitanPanel_SettingsSelectionMenu()
 	info.value = TitanPanelRightClickMenu_GetDropdMenuValue();
 	info.func = function()
 		-- do not delete if current profile - .disabled
---[[
-		local profilevalue, _, _ = TitanUtils_GetPlayer()
-		if info.value == profilevalue then
-			TitanPrint(L["TITAN_PANEL_ERROR_PROF_DELCURRENT"], "info")
-			TitanPanelRightClickMenu_Close();
-			return;
-		end
---]]
 		if TitanSettings.Players[info.value] then
 			TitanSettings.Players[info.value] = nil;
 			TitanPrint(
@@ -2254,8 +2088,6 @@ OUT: string - "Right" or "Left"
 --]]
 function TitanPanel_GetPluginSide(id)
 	if ( TitanGetVar(id, "DisplayOnRightSide") ) then
-		return TITAN_RIGHT;
-	elseif ( TitanPanelButton_IsIcon(id) ) then
 		return TITAN_RIGHT;
 	else
 		return TITAN_LEFT;

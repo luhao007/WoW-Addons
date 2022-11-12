@@ -282,9 +282,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [38286] = {
         name = "艾萨拉之眼：艾萨拉之怒",
     },
-    [38305] = {
-        name = "森林守护者，塞纳留斯",
-    },
     [38307] = {
         name = "大酋长的召唤",
     },
@@ -1251,9 +1248,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [39729] = {
         name = "黑鸦知识",
     },
-    [39731] = {
-        name = "静谧森林",
-    },
     [39733] = {
         name = "孤寂山岭",
     },
@@ -1367,9 +1361,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [39860] = {
         name = "鲜血试炼",
-    },
-    [39861] = {
-        name = "整顿事态",
     },
     [39862] = {
         name = "屠城蛮人",
@@ -2168,9 +2159,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40710] = {
         name = "暮光之刃",
-    },
-    [40712] = {
-        name = "获取力量",
     },
     [40714] = {
         name = "战争的召唤",
@@ -4367,9 +4355,6 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [43318] = {
         name = "莉莉丝的勇士",
-    },
-    [43324] = {
-        name = "枭兽的狂怒",
     },
     [43331] = {
         name = "收获时间到",

@@ -17,11 +17,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_LIGHTFORGED_DRAEN
             type = "level",
             level = 45,
         },
-        {
-            type = "expansion",
-            id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-            visible = false,
-        },
+        -- {
+        --     type = "expansion",
+        --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+        --     visible = false,
+        -- },
         {
             type = "achievement",
             id = 12066,
@@ -89,11 +89,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_VOID_ELF, {
             type = "level",
             level = 45,
         },
-        {
-            type = "expansion",
-            id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-            visible = false,
-        },
+        -- {
+        --     type = "expansion",
+        --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+        --     visible = false,
+        -- },
         {
             type = "achievement",
             id = 12066,
@@ -152,11 +152,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_NIGHTBORNE, {
             type = "level",
             level = 45,
         },
-        {
-            type = "expansion",
-            id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-            visible = false,
-        },
+        -- {
+        --     type = "expansion",
+        --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+        --     visible = false,
+        -- },
         {
             type = "achievement",
             id = 11340,
@@ -233,11 +233,11 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_HIGHMOUNTAIN_TAUR
             type = "level",
             level = 45,
         },
-        {
-            type = "expansion",
-            id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
-            visible = false,
-        },
+        -- {
+        --     type = "expansion",
+        --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
+        --     visible = false,
+        -- },
         {
             type = "achievement",
             id = 10059,
@@ -254,153 +254,157 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_HIGHMOUNTAIN_TAUR
         --     anyone = true,
         -- },
     },
+    active = {
+        type = "quest",
+        id = 48066,
+        status = {'active', 'completed'},
+    },
     completed = {
         type = "achievement",
         id = 12245,
         anyone = true,
     },
-    range = {110},
+    range = {45},
     items = {
+        {
+            type = "npc",
+            id = 133523,
+            x = 3,
+            connections = {
+                1, 
+            },
+        },
         {
             type = "quest",
             id = 48066,
             x = 3,
-            y = 0,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 48067,
             x = 3,
-            y = 1,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 49756,
             x = 3,
-            y = 2,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 48079,
             x = 3,
-            y = 3,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 41884,
             x = 3,
-            y = 4,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 41764,
             x = 3,
-            y = 5,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 48185,
             x = 3,
-            y = 6,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 41799,
             x = 3,
-            y = 7,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 48190,
             x = 3,
-            y = 8,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 41800,
             x = 3,
-            y = 9,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 48434,
             x = 3,
-            y = 10,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 41815,
             x = 3,
-            y = 11,
             connections = {
-                1
+                1, 2, 
             },
         },
         {
             type = "quest",
             id = 41840,
-            x = 3,
-            y = 12,
+            x = 2,
             connections = {
-                1
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 41882,
+            connections = {
+                1, 
             },
         },
         {
             type = "quest",
             id = 41841,
             x = 3,
-            y = 13,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 48403,
             x = 3,
-            y = 14,
             connections = {
-                1
+                1, 
             },
         },
         {
             type = "quest",
             id = 48433,
             x = 3,
-            y = 15,
         },
     },
 })

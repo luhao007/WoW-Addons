@@ -1,3 +1,7 @@
+# v6.5
+
+- Fixed requirements for The Last Sigil and following quest chains
+
 # v6.4
 
 - Updated for 10.0.0

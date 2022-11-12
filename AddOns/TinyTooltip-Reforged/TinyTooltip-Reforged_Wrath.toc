@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Author: B
-## Version: 9.2.2
+## Version: 9.2.3
 ## SavedVariables: BigTipReforgedDB
 ## SavedVariablesPerCharacter: TinyTooltipReforgedCharacterDB
 

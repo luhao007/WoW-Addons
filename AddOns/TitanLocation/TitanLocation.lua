@@ -8,6 +8,7 @@
 -- ******************************** Constants *******************************
 local _G = getfenv(0);
 local TITAN_LOCATION_ID = "Location";
+local TITAN_BUTTON = "TitanPanel"..TITAN_LOCATION_ID.."Button"
 local OFFSET_X = 0.0022  --  0.0022;
 local OFFSET_Y = -0.0262  --  -0.0262;
 local cachedX = 0;
@@ -307,13 +308,13 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsText");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
---[=[
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"];
 			info.func = TitanPanelLocationButton_ToggleLocationOnMap;
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
+--[=[
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_LOC_ON_MINIMAP_TEXT"];
 			info.func = function()
@@ -382,13 +383,7 @@ function TitanPanelRightClickMenu_PrepareLocationMenu()
 	info.hasArrow = 1;
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddToggleIcon(TITAN_LOCATION_ID);
-	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_LOCATION_ID);
-	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_LOCATION_ID);
-	TitanPanelRightClickMenu_AddToggleRightSide(TITAN_LOCATION_ID);
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_LOCATION_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddControlVars(TITAN_LOCATION_ID)
 end
 
 --[[
@@ -496,6 +491,32 @@ print("TLoc"
 .." p "..tostring(playerLocationText).." "
 )
 --]==]
+
+		-- Potision the text
+		if WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MaximizeButton:IsShown() then
+			if WorldMapFrame.TitanSizePrev == "small" then
+				-- no change
+			else
+				TitanMapPlayerLocation:ClearAllPoints();
+				TitanMapCursorLocation:ClearAllPoints();
+				TitanMapPlayerLocation:SetPoint("RIGHT", WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "LEFT", 0, 0)
+				TitanMapCursorLocation:SetPoint("LEFT", WorldMapFrame.BorderFrame.Tutorial, "RIGHT", 0, 0)
+				WorldMapFrame.TitanSize = "small"
+			end
+		else -- map should be 'full' screen
+			if WorldMapFrame.TitanSizePrev == "large" then
+				-- no change
+			else
+				TitanMapPlayerLocation:ClearAllPoints();
+				TitanMapCursorLocation:ClearAllPoints();
+				TitanMapPlayerLocation:SetPoint("RIGHT", WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "LEFT", 0, 0)
+				TitanMapCursorLocation:SetPoint("TOP", TitanMapPlayerLocation, "BOTTOM", 0, -5)
+--				TitanMapPlayerLocation:SetPoint("RIGHT", WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "BOTTOMRIGHT", 0, -4)
+--				TitanMapCursorLocation:SetPoint("TOP", TitanMapPlayerLocation, "BOTTOM", 0, 0)
+				WorldMapFrame.TitanSize = "large"
+			end
+		end
+
 end
 
 --[[
@@ -544,6 +565,13 @@ function TitanPanelLocation_CreateMapFrames()
 		end
 		frame:HookScript("OnShow", function()
 			frame.updateTicker = frame.updateTicker or C_Timer.NewTicker(0.07, updateFunc);
+			if WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MaximizeButton:IsShown() then
+				WorldMapFrame.TitanSize = "small"
+				WorldMapFrame.TitanSizePrev = "none"
+			else
+				WorldMapFrame.TitanSize = "large"
+				WorldMapFrame.TitanSizePrev = "none"
+			end
 		end);
 		frame:HookScript("OnHide", function()
 			if (frame.updateTicker) then
@@ -555,46 +583,46 @@ function TitanPanelLocation_CreateMapFrames()
 		-- create the font strings and update their position based in minimizing/maximizing the main map
 		local playertext = frame:CreateFontString("TitanMapPlayerLocation", "ARTWORK", "GameFontNormal");
 		local cursortext = frame:CreateFontString("TitanMapCursorLocation", "ARTWORK", "GameFontNormal");
-		hooksecurefunc(WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "Maximize", function()
-			playertext:ClearAllPoints();
-			cursortext:ClearAllPoints();
-			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -28)
-			cursortext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -43)
---[==[
-print("TLoc max"
-.." p "..tostring(playertext and true or false).." "
-.." c "..tostring(cursortext and true or false).." "
-)
---]==]
-		end);
-		hooksecurefunc(WorldMapFrame.BorderFrame.MaximizeMinimizeFrame, "Minimize", function()
-			playertext:ClearAllPoints();
-			cursortext:ClearAllPoints();
-			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -50, -5)
---			playertext:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -50, 15)
-			cursortext:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 95, -5)
---			cursortext:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 95, 5)
---[==[
-print("TLoc min"
-.." p "..tostring(playertext and true or false).." "
-.."  "..tostring(playertext:GetText()).." "
-.."  "..tostring(frame:GetFrameStrata()).." "
-.."  "..tostring(frame:GetFrameLevel()).." "
-.." c "..tostring(cursortext and true or false).." "
-.."  "..tostring(cursortext:GetText()).." "
-.."  "..tostring(WorldMapFrame:GetFrameStrata()).." "
-.."  "..tostring(WorldMapFrame:GetFrameLevel()).." "
-)
---]==]
-		end);
---[==[
-print("TLoc"
-.." f "..tostring(frame and true or false).." "
-.." ut "..tostring(frame.updateTicker and true or false).." "
-.." p "..tostring(playertext and true or false).." "
-.." c "..tostring(cursortext and true or false).." "
-)
---]==]
-
+		playertext:ClearAllPoints();
+		cursortext:ClearAllPoints();
+		playertext:SetPoint("TOPRIGHT", WorldMapFrameCloseButton, "BOTTOMRIGHT", 0, 0)
+		cursortext:SetPoint("TOP", playertext, "BOTTOM", 0, 0)
 	end
 end
+
+
+-- ====== Create needed frames
+local function Create_Frames()
+	if _G[TITAN_BUTTON] then
+		return -- if already created
+	end
+
+	-- general container frame
+	local f = CreateFrame("Frame", nil, UIParent)
+--	f:Hide()
+
+	-- Titan plugin button
+	local window = CreateFrame("Button", TITAN_BUTTON, f, "TitanPanelComboTemplate")
+	window:SetFrameStrata("FULLSCREEN")
+	-- Using SetScript("OnLoad",   does not work
+	TitanPanelLocationButton_OnLoad(window);
+--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+
+	window:SetScript("OnShow", function(self)
+		TitanPanelLocationButton_OnShow(self);
+		TitanPanelButton_OnShow(self);
+	end)
+	window:SetScript("OnHide", function(self)
+		TitanPanelLocationButton_OnHide(self)
+	end)
+	window:SetScript("OnEvent", function(self, event, ...)
+		TitanPanelLocationButton_OnEvent(self, event, ...)
+	end)
+	window:SetScript("OnClick", function(self, button)
+		TitanPanelLocationButton_OnClick(self, button);
+		TitanPanelButton_OnClick(self, button);
+	end)
+end
+
+
+Create_Frames() -- do the work
