@@ -5,7 +5,7 @@ local YOU = YOU
 local NONE = NONE
 local EMPTY = EMPTY
 local TARGET = TARGET
-local TOOLTIP_UPDATE_TIME = TOOLTIP_UPDATE_TIME or 0.2
+local TOOLTIP_UPDATE_TIME = TOOLTIP_UPDATE_TIME or 0.1
 
 local addon = TinyTooltipReforged
 
@@ -27,9 +27,10 @@ local function GetTargetString(unit)
 end
 
 GameTooltip:HookScript("OnUpdate", function(self, elapsed)
-    self.updateElapsed = (self.updateElapsed or 0) + elapsed
-    if (self.updateElapsed >= TOOLTIP_UPDATE_TIME) then
-        self.updateElapsed = 0
+    --self.updateElapsed = (self.updateElapsed or 0) + elapsed
+    --if (self.updateElapsed >= TOOLTIP_UPDATE_TIME) then
+        --self.updateElapsed = 0
+
         if (not UnitExists("mouseover")) then return end
         if (addon.db.unit.player.showTarget and UnitIsPlayer("mouseover"))
             or (addon.db.unit.npc.showTarget and not UnitIsPlayer("mouseover")) then
@@ -45,12 +46,10 @@ GameTooltip:HookScript("OnUpdate", function(self, elapsed)
                 line:SetFormattedText("%s: %s", TARGET, text)
             end
         end
-    end
+    --end
 end)
 
-
 -- Targeted By
-
 local function GetTargetByString(mouseover, num, tip)
     local count, prefix = 0, IsInRaid() and "raid" or "party"
     local roleIcon, colorCode, name
@@ -68,6 +67,7 @@ local function GetTargetByString(mouseover, num, tip)
                 colorCode = select(4,GetClassColor(select(2,UnitClass(prefix..i))))
                 name      = UnitName(prefix..i)
                 tip:AddLine("   " .. roleIcon .. " |c" .. colorCode .. name .. "|r")
+                tip:Show()
             end
         end
     end
@@ -77,7 +77,7 @@ local function GetTargetByString(mouseover, num, tip)
 end
 
 LibEvent:attachTrigger("tooltip:unit", function(self, tip, unit)
-    if (tip:IsUnit("mouseover")) then
+    if (unit and UnitIsUnit(unit, "mouseover")) then
         local num = GetNumGroupMembers()
         if (num >= 1) and
           ((addon.db.unit.player.showTargetBy and UnitIsPlayer("mouseover"))
@@ -85,7 +85,9 @@ LibEvent:attachTrigger("tooltip:unit", function(self, tip, unit)
             local text = GetTargetByString("mouseover", num, tip)
             if (text) then
                 tip:AddLine(format("%s: %s", addon.L and addon.L.TargetBy or "Targeted By", text), nil, nil, nil, true)
+                tip:Show()
             end
         end
-    end
+   end
 end)
+

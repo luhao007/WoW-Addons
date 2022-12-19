@@ -1,8 +1,9 @@
 # Prat 3.0
 
-## [3.9.9](https://github.com/Legacy-of-Sylvanaar/prat-3-0/tree/3.9.9) (2022-11-08)
-[Full Changelog](https://github.com/Legacy-of-Sylvanaar/prat-3-0/compare/3.9.8...3.9.9) [Previous Releases](https://github.com/Legacy-of-Sylvanaar/prat-3-0/releases)
+## [3.9.14](https://github.com/Legacy-of-Sylvanaar/prat-3-0/tree/3.9.14) (2022-12-16)
+[Full Changelog](https://github.com/Legacy-of-Sylvanaar/prat-3-0/compare/3.9.13...3.9.14) [Previous Releases](https://github.com/Legacy-of-Sylvanaar/prat-3-0/releases)
 
-- Fix IsClassic check  
-- Ensure chat is clamped to screen on classic  
-- [Fixes #65] Missing keybindings on retail  
+- [Fixes #92] FPS drops and broken selection highlighting in CopyChat  
+- Fix grats message typo  
+- AltNames: Fix compatibility error with Wrath for previous commit  
+- [Fixes #87] Error when AltNames tooltip option is in use  

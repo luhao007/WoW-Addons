@@ -3,7 +3,9 @@ local _G = getfenv(0)
 local tonumber, type = tonumber, type
 local str_match, str_format = string.match, string.format
 -- WoW
-local UnitSex, GetFactionInfoByID, GetFriendshipReputation = UnitSex, GetFactionInfoByID, GetFriendshipReputation
+--local UnitSex, GetFactionInfoByID, GetFriendshipReputation = UnitSex, GetFactionInfoByID, GetFriendshipReputation
+local UnitSex, GetFactionInfoByID = UnitSex, GetFactionInfoByID
+local C_GossipInfo = C_GossipInfo
 
 local AtlasLoot = _G.AtlasLoot
 local Faction = AtlasLoot.Button:AddType("Faction", "f")
@@ -39,6 +41,20 @@ local FRIEND_REP_TEXT = {
 	[14] = BF["Friend"],
 	[15] = BF["Good Friend"],
 	[16] = BF["Best Friend"],
+	--We are no strangers to rep grind in SL
+	[17] = BF["Rank 1"],
+	[18] = BF["Rank 2"],
+	[19] = BF["Rank 3"],
+	[20] = BF["Rank 4"],
+	[21] = BF["Rank 5"],
+	[22] = BF["Rank 6"],
+	--Venari rep. Let's see if it works
+	[23] = "Dubious",
+	[24] = "Apprehensive",
+	[25] = "Tentative",
+	[26] = "Ambivalent",
+	[27] = "Cordial",
+	[28] = "Appreciative",
 }
 
 
@@ -185,6 +201,31 @@ local FACTION_IMAGES = {
 	[2400] = "Interface\\Icons\\inv_faction_akoan", -- Waveblade Ankoan
 	
 	-- Shadowlands
+	[2407] = "Interface\\Icons\\inv_tabard_bastion_d_01", -- The Ascended
+	[2410] = "Interface\\Icons\\inv_tabard_maldraxxus_d_01", -- The Undying Army
+	[2413] = "Interface\\Icons\\inv_tabard_revendreth_d_01", -- Court of Harvesters
+	[2432] = "Interface\\Icons\\70_inscription_vantus_rune_suramar", -- Ve'nari
+	[2465] = "Interface\\Icons\\inv_tabard_ardenweald_d_01", -- The Wild Hunt
+	[2470] = "Interface\\Icons\\inv_tabard_deathsadvance_b_01", -- Death's Advance
+	[2472] = "Interface\\Icons\\inv_mawexpansionfliermountyellow", -- The Archivists' Codex
+	[2478] = "Interface\\Icons\\inv_tabard_enlightenedbrokers_c_01", -- The Enlightened
+
+	-- Dragonflight
+
+	[2503] = 4687627, -- Maruuk Centaur
+	[2507] = 4687628, -- Dragonscale Expedition
+	[2509] = 4639175, -- Clan Shikaar
+	[2510] = 4687630, -- Valdrakken Accord
+	[2511] = 4687629, -- Iskaara Tuskarr
+	[2512] = 237385, -- Clan Aylaag
+	[2513] = 4639177, -- Clan Ohn'ir
+	[2520] = 4639176, -- Clan Nokhud
+	[2522] = 4639174, -- Clan Teerai
+	--[2526] = "Interface\\Icons\\...", -- Winterpelt Furbolg
+	--[2542] = "Interface\\Icons\\...", -- Clan Ukhel
+	--[2554] = "Interface\\Icons\\...", -- Clan Toghus
+	--[2555] = "Interface\\Icons\\...", -- Clan Kaighan
+
 }
 
 local FACTION_KEY = {
@@ -310,23 +351,29 @@ local FACTION_KEY = {
 	[2417] = "Uldum Accord",
 	[2373] = "The Unshackled",
 	[2400] = "Waveblade Ankoan",
-	
 	-- Shadowlands
-	
-	--- Alliance
-	[2159] = "7th Legion",
-	[2160] = "Proudmoore Admiralty",
-	[2161] = "Order of Embers",
-	[2162] = "Storm's Wake",
-	--- Horde
-	[2157] = "The Honorbound",
-	[2103] = "Zandalari Empire",
-	[2156] = "Talanji's Expedition",
-	[2158] = "Voldunai",
-	--- All
-	[2163] = "Tortollan Seekers",
-	[2164] = "Champions of Azeroth",
-	
+	[2407] = "The Ascended",
+	[2410] = "The Undying Army",
+	[2413] = "Court of Harvesters",
+	[2432] = "Ve'nari",
+	[2465] = "The Wild Hunt",
+	[2470] = "Death's Advance",
+	[2472] = "The Archivists' Codex",
+	[2478] = "The Enlightened",
+	-- Dragonflight
+	[2503] = "Maruuk Centaur",
+	[2507] = "Dragonscale Expedition",
+	[2509] = "Clan Shikaar",
+	[2510] = "Valdrakken Accord",
+	[2511] = "Iskaara Tuskarr",
+	[2512] = "Clan Aylaag",
+	[2513] = "Clan Ohn'ir",
+	[2520] = "Clan Nokhud",
+	[2522] = "Clan Teerai",
+	[2526] = "Winterpelt Furbolg",
+	[2542] = "Clan Ukhel",
+	[2554] = "Clan Toghus",
+	[2555] = "Clan Kaighan",
 }
 
 local function GetLocRepStanding(id)
@@ -452,7 +499,9 @@ end
 function Faction.Refresh(button)
 	if not button.FactionID then return end
 	--friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
-	local friendID = GetFriendshipReputation(button.FactionID)
+	--local friendID = GetFriendshipReputation(button.FactionID)
+	local reputationInfo = C_GossipInfo.GetFriendshipReputation(button.FactionID)
+	local friendID = reputationInfo.friendshipFactionID
 
 	-- name, description, standingID, barMin, barMax, barValue, atWarWith, canToggleAtWar, isHeader, isCollapsed, hasRep, isWatched, isChild = GetFactionInfoByID(factionID)
 	local name, _, standingID = GetFactionInfoByID(button.FactionID)
@@ -510,7 +559,7 @@ function Faction.ShowToolTipFrame(button)
 							insets = { left = 4, right = 4, top = 4, bottom = 4 }})
 		frame:SetBackdropColor(0,0,0,1)
 		
-		frame.icon = frame:CreateTexture(name.."-icon", frame)
+		frame.icon = frame:CreateTexture(name.."-icon", "ARTWORK")
 		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
 		frame.icon:SetHeight(15)
 		frame.icon:SetWidth(15)
@@ -557,21 +606,34 @@ function Faction.ShowToolTipFrame(button)
 		Faction.tooltipFrame = frame
 	end
 	local frame = Faction.tooltipFrame
-	local name, description, standingID, barMin, barMax, barValue = GetFactionInfoByID(button.FactionID)
+	--[[
+	local name, description, standingID, barMin, barMax, barValue, atWarWith, canToggleAtWar, isHeader, isCollapsed, hasRep, isWatched, isChild, factionID, hasBonusRepGain, canSetInactive = GetFactionInfo(factionIndex);
+	]]
+	local name, description, standingID, barMin, barMax, barValue, _, _, _, _, _, _, _, factionID = GetFactionInfoByID(button.FactionID)
 	standingID = standingID or 1
 	local colorIndex = standingID
+	local barColor = FACTION_BAR_COLORS[colorIndex];
 	local factionStandingtext
 
-	local friendID, friendRep, _, _, _, _, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(button.FactionID)
-	if friendID then
-		factionStandingtext = friendTextLevel
-		if ( nextFriendThreshold ) then
-			barMin, barMax, barValue = friendThreshold, nextFriendThreshold, friendRep
+	--local friendID, friendRep, _, _, _, _, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(button.FactionID)
+	local isMajorFaction = factionID and C_Reputation.IsMajorFaction(factionID);
+	local repInfo = factionID and C_GossipInfo.GetFriendshipReputation(factionID);
+	if (repInfo and repInfo.friendshipFactionID > 0) then
+		factionStandingtext = repInfo.reaction;
+		if ( repInfo.nextThreshold ) then
+			barMin, barMax, barValue = repInfo.reactionThreshold, repInfo.nextThreshold, repInfo.standing;
 		else
 			-- max rank, make it look like a full bar
 			barMin, barMax, barValue = 0, 1, 1;
 		end
 		colorIndex = 5
+		barColor = FACTION_BAR_COLORS[colorIndex];						-- always color friendships green
+	elseif ( isMajorFaction ) then
+		local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID);
+		barMin, barMax = 0, majorFactionData.renownLevelThreshold;
+		barColor = BLUE_FONT_COLOR;
+		factionStandingtext = RENOWN_LEVEL_LABEL .. majorFactionData.renownLevel;
+
 	else
 		barMin, barMax, barValue = barMin or 0, barMax or 1, barValue or 0
 		factionStandingtext = GetLocRepStanding(standingID)
@@ -588,8 +650,7 @@ function Faction.ShowToolTipFrame(button)
 	
 	frame.standing.bar:SetMinMaxValues(barMin, barMax)
 	frame.standing.bar:SetValue(barValue)
-	local color = FACTION_BAR_COLORS[colorIndex]
-	frame.standing.bar:SetStatusBarColor(color.r, color.g, color.b)
+	frame.standing.bar:SetStatusBarColor(barColor.r, barColor.g, barColor.b)
 	frame.standing.text:SetText(str_format("%s ( %d / %d )", factionStandingtext, barValue - barMin, barMax - barMin))
 	 
 	frame:SetHeight(20+21+frame.desc:GetHeight()+5)

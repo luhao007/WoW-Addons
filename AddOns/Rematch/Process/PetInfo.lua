@@ -92,6 +92,7 @@
       isSummoned: whether the pet is currently summoned (bool)
       expansionID: the numeric index of the expansion the pet is from: 0=classic, 1=BC, 2=WotLK, etc. (integer)
       expansionName: the name of the expansion the pet is from (string)
+      canLevel: whether the pet can battle and is below level 25
       
    How it works:
 
@@ -148,6 +149,7 @@ local apiByStat = {
    inTeams="Teams", numTeams="Teams", sourceID="Source", moveset="Moveset", speciesAt25="SpeciesAt25",
    notes="Notes", hasNotes="Notes", isLeveling="IsLeveling", isSummoned="IsSummoned", 
    expansionID="Expansion", expansionName="Expansion",
+   canLevel="CanLevel",
 }
 
 -- indexed by petInfo table reference, this will contain reused tables like fetchedAPI
@@ -158,6 +160,11 @@ local hiddenTables = {}
 local breedSource -- addon that's providing breed data: "BattlePetBreedID", "PetTracker_Breeds" or "LibPetBreedInfo-1.0"
 local breedLib -- for LibPetBreedInfo-1.0 only
 local breedNames = {nil,nil,"B/B","P/P","S/S","H/H","H/P","P/S","H/S","P/B","S/B","H/B"}
+
+-- lookup table by speciesID, whether the species has ever been able to battle; this is to address canBattle being false
+-- while zoning. the queue and other areas need to know if a pet can potentially battle, not if it can battle while zoning
+local canBattleBySpeciesID = {}
+_canBattleBySpeciesID = canBattleBySpeciesID
 
 -- in general, when a pet is added alongside others in an expansion they all clump to a range of speciesIDs
 -- (with some outliers listed below). this is a list of expansions and the range of speciesIDs in that
@@ -171,7 +178,8 @@ local expansionRanges = {
    [5] = {1384,1693}, -- Warlords of Draenor
    [6] = {1699,2163}, -- Legion
    [7] = {2165,2872}, -- Battle for Azeroth
-   [8] = {2878,9999}, -- Shadowlands (next expansion, get max speciesID for Shadowlands and change 9999 to that)
+   [8] = {2878,3255}, -- Shadowlands
+   [9] = {3256,9999}, -- Dragonflight
 }
 
 -- the majority of pets fall into a range for each expansion above, except for some outliers. these are the
@@ -199,6 +207,7 @@ local expansionOutliers = {
    [2143] = 7, -- Tottle
    [2157] = 7, -- Dart
    [2798] = 8, -- Plagueborn Slime
+   [666] = 6, -- Micronax
 }
 
 -- short reason that the pet can't be summoned
@@ -236,27 +245,40 @@ end
 
 -- used in Info functions to gather info by petID (BattlePet-0-000etc)
 local function fillInfoByPetID(self,petID)
-   local customName, speciesName -- prevent a __index lookup if petID is invalid or not renamed
-   self.speciesID,customName,self.level,self.xp,self.maxXp,self.displayID,
+   local speciesID, customName, speciesName, canBattle -- prevent a __index lookup if petID is invalid or not renamed
+   speciesID,customName,self.level,self.xp,self.maxXp,self.displayID,
    self.isFavorite,speciesName,self.icon,self.petType,self.creatureID,
-   self.sourceText,self.loreText,self.isWild,self.canBattle,self.isTradable,
+   self.sourceText,self.loreText,self.isWild,canBattle,self.isTradable,
    self.isUnique,self.isObtainable = GetPetInfoByPetID(petID)
+   self.speciesID = speciesID
    self.name = customName or speciesName
    self.customName = customName
    self.speciesName = speciesName
+   if speciesID then
+      if not canBattleBySpeciesID[speciesID] and canBattle then
+         canBattleBySpeciesID[speciesID] = canBattle -- if pet is ever canBattle, then it always can
+      end
+      self.canBattle = canBattleBySpeciesID[speciesID]
+   end
 end
 
 -- used in Info functions to gather info by speciesID (42)
 local function fillInfoBySpeciesID(self,speciesID)
-   local speciesName -- prevent a __index lookup if speciesID is invalid
+   local speciesName, canBattle -- prevent a __index lookup if speciesID is invalid
    speciesName,self.icon,self.petType,self.creatureID,self.sourceText,
-   self.loreText,self.isWild,self.canBattle,self.isTradable,self.isUnique,
+   self.loreText,self.isWild,canBattle,self.isTradable,self.isUnique,
    self.isObtainable,self.displayID = GetPetInfoBySpeciesID(speciesID)
    self.speciesName = speciesName
    self.name = speciesName
    self.speciesID = speciesID
    if not self.icon then
       self.icon = "Interface\\Icons\\INV_Pet_BattlePetTraining"
+   end
+   if speciesID then
+      if not canBattleBySpeciesID[speciesID] and canBattle then
+         canBattleBySpeciesID[speciesID] = canBattle -- if pet is ever canBattle, then it always can
+      end
+      self.canBattle = canBattleBySpeciesID[speciesID]   
    end
 end
 
@@ -427,7 +449,7 @@ local queryAPIs = {
                breedID = PetTracker.Journal:GetBreed(self.petID)
             elseif idType=="link" then
                breedID = PetTracker.Predict:Breed(self.speciesID,self.level,self.rarity,self.maxHealth,self.power,self.speed)
-            elseif idType=="battle" then
+            elseif idType=="battle" and PetTracker.Battle then
                breedID = PetTracker.Battle:Get(self.battleOwner,self.battleIndex):GetBreed()
             end
             if breedID then
@@ -438,7 +460,7 @@ local queryAPIs = {
                breedID = PetTracker.Pet(self.petID):GetBreed()
             elseif idType=="link" then
                breedID = PetTracker.Predict:Breed(self.speciesID,self.level,self.rarity,self.maxHealth,self.power,self.speed)
-            elseif idType=="battle" then
+            elseif idType=="battle" and PetTracker.Battle then
                 breedID = PetTracker.Battle(self.battleOwner,self.battleIndex):GetBreed()
             end
             if breedID and not RematchSettings.PetTrackerLetterBreeds then
@@ -576,6 +598,11 @@ local queryAPIs = {
          end
          expansionID = expansionID + 1
       end
+   end,
+   CanLevel = function(self)
+      local level = self.level
+      local canBattle = self.canBattle
+      self.canLevel = level and level<25 and canBattle
    end,
 }
 

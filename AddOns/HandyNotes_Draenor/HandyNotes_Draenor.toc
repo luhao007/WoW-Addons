@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: Lorade
-## Version: 2.8
+## Version: 3.0
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotesDraenorDB
 

@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
     <Script file="FishingBuddy.lua"/>
     <Script file="FishingInit.lua"/>
-    <!-- Frame to handle all core events --> 
+    <!-- Frame to handle all core events -->
     <Frame name="FishingBuddyRoot" enableMouse="false" movable="true" parent="UIParent" hidden="true">
         <Scripts>
 	    <OnLoad>
@@ -19,10 +19,62 @@
 		</Scripts>
 	</Frame>
 	<GameTooltip name="FishingBuddyTooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate">
-		<Scripts> 
-			<OnLoad> 
-				self:SetOwner(UIParent, "ANCHOR_NONE"); 
-			</OnLoad> 
-		</Scripts> 
+		<Scripts>
+			<OnLoad>
+				self:SetOwner(UIParent, "ANCHOR_NONE");
+			</OnLoad>
+		</Scripts>
 	</GameTooltip>
+	<CheckButton name="FishingBuddyBaseCheckButtonTemplate" parentKey="CheckButton" inherits="ChatConfigBaseCheckButtonTemplate" virtual="true">
+		<Size x="32" y="32"/>
+		<Scripts>
+			<OnClick>
+				local checked = self:GetChecked();
+				if ( self.func ) then
+					self.func(self, checked);
+				end
+
+				local sound = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON;
+				if (not checked) then
+					sound = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF;
+				end
+				PlaySound(sound);
+			</OnClick>
+			<OnEnter>
+				if (self.tooltip) then
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+					GameTooltip:SetText(self.tooltip, nil, nil, nil, nil, (self.tooltipStyle or true));
+				end
+
+				if self.onEnterCallback then
+					self.onEnterCallback();
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+
+				if self.onLeaveCallback then
+					self.onLeaveCallback();
+				end
+			</OnLeave>
+		</Scripts>
+		<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+		<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+		<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+		<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+	</CheckButton>
+	<CheckButton name="FishingBuddyCheckButtonTemplate" parentKey="CheckButton" inherits="FishingBuddyBaseCheckButtonTemplate" virtual="true">
+		<Size x="24" y="24"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="0" y="2"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<HitRectInsets left="0" right="-145" top="0" bottom="0"/>
+	</CheckButton>
 </Ui>

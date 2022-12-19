@@ -1,6 +1,6 @@
 
 
-local dversion = 386
+local dversion = 405
 local major, minor = "DetailsFramework-1.0", dversion
 local DF, oldminor = LibStub:NewLibrary(major, minor)
 
@@ -96,6 +96,13 @@ end
 function DF.IsWotLKWow()
     local _, _, _, buildInfo = GetBuildInfo()
     if (buildInfo < 40000 and buildInfo >= 30000) then
+        return true
+    end
+end
+
+function DF.IsWotLKWowWithRetailAPI()
+    local _, _, _, buildInfo = GetBuildInfo()
+    if (buildInfo < 40000 and buildInfo >= 30401) then
         return true
     end
 end
@@ -694,7 +701,7 @@ function DF:GroupIterator(callback, ...)
 	end
 end
 
-function DF:IntegerToTimer(value)
+function DF:IntegerToTimer(value) --~formattime
 	return "" .. floor(value/60) .. ":" .. format("%02.f", value%60)
 end
 
@@ -1337,7 +1344,7 @@ end
 			alpha = 1
 		end
 
-		return red, green, blue, alpha
+		return Saturate(red), Saturate(green), Saturate(blue), Saturate(alpha)
 	end
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2995,7 +3002,7 @@ function DF:CreateAnimation(animation, animationType, order, duration, arg1, arg
 		anim:SetToAlpha(arg2)
 
 	elseif (animationType == "SCALE") then
-		if (DF.IsDragonflight()) then
+		if (DF.IsDragonflight() or DF.IsWotLKWowWithRetailAPI()) then
 			anim:SetScaleFrom(arg1, arg2)
 			anim:SetScaleTo(arg3, arg4)
 		else
@@ -3372,7 +3379,12 @@ end
 
 --this is most copied from the wow client code, few changes applied to customize it
 function DF:CreateGlowOverlay (parent, antsColor, glowColor)
-	local glowFrame = CreateFrame("frame", parent:GetName() and "$parentGlow2" or "OverlayActionGlow" .. math.random(1, 10000000), parent, "ActionBarButtonSpellActivationAlert")
+	local pName = parent:GetName()
+	local fName = pName and (pName.."Glow2") or "OverlayActionGlow" .. math.random(1, 10000000)
+	if fName and string.len(fName) > 50 then -- shorten to work around too long names
+		fName = strsub(fName, string.len(fName)-49)
+	end
+	local glowFrame = CreateFrame("frame", fName, parent, "ActionBarButtonSpellActivationAlert")
 	glowFrame:HookScript ("OnShow", glow_overlay_onshow)
 	glowFrame:HookScript ("OnHide", glow_overlay_onhide)
 
@@ -4827,6 +4839,7 @@ end
 		["getglobal"] = true,
 		["setmetatable"] = true,
 		["DevTools_DumpCommand"] = true,
+		["ChatEdit_SendText"] = true,
 
 		--avoid creating macros
 		["SetBindingMacro"] = true,

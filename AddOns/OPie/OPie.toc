@@ -1,7 +1,8 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: foxlit
-## Version: Yuzu 1
+## Version: Yuzu 4
 ## SavedVariables: OneRing_Config, OPie_SavedData
+## SavedVariablesPerCharacter: OPie_SavedDataPC
 
 ## Title: OPie
 ## Notes: Group abilities into rings that appear when you hold down a binding.
@@ -30,5 +31,6 @@ Meta\StanceBar.lua
 Meta\SpecSet.lua
 Meta\DataBroker.lua
 Meta\PSConfig.lua
-Rings\Common.lua
-Rings\Default.lua
+Bundle\QuestItems.lua
+Bundle\Tracking.lua
+Bundle\Editable.lua

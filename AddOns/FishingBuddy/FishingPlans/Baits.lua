@@ -81,7 +81,6 @@ Maintainable[173043] = {
     ["enUS"] = "Elysian Thade Bait",
     spell = 331698,
     continent = FBConstants.SHADOWLANDS,
-    manual = true,
 };
 Maintainable[173038] = {
     ["enUS"] = "Lost Sole Bait",
@@ -189,7 +188,7 @@ local seascorpion = {
 
 local overrides = {}
 overrides[SEA_SCORPION] = seascorpion;
-overrides[ELYSIAN_THADE] = {};
+overrides[ELYSIAN_THADE] = ELYSIAN_THADE;
 
 local function CurrentSpecialBait()
     local continent, _ = FL:GetCurrentMapContinent();
@@ -203,6 +202,14 @@ local function CurrentSpecialBait()
         end
     end
     -- return nil
+end
+
+local function ValidOverride(info, mapId, subzone)
+    local check = overrides[info.override];
+    if check == info.override then
+        return true
+    end
+    return mapId and subZone and check[mapId] and check[mapId][subzone]
 end
 
 local function CheckBait(baitid)
@@ -238,9 +245,7 @@ local function SpecialBaitPlan(queue)
                     local info = Maintainable[baitid];
                     if info.mapId and lastMap == info.mapId then
                         if info.override and overrides[info.override] then
-                            local mapId = info.mapId
-                            local check = overrides[info.override];
-                            if (check[mapId] and check[mapId][subzone] and CheckBait(info.override)) then
+                            if ValidOverride(info, mapId, subzone) and CheckBait(info.override) then
                                 return
                             end
                         end
@@ -252,6 +257,9 @@ local function SpecialBaitPlan(queue)
                 for _, baitid in ipairs(SpecialBait[continent]) do
                     local info = Maintainable[baitid];
                     if not info.mapId then
+                        if ValidOverride(info) and CheckBait(info.override) then
+                            return
+                        end
                         if CheckBait(baitid) then
                             return
                         end

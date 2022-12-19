@@ -1,21 +1,22 @@
-# [5.1.1](https://github.com/WeakAuras/WeakAuras2/tree/5.1.1) (2022-11-08)
+# [5.3.3](https://github.com/WeakAuras/WeakAuras2/tree/5.3.3) (2022-12-09)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/5.1.0...5.1.1)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/5.3.2...5.3.3)
 
 ## Highlights
 
- - Bug Fixes 
+ - bug fixes 
 
 ## Commits
 
-InfusOnWoW (3):
+InfusOnWoW (9):
 
-- MoverSizer: Skip regions that are anchoring restricted
-- Remove useless debug prints
-- Change how z-scale is interpreted
-
-mrbuds (2):
-
-- Fix talent trigger active when wrong choice node is selected
-- Fix error with dynamic group background/border positioning
+- Add Profession Slots to Item Triggers
+- AuraBar: Try again to fix some pixel issues for unaligned progress bars
+- Cast Trigger's Latency: Rework code
+- AuraBar: Fix alignment issues for background/foreground
+- Fix PvP Talents being unknown after pvp
+- Fix renaming breaking anchoring between auras
+- Fix anchorpoints for fgFrame
+- Make WeakAuras.newFeatureString available again
+- Make TSU Variables more resilent against lua errors
 

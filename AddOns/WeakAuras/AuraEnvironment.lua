@@ -469,7 +469,6 @@ local FakeWeakAurasMixin = {
     -- Note these shouldn't exist in the WeakAuras namespace, but moving them takes a bit of effort,
     -- so for now just block them and clean them up later
     genericTriggerTypes = true,
-    newFeatureString = true,
     spellCache = true,
     StopMotion = true,
   },
@@ -530,7 +529,7 @@ local exec_env_custom = setmetatable({},
                               or C_Timer
     elseif blockedFunctions[k] then
       blocked(k)
-      return function() end
+      return function(_) end
     elseif blockedTables[k] then
       blocked(k)
       return {}
@@ -576,7 +575,7 @@ local exec_env_builtin = setmetatable({},
       return PrivateForBuiltIn
     elseif blockedFunctions[k] then
       blocked(k)
-      return function() end
+      return function(_) end
     elseif blockedTables[k] then
       blocked(k)
       return {}

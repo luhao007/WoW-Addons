@@ -15,6 +15,9 @@ local addonname = ...
 local AtlasLoot = _G.AtlasLoot
 local data = AtlasLoot.ItemDB:Add(addonname, 4)
 
+AtlasLoot:RegisterModules(addonname)
+
+
 local ADD_SCALING = {
 	Item = {
 		item1bonus = "Scaling",

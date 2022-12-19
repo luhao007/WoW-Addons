@@ -28,6 +28,9 @@ local IsInInstance = _G.IsInInstance
 
 local tokFunctions = Details.ToKFunctions
 
+local _, Details222 = ...
+_ = nil
+
 --constants
 local baseframe_strata = "LOW"
 local defaultBackdropSt = {
@@ -3600,7 +3603,7 @@ function gump:CriaJanelaPrincipal (ID, instancia, criando)
 		baseframe:EnableMouseWheel(false)
 		baseframe:EnableMouse(true)
 
-		if (not DetailsFramework.IsDragonflight()) then
+		if (not DetailsFramework.IsDragonflight() and not DetailsFramework.IsWotLKWowWithRetailAPI()) then
 			baseframe:SetMinResize (150, 7)
 			baseframe:SetMaxResize (Details.max_window_size.width, Details.max_window_size.height)
 		else
@@ -7933,7 +7936,10 @@ function Details:RefreshTitleBarText()
 		if (instanceMode == DETAILS_MODE_GROUP or instanceMode == DETAILS_MODE_ALL) then
 			local segment = self:GetSegment()
 			if (segment == DETAILS_SEGMENTID_OVERALL) then
-				sName = sName .. " " .. Loc["STRING_OVERALL"]
+				local dynamicOverallDataCustomID = Details222.GetCustomDisplayIDByName(Loc["STRING_CUSTOM_DYNAMICOVERAL"])
+				if ((dynamicOverallDataCustomID ~= self.sub_atributo) and self.atributo ~= 5) then
+					sName = sName .. " " .. Loc["STRING_OVERALL"]
+				end
 
 			elseif (segment >= 2) then
 				sName = sName .. " [" .. segment .. "]"

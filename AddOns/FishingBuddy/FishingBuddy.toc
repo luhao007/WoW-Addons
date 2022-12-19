@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 10000
 ## Author: Sutorix=AT=hotmail.com
-## Version: 1.18.1
+## Version: 1.19.3
 ## OptionalDeps: FB_Debugging, Outfitter, myAddOns, Titan
 ## SavedVariables: FishingBuddy_Info
 ## SavedVariablesPerCharacter: FishingBuddy_Player

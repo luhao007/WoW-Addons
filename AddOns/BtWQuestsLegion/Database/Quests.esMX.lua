@@ -1929,8 +1929,20 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40515] = {
         name = "Una caminata con los espíritus",
     },
+    [40517] = {
+        name = "El león caído",
+    },
+    [40518] = {
+        name = "La batalla por la Costa Quebrada",
+    },
+    [40519] = {
+        name = "Legion: La Legión ha vuelto",
+    },
     [40520] = {
         name = "Revolver en el pasado",
+    },
+    [40522] = {
+        name = "Destino de la Horda",
     },
     [40523] = {
         name = "Amigos polifacéticos",
@@ -2046,6 +2058,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40588] = {
         name = "Siguiendo a la maldición",
     },
+    [40593] = {
+        name = "Demonios entre nosotros",
+    },
     [40594] = {
         name = "Llueve justicia desde el cielo",
     },
@@ -2055,8 +2070,14 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [40604] = {
         name = "Perturbando el pasado",
     },
+    [40605] = {
+        name = "Mantén a tus amigos cerca",
+    },
     [40606] = {
         name = "El camino señalado",
+    },
+    [40607] = {
+        name = "Demonios entre nosotros",
     },
     [40608] = {
         name = "La marca",
@@ -2183,6 +2204,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [40748] = {
         name = "Seguridad de la red",
+    },
+    [40760] = {
+        name = "Emisario",
     },
     [40761] = {
         name = "Susurros desde Oronaar",
@@ -3002,6 +3026,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [41878] = {
         name = "La gondolera",
+    },
+    [41882] = {
+        name = "Susurros de la oscuridad",
     },
     [41884] = {
         name = "Relatos oscuros",
@@ -3912,6 +3939,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [42739] = {
         name = "Arruinando runas: sabio de las runas Floki",
     },
+    [42740] = {
+        name = "La batalla por la Costa Quebrada",
+    },
     [42747] = {
         name = "Donde se encuentran los Lechúcicos salvajes",
     },
@@ -4749,6 +4779,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [43899] = {
         name = "Corceles de los condenados",
     },
+    [43926] = {
+        name = "Legion: La Legión ha vuelto",
+    },
     [43928] = {
         name = "Agregados de la angustia",
     },
@@ -4836,6 +4869,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [44117] = {
         name = "¡El tiempo vuela cuando está tomando ron!",
     },
+    [44120] = {
+        name = "Aliados Illidari",
+    },
     [44152] = {
         name = "La crisis que crece",
     },
@@ -4865,6 +4901,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [44183] = {
         name = "Campeón: Lord Jorach Ravenholdt",
+    },
+    [44184] = {
+        name = "En un abrir y cerrar de ojos",
     },
     [44214] = {
         name = "Una cosa más...",
@@ -4898,6 +4937,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [44257] = {
         name = "Una estrella fugaz",
+    },
+    [44281] = {
+        name = "A prepararse",
     },
     [44282] = {
         name = "Ojo de Azshara: El alma gélida",

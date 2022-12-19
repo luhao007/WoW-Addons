@@ -1,6 +1,16 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.0.3
+
+- Companion: added optional button to summon random favorite mount (disabled by default)
+
+### 10.0.2
+
+- Bump TOC
+- Companion: customize distance indicator shape
+- Fix GetContainer... lua errors
+
 ### 10.0.0
 
 - Updated for DragonFlight

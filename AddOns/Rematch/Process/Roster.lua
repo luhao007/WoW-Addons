@@ -31,8 +31,12 @@ roster.ownedNeedsUpdated = true -- becomes true when we need to expand filters t
 
 rematch:InitModule(function()
 	settings = RematchSettings
-	roster:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
-	roster:SetScript("OnEvent",function(self,event,...) roster[event](self,...) end)
+	roster:RegisterEvent("UPDATE_SUMMONPETS_ACTION")
+	roster:SetScript("OnEvent",function(self,event,...)
+		if roster[event] then
+			roster[event](self,...)
+		end
+	end)
    roster.isStrongCache = rematch:CreateODTable() -- used by IsStrong() function
 end)
 
@@ -45,6 +49,17 @@ end
 function rematch:UpdateRoster()
 	roster.petListNeedsUpdated = true
 	rematch:StartTimer("RosterUpdate",0,rematch.UpdateUI)
+end
+
+--[[ As of 10.0.2, using UPDATE_SUMMONPETS_ACTION to test whether pets are loaded on login ]]
+
+-- using this to know when pets are loaded
+function roster:UPDATE_SUMMONPETS_ACTION()
+	roster:UnregisterEvent("UPDATE_SUMMONPETS_ACTION")
+	roster:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
+	roster:RegisterEvent("NEW_PET_ADDED")
+	roster:RegisterEvent("PET_JOURNAL_PET_DELETED")
+	roster:PET_JOURNAL_LIST_UPDATE() -- start first check
 end
 
 --[[ PET_JOURNAL_LIST_UPDATE
@@ -78,6 +93,11 @@ end
 ]]
 
 function roster:PET_JOURNAL_LIST_UPDATE()
+
+	if not rematch.inWorld then
+		return
+	end
+
 	local numPets,owned = C_PetJournal.GetNumPets()
 
 	-- if number of owned pets changed, pets were added/removed; flag for an update to happen
@@ -90,14 +110,17 @@ function roster:PET_JOURNAL_LIST_UPDATE()
 		return
 	end
 	rematch.queueNeedsProcessed = true
-	if owned>0 and settings.ShowOnLogin then
-		settings.ShowOnLogin = nil
+	if owned>0 and settings.ShowOnLogin and not InCombatLockdown() then
 		rematch.Frame:Show()
 	end
-   rematch.speciesAt25:Invalidate()
+	settings.ShowOnLogin = nil
+    rematch.speciesAt25:Invalidate()
 	roster.petListNeedsUpdated = true
 	rematch:UpdateUI()
 end
+
+roster.NEW_PET_ADDED = roster.PET_JOURNAL_LIST_UPDATE
+roster.PET_JOURNAL_PET_DELETED = roster.PET_JOURNAL_LIST_UPDATE
 
 -- this is only registered while "Other","CurrentZone" filter enabled
 function roster:ZONE_CHANGED_NEW_AREA()

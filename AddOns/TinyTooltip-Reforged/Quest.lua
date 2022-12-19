@@ -17,3 +17,5 @@ hooksecurefunc(ItemRefTooltip, "SetHyperlink", function(self, link)
         ColorBorder(self, color.r, color.g, color.b)
     end
 end)
+
+

@@ -1349,7 +1349,7 @@ function Factory.MissionTable(name)
 		t:SetScript("OnLeave", HideOwnGameTooltip)
 		t, mf.AllPurposeButton = CreateObject("CommonHoverTooltip", CreateObject("MenuButton", mf)), t
 		t:SetSize(34, 30)
-		t:SetPoint("TOPLEFT", 62, -30)
+		t:SetPoint("TOPLEFT", 28, -30)
 		t.Icon:SetTexture("Interface/EncounterJournal/UI-EncounterJournalTextures")
 		t.Icon:SetSize(24,24)
 		t.Icon:SetTexCoord(0.63281250, 0.72656250, 0.61816406, 0.66015625)
@@ -1443,14 +1443,9 @@ function Factory.MissionTable(name)
 		mf.Toasts[1]:SetPoint("TOPLEFT", 20, -65)
 		mf.AcquireToast = MissionList_AcquireToast
 	end
-	frame.ResetButton = CreateObject("CommonHoverTooltip", CreateObject("MenuButton", frame.TaskBoard)) do
-		t = frame.ResetButton
-		t.Icon:SetAtlas("transmog-icon-revert-small", true)
-		t:SetPoint("TOPLEFT", 28, -30)
-	end
 	frame.HistoryFrame = CreateObject("HistoryFrame", frame) do
 		local f, hb = frame.HistoryFrame, frame.TaskBoard.HistoryButton
-		f:SetPoint("TOPLEFT", hb, "BOTTOMLEFT", -38, 0)
+		f:SetPoint("TOPLEFT", hb, "BOTTOMLEFT", -8, 0)
 		function EV:I_MISSION_LOG_UPDATED()
 			if f:IsShown() then
 				f:UpdateDisplay()

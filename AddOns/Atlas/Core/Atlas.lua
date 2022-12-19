@@ -1,4 +1,4 @@
--- $Id: Atlas.lua 416 2022-11-04 08:21:17Z arithmandar $
+-- $Id: Atlas.lua 425 2022-11-20 02:14:21Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
@@ -643,7 +643,8 @@ function Atlas_OnEvent(self, event, ...)
 	if (event=="ADDON_LOADED" and (arg1=="Atlas" or arg1=="Blizzard_EncounterJournal")) then
 		--Blizzard_EncounterJournal
 		if (IsAddOnLoaded("Blizzard_EncounterJournal") and IsAddOnLoaded("Atlas")) then
-			addon:EncounterJournal_Binding()
+			-- Added Atlas button to Encounter Journal
+			--addon:EncounterJournal_Binding()
 		end
 	end
 
@@ -1995,9 +1996,9 @@ local function initialization()
 	
 	check_Modules()
 	if (profile.options.worldMapButton) then
-		AtlasToggleFromWorldMap:Show()
+		addon.WorldMap.Button:Show()
 	else
-		AtlasToggleFromWorldMap:Hide()
+		addon.WorldMap.Button:Hide()
 	end
 end
 
@@ -2040,8 +2041,8 @@ function addon:Refresh()
 	AtlasFrameLarge:SetClampedToScreen(profile.options.frames.clamp)
 	AtlasFrameSmall:SetClampedToScreen(profile.options.frames.clamp)
 	if (profile.options.worldMapButton) then
-		AtlasToggleFromWorldMap:Show()
+		addon.WorldMap.Button:Show()
 	else
-		AtlasToggleFromWorldMap:Hide()
+		addon.WorldMap.Button:Hide()
 	end
 end

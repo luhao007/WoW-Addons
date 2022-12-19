@@ -625,6 +625,7 @@ end
         end
 
         mainResourceFrame.eventsEnabled = true
+        mainResourceFrame.currentResourceBarShown.updateResourceFunc(mainResourceFrame, mainResourceFrame.currentResourceBarShown, true)
     end
 
     function Plater.Resources.DisableEvents()
@@ -1113,7 +1114,7 @@ end
             forcedRefresh = true
         end
 
-        if (event == "UNIT_POWER_POINT_CHARGE") then
+        if IS_WOW_PROJECT_MAINLINE and (event == "UNIT_POWER_POINT_CHARGE" or forcedRefresh) then
 			--fallback if it is not implemented/created
 			if (not resourceBar.widgets[1]) then return end
 			
@@ -1135,7 +1136,9 @@ end
                     end
                 end
             end
-            return
+            if not forcedRefresh then
+                return
+            end
         end
 
         -- ensure to only update for proper power type or if forced
@@ -1244,12 +1247,14 @@ end
 			if not runeReady then
 				resourceBar.runesOnCooldown[index] = true
 				if start then
+                    cooldown:SetAlpha(1)
 					CooldownFrame_Set(cooldown, start, duration, 1, true);
-                    --cooldown:SetCooldown(start, duration)
 				end
 				if not DB_PLATER_RESOURCE_SHOW_DEPLETED then
 					cooldown:SetAlpha(0)
 				end
+                runeButton.ShowAnimation:Stop()
+                runeButton.texture:SetAlpha(0)
 			else
 				if (resourceBar.runesOnCooldown[index]) then
 					local _, _, runeReadyNow = GetRuneCooldown(index)
@@ -1263,7 +1268,7 @@ end
 					runeButton.texture:SetAlpha(1)
 				end
 
-				cooldown:SetAlpha(1)
+				cooldown:SetAlpha(0)
 				cooldown:Hide()
 			end
 		end
@@ -1359,6 +1364,8 @@ end
 
         --amount of resources the player has now
         local currentResources = UnitPower("player", Plater.Resources.playerResourceId)
+        local maxResources = UnitPowerMax("player", Plater.Resources.playerResourceId)
+        local isAtMaxPoints = currentResources == maxResources
         local pace, interrupted = GetPowerRegenForPowerType(Enum.PowerType.Essence)
         if (pace == nil or pace == 0) then
             pace = 0.2
@@ -1406,7 +1413,6 @@ end
             widget:Show()
         end
 
-        local isAtMaxPoints = currentResources == resourceBar.widgetsInUseAmount
         local cooldownDuration = 1 / pace
         local animationSpeedMultiplier = FillingAnimationTime / cooldownDuration
         local widget = resourceBar.widgets[currentResources + 1]

@@ -1,7 +1,6 @@
 ------------------------------------------------------------------------
-r18 | funkehdude | 2022-10-26 00:43:30 +0000 (Wed, 26 Oct 2022) | 1 line
+r20 | funkehdude | 2022-11-14 15:24:29 +0000 (Mon, 14 Nov 2022) | 1 line
 Changed paths:
-   M /trunk/LibSpecialization/LibSpecialization.lua
    M /trunk/LibSpecialization.toc
 
 bump toc

@@ -43,10 +43,22 @@ L[ [=[• |cff00ff00Player|r, |cff00ff00Target|r, |cff00ff00Focus|r, and |cff00f
 
 
 |cffffff00*|r 노란색 유닛 설정은 이 활성 조건이 효과에 동적 정보를 제공하는 동안 일치하는 각 유닛에 대해 복제를 생성합니다.]=]
+--[[Translation missing --]]
+L["1. Profession 1. Accessory"] = "1. Profession 1. Accessory"
+--[[Translation missing --]]
+L["1. Profession 2. Accessory"] = "1. Profession 2. Accessory"
+--[[Translation missing --]]
+L["1. Professsion Tool"] = "1. Professsion Tool"
 L["10 Man Raid"] = "10인 공격대"
 L["10 Player Raid"] = "10인 공격대"
 L["10 Player Raid (Heroic)"] = "10인 공격대 (영웅)"
 L["10 Player Raid (Normal)"] = "10인 공격대 (일반)"
+--[[Translation missing --]]
+L["2. Profession 1. Accessory"] = "2. Profession 1. Accessory"
+--[[Translation missing --]]
+L["2. Profession 2. Accessory"] = "2. Profession 2. Accessory"
+--[[Translation missing --]]
+L["2. Professsion Tool"] = "2. Professsion Tool"
 L["20 Man Raid"] = "20인 공격대"
 L["20 Player Raid"] = "20인 공격대"
 L["25 Man Raid"] = "25인 공격대"
@@ -251,6 +263,14 @@ L["Caster's Target"] = "시전자의 대상"
 L["Cataclysm"] = "대격변"
 L["Ceil"] = "천장"
 L["Center"] = "중앙"
+--[[Translation missing --]]
+L["Center, then alternating bottom and top"] = "Center, then alternating bottom and top"
+--[[Translation missing --]]
+L["Center, then alternating left and right"] = "Center, then alternating left and right"
+--[[Translation missing --]]
+L["Center, then alternating right and left"] = "Center, then alternating right and left"
+--[[Translation missing --]]
+L["Center, then alternating top and bottom"] = "Center, then alternating top and bottom"
 L["Centered Horizontal"] = "수평 중앙"
 --[[Translation missing --]]
 L["Centered Horizontal, then Centered Vertical"] = "Centered Horizontal, then Centered Vertical"
@@ -318,8 +338,7 @@ L["Conditions"] = "조건"
 L["Contains"] = "포함"
 L["Continuously update Movement Speed"] = "이동 속도 계속 업데이트"
 L["Cooldown"] = "재사용 대기시간"
---[[Translation missing --]]
-L["Cooldown bars show time before an ability is ready to be use, BigWigs prefix them with '~'"] = "Cooldown bars show time before an ability is ready to be use, BigWigs prefix them with '~'"
+L["Cooldown bars show time before an ability is ready to be use, BigWigs prefix them with '~'"] = "재사용 대기시간 바는 능력을 사용할 준비가 되기까지의 시간을 표시하며 BigWigs는 '~'를 접두사로 붙입니다."
 L["Cooldown Progress (Item)"] = "재사용 대기시간 진행 (아이템)"
 L["Cooldown Progress (Slot)"] = "재사용 대기시간 진행 상황 (아이템 칸)"
 L["Cooldown Ready Event"] = "재사용 준비 이벤트"
@@ -361,6 +380,8 @@ L["Custom Sort"] = "사용자 정의 정렬"
 --[[Translation missing --]]
 L["Custom Text Function"] = "Custom Text Function"
 L["Custom Trigger Combination"] = "사용자 정의 활성 조건 조합"
+--[[Translation missing --]]
+L["Custom Variables"] = "Custom Variables"
 L["Daakara"] = "다카라"
 L["Damage"] = "피해"
 L["Damage Shield"] = "피해 반사"
@@ -420,6 +441,8 @@ L["Down, then Centered Horizontal"] = "Down, then Centered Horizontal"
 L["Down, then Left"] = "아래로, 왼쪽으로"
 L["Down, then Right"] = "아래로, 오른쪽으로"
 L["Dragonflight"] = "용군단"
+--[[Translation missing --]]
+L["Dragonriding"] = "Dragonriding"
 L["Drain"] = "마력 소진"
 L["Dropdown Menu"] = "드롭다운 메뉴"
 --[[Translation missing --]]
@@ -607,6 +630,12 @@ L["Gluth"] = "글루스"
 L["Golemagg the Incinerator"] = "초열의 골레마그"
 L["Gothik the Harvester"] = "영혼의 착취자 고딕"
 L["Gradient"] = "색상 전환"
+--[[Translation missing --]]
+L["Gradient Color"] = "Gradient Color"
+--[[Translation missing --]]
+L["Gradient Enabled"] = "Gradient Enabled"
+--[[Translation missing --]]
+L["Gradient Orientation"] = "Gradient Orientation"
 L["Gradient Pulse"] = "색상 전환(깜빡임)"
 L["Grand Widow Faerlina"] = "귀부인 팰리나"
 L["Grid"] = "격자"
@@ -679,6 +708,8 @@ L["Hit Rating"] = "적중"
 L["Hodir"] = "호디르"
 L["Holy Resistance"] = "신성 저항"
 L["Horde"] = "호드"
+--[[Translation missing --]]
+L["Horizontal"] = "Horizontal"
 L["Hostile"] = "적대적"
 L["Hostility"] = "적대성"
 L["Humanoid"] = "인간형"
@@ -1160,7 +1191,7 @@ L["Seconds"] = "초"
 L[ [=[Secure frame detected. Find more information:
 https://github.com/WeakAuras/WeakAuras2/wiki/Protected-Frames]=] ] = [=[Secure frame detected. Find more information:
 https://github.com/WeakAuras/WeakAuras2/wiki/Protected-Frames]=]
-L["Select Frame"] = "프레임 선택"
+L["Select Frame"] = "선택 프레임"
 --[[Translation missing --]]
 L["Separator"] = "Separator"
 L["Set IDs can be found on websites such as classic.wowhead.com/item-sets"] = "세트 ID는 classic.wowhead.com/item-sets와 같은 웹사이트에서 찾을 수 있습니다."
@@ -1362,8 +1393,6 @@ L["This aura has caused a Lua error."] = "이 효과는 Lua 오류를 일으켰�
 L["This aura is saving %s KB of data"] = "This aura is saving %s KB of data"
 L["This aura plays a sound via a condition."] = "이 효과는 조건을 통해 소리를 재생합니다."
 L["This aura plays a sound via an action."] = "이 효과는 동작을 통해 소리를 재생합니다."
---[[Translation missing --]]
-L["This aura tried to show a tooltip on a anchoring restricted region"] = "This aura tried to show a tooltip on a anchoring restricted region"
 L["Thorim"] = "토림"
 L["Threat Percent"] = "위협 수준 백분율"
 L["Threat Situation"] = "위협 수준 상황"
@@ -1472,6 +1501,8 @@ L["Values/Remaining Time below this value are displayed as no progress."] = "이
 L["Vault of Archavon"] = "아카본 석실"
 L["Versatility (%)"] = "유연성 (%)"
 L["Versatility Rating"] = "유연성"
+--[[Translation missing --]]
+L["Vertical"] = "Vertical"
 L["Vesperon"] = "베스페론"
 L["Viscidus"] = "비시디우스"
 L["Visibility"] = "표시"

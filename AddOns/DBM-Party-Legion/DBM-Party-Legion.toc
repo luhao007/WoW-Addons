@@ -1,5 +1,5 @@
-## Interface: 100000
-## Version: r43
+## Interface: 100002
+## Version: r50
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyLegion_AllSavedVars

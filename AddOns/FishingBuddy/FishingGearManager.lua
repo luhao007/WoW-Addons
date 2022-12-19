@@ -58,7 +58,7 @@ gearframe:SetScript("OnUpdate", function(self)
 				end
 				if (not self.maintexture) then
 					if (mslot == invslot) then
-						local _, _, _, _, _, _, _, _, _, t, _ = GetItemInfo(info.link);
+						local t = FL:GetItemInfo(info.link, FL.ITEM_LINK);
 						self.maintexture = gsub( strupper(t), "INTERFACE\\ICONS\\", "" );
 						-- FishingBuddy.Debug("texture "..self.maintexture);
 					end
@@ -116,6 +116,7 @@ local function PrepGearFrame(name, outfit, force)
 	gearframe.name = name;
 	gearframe.state = 0;
 	gearframe.outfit = outfit;
+	FishingBuddy.Dump(gearframe.outfit)
 	gearframe.force = force;
 	gearframe.maintexture = nil;
 	gearframe:Show();
@@ -144,7 +145,7 @@ local function GearManagerInitialize(force)
 			-- let's save what we have on now...
 			C_EquipmentSet.ClearIgnoredSlotsForSave();
 			SaveEquipmentSet(FB_TEMP_OUTFIT, 1);
-			local outfit = FL:GetFishingOutfitItems(false) or {};
+			local outfit = FL:GetFishingOutfitItems(false, false) or {};
 			for invslot,info in pairs(outfit) do
 				EquipItemByName(info.link, invslot);
 			end  -- for bags
@@ -184,7 +185,7 @@ local function GuessCurrentOutfit()
 end
 
 local function GetCurrentOutfit()
-	local setId = PaperDollEquipmentManagerPane.selectedSetId;
+	local setId = PaperDollFrame.EquipmentManagerPane.selectedSetID;
 	if ( setId ) then
 		local name = C_EquipmentSet.GetEquipmentSetInfo(setId);
 		return name;

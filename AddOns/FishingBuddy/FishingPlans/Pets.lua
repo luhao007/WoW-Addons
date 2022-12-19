@@ -226,7 +226,7 @@ PetEvents["VARIABLES_LOADED"] = function(started)
 	LibPetJournal.RegisterCallback(FBConstants.ID, "PetListUpdated", HandlePetsUpdate)
 
 	local simple, complex = GetMenuData()
-	local scrollmenu = FSF:CreateScrollMenu(MENUNAME, PET_TYPE_PET, simple, complex)
+	local scrollmenu = FSF:CreateScrollMenu(MENUNAME, FBConstants.PETS, simple, complex)
 
     FishingBuddy.OptionsFrame.HandleOptions(FBConstants.CONFIG_FISHINGFLUFF_ONOFF, "Interface\\Icons\\inv_misc_food_164_fish_seadog", PetOptions);
 end

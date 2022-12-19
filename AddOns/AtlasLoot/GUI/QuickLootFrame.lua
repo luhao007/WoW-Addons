@@ -140,7 +140,7 @@ local function CreateItemButton()
 
 		
 	-- secButtonTexture <texture>
-	button.secButton.icon = button.secButton:CreateTexture(buttonName.."-Icon", button.secButton)
+	button.secButton.icon = button.secButton:CreateTexture(buttonName.."-Icon", "ARTWORK")
 	button.secButton.icon:SetPoint("TOPLEFT", button.secButton)
 	button.secButton.icon:SetPoint("BOTTOMRIGHT", button.secButton)
 	button.secButton.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
@@ -258,7 +258,7 @@ local function CreateSelectionButton()
 		button:SetPoint("TOPLEFT", frame.selection.list[count-1], "BOTTOMLEFT", 0, -1)
 	end
 	
-	button.icon = button:CreateTexture(buttonName.."-Icon", button)
+	button.icon = button:CreateTexture(buttonName.."-Icon", "ARTWORK")
 	button.icon:SetPoint("TOPLEFT", button)
 	button.icon:SetPoint("BOTTOMRIGHT", button)
 	button.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")

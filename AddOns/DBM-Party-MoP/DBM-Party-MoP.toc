@@ -1,5 +1,5 @@
-## Interface: 100000
-## Version: r43
+## Interface: 100002
+## Version: r50
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyMoP_AllSavedVars
@@ -45,6 +45,7 @@ JadeSerpentTemple\WiseMari.lua
 JadeSerpentTemple\LibraryEvent.lua
 JadeSerpentTemple\LiuFlameheart.lua
 JadeSerpentTemple\ShaofDoubt.lua
+JadeSerpentTemple\JadeTempleTrash.lua
 StormstoutBrewery\OokOok.lua
 StormstoutBrewery\Hoptallus.lua
 StormstoutBrewery\YanZhu.lua

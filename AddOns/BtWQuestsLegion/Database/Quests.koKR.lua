@@ -3021,6 +3021,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "나룻배 사공",
     },
+    [41882] = {
+        name = "어둠의 속삭임",
+    },
     [41884] = {
         name = "영혼의 속삭임",
     },

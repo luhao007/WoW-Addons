@@ -12,11 +12,15 @@ local Money = TSM.Include("Util.Money")
 local SlotId = TSM.Include("Util.SlotId")
 local Log = TSM.Include("Util.Log")
 local ItemString = TSM.Include("Util.ItemString")
+local Container = TSM.Include("Util.Container")
 local Threading = TSM.Include("Service.Threading")
 local ItemInfo = TSM.Include("Service.ItemInfo")
 local CustomPrice = TSM.Include("Service.CustomPrice")
 local BagTracking = TSM.Include("Service.BagTracking")
-local Inventory = TSM.Include("Service.Inventory")
+local GuildTracking = TSM.Include("Service.GuildTracking")
+local MailTracking = TSM.Include("Service.MailTracking")
+local AuctionTracking = TSM.Include("Service.AuctionTracking")
+local AltTracking = TSM.Include("Service.AltTracking")
 local private = {
 	buyThreadId = nil,
 	sellThreadId = nil,
@@ -76,7 +80,6 @@ function private.BuyThread(groups)
 	local itemsToBuy = Threading.AcquireSafeTempTable()
 	local itemBuyQuantity = Threading.AcquireSafeTempTable()
 	local query = TSM.Vendoring.Buy.CreateMerchantQuery()
-		:InnerJoin(ItemInfo.GetDBForJoin(), "itemString")
 		:InnerJoin(TSM.Groups.GetItemDBForJoin(), "itemString")
 		:Select("itemString", "groupPath", "numAvailable")
 	for _, itemString, groupPath, numAvailable in query:Iterator() do
@@ -108,26 +111,28 @@ function private.BuyThread(groups)
 end
 
 function private.GetNumToBuy(itemString, operationSettings)
+	-- TODO: Need to look into why we're doing this complex query for bags, but not for anything else
 	local numHave = BagTracking.CreateQueryBagsItem(itemString)
 		:VirtualField("autoBaseItemString", "string", TSM.Groups.TranslateItemString, "itemString")
 		:Equal("autoBaseItemString", itemString)
 		:Equal("isBoA", false)
 		:SumAndRelease("quantity")
 	if operationSettings.restockSources.bank then
-		numHave = numHave + Inventory.GetBankQuantity(itemString) + Inventory.GetReagentBankQuantity(itemString)
+		local _, bankQuantity, reagentBankQuantity = BagTracking.GetQuantities(itemString)
+		numHave = numHave + bankQuantity + reagentBankQuantity
 	end
 	if operationSettings.restockSources.guild then
-		numHave = numHave + Inventory.GetGuildQuantity(itemString)
+		numHave = numHave + GuildTracking.GetQuantity(itemString)
 	end
 	if operationSettings.restockSources.ah then
-		numHave = numHave + Inventory.GetAuctionQuantity(itemString)
+		numHave = numHave + AuctionTracking.GetQuantity(itemString)
 	end
 	if operationSettings.restockSources.mail then
-		numHave = numHave + Inventory.GetMailQuantity(itemString)
+		numHave = numHave + MailTracking.GetQuantity(itemString)
 	end
 	if operationSettings.restockSources.alts or operationSettings.restockSources.alts_ah then
-		local _, alts, _, altsAH = Inventory.GetPlayerTotals(itemString)
-		numHave = numHave + (operationSettings.restockSources.alts and alts or 0) + (operationSettings.restockSources.alts_ah and altsAH or 0)
+		local numAlts, numAltAuctions = AltTracking.GetQuantity(itemString)
+		numHave = numHave + (operationSettings.restockSources.alts and numAlts or 0) + (operationSettings.restockSources.alts_ah and numAltAuctions or 0)
 	end
 	return max(operationSettings.restockQty - numHave, 0)
 end
@@ -219,18 +224,18 @@ function private.SellItemThreaded(itemString, operationSettings)
 		local bag, slot = SlotId.Split(slotId)
 		local quantity = BagTracking.GetQuantityBySlotId(slotId)
 		if quantity <= numToSell then
-			UseContainerItem(bag, slot)
+			Container.UseItem(bag, slot)
 			totalValue = totalValue + ((ItemInfo.GetVendorSell(itemString) or 0) * quantity)
 			numToSell = numToSell - quantity
 		else
 			if #emptySlotIds > 0 then
 				local splitBag, splitSlot = SlotId.Split(tremove(emptySlotIds, 1))
-				SplitContainerItem(bag, slot, numToSell)
-				PickupContainerItem(splitBag, splitSlot)
+				Container.SplitItem(bag, slot, numToSell)
+				Container.PickupItem(splitBag, splitSlot)
 				-- wait for the stack to be split
 				Threading.WaitForFunction(private.BagSlotHasItem, splitBag, splitSlot)
-				PickupContainerItem(splitBag, splitSlot)
-				UseContainerItem(splitBag, splitSlot)
+				Container.PickupItem(splitBag, splitSlot)
+				Container.UseItem(splitBag, splitSlot)
 				totalValue = totalValue + ((ItemInfo.GetVendorSell(itemString) or 0) * quantity)
 			elseif not private.printedBagsFullMsg then
 				Log.PrintUser(L["Could not sell items due to not having free bag space available to split a stack of items."])
@@ -253,19 +258,8 @@ end
 function private.GetEmptyBagSlotsThreaded(itemFamily)
 	local emptySlotIds = Threading.AcquireSafeTempTable()
 	local sortvalue = Threading.AcquireSafeTempTable()
-	for bag = 0, NUM_BAG_SLOTS do
-		-- make sure the item can go in this bag
-		local bagFamily = bag ~= 0 and GetItemFamily(GetInventoryItemLink("player", ContainerIDToInventoryID(bag))) or 0
-		if bagFamily == 0 or bit.band(itemFamily, bagFamily) > 0 then
-			for slot = 1, GetContainerNumSlots(bag) do
-				if not GetContainerItemInfo(bag, slot) then
-					local slotId = SlotId.Join(bag, slot)
-					tinsert(emptySlotIds, slotId)
-					-- use special bags first
-					sortvalue[slotId] = slotId + (bagFamily > 0 and 0 or 100000)
-				end
-			end
-		end
+	for bag = 0, Container.GetNumBags() do
+		Container.GenerateSortedEmptyFamilySlots(bag, itemFamily, emptySlotIds, sortvalue)
 		Threading.Yield()
 	end
 	Table.SortWithValueLookup(emptySlotIds, sortvalue)
@@ -274,5 +268,5 @@ function private.GetEmptyBagSlotsThreaded(itemFamily)
 end
 
 function private.BagSlotHasItem(bag, slot)
-	return GetContainerItemInfo(bag, slot) and true or false
+	return Container.GetItemInfo(bag, slot) and true or false
 end

@@ -4,7 +4,7 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local DBViewer = TSM.UI:NewPackage("DBViewer")
 local Database = TSM.Include("Util.Database")
 local Log = TSM.Include("Util.Log")
@@ -35,9 +35,9 @@ local DEFAULT_DIVIDED_CONTAINER_CONTEXT = {
 local DEFAULT_STRUCTURE_SCROLLING_TABLE_CONTEXT = {
 	colWidth = {
 		order = 24,
-		field = 450,
+		field = 346,
 		type = 60,
-		attributes = 96,
+		attributes = 200,
 	},
 	colHidden = {},
 }
@@ -101,9 +101,8 @@ function private.AddTableRows(frame)
 			:SetPadding(8, 0, 0, 0)
 			:SetFont("BODY_BODY3")
 			:SetJustifyH("LEFT")
-			:SetHighlightEnabled(true)
+			:SetBackground("PRIMARY_BG", true)
 			:SetText(name)
-			:SetBackground("PRIMARY_BG")
 			:SetScript("OnClick", private.NavButtonOnClick)
 		)
 	end
@@ -217,12 +216,24 @@ function private.CreateBrowseFrame()
 
 	local stInfo = frame:GetElement("table"):GetScrollingTableInfo()
 	for _, field in fieldQuery:Iterator() do
+		local function TextFunc(row)
+			return strjoin(",", tostringall(row:GetField(field)))
+		end
+		local function TooltipFunc(row)
+			local value = TextFunc(row)
+			if not strmatch(value, ",") and (strmatch(value, "item:") or strmatch(value, "battlepet:") or strmatch(value, "[ip]:")) then
+				-- this is an item string or item link
+				return value
+			else
+				return "Value: "..value
+			end
+		end
 		stInfo:NewColumn(field)
 			:SetTitle(field)
 			:SetFont("ITEM_BODY3")
 			:SetJustifyH("LEFT")
-			:SetTextInfo(field, tostring)
-			:SetTooltipInfo(field, private.TooltipFunc)
+			:SetTextInfo(nil, TextFunc)
+			:SetTooltipInfo(nil, TooltipFunc)
 			:Commit()
 	end
 	fieldQuery:Release()
@@ -270,20 +281,4 @@ function private.QueryInputOnEnterPressed(input)
 		return
 	end
 	tableElement:UpdateData(true)
-end
-
-
-
--- ============================================================================
--- Private Helper Functions
--- ============================================================================
-
-function private.TooltipFunc(value)
-	value = tostring(value)
-	if strmatch(value, "item:") or strmatch(value, "battlepet:") or strmatch(value, "[ip]:") then
-		-- this is an item string or item link
-		return value
-	else
-		return "Value: "..value
-	end
 end

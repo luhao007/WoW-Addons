@@ -114,12 +114,13 @@ _G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetVa
 end
 
 function TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, a1)
-local tempval = self:GetValue();
-if a1 == -1 then
+	local tempval = self:GetValue();
+
+	if a1 < 0 then
 	  self:SetValue(tempval + 0.01);
 	end
 
-	if a1 == 1 then
+	if a1 > 0 then
 	  self:SetValue(tempval - 0.01);
 	end
 end
@@ -517,7 +518,7 @@ local function Create_Frames()
 	master:SetScript("OnValueChanged", function(self)
 		TitanPanelMasterVolumeControlSlider_OnValueChanged(self, value)
 	end)
-	master:SetScript("OnMouseWheel", function(self)
+	master:SetScript("OnMouseWheel", function(self, delta)
 		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
 	end)
 	master:SetScript("OnEnter", function(self)
@@ -536,7 +537,7 @@ local function Create_Frames()
 	sound:SetScript("OnValueChanged", function(self)
 		TitanPanelSoundVolumeControlSlider_OnValueChanged(self, value)
 	end)
-	sound:SetScript("OnMouseWheel", function(self)
+	sound:SetScript("OnMouseWheel", function(self, delta)
 		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
 	end)
 	sound:SetScript("OnEnter", function(self)
@@ -555,7 +556,7 @@ local function Create_Frames()
 	music:SetScript("OnValueChanged", function(self)
 		TitanPanelMusicVolumeControlSlider_OnValueChanged(self, value)
 	end)
-	music:SetScript("OnMouseWheel", function(self)
+	music:SetScript("OnMouseWheel", function(self, delta)
 		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
 	end)
 	music:SetScript("OnEnter", function(self)
@@ -574,7 +575,7 @@ local function Create_Frames()
 	ambience:SetScript("OnValueChanged", function(self)
 		TitanPanelAmbienceVolumeControlSlider_OnValueChanged(self, value)
 	end)
-	ambience:SetScript("OnMouseWheel", function(self)
+	ambience:SetScript("OnMouseWheel", function(self, delta)
 		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
 	end)
 	ambience:SetScript("OnEnter", function(self)
@@ -593,7 +594,7 @@ local function Create_Frames()
 	dialog:SetScript("OnValueChanged", function(self)
 		TitanPanelDialogVolumeControlSlider_OnValueChanged(self, value)
 	end)
-	dialog:SetScript("OnMouseWheel", function(self)
+	dialog:SetScript("OnMouseWheel", function(self, delta)
 		TitanPanelUnifiedVolumeControlSlider_OnMouseWheel(self, delta)
 	end)
 	dialog:SetScript("OnEnter", function(self)

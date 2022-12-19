@@ -2,6 +2,8 @@
 --
 -- Everything you wanted support for in your fishing endeavors
 
+local addonName, addon = ...
+
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
@@ -655,7 +657,6 @@ end
 local function ReadyForFishing()
     local GSB = FishingBuddy.GetSettingBool;
     local id = FL:GetMainHandItem(true);
-    -- if we're holding the spear, assume we're fishing
     return (GSB("UseTuskarrSpear") and (id == 88535)) or FL:IsFishingReady(GSB("PartialGear"));
 end
 FishingBuddy.ReadyForFishing = ReadyForFishing;
@@ -707,7 +708,6 @@ FishingBuddy.CheckCombat = CheckCombat;
 local function PostCastUpdate()
     local LSM = FishingBuddy.LureStateManager;
     if ( not CheckCombat() ) then
-        FL:ResetOverride();
         if ( LSM:LuringComplete() ) then
             FishingBuddy_PostCastUpdateFrame:Hide();
         end
@@ -746,7 +746,7 @@ end
 local function GetFishieRaw(fishid)
     local fi = FishingBuddy_Info["Fishies"][fishid];
     if ( not fi or not fi[CurLoc] ) then
-        local _,_,_,_,it,_,_,_,_,_ = FL:GetItemInfo(fishid);
+        local it = FL:GetItemInfoFields(fishid, FL.ITEM_TYPE);
         local color, id, name = FL:SplitLink(fishid, true);
 
         if (not fi) then
@@ -944,9 +944,9 @@ local function CentralCasting()
     -- put on a lure if we need to
     if ( not StealClick() ) then
         autopoleframe:Show();
-        local update, id, n, target = GetUpdateLure();
+        local update, id, _, itemtype = GetUpdateLure();
         if (update and id) then
-            FL:InvokeLuring(id, target);
+            FL:InvokeLuring(id, itemtype);
         else
             SetLastCastTime();
             if ( not FL:GetLastTooltipText() or not FL:OnFishingBobber() ) then
@@ -962,45 +962,6 @@ local function CentralCasting()
         end
     end
     FL:OverrideClick(HideAwayAll);
-end
-
-local SavedWFOnMouseDown;
-
--- handle mouse up and mouse down in the WorldFrame so that we can steal
--- the hardware events to implement 'Easy Cast'
--- Thanks to the Cosmos team for figuring this one out -- I didn't realize
--- that the mouse handler in the WorldFrame got everything first!
-local function WF_OnMouseDown(...)
-    -- Only steal 'right clicks' (self is arg #1!)
-    local button = select(2, ...);
-    if ( HijackCheck() ) then
-        PLANS:ExecutePlans()
-        if ( FL:CheckForDoubleClick(button) ) then
-            -- We're stealing the mouse-up event, make sure we exit MouseLook
-            if ( IsMouselooking() ) then
-                MouselookStop();
-            end
-            CentralCasting();
-        end
-    end
-    if ( SavedWFOnMouseDown ) then
-        SavedWFOnMouseDown(...);
-    end
-end
-
-local function SafeHookMethod(object, method, newmethod)
-    local oldValue = object[method];
-    if ( oldValue ~= _G[newmethod] ) then
-        object[method] = newmethod;
-        return true;
-    end
-    return false;
-end
-
-local function SafeHookScript(frame, handlername, newscript)
-    local oldValue = frame:GetScript(handlername);
-    frame:SetScript(handlername, newscript);
-    return oldValue;
 end
 
 local skip = {};
@@ -1019,7 +980,7 @@ FishingBuddy.GetFishie = function(fishid)
         if ( not name ) then
             -- try a hyperlink
             local link = "item:"..fishid;
-            local n,l,_,_,_,_,_,_ = FL:GetItemInfo(link);
+            local n,l = FL:GetItemInfoFields(link, FL.ITEM_NAME, FL.ITEM_LINK);
             if ( n and l ) then
                 name = n;
                 fi[CurLoc] = n;
@@ -1051,15 +1012,18 @@ local function PushOptionChanges()
     FishingBuddy.WatchUpdate();
 end
 
+local function GetCVarSafe(cvarname)
+    return tonumber(GetCVar(cvarname))
+end
 -- do everything we think is necessary when we start fishing
 -- even if we didn't do the switch to a fishing pole
 local resetClickToMove = nil;
 local function StartFishingMode()
     if ( not FishingBuddy.StartedFishing ) then
         -- Disable Click-to-Move if we're fishing
-        if ( BlizzardOptionsPanel_GetCVarSafe("autoInteract") == 1 ) then
+        if ( GetCVarSafe("autoInteract") == 1 ) then
             resetClickToMove = true;
-            BlizzardOptionsPanel_SetCVarSafe("autoInteract", 0);
+            SetCVar("autoInteract", 0);
         end
         FishingBuddy.EnhanceFishingSounds(true);
         handlerframe:Show();
@@ -1077,6 +1041,7 @@ end
 
 local function StopFishingMode(logout)
     if ( FishingBuddy.StartedFishing ) then
+        FL:ResetOverride(true)
         if ( not logout ) then
             FishingBuddy.WatchUpdate();
         end
@@ -1091,12 +1056,13 @@ local function StopFishingMode(logout)
     FishingBuddy.EnhanceFishingSounds(false, logout);
     if ( resetClickToMove ) then
         -- Re-enable Click-to-Move if we changed it
-        BlizzardOptionsPanel_SetCVarSafe("autoInteract", 1);
+        SetCVar("autoInteract", 1);
         resetClickToMove = nil;
     end
 
     ClearLastLure();
 end
+FishingBuddy.StopFishingMode = StopFishingMode
 
 local function FishingMode()
     local ready = ReadyForFishing() or autopoleframe:IsShown();
@@ -1113,7 +1079,7 @@ local function SetAutoPoleLocation(clear)
     if clear then
         autopoleframe:Hide();
         ClearLastCastTime();
-        a.x, a.y, a.zone, a.instanceID = nil, nil, nil
+        a.x, a.y, a.zone, a.instanceID = nil, nil, nil, nil
     else
         a.x, a.y, a.zone, a.instanceID = FL:GetPlayerZoneCoords();
     end
@@ -1134,7 +1100,7 @@ local function AutoPoleCheck(self, ...)
             SetAutoPoleLocation()
         elseif (self.zone) then
             if (self.moving) then
-                local distance = FL:GetDistanceTo(self.zone, self.x, self.y)
+                distance = FL:GetDistanceTo(self.zone, self.x, self.y)
                 if distance then
                     if distance > 50 or (not FishingBuddy.HaveRafts() and distance > 10) then
                         SetAutoPoleLocation(true)
@@ -1170,15 +1136,6 @@ FishingBuddy.IsSwitchClick = function(setting)
     return ( (a and (not b)) or ((not a) and b) );
 end
 
-local function TrapWorldMouse()
-    if ( WorldFrame.OnMouseDown ) then
-        hooksecurefunc(WorldFrame, "OnMouseDown", WF_OnMouseDown)
-    else
-        SavedWFOnMouseDown = SafeHookScript(WorldFrame, "OnMouseDown", WF_OnMouseDown);
-    end
-end
-FishingBuddy.TrapWorldMouse = TrapWorldMouse;
-
 FishingBuddy.Commands[FBConstants.FISHINGMODE] = {};
 FishingBuddy.Commands[FBConstants.FISHINGMODE].help = FBConstants.FISHINGMODE_HELP;
 FishingBuddy.Commands[FBConstants.FISHINGMODE].func =
@@ -1204,7 +1161,7 @@ FishingBuddy.Commands['macro'].func =
     end;
 
 local function OptionsUpdate(changed, closing)
-    PushOptionChanges(changed, closing)
+    PushOptionChanges()
     RunHandlers(FBConstants.OPT_UPDATE_EVT, changed, closing);
 end
 FishingBuddy.OptionsUpdate = OptionsUpdate;
@@ -1313,14 +1270,14 @@ FishingBuddy.EnhanceFishingSounds = function(doit, logout)
     if ( GSB("EnhanceFishingSounds") ) then
         if ( not efsv and doit ) then
             -- collect the current values
-            local mv = BlizzardOptionsPanel_GetCVarSafe("Sound_MasterVolume");
-            local mu = BlizzardOptionsPanel_GetCVarSafe("Sound_MusicVolume");
-            local av = BlizzardOptionsPanel_GetCVarSafe("Sound_AmbienceVolume");
-            local sv = BlizzardOptionsPanel_GetCVarSafe("Sound_SFXVolume");
-            local sb = BlizzardOptionsPanel_GetCVarSafe("Sound_EnableSoundWhenGameIsInBG");
-            local pd = BlizzardOptionsPanel_GetCVarSafe("graphicsParticleDensity");
-            local eas = BlizzardOptionsPanel_GetCVarSafe("Sound_EnableAllSound");
-            local esfx = BlizzardOptionsPanel_GetCVarSafe("Sound_EnableSFX");
+            local mv = GetCVarSafe("Sound_MasterVolume");
+            local mu = GetCVarSafe("Sound_MusicVolume");
+            local av = GetCVarSafe("Sound_AmbienceVolume");
+            local sv = GetCVarSafe("Sound_SFXVolume");
+            local sb = GetCVarSafe("Sound_EnableSoundWhenGameIsInBG");
+            local pd = GetCVarSafe("graphicsParticleDensity");
+            local eas = GetCVarSafe("Sound_EnableAllSound");
+            local esfx = GetCVarSafe("Sound_EnableSFX");
 
             efsv = {};
             if (GSB("TurnOnSound")) then
@@ -1347,7 +1304,7 @@ FishingBuddy.EnhanceFishingSounds = function(doit, logout)
                 if (info and info.scale) then
                     value = value / 100.0;
                 end
-                BlizzardOptionsPanel_SetCVarSafe(setting, value);
+                SetCVar(setting, value);
             end
             return; -- fall through and reset everything otherwise
         end
@@ -1358,7 +1315,7 @@ FishingBuddy.EnhanceFishingSounds = function(doit, logout)
 
     if ( efsv ) then
         for setting, value in pairs(efsv) do
-            BlizzardOptionsPanel_SetCVarSafe(setting, tonumber(value));
+            SetCVar(setting, tonumber(value));
         end
         efsv = nil;
     end
@@ -1380,7 +1337,19 @@ FishingBuddy.OnEvent = function(self, event, ...)
 --	  FishingBuddy.Debug(line);
 
 
-    if ( event == "PLAYER_EQUIPMENT_CHANGED" or
+    if ( event == "GLOBAL_MOUSE_DOWN" ) then
+        if ( HijackCheck() ) then
+            button = ...;
+            PLANS:ExecutePlans()
+            if ( FL:CheckForDoubleClick(button) ) then
+                -- We're stealing the mouse-up event, make sure we exit MouseLook
+                if ( IsMouselooking() ) then
+                    MouselookStop();
+                end
+                CentralCasting();
+            end
+        end
+    elseif ( event == "PLAYER_EQUIPMENT_CHANGED" or
           event == "WEAR_EQUIPMENT_SET" or
           event == "EQUIPMENT_SWAP_FINISHED") then
         FishingMode();
@@ -1403,7 +1372,7 @@ FishingBuddy.OnEvent = function(self, event, ...)
         local doautoloot = false;
         if NewLootCheck then
             NewLootCheck = false;
-            if autoLoot or (autoLoot == nil and BlizzardOptionsPanel_GetCVarSafeBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE"))  then
+            if autoLoot or (autoLoot == nil and GetCVarSafeBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE"))  then
                 doautoloot = true
             else
                 doautoloot = FishingBuddy.GetSettingBool("AutoLoot")
@@ -1536,6 +1505,9 @@ FishingBuddy.OnLoad = function(self)
     -- we want to deal with fishing loot windows all the time
     self:RegisterEvent("LOOT_READY");
     self:RegisterEvent("LOOT_CLOSED");
+
+    -- try a new mouse method
+    self:RegisterEvent("GLOBAL_MOUSE_DOWN")
 
 -- Handle item lock separately to reduce churn during world load
     -- self:RegisterEvent("ITEM_LOCK_CHANGED");

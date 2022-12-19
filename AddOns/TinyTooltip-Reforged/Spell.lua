@@ -17,6 +17,7 @@ end
 
 local function SpellIcon(tip)
     if (addon.db.spell.showIcon) then
+        if not pcall(function() select(2, tip:GetSpell()) end) then return end
         local id = select(2, tip:GetSpell())
         local texture = GetSpellTexture(id or 0)
         local text = addon:GetLine(tip,1):GetText()
@@ -27,6 +28,7 @@ local function SpellIcon(tip)
 end
 
 LibEvent:attachTrigger("tooltip:spell", function(self, tip)
+    if (tip ~= GameTooltip) then return end
     SpellIcon(tip)
     ColorBorder(tip)
     ColorBackground(tip)

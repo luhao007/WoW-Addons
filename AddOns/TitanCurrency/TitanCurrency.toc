@@ -1,11 +1,11 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: Greenhorns@Vek'Nilash
-## Version: 9.1
+## Version: 10.0.2
 ## RequiredDeps: Titan
 ## LoadOnDemand: 0
 ## DefaultState: Enabled
 
-## Title: Titan Panel [|cffeda55fCurrency|r] |cff00aa008.2|r
+## Title: Titan Panel [|cffeda55fCurrency|r] |cff00aa0010.0.2B|r
 ## Notes: This mod will display all the Currency you have on the current toon in a tool tip.  It shows the current Toons Gold amount on the Titan Panel bar.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFF69CCF0货币|r
 ## Notes-zhCN: 泰坦面板的货币模块

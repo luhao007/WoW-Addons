@@ -1,19 +1,19 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: TomCat
-## Version: 2.4.23
+## Version: 2.4.43
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
 
 ## Title: TomCat's Tours
-## Notes: Version: 2.4.23
+## Notes: Version: 2.4.43
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFFFFE00ATomCats|r
 ## Notes-zhCN: TomCats的旅行指南
 
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1668517200
+## X-TomCats-Expiry: 1671609802
 ## X-Part-Of: TomCats
 
 # See license.txt for license and copyright information
@@ -59,7 +59,13 @@ configuration.xml
 configuration.lua
 minimap_icon.xml
 minimap_icon.lua
-discoveries.xml
-discoveries.lua
+worldmap_icon.lua
+#discoveries.xml
+#discoveries.lua
+support/support.xml
+support/support.lua
 beta.lua
 noblegarden/Main.xml
+#primalstorms/Main.xml
+dragonflyingglyphs/Main.xml
+notaint.lua

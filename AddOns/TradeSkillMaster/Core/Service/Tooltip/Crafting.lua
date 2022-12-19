@@ -51,7 +51,7 @@ function private.PopulateCostLine(tooltip, itemString)
 	end
 
 	local costText = tooltip:FormatMoney(cost)
-	local profitText = tooltip:FormatMoney(profit, profit and Theme.GetFeedbackColor(profit >= 0 and "GREEN" or "RED") or nil)
+	local profitText = tooltip:FormatMoney(profit, profit and Theme.GetColor(profit >= 0 and "FEEDBACK_GREEN" or "FEEDBACK_RED") or nil)
 	tooltip:AddLine(L["Crafting Cost"], format(L["%s (%s profit)"], costText, profitText))
 end
 
@@ -69,15 +69,20 @@ function private.PopulateDetailedMatsLines(tooltip, itemString)
 	end
 
 	local optionalMats = TempTable.Acquire()
-	local _, spellId = TSM.Crafting.Cost.GetLowestCostByItem(itemString, optionalMats)
-	if not spellId then
+	local qualityMats = TempTable.Acquire()
+	local _, craftString = TSM.Crafting.Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
+	for _, matItemString in ipairs(qualityMats) do
+		tinsert(optionalMats, matItemString)
+	end
+	TempTable.Release(qualityMats)
+	if not craftString then
 		TempTable.Release(optionalMats)
 		return
 	end
 
 	-- only include optional mats which actually belong to the spell
 	local hasOptionalMat = TempTable.Acquire()
-	for _, optionalMatString in TSM.Crafting.OptionalMatIterator(spellId) do
+	for _, optionalMatString in TSM.Crafting.OptionalMatIterator(craftString) do
 		for _, optionalMatItemString in ipairs(optionalMats) do
 			local itemId = ItemString.ToId(optionalMatItemString)
 			if strmatch(optionalMatString, "[:,]"..itemId.."$") or strmatch(optionalMatString, "[:,]"..itemId..",") then
@@ -87,13 +92,14 @@ function private.PopulateDetailedMatsLines(tooltip, itemString)
 	end
 
 	tooltip:StartSection()
-	local numResult = TSM.Crafting.GetNumResult(spellId)
-	for _, matItemString, matQuantity in TSM.Crafting.MatIterator(spellId) do
+	local numResult = TSM.Crafting.GetNumResult(craftString)
+	for _, matItemString, matQuantity in TSM.Crafting.MatIterator(craftString) do
 		tooltip:AddSubItemValueLine(matItemString, TSM.Crafting.Cost.GetMatCost(matItemString), matQuantity / numResult)
 	end
 	for _, matItemString in ipairs(optionalMats) do
 		if hasOptionalMat[matItemString] then
-			tooltip:AddSubItemValueLine(matItemString, TSM.Crafting.Cost.GetMatCost(matItemString), 1 / numResult)
+			local matQuantity = TSM.Crafting.GetOptionalMatQuantity(craftString, ItemString.ToId(matItemString))
+			tooltip:AddSubItemValueLine(matItemString, TSM.Crafting.Cost.GetMatCost(matItemString), matQuantity / numResult)
 		end
 	end
 	TempTable.Release(hasOptionalMat)

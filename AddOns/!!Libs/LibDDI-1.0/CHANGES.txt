@@ -1,15 +1,8 @@
 ------------------------------------------------------------------------
-r62 | funkehdude | 2022-10-26 00:41:44 +0000 (Wed, 26 Oct 2022) | 1 line
+r64 | funkehdude | 2022-11-14 15:23:10 +0000 (Mon, 14 Nov 2022) | 1 line
 Changed paths:
    M /trunk/LibDDI-1.0.toc
-   M /trunk/lib.lua
 
 bump toc
-------------------------------------------------------------------------
-r61 | funkehdude | 2022-10-24 19:08:18 +0000 (Mon, 24 Oct 2022) | 1 line
-Changed paths:
-   M /trunk/lib.lua
-
-Work around an issue with the font dropdown showing blank entries
 ------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 local configCache, _, T = {}, ...
-local PC, api, iapi, MODERN = T.OPieCore, {}, {}, select(4, GetBuildInfo()) > 9e4
+local PC, api, iapi, MODERN = T.OPieCore, {}, {}, select(4, GetBuildInfo()) >= 10e4
 local max, min, abs, floor, sin, cos = math.max, math.min, math.abs, math.floor, sin, cos
 local function cc(m, f, ...)
 	f[m](f, ...)
@@ -17,8 +17,8 @@ local ringQuad, setRingRotationPeriod, centerCircle, centerGlow = {} do
 	for i=1,4 do
 		ringQuad[i] = cc("SetPoint", cc("SetSize", CreateFrame("Frame", nil, mainFrame), 32, 32), quadPoints[i], mainFrame, "CENTER")
 	end
-	centerCircle = T.Mirage._CreateQuadTexture("ARTWORK", 64, gfxBase .. "circle", nil, ringQuad)
-	centerGlow = T.Mirage._CreateQuadTexture("BACKGROUND", 128, gfxBase .. "glow", nil, ringQuad)
+	centerCircle = T.CreateQuadTexture("ARTWORK", 64, gfxBase .. "circle", nil, ringQuad)
+	centerGlow = T.CreateQuadTexture("BACKGROUND", 128, gfxBase .. "glow", nil, ringQuad)
 	for i=1,4 do
 		local g = cc("SetLooping", ringQuad[i]:CreateAnimationGroup(), "REPEAT")
 		animations[i] = cc("SetOrigin", cc("SetDegrees", cc("SetDuration", g:CreateAnimation("Rotation"), 4), -360), quadPoints[i], 0, 0)
@@ -330,7 +330,7 @@ local function OnUpdate_Main(self, elapsed)
 	local count, offset = self.count, self.offset
 	local imode, qaid, angle, isActiveRadius, stl = PC:GetCurrentInputs()
 
-	if qaid then
+	if qaid and count > 0 then
 		angle = (90 - offset - (qaid-1)*360/count) % 360
 	elseif imode == "stick" then
 		angle = stl < 0.25 and lastConAngle or angle
@@ -486,19 +486,16 @@ function api:GetTexColor(icon)
 	return getSliceColor(nil, icon)
 end
 
-local ricErrorOffset = 0
 function api:RegisterIndicatorConstructor(key, info)
-	local errorLevel = 3 + ricErrorOffset
-	ricErrorOffset = 0
-	assert(type(key) == "string" and type(info) == "table", 'Syntax: OPieUI:RegisterIndicatorConstructor("key", infoTable)', errorLevel)
+	assert(type(key) == "string" and type(info) == "table", 'Syntax: OPieUI:RegisterIndicatorConstructor("key", infoTable)', 2)
 	local func, apiLevel, iname, reqAPILevel = info.CreateIndicator, info.apiLevel, info.name, info.reqAPILevel
-	assert(IndicatorFactories[key] == nil, 'RegisterIndicatorConstructor: an indicator constructor with the specified key is already registered', errorLevel)
-	assert(type(func) == "function", 'RegisterIndicatorConstructor: info.CreateIndicator must be a function', errorLevel)
-	assert(type(apiLevel) == "number" and apiLevel < math.huge, 'RegisterIndicatorConstructor: info.apiLevel must be a finite number', errorLevel)
-	assert(type(iname) == "string", 'RegisterIndicatorConstructor: info.name must be a string', errorLevel)
-	assert(type(reqAPILevel) == "number" or reqAPILevel == nil, 'RegisterIndicatorConstructor: info.reqAPILevel, if set, must be a number', errorLevel)
+	assert(IndicatorFactories[key] == nil, 'RegisterIndicatorConstructor: an indicator constructor with the specified key is already registered', 2)
+	assert(type(func) == "function", 'RegisterIndicatorConstructor: info.CreateIndicator must be a function', 2)
+	assert(type(apiLevel) == "number" and apiLevel < math.huge, 'RegisterIndicatorConstructor: info.apiLevel must be a finite number', 2)
+	assert(type(iname) == "string", 'RegisterIndicatorConstructor: info.name must be a string', 2)
+	assert(type(reqAPILevel) == "number" or reqAPILevel == nil, 'RegisterIndicatorConstructor: info.reqAPILevel, if set, must be a number', 2)
 
-	local mainPool = ValidateIndicator(apiLevel, reqAPILevel, info, 1+errorLevel)
+	local mainPool = ValidateIndicator(apiLevel, reqAPILevel, info, 3)
 	LastRegisteredIndicatorFactory, IndicatorFactories[key] = key, {
 		name = iname:gsub("|", ""),
 		apiLevel = apiLevel,

@@ -1,4 +1,4 @@
--- $Id: data.lua 4836 2020-10-25 16:50:01Z arithmandar $
+-- $Id: data.lua 4843 2022-11-12 15:33:31Z arithmandar $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -15,6 +15,17 @@ local GetAchievementInfo = GetAchievementInfo
 local addonname = ...
 local AtlasLoot = _G.AtlasLoot
 local data = AtlasLoot.ItemDB:Add(addonname, 8)
+
+--[[
+local moduleMeta = {
+		addonName = "AtlasLoot_BattleforAzeroth",
+		icon = "Interface\\ICONS\\Inv_ChampionsOfAzeroth",
+		name = EXPANSION_NAME7,
+		tt_title = nil,		-- ToolTip title
+		tt_text = nil,		-- ToolTip text
+}
+]]
+AtlasLoot:RegisterModules(addonname)
 
 local AL = AtlasLoot.Locales
 

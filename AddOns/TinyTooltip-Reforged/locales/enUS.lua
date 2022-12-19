@@ -22,4 +22,9 @@ addon.L = {
     ["dropdown.not samecrossrealm"]  = "|cffff3333not|r sameCrossrealm",
     ["TargetBy"]                    = "Targeted By",
     ["showTargetBy"]                = "Show Targeted By",
+    ["authorguild"] 	    	    = "The Dragon Fighters",
+    ["authorrealm"]		    = "Aggramar ЕU",
+    ["authorname"]		    = "Beezer",
+    ["showStackCount"]		    = "Show Stack Count (in tooltip title)",
+    ["showStackCountAlt"]	    = "Show Stack Count (in tooltip body)",
 }

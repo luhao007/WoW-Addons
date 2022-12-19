@@ -297,7 +297,7 @@ local function FishingMenu_Toggle(self)
 	else		
 		local menu = _G[name.."Menu"]
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-		menu:SetFrameLevel(self:GetFrameLevel()+3);
+		menu:SetFrameLevel(self:GetFrameLevel()+15);
         FishingMenu_Update(menu);
 		self:Show();
 	end
@@ -460,7 +460,7 @@ function FSF:CreateScrollMenu(name, label, simple, complex)
         tag:SetText(label..": ");
     end
 
-    -- Handle extrnal onload override
+    -- Handle external onload override
 	local onload = _G[name.."_OnLoad"];
 	if (onload) then
 		onload(toplevel)

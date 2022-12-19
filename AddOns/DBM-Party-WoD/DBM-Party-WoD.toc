@@ -1,5 +1,5 @@
-## Interface: 100000
-## Version: r43
+## Interface: 100002
+## Version: r50
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWoD_AllSavedVars
@@ -68,6 +68,7 @@ SMBurialGrounds\SadanaBloodfury.lua
 SMBurialGrounds\Nhallish.lua
 SMBurialGrounds\Bonemaw.lua
 SMBurialGrounds\Nerzhul.lua
+SMBurialGrounds\SMBGTrash.lua
 Skyreach\SkyreachTrash.lua
 Skyreach\Ranjit.lua
 Skyreach\Araknath.lua

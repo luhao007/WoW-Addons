@@ -2782,23 +2782,84 @@ data["TABARDS"] = {
 	ContentType = COLLECTION_CONTENT,
 	TableType = I_A_ITTYPE,
 	items = {
+		{ -- BFA
+			name = EXPANSION_NAME7,
+			CoinTexture = "Reputation",
+			[ALLIANCE_DIFF] = {
+				{ 1, 133670, [PRICE_EXTRA_ITTYPE] = "money:1000000" }, -- Slayer's Tabard
+				{ 2, 160543 }, -- Tabard of the Tortollan Seekers
+				{ 3, 160544, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Champions of Azeroth Tabard
+				{ 4, 163055 }, -- Dueler's Tabard
+				{ 5, 168619, [PRICE_EXTRA_ITTYPE] = "money:1024000" }, -- Rustbolt Resistance Tabard
+				{ 6, 168915, [PRICE_EXTRA_ITTYPE] = "money:2000000" }, -- Tabard of Brew
+				{ 7, 171361, [PRICE_EXTRA_ITTYPE] = "money:50000000100" }, -- Renowned Explorer's Tabard
+				{ 8, 174647, [PRICE_EXTRA_ITTYPE] = "money:2400000" }, -- Rajani Tabard
+				{ 9, 174648, [PRICE_EXTRA_ITTYPE] = "money:2400000" }, -- Uldum Accord Tabard
+				{ 10, 160539, [PRICE_EXTRA_ITTYPE] = "money:5000000" }, -- Tabard of the 7th Legion
+				{ 11, 160540, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Proudmoore Admiralty Tabard
+				{ 12, 160541, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Order of Embers Tabard
+				{ 13, 160542, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Storm's Wake Tabard
+				{ 14, 161329 }, -- Tabard of the Dark Iron
+				{ 15, 165010 }, -- Tabard of Kul Tiras
+				{ 16, 167811, [PRICE_EXTRA_ITTYPE] = "money:30000000" }, -- Brawler's Guild Tabard
+				{ 17, 168610, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Tabard of the Waveblade Ankoan
+				{ 18, 174068 }, -- Mechagonian Tabard
+				{ 19, 164573 }, -- Dread Gladiator's Tabard
+				{ 20, 164910 }, -- Sinister Gladiator's Tabard
+				{ 21, 167363 }, -- Notorious Gladiator's Tabard
+				{ 22, 172652 }, -- Corrupted Gladiator's Tabard	
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 10, 160545, [PRICE_EXTRA_ITTYPE] = "money:5000000" }, -- Tabard of the Honorbound
+				{ 11, 160546, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Tabard of the Zandalari Empire
+				{ 12, 160547, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Talanji's Expedition Tabard
+				{ 13, 160548, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Tabard of the Voldunai
+				{ 14, 161328 }, -- Tabard of the Mag'har Clans
+				{ 15, 165001 }, -- Tabard of the Zandalari
+				{ 16, 167812, [PRICE_EXTRA_ITTYPE] = "money:30000000" }, -- Brawler's Guild Tabard
+				{ 17, 169274, [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Tabard of the Unshackled
+				{ 18, 174069 }, -- Tabard of the Vulpera
+				{ 19, 164572 }, -- Dread Gladiator's Tabard
+				{ 20, 164909 }, -- Sinister Gladiator's Tabard
+				{ 21, 167362 }, -- Notorious Gladiator's Tabard
+				{ 22, 172651 }, -- Corrupted Gladiator's Tabard
+			},
+		},
 		{ -- Legion
 			name = EXPANSION_NAME6,
 			CoinTexture = "Reputation",
 			[ALLIANCE_DIFF] = {
-				{ 1, 140575, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Nightfallen Tabard
-				{ 2, 140576, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Tabard of the Highmountain Tribe
-				{ 3, 140577, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Court of Farondis Tabard
-				{ 4, 140578, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Dreamweaver Initiate's Tabard
-				{ 5, 140579, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Valarjar Tabard
-				{ 6, 140580, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Warden's Tabard
-				{ 7, 140667, [PRICE_EXTRA_ITTYPE] = "money:6000000" }, -- Tabard of the Dreamweavers
-				{ 8, 147205, [PRICE_EXTRA_ITTYPE] = "nethershard:10000" }, -- Legionfall Tabard
-				{ 9, 152399, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Army of the Light Tabard
-				{ 10, 152669, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Argussian Reach Tabard
+				{ 1, 138429 }, -- Cropped Tabard of the Scarlet Crusade
+				{ 2, 142504 }, -- Hidden Tabard
+				{ 3, 140575, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Nightfallen Tabard
+				{ 4, 140576, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Tabard of the Highmountain Tribe
+				{ 5, 140577, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Court of Farondis Tabard
+				{ 6, 140578, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Dreamweaver Initiate's Tabard
+				{ 7, 140579, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Valarjar Tabard
+				{ 8, 140580, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Warden's Tabard
+				{ 9, 140667, [PRICE_EXTRA_ITTYPE] = "money:6000000" }, -- Tabard of the Dreamweavers
+				{ 10, 147205, [PRICE_EXTRA_ITTYPE] = "nethershard:10000" }, -- Legionfall Tabard
+				{ 11, 152399, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Army of the Light Tabard
+				{ 12, 152669, [PRICE_EXTRA_ITTYPE] = "money:3000000" }, -- Argussian Reach Tabard
+				{ 13, 156666 }, -- Master Trainer's Tabard
+				{ 14, 157756 }, -- Lightforged Tabard (Alliance)
+				{ 15, 157758 }, -- Ren'dorei Tabard (Alliance)
+				{ 16, 147337 }, -- Cruel Gladiator's Tabard
+				{ 17, 147339 }, -- Ferocious Gladiator's Tabard
+				{ 18, 149443 }, -- Fierce Gladiator's Tabard
+				{ 19, 149447 }, -- Dominant Gladiator's Tabard
+				{ 20, 149451 }, -- Demonic Gladiator's Tabard
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 14, 157757 }, -- Highmountain Tabard (Horde)
+				{ 15, 157759 }, -- Shal'dorei Tabard (Horde)
+				{ 16, 147336 }, -- Cruel Gladiator's Tabard
+				{ 17, 147338 }, -- Ferocious Gladiator's Tabard
+				{ 18, 149442 }, -- Fierce Gladiator's Tabard
+				{ 19, 149446 }, -- Dominating Gladiator's Tabard
+				{ 20, 149450 }, -- Demonic Gladiator's Tabard
 			},
 		},
 		{ -- WoD

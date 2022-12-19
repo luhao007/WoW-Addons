@@ -4,19 +4,19 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local Cooldowns = TSM.TaskList:NewPackage("Cooldowns")
 local L = TSM.Include("Locale").GetTable()
 local Delay = TSM.Include("Util.Delay")
 local ObjectPool = TSM.Include("Util.ObjectPool")
 local Table = TSM.Include("Util.Table")
-local String = TSM.Include("Util.String")
 local private = {
 	query = nil,
 	taskPool = ObjectPool.New("COOLDOWN_TASK", TSM.TaskList.CooldownCraftingTask, 0),
 	activeTasks = {},
 	activeTaskByProfession = {},
 	ignoredQuery = nil, -- luacheck: ignore 1004 - just stored for GC reasons
+	updateTimer = nil,
 }
 
 
@@ -27,9 +27,10 @@ local private = {
 
 function Cooldowns.OnEnable()
 	TSM.TaskList.RegisterTaskPool(private.ActiveTaskIterator)
+	private.updateTimer = Delay.CreateTimer("COOLDOWNS_UPDATE", private.PopulateTasks)
 	private.query = TSM.Crafting.CreateCooldownSpellsQuery()
 		:Select("profession", "craftString")
-		:Custom(private.QueryPlayerFilter, UnitName("player"))
+		:ListContains("players", UnitName("player"))
 		:SetUpdateCallback(private.PopulateTasks)
 	private.ignoredQuery = TSM.Crafting.CreateIgnoredCooldownQuery()
 		:SetUpdateCallback(private.PopulateTasks)
@@ -44,10 +45,6 @@ end
 
 function private.ActiveTaskIterator()
 	return ipairs(private.activeTasks)
-end
-
-function private.QueryPlayerFilter(row, player)
-	return String.SeparatedContains(row:GetField("players"), ",", player)
 end
 
 function private.PopulateTasks()
@@ -99,9 +96,9 @@ function private.PopulateTasks()
 	TSM.TaskList.OnTaskUpdated()
 
 	if minPendingCooldown ~= math.huge then
-		Delay.AfterTime("COOLDOWN_UPDATE", minPendingCooldown, private.PopulateTasks)
+		private.updateTimer:RunForTime(minPendingCooldown)
 	else
-		Delay.Cancel("COOLDOWN_UPDATE")
+		private.updateTimer:Cancel()
 	end
 end
 

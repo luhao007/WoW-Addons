@@ -1,6 +1,7 @@
 local _, T = ...
 if T.SkipLocalActionBook then return end
 local MODERN = select(4,GetBuildInfo()) >= 8e4
+local MODERN_CONTAINERS = MODERN or C_Container and C_Container.GetContainerNumSlots
 local CF_CLASSIC = not MODERN
 local AB = assert(T.ActionBook:compatible(2,21), "A compatible version of ActionBook is required")
 local RW = assert(AB:compatible("Rewire",1,14), "A compatible version of Rewire is required")
@@ -260,10 +261,13 @@ do -- item: items ID/inventory slot
 				end
 			end
 		end
+		local ns = MODERN_CONTAINERS and C_Container.GetContainerNumSlots or GetContainerNumSlots
+		local giid = MODERN_CONTAINERS and C_Container.GetContainerItemID or GetContainerItemID
+		local gil = MODERN_CONTAINERS and C_Container.GetContainerItemLink or GetContainerItemLink
 		for i=0,4 do
-			for j=1,GetContainerNumSlots(i) do
-				if iid == GetContainerItemID(i, j) then
-					n = GetItemInfo(GetContainerItemLink(i, j))
+			for j=1, ns(i) do
+				if iid == giid(i, j) then
+					n = GetItemInfo(gil(i, j))
 					if n == name or n and name2 and n:lower() == name2 then
 						return i, j
 					elseif not cs then
@@ -281,7 +285,7 @@ do -- item: items ID/inventory slot
 			if invid == nil then return end
 			bag, slot, name, link = nil, invid, GetItemInfo(GetInventoryItemLink("player", ident) or invid)
 			if name then ident = name end
-		else
+		elseif ident then
 			name, link, _, _, _, _, _, _, _, icon = GetItemInfo(ident)
 		end
 		local iid, cdStart, cdLen, enabled, cdLeft = (link and tonumber(link:match("item:([x%x]+)"))) or itemIdMap[ident]
@@ -349,7 +353,7 @@ do -- macrotext
 	local function createMacrotext(macrotext)
 		if type(macrotext) ~= "string" then return end
 		if not map[macrotext] then
-			map[macrotext] = AB:CreateActionSlot(macroHint, macrotext, "recall", RW:seclib(), "RunMacro", macrotext)
+			map[macrotext] = AB:CreateActionSlot(macroHint, macrotext, "recall", RW:seclib(), "RunMacro", macrotext, false, true)
 		end
 		return map[macrotext]
 	end
@@ -423,7 +427,7 @@ do -- macrotext
 				t[v], tv[0] = tv, seed
 			end
 			v = t[v]
-			v, v[0] = v[1 + v[0] % #v], (v[0] * 37 + 13) % 2^32
+			v, v[0] = v[1 + v[0] % #v], (v[0] * 12616645 + 16777213) % 2^32
 			return RW:RunAttribute("RunSlashCmd", "/cast", v, target, "opt-into-cr-fallback")
 		]])
 		RW:RegisterCommand(SLASH_USERANDOM1, true, true, f)
@@ -443,7 +447,8 @@ do -- macrotext
 			end
 			if t then
 				local nextArg = t[1 + t[0] % #t]
-				if tonumber(nextArg) and  GetItemInfo(nextArg) then
+				local nextN = tonumber(nextArg)
+				if nextN and nextN > 20 and GetItemInfo(nextN) then
 					nextArg = "item:" .. nextArg
 				end
 				return RW:GetCommandAction("/use", nextArg, target, nil, "castrandom-fallback")
@@ -594,9 +599,10 @@ if MODERN then -- equipmentset: equipment sets by name
 		return type(fid) == "number" and fid or ("Interface/Icons/" .. (fid or "INV_Misc_QuestionMark"))
 	end
 	local function equipmentsetHint(name)
-		local _, icon, _, active, total, equipped, available = C_EquipmentSet.GetEquipmentSetInfo(name and C_EquipmentSet.GetEquipmentSetID(name) or -1)
+		local esid = name and C_EquipmentSet.GetEquipmentSetID(name) or -1
+		local _, icon, _, active, total, equipped, available = C_EquipmentSet.GetEquipmentSetInfo(esid)
 		if icon then
-			return total == equipped or (available > 0), active and 1 or 0, resolveIcon(icon), name, nil, 0, 0, GameTooltip.SetEquipmentSet, name
+			return total == equipped or (available > 0), active and 1 or 0, resolveIcon(icon), name, nil, 0, 0, GameTooltip.SetEquipmentSet, esid
 		end
 	end
 	function EV.EQUIPMENT_SETS_CHANGED()
@@ -611,8 +617,9 @@ if MODERN then -- equipmentset: equipment sets by name
 		return setMap[name]
 	end
 	local function describeEquipSet(name)
-		local _, ico = C_EquipmentSet.GetEquipmentSetInfo(name and C_EquipmentSet.GetEquipmentSetID(name) or -1)
-		return L"Equipment Set", name, ico and resolveIcon(ico) or "Interface/Icons/INV_Misc_QuestionMark", nil, GameTooltip.SetEquipmentSet, name
+		local esid = name and C_EquipmentSet.GetEquipmentSetID(name) or -1
+		local _, ico = C_EquipmentSet.GetEquipmentSetInfo(esid)
+		return L"Equipment Set", name, ico and resolveIcon(ico) or "Interface/Icons/INV_Misc_QuestionMark", nil, GameTooltip.SetEquipmentSet, esid
 	end
 	AB:RegisterActionType("equipmentset", createEquipSet, describeEquipSet)
 	RW:SetCommandHint(SLASH_EQUIP_SET1, 80, function(_, _, clause)
@@ -937,20 +944,26 @@ end
 
 if MODERN then -- Profession /cast alias: work around incorrectly inferred ranks
 	local activeSet, reserveSet, pendingSync = {}, {}
-	local function procProfession(a, ...)
-		if not a then return end
-		local _, _, _, _, scount, sofs = GetProfessionInfo(a)
-		for i=sofs+1, sofs+scount do
-			local et, eid = GetSpellBookItemInfo(i, "player")
-			if et == "SPELL" and not IsPassiveSpell(eid) then
-				local vid, sn, sr = "spell:" .. eid, GetSpellInfo(eid), GetSpellSubtext(eid)
-				reserveSet[sn], reserveSet[sn .. "()"] = vid, vid
-				if sr and sr ~= "" then
-					reserveSet[sn .. "(" .. sr .. ")"] = vid
+	local function procProfessions(n, a, ...)
+		if a then
+			local _, _, _, _, scount, sofs = GetProfessionInfo(a)
+			for i=sofs+1, sofs+scount do
+				local et, eid = GetSpellBookItemInfo(i, "player")
+				if et == "SPELL" and not IsPassiveSpell(eid) then
+					local vid, sn, sr = "spell:" .. eid, GetSpellInfo(eid), GetSpellSubtext(eid)
+					reserveSet[sn], reserveSet[sn .. "()"] = vid, vid
+					if sr and sr ~= "" then
+						reserveSet[sn .. "(" .. sr .. ")"] = vid
+					end
 				end
 			end
 		end
-		return procProfession(...)
+		if n > 1 then
+			return procProfessions(n-1, ...)
+		end
+	end
+	local function countValues(...)
+		return select("#", ...), ...
 	end
 	local function syncProf(e)
 		if InCombatLockdown() then
@@ -961,7 +974,7 @@ if MODERN then -- Profession /cast alias: work around incorrectly inferred ranks
 		end
 		pendingSync = false
 		wipe(reserveSet)
-		procProfession(GetProfessions())
+		procProfessions(countValues(GetProfessions()))
 		activeSet, reserveSet = reserveSet, activeSet
 		local changed
 		for k in pairs(reserveSet) do

@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: foxlit
-## Version: 3.19
+## Version: 3.21
 ## SavedVariables: WarPlanData
 ## SavedVariablesPerCharacter: WarPlanDataPC
 
@@ -12,6 +12,7 @@
 ## X-Website: https://www.townlong-yak.com/addons/war-plan/
 
 Libs/Evie.lua
+Libs/TaintLess.xml
 Libs/Ten.lua
 Locale.lua
 API.lua

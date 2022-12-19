@@ -40,14 +40,15 @@ _fqframe:Register('GOSSIP_SHOW', function()
 				procLunkerQuests(1, C_GossipInfo.GetAvailableQuests() )
 			end
 		elseif (npcID == 108825) then
-			local _, _, _, _, _, _, _, _, nextThreshold = GetFriendshipReputation();
+			local reputationInfo = C_GossipInfo.GetFriendshipReputation(1975);
 			--  if max rank, don't do turn-in
-			if (nextThreshold  and GSB("DrownedMana")) then
+			if (reputationInfo.nextThreshold  and GSB("DrownedMana")) then
 				local mana = GetItemCount(138777);
+				local options = C_GossipInfo.GetOptions()
 				if (mana >= 10) then
-					C_GossipInfo.SelectOption(5)
+					C_GossipInfo.SelectOption(options[5].gossipOptionID)
 				elseif (mana >= 1) then
-					C_GossipInfo.SelectOption(4)
+					C_GossipInfo.SelectOption(options[4].gossipOptionID)
 				end
 			end
 		end

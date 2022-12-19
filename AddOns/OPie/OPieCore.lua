@@ -1,5 +1,5 @@
-local versionMajor, versionRev, ADDON, T, ORI = 4, 110, ...
-local MODERN = select(4,GetBuildInfo()) >= 8e4
+local versionMajor, versionRev, ADDON, T, ORI = 4, 112, ...
+local MODERN = select(4,GetBuildInfo()) >= 10e4
 local CF_WRATH = not MODERN and select(4,GetBuildInfo()) >= 3e4
 local api, private = {ActionBook=T.ActionBook}, {}
 local OR_Rings, OR_ModifierLockState, TL, EV, OR_LoadedState = {}, nil, T.L, T.Evie, 1
@@ -324,6 +324,7 @@ do -- Click dispatcher
 				ring.fcToken, ORL_StoredCA[ring.name] = ORL_StoredCA[ring.name]
 			end
 			fastClick = (ring.CenterAction or ring.MotionAction) and ((not fcIgnore[ring.fcToken] and ctokens[cid][ring.fcToken]) or (ring.OpprotunisticCA and ctokens[cid][firstFC])) or nil
+			fastClick = fastClick ~= 0 and fastClick or nil
 
 			owner:SetScale(ring.scale)
 			owner:SetPoint('CENTER', ring.ofs, ring.ofsx/owner:GetEffectiveScale(), ring.ofsy/owner:GetEffectiveScale())
@@ -350,7 +351,7 @@ do -- Click dispatcher
 				return false
 			end
 			if switchCause == "switch-binding" then
-			elseif switchCause == "jump-slice-release" then
+			elseif switchCause == "jump-slice-release" or switchCause == "jump-slice-used" or switchCause == "jump-slice-switch" then
 				AIP_Binding, AIP_Key, AIP_Modifier, AIP_Handler, AIP_VirtualKey = nil
 				AIP_Action, AIP_AltAction, AI_LeftAction, AI_RightAction = "close", nil, (ring and ring.NoClose) and "usenow" or "use", "close"
 				AIP_OnDown, AI_LeftOnDown, AI_RightOnDown = true, false, true
@@ -433,7 +434,7 @@ do -- Click dispatcher
 			activeRing.fcToken = shouldUpdateFastClick and activeRing.CenterAction and not fcIgnore[pureToken] and pureToken or activeRing.fcToken
 			if at == "jump" then
 				ORL_JumpCount = (ORL_JumpCount or 0) + 1
-				return owner:RunFor(self, ORL_SwitchRing, action, interactionSource == "primary-binding" and "jump-slice-release" or "switch-binding"), 0
+				return owner:RunFor(self, ORL_SwitchRing, action, interactionSource == "primary-binding" and "jump-slice-release" or "jump-slice-used"), 0
 			end
 			if not noClose then
 				owner:Run(ORL_CloseActiveRing, nil, pureSlice, action)
@@ -521,9 +522,10 @@ do -- Click dispatcher
 					end
 				end
 			elseif activeRing and button == "mwin" and down then
-				local aid = openCollection[owner:Run(ORL_GetCursorSlice)]
+				local slice = owner:Run(ORL_GetCursorSlice)
+				local aid, rt = openCollection[slice], rotationMode[(ctokens[openCollectionID] or "")[slice]]
 				if collections[aid] then
-					return owner:RunFor(self, ORL_SwitchRing, aid, "switch-binding")
+					return owner:RunFor(self, ORL_SwitchRing, aid, rt == "jump" and "jump-slice-switch" or "switch-binding")
 				end
 			elseif activeRing and button:match("^mw[ud]") then
 				return false, down and owner:Run(ORL_OnWheel, (button:match("^mwup") and 1 or -1) * (button:match("K$") and activeRing.bucket or 1))
@@ -672,9 +674,6 @@ local function OR_SyncRing(name, actionId, newprops)
 				local pMode, rMode = newprops[i].rotationMode, nil
 				if pMode and (pMode == "random" or pMode == "shuffle" or pMode == "cycle" or pMode == "reset" or pMode == "jump") then
 					rMode = pMode
-				elseif newprops[i].lockRotation then
-					-- DEPRECATED [1902/3.96/W1]: lockRotation->rotationMode="reset" transition
-					rMode = "reset"
 				end
 				fcBlock = fcBlock .. ("fcIgnore[%s], rotationMode[%1$s] = %s, %s "):format(safequote(newprops[i].sliceToken), tostringf(not newprops[i].fastClick), rMode and safequote(rMode) or "nil")
 			end
@@ -1049,6 +1048,16 @@ function EV:PLAYER_LOGIN()
 	OR_NotifyPVars("LOGIN")
 	return "remove"
 end
+function EV:PLAYER_ENTERING_WORLD(_, isReload)
+	if isReload and type(OPie_SavedDataPC) == "table" and type(OPie_SavedDataPC.FlagState) == "table" then
+		local FM = AB and AB:compatible("FlagMast", 1)
+		if FM then
+			FM:RestoreState(OPie_SavedDataPC.FlagState)
+		end
+	end
+	OPie_SavedDataPC = nil
+	return "remove"
+end
 function EV:PLAYER_LOGOUT()
 	OPie_SavedData = configRoot
 	OneRing_Config = svMigrationState ~= 2 and configRoot or nil
@@ -1069,6 +1078,9 @@ function EV:PLAYER_LOGOUT()
 		if v.Bindings and next(v.Bindings) == nil then v.Bindings = nil end
 		if v.RotationTokens and next(v.RotationTokens) == nil then v.RotationTokens = nil end
 	end
+	local FM = AB and AB:compatible("FlagMast", 1)
+	local fs = FM and FM:GetState()
+	OPie_SavedDataPC = fs and {FlagState=fs} or nil
 end
 local function OR_SaveCurrentProfile()
 	OR_NotifyPVars("SAVE", nil, true)

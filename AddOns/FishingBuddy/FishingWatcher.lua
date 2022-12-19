@@ -568,7 +568,7 @@ end
 WatchEvents["VARIABLES_LOADED"] = function()
     ZoneFishingTime = 0;
 
-    FishingWatchTab:SetText(FBConstants.NAME);
+    FishingWatchTab.Text:SetText(FBConstants.NAME);
     PanelTemplates_TabResize(FishingWatchTab, 10);
 
     FishingBuddy.OptionsFrame.HandleOptions(FBConstants.WATCHER_TAB, "Interface\\Icons\\Inv_Misc_Spyglass_03", WatcherOptions);
@@ -738,7 +738,7 @@ end
 
 local function UpdateZoneLine()
     if ( GSB("WatchCurrentZone") ) then
-        local zoneskill, _ = FL:GetFishingSkillLine(false, true);
+        local zoneskill, _ = FL:GetFishingSkillLine(false, true, false);
         return zoneskill
     end
 end

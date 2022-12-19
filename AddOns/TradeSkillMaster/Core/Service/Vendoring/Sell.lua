@@ -9,6 +9,7 @@ local Sell = TSM.Vendoring:NewPackage("Sell")
 local Database = TSM.Include("Util.Database")
 local TempTable = TSM.Include("Util.TempTable")
 local ItemString = TSM.Include("Util.ItemString")
+local Container = TSM.Include("Util.Container")
 local ItemInfo = TSM.Include("Service.ItemInfo")
 local CustomPrice = TSM.Include("Service.CustomPrice")
 local BagTracking = TSM.Include("Service.BagTracking")
@@ -101,7 +102,7 @@ end
 function Sell.CreateIgnoreQuery()
 	return private.ignoreDB:NewQuery()
 		:Equal("ignorePermanent", true)
-		:InnerJoin(ItemInfo.GetDBForJoin(), "itemString")
+		:VirtualField("name", "string", ItemInfo.GetName, "itemString", "?")
 		:OrderBy("name", true)
 end
 
@@ -109,8 +110,10 @@ function Sell.CreateBagsQuery()
 	local query = BagTracking.CreateQueryBags()
 		:Distinct("itemString")
 		:LeftJoin(private.ignoreDB, "itemString")
-		:InnerJoin(ItemInfo.GetDBForJoin(), "itemString")
 		:LeftJoin(private.potentialValueDB, "itemString")
+		:VirtualField("name", "string", ItemInfo.GetName, "itemString", "?")
+		:VirtualField("vendorSell", "number", ItemInfo.GetVendorSell, "itemString", 0)
+		:VirtualField("quality", "number", ItemInfo.GetQuality, "itemString", -1)
 		:Equal("isBoP", false)
 		:Equal("isBoA", false)
 	Sell.ResetBagsQuery(query)
@@ -136,8 +139,8 @@ function Sell.SellItem(itemString, includeSoulbound)
 		:Equal("isBoP", false)
 		:Equal("isBoA", false)
 	for _, bag, slot, bagItemString in query:Iterator() do
-		if itemString == bagItemString and ItemString.Get(GetContainerItemLink(bag, slot)) == itemString then
-			UseContainerItem(bag, slot)
+		if itemString == bagItemString and ItemString.Get(Container.GetItemLink(bag, slot)) == itemString then
+			Container.UseItem(bag, slot)
 		end
 	end
 	query:Release()

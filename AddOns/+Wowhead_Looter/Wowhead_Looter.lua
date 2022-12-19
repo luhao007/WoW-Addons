@@ -3,15 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 10.0.0                    --
---    Updated: November 9, 2022        --
+--    Patch: 10.0.2                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
+-- When this version of the addon was made.
+local WL_ADDON_UPDATED = "2022-12-14";
+
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 100000;
+local WL_VERSION = 100002;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -363,6 +365,29 @@ local WL_LOOT_TOAST_NOSPELL =
     [191040] = true,
     [191041] = true,
     [191139] = true,
+
+    -- 10.0
+    [198172] = true,
+    [200069] = true,
+    [200070] = true,
+    [200072] = true,
+    [200073] = true,
+    [200094] = true,
+    [200095] = true,
+    [200468] = true,
+    [200513] = true,
+    [200515] = true,
+    [200516] = true,
+    [201250] = true,
+    [201251] = true,
+    [201252] = true,
+    [201462] = true,
+    [201728] = true,
+    [201754] = true,
+    [201755] = true,
+    [201817] = true,
+    [201818] = true,
+    [202142] = true,
 };
 
 local WL_LOOT_COUNT_KILLED_NPCS =
@@ -680,6 +705,31 @@ local WL_DAILY_BUT_NOT_REALLY = {
     63951, -- A Shady Place
     63836, -- Fangcrack's Fan Club
     63837, -- A Tea for Every Occasion
+
+    -- Valdrakken Weekly Quests
+    -- Proving
+    72166, -- in Battle
+    72168, -- in Skirmishes
+    72167, -- in War
+    72170, -- Teamwork
+    72171, -- Solo
+
+    -- Relic Recovery:
+    66860, -- Legacy of Tyr
+    66861, -- Neltharus
+    66863, -- The Nokhud Offensive
+    66864, -- Brackenhide Hollow
+    66865, -- The Azure Vault
+    66866, -- Halls of Infusion
+    66867, -- Algeth'ar Academy
+
+    -- Preserving the Past:
+    66868, -- Legacy of Tyr
+    66870, -- Ruby Life Pools
+    66871, -- The Nokhud Offensive
+    66873, -- The Azure Vault
+    66874, -- Halls of Infusion
+    66875, -- Algeth'ar Academy
 }
 
 local WL_DAILY_VENDOR_ITEMS = { 141713, 141861, 141884, 141860, 141712, 141862, } -- Xur'ios
@@ -708,6 +758,16 @@ local WL_VENTHYR_BROKEN_MIRROR_TRACKING_QUESTS = {
     61817,61830, 61821,61831, 61825,61832,
     61820,61828, 61824,61829, 59236,60297,
 }
+
+-- DungeonEncounter id to npc id
+local WL_ENCOUNTER_NPC = {
+    [1563] = 62346, -- Galleon
+    [1564] = 60491, -- Sha of Anger
+    [1571] = 69099, -- Nalak
+    [1587] = 69161, -- Oondasta
+    [1755] = 83746, -- Rukhmar
+}
+local wlLastBossKillNpcId = 0;
 
 -- Speed optimizations
 local CheckInteractDistance = CheckInteractDistance;
@@ -790,12 +850,6 @@ local find = find;
 local sub, gsub = sub, gsub;
 local lower = lower;
 local time = time;
-
-if C_Container then
-    C_Container.GetContainerNumSlots = GetContainerNumSlots or C_Container.GetContainerNumSlots;
-    C_Container.GetContainerItemID = GetContainerItemID or C_Container.GetContainerItemID;
-    C_Container.GetContainerItemDurability = GetContainerItemDurability or C_Container.GetContainerItemDurability;
-end
 
 -- Local Variables
 local wlTracker = {};
@@ -953,8 +1007,9 @@ function wlEvent_PLAYER_LOGIN(self)
     wlScanAchievements();
     wlScanFollowers();
     wlScanHeirlooms();
+    wlCheckAreaPois();
 
-    wlMessage(WL_LOADED:format(WL_NAME, WL_VERSION), true);
+    wlMessage(WL_LOADED:format(WL_NAME, WL_VERSION) .. " - " .. WL_ADDON_UPDATED, true);
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -1327,9 +1382,9 @@ function wlGetCurrentScrappingItemLink()
     for idx = 0, 8 do
         local loc = C_ScrappingMachineUI.GetCurrentPendingScrapItemLocationByIndex(idx);
         if loc then
-            local _,_,_,_,_,_,itemLink = GetContainerItemInfo(loc.bagID, loc.slotIndex);
-            if itemLink ~= nil then
-                return itemLink;
+            local itemInfo = C_Container.GetContainerItemInfo(loc.bagID, loc.slotIndex);
+            if itemInfo and itemInfo.hyperlink ~= nil then
+                return itemInfo.hyperlink;
             end
         end
     end
@@ -1390,9 +1445,16 @@ function wlEvent_MERCHANT_UPDATE(self)
 
     local standing = select(2, wlUnitFaction("npc"));
 
+    local setFilter = true;
+    if IsAddOnLoaded('CompactVendor') then
+        setFilter = false;
+    end
+
     local merchantFilters = GetMerchantFilter();
-    SetMerchantFilter(LE_LOOT_FILTER_ALL);
-    MerchantFrame_Update();
+    if setFilter then
+        SetMerchantFilter(LE_LOOT_FILTER_ALL);
+        MerchantFrame_Update();
+    end
 
     local merchantItemList = {};
     local currencies = { GetMerchantCurrencies() };
@@ -1515,8 +1577,10 @@ function wlEvent_MERCHANT_UPDATE(self)
         wlUpdateVariable(wlUnit, unitId, "merchant", link, "max", numAvailable);
     end
 
-    SetMerchantFilter(merchantFilters);
-    MerchantFrame_Update();
+    if setFilter then
+        SetMerchantFilter(merchantFilters);
+        MerchantFrame_Update();
+    end
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -1726,8 +1790,13 @@ function wlEvent_COMBAT_LOG_EVENT_UNFILTERED()
             wlClearTracker("spell");
         end
 
-    elseif event == "PARTY_KILL" then
+    elseif event == "PARTY_KILL" or event == "UNIT_DIED" then
         local id, now = wlCheckUnitForRep(destGUID, destName);
+
+        if event == "UNIT_DIED" and wlLastBossKillNpcId ~= tonumber(id) then
+            wlLastBossKillNpcId = 0;
+            return;
+        end
 
         if (wlMostRecentKilled and wlMostRecentKilled.id and wlMostRecentKilled.timeOfDeath and
                 wlMostRecentKilled.timeOfDeath + 300000 >= now) then
@@ -1768,9 +1837,20 @@ function wlEvent_COMBAT_LOG_EVENT_UNFILTERED()
             ["timeOfDeath"] = now,
         };
 
+        wlLastBossKillNpcId = 0;
+
     elseif event == "SPELL_CAST_FAILED" and spellId == WL_SPELL_SCRAPPING then
         wlClearTracker("spell");
 
+    end
+end
+
+function wlEvent_BOSS_KILL(self, encounterId, encounterName)
+    local npcId = WL_ENCOUNTER_NPC[encounterId];
+    if npcId then
+        wlLastBossKillNpcId = npcId;
+    else
+        wlLastBossKillNpcId = 0;
     end
 end
 
@@ -3072,8 +3152,8 @@ function wlBagItemOnUse(link, bag, slot)
 
     local id = wlParseItemLink(link);
     if bag and slot then
-        local openable = select(6, GetContainerItemInfo(bag, slot));
-        if openable then
+        local itemInfo = C_Container.GetContainerItemInfo(bag, slot);
+        if itemInfo and itemInfo.hasLoot then
             wlClearTracker("spell");
             wlTrackerClearedTime = now;
             wlTracker.spell.time = now;
@@ -3096,7 +3176,7 @@ function wlGuessBagAndSlot(link)
     local itemID = wlParseItemLink(link);
     for bag = NUM_BAG_FRAMES, 0, -1 do
         for slot=1, C_Container.GetContainerNumSlots(bag) do
-            if wlParseItemLink(GetContainerItemLink(bag, slot)) == itemID then
+            if wlParseItemLink(C_Container.GetContainerItemLink(bag, slot)) == itemID then
                 return bag, slot;
             end
         end
@@ -3110,8 +3190,9 @@ function wlGetLockedID()
     -- an item becomes locked (grayed out) when it is being looted
     for bag = NUM_BAG_FRAMES, 0, -1 do
         for slot=1, C_Container.GetContainerNumSlots(bag) do
-            if select(3, GetContainerItemInfo(bag, slot)) then
-                local link = GetContainerItemLink(bag, slot);
+            local itemInfo = C_Container.GetContainerItemInfo(bag, slot);
+            if itemInfo and itemInfo.isLocked then
+                local link = C_Container.GetContainerItemLink(bag, slot);
                 return wlParseItemLink(link);
             end
         end
@@ -3447,10 +3528,11 @@ function wlEvent_ITEM_LOCK_CHANGED(self, bag, slot)
         return;
     end
 
-    local itemLink = GetContainerItemLink(bag, slot);
+    local itemLink = C_Container.GetContainerItemLink(bag, slot);
     local itemID = wlParseItemLink(itemLink);
+    local itemInfo = C_Container.GetContainerItemInfo(bag, slot);
 
-    if select(3, GetContainerItemInfo(bag, slot)) and wlTracker.spell.id == itemID then
+    if itemInfo and itemInfo.isLocked and wlTracker.spell.id == itemID then
         wlLockedID = itemID;
     end
 
@@ -3937,14 +4019,16 @@ end
 -- a trade skill spell handler
 function wlGrabTradeSkillTools(skillLineName, spellId, tradeSkillIndex)
     -- Process Anvil and Forge detection
-    local tools = C_TradeSkillUI.GetRecipeTools(tradeSkillIndex);
+    local reqs = C_TradeSkillUI.GetRecipeRequirements(tradeSkillIndex);
 
-    if tools then
-        if tools:find("Anvil") ~= nil then
-            wlAnvilSpells[tonumber(spellId)] = true;
-        end
-        if tools:find("Forge") ~= nil then
-            wlForgeSpells[tonumber(spellId)] = true;
+    if reqs then
+        for _,v in ipairs(reqs) do
+            if v["name"]:find("Anvil") ~= nil then
+                wlAnvilSpells[tonumber(spellId)] = true;
+            end
+            if v["name"]:find("Forge") ~= nil then
+                wlForgeSpells[tonumber(spellId)] = true;
+            end
         end
     end
 end
@@ -4253,7 +4337,7 @@ function wlScanHeirlooms()
     end
 end
 
-local wlScanAppearances_processing = false
+local wlScanAppearancesProgress = nil;
 local function wlGetCollectedTransmogAppearances(category, enableFilter)
     local app = nil;
 
@@ -4295,43 +4379,69 @@ local function wlGetCollectedTransmogAppearances(category, enableFilter)
     return app
 end
 
+-- Initiate an appearance (transmog) scan.
 function wlScanAppearances()
     if not C_TransmogCollection then
         return false
     end
 
-    local ids = ""
+    if (wlTimers.scanAppearances) then
+        return false;
+    end
 
-    if wlScanAppearances_processing then -- events might fire when we change filters
+    wlScanAppearancesProgress = {};
+    wlScanAppearancesProgress.colType = Enum.TransmogCollectionTypeMeta.MinValue;
+    wlScanAppearancesProgress.appearanceTable = {}
+    wlScanAppearancesProgress.interval = 200;
+
+    if (IsAddOnLoaded('BetterWardrobe')) then
+        wlScanAppearancesProgress.colTypeStep =
+            Enum.TransmogCollectionTypeMeta.MaxValue - Enum.TransmogCollectionTypeMeta.MinValue + 1
+        wlScanAppearancesStep();
+    else
+        wlScanAppearancesProgress.colTypeStep = 1;
+        wlTimers.scanAppearances = wlGetTime() + wlScanAppearancesProgress.interval;
+    end
+
+    return true;
+end
+
+-- Scan appearance for a transmog collection type
+function wlScanAppearancesStep()
+    if not wlScanAppearancesProgress then
         return
     end
-    wlScanAppearances_processing = true
 
-    local appearanceTable = {}
+    local colType = wlScanAppearancesProgress.colType;
+    local colTypeStep = wlScanAppearancesProgress.colTypeStep;
 
     -- enable filter if wardrobe frame is invisible.
     local enableFilter = not WardrobeCollectionFrame or not WardrobeCollectionFrame:IsVisible();
 
-    for colType = Enum.TransmogCollectionTypeMeta.MinValue, Enum.TransmogCollectionTypeMeta.MaxValue do
+    for i = 1, colTypeStep do
+        if (colType > Enum.TransmogCollectionTypeMeta.MaxValue) then
+            break;
+        end
         local app = wlGetCollectedTransmogAppearances(colType, enableFilter)
         if (app) then
             for k, o in pairs(app) do
                 if o.isCollected and not o.isHideVisual then
-                    tinsert(appearanceTable, o.visualID .. ':' .. colType)
+                    tinsert(wlScanAppearancesProgress.appearanceTable, o.visualID .. ':' .. colType)
                 end
             end
         end
+        colType = colType + 1;
     end
 
-    ids = table.concat(appearanceTable,',')
-
-    wlScanAppearances_processing = false
-
-    if ids ~= "" then
-        wlScans.appearances = ids;
-        return true;
+    if colType <= Enum.TransmogCollectionTypeMeta.MaxValue then
+        wlScanAppearancesProgress.colType = colType;
+        wlTimers.scanAppearances = wlGetTime() + wlScanAppearancesProgress.interval;
     else
-        return false;
+        local ids = table.concat(wlScanAppearancesProgress.appearanceTable, ',');
+        if ids ~= "" then
+            wlScans.appearances = ids;
+        end
+        wlScanAppearancesProgress = nil;
     end
 end
 
@@ -4513,6 +4623,40 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
+--[[
+-- Scan the vignettes for 10.x Primal Elements events.
+]]
+function wlCheckPrimalVignettes()
+    local uiMapIds = {
+        [18] = true, [997] = true, [1247] = true, [2070] = true,
+        [15] = true, [1245] = true,
+        [78] = true, [1319] = true,
+        [10] = true, [1307] = true,
+    };
+    local uiMapId = C_Map.GetBestMapForUnit("player");
+    if not uiMapIds[uiMapId] then
+        return;
+    end
+
+    local vIds = {
+        [5092] = true,
+        [5146] = true,
+        [5147] = true,
+        [5148] = true,
+        [5157] = true,
+        [5159] = true,
+        [5162] = true,
+    };
+    local guids = C_VignetteInfo.GetVignettes();
+    for _, guid in ipairs(guids) do
+        local info = C_VignetteInfo.GetVignetteInfo(guid);
+        if vIds[info.vignetteID] then
+            wlSeenDaily('v' .. info.vignetteID);
+        end
+    end
+end
+
+--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 --[[
 -- Check for completed Venthyr broken mirror tracking quests.
@@ -4536,6 +4680,57 @@ end
 ]]
 function wlEvent_VIGNETTES_UPDATED()
     wlCheckTorghastWings();
+    wlCheckPrimalVignettes();
+end
+
+--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
+
+-- Event handler for AREA_POIS_UPDATED
+function wlEvent_AREA_POIS_UPDATED()
+    wlCheckAreaPois();
+end
+
+
+local wlPois = {}
+
+-- Check for Area POIs that we are interested in.
+function wlCheckAreaPois()
+    local uiMapIds = {
+        1978, -- Dragon Isles
+        2022, -- Waking Shores
+        2023, -- Ohn'ahran Plains
+        2024, -- Azure Span
+        2025, -- Thaldraszus
+        2112, -- Valdrakken
+    };
+    -- Collect POIs for these maps regardless of whether they are primary POIs.
+    local includeNonPrimary = {
+        [1978] = true, -- Dragon Isles
+    };
+
+    for _, uiMapId in ipairs(uiMapIds) do
+        local pois = C_AreaPoiInfo.GetAreaPOIForMap(uiMapId);
+        for _, poiId in ipairs(pois) do
+            local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapId, poiId);
+            if C_AreaPoiInfo.IsAreaPOITimed(poiId) and (
+                includeNonPrimary[uiMapId] or (poiInfo and poiInfo.isPrimaryMapForPOI)
+            ) then
+                local secondsLeft = C_AreaPoiInfo.GetAreaPOISecondsLeft(poiId);
+                if secondsLeft then
+                    local curTime = GetServerTime();
+                    local endTime = curTime + secondsLeft;
+                    if not wlPois[uiMapId] then
+                        wlPois[uiMapId] = {};
+                    end
+                    if not wlPois[uiMapId][poiId] or wlPois[uiMapId][poiId] ~= endTime then
+                        wlPois[uiMapId][poiId] = endTime;
+                        wlSeenDaily('p' .. poiId ..  '.' .. uiMapId ..
+                            '.' .. curTime .. '.' .. endTime ..  '.' .. secondsLeft);
+                    end
+                end
+            end
+        end
+    end
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4544,6 +4739,7 @@ function wlEvent_ZONE_CHANGED()
     wlLocTooltipFrame_OnUpdate();
     wlCheckTorghastWings();
     wlCheckVenthyrBrokenMirrorQuests();
+    wlCheckPrimalVignettes();
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4621,6 +4817,7 @@ local wlEvents = {
     MERCHANT_UPDATE = wlEvent_MERCHANT_UPDATE,
     TRAINER_SHOW = wlEvent_TRAINER_SHOW,
     COMBAT_LOG_EVENT_UNFILTERED = wlEvent_COMBAT_LOG_EVENT_UNFILTERED,
+    BOSS_KILL = wlEvent_BOSS_KILL,
     UPDATE_MOUSEOVER_UNIT = wlEvent_UPDATE_MOUSEOVER_UNIT,
     DYNAMIC_GOSSIP_POI_UPDATED = wlEvent_DYNAMIC_GOSSIP_POI_UPDATED,
 
@@ -4681,6 +4878,7 @@ local wlEvents = {
     ZONE_CHANGED = wlEvent_ZONE_CHANGED,
     ZONE_CHANGED_NEW_AREA = wlEvent_ZONE_CHANGED,
     VIGNETTES_UPDATED = wlEvent_VIGNETTES_UPDATED,
+    AREA_POIS_UPDATED = wlEvent_AREA_POIS_UPDATED,
 
     -- challenge mode / mythic+ affixes
     CHALLENGE_MODE_START = wlEvent_CHALLENGE_MODE_UPDATE,
@@ -5167,6 +5365,10 @@ function wl_OnUpdate(self, elapsed)
 
                 elseif name == "scanAchievements" then
                     wlScanAchievementsStep();
+
+                elseif name == "scanAppearances" then
+                    wlScanAppearancesStep();
+
                 end
             end
         end
@@ -6084,7 +6286,7 @@ function wlHook()
 
     local useContainerItemFunc = function(bag, slot, target)
         if not target then
-            wlBagItemOnUse(GetContainerItemLink(bag, slot), bag, slot);
+            wlBagItemOnUse(C_Container.GetContainerItemLink(bag, slot), bag, slot);
         end
     end
     if C_Container and C_Container.UseContainerItem then

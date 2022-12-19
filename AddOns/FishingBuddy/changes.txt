@@ -1,3 +1,34 @@
+Version 1.19.3
+- Revert CallbackHandler change
+
+Version 1.19.2
+- Skill display and misc fixes from Spiritwlf (thank you!)
+- Update fishing library
+
+Version 1.19.1
+- Better secure button handling
+- Fix a missing function error
+
+Version 1.19
+- Update mouse handling to a less intrusive model (thanks Gethe's wow-ui-source
+  for helping me find GLOBAL_MOUSE)
+- Rewrite fish locations scrolling code
+- Update LibTourist and HereBeDragons
+- Use the latest Equipment Manager references
+- Now requires a "partial outfit" (i.e. wearing a fishing bonus item) or a configured modifier
+
+Version 1.18.1
+- Update libraries
+
+Version 1.18
+- Miscellaneous library updates
+
+Version 1.17
+- - Update TOC and libraries
+
+Version 1.16.11
+- Update TOC for Shadowlands
+
 Version 1.16.10
 - Update libraries
 - Update TOC to 9.1.5

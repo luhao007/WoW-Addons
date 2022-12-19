@@ -14,7 +14,7 @@ local UIDropDownMenuTemplate = "UIDropDownMenuTemplate"
 local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
 
 local addonName = ...
-local addon = TinyTooltipReforged
+local addon  = TinyTooltipReforged
 local CopyTable = CopyTable
 
 addon.L = addon.L or {}
@@ -45,7 +45,9 @@ local function CallTrigger(keystring, value)
             LibEvent:trigger("tooltip.style.bgfile", tip, value)
         end
     end
-    if (keystring == "general.statusbarText") then
+    if (keystring == "general.statusbarEnabled") then
+      LibEvent:trigger("tooltip.statusbar.height", value)
+    elseif (keystring == "general.statusbarText") then
         LibEvent:trigger("tooltip.statusbar.text", value)
     elseif (keystring == "general.statusbarHeight") then
         LibEvent:trigger("tooltip.statusbar.height", value)
@@ -537,9 +539,12 @@ local options = {
         { keystring = "general.borderSize",         type = "slider", min = 1, max = 6, step = 1 },
         { keystring = "general.borderCorner",       type = "dropdown", dropdata = widgets.borderDropdata },
         { keystring = "general.bgfile",             type = "dropdown", dropdata = widgets.bgfileDropdata },
-        { keystring = "general.anchor",             type = "anchor", dropdata = {"default","cursor", "static"} },
+        { keystring = "general.anchor",             type = "anchor", dropdata = {"default","cursor", "cursorRight", "static"} },
+        { keystring = "item.showStackCount",        type = "checkbox" },
+        { keystring = "item.showStackCountAlt",     type = "checkbox" },
         { keystring = "item.coloredItemBorder",     type = "checkbox" },
         { keystring = "item.showItemIcon",          type = "checkbox" },
+	{ keystring = "item.showExpansionInformation", type = "checkbox" },
         { keystring = "quest.coloredQuestBorder",   type = "checkbox" },
         { keystring = "general.alwaysShowIdInfo",   type = "checkbox" },        
         { keystring = "general.SavedVariablesPerCharacter",   type = "checkbox" },
@@ -549,10 +554,9 @@ local options = {
         { keystring = "unit.player.showTargetBy",         type = "checkbox" },
         { keystring = "unit.player.showModel",            type = "checkbox" },
         { keystring = "unit.player.grayForDead",          type = "checkbox" },
-        { keystring = "unit.player.showIlevelAndSpecialization", type = "checkbox" },
         { keystring = "unit.player.coloredBorder",        type = "dropdown", dropdata = widgets.colorDropdata },
         { keystring = "unit.player.background",           type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.1 },
-        { keystring = "unit.player.anchor",               type = "anchor", dropdata = {"inherit", "default","cursor", "static"} },
+        { keystring = "unit.player.anchor",               type = "anchor", dropdata = {"inherit", "default","cursor", "cursorRight", "static"} },
         { keystring = "unit.player.elements.factionBig",  type = "element", filter = false,},
         { keystring = "unit.player.elements.raidIcon",    type = "element", filter = true, },
         { keystring = "unit.player.elements.roleIcon",    type = "element", filter = true, },
@@ -587,7 +591,7 @@ local options = {
         { keystring = "unit.npc.grayForDead",           type = "checkbox" },
         { keystring = "unit.npc.coloredBorder",         type = "dropdown", dropdata = widgets.colorDropdata },
         { keystring = "unit.npc.background",            type = "dropdownslider", dropdata = widgets.colorDropdata, min = 0, max = 1, step = 0.1 },
-        { keystring = "unit.npc.anchor",                type = "anchor", dropdata = {"inherit","default","cursor", "static"} },
+        { keystring = "unit.npc.anchor",                type = "anchor", dropdata = {"inherit","default","cursor", "cursorRight", "static"} },
         { keystring = "unit.npc.elements.factionBig",   type = "element", filter = false,},
         { keystring = "unit.npc.elements.raidIcon",     type = "element", filter = true, },
         { keystring = "unit.npc.elements.classIcon",    type = "element", filter = true, },
@@ -603,6 +607,7 @@ local options = {
         { keystring = "unit.npc.elements.moveSpeed",    type = "element", color = true, wildcard = true, filter = true, },
     },
     statusbar = {
+        { keystring = "general.statusbarEnabled",   type = "checkbox" },
         { keystring = "general.statusbarText",      type = "checkbox" },
         { keystring = "general.statusbarHeight",    type = "slider", min = 0, max = 24, step = 1 },
         { keystring = "general.statusbarOffsetX",   type = "slider", min = -50, max = 50, step = 1 },
@@ -613,6 +618,7 @@ local options = {
         { keystring = "general.statusbarTexture",   type = "dropdown", dropdata = widgets.barDropdata },
         { keystring = "general.statusbarPosition",  type = "dropdown", dropdata = {"default","bottom","top"} },
         { keystring = "general.statusbarColor",     type = "dropdown", dropdata = {"default","auto","smooth"} },
+        { keystring = "general.statusbarTextFormat", type = "dropdown", dropdata = {"Health / Max (Percent)", "Health (Percent)", "Health / Max", "Health", "Percent"} },
     },
     spell = {
         { keystring = "spell.showIcon",             type = "checkbox" },
@@ -644,7 +650,7 @@ frame.name = addonName
 
 frame.text = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 frame.text:SetPoint("TOPLEFT", 30, -40)
-frame.text:SetText("by |cffF58CBABeezer|r |cffff00ff<The Dragon Fighters>|r - |cff33eeffAggramar EU|r")
+frame.text:SetText(format("by |cffF58CBA%s|r |cffff00ff<%s>|r - |cff33eeff%s|r", L["authorname"], L["authorguild"], L["authorrealm"]))
 
 local framePC = CreateFrame("Frame", nil, UIParent)
 framePC.anchor = CreateFrame("Frame", nil, framePC)
@@ -788,7 +794,7 @@ local function InitVariablesFrame()
             BigTipReforgedDB = db
             addon.db = db
             frameVariables.panel.textarea.text:SetText("")
-            LibEvent:trigger("TINYTOOLTIP_REFORGED_GENERAL_INIT")
+             LibEvent:trigger("TINYTOOLTIP_REFORGED_GENERAL_INIT")
             print("|cffFFE4E1[TinyTooltipReforged]|r|cff00FFFF variables has been imported successfully. |r")
         else
             print("|cffFFE4E1[TinyTooltipReforged]|r|cffFF3333 unvalidated variables. |r")

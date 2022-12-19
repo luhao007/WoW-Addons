@@ -150,4 +150,7 @@ addon.L = {
     ["Anchor"]   = "錨點器",
     
     ["TargetBy"] = "被關注",
+
+    ["showStackCount"]		    = "顯示堆棧計數（在工具提示標題中）",
+    ["showStackCountAlt"]	    = "顯示堆疊計數（在工具提示正文中）",
 }

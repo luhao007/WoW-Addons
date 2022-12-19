@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: xGrit
-## Version: DFB1
+## Version: 4.0
 ## SavedVariables: GladiatorlosSADB
 
 ## Title: GladiatorlosSA
@@ -19,5 +19,3 @@ ClassicEra\options_TBC.lua
 ClassicEra\spelllist_TBC.lua
 ClassicEra\options_WLK.lua
 ClassicEra\spelllist_WLK.lua
-ClassicEra\options_SL.lua
-ClassicEra\spelllist_SL.lua

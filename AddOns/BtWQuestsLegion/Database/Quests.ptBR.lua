@@ -3006,6 +3006,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "A gondoleira",
     },
+    [41882] = {
+        name = "Sussurros das trevas",
+    },
     [41884] = {
         name = "Contos obscuros",
     },

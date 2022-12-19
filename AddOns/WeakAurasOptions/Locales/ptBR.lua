@@ -97,6 +97,10 @@ local L = WeakAuras.L
 	L["%s Trigger Function"] = "%s Trigger Function"
 	--[[Translation missing --]]
 	L["%s Untrigger Function"] = "%s Untrigger Function"
+	--[[Translation missing --]]
+	L["%s X offset by %d"] = "%s X offset by %d"
+	--[[Translation missing --]]
+	L["%s Y offset by %d"] = "%s Y offset by %d"
 	L["%s Zoom: %d%%"] = "%s Zoom: %d%%"
 	L["%s, Border"] = "%s, Borda"
 	L["%s, Offset: %0.2f;%0.2f"] = "%s, Posicionamento: %0.2f;%0.2f"
@@ -189,7 +193,8 @@ Enable this setting if you want this timer to be hidden, or when using a WeakAur
 	L["Align"] = "Alinhar"
 	L["Alignment"] = "Alinhamento"
 	L["All of"] = "Todos"
-	L["Allow Full Rotation"] = "Habilitar rotação completa"
+	--[[Translation missing --]]
+	L["Allow Full Rotation"] = "Allow Full Rotation"
 	L["Alpha"] = "Transparência"
 	L["Anchor"] = "Âncora"
 	L["Anchor Point"] = "Ponto da âncora"
@@ -230,6 +235,8 @@ Off Screen]=] ] = "Aura está fora da tela"
 	L["Aura Name"] = "Nome da Aura"
 	L["Aura Name Pattern"] = "Padrão de nome da aura"
 	--[[Translation missing --]]
+	L["Aura Order"] = "Aura Order"
+	--[[Translation missing --]]
 	L["Aura received from: %s"] = "Aura received from: %s"
 	L["Aura Type"] = "Tipo de Aura"
 	--[[Translation missing --]]
@@ -255,8 +262,9 @@ Off Screen]=] ] = "Aura está fora da tela"
 	L["Background Offset"] = "Posicionamento do Fundo"
 	L["Background Texture"] = "Textura do fundo"
 	L["Bar Alpha"] = "Transparência da barra"
-	L["Bar Color"] = "Cor da barra"
 	L["Bar Color Settings"] = "Configurações de Cor da Barra"
+	--[[Translation missing --]]
+	L["Bar Color/Gradient Start"] = "Bar Color/Gradient Start"
 	L["Bar Texture"] = "Textura da barra"
 	L["Big Icon"] = "Ícone Grande"
 	L["Blend Mode"] = "Modo de mistura"
@@ -346,6 +354,8 @@ Off Screen]=] ] = "Aura está fora da tela"
 	L["Controls the positioning and configuration of multiple displays at the same time"] = "Controla o posicionamento e a configuração de múltiplos displays ao mesmo tempo"
 	L["Convert to..."] = "Converter para..."
 	--[[Translation missing --]]
+	L["Cooldown Numbers might be added by WoW. You can configure these in the game settings."] = "Cooldown Numbers might be added by WoW. You can configure these in the game settings."
+	--[[Translation missing --]]
 	L["Cooldown Reduction changes the duration of seconds instead of showing the real time seconds."] = "Cooldown Reduction changes the duration of seconds instead of showing the real time seconds."
 	--[[Translation missing --]]
 	L["Copy"] = "Copy"
@@ -424,7 +434,8 @@ Off Screen]=] ] = "Aura está fora da tela"
 	L["Disabled"] = "Desabilitar"
 	--[[Translation missing --]]
 	L["Disallow Entry Reordering"] = "Disallow Entry Reordering"
-	L["Discrete Rotation"] = "Rotação discreta"
+	--[[Translation missing --]]
+	L["Discrete Rotation"] = "Discrete Rotation"
 	L["Display"] = "Mostruário"
 	--[[Translation missing --]]
 	L["Display Name"] = "Display Name"
@@ -479,6 +490,8 @@ Off Screen]=] ] = "Aura está fora da tela"
 	L["Enable Debug Log"] = "Enable Debug Log"
 	--[[Translation missing --]]
 	L["Enable Debug Logging"] = "Enable Debug Logging"
+	--[[Translation missing --]]
+	L["Enable Gradient"] = "Enable Gradient"
 	--[[Translation missing --]]
 	L["Enable Swipe"] = "Enable Swipe"
 	--[[Translation missing --]]
@@ -629,6 +642,10 @@ Can use \ to escape -.]=]
 	L["Glow Frame Type"] = "Glow Frame Type"
 	--[[Translation missing --]]
 	L["Glow Type"] = "Glow Type"
+	--[[Translation missing --]]
+	L["Gradient End"] = "Gradient End"
+	--[[Translation missing --]]
+	L["Gradient Orientation"] = "Gradient Orientation"
 	--[[Translation missing --]]
 	L["Green Rune"] = "Green Rune"
 	--[[Translation missing --]]
@@ -1227,9 +1244,19 @@ Can use \ to escape -.]=]
 	L["Texture"] = "Textura"
 	--[[Translation missing --]]
 	L["Texture Info"] = "Texture Info"
+	--[[Translation missing --]]
+	L["Texture Rotation"] = "Texture Rotation"
 	L["Texture Settings"] = "Configurações da Textura"
 	--[[Translation missing --]]
 	L["Texture Wrap"] = "Texture Wrap"
+	--[[Translation missing --]]
+	L["Texture X Offset"] = "Texture X Offset"
+	--[[Translation missing --]]
+	L["Texture Y Offset"] = "Texture Y Offset"
+	--[[Translation missing --]]
+	L["The addon ElvUI is enabled. It might add cooldown numbers to the swipe. You can configure these in the ElvUI settings"] = "The addon ElvUI is enabled. It might add cooldown numbers to the swipe. You can configure these in the ElvUI settings"
+	--[[Translation missing --]]
+	L["The addon OmniCC is enabled. It might add cooldown numbers to the swipe. You can configure these in the OmniCC settings"] = "The addon OmniCC is enabled. It might add cooldown numbers to the swipe. You can configure these in the OmniCC settings"
 	--[[Translation missing --]]
 	L["The duration of the animation in seconds."] = "The duration of the animation in seconds."
 	--[[Translation missing --]]
@@ -1366,6 +1393,8 @@ It might not work correctly with your version!]=]
 	L["Used in Auras:"] = "Used in Auras:"
 	--[[Translation missing --]]
 	L["Used in auras:"] = "Used in auras:"
+	--[[Translation missing --]]
+	L["Uses Texture Coordinates to rotate the texture."] = "Uses Texture Coordinates to rotate the texture."
 	--[[Translation missing --]]
 	L["Uses UnitIsVisible() to check if in range. This is polled every second."] = "Uses UnitIsVisible() to check if in range. This is polled every second."
 	--[[Translation missing --]]

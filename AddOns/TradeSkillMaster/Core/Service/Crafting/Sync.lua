@@ -4,7 +4,7 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local CraftingSync = TSM.Crafting:NewPackage("Sync")
 local L = TSM.Include("Locale").GetTable()
 local Delay = TSM.Include("Util.Delay")
@@ -27,6 +27,7 @@ local private = {
 	},
 	accountLookup = {},
 	accountStatus = {},
+	retryTimer = nil,
 }
 local RETRY_DELAY = 5
 local PROFESSION_HASH_FIELDS = { "craftString", "itemString" }
@@ -38,6 +39,7 @@ local PROFESSION_HASH_FIELDS = { "craftString", "itemString" }
 -- ============================================================================
 
 function CraftingSync.OnInitialize()
+	private.retryTimer = Delay.CreateTimer("CRAFTING_SYNC_RETRY", private.RetryGetHashesRPC)
 	Sync.RegisterConnectionChangedCallback(private.ConnectionChangedHandler)
 	Sync.RegisterRPC("CRAFTING_GET_HASHES", private.RPCGetHashes)
 	Sync.RegisterRPC("CRAFTING_GET_SPELLS", private.RPCGetSpells)
@@ -47,11 +49,11 @@ end
 function CraftingSync.GetStatus(account)
 	local status = private.accountStatus[account]
 	if not status then
-		return Theme.GetFeedbackColor("RED"):ColorText(L["Not Connected"])
+		return Theme.GetColor("FEEDBACK_RED"):ColorText(L["Not Connected"])
 	elseif status == "UPDATING" or status == "RETRY" then
-		return Theme.GetFeedbackColor("YELLOW"):ColorText(L["Updating"])
+		return Theme.GetColor("FEEDBACK_YELLOW"):ColorText(L["Updating"])
 	elseif status == "SYNCED" then
-		return Theme.GetFeedbackColor("GREEN"):ColorText(L["Up to date"])
+		return Theme.GetColor("FEEDBACK_GREEN"):ColorText(L["Up to date"])
 	else
 		error("Invalid status: "..tostring(status))
 	end
@@ -76,7 +78,7 @@ function private.RPCGetHashesResultHandler(player, data)
 		Log.Warn("Getting hashes timed out")
 		if private.accountLookup[player] then
 			private.accountStatus[private.accountLookup[player]] = "RETRY"
-			Delay.AfterTime(RETRY_DELAY, private.RetryGetHashesRPC)
+			private.retryTimer:RunForTime(RETRY_DELAY)
 		end
 		return
 	end
@@ -108,7 +110,7 @@ function private.RPCGetSpells(professions)
 	local query = TSM.Crafting.CreateRawCraftsQuery()
 		:Select("craftString", "profession")
 		:Custom(private.QueryProfessionFilter, professions)
-		:Custom(private.QueryPlayerFilter, player)
+		:ListContains("players", player)
 		:OrderBy("craftString", true)
 	for _, craftString, profession in query:Iterator() do
 		private.spellsProfessionLookupTemp[craftString] = profession
@@ -124,7 +126,7 @@ function private.RPCGetSpellsResultHandler(player, professionLookup, spells)
 		Log.Warn("Getting spells timed out")
 		if private.accountLookup[player] then
 			private.accountStatus[private.accountLookup[player]] = "RETRY"
-			Delay.AfterTime(RETRY_DELAY, private.RetryGetHashesRPC)
+			private.retryTimer:RunForTime(RETRY_DELAY)
 		end
 		return
 	end
@@ -137,7 +139,7 @@ function private.RPCGetSpellsResultHandler(player, professionLookup, spells)
 	local query = TSM.Crafting.CreateRawCraftsQuery()
 		:Select("craftString", "profession")
 		:Custom(private.QueryProfessionFilter, professions)
-		:Custom(private.QueryPlayerFilter, player)
+		:ListContains("players", player)
 		:OrderBy("craftString", true)
 	local toRemove = TempTable.Acquire()
 	for _, craftString, profession in query:Iterator() do
@@ -192,7 +194,7 @@ function private.RPCGetSpellInfoResultHandler(player, professionLookup, spellInf
 		Log.Warn("Getting spell info timed out")
 		if private.accountLookup[player] then
 			private.accountStatus[private.accountLookup[player]] = "RETRY"
-			Delay.AfterTime(RETRY_DELAY, private.RetryGetHashesRPC)
+			private.retryTimer:RunForTime(RETRY_DELAY)
 		end
 		return
 	end
@@ -244,13 +246,9 @@ function private.QueryProfessionFilter(row, professions)
 	return professions[row:GetField("profession")]
 end
 
-function private.QueryPlayerFilter(row, player)
-	return String.SeparatedContains(row:GetField("players"), ",", player)
-end
-
 function private.GetPlayerProfessionHashes(player, resultTbl)
 	local query = TSM.Crafting.CreateRawCraftsQuery()
-		:Custom(private.QueryPlayerFilter, player)
+		:ListContains("players", player)
 		:OrderBy("craftString", true)
 	query:GroupedHash(PROFESSION_HASH_FIELDS, "profession", resultTbl)
 	query:Release()

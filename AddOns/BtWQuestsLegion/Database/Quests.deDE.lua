@@ -2985,6 +2985,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "Die Gondoliera",
     },
+    [41882] = {
+        name = "Flüstern in der Finsternis",
+    },
     [41884] = {
         name = "Finstere Geschichten",
     },

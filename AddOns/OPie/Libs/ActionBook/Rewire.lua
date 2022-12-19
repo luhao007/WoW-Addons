@@ -1,4 +1,4 @@
-local RW, MAJ, REV, _, T = {}, 1, 22, ...
+local RW, MAJ, REV, _, T = {}, 1, 24, ...
 if T.ActionBook then return end
 local AB, KR = nil, assert(T.Kindred:compatible(1,8), "A compatible version of Kindred is required.")
 local MODERN = select(4,GetBuildInfo()) >= 8e4
@@ -70,7 +70,7 @@ local core, coreEnv = CreateFrame("Frame", nil, nil, "SecureHandlerBaseTemplate"
 			if ns == 0 and #execQueue > 0 then
 				owner:CallMethod("throw", "Rewire executor pool exhausted; spilling queue (n=" .. #execQueue .. ").")
 				wipe(execQueue)
-				overfull, mutedAbove = false, -1, mutedAbove >= 0 and owner:CallMethod("setMute", false)
+				overfull, mutedAbove, modLock = false, -1, mutedAbove >= 0 and owner:CallMethod("setMute", false), nil
 				KR:RunAttribute("SetButtonState", false)
 			end
 		]=])
@@ -81,13 +81,23 @@ local core, coreEnv = CreateFrame("Frame", nil, nil, "SecureHandlerBaseTemplate"
 		execQueue, mutedAbove, QUEUE_LIMIT, overfull = newtable(), -1, 20000, false
 		idle, cache, numIdle, numActive, ns, modLock = newtable(), newtable(), 0, 0, 0
 		macros, commandInfo, commandHandler, commandAlias = newtable(), newtable(), newtable(), newtable()
-		MACRO_TOKEN, metaCommands, transferTokens = newtable(nil, nil, nil, "MACRO_TOKEN"), newtable(), newtable()
+		MACRO_TOKEN, NIL, metaCommands, transferTokens = newtable(nil, nil, nil, "MACRO_TOKEN"), newtable(), newtable(), newtable()
 		metaCommands.mute, metaCommands.unmute, metaCommands.mutenext, metaCommands.parse, metaCommands.nounshift = 1, 1, 1, 1, 1
 		castEscapes, castAliases = newtable(), newtable()
 		for _, k in pairs(self:GetChildList(newtable())) do
 			idle[k], numIdle = 1, numIdle + 1
 			k:SetAttribute("type", "macro")
 		end
+		RW_ReleaseTransferToken = [==[-- RW_ReleaseTransferToken
+			local m = transferTokens[#transferTokens]
+			if m[3] ~= NIL then
+				KR:RunAttribute("SetButtonState", m[3])
+			end
+			if m[5] ~= NIL then
+				modLock = m[5]
+			end
+			m[3], m[5] = NIL, NIL
+		]==]
 	]=])
 	if MODERN then
 		core:Execute("TEN = true")
@@ -122,7 +132,7 @@ core:SetAttribute("RunSlashCmd", [=[-- Rewire:Internal_RunSlashCmd
 			m = r and r[4]
 			if m == "TRANSFER_TOKEN" then
 				transferTokens[#transferTokens+1] = r
-				KR:RunAttribute("SetButtonState", r[3])
+				self:Run(RW_ReleaseTransferToken)
 			elseif m == "UNSHIFT_RESTORE" then
 				self:CallMethod("manageUnshift", true)
 			end
@@ -175,7 +185,7 @@ core:SetAttribute("RunSlashCmd", [=[-- Rewire:Internal_RunSlashCmd
 	end
 ]=])
 core:SetAttribute("RunMacro", [=[-- Rewire:RunMacro
-	local m, macrotext, transferButtonState = cache[...], ...
+	local m, macrotext, transferButtonState, applyModLock = cache[...], ...
 	if macrotext and not m then
 		m = newtable()
 		for line in macrotext:gmatch("%S[^\n\r]*") do
@@ -193,16 +203,20 @@ core:SetAttribute("RunMacro", [=[-- Rewire:RunMacro
 		if #execQueue > QUEUE_LIMIT then
 			overfull = true, owner:CallMethod("throw", "Rewire execution queue overfull; ignoring subsequent commands.")
 		else
-			if TEN and #execQueue == 0 then
-				modLock = AB:GetAttribute("modLock")
-			end
 			local ni = #execQueue+1
-			if transferButtonState then
-				local nbs = SecureCmdOptionParse("[btn:1] 1; [btn:2] 2; [btn:3] 3; [btn:4] 4; [btn:5] 5")
-				if not (#execQueue == 0 and nbs == "1") then
-					local nt, os = #transferTokens, KR:RunAttribute("SetButtonState", nbs)
-					local tt = nt > 0 and transferTokens[nt] or newtable(nil, nil, nil, "TRANSFER_TOKEN")
-					execQueue[ni], ni, tt[3], transferTokens[nt] = tt, ni + 1, os
+			local nbs = transferButtonState and SecureCmdOptionParse("[btn:1] 1; [btn:2] 2; [btn:3] 3; [btn:4] 4; [btn:5] 5") or nil
+			local nml = TEN and (applyModLock == true and AB:GetAttribute("modLock") or type(applyModLock) == "string" and applyModLock) or nil
+			nbs = (not (ni == 1 and nbs == "1")) and nbs or nil
+			nml = nml and nml ~= modLock and nml
+			if nbs or nml then
+				local nt = #transferTokens
+				local tt = nt > 0 and transferTokens[nt] or newtable(nil, nil, NIL, "TRANSFER_TOKEN", NIL)
+				execQueue[ni], ni, transferTokens[nt] = tt, ni + 1
+				if nbs then
+					tt[3] = KR:RunAttribute("SetButtonState", nbs)
+				end
+				if nml then
+					modLock, tt[5] = nml, modLock
 				end
 			end
 			execQueue[ni], ni = MACRO_TOKEN, ni + 1
@@ -244,8 +258,8 @@ core:SetAttribute("RunMacro", [=[-- Rewire:RunMacro
 				nextLine = m[2] .. " [form:42]"
 			end
 		elseif meta == "TRANSFER_TOKEN" then
-			KR:RunAttribute("SetButtonState", m[3])
 			transferTokens[#transferTokens+1], nextLine = m
+			self:Run(RW_ReleaseTransferToken)
 		elseif meta == "UNSHIFT_RESTORE" then
 			self:CallMethod("manageUnshift", true)
 		else
@@ -336,8 +350,9 @@ local function getAliases(p, i)
 	end
 end
 
-local setCommandHinter, getMacroHint, getCommandHint, getCommandHintRaw, metaFilters, metaFilterTypes do
+local setCommandHinter, getMacroHint, getCommandHint, getCommandHintRaw, getSpeculationID, metaFilters, metaFilterTypes do
 	local hintFunc, pri, cache, ht, ht2, nInf, cDepth, DEPTH_LIMIT = {}, {}, {}, {}, {}, -math.huge, 0, 20
+	local speculationID, nextSpeculationID, SPECULATION_ID_WRAP = nil, 221125, 2^53
 	local store do
 		local function write(t, n, i, a,b,c,d, ...)
 			if n > 0 then
@@ -411,16 +426,20 @@ local setCommandHinter, getMacroHint, getCommandHint, getCommandHintRaw, metaFil
 		return hf(...)
 	end
 	local function clearDepth(...)
-		cDepth = 0
+		cDepth, speculationID = 0, nil
 		return ...
+	end
+	local function prepCall(...)
+		if cDepth ~= 0 then error("invalid state") end
+		cDepth, speculationID, nextSpeculationID = 1, nextSpeculationID, nextSpeculationID ~= SPECULATION_ID_WRAP and nextSpeculationID + 1 or -nextSpeculationID
+		return clearDepth(securecall(...))
 	end
 	function getCommandHint(priLimit, slash, args, modState, otarget, msg, priBias)
 		slash = coreEnv.commandAlias[slash] or slash
 		local hf, pri, args2, target = hintFunc[slash], pri[slash]
 		if hf and pri > (priLimit or nInf) - (priBias or 0) then
 			if cDepth == 0 then
-				cDepth = 1
-				return clearDepth(securecall(getCommandHint, priLimit, slash, args, modState, otarget, msg, priBias))
+				return prepCall(getCommandHint, priLimit, slash, args, modState, otarget, msg, priBias)
 			elseif cDepth > DEPTH_LIMIT then
 				return false
 			elseif otarget ~= nil then
@@ -429,11 +448,11 @@ local setCommandHinter, getMacroHint, getCommandHint, getCommandHintRaw, metaFil
 				if args == "" then
 					args2, args = ""
 				else
-					args, args2, target = nil, KR:EvaluateCmdOptions(args, modState)
+					args, args2, target = nil, KR:EvaluateCmdOptions(args, modState, nil, speculationID)
 				end
 			end
 			cDepth = cDepth + 1
-			local res = store(securecall(hf, slash, args, args2, target, modState, priLimit, msg))
+			local res = store(securecall(hf, slash, args, args2, target, modState, priLimit, msg, speculationID))
 			cDepth = cDepth - 1
 			if res == "stop" then
 				return res, pri
@@ -448,6 +467,9 @@ local setCommandHinter, getMacroHint, getCommandHint, getCommandHintRaw, metaFil
 	end
 	function getMacroHint(macrotext, modState, minPriority)
 		if not macrotext then return end
+		if cDepth == 0 then
+			return prepCall(getMacroHint, macrotext, modState, minPriority)
+		end
 		local m, lowPri = cache[macrotext], minPriority or nInf
 		if not m then
 			m = {}
@@ -521,6 +543,9 @@ local setCommandHinter, getMacroHint, getCommandHint, getCommandHintRaw, metaFil
 	end
 	function setCommandHinter(slash, priority, hint)
 		hintFunc[slash], pri[slash] = hint, hint and priority
+	end
+	function getSpeculationID()
+		return speculationID
 	end
 end
 
@@ -767,5 +792,6 @@ function RW:IsSpellCastable(id, disallowRewireEscapes, laxRank)
 	local castable = not not (name and GetSpellInfo(name, rank))
 	return castable, castable and "double-gsi"
 end
+RW.GetSpeculationID = getSpeculationID
 
 T.Rewire = {compatible=RW.compatible}

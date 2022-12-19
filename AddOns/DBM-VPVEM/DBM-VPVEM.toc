@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: Iceoven
-## Version: 0dab85c
+## Version: fce23ce
 ## RequiredDeps: DBM-Core
 ## DefaultState: enabled
 

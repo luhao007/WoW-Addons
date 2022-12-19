@@ -18,6 +18,45 @@ local TitanSkinToRemove = "None";
 local TitanSkinName, TitanSkinPath = "", "";
 local TitanGlobalProfile = ""
 
+--[[
+Use for notes and change log in game.
+New Release Format
+Gold - version & date
+Green - 'header'
+Highlight - notes. tips. and details
+
+--]]
+local notes = ""
+	..TitanUtils_GetRedText("NOTE : ")
+	..TitanUtils_GetNormalText(""
+		.." There have been many comments about errors including tool tips. The short answer is Blizzard tainted the path used by TitanRepair and bags. They both use tool tips - don't ask, I have no answer!\n"
+		.."My thought is TitanRepair and Blizzard using similar routines doing their normal processing can cause the errors being seen.\n"
+		.."I have seen odd tool tip behavior with a pet in a cage - and Titan NOT enabled. The pet tool tip forces itself onto the screen at odd times... Even when one has not moused over the cage.\n"
+		.."If someone more knowledgeable has tips to work around this - feel free to contact us!\n"
+		)
+	.."\n"
+	..TitanUtils_GetRedText("NOTE : ")
+	..TitanUtils_GetNormalText(""
+		.."Due to the UI changes in DragonFlight (API 10.00.00), Titan Panel no longer auto adjusts the UI elements / frames. Please use the WoW UI edit mode to adjust frames away from Titan Panel bar(s).\n"
+		.."Currently the menu & bag frame and the status / xp frame are NOT adjustable via edit mode. In the Titan Configuration for Bottom Bars you may adjust the menu & bag frame and the status / xp frame *vertically only*.\n"
+		)
+local changes = ""
+	..TitanUtils_GetGoldText("6.00.09.100002  : 2020/12/01\n")
+	..TitanUtils_GetGreenText("TitanRepair : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Quick fix for repair pop up.\n"
+		)
+	..TitanUtils_GetGoldText("6.00.09.100002  : 2020/12/01\n")
+	..TitanUtils_GetGreenText("TitanRepair rewritten - Notable changes: \n")
+	..TitanUtils_GetHighlightText(""
+		.."- See plugin notes.\n"
+		)
+	..TitanUtils_GetGreenText("TitanPanel\n")
+	..TitanUtils_GetHighlightText(""
+		.."- Added change log / notes in About config.\n"
+		.."- Added notes section to each plugin - Configuration > Plugins > <each plugin>.\n"
+		)
+
 TITAN_PANEL_CONFIG = {
 	topic = {
 		About			= L["TITAN_PANEL"],
@@ -105,7 +144,7 @@ local function TitanPanel_TicketReload()
 end
 
 -------------
--- skins config section
+-- about config section
 --[[ local
 NAME: optionsControl
 DESC: Local table to hold the 'about' Titan info in the options.
@@ -123,6 +162,7 @@ local optionsControl = {
 		},
 		confinfodesc = {
 			name = "About",
+			order = 5,
 			type = "group", inline = true,
 			args = {
 				confversiondesc = {
@@ -175,7 +215,35 @@ local optionsControl = {
 					cmdHidden = true
 				},
 			}
-		}
+		},
+		confnotes = {
+			name = "Notes",
+			order = 3,
+			type = "group", inline = true,
+			args = {
+				confversiondesc = {
+				order = 1,
+				type = "description",
+				name = ""
+					..notes,
+				cmdHidden = true
+				},
+			}
+		},
+		confchanges = {
+			order = 7,
+			name = CHANGES_COLON,
+			type = "group", inline = true,
+			args = {
+				confversiondesc = {
+				order = 1,
+				type = "description",
+				name = ""
+					..changes,
+				cmdHidden = true
+				},
+			}
+		},
 	}
 }
 -------------
@@ -1761,6 +1829,30 @@ local function TitanUpdateConfigAddons()
 					TitanPanelButton_UpdateButton(info[1])
 					end,
 			}
+			-- Notes, if available
+			args[plug_in.id].args.custom_notes = {
+				order = 70,
+				type = "header",
+				name = "Notes",
+			}
+			if plug_in.notes then
+				args[plug_in.id].args.notes = {
+					type = "description",
+					name = "Notes",
+					order = 71,
+				name = ""
+					.._G["GREEN_FONT_COLOR_CODE"]..plug_in.notes.."|r",
+				cmdHidden = true,
+				}
+			else
+				args[plug_in.id].args.notes = {
+					type = "description",
+					name = "Notes",
+					order = 71,
+				name = _G["GREEN_FONT_COLOR_CODE"]..NONE.."|r",
+				cmdHidden = true,
+				}
+			end
 		end
 	end
 

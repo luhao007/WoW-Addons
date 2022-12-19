@@ -10,6 +10,12 @@ local cx, cy, cInstance;
 local timer;
 local baseHeight = 31;
 
+local MinArchDistanceTrackerShapes = {
+    "Interface\\Addons\\MinimalArchaeology\\Textures\\Indicator.tga",
+    "Interface\\Addons\\MinimalArchaeology\\Textures\\IndicatorSquare.tga",
+    "Interface\\Addons\\MinimalArchaeology\\Textures\\IndicatorTriangle.tga"
+}
+
 local function RegisterForDrag(frame)
     local function OnDragStart(self)
         local f = self:GetParent();
@@ -94,10 +100,10 @@ local function InitDistanceTracker()
     tex:SetAllPoints(true)
     tex:SetWidth(16)
     tex:SetHeight(16)
-    tex:SetTexture("Interface\\Addons\\MinimalArchaeology\\Textures\\Indicator.tga")
     tex:SetBlendMode("ADD")
     tex:SetTexCoord(0.5, 1, 0.5, 1)
     Companion.trackerFrame.indicator.texture = tex
+    Companion:UpdateIndicatorFrameTexture()
 
     Companion.trackerFrame.indicator:Show()
 
@@ -111,6 +117,10 @@ local function InitDistanceTracker()
     Companion:SetScript("OnEvent", Companion.EventHandler)
 
     Companion.trackerFrame.fontString = fontString;
+end
+
+function Companion:UpdateIndicatorFrameTexture()
+    Companion.trackerFrame.indicator.texture:SetTexture(MinArchDistanceTrackerShapes[MinArch.db.profile.companion.features.distanceTracker.shape])
 end
 
 function Companion:SavePosition()
@@ -205,6 +215,30 @@ local function InitCrateButton()
     RegisterForDrag(crateButton);
 
     Companion.crateButton = crateButton;
+end
+
+local function InitRandomMountButton()
+    -- Random mount Button
+    local mountButton = CreateFrame("Button", "$parentMountButton", Companion, "InsecureActionButtonTemplate");
+    mountButton:RegisterForClicks("AnyUp", "AnyDown");
+    mountButton:SetAttribute("type", "item");
+    mountButton:SetPoint("LEFT", 142, 2);
+    mountButton:SetWidth(28);
+    mountButton:SetHeight(28);
+
+    mountButton:SetNormalTexture("interface\\icons\\achievement_guildperk_mountup")
+    mountButton:SetHighlightTexture("interface\\icons\\achievement_guildperk_mountup")
+    mountButton:SetPushedTexture("interface\\icons\\achievement_guildperk_mountup")
+
+    mountButton:SetScript("OnClick", function(self, button)
+        if not InCombatLockdown() then
+            C_MountJournal.SummonByID(0);
+        end
+    end);
+
+    RegisterForDrag(mountButton);
+
+    Companion.mountButton = mountButton;
 end
 
 function Companion:showCrateButton(itemID)
@@ -369,6 +403,7 @@ function Companion:Init()
         InitSurveyButton()
         InitProjectFrame()
         InitCrateButton()
+        InitRandomMountButton()
 
         Companion.initialized = true;
     end
@@ -415,6 +450,12 @@ local function toggleChildFrames()
     if not MinArch.db.profile.companion.features.crateButton.enabled then
         Companion.crateButton:Hide();
     end
+
+    if MinArch.db.profile.companion.features.mountButton.enabled then
+        Companion.mountButton:Show();
+    else
+        Companion.mountButton:Hide();
+    end
 end
 
 function Companion:Resize()
@@ -436,6 +477,7 @@ function Companion:Resize()
     buttons[MinArch.db.profile.companion.features.surveyButton.order] = Companion.surveyButton;
     buttons[MinArch.db.profile.companion.features.solveButton.order] = Companion.solveButton;
     buttons[MinArch.db.profile.companion.features.crateButton.order] = Companion.crateButton;
+    buttons[MinArch.db.profile.companion.features.mountButton.order] = Companion.mountButton;
 
     if (Companion.waypointButton:IsVisible() and Companion.trackerFrame:IsVisible() and MinArch.db.profile.companion.features.waypointButton.order == MinArch.db.profile.companion.features.distanceTracker.order + 1) then
         waypointException = true;

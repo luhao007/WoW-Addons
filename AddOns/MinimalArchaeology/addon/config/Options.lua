@@ -670,7 +670,7 @@ local companionSettings = {
                         distanceTrackerOrder = {
                             type = "select",
                             name = "Order",
-                            values = {1, 2, 3, 4, 5},
+                            values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.order end,
                             set = function (info, newValue)
                                 updateOrdering("distanceTracker", newValue)
@@ -679,6 +679,16 @@ local companionSettings = {
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 2,
                         },
+                        shape = {
+                            type = "select",
+                            name = "Shape",
+                            values = {"Circle", "Square", "Triangle"},
+                            get = function () return MinArch.db.profile.companion.features.distanceTracker.shape end,
+                            set = function (info, newValue)
+                                MinArch.db.profile.companion.features.distanceTracker.shape = newValue
+                                MinArch.Companion:UpdateIndicatorFrameTexture()
+                            end,
+                        }
                     }
                 },
                 waypointButton = {
@@ -702,7 +712,7 @@ local companionSettings = {
                         waypointButtonOrder = {
                             type = "select",
                             name = "Order",
-                            values = {1, 2, 3, 4, 5},
+                            values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.waypointButton.order end,
                             set = function (info, newValue)
                                 updateOrdering("waypointButton", newValue)
@@ -734,7 +744,7 @@ local companionSettings = {
                         solveButtonOrder = {
                             type = "select",
                             name = "Order",
-                            values = {1, 2, 3, 4, 5},
+                            values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.surveyButton.order end,
                             set = function (info, newValue)
                                 updateOrdering("surveyButton", newValue)
@@ -766,7 +776,7 @@ local companionSettings = {
                         solveButtonOrder = {
                             type = "select",
                             name = "Order",
-                            values = {1, 2, 3, 4, 5},
+                            values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.solveButton.order end,
                             set = function (info, newValue)
                                 updateOrdering("solveButton", newValue)
@@ -811,7 +821,7 @@ local companionSettings = {
                         crateButtonOrder = {
                             type = "select",
                             name = "Order",
-                            values = {1, 2, 3, 4, 5},
+                            values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.crateButton.order end,
                             set = function (info, newValue)
                                 updateOrdering("crateButton", newValue)
@@ -819,6 +829,38 @@ local companionSettings = {
                             width = 0.5,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 52,
+                        },
+                    }
+                },
+                mountButton = {
+                    type = "group",
+                    name = "Random mount button settings",
+                    order = 6,
+                    inline = true,
+                    args = {
+                        toggleMountButton = {
+                            type = "toggle",
+                            name = "Show random mount button",
+                            desc = "Show the random mount button on the companion frame",
+                            get = function () return MinArch.db.profile.companion.features.mountButton.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.mountButton.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 6,
+                        },
+                        mountButtonOrder = {
+                            type = "select",
+                            name = "Order",
+                            values = {1, 2, 3, 4, 5, 6},
+                            get = function () return MinArch.db.profile.companion.features.mountButton.order end,
+                            set = function (info, newValue)
+                                updateOrdering("mountButton", newValue)
+                            end,
+                            width = 0.5,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 7,
                         },
                     }
                 },

@@ -4,7 +4,7 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local Crafting = TSM:NewPackage("Crafting")
 local L = TSM.Include("Locale").GetTable()
 local ProfessionInfo = TSM.Include("Data.ProfessionInfo")
@@ -15,26 +15,29 @@ local Table = TSM.Include("Util.Table")
 local Math = TSM.Include("Util.Math")
 local Money = TSM.Include("Util.Money")
 local String = TSM.Include("Util.String")
-local Vararg = TSM.Include("Util.Vararg")
 local Log = TSM.Include("Util.Log")
 local ItemString = TSM.Include("Util.ItemString")
+local Vararg = TSM.Include("Util.Vararg")
+local Wow = TSM.Include("Util.Wow")
 local ItemInfo = TSM.Include("Service.ItemInfo")
 local CustomPrice = TSM.Include("Service.CustomPrice")
 local Conversions = TSM.Include("Service.Conversions")
-local Inventory = TSM.Include("Service.Inventory")
+local AuctionTracking = TSM.Include("Service.AuctionTracking")
+local BagTracking = TSM.Include("Service.BagTracking")
 local private = {
 	spellDB = nil,
 	matDB = nil,
 	matItemDB = nil,
 	matDBSpellIdQuery = nil,
-	matDBMatsInTableQuery = nil,
+	matDBAllMatsQuery = nil,
 	matDBMatNamesQuery = nil,
 	ignoredCooldownDB = nil,
+	numMatDBRows = {},
+	playerTemp = {},
 }
 local CHARACTER_KEY = UnitName("player").." - "..GetRealmName()
 local IGNORED_COOLDOWN_SEP = "\001"
 local PROFESSION_SEP = ","
-local PLAYER_SEP = ","
 local BAD_CRAFTING_PRICE_SOURCES = {
 	crafting = true,
 }
@@ -49,7 +52,7 @@ function Crafting.OnInitialize()
 	local used = TempTable.Acquire()
 	for _, craftInfo in pairs(TSM.db.factionrealm.internalData.crafts) do
 		for itemString in pairs(craftInfo.mats) do
-			if strmatch(itemString, "^o:") then
+			if strmatch(itemString, "^[qof]:") then
 				local _, _, matList = strsplit(":", itemString)
 				for matItemId in String.SplitIterator(matList, ",") do
 					used["i:"..matItemId] = true
@@ -70,7 +73,7 @@ function Crafting.OnInitialize()
 	TempTable.Release(used)
 
 	local professionItems = TempTable.Acquire()
-	local matSpellCount = TempTable.Acquire()
+	local matCountByCraft = TempTable.Acquire()
 	local matFirstItemString = TempTable.Acquire()
 	local matFirstQuantity = TempTable.Acquire()
 	private.matDB = Database.NewSchema("CRAFTING_MATS")
@@ -80,7 +83,6 @@ function Crafting.OnInitialize()
 		:AddIndex("craftString")
 		:AddIndex("itemString")
 		:Commit()
-	private.matDB:BulkInsertStart()
 	private.spellDB = Database.NewSchema("CRAFTING_SPELLS")
 		:AddUniqueStringField("craftString")
 		:AddStringField("itemString")
@@ -88,10 +90,11 @@ function Crafting.OnInitialize()
 		:AddStringField("name")
 		:AddStringField("profession")
 		:AddNumberField("numResult")
-		:AddStringField("players")
+		:AddStringListField("players")
 		:AddBooleanField("hasCD")
 		:AddIndex("itemString")
 		:Commit()
+	private.matDB:BulkInsertStart()
 	private.spellDB:BulkInsertStart()
 	local playersTemp = TempTable.Acquire()
 	for craftString, craftInfo in pairs(TSM.db.factionrealm.internalData.crafts) do
@@ -100,19 +103,19 @@ function Crafting.OnInitialize()
 			tinsert(playersTemp, player)
 		end
 		sort(playersTemp)
-		local playersStr = table.concat(playersTemp, PLAYER_SEP)
 		local itemName = ItemInfo.GetName(craftInfo.itemString) or ""
-		private.spellDB:BulkInsertNewRow(craftString, craftInfo.itemString, itemName, craftInfo.name or "", craftInfo.profession, craftInfo.numResult, playersStr, craftInfo.hasCD and true or false)
+		private.spellDB:BulkInsertNewRow(craftString, craftInfo.itemString, itemName, craftInfo.name or "", craftInfo.profession, craftInfo.numResult, playersTemp, craftInfo.hasCD and true or false)
 
 		for matItemString, matQuantity in pairs(craftInfo.mats) do
 			private.matDB:BulkInsertNewRow(craftString, matItemString, matQuantity)
+			private.HandleMatDBAddRow(matItemString)
 			professionItems[craftInfo.profession] = professionItems[craftInfo.profession] or TempTable.Acquire()
-			matSpellCount[craftString] = (matSpellCount[craftString] or 0) + 1
+			matCountByCraft[craftString] = (matCountByCraft[craftString] or 0) + 1
 			if matQuantity > 0 then
 				matFirstItemString[craftString] = matItemString
 				matFirstQuantity[craftString] = matQuantity
 			end
-			if strmatch(matItemString, "^o:") then
+			if strmatch(matItemString, "^[qof]:") then
 				local _, _, matList = strsplit(":", matItemString)
 				for matItemId in String.SplitIterator(matList, ",") do
 					local optionalMatItemString = "i:"..matItemId
@@ -127,12 +130,12 @@ function Crafting.OnInitialize()
 	private.spellDB:BulkInsertEnd()
 	private.matDB:BulkInsertEnd()
 
-	private.matDBMatsInTableQuery = private.matDB:NewQuery()
+	private.matDBAllMatsQuery = private.matDB:NewQuery()
 		:Select("itemString", "quantity")
 		:Equal("craftString", Database.BoundQueryParam())
 	private.matDBMatNamesQuery = private.matDB:NewQuery()
+		:VirtualField("name", "string", ItemInfo.GetName, "itemString", "?")
 		:Select("name")
-		:InnerJoin(ItemInfo.GetDBForJoin(), "itemString")
 		:Equal("craftString", Database.BoundQueryParam())
 		:GreaterThan("quantity", 0)
 
@@ -172,13 +175,13 @@ function Crafting.OnInitialize()
 		:Equal("hasCD", false)
 	for _, craftString, itemString, numResult in query:Iterator() do
 		local spellId = CraftString.GetSpellId(craftString)
-		if not ProfessionInfo.IsMassMill(spellId) and matSpellCount[craftString] == 1 then
+		if not ProfessionInfo.IsMassMill(spellId) and matCountByCraft[craftString] == 1 then
 			Conversions.AddCraft(itemString, matFirstItemString[craftString], numResult / matFirstQuantity[craftString])
 			addedConversion = true
 		end
 	end
 	query:Release()
-	TempTable.Release(matSpellCount)
+	TempTable.Release(matCountByCraft)
 	TempTable.Release(matFirstItemString)
 	TempTable.Release(matFirstQuantity)
 	if addedConversion then
@@ -218,8 +221,8 @@ end
 function Crafting.CreateCraftsQuery()
 	return private.spellDB:NewQuery()
 		:AggregateJoinSummed(TSM.Crafting.Queue.GetDBForJoin(), "craftString", "num")
-		:VirtualField("bagQuantity", "number", Inventory.GetBagQuantity, "itemString")
-		:VirtualField("auctionQuantity", "number", Inventory.GetAuctionQuantity, "itemString")
+		:VirtualField("bagQuantity", "number", BagTracking.GetBagQuantity, "itemString")
+		:VirtualField("auctionQuantity", "number", AuctionTracking.GetQuantity, "itemString")
 		:VirtualField("craftingCost", "number", TSM.Crafting.Cost.GetCraftingCostByCraftString, "craftString", Math.GetNan())
 		:VirtualField("itemValue", "number", TSM.Crafting.Cost.GetCraftedItemValue, "itemString", Math.GetNan())
 		:VirtualField("profit", "number", TSM.Crafting.Cost.GetProfitByCraftString, "craftString", Math.GetNan())
@@ -230,8 +233,8 @@ end
 function Crafting.CreateQueueQuery()
 	return TSM.Crafting.Queue.CreateQuery()
 		:InnerJoin(private.spellDB, "craftString")
-		:VirtualField("bagQuantity", "number", Inventory.GetBagQuantity, "itemString")
-		:VirtualField("auctionQuantity", "number", Inventory.GetAuctionQuantity, "itemString")
+		:VirtualField("bagQuantity", "number", BagTracking.GetBagQuantity, "itemString")
+		:VirtualField("auctionQuantity", "number", AuctionTracking.GetQuantity, "itemString")
 		:VirtualField("craftingCost", "number", TSM.Crafting.Cost.GetCraftingCostByCraftString, "craftString", Math.GetNan())
 		:VirtualField("itemValue", "number", TSM.Crafting.Cost.GetCraftedItemValue, "itemString", Math.GetNan())
 		:VirtualField("profit", "number", TSM.Crafting.Cost.GetProfitByCraftString, "craftString", Math.GetNan())
@@ -255,7 +258,7 @@ end
 
 function Crafting.CreateMatItemQuery()
 	return private.matItemDB:NewQuery()
-		:InnerJoin(ItemInfo.GetDBForJoin(), "itemString")
+		:VirtualField("name", "string", ItemInfo.GetName, "itemString", "?")
 		:VirtualField("matCost", "number", TSM.Crafting.Cost.GetMatCost, "itemString", Math.GetNan())
 		:VirtualField("totalQuantity", "number", private.GetTotalQuantity, "itemString")
 end
@@ -276,7 +279,7 @@ end
 function Crafting.GetMostProfitableCraftStringByItem(itemString, playerFilter, noCD)
 	local bestCraftString, bestCraftingCost, bestProfit, bestHasCD = nil, nil, nil, nil
 	for _, craftString, hasCD in Crafting.GetCraftStringByItem(itemString) do
-		if (not playerFilter or playerFilter == "" or Vararg.In(playerFilter, Crafting.GetPlayers(craftString))) and (not noCD or not hasCD) then
+		if (not playerFilter or playerFilter == "" or Crafting.HasPlayer(craftString, playerFilter)) and (not noCD or not hasCD) then
 			local craftingCost, _, profit = TSM.Crafting.Cost.GetCostsByCraftString(craftString)
 			if not bestCraftString or private.IsCraftStringHigherProfit(craftingCost, profit, hasCD, bestCraftingCost, bestProfit, bestHasCD) then
 				bestCraftString = craftString
@@ -301,12 +304,15 @@ function Crafting.GetNumResult(craftString)
 	return private.spellDB:GetUniqueRowField("craftString", craftString, "numResult")
 end
 
-function Crafting.GetPlayers(craftString)
-	local players = private.spellDB:GetUniqueRowField("craftString", craftString, "players")
-	if not players then
-		return
-	end
-	return strsplit(PLAYER_SEP, players)
+function Crafting.PlayerIterator(craftString)
+	return Vararg.Iterator(private.spellDB:GetUniqueRowField("craftString", craftString, "players"))
+end
+
+function Crafting.HasPlayer(craftString, player)
+	return private.spellDB:NewQuery()
+		:Equal("craftString", craftString)
+		:ListContains("players", player)
+		:IsNotEmptyAndRelease()
 end
 
 function Crafting.GetName(craftString)
@@ -317,7 +323,7 @@ function Crafting.MatIterator(craftString)
 	return private.matDB:NewQuery()
 		:Select("itemString", "quantity")
 		:Equal("craftString", craftString)
-		:GreaterThan("quantity", 0)
+		:StartsWith("itemString", "i:")
 		:IteratorAndRelease()
 end
 
@@ -327,21 +333,39 @@ function Crafting.OptionalMatIterator(craftString)
 		:VirtualField("slotId", "number", private.OptionalMatSlotIdVirtualField, "itemString")
 		:VirtualField("text", "string", private.OptionalMatTextVirtualField, "itemString")
 		:Equal("craftString", craftString)
-		:LessThan("quantity", 0)
+		:Matches("itemString", "^[qof]:")
+		:OrderBy("slotId", true)
+		:IteratorAndRelease()
+end
+
+function Crafting.GetOptionalMatQuantity(craftString, matItemId)
+	local query = private.matDB:NewQuery()
+		:Select("quantity")
+		:Equal("craftString", craftString)
+		:Matches("itemString", "^[qof]:")
+		:Contains("itemString", tostring(matItemId))
+	return query:GetFirstResultAndRelease()
+end
+
+function Crafting.QualityMatIterator(craftString)
+	return private.matDB:NewQuery()
+		:Select("itemString", "slotId")
+		:VirtualField("slotId", "number", private.OptionalMatSlotIdVirtualField, "itemString")
+		:Equal("craftString", craftString)
+		:StartsWith("itemString", "q:")
 		:OrderBy("slotId", true)
 		:IteratorAndRelease()
 end
 
 function Crafting.HasOptionalMats(craftString)
-	local numOptionalMats = private.matDB:NewQuery()
+	return private.matDB:NewQuery()
 		:Equal("craftString", craftString)
-		:LessThan("quantity", 0)
-		:CountAndRelease()
-	return numOptionalMats > 0
+		:Matches("itemString", "^[qof]:")
+		:IsNotEmptyAndRelease()
 end
 
 function Crafting.GetMatsAsTable(craftString, tbl)
-	private.matDBMatsInTableQuery
+	private.matDBAllMatsQuery
 		:BindParams(craftString)
 		:AsTable(tbl)
 end
@@ -356,12 +380,12 @@ function Crafting.RemovePlayers(craftString, playersToRemove)
 		assert(type(playersToRemove) == "string")
 		shouldRemove[playersToRemove] = true
 	end
-	local players = TempTable.Acquire(Crafting.GetPlayers(craftString))
-	for i = #players, 1, -1 do
-		local player = players[i]
+	local players = TempTable.Acquire()
+	for _, player in Crafting.PlayerIterator(craftString) do
 		if shouldRemove[player] then
 			TSM.db.factionrealm.internalData.crafts[craftString].players[player] = nil
-			tremove(players, i)
+		else
+			tinsert(players, player)
 		end
 	end
 	TempTable.Release(shouldRemove)
@@ -369,61 +393,56 @@ function Crafting.RemovePlayers(craftString, playersToRemove)
 		:Equal("craftString", craftString)
 	local row = query:GetFirstResult()
 
-	local playersStr = strjoin(PLAYER_SEP, TempTable.UnpackAndRelease(players))
-	if playersStr ~= "" then
-		row:SetField("players", playersStr)
+	if #players > 0 then
+		row:SetField("players", players)
 			:Update()
 		query:Release()
+		TempTable.Release(players)
 		return true
 	end
+	TempTable.Release(players)
 
 	-- no more players so remove this spell and all its mats
 	private.spellDB:DeleteRow(row)
 	query:Release()
 	TSM.db.factionrealm.internalData.crafts[craftString] = nil
 
-	local removedMats = TempTable.Acquire()
-	private.matDB:SetQueryUpdatesPaused(true)
-	query = private.matDB:NewQuery()
-		:Equal("craftString", craftString)
-	for _, matRow in query:Iterator() do
-		removedMats[matRow:GetField("itemString")] = true
-		private.matDB:DeleteRow(matRow)
-	end
-	query:Release()
-	private.matDB:SetQueryUpdatesPaused(false)
-	private.ProcessRemovedMats(removedMats)
-	TempTable.Release(removedMats)
+	private.MatDBDeleteCraftStrings(craftString)
 
 	return false
 end
 
 function Crafting.RemovePlayerSpells(inactiveSpellIds)
-	local playerName = UnitName("player")
+	local playerName = Wow.GetCharacterName()
 	local query = private.spellDB:NewQuery()
 		:InTable("craftString", inactiveSpellIds)
-		:Custom(private.QueryPlayerFilter, playerName)
-	local removedSpellIds = TempTable.Acquire()
+		:ListContains("players", playerName)
+	if query:Count() == 0 then
+		query:Release()
+		return
+	end
+	local removedCraftStrings = TempTable.Acquire()
 	local toRemove = TempTable.Acquire()
 	private.spellDB:SetQueryUpdatesPaused(true)
 	if query:Count() > 0 then
 		Log.Info("Removing %d inactive spellds", query:Count())
 	end
 	for _, row in query:Iterator() do
-		local players = row:GetField("players")
-		if row:GetField("players") == playerName then
+		assert(not next(private.playerTemp))
+		Vararg.IntoTable(private.playerTemp, row:GetField("players"))
+		if #private.playerTemp == 1 then
 			-- the current player was the only player, so we'll delete the entire row and all its mats
 			local craftString = row:GetField("craftString")
-			removedSpellIds[craftString] = true
+			removedCraftStrings[craftString] = true
 			TSM.db.factionrealm.internalData.crafts[craftString] = nil
 			tinsert(toRemove, row)
 		else
 			-- remove this player form the row
-			local playersTemp = TempTable.Acquire(strsplit(PLAYER_SEP, players))
-			assert(Table.RemoveByValue(playersTemp, playerName) == 1)
-			row:SetField("players", strjoin(PLAYER_SEP, TempTable.UnpackAndRelease(playersTemp)))
+			assert(Table.RemoveByValue(private.playerTemp, playerName) == 1)
+			row:SetField("players", private.playerTemp)
 				:Update()
 		end
+		wipe(private.playerTemp)
 	end
 	for _, row in ipairs(toRemove) do
 		private.spellDB:DeleteRow(row)
@@ -432,55 +451,53 @@ function Crafting.RemovePlayerSpells(inactiveSpellIds)
 	query:Release()
 	private.spellDB:SetQueryUpdatesPaused(false)
 
-	local removedMats = TempTable.Acquire()
-	private.matDB:SetQueryUpdatesPaused(true)
-	local matQuery = private.matDB:NewQuery()
-		:InTable("craftString", removedSpellIds)
-	for _, matRow in matQuery:Iterator() do
-		removedMats[matRow:GetField("itemString")] = true
-		private.matDB:DeleteRow(matRow)
-	end
-	TempTable.Release(removedSpellIds)
-	matQuery:Release()
-	private.matDB:SetQueryUpdatesPaused(false)
-	private.ProcessRemovedMats(removedMats)
-	TempTable.Release(removedMats)
+	private.MatDBDeleteCraftStrings(removedCraftStrings)
+	TempTable.Release(removedCraftStrings)
 end
 
 function Crafting.SetSpellDBQueryUpdatesPaused(paused)
 	private.spellDB:SetQueryUpdatesPaused(paused)
 end
 
-function Crafting.CreateOrUpdate(craftString, itemString, profession, name, numResult, player, hasCD)
+function Crafting.CreateOrUpdate(craftString, itemString, profession, name, numResult, player, hasCD, baseRecipeDifficulty, baseRecipeQuality, maxRecipeQuality)
 	local row = private.spellDB:GetUniqueRow("craftString", craftString)
 	if row then
-		local playersStr = row:GetField("players")
-		local foundPlayer = String.SeparatedContains(playersStr, PLAYER_SEP, player)
-		if not foundPlayer then
-			assert(playersStr ~= "")
-			playersStr = playersStr .. PLAYER_SEP .. player
+		assert(not next(private.playerTemp))
+		Vararg.IntoTable(private.playerTemp, row:GetField("players"))
+		if not Table.KeyByValue(private.playerTemp, player) then
+			assert(#private.playerTemp > 0)
+			tinsert(private.playerTemp, player)
 		end
 		row:SetField("itemString", itemString)
 			:SetField("profession", profession)
 			:SetField("itemName", ItemInfo.GetName(itemString) or "")
 			:SetField("name", name)
 			:SetField("numResult", numResult)
-			:SetField("players", playersStr)
+			:SetField("players", private.playerTemp)
 			:SetField("hasCD", hasCD)
 			:Update()
 		row:Release()
+		wipe(private.playerTemp)
 		local craftInfo = TSM.db.factionrealm.internalData.crafts[craftString]
 		craftInfo.itemString = itemString
 		craftInfo.profession = profession
 		craftInfo.name = name
 		craftInfo.numResult = numResult
-		craftInfo.players[player] = true
+		if TSM.IsWowClassic() then
+			craftInfo.players[player] = true
+		else
+			craftInfo.players[player] = type(craftInfo.players[player]) == "table" and craftInfo.players[player] or {}
+			craftInfo.players[player].baseRecipeDifficulty = baseRecipeDifficulty
+			craftInfo.players[player].baseRecipeQuality = baseRecipeQuality
+			craftInfo.players[player].maxRecipeQuality = maxRecipeQuality
+		end
 		craftInfo.hasCD = hasCD or nil
 		local spellId = CraftString.GetSpellId(craftString)
 		local rank = CraftString.GetRank(craftString)
 		local level = CraftString.GetLevel(craftString)
+		local quality = CraftString.GetQuality(craftString)
 		local deleteRow = private.spellDB:GetUniqueRow("craftString", "c:"..spellId)
-		if (rank or level) and deleteRow then
+		if (rank or level or quality) and deleteRow then
 			private.spellDB:DeleteRowByUUID(deleteRow:GetUUID())
 			TSM.db.factionrealm.internalData.crafts["c:"..spellId] = nil
 		end
@@ -490,13 +507,21 @@ function Crafting.CreateOrUpdate(craftString, itemString, profession, name, numR
 	else
 		TSM.db.factionrealm.internalData.crafts[craftString] = {
 			mats = {},
-			players = { [player] = true },
+			players = {
+				[player] = TSM.IsWowClassic() or {
+					baseRecipeDifficulty = baseRecipeDifficulty,
+					baseRecipeQuality = baseRecipeQuality,
+					maxRecipeQuality = maxRecipeQuality,
+				},
+			},
 			itemString = itemString,
 			name = name,
 			profession = profession,
 			numResult = numResult,
 			hasCD = hasCD,
 		}
+		assert(not next(private.playerTemp))
+		Vararg.IntoTable(private.playerTemp, player)
 		private.spellDB:NewRow()
 			:SetField("craftString", craftString)
 			:SetField("itemString", itemString)
@@ -504,9 +529,10 @@ function Crafting.CreateOrUpdate(craftString, itemString, profession, name, numR
 			:SetField("itemName", ItemInfo.GetName(itemString) or "")
 			:SetField("name", name)
 			:SetField("numResult", numResult)
-			:SetField("players", player)
+			:SetField("players", private.playerTemp)
 			:SetField("hasCD", hasCD)
 			:Create()
+		wipe(private.playerTemp)
 	end
 end
 
@@ -515,13 +541,15 @@ function Crafting.AddPlayer(craftString, player)
 		return
 	end
 	local row = private.spellDB:GetUniqueRow("craftString", craftString)
-	local playersStr = row:GetField("players")
-	assert(playersStr ~= "")
-	playersStr = playersStr .. PLAYER_SEP .. player
-	row:SetField("players", playersStr)
+	assert(not next(private.playerTemp))
+	Vararg.IntoTable(private.playerTemp, row:GetField("players"))
+	assert(#private.playerTemp > 0)
+	tinsert(private.playerTemp, player)
+	row:SetField("players", private.playerTemp)
 	row:Update()
 	row:Release()
-	TSM.db.factionrealm.internalData.crafts[craftString].players[player] = true
+	wipe(private.playerTemp)
+	TSM.db.factionrealm.internalData.crafts[craftString].players[player] = TSM.IsWowClassic() or {} -- TODO: Sync difficulty/quality
 end
 
 function Crafting.SetMats(craftString, matQuantities)
@@ -546,6 +574,7 @@ function Crafting.SetMats(craftString, matQuantities)
 			-- remove this row
 			private.matDB:DeleteRow(row)
 			removedMats[itemString] = true
+			private.HandleMatDBDeleteRow(itemString)
 		else
 			usedMats[itemString] = true
 			row:SetField("quantity", quantity)
@@ -560,13 +589,15 @@ function Crafting.SetMats(craftString, matQuantities)
 				:SetField("itemString", itemString)
 				:SetField("quantity", quantity)
 				:Create()
-			if quantity > 0 then
-				private.MatItemDBUpdateOrInsert(itemString, profession)
-			else
+			private.HandleMatDBAddRow(itemString)
+			if strmatch(itemString, "^[qof]:") then
 				local _, _, matList = strsplit(":", itemString)
 				for matItemId in String.SplitIterator(matList, ",") do
-					private.MatItemDBUpdateOrInsert("i:"..matItemId, profession)
+					local optionalMatItemString = "i:"..matItemId
+					private.MatItemDBUpdateOrInsert(optionalMatItemString, profession)
 				end
+			else
+				private.MatItemDBUpdateOrInsert(itemString, profession)
 			end
 		end
 	end
@@ -585,10 +616,9 @@ function Crafting.SetMatCustomValue(itemString, value)
 end
 
 function Crafting.CanCraftItem(itemString)
-	local count = private.spellDB:NewQuery()
+	return private.spellDB:NewQuery()
 		:Equal("itemString", itemString)
-		:CountAndRelease()
-	return count > 0
+		:IsNotEmptyAndRelease()
 end
 
 function Crafting.RestockHelp(link)
@@ -636,6 +666,33 @@ function Crafting.GetMatNames(craftString)
 		:JoinedString("name", "")
 end
 
+function Crafting.IsQualityCraft(craftString)
+	if TSM.IsWowClassic() then
+		return false
+	elseif CraftString.GetQuality(craftString) then
+		return true
+	elseif TSM.db.factionrealm.internalData.crafts[craftString] and Crafting.GetQualityInfo(craftString) then
+		return true
+	else
+		return false
+	end
+end
+
+function Crafting.GetQualityInfo(craftString)
+	assert(not TSM.IsWowClassic())
+	local craftInfo = TSM.db.factionrealm.internalData.crafts[craftString]
+	assert(craftInfo)
+	local baseRecipeDifficulty, baseRecipeQuality, maxRecipeQuality = nil, nil, nil
+	for _, info in pairs(craftInfo.players) do
+		if type(info) == "table" and info.baseRecipeQuality and (not baseRecipeQuality or info.baseRecipeQuality > baseRecipeQuality) then
+			baseRecipeDifficulty = info.baseRecipeDifficulty
+			baseRecipeQuality = info.baseRecipeQuality
+			maxRecipeQuality = info.maxRecipeQuality
+		end
+	end
+	return baseRecipeDifficulty, baseRecipeQuality, maxRecipeQuality
+end
+
 
 
 -- ============================================================================
@@ -645,26 +702,18 @@ end
 function private.ProcessRemovedMats(removedMats)
 	private.matItemDB:SetQueryUpdatesPaused(true)
 	for itemString in pairs(removedMats) do
-		if strmatch(itemString, "^o:") then
+		if strmatch(itemString, "^[qof]:") then
 			local _, _, matList = strsplit(":", itemString)
 			for matItemId in String.SplitIterator(matList, ",") do
-				local numSpells = private.matDB:NewQuery()
-					:Or()
-						:Matches("itemString", "[:,]"..matItemId.."$")
-						:Matches("itemString", "[:,]"..matItemId..",")
-					:End()
-					:CountAndRelease()
-				if numSpells == 0 then
-					local matItemRow = private.matItemDB:GetUniqueRow("itemString", "i:"..matItemId)
+				local optionalMatItemString = "i:"..matItemId
+				if not private.numMatDBRows[optionalMatItemString] then
+					local matItemRow = private.matItemDB:GetUniqueRow("itemString", optionalMatItemString)
 					private.matItemDB:DeleteRow(matItemRow)
 					matItemRow:Release()
 				end
 			end
 		else
-			local numSpells = private.matDB:NewQuery()
-				:Equal("itemString", itemString)
-				:CountAndRelease()
-			if numSpells == 0 then
+			if not private.numMatDBRows[itemString] then
 				local matItemRow = private.matItemDB:GetUniqueRow("itemString", itemString)
 				private.matItemDB:DeleteRow(matItemRow)
 				matItemRow:Release()
@@ -674,14 +723,66 @@ function private.ProcessRemovedMats(removedMats)
 	private.matItemDB:SetQueryUpdatesPaused(false)
 end
 
+function private.MatDBDeleteCraftStrings(craftStrings)
+	local query = private.matDB:NewQuery()
+	if type(craftStrings) == "table" then
+		query:InTable("craftString", craftStrings)
+	elseif type(craftStrings) == "string" then
+		query:Equal("craftString", craftStrings)
+	else
+		error("Invalid craftStrings: "..tostring(craftStrings))
+	end
+	local removedMats = TempTable.Acquire()
+	private.matDB:SetQueryUpdatesPaused(true)
+	for _, matRow in query:Iterator() do
+		local itemString = matRow:GetField("itemString")
+		removedMats[itemString] = true
+		private.matDB:DeleteRow(matRow)
+		private.HandleMatDBDeleteRow(itemString)
+	end
+	query:Release()
+	private.matDB:SetQueryUpdatesPaused(false)
+	private.ProcessRemovedMats(removedMats)
+	TempTable.Release(removedMats)
+end
+
+function private.HandleMatDBAddRow(itemString)
+	if strmatch(itemString, "^[qof]:") then
+		local _, _, matList = strsplit(":", itemString)
+		for matItemId in String.SplitIterator(matList, ",") do
+			local optionalMatItemString = "i:"..matItemId
+			private.numMatDBRows[optionalMatItemString] = (private.numMatDBRows[optionalMatItemString] or 0) + 1
+		end
+	else
+		private.numMatDBRows[itemString] = (private.numMatDBRows[itemString] or 0) + 1
+	end
+end
+
+function private.HandleMatDBDeleteRow(itemString)
+	if strmatch(itemString, "^[qof]:") then
+		local _, _, matList = strsplit(":", itemString)
+		for matItemId in String.SplitIterator(matList, ",") do
+			local optionalMatItemString = "i:"..matItemId
+			private.numMatDBRows[optionalMatItemString] = private.numMatDBRows[optionalMatItemString] - 1
+			if private.numMatDBRows[optionalMatItemString] == 0 then
+				private.numMatDBRows[optionalMatItemString] = nil
+			end
+		end
+	else
+		private.numMatDBRows[itemString] = private.numMatDBRows[itemString] - 1
+		if private.numMatDBRows[itemString] == 0 then
+			private.numMatDBRows[itemString] = nil
+		end
+	end
+end
+
 function private.ProfitPctVirtualField(craftString)
 	local craftingCost, _, profit = TSM.Crafting.Cost.GetCostsByCraftString(craftString)
 	return (craftingCost and profit) and floor(profit * 100 / craftingCost) or Math.GetNan()
 end
 
 function private.SaleRateVirtualField(itemString)
-	local saleRate = TSM.AuctionDB.GetRegionItemData(itemString, "regionSalePercent")
-	return saleRate and (saleRate / 100) or Math.GetNan()
+	return TSM.AuctionDB.GetRegionItemData(itemString, "regionSalePercent") or Math.GetNan()
 end
 
 function private.OptionalMatSlotIdVirtualField(matStr)
@@ -759,10 +860,6 @@ function private.GetRestockHelpMessage(itemString)
 	end
 
 	return L["This item will be added to the queue when you restock its group. If this isn't happening, please visit http://support.tradeskillmaster.com for further assistance."]
-end
-
-function private.QueryPlayerFilter(row, player)
-	return String.SeparatedContains(row:GetField("players"), ",", player)
 end
 
 function private.GetTotalQuantity(itemString)

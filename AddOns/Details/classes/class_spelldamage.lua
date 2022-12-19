@@ -1,6 +1,7 @@
 -- damage ability file
 	local _detalhes = 		_G._detalhes
 	local _
+	local addonName, Details222 = ...
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --local pointers
@@ -15,6 +16,11 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --internals
+--_detalhes.habilidade_dano:NovaTabela(spellId)
+
+	function Details222.DamageSpells.CreateSpellTable(spellId, cleuToken)
+		return habilidade_dano:NovaTabela(spellId, nil, cleuToken)
+	end
 
 	function habilidade_dano:NovaTabela(id, link, token)
 		local _newDamageSpell = {

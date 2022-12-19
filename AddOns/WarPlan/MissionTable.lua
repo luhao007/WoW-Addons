@@ -511,24 +511,6 @@ function EV:I_LOAD_MAINUI()
 	end)
 	frame:SetScript("OnEvent", queueTableSync)
 	frame.Sync = syncUI
-	local reset = frame.ResetButton
-	reset.tooltipHeader = L"Revert to Blizzard UI"
-	reset.tooltipText = (L"Reload the interface and do not activate %s until next reload."):format(ADDON)
-	reset:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	reset:SetScript("OnClick", function(_, button)
-		if button == "LeftButton" then
-			PlaySound(43861)
-			W.SuspendAndReload()
-		elseif button == "RightButton" then
-			local toast = frame.TaskBoard:AcquireToast()
-			toast.Icon:SetTexture(877477)
-			toast.Icon:SetTexCoord(60/64, 4/64, 4/64, 60/64)
-			toast.Outcome:SetFormattedText("|cffff8000%s|r |cffffffff%s", GetAddOnMetadata(ADDON, "Title") or ADDON, GetAddOnMetadata(ADDON, "Version"))
-			toast.Detail:SetText("|cff00aaffMy wishes over their airspace|r")
-			toast.PreGlow:SetVertexColor(1, 0.8, 0.2)
-			toast.Sheen:SetVertexColor(1, 0.5, 0)
-		end
-	end)
 	local history = frame.TaskBoard.HistoryButton
 	history.tooltipHeader = L"Mission History"
 	history.tooltipText = ""

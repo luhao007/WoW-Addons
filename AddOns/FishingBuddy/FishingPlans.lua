@@ -69,12 +69,12 @@ function FishingPlans:HavePlans()
     return #self.planqueue > 0
 end
 
-function FishingPlans:HaveEntry(itemid, name, targetid)
+function FishingPlans:HaveEntry(itemid, name, itemtype)
     if itemid then
         for _, plan in ipairs(self.planqueue) do
             if (not itemid or plan.itemid == itemid) and
             (not name or plan.name == name) and
-            (not targetid or plan.targetid == targetid) then
+            (not itemtype or plan.itemtype == itemtype) then
                 return true
             end
         end
@@ -82,12 +82,12 @@ function FishingPlans:HaveEntry(itemid, name, targetid)
     return nil
 end
 
-function FishingPlans:AddEntry(itemid, name, targetid)
+function FishingPlans:AddEntry(itemid, name, itemtype)
     if itemid then
         tinsert(self.planqueue, {
             ["itemid"] = itemid,
             ["name"] = name,
-            ["targetid"] = targetid
+            ["itemtype"] = itemtype
         })
     end
 end
@@ -95,7 +95,7 @@ end
 function FishingPlans:GetPlan()
     if self:HavePlans() then
         local head = table.remove(self.planqueue, 1)
-        return true, head.itemid, head.name, head.targetid
+        return true, head.itemid, head.name, head.itemtype
     end
     -- return nil
 end

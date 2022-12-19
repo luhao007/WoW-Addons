@@ -1,17 +1,22 @@
-local AtlasLoot = _G.AtlasLoot
-local Pet = AtlasLoot.Button:AddType("Pet", "pet")
-local Item = AtlasLoot.Button:GetType("Item")
-local AL = AtlasLoot.Locales
+-- Functions
+local _G = getfenv(0)
 
+-- Libraries
 --lua
 local type = type
 local tonumber = tonumber
 local str_match = string.match
 
 -- blizzard
-local IsAddOnLoaded, LoadAddOn = IsAddOnLoaded, LoadAddOn 
-local ShowUIPanel = ShowUIPanel
+local IsAddOnLoaded, LoadAddOn = _G.IsAddOnLoaded, _G.LoadAddOn 
+local ShowUIPanel = _G.ShowUIPanel
+local C_PetJournal = _G.C_PetJournal
 local C_PetJournal_GetPetInfoBySpeciesID = C_PetJournal.GetPetInfoBySpeciesID
+
+local AtlasLoot = _G.AtlasLoot
+local Pet = AtlasLoot.Button:AddType("Pet", "pet")
+local Item = AtlasLoot.Button:GetType("Item")
+local AL = AtlasLoot.Locales
 
 local PET_COLOR = "|cffffff00"
 local PET_JOURNAL_TEXTURE = "Interface\\PetBattles\\PetJournal"
@@ -182,7 +187,7 @@ function Pet.ShowToolTipFrame(button)
 							insets = { left = 4, right = 4, top = 4, bottom = 4 }})
 		frame:SetBackdropColor(0,0,0,1)
 		
-		frame.icon = frame:CreateTexture(name.."-icon", frame)
+		frame.icon = frame:CreateTexture(name.."-icon", "ARTWORK")
 		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
 		frame.icon:SetHeight(26)
 		frame.icon:SetWidth(26)
@@ -218,7 +223,7 @@ function Pet.ShowToolTipFrame(button)
 		frame.desc:SetHeight(145)
 		frame.desc:SetTextColor(1, 1, 1, 1)
 
-		frame.typeIcon = frame:CreateTexture(name.."-typeIcon", frame)
+		frame.typeIcon = frame:CreateTexture(name.."-typeIcon", "ARTWORK")
 		frame.typeIcon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -5)
 		frame.typeIcon:SetHeight(20)
 		frame.typeIcon:SetWidth(20)

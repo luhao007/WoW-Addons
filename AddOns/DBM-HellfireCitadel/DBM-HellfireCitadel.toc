@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: MysticalOS
-## Version: r66
+## Version: r67
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMHellfireCitadel_AllSavedVars

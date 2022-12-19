@@ -1,3 +1,6 @@
+-- Functions
+local _G = getfenv(0)
+
 local AtlasLoot = _G.AtlasLoot
 local Mount = AtlasLoot.Button:AddType("Mount", "mount")
 local Item = AtlasLoot.Button:GetType("Item")
@@ -11,6 +14,7 @@ local tonumber = tonumber
 local str_match = string.match
 
 -- WoW
+local C_MountJournal = _G.C_MountJournal
 local C_MountJournal_GetMountInfo, C_MountJournal_GetMountInfoExtra = C_MountJournal.GetMountInfoByID, C_MountJournal.GetMountInfoExtraByID
 
 local MOUNT_FACTION_TEXTURES = {
@@ -184,7 +188,7 @@ function Mount.ShowToolTipFrame(button)
 							insets = { left = 4, right = 4, top = 4, bottom = 4 }})
 		frame:SetBackdropColor(0,0,0,1)
 		
-		frame.icon = frame:CreateTexture(name.."-icon", frame)
+		frame.icon = frame:CreateTexture(name.."-icon", "ARTWORK")
 		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
 		frame.icon:SetHeight(26)
 		frame.icon:SetWidth(26)
@@ -220,7 +224,7 @@ function Mount.ShowToolTipFrame(button)
 		frame.desc:SetHeight(145)
 		frame.desc:SetTextColor(1, 1, 1, 1)
 
-		frame.typeIcon = frame:CreateTexture(name.."-typeIcon", frame)
+		frame.typeIcon = frame:CreateTexture(name.."-typeIcon", "ARTWORK")
 		frame.typeIcon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -5)
 		frame.typeIcon:SetHeight(20)
 		frame.typeIcon:SetWidth(20)

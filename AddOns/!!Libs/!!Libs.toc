@@ -1,4 +1,4 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: luhao007
 
 ## Title: Libraries
@@ -45,7 +45,6 @@ HereBeDragons\HereBeDragons-Migrate.lua
 
 # Dropdown menus
 !LibUIDropDownMenu\LibUIDropDownMenu\LibUIDropDownMenu.xml
-!LibUIDropDownMenu-2.0\LibUIDropDownMenu.xml
 
 # LibBabbles
 LibBabble\LibBabble-3.0.lua
@@ -71,7 +70,7 @@ LibCandyBar-3.0\lib.xml
 LibChatAnims\LibChatAnims\LibChatAnims.xml
 LibClassicDurations\LibClassicDurations.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
-LibDBIcon-1.0\lib.xml
+LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
 LibDDI-1.0\lib.xml
 LibDFramework-1.0\load.xml
 LibDialog-1.0\lib.xml
@@ -93,7 +92,7 @@ LibRangeCheck-2.0\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 LibRealmInfo\LibRealmInfo.lua
 LibSerialize\lib.xml
 LibSink-2.0\LibSink-2.0\LibSink-2.0.lua
-LibSpecialization\LibSpecialization.xml
+LibSpecialization\LibSpecialization\LibSpecialization.xml
 LibSpellRange-1.0\lib.xml
 LibTextDump-1.0\lib.xml
 LibToast-1.0\lib.xml

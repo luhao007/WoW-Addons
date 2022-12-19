@@ -7,7 +7,7 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0707
+PawnVersion = 2.0713
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.17
@@ -419,13 +419,18 @@ function PawnInitialize()
 		PawnOriginalIsContainerItemAnUpgrade = IsContainerItemAnUpgrade
 		PawnIsContainerItemAnUpgrade = function(bagID, slot, ...)
 			if PawnCommon.ShowBagUpgradeAdvisor then
-				local _, Count, _, _, _, _, ItemLink = GetContainerItemInfo(bagID, slot)
-				if not Count then return false end -- If the stack count is 0, it's clearly not an upgrade
-				if not ItemLink then return nil end -- If we didn't get an item link, but there's an item there, try again later
-				return PawnShouldItemLinkHaveUpgradeArrow(ItemLink, true) -- true means to check player level
+				local ItemInfo = C_Container.GetContainerItemInfo(bagID, slot)
+				if not ItemInfo or not ItemInfo.stackCount then return false end -- If the stack count is 0, it's clearly not an upgrade
+				if not ItemInfo.hyperlink then return nil end -- If we didn't get an item link, but there's an item there, try again later
+				return PawnShouldItemLinkHaveUpgradeArrow(ItemInfo.hyperlink, true) -- true means to check player level
 			else
-				---@diagnostic disable-next-line: redundant-parameter
-				return PawnOriginalIsContainerItemAnUpgrade(bagID, slot, ...)
+				if PawnOriginalIsContainerItemAnUpgrade then
+					---@diagnostic disable-next-line: redundant-parameter
+					return PawnOriginalIsContainerItemAnUpgrade(bagID, slot, ...)
+				else
+					-- If Pawn's bag advisor is off, AND the game's IsContainerItemAnUpgrade is missing, nothing's an upgrade.
+					return false
+				end
 			end
 		end
 		PawnUpdateItemUpgradeIcon = function(self)
@@ -443,7 +448,7 @@ function PawnInitialize()
 	end
 
 	if ContainerFrameItemButtonMixin and ContainerFrameItemButtonMixin.UpdateItemUpgradeIcon then
-		-- Dragonflight onward
+		-- 10.0.0 only - this code was removed from the game in 10.0.2
 
 		-- First, hook ContainerFrameItemButtonMixin to affect all future bag frames.
 		hooksecurefunc(ContainerFrameItemButtonMixin, "UpdateItemUpgradeIcon", PawnUpdateItemUpgradeIcon)
@@ -2876,7 +2881,7 @@ function PawnGetGemListString(ScaleName, ListAll, ItemLevel, Color)
 			end
 		elseif Color == "Red" or Color == "Yellow" or Color == "Blue" then
 			-- If there are three or more best gems AND it's a specific color, we can at least return the socket color.
-			return _G[toupper(Color) .. "_GEM"], true
+			return _G[strupper(Color) .. "_GEM"], true
 		end
 	end
 

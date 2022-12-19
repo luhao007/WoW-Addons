@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: MysticalOS
-## Version: 10.0.1-1-gbe44bf1
+## Version: 10.0.10
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMDragonIsles_AllSavedVars

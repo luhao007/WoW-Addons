@@ -1,3 +1,53 @@
+# v2.25.1
+
+- Added The Chieftain's Duty quest chain to Friend of the Dragon Isles category
+- Updated Sad Little Accidents chain in Azure Span with the quests following the first dungeon quest
+- Updated Ruby Life Pools quest chain in The Waking shores with missing quests
+- Updated the prerequisites for The Silver Purpose to be account wide unlock
+- Fixed The Silver Purpose chain incorrectly showing as active on alts
+- Fixed A Mystery Sealed chain incorrectly showing as active on alts
+- Fixed multiple quests showing on the world map before available
+
+# v2.25.0
+
+- Added multiple quest chains including A Mystery, Solved and The Silver Purpose.
+- Updated multiple quest chains to display on the world map
+- Updated Spark of Ingenuity quest chain, moving it outside of the Thaldraszus category
+- Updated 10,000 Years of Roasting quest chain with unknown prerequisite
+- Fixed incorrect layout of Brackenhide Water Hole quest chain
+- Fixed Wingrest Embassy not showing as completed correctly
+
+# v2.24.5
+
+- Added category button images
+- Fixed Opportunities Abound quest showing for non-rogues and updated it to no longer be required for Wingrest Embassy quest chain
+
+# v2.24.4
+
+- Added Dragonflight
+- Removed Dragonflight Prologue
+- Removed Shadowlands
+
+# v2.24.3
+
+- Fixed some missing localization values for the Return to Lordaeron questline
+
+# v2.24.2
+
+- Fixed The Dragonscale Expedition quest chain incorrectly showing as completed for the Dragonflight Prologue
+- Fixed an incorrect quest name for the Dragonflight Prologue
+
+# v2.24.1
+
+- Fixed some unnamed quests for the Dragonflight Prologue
+- Fixed some incorrect npc locations for the Dragonflight Prologue
+
+# v2.24.0
+
+- Added Dragonflight Prologue
+- Updated for 10.0.2
+- Updated friendship rep handling for Dragonflight
+
 # v2.23.0
 
 - Fixed an error preventing alt+clicking auction house items

@@ -710,13 +710,13 @@ function BtWQuestsMixin:DisplayCurrentExpansion(scrollTo)
 
     local expansion = BtWQuestsDatabase:GetExpansionByID(self:GetExpansion());
     if expansion == nil then
-        print(L["BTWQUESTS_NO_EXPANSION_ERROR"])
+        print(format(L["BTWQUESTS_NO_EXPANSION_ERROR"], "BtWQuests: Dragonflight"))
         return;
     end
     expansion:Load()
     local items = expansion:GetItemList(self:GetCharacter(), not categoryHeaders, filterCompleted, filterIgnored)
     if #items == 0 then -- Somehow selected an empty expansion, probably means all the BtWQuests modules are disabled
-        print(L["BTWQUESTS_NO_EXPANSION_ERROR"])
+        print(format(L["BTWQUESTS_NO_EXPANSION_ERROR"], "BtWQuests: Dragonflight"))
     end
     self:DisplayItemList(items, scrollTo)
 end
@@ -930,7 +930,7 @@ function BtWQuestsMixin:OnEvent(event, ...)
                 if expansion then
                     expansion:Load()
                 else
-                    print(L["BTWQUESTS_NO_EXPANSION_ERROR"])
+                    print(format(L["BTWQUESTS_NO_EXPANSION_ERROR"], "BtWQuests: Dragonflight"))
                 end
             end
 
@@ -1058,7 +1058,7 @@ function BtWQuestsMixin:OnShow()
                 if expansion then
                     self:SelectExpansion(BtWQuestsDatabase:GetFirstExpansion():GetID(), nil, true)
                 else
-                    print(L["BTWQUESTS_NO_EXPANSION_ERROR"])
+                    print(format(L["BTWQUESTS_NO_EXPANSION_ERROR"], "BtWQuests: Dragonflight"))
                 end
             end
         end

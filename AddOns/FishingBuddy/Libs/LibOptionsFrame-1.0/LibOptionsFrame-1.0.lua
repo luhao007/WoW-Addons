@@ -416,9 +416,11 @@ end
 tinsert(copyfuncs, "_layoutorder");
 
 function OptionsLib:_firstposition(button, xoffset, yoffset)
-    xoffset = xoffset or 4;
-    yoffset = yoffset or -4;
-    button:SetPoint("TOPLEFT", self.reference, "TOPLEFT", xoffset, yoffset);
+    if button ~= self.reference then
+        xoffset = xoffset or 4;
+        yoffset = yoffset or -4;
+        button:SetPoint("TOPLEFT", self.reference, "TOPLEFT", xoffset, yoffset);
+    end
 end
 tinsert(copyfuncs, "_firstposition");
 
@@ -427,6 +429,7 @@ function OptionsLib:_dolayout(layout, lastbutton, firstoff)
     firstoff = firstoff or 0;
     for idx,line in ipairs(layout) do
         local lb, rb = line[1], line[2];
+        lb:ClearAllPoints()
         local yoff = nil;
         if ( lb.margin ) then
             yoff = -(lb.margin[2] or SQUISH_OFF);
@@ -439,7 +442,7 @@ function OptionsLib:_dolayout(layout, lastbutton, firstoff)
         end
         if ( not lastbutton ) then
             self:_firstposition(lb, firstoff, yoff);
-        else
+        elseif lb ~= lastbutton then
             yoff = SQUISH_OFF;
             lb:SetPoint("TOPLEFT", lastbutton, "BOTTOMLEFT", firstoff, yoff);
             firstoff = 0;
@@ -515,7 +518,7 @@ function OptionsLib:NextButton()
     if ( not button ) then
         button = CreateFrame(
             "CheckButton", self.name.."Opt"..self.index,
-            self.reference, "OptionsSmallCheckButtonTemplate");
+            self.reference, "FishingBuddyCheckButtonTemplate");
         self.optionbuttons[self.index] = button;
     end
     self.index = self.index + 1;
@@ -534,6 +537,7 @@ function OptionsLib:NextOverlay()
         overlay:SetScript("OnLeave", Handle_OnLeave);
     end
     self.overlayidx = self.overlayidx + 1;
+    overlay:ClearAllPoints();
     return overlay;
 end
 tinsert(copyfuncs, "NextOverlay");
@@ -705,6 +709,7 @@ function OptionsLib:LayoutOptions(options)
     local lastoff = 0;
     for _,name in pairs(primaries) do
         local button = self.optionmap[name];
+        button:ClearAllPoints()
         if ( not lastbutton ) then
             local yoff, firstoff;
             if ( button.margin ) then
@@ -712,7 +717,7 @@ function OptionsLib:LayoutOptions(options)
                 firstoff = button.margin[1] or 0;
             end
             self:_firstposition(button, firstoff, yoff);
-        else
+        elseif button ~= lastbutton then
             local yoff = SQUISH_OFF;
             if ( button.margin ) then
                 yoff = yoff - button.margin[2];

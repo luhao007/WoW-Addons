@@ -235,9 +235,9 @@ end
 local function Select_CreateButton(self)
 	local button = CreateFrame("CheckButton", nil, self)
 	button:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
-	button:SetCheckedTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+	--button:SetCheckedTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 	button:SetChecked(false)
-	--button:SetNormalTexture("Interface\\BUTTONS\\UI-Listbox-Highlight2")
+	button:SetNormalTexture("Interface\\BUTTONS\\UI-Listbox-Highlight2")
 	button.obj = self
 	button:SetScript("OnClick", Select_Button_OnClick)
 	button:SetScript("OnEnter", Select_Button_OnEnter)

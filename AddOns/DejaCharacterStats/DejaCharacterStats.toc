@@ -1,4 +1,4 @@
-## Interface: 100000
+## Interface: 10000
 ## Author: Dejablue, Kakjens, loudsoul
 ## Version: R90200r1
 ## SavedVariables: DCS_ClassSpecDB

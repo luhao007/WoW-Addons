@@ -174,6 +174,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [113686] = {
         name = "Archimago Khadgar",
     },
+    [119886] = {
+        name = "Excavadora Karla",
+    },
+    [120215] = {
+        name = "Archimago Khadgar",
+    },
     [121754] = {
         name = "Vereesa Brisaveloz",
     },

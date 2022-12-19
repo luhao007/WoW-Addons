@@ -589,6 +589,8 @@ local function ToonAdd(show, amount, total)
 	
 	if show then
 		new_total = total + amount
+	else
+		new_total = total
 	end
 	
 	return new_total

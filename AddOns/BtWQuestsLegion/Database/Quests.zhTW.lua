@@ -3021,6 +3021,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "船夫",
     },
+    [41882] = {
+        name = "黑暗的耳語",
+    },
     [41884] = {
         name = "黑暗傳說",
     },

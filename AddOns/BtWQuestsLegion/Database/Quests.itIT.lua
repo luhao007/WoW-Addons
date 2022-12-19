@@ -3012,6 +3012,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "La gondoliera",
     },
+    [41882] = {
+        name = "Sussurri dall'Oscurità",
+    },
     [41884] = {
         name = "Racconti oscuri",
     },

@@ -125,6 +125,7 @@ function TitanPanelBagButton_OnLoad(self)
 			ShowLabelText = 1,
 			ShowColoredText = 1,
 			DisplayOnRightSide = false,
+			OpenBags = false,
 		}
 	};
 
@@ -155,6 +156,22 @@ function TitanPanelBagButton_OnUpdate(self)
 	self:SetScript("OnUpdate", nil)
 end
 
+local function ToggleBags()
+
+	if TitanGetVar(TITAN_BAG_ID, "OpenBags") then
+		TitanPrint(""
+		.." "..tostring("Feature :")..""
+		.." "..tostring(OPENING or "Opening of")..""
+		.." "..tostring(INVTYPE_BAG or "Bags")..""
+		.." "..tostring(ADDON_DISABLED or "Disabled")..""
+		.." "..tostring("Until taint is fixed or work around found.")..""
+		, "warning")
+	else
+		-- nop
+	end
+
+end
+
 --[[ plugin
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnClick(button)
@@ -164,7 +181,11 @@ end
 --]]
 function TitanPanelBagButton_OnClick(self, button)
 	if (button == "LeftButton") then
-		ToggleAllBags();
+		if TitanGetVar(TITAN_BAG_ID, "OpenBags") then
+			ToggleBags();
+		else
+			-- nop
+		end
 	end
 end
 
@@ -426,7 +447,14 @@ function TitanPanelBagButton_GetTooltipText()
 		end
 		returnstring = returnstring.."\n";
 	end
-	return returnstring..TitanUtils_GetGreenText(L["TITAN_BAG_TOOLTIP_HINTS"]);
+	
+	-- Add Hint
+	if TitanGetVar(TITAN_BAG_ID, "OpenBags") then
+		returnstring = returnstring..TitanUtils_GetGreenText(L["TITAN_BAG_TOOLTIP_HINTS"])
+	else
+		-- nop
+	end
+	return returnstring
 end
 
 --[[ plugin
@@ -458,6 +486,16 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 			info.text = L["TITAN_BAG_MENU_SHOW_DETAILED"];
 			info.func = TitanPanelBagButton_ShowDetailedInfo;
 			info.checked = TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo");
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+			info = {};
+			info.text = (LEFT_BUTTON_STRING or "Left Click")
+				.." "..(OPENING or "to Open")
+				.." "..(INVTYPE_BAG or "Bags")
+			info.func = function()
+				TitanToggleVar(TITAN_BAG_ID, "OpenBags")
+				end
+			info.checked = TitanGetVar(TITAN_BAG_ID, "OpenBags");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 		end
 		return

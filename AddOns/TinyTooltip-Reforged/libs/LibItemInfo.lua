@@ -152,7 +152,6 @@ function lib:GetUnitItemInfo(unit, index, stats)
             level = string.match(text, ItemLevelPattern)
             if (level) then break end
         end
-
     end
     self:GetStatsViaTooltip(unittip, stats)
     if (string.match(link, "item:(%d+):")) then

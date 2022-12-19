@@ -18,6 +18,7 @@ TITAN_PANEL_VARS.debug = {}
 TITAN_PANEL_VARS.debug.movable = false
 TITAN_PANEL_VARS.debug.events = false
 TITAN_PANEL_VARS.debug.ldb_setup = false
+TITAN_PANEL_VARS.debug.tool_tips = false
 
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
@@ -1039,7 +1040,7 @@ function TitanPanelRightClickMenu_AddControlVars(id, hide_text)
 	TitanPanelRightClickMenu_AddToggleRightSide(id, level)
 
 	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_VOLUME_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], id, TITAN_PANEL_MENU_FUNC_HIDE);
 end
 
 
@@ -1721,10 +1722,12 @@ local function TitanRightClickMenu_OnLoad(self)
 			UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
 		end
 	else
-		-- TitanDebug("Could not display tooltip. "
-		-- .."Could not determine Titan ID for "
-		-- .."'"..(self:GetName() or "?").."'. "
-		-- ,"error")
+		if TITAN_PANEL_VARS.debug.tool_tips then
+			TitanDebug("Could not display tooltip. "
+			.."Could not determine Titan ID for "
+			.."'"..(self:GetName() or "?").."'. "
+			,"error")
+		end
 	end
 end
 
@@ -2182,6 +2185,23 @@ function TitanArgConvert (event, a1, a2, a3, a4, a4, a5, a6)
 		.."6: "..(a6 or "?").."("..t6..") "
 	)
 end
+
+function TitanDumpTable(tb, level)
+  level = level or 1
+  local spaces = string.rep(' ', level*2)
+  for k,v in pairs(tb) do
+    if type(v) ~= "table" then
+      print("["..level.."]v'"..spaces.."["..tostring(k).."]='"..tostring(v).."'")
+    else
+      print("["..level.."]t'"..spaces.."["..tostring(k).."]")
+     level = level + 1
+	 if level <= 8 then
+     TitanDumpTable(v, level)
+	 end
+    end
+  end  
+end
+
 
 --------------------------------------------------------------
 --

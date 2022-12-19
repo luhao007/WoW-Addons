@@ -1,4 +1,4 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: The WeakAuras Team
 ## Version: 1.2.0
 ## OptionalDeps: WeakAuras,Plater,

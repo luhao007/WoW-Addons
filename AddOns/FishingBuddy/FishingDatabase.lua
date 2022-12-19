@@ -298,7 +298,7 @@ FishingBuddy.IsCountedFish = function(id)
 	return true;
 end
 
-local questType = _G.GetItemClassInfo(LE_ITEM_CLASS_QUESTITEM);
+local questType = _G.GetItemClassInfo(Enum.ItemClass.Questitem);
 local CurLoc = GetLocale();
 local function AddFishie(color, id, name, mapId, subzone, texture, quantity, quality, level, it, st, poolhint)
 	local GSB = FishingBuddy.GetSettingBool;
@@ -441,7 +441,7 @@ local function ProcessFishLoot()
 	while (table.getn(lootcache) > 0) do
 		local info = table.remove(lootcache)
 		local texture, fishie, quantity, quality, link = info.texture, info.fishie, info.quantity, info.quality, info.link;
-		local nm,link,_,_,it,st,_,el,_,il = FL:GetItemInfo(link);
+		local nm,link,it,st,el,il = FL:GetItemInfoFields(link, FL.ITEM_NAME, FL.ITEM_LINK, FL.ITEM_TYPE, FL.ITEM_SUBTYPE, FL.ITEM_EQUIPLOC, FL.ITEM_LEVEL);
 		local color, id, name = FL:SplitLink(link, true);
 
 		-- handle things we can't actually count that might be in our fish (e.g. Garrison Resources)
@@ -488,7 +488,7 @@ FishingBuddy.Commands[FBConstants.UPDATEDB].func =
 					-- fetch the data (may disconnect)
 					FishingBuddyTooltip:SetHyperlink(link);
 					-- now that we have it in our cache, get the name
-					local nm,li,ra,ml,it,st,sc,el,tx,il = FL:GetItemInfo(link);
+					local nm, it, st = FL:GetItemInfoFields(link, FL.ITEM_NAME, FL.ITEM_TYPE, FL.ITEM_SUBTYPE);
 					if ( nm ) then
 						count = count + 1;
 						FishingBuddy_Info["Fishies"][id][CurLoc] = nm;

@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: Fabys
-## Version: 5.0.0
+## Version: 5.0.2
 ## SavedVariables: MythicPlusTimerDB
 
 ## Title: MythicPlusTimer

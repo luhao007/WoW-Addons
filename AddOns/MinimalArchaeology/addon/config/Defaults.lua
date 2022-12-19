@@ -93,12 +93,13 @@ MinArch.defaults = {
                 a = 0.5
             },
             features = {
-                distanceTracker = {enabled = true, order = 1},
-                waypointButton  = {enabled = true, order = 2},
-                surveyButton    = {enabled = true, order = 3},
-                solveButton     = {enabled = true, order = 4},
-                crateButton     = {enabled = true, order = 5},
-            }
+                distanceTracker = {enabled = true,  order = 1, shape = 2}, -- 1: circle, 2: square, 3: triangle
+                waypointButton  = {enabled = true,  order = 2},
+                surveyButton    = {enabled = true,  order = 3},
+                solveButton     = {enabled = true,  order = 4},
+                crateButton     = {enabled = true,  order = 5},
+                mountButton     = {enabled = false, order = 6},
+            },
         },
 
         history = {

@@ -4,10 +4,11 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local Shopping = TSM.UI.AuctionUI:NewPackage("Shopping")
 local ItemClass = TSM.Include("Data.ItemClass")
 local L = TSM.Include("Locale").GetTable()
+local Container = TSM.Include("Util.Container")
 local FSM = TSM.Include("Util.FSM")
 local Event = TSM.Include("Util.Event")
 local TempTable = TSM.Include("Util.TempTable")
@@ -17,6 +18,7 @@ local Log = TSM.Include("Util.Log")
 local Math = TSM.Include("Util.Math")
 local ItemString = TSM.Include("Util.ItemString")
 local Delay = TSM.Include("Util.Delay")
+local TextureAtlas = TSM.Include("Util.TextureAtlas")
 local DefaultUI = TSM.Include("Service.DefaultUI")
 local ItemInfo = TSM.Include("Service.ItemInfo")
 local CustomPrice = TSM.Include("Service.CustomPrice")
@@ -54,14 +56,15 @@ local private = {
 	perItem = true,
 	updateCallbacks = {},
 	itemLocation = ItemLocation:CreateEmpty(),
+	selectionChangedTimer = nil,
 }
 local MAX_ITEM_LEVEL = 500
 local PLAYER_NAME = UnitName("player")
 local ARMOR_TYPES = {
-	[GetItemSubClassInfo(LE_ITEM_CLASS_ARMOR, LE_ITEM_ARMOR_PLATE)] = true,
-	[GetItemSubClassInfo(LE_ITEM_CLASS_ARMOR, LE_ITEM_ARMOR_MAIL)] = true,
-	[GetItemSubClassInfo(LE_ITEM_CLASS_ARMOR, LE_ITEM_ARMOR_LEATHER)] = true,
-	[GetItemSubClassInfo(LE_ITEM_CLASS_ARMOR, LE_ITEM_ARMOR_CLOTH)] = true,
+	[GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Plate)] = true,
+	[GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Mail)] = true,
+	[GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Leather)] = true,
+	[GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Cloth)] = true,
 }
 local INVENTORY_TYPES = {
 	GetItemInventorySlotInfo(Enum.InventoryType.IndexHeadType),
@@ -81,7 +84,14 @@ local GENERIC_TYPES = {
 	GetItemInventorySlotInfo(Enum.InventoryType.IndexHoldableType),
 	GetItemInventorySlotInfo(Enum.InventoryType.IndexBodyType),
 }
-local MAX_LEVEL = TSM.IsWowWrathClassic() and 80 or 60
+local MAX_LEVEL = nil
+if TSM.IsWowWrathClassic() then
+	MAX_LEVEL = 80
+elseif TSM.IsWowClassic() then
+	MAX_LEVEL = 60
+else
+	MAX_LEVEL = 70
+end
 
 
 
@@ -97,6 +107,7 @@ function Shopping.OnInitialize()
 		:AddKey("global", "shoppingOptions", "searchAutoFocus")
 		:AddKey("char", "auctionUIContext", "shoppingGroupTree")
 	private.postTimeStr = TSM.CONST.AUCTION_DURATIONS[2]
+	private.selectionChangedTimer = Delay.CreateTimer("SHOPPING_SELECTION_CHANGED", private.AuctionsOnSelectionChangedDelayed)
 	TSM.UI.AuctionUI.RegisterTopLevelPage(L["Browse"], private.GetShoppingFrame, private.OnItemLinked)
 	private.FSMCreate()
 end
@@ -189,20 +200,14 @@ function private.GetSelectionFrame()
 					:SetTooltip(L["Select / Deselect All Groups"])
 				)
 			)
-			:AddChild(UIElements.New("Texture", "line")
-				:SetHeight(2)
-				:SetTexture("ACTIVE_BG")
-			)
+			:AddChild(TSM.UI.Views.Line.NewHorizontal("line"))
 			:AddChild(UIElements.New("ApplicationGroupTree", "groupTree")
 				:SetSettingsContext(private.settings, "shoppingGroupTree")
 				:SetQuery(TSM.Groups.CreateQuery(), "Shopping")
 				:SetSearchString(private.groupSearch)
 				:SetScript("OnGroupSelectionChanged", private.GroupTreeOnGroupSelectionChanged)
 			)
-			:AddChild(UIElements.New("Texture", "line")
-				:SetHeight(2)
-				:SetTexture("ACTIVE_BG")
-			)
+			:AddChild(TSM.UI.Views.Line.NewHorizontal("line2"))
 			:AddChild(UIElements.New("Frame", "bottom")
 				:SetLayout("VERTICAL")
 				:SetHeight(40)
@@ -320,8 +325,7 @@ function private.GetAdvancedFrame()
 				:SetMargin(8)
 				:AddChild(UIElements.New("ActionButton", "backBtn")
 					:SetWidth(64)
-					:SetIcon("iconPack.14x14/Chevron/Right@180")
-					:SetText(BACK)
+					:SetText(TextureAtlas.GetTextureLink(TextureAtlas.GetFlippedHorizontallyKey("iconPack.14x14/Chevron/Right"))..BACK)
 					:SetScript("OnClick", private.AdvancedBackButtonOnClick)
 				)
 				:AddChild(UIElements.New("Input", "keyword")
@@ -397,7 +401,7 @@ function private.GetAdvancedFrame()
 					:SetLayout("HORIZONTAL")
 					:SetHeight(24)
 					:SetMargin(0, 0, 2, 0)
-					:AddChild(UIElements.New("Slider", "slider")
+					:AddChild(UIElements.New("RangeInput", "slider")
 						:SetRange(0, MAX_LEVEL)
 					)
 				)
@@ -414,7 +418,7 @@ function private.GetAdvancedFrame()
 					:SetLayout("HORIZONTAL")
 					:SetHeight(24)
 					:SetMargin(0, 0, 2, 0)
-					:AddChild(UIElements.New("Slider", "slider")
+					:AddChild(UIElements.New("RangeInput", "slider")
 						:SetRange(0, MAX_ITEM_LEVEL)
 					)
 				)
@@ -468,7 +472,6 @@ function private.GetAdvancedFrame()
 						:SetLayout("HORIZONTAL")
 						:SetHeight(20)
 						:AddChild(UIElements.New("Checkbox", "checkbox")
-							:SetCheckboxPosition("LEFT")
 							:SetText(L["Uncollected Only"])
 						)
 					)
@@ -476,7 +479,6 @@ function private.GetAdvancedFrame()
 						:SetLayout("HORIZONTAL")
 						:SetHeight(20)
 						:AddChild(UIElements.New("Checkbox", "checkbox")
-							:SetCheckboxPosition("LEFT")
 							:SetText(L["Upgrades Only"])
 						)
 					)
@@ -484,7 +486,6 @@ function private.GetAdvancedFrame()
 						:SetLayout("HORIZONTAL")
 						:SetHeight(20)
 						:AddChild(UIElements.New("Checkbox", "checkbox")
-							:SetCheckboxPosition("LEFT")
 							:SetText(L["Usable Only"])
 						)
 					)
@@ -493,21 +494,16 @@ function private.GetAdvancedFrame()
 					:SetLayout("HORIZONTAL")
 					:SetHeight(20)
 					:AddChild(UIElements.New("Checkbox", "exact")
-						:SetCheckboxPosition("LEFT")
 						:SetText(L["Exact Match"])
 					)
 					:AddChild(UIElements.New("Checkbox", "crafting")
-						:SetCheckboxPosition("LEFT")
 						:SetText(L["Crafting Mode"])
 					)
 					:AddChild(UIElements.New("Spacer", "spacer"))
 				)
 			)
 		)
-		:AddChild(UIElements.New("Texture", "line")
-			:SetHeight(2)
-			:SetTexture("ACTIVE_BG")
-		)
+		:AddChild(TSM.UI.Views.Line.NewHorizontal("line"))
 		:AddChild(UIElements.New("Frame", "buttons")
 			:SetLayout("HORIZONTAL")
 			:SetHeight(40)
@@ -563,8 +559,7 @@ function private.GetScanFrame()
 				:SetMargin(0, 8, 0, 0)
 				:AddChild(UIElements.New("ActionButton", "button")
 					:SetWidth(64)
-					:SetIcon("iconPack.14x14/Chevron/Right@180")
-					:SetText(BACK)
+					:SetText(TextureAtlas.GetTextureLink(TextureAtlas.GetFlippedHorizontallyKey("iconPack.14x14/Chevron/Right"))..BACK)
 					:SetScript("OnClick", private.ScanBackButtonOnClick)
 				)
 			)
@@ -587,10 +582,7 @@ function private.GetScanFrame()
 			:SetBrowseResultsVisible(true)
 			:SetScript("OnSelectionChanged", private.AuctionsOnSelectionChanged)
 		)
-		:AddChild(UIElements.New("Texture", "line")
-			:SetHeight(2)
-			:SetTexture("ACTIVE_BG")
-		)
+		:AddChild(TSM.UI.Views.Line.NewHorizontal("line"))
 		:AddChild(UIElements.New("Frame", "bottom")
 			:SetLayout("HORIZONTAL")
 			:SetHeight(40)
@@ -599,7 +591,7 @@ function private.GetScanFrame()
 			:AddChild(UIElements.New("ActionButton", "pauseResumeBtn")
 				:SetSize(24, 24)
 				:SetMargin(0, 8, 0, 0)
-				:SetIcon("iconPack.18x18/PlayPause")
+				:SetText(TextureAtlas.GetTextureLink("iconPack.18x18/PlayPause"))
 				:SetScript("OnClick", private.PauseResumeOnClick)
 			)
 			:AddChild(UIElements.New("ProgressBar", "progressBar")
@@ -616,10 +608,9 @@ function private.GetScanFrame()
 				:SetDisabled(true)
 				:SetScript("OnClick", private.AuctionsOnPostButtonClick)
 			)
-			:AddChild(UIElements.New("Texture", "line")
-				:SetSize(2, 24)
+			:AddChild(TSM.UI.Views.Line.NewVertical("line")
+				:SetHeight(24)
 				:SetMargin(0, 8, 0, 0)
-				:SetTexture("ACTIVE_BG")
 			)
 			:AddChild(UIElements.New("ActionButton", "bidBtn")
 				:SetSize(107, 24)
@@ -792,7 +783,7 @@ function private.GetPostingFrame()
 				:AddOption(TSM.CONST.AUCTION_DURATIONS[1])
 				:AddOption(TSM.CONST.AUCTION_DURATIONS[2])
 				:AddOption(TSM.CONST.AUCTION_DURATIONS[3])
-				:SetOption(private.postTimeStr, true)
+				:SetOption(private.postTimeStr)
 				:SetScript("OnValueChanged", private.DurationOnValueChanged)
 			)
 		)
@@ -1190,7 +1181,7 @@ function private.ClassDropdownOnSelectionChanged(dropdown)
 		for _, v in pairs(ItemClass.GetSubClasses(selection)) do
 			tinsert(subClasses, v)
 		end
-		if dropdown:GetSelectedItem() == GetItemClassInfo(LE_ITEM_CLASS_ARMOR) then
+		if dropdown:GetSelectedItem() == GetItemClassInfo(Enum.ItemClass.Armor) then
 			for _, v in pairs(GENERIC_TYPES) do
 				tinsert(subClasses, v)
 			end
@@ -1212,7 +1203,7 @@ function private.SubClassDropdownOnSelectionChanged(dropdown)
 	local classDropdown = dropdown:GetElement("__parent.classDropdown")
 	local itemSlotDropdown = dropdown:GetElement("__parent.__parent.itemSlot.frame.dropdown")
 	local selection = dropdown:GetSelectedItem()
-	if selection and classDropdown:GetSelectedItem() == GetItemClassInfo(LE_ITEM_CLASS_ARMOR) and ARMOR_TYPES[selection] then
+	if selection and classDropdown:GetSelectedItem() == GetItemClassInfo(Enum.ItemClass.Armor) and ARMOR_TYPES[selection] then
 		itemSlotDropdown:SetItems(INVENTORY_TYPES)
 		itemSlotDropdown:SetDisabled(false)
 		itemSlotDropdown:SetSelectedItem(nil)
@@ -1408,7 +1399,7 @@ function private.ScanBackButtonOnClick(button)
 end
 
 function private.AuctionsOnSelectionChanged()
-	Delay.AfterFrame(1, private.AuctionsOnSelectionChangedDelayed)
+	private.selectionChangedTimer:RunForFrames(1)
 end
 
 function private.AuctionsOnSelectionChangedDelayed()
@@ -1723,7 +1714,7 @@ function private.UpdateDepositCostAndPostButton(frame)
 			buyout = buyout * stackSize
 		end
 		ClearCursor()
-		PickupContainerItem(postBag, postSlot)
+		Container.PickupItem(postBag, postSlot)
 		ClickAuctionSellItemButton(AuctionsItemButton, "LeftButton")
 		ClearCursor()
 		depositCost = GetAuctionDeposit(postTime, bid, buyout, stackSize, numAuctions)
@@ -1921,7 +1912,7 @@ function private.FSMCreate()
 				context.searchContext = searchContext
 				private.hasLastScan = true
 				context.auctionScan = AuctionScan.GetManager()
-					:SetResolveSellers(true)
+					:SetResolveSellers(TSM.IsWowClassic())
 					:SetScript("OnProgressUpdate", private.FSMAuctionScanOnProgressUpdate)
 				UpdateScanFrame(context)
 				context.searchContext:StartThread(private.FSMScanCallback, context.auctionScan)
@@ -2441,7 +2432,7 @@ function private.FSMCreate()
 			:SetOnEnter(function(context)
 				local selection = context.scanFrame:GetElement("auctions"):GetSelection()
 				local index = TSM.IsWowClassic() and context.findResult[#context.findResult] or nil
-				if TSM.UI.AuctionUI.BuyUtil.ShowConfirmation(context.scanFrame, selection, true, context.numConfirmed + 1, context.defaultBuyQuantity, context.maxQuantity, private.FSMConfirmationCallback, context.auctionScan, index, false, context.searchContext:GetMarketValueFunc()) then
+				if TSM.UI.AuctionUI.BuyUtil.ShowConfirmation(context.scanFrame, selection, true, context.numConfirmed + 1, context.defaultBuyQuantity, context.maxQuantity, private.FSMConfirmationCallback, context.auctionScan, index, false, context.searchContext) then
 					return "ST_BUYING"
 				else
 					return "ST_PLACING_BUY", selection:GetQuantities()
@@ -2454,7 +2445,7 @@ function private.FSMCreate()
 			:SetOnEnter(function(context)
 				local selection = context.scanFrame:GetElement("auctions"):GetSelection()
 				local index = TSM.IsWowClassic() and context.findResult[#context.findResult] or nil
-				if TSM.UI.AuctionUI.BuyUtil.ShowConfirmation(context.scanFrame, selection, false, context.numConfirmed + 1, context.defaultBuyQuantity, context.maxQuantity, private.FSMConfirmationCallback, context.auctionScan, index, false, context.searchContext:GetMarketValueFunc()) then
+				if TSM.UI.AuctionUI.BuyUtil.ShowConfirmation(context.scanFrame, selection, false, context.numConfirmed + 1, context.defaultBuyQuantity, context.maxQuantity, private.FSMConfirmationCallback, context.auctionScan, index, false, context.searchContext) then
 					return "ST_BUYING"
 				else
 					local quantity = selection:GetQuantities()

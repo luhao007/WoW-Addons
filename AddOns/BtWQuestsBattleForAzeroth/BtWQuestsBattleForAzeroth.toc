@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: Breen
-## Version: 53.14
+## Version: 53.16
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsBattleForAzerothPrologue
 ## LoadOnDemand: 1

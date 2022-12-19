@@ -894,7 +894,7 @@ function OptionsPrivate.ConvertDisplay(data, newType)
   local visibility = displayButtons[id]:GetVisibility();
   displayButtons[id]:PriorityHide(2);
 
-  if OptionsPrivate.Private.regions[id] then
+  if OptionsPrivate.Private.regions[id] and OptionsPrivate.Private.regions[id].region then
     OptionsPrivate.Private.regions[id].region:Collapse()
   end
   OptionsPrivate.Private.CollapseAllClones(id);
@@ -1565,8 +1565,8 @@ function WeakAuras.UpdateThumbnail(data)
   button:UpdateThumbnail()
 end
 
-function OptionsPrivate.OpenTexturePicker(baseObject, path, properties, textures, SetTextureFunc)
-  frame.texturePicker:Open(baseObject, path, properties, textures, SetTextureFunc)
+function OptionsPrivate.OpenTexturePicker(baseObject, path, properties, textures, SetTextureFunc, adjustSize)
+  frame.texturePicker:Open(baseObject, path, properties, textures, SetTextureFunc, adjustSize)
 end
 
 function OptionsPrivate.OpenIconPicker(baseObject, paths, groupIcon)

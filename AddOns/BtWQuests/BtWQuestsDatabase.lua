@@ -2347,9 +2347,9 @@ function FriendshipItemMixin:IsActive(database, item, character)
     return true
 end
 function FriendshipItemMixin:IsCompleted(database, item, character)
-    local friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = character:GetFriendshipReputation(item.id)
+    local factionInfo = character:GetFriendshipReputation(item.id)
     
-    return (friendRep or 0) >= item.amount
+    return (factionInfo and factionInfo.standing or 0) >= item.amount
 end
 
 local AchievementItemMixin = CreateFromMixins(ItemMixin);
@@ -2431,7 +2431,7 @@ function CurrencyItemMixin:GetName(database, item, character)
     return format(name, info.icon, info.displayAmount, info.name);
 end
 function CurrencyItemMixin:IsCompleted(database, item, character)
-    return false
+    return character:GetCurrencyQuantity(item.id) >= item.amount
 end
 function CurrencyItemMixin:IsActive(database, item, character)
     return true

@@ -3006,6 +3006,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "La gondolière",
     },
+    [41882] = {
+        name = "Les murmures des ténèbres",
+    },
     [41884] = {
         name = "Funestes présages",
     },

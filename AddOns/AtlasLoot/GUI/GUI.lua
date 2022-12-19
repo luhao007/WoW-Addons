@@ -861,7 +861,7 @@ function GUI:Create()
 	frame.difficulty:SetParPoint("TOPRIGHT", frame, "TOPRIGHT", -10, -40)
 	frame.difficulty:SetWidth(320)
 	frame.difficulty:SetNumEntrys(4)
-	frame.difficulty:ShowSelectedCoin(false)
+	frame.difficulty:ShowSelectedCoin(true)
 	frame.difficulty:SetButtonOnClick(DifficultySelectFunction)
 	
 	frame.boss = GUI:CreateSelect()

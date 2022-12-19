@@ -9,6 +9,7 @@ local floor = floor
 local GetNumGroupMembers = GetNumGroupMembers
 
 local CONST_INSPECT_ACHIEVEMENT_DISTANCE = 1 --Compare Achievements, 28 yards
+local CONST_SPELLBOOK_GENERAL_TABID = 1
 local CONST_SPELLBOOK_CLASSSPELLS_TABID = 2
 
 local storageDebug = false --remember to turn this to false!
@@ -2968,6 +2969,35 @@ function Details.GenerateSpecSpellList()
 	end)
 end
 
+function Details.GenerateRacialSpellList()
+	local racialsSpells = "|n"
+	local locClassName, unitClass = UnitClass("player")
+	local locPlayerRace, playerRace, playerRaceId = UnitRace("player")
+    --get general spells from the spell book
+    local tabName, tabTexture, offset, numSpells, isGuild, offspecId = GetSpellTabInfo(CONST_SPELLBOOK_GENERAL_TABID)
+    offset = offset + 1
+    local tabEnd = offset + numSpells
+    for entryOffset = offset, tabEnd - 1 do
+        local spellType, spellId = GetSpellBookItemInfo(entryOffset, "player")
+        if (spellId) then
+			local spell = Spell:CreateFromSpellID(spellId)
+			local subSpellName = spell:GetSpellSubtext()
+            if (subSpellName == "Racial") then
+                spellId = C_SpellBook.GetOverrideSpell(spellId)
+                local spellName = GetSpellInfo(spellId)
+                local isPassive = IsPassiveSpell(entryOffset, "player")
+                if (spellName and not isPassive) then
+					local cooldownTime = floor(GetSpellBaseCooldown(spellId) / 1000)
+                    racialsSpells = racialsSpells .. "[" .. spellId .. "] = {cooldown = " .. cooldownTime .. ",	duration = 0,	specs = {},			talent = false,	charges = 1, raceid = " .. playerRaceId .. ", race = \"".. playerRace .."\",	class = \"\",	type = 9}, --" .. spellName .. " (" .. playerRace .. ")|n"
+                end
+            end
+        end
+    end
+
+	racialsSpells = racialsSpells .. "|n"
+	dumpt(racialsSpells)
+end
+
 --fill the passed table with spells from talents and spellbook, affect only the active spec
 function Details.FillTableWithPlayerSpells(completeListOfSpells)
     local specId, specName, _, specIconTexture = GetSpecializationInfo(GetSpecialization())
@@ -3096,10 +3126,25 @@ function Details.GetPlayTimeOnClassString()
     return "|cffffff00Time played this class (" .. expansionName .. "): " .. days .. " " .. hours .. " " .. minutes
 end
 
-local timePlayerFrame = CreateFrame("frame")
-timePlayerFrame:RegisterEvent("TIME_PLAYED_MSG")
-timePlayerFrame:SetScript("OnEvent", function()
-	--C_Timer.After(0, function() print(Details.GetPlayTimeOnClassString()) end)
+hooksecurefunc("ChatFrame_DisplayTimePlayed", function()
+	if (Details.played_class_time) then
+		C_Timer.After(0, function()
+			local expansionName = _G["EXPANSION_NAME" .. GetExpansionLevel()]
+			for fontString in ChatFrame1.fontStringPool:EnumerateActive() do 
+				if (fontString:GetText() and fontString:GetText():find(expansionName)) then 
+					return
+				end 
+			end
+
+			local levelText = TIME_PLAYED_LEVEL and TIME_PLAYED_LEVEL:gsub("%%s", "") or ""
+			for fontString in ChatFrame1.fontStringPool:EnumerateActive() do 
+				if (fontString:GetText() and fontString:GetText():find(levelText)) then 
+					print(Details.GetPlayTimeOnClassString() .. " (/details playedclass)")
+					break
+				end 
+			end
+		end)
+	end
 end)
 
 --game freeze prevention, there are people calling UpdateAddOnMemoryUsage() making the game client on the end user to freeze, this is bad, really bad.
@@ -3109,8 +3154,7 @@ local bigStutterCounter = 0
 local UpdateAddOnMemoryUsage_Original = _G.UpdateAddOnMemoryUsage
 Details.UpdateAddOnMemoryUsage_Original = _G.UpdateAddOnMemoryUsage
 
---to ignore this, use /run _G["UpdateAddOnMemoryUsage"] = Details.UpdateAddOnMemoryUsage_Original or add to any script that run on login
-_G["UpdateAddOnMemoryUsage"] = function()
+Details.UpdateAddOnMemoryUsage_Custom = function()
 	local currentTime = debugprofilestop()
 	UpdateAddOnMemoryUsage_Original()
 	local deltaTime = debugprofilestop() - currentTime

@@ -725,7 +725,6 @@ FishingInit.RegisterMyAddOn = function()
 end
 
 FishingInit.RegisterFunctionTraps = function()
-	FishingBuddy.TrapWorldMouse();
 end
 
 FishingBuddy.Initialize = function()

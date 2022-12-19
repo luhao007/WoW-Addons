@@ -3009,6 +3009,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "La gondolera",
     },
+    [41882] = {
+        name = "Susurros de la oscuridad",
+    },
     [41884] = {
         name = "Relatos oscuros",
     },

@@ -7,12 +7,12 @@
 --- UI tooltip functions.
 -- @module Tooltip
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local Tooltip = TSM.Init("UI.Tooltip")
 local ItemString = TSM.Include("Util.ItemString")
 local RecipeString = TSM.Include("Util.RecipeString")
 local CraftString = TSM.Include("Util.CraftString")
-local Vararg = TSM.Include("Util.Vararg")
+local String = TSM.Include("Util.String")
 local Event = TSM.Include("Util.Event")
 local ItemInfo = TSM.Include("Service.ItemInfo")
 local private = {
@@ -92,7 +92,7 @@ function Tooltip.Show(parent, data, noWrapping, xOffset)
 				info.quantity = 1
 				tinsert(private.optionalMatTable, info)
 			end
-			C_TradeSkillUI.SetTooltipRecipeResultItem(spellId, private.optionalMatTable, nil, level)
+			GameTooltip:SetRecipeResultItem(spellId, private.optionalMatTable, nil, level)
 		end
 	elseif type(data) == "string" and (strfind(data, "^\124c.+\124Hitem:") or ItemString.IsItem(data)) then
 		GameTooltip:SetHyperlink(ItemInfo.GetLink(data))
@@ -107,7 +107,7 @@ function Tooltip.Show(parent, data, noWrapping, xOffset)
 		local _, speciesID, level, breedQuality, maxHealth, power, speed = strsplit(":", data)
 		BattlePetToolTip_Show(tonumber(speciesID), tonumber(level) or 0, tonumber(breedQuality) or 0, tonumber(maxHealth) or 0, tonumber(power) or 0, tonumber(speed) or 0, gsub(gsub(data, "^(.*)%[", ""), "%](.*)$", ""))
 	else
-		for _, line in Vararg.Iterator(strsplit("\n", data)) do
+		for line in String.SplitIterator(data, "\n", true) do
 			local textLeft, textRight = strsplit(SEP_CHAR, line)
 			if textRight then
 				GameTooltip:AddDoubleLine(textLeft, textRight, 1, 1, 1, 1, 1, 1)
@@ -162,7 +162,7 @@ end
 -- ============================================================================
 
 function private.UpdateCompareState()
-	if private.currentParent and GameTooltip:IsVisible() and IsShiftKeyDown() and not GameTooltip:IsEquippedItem() then
+	if private.currentParent and GameTooltip:IsVisible() and IsShiftKeyDown() then
 		GameTooltip_ShowCompareItem(GameTooltip)
 	else
 		GameTooltip_HideShoppingTooltips(GameTooltip)

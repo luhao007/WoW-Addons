@@ -21,6 +21,13 @@ function EV:ADDON_LOADED(aname)
 		return "remove"
 	end
 end
+function EV:I_ADVENTURES_UI_LOADED()
+	hooksecurefunc(CovenantMissionFrame.FollowerTab, "ShowFollower", function(self)
+		if self and self.StatsFrame then
+			self.StatsFrame:Layout()
+		end
+	end)
+end
 
 function EV:ADDON_LOADED()
 	if CovenantSanctumFrame and CovenantSanctumFrame.UpgradesTab then

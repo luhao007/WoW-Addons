@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Button name="FishingActionButton" parent="MainMenuBar" enableMouse="true" inherits="SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate">
+	<Button name="FishingActionButton" parent="UIParent" enableMouse="true" inherits="SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate">
 		<Size x="52" y="52"/>
 		<Animations>
 			<AnimationGroup parentKey="Intro">
@@ -35,7 +35,7 @@
 				</Texture>
 			</Layer>
 			<Layer level="ARTWORK" textureSubLevel="2">
-				<Texture name="$parentFlyoutArrow" inherits="ActionBarFlyoutButton-ArrowUp" parentKey="FlyoutArrow" hidden="true"/>
+				<Texture name="$parentFlyoutArrow" file="Interface\Buttons\ActionBarFlyoutButton" parentKey="FlyoutArrow" hidden="true"/>
 				<FontString name="$parentHotKey" inherits="NumberFontNormalSmallGray" parentKey="HotKey" justifyH="RIGHT">
 					<Anchors>
 						<Anchor point="TOPLEFT" x="1" y="-3"/>

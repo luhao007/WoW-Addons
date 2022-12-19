@@ -80,6 +80,8 @@ rematch.hintsDefense = {{4,5},{1,3},{6,8},{5,2},{8,7},{2,9},{9,10},{10,1},{3,4},
 -- ie dragonkin attacks {6,4) deal increased damage to magic pets (6) and less damage to undead pets (4)
 rematch.hintsOffense = {{2,8},{6,4},{9,2},{1,9},{4,1},{3,10},{10,5},{5,3},{7,6},{8,7}}
 
+rematch.inWorld = false -- true while player is in the world (not loading or zoning)
+
 rematch:SetScript("OnEvent",function(self,event,...)
 	if rematch[event] then
 		rematch[event](self,...)
@@ -154,7 +156,6 @@ end
 -- unlocking
 function rematch:PLAYER_LOGIN()
    rematch:Start() -- set up the addon (the old PLAYER_LOGIN)
-   rematch:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
 end
 
 -- when the journal is unlocked, this fires a PET_JOURNAL_LIST_UPDATE for the roster
@@ -202,6 +203,9 @@ function rematch:Start()
 	rematch:RegisterEvent("COMPANION_UPDATE")
 	rematch:RegisterEvent("PET_BATTLE_FINAL_ROUND")
 	rematch:RegisterEvent("ADDON_LOADED")
+	rematch:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
+	rematch:RegisterEvent("PLAYER_LEAVING_WORLD")
+	rematch:RegisterEvent("PLAYER_ENTERING_WORLD")
 	SlashCmdList["REMATCH"] = rematch.SlashHandler
 	SLASH_REMATCH1 = "/rematch"
 	-- add launcher button for LDB if it exists
@@ -211,6 +215,7 @@ function rematch:Start()
 	end
 	-- watch for player forfeiting a match (playerForfeit is nil'ed during PET_BATTLE_OPENING_START)
 	hooksecurefunc(C_PetBattles,"ForfeitGame",function() rematch.playerForfeit=true end)
+	rematch.inWorld = true
 end
 
 function rematch:InitSavedVars()
@@ -437,11 +442,6 @@ function rematch:CURSOR_CHANGED()
 	if rematch.QueuePanel.List:IsVisible() then
 		rematch.QueuePanel.List:Update()
 	end
-end
-
--- capture pets gaining xp
-function rematch:UPDATE_SUMMONPETS_ACTION()
-	rematch:UpdateQueue()
 end
 
 -- when pet is summoned or dismissed (UNIT_PET doesn't fire when dismissed). always fires in pairs grr
@@ -672,6 +672,14 @@ function rematch:ADDON_LOADED(addon)
 	elseif addon=="Blizzard_PetBattleUI" then
 		rematch.Battle:Blizzard_PetBattleUI()
 	end
+end
+
+function rematch:PLAYER_LEAVING_WORLD()
+	rematch.inWorld = false
+end
+
+function rematch:PLAYER_ENTERING_WORLD()
+	rematch.inWorld = true
 end
 
 --[[ Timer Management ]]

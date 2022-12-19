@@ -38,14 +38,14 @@ local function FishTrackingEnable(enabled)
     local findid = FL:GetFindFishID();
     if ( findid ) then
         if enabled then
-            local _, _, active, _ = GetTrackingInfo(findid);
+            local _, _, active, _ = C_Minimap.GetTrackingInfo(findid);
             if (not active) then
                 unTrack = true;
-                SetTracking(findid, true);
+                C_Minimap.SetTracking(findid, true);
             end
         elseif unTrack then
             unTrack = false;
-            SetTracking(findid, false);
+            C_Minimap.SetTracking(findid, false);
         end
     end
 end
@@ -56,7 +56,6 @@ FluffEvents[FBConstants.FISHING_ENABLED_EVT] = function()
         if ( GetSettingBool("FindFish") ) then
             FishTrackingEnable(true);
         end
-
         if ( GetSettingBool("TurnOffPVP") ) then
             if (1 == GetPVPDesired() ) then
                 resetPVP = true;
@@ -73,15 +72,15 @@ local function Untrack(yes)
 end
 
 FluffEvents[FBConstants.FISHING_DISABLED_EVT] = function(started, logout)
-    if ( resetPVP ) then
-        SetPVP(1);
-    end
     if ( logout ) then
         FishingBuddy_Player["Untrack"] = unTrack;
     else
         Untrack(unTrack);
     end
     unTrack = nil;
+    if ( resetPVP ) then
+        SetPVP(1);
+    end
     resetPVP = nil;
 end
 
@@ -148,7 +147,7 @@ local function SetupSpecialItem(id, info, fixsetting, fixloc)
     end
     if (fixloc and not info[CurLoc]) then
         local link = "item:"..id;
-        local n,l,_,_,_,_,_,_ = FL:GetItemInfo(link);
+        local n,l = FL:GetItemInfoFields(link, FL.ITEM_NAME, FL.ITEM_LINK);
         if (n and l) then
             info[CurLoc] = n
         else
@@ -380,7 +379,7 @@ local FluffOptions = {
 };
 
 local function ItemInit(option, button)
-    local n, _, _, _, _, _, _, _,_, _ = GetItemInfo(option.id);
+    local n = GetItemInfo(option.id);
     if (n) then
         option.text = n;
     else

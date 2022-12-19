@@ -1,13 +1,8 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 	<Script file="WorldMapIntegration.lua"/>
 
-	<Button name="AtlasLootToggleFromWorldMap1" toplevel="true" parent="WorldMapFrame" frameLevel="10" hidden="true">
-		<Size>
-			<AbsDimension x="32" y="32" />
-		</Size>
-		<Anchors>
-			<Anchor point="TOPRIGHT" relativeTo="WorldMapFrame" x="-4" y="-37"/>
-		</Anchors>
+	<Button name="AtlasLootWorldMapButtonTemplate" frameStrata="HIGH" mixin="AtlasLootWorldMapButtonMixin" hidden="true" virtual="true" toplevel="true">
+		<Size x="32" y="32"/>
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="Background" file="Interface\Minimap\UI-Minimap-Background">
@@ -35,22 +30,17 @@
 				</Texture>
 			</Layer>
 		</Layers>
-		<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD" setAllPoints="true">
+		<HighlightTexture name="$parentHightlight" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD" setAllPoints="true">
 			<Size x="48" y="48"/>
 			<Anchors>
 				<Anchor point="CENTER"/>
 			</Anchors>
 		</HighlightTexture>
 		<Scripts>
-			<OnEnter>
-				AtlasLoot.WorldMap.Button_OnEnter(self);
-			</OnEnter>
-			<OnLeave>
-				AtlasLoot.WorldMap.Button_OnLeave(self);
-			</OnLeave>
-			<OnClick>
-				AtlasLoot.WorldMap.Button_OnClick(self, button);
-			</OnClick>
+			<OnLoad method="OnLoad"/>
+			<OnEnter method="OnEnter"/>
+			<OnLeave method="OnLeave"/>
+			<OnClick method="OnClick"/>
 		</Scripts>
 	</Button>
 </Ui>

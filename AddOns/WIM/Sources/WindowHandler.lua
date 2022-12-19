@@ -128,6 +128,28 @@ local cascadeDirection = {
         {50, -25},      -- Down & Right
 };
 
+local GameClients = { -- thank you MysticalOS
+    ["BSAp"] = nil, --Battle.net Mobile "Interface\\FriendsFrame\\Battlenet-Battleneticon"
+    ["WoW"] = nil, --World of Warcraft
+    ["S2"] = 'sc2', --Starcraft 2 "Interface\\FriendsFrame\\Battlenet-Sc2icon"
+    ["D3"] = 'd3', --Diablo 3 "Interface\\FriendsFrame\\Battlenet-D3icon"
+    ["WTCG"] = 'hs', --Hearthstone "Interface\\FriendsFrame\\Battlenet-WTCGicon"
+    ["App"] = nil, --Battle.net Client
+    ["Hero"] = 'hots', --Heroes of the Storm "Interface\\FriendsFrame\\Battlenet-HotSicon"
+    ["Pro"] = 'ow', --Overwatch "Interface\\FriendsFrame\\Battlenet-Overwatchicon"
+    ["CLNT"] = nil, --Battle.net Client alternate (Unused?)
+    ["S1"] = 'sc1', --Starcraft 1
+    ["DST2"] = 'dsty2', --Destiny 2
+    ["VIPR"] = 'vipr', --COD
+    ["ODIN"] = 'vipr', --COD MW
+    ["LAZR"] = 'vipr', --COD MW2
+    ["ZEUS"] = 'vipr', --COD BOCW
+    ["W3"] = nil, --Warcraft 3 Reforged
+    ["RTRO"] = nil, --Blizzard Arcane
+    ["WLBY"] = nil, --Crash 4
+    ["OSI"] = 'd3' --Diablo 2
+}
+
 windowsByAge = {};
 
 nextColor = {};
@@ -906,7 +928,7 @@ local function instantiateWindow(obj)
                 local chat_type = self.chatType == "battleground" and "INSTANCE_CHAT" or string.upper(self.chatType);
                 local color = _G.ChatTypeInfo[chat_type]; -- Drii: ticket 344
                 icon:SetTexCoord(0,1,0,1);
-				if (isDragonflight) then -- WoW 10
+				if (isModernApi) then -- WoW 10
 					icon:SetGradient("VERTICAL",
 						{ r = color.r, g = color.g, b = color.b, a = 1},
 						{ r = color.r, g = color.g, b = color.b, a = 1 }
@@ -919,7 +941,7 @@ local function instantiateWindow(obj)
                 end
         else
                 local classTag = obj.class;
-				if (isDragonflight) then -- WoW 10
+				if (isModernApi) then -- WoW 10
 					icon:SetGradient("VERTICAL",
 						{ r = 1, g = 1, b = 1, a = 1 },
 						{ r = 1, g = 1, b = 1, a = 1 }
@@ -927,42 +949,16 @@ local function instantiateWindow(obj)
 				else
 					icon:SetGradient("VERTICAL", 1, 1, 1, 1, 1, 1);
 				end
-                if(self.bn and self.bn.client == _G.BNET_CLIENT_SC2) then
-                                classTag = "sc2";--"Interface\\FriendsFrame\\Battlenet-Sc2icon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and self.bn.client == _G.BNET_CLIENT_SC) then
-                                classTag = "sc1";--"Interface\\FriendsFrame\\Battlenet-SCicon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and self.bn.client == _G.BNET_CLIENT_DESTINY2) then
-                                classTag = "dsty2";--"Interface\\FriendsFrame\\Battlenet-SCicon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and self.bn.client == _G.BNET_CLIENT_COD) then
-                                classTag = "vipr";--"Interface\\FriendsFrame\\Battlenet-SCicon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and self.bn.client == _G.BNET_CLIENT_D3) then
-                                classTag = "d3";--"Interface\\FriendsFrame\\Battlenet-D3icon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and self.bn.client == _G.BNET_CLIENT_WTCG) then
-                                classTag = "hs";--"Interface\\FriendsFrame\\Battlenet-WTCGicon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and self.bn.client == _G.BNET_CLIENT_HEROES) then
-                                classTag = "hots";--"Interface\\FriendsFrame\\Battlenet-HotSicon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and self.bn.client == _G.BNET_CLIENT_OVERWATCH) then
-                                classTag = "ow";--"Interface\\FriendsFrame\\Battlenet-Overwatchicon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
-                elseif(self.bn and (self.bn.client == _G.BNET_CLIENT_APP or self.bn.client == _G.BNET_CLIENT_CLNT or self.bn.client == "BSAp")) then--Battle.net Desktop/Mobile Apps
-                                classTag = "bnd";--"Interface\\FriendsFrame\\Battlenet-Battleneticon"
-                                icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
-                                icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[classTag]));
+
+				if (self.bn and self.bn.client and (not obj.class or obj.class == "")) then
+					local client = GameClients[self.bn.client];
+					if (client) then
+						icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
+						icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon[client]));
+					else
+						icon:SetTexture(GetSelectedSkin().message_window.widgets.client_icon.texture);
+                		icon:SetTexCoord(unpack(GetSelectedSkin().message_window.widgets.client_icon['bnd']));
+					end
                 elseif(self.class == "") then
                 	classTag = "blank"
                 	icon:SetTexture(GetSelectedSkin().message_window.widgets.class_icon.texture);
@@ -1603,6 +1599,21 @@ function HideAllWindows(type)
 	end
 end
 
+function GetWindowsShown(type)
+	type = type and string.lower(type) or nil;
+	local windows = {};
+	for i=1, #WindowSoupBowl.windows do
+		if(WindowSoupBowl.windows[i].inUse and WindowSoupBowl.windows[i].obj.type == (type or WindowSoupBowl.windows[i].obj.type)) then
+			local obj = WindowSoupBowl.windows[i] and WindowSoupBowl.windows[i].obj;
+			if (obj:IsShown()) then
+				table.insert(windows, obj);
+			end
+		end
+	end
+
+	return windows;
+end
+
 local showAllTbl = {};
 function ShowAllWindows(type)
 	type = type and string.lower(type) or nil;
@@ -2005,7 +2016,7 @@ RegisterWidgetTrigger("msg_box", "whisper,chat,w2w", "OnEditFocusLost", function
                                 -- _G.ACTIVE_CHAT_EDIT_BOX = nil;
                 end);
 RegisterWidgetTrigger("msg_box", "whisper,chat,w2w", "OnMouseUp", function(self, button)
-                                _G.CloseDropDownMenus();
+                                libs.DropDownMenu.CloseDropDownMenus();
                                 if(button == "RightButton") then
                                                 PopContextMenu("MENU_MSGBOX", self);
                                 else
@@ -2143,11 +2154,32 @@ escapeFrame:Show();
 
 
 -- define context menu
-local info = _G.UIDropDownMenu_CreateInfo();
+local info = {};
 info.text = "MENU_MSGBOX";
 local msgBoxMenu = AddContextMenu(info.text, info);
-                info = _G.UIDropDownMenu_CreateInfo();
+                info = {};
                 info.text = _G.CANCEL;
                 info.notCheckable = true;
-                info.func = function() _G.CloseDropDownMenus(); end
+                info.func = function() libs.DropDownMenu.CloseDropDownMenus(); end
                 msgBoxMenu:AddSubItem(AddContextMenu("MENU_CANCEL", info));
+
+
+local function toggleWindows (type)
+	type = string.trim(string.lower(type));
+
+	if (type == "all" or type == "whisper" or type == "chat") then
+		if (type == "all") then
+			type = nil
+		end
+
+		if (table.getn(GetWindowsShown(type)) > 0) then
+			HideAllWindows(type)
+		else
+			ShowAllWindows(type)
+		end
+	else
+		_G.DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0"..L["Usage"]..":|r  ".."/wim toggle {all | whisper | chat}");
+	end
+end
+
+WIM.RegisterSlashCommand("toggle", toggleWindows, L["Hide or show {all, whisper, chat} windows."]);

@@ -3021,6 +3021,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "Гондольер",
     },
+    [41882] = {
+        name = "Шепот во тьме",
+    },
     [41884] = {
         name = "Темные истории",
     },

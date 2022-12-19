@@ -3021,6 +3021,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [41878] = {
         name = "贡多拉船娘",
     },
+    [41882] = {
+        name = "黑暗低语",
+    },
     [41884] = {
         name = "黑暗传说",
     },

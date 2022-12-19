@@ -8,7 +8,8 @@
 </Frame>
 
 
-<Frame 		<Scripts>
+<Frame name="wodhramain6" hidden="true" parent="PSFeamain1">
+		<Scripts>
 			<OnLoad>
 						self.background = CreateFrame("Frame", nil, self, "BackdropTemplate")
 						self.background:SetAllPoints()

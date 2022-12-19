@@ -13,8 +13,9 @@ logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30400'
-RETAIL_VER = '100000'
+RETAIL_VER = '100002'
 
+BROKEN_LISTS = ['DejaCharacterStats', 'FishingBuddy', 'Overachiever', 'HBattlePetAny', 'UnitFramesPlus', 'UnitFramesPlus_Options', 'MeetingStone', 'AtlasQuest']
 
 def available_on(platforms):
     def decorator(func):
@@ -146,7 +147,7 @@ class Manager:
             def process(config, addon, lines):
                 toc = TOC(lines)
 
-                toc.tags['Interface'] = self.interface
+                toc.tags['Interface'] = self.interface if addon not in BROKEN_LISTS else '10000'
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
                 note = config.find('Notes')
@@ -217,7 +218,6 @@ class Manager:
                         '\n'
                         '# Dropdown menus\n',
                         '!LibUIDropDownMenu\\LibUIDropDownMenu\\LibUIDropDownMenu.xml\n',
-                        '!LibUIDropDownMenu-2.0\\LibUIDropDownMenu.xml\n',
                         '\n']
 
         root = Path('Addons/!!Libs')
@@ -339,26 +339,6 @@ class Manager:
             utils.remove_libraries_all(addon)
 
     @staticmethod
-    def handle_acp():
-        def handle(lines):
-            ret = []
-            start1 = start2 = 0
-            for i, line in enumerate(lines):
-                if 'FontString name="$parentTitle"' in line:
-                    start1 = i
-                elif 'FontString name="$parentStatus"' in line:
-                    start2 = i
-
-            ret = lines[:start1+2]
-            ret.append(' '*24 + '<AbsDimension x="270" y="12"/>\n')
-            ret += lines[start1+3:start2+2]
-            ret.append(' '*24 + '<AbsDimension x="90" y="12"/>\n')
-            ret += lines[start2+3:]
-            return ret
-
-        utils.process_file('Addons/ACP/ACP.xml', handle)
-
-    @staticmethod
     def handle_att():
         addon = 'AllTheThings' if utils.get_platform() == 'retail' else 'ATT-Classic'
         utils.change_defaults(
@@ -381,11 +361,6 @@ class Manager:
             'Addons/AtlasLootClassic/db.lua',
             '			shown = false,'
         )
-
-    @staticmethod
-    def handle_bagnon():
-        utils.remove_libraries_all('Bagnon/common/Wildpants')
-        utils.remove_libraries(['LibDataBroker-1.1'], 'AddOns/Bagnon/common/', 'AddOns/Bagnon/addons/main/main.xml')
 
     @staticmethod
     @available_on(['classic', 'retail'])
@@ -607,21 +582,21 @@ class Manager:
         )
 
     @staticmethod
+    @available_on(['classic'])
+    def handle_sil():
+        utils.change_defaults(
+            'AddOns/SimpleItemLevel/addon.lua',
+            ['    character = false,',
+             '    bags = false,',
+             '    upgrades = false,',]
+        )
+
+    @staticmethod
     @available_on(['retail'])
     def handle_sc():
         utils.change_defaults(
             'Addons/Simulationcraft/core.lua',
             '        hide = true,'
-        )
-
-    @staticmethod
-    @available_on(['classic'])
-    def handle_simple_item_level():
-        utils.change_defaults(
-            'Addons/SimpleItemLevel/addon.lua',
-            ['                character = false,',
-             '                bags = false,',
-             '                color = false,']
         )
 
     @staticmethod
@@ -690,12 +665,6 @@ class Manager:
     @staticmethod
     @available_on(['classic'])
     def handle_vuhdo():
-        if utils.get_platform() != 'retail':
-            utils.rm_tree('Addons/Vuhdo/Libs/!LibTotemInfo/LibStub')
-            utils.remove_libs_in_file(
-                'Addons/Vuhdo/Libs/!LibTotemInfo/embeds.xml',
-                ['LibStub']
-            )
         utils.rm_tree('Addons/Vuhdo/Libs/LibBase64-1.0/LibStub')
 
         utils.change_defaults(

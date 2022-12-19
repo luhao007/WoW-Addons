@@ -89,9 +89,8 @@ local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
 	end
 	self:Show()
 end
-local function Tooltip_OnSetUnit(self)
-	local _, unit = self:GetUnit()
-	local guid = unit == "mouseover" and UnitGUID("mouseover")
+local function Tooltip_OnSetUnit(self, tooltipData)
+	local guid = tooltipData and tooltipData.type == Enum.TooltipDataType.Unit and tooltipData.guid
 	local cid = guid and guid:match("^Creature%-%d+%-%d+%-%d+%-%d+%-(%d+)")
 	if cid == "138704" or cid == "138706" then
 		return Tooltip_AddGarrisonStatus(self, 22)
@@ -106,7 +105,7 @@ local function Tooltip_OnLandingEnter(self)
 end
 
 function EV:I_LOAD_HOOKS()
-	GameTooltip:HookScript("OnTooltipSetUnit", Tooltip_OnSetUnit)
+	TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, Tooltip_OnSetUnit)
 	GarrisonLandingPageMinimapButton:HookScript("OnEnter", Tooltip_OnLandingEnter)
 	if IsAddOnLoaded("MasterPlanA") then
 		return
@@ -120,28 +119,29 @@ function EV:I_LOAD_HOOKS()
 			GarrisonLandingPage.FollowerList.LandingPageHeader:SetText(fn)
 			GarrisonLandingPageTab2:SetText(fn)
 		end
+		if ExpansionLandingPage and ExpansionLandingPage:IsVisible() then
+			HideUIPanel(ExpansionLandingPage)
+		end
 	end
-	local function MaybeStopSound(sound)
-		return sound and StopSound(sound)
+	local function IsLandingPageVisible()
+		return GarrisonLandingPage and GarrisonLandingPage:IsVisible()
+	end
+	local function IsExpansionPageVisible()
+		return ExpansionLandingPage and ExpansionLandingPage:IsVisible()
 	end
 	local landingChoiceMenu, landingChoices
 	GarrisonLandingPageMinimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 	GarrisonLandingPageMinimapButton:HookScript("PreClick", function(self, b)
-		self.landingVisiblePriorToClick = GarrisonLandingPage and GarrisonLandingPage:IsVisible() and GarrisonLandingPage.garrTypeID
+		self.landingVisiblePriorToClick = IsLandingPageVisible() and GarrisonLandingPage.garrTypeID
+		self.expansionPageVisiblePriorToClick = IsExpansionPageVisible()
 		if b == "RightButton" then
-			local openOK, openID = PlaySound(SOUNDKIT.UI_GARRISON_GARRISON_REPORT_OPEN)
-			local closeOK, closeID = PlaySound(SOUNDKIT.UI_GARRISON_GARRISON_REPORT_CLOSE)
-			self.openSoundID = openOK and openID
-			self.closeSoundID = closeOK and closeID
-			local openOK, openID = PlaySound(SOUNDKIT.UI_GARRISON_9_0_OPEN_LANDING_PAGE)
-			local closeOK, closeID = PlaySound(SOUNDKIT.UI_GARRISON_9_0_CLOSE_LANDING_PAGE)
-			self.openSoundID2 = openOK and openID
-			self.closeSoundID2 = closeOK and closeID
+			local soundOK, soundID = PlaySound(SOUNDKIT.UI_GARRISON_GARRISON_REPORT_OPEN)
+			self.startSoundID = soundOK and soundID
 		end
 	end)
 	GarrisonLandingPageMinimapButton:HookScript("OnClick", function(self, b)
 		if b == "LeftButton" then
-			if GarrisonLandingPage.garrTypeID ~= C.GetLandingPageGarrisonType() then
+			if IsLandingPageVisible() and not (IsExpansionPageVisible() or self.expansionPageVisiblePriorToClick) and GarrisonLandingPage.garrTypeID ~= C.GetLandingPageGarrisonType() then
 				ShowLanding(nil, C.GetLandingPageGarrisonType())
 			end
 			return
@@ -152,10 +152,18 @@ function EV:I_LOAD_HOOKS()
 				else
 					HideUIPanel(GarrisonLandingPage)
 				end
-				MaybeStopSound(self.openSoundID)
-				MaybeStopSound(self.closeSoundID)
-				MaybeStopSound(self.openSoundID2)
-				MaybeStopSound(self.closeSoundID2)
+				if ExpansionLandingPage and ExpansionLandingPage:IsVisible() and not self.expansionPageVisiblePriorToClick then
+					HideUIPanel(ExpansionLandingPage)
+				end
+				if self.startSoundID then
+					local startID, soundOK, soundID, _ = self.startSoundID, PlaySound(SOUNDKIT.UI_GARRISON_GARRISON_REPORT_OPEN)
+					StopSound(startID)
+					_, self.startSoundID = soundOK and soundID and StopSound(soundID), nil
+					local endID = soundOK and soundID and soundID > startID and (soundID - startID) < 10 and soundID or startID
+					for i=startID+1, endID-1 do
+						StopSound(i)
+					end
+				end
 				if not landingChoiceMenu then
 					landingChoiceMenu = CreateFrame("Frame", "WPLandingChoicesDrop", UIParent, "UIDropDownMenuTemplate")
 				end
@@ -175,12 +183,8 @@ function EV:I_LOAD_HOOKS()
 				DropDownList1:SetPoint(p1, self, p2, r and 10 or -10, u and -8 or 8)
 			elseif GarrisonLandingPage.garrTypeID == 3 then
 				ShowLanding(nil, 2)
-				MaybeStopSound(self.closeSoundID)
-				MaybeStopSound(self.closeSoundID2)
 			end
 		end
-	end)
-	GarrisonLandingPageMinimapButton:HookScript("PostClick", function(self)
-		self.closeSoundID, self.openSoundID, self.closeSoundID2, self.openSoundID2 = nil
+		self.startSoundID = nil
 	end)
 end

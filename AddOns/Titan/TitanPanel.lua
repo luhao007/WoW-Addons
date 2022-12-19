@@ -308,8 +308,7 @@ NOTE:
 --]]
 function TitanPanel_PlayerEnteringWorld()
 	if Titan__InitializedPEW then
-		-- Also sync the LDB object with the Tian plugin
-		TitanLDBRefreshButton()
+		-- Currently no additional steps needed
 	else
 		-- Get Profile and Saved Vars
 		TitanVariables_InitTitanSettings();
@@ -405,6 +404,8 @@ function TitanPanel_PlayerEnteringWorld()
 	-- Move frames
 	TitanMovable_SecureFrames()
 
+	-- Also sync LDB object text with their created Titan plugin
+	TitanLDBRefreshButton()
 end
 
 --------------------------------------------------------------

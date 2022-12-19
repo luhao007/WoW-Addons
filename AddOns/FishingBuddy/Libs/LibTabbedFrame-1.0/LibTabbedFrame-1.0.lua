@@ -44,8 +44,8 @@ end
 function FrameLib:CreateTabFrame(tabtext)
     local id = #self.Tabs+1;
     local framename = self.name.."Tab"..id;
-    local tabframe = CreateFrame("Button", framename, self, "LibTabbedFrameTabTemplate");
-    tinsert(self.Tabs, tabframe);
+    local tabframe = CreateFrame("Button", framename, self, "PanelTabButtonTemplate");
+    -- tinsert(self.Tabs, tabframe);
 
     tabframe.name = tabtext;
     tabframe.enabled = true;
@@ -55,9 +55,9 @@ function FrameLib:CreateTabFrame(tabtext)
     tabframe:SetScript("OnShow", FrameTab_OnShow);
 
     tabframe:SetID(id);
-    tabframe:SetText(tabtext);
+    tabframe.Text:SetText(tabtext);
 
-    local text = _G[tabframe:GetName().."Text"];
+    local text = _G[tabframe:GetName()].Text;
     text:SetWidth(0);
     PanelTemplates_SetNumTabs(self, id);
 
@@ -73,7 +73,7 @@ function FrameLib:UpdateTabFrame(tab)
     if ( tab.enabled ) then
         tab:ClearAllPoints();
         if ( self.lastTabFrame ) then
-            tab:SetPoint("LEFT", self.lastTabFrame, "RIGHT", -15, 0);
+            tab:SetPoint("TOPLEFT", self.lastTabFrame, "TOPRIGHT", 1, 0);
         else
             tab:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 11, 2);
         end

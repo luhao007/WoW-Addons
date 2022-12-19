@@ -12,6 +12,8 @@ addon.L = {
     ["general.borderColor"]                 = "Цвет границы",
     ["general.scale"]                       = "Масштаб",
     ["general.borderSize"]                  = "Размер границы",
+    ["general.statusbarEnabled"]	    = "Строка состояния включена",
+    ["general.statusbarTextFormat"]	    = "Текстовый формат",
     ["general.statusbarHeight"]             = "Высота здоровья",
     ["general.borderCorner"]                = "Угол границы",
     ["general.bgfile"]                      = "Цг-файл",
@@ -24,13 +26,15 @@ addon.L = {
     ["general.statusbarTexture"]            = "Текстура панели состояния",
     ["general.statusbarColor"]              = "Цвет панели состояния",
     ["general.anchor.position"]             = "Положение",
-    ["general.anchor.returnInCombat"]       = "Возвращ. в бой",
-    ["general.anchor.returnOnUnitFrame"]    = "Возвращ. на рамке юнита",
+    ["general.anchor.hiddenInCombat"]       = "Скрытый в бою",    
+    ["general.anchor.defaultInCombat"]      = "Возвращ. в бой",
+    ["general.anchor.defaultOnUnitFrame"]   = "Возвращ. на рамке юнита",
     ["general.alwaysShowIdInfo"]            = "Постоянное отображение ID (В противном случае, удерживайте нажатой клавишу alt/shift)",
     ["general.skinMoreFrames"]              = "Больше рамок скинов |cffcccc33(вступает в силу, после перегрузки)|r",
    
     ["item.coloredItemBorder"]              = "Цвет границы предмета",
     ["item.showItemIcon"]                   = "Отображение значка предмета",
+    ["item.showExpansionInformation"]	    = "Показать информацию о расширении",
     ["quest.coloredQuestBorder"]            = "Окрасить границу задания",
    
     ["unit.player.anchor.position"]         = "Положение",
@@ -145,4 +149,11 @@ addon.L = {
     ["Anchor"]   = "Крепление",
     
     ["TargetBy"] = "На цели",
+
+    ["authorguild"] 	    	    = "Истребители драконов",
+    ["authorrealm"]		    = "Агграмар ЕС",
+    ["authorname"]		    = "Бизер",
+
+    ["showStackCount"]		    = "Показать количество стеков (в заголовке всплывающей подсказки)",
+    ["showStackCountAlt"]	    = "Показать количество стеков (в теле всплывающей подсказки)",
 }

@@ -1,6 +1,6 @@
 local _
 
-local LFH = LibStub("LibTabbedFrame-1.0");
+local LTF = LibStub("LibTabbedFrame-1.0");
 local LO = LibStub("LibOptionsFrame-1.0");
 local LS = LibStub("LibSideTabFrame-1.0");
 
@@ -136,7 +136,7 @@ local function OnShow()
     FishingBuddy.RunHandlers(FBConstants.FRAME_SHOW_EVT);
 end
 
-FishingBuddyFrame = LFH:CreateFrameHandler("FishingBuddyFrame",
+FishingBuddyFrame = LTF:CreateFrameHandler("FishingBuddyFrame",
             "Interface\\LootFrame\\FishingLoot-Icon", FBConstants.WINDOW_TITLE, "FISHINGBUDDY",
             OnShow, nil, OnVariablesLoaded);
 FishingBuddyFrame:Show();

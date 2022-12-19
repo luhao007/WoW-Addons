@@ -1,10 +1,66 @@
-tag a244b1a0faa97f42c9ae2a941a85971ecd7779fe v10.0.0.384
+tag 4131de37bd04d9a1d497ca754e527be422b804c0 v10.0.2.398
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Wed Oct 26 10:19:47 2022 -0300
+Date:	Mon Nov 28 10:46:47 2022 -0300
 
-commit 9c274088bf6ece0044f003f8ac4ac796732f4997
+commit f15a7708dcfacc711c8132baa42f4cb63e0daede
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Oct 26 10:19:24 2022 -0300
+Date:   Mon Nov 28 10:46:14 2022 -0300
 
-    Framework update
+    dragonflight
+
+commit 9ac0a84a3e306541cdd7ee3e72809e85ea057941
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Nov 21 20:56:19 2022 -0300
+
+    ToC Update
+
+commit 742cf3acd1e47d15055731ed4ffeeceabc99e93c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Nov 21 20:54:52 2022 -0300
+
+    General round of implementations
+
+commit 742cf3acd1e47d15055731ed4ffeeceabc99e93c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Nov 21 20:54:52 2022 -0300
+
+    General round of implementations
+
+commit 2f22adb75886c639112edba3c9a02296a5ef7bf5
+Author: Continuity <continuity@gmx.net>
+Date:   Mon Nov 21 10:22:43 2022 +0100
+
+    - update + first round of support for empowered spells
+    
+    - stages still need to be implemented, but they show up at least
+
+commit 0e5e0c742dd002fadbdbd810895714fa00a57249
+Author: Joschi <joschi.grey@posteo.de>
+Date:   Tue Nov 8 02:51:57 2022 +0100
+
+    Can be used to break the secure env
+
+commit 0e5e0c742dd002fadbdbd810895714fa00a57249
+Author: Joschi <joschi.grey@posteo.de>
+Date:   Tue Nov 8 02:51:57 2022 +0100
+
+    Can be used to break the secure env
+
+commit b58c75c71b30ec89867f3500c6b235e4be833755
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Nov 4 22:08:55 2022 -0300
+
+    Added Hide Spark and Fill Bar on Interrupt
+
+commit b58c75c71b30ec89867f3500c6b235e4be833755
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Nov 4 22:08:55 2022 -0300
+
+    Added Hide Spark and Fill Bar on Interrupt
+
+commit a9ce2debfae8bfae57f3b5dc9287bb1ed09fcbc5
+Author: Continuity <continuity@gmx.net>
+Date:   Sat Oct 29 21:30:29 2022 +0200
+
+    - ensure frame names don't get too long here...
 

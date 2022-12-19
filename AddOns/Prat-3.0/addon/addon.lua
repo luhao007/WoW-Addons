@@ -74,7 +74,7 @@ Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.9".."|r)"
+Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.14".."|r)"
 --@end-non-debug@
 
 
@@ -98,7 +98,6 @@ local function dbg(...) end
 function dbg(...) Prat:PrintLiteral(...) end
 
 --@end-debug@]==]
-
 
 
 Localizations = GetLocalizer({})
@@ -816,3 +815,10 @@ RegisterChatCommand("pratdebugmsg",
     local cc = addon:GetModule("CopyChat", true)
     if cc then cc:ScrapeFullChatFrame(printFrame or _G.DEFAULT_CHAT_FRAME, true) end
   end)
+
+RegisterChatCommand("pratdebug", function(name)
+  local dm = addon:GetModule("DebugModules", true)
+  if dm then
+    dm:ShowCopyDialog()
+  end
+end)

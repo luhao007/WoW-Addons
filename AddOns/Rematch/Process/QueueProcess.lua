@@ -30,12 +30,16 @@ end)
 
 -- returns true (and the precise level) of a petID if it can level
 function rematch:PetCanLevel(petID)
-	if rematch:GetIDType(petID)=="pet" then
-		local _,_,level,xp,maxXp,_,_,_,_,_,_,_,_,_,canBattle = C_PetJournal.GetPetInfoByPetID(petID)
-		if level and level<25 and canBattle then
-			return true,level+(xp/maxXp)
-		end
+	local petInfo = rematch.petInfo:Fetch(petID)
+	if petInfo.canLevel then
+		return true,petInfo.level+(petInfo.xp/petInfo.maxXp)
 	end
+	-- if rematch:GetIDType(petID)=="pet" then
+	-- 	local _,_,level,xp,maxXp,_,_,_,_,_,_,_,_,_,canBattle = C_PetJournal.GetPetInfoByPetID(petID)
+	-- 	if level and level<25 and canBattle then
+	-- 		return true,level+(xp/maxXp)
+	-- 	end
+	-- end
 end
 
 function rematch:IsPetLeveling(petID)
@@ -79,6 +83,10 @@ end
 local firstProcessQueueTimeout = 5 -- when this has a value, then the queue is still waiting for first run
 function rematch:ProcessQueue()
 
+	if not rematch.inWorld then
+		return -- not logged in or in a loading screen, don't do anything
+	end
+
 	-- if pets not loaded, come back in half a second to try again
 	local numPets,owned = C_PetJournal.GetNumPets()
 	local petLoaded = C_PetJournal.GetPetLoadOutInfo(1)
@@ -116,9 +124,9 @@ function rematch:ProcessQueue()
 	wipe(levelingPets)
 	for i=#queue,1,-1 do
 		local petID = queue[i]
-		local canLevel,level = rematch:PetCanLevel(petID)
-		if canLevel and not levelingPets[petID] then
-			levelingPets[petID] = level
+		local petInfo = rematch.petInfo:Fetch(petID)
+		if petInfo.level and petInfo.level>0 and petInfo.level<25 and not levelingPets[petID] then
+			levelingPets[petID] = petInfo.level+(petInfo.xp/petInfo.maxXp)
 		else
 			tremove(queue,i) -- remove pets that can't level (or that are already in queue)
 		end

@@ -485,7 +485,7 @@ Database:AddChain(Chain.InkgillMere, {
         },
         {
             type = "npc",
-            id = 60973,
+            id = 59273,
             connections = {
                 6, 
             },

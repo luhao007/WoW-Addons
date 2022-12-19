@@ -476,7 +476,7 @@ function FBR:Update()
 			local fishid = boss.fish.id;
 			local numItems = GetItemCount(fishid)
 			if numItems > 0 then
-				local _, itemLink, _, _, _, _, _, _, texture, _, _ = FL:GetItemInfo(fishid);
+				local itemLink, texture = FL:GetItemInfoFields(fishid, FL.ITEM_LINK, FL.ITEM_ICON);
 				self:SetItem(itemLink, texture)
 				return
 			end

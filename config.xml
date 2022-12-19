@@ -32,6 +32,11 @@
 		<Title>钥石助手</Title>
 		<Category>副本</Category>
 	</Addon>
+	<Addon name="AskMrRobotClassic">
+		<Title>机器人模拟</Title>
+		<Notes>生成可以在AskMrRobot网站模拟的字符串</Notes>
+		<Category>功能</Category>
+	</Addon>
 	<Addon name="ATT-Classic">
 		<Title>收集控助手</Title>
 		<Notes>追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况</Notes>
@@ -293,6 +298,10 @@
 				<Notes>在鼠标提示中提供更详细的物品信息，如商店购买价和销售价等</Notes>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="Auctionator">
+		<Title>拍卖小助手</Title>
+		<Category>功能</Category>
 	</Addon>
 	<Addon name="Bagnon">
 		<Title>背包整合</Title>
@@ -748,6 +757,10 @@
 				<TitleExtra>图表查看器</TitleExtra>
 				<Notes>使用简单的线条图表查看Details!收集的数据</Notes>
 			</SubAddon>
+			<SubAddon name='Details_Compare2'>
+				<Title>比较</Title>
+				<Notes>第二版Details!比较窗口</Notes>
+			</SubAddon>
 			<SubAddon name='Details_DataStorage'>
 				<Title>数据存储</Title>
 				<Notes>存储Details!的统计数据</Notes>
@@ -1055,6 +1068,10 @@
 		<Title>黑手检测</Title>
 		<Category>功能</Category>
 	</Addon>
+	<Addon name="MailLogger">
+		<Title>邮件交易记录</Title>
+		<Category>功能</Category>
+	</Addon>
 	<Addon name="Mapster">
 		<Title>地图增强</Title>
 		<Category>探索</Category>
@@ -1331,6 +1348,10 @@
 	<Addon name="RaidLedger">
 		<Title>金团账本</Title>
 		<Category>副本</Category>
+	</Addon>
+	<Addon name="RankSentinel">
+		<Title>低级技能提示</Title>
+		<Category>战斗</Category>
 	</Addon>
 	<Addon name="RangeDisplay">
 		<Title>目标距离</Title>

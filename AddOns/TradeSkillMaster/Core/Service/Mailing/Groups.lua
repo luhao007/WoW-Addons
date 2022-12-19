@@ -4,17 +4,23 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local Groups = TSM.Mailing:NewPackage("Groups")
 local L = TSM.Include("Locale").GetTable()
 local Log = TSM.Include("Util.Log")
+local TempTable = TSM.Include("Util.TempTable")
 local Threading = TSM.Include("Service.Threading")
-local Inventory = TSM.Include("Service.Inventory")
 local PlayerInfo = TSM.Include("Service.PlayerInfo")
 local BagTracking = TSM.Include("Service.BagTracking")
+local Settings = TSM.Include("Service.Settings")
 local private = {
 	thread = nil,
+	settings = nil,
 	sendDone = false,
+	groupListTemp = {},
+	numMailableTemp = {},
+	usedTemp = {},
+	keepTemp = {},
 }
 
 
@@ -25,6 +31,8 @@ local private = {
 
 function Groups.OnInitialize()
 	private.thread = Threading.New("MAIL_GROUPS", private.GroupsMailThread)
+	private.settings = Settings.NewView()
+		:AddKey("global", "mailingOptions", "resendDelay")
 end
 
 function Groups.KillThread()
@@ -32,10 +40,16 @@ function Groups.KillThread()
 end
 
 function Groups.StartSending(callback, groupList, sendRepeat, isDryRun)
+	wipe(private.groupListTemp)
+	for _, groupPath in ipairs(groupList) do
+		-- TODO: Support the base group
+		if groupPath ~= TSM.CONST.ROOT_GROUP_PATH then
+			tinsert(private.groupListTemp, groupPath)
+		end
+	end
 	Threading.Kill(private.thread)
-
 	Threading.SetCallback(private.thread, callback)
-	Threading.Start(private.thread, groupList, sendRepeat, isDryRun)
+	Threading.Start(private.thread, private.groupListTemp, sendRepeat, isDryRun)
 end
 
 
@@ -47,44 +61,40 @@ end
 function private.GroupsMailThread(groupList, sendRepeat, isDryRun)
 	while true do
 		local targets = Threading.AcquireSafeTempTable()
-		local numMailable = Threading.AcquireSafeTempTable()
+		assert(not next(private.numMailableTemp))
 		for _, groupPath in ipairs(groupList) do
-			if groupPath ~= TSM.CONST.ROOT_GROUP_PATH then
-				local used = Threading.AcquireSafeTempTable()
-				local keep = Threading.AcquireSafeTempTable()
-				for _, _, operationSettings in TSM.Operations.GroupOperationIterator("Mailing", groupPath) do
-					local target = operationSettings.target
-					if target ~= "" then
-						local targetItems = targets[target] or Threading.AcquireSafeTempTable()
-						for _, itemString in TSM.Groups.ItemIterator(groupPath) do
-							itemString = TSM.Groups.TranslateItemString(itemString)
-							used[itemString] = used[itemString] or 0
-							keep[itemString] = max(keep[itemString] or 0, operationSettings.keepQty)
-							numMailable[itemString] = numMailable[itemString] or BagTracking.GetNumMailable(itemString)
-							local numAvailable = numMailable[itemString] - used[itemString] - keep[itemString]
-							local quantity = private.GetItemQuantity(itemString, numAvailable, operationSettings)
-							assert(quantity >= 0)
-							if PlayerInfo.IsPlayer(target) then
-								keep[itemString] = max(keep[itemString], quantity)
-							else
-								used[itemString] = used[itemString] + quantity
-								if quantity > 0 then
-									targetItems[itemString] = quantity
-								end
-							end
-						end
-						if next(targetItems) then
-							targets[target] = targetItems
-						else
-							Threading.ReleaseSafeTempTable(targetItems)
+			assert(not next(private.usedTemp))
+			assert(not next(private.keepTemp))
+			for _, operationSettings in private.OperationIterator(groupPath) do
+				local target = operationSettings.target
+				local targetItems = targets[target] or Threading.AcquireSafeTempTable()
+				for _, itemString in TSM.Groups.ItemIterator(groupPath) do
+					itemString = TSM.Groups.TranslateItemString(itemString)
+					private.usedTemp[itemString] = private.usedTemp[itemString] or 0
+					private.keepTemp[itemString] = max(private.keepTemp[itemString] or 0, operationSettings.keepQty)
+					private.numMailableTemp[itemString] = private.numMailableTemp[itemString] or BagTracking.GetNumMailable(itemString)
+					local numAvailable = private.numMailableTemp[itemString] - private.usedTemp[itemString] - private.keepTemp[itemString]
+					local quantity = TSM.Operations.Mailing.GetNumToSend(itemString, operationSettings, numAvailable)
+					assert(quantity >= 0)
+					if PlayerInfo.IsPlayer(target) then
+						private.keepTemp[itemString] = max(private.keepTemp[itemString], quantity)
+					else
+						private.usedTemp[itemString] = private.usedTemp[itemString] + quantity
+						if quantity > 0 then
+							targetItems[itemString] = quantity
 						end
 					end
 				end
-				Threading.ReleaseSafeTempTable(used)
-				Threading.ReleaseSafeTempTable(keep)
+				if next(targetItems) then
+					targets[target] = targetItems
+				else
+					Threading.ReleaseSafeTempTable(targetItems)
+				end
 			end
+			wipe(private.usedTemp)
+			wipe(private.keepTemp)
 		end
-		Threading.ReleaseSafeTempTable(numMailable)
+		wipe(private.numMailableTemp)
 
 		if not next(targets) then
 			Log.PrintUser(L["Nothing to send."])
@@ -98,11 +108,21 @@ function private.GroupsMailThread(groupList, sendRepeat, isDryRun)
 		Threading.ReleaseSafeTempTable(targets)
 
 		if sendRepeat then
-			Threading.Sleep(TSM.db.global.mailingOptions.resendDelay * 60)
+			Threading.Sleep(private.settings.resendDelay * 60)
 		else
 			break
 		end
 	end
+end
+
+function private.OperationIterator(groupPath)
+	local result = TempTable.Acquire()
+	for _, _, operationSettings in TSM.Operations.GroupOperationIterator("Mailing", groupPath) do
+		if operationSettings.target ~= "" then
+			tinsert(result, operationSettings)
+		end
+	end
+	return TempTable.Iterator(result)
 end
 
 function private.SendItems(target, items, isDryRun)
@@ -115,47 +135,4 @@ end
 
 function private.SendCallback()
 	private.sendDone = true
-end
-
-function private.GetItemQuantity(itemString, numAvailable, operationSettings)
-	if numAvailable <= 0 then
-		return 0
-	end
-	local numToSend = 0
-	local isTargetPlayer = PlayerInfo.IsPlayer(operationSettings.target)
-	if operationSettings.maxQtyEnabled then
-		if operationSettings.restock then
-			local targetQty = private.GetTargetQuantity(operationSettings.target, itemString, operationSettings.restockSources)
-			if isTargetPlayer and targetQty <= operationSettings.maxQty then
-				numToSend = numAvailable
-			else
-				numToSend = min(numAvailable, operationSettings.maxQty - targetQty)
-			end
-			if isTargetPlayer then
-				numToSend = numAvailable - (targetQty - operationSettings.maxQty)
-			end
-		else
-			numToSend = min(numAvailable, operationSettings.maxQty)
-		end
-	elseif not isTargetPlayer then
-		numToSend = numAvailable
-	end
-	return max(numToSend, 0)
-end
-
-function private.GetTargetQuantity(player, itemString, sources)
-	if player then
-		player = strtrim(strmatch(player, "^[^-]+"))
-	end
-	local num = Inventory.GetBagQuantity(itemString, player) + Inventory.GetMailQuantity(itemString, player) + Inventory.GetAuctionQuantity(itemString, player)
-	if sources then
-		if sources.guild then
-			num = num + Inventory.GetGuildQuantity(itemString, PlayerInfo.GetPlayerGuild(player))
-		end
-		if sources.bank then
-			num = num + Inventory.GetBankQuantity(itemString, player) + Inventory.GetReagentBankQuantity(itemString, player)
-		end
-	end
-
-	return num
 end

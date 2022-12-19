@@ -122,8 +122,8 @@ local function PickRandomBobber(bobbersetting)
 	for _,id in ipairs(bobbersetting) do
 		if (PlayerHasToy(id) and C_ToyBox.IsToyUsable(id)) then
 			if not PLANS:ItemCooldownOn(id) then
-				_, id = C_ToyBox.GetToyInfo(id);
-				tinsert(baits, id);
+				-- _, id = C_ToyBox.GetToyInfo(id);
+				tinsert(baits, Bobbers[id].spell);
 			end
 		end
 	end
@@ -147,7 +147,7 @@ local function UseThisBobber(itemid, info)
         canuse = (GetItemCount(itemid) > 0)
 	end
     if (canuse and not FL:HasBuff(info.spell)) then
-        return itemid, canuse
+        return info.spell, canuse
     end
 
     -- return nil
@@ -165,6 +165,9 @@ local function unwind(table)
 end
 
 local function SpecialBobberPlan()
+    if ( not GSB("EasyLures") ) then
+        return
+    end
 	if GSB(BigBobbers[136377].setting) then
 		for id,bobber in pairs(BigBobbers) do
 			if FL:HasBuff(bobber.spell) then
@@ -174,7 +177,7 @@ local function SpecialBobberPlan()
 			local itemid, canuse = UseThisBobber(id, bobber);
 			if canuse then
 				ClearSpecialBobberBuffs()
-				PLANS:AddEntry(itemid, bobber[CurLoc])
+				PLANS:AddEntry(itemid, bobber[CurLoc], "toy")
 				return
 			end
 		end
@@ -189,7 +192,7 @@ local function SpecialBobberPlan()
 
 		local itemid = PickRandomBobber(bobbersetting);
 		if ( itemid ) then
-			PLANS:AddEntry(itemid)
+			PLANS:AddEntry(itemid, nil, "toy")
 		end
 	end
 end

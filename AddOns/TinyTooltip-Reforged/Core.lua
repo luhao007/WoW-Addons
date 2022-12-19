@@ -3,6 +3,7 @@ TinyTooltipReforged = {}
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibMedia = LibStub:GetLibrary("LibSharedMedia-3.0")
+local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
 
 local AFK = AFK
 local DND = DND
@@ -17,6 +18,7 @@ local PSPEC = PSPEC
 local RARE = GARRISON_MISSION_RARE
 local OFFLINE = FRIENDS_LIST_OFFLINE
 local BASE_MOVEMENT_SPEED = BASE_MOVEMENT_SPEED or 7
+local TOOLTIP_UPDATE_TIME = TOOLTIP_UPDATE_TIME or 0.2
 
 --BLZ function (Fixed for classic WOW)
 local UnitEffectiveLevel = UnitEffectiveLevel or function() end
@@ -36,6 +38,7 @@ print("|cff00d200TinyTooltip Reforged v",actualVersion," loaded.|r")
 
 addon.tooltips = {
     GameTooltip,
+    EmbeddedItemTooltip,
     ItemRefTooltip,
     ShoppingTooltip1,
     ShoppingTooltip2,
@@ -128,10 +131,23 @@ function addon:MergeVariable(src, dst)
     return dst
 end
 
+function addon:AutoSetTooltipWidth(tooltip)
+    local width, w = 80
+    for i = 1, tooltip:NumLines() do
+        w = tonumber(_G[tooltip:GetName() .. "TextLeft" .. i]:GetWidth())
+        width = max(width, w)
+    end
+    width = width + 6
+    tooltip:SetMinimumWidth(width)
+    tooltip:Show()
+    return width
+end
+
 function addon:FindLine(tooltip, keyword)
     local line, text
     for i = 2, tooltip:NumLines() do
         line = _G[tooltip:GetName() .. "TextLeft" .. i]
+        if (not line) then return end
         text = line:GetText() or ""
         if (strfind(text, keyword)) then
             return line, i, _G[tooltip:GetName() .. "TextRight" .. i]
@@ -335,7 +351,7 @@ function addon:GetZone(unit, unitname, realm)
 end
 
 local t = {}
-function addon:GetUnitInfo(unit)
+function addon:GetUnitInfo(unit)  
     local name, realm = UnitName(unit)
     local pvpName = UnitPVPName(unit)
     local gender = UnitSex(unit)
@@ -463,6 +479,19 @@ function addon:GetUnitData(unit, elements, raw)
     return data
 end
 
+-- HookScript
+function addon:TinyHookScript(script, func, scripts)
+    if (self:HasScript(script)) then
+        self:HookScript(script, func)
+    elseif (scripts) then
+        for _, newscript in ipairs(scripts) do
+            if (self[newscript]) then
+                hooksecurefunc(self, newscript, func)
+            end
+        end
+    end
+end
+
 addon.filterfunc, addon.colorfunc = {}, {}
 
 addon.colorfunc.class = function(raw)
@@ -483,21 +512,25 @@ addon.colorfunc.level = function(raw)
 end
 
 addon.colorfunc.reaction = function(raw)
+    if (not raw) then return end
     local color = FACTION_BAR_COLORS[raw.reaction or 4]
     return color.r, color.g, color.b, addon:GetHexColor(color)
 end
 
 addon.colorfunc.itemQuality = function(raw)
+    if (not raw) then return end
     local color = ITEM_QUALITY_COLORS[raw.itemQuality or 0]
     return color.r, color.g, color.b, addon:GetHexColor(color)
 end
 
 addon.colorfunc.selection = function(raw)
+    if (not raw) then return end
     local r, g, b = UnitSelectionColor(raw.unit)
     return r, g, b, addon:GetHexColor(r, g, b)
 end
 
 addon.colorfunc.faction = function(raw)
+    if (not raw) then return end
     if (raw.factionGroup == "Neutral") then
         return 0.9, 0.7, 0, "e5b200"
     elseif (raw.factionGroup == UnitFactionGroup("player")) then
@@ -508,26 +541,32 @@ addon.colorfunc.faction = function(raw)
 end
 
 addon.filterfunc.reaction6 = function(raw, reaction)
+    if (not raw) then return end
     return (raw.reaction or 4) >= 6
 end
 
 addon.filterfunc.reaction5 = function(raw, reaction)
+    if (not raw) then return end
     return (raw.reaction or 4) >= 5
 end
 
 addon.filterfunc.reaction = function(raw, reaction)
+    if (not raw) then return end
     return (raw.reaction or 4) >= (tonumber(reaction) or 5)
 end
 
 addon.filterfunc.inraid = function(raw)
+    if (not raw) then return end
     return IsInRaid()
 end
 
 addon.filterfunc.incombat = function(raw)
+    if (not raw) then return end
     return InCombatLockdown()
 end
 
 addon.filterfunc.samerealm = function(raw)
+    if (not raw) then return end
     return raw.realm == GetRealmName()
 end
 
@@ -591,7 +630,7 @@ LibEvent:attachTrigger("tooltip.style.background", function(self, frame, r, g, b
         local g = tonumber(g) or tonumber(gg)
         local b = tonumber(b) or tonumber(bb)
         local a = tonumber(a) or tonumber(aa)
-        frame.style:SetBackdropColor(r or 1, g or 1, b or 1, a or 1)
+        frame.style:SetBackdropColor(r or 1, g or 1, b or 1, a or 0.9)
     end
 end)
 
@@ -715,7 +754,13 @@ LibEvent:attachTrigger("tooltip.style.font.body", function(self, frame, fontObje
 end)
 
 LibEvent:attachTrigger("tooltip.statusbar.height", function(self, height)
-    GameTooltipStatusBar:SetHeight(height or 12)
+    if (not addon.db.general.statusbarEnabled) then
+        GameTooltipStatusBar:SetHeight(0)
+    else
+        if not pcall(function() GameTooltipStatusBar:SetHeight(height) end) then GameTooltipStatusBar:SetHeight(12)
+        else GameTooltipStatusBar:SetHeight(height) end
+        LibEvent:trigger("tooltip.statusbar.font", addon.db.general.statusbarFont, addon.db.general.statusbarFontSize, addon.db.general.statusbarFontFlag)
+    end
 end)
 
 LibEvent:attachTrigger("tooltip.statusbar.text", function(self, boolean)
@@ -726,7 +771,7 @@ LibEvent:attachTrigger("tooltip.statusbar.font", function(self, font, size, flag
     if (not GameTooltipStatusBar.TextString) then return end
     local origFont, origSize, origFlag = GameTooltipStatusBar.TextString:GetFont()
     font = addon:GetFont(font, NumberFontNormal:GetFont())
-     if (flag == "default") then flag = "THINOUTLINE" end   
+    if (flag == "default") then flag = "THINOUTLINE" end   
     if (font ~= origFont or size ~= origSize or flag ~= origFlag) then
         GameTooltipStatusBar.TextString:SetFont(font or origFont, size or origSize, flag or origFlag)
     end
@@ -801,31 +846,58 @@ LibEvent:attachTrigger("tooltip.style.init", function(self, tip)
     tip.style.mask:SetPoint("BOTTOMRIGHT", tip.style, "TOPRIGHT", -3, -32)
     tip.style.mask:SetBlendMode("ADD")
     tip.style.mask:SetGradient("VERTICAL", {r=0, b=0, g=0, a=0},{ r=0.9, b=0.9, g=0.9, a=0.4})
-    tip.style.mask:Hide()
+    tip.style.mask:Hide()    
     tip:HookScript("OnShow", function(self) LibEvent:trigger("tooltip:show", self) end)
     tip:HookScript("OnHide", function(self) LibEvent:trigger("tooltip:hide", self) end)
+
+    tip.TinyHookScript = addon.TinyHookScript
+    if(tip.ProcessInfo) then
+        hooksecurefunc(tip, "ProcessInfo", function(self, info)
+            if (not info or not info.tooltipData) then return end
+            local flag = info.tooltipData.type
+            local guid = info.tooltipData.guid
+            if (flag == 0) then
+                local link = select(2, GetItemInfo(info.tooltipData.id))
+                if (self.GetItem) then
+                    local link = select(2, self:GetItem())
+                end
+                if (link) then LibEvent:trigger("tooltip:item", self, link) end
+            elseif (flag == 1) then
+                LibEvent:trigger("tooltip:spell", self)
+            elseif (flag == 2) then
+                if (not self.GetUnit) then return end
+                local unit = select(2, self:GetUnit())
+                if (unit) then
+                    LibEvent:trigger("tooltip:unit", self, unit, guid)
+                end
+            elseif (flag == 7) then
+                LibEvent:trigger("tooltip:aura", self, info.tooltipData.args)
+            end
+        end)
+    end
+    tip:TinyHookScript("OnEvent", function(self, event, ...) LibEvent:trigger("tooltip:event", self, event, ...) end)
     if (tip:HasScript("OnTooltipSetUnit")) then
-        tip:HookScript("OnTooltipSetUnit", function(self)
-            local unit = select(2, self:GetUnit())
-            if (not unit) then return end	   
-            LibEvent:trigger("tooltip:unit", self, unit)
+        tip:TinyHookScript("OnTooltipSetUnit", function(self) 
+          local unit = select(2, self:GetUnit()) 
+          if (not unit) then return end
+          LibEvent:trigger("tooltip:unit", self, unit)
         end)
     end
     if (tip:HasScript("OnTooltipSetItem")) then
-        tip:HookScript("OnTooltipSetItem", function(self)
+        tip:TinyHookScript("OnTooltipSetItem", function(self)
             local link = select(2, self:GetItem())
             if (not link) then return end
             LibEvent:trigger("tooltip:item", self, link)
         end)
-    end
+    end  
     if (tip:HasScript("OnTooltipSetSpell")) then
-        tip:HookScript("OnTooltipSetSpell", function(self) LibEvent:trigger("tooltip:spell", self) end)
+        tip:TinyHookScript("OnTooltipSetSpell", function(self) LibEvent:trigger("tooltip:spell", self) end)
     end
     if (tip:HasScript("OnTooltipCleared")) then
-        tip:HookScript("OnTooltipCleared", function(self) LibEvent:trigger("tooltip:cleared", self) end)
+        tip:TinyHookScript("OnTooltipCleared", function(self) LibEvent:trigger("tooltip:cleared", self) end)
     end
     if (tip:HasScript("OnTooltipSetQuest")) then
-        tip:HookScript("OnTooltipSetQuest", function(self) LibEvent:trigger("tooltip:quest", self) end)
+        tip:TinyHookScript("OnTooltipSetQuest", function(self) LibEvent:trigger("tooltip:quest", self) end)
     end
     if (tip == GameTooltip or tip.identity == "diy") then
         tip.GetBackdrop = function(self) return self.style:GetBackdrop() end
@@ -838,6 +910,13 @@ LibEvent:attachTrigger("tooltip.style.init", function(self, tip)
             tip.BigFactionIcon:SetScale(0.24)
             tip.BigFactionIcon:SetAlpha(0.40)
         end
+        tip:TinyHookScript("OnUpdate", function(self, elapsed)
+            self.updateElapsed = (self.updateElapsed or 0) + elapsed
+            if (self.updateElapsed >= TOOLTIP_UPDATE_TIME) then
+                self.updateElapsed = 0
+                LibEvent:trigger("gametooltip:update", self)
+            end
+        end)
     end
     if (tip.DisableDrawLayer) then
         tip:DisableDrawLayer("BACKGROUND")
@@ -853,6 +932,20 @@ if (SharedTooltip_SetBackdropStyle) then
     hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style, embedded)
         if (self.style and self.NineSlice) then
             self.NineSlice:Hide()
+        end
+        if (self.style and self.SetBackdrop) then
+            self:SetBackdrop(nil)
+        end
+    end)
+end
+
+if (GameTooltip_SetBackdropStyle) then
+    hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
+        if (self.style and self.NineSlice) then
+            self.NineSlice:Hide()
+        end
+        if (self.style and self.SetBackdrop) then
+            self:SetBackdrop(nil)
         end
     end)
 end
@@ -879,13 +972,3 @@ end)
 hooksecurefunc("GameTooltip_SetDefaultAnchor", function(self, parent)
     LibEvent:trigger("tooltip:anchor", self, parent)
 end)
-
--- tooltip:init
--- tooltip:anchor
--- tooltip:show
--- tooltip:hide
--- tooltip:unit
--- tooltip:item
--- tooltip:spell
--- tooltip:quest
--- tooltip:cleared

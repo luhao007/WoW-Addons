@@ -46,16 +46,16 @@ local function atlasloot(gui, content)
 		:Size("full")
 		:Text(AL["Show AtlasLoot button on WorldMap."])
 		:DB(db.WorldMap, "showbutton", AtlasLoot.WorldMap.ToggleButtonOnChange)
-
+--[[
 	last = gui:Add("CheckBox")
 		:Point("TOP", last, "BOTTOM", 15, 0)
 		:Size("full")
 		:Text(AL["Show AtlasLoot button on WorldMap's title bar."])
 		:DB(db.WorldMap, "buttonOnTitleBar", AtlasLoot.WorldMap.ButtonStyleOnChange)
 		--:SetDisabled(not db.WorldMap.showbutton)
-
+]]
 	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM", -15, 0)
+		:Point("TOP", last, "BOTTOM", 0, 0)
 		:Size("full")
 		:Text(AL["Show expansion icons in module dropdown."])
 		:Tooltip("text", AL["Change will take effect in next login."])

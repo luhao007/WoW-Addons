@@ -1,6 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: Numy - github.com/Kiatra/BlizzMove/
-## Version: v3.5.4
+## Version: v3.5.7
 ## RequiredDeps: BlizzMove
 ## LoadOnDemand: 1
 

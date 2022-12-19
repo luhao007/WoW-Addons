@@ -1214,8 +1214,16 @@ BtWQuestsDatabase:AddChain(Chain.StormingTheManor, {
             type = "quest",
             id = 50639,
             aside = true,
-            x = 3,
+            x = 2,
             y = 3,
+            connections = {
+                2,
+            },
+        },
+        {
+            type = "quest",
+            id = 49898,
+            aside = true,
             connections = {
                 1,
             },

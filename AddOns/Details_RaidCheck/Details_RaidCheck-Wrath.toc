@@ -1,4 +1,4 @@
-## Interface: 100000
+## Interface: 100002
 ## RequiredDeps: Details
 
 ## Title: Details!: Raid Check (plugin)

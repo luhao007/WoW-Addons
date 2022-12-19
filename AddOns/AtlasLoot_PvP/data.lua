@@ -178,18 +178,26 @@ data["BFA4GEAR"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Cloaks"].." / "..AL["Tabards"],
+			name = AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
-				{ 1, 172671 }, -- Corrupted Gladiator's Cloak
-				{ 2, 172519 }, -- Quartermaster's Note
-				{ 16, 172652 }, -- Corrupted Gladiator's Tabard
+				{ 1, 172519 }, -- Quartermaster's Note
+				{ 2, 172671 }, -- Corrupted Gladiator's Cloak
+				{ 3, 172652 }, -- Corrupted Gladiator's Tabard
+				{ 4, 180206 }, -- Ensemble: Corrupted Gladiator's Plate Armor
+				{ 5, 180204 }, -- Ensemble: Corrupted Gladiator's Leather Armor
+				{ 6, 180205 }, -- Ensemble: Corrupted Gladiator's Mail Armor
+				{ 7, 180203 }, -- Ensemble: Corrupted Gladiator's Cloth Armor
+				{ 8, 184678 }, -- Arsenal: Corrupted Gladiator's Weapons
+				{ 9, 184680 }, -- Arsenal: Corrupted Aspirant's Weapons
 			},
 			[HORDE_DIFF] = {
-				{ 1, 172670 }, -- Corrupted Gladiator's Cloak
-				{ 2, 172519 }, -- Quartermaster's Note
-				{ 16, 172651 }, -- Corrupted Gladiator's Tabard
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 2, 172670 }, -- Corrupted Gladiator's Cloak
+				{ 3, 172651 }, -- Corrupted Gladiator's Tabard
+				{ 8, 184679 }, -- Arsenal: Corrupted Gladiator's Weapons
+				{ 9, 184681 }, -- Arsenal: Corrupted Aspirant's Weapons
 			},
-		}
+		},
 	},
 }
 
@@ -198,18 +206,38 @@ data["BFA3GEAR"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Cloaks"].." / "..AL["Tabards"],
+			name = AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
-				{ 1, 167382 }, -- Notorious Gladiator's Cloak
-				{ 2, 171198 }, -- Quartermaster's Prize
-				{ 16, 167363 }, -- Notorious Gladiator's Tabard
+				{ 1, 171198 }, -- Quartermaster's Prize
+				{ 2, 167382 }, -- Notorious Gladiator's Cloak
+				{ 3, 167363 }, -- Notorious Gladiator's Tabard
+				{ 4, 180194 }, -- Ensemble: Notorious Aspirant's Cloth Armor
+				{ 5, 180196 }, -- Ensemble: Notorious Aspirant's Leather Armor
+				{ 6, 180198 }, -- Ensemble: Notorious Aspirant's Mail Armor
+				{ 7, 180200 }, -- Ensemble: Notorious Aspirant's Plate Armor
+				{ 8, 184436 }, -- Ensemble: Notorious Gladiator's Cloth Armor
+				{ 9, 184438 }, -- Ensemble: Notorious Gladiator's Leather Armor
+				{ 10, 184440 }, -- Ensemble: Notorious Gladiator's Mail Armor
+				{ 11, 184442 }, -- Ensemble: Notorious Gladiator's Plate Armor
+				{ 12, 184674 }, -- Arsenal: Notorious Gladiator's Weapons
+				{ 13, 184676 }, -- Arsenal: Notorious Aspirant's Weapons
 			},
 			[HORDE_DIFF] = {
-				{ 1, 167381 }, -- Notorious Gladiator's Cloak
-				{ 2, 171198 }, -- Quartermaster's Prize
-				{ 16, 167362 }, -- Notorious Gladiator's Tabard
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 2, 167381 }, -- Notorious Gladiator's Cloak
+				{ 3, 167362 }, -- Notorious Gladiator's Tabard
+				{ 4, 180195 }, -- Ensemble: Notorious Aspirant's Cloth Armor
+				{ 5, 180197 }, -- Ensemble: Notorious Aspirant's Leather Armor
+				{ 6, 180199 }, -- Ensemble: Notorious Aspirant's Mail Armor
+				{ 7, 180201 }, -- Ensemble: Notorious Aspirant's Plate Armor
+				{ 8, 184437 }, -- Ensemble: Notorious Gladiator's Cloth Armor
+				{ 9, 184439 }, -- Ensemble: Notorious Gladiator's Leather Armor
+				{ 10, 184441 }, -- Ensemble: Notorious Gladiator's Mail Armor
+				{ 11, 184443 }, -- Ensemble: Notorious Gladiator's Plate Armor
+				{ 12, 184675 }, -- Arsenal: Notorious Gladiator's Weapons
+				{ 13, 184677 }, -- Arsenal: Notorious Aspirant's Weapons
 			},
-		}
+		},
 	},
 }
 
@@ -218,16 +246,36 @@ data["BFA2GEAR"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Cloaks"].." / "..AL["Tabards"],
+			name = AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
-				{ 1, 165060 }, -- Sinister Gladiator's Cloak
-				{ 16, 164910 }, -- Sinister Gladiator's Tabard
+				{ 1 , 164910 }, -- Sinister Gladiator's Tabard
+				{ 2 , 165060 }, -- Sinister Gladiator's Cloak
+				{ 3 , 180187 }, -- Ensemble: Sinister Aspirant's Cloth Armor
+				{ 4 , 180189 }, -- Ensemble: Sinister Aspirant's Leather Armor
+				{ 5 , 180191 }, -- Ensemble: Sinister Aspirant's Mail Armor
+				{ 6 , 180193 }, -- Ensemble: Sinister Aspirant's Plate Armor
+				{ 7 , 184428 }, -- Ensemble: Sinister Gladiator's Cloth Armor
+				{ 8 , 184430 }, -- Ensemble: Sinister Gladiator's Leather Armor
+				{ 9 , 184432 }, -- Ensemble: Sinister Gladiator's Mail Armor
+				{ 10, 184434 }, -- Ensemble: Sinister Gladiator's Plate Armor
+				{ 11, 184671 }, -- Arsenal: Sinister Gladiator's Weapons
+				{ 12, 184673 }, -- Arsenal: Sinister Aspirant's Weapons
 			},
 			[HORDE_DIFF] = {
-				{ 1, 165059 }, -- Sinister Gladiator's Cloak
-				{ 16, 164909 }, -- Sinister Gladiator's Tabard
+				{ 1 , 164909 }, -- Sinister Gladiator's Tabard
+				{ 2 , 165059 }, -- Sinister Gladiator's Cloak
+				{ 3 , 180186 }, -- Ensemble: Sinister Aspirant's Cloth Armor
+				{ 4 , 180188 }, -- Ensemble: Sinister Aspirant's Leather Armor
+				{ 5 , 180190 }, -- Ensemble: Sinister Aspirant's Mail Armor
+				{ 6 , 180192 }, -- Ensemble: Sinister Aspirant's Plate Armor
+				{ 7 , 184427 }, -- Ensemble: Sinister Gladiator's Cloth Armor
+				{ 8 , 184429 }, -- Ensemble: Sinister Gladiator's Leather Armor
+				{ 9 , 184431 }, -- Ensemble: Sinister Gladiator's Mail Armor
+				{ 10, 184433 }, -- Ensemble: Sinister Gladiator's Plate Armor
+				{ 11, 184670 }, -- Arsenal: Sinister Gladiator's Weapons
+				{ 12, 184672 }, -- Arsenal: Sinister Aspirant's Weapons
 			},
-		}
+		},
 	},
 }
 
@@ -236,16 +284,36 @@ data["BFA1GEAR"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Cloaks"].." / "..AL["Tabards"],
+			name = AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
-				{ 1, 164575 }, -- Dread Gladiator's Cloak
-				{ 16, 164573 }, -- Dread Gladiator's Tabard
+				{ 1 , 164573 }, -- Dread Gladiator's Tabard
+				{ 2 , 164575 }, -- Dread Gladiator's Cloak
+				{ 3 , 180179 }, -- Ensemble: Dread Aspirant's Cloth Armor
+				{ 4 , 180181 }, -- Ensemble: Dread Aspirant's Leather Armor
+				{ 5 , 180183 }, -- Ensemble: Dread Aspirant's Mail Armor
+				{ 6 , 180185 }, -- Ensemble: Dread Aspirant's Plate Armor
+				{ 7 , 184420 }, -- Ensemble: Dread Gladiator's Cloth Armor
+				{ 8 , 184422 }, -- Ensemble: Dread Gladiator's Leather Armor
+				{ 9 , 184424 }, -- Ensemble: Dread Gladiator's Mail Armor
+				{ 10, 184426 }, -- Ensemble: Dread Gladiator's Plate Armor
+				{ 11, 184667 }, -- Arsenal: Dread Gladiator's Weapons
+				{ 12, 184669 }, -- Arsenal: Dread Aspirant's Weapons
 			},
 			[HORDE_DIFF] = {
-				{ 1, 164574 }, -- Dread Gladiator's Cloak
-				{ 16, 164572 }, -- Dread Gladiator's Tabard
+				{ 1 , 164572 }, -- Dread Gladiator's Tabard
+				{ 2 , 164574 }, -- Dread Gladiator's Cloak
+				{ 3 , 180178 }, -- Ensemble: Dread Aspirant's Cloth Armor
+				{ 4 , 180180 }, -- Ensemble: Dread Aspirant's Leather Armor
+				{ 5 , 180182 }, -- Ensemble: Dread Aspirant's Mail Armor
+				{ 6 , 180184 }, -- Ensemble: Dread Aspirant's Plate Armor
+				{ 7 , 184419 }, -- Ensemble: Dread Gladiator's Cloth Armor
+				{ 8 , 184421 }, -- Ensemble: Dread Gladiator's Leather Armor
+				{ 9 , 184423 }, -- Ensemble: Dread Gladiator's Mail Armor
+				{ 10, 184425 }, -- Ensemble: Dread Gladiator's Plate Armor
+				{ 11, 184666 }, -- Arsenal: Dread Gladiator's Weapons
+				{ 12, 184668 }, -- Arsenal: Dread Aspirant's Weapons
 			},
-		}
+		},
 	},
 }
 
