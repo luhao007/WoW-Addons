@@ -202,6 +202,7 @@ local function Create_Frames()
 	end
 
 	-- Display & Hide bars
+	
 	local top1_d = CreateFrame("Button", "Titan_Bar__Display_Bar", UIParent, "Titan_Bar__Display_Template")
 	top1_d:SetFrameStrata("DIALOG")
 	top1_d:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, 0)
@@ -209,7 +210,20 @@ local function Create_Frames()
 	local top1_h = CreateFrame("Button", "Titan_Bar__Hider_Bar", UIParent, "TitanPanelBarButtonHiderTemplate")
 	top1_h:SetFrameStrata("DIALOG")
 	top1_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
-	
+--[===[
+-- NOTE: To allow bars to be less than full screen the BOTTOMRIGHT set point must be commented out!
+--_G[bar_name]:SetWidth(screenWidth)
+top1_d:SetSize(1000, TITAN_PANEL_BAR_TEXTURE_HEIGHT)
+top1_h:SetSize(1000, TITAN_PANEL_BAR_TEXTURE_HEIGHT)
+-- bar width test
+print("T CHBar"
+.." scr w: "..tostring(format("%0.2f", GetScreenWidth()))..""
+.." pyh w: "..tostring(GetPhysicalScreenSize())..""
+.." bar: "..tostring(format("%0.2f", top1_d:GetWidth()))..""
+.." "..tostring(format("%0.2f", UIParent:GetEffectiveScale()))..""
+)
+--]===]
+
 	local top2_d = CreateFrame("Button", "Titan_Bar__Display_Bar2", UIParent, "Titan_Bar__Display_Template")
 	top2_d:SetFrameStrata("DIALOG")
 	top2_d:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, 24)
@@ -217,6 +231,7 @@ local function Create_Frames()
 	local top2_h = CreateFrame("Button", "Titan_Bar__Hider_Bar2", UIParent, "TitanPanelBarButtonHiderTemplate")
 	top2_h:SetFrameStrata("DIALOG")
 	top2_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
+
 
 	local bot1_d = CreateFrame("Button", "Titan_Bar__Display_AuxBar", UIParent, "Titan_Bar__Display_Template")
 	bot1_d:SetFrameStrata("DIALOG")

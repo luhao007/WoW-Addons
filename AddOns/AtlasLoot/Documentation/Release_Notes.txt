@@ -1,4 +1,4 @@
-﻿$Id: Release_Notes.txt 4877 2022-12-15 15:47:54Z arithmandar $
+﻿$Id: Release_Notes.txt 4883 2022-12-26 15:30:34Z arithmandar $
 
 AtlasLoot Enhanced
 
@@ -6,6 +6,20 @@ This mod is distributed under Version 2 of the GPL.
 A copy of the GPL is included in this zip file with links to non-english translations.
 
 Patch Notes
+
+v8.13.14 (Dec. 26, 2022)
+========================
+- Change faction items' token to itemID
+
+v8.13.13 (Dec. 26, 2022)
+========================
+- Fxied renown level's calculation
+- Added more Dragonflight faction's purchasing tokens (items / currencies)
+
+v8.13.12 (Dec. 24, 2022)
+========================
+- Fixed Renown value's calculation / displaying issue
+- Added more Dragonflight faction's purchasing tokens (items / currencies)
 
 v8.13.11 (Dec. 15, 2022)
 ========================

@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "DRList-1.0", 46 -- Don't forget to change this in DRList-1.0.lua aswell!
+local MAJOR, MINOR = "DRList-1.0", 50 -- Don't forget to change this in DRList-1.0.lua aswell!
 local Lib = LibStub(MAJOR)
 if Lib.spellListVersion and Lib.spellListVersion >= MINOR then
     return
@@ -13,12 +13,14 @@ if Lib.gameExpansion == "retail" then
         [207167]  = "disorient",       -- Blinding Sleet
         [207685]  = "disorient",       -- Sigil of Misery
         [33786]   = "disorient",       -- Cyclone
+        [360806]  = "disorient",       -- Sleep Walk
         [1513]    = "disorient",       -- Scare Beast
         [31661]   = "disorient",       -- Dragon's Breath
         [198909]  = "disorient",       -- Song of Chi-ji
         [202274]  = "disorient",       -- Incendiary Brew
         [105421]  = "disorient",       -- Blinding Light
         [10326]   = "disorient",       -- Turn Evil
+        [205364]  = "disorient",       -- Dominate Mind
         [605]     = "disorient",       -- Mind Control
         [8122]    = "disorient",       -- Psychic Scream
         [226943]  = "disorient",       -- Mind Bomb
@@ -36,9 +38,11 @@ if Lib.gameExpansion == "retail" then
         [221527]  = "incapacitate",    -- Imprison (Honor talent)
         [2637]    = "incapacitate",    -- Hibernate
         [99]      = "incapacitate",    -- Incapacitating Roar
+        [378441]  = "incapacitate",    -- Time Stop
         [3355]    = "incapacitate",    -- Freezing Trap
         [203337]  = "incapacitate",    -- Freezing Trap (Honor talent)
         [213691]  = "incapacitate",    -- Scatter Shot
+        [383121]  = "incapacitate",    -- Mass Polymorph
         [118]     = "incapacitate",    -- Polymorph
         [28271]   = "incapacitate",    -- Polymorph (Turtle)
         [28272]   = "incapacitate",    -- Polymorph (Pig)
@@ -54,6 +58,7 @@ if Lib.gameExpansion == "retail" then
         [277787]  = "incapacitate",    -- Polymorph (Baby Direhorn)
         [277792]  = "incapacitate",    -- Polymorph (Bumblebee)
         [321395]  = "incapacitate",    -- Polymorph (Mawrat)
+        [391622]  = "incapacitate",    -- Polymorph (Duck)
         [82691]   = "incapacitate",    -- Ring of Frost
         [115078]  = "incapacitate",    -- Paralysis
         [357768]  = "incapacitate",    -- Paralysis 2 (Perpetual Paralysis?)
@@ -106,10 +111,14 @@ if Lib.gameExpansion == "retail" then
         [5211]    = "stun",            -- Mighty Bash
         [202244]  = "stun",            -- Overrun
         [325321]  = "stun",            -- Wild Hunt's Charge
+        [372245]  = "stun",            -- Terror of the Skies
+        [117526]  = "stun",            -- Binding Shot
         [357021]  = "stun",            -- Consecutive Concussion
         [24394]   = "stun",            -- Intimidation
+        [389831]  = "stun",            -- Snowdrift
         [119381]  = "stun",            -- Leg Sweep
         [202346]  = "stun",            -- Double Barrel
+        [385149]  = "stun",            -- Exorcism
         [853]     = "stun",            -- Hammer of Justice
         [255941]  = "stun",            -- Wake of Ashes
         [64044]   = "stun",            -- Psychic Horror
@@ -123,6 +132,7 @@ if Lib.gameExpansion == "retail" then
         [171017]  = "stun",            -- Meteor Strike (Infernal)
         [171018]  = "stun",            -- Meteor Strike (Abyssal)
         [30283]   = "stun",            -- Shadowfury
+        [385954]  = "stun",            -- Shield Charge
         [46968]   = "stun",            -- Shockwave
         [132168]  = "stun",            -- Shockwave (Protection)
         [145047]  = "stun",            -- Shockwave (Proving Grounds PvE)
@@ -132,6 +142,7 @@ if Lib.gameExpansion == "retail" then
         [255723]  = "stun",            -- Bull Rush (Highmountain Tauren)
         [287712]  = "stun",            -- Haymaker (Kul Tiran)
         [332423]  = "stun",            -- Sparkling Driftglobe Core (Kyrian Covenant)
+        -- TODO: Inferal Awakening?
 
         [204085]  = "root",            -- Deathchill (Chains of Ice)
         [233395]  = "root",            -- Deathchill (Remorseless Winter)
@@ -139,7 +150,8 @@ if Lib.gameExpansion == "retail" then
         [235963]  = "root",            -- Entangling Roots (Earthen Grasp)
         [170855]  = "root",            -- Entangling Roots (Nature's Grasp)
         [102359]  = "root",            -- Mass Entanglement
-        [117526]  = "root",            -- Binding Shot
+        [355689]  = "root",            -- Landslide
+        [393456]  = "root",            -- Entrapment (Tar Trap)
         [162480]  = "root",            -- Steel Trap
         [273909]  = "root",            -- Steelclaw Trap
 --      [190927]  = "root_harpoon",    -- Harpoon (TODO: confirm)
@@ -147,13 +159,17 @@ if Lib.gameExpansion == "retail" then
         [201158]  = "root",            -- Super Sticky Tar
         [122]     = "root",            -- Frost Nova
         [33395]   = "root",            -- Freeze
+        [386770]  = "root",            -- Freezing Cold
         [198121]  = "root",            -- Frostbite
+        [114404]  = "root",            -- Void Tendril's Grasp
         [342375]  = "root",            -- Tormenting Backlash (Torghast PvE)
         [233582]  = "root",            -- Entrenched in Flame
         [116706]  = "root",            -- Disable
         [324382]  = "root",            -- Clash
         [64695]   = "root",            -- Earthgrab (Totem effect)
+--      [356738]  = "root",            -- Earth Unleashed (doesn't seem to DR)
         [285515]  = "root",            -- Surge of Power
+        --[356356]  = "root",            -- Warbringer TODO: has DR?
         [39965]   = "root",            -- Frost Grenade (Item)
         [75148]   = "root",            -- Embersilk Net (Item)
         [55536]   = "root",            -- Frostweave Net (Item)
@@ -191,13 +207,6 @@ if Lib.gameExpansion == "retail" then
         [51490]   = "knockback",        -- Thunderstorm
 --      [287712]  = "knockback",        -- Haywire (Kul'Tiran Racial)
     }
-
-    if GetSpellInfo(372245) and GetSpellInfo(372245) ~= "" then -- is Dragonflight Beta (quick temporary fix)
-        Lib.spellList[391622]  = "incapacitate"    -- Polymorph (Duck)
-        Lib.spellList[355689]  = "root"            -- Landslide
-        Lib.spellList[372245]  = "stun"            -- Terror of the Skies
-        Lib.spellList[360806]  = "disorient"       -- Sleep Walk
-    end
 
 elseif Lib.gameExpansion == "tbc" then
 

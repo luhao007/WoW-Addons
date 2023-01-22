@@ -14,6 +14,7 @@ local AL = AtlasLoot.Locales
 local ClickHandler = AtlasLoot.ClickHandler
 
 --[[
+	-- /script for i = 1, MAX_REPUTATION_REACTION do print(i, _G["FACTION_STANDING_LABEL"..i]) end
 	-- rep info ("f1435rep3" = Unfriendly rep @ Shado-Pan Assault)
 	1. Hated
 	2. Hostile
@@ -55,6 +56,9 @@ local FRIEND_REP_TEXT = {
 	[26] = "Ambivalent",
 	[27] = "Cordial",
 	[28] = "Appreciative",
+	-- Renown Level, use rep > 30. 
+	-- For example, rep31 refer to renown level 1; rep52 refer to renown level 22
+	
 }
 
 
@@ -213,17 +217,21 @@ local FACTION_IMAGES = {
 	-- Dragonflight
 
 	[2503] = 4687627, -- Maruuk Centaur
+		[2509] = 4639175, -- Clan Shikaar
+		[2512] = 237385, -- Clan Aylaag
+		[2513] = 4639177, -- Clan Ohn'ir
+		[2522] = 4639174, -- Clan Teerai
+--		[2554] = "Interface\\Icons\\...", -- Clan Toghus
 	[2507] = 4687628, -- Dragonscale Expedition
-	[2509] = 4639175, -- Clan Shikaar
 	[2510] = 4687630, -- Valdrakken Accord
+		[2517] = 1394891, -- Wrathion
+		[2518] = 4559236, -- Sabellian
+		[2544] = 134446, -- Artisan's Consortium - Dragon Isles Branch
+		[2550] = 1394893, -- Cobalt Assembly
 	[2511] = 4687629, -- Iskaara Tuskarr
-	[2512] = 237385, -- Clan Aylaag
-	[2513] = 4639177, -- Clan Ohn'ir
 	[2520] = 4639176, -- Clan Nokhud
-	[2522] = 4639174, -- Clan Teerai
 	--[2526] = "Interface\\Icons\\...", -- Winterpelt Furbolg
 	--[2542] = "Interface\\Icons\\...", -- Clan Ukhel
-	--[2554] = "Interface\\Icons\\...", -- Clan Toghus
 	--[2555] = "Interface\\Icons\\...", -- Clan Kaighan
 
 }
@@ -368,16 +376,23 @@ local FACTION_KEY = {
 	[2511] = "Iskaara Tuskarr",
 	[2512] = "Clan Aylaag",
 	[2513] = "Clan Ohn'ir",
+	[2517] = "Wrathion",
+	[2518] = "Sabellian",
 	[2520] = "Clan Nokhud",
 	[2522] = "Clan Teerai",
 	[2526] = "Winterpelt Furbolg",
 	[2542] = "Clan Ukhel",
+	[2544] = "Artisan's Consortium - Dragon Isles Branch",
+	[2550] = "Cobalt Assembly",
 	[2554] = "Clan Toghus",
 	[2555] = "Clan Kaighan",
 }
 
 local function GetLocRepStanding(id)
-	if (id > 10) then
+	if (id > 30) then -- if it's renown
+		local i = id - 30
+		return format(COVENANT_RENOWN_LEVEL_TOAST, i)
+	elseif (id > 10) then
 		return FRIEND_REP_TEXT[id] or FACTION_STANDING_LABEL4_FEMALE
 	else
 		return PlayerSex==3 and _G["FACTION_STANDING_LABEL"..(id or 4).."_FEMALE"] or _G["FACTION_STANDING_LABEL"..(id or 4)]
@@ -411,6 +426,19 @@ function Faction.OnSet(button, second)
 		PlayerSex = UnitSex("player")
 
 		FACTION_REP_COLORS = {}
+		--[[
+		FACTION_BAR_COLORS = 
+		{
+			FACTION_RED_COLOR,		-- 1
+			FACTION_RED_COLOR,		-- 2
+			FACTION_ORANGE_COLOR,	-- 3
+			FACTION_YELLOW_COLOR,	-- 4
+			FACTION_GREEN_COLOR,	-- 5
+			FACTION_GREEN_COLOR,	-- 6
+			FACTION_GREEN_COLOR,	-- 7
+			FACTION_GREEN_COLOR,	-- 8
+		};
+		]]
 		for i = 1, #FACTION_BAR_COLORS do
 			FACTION_REP_COLORS[i] = RGBToHex(FACTION_BAR_COLORS[i])
 		end
@@ -498,41 +526,58 @@ end
 
 function Faction.Refresh(button)
 	if not button.FactionID then return end
-	--friendID, friendRep, friendMaxRep, friendName, friendText, friendTexture, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
-	--local friendID = GetFriendshipReputation(button.FactionID)
-	local reputationInfo = C_GossipInfo.GetFriendshipReputation(button.FactionID)
-	local friendID = reputationInfo.friendshipFactionID
+	local factionID = button.FactionID
+	local RepID = button.RepID
+	local reputationInfo = C_GossipInfo.GetFriendshipReputation(factionID)
+	local friendshipFactionID = reputationInfo.friendshipFactionID
 
 	-- name, description, standingID, barMin, barMax, barValue, atWarWith, canToggleAtWar, isHeader, isCollapsed, hasRep, isWatched, isChild = GetFactionInfoByID(factionID)
-	local name, _, standingID = GetFactionInfoByID(button.FactionID)
-	
+	local name, _, standingID = GetFactionInfoByID(factionID)
+	local isMajorFaction = C_Reputation.IsMajorFaction(factionID);
+	local majorFactionData, renownLevel
+	if isMajorFaction then
+		majorFactionData = C_MajorFactions.GetMajorFactionData(factionID);
+		renownLevel = majorFactionData.renownLevel;
+	end
 	local color
 
-	if friendID and button.RepID then
-		color = "|cFF"..FACTION_REP_COLORS[button.RepID > 12 and 5 or 4]
+	if friendshipFactionID and RepID then
+		color = "|cFF"..FACTION_REP_COLORS[RepID > 12 and 5 or 4]
+	elseif (isMajorFaction and RepID > 30) then
+		local i = RepID - 30
+		
+		color = "|cFF"..FACTION_REP_COLORS[renownLevel >= i and 5 or 4]
 	else
-		color = "|cFF"..FACTION_REP_COLORS[button.RepID or standingID]
+		color = "|cFF"..FACTION_REP_COLORS[RepID or standingID]
 	end
 
 	if button.type == "secButton" then
-		button:SetNormalTexture(FACTION_IMAGES[button.FactionID] or FACTION_IMAGES[0])
+		button:SetNormalTexture(FACTION_IMAGES[factionID] or FACTION_IMAGES[0])
 	else	
 		-- ##################
 		-- name
 		-- ##################
-		name = name or BF[FACTION_KEY[button.FactionID]] or FACTION.." "..button.FactionID
+		name = name or BF[FACTION_KEY[factionID]] or FACTION.." "..factionID
 		button.name:SetText(color..name)
 		
-		--button.extra:SetText("|cFF"..FACTION_REP_COLORS[button.RepID or standingID]..GetLocRepStanding(button.RepID or standingID))
+		--button.extra:SetText("|cFF"..FACTION_REP_COLORS[RepID or standingID]..GetLocRepStanding(RepID or standingID))
 
 		-- ##################
 		-- icon
 		-- ##################
-		button.icon:SetTexture(FACTION_IMAGES[button.FactionID] or FACTION_IMAGES[0])
+		button.icon:SetTexture(FACTION_IMAGES[factionID] or FACTION_IMAGES[0])
 		
-		local reqRepText = friendID and FRIEND_REP_TEXT[button.RepID] or GetLocRepStanding(button.RepID or standingID) or ""
+		local reqRepText = friendshipFactionID and FRIEND_REP_TEXT[RepID] or GetLocRepStanding(RepID or standingID) or ""
 		
-		if button.RepID and standingID and button.RepID > standingID then
+		if RepID and isMajorFaction then
+			local i = RepID - 30
+			if renownLevel < i then
+				button.icon:SetDesaturated(true)
+				button.extra:SetText("|cffff0000"..reqRepText)
+			else
+				button.extra:SetText(color..reqRepText)
+			end
+		elseif RepID and standingID and RepID > standingID then
 			button.icon:SetDesaturated(true)
 			button.extra:SetText("|cffff0000"..reqRepText)
 		elseif not standingID then
@@ -611,11 +656,16 @@ function Faction.ShowToolTipFrame(button)
 	]]
 	local name, description, standingID, barMin, barMax, barValue, _, _, _, _, _, _, _, factionID = GetFactionInfoByID(button.FactionID)
 	standingID = standingID or 1
-	local colorIndex = standingID
+	local colorIndex = standingID;
 	local barColor = FACTION_BAR_COLORS[colorIndex];
-	local factionStandingtext
+	local factionStandingtext;
 
+	local isCapped;
+	if (standingID == MAX_REPUTATION_REACTION) then
+		isCapped = true;
+	end
 	--local friendID, friendRep, _, _, _, _, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(button.FactionID)
+	-- check if this is a friendship faction or a Major Faction
 	local isMajorFaction = factionID and C_Reputation.IsMajorFaction(factionID);
 	local repInfo = factionID and C_GossipInfo.GetFriendshipReputation(factionID);
 	if (repInfo and repInfo.friendshipFactionID > 0) then
@@ -630,7 +680,10 @@ function Faction.ShowToolTipFrame(button)
 		barColor = FACTION_BAR_COLORS[colorIndex];						-- always color friendships green
 	elseif ( isMajorFaction ) then
 		local majorFactionData = C_MajorFactions.GetMajorFactionData(factionID);
+		
 		barMin, barMax = 0, majorFactionData.renownLevelThreshold;
+		isCapped = C_MajorFactions.HasMaximumRenown(factionID);
+		barValue = isCapped and majorFactionData.renownLevelThreshold or majorFactionData.renownReputationEarned or 0;
 		barColor = BLUE_FONT_COLOR;
 		factionStandingtext = RENOWN_LEVEL_LABEL .. majorFactionData.renownLevel;
 
@@ -638,6 +691,11 @@ function Faction.ShowToolTipFrame(button)
 		barMin, barMax, barValue = barMin or 0, barMax or 1, barValue or 0
 		factionStandingtext = GetLocRepStanding(standingID)
 	end
+
+	--Normalize Values
+	barMax = barMax - barMin;
+	barValue = barValue - barMin;
+	barMin = 0;
 
 	frame:ClearAllPoints()
 	frame:SetParent(button:GetParent():GetParent())

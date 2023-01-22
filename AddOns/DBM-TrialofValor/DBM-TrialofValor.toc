@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: MysticalOS
-## Version: r36
+## Version: r37
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMTrialofValor_AllSavedVars

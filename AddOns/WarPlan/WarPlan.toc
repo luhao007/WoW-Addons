@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: foxlit
-## Version: 3.21
+## Version: 3.22
 ## SavedVariables: WarPlanData
 ## SavedVariablesPerCharacter: WarPlanDataPC
 

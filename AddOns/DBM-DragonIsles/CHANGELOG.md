@@ -1,25 +1,40 @@
 # <DBM> World Bosses (Dragonflight)
 
-## [10.0.10](https://github.com/DeadlyBossMods/DBM-Retail/tree/10.0.10) (2022-12-18)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Retail/compare/10.0.9...10.0.10) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Retail/releases)
+## [10.0.20](https://github.com/DeadlyBossMods/DBM-Retail/tree/10.0.20) (2023-01-17)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Retail/compare/10.0.19...10.0.20) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Retail/releases)
 
-- Prep new tag with bugfixes and improved M+ affix support  
-- Add buff expire timers to thundering while at it. if you want a countdown you can easily configure it via these timers as well.  
-    Also added a positive alert whe thundering has been removed.  
-- Fixed a bug on raszageth where polarity alerts used position warning with no position. should just be personal warnings with no extra scope.  
-    Added Preliminary Thundering support to M+ Affixes  
-    Pruned all old S4 stuff out of M+ Affixes  
-- Fixed chat yells on Raszageth for stormcharged  
-    Tweaked mythic timer code slightly on Dathea  
+- prep new retail tag  
 - Raszageth Update  
-     - Staging updated so stage changes come earlier and can include additional timers possible (credits to justwait for alternate stage ideas)  
-     - in addition, include some phase change timers for stuff that's roughly consistent  
-     - Lastly, second intermission add alerts and timers will now aggregate (since they are synced together)  
-    Sennarth Update  
-     - Improved P2 trigger and initial timers. They are still subject to variations/inaccuracies until a bug is fixed on blizzards end, but I'm confident that will effect very few people and will likely be fixed  
-- Fixed another bug with M+ affix mod that was still keeping it from functioning on dragonflight content (Thundering will be added in next M+ update but I wanted to get fix for quaking and other stuff into alpha now)  
-- Fixed a bug where Fulminating charge timer would not restart after first cast on Raszageth  
-    Fixed mythic terros timers, which were actually all wrong because watching voz for timers on no sleep is prone to human error. My bad!. These use actual public WCLs  
-- Don't touch objective tracker on retail  
-- Fix some tank things  
-    Fix affix mods not loading in S1 dungeons, should once again provide alerts for M+ Affixes. Thundering to be added soon™  
+     - Fixed a bug where initial timers where showing LFR/Normal timers on all difficulties. Mythic and Heroic timers on engage will now show correctly.  
+     - Fixed a bug where an extra storm surge timer would start in P2 for a 4th stormsurge that wasn't possible to happen.  
+     - Added additional P3 timers for normal and LFR difficulty  
+     - Updated Lightning Devastation timers for normal and LFR difficulty  
+     - Enabled phase duration timer for phase 2 , it should be accurate for most part in non mythic difficulties.  
+- Timer updates for LFR Broodkeeper  
+- bump alphas  
+- prep new tags for wrath classic and classic era, retail's new tag on hold until LFR wing 3 can be logged at (LFR raszageth was never tested,, so it's gonna need updates first)  
+- Fixed a few unregistered events that caused following things not to work  
+     - Empowered storm was broken do to invalid spellid on Strunraan  
+     - Rending bite timer/alert never worked on Broodkeeper  
+     - Add auto marking never worked on Dathea  
+     - Flame Smite alert never worked on Kurog  
+     - Scattered Charge alert never worked on Raszageth  
+     - Lighting strike alert/timer never worked on Raszageth  
+     - Wrapped in Webs alert didn't work on LFR/Normal Sennarth  
+     - Reflections alert didn't work on aniversery Azuregos world boss  
+- Brawlers guild: no idea what was going on here or what this will break, but it'll fix another thing. these mods were made so long ago  
+- Fix last  
+- code cleanup  
+- Fix bug where no clear yell was showing if you got negative charge with the new antispam code  
+- Fixed a bug that causd empowered great staff warning/say to never work in p2 broodkeeper. How do bugs this obvious take months to get reported. Either everyone using DBM is only 6/8 or they just don't care when it's broken. :\  
+- Comment cleanup  
+- Even more anti spam against player clearing thundering  
+- Fix German localization for roleplay timer text (#177)  
+- Fix lightning crash on Kurog, which was apparently redesigned at some point to not have a 4 second pre targetting debuff and never knew because no one reported it hasn't worked in weeks.  
+- Fix cast time in blowback alert  
+- Update localization.cn.lua (#175)  
+- Update commonlocal.cn.lua (#176)  
+- Fix some minor debug errors with deleted journal entries  
+- Update koKR (#174)  
+- Fix sundering crash again, update timers for Basrikron  
+- bump alpha  

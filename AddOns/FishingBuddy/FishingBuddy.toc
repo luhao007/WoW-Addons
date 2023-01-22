@@ -1,6 +1,6 @@
-## Interface: 10000
+## Interface: 100002
 ## Author: Sutorix=AT=hotmail.com
-## Version: 1.19.3
+## Version: 1.19.4
 ## OptionalDeps: FB_Debugging, Outfitter, myAddOns, Titan
 ## SavedVariables: FishingBuddy_Info
 ## SavedVariablesPerCharacter: FishingBuddy_Player
@@ -25,7 +25,6 @@ localization.ptBR.lua
 localization.ruRU.lua
 localization.zhTW.lua
 localization.zhCN.lua
-FishingSetup.lua
 FishingBuddy.xml
 FishingDatabase.lua
 FishingBuddyAPI.lua

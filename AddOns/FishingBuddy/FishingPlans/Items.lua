@@ -59,9 +59,7 @@ local function TuskarrPlan()
     if GetItemCount(TuskarrItem.id) == 0 then
         return
     end
-
     local main = FL:GetMainHandItem(true);
-    local pole = FL:IsFishingPole();
     if (main ~= TuskarrItem.id) then
         -- Only use this if we're not using the Legendary pole (Surface Tension)
         if (not TuskarrItem.tension) then
@@ -75,7 +73,7 @@ local function TuskarrPlan()
         end
     end
 
-    if (pole and not FL:HasBuff(TuskarrItem.spell)) then
+    if (FishingBuddy.StartedFishing and not FL:HasBuff(TuskarrItem.spell)) then
         local s,_,_ = GetItemCooldown(TuskarrItem.id);
         if (s == 0) then
             if not PLANS:HaveEntry(TuskarrItem.id) then
@@ -93,8 +91,7 @@ local function TrawlerPlan()
     end
 
     if PLANS:CanUseFishingItem(TRAWLER_ID, TrawlerTotem) then
-        local pole = FL:IsFishingPole();
-        if (pole) then
+        if (FishingBuddy.StartedFishing) then
             local start, duration, enable = GetItemCooldown(TRAWLER_ID);
             local et = (start + duration) - GetTime();
             if (et <= 0) then

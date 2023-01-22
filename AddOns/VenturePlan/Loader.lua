@@ -1,5 +1,5 @@
 local AN, T, EV, U = ...
-_G[AN], EV, U = 22, T.Evie, T.Util
+EV, U, _G[AN] = T.Evie, T.Util
 
 local mapOpened, addonLoaded
 function EV:ADVENTURE_MAP_OPEN(followerID)
@@ -27,22 +27,6 @@ function EV:I_ADVENTURES_UI_LOADED()
 			self.StatsFrame:Layout()
 		end
 	end)
-end
-
-function EV:ADDON_LOADED()
-	if CovenantSanctumFrame and CovenantSanctumFrame.UpgradesTab then
-		local d = CovenantSanctumFrame.UpgradesTab.DepositButton
-		if d and COVENANT_SANCTUM_TUTORIAL4 then
-			d:HookScript("PreClick", function(self)
-				local na = HelpTip and HelpTip.framePool and HelpTip.framePool.numActiveObjects
-				if type(na) == "number" and na > 0 then
-					HelpTip:Acknowledge(self:GetParent(), COVENANT_SANCTUM_TUTORIAL4)
-					HelpTip.framePool:ReleaseAll()
-				end
-			end)
-		end
-		return "remove"
-	end
 end
 
 SLASH_VENTUREPLAN1, SLASH_VENTUREPLAN2 = "/ventureplan", "/vp"

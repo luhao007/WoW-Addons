@@ -4,7 +4,7 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local Cost = TSM.Crafting:NewPackage("Cost")
 local ProfessionInfo = TSM.Include("Data.ProfessionInfo")
 local TempTable = TSM.Include("Util.TempTable")
@@ -12,6 +12,7 @@ local Math = TSM.Include("Util.Math")
 local ItemString = TSM.Include("Util.ItemString")
 local CraftString = TSM.Include("Util.CraftString")
 local RecipeString = TSM.Include("Util.RecipeString")
+local MatString = TSM.Include("Util.MatString")
 local CustomPrice = TSM.Include("Service.CustomPrice")
 local private = {
 	matsVisited = {},
@@ -144,7 +145,7 @@ function Cost.GetSaleRateByCraftString(craftString)
 end
 
 function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
-	local baseItemString = ItemString.GetBaseFast(itemString)
+	local levelItemString = ItemString.ToLevel(itemString)
 	local shouldReleaseOptionalMats = false
 	if not optionalMats then
 		shouldReleaseOptionalMats = true
@@ -157,8 +158,8 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 	local singleCraftString = nil
 	local relItemLevel = nil
 	local tempQualityMats = TempTable.Acquire()
-	for _, craftString, hasCD, profession in TSM.Crafting.GetCraftStringByItem(baseItemString) do
-		if not private.currentMatProfession or not ProfessionInfo.IsOptionalMat(baseItemString) or private.currentMatProfession == profession then
+	for _, craftString, hasCD, profession in TSM.Crafting.GetCraftStringByItem(levelItemString) do
+		if not private.currentMatProfession or not ProfessionInfo.IsOptionalMat(levelItemString) or private.currentMatProfession == profession then
 			local level = CraftString.GetLevel(craftString)
 			if level then
 				for _, optionalMatItemString in ipairs(optionalMats) do
@@ -244,8 +245,8 @@ function private.GetOptionalMats(itemString, resultTbl)
 	end
 	local relItemLevel, isAbs = ItemString.ParseLevel(ItemString.ToLevel(itemString))
 	if not isAbs then
-		local baseItemString = ItemString.GetBaseFast(itemString)
-		for _, craftString in TSM.Crafting.GetCraftStringByItem(baseItemString) do
+		local levelItemString = ItemString.ToLevel(itemString)
+		for _, craftString in TSM.Crafting.GetCraftStringByItem(levelItemString) do
 			local level = CraftString.GetLevel(craftString)
 			local optionalMatItemString = level and ProfessionInfo.GetOptionalMatByRelItemLevel(relItemLevel)
 			if relItemLevel and optionalMatItemString then
@@ -313,7 +314,7 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 		didSetProfession = true
 	end
 	for itemString, quantity in pairs(mats) do
-		if not strmatch(itemString, "^[qof]:") then
+		if MatString.GetType(itemString) == MatString.TYPE.NORMAL then
 			hasMats = true
 			local matCost = Cost.GetMatCost(itemString)
 			if not matCost then

@@ -33,8 +33,8 @@ local bag_info = {
 -- "Khorium Toolbox" removed???
  -- names are for debug only
  -- Can use wowdb.com to look at bags by profession
- 
-local bags = {
+
+local prof_bags = {
 	[333]    = {style = "", name = ""},
 	[21858]  = {style = "ENCHANTING", name = "Spellfire Bag"},
 	[22246]  = {style = "ENCHANTING", name = "Enchanted Mageweave Pouch"},
@@ -85,14 +85,148 @@ local bags = {
 	[116404] = {style = "ENGINEERING", name = "Pilgrim's Bounty"}, -- *
 	[130943] = {style = "COOKING", name = "Reusable Tote Bag"}, -- *
 	[162588] = {style = "INSCRIPTION", name = "Weathered Scrollcase"},
---[[
-ZZbags = bags
-print("--")
-print(ZZbags[21858].style)
---]]
 }
 
+local MIN_BAGS = 0
+local MAX_BAGS = Constants.InventoryConstants.NumBagSlots
+local bag_data = {} -- to hold the user bag data
+
 -- ******************************** Functions *******************************
+local function ToggleBags()
+
+	if TitanGetVar(TITAN_BAG_ID, "OpenBags") then
+		ToggleAllBags()
+	else
+	end
+
+end
+
+local function GetBagData(id)
+	--[[
+	The old code grabbed the bag name but since 10.00.02 it seems name is not always available by player entering world event
+	Grabbing the total slots is available though to determine if a bag exists. 
+	The user may see bag name as <unknown> until an event triggers a bag check AND the name is available.
+	--]]
+	
+	local total_slots = 0
+	local total_free = 0
+	local total_used = 0
+
+	for bag_slot = MIN_BAGS, MAX_BAGS do -- assuming 0 (Backpack) will not be a profession bag
+		local slots = C_Container.GetContainerNumSlots(bag_slot) 
+
+		-- Ensure a blank structure exists
+--		if bag_data[bag_slot] then
+			-- This has been processed at least once
+--		else
+			bag_data[bag_slot] = {
+				has_bag = false,
+				name = "",
+				maxi_slots = 0,
+				free_slots = 0,
+				used_slots = 0,
+				style = "",
+				color = "",
+				}
+--		end
+
+		if slots > 0 then
+			bag_data[bag_slot].has_bag = true
+			
+			local bag_name = (C_Container.GetBagName(bag_slot) or UNKNOWN)
+			bag_data[bag_slot].name = bag_name
+			bag_data[bag_slot].maxi_slots = slots
+			
+			local free = C_Container.GetContainerNumFreeSlots(bag_slot)
+			local used = slots - free
+			bag_data[bag_slot].free_slots = free
+			bag_data[bag_slot].used_slots = used
+			
+			-- some info is not known until the name is available...
+			-- The API requires name to get the bag ID.
+			local bag_type = "none"
+			local color = {r=0,g=0,b=0} -- black (should never be used...)
+
+			if bag_name == UNKNOWN then
+				-- name not available yet
+			else
+				local itemID, itemType, itemSubType, itemEquipLoc, icon, itemClassID, itemSubClassID = GetItemInfoInstant(bag_name)
+				-- For some inexplicable reason the Backpack does not return as an item...
+				-- so create a default so routine is successful
+				itemID = itemID or 0
+
+				if prof_bags[itemID] then
+					bag_type = prof_bags[itemID].style
+					color = bag_info[bag_type].color
+					bag_type = "profession"
+				else
+					bag_type = "normal"
+				end
+			end
+			bag_data[bag_slot].style = bag_type
+			bag_data[bag_slot].color = color
+			
+			-- add to total
+			if bag_data[bag_slot].style == "profession" then
+				if TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots") then
+					total_slots = total_slots + slots
+					total_free = total_free + free
+					total_used = total_used + used
+				else
+					-- ignore in totals
+--[[
+TitanDebug("T Bag: ignore"
+.." "..tostring(bag_slot)..""
+.." "..tostring(bag_data[bag_slot].name)..""
+.." "..tostring(bag_data[bag_slot].style)..""
+)
+--]]
+				end
+			else
+				total_slots = total_slots + slots
+				total_free = total_free + free
+				total_used = total_used + used
+			end
+		else
+			bag_data[bag_slot].has_bag = false
+		end
+--[[
+TitanDebug("T Bag: info"
+.." "..tostring(bag_slot)..""
+.." "..tostring(bag_data[bag_slot].has_bag)..""
+.." "..tostring(bag_data[bag_slot].name)..""
+.." "..tostring(bag_data[bag_slot].maxi_slots)..""
+.." "..tostring(bag_data[bag_slot].used_slots)..""
+.." "..tostring(bag_data[bag_slot].free_slots)..""
+.." "..tostring(bag_data[bag_slot].style)..""
+)
+--]]
+	end
+
+	bag_data.total_slots = total_slots
+	bag_data.total_free = total_free
+	bag_data.total_used = total_used
+
+	local bagText = ""
+	if (TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots")) then
+		bagText = format(L["TITAN_BAG_FORMAT"], total_used, total_slots);
+	else
+		bagText = format(L["TITAN_BAG_FORMAT"], total_free, total_slots);
+	end
+
+	local bagRichText = ""
+	if ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then
+		local color = ""
+		color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, total_used / total_slots);
+		bagRichText = TitanUtils_GetColoredText(bagText, color);
+	else
+		bagRichText = TitanUtils_GetHighlightText(bagText);
+	end
+
+	bagRichText = bagRichText --..bagRichTextProf[1]..bagRichTextProf[2]..bagRichTextProf[3]..bagRichTextProf[4]..bagRichTextProf[5];
+
+	return L["TITAN_BAG_BUTTON_LABEL"], bagRichText
+end
 
 --[[ plugin
 -- **************************************************************************
@@ -130,6 +264,7 @@ function TitanPanelBagButton_OnLoad(self)
 	};
 
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	
 end
 
 --[[ plugin
@@ -138,9 +273,25 @@ end
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
 --]]
-function TitanPanelBagButton_OnEvent(self, event, ...)
-	if (event == "PLAYER_ENTERING_WORLD") and (not self:IsEventRegistered("BAG_UPDATE")) then
-		self:RegisterEvent("BAG_UPDATE");
+function TitanPanelBagButton_OnEvent(self, event, a1, a2, ...)
+	if event == "PLAYER_ENTERING_WORLD" then
+
+		-- Register for bag updates and update the plugin text
+		self:RegisterEvent("BAG_UPDATE")
+		TitanPanelButton_UpdateButton(TITAN_BAG_ID);
+
+		if a1 == true then 
+			-- initial login
+
+			TitanPrint(""
+			.." "..tostring("Feature :")..""
+			.." "..tostring(OPENING or "Opening of")..""
+			.." "..tostring(INVTYPE_BAG or "Bags")..""
+			.." "..tostring(ADDON_DISABLED or "Disabled")..""
+			.." "..tostring("Until taint is fixed or work around found.")..""
+			, "warning")
+		else
+		end
 	end
 
 	if event == "BAG_UPDATE" then
@@ -156,22 +307,6 @@ function TitanPanelBagButton_OnUpdate(self)
 	self:SetScript("OnUpdate", nil)
 end
 
-local function ToggleBags()
-
-	if TitanGetVar(TITAN_BAG_ID, "OpenBags") then
-		TitanPrint(""
-		.." "..tostring("Feature :")..""
-		.." "..tostring(OPENING or "Opening of")..""
-		.." "..tostring(INVTYPE_BAG or "Bags")..""
-		.." "..tostring(ADDON_DISABLED or "Disabled")..""
-		.." "..tostring("Until taint is fixed or work around found.")..""
-		, "warning")
-	else
-		-- nop
-	end
-
-end
-
 --[[ plugin
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnClick(button)
@@ -181,189 +316,13 @@ end
 --]]
 function TitanPanelBagButton_OnClick(self, button)
 	if (button == "LeftButton") then
-		if TitanGetVar(TITAN_BAG_ID, "OpenBags") then
-			ToggleBags();
-		else
-			-- nop
-		end
+		ToggleBags();
 	end
-end
-
---[[
--- **************************************************************************
--- NAME : isBag(id)
--- DESC : Determine if this is a bag. Then check for a profession bag using its id
--- against the table of known ids.
--- If it is a profession bag then grab its 'color' in case the user requested it.
--- VARS : name = text (localized) of the bag to check
--- VARS : pos  = position of the bag to check
--- **************************************************************************
-	-- using GetItemInfo caused a 'script ran too long' error on Shadowlands ptr (9.x) although it worked in retail (8.x)
-	-- GetItemInfoInstant returns the needed id and uses client files - no server call.
---]]
-local function isBag(bag_name, pos)
---[[
-print("isBag:"
-.." '"..tostring(pos).."'"
-.." '"..tostring(bag_name).."'"
-)
---]]
-	-- set defaults for no bag found
-	local is_bag = false
-	local bag_type = "none"
-	local color = {r=0,g=0,b=0} -- black (should never be used...)
-
-	if bag_name == nil then
-		-- no bag found, return defaults
-	else
-		local itemID, itemType, itemSubType, itemEquipLoc, icon, itemClassID, itemSubClassID = GetItemInfoInstant(bag_name)
---[[
-print("isBag:"
-.." ID:'"..tostring(itemID).."'"
-.." ty:'"..tostring(itemType).."'"
-.." sty:'"..tostring(itemSubType).."'"
-.." EL:'"..tostring(itemEquipLoc).."'"
-.." ic:'"..tostring(icon).."'"
-.." CI:'"..tostring(itemClassID).."'"
-.." SCI:'"..tostring(itemSubClassID).."'"
-)
---]]
-		-- For some inexplicable reason the Backpack does not return as an item...
-		-- so create a default so routine is successful
-		itemID = itemID or 0
-		is_bag = true -- assume non nil is a valid bag name
-
-		if bags[itemID] then
-			bag_type = bags[itemID].style
-			color = bag_info[bag_type].color
-			bag_type = "profession"
-		else
-			bag_type = "normal"
-		end
-	end
-
---[[
-TitanDebug("isBag: "..tostring(itemID)
-.." '"..tostring(bag_name).."'"
-.." '"..tostring(is_bag).."'"
-.." '"..tostring(bag_type).."'"
-.." '"..tostring(string.format("%1.2f",color.r)).."' '"..tostring(string.format("%1.2f",color.g)).."' '"..tostring(string.format("%1.2f",color.b)).."'")
---]]
-	return is_bag, bag_type, color
-end
-
-local function GetButtonText(id)
-	local button, id = TitanUtils_GetButton(id, true);
-	local totalBagSlots, usedBagSlots, availableBagSlots, bag, bagText, bagRichText, bag_type, color;
-	local totalProfBagSlots = {0,0,0,0,0};
-	local usedProfBagSlots = {0,0,0,0,0};
-	local availableProfBagSlots = {0,0,0,0,0};
-	local bagRichTextProf = {"","","","",""};
-
-	-- DF difference between betga and ptr??
-	local get_bag = nil
-	if C_Container.GetBagName then
-		get_bag = C_Container.GetBagName
-	elseif GetBagName then
-		get_bag = GetBagName
-	end
-	local get_slots = nil
-	if C_Container.GetContainerNumSlots then
-		get_slots = C_Container.GetContainerNumSlots
-	elseif GetContainerNumSlots then
-		get_slots = GetContainerNumSlots
-	end
-	local get_info = nil
-	if C_Container.GetContainerItemInfo then
-		get_info = C_Container.GetContainerItemInfo
-	elseif GetContainerItemInfo then
-		get_info = GetContainerItemInfo
-	end
-
---[[
-TitanDebug("GetButtonText: >>>")
---]]
-	totalBagSlots = 0;
-	usedBagSlots = 0;
-	for bag = 0, 4 do -- assuming 0 (Backpack) will not be a profession bag
-		local is_bag, bag_type, color = isBag(get_bag(bag), bag)
-
-		if is_bag then
-			if bag_type == "profession" then -- found a profession bag
-				-- when user wants profession bags counted, they are listed separately in the plugin
-				if TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots") then
-					local size = get_slots(bag);
-					if (size and size > 0) then
-						totalProfBagSlots[bag] = size;
-						for slot = 1, size do
-							if (GetContainerItemInfo(bag, slot)) then
-								usedProfBagSlots[bag] = usedProfBagSlots[bag] + 1;
-							end
-						end
-						availableProfBagSlots[bag] = totalProfBagSlots[bag] - usedProfBagSlots[bag];
-					end
-
-					if (TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots")) then
-						bagText = "  [" .. format(L["TITAN_BAG_FORMAT"], usedProfBagSlots[bag], totalProfBagSlots[bag]) .. "]";
-					else
-						bagText = "  [" .. format(L["TITAN_BAG_FORMAT"], availableProfBagSlots[bag], totalProfBagSlots[bag]) .. "]";
-					end
-					if ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then
-						bagRichTextProf[bag] = TitanUtils_GetColoredText(bagText, color);
-					else
-						bagRichTextProf[bag] = TitanUtils_GetHighlightText(bagText);
-					end
-				end
-			elseif bag_type == "normal" then -- not a profession bag so get used & available counts
-				local size = get_slots(bag);
-				if (size and size > 0) then
-					totalBagSlots = totalBagSlots + size;
-					for slot = 1, size do
-						if (get_info(bag, slot)) then
-							usedBagSlots = usedBagSlots + 1;
-						end
-					end
-				end
-			else -- catch all...
-			end
-		else -- no bag in slot
-		end
---[[
-TitanDebug("GetButtonText:"
-.." "..tostring(bag)
-.." total '"..tostring(totalBagSlots).."'"
-.." used '"..tostring(usedBagSlots).."'"
-.." '"..tostring(is_bag).."'"
-.." '"..tostring(bag_type).."'"
-)
---]]
-	end
-	availableBagSlots = totalBagSlots - usedBagSlots;
-
-	if (TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots")) then
-		bagText = format(L["TITAN_BAG_FORMAT"], usedBagSlots, totalBagSlots);
-	else
-		bagText = format(L["TITAN_BAG_FORMAT"], availableBagSlots, totalBagSlots);
-	end
-
-	if ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then
-		color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, usedBagSlots / totalBagSlots);
-		bagRichText = TitanUtils_GetColoredText(bagText, color);
-	else
-		bagRichText = TitanUtils_GetHighlightText(bagText);
-	end
-
-	bagRichText = bagRichText..bagRichTextProf[1]..bagRichTextProf[2]..bagRichTextProf[3]..bagRichTextProf[4]..bagRichTextProf[5];
-
---[[
-TitanDebug("GetButtonText: <<<")
---]]
-	return L["TITAN_BAG_BUTTON_LABEL"], bagRichText;
 end
 
 -- plugin
 function TitanPanelBagButton_GetButtonText(id)
-	local strA, strB = GetButtonText(id)
+	local strA, strB = GetBagData(id)
 	return strA, strB
 end
 
@@ -377,26 +336,6 @@ function TitanPanelBagButton_GetTooltipText()
 	local totalSlots, usedSlots, availableSlots;
 	local returnstring = "";
 
-	-- DF difference between betga and ptr??
-	local get_slots = nil
-	if C_Container.GetContainerNumSlots then
-		get_slots = C_Container.GetContainerNumSlots
-	elseif GetContainerNumSlots then
-		get_slots = GetContainerNumSlots
-	end
-	local get_free = nil
-	if C_Container.GetContainerNumFreeSlots then
-		get_free = C_Container.GetContainerNumFreeSlots
-	elseif GetContainerNumFreeSlots then
-		get_free = GetContainerNumFreeSlots
-	end
-	local get_id = nil
-	if C_Container.ContainerIDToInventoryID then
-		get_id = C_Container.ContainerIDToInventoryID
-	elseif ContainerIDToInventoryID then
-		get_id = ContainerIDToInventoryID
-	end
-
 	if TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo") then
 		returnstring = "\n";
 		if TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots") then
@@ -407,45 +346,66 @@ function TitanPanelBagButton_GetTooltipText()
 				..":\t"..TitanUtils_GetNormalText(L["TITAN_BAG_FREE_SLOTS"])..":\n";
 		end
 
-		for bag = 0, 4 do
-			totalSlots = get_slots(bag) or 0;
-			availableSlots = get_free(bag) or 0;
-			usedSlots = totalSlots - availableSlots;
-			local itemlink  = bag > 0 and GetInventoryItemLink("player", get_id(bag))
-				or TitanUtils_GetHighlightText(L["TITAN_BAG_BACKPACK"]).. FONT_COLOR_CODE_CLOSE;
-
-			if itemlink then
-				itemlink = string.gsub( itemlink, "%[", "" );
-				itemlink = string.gsub( itemlink, "%]", "" );
-			end
-
-			if bag > 0 and not GetInventoryItemLink("player", get_id(bag)) then
-				itemlink = nil;
-			end
-
+		for bag = MIN_BAGS, MAX_BAGS do
 			local bagText, bagRichText, color;
-			if (TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots")) then
-				bagText = format(L["TITAN_BAG_FORMAT"], usedSlots, totalSlots);
-			else
-				bagText = format(L["TITAN_BAG_FORMAT"], availableSlots, totalSlots);
-			end
-
-			if ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then
-				if totalSlots == 0 then
-					color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, 1 );
+--[[
+TitanDebug("T Bag: TT"
+.." "..tostring(bag)..""
+.." "..tostring(bag_data[bag].has_bag)..""
+.." "..tostring(bag_data[bag].name)..""
+.." "..tostring(bag_data[bag].maxi_slots)..""
+.." "..tostring(bag_data[bag].used_slots)..""
+.." "..tostring(bag_data[bag].free_slots)..""
+)
+--]]
+			if bag_data[bag] and bag_data[bag].has_bag then
+				if (TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots")) then
+					bagText = format(L["TITAN_BAG_FORMAT"], bag_data[bag].used_slots, bag_data[bag].maxi_slots);
 				else
-					color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, usedSlots / totalSlots);
+					bagText = format(L["TITAN_BAG_FORMAT"], bag_data[bag].free_slots, bag_data[bag].maxi_slots);
 				end
-				bagRichText = TitanUtils_GetColoredText(bagText, color);
-			else
-				bagRichText = TitanUtils_GetHighlightText(bagText);
-			end
 
-			if itemlink then
-				returnstring = returnstring..itemlink.."\t"..bagRichText.."\n";
+				if bag_data[bag].style == "profession" 
+				and not TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots")
+				then
+					bagRichText = "|cffa0a0a0"..bagText.."|r" -- show as gray
+				elseif ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then
+					if bag_data[bag].maxi_slots == 0 then
+						color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, 1 );
+					else
+						color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, bag_data[bag].used_slots / bag_data[bag].maxi_slots);
+					end
+					bagRichText = TitanUtils_GetColoredText(bagText, color);
+				else
+					-- use without color
+					bagRichText = TitanUtils_GetHighlightText(bagText);
+				end
+
+				local name_text = bag_data[bag].name
+				if bag_data[bag].style == "profession" 
+				then
+					name_text = TitanUtils_GetColoredText(name_text, bag_data[bag].color)
+				else
+					-- use without color
+				end
+				returnstring = returnstring..name_text.."\t"..bagRichText.."\n";
+			else
+				returnstring = returnstring..NONE.."\n";
 			end
 		end
 		returnstring = returnstring.."\n";
+	end
+
+	if TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots") then
+		local xofy = ""..tostring(bag_data.total_used)
+			.."/"..tostring(bag_data.total_slots).."\n"
+		returnstring = returnstring..TitanUtils_GetNormalText(L["TITAN_BAG_USED_SLOTS"])
+			..":\t"..xofy
+	else
+		local xofy = ""..tostring(bag_data.total_free)
+			.."/"..tostring(bag_data.total_slots).."\n"
+		returnstring = returnstring..TitanUtils_GetNormalText(L["TITAN_BAG_USED_SLOTS"])
+			..":\t"..xofy
 	end
 	
 	-- Add Hint

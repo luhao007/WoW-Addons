@@ -814,7 +814,6 @@ local function TitanPanelButton_SetButtonText(id)
 		label1, value1, label2, value2, label3, value3, label4, value4 =
 			pcall(buttonTextFunction, id)
 
---	if not call_success then buttonText:SetText("<?>") return end
 	if call_success then 
 		-- All is good
 	else
@@ -826,12 +825,24 @@ local function TitanPanelButton_SetButtonText(id)
 		return 
 	end
 
+	--=====================================
+	-- Determine the label value pairs : 1 - 4
+	-- Each could be custom per user
+	--
+	-- NummLabelsSeen - used for the config to avoid confusing user
+	-- Plugin MUST have been shown at least once.
+
+	-- In the case of first label only (no value), set the button and return.
 	if label1 and
 		not (label2 or label3 or label4
 		or value1 or value2 or value3 or value4) then
 		buttonText:SetText(label1)
+		
+		TitanSetVar(id, "NumLabelsSeen", 1)
+
 		return
 	end
+
 
 	local show_label = TitanGetVar(id, "ShowLabelText")
 	local values = 0
@@ -848,18 +859,45 @@ local function TitanPanelButton_SetButtonText(id)
 		end
 		if label2 or value2 then
 			values = 2
-			if not show_label then label2 = "" end
+			if show_label then 
+				if TitanGetVar(id, "CustomLabel2TextShow") then
+					-- override the label per the user
+					label2 = TitanGetVar(id, "CustomLabel2Text")
+				else
+				end
+			else
+				label2 = "" 
+			end
 			if label3 or value3 then
+				if show_label then 
+					if TitanGetVar(id, "CustomLabel3TextShow") then
+						-- override the label per the user
+						label3 = TitanGetVar(id, "CustomLabel3Text")
+					else
+					end
+				else
+					label3 = "" 
+				end
 				values = 3
-				if not show_label then label3 = "" end
 				if label4 or value4 then
 					values = 4
-					if not show_label then label4 = "" end
+					if show_label then 
+						if TitanGetVar(id, "CustomLabel43TextShow") then
+							-- override the label per the user
+							label4 = TitanGetVar(id, "CustomLabel4Text")
+						else
+						end
+					else
+						label4 = "" 
+					end
 				end
 			end
 		end
 	end
 
+	TitanSetVar(id, "NumLabelsSeen", values)
+	
+	-- values tells which format to use from the array
 	buttonText:SetFormattedText(format_with_label[values],
 		label1 or "", value1 or "",
 		label2 or "", value2 or "",

@@ -529,15 +529,16 @@ local function FollowerButton_OnClick(self, b)
 		self:GetParent():Refresh()
 		return
 	elseif b == "RightButton" then
-		local fa = CovenantMissionFrame.MissionTab.MissionPage.Board.framesByBoardIndex
+		local mp = CovenantMissionFrame.MissionTab.MissionPage
+		local fa = mp.Board.framesByBoardIndex
 		local fid = self.info.followerID
 		for i=0,self.info.isAutoTroop and -1 or 4 do
 			if fa[i]:GetFollowerGUID() == fid then
-				CovenantMissionFrame:RemoveFollowerFromMission(fa[i], true)
+				U.CallWithProxiedHelpTip(CovenantMissionFrame.RemoveFollowerFromMission, CovenantMissionFrame, fa[i], true)
 				return
 			end
 		end
-		CovenantMissionFrame.MissionTab.MissionPage:AddFollower(fid)
+		U.CallWithProxiedHelpTip(mp.AddFollower, mp, fid)
 	elseif b == "LeftButton" and IsModifiedClick("CHATLINK") then
 		ChatEdit_InsertLink(C.GetFollowerLink(self.info.followerID))
 	end

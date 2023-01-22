@@ -391,7 +391,7 @@ function addon:GetUnitInfo(unit)
     t.reactionName = reaction and _G["FACTION_STANDING_LABEL"..reaction]
     t.creature     = UnitCreatureType(unit)
     t.classifBoss  = (level==-1 or classif == "worldboss") and BOSS
-    t.classifElite = classif == "elite" and ELITE
+    t.classifElite = (classif == "elite" or classif == "rareelite") and ELITE
     t.classifRare  = (classif == "rare" or classif == "rareelite") and RARE
     t.isPlayer     = UnitIsPlayer(unit) and PLAYER
     t.moveSpeed    = self:GetUnitSpeed(unit)

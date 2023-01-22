@@ -122,8 +122,8 @@ local function PickRandomBobber(bobbersetting)
 	for _,id in ipairs(bobbersetting) do
 		if (PlayerHasToy(id) and C_ToyBox.IsToyUsable(id)) then
 			if not PLANS:ItemCooldownOn(id) then
-				-- _, id = C_ToyBox.GetToyInfo(id);
-				tinsert(baits, Bobbers[id].spell);
+				_, id = C_ToyBox.GetToyInfo(id);
+				tinsert(baits, id);
 			end
 		end
 	end

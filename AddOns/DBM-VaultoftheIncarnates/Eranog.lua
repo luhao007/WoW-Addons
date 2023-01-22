@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2480, "DBM-VaultoftheIncarnates", nil, 1200)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20221217005055")
+mod:SetRevision("20230115051456")
 mod:SetCreatureID(184972)
 mod:SetEncounterID(2587)
 mod:SetUsedIcons(1, 2, 3, 4, 5)
@@ -23,9 +23,6 @@ mod:RegisterEventsInCombat(
 --	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, adjust tank debuff check code for tank debuff to match CD and correct stack swap count based on the math
---TODO, continue to review auto stopping timers after x casts. need to see normal and LFR first to make sure not cutting timers off that should't be on them yet
---TODO, initial big add timers on mythic if it matters enough, but it's first boss so meh
 --[[
 (ability.id = 370307 or ability.id = 390715 or ability.id = 394917 or ability.id = 370615 or ability.id = 396023) and type = "begincast"
  or (ability.id = 396022 or ability.id = 394917) and type = "cast"
@@ -217,20 +214,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFlamerift:CombinedShow(0.5, args.destName)
 	elseif spellId == 394906 then
 		local amount = args.amount or 1
-		if amount >= 6 then
-			if args:IsPlayer() then
-				specWarnBurningWound:Show(amount)
-				specWarnBurningWound:Play("stackhigh")
-			else
-				if not DBM:UnitDebuff("player", spellId) and not UnitIsDeadOrGhost("player") and not self:IsHealer() then
-					specWarnBurningWoundTaunt:Show(args.destName)
-					specWarnBurningWoundTaunt:Play("tauntboss")
+		if amount >= 3 and self:AntiSpam(3, 1) then
+			if amount >= 6 then
+				if args:IsPlayer() then
+					specWarnBurningWound:Show(amount)
+					specWarnBurningWound:Play("stackhigh")
 				else
-					warnBurningWound:Show(args.destName, amount)
+					if not DBM:UnitDebuff("player", spellId) and not UnitIsDeadOrGhost("player") and not self:IsHealer() then
+						specWarnBurningWoundTaunt:Show(args.destName)
+						specWarnBurningWoundTaunt:Play("tauntboss")
+					else
+						warnBurningWound:Show(args.destName, amount)
+					end
 				end
+			else
+				warnBurningWound:Show(args.destName, amount)
 			end
-		else
-			warnBurningWound:Show(args.destName, amount)
 		end
 	end
 end
@@ -271,7 +270,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 370648 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
+	if spellId == 370648 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnGTFO:Show(spellName)
 		specWarnGTFO:Play("watchfeet")
 	end

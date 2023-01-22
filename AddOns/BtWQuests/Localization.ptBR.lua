@@ -5,6 +5,7 @@ if GetLocale() ~= "ptBR" then
 end
 
 local L = BtWQuests.L
+L["ALLIANCE_ZONES"] = "Zonas da Aliança"
 L["BTWQUESTS_ACTIVE"] = "Ativo"
 L["BTWQUESTS_ALLIED_RACE"] = "Raça Aliada"
 L["BTWQUESTS_ALLIED_RACES"] = "Raças Aliadas"

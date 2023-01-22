@@ -1,5 +1,5 @@
 ## Interface: 100002
-## Version: 2.7.13
+## Version: 2.7.15
 ## SavedVariables: PawnCommon
 ## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
 

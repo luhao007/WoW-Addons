@@ -1,4 +1,3 @@
-
 local LibJSON = LibStub:GetLibrary("LibJSON.9000")
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibDropdown = LibStub:GetLibrary("LibDropdown.7000")
@@ -635,11 +634,7 @@ local options = {
 local frame = CreateFrame("Frame", nil, UIParent)
 frame.anchor = CreateFrame("Frame", nil, frame)
 frame.anchor:SetPoint("TOPLEFT", 32, -16)
-if (clientToc == 30400) then
-  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
-else
-  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
-end
+frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
 frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frame.title:SetPoint("TOPLEFT", 18, -16)
 frame.title:SetText(format("%s |cff33eeff%s|r", addonName, "General"))
@@ -652,11 +647,7 @@ frame.text:SetText("by |cffF58CBABeezer|r |cffff00ff<The Dragon Fighters>|r - |c
 local framePC = CreateFrame("Frame", nil, UIParent)
 framePC.anchor = CreateFrame("Frame", nil, framePC)
 framePC.anchor:SetPoint("TOPLEFT", 32, -13)
-if (clientToc == 30400) then
-  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
-else
-  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
-end
+frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
 framePC.title = framePC:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 framePC.title:SetPoint("TOPLEFT", 18, -16)
 framePC.title:SetText(format("%s |cff33eeff%s|r", addonName, "Unit Is Player"))
@@ -692,11 +683,7 @@ framePCScrollFrame:Hide()
 local frameNPC = CreateFrame("Frame", nil, UIParent)
 frameNPC.anchor = CreateFrame("Frame", nil, frameNPC)
 frameNPC.anchor:SetPoint("TOPLEFT", 32, -16)
-if (clientToc == 30400) then
-  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
-else
-  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
-end
+frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
 frameNPC.title = frameNPC:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameNPC.title:SetPoint("TOPLEFT", 18, -16)
 frameNPC.title:SetText(format("%s |cff33eeff%s|r", addonName, "Unit Is NPC"))
@@ -719,11 +706,7 @@ frameNPCScrollFrame.name = " - NPC"
 local frameStatusbar = CreateFrame("Frame", nil, UIParent)
 frameStatusbar.anchor = CreateFrame("Frame", nil, frameStatusbar)
 frameStatusbar.anchor:SetPoint("TOPLEFT", 32, -16)
-if (clientToc == 30400) then
-  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
-else
-  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
-end
+frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
 frameStatusbar.title = frameStatusbar:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameStatusbar.title:SetPoint("TOPLEFT", 18, -16)
 frameStatusbar.title:SetText(format("%s |cff33eeff%s|r", addonName, "StatusBar"))
@@ -733,11 +716,7 @@ frameStatusbar.name = " - StatusBar"
 local frameSpell = CreateFrame("Frame", nil, UIParent)
 frameSpell.anchor = CreateFrame("Frame", nil, frameSpell)
 frameSpell.anchor:SetPoint("TOPLEFT", 32, -16)
-if (clientToc == 30400) then
-  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
-else
-  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
-end
+frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
 frameSpell.title = frameSpell:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameSpell.title:SetPoint("TOPLEFT", 18, -16)
 frameSpell.title:SetText(format("%s |cff33eeff%s|r", addonName, "Spell"))
@@ -747,11 +726,7 @@ frameSpell.name = " - Spell"
 local frameFont = CreateFrame("Frame", nil, UIParent)
 frameFont.anchor = CreateFrame("Frame", nil, frameFont)
 frameFont.anchor:SetPoint("TOPLEFT", 32, -16)
-if (clientToc == 30400) then
-  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
-else
-  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
-end
+frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
 frameFont.title = frameFont:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameFont.title:SetPoint("TOPLEFT", 18, -16)
 frameFont.title:SetText(format("%s |cff33eeff%s|r", addonName, "Font"))
@@ -761,11 +736,7 @@ frameFont.name = " - Font"
 local frameVariables = CreateFrame("Frame", nil, UIParent)
 frameVariables.anchor = CreateFrame("Frame", nil, frameVariables)
 frameVariables.anchor:SetPoint("TOPLEFT", 32, -16)
-if (clientToc == 30400) then
-  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
-else
-  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
-end
+frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
 frameVariables.title = frameVariables:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameVariables.title:SetPoint("TOPLEFT", 18, -16)
 frameVariables.title:SetText(format("%s |cff33eeff%s|r", addonName, "Variables"))

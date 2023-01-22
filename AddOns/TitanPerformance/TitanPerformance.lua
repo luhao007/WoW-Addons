@@ -68,7 +68,7 @@ function TitanPanelPerformanceButton_OnLoad(self)
 			ShowLabelText = true,
 			ShowRegularText = false,
 			ShowColoredText = true,
-			DisplayOnRightSide = false,
+			DisplayOnRightSide = true,
 		},
 		savedVariables = {
 			ShowFPS = 1,

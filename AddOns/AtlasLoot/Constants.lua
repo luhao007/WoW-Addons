@@ -47,6 +47,7 @@ ATLASLOOT_ROGUE_COLOR 		= "|c"..RAID_CLASS_COLORS["ROGUE"].colorStr
 ATLASLOOT_SHAMAN_COLOR 		= "|c"..RAID_CLASS_COLORS["SHAMAN"].colorStr     
 ATLASLOOT_WARLOCK_COLOR 	= "|c"..RAID_CLASS_COLORS["WARLOCK"].colorStr    
 ATLASLOOT_WARRIOR_COLOR 	= "|c"..RAID_CLASS_COLORS["WARRIOR"].colorStr    
+ATLASLOOT_EVOKER_COLOR 		= "|c"..RAID_CLASS_COLORS["EVOKER"].colorStr    
 
 -- ##############################
 -- AtlasLoot Private things

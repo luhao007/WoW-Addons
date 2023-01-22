@@ -1405,6 +1405,23 @@ local function NoColor(name)
 	return no_color
 end
 
+local function AddCustomPluginVars(reg)
+	-- These are added to EACH plugin for various Titan controlled features
+	
+	--==================
+	-- Custom labels
+	reg.savedVariables.CustomLabelTextShow = false
+	reg.savedVariables.CustomLabelText = ""
+	reg.savedVariables.CustomLabel2TextShow = false
+	reg.savedVariables.CustomLabel2Text = ""
+	reg.savedVariables.CustomLabel3TextShow = false
+	reg.savedVariables.CustomLabel3Text = ""
+	reg.savedVariables.CustomLabel4TextShow = false
+	reg.savedVariables.CustomLabel4Text = ""
+	-- Number of labels seen - make config less confusing
+	reg.savedVariables.NumLabelsSeen = 1 -- assume at least one label
+end
+
 --[[ local
 NAME: TitanUtils_RegisterPluginProtected
 DESC: This routine is intended to be called in a protected manner (pcall) by Titan when it attempts to register a plugin.
@@ -1449,7 +1466,7 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 				id = self.registry.id
 				if TitanUtils_IsPluginRegistered(id) then
 					-- We have already registered this plugin!
-					issue =  "Plugin already loaded. "
+					issue =  "Plugin '"..tostring(id).."' already loaded. "
 					.."Please see if another plugin (Titan or LDB) is also loading "
 					.."with the same name.\n"
 					.."<Titan>.registry.id or <LDB>.label"
@@ -1464,6 +1481,12 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 							-- Custom labels
 							self.registry.savedVariables.CustomLabelTextShow = false
 							self.registry.savedVariables.CustomLabelText = ""
+							self.registry.savedVariables.CustomLabel2TextShow = false
+							self.registry.savedVariables.CustomLabel2Text = ""
+							self.registry.savedVariables.CustomLabel3TextShow = false
+							self.registry.savedVariables.CustomLabel3Text = ""
+							self.registry.savedVariables.CustomLabel4TextShow = false
+							self.registry.savedVariables.CustomLabel4Text = ""
 						end
 
 						-- Assign and Sort the list of plugins
@@ -1477,15 +1500,6 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 						table.insert(TitanPluginsIndex, self.registry.id);
 						table.sort(TitanPluginsIndex,
 							function(a, b)
---[[
-								-- if the .menuText is missing then use .id
-								if TitanPlugins[a].menuText == nil then
-									TitanPlugins[a].menuText = TitanPlugins[a].id;
-								end
-								if TitanPlugins[b].menuText == nil then
-									TitanPlugins[b].menuText = TitanPlugins[b].id;
-								end
---]]
 								return string.lower(TitanPlugins[a].menuText)
 									< string.lower(TitanPlugins[b].menuText);
 							end
@@ -2089,7 +2103,8 @@ function TitanDebug(debug_message, debug_type)
 		TitanUtils_GetGoldText(L["TITAN_DEBUG"].." ")
 		..time_stamp
 		..dtype
-		..TitanUtils_GetGreenText(debug_message)
+--		..TitanUtils_GetBlueText(debug_message)
+		..TitanUtils_GetHexText(debug_message, "1DA6C5")
 
 	if not TitanAllGetVar("Silenced") then
 		_G["DEFAULT_CHAT_FRAME"]:AddMessage(msg)

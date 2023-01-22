@@ -210,6 +210,7 @@ TitanPluginRegisteredNum = 0
 
 --[[ Titan
 TitanPluginExtras table holds the plugin data for plugins that are in saved variables but not loaded on the current character.
+Saved as TitanPlayerSettings.Extra
 TitanPluginExtrasNum is the number of plugins not loaded.
 --]]
 TitanPluginExtras = {}
@@ -340,20 +341,6 @@ if fullversion then
 	if pos then
 		TITAN_VERSION = string.sub(fullversion,1,pos-1);
 	end
-end
-
---[[ local
-NAME: TitanRegisterExtra
-DESC: Add the saved variable data of an unloaded plugin to the 'extra' list in case the user wants to delete the data via Tian Extras option.
-VAR: id - the name of the plugin (string)
-OUT:  None
---]]
-local function TitanRegisterExtra(id) 
-	TitanPluginExtrasNum = TitanPluginExtrasNum + 1
-	TitanPluginExtras[TitanPluginExtrasNum] = 
-		{num=TitanPluginExtrasNum, 
-		id = (id or "?"), 
-		}
 end
 
 -- routines to sync toon data
@@ -586,26 +573,6 @@ function TitanVariables_SyncPluginSettings() -- one plugin uses this
 end
 
 --[[ Titan
-NAME: TitanVariables_ExtraPluginSettings
-DESC: Routine to mark plugin data that is not loaded (no lua file) but has plugin saved vars (last save to disk).
-VAR:  None
-OUT:  None
-NOTE: This data is made available in case the user wants to delete the data via Tian Extras option.
-:NOTE
---]]
-function TitanVariables_ExtraPluginSettings()
-	TitanPluginExtrasNum = 0
-	TitanPluginExtras = {}
-	-- Get the saved plugins that are not loaded
-	for id, plugin in pairs(TitanPluginSettings) do
-		if (id and TitanUtils_IsPluginRegistered(id)) then
-		else
-			TitanRegisterExtra(id)
-		end
-	end
-end
-
---[[ Titan
 NAME: TitanVariables_InitTitanSettings
 DESC: Ensure TitanSettings (one of the saved vars in the toc) exists and set the Titan version.
 VAR:  None
@@ -691,6 +658,7 @@ TitanDebug("_UseSettings "
 	TitanPlayerSettings = TitanSettings.Players[to_profile];
 	TitanPluginSettings = TitanPlayerSettings["Plugins"];
 	TitanPanelSettings = TitanPlayerSettings["Panel"];
+	
 	Sync_panel_settings(TITAN_PANEL_SAVED_VARIABLES);
 	
 	if action == TITAN_PROFILE_RESET then
@@ -733,14 +701,19 @@ TitanDebug("_UseSettings "
 		else
 			TitanVariables_PluginSettingsInit()
 		end
-		TitanVariables_ExtraPluginSettings()
 	end
 	
 	TitanSkins = TitanVariables_SyncSkins()
 
 	Set_Timers(reset)
+	
 	-- for debug if a user needs to send in the Titan saved vars
-	TitanPlayerSettings["Register"] = {}
+	if TitanPlayerSettings["Register"] then
+		-- From WoW saved vars
+	else
+		-- New install or after reset
+		TitanPlayerSettings["Register"] = {}
+	end
 	TitanPanelRegister = TitanPlayerSettings["Register"]
 	
 	TitanSettings.Profile = to_profile

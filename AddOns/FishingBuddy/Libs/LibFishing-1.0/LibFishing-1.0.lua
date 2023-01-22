@@ -10,7 +10,7 @@ Licensed under a Creative Commons "Attribution Non-Commercial Share Alike" Licen
 local _
 
 local MAJOR_VERSION = "LibFishing-1.0"
-local MINOR_VERSION = 101101
+local MINOR_VERSION = 101102
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 
@@ -2080,7 +2080,7 @@ local function ClickHandled(self)
     if ( self.postclick ) then
         self.postclick();
     end
-    self:ResetOverride()
+    self.fl:ResetOverride()
 end
 
 local function BuffUpdate(self, elapsed)
@@ -2114,7 +2114,7 @@ function FishLib:ResetOverride(force)
     if self.combat_flag or self:WillTaint() then
         self.clear_bindings = true
     elseif self.clear_bindings or force then
-        local btn = _G[SABUTTONNAME];
+        local btn = self:CleanSAButton(false);
         if (  btn ) then
             ClearOverrideBindings(btn)
         end
@@ -2126,11 +2126,8 @@ function FishLib:CreateSAButton()
     local btn = _G[SABUTTONNAME];
     if ( not btn ) then
         btn = CreateFrame("Button", SABUTTONNAME, nil, "SecureActionButtonTemplate");
-        btn:EnableMouse(true);
-        btn:RegisterForClicks();
         btn:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, 0);
         btn:SetFrameStrata("LOW");
-        btn:SetFrameLevel(0)
         btn:Show();
     end
 
@@ -2152,7 +2149,7 @@ function FishLib:CreateSAButton()
     end
 
     if (not self.buttonevent) then
-        self.buttonevent = "RightButtonUp";
+        self.buttonevent = "RightButtonDown";
     end
     btn:SetScript("PostClick", ClickHandled);
     SecureHandlerWrapScript(btn, "PostClick", btn,  [[
@@ -2162,10 +2159,10 @@ function FishLib:CreateSAButton()
     btn.fl = self;
 end
 
-FishLib.MOUSE1 = "RightButtonUp";
-FishLib.MOUSE2 = "Button4Up";
-FishLib.MOUSE3 = "Button5Up";
-FishLib.MOUSE4 = "MiddleButtonUp";
+FishLib.MOUSE1 = "RightButtonDown";
+FishLib.MOUSE2 = "Button4Down";
+FishLib.MOUSE3 = "Button5Down";
+FishLib.MOUSE4 = "MiddleButtonDown";
 FishLib.CastButton = {};
 FishLib.CastButton[FishLib.MOUSE1] = "RightButton";
 FishLib.CastButton[FishLib.MOUSE2] = "Button4";
@@ -2185,7 +2182,7 @@ FishLib.MapButton["MiddleButton"] = FishLib.MOUSE4;
 
 function FishLib:GetSAMouseEvent()
     if (not self.buttonevent) then
-        self.buttonevent = "RightButtonUp";
+        self.buttonevent = "RightButtonDown";
     end
     return self.buttonevent;
 end
@@ -2200,7 +2197,7 @@ end
 
 function FishLib:SetSAMouseEvent(buttonevent)
     if (not buttonevent) then
-        buttonevent = "RightButtonUp";
+        buttonevent = "RightButtonDown";
     end
     if (self.CastButton[buttonevent]) then
         self.buttonevent = buttonevent;
@@ -2214,8 +2211,34 @@ function FishLib:SetSAMouseEvent(buttonevent)
     -- return nil;
 end
 
-function FishLib:InvokeFishing(useaction)
+function FishLib:ClearAllAttributes()
     local btn = _G[SABUTTONNAME];
+    if ( not btn ) then
+        return;
+    end
+end
+
+function FishLib:CleanSAButton(override)
+    local btn = _G[SABUTTONNAME];
+    if ( btn ) then
+        for _, attrib in ipairs({"type", "spell", "action", "toy", "item", "target-slot", "unit", "macrotext", "macro"}) do
+            btn:SetAttribute(attrib, nil)
+        end
+    end
+    return btn
+end
+
+function FishLib:SetOverrideBindingClick()
+    local btn = _G[SABUTTONNAME];
+    if ( btn ) then
+        local buttonkey = self:GetSAMouseKey();
+        SetOverrideBindingClick(btn, true, buttonkey, SABUTTONNAME);
+        self.clear_bindings = true
+    end
+end
+
+function FishLib:InvokeFishing(useaction)
+    local btn = self:CleanSAButton(true)
     if ( not btn ) then
         return;
     end
@@ -2223,38 +2246,52 @@ function FishLib:InvokeFishing(useaction)
     local findid = self:GetFishingActionBarID();
     local buttonkey = self:GetSAMouseKey();
     if ( not useaction or not findid ) then
-        SetOverrideBindingSpell(btn, true, buttonkey, name)
+        btn:SetAttribute("type", "spell");
+        btn:SetAttribute("spell", name);
     else
-        SetOverrideBinding(GetHandleFrame(self), true, key, findid);
+        btn:SetAttribute("type", "action");
+        btn:SetAttribute("action", findid);
     end
-    self.clear_bindings = true
+    self:SetOverrideBindingClick()
 end
 
 function FishLib:InvokeLuring(id, itemtype)
-    local btn = _G[SABUTTONNAME];
+    local btn = self:CleanSAButton(true)
     if ( not btn ) then
         return;
     end
     if ( id ) then
-        local buttonkey = self:GetSAMouseKey();
+        id = self:ValidLink(id)
         if itemtype == "toy" then
-            SetOverrideBindingSpell(btn, true, buttonkey, id)
+            btn:SetAttribute("type", "toy");
+            btn:SetAttribute("toy", id);
         else
-            id = self:ValidLink(id)
-            SetOverrideBindingItem(btn, true, buttonkey, id)
+            if not itemtype then
+                itemtype = "item";
+                targetslot = INVSLOT_MAINHAND;
+            end
+            btn:SetAttribute("type", itemtype);
+            btn:SetAttribute("item", id);
+            btn:SetAttribute("target-slot", targetslot);
         end
-        self.clear_bindings = true
+        self:SetOverrideBindingClick()
     end
 end
 
 function FishLib:InvokeMacro(macrotext)
-    local btn = _G[SABUTTONNAME];
+    local btn = self:CleanSAButton(true)
     if ( not btn ) then
         return;
     end
-    local buttonkey = self:GetSAMouseKey();
-    SetOverrideBindingMacro(btn, true, buttonkey, macrotext)
-    self.clear_bindings = true
+    btn:SetAttribute("type", "macro");
+    if (macrotext.find(macrotext, "/")) then
+        btn:SetAttribute("macrotext", macrotext);
+        btn:SetAttribute("macro", nil);
+    else
+        btn:SetAttribute("macrotext", nil);
+        btn:SetAttribute("macro", macrotext);
+    end
+    self:SetOverrideBindingClick()
 end
 
 function FishLib:OverrideClick(postclick)

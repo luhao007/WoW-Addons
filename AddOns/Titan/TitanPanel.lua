@@ -264,7 +264,6 @@ local function TitanPanel_CreateABar(frame)
 
 		_G[hide_name]:SetFrameStrata("BACKGROUND")
 		_G[hide_name]:SetHeight(TITAN_PANEL_BAR_HEIGHT/2);
-		_G[hide_name]:SetWidth(2560);
 
 		-- Set the display bar
 		local container = _G[frame]
@@ -280,20 +279,12 @@ local function TitanPanel_CreateABar(frame)
 end
 
 --------------------------------------------------------------
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("ADDON_LOADED");
 --
--- Event registration
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("CVAR_UPDATE");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_LOGOUT");
+-- Event routine : redirects to TitanPanelBarButton:<registered event> routines below.
 _G[TITAN_PANEL_CONTROL]:SetScript("OnEvent", function(_, event, ...)
 	_G[TITAN_PANEL_CONTROL][event](_G[TITAN_PANEL_CONTROL], ...)
 end)
--- For the pet battle - for now we'll hide the Titan bars...
--- Cannot seem to move the 'top' part of the frame.
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PET_BATTLE_OPENING_START");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PET_BATTLE_CLOSE");
--- Adjust a couple frames per user
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("EDIT_MODE_LAYOUTS_UPDATED");
 
 
 --[[ Titan
@@ -412,20 +403,58 @@ end
 --
 -- Event handlers
 --
+--[===[
+		local WoWClassicEra, WoWClassicTBC, WoWWOTLKC, WoWRetail
+		if wowversion < 20000 then
+			WoWClassicEra = true
+		elseif wowversion < 30000 then 
+			WoWClassicTBC = true
+		elseif wowversion < 40000 then 
+			WoWWOTLKC = true
+		elseif wowversion > 90000 then
+			WoWRetail = true
+		else
+			-- n/a
+		end
+--]===]
 function TitanPanelBarButton:ADDON_LOADED(addon)
 	if addon == TITAN_ID then
-		-- Get Profile and Saved Vars
-		TitanVariables_InitTitanSettings();
-		local VERSION = TitanPanel_GetVersion();
-		local POS = strfind(VERSION," - ");
-		VERSION = strsub(VERSION,1,POS-1);
-		TitanPrint("", "header")
+		-- Determine WoW TOC Version
+		local wowversion  = select(4, GetBuildInfo())
+		if wowversion >= 100000 then -- Initialize Titan
+			-- Event registration
+			_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD");
+			_G[TITAN_PANEL_CONTROL]:RegisterEvent("CVAR_UPDATE");
+			_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_LOGOUT");
+			-- For the pet battle - for now we'll hide the Titan bars...
+			-- Cannot seem to move the 'top' part of the frame.
+			_G[TITAN_PANEL_CONTROL]:RegisterEvent("PET_BATTLE_OPENING_START");
+			_G[TITAN_PANEL_CONTROL]:RegisterEvent("PET_BATTLE_CLOSE");
+			-- Adjust a couple frames per user
+			_G[TITAN_PANEL_CONTROL]:RegisterEvent("EDIT_MODE_LAYOUTS_UPDATED");
 
-		if not ServerTimeOffsets then
-			ServerTimeOffsets = {};
-		end
-		if not ServerHourFormat then
-			ServerHourFormat = {};
+			-- Get Profile and Saved Vars
+			TitanVariables_InitTitanSettings();
+--			local VERSION = TitanPanel_GetVersion();
+--			local POS = strfind(VERSION," - ");
+--			VERSION = strsub(VERSION,1,POS-1);
+			TitanPrint("", "header")
+
+			if not ServerTimeOffsets then
+				ServerTimeOffsets = {};
+			end
+			if not ServerHourFormat then
+				ServerHourFormat = {};
+			end
+		else
+			-- User loaded wrong Titan version; tried to use retail on Classic or Classic Era
+			-- Could save the user grief; Titan could mangle the saved vars on a version mismatch.
+			TitanPrint("Titan did not initialize!!!!"
+				, "error")
+			TitanPrint("This version needs API released with "
+				.." "..tostring(EXPANSION_NAME9)..""
+				.." (10.00.xx)"
+				, "error")
 		end
 		-- Unregister event - saves a few event calls.
 		self:UnregisterEvent("ADDON_LOADED");
@@ -472,8 +501,7 @@ function TitanPanelBarButton:CVAR_UPDATE(cvarname, cvarvalue)
 	or cvarname == "WINDOWED_MODE"
 	or cvarname == "uiScale" then
 		if TitanPlayerSettings and TitanPanelGetVar("Scale") then
-			Titan_AdjustScale()
-			-- Adjust frame positions
+			TitanPanel_SetScale()
 			TitanPanel_AdjustFrames(true, "CVar update "..tostring(cvarname))
 		end
 	end
@@ -486,7 +514,6 @@ function TitanPanelBarButton:PLAYER_LOGOUT()
 			TitanPanelRegister.ToBe = TitanPluginToBeRegistered
 			TitanPanelRegister.ToBeNum = TitanPluginToBeRegisteredNum
 			TitanPanelRegister.TitanPlugins = TitanPlugins
-			TitanPanelRegister.Extras = TitanPluginExtras
 		end
 	end
 	Titan__InitializedPEW = nil
@@ -646,10 +673,8 @@ local function handle_reset_cmds(cmd_list)
 	elseif p1 == "panelscale" then
 		if not InCombatLockdown() then
 			TitanPanelSetVar("Scale", 1);
-			-- Adjust panel scale
-			Titan_AdjustScale()
-			-- Adjust frame positions
-			TitanPanel_AdjustFrames(true, "Config: adj scale")
+			TitanPanel_SetScale()
+			TitanPanel_AdjustFrames(true, "Command: reset scale")
 			TitanPrint(L["TITAN_PANEL_SLASH_RESP3"], "info")
 		else
 			TitanPrint(L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"], "warning")
@@ -881,6 +906,21 @@ function TitanPanel_CreateBarTextures()
 	for idx,v in pairs (TitanBarData) do
 		bar_name = TITAN_PANEL_DISPLAY_PREFIX..TitanBarData[idx].name
 		screenWidth = ((_G[bar_name]:GetWidth() or GetScreenWidth()) + 1 ) --/ 2
+
+--[===[
+		screenWidth = (1900 + 1 )
+--_G[bar_name]:SetWidth(screenWidth)
+_G[bar_name]:SetSize(screenWidth, TITAN_PANEL_BAR_TEXTURE_HEIGHT)
+-- bar width test
+print("T CBar"
+.." scr w: "..tostring(format("%0.2f", GetScreenWidth()))..""
+.." pyh w: "..tostring(GetPhysicalScreenSize())..""
+.." bar: "..tostring(format("%0.2f", _G[bar_name]:GetWidth()))..""
+.." "..tostring(format("%0.2f", UIParent:GetEffectiveScale()))..""
+.." "..tostring(screenWidth)..""
+.." "..tostring(bar_name)..""
+)
+--]===]
 		numOfTextures = floor(screenWidth / 256 )
 		numOfTexturesHider = (numOfTextures * 2) + 1
 		lastTextureWidth = screenWidth - (numOfTextures * 256)
@@ -1877,12 +1917,12 @@ local function TitanPanel_PlayerSettingsMenu()
 			if plugin.controlVariables.ShowIcon then
 				info = {};
 				info.text = L["TITAN_PANEL_MENU_SHOW_ICON"];
-				info.value = {id, "ShowIcon", nil};
+				info.value = {plugin.id, "ShowIcon", nil};
 				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar({id, "ShowIcon", nil})
+					TitanPanelRightClickMenu_ToggleVar({info.value[1], "ShowIcon", nil})
 				end
 				info.keepShownOnClick = 1;
-				info.checked = TitanGetVar(id, "ShowIcon");
+				info.checked = TitanGetVar(info.value[1], "ShowIcon");
 				info.disabled = nil;
 				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			end
@@ -1891,12 +1931,12 @@ local function TitanPanel_PlayerSettingsMenu()
 			if plugin.controlVariables.ShowLabelText then
 				info = {};
 				info.text = L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"];
-				info.value = {id, "ShowLabelText", nil};
+				info.value = {plugin.id, "ShowLabelText", nil};
 				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar({id, "ShowLabelText", nil})
+					TitanPanelRightClickMenu_ToggleVar({info.value[1], "ShowLabelText", nil})
 				end
 				info.keepShownOnClick = 1;
-				info.checked = TitanGetVar(id, "ShowLabelText");
+				info.checked = TitanGetVar(info.value[1], "ShowLabelText");
 				info.disabled = nil;
 				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			end
@@ -1905,12 +1945,12 @@ local function TitanPanel_PlayerSettingsMenu()
 			if plugin.controlVariables.ShowRegularText then
 				info = {};
 				info.text = L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"]
-				info.value = {id, "ShowRegularText", nil};
+				info.value = {plugin.id, "ShowRegularText", nil};
 				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar({id, "ShowRegularText", nil})
+					TitanPanelRightClickMenu_ToggleVar({info.value[1], "ShowRegularText", nil})
 				end
 				info.keepShownOnClick = 1;
-				info.checked = TitanGetVar(id, "ShowRegularText");
+				info.checked = TitanGetVar(info.value[1], "ShowRegularText");
 				info.disabled = nil;
 				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			end
@@ -1919,12 +1959,12 @@ local function TitanPanel_PlayerSettingsMenu()
 			if plugin.controlVariables.ShowColoredText then
 				info = {};
 				info.text = L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"];
-				info.value = {id, "ShowColoredText", nil};
+				info.value = {plugin.id, "ShowColoredText", nil};
 				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar({id, "ShowColoredText", nil})
+					TitanPanelRightClickMenu_ToggleVar({info.value[1], "ShowColoredText", nil})
 				end
 				info.keepShownOnClick = 1;
-				info.checked = TitanGetVar(id, "ShowColoredText");
+				info.checked = TitanGetVar(info.value[1], "ShowColoredText");
 				info.disabled = nil;
 				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			end
@@ -1933,13 +1973,14 @@ local function TitanPanel_PlayerSettingsMenu()
 			if plugin.controlVariables.DisplayOnRightSide then
 				info = {};
 				info.text = L["TITAN_PANEL_MENU_LDB_SIDE"];
+				info.value = {plugin.id, "DisplayOnRightSide", nil};
 				info.func = function ()
-					TitanToggleVar(id, "DisplayOnRightSide")
+					TitanToggleVar(info.value[1], "DisplayOnRightSide")
 					local bar = TitanUtils_GetWhichBar(id)
 					TitanPanel_RemoveButton(id);
 					TitanUtils_AddButtonOnBar(bar, id);
 				end
-				info.checked = TitanGetVar(id, "DisplayOnRightSide");
+				info.checked = TitanGetVar(info.value[1], "DisplayOnRightSide");
 				info.disabled = nil;
 				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 			end

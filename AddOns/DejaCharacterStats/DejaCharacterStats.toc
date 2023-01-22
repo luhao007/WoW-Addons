@@ -1,6 +1,6 @@
-## Interface: 10000
+## Interface: 100002
 ## Author: Dejablue, Kakjens, loudsoul
-## Version: R90200r1
+## Version: R100002r2
 ## SavedVariables: DCS_ClassSpecDB
 ## SavedVariablesPerCharacter: DejaCharacterStatsDBPC
 
@@ -36,4 +36,3 @@ DCSExpand.lua
 DCSDecimals.lua
 DCSDuraRepair.lua
 DCSAbout.lua
-DCSAprilFools.lua

@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2022 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2023 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 --
 -- Tooltip parsing strings
@@ -354,6 +354,7 @@ PawnRegexes =
 	{'^"'}, -- Flavor text
 	{PawnGameConstantIgnoredPlaceholder(ITEM_MIN_LEVEL)}, -- "Requires Level XX"... but "Requires level XX to YY" we DO care about.
 	{PawnGameConstantIgnoredPlaceholder(ITEM_REQ_SKILL)}, -- "Requires SKILL (XX)"
+	{PROFESSIONS_CRAFTING_QUALITY and PawnGameConstantIgnoredPlaceholder(PROFESSIONS_CRAFTING_QUALITY) or "^UNUSED$"}, -- "Quality: <icon>"
 	{L.Requires2}, -- unused in English
 }
 

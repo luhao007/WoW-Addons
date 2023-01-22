@@ -362,15 +362,79 @@ Database:AddChain(Chain.DragonIslesEmissary, {
     },
     active = {
         type = "quest",
-        ids = {70846, 72773, 70180,},
+        id = 71232,
         status = {'active', 'completed'}
     },
     completed = {
         type = "quest",
-        id = 70633,
+        id = 72585,
     },
     items = {
-    },
+        {
+            name = "Not sure if this is really needed in the addon, or what exactly the requirements are, check vod?",
+        },
+        {
+            type = "npc",
+            id = 187678,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 71232,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 72585,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 70750,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 72068,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 72373,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 72374,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 72375,
+            x = 0,
+        },
+    }
 })
 Database:AddChain(Chain.TheMotherOathstone, {
     name = L["THE_MOTHER_OATHSTONE"],
@@ -411,7 +475,7 @@ Database:AddChain(Chain.TheMotherOathstone, {
     },
     completed = {
         type = "quest",
-        ids = { 65613, 65101, },
+        id = 72380,
     },
     items = {
         {
@@ -450,8 +514,16 @@ Database:AddChain(Chain.TheMotherOathstone, {
             type = "quest",
             id = 66847,
             x = 0,
+            connections = {
+                1, 
+            },
         },
-    },
+        {
+            type = "quest",
+            id = 72380,
+            x = 0,
+        },
+    }
 })
 Database:AddChain(Chain.TheSparkOfIngenuity, {
     name = L["SPARK_OF_INGENUITY"],
@@ -471,7 +543,7 @@ Database:AddChain(Chain.TheSparkOfIngenuity, {
     },
     completed = {
         type = "quest",
-        id = 70633,
+        id = 70341,
     },
     items = {
         {
@@ -541,13 +613,127 @@ Database:AddChain(Chain.TheSparkOfIngenuity, {
             id = 70633,
             x = 0,
             connections = {
-                1, 
+                1, 2, 
             },
         },
         {
             type = "quest",
             id = 72783,
+            aside = true,
+            x = -1,
+        },
+        {
+            type = "quest",
+            id = 70339,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 70376,
             x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 70341,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 70650,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 70509,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 70621,
+            x = 0,
+            connections = {
+                1, 
+            },
+        },
+        {
+            type = "quest",
+            id = 70510,
+            x = 0,
+        },
+    }
+})
+Database:AddChain(Chain.DragonShardOfKnowledge, {
+    name = L["DRAGON_SHARD_OF_KNOWLEDGE"],
+    expansion = EXPANSION_ID,
+    range = LEVEL_RANGE,
+    prerequisites = {
+        {
+            type = "level",
+            level = 58,
+        },
+        {
+            type = "chain",
+            id = BtWQuests.Constant.Chain.Dragonflight.TheWakingShores.IntoTheArchives,
+            upto = 65686,
+        }
+    },
+    active = {
+        type = "quest",
+        id = 67295,
+        status = {'active', 'completed'}
+    },
+    completed = {
+        type = "quest",
+        ids = {69979, 67298},
+        count = 2,
+    },
+    items = {
+        {
+            type = "npc",
+            id = 192539,
+            x = 0,
+            connections = {
+                1,
+            },
+        },
+        {
+            type = "quest",
+            id = 67295,
+            x = 0,
+            connections = {
+                1, 2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 69946,
+            x = -1,
+            connections = {
+                2, 
+            },
+        },
+        {
+            type = "quest",
+            id = 67298,
+        },
+        {
+            type = "quest",
+            id = 69979,
+            x = -1,
         },
     },
 })
@@ -573,6 +759,10 @@ BtWQuestsDatabase:AddExpansionItems(EXPANSION_ID, {
     {
         type = "chain",
         id = Chain.TheSparkOfIngenuity,
+    },
+    {
+        type = "chain",
+        id = Chain.DragonShardOfKnowledge,
     },
 })
 

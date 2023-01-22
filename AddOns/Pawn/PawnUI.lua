@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2022 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2023 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 --
 -- User interface code
@@ -201,6 +201,18 @@ function PawnUI_HookArtifactUI()
 		PawnIsHoveringSocketedRelic = false
 	end
 	-- individual slots: ArtifactFrame.PerksTab.TitleContainer.RelicSlots[1]
+end
+
+function PawnUI_HookEncounterJournal()
+	-- aka the Adventure Guide
+	-- (This wouldn't be necessary if you hooked GameTooltip.ProcessInfo instead, but you can't do that until you go through and
+	-- disable all of the old GameTooltip.Set__ methods on Dragonflight because otherwise you'd do double the work!)
+	if EncounterJournal_SetTooltipWithCompare then
+		hooksecurefunc("EncounterJournal_SetTooltipWithCompare", function(Tooltip, ItemLink)
+			if Tooltip ~= GameTooltip then return end
+			if ItemLink then PawnUpdateTooltip("GameTooltip", "SetHyperlink", ItemLink) end
+		end)
+	end
 end
 
 ------------------------------------------------------------
@@ -1992,7 +2004,7 @@ function PawnUIFrame_ShowBagUpgradeAdvisorCheck_OnClick()
 			if BagFrame.UpdateItemUpgradeIcons then
 				-- Dragonflight onward
 				BagFrame:UpdateItemUpgradeIcons()
-			else
+			elseif ContainerFrame_UpdateItemUpgradeIcons then
 				-- Legion through Shadowlands
 				ContainerFrame_UpdateItemUpgradeIcons(BagFrame)
 			end

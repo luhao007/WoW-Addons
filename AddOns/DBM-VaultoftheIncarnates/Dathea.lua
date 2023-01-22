@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2502, "DBM-VaultoftheIncarnates", nil, 1200)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20221217213353")
+mod:SetRevision("20230117031931")
 mod:SetCreatureID(189813)
 mod:SetEncounterID(2635)
 mod:SetUsedIcons(8, 7, 6, 5, 4)
@@ -12,9 +12,9 @@ mod:SetMinSyncRevision(20221014000000)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 387849 388302 376943 388410 375580 387943 385812 384273 387627 391382",
+	"SPELL_CAST_START 387849 388302 376943 388410 375580 387943 385812 384273 387627 391382 395501",
 --	"SPELL_CAST_SUCCESS",
-	"SPELL_SUMMON 384757 384757",
+	"SPELL_SUMMON 387857",
 	"SPELL_AURA_APPLIED 391686 375580",
 	"SPELL_AURA_APPLIED_DOSE 375580",
 --	"SPELL_AURA_REMOVED",
@@ -24,15 +24,12 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, refine range checker to not be needed at all times if a determinate pre warning can be detected or scheduled for new conductive marks going out, and all being gone
---TODO, add unstable gusts?
---TODO, how to handle Incubating Seeds, 50 yards is a big radius. can players avoid it by moving away or is it a "kill it very hard and very fast" thing https://www.wowhead.com/beta/spell=389049/incubating-seed
 --[[
 (ability.id = 387849 or ability.id = 388302 or ability.id = 376943 or ability.id = 388410 or ability.id = 375580) and type = "begincast"
  or ability.id = 391600 and type = "cast" and source.id = 189813
 --]]
 --Dathea, Ascended
-mod:AddTimerLine(DBM:EJ_GetSectionInfo(25340))
+mod:AddTimerLine(DBM_COMMON_L.BOSS)
 local warnRagingBurst							= mod:NewCountAnnounce(388302, 3, nil, nil, 86189)
 local warnZephyrSlam							= mod:NewStackAnnounce(375580, 2, nil, "Tank|Healer")
 
@@ -57,9 +54,9 @@ mod:AddRangeFrameOption(5, 391686)
 --mod:AddInfoFrameOption(391686, true)
 --Volatile Infuser
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(25903))
-local warnBlowback								= mod:NewCastAnnounce(387627, 4)--Fallback warning, should know it's being cast even if not in distance of knockback, so you don't walk into it
+local warnBlowback								= mod:NewCastAnnounce(395501, 4)--Fallback warning, should know it's being cast even if not in distance of knockback, so you don't walk into it
 
-local specWarnBlowback							= mod:NewSpecialWarningSpell(387627, nil, nil, nil, 2, 2)--Distance based warning, Ie in range of knockback
+local specWarnBlowback							= mod:NewSpecialWarningSpell(395501, nil, nil, nil, 2, 2)--Distance based warning, Ie in range of knockback
 local specWarnDivertedEssence					= mod:NewSpecialWarningInterruptCount(387943, "HasInterrupt", nil, nil, 1, 2)
 local specWarnAerialSlash						= mod:NewSpecialWarningDefensive(385812, nil, nil, nil, 1, 2)
 
@@ -96,7 +93,7 @@ function mod:OnCombatStart(delay)
 		timerCycloneCD:Start(35.2-delay, 1)
 		timerColaescingStormCD:Start(70-delay, 1)--70-73 (check ito it being 73 consistently on mythic)
 	else
-		timerZephyrSlamCD:Start(9.5-delay, 1)
+		timerZephyrSlamCD:Start(9.4-delay, 1)
 		timerCrosswindsCD:Start(28.9-delay, 1)
 		timerCycloneCD:Start(45.2-delay, 1)
 		timerColaescingStormCD:Start(80-delay, 1)
@@ -140,7 +137,7 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerConductiveMarkCD:Restart(9.7, self.vb.markCount+1)
 			timerZephyrSlamCD:Restart(15.7, self.vb.slamCount+1)
-			timerCrosswindsCD:Restart(35.2, self.vb.crosswindCount+1)
+			timerCrosswindsCD:Restart(34, self.vb.crosswindCount+1)
 			timerColaescingStormCD:Start(86.2, self.vb.stormCount+1)
 		end
 	elseif spellId == 388302 then
@@ -193,7 +190,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 385812 then
 		timerAerialSlashCD:Start(nil, args.sourceGUID)
-		if self:IsTanking("player", nil, nil, nil, args.sourceGUID) then
+		if self:IsTanking("player", nil, nil, true, args.sourceGUID) and self:AntiSpam(3, 1) then
 			specWarnAerialSlash:Show()
 			specWarnAerialSlash:Play("defensive")
 		end
@@ -211,7 +208,7 @@ function mod:SPELL_CAST_START(args)
 				specWarnStormBolt:Play("kickcast")
 			end
 		end
-	elseif spellId == 387627 or spellId == 391382 then
+	elseif spellId == 387627 or spellId == 391382 or spellId == 395501 then
 		if self:CheckBossDistance(args.sourceGUID, true, 13289, 28) then
 			specWarnBlowback:Show()
 			specWarnBlowback:Play("carefly")
@@ -261,7 +258,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if expireTime then
 			remaining = expireTime-GetTime()
 		end
-		if (not remaining or remaining and remaining < 6.1) and not UnitIsDeadOrGhost("player") and not self:IsHealer() then
+		if amount >= 2 and (not remaining or remaining and remaining < 6.1) and not UnitIsDeadOrGhost("player") and not self:IsHealer() then
 			specWarnZephyrSlamTaunt:Show(args.destName)
 			specWarnZephyrSlamTaunt:Play("tauntboss")
 		else
@@ -300,7 +297,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 --]]
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if (spellId == 391600 or spellId == 391595) and self:AntiSpam(3, 1) then--391595 confirmed, 391600 i'm keeping for now in case it's used on mythics
+	if (spellId == 391600 or spellId == 391595) and self:AntiSpam(3, 2) then--391595 confirmed, 391600 i'm keeping for now in case it's used on mythics
 		self.vb.markCount = self.vb.markCount + 1
 		timerConductiveMarkCD:Start(self:IsHard() and 25 or 31.5, self.vb.markCount+1)
 	end

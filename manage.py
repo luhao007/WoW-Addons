@@ -15,7 +15,7 @@ CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30400'
 RETAIL_VER = '100002'
 
-BROKEN_LISTS = ['DejaCharacterStats', 'FishingBuddy', 'Overachiever', 'HBattlePetAny', 'UnitFramesPlus', 'UnitFramesPlus_Options', 'MeetingStone', 'AtlasQuest']
+BROKEN_LISTS = ['Overachiever', 'HPetBattleAny', 'UnitFramesPlus', 'UnitFramesPlus_Options', 'MeetingStone', 'AtlasQuest']
 
 def available_on(platforms):
     def decorator(func):

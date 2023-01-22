@@ -16,6 +16,7 @@ local ItemString = TSM.Include("Util.ItemString")
 local Reactive = TSM.Include("Util.Reactive")
 local Future = TSM.Include("Util.Future")
 local Log = TSM.Include("Util.Log")
+local ProfessionInfo = TSM.Include("Data.ProfessionInfo")
 local Threading = TSM.Include("Service.Threading")
 local ItemInfo = TSM.Include("Service.ItemInfo")
 local CustomPrice = TSM.Include("Service.CustomPrice")
@@ -34,6 +35,9 @@ local private = {
 	pendingSpellId = nil,
 	ignoreDB = nil,
 	destroyInfoDB = nil,
+	destroySpellId = nil,
+	itemSpellId = nil,
+	destroyResultCache = {},
 	disenchantSkillLevel = nil,
 	jewelcraftSkillLevel = nil,
 	inscriptionSkillLevel = nil,
@@ -49,6 +53,7 @@ local SPELL_IDS = {
 local ITEM_SUB_CLASS_METAL_AND_STONE = 7
 local ITEM_SUB_CLASS_HERB = 9
 local TARGET_SLOT_ID_MULTIPLIER = 1000000
+local CLEANUP_THRESHOLD = 60 * 24 * 60 * 60
 local GEM_CHIPS = {
 	["i:129099"] = "i:129100",
 	["i:130200"] = "i:129100",
@@ -86,6 +91,16 @@ function Destroying.OnInitialize()
 		:RegisterCallback("deMaxQuality", private.UpdateBagDB)
 		:RegisterCallback("includeSoulbound", private.UpdateBagDB)
 
+	local currentTime = time()
+	for _, entries in pairs(private.settings.destroyingHistory) do
+		for i = #entries, 1, -1 do
+			local value = entries[i]
+			if value.time < currentTime - CLEANUP_THRESHOLD then
+				tremove(entries, i)
+			end
+		end
+	end
+
 	private.ignoreDB = Database.NewSchema("DESTROYING_IGNORE")
 		:AddUniqueStringField("itemString")
 		:AddBooleanField("ignoreSession")
@@ -111,12 +126,27 @@ function Destroying.OnInitialize()
 
 	Event.Register("LOOT_READY", private.SendEventToThread)
 	Event.Register("LOOT_CLOSED", private.SendEventToThread)
-	Event.Register("BAG_UPDATE_DELAYED", private.SendEventToThread)
+	BagTracking.RegisterCallback(function()
+		private.SendEventToThread("BAG_UPDATE_DELAYED")
+	end)
 	Event.Register("UNIT_SPELLCAST_START", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_FAILED", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_FAILED_QUIET", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_INTERRUPTED", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_SUCCEEDED", private.SpellCastEventHandler)
+
+	if not TSM.IsWowClassic() then
+		hooksecurefunc(C_TradeSkillUI, "CraftSalvage", function(spellId, _, itemLocation)
+			if not ProfessionInfo.IsSalvage(spellId) then
+				return
+			end
+			private.destroySpellId = spellId
+			private.itemSpellId = Container.GetItemId(itemLocation.bagID, itemLocation.slotIndex)
+		end)
+
+		Event.Register("TRADE_SKILL_ITEM_CRAFTED_RESULT", private.TradeSkillCraftResultHandler)
+		Event.Register("TRADE_SKILL_LIST_UPDATE", private.TradeSkillListUpdateHandler)
+	end
 
 	private.destroyFuture:SetScript("OnCleanup", function()
 		private.destroyThreadRunning = false
@@ -261,8 +291,7 @@ function private.DestroyThread(button, row)
 
 	local itemString, spellId, bag, slot = row:GetFields("itemString", "spellId", "bag", "slot")
 	local startQuantity = select(2, Container.GetItemInfo(bag, slot))
-	local spellName = GetSpellInfo(spellId)
-	button:SetMacroText(format("/cast %s;\n/use %d %d", spellName, bag, slot))
+	button:SetMacroText(format("/cast %s;\n/use %d %d", GetSpellInfo(spellId), bag, slot))
 
 	-- Wait for the spell cast to start or fail
 	private.pendingSpellId = spellId
@@ -308,7 +337,7 @@ function private.DestroyThread(button, row)
 				hasBagUpdateDelayed = true
 			end
 		else
-			-- the spell cast was interrupted
+			-- The spell cast was interrupted
 			return false
 		end
 	end
@@ -319,8 +348,8 @@ function private.DestroyThread(button, row)
 		time = time(),
 		result = lootResult,
 	}
-	private.settings.destroyingHistory[spellName] = private.settings.destroyingHistory[spellName] or {}
-	tinsert(private.settings.destroyingHistory[spellName], newEntry)
+	private.settings.destroyingHistory[spellId] = private.settings.destroyingHistory[spellId] or {}
+	tinsert(private.settings.destroyingHistory[spellId], newEntry)
 
 	-- Wait up to a second for the item we destroyed to be removed from the bags
 	local timeout = GetTime() + 1
@@ -343,7 +372,14 @@ function private.SendEventToThread(event)
 end
 
 function private.SpellCastEventHandler(event, unit, _, spellId)
-	if unit ~= "player" or spellId ~= private.pendingSpellId then
+	if unit ~= "player" then
+		return
+	end
+	if not TSM.IsWowClassic() and event == "UNIT_SPELLCAST_START" and not ProfessionInfo.IsSalvage(spellId) then
+		private.destroySpellId = nil
+		private.itemSpellId = nil
+	end
+	if spellId ~= private.pendingSpellId then
 		return
 	end
 	private.SendEventToThread(event)
@@ -352,6 +388,30 @@ end
 function private.DestroyThreadDone(result)
 	private.destroyThreadRunning = false
 	private.destroyFuture:Done(result)
+end
+
+function private.TradeSkillCraftResultHandler(event, resultTable)
+	if not private.destroySpellId or not private.itemSpellId then
+		return
+	end
+	private.destroyResultCache[ItemString.Get(resultTable.itemID)] = resultTable.quantity
+end
+
+function private.TradeSkillListUpdateHandler()
+	if not private.destroySpellId or not private.itemSpellId or not next(private.destroyResultCache) then
+		return
+	end
+
+	-- Add to the log
+	local newEntry = {
+		item = ItemString.Get(private.itemSpellId),
+		time = time(),
+		result = CopyTable(private.destroyResultCache),
+	}
+	private.settings.destroyingHistory[private.destroySpellId] = private.settings.destroyingHistory[private.destroySpellId] or {}
+	tinsert(private.settings.destroyingHistory[private.destroySpellId], newEntry)
+
+	wipe(private.destroyResultCache)
 end
 
 
@@ -391,7 +451,7 @@ function private.UpdateBagDB()
 		end
 		if minQuantity and quantity % minQuantity ~= 0 then
 			if itemPrevSlotId[itemString] then
-				-- we can combine this with the previous partial stack
+				-- We can combine this with the previous partial stack
 				tinsert(private.pendingCombines, itemPrevSlotId[itemString] * TARGET_SLOT_ID_MULTIPLIER + slotId)
 				itemPrevSlotId[itemString] = nil
 			else
@@ -430,7 +490,7 @@ function private.IsDestroyable(itemString)
 		return private.canDestroyCache[itemString], private.destroyQuantityCache[itemString]
 	end
 
-	-- disenchanting
+	-- Disenchanting
 	local quality = ItemInfo.GetQuality(itemString)
 	if ItemInfo.IsDisenchantable(itemString) and quality <= private.settings.deMaxQuality then
 		local hasSourceItem = true

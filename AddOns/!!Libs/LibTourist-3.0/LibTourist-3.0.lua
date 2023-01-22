@@ -1,6 +1,6 @@
 --[[
 Name: LibTourist-3.0
-Revision: $Rev: 282 $
+Revision: $Rev: 286 $
 Author(s): Odica (owner), originally created by ckknight and Arrowmaster
 Documentation: https://www.wowace.com/projects/libtourist-3-0/pages/api-reference
 SVN: svn://svn.wowace.com/wow/libtourist-3-0/mainline/trunk
@@ -9,7 +9,7 @@ License: MIT
 ]]
 
 local MAJOR_VERSION = "LibTourist-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Revision: 282 $"):match("(%d+)"))
+local MINOR_VERSION = 90000 + tonumber(("$Revision: 286 $"):match("(%d+)"))
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 local C_Map = C_Map
@@ -2529,6 +2529,131 @@ end
 
 
 
+-- ---- Profession Skill API initialization -------
+
+local function ProfessionSkillLevelIsMissing(index)
+	if not index then return false end -- Not learned
+	local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLineID = GetProfessionInfo(index)
+	local professionInfo = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID)
+	return (skillLevel > 0 and professionInfo.skillLevel == 0) or not professionInfo
+ end
+
+local function ProfessionPanelShouldBeOpened()
+ 	local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
+	local openPanel = true
+	
+	trace("prof1 = "..tostring(prof1))
+	trace("prof2 = "..tostring(prof2))
+	trace("archaeology = "..tostring(archaeology))
+	trace("fishing = "..tostring(fishing))
+	trace("cooking = "..tostring(cooking))
+	
+	-- Look for proof of missing skill levels
+	if ProfessionSkillLevelIsMissing(prof1) == false then
+		if ProfessionSkillLevelIsMissing(prof2) == false then
+			if ProfessionSkillLevelIsMissing(archaeology) == false then
+				if ProfessionSkillLevelIsMissing(fishing) == false then
+					if ProfessionSkillLevelIsMissing(cooking) == false then
+						-- All OK -or- no professions learned
+						openPanel = false
+					end
+				end
+			end
+		end
+	end
+	return openPanel
+end 
+
+local psiTicker
+local psiInterval = .1
+local psiPhase = 0
+local psiElapsed = 0
+local psiMaxCycles = 20
+local psiCycle = 0
+local function ProfessionSkillInit()
+	-- Thanks to billtopia for phase 2 - 4
+	psiElapsed = psiElapsed + psiInterval
+	psiCycle = psiCycle + 1
+	if psiCycle == psiMaxCycles - 1	then 
+		 -- Timeout -> go to 5
+		trace(tostring(psiElapsed).." sec: ProfessionSkillInit TIMEOUT at phase "..tostring(psiPhase))
+		psiPhase = 5
+	end
+	trace(tostring(psiElapsed).." sec: ProfessionSkillInit Phase "..tostring(psiPhase))
+	
+	if psiPhase == 0 then
+		-- Check if the panel should be opened
+		if ProfessionPanelShouldBeOpened() == true then
+			psiPhase = 1
+		else
+			psiPhase = 6
+		end
+	elseif psiPhase == 1 then
+		-- Mute sounds
+		MuteSoundFile(567440) -- sound/interface/iabilitiesopena.ogg
+		MuteSoundFile(567496) -- sound/interface/iabilitiesclosea.ogg
+		MuteSoundFile(567507) -- sound/interface/ucharactersheetopen.ogg
+		MuteSoundFile(567433) -- sound/interface/ucharactersheetclose.ogg
+		psiPhase = 2
+	elseif psiPhase == 2 then
+		-- Open Spellbook
+		ToggleSpellBook("professions")
+		psiPhase = 3
+	elseif psiPhase == 3 then
+		-- Open a profession panel
+		local buttonName
+	 	local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
+		if prof1 then
+			buttonName = "PrimaryProfession1SpellButtonBottom"
+		elseif prof2 then
+			buttonName = "PrimaryProfession2SpellButtonBottom"
+		elseif archaeology then
+			buttonName = "SecondaryProfession3SpellButtonRight"
+		elseif fishing then
+			buttonName = "SecondaryProfession2SpellButtonRight"
+		elseif cooking then
+			buttonName = "SecondaryProfession1SpellButtonRight"
+		end
+		trace("buttonName = "..tostring(buttonName))
+		local professionButton = _G[buttonName]
+		if professionButton then
+			professionButton:Click()
+		end
+		SpellBookFrameCloseButton:Click()
+		psiPhase = 4
+	elseif psiPhase == 4 then
+		-- Close profession panel or spellbook
+		if SkilletFrameCloseButton then
+			SkilletFrameCloseButton:Click()
+			psiPhase = 5
+		elseif ProfessionsFrame then
+			ProfessionsFrame.CloseButton:Click()
+			psiPhase = 5
+		end
+	elseif psiPhase == 5 then
+		-- Unmute sounds
+		UnmuteSoundFile(567440)
+		UnmuteSoundFile(567496)
+		UnmuteSoundFile(567507)
+		UnmuteSoundFile(567433)
+		psiPhase = 6
+	elseif psiPhase == 6 then
+		-- Exit
+		psiTicker:Cancel()
+		psiPhase = 0	-- This allows restarting this procedure. Change to -1 if restarting should be prohibited.
+	end
+end
+
+local function InitializeProfessionSkills()
+	psiTicker = C_Timer.NewTicker(psiInterval, ProfessionSkillInit, psiMaxCycles)
+end
+ 
+function Tourist:InitializeProfessionSkills()
+	trace("Initializing profession skills...")
+	InitializeProfessionSkills()
+end
+
+
 -- =========================================================================
 
 local function CreateLocalizedZoneNameLookups()
@@ -4716,7 +4841,18 @@ do
 	transports["EREDATH_ANTORANWASTES_TELEPORT"] = string.format(X_Y_TELEPORT, BZ["Eredath"], BZ["Antoran Wastes"])
 	transports["ANTORANWASTES_EREDATH_TELEPORT"] = string.format(X_Y_TELEPORT, BZ["Antoran Wastes"], BZ["Eredath"])
 	
+	-- Dragon Flight portals
+	transports["VALDRAKKEN_ORGRIMMAR_PORTAL"] = string.format(X_Y_PORTAL, BZ["Valdrakken"], BZ["Orgrimmar"])
+	transports["ORGRIMMAR_VALDRAKKEN_PORTAL"] = string.format(X_Y_PORTAL, BZ["Orgrimmar"], BZ["Valdrakken"])
+	transports["VALDRAKKEN_STORMWIND_PORTAL"] = string.format(X_Y_PORTAL, BZ["Valdrakken"], BZ["Stormwind City"])
+	transports["STORMWIND_VALDRAKKEN_PORTAL"] = string.format(X_Y_PORTAL, BZ["Stormwind City"], BZ["Valdrakken"])
 
+	transports["VALDRAKKEN_SHADOWMOONDRAENOR_PORTAL"] = string.format(X_Y_PORTAL, BZ["Valdrakken"], BZ["Shadowmoon Valley"].." ("..BZ["Draenor"]..")")
+	transports["VALDRAKKEN_DALARANBROKENISLES_PORTAL"] = string.format(X_Y_PORTAL, BZ["Valdrakken"], BZ["Dalaran"].." ("..BZ["Broken Isles"]..")")
+	transports["VALDRAKKEN_JADEFOREST_PORTAL"] = string.format(X_Y_PORTAL, BZ["Valdrakken"], BZ["The Jade Forest"])
+
+	
+	
 	
 	local zones = {}
 
@@ -6322,6 +6458,66 @@ do
 	}
 	
 	
+	-- Dragon Isles
+
+	zones[transports["ORGRIMMAR_VALDRAKKEN_PORTAL"]] = {
+		paths = {
+			[BZ["Valdrakken"]] = true,
+		},
+		faction = "Horde",
+		type = "Portal",
+	}
+
+	zones[transports["VALDRAKKEN_ORGRIMMAR_PORTAL"]] = {
+		paths = {
+			[BZ["Orgrimmar"]] = true,
+		},
+		faction = "Horde",
+		type = "Portal",
+	}
+	
+	zones[transports["STORMWIND_VALDRAKKEN_PORTAL"]] = {
+		paths = {
+			[BZ["Valdrakken"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+
+	zones[transports["VALDRAKKEN_STORMWIND_PORTAL"]] = {
+		paths = {
+			[BZ["Stormwind City"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+	
+	
+	zones[transports["VALDRAKKEN_SHADOWMOONDRAENOR_PORTAL"]] = {
+		paths = {
+			[BZ["Shadowmoon Valley"].." ("..BZ["Draenor"]..")"] = true,
+		},
+		type = "Portal",
+	}
+	
+	zones[transports["VALDRAKKEN_DALARANBROKENISLES_PORTAL"]] = {
+		paths = {
+			[BZ["Dalaran"].." ("..BZ["Broken Isles"]..")"] = true,
+		},
+		type = "Portal",
+	}
+	
+	zones[transports["VALDRAKKEN_JADEFOREST_PORTAL"]] = {
+		paths = {
+			[BZ["The Jade Forest"]] = true,
+		},
+		type = "Portal",
+	}
+	
+	
+	
+	
+	
 	-- ZONES, INSTANCES AND COMPLEXES ---------------------------------------------------------
 
 	-- ===============ZONES=================
@@ -6357,7 +6553,8 @@ do
 			[transports["STORMWIND_COT_PORTAL"]] = true,
 			[transports["STORMWIND_AZSUNA_PORTAL"]] = true,
 			[transports["STORMWIND_ORIBOS_PORTAL"]] = true,
-			--[transports["STORMWIND_WAKINGSHORES_BOAT"]] = true,
+			[transports["STORMWIND_VALDRAKKEN_PORTAL"]] = true,
+			[transports["STORMWIND_WAKINGSHORES_BOAT"]] = true,
 		},
 		flightnodes = {
 			[2] = true,      -- Stormwind, Elwynn (A)
@@ -7297,7 +7494,8 @@ do
 			[transports["ORGRIMMAR_AZSUNA_PORTAL"]] = true,
 			[transports["ORGRIMMAR_ORIBOS_PORTAL"]] = true,
 			[transports["ORGRIMMAR_COT_PORTAL"]] = true,
-			--[transports["ORGRIMMAR_WAKINGSHORES_ZEPPELIN"]] = true,
+			[transports["ORGRIMMAR_VALDRAKKEN_PORTAL"]] = true,
+			[transports["ORGRIMMAR_WAKINGSHORES_ZEPPELIN"]] = true,
 		},
 		flightnodes = {
 			[23] = true,     -- Orgrimmar, Durotar (H)
@@ -10137,6 +10335,11 @@ do
 	zones[BZ["Valdrakken"]] = {
 		paths = {
 			[BZ["Thaldraszus"]] = true,
+			[transports["VALDRAKKEN_ORGRIMMAR_PORTAL"]] = true,
+			[transports["VALDRAKKEN_STORMWIND_PORTAL"]] = true,
+			[transports["VALDRAKKEN_SHADOWMOONDRAENOR_PORTAL"]] = true,
+			[transports["VALDRAKKEN_DALARANBROKENISLES_PORTAL"]] = true,
+			[transports["VALDRAKKEN_JADEFOREST_PORTAL"]] = true,
 		},
 		flightnodes = {
 			[2810] = true,   -- Valdrakken, Thaldraszus (N)

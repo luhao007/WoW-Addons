@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: Arta/MysticalOS
-## Version: r50
+## Version: r59
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyBC_AllSavedVars

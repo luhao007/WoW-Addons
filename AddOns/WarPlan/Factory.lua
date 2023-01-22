@@ -1271,7 +1271,7 @@ function Factory.ControlContainerBorder(parent, expandX, expandY)
 	t:SetPoint("BOTTOMLEFT", parent, "BOTTOMRIGHT", -is+expandX, -expandY)
 end
 function Factory.MissionTable(name)
-	local frame, t = CreateFrame("Frame", name, UIParent)
+	local frame = CreateFrame("Frame", name, UIParent)
 	frame:Hide()
 	frame:SetSize(962, 662)
 	frame:SetPoint("CENTER", 0, -20)

@@ -29,24 +29,69 @@ Highlight - notes. tips. and details
 local notes = ""
 	..TitanUtils_GetRedText("NOTE : ")
 	..TitanUtils_GetNormalText(""
-		.." There have been many comments about errors including tool tips. The short answer is Blizzard tainted the path used by TitanRepair and bags. They both use tool tips - don't ask, I have no answer!\n"
-		.."My thought is TitanRepair and Blizzard using similar routines doing their normal processing can cause the errors being seen.\n"
-		.."I have seen odd tool tip behavior with a pet in a cage - and Titan NOT enabled. The pet tool tip forces itself onto the screen at odd times... Even when one has not moused over the cage.\n"
-		.."If someone more knowledgeable has tips to work around this - feel free to contact us!\n"
-		)
-	.."\n"
-	..TitanUtils_GetRedText("NOTE : ")
-	..TitanUtils_GetNormalText(""
-		.."Due to the UI changes in DragonFlight (API 10.00.00), Titan Panel no longer auto adjusts the UI elements / frames. Please use the WoW UI edit mode to adjust frames away from Titan Panel bar(s).\n"
 		.."Currently the menu & bag frame and the status / xp frame are NOT adjustable via edit mode. In the Titan Configuration for Bottom Bars you may adjust the menu & bag frame and the status / xp frame *vertically only*.\n"
+		.."On PTR the menu & bag frame and the status / xp frame ARE adjustable via edit mode. This adjustment will be removed in a future release.\n"
 		)
 local changes = ""
-	..TitanUtils_GetGoldText("6.00.09.100002  : 2020/12/01\n")
+	..TitanUtils_GetGoldText("6.00.11.100002 : 2023/01/31\n")
+	..TitanUtils_GetGreenText("TitanRepair : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Can now sell ALL gray items - use with CAUTION!\n"
+		.."--- Option to to show gray total value on plugin.\n"
+		.."--- Option to auto sell at vendor.\n"
+		.."--- Can sell at vendor using Left click on plugin.\n"
+		)
+	..TitanUtils_GetGreenText("TitanBag : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Fix so Open Bags option really opens bags if user desires.\n"
+		)
+	..TitanUtils_GetGreenText("Plugins over another : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Fix for plugins that could show over another.\n"
+		)
+	..TitanUtils_GetGreenText("Scaling : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Fix for error when changing scaling.\n"
+		)
+	..TitanUtils_GetGreenText("Config : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- About : Add slash command description to About.\n"
+		.."- Changes : Added to show change history.\n"
+		)
+	..TitanUtils_GetGreenText("Plugins : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Labels : Extend custom labels to 2 (second) through 4 (fourth). Plugins should be used / shown at least once, especially if more than one label / value pair is shown by that plugin.\n"
+		)
+	.."\n\n"
+	..TitanUtils_GetGoldText("6.00.10.100002 : 2022/12/13\n")
+	..TitanUtils_GetGreenText("TitanBag : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Made 'open bags' (left click) an option (default off) until container taint resolved.\n"
+		)
+	..TitanUtils_GetGreenText("TitanGold : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Fan fix for total being reset in certain situations - thanks to GrimNotepad.\n"
+		)
+	..TitanUtils_GetGreenText("TitanRepair : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Removed unused tool tip code from old API.\n"
+		)
+	..TitanUtils_GetGreenText("TitanVolume : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Fix to make sliders work via mouse wheel again.\n"
+		)
+	..TitanUtils_GetGreenText("TitanPanel : \n")
+	..TitanUtils_GetHighlightText(""
+		.."- Fix for some LDB addons not being updating properly.\n"
+		)
+	.."\n\n"
+	..TitanUtils_GetGoldText("6.00.09.100002  : 2022/12/01\n")
 	..TitanUtils_GetGreenText("TitanRepair : \n")
 	..TitanUtils_GetHighlightText(""
 		.."- Quick fix for repair pop up.\n"
 		)
-	..TitanUtils_GetGoldText("6.00.09.100002  : 2020/12/01\n")
+	.."\n\n"
+	..TitanUtils_GetGoldText("6.00.08.100002  : 2022/12/01\n")
 	..TitanUtils_GetGreenText("TitanRepair rewritten - Notable changes: \n")
 	..TitanUtils_GetHighlightText(""
 		.."- See plugin notes.\n"
@@ -72,6 +117,8 @@ TITAN_PANEL_CONFIG = {
 		extras			= L["TITAN_PANEL_EXTRAS_SHORT"],
 		attempts		= L["TITAN_PANEL_ATTEMPTS_SHORT"],
 		advanced		= L["TITAN_PANEL_MENU_ADV"],
+		changes			= (CHANGE or "Change").." "..(HISTORY or "History"),
+		slash			= ("/").." "..(COMMAND or "Command"),
 		}
 	}
 -- TITAN_PANEL_CONFIG.topic.trans
@@ -112,9 +159,7 @@ VAR: scale - the scale the user has selected for Titan
 OUT: None
 --]]
 local function TitanAdjustPanelScale(scale)
-	Titan_AdjustScale()
-
-	-- Adjust frame positions
+	TitanPanel_SetScale()
 	TitanPanel_AdjustFrames(true, "AdjustPanelScale")
 end
 
@@ -157,12 +202,47 @@ local optionsControl = {
 		confgendesc = {
 			order = 1,
 			type = "description",
-			name = L["TITAN_PANEL_CONFIG_MAIN_LABEL"].."\n\n",
+--			name = L["TITAN_PANEL_CONFIG_MAIN_LABEL"].."\n\n",
+			name = ""
+				.."Titan Panel is an Interface Enhancement addon."
+				.."\n"
+				.."This addon does not interfere with, enhance, or replace any of your actual gameplay within the game. Titan Panel is meant to give you a quick visual point or click-on access to see the data related to your character without having to open other dialog boxes in the game or, in some cases, other addons. There are points we allow you to customize these features, but they do not relate directly to your gameplay. Our main program allows you to add bars to the top and bottom of your game screen. Over the years, we have been able to add some other features, but only if they do not interfere with your actual game experience.",
 			cmdHidden = true
+		},
+		confnotes = {
+			name = "Notes",
+			order = 3,
+			type = "group", inline = true,
+			args = {
+				confversiondesc = {
+				order = 1,
+				type = "description",
+				name = ""
+					..notes,
+				cmdHidden = true
+				},
+			}
+		},
+		confthanks = {
+			name = "Thank You",
+			order = 5,
+			type = "group", inline = true,
+			args = {
+				confversiondesc = {
+				order = 1,
+				type = "description",
+				name = ""
+					.."We would like to thank all of the users of TitanPanel."
+					.."\n"
+					.."We understand you have many choices on which addons to enhance your World of Warcraft experience."
+					.." Our Mission has always been to provide you with a tool to help add and improve your experience without impeding your enjoyment of the game. ",
+				cmdHidden = true
+				},
+			}
 		},
 		confinfodesc = {
 			name = "About",
-			order = 5,
+			order = 7,
 			type = "group", inline = true,
 			args = {
 				confversiondesc = {
@@ -200,6 +280,7 @@ local optionsControl = {
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetEmail(),
 					cmdHidden = true
 				},
+--[[ has not been updated in quite a while...
 				confwebsitedesc = {
 					order = 6,
 					type = "description",
@@ -207,40 +288,13 @@ local optionsControl = {
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetWebsite(),
 					cmdHidden = true
 				},
+--]]
 				conflicensedesc = {
 					order = 7,
 					type = "description",
 					name = "|cffffd700"..L["TITAN_ABOUT_LICENSE"]..": "
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetLicense(),
 					cmdHidden = true
-				},
-			}
-		},
-		confnotes = {
-			name = "Notes",
-			order = 3,
-			type = "group", inline = true,
-			args = {
-				confversiondesc = {
-				order = 1,
-				type = "description",
-				name = ""
-					..notes,
-				cmdHidden = true
-				},
-			}
-		},
-		confchanges = {
-			order = 7,
-			name = CHANGES_COLON,
-			type = "group", inline = true,
-			args = {
-				confversiondesc = {
-				order = 1,
-				type = "description",
-				name = ""
-					..changes,
-				cmdHidden = true
 				},
 			}
 		},
@@ -609,7 +663,7 @@ local optionsUIScale = {
 			get = function() return TitanPanelGetVar("Scale") end,
 			set = function(_, a)
 				if not InCombatLockdown() then 
-					TitanPanelSetVar("Scale", a);
+					TitanPanelSetVar("Scale", a)
 					TitanAdjustPanelScale(a)
 				end
 			end,
@@ -1801,37 +1855,9 @@ local function TitanUpdateConfigAddons()
 				name = "  ",
 				cmdHidden = true,
 			}
-			-- 
-			-- Custom Label
-			args[plug_in.id].args.custom_labels = {
-				order = 60,
-				type = "header",
-				name = SHOW.." "..CUSTOM.." ".."Labels",
-			}
-			args[plug_in.id].args.custom_label_show = {
-				type = "toggle",
-				name = SHOW,
-				order = 62,
-				get = function(info) return (TitanGetVar(info[1], "CustomLabelTextShow") or false) end,
-				set = function(info, v)
-					TitanToggleVar(info[1], "CustomLabelTextShow");
-					TitanPanelButton_UpdateButton(info[1])
-				end,
-			}
-			args[plug_in.id].args.custom_label_text = {
-				order = 64,
-				name = CUSTOM,
-				desc = "Custom label text to show",
-				type = "input", width = "full",
-				get = function(info) return (TitanGetVar(info[1], "CustomLabelText") or "") end,
-				set = function(info,v) 
-					TitanSetVar(info[1], "CustomLabelText", v);
-					TitanPanelButton_UpdateButton(info[1])
-					end,
-			}
 			-- Notes, if available
 			args[plug_in.id].args.custom_notes = {
-				order = 70,
+				order = 60,
 				type = "header",
 				name = "Notes",
 			}
@@ -1839,7 +1865,7 @@ local function TitanUpdateConfigAddons()
 				args[plug_in.id].args.notes = {
 					type = "description",
 					name = "Notes",
-					order = 71,
+					order = 61,
 				name = ""
 					.._G["GREEN_FONT_COLOR_CODE"]..plug_in.notes.."|r",
 				cmdHidden = true,
@@ -1848,9 +1874,110 @@ local function TitanUpdateConfigAddons()
 				args[plug_in.id].args.notes = {
 					type = "description",
 					name = "Notes",
-					order = 71,
+					order = 61,
 				name = _G["GREEN_FONT_COLOR_CODE"]..NONE.."|r",
 				cmdHidden = true,
+				}
+			end
+			-- 
+			-- Custom Labels 1 - 4
+			local num_labels = tonumber(TitanGetVar(plug_in.id, "NumLabelsSeen") or 1)
+
+			if num_labels >= 1 then
+				args[plug_in.id].args.custom_labels = {
+					order = 70,
+					type = "header",
+					name = SHOW.." "..CUSTOM.." ".."Labels",
+				}
+				args[plug_in.id].args.custom_label_show = {
+					type = "toggle",
+					name = SHOW,
+					order = 71,
+					get = function(info) return (TitanGetVar(info[1], "CustomLabelTextShow") or false) end,
+					set = function(info, v)
+						TitanToggleVar(info[1], "CustomLabelTextShow");
+						TitanPanelButton_UpdateButton(info[1])
+					end,
+				}
+				args[plug_in.id].args.custom_label_text = {
+					order = 72,
+					name = CUSTOM,
+					desc = "Custom label text to show",
+					type = "input", width = "full",
+					get = function(info) return (TitanGetVar(info[1], "CustomLabelText") or "") end,
+					set = function(info,v) 
+						TitanSetVar(info[1], "CustomLabelText", v);
+						TitanPanelButton_UpdateButton(info[1])
+						end,
+				}
+			end
+			if num_labels >= 2 then
+				args[plug_in.id].args.custom_label2_show = {
+					type = "toggle",
+					name = SHOW.." 2",
+					order = 73,
+					get = function(info) return (TitanGetVar(info[1], "CustomLabel2TextShow") or false) end,
+					set = function(info, v)
+						TitanToggleVar(info[1], "CustomLabel2TextShow");
+						TitanPanelButton_UpdateButton(info[1])
+					end,
+				}
+				args[plug_in.id].args.custom_label2_text = {
+					order = 74,
+					name = CUSTOM,
+					desc = "Custom label text to show",
+					type = "input", width = "full",
+					get = function(info) return (TitanGetVar(info[1], "CustomLabel2Text") or "") end,
+					set = function(info,v) 
+						TitanSetVar(info[1], "CustomLabel2Text", v);
+						TitanPanelButton_UpdateButton(info[1])
+						end,
+				}
+			end
+			if num_labels >= 3 then
+				args[plug_in.id].args.custom_label3_show = {
+					type = "toggle",
+					name = SHOW.." 3",
+					order = 75,
+					get = function(info) return (TitanGetVar(info[1], "CustomLabel3TextShow") or false) end,
+					set = function(info, v)
+						TitanToggleVar(info[1], "CustomLabel3TextShow");
+						TitanPanelButton_UpdateButton(info[1])
+					end,
+				}
+				args[plug_in.id].args.custom_label3_text = {
+					order = 76,
+					name = CUSTOM,
+					desc = "Custom label text to show",
+					type = "input", width = "full",
+					get = function(info) return (TitanGetVar(info[1], "CustomLabel3Text") or "") end,
+					set = function(info,v) 
+						TitanSetVar(info[1], "CustomLabel3Text", v);
+						TitanPanelButton_UpdateButton(info[1])
+						end,
+				}
+			end
+			if num_labels >= 4 then
+				args[plug_in.id].args.custom_label4_show = {
+					type = "toggle",
+					name = SHOW.." 4",
+					order = 77,
+					get = function(info) return (TitanGetVar(info[1], "CustomLabel4TextShow") or false) end,
+					set = function(info, v)
+						TitanToggleVar(info[1], "CustomLabel4TextShow");
+						TitanPanelButton_UpdateButton(info[1])
+					end,
+				}
+				args[plug_in.id].args.custom_label4_text = {
+					order = 78,
+					name = CUSTOM,
+					desc = "Custom label text to show",
+					type = "input", width = "full",
+					get = function(info) return (TitanGetVar(info[1], "CustomLabel4Text") or "") end,
+					set = function(info,v) 
+						TitanSetVar(info[1], "CustomLabel4Text", v);
+						TitanPanelButton_UpdateButton(info[1])
+						end,
 				}
 			end
 		end
@@ -1893,8 +2020,8 @@ local optionsAdvanced = {
 					end,
 				},
 				advplugins = {
-					name = "Registration process", --L["TITAN_PANEL_MENU_ADV_PEW"],
-					desc = "Registration and number of registered", -- L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
+					name = "Plugin Registration process", --L["TITAN_PANEL_MENU_ADV_PEW"],
+					desc = "Shows start and end of Registration process and number of registered plugins", -- L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
 					order = 120, type = "toggle", width = "full",
 					get = function() return TitanAllGetVar("Registered") end,
 					set = function(_, a)
@@ -1902,6 +2029,93 @@ local optionsAdvanced = {
 					end,
 				},
 			},
+		},
+	},
+}
+
+--[[ local
+NAME: change history
+DESC: Show change history of releases
+:DESC
+--]]
+local changeHistory = {
+	name = TITAN_PANEL_CONFIG.topic.changes, --L["TITAN_PANEL_MENU_ADV"],
+	type = "group",
+	args = {
+		confchanges = {
+			order = 7,
+			name = CHANGES_COLON,
+			type = "group", inline = true,
+			args = {
+				confversiondesc = {
+				order = 1,
+				type = "description",
+				name = ""
+					..changes,
+				cmdHidden = true
+				},
+			}
+		},
+	},
+}
+
+--[[ local
+NAME: slash command help
+DESC: Show detailed help for slash commands
+:DESC
+--]]
+local slashHelp = {
+	name = TITAN_PANEL_CONFIG.topic.slash,
+	type = "group",
+	args = {
+		confslash = {
+			name = (HELP or "Help"),
+			order = 3,
+			type = "group", inline = true,
+			args = {
+				confversiondesc = {
+				order = 1,
+				type = "description",
+				name = ""
+					..TitanUtils_GetGoldText("reset\n")
+					..L["TITAN_PANEL_SLASH_RESET_0"].."\n"
+					..L["TITAN_PANEL_SLASH_RESET_1"].."\n"
+					..L["TITAN_PANEL_SLASH_RESET_2"].."\n"
+					..L["TITAN_PANEL_SLASH_RESET_3"].."\n"
+					..L["TITAN_PANEL_SLASH_RESET_4"].."\n"
+					..L["TITAN_PANEL_SLASH_RESET_5"].."\n"
+					.."\n"
+					..TitanUtils_GetGoldText("gui\n")
+					..L["TITAN_PANEL_SLASH_GUI_0"].."\n"
+					..L["TITAN_PANEL_SLASH_GUI_1"].."\n"
+					..L["TITAN_PANEL_SLASH_GUI_2"].."\n"
+					..L["TITAN_PANEL_SLASH_GUI_3"].."\n"
+					.."\n"
+					..TitanUtils_GetGoldText("profile\n")
+					..L["TITAN_PANEL_SLASH_PROFILE_0"].."\n"
+					..L["TITAN_PANEL_SLASH_PROFILE_1"].."\n"
+					..L["TITAN_PANEL_SLASH_PROFILE_2"].."\n"
+					..L["TITAN_PANEL_SLASH_PROFILE_3"].."\n"
+					.."\n"
+					..TitanUtils_GetGoldText("silent\n")
+					..L["TITAN_PANEL_SLASH_SILENT_0"].."\n"
+					..L["TITAN_PANEL_SLASH_SILENT_1"].."\n"
+					.."\n"
+					..TitanUtils_GetGoldText("orderhall\n")
+					..L["TITAN_PANEL_SLASH_ORDERHALL_0"].."\n"
+					..L["TITAN_PANEL_SLASH_ORDERHALL_1"].."\n"
+					.."\n"
+					..TitanUtils_GetGoldText("help\n")
+					..L["TITAN_PANEL_SLASH_HELP_0"].."\n"
+					..L["TITAN_PANEL_SLASH_HELP_1"].."\n"
+					.."\n"
+					..TitanUtils_GetGoldText("all\n")
+					..L["TITAN_PANEL_SLASH_ALL_0"].."\n"
+					..L["TITAN_PANEL_SLASH_ALL_1"].."\n"
+					.."",
+				cmdHidden = true
+				},
+			}
 		},
 	},
 }
@@ -1969,6 +2183,8 @@ AceConfig:RegisterOptionsTable("Titan Panel Addon Attempts", optionsAddonAttempt
 AceConfig:RegisterOptionsTable("Titan Panel Addon Extras", optionsExtras)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Chars", optionsChars)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Advanced", optionsAdvanced)
+AceConfig:RegisterOptionsTable("Titan Panel Addon Changes", changeHistory)
+AceConfig:RegisterOptionsTable("Titan Panel Addon Slash", slashHelp)
 --]]
 -- Set the main options pages
 --[[ The first param must be the same as the cooresponding 'Ace register'
@@ -1989,4 +2205,6 @@ AceConfigDialog:AddToBlizOptions("Titan Panel Skin Custom", optionsSkinsCustom.n
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Extras", optionsExtras.name, optionsControl.name)
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Attempts", optionsAddonAttempts.name, optionsControl.name)
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Advanced", optionsAdvanced.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Changes", changeHistory.name, optionsControl.name)
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Slash", slashHelp.name, optionsControl.name)
 

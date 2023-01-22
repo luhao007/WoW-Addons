@@ -1,5 +1,5 @@
 ## Interface: 100002
-## Version: r50
+## Version: r59
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyMoP_AllSavedVars

@@ -1,8 +1,15 @@
 ------------------------------------------------------------------------
-r282 | Odica_Jaedenar | 2022-11-18 20:38:21 +0000 (Fri, 18 Nov 2022) | 1 line
+r286 | Odica_Jaedenar | 2023-01-20 22:24:17 +0000 (Fri, 20 Jan 2023) | 8 lines
 Changed paths:
    M /trunk/LibTourist-3.0.lua
 
-Fixed a lua error related to localization
+- added mechanism to populate the TradeSkill UI with skill levels
+
+API CHANGE
+----------
+
+Added function: Tourist:InitializeProfessionSkills()
+Checks whether the profession skill levels are available in the TradeSkill API, if not, attempts to open a profession panel in order to populate the API with skill levels.
+To be called once, during initialization.
 ------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## Version: 6.00.10.100002
+## Version: 6.00.11.100002
 ## Dependencies: Titan
 ## OptionalDeps: 
 ## SavedVariables: 

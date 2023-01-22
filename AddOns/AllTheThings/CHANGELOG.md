@@ -1,19 +1,18 @@
 # AllTheThings
 
-## [DF-3.1.7](https://github.com/DFortun81/AllTheThings/tree/DF-3.1.7) (2022-12-18)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/DF-3.1.6...DF-3.1.7) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [DF-3.1.15](https://github.com/DFortun81/AllTheThings/tree/DF-3.1.15) (2023-01-18)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/DF-3.1.14...DF-3.1.15) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
 
-### Twitch drops
+### Functional fixes
 
-Watch eligible The Race to World first streams on Twitch to get free Perpetual Purple Firework toy 🎆 Check out details [here](https://worldofwarcraft.com/en-us/news/23891616).
+- This release includes a fix for a nasty recursion bug that resulted in excessive memory usage, broken tooltips and stack overflow errors. Sorry!
 
 
-### Data fixes
+### Data additions/fixes
 
-- Added and fixed lots of Dragon Isles quests, rares, mounts and pets.
-- Updated Feast of Winter Veil 🎄
-- Updated Stormwind, Ashenvale with legacy information.
-- Daily quests that grant Valiance Expedition reputation are now displayed every day until Exalted.
-- Added various daily quests that grant reputation with Wrath of the Lich King factions.
+- Usual updates to Dragonflight (World/Weekly) Quests, Renown activities, Rares, Treasures.
+- More dedicated improvements to Dragonflight Professions.
+- Finally marked Shadowlands LFR content as removed. Let's petition Blizzard for LFR NPCs!
+- Some older content Achievements clean up (BfA and others).
 - Other fixes.

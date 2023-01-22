@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: Lag, Proteyer, Arith
-## Version: v8.13.11
+## Version: v8.13.14
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 

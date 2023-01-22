@@ -6,7 +6,7 @@ local string = string
 local type, tonumber, pairs = type, tonumber, pairs
 local str_split = string.split
 -- WoW
-local GetCurrencyInfo, GetItemInfo, GetItemCount, GetItemIcon = C_CurrencyInfo.GetCurrencyInfo, GetItemInfo, GetItemCount, GetItemIcon
+local GetCurrencyInfo, GetItemInfo, GetItemCount, GetItemIcon = C_CurrencyInfo.GetCurrencyInfo, GetItemInfo, GetItemCount, C_Item.GetItemIconByID
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
@@ -140,20 +140,38 @@ local PRICE_INFO = {
 	["78875"] = { itemID = 78875 }, -- Shoulders of the Corrupted Conqueror
 	["78876"] = { itemID = 78876 }, -- Shoulders of the Corrupted Protector
 	-- added after dragonflight
-	["magmote"] = { itemID = 202173 }, -- Magmote
-	["DenseHide193216"] = { itemID = 193216 }, -- Dense Hide
-	["DenseHide193217"] = { itemID = 193217 }, -- Dense Hide
-	["DenseHide193218"] = { itemID = 193218 }, -- Dense Hide
-	["SereviteOre"] = { itemID = 190396 }, -- Serevite Ore
-	["dragonArtifact"] = { itemID = 192055} , -- Dragon Isles Artifact
-	["centaurTrophy"] = { itemID = 200093} , -- Centaur Hunting Trophy
-	["tuskarrTotem"] = { itemID = 200071} , -- Sacred Tuskarr Totem
-	["titanRelic"] = { itemID = 199906} , -- Titan Relic
-	["IridescentPlume"] = { itemID = 201401} , -- Iridescent Plume
-	["PrimalWool"] = { itemID = 201405} , -- Tuft of Primal Wool
-	["AwakenedAir"] = { itemID = 190327} , -- Awakened Air
-	["OccasionalSand"] = { itemID = 194562} , -- Occasional Sand
-	["ResilientLeather"] = { itemID = 193210} , -- Resilient Leather
+	--[[ -- using item ID, so we don't really need to add them here
+	["188658"] = { itemID = 188658 }, -- Draconium Ore
+	["190321"] = { itemID = 190321 }, -- Awakened Fire
+	["190324"] = { itemID = 190324 }, -- Awakened Order
+	["190327"] = { itemID = 190327 }, -- Awakened Air
+	["190396"] = { itemID = 190396 }, -- Serevite Ore
+	["192055"] = { itemID = 192055 }, -- Dragon Isles Artifact
+	["192096"] = { itemID = 192096 }, -- Spool of Wilderthread
+	["192838"] = { itemID = 192838 }, -- Queen's Ruby
+	["192863"] = { itemID = 192863 }, -- 192863
+	["193050"] = { itemID = 193050 }, -- Tattered Wildercloth
+	["193053"] = { itemID = 193053 }, -- Contoured Fowlfeathe
+	["193210"] = { itemID = 193210 }, -- Resilient Leather
+	["193214"] = { itemID = 193214 }, -- Adamant Scales
+	["193216"] = { itemID = 193216 }, -- Dense Hide
+	["193217"] = { itemID = 193217 }, -- Dense Hide
+	["193218"] = { itemID = 193218 }, -- Dense Hide
+	["194562"] = { itemID = 194562 }, -- Occasional Sand
+	["198397"] = { itemID = 198397 }, -- Rainbow Pearl
+	["199906"] = { itemID = 199906 }, -- Titan Relic
+	["200093"] = { itemID = 200093 }, -- Centaur Hunting Trophy
+	["200071"] = { itemID = 200071 }, -- Sacred Tuskarr Totem
+	["200863"] = { itemID = 200863 }, -- Glimmering Nozdorite Cluster
+	["200864"] = { itemID = 200864 }, -- Glimmering Alexstraszite Cluster
+	["200865"] = { itemID = 200865 }, -- Glimmering Ysemerald Cluster
+	["200866"] = { itemID = 200866 }, -- Glimmering Malygite Cluster
+	["200867"] = { itemID = 200867 }, -- Glimmering 192863 Cluster
+	["201401"] = { itemID = 201401 }, -- Iridescent Plume
+	["201404"] = { itemID = 201404 }, -- Tallstrider Sinew
+	["201405"] = { itemID = 201405 }, -- Tuft of Primal Wool
+	["202173"] = { itemID = 202173 }, -- Magmote
+	]]
 	
 	-- currencies
 	["WrithingEssence"]	= { currencyID = 1501 }, -- Writhing Essence, added in 7.3.0
@@ -186,7 +204,7 @@ local PRICE_INFO = {
 	-- others
 	["money"] 		= { func = GetCoinTextureString },
 	-- DragonFlight
-	["dragonSupplies"] = { currencyID = 2003} , -- Dragon Isles Supplies
+	["dragonSupplies"] = { currencyID = 2003}, -- Dragon Isles Supplies
 }
 
 local Cache = {}
@@ -216,7 +234,7 @@ local function SetContentInfo(frame, typ, value, delimiter)
 			PRICE_INFO[typ].icon = GetItemIcon(PRICE_INFO[typ].itemID)
 			SetContentInfo(frame, typ, value, delimiter)
 		end
-	elseif tonumber(typ) then
+	elseif tonumber(typ) and GetItemIcon(typ) then
 		frame:AddIcon(GetItemIcon(typ), 12)
 		frame:AddText(value..delimiter)
 	end
@@ -299,7 +317,7 @@ local function SetTooltip(tooltip, typ, value)
 			local count = GetItemCount(PRICE_INFO[typ].itemID, true)
 			tooltip:AddLine(count >= value and TT_HAVE_AND_NEED_GREEN:format(count, value) or  TT_HAVE_AND_NEED_RED:format(count, value))
 		end
-	elseif tonumber(typ) then
+	elseif tonumber(typ) and GetItemIcon(typ) then
 		local itemName = GetItemInfo(typ)
 		tooltip:AddLine(TT_ICON_AND_NAME:format(GetItemIcon(typ), GetItemInfo(typ) or ""))
 		local count = GetItemCount(typ, true)

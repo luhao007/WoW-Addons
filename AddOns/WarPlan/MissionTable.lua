@@ -1,4 +1,4 @@
-local ADDON, T = ...
+local _, T = ...
 local EV, W, L, C, CreateObject = T.Evie, T.WrappedAPI, T.L, C_Garrison, T.CreateObject
 
 local manualMemberSet, manualMemberCount = {}, 0
@@ -143,7 +143,7 @@ local function ConfigureMission(me, mi, isAvailable)
 		me.Description:SetText(mi.description)
 	end
 	
-	local mdi = C_Garrison.GetMissionDeploymentInfo(mid)
+	local mdi = C.GetMissionDeploymentInfo(mid)
 	local baseXP, envN, envD, envI, enemies = mdi.xp, mdi.environment, mdi.environmentDesc, mdi.environmentTexture, mdi.enemies
 	
 	local timeNow = GetTime()
@@ -466,23 +466,17 @@ local function CompleteMission_Callback(event)
 end
 
 function EV:I_LOAD_HOOKS()
-	UIParent:UnregisterEvent("ADVENTURE_MAP_OPEN")
-	UIParent:UnregisterEvent("GARRISON_MISSION_NPC_OPENED")
 	function EV:ADVENTURE_MAP_OPEN(followerTypeID)
-		if followerTypeID ~= 22 or not C.IsAtGarrisonMissionNPC() or not C_Garrison.HasGarrison(9) then
-			UIParent:GetScript("OnEvent")(UIParent, "ADVENTURE_MAP_OPEN", followerTypeID)
-			return
+		if followerTypeID == 22 and C.IsAtGarrisonMissionNPC() and C.HasGarrison(9) then
+			Garrison_LoadUI()
+			WarPlanFrame:Show()
 		end
-		Garrison_LoadUI()
-		WarPlanFrame:Show()
 	end
 	function EV:GARRISON_MISSION_NPC_OPENED(followerTypeID)
-		if followerTypeID ~= 22 then
-			UIParent:GetScript("OnEvent")(UIParent, "GARRISON_MISSION_NPC_OPENED", followerTypeID)
-			return
+		if followerTypeID == 22 then
+			Garrison_LoadUI()
+			WarPlanFrame:Show()
 		end
-		Garrison_LoadUI()
-		WarPlanFrame:Show()
 	end
 	return "remove"
 end
@@ -600,8 +594,8 @@ function EV:I_LOAD_MAINUI()
 		toast.PreGlow:SetVertexColor(0.15, 0.8, 1)
 		toast.Sheen:SetVertexColor(0, 0.75, 1)
 	end
-	function EV:GARRISON_MISSION_NPC_CLOSED()
-		if frame:IsShown() then
+	function EV:PLAYER_INTERACTION_MANAGER_FRAME_HIDE(it)
+		if it == Enum.PlayerInteractionType.GarrMission and frame:IsShown() then
 			frame:Hide()
 		end
 	end
@@ -647,6 +641,14 @@ function EV:I_LOAD_MAINUI()
 	BFAMissionFrame:UnregisterEvent("GARRISON_RANDOM_MISSION_ADDED")
 	BFAMissionFrame:UnregisterEvent("CURRENT_SPELL_CAST_CHANGED")
 	BFAMissionFrame:UnregisterEvent("GARRISON_FOLLOWER_XP_CHANGED")
+	local OrigIsShown = BFAMissionFrame.IsShown
+	function BFAMissionFrame:IsShown()
+		if (C.IsAtGarrisonMissionNPC() and C.HasGarrison(9)) then
+			-- Lie to UIParent_OnEvent's ShowUIPanel call
+			return true
+		end
+		return OrigIsShown(BFAMissionFrame)
+	end
 
 	frame.SelectTab = function() end
 	C_Timer.After(0, function()

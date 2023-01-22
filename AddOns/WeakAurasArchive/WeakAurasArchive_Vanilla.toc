@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: The WeakAuras Team
-## Version: 5.3.3
+## Version: 5.3.6
 ## Dependencies: WeakAuras
 ## LoadOnDemand: 1
 ## SavedVariables: WeakAurasArchive

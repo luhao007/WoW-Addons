@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: MysticalOS, QartemisT
-## Version: 8a286c8
+## Version: 4ffddf2
 ## LoadOnDemand: 0
 ## SavedVariables: DBT_AllPersistentOptions
 ## DefaultState: enabled

@@ -1,8 +1,8 @@
 # Lib: DogTag-Unit-3.0
 
-## [v100002.1](https://github.com/parnic/LibDogTag-Unit-3.0/tree/v100002.1) (2022-11-15)
-[Full Changelog](https://github.com/parnic/LibDogTag-Unit-3.0/compare/v100000.1...v100002.1) [Previous Releases](https://github.com/parnic/LibDogTag-Unit-3.0/releases)
+## [v100002.3](https://github.com/parnic/LibDogTag-Unit-3.0/tree/v100002.3) (2023-01-05)
+[Full Changelog](https://github.com/parnic/LibDogTag-Unit-3.0/compare/v100002.2...v100002.3) [Previous Releases](https://github.com/parnic/LibDogTag-Unit-3.0/releases)
 
-- Increase TOC for 10.0.2  
-- Add support for 10.0.2 tooltip APIs (#9)  
-    Functions like tooltip:SetUnit no longer exist, so this uses the new TooltipInfo APIs to extract the same information.  
+- Merge pull request #13 from parnic/ascott/12  
+    #12 - Add workaround to prevent guild roster from resetting scroll  
+- #12 - Add workaround to prevent guild roster from resetting scroll every 20 seconds.  

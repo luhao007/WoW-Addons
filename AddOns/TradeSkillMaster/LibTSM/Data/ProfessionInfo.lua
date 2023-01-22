@@ -4,8 +4,8 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local ProfessionInfo = TSM.Init("Data.ProfessionInfo")
+local TSM = select(2, ...) ---@type TSM
+local ProfessionInfo = TSM.Init("Data.ProfessionInfo") ---@class Data.ProfessionInfo
 
 
 
@@ -27,6 +27,12 @@ local CLASSIC_SUB_NAMES = {
 	[GRAND_MASTER] = true,
 	["大师级"] = true, -- zhCN ARTISAN
 	["Мастеровой"] = true, -- ruRU ARTISAN
+}
+local PROFESSION_NAME_MAP = {
+	["Costura"] = "Sastrería",
+	["Marroquinería"] = "Peletería",
+	["Ingénierie"] = "Ingénieur",
+	["Secourisme"] = "Premiers soins",
 }
 local VELLUM_ITEM_STRING = "i:38682"
 local WRATH_VELLUMS = {
@@ -319,6 +325,27 @@ local MASS_MILLING_RECIPES = {
 	[209664] = "i:129034", -- Felwort
 	[210116] = "i:129032", -- Yseralline Seeds
 	[247861] = "i:129034", -- Astral Glory
+}
+local SALVAGE_SPELLIDS = {
+	[382994] = true, -- Classic Milling
+	[382991] = true, -- Outland Milling
+	[382990] = true, -- Northend Milling
+	[382988] = true, -- Pandaria Milling
+	[382989] = true, -- Cataclysm Milling
+	[382987] = true, -- Draenor Milling
+	[382986] = true, -- Legion Milling
+	[382984] = true, -- Kul Tiras and Zandalar Milling
+	[382982] = true, -- Shadowlands Milling
+	[382981] = true, -- Dragon Isles Milling
+	[382995] = true, -- Classic Prospecting
+	[382980] = true, -- Outland Prospecting
+	[382979] = true, -- Northend Prospecting
+	[382977] = true, -- Pandaria Prospecting
+	[382978] = true, -- Cataclysm Prospecting
+	[382975] = true, -- Legion Prospecting
+	[382973] = true, -- Kul Tiras and Zandalar Prospecting
+	[325248] = true, -- Shadowlands Prospecting
+	[374627] = true, -- Dragon Isles Prospecting
 }
 local ENCHANTING_RECIPIES = {
 	-- Some scraped from Wowhead (http://www.wowhead.com/items/consumables/item-enhancements-permanent?filter=86;4;0) using the following javascript:
@@ -1308,12 +1335,20 @@ function ProfessionInfo.IsSubNameClassic(str)
 	return CLASSIC_SUB_NAMES[str] or false
 end
 
+function ProfessionInfo.MapProfessionName(str)
+	return PROFESSION_NAME_MAP[str]
+end
+
 function ProfessionInfo.GetVellumItemString(spellId)
 	return TSM.IsWowWrathClassic() and WRATH_VELLUMS[spellId] or VELLUM_ITEM_STRING
 end
 
 function ProfessionInfo.IsEngineeringTinker(spellId)
 	return ENGINEERING_TINKERS[spellId] or false
+end
+
+function ProfessionInfo.IsSalvage(spellId)
+	return SALVAGE_SPELLIDS[spellId] or false
 end
 
 function ProfessionInfo.IsMassMill(spellId)
