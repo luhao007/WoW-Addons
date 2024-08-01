@@ -1,4 +1,4 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Oleg "Rowaa[SR13]" Volkov
 ## Version: v62
 ## RequiredDeps: Blizzard_GarrisonUI, Blizzard_OrderHallUI

@@ -2,12 +2,22 @@ local addonName, platerInternal = ...
 
 local Plater = Plater
 local GameCooltip = GameCooltip2
+
+---@type detailsframework
 local DF = DetailsFramework
 local _
 local unpack = _G.unpack
 local tremove = _G.tremove
 local CreateFrame = _G.CreateFrame
 local tinsert = _G.tinsert
+local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
+
+---@class searchdata : table
+---@field [1] number data index within the profile.script_data table
+---@field [2] scriptdata
+---@field [3] scriptname
+---@field [4] number -- 1 enabled or 0 if disabled
+---@field [5] number -- 1 has or 0 if not
 
 --sort scripts
 function Plater.SortScripts (t1, t2)
@@ -81,7 +91,7 @@ options_button_template = DF.table.copy({}, options_button_template)
 options_button_template.backdropcolor = {.2, .2, .2, .8}
 
 Plater.APIList = {
-	{Name = "SetNameplateColor", 		Signature = "Plater.SetNameplateColor (unitFrame, color)", 				Desc = "Set the color of the nameplate.\n\nColor formats are:\n|cFFFFFF00Just Values|r: r, g, b\n|cFFFFFF00Index Table|r: {r, g, b}\n|cFFFFFF00Hash Table|r: {r = 1, g = 1, b = 1}\n|cFFFFFF00Hex|r: '#FFFF0000' or '#FF0000'\n|cFFFFFF00Name|r: 'yellow' 'white'\n\nCalling without passing width and height reset the color to default."},
+	{Name = "SetNameplateColor", 		Signature = "Plater.SetNameplateColor (unitFrame, color)", 				Desc = "Set the color of the nameplate.\n\nColor formats are:\n|cFFFFFF00Just Values|r: r, g, b\n|cFFFFFF00Index Table|r: {r, g, b}\n|cFFFFFF00Hash Table|r: {r = 1, g = 1, b = 1}\n|cFFFFFF00Hex|r: '#FFFF0000' or '#FF0000'\n|cFFFFFF00Name|r: 'yellow' 'white'\n\nCalling without passing a color will reset the color to default."},
 	{Name = "SetNameplateSize", 		Signature = "Plater.SetNameplateSize (unitFrame, width, height)",		Desc = "Adjust the nameplate size.\n\nCalling without passing width and height reset the size to default."},
 	{Name = "SetBorderColor", 			Signature = "Plater.SetBorderColor (unitFrame, r, g, b, a)",					Desc = "Set the border color.\n\nCalling without passing any color reset the color to default."},
 	
@@ -292,7 +302,6 @@ Plater.TriggerDefaultMembers = {
 }
 
 function platerInternal.Scripts.GetDefaultScriptForSpellId(spellId)
-	--platerInternal.Scripts.DefaultCastScripts
 	local allScripts = Plater.db.profile.script_data
 	for i = 1, #allScripts do
 		local scriptObject = allScripts[i]
@@ -408,7 +417,7 @@ end
 			--call the external function to import this script with ignoreRevision, overrideExisting and showDebug
 			local importSuccess, newObject = Plater.ImportScriptString (text, true, true, true, keepExisting)
 			if (importSuccess) then
-				PlaterOptionsPanelContainer:SelectIndex (Plater, PLATER_OPTIONS_HOOKING_TAB)
+				PlaterOptionsPanelContainer:SelectTabByIndex (PLATER_OPTIONS_HOOKING_TAB)
 				local mainFrame = PlaterOptionsPanelContainer
 				local hookFrame = mainFrame.AllFrames [PLATER_OPTIONS_HOOKING_TAB]
 				hookFrame.EditScript (newObject)
@@ -417,7 +426,7 @@ end
 		elseif (scriptType == "script") then
 			local importSuccess, newObject = Plater.ImportScriptString (text, true, true, true, keepExisting)
 			if (importSuccess) then
-				PlaterOptionsPanelContainer:SelectIndex (Plater, PLATER_OPTIONS_SCRIPTING_TAB)
+				PlaterOptionsPanelContainer:SelectTabByIndex (PLATER_OPTIONS_SCRIPTING_TAB)
 				local mainFrame = PlaterOptionsPanelContainer
 				local scriptingFrame = mainFrame.AllFrames [PLATER_OPTIONS_SCRIPTING_TAB]
 				scriptingFrame.EditScript (newObject)
@@ -461,7 +470,7 @@ end
 				end
 				
 				if promptToOverwrite then
-					DF:ShowPromptPanel ("This Mod/Script already exists. Do you want to overwrite it?\nClicking 'No' will create a copy instead.\nTo cancel close this window wiht the 'x'.", function() do_script_or_hook_import (text, scriptType, false) end, function() do_script_or_hook_import (text, scriptType, true) end, true, 550)
+					DF:ShowPromptPanel ("This Mod/Script already exists. Do you want to overwrite it?\nClicking 'No' will create a copy instead.\nTo cancel close this window with the 'x'.", function() do_script_or_hook_import (text, scriptType, false) end, function() do_script_or_hook_import (text, scriptType, true) end, true, 550)
 				else
 					do_script_or_hook_import (text, scriptType, true)
 				end
@@ -689,7 +698,8 @@ end
 						local profilesFrame = mainFrame.AllFrames [PLATER_OPTIONS_PROFILES_TAB]
 						
 						if profileExists then
-							DF:ShowPromptPanel (format (L["OPTIONS_PROFILE_IMPORT_OVERWRITE"], profileName), function() profilesFrame.DoProfileImport(profileName, profile, true, isWagoUpdate) end, function() end, true, 500)
+							local LOC = DF.Language.GetLanguageTable(addonName)
+							DF:ShowPromptPanel(string.format(LOC["OPTIONS_PROFILE_IMPORT_OVERWRITE"], profileName), function() profilesFrame.DoProfileImport(profileName, profile, true, isWagoUpdate) end, function() end, true, 500)
 						else
 							profilesFrame.DoProfileImport(profileName, profile, false, false)
 						end
@@ -713,7 +723,7 @@ end
 					end
 					
 					if promptToOverwrite then
-						DF:ShowPromptPanel ("This Mod/Script already exists. Do you want to overwrite it?\nClicking 'No' will create a copy instead.\nTo cancel close this window wiht the 'x'.", function() do_script_or_hook_import (encoded, scriptType, false) end, function() do_script_or_hook_import (encoded, scriptType, true) end, true, 550)
+						DF:ShowPromptPanel ("This Mod/Script already exists. Do you want to overwrite it?\nClicking 'No' will create a copy instead.\nTo cancel close this window with the 'x'.", function() do_script_or_hook_import (encoded, scriptType, false) end, function() do_script_or_hook_import (encoded, scriptType, true) end, true, 550)
 					else
 						do_script_or_hook_import (encoded, scriptType, true)
 					end
@@ -919,12 +929,12 @@ end
 		elseif (option == "wago_slugs") then
 			import_from_wago(scriptId)
 			update_wago_slug_data()
-			mainFrame.wagoSlugFrame.ScriptSelectionScrollBox:Refresh()
+			mainFrame.ScriptSelectionScrollBox:Refresh()
 			
 		elseif (option == "wago_stash") then
 			import_from_wago(scriptId, true)
 			update_wago_stash_data()
-			mainFrame.wagoStashFrame.ScriptSelectionScrollBox:Refresh()
+			mainFrame.ScriptSelectionScrollBox:Refresh()
 			
 		end
 		
@@ -1271,39 +1281,56 @@ end
 	end
 	
 	--refresh the list of scripts already created
-	local refresh_script_scrollbox = function (self, data, offset, total_lines)
+	local refresh_script_scrollbox = function (self, data, offset, totalLines)
 		--get the main frame
 		local mainFrame = self:GetParent()
-		
+
 		--alphabetical order
+		---@type searchdata[]
 		local dataInOrder = {}
-		
-		if (mainFrame.SearchString ~= "") then
+
+		---@type string
+		local searchingText = mainFrame.SearchString
+
+		--data = profile.script_data
+		---@cast data scriptdata
+
+		if (searchingText ~= "") then
+			offset = 0
+
+			---scripts that match the search text
+			---@type table<scriptname, boolean>
+			local scriptsFound = {}
+
 			for i = 1, #data do
 				if not data[i].hidden then
 					local bFoundMatch = false
 					local triggerSpellIdList = data[i].SpellIds
+
 					if (triggerSpellIdList and type(triggerSpellIdList) == "table") then
 						for o, spellId in ipairs(triggerSpellIdList) do
 							local spellName = GetSpellInfo(spellId)
 							if (spellName) then
 								spellName = spellName:lower()
-								if (spellName:find(mainFrame.SearchString)) then
+								if (spellName:find(searchingText) and not scriptsFound[data[i].Name]) then
 									dataInOrder[#dataInOrder+1] = {i, data [i], data[i].Name, data[i].Enabled and 1 or 0, data[i].hasWagoUpdateFromImport and 1 or 0}
 									bFoundMatch = true
+									scriptsFound[data[i].Name] = true
 								end
 							end
 						end
 					end
-					
+
 					if (not bFoundMatch) then
 						local name = data[i].FullName or data[i].Name or ""
-						if (name:lower():find (mainFrame.SearchString)) then
+						if (name:lower():find (searchingText)) then
 							dataInOrder [#dataInOrder+1] = {i, data [i], data[i].Name, data[i].Enabled and 1 or 0, data[i].hasWagoUpdateFromImport and 1 or 0}
 						end
 					end
 				end
 			end
+
+			--print("found matches:", #dataInOrder) --debug
 		else
 			for i = 1, #data do
 				if not data[i].hidden then
@@ -1315,9 +1342,9 @@ end
 		table.sort (dataInOrder, Plater.SortScripts)
 		
 		local currentScript = mainFrame.GetCurrentScriptObject()
-		
+
 		--update the scroll
-		for i = 1, total_lines do
+		for i = 1, totalLines do
 			local index = i + offset
 			local t = dataInOrder [index]
 			if (t) then
@@ -1696,6 +1723,19 @@ end
 		add_FW_dropdown:SetPoint ("right", add_API_label, "left", -10, 0)
 		add_FW_label:SetPoint ("right", add_FW_dropdown, "left", -2, 0)
 		
+		---@type df_button
+		local toggleCastBarButton = DF:CreateButton(parent,
+			function()
+				if (Plater.IsShowingCastBarTest) then
+					Plater.StopCastBarTest()
+				else
+					Plater.StartCastBarTest()
+				end
+			end, 
+			100, 20, DF.Language.CreateLocTable(addonName, "OPTIONS_CASTBAR_TOGGLE_TEST", true), 0, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		toggleCastBarButton:SetPoint ("right", add_FW_dropdown, "left", -117, 38)
+
+
 		--error text
 		local errortext_frame = CreateFrame ("frame", nil, code_editor, BackdropTemplateMixin and "BackdropTemplate")
 		errortext_frame:SetPoint ("bottomleft", code_editor, "bottomleft", 1, 1)
@@ -1825,6 +1865,7 @@ function Plater.CreateWagoPanel()
 	wagoSlugFrame:SetPoint("topleft", wagoFrame, "topleft")
 	wagoSlugFrame:SetPoint("bottomright", wagoFrame, "bottomright")
 	wagoFrame.wagoSlugFrame = wagoSlugFrame
+	mainFrame.wagoSlugFrame = wagoSlugFrame
 	wagoSlugFrame:Show()
 	--wagoSlugFrame:SetScript("OnShow", function()  end)
 	
@@ -2155,6 +2196,9 @@ function Plater.CreateHookingPanel()
 		--do a hot reload on the script
 		if (haveChanges) then
 			hookFrame.ApplyScript()
+		else
+			-- do this at least to ensure options changes are up to date
+			Plater.RecompileScript(scriptObject)
 		end
 		
 		--refresh all nameplates shown in the screen
@@ -2506,7 +2550,7 @@ function Plater.CreateHookingPanel()
 		--add the hook to the script object
 		if (not scriptObject.Hooks [hookName]) then
 			local defaultScript
-			if (hookName == "Load Screen" or hookName == "Player Logon" or hookName == "Initialization" or hookName == "Deinitialization") then
+			if (hookName == "Load Screen" or hookName == "Player Logon" or hookName == "Initialization" or hookName == "Deinitialization" or hookName == "Option Changed" or hookName == "Mod Option Changed") then
 				defaultScript = hookFrame.DefaultScriptNoNameplate
 
 			elseif (hookName == "Player Power Update") then
@@ -3114,8 +3158,6 @@ function Plater.CreateScriptingPanel()
 	
 	--store all spells from the game in a hash table and also on the index table
 	--these are loaded on demand and cleared when the scripting frame is hided
-	scriptingFrame.SpellHashTable = {}
-	scriptingFrame.SpellIndexTable = {}
 	scriptingFrame.SearchString = ""
 	
 	scriptingFrame:SetScript ("OnShow", function()
@@ -3140,6 +3182,8 @@ function Plater.CreateScriptingPanel()
 				tremove (Plater.db.profile.script_data_trash, i)
 			end
 		end
+
+		DF:LoadSpellCache(Plater.SpellHashTable, Plater.SpellIndexTable, Plater.SpellSameNameTable)
 	end)
 	
 	scriptingFrame:SetScript ("OnHide", function()
@@ -3148,11 +3192,8 @@ function Plater.CreateScriptingPanel()
 		if (scriptObject) then
 			scriptingFrame.SaveScript()
 		end
-		
-		--clean the spell hash table
-		wipe (scriptingFrame.SpellHashTable)
-		wipe (scriptingFrame.SpellIndexTable)
-		collectgarbage()
+
+		DF:UnloadSpellCache()
 	end)
 	
 	-- scriptingFrame.ScriptNameTextEntry --name of the script (text entry)
@@ -3248,14 +3289,6 @@ function Plater.CreateScriptingPanel()
 		end
 
 		return currentEditingScript
-	end
-	
-	function scriptingFrame.LoadGameSpells()
-		if (not next (scriptingFrame.SpellHashTable)) then
-			--load all spells in the game
-			DF:LoadAllSpells (scriptingFrame.SpellHashTable, scriptingFrame.SpellIndexTable)
-			return true
-		end
 	end
 	
 	--restore the values on the text fields and scroll boxes to the values on the object
@@ -3388,7 +3421,7 @@ function Plater.CreateScriptingPanel()
 		for _, plateFrame in ipairs (Plater.GetAllShownPlates()) do
 			local unitFrame = plateFrame.unitFrame
 
-			if (scriptObject.ScriptType == 1) then
+			if (scriptObject.ScriptType == 1) then --scriptType 1 means the scriptObject has triggers that check for Buffs and Debuffs, ScriptType can also be called TriggerType
 				--buff and debuffs
 				--iterate among all icons shown in the nameplate and attempt to kill the script by its trigger
 				for _, iconAuraFrame in ipairs (unitFrame.BuffFrame.PlaterBuffList) do
@@ -3402,13 +3435,13 @@ function Plater.CreateScriptingPanel()
 					end
 				end
 				
-			elseif (scriptObject.ScriptType == 2) then
+			elseif (scriptObject.ScriptType == 2) then --scriptType 2 means the scriptObject has triggers that check if a spell cast has a certain spellName or spellId
 				--cast bar
 				for _, spellID in ipairs (scriptObject.SpellIds) do
 					unitFrame.castBar:KillScript (spellID)
 				end
 
-			elseif (scriptObject.ScriptType == 3) then
+			elseif (scriptObject.ScriptType == 3) then --scriptType 3 means the scriptObject will check if nameplate is showing a certain npc (by matching npc name or npc id)
 				--nameplate
 				for _, triggerID in ipairs (scriptObject.NpcNames) do
 					unitFrame:KillScript (triggerID)
@@ -3737,11 +3770,8 @@ function Plater.CreateScriptingPanel()
 			--cast the string to number
 			local spellId = tonumber (text)
 			if (not spellId or not GetSpellInfo (spellId)) then
-				--load spell hash table
-				scriptingFrame.LoadGameSpells()
-				
 				--attempt to get the spellId from the hash table
-				spellId = scriptingFrame.SpellHashTable [string.lower (text)]
+				spellId = Plater.SpellHashTable [string.lower (text)]
 				--if still fail, stop here
 				if (not spellId) then
 					Plater:Msg ("Trigger requires a valid spell name or an ID of a spell")
@@ -3946,10 +3976,9 @@ function Plater.CreateScriptingPanel()
 			add_trigger_textentry:SetHook ("OnEditFocusGained", function (self, capsule)
 				--if ithe script is for aura or castbar and if the textentry box doesnt have an auto complete table yet
 				local scriptObject = scriptingFrame.GetCurrentScriptObject()
-				if ((scriptObject.ScriptType == 1 or scriptObject.ScriptType == 2) and (not add_trigger_textentry.SpellAutoCompleteList or not scriptingFrame.SpellIndexTable[1])) then
+				if ((scriptObject.ScriptType == 1 or scriptObject.ScriptType == 2) and (not add_trigger_textentry.SpellAutoCompleteList or not Plater.SpellIndexTable[1])) then
 					--load spell hash table
-					scriptingFrame.LoadGameSpells()
-					add_trigger_textentry.SpellAutoCompleteList = scriptingFrame.SpellIndexTable
+					add_trigger_textentry.SpellAutoCompleteList = Plater.SpellIndexTable
 					add_trigger_textentry:SetAsAutoComplete ("SpellAutoCompleteList", nil, true)
 				end
 			end)
@@ -4010,6 +4039,13 @@ function Plater.CreateScriptingPanel()
 					scriptingFrame.UpdateOverlapButton()
 				end
 			
+			-- 3d model for the units
+				local npc3DFrame = CreateFrame ("playermodel", "", nil, "ModelWithControlsTemplate")
+				npc3DFrame:SetSize (200, 250)
+				npc3DFrame:EnableMouse (false)
+				npc3DFrame:EnableMouseWheel (false)
+				npc3DFrame:Hide()
+			
 			--when the user hover over a scrollbox line
 				local onenter_trigger_line = function (self)
 					if (self.SpellID) then
@@ -4017,12 +4053,29 @@ function Plater.CreateScriptingPanel()
 						GameTooltip:SetSpellByID (self.SpellID)
 						GameTooltip:AddLine (" ")
 						GameTooltip:Show()
+					elseif self.NpcID then
+						local npcID = tonumber(self.NpcID)
+						GameTooltip:SetOwner (self, "ANCHOR_RIGHT")
+						GameTooltip:SetHyperlink (("unit:Creature-0-0-0-0-%d"):format(npcID))
+						GameTooltip:AddLine (" ")
+						if npcID and Plater.db.profile.npc_cache[npcID] then
+							GameTooltip:AddLine (Plater.db.profile.npc_cache[npcID][2] or "???")
+							GameTooltip:AddLine (" ")
+						end
+						npc3DFrame:SetCreature(npcID)
+						npc3DFrame:SetParent(GameTooltip)
+						npc3DFrame:SetPoint ("top", GameTooltip, "bottom", 0, -10)
+						npc3DFrame:Show()
+						GameTooltip:Show()
 					end
 					self:SetBackdropColor (.3, .3, .3, 0.7)
 				end
 			
 			--when the user leaves a scrollbox line from a hover over
 				local onleave_trigger_line = function (self)
+					npc3DFrame:SetParent(nil)
+					npc3DFrame:ClearAllPoints()
+					npc3DFrame:Hide()
 					GameTooltip:Hide()
 					self:SetBackdropColor (unpack (scrollbox_line_backdrop_color))
 				end
@@ -4039,6 +4092,7 @@ function Plater.CreateScriptingPanel()
 					self.Icon:SetDesaturated (false)
 					self.Icon:SetAlpha (1)
 					self.SpellID = trigger
+					self.NpcID = nil
 					self.TriggerName:SetText (spellName)
 					self.TriggerID:SetText (trigger)
 					
@@ -4049,8 +4103,16 @@ function Plater.CreateScriptingPanel()
 					self.Icon:SetDesaturated (true)
 					self.Icon:SetAlpha (0.5)
 					self.SpellID = nil
-					self.TriggerName:SetText (trigger)
-					self.TriggerID:SetText ("")
+					self.NpcID = trigger
+					
+					local npcData = tonumber(trigger) and Plater.db.profile.npc_cache[tonumber(trigger)]
+					if npcData and npcData[1] then
+						self.TriggerName:SetText (npcData[1])
+						self.TriggerID:SetText (trigger)
+					else
+						self.TriggerName:SetText (trigger)
+						self.TriggerID:SetText ("")
+					end
 				end
 				
 				self.TriggerId = trigger_id

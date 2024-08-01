@@ -1,0 +1,15 @@
+## Interface: 110000
+## Version: 20240731
+## RequiredDeps: MeetingStone
+## LoadManagers: AddonLoader
+## IconTexture: Interface\AddOns\MeetingStone\Media\Logo
+
+## Title: Meeting Stone EX
+## Title-zhCN: |cFFFFE00A<|r|cFFF48CBA社交|r|cFFFFE00A>|r |cFFFFFFFF集合石 开心快乐版|r |cFFFFE00AMeetingStoneEX|r
+## Notes-zhCN: |cff00ff00MeetingStone|r|n|cffbc8f8f帮助您更好的组建队伍。|r |cFF008080g|r|cFF008080i|r|cFF008080t|r|cFF008080 |r|cFF008080搜|r|cFF008080索|r|cFF008080 |r|cFFFF80C0【|r|cFF8080C0M|r|cFF8080C0e|r|cFF8080C0e|r|cFF8080C0t|r|cFF8080C0i|r|cFF8080C0n|r|cFF8080C0g|r|cFF8080C0S|r|cFF8080C0t|r|cFF8080C0o|r|cFF8080C0n|r|cFF8080C0e|r|cFF8080C0_|r|cFF8080C0H|r|cFF8080C0a|r|cFF8080C0p|r|cFF8080C0p|r|cFF8080C0y|r|cFFFF80C0】|r
+
+## X-LoadOn-Always: delayed
+
+CheckBox.lua
+MeetingStoneEX.lua
+IgnoreListPanel.lua

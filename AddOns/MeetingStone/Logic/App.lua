@@ -11,26 +11,26 @@ function App:OnInitialize()
     if not ADDON_REGIONSUPPORT then
         return
     end
+	-- 禁用网易插件服务
+    -- self:ListenSocket('NERB', ADDON_SERVER)
+    -- self:ConnectServer()
 
-    self:ListenSocket('NERB', ADDON_SERVER)
-    self:ConnectServer()
+    -- self.appWhispers = {}
+    -- -- self:RegisterServer('APP_WHISPER')
+    -- -- self:RegisterServer('APP_WHISPER_FAILED')
+    -- -- self:RegisterServer('APP_WHISPER_INFORM')
+    -- -- self:RawHook('SendChatMessage', true)
 
-    self.appWhispers = {}
-    -- self:RegisterServer('APP_WHISPER')
-    -- self:RegisterServer('APP_WHISPER_FAILED')
-    -- self:RegisterServer('APP_WHISPER_INFORM')
-    -- self:RawHook('SendChatMessage', true)
+    -- self:RegisterServer('SERVER_CONNECTED')
 
-    self:RegisterServer('SERVER_CONNECTED')
+    -- -- self:RegisterServer('APP_QUERY_RESULT')
+    -- self:RegisterServer('APP_FOLLOW')
+    -- self:RegisterServer('APP_FOLLOW_RESULT')
+    -- self:RegisterServer('APP_BITFOLLOWED')
+    -- self:RegisterServer('APP_APPLY_ACTIVITIES')
 
-    self:RegisterServer('APP_QUERY_RESULT')
-    self:RegisterServer('APP_FOLLOW')
-    self:RegisterServer('APP_FOLLOW_RESULT')
-    self:RegisterServer('APP_BITFOLLOWED')
-    self:RegisterServer('APP_APPLY_ACTIVITIES')
-
-    self.followQueryList = {}
-    self.remoteApplyActivities = {}
+    -- self.followQueryList = {}
+    -- self.remoteApplyActivities = {}
 end
 
 function App:OnDisable()
@@ -60,20 +60,20 @@ function App:SERVER_CONNECTED()
     self:ScheduleTimer('SendServer', 1, 'APP_QUERY', GetGuildName())
 end
 
-function App:APP_QUERY_RESULT(_, flag, enable, alive)
-    if flag then
-        self.hasApp = true
-        Addon:EnableModule('AppParent')
-    end
-    if enable then
-        Addon:EnableModule('AppSupport')
-    end
-    if alive then
-        self.alive = true
-        MainPanel:RegisterPanel(L['随身集合石'], AppParent, {after = L['最新活动']})
-    end
-    self:SendMessage('MEETINGSTONE_APP_READY')
-end
+-- function App:APP_QUERY_RESULT(_, flag, enable, alive)
+    -- if flag then
+        -- self.hasApp = true
+        -- Addon:EnableModule('AppParent')
+    -- end
+    -- if enable then
+        -- Addon:EnableModule('AppSupport')
+    -- end
+    -- if alive then
+        -- self.alive = true
+        -- MainPanel:RegisterPanel(L['随身集合石'], AppParent, {after = L['最新活动']})
+    -- end
+    -- self:SendMessage('MEETINGSTONE_APP_READY')
+-- end
 
 ---- Remote Apply
 

@@ -1,13 +1,17 @@
 if not WeakAuras.IsLibsOK() then return end
---- @type string, Private
-local AddonName, Private = ...
+---@type string
+local AddonName = ...
+---@class Private
+local Private = select(2, ...)
 
+---@class WeakAuras
 local WeakAuras = WeakAuras
 local L = WeakAuras.L
 
 --- @class SubscribableObject
---- @field events table<string, frame[]>
---- @field callback table<string, fun():nil>
+--- @field events table<string, frame[]> Subscribers ordered by "priority"
+--- @field subscribers table<string, frame> Subscribers lookup
+--- @field callbacks table<string, fun():nil>
 --- @field ClearSubscribers fun(self: SubscribableObject)
 --- @field ClearCallbacks fun(self: SubscribableObject)
 --- @field AddSubscriber fun(self: SubscribableObject, event: string, subscriber: frame, highPriority: boolean?)
@@ -15,12 +19,16 @@ local L = WeakAuras.L
 --- @field SetOnSubscriptionStatusChanged fun(self: SubscribableObject, event: string, cb: fun())
 --- @field Notify fun(self: SubscribableObject, event: type, ...: any)
 --- @field HasSubscribers fun(self: SubscribableObject, event: string): boolean
---- @type SubscribableObject
 local SubscribableObject =
 {
+  events = {},
+  subscribers = {},
+  callbacks = {},
+
   --- @type fun(self: SubscribableObject)
   ClearSubscribers = function(self)
     self.events = {}
+    self.subscribers = {}
   end,
 
   --- @type fun(self: SubscribableObject)
@@ -36,6 +44,12 @@ local SubscribableObject =
     end
 
     self.events[event] = self.events[event] or {}
+    self.subscribers[event] = self.subscribers[event] or {}
+    if self.subscribers[event][subscriber] then
+      -- Already subscribed, just return
+      return
+    end
+    self.subscribers[event][subscriber] = true
     local pos = highPriority and 1 or (#self.events[event] + 1)
     if TableHasAnyEntries(self.events[event]) then
       tinsert(self.events[event], pos, subscriber)
@@ -50,6 +64,12 @@ local SubscribableObject =
   --- @type fun(self: SubscribableObject, event: string, subscriber: frame)
   RemoveSubscriber = function(self, event, subscriber)
     if self.events[event] then
+      if not self.subscribers[event][subscriber] then
+        -- Not subscribed
+        return
+      end
+
+      self.subscribers[event][subscriber] = nil
       local index = tIndexOf(self.events[event], subscriber)
       if index then
         tremove(self.events[event], index)
@@ -83,11 +103,5 @@ local SubscribableObject =
 }
 
 function Private.CreateSubscribableObject()
-  local system = {}
-  for f, func in pairs(SubscribableObject) do
-    system[f] = func
-    system.events = {}
-    system.callbacks = {}
-  end
-  return system
+  return CopyTable(SubscribableObject)
 end

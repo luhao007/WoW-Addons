@@ -1,380 +1,485 @@
+local _,rematch = ...
+local L = rematch.localization
+local C = rematch.constants
+local settings = rematch.settings
+
+rematch.cardManager = {}
+
 --[[
+    Pet Cards, Notes, Preferences, Win Record, potentially Team Cards all use this to handle card mouseover/click behavior.
+    The normal behavior is that mouseover of a pet or button will wait a quarter of a second before showing the card.
+    (This is so moving the mouse across the UI doesn't cause 30 different pets you're not interested in to flicker on screen.)
+    Until the pet or button is clicked, the card behaves as a tooltip. Moving the mouse off the card will hide it. However,
+    if a pet or button is clicked, the card is "locked" and remains on screen to be interactable. While the card is locked,
+    the mouse entering/leaving other pets or buttons will not dismiss the card. This allows the user to mouseover or click
+    elements within the card.  Either dismissing or clicking the pet/button again will "unlock" the card and return it to its
+    tooltip behavior.
 
-	This module handles the behavior of "cards" which includes pet cards, notes
-	and win records. Preferences and possibly team cards will become cards in
-	the future.
+    To use, register a card's frame (such as Rematch.petCard) with functions for updating, locking and (if possible) pinning:
 
-	These cards are hybrid tooltips and dialogs. When the mouse is over a button
-	that displays a card, the card will behave like a tooltip: moving the mouse
-	off the button will hide the card. When the card-displaying button is
-	clicked, a dialog frame appears around the card and it remains locked on the
-	screen. Moving the mouse off the button will not hide the card, so the user
-	can mouseover and interact with the card's contents as if it was a dialog.
+        rematch.cardManager:Register(cardname,frame,{
+            update = function(self,subject), -- function to update the card (required)
+            lockUpdate = function(self,subject), -- function to run when card locks/unlocks
+            pinUpdate = function(self,subject), -- function to run when card is pinned/unpinned
+            shouldShow = function(self,subject), -- function to return true if card should show
+            noAnchor = boolean, -- if true, card manager will never attempt to anchor the card
+            noHide = function(self,subject), -- function to return true if card should hide from HideAllCards
+            noEscape = function(self,subject), -- function to return true if card should close from ESC
+        })
 
-	To use this card manager:
-	- Cards should inherit "RematchCardManagerTemplate". This adds a child frame
-	  (hidden by default) with the "locked" border frame to surround the card.
-	- Cards should be movable, clampedToScreen and FULLSCREEN frameStrata
-	- All clickable child frames (like stats on the pet card) should be defined
-	  prior to registering the card, when it gathers all clickableElements.
-	- Each card should be registered with a name via RegisterCard:
-		rematch:RegisterCard(cardName,frame,showFunc,title,isFloating)
-		- cardName is a unique string to identify this card ("PetCard", "WinRecord", etc)
-		- frame is the parent that inherited RematchCardManagerTemplate
-		- showFunc a function for each card to ShowCard(self,cardName,button,subject,forceLock)
-		- title is the text to display at the top of the card
-		- isFloating is true when a card is never pinned/anchored to an origin button
-	- rematch:ShowCard(cardName,etc) can be called directly too.		
-	- Each button that displays a card should run these in their OnEnter/OnLeave/OnClick:
-		rematch.CardManager.ButtonOnEnter(self,cardName,subject)
-		rematch.CardManager.ButtonOnLeave(self,cardName)
-		rematch.CardManager.ButtonOnClick(self,cardName,subject,highlightFunc)
-		- self is the button being entered/left/clicked
-		- cardName is the name of the card as it was registered
-		- subject is a petID or teamID the showFunc will use to fill the card
-		- (optional) highlightFunc runs when a lock changes func(origin/self,subject)
+        -- an example with self as rematch.petCard
+        rematch.cardManager:Register("PetCard",self,{
+            update = self.Update,
+            lockUpdate = self.UpdateLock,
+            pinUpdate = self.UpdatePinButton,
+            shouldShow = self.ShouldShow
+        })
 
+    Unless a card is pinned, it will anchor to the pet/button that summoned the card. While pinned, it will remain in the
+    place it was last dragged.  Pinning is only possible if pinUpdate has a value.
 
-	To show a card:
-	- Let the OnEnter/OnLeave/OnClick do its thing. It requires no extra work.
-	- To directly force a card:
-		rematch:ShowCard(cardName,UIParent/button,subject,true)
+    The position of cards, pin status (and a setting whether a card can be pinned) are savedvars named after the cardname,
+    or "PetCard" in the above example.
 
-	To hide a card:
-	- rematch:HideCard(cardName) to hide a specific card
-	- rematch:HideCard() will hide all cards
-	- Never directly card:Hide()! It will break the card!
+    To handle a tooltip-like card appearing beneath the mouse, it needs to make all clickable elements mouse-disabled while
+    unlocked. Registering will do that automatically, but if you add new elements after the card is registered:
 
-	Each card has these in RematchSettings:
-	<cardname>XPos: center x coordinate of the card (when not anchored to origin)
-	<cardname>YPos: center y coordinate of the card (when not anchored to origin)
-	<cardname>IsPinned: true if the card is presently pinned (not whether pinnable)
-	<cardname>IsLocked: true if the card is presently locked and can't be moved
+        rematch.cardManager:AddClickableElementToCard(frame,element)
+
+    Now in your OnEnter/OnLeave/OnClick script handlers for the pet/buttons, call the appropriate function here:
+
+        rematch.cardManager:OnEnter(frame,relativeTo,subject)
+        rematch.cardManager:OnLeave(frame)
+        rematch.cardManager:OnClick(frame,relativeTo,subject)
+
+        In the above:
+        - frame is the card's frame, such as Rematch.petCard
+        - relativeTo is the button the card is summoned from (used as an anchor for unpinned cards)
+        - subject is a card-specific value such as a petID or teamID
+
+    This module doesn't handle any visible elements of the card. The update, lockUpdate and pinUpdate are callbacks for
+    the card to handle that on its own.
 ]]
 
-local _,L = ...
-local rematch = Rematch
-rematch.CardManager = {}
-local manager = rematch.CardManager
-local settings
+--[[
+    cardInfo[frame] = {
+        cardname=string, -- identifier for the card such as "PetCard" or "Notes"
+        timer=func, -- the timer function to show the card in normal mode (created during Register)
+        update=func, -- the card's function to update its content (passed in register)
+        postFunc=func, -- function to run after the card has been updated and anchored
+        lockUpdate=func, -- callback function when the card's lock status changes
+        pinUpdate=func, -- callback function when the card's pin status changes
+        shouldShow=func, -- callback function to determine if subject should show the card
+        locked=boolean, -- whether the card is locked and interactable or unlocked and tooltip-like
+        enteredRelativeTo=frame, -- the frame/button/texture the card attaches to (if unpinned)
+        enteredSubject=string, -- an identifier for the content of the card (petID, teamKey, etc)
+        lockedRelativeTo=frame, --
+        lockedSubject=string, --
+        savedvarCanPin, -- <cardname>CanPin setting that the card is pinnable
+        savedvarIsPinned, -- <cardname>IsPinned setting for whether the card is pinned
+        savedvarXPos, -- <cardname>XPos setting for the x pos of the pinned card (from TOPLEFT relativeTo BOTTOMLEFT of UIParent)
+        savedvarYPos, -- <cardname>YPos setting for the y pos of the pinned card (from TOPLEFT relativeTo BOTTOMLEFT of UIParent)
+        savedvarItemRefXPos, -- <cardname>ItemRefXPos setting for the x pos of the unattached/unpinned card (unpinnable)
+        savedvarItemRefYPos, -- <cardname>ItemRefYPos setting for the y pox of the unattached/unpinned card (unpinnable)
+        noAnchor=boolean, -- true to let calling functions handle anchoring
+    }
+]]
+local cardInfo = {}
 
-local cardProperties = {} -- indexed by card name, the properties of the card being managed
-local cardNamesByFrame = {} -- indexed by frame, the card name registered for the frame
-local delay = 0.5 -- seconds before card is shown on mouseover with default options
+-- for AddAnchorExceptions to make an unpinned card anchor differently to a specific frame
+-- eg: rematch.cardManager:AddAnchorException(rematch.petCard,PetBattleFrame.ActiveAlly,"TOPRIGHT",PetBattleFrame.ActiveAlly,"BOTTOMRIGHT")
+local anchorExceptions = {}
 
-function rematch:RegisterCard(cardName,frame,showFunc,title,isFloating)
-	cardProperties[cardName] = {frame=frame,showFunc=showFunc,isFloating=isFloating,clickableElements={}}
-	cardNamesByFrame[frame] = cardName
+-- name is the name of the card (the pinned/position savedvars will be made from this)
+-- frame is a reference to the card's frame
+-- update is the function(self,subject) that updates the contents of the card
+-- neverPinnable whether the card should never be allowed to be pinned
+--function rematch.cardManager:Register(cardname,frame,update,lockUpdate,pinUpdate,shouldShow,noAnchor)
+function rematch.cardManager:Register(cardname,frame,def)
+    -- assert a few important bits that will make everything explode in a fiery mess if incorrectly defined
+    assert(type(cardname)=="string" and cardname:len()>0,"Invalid card cardname: '"..(cardname or "nil"))
+    assert(not cardInfo[frame],"Frame for card "..cardname.." already registered.")
+    assert(type(def.update)=="function","Attempt to register a cardManager without an update function.")
+    for _,info in pairs(cardInfo) do
+        assert(info.cardname~=cardname,"Card cardname "..cardname.." already registered.")
+    end
 
-	-- setup lockframe
-	frame.LockFrame.CloseButton:SetScript("OnClick",manager.CloseButtonOnClick)
-	frame.LockFrame.CloseButton:SetScript("OnKeyDown",manager.CloseButtonOnKeyDown)
-	frame.LockFrame.TitleText:SetText(title)
-	frame.LockFrame.PinButton.tooltipTitle = isFloating and L["Toggle Lock"] or L["Unpin Card"]
-	frame.LockFrame.PinButton.tooltipBody = isFloating and L["While locked, this card cannot be moved unless Shift is held. It will also remain on screen when ESC is pressed."] or L["While pinned, this card will stay wherever you move it.\n\nClick this to unpin the card and snap it back to the button that spawned it."]
+    cardInfo[frame] = {
+        cardname = cardname, -- string cardname of card to be used to build savedvariables
+        update = def.update, -- function(self,subject) to update contents of the card
+        lockUpdate = def.lockUpdate, -- function(self) to call when the lock status on the card changes
+        pinUpdate = def.pinUpdate, -- function(self) to update the pin show/hide on the card
+        shouldShow = def.shouldShow, -- function(self,subject) that returns true if card should be shown
+        noAnchor = def.noAnchor, -- true to never anchor card so calling function can do it
+        noHide = def.noHide, -- function(self,subject) that returns true if card should not hide in HideAllCards
+        noEscape = def.noEscape, -- function(self,subject) that returns true if card should not hide from ESC key
+        clickableElements = {}, -- every button, model, etc. with mouse enabled
+        savedvarCanPin = cardname.."CanPin",
+        savedvarIsPinned = cardname.."IsPinned",
+        savedvarXPos = cardname.."XPos",
+        savedvarYPos = cardname.."YPos",
+        savedvarItemRefXPos = cardname.."ItemRefXPos",
+        savedvarItemRefYPos = cardname.."ItemRefYPos",
+        timer = function() -- rematch.timer func to display the card on a short delay (C.CARD_MANAER_DELAY)
+            if cardInfo[frame].enteredSubject then
+                frame:Show()
+                def.update(frame,cardInfo[frame].enteredSubject)
+                rematch.cardManager:UnlockCard(frame)
+                rematch.cardManager:AnchorCard(frame)
+            end
+        end
+    }
 
-	-- if card doesn't have a saved position, then set a default to center of screen
-	if not settings[cardName.."XPos"] then
-		settings[cardName.."XPos"],settings[cardName.."YPos"] = UIParent:GetCenter()
-	end
+    -- create a button to capture ESC keys to close while card on screen
+    frame.escButton = CreateFrame("Button",nil,frame)
+    frame.escButton:SetScript("OnKeyDown",function(self,key) rematch.cardManager.OnKeyDown(self,self:GetParent(),key) end)
 
-	-- discover all clickable elements of a card and save them in its clickableElements
-	manager:AddClickableElements(cardName,frame)
+    rematch.cardManager:AddClickableElements(cardInfo[frame].clickableElements,frame) -- populates clickableElements
+    rematch.cardManager:UnlockCard(frame,true)
 
+    -- when card hides, clear itemRefMode if it was enabled
+    frame:HookScript("OnHide",function(self)
+        cardInfo[self].itemRefMode = nil
+    end)
 end
 
--- can be called from outside this module; cardName has to have been registered
--- origin is the frame/button the card is to attach to
--- subject is the petID, teamID, etc to show on the card
--- forceLock is true if the card should be locked (LockFrame shown)
-function rematch:ShowCard(cardName,origin,subject,forceLock)
-	local card = cardProperties[cardName]
-	if card then
-		if forceLock then -- any card being forced on the screen is locked
-			card.locked = true
-		end
-		-- save origin/subject to the card
-		card.origin = origin
-		card.subject = subject
-		-- run its showFunc
-		card.showFunc(card.frame,subject)
-		-- handle LockFrame
-		card.frame.LockFrame:SetShown(card.locked)
-		-- update button in topleft corner
-		manager:UpdatePinButton(cardName)
-		-- update whether clickable elements can be clicked through (unlocked cards cannot capture mouse)
-		manager:UpdateClickableElements(cardName,card.locked and true)
-		-- position the card; for pinned cards (or static) anchor card to its saved XPos/YPos
-		if card.isFloating or (settings.FixedPetCard and settings[cardName.."IsPinned"]) then
-			card.frame:ClearAllPoints()
-			card.frame:SetPoint("CENTER",UIParent,"BOTTOMLEFT",settings[cardName.."XPos"],settings[cardName.."YPos"])
-		else -- otherwise anchor it to origin button
-			rematch:SmartAnchor(card.frame,origin)
-		end
-		-- and finally put it on screen
-		card.frame:Show()
-	end
+-- recursive function to add all mouse-enabled frames to the given cardInfo[frame].clickableElements
+-- this should be called once when registered to know what frames to make mouse-transparent in the lock/unlock
+function rematch.cardManager:AddClickableElements(clickableElements,frame)
+    if frame:IsMouseEnabled() then
+        tinsert(clickableElements,frame)
+    end
+    for _,child in pairs({frame:GetChildren()}) do
+        rematch.cardManager:AddClickableElements(clickableElements,child)
+    end
 end
 
--- this will update an existing card, likely due to some change
-function rematch:UpdateCard(cardName)
-	local card = cardProperties[cardName]
-	if card.origin and card.subject then
-		rematch:ShowCard(cardName,card.origin,card.subject)
-	end
+-- intended for use after a card is registered, this adds the given element to the card frame's clickableElements
+function rematch.cardManager:AddClickableElementToCard(frame,element)
+    local clickableElements = cardInfo[frame] and cardInfo[frame].clickableElements
+    if clickableElements and element then
+        tinsert(clickableElements,element)
+    end
 end
 
--- this should be called instead of card:Hide() to hide a card
--- if no cardName is given, all cards will be hidden
-function rematch:HideCard(cardName)
-	if cardName then
-		rematch:StopTimer(cardName)
-		local card = cardProperties[cardName]
-		if card then
-			card.frame:Hide()
-			if card.origin then
-				card.origin = nil
-				card.subject = nil
-				card.locked = nil
-			end
-		end
-	else -- if a card isn't given, hide them all
-		for cardName in pairs(cardProperties) do
-			rematch:HideCard(cardName)
-		end
-	end
+-- OnEnter:
+--   "Normal": If card not shown, start timer to show card
+--   "Fast": If card not shown, show card
+--   "Click": Nothing
+function rematch.cardManager:OnEnter(frame,relativeTo,subject)
+    local behavior = settings.CardBehavior
+    local info = cardInfo[frame]
+
+    -- if card has a shouldShow function, and the function returns false, ignore this onEnter
+    if not info or (info.shouldShow and not info.shouldShow(self,subject)) then
+        return
+    end
+
+    info.enteredRelativeTo = relativeTo  -- what the card is attached to (if not pinned)
+    info.enteredSubject = subject -- what content the card is displaying (petID, teamKey, etc.)
+
+    if rematch.utils:GetUIJustChanged() then
+        return -- if ui just reconfigured or menu/dialog disappeared, don't show this card
+    end
+
+    local frameNotLocked = not (frame:IsVisible() and info.locked)
+
+    if behavior==C.MOUSE_SPEED_SLOW and frameNotLocked then
+        rematch.timer:Start(C.CARD_MANAGER_DELAY_SLOW,info.timer)
+    elseif behavior==C.MOUSE_SPEED_NORMAL and frameNotLocked then
+        rematch.timer:Start(C.CARD_MANAGER_DELAY_NORMAL,info.timer)
+    elseif behavior==C.MOUSE_SPEED_FAST and frameNotLocked then
+        frame:Show()
+        info.update(frame,info.enteredSubject)
+        rematch.cardManager:UnlockCard(frame)
+        rematch.cardManager:AnchorCard(frame)
+    end
 end
 
--- adds frame and all children of frame to a card's clickableElements if they can be clicked
-function manager:AddClickableElements(cardName,frame)
-	if frame:IsMouseEnabled() then
-		tinsert(cardProperties[cardName].clickableElements,frame)
-	end
-	for _,child in pairs({frame:GetChildren()}) do
-		if child:IsMouseEnabled() then
-			manager:AddClickableElements(cardName,child)
-		end
-	end
+-- OnLeave:
+--   "Normal": If card not shown and timer running to show card, stop timer
+--             If card shown and not locked, hide card
+--   "Fast": If card shown and not locked, hide card
+--   "Click": Nothing
+function rematch.cardManager:OnLeave(frame)
+    local behavior = settings.CardBehavior
+    local info = cardInfo[frame]
+
+    if not info then
+        return
+    end
+
+    info.enteredRelativeTo = nil
+    info.enteredSubject = nil
+
+    if behavior==C.MOUSE_SPEED_NORMAL or behavior==C.MOUSE_SPEED_SLOW then
+        if not frame:IsVisible() and rematch.timer:IsRunning(info.timer) then
+            rematch.timer:Stop(info.timer)
+        elseif frame:IsVisible() and not info.locked then
+            frame:Hide()
+        end
+    elseif behavior==C.MOUSE_SPEED_FAST then
+        if frame:IsVisible() and not info.locked then
+            frame:Hide()
+        end
+    end
 end
 
--- goes through all clickableElements in a card and enables mouse if true, disables if false
--- (when an unlocked card is overlapping a button, the card can't capture the mouse or it
--- immediately triggers an OnLeave of the button)
-function manager:UpdateClickableElements(cardName,enable)
-	local card = cardProperties[cardName]
-	if card then
-		local clickableElements = card.clickableElements
-		for i=1,#clickableElements do
-			clickableElements[i]:EnableMouse(enable)
-		end
-	end
+-- OnClick:
+--   "Normal": If card not shown and timer running, show and lock card
+--             If card shown and locked and relativeTo or subject changed, re-anchor and update content
+--             If card shown and unlocked, lock it
+--             Else if card shown and locked, unlock it
+--   "Fast":   If card shown and unlocked, lock it
+--             Else if card shown and locked, unlock it
+--   "Click":  If card shown and click subject == card subject, hide it
+--             Else if card shown and click subject <> card subject, update subject
+--             Else if card not shown, show it and lock it
+-- (Note to self: DO NOT refactor to reduce duplicate code! There are three DIFFERENT behaviors here!)
+function rematch.cardManager:OnClick(frame,relativeTo,subject)
+    local behavior = settings.CardBehavior
+    local info = cardInfo[frame]
+    local isVisible = frame:IsVisible()
+
+    -- handle special handling for a clicking a pet (could be a leveling/rarity stone or shift+click to link)
+    if frame==rematch.petCard and rematch.utils:HandleSpecialPetClicks(subject) then
+        return -- pet was linked, do nothing else and leave
+    end
+
+    -- if card has a shouldShow function, and the function returns false, ignore this
+    if not info or (info.shouldShow and not info.shouldShow(frame,subject)) then
+        return
+    end
+
+    -- if card is in itemRefMode and already on screen, hide it
+    if isVisible and info.lockedSubject==subject and info.itemRefMode then
+        frame:Hide()
+        return
+    end
+
+    -- both normal and fast behavior share same behavior if card shown+locked+subject changed, shown+not locked, shown+locked
+    if behavior==C.MOUSE_SPEED_NORMAL or behavior==C.MOUSE_SPEED_SLOW or behavior==C.MOUSE_SPEED_FAST then
+        -- special case for normal where card is waiting to be shown (or it wasn't shown due to being dismissed and new pet clicked)
+        if not isVisible then
+            if rematch.timer:IsRunning(info.timer) then
+                rematch.timer:Stop(info.timer)
+            end
+            info.lockedRelativeTo = relativeTo
+            info.lockedSubject = subject
+            frame:Show()
+            info.update(frame,subject)
+            rematch.cardManager:LockCard(frame)
+            rematch.cardManager:AnchorCard(frame)
+        elseif isVisible and info.locked and (not info.lockedSubject or info.lockedSubject==subject) then
+            info.update(frame,subject)
+            rematch.cardManager:UnlockCard(frame)
+            return
+        elseif isVisible and info.locked and (subject~=info.lockedSubject) then
+            info.lockedRelativeTo = relativeTo
+            info.lockedSubject = subject
+            info.update(frame,subject)
+            rematch.cardManager:AnchorCard(frame)
+            if info.lockUpdate then
+                info.lockUpdate(frame)
+            end
+        elseif isVisible and not info.locked then
+            rematch.cardManager:LockCard(frame)
+        elseif isVisible and info.locked then
+            rematch.cardManager:UnlockCard(frame)
+        end
+    end
+    if behavior==C.MOUSE_SPEED_CLICK then
+        if isVisible and (not info.lockedSubject or subject==info.lockedSubject) then
+            frame:Hide()
+        elseif isVisible and subject~=info.lockedSubject then
+            info.lockedRelativeTo = relativeTo
+            info.lockedSubject = subject
+            info.update(frame,subject)
+            rematch.cardManager:AnchorCard(frame)
+            if info.lockUpdate then
+                info.lockUpdate(frame)
+            end
+        elseif not isVisible then
+            info.lockedRelativeTo = relativeTo
+            info.lockedSubject = subject
+            frame:Show()
+            info.update(frame,subject)
+            rematch.cardManager:LockCard(frame)
+            rematch.cardManager:AnchorCard(frame)
+        end
+    end
 end
 
---[[ LockFrame ]]
-
--- when a card's LockFrame is shown, make sure the parent card is a higher frameLevel
-function manager:LockFrameOnShow()
-	local parent = self:GetParent()
-	local parentFrameLevel = parent and parent:GetFrameLevel()
-	local selfFrameLevel = self:GetFrameLevel()
-	if parentFrameLevel and parentFrameLevel<=selfFrameLevel then
-		parent:SetFrameLevel(selfFrameLevel)
-		self:SetFrameLevel(parentFrameLevel)
-	end
+-- for the escButton to capture ESC keys: close the card if it's locked and key is ESC; otherwise pass it through
+function rematch.cardManager:OnKeyDown(frame,key)
+    local info = cardInfo[frame]
+    if info.locked and key==GetBindingKey("TOGGLEGAMEMENU") and not rematch.utils:Evaluate(info.noEscape,self,info.lockedSubject) then
+        frame:Hide()
+        self:SetPropagateKeyboardInput(false)
+    else
+        self:SetPropagateKeyboardInput(true)
+    end
 end
 
--- when LockFrame is dragged it drags its parent
-function manager:LockFrameOnMouseDown()
-	local cardName = cardNamesByFrame[self:GetParent()]
-	local card = cardProperties[cardName]
-	if card then
-		-- only drag the card if it's not a static card or it's not locked
-		if not card.isFloating or not settings[cardName.."IsLocked"] then
-			self:GetParent():StartMoving()
-		end
-	end
+-- cards are always movable, even if they can't be pinned
+function rematch.cardManager:OnMouseDown()
+    self:StartMoving()
 end
 
--- when LockFrame is released it stops dragging its parent
-function manager:LockFrameOnMouseUp()
-	local parent = self:GetParent()
-	parent:StopMovingOrSizing()
-	local cardName = cardNamesByFrame[parent]
-	local card = cardProperties[cardName]
-	-- if card is pinnable and "Allow Cards To Be Pinned" is enabled
-	if card and (card.isFloating or settings.FixedPetCard) then
-		settings[cardName.."IsPinned"] = true
-		settings[cardName.."XPos"],settings[cardName.."YPos"] = parent:GetCenter()
-		manager:UpdatePinButton(cardName)
-	end
+-- when a card is moved, if it's pinnable, then save its position and call the card's updatePin function
+function rematch.cardManager:OnMouseUp()
+    local info = cardInfo[self]
+    self:StopMovingOrSizing()
+    if (info.pinUpdate and settings[info.savedvarCanPin]) or info.itemRefMode then
+        local xpos,ypos = self:GetCenter()
+        self:ClearAllPoints()
+        self:SetPoint("CENTER",UIParent,"BOTTOMLEFT",xpos,ypos)
+        if info.itemRefMode then
+            settings[info.savedvarItemRefXPos] = xpos
+            settings[info.savedvarItemRefYPos] = ypos
+        else
+            settings[info.savedvarXPos] = xpos
+            settings[info.savedvarYPos] = ypos
+            settings[info.savedvarIsPinned] = true
+            info.pinUpdate(self) -- call the card's function to show the pin
+        end
+    end
 end
 
--- click of the close button on the LockFrame
-function manager:CloseButtonOnClick()
-	rematch:HideCard(cardNamesByFrame[self:GetParent():GetParent()])
+-- when the card is locked, its chrome is displayed (alpha 1; all non-chrome elements of the card should be
+-- forceAlpha="true"), buttons get mouse enabled, and it's now treated like a dialog
+function rematch.cardManager:LockCard(frame,force)
+    local info = cardInfo[frame]
+    if not info.locked or force then
+        frame:SetAlpha(1)
+        info.lockedRelativeTo = info.enteredRelativeTo
+        info.lockedSubject = info.enteredSubject
+        info.locked = true
+        for _,element in ipairs(cardInfo[frame].clickableElements) do
+            element:EnableMouse(true)
+        end
+        if info.lockUpdate then
+            info.lockUpdate(frame)
+        end
+    end
 end
 
--- while lock frame is on screen, the close button will watch for an ESC
-function manager:CloseButtonOnKeyDown(key)
-	if key==GetBindingKey("TOGGLEGAMEMENU") then
-		local cardName = cardNamesByFrame[self:GetParent():GetParent()]
-		local card = cardProperties[cardName]
-		if card and (not card.isFloating or not settings[cardName.."IsLocked"]) then
-			rematch:HideCard(cardNamesByFrame[self:GetParent():GetParent()])
-			self:SetPropagateKeyboardInput(false)
-			return
-		end
-	end
-	self:SetPropagateKeyboardInput(true)
+-- when the card is unlocked, its chrome is hidden (alpha 0), buttons get mouse disabled, and it's now like a tooltip
+-- (mouse disabled so if the pet card appears under the mouse due to clamping, it doesn't spasm in onenter/leaves)
+function rematch.cardManager:UnlockCard(frame,force)
+    local info = cardInfo[frame]
+    if info.locked or force then
+        frame:SetAlpha(0)
+        info.lockedRelativeTo = nil
+        info.lockedSubject = nil
+        info.locked = false
+        for _,element in ipairs(cardInfo[frame].clickableElements) do
+            element:EnableMouse(false)
+        end
+        if info.lockUpdate then
+            info.lockUpdate(frame)
+        end
+    end
 end
 
---[[ Origin button's OnEnter/Leave/Click ]]
-
--- buttons that show a card should use in their OnEnter
--- subject is the petID, teamID, etc of the card to show
-function manager:ButtonOnEnter(cardName,subject)
-	if settings.ClickPetCard then
-		return
-	end
-	local card = cardProperties[cardName]
-	-- don't do anything if card is already locked on screen (or a dialog/menu just went away)
-	if card.locked or rematch:UIJustChanged() then
-		return
-	end
-	card.origin = self
-	card.subject = subject
-	if settings.FastPetCard then -- if "Faster Pet Card" enabled, show card immediately
-		rematch:ShowCard(cardName,self,subject)
-	else -- otherwise wait a short delay before showing card
-		rematch:StartTimer(cardName,delay,manager.DelayedButtonOnEnter)
-	end
+-- unpins a card and reanchors it to its relativeTo (the Pin complement happens in the OnMouseUp from moving the card)
+function rematch.cardManager:Unpin(frame)
+    local info = cardInfo[frame]
+    settings[info.savedvarIsPinned] = false
+    self:AnchorCard(frame)
+    if info.pinUpdate then
+        info.pinUpdate(frame)
+    end
 end
 
--- called after delay via ButtonOnEnter, actually shows the card
-function manager:DelayedButtonOnEnter()
-	local cardName = rematch:GetTimerStopped() -- get name of timer that triggered this function
-	local card = cardProperties[cardName]
-	rematch:ShowCard(cardName,card.origin,card.subject)
+
+-- for outside use to determine whether card locked (to know whether to update it during mousewheel scroll for example)
+function rematch.cardManager:IsCardLocked(frame)
+    return cardInfo[frame].locked
 end
 
--- buttons that show a card should use this in their OnLeave
-function manager:ButtonOnLeave(cardName)
-	if settings.ClickPetCard then
-		return
-	end
-	local card = cardProperties[cardName]
-	if not card.locked then
-		rematch:HideCard(cardName)
-	end
+-- returns true if the card can be pinned and if it's actually pinned
+function rematch.cardManager:IsCardPinned(frame)
+    local info = cardInfo[frame]
+    return info.pinUpdate and settings[info.savedvarCanPin] and settings[info.savedvarIsPinned] and not info.itemRefMode
 end
 
--- this should be called after the button checked if any other clicks (right-click,
--- shift+click, etc) needed handling and only if they weren't handled.
-function manager:ButtonOnClick(cardName,subject,highlightFunc)
-	local card = cardProperties[cardName]
-	if card.frame:IsVisible() then
-		-- if the opened subject is being clicked, toggle its lock state
-		if card.origin==self and card.subject==subject then
-			if settings.ClickPetCard then
-				rematch:HideCard(cardName)
-			elseif card.locked then -- card locked on same origin/subject, unlock it
-				card.locked = nil
-				card.frame.LockFrame:Hide()
-				manager:UpdateClickableElements(cardName,false)
-			else -- card unlocked on same origin/subject, lock it
-				card.locked = true
-				card.frame.LockFrame:Show()
-				manager:UpdateClickableElements(cardName,true)
-			end
-		else -- if a different subject is clicked, open new subject and lock for this click
-			card.locked = true
-			rematch:ShowCard(cardName,self,subject)
-		end
-	else -- card is not visible (clicked before delay over or ClickToOpen)
-		rematch:StopTimer(cardName)
-		card.locked = true
-		rematch:ShowCard(cardName,self,subject)
-	end
+function rematch.cardManager:GetRelativeTo(frame)
+    local info = cardInfo[frame]
+    return info.enteredRelativeTo
 end
 
--- returns the subject and origin of the shown card
-function manager:GetCardInfo(cardName)
-	local card = cardProperties[cardName]
-	if card then
-		return card.subject,card.origin
-	end
+-- when this is called BEFORE a card is shown, it will anchor the card independently of any frame; locked and unpinnable
+-- but movable (it will store its position in savedvarItemRefXPos/YPos); this lasts until the card is hidden
+function rematch.cardManager:SetItemRefMode(frame)
+    cardInfo[frame].itemRefMode = true
 end
 
---[[ Pinning/Locking ]]
-
--- updates the state of the the pin/lock button in the topleft corner of the card
-function manager:UpdatePinButton(cardName)
-	local card = cardProperties[cardName]
-	if card then
-		local pinButton = card.frame.LockFrame.PinButton
-		if card.isFloating then
-			local isLocked = settings[cardName.."IsLocked"]
-			rematch:SetTitlebarButtonIcon(pinButton,isLocked and "lock" or "unlock")
-			pinButton:Show()
-		elseif settings.FixedPetCard and settings[cardName.."IsPinned"]  then
-			rematch:SetTitlebarButtonIcon(pinButton,"pin")
-			pinButton:Show()
-		else
-			pinButton:Hide()
-		end
-	end
+-- when an unpinned card should anchor to a specific anchor, add an exception here
+-- eg: rematch.cardManager:AddAnchorException(rematch.petCard,PetBattleFrame.ActiveAlly,"TOPRIGHT",PetBattleFrame.ActiveAlly,"BOTTOMRIGHT")
+function rematch.cardManager:AddAnchorException(frame,relativeTo,...)
+    if cardInfo[frame] then
+        if not anchorExceptions[frame] then
+            anchorExceptions[frame] = {}
+        end
+        anchorExceptions[frame][relativeTo] = {...}
+    end
 end
 
--- when pin/lock button is clicked on the lock frame
-function manager:PinButtonOnClick()
-	local cardName = cardNamesByFrame[self:GetParent():GetParent()]
-	local card = cardProperties[cardName]
-	if card.isFloating then
-		settings[cardName.."IsLocked"] = not settings[cardName.."IsLocked"]
-		manager:UpdatePinButton(cardName)
-	else
-		settings[cardName.."IsPinned"] = nil
-		rematch:UpdateCard(cardName)
-	end
+-- anchors the card to the relativeTo if not pinned, to the pin coordinates otherwise
+-- (note: call this after a lock/unlock so it chooses the right relativeTo)
+function rematch.cardManager:AnchorCard(frame)
+    local info = cardInfo[frame]
+    if info.noAnchor then
+        return -- if this card has noAnchor set, then never anchor it
+    end
+    frame:ClearAllPoints()
+    if info.itemRefMode then -- if in itemRefMode, anchor card at last known itemref (or center of screen if not known)
+        local x,y = settings[info.savedvarItemRefXPos],settings[info.savedvarItemRefYPos]
+        frame:SetPoint("CENTER",UIParent,(x and y) and "BOTTOMLEFT" or "CENTER",x or 0,y or 0)
+    elseif rematch.cardManager:IsCardPinned(frame) and settings[info.savedvarXPos] and settings[info.savedvarYPos] then
+        frame:SetPoint("CENTER",UIParent,"BOTTOMLEFT",settings[info.savedvarXPos],settings[info.savedvarYPos]) -- if card is pinned, anchor it at the saved position
+    else -- if card is not pinned, anchor it relative to the relativeTo
+        if not info.enteredRelativeTo then
+            --info.enteredRelativeTo = GetMouseFocus()
+        end
+        local relativeTo = info.locked and info.lockedRelativeTo or info.enteredRelativeTo
+        if relativeTo and anchorExceptions[frame] and anchorExceptions[frame][relativeTo] then
+            -- if an anchor exception for this un-pinned card, use the exception
+            frame:SetPoint(unpack(anchorExceptions[frame][relativeTo]))
+        elseif relativeTo then
+            local corner,opposite = rematch.utils:GetCorner(rematch.utils:GetFrameForReference(relativeTo),UIParent)
+            -- adjusting y offset for top-anchored cards to account for the possibly-hidden titlebar height
+            frame:SetPoint(corner,relativeTo,opposite,0,(corner=="TOPLEFT" or corner=="TOPRIGHT") and 24 or 0)
+        else -- this card is being shown without a lockedRelativeTo or enteredRelativeTo
+            frame:SetPoint("CENTER") -- fallback to center of screen
+        end
+    end
 end
 
---[[ CardTest ]]
-
-local testData = {}
-
-local function fillTestCard(self,subject)
-	local petInfo = rematch.petInfo:Fetch(subject)
-	self.Text:SetText(petInfo.name)
-	self.Icon:SetNormalTexture(petInfo.icon)
+-- hides a single card (a normal frame:Hide() is okay too; this just stop any potential timer)
+function rematch.cardManager:HideCard(frame)
+    local info = cardInfo[frame]
+    -- if card is waiting to be shown, stop waiting
+    if info.timer and rematch.timer:IsRunning(info.timer) then
+        rematch.timer:Stop(info.timer)
+    end
+    frame:Hide()
 end
 
-local function fillTestCardListButton(self,subject)
-	local petInfo = rematch.petInfo:Fetch(subject)
-	self.Pet.Icon:SetTexture(petInfo.icon)
-	self.Text:SetText(petInfo.name)
-	self.petID = subject
-	self:UnlockHighlight()
+-- hides any cards that may be visible, such as during a frame configure
+function rematch.cardManager:HideAllCards()
+    for frame,info in pairs(cardInfo) do
+        if not rematch.utils:Evaluate(info.noHide,self,info.lockedSubject) then
+            rematch.cardManager:HideCard(frame)
+        end
+    end
 end
 
-rematch:InitModule(function()
-	settings = RematchSettings
---	rematch:RegisterCard("CardTest",CardTestCard,function(self,subject) self.Text:SetText(subject) self:Show() end,"Card Test","pin")
-	rematch:RegisterCard("CardTest",CardTestCard,fillTestCard,"Card Test",true)
-
-	local scrollFrame = AutoScrollFrame:Create(CardTest, "CardTestListButtonTemplate", testData, fillTestCardListButton)
-	scrollFrame:SetPoint("TOPLEFT",4,-24)
-	scrollFrame:SetPoint("BOTTOMRIGHT",-6,5)
-	CardTest.scrollFrame = scrollFrame
-
-	CardTest:SetScript("OnEvent",function(self,event)
-		wipe(testData)
-		for i=1,C_PetJournal.GetNumPets() do
-			local petID = C_PetJournal.GetPetInfoByIndex(i)
-			if petID then
-				tinsert(testData,petID)
-			end
-		end
-		self.scrollFrame:Update()
-	end)
-	CardTest:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
-end)
+-- when a card should be shown and locked without an OnEnter/OnLeave/OnClick
+function rematch.cardManager:ShowCard(frame,subject)
+    local info = cardInfo[frame]
+    rematch.cardManager:HideCard(frame)
+    info.lockedSubject = subject
+    rematch.cardManager:OnClick(frame,rematch.frame,subject) -- rematch window used as reference
+end

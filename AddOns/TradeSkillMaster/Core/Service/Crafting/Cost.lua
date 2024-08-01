@@ -5,18 +5,20 @@
 -- ------------------------------------------------------------------------------ --
 
 local TSM = select(2, ...) ---@type TSM
-local Cost = TSM.Crafting:NewPackage("Cost")
-local ProfessionInfo = TSM.Include("Data.ProfessionInfo")
-local TempTable = TSM.Include("Util.TempTable")
-local Math = TSM.Include("Util.Math")
-local ItemString = TSM.Include("Util.ItemString")
-local CraftString = TSM.Include("Util.CraftString")
-local RecipeString = TSM.Include("Util.RecipeString")
-local MatString = TSM.Include("Util.MatString")
-local CustomPrice = TSM.Include("Service.CustomPrice")
+local Cost = TSM.Crafting:NewPackage("Cost") ---@type AddonPackage
+local TempTable = TSM.LibTSMUtil:Include("BaseType.TempTable")
+local Math = TSM.LibTSMUtil:Include("Lua.Math")
+local OptionalMatData = TSM.LibTSMData:Include("OptionalMat")
+local ItemString = TSM.LibTSMTypes:Include("Item.ItemString")
+local CraftString = TSM.LibTSMTypes:Include("Crafting.CraftString")
+local RecipeString = TSM.LibTSMTypes:Include("Crafting.RecipeString")
+local MatString = TSM.LibTSMTypes:Include("Crafting.MatString")
+local CustomString = TSM.LibTSMTypes:Include("CustomString")
+local Profession = TSM.LibTSMService:Include("Profession")
+local CraftingOperation = TSM.LibTSMSystem:Include("CraftingOperation")
 local private = {
+	settings = nil,
 	matsVisited = {},
-	matCostCache = {},
 	matsTemp = {},
 	matsTempInUse = false,
 	currentMatProfession = nil,
@@ -28,40 +30,27 @@ local private = {
 -- Module Functions
 -- ============================================================================
 
+function Cost.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
+		:AddKey("factionrealm", "internalData", "mats")
+		:AddKey("global", "craftingOptions", "defaultCraftPriceMethod")
+		:AddKey("global", "craftingOptions", "defaultMatCostMethod")
+end
+
 function Cost.GetMatCost(itemString)
 	itemString = ItemString.GetBaseFast(itemString)
-	if not TSM.db.factionrealm.internalData.mats[itemString] then
+	if not private.settings.mats[itemString] then
 		return
 	end
 	if private.matsVisited[itemString] then
 		-- there's a loop in the mat cost, so bail
 		return
 	end
-	local prevHash = private.matsVisited.hash
-	local hash = nil
-	if prevHash == nil then
-		-- this is a top-level mat, so just use the itemString as the hash
-		hash = itemString
-	else
-		if type(prevHash) == "string" then
-			-- this is a second-level mat where the previous hash is the itemString which needs to be hashed itself
-			prevHash = Math.CalculateHash(prevHash)
-		end
-		hash = Math.CalculateHash(itemString, prevHash)
-	end
-	private.matsVisited.hash = hash
 	private.matsVisited[itemString] = true
-	if private.matCostCache.lastUpdate ~= GetTime() then
-		wipe(private.matCostCache)
-		private.matCostCache.lastUpdate = GetTime()
-	end
-	if not private.matCostCache[hash] then
-		local priceStr = TSM.db.factionrealm.internalData.mats[itemString].customValue or TSM.db.global.craftingOptions.defaultMatCostMethod
-		private.matCostCache[hash] = CustomPrice.GetValue(priceStr, itemString)
-	end
+	local priceStr = private.settings.mats[itemString].customValue or private.settings.defaultMatCostMethod
+	local result = CustomString.GetValue(priceStr, itemString)
 	private.matsVisited[itemString] = nil
-	private.matsVisited.hash = prevHash
-	return private.matCostCache[hash]
+	return result
 end
 
 function Cost.GetCraftingCostByCraftString(craftString, optionalMats, qualityMats)
@@ -70,25 +59,20 @@ function Cost.GetCraftingCostByCraftString(craftString, optionalMats, qualityMat
 		qualityMats = TempTable.Acquire()
 		releaseQualityMats = true
 	end
-	local cost = private.GetCraftingCostHelper(craftString, nil, optionalMats, qualityMats)
+	local cost, chance = private.GetCraftingCostHelper(craftString, nil, optionalMats, qualityMats)
 	if releaseQualityMats then
 		TempTable.Release(qualityMats)
 	end
-	return cost
-end
-
-function Cost.GetCraftingCostByRecipeString(recipeString)
-	local craftString = CraftString.FromRecipeString(recipeString)
-	local cost = private.GetCraftingCostHelper(craftString, recipeString)
-	return cost
+	return cost, chance
 end
 
 function Cost.GetCraftedItemValue(itemString)
-	local hasCraftPriceMethod, craftPrice = TSM.Operations.Crafting.GetCraftedItemValue(itemString)
+	local hasCraftPriceMethod, craftPrice = CraftingOperation.GetCraftedItemValue(itemString)
 	if hasCraftPriceMethod then
 		return craftPrice
 	end
-	return CustomPrice.GetValue(TSM.db.global.craftingOptions.defaultCraftPriceMethod, itemString)
+	local value = CustomString.GetValue(private.settings.defaultCraftPriceMethod, itemString)
+	return value
 end
 
 function Cost.GetProfitByCraftString(craftString)
@@ -102,46 +86,31 @@ function Cost.GetProfitByRecipeString(recipeString)
 end
 
 function Cost.GetCostsByCraftString(craftString)
-	local craftingCost = Cost.GetCraftingCostByCraftString(craftString)
+	local craftingCost, chance = Cost.GetCraftingCostByCraftString(craftString)
 	local itemString = TSM.Crafting.GetItemString(craftString)
 	local craftedItemValue = itemString and Cost.GetCraftedItemValue(itemString) or nil
-	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil
+	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil, chance
 end
 
 function Cost.GetCostsByRecipeString(recipeString)
-	local craftingCost = Cost.GetCraftingCostByRecipeString(recipeString)
+	local craftString = CraftString.FromRecipeString(recipeString)
+	local craftingCost, chance = private.GetCraftingCostHelper(craftString, recipeString)
 	local itemString = Cost.GetLevelItemString(recipeString)
 	local craftedItemValue = itemString and Cost.GetCraftedItemValue(itemString) or nil
-	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil
+	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil, chance
 end
 
 function Cost.GetLevelItemString(recipeString)
-	local craftString = CraftString.FromRecipeString(recipeString)
-	local itemString = TSM.Crafting.GetItemString(craftString)
+	local itemString = TSM.Crafting.GetItemString(CraftString.FromRecipeString(recipeString))
 	if not itemString then
 		return nil
 	end
-	local absItemLevel = nil
-	local level = RecipeString.GetLevel(recipeString) or 0
-	for _, _, itemId in RecipeString.OptionalMatIterator(recipeString) do
-		local matItemString = ItemString.Get(itemId)
-		absItemLevel = absItemLevel or ProfessionInfo.GetItemLevelByOptionalMat(matItemString)
-		level = level + (ProfessionInfo.GetCraftLevelIncreaseByOptionalMat(matItemString) or 0)
-	end
-	if absItemLevel then
-		assert(level == 0)
-		return itemString.."::i"..absItemLevel
-	elseif level > 0 then
-		local relLevel = ProfessionInfo.GetRelativeItemLevelByRank(level)
-		return itemString..(relLevel < 0 and "::-" or "::+")..abs(relLevel)
-	else
-		return itemString
-	end
+	return Profession.GenerateResultItemString(recipeString, itemString)
 end
 
 function Cost.GetSaleRateByCraftString(craftString)
 	local itemString = TSM.Crafting.GetItemString(craftString)
-	return itemString and CustomPrice.GetItemPrice(itemString, "DBRegionSaleRate") or nil
+	return itemString and CustomString.GetSourceValue("DBRegionSaleRate", itemString) or nil
 end
 
 function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
@@ -152,19 +121,17 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 		optionalMats = TempTable.Acquire()
 	end
 	private.GetOptionalMats(itemString, optionalMats)
-	local lowestCost, lowestCraftString = nil, nil
-	local cdCost, cdSpellId = nil, nil
+	local lowestCost, lowestCraftString, lowestChance = nil, nil, nil
+	local cdCost, cdSpellId, cdChance = nil, nil, nil
 	local numSpells = 0
 	local singleCraftString = nil
 	local relItemLevel = nil
 	local tempQualityMats = TempTable.Acquire()
 	for _, craftString, hasCD, profession in TSM.Crafting.GetCraftStringByItem(levelItemString) do
-		if not private.currentMatProfession or not ProfessionInfo.IsOptionalMat(levelItemString) or private.currentMatProfession == profession then
+		if not private.currentMatProfession or not OptionalMatData.Info[levelItemString] or private.currentMatProfession == profession then
 			local level = CraftString.GetLevel(craftString)
 			if level then
-				for _, optionalMatItemString in ipairs(optionalMats) do
-					level = level + (ProfessionInfo.GetCraftLevelIncreaseByOptionalMat(optionalMatItemString) or 0)
-				end
+				level = level + Profession.GetOptionalMatLevelIncrease(optionalMats)
 			end
 			if level and not relItemLevel then
 				local isAbs = nil
@@ -173,7 +140,7 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 					relItemLevel = nil
 				end
 			end
-			if not level or ProfessionInfo.GetRelativeItemLevelByRank(level) == relItemLevel then
+			if not level or OptionalMatData.ItemLevelByRank[level] == relItemLevel then
 				if not hasCD then
 					if singleCraftString == nil then
 						singleCraftString = craftString
@@ -183,12 +150,13 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 				end
 				numSpells = numSpells + 1
 				wipe(tempQualityMats)
-				local cost = Cost.GetCraftingCostByCraftString(craftString, optionalMats, tempQualityMats)
+				local cost, chance = Cost.GetCraftingCostByCraftString(craftString, optionalMats, tempQualityMats)
 				if cost and (not lowestCost or cost < lowestCost) then
 					-- exclude spells with cooldown if option to ignore is enabled and there is more than one way to craft
 					if hasCD then
 						cdCost = cost
 						cdSpellId = craftString
+						cdChance = chance
 					else
 						if qualityMats then
 							wipe(qualityMats)
@@ -198,6 +166,7 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 						end
 						lowestCost = cost
 						lowestCraftString = craftString
+						lowestChance = chance
 					end
 				end
 			end
@@ -218,8 +187,9 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 		end
 		lowestCost = cdCost
 		lowestCraftString = cdSpellId
+		lowestChance = cdChance
 	end
-	return lowestCost, lowestCraftString or singleCraftString
+	return lowestCost, lowestCraftString or singleCraftString, lowestChance
 end
 
 
@@ -231,7 +201,13 @@ end
 function private.GetOptionalMats(itemString, resultTbl)
 	ItemString.GetStatModifiers(itemString, true, resultTbl)
 	for i = #resultTbl, 1, -1 do
-		local statOptionalMat = ProfessionInfo.GetOptionalMatByStatModifier(resultTbl[i])
+		local statOptionalMat = nil
+		for optionalMatItemString, info in pairs(OptionalMatData.Info) do
+			if info.statModifier == resultTbl[i] then
+				statOptionalMat = optionalMatItemString
+				break
+			end
+		end
 		if statOptionalMat then
 			resultTbl[i] = statOptionalMat
 		else
@@ -239,19 +215,27 @@ function private.GetOptionalMats(itemString, resultTbl)
 		end
 	end
 	local itemLevel = ItemString.GetItemLevel(itemString)
-	local levelOptionalMat = itemLevel and ProfessionInfo.GetOptionalMatByItemLevel(itemLevel) or nil
-	if levelOptionalMat then
-		tinsert(resultTbl, levelOptionalMat)
+	if itemLevel then
+		for optionalMatItemString, info in pairs(OptionalMatData.Info) do
+			if info.absItemLevel == itemLevel then
+				tinsert(resultTbl, optionalMatItemString)
+				break
+			end
+		end
 	end
 	local relItemLevel, isAbs = ItemString.ParseLevel(ItemString.ToLevel(itemString))
 	if not isAbs then
 		local levelItemString = ItemString.ToLevel(itemString)
 		for _, craftString in TSM.Crafting.GetCraftStringByItem(levelItemString) do
 			local level = CraftString.GetLevel(craftString)
-			local optionalMatItemString = level and ProfessionInfo.GetOptionalMatByRelItemLevel(relItemLevel)
-			if relItemLevel and optionalMatItemString then
-				tinsert(resultTbl, optionalMatItemString)
-				relItemLevel = nil
+			if level and relItemLevel then
+				for optionalMatItemString, info in pairs(OptionalMatData.Info) do
+					if info.relItemLevels and info.relItemLevels[relItemLevel] and not info.ignored then
+						tinsert(resultTbl, optionalMatItemString)
+						relItemLevel = nil
+						break
+					end
+				end
 			end
 		end
 	end
@@ -269,6 +253,7 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 		wipe(mats)
 	end
 	TSM.Crafting.GetMatsAsTable(craftString, mats)
+	local chance = 1
 	if recipeString then
 		assert(not optionalMats)
 		for _, _, itemId in RecipeString.OptionalMatIterator(recipeString) do
@@ -284,13 +269,16 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 			end
 		end
 	elseif TSM.Crafting.IsQualityCraft(craftString) then
-		if not TSM.Crafting.DFCrafting.GetOptionalMats(craftString, mats, qualityMats) then
+		local canCraft, inspirationChance = TSM.Crafting.DFCrafting.GetOptionalMats(craftString, mats, qualityMats)
+		if canCraft then
+			chance = inspirationChance
+		else
 			if mats == private.matsTemp then
 				private.matsTempInUse = false
 			else
 				TempTable.Release(mats)
 			end
-			return nil
+			return nil, nil
 		end
 		for _, itemString in ipairs(qualityMats) do
 			mats[itemString] = mats[qualityMats[itemString]]
@@ -316,7 +304,7 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 	for itemString, quantity in pairs(mats) do
 		if MatString.GetType(itemString) == MatString.TYPE.NORMAL then
 			hasMats = true
-			local matCost = Cost.GetMatCost(itemString)
+			local matCost = CustomString.GetSourceValue("MatPrice", itemString)
 			if not matCost then
 				cost = nil
 			elseif cost then
@@ -333,8 +321,8 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 		TempTable.Release(mats)
 	end
 	if not cost or not hasMats then
-		return
+		return nil, nil
 	end
-	cost = Math.Round(cost / TSM.Crafting.GetNumResult(craftString))
-	return cost > 0 and cost or nil
+	cost = Math.Round(cost / (TSM.Crafting.GetNumResult(craftString) * chance))
+	return cost > 0 and cost or nil, chance
 end

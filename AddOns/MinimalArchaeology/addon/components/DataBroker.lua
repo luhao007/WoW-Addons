@@ -1,7 +1,7 @@
 local ADDON, MinArch = ...
 
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1");
-local dataobj = ldb:NewDataObject("MinArch", {label = "MinArch", type = "data source", icon = "Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton", text = ""});
+local dataobj = ldb:NewDataObject("MinimalArchaeology", {label = "MinArch", type = "data source", icon = "Interface\\Icons\\Trade_Archaeology_Dinosaurskeleton", text = ""});
 local icon = LibStub("LibDBIcon-1.0", true);
 
 function MinArch:InitLDB()
@@ -51,32 +51,7 @@ end
 
 -- Hide/Show the minimap button
 function dataobj:OnClick(button)
-	if (button == "LeftButton") then
-		local shiftKeyIsDown = IsShiftKeyDown();
-		local ctrlKeyIsDown = IsControlKeyDown();
-		local altKeyDown = IsAltKeyDown();
-
-		if shiftKeyIsDown then
-			MinArchHist:Toggle();
-		elseif ctrlKeyIsDown then
-			MinArchDigsites:Toggle();
-		else
-			if (MinArchMain:IsVisible()) then
-				MinArch:HideMain();
-				if (altKeyDown) then
-					MinArch:HideHistory();
-					MinArch:HideDigsites();
-				end
-			else
-				MinArch:ShowMain();
-				MinArch.HideNext = false;
-			end
-		end
-
-	elseif (button == "RightButton") then
-		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
-		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
-	end
+	MinArch:OpenWindow(button)
 end
 
 function dataobj:OnLeave()

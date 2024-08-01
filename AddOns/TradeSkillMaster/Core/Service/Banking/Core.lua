@@ -4,15 +4,18 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local Banking = TSM:NewPackage("Banking")
-local TempTable = TSM.Include("Util.TempTable")
-local String = TSM.Include("Util.String")
-local Log = TSM.Include("Util.Log")
-local ItemString = TSM.Include("Util.ItemString")
-local DefaultUI = TSM.Include("Service.DefaultUI")
-local Threading = TSM.Include("Service.Threading")
-local ItemInfo = TSM.Include("Service.ItemInfo")
+local ClientInfo = TSM.LibTSMWoW:Include("Util.ClientInfo")
+local TempTable = TSM.LibTSMUtil:Include("BaseType.TempTable")
+local String = TSM.LibTSMUtil:Include("Lua.String")
+local Log = TSM.LibTSMUtil:Include("Util.Log")
+local ItemString = TSM.LibTSMTypes:Include("Item.ItemString")
+local ChatMessage = TSM.LibTSMService:Include("UI.ChatMessage")
+local Guild = TSM.LibTSMWoW:Include("API.Guild")
+local DefaultUI = TSM.LibTSMWoW:Include("UI.DefaultUI")
+local Threading = TSM.LibTSMTypes:Include("Threading")
+local ItemInfo = TSM.LibTSMService:Include("Item.ItemInfo")
 local private = {
 	moveThread = nil,
 	moveItems = {},
@@ -34,7 +37,7 @@ function Banking.OnInitialize()
 	private.moveThread = Threading.New("BANKING_MOVE", private.MoveThread)
 
 	DefaultUI.RegisterBankVisibleCallback(private.BankVisibilityChanged)
-	if not TSM.IsWowVanillaClassic() then
+	if ClientInfo.HasFeature(ClientInfo.FEATURES.GUILD_BANK) then
 		DefaultUI.RegisterGuildBankVisibleCallback(private.GuildBankVisibilityChanged)
 	end
 end
@@ -213,14 +216,14 @@ function private.MoveThread(context, callback)
 	end
 
 	if private.openFrame == "GUILD_BANK" then
-		QueryGuildBankTab(GetCurrentGuildBankTab())
+		Guild.QueryTab(Guild.GetCurrentTab())
 	end
 
-	Threading.ReleaseSafeTempTable(slotIds)
-	Threading.ReleaseSafeTempTable(slotItemString)
-	Threading.ReleaseSafeTempTable(slotMoveQuantity)
-	Threading.ReleaseSafeTempTable(slotEndQuantity)
-	Threading.ReleaseSafeTempTable(emptySlotIds)
+	TempTable.Release(slotIds)
+	TempTable.Release(slotItemString)
+	TempTable.Release(slotMoveQuantity)
+	TempTable.Release(slotEndQuantity)
+	TempTable.Release(emptySlotIds)
 	callback("DONE")
 end
 
@@ -303,7 +306,7 @@ end
 
 function private.GetPutCallback(event)
 	if event == "DONE" then
-		Log.PrintUser(DONE)
+		ChatMessage.PrintUser(DONE)
 	end
 end
 

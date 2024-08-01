@@ -33,7 +33,7 @@ addon.L, addon.G = {}, {}
 setmetatable(addon.L, {__index = function(_, k) return k end})
 setmetatable(addon.G, {__index = function(_, k) return _G[k] or k end})
 
-local actualVersion = GetAddOnMetadata("TinyTooltip-Reforged", "Version") or "unknown"
+local actualVersion = C_AddOns.GetAddOnMetadata("TinyTooltip-Reforged", "Version") or "unknown"
 print("|cff00d200TinyTooltip Reforged v",actualVersion," loaded.|r")
 
 addon.tooltips = {
@@ -356,6 +356,9 @@ function addon:GetUnitInfo(unit)
     local pvpName = UnitPVPName(unit)
     local gender = UnitSex(unit)
     local level = UnitLevel(unit)
+    if(UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then
+        level = UnitBattlePetLevel(unit)
+    end
     local effectiveLevel = UnitEffectiveLevel(unit)
     local raceName, race = UnitRace(unit)
     local className, class = UnitClass(unit)
@@ -728,7 +731,7 @@ LibEvent:attachTrigger("tooltip.style.font.header", function(self, frame, fontOb
     elseif (type(fontSize) == "number") then
         size = fontSize
     end
-    if (fontFlag == "default") then
+    if (fontFlag == "default" or "NORMAL") then
         flag = defaultHeaderFlag
     else
         flag = fontFlag or flag
@@ -745,7 +748,7 @@ LibEvent:attachTrigger("tooltip.style.font.body", function(self, frame, fontObje
     elseif (type(fontSize) == "number") then
         size = fontSize
     end
-    if (fontFlag == "default") then
+    if (fontFlag == "default" or "NORMAL") then
         flag = defaultBodyFlag
     else
         flag = fontFlag or flag
@@ -857,7 +860,10 @@ LibEvent:attachTrigger("tooltip.style.init", function(self, tip)
             local flag = info.tooltipData.type
             local guid = info.tooltipData.guid
             if (flag == 0) then
-                local link = select(2, GetItemInfo(info.tooltipData.id))
+--                local link = select(2, GetItemInfo(info.tooltipData.id))
+
+		local link = select(2, C_Item.GetItemInfo(info.tooltipData.id))
+
                 if (self.GetItem) then
                     local link = select(2, self:GetItem())
                 end

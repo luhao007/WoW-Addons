@@ -1,14 +1,17 @@
 --
 -- Handle some stuff while we're in a Raid, and Fishing
 --
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
 local FL = LibStub("LibFishing-1.0");
-local FWF = FishingBuddy.FWF;
+local FWF = FBI.FWF;
 
-local GSB = FishingBuddy.GetSettingBool;
+local GSB = function(...) return FBI:GetSettingBool(...); end;
 
 local MARGOSS_RETREAT = "Margoss's Retreat"
 
@@ -244,10 +247,8 @@ local RaidBosses = {
 
 local lastday = 0
 local bossadex = 0
-local lastday = 0
-local bossadex = 0
 local function CurrentBoss()
-	local zone, subzone = FishingBuddy.GetCurrentMapIdInfo();
+	local zone, subzone = FBI:GetCurrentMapIdInfo();
 
 	if subzone == MARGOSS_RETREAT then
 		return RaidBosses[7]
@@ -281,7 +282,7 @@ end
 
 local function CheckMagicFish()
 	local button = _G['FishingActionButton'];
-	local zone, subzone = FishingBuddy.GetCurrentMapIdInfo();
+	local zone, subzone = FBI:GetCurrentMapIdInfo();
 
 	return FL:HasBuff(button.spell) or subzone == "Margoss's Retreat";
 end
@@ -348,7 +349,7 @@ local copyfuncs = {};
 
 function FBR:BAG_UPDATE_COOLDOWN()
 	if self.itemID then
-		local start, duration, enable = GetItemCooldown(self.itemID)
+		local start, duration, enable = C_Container.GetItemCooldown(self.itemID)
 		if(duration > 0) then
 			self.Cooldown:SetCooldown(start, duration)
 			self.Cooldown:Show()
@@ -454,7 +455,7 @@ end
 tinsert(copyfuncs, "FadeOut");
 
 function FBR:SafeHide()
-	if not FishingBuddy.CheckCombat() then
+	if not FL:InCombat() then
         self:Hide()
     else
 		self.attribute = nil
@@ -512,7 +513,7 @@ end
 -- Thanks bsmorgan!
 local minRarity = 2;		-- uncommon
 local function SilenceOfTheFishies(self, _, msg, author, ...)
-	if not IsInRaid() or not FishingBuddy.ReadyForFishing() or author == UnitName("player") or string.match(msg,'Hbattlepet') then
+	if not IsInRaid() or not FBI:ReadyForFishing() or author == UnitName("player") or string.match(msg,'Hbattlepet') then
 		return false, msg, author, ...
 	else
 		local itemID = select(3, string.find(msg, "item:(%d+):"))
@@ -529,7 +530,7 @@ end
 
 local RaidEvents = {}
 RaidEvents["VARIABLES_LOADED"] = function(started)
-    FishingBuddy.OptionsFrame.HandleOptions(GENERAL, nil, RaidOptions);
+    FBI.OptionsFrame.HandleOptions(GENERAL, nil, RaidOptions);
 	FWF:RegisterLineHandler(DisplayRaidFish, FWF.HEADER)
 
 	local button = _G['FishingActionButton']
@@ -607,6 +608,5 @@ RaidEvents[FBConstants.INVENTORY_EVT] = function(...)
 	end
 end
 
-FishingBuddy.RegisterHandlers(RaidEvents);
+FBI.RegisterHandlers(RaidEvents);
 
-	

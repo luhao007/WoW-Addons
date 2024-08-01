@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1979, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230117063410")
+mod:SetRevision("20240428124541")
 mod:SetCreatureID(124871)
 mod:SetEncounterID(2065)
 mod:SetUsedIcons(1)
@@ -28,7 +28,7 @@ local warnVoidTear						= mod:NewTargetAnnounce(244621, 1)
 
 local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, 2, 2, 2)
 local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2)
-local specWarnUmbraShift				= mod:NewSpecialWarningYou(244433, nil, nil, nil, 1, 2)
+local specWarnUmbraShift				= mod:NewSpecialWarningYou(244433, nil, nil, nil, 1, 5)
 local specWarnFixate					= mod:NewSpecialWarningRun(244657, nil, nil, nil, 4, 2)
 
 local timerNullPalmCD					= mod:NewCDTimer(10.9, 246134, nil, nil, nil, 3)
@@ -37,7 +37,7 @@ local timerCoalescedVoidCD				= mod:NewCDTimer(12.1, 244602, nil, nil, nil, 1, n
 local timerUmbraShiftCD					= mod:NewCDTimer(12, 244433, nil, nil, nil, 6)
 local timerVoidTear						= mod:NewBuffActiveTimer(20, 244621, nil, nil, nil, 6)
 
-mod:AddSetIconOption("SetIconOnFixate", 244657, true, false, {1})
+mod:AddSetIconOption("SetIconOnFixate", 244657, true, 0, {1})
 
 function mod:OnCombatStart(delay)
 	timerNullPalmCD:Start(10-delay)

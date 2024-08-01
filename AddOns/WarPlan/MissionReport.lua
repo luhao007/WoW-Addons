@@ -104,10 +104,27 @@ local function Tooltip_OnLandingEnter(self)
 	end
 end
 
+local function EasyMenu_Initialize(_, level, menuList)
+	for i=1, #menuList do
+		local value = menuList[i]
+		if value.text then
+			value.index = i
+			UIDropDownMenu_AddButton(value, level)
+		end
+	end
+end
+local function EasyMenu(menuList, menuFrame, anchor, x, y, displayMode, autoHideDelay)
+	if displayMode == "MENU" then
+		menuFrame.displayMode = displayMode
+	end
+	UIDropDownMenu_Initialize(menuFrame, EasyMenu_Initialize, displayMode, nil, menuList)
+	ToggleDropDownMenu(1, nil, menuFrame, anchor, x, y, menuList, nil, autoHideDelay)
+end
+
 function EV:I_LOAD_HOOKS()
 	TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, Tooltip_OnSetUnit)
 	GarrisonLandingPageMinimapButton:HookScript("OnEnter", Tooltip_OnLandingEnter)
-	if IsAddOnLoaded("MasterPlanA") then
+	if C_AddOns.IsAddOnLoaded("MasterPlanA") then
 		return
 	end
 	local followerTabNames = {[2]=GARRISON_FOLLOWERS, [3]=FOLLOWERLIST_LABEL_CHAMPIONS, [9]=FOLLOWERLIST_LABEL_CHAMPIONS, [111]=COVENANT_MISSIONS_FOLLOWERS}

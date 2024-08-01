@@ -1,8 +1,0 @@
-<Bindings>
-	<!-- window commands -->
-	<Binding name="TOGGLEFISHINGBUDDY_TRK">
-		if ( keystate == "down" ) then
-			ToggleFishingBuddyFrame("FishingTrackingFrame");
-		end
-	</Binding>
-</Bindings>

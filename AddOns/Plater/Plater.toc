@@ -1,7 +1,8 @@
-## Interface: 100002
-## Version: Plater-v548-Retail
-## SavedVariables: PlaterDB
+## Interface: 110000
+## Version: Plater-v583b-Retail
+## SavedVariables: PlaterDB, PlaterLanguage, PlaterLogs, PlaterBackup
 ## SavedVariablesPerCharacter: PlaterDBChr
+## IconTexture: Interface\AddOns\Plater\images\cast_bar
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.
@@ -26,12 +27,22 @@ locales\ptBR.lua
 locales\ruRU.lua
 locales\zhCN.lua
 locales\zhTW.lua
+locales\arAR.lua
 
 Plater.xml
 
+Definitions.lua
+
 Plater_DefaultSettings.lua
 
+Plater_Data.lua
+Plater_Logs.lua
+Plater_Util.lua
 Plater.lua
+Plater_PerformanceUnits.lua
+Plater_ColorFrame.lua
+Plater_SlashCMD.lua
+Plater_ImportExport.lua
 Plater_Comms.lua
 Plater_Auras.lua
 Plater_Resources.lua
@@ -49,9 +60,19 @@ Plater_ChangeLog.lua
 Plater_Docs.lua
 Plater_BossModsSupport.lua
 Plater_Animations.lua
+Plater_NpcColorPanels.lua
 Plater_CastColorPanels.lua
+Plater_SpellList.lua
+Plater_Audio.lua
 Plater_Profiling.lua
 Plater_Plugins.lua
 Plater_DebugFrames.lua
 Plater_API.lua
+
+options/Plater_O_Search.lua
+options/Plater_O_CastBar.lua
+options/Plater_O_Advanced.lua
+
+Plater_LoadFinished.lua
+
 #Plater_SpellPrediction.lua

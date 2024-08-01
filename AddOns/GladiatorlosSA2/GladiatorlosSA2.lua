@@ -6,7 +6,7 @@
  local LSM = LibStub("LibSharedMedia-3.0")
  local self, GSA, PlaySoundFile = GladiatorlosSA, GladiatorlosSA, PlaySoundFile
  local GSA_VERSION = GetAddOnMetadata("GladiatorlosSA2", "Version")
- local GSA_GAME_VERSION = "10.0.2"
+ local GSA_GAME_VERSION = "11.0"
  local GSA_EXPANSION = ""
  local gsadb
  local soundz,sourcetype,sourceuid,desttype,destuid = {},{},{},{},{}
@@ -107,6 +107,8 @@
 	 126819, -- Porcupine
 	 277787, -- Direhorn
 	 277792, -- Bumblebee
+	 391631, -- Duck
+	 383121, -- Mass Poly
 
 	 --Hex (Shaman)
 	 51514, -- Frog
@@ -131,7 +133,10 @@
 	 1513, -- Scare Beast (Hunter)
 
 	 339, -- Entangling Roots
-	 235963 -- Entangling Roots PvP Talent
+	 235963, -- Entangling Roots PvP Talent
+	 360806, -- Sleepwalk
+	 389794, -- Snowdrift
+	 117526, -- Binding Shot (Stun)
  }
 
  local EpicBGs = {
@@ -141,6 +146,18 @@
 	1280,	-- Southshore vs Tarren Mill
 	1191,	-- Ashran
 	2197	-- Korrak's Revenge
+ }
+
+ local alwaysExcludedMaps = {
+	-- Time Rifts
+	2586,	-- Azmerloth
+	2587,	-- A.Z.E.R.O.T.H.
+	2593,	-- Azq'roth
+	2594,	-- Argus apparently
+	2595,	-- Azewrath
+	2634,	-- The Warlands
+	2635,	-- Ulderoth
+	2639	-- Azmourne
  }
 
  local dbDefaults = {
@@ -173,6 +190,7 @@
 		connected = false,
 		interruptedfriendly = true,
 		ShatteringThrowSuccess = false,
+		penance = false,
 		
 		custom = {},
 	}	
@@ -210,9 +228,10 @@
 	
 	self.db1 = LibStub("AceDB-3.0"):New("GladiatorlosSADB",dbDefaults, "Default");
 	DEFAULT_CHAT_FRAME:AddMessage("|cff69CCF0 " .. L["GladiatorlosSA2"] .. "|r (|cffFFF569/gsa|r)" ..  "|cffFF7D0A " .. GSA_VERSION .." |r(|cff9482C9" .. GSA_GAME_VERSION .. " "  .. GSA_EXPANSION .. "|r)");
-	self:RegisterChatCommand("GladiatorlosSA", "ShowConfig")
-	self:RegisterChatCommand("gsa", "ShowConfig")
-	self:RegisterChatCommand("gsa2", "ShowConfig")
+	-- Temporarily disabling chat commands because they're broken and I am too stupid and time-constrained to fix it right now.
+	--self:RegisterChatCommand("GladiatorlosSA", "ShowConfig")
+	--self:RegisterChatCommand("gsa", "ShowConfig")
+	--self:RegisterChatCommand("gsa2", "ShowConfig")
 	self.db1.RegisterCallback(self, "OnProfileChanged", "ChangeProfile")
 	self.db1.RegisterCallback(self, "OnProfileCopied", "ChangeProfile")
 	self.db1.RegisterCallback(self, "OnProfileReset", "ChangeProfile")
@@ -337,6 +356,15 @@ function GSA:CheckForEpicBG(instanceMapID)
 	end
 end
 
+-- List of areas we know are permanently excluded.
+function GSA:IsExcludedMap(instanceMapID)
+	for k in pairs(alwaysExcludedMaps) do
+		if (alwaysExcludedMaps[k] == instanceMapID) then
+			return true
+		end
+	end
+end
+
 -- Checks settings and world location to determine if alerts should occur.
  		-- I can probably use this to fix the weird problem with PvP flag checking that seemed blizzard-sided
  		-- but I am lazy and that will come later.
@@ -348,6 +376,12 @@ function GSA:CanTalkHere()
 	--local isPvP = UnitIsWarModeDesired("player")
 	playerCurrentZone = currentZoneType
 	duelingOn = false; -- Failsafe for when dueling events are skipped under unusual circumstances.
+
+	-- If we are in an excluded map ID.
+	if (self:IsExcludedMap(instanceMapID)) then
+		canSpeakHere = false
+		return
+	end
 
 	if (not ((currentZoneType == "none" and gsadb.field) or -- and not gsadb.onlyFlagged) or 						-- World
 		--(currentZoneType == "none" and gsadb.field and (gsadb.onlyFlagged and UnitIsWarModeDesired("player"))) or
@@ -375,8 +409,11 @@ end
  function GladiatorlosSA:COMBAT_LOG_EVENT_UNFILTERED(event , ...)
 	 -- Checks if alerts should occur here.
 	 local isSanctuary = GetZonePVPInfo()
+	 local _,currentZoneType = IsInInstance()
 	 if (isSanctuary == "sanctuary") then return end	-- Checks for Sanctuary
 	 if (not canSpeakHere) then return end				-- Checks result for everywhere else
+
+	 if (currentZoneType == "none") and not (UnitIsPVP("player") or duelingOn)  then return end -- Checks if you are PvP Flagged.
 
 	 -- Area check passed, fetch combat event payload.
 	 local timestamp,event,hideCaster,sourceGUID,sourceName,sourceFlags,sourceFlags2,destGUID,destName,destFlags,destFlags2,spellID = CombatLogGetCurrentEventInfo()
@@ -576,6 +613,12 @@ function GladiatorlosSA:DUEL_REQUESTED(event, playerName)
 			self.spellList = self:GetSpellList_SL()
 		elseif (interfaceNumber >= 100000 and interfaceNumber <= 109999) then
 			GSA_EXPANSION = L["EXPAC_DF"]
+			self.spellList = self:GetSpellList()	-- TODO: Move this to DF options
+		elseif (interfaceNumber >= 110000 and interfaceNumber <= 119999) then
+			GSA_EXPANSION = L["EXPAC_TWW"]
+			self.spellList = self:GetSpellList()
+		else
+			GSA_EXPANSION = L["EXPAC_UnknownExpac"]
 			self.spellList = self:GetSpellList()
 		end
 	end

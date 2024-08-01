@@ -1,75 +1,76 @@
 --[[
-Copyright 2012-2022 João Cardoso
-PetTracker is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of PetTracker.
+	Copyright 2012-2024 João Cardoso
+	All Rights Reserved
 --]]
 
-local MODULE = ...
-local ADDON, Addon = MODULE:match('[^_]+'), _G[MODULE:match('[^_]+')]
+local Sushi, Addon = LibStub('Sushi-3.2'), PetTracker
+local Options = PetTracker:NewModule('Options', Sushi.OptionsGroup('|Tinterface/addons/pettracker/art/compass:16:16|t PetTracker'))
+local L = LibStub('AceLocale-3.0'):GetLocale('PetTracker')
 
-local Sushi = LibStub('Sushi-3.1')
-local Options = Addon:NewModule('Options', Sushi.OptionsGroup(ADDON ..' '.. CreateAtlasMarkup('Mobile-Pets', 14,14)))
-local L = LibStub('AceLocale-3.0'):GetLocale(ADDON)
-
-local PATRONS = {{title='Jenkins',people={'Gnare'}},{},{title='Ambassador',people={'Fernando Bandeira','Julia F','Lolari ','Owen Pitcairn','Rafael Lins','Mediocre Monk','Joanie Nelson','Nitro ','Guidez ','Christopher Rhea'}}} -- generated patron list
-local HELP_ICON = ' |T516770:13:13:0:0:64:64:14:50:14:50|t'
-local FOOTER = 'Copyright 2012-2022 João Cardoso'
+local PATRONS = {{title='Jenkins',people={'Gnare','Adcantu','Justin Hall','Debora S Ogormanw','Johnny Rabbit','Francesco Rollo'}},{title='Ambassador',people={'Julia F','Lolari ','Rafael Lins','Dodgen','Ptsdthegamer','Burt Humburg','Adam Mann','Bc Spear','Jury ','Tigran Andrew','Swallow@area52','Peter Hollaubek','Michael Kinasz','Kelly Wolf','Kopernikus ','Metadata','Ds9293','Charles Howarth','Lyta ','נעמי מקינו','Melinani King'}}} -- generated patron list
+local PATREON_ICON = '  |TInterface/Addons/PetTracker/art/patreon:12:12|t'
+local HELP_ICON = '  |T516770:13:13:0:0:64:64:14:50:14:50|t'
+local FOOTER = 'Copyright 2012-2024 João Cardoso'
 
 
 --[[ Startup ]]--
 
 function Options:OnEnable()
-	local faq = Sushi.OptionsGroup(self, HELP_LABEL .. HELP_ICON)
-	faq:SetSubtitle(L.FAQDescription)
-	faq:SetChildren(self.OnFAQ)
-	faq:SetFooter(FOOTER)
+	self.Help = Sushi.OptionsGroup(self, HELP_LABEL .. HELP_ICON)
+					:SetSubtitle(L.HelpDescription):SetFooter(FOOTER):SetChildren(self.OnHelp)
+	self.Credits = Sushi.OptionsGroup(self, 'Patrons' .. PATREON_ICON)
+					:SetSubtitle(L.PatronsDescription):SetFooter(FOOTER):SetOrientation('HORIZONTAL'):SetChildren(self.OnCredits)
 
-	local credits = Sushi.CreditsGroup(self, PATRONS, 'Patrons |TInterface/Addons/PetTracker/Art/Patreon:12:12|t')
-	credits:SetSubtitle(ADDON .. ' is distributed for free and supported trough donations. These are the people currently supporting development. Become a patron too |cFFF96854@patreon/jaliborc|r.', 'http://www.patreon.com/jaliborc')
-	credits:SetFooter(FOOTER)
-
-	self:SetCall('OnDefaults', self.OnDefaults)
 	self:SetCall('OnChildren', self.OnMain)
 	self:SetSubtitle(L.OptionsDescription)
 	self:SetFooter(FOOTER)
 end
 
-function Options:OnDefaults()
-	wipe(Addon.sets)
-	wipe(Addon.state)
-
-	Addon:SendSignal('OPTIONS_CHANGED')
-	Addon:SendSignal('OPTIONS_RESET')
-end
-
 function Options:OnMain()
 	self:Add('Header', TRACKING, GameFontHighlight, true)
-	self:AddCheck('TrackPets')
+	self:AddCheck('ZoneTracker')
 	self:AddCheck('SpecieIcons')
 	self:AddCheck('RivalPortraits')
 
-	self:Add('Header', L.Source5, GameFontHighlight, true)
+	self:Add('Header', COMBAT, GameFontHighlight, true)
 	self:AddCheck('Switcher')
 	self:AddCheck('AlertUpgrades')
 	self:AddCheck('Forfeit')
 end
 
-function Options:OnFAQ()
+function Options:OnHelp()
 	for i = 1, #L.FAQ, 2 do
-		self:Add('Header', L.FAQ[i], GameFontHighlight, true)
-		self:Add('Header', L.FAQ[i+1], GameFontDisable).bottom = 15
+		self:Add('ExpandHeader', L.FAQ[i], GameFontHighlightSmall):SetExpanded(self[i]):SetCall('OnClick', function() self[i] = not self[i] end)
+
+		if self[i] then
+			local answer = self:Add('Header', L.FAQ[i+1], GameFontHighlightSmall)
+			answer.left, answer.right, answer.bottom = 16, 16, 16
+		end
 	end
+
+	self:Add('RedButton', 'Show Tutorial'):SetWidth(200):SetCall('OnClick', function() Addon.Tutorials:Restart() end).top = 10
+	self:Add('RedButton', 'Ask Community'):SetWidth(200):SetCall('OnClick', function()
+		Sushi.Popup:External('bit.ly/discord-jaliborc')
+		SettingsPanel:Close(true)
+	end)
+end
+
+function Options:OnCredits()
+	for i, rank in ipairs(PATRONS) do
+		if rank.people then
+			self:Add('Header', rank.title, GameFontHighlight, true).top = i > 1 and 20 or 0
+
+			for j, name in ipairs(rank.people) do
+				self:Add('Header', name, i > 1 and GameFontHighlight or GameFontHighlightLarge):SetWidth(180)
+			end
+		end
+	end
+
+	self:AddBreak()
+	self:Add('RedButton', 'Join Us'):SetWidth(200):SetCall('OnClick', function()
+		Sushi.Popup:External('patreon.com/jaliborc')
+		SettingsPanel:Close(true)
+	end).top = 20
 end
 
 

@@ -65,7 +65,8 @@ Prat:AddModuleToLoad(function()
     ["monochrome_desc"] = "Toggles monochrome coloring of the font.",
     ["shadowcolor_name"] = "Set Shadow Color",
     ["shadowcolor_desc"] = "Set the color of the shadow effect.",
-    ["whisper_tabs"] = "Whisper Tabs"
+    ["whisper_tabs"] = "Whisper Tabs",
+    ["pet_battle_tab"] = "Pet Battle Tab",
   })
   --@end-debug@]==]
 
@@ -89,6 +90,7 @@ L = {
 		["Outline"] = true,
 		["outlinemode_desc"] = "Sets mode for the outline around the font.",
 		["outlinemode_name"] = "Set Outline Mode",
+		["pet_battle_tab"] = "Pet Battle Tab",
 		["rememberfont_desc"] = "Remember your font choice and restore it at startup.",
 		["rememberfont_name"] = "Remember Font",
 		["Set ChatFrame%d Font Size"] = true,
@@ -131,6 +133,8 @@ L = {
 		["outlinemode_desc"] = "Sets mode for the outline around the font.",
 		--[[Translation missing --]]
 		["outlinemode_name"] = "Set Outline Mode",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		--[[Translation missing --]]
 		["rememberfont_desc"] = "Remember your font choice and restore it at startup.",
 		--[[Translation missing --]]
@@ -189,6 +193,8 @@ L = {
 		--[[Translation missing --]]
 		["outlinemode_name"] = "Set Outline Mode",
 		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
+		--[[Translation missing --]]
 		["rememberfont_desc"] = "Remember your font choice and restore it at startup.",
 		--[[Translation missing --]]
 		["rememberfont_name"] = "Remember Font",
@@ -235,6 +241,8 @@ L = {
 		["Outline"] = "Contour",
 		["outlinemode_desc"] = "Définit le contour autour de la police.",
 		["outlinemode_name"] = "Contour de la police",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		["rememberfont_desc"] = "Se souvenir de la police du texte et la restaurer au chargement.",
 		["rememberfont_name"] = "Mémoriser la police",
 		["Set ChatFrame%d Font Size"] = "Définit la taille de la police de la fenêtre de discussion %d",
@@ -270,6 +278,7 @@ L = {
 		["Outline"] = "Umrandung",
 		["outlinemode_desc"] = "Stellt Modus für die Umrandung des Schrifttyps ein.",
 		["outlinemode_name"] = "Umrandungsmodus einstellen",
+		["pet_battle_tab"] = "Registerkarte „Haustierkampf“",
 		["rememberfont_desc"] = "Deine Wahl des Schrifttyps merken und beim Starten wiederherstellen.",
 		["rememberfont_name"] = "Schrifttyp merken",
 		["Set ChatFrame%d Font Size"] = "Schriftgröße im Chatfenster %d einstellen",
@@ -283,8 +292,7 @@ L = {
 		["shadowcolor_name"] = "Schattenfarbe einstellen",
 		["Thick Outline"] = "Dicke Umrandung",
 		["Toggle setting options separately for each chat window."] = "Optionen einzeln für jedes Chatfenster einstellen umschalten.",
-		--[[Translation missing --]]
-		["whisper_tabs"] = "Whisper Tabs",
+		["whisper_tabs"] = "Flüster-Tabs",
 		["Workaround a Blizzard bug which changes the font size when you open a system menu."] = "Einen Bug von Blizzard umgehen, welcher die Schriftgröße ändert sobald du ein Systemmenü öffnest.",
 	}
 }
@@ -303,6 +311,8 @@ L = {
 		["Outline"] = "외곽선",
 		["outlinemode_desc"] = "글꼴의 외곽선을 설정합니다.",
 		["outlinemode_name"] = "외곽선 설정",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		["rememberfont_desc"] = "선택한 글꼴을 기억하고 시작할 때 적용합니다.",
 		["rememberfont_name"] = "글꼴 기억",
 		["Set ChatFrame%d Font Size"] = "대화창%d의 글꼴 크기를 설정합니다.",
@@ -344,6 +354,8 @@ L = {
 		["outlinemode_desc"] = "Sets mode for the outline around the font.",
 		--[[Translation missing --]]
 		["outlinemode_name"] = "Set Outline Mode",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		--[[Translation missing --]]
 		["rememberfont_desc"] = "Remember your font choice and restore it at startup.",
 		--[[Translation missing --]]
@@ -390,6 +402,8 @@ L = {
 		["Outline"] = "Обычная обводка",
 		["outlinemode_desc"] = "Выбор типа обводки вокруг символов.",
 		["outlinemode_name"] = "Обводка",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		["rememberfont_desc"] = "Запомнить выбранный шрифт и использовать его при следующей загрузке.",
 		["rememberfont_name"] = "Запомнить шрифт",
 		["Set ChatFrame%d Font Size"] = "Размер шрифта окна %d",
@@ -422,6 +436,8 @@ L = {
 		["Outline"] = "轮廓",
 		["outlinemode_desc"] = "字体轮廓样式设置",
 		["outlinemode_name"] = "轮廓样式",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		["rememberfont_desc"] = "记住您的字体选择并在启动时恢复",
 		["rememberfont_name"] = "记住字体",
 		["Set ChatFrame%d Font Size"] = "聊天框%d字体尺寸",
@@ -454,6 +470,8 @@ L = {
 		["Outline"] = "Contorno",
 		["outlinemode_desc"] = "Estable el modo para el contorno alrededor de la fuente.",
 		["outlinemode_name"] = "Establecer Modo de Cotorno",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		["rememberfont_desc"] = "Recordar la elección de la fuente y restaurarla al reiniciar.",
 		["rememberfont_name"] = "Recordar Fuente",
 		["Set ChatFrame%d Font Size"] = "Establecer Tamaño Fuente de Chat %d",
@@ -486,6 +504,8 @@ L = {
 		["Outline"] = "輪廓",
 		["outlinemode_desc"] = "設定字體是否加粗輪廓",
 		["outlinemode_name"] = "設定輪廓模式",
+		--[[Translation missing --]]
+		["pet_battle_tab"] = "Pet Battle Tab",
 		["rememberfont_desc"] = "記住字型設定",
 		["rememberfont_name"] = "記憶字型",
 		["Set ChatFrame%d Font Size"] = "設定聊天視窗 %d 之字型大小",
@@ -553,6 +573,19 @@ end
     step = 1,
     hidden = function(info) return GetCVar("whisperTabs") ==  "inline" end,
   }
+  local petBattleTabOption =
+  {
+    name = PL["pet_battle_tab"],
+    desc = PL["Set text font size."],
+    type = "range",
+    get = "GetSubValue",
+    set = "SetSubValue",
+    min = 4,
+    max = 100,
+    step = 1,
+    hidden = Prat.IsClassic,
+    order = 900,
+  }
 
 
   Prat:SetModuleOptions(module, {
@@ -582,7 +615,11 @@ end
           ChatFrame5 = frameOption,
           ChatFrame6 = frameOption,
           ChatFrame7 = frameOption,
+          ChatFrame8 = frameOption,
+          ChatFrame9 = frameOption,
+          ChatFrame10 = frameOption,
           WhisperTabs = whisperTabsOption,
+          PetBattleTab = petBattleTabOption,
         }
       },
       outlinemode = {
@@ -636,7 +673,6 @@ end
     self:ConfigureAllChatFrames()
 
     self:SecureHook("FCF_SetChatWindowFontSize")
-    self:SecureHook("FCF_OpenTemporaryWindow")
 
     media = Prat.Media
     FONT = media.MediaType.FONT
@@ -691,6 +727,10 @@ end
     return frame.chatType == "WHISPER" or frame.chatType == "BN_WHISPER"
   end
 
+  local function IsPetBattleFrame(frame)
+    return frame.chatType == "PET_BATTLE_COMBAT_LOG"
+  end
+
 
   --[[------------------------------------------------
     Core Functions
@@ -707,6 +747,8 @@ end
     for k, v in pairs(Prat.Frames) do
       if IsWhisperFrame(v) then
         self:SetFontSize(v, db.size.WhisperTabs)
+      elseif IsPetBattleFrame(v) then
+        self:SetFontSize(v, db.size.PetBattleTab)
       else
         self:SetFontSize(v, db.size[k])
       end
@@ -769,17 +811,13 @@ end
     if self.db and self.db.profile.on then
       if IsWhisperFrame(chatFrame) then
         self.db.profile.size.WhisperTabs = fontSize
+      elseif IsPetBattleFrame(chatFrame) then
+        self.db.profile.size.PetBattleTab = fontSize
       else
         self.db.profile.size[chatFrame:GetName()] = fontSize
       end
     end
   end
-
-  function module:FCF_OpenTemporaryWindow(chatType, chatTarget, sourceChatFrame, selectWindow)
-    if self.db and self.db.profile.on then
-    end
-  end
-
 
   module.OnValueChanged = module.ConfigureAllChatFrames
   module.OnSubValueChanged = module.ConfigureAllChatFrames

@@ -4,11 +4,10 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local MainUI = TSM:NewPackage("MainUI")
-local Settings = TSM.Include("Service.Settings")
-local UIElements = TSM.Include("UI.UIElements")
-local UIUtils = TSM.Include("UI.UIUtils")
+local TSM = select(2, ...) ---@type TSM
+local MainUI = TSM:NewPackage("MainUI") ---@type AddonPackage
+local UIElements = TSM.LibTSMUI:Include("Util.UIElements")
+local UIUtils = TSM.LibTSMUI:Include("Util.UIUtils")
 local private = {
 	settings = nil,
 	topLevelPages = {},
@@ -22,9 +21,12 @@ local MIN_FRAME_SIZE = { width = 720, height = 588 }
 -- Module Functions
 -- ============================================================================
 
-function MainUI.OnInitialize()
-	private.settings = Settings.NewView()
+function MainUI.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
 		:AddKey("global", "mainUIContext", "frame")
+		:AddKey("global", "coreOptions", "regionWide")
+		:AddKey("global", "appearanceOptions", "showTotalMoney")
+		:AddKey("sync", "internalData", "money")
 end
 
 function MainUI.OnDisable()
@@ -65,8 +67,8 @@ function private.CreateMainFrame()
 		:SetSettingsContext(private.settings, "frame")
 		:SetMinResize(MIN_FRAME_SIZE.width, MIN_FRAME_SIZE.height)
 		:SetStrata("HIGH")
-		:AddPlayerGold()
-		:AddAppStatusIcon()
+		:AddPlayerGold(private.settings)
+		:AddAppStatusIcon(TSM.AppHelper.GetRegion(), TSM.AppHelper.GetLastSync() or 0, TSM.AuctionDB.GetAppDataUpdateTimes())
 		:SetScript("OnHide", private.BaseFrameOnHide)
 	for _, info in ipairs(private.topLevelPages) do
 		frame:AddNavButton(info.name, info.callback)

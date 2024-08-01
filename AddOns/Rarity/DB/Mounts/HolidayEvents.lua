@@ -71,7 +71,7 @@ local holidayEventMounts = {
 		name = L["The Horseman's Reins"],
 		spellId = 48025,
 		itemId = 37012,
-		items = { 117392 },
+		items = { 117392, 209024 },
 		chance = 200,
 		groupSize = 5,
 		equalOdds = true,
@@ -79,6 +79,21 @@ local holidayEventMounts = {
 		lockDungeonId = 285,
 		holidayTexture = CONSTANTS.HOLIDAY_TEXTURES.HALLOWS_END,
 		coords = { { m = 435, i = true } },
+	},
+	["Noble Flying Carpet"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.HOLIDAY,
+		type = CONSTANTS.ITEM_TYPES.MOUNT,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		name = L["Noble Flying Carpet"],
+		spellId = 432455,
+		itemId = 212599,
+		items = { 216874 },
+		chance = 100, -- Might be higher after the adjustment? (Needs more data)
+		holidayTexture = CONSTANTS.HOLIDAY_TEXTURES.NOBLEGARDEN,
+		coords = {
+			{ m = CONSTANTS.UIMAPIDS.DUROTAR },
+			{ m = CONSTANTS.UIMAPIDS.ELWYNN_FOREST },
+		},
 	},
 }
 

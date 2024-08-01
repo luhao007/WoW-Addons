@@ -13,9 +13,8 @@ logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30400'
-RETAIL_VER = '100002'
+RETAIL_VER = '110000'
 
-BROKEN_LISTS = ['Overachiever', 'HPetBattleAny', 'UnitFramesPlus', 'UnitFramesPlus_Options', 'MeetingStone', 'AtlasQuest']
 
 def available_on(platforms):
     def decorator(func):
@@ -147,7 +146,7 @@ class Manager:
             def process(config, addon, lines):
                 toc = TOC(lines)
 
-                toc.tags['Interface'] = self.interface if addon not in BROKEN_LISTS else '10000'
+                toc.tags['Interface'] = self.interface
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
                 note = config.find('Notes')
@@ -242,6 +241,8 @@ class Manager:
         libs -= luas
         toc.contents.append('# Other Libs\n')
         for lib in sorted(libs):
+            if lib == 'textures':
+                continue
             toc.contents.append(utils.lib_to_toc(lib))
 
         if luas:
@@ -334,18 +335,19 @@ class Manager:
 
     @staticmethod
     def handle_dup_libraries():
-        addons = [addon for addon in os.listdir('AddOns') if addon not in ['!!Libs', 'Questie', 'RareScanner']]
+        ignores = ['!!Libs', 'Questie', 'RareScanner']
+        addons = [addon for addon in os.listdir('AddOns') if addon not in ignores]
         for addon in addons:
             utils.remove_libraries_all(addon)
 
-    @staticmethod
-    def handle_att():
-        addon = 'AllTheThings' if utils.get_platform() == 'retail' else 'ATT-Classic'
-        utils.change_defaults(
-            f'Addons/{addon}/Settings.lua',
-            ['		["MinimapButton"] = false,',
-                '		["Auto:MiniList"] = false,']
-        )
+    # @staticmethod
+    # def handle_att():
+    #     addon = 'AllTheThings'
+    #     utils.change_defaults(
+    #         f'Addons/{addon}/Settings.lua',
+    #         ['		["MinimapButton"] = false,',
+    #             '		["Auto:MiniList"] = false,']
+    #     )
 
     @staticmethod
     def handle_atlas():
@@ -382,17 +384,6 @@ class Manager:
         utils.process_file('Addons/BtWQuests/BtWQuests.lua', process)
 
     @staticmethod
-    def handle_dcs():
-        addon = 'Character' if utils.get_platform() == 'retail' else 'Classic'
-        utils.change_defaults(
-            f'AddOns/Deja{addon}Stats/DCSDuraRepair.lua',
-            ['	ShowDuraSetChecked = false,',
-                '	ShowItemRepairSetChecked = false,',
-                '	ShowItemLevelSetChecked = false,',
-                '	ShowEnchantSetChecked = false,']
-        )
-
-    @staticmethod
     def handle_details():
         utils.change_defaults(
             'Addons/Details/functions/profiles.lua',
@@ -400,35 +391,20 @@ class Manager:
                 'onclick_what_todo = 1, text_type = 1, text_format = 3},'),
         )
 
-        utils.change_defaults(
-            'Addons/Details_Streamer/Details_Streamer.lua',
-            '					minimap = {hide = true, radius = 160, minimapPos = 160},',
-        )
+        if os.path.exists('Addons/Details_Streamer'):
+            utils.change_defaults(
+                'Addons/Details_Streamer/Details_Streamer.lua',
+                '					minimap = {hide = true, radius = 160, minimapPos = 160},',
+            )
 
     @staticmethod
     def handle_fb():
+        if not os.path.exists('Addons/FishingBuddy/'):
+            return
         utils.change_defaults(
             'Addons/FishingBuddy/FishingBuddyMinimap.lua',
             '		FishingBuddy_Player["MinimapData"] = { hide=true };'
         )
-
-    @staticmethod
-    @available_on(['classic', 'classic_era'])
-    def handle_fizzle():
-        def process(lines):
-            ret = []
-            for line in lines:
-                if line == '       DisplayWhenFull = true,':
-                    # Change default settings to not dixplay the '100%'.
-                    ret.append('       DisplayWhenFull = false,')
-                else:
-                    # Only show 'Fizzle' in the options, not the meta name.
-                    ret.append(line.replace(
-                                'GetAddOnMetadata("Fizzle", "Title")',
-                                '"Fizzle"'
-                                ))
-            return ret
-        utils.process_file('AddOns/Fizzle/Core.lua', process)
 
     @staticmethod
     @available_on(['classic_era'])
@@ -450,6 +426,8 @@ class Manager:
     @staticmethod
     @available_on(['retail'])
     def handle_meetingstone():
+        if not os.path.exists('Addons/MeetingStone'):
+            return
         utils.change_defaults(
             'Addons/MeetingStone/Profile.lua',
             '            minimap = { hide = true,'
@@ -458,6 +436,8 @@ class Manager:
     @staticmethod
     @available_on(['classic', 'classic_era'])
     def handle_meetinghorn():
+        if not os.path.exists('Addons/MeetingHorn'):
+            return
         utils.rm_tree('Addons/MeetingHorn/Libs/tdGUI/Libs')
         utils.remove_libs_in_file('Addons/MeetingHorn/Libs/tdGUI/Load.xml',
                                     ['Libs'])
@@ -465,6 +445,8 @@ class Manager:
     @staticmethod
     @available_on(['classic', 'classic_era'])
     def handle_merinspect():
+        if not os.path.exists('Addons/MerInspect'):
+            return
         utils.change_defaults(
             'Addons/MerInspect/Options.lua',
             ['    ShowCharacterItemSheet = false,          --玩家自己裝備列表',
@@ -473,6 +455,9 @@ class Manager:
 
     @staticmethod
     def handle_monkeyspeed():
+        if not os.path.exists('Addons/MonkeySpeed'):
+            return
+
         utils.process_file(
             'AddOns/MonkeySpeed/MonkeySpeedInit.lua',
             lambda lines: [line.replace(
@@ -493,6 +478,8 @@ class Manager:
     @staticmethod
     @available_on(['retail', 'classic'])
     def handle_oa():
+        if not os.path.exists('Addons/Overachiever'):
+            return
         utils.process_file(
             'Addons/Overachiever/Overachiever.lua',
             lambda lines: [line.replace(
@@ -504,6 +491,8 @@ class Manager:
     @staticmethod
     def handle_prat():
         utils.rm_tree('AddOns/Prat-3.0_Libraries')
+        utils.remove_libs_in_file('Addons/Prat-3.0/Libs.xml',
+                                    ['Libs'])
 
     @staticmethod
     @available_on(['classic', 'classic_era'])
@@ -513,7 +502,8 @@ class Manager:
                 'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0', 'AceEvent-3.0',
                 'AceGUI-3.0', 'AceGUI-3.0-SharedMediaWidgets', 'AceHook-3.0',
                 'AceLocale-3.0', 'AceSerializer-3.0', 'AceTab-3.0',
-                'AceTimer-3.0', 'CallbackHandler-1.0', 'LibCompress',
+                'AceTimer-3.0', 'CallbackHandler-1.0', 'Krowi_WorldMapButtons',
+                'LibCompress',
                 'LibDataBroker-1.1', 'LibDBIcon-1.0', 'LibSharedMedia', 'LibSharedMedia-3.0', 'LibStub'],
             'AddOns/Questie/Libs',
             'AddOns/Questie/embeds.xml'
@@ -580,15 +570,14 @@ class Manager:
             'AddOns/RareScanner/Core/Libs/RSConstants.lua',
             ['				hide = true']
         )
-
-    @staticmethod
-    @available_on(['classic'])
-    def handle_sil():
-        utils.change_defaults(
-            'AddOns/SimpleItemLevel/addon.lua',
-            ['    character = false,',
-             '    bags = false,',
-             '    upgrades = false,',]
+        utils.remove_libraries(
+            ['AceAddon-3.0', 'AceConfig-3.0',
+                'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0',
+                'AceGUI-3.0', 'AceGUI-3.0-SharedMediaWidgets',
+                'AceLocale-3.0', 'AceSerializer-3.0', 'CallbackHandler-1.0', 'HereBeDragons',
+                'LibDBIcon-1.0', 'LibDialog-1.0-9.0.1.1', 'LibSharedMedia-3.0', 'LibStub', 'LibTime-1.0'],
+            'AddOns/RareScanner/ExternalLibs',
+            'AddOns/RareScanner/ExternalLibs/Libs.xml'
         )
 
     @staticmethod
@@ -609,12 +598,21 @@ class Manager:
 
     @staticmethod
     def handle_titan():
-        addon = 'TitanLocation' if utils.get_platform() == 'retail' else 'TitanClassicLocation'
+        addon = 'TitanLocation'
         utils.change_defaults(
             f'Addons/{addon}/{addon}.lua',
             ['			ShowCoordsOnMap = false,',
                 '			ShowCursorOnMap = false,']
         )
+        utils.rm_tree('Addons/Titan/Libs')
+        utils.remove_libs_in_file('Addons/Titan/Titan_Mainline.toc',
+                                    ['Libs'])
+        utils.remove_libs_in_file('Addons/TitanClassic/TitanClassic_Cata.toc',
+                                    ['Libs'])
+        utils.remove_libs_in_file('Addons/TitanClassic/TitanClassic_Vanilla.toc',
+                                    ['Libs'])
+        utils.remove_libs_in_file('Addons/TitanClassic/TitanClassic_Wrath.toc',
+                                    ['Libs'])
 
     @staticmethod
     def handle_tomtom():
@@ -626,6 +624,8 @@ class Manager:
 
     @staticmethod
     def handle_tsm():
+        if not os.path.exists('Addons/TradeSkillMaster'):
+            return
         utils.rm_tree('AddOns/TradeSkillMaster/External/EmbeddedLibs/')
 
         utils.process_file(
@@ -634,13 +634,15 @@ class Manager:
                             if 'EmbeddedLibs' not in line]
         )
 
-        utils.change_defaults(
-            'AddOns/TradeSkillMaster/LibTSM/Service/Settings.lua',
-            ['			minimapIcon = { type = "table", default = { hide = true, minimapPos = 220, radius = 80 }, lastModifiedVersion = 10 },']
-        )
+        # utils.change_defaults(
+        #     'AddOns/TradeSkillMaster/LibTSM/Service/Settings.lua',
+        #     ['			minimapIcon = { type = "table", default = { hide = true, minimapPos = 220, radius = 80 }, lastModifiedVersion = 10 },']
+        # )
 
     @staticmethod
     def handle_ufp():
+        if not os.path.exists('Addons/UnitFramesPlus'):
+            return
         if utils.get_platform() == 'classic_era':
             utils.rm_tree('AddOns/UnitFramesPlus_MobHealth')
 

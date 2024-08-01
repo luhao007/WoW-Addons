@@ -362,8 +362,8 @@ function W.GetAvailableMissions(mtype, inProgressMissions, followerMissionInfo)
 			elseif ecid then
 				local fid = W.CURRENCY_FACTION_ID[ecid]
 				if fid and not C_Reputation.IsFactionParagon(fid) then
-					local _, _, stID = GetFactionInfoByID(fid)
-					if stID == 8 then
+					local fd = C_Reputation.GetFactionDataByID(fid)
+					if fd and fd.reaction == 8 then
 						rq = 0
 					end
 				end
@@ -1086,7 +1086,7 @@ function W.UnpackHistoryReward(r)
 		end
 		return "currency", typeID, quant, ico or (C_CurrencyInfo.GetBasicCurrencyInfo(typeID) or "").icon or 134400
 	elseif kind == 3 then
-		return "item", typeID, floor(r / 2^24), GetItemIcon(typeID) or 134400
+		return "item", typeID, floor(r / 2^24), C_Item.GetItemIconByID(typeID) or 134400
 	elseif r > 0 then
 		return "unknown", 0, 0, 877477
 	else
@@ -1124,11 +1124,11 @@ function EV:ADDON_LOADED(addon)
 			end
 		end
 		EV("I_LOAD_HOOKS")
-		if IsAddOnLoaded("Blizzard_GarrisonUI") then
+		if C_AddOns.IsAddOnLoaded("Blizzard_GarrisonUI") then
 			EV("I_LOAD_MAINUI")
 			return "remove"
 		end
-	elseif addon == "Blizzard_GarrisonUI" and select(2, IsAddOnLoaded(ADDON)) then
+	elseif addon == "Blizzard_GarrisonUI" and select(2, C_AddOns.IsAddOnLoaded(ADDON)) then
 		EV("I_LOAD_MAINUI")
 		return "remove"
 	end
@@ -1166,6 +1166,7 @@ function EV:I_LOAD_HOOKS()
 		local logEntry = log and log[#log]
 		local td = logEntry and (GetServerTime()-logEntry[1])
 		if td and td >= 0 and td <= 3 then
+			local GetItemCount = C_Item.GetItemCount
 			local t, oc = 0, GetItemCount(itemID)
 			local function saveCount()
 				local nc = GetItemCount(itemID)

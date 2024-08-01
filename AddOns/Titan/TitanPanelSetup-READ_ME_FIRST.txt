@@ -2,18 +2,6 @@ TitanPanelSetup-READ_ME_FIRST File
 ==================================
 
 ****************************************************************************************************
-ATTENTION! THE FOLLOWING PLUGINS HAVE BEEN REMOVED OR RENAMED. PLEASE REMOVE THESE FROM YOUR FOLDER!
-- TitanCoords has been renamed TitanLocation to more accurately reflect the information it
-   provides.  REMOVE THE TitanCoords FOLDER FROM YOUR ADDONS FOLDER.
-- TitanGoldTracker has been renamed TitanGold.  REMOVE THE TitanGoldTracker FOLDER FROM YOUR ADDONS
-   FOLDER.
-- TitanAmmo has been removed from the package due to the elimination of ammo/arrows/bolts from the
-   game.  REMOVE THE TitanAmmo FOLDER FROM YOUR ADDONS FOLDER.
-- TitanRegen has been removed from the package due to lack of interest.  Consequently, it may not
-   work with future versions of Titan Panel.  You are free to maintain this plugin if you wish.
-   IF YOU HAVE NO INTEREST IN MAINTAINING IT, REMOVE THE TitanRegen FOLDER FROM YOUR ADDONS FOLDER.
-- BonusScanner has been removed from Titan Panel as it is not part of the core functionality.
-- BrokerBonusScanner has been removed from Titan Panel as it is not part of the core functionality.
 ****************************************************************************************************
 
 1. Description

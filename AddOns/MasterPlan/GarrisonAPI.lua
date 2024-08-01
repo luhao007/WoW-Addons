@@ -5,13 +5,7 @@ getmetatable(L).__call = function(_,k) if T.L then L = T.L return L(k) end retur
 local FOLLOWER_ITEM_LEVEL_CAP, MENTOR_FOLLOWER, INF = T.FOLLOWER_ITEM_LEVEL_CAP, T.MENTOR_FOLLOWER, math.huge
 local FOLLOWER_LEVEL_CAP, FOLLOWER_LEVEL_BASE = T.FOLLOWER_LEVEL_CAP, T.FOLLOWER_LEVEL_BASE
 local unfreeStatusOrder = {[GARRISON_FOLLOWER_WORKING]=2, [GARRISON_FOLLOWER_INACTIVE]=1}
-
-local function getShoppingTooltips(tip)
-	local GameTooltip = _G.GameTooltip
-	if tip[0] == GameTooltip[0] and not GameTooltip:IsForbidden() then
-		return GameTooltip.shoppingTooltips
-	end
-end
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
 hooksecurefunc(C_Garrison, "MarkMissionComplete", function(mid)
 	EV("MP_MARK_MISSION_COMPLETE", mid)
@@ -407,7 +401,7 @@ local function SetFollowerInfo(t)
 	if um > 10 then T.config.goldRewardThreshold = 0 end
 	for k,v in pairs(dropFollowers) do
 		local f = ft[k]
-		if not f.missionEndTime then
+		if f and not f.missionEndTime then
 			f.status, f.missionEndTime = GARRISON_FOLLOWER_ON_MISSION, missionEndTime[v]
 		end
 	end
@@ -614,8 +608,8 @@ function api.GetFMLevel(fmInfo, mentor)
 	return fmInfo and (mentor and mentor >= fmInfo.iLevel and mentor or fmInfo.level == FOLLOWER_LEVEL_CAP and fmInfo.iLevel > 600 and fmInfo.iLevel or fmInfo.level) or 0
 end
 function api.GetLevelEfficiency(fLevel, mLevel)
-	local ld, md = (mLevel or 0) - fLevel, mLevel and (mLevel > 600 and 15 or 3) or 0
-	return ld <= 0 and 1 or ld < md and (md-ld)/md or 0
+	local ld, md, fl = (mLevel or 0) - fLevel, mLevel and (mLevel > 600 and 15 or 3) or 0, T.XP_EFFICIENCY_FLOOR or 0
+	return ld <= 0 and 1 or ld < md and math.max(fl, (md-ld)/md) or fl
 end
 function api.GetFollowerLevelDescription(fid, mlvl, fi, mentor, mid, gi)
 	local fi = fi or api.GetFollowerInfo()[fid]
@@ -691,6 +685,7 @@ do -- CompleteMissions/AbortCompleteMissions
 	local curSalvage, curPlayerXP = {[114120]=0, [114119]=0, [114116]=0, [140590]=0, [139593]=0}, {}
 	local curState, curIndex, completionStep, lastAction, delayIndex, delayMID
 	local function checkSalvage(addRewards)
+		local GetItemCount = C_Item.GetItemCount
 		for k,v in pairs(curSalvage) do
 			local nv = GetItemCount(k) or 0
 			if addRewards and nv > v then
@@ -1526,11 +1521,11 @@ end
 function api.IsLevelAppropriateToken(itemID)
 	local ts = T.TokenSlots[itemID]
 	if ts then
-		local _, _, _, tl = GetItemInfo(itemID)
+		local _, _, _, tl = C_Item.GetItemInfo(itemID)
 		if not tl then return end
 		for s=ts, ts + (ts > 10 and 1 or 0) do
 			local iid = GetInventoryItemID("player", s)
-			local l = iid and select(4, GetItemInfo(iid))
+			local l = iid and select(4, C_Item.GetItemInfo(iid))
 			if l and l <= tl then
 				return true
 			end
@@ -1605,6 +1600,7 @@ do -- api.GetSuggestedGroupsMenu(mi, f1, f2, f3)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		api.SetGroupTooltip(GameTooltip, g, mi)
 		GameTooltip:Show()
+		return T.HideOwnedGameTooltip
 	end
 	local function addToMenu(mm, groups, mi, primary)
 		for i=1,#groups do
@@ -1752,17 +1748,18 @@ do -- api.GetSuggestedGroupsMenu(mi, f1, f2, f3)
 end
 
 do -- api.GetUpgradeItems(ilevel, isArmor)
-	local function walk(ilvl, t, pos)
+	local function walk(GetItemCount, ilvl, t, pos)
 		for i=pos,#t,2 do
 			if t[i+1] > ilvl and GetItemCount(t[i]) > 0 then
-				return t[i], walk(ilvl, t, i + 2)
+				return t[i], walk(GetItemCount, ilvl, t, i + 2)
 			end
 		end
 	end
 	function api.GetUpgradeItems(ilevel, isWeapon)
-		return walk(ilevel, T.ItemLevelUpgrades[isWeapon and "WEAPON" or "ARMOR"], 1)
+		return walk(C_Item.GetItemCount, ilevel, T.ItemLevelUpgrades[isWeapon and "WEAPON" or "ARMOR"], 1)
 	end
 	function api.GetUpgradeRange()
+		local GetItemCount = C_Item.GetItemCount
 		local t, rW, rA  = T.ItemLevelUpgrades.WEAPON
 		for i=1,2 do
 			local limit = 0
@@ -2555,7 +2552,7 @@ function api.GetMoIRewardIcon(rid)
 	elseif rid < 2000 then
 		return "|T" .. (C_CurrencyInfo.GetBasicCurrencyInfo(rid).icon or "Interface/Icons/Temp") .. ":14:14:0:0:64:64:4:60:4:60|t"
 	else
-		return "|T" .. (GetItemIcon(rid) or "Interface/Icons/Temp") .. ":14:14:0:0:64:64:4:60:4:60|t"
+		return "|T" .. (C_Item.GetItemIconByID(rid) or "Interface/Icons/Temp") .. ":14:14:0:0:64:64:4:60:4:60|t"
 	end
 	return ""
 end
@@ -2794,14 +2791,14 @@ local prefixTip do
 	end
 end
 function api.SetItemTooltip(tip, id)
-	local cs = T.TokenSlots[id]
+	local cs = T.TokenSlots[id] or C_Item.GetItemInventoryTypeByID(id)
 	tip:SetItemByID(id)
-	local sta = getShoppingTooltips(tip)
-	if cs and sta then
+	local sta = cs and cs ~= 0 and tip.shoppingTooltips
+	if sta then
 		T.SetModifierSensitiveTip(api.SetItemTooltip, tip, id)
 		local st1, st2 = sta[1], sta[2]
 		if IsModifiedClick("COMPAREITEMS") or GetCVarBool("alwaysCompareItems") then
-			local ofsFrame, oy = GameTooltip, -8
+			local ofsFrame, oy = tip, -8
 			if GetInventoryItemID("player", cs) then
 				st1:SetOwner(tip, "ANCHOR_NONE")
 				st1:SetPoint("TOPRIGHT", tip, "TOPLEFT", -2, oy)
@@ -2837,7 +2834,7 @@ local function doSetCurrencyTraitTip(owner, id, tip)
 end
 function api.SetCurrencyTraitTip(tip, id, ftype)
 	local ts = T[ftype == 2 and "ShipTraitStack" or "TraitStack"][id]
-	local sta = getShoppingTooltips(tip)
+	local sta = tip.shoppingTooltips
 	if ts and sta and sta[1] then
 		doSetCurrencyTraitTip(tip, ts, sta[1])
 	end
@@ -3253,7 +3250,8 @@ do -- api.GetBestGroupInfo()
 		return fi, rtid
 	end
 	local function runRecruitProspects(rt, yield)
-		for i=1,#rt do
+		local nrt = #rt
+		for i=1, nrt do
 			local fi, ct = rt[i]
 			fi.useMarks, fi.clones, ct = {}, {}, T.SpecCounters[fi.classSpec]
 			local c1, c2 = fi.counters[1], fi.counters[2] or 0
@@ -3282,7 +3280,7 @@ do -- api.GetBestGroupInfo()
 		for k,v in pairs(groups) do
 			gc[k] = v.variants
 		end
-		for i=1,3 do
+		for i=1, nrt do
 			local t, c = {}, {}
 			for k,v in pairs(rt[i].clones) do
 				c[k] = v.useMarks

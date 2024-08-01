@@ -10,6 +10,10 @@ local R = Rarity
 local GUI = Rarity.GUI
 local CONSTANTS = addonTable.constants
 
+--- WoW API
+local GetItemInfo = _G.C_Item.GetItemInfo
+local LoadAddOn = _G.C_AddOns.LoadAddOn
+
 local dataobj = ldb:NewDataObject("Rarity", {
 	type = "data source",
 	text = L["Loading"],
@@ -60,9 +64,7 @@ function dataobj:OnClick(button)
 		Rarity:Debug("Loading Rarity_Options addon")
 		LoadAddOn("Rarity_Options")
 		if R.optionsFrame then
-			-- Thanks, Blizzard (https://www.wowinterface.com/forums/showthread.php?t=54599)
-			InterfaceOptionsFrame_OpenToCategory(R.optionsFrame)
-			InterfaceOptionsFrame_OpenToCategory(R.optionsFrame)
+			Settings.OpenToCategory("Rarity")
 		else
 			R:Print(L["The Rarity Options module has been disabled. Log out and enable it from your add-ons menu."])
 		end
@@ -72,10 +74,7 @@ function dataobj:OnClick(button)
 		(self.db.profile.tooltipActivation == CONSTANTS.TOOLTIP.ACTIVATION_METHOD_CLICK and isRightButton)
 		or (self.db.profile.tooltipActivation == CONSTANTS.TOOLTIP.ACTIVATION_METHOD_HOVER and isLeftButton)
 	then
-		-- Toggle progress bar visibility
-		R.db.profile.bar.visible = not R.db.profile.bar.visible
-		Rarity.GUI:UpdateBar()
-		Rarity.GUI:UpdateText()
+		Rarity.GUI:ToggleProgressBar()
 	elseif self.db.profile.tooltipActivation == CONSTANTS.TOOLTIP.ACTIVATION_METHOD_CLICK and isLeftButton then
 		if Rarity.Tooltips:IsTooltipAcquired("RarityTooltip") then
 			Rarity:HideTooltip()

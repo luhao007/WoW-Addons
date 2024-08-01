@@ -1,20 +1,18 @@
 local _, T = ...
-local E = T.Evie
+local EV = T.Evie
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
-function T.GetMouseFocus()
-	local f = GetMouseFocus()
-	return f and f.IsForbidden and not f:IsForbidden() and f or nil
-end
-function T.IsDescendantOf(self, ancestor)
-	if not (self and ancestor) then
-		return false
+function T.GetMouseFocus(predicate, ctx, fallbackOnReject)
+	local foci = GetMouseFoci()
+	for i=1, #foci do
+		local fi = foci[i]
+		if fi and not (fi and fi.IsForbidden and fi:IsForbidden()) and predicate(fi, ctx) then
+			return fi
+		end
 	end
-	repeat
-		self = not self:IsForbidden() and self:GetParent()
-	until (self or ancestor) == ancestor
-	return self == ancestor
+	return fallbackOnReject ~= false and foci[1] or nil
 end
-do
+do -- After0(func)
 	local f, q, nq = CreateFrame("Frame"), {}, 0
 	function T.After0(func)
 		nq = nq + 1
@@ -32,8 +30,17 @@ do
 		end
 	end)
 end
+function T.HideOwnedGameTooltip(self)
+	local GGameTooltip = _G.GameTooltip
+	if self and GameTooltip:IsOwned(self) then
+		GameTooltip:Hide()
+	end
+	if self and GameTooltip ~= GGameTooltip and GGameTooltip:IsOwned(self) then
+		GGameTooltip:Hide()
+	end
+end
 
-do
+do -- UIDropDownMenu custom menu button tooltips via info.tooltipOnButton
 	local function DropDownMenuButton_OnEnter(self)
 		if self and self.tooltipTitle == nil and self.tooltipText == nil and type(self.tooltipOnButton) == "function" then
 			self.tooltipOwner, self.tooltipOnLeave = self, securecall(self.tooltipOnButton, self, self.arg1, self.arg2)
@@ -90,13 +97,8 @@ local CreateLazyItemButton do
 		GameTooltip:Show()
 		self:SetScript("OnUpdate", OnUpdateSync)
 	end
-	local function OnLeave(self)
-		if GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
-		end
-	end
 	local function OnShow(self)
-		self.Count:SetText((GetItemCount(itemIDs[self])))
+		self.Count:SetText((C_Item.GetItemCount(itemIDs[self])))
 	end
 	local function OnClick()
 		if InCombatLockdown() then
@@ -109,20 +111,20 @@ local CreateLazyItemButton do
 		itemIDs[f], f.itemID = itemID, itemID
 		f.Icon = f:CreateTexture(nil, "ARTWORK")
 		f.Icon:SetAllPoints()
-		f.Icon:SetTexture(GetItemIcon(itemID))
+		f.Icon:SetTexture(C_Item.GetItemIconByID(itemID))
 		f.Count = f:CreateFontString(nil, "OVERLAY", "GameFontHighlightOutline")
 		f.Count:SetPoint("BOTTOMRIGHT", -1, 2)
 		f:SetAttribute("type", "macro")
 		f:SetAttribute("macrotext", SLASH_STOPSPELLTARGET1 .. "\n" .. SLASH_USE1 .. " item:" .. itemID)
 		f:SetScript("OnEnter", OnEnter)
-		f:SetScript("OnLeave", OnLeave)
+		f:SetScript("OnLeave", T.HideOwnedGameTooltip)
 		f:SetScript("PreClick", OnClick)
 		T.TenSABT(f)
 		f:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
 		f:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
 		return f,f
 	end
-	function E:BAG_UPDATE_DELAYED()
+	function EV:BAG_UPDATE_DELAYED()
 		for k in pairs(itemIDs) do
 			if k:IsVisible() then
 				OnShow(k)
@@ -151,8 +153,25 @@ do -- SetModifierSensitiveTooltip
 		if watching then
 			owner = watching:GetOwner()
 			if not owatching then
-				E.MODIFIER_STATE_CHANGED = watch
+				EV.MODIFIER_STATE_CHANGED = watch
 			end
 		end
 	end
+end
+
+local function EasyMenu_Initialize(_, level, menuList)
+	for i=1, #menuList do
+		local value = menuList[i]
+		if value.text then
+			value.index = i
+			UIDropDownMenu_AddButton(value, level)
+		end
+	end
+end
+function T.EasyMenu(menuList, menuFrame, anchor, x, y, displayMode, autoHideDelay)
+	if displayMode == "MENU" then
+		menuFrame.displayMode = displayMode
+	end
+	UIDropDownMenu_Initialize(menuFrame, EasyMenu_Initialize, displayMode, nil, menuList)
+	ToggleDropDownMenu(1, nil, menuFrame, anchor, x, y, menuList, nil, autoHideDelay)
 end

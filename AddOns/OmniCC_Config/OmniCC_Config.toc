@@ -1,0 +1,19 @@
+## Interface: 110000
+## Author: Tuller
+## Dependencies: OmniCC
+## LoadOnDemand: 1
+## IconTexture: Interface/Icons/spell_nature_timestop
+
+## Title: OmniCC Config
+## Notes: OmniCC's configuration menu
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF技能冷却|r |cFF0055FF设置|r
+## Notes-zhCN: 显示技能冷却时间
+
+## X-Part-Of: OmniCC
+
+embeds.xml
+localization\localization.xml
+preview.lua
+themes.lua
+rules.lua
+options.lua

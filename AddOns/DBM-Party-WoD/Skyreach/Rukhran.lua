@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
 
-mod:SetRevision("20220810032020")
+mod:SetRevision("20240106080507")
 mod:SetCreatureID(76143)
 mod:SetEncounterID(1700)
 
@@ -17,9 +17,9 @@ mod:RegisterEventsInCombat(
 
 local warnSolarFlare			= mod:NewSpellAnnounce(153810, 3)
 
-local specWarnPierceArmor		= mod:NewSpecialWarningDefensive(153794, "Tank", nil, nil, 1, 2)
+local specWarnPierceArmor		= mod:NewSpecialWarningDefensive(153794, nil, nil, nil, 1, 2)
 local specWarnFixate			= mod:NewSpecialWarningYou(176544, nil, nil, nil, 1, 2)
-local specWarnQuills			= mod:NewSpecialWarningSpell(159382, nil, nil, nil, 2, 2)
+local specWarnQuills			= mod:NewSpecialWarningMoveTo(159382, nil, nil, nil, 2, 13)
 local specWarnQuillsEnd			= mod:NewSpecialWarningEnd(159382, nil, nil, nil, 1, 2)
 
 local timerSolarFlareCD			= mod:NewCDTimer(17, 153810, nil, nil, nil, 3)
@@ -56,12 +56,14 @@ function mod:SPELL_CAST_START(args)
 			warnSolarFlare:ScheduleVoice(2, "mobkill")
 		end
 	elseif spellId == 153794 then
-		specWarnPierceArmor:Show()
-		specWarnPierceArmor:Play("defensive")
+		if self:IsTanking("player", "boss1", nil, true) then
+			specWarnPierceArmor:Show()
+			specWarnPierceArmor:Play("defensive")
+		end
 	elseif spellId == 159382 then
-		specWarnQuills:Show()
+		specWarnQuills:Show(DBM_COMMON_L.BREAK_LOS)
+		specWarnQuills:Play("breaklos")
 		timerQuills:Start()
-		specWarnQuills:Play("findshelter")
 	end
 end
 

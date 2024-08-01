@@ -424,11 +424,11 @@ MinArch.DigsiteLocales.frFR = {
     ["Digsite: Roaming Hills"] = "Site de fouilles : collines Vagabondes",
     ["Digsite: Dire Hills"] = "Site de fouilles : Gris-Coteaux",
     ["Digsite: Drowned Lands"] = "Site de fouilles : terres Englouties",
-    ["Digsite: Briny Flats"] = "Site de fouilles : Marais des Pieds-salés",
+    ["Digsite: Briny Flats"] = "Site de fouilles : Marais des Pieds-Salés",
     ["Digsite: Windwhisper Summit"] = "Site de fouilles : sommet de Murmure-du-Vent",
     ["Digsite: Xibala"] = "Site de fouilles : Xibala",
     ["Digsite: Tusk Isle"] = "Site de fouilles : île de la Défense",
-    ["Digsite: Dreadpearl Shallows"] = "Site de fouilles : crique de la Perle-maudite",
+    ["Digsite: Dreadpearl Shallows"] = "Site de fouilles : crique de la Perle-Maudite",
     ["Digsite: Atal'Gral"] = "Site de fouilles : Atal’Gral",
     ["Digsite: Savagelands"] = "Site de fouilles : terres Sauvages",
     ["Digsite: Old Merchant Road"] = "Site de fouilles : Ancienne route marchande",
@@ -450,3 +450,9 @@ MinArch.DigsiteLocales.frFR = {
     ["Digsite: Court of Zak'rajan"] = "Site de fouilles : cour de Zak’rajan",
     ["Digsite: Terrace of the Fang"] = "Site de fouilles : terrasse du Croc",
 }
+
+if MINARCH_EXPANSION == 'Cata' then
+    MinArch.DigsiteLocales.frFR["Laughing Skull Digsite"] = "Site de fouilles des ruines du Crâne ricanant"
+    MinArch.DigsiteLocales.frFR["Burning Blade Digsite"] = "Site de fouilles de la Lame ardente"
+    MinArch.DigsiteLocales.frFR["Bleeding Hollow Ruins Digsite"] = "Site de fouilles des ruines de l'Orbite sanglante"
+end

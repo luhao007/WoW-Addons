@@ -1,8 +1,8 @@
--- $Id: Data.lua 34 2022-02-27 15:37:46Z arithmandar $
+-- $Id: Data.lua 45 2023-03-20 14:51:13Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
-	Copyright 2020 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2020 ~ 2023 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
@@ -646,8 +646,8 @@ db.AtlasMaps = {
 	},
 
 	-- The Eternal Palace
-	TheEternalPalace = {
-		ZoneName = { BZ["The Eternal Palace"] },
+	TheEternalPalaceA = {
+		ZoneName = { BZ["The Eternal Palace"]..ALC["MapA"] },
 		Location = { BZ["Nazjatar"] },
 		DungeonID = 2014,
 		DungeonHeroicID = 2014,
@@ -656,10 +656,23 @@ db.AtlasMaps = {
 		JournalInstanceID = 1179,
 		PlayerLimit = { 10, 30 },
 		Module = "Atlas_BattleforAzeroth",
+		{ BLUE.." A) "..ALC["Entrance"], 10001 },
 		{ WHIT.." 1) "..Atlas_GetBossName("Abyssal Commander Sivara", 2352), 2352}, -- uiMap: 1512
-		{ WHIT.." 2) "..Atlas_GetBossName("Blackwater Behemoth", 2347), 2347}, -- uiMap: 1514
-		{ WHIT.." 3) "..Atlas_GetBossName("Radiance of Azshara", 2353), 2353}, -- uiMap: 1513
-		{ WHIT.." 4) "..Atlas_GetBossName("Lady Ashvane", 2354), 2354}, -- uiMap: 1513
+		{ BLUE.." B) "..ALC["Connection"], 10002 },
+	},
+	TheEternalPalaceB = {
+		ZoneName = { BZ["The Eternal Palace"]..ALC["MapB"] },
+		Location = { BZ["Nazjatar"] },
+		DungeonID = 2014,
+		DungeonHeroicID = 2014,
+		DungeonMythicID = 2016,
+		WorldMapID = 1513,
+		JournalInstanceID = 1179,
+		PlayerLimit = { 10, 30 },
+		Module = "Atlas_BattleforAzeroth",
+		{ WHIT.." 2) "..Atlas_GetBossName("Radiance of Azshara", 2353), 2353}, -- uiMap: 1513
+		{ WHIT.." 3) "..Atlas_GetBossName("Lady Ashvane", 2354), 2354}, -- uiMap: 1513
+		{ WHIT.." 4) "..Atlas_GetBossName("Blackwater Behemoth", 2347), 2347}, -- uiMap: 1514
 		{ WHIT.." 5) "..Atlas_GetBossName("Orgozoa", 2351), 2351}, -- uiMap: 1517
 		{ WHIT..INDENT..Atlas_GetBossName("Zoatroid", 2351, 2), 2351},
 		{ WHIT..INDENT..Atlas_GetBossName("Zanj'ir Myrmidon", 2351, 3), 2351},
@@ -952,6 +965,17 @@ db.AtlasMaps_NPC_DB = {
 		{ "G", 10002, 252, 474 },
 		{ 7, 2195, 252, 409 },
 		{ 8, 2195, 252, 93 },
+	},
+	TheEternalPalaceA = {
+		{ "A", 10001, 478, 249 },
+		{ "B", 10002, 24, 249 },
+		{ 1, 2352, 246, 249 },
+	},
+	TheEternalPalaceB = {
+		{ "B", 10002, 317, 294 },
+		{ "C", 10003, 218, 426 },
+		{ 2, 2353, 252, 61 },
+		{ 3, 2354, 252, 294 },
 	},
 	NyalothaA = {
 		{ "B", 10002, 249, 203 },

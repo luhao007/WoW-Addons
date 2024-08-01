@@ -4,23 +4,23 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local Inventory = TSM.MainUI.Ledger:NewPackage("Inventory")
-local L = TSM.Include("Locale").GetTable()
-local TempTable = TSM.Include("Util.TempTable")
-local Money = TSM.Include("Util.Money")
-local String = TSM.Include("Util.String")
-local Math = TSM.Include("Util.Math")
-local Database = TSM.Include("Util.Database")
-local ItemInfo = TSM.Include("Service.ItemInfo")
-local CustomPrice = TSM.Include("Service.CustomPrice")
-local BagTracking = TSM.Include("Service.BagTracking")
-local AuctionTracking = TSM.Include("Service.AuctionTracking")
-local MailTracking = TSM.Include("Service.MailTracking")
+local TSM = select(2, ...) ---@type TSM
+local Inventory = TSM.MainUI.Ledger:NewPackage("Inventory") ---@type AddonPackage
+local L = TSM.Locale.GetTable()
+local TempTable = TSM.LibTSMUtil:Include("BaseType.TempTable")
+local Money = TSM.LibTSMUtil:Include("UI.Money")
+local String = TSM.LibTSMUtil:Include("Lua.String")
+local Math = TSM.LibTSMUtil:Include("Lua.Math")
+local Database = TSM.LibTSMUtil:Include("Database")
+local Group = TSM.LibTSMTypes:Include("Group")
+local ItemInfo = TSM.LibTSMService:Include("Item.ItemInfo")
+local CustomString = TSM.LibTSMTypes:Include("CustomString")
+local BagTracking = TSM.LibTSMService:Include("Inventory.BagTracking")
+local Auction = TSM.LibTSMService:Include("Auction")
+local Mail = TSM.LibTSMService:Include("Mail")
 local AltTracking = TSM.Include("Service.AltTracking")
-local Settings = TSM.Include("Service.Settings")
-local UIElements = TSM.Include("UI.UIElements")
-local UIUtils = TSM.Include("UI.UIUtils")
+local UIElements = TSM.LibTSMUI:Include("Util.UIElements")
+local UIUtils = TSM.LibTSMUI:Include("Util.UIUtils")
 local private = {
 	settings = nil,
 	db = nil,
@@ -36,8 +36,8 @@ local private = {
 -- Module Functions
 -- ============================================================================
 
-function Inventory.OnInitialize()
-	private.settings = Settings.NewView()
+function Inventory.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
 		:AddKey("global", "mainUIContext", "ledgerInventoryScrollingTable")
 	TSM.MainUI.Ledger.RegisterPage(L["Inventory"], private.DrawInventoryPage)
 end
@@ -58,9 +58,7 @@ function Inventory.OnEnable()
 	private.query = private.db:NewQuery()
 		:VirtualField("totalValue", "number", private.TotalValueVirtualField)
 		:VirtualField("name", "string", ItemInfo.GetName, "levelItemString", "")
-		:VirtualField("groupPath", "string", TSM.Groups.GetPathByItem, "levelItemString")
-		:OrderBy("name", true)
-		:NotEqual("name", "")
+		:VirtualField("groupPath", "string", Group.GetPathByItem, "levelItemString")
 end
 
 
@@ -85,11 +83,11 @@ function private.DrawInventoryPage()
 		bankQuantityLookup[levelItemString] = bankQuantity
 		reagentBankQuantityLookup[levelItemString] = reagentBankQuantity
 	end
-	for _, levelItemString, auctionQuantity in AuctionTracking.QuantityIterator() do
+	for _, levelItemString, auctionQuantity in Auction.QuantityIterator() do
 		items[levelItemString] = true
 		auctionQuantityLookup[levelItemString] = auctionQuantity
 	end
-	for _, levelItemString, mailQuantity in MailTracking.QuantityIterator() do
+	for _, levelItemString, mailQuantity in Mail.QuantityIterator() do
 		items[levelItemString] = true
 		mailQuantityLookup[levelItemString] = mailQuantity
 	end
@@ -122,9 +120,8 @@ function private.DrawInventoryPage()
 	TempTable.Release(auctionQuantityLookup)
 	TempTable.Release(mailQuantityLookup)
 	TempTable.Release(altQuantityLookup)
-	private.UpdateQuery()
 
-	return UIElements.New("Frame", "content")
+	local content = UIElements.New("Frame", "content")
 		:SetLayout("VERTICAL")
 		:AddChild(UIElements.New("Frame", "row1")
 			:SetLayout("HORIZONTAL")
@@ -142,6 +139,7 @@ function private.DrawInventoryPage()
 			:AddChild(UIElements.New("GroupSelector", "group")
 				:SetWidth(240)
 				:SetHintText(L["Filter by groups"])
+				:SetSelection(next(private.groupFilter) and private.groupFilter or nil)
 				:SetScript("OnSelectionChanged", private.GroupFilterChanged)
 			)
 		)
@@ -159,7 +157,7 @@ function private.DrawInventoryPage()
 				:SetBackgroundColor("PRIMARY_BG_ALT")
 				:SetBorderColor("ACTIVE_BG")
 				:SetFont("TABLE_TABLE1")
-				:SetValidateFunc("CUSTOM_PRICE")
+				:SetValidateFunc("CUSTOM_STRING")
 				:SetSettingInfo(private, "valuePriceSource")
 				:SetScript("OnValueChanged", private.FilterChangedCommon)
 			)
@@ -176,85 +174,17 @@ function private.DrawInventoryPage()
 				:AddChild(UIElements.New("Text", "value")
 					:SetWidth("AUTO")
 					:SetFont("TABLE_TABLE1")
-					:SetText(Money.ToString(private.GetTotalValue(), nil, "OPT_RETAIL_ROUND"))
 				)
 			)
 		)
-		:AddChild(UIElements.New("Frame", "accountingScrollingTableFrame")
-			:SetLayout("VERTICAL")
-			:AddChild(UIElements.New("QueryScrollingTable", "scrollingTable")
-				:SetSettingsContext(private.settings, "ledgerInventoryScrollingTable")
-				:GetScrollingTableInfo()
-					:NewColumn("item")
-						:SetTitle(L["Item"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("LEFT")
-						:SetTextInfo("levelItemString", UIUtils.GetColoredItemName)
-						:SetTooltipInfo("levelItemString")
-						:SetSortInfo("name")
-						:DisableHiding()
-						:Commit()
-					:NewColumn("totalItems")
-						:SetTitle(L["Total"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("totalQuantity")
-						:SetSortInfo("totalQuantity")
-						:Commit()
-					:NewColumn("bags")
-						:SetTitle(L["Bags"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("bagQuantity")
-						:SetSortInfo("bagQuantity")
-						:Commit()
-					:NewColumn("banks")
-						:SetTitle(L["Banks"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("totalBankQuantity")
-						:SetSortInfo("totalBankQuantity")
-						:Commit()
-					:NewColumn("mail")
-						:SetTitle(L["Mail"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("mailQuantity")
-						:SetSortInfo("mailQuantity")
-						:Commit()
-					:NewColumn("alts")
-						:SetTitle(L["Alts"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("altQuantity")
-						:SetSortInfo("altQuantity")
-						:Commit()
-					:NewColumn("guildVault")
-						:SetTitle(L["GVault"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("guildQuantity")
-						:SetSortInfo("guildQuantity")
-						:Commit()
-					:NewColumn("auctionHouse")
-						:SetTitle(L["AH"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("auctionQuantity")
-						:SetSortInfo("auctionQuantity")
-						:Commit()
-					:NewColumn("totalValue")
-						:SetTitle(L["Value"])
-						:SetFont("ITEM_BODY3")
-						:SetJustifyH("RIGHT")
-						:SetTextInfo("totalValue", private.TableGetTotalValueText)
-						:SetSortInfo("totalValue")
-						:Commit()
-					:Commit()
-				:SetSelectionDisabled(true)
-				:SetQuery(private.query)
-			)
+		:AddChild(UIElements.New("LedgerInventoryScrollTable", "scrollingTable")
+			:SetSettings(private.settings, "ledgerInventoryScrollingTable")
+			:SetQuery(private.query)
+			:SetFilters(private.GetScrollTableFilters())
 		)
+
+	content:GetElement("row2.value.value"):SetText(Money.ToStringForUI(private.GetTotalValue()))
+	return content
 end
 
 
@@ -264,11 +194,10 @@ end
 -- ============================================================================
 
 function private.FilterChangedCommon(element)
-	private.UpdateQuery()
-	element:GetElement("__parent.__parent.accountingScrollingTableFrame.scrollingTable")
-		:SetQuery(private.query, true)
-	element:GetElement("__parent.__parent.row2.value.value")
-		:SetText(Money.ToString(private.GetTotalValue(), nil, "OPT_RETAIL_ROUND"))
+	local content = element:GetParentElement():GetParentElement()
+	content:GetElement("scrollingTable"):SetFilters(private.GetScrollTableFilters())
+	content:GetElement("row2.value.value")
+		:SetText(Money.ToStringForUI(private.GetTotalValue()))
 		:Draw()
 end
 
@@ -288,22 +217,12 @@ end
 
 
 -- ============================================================================
--- Scrolling Table Helper Functions
--- ============================================================================
-
-function private.TableGetTotalValueText(totalValue)
-	return Math.IsNan(totalValue) and "" or Money.ToString(totalValue, nil, "OPT_RETAIL_ROUND")
-end
-
-
-
--- ============================================================================
 -- Private Helper Functions
 -- ============================================================================
 
 function private.TotalValueVirtualField(row)
 	local levelItemString, totalQuantity = row:GetFields("levelItemString", "totalQuantity")
-	local price = CustomPrice.GetValue(private.valuePriceSource, levelItemString)
+	local price = CustomString.GetValue(private.valuePriceSource, levelItemString)
 	if not price then
 		return Math.GetNan()
 	end
@@ -319,7 +238,7 @@ function private.GetTotalValue()
 	end
 	local totalValue = 0
 	for levelItemString, total in pairs(itemQuantities) do
-		local price = CustomPrice.GetValue(private.valuePriceSource, levelItemString)
+		local price = CustomString.GetValue(private.valuePriceSource, levelItemString)
 		if price then
 			totalValue = totalValue + price * total
 		end
@@ -328,13 +247,9 @@ function private.GetTotalValue()
 	return totalValue
 end
 
-function private.UpdateQuery()
-	private.query:ResetFilters()
-	private.query:NotEqual("name", "")
-	if private.searchFilter ~= "" then
-		private.query:Matches("name", String.Escape(private.searchFilter))
-	end
-	if next(private.groupFilter) then
-		private.query:InTable("groupPath", private.groupFilter)
-	end
+function private.GetScrollTableFilters()
+	local name = String.Escape(private.searchFilter)
+	name = name ~= "" and name or nil
+	local group = next(private.groupFilter) and private.groupFilter or nil
+	return name, group
 end

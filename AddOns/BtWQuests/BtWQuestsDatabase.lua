@@ -11,6 +11,9 @@ local gsub = string.gsub
 local gmatch = string.gmatch
 local concat = string.concat
 
+local LoadAddOn = C_AddOns and C_AddOns.LoadAddOn or LoadAddOn;
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded;
+
 local LE_EXPANSION_LEVEL_CURRENT = LE_EXPANSION_LEVEL_CURRENT or 0;
 
 --@REMOVE AFTER 9.0
@@ -776,10 +779,10 @@ function DataMixin:GetPrerequisites()
 
         if self.prerequisites then
             if self.prerequisites[1] == nil then
-                self.prerequisitesItems[#self.prerequisitesItems+1] = self.database:CreateItem(-1, self.prerequisites, item);
+                self.prerequisitesItems[#self.prerequisitesItems+1] = self.database:CreateItem(-1, self.prerequisites, self);
             else
                 for _,prerequisite in ipairs(self.prerequisites) do
-                    self.prerequisitesItems[#self.prerequisitesItems+1] = self.database:CreateItem(-1, prerequisite, item);
+                    self.prerequisitesItems[#self.prerequisitesItems+1] = self.database:CreateItem(-1, prerequisite, self);
                 end
             end
         end
@@ -797,10 +800,10 @@ function DataMixin:GetRestrictions()
                 restrictions = self.database:GetConditionByID(restrictions)
             end
             if restrictions[1] == nil then
-                self.restrictionsItems[#self.restrictionsItems+1] = self.database:CreateItem(-1, restrictions, item);
+                self.restrictionsItems[#self.restrictionsItems+1] = self.database:CreateItem(-1, restrictions, self);
             else
                 for _,restriction in ipairs(restrictions) do
-                    self.restrictionsItems[#self.restrictionsItems+1] = self.database:CreateItem(-1, restriction, item);
+                    self.restrictionsItems[#self.restrictionsItems+1] = self.database:CreateItem(-1, restriction, self);
                 end
             end
         end
@@ -947,7 +950,7 @@ function ChainMixin:GetSubtext(character, small)
 end
 function ChainMixin:GetLink()
     if self.link == nil then
-        self.link = format("\124cffffff00\124Hbtwquests:chain:%s\124h[%s]\124h\124r", self:GetID(), self:GetName())
+        self.link = format("\124cffffff00\124Hgarrmission:btwquests:chain:%s\124h[%s]\124h\124r", self:GetID(), self:GetName())
     end
 
     return self.link
@@ -1122,7 +1125,7 @@ function CategoryMixin:GetParent()
 end
 function CategoryMixin:GetLink()
     if self.link == nil then
-        self.link = format("\124cffffff00\124Hbtwquests:category:%s\124h[%s]\124h\124r", self:GetID(), self:GetName())
+        self.link = format("\124cffffff00\124Hgarrmission:btwquests:category:%s\124h[%s]\124h\124r", self:GetID(), self:GetName())
     end
 
     return self.link
@@ -1287,7 +1290,7 @@ end
 local ExpansionMixin = CreateFromMixins(CategoryMixin);
 function ExpansionMixin:GetLink()
     if self.link == nil then
-        self.link = format("\124cffffff00\124Hbtwquests:expansion:%s\124h[%s]\124h\124r", self:GetID(), self:GetName())
+        self.link = format("\124cffffff00\124Hgarrmission:btwquests:expansion:%s\124h[%s]\124h\124r", self:GetID(), self:GetName())
     end
 
     return self.link
@@ -1378,8 +1381,10 @@ function ExpansionMixin:SetAutoLoad(value)
 end
 function ExpansionMixin:Load()
     wipe(self.database.questCache);
-    for addon in pairs(self.addons) do
-        LoadAddOn(addon)
+    if self.addons then
+        for addon in pairs(self.addons) do
+            LoadAddOn(addon)
+        end
     end
 end
 
@@ -1801,7 +1806,7 @@ function TargetItemMixin:IsCompleted(database, item, character, ...)
 
     return CheckStatusCount(amount, item)
 end
-function TargetItemMixin:GetPrerequisites(database, item)
+function TargetItemMixin:GetPrerequisites(database, item, character)
     if item.prerequisites ~= nil then
         return ItemMixin.GetPrerequisites(self, database, item, character);
     end
@@ -1811,7 +1816,7 @@ function TargetItemMixin:GetPrerequisites(database, item)
         return target:GetPrerequisites(character);
     end
 end
-function TargetItemMixin:GetRewards(database, item)
+function TargetItemMixin:GetRewards(database, item, character)
     if item.rewards ~= nil then
         return ItemMixin.GetRewards(self, database, item, character);
     end
@@ -2185,7 +2190,7 @@ function ExperienceItemMixin:GetName(database, item, character)
     return format(GAIN_EXPERIENCE, math.floor(amount * modifier + .5))
 end
 function ExperienceItemMixin:Visible(database, item, character)
-    return character:GetLevel() < MAX_PLAYER_LEVEL
+    return character:GetLevel() < GetMaxLevelForPlayerExpansion()
 end
 function ExperienceItemMixin:IsActive(database, item, character)
     return true
@@ -2206,12 +2211,26 @@ function RaceItemMixin:GetName(database, item, character, variation)
     local name
     if item.name then
         name = ItemMixin.GetName(self, database, item, character);
-    else
+    elseif item.id then
         local race = Races[item.id] or C_CreatureInfo.GetRaceInfo(item.id);
         name = race and race.raceName
+    elseif item.ids then
+        local names = {};
+        for id in ipairs(item.ids) do
+            local race = Races[id] or C_CreatureInfo.GetRaceInfo(id);
+            if race and race.raceName then
+                names[#names+1] = race.raceName
+            end
+        end
+        if #names > 1 then
+            local past = table.remove(names)
+            name = table.concat(names, ", ") .. ", and " .. past
+        else
+            name = table.concat(names, ", ")
+        end
     end
     
-    return name
+    return name or ""
 end
 function RaceItemMixin:IsCompleted(database, item, character)
     if item.id then
@@ -2222,16 +2241,30 @@ function RaceItemMixin:IsCompleted(database, item, character)
 end
 
 local ClassItemMixin = CreateFromMixins(ItemMixin);
-function ClassItemMixin:GetName(dcatabase, item, character, variation)
+function ClassItemMixin:GetName(database, item, character, variation)
     local name
     if item.name then
         name = ItemMixin.GetName(self, database, item, character);
-    else
+    elseif item.id then
         local class = C_CreatureInfo.GetClassInfo(item.id);
         name = class and class.className
+    elseif item.ids then
+        local names = {};
+        for id in ipairs(item.ids) do
+            local class = C_CreatureInfo.GetClassInfo(id);
+            if class and class.className then
+                names[#names+1] = class.className
+            end
+        end
+        if #names > 1 then
+            local past = table.remove(names)
+            name = table.concat(names, ", ") .. ", and " .. past
+        else
+            name = table.concat(names, ", ")
+        end
     end
     
-    return name
+    return name or ""
 end
 function ClassItemMixin:IsCompleted(database, item, character)
     if item.id then
@@ -2400,6 +2433,7 @@ function AchievementItemMixin:IsCompleted(database, item, character)
     end
 end
 
+local GetCoinTextureString = C_CurrencyInfo and C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString;
 local MoneyItemMixin = CreateFromMixins(ItemMixin);
 function MoneyItemMixin:GetName(database, item, character)
     if item.name then

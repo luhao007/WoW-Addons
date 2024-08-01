@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
 
-    Decursive (v 2.7.8.13) add-on for World of Warcraft UI
+    Decursive (v 2.7.20) add-on for World of Warcraft UI
     Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Decursive is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
 
-    This file was last updated on 2020-12-09T00:26:42Z
+    This file was last updated on 2024-07-16T09:27:29Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -164,6 +164,20 @@ function D:PLAYER_ENTERING_WORLD()
         -- wait 10 seconds and announce Decursive's version
         self:ScheduleDelayedCall("AnnounceVersion", self.AnnounceVersion, 10, self);
     end
+end
+
+function D:PLAYER_LEAVING_WORLD()
+    if not D.Status.createdMacros then
+        return
+    end
+
+    for macroName, toDelete in pairs( D.Status.createdMacros) do
+        local index = GetMacroIndexByName(macroName)
+        if index and toDelete then
+            DeleteMacro(index)
+        end
+    end
+
 end
 
 local OncePetRetry = false;
@@ -317,15 +331,6 @@ function D:ScheduledTasks() -- {{{
     end
 
     self.DebuffUpdateRequest = 0;
-
-    -- Rescan all only if the MUF are used else we don't care at all...
-    --[=[
-    if self.profile.ShowDebuffsFrame and GetTime() - LastScanAllTime > 1 then
-        self:ScanEveryBody();
-        LastScanAllTime =  GetTime();
-    end
-    --]=]
-
 
 end --}}}
 
@@ -496,7 +501,7 @@ do
     local GetTime       = _G.GetTime;
     -- This event manager is only here to catch events when the GUID unit array is not reliable.
     -- For everything else the combat log event manager does the job since it's a lot more resource friendly. (UNIT_AURA fires way too often and provides no data)
-    function D:UNIT_AURA(selfevent, UnitID, ...)
+    function D:UNIT_AURA(selfevent, UnitID, o_auraUpdateInfo)
 
 
         if not D.DcrFullyInitialized then
@@ -514,7 +519,7 @@ do
         --[==[@debug@
 
 
-        --D:Debug("UNIT_AURA", ..., UnitID, GetTime() + (GetTime() % 1));
+        D:Debug("UNIT_AURA", o_auraUpdateInfo, UnitID, GetTime() + (GetTime() % 1));
 
         --@end-debug@]==]
 
@@ -563,19 +568,19 @@ do
                     return
                 end
 
-                -- get out of here if this is just about a fucking buff, combat log event manager handles those... unless there is no debuff because the last was removed
-                if not UnitDebuff(UnitID, 1) and not self.MicroUnitF.UnitToMUF[UnitID].IsDebuffed then
+                -- get out of here if this is just about a buff, combat log event manager handles those... unless there is no debuff because the last was removed
+                if not self.MicroUnitF.UnitToMUF[UnitID].IsDebuffed and not UnitDebuff(UnitID, 1) then
                     --self:Debug(UnitID, " |cFFFF7711has no debuff|r (UNIT_AURA)");
                     return;
                 end
 
                 --self:errln("update schedule for MUF", UnitID);
-                self.MicroUnitF:UpdateMUFUnit(UnitID, true);
+                self.MicroUnitF:UpdateMUFUnit(UnitID, true, o_auraUpdateInfo);
                 return;
             end
 
             if not self.profile.HideLiveList then
-                self.LiveList:DelayedGetDebuff(UnitID);
+                self.LiveList:DelayedGetDebuff(UnitID, o_auraUpdateInfo);
             end
         end
     end
@@ -590,9 +595,9 @@ function D:HOOK_CastSpellByName (spellName, target)
     end
 end
 
-local GetItemSpell = _G.GetItemSpell;
-local GetItemCount = _G.GetItemCount;
-local GetItemInfo  = _G.GetItemInfo;
+local GetItemSpell = _G.C_Item and _G.C_Item.GetItemSpell or _G.GetItemSpell;
+local GetItemCount = _G.C_Item and _G.C_Item.GetItemCount or _G.GetItemCount;
+local GetItemInfo  = _G.C_Item and _G.C_Item.GetItemInfo or _G.GetItemInfo;
 function D:HOOK_UseItemByName (itemName, target)
     if self.Status.ClickCastingWIP and self.Status.ClickedMF then
         self.Status.ClickedMF.CastingSpell = GetItemSpell(itemName);
@@ -610,7 +615,7 @@ do -- Combat log event handling {{{1
     local bor           = bit.bor;
     local UnitGUID      = _G.UnitGUID;
     local GetTime       = _G.GetTime;
-    local GetSpellInfo  = _G.GetSpellInfo; -- XXX to fix for 8
+    local GetSpellInfo  = _G.C_Spell and _G.C_Spell.GetSpellInfo or _G.GetSpellInfo;
     local time          = _G.time;
 
     --[=[ useless bitfields {{{2
@@ -675,6 +680,9 @@ do -- Combat log event handling {{{1
         if event == nil then
             timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, spellNAME, _spellSCHOOL, auraTYPE_failTYPE = CombatLogGetCurrentEventInfo()
         end
+                    --[==[@debug@
+                    --if self.debug then self:Debug("COMBAT_LOG_EVENT_UNFILTERED: ", timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, spellNAME, _spellSCHOOL, auraTYPE_failTYPE); end
+                    --@end-debug@]==]
         -- check for exceptions
         if SpecialDebuffs[spellID] and event == SpecialDebuffs[spellID] then
             event = "SPELL_AURA_APPLIED";
@@ -754,7 +762,7 @@ do -- Combat log event handling {{{1
 
             if event == "SPELL_CAST_SUCCESS" then
 
-                if self.debug then self:Debug(L["SUCCESSCAST"], spellNAME, (select(2, GetSpellInfo(spellID))) or "", self:MakePlayerName(destName)); end
+                if self.debug then self:Debug(L["SUCCESSCAST"], spellNAME, (select(2, GetSpellInfo(spellID))) or "", self:MakePlayerName(destName)); end -- XXX TWW
 
                 --self:Debug("|cFFFF0000XXXXX|r |cFF11FF11Updating color of clicked frame|r");
                 self:ScheduleDelayedCall("Dcr_UpdatePC"..self.Status.ClickedMF.CurrUnit, self.Status.ClickedMF.Update, 1, self.Status.ClickedMF);
@@ -778,11 +786,14 @@ do -- Combat log event handling {{{1
 
                 if (auraTYPE_failTYPE == SPELL_FAILED_LINE_OF_SIGHT or auraTYPE_failTYPE == SPELL_FAILED_BAD_TARGETS) then
 
-                    if not self.profile.DoNot_Blacklist_Prio_List or not self:IsInPriorList(self.Status.Unit_Array_UnitToGUID[self.Status.ClickedMF.CurrUnit]) then
+                    if self.profile.CureBlacklist > 0 and (
+                        not self.profile.DoNot_Blacklist_Prio_List
+                        or not self:IsInPriorList(self.Status.Unit_Array_UnitToGUID[self.Status.ClickedMF.CurrUnit])
+                        ) then
                         self.Status.Blacklisted_Array[self.Status.ClickedMF.CurrUnit] = self.profile.CureBlacklist;
 
                         self:Debug("|cFFFF0000XXXXX|r |cFF11FF11Updating color of blacklist frame|r");
-                        self:ScheduleDelayedCall("Dcr_Update"..self.Status.ClickedMF.CurrUnit, self.Status.ClickedMF.UpdateSkippingSetBuf, self.profile.DebuffsFrameRefreshRate, self.Status.ClickedMF);
+                        self:ScheduleDelayedCall("Dcr_Update"..self.Status.ClickedMF.CurrUnit, self.Status.ClickedMF.UpdateSkippingSetBuf, self.db.global.DebuffsFrameRefreshRate, self.Status.ClickedMF);
                     end
 
                     self:SafePlaySoundFile(DC.FailedSound);
@@ -1182,6 +1193,6 @@ do
     end
 end
 
-T._LoadedFiles["Dcr_Events.lua"] = "2.7.8.13";
+T._LoadedFiles["Dcr_Events.lua"] = "2.7.20";
 
 -- The Great Below

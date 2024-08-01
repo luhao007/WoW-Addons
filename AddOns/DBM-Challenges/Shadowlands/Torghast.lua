@@ -1,19 +1,18 @@
 local mod	= DBM:NewMod("d1963", "DBM-Challenges", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210907150109")
+mod:SetRevision("20240426173220")
 
 mod:RegisterCombat("scenario", 2162)--1911-1912 are outdoor areas
 mod.noStatistics = true
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 288210 292903 295985 296748 295001 294362 304075 296523 270248 270264 270348 263085 215710 294526 294533 298844 297018 295942 294165 330118 258935 308026 335528 277040 329608 330438 330471 294401 294517 296839 297020 242391 330573 332165 258938 329422 329423 329930 329908 329909 81008 351931 353769 353573 354490 351090",
-	"SPELL_AURA_APPLIED 304093 277040",
+	"SPELL_CAST_START 288210 292903 295985 296748 295001 294362 318995 304075 296523 270248 270264 270348 263085 215710 294526 294533 298844 297018 295942 294165 330118 258935 308026 335528 277040 329608 330438 330471 294401 294517 296839 297020 242391 330573 332165 258938 329422 329423 329930 329908 329909 81008 351931 353769 353573 354490 351090",
+	"SPELL_AURA_APPLIED 304093 277040 294526",
 	"SPELL_AURA_APPLIED_DOSE 303678",
 	"SPELL_AURA_REMOVED 277040",
 	"SPELL_PERIODIC_DAMAGE 294607",
-	"SPELL_PERIODIC_MISSED 294607",
-	"UNIT_DIED"
+	"SPELL_PERIODIC_MISSED 294607"
 )
 
 --TODO, verifying howling souls spellId, user submitted and unverified from logs. SpellId given is used in eye of azshara. Can use torghast reusuing it though.
@@ -75,8 +74,6 @@ local specWarnShadowboltVolley		= mod:NewSpecialWarningInterrupt(353769, "HasInt
 local specWarnPersecute				= mod:NewSpecialWarningInterrupt(351090, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSoulofMistDispel		= mod:NewSpecialWarningDispel(277040, "MagicDispeller", nil, nil, 1, 2)
 local specWarnGTFO					= mod:NewSpecialWarningGTFO(303594, nil, nil, nil, 1, 8)
-
-local timerGroundCrushCD			= mod:NewNextTimer(23.1, 295985, nil, nil, nil, 3)
 
 mod:AddNamePlateOption("NPAuraOnSoulofMist", 277040)
 
@@ -153,7 +150,6 @@ function mod:SPELL_CAST_START(args)
 			specWarnGroundCrush:Show()
 			specWarnGroundCrush:Play("justrun")
 		end
-		timerGroundCrushCD:Start(nil, args.sourceGUID)
 	elseif spellId == 296748 and self:AntiSpam(4, 7) then
 		warnMightySlam:Show()
 	elseif spellId == 295001 and self:AntiSpam(4, 1) then
@@ -242,10 +238,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBoneShrapnel:Show(amount)
 			specWarnBoneShrapnel:Play("stackhigh")
 		end
-	elseif spellId == 304093 and self:IsValidWarning(args.destGUID) and args:IsDestTypePlayer() and self:CheckDispelFilter() then
+	elseif spellId == 304093 and self:IsValidWarning(args.destGUID) and args:IsDestTypePlayer() and self:CheckDispelFilter("magic") then
 		specWarnMassCripple:CombinedShow(0.5, args.destName)
 		specWarnMassCripple:ScheduleVoice(0.5, "helpdispel")
-	elseif spellId == 294526 and self:IsValidWarning(args.destGUID) and args:IsDestTypePlayer() and self:CheckDispelFilter() then
+	elseif spellId == 294526 and self:IsValidWarning(args.destGUID) and args:IsDestTypePlayer() and self:CheckDispelFilter("curse") then
 		specWarnCurseofFrailtyDispel:CombinedShow(0.5, args.destName)
 		specWarnCurseofFrailtyDispel:ScheduleVoice(0.5, "helpdispel")
 	elseif spellId == 277040 then
@@ -276,10 +272,3 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 151331 or cid == 159755 or cid == 175234 then
-		timerGroundCrushCD:Stop(args.destGUID)
-	end
-end

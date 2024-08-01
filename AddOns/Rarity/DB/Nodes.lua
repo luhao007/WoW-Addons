@@ -152,6 +152,8 @@ R.fishnodes = {
 	[L["Elysian Thade School"]] = true,
 	[L["Lost Sole School"]] = true,
 	[L["Spinefin Piranha School"]] = true,
+	-- Dragonflight pools
+	[L["Disgusting Vat"]] = true,
 }
 
 R.miningnodes = {
@@ -250,4 +252,29 @@ R.opennodes = {
 	[L["Zovaal's Vault"]] = true,
 	[L["Mawsworn Supply Chest"]] = true,
 	[L["Sandworn Chest"]] = true,
+	[L["Expedition Scout's Pack"]] = true,
+	[L["Opera Chest"]] = true,
+	[L["Chain-Bound Strongbox"]] = true,
+	[L["Crystal Basket"]] = true,
+	[L["Hardened Chest"]] = true,
+	[L["Mindless Slime"]] = true,
+	[L["Searing Chest"]] = true,
+	[L["Hardened Strongbox"]] = true,
+	[L["Cart of Crushed Stone"]] = true,
+	[L["Frozen Coffer"]] = true,
+	[L["Hardshell Chest"]] = true,
+	[L["Titan Coffer"]] = true,
+	[L["Void-Bound Strongbox"]] = true,
+	[L["Inert Goo"]] = true,
+	[L["Mysterious Chest"]] = true,
+	[L["Supply Trunk"]] = true,
+	[L["Shattered Crystals"]] = true,
+	[L["Chest of Ice"]] = true,
+	[L["Forgotten Lockbox"]] = true,
+	[L["Slimy Goo"]] = true,
+	[L["Wind-Bound Strongbox"]] = true,
+	[L["Spun Webs"]] = true,
+	[L["Obsidian Grand Cache"]] = true,
+	[L["Frozen Coffer"]] = true,
+	[L["Dreamseed Cache"]] = true,
 }

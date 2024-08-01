@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1492, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220116042005")
+mod:SetRevision("20240515181120")
 mod:SetCreatureID(96028)
 mod:SetEncounterID(1814)
 
@@ -33,7 +33,7 @@ local serpMod = DBM:GetModByName(1479)
 
 function mod:OnCombatStart(delay)
 	self:SetStage(1)
-	timerMythicTornadoCD:Start(8.5-delay)
+	timerMythicTornadoCD:Start(8.2-delay)
 	timerMassiveDelugeCD:Start(12-delay)
 	timerArcaneBombCD:Start(23-delay)
 end
@@ -42,7 +42,6 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
-	if not serpMod then serpMod = DBM:GetModByName(1479) end
 	serpMod:UpdateWinds()--Defeating wrath should terminate all zonewide events
 end
 
@@ -70,12 +69,11 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192985 then
 		self:SetStage(2)
-		if not serpMod then serpMod = DBM:GetModByName(1479) end
 		serpMod:UpdateWinds()--At present it may not actually reset here. Just in case though
 	elseif spellId == 192617 then
 		specWarnMassiveDeluge:Show()
 		specWarnMassiveDeluge:Play("shockwave")
-		if self.vb.phase == 2 then
+		if self:GetStage(2) then
 			timerMassiveDelugeCD:Start(35)
 		else
 			timerMassiveDelugeCD:Start()
@@ -100,7 +98,7 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 192680 then--Mythic Tornado
 		warnMythicTornado:Show()
-		if self.vb.phase == 2 then
+		if self:GetStage(2) then
 			timerMythicTornadoCD:Start(15)
 		else
 			timerMythicTornadoCD:Start()

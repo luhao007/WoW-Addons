@@ -1,5 +1,6 @@
-## Interface: 100002
+## Interface: 110000
 ## RequiredDeps: Details
+## IconTexture: Interface\AddOns\Details\images\minimap
 
 ## Title: Details!: Compare 2.0
 ## Notes: Replace the Compare tab in the player breakdown window.

@@ -1,18 +1,6 @@
 --[[
-Copyright 2012-2022 João Cardoso
-PetTracker is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of PetTracker.
+Copyright 2012-2024 João Cardoso
+All Rights Reserved
 --]]
 
 local ADDON, Addon = ...
@@ -59,9 +47,9 @@ end
 function Pet:GetOwnedText()
 	local owned = self:GetOwned()
 	if #owned > 0 then
-		local text = NORMAL_FONT_COLOR_CODE .. COLLECTED .. ':' .. FONT_COLOR_CODE_CLOSE
+		local text = COLLECTED .. ':'
 		for i, pet in ipairs(owned) do
-			text = text .. format('  %s|c%s%d|r', pet:GetBreedIcon(.8, -2,0), select(4, pet:GetColor()), pet:GetLevel())
+			text = text .. format('  %s%s%d|r', pet:GetBreedIcon(.8, -2,0), pet:GetColor():GenerateHexColorMarkup(), pet:GetLevel())
 		end
 
 		return text

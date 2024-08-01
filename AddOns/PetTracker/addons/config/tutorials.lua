@@ -1,18 +1,6 @@
 --[[
-Copyright 2012-2022 João Cardoso
-PetTracker is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of PetTracker.
+Copyright 2012-2024 João Cardoso
+All Rights Reserved
 --]]
 
 local MODULE = ...
@@ -30,10 +18,6 @@ function Tutorials:OnEnable()
 	self:HookShown(WorldMapFrame, 'Load')
 	self:RegisterEvent('ADDON_LOADED', 'Load')
 	self:RegisterSignal('OPTIONS_RESET', 'Start')
-end
-
-function Tutorials:Start()
-	self:TriggerTutorial(4)
 end
 
 function Tutorials:Load()
@@ -63,40 +47,43 @@ function Tutorials:Load()
 			point = 'TOPRIGHT', relPoint = 'TOPLEFT',
 			anchor = Addon.Objectives and Addon.Objectives.Header or Minimap,
 			shine = Addon.Objectives and Addon.Objectives.Header,
-			shineTop = 10, shineBottom = -7,
 			shineRight = 10, shineLeft = -20,
+			shineTop = 10, shineBottom = -7,
 			x = -30
 		},
 		{
 			text = L.Tutorial[4],
 			point = 'TOPRIGHT', relPoint = 'TOPLEFT',
-			shineRight = 6, shineLeft = 2,
-			anchor = MiniMapWorldMapButton,
-			shine = MiniMapWorldMapButton,
-			y = -10
+			anchor = MinimapCluster.ZoneTextButton,
+			shine = MinimapCluster.ZoneTextButton,
+			shineRight = -5, shineLeft = -12,
+			shineTop = 9, shineBottom = -9,
+			y = -15
 		},
 		{
 			text = L.Tutorial[5],
 			point = 'TOPRIGHT', relPoint = 'BOTTOMLEFT',
 			anchor = mapTrackingButton, shine = mapTrackingButton,
-			shineLeft = -2, shineTop = 2,
+			shineTop = 5, shineBottom = -5,
+			shineRight = 7, shineLeft = -5,
 			x = -5, y = -5
 		},
 		{
 			text = L.Tutorial[6],
-			point = 'TOPLEFT', relPoint = 'BOTTOMRIGHT',
-			anchor = mapTrackingButton, shine = Addon.MapSearch.Editbox,
+			point = 'TOPRIGHT', relPoint = 'BOTTOMLEFT',
 			shineTop = 6, shineBottom = -6,
 			shineRight = 6, shineLeft = -12,
-			y = -150, x = 100
+			shine = Addon.MapSearch.Editbox,
+			anchor = mapTrackingButton,
+			x = -5, y = -5
 		},
 		{
 			text = L.Tutorial[7],
 			point = 'BOTTOM', relPoint = 'TOP',
-			shineRight = 2, shineLeft = -2,
-			shineTop = 2, shineBottom = -2,
 			anchor = CollectionsMicroButton,
 			shine = CollectionsMicroButton,
+			shineTop = 7, shineBottom = -7,
+			shineRight = 7, shineLeft = -7,
 			y = 10
 		},
 		{
@@ -112,7 +99,8 @@ function Tutorials:Load()
 			point = 'BOTTOMLEFT', relPoint = 'TOPRIGHT',
 			anchor = Addon.RivalsJournal and Addon.RivalsJournal.PanelTab,
 			shine = Addon.RivalsJournal and Addon.RivalsJournal.PanelTab,
-			shineTop = 8,
+			shineLeft = -5, shineRight = 5,
+			shineBottom = -2, shineTop = 5,
 			x = 20
 		},
 		{
@@ -147,23 +135,35 @@ function Tutorials:Load()
 	self:TriggerOn(Addon.RivalsJournal, 12)
 end
 
+function Tutorials:Start()
+	self:TriggerTutorial(4)
+end
+
+function Tutorials:Restart()
+	Addon.sets.tutorial = nil
+	self:Start()
+end
+
 
 --[[ API ]]--
 
-function Tutorials:TriggerOn(frame, ...)
-	self:HookShown(frame, 'TriggerTutorial', ...)
+function Tutorials:TriggerOn(frame, step)
+	self:HookShown(frame, 'TriggerTutorial', step)
 end
 
-function Tutorials:HookShown(frame, call, arg1, arg2)
+function Tutorials:HookShown(frame, call, arg)
 	if frame and not self[frame] then
 		if frame:IsVisible() then
-			self[call](self, arg1, arg2)
+			self[call](self, arg)
 		else
 			frame:HookScript('OnShow', function()
-				self[call](self, arg1, arg2)
+				if self[frame] == 0 then
+					self[call](self, arg)
+					self[frame] = 1
+				end					
 			end)
 		end
 
-		self[frame] = true
+		self[frame] = 0
 	end
 end

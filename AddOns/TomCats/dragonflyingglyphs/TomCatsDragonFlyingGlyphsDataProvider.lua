@@ -13,8 +13,10 @@ local RED_COLOR = CreateColor(1.0, 0.0, 0.0, 1.0)
 local GREEN_COLOR = CreateColor(0.0, 1.0, 0.0, 1.0)
 local IsQuestFlaggedCompleted = function(achievementID)
     local IDNumber, Name, Points, Completed, Month, Day, Year, Description, Flags, Image, RewardText, isGuildAch = GetAchievementInfo(achievementID)
+    if (Completed) then
+        return addon.dragonflyingglyphs.IsRideAlongComplete(achievementID)
+    end
     return Completed
---    return false
 end
 
 local WorldMapTooltip = TomCatsDragonFlyingGlyphsGameTooltip
@@ -262,7 +264,7 @@ function TomCatsDragonFlyingGlyphsDataProviderMixin:RefreshAllData(fromOnShow)
         end
     end
     lookup = D["Quest IDs by UIMap ID Lookup"][self.activeMapID]
-    if (lookup and TomCats_Account.preferences.dragonGlyphsEnabled) then
+    if (lookup) then
         for i = 1, #lookup do
             local quest = lookup[i]
            -- if (P.showCompleted or (not IsQuestFlaggedCompleted(quest["Quest ID"]))) then
@@ -387,7 +389,7 @@ function TomCatsDragonFlyingGlyphsPinMixin:OnAcquired(pinInfo)
     ShowHide(self, enabled)
 end
 function TomCatsDragonFlyingGlyphsPinMixin:OnCanvasScaleChanged()
-    local scaleBase = 0.425
+    local scaleBase = 0.286
     local uiMapID = self:GetMap():GetMapID()
     if (uiMapID == 12 or uiMapID == 13 or uiMapID == 113) then scaleBase = 0.35 end
     self:SetScale(scaleBase * self:GetMap():GetGlobalPinScale() / self:GetParent():GetScale())
@@ -460,6 +462,10 @@ function TomCatsDragonFlyingGlyphsPinMixin:ShowTooltip()
     if (TomTom) then
         GameTooltip_AddBlankLinesToTooltip(tooltip, 1)
         GameTooltip_AddColoredLine(tooltip, "Click to add a TomTom Waypoint", WHITE_COLOR, true)
+    end
+    if (not addon.dragonflyingglyphs.IsRideAlongComplete(questIDsToShow[1])) then
+        GameTooltip_AddBlankLinesToTooltip(tooltip, 1)
+        GameTooltip_AddColoredLine(tooltip, "Your passenger hasn't collected this glyph yet", GREEN_COLOR, true)
     end
     WorldMapTooltip:Show()
     WorldMapTooltip.recalculatePadding = true
@@ -536,10 +542,14 @@ function addon.dragonflyingglyphs.SetIconScale()
     end
 end
 
-function addon.dragonflyingglyphs.ToggleIcons()
-    TomCats_Account.preferences.dragonGlyphsEnabled = not TomCats_Account.preferences.dragonGlyphsEnabled
-    ChatFrame1:AddMessage(("TomCat's Tours Dragon Glyphs %s"):format(TomCats_Account.preferences.dragonGlyphsEnabled and "enabled" or "disabled"))
-    for i = 1, #providers do
-        providers[i]:RefreshAllData()
-    end
+--function addon.dragonflyingglyphs.ToggleIcons()
+--    TomCats_Account.preferences.dragonGlyphsEnabled = not TomCats_Account.preferences.dragonGlyphsEnabled
+--    ChatFrame1:AddMessage(("TomCat's Tours Dragon Glyphs %s"):format(TomCats_Account.preferences.dragonGlyphsEnabled and "enabled" or "disabled"))
+--    for i = 1, #providers do
+--        providers[i]:RefreshAllData()
+--    end
+--end
+
+function addon.dragonflyingglyphs.RefreshAll()
+    refreshAll()
 end

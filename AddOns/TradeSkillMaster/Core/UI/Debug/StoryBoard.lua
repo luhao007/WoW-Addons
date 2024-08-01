@@ -5,12 +5,12 @@
 -- ------------------------------------------------------------------------------ --
 
 local TSM = select(2, ...) ---@type TSM
-local StoryBoard = TSM.UI:NewPackage("StoryBoard")
-local Log = TSM.Include("Util.Log")
-local Reactive = TSM.Include("Util.Reactive")
-local Settings = TSM.Include("Service.Settings")
-local UIElements = TSM.Include("UI.UIElements")
-local UIManager = TSM.Include("UI.UIManager")
+local StoryBoard = TSM.UI:NewPackage("StoryBoard") ---@type AddonPackage
+local ClientInfo = TSM.LibTSMWoW:Include("Util.ClientInfo")
+local Reactive = TSM.LibTSMUtil:Include("Reactive")
+local Profession = TSM.LibTSMService:Include("Profession")
+local UIElements = TSM.LibTSMUI:Include("Util.UIElements")
+local UIManager = TSM.LibTSMUtil:IncludeClassType("UIManager")
 local private = {
 	manager = nil,
 	settings = nil,
@@ -18,9 +18,10 @@ local private = {
 }
 local MIN_FRAME_SIZE = { width = 400, height = 300 }
 local DEFAULT_DIVIDED_CONTAINER_CONTEXT = { leftWidth = 200 }
-local STATE_SCHEMA = Reactive.CreateStateSchema()
+local STATE_SCHEMA = Reactive.CreateStateSchema("STORYBOARD_UI_STATE")
 	:AddOptionalTableField("frame")
 	:Commit()
+local ITEM_LIST = ClientInfo.IsRetail() and {"i:2770", "i:2771", "i:2772", "i:3858", "i:10620", "i:189143", "i:188658", "i:190311", "i:190312", "i:190313", "i:190314"} or {"i:2770", "i:2771", "i:2772", "i:3858", "i:10620"}
 
 
 
@@ -28,12 +29,14 @@ local STATE_SCHEMA = Reactive.CreateStateSchema()
 -- Module Functions
 -- ============================================================================
 
-function StoryBoard.OnEnable()
-	private.settings = Settings.NewView()
+function StoryBoard.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
 		:AddKey("global", "storyBoardUIContext", "frame")
+end
 
+function StoryBoard.OnEnable()
 	local state = STATE_SCHEMA:CreateState()
-	private.manager = UIManager.Create(state, private.ActionHandler)
+	private.manager = UIManager.Create("STORY_BOARD", state, private.ActionHandler)
 end
 
 function StoryBoard.OnDisable()
@@ -50,8 +53,7 @@ end
 -- Action Handler
 -- ============================================================================
 
-function private.ActionHandler(state, action)
-	Log.Info("Handling action %s", action)
+function private.ActionHandler(manager, state, action, ...)
 	if action == "ACTION_FRAME_SHOW" then
 		assert(not state.frame)
 		state.frame = private.CreateMainFrame(state)
@@ -66,13 +68,12 @@ function private.ActionHandler(state, action)
 		if state.frame then
 			state.frame:Hide()
 		else
-			return "ACTION_FRAME_SHOW"
+			return private.ActionHandler(manager, state, "ACTION_FRAME_SHOW")
 		end
 	elseif action == "ACTION_ON_DISABLE" then
-		if not state.frame then
-			return
+		if state.frame then
+			state.frame:Hide()
 		end
-		state.frame:Hide()
 	else
 		error("Unknown action: "..tostring(action))
 	end
@@ -122,6 +123,26 @@ function private.CreateMainFrame(state)
 					:SetBackground("PRIMARY_BG", true)
 					:SetText("Button")
 					:SetScript("OnClick", private.CreateButtonPage)
+				)
+				:AddChild(UIElements.New("Button", "itemSelector")
+					:SetHeight(20)
+					:SetPadding(24, 0, 0, 0)
+					:SetFont("BODY_BODY3")
+					:SetJustifyH("LEFT")
+					:SetBackground("PRIMARY_BG", true)
+					:SetText("Item Selector")
+					:SetScript("OnClick", private.CreateItemSelectorPage)
+				)
+
+				:AddChild(UIElements.New("Button", "button")
+					:SetHeight(20)
+					:SetPadding(24, 0, 0, 0)
+					:SetFont("BODY_BODY3")
+					:SetJustifyH("LEFT")
+					:SetBackground("PRIMARY_BG", true)
+					:SetDisabled(not Profession.HasScanned())
+					:SetText("CraftTierButton")
+					:SetScript("OnClick", private.CreateCraftTierButtonPage)
 				)
 			)
 			:SetRightChild(UIElements.New("ScrollFrame", "right")
@@ -184,7 +205,7 @@ function private.CreateButtonPage(button)
 			:SetIcon("iconPack.14x14/Add/Circle", "LEFT")
 			:SetText("Button With Left Icon")
 		)
-		:AddChild(UIElements.New("Frame", "row")
+		:AddChild(UIElements.New("Frame", "iconRow")
 			:SetLayout("HORIZONTAL")
 			:SetHeight(24)
 			:SetMargin(0, 0, 32, 0)
@@ -201,6 +222,27 @@ function private.CreateButtonPage(button)
 			)
 			:AddChild(UIElements.New("Spacer", "spacer3"))
 		)
+		:AddChildIf(ClientInfo.IsRetail(), UIElements.New("Frame", "itemButtonRow")
+			:SetLayout("HORIZONTAL")
+			:SetHeight(24)
+			:SetMargin(0, 0, 32, 0)
+			:AddChild(UIElements.New("Spacer", "spacer1"))
+			:AddChild(UIElements.New("ItemButton", "itemButton")
+				:SetSize(40, 40)
+				:SetMargin(0, 16, 32, 0)
+				:SetScript("OnClick", private.ButtonOnClick)
+				:SetItem("i:198414")
+			)
+			:AddChild(UIElements.New("Spacer", "spacer2"))
+			:AddChild(UIElements.New("ItemButton", "itemButton2")
+				:SetSize(40, 40)
+				:SetMargin(0, 0, 32, 0)
+				:SetScript("OnClick", private.ButtonOnClick)
+				:SetItem("i:191461")
+				:SetSelected(true)
+			)
+			:AddChild(UIElements.New("Spacer", "spacer3"))
+		)
 		:Draw()
 end
 
@@ -209,6 +251,61 @@ function private.CreateButton(id)
 		:SetHeight(24)
 		:SetMargin(0, 0, 32, 0)
 		:SetScript("OnClick", private.ButtonOnClick)
+end
+
+function private.CreateItemSelectorPage(button)
+	private.GetAndClearContent(button)
+		:AddChild(UIElements.New("Text", "controlsHeading")
+			:SetHeight(20)
+			:SetFont("BODY_BODY2")
+			:SetJustifyH("LEFT")
+			:SetText("Normal ItemSelector")
+		)
+		:AddChild(private.CreateItemSelector("select")
+			:SetMargin(0, 0, 4, 0)
+		)
+		:AddChild(UIElements.New("Text", "controlsHeading")
+			:SetHeight(20)
+			:SetMargin(0, 0, 32, 0)
+			:SetFont("BODY_BODY2")
+			:SetJustifyH("LEFT")
+			:SetText("Disabled ItemSelector")
+		)
+		:AddChild(private.CreateItemSelector("disabledSelect")
+			:SetMargin(0, 0, 4, 0)
+			:SetDisabled(true)
+		)
+		:Draw()
+end
+
+function private.CreateItemSelector(id)
+	return UIElements.New("ItemSelector", id)
+		:SetSize(32, 32)
+		:SetItems(ITEM_LIST)
+		:SetScript("OnSelectionChanged", private.SelectionChanged)
+end
+
+function private.CreateCraftTierButtonPage(button)
+	private.GetAndClearContent(button)
+		:AddChild(private.CreateCraftTierButton(1, 137000, -15000, 1))
+		:AddChild(private.CreateCraftTierButton(2, 546100, 15400, 1))
+		:AddChild(private.CreateCraftTierButton(3, 1576400, 456400, 1))
+		:AddChild(private.CreateCraftTierButton(4, 4610500, 640000, 1))
+		:AddChild(private.CreateCraftTierButton(5, 8087600, -5046500, 0.15))
+		:Draw()
+end
+
+function private.CreateCraftTierButton(quality, cost, profit, chance)
+	return UIElements.New("Frame", "q"..quality)
+		:SetLayout("HORIZONTAL")
+		:SetHeight(80)
+		:SetMargin(0, 0, 0, 16)
+		:AddChild(UIElements.New("CraftTierButton", "button")
+			:SetWidth(120)
+			:SetCraftString("c:0:q"..quality, chance)
+			:SetPrices(cost, profit)
+			:SetScript("OnClick", private.ButtonOnClick)
+		)
 end
 
 
@@ -223,4 +320,8 @@ end
 
 function private.ButtonOnClick()
 	print("Click!")
+end
+
+function private.SelectionChanged(_, selection)
+	print("SELECTED", selection)
 end

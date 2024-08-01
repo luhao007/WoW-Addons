@@ -8,9 +8,13 @@ local isRetail = WOW_PROJECT_ID == (WOW_PROJECT_MAINLINE or 1)
 local isClassic = WOW_PROJECT_ID == (WOW_PROJECT_CLASSIC or 2)
 local isBCC = WOW_PROJECT_ID == (WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5)
 local isWrath = WOW_PROJECT_ID == (WOW_PROJECT_WRATH_CLASSIC or 11)
+local isCata = WOW_PROJECT_ID == (WOW_PROJECT_CATACLYSM_CLASSIC or 14)
 local playerFaction = GetPlayerFactionGroup("player")
 
-mod:SetRevision("20220919212406")
+local DBM5Protocol = "1" -- DBM protocol version
+local DBM5Prefix = UnitName("player") .. "-" .. GetRealmName() .. "\t" .. DBM5Protocol .. "\t" -- Name-Realm\tProtocol version\t
+
+mod:SetRevision("20240609085421")
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 mod:RegisterEvents(
 	"ZONE_CHANGED_NEW_AREA",
@@ -25,7 +29,7 @@ mod:RegisterEvents(
 mod:AddBoolOption("HideBossEmoteFrame", false)
 mod:AddBoolOption("AutoSpirit", false)
 mod:AddBoolOption("ShowRelativeGameTime", true)
---mod:AddBoolOption("ShowBasesToWin", false)
+mod:AddBoolOption("ShowBasesToWin", true)
 
 do
 	local IsInInstance, RepopMe, GetSelfResurrectOptions = IsInInstance, RepopMe, C_DeathInfo.GetSelfResurrectOptions
@@ -87,7 +91,7 @@ do
 		local _, instanceType = IsInInstance()
 		if instanceType == "pvp" or instanceType == "arena" then
 			if not bgzone then
-				SendAddonMessage(isWrath and "D4WC" or isBCC and "D4BC" or isClassic and "D4C" or "D4", "H", "INSTANCE_CHAT")
+				SendAddonMessage(isWrath and "D5WC" or isClassic and "D5C" or "D5", DBM5Prefix .. "H", "INSTANCE_CHAT")
 				self:Schedule(3, DBM.RequestTimers, DBM)
 				if self.Options.HideBossEmoteFrame then
 					DBM:HideBlizzardEvents(1, true)
@@ -98,6 +102,7 @@ do
 			bgzone = false
 			self:UnregisterShortTermEvents()
 			self:Stop()
+			DBM.InfoFrame:Hide()
 			subscribedMapID = nil
 			if mod.Options.HideBossEmoteFrame then
 				DBM:HideBlizzardEvents(0, true)
@@ -115,76 +120,230 @@ do
 end
 
 do
-	local pairs, strsplit, tostring, format, twipe = pairs, strsplit, tostring, string.format, table.wipe
-	local UnitGUID, UnitHealth, UnitHealthMax, SendAddonMessage, RegisterAddonMessagePrefix, IsAddonMessagePrefixRegistered, NewTicker = UnitGUID, UnitHealth, UnitHealthMax, C_ChatInfo.SendAddonMessage, C_ChatInfo.RegisterAddonMessagePrefix, C_ChatInfo.IsAddonMessagePrefixRegistered, C_Timer.NewTicker
-	local healthScan, trackedUnits, trackedUnitsCount, syncTrackedUnits = nil, {}, 0, {}
+	local UnitGUID, UnitHealth, UnitHealthMax, SendAddonMessage, RegisterAddonMessagePrefix, NewTicker = UnitGUID, UnitHealth, UnitHealthMax, C_ChatInfo.SendAddonMessage, C_ChatInfo.RegisterAddonMessagePrefix, C_Timer.NewTicker
 
-	local function UpdateInfoFrame()
-		local lines, sortedLines = {}, {}
-		for cid, health in pairs(syncTrackedUnits) do
-			if trackedUnits[cid] then
-				lines[trackedUnits[cid]] = health .. "%"
-				sortedLines[#sortedLines + 1] = trackedUnits[cid]
-			end
-		end
-		return lines, sortedLines
+	local scanTargetsRaid = {"target"}
+	local scanTargetsWithNameplates = {"target"}
+	for i = 1, 40 do
+		scanTargetsRaid[#scanTargetsRaid + 1] = "raid" .. i .. "target"
+		scanTargetsWithNameplates[#scanTargetsWithNameplates + 1] = "raid" .. i .. "target"
+		scanTargetsWithNameplates[#scanTargetsWithNameplates + 1] = "nameplate" .. i
 	end
 
-	local function HealthScanFunc()
-		local syncs, syncCount = {}, 0
-		for i = 1, 40 do
-			if syncCount >= trackedUnitsCount then -- We've already scanned all our tracked units, exit out to save CPU
+	---@class HealthTracker
+	local healthTracker = {}
+
+	---@alias TrackingState "NONE"|"OBSERVED"|"SYNCED"
+
+	function healthTracker:scan()
+		local seen = {}
+		local seenCount = 0
+		for _, target in ipairs(self.scanNameplates and scanTargetsWithNameplates or scanTargetsRaid) do
+			if seenCount >= #self.trackedUnits then
 				break
 			end
-			local target = "raid" .. i .. "target"
 			local guid = UnitGUID(target)
 			if guid then
 				local cid = mod:GetCIDFromGUID(guid)
-				if trackedUnits[cid] and not syncs[cid] then
-					syncs[cid] = true
-					syncCount = syncCount + 1
-					SendAddonMessage("DBM-PvP", format("%s:%.1f", cid, UnitHealth(target) / UnitHealthMax(target) * 100), "INSTANCE_CHAT")
+				if self.trackedUnitsByCid[cid] and not seen[cid] then
+					seen[cid] = true
+					seenCount = seenCount + 1
+					local hp = math.floor(UnitHealth(target) / UnitHealthMax(target) * 100 + 0.5)
+					local trackedUnit = self.trackedUnitsByCid[cid]
+					-- display state, always the latest no matter the source
+					trackedUnit.hp = hp
+					trackedUnit.updateTime = GetTime()
+					trackedUnit.state = "OBSERVED"
+					-- per-channel state (where "observed"" is handled just like a channel)
+					trackedUnit.observed = {
+						updateTime = GetTime(),
+						hp = hp,
+					}
+				end
+			end
+		end
+		C_Timer.After(self.syncDelay, function() self:sendSync() end)
+	end
+
+	-- Acceptable updates are decreasing health, > 10% jumps upwards and resets to 100 (wipe or kited too far)
+	local function isGoodUpdate(newHp, oldHp)
+		if not newHp or not oldHp or newHp < 0 or newHp > 100 then
+			return false
+		end
+		return newHp - oldHp < 0 or newHp - oldHp > 10 or oldHp < 98 and newHp == 100
+	end
+
+	function healthTracker:sendSync()
+		local syncsByChannel = {}
+		for _, trackedUnit in ipairs(self.trackedUnits) do
+			for _, channel in ipairs(self.syncChannels) do
+				syncsByChannel[channel] = syncsByChannel[channel] or {}
+				local syncs = syncsByChannel[channel]
+				local channelState = trackedUnit[channel]
+				-- note that this gets sycned no matter where we got it from
+				if trackedUnit.hp and (not channelState or isGoodUpdate(trackedUnit.hp, channelState.hp)) and GetTime() - trackedUnit.updateTime <= #self.syncChannels + 1 then
+					syncs[#syncs + 1] = trackedUnit.cid .. ":" .. trackedUnit.hp
+				end
+			end
+		end
+		for channel, msg in pairs(syncsByChannel) do
+			if #msg > 0 then
+				local encoded = table.concat(msg, ":")
+				DBM:Debug("Sending sync " .. encoded .. " to " .. channel, 3)
+				SendAddonMessage("DBM-PvP", encoded, channel)
+			end
+		end
+	end
+
+	function healthTracker:receiveSync(args, channel, from)
+		if not tContains(self.syncChannels, channel) then
+			return
+		end
+		for _, entry in ipairs(args) do
+			local trackedUnit = self.trackedUnitsByCid[entry.cid]
+			DBM:Debug("Received sync " .. entry.cid .. ":" .. entry.hp .. " on " .. channel .. " from " .. tostring(from), 3)
+			if trackedUnit then
+				if not trackedUnit.hp or isGoodUpdate(entry.hp, trackedUnit.hp) then
+					trackedUnit.hp = entry.hp
+					trackedUnit.updateTime = GetTime()
+					trackedUnit.state = "SYNCED"
+				end
+				if not trackedUnit[channel] or isGoodUpdate(entry.hp, trackedUnit[channel].hp) then
+					trackedUnit[channel] = trackedUnit[channel] or {}
+					trackedUnit[channel].hp = entry.hp
+					trackedUnit[channel].updateTime = GetTime()
 				end
 			end
 		end
 	end
 
-	function mod:TrackHealth(cid, name)
-		if not healthScan then
-			healthScan = NewTicker(1, HealthScanFunc)
-			RegisterAddonMessagePrefix("DBM-PvP")
-			if not IsAddonMessagePrefixRegistered("Capping") then
-				RegisterAddonMessagePrefix("Capping") -- Listen to capping for extra data
+	function healthTracker:updateInfoFrame()
+		local lines, sortedLines = {}, {}
+		for _, entry in ipairs(self.trackedUnits) do
+			local hp = entry.hp or 100
+			local lastUpdate = GetTime() - (entry.updateTime or 0)
+			local name = entry.name
+			local color = entry.color or NORMAL_FONT_COLOR
+			name = color:GenerateHexColorMarkup() .. name .. "|r"
+			if lastUpdate < 60 then
+				lines[name] = ("%s%d%%|r"):format(
+					color:GenerateHexColorMarkup(),
+					hp
+				)
+			else
+				local stale = ""
+				if hp > 0 then
+					stale = L.Stale
+				end
+				lines[name] = ("%s%s%d%%|r"):format(
+					GRAY_FONT_COLOR:GenerateHexColorMarkup(), stale, hp
+				)
 			end
+			sortedLines[#sortedLines + 1] = name
 		end
-		trackedUnits[tostring(cid)] = L[name] or name
-		trackedUnitsCount = trackedUnitsCount + 1
-		self:RegisterShortTermEvents("CHAT_MSG_ADDON")
+		return lines, sortedLines
+	end
+
+	---@param color ColorMixin
+	function healthTracker:TrackHealth(cid, name, color)
+		if self.ticker:IsCancelled() then
+			error("tried to call TrackHealth on cancelled tracker")
+		end
+		local entry = {
+			cid = cid,
+			name = L[name] or name,
+			color = color
+		}
+		tinsert(self.trackedUnits, entry)
+		self.trackedUnitsByCid[cid] = entry
+		DBM.InfoFrame:SetHeader(L.InfoFrameHeader)
+		-- 9 lines at most to avoid seemingly buggy 2 column mode
+		DBM.InfoFrame:Show(9, "function", function() return self:updateInfoFrame() end, false, false)
+		DBM.InfoFrame:SetColumns(1)
+	end
+
+	function healthTracker:ShowInfoFrame()
 		if not DBM.InfoFrame:IsShown() then
-			DBM.InfoFrame:SetHeader(L.InfoFrameHeader)
-			DBM.InfoFrame:Show(42, "function", UpdateInfoFrame, false, false)
-			DBM.InfoFrame:SetColumns(1)
+			DBM.InfoFrame:Show(9, "function", function() return self:updateInfoFrame() end, false, false)
 		end
 	end
 
-	function mod:StopTrackHealth()
-		if healthScan then
-			healthScan:Cancel()
-			healthScan = nil
+	local trackers = {} ---@type HealthTracker[]
+	--- Only a single health tracker can be active at a time.
+	function mod:NewHealthTracker(syncChannels, scanNameplates)
+		syncChannels = syncChannels or {"INSTANCE_CHAT"}
+		local hash = 0
+		-- simple hash to give everyone a unique delay of up to 1 second, updates are only posted if we are the first to post a specific update
+		-- this is effectively a poor man's leader election scheme to avoid spamming yell chat when multiple raids are present
+		-- i originally hoped that the effectively random scanning interval together with the anti-stomping is sufficient, but most updates were duplicated multiple times
+		local playerName = UnitName("player") or ""
+		for i = 1, #playerName do
+			hash = hash * 31 + playerName:byte(i, i)
+			hash = hash % 4294967311
 		end
-		trackedUnitsCount = 0
-		twipe(trackedUnits)
-		twipe(syncTrackedUnits)
-		self:UnregisterShortTermEvents()
+		mod:RegisterShortTermEvents("CHAT_MSG_ADDON")
+		RegisterAddonMessagePrefix("DBM-PvP")
+		RegisterAddonMessagePrefix("Capping") -- Listen to capping for extra data
+		---@class HealthTracker
+		local tracker = setmetatable({
+			syncChannels = syncChannels,
+			scanNameplates = scanNameplates,
+			trackedUnits = {},  -- tracks state for each sync channel separately
+			trackedUnitsByCid = {},
+			syncDelay = (hash % 1000) / 1000,
+		}, {__index = healthTracker})
+		-- This sends up to one sync message per channel per invocation, there seem to be heavy rate limits in place to ~10 messages/second (per channel?)
+		-- TODO: figure out what works
+		tracker.ticker = NewTicker(#syncChannels, function() tracker:scan() end)
+		trackers[#trackers + 1] = tracker
+		return tracker
+	end
+
+	--- Cancels health tracking, it cannot be re-started on this object.
+	function healthTracker:Cancel()
+		self.ticker:Cancel()
+		for i, v in ipairs(trackers) do
+			if v == self then
+				tremove(trackers, i)
+				break
+			end
+		end
+		mod:UnregisterShortTermEvents()
 		DBM.InfoFrame:Hide()
 	end
 
-	function mod:CHAT_MSG_ADDON(prefix, msg, channel)
-		if channel ~= "INSTANCE_CHAT" or (prefix ~= "DBM-PvP" and prefix ~= "Capping") then -- Lets listen to capping as well, for extra data.
+	-- format is cid1:hp1:cid2:hp2... for backwards compatibility with old single-entry message
+	local function parseMessage(...)
+		local n = select("#", ...)
+		if n % 2 ~= 0 then
 			return
 		end
-		local cid, hp = strsplit(":", msg)
-		syncTrackedUnits[cid] = hp
+		local result = {}
+		for i = 1, n, 2 do
+			local cid = tonumber((select(i, ...)))
+			local hp = tonumber((select(i + 1, ...)))
+			if not cid or not hp or hp > 100 or hp < 0 then
+				return
+			end
+			result[#result + 1] = {
+				cid = cid,
+				hp = hp
+			}
+		end
+		return result
+	end
+
+	function mod:CHAT_MSG_ADDON(prefix, msg, channel, from)
+		if prefix ~= "DBM-PvP" and prefix ~= "Capping" then
+			return
+		end
+		local args = parseMessage((":"):split(msg))
+		if not args then
+			return
+		end
+		for _, tracker in ipairs(trackers) do
+			tracker:receiveSync(args, channel, from)
+		end
 	end
 end
 
@@ -253,14 +412,15 @@ do
 	end
 
 	function mod:CHAT_MSG_BG_SYSTEM_NEUTRAL(msg)
-		if self.Options.TimerStart and msg == L.BgStart120 or msg:find(L.BgStart120) then
-			startTimer:Update(isClassic and 1.5 or 0, 120)
-		elseif self.Options.TimerStart and msg == L.BgStart60 or msg:find(L.BgStart60) or msg == L.ArenaStart60 or msg:find(L.ArenaStart60) then
-			startTimer:Update(isClassic and 61.5 or 60, 120)
-		elseif self.Options.TimerStart and msg == L.BgStart30 or msg:find(L.BgStart30) or msg == L.ArenaStart30 or msg:find(L.ArenaStart30) then
-			startTimer:Update(isClassic and 91.5 or 90, 120)
-		elseif self.Options.TimerStart and msg == L.ArenaStart15 or msg:find(L.ArenaStart15) then
-			startTimer:Update(isClassic and 106.5 or 105, 120)
+		-- in Classic era the chat msg is about 1.5 seconds early
+		if self.Options.TimerStart and (msg:find(L.BgStart120) or msg:find(L.BgStart120era)) then
+			startTimer:Update(0, 120)
+		elseif self.Options.TimerStart and (msg:find(L.BgStart60) or msg:find(L.BgStart60era) or msg == L.ArenaStart60 or msg:find(L.ArenaStart60)) then
+			startTimer:Update(isClassic and 58.5 or 60, 120)
+		elseif self.Options.TimerStart and (msg:find(L.BgStart30) or msg:find(L.BgStart30era) or msg == L.ArenaStart30 or msg:find(L.ArenaStart30)) then
+			startTimer:Update(isClassic and 88.5 or 90, 120)
+		elseif self.Options.TimerStart and (msg == L.ArenaStart15 or msg:find(L.ArenaStart15)) then
+			startTimer:Update(isClassic and 103.5 or 105, 120)
 		elseif not isClassic and (msg == L.Vulnerable1 or msg == L.Vulnerable2 or msg:find(L.Vulnerable1) or msg:find(L.Vulnerable2)) then
 			vulnerableTimer:Start()
 		end
@@ -296,6 +456,32 @@ do
 	end
 	]]--
 
+	local infoFrameState = {
+		allianceScore = 0,
+		hordeScore = 0,
+		maxScore = 0,
+		resPerSec = {},
+	}
+	local function updateInfoFrame()
+		local isAlly = playerFaction == "Alliance"
+		local ourScore = isAlly and infoFrameState.allianceScore or infoFrameState.hordeScore
+		local enemyScore = isAlly and infoFrameState.hordeScore or infoFrameState.allianceScore
+		for ourBases = 0, numObjectives do
+			local enemyBases = numObjectives - ourBases
+			local ourTime = mmin(infoFrameState.maxScore, (infoFrameState.maxScore - ourScore) / (infoFrameState.resPerSec[ourBases + 1] or 0))
+			local enemyTime = mmin(infoFrameState.maxScore, (infoFrameState.maxScore - enemyScore) / (infoFrameState.resPerSec[enemyBases + 1] or 0))
+			-- It would be very clever to also take current capping timers and time to cap into account here
+			-- But that'd be hard to test and not really necessary: it's pretty clear what this number means
+			-- even when it misses the very rare edge case that the time until you cap an extra base is relevant for the number
+			-- (it will just update to a higher number while you cap which is fine)
+			if enemyTime > ourTime then
+				local text = L.BasesToWin:format(ourBases)
+				return {[text] = ""}, {text}
+			end
+		end
+		return {}, {} -- shouldn't happen because you should always be able to win by capturing everything
+	end
+
 	function mod:UpdateWinTimer(maxScore, allianceScore, hordeScore, allianceBases, hordeBases)
 		local resPerSec = resourcesPerSec[numObjectives]
 		local gameTime = GetGametime()
@@ -316,45 +502,17 @@ do
 			winTimer:SetColor({r=0, g=0, b=1})
 			winTimer:UpdateIcon("132486") -- Interface\\Icons\\INV_BannerPVP_02.blp
 		end
-		--[[
-		CODE IS STILL TOO EXPERIMENTAL
-
-		local isAlliance = playerFaction == "Alliance"
-		if self.Options.ShowBasesToWin and (isAlliance and (allyTime > hordeTime) or (hordeTime > allyTime)) then
+		infoFrameState.allianceScore = allianceScore
+		infoFrameState.hordeScore = hordeScore
+		infoFrameState.maxScore = maxScore
+		infoFrameState.resPerSec = resPerSec
+		if self.Options.ShowBasesToWin then
 			if not DBM.InfoFrame:IsShown() then
-				DBM.InfoFrame:SetHeader("Bases to win")
-				DBM.InfoFrame:Show(42, "function", UpdateInfoFrame, false, false)
+				DBM.InfoFrame:SetHeader(L.BasesToWinHeader)
+				DBM.InfoFrame:Show(2, "function", updateInfoFrame, false, false)
 				DBM.InfoFrame:SetColumns(1)
 			end
-			-- X = us, Y = opposite faction
-			local lowerLimit, basesX, basesY, scoreX, scoreY, upperLimit = 1 -- lowerLimit is 1, everything else is nil
-			if isAlliance then
-				basesX, basesY, scoreX, scoreY, upperLimit = allianceBases, hordeBases, allianceScore, hordeScore, hordeTime
-			else
-				basesX, basesY, scoreX, scoreY, upperLimit = hordeBases, allianceBases, hordeScore, allianceScore, allyTime
-			end
-			for y = 1, numObjectives - basesX do
-				-- Opposite faction will either own their current basecount, or 5 - however many you own (aka whats left)
-				local _basesY = mmin(basesY, 5 - basesY)
-				for x = upperLimit, lowerLimit, -1 do
-					-- Calculate score x seconds in the future
-					local scoreX1, scoreY1 = resPerSec[basesX] * x + scoreX, resPerSec[basesY] * x + scoreY
-					-- Assume capping time
-					local scoreX2, scoreY2 = resPerSec[basesX] * 60 + scoreX1, resPerSec[_basesY] * 60 + scoreY1
-					-- Calculate time till max (with capping times)
-					local ttmX, ttmY = (maxScore - scoreX2) / resPerSec[basesX + y], (maxScore - scoreY2) / resPerSec[_basesY]
-					if ttmX < ttmY then
-						-- More bases will never have a "longer" time than less bases, efficiency for loops
-						lowerLimit = x
-						basesToWin[basesX + y] = ttmX
-						break
-					end
-				end
-			end
-		else
-			DBM.InfoFrame:Hide()
 		end
-		--]]
 	end
 
 	local ignoredAtlas = {
@@ -365,7 +523,7 @@ do
 		-- retail av
 		[91]    = 243,
 		-- classic av
-		[1459]  = (isBCC or isWrath) and 243 or 304,
+		[1459]  = isClassic and 304 or 243,
 		-- korrak
 		[1537]  = 243
 	}
@@ -471,9 +629,9 @@ do
 						capTimer:Stop(infoName)
 						objectivesStore[infoName] = (atlasName and atlasName or infoTexture)
 						if not ignoredAtlas[subscribedMapID] and (isAllyCapping or isHordeCapping) then
-							local capTime = GetAreaPOITimeLeft and GetAreaPOITimeLeft(areaPOIID) and GetAreaPOITimeLeft(areaPOIID) * 60 or overrideTimers[subscribedMapID] or 60
+							local capTime = GetAreaPOITimeLeft and GetAreaPOITimeLeft(areaPOIID) and GetAreaPOITimeLeft(areaPOIID) * 60 or overrideTimers[subscribedMapID] or isRetail and 60 or 64
 							if capTime ~= 0 then
-								capTimer:Start(GetAreaPOITimeLeft and GetAreaPOITimeLeft(areaPOIID) and GetAreaPOITimeLeft(areaPOIID) * 60 or overrideTimers[subscribedMapID] or 60, infoName)
+								capTimer:Start(capTime, infoName)
 							end
 							if isAllyCapping then
 								capTimer:SetColor({r=0, g=0, b=1}, infoName)
@@ -507,27 +665,75 @@ do
 			end
 			if widgetID == 1671 or widgetID == 2074 then -- Standard battleground score predictor: 1671. Deepwind rework: 2074
 				local info = GetDoubleStatusBarWidgetVisualizationInfo(widgetID)
-				self:UpdateWinTimer(info.leftBarMax, info.leftBarValue, info.rightBarValue, allyBases, hordeBases)
+				if info then
+					self:UpdateWinTimer(info.leftBarMax, info.leftBarValue, info.rightBarValue, allyBases, hordeBases)
+				end
 			end
 			if widgetID == 1893 or widgetID == 1894 then -- Classic Arathi Basin
-				local totalScore = isWrath and 1600 or 2000
+				local totalScore = (isCata or isWrath) and 1600 or 2000
 				self:UpdateWinTimer(totalScore, tonumber(smatch(GetIconAndTextWidgetVisualizationInfo(1893).text, '(%d+)/' .. tostring(totalScore))), tonumber(smatch(GetIconAndTextWidgetVisualizationInfo(1894).text, '(%d+)/' .. tostring(totalScore))), allyBases, hordeBases)
 			end
 		elseif widgetID == 1683 then -- Temple Of Kotmogu
 			local widgetInfo = GetDoubleStateIconRowVisualizationInfo(1683)
-			for _, v in pairs(widgetInfo.leftIcons) do
-				if v.iconState == 1 then
-					allyBases = allyBases + 1
+			if widgetInfo then
+				for _, v in pairs(widgetInfo.leftIcons) do
+					if v.iconState == 1 then
+						allyBases = allyBases + 1
+					end
 				end
-			end
-			for _, v in pairs(widgetInfo.rightIcons) do
-				if v.iconState == 1 then
-					hordeBases = hordeBases + 1
+				for _, v in pairs(widgetInfo.rightIcons) do
+					if v.iconState == 1 then
+						hordeBases = hordeBases + 1
+					end
 				end
 			end
 			local info = GetDoubleStatusBarWidgetVisualizationInfo(1689)
-			self:UpdateWinTimer(info.leftBarMax, info.leftBarValue, info.rightBarValue, allyBases, hordeBases)
+			if info then
+				self:UpdateWinTimer(info.leftBarMax, info.leftBarValue, info.rightBarValue, allyBases, hordeBases)
+			end
 		end
 	end
 	mod.UPDATE_UI_WIDGET = mod.AREA_POIS_UPDATED
 end
+
+-- Note on game time and server time.
+-- Contrary to popular opinion the event start time is not synced to GetGameTime(), it seems a bit random.
+-- Also, GetGameTime() is only available with minute granularity and the updates of minutes on game time as visible by the API does not seem to be synchronized to actual time.
+-- This GetGameTime() randomness seems to be just be a weird effect due to how the time between client and server are synchronized.
+-- The exact time at which the minute for GetGameTime updates changes between relogs, so there doesn't seem to be any meaning to the exact point in time when this happens.
+-- Earlier versions of this mod just used GetGameTime() and attempted to adjust for seconds from local but it was often off by a whole minute,
+-- this implementation is only off by at most 30 seconds, but usually at most 15 seconds (if your clock is synchronized)
+
+-- Get current time in server time zone
+function mod:GetServerTime()
+	-- C_DateAndTime.GetServerTimeLocal() returns a time zone that is neither the server's time nor my time?
+	-- GetGameTime() returns server time but is updated once per minute and the update interval is synchronized to actual server time, i.e., it will be off by up to a minute and the update time differs between relogs
+	-- Also there is GetLocalGameTime() which seems to be identical to GetGameTime()?
+	-- GetServerTime() looks like it returns local time, but good thing everyone has synchronized clocks nowadays, so this is fine to use
+	-- We just need to handle time zones, i.e., find the diff between what GetGameTime() says and what is local time
+	local gameHours, gameMinutes = GetGameTime()
+	-- The whole date logic could probably be avoided with some clever modular arithmetic, but whatever, we know the date
+	local gameDate = C_DateAndTime.GetTodaysDate() -- Yes, this is server date
+	local localSeconds = GetServerTime() -- Yes, that is local time
+	local gameSeconds = time({
+		year = gameDate.year,
+		month = gameDate.month,
+		day = gameDate.day,
+		hour = gameHours,
+		min = gameMinutes
+	})
+	local timeDiff = localSeconds - gameSeconds
+	-- Time zones can be in 15 minute increments, so round to that
+	return localSeconds - math.floor(timeDiff / (15 * 60) + 0.5) * 15 * 60
+end
+
+-- Time until world pvp events (Season of Discovery) that ocur every `interval` hours at an offset of `offet` hours
+---@return number
+function mod:GetTimeUntilWorldPvpEvent(offset, interval)
+	offset = offset or 0
+	interval = interval or 3
+	local time = date("*t", self:GetServerTime())
+	local hour = time.hour + time.min / 60 + time.sec / 60 / 60
+	return (interval - ((hour - offset) % interval)) * 60 * 60 + 30
+end
+

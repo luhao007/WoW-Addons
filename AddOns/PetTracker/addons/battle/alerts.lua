@@ -1,23 +1,11 @@
 --[[
-Copyright 2012-2022 João Cardoso
-PetTracker is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of PetTracker.
+Copyright 2012-2024 João Cardoso
+All Rights Reserved
 --]]
 
 local MODULE =  ...
 local ADDON, Addon = MODULE:match('[^_]+'), _G[MODULE:match('[^_]+')]
-local Alerts = Addon:NewModule('Alerts', LibStub('Sushi-3.1').Glowbox(PetBattleFrame))
+local Alerts = Addon:NewModule('Alerts', LibStub('Sushi-3.2').Glowbox(PetBattleFrame))
 local L = LibStub('AceLocale-3.0'):GetLocale(ADDON)
 
 function Alerts:OnEnable()
@@ -36,12 +24,10 @@ function Alerts:Verify()
 	if not upgrades and Addon.Battle:IsWildBattle() and not self.popped and Addon.sets.forfeit then
 		self.popped = true
 
-		LibStub('Sushi-3.1').Popup {
-				id = ADDON .. 'Alerts',
-        text = L.AskForfeit, button1 = QUIT, button2 = NO,
-        OnAccept = C_PetBattles.ForfeitGame,
-				hideOnEscape = 1,
-    }
+		LibStub('Sushi-3.2').Popup {
+			text = L.AskForfeit, button1 = QUIT, button2 = NO,
+			OnAccept = C_PetBattles.ForfeitGame
+    	}
 	end
 
   self:SetShown(upgrades and not self.shown and Addon.sets.alertUpgrades)

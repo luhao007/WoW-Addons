@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2514, "DBM-Party-Dragonflight", 5, 1201)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20221128054351")
+mod:SetRevision("20240501102915")
 mod:SetCreatureID(190609)
 mod:SetEncounterID(2565)
---mod:SetUsedIcons(1, 2, 3)
 mod:SetHotfixNoticeRev(20221015000000)
 --mod:SetMinSyncRevision(20211203000000)
 --mod.respawnTime = 29
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
@@ -16,10 +16,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 374343",
 	"SPELL_AURA_APPLIED 389011 374350 389007",
 	"SPELL_AURA_APPLIED_DOSE 389011",
-	"SPELL_AURA_REMOVED 374350"
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
---	"UNIT_SPELLCAST_SUCCEEDED boss1"
+	"SPELL_AURA_REMOVED 374350 389011"
 )
 
 --TODO, anounce https://www.wowhead.com/beta/spell=388901/arcane-rift spawns?
@@ -29,14 +26,13 @@ mod:RegisterEventsInCombat(
 --Notes, Power Vaccume triggers 4 second ICD, Energy Bomb Triggers 8.5 ICD on Vaccuum but only 7 second ICD on Breath, Astraol breath triggers 7.5 ICD
 --Notes, All of ICD adjustments can be done but for a 5 man boss with 3 abilities it seems overkill. Only perform correction on one case for now
 --[[
-(ability.id = 374361 or ability.id = 388822) and type = "begincast"
+(ability.id = 374361 or ability.id = 388822 or ability.id = 439488) and type = "begincast"
  or ability.id = 374343 and type = "cast"
  or type = "dungeonencounterstart" or type = "dungeonencounterend"
 --]]
 local warnOverwhelmingPoweer					= mod:NewCountAnnounce(389011, 3, nil, nil, DBM_CORE_L.AUTO_ANNOUNCE_OPTIONS.stack:format(389011))--Typical stack warnings have amount and playername, but since used as personal, using count object to just display amount then injecting option text for stack
 local warnEnergyBomb							= mod:NewTargetAnnounce(374352, 3)
 
-local specWarnOverwhelmingPower					= mod:NewSpecialWarningStack(389011, false, 3, nil, nil, 1, 6)
 local specWarnAstralBreath						= mod:NewSpecialWarningDodge(374361, nil, nil, nil, 2, 2)
 local specWarnPowerVacuum						= mod:NewSpecialWarningRun(388822, nil, nil, nil, 4, 2)
 local specWarnEnergyBomb						= mod:NewSpecialWarningMoveAway(374352, nil, nil, nil, 1, 2)
@@ -44,31 +40,25 @@ local yellEnergyBomb							= mod:NewYell(374352)
 local yellEnergyBombFades						= mod:NewShortFadesYell(374352)
 local specWarnGTFO								= mod:NewSpecialWarningGTFO(389007, nil, nil, nil, 1, 8)
 
-local timerAstralBreathCD						= mod:NewCDTimer(29, 374361, nil, nil, nil, 3)--29-32
-local timerPowerVacuumCD						= mod:NewCDTimer(23.4, 388822, nil, nil, nil, 2)--23-29
+local timerAstralBreathCD						= mod:NewCDTimer(26.3, 374361, nil, nil, nil, 3)--26-32
+local timerPowerVacuumCD						= mod:NewCDTimer(21, 388822, nil, nil, nil, 2)--22-29
 local timerEnergyBombCD							= mod:NewCDTimer(14.1, 374352, nil, nil, nil, 3)--14.1-20
---local timerDecaySprayCD						= mod:NewAITimer(35, 376811, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
---local berserkTimer							= mod:NewBerserkTimer(600)
-
---mod:AddRangeFrameOption("8")
 mod:AddInfoFrameOption(389011, true)
---mod:AddSetIconOption("SetIconOnStaggeringBarrage", 361018, true, false, {1, 2, 3})
+
+local playerDebuffCount = 0
 
 function mod:OnCombatStart(delay)
 	timerEnergyBombCD:Start(15.9-delay)
 	timerPowerVacuumCD:Start(24.9-delay)
 	timerAstralBreathCD:Start(28.1-delay)
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(389011))
+		DBM.InfoFrame:SetHeader(DBM:GetSpellName(389011))
 		DBM.InfoFrame:Show(5, "playerdebuffstacks", 389011)
 	end
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -104,17 +94,17 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 389011 and args:IsPlayer() then
 		local amount = args.amount or 1
-		if self.Options.SpecWarn389011stack and amount == 3 then
-			specWarnOverwhelmingPower:Show(amount)
-			specWarnOverwhelmingPower:Play("stackhigh")
-		else
-			warnOverwhelmingPoweer:Show(amount)
-		end
+		playerDebuffCount = amount
+		warnOverwhelmingPoweer:Show(amount)
 	elseif spellId == 374350 then
 		warnEnergyBomb:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnEnergyBomb:Show()
-			specWarnEnergyBomb:Play("runout")
+			if playerDebuffCount == 3 then--Will spawn rift when it expires, runout
+				specWarnEnergyBomb:Play("runout")
+			else
+				specWarnEnergyBomb:Play("scatter")
+			end
 			yellEnergyBomb:Yell()
 			yellEnergyBombFades:Countdown(spellId)
 		end
@@ -131,21 +121,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellEnergyBombFades:Cancel()
 		end
+	elseif spellId == 389011 and args:IsPlayer() then
+		playerDebuffCount = 0
 	end
 end
-
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 340324 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show(spellName)
-		specWarnGTFO:Play("watchfeet")
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 353193 then
-
-	end
-end
---]]

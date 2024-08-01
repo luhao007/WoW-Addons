@@ -44,8 +44,8 @@ end
 function FrameLib:CreateTabFrame(tabtext)
     local id = #self.Tabs+1;
     local framename = self.name.."Tab"..id;
-    local tabframe = CreateFrame("Button", framename, self, "PanelTabButtonTemplate");
-    -- tinsert(self.Tabs, tabframe);
+    local frametype = "PanelTabButtonTemplate";
+    local tabframe = CreateFrame("Button", framename, self, frametype);
 
     tabframe.name = tabtext;
     tabframe.enabled = true;
@@ -55,12 +55,12 @@ function FrameLib:CreateTabFrame(tabtext)
     tabframe:SetScript("OnShow", FrameTab_OnShow);
 
     tabframe:SetID(id);
-    tabframe.Text:SetText(tabtext);
 
+    tabframe.Text:SetText(tabtext);
     local text = _G[tabframe:GetName()].Text;
     text:SetWidth(0);
-    PanelTemplates_SetNumTabs(self, id);
 
+    PanelTemplates_SetNumTabs(self, id);
     self.maxTabWidth = self:GetWidth() / id;
     PanelTemplates_TabResize(tabframe, 0, nil, 36, self.maxTabWidth or 88);
     tabframe:SetFrameLevel(self:GetFrameLevel());

@@ -18,6 +18,7 @@ local shadowlandsMounts = {
 		coords = { { m = CONSTANTS.UIMAPIDS.REVENDRETH, x = 46.0, y = 78.5, n = L["Harika the Horrid"] } },
 		requiresCovenant = true,
 		requiredCovenantID = CONSTANTS.COVENANT_IDS.VENTHYR,
+		sourceText = L["This item can also be purchased from a vendor."],
 	},
 	["Bonehoof Tauralus"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
@@ -45,8 +46,6 @@ local shadowlandsMounts = {
 		spellId = 312753,
 		npcs = { 166679 },
 		chance = 100,
-		groupSize = 5,
-		equalOdds = true,
 		questId = { 59900 },
 		coords = { { m = CONSTANTS.UIMAPIDS.REVENDRETH, x = 51.98, y = 51.80, n = L["Hopecrusher"] } },
 		requiresCovenant = true,
@@ -83,8 +82,10 @@ local shadowlandsMounts = {
 		itemId = 180762,
 		chance = 50,
 		questId = { 61688 },
-		sourceText = L["This mount can only drop for Kyrians. Requires channeling anima to Temple of Purity."],
 		coords = { { m = CONSTANTS.UIMAPIDS.BASTION, x = 60.23, y = 78.11, n = L["Penitence of Purity"] } },
+		requiresCovenant = true,
+		requiredCovenantID = CONSTANTS.COVENANT_IDS.KYRIAN,
+		sourceText = L["This item can also be purchased from a vendor."],
 	},
 	["Bulbous Necroray"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
@@ -140,8 +141,6 @@ local shadowlandsMounts = {
 		npcs = { 166521 },
 		chance = 100,
 		questId = { 59869 },
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.REVENDRETH, x = 62.0, y = 47.0, n = L["Famu the Infinite"] } },
 	},
 	["Wild Glimmerfur Prowler"] = {
@@ -154,11 +153,10 @@ local shadowlandsMounts = {
 		npcs = { 168647 },
 		chance = 100,
 		questId = { 61632 },
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.ARDENWEALD, x = 30.4, y = 55.2, n = L["Valfir the Unrelenting"] } },
 		requiresCovenant = true,
 		requiredCovenantID = CONSTANTS.COVENANT_IDS.NIGHT_FAE,
+		sourceText = L["This item can also be purchased from a vendor."],
 	},
 	["Predatory Plagueroc"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
@@ -186,8 +184,6 @@ local shadowlandsMounts = {
 		npcs = { 157309 },
 		chance = 33,
 		questId = { 61720 },
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.MALDRAXXUS, x = 58.6, y = 74.2, n = L["Violet Mistake"] } },
 	},
 	["Gorespine"] = {
@@ -200,8 +196,6 @@ local shadowlandsMounts = {
 		npcs = { 162690 },
 		chance = 50,
 		questId = { 58851 },
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.MALDRAXXUS, x = 65.8, y = 35.3, n = L["Nerissa Heartless"] } },
 	},
 	["Blisterback Bloodtusk"] = {
@@ -215,8 +209,6 @@ local shadowlandsMounts = {
 		chance = 33,
 		questId = { 58889 },
 		tooltipNpcs = { 162818 },
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.MALDRAXXUS, x = 33.6, y = 80.6, n = L["Warbringer Mal'Korak"] } },
 	},
 	["Armored Bonehoof Tauralus"] = {
@@ -230,31 +222,11 @@ local shadowlandsMounts = {
 		chance = 100, -- Estimate
 		questId = { 58784 },
 		tooltipNpcs = { 168148 },
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.MALDRAXXUS, x = 50.67, y = 47.37, n = L["Sabriel the Bonecleaver"] } },
 		requiresCovenant = true,
 		requiredCovenantID = CONSTANTS.COVENANT_IDS.NECROLORD,
+		sourceText = L["This item can also be purchased from a vendor."],
 	},
-	-- Note: This appears to not have made it to live, so I'm disabling it until further notice
-	-- ["Bonecleaver's Skullboar"] = {
-	-- 	cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
-	-- 	type = CONSTANTS.ITEM_TYPES.MOUNT,
-	-- 	method = CONSTANTS.DETECTION_METHODS.NPC,
-	-- 	name = L["Bonecleaver's Skullboar"],
-	-- 	itemId = 182083,
-	-- 	spellId = 332482,
-	-- 	npcs = { 168147 },
-	-- 	chance = 100,	-- Estimate
-	-- 	questId = { 58784 },
-	-- 	tooltipNpcs = { 168148 },
-	-- 	groupSize = 5,
-	-- 	equalOdds = true,
-	-- 	coords = {
-	-- 		{ m = CONSTANTS.UIMAPIDS.MALDRAXXUS, x = 50.67, y = 47.37, n = L["Sabriel the Bonecleaver"] },
-	-- 	},
-	-- },
-
 	["Mawsworn Soulhunter"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
@@ -265,8 +237,6 @@ local shadowlandsMounts = {
 		npcs = { 174861 },
 		chance = 50,
 		questId = 63433,
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.THE_MAW, x = 53.5, y = 79.5, n = L["Gorged Shadehound"] } },
 	},
 	["Gnawed Reins of the Battle-Bound Warhound"] = {
@@ -279,8 +249,6 @@ local shadowlandsMounts = {
 		npcs = { 162873, 162880, 162875, 162853, 162874, 162872 },
 		chance = 100, -- Estimate
 		questId = 62786,
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.MALDRAXXUS, x = 50.67, y = 47.37, n = L["Theater of Pain"] } },
 	},
 	["Marrowfang's Reins"] = {
@@ -294,10 +262,17 @@ local shadowlandsMounts = {
 		tooltipNpcs = { 162693 },
 		statisticId = { 14404 },
 		chance = 100,
-		equalOdds = true,
 		instanceDifficulties = { [CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_DUNGEON] = true },
-		groupSize = 5,
 		coords = { { m = CONSTANTS.UIMAPIDS.THE_NECROTIC_WAKE } },
+		lockoutDetails = {
+			mode = CONSTANTS.DEFEAT_DETECTION.MODE_AND,
+			{
+				encounterName = "Nalthor the Rimebinder",
+				instanceDifficulties = {
+					[CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_DUNGEON] = true,
+				},
+			},
+		},
 	},
 	["Impressionable Gorger Spawn"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
@@ -309,8 +284,6 @@ local shadowlandsMounts = {
 		npcs = { 160821 },
 		chance = 100, -- Estimate,
 		questId = 58259,
-		groupSize = 5,
-		equalOdds = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.REVENDRETH, x = 38.60, y = 72.00, n = L["Worldedge Gorger"] } },
 	},
 	["Ascended Skymane"] = {
@@ -369,7 +342,7 @@ local shadowlandsMounts = {
 		spellId = 347536,
 		itemId = 186641,
 		items = { 187028 },
-		chance = 100, -- Blind guess
+		chance = 20,
 		coords = { { m = CONSTANTS.UIMAPIDS.KORTHIA } },
 	},
 	["Chain of Bahmethra"] = {
@@ -622,6 +595,58 @@ local shadowlandsMounts = {
 			L["Hirukon"]
 		),
 		coords = { { x = 52, 2, y = 75, 3, m = CONSTANTS.UIMAPIDS.ZERETH_MORTIS, n = L["Hirukon"] } },
+	},
+	["Vengeance's Reins"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.MOUNT,
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
+		name = L["Vengeance's Reins"],
+		spellId = 351195,
+		itemId = 186642,
+		npcs = { 99999 },
+		tooltipNpcs = { 175732 }, -- Sylvanas Windrunner
+		instanceDifficulties = { [CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true },
+		chance = 100,
+		wasGuaranteed = true,
+		groupSize = 10,
+		equalOdds = true,
+		statisticId = { 15176 },
+		coords = { { m = CONSTANTS.UIMAPIDS.SANCTUM_OF_DOMINATION, i = true } },
+		lockoutDetails = {
+			mode = CONSTANTS.DEFEAT_DETECTION.MODE_AND,
+			{
+				encounterName = "Sylvanas Windrunner",
+				instanceDifficulties = {
+					[CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true,
+				},
+			},
+		},
+	},
+	["Fractal Cypher of the Zereth Overseer"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS,
+		type = CONSTANTS.ITEM_TYPES.MOUNT,
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
+		name = L["Fractal Cypher of the Zereth Overseer"],
+		spellId = 368158,
+		itemId = 190768,
+		npcs = { 99999 },
+		tooltipNpcs = { 180990 }, -- The Jailer
+		instanceDifficulties = { [CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true },
+		chance = 100,
+		wasGuaranteed = true,
+		groupSize = 10,
+		equalOdds = true,
+		statisticId = { 15467 },
+		coords = { { m = CONSTANTS.UIMAPIDS.SEPULCHER_OF_THE_FIRST_ONES, i = true } },
+		lockoutDetails = {
+			mode = CONSTANTS.DEFEAT_DETECTION.MODE_AND,
+			{
+				encounterName = "The Jailer",
+				instanceDifficulties = {
+					[CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true,
+				},
+			},
+		},
 	},
 }
 

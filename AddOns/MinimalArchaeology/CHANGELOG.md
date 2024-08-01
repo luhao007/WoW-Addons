@@ -1,6 +1,98 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 11.0.0
+
+- Updated for War Within
+
+### 10.2.13
+
+- **New Feature: Taxi Service**: if enabled, waypoints will be created to the nearest flight master if the nearest digsite is farther than the user-configured distance. You can find the options in the Navigation section.
+- Added digsite icons on flight maps (indicated on the nearest known flight master)
+- History: artifact list is now grouped by progress (enabled by default)
+- Fix multiple issues with race icons on the map
+- Added HereBeDragons as a dependency, digsite distances are now returned in yards
+- **10.2.13.1** Fix issue with unwanted waypoints being generated
+- **10.2.13.2** Fix digsite related lua errors
+- **10.2.13.2** Fix issue with digsites being undetected
+- **10.2.13.2** Fix Main Window and Companion update issue in rare cases
+
+### 10.2.12
+
+- Companion: survey button now respects the same survey settings as double right click
+- Companion: show cooldown on Survey button
+- Extended priority list: you can now set an order for races instead of prioritizing one at a time
+- Experimental New Feature: Path optimization. Path optimization tries to reduce travel times on the long run by calculating the shortest path that touches all active digsites, also preferring sites that are closer to each other. You can enable it under developer settings, still testing, feedback is welcome!
+- Fix detecting nearest digsite on Outland
+- Create waypoint to digsites related to hidden races if nothing else is available
+- Updated the list of patrons, thank you for the support!
+- **10.2.12.1** Fix double right click surveying
+- **10.2.12.2** Fix survey button being disabled when double right click is disabled
+- **10.2.12.2** Fix path optimization calculation
+- **10.2.12.2** Add option to hide Companion when no digsites are available on the world
+
+### 10.2.11
+
+- Companion: implement optional artifact progress bar with optional tooltip and solve on click (enabled by default)
+- Companion: add option to hide solvable artifact if it's not related to the nearest digsite
+- History: implement total sold price display for race statistics (by *Delrik* via GitHub)
+- Implement map pin scaling option
+- Fix issue with auto-waypoint sometimes not selecting the closest digsite
+- Fix Companion not always hiding properly in combat
+- Fix Nerubian issue with digsites on Eastern Kingdoms
+
+### 10.2.10
+
+- History: implement race statistics (can be hidden)
+- Companion: added optional skill bar (enabled by default)
+- Fix max rank in Cata pre-patch
+- Fix main window popping up the wrong time when autoShowOnCap is enabled
+- Fix history refresh (mostly, blizzard API sometimes reports the wrong data)
+- Fix remember window state functionality
+- **10.2.10.2** Fix lua error: attempt to index field 'skillBar'
+- **10.2.10.3** History: fix completed counts
+- **10.2.10.4** Companion: fix keystone count when canceling solve
+- **10.2.10.5** Fix lua error after solving artifacts
+
+### 10.2.9
+
+- Navigation: **new option** to ignore hidden races when creating waypoints (disabled by default)
+- Companion: grey out survey button when spell can't be casted
+- Companion solve button: prioritize solvable artifacts over nearest available
+- History: Fix lua error and history list not loading on first try
+- Main Window: Show profession bar until expanion's max skill level is reached
+- Fix missing race data for digsites
+
+### 10.2.7
+
+- Updated for Cataclysm Classic
+- **10.2.8** Options menu restructured, clarified race related settings
+- **10.2.8.6** fixed a lua error (attempt to index local 'artifact')
+- **10.2.8.6** fixed race related options
+- **10.2.8.6** fixed companion showing hidden races
+
+### 10.2.0 - 10.2.2
+
+- Updated for 10.2.0
+- **10.2.0.1** Fixed an issue with dbl right click surveying
+- **10.2.1** Addon compartment support
+- **10.2.2** Use GLOBAL_MOUSE_DOWN instead of HookScript for double click surveying
+- **10.2.2** Add optional keystone button to the Companion's solve button
+- **10.2.2** Add separate "Hide In Combat" option to the Companion
+- **10.2.3** Fix Companion lua error and main window display issue with bars
+- **10.2.3** Fix Companion not showing solvable relevant artifacts
+- **10.2.4** Change the right click helper button from InSecureActionButtonTemplate to SecureActionButtonTemplate, added some extra debug messages
+
+### 10.1.0
+
+-  Updated for 10.1.5
+- **10.1.0.1** Fix ClearOverrideBindings ADDON_ACTION_BLOCKED lua error
+
+### 10.0.5.1
+
+- Fix databroker error
+- **10.0.5.2** Fixed an issue caused by right click during combat
+
 ### 10.0.3
 
 - Companion: added optional button to summon random favorite mount (disabled by default)
@@ -100,12 +192,6 @@
 ### 8.2.1
 
 - All Window states are now remembered upon relog/reload, unless the "Always start hidden" option is enabled
-
-## Known issues
-
-- Main window auto-hides after solving an artifact, even if there's another solve available
-
-## Recent updates
 
 ### 8.2.0
 

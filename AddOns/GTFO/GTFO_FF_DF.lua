@@ -5,7 +5,7 @@
 GTFO Friendly Fire List - Dragonflight
 ]]--
 
-if (not (GTFO.ClassicMode or GTFO.BurningCrusadeMode or GTFO.WrathMode)) then
+if (GTFO.RetailMode) then
 
 -- ****************
 -- * Dragon Isles *
@@ -23,6 +23,16 @@ GTFO.FFSpellID["387848"] = {
 
 GTFO.FFSpellID["395278"] = {
   --desc = "Electric Surge";
+  sound = 4;
+  ignoreSelfInflicted = true;
+};
+
+--- **********************************
+--- * Aberrus, the Shadowed Crucible *
+--- **********************************
+
+GTFO.FFSpellID["405457"] = {
+  --desc = "Disintegrate (Rionthus)";
   sound = 4;
   ignoreSelfInflicted = true;
 };

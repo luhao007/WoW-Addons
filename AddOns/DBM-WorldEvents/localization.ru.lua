@@ -102,7 +102,7 @@ L:SetWarningLocalization({
 L:SetOptionLocalization({
 	WarnPhase				= "Предупреждение о смене фаз",
 	warnHorsemanSoldiers	= "Предупреждение о призыве Пульсирующих тыкв",
-	warnHorsemanHead		= "Спецпредупреждение о появлении головы всадника"
+	warnHorsemanHead		= "Предупреждение о появлении Всадника без головы"
 })
 
 L:SetMiscLocalization({
@@ -147,6 +147,18 @@ L:SetMiscLocalization({
 	MassiveWave		= "Приближается большая волна зомби!"
 })
 
+-- Quest
+L = DBM:GetModLocalization("EscortQuests")
+
+L:SetGeneralLocalization{
+	name = "Сопровождения NPC",
+}
+
+L:SetOptionLocalization{
+	Timers = "Показывать таймеры для некоторых заданий, требующих сопровождения NPC"
+}
+
+
 --------------------------
 --  Demonic Invasions  --
 --------------------------
@@ -162,7 +174,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("BCEvent")
 
 L:SetGeneralLocalization({
-	name = "MoA: Burning Crusade"
+	name = "Воспоминание об Азерот: BC"
 })
 
 --------------------------
@@ -171,7 +183,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("WrathEvent")
 
 L:SetGeneralLocalization({
-	name = "MoA: WotLK"
+	name = "Воспоминание об Азерот: Король-лич"
 })
 
 L:SetWarningLocalization{
@@ -195,15 +207,15 @@ L:SetMiscLocalization{
 }
 
 L:SetOptionLocalization{
-	WarnEmerge				= "Показать предупреждение о появлении",
-	WarnEmergeSoon			= "Показать предварительное предупреждение о появлении",
-	WarnSubmerge			= "Показать предупреждение о закапывании",
-	WarnSubmergeSoon		= "Показать предварительное предупреждение о закапывании",
-	TimerEmerge				= "Показать таймер для появления",
-	TimerSubmerge			= "Показать таймер для закапывания",
-	WarningTeleportNow		= "Показать предупреждение для телепортации",
-	WarningTeleportSoon		= "Показать предварительное предупреждение для телепортации",
-	TimerTeleport			= "Показать таймер для телепортации"
+	WarnEmerge				= "Показывать предупреждение о появлении",
+	WarnEmergeSoon			= "Показывать предварительное предупреждение о появлении",
+	WarnSubmerge			= "Показывать предупреждение о закапывании",
+	WarnSubmergeSoon		= "Показывать предварительное предупреждение о закапывании",
+	TimerEmerge				= "Показывать таймер для появления",
+	TimerSubmerge			= "Показывать таймер для закапывания",
+	WarningTeleportNow		= "Показывать предупреждение для телепортации",
+	WarningTeleportSoon		= "Показывать предварительное предупреждение для телепортации",
+	TimerTeleport			= "Показывать таймер для телепортации"
 }
 
 --------------------------
@@ -212,7 +224,7 @@ L:SetOptionLocalization{
 L = DBM:GetModLocalization("CataEvent")
 
 L:SetGeneralLocalization({
-	name = "MoA: Cataclysm"
+	name = "Воспоминание об Азерот: Катаклизм"
 })
 
 L:SetWarningLocalization({
@@ -221,8 +233,8 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	warnSplittingBlow			= "Показать предупреждения о местоположении для $spell:98951",
-	warnEngulfingFlame			= "Показать предупреждения о местоположении для $spell:99171"
+	warnSplittingBlow			= "Показывать предупреждения о местоположении для $spell:98951",
+	warnEngulfingFlame			= "Показывать предупреждения о местоположении для $spell:99171"
 })
 
 ----------------------------------
@@ -301,3 +313,102 @@ L = DBM:GetModLocalization("DoomwalkerEvent")
 L:SetGeneralLocalization{
 	name = "Предвестник Рока (событие)"
 }
+
+--------------------------
+--  Blastenheimer 5000  --
+--------------------------
+L = DBM:GetModLocalization("Cannon")
+
+L:SetGeneralLocalization({
+	name = "Подрывайстер 5000"
+})
+
+L = DBM:GetModLocalization("CannonClassic")
+
+L:SetGeneralLocalization({
+	name = "Подрывайстер 5000"
+})
+
+
+-------------
+--  Gnoll  --
+-------------
+L = DBM:GetModLocalization("Gnoll")
+
+L:SetGeneralLocalization({
+	name = "Гноллобой"
+})
+
+L:SetWarningLocalization({
+	warnGameOverQuest	= "Заработано %d из %d возможных появившихся очков",
+	warnGameOverNoQuest	= "Игра окончилась с всего %d возможных появившихся очков",
+	warnGnoll			= "Гнолл появился",
+	warnHogger			= "Хоггер появился",
+	specWarnHogger		= "Хоггер появился!"
+})
+
+L:SetOptionLocalization({
+	warnGameOver	= "Объявлять общее возможное число очков при завершении игры",
+	warnGnoll		= "Объявлять появление Гнолла",
+	warnHogger		= "Объявлять появление Хоггера",
+	specWarnHogger	= "Спецпредупреждение при появлении Хоггера"
+})
+
+------------------------
+--  Shooting Gallery  --
+------------------------
+L = DBM:GetModLocalization("Shot")
+
+L:SetGeneralLocalization({
+	name = "Тир"
+})
+
+L:SetOptionLocalization({
+	SetBubbles			= "Автоматически отключать сообщения в облачках во время $spell:101871<br/>(восстанавливает их после завершения игры)"
+})
+
+----------------------
+--  Tonk Challenge  --
+----------------------
+L = DBM:GetModLocalization("Tonks")
+
+L:SetGeneralLocalization({
+	name = "Танковые баталии"
+})
+
+---------------------------
+--  Fire Ring Challenge  --
+---------------------------
+L = DBM:GetModLocalization("Rings")
+
+L:SetGeneralLocalization({
+	name = "Вызов огнекрыла"
+})
+
+-----------------------
+--  Darkmoon Rabbit  --
+-----------------------
+L = DBM:GetModLocalization("Rabbit")
+
+L:SetGeneralLocalization({
+	name = "Кролик ярмарки Новолуния"
+})
+
+-------------------------
+--  Darkmoon Moonfang  --
+-------------------------
+L = DBM:GetModLocalization("Moonfang")
+
+L:SetGeneralLocalization({
+	name = "Лунная волчица"
+})
+
+L:SetWarningLocalization({
+	specWarnCallPack		= "Призыв стаи - Отбегите на > 40 метров от Лунной волчицы!",
+	specWarnMoonfangCurse	= "Проклятие Лунной волчицы - Отбегите на > 10 метров от Лунной волчицы!"
+})
+
+L:SetOptionLocalization({
+	specWarnCallPack		= DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.run:format(144602),
+	specWarnMoonfangCurse	= DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.run:format(144590)
+})

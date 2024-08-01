@@ -44,7 +44,7 @@ internal.MAX_BREEDS = 10
 local PJHooked = false
 
 -- Check if on future build or PTR to enable additional developer functions
-local is_ptr = select(4, _G.GetBuildInfo()) ~= GetAddOnMetadata(addonname, "Interface")
+local is_ptr = select(4, _G.GetBuildInfo()) ~= C_AddOns.GetAddOnMetadata(addonname, "Interface")
 
 -- Takes in lots of information, returns Breed ID as a number (or an error), and the rarity as a number
 function internal.CalculateBreedID(nSpeciesID, nQuality, nLevel, nMaxHP, nPower, nSpeed, wild, flying)
@@ -319,7 +319,7 @@ function GetBreedID_Journal(nPetID)
     end
 end
 
--- Retrieve pre-determined Breed ID from cache for pet being moused over
+-- Retrieve pre-determined Breed ID from cache for pet being moused over (requires Blizzard Pet tooltip to be passed)
 function GetBreedID_Battle(self)
     if (self) then
         -- Determine index of internal.breedCache array. accepted values are 1-6 with 1-3 being your pets and 4-6 being enemy pets
@@ -501,6 +501,7 @@ local function BPBID_Events_OnEvent(self, event, name, ...)
             BPBID_Options.Breedtip.CurrentStats25Rare = true -- Always assume pet will be Rare at level 25
             BPBID_Options.Breedtip.AllStats25 = true -- All breeds' stats at level 25
             BPBID_Options.Breedtip.AllStats25Rare = true -- Always assume pet will be Rare at level 25
+            BPBID_Options.Breedtip.Collected = true -- Collected breeds for current pet
             
             BPBID_Options.BattleFontFix = false -- Test old Pet Battle rarity coloring
         end

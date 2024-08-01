@@ -75,7 +75,7 @@ local LoadMPOnShow, LoadMP do
 	function LoadMP()
 		if doLoad then
 			doLoad = nil
-			LoadAddOn("MasterPlan")
+			C_AddOns.LoadAddOn("MasterPlan")
 		end
 	end
 	function LoadMPOnShow(f)
@@ -85,6 +85,22 @@ local LoadMPOnShow, LoadMP do
 			f:HookScript("OnShow", LoadMP)
 		end
 	end
+end
+local function EasyMenu_Initialize(_, level, menuList)
+	for i=1, #menuList do
+		local value = menuList[i]
+		if value.text then
+			value.index = i
+			UIDropDownMenu_AddButton(value, level)
+		end
+	end
+end
+local function EasyMenu(menuList, menuFrame, anchor, x, y, displayMode, autoHideDelay)
+	if displayMode == "MENU" then
+		menuFrame.displayMode = displayMode
+	end
+	UIDropDownMenu_Initialize(menuFrame, EasyMenu_Initialize, displayMode, nil, menuList)
+	ToggleDropDownMenu(1, nil, menuFrame, anchor, x, y, menuList, nil, autoHideDelay)
 end
 do
 	local followerTabNames = {[2]=GARRISON_FOLLOWERS, [3]=FOLLOWERLIST_LABEL_CHAMPIONS, [9]=FOLLOWERLIST_LABEL_CHAMPIONS, [111]=COVENANT_MISSIONS_FOLLOWERS}
@@ -196,6 +212,15 @@ if (GARRISON_LANDING_COVIEW_PATCH_VERSION or 0) < 3 then
 	end)
 end
 
+local function FixBuildingsInMissionList(items)
+	for i=#items,1,-1 do
+		i = items[i]
+		if i.isBuilding then
+			i.followerTypeID, i.level, i.isMaxLevel, i.iLevel, i.durationSeconds, i.missionID = 1, 40, true, 900, 0, 0
+		end
+	end
+end
+
 function E:ADDON_LOADED(addon)
 	if addon == addonName then
 		cdata = gett(_G, "MasterPlanAG", GetRealmName(), UnitName("player"))
@@ -208,6 +233,7 @@ function E:ADDON_LOADED(addon)
 end
 function E:ADDON_LOADED(addon)
 	if addon == "Blizzard_GarrisonUI" then
+		hooksecurefunc("GarrisonLandingPageReportMission_FilterOutCombatAllyMissions", FixBuildingsInMissionList)
 		LoadMPOnShow(GarrisonMissionFrame)
 		LoadMPOnShow(GarrisonShipyardFrame)
 		LoadMPOnShow(GarrisonRecruiterFrame)
@@ -234,5 +260,5 @@ E.ZONE_CHANGED = CheckCacheWarning
 MasterPlanA = api
 
 SLASH_MASTERPLAN1, SlashCmdList.MASTERPLAN = "/masterplan", function()
-	print("|cff0080ffMasterPlan|r v" .. GetAddOnMetadata("MasterPlan", "Version") .. " (" .. (IsAddOnLoaded("Blizzard_GarrisonUI") and "G" or "N") .. (IsAddOnLoaded("MasterPlan") and "O" or "A") .. ")")
+	print("|cff0080ffMasterPlan|r v" .. C_AddOns.GetAddOnMetadata("MasterPlan", "Version") .. " (" .. (C_AddOns.IsAddOnLoaded("Blizzard_GarrisonUI") and "G" or "N") .. (C_AddOns.IsAddOnLoaded("MasterPlan") and "O" or "A") .. ")")
 end

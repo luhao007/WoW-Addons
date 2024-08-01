@@ -9,7 +9,8 @@ addon.constants.lootTypes = {
 	UNKNOWN = 0,
 	MOUNT = 1,
 	COMPANION_PET = 2,
-	TOY = 3
+	TOY = 3,
+	DRAKEWATCHER_MANUSCRIPT = 4
 }
 
 addon.constants.visibilityTypes = {
@@ -17,6 +18,16 @@ addon.constants.visibilityTypes = {
 	LIST = 1,
 	PIN = 2,
 	ALL = 3
+}
+
+addon.constants.accessoryDisplay = {
+	ALWAYS = 1,
+	NEVER = 2,
+	NOINSTANCES = 3,
+	RELEVANTZONES = 4,
+	SNOOZED = 5,
+	WHENAPPLICABLE = 6,
+	REMOVED = 100
 }
 
 TOMCATS_TOOLTIP_BACKDROP_STYLE_DEFAULT = {

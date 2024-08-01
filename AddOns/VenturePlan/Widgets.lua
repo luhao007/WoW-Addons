@@ -1,5 +1,6 @@
 local Factory, AN, T = {}, ...
 local C, EV, L, U, S = C_Garrison, T.Evie, T.L, T.Util, {}
+local GameTooltip = T.NotGameTooltip or GameTooltip
 local PROGRESS_MIN_STEP = 0.2
 local CovenKit = "NightFae"
 local UIBUTTON_HEIGHT = ({zhCN=24, zhTW=24, koKR=24})[GetLocale()] or 22
@@ -89,7 +90,7 @@ local function CommonTooltip_ShopWatch()
 	end
 end
 local function CommonTooltip_ArmShopWatch(self, item)
-	if IsEquippableItem(item) and tooltipShopWatch ~= self then
+	if C_Item.IsEquippableItem(item) and tooltipShopWatch ~= self then
 		if not tooltipShopWatch then
 			EV.MODIFIER_STATE_CHANGED = CommonTooltip_ShopWatch
 		end
@@ -189,9 +190,12 @@ local function CommonTooltip_OnEnter(self)
 				label, cur, max = _G["FACTION_STANDING_LABEL8" .. (UnitSex("player") ~= 2 and "_FEMALE" or "")], C_Reputation.GetFactionParagonInfo(factionID)
 				cur = cur % max
 			else
-				local _, _, stID, bMin, bMax, bVal  = GetFactionInfoByID(factionID)
-				if stID and bMin then
-					cur, max, label = bVal - bMin, bMax-bMin, _G["FACTION_STANDING_LABEL" .. stID .. (UnitSex("player") ~= 2 and "_FEMALE" or "")]
+				local fd = C_Reputation.GetFactionDataByID(factionID)
+				if fd and fd.reaction then
+					local bMin, bMax, bVal = fd.currentReactionThreshold, fd.nextReactionThreshold, fd.currentStanding
+					if fd.reaction and bMin and bMax and bVal then
+						cur, max, label = bVal - bMin, bMax-bMin, _G["FACTION_STANDING_LABEL" .. fd.reaction .. (UnitSex("player") ~= 2 and "_FEMALE" or "")]
+					end
 				end
 			end
 		end
@@ -222,7 +226,7 @@ local function CommonLinkable_OnClick(self)
 	elseif self.achievementID then
 		ChatEdit_InsertLink(GetAchievementLink(self.achievementID))
 	elseif self.itemID then
-		local _, link = GetItemInfo(self.itemID)
+		local _, link = C_Item.GetItemInfo(self.itemID)
 		if link then
 			ChatEdit_InsertLink(link)
 		end
@@ -440,7 +444,7 @@ local RewardButton_SetReward do
 		if rew.icon then
 			self.Icon:SetTexture(rew.icon)
 		elseif rew.itemID then
-			self.Icon:SetTexture(GetItemIcon(rew.itemID))
+			self.Icon:SetTexture(C_Item.GetItemIconByID(rew.itemID))
 		end
 		self.RarityBorder:SetDesaturated(false)
 		self.RarityBorder:SetVertexColor(1,1,1)
@@ -453,7 +457,7 @@ local RewardButton_SetReward do
 				local ci = C_CurrencyInfo.GetCurrencyContainerInfo(rew.currencyID, rew.quantity)
 				if ci then
 					self.Icon:SetTexture(ci.icon)
-					tooltipTitle = (ci.quality and "|c" .. (select(4,GetItemQualityColor(ci.quality)) or "ff00ffff") or "") .. ci.name
+					tooltipTitle = (ci.quality and "|c" .. (select(4,C_Item.GetItemQualityColor(ci.quality)) or "ff00ffff") or "") .. ci.name
 					tooltipText = NORMAL_FONT_COLOR_CODE .. (ci.description or "")
 				end
 				local ci2 = C_CurrencyInfo.GetCurrencyInfo(rew.currencyID)
@@ -462,7 +466,7 @@ local RewardButton_SetReward do
 			end
 		elseif rew.itemID then
 			q = rew.quantity == 1 and "" or rew.quantity or ""
-			local r = select(3,GetItemInfo(rew.itemLink or rew.itemID)) or select(3,GetItemInfo(rew.itemID)) or 2
+			local r = C_Item.GetItemQualityByID(rew.itemLink or rew.itemID) or C_Item.GetItemQualityByID(rew.itemID) or 2
 			SetRarityBorder(self.RarityBorder, r)
 		elseif rew.followerXP then
 			q, tooltipTitle, tooltipText = BreakUpLargeNumbers(rew.followerXP), rew.title, rew.tooltip
@@ -534,11 +538,11 @@ local function FollowerButton_OnClick(self, b)
 		local fid = self.info.followerID
 		for i=0,self.info.isAutoTroop and -1 or 4 do
 			if fa[i]:GetFollowerGUID() == fid then
-				U.CallWithProxiedHelpTip(CovenantMissionFrame.RemoveFollowerFromMission, CovenantMissionFrame, fa[i], true)
+				CovenantMissionFrame:RemoveFollowerFromMission(fa[i], true)
 				return
 			end
 		end
-		U.CallWithProxiedHelpTip(mp.AddFollower, mp, fid)
+		mp:AddFollower(fid)
 	elseif b == "LeftButton" and IsModifiedClick("CHATLINK") then
 		ChatEdit_InsertLink(C.GetFollowerLink(self.info.followerID))
 	end
@@ -777,10 +781,10 @@ local function FollowerList_OnUpdate(self)
 	if t >= (self.nextUpdate or 0) then
 		self.nextUpdate = t+60
 		self:Refresh()
-		local mf = GetMouseFocus()
-		if mf and mf:GetParent() == self and GameTooltip:IsOwned(mf) then
-			local f = mf:GetScript("OnEnter")
-			if f then f(mf) end
+		local to = not GameTooltip:IsForbidden() and GameTooltip:IsVisible() and GameTooltip:GetOwner()
+		if to and not to:IsForbidden() and to:GetParent() == self then
+			local f = to:GetScript("OnEnter")
+			if f then f(to) end
 		end
 	end
 end
@@ -1183,7 +1187,7 @@ local function MissionButton_OnHintClick(self, button)
 	S[p].OnHintRequested(p, button == "FakeButton")
 end
 local function MissionButton_OnHintEnterTimer(self)
-	if self:IsMouseOver() and GetMouseFocus() == self and self.enterTime then
+	if self:IsMouseMotionFocus() and self.enterTime then
 		if (GetTime()-self.enterTime) < 0.2 then
 			return
 		end
@@ -1624,9 +1628,9 @@ function Factory.MissionPage(parent)
 		s.Version = vButton
 		vButton:Disable()
 		vButton:SetMotionScriptsWhileDisabled(true)
-		local an = GetAddOnMetadata(AN, "Title") or AN or ""
-		local av = GetAddOnMetadata(AN, "Version") or "Q"
-		local aw = GetAddOnMetadata(AN, "X-Website")
+		local an = C_AddOns.GetAddOnMetadata(AN, "Title") or AN or ""
+		local av = C_AddOns.GetAddOnMetadata(AN, "Version") or "Q"
+		local aw = C_AddOns.GetAddOnMetadata(AN, "X-Website")
 		vButton:SetPoint("BOTTOMRIGHT", -62, 20)
 		vButton:SetSize(110, 20)
 		vButton:SetPushedTextOffset(0,0)

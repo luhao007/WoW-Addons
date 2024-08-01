@@ -5,6 +5,8 @@ local R = Rarity
 local GUI = Rarity.GUI
 local CONSTANTS = addonTable.constants
 
+--- WoW API
+local GetItemInfo = _G.C_Item.GetItemInfo
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local IsWorldQuestActive = C_TaskQuest.IsActive
 local IsQuestFlaggedCompleted = _G.C_QuestLog.IsQuestFlaggedCompleted
@@ -201,7 +203,7 @@ local function onClickItem(cell, item)
 							coord.m,
 							coord.x / 100.0,
 							coord.y / 100.0,
-							{ title = "Rarity" .. ": " .. item.name .. extraName }
+							{ title = item.name .. extraName, from = "Rarity" }
 						)
 						added = added + 1
 					end
@@ -851,14 +853,8 @@ local function addGroup(group, requiresGroup)
 			)
 		then
 			local classGood = true
-			if not Rarity.Caching:GetPlayerClass() then
-				Rarity.Caching:SetPlayerClass(select(2, UnitClass("player")))
-			end
-			if
-				v.disableForClass
-				and type(v.disableForClass == "table")
-				and v.disableForClass[Rarity.Caching:GetPlayerClass()] == true
-			then
+			local playerClass = select(2, UnitClass("player"))
+			if v.disableForClass and v.disableForClass[playerClass] then
 				classGood = false
 			end
 
@@ -969,7 +965,7 @@ local function addGroup(group, requiresGroup)
 								end
 							end
 						elseif v.questId and v.holidayTexture then
-							if Rarity.holiday_textures[v.holidayTexture] == nil then
+							if not Rarity.HolidayEvents.IsItemAvailableToday(v) then
 								status = colorize(L["Unavailable"], gray)
 							elseif v.christmasOnly and dt.month == 12 and dt.day < 25 then
 								status = colorize(L["Unavailable"], gray)
@@ -1088,7 +1084,7 @@ local function addGroup(group, requiresGroup)
 									status = colorize(L["Unavailable"], gray)
 								end
 							end
-						elseif v.holidayTexture and Rarity.holiday_textures[v.holidayTexture] == nil then
+						elseif v.holidayTexture and not Rarity.HolidayEvents.IsItemAvailableToday(v) then
 							status = colorize(L["Unavailable"], gray)
 						end
 						if v.pickpocket then
@@ -1156,7 +1152,7 @@ local function addGroup(group, requiresGroup)
 											)
 										end
 										Rarity:Print(text)
-										if tostring(SHOW_COMBAT_TEXT) ~= "0" then
+										if CVarCallbackRegistry:GetCVarValueBool("enableFloatingCombatText") then
 											if type(CombatText_AddMessage) == "nil" then
 												UIParentLoadAddOn("Blizzard_CombatText")
 											end
@@ -1422,7 +1418,8 @@ function R:ShowTooltip(hidden)
 	showedHolidayReminderOverflow = false
 	local delay
 	if self.db.profile.tooltipHideDelay <= 0 then
-		delay = 0.01
+		local hideOnClick = (Rarity.db.profile.tooltipActivation == CONSTANTS.TOOLTIP.ACTIVATION_METHOD_CLICK)
+		delay = hideOnClick and 0 or 0.01 -- Hiding manually is only possible when not in hover mode
 	else
 		delay = self.db.profile.tooltipHideDelay or 0.6
 	end

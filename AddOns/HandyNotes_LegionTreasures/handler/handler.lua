@@ -1,5 +1,5 @@
 local myname, ns = ...
-local _, myfullname = GetAddOnInfo(myname)
+local _, myfullname = C_AddOns.GetAddOnInfo(myname)
 
 local HandyNotes = LibStub("AceAddon-3.0"):GetAddon("HandyNotes")
 local HL = LibStub("AceAddon-3.0"):NewAddon(myname, "AceEvent-3.0")
@@ -9,7 +9,7 @@ ns.HL = HL
 local HBD = LibStub("HereBeDragons-2.0")
 local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
-ns.DEBUG = GetAddOnMetadata(myname, "Version") == '@'..'project-version@'
+ns.DEBUG = C_AddOns.GetAddOnMetadata(myname, "Version") == '@'..'project-version@'
 
 ns.CLASSIC = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
 
@@ -106,6 +106,9 @@ function ns.RegisterPoints(zone, points, defaults)
             point.routes = {point.route}
             point.route = nil
         end
+        if point.atlas and point.color then
+            point.texture = ns.atlas_texture(point.atlas, point.color)
+        end
         local proxy_meta
         if point.path or point.nearby or point.related then
             proxy_meta = {__index=point}
@@ -177,6 +180,18 @@ function ns.RegisterPoints(zone, points, defaults)
                 end
             end
         end
+        if point.additional then
+            -- Extra coordinates to register. This is equivalent to just
+            -- registering the same table multiple times on the input, and
+            -- should only be used for simple cases -- related points are
+            -- going to fall apart here.
+            for _,acoord in pairs(point.additional) do
+                if ns.DEBUG and ns.points[zone][acoord] then
+                    print(myname, "point collision", zone, acoord)
+                end
+                ns.points[zone][acoord] = point
+            end
+        end
     end
 end
 function ns.RegisterVignettes(zone, vignettes, defaults)
@@ -186,10 +201,15 @@ function ns.RegisterVignettes(zone, vignettes, defaults)
     for vignetteID, point in pairs(vignettes) do
         point._coord = point._coord or 0
         point._uiMapID = zone
+        point.vignette = vignetteID
         point.always = true
         point.label = false
 
-        ns.VignetteIDsToPoints[vignetteID] = defaults and defaults(point) or point
+        point = defaults and defaults(point) or point
+
+        intotable(ns.POIsToPoints, point.areaPoi, point)
+        intotable(ns.VignetteIDsToPoints, point.vignette, point)
+        intotable(ns.WorldQuestsToPoints, point.worldquest, point)
     end
 end
 
@@ -265,9 +285,7 @@ if _G.C_TooltipInfo then
     mob_name = function(id)
         if not name_cache[id] then
             local info = C_TooltipInfo.GetHyperlink(("unit:Creature-0-0-0-0-%d"):format(id))
-            -- TooltipUtil.SurfaceArgs(info)
             if info and info.lines and info.lines[1] then
-                TooltipUtil.SurfaceArgs(info.lines[1])
                 if info.lines[1].type == Enum.TooltipDataType.Unit then
                     name_cache[id] = info.lines[1].leftText
                 end
@@ -311,7 +329,7 @@ local function render_string(s, context)
         mainid, subid = mainid and tonumber(mainid), subid and tonumber(subid)
         id = tonumber(id)
         if variant == "item" then
-            local name, link, _, _, _, _, _, _, _, icon = GetItemInfo(id)
+            local name, link, _, _, _, _, _, _, _, icon = C_Item.GetItemInfo(id)
             if link and icon then
                 return quick_texture_markup(icon) .. " " .. link:gsub("[%[%]]", "")
             end
@@ -323,7 +341,8 @@ local function render_string(s, context)
         elseif variant == "quest" or variant == "worldquest" or variant == "questname" then
             local name = C_QuestLog.GetTitleForQuestID(id)
             if not (name and name ~= "") then
-                name = tostring(id)
+                -- we bypass the normal fallback mechanism because we want the quest completion status
+                name = fallback ~= "" and fallback or (variant .. ':' .. id)
             end
             if variant == "questname" then return name end
             local completed = C_QuestLog.IsQuestFlaggedCompleted(id)
@@ -370,9 +389,14 @@ local function render_string(s, context)
                 return CreateAtlasMarkup(("majorFactions_icons_%s512"):format(info.textureKit)) .. " " .. info.name
             end
         elseif variant == "faction" then
-            local name = GetFactionInfoByID(id)
-            if name then
-                return name
+            local name
+            if C_Reputation and C_Reputation.GetFactionDataByID then
+                local info = C_Reputation.GetFactionDataByID(id)
+                if info and info.name then
+                    name = info.name
+                end
+            elseif GetFactionInfoByID then
+                name = GetFactionInfoByID(id)
             end
         elseif variant == "garrisontalent" then
             local info = C_Garrison.GetTalentInfo(id)
@@ -384,6 +408,11 @@ local function render_string(s, context)
             if (info and info.professionName and info.professionName ~= "") then
                 -- there's also info.parentProfessionName for the general case ("Dragon Isles Inscription" vs "Inscription")
                 return info.professionName
+            end
+        elseif variant == "zone" then
+            local info = C_Map.GetMapInfo(id)
+            if info and info.name then
+                return info.name
             end
         end
         return fallback ~= "" and fallback or (variant .. ':' .. id)
@@ -493,7 +522,7 @@ local function work_out_label(point)
     end
     if point.loot and #point.loot > 0 then
         -- handle multiples?
-        local _, link = GetItemInfo(ns.lootitem(point.loot[1]))
+        local _, link = C_Item.GetItemInfo(ns.lootitem(point.loot[1]))
         if link then
             return link:gsub("[%[%]]", "")
         end
@@ -532,7 +561,7 @@ local function work_out_texture(point)
             return trimmed_icon(point.icon)
         end
         if point.loot and #point.loot > 0 then
-            local texture = select(10, GetItemInfo(ns.lootitem(point.loot[1])))
+            local texture = select(10, C_Item.GetItemInfo(ns.lootitem(point.loot[1])))
             if texture then
                 return trimmed_icon(texture)
             end
@@ -697,7 +726,7 @@ local function tooltip_loot(tooltip, item)
     local knownText
     local r, g, b = NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b
     local id = ns.lootitem(item)
-    local _, itemType, itemSubtype, equipLoc, icon, classID, subclassID = GetItemInfoInstant(id)
+    local _, itemType, itemSubtype, equipLoc, icon, classID, subclassID = C_Item.GetItemInfoInstant(id)
     if ns.db.tooltip_charloot and not IsShiftKeyDown() then
         -- show loot for the current character only
         -- can't pass in a reusable table for the second argument because it changes the no-data case
@@ -712,7 +741,7 @@ local function tooltip_loot(tooltip, item)
         -- then catch covenants / classes / etc
         if ns.itemRestricted(item) then return true end
     end
-    local _, link = GetItemInfo(ns.lootitem(item))
+    local _, link = C_Item.GetItemInfo(ns.lootitem(item))
     local label = ENCOUNTER_JOURNAL_ITEM
     if classID == Enum.ItemClass.Armor and subclassID ~= Enum.ItemArmorSubclass.Shield then
         label = _G[equipLoc] or label
@@ -915,6 +944,7 @@ local function handle_tooltip(tooltip, point, skip_label)
         local comparison = _G[myname.."ComparisonTooltip"]
         if not comparison then
             comparison = CreateFrame("GameTooltip", myname.."ComparisonTooltip", UIParent, "ShoppingTooltipTemplate")
+            if _G.GameTooltipDataMixin then Mixin(comparison, GameTooltipDataMixin) end
             comparison:SetFrameStrata("TOOLTIP")
             comparison:SetClampedToScreen(true)
         end

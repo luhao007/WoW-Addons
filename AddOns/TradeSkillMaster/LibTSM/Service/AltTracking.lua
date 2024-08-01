@@ -5,22 +5,30 @@
 -- ------------------------------------------------------------------------------ --
 
 local TSM = select(2, ...) ---@type TSM
-local AltTracking = TSM.Init("Service.AltTracking") ---@class Service.AltTracking
-local Database = TSM.Include("Util.Database")
-local TempTable = TSM.Include("Util.TempTable")
-local ItemString = TSM.Include("Util.ItemString")
-local Vararg = TSM.Include("Util.Vararg")
-local Wow = TSM.Include("Util.Wow")
-local Settings = TSM.Include("Service.Settings")
-local Sync = TSM.Include("Service.Sync")
+local AltTracking = TSM.Init("Service.AltTracking") ---@class Service.AltTracking: Module
+local Database = TSM.LibTSMUtil:Include("Database")
+local TempTable = TSM.LibTSMUtil:Include("BaseType.TempTable")
+local ItemString = TSM.LibTSMTypes:Include("Item.ItemString")
+local Vararg = TSM.LibTSMUtil:Include("Lua.Vararg")
+local SessionInfo = TSM.LibTSMWoW:Include("Util.SessionInfo")
+local Table = TSM.LibTSMUtil:Include("Lua.Table")
+local Sync = TSM.LibTSMService:Include("Sync")
 local PlayerInfo = TSM.Include("Service.PlayerInfo")
 local private = {
 	settings = nil,
 	quantityDB = nil,
 	baseItemQuantityQuery = nil,
 	characterFactionrealmCache = {},
+	quantityCallbacks = {},
 }
 local CACHE_SEP = "\001"
+local MIRROR_SETTING_KEYS = {
+	bagQuantity = true,
+	bankQuantity = true,
+	reagentBankQuantity = true,
+	auctionQuantity = true,
+	mailQuantity = true,
+}
 
 
 
@@ -28,8 +36,8 @@ local CACHE_SEP = "\001"
 -- Module Loading
 -- ============================================================================
 
-AltTracking:OnSettingsLoad(function()
-	private.settings = Settings.NewView()
+AltTracking:OnSettingsLoad(function(db)
+	private.settings = db:NewView()
 		:AddKey("factionrealm", "internalData", "pendingMail")
 		:AddKey("factionrealm", "internalData", "guildVaults")
 		:AddKey("factionrealm", "coreOptions", "ignoreGuilds")
@@ -38,6 +46,7 @@ AltTracking:OnSettingsLoad(function()
 		:AddKey("sync", "internalData", "reagentBankQuantity")
 		:AddKey("sync", "internalData", "auctionQuantity")
 		:AddKey("sync", "internalData", "mailQuantity")
+		:AddKey("global", "coreOptions", "regionWide")
 
 	private.quantityDB = Database.NewSchema("INVENTORY_ALT_QUANTITY")
 		:AddUniqueStringField("levelItemString")
@@ -51,7 +60,11 @@ AltTracking:OnSettingsLoad(function()
 		:Equal("baseItemString", Database.BoundQueryParam())
 
 	private.UpdateDB()
-	Sync.RegisterMirrorCallback(private.UpdateDB)
+	Sync.RegisterMirrorCallback(function(settingKey)
+		if MIRROR_SETTING_KEYS[settingKey] then
+			private.UpdateDB()
+		end
+	end)
 end)
 
 
@@ -59,6 +72,10 @@ end)
 -- ============================================================================
 -- Module Functions
 -- ============================================================================
+
+function AltTracking.RegisterQuantityCallback(callback)
+	tinsert(private.quantityCallbacks, callback)
+end
 
 function AltTracking.QuantityIterator()
 	return private.quantityDB:NewQuery()
@@ -140,8 +157,7 @@ function AltTracking.CharacterIterator()
 	local result = TempTable.Acquire()
 	for _, cacheKey in ipairs(private.characterFactionrealmCache) do
 		local character, factionrealm = strsplit(CACHE_SEP, cacheKey)
-		tinsert(result, character)
-		tinsert(result, factionrealm)
+		Table.InsertMultiple(result, character, factionrealm)
 	end
 	return TempTable.Iterator(result, 2)
 end
@@ -151,8 +167,7 @@ function AltTracking.GuildQuantityIterator(itemString)
 	for _, guildName, factionrealm in PlayerInfo.GuildIterator() do
 		local quantity = AltTracking.GetGuildQuantity(itemString, guildName, factionrealm)
 		if quantity > 0 then
-			tinsert(result, guildName)
-			tinsert(result, quantity)
+			Table.InsertMultiple(result, guildName, quantity)
 		end
 	end
 	return TempTable.Iterator(result, 2)
@@ -170,30 +185,34 @@ function private.UpdateDB()
 	local auctionQuantity = TempTable.Acquire()
 	for _, key in Vararg.Iterator("bagQuantity", "bankQuantity", "reagentBankQuantity", "auctionQuantity", "mailQuantity") do
 		for _, data, character, factionrealm in private.settings:AccessibleValueIterator(key) do
-			if not Wow.IsPlayer(character, factionrealm) then
+			if not SessionInfo.IsPlayer(character, factionrealm) then
 				local cacheKey = character..CACHE_SEP..factionrealm
 				if not private.characterFactionrealmCache[cacheKey] then
 					private.characterFactionrealmCache[cacheKey] = true
 					tinsert(private.characterFactionrealmCache, cacheKey)
 				end
 				for levelItemString, quantity in pairs(data) do
-					if key == "auctionQuantity" then
-						auctionQuantity[levelItemString] = (auctionQuantity[levelItemString] or 0) + quantity
+					if quantity <= 0 then
+						data[levelItemString] = nil
+					else
+						if key == "auctionQuantity" then
+							auctionQuantity[levelItemString] = (auctionQuantity[levelItemString] or 0) + quantity
+						end
+						totalQuantity[levelItemString] = (totalQuantity[levelItemString] or 0) + quantity
 					end
-					totalQuantity[levelItemString] = (totalQuantity[levelItemString] or 0) + quantity
 				end
 			end
 		end
 	end
-	for _, data, _, factionrealm in private.settings:AccessibleValueIterator("pendingMail") do
+	for _, data, factionrealm in private.settings:AccessibleValueIterator("pendingMail") do
 		for character, pendingQuantity in pairs(data) do
 			local isValid = true
 			for levelItemString, quantity in pairs(pendingQuantity) do
-				if type(quantity) ~= "number" then
+				if type(quantity) ~= "number" or quantity < 0 then
 					isValid = false
 					break
 				end
-				if not Wow.IsPlayer(character, factionrealm) then
+				if not SessionInfo.IsPlayer(character, factionrealm) then
 					totalQuantity[levelItemString] = (totalQuantity[levelItemString] or 0) + quantity
 				end
 			end
@@ -203,6 +222,11 @@ function private.UpdateDB()
 		end
 	end
 	sort(private.characterFactionrealmCache)
+	local prevQuantities = TempTable.Acquire()
+	private.quantityDB:NewQuery()
+		:Select("levelItemString", "total")
+		:AsTable(prevQuantities)
+		:Release()
 	private.quantityDB:TruncateAndBulkInsertStart()
 	for levelItemString, quantity in pairs(totalQuantity) do
 		local auction = (auctionQuantity[levelItemString] or 0)
@@ -210,8 +234,26 @@ function private.UpdateDB()
 		private.quantityDB:BulkInsertNewRow(levelItemString, quantity, quantity - auction, auction)
 	end
 	private.quantityDB:BulkInsertEnd()
+	local updatedItems = TempTable.Acquire()
+	Table.GetChangedKeys(prevQuantities, totalQuantity, updatedItems)
+	TempTable.Release(prevQuantities)
 	TempTable.Release(totalQuantity)
 	TempTable.Release(auctionQuantity)
+	if next(updatedItems) then
+		-- Add the base items
+		local baseItemStrings = TempTable.Acquire()
+		for levelItemString in pairs(updatedItems) do
+			baseItemStrings[ItemString.GetBaseFast(levelItemString)] = true
+		end
+		for baseItemString in pairs(baseItemStrings) do
+			updatedItems[baseItemString] = true
+		end
+		TempTable.Release(baseItemStrings)
+		for _, callback in ipairs(private.quantityCallbacks) do
+			callback(updatedItems)
+		end
+	end
+	TempTable.Release(updatedItems)
 end
 
 function private.GetInventoryValue(itemString, settingKey, character, factionrealm)
@@ -225,10 +267,10 @@ function private.GetInventoryValue(itemString, settingKey, character, factionrea
 end
 
 function private.GetPendingMailQuantity(itemString, character, factionrealm)
-	character = character or Wow.GetCharacterName()
+	character = character or SessionInfo.GetCharacterName()
 	-- TODO: Figure out how to track pendingMail across accounts
 	-- TODO: Update this code to support pendingMail across connected realms
-	if factionrealm and factionrealm ~= Wow.GetFactionrealmName() then
+	if factionrealm and factionrealm ~= SessionInfo.GetFactionrealmName() then
 		return 0
 	end
 	return private.GetItemQuantityFromSettingsTable(private.settings.pendingMail[character], itemString)

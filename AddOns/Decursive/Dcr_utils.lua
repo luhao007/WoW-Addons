@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
 
-    Decursive (v 2.7.8.13) add-on for World of Warcraft UI
+    Decursive (v 2.7.20) add-on for World of Warcraft UI
     Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Decursive is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
 
-    This file was last updated on 2022-11-27T23:18:58Z
+    This file was last updated on 2024-07-16T09:27:29Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -86,11 +86,14 @@ local tonumber          = _G.tonumber;
 local UnitGUID          = _G.UnitGUID;
 local band              = _G.bit.band;
 local GetTime           = _G.GetTime;
-local IsSpellInRange    = _G.IsSpellInRange;
+local IsSpellInRange    = _G.C_Spell and _G.C_Spell.IsSpellInRange or _G.IsSpellInRange;
 local UnitInRange       = _G.UnitInRange;
 local debugprofilestop  = _G.debugprofilestop;
-local GetSpellInfo      = _G.GetSpellInfo;
-local GetItemInfo       = _G.GetItemInfo;
+local GetSpellInfo      = _G.C_Spell and _G.C_Spell.GetSpellInfo or _G.GetSpellInfo;
+local GetSpellName      = _G.C_Spell and _G.C_Spell.GetSpellName or function (spellId) return (GetSpellInfo(spellId)) end;
+local GetSpellId        = _G.C_Spell and _G.C_Spell.GetSpellInfo and function(spellName) return GetSpellInfo(spellName).spellID end or function(spellName) return (select(7, GetSpellInfo(spellName))) end
+local GetItemInfo       = _G.C_Item and _G.C_Item.GetItemInfo or _G.GetItemInfo;
+local GetSpellBookItemInfo  = _G.C_SpellBook and _G.C_SpellBook.GetSpellBookItemInfo or _G.GetSpellBookItemInfo;
 local pcall             = _G.pcall;
 
 -- replacement for the default function as it is bugged in WoW5 (it returns nil for some spells such as resto shamans' 'Purify Spirit')
@@ -612,9 +615,9 @@ function D:GetSpellFromLink(link)
 end
 
 
-local IsUsableItem      = _G.IsUsableItem;
-local IsEquippableItem  = _G.IsEquippableItem;
-local IsEquippedItem    = _G.IsEquippedItem;
+local IsUsableItem      = _G.C_Item and _G.C_Item.IsUsableItem or _G.IsUsableItem;
+local IsEquippableItem  = _G.C_Item and _G.C_Item.IsEquippableItem or _G.IsEquippableItem;
+local IsEquippedItem    = _G.C_Item and _G.C_Item.IsEquippedItem or _G.IsEquippedItem;
 function D:isItemUsable(itemIDorName)
     if IsEquippableItem(itemIDorName) and not IsEquippedItem(itemIDorName) then
         return false;
@@ -626,35 +629,37 @@ end
 
 function D:isSpellReady(spellID, isPetAbility)
 
-    if DC.WOWC and isPetAbility then
+    -- in wow classic flavors, the 'display all ranks' option in the spell book UI changes the output of the IsSpellKnown() function...
+    if DC.WOWC and (isPetAbility or not IsSpellKnownOrOverridesKnown(spellID, isPetAbility)) then
         -- Former ranks of known pet spell abilities are lost in WoW classic
         -- so we need to get back to the corresponding current spell id using
         -- the name of the spell.
 
-        local spellName = (GetSpellInfo(spellID)); -- may return nil if the spell is not known depending on wow version and whether it is a pet ability or not...
+        local spellName = GetSpellName(spellID); -- may return nil if the spell is not known depending on wow version and whether it is a pet ability or not...
 
         if not DC.WOTLK then -- but ranks are back in wotlk and former ranks disappear when the next one is learned...
             local spellType, id
 
             if spellName then
                 spellType, id = GetSpellBookItemInfo(spellName);
+                spellID = id;
             end
 
             if id and spellType == "PETACTION" then
-                spellID = bit.band(0xffffff, id);
-            elseif spellType then
+                spellID = band(0xffffff, id);
+            elseif spellType and isPetAbility then
                 D:Debug("Pet ability update lookup failed", spellID, spellName, spellType, id);
             end
         else
             if spellName then
-                spellID = select(7, GetSpellInfo(spellName));
-            else
+                spellID = GetSpellId(spellName);
+            elseif isPetAbility then
                 D:Debug("Pet ability update lookup failed", spellID, spellName, "GetSpellInfo(spellName):", GetSpellInfo(spellName));
             end
         end
     end
 
-    return spellID and IsSpellKnown(spellID, isPetAbility);
+    return spellID and IsSpellKnownOrOverridesKnown(spellID, isPetAbility); -- returns false if not all known spell checkbox is checked... how stupid.
 end
 
 function D:GetItemFromLink(link)
@@ -682,9 +687,9 @@ function D:GetItemFromLink(link)
     return nil;
 end
 
-function D.GetSpellOrItemInfo(spellID)
+function D.GetSpellOrItemInfo(spellID) -- could be renamed to GetSpellOrItemName
     if spellID > 0 then
-        return GetSpellInfo(spellID);
+        return GetSpellName(spellID);
     else
         return GetItemInfo(spellID * -1) or "Item: " .. spellID * -1;
     end
@@ -994,5 +999,47 @@ do
     end
 end
 
+do
+    local placeholderMark = "_______";
 
-T._LoadedFiles["Dcr_utils.lua"] = "2.7.8.13";
+    local function replaceWithLowerUpper(s, addBrackets)
+        return string.gsub(s, "%a",
+                function (c)
+                    return (addBrackets and "[" or "") .. string.lower(c) .. string.upper(c) .. (addBrackets and "]" or "");
+                end);
+    end
+
+    function D:makeNoCasePattern (s)
+        local nocase = "";
+
+        for pattern in s:gmatch("[^\n\r]+") do -- consider each line as an independant pattern
+
+            -- protect existing character classes
+
+            local placeholderTable = {}
+            local placeholderCounter = 0
+
+            -- Replace letters between balanced [] with placeholders
+            local protectedInput = pattern:gsub("%b[]", function(match)
+                local placeholder = placeholderMark .. placeholderCounter .. placeholderMark
+                placeholderCounter = placeholderCounter + 1
+                placeholderTable[placeholder] = match
+                return placeholder
+            end)
+
+            -- Replace letters outside [] with character classes
+            local partialOutput = replaceWithLowerUpper(protectedInput, true);
+
+            -- Replace placeholders with original content
+            local output = partialOutput:gsub(placeholderMark .."%d+" .. placeholderMark, function(placeholder)
+                return replaceWithLowerUpper(placeholderTable[placeholder] or placeholder, false)
+            end)
+
+            nocase = nocase .. output .. "\n";
+        end
+
+        D:Debug("No case keywords pattern: ", nocase:trim())
+        return nocase:trim();
+    end
+end
+T._LoadedFiles["Dcr_utils.lua"] = "2.7.20";

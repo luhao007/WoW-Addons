@@ -1,5 +1,26 @@
 # Changelog
 
+## Changes in v35
+
+* Update for 11.0.0
+* Minor data improvements on Argus
+
+## Changes in v34
+
+* Update for 10.2.0
+* Fix Matron Foluna's areaPOI
+* Bring in updates to the handler code from [HandyNotes: Dragonflight Treasures](https://www.curseforge.com/wow/addons/handynotes-dragonflight-treasures):
+    * Avoid some possible tooltip errors with other addons
+    * Minimap routes should respect display settings
+    * New config "only show notable NPCs": enable and rares will only be shown if they've got something for you (achievements or transmogs)
+
+## Changes in v33
+
+* Update for 10.0.5
+* Add the Argus world bosses
+* Desmond's Lockbox in Dalaran should be restricted to Rogues
+* Prevent errors from incompletely-updated tooltip addons
+
 ## Changes in v32
 
 * Add the locations for the Anomalous Animals of Argus achievement

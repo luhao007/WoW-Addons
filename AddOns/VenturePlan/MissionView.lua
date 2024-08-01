@@ -1,5 +1,6 @@
 local _, T = ...
 local EV, L, U, S = T.Evie, T.L, T.Util, T.Shadows
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local Animations = {}
 local FollowerList, MissionRewards, BoardEX, CAGHost
@@ -644,22 +645,34 @@ local function Tact_ScheduledBoardCheck()
 	Tact.pendingBoardCheck = nil
 	return Tact:CheckBoard()
 end
+local CallDescendentOnEnter do
+	local function callDescendentOnEnter(f, n, w, ...)
+		local oe = w and w.GetScript and not (w.IsForbidden and w:IsForbidden()) and w:GetScript("OnEnter")
+		if oe then
+			local p = w
+			while p and p ~= f and p.GetParent and not (p.IsForbidden and p:IsForbidden()) do
+				p = p:GetParent()
+			end
+			if p == f then
+				return oe(w)
+			end
+		end
+		if n > 1 then
+			return callDescendentOnEnter(f, n-1, ...)
+		end
+	end
+	function CallDescendentOnEnter(f, ...)
+		return callDescendentOnEnter(f, select("#", ...), ...)
+	end
+end
 local function MissionGroup_OnUpdate()
 	if MissionGroup_HoldUpdate == GetTime() then return end
 	if not Tact.pendingBoardCheck then
 		Tact.pendingBoardCheck = 1
 		C_Timer.After(0, Tact_ScheduledBoardCheck)
 	end
-	local o = GameTooltip:IsVisible() and GameTooltip:GetOwner() or GetMouseFocus()
-	if o and not o:IsForbidden() and o.GetScript then
-		local l, p, t = 3, o, CovenantMissionFrame.MissionTab.MissionPage.Board
-		while p and p ~= t and l > 0 and p.GetParent and p.IsForbidden and not p:IsForbidden() do
-			l, p = l-1, p:GetParent()
-		end
-		if p == t then
-			o:GetScript("OnEnter")(o)
-		end
-	end
+	local tipOwner = not GameTooltip:IsForbidden() and GameTooltip:IsVisible() and GameTooltip:GetOwner()
+	CallDescendentOnEnter(CovenantMissionFrame.MissionTab.MissionPage.Board, tipOwner, unpack(GetMouseFoci()))
 	FollowerList:SyncToBoard()
 	Predictor_DoStart(CAGHost, 1)
 	Board_SetSimResult(CAG:GetCachedResultSim())

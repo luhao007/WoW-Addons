@@ -1,18 +1,6 @@
 --[[
-Copyright 2012-2022 João Cardoso
-PetTracker is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of PetTracker.
+Copyright 2012-2024 João Cardoso
+All Rights Reserved
 --]]
 
 local ADDON, Addon = ...
@@ -56,7 +44,7 @@ function Pin:OnTooltip(tip)
 
 	for i, pet in ipairs(self.rival) do
 		local icon = format('|T%s:16:16:-3:0:128:256:60:100:130:170:255:255:255|t', pet:GetTypeIcon())
-		local r,g,b = pet:GetColor()
+		local r,g,b = pet:GetColor():GetRGB()
 
 		tip:AddLine(icon .. pet:GetName() .. ' (' .. pet:GetLevel() .. ')', r,g,b)
 	end

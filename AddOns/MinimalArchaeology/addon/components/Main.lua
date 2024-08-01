@@ -46,8 +46,8 @@ local function CreateRelevancyToggleButton(parent, x, y)
 	end);
 	button:SetScript("OnMouseUp", function(self, button)
 		if (button == "RightButton") then
-			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
-			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+			InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
 		end
 	end);
 	button:SetScript("OnEnter", ShowRelevancyButtonTooltip)
@@ -80,15 +80,13 @@ end
 
 local function InitArtifactBars(self)
     -- Create the artifact bars for the main window
-    for i=1,ARCHAEOLOGY_NUM_RACES do
+	local barY = -25;
+	for i=1,ARCHAEOLOGY_NUM_RACES do
         local artifactBar = CreateFrame("StatusBar", "MinArchArtifactBar" .. i, self, "MATArtifactBar", i);
         artifactBar.parentKey = "artifactBar" .. i;
         artifactBar.race = i;
-        if (i == 1) then
-            artifactBar:SetPoint("TOP", self, "TOP", -25, -50);
-        else
-            artifactBar:SetPoint("TOP", MinArch['artifactbars'][i-1], "TOP", 0, -25);
-        end
+		artifactBar:SetPoint("TOP", self, "TOP", -25, barY);
+		barY = barY - 25;
 
         local barTexture = [[Interface\Archeology\Arch-Progress-Fill]];
         artifactBar:SetStatusBarTexture(barTexture);
@@ -106,10 +104,10 @@ local function InitArtifactBars(self)
         end)
 
         artifactBar.keystone:SetScript("OnClick", function(self, button, down)
-            MinArch:KeystoneClick(self, button, down);
+            MinArch:KeystoneClick(self, i, button, down);
         end)
         artifactBar.keystone:SetScript("OnEnter", function(self)
-            MinArch:KeystoneTooltip(self);
+            MinArch:KeystoneTooltip(self, i);
         end)
 
         artifactBar.buttonSolve:SetScript("OnClick", function(self)
@@ -134,6 +132,8 @@ local function RegisterEvents(self)
     self:RegisterEvent("ARCHAEOLOGY_CLOSED");
     self:RegisterEvent("QUEST_TURNED_IN");
     self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self:RegisterEvent("PLAYER_LEAVE_COMBAT");
+	self:RegisterEvent("PLAYER_REGEN_ENABLED");
     self:RegisterEvent("QUEST_LOG_UPDATE");
     self:RegisterEvent("PLAYER_STOPPED_MOVING");
     self:RegisterEvent("ZONE_CHANGED");
@@ -170,9 +170,6 @@ function MinArch:InitMain(self)
     self.buttonOpenHist:SetScript("OnEnter", function(self)
         MinArch:ShowWindowButtonTooltip(self, "Open History");
     end)
-    self.buttonOpenArch:SetScript("OnEnter", function(self)
-        MinArch:ShowWindowButtonTooltip(self, "Open Profession Window");
-    end)
 
 	local skillBarTexture = [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]];
 	self.skillBar:SetStatusBarTexture(skillBarTexture);
@@ -198,19 +195,41 @@ function MinArch:UpdateArchaeologySkillBar()
 	if (arch) then
 		local name, _, rank, maxRank = GetProfessionInfo(arch);
 
-		if (rank ~= maxRank) then
+		if (rank ~= ARCHAEOLOGY_MAX_RANK) then
 			MinArchMain.skillBar:Show();
 			MinArchMain.skillBar:SetMinMaxValues(0, maxRank);
 			MinArchMain.skillBar:SetValue(rank);
             MinArchMain.skillBar.text:SetText(name.." "..rank.."/"..maxRank);
+			if (maxRank ~= ARCHAEOLOGY_MAX_RANK and rank + 25 >= maxRank) then
+				MinArchMain.skillBar.text:SetTextColor(1,1,0,1)
+			else
+				MinArchMain.skillBar.text:SetTextColor(1,1,1,1)
+			end
             MinArch['frame']['height'] = MinArch['frame']['defaultHeight'];
-            MinArch.artifactbars[1]:SetPoint("TOP", -25, -50);
+            -- MinArch.artifactbars[1]:SetPoint("TOP", -25, -50);
+
+			if MinArch.db.profile.companion.enable then
+				if MinArch.db.profile.companion.features.skillBar.enabled then
+					local width = math.floor(MinArch.Companion:GetWidth() * (rank / maxRank))
+					MinArch.Companion.skillBar.progressBar:SetWidth(width);
+					MinArch.Companion.skillBar.fontString:SetText(rank .. '/' .. maxRank)
+					MinArch.Companion.skillBar:Show()
+				else
+					MinArch.Companion.skillBar:Hide()
+				end
+			end
 		else
 			MinArchMain.skillBar:Hide();
+			if MinArch.db.profile.companion.enable then
+				MinArch.Companion.skillBar:Hide()
+			end
 			MinArch['frame']['height'] = MinArch['frame']['defaultHeight'] - 25;
-			MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
+			-- MinArch.artifactbars[1]:SetPoint("TOP", -25, -25);
 		end
 	else
+		if MinArch.db.profile.companion.enable then
+        	MinArch.Companion.skillBar:Hide()
+		end
 		MinArchMain.skillBar:SetMinMaxValues(0, 100);
 		MinArchMain.skillBar:SetValue(0);
 		MinArchMain.skillBar.text:SetText(ARCHAEOLOGY_RANK_TOOLTIP);
@@ -276,38 +295,53 @@ function MinArch:UpdateArtifact(RaceIndex)
 	return 1
 end
 
-function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
+function MinArch:UpdateKeystones(keystoneFrame, RaceIndex)
+	local artifact = MinArch['artifacts'][RaceIndex];
+	if not artifact or not artifact['raceitemid'] then
+		return
+	end
+
+	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = C_Item.GetItemInfo(artifact['raceitemid']);
+
+	keystoneFrame.icon:SetTexture(runeStoneIconPath);
+
+	if (artifact['appliedKeystones'] == 0 or artifact['numKeystones'] == 0) then
+		keystoneFrame.icon:SetAlpha(0.1);
+	else
+		keystoneFrame.icon:SetAlpha((artifact['appliedKeystones']/artifact['numKeystones']));
+	end
+
+	if (artifact['numKeystones'] > 0 and artifact['total'] > 0) then
+		keystoneFrame.text:SetText(artifact['appliedKeystones'].."/"..artifact['numKeystones']);
+		keystoneFrame:Show();
+		keystoneFrame.icon:Show();
+	else
+		keystoneFrame:Hide();
+	end
+end
+
+function MinArch:UpdateArtifactBar(RaceIndex)
 	if (MinArch.IsReady == false) then
 		return false;
 	end
 
 	local artifact = MinArch['artifacts'][RaceIndex];
-	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = GetItemInfo(artifact['raceitemid']);
+	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = C_Item.GetItemInfo(artifact['raceitemid']);
 	local total = artifact['total']
 
 	if (MinArch.db.profile.raceOptions.cap[RaceIndex] == true) then
 		total = MinArchRaceConfig[RaceIndex].fragmentCap
 	end
 
+	ArtifactBar = MinArch['artifactbars'][RaceIndex]
 	ArtifactBar:SetMinMaxValues(0, total);
     ArtifactBar:SetValue(min(artifact['progress']+artifact['modifier'], total));
     ArtifactBar.race = RaceIndex;
 
-	ArtifactBar.keystone.icon:SetTexture(runeStoneIconPath);
-	if (artifact['appliedKeystones'] == 0 or artifact['numKeystones'] == 0) then
-		ArtifactBar.keystone.icon:SetAlpha(0.1);
-	else
-		ArtifactBar.keystone.icon:SetAlpha((artifact['appliedKeystones']/artifact['numKeystones']));
-	end
+	-- Keystone
+	MinArch:UpdateKeystones(ArtifactBar.keystone, RaceIndex);
 
-	if (artifact['numKeystones'] > 0 and artifact['total'] > 0) then
-		ArtifactBar.keystone.text:SetText(artifact['appliedKeystones'].."/"..artifact['numKeystones']);
-		ArtifactBar.keystone:Show();
-		ArtifactBar.keystone.icon:Show();
-	else
-		ArtifactBar.keystone:Hide();
-	end
-
+	-- Rarity
 	if (artifact['rarity'] == 1) then
 		ArtifactBar.text:SetTextColor(0.0, 0.3922, 0.7843, 1.0);
 	else
@@ -340,7 +374,7 @@ function MinArch:UpdateArtifactBar(RaceIndex, ArtifactBar)
 		ArtifactBar.buttonSolve:Disable();
 	end
 
-	if (MinArch.db.profile.autoShowOnCap and artifact['progress'] ~= 0 and artifact['progress'] == total) then
+	if (MinArch.db.profile.autoShowOnCap and artifact['progress'] ~= 0 and artifact['progress'] == MinArchRaceConfig[RaceIndex].fragmentCap) then
 		MinArch:ShowMain();
 	end
 end
@@ -376,9 +410,9 @@ function MinArch:SolveArtifact(RaceIndex, confirmed)
     for i=1, MinArch['artifacts'][RaceIndex]['appliedKeystones'] do
 		SocketItemToArtifact();
 	end
-	MinArch['artifacts'][RaceIndex]['appliedKeystones'] = 0;
-
+	
 	SolveArtifact();
+
 	MinArch:CreateHistoryList(RaceIndex, "SolveArtifact");
 end
 
@@ -389,27 +423,30 @@ function MinArch:UpdateMain()
 		return;
 	end
 
-	local activeBarIndex = 0;
 	local point, relativeTo, relativePoint, xOfs, yOfs = MinArchMain:GetPoint()
 	local x1, size1 = MinArchMain:GetSize();
+
+	local MinArchFrameHeight = ARCHAEOLOGY_NUM_RACES * 25 + 40
+
+	local barY = -25;
+	if (MinArchMain.skillBar:IsVisible()) then
+		barY = -50;
+		MinArchFrameHeight = MinArchFrameHeight + 20
+	end
 
 	for i=1,ARCHAEOLOGY_NUM_RACES do
         MinArch:UpdateArtifact(i);
 
 		if (MinArch.db.profile.raceOptions.hide[i] == false and MinArch:IsRaceRelevant(i)) then
-			activeBarIndex = activeBarIndex + 1;
-			MinArch:UpdateArtifactBar(i, MinArch['artifactbars'][activeBarIndex]);
-			MinArch['artifactbars'][activeBarIndex]:Show();
-			MinArch['barlinks'][activeBarIndex] = i;
-		end
-	end
-
-	local MinArchFrameHeight = MinArch['frame']['height'];
-
-	for i=activeBarIndex+1, ARCHAEOLOGY_NUM_RACES do
-		if (MinArch['artifactbars'][i] ~= nil) then
-			MinArch['artifactbars'][i]:Hide();
-			MinArchFrameHeight = MinArchFrameHeight - 25;
+			MinArch:UpdateArtifactBar(i);
+			MinArch.artifactbars[i]:Show();
+			MinArch.artifactbars[i]:SetPoint("TOP", MinArchMain, "TOP", -25, barY);
+			barY = barY - 25;
+		else
+			if (MinArch['artifactbars'][i] ~= nil) then
+				MinArch['artifactbars'][i]:Hide();
+				MinArchFrameHeight = MinArchFrameHeight - 25;
+			end
 		end
 	end
 
@@ -487,9 +524,9 @@ function MinArch:HideArtifactTooltip()
 	GameTooltip:Hide();
 end
 
-function MinArch:KeystoneTooltip(self)
-	local artifact = MinArch['artifacts'][MinArch['barlinks'][self:GetID()]];
-	local name = GetItemInfo(artifact['raceitemid']);
+function MinArch:KeystoneTooltip(self, raceID)
+	local artifact = MinArch['artifacts'][raceID];
+	local name = C_Item.GetItemInfo(artifact['raceitemid']);
 
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
 
@@ -501,27 +538,30 @@ function MinArch:KeystoneTooltip(self)
 	GameTooltip:SetItemByID(artifact['raceitemid']);
 	GameTooltip:AddLine(" ");
 	GameTooltip:AddLine("You have "..artifact['heldKeystones'].." "..tostring(name)..plural .. " in your bags", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine("Left click to apply a keystone");
+	GameTooltip:AddLine("Right click to remove a keystone");
 	GameTooltip:Show();
 end
 
-function MinArch:KeystoneClick(self, button, down)
-	local artifactIndex = MinArch['barlinks'][self:GetID()];
-	local numofappliedkeystones = MinArch['artifacts'][artifactIndex]['appliedKeystones'];
-	local numoftotalkeystones = MinArch['artifacts'][artifactIndex]['numKeystones'];
+function MinArch:KeystoneClick(self, raceID, button, down)
+	local numofappliedkeystones = MinArch['artifacts'][raceID]['appliedKeystones'];
+	local numoftotalkeystones = MinArch['artifacts'][raceID]['numKeystones'];
 
 	if (button == "LeftButton") then
 		if (numofappliedkeystones < numoftotalkeystones) then
-			 MinArch['artifacts'][artifactIndex]['appliedKeystones'] = numofappliedkeystones + 1;
+			 MinArch['artifacts'][raceID]['appliedKeystones'] = numofappliedkeystones + 1;
 		end
 	elseif (button == "RightButton") then
 		if (numofappliedkeystones > 0) then
-			 MinArch['artifacts'][artifactIndex]['appliedKeystones'] = numofappliedkeystones - 1;
+			 MinArch['artifacts'][raceID]['appliedKeystones'] = numofappliedkeystones - 1;
 		end
 	end
 
-	MinArch:UpdateArtifact(artifactIndex);
-	MinArch:UpdateArtifactBar(artifactIndex,MinArch['artifactbars'][self:GetID()]);
+	MinArch:UpdateArtifact(raceID);
+	MinArch:UpdateArtifactBar(raceID);
 	MinArch:RefreshLDBButton();
+	MinArch.Companion:Update()
 end
 
 function MinArch:HideMain()
@@ -536,7 +576,7 @@ function MinArch:ShowMain()
 	--else
 		MinArchMain:Show();
 		-- MinArch.db.profile.hideMain = false;
-		MinArch.db.char.WindowStates.main = true;
+		MinArch.db.char.WindowStates.main = MinArch.db.profile.rememberState;
 	--end
 end
 
@@ -551,3 +591,42 @@ function MinArchMain:Toggle(overrideHideNext)
 	end
 end
 
+function MinArch:OpenWindow(button)
+	if (button == "LeftButton") then
+		local shiftKeyIsDown = IsShiftKeyDown();
+		local ctrlKeyIsDown = IsControlKeyDown();
+		local altKeyDown = IsAltKeyDown();
+
+		if shiftKeyIsDown then
+			MinArchHist:Toggle();
+		elseif ctrlKeyIsDown then
+			MinArchDigsites:Toggle();
+		else
+			if (MinArchMain:IsVisible()) then
+				MinArch:HideMain();
+				if (altKeyDown) then
+					MinArch:HideHistory();
+					MinArch:HideDigsites();
+				end
+			else
+				MinArch:ShowMain();
+				MinArch.HideNext = false;
+			end
+		end
+
+	elseif (button == "RightButton") then
+		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+		InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+	end
+end
+
+function MinArch_OnAddonCompartmentClick(_, button)
+	MinArch:OpenWindow(button)
+end
+
+function MinArch_OnAddonCompartmentEnter()
+    --
+end
+function MinArch_OnAddonCompartmentLeave()
+    --
+end

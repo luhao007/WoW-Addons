@@ -179,10 +179,6 @@ L:SetGeneralLocalization({
 	name =	"Трэш мобы Академия Алгет'ар"
 })
 
-L:SetOptionLocalization({
-	AGBuffs		= "Автоматический выбор диалога для активации баффов при взаимодействии с драконьими NPC"
-})
-
 -----------------------
 -- <<<The Azure Vault>>> --
 -----------------------
@@ -213,10 +209,6 @@ L = DBM:GetModLocalization("TheAzurevaultTrash")
 
 L:SetGeneralLocalization({
 	name =	"Трэш мобы Лазурное хранилище"
-})
-
-L:SetOptionLocalization({
-	AGBook			= "Автоматический выбор диалога для телепортации при взаимодействии с книгами"
 })
 
 -----------------------
@@ -283,4 +275,69 @@ L = DBM:GetModLocalization("HallsofInfusionTrash")
 
 L:SetGeneralLocalization({
 	name =	"Трэш мобы Чертоги Насыщения"
+})
+
+-----------------------
+-- Chronikar --
+-----------------------
+--L= DBM:GetModLocalization(2521)
+
+-----------------------
+-- Manifested Timeways --
+-----------------------
+L= DBM:GetModLocalization(2528)
+
+L:SetMiscLocalization({
+	PrePullRP		= "Даже Аспект Времени не должен менять временные пути!"
+})
+
+-----------------------
+-- Blight of Galakrond --
+-----------------------
+--L= DBM:GetModLocalization(2535)
+
+-----------------------
+-- Iridikron the Stonescaled --
+-----------------------
+L= DBM:GetModLocalization(2537)
+
+L:SetMiscLocalization({
+	PrePullRP		= "Слуги титанов пришли сразиться со мной."
+})
+
+-----------------------
+-- Tyr, the infinite Keeper --
+-----------------------
+--L= DBM:GetModLocalization(2526)
+
+-----------------------
+-- Morchie --
+-----------------------
+--L= DBM:GetModLocalization(2536)
+
+-----------------------
+-- Time-Lost Battlefield  --
+-----------------------
+L= DBM:GetModLocalization(2533)--Alliance ID used for both factions (2534 is horde id)
+
+L:SetGeneralLocalization({
+	name =	"Time-Lost Battlefield"--Manual local because auto inserts Alliance or horde to name and mod combines them since singular encounter ID
+})
+
+L:SetMiscLocalization({
+	customWAMessage = "Используйте |cff69ccf0%s|r для |cff4565ffАльянса|r и |cff69ccf0%s|r для |cffff0000Орды|r"
+})
+
+-----------------------
+-- Chrono-Lord Deios --
+-----------------------
+--L= DBM:GetModLocalization(2538)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("DawnoftheInfiniteTrash")
+
+L:SetGeneralLocalization({
+	name =	"Трэш мобы Рассвет Бесконечности"
 })

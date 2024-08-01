@@ -1,15 +1,18 @@
 -- Support for the Extravaganza
 --
 -- Map support liberally borrowed from GuildMap, by Bru on Blackhand
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
-FishingBuddy.Extravaganza = {};
+FBI.Extravaganza = {};
 
 local FL = LibStub("LibFishing-1.0");
 
 local UPDATETIME_SCHOOLS = 5.0;
 local UPDATETIME_COUNTER = 20.0;
 local NUMMINIPOIS = 10;
-local ICONPATH = "Interface\\AddOns\\FishingBuddy\\Icons\\";
+local ICONPATH = "Interface\\AddOns\\FBI\\Icons\\";
 
 local UpdateTimer = 0;
 
@@ -21,7 +24,7 @@ ExtravaganzaFish[19805] = "Keefer's Angelfish";
 -- makes you wonder what item 19804 is, doesn't it...
 ExtravaganzaFish[19803] = "Brownell's Blue Striped Racer";
 
-FishingBuddy.Extravaganza.Fish = ExtravaganzaFish;
+FBI.Extravaganza.Fish = ExtravaganzaFish;
 
 local ContestIsOver;
 
@@ -56,7 +59,7 @@ Contests[1] = {
 -- 	["yell"] = FBConstants.ELDER_CLEARWATER,
 -- };
 
-local FBGetSettingBool = FishingBuddy.GetSettingBool;
+local FBGetSettingBool = function(...) return FBI:GetSettingBool(...); end;
 local function GetSettingBool(setting)
 	if (FBGetSettingBool("ContestSupport")) then
 		return FBGetSettingBool(setting);
@@ -65,7 +68,7 @@ local function GetSettingBool(setting)
 end
 
 local function ExtravaganzaHijackCheck()
-	if ( FishingBuddy.NormalHijackCheck() ) then
+	if ( FBI:NormalHijackCheck() ) then
 		-- also check to make sure we're over a pool
 		return FL:IsFishingPool();
 	end
@@ -73,7 +76,7 @@ end
 
 local function IsContestZone()
 	if ( CurrentContest ) then
-		local mapId,_ = FishingBuddy.GetCurrentMapIdInfo();
+		local mapId,_ = FBI:GetCurrentMapIdInfo();
 		local landmass, _ = FL:GetCurrentMapContinent();
 		-- Are we on the right continent?
 		if ( landmass == CurrentContest.continent ) then
@@ -104,10 +107,10 @@ local function GetFreePoolIcon()
 	end
 	if ( not pdx ) then
 		pdx = #iconcache + 1;
-		local pool = CreateFrame("BUTTON", "FBIcon"..pdx, UIParent);
+		local pool = CreateFrame("BUTTON", "FishingBuddycon"..pdx, UIParent);
 		pool:SetWidth(20);
 		pool:SetHeight(20);
-		local tex = pool:CreateTexture("FBIcon"..pdx.."Texture", "ARTWORK");
+		local tex = pool:CreateTexture("FishingBuddycon"..pdx.."Texture", "ARTWORK");
 		tex:SetTexture("Interface\\Minimap\\ObjectIcons");
 		tex:SetTexCoord(0.875, 1.0, 0.25, 0.5);
 		tex:SetVertexColor(1, 1, 1, 0.3);
@@ -172,7 +175,6 @@ local function IsTime(activate)
 	end
 	for idx=1,numDayEvents  do
 		-- Can't use eventTitle as it is localized, but eventTexture does not appear to be localized.
-		local eventTexture;
 		local eventTitle, eh, _, calendarType, _, eventType, eventTexture, _, inviteStatus = CalendarGetDayEvent(currentMonthOffset, currentDay, idx);
 		eventHour = eh;
 		if eventTexture == "Calendar_FishingExtravaganza" then
@@ -180,13 +182,13 @@ local function IsTime(activate)
 			startHour = tonumber(eventHour)
 		elseif eventType == CALENDAR_EVENTTYPE_OTHER and string.find(eventTitle, "FISHING") then
 			local invited = true;
-			
+
 			if (calendarType == "GUILD") then
 				invited = (inviteStatus == CALENDAR_INVITESTATUS_ACCEPTED or
 							inviteStatus == CALENDAR_INVITESTATUS_CONFIRMED or
 							inviteStatus == CALENDAR_INVITESTATUS_SIGNEDUP);
 			end
-			
+
 			if (invited) then
 				fishingEvent = 1;
 				startHour = tonumber(eventHour)
@@ -194,7 +196,7 @@ local function IsTime(activate)
 		end
 	end -- for CalendarGetNumDayEvents loop
 
-	checkedDay = currentDay;	
+	checkedDay = currentDay;
 
 	-- Let's go fishing!
 	if fishingEvent then -- no fishingEvent, fall through
@@ -209,13 +211,13 @@ local function IsTime(activate)
 					-- Its time to go fishing!
 					CurrentContest = c;
 					FishingExtravaganzaFrame:Show();
-						
+
 					-- Additional user preference checks
 					if ( GetSettingBool("STVPoolsOnly") ) then
 						if ( IsContestZone() ) then
-							FishingBuddy.SetHijackCheck(ExtravaganzaHijackCheck);
+							FBI:SetHijackCheck(ExtravaganzaHijackCheck);
 						else
-							FishingBuddy.SetHijackCheck();
+							FBI:SetHijackCheck();
 						end
 					end -- end user preference checks
 
@@ -227,16 +229,16 @@ local function IsTime(activate)
 		end -- for #Contests loop
 
 	else
-		FishingBuddy.SetHijackCheck();
+		FBI:SetHijackCheck();
 		CurrentContest = nil;
 	end -- fishingEvent check
 
 end -- end IsTime
 
-FishingBuddy.Extravaganza.IsTime = IsTime;
+FBI.Extravaganza.IsTime = IsTime;
 
 -- Check for mouse down event for dragging frame.
-FishingBuddy.Extravaganza.OnDragStart = function(self, button)
+FBEnvironment.Extravaganza_OnDragStart = function(self, button)
 	if (not self.isMoving and (button == "LeftButton")) then
 		self:StartMoving();
 		self.isMoving = true;
@@ -244,7 +246,7 @@ FishingBuddy.Extravaganza.OnDragStart = function(self, button)
 end
 
 -- Check for drag stop event to stop dragging.
-FishingBuddy.Extravaganza.OnDragStop = function(self, button)
+FBEnvironment.Extravaganza_OnDragStop = function(self, button)
 	if (self.isMoving) then
 		self:StopMovingOrSizing();
 		self.isMoving = false;
@@ -256,7 +258,7 @@ ExtravaganzaEvents[FBConstants.ADD_FISHIE_EVT] = function(id, name, ...)
 	if ( CurrentContest and CurrentContest.fishid == id ) then
 		UpdateTimer = 0;
 		for _,contest in ipairs(Contests) do
-			local _,_,_,_,_,n = FishingBuddy.GetFishie(contest.fishid);
+			local _,_,_,_,_,n = FBI:GetFishie(contest.fishid);
 			if ( n ) then
 				contest.fishname = n;
 			end
@@ -268,12 +270,8 @@ ExtravaganzaEvents[FBConstants.OPT_UPDATE_EVT] = function(changed)
 	IsTime();
 end
 
-ExtravaganzaEvents[FBConstants.FISHING_ENABLED_EVT] = function()
-	IsTime();
-end
-
 -- Handle watching the loot
-FishingBuddy.Extravaganza.OnLoad = function(self)
+FBEnvironment.Extravaganza_OnLoad = function(self)
 	self:RegisterEvent("PLAYER_LOGIN");
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 	self:RegisterEvent("VARIABLES_LOADED");
@@ -281,16 +279,19 @@ FishingBuddy.Extravaganza.OnLoad = function(self)
 	self:RegisterForDrag("LeftButton");
 	self:Hide();
 
-	FishingBuddy.RegisterHandlers(ExtravaganzaEvents);
+	EventRegistry:RegisterCallback(FBConstants.FISHING_ENABLED_EVT, function()
+		IsTime();
+	end)
+	FBI:RegisterHandlers(ExtravaganzaEvents)
 end
 
-FishingBuddy.Extravaganza.OnShow = function(self)
+FBEnvironment.Extravaganza_OnShow = function(self)
 	-- check each of the bags on the player
 	UpdateTimer = 0;
-	FishingBuddy.Extravaganza.OnUpdate(self, 0);
+	FBEnvironment.Extravaganza_OnUpdate(self, 0);
 end
 
-FishingBuddy.Extravaganza.OnHide = function(self)
+FBEnvironment.Extravaganza_OnHide = function(self)
 	if ( FishingExtravaganzaPOIUpdate and
 		  FishingExtravaganzaPOIUpdate:IsVisible() ) then
 		FishingExtravaganzaPOIUpdate:Hide();
@@ -301,8 +302,8 @@ end
 -- Elder Clearwater yells: The Kalu'ak Fishing Derby has begun!  The first person to bring a blacktip shark to me in Dalaran will be declared the winner!  Blacktip sharks can be caught anywhere you can catch a pygmy suckerfish.
 -- Elder Clearwater yells: NAME has won the Kalu'ak Fishing Derby!
 
-FishingBuddy.Extravaganza.OnEvent = function(self, event, ...)
-	local GSB = FishingBuddy.GetSettingBool;
+FBEnvironment.Extravaganza_OnEvent = function(self, event, ...)
+	local GSB = function(...) return FBI:GetSettingBool(...); end;
 
 	if ( event == "CHAT_MSG_YELL" or event == "CHAT_MSG_MONSTER_YELL") then
 		if ( CurrentContest ) then
@@ -325,25 +326,25 @@ FishingBuddy.Extravaganza.OnEvent = function(self, event, ...)
 		-- Auto fish tracking in the conservatory
 		if GSB("ConservatoryPools") then
 			if mapId == 1662 then
-				FishingBuddy.FishTrackingEnable(true)
+				FBI:FishTrackingEnable(true)
 			else
-				FishingBuddy.FishTrackingEnable(false)
+				FBI:FishTrackingEnable(false)
 			end
 		end
 	elseif ( event == "VARIABLES_LOADED" ) then
 		for _,contest in ipairs(Contests) do
-			local _,_,_,_,_,n = FishingBuddy.GetFishie(contest.fishid);
+			local _,_,_,_,_,n = FBI:GetFishie(contest.fishid);
 			if ( n ) then
 				contest.fishname = n;
 			end
 		end
-		
+
 		IsTime(true);
 		self:UnregisterEvent("VARIABLES_LOADED");
 	end
 end
 
-FishingBuddy.Extravaganza.OnUpdate = function(self, elapsed)
+FBEnvironment.Extravaganza_OnUpdate = function(self, elapsed)
 	if ( IsTime() ) then
 		if ( not self:IsShown() ) then
 			self:Show();
@@ -387,7 +388,7 @@ FishingBuddy.Extravaganza.OnUpdate = function(self, elapsed)
 				self:SetWidth(width + 16);
 			end
 			-- listen for yells, etc.?
-			FishingBuddy.Extravaganza.OnEvent(FishingExtravaganzaFrame, "ZONE_CHANGED_NEW_AREA");
+			FBEnvironment.Extravaganza_OnEvent(FishingExtravaganzaFrame, "ZONE_CHANGED_NEW_AREA");
 			if ( IsContestZone() ) then
 				UpdateTimer = UPDATETIME_SCHOOLS;
 			else
@@ -400,6 +401,6 @@ FishingBuddy.Extravaganza.OnUpdate = function(self, elapsed)
 end
 
 -- eventually, display what fish you caught here
-FishingBuddy.Extravaganza.MiniMap_OnEnter = function(self)
+FBI.Extravaganza.MiniMap_OnEnter = function(self)
 end
 

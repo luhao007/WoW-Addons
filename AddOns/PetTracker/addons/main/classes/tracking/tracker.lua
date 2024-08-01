@@ -1,18 +1,6 @@
 --[[
-Copyright 2012-2022 João Cardoso
-PetTracker is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of PetTracker.
+Copyright 2012-2024 João Cardoso
+All Rights Reserved
 --]]
 
 local ADDON, Addon = ...
@@ -73,8 +61,8 @@ function Tracker:AddSpecie(specie, quality, level)
 	if source then
 		local name, icon = specie:GetInfo()
 		local text = name .. (level > 0 and format(' (%s)', level) or '')
-		local r,g,b = self:GetColor(quality)
-
+		local r,g,b = self:GetColor(quality):GetRGB()
+		
 		local line = self:Add(text, icon, source, r,g,b)
 		line:SetScript('OnClick', function() specie:Display() end)
 	end
@@ -88,46 +76,72 @@ function Tracker:MaxQuality()
 end
 
 function Tracker:GetColor(quality)
-	if Addon.sets.capturedPets then
-		return Addon:GetColor(quality)
-	end
-	return 1,1,1, HIGHLIGHT_FONT_COLOR_CODE:sub(3)
+	return Addon.sets.capturedPets and Addon:GetColor(quality) or WHITE_FONT_COLOR
 end
 
 
 --[[ Dropdown ]]--
 
 function Tracker:ToggleDropdown()
-	local drop = LibStub('Sushi-3.1').Dropdown:Toggle(self)
+	local drop = LibStub('Sushi-3.2').Dropdown:Toggle(self)
 	if drop then
 		drop:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 5, -12)
 		drop:SetChildren {
 			{
-				text = AUCTION_CATEGORY_BATTLE_PETS,
-				isTitle = true, notCheckable = true
+				text = L.ZoneTracker, 
+				icon = 'Interface/Addons/PetTracker/art/compass',
+				isTitle = true
 			},
 			{
 				text = L.TrackPets,
-				checked = Addon.sets.trackPets,
+				checked = Addon.sets.zoneTracker,
 				func = Tracker.Toggle,
-				isNotRadio = true,
+				isNotRadio = true
 			},
 			{
 				text = L.CapturedPets,
 				checked = Addon.sets.capturedPets,
 				func = Tracker.ToggleCaptured,
-				isNotRadio = true,
+				isNotRadio = true
+			},
+			{
+				text = L.DisplayCondition,
+				notCheckable = true,
+				sublevel = function(self)
+					self:Add {
+						{
+							text = ALWAYS, quality = Addon.MaxQuality,
+							checked = Addon.sets.targetQuality == Addon.MaxQuality,
+							func = Tracker.SetGoal
+						},
+						{
+							text = L.MissingRares, quality = Addon.MaxPlayerQuality,
+							checked = Addon.sets.targetQuality == Addon.MaxPlayerQuality,
+							func = Tracker.SetGoal
+						},
+						{
+							text = L.MissingPets, quality = 1,
+							checked = Addon.sets.targetQuality == 1,
+							func = Tracker.SetGoal
+						}
+					}
+				end
 			}
 		}
 	end
 end
 
 function Tracker:Toggle()
-	Addon.sets.trackPets = not Addon.sets.trackPets
+	Addon.sets.zoneTracker = not Addon.sets.zoneTracker
 	Addon:SendSignal('OPTIONS_CHANGED')
 end
 
 function Tracker:ToggleCaptured()
 	Addon.sets.capturedPets = not Addon.sets.capturedPets
+	Addon:SendSignal('OPTIONS_CHANGED')
+end
+
+function Tracker:SetGoal()
+	Addon.sets.targetQuality = self.quality
 	Addon:SendSignal('OPTIONS_CHANGED')
 end

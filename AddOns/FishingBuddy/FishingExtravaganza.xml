@@ -27,25 +27,25 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-                FishingBuddy.Extravaganza.OnLoad(self);
+                FBEnvironment.Extravaganza_OnLoad(self);
 			</OnLoad>
 			<OnShow>
-	           FishingBuddy.Extravaganza.OnShow(self);
+	           FBEnvironment.Extravaganza_OnShow(self);
 			</OnShow>
 		  	<OnDragStart>
-		 	    FishingBuddy.Extravaganza.OnDragStart(self, button);
+		 	    FBEnvironment.Extravaganza_OnDragStart(self, button);
 		  	</OnDragStart>
 		  	<OnDragStop>
-				FishingBuddy.Extravaganza.OnDragStop(self, button);
+				FBEnvironment.Extravaganza_OnDragStop(self, button);
 	 		</OnDragStop>
             <OnUpdate>
-	        	FishingBuddy.Extravaganza.OnUpdate(self, elapsed);
+	        	FBEnvironment.Extravaganza_OnUpdate(self, elapsed);
 	        </OnUpdate>
 	        <OnHide>
-	           FishingBuddy.Extravaganza.OnHide(self);
+	           FBEnvironment.Extravaganza_OnHide(self);
 	        </OnHide>
             <OnEvent>
-            	FishingBuddy.Extravaganza.OnEvent(self, event, ...);
+            	FBEnvironment.Extravaganza_OnEvent(self, event, ...);
             </OnEvent>
 	    </Scripts>
 	</Frame>

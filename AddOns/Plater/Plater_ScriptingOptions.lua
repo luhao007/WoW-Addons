@@ -1,5 +1,5 @@
 
-
+local addonId, platerInternal = ...
 local Plater = _G.Plater
 local GameCooltip = GameCooltip2
 local DF = DetailsFramework
@@ -9,6 +9,8 @@ local tremove = _G.tremove
 local CreateFrame = _G.CreateFrame
 local tinsert = _G.tinsert
 
+--localization
+local LOC = DF.Language.GetLanguageTable(addonId)
 
 --tab indexes
 local PLATER_OPTIONS_SCRIPTING_TAB = 6
@@ -63,6 +65,7 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
         "Interface\\AddOns\\Plater\\images\\option_label", --5
         "Interface\\AddOns\\Plater\\images\\option_blank", --6
         "Interface\\AddOns\\Plater\\images\\option_list", --7 list
+        "Interface\\AddOns\\Plater\\images\\options_audio_dropdown.png", --8 audio dropdown
     }
 
     --> admin script options (this frame is used to configurate the options which the script has)
@@ -188,7 +191,7 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                 listBox.scrollBox:Refresh()
             end
 
-            local reapplyDefaultButton = DF:CreateButton(listBox, reApplyDefaultValues, 80, 20, "Re-Apply Default Values", nil, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE"))
+            local reapplyDefaultButton = DF:CreateButton(listBox, reApplyDefaultValues, 80, 20, LOC["OPTIONS_SCRIPTING_REAPPLY"], nil, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE"))
             reapplyDefaultButton:SetPoint("topright", listBox.scrollBox, "bottomright", 0, -4)
 
             local titleText = DF:CreateLabel(listBox, "", DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE"))
@@ -310,9 +313,14 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                 elseif (selectedOptionType == 6) then --black space
                     newOptionObject.Value = 0
                     newOptionObject.Icon = iconList[selectedOptionType]
+                    newOptionObject.Name = "blank space"
 
                 elseif (selectedOptionType == 7) then --list
                     newOptionObject.Value = {}
+                    newOptionObject.Icon = iconList[selectedOptionType]
+
+                elseif (selectedOptionType == 8) then --audio
+                    newOptionObject.Value = ""
                     newOptionObject.Icon = iconList[selectedOptionType]
                 end
 
@@ -339,12 +347,13 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             "Label", --a text to name a section in the options
             "Blank Line", --an empty line to separate two sections
             "List Panel", --a panel to add values to a list
+            "Audio", --dropdown with audio files
         }
         local getListOfAvailableOptions = function()
             local t = {}
             for i = 1, #listOfAvailableOptions do
                 local option = listOfAvailableOptions[i]
-                t [#t + 1] = {label = option, value = i, onclick = function()end, desc = "Select which option to add", tooltipwidth = 300, icon = iconList[i]}
+                t [#t + 1] = {label = option, value = i, onclick = function()end, desc = "OPTIONS_SCRIPTING_ADDOPTION", tooltipwidth = 300, icon = iconList[i], addonId = addonId}
             end
             return t
         end
@@ -435,7 +444,13 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                 local scriptObject = mainFrame.GetCurrentScriptObject() --can be hook or script
                 if (scriptObject) then
                     local scriptOptions = scriptObject.Options
+                    local option = scriptOptions[optionIndex]
+                    
                     tremove(scriptOptions, optionIndex)
+                    
+                    local optionsValues = scriptObject.OptionsValues
+                    optionsValues[option.Key] = nil
+                    
                     mainFrame.ScriptOptionsScrollBox:Refresh()
                 end
             end
@@ -708,6 +723,17 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                     local scriptOptions = scriptObject.Options
                     local currentOption = scriptOptions[mainFrame.optionSelected]
 
+                    if key == "Key" then --ensure moving options...
+                        local curKeyValue = currentOption[key]
+                        local optionsValues = scriptObject.OptionsValues
+                        if curKeyValue ~= value then
+                            if value ~= nil and value ~= "" then
+                                optionsValues[value] = optionsValues[curKeyValue]
+                            end
+                            optionsValues[curKeyValue] = nil
+                        end
+                    end
+
                     if (value ~= nil) then
                         currentOption[key] = value
                     else
@@ -975,24 +1001,33 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                 end)
 
 
-        --> option: texture (not in use at the moment)
-            local textureOptionsFrame = CreateFrame("frame", "$parentTextureOptions", adminFrame, BackdropTemplateMixin and "BackdropTemplate")
-            textureOptionsFrame:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
-            textureOptionsFrame:SetBackdropColor (0, 0, 0, 0.2)
-            textureOptionsFrame:SetBackdropBorderColor (0, 0, 0, 1)
-            textureOptionsFrame:SetPoint("topleft", sharedOptionsFrame, "bottomleft", 0, -5)
-            textureOptionsFrame:SetSize(options_frame_width, options_frame_widget_options_height)
-            mainFrame.TypeFrames[#mainFrame.TypeFrames+1] = textureOptionsFrame
+        --> option: audio dropdown
+            local dropdownOptionsFrame = CreateFrame("frame", "$parentAudioDropdownOptions", adminFrame, BackdropTemplateMixin and "BackdropTemplate")
+            dropdownOptionsFrame:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
+            dropdownOptionsFrame:SetBackdropColor (0, 0, 0, 0.2)
+            dropdownOptionsFrame:SetBackdropBorderColor (0, 0, 0, 1)
+            dropdownOptionsFrame:SetPoint("topleft", sharedOptionsFrame, "bottomleft", 0, -5)
+            dropdownOptionsFrame:SetSize(options_frame_width, options_frame_widget_options_height)
+            mainFrame.TypeFrames[#mainFrame.TypeFrames+1] = dropdownOptionsFrame
 
             local textureOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Settings for Texture:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "Settings for Audio Selection:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --value
-                {type = "label", get = function() return "under construction:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                { --this is the option within the option editor
+                    type = "audiodropdown",
+                    get = function() return mainFrame.getOptionValue("Value", "none") end,
+                    set = function(self, fixedparam, value)
+                        setOptionValue("Value", value, "none")
+                    end,
+                    name = "Audio File Name",
+                    desc = "Audio",
+                },
             }
             textureOptionsMenu.always_boxfirst = true
-            DF:BuildMenuVolatile(textureOptionsFrame, textureOptionsMenu, 5, -5, options_frame_shared_height, false, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template)
+            DF:BuildMenuVolatile(dropdownOptionsFrame, textureOptionsMenu, 5, -5, options_frame_shared_height, false, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template)
+
 
         --refresh the panel where the player can adjust the options for the script
         function Plater.RefreshUserScriptOptions(mainFrame)
@@ -1013,6 +1048,13 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                 local scriptObject = mainFrame.GetCurrentScriptObject()
                 if (scriptObject) then
                     Plater.RecompileScript(scriptObject)
+
+                    if (platerInternal.HOOK_MOD_OPTION_CHANGED.ScriptAmount > 0) then
+                        for i = 1, platerInternal.HOOK_MOD_OPTION_CHANGED.ScriptAmount do
+                            local hookInfo = platerInternal.HOOK_MOD_OPTION_CHANGED[i]
+                            Plater.ScriptMetaFunctions.ScriptRunNoAttach(hookInfo, "Mod Option Changed")
+                        end
+                    end
                 end
             end
 
@@ -1076,7 +1118,7 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
 
                     elseif (thisOption.Type == 3) then --text
                         newOption.type = "textentry"
-                        newOption.width = 300
+                        newOption.width = 200
 
                     elseif (thisOption.Type == 4) then --toggle
                         newOption.type = "toggle"
@@ -1102,12 +1144,31 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                         end
                         tinsert(listFramesNeeded, {thisOptionsValues[thisOption.Key], thisOption.Name, thisOption.Value})
 
+                    elseif (thisOption.Type == 8) then --audio selector
+                        newOption.type = "audiodropdown"
+                        newOption.get = function()
+                            local value = thisOptionsValues[thisOption.Key]
+                            if (not value) then
+                                value = thisOption.Value
+                            end
+
+                            if (not value) then
+                                value = thisOptionsValues[thisOption.Key]
+                            end
+
+                            return value
+                        end
+
+                        newOption.set = function (self, fixedparam, value)
+                            thisOptionsValues[thisOption.Key] = value
+                        end
                     end
 
-                    tinsert(menu, newOption)
+                    if thisOption.Type ~= 7 then --lists are rendered separately
+                        tinsert(menu, newOption)
+                    end
                 end
 
-                menu.always_boxfirst = true
                 DF:BuildMenuVolatile(mainFrame.ScriptOptionsPanelUser, menu, 5, -5, options_frame_widget_options_height + options_frame_shared_height, false, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template, globaCallBack)
 
                 mainFrame.ScriptOptionsPanelUser.ResetListFrames()

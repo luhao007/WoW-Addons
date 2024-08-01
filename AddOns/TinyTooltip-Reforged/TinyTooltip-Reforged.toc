@@ -1,11 +1,12 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Beezer
-## Version: 9.3
-## SavedVariables: BigTipReforgedDB
+## Version: 11.0
+## SavedVariables: TinyTooltipReforgedDB
 ## SavedVariablesPerCharacter: TinyTooltipReforgedCharacterDB
+## IconTexture: Interface\AddOns\TinyTooltip-Reforged\images\Icon.tga
 
 ## Title: TinyTooltip-Reforged |cFF69CCF0by Beezer|r
-## Notes: |cff4488ffTinyTooltip (Reforged)|r v9.3|n Options use /ttr|n Reset use /ttr reset
+## Notes: |cff4488ffTinyTooltip (Reforged)|r|n Options use /ttr|n Reset use /ttr reset
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF鼠标提示增强|r |cFFFFE00ATinyTooltip-Reforged|r
 ## Notes-zhCN: 在鼠标提示中显示更多信息，并可选择鼠标提示窗口的位置
 
@@ -26,7 +27,7 @@ LinkID.lua
 Mount.lua
 SkinFrames.lua
 ExpansionInfo.lua
+Options.lua
 
 libs\Template.xml
 locales\locales.xml
-Options.lua

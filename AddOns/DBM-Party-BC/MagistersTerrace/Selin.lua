@@ -1,12 +1,18 @@
 local mod = DBM:NewMod(530, "DBM-Party-BC", 16, 249)
 local L = mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,timewalker"
+if mod:IsRetail() then
+	mod.statTypes = "normal,heroic,timewalker"
+end
 
-mod:SetRevision("20230117063410")
+mod:SetRevision("20231223205517")
 
 mod:SetCreatureID(24723)
 mod:SetEncounterID(1897)
+
+--if not mod:IsRetail() then
+--	mod:SetModelID(22731)--Unknown, two bosses have same ID
+--end
 
 mod:RegisterCombat("combat")
 
@@ -14,12 +20,12 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 44320"
 )
 
-local specWarnChannel		= mod:NewSpecialWarningSwitch("ej5081", "-Healer", nil, 3, 1, 2)
+local specWarnChannel		= mod:NewSpecialWarning("warningFelCrystal", "-Healer", nil, nil, 1, 2)--(-5081)
 
-local timerChannelCD		= mod:NewCDTimer(47, "ej5081", nil, nil, nil, 1, 44320)
+local timerChannelCD		= mod:NewTimer(47, "timerFelCrystal", 44320, nil, nil, 1)--(-5081)
 
 function mod:OnCombatStart(delay)
-	timerChannelCD:Start(15-delay)
+	timerChannelCD:Start(12.8-delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)

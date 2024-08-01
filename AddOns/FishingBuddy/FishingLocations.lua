@@ -1,12 +1,15 @@
 --- Keep track of all the fishies and their Locations
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 local FL = LibStub("LibFishing-1.0");
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
-local zmto = FishingBuddy.ZoneMarkerTo;
-local zmex = FishingBuddy.ZoneMarkerEx;
+local zmto = function(...) return FBI:ZoneMarkerTo(...); end;
+local zmex = function(...) return FBI:ZoneMarkerEx(...); end;
 
 FishingLocations = {}
 FishingLocations.lines = {}
@@ -77,13 +80,13 @@ function FishingLocations:MakeFishRecord(line, zid, fid, collapsible, level)
 end
 
 function FishingLocations:FishiesChanged()
-    local fishcount = table.getn(FishingBuddy.SortedFishies);
+    local fishcount = table.getn(FBI.SortedFishies);
     local line = 1;
 
     for i=1,fishcount,1 do
-        local fishid = FishingBuddy.SortedFishies[i].id;
+        local fishid = FBI.SortedFishies[i].id;
         local locsort = {};
-        for idx,count in pairs(FishingBuddy.ByFishie[fishid]) do
+        for idx,count in pairs(FBI.ByFishie[fishid]) do
             local info = {};
             info.marker = idx;
             info.count = count;
@@ -91,7 +94,7 @@ function FishingLocations:FishiesChanged()
         end
         self:MakeFishRecord(line, 0, fishid, 1, 0);
         line = line + 1;
-        FishingBuddy.FishSort(locsort);
+        FBI:FishSort(locsort);
         for j=1,table.getn(locsort),1 do
             self:MakeFishRecord(line, locsort[j].marker, 0, 0, 1);
             line = line + 1;
@@ -105,7 +108,7 @@ function FishingLocations:FishCount(idx)
     local total = 0;
     local fh = FishingBuddy_Info["FishingHoles"];
     if ( fh[idx] ) then
-        for fishie,val in pairs(fh[idx]) do
+        for _,val in pairs(fh[idx]) do
             count = count + 1;
             total = total + val;
         end
@@ -117,19 +120,19 @@ function FishingLocations:BothLocationsChanged()
     local loc = GetLocale();
     local fh = FishingBuddy_Info["FishingHoles"];
     local ff = FishingBuddy_Info["Fishies"];
-    local sorted = FishingBuddy.SortedZones;
+    local sorted = FBI.SortedZones;
     local line = 1;
     local zonecount = table.getn(sorted);
     for i=1,zonecount,1 do
         local zone = sorted[i];
-        local mapId = FishingBuddy.MappedZones[zone];
+        local mapId = FBI.MappedZones[zone];
         if ( mapId ) then
             local addedzone = false;
-            local subsorted = FishingBuddy.SortedByZone[zone];
+            local subsorted = FBI.SortedByZone[zone];
             local subcount = table.getn(subsorted);
             for s=1,subcount,1 do
                 local subzone = subsorted[s];
-                local where = FishingBuddy.GetZoneIndex(mapId, subzone, true);
+                local where = FBI:GetZoneIndex(mapId, subzone, true);
                 local count, total = self:FishCount(where);
                 if ( total > 0 ) then
                     if ( not addedzone ) then
@@ -141,14 +144,14 @@ function FishingLocations:BothLocationsChanged()
                         self:MakeFishRecord(line, where, 0, 1, 1);
                         line = line + 1;
                         local fishsort = {};
-                        for fishid,count in pairs(fh[where]) do
+                        for fishid,fishcount in pairs(fh[where]) do
                             local info = {};
                             info.id = fishid;
-                            _, _, _, _, _, info.text, _ = FishingBuddy.GetFishie(fishid, 1);
-                            info.count = count;
+                            _, _, _, _, _, info.text, _ = FBI:GetFishie(fishid, 1);
+                            info.count = fishcount;
                             tinsert(fishsort, info);
                         end
-                        FishingBuddy.FishSort(fishsort);
+                        FBI.FishSort(fishsort);
                         for j=1,table.getn(fishsort),1 do
                             local id = fishsort[j].id;
                             self:MakeFishRecord(line, 0, id, 0, 2);
@@ -167,10 +170,10 @@ function FishingLocations:SubZonesChanged()
     local fh = FishingBuddy_Info["FishingHoles"];
     local ff = FishingBuddy_Info["Fishies"];
     local line = 1;
-    local zonecount = table.getn(FishingBuddy.SortedSubZones);
+    local zonecount = table.getn(FBI.SortedSubZones);
     for i=1,zonecount,1 do
-        local subzone = FishingBuddy.SortedSubZones[i];
-        local ztab = FishingBuddy.SubZoneMap[subzone];
+        local subzone = FBI.SortedSubZones[i];
+        local ztab = FBI.SubZoneMap[subzone];
         if ( ztab ) then
             local oneidx;
             local uniquify = {};
@@ -178,9 +181,9 @@ function FishingLocations:SubZonesChanged()
             for idx,_ in pairs(ztab) do
                 if ( fh[idx] ) then
                     oneidx = idx;
-                    for fishid,count in pairs(fh[idx]) do
+                    for fishid,_ in pairs(fh[idx]) do
                         if ( not uniquify[fishid] ) then
-                            local _, _, _, _, _, name, _ = FishingBuddy.GetFishie(fishid, 1);
+                            local _, _, _, _, _, name, _ = FBI:GetFishie(fishid, 1);
                             tinsert(fishsort, { id=fishid, text=name });
                             uniquify[fishid] = 1;
                         end
@@ -190,7 +193,7 @@ function FishingLocations:SubZonesChanged()
             if ( oneidx ) then
                 self:MakeFishRecord(line, oneidx, 0, 1, 0);
                 line = line + 1;
-                FishingBuddy.FishSort(fishsort);
+                FBI.FishSort(fishsort);
                 for j=1,table.getn(fishsort),1 do
                     local id = fishsort[j].id;
                     self:MakeFishRecord(line, 0, id, 0, 1);
@@ -203,8 +206,8 @@ function FishingLocations:SubZonesChanged()
 end
 
 function FishingLocations:LinesChanged()
-    if ( FishingBuddy.GetSettingBool("GroupByLocation") ) then
-        if ( FishingBuddy.GetSettingBool("ShowLocationZones") ) then
+    if ( FBI:GetSettingBool("GroupByLocation") ) then
+        if ( FBI:GetSettingBool("ShowLocationZones") ) then
             self:BothLocationsChanged();
         else
             self:SubZonesChanged();
@@ -236,7 +239,7 @@ function FishingLocations:GetLineIndex(index)
         local info = self.lines[idx];
         if ( info and info ~= 0 ) then
             local zid,fid,c,e,level = self:unpack(info);
-            if skipping and level <= skiplevel then 
+            if skipping and level <= skiplevel then
                 skipping = false
             end
             if not skipping then
@@ -277,7 +280,8 @@ function FishingLocations:SetExpandCollapse(value)
     for idx=1,self.count,1 do
         local check = self.lines[idx];
         if ( check ~= 0 ) then
-            local z,i,c,e,l = unpack(check);
+            local e;
+            local z,i,c,_,l = unpack(check);
             e = value;
             self.lines[idx] = pack(z,i,c,e,l);
         end
@@ -309,9 +313,7 @@ function FishingLocationsMixin:OnEnter()
     if ( self.item or self.tooltip ) then
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
     end
-    local gottitle;
     if( self.item or self.tooltip ) then
-        gottitle = true;
         if ( self.item and self.item ~= "" ) then
             if ( FL:IsLinkableItem(self.item) ) then
                 GameTooltip:SetHyperlink("item:"..self.item);
@@ -349,6 +351,6 @@ function FishingLocationsMixin:OnLeave()
     GameTooltip.locbutfini = nil;
 end
 
-FishingBuddy.FishCount = function(idx)
+function FBI:FishCount(idx)
     return FishingLocations:FishCount(idx)
 end

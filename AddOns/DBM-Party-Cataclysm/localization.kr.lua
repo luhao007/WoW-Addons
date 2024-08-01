@@ -14,11 +14,11 @@ L= DBM:GetModLocalization(105)
 L= DBM:GetModLocalization(106)
 
 L:SetWarningLocalization({
-	WarnAdd		= "광신도 진화!"
+	WarnAdd		= "쫄 풀려남"
 })
 
 L:SetOptionLocalization({
-	WarnAdd		= "광신도가 $spell:75608 효과를 잃었을 때 알림 보기(광신도 진화)"
+	WarnAdd		= "쫄에 $spell:75608 버프가 사라지면 알림 보기"
 })
 
 -----------------------
@@ -31,7 +31,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	TimerSuperheated	= "$spell:75846 바 보기"
+	TimerSuperheated	= "$spell:75846 지속 시간 타이머 바 보기"
 })
 
 ------------
@@ -44,8 +44,13 @@ L= DBM:GetModLocalization(108)
 -----------------------------
 L= DBM:GetModLocalization(109)
 
-L:SetOptionLocalization({
-	SetIconOnBoss	= "$spell:76200 후 본체에게 전술 목표 아이콘 설정 "
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("BlackrockCavernsTrash")
+
+L:SetGeneralLocalization({
+	name =	"검은바위 동굴 일반몹"
 })
 
 ---------------------
@@ -81,7 +86,7 @@ L= DBM:GetModLocalization(93)
 L= DBM:GetModLocalization(95)
 
 L:SetTimerLocalization({
-	achievementGauntlet	= "불같은 밴클리프 복수자"
+	achievementGauntlet	= "업적 달성"
 })
 
 ------------------
@@ -128,7 +133,7 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(126)
 
 L:SetTimerLocalization({
-	achievementGauntlet	= "빛 보다 빠르게"
+	achievementGauntlet	= "업적 달성"
 })
 
 L:SetMiscLocalization({
@@ -145,7 +150,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	WarnSplitSoon	= "분리 이전에 알림 보기"
+	WarnSplitSoon	= "분리 사전 경고 보기"
 })
 
 -------------
@@ -176,7 +181,7 @@ L= DBM:GetModLocalization(117)
 L= DBM:GetModLocalization(118)
 
 L:SetOptionLocalization{
-	RangeFrame	= "거리 창 보기(5m)"
+	RangeFrame	= "거리 창 보기 (5m)"
 }
 
 ----------
@@ -199,11 +204,11 @@ L= DBM:GetModLocalization(119)
 L= DBM:GetModLocalization(122)
 
 L:SetWarningLocalization{
-	specWarnPhase2Soon	= "5초 후 2 단계 시작!"
+	specWarnPhase2Soon	= "5초 후 2단계"
 }
 
 L:SetOptionLocalization{
-	specWarnPhase2Soon	= "2 단계 이전에 특수 경고 보기"
+	specWarnPhase2Soon	= "곧 2단계 특수 알림 보기 (5초)"
 }
 
 -----------------------
@@ -224,11 +229,11 @@ L= DBM:GetModLocalization(97)
 L= DBM:GetModLocalization(98)
 
 L:SetTimerLocalization({
-	TimerAdds		= "다음 유령 소환"
+	TimerAdds		= "다음 쫄"
 })
 
 L:SetOptionLocalization{
-	TimerAdds		= "다음 유령 소환 바 보기"
+	TimerAdds		= "쫄 타이머 바 보기"
 }
 
 L:SetMiscLocalization{
@@ -241,12 +246,12 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(99)
 
 L:SetWarningLocalization{
-	specWarnCoagulant	= "녹색 빛 - 움직이세요!",	-- Green light
-	specWarnRedMix		= "빨강 빛 - 움직이지 마세요!"		-- Red light
+	specWarnCoagulant	= "녹색 혼합물 - 계속 이동!",	-- Green light
+	specWarnRedMix		= "빨강 혼합물 - 이동 금지!"		-- Red light
 }
 
 L:SetOptionLocalization{
-	RedLightGreenLight	= "녹색/빨강 빛 이동 관련 특수 경고 보기"
+	RedLightGreenLight	= "녹색/빨강 이동 지침 특수 알림 보기"
 }
 
 ------------------
@@ -274,9 +279,9 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	WarnEmerge		= "등장 알림 보기",
 	WarnSubmerge	= "잠수 알림 보기",
-	TimerEmerge		= "다음 등장 바 보기",
-	TimerSubmerge	= "다음 잠수 바 보기",
-	RangeFrame		= "거리 창 보기(5m)"
+	TimerEmerge		= "다음 등장 타이머 바 보기",
+	TimerSubmerge	= "다음 잠수 타이머 바 보기",
+	RangeFrame		= "거리 창 보기 (5m)"
 })
 
 --------------
@@ -287,7 +292,7 @@ L= DBM:GetModLocalization(111)
 L:SetWarningLocalization({
 	WarnAirphase				= "공중 단계",
 	WarnGroundphase				= "지상 단계",
-	specWarnCrystalStorm		= "수정 폭풍 - 숨으세요!"
+	specWarnCrystalStorm		= "수정 폭풍 - 숨으세요"
 })
 
 L:SetTimerLocalization({
@@ -296,11 +301,11 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	WarnAirphase				= "공중 단계 알림 보기",
-	WarnGroundphase				= "지상 단계 알림 보기",
-	TimerAirphase				= "다음 공중 단계 바 보기",
-	TimerGroundphase			= "다음 지상 단계 바 보기",
-	specWarnCrystalStorm		= "$spell:92265 특수 경고 보기"
+	WarnAirphase				= "돌거죽이 도약하면 알림 보기",
+	WarnGroundphase				= "도럭죽이 착지하면 알림 보기",
+	TimerAirphase				= "다음 공중 단계 타이머 바 보기",
+	TimerGroundphase			= "다음 지상 단계 타이머 바 보기",
+	specWarnCrystalStorm		= "$spell:92265 특수 알림 보기"
 })
 
 -----------
@@ -312,6 +317,15 @@ L= DBM:GetModLocalization(112)
 -- High Priestess Azil --
 ------------------------
 L= DBM:GetModLocalization(113)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("StonecoreTrash")
+
+L:SetGeneralLocalization({
+	name =	"바위심장부 일반몹"
+})
 
 ---------------------------
 --  The Vortex Pinnacle  --
@@ -333,6 +347,15 @@ L= DBM:GetModLocalization(115)
 -- Asaad --
 -----------
 L= DBM:GetModLocalization(116)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("VortexPinnacleTrash")
+
+L:SetGeneralLocalization({
+	name =	"소용돌이 누각 일반몹"
+})
 
 ---------------------------
 --  The Throne of Tides  --
@@ -357,12 +380,26 @@ L= DBM:GetModLocalization(103)
 L= DBM:GetModLocalization(104)
 
 L:SetTimerLocalization{
-	TimerPhase		= "2 단계"
+	TimerPhase		= "2단계"
 }
 
 L:SetOptionLocalization{
-	TimerPhase		= "2 단계 바 보기"
+	TimerPhase		= "2단계 타이머 바 보기"
 }
+
+L:SetMiscLocalization{
+	RolePlay		= "야수가 돌아왔다! 놈이 물을 오염시키게 두면 안 된다!"
+}
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("ThroneofTidesTrash")
+
+L:SetGeneralLocalization({
+	name =	"파도의 왕좌 일반몹"
+})
+
 ----------------
 --  Zul'Aman  --
 ----------------
@@ -371,7 +408,7 @@ L:SetOptionLocalization{
 L= DBM:GetModLocalization(186)
 
 L:SetOptionLocalization{
-	RangeFrame		= "거리 창 보기(10m)"
+	RangeFrame		= "거리 창 보기 (10m)"
 }
 
 ---------------
@@ -393,23 +430,23 @@ L:SetTimerLocalization{
 
 L:SetOptionLocalization{
 	WarnBear		= "곰 형상 알림 보기",
-	WarnBearSoon	= "곰 형상 이전에 알림 보기",
+	WarnBearSoon	= "곰 형상 사전 경고 보기",
 	WarnNormal		= "인간 형상 알림 보기",
-	WarnNormalSoon	= "인간 형상 이전에 알림 보기",
-	TimerBear		= "다음 곰 형상 바 보기",
-	TimerNormal		= "다음 인간 형상 바 보기",
+	WarnNormalSoon	= "인간 형상 사전 경고 보기",
+	TimerBear		= "다음 곰 형상 타이머 바 보기",
+	TimerNormal		= "다음 인간 형상 타이머 바 보기",
 	InfoFrame		= "$spell:42402 대상을 정보 창으로 보기"
 }
 
 L:SetMiscLocalization{
 	YellBear 		= "너희들이 짐승을 불러냈다. 놀랄 준비나 해라!",
 	YellNormal		= "날로라크 나가신다!",
-	PlayerDebuffs	= "쇄도 있음"
+	PlayerDebuffs	= "쇄도 디버프"
 }
 
----------------
---  Jan'alai --
----------------
+--------------
+-- Jan'alai --
+--------------
 L= DBM:GetModLocalization(188)
 
 L:SetMiscLocalization{
@@ -418,19 +455,19 @@ L:SetMiscLocalization{
 	YellAdds		= "다 어디 갔지? 당장 알을 부화시켜!"
 }
 
---------------
---  Halazzi --
---------------
+-------------
+-- Halazzi --
+-------------
 L= DBM:GetModLocalization(189)
 
 L:SetWarningLocalization{
 	WarnSpirit	= "영혼 단계",
-	WarnNormal	= "보통 단계"
+	WarnNormal	= "일반 단계"
 }
 
 L:SetOptionLocalization{
 	WarnSpirit	= "영혼 단계 알림 보기",
-	WarnNormal	= "보통 단계 알림 보기"
+	WarnNormal	= "일반 단계 알림 보기"
 }
 
 L:SetMiscLocalization{
@@ -443,12 +480,8 @@ L:SetMiscLocalization{
 -----------------------
 L= DBM:GetModLocalization(190)
 
-L:SetTimerLocalization{
-	TimerSiphon	= "%s: %s"
-}
-
 L:SetOptionLocalization{
-	TimerSiphon	= "$spell:43501 바 보기"
+	TimerSiphon	= "$spell:43501 타이머 바 보기"
 }
 
 L:SetMiscLocalization{
@@ -465,17 +498,17 @@ L:SetTimerLocalization{
 }
 
 L:SetOptionLocalization{
-	timerNextForm	= "형상 변환 바 보기",
+	timerNextForm	= "형상 변환 타이머 바 보기",
 	InfoFrame		= "$spell:42402 대상을 정보 창으로 보기"
 }
 
 L:SetMiscLocalization{
-	PlayerDebuffs	= "쇄도 있음"
+	PlayerDebuffs	= "쇄도 디버프"
 }
 
 -----------------
 --  Zul'Gurub  --
------------------
+-------------------------
 -- High Priest Venoxis --
 -------------------------
 L= DBM:GetModLocalization(175)
@@ -486,13 +519,13 @@ L= DBM:GetModLocalization(175)
 L= DBM:GetModLocalization(176)
 
 L:SetWarningLocalization{
-	WarnRevive		= "영혼 부활 - %d회 남음",
-	SpecWarnOhgan	= "오간 되살아남!"
+	WarnRevive		= "유령 %d마리 남음",
+	SpecWarnOhgan	= "오간 부활! 공격하세요!"
 }
 
 L:SetOptionLocalization{
 	WarnRevive		= "영혼 부활 남은횟수 알림 보기",
-	SpecWarnOhgan	= "되살아난 오간이 공격 가능 할때 특수 경고 보기"
+	SpecWarnOhgan	= "오간이 부활하면 특수 알림 보기"
 }
 
 ----------------------
@@ -529,12 +562,12 @@ L= DBM:GetModLocalization(181)
 L= DBM:GetModLocalization(184)
 
 L:SetWarningLocalization{
-	SpecWarnToxic	= "독 가마솥 클릭!"
+	SpecWarnToxic	= "고문의 독액 디버프 받기"
 }
 
 L:SetOptionLocalization{
-	SpecWarnToxic	= "$spell:96328 효과가 없을 경우 특수 경고 보기",
-	InfoFrame		= "$spell:96328 없는 대상을 정보 창으로 보기"
+	SpecWarnToxic	= "$spell:96328 디버프가 없으면 특수 알림 보기",
+	InfoFrame		= "$spell:96328이 없는 대상을 정보 창으로 보기"
 }
 
 L:SetMiscLocalization{
@@ -547,11 +580,11 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(185)
 
 L:SetWarningLocalization{
-	WarnBarrierDown	= "학카르의 사슬 보호막 사라짐 - %d/3"
+	WarnBarrierDown	= "학카르의 사슬 보호막 깨짐 - %d/3 남음"
 }
 
 L:SetOptionLocalization{
-	WarnBarrierDown	= "학카르의 사슬 보호막이 사라질 때 알림 보기"
+	WarnBarrierDown	= "학카르의 사슬 보호막이 깨질때 알림"
 }
 
 L:SetMiscLocalization{
@@ -575,7 +608,7 @@ L:SetTimerLocalization{
 }
 
 L:SetOptionLocalization{
-	TimerFlarecoreDetonate	= "$spell:101927 폭발 바 보기"
+	TimerFlarecoreDetonate	= "$spell:101927 폭발 타이머 바 보기"
 }
 
 ----------------------
@@ -614,16 +647,16 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(291)
 
 L:SetWarningLocalization{
-	WarnAdds	= "곧 부하 소환"
+	WarnAdds	= "쫄 등장"
 }
 
 L:SetTimerLocalization{
-	TimerAdds	= "다음 부하 소환"
+	TimerAdds	= "다음 쫄"
 }
 
 L:SetOptionLocalization{
-	WarnAdds	= "새로운 부하가 소환될 때 알림 보기",
-	TimerAdds	= "다음 부하 소환 바 보기"
+	WarnAdds	= "새로운 쫄이 \"등장\"하면 알림",
+	TimerAdds	= "다음 쫄 \"등장\" 시간 타이머 바 보기"
 }
 
 L:SetMiscLocalization{
@@ -636,11 +669,11 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(292)
 
 L:SetTimerLocalization{
-	TimerTyrandeHelp	= "티란데 도움요청"
+	TimerTyrandeHelp	= "티란데의 도움 요청"
 }
 
 L:SetOptionLocalization{
-	TimerTyrandeHelp	= "티란데 도움요청까지 남은시간 바 보기"
+	TimerTyrandeHelp	= "티란데의 도움 요청까지의 시간 타이머 바 보기"
 }
 
 L:SetMiscLocalization{
@@ -653,14 +686,6 @@ L:SetMiscLocalization{
 -- Arcurion --
 --------------
 L= DBM:GetModLocalization(322)
-
-L:SetTimerLocalization{
-	TimerCombatStart	= "전투 시작"
-}
-
-L:SetOptionLocalization{
-	TimerCombatStart	= "전투 시작 바 보기"
-}
 
 L:SetMiscLocalization{
 	Event		= "모습을 드러내라!",
@@ -681,61 +706,6 @@ L:SetMiscLocalization{
 ---------------------------
 L= DBM:GetModLocalization(341)
 
-L:SetTimerLocalization{
-	TimerCombatStart	= "전투 시작"
-}
-
-L:SetOptionLocalization{
-	TimerCombatStart	= "전투 시작 바 보기"
-}
-
 L:SetMiscLocalization{
 	Event		= "그럼... 주술사, 용의 영혼을 내놓으시지. 당장."
-}
-
---------------------
---  World Bosses  --
--------------------------
--- Akma'hat --
--------------------------
-L = DBM:GetModLocalization("Akmahat")
-
-L:SetGeneralLocalization{
-	name = "아크마하트"
-}
-
------------
--- Garr --
-----------
-L = DBM:GetModLocalization("Garr")
-
-L:SetGeneralLocalization{
-	name = "가르"
-}
-
-----------------
--- Julak-Doom --
-----------------
-L = DBM:GetModLocalization("JulakDoom")
-
-L:SetGeneralLocalization{
-	name = "줄락둠"
-}
-
------------
--- Mobus --
------------
-L = DBM:GetModLocalization("Mobus")
-
-L:SetGeneralLocalization{
-	name = "모부스"
-}
-
------------
--- Xariona --
------------
-L = DBM:GetModLocalization("Xariona")
-
-L:SetGeneralLocalization{
-	name = "자리오나"
 }

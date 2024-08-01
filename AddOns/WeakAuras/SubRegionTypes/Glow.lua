@@ -1,6 +1,8 @@
 if not WeakAuras.IsLibsOK() then return end
---- @type string, Private
-local AddonName, Private = ...
+---@type string
+local AddonName = ...
+---@class Private
+local Private = select(2, ...)
 
 local LCG = LibStub("LibCustomGlow-1.0")
 
@@ -15,6 +17,7 @@ local default = function(parentType)
     glowType = "buttonOverlay",
     glowLines = 8,
     glowFrequency = 0.25,
+    glowDuration = 1,
     glowLength = 10,
     glowThickness = 1,
     glowScale = 1,
@@ -70,6 +73,15 @@ local properties = {
     bigStep = 0.1,
     default = 0.25
   },
+  glowDuration = {
+    display = L["Duration"],
+    setter = "SetGlowDuration",
+    type = "number",
+    softMin = 0.01,
+    softMax = 3,
+    bigStep = 0.1,
+    default = 1
+  },
   glowLength = {
     display = L["Length"],
     setter = "SetGlowLength",
@@ -121,6 +133,11 @@ local properties = {
     bigStep = 1,
     default = 0
   },
+  glowStartAnim = {
+    display = L["Start Animation"],
+    setter = "SetGlowStartAnim",
+    type = "bool",
+  },
 }
 
 local function glowStart(self, frame, color)
@@ -158,6 +175,15 @@ local function glowStart(self, frame, color)
       nil,
       0
     )
+  elseif self.glowType == "Proc" then
+    self.glowStart(frame, {
+      color = color,
+      startAnim = self.glowStartAnim and true or false,
+      duration = self.glowDuration,
+      xOffset = self.glowXOffset,
+      yOffset = self.glowYOffset,
+      frameLevel = 0
+    })
   end
 end
 
@@ -223,6 +249,15 @@ local funcs = {
       if self.parentRegionType ~= "aurabar" then
         self.parent:AnchorSubRegion(self, "area")
       end
+    elseif newType == "Proc" then
+      self.glowStart = LCG.ProcGlow_Start
+      self.glowStop = LCG.ProcGlow_Stop
+      if self.parentRegionType ~= "aurabar" then
+        self.parent:AnchorSubRegion(self, "area", "region")
+      end
+    else -- noop function in case of unsupported glow
+      self.glowStart = function() end
+      self.glowStop = function() end
     end
     self.glowType = newType
     if isGlowing then
@@ -256,6 +291,12 @@ local funcs = {
       self:SetVisible(true)
     end
   end,
+  SetGlowDuration = function(self, duration)
+    self.glowDuration = duration
+    if self.glow then
+      self:SetVisible(true)
+    end
+  end,
   SetGlowLength = function(self, length)
     self.glowLength = length
     if self.glow then
@@ -276,6 +317,12 @@ local funcs = {
   end,
   SetGlowBorder = function(self, border)
     self.glowBorder = border
+    if self.glow then
+      self:SetVisible(true)
+    end
+  end,
+  SetGlowStartAnim = function(self, enable)
+    self.glowStartAnim = enable
     if self.glow then
       self:SetVisible(true)
     end
@@ -329,7 +376,7 @@ local function modify(parent, region, parentData, data, first)
   if parentData.regionType == "aurabar" then
     parent:AnchorSubRegion(region, "area", data.glow_anchor)
   else
-    parent:AnchorSubRegion(region, "area", data.glowType == "buttonOverlay" and "region")
+    parent:AnchorSubRegion(region, "area", (data.glowType == "buttonOverlay" or data.glowType == "Proc") and "region")
   end
 
   region.parent = parent
@@ -345,6 +392,8 @@ local function modify(parent, region, parentData, data, first)
   region.glowBorder = data.glowBorder
   region.glowXOffset = data.glowXOffset
   region.glowYOffset = data.glowYOffset
+  region.glowStartAnim = data.glowStartAnim
+  region.glowDuration = data.glowDuration
 
   region:SetGlowType(data.glowType)
   region:SetVisible(data.glow)
@@ -363,6 +412,7 @@ function Private.getDefaultGlow(regionType)
       glowType = "Pixel",
       glowLines = 8,
       glowFrequency = 0.25,
+      glowDuration = 1,
       glowLength = 10,
       glowThickness = 1,
       glowScale = 1,
@@ -371,7 +421,7 @@ function Private.getDefaultGlow(regionType)
       glowYOffset = 0,
       glow_anchor = "bar"
     }
-  elseif regionType == "icon" then
+  else
     return {
       ["type"] = "subglow",
       glow = false,
@@ -380,6 +430,7 @@ function Private.getDefaultGlow(regionType)
       glowType = "buttonOverlay",
       glowLines = 8,
       glowFrequency = 0.25,
+      glowDuration = 1,
       glowLength = 10,
       glowThickness = 1,
       glowScale = 1,
@@ -390,9 +441,14 @@ function Private.getDefaultGlow(regionType)
   end
 end
 
+local supportedRegion = {
+  icon = true,
+  aurabar = true,
+  texture = true,
+  progresstexture = true
+}
 local function supports(regionType)
-  return regionType == "icon"
-         or regionType == "aurabar"
+  return supportedRegion[regionType]
 end
 
 local function addDefaultsForNewAura(data)

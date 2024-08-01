@@ -6,6 +6,9 @@ end
 
 loadstring([[
 BtWQuestsDatabase:UpdateNPCsTable({
+    [2846] = {
+        name = "Blixrez Gutstich",
+    },
     [183543] = {
         name = "Noriko die Allerinnernde",
     },
@@ -38,6 +41,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [185878] = {
         name = "Botschafter Taurasza",
+    },
+    [185904] = {
+        name = "Mutter Elion",
     },
     [186303] = {
         name = "Celina Knisterblatt",
@@ -74,6 +80,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [187495] = {
         name = "Furorion",
+    },
+    [187609] = {
+        name = "Erdenruferin Yevaa",
     },
     [187678] = {
         name = "Alexstrasza die Lebensbinderin",
@@ -159,6 +168,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [191924] = {
         name = "Jäger Narman",
     },
+    [192539] = {
+        name = "Miguel Heller",
+    },
     [192543] = {
         name = "Archivar Areniel",
     },
@@ -183,6 +195,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [194904] = {
         name = "Muqur der Regenberührte",
     },
+    [195234] = {
+        name = "Erdheiler Govrum",
+    },
     [196066] = {
         name = "Greyzik Flickfinger",
     },
@@ -199,10 +214,241 @@ BtWQuestsDatabase:UpdateNPCsTable({
         name = "Badconcierge",
     },
     [197986] = {
-        name = "Badveranstalterin der Thermalquellen",
+        name = "Badveranstalterin des Bades der Ruhigen Träume",
     },
     [198386] = {
         name = "Späherkarte",
+    },
+    [199201] = {
+        name = "Schuppenkommandantin Viridia",
+    },
+    [199532] = {
+        name = "Schuppenkommandantin Glutthal",
+    },
+    [199761] = {
+        name = "Todespirscherkommandant Belmont",
+    },
+    [199767] = {
+        name = "Apothekermeister Faranell",
+    },
+    [199768] = {
+        name = "Dunkle Waldläuferin Velonara",
+    },
+    [199806] = {
+        name = "Rüstmeisterin Newlem",
+    },
+    [199879] = {
+        name = "Dunkle Waldläuferin Velonara",
+    },
+    [199885] = {
+        name = "Todespirscherkommandant Belmont",
+    },
+    [200054] = {
+        name = "Älteste Honigpelz",
+    },
+    [200238] = {
+        name = "Tote Höhlenschwalbe",
+    },
+    [200291] = {
+        name = "Rupert, der Gentlemanelementar",
+    },
+    [200953] = {
+        name = "Erdheilerin Narvra",
+    },
+    [201098] = {
+        name = "Brogg die Bestie",
+    },
+    [201100] = {
+        name = "Storul Schwerstein",
+    },
+    [201180] = {
+        name = "Katalogisierer Wulferd",
+    },
+    [202656] = {
+        name = "Mayla Hochberg",
+    },
+    [202700] = {
+        name = "Lysander Sternschatten",
+    },
+    [202701] = {
+        name = "Arko'narin Sternschatten",
+    },
+    [202702] = {
+        name = "Maiev Schattensang",
+    },
+    [205067] = {
+        name = "Shandris Mondfeder",
+    },
+    [205068] = {
+        name = "Shandris Mondfeder",
+    },
+    [205134] = {
+        name = "Shandris Mondfeder",
+    },
+    [205142] = {
+        name = "Shandris Mondfeder",
+    },
+    [205706] = {
+        name = "Zukunftschromie",
+    },
+    [205892] = {
+        name = "Späherin der Kaldorei",
+    },
+    [206247] = {
+        name = "Tyrande Wisperwind",
+    },
+    [206397] = {
+        name = "Merithra des Traums",
+    },
+    [206849] = {
+        name = "Merithra des Traums",
+    },
+    [206921] = {
+        name = "Alexstrasza die Lebensbinderin",
+    },
+    [207160] = {
+        name = "Tyrande Wisperwind",
+    },
+    [207350] = {
+        name = "Furorion",
+    },
+    [207353] = {
+        name = "Arko'narin Sternschatten",
+    },
+    [207779] = {
+        name = "Ethidris Bachschutz",
+    },
+    [207781] = {
+        name = "Melyrine Blütenschatten",
+    },
+    [207790] = {
+        name = "Schuppenkommandantin Glutthal",
+    },
+    [207820] = {
+        name = "Schuppenkommandantin Glutthal",
+    },
+    [208143] = {
+        name = "Hüter Amrymn",
+    },
+    [208151] = {
+        name = "Maiev Schattensang",
+    },
+    [208494] = {
+        name = "Oberste Konstrukteurin Ataanya",
+    },
+    [208496] = {
+        name = "Lehrling Beruun",
+    },
+    [208503] = {
+        name = "Alexstrasza die Lebensbinderin",
+    },
+    [208537] = {
+        name = "Tyrande Wisperwind",
+    },
+    [208550] = {
+        name = "Alexstrasza die Lebensbinderin",
+    },
+    [208552] = {
+        name = "Tyrande Wisperwind",
+    },
+    [208568] = {
+        name = "Tyrande Wisperwind",
+    },
+    [208572] = {
+        name = "Alexstrasza die Lebensbinderin",
+    },
+    [208614] = {
+        name = "Roska Felszahn",
+    },
+    [208669] = {
+        name = "Lady Mondbeere",
+    },
+    [208713] = {
+        name = "Alexstrasza die Lebensbinderin",
+    },
+    [209083] = {
+        name = "Shandris Mondfeder",
+    },
+    [209140] = {
+        name = "Maiev Schattensang",
+    },
+    [209516] = {
+        name = "Delaryn Sommermond",
+    },
+    [209677] = {
+        name = "Schildwache der Kaldorei",
+    },
+    [210022] = {
+        name = "Hüter Adranas",
+    },
+    [210086] = {
+        name = "Hexendoktorin Tzadah",
+    },
+    [210092] = {
+        name = "Meister Gadrin",
+    },
+    [210196] = {
+        name = "Solarys Dornensturm",
+    },
+    [210340] = {
+        name = "Großkonstrukteur Romuul",
+    },
+    [210391] = {
+        name = "Häuptling Hatuun",
+    },
+    [210563] = {
+        name = "Häuptling Hatuun",
+    },
+    [210569] = {
+        name = "Oberste Konstrukteurin Ataanya",
+    },
+    [210646] = {
+        name = "Traumkin",
+    },
+    [210813] = {
+        name = "Eifrige Dryade",
+    },
+    [210904] = {
+        name = "Genn Graumähne",
+    },
+    [210905] = {
+        name = "Prinzessin Tess Graumähne",
+    },
+    [211193] = {
+        name = "Tyrande Wisperwind",
+    },
+    [211265] = {
+        name = "Sylvia Flüsterblüte",
+    },
+    [211634] = {
+        name = "Tyrande Wisperwind",
+    },
+    [212187] = {
+        name = "Genn Graumähne",
+    },
+    [212387] = {
+        name = "Großanachoret Almonen",
+    },
+    [212797] = {
+        name = "Talisa Flüsterblüte",
+    },
+    [212899] = {
+        name = "Elitegraugarde",
+    },
+    [212916] = {
+        name = "Elitesoldat der Todeswache",
+    },
+    [213995] = {
+        name = "Gilnearische Alchemistin",
+    },
+    [214538] = {
+        name = "Genn Graumähne",
+    },
+    [216067] = {
+        name = "Shandris Mondfeder",
+    },
+    [221491] = {
+        name = "Khadgars Beschwörung",
     },
 })
 ]])()

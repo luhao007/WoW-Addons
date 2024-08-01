@@ -1,17 +1,18 @@
---[[ File
-NAME:TitanAutoHide.lua
-DESC: Contains the routines of AutoHide Titan plugin to auto hide a Titan bar.
+--[===[ File
+Contains the routines of AutoHide Titan plugin to auto hide a Titan bar.
 
 Auto hide uses a data driven approach. Rather than seperate routines for each bar, auto hide is implemented in a general manner. 
-The tables TitanBarData & AutoHideData hold relevant data needed to control auto hide. 
-The index into AutoHideData is the plugin button name given in TitanPanel.xml.
+The table TitanBarData hold relevant data needed to control auto hide. 
 
 If auto hide is turned on these routines will show / hide the proper bar (and plugins on the bar).
 These routines control the 'push pin' on each bar, if shown.
-:DESC
---]]
+
+The hider bar is a 1/2 height bar used to catch the mouse over to show the bar again.
+
+For documentation, this is treated as a Titan plugin
+--]===]
 local AceTimer = LibStub("AceTimer-3.0")
-local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local Dewdrop = nil
 if AceLibrary and AceLibrary:HasInstance("Dewdrop-2.0") then Dewdrop = AceLibrary("Dewdrop-2.0") end
 
@@ -23,136 +24,133 @@ VAR: self - The bar
 OUT: None
 --]]
 local function Titan_AutoHide_SetIcon(self)
-	local frame = self:GetName()
-	local bar = AutoHideData[frame].name
+	local frame_auto_hide = self:GetName()
+	local icon = _G[frame_auto_hide.."Icon"]
+	local short = self.registry.short_name
+	local bar = TitanVariables_GetFrameName(short)
 
 	-- Get the icon of the icon template
-	local icon = _G[frame.."Icon"]
-	if (TitanPanelGetVar(bar.."_Hide")) then
+	if TitanBarDataVars[bar].auto_hide then
 		icon:SetTexture("Interface\\AddOns\\Titan\\Artwork\\TitanPanelPushpinOut")
 	else
 		icon:SetTexture("Interface\\AddOns\\Titan\\Artwork\\TitanPanelPushpinIn")
 	end	
 end
 
+local function GetTooltipText(self)
+	local returnstring = ""
+	if self.registry.titan_bar then
+		if TitanBarDataVars[self.registry.titan_bar].auto_hide then
+			returnstring = L["TITAN_PANEL_MENU_ENABLED"]
+		else
+			returnstring = L["TITAN_PANEL_MENU_DISABLED"]
+		end
+	else
+		-- do nothing
+	end
+
+	return returnstring
+end
+
+--[[ 
+NAME: Titan_AutoHide_Init
+DESC: Show / hide the given bar per the user requested settings
+VAR: self - The bar
+OUT: None
+--]]
+function Titan_AutoHide_Init(frame)
+	if _G[frame] then -- sanity check
+		local bar = TitanBarData[frame].name
+
+		-- Make sure the bar should be processed
+		if TitanBarDataVars[frame].show then --if (TitanPanelGetVar(bar.."_Show")) then
+			-- Hide / show the bar 
+			if TitanBarDataVars[frame].auto_hide then
+--			if (TitanPanelGetVar(bar.."_Hide")) then
+				TitanPanelBarButton_Hide(frame);
+			else
+				TitanPanelBarButton_Show(frame);
+			end
+		else
+			TitanPanelBarButton_Hide(frame);
+		end
+		if TitanBarData[frame].hider then
+			Titan_AutoHide_SetIcon(_G[AUTOHIDE_PREFIX..bar..AUTOHIDE_SUFFIX])
+		else
+			-- No auto hide
+		end
+	else
+		-- sanity check, do nothing
+	end
+end
+
+--[[ 
+NAME: Titan_AutoHide_ToggleAutoHide
+DESC: Toggle the user requested show / hide setting then show / hide given bar
+VAR: self - The bar
+OUT: None
+--]]
+function Titan_AutoHide_ToggleAutoHide(bar)
+	local frame_str  = TitanVariables_GetFrameName(bar)
+	
+	-- toggle the correct auto hide variable
+	TitanBarDataVars[frame_str].auto_hide = not TitanBarDataVars[frame_str].auto_hide
+	-- Hide / show the requested Titan bar
+	Titan_AutoHide_Init(frame_str)
+end
+
 -- Event handlers
---[[ Titan
+--[[ 
 NAME: Titan_AutoHide_OnLoad
 DESC: Setup the plugin on the given bar.
 VAR: self - The bar
 OUT: None
 --]]
-function Titan_AutoHide_OnLoad(self)
+local function Titan_AutoHide_OnLoad(self)
 	local frame = self:GetName()
-	local bar = AutoHideData[frame].name
+	local bar = self.short_name
 
 	self.registry = {
 		id = "AutoHide_"..bar,
 		category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = "AutoHide_"..bar,
-		tooltipTitle = L["TITAN_AUTOHIDE_TOOLTIP"],
+		tooltipTitle = L["TITAN_PANEL_AUTOHIDE_TOOLTIP"],
+		tooltipTextFunction = GetTooltipText,
 		savedVariables = {
 			DisplayOnRightSide = 1,
 			ForceBar = bar,
-		}
+		},
+		-- Based on ForceBar, pass the Titan bar to the tooltip routine
+		short_name = bar,
+		titan_bar = TitanVariables_GetFrameName(bar)
 	};
 end
 
---[[ Titan
+--[[ 
 NAME: Titan_AutoHide_OnShow
 DESC: Show the plugin on the given bar.
 VAR: self - The bar
 OUT: None
 --]]
-function Titan_AutoHide_OnShow(self)
+local function Titan_AutoHide_OnShow(self)
 	Titan_AutoHide_SetIcon(self)	
 end
 
---[[ Titan
+--[[ 
 NAME: Titan_AutoHide_OnClick
 DESC: Handle button clicks on the given bar.
 VAR: self - The bar
 VAR: button - The mouse button clicked
 OUT:  None
 --]]
-function Titan_AutoHide_OnClick(self, button)
+local function Titan_AutoHide_OnClick(self, button)
 	if (button == "LeftButton") then
-		Titan_AutoHide_ToggleAutoHide(self);
+		Titan_AutoHide_ToggleAutoHide(self.registry.short_name);
 	end
 end
 
--- Auto hide routines
---[[ Titan
-NAME: Titan_AutoHide_Timers
-DESC: This routine accepts the display bar frame and whether the cursor is entering or leaving. On enter kill the timers that are looking to hide the bar. On leave start the timer to hide the bar.
-VAR: frame - The bar
-VAR: action - "Enter" | "Leave"
-OUT:  None
---]]
-function Titan_AutoHide_Timers(frame, action)
-	if not frame or not action then
-		return
-	end
-	local bar = (TitanBarData[frame] and TitanBarData[frame].name or nil)
-	local hide = (bar and TitanPanelGetVar(bar.."_Hide") or nil)
-	
-	if bar and hide then
-		if (action == "Enter") then
-				AceTimer.CancelAllTimers(frame)
-		end
-		if (action == "Leave") then
-			-- pass the bar as an arg so we can get it back
-			AceTimer.ScheduleRepeatingTimer(frame, Handle_OnUpdateAutoHide, 0.5, frame)
-		end
-	end
-end
-
---[[ Titan
-NAME: Titan_AutoHide_Init
-DESC: Show / hide the given bar per the user requested settings
-VAR: self - The bar
-OUT: None
---]]
-function Titan_AutoHide_Init(self)
-	if not self then return end -- sanity check
-	
-	local frame = self:GetName()
-	if frame then -- sanity check
-		local bar = AutoHideData[frame].name
-
-		-- Make sure the bar should be processed
-		if (TitanPanelGetVar(bar.."_Show")) then
-			-- Hide / show the bar the plugin is on
-			if (TitanPanelGetVar(bar.."_Hide")) then
-				TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX..bar);
-			else
-				TitanPanelBarButton_Show(TITAN_PANEL_DISPLAY_PREFIX..bar);
-			end
-		else
-			TitanPanelBarButton_Hide(TITAN_PANEL_DISPLAY_PREFIX..bar);
-		end
-		Titan_AutoHide_SetIcon(self)
-	end
-end
-
---[[ Titan
-NAME: Titan_AutoHide_ToggleAutoHide
-DESC: Toggle the user requested show / hide setting then show / hide given bar
-VAR: self - The bar
-OUT: None
---]]
-function Titan_AutoHide_ToggleAutoHide(self)
-	local frame = self:GetName()
-	local bar = AutoHideData[frame].name
-
-	-- toggle the correct auto hide variable
-	TitanPanelToggleVar(bar.."_Hide")
-	-- Hide / show the requested bar
-	Titan_AutoHide_Init(self)
-end
-
---[[ Titan
+--[[ 
 NAME: Handle_OnUpdateAutoHide
 DESC: Hide the bar if the user has auto hide after the cursor leaves the display bar.
 VAR: frame - The bar
@@ -169,9 +167,9 @@ function Handle_OnUpdateAutoHide(frame)
 	if not data then -- sanity check
 		return
 	end
-	local bar = (data.name or nil)
+--	local bar = (data.name or nil)
 	
-	local hide = TitanPanelGetVar(bar.."_Hide")
+	local hide = TitanBarDataVars[frame].auto_hide -- TitanPanelGetVar(bar.."_Hide")
 	-- 
 	if hide then
 		AceTimer.CancelAllTimers(frame)
@@ -179,87 +177,67 @@ function Handle_OnUpdateAutoHide(frame)
 	end
 end
 
--- ====== Create needed frames
-local function Create_Hide_Button(name, f)
-	local window = CreateFrame("Button", name, f, "TitanPanelIconTemplate")
-	window:SetFrameStrata("FULLSCREEN")
-	-- Using SetScript("OnLoad",   does not work
-	Titan_AutoHide_OnLoad(window);
---	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+-- Auto hide routines
+--[[ 
+NAME: Titan_AutoHide_Timers
+DESC: This routine accepts the display bar frame and whether the cursor is entering or leaving. On enter kill the timers that are looking to hide the bar. On leave start the timer to hide the bar.
+VAR: frame - The bar
+VAR: action - "Enter" | "Leave"
+OUT:  None
+--]]
+function Titan_AutoHide_Timers(frame, action)
+	if not frame or not action then
+		return
+	end
+	local bar = TitanBarData[frame].name --(frame.bar_name or nil)
+	local hide = TitanBarDataVars[frame].auto_hide -- (bar and TitanPanelGetVar(bar.."_Hide") or nil)
 	
-	window:SetScript("OnShow", function(self)
+	if bar and hide then
+		if (action == "Enter") then
+				AceTimer.CancelAllTimers(frame)
+		end
+		if (action == "Leave") then
+			-- pass the bar as an arg so we can get it back
+			AceTimer.ScheduleRepeatingTimer(frame, Handle_OnUpdateAutoHide, 0.5, frame)
+		end
+	end
+end
+
+--
+--==========================
+-- Routines to handle moving and sizing of short bars
+--
+local function Create_Hide_Button(bar, f)
+	local name = AUTOHIDE_PREFIX..bar..AUTOHIDE_SUFFIX
+	local plugin = CreateFrame("Button", name, f, "TitanPanelIconTemplate")
+	plugin:SetFrameStrata("FULLSCREEN")
+	
+	plugin.short_name = bar -- set the short bar name for the .registry
+
+	-- Using SetScript("OnLoad",   does not work
+	Titan_AutoHide_OnLoad(plugin);
+--	TitanPanelButton_OnLoad(plugin); -- Titan XML template calls this...
+	
+	plugin:SetScript("OnShow", function(self)
 		Titan_AutoHide_OnShow(self) 
 	end)
-	window:SetScript("OnClick", function(self, button)
+	plugin:SetScript("OnClick", function(self, button)
 		Titan_AutoHide_OnClick(self, button);
 		TitanPanelButton_OnClick(self, button);
 	end)
 end
 
-local function Create_Frames()
-	if _G["Titan_Bar__Display_Bar"] then
-		return -- if already created
-	end
-
-	-- Display & Hide bars
-	
-	local top1_d = CreateFrame("Button", "Titan_Bar__Display_Bar", UIParent, "Titan_Bar__Display_Template")
-	top1_d:SetFrameStrata("DIALOG")
-	top1_d:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, 0)
-	top1_d:SetPoint("BOTTOMRIGHT", UIParent, "TOPRIGHT", 0, -24)
-	local top1_h = CreateFrame("Button", "Titan_Bar__Hider_Bar", UIParent, "TitanPanelBarButtonHiderTemplate")
-	top1_h:SetFrameStrata("DIALOG")
-	top1_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
---[===[
--- NOTE: To allow bars to be less than full screen the BOTTOMRIGHT set point must be commented out!
---_G[bar_name]:SetWidth(screenWidth)
-top1_d:SetSize(1000, TITAN_PANEL_BAR_TEXTURE_HEIGHT)
-top1_h:SetSize(1000, TITAN_PANEL_BAR_TEXTURE_HEIGHT)
--- bar width test
-print("T CHBar"
-.." scr w: "..tostring(format("%0.2f", GetScreenWidth()))..""
-.." pyh w: "..tostring(GetPhysicalScreenSize())..""
-.." bar: "..tostring(format("%0.2f", top1_d:GetWidth()))..""
-.." "..tostring(format("%0.2f", UIParent:GetEffectiveScale()))..""
-)
---]===]
-
-	local top2_d = CreateFrame("Button", "Titan_Bar__Display_Bar2", UIParent, "Titan_Bar__Display_Template")
-	top2_d:SetFrameStrata("DIALOG")
-	top2_d:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, 24)
-	top2_d:SetPoint("BOTTOMRIGHT", UIParent, "TOPRIGHT", 0, 48)
-	local top2_h = CreateFrame("Button", "Titan_Bar__Hider_Bar2", UIParent, "TitanPanelBarButtonHiderTemplate")
-	top2_h:SetFrameStrata("DIALOG")
-	top2_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
-
-
-	local bot1_d = CreateFrame("Button", "Titan_Bar__Display_AuxBar", UIParent, "Titan_Bar__Display_Template")
-	bot1_d:SetFrameStrata("DIALOG")
-	bot1_d:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 0)
-	bot1_d:SetPoint("TOPRIGHT", UIParent, "BOTTOMRIGHT", 0, 24)
-	local bot1_h = CreateFrame("Button", "Titan_Bar__Hider_AuxBar", UIParent, "TitanPanelBarButtonHiderTemplate")
-	bot1_h:SetFrameStrata("DIALOG")
-	bot1_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
-
-	local bot2_d = CreateFrame("Button", "Titan_Bar__Display_AuxBar2", UIParent, "Titan_Bar__Display_Template")
-	bot2_d:SetFrameStrata("DIALOG")
-	bot2_d:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 24)
-	bot2_d:SetPoint("TOPRIGHT", UIParent, "BOTTOMRIGHT", 0, 48)
-	local bot2_h = CreateFrame("Button", "Titan_Bar__Hider_AuxBar2", UIParent, "TitanPanelBarButtonHiderTemplate")
-	bot2_h:SetFrameStrata("DIALOG")
-	bot2_h:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -24)
-
+--local function Create_Frames()
+local function Titan_AutoHide_Create_Frames()
+	--====== Titan Auto hide plugin buttons ==============================
 	-- general container frame
 	local f = CreateFrame("Frame", nil, UIParent)
---	f:Hide()
 
-	-- Titan Auto hide Buttons
-	Create_Hide_Button("TitanPanelAutoHide_BarButton", f)
-	Create_Hide_Button("TitanPanelAutoHide_Bar2Button", f)
-	Create_Hide_Button("TitanPanelAutoHide_AuxBar2Button", f)
-	Create_Hide_Button("TitanPanelAutoHide_AuxBarButton", f)
+	Create_Hide_Button("Bar", f)
+	Create_Hide_Button("Bar2", f)
+	Create_Hide_Button("AuxBar2", f)
+	Create_Hide_Button("AuxBar", f)
 	
 end
 
-
-Create_Frames() -- do the work
+Titan_AutoHide_Create_Frames() -- do the work

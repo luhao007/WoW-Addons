@@ -1,14 +1,17 @@
 -- Baits
 --
 -- Handle special baits, e.g. Draenor.
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
 local FL = LibStub("LibFishing-1.0");
 
-local GSB = FishingBuddy.GetSettingBool;
-local PLANS = FishingBuddy.FishingPlans
+local GSB = function(...) return FBI:GetSettingBool(...); end;
+local PLANS = FBI.FishingPlans
 
 local CurLoc = GetLocale();
 
@@ -223,7 +226,7 @@ local function CheckBait(baitid)
 end
 
 local function SpecialBaitPlan(queue)
-    if (not FishingBuddy.IsQuestFishing()) then
+    if (not FBI:IsQuestFishing()) then
         if (GSB("EasyLures") and GSB("DraenorBait")) then
             local continent, _, lastMap = FL:GetCurrentMapContinent();
             if (SpecialBait[continent]) then
@@ -271,14 +274,6 @@ local function SpecialBaitPlan(queue)
 end
 
 local BaitEvents = {}
-BaitEvents[FBConstants.FISHING_ENABLED_EVT] = function()
-    LastSpecialBait = nil;
-end
-
-BaitEvents[FBConstants.FISHING_DISABLED_EVT] = function(started, logout)
-    LastSpecialBait = nil;
-end
-
 BaitEvents["VARIABLES_LOADED"] = function(started)
     for baitid, info in pairs(Maintainable) do
         local continent = info.continent or FL:GetMapContinent(info.mapId)
@@ -295,14 +290,22 @@ BaitEvents["VARIABLES_LOADED"] = function(started)
             tinsert(SpecialBait[continent], baitid)
         end
     end
-    FishingBuddy.SetupSpecialItems(Maintainable, false, true, true)
+    FBI:SetupSpecialItems(Maintainable, false, true, true)
     PLANS:RegisterPlan(SpecialBaitPlan)
 end
 
-FishingBuddy.RegisterHandlers(BaitEvents);
+EventRegistry:RegisterCallback(FBConstants.FISHING_ENABLED_EVT, function()
+    LastSpecialBait = nil;
+end)
 
-if ( FishingBuddy.Commands["debug"] ) then
-    FishingBuddy.SeaScorpion = seascorpion;
+EventRegistry:RegisterCallback(FBConstants.FISHING_DISABLED_EVT, function(started, logout)
+    LastSpecialBait = nil;
+end)
 
-    FishingBuddy.CurrentSpecialBait = CurrentSpecialBait;
+FBI:RegisterHandlers(BaitEvents);
+
+if ( FBI.Commands["debug"] ) then
+    FBI.SeaScorpion = seascorpion;
+
+    FBI.CurrentSpecialBait = CurrentSpecialBait;
 end

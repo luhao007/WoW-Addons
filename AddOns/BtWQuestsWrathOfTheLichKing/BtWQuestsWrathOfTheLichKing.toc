@@ -1,6 +1,6 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Breen
-## Version: 1.13
+## Version: 1.17
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
 

@@ -1,7 +1,5 @@
 local ADDON, MinArch = ...
 
-local clearBinding = false;
-
 BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
 BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
 setglobal("BINDING_NAME_SPELL Survey", "Survey")
@@ -15,7 +13,7 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 	elseif (msg == "toggle") then
 		MinArchMain:Toggle();
 	elseif (msg == "version") then
-		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(GetAddOnMetadata("MinimalArchaeology", "Version")));
+		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version")));
     elseif (msg == "comp") then
         ChatFrame1:AddMessage("Minimal Archaeology Companion related Commands");
         ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
@@ -35,65 +33,40 @@ SlashCmdList["MINARCH"] = function(msg, editBox)
 	end
 end
 
-local function CanCast()
-    -- Prevent casting in combat
-    if (InCombatLockdown()) then
-        return false;
-    end
+local threshold = 0.5;
+local prevTime;
+local clickTime = 0;
 
+WorldFrame:HookScript("OnMouseDown", function(_, button, down)
     -- Check if casting is enabled at all
-    if not MinArch.db.profile.surveyOnDoubleClick then
-        return false;
-    end
+    if button == "RightButton" then
+        MinArch:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
+        
+        if not MinArch.db.profile.surveyOnDoubleClick then
+            MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
+            return
+        end
+        if prevTime then
+            local diff = GetTime() - prevTime;
+            local diff2 = GetTime() - clickTime;
 
-    -- Check general conditions
-    if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
-        return false;
-    end
+            -- print(prevTime, clickTime, diff, diff2, threshold);
+            if diff <= threshold and diff2 > threshold then
+                MinArch:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
+                clickTime = GetTime();
+                if (MinArch:CanCast()) then
+                    if ( IsMouselooking() ) then
+                        MouselookStop();
+                    end
 
-    -- Check custom conditions (mounted, flying)
-    if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
-        return false;
-    end
-    if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
-        return false;
-    end
-
-    return true;
-end
-
-function MinArch:HookDoubleClick()
-    local button = MinArchHiddenSurveyButton;
-
-    local threshold = 0.5;
-    local prevTime;
-    local clickTime = 0;
-
-    --button:SetScript("PostClick", function(self)
-    --    print('PostClick' .. tostring(clearBinding))
-    --    if clearBinding then
-    --        ClearOverrideBindings(self)
-    --    end
-    --end)
-
-    WorldFrame:HookScript("OnMouseDown", function(_, eButton)
-        if eButton == "RightButton" and CanCast() then
-            if prevTime then
-                local diff = GetTime() - prevTime;
-                local diff2 = GetTime() - clickTime;
-
-                if diff < threshold and diff2 > threshold then
-                    -- print("shoudcast");
-                    clickTime = GetTime();
-                    SetOverrideBindingClick(MinArchHiddenSurveyButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
-
-                    C_Timer.NewTimer(0.2, function()
-                        ClearOverrideBindings(button);
-                    end)
+                    MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
+                    SetOverrideBindingClick(MinArch.hiddenButton, true, "BUTTON2", "MinArchHiddenSurveyButton");
                 end
             end
-
-            prevTime = GetTime();
         end
-    end)
-end
+
+        prevTime = GetTime();
+    else
+        prevTime = nil
+    end
+end)

@@ -37,6 +37,13 @@ function Addon:OnInitialize()
     if lfgTooManyDialog and lfgTooManyDialog.text and strlenutf8(lfgTooManyDialog.text) == #lfgTooManyDialog.text then
         lfgTooManyDialog.text = L['你的队伍成员已经达到当前活动的人数上限，活动已经自动解散。']
     end
+	--显示职业图标
+	InitMeetingStoneClass()
+	
+	--2022-11-18 部分人反馈小图标隐藏后打不开，增加命令打开方式 /ms  、 /meetingstone
+	SlashCmdList["MeetingStone"] = function() MainPanel:Show() end;
+    _G["SLASH_MeetingStone1"] = "/ms";
+    _G["SLASH_MeetingStone2"] = "/meetingstone";
 end
 
 function Addon:OnEnable()
@@ -47,7 +54,7 @@ function Addon:OnEnable()
     end
 
     if Profile:GetLastVersion() < 70200.06 then
-        SetCVar('profanityFilter', 1)
+        --SetCVar('profanityFilter', 1)
     end
 
     Profile:SaveLastVersion()
@@ -76,10 +83,11 @@ function Addon:Toggle()
         else
             if ApplicantPanel:HasNewPending() then
                 MainPanel:SelectPanel(ManagerPanel)
-            elseif DataCache:GetObject('ActivitiesData'):IsNew() then
-                MainPanel:SelectPanel(ActivitiesParent)
-            elseif App:HasNewFollower() then
-                MainPanel:SelectPanel(AppParent)
+			-- 10.0 屏蔽最新活动和攻略 by 易安玥
+            -- elseif DataCache:GetObject('ActivitiesData'):IsNew() then
+                -- MainPanel:SelectPanel(ActivitiesParent)
+            -- elseif App:HasNewFollower() then
+                -- MainPanel:SelectPanel(AppParent)
             elseif C_LFGList.HasActiveEntryInfo() then
                 MainPanel:SelectPanel(ManagerPanel)
             end

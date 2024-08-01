@@ -124,6 +124,12 @@ function Module:ShowModule(name, ...)
     if not (type(module[0]) == 'userdata' and module.GetObjectType) then
         error(([[Cannot show module '%s' (is not uiobject)]]):format(name), 2)
     end
+    if(name == "MainPanel") then
+        -- Just for MainPanel
+        module:Hide()
+        module:Show()
+        return
+    end
     HideUIPanel(module)
     if type(module.SetArguments) == 'function' then
         module:SetArguments(...)
@@ -138,6 +144,11 @@ function Module:HideModule(name)
     end
     if not (type(module[0]) == 'userdata' and module.GetObjectType) then
         error(([[Cannot hide module '%s' (is not uiobject)]]):format(name), 2)
+    end
+    if(name == "MainPanel") then
+        -- Just for MainPanel
+        module:Hide()
+        return
     end
     HideUIPanel(module)
 end

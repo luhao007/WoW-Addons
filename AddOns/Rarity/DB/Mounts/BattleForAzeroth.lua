@@ -346,8 +346,6 @@ local bfaMounts = {
 		instanceDifficulties = { [CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true },
 		chance = 100,
 		wasGuaranteed = true,
-		groupSize = 10,
-		equalOdds = true,
 		statisticId = { 13382 },
 		coords = { { m = CONSTANTS.UIMAPIDS.BATTLE_FOR_DAZARALOR_RAID, i = true } },
 	},
@@ -591,7 +589,8 @@ local bfaMounts = {
 	["Twilight Avenger"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173950, 173989 },
 		name = L["Twilight Avenger"],
 		spellId = 279466,
 		itemId = 163584,
@@ -602,7 +601,8 @@ local bfaMounts = {
 	["Craghorn Chasm-Leaper"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173992, 173950, 173949, 173993 },
 		name = L["Craghorn Chasm-Leaper"],
 		spellId = 279467,
 		itemId = 163583,
@@ -613,7 +613,8 @@ local bfaMounts = {
 	["Qinsho's Eternal Hound"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173949, 173993 },
 		name = L["Qinsho's Eternal Hound"],
 		spellId = 279469,
 		itemId = 163582,
@@ -624,7 +625,8 @@ local bfaMounts = {
 	["Squawks"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173991, 173950 },
 		name = L["Squawks"],
 		spellId = 254811,
 		itemId = 163586,
@@ -635,7 +637,8 @@ local bfaMounts = {
 	["Surf Jelly"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173996, 173997, 173990, 173992 },
 		name = L["Surf Jelly"],
 		spellId = 278979,
 		itemId = 163585,
@@ -699,8 +702,6 @@ local bfaMounts = {
 			value = 146409,
 		},
 		chance = 100,
-		groupSize = 5,
-		equalOdds = true,
 		statisticId = { 13372, 13373, 13374, 13379 },
 		lockoutDetails = {
 			mode = CONSTANTS.DEFEAT_DETECTION.MODE_AND,
@@ -732,7 +733,8 @@ local bfaMounts = {
 	["Risen Mare"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173988, 173996 },
 		name = L["Risen Mare"],
 		spellId = 288722,
 		itemId = 166466,
@@ -743,7 +745,8 @@ local bfaMounts = {
 	["Island Thunderscale"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173989 },
 		name = L["Island Thunderscale"],
 		spellId = 288721,
 		itemId = 166467,
@@ -754,7 +757,8 @@ local bfaMounts = {
 	["Bloodgorged Hunter"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = { 173997, 173990, 173988, 173992, 173989, 173993, 173950 },
 		name = L["Bloodgorged Hunter"],
 		spellId = 288720,
 		itemId = 166468,
@@ -765,7 +769,20 @@ local bfaMounts = {
 	["Stonehide Elderhorn"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		items = {
+			173996,
+			173997,
+			173994,
+			173992,
+			173990,
+			173988,
+			173949,
+			173991,
+			173989,
+			173950,
+			173993,
+		},
 		name = L["Stonehide Elderhorn"],
 		spellId = 288712,
 		itemId = 166470,
@@ -786,10 +803,17 @@ local bfaMounts = {
 		instanceDifficulties = { [CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true },
 		chance = 100,
 		wasGuaranteed = true,
-		groupSize = 10,
-		equalOdds = true,
 		statisticId = { 14138 },
 		coords = { { m = CONSTANTS.UIMAPIDS.NYALOTHA, i = true } },
+		lockoutDetails = {
+			mode = CONSTANTS.DEFEAT_DETECTION.MODE_AND,
+			{
+				encounterName = "N'Zoth the Corruptor",
+				instanceDifficulties = {
+					[CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true,
+				},
+			},
+		},
 	},
 }
 

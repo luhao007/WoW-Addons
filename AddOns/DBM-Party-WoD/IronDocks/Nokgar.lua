@@ -4,7 +4,7 @@ local L		= mod:GetLocalizedStrings()
 mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
 mod.upgradedMPlus = true
 
-mod:SetRevision("20220917014128")
+mod:SetRevision("20230903143942")
 mod:SetCreatureID(81297, 81305)
 mod:SetEncounterID(1749)
 mod:SetBossHPInfoToHighest(false)
@@ -26,7 +26,7 @@ mod:RegisterEventsInCombat(
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
 --]]
 local warnBloodLettingHowl				= mod:NewSpellAnnounce(164835, 3)
-local warnNokgar						= mod:NewSpellAnnounce("ej10433", 3, "134170")
+local warnNokgar						= mod:NewSpellAnnounce(-10433, 3, "134170")
 
 local specWarnBurningArrows				= mod:NewSpecialWarningSpell(164635, nil, nil, nil, 2, 2)
 local specWarnBurningArrowsMove			= mod:NewSpecialWarningMove(164635, nil, nil, nil, 1, 8)
@@ -63,11 +63,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerBloodlettingHowlCD:Stop()
 		timerBloodlettingHowlCD:Start(4.8)
 		timerBurningArrowsCD:Start(15.7)--15.7-18.2 depending on whether it gets spell queued behind Reckless
-		timerRecklessProvocationCD:Start(16.9)
+		timerRecklessProvocationCD:Start(15.8)
 	elseif args.spellId == 164635 then
 		specWarnBurningArrows:Show()
 		specWarnBurningArrows:Play("watchfeet")
-		timerBurningArrowsCD:Start(self.vb.phase == 1 and 30 or 40)
+		timerBurningArrowsCD:Start(self:GetStage(1) and 30 or 40)
 	end
 end
 

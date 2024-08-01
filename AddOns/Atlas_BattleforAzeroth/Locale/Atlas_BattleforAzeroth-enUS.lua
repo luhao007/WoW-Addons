@@ -1,8 +1,8 @@
--- $Id: Atlas_BattleforAzeroth-enUS.lua 25 2022-02-19 09:20:03Z arithmandar $
+-- $Id: Atlas_BattleforAzeroth-enUS.lua 45 2023-03-20 14:51:13Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
-	Copyright 2020 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2020 ~ 2023 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 

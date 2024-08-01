@@ -5,6 +5,26 @@ MinArch.Options = MinArch.Ace:NewModule("Options");
 local Options = MinArch.Options;
 local parent = MinArch;
 
+local ArchRaceGroupText = {
+	"Kul Tiras, Zuldazar",
+	"Broken Isles",
+	"Draenor",
+	"Pandaria",
+	"Northrend",
+	"Outland",
+	"Eastern Kingdoms, Kalimdor"
+};
+
+local ArchRaceGroups = {
+	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
+	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
+	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
+	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
+	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
+	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
+	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF, ARCHAEOLOGY_RACE_NERUBIAN}
+};
+
 local function updateOrdering(frame, newValue)
     local oldValue = MinArch.db.profile.companion.features[frame].order;
 
@@ -18,8 +38,61 @@ local function updateOrdering(frame, newValue)
     MinArch.Companion:Update();
 end
 
-local general = {
-	name = "Minimal Archaeology v" .. GetAddOnMetadata("MinimalArchaeology", "Version"),
+
+local function updatePrioOrdering(group, currentRace, newValue, ignoreCrossCheck)
+	local oldValue = MinArch.db.profile.raceOptions.priority[currentRace]
+
+	if not oldValue or oldValue > newValue then
+		for _, race in pairs(ArchRaceGroups[group]) do
+			local currentVal = MinArch.db.profile.raceOptions.priority[race]
+			if race ~= currentRace and currentVal and currentVal >= newValue then
+				MinArch.db.profile.raceOptions.priority[race] = currentVal + 1
+			end
+		end
+	elseif oldValue and oldValue < newValue then
+		for _, race in pairs(ArchRaceGroups[group]) do
+			local currentVal = MinArch.db.profile.raceOptions.priority[race]
+			if currentVal == newValue then
+				MinArch.db.profile.raceOptions.priority[race] = oldValue
+			end
+		end
+	end
+
+	MinArch.db.profile.raceOptions.priority[currentRace] = newValue
+
+	-- fix duplicates / non-numerical order
+	local tmp = {}
+	for idx, race in pairs(ArchRaceGroups[group]) do
+		tmp[idx] = {
+			order = MinArch.db.profile.raceOptions.priority[race] or 0,
+			race = race
+		}
+	end
+	table.sort(tmp, function(a, b)
+		return (tonumber(a.order) or 0) < (tonumber(b.order) or 0)
+	end)
+
+	local i = 1
+	for _, val in pairs(tmp) do
+		if val.order > 0 then
+			if group ~= 5 or val.race ~= ARCHAEOLOGY_RACE_NERUBIAN or MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN] <= 2 then
+				MinArch.db.profile.raceOptions.priority[val.race] = i
+			end
+			i = i + 1
+		end
+	end
+
+	if not ignoreCrossCheck and (group == 5 or group == 7) and MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN] then
+		if group == 5 then
+			updatePrioOrdering(7, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
+		else
+			updatePrioOrdering(5, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
+		end
+	end
+end
+
+local home = {
+	name = "Minimal Archaeology v" .. C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version"),
 	handler = MinArch,
 	type = "group",
 	args = {
@@ -30,46 +103,106 @@ local general = {
             width = "full",
             order = 1,
         },
-		welcome = {
+		info = {
+            type = "description",
+            name = "For configration options, please expand the Minimal Archaeology section on the left. Here's an overview for the addon and the settings:",
+            fontSize = "small",
+            width = "full",
+            order = 2,
+        },
+		general = {
 			type = "group",
-			name = "Settings",
-			order = 2,
-			inline = true,
+            name = "General Settings - Main windows",
+            inline = true,
+            order = 3,
 			args = {
-				raceButton = {
+				message = {
+					type = "description",
+					name = "Open this section to configure |cFFF96854double right click surveying|r, and the |cFFF96854Main|r, |cFFF96854History|r and |cFFF96854Digsites|r windows. If you're unfamiliar with MinArch, click the buttons below to toggle each specific window.",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+				main = {
 					type = "execute",
-					name = "Race Settings",
+					name = "Toggle Main",
 					order = 2,
 					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.raceSettings);
+						MinArchMain:Toggle()
 					end,
                 },
-                companionButton = {
+                digsites = {
 					type = "execute",
-					name = "Companion Settings",
+					name = "Toggle History",
 					order = 3,
 					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.companionSettings);
+						MinArchHist:Toggle()
 					end,
 				},
-				TomTomButton = {
+				history = {
 					type = "execute",
-					name = "Navigation Settings",
+					name = "Toggle Digsites",
 					order = 4,
 					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
-					end,
-				},
-				deBbutton = {
-					type = "execute",
-					name = "Dev Settings",
-					order = 5,
-					func = function ()
-						InterfaceOptionsFrame_OpenToCategory(MinArch.Options.devSettings);
+						MinArchDigsites:Toggle()
 					end,
 				},
 			}
-        },
+		},
+		companion = {
+			type = "group",
+            name = "Companion Settings",
+            inline = true,
+            order = 4,
+			args = {
+				message = {
+					type = "description",
+					name = "The |cFFF96854Companion|r is a tiny floating window that features a skill bar, distance tracker, and buttons for waypoints, solves, crates and a button for summoning a random mount. Each button can be disabled and you can also customize their order. The Companion has separate scaling and auto-show/auto-hide functionality from the rest of the windows.",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+			}
+		},
+		race = {
+			type = "group",
+            name = "Race Settings",
+            inline = true,
+            order = 5,
+			args = {
+				message = {
+					type = "description",
+					name = "Race related options: |cFFF96854hide|r or |cFFF96854prioritizy|r races, set |cFFF96854farming mode|r or enable |cFFF96854automatic keystone|r application.",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+			}
+		},
+
+		navigation = {
+			type = "group",
+            name = "Navigation Settings",
+            inline = true,
+            order = 6,
+			args = {
+				message = {
+					type = "description",
+					name = "Options for |cFFF96854TomTom|r integration and Blizzard |cFFF96854Waypoint|r system support (if available).",
+					fontSize = "small",
+					width = "full",
+					order = 1,
+				},
+			}
+		}
+	}
+}
+
+local general = {
+	name = "General Settings",
+	handler = MinArch,
+	type = "group",
+	args = {
         surveying = {
             type = "group",
             name = "Surveying",
@@ -117,6 +250,28 @@ local general = {
 			inline = true,
 			order = 4,
 			args = {
+				scale = {
+					type = "range",
+					name = "Window Scale",
+					desc = "Scale for the Main, History and Digsites windows. The Companion is scaled using a separate slider in the Companion section.",
+					min = 30,
+					max = 200,
+					step = 5,
+					get = function () return MinArch.db.profile.frameScale end,
+					set = function (_, newValue)
+						MinArch.db.profile.frameScale = newValue;
+						MinArch:CommonFrameScale(newValue);
+					end,
+					order = 1,
+				},
+				spacer = {
+					name = "",
+					fontSize = "normal",
+					type = "description",
+					desc = "",
+					width = "full",
+					order = 2,
+				},
 				hideMinimapButton = {
 					type = "toggle",
 					name = "Hide Minimap Button",
@@ -127,7 +282,7 @@ local general = {
 
 						MinArch:RefreshMinimapButton();
 					end,
-					order = 1,
+					order = 3,
 				},
 				disableSound = {
 					type = "toggle",
@@ -137,7 +292,7 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.disableSound = newValue;
 					end,
-					order = 2,
+					order = 4,
 				},
 				showWorldMapOverlay = {
 					type = "toggle",
@@ -148,23 +303,25 @@ local general = {
 						MinArch.db.profile.showWorldMapOverlay = newValue;
 						MinArch:ShowRaceIconsOnMap();
 					end,
+
 					width = "double",
 					order = 5,
 				},
-				scale = {
+				pinScale = {
 					type = "range",
-					name = "Scale",
-					desc = "...",
-					min = 30,
-					max = 200,
+					name = "Map Pin Scale",
+					desc = "Scale for the digsite icons on the world map. Reopen your map after changing.",
+					min = 50,
+					max = 500,
 					step = 5,
-					get = function () return MinArch.db.profile.frameScale end,
+					get = function () return MinArch.db.profile.mapPinScale end,
 					set = function (_, newValue)
-						MinArch.db.profile.frameScale = newValue;
-						MinArch:CommonFrameScale(newValue);
+						MinArch.db.profile.mapPinScale = newValue;
 					end,
-					order = 99,
-				}
+					disabled = function () return not MinArch.db.profile.showWorldMapOverlay end,
+					order = 6,
+				},
+
 			}
         },
         startup = {
@@ -173,6 +330,13 @@ local general = {
             inline = true,
             order = 5,
             args = {
+				note = {
+                    type = "description",
+                    name = "Note: these settings do not affect the Companion frame.",
+                    -- fontSize = "small",
+                    width = "full",
+                    order = 1,
+			    },
                 startHidden = {
 					type = "toggle",
 					name = "Start Hidden",
@@ -203,6 +367,13 @@ local general = {
 			inline = true,
 			order = 6,
 			args = {
+			    note = {
+                    type = "description",
+                    name = "Note: these settings do not affect the Companion frame.",
+                    -- fontSize = "small",
+                    width = "full",
+                    order = 1,
+			    },
 				hideAfterDigsite = {
 					type = "toggle",
 					name = "Auto-hide after digsites",
@@ -211,7 +382,7 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.hideAfterDigsite = newValue;
 					end,
-					order = 1,
+					order = 2,
 				},
 				waitForSolve = {
 					type = "toggle",
@@ -222,7 +393,7 @@ local general = {
 						MinArch.db.profile.waitForSolve = newValue;
 					end,
 					disabled = function () return (MinArch.db.profile.hideAfterDigsite == false) end,
-					order = 2
+					order = 3
 				},
 				hideInCombat = {
 					type = "toggle",
@@ -232,7 +403,7 @@ local general = {
 					set = function (_, newValue)
 						MinArch.db.profile.hideInCombat = newValue;
 					end,
-					order = 3,
+					order = 4,
 				},
 			}
 		},
@@ -302,6 +473,32 @@ local general = {
                         MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
 					end,
 					order = 1,
+				},
+				showStats = {
+					type = "toggle",
+					name = "Show statistics",
+					desc = "Show progress and number of total solves for each race.",
+					get = function () return MinArch.db.profile.history.showStats end,
+					set = function (_, newValue)
+                        MinArch.db.profile.history.showStats = newValue;
+						if newValue then
+							MinArchHist.statsFrame:Show()
+						else
+							MinArchHist.statsFrame:Hide()
+						end
+					end,
+					order = 2,
+				},
+				groupByProgress = {
+					type = "toggle",
+					name = "Group by progress",
+					desc = "If enabled, artifacts will be grouped by progress: current > incomplete > completed.",
+					get = function () return MinArch.db.profile.history.groupByProgress end,
+					set = function (_, newValue)
+                        MinArch.db.profile.history.groupByProgress = newValue;
+                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+					end,
+					order = 3,
 				},
             }
         },
@@ -376,14 +573,14 @@ local raceSettings = {
 					args = {
                         hideCapped = {
                             type = "toggle",
-							name = "Hide irrelevant solves for fragment-capped races",
-							desc = "Enable to treat fragment-capped races as irrelevant when they have a solve available, but they would be irrelevant based on other relevancy settings.",
+							name = "Hide irrelevant solves for races set to Farming mode (fragment-capped)",
+							desc = "Enable to treat races with farming mode enabled (fragment-capped) as irrelevant when they have a solve available, but they would be irrelevant based on other relevancy settings.",
 							get = function () return MinArch.db.profile.relevancy.hideCapped end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.hideCapped = newValue;
                                 MinArch:UpdateMain();
                             end,
-                            width = 2,
+                            width = "full",
 							order = 5,
                         },
                     },
@@ -403,19 +600,38 @@ local raceSettings = {
 					width = "full",
 					order = 1,
 				},
+				wpIgnoreHidden = {
+					type = "toggle",
+					name = "Ignore hidden races when creating waypoints",
+					desc = "Enable this to also ignore hidden races when creating waypoints.",
+					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
+                    set = function (_, newValue)
+						MinArch.db.profile.TomTom.ignoreHidden = newValue;
+					end,
+                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					width = "full",
+					order = 2,
+                },
 			}
 		},
 		cap = {
 			type = "group",
-			name = "Fragment-Cap",
+			name = "Farming mode",
 			order = 3,
 			inline = false,
 			args = {
+				message = {
+					type = "description",
+					name = "If you enable farming mode for a race, the Main window will show the fragment cap for the race instead of the fragments required for the current solve. Useful for collecting fossil fragments for Darkmoon Faire.",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
                 solveConfirmation = {
                     width = "full",
 					type = "toggle",
 					name = "Show confirmation for fragment-capped solves",
-					desc = "Show confirmation before solving artifacts for fragment-capped races",
+					desc = "Show confirmation before solving artifacts for races with farming mode enabled",
 					get = function () return MinArch.db.profile.showSolvePopup end,
 					set = function (_, newValue)
 						MinArch.db.profile.showSolvePopup = newValue;
@@ -426,10 +642,43 @@ local raceSettings = {
 		},
 		keystone = {
 			type = "group",
-			name = "Keystone",
+			name = "Auto-keystone",
 			order = 4,
 			inline = false,
 			args = {
+				message = {
+					type = "description",
+					name = "Automatically applies keystones (uncommon fragments) for checked races.",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
+			}
+		},
+		priority = {
+			type = "group",
+			name = "Priority",
+			order = 5,
+			inline = false,
+			args = {
+				message = {
+					type = "description",
+					name = "Priority currently only applies to waypoint generation order. Automatic waypoints will point to the prioritized races before pointing to other (otherwise closer) digsites. Smaller number means higher priority.",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
+				reset = {
+					type = "execute",
+					name = "Reset All",
+					order = 2,
+					func = function ()
+						for i=1, ARCHAEOLOGY_NUM_RACES do
+							MinArch.db.profile.raceOptions.priority[i] = nil
+						end
+						MinArch:UpdateMain();
+					end,
+				}
 			}
 		},
 	}
@@ -442,7 +691,7 @@ local companionSettings = {
 	args = {
         general = {
 			type = "group",
-			name = "General settings!",
+			name = "General settings",
 			order = 1,
 			inline = true,
 			args = {
@@ -466,7 +715,7 @@ local companionSettings = {
 				alwaysShow = {
 					type = "toggle",
 					name = "Always show",
-					desc = "Enable to always show regardless of other options (except in instances and in combat).",
+					desc = "Enable to always show the companion frame, even if you're not in a digsite (except in instances and if 'Hide in combat' is enabled).",
 					get = function () return MinArch.db.profile.companion.alwaysShow end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.alwaysShow = newValue;
@@ -475,11 +724,35 @@ local companionSettings = {
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 					order = 2,
                 },
+                hideInCombat = {
+                    type = "toggle",
+                    name = "Hide in combat",
+                    desc = "Enable to hide in combat (even if alway show is enabled).",
+                    get = function () return MinArch.db.profile.companion.hideInCombat end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.hideInCombat = newValue;
+                        MinArch.Companion:AutoToggle()
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 3,
+                },
+				hideWhenUnavailable = {
+                    type = "toggle",
+                    name = "Hide when unavailable",
+                    desc = "Enable to hide when there are no digsites available on the world map.",
+                    get = function () return MinArch.db.profile.companion.hideWhenUnavailable end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.hideWhenUnavailable = newValue;
+                        MinArch.Companion:AutoToggle()
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 3,
+                },
                 hrC = {
                     type = "description",
                     name = "|nColoring",
                     width = "full",
-                    order = 3,
+                    order = 4,
                 },
                 background = {
                     type = "color",
@@ -492,7 +765,7 @@ local companionSettings = {
                         MinArchCompanion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
-                    order = 4,
+                    order = 5,
                 },
                 bgOpacity = {
                     type = "range",
@@ -507,7 +780,7 @@ local companionSettings = {
                         MinArch.Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
-                    order = 5,
+                    order = 6,
                 },
                 hr = {
                     type = "description",
@@ -547,7 +820,7 @@ local companionSettings = {
                 },
                 scale = {
                     type = "range",
-                    name = "Scale",
+                    name = "Companion scale",
                     desc = "Set the size of the companion. Default: 100.",
                     min = 30,
                     max = 300,
@@ -787,22 +1060,60 @@ local companionSettings = {
                         },
                         relevantOnly = {
                             type = "toggle",
-                            name = "For relevant only",
-                            desc = "Enable to only show solves for relevant races",
-                            width = "full",
+                            name = "Only show relevant",
+                            desc = "Enable to only show solves for relevant races (customized in the Races section)",
                             get = function () return MinArch.db.profile.companion.relevantOnly end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.relevantOnly = newValue;
                                 MinArch.Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+							width = "full",
                             order = 53,
+                        },
+						alwaysShowNearest = {
+                            type = "toggle",
+                            name = "Show artifacts in progress",
+                            desc = "Enable to displays the project related to the nearest digsite, even if you can't solve the project yet",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowNearest end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.alwaysShowNearest = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+							width = 1.5,
+                            order = 54,
+                        },
+						alwaysShowSolvable = {
+                            type = "toggle",
+                            name = "Always show solvable artifacts",
+                            desc = "Enable to override the previous setting by displaying projects that can be solved, even if it's not related to the nearest digsite",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+							width = 1.5,
+                            order = 55,
+                        },
+						keystone = {
+                            type = "toggle",
+                            name = "Show keystones",
+                            desc = "Enable to displays keystones on the solve button if available for the current solve. Also allows you to and apply/remove keystones (if auto-apply is not set)",
+                            get = function () return MinArch.db.profile.companion.features.solveButton.keystone end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.solveButton.keystone = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 57,
                         },
                     }
                 },
                 crateButton = {
                     type = "group",
-                    name = "Distance Tracker settings",
+                    name = "Crate button settings",
                     order = 5,
                     inline = true,
                     args = {
@@ -864,32 +1175,76 @@ local companionSettings = {
                         },
                     }
                 },
+				skillBar = {
+                    type = "group",
+                    name = "Skill bar settings",
+                    order = 6,
+                    inline = true,
+                    args = {
+                        toggleMountButton = {
+                            type = "toggle",
+                            name = "Show skill bar",
+                            desc = "Display the skill progress bar on the Companion frame",
+                            get = function () return MinArch.db.profile.companion.features.skillBar.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.skillBar.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
+                        },
+                    }
+                },
+				progressBar = {
+                    type = "group",
+                    name = "Progress bar settings",
+                    order = 8,
+                    inline = true,
+                    args = {
+                        toggleMountButton = {
+                            type = "toggle",
+                            name = "Show progress bar",
+                            desc = "Display the artifact progress progress bar on the Companion frame",
+                            get = function () return MinArch.db.profile.companion.features.progressBar.enabled end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.progressBar.enabled = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
+                        },
+						showTooltip = {
+                            type = "toggle",
+                            name = "Show tooltip",
+                            desc = "Display the artifact tooltip when hovering over the progress bar",
+                            get = function () return MinArch.db.profile.companion.features.progressBar.showTooltip end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.progressBar.showTooltip = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
+                        },
+						solveOnClick = {
+                            type = "toggle",
+                            name = "Solve on click",
+                            desc = "Solve the currently activate artifact when clicking the progress bar",
+                            get = function () return MinArch.db.profile.companion.features.progressBar.solveOnClick end,
+                            set = function (_, newValue)
+                                MinArch.db.profile.companion.features.progressBar.solveOnClick = newValue;
+                                MinArch.Companion:Update();
+                            end,
+                            disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                            order = 1,
+                        },
+                    }
+                },
 
 
             }
         }
     }
 }
-
-local ArchRaceGroupText = {
-	"Kul Tiras, Zuldazar",
-	"Broken Isles",
-	"Draenor",
-	"Pandaria",
-	"Northrend",
-	"Outland",
-	"Eastern Kingdoms, Kalimdor"
-};
-
-local ArchRaceGroups = {
-	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
-	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
-	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
-	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
-	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
-	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
-	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}
-};
 
 local devSettings = {
 	name = "Tester/Developer Settings",
@@ -923,6 +1278,45 @@ local devSettings = {
 					order = 2,
 				}
 			}
+		},
+		message = {
+            type = "description",
+            name = "Experimental Features are placed here, because they're in a beta state, and might need additional work and feedback. Experimental features can be used without debug messages enabled, but I might ask for them in some cases if there are any issues.",
+            fontSize = "normal",
+            width = "full",
+            order = 1,
+        },
+		experimental = {
+			type = 'group',
+			name = 'Experimental Features',
+			inline = true,
+			order = 2,
+			args = {
+				optimizePath = {
+                    type = "toggle",
+					name = "Optimize Path",
+                    desc = "The waypoint will not always point to the nearest site, but tries to optimize travel times on the long run.",
+                    get = function () return MinArch.db.profile.TomTom.optimizePath end,
+                    set = function (_, newValue)
+						MinArch.db.profile.TomTom.optimizePath = newValue;
+					end,
+                    order = 1,
+                },
+				optimizeModifier = {
+					type = "range",
+					name = "Optimization Modifier",
+					desc = "Sets the optimization modifier to a custom value.",
+					min = 1,
+					max = 5,
+					step = 0.05,
+					get = function () return MinArch.db.profile.TomTom.optimizationModifier end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.optimizationModifier = newValue;
+						MinArch:SetWayToNearestDigsite()
+					end,
+					order = 2,
+				},
+			}
 		}
 	}
 }
@@ -941,7 +1335,7 @@ local TomTomSettings = {
                 uiMapPoint = {
 					type = "toggle",
 					name = "Map pin",
-					desc = "Enable to create a map pin over digsites.",
+					desc = "Enable to create a map pin over digsites (only available in Mainline).",
 					get = function () return MinArch.db.profile.TomTom.enableBlizzWaypoint end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.enableBlizzWaypoint = newValue;
@@ -949,20 +1343,23 @@ local TomTomSettings = {
                             MinArch:ClearUiWaypoint()
                         end
 					end,
+					disabled = function () return (MINARCH_EXPANSION == 'Cata') end,
 					order = 2,
                 },
                 superTrack = {
 					type = "toggle",
 					name = "Show floating pin",
-					desc = "Enable to show the floating pin over the destination.",
+					desc = "Enable to show the floating pin over the destination (only available in Mainline).",
 					get = function () return MinArch.db.profile.TomTom.superTrack end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.superTrack = newValue;
                         if MinArch.db.char.TomTom.uiMapPoint then
-                            C_SuperTrack.SetSuperTrackedUserWaypoint(newValue);
+							if (MINARCH_EXPANSION == 'Mainline') then
+                            	C_SuperTrack.SetSuperTrackedUserWaypoint(newValue);
+							end
                         end
 					end,
-					disabled = function () return (MinArch.db.profile.TomTom.enableBlizzWaypoint == false) end,
+					disabled = function () return (MinArch.db.profile.TomTom.enableBlizzWaypoint == false or MINARCH_EXPANSION == 'Cata') end,
 					order = 2,
 				},
             }
@@ -1046,130 +1443,284 @@ local TomTomSettings = {
 					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
 					order = 2,
                 },
-                prioRace = {
-                    type = "select",
-                    values = function ()
-                        local raceSelectTable = {}
-                        raceSelectTable[-1] = 'Do not Prioritize';
-                        for i=1,ARCHAEOLOGY_NUM_RACES do
-                            raceSelectTable[i] = GetArchaeologyRaceInfo(i);
-                        end
-
-                        return raceSelectTable
-                    end,
-					name = "Prioritize a Race",
-                    desc = "Select a race to prioritize, even if there are closer digsites with different races.",
-                    get = function () return MinArch.db.profile.TomTom.prioRace end,
+				ignoreHidden = {
+					type = "toggle",
+					name = "Ignore hidden races",
+					desc = "Enable this to ignore hidden races when creating waypoints.",
+					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
                     set = function (_, newValue)
-						MinArch.db.profile.TomTom.prioRace = newValue;
+						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
                     disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
-                    order = 3,
+					order = 4,
                 },
+				message = {
+					type = "description",
+					name = "Note: Priority options have been moved to the Race Settings section",
+					fontSize = "normal",
+					width = "full",
+					order = 5,
+				},
 			},
 		},
+		taxi = {
+			type = 'group',
+			name = 'Taxi Options',
+			inline = true,
+			order = 4,
+			args = {
+				enable = {
+					type = "toggle",
+					name = "Navigate to nearest Flight Master",
+					desc = "Enable to set the waypoint to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					get = function () return MinArch.db.profile.TomTom.taxi.enabled end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.enabled = newValue;
+						if not newValue then
+							MinArch.db.profile.TomTom.taxi.archMode = false
+						end
+					end,
+					width = 1.5,
+					order = 1,
+				},
+				distance = {
+					type = "range",
+					name = "Distance limit",
+					desc = "If enabled, waypoints will be created to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					min = 2000,
+					max = 10000,
+					step = 100,
+					get = function () return MinArch.db.profile.TomTom.taxi.distance end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.distance = newValue;
+					end,
+					order = 2,
+				},
+				spacer = {
+					fontSize = "normal",
+					type = "description",
+					name = "",
+					width = "full",
+					order = 3,
+				},
+				pinAlpha = {
+					type = "range",
+					name = "Pin Opacity",
+					desc = "Set the opacity of unrelated taxi nodes on the flight map",
+					min = 0,
+					max = 100,
+					step = 5,
+					get = function () return MinArch.db.profile.TomTom.taxi.alpha end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.alpha = newValue;
+					end,
+					order = 4,
+				},
+				autoToggle = {
+					type = "toggle",
+					name = "Auto Enable",
+					desc = "Automatically enable Archeology Mode on flight maps when a waypoint is created by MinArch",
+					get = function () return MinArch.db.profile.TomTom.taxi.autoEnableArchMode end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.autoEnableArchMode = newValue;
+					end,
+					order = 5,
+				},
+				disableOnLogin = {
+					type = "toggle",
+					name = "Auto-Disable",
+					desc = "Automatically disable Archaeology Mode on flight maps when there are no digsites on the world map and upon login",
+					get = function () return MinArch.db.profile.TomTom.taxi.autoDisableArchMode end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.autoDisableArchMode = newValue;
+					end,
+					order = 6,
+				},				
+			}
+		}
 	}
 }
+
+local PatronSettings = {
+	name = "MinArch Patrons",
+	handler = MinArch,
+	type = "group",
+	args = {
+		message = {
+            type = "description",
+            name = "Thanks for using Minimal Archaeology. If you like this addon, please consider supporting development by becoming a patron at |cFFF96854patreon.com/minarch|r.",
+            fontSize = "normal",
+            width = "full",
+            order = 1,
+        },
+		patrons = {
+			type = "group",
+			name = "Patrons",
+			inline = true,
+			order = 3,
+			args = {
+				message = {
+					type = "description",
+					name = "Ice Reaper",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
+			}
+		},
+	}
+	}
 
 function Options:OnInitialize()
 	local count = 1;
 	for group, races in pairs(ArchRaceGroups) do
-		local groupkey = 'group' .. tostring(group);
+        if races[1] > 0 then
+            local groupkey = 'group' .. tostring(group);
 
-		raceSettings.args.hide.args[groupkey] = {
-			type = 'group',
-			name = ArchRaceGroupText[group],
-			order = count + 1,
-			inline = true,
-			args = {
-			}
-		};
-		raceSettings.args.cap.args[groupkey] = {
-			type = 'group',
-			name = ArchRaceGroupText[group],
-			order = count + 1,
-			inline = true,
-			args = {
-			}
-		};
-		raceSettings.args.keystone.args[groupkey] = {
-			type = 'group',
-			name = ArchRaceGroupText[group],
-			order = count,
-			inline = true,
-			args = {
-			}
-		};
-		for idx=1, #races do
-			local i = races[idx];
-			raceSettings.args.hide.args[groupkey].args['race' .. tostring(i)] = {
-				type = "toggle",
-				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function ()
-					return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
-				end,
-				order = i,
-				get = function () return MinArch.db.profile.raceOptions.hide[i] end,
-				set = function (_, newValue)
-					MinArch.db.profile.raceOptions.hide[i] = newValue;
-					MinArch:UpdateMain();
-				end,
-			};
-			raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
-				type = "toggle",
-				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function ()
-					return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
-				end,
-				order = i,
-				get = function () return MinArch.db.profile.raceOptions.cap[i] end,
-				set = function (_, newValue)
-					MinArch.db.profile.raceOptions.cap[i] = newValue;
-					MinArch:UpdateMain();
-				end,
-			};
-			raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
-				type = "toggle",
-				name = function () return GetArchaeologyRaceInfo(i) end,
-				desc = function ()
-					local RuneName, _, _, _, _, _, _, _, _, _ = GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
-					local RaceName = MinArch['artifacts'][i]['race'];
+            raceSettings.args.hide.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count + 2,
+                inline = true,
+                args = {
+                }
+            };
+            raceSettings.args.cap.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count + 1,
+                inline = true,
+                args = {
+                }
+            };
+            raceSettings.args.keystone.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count,
+                inline = true,
+                args = {
+                }
+            };
+			raceSettings.args.priority.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count + 2,
+                inline = true,
+                args = {
+                }
+            };
+			local values = {}
+			values[0] = 'No priority'
+			for idx=1, #races do
+				values[idx] = tostring(idx)
+			end
+            for idx=1, #races do
+                local i = races[idx];
+                if i > 0 then
+                    raceSettings.args.hide.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "toggle",
+                        name = function () return GetArchaeologyRaceInfo(i) end,
+                        desc = function ()
+                            return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.hide[i] end,
+                        set = function (_, newValue)
+                            MinArch.db.profile.raceOptions.hide[i] = newValue;
+                            MinArch:UpdateMain();
+                        end,
+                    };
+                    raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "toggle",
+                        name = function () return GetArchaeologyRaceInfo(i) end,
+                        desc = function ()
+                            return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.cap[i] end,
+                        set = function (_, newValue)
+                            MinArch.db.profile.raceOptions.cap[i] = newValue;
+                            MinArch:UpdateMain();
+                        end,
+                    };
+                    raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "toggle",
+                        name = function () return GetArchaeologyRaceInfo(i) end,
+                        desc = function ()
+                            local RuneName, _, _, _, _, _, _, _, _, _ = C_Item.GetItemInfo(MinArch['artifacts'][i]['raceitemid']);
+                            local RaceName = MinArch['artifacts'][i]['race'];
 
-					if (RuneName ~= nil and RaceName ~= nil) then
-						return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
-					end
-				end,
-				order = i,
-				get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
-				set = function (_, newValue)
-					MinArch.db.profile.raceOptions.keystone[i] = newValue;
-					MinArch:UpdateMain();
-				end,
-				disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
-			};
-		end
+                            if (RuneName ~= nil and RaceName ~= nil) then
+                                return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
+                            end
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
+                        set = function (_, newValue)
+                            MinArch.db.profile.raceOptions.keystone[i] = newValue;
+                            MinArch:UpdateMain();
+                        end,
+                        disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
+                    };
+					raceSettings.args.priority.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "select",
+						values = values,
+                        name = function ()
+							local suffix = ''
+							if i == ARCHAEOLOGY_RACE_NERUBIAN then
+								suffix = ' (affects both Northrend and Eastern Kingdom)'
+							end
+							return MinArch['artifacts'][i]['race'] .. suffix
+						end,
+                        desc = function ()
+                            local RaceName = MinArch['artifacts'][i]['race'];
 
-		count = count + 1;
+                            if (RuneName ~= nil and RaceName ~= nil) then
+                                return "Set " .. RaceName .. " pirority";
+                            end
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.priority[i] or 0 end,
+                        set = function (_, newValue)
+							if (newValue == 0) then
+								MinArch.db.profile.raceOptions.priority[i] = 0
+							else
+								updatePrioOrdering(group, i, newValue)
+							end
+                            MinArch:UpdateMain();
+                        end,
+                    };
+                end
+            end
+
+            count = count + 1;
+        end
 	end
 
 	self:RegisterMenus();
 end
 
 function Options:RegisterMenus()
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", general);
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", home);
 	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch General Settings", general);
+	self.general = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch General Settings", "General Settings", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
+	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "Companion Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
 	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
-
-    LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
-	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "Companion Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Navigation Settings", TomTomSettings);
 	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Navigation Settings", "Navigation Settings", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Developer Settings", devSettings);
     self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Developer Settings", "Developer Settings", "Minimal Archaeology");
+
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Patrons", PatronSettings);
+    self.patrons = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Patrons", "Patrons", "Minimal Archaeology");
 
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(parent.db));
     self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Profiles", "Profiles", "Minimal Archaeology");

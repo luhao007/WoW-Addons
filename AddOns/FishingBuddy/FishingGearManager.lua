@@ -1,4 +1,7 @@
 -- Interface with the Blizz Equipment Manager
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
@@ -43,16 +46,16 @@ local FINAL_STATE = 4;
 local gearframe = CreateFrame("Frame");
 gearframe:Hide();
 gearframe:SetScript("OnUpdate", function(self)
-	-- FishingBuddy.Debug("gearframe state "..self.state);
+	-- FBI.Debug("gearframe state "..self.state);
 	if ( self.state == 0 ) then
 		local icon, idxm1 = GetEquipmentSetInfoByName(self.name);
 		if ( not icon or self.force ) then
 			-- make sure we're wearing everything we think we should be
 			local wearing = 1;
-			local mslot = GetInventorySlotInfo("MainHandSlot");			
+			local mslot = GetInventorySlotInfo("MainHandSlot");
 			for invslot,info in pairs(self.outfit) do
 				local link = GetInventoryItemLink("player", invslot);
-				-- FishingBuddy.Debug("link "..link.." "..info.link);
+				-- FBI.Debug("link "..link.." "..info.link);
 				if (link ~= info.link) then
 					wearing = nil;
 				end
@@ -60,11 +63,11 @@ gearframe:SetScript("OnUpdate", function(self)
 					if (mslot == invslot) then
 						local t = FL:GetItemInfo(info.link, FL.ITEM_LINK);
 						self.maintexture = gsub( strupper(t), "INTERFACE\\ICONS\\", "" );
-						-- FishingBuddy.Debug("texture "..self.maintexture);
+						-- FBI.Debug("texture "..self.maintexture);
 					end
 				end
 			end
-			
+
 			-- Are we wearing everything?
 			if (wearing) then
 				SaveEquipmentSet(self.name, self.maintexture);
@@ -78,7 +81,7 @@ gearframe:SetScript("OnUpdate", function(self)
 		for slot=1,17 do
 			C_EquipmentSet.IgnoreSlotForSave(slot);
 		end
-		for invslot,info in pairs(self.outfit) do
+		for invslot,_ in pairs(self.outfit) do
 			C_EquipmentSet.UnignoreSlotForSave(invslot);
 		end
 		SaveEquipmentSet(self.name, self.maintexture);
@@ -116,7 +119,7 @@ local function PrepGearFrame(name, outfit, force)
 	gearframe.name = name;
 	gearframe.state = 0;
 	gearframe.outfit = outfit;
-	FishingBuddy.Dump(gearframe.outfit)
+	FBI.Dump(gearframe.outfit)
 	gearframe.force = force;
 	gearframe.maintexture = nil;
 	gearframe:Show();
@@ -126,15 +129,15 @@ local function GearManagerInitialize(force)
 	local known, name = FL:GetFishingSpellInfo();
 	if ( known ) then
 		if (force) then
-			-- FishingBuddy.Debug("GearManagerInitialize forced");
+			-- FBI.Debug("GearManagerInitialize forced");
 		end
-		-- FishingBuddy.Debug("GearManagerInitialize name "..FBConstants.NAME);
+		-- FBI.Debug("GearManagerInitialize name "..FBConstants.NAME);
 		local icon, setId = GetEquipmentSetInfoByName(FBConstants.NAME);
 		if ( icon ) then
 			-- Validate outfit, CurseForge bug #218
 			local itemArray = C_EquipmentSet.GetEquipmentSetIDs(setId);
 			-- If there is a Ranged slot, nuke this outfit
-			-- FishingBuddy.Dump(itemArray)
+			-- FBI.Dump(itemArray)
 			if (itemArray[18] and itemArray[18] ~= 0) then
 				force = true;
 			end
@@ -164,7 +167,7 @@ local function GuessCurrentOutfit()
 		ret[set+1] = 0;
 		local location_array = C_EquipmentSet.GetItemLocations(set);
 		if (location_array) then
-			for s,location in pairs(location_array) do
+			for _,location in pairs(location_array) do
 				local onplayer, _, bags, _, _, _ = EquipmentManager_UnpackLocation(location);
 				if onplayer and not bags then
 					ret[set+1] = ret[set+1] + 1;
@@ -198,7 +201,7 @@ local function GetCurrentOutfit()
 end
 
 local function GearManagerSwitch(outfitName)
-	local GSB = FishingBuddy.GetSettingBool;
+	local GSB = function(...) return FBI:GetSettingBool(...); end;
 	if ( FL:IsFishingReady(GSB("PartialGear")) ) then
 		local name = FishingBuddy_Info["LastGearSet"];
 		if ( not name ) then
@@ -222,13 +225,14 @@ local function OutfitPoints(outfit)
 	local sp = 0;
 	local bp = 0;
 	if ( outfit )then
-		local isp = FishingBuddy.OutfitManager.ItemStylePoints;
+		local isp = FBEnvironment.OutfitManager.ItemStylePoints;
 		local ibp = function(link) return FL:FishingBonusPoints(link); end;
 		local items = GetEquipmentSetLocations(outfit);
-		for slot,loc in pairs(items) do
-			local player, bank, bags, void, slot, bag = EquipmentManager_UnpackLocation(loc);
+		for _,loc in pairs(items) do
+			local bags, bag, slot
+			_, _, bags, _, slot, bag = EquipmentManager_UnpackLocation(loc);
 			local link;
-			if ( not bags ) then -- and (player or bank) 
+			if ( not bags ) then -- and (player or bank)
 				link = GetInventoryItemLink("player", slot);
 			else -- bags
 				link = GetContainerItemLink(bag, slot);
@@ -262,15 +266,15 @@ local function Patch_GearSetButton_OnEnter(self)
 		else
 			pstring = FBConstants.POINTS;
 		end
-		GameTooltip:AddDoubleLine(SKILL..": "..bp, "Draznar: "..sp, 1, 1, 1, 1, 1, 1);
+		GameTooltip:AddDoubleLine(SKILL..": "..bp, "Draznar: "..sp.." "..pstring, 1, 1, 1, 1, 1, 1);
 		GameTooltip:Show();
 	end
 end
 -- point to our new function so we get our own tooltip
 GearSetButton_OnEnter = Patch_GearSetButton_OnEnter;
 
-FishingBuddy.OutfitManager.RegisterManager(EQUIPMENT_MANAGER,
-															 GearManagerInitialize,
-															 function(useme) end,
-															 GearManagerSwitch);
+FBEnvironment.OutfitManager.RegisterManager(EQUIPMENT_MANAGER,
+											GearManagerInitialize,
+											function(useme) end,
+											GearManagerSwitch);
 

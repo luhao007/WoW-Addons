@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod("z30", "DBM-PvP")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230110015611")
+mod:SetRevision("20240414045728")
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 mod:RegisterEvents(
 	"LOADING_SCREEN_DISABLED",
-	"ZONE_CHANGED_NEW_AREA"
+	"ZONE_CHANGED_NEW_AREA",
+	"PLAYER_ENTERING_WORLD"
 )
 
 mod:AddBoolOption("AutoTurnIn")
@@ -13,7 +14,7 @@ mod:AddBoolOption("AutoTurnIn")
 do
 	local bgzone = false
 
-	local function Init(self)
+	function mod:Init()
 		local zoneID = DBM:GetCurrentArea()
 		if not bgzone and (zoneID == 30 or zoneID == 2197) then -- Regular AV (retail and classic), Korrak
 			bgzone = true
@@ -31,22 +32,28 @@ do
 			end
 			local generalMod = DBM:GetModByName("PvPGeneral")
 			generalMod:SubscribeAssault(assaultID, 0)
-			generalMod:TrackHealth(11946, "HordeBoss")
-			generalMod:TrackHealth(11948, "AllianceBoss")
-			generalMod:TrackHealth(11947, "Galvangar")
-			generalMod:TrackHealth(11949, "Balinda")
-			generalMod:TrackHealth(13419, "Ivus")
-			generalMod:TrackHealth(13256, "Lokholar")
+			if not self.tracker then
+				self.tracker = generalMod:NewHealthTracker()
+				self.tracker:TrackHealth(11948, "AllianceBoss", BLUE_FONT_COLOR)
+				self.tracker:TrackHealth(11949, "Balinda", BLUE_FONT_COLOR)
+				self.tracker:TrackHealth(13419, "Ivus", BLUE_FONT_COLOR)
+				self.tracker:TrackHealth(11946, "HordeBoss", RED_FONT_COLOR)
+				self.tracker:TrackHealth(11947, "Galvangar", RED_FONT_COLOR)
+				self.tracker:TrackHealth(13256, "Lokholar", RED_FONT_COLOR)
+			end
 		elseif bgzone and (zoneID ~= 30 and zoneID ~= 2197) then
 			bgzone = false
 			self:UnregisterShortTermEvents()
 			self:Stop()
-			DBM:GetModByName("PvPGeneral"):StopTrackHealth()
+			if self.tracker then
+				self.tracker:Cancel()
+				self.tracker = nil
+			end
 		end
 	end
 
 	function mod:LOADING_SCREEN_DISABLED()
-		self:Schedule(1, Init, self)
+		self:ScheduleMethod(1, "Init")
 	end
 	mod.ZONE_CHANGED_NEW_AREA	= mod.LOADING_SCREEN_DISABLED
 	mod.PLAYER_ENTERING_WORLD	= mod.LOADING_SCREEN_DISABLED
@@ -55,8 +62,7 @@ end
 
 do
 	local ipairs, type = ipairs, type
-	local isNewAPI = WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC
-	local UnitGUID, GetItemCount, GetNumGossipActiveQuests, SelectGossipActiveQuest, SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward = UnitGUID, GetItemCount, isNewAPI and C_GossipInfo.GetNumActiveQuests or GetNumGossipActiveQuests, isNewAPI and C_GossipInfo.SelectActiveQuest or SelectGossipActiveQuest, isNewAPI and C_GossipInfo.SelectAvailableQuest or SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward
+	local UnitGUID, GetItemCount, GetNumGossipActiveQuests, SelectGossipActiveQuest, SelectGossipAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward = UnitGUID, GetItemCount, C_GossipInfo and C_GossipInfo.GetNumActiveQuests, C_GossipInfo and C_GossipInfo.SelectActiveQuest, C_GossipInfo and C_GossipInfo.SelectAvailableQuest, IsQuestCompletable, CompleteQuest, GetQuestReward
 
 	local quests = {
 		[13442] = { -- Archdruid Renferal [A]
@@ -97,7 +103,9 @@ do
 				end
 			end
 		elseif quest then
-			if GetItemCount(quest[1]) > quest[2] then
+			local questId = quest[1]
+			---@cast questId number
+			if GetItemCount(questId) > quest[2] then
 				SelectGossipAvailableQuest(1)
 			end
 		end

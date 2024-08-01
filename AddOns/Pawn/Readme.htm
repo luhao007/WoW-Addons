@@ -307,148 +307,98 @@ indeterminate or an upgrade. This can be used for auto-sell rules, such as <code
 </ul>
 
 <h2>Updates</h2>
-<h3>Version 2.7.15</h3>
+<h3>Version 2.9.14</h3>
 <ul>
-	<li>Fixed a bug where Pawn was undervaluing certain crafted items with two random stats.</li>
+	<li>The War Within pre-patch: Pawn will once again show up in the game's Interface Options.</li>
+	<li>Cataclysm Classic: Updated default stat weights for fire mages, enhancement shamans, and fury warriors.</li>
+	<li>All Classic versions: Fixed a problem where relic slot items (idols, totems, and librams) could appear as an upgrade for classes that can't use them and could not be ignored.</li>
 </ul>
-<h3>Version 2.7.14</h3>
+<h3>Version 2.9.13</h3>
 <ul>
-	<li>Dragonflight: Added support for loot in the the new Dragonflight Adventure Guide like in previous versions of the game. (Item tooltips will get upgrade arrows and so on, but I haven't added green arrows to the item icons themselves yet.)</li>
-	<li>Dragonflight: Updated Pawn's database of gem stats to account for changes in 10.0.2. Any Dragonflight item with a socket will now be considered a couple of percentage points better than before.</li>
-	<li>Dragonflight: Crafted items with a Quality level on the tooltip will no longer cause Pawn's Compare tab to say that the item has "special effects."</li>
-	<li>Dragonflight: Fixed a bug where Pawn would cause a Lua error when turning the "show bag upgrade advisor" option on or off after WoW patch 10.0.2.</li>
+	<li>Cataclysm Classic: Updated the default stat weights for almost all classes and specs.</li>
 </ul>
-<h3>Version 2.7.13</h3>
+<h3>Version 2.9.12</h3>
 <ul>
-	<li>Dragonflight: Pawn will no longer suggest socketing gems into items from 
-	the Shadowlands, unless you turn off the "Ignore sockets on low-level items" 
-	option. Onto the Dragon Isles!</li>
+	<li>Cataclysm Classic: Fixed a problem where one-handed weapons that can be wielded in either hand were being undervalued for all melee classes if you used the default stat weights.</li>
 </ul>
-<h3>Version 2.7.12</h3>
+<h3>Version 2.9.11</h3>
 <ul>
-	<li>Dragonflight: Fixed another error that could occur in 10.0.2 when using 
-	Pawn-compatible bag addons while Pawn's bag advisor is OFF. (When that 
-	option is off, and a bag addon asks Pawn for help finding upgrades, Pawn 
-	just asks the game what it would have done. But the game removed its bag 
-	upgrade code in 10.0.2 so Pawn was freaking out.)</li>
+	<li>Cataclysm Classic: More updates to correctly read numbers larger than 999 on items when playing in French.</li>
 </ul>
-<h3>Version 2.7.11</h3>
+<h3>Version 2.9.10</h3>
 <ul>
-	<li>Dragonflight: Yet another change to work with Pawn-compatible bag addons 
-	(thanks Merathilis!).</li>
+	<li>Cataclysm Classic: Fixed a problem where the default stat weights for expertise were incorrect for all classes and specs.</li>
 </ul>
-<h3>Version 2.7.10</h3>
+<h3>Version 2.9.9</h3>
 <ul>
-	<li>Dragonflight: Additional fixes for Pawn-compatible bag addons (thanks 
-	Caedis!).</li>
-	<li>Dragonflight: Fixed a bug I introduced in 2.7.9 that would cause your 
-	chat window to be filled with messages like "nil nil" if you were using a 
-	Pawn-compatible bag addon.</li>
-	<li>Dragonflight: Fixed a problem that was preventing the "Equipped" 
-	shortcut buttons on Pawn's Compare tab from working after 10.0.2.</li>
+	<li>Cataclysm Classic: Fixed a problem where certain items with mastery and certain haste enchantments had those stats ignored when playing in Russian, European Spanish, and Latin American Spanish.</li>
+	<li>You can now click an item link in chat and then Alt+LeftClick the popup that appears to get a window that lets you copy all of the text on that item to the clipboard. (This is mostly only useful to me when I need to type Искусность but my keyboard doesn't have those letters.) Previously this feature only worked on Pawn's Compare tab.</li>
 </ul>
-<h3>Version 2.7.9</h3>
+<h3>Version 2.9.8</h3>
 <ul>
-	<li>Dragonflight: <strong>In 10.0.2, Blizzard deleted the code for the 
-	game's built-in bag arrows. For now, green arrows in your bags won't work 
-	unless you have a Pawn-compatible bag addon installed.</strong> You can 
-	still see upgrade advice when you hover over the item, just not on the 
-	item's icon itself.
-	<ul>
-		<li>This version includes an update so that Pawn-compatible bag addons 
-		will work again.</li>
-		<li>I'm as confused as you are.</li>
-	</ul>
+	<li>Fixed a problem introduced in Pawn 2.9.7 that caused the "Show icons next to tooltips" feature to cause an error. (Actually, Ulidan did. Thanks Ulidan and Kraturnus!)</li>
+	<li>Cataclysm Classic: Ranged Attack Power no longer appears as a distinct stat you can give a weight to; just use Attack Power for both melee and ranged.</li>
+	<li>Cataclysm Classic: Updated the default stat weights for retribution paladins.</li>
+</ul>
+<h3>Version 2.9.7</h3>
+<ul>
+	<li>The War Within: Pawn now works on The War Within beta and WoW 11.0.</li>
+	<li>Mists of Pandaria Remix: Fixed another case where the socketing advisor could appear and give dubious advice.</li>
+</ul>
+<h3>Version 2.9.6</h3>
+<ul>
+	<li>Mists of Pandaria Remix: Pawn's socketing advisor is now disabled in this mode, since gems work differently.</li>
+	<li>Cataclysm Classic: Updated default stat weights for all specs and classes are included, thanks to the <a href="https://wowsims.github.io" target="_blank">WoWSims</a> team. Simulations are still in their early stages, so expect some oddities—let me know if you find something egregiously wrong. Simulating your character with WoWSims (or any other favorite sim) will get you the most accurate results, and you can export custom stat weights to use in Pawn for quick in-game advice.</li>
+	<li>Cataclysm Classic: You can now set a weight for the non-stat effect of meta gems like you could in Burning Crusade Classic and Wrath Classic.</li>
+	<li>Cataclysm Classic: The deprecated stats Defense Rating and Block Value will no longer show up in Pawn.</li>
+	<li>Classic Era and Season of Discovery: Fixed a harmless error message about gem data.</li>
+</ul>
+<h3>Version 2.9.5</h3>
+<ul>
+	<li>Fixed some problems introduced in Pawn 2.9.4 where Pawn could give you an error when socketing an item.</li>
+	<li>Cataclysm Classic: Added support for the armor specialization skills such as Mail Specialization.</li>
+</ul>
+<h3>Version 2.9.4</h3>
+<ul>
+	<li>Cataclysm Classic: Cogwheel sockets on engineering goggles will now be considered in the item's value like any other gem socket.</li>
+	<li>Cataclysm Classic: Fixed a bug that caused gems with bad secondary stats to be valued more highly than they should have been (it was calculating things as if you could reforge the gem's bad stat into something better). The bug shouldn't have affected the values of existing items unless you were using gems that are bad for your spec.</li>
+</ul>
+<h3>Version 2.9.3</h3>
+<ul>
+	<li>Cataclysm Classic: Fixed a problem where the "track for each scale (advanced)" option could cause an error.</li>
+	<li>Cataclysm Classic: Pawn will no longer display a warning when logging in if you play in French.</li>
+</ul>
+<h3>Version 2.9.2</h3>
+<ul>
+	<li>Cataclysm Classic: When visiting an Arcane Reforger, Pawn will now display advice on how to reforge the item to maximize its power. (You can turn this off with the "show reforge advisor" option.)</li>
+	<li>Cataclysm Classic: Pawn's Compare tab will now show you how much an item's score can be improved by reforging it (assuming you make the change that Pawn suggests).</li>
+	<li>Cataclysm Classic: Pawn will now take reforging into account when determining an item's score and whether or not it's an upgrade.</li>
+</ul>
+<h3>Version 2.9.1</h3>
+<ul>
+	<li>Cataclysm Classic: Pawn will now recommend the proper gems based on the new colors and stats of existing gems.</li>
+	<li>Cataclysm Classic: Fixed a bug that caused a few stat weights to get reset to 0 when editing in the Weights tab and then reloading.</li>
+	<li>Cataclysm Classic: Added support for all of the new Cataclysm gems, which Pawn will start recommending as you get Cataclysm gear.</li>
+	<li>Fixed a bug that caused gems to always appear as upgrades.</li>
+</ul>
+<h3>Version 2.9.0</h3>
+<ul>
+	<li>Cataclysm Classic: Added basic support for Cataclysm Classic. The following important work is <em>not</em> yet done:
+		<ul>
+			<li>Updated stat weights (if you know of a good source, please let me know!)</li>
+			<li>Reforging support</li>
+			<li>I'm not playing Classic, so I'll need your help pointing out remaining things that are broken!</li>
+		</ul>
 	</li>
-	<li>Dragonflight: Evokers in the starting zone who haven't chosen a spec will now see Devastation 
-	advice when in Automatic mode instead of Preservation. (It doesn't really 
-	matter right now because both of those scales are placeholders for the time 
-	being.)</li>
 </ul>
-<h3>Version 2.7.8</h3>
-<ul>
-	<li>Dragonflight: Pawn's keybindings will now once again show up in the 
-	keybindings list without having to search for them by name.</li>
-	<li>Dragonflight: Pawn now knows about the new gems from the Dragon Isles, 
-	but it won't suggest them until you start getting gear from there.</li>
-	<li>Wrath of the Lich King Classic and Burning Crusade Classic: Fixed an 
-	error that would occur when socketing an item when using a custom scale for 
-	which there are three or more colored gems that have exactly the same value.</li>
-</ul>
-<h3>Version 2.7.7</h3>
-<ul>
-	<li>Dragonflight: Updated to work with changes made to the game's comparison 
-	tooltips on the 10.0.2 PTR and beta.</li>
-	<li>Dragonflight: Fixed the error that would occur when clicking the Pawn 
-	button in the Interface Options window.</li>
-	<li>Adds support for a future version of Ace3's configuration window.</li>
-</ul>
-<h3>Version 2.7.6</h3>
-<ul>
-	<li>All Classic versions: Pawn will not provide upgrade information to bag 
-	addons for now, to resolve some extreme performance issues that some players 
-	are having. (I hope to let bag addons on Classic versions add green arrows 
-	like you get on modern WoW again in the future!)</li>
-</ul>
-<h3>Version 2.7.5</h3>
-<ul>
-	<li>German Wrath of the Lich King Classic: Added support for additional 
-	items with armor penetration rating.</li>
-</ul>
-<h3>Version 2.7.4</h3>
-<ul>
-	<li>Dragonflight: The bag upgrade advisor (Pawn taking over the green arrows 
-	in your bags) now works with all styles of bags.</li>
-	<li>Dragonflight: Fixed a problem where sometimes you couldn't right-click 
-	on items in your bags to use them.</li>
-</ul>
-<h3>Version 2.7.3</h3>
-<ul>
-	<li>Fixed a harmless error that could occur when selling certain unusual 
-	types of items, such as caged battle pets.</li>
-	<li>Burning Crusade and Wrath of the Lich King Classic: Fixed a problem 
-	where socket bonuses were sometimes being ignored in the advice given by the 
-	socketing advisor. (The item's values and upgrade %s were, however, not 
-	affected—just the shift-right-click window.)</li>
-	<li>Dragonflight: Pawn now annotates the tooltip when hovering over the item 
-	to be crafted in the professions UI, so you'll see upgrade information (and 
-	item scores if enabled) when you hover.</li>
-	<li>Russian Wrath of the Lich King Classic: Added support for additional 
-	items with armor penetration rating.</li>
-</ul>
-<h3>Version 2.7.2</h3>
-<ul>
-	<li>Dragonflight: The bag upgrade advisor (Pawn taking over the green arrows 
-	in your bags) now works with the classic (non-combined) bags in WoW 10.0. 
-	(Thanks Triadian!)</li>
-	<li>Simplified Chinese Wrath of the Lich King Classic: Added support for 
-	additional items with parry rating.</li>
-</ul>
-<h3>Version 2.7.1</h3>
-<ul>
-	<li>Dragonflight: Fixed a problem where Pawn would display an error when 
-	evaluating armor for evokers.</li>
-</ul>
-<h3>Version 2.7</h3>
-<ul>
-	<li>Dragonflight: Pawn now works on the Dragonflight beta and the WoW 10.0 
-	PTR. Stat weights for evokers are placeholders.</li>
-	<li>Shadowlands and Dragonflight: Fixed a problem where new characters 
-	(before level 10) could show item advice for blood death knights or another 
-	seemingly random spec when in Automatic mode.</li>
-	<li>Wrath of the Lich King Classic: Northrend awaits! Pawn will no longer 
-	suggest that you put gems in your Burning Crusade items, unless you've 
-	turned off the "Ignore sockets on low-level items" option that's on by 
-	default. With the option on, Pawn will start suggesting you socket gems 
-	again when you start getting level 187 gear (about level 78).</li>
-	<li>English Classic versions: Added support for a few items that add armor 
-	penetration rating in an unusual way.</li>
-</ul>
+
+
 <h3>Older versions</h3>
 <p>See the <a href="Version%20history.htm">version history</a> document for 
 	information about older versions of Pawn.</p>
+
 <h2>The fine print</h2>
-<p>© 2006-2023 Travis Spomer. This mod is released under the Creative Commons
+<p>© 2006-2024 Travis Spomer. This mod is released under the Creative Commons
 <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">
 Attribution-NonCommercial-NoDerivs 3.0</a> license. In short, this means 
 that you can use it, copy it, and share it, but you can't sell it or distribute 

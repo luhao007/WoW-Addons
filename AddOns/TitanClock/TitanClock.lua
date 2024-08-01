@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 --[[
 -- **************************************************************************
 -- * TitanClock.lua
@@ -8,57 +9,21 @@
 
 -- ******************************** Constants *******************************
 TITAN_CLOCK_ID = "Clock";
-local TITAN_BUTTON = "TitanPanel"..TITAN_CLOCK_ID.."Button"
+local TITAN_BUTTON = "TitanPanel" .. TITAN_CLOCK_ID .. "Button"
 
 local TITAN_CLOCK_FORMAT_12H = "12H";
 local TITAN_CLOCK_FORMAT_24H = "24H";
 local TITAN_CLOCK_FRAME_SHOW_TIME = 0.5;
 local _G = getfenv(0);
 -- ******************************** Variables *******************************
-local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
-local ClockTimer = nil;
-local updateTable = {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL };
+local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
+local ClockTimer = {}
+local ClockTimerRunning = false
+local updateTable = { TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL };
 local realmName = GetRealmName();
 -- ******************************** Functions *******************************
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockButton_OnLoad()
--- DESC : Registers the plugin upon it loading
--- **************************************************************************
---]]
-function TitanPanelClockButton_OnLoad(self)
-	self.registry = {
-		id = TITAN_CLOCK_ID,
-		category = "Built-ins",
-		version = TITAN_VERSION,
-		menuText = L["TITAN_CLOCK_MENU_TEXT"],
-		buttonTextFunction = "TitanPanelClockButton_GetButtonText",
-		tooltipTitle = L["TITAN_CLOCK_TOOLTIP"],
-		tooltipTextFunction = "TitanPanelClockButton_GetTooltipText",
-		controlVariables = {
-			ShowIcon = false,
-			ShowLabelText = true,
-			ShowColoredText = true,
-			DisplayOnRightSide = true,
-		},
-		savedVariables = {
-			OffsetHour = 0,
-			Format = TITAN_CLOCK_FORMAT_12H,
-			TimeMode = "Server",
-			ShowIcon = true,
-			ShowLabelText = false,
-			ShowColoredText = false,
-			DisplayOnRightSide = 1,
-			HideGameTimeMinimap = false,
-			HideMapTime = false,
-		}
-	};
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-end
-
-local function TitanPanelClockButton_GetColored(text)
+local function SetColor(text)
 	local label = "";
 	if (TitanGetVar(TITAN_CLOCK_ID, "ShowColoredText")) then
 		label = TitanUtils_GetGreenText(text)
@@ -68,125 +33,30 @@ local function TitanPanelClockButton_GetColored(text)
 	return label;
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockButton_OnShow()
--- DESC : Create repeating timer when plugin is visible
--- **************************************************************************
---]]
-function TitanPanelClockButton_OnShow()
-	if not ClockTimer then
-		ClockTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelClock", TitanPanelPluginHandle_OnUpdate, 30, updateTable)
-	end
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockButton_OnHide()
--- DESC : Destroy repeating timer when plugin is hidden
--- **************************************************************************
---]]
-function TitanPanelClockButton_OnHide()
-	AceTimer.CancelTimer("TitanPanelClock", ClockTimer, true)
-	ClockTimer = nil;
-end
-
-
-function TitanPanelClockButton_OnEvent(self, event, ...)
-	if (event == "PLAYER_ENTERING_WORLD") then
-		-- If the user wants the minimap clock or calendar hidden then hide them
-		if TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
-			if GameTimeFrame then GameTimeFrame:Hide() end
-		end
-		if TimeManagerClockButton and TimeManagerClockButton:GetName() then
-			if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
-				TimeManagerClockButton:Hide()
-			else
-				TimeManagerClockButton:Show()
-			end
-		end
-	end
-end
-
-
-function TitanPanelClockButton_OnClick(self, button)
-	if button == "LeftButton" and IsShiftKeyDown() then
-		TitanUtils_CloseAllControlFrames();
-		if (TitanPanelRightClickMenu_IsVisible()) then
-			TitanPanelRightClickMenu_Close();
-		end
-		ToggleCalendar()
-	elseif button == "LeftButton" then
-	else
-		TitanPanelButton_OnClick(self, button);
-	end
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockButton_GetButtonText()
--- DESC : Display time on button based on set variables
--- **************************************************************************
---]]
-function TitanPanelClockButton_GetButtonText()
-	local clocktime = "";
-	local labeltext = "";
-	local clocktime2 = nil;
-	local labeltext2 = nil;
-	local _ = nil
-	if TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Server" then
-		_,clocktime = TitanPanelClockButton_GetTime("Server", 0)
-		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(S) ") or ""
-	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjusted" then
-		_,clocktime = TitanPanelClockButton_GetTime ("Server", TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"))
-		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(A) ") or ""
-	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" then
-		_,clocktime = TitanPanelClockButton_GetTime ("Local", 0)
-		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(L) ") or ""
-	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerLocal" then
-		local _, s = TitanPanelClockButton_GetTime ("Server", 0)
-		local _, l = TitanPanelClockButton_GetTime ("Local", 0)
-		sl = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(S) ") or ""
-		ll = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(L) ") or ""
-		clocktime = s
-		labeltext = sl
-		clocktime2 = l
-		labeltext2 = ll
-	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjustedLocal" then
-		local _, s = TitanPanelClockButton_GetTime ("Server", TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"))
-		local _, l = TitanPanelClockButton_GetTime ("Local", 0)
-		sl = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(A) ") or ""
-		ll = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(L) ") or ""
-		clocktime = s
-		labeltext = sl
-		clocktime2 = l
-		labeltext2 = ll
-	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" then
-		_,clocktime = TitanPanelClockButton_GetTime ("Local", 0)
-		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and TitanPanelClockButton_GetColored("(L) ") or ""
-	end
-	return labeltext, clocktime, labeltext2, clocktime2
-end
-
-
-function TitanPanelClockButton_GetTime(displaytype, offset)
+---@param displaytype string Server | Local
+---@param offset number User selected offset
+---@return nil 
+---@return string formatted_time 
+local function FormatTime(displaytype, offset)
 	-- Calculate the hour/minutes considering the offset
 	local hour, minute = GetGameTime();
 	local twentyfour = "";
 	local offsettime = string.format("%s", offset);
 	local offsethour = 0;
+	local hour_str = ""
 	local offsetmin = 0;
+	local min_str = ""
 	local s, e, id = string.find(offsettime, '%.5');
 
 	if displaytype == "Server" then
 		if (s ~= nil) then
-			offsethour = string.sub(offsettime, 1, s);
-			offsetmin = string.sub(offsettime, s+1);
-			if offsetmin == "" or offsetmin == nil then offsetmin = "0"; end
-			if offsethour == "" or offsethour == nil then offsethour = "0"; end
-			offsethour = tonumber(offsethour);
-			if (tonumber(offsettime) < 0) then offsetmin = tonumber("-" .. offsetmin); end
-			minute = minute + (offsetmin*6);
+			hour_str = string.sub(offsettime, 1, s);
+			min_str = string.sub(offsettime, s + 1);
+			if min_str == "" or min_str == nil then min_str = "0"; end
+			if hour_str == "" or hour_str == nil then hour_str = "0"; end
+			offsethour = tonumber(hour_str);
+			if (tonumber(offsettime) < 0) then offsetmin = tonumber("-" .. min_str); end
+			minute = minute + (offsetmin * 6);
 			if (minute > 59) then
 				minute = minute - 60;
 				offsethour = offsethour + 1;
@@ -235,87 +105,336 @@ function TitanPanelClockButton_GetTime(displaytype, offset)
 		end
 		return nil, twentyfour;
 	end
-
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockButton_GetTooltipText()
--- DESC : Display tooltip text
--- **************************************************************************
---]]
-function TitanPanelClockButton_GetTooltipText()
-		local _, clockTimeLocal = TitanPanelClockButton_GetTime ("Local", 0)
-		local _, clockTimeServer = TitanPanelClockButton_GetTime ("Server", 0)
-		local _, clockTimeServerAdjusted = TitanPanelClockButton_GetTime ("Server", TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"))
-		local clockTimeLocalLabel = L["TITAN_CLOCK_TOOLTIP_LOCAL_TIME"].."\t"..TitanUtils_GetHighlightText(clockTimeLocal)
-		local clockTimeServerLabel = L["TITAN_CLOCK_TOOLTIP_SERVER_TIME"].."\t"..TitanUtils_GetHighlightText(clockTimeServer)
-		local clockTimeServerAdjustedLabel = "";
-		if TitanGetVar(TITAN_CLOCK_ID, "OffsetHour") ~= 0 then
-			clockTimeServerAdjustedLabel = L["TITAN_CLOCK_TOOLTIP_SERVER_ADJUSTED_TIME"].."\t"..TitanUtils_GetHighlightText(clockTimeServerAdjusted).."\n"
-		end
-		local clockText = TitanPanelClock_GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"));
-		return ""..
-		clockTimeLocalLabel.."\n"..
-		clockTimeServerLabel.."\n"..
-		clockTimeServerAdjustedLabel..
-		L["TITAN_CLOCK_TOOLTIP_VALUE"].."\t"..TitanUtils_GetHighlightText(clockText).."\n"..
-		TitanUtils_GetGreenText(L["TITAN_CLOCK_TOOLTIP_HINT1"]).."\n"..
-		TitanUtils_GetGreenText(L["TITAN_CLOCK_TOOLTIP_HINT2"]).."\n"..
+--- local Display time on button based on user settings
+local function GetButtonText()
+	local clocktime = "";
+	local labeltext = "";
+	local clocktime2 = nil;
+	local labeltext2 = nil;
+	local _ = nil
+	if TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Server" then
+		_, clocktime = FormatTime("Server", 0)
+		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(S) ") or ""
+	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjusted" then
+		_, clocktime = FormatTime("Server", TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"))
+		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(A) ") or ""
+	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" then
+		_, clocktime = FormatTime("Local", 0)
+		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(L) ") or ""
+	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerLocal" then
+		local _, s = FormatTime("Server", 0)
+		local _, l = FormatTime("Local", 0)
+		local sl = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(S) ") or ""
+		local ll = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(L) ") or ""
+		clocktime = s
+		labeltext = sl
+		clocktime2 = l
+		labeltext2 = ll
+	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjustedLocal" then
+		local _, s = FormatTime("Server", TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"))
+		local _, l = FormatTime("Local", 0)
+		local sl = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(A) ") or ""
+		local ll = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(L) ") or ""
+		clocktime = s
+		labeltext = sl
+		clocktime2 = l
+		labeltext2 = ll
+	elseif TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" then
+		_, clocktime = FormatTime("Local", 0)
+		labeltext = TitanGetVar(TITAN_CLOCK_ID, "ShowLabelText") and SetColor("(L) ") or ""
+	end
+	return labeltext, clocktime, labeltext2, clocktime2
+end
+
+---@param offset number User selected offset
+---@return string formatted_offset
+local function GetOffsetText(offset)
+	if (offset > 0) then
+		return TitanUtils_GetGreenText("+" .. tostring(offset));
+	elseif (offset < 0) then
+		return TitanUtils_GetRedText(tostring(offset));
+	else
+		return TitanUtils_GetHighlightText(tostring(offset));
+	end
+end
+
+---local Return the tool tip text based on user settings
+---@return string formatted_text
+local function GetTooltipText()
+	local _, clockTimeLocal = FormatTime("Local", 0)
+	local _, clockTimeServer = FormatTime("Server", 0)
+	local _, clockTimeServerAdjusted = FormatTime("Server", TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"))
+	local clockTimeLocalLabel = L["TITAN_CLOCK_TOOLTIP_LOCAL_TIME"] .. "\t" ..
+	TitanUtils_GetHighlightText(clockTimeLocal)
+	local clockTimeServerLabel = L["TITAN_CLOCK_TOOLTIP_SERVER_TIME"] ..
+	"\t" .. TitanUtils_GetHighlightText(clockTimeServer)
+	local clockTimeServerAdjustedLabel = "";
+	if TitanGetVar(TITAN_CLOCK_ID, "OffsetHour") ~= 0 then
+		clockTimeServerAdjustedLabel = L["TITAN_CLOCK_TOOLTIP_SERVER_ADJUSTED_TIME"] ..
+		"\t" .. TitanUtils_GetHighlightText(clockTimeServerAdjusted) .. "\n"
+	end
+	local clockText = GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"));
+	return "" ..
+		clockTimeLocalLabel .. "\n" ..
+		clockTimeServerLabel .. "\n" ..
+		clockTimeServerAdjustedLabel ..
+		L["TITAN_CLOCK_TOOLTIP_VALUE"] .. "\t" .. TitanUtils_GetHighlightText(clockText) .. "\n" ..
+		TitanUtils_GetGreenText(L["TITAN_CLOCK_TOOLTIP_HINT1"]) .. "\n" ..
+		TitanUtils_GetGreenText(L["TITAN_CLOCK_TOOLTIP_HINT2"]) .. "\n" ..
 		TitanUtils_GetGreenText(L["TITAN_CLOCK_TOOLTIP_HINT3"]);
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlSlider_OnEnter()
--- DESC : Display slider tooltip
--- **************************************************************************
---]]
-function TitanPanelClockControlSlider_OnEnter(self)
-	self.tooltipText = TitanOptionSlider_TooltipText(L["TITAN_CLOCK_CONTROL_TOOLTIP"], TitanPanelClock_GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
+local function ToggleGameTimeFrameShown()
+	TitanToggleVar(TITAN_CLOCK_ID, "HideGameTimeMinimap");
+	if GameTimeFrame and GameTimeFrame:GetName() then
+		if TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
+			GameTimeFrame:Hide()
+		else
+			GameTimeFrame:Show()
+		end
+	end
+end
+
+local function ToggleMapTime()
+	TitanToggleVar(TITAN_CLOCK_ID, "HideMapTime");
+	if TimeManagerClockButton and TimeManagerClockButton:GetName() then
+		if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
+			TimeManagerClockButton:Hide()
+		else
+			TimeManagerClockButton:Show()
+		end
+	else
+		print("TitanClock: no time widget")
+	end
+end
+
+---local Build the right click menu
+local function CreateMenu()
+	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_CLOCK_ID].menuText);
+
+	local info = {};
+	info.text = L["TITAN_CLOCK_MENU_LOCAL_TIME"];
+	info.func = function()
+		TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Local")
+		TitanPanelButton_UpdateButton(TITAN_CLOCK_ID)
+	end
+	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" end
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	info = {};
+	info.text = L["TITAN_CLOCK_MENU_SERVER_TIME"];
+	info.func = function()
+		TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Server")
+		TitanPanelButton_UpdateButton(TITAN_CLOCK_ID)
+	end
+	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Server" end
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	info = {};
+	info.text = L["TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME"];
+	info.func = function()
+		TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerAdjusted")
+		TitanPanelButton_UpdateButton(TITAN_CLOCK_ID)
+	end
+	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjusted" end
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	info = {};
+	info.text = L["TITAN_CLOCK_MENU_SERVER_TIME"] .. " & " .. L["TITAN_CLOCK_MENU_LOCAL_TIME"]
+	info.func = function()
+		TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerLocal")
+		TitanPanelButton_UpdateButton(TITAN_CLOCK_ID)
+	end
+	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerLocal" end
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	info = {};
+	info.text = L["TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME"] .. " & " .. L["TITAN_CLOCK_MENU_LOCAL_TIME"]
+	info.func = function()
+		TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerAdjustedLocal")
+		TitanPanelButton_UpdateButton(TITAN_CLOCK_ID)
+	end
+	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjustedLocal" end
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	info = {}; -- 12 or 24 hour format
+	info.text = L["TITAN_CLOCK_CHECKBUTTON"]
+	info.func = function()
+		if (TitanGetVar(TITAN_CLOCK_ID, "Format") == TITAN_CLOCK_FORMAT_12H) then
+			TitanSetVar(TITAN_CLOCK_ID, "Format", TITAN_CLOCK_FORMAT_24H);
+		else
+			TitanSetVar(TITAN_CLOCK_ID, "Format", TITAN_CLOCK_FORMAT_12H);
+		end
+		if (ServerHourFormat[realmName]) then
+			ServerHourFormat[realmName] = TitanGetVar(TITAN_CLOCK_ID, "Format");
+		end
+
+		TitanPanelButton_UpdateButton(TITAN_CLOCK_ID)
+	end
+	info.checked = function()
+		if (TitanGetVar(TITAN_CLOCK_ID, "Format") == TITAN_CLOCK_FORMAT_24H) then
+			return true
+		else
+			return false
+		end
+	end
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	TitanPanelRightClickMenu_AddSpacer();
+
+	info = {};
+	info.text = L["TITAN_CLOCK_MENU_HIDE_MAPTIME"];
+	info.func = ToggleMapTime;
+	info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideMapTime");
+	info.keepShownOnClick = 1;
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	info = {};
+	info.text = L["TITAN_CLOCK_MENU_HIDE_CALENDAR"];
+	info.func = ToggleGameTimeFrameShown;
+	info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap");
+	info.keepShownOnClick = 1;
+	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	TitanPanelRightClickMenu_AddControlVars(TITAN_CLOCK_ID)
+end
+
+---local Build the plugin .registry and register events
+---@param self Button plugin frame
+local function OnLoad(self)
+	local notes = ""
+		.. "Adds a clock to Titan Panel.\n"
+		.. "- Select server time / local time / both server and local time.\n"
+	self.registry = {
+		id = TITAN_CLOCK_ID,
+		category = "Built-ins",
+		version = TITAN_VERSION,
+		menuText = L["TITAN_CLOCK_MENU_TEXT"],
+		menuTextFunction = CreateMenu,
+		buttonTextFunction = GetButtonText,
+		tooltipTitle = L["TITAN_CLOCK_TOOLTIP"],
+		tooltipTextFunction = GetTooltipText,
+		notes = notes,
+		controlVariables = {
+			ShowIcon = false,
+			ShowLabelText = true,
+			ShowColoredText = true,
+			DisplayOnRightSide = true,
+		},
+		savedVariables = {
+			OffsetHour = 0,
+			Format = TITAN_CLOCK_FORMAT_12H,
+			TimeMode = "Server",
+			ShowIcon = true,
+			ShowLabelText = false,
+			ShowColoredText = false,
+			DisplayOnRightSide = 1,
+			HideGameTimeMinimap = false,
+			HideMapTime = false,
+		}
+	};
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+end
+
+---local Start the timer for advancing the clock time
+---@param self Button plugin frame
+local function OnShow(self)
+	if ClockTimerRunning then
+		-- Do not create a new one
+	else
+		ClockTimer = AceTimer:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 30, updateTable)
+		ClockTimerRunning = true
+	end
+end
+
+---local Stop the timer for advancing the clock time
+---@param self Button plugin frame
+local function OnHide(self)
+	AceTimer:CancelTimer(ClockTimer)
+	ClockTimerRunning = false
+end
+
+---local Handle events the clock plugin is interested in.
+---@param self Button plugin frame
+---@param event string Event
+---@param ... any Event parameters
+local function OnEvent(self, event, ...)
+	if (event == "PLAYER_ENTERING_WORLD") then
+		-- If the user wants the minimap clock or calendar hidden then hide them
+		if TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
+			if GameTimeFrame then GameTimeFrame:Hide() end
+		end
+		if TimeManagerClockButton and TimeManagerClockButton:GetName() then
+			if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
+				TimeManagerClockButton:Hide()
+			else
+				TimeManagerClockButton:Show()
+			end
+		end
+	end
+end
+
+---local Handle mouse events the clock plugin is interested in.
+---@param self Button plugin frame
+---@param button string Button pushed with any modifiers
+local function OnClick(self, button)
+	if button == "LeftButton" and IsShiftKeyDown() then
+		TitanUtils_CloseAllControlFrames();
+		if (TitanPanelRightClickMenu_IsVisible()) then
+			TitanPanelRightClickMenu_Close();
+		end
+		ToggleCalendar()
+	elseif button == "LeftButton" then
+	else
+		TitanPanelButton_OnClick(self, button);
+	end
+end
+
+-- === Slider routines
+
+---local Generate slider tooltip.
+---@param self Slider plugin slider frame
+local function Slider_GetTooltip(self)
+	local slider_tooltip = TitanOptionSlider_TooltipText(L["TITAN_CLOCK_CONTROL_TOOLTIP"],
+		GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT");
-	GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
+	GameTooltip:SetText(slider_tooltip, nil, nil, nil, nil, 1);
+end
+
+---local Display slider tooltip on mouse over.
+---@param self Slider plugin slider frame
+local function Slider_OnEnter(self)
+	Slider_GetTooltip(self)
 	TitanUtils_StopFrameCounting(self:GetParent());
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlSlider_OnLeave()
--- DESC : Hide slider tooltip
--- **************************************************************************
---]]
-function TitanPanelClockControlSlider_OnLeave(self)
-	self.tooltipText = nil;
+---local Remove slider tooltip on mouse over leaving.
+---@param self Slider plugin slider frame
+local function Slider_OnLeave(self)
 	GameTooltip:Hide();
 	TitanUtils_StartFrameCounting(self:GetParent(), TITAN_CLOCK_FRAME_SHOW_TIME);
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlSlider_OnShow()
--- DESC : Display slider tooltip options
--- **************************************************************************
---]]
-function TitanPanelClockControlSlider_OnShow(self)
-	_G[self:GetName().."Text"]:SetText(TitanPanelClock_GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
-	_G[self:GetName().."High"]:SetText(L["TITAN_CLOCK_CONTROL_LOW"]);
-	_G[self:GetName().."Low"]:SetText(L["TITAN_CLOCK_CONTROL_HIGH"]);
---	self:SetThumbTexture("Interface\Buttons\UI-SliderBar-Button-Vertical")
+---local Display slider tooltip options
+---@param self Slider plugin slider frame
+local function Slider_OnShow(self)
+	_G[self:GetName() .. "Text"]:SetText(GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
+	_G[self:GetName() .. "High"]:SetText(L["TITAN_CLOCK_CONTROL_LOW"]);
+	_G[self:GetName() .. "Low"]:SetText(L["TITAN_CLOCK_CONTROL_HIGH"]);
+	--	self:SetThumbTexture("Interface\Buttons\UI-SliderBar-Button-Vertical")
 	self:SetMinMaxValues(-12, 12);
 	self:SetValueStep(0.5);
 	self:SetObeyStepOnDrag(true) -- since 5.4.2 (Mists of Pandaria)
 	self:SetValue(0 - TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"));
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlSlider_OnValueChanged(arg1)
--- DESC : Display slider tooltip text
--- VARS : arg1 = positive or negative change to apply
--- **************************************************************************
---]]
-function TitanPanelClockControlSlider_OnValueChangedWheel(self, a1)
-	_G[self:GetName().."Text"]:SetText(TitanPanelClock_GetOffsetText(0 - self:GetValue()));
+---local Display slider tooltip text
+---@param self Slider plugin slider frame
+---@param a1 number positive or negative change to apply
+local function Slider_OnValueChangedWheel(self, a1)
+	_G[self:GetName() .. "Text"]:SetText(GetOffsetText(0 - self:GetValue()));
 	local tempval = self:GetValue();
 
 	if a1 == -1 then
@@ -327,121 +446,39 @@ function TitanPanelClockControlSlider_OnValueChangedWheel(self, a1)
 	end
 
 	TitanSetVar(TITAN_CLOCK_ID, "OffsetHour", 0 - self:GetValue());
-	if ( ServerTimeOffsets[realmName] ) then
+	if (ServerTimeOffsets[realmName]) then
 		ServerTimeOffsets[realmName] = TitanGetVar(TITAN_CLOCK_ID, "OffsetHour");
 	end
 	TitanPanelButton_UpdateButton(TITAN_CLOCK_ID);
 
 	-- Update GameTooltip
-	if (self.tooltipText) then
-		self.tooltipText = TitanOptionSlider_TooltipText(L["TITAN_CLOCK_CONTROL_TOOLTIP"], TitanPanelClock_GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
-		GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
-	end
+	Slider_GetTooltip(self)
 end
 
 
-function TitanPanelClockControlSlider_OnValueChanged(self, a1)
+---local Display slider tooltip text
+---@param self Slider plugin slider frame
+---@param a1 number positive or negative change to apply
+local function Slider_OnValueChanged(self, a1)
 	local step = self:GetValue()
-	_G[self:GetName().."Text"]:SetText(TitanPanelClock_GetOffsetText(0 - step));
+	_G[self:GetName() .. "Text"]:SetText(GetOffsetText(0 - step));
 	TitanSetVar(TITAN_CLOCK_ID, "OffsetHour", 0 - step);
-	if ( ServerTimeOffsets[realmName] ) then
+	if (ServerTimeOffsets[realmName]) then
 		ServerTimeOffsets[realmName] = TitanGetVar(TITAN_CLOCK_ID, "OffsetHour");
 	end
 	TitanPanelButton_UpdateButton(TITAN_CLOCK_ID);
 
 	-- Update GameTooltip
-	if (self.tooltipText) then
-		self.tooltipText = TitanOptionSlider_TooltipText(L["TITAN_CLOCK_CONTROL_TOOLTIP"], TitanPanelClock_GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
-		GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
-	end
+	Slider_GetTooltip(self)
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlCheckButton_OnShow()
--- DESC : Define clock hour options
--- **************************************************************************
---]]
-function TitanPanelClockControlCheckButton_OnShow(self)
-	TitanPanelClockControlCheckButtonText:SetText(L["TITAN_CLOCK_CHECKBUTTON"]);
+-- === Option menu routines
 
-	if (TitanGetVar(TITAN_CLOCK_ID, "Format") == TITAN_CLOCK_FORMAT_24H) then
-		self:SetChecked(true);
-	else
-		self:SetChecked(false);
-	end
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlCheckButton_OnClick()
--- DESC : Toggle clock hour option
--- **************************************************************************
---]]
-function TitanPanelClockControlCheckButton_OnClick(self, button)
-	if (self:GetChecked()) then
-		TitanSetVar(TITAN_CLOCK_ID, "Format", TITAN_CLOCK_FORMAT_24H);
-	else
-		TitanSetVar(TITAN_CLOCK_ID, "Format", TITAN_CLOCK_FORMAT_12H);
-	end
-	if ( ServerHourFormat[realmName] ) then
-		ServerHourFormat[realmName] = TitanGetVar(TITAN_CLOCK_ID, "Format");
-	end
-
-	TitanPanelButton_UpdateButton(TITAN_CLOCK_ID);
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlCheckButton_OnEnter()
--- DESC : Display clock hour option tooltip
--- **************************************************************************
---]]
-function TitanPanelClockControlCheckButton_OnEnter(self)
-	self.tooltipText = L["TITAN_CLOCK_CHECKBUTTON_TOOLTIP"];
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT");
-	GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
-	TitanUtils_StopFrameCounting(self:GetParent());
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlCheckButton_OnLeave()
--- DESC : Hide clock hour option tooltip
--- **************************************************************************
---]]
-function TitanPanelClockControlCheckButton_OnLeave(self)
-	self.tooltipText = nil;
-	GameTooltip:Hide();
-	TitanUtils_StartFrameCounting(self:GetParent(), TITAN_CLOCK_FRAME_SHOW_TIME);
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClock_GetOffsetText(offset)
--- DESC : Get hour offset value and return
--- VARS : offset = hour offset from server time
--- **************************************************************************
---]]
-function TitanPanelClock_GetOffsetText(offset)
-	if (offset > 0) then
-		return TitanUtils_GetGreenText("+" .. tostring(offset));
-	elseif (offset < 0) then
-		return TitanUtils_GetRedText(tostring(offset));
-	else
-		return TitanUtils_GetHighlightText(tostring(offset));
-	end
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlFrame_OnLoad()
--- DESC : Create clock option frame
--- **************************************************************************
---]]
-function TitanPanelClockControlFrame_OnLoad(self)
-	_G[self:GetName().."Title"]:SetText(L["TITAN_CLOCK_CONTROL_TITLE"]);
---[[
+---local Create clock option frame
+---@param self Frame Plugin option menu frame
+local function TitanPanelClockControlFrame_OnLoad(self)
+	_G[self:GetName() .. "Title"]:SetText(L["TITAN_CLOCK_CONTROL_TITLE"]);
+	--[[
 Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands)
 so inherit the template (XML)
 and set the values in the code (Lua)
@@ -451,130 +488,11 @@ and set the values in the code (Lua)
 	TitanPanelRightClickMenu_SetCustomBackdrop(self)
 end
 
---[[
--- **************************************************************************
--- NAME : TitanPanelClockControlFrame_OnUpdate(elapsed)
--- DESC : If dropdown is visible, see if its timer has expired.  If so, hide frame
--- VARS : elapsed = <research>
--- **************************************************************************
---]]
-function TitanPanelClockControlFrame_OnUpdate(self, elapsed)
+---If dropdown is visible, see if its timer has expired.  If expired, hide frame.
+---@param self Frame Plugin option menu frame
+---@param elapsed number portion of second since last OnUpdate
+local function Control_OnUpdate(self, elapsed)
 	TitanUtils_CheckFrameCounting(self, elapsed);
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelRightClickMenu_PrepareClockMenu()
--- DESC : Generate clock right click menu options
--- **************************************************************************
---]]
-function TitanPanelRightClickMenu_PrepareClockMenu()
-	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_CLOCK_ID].menuText);
-
-	local info = {};
-	info.text = L["TITAN_CLOCK_MENU_LOCAL_TIME"];
-	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Local") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
-	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.text = L["TITAN_CLOCK_MENU_SERVER_TIME"];
-	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Server") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
-	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Server" end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.text = L["TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME"];
-	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerAdjusted") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
-	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjusted" end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.text = L["TITAN_CLOCK_MENU_SERVER_TIME"].." & "..L["TITAN_CLOCK_MENU_LOCAL_TIME"]
-	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerLocal") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
-	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerLocal" end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.text = L["TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME"].." & "..L["TITAN_CLOCK_MENU_LOCAL_TIME"]
-	info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerAdjustedLocal") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
-	info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjustedLocal" end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};  -- 12 or 24 hour format
-	info.text = L["TITAN_CLOCK_CHECKBUTTON"]
-	info.func = function() 
-			if (TitanGetVar(TITAN_CLOCK_ID, "Format") == TITAN_CLOCK_FORMAT_12H) then
-				TitanSetVar(TITAN_CLOCK_ID, "Format", TITAN_CLOCK_FORMAT_24H);
-			else
-				TitanSetVar(TITAN_CLOCK_ID, "Format", TITAN_CLOCK_FORMAT_12H);
-			end
-			if ( ServerHourFormat[realmName] ) then
-				ServerHourFormat[realmName] = TitanGetVar(TITAN_CLOCK_ID, "Format");
-			end
-
-			TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) 
-		end
-	info.checked = function() 
-			if (TitanGetVar(TITAN_CLOCK_ID, "Format") == TITAN_CLOCK_FORMAT_24H) then
-				return true
-			else
-				return false
-			end
-		end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddSpacer();
-
-	info = {};
-	info.text = L["TITAN_CLOCK_MENU_HIDE_MAPTIME"];
-	info.func = TitanPanelClockButton_ToggleMapTime;
-	info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideMapTime");
-	info.keepShownOnClick = 1;
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.text = L["TITAN_CLOCK_MENU_HIDE_CALENDAR"];
-	info.func = TitanPanelClockButton_ToggleGameTimeFrameShown;
-	info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap");
-	info.keepShownOnClick = 1;
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddControlVars(TITAN_CLOCK_ID)
-end
-
---[[
--- **************************************************************************
--- NAME : TitanPanelClockButton_ToggleRightSideDisplay()
--- DESC : Add clock button to bar
--- **************************************************************************
---]]
-function TitanPanelClockButton_ToggleRightSideDisplay()
-	TitanToggleVar(TITAN_CLOCK_ID, "DisplayOnRightSide");
-	TitanPanel_RemoveButton(TITAN_CLOCK_ID);
-	--TitanPanel_AddButton(TITAN_CLOCK_ID);
-end
-
-function TitanPanelClockButton_ToggleGameTimeFrameShown()
-	TitanToggleVar(TITAN_CLOCK_ID, "HideGameTimeMinimap");
-		if GameTimeFrame and GameTimeFrame:GetName() then
-			if TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
-				GameTimeFrame:Hide()
-			else
-				GameTimeFrame:Show()
-			end
-		end
-end
-
-function TitanPanelClockButton_ToggleMapTime()
-	TitanToggleVar(TITAN_CLOCK_ID, "HideMapTime");
-	if TimeManagerClockButton and TimeManagerClockButton:GetName() then
-		if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
-			TimeManagerClockButton:Hide()
-		else
-			TimeManagerClockButton:Show()
-		end
-	end
 end
 
 -- ====== Create needed frames
@@ -582,40 +500,40 @@ local function Create_Frames()
 	if _G[TITAN_BUTTON] then
 		return -- if already created
 	end
-	
+
 	-- general container frame
 	local f = CreateFrame("Frame", nil, UIParent)
---	f:Hide()
+	--	f:Hide()
 
 	-- Titan plugin button
 	local window = CreateFrame("Button", TITAN_BUTTON, f, "TitanPanelTextTemplate")
 	window:SetFrameStrata("FULLSCREEN")
 	-- Using SetScript("OnLoad",   does not work
-	TitanPanelClockButton_OnLoad(window);
---	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
-	
+	OnLoad(window);
+	--	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
+
 	window:SetScript("OnShow", function(self)
-		TitanPanelClockButton_OnShow()
+		OnShow(self)
 		TitanPanelButton_OnShow(self)
 	end)
 	window:SetScript("OnHide", function(self)
-		TitanPanelClockButton_OnHide()
+		OnHide(self)
 	end)
 	window:SetScript("OnEvent", function(self, event, ...)
-		TitanPanelClockButton_OnEvent(self, event, ...) 
+		OnEvent(self, event, ...)
 	end)
 	window:SetScript("OnClick", function(self, button)
-		TitanPanelClockButton_OnClick(self, button)
+		OnClick(self, button)
 		TitanPanelButton_OnClick(self, button)
 	end)
 
 
----[===[
+	---[===[
 	-- Config screen
 	local cname = "TitanPanelClockControlFrame"
 	local config = CreateFrame("Frame", cname, f, BackdropTemplateMixin and "BackdropTemplate")
 	config:SetFrameStrata("FULLSCREEN") -- FULLSCREEN
-	config:Hide()  -- 
+	config:Hide()                    --
 	config:SetWidth(90)
 	config:SetHeight(200)
 
@@ -628,13 +546,13 @@ local function Create_Frames()
 		TitanUtils_StartFrameCounting(self, 0.5)
 	end)
 	config:SetScript("OnUpdate", function(self, elapsed)
-		TitanPanelClockControlFrame_OnUpdate(self, elapsed)
+		Control_OnUpdate(self, elapsed)
 	end)
-	
+
 	-- Config Title
 	local str = nil
 	local style = "GameFontNormalSmall"
-	str = config:CreateFontString(cname.."Title", "ARTWORK", style)
+	str = config:CreateFontString(cname .. "Title", "ARTWORK", style)
 	str:SetPoint("TOP", config, 0, -10)
 
 	-- Config slider sections
@@ -645,44 +563,25 @@ local function Create_Frames()
 	local offset = CreateFrame("Slider", "TitanPanelClockControlSlider", config, inherit)
 	offset:SetPoint("TOP", config, 0, -40)
 	offset:SetScript("OnShow", function(self)
-		TitanPanelClockControlSlider_OnShow(self)
+		Slider_OnShow(self)
 	end)
-	offset:SetScript("OnValueChanged", function(self)
-		TitanPanelClockControlSlider_OnValueChanged(self, value)
+	offset:SetScript("OnValueChanged", function(self, value, userInput)
+		Slider_OnValueChanged(self, value)
 	end)
-	offset:SetScript("OnMouseWheel", function(self)
-		TitanPanelClockControlSlider_OnValueChangedWheel(self, delta)
+	offset:SetScript("OnMouseWheel", function(self, delta)
+		Slider_OnValueChangedWheel(self, delta)
 	end)
 	offset:SetScript("OnEnter", function(self)
-		TitanPanelClockControlSlider_OnEnter(self)
+		Slider_OnEnter(self)
 	end)
 	offset:SetScript("OnLeave", function(self)
-		TitanPanelClockControlSlider_OnLeave(self)
-	end)
-
-	-- 24 hour format
-	local hour = CreateFrame("CheckButton", "TitanPanelClockControlCheckButton", config, "InterfaceOptionsBaseCheckButtonTemplate")
-	hour:SetPoint("TOP", offset, "BOTTOM", -25, -20)
-	hour:SetWidth(24)
-	hour:SetHeight(24)
-	hour:SetScript("OnShow", function(self)
-		TitanPanelClockControlCheckButton_OnShow(self)
-	end)
-	hour:SetScript("OnClick", function(self)
-		TitanPanelClockControlCheckButton_OnClick(self, delta)
-	end)
-	hour:SetScript("OnEnter", function(self)
-		TitanPanelClockControlCheckButton_OnEnter(self)
-	end)
-	hour:SetScript("OnLeave", function(self)
-		TitanPanelClockControlCheckButton_OnLeave(self)
+		Slider_OnLeave(self)
 	end)
 
 	-- Now that the parts exist, initialize
 	TitanPanelClockControlFrame_OnLoad(config)
 
---]===]
+	--]===]
 end
-
 
 Create_Frames() -- do the work

@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "heroic,mythic,challenge"
 
-mod:SetRevision("20200912135206")
+mod:SetRevision("20240511090309")
 mod:SetCreatureID(98205)
 mod:SetEncounterID(1825)
 mod:SetUsedIcons(1)
@@ -30,7 +30,7 @@ local timerSupressionCD				= mod:NewNextTimer(46, 196070, nil, nil, nil, 3)
 local timerQuarantineCD				= mod:NewNextTimer(46, 195804, nil, nil, nil, 3)
 local timerCleansingCD				= mod:NewNextTimer(46, 196115, nil, nil, nil, 2)
 
-mod:AddSetIconOption("SetIconOnQuarantine", 195791, true, false, {1})
+mod:AddSetIconOption("SetIconOnQuarantine", 195791, true, 0, {1})
 
 function mod:OnCombatStart(delay)
 	timerSupressionCD:Start(5-delay)
@@ -45,7 +45,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSupression:Show()
 			specWarnSupression:Play("runout")
-			specWarnSupression:ScheduleVoice(1, "keeprun")
+			specWarnSupression:ScheduleVoice(1, "keepmove")
 			yellSupression:Yell()
 		end
 	elseif spellId == 195804 then

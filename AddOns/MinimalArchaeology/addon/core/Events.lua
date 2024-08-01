@@ -1,25 +1,30 @@
 local ADDON, MinArch = ...
 
-local eventTimer = nil;
-local histEventTimer = nil;
+local eventTimer = nil
+local researchEventTimer = nil
+local historyUpdateTimout = 0.3
 
 function MinArch:EventHelper(event, ...)
-	if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.hideInCombat) then
-		if (MinArchMain:IsVisible()) then
-			MinArch:HideMain();
-			MinArchMain.showAfterCombat = true;
+	if event == "PLAYER_REGEN_DISABLED" then
+		if MinArch.db.profile.hideInCombat then
+			if (MinArchMain:IsVisible()) then
+				MinArch:HideMain();
+				MinArchMain.showAfterCombat = true;
+			end
+			if (MinArchHist:IsVisible()) then
+				MinArch:HideHistory();
+				MinArchHist.showAfterCombat = true;
+			end
+			if (MinArchDigsites:IsVisible()) then
+				MinArch:HideDigsites();
+				MinArchDigsites.showAfterCombat = true;
+			end
 		end
-		if (MinArchHist:IsVisible()) then
-			MinArch:HideHistory();
-			MinArchHist.showAfterCombat = true;
-		end
-		if (MinArchDigsites:IsVisible()) then
-			MinArch:HideDigsites();
-			MinArchDigsites.showAfterCombat = true;
-        end
-        if (MinArch.Companion:IsVisible()) then
-            MinArch.Companion:HideFrame();
-            MinArch.Companion.showAfterCombat = true;
+		if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.companion.hideInCombat) then
+			if (MinArch.Companion:IsVisible()) then
+				MinArch.Companion:HideFrame();
+				MinArch.Companion.showAfterCombat = true;
+			end
 		end
 	elseif (event == "PLAYER_REGEN_ENABLED") then
 		if (MinArchMain.showAfterCombat) then
@@ -38,6 +43,8 @@ function MinArch:EventHelper(event, ...)
 			MinArch.Companion:ShowFrame();
 			MinArch.Companion.showAfterCombat = false;
 		end
+	elseif (event == "GLOBAL_MOUSE_DOWN") then
+		-- MinArch:DoubleClickSurvey(event, ...);
     end
 end
 
@@ -75,16 +82,24 @@ function MinArch:EventMain(event, ...)
 		local addonname = ...;
 
 		if (addonname == "Blizzard_ArchaeologyUI") then
-			MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+			--MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		end
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
-		MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		if (MinArch.RacesLoaded == false) then
 			MinArch:LoadRaceInfo();
 		end
         MinArch:RefreshLDBButton(event);
         MinArch.Companion:AutoToggle()
+	end
+
+	if (event == "PLAYER_REGEN_ENABLED") then
+		C_Timer.NewTimer(0.3, function()
+			if (not InCombatLockdown()) then
+				ClearOverrideBindings(MinArchHiddenSurveyButton);
+			end
+		end)
 	end
 
     if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
@@ -111,7 +126,9 @@ function MinArch:EventMain(event, ...)
 		MinArch.ShowOnSurvey = true;
         MinArch.ShowInDigsite = true;
         MinArch.CompanionShowInDigsite = true;
-        MinArch.Companion:Hide();
+		if not MinArch.db.profile.companion.alwaysShow then
+        	MinArch.Companion:Hide();
+		end
 	end
 
 	if (event == "QUEST_LOG_UPDATE") then
@@ -124,6 +141,8 @@ function MinArch:EventMain(event, ...)
 		if (changedCVAR == "SHOW_DIG_SITES") then
 			MinArch:ShowRaceIconsOnMap();
 		end
+		
+		return
 	end
 
     if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
@@ -144,7 +163,7 @@ function MinArch:EventMain(event, ...)
 
         eventTimer = C_Timer.NewTimer(0.5, function()
 			MinArch:UpdateMain();
-            RequestArtifactCompletionHistory();
+            -- RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
     end
@@ -180,9 +199,36 @@ function MinArch:EventHist(event, ...)
             MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
             return;
 		end
+
+		MinArch:DelayedHistoryUpdate()
     end
 
-    MinArch:DelayedHistoryUpdate()
+	if (event == "RESEARCH_ARTIFACT_COMPLETE") then
+		local artifactName = ...;
+		if (researchEventTimer ~= nil) then
+			MinArch:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+			researchEventTimer:Cancel();
+		end
+		researchEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()
+			for RaceID, _ in pairs(MinArchHistDB) do
+				for _, details in pairs(MinArchHistDB[RaceID]) do
+					if (details.artifactname == artifactName) then
+						if not MinArch.db.profile.raceOptions.keystone[RaceID] then
+							MinArch.artifacts[RaceID].appliedKeystones = 0;
+						end
+
+						details.totalcomplete = details.totalcomplete + 1
+
+						if (MinArch.artifacts[RaceID].project == artifactName) then
+							MinArch.artifacts[RaceID].totalcomplete = details.totalcomplete
+						end
+
+    					return MinArch:DelayedHistoryUpdate()
+					end
+				end
+			end
+		end)
+	end
 end
 
 function MinArch:EventDigsites(event, ...)
@@ -224,6 +270,15 @@ function MinArch:EventDigsites(event, ...)
 			MinArch:SetWayToNearestDigsite();
 		end
 	end
+
+	if (event == "TAXIMAP_OPENED") then
+		MinArch:UpdateFlightMap()
+	end
+
+	if event == "PLAYER_CONTROL_GAINED" and MinArch.waypointOnLanding then
+		MinArch.waypointOnLanding = false
+		MinArch:SetWayToNearestDigsite(true)
+	end
 end
 
 function MinArch:MaineEventHideAfterDigsite()
@@ -251,7 +306,7 @@ function MinArch:MainEventAddonLoaded()
 	-- Apply Settins/SavedVariables
 
 	if (MinArchOptions['CurrentHistPage'] == nil) then
-		MinArchOptions['CurrentHistPage'] = 1;
+		MinArchOptions['CurrentHistPage'] = ARCHAEOLOGY_RACE_OTHER + 1;
 	end
 
 	if (MinArch.db.profile.startHidden == true and not MinArch.overrideStartHidden) then
@@ -299,12 +354,8 @@ end
 function MinArch:MapLayerChanged(self)
 	-- update the map when map layer has changed
 	if (self.mapID ~= nil) then
-		if (WorldMapFrame.isMaximized) then
-			C_Timer.After(0.11, function ()
-				MinArch:ShowRaceIconsOnMap();
-			end)
-		else
-			MinArch:ShowRaceIconsOnMap();
-		end
+		C_Timer.After(0.11, function ()
+			MinArch:ShowRaceIconsOnMap()
+		end)
 	end
 end

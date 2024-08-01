@@ -1,0 +1,17 @@
+## Interface: 110000
+## Version: 63
+## RequiredDeps: HandyNotes
+## OptionalDeps: Ace3
+## SavedVariables: HandyNotes_DragonflightDB
+## IconTexture: 4640486
+
+## Title: HandyNotes: Dragonflight
+## Notes: Dragonflight Notes
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C巨龙时代|r
+
+## X-Embeds: Ace3
+## X-Part-Of: HandyNotes
+
+embeds.xml
+core\core.xml
+plugin.xml

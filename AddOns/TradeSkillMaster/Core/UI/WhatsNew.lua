@@ -4,29 +4,28 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
---- "What's New" Dialog
--- @module WhatsNew
-
-local _, TSM = ...
-local WhatsNew = TSM.UI:NewPackage("WhatsNew")
-local L = TSM.Include("Locale").GetTable()
-local Theme = TSM.Include("Util.Theme")
-local Analytics = TSM.Include("Util.Analytics")
-local Settings = TSM.Include("Service.Settings")
-local UIElements = TSM.Include("UI.UIElements")
+local TSM = select(2, ...) ---@type TSM
+local WhatsNew = TSM.UI:NewPackage("WhatsNew") ---@type AddonPackage
+local L = TSM.Locale.GetTable()
+local ClientInfo = TSM.LibTSMWoW:Include("Util.ClientInfo")
+local Theme = TSM.LibTSMService:Include("UI.Theme")
+local Analytics = TSM.LibTSMUtil:Include("Util.Analytics")
+local UIElements = TSM.LibTSMUI:Include("Util.UIElements")
 local private = {
 	settings = nil,
 	showTime = nil,
 }
-local WHATS_NEW_VERSION = 3
-local CONTENT_LINES = {
-	Theme.GetColor("INDICATOR"):ColorText(L["Custom String Editing UI."]).." "..L["The experience of editing Custom Strings has been supercharged with IDE-style syntax highlighting and formatting."],
-	Theme.GetColor("INDICATOR"):ColorText(L["New Crafting UI."]).." "..L["To support the upcoming Dragonflight Profession changes, the Crafting UI has been revamped."],
-	Theme.GetColor("INDICATOR"):ColorText(L["New DBRecent Price Source"]).." "..L["This Price Source uses the same approach for 'AuctionDB Market Value' however it is only applied to the auctions contained in the most recent pricing snapshot."],
-	Theme.GetColor("INDICATOR"):ColorText(L["Trend Indicators."]).." "..L["New trend indicators have been added to tooltips alongside AuctionDB Market Value and AuctionDB Region Market Value which show how they are changing against the Historical Price."],
-	Theme.GetColor("INDICATOR"):ColorText(L["Improvements to Region Sale Data."]).." "..L["Both Region Sale Rate and Region Sold Per Day have been given another decimal point to give more visibility on items that sell infrequently."],
-	Theme.GetColor("INDICATOR"):ColorText(L["Retail Scanning Improvements."]).." "..L["Due to outstanding issues on Blizzard's end with the Auction House on retail, TSM's dependance on seller information for posted auctions has been reduced as much as possible, which should improve scanning performance. As a result, the 'blacklist' and 'whitelist' features have been retired on Retail."],
-	Theme.GetColor("INDICATOR"):ColorText(L["Cross-Faction Support in Retail"]).." "..L["Support has been added for cross-faction alts across the addon, from inventory tracking, to Ledger, to the Dashboard."],
+local WHATS_NEW_VERSION = 5
+local CONTENT_LINES = ClientInfo.IsRetail() and {
+	Theme.GetColor("INDICATOR"):ColorText(L["New Sniper Mechanism"]).." "..L["In retail, Sniper works in a new way which makes it much faster and now supports the base group."],
+	Theme.GetColor("INDICATOR"):ColorText(L["Alternate AuctionDB Realm Data"]).." "..L["You can configure an alternate realm to load AuctionDB data for to allow easy comparison between two realms in item tooltips."],
+	Theme.GetColor("INDICATOR"):ColorText(L["Scroll Table Improvements"]).." "..L["TSM uses scroll tables through the addon to show large amounts of data. 4.14 includes significant performance improvements, dragging to reorder columns, adding price sources and custom sources as additional columns, and more."],
+	Theme.GetColor("INDICATOR"):ColorText(L["Custom Strings in More Operations"]).." "..L["Mailing, Vendoring, and Warehousing operation settings now fully support using custom strings."],
+	Theme.GetColor("INDICATOR"):ColorText(L["Import Item IDs from Wowhead"]).." "..L["When searching for items on Wowhead, you can copy the results as a list of item IDs. TSM now allows paste that list direclty into the group import dialog to make it easy to create TSM groups."],
+} or {
+	Theme.GetColor("INDICATOR"):ColorText(L["Scroll Table Improvements"]).." "..L["TSM uses scroll tables through the addon to show large amounts of data. 4.14 includes significant performance improvements, dragging to reorder columns, adding price sources and custom sources as additional columns, and more."],
+	Theme.GetColor("INDICATOR"):ColorText(L["Custom Strings in More Operations"]).." "..L["Mailing, Vendoring, and Warehousing operation settings now fully support using custom strings."],
+	Theme.GetColor("INDICATOR"):ColorText(L["Import Item IDs from Wowhead"]).." "..L["When searching for items on Wowhead, you can copy the results as a list of item IDs. TSM now allows paste that list direclty into the group import dialog to make it easy to create TSM groups."],
 }
 
 
@@ -35,8 +34,8 @@ local CONTENT_LINES = {
 -- Module Functions
 -- ============================================================================
 
-function WhatsNew.OnInitialize()
-	private.settings = Settings.NewView()
+function WhatsNew.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
 		:AddKey("global", "internalData", "whatsNewVersion")
 end
 
@@ -45,12 +44,12 @@ function WhatsNew.GetDialog()
 		return
 	end
 	private.showTime = GetTime()
-	return UIElements.New("Frame", "whatsnew")
+	return UIElements.New("Frame", "whatsNew")
 		:SetLayout("VERTICAL")
-		:SetSize(650, 390)
+		:SetSize(650, 500)
 		:SetPadding(12, 12, 0, 12)
 		:AddAnchor("CENTER")
-		:SetBackgroundColor("FRAME_BG", true)
+		:SetRoundedBackgroundColor("FRAME_BG")
 		:AddChild(UIElements.New("Frame", "header")
 			:SetLayout("HORIZONTAL")
 			:SetHeight(24)
@@ -61,7 +60,7 @@ function WhatsNew.GetDialog()
 			:AddChild(UIElements.New("Text", "title")
 				:SetJustifyH("CENTER")
 				:SetFont("BODY_BODY1_BOLD")
-				:SetFormattedText(L["TSM %s: What's new"], "4.12")
+				:SetFormattedText(L["TSM %s: What's new"], "4.14")
 			)
 			:AddChild(UIElements.New("Button", "closeBtn")
 				:SetMargin(0, -4, 0, 0)
@@ -71,7 +70,7 @@ function WhatsNew.GetDialog()
 		)
 		:AddChild(UIElements.New("ScrollFrame", "body")
 			:AddChild(UIElements.New("Text", "content1")
-				:SetHeight(500)
+				:SetHeight(400)
 				:SetFont("BODY_BODY2")
 				:SetText(table.concat(CONTENT_LINES, "\n\n"))
 			)

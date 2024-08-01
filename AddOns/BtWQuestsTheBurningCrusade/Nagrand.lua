@@ -3024,7 +3024,7 @@ Database:AddChain(Chain.EmbedChain27, {
                     restrictions = {
                         type = "quest",
                         id = 9944,
-                        status = { "active", "compelted", },
+                        status = { "active", "completed", },
                     },
                 },
                 {

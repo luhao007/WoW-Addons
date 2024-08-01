@@ -2,7 +2,10 @@ local _, addonTable = ...
 
 --- Session.lua
 -- TODO: LuaDoc
-local Session = {}
+local Session = {
+	lockDurationInSeconds = 1, -- Should be configurable for easier debugging
+	isLocked = false,
+}
 
 -- Globals
 local R = Rarity
@@ -10,7 +13,7 @@ local R = Rarity
 local FormatTime = Rarity.Utils.PrettyPrint.FormatTime -- Utils are loaded before Core modules, so this should be fine
 local GetDate = Rarity.Utils.Time.GetDate
 -- WOW APIs
-local GetItemInfo = GetItemInfo
+local GetItemInfo = C_Item.GetItemInfo
 local GetTime = GetTime
 local C_Timer = C_Timer
 
@@ -18,7 +21,6 @@ local C_Timer = C_Timer
 local inSession = false
 local sessionStarted = 0
 local sessionLast = 0
-local isSessionLocked = false
 local sessionTimer
 
 -- Constants
@@ -148,23 +150,24 @@ function Session:Update()
 end
 
 function Session:IsLocked()
-	return isSessionLocked
+	return self.isLocked
 end
 
 function Session.Unlock()
 	Rarity:Debug("Unlocking session to continue scanning for new LOOT_READY events")
-	isSessionLocked = false
+	Session.isLocked = false
 end
 
-function Session:Lock(delay)
-	delay = delay or 1 -- 1 second seems to be a suitable default value (as both events fire within 0.5-0.8s of each other)
+function Session:Lock(lockDurationInSeconds)
+	lockDurationInSeconds = lockDurationInSeconds or self.lockDurationInSeconds
 
-	-- Lock the current session (and set the timer to unlock it again)
 	Rarity:Debug(
-		"Locking session for " .. tostring(delay) .. " second(s) to prevent duplicate attempts from being counted"
+		"Locking session for "
+			.. tostring(lockDurationInSeconds)
+			.. " second(s) to prevent duplicate attempts from being counted"
 	)
-	isSessionLocked = true
-	C_Timer.After(delay, self.Unlock) -- Unlock via timer
+	self.isLocked = true
+	C_Timer.After(lockDurationInSeconds, self.Unlock)
 end
 
 Rarity.Session = Session

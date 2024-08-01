@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2478, "DBM-Party-Dragonflight", 3, 1198)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20221128090806")
+mod:SetRevision("20240621023045")
 mod:SetCreatureID(186339, 186338)
 mod:SetEncounterID(2581)
---mod:SetUsedIcons(1, 2, 3)
 mod:SetBossHPInfoToHighest()
 mod:SetHotfixNoticeRev(20221127000000)
 mod:SetMinSyncRevision(20221105000000)
@@ -14,14 +13,9 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 382670 386063 385339 386547 385434 382836",
---	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED 384808 392198",
---	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED 392198",
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED"
---	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --[[
@@ -30,9 +24,11 @@ mod:RegisterEventsInCombat(
  or type = "dungeonencounterstart" or type = "dungeonencounterend"
  or type = "interrupt"
 --]]
+--General
+local timerRP									= mod:NewRPTimer(34.4)
 --Teera
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(25552))
-local warnRepel									= mod:NewCastAnnounce(386547, 3, nil, nil, nil, nil, nil, 2)
+local warnRepel									= mod:NewCountAnnounce(386547, 3, nil, nil, nil, nil, nil, 2)
 local warnSpiritLeap							= mod:NewSpellAnnounce(385434, 3)
 
 local specWarnGaleArrow							= mod:NewSpecialWarningDodgeCount(382670, nil, nil, nil, 2, 2)
@@ -54,11 +50,6 @@ local timerEarthSplitterCD						= mod:NewCDCountTimer(57.4, 385339, nil, false, 
 local timerFrightfulRoarCD						= mod:NewCDCountTimer(30.4, 386063, nil, nil, nil, 2, nil, DBM_COMMON_L.MAGIC_ICON)--New timer unknown
 local timerBrutalizeCD							= mod:NewCDCountTimer(18.2, 382836, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Delayed a lot. Doesn't alternate or sequence leanly, it just spell queues in randomness
 
---local berserkTimer							= mod:NewBerserkTimer(600)
-
---mod:AddRangeFrameOption("8")
---mod:AddInfoFrameOption(361651, true)
---mod:AddSetIconOption("SetIconOnStaggeringBarrage", 361018, true, false, {1, 2, 3})
 mod:AddNamePlateOption("NPAuraOnAncestralBond", 392198)
 
 --Gale Arrow: 21.5, 57.4, 57.5
@@ -76,19 +67,24 @@ mod.vb.leapCount = 0
 mod.vb.roarCount = 0
 mod.vb.brutalizeCount = 0
 
---[[
---Use for spirit leap if it's on players and scanable
-function mod:ArrowTarget(targetname)
-	if not targetname then return end
-	if targetname == UnitName("player") then
-		specWarnHeavyArrow:Show()
-		specWarnHeavyArrow:Play("targetyou")
-		yellHeavyArrow:Yell()
-	else
-		warnHeavyArrow:Show(targetname)
+local function scanBosses(self, delay)
+	for i = 1, 2 do
+		local unitID = "boss"..i
+		if UnitExists(unitID) then
+			local cid = self:GetUnitCreatureId(unitID)
+			local bossGUID = UnitGUID(unitID)
+			if cid == 186339 then--Terra
+				timerSpiritLeapCD:Start(5-delay, 1, bossGUID)
+				timerGaleArrowCD:Start(20.5-delay, 1, bossGUID)
+				timerRepelCD:Start(49-delay, 1, bossGUID)
+			else--Maruuk
+				timerFrightfulRoarCD:Start(4.5-delay, 1, bossGUID)
+				timerBrutalizeCD:Start(12.5-delay, 1, bossGUID)
+				timerEarthSplitterCD:Start(51-delay, 1, bossGUID)
+			end
+		end
 	end
 end
---]]
 
 function mod:OnCombatStart(delay)
 	--Static Counts
@@ -99,26 +95,13 @@ function mod:OnCombatStart(delay)
 	self.vb.leapCount = 0
 	self.vb.roarCount = 0
 	self.vb.brutalizeCount = 0
-	--Terra
-	timerSpiritLeapCD:Start(6-delay, 1)
-	timerGaleArrowCD:Start(21.5-delay, 1)
-	timerRepelCD:Start(50-delay, 1)
-	--Maruuk
-	timerFrightfulRoarCD:Start(5.5-delay, 1)
-	timerBrutalizeCD:Start(13.5-delay, 1)
-	timerEarthSplitterCD:Start(51-delay, 1)
+	self:Schedule(1, scanBosses, self, delay)--1 second delay to give IEEU time to populate boss guids
 	if self.Options.NPAuraOnAncestralBond then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
---	if self.Options.InfoFrame then
---		DBM.InfoFrame:Hide()
---	end
 	if self.Options.NPAuraOnAncestralBond then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
@@ -130,7 +113,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.galeCount = self.vb.galeCount + 1
 		specWarnGaleArrow:Show(self.vb.galeCount)
 		specWarnGaleArrow:Play("watchstep")
-		timerGaleArrowCD:Start(nil, self.vb.galeCount+1)
+		timerGaleArrowCD:Start(nil, self.vb.galeCount+1, args.sourceGUID)
 	elseif spellId == 386063 then
 		self.vb.roarCount = self.vb.roarCount + 1
 		if self.Options.SpecWarn386063run then
@@ -148,31 +131,31 @@ function mod:SPELL_CAST_START(args)
 		else
 			timer = 38.4
 		end
-		timerFrightfulRoarCD:Start(timer, self.vb.roarCount+1)
+		timerFrightfulRoarCD:Start(timer, self.vb.roarCount+1, args.sourceGUID)
 	elseif spellId == 385339 then
 		self.vb.splitterCount = self.vb.splitterCount + 1
 		specWarnEarthsplitter:Show(self.vb.splitterCount)
 		specWarnEarthsplitter:Play("watchstep")
-		timerEarthSplitterCD:Start(nil, self.vb.splitterCount+1)
+		timerEarthSplitterCD:Start(nil, self.vb.splitterCount+1, args.sourceGUID)
 	elseif spellId == 386547 then
 		self.vb.repelCount = self.vb.repelCount + 1
 		warnRepel:Show(self.vb.repelCount)
 		warnRepel:Play("carefly")
-		timerRepelCD:Start(nil, self.vb.repelCount+1)
+		timerRepelCD:Start(nil, self.vb.repelCount+1, args.sourceGUID)
 	elseif spellId == 385434 then
 		self.vb.leapCount = self.vb.leapCount + 1
---		self:ScheduleMethod(0.2, "BossTargetScanner", args.sourceGUID, "ArrowTarget", 0.1, 8, true)
 		warnSpiritLeap:Show()
 		local timer
-		--Spirit Leap: 6.0, 24.0, 13.5, 19.9, 24.0, 13.5, 20.0, 23.9, 13.5
+		--Spirit Leap: 6.0, 24.0, 13.5, 19.9, 24.0, 13.5, 20.0, 23.9, 13.5 (Season 1)
+		--			   6.0, 24.0, 13.5, 21.1, 22.9, 13.5, 21.1 (Season 4)
 		if self.vb.leapCount % 3 == 0 then--3, 6, 9, etc
-			timer = 19.9
+			timer = 19.9--Change to 21.1?
 		elseif self.vb.leapCount % 3 == 1 then--1, 4, 7, etc
-			timer = 23.9
+			timer = 22.9
 		else--2, 5, 8, etc
-			timer = 13.4
+			timer = 13
 		end
-		timerSpiritLeapCD:Start(timer, self.vb.leapCount+1)
+		timerSpiritLeapCD:Start(timer, self.vb.leapCount+1, args.sourceGUID)
 	elseif spellId == 382836 then
 		self.vb.brutalizeCount = self.vb.brutalizeCount + 1
 		if self:IsTanking("player", nil, nil, true, args.sourceGUID) then
@@ -188,18 +171,9 @@ function mod:SPELL_CAST_START(args)
 		else--2, 5, 8, etc
 			timer = 15.9
 		end
-		timerBrutalizeCD:Start(timer, self.vb.brutalizeCount+1)
+		timerBrutalizeCD:Start(timer, self.vb.brutalizeCount+1, args.sourceGUID)
 	end
 end
-
---[[
-function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 362805 then
-
-	end
-end
---]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
@@ -235,18 +209,15 @@ function mod:UNIT_DIED(args)
 	end
 end
 
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 340324 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show(spellName)
-		specWarnGTFO:Play("watchfeet")
+--"<67.75 20:59:56> [CLEU] SPELL_AURA_APPLIED#Creature-0-3019-2516-29682-186338-00007D601C#Maruuk#Creature-0-3019-2516-29682-186339-00007D601C#Teera#345561#Life Link#DEBUFF#nil", -- [445]
+--"<67.75 20:59:56> [CLEU] SPELL_AURA_APPLIED#Creature-0-3019-2516-29682-186339-00007D601C#Teera#Creature-0-3019-2516-29682-186338-00007D601C#Maruuk#345561#Life Link#DEBUFF#nil", -- [446]
+--"<67.90 20:59:56> [CHAT_MSG_MONSTER_YELL] Why has our rest been disturbed?#Teera###Omegal##0#0##0#1387#nil#0#false#false#false#false", -- [447]
+--"<88.73 21:00:17> [CHAT_MSG_MONSTER_YELL] Necromancers? On our sacred grounds?#Teera###Gravelord Monkh##0#0##0#1388#nil#0#false#false#false#false", -- [468]
+--"<94.47 21:00:23> [CHAT_MSG_MONSTER_YELL] This is what has become of our legacy?#Maruuk###Gravelord Monkh##0#0##0#1389#nil#0#false#false#false#false", -- [473]
+--"<95.30 21:00:24> [DBM_Debug] ENCOUNTER_START event fired: 2581 Teera and Maruuk 1 5#nil", -- [474]
+function mod:OnSync(msg)
+	---@diagnostic disable-next-line: dbm-sync-checker
+	if msg == "TeeraRP" and self:AntiSpam(10, 9) then--Sync sent from trash mod since trash mod is already monitoring out of combat CLEU events
+		timerRP:Start(26.7)
 	end
 end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 353193 then
-
-	end
-end
---]]

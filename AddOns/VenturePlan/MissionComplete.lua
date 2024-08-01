@@ -1,5 +1,6 @@
 local _, T = ...
 local EV, L = T.Evie, T.L
+local GameTooltip = T.NotGameTooltip or GameTooltip
 local MR
 
 local function Rewards_FollowerOnEnter(self)

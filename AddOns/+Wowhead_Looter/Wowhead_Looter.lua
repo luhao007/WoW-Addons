@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 10.0.2                    --
+--    Patch: 11.0.0                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2023-01-12";
+local WL_ADDON_UPDATED = "2024-07-23";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 100002;
+local WL_VERSION = 110000;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -25,9 +25,10 @@ wlAuction, wlEvent, wlItemSuffix, wlObject, wlProfile, wlUnit = {}, {}, {}, {}, 
 wlItemDurability, wlGarrisonMissions, wlItemBonuses, wlContributionQuests = {}, {}, {}, {};
 wlDailies, wlWorldQuests = "", "";
 wlRegionBuildings = {};
+wlTradingPostItems = "";
 
 -- SavedVariablesPerCharacter
-wlSetting = {};
+wlSetting = {minimap=false};
 wlScans = {
     guid = nil,
     toys = "",
@@ -241,163 +242,37 @@ local WL_LOOT_TOAST_BAGS = {
 
 };
 
--- Openable loot with toast but no spell
-local WL_LOOT_TOAST_NOSPELL =
-{
-    [170061] = true, -- Rustbolt Supplies
-    [169939] = true, -- Ankoan Supplies
-    [169940] = true, -- Unshackled Supplies
-
-    -- 8.3
-    [173372] = true, -- Cache of the Black Empire
-    [173734] = true, -- Mysterious Crate
-    [173949] = true, -- Dread Chain Salvage
-    [173950] = true, -- Crestfall Salvage
-    [173983] = true, -- Vulpera Satchel of Salvage
-    [173987] = true, -- Elemental Salvage
-    [173988] = true, -- Havenswood Salvage
-    [173989] = true, -- Jorundall Salvage
-    [173990] = true, -- Molten Cay Salvage
-    [173991] = true, -- Rotting Mire Salvage
-    [173992] = true, -- Skittering Hollow Salvage
-    [173993] = true, -- Snowblossom Salvage
-    [173994] = true, -- Un'gol Ruins Salvage
-    [173995] = true, -- Venture Co. 'Salvage'
-    [173996] = true, -- Verdant Wilds Salvage
-    [173997] = true, -- Whispering Reef Salvage
-    [174039] = true, -- Crate of Cursed Mementos
-    [174181] = true, -- Bag of Herbs
-    [174182] = true, -- Bag of Ore
-    [174183] = true, -- Bag of Leather
-    [174184] = true, -- Bag of Cloth
-    [174194] = true, -- Bag of Enchanting
-    [174195] = true, -- Bag of Gems
-    [174358] = true, -- Unopened Blackrock Supply Crate
-    [174483] = true, -- Rajani Supplies
-    [174484] = true, -- Uldum Accord Supplies
-    [174529] = true, -- Crate of Coalescing Visions
-    [174642] = true, -- Corrupted Ny'alotha Raid Item
-    [174958] = true, -- Cache of the Fallen Mogu
-    [174959] = true, -- Cache of the Mantid Swarm
-    [174960] = true, -- Cache of the Aqir Swarm
-    [174961] = true, -- Cache of the Amathet
-
-    -- Black Empire gears
-    -- Leather
-    [173407] = true,
-    [173408] = true,
-    [173409] = true,
-    [173410] = true,
-    [173411] = true,
-    [173412] = true,
-    [173413] = true,
-    [173424] = true,
-
-    -- Mail
-    [173400] = true,
-    [173401] = true,
-    [173402] = true,
-    [173403] = true,
-    [173404] = true,
-    [173405] = true,
-    [173406] = true,
-    [173425] = true,
-
-    -- Plate
-    [173393] = true,
-    [173394] = true,
-    [173395] = true,
-    [173396] = true,
-    [173397] = true,
-    [173398] = true,
-    [173399] = true,
-    [173422] = true,
-
-    -- Cloth
-    [173414] = true,
-    [173415] = true,
-    [173416] = true,
-    [173417] = true,
-    [173418] = true,
-    [173419] = true,
-    [173420] = true,
-    [173423] = true,
-
-    -- 9.0
-    [181372] = true,
-    [181476] = true,
-    [181556] = true,
-    [181741] = true,
-    [181732] = true,
-    [181733] = true,
-
-    -- 9.1
-    [185972] = true,
-    [186529] = true,
-    [186530] = true,
-    [186531] = true,
-    [186533] = true,
-    [187575] = true,
-    [187576] = true,
-    [187577] = true,
-    [186196] = true,
-    [185992] = true,
-    [187543] = true,
-    [185990] = true,
-    [185991] = true,
-    [185993] = true,
-    [187551] = true,
-    [187354] = true,
-    [187278] = true,
-    [187029] = true,
-    [186650] = true,
-
-    -- 9.2
-    [187780] = true,
-    [187781] = true,
-    [187787] = true,
-    [190178] = true,
-    [190382] = true,
-    [190610] = true,
-    [190655] = true,
-    [190656] = true,
-    [190823] = true,
-    [191040] = true,
-    [191041] = true,
-    [191139] = true,
-
-    -- 10.0
-    [198172] = true,
-    [199472] = true,
-    [199473] = true,
-    [199474] = true,
-    [199475] = true,
-    [200069] = true,
-    [200070] = true,
-    [200072] = true,
-    [200073] = true,
-    [200094] = true,
-    [200095] = true,
-    [200468] = true,
-    [200513] = true,
-    [200515] = true,
-    [200516] = true,
-    [201250] = true,
-    [201251] = true,
-    [201252] = true,
-    [201462] = true,
-    [201728] = true,
-    [201754] = true,
-    [201755] = true,
-    [201817] = true,
-    [201818] = true,
-    [202142] = true,
-};
-
 local WL_LOOT_COUNT_KILLED_NPCS =
 {
     [182120] = true,
 };
+
+-- Wrapper function for C_Spell.GetSpellInfo for the deprecated GetSpellInfo
+local GetSpellInfo = GetSpellInfo or function(spell)
+    local spellInfo = C_Spell.GetSpellInfo(spell);
+    if spellInfo then
+        return spellInfo.name, 0, spellInfo.iconID, spellInfo.castTime, spellInfo.minRange, spellInfo.maxRange, spellInfo.spellID, spellInfo.originalIconID;
+    end
+    return nil;
+end
+
+-- Returns a list of faction data compatible with the deprecated GetFactionInfo and GetFactionInfoByID
+local GetFactionInfoWrapper = function(factionData)
+    if factionData then
+        return factionData.name, factionData.description, factionData.currentStanding, 0, 0, 0, factionData.atWarWith, factionData.canToggleAtWar, factionData.isHeader, factionData.isCollapsed, false, factionData.isWatched, factionData.isChild, factionData.factionID, factionData.hasBonusRepGain, false;
+    end
+    return nil;
+end
+
+-- Wrapper function for C_Reputation.GetFactionDataByID for the deprecated GetFactionInfoByID
+local GetFactionInfoByID = GetFactionInfoByID or function(factionId)
+    return GetFactionInfoWrapper(C_Reputation.GetFactionDataByID(factionId));
+end
+
+-- Wrapper function for C_Reputation.GetFactionDataByIndex for the deprecated GetFactionInfo
+local GetFactionInfo = GetFactionInfo or function(factionIndex)
+    return GetFactionInfoWrapper(C_Reputation.GetFactionDataByIndex(factionIndex));
+end
 
 local WL_REP_MODS = {
     [GetSpellInfo(61849)] = {nil, 0.1},
@@ -636,6 +511,11 @@ local WL_SPECIAL_CONTAINERS = {
     [168094] = true, -- Faintly humming sea stones
     [168266] = true, -- Strange recycling requisition
     [168264] = true, -- Recycling requisition
+
+    -- 10.x
+    [208216] = true, -- Reins of the Quantum Courser
+    [206577] = true, -- Slime Covered Scroll
+    [206584] = true, -- Archived Crafting Techniques
 };
 
 -- garrison trading post NPCs, for today in draenor tracking
@@ -734,6 +614,25 @@ local WL_DAILY_BUT_NOT_REALLY = {
     66873, -- The Azure Vault
     66874, -- Halls of Infusion
     66875, -- Algeth'ar Academy
+
+    -- Aylaag Camp:
+    65784, -- The Otter Side
+    65789, -- Where Rivers Sleep
+    65792, -- Teeth for a Tooth
+    65796, -- The Best Defense...
+    65798, -- An Opportunistic Approach
+    66698, -- Counting Argali
+    66711, -- Delicacy in the Dark
+    67034, -- Of Wind and Water
+    67039, -- An Amazing Journey
+    67605, -- Thundering Plains
+    70210, -- Tradition Not Forgotten
+    70279, -- Blood of Dragons
+    70299, -- Draconic Defensive
+    70352, -- Scaling Ever Higher
+    70701, -- Bakar Dream of Lost Argali
+    70990, -- If There's Wool There's a Way
+    71241, -- Duck, Duck, Trap
 }
 
 local WL_DAILY_VENDOR_ITEMS = { 141713, 141861, 141884, 141860, 141712, 141862, } -- Xur'ios
@@ -765,11 +664,12 @@ local WL_VENTHYR_BROKEN_MIRROR_TRACKING_QUESTS = {
 
 -- DungeonEncounter id to npc id
 local WL_ENCOUNTER_NPC = {
-    [1563] = 62346, -- Galleon
-    [1564] = 60491, -- Sha of Anger
-    [1571] = 69099, -- Nalak
-    [1587] = 69161, -- Oondasta
-    [1755] = 83746, -- Rukhmar
+    [1563] =  62346, -- Galleon
+    [1564] =  60491, -- Sha of Anger
+    [1571] =  69099, -- Nalak
+    [1587] =  69161, -- Oondasta
+    [1755] =  83746, -- Rukhmar
+    [2685] = 201754, -- Sarkareth
 }
 local wlLastBossKillNpcId = 0;
 
@@ -777,9 +677,7 @@ local wlLastBossKillNpcId = 0;
 local CheckInteractDistance = CheckInteractDistance;
 local GetAchievementCriteriaInfo = GetAchievementCriteriaInfo;
 local GetCursorPosition = GetCursorPosition;
-local GetFactionInfo = GetFactionInfo;
 local GetInstanceInfo = GetInstanceInfo;
-local GetItemCount = GetItemCount;
 local GetItemInfo = GetItemInfo;
 local GetLanguageByIndex = GetLanguageByIndex;
 local GetLootSlotInfo = GetLootSlotInfo;
@@ -794,7 +692,7 @@ local GetArtifactInfoByRace = GetArtifactInfoByRace;
 local GetNumArchaeologyRaces = GetNumArchaeologyRaces;
 local GetNumArtifactsByRace = GetNumArtifactsByRace;
 local GetNumQuestLeaderBoards = GetNumQuestLeaderBoards;
-local GetNumRaidMembers = GetNumRaidMembers;
+local IsAddOnLoaded = IsAddOnLoaded or C_AddOns.IsAddOnLoaded;
 
 local GetPlayerMapPosition = function(unitToken)
     local uiMapID = C_Map.GetBestMapForUnit(unitToken) or WorldMapFrame:GetMapID();
@@ -816,7 +714,6 @@ local GetProgressText = GetProgressText;
 local GetQuestID = GetQuestID;
 local GetRealZoneText = GetRealZoneText;
 local GetRewardText = GetRewardText;
-local GetSpellInfo = GetSpellInfo;
 local GetTrainerServiceCost = GetTrainerServiceCost;
 local GetTrainerServiceInfo = GetTrainerServiceInfo;
 local GetTrainerServiceSkillReq = GetTrainerServiceSkillReq;
@@ -890,6 +787,13 @@ local wlDefaultReloadUI;
 local wlDefaultConsoleExec;
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
+
+-- Returns true if the current character is in combat.
+local function wlIsInCombat()
+    return UnitAffectingCombat("player") or InCombatLockdown()
+end
+
+--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 
@@ -918,7 +822,7 @@ function wlEvent_PLAYER_LOGIN(self)
     wlUIReloaded = nil;
 
     wlHook();
-    wlClearTracker("quest", "rep", "spell");
+    wlClearTracker("quest", "rep", "spell", "killed");
 
     local realmList = GetCVar("portal");
 
@@ -1030,6 +934,8 @@ function wlEvent_ADDON_LOADED(self, name)
     if name == "+Wowhead_Looter" then
         wlTimers.autoCollect = wlGetTime() + 60000; -- 60 seconds timeout
         wlTimers.worldQuestUpdate = wlGetTime() + 30000; -- 30 seconds timeout
+    elseif name == 'SexyMap' then
+        wlTimers.updateMiniMap = wlGetTime() + 500;
     end
 end
 
@@ -1149,6 +1055,11 @@ function wlEvent_PLAYER_TARGET_CHANGED(self)
     if (WL_DAILY_INSTANCE_NPCS[dd] and tContains(WL_DAILY_INSTANCE_NPCS[dd], id)) then
         wlSeenDaily('n'..id);
     end
+
+    local unitName = UnitName("target");
+    if (unitName and unitName ~= UNKNOWN and unitName ~= UnitName("player")) then
+        wlUpdateVariable(wlUnit, id, "name", unitName, "set", GetLocale());
+    end
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -1175,6 +1086,9 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlUnitIsClose(unit)
+    if wlIsInCombat() then
+        return false
+    end
     return CheckInteractDistance(unit, 1) and CheckInteractDistance(unit, 2) and CheckInteractDistance(unit, 3) and CheckInteractDistance(unit, 4);
 end
 
@@ -1231,20 +1145,20 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-function wlEvent_CHAT_MSG_MONSTER_SAY(self, text, name, language)
-    wlRegisterUnitQuote(name, "say", language, text);
+function wlEvent_CHAT_MSG_MONSTER_SAY(self, text, name, language, channel, name2)
+    wlRegisterUnitQuote(name, "say", language, text, name2);
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-function wlEvent_CHAT_MSG_MONSTER_WHISPER(self, text, name, language)
-    wlRegisterUnitQuote(name, "whisper", language, text);
+function wlEvent_CHAT_MSG_MONSTER_WHISPER(self, text, name, language, channel, name2)
+    wlRegisterUnitQuote(name, "whisper", language, text, name2);
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-function wlEvent_CHAT_MSG_MONSTER_YELL(self, text, name, language)
-    wlRegisterUnitQuote(name, "yell", language, text);
+function wlEvent_CHAT_MSG_MONSTER_YELL(self, text, name, language, channel, name2)
+    wlRegisterUnitQuote(name, "yell", language, text, name2);
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -1259,9 +1173,13 @@ function wlReplaceWord(word)
 end
 
 local wlLanguage = nil;
-function wlRegisterUnitQuote(name, how, language, text)
+function wlRegisterUnitQuote(name, how, language, text, name2)
     -- Init
     text = text:gsub("(%w+-?%w*)", wlReplaceWord);
+
+    if name2 and name2 ~= '' then
+        text = text:gsub(name2, "<name>");
+    end
 
     if not wlLanguage then
         wlLanguage = {};
@@ -1873,9 +1791,31 @@ function wlEvent_BOSS_KILL(self, encounterId, encounterName)
     local npcId = WL_ENCOUNTER_NPC[encounterId];
     if npcId then
         wlLastBossKillNpcId = npcId;
+        wlTrackBossKill(npcId);
     else
         wlLastBossKillNpcId = 0;
     end
+end
+
+-- Track boss kill.
+function wlTrackBossKill(npcId)
+    if (not wlTracker or not wlTracker.killed) then
+        return;
+    end
+
+    local eventId = wlGetNextEventId();
+    wlTracker.killed.eventId = eventId;
+    wlTracker.killed.npcId = npcId;
+    wlTracker.killed.time = wlGetTime();
+
+    wlUpdateVariable(wlEvent, wlId, wlN, eventId, "initArray", 0);
+    wlEvent[wlId][wlN][eventId].what = "killed";
+    wlEvent[wlId][wlN][eventId].targetid = npcId;
+    wlEvent[wlId][wlN][eventId].faction = UnitFactionGroup("player");
+    wlEvent[wlId][wlN][eventId].classid = select(3, UnitClass("player"));
+    wlEvent[wlId][wlN][eventId].raceid = select(3, UnitRace("player"));
+    wlEvent[wlId][wlN][eventId].dd = wlGetInstanceDifficulty();
+    wlEvent[wlId][wlN][eventId].playerLevel = UnitLevel("player");
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -1890,6 +1830,7 @@ end
 ----------------------------
 
 function wlUpdateFaction()
+    local GetNumFactions = GetNumFactions or C_Reputation.GetNumFactions;
     for i=1, GetNumFactions() do
         local name, _, standing, _, _, _, _, _, header, _, _, _, _, factionId = GetFactionInfo(i);
         if name and not header then
@@ -1905,14 +1846,17 @@ function wlUnitFaction(unit)
     wlGameTooltip:ClearLines();
     wlGameTooltip:SetUnit(unit);
 
+    local lastLine = nil
     for line=2, wlGameTooltip:NumLines() do
         local faction = _G["wlGameTooltipTextLeft"..line]:GetText();
         if wlFaction[faction] then
             return faction, wlFaction[faction].standing;
+        elseif faction and faction ~= '' and faction ~= PVP and not faction:find(LEVEL) then
+            lastLine = faction;
         end
     end
 
-    return nil, nil;
+    return lastLine, nil;
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -2224,20 +2168,33 @@ function wlGetQuestItemLinks(typeName)
     return nil;
 end
 
-function wlGetQuestRewardCurrencies()
-
-    local nCurrencies = GetNumRewardCurrencies();
-
-    if nCurrencies == 0 then
-        return nil;
-    end
+function wlGetQuestRewardCurrencies(questId)
 
     local currencies = {}
 
-    for i = 1,nCurrencies do
-        local id = GetQuestCurrencyID("reward", i);
-        local name, _, qty, _ = GetQuestCurrencyInfo("reward", i);
-        currencies[id] = qty;
+    if GetNumRewardCurrencies then
+        local nCurrencies = GetNumRewardCurrencies();
+
+        if nCurrencies == 0 then
+            return nil;
+        end
+
+        for i = 1,nCurrencies do
+            local id = GetQuestCurrencyID("reward", i);
+            local name, _, qty, _ = GetQuestCurrencyInfo("reward", i);
+            currencies[id] = qty;
+        end
+
+    elseif C_QuestLog and C_QuestLog.GetQuestRewardCurrencies then
+        local rewardCurrencies = C_QuestLog.GetQuestRewardCurrencies(questId);
+
+        if #rewardCurrencies == 0 then
+            return nil;
+        end
+
+        for _,currencyInfo in ipairs(rewardCurrencies) do
+            currencies[currencyInfo.currencyID] = currencyInfo.totalRewardAmount;
+        end
     end
 
     return currencies;
@@ -2289,11 +2246,22 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-function wlEvent_QUEST_ACCEPTED(self, _, questId)
+function wlEvent_QUEST_ACCEPTED(self, questId)
+    -- Quest that are "dropped" from NPC kills that we want to track
+    local TRACK_QUEST_NPC_DROP = {
+        [74912] = 201754,
+    };
     if (questId) then
         -- only way to pick up apexis daily quests from table, when they are auto-accepted
         if tContains(WL_DAILY_APEXIS, questId) or tContains(WL_DAILY_BUT_NOT_REALLY, questId) then
             wlSeenDaily(questId)
+        end
+
+        local npcId = TRACK_QUEST_NPC_DROP[questId];
+        if (npcId and npcId == wlTracker.killed.npcId and wlTracker.killed.eventId and
+                wlIsValidInterval(wlGetTime(), wlTracker.killed.time, 5000)) then
+            local eventId = wlTracker.killed.eventId;
+            wlEvent[wlId][wlN][eventId].questid = questId;
         end
     end
 end
@@ -2340,7 +2308,7 @@ function wlEvent_QUEST_COMPLETE(self)
 
     wlTracker.quest.rewardItemLinks = wlGetQuestItemLinks("reward");
     wlTracker.quest.choiceItemLinks = wlGetQuestItemLinks("choice");
-    wlTracker.quest.rewardCurrencies = wlGetQuestRewardCurrencies();
+    wlTracker.quest.rewardCurrencies = wlGetQuestRewardCurrencies(wlTracker.quest.id);
     wlTracker.quest.complete = wlGetSourceText(GetRewardText());
 
     wlTracker.quest.time = wlGetTime();
@@ -2586,7 +2554,7 @@ function wlSeenWorldQuests()
         wlTimers.worldQuestUpdate = wlGetTime() + minutes * 60 * 1000; -- recheck after a few minutes
     end
 
-    if UnitAffectingCombat("player") or InCombatLockdown() then
+    if wlIsInCombat() then
         queueNextCheck(1)
         return
     end
@@ -2657,6 +2625,8 @@ function wlSeenWorldQuests()
     -- These zones are weird, too. Figures.
     checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(1355); -- Nazjatar
     checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(1462); -- Mechagon
+    checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(2133); -- Zaralek Cavern
+    checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(2200); -- Emerald Dream
 
     -- Query for all the world quests under each map
     for i = 1, #checkMaps, 1 do
@@ -2844,7 +2814,7 @@ local WL_NPC, WL_OBJECT, WL_ITEM, WL_ZONE = 1, 2, 4, 64;
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
---    ID = { spellName, sourceFlags, isLootSpell }
+--    ID = { spellName, sourceFlags, isLootSpell, noSentSpell }
 local wlSpells = {
     Disenchanting = { GetSpellInfo(13262) or "", WL_ITEM, 1 },
     Engineering = { GetSpellInfo(49383) or "", WL_NPC, 1 },
@@ -2861,6 +2831,11 @@ local wlSpells = {
     Logging = { GetSpellInfo(167895) or "", WL_OBJECT, nil },
     Scrapping = { GetSpellInfo(WL_SPELL_SCRAPPING) or "", WL_ITEM, 1 },
     Collecting = { GetSpellInfo(214766) or "", WL_OBJECT, 2 },
+    Digging = { GetSpellInfo(370349) or "", WL_OBJECT, 1 },
+    InsidiousInsight = { GetSpellInfo(399342) or "", WL_OBJECT, 0, true },
+    QuantumReins = { GetSpellInfo(418593) or "", WL_ITEM, 1 },
+    SlimeCoveredScroll = { GetSpellInfo(413869) or "", WL_ITEM, 1 },
+    ArchivedCratingTechniques = { GetSpellInfo(413906) or "", WL_ITEM, 1 },
     -- BeastLore = { GetSpellInfo(1462) or "", WL_NPC, nil },
     -- PickLocking = { GetSpellInfo(1804) or "", WL_OBJECT, 1 },
 };
@@ -3045,6 +3020,13 @@ function wlEvent_UNIT_SPELLCAST_SUCCEEDED(self, unit, spellCast, spellId)
         wlRegisterObject(WL_ANVIL_ID);
     end
 
+    local spellName = wlFindSpell(GetSpellInfo(spellId));
+    if spellName and wlSpells[spellName][4] and
+        bit_band(wlSpells[spellName][2], WL_OBJECT) ~= 0 then
+        local objectName = GameTooltipTextLeft1 and GameTooltipTextLeft1:GetText();
+        wlRegisterObject(wlConcat("_", "_", objectName));
+    end
+
     if wlTracker.spell.time and wlTracker.spell.event == "SENT" and wlTracker.spell.action == wlFindSpell(GetSpellInfo(spellId)) then
         wlTracker.spell.event = "SUCCEEDED";
         wlTracker.spell.time = wlGetTime();
@@ -3069,7 +3051,7 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-function wlEvent_SHOW_LOOT_TOAST(self, typeIdentifier, itemLink, quantity, specID, sex, isPersonal, lootSource)
+function wlEvent_SHOW_LOOT_TOAST(self, typeIdentifier, itemLink, quantity, specID, sex, isPersonal, toastMethod, lessAwesome, upgraded, corrupted)
     if not typeIdentifier or (typeIdentifier ~= "item" and typeIdentifier ~= "money" and typeIdentifier ~= "currency") then
         return;
     end
@@ -3088,7 +3070,8 @@ function wlEvent_SHOW_LOOT_TOAST(self, typeIdentifier, itemLink, quantity, specI
         (wlTracker.spell and
          wlTracker.spell.action == "Opening" and
          wlTracker.spell.kind == "item" and
-         WL_LOOT_TOAST_NOSPELL[wlTracker.spell.id]) then
+         wlIsValidInterval(wlTracker.spell.time or 0, now, 2000) and
+         wlTracker.spell.bagItemOnUse) then
 
         if not wlEvent or not wlId or not wlEvent[wlId] or not wlN or not wlEvent[wlId][wlN] then
             return;
@@ -3186,6 +3169,7 @@ function wlBagItemOnUse(link, bag, slot)
             wlTracker.spell.kind = "item";
             wlTracker.spell.id = id;
             wlTracker.spell.name = wlGameTooltipTextLeft1:GetText();
+            wlTracker.spell.bagItemOnUse = id;
             if not wlChatLootIsBlocked and WL_SPECIAL_CONTAINERS[id] then
                 wlTracker.spell.specialEventId = nil;
                 wlTimers.clearSpecialLoot = now + 500;
@@ -3354,7 +3338,9 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
         end
 
     else
-        return;
+        wlTracker.spell.id = nil;
+        wlTracker.spell.kind = nil;
+        wlTracker.spell.action = nil;
     end
 
     -- Loot cooldown
@@ -3439,6 +3425,23 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
                 for sourceIndex = 1, #lootSources, 2 do
                     local qty = lootSources[sourceIndex + 1];
                     local aoeGUID = lootSources[sourceIndex];
+                    local guidId, guidKind = wlParseGUID(aoeGUID);
+
+                    -- Catch object pushing loot without any spells or events.
+                    if guidId and guidKind == 'object' then
+                        wlTracker.spell.kind = 'object';
+                        wlEvent[wlId][wlN][eventId].kind = 'object';
+                        wlTracker.spell.action = 'Opening';
+                        wlEvent[wlId][wlN][eventId].action = 'Opening';
+                        if not wlEvent[wlId][wlN][eventId].zone then
+                            local zone, x, y, uiMapID = wlGetLocation();
+                            wlEvent[wlId][wlN][eventId].x = x;
+                            wlEvent[wlId][wlN][eventId].y = y;
+                            wlEvent[wlId][wlN][eventId].zone = zone;
+                            wlEvent[wlId][wlN][eventId].uiMapID = uiMapID;
+                        end
+                    end
+
                     if ((wlTracker.spell.action == "Killing" and targetGUID == aoeGUID) or wlTracker.spell.action ~= "Killing") then
                         if not targetLoots[typeId] then
                             targetLoots[typeId] = {};
@@ -3448,7 +3451,6 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
                         targetLoots[typeId][3] = (currencyId or 0);
                         targetLoots[typeId][4] = numBonus > 0 and itemLink or nil;
                         if wlTracker.spell.kind == "object" then
-                            local guidId, guidKind = wlParseGUID(aoeGUID);
                             if (guidKind == "object") then
                                 objectId = guidId;
                             end
@@ -3703,7 +3705,7 @@ end
 -------------------------------
 
 function wlCollect(userInitiated)
-    if (not userInitiated) and (UnitAffectingCombat("player") or InCombatLockdown()) then
+    if (not userInitiated) and wlIsInCombat() then
         return;
     end
 
@@ -3951,7 +3953,7 @@ function wlEvent_ARTIFACT_COMPLETE(...)
     wlScanArtifacts();
 end
 
-function wlEvent_ARTIFACT_HISTORY_READY(...)
+function wlEvent_ARTIFACT_UPDATE(...)
     wlScanArtifacts();
 end
 
@@ -4196,10 +4198,13 @@ local wlScanAchievementsProgress = nil;
 -- Scan one achievement category at a time
 function wlScanAchievementsStep()
     local catIdx = wlScanAchievementsProgress.catIdx;
+    local scanIdx = wlScanAchievementsProgress.scanIdx;
     local cat = wlScanAchievementsProgress.catList[catIdx];
-    local total = GetCategoryNumAchievements(cat, true)
+    local total = GetCategoryNumAchievements(cat, true);
+    local scansPerStep = 25
+    local scanMax = math.min(scanIdx + scansPerStep - 1, total);
 
-    for i=1, total do
+    for i=scanIdx, scanMax do
         local id = GetAchievementInfo(cat, i)
         while id do
             local _, _, _, completed, month, day, year, _, _, _, _, isGuild = GetAchievementInfo(id)
@@ -4221,10 +4226,17 @@ function wlScanAchievementsStep()
                 id = nil
             end
         end
+        scanIdx = i;
     end
 
-    if (catIdx < #wlScanAchievementsProgress.catList) then
+    if (scanIdx >= total) then
+        wlScanAchievementsProgress.scanIdx = 1;
         wlScanAchievementsProgress.catIdx = catIdx + 1;
+    else
+        wlScanAchievementsProgress.scanIdx = scanIdx + 1;
+    end
+
+    if (catIdx < #wlScanAchievementsProgress.catList or scanIdx + 1 < total) then
         wlTimers.scanAchievements = wlGetTime() + wlScanAchievementsProgress.interval;
     else
         local ids = table.concat(wlScanAchievementsProgress.achievementTable,',')
@@ -4246,7 +4258,7 @@ function wlScanAchievements(userInitiated)
     end
 
     local _, completed = GetNumCompletedAchievements()
-    if (not userInitiated) and ((wlAchievementsCompleted == completed) or UnitAffectingCombat("player") or InCombatLockdown()) then
+    if (not userInitiated) and ((wlAchievementsCompleted == completed) or wlIsInCombat()) then
         return false -- skip exhaustive scan if no new achievements or if in combat
     end
 
@@ -4255,6 +4267,7 @@ function wlScanAchievements(userInitiated)
     wlScanAchievementsProgress = {};
     wlScanAchievementsProgress.catList = GetCategoryList();
     wlScanAchievementsProgress.catIdx = 1;
+    wlScanAchievementsProgress.scanIdx = 1;
     wlScanAchievementsProgress.achievementTable = {}
     wlScanAchievementsProgress.achievementTableIdx = #wlScanAchievementsProgress.achievementTable
     wlScanAchievementsProgress.interval = 200;
@@ -4620,13 +4633,23 @@ end
 
 function wlCheckMythicAffixes()
     local level, affixes, wasEnergized = C_ChallengeMode.GetActiveKeystoneInfo();
+    local displaySeasonId, milestoneSeasonId, rewardSeasonId = C_MythicPlus.GetCurrentSeasonValues();
     if level and level > 0 and affixes then
         sort(affixes)
-        wlSeenDaily('a'..level..'.'..table.concat(affixes,'.'))
+        wlSeenDaily('a'..level..'.'..table.concat(affixes,'.')..':'..displaySeasonId..'.'..milestoneSeasonId..'.'..rewardSeasonId);
     end
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
+
+-- Perform vignette and related scans.
+local function wlScanVignette()
+    if wlIsInCombat() then
+        return
+    end
+    wlCheckTorghastWings();
+    wlCheckPrimalVignettes();
+end
 
 --[[
 -- When we're in the Torghast Entrance zone, scan the vignettes to determine which wings are open.
@@ -4699,12 +4722,15 @@ function wlCheckVenthyrBrokenMirrorQuests()
     end
 end
 
+--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
+
 --[[
 -- Event handler for VIGNETTES_UPDATED, which fires after the game client gathered vignettes in the current zone.
 ]]
 function wlEvent_VIGNETTES_UPDATED()
-    wlCheckTorghastWings();
-    wlCheckPrimalVignettes();
+    if not wlTimers.scanVignette then
+        wlTimers.scanVignette = wlGetTime() + 5000;
+    end
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4726,22 +4752,53 @@ function wlCheckAreaPois()
         2024, -- Azure Span
         2025, -- Thaldraszus
         2112, -- Valdrakken
+
+        32,  -- Searing Gorge
+        70,  -- Dustwallow Marsh
+        115, -- Dragonblight
     };
     -- Collect POIs for these maps regardless of whether they are primary POIs.
     local includeNonPrimary = {
         [1978] = true, -- Dragon Isles
     };
 
+    -- Ohn'ahran Plains primal storms workaround
+    local primalStormsOPPois = {
+        [7221] = true,
+        [7222] = true,
+        [7223] = true,
+        [7224] = true,
+        [7225] = true,
+        [7226] = true,
+        [7227] = true,
+        [7228] = true,
+    };
+    local primalStormsRegionBaseTime = {
+        [1] = 1671310800, -- NA/OCE
+        [3] = 1670346000, -- KR
+        [3] = 1671303600, -- EU
+        [4] = 1670346000, -- TW
+    };
+
     for _, uiMapId in ipairs(uiMapIds) do
         local pois = C_AreaPoiInfo.GetAreaPOIForMap(uiMapId);
         for _, poiId in ipairs(pois) do
             local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapId, poiId);
-            if C_AreaPoiInfo.IsAreaPOITimed(poiId) and (
-                includeNonPrimary[uiMapId] or (poiInfo and poiInfo.isPrimaryMapForPOI)
+            if primalStormsOPPois[poiId] or (C_AreaPoiInfo.IsAreaPOITimed(poiId) and (
+                includeNonPrimary[uiMapId] or (poiInfo and poiInfo.isPrimaryMapForPOI))
             ) then
+                local curTime = GetServerTime();
                 local secondsLeft = C_AreaPoiInfo.GetAreaPOISecondsLeft(poiId);
+                if not secondsLeft and primalStormsOPPois[poiId] then
+                    local baseTime = primalStormsRegionBaseTime[GetCurrentRegion()];
+                    if baseTime then
+                        secondsLeft = 7200 - ((curTime - baseTime) % 10800);
+                        if secondsLeft <= 0 then
+                            secondsLeft = nil;
+                        end
+                    end
+                end
                 if secondsLeft then
-                    local curTime = GetServerTime();
                     local endTime = curTime + secondsLeft;
                     if not wlPois[uiMapId] then
                         wlPois[uiMapId] = {};
@@ -4802,6 +4859,62 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
+-- Collect Trading Posts data
+function wlCheckTradingPost(npcId)
+    if not npcId then
+        return
+    end
+    local items = {};
+    local vendorItemIds = C_PerksProgram.GetAvailableVendorItemIDs();
+    if vendorItemIds then
+        local curTime = GetServerTime();
+        for _,vendorItemId in ipairs(vendorItemIds) do
+            local info = C_PerksProgram.GetVendorItemInfo(vendorItemId);
+            if info and info.itemID > 0 then
+                local itemLink = wlConcat(info.itemID, 0, 1, 0, -1, '');
+                wlUpdateVariable(wlUnit, npcId, "merchant", itemLink, "max", -1);
+                local endTime = curTime + info.timeRemaining;
+                table.insert(items, info.itemID .. '.' .. curTime .. '.' .. endTime);
+            end
+        end
+
+        wlTradingPostItems = wlGetPlayerRealmId() .. '=' .. table.concat(items, ',')
+    end
+end
+
+-- Called on PERKS_PROGRAM_OPEN event.
+function wlEvent_PERKS_PROGRAM_OPEN()
+    local npcId = nil;
+    if UnitExists('target') and not UnitIsPlayer('target') then
+        npcId = wlUnitGUID('target');
+    end
+    local tradingPostNpcs = {
+        [185467] = true,
+        [185468] = true,
+        [185472] = true,
+        [185473] = true,
+    };
+    if (npcId and tradingPostNpcs[tonumber(npcId)]) then
+        wlCheckTradingPost(npcId);
+    end
+end
+
+-- This event is also sent when the map has changed in size,
+-- and we want to update the minimap icon position.
+function wlEvent_MINIMAP_UPDATE_ZOOM()
+    wlUpdateMiniMapButtonPosition(_G['wlMinimapButton']);
+end
+
+-- Called on PLAYER_SOFT_INTERACT_CHANGED event.
+function wlEvent_PLAYER_SOFT_INTERACT_CHANGED(self, oldTarget, newTarget)
+    if oldTarget then
+        local id, kind = wlParseGUID(oldTarget);
+        if id and kind == 'object' and not wlObject[id] then
+            wlRegisterObject(id);
+        end
+    end
+end
+
 
 --------------------------
 --------------------------
@@ -4844,6 +4957,8 @@ local wlEvents = {
     BOSS_KILL = wlEvent_BOSS_KILL,
     UPDATE_MOUSEOVER_UNIT = wlEvent_UPDATE_MOUSEOVER_UNIT,
     DYNAMIC_GOSSIP_POI_UPDATED = wlEvent_DYNAMIC_GOSSIP_POI_UPDATED,
+    PERKS_PROGRAM_OPEN = wlEvent_PERKS_PROGRAM_OPEN,
+    PLAYER_SOFT_INTERACT_CHANGED = wlEvent_PLAYER_SOFT_INTERACT_CHANGED,
 
     -- drops
     LOOT_OPENED = wlEvent_LOOT_OPENED,
@@ -4911,7 +5026,7 @@ local wlEvents = {
     -- completist
     TRADE_SKILL_DATA_SOURCE_CHANGED = wlEvent_TRADE_SKILL_DATA_SOURCE_CHANGED,
     CURRENCY_DISPLAY_UPDATE = wlEvent_CURRENCY_DISPLAY_UPDATE,
-    RESEARCH_ARTIFACT_HISTORY_READY = wlEvent_ARTIFACT_HISTORY_READY,
+    RESEARCH_ARTIFACT_UPDATE = wlEvent_ARTIFACT_UPDATE,
     RESEARCH_ARTIFACT_COMPLETE = wlEvent_ARTIFACT_COMPLETE,
     TRANSMOG_COLLECTION_UPDATED = wlEvent_TRANSMOG_COLLECTION_UPDATED,
     TOYS_UPDATED = wlEvent_TOYS_UPDATED,
@@ -4927,6 +5042,7 @@ local wlEvents = {
     HEIRLOOMS_UPDATED = wlEvent_HEIRLOOMS_UPDATED,
 
     BLACK_MARKET_ITEM_UPDATE = wlEvent_BLACK_MARKET_ITEM_UPDATE,
+    MINIMAP_UPDATE_ZOOM = wlEvent_MINIMAP_UPDATE_ZOOM,
 };
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4970,11 +5086,12 @@ function wlUpdateMiniMapButtonPosition(button)
     local w = (Minimap:GetWidth() / 2) + 5;
     local h = (Minimap:GetHeight() / 2) + 5;
     if quadTable[q] then
-        x, y = x*w, y*h;
+        x, y = x * w, y * h;
     else
-        local diagRadius = 103.13708498985; --math.sqrt(2*(80)^2)-10
-        x = math.max(-w, math.min(x*diagRadius, w));
-        y = math.max(-h, math.min(y*diagRadius, h));
+        local diagRadiusW = math.sqrt(2 * w ^ 2) - 10;
+        local diagRadiusH = math.sqrt(2 * h ^ 2) - 10;
+        x = math.max(-w, math.min(x * diagRadiusW, w));
+        y = math.max(-h, math.min(y * diagRadiusH, h));
     end
     button:SetPoint("CENTER", Minimap, "CENTER", x, y);
 end
@@ -5392,6 +5509,12 @@ function wl_OnUpdate(self, elapsed)
 
                 elseif name == "scanAppearances" then
                     wlScanAppearancesStep();
+
+                elseif name == "scanVignette" then
+                    wlScanVignette();
+
+                elseif name == "updateMiniMap" then
+                    wlUpdateMiniMapButtonPosition(_G['wlMinimapButton']);
 
                 end
             end
@@ -6302,7 +6425,7 @@ function wlHook()
     wlDefaultConsoleExec = ConsoleExec;
     ConsoleExec = wlConsoleExec;
 
-    hooksecurefunc("UseItemByName", function(name, target)
+    hooksecurefunc(C_Item, "UseItemByName", function(name, target)
         if not target then
             wlBagItemOnUse(wlSelectOne(2, GetItemInfo(name)));
         end

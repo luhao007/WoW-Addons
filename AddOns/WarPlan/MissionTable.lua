@@ -1,5 +1,6 @@
 local _, T = ...
 local EV, W, L, C, CreateObject = T.Evie, T.WrappedAPI, T.L, C_Garrison, T.CreateObject
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local manualMemberSet, manualMemberCount = {}, 0
 local function toggleFollowerFocus(followerID, removeOnly, audible)
@@ -72,7 +73,7 @@ local function ConfigureReward(w, rew, isOvermax, pw)
 	if rew.icon then
 		w.Icon:SetTexture(rew.icon)
 	elseif rew.itemID then
-		w.Icon:SetTexture(GetItemIcon(rew.itemID))
+		w.Icon:SetTexture(C_Item.GetItemIconByID(rew.itemID))
 	end
 	if rew.currencyID then
 		w.RarityBorder:SetAtlas("loottoast-itemborder-gold")
@@ -83,7 +84,7 @@ local function ConfigureReward(w, rew, isOvermax, pw)
 			local ci = C_CurrencyInfo.GetCurrencyContainerInfo(rew.currencyID, rew.quantity)
 			if ci then
 				w.Icon:SetTexture(ci.icon)
-				tooltipTitle = (ci.quality and "|c" .. (select(4,GetItemQualityColor(ci.quality)) or "ff00ffff") or "") .. ci.name
+				tooltipTitle = (ci.quality and "|c" .. (select(4, C_Item.GetItemQualityColor(ci.quality)) or "ff00ffff") or "") .. ci.name
 				tooltipText = NORMAL_FONT_COLOR_CODE .. (ci.description or "")
 				local lb = LOOT_BORDER_BY_QUALITY[ci.quality]
 				if lb then
@@ -94,7 +95,7 @@ local function ConfigureReward(w, rew, isOvermax, pw)
 		end
 	elseif rew.itemID then
 		q = rew.quantity == 1 and "" or rew.quantity or ""
-		local _,_,r = GetItemInfo(rew.itemID)
+		local r = C_Item.GetItemQualityByID(rew.itemID)
 		w.RarityBorder:SetAtlas(
 			((r or 2) <= 2) and "loottoast-itemborder-green"
 			or r == 3 and "loottoast-itemborder-blue"
@@ -422,6 +423,7 @@ local function syncUI()
 		cn = cn + 1
 	end
 	TaskBoard.List.numMissions = cn-1
+	TaskBoard.NoMissionsLabel:SetShown(cn == 1)
 	for i=cn,#Missions do
 		Missions[i]:Hide()
 	end
@@ -484,9 +486,11 @@ function EV:I_LOAD_MAINUI()
 	local frame = CreateObject("MissionTable", "WarPlanFrame")
 	frame:RegisterEvent("GARRISON_MISSION_LIST_UPDATE")
 	frame:RegisterEvent("GARRISON_MISSION_FINISHED")
-	frame:SetScript("OnShow", function()
+	frame:SetScript("OnShow", function(self)
 		BFAMissionFrame:Hide()
 		PlaySound(SOUNDKIT.UI_GARRISON_COMMAND_TABLE_OPEN)
+		local sw, pw = self:GetWidth(), UIParent:GetWidth()
+		self:SetScale(sw > pw and pw/sw or 1)
 		syncUI()
 	end)
 	frame:SetScript("OnHide", function(self)
@@ -581,7 +585,7 @@ function EV:I_LOAD_MAINUI()
 	function EV:I_ABILITY_BONUS_LOOT(_mid, packedRewardInfo)
 		local text, rk, tid, quant, ico = "", W.UnpackHistoryReward(packedRewardInfo)
 		if rk == "item" then
-			text = select(2,GetItemInfo(tid)) or ""
+			text = select(2, C_Item.GetItemInfo(tid)) or ""
 		end
 		if quant > 1 and text ~= "" then
 			text = quant .. " " .. text

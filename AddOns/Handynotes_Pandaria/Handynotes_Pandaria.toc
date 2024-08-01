@@ -1,0 +1,39 @@
+## Interface: 110000
+## Author: syndenbock
+## Version: 1.8
+## RequiredDeps: HandyNotes
+## OptionalDeps: TomTom
+## SavedVariables: HandyNotes_Pandaria_savedData
+
+## Title: Handynotes Pandaria
+## Notes: Shows locations of treasures and rares in Pandaria
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C潘达利亚|r
+
+## X-Curse-Project-ID: 352950
+## X-Part-Of: HandyNotes
+
+# addon files
+HandyNotes_Pandaria.lua
+
+# core files
+core\Utils.lua
+core\Events.lua
+core\EventFunnel.lua
+core\Yell.lua
+
+# data files
+data\nodes.lua
+data\rares.lua
+data\treasures.lua
+data\achievements.lua
+
+# modules
+modules\savedData.lua
+modules\node_hiding.lua
+modules\data_parsing.lua
+modules\node_validation.lua
+modules\handynotes_integration.lua
+
+# tools
+# tools\convert.lua
+# tools\datacheck.lua

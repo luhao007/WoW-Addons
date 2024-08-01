@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "heroic,mythic,challenge"
 
-mod:SetRevision("20220610054416")
+mod:SetRevision("20231117105343")
 mod:SetCreatureID(98207)
 mod:SetEncounterID(1826)
 mod:SetUsedIcons(2, 1)
@@ -28,7 +28,6 @@ local warnWeb					= mod:NewTargetAnnounce(200284, 3)
 
 local specWarnBlink				= mod:NewSpecialWarningRun(199811, nil, nil, nil, 4, 2)
 local yellBlink					= mod:NewYell(199811, nil, false)
-local specWarnBlinkNear			= mod:NewSpecialWarningClose(199811, nil, nil, nil, 1, 2)
 local specWarnVenomGTFO			= mod:NewSpecialWarningMove(200040, nil, nil, nil, 1, 2)
 
 local timerBlinkCD				= mod:NewNextTimer(30, 199811, nil, nil, nil, 3)
@@ -46,6 +45,15 @@ function mod:OnCombatStart(delay)
 	timerWebCD:Start(35-delay)
 end
 
+function mod:SPELL_CAST_START(args)
+	local spellId = args.spellId
+	if spellId == 200227 then
+		timerWebCD:Start()
+	elseif spellId == 200024 and self:AntiSpam(5, 3) then
+		timerVenomCD:Start()
+	end
+end
+
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 200284 then
@@ -60,15 +68,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 200284 and self.Options.SetIconOnWeb then
 		self:SetIcon(args.destName, 0)
-	end
-end
-
-function mod:SPELL_CAST_START(args)
-	local spellId = args.spellId
-	if spellId == 200227 then
-		timerWebCD:Start()
-	elseif spellId == 200024 and self:AntiSpam(5, 3) then
-		timerVenomCD:Start()
 	end
 end
 
@@ -100,9 +99,6 @@ function mod:UNIT_SPELLCAST_CHANNEL_START(uId, _, spellId)
 			specWarnBlink:Show()
 			specWarnBlink:Play("runaway")
 			yellBlink:Yell()
-		elseif self:CheckNearby(5, targetname) and self:AntiSpam(2.5, 2) then
-			specWarnBlinkNear:Show(targetname)
-			specWarnBlinkNear:Play("runaway")
 		else
 			warnBlink:Show(targetname)
 		end

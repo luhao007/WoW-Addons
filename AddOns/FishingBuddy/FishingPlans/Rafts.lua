@@ -1,14 +1,17 @@
 -- Items
 --
 -- Handle using items with complex requirements.
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
 local FL = LibStub("LibFishing-1.0");
 
-local GSB = FishingBuddy.GetSettingBool;
-local PLANS = FishingBuddy.FishingPlans
+local GSB = function(...) return FBI:GetSettingBool(...); end;
+local PLANS = FBI.FishingPlans
 
 local CurLoc = GetLocale();
 
@@ -17,42 +20,7 @@ local RAFT_ID = 85500;
 local BERG_ID = 107950;
 local BOARD_ID = 166461;
 
-local RaftItems = {};
-RaftItems[RAFT_ID] = {
-    ["enUS"] =  "Angler's Fishing Raft",
-    spell = 124036,
-    setting = "UseAnglersRaft",
-    toy = 1,
-};
-RaftItems[BERG_ID] = {
-    ["enUS"] = "Bipsi's Bobbing Berg",
-    spell = 152421,
-    setting = "UseBobbingBerg",
-};
-RaftItems[BOARD_ID] = {
-    ["enUS"] = "Gnarlwood Waveboard",
-    spell = 288758,
-    setting = "UseWaveboard",
-    toy = 1
-}
-
-
-local function HaveRaftBuff()
-    return FL:HasBuff(RaftItems[RAFT_ID].spell);
-end
-
-local function HaveBergBuff()
-    return FL:HasBuff(RaftItems[BERG_ID].spell);
-end
-
-local function HaveBoardBuff()
-    return FL:HasBuff(RaftItems[BOARD_ID].spell);
-end
-
-local function HasRaftBuff()
-    return HaveRaftBuff() or HaveBergBuff() or HaveBoardBuff()
-end
-FishingBuddy.HasRaftBuff = HasRaftBuff
+local RaftItems = FBI.RaftItems;
 
 -- have to check this because C_ToyBox.IsToyUsable(RAFT_ID) also
 -- checks for revered, which is only necesssar to buy the raft.
@@ -73,23 +41,22 @@ local function HaveBerg()
     return GetItemCount(BERG_ID) > 0;
 end
 
-local function HaveRafts()
+function FBI:HaveRafts()
     local haveRaft = HaveRaft();
     local haveBoard = HaveWaveboard();
     local haveBerg = HaveBerg();
     return (haveRaft or haveBerg or haveBoard), haveRaft, haveBoard, haveBerg
 end
-FishingBuddy.HaveRafts = HaveRafts
 
 local function SetupRaftOptions()
-    local haveAny = HaveRafts();
+    local haveAny = FBI:HaveRafts();
     local options = {};
     -- if we have both, be smarter about rafts
     options["UseRaft"] = {
         ["tooltip"] = FBConstants.CONFIG_USERAFTS_INFO,
         ["tooltipd"] = FBConstants.CONFIG_USERAFTS_INFOD,
         ["text"] = FBConstants.CONFIG_USERAFTS_ONOFF,
-        ["enabled"] = HaveRafts;
+        ["enabled"] = function(...) return FBI:HaveRafts(); end;
         ["v"] = 1,
         ["default"] = true
     };
@@ -126,9 +93,9 @@ local function RaftBergUsable()
 end
 
 local function RaftingPlan(queue)
-    local haveAny, haveRaft, haveBoard, haveBerg = HaveRafts()
+    local haveAny, haveRaft, haveBoard, haveBerg = FBI:HaveRafts()
     if (haveAny and RaftBergUsable()) then
-        local hasraftbuff = HasRaftBuff();
+        local hasraftbuff = FBI:HasRaftBuff();
 
         local need = not hasraftbuff;
 
@@ -169,19 +136,19 @@ end
 
 local RaftEvents = {}
 RaftEvents[FBConstants.FIRST_UPDATE_EVT] = function()
-    FishingBuddy.SetupSpecialItems(RaftItems, false, true, true)
+    FBI:SetupSpecialItems(RaftItems, false, true, true)
     local options = SetupRaftOptions();
-    FishingBuddy.raftoptions = options
+    FBI.raftoptions = options
     if options then
-        FishingBuddy.AddFluffOptions(options);
+        FBI:AddFluffOptions(options);
         PLANS:RegisterPlan(RaftingPlan)
     end
 end
 
-FishingBuddy.RegisterHandlers(RaftEvents);
+FBI:RegisterHandlers(RaftEvents);
 
-FishingBuddy.Commands["raft"] = {};
-FishingBuddy.Commands["raft"].func =
+FBI.Commands["raft"] = {};
+FBI.Commands["raft"].func =
     function()
         local skill, _, _, _ = FL:GetContinentSkill(FBConstants.PANDARIA);
         FishingBuddy_Info["RaftDebug"] = {

@@ -1,361 +1,322 @@
--- this handles just the UI of the leveling queue; QueueProcess.lua handles the backend stuff
+local _,rematch = ...
+local L = rematch.localization
+local C = rematch.constants
+local settings = rematch.settings
+rematch.queuePanel = rematch.frame.QueuePanel
+rematch.frame:Register("queuePanel")
 
-local _,L = ...
-local rematch = Rematch
-local panel = RematchQueuePanel
-local settings, saved, queue
+local queueIndexes = {} -- for autoscrollbox, list of numeric indexes into settings.LevelingQueue
 
--- icons and text used to describe each sort order
-panel.sortInfo = {
-	{ "Interface\\Icons\\misc_arrowlup", L["Ascending Level"] }, -- 1=ascending
-	{ "Interface\\Icons\\misc_arrowdown", L["Descending Level"] }, -- 2=descending
-	{ "Interface\\Icons\\Ability_Hunter_FocusedAim", L["Median Level"] }, -- 3=median
---	{ "Interface\\Icons\\Icon_UpgradeStone_Beast_Uncommon", L["Type"] }, -- 4=type
-}
+rematch.events:Register(rematch.queuePanel,"PLAYER_LOGIN",function(self)
+    self.Top.QueueButton:SetText(L["Queue"])
 
-rematch:InitModule(function()
-	rematch.QueuePanel = panel
-	settings = RematchSettings
-	saved = RematchSaved
-	queue = settings.LevelingQueue
+    -- in case something weird happens, set sort order to default ascending
+    if settings.QueueSortOrder~=C.QUEUE_SORT_ASC and settings.QueueSortOrder~=C.QUEUE_SORT_DESC and settings.QueueSortOrder~=C.QUEUE_SORT_MID then
+        settings.QueueSortOrder = C.QUEUE_SORT_ASC
+    end
+    self.showingActiveSort = -1 -- ensure this is different than QueueActiveSort on first update
 
-	panel.Top.QueueButton:SetText(L["Queue"])
-   
-	local scrollFrame = panel.List
-	scrollFrame.template = settings.SlimListButtons and "RematchCompactPetListButtonTemplate" or "RematchNewPetListButtonTemplate"
-	scrollFrame.templateType = "RematchCompositeButton"
-	scrollFrame.list = queue
-	scrollFrame.callback = rematch.FillNewPetListButton
-	scrollFrame.postUpdateFunc = panel.PostUpdateFunc	
+    self.List:Setup({
+        allData = queueIndexes,
+        normalTemplate = "RematchNormalQueueListButtonTemplate",
+        normalFill = self.FillNormal,
+        normalHeight = 44,
+        compactTemplate = "RematchCompactQueueListButtonTemplate",
+        compactFill = self.FillCompact,
+        compactHeight = 26,
+        isCompact = settings.CompactQueueList,
+        selects = {
+            PetCard = {color={0.33,0.66,1}, parentKey="Back", padding=0, drawLayer="ARTWORK"},
+            Moving = {color={0,0,0,0.65}, tint=true, drawLayer="ARTWORK"}
+        },
+        onScroll = function(self,percent) if not rematch.menus:IsMenuOpen("PetFilterMenu") and not rematch.menus:IsMenuOpen("QueueMenu") then rematch.menus:Hide() end end
+    })
 
-	-- setup list scrollframe
-	-- local scrollFrame = panel.List.ScrollFrame
-	-- scrollFrame.update = panel.UpdateList
-	-- scrollFrame.scrollBar.doNotHide = true
-	-- scrollFrame.stepSize = 264 -- 44*6 or 6 rows
-
-	-- if settings.SlimListButtons then
-	-- 	HybridScrollFrame_CreateButtons(scrollFrame,"RematchSlimPetListButtonTemplate",28,-1)
-	-- else
-	-- 	HybridScrollFrame_CreateButtons(scrollFrame,"RematchPetListButtonTemplate",44,0)
-	-- end
-
-	-- for _,button in ipairs(scrollFrame.buttons) do
-	-- 	button.forQueuePanel = true
-	-- end
-
-	settings.QueueSortOrder = settings.QueueSortOrder or 1
-
-	local queueHelp = L["This is the leveling queue. Drag pets you want to level here.\n\nRight click any of the three battle pet slots and choose 'Put Leveling Pet Here' to mark it as a leveling slot you want controlled by the queue.\n\nWhile a leveling slot is active, the queue will fill the slot with the top-most pet in the queue. When this pet reaches level 25 (gratz!) it will leave the queue and the next pet in the queue will take its place.\n\nTeams saved with a leveling slot will reserve that slot for future leveling pets."]
-	panel.List.Help:SetText(queueHelp)
-
-	rematch:RegisterMenu("QueueMenu", { -- menu for Queue button in topright of panel
-		{ text=L["Sort by:"], highlight=true, disabled=true },
-		{ text=panel.sortInfo[1][2], icon=panel.sortInfo[1][1], radio=panel.GetActiveSort, index=1, value=panel.IsQueueSort, func=panel.SetQueueSort, tooltipBody=L["Sort all pets in the queue from level 1 to level 24."] },
-		{ text=panel.sortInfo[3][2], icon=panel.sortInfo[3][1], radio=panel.GetActiveSort, index=3, value=panel.IsQueueSort, func=panel.SetQueueSort, tooltipBody=L["Sort all pets in the queue for levels closest to 10.5."] },
-		{ text=panel.sortInfo[2][2], icon=panel.sortInfo[2][1], radio=panel.GetActiveSort, index=2, value=panel.IsQueueSort, func=panel.SetQueueSort, tooltipBody=L["Sort all pets in the queue from level 24 to level 1."] },
---		{ text=panel.sortInfo[4][2], icon=panel.sortInfo[4][1], radio=panel.GetActiveSort, index=4, value=panel.IsQueueSort, func=panel.SetQueueSort, tooltipBody=L["Sort all pets in the queue by their types."] },
-		{ spacer=true },
-		{ text=L["Favorites First"], icon="Interface\\Icons\\Achievement_GuildPerk_MrPopularity", check=panel.GetActiveSort, value=function() return settings.QueueSortFavoritesFirst end, func=panel.SetFavoritesFirst, tooltipBody=L["Group favorites to the top of the queue."] },
-		{ text=L["Rares First"], icon="Interface\\Icons\\Icon_UpgradeStone_Rare", check=panel.GetActiveSort, value=function(self) return settings.QueueSortRaresFirst end, func=panel.SetRaresFirst, tooltipBody=L["Group rares to the top of the leveling queue."] },
-		{ spacer=true },
-		{ text=L["Active Sort"], check=true, value=panel.GetActiveSort, func=panel.SetActiveSort, tooltipBody=L["The queue will stay sorted in the order chosen. The order of pets may automatically change as they gain xp or get added/removed from the queue.\n\nYou cannot manually change the order of pets while the queue is actively sorted."] },
-		{ text=L["Pause Preferences"], check=true, value=panel.GetQueueNoPreferences, func=panel.SetQueueNoPreferences, tooltipBody=L["Suspend all preferred loading of pets from the queue, except for pets that can't load."] },
-		{ spacer=true },
-		{ text=L["Fill Queue"], func=function() panel:ShowFillQueueDialog() end, tooltipBody=L["Fill the leveling queue with one of each version of a pet that can level from the filtered pet list, and for which you don't have a level 25 or one in the queue already."] },
-		{ text=L["Fill Queue More"], func=function() panel:ShowFillQueueDialog(true) end, tooltipBody=L["Fill the leveling queue with one of each version of a pet that can level from the filtered pet list, regardless whether you have any at level 25 or one in the queue already."] },
-		{ text=L["Empty Queue"], tooltipBody=L["Remove all leveling pets from the queue."], func=function()
-				local dialog = rematch:ShowDialog("EmptyQueue",300,116,L["Empty Queue"],nil,YES,panel.EmptyQueue,NO)
-				dialog:ShowText(L["Are you sure you want to remove all pets from the leveling queue?"],220,40,"TOP",0,-36)
-			end },
-		{ spacer=true },
-		{ text=L["Help"], stay=true, hidden=function() return settings.HideMenuHelp end, icon="Interface\\Common\\help-i", iconCoords={0.15,0.85,0.15,0.85}, tooltipTitle=L["Leveling Queue"], tooltipBody=queueHelp },
-		{ text=OKAY },
-	},rematch.UpdateQueue)
-
-	panel.Status.Clear.tooltipTitle = L["No Active Sort"]
-	panel.Status.Clear.tooltipBody = format(L["Turn off Active Sort. Queued pets can then be rearranged and will not automatically reorder themselves.\n\nTo turn Active Sort back on, check %sActive Sort\124r in the Queue menu."],rematch.hexWhite)
+    self.List.Help:SetText(L["This is the leveling queue. Drag pets you want to level here.\n\nRight click any of the three battle pet slots and choose 'Put Leveling Pet Here' to mark it as a leveling slot you want controlled by the queue.\n\nWhile a leveling slot is active, the queue will fill the slot with the top-most pet in the queue. When this pet reaches level 25 (gratz!) it will leave the queue and the next pet in the queue will take its place.\n\nTeams saved with a leveling slot will reserve that slot for future leveling pets."])
 
 end)
 
--- callback that runs after the petlist is updated
-function panel:PostUpdateFunc()
-	local petCard = rematch.PetCard
-	local focus = GetMouseFocus()
-	-- if pet card is up and it's different than pet under the mouse, update the pet card
-	-- (so pet card changes during mousewheel scroll)
-	if petCard:IsVisible() and focus and focus.petID and focus.petID~=petCard.petID then
-		rematch:ShowPetCard(self,focus.petID)
-	end
-	-- show instructions "This is the leveling queue. Drag pets here..etc." if queue is empty
-	panel.List.Help:SetShown(#queue==0 and not rematch.MiniQueue:IsVisible())
+function rematch.queuePanel:Update()
+    self.Top.Label:SetText(format(L["Leveling Pets: %s%d"],C.HEX_WHITE,#settings.LevelingQueue))
+
+    if settings.PreferencesPaused then -- if preferences paused, red X version of blue gear icon
+        self.PreferencesFrame.PreferencesButton:SetIcon("Interface\\AddOns\\Rematch\\textures\\badges-borderless",0.87890625,0.99609375,0.12890625,0.24609375)
+    else -- preferences are not paused, regular blue gear icon
+        self.PreferencesFrame.PreferencesButton:SetIcon("Interface\\AddOns\\Rematch\\textures\\badges-borderless",0.75390625,0.87109375,0.12890625,0.24609375)
+    end
+
+    -- minor reconfiguration if gaining/losing active sort: show/hide status bar
+    if self.showingActiveSort~=settings.QueueActiveSort then
+        if settings.QueueActiveSort then
+            self.StatusBar:Show()
+            self.List:SetPoint("TOPLEFT",self.StatusBar,"BOTTOMLEFT",0,-2)
+        else
+            self.StatusBar:Hide()
+            self.List:SetPoint("TOPLEFT",self.PreferencesFrame,"BOTTOMLEFT",0,-2)
+        end
+        self.showingActiveSort = settings.QueueActiveSort
+    end
+    -- if active sort enabled, update to display which sort
+    if settings.QueueActiveSort then
+        local sortText,sortIcon
+        if settings.QueueSortOrder==C.QUEUE_SORT_ASC then
+            sortText = L["Ascending Level"]
+            sortIcon = rematch.utils:GetBadgeAsText(24,18)
+        elseif settings.QueueSortOrder==C.QUEUE_SORT_DESC then
+            sortText = L["Descending Level"]
+            sortIcon = rematch.utils:GetBadgeAsText(26,18)
+        elseif settings.QueueSortOrder==C.QUEUE_SORT_MID then
+            sortText = L["Median Level"]
+            sortIcon = rematch.utils:GetBadgeAsText(25,18)
+        end
+        if sortText and sortIcon then
+            self.StatusBar.Text:SetText(format(L["Active Sort:  %s %s%s"],sortIcon,C.HEX_WHITE,sortText))
+        end
+    end
+
+    -- update queue
+    rematch.queue:Update()
+
+    -- if queue size has changed, recreated indexes
+    if #queueIndexes ~= #settings.LevelingQueue then
+        wipe(queueIndexes)
+        for i=1,#settings.LevelingQueue do
+            tinsert(queueIndexes,i)
+        end
+    end
+
+    self:UpdateGlow(true) -- true to skip refresh since about to do an Update
+
+    -- update autoscrollbox list
+    self.List:Update()
+    -- show help text if queue is empty and Hide Extra Help disabled
+    self.List.Help:SetShown(#settings.LevelingQueue==0 and not settings.HideMenuHelp)
+
+    -- if any queue-related dialog is on screen when queue updates, close it in case indexes change
+    self:CloseQueueDialogs()
+
 end
 
-------------------
-
-function panel:Update()
-	if panel:IsVisible() then
-		panel:UpdateTop()
-		panel.List:Update()
-	end
+function rematch.queuePanel:UpdateGlow(skipRefresh)
+    -- show GlowFrame is a pet is on cursor
+    local petID,canLevel = rematch.utils:GetPetCursorInfo(true)
+    self.List.GlowFrame:SetShown(canLevel)
+    self.List:Select("Moving",rematch.queue:GetPetIndex(petID),skipRefresh)
 end
 
---[[ Leveling Slot ]]
-
--- this is called by the DropButton's click on receivedrag, to place a leveling pet in the top slot
--- note: this is still used in several places, do not remove
-function panel:LevelingSlotReceiveDrag(index)
-	if index then
-		local petID = rematch:GetCursorPet()
-		if rematch:PetCanLevel(petID) then
-			if rematch:IsPetLeveling(petID) and settings.QueueActiveSort then
-				local dialog = rematch:ShowDialog("CancelActiveSort",300,196,L["Turn Off Active Sort?"],nil,YES,function(self) settings.QueueActiveSort=nil panel:LevelingSlotReceiveDrag(index) end,NO)
-				dialog:ShowText(L["This pet is already in the queue and Active Sort is enabled.\n\nWhile enabled, the queue has complete control over the order of pets in the queue.\n\nDo you want to turn off Active Sort to move this pet in the queue?"],260,122,"TOP",0,-32)
-			else
-				rematch:InsertPetToQueue(index,petID)
-				ClearCursor()
-				panel:BlingPetID(petID)
-			end
-		end
-	end
+function rematch.queuePanel:OnShow()
+    rematch.events:Register(self,"REMATCH_TEAM_LOADED",self.Update,self)
+    rematch.events:Register(self,"REMATCH_PET_PICKED_UP_ON_CURSOR",self.REMATCH_PET_PICKED_UP_ON_CURSOR,self)
+    rematch.events:Register(self,"REMATCH_PET_DROPPED_FROM_CURSOR",self.REMATCH_PET_DROPPED_FROM_CURSOR,self)
+    self:CloseQueueDialogs()
+    self:UpdateGlow()
 end
 
--- flashes the given petID in the queue
-function panel:BlingPetID(petID)
-	for queueIndex,queuedPetID in ipairs(queue) do
-		if queuedPetID==petID then
-			panel.List:BlingIndex(queueIndex)
-			return
-		end
-	end
+function rematch.queuePanel:OnHide()
+    rematch.events:Unregister(self,"REMATCH_TEAM_LOADED")
+    rematch.events:Unregister(self,"REMATCH_PET_PICKED_UP_ON_CURSOR")
+    rematch.events:Unregister(self,"REMATCH_PET_DROPPED_FROM_CURSOR")
+    self:CloseQueueDialogs()
 end
 
--- this is actually an OnUpdate for the DropButton; to show/hide the child InsertLine
--- which is a child of DropButton.  While the DropButton is up, it constantly checks if
--- the mouse is over the scrollframe.  If so, it positions InsertLine (an invisible frame)
--- over the mouse to intercept clicks and positions a texture child of InsertLine onto
--- the button the pet would insert to.  Clicking InsertLine under the mouse will trigger
--- an InsertLevelingPet at that index.
-function panel:InsertLineOnUpdate(elapsed)
-	local insertLine = self.InsertLine
-	local scrollFrame = rematch.QueuePanel.List.ScrollFrame -- DropButton:GetParent().List.ScrollFrame
-
-	panel.DropButton.SlotBorder:Hide()
-	panel.DropButton:ClearAllPoints()
-
-	if not MouseIsOver(scrollFrame) then
-		insertLine:Hide() -- not over the scrollframe, hide the insert frame/line
-		return
-	end
-	-- we're over the scrollframe, first position the mouse-intercepting insertLine frame below mouse
-	local x,y = GetCursorPosition()
-	local scale = insertLine:GetEffectiveScale()
-	insertLine:SetPoint("CENTER",UIParent,"BOTTOMLEFT",x/scale,y/scale)
-
-	-- adjust width of pulsing line to the buttons it will be displayed between
-	insertLine.Texture:SetWidth(panel.List:GetButtonWidth()-6)
-
-	if panel.List:IsOverEmptyArea() then
-		insertLine.index = -1 -- if so can mark index to -1 to add to queue and leave
-		if #queue>0 then
-			insertLine.Texture:SetPoint("CENTER",scrollFrame.Buttons[#queue],"BOTTOM")
-			insertLine.Texture:Show()
-		else
-			insertLine.Texture:Hide()
-		end
-		insertLine:Show()
-		return
-	end
-
-	-- now go through each button and see if we're over that button (can't GetMouseFocus() since
-	-- mouse is intercepted) to know where to put the line texture
-	insertLine.index = nil -- will be index to insert if applicable
-	for i,button in ipairs(scrollFrame.Buttons) do
-		local relativeTo
-		local isVisible = button:IsVisible()
-		if MouseIsOver(button) or (button.Pet and MouseIsOver(button.Pet)) or (button.Icon and MouseIsOver(button.Icon)) then
-			if abs(y/scale-button:GetTop())<(panel.List.buttonHeight/2) then -- if cursor is closer to top of button
-				relativeTo = "TOP" -- anchor line there
-				insertLine.index = button.index -- and set its index to this button
-			else -- if cursor is closer to bottom of button
-				relativeTo = "BOTTOM" -- anchor line to bottom
-				insertLine.index = button.index + 1 -- and set its index to the next button
-			end
-			-- now position the line texture itself relative to the button it's over instead of the parent insertLine
-			insertLine.Texture:SetPoint("CENTER",button,relativeTo)
-			-- before leaving, make sure line isn't above or below scrollframe (button is partially displayed)
-			if (relativeTo=="TOP" and button:GetTop()>scrollFrame:GetTop()+6) or (relativeTo=="BOTTOM" and button:GetBottom()<scrollFrame:GetBottom()-6) then
-				insertLine.index = nil -- prevent insertLine from being clickable (it checks for index)
-				insertLine.Texture:Hide()
-				insertLine:Show() -- going to keep insertLine up to intercept clicks
-				return -- and leave early
-			else
-				insertLine.Texture:Show() -- everything ok, display the line
-			end
-			break
-		end
-	end
-	insertLine:SetShown(insertLine.index and true)
+-- we need to be a little careful that dialogs don't remain on the screen when the queue indexes can be changing
+function rematch.queuePanel:CloseQueueDialogs()
+    local openDialog = rematch.dialog:GetOpenDialog()
+    if openDialog=="StopActiveSort" or openDialog=="RemoveFromQueue" or openDialog=="FillQueue" or openDialog=="EmptyQueue" then
+        rematch.dialog:HideDialog()
+    end
 end
 
---[[ queue menu ]]
-
-function panel:GetActiveSort() return settings.QueueActiveSort and true end
-function panel:SetActiveSort(_,checked)
-	settings.QueueActiveSort = not checked
-	settings.QueueSortOrder = settings.QueueSortOrder or 1
-	rematch:ShowMenu("QueueMenu","TOPLEFT",panel.Top.QueueButton,"TOPRIGHT")
-end
-function panel:IsQueueSort() return settings.QueueSortOrder==self.index end
-function panel:SetQueueSort()
-	settings.QueueSortOrder = self.index
-	rematch:HideMenu()
-	rematch:SortQueue()
-end
-function panel:EmptyQueue() wipe(queue) rematch:UpdateQueue() end
-function panel:GetQueueNoPreferences() return settings.QueueNoPreferences end
-function panel:SetQueueNoPreferences(_,checked) settings.QueueNoPreferences = not checked end
-function panel:SetFavoritesFirst(_,checked)
-	if settings.QueueActiveSort then
-		settings.QueueSortFavoritesFirst = not checked
-	else
-		rematch:StableSortQueue("favorites")
-	end
-end
-function panel:SetRaresFirst(_,checked)
-	if settings.QueueActiveSort then
-		settings.QueueSortRaresFirst = not checked
-	else
-		rematch:StableSortQueue("rares")
-	end
+-- autoscrollbox fill
+function rematch.queuePanel:FillNormal(index)
+    local info = settings.LevelingQueue[index]
+    if info then
+        --self.forQueue = true
+        local notPreferred = not rematch.preferences:IsPetPreferred(info.petID)
+        self:Fill(info.petID,notPreferred)
+        self:SetAlpha(notPreferred and 0.65 or 1)
+    end
 end
 
--- for the queue list, when pets are skipped they're dimmed by desaturating/darkening textures and fonts
-function rematch:DimQueueListButton(button,dim)
-	dim = dim and true -- convert nil to false
-	local v = dim and 0.4 or 1
-	if button.compact then -- compact format button
-		button.LevelText:SetTextColor(v,v,v)
-		button.Pet:SetDesaturated(dim)
-		button.Pet:SetVertexColor(v,v,v)
-		button.Breed:SetTextColor(v,v,v)
-		button.TypeDecal:SetDesaturated(dim)
-		button.TypeDecal:SetVertexColor(v,v,v)
-		button.Favorite:SetDesaturated(dim)
-		button.Favorite:SetVertexColor(v,v,v)
-		button.Notes:SetDesaturated(dim)
-		button.Notes:SetVertexColor(v,v,v)
-		if dim then
-			button.Name:SetTextColor(v,v,v)
-			button.Back:SetVertexColor(0.15,0.15,0.15)
-		end
-	else -- standard format
-		if dim then
-			button.Name:SetTextColor(v,v,v)
-			button.SubName:SetTextColor(v,v,v)
-			button.LevelText:SetTextColor(v,v,v)
-			button.Breed:SetTextColor(v,v,v)
-			-- we don't want to mess with desaturation of rarity borders; replace with default slot border
-			button.Rarity:SetVertexColor(v,v,v)
-		else -- not dimmed, put everything back to normal
-			-- button.Name is colored in FillPetListButton (preserve rarity coloring if enabled)
-			button.SubName:SetTextColor(1,1,1)
-			button.LevelText:SetTextColor(1,0.82,0)
-			button.Breed:SetTextColor(0.9,0.9,0.9)
-		end
-		button.Pet:SetDesaturated(dim)
-		button.Pet:SetVertexColor(v,v,v)
-		button.Favorite:SetDesaturated(dim)
-		button.Favorite:SetVertexColor(v,v,v)
-		button.LevelBack:SetDesaturated(true)
-		button.LevelBack:SetVertexColor(v,v,v)
-		button.TypeDecal:SetDesaturated(dim)
-		button.TypeDecal:SetVertexColor(v,v,v)
-	end
+-- autoscrollbox fill
+function rematch.queuePanel:FillCompact(index)
+    local info = settings.LevelingQueue[index]
+    if info then
+        --self.forQueue = true
+        local notPreferred = not rematch.preferences:IsPetPreferred(info.petID)
+        self:Fill(info.petID,notPreferred)
+        self:SetAlpha(notPreferred and 0.65 or 1)
+    end
 end
 
--- regardless whether in journal, mini panel or tabbed frame, go to a queue tab
--- if petID is given, go to the petID
-function rematch:ShowQueue(petID)
-	-- team panel not visible, show it
-	if not panel:IsVisible() then
-		if rematch.Frame:IsVisible() then
-			settings.Minimized = nil
-			settings.ActivePanel = 3
-			rematch.Frame:ConfigureFrame()
-		elseif rematch.Journal:IsVisible() then
-			settings.JournalPanel = 2
-			rematch:SelectPanelTab(rematch.Journal.PanelTabs,2)
-			rematch.Journal:ConfigureJournal()
-		else
-			return -- neither frame or journal on screen
-		end
-	end
-	-- if key provided, scroll to team (which should be on the team panel workingList at this point)
-	if petID then
-		local index
-		for i=1,#queue do
-			if queue[i]==petID then
-				index = i
-			end
-		end
-		if index then
-			panel.List:ScrollToIndex(index)
-			panel.List:BlingIndex(index)
-		end
-	end
+-- click of preferences button in topleft to edit or pause preferences for the loaded team
+function rematch.queuePanel.PreferencesFrame.PreferencesButton:OnClick(button)
+    if button=="RightButton" then -- right click pauses/unpauses preferences
+        rematch.preferences:TogglePause()
+    else -- left click opens current preferences dialog to change preferences
+        local teamID = settings.currentTeamID
+        local groupID = teamID and rematch.savedTeams[teamID] and rematch.savedTeams[teamID].groupID
+        rematch.dialog:ToggleDialog("CurrentPreferences",{teamID=teamID,groupID=groupID})
+    end
+end
+
+-- onenter of preferences button shows the tooltip
+function rematch.queuePanel.PreferencesFrame.PreferencesButton:OnEnter()
+    rematch.tooltip:ShowSimpleTooltip(self,L["Leveling Preferences"],rematch.preferences:GetTooltipBody())
+end
+
+-- onleave of preferences button
+function rematch.queuePanel.PreferencesFrame.PreferencesButton:OnLeave()
+    rematch.tooltip:Hide()
+end
+
+-- click of Queue button in topright to open the menu
+function rematch.queuePanel.Top.QueueButton:OnClick()
+    rematch.menus:Toggle("QueueMenu",self)
+end
+
+-- clear button on statusbar turns off active sort
+function rematch.queuePanel.StatusBar.Clear:OnClick()
+    settings.QueueActiveSort = false
+    if rematch.menus:IsMenuOpen("QueueMenu") then
+        rematch.menus:Hide()
+    end
+    rematch.queuePanel:Update()
 end
 
 
-function panel:UpdateTop()
-	-- update counter for pets in queue
-	panel.Top.Count:SetText(format(L["Leveling Pets: %s%s"],rematch.hexWhite,#queue))
-	local anchorTo = panel.Top -- what further components (Status, Preferences, List) anchor to
+--[[ queue drag and drop ]]
 
-	if settings.QueueActiveSort then
-		panel.Status:Show()
-		if settings.QueueActiveSort and panel.sortInfo[settings.QueueSortOrder] then
-			panel.Status.Text:SetText(L["Active Sort:"])
-			panel.Status.Text:SetTextColor(1,0.82,0)
-			panel.Status.Icon:SetTexture(panel.sortInfo[settings.QueueSortOrder][1])
-			panel.Status.Icon:Show()
-			panel.Status.Sort:SetText(panel.sortInfo[settings.QueueSortOrder][2])
-			panel.Status.Sort:Show()
-			panel.Status.Clear:Show()
-		end
-		anchorTo = panel.Status -- change anchorTo to this status bar
-	else
-		panel.Status:Hide()
-	end
-	local team = settings.loadedTeam and saved[settings.loadedTeam]
-	if team and rematch:ArePreferencesActive() then
-		panel.Top.Preferences:Show()
-		panel.Top.Preferences.Paused:SetShown(settings.QueueNoPreferences)
-		panel.Top.Count:SetPoint("LEFT",panel,"TOPLEFT",28,-15)
-	else
-		panel.Top.Preferences:Hide()
-		panel.Top.Count:SetPoint("LEFT",panel,"TOPLEFT",10,-15)
-	end
-	panel.List:SetPoint("TOPLEFT",anchorTo,"BOTTOMLEFT",0,-2)
+function rematch.queuePanel:REMATCH_PET_PICKED_UP_ON_CURSOR()
+    local petID,canLevel = rematch.utils:GetPetCursorInfo(true)
+    if canLevel then
+        self.List.GlowFrame:Show()
+        self.List:Select("Moving",rematch.queue:GetPetIndex(petID))
+    end
+    if rematch.dialog:GetOpenDialog()=="StopActiveSort" then
+        rematch.dialog:HideDialog()
+    end
 end
 
-function panel:ShowFillQueueDialog(more)
-	if settings.DontConfirmFillQueue then -- skip dialog and fill queue if 'Don't Confirm To Fill Queue' is checked
-		rematch:FillQueue(nil,more)
-	else
-		local dialog = rematch:ShowDialog("FillQueue",300,246,L["Fill Queue"],L["Add these pets to the queue?"],YES,function() rematch:FillQueue(nil,more) end,NO)
-		local count = rematch:FillQueue(true,more)
-		if count>50 then
-			dialog:ShowText(format(L["This will add %s%d\124r pets to the leveling queue.\n\nYou can be more selective by filtering pets.\n\nFor instance, if you filter pets to High Level (15-24) and Rare, Fill Queue will only add rare pets between level 15 and 24."],rematch.hexWhite,count),220,140,"TOP",0,-36)
-		else
-			dialog:ShowText(format(L["This will add %s%d\124r pets to the leveling queue."],rematch.hexWhite,count),260,32,"TOP",0,-36)
-			dialog:SetHeight(138)
-		end
-	end
+function rematch.queuePanel:REMATCH_PET_DROPPED_FROM_CURSOR()
+    self.List.GlowFrame:Hide()
+    self.List:Select("Moving",nil)
+    if rematch.dialog:GetOpenDialog()=="StopActiveSort" then
+        rematch.dialog:HideDialog()
+    end
 end
 
-function panel:Resize(width)
-	panel:SetWidth(width)
-	panel.Top:SetWidth(width)
-	panel.Status:SetWidth(width)
+function rematch.queuePanel.List.GlowFrame:OnShow()
+    if rematch.layout:GetMode()==1 then
+        self.GlowLine:SetWidth(C.LIST_BUTTON_WIDE_WIDTH-2)
+    else
+        self.GlowLine:SetWidth(C.LIST_BUTTON_NORMAL_WIDTH-2)
+    end
+    self.GlowLine:Hide()
+    self.GlowLine.Animation:Play()
+    rematch.queuePanel.List.CaptureButton:SetScript("OnClick",rematch.queuePanel.List.CaptureButton.OnClick)
+    rematch.queuePanel.List.CaptureButton:SetScript("OnReceiveDrag",rematch.queuePanel.List.CaptureButton.OnClick) -- same as OnClick behavior
+end
+
+function rematch.queuePanel.List.GlowFrame:OnHide()
+    rematch.queuePanel.List.CaptureButton:SetScript("OnClick",nil)
+    rematch.queuePanel.List.CaptureButton:SetScript("OnReceiveDrag",nil)
+end
+
+function rematch.queuePanel.List.GlowFrame:OnUpdate(elapsed)
+    local focus = GetMouseFoci()[1]
+    if not focus then
+        return -- while scrolling, focus becomes nil at times
+    end
+    if focus:GetObjectType()=="Texture" then
+        focus = focus:GetParent() -- for script-enabled textures, get the parent listbutton
+    end
+
+    local cursorX,cursorY = GetCursorPosition()
+    local scale = focus:GetEffectiveScale()
+    local centerX,centerY = focus:GetCenter()
+
+    local isMouseOver = MouseIsOver(self) -- is mouse over GlowFrame
+
+    self.GlowLine.direction = nil -- potentially one of C.DRAG_DIRECTION_PREV/NEXT/END
+
+    if MouseIsOver(self) then
+        if focus and focus.petID then
+            if (cursorY/scale)>centerY then -- if cursor is in top half of button, anchor to top
+                self.GlowLine:SetPoint("CENTER",focus,"TOP")
+                self.GlowLine.direction = C.DRAG_DIRECTION_PREV
+            else -- otherwise anchor to bottom of button
+                self.GlowLine:SetPoint("CENTER",focus,"BOTTOM")
+                self.GlowLine.direction = C.DRAG_DIRECTION_NEXT
+            end
+            self.GlowLine:Show()
+        elseif focus==rematch.queuePanel.List.CaptureButton then -- cursor is over capture area, anchor to top
+            self.GlowLine:SetPoint("CENTER",focus,"TOP")
+            self.GlowLine:Show()
+        end
+
+    else
+        self.GlowLine:Hide()
+    end
+end
+
+-- click of capture area adds a pet to the queue (OnReceiveDrag also uses this same function)
+function rematch.queuePanel.List.CaptureButton:OnClick()
+    local petID,canLevel = rematch.utils:GetPetCursorInfo(true)
+    if petID and canLevel then
+        rematch.queuePanel:ReceivePetID(petID,#settings.LevelingQueue+1)
+    end
+end
+
+RematchQueueListButtonMixin = {}
+
+-- click override for queue listbutton: rightbutton for menu, if a pet that can level on cursor, receive in queue, otherwise pet card click
+function RematchQueueListButtonMixin:OnClick(button)
+    local petID,canLevel = rematch.utils:GetPetCursorInfo(true)
+    if rematch.petHerder:IsTargeting() then -- targeting with pet herder takes priority on clicks
+        if button=="RightButton" then
+            rematch.dialog:Hide()
+        else
+            rematch.petHerder:HerdPetID(self.petID)
+        end
+    elseif button=="RightButton" then
+        rematch.menus:Show("QueueListMenu",self,self.petID,"cursor")
+    elseif petID and canLevel then
+        self:OnReceiveDrag()
+    else
+        rematch.cardManager:OnClick(rematch.petCard,self,self.petID)
+    end
+end
+
+-- called from OnClick too if leveling pet on mouse
+function RematchQueueListButtonMixin:OnReceiveDrag()
+    local petID,canLevel = rematch.utils:GetPetCursorInfo(true)
+    local direction = rematch.queuePanel.List.GlowFrame.GlowLine.direction
+    if petID and canLevel then
+        rematch.queuePanel:ReceivePetID(petID,self.data+max(0,direction))
+    end
+end
+
+-- for both capture button and list buttons, this puts the petID at the newIndex (moving from oldIndex if already in queue)
+function rematch.queuePanel:ReceivePetID(petID,newIndex)
+    local isActiveSort = settings.QueueActiveSort
+    local oldIndex = rematch.queue:GetPetIndex(petID) -- if already in queue, then this pet is moving from one position to another
+    if not isActiveSort and not oldIndex then
+        rematch.queue:InsertPetID(petID,newIndex) -- if not active sort and not in the queue, insert at position
+    elseif not isActiveSort and oldIndex then
+        rematch.queue:MoveIndex(oldIndex,newIndex) -- if not active sort and in the queue, move from old to new position
+    elseif isActiveSort and not oldIndex then
+        rematch.queue:InsertPetID(petID,newIndex) -- if active sort and not in the queue, simply add to queue and let it sort
+        --rematch.queue:AddPetID(petID)
+    elseif isActiveSort and oldIndex then
+        if settings.DontConfirmActiveSort then -- if Don't Ask To Stop Active Sort is enabled, can stop active sort and move right away
+            settings.QueueActiveSort = false -- if active sort and in the queue, turn off active sort and move to new position
+            rematch.queue:MoveIndex(oldIndex,newIndex)
+        else -- otherwise show a dialog and leave
+            rematch.dialog:ShowDialog("StopActiveSort",{petID=petID,newIndex=newIndex})
+            return
+        end
+    end
+    rematch.queue:BlingPetID(petID)
+    ClearCursor()
 end

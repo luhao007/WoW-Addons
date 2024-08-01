@@ -1,5 +1,8 @@
 -- Display some information about the people who helped
 -- Some information about whom to thank
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 local credits = {};
 
@@ -317,7 +320,7 @@ local function MakeCreditPanel(parent, alignment, offset)
 	panel.lines = {};
 	local point = panel
 	local where = "TOP"
-	for idx=1,3 do
+	for _=1,3 do
 		local line = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 		line:SetPoint("TOPLEFT", point, where.."LEFT", 0, 0)
 		line:SetPoint("TOPRIGHT", point, where.."RIGHT", 0, 0)
@@ -344,7 +347,7 @@ local function AboutSetup(self)
 		self.Author:SetPoint("RIGHT", self, "RIGHT", -48, 0)
 		self.Author:SetText(FBConstants.AUTHOR)
 		self.Author:Show()
-		
+
 		self.Copyright = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 		self.Copyright:SetPoint("TOP", self.Author, "BOTTOM", 0, -10)
 		self.Copyright:SetPoint("LEFT", self, "LEFT", 0, 0)
@@ -352,7 +355,7 @@ local function AboutSetup(self)
 		self.Copyright:SetJustifyH("CENTER")
 		self.Copyright:SetText(FBConstants.COPYRIGHT)
 		self.Copyright:Show()
-	
+
 		self.Thanks = self:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 		self.Thanks:SetPoint("TOP", self.Copyright, "BOTTOM", 0, -10)
 		self.Thanks:SetPoint("LEFT", self, "LEFT", 0, 0)
@@ -361,7 +364,7 @@ local function AboutSetup(self)
 		self.Thanks:SetText(FBConstants.THANKS)
 		self.Thanks:Show()
 		self.Thanks.idx = -1;
-	
+
 		self.categories = {}
 		for what,_ in pairs(credits) do
 			tinsert(self.categories, what)
@@ -372,7 +375,7 @@ local function AboutSetup(self)
 				tinsert(self.credits, { title=idx, who=who, what=what, sort=math.random() })
 			end
 		end
-	
+
 		self.Panels = {};
 		for idx=1,5 do
 			local panel = MakeCreditPanel(self, self.Thanks, idx)
@@ -381,7 +384,7 @@ local function AboutSetup(self)
 			panel.categories = self.categories
 			tinsert(self.Panels, panel)
 		end
-		
+
 		-- Dump the storage, now that we have a better table
 		credits = nil;
 		table.sort(self.credits, function (a, b) return a.sort < b.sort; end)
@@ -399,7 +402,7 @@ local AboutOptions = {
 };
 
 local function OnEvent(self, _, ...)
-	FishingBuddy.OptionsFrame.HandleOptions(FBConstants.ABOUT_TAB, "Interface\\Icons\\Inv_Misc_Questionmark", AboutOptions, nil, nil, true);
+	FBI.OptionsFrame.HandleOptions(FBConstants.ABOUT_TAB, "Interface\\Icons\\Inv_Misc_Questionmark", AboutOptions, nil, nil, true);
 	self:UnregisterEvent("VARIABLES_LOADED");
 end
 

@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2509, "DBM-Party-Dragonflight", 5, 1201)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230117042742")
+mod:SetRevision("20240605152414")
 mod:SetCreatureID(194181)
 mod:SetEncounterID(2562)
---mod:SetUsedIcons(1, 2, 3)
 mod:SetHotfixNoticeRev(20221015000000)
 mod:SetMinSyncRevision(20221015000000)
 --mod.respawnTime = 29
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
@@ -15,12 +15,10 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 388537 386173 385958",
 	"SPELL_CAST_SUCCESS 387691 388537",
 	"SPELL_AURA_APPLIED 386181",
---	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED 386181",
 	"SPELL_PERIODIC_DAMAGE 386201",
 	"SPELL_PERIODIC_MISSED 386201",
 	"SPELL_ENERGIZE 386088"
---	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_SAY"
@@ -36,9 +34,9 @@ mod:RegisterEvents(
  or type = "dungeonencounterstart" or type = "dungeonencounterend"
 --]]
 local warnArcaneOrbs							= mod:NewCountAnnounce(385974, 3)
-local warnManaBombs								= mod:NewTargetAnnounce(386173, 3)
+local warnManaBombs								= mod:NewTargetNoFilterAnnounce(386173, 3)
 
-local specWarnArcaneFissure						= mod:NewSpecialWarningDodge(388537, nil, nil, nil, 1, 2)
+local specWarnArcaneFissure						= mod:NewSpecialWarningDodgeCount(388537, nil, nil, nil, 1, 2)
 local specWarnManaBomb							= mod:NewSpecialWarningMoveAway(386181, nil, nil, nil, 1, 2)
 local yellManaBomb								= mod:NewYell(386181)
 local yellManaBombFades							= mod:NewShortFadesYell(386181)
@@ -47,38 +45,33 @@ local specWarnGTFO								= mod:NewSpecialWarningGTFO(386201, nil, nil, nil, 1, 
 
 local timerRP									= mod:NewRPTimer(19.8)
 local timerArcaneOrbsCD							= mod:NewCDCountTimer(16.8, 385974, nil, nil, nil, 5)
-local timerArcaneFissureCD						= mod:NewCDTimer(40.7, 388537, nil, nil, nil, 3)
+local timerArcaneFissureCD						= mod:NewCDCountTimer(40.7, 388537, nil, nil, nil, 3)
 local timerManaBombsCD							= mod:NewCDCountTimer(19.4, 386173, nil, nil, nil, 3)
 local timerArcaneExpulsionCD					= mod:NewCDTimer(19.4, 385958, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
---local berserkTimer							= mod:NewBerserkTimer(600)
-
---mod:AddRangeFrameOption("8")
 mod:AddInfoFrameOption(391977, true)
---mod:AddSetIconOption("SetIconOnStaggeringBarrage", 361018, true, false, {1, 2, 3})
 
-mod:GroupSpells(386173, 386181)--Mana Bombs with Mana Bomb
+--mod:GroupSpells(386173, 386181)--Mana Bombs with Mana Bomb
 
 mod.vb.orbCount = 0
 mod.vb.manaCount = 0
+mod.vb.fissureCount = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.orbCount = 0
 	self.vb.manaCount = 0
+	self.vb.fissureCount = 0
 	timerArcaneOrbsCD:Start(2.1-delay, 1)
 	timerArcaneExpulsionCD:Start(12.1-delay)
-	timerManaBombsCD:Start(23.9-delay)
-	timerArcaneFissureCD:Start(40.7-delay)
+	timerManaBombsCD:Start(22.1-delay, 1)
+	timerArcaneFissureCD:Start(40.7-delay, 1)
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(391977))
+		DBM.InfoFrame:SetHeader(DBM:GetSpellName(391977))
 		DBM.InfoFrame:Show(5, "playerdebuffstacks", 391977)
 	end
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -87,8 +80,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 388537 then
-		specWarnArcaneFissure:Show()
-		specWarnArcaneFissure:Play("watchstep")
+		self.vb.fissureCount = self.vb.fissureCount + 1
+		specWarnArcaneFissure:Show(self.vb.fissureCount)
+		specWarnArcaneFissure:Play("aesoon")
+		specWarnArcaneFissure:ScheduleVoice(1.5, "watchstep")
 		--Add 3.5 to existing manabomb and expulsion timers (Working Theory, need longer logs/larger sample)
 		--It seems to hold so far though, and if they are also energy based it would make sense since he doesn't gain energy for 3 seccond cast
 		--Of course if they are energy based, it also means the timers need to be corrected by SPELL_ENERGIZE as well :\
@@ -126,7 +121,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 --			timerArcaneOrbsCD:Start(23.6, self.vb.orbCount+1)
 --		end
 	elseif spellId == 388537 then
-		timerArcaneFissureCD:Start()
+		timerArcaneFissureCD:Start(nil, self.vb.fissureCount+1)
 	end
 end
 
@@ -142,7 +137,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	end
 end
---mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -169,7 +163,7 @@ function mod:SPELL_ENERGIZE(_, _, _, _, destGUID, _, _, _, spellId, _, _, amount
 		local remaining = 40-bossPower
 		if remaining > 0 then
 			local newTimer = 40-remaining
-			timerArcaneFissureCD:Update(newTimer, 40)
+			timerArcaneFissureCD:Update(newTimer, 40, self.vb.fissureCount+1)
 		else
 			timerArcaneFissureCD:Stop()
 		end
@@ -192,11 +186,3 @@ function mod:OnSync(msg, targetname)
 		timerRP:Start()
 	end
 end
-
---[[
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 353193 then
-
-	end
-end
---]]

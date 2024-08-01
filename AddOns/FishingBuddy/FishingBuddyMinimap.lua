@@ -1,21 +1,24 @@
 -- Minimap Button Handling
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
-FishingBuddy.Minimap = {};
+FBI.Minimap = {};
 
 local FL = LibStub("LibFishing-1.0");
 
 local icon = LibStub("LibDBIcon-1.0");
 local broker = LibStub:GetLibrary("LibDataBroker-1.1")
 
-local GSB = FishingBuddy.GetSettingBool;
+local GSB = function(...) return FBI:GetSettingBool(...); end;
 
 local function Minimap_OnClick(self, button, down)
 	if ( button == "RightButton" ) then
-		ToggleFishingBuddyFrame("FishingOptionsFrame");
-	elseif ( FishingBuddy.IsSwitchClick("MinimapClickToSwitch") ) then
-		FishingBuddy.Command(FBConstants.SWITCH);
+		FBI:ToggleFishingBuddyFrame("FishingOptionsFrame");
+	elseif ( FBI:IsSwitchClick("MinimapClickToSwitch") ) then
+		FBI:Command(FBConstants.SWITCH);
 	else
-		ToggleFishingBuddyFrame("FishingLocationsFrame");
+		FBI:ToggleFishingBuddyFrame("FishingLocationsFrame");
 	end
 end
 
@@ -39,7 +42,7 @@ local function setter(setting, value)
 	if (setting == "MinimapButtonVisible") then
 		FishingBuddy_Player["MinimapData"].hide = (not value);
 	else
-		FishingBuddy.OptionSetSetting(setting, value);
+		FBI:OptionSetSetting(setting, value);
 	end
 end
 
@@ -51,7 +54,7 @@ local function getter(setting)
 			return false;
 		end
 	else
-		return FishingBuddy.OptionGetSetting(setting);
+		return FBI:OptionGetSetting(setting);
 	end
 end
 
@@ -85,5 +88,5 @@ MinimapEvents["VARIABLES_LOADED"] = function()
 	end
 end
 
-FishingBuddy.OptionsFrame.HandleOptions(GENERAL, nil, MinimapOptions, setter, getter);
-FishingBuddy.RegisterHandlers(MinimapEvents);
+FBI.OptionsFrame.HandleOptions(GENERAL, nil, MinimapOptions, setter, getter);
+FBI:RegisterHandlers(MinimapEvents);

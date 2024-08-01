@@ -1,6 +1,6 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Breen
-## Version: 1.4
+## Version: 11.1
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsDragonflightPrologue
 ## LoadOnDemand: 1
@@ -82,6 +82,13 @@ Database/Index.zhCN.lua
 Database/Index.zhTW.lua
 
 General.lua
+10.0.7.lua
+10.1.0.lua
+10.1.5.lua
+10.1.7.lua
+10.2.0.lua
+10.2.5.lua
+10.2.7.lua
 FriendOfTheDragonIsles.lua
 TheWakingShores.lua
 OhnahranPlains.lua

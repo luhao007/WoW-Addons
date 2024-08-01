@@ -1,15 +1,11 @@
 ------------------------------------------------------------------------
-r286 | Odica_Jaedenar | 2023-01-20 22:24:17 +0000 (Fri, 20 Jan 2023) | 8 lines
+r309 | Odica_Jaedenar | 2024-07-10 21:00:29 +0000 (Wed, 10 Jul 2024) | 3 lines
 Changed paths:
    M /trunk/LibTourist-3.0.lua
+   M /trunk/LibTourist-3.0.toc
 
-- added mechanism to populate the TradeSkill UI with skill levels
-
-API CHANGE
-----------
-
-Added function: Tourist:InitializeProfessionSkills()
-Checks whether the profession skill levels are available in the TradeSkill API, if not, attempts to open a profession panel in order to populate the API with skill levels.
-To be called once, during initialization.
+- corrected some names in the MapID lookup table
+- added Baradin Hold (raid)
+- updated version in TOC to 100207
 ------------------------------------------------------------------------
 

@@ -1,7 +1,8 @@
-## Interface: 100002
+## Interface: 110000
 ## RequiredDeps: Details
 ## OptionalDeps: Ace3
 ## SavedVariablesPerCharacter: _detalhes_databaseVanguard
+## IconTexture: Interface\AddOns\Details\images\minimap
 
 ## Title: Details!: Vanguard (plugin)
 ## Notes: Show the health and debuffs for tanks in your group.

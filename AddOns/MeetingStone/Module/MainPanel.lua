@@ -1,13 +1,118 @@
+MEETINGSTONE_UI_E_POINTS = {}
 BuildEnv(...)
+local CreateColor = CreateColor 
+
+--- ColorMixin is a mixin that provides functionality for working with colors.
+---@class ColorMixin : table
+ColorMixin = {}
+
+---@class colorRGB : table, ColorMixin
+---@field r number
+---@field g number
+---@field b number
+
+---Sets the RGBA values of the color.
+---@param r number The red component of the color (0-1).
+---@param g number The green component of the color (0-1).
+---@param b number The blue component of the color (0-1).
+---@param a? number The alpha component of the color (0-1).
+function ColorMixin:SetRGBA(r, g, b, a) end
+
+---Sets the RGB values of the color.
+---@param r number The red component of the color (0-1).
+---@param g number The green component of the color (0-1).
+---@param b number The blue component of the color (0-1).
+function ColorMixin:SetRGB(r, g, b) end
+
+---Returns the RGB values of the color.
+---@return number r
+---@return number g
+---@return number b
+function ColorMixin:GetRGB() return 0, 0, 0 end
+
+---Returns the RGB values of the color as bytes (0-255).
+---@return number red
+---@return number green
+---@return number blue
+function ColorMixin:GetRGBAsBytes() return 0, 0, 0 end
+
+---Returns the RGBA values of the color.
+---@return number red
+---@return number green
+---@return number blue
+---@return number alpha
+function ColorMixin:GetRGBA() return 0, 0, 0, 0 end
+
+---Returns the RGBA values of the color as bytes (0-255).
+---@return number red
+---@return number green
+---@return number blue
+---@return number alpha
+function ColorMixin:GetRGBAAsBytes() return 0, 0, 0, 0 end
+
+---Checks if the RGB values of this color are equal to another color.
+---@param otherColor table The other color to compare with.
+---@return boolean bIsEqual if the RGB values are equal, false otherwise.
+function ColorMixin:IsRGBEqualTo(otherColor) return true end
+
+---Checks if this color is equal to another color.
+---@param otherColor table The other color to compare with.
+---@return boolean True if the RGB and alpha values are equal, false otherwise.
+function ColorMixin:IsEqualTo(otherColor) return true end
+
+---Generates a hexadecimal color string with alpha.
+---@return string hexadecimal color string with alpha.
+function ColorMixin:GenerateHexColor() return "" end
+
+---Generates a hexadecimal color string without alpha.
+---@return string hexadecimal color string without alpha.
+function ColorMixin:GenerateHexColorNoAlpha() return "" end
+
+---Generates a hexadecimal color markup string.
+---@return string hexadecimal color markup string.
+function ColorMixin:GenerateHexColorMarkup() return "" end
+
+-- Function to convert RGB values to hexadecimal string
+function ColorMixin:RGBToHex(r, g, b)
+    -- Convert normalized RGB values to 0-255 range
+    local red = math.floor(r * 255 + 5)
+    local green = math.floor(g * 255 + 5)
+    local blue = math.floor(b * 255 + 5)
+    
+    -- Ensure values are within range
+    red = math.max(0, math.min(255, red))
+    green = math.max(0, math.min(255, green))
+    blue = math.max(0, math.min(255, blue))
+    
+    -- Convert to hexadecimal format
+    return string.format("%02X%02X%02X", red, green, blue)
+end
+
+---Wraps the given text in a color code using this color.
+---@param text string The text to wrap.
+---@return string The wrapped text with the color code.
+function ColorMixin:WrapTextInColorCode(text)
+    local color = CreateColor(self.r,self.g,self.b, 1)
+    local hex = color:GenerateHexColor()
+    return "|c" .. hex .. text .. "|r"
+end
 
 MainPanel = Addon:NewModule(GUI:GetClass('Panel'):New(UIParent), 'MainPanel', 'AceEvent-3.0', 'AceBucket-3.0')
 
 function MainPanel:OnInitialize()
+    --修复不再同一个地区无法组队
+    local pre = C_BattleNet.GetFriendGameAccountInfo
+    C_BattleNet.GetFriendGameAccountInfo = function(...)
+        local gameAccountInfo = pre(...)
+        gameAccountInfo.isInCurrentRegion = true
+        return gameAccountInfo;
+    end
+
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
-    self:SetSize(1000, 447)
-    self:SetText(L['集合石'] .. ' Beta ' .. ADDON_VERSION)
-    self:SetIcon(ADDON_LOGO)
+    self:SetSize(922, 447)
+    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION)
+    --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
     self:SetTopHeight(80)
@@ -16,16 +121,39 @@ function MainPanel:OnInitialize()
     self:SetScript('OnDragStart', self.StartMoving)
     self:SetScript('OnDragStop', self.StopMovingOrSizing)
     self:SetClampedToScreen(true)
+    _G.MeetingStoneMainPanel = self;
+    GUI:RegisterUIPanel(self)
+    --self:RegisterEvent("PLAYER_REGEN_DISABLED");
+    local scale = Profile:GetSetting('uiscale')
+    if (scale == nil or scale < 1.0) then
+        scale = 1.0
+    end
+    self:SetScale(scale)
+
+    self:HookScript("OnHide", function()
+        local anchor1, _, anchor2, x, y = self:GetPoint();
+        MEETINGSTONE_UI_E_POINTS.x = x
+        MEETINGSTONE_UI_E_POINTS.y = y
+        MEETINGSTONE_UI_E_POINTS.a1 = anchor1
+        MEETINGSTONE_UI_E_POINTS.a2 = anchor2
+    end)
 
     self:HookScript('OnShow', function()
         C_LFGList.RequestAvailableActivities()
         self:UpdateBlockers()
         self:SendMessage('MEETINGSTONE_OPEN')
+        if (MEETINGSTONE_UI_E_POINTS ~= nil and MEETINGSTONE_UI_E_POINTS.x ~= nil) then
+            self:ClearAllPoints();
+            self:SetPoint(MEETINGSTONE_UI_E_POINTS.a1, UIParent, MEETINGSTONE_UI_E_POINTS.a2, MEETINGSTONE_UI_E_POINTS.x,
+                MEETINGSTONE_UI_E_POINTS.y)
+        end
     end)
 
     self:RegisterMessage('MEETINGSTONE_NEW_VERSION')
     self:RegisterEvent('AJ_PVE_LFG_ACTION')
     self:RegisterEvent('AJ_PVP_LFG_ACTION', 'AJ_PVE_LFG_ACTION')
+
+    --self.CloseButton:SetScript("OnClick", function() self:Hide(); end)
 
     PVEFrame:UnregisterEvent('AJ_PVE_LFG_ACTION')
     PVEFrame:UnregisterEvent('AJ_PVP_LFG_ACTION')
@@ -247,37 +375,65 @@ function MainPanel:OnInitialize()
     end
 
     if ADDON_REGIONSUPPORT then
-        self:CreateTitleButton{
-            title = L['意见建议'],
-            texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
-            coords = {0, 32 / 256, 0, 0.5},
-            callback = function()
-                GUI:CallFeedbackDialog(ADDON_NAME, function(result, text)
-                    Logic:SendServer('SFEEDBACK', ADDON_NAME, ADDON_VERSION, text)
-                end)
-            end,
-        }
+        -- self:CreateTitleButton{
+        --     title = L['意见建议'],
+        --     texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
+        --     coords = {0, 32 / 256, 0, 0.5},
+        --     callback = function()
+        --         GUI:CallFeedbackDialog(ADDON_NAME, function(result, text)
+        --             Logic:SendServer('SFEEDBACK', ADDON_NAME, ADDON_VERSION, text)
+        --         end)
+        --     end,
+        -- }
 
-        self:CreateTitleButton{
-            title = L['公告'],
-            texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
-            coords = {96 / 256, 128 / 256, 0, 0.5},
-            callback = function()
-                self:ToggleBlocker('AnnBlocker')
-            end,
-        }
+        -- self:CreateTitleButton{
+        --     title = L['公告'],
+        --     texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
+        --     coords = {96 / 256, 128 / 256, 0, 0.5},
+        --     callback = function()
+        --         self:ToggleBlocker('AnnBlocker')
+        --     end,
+        -- }
     end
 
-    self:CreateTitleButton{
-        title = L['插件简介'],
-        texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
-        coords = {224 / 256, 1, 0.5, 1},
-        callback = function()
-            self:ToggleBlocker('HelpBlocker')
-        end,
-    }
+    -- self:CreateTitleButton{
+    --     title = L['插件简介'],
+    --     texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
+    --     coords = {224 / 256, 1, 0.5, 1},
+    --     callback = function()
+    --         self:ToggleBlocker('HelpBlocker')
+    --     end,
+    -- }
 
     self.GameTooltip = GUI:GetClass('Tooltip'):New(self)
+
+    -- 增加更新地址展示
+    local CopyUpdUrlBtn
+    CopyUpdUrlBtn = CreateFrame('Button', nil, self)
+    do
+        CopyUpdUrlBtn:SetNormalFontObject('GameFontNormalSmall')
+        CopyUpdUrlBtn:SetHighlightFontObject('GameFontHighlightSmall')
+        CopyUpdUrlBtn:SetSize(70, 22)
+        CopyUpdUrlBtn:SetPoint('TOPRIGHT', MainPanel, -30, 0)
+        CopyUpdUrlBtn:SetText('|Hurl:https://ngabbs.com/read.php?tid=35102502|h|cff00ffff[更新地址]|r|h')
+
+        CopyUpdUrlBtn:SetScript('OnEnter', function()
+            local GameTooltip = self.GameTooltip
+            GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
+            GameTooltip:SetText(
+                '|cFFFF8040点|r|cFFFF8040击|r|cFFFF8040复|r|cFFFF8040制|r|cFFFF0080(|r|cFF8080C0不|r|cFF8080C0行|r|cFF8080C0就|r|cFF8080C0多|r|cFF8080C0点|r|cFF8080C0几|r|cFF8080C0下|r|cFFFF0080)|r')
+            GameTooltip:AddLine('|cFF0080FFhttps://ngabbs.com/read.php?tid=35102502|r', 1, 1, 1, true)
+            GameTooltip:Show()
+        end)
+        CopyUpdUrlBtn:SetScript('OnLeave', function()
+            local GameTooltip = self.GameTooltip
+            GameTooltip:Hide()
+        end)
+
+        CopyUpdUrlBtn:SetScript('OnClick', function()
+            ApplyUrlButton(CopyUpdUrlBtn, 'https://ngabbs.com/read.php?tid=35102502')
+        end)
+    end
 end
 
 function MainPanel:OnEnable()
@@ -314,25 +470,55 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     tooltip:AddSepatator()
 
     if activity:GetLeader() then
+        -- local prefix = ""
+        -- if activity:GetCrossFactionListing() then
+        -- local faction
+        -- if activity:GetLeaderFactionGroup() == 0 then
+        -- faction = "horde"
+        -- elseif activity:GetLeaderFactionGroup() == 1 then
+        -- faction = "alliance"
+        -- end
+        -- if faction then
+        -- prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
+        -- --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
+        -- --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
+        -- end
+        -- end
         tooltip:AddLine(format(LFG_LIST_TOOLTIP_LEADER, activity:GetLeaderText()))
 
-        tooltip:AddLine(format(L["队长大秘评分：|cffffffff%d|r"], activity:GetLeaderScore()))
-        local leaderScoreInfo = activity:GetLeaderScoreInfo()
-        if leaderScoreInfo then
-            tooltip:AddLine(format("队长当前副本: |cffffffff%d/%d层|r", leaderScoreInfo.mapScore or 0, leaderScoreInfo.bestRunLevel or 0))
-        end
         if activity:GetLeaderItemLevel() then
             tooltip:AddLine(format(L['队长物品等级：|cffffffff%s|r'], activity:GetLeaderItemLevel()))
         end
         if activity:GetLeaderHonorLevel() then
             tooltip:AddLine(format(L['队长荣誉等级：|cffffffff%s|r'], activity:GetLeaderHonorLevel()))
         end
-        if activity:GetLeaderPvPRating() then
-            tooltip:AddLine(format(L['队长PvP 等级：|cffffffff%s|r'], activity:GetLeaderPvPRating()))
+
+        local pvpRating = activity:GetLeaderPvpRating() or 0
+        if pvpRating > 0 then
+            tooltip:AddLine(format(L['队长PvP 等级：|cffffffff%s|r'], pvpRating))
+        end
+
+        local score = activity:GetLeaderScore() or 0
+        if activity:IsMythicPlusActivity() or score > 0 then
+            local color =  C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
+            tooltip:AddLine(format(L['队长大秘评分：%s'], color:WrapTextInColorCode(score)))
+            local info = activity:GetLeaderScoreInfo()
+            if info and info.mapScore and info.mapScore > 0 then
+                local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
+                    
+                local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r",
+                    info.bestRunLevel or 0)
+                tooltip:AddLine(format("队长当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
+            else
+                tooltip:AddLine(format("队长当前副本: |cff7f7f7f 无信息|r"))
+            end
         end
         tooltip:AddSepatator()
     end
 
+    -- if activity:GetCrossFactionListing() then
+    -- tooltip:AddLine(L["|cff00ff00跨阵营队伍|r"])
+    -- end
     if activity:GetItemLevel() > 0 then
         tooltip:AddLine(format(LFG_LIST_TOOLTIP_ILVL, activity:GetItemLevel()))
     end
@@ -345,52 +531,58 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     if activity:GetAge() > 0 then
         tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_AGE, SecondsToTime(activity:GetAge(), false, false, 1, false)))
     end
-
-    if activity:GetDisplayType() == LE_LFG_LIST_DISPLAY_TYPE_CLASS_ENUMERATE then
+    --2022-11-17
+    if activity:GetDisplayType() == Enum.LFGListDisplayType.ClassEnumerate then
         tooltip:AddSepatator()
         tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_MEMBERS_SIMPLE, activity:GetNumMembers()))
         for i = 1, activity:GetNumMembers() do
-            local role, class, classLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
-            local classColor = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
-            tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_CLASS_ROLE, classLocalized, _G[role]), classColor.r,
-                            classColor.g, classColor.b)
+            local role, class, classLocalized, specLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
+            local classColor                                 = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
+            tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_CLASS_ROLE, classLocalized, specLocalized or _G[role]),
+                classColor.r,
+                classColor.g, classColor.b)
         end
     else
-
+        -- Modification begin
+        -- Display Raid/Party Roles,code from PGF addon
         local roles = {}
         local classInfo = {}
         for i = 1, activity:GetNumMembers() do
-            local role, class, classLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
-            if class then
-                classInfo[class] = {
+            local role, class, classLocalized, specLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
+            if (class) then
+                classInfo[class .. specLocalized] = {
                     name = classLocalized,
-                    color = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
+                    color = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR,
+                    spec = specLocalized
                 }
-                roles[role] = roles[role] or {}
-                roles[role][class] = roles[role][class] or 0
-                roles[role][class] = roles[role][class] + 1
-            end
-        end
-        
-        for role, classes in pairs(roles) do
-            tooltip:AddLine(_G[role]..": ")
-            for class, count in pairs(classes) do
-                local text = "   "
-                if count > 1 then text = text .. count .. " " else text = text .. "   " end
-                text = text .. "|c" .. classInfo[class].color.colorStr ..  classInfo[class].name .. "|r "
-                tooltip:AddLine(text)
+                if not roles[role] then roles[role] = {} end
+                if not roles[role][class .. specLocalized] then roles[role][class .. specLocalized] = 0 end
+                roles[role][class .. specLocalized] = roles[role][class .. specLocalized] + 1
             end
         end
 
+        for role, classes in pairs(roles) do
+            tooltip:AddLine(_G[role] .. ": ")
+            for classAndspec, count in pairs(classes) do
+                local text = "   "
+                if count > 1 then text = text .. count .. " " else text = text .. "   " end
+                text = text ..
+                    "|c" ..
+                    classInfo[classAndspec].color.colorStr ..
+                    classInfo[classAndspec].name .. " - " .. classInfo[classAndspec].spec .. "|r "
+                tooltip:AddLine(text)
+            end
+        end
+        -- Modification end
         local memberCounts = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
         if memberCounts then
             tooltip:AddSepatator()
             tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_MEMBERS, activity:GetNumMembers(), memberCounts.TANK,
-                                          memberCounts.HEALER, memberCounts.DAMAGER))
+                memberCounts.HEALER, memberCounts.DAMAGER))
         end
     end
 
-    if activity:IsAnyFriend() then
+    if activity:IsAnyFriend() and activity:GetNumMembers() ~= 0 then
         tooltip:AddSepatator()
         tooltip:AddLine(LFG_LIST_TOOLTIP_FRIENDS_IN_GROUP)
         tooltip:AddLine(LFGListSearchEntryUtil_GetFriendList(activity:GetID()), 1, 1, 1, true)
@@ -424,6 +616,10 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         tooltip:AddDoubleLine(' ', GetFullVersion(version), 1, 1, 1, 0.5, 0.5, 0.5)
     end
 
+    if RaiderIO and RaiderIO.GetProfile and Profile:GetEnableRaiderIO() then
+        RaiderIOService:appendRaiderIOData(activity:GetLeader(), activity:GetLeaderScore(), tooltip)
+    end
+
     --[=[@debug@
     if activity:IsMeetingStone() then
         local source = activity:GetSource() or 1
@@ -435,10 +631,12 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     tooltip:AddLine('ID: ' .. activity:GetID())
     tooltip:AddLine('Loot: ' .. tostring(activity:GetLoot()))
     tooltip:AddLine('Mode: ' .. tostring(activity:GetMode()))
-    --@end-debug@]=]
+    --@end-debug@]==]]=]
 
     tooltip:Show()
 end
+
+local FACTION_STRINGS = { [0] = '|cff00ff00' .. FACTION_HORDE .. '|r', [1] = '|cff00ff00' .. FACTION_ALLIANCE .. '|r' };
 
 function MainPanel:OpenApplicantTooltip(applicant)
     local GameTooltip = self.GameTooltip
@@ -461,16 +659,28 @@ function MainPanel:OpenApplicantTooltip(applicant)
         GameTooltip:AddHeader(UnitName('none'), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
     end
     GameTooltip:AddLine(string.format(LFG_LIST_ITEM_LEVEL_CURRENT, itemLevel), 1, 1, 1)
-
     if useHonorLevel then
         GameTooltip:AddLine(string.format(LFG_LIST_HONOR_LEVEL_CURRENT_PVP, applicant:GetHonorLevel()), 1, 1, 1)
     end
 
-    local score = applicant:GetDungeonScore()
-    GameTooltip:AddLine(format(L['大秘评分：|cffffffff%s|r'], score), 1, 1, 1)
-    local info = applicant:GetBestDungeonScore()
-    if info and info.mapScore and info.mapScore > 0 then
-        GameTooltip:AddLine(format("当前副本: |cffffffff%d/%d层|r ", info.mapScore, info.bestRunLevel or 0), 1, 1, 1)
+    if U1AddDonatorTitle then
+        U1AddDonatorTitle(GameTooltip, name)
+    end
+
+    local score = applicant:GetDungeonScore() or 0
+    if applicant:IsMythicPlusActivity() or score > 0 then
+        local color = C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR 
+        GameTooltip:AddLine(format(L['大秘评分：%s'], color:WrapTextInColorCode(score)))
+        local info = applicant:GetBestDungeonScore()
+        if info and info.mapScore and info.mapScore > 0 then
+            local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
+                
+            local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r",
+                info.bestRunLevel or 0)
+            GameTooltip:AddLine(format("当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
+        else
+            GameTooltip:AddLine(format("当前副本: |cff7f7f7f 无信息|r"))
+        end
     end
 
     if comment and comment ~= '' then
@@ -514,6 +724,11 @@ function MainPanel:OpenApplicantTooltip(applicant)
             GameTooltip:AddDoubleLine(v.name, GetProgressionTex(progressionValue, i), 1, 1, 1)
         end
     end
+
+    if RaiderIO and RaiderIO.GetProfile and Profile:GetEnableRaiderIO() then
+        RaiderIOService:appendRaiderIOData(applicant:GetName(), applicant:GetDungeonScore(), GameTooltip)
+    end
+
     GameTooltip:Show()
 end
 

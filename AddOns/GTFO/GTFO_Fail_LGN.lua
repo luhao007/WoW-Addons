@@ -5,7 +5,7 @@
 GTFO Fail List - Legion
 ]]--
 
-if (not (GTFO.ClassicMode or GTFO.BurningCrusadeMode or GTFO.WrathMode)) then
+if (GTFO.RetailMode) then
 
 --- ********************
 --- * The Broken Isles *
@@ -442,6 +442,12 @@ GTFO.SpellID["238027"] = {
   sound = 3;
 };
 
+GTFO.SpellID["286002"] = {
+  --desc = "Explode (Bomb Bot)";
+  sound = 3;
+  vehicle = true;
+};
+
 -- *******************
 -- * Brawler's Guild *
 -- *******************
@@ -742,11 +748,6 @@ GTFO.SpellID["201273"] = {
   sound = 3;
 };
 
-GTFO.SpellID["201400"] = {
-  --desc = "Dread Inferno (Dreadfire Imp)";
-  sound = 3;
-};
-
 GTFO.SpellID["200111"] = {
   --desc = "Apocalyptic Fire (Shade of Xavius)";
   sound = 3;
@@ -756,6 +757,12 @@ GTFO.SpellID["198916"] = {
   --desc = "Vile Burst (Vile Mushroom)";
   sound = 3;
 };
+
+GTFO.SpellID["198386"] = {
+  --desc = "Primal Rampage (Archdruid Glaidalis)";
+  sound = 3;
+};
+
 
 -- ******************
 -- * Eye of Azshara *
@@ -832,6 +839,12 @@ GTFO.SpellID["192708"] = {
 -- * Neltharion's Lair *
 -- *********************
 
+GTFO.SpellID["188169"] = {
+  --desc = "Razor Shards (Rokmora)";
+  sound = 3;
+  tankSound = 0;
+};
+
 GTFO.SpellID["202089"] = {
   --desc = "Scorch (Burning Geode)";
   sound = 3;
@@ -852,6 +865,19 @@ GTFO.SpellID["226406"] = {
   sound = 3;
   tankSound = 0;
 };
+
+GTFO.SpellID["183100"] = {
+  --desc = "Avalanche (Mightstone Breaker)";
+  sound = 3;
+};
+
+GTFO.SpellID["226296"] = {
+  --desc = "Piercing Shards (Vileshard Hulk)";
+  applicationOnly = true;
+  sound = 3;
+  tankSound = 0;
+};
+
 
 -- *************
 -- * The Nexus *
@@ -1136,6 +1162,12 @@ GTFO.SpellID["200256"] = {
 
 GTFO.SpellID["200261"] = {
   --desc = "Bonebreaking Strike (Soul-Torn Champion)";
+  sound = 3;
+};
+
+GTFO.SpellID["197974"] = {
+  --desc = "Bonecrushing Strike (Soul-Torn Vanguard)";
+  applicationOnly = true;
   sound = 3;
 };
 

@@ -7,7 +7,7 @@ function EV:ADVENTURE_MAP_OPEN(followerID)
 		return "remove"
 	end
 	mapOpened = followerID == 123
-	if mapOpened and IsAddOnLoaded("Blizzard_GarrisonUI") then
+	if mapOpened and C_AddOns.IsAddOnLoaded("Blizzard_GarrisonUI") then
 		addonLoaded = true
 		EV("I_ADVENTURES_UI_LOADED")
 	end
@@ -42,5 +42,8 @@ function SlashCmdList.VENTUREPLAN(msg)
 		print("|cff20a0ff/ventureplan |r|cffffffffset-campaign-progress|r |cff20ff20" .. c .. "|r|cffa0a0a0|||r|cff20ff20nil")
 		return
 	end
-	print("|cff20a0ffVenture Plan |r|cffffffff" .. GetAddOnMetadata("VenturePlan", "Version"))
+	print("|cff20a0ffVenture Plan |r|cffffffff" .. C_AddOns.GetAddOnMetadata("VenturePlan", "Version"))
 end
+
+-- Disable an outdated and incompatible extension
+pcall(C_AddOns.DisableAddOn, "VenturePlanSoDMissions", true)

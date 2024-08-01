@@ -1,10 +1,12 @@
 local ADDON, MinArch = ...
+local isClassic = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
 
 function MinArch:InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
 
 	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
     MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
+	MinArch.HelperFrame:RegisterEvent("GLOBAL_MOUSE_DOWN");
 
 	MinArchMain.showAfterCombat = false;
 	MinArchHist.showAfterCombat = false;
@@ -17,27 +19,41 @@ function MinArch:InitHelperFrame()
 		MinArch:EventHelper(event, ...);
 	end)
 
-    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArchHelper, "InSecureActionButtonTemplate");
-    button:RegisterForClicks("AnyUp", "AnyDown");
+    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", nil, "SecureActionButtonTemplate");
+    button:RegisterForClicks("AnyDown", "AnyUp");
     button:SetAttribute("type", "spell");
     button:SetAttribute("spell", SURVEY_SPELL_ID);
-    button:Hide();
+    -- button:Hide();
+
+	button:SetScript("PostClick", function(self, button, down)
+		MouselookStart()
+		if down then return end
+		MouselookStop()
+    end)
+	SecureHandlerWrapScript(button, "PostClick", button, string.format([[
+      local isClassic = %s
+      if isClassic == true then
+        self:ClearBindings()
+      else
+        if not down then
+          self:ClearBindings()
+        end
+      end
+    ]], tostring(isClassic)))
+
+	MinArch.hiddenButton = button
 end
 
 function MinArch.Ace:OnInitialize ()
-	for i=1, ARCHAEOLOGY_NUM_RACES do
-		MinArch.barlinks[i] = {};
-	end
-
 	-- Initialize Settings Database
 	MinArch:SetDynamicDefaults();
 	MinArch:InitDatabase();
 	MinArch:MainEventAddonLoaded();
 
+	MinArch:InitHelperFrame();
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
-	MinArch:InitHelperFrame();
 
 	MinArch.Companion:Init();
 
@@ -52,7 +68,7 @@ function MinArch.Ace:OnInitialize ()
 
 	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
     MinArch:ShowRaceIconsOnMap();
-    MinArch:HookDoubleClick();
+    -- MinArch:HookDoubleClick();
 	MinArch.IsReady = true;
 	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
@@ -166,5 +182,16 @@ function MinArch:UpgradeSettings()
         MinArch.db.profile.TomTom.enableTomTom = MinArch.db.profile.TomTom.enable;
 
         MinArch.db.profile.settingsVersion = 4;
+    end
+
+	-- Convert priority to the new multi-prio system
+	if (MinArch.db.profile.settingsVersion == 4) then
+		local raceID = MinArch.db.profile.TomTom.prioRace
+		if raceID then
+			MinArch.db.profile.raceOptions.priority[raceID] = 1
+		end
+		MinArch.db.profile.TomTom.prioRace = nil
+
+        MinArch.db.profile.settingsVersion = 5;
     end
 end

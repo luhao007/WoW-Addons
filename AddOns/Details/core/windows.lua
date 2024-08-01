@@ -1,5 +1,5 @@
 
-	local Details =	_G._detalhes
+	local Details =	_G.Details
 	local Loc = _G.LibStub("AceLocale-3.0"):GetLocale("Details")
 	local libwindow = LibStub("LibWindow-1.1")
 	local _
@@ -599,7 +599,7 @@
 		return self:RestoreMainWindowPosition()
 	end
 
-	function Details:ResetaGump (instancia, tipo, segmento)
+	function Details:ResetaGump (instancia, tipo, segmento) --replaced by instance:ResetWindow(resetType, segmentId)
 		if (not instancia or type(instancia) == "boolean") then
 			segmento = tipo
 			tipo = instancia
@@ -624,6 +624,7 @@
 			esta_barra.minha_tabela = nil
 			esta_barra.animacao_fim = 0
 			esta_barra.animacao_fim2 = 0
+			if esta_barra.extraStatusbar then esta_barra.extraStatusbar:Hide() end
 		end
 
 		if (instancia.rolagem) then
@@ -640,7 +641,7 @@
 					for _, instancia in ipairs(self.stretchToo) do
 						instancia.baseframe:SetWidth(self.baseframe:GetWidth())
 						local mod = (self.baseframe:GetWidth() - instancia.baseframe._place.largura) / 2
-						instancia:RestoreMainWindowPositionNoResize (instancia.baseframe._place, mod, nil)
+						instancia:RestoreMainWindowPositionNoResize(instancia.baseframe._place, mod, nil)
 						instancia:BaseFrameSnap()
 					end
 				end
@@ -655,7 +656,7 @@
 							else
 								mod = - (self.baseframe:GetHeight() - instancia.baseframe._place.altura) / 2
 							end
-							instancia:RestoreMainWindowPositionNoResize (instancia.baseframe._place, nil, mod)
+							instancia:RestoreMainWindowPositionNoResize(instancia.baseframe._place, nil, mod)
 							instancia:BaseFrameSnap()
 						end
 					end
@@ -666,7 +667,7 @@
 					for _, instancia in ipairs(self.stretchToo) do
 						instancia.baseframe:SetHeight(self.baseframe:GetHeight())
 						local mod = (self.baseframe:GetHeight() - (instancia.baseframe._place.altura or instancia.baseframe:GetHeight())) / 2
-						instancia:RestoreMainWindowPositionNoResize (instancia.baseframe._place, nil, mod)
+						instancia:RestoreMainWindowPositionNoResize(instancia.baseframe._place, nil, mod)
 					end
 
 				elseif (self.baseframe.stretch_direction == "bottom") then
@@ -674,18 +675,18 @@
 						instancia.baseframe:SetHeight(self.baseframe:GetHeight())
 						local mod = (self.baseframe:GetHeight() - instancia.baseframe._place.altura) / 2
 						mod = mod * -1
-						instancia:RestoreMainWindowPositionNoResize (instancia.baseframe._place, nil, mod)
+						instancia:RestoreMainWindowPositionNoResize(instancia.baseframe._place, nil, mod)
 					end
 				end
 			end
 
 			if (self.stretch_button_side == 2) then
-				self:StretchButtonAnchor (2)
+				self:StretchButtonAnchor(2)
 			end
 
 			--reajusta o freeze
 			if (self.freezed) then
-				Details:Freeze (self)
+				Details:Freeze(self)
 			end
 
 			-- -4 difere a precis�o de quando a barra ser� adicionada ou apagada da barra
@@ -700,7 +701,7 @@
 			local meio = self.baseframe:GetWidth() / 2
 			local novo_local = meio - 25
 
-			self.rows_fit_in_window = floor( self.baseframe.BoxBarrasAltura / self.row_height)
+			self.rows_fit_in_window = floor(self.baseframe.BoxBarrasAltura / self.row_height)
 
 			--verifica se precisa criar mais barras
 			if (self.rows_fit_in_window > #self.barras) then--verifica se precisa criar mais barras
@@ -716,11 +717,16 @@
 			--seta a largura das barras
 			if (self.bar_mod and self.bar_mod ~= 0) then
 				for index = 1, self.rows_fit_in_window do
-					self.barras [index]:SetWidth(self.baseframe:GetWidth()+self.bar_mod)
+					if (self.barras[index]) then
+						self.barras[index]:SetWidth(self.baseframe:GetWidth()+self.bar_mod)
+					end
 				end
 			else
+				local rightOffset = self.row_info.row_offsets.right
 				for index = 1, self.rows_fit_in_window do
-					self.barras [index]:SetWidth(self.baseframe:GetWidth()+self.row_info.space.right)
+					if (self.barras[index]) then
+						self.barras[index]:SetWidth(self.baseframe:GetWidth()+self.row_info.space.right + rightOffset)
+					end
 				end
 			end
 
@@ -729,8 +735,8 @@
 			if (not A) then --primeira vez que o resize esta sendo usado, no caso no startup do addon ou ao criar uma nova inst�ncia
 				--hida as barras n�o usadas
 				for i = 1, self.rows_created, 1 do
-					Details.FadeHandler.Fader(self.barras [i], 1)
-					self.barras [i].on = false
+					Details.FadeHandler.Fader(self.barras[i], 1)
+					self.barras[i].on = false
 				end
 				return
 			end
@@ -832,7 +838,7 @@
 					if (tabela._custom) then
 						tabela (esta_barra, self)
 					elseif (tabela._refresh_window) then
-						tabela:_refresh_window (esta_barra, self)
+						tabela:_refresh_window(esta_barra, self)
 					else
 						tabela:RefreshBarra(esta_barra, self, true)
 					end
@@ -1242,7 +1248,7 @@
 		if (not _G.DetailsUpdateDialog) then
 			local updatewindow_frame = CreateFrame("frame", "DetailsUpdateDialog", UIParent, "ButtonFrameTemplate")
 			updatewindow_frame:SetFrameStrata("LOW")
-			tinsert(UISpecialFrames, "DetailsUpdateDialog")
+			table.insert(UISpecialFrames, "DetailsUpdateDialog")
 			updatewindow_frame:SetPoint("center", UIParent, "center")
 			updatewindow_frame:SetSize(512, 200)
 			--updatewindow_frame.portrait:SetTexture([[Interface\CHARACTERFRAME\TEMPORARYPORTRAIT-FEMALE-GNOME]])
@@ -1342,7 +1348,7 @@
 
 						--2 = reset data
 						elseif (Details.minimap.onclick_what_todo == 2) then
-							Details.tabela_historico:resetar()
+							Details.tabela_historico:ResetAllCombatData()
 
 						--3 = show hide windows
 						elseif (Details.minimap.onclick_what_todo == 3) then
@@ -1367,7 +1373,7 @@
 						GameCooltip:SetOption("TextSize", 10)
 
 						--reset
-						GameCooltip:AddMenu (1, Details.tabela_historico.resetar, true, nil, nil, Loc ["STRING_ERASE_DATA"], nil, true)
+						GameCooltip:AddMenu (1, Details.tabela_historico.ResetAllCombatData, true, nil, nil, Loc ["STRING_ERASE_DATA"], nil, true)
 						GameCooltip:AddIcon ([[Interface\COMMON\VOICECHAT-MUTED]], 1, 1, 14, 14)
 
 						GameCooltip:AddLine("$div")
@@ -1456,12 +1462,12 @@
 				end
 
 			elseif (Details.hotcorner_topleft.onclick_what_todo == 2) then
-				Details.tabela_historico:resetar()
+				Details.tabela_historico:ResetAllCombatData()
 			end
 		end
 
 		local quickclick_func1 = function(frame, button)
-			Details.tabela_historico:resetar()
+			Details.tabela_historico:ResetAllCombatData()
 		end
 
 		local quickclick_func2 = function(frame, button)
@@ -1622,7 +1628,7 @@ function Details.ShowCopyValueFrame(textToShow)
 		frame:SetSize(160, 20)
 		frame:SetPoint("center", UIParent, "center", 0, 0)
 		DetailsFramework:ApplyStandardBackdrop(frame)
-		tinsert(UISpecialFrames, "DetailsCopyValueFrame")
+		table.insert(UISpecialFrames, "DetailsCopyValueFrame")
 
 		frame.editBox = CreateFrame("editbox", nil, frame)
 		frame.editBox:SetPoint("topleft", frame, "topleft")

@@ -44,8 +44,13 @@ L= DBM:GetModLocalization(108)
 -----------------------------
 L= DBM:GetModLocalization(109)
 
-L:SetOptionLocalization({
-	SetIconOnBoss	= "Пометить босса иконкой после $spell:76200 "
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("BlackrockCavernsTrash")
+
+L:SetGeneralLocalization({
+	name =	"Трэш мобы Пещеры Черной горы"
 })
 
 ---------------------
@@ -317,6 +322,15 @@ L= DBM:GetModLocalization(112)
 ------------------------
 L= DBM:GetModLocalization(113)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("StonecoreTrash")
+
+L:SetGeneralLocalization({
+	name =	"Трэш мобы Каменные Недра"
+})
+
 ---------------------------
 --  The Vortex Pinnacle  --
 ---------------------------
@@ -333,14 +347,19 @@ L:SetMiscLocalization{
 --------------
 L= DBM:GetModLocalization(115)
 
-L:SetOptionLocalization({
-	BreathIcon	= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(88308)
-})
-
 -----------
 -- Asaad --
 -----------
 L= DBM:GetModLocalization(116)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("VortexPinnacleTrash")
+
+L:SetGeneralLocalization({
+	name =	"Трэш мобы Вершина Смерча"
+})
 
 ---------------------------
 --  The Throne of Tides  --
@@ -371,6 +390,15 @@ L:SetTimerLocalization{
 L:SetOptionLocalization{
 	TimerPhase		= "Показывать таймер для 2-й фазы"
 }
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("ThroneofTidesTrash")
+
+L:SetGeneralLocalization({
+	name =	"Трэш мобы Трон Приливов"
+})
 
 ----------------
 --  Zul'Aman  --
@@ -549,8 +577,7 @@ L:SetWarningLocalization{
 
 L:SetOptionLocalization{
 	SpecWarnToxic	= "Спецпредупреждение, когда на Вас нет $spell:96328",
-	InfoFrame		= "Показывать игроков без $spell:96328",
-	SetIconOnGaze	= DBM_CORE_L.AUTO_ICONS_OPTION_TARGETS:format(96342)
+	InfoFrame		= "Показывать игроков без $spell:96328"
 }
 
 L:SetMiscLocalization{
@@ -671,14 +698,6 @@ L:SetMiscLocalization{
 --------------
 L= DBM:GetModLocalization(322)
 
-L:SetTimerLocalization{
-	TimerCombatStart	= "Начало боя"
-}
-
-L:SetOptionLocalization{
-	TimerCombatStart	= "Показывать таймер до начала боя"
-}
-
 L:SetMiscLocalization{
 	Event		= "Покажи себя!",
 	Pull		= "На обрывах каньона появляются войска Сумрака."
@@ -698,61 +717,6 @@ L:SetMiscLocalization{
 ---------------------------
 L= DBM:GetModLocalization(341)
 
-L:SetTimerLocalization{
-	TimerCombatStart	= "Начало боя"
-}
-
-L:SetOptionLocalization{
-	TimerCombatStart	= "Показать таймер до начала боя"
-}
-
 L:SetMiscLocalization{
 	Event		= "А теперь, шаман, ты отдашь Душу Дракона МНЕ."
-}
-
---------------------
---  World Bosses  --
--------------------------
--- Akma'hat --
--------------------------
-L = DBM:GetModLocalization("Akmahat")
-
-L:SetGeneralLocalization{
-	name = "Акма'хат"
-}
-
------------
--- Garr --
-----------
-L = DBM:GetModLocalization("Garr")
-
-L:SetGeneralLocalization{
-	name = "Гарр"
-}
-
-----------------
--- Julak-Doom --
-----------------
-L = DBM:GetModLocalization("JulakDoom")
-
-L:SetGeneralLocalization{
-	name = "Джулак-Рок"
-}
-
------------
--- Mobus --
------------
-L = DBM:GetModLocalization("Mobus")
-
-L:SetGeneralLocalization{
-	name = "Мобус"
-}
-
------------
--- Xariona --
------------
-L = DBM:GetModLocalization("Xariona")
-
-L:SetGeneralLocalization{
-	name = "Зариона"
 }

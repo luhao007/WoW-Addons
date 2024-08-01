@@ -1,10 +1,12 @@
 local Plater = _G.Plater
 local C_Timer = _G.C_Timer
 local addonName, platerInternal = ...
-local pcall = pcall
+local xpcall = xpcall
+local GetErrorHandler = platerInternal.GetErrorHandler
 local DF = DetailsFramework
 local LibAceSerializer = LibStub:GetLibrary ("AceSerializer-3.0")
 local LibDeflate = LibStub:GetLibrary ("LibDeflate")
+local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
 
 local CONST_THROTTLE_HOOK_COMMS = 0.500 --2 comms per second per mod
 local CONST_COLORNPC_SHARING_CHANNEL = "GUILD"
@@ -104,9 +106,9 @@ end
         local func = platerInternal.Comms.CommHandler[prefix]
 
         if (func) then
-            local runOkay, errorMsg = pcall(func, prefix, unitName, realmName, unitGUID, encodedData, channel)
+            local runOkay, errorMsg = xpcall(func, GetErrorHandler("Plater COMM error: "), prefix, unitName, realmName, unitGUID, encodedData, channel)
             if (not runOkay) then
-                Plater:Msg("error on something")
+                --Plater:Msg("error on something")
             end
         end
     end
@@ -363,6 +365,9 @@ end
 				local npcName = nextDataToApprove[3]
 				local npcZone = nextDataToApprove[4]
 				local senderName = nextDataToApprove[6]
+				
+				npcName = string.gsub(npcName, "@C@", ",")
+				npcZone = string.gsub(npcZone, "@C@", ",")
 
 				frame.Text1:SetText("From: " .. senderName)
 
@@ -379,6 +384,8 @@ end
 
 				elseif (whichInfo == "npcrename") then
 					local newName = nextDataToApprove[5]
+					newName = string.gsub(newName, "@C@", ",")
+					
 					frame.Text2:SetText("Rename: |cFFFFDD00" .. npcName .. "|r to: |cFFFFDD00" .. newName)
 
 					frame.AcceptButton:SetClickFunction(function()
@@ -497,6 +504,7 @@ end
 		--check if the npc_cache has the npc name and zone, if not add them to the database
 		if (not Plater.db.profile.npc_cache[npcId]) then
 			Plater.db.profile.npc_cache[npcId] = {npcName, npcZone}
+			Plater.TranslateNPCCache()
 		end
 
 		local npcsRenamed = Plater.db.profile.npcs_renamed
@@ -608,7 +616,7 @@ end
 		end
 
 		local autoAccept = data[5] and tonumber(data[5])
-		local bAutoAccept = autoAccept == 1
+		local bAutoAccept = (autoAccept == 1) and not Plater.db.profile.opt_out_auto_accept_npc_colors
 		if (bAutoAccept) then
 			if (not UnitIsGroupAssistant(unitName) and not UnitIsGroupLeader(unitName)) then
 				return
@@ -799,6 +807,9 @@ end
 			Plater:Msg("npcInfo not found.")
 			return
 		end
+		
+		npcName = string.gsub(npcName, ",", "@C@")
+		npcZone = string.gsub(npcZone, ",", "@C@")
 
 		local dataToSend
 
@@ -819,6 +830,8 @@ end
 				Plater:Msg("npc does not have a custom name.")
 				return
 			end
+			
+			npcNameRenamed = string.gsub(npcNameRenamed, ",", "@C@")
 
 			dataToSend = whichInfo .. "," .. npcId .. "," .. npcName .. "," .. npcZone .. "," .. (autoAccept and "1" or "0") .. "," .. npcNameRenamed
 

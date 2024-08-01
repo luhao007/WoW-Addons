@@ -1,8 +1,8 @@
--- $Id: Core.lua 173 2022-07-23 15:11:26Z arithmandar $
+-- $Id: Core.lua 181 2023-03-20 15:03:40Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
-	Copyright 2016 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2016 ~ 2023 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 

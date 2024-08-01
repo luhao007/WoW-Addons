@@ -1,9 +1,7 @@
 local mod	= DBM:NewMod(584, "DBM-Party-WotLK", 1, 271)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,timewalker"
-
-mod:SetRevision("20220221000356")
+mod:SetRevision("20231117105343")
 mod:SetCreatureID(29311)
 mod:SetEncounterID(1968)
 
@@ -13,15 +11,21 @@ mod:RegisterEvents(
 	"SPELL_CAST_START 60848"
 )
 
-mod:RegisterEventsInCombat(
-	"UNIT_SPELLCAST_START boss1"
-)
+if mod:IsClassic() then
+	mod:RegisterEventsInCombat(
+		"UNIT_SPELLCAST_START"
+	)
+else
+	mod.statTypes = "normal,heroic,timewalker"
+	mod:RegisterEventsInCombat(
+		"UNIT_SPELLCAST_START boss1"
+	)
+end
 
 local warnShadowCrash			= mod:NewTargetAnnounce(62660, 4)
 local warningInsanity			= mod:NewCastAnnounce(57496, 3)--Not currently working, no CLEU for it
 
 local specWarnShadowCrash		= mod:NewSpecialWarningDodge(62660, nil, nil, nil, 1, 2)
-local specWarnShadowCrashNear	= mod:NewSpecialWarningClose(62660, nil, nil, nil, 1, 2)
 local yellShadowCrash			= mod:NewYell(62660)
 
 local timerInsanity				= mod:NewCastTimer(5, 57496, nil, nil, nil, 6)
@@ -45,9 +49,6 @@ function mod:ShadowCrashTarget(targetname, uId)
 			specWarnShadowCrash:Show()
 			specWarnShadowCrash:Play("watchstep")
 			yellShadowCrash:Yell()
-		elseif self:CheckNearby(5, targetname) then
-			specWarnShadowCrashNear:Show(targetname)
-			specWarnShadowCrashNear:Play("watchstep")
 		else
 			warnShadowCrash:Show(targetname)
 		end
@@ -62,7 +63,19 @@ end
 
 function mod:UNIT_SPELLCAST_START(uId, _, spellId)
    if spellId == 57496 then -- Insanity
+		if self:IsClassic() then
+			self:SendSync("Insanity")
+		else
+			warningInsanity:Show()
+			timerInsanity:Start()
+		end
+   end
+end
+
+function mod:OnSync(event)
+	if not self:IsInCombat() then return end
+	if event == "Insanity" then
 		warningInsanity:Show()
 		timerInsanity:Start()
-   end
+	end
 end

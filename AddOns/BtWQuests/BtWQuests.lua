@@ -50,6 +50,12 @@ end
 local function CanCompleteQuest(questLogIndex)
     return IsQuestComplete(GetQuestIDForQuestIndex(questLogIndex)) and GetQuestLogIsAutoComplete(questLogIndex)
 end
+local GetAddOnMetadata = GetAddOnMetadata or C_AddOns.GetAddOnMetadata
+
+function BtWQuestsDragonflight_OnAddonCompartmentClick()
+    BtWQuestsFrame:Show()
+    BtWQuestsFrame:SelectExpansion(BtWQuests.Constant.Expansions.Dragonflight)
+end
 
 BtWQuestsFrameChainViewMixin = {}
 function BtWQuestsFrameChainViewMixin:GetTooltip()
@@ -406,6 +412,9 @@ function BtWQuestsMixin:SelectFromLink(link, scrollTo)
     local _, _, color, type, text, name = string.find(link, "|cff(%x*)|H([^:]+):([^|]+)|h%[([^%[%]]*)%]|h|r")
     if not color then
         _, _, type, text = string.find(link, "([^:]+):(.+)")
+    end
+    if type == "garrmission" then
+        _, _, type, text = string.find(text, "^([^:]*):(.*)")
     end
 
     assert(type == "quest" or type == "btwquests")
@@ -772,12 +781,22 @@ function BtWQuestsMixin:UpdateCurrentChain()
 end
 
 local function ChainItemPool_HideAndClearAnchors(framePool, frame)
-    FramePool_HideAndClearAnchors(framePool, frame)
+	frame:Hide();
+	frame:ClearAllPoints();
 
     if frame.backgroundLinePool then
         frame.backgroundLinePool:ReleaseAll();
     end
 end
+
+local GetNumAddOns = C_AddOns and C_AddOns.GetNumAddOns or GetNumAddOns;
+local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata;
+local IsAddOnLoadOnDemand = C_AddOns and C_AddOns.IsAddOnLoadOnDemand or IsAddOnLoadOnDemand;
+local GetAddOnEnableState = C_AddOns and function (character, addon)
+    return C_AddOns.GetAddOnEnableState(addon, character)
+end or GetAddOnEnableState;
+local LoadAddOn = C_AddOns and C_AddOns.LoadAddOn or LoadAddOn;
+local GetAddOnInfo = C_AddOns and C_AddOns.GetAddOnInfo or GetAddOnInfo;
 
 function BtWQuestsMixin:OnLoad()
     tinsert(UISpecialFrames, self:GetName());
@@ -1213,7 +1232,7 @@ end
 -- [[ Hyperlink Handling ]]
 
 local function ChatFrame_Filter(self, event, msg, ...)
-    msg = msg:gsub("%[btwquests:([^:]+):(%d+):([^:]+):([^%]]+)%]","|c%3|Hbtwquests:%1:%2|h[%4]|h|r"):gsub("https://www.btwquests.com/([^/]+)/(%d+)[-%w]*","|cffffff00|Hbtwquests:%1:%2|h[%0]|h|r")
+    msg = msg:gsub("%[btwquests:([^:]+):(%d+):([^:]+):([^%]]+)%]","|c%3|Hgarrmission:btwquests:%1:%2|h[%4]|h|r"):gsub("https://www.btwquests.com/([^/]+)/(%d+)[-%w]*","|cffffff00|Hgarrmission:btwquests:%1:%2|h[%0]|h|r")
 
 	return false, msg, ...;
 end
@@ -1250,44 +1269,21 @@ end
 hooksecurefunc("ChatEdit_ParseText", function (editBox, send, parseIfNoSpaces)
     if send == 1 then
         local text = editBox:GetText()
-        text = text:gsub("|c(%x*)|Hbtwquests:([^|]+)|h%[([^%[%]]*)%]|h|r", function (color,str,name)
+        text = text:gsub("|c(%x*)|Hgarrmission:btwquests:([^|]+)|h%[([^%[%]]*)%]|h|r", function (color,str,name)
             return string.format("[btwquests:%s:%s:%s]", str, color,name)
-        end):gsub("|Hbtwquests:([^|]+)|h%[([^%[%]]*)%]|h", function (str,name)
+        end):gsub("|Hgarrmission:btwquests:([^|]+)|h%[([^%[%]]*)%]|h", function (str,name)
             return string.format("[btwquests:%s:%s:%s]", str, "ffffff00",name)
         end)
         editBox:SetText(text)
     end
 end)
 
--- Handles shift clicking btwquests links
-local original_HandleModifiedItemClick = HandleModifiedItemClick
-function HandleModifiedItemClick(link, ...)
-    if link and link:find("Hbtwquests") then
+hooksecurefunc("SetItemRef", function(link, text)
+    if link:find("garrmission:btwquests") then
         if IsModifiedClick("CHATLINK") then
-			ChatEdit_InsertLink(link)
-		else
-            BtWQuestsFrame:SelectFromLink(link)
-		end
-    else
-        return original_HandleModifiedItemClick(link, ...)
-    end
-end
-
--- Handles clicking btwquests links
-local original_SetHyperlink = ItemRefTooltip.SetHyperlink
-function ItemRefTooltip:SetHyperlink(link)
-    if link:find("^btwquests") then
-        if IsModifiedClick("CHATLINK") then
-			ChatEdit_InsertLink(link)
+            ChatEdit_InsertLink(text)
         else
-            local success, err = pcall(function ()
-                BtWQuestsFrame:SelectFromLink(link)
-            end)
-            if not success then
-                print(L["Error viewing link"])
-            end
-		end
-	else
-		original_SetHyperlink(self, link);
-	end
-end
+            BtWQuestsFrame:SelectFromLink(text)
+        end
+    end
+end);

@@ -11,7 +11,7 @@ from chardet.universaldetector import UniversalDetector
 
 logger = logging.getLogger('process')
 
-TOCS = ['.toc'] + [f'{s}{p}.toc' for s in ('-', '_') for p in ('Classic', 'BCC', 'WOTLKC', 'Mainline', 'TBC', 'Vanilla', 'Wrath')]
+TOCS = ['.toc'] + [f'{s}{p}.toc' for s in ('-', '_') for p in ('Classic', 'BCC', 'WOTLKC', 'Mainline', 'TBC', 'Vanilla', 'Wrath', 'Cata')]
 
 def process_file(path: str | Path, func: Callable):
     """Helper function to process the files.
@@ -73,6 +73,8 @@ def get_libraries_list():
     paths = [root, root / 'Ace3', root / 'Ace3' / 'AceConfig-3.0', root / 'LibBabble']
     libs = sum([[lib for lib in os.listdir(path) if os.path.isdir(path / lib)] for path in paths], [])
     libs += ['HereBeDragons-2.0']       # Alternative name
+    libs += ['LibUIDropDownMenu']       # We got an "!" mark in the lib name
+    libs += ['LibTranslit']             # Alternative name
     return libs
 
 
@@ -105,7 +107,8 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
         remove_libs_in_file(path, [f'{lib_path}\\{lib}' for lib in libs])
 
     # Remove lib entry in lib folder
-    lib_files = [Path('Addons') / addon / lib_path / lib_file for lib_file in ['Includes.xml', 'Libs.xml', 'main.xml', 'embeds.xml', 'Manifest.xml']]
+    xmls = ['Includes.xml', 'Libs.xml', 'main.xml', 'Manifest.xml', 'Files.xml', 'embeds.xml']
+    lib_files = [Path('Addons') / addon / lib_path / lib_file for lib_file in xmls]
     lib_files = [path for path in lib_files if os.path.exists(str(path))]
     for path in lib_files:
         remove_libs_in_file(path, libs)
@@ -137,6 +140,8 @@ def change_defaults(path: str, defaults: str | list[str]):
 
 
 def lib_to_toc(lib: str):
+    if lib == 'Krowi_WorldMapButtons':
+        return 'Krowi_WorldMapButtons\\Krowi_WorldMapButtons-1.4.xml\n'
     root = Path('Addons/!!Libs')
     subdir = os.listdir(root / lib)
     for script in ['lib.xml', 'load.xml', f'{lib}.xml', f'{lib}.lua', 'Core.lua']:

@@ -5,10 +5,11 @@
 	
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	local _detalhes = _G._detalhes
+	local _detalhes = _G.Details
 	local Loc = LibStub("AceLocale-3.0"):GetLocale ( "Details" )
 	local _
 	local addonName, Details222 = ...
+	local GetSpellInfo = Details222.GetSpellInfo
 	--initialize buffs name container
 	_detalhes.Buffs.BuffsTable = {} -- armazenara o [nome do buff] = { tabela do buff }
 	_detalhes.Buffs.__index = _detalhes.Buffs

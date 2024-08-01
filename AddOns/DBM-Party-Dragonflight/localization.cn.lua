@@ -1,4 +1,4 @@
---Mini Dragon <流浪者酒馆-Brilla@金色平原> 20230116
+--Mini Dragon <流浪者酒馆-Brilla@金色平原> 20230727
 --夏一可，暴雪娱乐
 
 if GetLocale() ~= "zhCN" then return end
@@ -183,10 +183,6 @@ L:SetGeneralLocalization({
 	name =	"艾杰斯亚学院小怪"
 })
 
-L:SetOptionLocalization({
-	AGBuffs		= "与龙族 NPC 交互时自动选择交谈以激活增益"
-})
-
 -----------------------
 -- <<<The Azure Vault>>> --
 -----------------------
@@ -217,10 +213,6 @@ L = DBM:GetModLocalization("TheAzurevaultTrash")
 
 L:SetGeneralLocalization({
 	name =	"碧蓝魔馆小怪"
-})
-
-L:SetOptionLocalization({
-	AGBook			= "与魔法书交互时自动选择传送"
 })
 
 -----------------------
@@ -287,4 +279,64 @@ L = DBM:GetModLocalization("HallsofInfusionTrash")
 
 L:SetGeneralLocalization({
 	name =	"注能大厅小怪"
+})
+
+-----------------------
+-- <<<Dawn of the Infinite>>> --
+-----------------------
+-----------------------
+-- Chronikar --
+-----------------------
+--L= DBM:GetModLocalization(2521)
+
+-----------------------
+-- Manifested Timeways --
+-----------------------
+--L= DBM:GetModLocalization(2528)
+
+-----------------------
+-- Blight of Galakrond --
+-----------------------
+--L= DBM:GetModLocalization(2535)
+
+-----------------------
+-- Iridikron the Stonescaled --
+-----------------------
+--L= DBM:GetModLocalization(2537)
+
+-----------------------
+-- Tyr, the infinite Keeper --
+-----------------------
+--L= DBM:GetModLocalization(2526)
+
+-----------------------
+-- Morchie --
+-----------------------
+--L= DBM:GetModLocalization(2536)
+
+-----------------------
+-- Time-Lost Battlefield  --
+-----------------------
+L= DBM:GetModLocalization(2533)--Alliance ID used for both factions (2534 is horde id)
+
+L:SetGeneralLocalization({
+	name =	"迷时战场"
+})
+
+L:SetMiscLocalization({
+	customWAMessage = "|cff4565ff联盟|r 使用 |cff69ccf0%s|r 开怪倒计时，|cffff0000部落|r 使用 |cff69ccf0%s|r 开怪倒计时"
+})
+
+-----------------------
+-- Chrono-Lord Deios --
+-----------------------
+--L= DBM:GetModLocalization(2538)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("DawnoftheInfiniteTrash")
+
+L:SetGeneralLocalization({
+	name =	"永恒黎明小怪"
 })

@@ -1,8 +1,9 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
-## Version: v3.5.8
+## Version: v3.5.34
 ## OptionalDeps: Ace3
 ## SavedVariables: BlizzMoveDB
+## IconTexture: 982414
 
 ## Title: BlizzMove
 ## Notes: Makes blizzard frames movable
@@ -15,7 +16,6 @@
 
 # Libraries
 Libs\Libs.xml
-TaintLess.xml
 
 # Add-On
 BlizzMove.lua

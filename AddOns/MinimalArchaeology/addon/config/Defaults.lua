@@ -20,6 +20,7 @@ MinArch.defaults = {
 		startHidden = false,
 		hideMain = false,
 		frameScale = 100,
+        mapPinScale = 120,
 		showStatusMessages = false,
 		showDebugMessages = false,
 		showWorldMapOverlay = true,
@@ -35,7 +36,7 @@ MinArch.defaults = {
         surveyOnDoubleClick = true,
         dblClick = {
             disableMounted = false,
-            disableInFlight = false,
+            disableInFlight = true,
         },
 		relevancy = {
 			relevantOnly = false,
@@ -57,14 +58,27 @@ MinArch.defaults = {
 			persistent = false,
 			autoWayOnMove = false,
             autoWayOnComplete = true,
-            prioRace = -1,
+            prioRace = true, -- Removed in 10.2.12
+            ignoreHidden = false,
+            optimizePath = false,
+            optimizationModifier = 2,
+            taxi = {
+                enabled = true,
+                archMode = false,
+                autoEnableArchMode = false,
+                autoDisableArchMode = false,
+                distance = 4000,
+                alpha = 50,
+                zoneCheck = false
+            }
 		},
 
 		-- dynamic options
 		raceOptions = {
 			hide = {},
 			cap = {},
-			keystone = {}
+			keystone = {},
+            priority = {}
         },
 
         ProgressBar = {
@@ -76,6 +90,8 @@ MinArch.defaults = {
             showHelpTip = true,
             enable = true,
             alwaysShow = true,
+            hideInCombat = true,
+            hideWhenUnavailable = false,
             frameScale = 100,
             savePos = true,
             point = "CENTER",
@@ -96,14 +112,18 @@ MinArch.defaults = {
                 distanceTracker = {enabled = true,  order = 1, shape = 2}, -- 1: circle, 2: square, 3: triangle
                 waypointButton  = {enabled = true,  order = 2},
                 surveyButton    = {enabled = true,  order = 3},
-                solveButton     = {enabled = true,  order = 4},
+                solveButton     = {enabled = true,  order = 4, keystone = true, alwaysShowSolvable = true, alwaysShowNearest = true},
                 crateButton     = {enabled = true,  order = 5},
                 mountButton     = {enabled = false, order = 6},
+                skillBar        = {enabled = true},
+                progressBar     = {enabled = true, showTooltip = true, solveOnClick = true}
             },
         },
 
         history = {
             autoResize = true,
+            showStats = true,
+            groupByProgress = true,
         },
 
 		-- deprecated, left for compatibility

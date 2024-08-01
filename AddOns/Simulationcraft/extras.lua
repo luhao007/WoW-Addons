@@ -60,7 +60,8 @@ Simulationcraft.RegionString = {
   [2] = 'kr',
   [3] = 'eu',
   [4] = 'tw',
-  [5] = 'cn'
+  [5] = 'cn',
+  [72] = 'tr'
 }
 
 -- non-localized profession names from ids
@@ -97,6 +98,7 @@ Simulationcraft.SpecNames = {
   [104] = 'Guardian',
   [105] = 'Restoration',
 -- Evoker
+  [1473] = 'Augmentation',
   [1467] = 'Devastation',
   [1468] = 'Preservation',
 -- Hunter 
@@ -292,4 +294,45 @@ Simulationcraft.covenants = {
   [2] = 'venthyr',
   [3] = 'night_fae',
   [4] = 'necrolord',
+}
+
+-- Upgrade currencies and item
+
+Simulationcraft.upgradeCurrencies = {
+  [1191] = 'Valor',
+  [1792] = 'Honor',
+  [2122] = 'Storm Sigil',
+  [2245] = 'Flightstones',
+  [2706] = 'Whelpling\'s Dreaming Crest',
+  [2707] = 'Drake\'s Dreaming Crest',
+  [2708] = 'Wyrm\'s Dreaming Crest',
+  [2709] = 'Aspect\'s Dreaming Crest',
+  [2806] = 'Whelpling\'s Awakened Crest',
+  [2807] = 'Drake\'s Awakened Crest',
+  [2809] = 'Wyrm\'s Awakened Crest',
+  [2812] = 'Aspect\'s Awakened Crest',
+}
+
+Simulationcraft.upgradeItems = {
+  [190453] = 'Spark of Ingenuity',
+  [197921] = 'Primal Infusion',
+  [198046] = 'Concentrated Primal Infusion',
+  [198048] = 'Titan Training Matrix I',
+  [198056] = 'Titan Training Matrix II',
+  [198058] = 'Titan Training Matrix III',
+  [198059] = 'Titan Training Matrix IV',
+  [204440] = 'Spark of Shadowflame',
+  [204673] = 'Titan Training Matrix V',
+  [204681] = 'Enchanted Whelpling\'s Shadowflame Crest',
+  [204682] = 'Enchanted Wyrm\'s Shadowflame Crest',
+  [204697] = 'Enchanted Aspect\'s Shadowflame Crest',
+  [206366] = 'Cracked Trophy of Strife',
+  [206959] = 'Spark of Dreams',
+  [206960] = 'Enchanted Wyrm\'s Dreaming Crest',
+  [206961] = 'Enchanted Aspect\'s Dreaming Crest',
+  [206977] = 'Enchanted Whelpling\'s Dreaming Crest',
+  [211516] = 'Spark of Awakening',
+  [211518] = 'Enchanted Wyrm\'s Awakened Crest',
+  [211519] = 'Enchanted Aspect\'s Awakened Crest',
+  [211520] = 'Enchanted Whelpling\'s Awakened Crest',
 }

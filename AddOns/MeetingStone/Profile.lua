@@ -1,4 +1,3 @@
-
 BuildEnv(...)
 
 Profile = Addon:NewModule('Profile', 'AceEvent-3.0')
@@ -18,34 +17,43 @@ local DEFAULT_CHATGROUP_COLOR = {
 function Profile:OnInitialize()
     local gdb = {
         global = {
-            ActivityProfiles = {
+            ActivityProfiles  = {
                 Voice     = nil,
                 VoiceSoft = nil,
             },
-            annData        = {},
-            serverDatas    = {},
-            ignoreHash     = {},
-            spamWord       = {},
-            searchProfiles = {},
-            filters = {
-            }
+            annData           = {},
+            serverDatas       = {},
+            ignoreHash        = {},
+            spamWord          = {},
+            searchProfiles    = {},
+            enableIgnoreTitle = true,
+            showclassico      = true,
+            showspecico       = false,
+            showSmRoleIco     = false,
+            classIcoMsOnly    = true,
+            showWindClassIco  = false,
+            useWindSkin       = true,
+            enableRaiderIO    = true,
+            enableLeaderColor = true,
+            enableClassFilter = false,
+            filters           = {},
         },
     }
 
     local cdb = {
         profile = {
-            settings = {
-                storage   = { point = 'TOP', x = 0, y = -20},
-                panel     = true,
-                panelLock = false,
-                sound     = true,
-                ignore    = true,
-                spamWord  = true,
-                packedPvp = true,
+            settings           = {
+                storage           = { point = 'TOP', x = 0, y = -20 },
+                panel             = true,
+                panelLock         = false,
+                sound             = true,
+                ignore            = true,
+                spamWord          = true,
+                packedPvp         = true,
                 spamLengthEnabled = true,
-                spamLength = 20,
+                spamLength        = 20,
             },
-            minimap = { hide = true,
+            minimap            = {
                 minimapPos = 192.68,
             },
             searchHistoryList  = {},
@@ -54,8 +62,8 @@ function Profile:OnInitialize()
             followMemberList   = {},
             chatGroupListening = DEFAULT_CHATGROUP_LISTENING,
             chatGroupColor     = DEFAULT_CHATGROUP_COLOR,
-            recent = {},
-            combatData = {
+            recent             = {},
+            combatData         = {
                 dd = 0, dt = 0, hd = 0, dead = 0, time = 0,
             }
         }
@@ -68,6 +76,7 @@ function Profile:OnInitialize()
     self.cdb = LibStub('AceDB-3.0'):New('MEETINGSTONE_CHARACTER_DB', cdb)
 
     local settingVersion = self:GetLastCharacterVersion()
+
     if settingVersion < 70300.12 then
         self.cdb.profile.settings.onlyms = nil
 
@@ -78,7 +87,7 @@ function Profile:OnInitialize()
                 else
                     v.status = FOLLOW_STATUS_STARED
                 end
-            v.bitfollow = nil
+                v.bitfollow = nil
             end
         end
 
@@ -86,7 +95,7 @@ function Profile:OnInitialize()
         self.cdb.profile.lastSearchValue = nil
     end
     if settingVersion < 80000.03 then
-        wipe(self.cdb.profile.searchHistoryList)
+        -- wipe(self.cdb.profile.searchHistoryList)
     end
     self.cdb.profile.version = ADDON_VERSION
 
@@ -144,6 +153,64 @@ end
 
 function Profile:GetGlobalDB()
     return self.gdb
+end
+
+function Profile:GetGlobalOption(key)
+    return self.gdb.global[key]
+end
+
+function Profile:GetEnableIgnoreTitle()
+    return self:GetGlobalOption('enableIgnoreTitle')
+end
+
+function Profile:GetShowClassIco()
+    return self:GetGlobalOption('showclassico')
+end
+
+function Profile:GetShowSpecIco()
+    return self:GetGlobalOption('showspecico')
+end
+
+function Profile:GetShowSmRoleIco()
+    return self:GetGlobalOption('showSmRoleIco')
+end
+
+function Profile:GetClassIcoMsOnly()
+    return self:GetGlobalOption('classIcoMsOnly')
+end
+
+function Profile:GetShowWindClassIco()
+    return self:GetGlobalOption('showWindClassIco')
+end
+
+function Profile:GetEnableClassFilter()
+    return self:GetGlobalOption('enableClassFilter')
+end
+
+function Profile:GetUseWindSkin()
+    return self:GetGlobalOption('useWindSkin')
+end
+
+function Profile:GetEnableRaiderIO()
+    local region = GetPlayerRegion()
+    return self:GetGlobalOption('enableRaiderIO') and region ~= "CN"
+end
+
+function Profile:GetEnableLeaderColor()
+    return self:GetGlobalOption('enableLeaderColor')
+end
+
+function Profile:SaveGlobalOption(key, value)
+    local needReload = {
+        ['showclassico']      = true,
+        ['classIcoMsOnly']    = true,
+        ['showWindClassIco']  = true,
+        ['useWindSkin']       = true,
+        ['enableClassFilter'] = true,
+    }
+
+    self.gdb.global[key] = value
+    return needReload[key] == true
 end
 
 function Profile:GetCharacterDB()
@@ -271,8 +338,8 @@ function Profile:SortSpamWord()
     sort(self.gdb.global.spamWord, sortSpamWord)
 end
 
-function Profile:AddSpamWord(word, delay)
-    if type(word) ~= 'table'  then
+function Profile:AddSpamWord(word, delay, silence)
+    if type(word) ~= 'table' then
         System:Log(L['添加失败，未输入关键字。'])
         return
     end
@@ -282,10 +349,10 @@ function Profile:AddSpamWord(word, delay)
     end
 
     if self:GetSpamWordIndex(word) then
-        System:Logf(L['添加失败，关键字“%s”已存在。'], word.text)
+        if not silence then System:Logf(L['添加失败，关键字“%s”已存在。'], word.text) end
     else
         tinsert(self.gdb.global.spamWord, word)
-        System:Logf(L['添加成功，关键字“%s”已添加。'], word.text)
+        if not silence then System:Logf(L['添加成功，关键字“%s”已添加。'], word.text) end
         if not delay then
             ClearSpamWordCache()
             self:SortSpamWord()
@@ -295,7 +362,7 @@ function Profile:AddSpamWord(word, delay)
 end
 
 function Profile:DelSpamWord(word)
-    if type(word) ~= 'table'  then
+    if type(word) ~= 'table' then
         System:Log(L['删除失败，未输入关键字。'])
         return
     end
@@ -315,12 +382,12 @@ function Profile:GetSpamWords()
     return self.gdb.global.spamWord
 end
 
-function Profile:SaveImportSpamWord(text)
+function Profile:SaveImportSpamWord(text, silence)
     if type(text) ~= 'string' then
         return
     end
 
-    local list = {('\n'):split(text)}
+    local list = { ('\n'):split(text) }
 
     if #list == 0 then
         return
@@ -331,7 +398,7 @@ function Profile:SaveImportSpamWord(text)
         if text then
             enable = enable == '' and true or nil
             local word = { text = text, pain = enable }
-            self:AddSpamWord(word, true)
+            self:AddSpamWord(word, true, silence)
         end
     end
 
@@ -344,7 +411,7 @@ function Profile:ImportDefaultSpamWord()
         return
     end
     self.gdb.global.spamWord.default = true
-    self:SaveImportSpamWord(DEFAULT_SPAMWORD)
+    self:SaveImportSpamWord(DEFAULT_SPAMWORD, true)
     self:SendMessage('MEETINGSTONE_SPAMWORD_UPDATE')
 end
 
@@ -457,7 +524,7 @@ function Profile:ToggleChatGroupListening(id, group, checked)
 end
 
 function Profile:SetChatGroupColor(group, r, g, b)
-    self.cdb.profile.chatGroupColor[group] = {r = r, g = g, b = b}
+    self.cdb.profile.chatGroupColor[group] = { r = r, g = g, b = b }
 end
 
 function Profile:GetChatGroupColor(group)

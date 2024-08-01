@@ -1,12 +1,29 @@
 BuildEnv(...)
 
-LE_LFG_LIST_FILTER_PVE = Enum.LFGListFilter.PvE
-LE_LFG_LIST_FILTER_PVP = Enum.LFGListFilter.PvP
-
 local memorize = require('NetEaseMemorize-1.0')
 local nepy = require('NetEasePinyin-1.0')
 local Base64 = LibStub('NetEaseBase64-1.0')
 local AceSerializer = LibStub('AceSerializer-3.0')
+  
+local RoleIconTextures = {
+	[1] = "Interface/AddOns/MeetingStone/Media/SunUI/TANK.tga",
+	[2] = "Interface/AddOns/MeetingStone/Media/SunUI/Healer.tga",
+	[3] = "Interface/AddOns/MeetingStone/Media/SunUI/DPS.tga",
+}
+local classNameToSpecIcon = {}
+local classNameToSpecId = {}
+for classID = 1, 13 do
+	local classFile = select(2, GetClassInfo(classID)) -- "WARRIOR"
+	if classFile then
+		for specIndex = 1, 4 do
+			local specId, localizedSpecName, _, icon = GetSpecializationInfoForClassID(classID, specIndex)
+			if specId and localizedSpecName and icon then                
+				classNameToSpecIcon[classFile..localizedSpecName] = icon
+                classNameToSpecId[classFile..localizedSpecName] = specId
+			end
+		end
+	end
+end
 
 function GetClassColorText(className, text)
     local color = RAID_CLASS_COLORS[className]
@@ -34,7 +51,7 @@ end
 
 function IsActivityManager()
     return UnitIsGroupLeader('player', LE_PARTY_CATEGORY_HOME) or
-               (IsInRaid(LE_PARTY_CATEGORY_HOME) and UnitIsGroupAssistant('player', LE_PARTY_CATEGORY_HOME))
+        (IsInRaid(LE_PARTY_CATEGORY_HOME) and UnitIsGroupAssistant('player', LE_PARTY_CATEGORY_HOME))
 end
 
 function ToggleCreatePanel(...)
@@ -105,30 +122,30 @@ function CodeCommentData(activity)
     local activityId = activity:GetActivityID()
     local customId = activity:GetCustomID()
     local data = format('(%s)',
-                        AceSerializer:Serialize(CompressNumber(customId), ADDON_VERSION_SHORT, activity:GetMode(),
-                                                activity:GetLoot(), GetPlayerClass(),
-                                                GetPlayerItemLevel(activity:IsUseHonorLevel()),
-                                                GetPlayerRaidProgression(activityId, customId),
-                                                GetPlayerPvPRating(activityId), CompressNumber(activity:GetMinLevel()),
-                                                CompressNumber(activity:GetMaxLevel()),
-                                                CompressNumber(activity:GetPvPRating()), GetAddonSource(),
-                                                GetPlayerFullName(), GetPlayerSavedInstance(customId), nil,
-                                                CompressNumber(
-                                                    activity:IsUseHonorLevel() and UnitHonorLevel('player') or nil)))
+        AceSerializer:Serialize(CompressNumber(customId), ADDON_VERSION_SHORT, activity:GetMode(),
+            activity:GetLoot(), GetPlayerClass(),
+            GetPlayerItemLevel(activity:IsUseHonorLevel()),
+            GetPlayerRaidProgression(activityId, customId),
+            GetPlayerPvPRating(activityId), CompressNumber(activity:GetMinLevel()),
+            CompressNumber(activity:GetMaxLevel()),
+            CompressNumber(activity:GetPvPRating()), GetAddonSource(),
+            GetPlayerFullName(), GetPlayerSavedInstance(customId), nil,
+            CompressNumber(
+                activity:IsUseHonorLevel() and UnitHonorLevel('player') or nil)))
     return data
 end
 
 function GetSafeSummaryLength(activityId, customId, mode, loot)
     local data = format('(%s)', AceSerializer:Serialize(customId, ADDON_VERSION_SHORT, mode, loot, GetPlayerClass(),
-                                                        GetPlayerItemLevel(IsUseHonorLevel(activityId)),
-                                                        GetPlayerRaidProgression(activityId, customId),
-                                                        GetPlayerPvPRating(activityId), 999, 999,
-                                                        IsUsePvPRating(activityId) and 9999 or nil, GetAddonSource(),
-                                                        GetPlayerFullName(), GetPlayerSavedInstance(customId),
-                                                        format('%s-%s-%s', GetModeName(mode), GetLootName(loot),
-                                                               GetActivityName(activityId, customId)), CompressNumber(
-                                                            IsUseHonorLevel(activityId) and UnitHonorLevel('player') or
-                                                                nil)))
+        GetPlayerItemLevel(IsUseHonorLevel(activityId)),
+        GetPlayerRaidProgression(activityId, customId),
+        GetPlayerPvPRating(activityId), 999, 999,
+        IsUsePvPRating(activityId) and 9999 or nil, GetAddonSource(),
+        GetPlayerFullName(), GetPlayerSavedInstance(customId), format(
+            '%s-%s-%s', GetModeName(mode), GetLootName(loot),
+            GetActivityName(activityId, customId)), CompressNumber(
+            IsUseHonorLevel(activityId) and UnitHonorLevel('player') or
+            nil)))
     return min(MAX_MEETINGSTONE_SUMMARY_LETTERS, MAX_SUMMARY_LETTERS - strlenutf8(data))
 end
 
@@ -142,8 +159,8 @@ function CodeDescriptionData(activity)
     else
         local activityId = activity:GetActivityID()
         local data = format('(%s)',
-                            AceSerializer:Serialize(GetPlayerRaidProgression(activityId, activity:GetCustomID()),
-                                                    GetPlayerPvPRating(activityId), GetAddonSource()))
+            AceSerializer:Serialize(GetPlayerRaidProgression(activityId, activity:GetCustomID()),
+                GetPlayerPvPRating(activityId), GetAddonSource()))
         return data, strlenutf8(data)
     end
 end
@@ -173,16 +190,38 @@ end
 
 function GetActivityCode(activityId, customId, categoryId, groupId)
     if activityId and (not categoryId or not groupId) then
-        categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityId))
+        --2022-11-17
+        local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+        categoryId = activityInfo.categoryID;
+        groupId = activityInfo.groupFinderActivityGroupID;
+        --categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityId))
     end
     return format('%d-%d-%d-%d', categoryId or 0, groupId or 0, activityId or 0, customId or 0)
 end
 
+--2022-11-17
 function IsUseHonorLevel(activityId)
-    return activityId and select(11, C_LFGList.GetActivityInfo(activityId))
+    if activityId then
+        local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+        return activityId and activityInfo.useHonorLevel;
+    end
 end
 
-local PVP_INDEXS = {[6] = 1, [7] = 1, [8] = 1, [19] = 2}
+function IsMythicPlusActivity(activityId)
+    if activityId then
+        local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+        return activityId and activityInfo.isMythicActivity;
+    end
+end
+
+function IsRatedPvpActivity(activityId)
+    if activityId then
+        local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+        return activityId and activityInfo.isRatedPvpActivity;
+    end
+end
+
+local PVP_INDEXS = { [6] = 1, [7] = 1, [8] = 1, [19] = 2 }
 
 function IsUsePvPRating(activityId)
     return PVP_INDEXS[activityId]
@@ -249,7 +288,7 @@ function GetProgressionTex(value, bossIndex)
     local killed = bit.band(value, bit.lshift(1, bossIndex - 1)) > 0
 
     return killed and [[|TINTERFACE\FriendsFrame\StatusIcon-Online:16|t]] or
-               [[|TINTERFACE\FriendsFrame\StatusIcon-Offline:16|t]]
+        [[|TINTERFACE\FriendsFrame\StatusIcon-Offline:16|t]]
 end
 
 function GetActivityName(activityId, customId)
@@ -274,7 +313,7 @@ end
 
 function CodeActivityTitle(activityId, customId, mode, loot)
     return format('%s-%s-%s-%s', L['集合石'], GetLootName(loot), GetModeName(mode),
-                  GetActivityName(activityId, customId))
+        GetActivityName(activityId, customId))
 end
 
 function GetFullVersion(version)
@@ -383,8 +422,8 @@ end
 
 function GetAddonSource()
     for line in gmatch(
-                    '\066\105\103\070\111\111\116\058\049\010\033\033\033\049\054\051\085\073\033\033\033\058\050\010\068\117\111\119\097\110\058\052\010\069\108\118\085\073\058\056',
-                    '[^\r\n]+') do
+        '\066\105\103\070\111\111\116\058\049\010\033\033\033\049\054\051\085\073\033\033\033\058\050\010\068\117\111\119\097\110\058\052\010\069\108\118\085\073\058\056',
+        '[^\r\n]+') do
         local n, v = line:match('^(.+):(%d+)$')
         if IsAddOnLoaded(n) then
             return tonumber(v)
@@ -449,8 +488,22 @@ end
 
 GetAutoCompleteItem = setmetatable({}, {
     __index = function(t, activityId)
-        local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType =
-            C_LFGList.GetActivityInfo(activityId)
+        --2022-11-17
+        --local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType =
+        -- C_LFGList.GetActivityInfo(activityId)
+
+        local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+        local name = activityInfo.fullName;
+        local shortName = activityInfo.shortName;
+        local category = activityInfo.categoryID;
+        local group = activityInfo.groupFinderActivityGroupID;
+        local filters = activityInfo.filters;
+
+        local iLevel = activityInfo.ilvlSuggestion;
+        local minLevel = activityInfo.minLevel;
+        local maxMembers = activityInfo.maxNumPlayers;
+        local displayType = activityInfo.displayType;
+
         t[activityId] = {
             name = name,
             order = 0xffff - (ACTIVITY_ORDER.A[activityId] or ACTIVITY_ORDER.G[group] or 0),
@@ -485,4 +538,256 @@ function ApplyUrlButton(button, url)
         button:SetScript('OnClick', nil)
         button.url = nil
     end
+end
+
+--------------------------
+-- NDui MOD
+--------------------------
+local _G = _G
+local wipe = wipe
+local select = select
+local sort = sort
+
+local UnitClass = UnitClass
+local UnitGroupRolesAssigned = UnitGroupRolesAssigned
+local C_LFGList_GetSearchResultMemberInfo = C_LFGList.GetSearchResultMemberInfo
+local hooksecurefunc = hooksecurefunc
+
+local roleCache = {}
+local roleOrder = {
+    ["TANK"] = 1,
+    ["HEALER"] = 2,
+    ["DAMAGER"] = 3,
+}
+local roleAtlas = {
+    [1] = "groupfinder-icon-role-large-tank",
+    [2] = "groupfinder-icon-role-large-heal",
+    [3] = "groupfinder-icon-role-large-dps",
+}
+
+local function sortRoleOrder(a, b)
+    if a and b then
+        return a[1] < b[1]
+    end
+end
+
+local function GetPartyMemberInfo(index)
+    local unit = "player"
+    if index > 1 then unit = "party" .. (index - 1) end
+
+    local class = select(2, UnitClass(unit))
+    if not class then return end
+    local role = UnitGroupRolesAssigned(unit)
+    if role == "NONE" then role = "DAMAGER" end
+    return role, class
+end
+
+local function GetCorrectRoleInfo(frame, i)
+    if frame.resultID then
+        return C_LFGList_GetSearchResultMemberInfo(frame.resultID, i)
+    elseif frame == ApplicationViewerFrame then
+        return GetPartyMemberInfo(i)
+    end
+end
+
+local function UpdateGroupRoles(self)
+    wipe(roleCache)
+    if not self.__owner then
+        self.__owner = self:GetParent():GetParent()
+    end
+
+    local count = 0
+    for i = 1, 5 do
+        local role, class, classCN, spec = GetCorrectRoleInfo(self.__owner, i)
+
+        local roleIndex = role and roleOrder[role]
+        if roleIndex then
+            count = count + 1
+            if not roleCache[count] then roleCache[count] = {} end
+            roleCache[count][1] = roleIndex
+            roleCache[count][2] = class
+            roleCache[count][3] = i == 1
+			roleCache[count][4] = spec
+        end
+    end
+
+    sort(roleCache, sortRoleOrder)
+end
+
+local function CheckShowIcons(frame)
+    local isLFGList
+    while true do
+        if frame == LFGListFrame then
+            isLFGList = true
+            break
+            -- There is no such frame named MeetingStoneFrame
+        elseif frame == nil then
+            isLFGList = false
+            break
+        end
+        frame = frame:GetParent()
+    end
+
+    if not isLFGList then
+        if not Profile:GetShowClassIco() then
+            return "orig"
+        elseif IsAddOnLoaded("ElvUI_WindTools") and Profile:GetShowWindClassIco() then
+            -- Module LFGList does not initialize when PremadeGroupsFilter is loaded
+            -- print(WindTools[3].private.WT.misc.lfgList.enable)
+            if not IsAddOnLoaded("PremadeGroupsFilter") and WindTools[3].private.WT.misc.lfgList.enable then
+                return "wind"
+            else
+                return "orig"
+            end
+        else
+            return "meet"
+        end
+    else
+        if IsAddOnLoaded("PremadeGroupsFilter") then
+            return "orig"
+        elseif IsAddOnLoaded("ElvUI_WindTools") and WindTools[3].private.WT.misc.lfgList.enable then
+            return "wind"
+        elseif Profile:GetShowClassIco() and not Profile:GetClassIcoMsOnly() then
+            return "meet"
+        else
+            return "orig"
+        end
+    end
+end
+
+local function ReplaceGroupRoles(self, numPlayers, _, disabled)
+
+    local flagCheckShowIcons = CheckShowIcons(self)
+    if flagCheckShowIcons == "orig" then
+        return
+    elseif flagCheckShowIcons == "wind" then        
+        return WindTools[1]:GetModule("LFGList"):UpdateEnumerate(self)
+    end
+
+    local flagCheckShowSpecIcon = Profile:GetShowSpecIco()
+    local flagCheckShowSmRoleIcon = Profile:GetShowSmRoleIco()    
+
+    UpdateGroupRoles(self)
+    for i = 1, 5 do
+        local icon = self.Icons[i]
+        if not icon.role then
+            icon.role = self:CreateTexture(nil, "OVERLAY")
+            icon.role:SetSize(24, 24)
+            -- icon.role:SetPoint("TOPLEFT", icon, -4, 5)
+            if i == 1 then
+                icon.role:SetPoint("RIGHT", -5, -2)
+            else
+                icon.role:ClearAllPoints()
+                icon.role:SetPoint("RIGHT", self.Icons[i - 1].role, "LEFT", 0, 0)
+            end
+            icon.leader = self:CreateTexture(nil, "OVERLAY")
+            icon.leader:SetTexture("Interface\\GroupFrame\\UI-Group-LeaderIcon")
+            icon.leader:SetRotation(rad(-15))
+            
+        end
+
+        if i > numPlayers then
+            icon.role:Hide()
+        else
+            icon.role:Show()
+            icon.role:SetDesaturated(disabled)
+            icon.role:SetAlpha(disabled and .5 or 1)
+            icon.leader:SetDesaturated(disabled)
+            icon.leader:SetAlpha(disabled and .5 or 1)
+        end
+		
+		--icon.RoleIconWithBackground:Hide()
+		--icon.RoleIcon:Hide()
+		--icon.ClassCircle:Hide()
+		--icon.Textures
+		--icon.role:Hide()
+        icon.leader:Hide()
+    end
+
+    local iconIndex = numPlayers
+    for i = 1, #roleCache do
+        local roleInfo = roleCache[i]
+        if roleInfo then
+            local icon = self.Icons[iconIndex]
+            if flagCheckShowSmRoleIcon then
+                icon:SetSize(15, 15)
+                icon:SetPoint("TOPLEFT", icon.role, -4, 6)
+                icon.leader:SetSize(13, 13)     
+                icon.leader:SetPoint("TOP", icon.role, 4, 8)
+            else
+                icon:SetSize(18, 18)
+                icon:SetPoint("TOPLEFT", icon.role, -4, 5)
+                icon.leader:SetSize(16, 16)     
+                icon.leader:SetPoint("TOP", icon.role, 4, 8)
+            end
+            
+			if roleInfo[4] and flagCheckShowSpecIcon then
+                -- print(classNameToSpecId[roleInfo[2]..roleInfo[4]])
+                local spec_id = classNameToSpecId[roleInfo[2]..roleInfo[4]]
+                if spec_id == nil then
+                    icon.role:SetTexture(classNameToSpecIcon[roleInfo[2]..roleInfo[4]])
+                else                     
+                    icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/SpellIcon/circular_"..spec_id)
+                end
+                -- print(classNameToSpecIcon[roleInfo[2]..roleInfo[4]])
+			else
+				icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" .. string.lower(roleInfo[2]) .. "_flatborder2")
+			end
+
+			if roleInfo[1] and RoleIconTextures[roleInfo[1]] then
+				-- icon.RoleIconWithBackground:SetTexture(RoleIconTextures[roleInfo[1]])
+                icon.RoleIconWithBackground:SetAtlas(roleAtlas[roleInfo[1]])
+			end
+
+            -- icon.role:SetAtlas(roleAtlas[roleInfo[1]])
+            icon.leader:SetShown(roleInfo[3])
+            iconIndex = iconIndex - 1
+        end
+    end
+
+    for i = 1, iconIndex do
+        self.Icons[i].role:SetAtlas(nil)
+    end
+end
+
+function InitMeetingStoneClass()
+    local F = "LFGListGroupDataDisplayEnumerate_Update"
+    Profile:OnInitialize()
+
+    if not IsAddOnLoaded("ElvUI_WindTools") then
+        hooksecurefunc(F, ReplaceGroupRoles)
+    else
+        local W, _, E = unpack(WindTools)
+        local L = W:GetModule("LFGList")
+        E:Delay(0, function()
+            if L:IsHooked(F) then L:Unhook(F) end
+            L:SecureHook(F, ReplaceGroupRoles)
+        end)
+    end
+end
+
+function GetPlayerRegion()
+    local regionTable = { "US", "KR", "EU", "TW", "CN" }
+    local playerAccountInfo = C_BattleNet.GetAccountInfoByGUID(UnitGUID("player"))
+    local currentRegion = GetCurrentRegion()
+
+    if not playerAccountInfo or not playerAccountInfo.gameAccountInfo or not playerAccountInfo.gameAccountInfo.regionID then
+        return regionTable[currentRegion]
+    else
+        return regionTable[playerAccountInfo.gameAccountInfo.regionID]
+    end
+end
+
+function GetPortalByLocale()
+    local gameLocale = GetLocale()
+    local portalVal
+    if gameLocale == "zhTW" then
+        portalVal = 'TW'
+    elseif gameLocale == "zhCN" then
+        portalVal = 'CN'
+    else
+        portalVal = 'US'
+    end
+
+    return portalVal
 end

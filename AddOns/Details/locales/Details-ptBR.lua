@@ -169,8 +169,7 @@ L["STRING_CUSTOM_TARGET_DESC"] = [=[Este é o alvo aonde a Fonte esta causando o
 
 O botão na direita mostra uma lista pré-definida com npcs.]=]
 L["STRING_CUSTOM_TEMPORARILY"] = " (|cFFFFC000temporário|r)"
---[[Translation missing --]]
---[[ L["STRING_CUSTOM_TEXTURE_GUIDE"] = ""--]] 
+L["STRING_CUSTOM_TEXTURE_GUIDE"] = "Para carregar um arquivo de textura no World of Warcraft é necessário um arquivo no formato .TGA e a sua largura e altura devem ser múltiplas de 8. Coloque a textura dentro de: /Pasta do WoW/retail/Interface/"
 L["STRING_DAMAGE"] = "Dano"
 L["STRING_DAMAGE_DPS_IN"] = "DPS recebido de"
 L["STRING_DAMAGE_FROM"] = "Recebeu dano de"
@@ -192,7 +191,6 @@ L["STRING_ENVIRONMENTAL_FATIGUE"] = "Ambiente (Fadiga)"
 L["STRING_ENVIRONMENTAL_FIRE"] = "Ambiente (Fogo)"
 L["STRING_ENVIRONMENTAL_LAVA"] = "Ambiente (Lava)"
 L["STRING_ENVIRONMENTAL_SLIME"] = "Ambiente (Ácido)"
-L["STRING_EQUILIZING"] = "Compartilhando dados"
 L["STRING_ERASE"] = "apagar"
 L["STRING_ERASE_DATA"] = "Apagar Todos os Dados"
 L["STRING_ERASE_DATA_OVERALL"] = "Apagar Apenas os Dados Gerais"
@@ -409,10 +407,9 @@ L["STRING_OPTIONS_3D_UENABLED_DESC"] = "Ativa ou desativa o uso de modelo 3d aci
 L["STRING_OPTIONS_3D_USELECT_DESC"] = "Escolha qual o modelo será usado no modelo superior."
 L["STRING_OPTIONS_ADVANCED"] = "Avançado"
 L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS"] = "Colunas de texto alinhadas"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN_DESC"] = ""--]] 
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN"] = [=[Alinhamento Automático
+]=]
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN_DESC"] = "O alinhamento é feito automaticamente baseado no comprimento de cada texto"
 L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_DESC"] = "Desative colchetes e separadores e alinhe textos de barras em colunas verticais"
 L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET"] = "Deslocamento %d do texto"
 L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET_DESC"] = "Deslocamento da borda direita"
@@ -841,6 +838,18 @@ L["STRING_OPTIONS_MINIMAP_ANCHOR"] = "Minimapa:"
 L["STRING_OPTIONS_MINIMAP_DESC"] = "Mostra ou esconde o ícone no mini mapa."
 L["STRING_OPTIONS_MISCTITLE"] = "Configurações Diversas"
 L["STRING_OPTIONS_MISCTITLE2"] = "Essa opção controla várias opções."
+L["STRING_OPTIONS_MPLUS_BOSSNEWCOMBAT"] = "Novo combate ao puxar o chefe"
+L["STRING_OPTIONS_MPLUS_BOSSNEWCOMBAT_DESC"] = "Se um chefe for puxado enquanto estiver em combate, esta opção encerra o encontro de combate atual e inicia um novo para o chefe."
+L["STRING_OPTIONS_MPLUS_DPS_ANCHOR"] = "Cálculo de DPS do segmento geral"
+L["STRING_OPTIONS_MPLUS_MAKEOVERALL"] = "Criar segmento geral"
+L["STRING_OPTIONS_MPLUS_MAKEOVERALL_DESC"] = "Após a corrida ser concluída, esta opção cria um novo segmento contendo todos os dados de combate da corrida."
+L["STRING_OPTIONS_MPLUS_MERGETRASH"] = "Unir lixo"
+L["STRING_OPTIONS_MPLUS_PANELS_ANCHOR"] = "Painéis"
+L["STRING_OPTIONS_MPLUS_SHOWENDPANEL"] = "Mostrar final do painel de M+"
+L["STRING_OPTIONS_MPLUS_TIME_INCOMBAT"] = "Tempo em combate"
+L["STRING_OPTIONS_MPLUS_TIME_INCOMBAT_DESC"] = "O segmento geral para a corrida de Mítico+ usará 'danoTotal / tempoTotalEmCombate' para calcular o DPS."
+L["STRING_OPTIONS_MPLUS_TIME_RUNTIME"] = "Tempo da corrida na masmorra"
+L["STRING_OPTIONS_MPLUS_TIME_RUNTIME_DESC"] = "O segmento geral para a corrida de Mítico+ calculará o DPS usando 'danoTotal / tempoDaCorrida'."
 L["STRING_OPTIONS_NICKNAME"] = "Apelido"
 L["STRING_OPTIONS_NICKNAME_DESC"] = "Digite o seu apelido neste campo. O apelido escolhido será enviado aos membros da sua guilda e o Details! ira substituir o nome do personagem pelo apelido."
 L["STRING_OPTIONS_OPEN_ROWTEXT_EDITOR"] = "Editor de Texto das Barras"
@@ -1069,7 +1078,7 @@ Valores altos podem fazer o tempo de logoff do seu personagem demorar mais.
 
 Se você raramente olha os dados da raide do dia anterior, eh muito recomendado deixar esta opção em 1|cFFFFFFFF1|r.]=]
 L["STRING_OPTIONS_SENDFEEDBACK"] = "Feedback"
-L["STRING_OPTIONS_SHOW_SIDEBARS"] = "Mostrar Barras Laterais"
+L["STRING_OPTIONS_SHOW_SIDEBARS"] = "Mostrar Bordas Laterais"
 L["STRING_OPTIONS_SHOW_SIDEBARS_DESC"] = "Mostrar ou esconder as barras laterais na esquerda e direita da janela."
 L["STRING_OPTIONS_SHOW_STATUSBAR"] = "Exibir barra de Status"
 L["STRING_OPTIONS_SHOW_STATUSBAR_DESC"] = "Exibe ou Oculta a barra de status inferior."
@@ -1204,8 +1213,7 @@ L["STRING_OPTIONS_TIMEMEASURE"] = "Medidas do Tempo"
 L["STRING_OPTIONS_TIMEMEASURE_DESC"] = [=[|cFFFFFFFFTempo de Atividade|r: o tempo de cada membro da raide eh posto em pausa quando ele ficar ocioso e volta a contar o tempo quando ele voltar a atividade, eh a maneira mais comum de medir o Dps e Hps.
 
 |cFFFFFFFFTempo Efetivo|r: muito usado para ranqueamentos, este metodo usa o tempo total da luta para medir o Dps e Hps de todos os membros da raide.]=]
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TITLEBAR_MENUBUTTONS_HEADER"] = ""--]] 
+L["STRING_OPTIONS_TITLEBAR_MENUBUTTONS_HEADER"] = "Botões e Configurações"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS"] = "Configuração da Barra de Título"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS_DESC"] = "Essa opção altera o menu principal no topo da janela"
 L["STRING_OPTIONS_TOOLBARSIDE"] = "Âncora da Barra de Ferramentas"
@@ -1324,16 +1332,12 @@ L["STRING_OPTIONS_WINDOW"] = "Painel de Opções"
 L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = "Âncoras:"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = "Ignorar Alterar em Massa"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = "Quanto ativa, esta janela é ignorada quando for esconder, mostrar ou alternar todas as janelas."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR_DESC"] = ""--]] 
+L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR"] = "Preenchimento da linha"
+L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR_DESC"] = "Aplica a cor de fundo quando as linhas são exibidas"
 L["STRING_OPTIONS_WINDOW_SCALE"] = "Escala"
 L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = "Ajusta a escala da janela."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_SKIN_COLOR"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_SKIN_COLOR_DESC"] = ""--]] 
+L["STRING_OPTIONS_WINDOW_SKIN_COLOR"] = "Cor da Aparência"
+L["STRING_OPTIONS_WINDOW_SKIN_COLOR_DESC"] = "Modifica a cor da Aparência aplicada a esta janela. |cFFFFFF00Importante|r: a transparência escolhida é substituída com |cFFFFFF00Valores Automáticos de Transparência|r quando ativado. |cFFFFFF00Importante|r: Selecionando a cor da Aparência, substitui qualquer cor personalizada aplicada à Barra de Status."
 L["STRING_OPTIONS_WINDOW_TITLE"] = "Configurações de Janela"
 L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Essa opção controla a aparência da janela de uma instância selecionada."
 L["STRING_OPTIONS_WINDOWSPEED"] = "Velocidade de Atualização"
@@ -1452,6 +1456,7 @@ L["STRING_REPORT_SINGLE_BUFFUPTIME"] = "duração dos buffs de"
 L["STRING_REPORT_SINGLE_COOLDOWN"] = "cooldowns usados por"
 L["STRING_REPORT_SINGLE_DEATH"] = "detalhes da morte de"
 L["STRING_REPORT_SINGLE_DEBUFFUPTIME"] = "duração dos debuffs de"
+L["STRING_REPORT_TEXT"] = "Relatório"
 L["STRING_REPORT_TOOLTIP"] = "Reportar Resultados"
 L["STRING_REPORTFRAME_COPY"] = "Copiar e Colar"
 L["STRING_REPORTFRAME_CURRENT"] = "Mostrando"
@@ -1672,4 +1677,3 @@ L["STRING_WIPE_ERROR1"] = "um wipe já foi chamado."
 L["STRING_WIPE_ERROR2"] = "não estamos em um chefe de raide."
 L["STRING_WIPE_ERROR3"] = "não foi possível finalizar o encontro."
 L["STRING_YES"] = "Sim"
-

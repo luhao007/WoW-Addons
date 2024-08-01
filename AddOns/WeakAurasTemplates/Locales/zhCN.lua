@@ -1,12 +1,20 @@
 if not WeakAuras.IsLibsOK() then return end
 
-if GetLocale() ~= "zhCN" then
+if (GAME_LOCALE or GetLocale()) ~= "zhCN" then
   return
 end
 
 local L = WeakAuras.L
 
 -- WeakAuras/Templates
+	L["(Dwarf)"] = "（矮人）"
+	L["(Dwarf/Human)"] = "（矮人/人类）"
+	L["(Human)"] = "（人类）"
+	L["(Night Elf)"] = "（暗夜精灵）"
+	L["(Troll)"] = "（巨魔）"
+	L["(Undead)"] = "（亡灵）"
+	L["< 4 stacks"] = "小于4层"
+	L["5 stacks"] = "5层"
 	L["Abilities"] = "技能"
 	L["Add Triggers"] = "添加触发器"
 	L["Always Active"] = "总是激活"
@@ -47,6 +55,7 @@ local L = WeakAuras.L
 	L["Create Auras"] = "创建光环"
 	L["debuff"] = "减益效果"
 	L["Debuffs"] = "减益"
+	L["dps buff"] = "伤害加成"
 	L["General"] = "一般"
 	L["Health"] = "生命值"
 	L["Highlight while action is queued."] = "动作在队列中时高亮"
@@ -59,6 +68,9 @@ local L = WeakAuras.L
 	L["Highlight while spell is active."] = "当法术激活时高亮"
 	L["Hold CTRL to create multiple auras at once"] = "按住 CTRL 键来一次性创建多个光环"
 	L["Keeps existing triggers intact"] = "保持现存触发器完整"
+	L["Master Channeler Rune"] = "引导大师符文"
+	L["Max 3"] = "最大 3"
+	L["Max 4"] = "最大 4"
 	L["Next"] = "下一个"
 	L["Only show the aura if the target has the debuff."] = "只有在目标拥有减益效果时才显示此光环"
 	L["Only show the aura when the item is on cooldown."] = "只有当物品在冷却中时才显示此光环"
@@ -71,6 +83,7 @@ local L = WeakAuras.L
 	L["Pet alive"] = "宠物存活"
 	L["Pet Behavior"] = "宠物行为"
 	L["PvP Talents"] = "PvP 天赋"
+	L["regen buff"] = "法力值恢复速度加成"
 	L["Replace all existing triggers"] = "替换所有现存的触发器"
 	L["Replace Triggers"] = "替换触发器"
 	L["Resources"] = "资源"

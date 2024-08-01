@@ -1,5 +1,8 @@
 if not WeakAuras.IsLibsOK() then return end
-local AddonName, OptionsPrivate = ...
+---@type string
+local AddonName = ...
+---@class OptionsPrivate
+local OptionsPrivate = select(2, ...)
 
 -- Lua APIs
 local pairs, type, ipairs = pairs, type, ipairs
@@ -12,9 +15,11 @@ local CreateFrame = CreateFrame
 local AceGUI = LibStub("AceGUI-3.0")
 local SharedMedia = LibStub("LibSharedMedia-3.0")
 local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LAAC = LibStub("LibAPIAutoComplete-1.0")
 
 local IndentationLib = IndentationLib
 
+---@class WeakAuras
 local WeakAuras = WeakAuras
 local L = WeakAuras.L
 
@@ -154,16 +159,10 @@ end]=]
 local function ConstructTextEditor(frame)
   local group = AceGUI:Create("WeakAurasInlineGroup")
   group.frame:SetParent(frame)
-  group.frame:SetPoint("TOPLEFT", frame, "TOPLEFT", 16, -16);
-  group.frame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -16, 46);
+  group.frame:SetPoint("TOPLEFT", frame, "TOPLEFT", 17, -63);
+  group.frame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -17, 46);
   group.frame:Hide()
   group:SetLayout("flow")
-
-  local title = AceGUI:Create("Label")
-  title:SetFontObject(GameFontNormalHuge)
-  title:SetFullWidth(true)
-  title:SetText(L["Code Editor"])
-  group:AddChild(title)
 
   local editor = AceGUI:Create("MultiLineEditBox")
   editor:SetFullWidth(true)
@@ -192,6 +191,7 @@ local function ConstructTextEditor(frame)
   -- display we ned the original, so save it here.
   local originalGetText = editor.editBox.GetText
   set_scheme()
+  LAAC:enable(editor.editBox)
   IndentationLib.enable(editor.editBox, color_scheme, WeakAurasSaved.editor_tab_spaces)
 
   local cancel = CreateFrame("Button", nil, group.frame, "UIPanelButtonTemplate")
@@ -228,27 +228,11 @@ local function ConstructTextEditor(frame)
   settings_frame:RegisterForClicks("LeftButtonUp")
 
   local helpButton = CreateFrame("Button", nil, group.frame, "UIPanelButtonTemplate")
-  helpButton:SetPoint("BOTTOMLEFT", 12, -24)
+  helpButton:SetPoint("BOTTOMLEFT", 0, -24)
   helpButton:SetFrameLevel(cancel:GetFrameLevel() + 1)
   helpButton:SetHeight(20)
   helpButton:SetWidth(100)
   helpButton:SetText(L["Help"])
-
-  local urlText = CreateFrame("EditBox", nil, group.frame)
-  urlText:SetFrameLevel(cancel:GetFrameLevel() + 1)
-  urlText:SetFont(STANDARD_TEXT_FONT, 12, "")
-  urlText:EnableMouse(true)
-  urlText:SetAutoFocus(false)
-  urlText:SetCountInvisibleLetters(false)
-  urlText:Hide()
-
-  local urlCopyLabel = urlText:CreateFontString(nil, "BACKGROUND", "GameFontHighlightSmall")
-  urlCopyLabel:SetPoint("BOTTOMLEFT", group.frame, "BOTTOMLEFT", 12, -20)
-  urlCopyLabel:SetText(L["Press Ctrl+C to copy"])
-  urlCopyLabel:Hide()
-
-  urlText:SetPoint("TOPLEFT", urlCopyLabel, "TOPRIGHT", 12, 0)
-  urlText:SetPoint("RIGHT", settings_frame, "LEFT")
 
   local dropdown = LibDD:Create_UIDropDownMenu("SettingsMenuFrame", settings_frame)
 
@@ -347,7 +331,7 @@ local function ConstructTextEditor(frame)
 
   -- Make Snippets button (top right, near the line number)
   local snippetsButton = CreateFrame("Button", "WASnippetsButton", group.frame, "UIPanelButtonTemplate")
-  snippetsButton:SetPoint("BOTTOMRIGHT", editor.frame, "TOPRIGHT", 0, -15)
+  snippetsButton:SetPoint("BOTTOMRIGHT", editor.frame, "TOPRIGHT", -20, -10)
   snippetsButton:SetFrameLevel(group.frame:GetFrameLevel() + 2)
   snippetsButton:SetHeight(20)
   snippetsButton:SetWidth(100)
@@ -442,27 +426,24 @@ local function ConstructTextEditor(frame)
     end
   end
 
+  local apiSearchFrame
+
   -- Make sidebar for snippets
-  local snippetsFrame = CreateFrame("Frame", "WeakAurasSnippets", group.frame, "BackdropTemplate")
+  local snippetsFrame = CreateFrame("Frame", "WeakAurasSnippets", group.frame, "PortraitFrameTemplate")
+  ButtonFrameTemplate_HidePortrait(snippetsFrame)
   snippetsFrame:SetPoint("TOPLEFT", group.frame, "TOPRIGHT", 20, 0)
   snippetsFrame:SetPoint("BOTTOMLEFT", group.frame, "BOTTOMRIGHT", 20, 0)
   snippetsFrame:SetWidth(250)
-  snippetsFrame:SetBackdrop(
-    {
-      bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-      edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-      tile = true,
-      tileSize = 32,
-      edgeSize = 32,
-      insets = {left = 8, right = 8, top = 8, bottom = 8}
-    }
-  )
-  snippetsFrame:SetBackdropColor(0, 0, 0, 1)
+  if snippetsFrame.Bg then
+    local color = CreateColorFromHexString("ff1f1e21") -- PANEL_BACKGROUND_COLOR
+    local r, g, b = color:GetRGB()
+    snippetsFrame.Bg:SetColorTexture(r, g, b, 0.8)
+  end
 
   -- Add button to save new snippet
   local AddSnippetButton = CreateFrame("Button", nil, snippetsFrame, "UIPanelButtonTemplate")
-  AddSnippetButton:SetPoint("TOPLEFT", snippetsFrame, "TOPLEFT", 13, -10)
-  AddSnippetButton:SetPoint("TOPRIGHT", snippetsFrame, "TOPRIGHT", -13, -10)
+  AddSnippetButton:SetPoint("TOPLEFT", snippetsFrame, "TOPLEFT", 13, -25)
+  AddSnippetButton:SetPoint("TOPRIGHT", snippetsFrame, "TOPRIGHT", -13, -25)
   AddSnippetButton:SetHeight(20)
   AddSnippetButton:SetText(L["Add Snippet"])
   AddSnippetButton:RegisterForClicks("LeftButtonUp")
@@ -474,7 +455,7 @@ local function ConstructTextEditor(frame)
   snippetsScrollContainer:SetFullHeight(true)
   snippetsScrollContainer:SetLayout("Fill")
   snippetsScrollContainer.frame:SetParent(snippetsFrame)
-  snippetsScrollContainer.frame:SetPoint("TOPLEFT", snippetsFrame, "TOPLEFT", 17, -35)
+  snippetsScrollContainer.frame:SetPoint("TOPLEFT", snippetsFrame, "TOPLEFT", 17, -50)
   snippetsScrollContainer.frame:SetPoint("BOTTOMRIGHT", snippetsFrame, "BOTTOMRIGHT", -10, 10)
   local snippetsScroll = AceGUI:Create("ScrollFrame")
   snippetsScroll:SetLayout("List")
@@ -495,6 +476,9 @@ local function ConstructTextEditor(frame)
     function(self, button, down)
       if not snippetsFrame:IsShown() then
         snippetsFrame:Show()
+        if apiSearchFrame and apiSearchFrame:IsShown() then
+          apiSearchFrame:Hide()
+        end
         UpdateSnippets(snippetsScroll)
       else
         snippetsFrame:Hide()
@@ -525,13 +509,274 @@ local function ConstructTextEditor(frame)
       end
   )
 
-  -- CTRL + S saves and closes
+  -- Make ApiSearch button
+  local apiSearchButton = CreateFrame("Button", "WAAPISearchButton", group.frame, "UIPanelButtonTemplate")
+  apiSearchButton:SetPoint("BOTTOMRIGHT", editor.frame, "TOPRIGHT", -20, 15)
+  apiSearchButton:SetFrameLevel(group.frame:GetFrameLevel() + 2)
+  apiSearchButton:SetHeight(20)
+  apiSearchButton:SetWidth(100)
+  apiSearchButton:SetText(L["Search API"])
+  apiSearchButton:RegisterForClicks("LeftButtonUp")
+
+  -- Make sidebar for apiSearch
+  apiSearchFrame = CreateFrame("Frame", "WeakAurasAPISearchFrame", group.frame, "PortraitFrameTemplate")
+  ButtonFrameTemplate_HidePortrait(apiSearchFrame)
+  apiSearchFrame:SetWidth(350)
+  if apiSearchFrame.Bg then
+    local color = CreateColorFromHexString("ff1f1e21") -- PANEL_BACKGROUND_COLOR
+    local r, g, b = color:GetRGB()
+    apiSearchFrame.Bg:SetColorTexture(r, g, b, 0.8)
+  end
+
+  local makeAPISearch
+  local APISearchTextChangeDelay = 0.3
+  local APISearchCTimer
+
+  -- filter line
+  local filterInput = CreateFrame("EditBox", "WeakAurasAPISearchFilterInput", apiSearchFrame, "SearchBoxTemplate")
+  filterInput:SetScript("OnTextChanged", function(self)
+    SearchBoxTemplate_OnTextChanged(self)
+    if APISearchCTimer then
+      APISearchCTimer:Cancel()
+    end
+    APISearchCTimer = C_Timer.NewTimer(
+      APISearchTextChangeDelay,
+      function()
+        makeAPISearch(filterInput:GetText())
+      end
+    )
+  end)
+  filterInput:SetHeight(15)
+  filterInput:SetPoint("TOPLEFT", apiSearchFrame, "TOPLEFT", 17, -30)
+  filterInput:SetPoint("TOPRIGHT", apiSearchFrame, "TOPRIGHT", -10, -30)
+  filterInput:SetFont(STANDARD_TEXT_FONT, 10, "")
+
+  local apiSearchScrollContainer = AceGUI:Create("SimpleGroup")
+  apiSearchScrollContainer:SetFullWidth(true)
+  apiSearchScrollContainer:SetFullHeight(true)
+  apiSearchScrollContainer:SetLayout("Fill")
+  apiSearchScrollContainer.frame:SetParent(apiSearchFrame)
+  apiSearchScrollContainer.frame:SetPoint("TOPLEFT", apiSearchFrame, "TOPLEFT", 17, -50)
+  apiSearchScrollContainer.frame:SetPoint("BOTTOMRIGHT", apiSearchFrame, "BOTTOMRIGHT", -10, 10)
+
+  local apiSearchScroll = AceGUI:Create("ScrollFrame")
+  apiSearchScroll:SetLayout("List")
+  apiSearchScrollContainer:AddChild(apiSearchScroll)
+  apiSearchScroll:FixScroll(true)
+  apiSearchScroll.scrollframe:SetScript(
+    "OnScrollRangeChanged",
+    function(frame)
+      frame.obj:DoLayout()
+    end
+  )
+
+  local snippetOnClickCallback = function(self)
+    if self.isSystem then
+      filterInput:SetText(self.name)
+    else
+      self.editor.editBox:Insert(self.name)
+      self.editor:SetFocus()
+    end
+  end
+
+  local function loadBlizzardAPIDocumentation()
+    local apiAddonName = "Blizzard_APIDocumentation"
+    local _, loaded = C_AddOns.IsAddOnLoaded(apiAddonName)
+    if not loaded then
+      C_AddOns.LoadAddOn(apiAddonName)
+    end
+    if #APIDocumentation.systems == 0 then
+      APIDocumentation_LoadUI()
+    end
+  end
+
+  local function addLine(results, apiInfo)
+    local name
+    if apiInfo.Type == "System" then
+      name = apiInfo.Namespace
+    elseif apiInfo.Type == "Function" then
+      name = apiInfo:GetFullName()
+    elseif apiInfo.Type == "Event" then
+      name = apiInfo.LiteralName
+    end
+    table.insert(results, { name = name, apiInfo = apiInfo })
+  end
+
+  local function APIListSystems()
+    local results = {}
+    for i, systemInfo in ipairs(APIDocumentation.systems) do
+      if systemInfo.Namespace and #systemInfo.Functions > 0 then
+        addLine(results, systemInfo)
+      end
+    end
+    table.sort(results, function(a, b)
+      return a.name < b.name
+    end)
+    return results
+  end
+
+  local function APISearch(word)
+    local lowerWord = word:lower()
+    local results = {}
+
+    -- if search match name of namespace, show all functions & events for the namespace, and also show all other functions & events matching the search
+    -- if search is composed with name of a namespace and a word separated by a dot, show matching function for matching namespace
+
+    local nsName, rest = lowerWord:match("^([%w%_]+)(.*)")
+    local funcName = rest and rest:match("^%.([%w%_]+)")
+
+    for _, systemInfo in ipairs(APIDocumentation.systems) do
+      -- search for namespaceName or namespaceName.functionName
+      local systemMatch = nsName and #nsName >= 4
+        and systemInfo.Namespace and systemInfo.Namespace:lower():match(nsName)
+
+      for _, apiInfo in ipairs(systemInfo.Functions) do
+        if systemMatch then
+          if funcName then
+            if apiInfo:MatchesSearchString(funcName) then
+              addLine(results, apiInfo)
+            end
+          else
+            addLine(results, apiInfo)
+          end
+        else
+          if apiInfo:MatchesSearchString(lowerWord) then
+            addLine(results, apiInfo)
+          end
+        end
+      end
+
+      if systemMatch and rest == "" then
+        for _, apiInfo in ipairs(systemInfo.Events) do
+          addLine(results, apiInfo)
+        end
+      else
+        for _, apiInfo in ipairs(systemInfo.Events) do
+          if apiInfo:MatchesSearchString(lowerWord) then
+            addLine(results, apiInfo)
+          end
+        end
+      end
+    end
+
+    return results
+  end
+
+  local lastSearch = nil
+  makeAPISearch = function(apiToSearchFor)
+    loadBlizzardAPIDocumentation()
+    local results
+    if not apiToSearchFor or #apiToSearchFor < 4 then
+      if lastSearch == "" then return end
+      results = APIListSystems()
+      lastSearch = ""
+    else
+      if lastSearch == apiToSearchFor then return end
+      results = APISearch(apiToSearchFor)
+      lastSearch = apiToSearchFor
+    end
+    apiSearchScroll:ReleaseChildren()
+    for _, element in ipairs(results) do
+      local apiInfo = element.apiInfo
+      if apiInfo then
+        local button = AceGUI:Create("WeakAurasSnippetButton")
+        button:SetTitle(element.name)
+        button:SetEditable(false)
+        button:SetHeight(20)
+        button:SetRelativeWidth(1)
+        if apiInfo.Type ~= "System" and apiInfo.GetDetailedOutputLines then
+          local desc = table.concat(apiInfo:GetDetailedOutputLines(), "\n")
+          button:SetDescription(desc)
+        else
+          button:SetDescription()
+        end
+        button.name = element.name
+        button.editor = editor
+        button.isSystem = apiInfo.Type == "System"
+        button:SetCallback("OnClick", snippetOnClickCallback)
+        apiSearchScroll:AddChild(button)
+      end
+    end
+  end
+
+  apiSearchFrame:Hide()
+
+  -- Toggle the side bar on click
+  apiSearchButton:SetScript(
+    "OnClick",
+    function()
+      if apiSearchFrame:IsShown() then
+        apiSearchFrame:Hide()
+      else
+        apiSearchFrame:Show()
+        apiSearchFrame:ClearAllPoints()
+        apiSearchFrame:SetPoint("TOPLEFT", group.frame, "TOPRIGHT", 20, 0)
+        apiSearchFrame:SetPoint("BOTTOMLEFT", group.frame, "BOTTOMRIGHT", 20, 0)
+        filterInput:SetFocus()
+        if snippetsFrame and snippetsFrame:IsShown() then
+          snippetsFrame:Hide()
+        end
+      end
+    end
+  )
+
+  editor.editBox.timeMachine = {}
+  editor.editBox.timeMachinePos = 1
+  local TimeMachineMaximumRollback = 10
+
   editor.editBox:HookScript(
     "OnKeyDown",
-    function(_, key)
+    function(self, key)
+      -- CTRL + S saves and closes
       if IsControlKeyDown() and key == "S" then
         group:Close()
+      elseif key == "Z" and IsControlKeyDown() then
+        self:SetPropagateKeyboardInput(false)
+        if self.timeMachine[self.timeMachinePos + 1] then
+          self.timeMachinePos = self.timeMachinePos + 1
+          self.skipOnTextChanged = true
+          self:SetText(self.timeMachine[self.timeMachinePos][1])
+          self:SetCursorPosition(self.timeMachine[self.timeMachinePos][2])
+        end
+      elseif key == "Y" and IsControlKeyDown() then
+        self:SetPropagateKeyboardInput(false)
+        if self.timeMachine[self.timeMachinePos - 1] then
+          self.timeMachinePos = self.timeMachinePos - 1
+          self.skipOnTextChanged = true
+          self:SetText(self.timeMachine[self.timeMachinePos][1])
+          self:SetCursorPosition(self.timeMachine[self.timeMachinePos][2])
+        end
       end
+    end
+  )
+
+  editor.editBox:HookScript(
+    "OnTextChanged",
+    function(self, userInput)
+      if not userInput then return end
+      if self.skipOnTextChanged then
+        self.skipOnTextChanged = false
+        return
+      end
+      local cursorPosition = self:GetCursorPosition()
+      local text = originalGetText(self)
+      if IndentationLib then
+        text, cursorPosition = IndentationLib.stripWowColorsWithPos(text, cursorPosition)
+      end
+      if self.timeMachine[1] and text == self.timeMachine[1][1] then
+        return
+      end
+      -- if cursor is not at position 1, remove elements before cursor
+      for i = 2, self.timeMachinePos do
+        table.remove(self.timeMachine, 1)
+      end
+      -- insert current text
+      table.insert(self.timeMachine, 1, {text, cursorPosition - 1})
+      -- timeMachine is limited to a number of TimeMachineMaximumRollback elements
+      for i = #self.timeMachine, TimeMachineMaximumRollback + 1, -1 do
+        table.remove(self.timeMachine, i)
+      end
+      self.timeMachinePos = 1
     end
   )
 
@@ -562,46 +807,26 @@ local function ConstructTextEditor(frame)
   editorError:SetPoint("LEFT", helpButton, "RIGHT", 0, 4)
   editorError:SetPoint("RIGHT", settings_frame, "LEFT")
 
-  local editorLine = CreateFrame("EditBox", nil, group.frame)
+  local editorLine = CreateFrame("EditBox", nil, group.frame, "InputBoxTemplate")
   -- Set script on enter pressed..
-  editorLine:SetPoint("BOTTOMRIGHT", editor.frame, "TOPRIGHT", -100, -15)
+  editorLine:SetPoint("RIGHT", snippetsButton, "LEFT", -10, 0)
   editorLine:SetFont(STANDARD_TEXT_FONT, 10, "")
   editorLine:SetJustifyH("RIGHT")
-  editorLine:SetWidth(80)
+  editorLine:SetWidth(30)
   editorLine:SetHeight(20)
   editorLine:SetNumeric(true)
-  editorLine:SetTextInsets(10, 10, 0, 0)
+  editorLine:SetTextInsets(0, 5, 0, 0)
   editorLine:SetAutoFocus(false)
 
-  urlText:SetScript(
-    "OnChar",
-    function(self)
-      self:SetText(group.url)
-      self:HighlightText()
-    end
-  )
-  urlText:SetScript(
-    "OnEscapePressed",
-    function()
-      urlText:ClearFocus()
-      urlText:Hide()
-      urlCopyLabel:Hide()
-      helpButton:Show()
-      editor:SetFocus()
-    end
-  )
+  local editorLineText = group.frame:CreateFontString(nil, "OVERLAY")
+  editorLineText:SetFont(STANDARD_TEXT_FONT, 10)
+  editorLineText:SetTextColor(1, 1, 1)
+  editorLineText:SetText(L["Line"])
+  editorLineText:SetPoint("RIGHT", editorLine, "LEFT", -8, 0)
 
-  helpButton:SetScript(
-    "OnClick",
-    function()
-      urlText:Show()
-      urlText:SetFocus()
-      urlText:HighlightText()
-      urlCopyLabel:Show()
-      helpButton:Hide()
-      editorError:Hide()
-    end
-  )
+  helpButton:SetScript("OnClick", function()
+    OptionsPrivate.ToggleTip(helpButton, group.url, L["Help"], "")
+  end)
 
   local oldOnCursorChanged = editor.editBox:GetScript("OnCursorChanged")
   editor.editBox:SetScript(
@@ -643,18 +868,21 @@ local function ConstructTextEditor(frame)
     self.reloadOptions = reloadOptions
     self.setOnParent = setOnParent
     self.url = url
-    urlText:SetText(url or "")
-    urlText:Hide()
-    urlCopyLabel:Hide()
     if url then
       helpButton:Show()
     else
       helpButton:Hide()
     end
     if (frame.window == "texture") then
-      frame.texturePicker:CancelClose()
+      local texturepicker = OptionsPrivate.TexturePicker(frame, true)
+      if texturepicker then
+        texturepicker:CancelClose()
+      end
     elseif (frame.window == "icon") then
-      frame.iconPicker:CancelClose()
+      local iconpicker = OptionsPrivate.IconPicker(frame, true)
+      if iconpicker then
+        iconpicker:CancelClose()
+      end
     end
     frame.window = "texteditor"
     frame:UpdateFrameVisible()
@@ -668,6 +896,8 @@ local function ConstructTextEditor(frame)
       end
     end
     editor:SetLabel(title)
+    editor.editBox.timeMachine = {}
+    editor.editBox.timeMachinePos = 1
     editor.editBox:SetScript(
       "OnEscapePressed",
       function()
@@ -695,8 +925,6 @@ local function ConstructTextEditor(frame)
             end
           end
           if errorString then
-            urlText:Hide()
-            urlCopyLabel:Hide()
             if self.url then
               helpButton:Show()
             end
@@ -754,6 +982,7 @@ local function ConstructTextEditor(frame)
   function group.CancelClose(self)
     editor.editBox:SetScript("OnTextChanged", self.oldOnTextChanged)
     editor:ClearFocus()
+    frame:HideTip()
     frame.window = "default"
     frame:UpdateFrameVisible()
   end
@@ -813,6 +1042,7 @@ local function ConstructTextEditor(frame)
 
     editor.editBox:SetScript("OnTextChanged", self.oldOnTextChanged)
     editor:ClearFocus()
+
     frame.window = "default"
     frame:UpdateFrameVisible()
     WeakAuras.FillOptions()
@@ -821,7 +1051,7 @@ local function ConstructTextEditor(frame)
   return group
 end
 
-function OptionsPrivate.TextEditor(frame)
-  textEditor = textEditor or ConstructTextEditor(frame)
+function OptionsPrivate.TextEditor(frame, noConstruct)
+  textEditor = textEditor or (not noConstruct and ConstructTextEditor(frame))
   return textEditor
 end

@@ -11,8 +11,9 @@ RecentPanel = Addon:NewModule(CreateFrame('Frame', nil, MainPanel), 'RecentPanel
 function RecentPanel:OnInitialize()
     GUI:Embed(self, 'Refresh')
 
-    MainPanel:RegisterPanel([[|TInterface\ChatFrame\UI-ChatConversationIcon:16|t ]] .. L['最近玩友'], self, 5, 100, 5)
-
+    -- MainPanel:RegisterPanel([[|TInterface\ChatFrame\UI-ChatConversationIcon:16|t ]] .. L['最近玩友'], self, 5, 100, 5)
+    MainPanel:RegisterPanel(L['最近玩友'], self, 5, 100, 5)
+	--return
     local function UpdateFilter()
         local class  = self.ClassDropdown:GetValue()
         local role   = self.RoleDropdown:GetValue()
@@ -349,6 +350,28 @@ function RecentPanel:BatchDelete()
     end
 end
 
+
+StaticPopupDialogs['NETEASE_COPY_USERNAME'] = {
+    text = '请按<|cff00ff00Ctrl+C|r>复制角色名称',
+    button1 = OKAY,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    hasEditBox = true,
+    editBoxWidth = 260,
+    EditBoxOnTextChanged = function(editBox, url)
+        if editBox:GetText() ~= url then
+            editBox:SetMaxBytes(nil)
+            editBox:SetMaxLetters(nil)
+            editBox:SetText(url)
+            editBox:HighlightText()
+            editBox:SetCursorPosition(0)
+            editBox:SetFocus()
+        end
+    end
+}
+
 function RecentPanel:ToggleUnitMenu(anchor, player)
     GUI:ToggleMenu(anchor, {
         {
@@ -365,6 +388,30 @@ function RecentPanel:ToggleUnitMenu(anchor, player)
                 if result then
                     self:SetPlayerNotes(player, text)
                 end
+            end,
+        },
+        {
+            text = L['复制角色名称'],
+            func = function()
+                StaticPopup_Show('NETEASE_COPY_USERNAME', nil, nil, player:GetName())
+            end
+        },
+        {
+            text = '加入屏蔽',
+            func = function()
+				if BrowsePanel.IgnoreLeaderOnly then
+					local name = player:GetName()		
+					BrowsePanel.IgnoreLeaderOnly[name] = true
+					table.insert(MEETINGSTONE_UI_DB.IGNORE_LIST,1,{
+                            leader = name,
+                            time = date('%Y-%m-%d %H:%M',time()),
+                            dep = '从最近玩友屏蔽',
+                            t = 2,
+                        })
+					print(name.." 已加入黑名单")
+                else
+                    print("未加载<|cff00ff00MeetingStoneEx|r>插件")
+				end
             end,
         },
         {

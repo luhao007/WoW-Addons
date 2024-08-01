@@ -1,3 +1,13 @@
+
+-- Wrapper function for C_Spell.GetSpellInfo for the deprecated GetSpellInfo
+local GetSpellInfo = GetSpellInfo or function(spell)
+    local spellInfo = C_Spell.GetSpellInfo(spell);
+    if spellInfo then
+        return spellInfo.name, 0, spellInfo.iconID, spellInfo.castTime, spellInfo.minRange, spellInfo.maxRange, spellInfo.spellID, spellInfo.originalIconID;
+    end
+    return nil;
+end
+
 WL_ARTIFACTS = {
     [1] = {--Drust
         [GetSpellInfo(257715)] = 257715,

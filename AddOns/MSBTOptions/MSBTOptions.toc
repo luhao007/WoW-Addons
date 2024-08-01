@@ -1,4 +1,4 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Mikord
 ## Dependencies: MikScrollingBattleText
 ## LoadOnDemand: 1

@@ -1,3 +1,23 @@
+# v30.10
+
+- Update for 10.2.7
+
+# v30.9
+
+- Update for 10.2.6
+
+# v30.8
+
+- Update for 10.2.5
+
+# v30.7
+
+- Update for 10.2
+
+# v30.6
+
+- Updated for 10.0.2
+
 # v30.5
 
 - Updated Highmount Tauren allied race quest line, removed Battle For Azeroth requirement for all allied race questlines

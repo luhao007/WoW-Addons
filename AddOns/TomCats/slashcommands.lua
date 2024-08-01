@@ -8,7 +8,9 @@ end
 
 local function handleSlashCommand(msg)
 	if (msg == "/TOMCAT" or msg == "/TOMCATS") then
-		Settings.OpenToCategory(TomCats_Config.category:GetID())
+		if (addon.SettingsCategory) then
+			Settings.OpenToCategory(addon.SettingsCategory:GetID())
+		end
 	else
 		local t={}
 		for str in string.gmatch(msg, "([^ ]+)") do
@@ -19,6 +21,9 @@ local function handleSlashCommand(msg)
 		end
 		if (t[2] == "ERRORS") then
 			addon.SetErrorButtonsEnabled()
+		end
+		if (t[2] == "QUEUEWU") then
+			addon.ToggleQueuewu()
 		end
 	end
 end

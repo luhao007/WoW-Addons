@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
 
-mod:SetRevision("20230104014315")
+mod:SetRevision("20230504231118")
 mod:SetCreatureID(75452)
 mod:SetEncounterID(1679)
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
@@ -37,8 +38,8 @@ local specWarnBodySlam			= mod:NewSpecialWarningDodge(154175, nil, nil, nil, 2, 
 local specWarnInhale			= mod:NewSpecialWarningRun(153804, nil, nil, 2, 4, 12)
 local specWarnNecroticPitch		= mod:NewSpecialWarningMove(153692, nil, nil, nil, 1, 8)
 
-local timerBodySlamCD			= mod:NewCDSourceTimer(28, 154175, nil, nil, nil, 3)--34
-local timerInhaleCD				= mod:NewCDTimer(34, 153804, nil, nil, nil, 6, nil, DBM_COMMON_L.DEADLY_ICON)--41
+local timerBodySlamCD			= mod:NewCDSourceTimer(23, 154175, nil, nil, nil, 3)--34
+local timerInhaleCD				= mod:NewCDTimer(22.1, 153804, nil, nil, nil, 6, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerInhale				= mod:NewBuffActiveTimer(9, 153804, nil, nil, nil, 6, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerCorpseBreathCD		= mod:NewCDTimer(28, 165578, nil, false, nil, 5)--32-37 Variation, also not that important so off by default since there will already be up to 3 smash timers
 --local timerSubmergeCD			= mod:NewCDTimer(80, 177694, nil, nil, nil, 6)
@@ -108,13 +109,13 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		timerInhaleCD:Stop()
 		local name, guid = UnitName(uId), UnitGUID(uId)
 		timerBodySlamCD:Stop(name, guid)
-		timerInhaleCD:Start(26.8)
+		timerInhaleCD:Start(17.8)
 --		timerSubmergeCD:Start()
 	end
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
-	if spellId == 153692 and not self.vb.inhaleActive and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 153692 and not self.vb.inhaleActive and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnNecroticPitch:Show()
 		specWarnNecroticPitch:Play("watchfeet")
 	end

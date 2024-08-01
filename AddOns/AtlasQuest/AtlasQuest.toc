@@ -1,11 +1,11 @@
-## Interface: 10000
-## Author: Thandrenn
-## Version: 4.12.05
+## Interface: 110000
+## Author: Created by Asurn, Maintained by Thandrenn, Code fixed for 10.x by Zilom
+## Version: 4.14.02
 ## RequiredDeps: Atlas
 ## Dependencies: 
 ## OptionalDeps: 
 ## LoadOnDemand: 0
-## SavedVariables: AtlasQuest_Options,
+## SavedVariables: AtlasQuest_Options
 ## SavedVariablesPerCharacter: 
 
 ## Title: AtlasQuest
@@ -21,7 +21,7 @@
 ## X-License: GPLv2
 ## X-Credits: AtlasQuest Team
 ## X-Localizations: enUS, deDE
-## X-Date: September 4, 2022
+## X-Date: March 28, 2023
 ## X-Help: AtlasQuestHelp
 
 AtlasQuest_InsideFrame.xml

@@ -5,6 +5,10 @@ if (not addon.WOW_MAINLINE) then
     return
 end
 
+if not QuestPOIGetIconInfo then
+    return
+end
+
 local enableClicks = true       -- True if waypoint-clicking is enabled to set points
 local enableClosest = true      -- True if 'Automatic' quest waypoints are enabled
 local modifier                  -- A string representing click-modifiers "CAS", etc.
@@ -86,6 +90,7 @@ local function ObjectivesChanged()
         local qid = C_QuestLog.GetQuestIDForQuestWatchIndex(watchIndex)
         C_QuestLog.SetSelectedQuest(qid)
         C_QuestLog.GetNextWaypoint(qid)
+
         local completed, x, y, objective = QuestPOIGetIconInfo(qid)
         local qmap = GetQuestUiMapID(qid)
 
@@ -249,11 +254,37 @@ local function poi_OnClick(self, button)
     SetCVar("questPOI", cvar and 1 or 0)
 end
 
+if ObjectiveTrackerBlocksFrame and ObjectiveTrackerBlocksFrame.CallOnCreateFunction then
+    local hooked = {}
 
-hooksecurefunc("QuestPOIButton_OnClick", function(self, button)
-    poi_OnClick(self, button)
-end)
+    if ObjectiveTrackerBlocksFrame.buttonPool then
+        -- iterate over buttons that exist
+        for poiButton in ObjectiveTrackerBlocksFrame.buttonPool:EnumerateActive() do
+            if not hooked[poiButton] then
+                poiButton:HookScript("OnClick", function(self, button)
+                    poi_OnClick(self, button)
+                end)
+                hooked[poiButton] = true
+            end
+        end
+    end
 
+    -- and hook for new ones
+    hooksecurefunc(ObjectiveTrackerBlocksFrame, "CallOnCreateFunction", function(self, poiButton)
+        if not hooked[poiButton] then
+            poiButton:HookScript("OnClick", function(self, button)
+                poi_OnClick(self, button)
+            end)
+            hooked[poiButton] = true
+        end
+    end)
+else
+    if not addon.WAR_WITHIN then
+        hooksecurefunc("QuestPOIButton_OnClick", function(self, button)
+            poi_OnClick(self, button)
+        end)
+    end
+end
 
 function TomTom:EnableDisablePOIIntegration()
     enableClicks= TomTom.profile.poi.enable

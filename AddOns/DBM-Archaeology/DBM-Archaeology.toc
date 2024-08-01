@@ -1,4 +1,4 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Omega
 ## Version: r44
 ## RequiredDeps: DBM-Core

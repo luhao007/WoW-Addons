@@ -200,6 +200,7 @@ or {
 	[876] = true, -- Kul Tiras
 	[1550] = true, -- Shadowlands
 	[1978] = true, -- Dragon Isles
+	[2274] = true, -- Khaz Algar
 
 	-- mapFile compat entries
 	["Kalimdor"]              = 12,
@@ -410,6 +411,9 @@ end
 function HandyNotesWorldMapPinMixin:OnMouseUp(button)
 	pinsHandler.OnClick(self, button, false)
 end
+
+-- hack to avoid error in combat in 10.1.5
+HandyNotesWorldMapPinMixin.SetPassThroughButtons = function() end
 
 function HandyNotes:UpdateWorldMapPlugin(pluginName)
 	if not HandyNotes:IsEnabled() then return end

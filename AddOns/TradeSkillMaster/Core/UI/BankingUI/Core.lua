@@ -4,15 +4,16 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local BankingUI = TSM.UI:NewPackage("BankingUI")
-local L = TSM.Include("Locale").GetTable()
-local FSM = TSM.Include("Util.FSM")
-local TempTable = TSM.Include("Util.TempTable")
-local Log = TSM.Include("Util.Log")
-local Settings = TSM.Include("Service.Settings")
-local UIElements = TSM.Include("UI.UIElements")
-local UIUtils = TSM.Include("UI.UIUtils")
+local TSM = select(2, ...) ---@type TSM
+local BankingUI = TSM.UI:NewPackage("BankingUI") ---@type AddonPackage
+local ClientInfo = TSM.LibTSMWoW:Include("Util.ClientInfo")
+local L = TSM.Locale.GetTable()
+local FSM = TSM.LibTSMUtil:Include("FSM")
+local TempTable = TSM.LibTSMUtil:Include("BaseType.TempTable")
+local ChatMessage = TSM.LibTSMService:Include("UI.ChatMessage")
+local GroupOperation = TSM.LibTSMTypes:Include("GroupOperation")
+local UIElements = TSM.LibTSMUI:Include("Util.UIElements")
+local UIUtils = TSM.LibTSMUI:Include("Util.UIUtils")
 local private = {
 	settings = nil,
 	fsm = nil,
@@ -36,8 +37,8 @@ local BUTTON_TEXT_LOOKUP = {
 -- Module Functions
 -- ============================================================================
 
-function BankingUI.OnInitialize()
-	private.settings = Settings.NewView()
+function BankingUI.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
 		:AddKey("global", "bankingUIContext", "frame")
 		:AddKey("global", "bankingUIContext", "isOpen")
 		:AddKey("global", "bankingUIContext", "tab")
@@ -108,13 +109,13 @@ function private.CreateMainFrame()
 			)
 			:AddChild(UIElements.New("ApplicationGroupTree", "groupTree")
 				:SetSettingsContext(private.settings, private.GetSettingsContextKey())
-				:SetQuery(TSM.Groups.CreateQuery(), private.settings.tab)
+				:SetQuery(GroupOperation.CreateQuery(), private.settings.tab)
 				:SetSearchString(private.groupSearch)
 			)
 			:AddChild(UIElements.New("HorizontalLine", "line"))
 			:AddChild(UIElements.New("Frame", "footer")
 				:SetLayout("VERTICAL")
-				:SetHeight(170)
+				:SetHeight(202)
 				:SetPadding(8)
 				:SetBackgroundColor("PRIMARY_BG_ALT")
 				:AddChild(UIElements.New("ProgressBar", "progressBar")
@@ -159,7 +160,7 @@ function private.GetSettingsContextKey()
 end
 
 function private.UpdateCurrentModule(frame)
-	if not TSM.IsWowClassic() then
+	if ClientInfo.HasFeature(ClientInfo.FEATURES.REAGENT_BANK) then
 		ReagentBankFrame_OnShow(ReagentBankFrame)
 	end
 	-- update nav buttons
@@ -173,8 +174,7 @@ function private.UpdateCurrentModule(frame)
 	-- update group tree
 	frame:GetElement("content.groupTree")
 		:SetSettingsContext(private.settings, private.GetSettingsContextKey())
-		:SetQuery(TSM.Groups.CreateQuery(), private.settings.tab)
-		:UpdateData(true)
+		:SetQuery(GroupOperation.CreateQuery(), private.settings.tab)
 		:Draw()
 
 	-- update footer buttons
@@ -212,9 +212,16 @@ function private.UpdateCurrentModule(frame)
 			:SetHeight(24)
 			:SetMargin(0, 0, 8, 0)
 			:SetFont("BODY_BODY2_MEDIUM")
-			:SetDisabled(TSM.IsWowClassic())
+			:SetDisabled(not ClientInfo.HasFeature(ClientInfo.FEATURES.REAGENT_BANK))
 			:SetText(L["Deposit reagents"])
 			:SetScript("OnClick", private.WarehousingDepositReagentsBtnOnClick)
+		)
+		footerButtonsFrame:AddChildIf(ClientInfo.IsRetail(), UIElements.New("ActionButton", "depositWarboundBtn")
+			:SetHeight(24)
+			:SetMargin(0, 0, 8, 0)
+			:SetFont("BODY_BODY2_MEDIUM")
+			:SetText(L["Deposit Warbound items"])
+			:SetScript("OnClick", private.WarehousingDepositWarboundBtnOnClick)
 		)
 		footerButtonsFrame:AddChild(UIElements.New("Frame", "row4")
 			:SetLayout("HORIZONTAL")
@@ -329,7 +336,7 @@ function private.BaseFrameOnHide()
 end
 
 function private.CloseBtnOnClick(button)
-	Log.PrintUser(L["Hiding the TSM Banking UI. Type '/tsm bankui' to reopen it."])
+	ChatMessage.PrintUser(L["Hiding the TSM Banking UI. Type '/tsm bankui' to reopen it."])
 	button:GetParentElement():Hide()
 	private.fsm:ProcessEvent("EV_FRAME_HIDDEN")
 end
@@ -359,6 +366,10 @@ end
 
 function private.WarehousingDepositReagentsBtnOnClick()
 	DepositReagentBank()
+end
+
+function private.WarehousingDepositWarboundBtnOnClick()
+	C_Bank.AutoDepositItemsIntoBank(Enum.BankType.Account)
 end
 
 function private.SimpleBtnOnClick(button)
@@ -423,7 +434,7 @@ function private.FSMCreate()
 			footerButtonsFrame:GetElement("restockBagsBtn")
 				:SetDisabled(context.progress)
 			footerButtonsFrame:GetElement("depositReagentsBtn")
-				:SetDisabled(context.progress or TSM.IsWowClassic())
+				:SetDisabled(context.progress or not ClientInfo.HasFeature(ClientInfo.FEATURES.REAGENT_BANK))
 			footerButtonsFrame:GetElement("row4.emptyBagsBtn")
 				:SetDisabled(context.progress)
 			footerButtonsFrame:GetElement("row4.restoreBagsBtn")
@@ -531,7 +542,7 @@ function private.FSMCreate()
 			end)
 			:AddEvent("EV_THREAD_DONE", function(context)
 				if context.progress == 0 then
-					Log.PrintUser(L["Nothing to move."])
+					ChatMessage.PrintUser(L["Nothing to move."])
 				end
 				return "ST_FRAME_OPEN"
 			end)

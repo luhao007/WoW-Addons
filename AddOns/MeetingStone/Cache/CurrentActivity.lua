@@ -6,7 +6,10 @@ CurrentActivity = Addon:NewClass('CurrentActivity', BaseActivity)
 CurrentActivity:InitAttr{
     'Title',
     'PrivateGroup',
-    'IsCrossFaction',
+	'QuestID',
+	'MythicPlusRating',
+	'PvpRating',
+	'CrossFactionGroup'
 }
 
 function CurrentActivity:FromAddon(data)
@@ -34,10 +37,12 @@ function CurrentActivity:UpdateBySystem(info)
     self:SetActivityID(info.activityID)
     self:SetItemLevel(info.requiredItemLevel)
     self:SetHonorLevel(info.requiredHonorLevel)
+    self:SetMythicPlusRating(info.requiredDungeonScore)
+    self:SetPvpRating(info.requiredPvpRating)
     self:SetVoiceChat(info.voiceChat)
     self:UpdateCustomData(info.comment, info.name)
     self:SetPrivateGroup(info.privateGroup)
-    self:SetIsCrossFaction(info.isCrossFactionListing)
+    self:SetCrossFactionGroup(info.isCrossFactionListing)
 end
 
 function CurrentActivity:GetTitle()
@@ -51,9 +56,10 @@ function CurrentActivity:GetCreateArguments(autoAccept)
             self:GetHonorLevel(),
             autoAccept,
             self:GetPrivateGroup(),
-            nil,
-            nil,
-            nil,
-            nil,
-            self:IsCrossFaction()
+            self:GetQuestID(),
+            self:GetMythicPlusRating(),
+            self:GetPvpRating(),
+			1,
+            self:GetCrossFactionGroup()
+			
 end

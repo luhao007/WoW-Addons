@@ -36,7 +36,7 @@ local mopPets = {
 		name = L["Porcupette"],
 		spellId = 118414,
 		itemId = 89587,
-		items = { 89125 },
+		items = { 89125, 142447, 151638, 184866 },
 		chance = 250,
 		creatureId = 61086,
 		coords = { { m = CONSTANTS.UIMAPIDS.NONE } },
@@ -449,7 +449,10 @@ local mopPets = {
 		name = L["Gahz'rooki's Summoning Stone"],
 		spellId = 141789,
 		itemId = 97821,
-		npcs = { 71012, 70997, 71000, 70999, 71001 },
+		npcs = {
+			71012, -- Kor'kron Butcher
+			73590, -- Kor'kron Outrider
+		},
 		chance = 1000,
 		creatureId = 71159,
 		coords = { { m = 10, x = 43.7, y = 47.9 } },
@@ -660,6 +663,7 @@ local mopPets = {
 		itemId = 104160,
 		npcs = { 71826, 71823 },
 		chance = 1250,
+		questId = 32961,
 		creatureId = 73532,
 		coords = { { m = 554, x = 45.6, y = 74.6 } },
 	},
@@ -782,10 +786,10 @@ local mopPets = {
 		name = L["Lil' Bling"],
 		spellId = 147124,
 		itemId = 103670,
-		items = { 86623, 113258 },
+		items = { 86623, 113258, 132892, 168740 },
 		chance = 200,
 		creatureId = 73011,
-		questId = { 31752, 34774 },
+		questId = { 31752, 34774, 40753, 56042 },
 		tooltipNpcs = { 77789, 43929 },
 		coords = { { m = CONSTANTS.UIMAPIDS.NONE } },
 	},
@@ -836,6 +840,20 @@ local mopPets = {
 		chance = 60,
 		creatureId = 73366,
 		coords = { { m = 554 } },
+	},
+	["Sunreaver Micro-Sentry"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.MOP,
+		type = CONSTANTS.ITEM_TYPES.PET,
+		method = CONSTANTS.DETECTION_METHODS.NPC,
+		name = L["Sunreaver Micro-Sentry"],
+		spellId = 138082,
+		itemId = 94124,
+		npcs = { 50358 },
+		chance = 5,
+		creatureId = 69778,
+		coords = {
+			{ m = CONSTANTS.UIMAPIDS.ISLE_OF_THUNDER, x = 48.4, y = 87.2, n = L["Haywire Sunreaver Construct"] },
+		},
 	},
 }
 

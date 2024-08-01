@@ -1,6 +1,11 @@
---- @type string, Private
-local AddonName, Private = ...
+---@type string
+local AddonName = ...
+---@class Private
+local Private = select(2, ...)
+
+---@class WeakAuras
 WeakAuras = {}
+---@type table<string, string>
 WeakAuras.L = {}
 Private.frames = {}
 
@@ -10,6 +15,19 @@ Private.frames = {}
 --- @class state
 --- @field id auraId
 --- @field cloneId string?
+--- @field show boolean?
+--- @field changed boolean?
+--- @field paused boolean?
+--- @field remaining number?
+--- @field autoHide boolean|string|nil
+--- @field progressType "timed"|"static"|nil
+--- @field expirationTime number?
+--- @field duration number?
+--- @field name any?
+--- @field icon any?
+--- @field value number?
+--- @field total number?
+--- @field inverse boolean?
 
 --- @alias non_transmissable_field table<string, non_transmissable_field|boolean>
 
@@ -23,16 +41,25 @@ Private.frames = {}
 
 --- @alias traverseFunction fun(): auraData
 
+---@class WARegion : Frame
+---@field state state
+---@field states state[]
+---@field regionType string
+
 --- @class Private
 --- @field ActivateAuraEnvironment fun(id: auraId?, cloneId: string?, state: state?, states: state[]?, config: boolean?)
 --- @field ActivateAuraEnvironmentForRegion fun(region: table, onlyConfig: boolean?)
 --- @field AddToWatchedTriggerDelay fun(id: auraId, triggerNum: number)
 --- @field anchor_frame_types table<anchorFrameTypes, string>
 --- @field anchor_frame_types_group table<anchorFrameTypes, string>
+--- @field anim_function_strings table<string, string>
+--- @field anim_presets table<string, table>
 --- @field AuraWarnings AuraWarnings
 --- @field AuraEnvironmentWrappedSystem AuraEnvironmentWrappedSystem
 --- @field callbacks callbacks
+--- @field category_event_prototype table<string, table<string, string>>
 --- @field CanHaveTooltip fun(data: auraData): boolean
+--- @field CheckTalentsForLoad fun(event: string)
 --- @field ContainsCustomPlaceHolder fun(input: string): boolean
 --- @field ContainsAnyPlaceHolders fun(input: string): boolean
 --- @field ContainsPlaceHolders fun(input: string, placeholders: string, checkDoublePercent?: boolean): boolean
@@ -40,10 +67,17 @@ Private.frames = {}
 --- @field clones table<auraId, table<string, table>>
 --- @field customActionsFunctions table<auraId, table<string, function?>>
 --- @field DebugLog debugLog
---- @field EnsureRegion fun(id: auraId, cloneId: string?): Frame
+--- @field dynamic_texts table<string, table>
+--- @field EndEvent fun(state: state): boolean?
+--- @field EnsureRegion fun(id: auraId, cloneId: string?): WARegion
 --- @field ExecEnv table
+--- @field event_prototypes table<string, prototypeData>
+--- @field event_categories table<string, {name: string, default: string }>
+--- @field Features Features
+--- @field FindUnusedId fun(prefix: string?): string
 --- @field FixGroupChildrenOrderForGroup fun(data: auraData)
 --- @field frames table<string, table>
+--- @field function_strings table<string, string>
 --- @field GetDataByUID fun(uid: uid): auraData
 --- @field GetErrorHandlerId fun(id: auraId, context: string): function
 --- @field GetErrorHandlerUid fun(uid: uid, context: string): function
@@ -52,20 +86,26 @@ Private.frames = {}
 --- @field inverse_point_types table<string, string>
 --- @field IsCLEUSubevent fun(subevent: string): boolean
 --- @field IsDragonriding fun(): boolean
+--- @field IsGroupType fun(data: auraData): boolean
 --- @field item_slot_types string[]
 --- @field LibSpecWrapper LibSpecWrapper
 --- @field linked table<auraId, number>
+--- @field loaded table<auraId, boolean>
 --- @field LoadFunction fun(input: string): function
 --- @field LoadOptions fun(msg: string?): boolean
+--- @field maxTimerDuration number
 --- @field multiUnitUnits multiUnitUnits
 --- @field non_transmissable_fields table<string, non_transmissable_field>
 --- @field non_transmissable_fields_v2000 table<string, non_transmissable_field>
 --- @field orientation_types table<string, string>
 --- @field orientation_with_circle_types table<string, string>
---- @field point_types table<string, string>
+--- @field ParseNumber fun (numString: string|number): number?, string?
 --- @field PreShowModels fun()
+--- @field PrintHelp fun()
 --- @field QuotedString fun(input: string): string
+--- @field regionOptions table<string, table>
 --- @field regions table<auraId, table>
+--- @field regionTypes table<string, table>
 --- @field reset_ranged_swing_spells table<number, boolean>
 --- @field reset_swing_spells table<number, boolean>
 --- @field noreset_swing_spells table<number, boolean>
@@ -78,7 +118,10 @@ Private.frames = {}
 --- @field StartProfileSystem fun(system: string)
 --- @field StopProfileAura fun(id: auraId)
 --- @field StopProfileSystem fun(system: string)
+--- @field subRegionOptions table<string, table>
+--- @field subRegionTypes table<string, table>
 --- @field tick_placement_modes table<string, string>
+--- @field tinySecondFormat fun(value: string|number): string?
 --- @field TraverseAll fun(data: auraData): traverseFunction, auraData
 --- @field TraverseAllChildren fun(data: auraData): traverseFunction, auraData
 --- @field TraverseGroups fun(data: auraData): traverseFunction, auraData
@@ -86,11 +129,15 @@ Private.frames = {}
 --- @field TraverseLeafsOrAura fun(data: auraData): traverseFunction, auraData
 --- @field TraverseParents fun(data: auraData): traverseFunction, auraData
 --- @field TraverseSubGroups fun(data: auraData): traverseFunction, auraData
+--- @field triggerTypes table<string, table>
+--- @field triggerTypesOptions table<string, any>
 --- @field UIDtoID fun(uid: uid): auraId
 --- @field UnitEventList table<string, boolean>
 --- @field UnitPlayerControlledFixed fun(unit: string): boolean
 --- @field UpdatedTriggerState fun(id: auraId)
+--- @field validate fun(input: table, default:table)
 --- @field watched_trigger_events table<auraId, table<integer, table<integer, boolean>>>
+--- @field RegisterRegionType fun(regionType: string, createFunction: function, modifyFunction: function, defaults: table, properties: table|function|nil, validate: function?))
 
 --- @alias triggerTypes
 --- | "aura"
@@ -108,13 +155,50 @@ Private.frames = {}
 
 --- @class triggerData
 --- @field buffShowOn string
+--- @field debuffType string
+--- @field essence number?
 --- @field event string|nil
---- @field itemTypeName table|nil
 --- @field instance_size table|nil
+--- @field itemName string?
+--- @field itemSetName string?
+--- @field itemTypeName table|nil
+--- @field range number?l
+--- @field realSpellName string?
+--- @field rune number?
+--- @field spellName string?
+--- @field subeventPrefix string?
+--- @field subeventSuffix string?
 --- @field type triggerTypes
---- @field use_showOn boolean|nil
+--- @field unit string?
 --- @field use_alwaystrue boolean|nil
+--- @field use_ignoreoverride boolean|nil
+--- @field use_showOn boolean|nil
 
+---@class prototypeDataArgs
+---@field name string
+---@field required boolean?
+---@field display string
+---@field type "unit"|nil
+---@field init "string"|nil
+---@field values any
+---@field desc string?
+---@field store boolean?
+---@field test string?
+
+---@class prototypeData
+---@field durationFunc (fun(trigger: triggerData): number, number, boolean?)|nil
+---@field init (fun(trigger: triggerData):string?)|nil
+---@field useModRate boolean?
+---@field timedrequired boolean?
+---@field GetNameAndIcon (fun(trigger: triggerData): string?, string?)|nil
+---@field iconFunc (fun(trigger: triggerData): string?)|nil
+---@field loadFunc (fun(trigger: triggerData): nil)|nil
+---@field nameFunc (fun(trigger: triggerData): string?)|nil
+---@field events (fun(trigger: triggerData): table)|nil
+---@field internal_events (fun(trigger: triggerData): table)|nil
+---@field name string
+---@field statesParameter "unit"|"one"|"all"|nil
+---@field progressType "timed"|"static"|"none"
 
 --- @class triggerUntriggerData
 --- @field trigger triggerData
@@ -261,11 +345,6 @@ Private.frames = {}
 --- @field SerializeEx fun(self: LibSerialize,options: table, input: any)
 --- @field Deserialize fun(self: LibSerialize, input: string): table
 
---- @class LibClassicDurations
---- @field RegisterFrame fun(self: LibClassicDurations, frame: string)
---- @field Register fun(self: LibClassicDurations, frame: string)
---- @field GetAuraDurationByUnit fun(self: LibClassicDurations, unit: string, spellId: number, source: string?, name: string?)
-
 --- @class LibDeflate
 --- @field CompressDeflate fun(self: LibDeflate, input: string, options: table): string
 --- @field EncodeForPrint fun(self: LibDeflate, input: string): string)
@@ -296,24 +375,40 @@ Private.frames = {}
 WeakAuras.normalWidth = 1.3
 WeakAuras.halfWidth = WeakAuras.normalWidth / 2
 WeakAuras.doubleWidth = WeakAuras.normalWidth * 2
+local versionStringFromToc = C_AddOns.GetAddOnMetadata("WeakAuras", "Version")
+local versionString = "5.15.4"
+local buildTime = "20240728005051"
 
-local versionStringFromToc = GetAddOnMetadata("WeakAuras", "Version")
-local versionString = "5.3.6"
-local buildTime = "20230119175917"
-
-local flavorFromToc = GetAddOnMetadata("WeakAuras", "X-Flavor")
+local flavorFromToc = C_AddOns.GetAddOnMetadata("WeakAuras", "X-Flavor")
 local flavorFromTocToNumber = {
   Vanilla = 1,
   TBC = 2,
   Wrath = 3,
+  Cata = 4,
   Mainline = 10
 }
 local flavor = flavorFromTocToNumber[flavorFromToc]
 
+
+if not versionString:find("beta", 1, true) then
+  WeakAuras.buildType = "release"
+else
+  WeakAuras.buildType = "beta"
+end
+
+--[=[@alpha@
+WeakAuras.buildType = "alpha"
+--@end-alpha@]=]
+
+--[=====[@experimental@
+WeakAuras.buildType = "pr"
+--@end-experimental@]=====]
+
 --[==[@debug@
-if versionStringFromToc == "5.3.6" then
+if versionStringFromToc == "5.15.4" then
   versionStringFromToc = "Dev"
   buildTime = "Dev"
+  WeakAuras.buildType = "dev"
 end
 --@end-debug@]==]
 
@@ -322,50 +417,46 @@ WeakAuras.buildTime = buildTime
 WeakAuras.newFeatureString = "|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:0|t"
 WeakAuras.BuildInfo = select(4, GetBuildInfo())
 
-function WeakAuras.IsClassic()
+---@return boolean result
+function WeakAuras.IsClassicEra()
   return flavor == 1
 end
+-- save compatibility with old auras
+WeakAuras.IsClassic = WeakAuras.IsClassicEra
 
-function WeakAuras.IsBCC()
-  return flavor == 2
+---@return boolean result
+function WeakAuras.IsCataClassic()
+  return flavor == 4
 end
 
-function WeakAuras.IsWrathClassic()
-  return flavor == 3
-end
-
+---@return boolean result
 function WeakAuras.IsRetail()
   return flavor == 10
 end
 
-function WeakAuras.IsClassicOrBCC()
-  return WeakAuras.IsClassic() or WeakAuras.IsBCC()
+---@return boolean result
+function WeakAuras.IsClassicOrCata()
+  return WeakAuras.IsClassicEra() or WeakAuras.IsCataClassic()
 end
 
-function WeakAuras.IsClassicOrBCCOrWrath()
-  return WeakAuras.IsClassic() or WeakAuras.IsBCC() or WeakAuras.IsWrathClassic()
+---@return boolean result
+function WeakAuras.IsCataOrRetail()
+  return WeakAuras.IsCataClassic() or WeakAuras.IsRetail()
 end
 
-function WeakAuras.IsBCCOrWrath()
-  return WeakAuras.IsBCC() or WeakAuras.IsWrathClassic()
+---@return boolean result
+function WeakAuras.IsTWW()
+  return WeakAuras.BuildInfo >= 110000
 end
 
-function WeakAuras.IsBCCOrWrathOrRetail()
-  return WeakAuras.IsBCC() or WeakAuras.IsWrathClassic() or WeakAuras.IsRetail()
-end
-
-function WeakAuras.IsWrathOrRetail()
-  return WeakAuras.IsRetail() or WeakAuras.IsWrathClassic()
-end
-
-
+---@param ... string
 WeakAuras.prettyPrint = function(...)
   print("|cff9900ffWeakAuras:|r ", ...)
 end
 
 -- Force enable WeakAurasCompanion and Archive because some addon managers interfere with it
-EnableAddOn("WeakAurasCompanion")
-EnableAddOn("WeakAurasArchive")
+C_AddOns.EnableAddOn("WeakAurasCompanion")
+C_AddOns.EnableAddOn("WeakAurasArchive")
 
 local libsAreOk = true
 do
@@ -375,11 +466,6 @@ do
   }
   local LibStubLibs = {
     "CallbackHandler-1.0",
-    "AceConfig-3.0",
-    "AceConsole-3.0",
-    "AceGUI-3.0",
-    "AceEvent-3.0",
-    "AceGUISharedMediaWidgets-1.0",
     "AceTimer-3.0",
     "AceSerializer-3.0",
     "AceComm-3.0",
@@ -391,15 +477,39 @@ do
     "LibDBIcon-1.0",
     "LibGetFrame-1.0",
     "LibSerialize",
-    "LibUIDropDownMenu-4.0"
   }
-  if WeakAuras.IsClassic() then
-    tinsert(LibStubLibs, "LibClassicSpellActionCount-1.0")
-    tinsert(LibStubLibs, "LibClassicCasterino")
-    tinsert(LibStubLibs, "LibClassicDurations")
-  end
   if WeakAuras.IsRetail() then
     tinsert(LibStubLibs, "LibSpecialization")
+    AddonCompartmentFrame:RegisterAddon({
+      text = AddonName,
+      icon = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp",
+      registerForAnyClick = true,
+      notCheckable = true,
+      func = function(button, menuInputData, menu)
+        local mouseButton = menuInputData.buttonName
+        if mouseButton == "LeftButton" then
+          if IsShiftKeyDown() then
+            if not (WeakAuras.IsOptionsOpen()) then
+              WeakAuras.Toggle()
+            end
+          else
+            WeakAuras.OpenOptions()
+          end
+        elseif mouseButton == "MiddleButton" then
+          WeakAuras.ToggleMinimap()
+        else
+          WeakAurasProfilingFrame:Toggle()
+        end
+      end,
+      funcOnEnter = function(button)
+        MenuUtil.ShowTooltip(button, function(tooltip)
+          WeakAuras.GenerateTooltip(true, tooltip)
+        end)
+      end,
+      funcOnLeave = function(button)
+        MenuUtil.HideTooltip(button)
+      end,
+    })
   end
   for _, lib in ipairs(StandAloneLibs) do
     if not lib then
@@ -423,7 +533,7 @@ function WeakAuras.IsLibsOK()
   return libsAreOk
 end
 
-if not WeakAuras.IsLibsOK() then
+if not libsAreOk then
   C_Timer.After(1, function()
     WeakAuras.prettyPrint("WeakAuras is missing necessary libraries. Please reinstall a proper package.")
   end)
@@ -431,11 +541,12 @@ end
 
 -- These function stubs are defined here to reduce the number of errors that occur if WeakAuras.lua fails to compile
 --- @type fun(regionType: string, createFunction: function, modifyFunction: function, defaults: table, properties: table|function|nil, validate: function?))
-function WeakAuras.RegisterRegionType(_, _, _ ,_)
+function Private.RegisterRegionType(_, _, _ ,_)
 end
 
---- @type fun(regionType: string, createOptions: function, icon: string|function, displayName: string, createThumbnail: function?, modifyThumbnail: function?, description: string?, templates: table?, getAnchors: function?)
-function WeakAuras.RegisterRegionOptions(_, _ , _ ,_ )
+---@type fun(regionType: string, createOptions: function, icon: string|function, displayName: string, createThumbnail: function?, modifyThumbnail: function?, description: string?, templates: table?, getAnchors: function?)
+---@diagnostic disable-next-line: duplicate-set-field
+function Private.RegisterRegionOptions(_, _ , _ ,_ )
 end
 
 function Private.StartProfileSystem(_)
@@ -450,9 +561,11 @@ end
 function Private.StopProfileAura(_)
 end
 
+---@type fun()
 function Private.StartProfileUID()
 end
 
+---@type fun()
 function Private.StopProfileUID()
 end
 
@@ -460,12 +573,15 @@ Private.ExecEnv = {}
 
 -- If WeakAuras shuts down due to being installed on the wrong target, keep the bindings from erroring
 --- @type fun(type: string)
+---@diagnostic disable-next-line: duplicate-set-field
 function WeakAuras.StartProfile(_)
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function WeakAuras.StopProfile()
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function WeakAuras.PrintProfile()
 end
 

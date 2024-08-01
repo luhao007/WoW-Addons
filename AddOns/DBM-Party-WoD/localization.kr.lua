@@ -125,7 +125,7 @@ L= DBM:GetModLocalization(1237)
 L= DBM:GetModLocalization(1238)
 
 -----------------------
--- <<<Overgrown Outpost>>> --
+-- <<<EverBloom>>> --
 -----------------------
 -----------------------
 -- Witherbark --
@@ -155,6 +155,19 @@ L:SetMiscLocalization({
 -- Yalnu --
 -----------------------
 L= DBM:GetModLocalization(1210)
+
+L:SetMiscLocalization({
+	YalnuRP	= "차원문이! 괴물이 탈출하기 전에 막아야 합니다!"
+})
+
+-----------------------
+-- Trash --
+-----------------------
+L = DBM:GetModLocalization("EverBloomTrash")
+
+L:SetGeneralLocalization({
+	name =	"상록숲 일반몹"
+})
 
 -----------------------
 -- <<<Shadowmoon Buriel Grounds>>> --

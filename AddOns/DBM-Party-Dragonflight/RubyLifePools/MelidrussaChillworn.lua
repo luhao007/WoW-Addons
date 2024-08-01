@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2488, "DBM-Party-Dragonflight", 7, 1202)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230108011611")
+mod:SetRevision("20240504141048")
 mod:SetCreatureID(188252)
 mod:SetEncounterID(2609)
---mod:SetUsedIcons(1, 2, 3)
 mod:SetHotfixNoticeRev(20221126000000)
 --mod:SetMinSyncRevision(20211203000000)
 --mod.respawnTime = 29
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
@@ -37,7 +37,7 @@ local specWarnHailbombs							= mod:NewSpecialWarningDodge(396044, nil, nil, nil
 local specWarnChillStorm						= mod:NewSpecialWarningMoveAway(372851, nil, nil, nil, 1, 2)
 local yellChillstorm							= mod:NewYell(372851)
 local yellChillstormFades						= mod:NewShortFadesYell(372851)
-local specWarnFrostOverload						= mod:NewSpecialWarningInterrupt(373680, "HasInterrupt", nil, nil, 1, 2, 4)
+local specWarnFrostOverload						= mod:NewSpecialWarningInterrupt(373680, "HasInterrupt", nil, 2, 1, 2, 4)
 local specWarnAwakenWhelps						= mod:NewSpecialWarningSwitch(373046, "-Healer", nil, nil, 1, 2)
 local specWarnGTFO								= mod:NewSpecialWarningGTFO(372851, nil, nil, nil, 1, 8)
 
@@ -45,11 +45,7 @@ local timerChillstormCD							= mod:NewCDTimer(23, 372851, nil, nil, nil, 3)
 local timerHailbombsCD							= mod:NewCDTimer(23, 396044, nil, nil, nil, 3)
 local timerFrostOverloadCD						= mod:NewCDTimer(8.5, 373680, nil, nil, nil, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)--Cast after each whelps, which is health based
 
---local berserkTimer							= mod:NewBerserkTimer(600)
-
---mod:AddRangeFrameOption("8")
 mod:AddInfoFrameOption(372682, true)
---mod:AddSetIconOption("SetIconOnStaggeringBarrage", 361018, true, false, {1, 2, 3})
 
 local chillStacks = {}
 
@@ -58,16 +54,13 @@ function mod:OnCombatStart(delay)
 	timerHailbombsCD:Start(4.7-delay)
 	timerChillstormCD:Start(11.9-delay)
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(372682))
+		DBM.InfoFrame:SetHeader(DBM:GetSpellName(372682))
 		DBM.InfoFrame:Show(5, "table", chillStacks, 1)
 	end
 end
 
 function mod:OnCombatEnd()
 	table.wipe(chillStacks)
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -139,7 +132,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		specWarnFrostOverload:Play("kickcast")
 	elseif spellId == 373680 then--Frost Overload
 		--True, at least in M+
-		timerHailbombsCD:Start(4.8)
+		timerHailbombsCD:Start(4.1)
 		timerChillstormCD:Start(13.3)
 	end
 end

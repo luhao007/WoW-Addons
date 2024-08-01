@@ -1,7 +1,7 @@
 --[[
     This file is part of Decursive.
 
-    Decursive (v 2.7.8.13) add-on for World of Warcraft UI
+    Decursive (v 2.7.20) add-on for World of Warcraft UI
     Copyright (C) 2006-2019 John Wellesz (Decursive AT 2072productions.com) ( http://www.2072productions.com/to/decursive.php )
 
     Decursive is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
     Decursive is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY.
 
-    This file was last updated on 2022-12-04T01:33:13Z
+    This file was last updated on 2024-07-16T22:59:00Z
 --]]
 -------------------------------------------------------------------------------
 
@@ -57,11 +57,13 @@ T._LoadedFiles["DCR_init.lua"] = false;
 local D;
 local _G                    = _G;
 local select                = _G.select;
-local GetSpellBookItemInfo  = _G.GetSpellBookItemInfo;
-local GetSpellInfo          = _G.GetSpellInfo;
+local GetSpellBookItemInfo  = _G.C_SpellBook and _G.C_SpellBook.GetSpellBookItemInfo or _G.GetSpellBookItemInfo;
+local GetSpellInfo          = _G.C_Spell and _G.C_Spell.GetSpellInfo or _G.GetSpellInfo;
+local GetSpellName          = _G.C_Spell and _G.C_Spell.GetSpellName or function (spellId) return (GetSpellInfo(spellId)) end;
 local IsSpellKnown          = nil; -- use D:isSpellReady instead
 local GetSpecialization     = _G.GetSpecialization;
 local IsPlayerSpell         = _G.IsPlayerSpell;
+local GetAddOnMetadata      = _G.C_AddOns and _G.C_AddOns.GetAddOnMetadata or _G.GetAddOnMetadata;
 
 local function RegisterDecursive_Once() -- {{{
 
@@ -73,7 +75,7 @@ local function RegisterDecursive_Once() -- {{{
     --@end-debug@]==]
 
     D.name = "Decursive";
-    D.version = "2.7.8.13";
+    D.version = "2.7.20";
     D.author = "John Wellesz";
 
     D.DcrFullyInitialized = false;
@@ -91,7 +93,7 @@ local function RegisterLocals_Once() -- {{{
     -- While that was probably caused by a badd-on redefining the constant,
     -- it's best to stay on the safe side...
 
-    D.LC = setmetatable(FillLocalizedClassList({}, false), {__index = function(t,k) return k end});
+    D.LC = setmetatable((FillLocalizedClassList or LocalizedClassList)({}, false), {__index = function(t,k) return k end});
 
     RegisterLocals_Once = nil;
 end -- }}}
@@ -121,7 +123,8 @@ local function SetBasicConstants_Once() -- these are constants that may be used 
     DC.POISON       = 8;
     DC.DISEASE      = 16;
     DC.CHARMED      = 32;
-    DC.NOTYPE       = 64;
+    DC.BLEED        = 64;
+    DC.NOTYPE       = 128;
 
     DC.CLASS_DRUID       = 'DRUID';
     DC.CLASS_HUNTER      = 'HUNTER';
@@ -196,6 +199,7 @@ local function SetRuntimeConstants_Once () -- {{{
         [DC.POISON]     = "Poison",
         [DC.DISEASE]    = "Disease",
         [DC.CHARMED]    = "Charm",
+        [DC.BLEED]      = "Bleed",
     }
 
     DC.NameToTypes = D:tReverse(DC.TypeNames);
@@ -208,6 +212,7 @@ local function SetRuntimeConstants_Once () -- {{{
         [DC.POISON]     = "POISON",
         [DC.DISEASE]    = "DISEASE",
         [DC.CHARMED]    = "CHARM",
+        [DC.BLEED]      = "BLEED",
     }
     DC.LocalizableTypeNamesToTypes = D:tReverse(DC.TypeToLocalizableTypeNames);
 
@@ -323,10 +328,17 @@ local function SetRuntimeConstants_Once () -- {{{
 
             -- Shaman resto
             [DSI["PURIFY_SPIRIT"]] = { -- same name as CLEANSE_SPIRIT in ruRU XXX -- IsSpellKnown(DSI["PURIFY_SPIRIT"]) actually fails in all situaions...
-                -- BUG in MOP BETA and 5.2 (2012-07-08): /dump GetSpellBookItemInfo('Purify Spirit') == nil while /dump (GetSpellInfo('Cleanse Spirit')) == 'Purify Spirit'
-                Types = {DC.CURSE, DC.MAGIC},
+                Types = {DC.MAGIC},
                 Better = 4,
                 Pet = false,
+                -- detect improved purify spirit
+                EnhancedBy = 'talent',
+                EnhancedByCheck = function ()
+                    return (IsPlayerSpell(DSI["IMPROVED_PURIFY_SPIRIT"]));
+                end,
+                Enhancements = {
+                    Types = {DC.CURSE, DC.MAGIC}, -- see PURIFY_SPIRIT
+                }
             },
             -- Warlocks (Imp)
             [DSI["PET_SINGE_MAGIC"]] = {
@@ -353,7 +365,7 @@ local function SetRuntimeConstants_Once () -- {{{
 
                 EnhancedBy = true,
                 EnhancedByCheck = function ()
-                    return (GetSpellInfo(DS["SPELL_COMMAND_DEMON"])) == DS["PET_SINGE_MAGIC"] or (GetSpellInfo(DS["SPELL_COMMAND_DEMON"])) == DS["PET_SEAR_MAGIC"];
+                    return (GetSpellName(DS["SPELL_COMMAND_DEMON"])) == DS["PET_SINGE_MAGIC"] or (GetSpellName(DS["SPELL_COMMAND_DEMON"])) == DS["PET_SEAR_MAGIC"];
                 end,
                 Enhancements = {
                     Types = {DC.MAGIC},
@@ -392,6 +404,13 @@ local function SetRuntimeConstants_Once () -- {{{
                 Pet = false,
 
             },
+            -- SPELL_POISON_CLEANSING_TOTEM
+            [DSI["SPELL_POISON_CLEANSING_TOTEM"]] = {
+                Types = {DC.POISON},
+                Better = 1,
+                Pet = false,
+
+            },
             -- Druids (Restoration)
             [DSI["SPELL_NATURES_CURE"]] = {
                 Types = {DC.MAGIC, DC.POISON, DC.CURSE},
@@ -418,9 +437,16 @@ local function SetRuntimeConstants_Once () -- {{{
             },
             -- Priests (Discipline, Holy)
             [DSI["SPELL_PURIFY"]] = {
-                Types = {DC.MAGIC, DC.DISEASE},
+                Types = {DC.MAGIC},
                 Better = 1,
                 Pet = false,
+                EnhancedBy = 'talent',
+                EnhancedByCheck = function ()
+                    return (IsPlayerSpell(DSI["IMPROVED_PURIFY"]));
+                end,
+                Enhancements = {
+                    Types = {DC.MAGIC, DC.DISEASE},
+                }
             },
             [DSI["SPELL_PURIFY_DISEASE"]] = {
                 Types = {DC.DISEASE},
@@ -440,14 +466,14 @@ local function SetRuntimeConstants_Once () -- {{{
                 Pet = false,
                 EnhancedBy = true,
                 EnhancedByCheck = function ()
-                    return (GetSpellInfo(DS["SPELL_EXPUNGE"])) == DS["SPELL_NATURALIZE"];
+                    return (GetSpellName(DS["SPELL_EXPUNGE"])) == DS["SPELL_NATURALIZE"];
                 end,
                 Enhancements = {
                     Types = {DC.POISON, DC.MAGIC},
                 }
             },
             [DSI["SPELL_CAUTERIZING_FLAME"]] = {
-                Types = {DC.POISON, DC.CURSE, DC.DISEASE},
+                Types = {DC.POISON, DC.CURSE, DC.DISEASE, DC.BLEED},
                 Better = 1,
                 Pet = false,
             },
@@ -472,9 +498,17 @@ local function SetRuntimeConstants_Once () -- {{{
         DC.SpellsToUse = {
             -- Mage
             [DSI["SPELL_REMOVE_CURSE_DRUID"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=475/remove-lesser-curse
-                Types = {DC.CURSE},
+                Types = not DC.WOTLK and {DC.CURSE} or {DC.CURSE, DC.POISON},
                 Better = 0,
                 Pet = false,
+
+                EnhancedBy = DC.WOTLK and DS["TALENT_NATURES_CURE"] ~= nil,
+                EnhancedByCheck = function ()
+                    return DC.WOTLK and IsPlayerSpell(DSI["TALENT_NATURES_CURE"])
+                end,
+                Enhancements = {
+                    Types = {DC.CURSE, DC.POISON, DC.MAGIC},
+                }
             },
             -- Druid
             [DSI["SPELL_REMOVE_CURSE_MAGE"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=2782/remove-curse
@@ -490,9 +524,16 @@ local function SetRuntimeConstants_Once () -- {{{
             },
             -- Paladin
             [DSI["SPELL_CLEANSE"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=4987/cleanse
-                Types = {DC.MAGIC, DC.DISEASE, DC.POISON},
+                Types =  not DC.WOTLK and {DC.MAGIC, DC.DISEASE, DC.POISON} or {DC.DISEASE, DC.POISON},
                 Better = 2,
                 Pet = false,
+                EnhancedBy = DC.WOTLK and DS["TALENT_SACRED_CLEANSING"] ~= nil,
+                EnhancedByCheck = function ()
+                    return DC.WOTLK and IsPlayerSpell(DSI["TALENT_SACRED_CLEANSING"])
+                end,
+                Enhancements = {
+                    Types = {DC.MAGIC, DC.DISEASE, DC.POISON},
+                }
             },
             -- Warlock
             [DSI["SPELL_FEAR"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=5782/fear
@@ -517,29 +558,48 @@ local function SetRuntimeConstants_Once () -- {{{
                 Types = {DC.MAGIC, DC.ENEMYMAGIC},
                 Better = 0,
                 Pet = false,
+                UnitFiltering = DC.WOTLK and {
+                    [DC.MAGIC]  = 1, -- player only
+                } or nil,
+                EnhancedBy = DC.WOTLK and (DS["TALENT_ABSOLUTION"] ~= nil),
+                EnhancedByCheck = function ()
+                    return DC.WOTLK and (IsPlayerSpell(DSI["TALENT_ABSOLUTION"]))
+                end,
+                Enhancements = DC.WOTLK and {
+                    Types = {DC.MAGIC, DC.ENEMYMAGIC},
+                    UnitFiltering = {
+                        [DC.MAGIC]  = nil,
+                    },
+                } or nil,
             },
             -- Priests (rank 1 is no longer detected once rank 2 is learned apprently)
-            [DC.WOTLK and DSI["SPELL_DISPELL_MAGIC_PRIEST_R2"] or false] = { -- WOW CLASSIC  https://www.wowhead.com/wotlk/spell=988/dispel-magic
+            [not DC.WOTLK and DSI["SPELL_DISPELL_MAGIC_PRIEST_R2"] or false] = { -- WOW CLASSIC  https://www.wowhead.com/wotlk/spell=988/dispel-magic
                 Types = {DC.MAGIC, DC.ENEMYMAGIC},
-                Better = 0,
+                Better = 1,
                 Pet = false,
             },
             -- Paladin
-            [DSI["SPELL_PURIFY"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=1152/purify
+            [not DC.WOTLK and DSI["SPELL_PURIFY"] or false] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=1152/purify
                 Types = {DC.POISON, DC.DISEASE},
                 Better = 1,
                 Pet = false,
             },
             -- Priest
-            [DSI["SPELL_ABOLISH_DISEASE"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=552/abolish-disease
+            [not DC.WOTLK and DSI["SPELL_ABOLISH_DISEASE"] or false] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=552/abolish-disease
                 Types = {DC.DISEASE},
                 Better = 2,
                 Pet = false,
 
-                EnhancedBy = DC.WOTLK and DS["TALENT_BODY_AND_SOUL"] ~= nil,
+
+            },
+            -- Priest
+            [DSI["SPELL_CURE_DISEASE_PRIEST"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=528/cure-disease
+                Types = {DC.DISEASE},
+                Better = 0,
+                Pet = false,
+                EnhancedBy = DC.WOTLK and (DS["TALENT_BODY_AND_SOUL_1"] ~= nil or DS["TALENT_BODY_AND_SOUL_2"]),
                 EnhancedByCheck = function ()
-                    local talentName, _, _, _, isAvailable = GetTalentInfo(2,27)
-                    return talentName == DS["TALENT_BODY_AND_SOUL"] and isAvailable ~= 0
+                    return DC.WOTLK and (IsPlayerSpell(DSI["TALENT_BODY_AND_SOUL_1"]) or IsPlayerSpell(DSI["TALENT_BODY_AND_SOUL_2"]))
                 end,
                 Enhancements = {
                     Types = {DC.DISEASE, DC.POISON},
@@ -549,12 +609,6 @@ local function SetRuntimeConstants_Once () -- {{{
                 }
             },
             -- Priest
-            [DSI["SPELL_CURE_DISEASE_PRIEST"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=528/cure-disease
-                Types = {DC.DISEASE},
-                Better = 0,
-                Pet = false,
-            },
-            -- Priest
             [not DC.WOTLK and DSI["SPELL_CURE_DISEASE_SHAMAN"] or false] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=2870/cure-disease
                 Types = {DC.DISEASE},
                 Better = 0,
@@ -562,9 +616,16 @@ local function SetRuntimeConstants_Once () -- {{{
             },
             -- Shaman
             [DC.WOTLK and DSI["CLEANSE_SPIRIT"] or false] = {
-                Types = {DC.CURSE, DC.DISEASE, DC.POISON},
+                Types = {DC.CURSE},
                 Better = 2,
                 Pet = false,
+                EnhancedBy = DS["TALENT_IMPROVED_CLEANSE_SPIRIT"] ~= nil,
+                EnhancedByCheck = function ()
+                    return IsPlayerSpell(DSI["TALENT_IMPROVED_CLEANSE_SPIRIT"])
+                end,
+                Enhancements = {
+                    Types = {DC.MAGIC, DC.CURSE},
+                }
             },
             -- HUNTERS http://www.wowhead.com/?spell=19801
             [DC.WOTLK and DSI["SPELL_TRANQUILIZING_SHOT"] or false]    = {
@@ -579,26 +640,26 @@ local function SetRuntimeConstants_Once () -- {{{
                 Pet = false,
             },
             -- Druid
-            [DSI["SPELL_ABOLISH_POISON"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=2893/abolish-poison
+            [not DC.WOTLK and DSI["SPELL_ABOLISH_POISON"] or false] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=2893/abolish-poison
                 Types = {DC.POISON},
                 Better = 2,
                 Pet = false,
             },
             -- Shaman
-            [DSI["SPELL_CURE_POISON_SHAMAN"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=526/cure-poison
+            [not DC.WOTLK and DSI["SPELL_CURE_POISON_SHAMAN"] or false] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=526/cure-poison
                 Types = DC.WOTLK and {DC.POISON, DC.DISEASE} or {DC.POISON},
                 Better = 0,
                 Pet = false,
             },
             -- Druid
-            [DSI["SPELL_CURE_POISON_DRUID"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=8946/cure-poison
+            [not DC.WOTLK and DSI["SPELL_CURE_POISON_DRUID"] or false] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=8946/cure-poison
                 Types = {DC.POISON},
                 Better = 0,
                 Pet = false,
             },
             -- Warlock
             [DSI["PET_DEVOUR_MAGIC"]] = { -- WOW CLASSIC  https://classic.wowhead.com/spell=19505/devour-magic
-                Types = {DC.MAGIC, DC.ENEMYMAGIC},
+                Types = not DC.WOTLK and {DC.MAGIC, DC.ENEMYMAGIC} or {DC.ENEMYMAGIC},
                 Better = 0,
                 Pet = true,
             },
@@ -635,12 +696,12 @@ local function InitVariables_Once() -- {{{
     -- A table UnitID=>IsDebuffed (boolean)
     D.UnitDebuffed = {};
 
-    D.Revision = "8a095be"; -- not used here but some other add-on may request it from outside
-    D.date = "2022-12-13T11:47:22Z";
-    D.version = "2.7.8.13";
+    D.Revision = "d87ca16"; -- not used here but some other add-on may request it from outside
+    D.date = "2024-07-19T13:31:22Z";
+    D.version = "2.7.20";
 
     if D.date ~= "@project".."-date-iso@" then
-        -- 1670932042 doesn't work
+        -- 1721395882 doesn't work
 
         --local example =  "2008-05-01T12:34:56Z";
 
@@ -667,15 +728,11 @@ local L  = D.L;
 local LC = D.LC;
 local DC = T._C;
 
-local BOOKTYPE_PET      = _G.BOOKTYPE_PET;
-local BOOKTYPE_SPELL    = _G.BOOKTYPE_SPELL;
-
 local select            = _G.select;
 local pairs             = _G.pairs;
 local ipairs            = _G.ipairs;
 local next              = _G.next;
 local InCombatLockdown  = _G.InCombatLockdown;
-local GetTalentInfo     = _G.GetTalentInfo;
 local UnitClass         = _G.UnitClass;
 local time              = _G.time;
 
@@ -686,10 +743,14 @@ end
 function D:VersionWarnings(forceDisplay) -- {{{
 
     local alpha = false;
+    local debug = false;
     local fromCheckOut = false;
     --[=[@alpha@
     alpha = true;
     --@end-alpha@]=]
+    --[==[@debug@
+    debug = true;
+    --@end-debug@]==]
 
 
     -- test if WoW's TOC version is superior to Decursive's, wait 40 days and warn the users that this version has expired
@@ -700,13 +761,13 @@ function D:VersionWarnings(forceDisplay) -- {{{
         if not self.db.global.TocExpiredDetection then
             self.db.global.TocExpiredDetection = time();
 
-        elseif time() - self.db.global.TocExpiredDetection > 3600 * 24 * 40 then -- if more than 40 days elapsed since the detection
+        elseif time() - self.db.global.TocExpiredDetection > 3600 * 24 * 40 or debug then -- if more than 40 days elapsed since the detection
 
             DC.DevVersionExpired = true; -- disable error reports
 
-            if time() - self.db.global.LastExpirationAlert > 48 * 3600 or forceDisplay then
+            if time() - self.db.global.LastExpirationAlert > 48 * 3600 or forceDisplay or debug then
 
-                T._ShowNotice ("|cff00ff00Decursive version: 2.7.8.13|r\n\n" .. "|cFFFFAA66" .. L["TOC_VERSION_EXPIRED"] .. "|r");
+                T._ShowNotice ("|cff00ff00Decursive version: 2.7.20|r\n\n" .. "|cFFFFAA66" .. L["TOC_VERSION_EXPIRED"] .. "|r");
 
                 self.db.global.LastExpirationAlert = time();
             end
@@ -715,7 +776,7 @@ function D:VersionWarnings(forceDisplay) -- {{{
         self.db.global.TocExpiredDetection = false;
     end
 
-    if (("2.7.8.13"):lower()):find("beta") or ("2.7.8.13"):find("RC") or ("2.7.8.13"):find("Candidate") or alpha then
+    if (("2.7.20"):lower()):find("beta") or ("2.7.20"):find("RC") or ("2.7.20"):find("Candidate") or alpha then
 
         D.RunningADevVersion = true;
 
@@ -728,7 +789,7 @@ function D:VersionWarnings(forceDisplay) -- {{{
                 DC.DevVersionExpired = true;
                 -- Display the expiration notice only once evry 48 hours
                 if time() - self.db.global.LastExpirationAlert > 48 * 3600 or forceDisplay then
-                    T._ShowNotice ("|cff00ff00Decursive version: 2.7.8.13|r\n\n" .. "|cFFFFAA66" .. L["DEV_VERSION_EXPIRED"] .. "|r");
+                    T._ShowNotice ("|cff00ff00Decursive version: 2.7.20|r\n\n" .. "|cFFFFAA66" .. L["DEV_VERSION_EXPIRED"] .. "|r");
 
                     self.db.global.LastExpirationAlert = time();
                 end
@@ -739,16 +800,16 @@ function D:VersionWarnings(forceDisplay) -- {{{
         end
 
         -- display a warning if this is a developpment version (avoid insults from people who don't know what they're doing)
-        if self.db.global.NonRelease ~= "2.7.8.13" then
-            self.db.global.NonRelease = "2.7.8.13";
-            T._ShowNotice ("|cff00ff00Decursive version: 2.7.8.13|r\n\n" .. "|cFFFFAA66" .. L["DEV_VERSION_ALERT"] .. "|r");
+        if self.db.global.NonRelease ~= "2.7.20" then
+            self.db.global.NonRelease = "2.7.20";
+            T._ShowNotice ("|cff00ff00Decursive version: 2.7.20|r\n\n" .. "|cFFFFAA66" .. L["DEV_VERSION_ALERT"] .. "|r");
         end
     end
 
     --[==[@debug@
     fromCheckOut = true;
     if time() - self.db.global.LastUnpackagedAlert > 24 * 3600  then
-        T._ShowNotice ("|cff00ff00Decursive version: 2.7.8.13|r\n\n" .. "|cFFFFAA66" ..
+        T._ShowNotice ("|cff00ff00Decursive version: 2.7.20|r\n\n" .. "|cFFFFAA66" ..
         [[
         |cFFFF0000You're using an unpackaged version of Decursive.|r
         Decursive is not meant to be used this way.
@@ -786,7 +847,7 @@ function D:VersionWarnings(forceDisplay) -- {{{
         if D.db.global.NewerVersionDetected > D.VersionTimeStamp and D.db.global.NewerVersionName ~= D.version then -- it's still newer than this one
             if time() - D.db.global.NewerVersionAlert > 3600 * 24 * 4 then -- it's been more than 4 days since the new version alert was shown
                 if not D.db.global.NewVersionsBugMeNot then -- the user did not disable new version alerts
-                    T._ShowNotice ("|cff55ff55Decursive version: 2.7.8.13|r\n\n" .. "|cFF55FFFF" .. (L["NEW_VERSION_ALERT"]):format(D.db.global.NewerVersionName or "none", date("%Y-%m-%d", D.db.global.NewerVersionDetected)) .. "|r");
+                    T._ShowNotice ("|cff55ff55Decursive version: 2.7.20|r\n\n" .. "|cFF55FFFF" .. (L["NEW_VERSION_ALERT"]):format(D.db.global.NewerVersionName or "none", date("%Y-%m-%d", D.db.global.NewerVersionDetected)) .. "|r");
                     D.db.global.NewerVersionAlert = time();
                 end
             end
@@ -900,7 +961,7 @@ function D:OnEnable() -- called after PLAYER_LOGIN -- {{{
     end); -- }}}
 
     D:SecureHook("CastSpellByName", "HOOK_CastSpellByName");
-    D:SecureHook("UseItemByName",   "HOOK_UseItemByName");
+    D:SecureHook(C_Item, "UseItemByName",   "HOOK_UseItemByName");
 
     -- these events are automatically stopped when the addon is disabled by Ace
 
@@ -915,6 +976,7 @@ function D:OnEnable() -- called after PLAYER_LOGIN -- {{{
     end
     D.eventFrame:RegisterEvent("PLAYER_ALIVE"); -- talents SHOULD be available
     D.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
+    D.eventFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
 
     -- Combat detection events
     D.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
@@ -925,7 +987,7 @@ function D:OnEnable() -- called after PLAYER_LOGIN -- {{{
 
     D.eventFrame:RegisterEvent("GROUP_ROSTER_UPDATE");
 
-    if not DC.WOWC then
+    if not DC.WOWC or DC.WOTLK then
         D.eventFrame:RegisterEvent("PLAYER_FOCUS_CHANGED");
     end
 
@@ -1001,6 +1063,10 @@ function D:SetConfiguration() -- {{{
     D.Status.InternalPrioList = {};
     D.Status.InternalSkipList = {};
     D.Status.WaitingForSpellInfo = false;
+    D.Status.t_CheckBleedDebuffsActiveIDs = {};
+    D.Status.delayedDebuffReportDisabled = true; -- reenabled in the ScanEverybody function
+    D.Status.delayedDebuffOccurences = 0;
+    D.Status.delayedUnDebuffOccurences = 0;
 
     D.Stealthed_Units = {};
 
@@ -1011,6 +1077,17 @@ function D:SetConfiguration() -- {{{
 
     D.profile = D.db.profile; -- shortcut
     D.classprofile = D.db.class; -- shortcut
+    -- reset: /run  LibStub("AceAddon-3.0"):GetAddon("Decursive").db.class.CureOrder = {}
+    -- reset: /run  LibStub("AceAddon-3.0"):GetAddon("Decursive").db.class["CureOrder-"..(GetSpecialization or GetActiveTalentGroup)()][64] = nil
+
+    D:reset_t_CheckBleedDebuffsActiveIDs();
+
+
+    if D.db.locale.BleedEffectsKeywords:trim() ~= "" then
+        D.Status.P_BleedEffectsKeywords_noCase = D:makeNoCasePattern(D.db.locale.BleedEffectsKeywords);
+    else
+        D.Status.P_BleedEffectsKeywords_noCase = false;
+    end
 
     -- Upgrade layer for versions of Decursive prior to 2013-03-03
     for spell, spellData in pairs(D.classprofile.UserSpells) do
@@ -1076,7 +1153,7 @@ function D:SetConfiguration() -- {{{
         -- Try the id on the functions directly and remove them if they crash (they can return nothing at an early game loading stage)
         if not (pcall(
             function ()
-                return spellData.IsItem and (GetItemInfo(spellOrItemID * -1)) or (GetSpellInfo(spellOrItemID))
+                return spellData.IsItem and (GetItemInfo(spellOrItemID * -1)) or (GetSpellName(spellOrItemID))
             end)) then
             D.classprofile.UserSpells[spellOrItemID] = nil;
             --[==[@debug@
@@ -1138,8 +1215,11 @@ function D:SetConfiguration() -- {{{
     end
 
     if D.profile.ShowDebuffsFrame then
-        self:ScheduleRepeatedCall("Dcr_MUFupdate", self.DebuffsFrame_Update, self.profile.DebuffsFrameRefreshRate, self);
-        self:ScheduleRepeatedCall("Dcr_ScanEverybody", self.ScanEveryBody, 1, self);
+        self:ScheduleRepeatedCall("Dcr_MUFupdate", self.DebuffsFrame_Update, self.db.global.DebuffsFrameRefreshRate, self);
+
+        if self.db.global.MFScanEverybodyTimer > 0 then
+            self:ScheduleRepeatedCall("Dcr_ScanEverybody", self.ScanEveryBody, self.db.global.MFScanEverybodyTimer, self, self.db.global.ScanEverybodyReport);
+        end
     end
 
     D.DcrFullyInitialized = true; -- everything should be OK
@@ -1410,6 +1490,7 @@ function D:Configure() --{{{
     -- first empty out the old "spellbook"
     self.Status.HasSpell = false;
     self.Status.FoundSpells = {};
+    self.Status.delayedDebuffReportDisabled = true;
 
 
     local CuringSpells = self.Status.CuringSpells;
@@ -1420,9 +1501,9 @@ function D:Configure() --{{{
     CuringSpells[DC.POISON]     = false;
     CuringSpells[DC.DISEASE]    = false;
     CuringSpells[DC.CHARMED]    = false;
+    CuringSpells[DC.BLEED]      = false;
 
     local Type, _;
-    local GetSpellBookItemInfo = _G.GetSpellBookItemInfo;
     local IsSpellKnown = nil; -- use D:isSpellReady instead
     local Types = {};
     local UnitFiltering = false;
@@ -1468,7 +1549,7 @@ function D:Configure() --{{{
                     --@end-alpha@]=]
 
                     -- Workaround to the fact that function are not serialized upon storage to the DB
-                    if not spell.EnhancedByCheck and D.classprofile.UserSpells[spellID] then
+                    if not spell.EnhancedByCheck and D.classprofile.UserSpells[spellID] and DC.SpellsToUse[spellID] then -- XXX
                         spell.EnhancedByCheck = DC.SpellsToUse[spellID].EnhancedByCheck;
                         D.classprofile.UserSpells[spellID].EnhancedByCheck = spell.EnhancedByCheck;
                     end
@@ -1559,7 +1640,6 @@ function D:Configure() --{{{
 end --}}}
 
 function D:SetSpellsTranslations(FromDIAG) -- {{{
-    local GetSpellInfo = _G.GetSpellInfo;
 
     if not T._C.DS then
         T._C.DS = {};
@@ -1613,8 +1693,10 @@ function D:SetSpellsTranslations(FromDIAG) -- {{{
             ["PET_SEAR_MAGIC"]              =  115276, -- Warlock Fel imp
             ["SPELL_PURIFY"]                =  527,
             ["SPELL_PURIFY_DISEASE"]        =  213634,
+            ["IMPROVED_PURIFY"]             =  390632,
             ["SPELL_DISPELL_MAGIC"]         =  528,
             ["PURIFY_SPIRIT"]               =  77130, -- resto shaman
+            ["IMPROVED_PURIFY_SPIRIT"]      =  383016, -- resto shaman
             ["SPELL_NATURES_CURE"]          =  88423,
             ["SPELL_DETOX_1"]               =  115450, -- monk mistweaver
             ["SPELL_DETOX_2"]               =  218164, -- monk brewmaster and windwaker
@@ -1627,6 +1709,7 @@ function D:SetSpellsTranslations(FromDIAG) -- {{{
             ['SPELL_EXPUNGE']               =  365585,
             ['SPELL_NATURALIZE']            =  360823,
             ['SPELL_CAUTERIZING_FLAME']     =  374251,
+            ['SPELL_POISON_CLEANSING_TOTEM']=  383013, -- shaman
         }; --- }}}
 
         T._C.EXPECTED_DUPLICATES = {
@@ -1661,6 +1744,7 @@ function D:SetSpellsTranslations(FromDIAG) -- {{{
                 ["PURIFY_SPIRIT"]	        = 77130,
                 ["SONICBURST"]	            = 39052,
                 ["SPELL_PURIFY_DISEASE"]    = 213634,
+                ["IMPROVED_PURIFY"]         = 390632,
                 ["Vampiric Touch"]	        = 34914,
                 ["CLEANSE_SPIRIT"]	        = 51886,
                 ["SPELL_NATURES_CURE"]	    = 88423,
@@ -1672,11 +1756,22 @@ function D:SetSpellsTranslations(FromDIAG) -- {{{
                 ['SPELL_EXPUNGE']           = 365585,
                 ['SPELL_NATURALIZE']        = 360823,
                 ['SPELL_CAUTERIZING_FLAME'] = 374251,
+                ["IMPROVED_PURIFY_SPIRIT"]  = 383016, -- resto shaman
+                ['SPELL_POISON_CLEANSING_TOTEM']= 383013, -- shaman
             } -- }}}
 
             local DSI_REMOVED_OR_CHANGED_IN_WOTLK = { -- {{{
                 ['SPELL_CURE_DISEASE_SHAMAN']            = 2870,
                 ['Shadowmeld']                           = 20580,
+                ["IMPROVED_PURIFY_SPIRIT"]               = 383016, -- resto shaman
+                ['SPELL_POISON_CLEANSING_TOTEM']         = 383013, -- shaman
+                -- removed in CT
+                ["SPELL_CURE_POISON_SHAMAN"]             = 526,
+                ["SPELL_ABOLISH_DISEASE"]                = 552,
+                ["SPELL_ABOLISH_POISON"]                 = 2893,
+                ["SPELL_DISPELL_MAGIC_PRIEST_R2"]        = 988,
+                ["SPELL_PURIFY"]                         = 1152,
+                ["SPELL_CURE_POISON_DRUID"]              = 8946,
             } -- }}}
 
 
@@ -1705,11 +1800,13 @@ function D:SetSpellsTranslations(FromDIAG) -- {{{
             T._C.DSI["SONICBURST"]                = 8281;
             T._C.DSI["CRIPLES"]                   = 11443;
             T._C.DSI["Shadowmeld"]                = 20580;
+            T._C.DSI["SPELL_DISPELL_MAGIC_PRIEST_R2"] = 988;
             -- }}}
 
             T._C.EXPECTED_DUPLICATES = {
                 {"SPELL_CURE_DISEASE_PRIEST", "SPELL_CURE_DISEASE_SHAMAN"},
                 {"SPELL_CURE_POISON_SHAMAN", "SPELL_CURE_POISON_DRUID"},
+                {"SPELL_DISPELL_MAGIC", "SPELL_DISPELL_MAGIC_PRIEST_R2"},
             }
 
             if DC.WOTLK then
@@ -1721,14 +1818,18 @@ function D:SetSpellsTranslations(FromDIAG) -- {{{
                 -- reassign the proper spells for WotLK
                 T._C.DSI["Shadowmeld"]                    = 58984;
                 T._C.DSI["SPELL_TRANQUILIZING_SHOT"]      = 19801;
-                T._C.DSI["TALENT_BODY_AND_SOUL"]          = 64127;
+                T._C.DSI["TALENT_BODY_AND_SOUL_1"]        = 64127;
+                T._C.DSI["TALENT_BODY_AND_SOUL_2"]        = 64129;
+                T._C.DSI["TALENT_ABSOLUTION"]             = 33167;
+                T._C.DSI["TALENT_IMPROVED_CLEANSE_SPIRIT"]= 77130;
+                T._C.DSI["TALENT_NATURES_CURE"]           = 88423;
+                T._C.DSI["TALENT_SACRED_CLEANSING"]       = 53551;
                 T._C.DSI["CLEANSE_SPIRIT"]                = 51886;
                 T._C.DSI["SPELL_HEX"]	                  = 51514;
-                T._C.DSI["SPELL_DISPELL_MAGIC_PRIEST_R2"] = 988;
 
                 T._C.EXPECTED_DUPLICATES = {
-                    {"SPELL_REMOVE_CURSE_DRUID", "SPELL_REMOVE_CURSE_MAGE"},
-                    {"SPELL_DISPELL_MAGIC", "SPELL_DISPELL_MAGIC_PRIEST_R2"},
+                 {"TALENT_BODY_AND_SOUL_1", "TALENT_BODY_AND_SOUL_2"},
+                 --   {"SPELL_DISPELL_MAGIC", "SPELL_DISPELL_MAGIC_PRIEST_R2"},
                 }
             end
 
@@ -1751,7 +1852,7 @@ function D:SetSpellsTranslations(FromDIAG) -- {{{
     ok = true;
     for Sname, Sid in pairs(DSI) do
 
-        DS[Sname] = (GetSpellInfo(Sid));
+        DS[Sname] = (GetSpellName(Sid));
 
         if FromDIAG and DS[Sname] then
             if not duplicates[DS[Sname]] then
@@ -1821,73 +1922,139 @@ end -- }}}
 
 local MAX_ACCOUNT_MACROS = _G.MAX_ACCOUNT_MACROS;
 
-function D:UpdateMacro () -- {{{
+do
 
+    local BlizzardIsAnnoyingComment = "# Ask Blizzard to re-add support for macrotext attribute dropped in wow 11 if you do not want to see this macro...\n"
 
-    if D.profile.DisableMacroCreation then
-        return false;
+    local function updateMacroByName(macroName, icon, macroText, notEditable) -- {{{
+        if not D.Status.createdMacros then
+            D.Status.createdMacros = {};
+        end
+
+        local createdMacros = D.Status.createdMacros
+
+        local updatedMacroText = notEditable and BlizzardIsAnnoyingComment..macroText or macroText
+
+        if (updatedMacroText:len() > 256) then
+            updatedMacroText = macroText
+        end
+
+        local catchAllErrorBackup = T._CatchAllErrors;
+        T._CatchAllErrors = false; -- the API calls below fire some WoW events (UPDATE_MACRO), we don't want to catch errors done by bugged handlers from other add-ons
+
+        --D:PrintLiteral(GetMacroIndexByName(D.CONF.MACRONAME));
+        if GetMacroIndexByName(macroName) ~= 0 then
+            if notEditable or not D.profile.AllowMacroEdit then
+                EditMacro(GetMacroIndexByName(macroName), macroName, icon, updatedMacroText);
+                if notEditable then
+                    createdMacros[macroName] = true
+                end
+                D:Debug(("Macro '%s' updated"):format(macroName));
+            else
+                D:Debug(("Macro '%s' not updated due to AllowMacroEdit"):format(macroName));
+            end
+        elseif (GetNumMacros()) < MAX_ACCOUNT_MACROS then
+            CreateMacro(macroName, icon, updatedMacroText);
+            if notEditable then
+                createdMacros[macroName] = true
+            end
+        else
+            D:errln(("Too many macros exist, Decursive cannot create its '%s' macro"):format(macroName));
+            T._CatchAllErrors = catchAllErrorBackup;
+            return false;
+        end
+
+        T._CatchAllErrors = catchAllErrorBackup;
+
+        return true;
+    end -- }}}
+
+    function D:SetMacrosPerPrioTable(unit)
+        D.Status.prio_macro = {};
+        local prio_macro = D.Status.prio_macro;
+        local tmp;
+
+        for Spell, Prio in pairs(D.Status.CuringSpellsPrio) do
+
+            if not D.Status.FoundSpells[Spell][5] then -- if using the default macro mechanism
+
+                if not D.UnitFilteringTest (unit, D.Status.FoundSpells[Spell][6]) then
+                    --the [target=%s, help][target=%s, harm] prevents the 'please select a unit' cursor problem (Blizzard should fix this...)
+                    -- -- XXX this trick may cause issues or confusion when for some reason the unit is invalid, nothing will happen when clicking
+                    prio_macro[Prio] = ("%s/%s [@%s, help][@%s, harm] %s"):format(
+
+                        not D.Status.FoundSpells[Spell][1] and "/stopcasting\n" or "", -- pet test
+                        D.Status.FoundSpells[Spell][2] > 0 and "cast" or "use", -- item test
+                        unit, unit,
+                        Spell
+                    );
+                end
+            else
+                tmp = D.Status.FoundSpells[Spell][5];
+                tmp = tmp:gsub("UNITID", unit);
+                if tmp:len() < 256 then -- last chance protection, shouldn't happen
+                    prio_macro[Prio] = tmp;
+                else
+                    D:errln("Macro too long for prio", Prio);
+                end
+            end
+
+        end
+
     end
 
-    if InCombatLockdown() then
-        D:AddDelayedFunctionCall (
-        "UpdateMacro", self.UpdateMacro,
-        self);
-        return false;
-    end
-    D:Debug("UpdateMacro called");
+    function D:UpdateMacro () -- {{{
 
 
-    local CuringSpellsPrio  = D.Status.CuringSpellsPrio;
-    local ReversedCureOrder = D.Status.ReversedCureOrder;
-    local CuringSpells      = D.Status.CuringSpells;
+        if D.profile.DisableMacroCreation then
+            return false;
+        end
+
+        if InCombatLockdown() then
+            D:AddDelayedFunctionCall (
+            "UpdateMacro", self.UpdateMacro,
+            self);
+            return false;
+        end
+        D:Debug("UpdateMacro called");
+
+        local CuringSpellsPrio  = D.Status.CuringSpellsPrio;
+        local ReversedCureOrder = D.Status.ReversedCureOrder;
+        local CuringSpells      = D.Status.CuringSpells;
 
 
-    -- Get an ordered spell table
-    local Spells = {};
-    for Spell, Prio in pairs(D.Status.CuringSpellsPrio) do -- XXX MACROUPDATE
-        Spells[Prio] = Spell;
-    end
+        -- Get an ordered spell table
+        local Spells = {};
+        for Spell, Prio in pairs(D.Status.CuringSpellsPrio) do -- XXX MACROUPDATE
+            Spells[Prio] = Spell;
+        end
 
-    if (next (Spells)) then
-        for i=1,4 do
-            if (not Spells[i]) then
-                table.insert (Spells, CuringSpells[ReversedCureOrder[1] ]);
+        if (next (Spells)) then
+            for i=1,4 do
+                if (not Spells[i]) then
+                    table.insert (Spells, CuringSpells[ReversedCureOrder[1] ]);
+                end
             end
         end
-    end
 
-    local MacroParameters = {
-        D.CONF.MACRONAME,
-        "INV_MISC_QUESTIONMARK", -- icon
-        next(Spells) and string.format("/stopcasting\n/cast [@mouseover,nomod,exists] %s;  [@mouseover,exists,mod:ctrl] %s; [@mouseover,exists,mod:shift] %s", unpack(Spells)) or "/script DecursiveRootTable.Dcr:Println('"..L["NOSPELL"].."')",
-    };
+        local MacroParameters = {
+            D.CONF.MACRONAME,
+            "INV_MISC_QUESTIONMARK", -- icon
+            next(Spells) and string.format("/stopcasting\n/cast [@mouseover,nomod,exists] %s;  [@mouseover,exists,mod:ctrl] %s; [@mouseover,exists,mod:shift] %s", unpack(Spells)) or "/script DecursiveRootTable.Dcr:Println('"..L["NOSPELL"].."')",
+        };
 
-    local catchAllErrorBackup = T._CatchAllErrors;
-    T._CatchAllErrors = false; -- the API calls below fire some WoW events (UPDATE_MACRO), we don't want to catch errors done by bugged handlers
+        local catchAllErrorBackup = T._CatchAllErrors;
+        T._CatchAllErrors = false; -- the API calls below fire some WoW events (UPDATE_MACRO), we don't want to catch errors done by bugged handlers
 
-    --D:PrintLiteral(GetMacroIndexByName(D.CONF.MACRONAME));
-    if GetMacroIndexByName(D.CONF.MACRONAME) ~= 0 then
-        if not D.profile.AllowMacroEdit then
-            EditMacro(D.CONF.MACRONAME, unpack(MacroParameters));
-            D:Debug("Macro updated");
-        else
-            D:Debug("Macro not updated due to AllowMacroEdit");
-        end
-    elseif (GetNumMacros()) < MAX_ACCOUNT_MACROS then
-        CreateMacro(unpack(MacroParameters));
-    else
-        D:errln("Too many macros exist, Decursive cannot create its macro");
+        updateMacroByName(unpack(MacroParameters));
+
+        D:SetMacroKey(D.db.global.MacroBind);
+
         T._CatchAllErrors = catchAllErrorBackup;
-        return false;
-    end
+        return true;
 
-
-    D:SetMacroKey(D.db.global.MacroBind);
-
-    T._CatchAllErrors = catchAllErrorBackup;
-    return true;
-
-end -- }}}
+    end -- }}}
+end
 
 
 
@@ -1911,7 +2078,7 @@ end -- }}}
 
 
 
-T._LoadedFiles["DCR_init.lua"] = "2.7.8.13";
+T._LoadedFiles["DCR_init.lua"] = "2.7.20";
 
 -------------------------------------------------------------------------------
 
@@ -1920,42 +2087,42 @@ TEST to see what keyword substitutions are actually working....
 
 Simple replacements
 
-147
+954
     Turns into the current revision of the file in integer form. e.g. 1234
     Note: does not work for git
-150
+1116
     Turns into the highest revision of the entire project in integer form. e.g. 1234
     Note: does not work for git
-2f5d2c9989e8aa81560c22aee7725f13de110c1c
+ebbf8c618a1715b65a87e0e8f6179569eeb7156c
     Turns into the hash of the file in hex form. e.g. 106c634df4b3dd4691bf24e148a23e9af35165ea
     Note: does not work for svn
-8a095be2ef6829d81dc43b9be48d5e1c2be7c116
+d87ca166a2250490dae671a94aab84bc8dbfd955
     Turns into the hash of the entire project in hex form. e.g. 106c634df4b3dd4691bf24e148a23e9af35165ea
     Note: does not work for svn
-2f5d2c9
+ebbf8c6
     Turns into the abbreviated hash of the file in hex form. e.g. 106c63 Note: does not work for svn
-8a095be
+d87ca16
     Turns into the abbreviated hash of the entire project in hex form. e.g. 106c63
     Note: does not work for svn
 Archarodim
     Turns into the last author of the file. e.g. ckknight
 Archarodim
     Turns into the last author of the entire project. e.g. ckknight
-2022-12-04T01:33:13Z
+2024-07-16T22:59:00Z
     Turns into the last changed date (by UTC) of the file in ISO 8601. e.g. 2008-05-01T12:34:56Z
-2022-12-13T11:47:22Z
+2024-07-19T13:31:22Z
     Turns into the last changed date (by UTC) of the entire project in ISO 8601. e.g. 2008-05-01T12:34:56Z
-20221204013313
+20240716225900
     Turns into the last changed date (by UTC) of the file in a readable integer fashion. e.g. 20080501123456
-20221213114722
+20240719133122
     Turns into the last changed date (by UTC) of the entire project in a readable integer fashion. e.g. 2008050123456
-1670117593
+1721170740
     Turns into the last changed date (by UTC) of the file in POSIX timestamp. e.g. 1209663296
     Note: does not work for git
-1670932042
+1721395882
     Turns into the last changed date (by UTC) of the entire project in POSIX timestamp. e.g. 1209663296
     Note: does not work for git
-2.7.8.13
+2.7.20
     Turns into an approximate version of the project. The tag name if on a tag, otherwise it's up to the repo.
     :SVN returns something like "r1234"
     :Git returns something like "v0.1-873fc1"

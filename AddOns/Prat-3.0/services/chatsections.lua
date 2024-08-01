@@ -135,6 +135,7 @@ SplitMessageIdx = {
   "FLAG",
   "Ff",
   "pP",
+  "TIMERUNNER",
   "lL",
   "PLAYERLINK",
   "PLAYERLINKDATA",
@@ -319,10 +320,10 @@ function SplitChatMessage(frame, event, ...)
 
     s.GUID = arg12
 
-    --[==[@debug@
     s.ARGS = {
       ...
     }
+    --[==[@debug@
 
     if CHAT_PLAYER_GUIDS then
       if s.GUID and s.GUID:len() > 0 and s.GUID ~= "0000000000000000" and s.GUID ~= "0x0300000000000000" then
@@ -552,6 +553,12 @@ function SplitChatMessage(frame, event, ...)
       s.Ff = ""
     end
 
+    if arg12 and _G.C_ChatInfo.IsTimerunningPlayer and _G.C_ChatInfo.IsTimerunningPlayer(arg12) then
+      s.TIMERUNNER = _G.CreateAtlasMarkup("timerunning-glues-icon", 12, 12)
+    else
+      s.TIMERUNNER = ""
+    end
+
     if arg15 then
       s.MOBILE = _G.ChatFrame_GetMobileEmbeddedTexture(info.r, info.g, info.b)
     end
@@ -670,27 +677,6 @@ function SplitChatMessage(frame, event, ...)
     if type == "SYSTEM" or strsub(type, 1, 11) == "ACHIEVEMENT" or strsub(type, 1, 11) == "TARGETICONS" or strsub(type, 1, 18) == "GUILD_ACHIEVEMENT" then
       if strsub(type, 1, 11) == "ACHIEVEMENT" or strsub(type, 1, 18) == "GUILD_ACHIEVEMENT" then
         s.MESSAGE = s.MESSAGE:format("")
-      end
-
-      if (strsub(type, 1, 18) == "GUILD_ACHIEVEMENT") then
-        if (_G.C_Social.IsSocialEnabled()) then
-          local achieveID = _G.GetAchievementInfoFromHyperlink(arg1);
-          if (achieveID) then
-            local isGuildAchievement = select(12, _G.GetAchievementInfo(achieveID));
-            if (isGuildAchievement) then
-              s.MESSAGE = s.MESSAGE .. " " .. _G.Social_GetShareAchievementLink(achieveID, true);
-            end
-          end
-        end
-      end
-
-      if (strsub(type, 1, 11) == "ACHIEVEMENT") then
-        if (arg12 == _G.UnitGUID("player") and _G.C_Social.IsSocialEnabled()) then
-          local achieveID = _G.GetAchievementInfoFromHyperlink(arg1);
-          if (achieveID) then
-            s.MESSAGE = s.MESSAGE .. " " .. _G.Social_GetShareAchievementLink(achieveID, true);
-          end
-        end
       end
 
       local pl, p, rest = string.match(s.MESSAGE, "|Hplayer:(.-)|h%[(.-)%]|h(.+)")

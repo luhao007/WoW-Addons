@@ -1,6 +1,6 @@
-# <DBM> Sound Events Pack
+# <DBM Media> Sound Events Pack
 
-## [1.6.21](https://github.com/DeadlyBossMods/DBM-SoundEventsPack/tree/1.6.21) (2023-01-17)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-SoundEventsPack/compare/1.6.20...1.6.21) [Previous Releases](https://github.com/DeadlyBossMods/DBM-SoundEventsPack/releases)
+## [1.6.36](https://github.com/DeadlyBossMods/DBM-SoundEventsPack/tree/1.6.36) (2024-06-07)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-SoundEventsPack/compare/1.6.35...1.6.36) [Previous Releases](https://github.com/DeadlyBossMods/DBM-SoundEventsPack/releases)
 
-- bump toc for wrath  
+- Make all tocs multi toc and support war within versioning so it's clearer addon IS compatible with war within beta  

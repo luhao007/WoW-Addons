@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,challenge,timewalker"
 
-mod:SetRevision("20211021191526")
+mod:SetRevision("20240517054509")
 mod:SetCreatureID(59153)
 mod:SetEncounterID(1428)
+mod:SetZone(1007)
 
 mod:RegisterCombat("combat")
 
@@ -34,7 +35,7 @@ local timerRusting		= mod:NewBuffActiveTimer(15, 113765, nil, "Tank")
 
 mod:AddBoolOption("InfoFrame")
 
-local boned = DBM:GetSpellInfo(113996)
+local boned = DBM:GetSpellName(113996)
 
 function mod:BoneSpikeTarget()
 	local targetname = self:GetBossTarget(59153)
@@ -46,7 +47,7 @@ function mod:OnCombatStart(delay)
 	timerBoneSpikeCD:Start(6.5-delay)
 	if not DBM:UnitDebuff("player", boned) then
 		specWarnGetBoned:Show()
-		specWarnGetBoned:Play("findshield")
+		specWarnGetBoned:Play("getboned")
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(L.PlayerDebuffs)
@@ -74,6 +75,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	if args.spellId == 113996 and args:IsPlayer() then
 		specWarnGetBoned:Show()
+		specWarnGetBoned:Play("getboned")
 	elseif args.spellId == 113765 then
 		timerRusting:Cancel()
 	end

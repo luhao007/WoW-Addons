@@ -2,13 +2,16 @@
 --
 -- Let's make a plan that we can carry through with, allowing us to group
 -- item choices instead of handling each item separately.
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
 local FL = LibStub("LibFishing-1.0");
 
-local GSB = FishingBuddy.GetSettingBool
+local GSB = function(...) return FBI:GetSettingBool(...); end;
 local CurLoc = GetLocale();
 
 local FishingPlans = {}
@@ -22,7 +25,7 @@ function FishingPlans:HaveThing(itemid, info)
 end
 
 function FishingPlans:ItemCooldownOn(id)
-    local start, duration, enable = GetItemCooldown(id);
+    local start, duration, enable = C_Container.GetItemCooldown(id);
     local et = (start + duration) - GetTime();
     if (et > 0) then
         return true;
@@ -109,12 +112,9 @@ function FishingPlans:ExecutePlans(force)
     end
 end
 
-FishingBuddy.FishingPlans = FishingPlans
+FBI.FishingPlans = FishingPlans
 
-local PlanEvents = {}
-PlanEvents[FBConstants.FISHING_DISABLED_EVT] = function()
+EventRegistry:RegisterCallback(FBConstants.FISHING_DISABLED_EVT, function()
     FishingPlans.planqueue = {}
-end
-
-FishingBuddy.RegisterHandlers(PlanEvents);
+end)
 

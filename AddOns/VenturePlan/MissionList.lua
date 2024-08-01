@@ -1,5 +1,6 @@
 local _, T = ...
 local EV, L, U, S = T.Evie, T.L, T.Util, T.Shadows
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local SetAchievementReward do
 	local aid, missionCreditCriteria = 14844, {}
@@ -208,8 +209,6 @@ local function UpdateMissions()
 					sg = haveRookies and 4 or j == 1 and -1 or sg
 				elseif iid and C_Item.IsAnimaItemByID(iid) and sg < 3 then
 					sg = 3
-				elseif i.currencyID == 0 and i.quantity and sg < 2 then
-					sg = 2
 				elseif iid and U.FOLLOWER_XP_ITEMS[iid] and sg < 1 then
 					sg = 1
 				elseif sg < 0 then
@@ -246,7 +245,7 @@ local function CheckItemRewards(w)
 	for j=2,3 do
 		local rw = S[w].Rewards[j]
 		if rw and rw:IsShown() and rw.itemID and (not rw.itemLink or rw.itemLink:match("|h%[%]|h")) then
-			hadItems, hadUnknowns = true, hadUnknowns or (GetItemInfo(rw.itemLink or rw.itemID) == nil)
+			hadItems, hadUnknowns = true, hadUnknowns or (C_Item.GetItemNameByID(rw.itemLink or rw.itemID) == nil)
 		end
 	end
 	return hadItems, hadUnknowns

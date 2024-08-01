@@ -432,6 +432,14 @@
 --			Adds support for quests that only become available when currency requirements are met.
 --		087 *** Requires Grail 119 or later ***
 --			Changes retail interface to 100002, Wrath to 30400 and Vanilla to 11403.
+--		088	Corrects the problem where mouse clicks on the Wholly quest panel failed to act.
+--			Corrects the problem where the location of the Wholly quest panel is not retained across restarts.
+--			Adds support for quests that have major faction renown level prerequisites.
+--			Adds support for quests that have POI presence prerequisites.
+--			Adds support for items with specific counts as prerequisites.
+--			Changes retail interface to 100005.
+--			Adds support group membership completion counts being exact (to support Dragon Isles Waygate quests).
+--		089 Changes Classic Wrath interface to 30401.
 --
 --	Known Issues
 --
@@ -1550,7 +1558,6 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 		--	Left-click			:	Directional arrows for questgivers
 		-- This is named this way with this function signature because it is called from the SecureActionButtonTemplate exactly like this.
 		Click = function(self, leftOrRight)
-			local TomTom = TomTom
 			if IsShiftKeyDown() and "RightButton" == leftOrRight then
 				self:_TagProcess(self.clickingButton.questId)
 				return
@@ -2736,6 +2743,9 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 			elseif questCode == 'w' then
 				local questTable = GRAIL.questStatusCache['G'][subcode] or {}
 				return format("|c%s%d|r/%d [%s, %s]", colorCode, numeric, #(questTable), self.s.COMPLETE, self.s.TURNED_IN)
+			elseif questCode == 'r' then
+				local questTable = GRAIL.questStatusCache['G'][subcode] or {}
+				return format("|c%s%d|r/%d [%s, %s]", colorCode, numeric, #(questTable), self.s.IN_LOG, self.s.TURNED_IN)
 			elseif questCode == 't' or questCode == 'T' or questCode == 'u' or questCode == 'U' then
 				if ('t' == questCode or 'u' == questCode) and 'P' == filterCode then colorCode = WDB.color.B end
 				return format("|c%s%s|r [%s]", colorCode, GRAIL.reputationMapping[subcode], self.s.REPUTATION_REQUIRED)
@@ -2753,7 +2763,9 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 			elseif questCode == 'K' or questCode == 'k' then
 				local name = GRAIL:NPCName(numeric)
 				local itemString = (questCode == 'k') and self.s.ITEM_LACK or self.s.ITEM
-				return format("|c%s%s|r [%s]", colorCode, name, itemString)
+				local count = tonumber(subcode)
+				local countString = count and "("..count..") " or ""
+				return format("|c%s%s|r %s[%s]", colorCode, name, countString, itemString)
 			elseif questCode == 'L' or questCode == 'l' then
 				local lessThanString = (questCode == 'l') and "<" or ""
 				return format("|c%s%s %s%d|r", colorCode, self.s.LEVEL, lessThanString, numeric)
@@ -2834,6 +2846,23 @@ WorldMapFrame:AddDataProvider(self.mapPinsProvider)
 			elseif questCode == ')' then
 				local currencyName, currentAmount = GRAIL:GetCurrencyInfo(subcode)
 				return format("|c%s%s|r", colorCode, currencyName)
+			elseif questCode == '_' or questCode == '~' then
+				local extra = questCode == '~' and " [" .. Grail.accountUnlock .. "]" or ""
+				return format("|c%s%s%s - %s|r", colorCode, LANDING_PAGE_RENOWN_LABEL, extra, GRAIL.reputationMapping[subcode])
+			elseif questCode == '`' then
+				local mapId = tonumber(subcode)
+				local poiId = tonumber(numeric)
+				if mapId and poiId and C_AreaPoiInfo and C_AreaPoiInfo.GetAreaPOIInfo then
+					local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapId, poiId)
+					local nameToUse
+					if poiInfo then
+						nameToUse = poiInfo.name
+					else
+						nameToUse = self:_QuestName(100000000 + mapId * 10000 + poiId)
+					end
+					return format("|c%s%s - %s|r", colorCode, MINIMAP_TRACKING_POI, nameToUse)	-- "Points of Interest"
+				end
+				return format("|c%sPOI ERROR|r", colorCode)
 			else
 				questId = numeric
 				local typeString = ""
@@ -3304,7 +3333,7 @@ end
 			local code, subcode, numeric = Grail:CodeParts(innorItem)
 			local classification = Grail:ClassificationOfQuestCode(innorItem, nil, WDB.buggedQuestsConsideredUnobtainable)
 			local wSpecial = false
-			if 'V' == code or 'W' == code or 'w' == code then
+			if 'V' == code or 'W' == code or 'w' == code or 'r' == code then
 				wSpecial, numeric = true, ''
 			elseif 'T' == code or 't' == code then
 				local reputationName, reputationLevelName = Grail:ReputationNameAndLevelName(subcode, numeric)
@@ -4045,13 +4074,19 @@ end
 				frame:SetToplevel(true)
 				frame:EnableMouse(true)
 				frame:SetMovable(true)
+				frame:SetUserPlaced(true)
 				frame:Hide()
 				if Grail.existsClassic then
 					frame:SetSize(348, 445)
 				else
 					frame:SetSize(384, 512)
 				end
-				frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -104)
+				local frameInfo = WhollyDatabase[frame:GetName()]
+				if frameInfo then
+					frame:SetPoint(frameInfo[1], UIParent, frameInfo[2], frameInfo[3], frameInfo[4])
+				else
+					frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -104)
+				end
 
 				local topLeftTexture = frame:CreateTexture(nil, "BORDER")
 				topLeftTexture:SetPoint("TOPLEFT")
@@ -4153,6 +4188,8 @@ end
 					if self.isMoving then
 						self:StopMovingOrSizing()
 						self.isMoving = false
+						local p1, _, p2, p3, p4 = self:GetPoint()
+						WhollyDatabase[self:GetName()] = { p1, p2, p3, p4 }
 					end
 				end)
 				frame:SetScript("OnMouseDown", function(self, button)
@@ -4172,9 +4209,15 @@ end
 				frame:SetToplevel(true)
 				frame:EnableMouse(true)
 				frame:SetMovable(true)
+				frame:SetUserPlaced(true)
 				frame:Hide()
 				frame:SetSize(682, 447)
-				frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -104)
+				local frameInfo = WhollyDatabase[frame:GetName()]
+				if frameInfo then
+					frame:SetPoint(frameInfo[1], UIParent, frameInfo[2], frameInfo[3], frameInfo[4])
+				else
+					frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -104)
+				end
 
 				local bookTexture = frame:CreateTexture(nil, "BACKGROUND")
 				bookTexture:SetSize(64, 64)
@@ -4287,6 +4330,8 @@ end
 					if self.isMoving then
 						self:StopMovingOrSizing()
 						self.isMoving = false
+						local p1, _, p2, p3, p4 = self:GetPoint()
+						WhollyDatabase[self:GetName()] = { p1, p2, p3, p4 }
 					end
 				end)
 				frame:SetScript("OnMouseDown", function(self, button)

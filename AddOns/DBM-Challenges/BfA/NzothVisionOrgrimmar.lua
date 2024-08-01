@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod("d1995", "DBM-Challenges", 2)--1993 Stormwind 1995 Org
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20211208050610")
+mod:SetRevision("20240426185002")
 
 mod:RegisterCombat("scenario", 2212)--2212, 2213 (org, stormwind)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 297822 297746 304976 297574 304251 306726 299110 307863 300351 300388 304101 304282 306001 306199 303589 305875 306828 306617 300388 296537 305378 298630 298033 305236 304169 298502 297315",
-	"SPELL_AURA_APPLIED 311390 315385 316481 311641 299055",
+	"SPELL_AURA_APPLIED 311390 315385 316481 311641 299055 304165",
 	"SPELL_AURA_APPLIED_DOSE 311390",
 	"SPELL_AURA_REMOVED 298033",
 	"SPELL_CAST_SUCCESS 297237 305378",
@@ -178,7 +178,7 @@ function mod:OnCombatStart(delay)
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(307831))
+		DBM.InfoFrame:SetHeader(DBM:GetSpellName(307831))
 		DBM.InfoFrame:Show(5, "playerpower", 1, ALTERNATE_POWER_INDEX, nil, nil, 2)--Sorting lowest to highest
 	end
 end
@@ -228,13 +228,6 @@ function mod:SPELL_CAST_START(args)
 		timerDefiledGroundCD:Start()
 		if GetNumGroupMembers() > 1 then
 			self:BossTargetScanner(args.sourceGUID, "DefiledGroundTarget", 0.1, 7)
-		end
-	elseif spellId == 299055 then
-		if args:IsPlayer() then
-			specWarnDarkForce:Show()
-			specWarnDarkForce:Play("targetyou")
-		else
-			warnDarkForce:Show(args.destName)
 		end
 	elseif spellId == 299110 and self:AntiSpam(2, 2) then
 		specWarnOrbofAnnihilation:Show()
@@ -365,9 +358,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			if GetNumGroupMembers() > 1 then
 				yellDesperateRetching:Yell()
 			end
-		elseif self:CheckDispelFilter() then
+		elseif self:CheckDispelFilter("disease") then
 			specWarnDesperateRetchingD:Show(args.destName)
 			specWarnDesperateRetchingD:Play("helpdispel")
+		end
+	elseif spellId == 299055 then
+		if args:IsPlayer() then
+			specWarnDarkForce:Show()
+			specWarnDarkForce:Play("targetyou")
+		else
+			warnDarkForce:Show(args.destName)
 		end
 	end
 end

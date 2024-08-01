@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2409, "DBM-Party-Shadowlands", 7, 1188)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220803233609")
+mod:SetRevision("20240629024545")
 mod:SetCreatureID(164555, 164556)
 mod:SetEncounterID(2394)
 mod:SetBossHPInfoToHighest()
@@ -33,7 +33,7 @@ mod:RegisterEventsInCombat(
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(257274, nil, nil, nil, 1, 8)
 
-local timerPhaseCD						= mod:NewPhaseTimer(30)
+local timerPhaseCD						= mod:NewStageTimer(30)
 --Stage One: Millhouse's Magics
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22026))
 local warnSummonPowerCrystal			= mod:NewSpellAnnounce(320787, 3)
@@ -77,7 +77,7 @@ function mod:OnCombatStart(delay)
 	self.vb.activeBoss = 1
 	--First timers triggered on chilled heart event
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(320786))
+		DBM.InfoFrame:SetHeader(DBM:GetSpellName(320786))
 		DBM.InfoFrame:Show(5, "table", VulnerabilityStacks, 1)
 	end
 end

@@ -2,13 +2,16 @@
 -- Pets
 --
 -- Handle bringing out pets while we fish.
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
 local FL = LibStub("LibFishing-1.0")
 local LibPetJournal = LibStub("LibPetJournal-2.0")
-local FSF = FishingBuddy.FSF
+local FSF = FBI.FSF
 
 local PETSETTING = "FishingPetBuddies";
 local MENUNAME = "FishingPets";
@@ -42,11 +45,11 @@ FISHINGPETS[126579] = -1; -- Ghost Shark
 local NUM_FISHINGPETS = FL:tablecount(FISHINGPETS);
 
 -- Debugging
-FishingBuddy.FISHINGPETS = FISHINGPETS;
+FBI.FISHINGPETS = FISHINGPETS;
 
 -- wrap settings
-local FBGetSetting = FishingBuddy.GetSetting;
-local FBGetSettingBool = FishingBuddy.GetSettingBool;
+local FBGetSetting = function(...) return FBI:GetSetting(...); end;
+local FBGetSettingBool = function(...) return FBI:GetSettingBool(...); end;
 
 local function GetSettingBool(setting)
 	if (FBGetSettingBool("FishingFluff")) then
@@ -104,10 +107,10 @@ local function HandlePetsUpdate()
 end
 
 local function DoPetReset(pet)
-    if (not FishingBuddy.CheckCombat()) then
+    if (not FL:InCombat()) then
         if ( pet ) then
             C_PetJournal.SummonPetByGUID(pet);
-        elseif (FishingBuddy.GetSetting(PETSETTING) ~= PET_NONE) then
+        elseif (FBI:GetSetting(PETSETTING) ~= PET_NONE) then
             local nowpet = C_PetJournal.GetSummonedPetGUID();
             if ( nowpet ) then
                 C_PetJournal.SummonPetByGUID(nowpet);
@@ -135,7 +138,7 @@ end
 
 local PetOptions = {
     [PETSETTING] = {
-        ["tooltip"] = FBConstants.CONFIG_FISHINGBUDDY_INFO,
+        ["tooltip"] = FBConstants.CONFIG_FishingBuddy_INFO,
         ["visible"] =
             function(option)
                 local numPets, numOwned = C_PetJournal.GetNumPets(false);
@@ -149,20 +152,20 @@ local PetOptions = {
 }
 
 local PetEvents = {}
-PetEvents[FBConstants.FISHING_ENABLED_EVT] = function()
+local function StartFishingPets()
     -- only do the fluff stuff if we're actually wearing any fishing gear
     -- we don't do this stuff if we're "no pole equipped" fishing
-    if FishingBuddy.CheckCombat() or #menupets == 0 then
+    if FL:InCombat() or #menupets == 0 then
         return
     end
 
-	local petsetting = FishingBuddy.GetSetting(PETSETTING)
+	local petsetting = FBI:GetSetting(PETSETTING)
 	if (petsetting == nil) then
 		-- timing issue if we start off fishing. Hrm.
 		petsetting = PET_NONE
 	end
     if ( petsetting ~= PET_NONE and
-        FishingBuddy.ReadyForFishing() and not FishingBuddy.CheckCombat()) then
+        FBI:ReadyForFishing() and not FL:InCombat()) then
         if ( not (IsFlying() or IsMounted() ) ) then
             local nowpet = C_PetJournal.GetSummonedPetGUID();
 			local petid = nowpet;
@@ -202,16 +205,6 @@ PetEvents[FBConstants.LOGIN_EVT] = function()
 	end
 end
 
-PetEvents[FBConstants.FISHING_DISABLED_EVT] = function(started, logout)
-	if ( logout ) then
-		FishingBuddy_Player["ResetPet"] = resetPet;
-	else
-        if (DoPetReset(resetPet)) then
-            resetPet = nil;
-        end
-	end
-end
-
 PetEvents[FBConstants.LOGIN_EVT] = function()
 	if ( FishingBuddy_Player ) then
 		if ( FishingBuddy_Player["ResetPet"] ) then
@@ -228,7 +221,18 @@ PetEvents["VARIABLES_LOADED"] = function(started)
 	local simple, complex = GetMenuData()
 	local scrollmenu = FSF:CreateScrollMenu(MENUNAME, FBConstants.PETS, simple, complex)
 
-    FishingBuddy.OptionsFrame.HandleOptions(FBConstants.CONFIG_FISHINGFLUFF_ONOFF, "Interface\\Icons\\inv_misc_food_164_fish_seadog", PetOptions);
+    FBI.OptionsFrame.HandleOptions(FBConstants.CONFIG_FISHINGFLUFF_ONOFF, "Interface\\Icons\\inv_misc_food_164_fish_seadog", PetOptions);
 end
 
-FishingBuddy.RegisterHandlers(PetEvents);
+EventRegistry:RegisterCallback(FBConstants.FISHING_ENABLED_EVT, StartFishingPets)
+EventRegistry:RegisterCallback(FBConstants.FISHING_DISABLED_EVT, function(started, logout)
+	if ( logout ) then
+		FishingBuddy_Player["ResetPet"] = resetPet;
+	else
+        if (DoPetReset(resetPet)) then
+            resetPet = nil;
+        end
+	end
+end)
+
+FBI:RegisterHandlers(PetEvents);

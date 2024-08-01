@@ -1,71 +1,21 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: TomCat
-## Version: 2.4.47
+## Version: 2.5.34
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
+## IconTexture: Interface\AddOns\TomCats\images\tomcats_logo_square.png
 
 ## Title: TomCat's Tours
-## Notes: Version: 2.4.47
+## Notes: Version: 2.5.34
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFFFFE00ATomCats|r
 ## Notes-zhCN: TomCats的旅行指南
 
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1675328629
+## X-TomCats-Expiry: 1722688497
 ## X-Part-Of: TomCats
 
 # See license.txt for license and copyright information
-constants.lua
-slashcommands.lua
-event.lua
-popup.xml
-default_saved_variables.lua
-saved_variables.lua
-update.lua
-version_info.lua
-legacy.lua
-constants.lua
-maps.lua
-playerposition.lua
-arrows.lua
-cache.lua
-rules.lua
-bit32.lua
-base64.lua
-compression.lua
-vignette_descriptions.lua
-db_vignette_names.lua
-db_vignette_info.lua
-db_item_companion.lua
-db_vignettes_known.lua
-dao_vignettes.lua
-dao_loot.lua
-proxy.lua
-proxy_mapcanvas.lua
-proxy_mapcanvaspinmixin.lua
-ui_vignettes_tooltip.lua
-ui_vignettes_tooltip.xml
-ui_vignettes_section.lua
-ui_vignettes_section.xml
-ui_vignettes_pins.lua
-ui_vignettes_pins.xml
-lunarfestival/Main.xml
-loveisintheair/Main.xml
-hallowsend/Main.xml
-announcements.lua
-configuration.xml
-configuration.lua
-minimap_icon.xml
-minimap_icon.lua
-worldmap_icon.lua
-#discoveries.xml
-#discoveries.lua
-support/support.xml
-support/support.lua
-beta.lua
-noblegarden/Main.xml
-#primalstorms/Main.xml
-dragonflyingglyphs/Main.xml
-notaint.lua
+Main.xml

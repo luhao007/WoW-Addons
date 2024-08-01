@@ -5,7 +5,8 @@
 GTFO Fail List - Battle for Azeroth
 ]]--
 
-if (not (GTFO.ClassicMode or GTFO.BurningCrusadeMode or GTFO.WrathMode)) then
+if (GTFO.RetailMode) then
+
 --- ******************************
 --- * Battle for Azeroth (World) *
 --- ******************************
@@ -528,6 +529,32 @@ GTFO.SpellID["314306"] = {
   sound = 3;
 };
 
+GTFO.SpellID["271038"] = {
+  --desc = "Soul Barrage (Zak'rajan the Undying)";
+  sound = 3;
+};
+
+GTFO.SpellID["256202"] = {
+  --desc = "Call Lightning (Fangcaller Hrillik)";
+  sound = 3;
+};
+
+GTFO.SpellID["260883"] = {
+  --desc = "Cascade (Emperor Korthek)";
+  sound = 3;
+};
+
+GTFO.SpellID["292148"] = {
+  --desc = "Impact (Mirror Image)";
+  sound = 3;
+  vehicle = true;
+};
+
+GTFO.SpellID["304810"] = {
+  --desc = "Arcane Spark (Malfunctioning Arcane Device)";
+  sound = 3;
+};
+
 -- ***********************
 -- * Shrine of the Storm *
 -- ***********************
@@ -771,6 +798,10 @@ GTFO.SpellID["288716"] = {
   sound = 3;
 };
 
+GTFO.SpellID["268234"] = {
+  --desc = "Bile Explosion (Bile Oozeling)";
+  sound = 3;
+};
 
 
 -- ************
@@ -780,13 +811,6 @@ GTFO.SpellID["288716"] = {
 GTFO.SpellID["258673"] = {
   --desc = "Azerite Grenade (Irontide Crackshot)";
   sound = 3;
-};
-
-GTFO.SpellID["256106"] = {
-  --desc = "Azerite Powder Shot (Skycap'n Kragg)";
-  sound = 3;
-  tankSound = 0;
-  test = true;
 };
 
 GTFO.SpellID["258773"] = {
@@ -827,7 +851,6 @@ GTFO.SpellID["257310"] = {
 GTFO.SpellID["257315"] = {
   --desc = "Black Powder Bomb (Harlan Sweete)";
   sound = 3;
-  test = true;
 };
 
 GTFO.SpellID["272397"] = {
@@ -853,6 +876,12 @@ GTFO.SpellID["257902"] = {
 
 GTFO.SpellID["258352"] = {
   --desc = "Grapeshot (Captain Eudora)";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["413146"] = {
+  --desc = "Swiftwind Saber (Harlan Sweete)";
   sound = 3;
 };
 
@@ -922,6 +951,7 @@ GTFO.SpellID["265665"] = {
 GTFO.SpellID["260793"] = {
   --desc = "Indigestion (Cragmaw the Infested)";
   sound = 3;
+  tankSound = 0;
 };
 
 GTFO.SpellID["259720"] = {
@@ -929,12 +959,19 @@ GTFO.SpellID["259720"] = {
   sound = 3;
 };
 
+GTFO.SpellID["259732"] = {
+  --desc = "Festering Harvest (Sporecaller Zancha)";
+  soundFunction = function() -- Warn only if you get hit more than once
+	GTFO_AddEvent("DecayingSpores", 3);
+	return 0;
+  end
+};
+
 GTFO.SpellID["273226"] = {
   --desc = "Decaying Spores (Sporecaller Zancha)";
   applicationOnly = true;
+  ignoreEvent = "DecayingSpores";
   sound = 3;
-  minimumStacks = 3;
-  test = true;
 };
 
 GTFO.SpellID["265511"] = {
@@ -953,6 +990,11 @@ GTFO.SpellID["273475"] = {
   --desc = "Rotten Breath (Rotmaw)";
   sound = 3;
   applicationOnly = true;
+};
+
+GTFO.SpellID["272469"] = {
+  --desc = "Abyssal Slam (Abyssal Reach)";
+  sound = 3;
 };
 
 -- ************************
@@ -1087,6 +1129,12 @@ GTFO.SpellID["277072"] = {
   applicationOnly = true;
   sound = 3;
 };
+
+GTFO.SpellID["250022"] = {
+  --desc = "Echoes of Shadra (Yazma)";
+  sound = 3;
+};
+
 
 -- ***************
 -- * King's Rest *

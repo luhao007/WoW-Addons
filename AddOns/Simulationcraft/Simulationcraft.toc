@@ -1,7 +1,8 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Theck, navv_, seriallos
-## Version: 10.0.2-04
+## Version: 11.0.0-01
 ## SavedVariables: SimulationCraftDB
+## IconTexture: Interface\Addons\SimulationCraft\logo
 
 ## Title: Simulationcraft
 ## Notes: Constructs SimC export strings

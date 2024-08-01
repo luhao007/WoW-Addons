@@ -69,7 +69,7 @@ function BPBID_SetBreedTooltip(parent, speciesID, tblBreedID, rareness, tooltipD
     -- Workaround for TradeSkillMaster's tooltip
     -- Note that setting parent breaks floating tooltip and setting two corner points breaks borders on TSM tooltip
     -- Setting parent is also required for BattlePetTooltip because TSMExtraTip constantly reanchors itself on its parent
-    if (_G.IsAddOnLoaded("TradeSkillMaster")) then
+    if (C_AddOns.IsAddOnLoaded("TradeSkillMaster")) then
         for i = 1, 10 do
             local t = _G["TSMExtraTip" .. i]
             if t then
@@ -105,6 +105,28 @@ function BPBID_SetBreedTooltip(parent, speciesID, tblBreedID, rareness, tooltipD
             end
         end
         breedtip:AddLine(current, 1, 1, 1, 1)
+    end
+
+	-- Set line for "Collected"
+    if (BPBID_Options.Breedtip.Collected) then
+        C_PetJournal.ClearSearchFilter()
+        numPets, numOwned = C_PetJournal.GetNumPets()
+        local collectedPets = {}
+        for i = 1, numPets do
+            local petID, speciesID2, owned, customName, level, favorite, isRevoked, speciesName, icon, petType, companionID, tooltip, description, isWild, canBattle, isTradeable, isUnique, obtainable = C_PetJournal.GetPetInfoByIndex(i)
+            if petID and speciesID2 == speciesID then 
+                local speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique, obtainable = C_PetJournal.GetPetInfoByPetID(petID)
+                local health, maxHealth, power, speed, rarity = C_PetJournal.GetPetStats(petID)
+
+                local breedNum, quality, resultslist = internal.CalculateBreedID(speciesID, rarity, level, maxHealth, power, speed, false, false)
+
+                local breed = internal.RetrieveBreedName(breedNum)
+                table.insert(collectedPets, ITEM_QUALITY_COLORS[quality-1].hex .. "L" .. level .. " (" .. breed .. ")"  .. "|r")
+            end
+        end
+        if (#collectedPets > 0) then
+            breedtip:AddLine("\124cFFD4A017Collected:\124r " .. table.concat(collectedPets, ", "), 1, 1, 1, 1)
+        end
     end
 
     -- Set line for "Current pet's possible breeds"
@@ -301,7 +323,7 @@ local function BPBID_Hook_BattleUpdate(self)
         if (name) and (BPBID_Options.Names.PrimaryBattle) then
             -- Set standard text or use hex coloring based on font fix option
             if (BPBID_Options.BattleFontFix) then
-                local _, _, _, hex = GetItemQualityColor(internal.rarityCache[self.petIndex + offset] - 1)
+                local _, _, _, hex = C_Item.GetItemQualityColor(internal.rarityCache[self.petIndex + offset])
                 self.Name:SetText("|c"..hex..name.." ("..breed..")".."|r")
             else
                 self.Name:SetText(name.." ("..breed..")")
@@ -312,7 +334,7 @@ local function BPBID_Hook_BattleUpdate(self)
         if (name) and (BPBID_Options.Names.BattleTooltip) then
             -- Set standard text or use hex coloring based on font fix option
             if (not BPBID_Options.BattleFontFix) then
-                local _, _, _, hex = GetItemQualityColor(internal.rarityCache[self.petIndex + offset] - 1)
+                local _, _, _, hex = C_Item.GetItemQualityColor(internal.rarityCache[self.petIndex + offset])
                 self.Name:SetText("|c"..hex..name.." ("..breed..")".."|r")
             else
                 self.Name:SetText(name.." ("..breed..")")

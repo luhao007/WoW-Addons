@@ -1,14 +1,15 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: arith, Dynaletik, dubcat
-## Version: v1.52.01
+## Version: v1.52.04
 ## RequiredDeps: Atlas
+## IconTexture: Interface\WorldMap\WorldMap-Icon
 
 ## Title: Atlas |r|cFF0099FF[Mists of Pandaria]|r
 ## Notes: Mists of Pandaria Instances' Maps
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0熊猫人之迷|r
 ## Notes-zhCN: 熊猫人之谜副本地图
 
-## X-Date: 2022-11-19T7:39:25Z
+## X-Date: 2023-07-29T6:25:00Z
 ## X-Credits: Dan Gilbert, Lothaer
 ## X-Email: atlas.addon at gmail dot com
 ## X-Website: http://www.atlasmod.com

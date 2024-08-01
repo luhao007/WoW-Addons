@@ -1,26 +1,22 @@
 local mod	= DBM:NewMod(2507, "DBM-Party-Dragonflight", 8, 1204)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20221207232203")
+mod:SetRevision("20240429063816")
 mod:SetCreatureID(189722)
 mod:SetEncounterID(2616)
---mod:SetUsedIcons(1, 2, 3)
-mod:SetHotfixNoticeRev(20221207000000)
+mod:SetHotfixNoticeRev(20230507000000)
 --mod:SetMinSyncRevision(20211203000000)
 --mod.respawnTime = 29
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 385551 385181 385531 385442",
---	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED 385743 374389",
 	"SPELL_AURA_APPLIED_DOSE 385743 374389",
 	"SPELL_AURA_REMOVED 374389",
 	"SPELL_AURA_REMOVED_DOSE 374389"
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
---	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --[[
@@ -32,29 +28,28 @@ mod:RegisterEventsInCombat(
 --TODO, actually detect gulp target or is it no one specific?
 local warnHangry								= mod:NewSpellAnnounce(385743, 2, nil, "Tank|Healer")
 local warnBodySlam								= mod:NewTargetNoFilterAnnounce(385531, 3)
-local warnToxicEff								= mod:NewSpellAnnounce(385442, 3)
+local warnToxicEff								= mod:NewCountAnnounce(385442, 3)
 
 local specWarnGulpSwogToxin						= mod:NewSpecialWarningStack(374389, nil, 8, nil, nil, 1, 6)
-local specWarnGulp								= mod:NewSpecialWarningRun(385551, nil, nil, nil, 4, 2)
+local specWarnGulp								= mod:NewSpecialWarningRunCount(385551, nil, nil, nil, 4, 2)
 local specWarnHangry							= mod:NewSpecialWarningDispel(385743, "RemoveEnrage", nil, nil, 1, 2)
-local specWarnOverpoweringCroak					= mod:NewSpecialWarningDodge(385187, nil, nil, nil, 2, 2)--385181 is cast but lacks tooltip, so damage Id used for tooltip/option
+local specWarnOverpoweringCroak					= mod:NewSpecialWarningDodgeCount(385187, nil, nil, nil, 2, 2)--385181 is cast but lacks tooltip, so damage Id used for tooltip/option
 local specWarnBodySlam							= mod:NewSpecialWarningMoveAway(385531, nil, nil, nil, 1, 2)
 local yellBodySlam								= mod:NewYell(385531)
---local specWarnDominationBolt					= mod:NewSpecialWarningInterrupt(363607, "HasInterrupt", nil, nil, 1, 2)
---local specWarnGTFO							= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 
-local timerGulpCD								= mod:NewCDTimer(47.3, 385551, nil, nil, nil, 3)
-local timerOverpoweringCroakCD					= mod:NewCDTimer(38.8, 385187, nil, nil, nil, 2)--Tough to classify, it's aoe, it's targeted dodge, and it's adds
-local timerBellySlamCD							= mod:NewCDTimer(38.8, 385531, nil, nil, nil, 3)
-local timerToxicEffluviaaCD						= mod:NewCDTimer(26.7, 385442, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
-
---local berserkTimer							= mod:NewBerserkTimer(600)
+local timerGulpCD								= mod:NewCDCountTimer(38.8, 385551, nil, nil, nil, 3)
+local timerOverpoweringCroakCD					= mod:NewCDCountTimer(37.7, 385187, nil, nil, nil, 2)--Tough to classify, it's aoe, it's targeted dodge, and it's adds
+local timerBellySlamCD							= mod:NewCDTimer(37.7, 385531, nil, nil, nil, 3)
+local timerToxicEffluviaaCD						= mod:NewCDCountTimer(26.7, 385442, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
 
 mod:AddRangeFrameOption(12, 385531)
 mod:AddInfoFrameOption(374389, "RemovePoison")
---mod:AddSetIconOption("SetIconOnStaggeringBarrage", 361018, true, false, {1, 2, 3})
 
 local toxinStacks = {}
+
+mod.vb.gulpCount = 0
+mod.vb.croakCount = 0
+mod.vb.toxicCount = 0
 
 function mod:BodySlamTarget(targetname)
 	if not targetname then return end
@@ -69,12 +64,15 @@ end
 
 function mod:OnCombatStart(delay)
 	table.wipe(toxinStacks)
-	timerOverpoweringCroakCD:Start(8-delay)
-	timerGulpCD:Start(17.8-delay)
-	timerToxicEffluviaaCD:Start(29.9-delay)
+	self.vb.gulpCount = 0
+	self.vb.croakCount = 0
+	self.vb.toxicCount = 0
+	timerOverpoweringCroakCD:Start(8-delay, 1)
+	timerGulpCD:Start(17.8-delay, 1)
+	timerToxicEffluviaaCD:Start(29.9-delay, 1)
 	timerBellySlamCD:Start(38.4-delay)
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(374389))
+		DBM.InfoFrame:SetHeader(DBM:GetSpellName(374389))
 		DBM.InfoFrame:Show(5, "table", toxinStacks, 1)
 	end
 	if self.Options.RangeFrame then
@@ -94,20 +92,23 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 385551 then
-		specWarnGulp:Show()
+		self.vb.gulpCount = self.vb.gulpCount + 1
+		specWarnGulp:Show(self.vb.gulpCount)
 		specWarnGulp:Play("justrun")
-		timerGulpCD:Start()
+		timerGulpCD:Start(self.vb.gulpCount == 1 and 47.3 or 37.6, self.vb.gulpCount+1)
 	elseif spellId == 385181 then
-		specWarnOverpoweringCroak:Show()
+		self.vb.croakCount = self.vb.croakCount + 1
+		specWarnOverpoweringCroak:Show(self.vb.croakCount)
 		specWarnOverpoweringCroak:Play("aesoon")
 		specWarnOverpoweringCroak:ScheduleVoice(2, "watchstep")
-		timerOverpoweringCroakCD:Start()
+		timerOverpoweringCroakCD:Start(nil, self.vb.croakCount+1)
 	elseif spellId == 385531 then
 		self:ScheduleMethod(0.1, "BossTargetScanner", args.sourceGUID, "BodySlamTarget", 0.1, 6, true)
 		timerBellySlamCD:Start()
 	elseif spellId == 385442 then
-		warnToxicEff:Show()
-		timerToxicEffluviaaCD:Start()
+		self.vb.toxicCount = self.vb.toxicCount + 1
+		warnToxicEff:Show(self.vb.toxicCount)
+		timerToxicEffluviaaCD:Start(nil, self.vb.toxicCount+1)
 	end
 end
 
@@ -153,19 +154,3 @@ function mod:SPELL_AURA_REMOVED_DOSE(args)
 		end
 	end
 end
-
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 340324 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show(spellName)
-		specWarnGTFO:Play("watchfeet")
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 353193 then
-
-	end
-end
---]]

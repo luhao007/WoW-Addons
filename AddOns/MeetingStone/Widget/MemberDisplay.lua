@@ -16,26 +16,27 @@ function MemberDisplay:Constructor()
 end
 
 local function LFGListGroupDataDisplay_Update(self, activityID, displayData, disabled)
-    local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activityID)
-    if categoryID == 9 then
-        displayType = LE_LFG_LIST_DISPLAY_TYPE_ROLE_COUNT
-    end
-    if displayType == LE_LFG_LIST_DISPLAY_TYPE_ROLE_COUNT or displayType == LE_LFG_LIST_DISPLAY_TYPE_HIDE_ALL then
+    local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
+       if(not activityInfo) then
+           return;
+       end
+    --2022-11-17
+    if activityInfo.displayType == Enum.LFGListDisplayType.RoleCount or activityInfo.displayType == Enum.LFGListDisplayType.HideAll then
         self.RoleCount:Show()
         self.Enumerate:Hide()
         self.PlayerCount:Hide()
         LFGListGroupDataDisplayRoleCount_Update(self.RoleCount, displayData, disabled)
-    elseif displayType == LE_LFG_LIST_DISPLAY_TYPE_ROLE_ENUMERATE then
+    elseif activityInfo.displayType == Enum.LFGListDisplayType.RoleEnumerate then
         self.RoleCount:Hide()
         self.Enumerate:Show()
         self.PlayerCount:Hide()
-        LFGListGroupDataDisplayEnumerate_Update(self.Enumerate, maxPlayers, displayData, disabled, LFG_LIST_GROUP_DATA_ROLE_ORDER)
-    elseif displayType == LE_LFG_LIST_DISPLAY_TYPE_CLASS_ENUMERATE then
+        LFGListGroupDataDisplayEnumerate_Update(self.Enumerate, activityInfo.maxNumPlayers, displayData, disabled, LFG_LIST_GROUP_DATA_ROLE_ORDER)
+    elseif activityInfo.displayType == Enum.LFGListDisplayType.ClassEnumerate then
         self.RoleCount:Hide()
         self.Enumerate:Show()
         self.PlayerCount:Hide()
-        LFGListGroupDataDisplayEnumerate_Update(self.Enumerate, maxPlayers, displayData, disabled, LFG_LIST_GROUP_DATA_CLASS_ORDER)
-    elseif displayType == LE_LFG_LIST_DISPLAY_TYPE_PLAYER_COUNT then
+        LFGListGroupDataDisplayEnumerate_Update(self.Enumerate, activityInfo.maxNumPlayers, displayData, disabled, LFG_LIST_GROUP_DATA_CLASS_ORDER)
+    elseif activityInfo.displayType == Enum.LFGListDisplayType.PlayerCount then
         self.RoleCount:Hide()
         self.Enumerate:Hide()
         self.PlayerCount:Show()
@@ -48,7 +49,8 @@ local function LFGListGroupDataDisplay_Update(self, activityID, displayData, dis
 end
 
 function MemberDisplay:SetActivity(activity)
-    local displayData = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
+    self.resultID = activity:GetID()
+    local displayData = C_LFGList.GetSearchResultMemberCounts(self.resultID)
     if displayData then
         LFGListGroupDataDisplay_Update(self.DataDisplay, activity:GetActivityID(), displayData, activity:IsDelisted() or activity:IsApplicationFinished())
         self.DataDisplay:Show()
@@ -56,3 +58,4 @@ function MemberDisplay:SetActivity(activity)
         self.DataDisplay:Hide()
     end
 end
+

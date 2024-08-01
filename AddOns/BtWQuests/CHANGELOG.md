@@ -1,3 +1,129 @@
+# v2.43.1
+
+- Fixed an issue that prevented copying outfits from the Dressing Room and possibly other "Blocked by addon" issues
+
+# v2.43.0
+
+- Updated for 11.0.0
+
+# v2.42.1
+
+- Updated to use multiple interface numbers
+- Updated some faction and quest handling for The War Within api changes
+- Fixed an error loading expansion extensions
+- Fixed errors with frame pools in The War Within
+- Fixed quest markers not showing on the world map in The War Within
+
+# v2.42.0
+
+- Updated waypoints to auto remove when going within 10 yards
+- Updated hanlding reputations for The War Within
+- Updated handling professions for Cataclysm Classic
+- Fixed an error for map waypoints without names
+- Fixed an error for new characters on first login
+
+# v2.41.0
+
+- Added Hunt of the Harbinger questline
+
+# v2.40.0
+
+- Added the Draenei heritage armor questline
+- Added the Troll heritage armor questline
+- Removed obsolete Flightstones questline
+- Fixed names of Embers of Neltharion major questlines
+
+# v2.39.0
+
+- Added Azerothian Archives questline
+
+# v2.38.0
+
+- Updated for 10.2.7
+
+# v2.37.0
+
+- Added Seeds of Renewal questline
+- Added Gilneas Reclamation questline
+- Fixed some errors for The War Within
+
+# v2.36.0
+
+- Updated for 10.2.6
+
+# v2.35.0
+
+- Added A Dream of Fields and Fire quest line
+- Added New Beginnings quest line
+- Updated for 10.2.5
+- Fixed an issue with displaying race and class conditions in tooltips
+
+# v2.34.1
+
+- Updated for 10.2
+
+# v2.34.0
+
+- Added most 10.2 questlines
+- Fixed double scrollbar for chain view 
+
+# v2.33.2
+
+- Added The Coalition of Flames questline
+- Added the Reconciliation questline
+- Added the Bronze Reconciliation questline
+- Added Reforging the Tyr's Guard questline
+
+# v2.33.1
+
+- Added Forsaken heritage armor questline
+- Added Night Elf heritage armor questline
+
+# v2.33.0
+
+- Updated for 10.1.7
+
+# v2.32.0
+
+- Added Dawn of the Infinite questline
+- Updated for 10.1.5
+
+# v2.31.0
+
+- Added questlines The Veiled Ossuary, United Again, Revel Resurgence, and Tyr's Fall
+- Updated some localizations
+
+# v2.30.0
+
+- Added missing 10.1.0 quest line Agrulculture
+- Added addon list icon and addon compartment button
+- Updated the requirements for The Dragons and The Scale Expedition
+- Fixed showing The Buddy System as active before it was completely available
+
+# v2.29.0
+
+- Added most Embers of Neltharion quest chains
+- Updated in preparation for 10.1
+
+# v2.28.2
+
+- Updated for 10.0.7
+- Updated some 10.0.7 quest lines
+
+# v2.28.1
+
+- Added multiple quest chains for 10.0.7
+
+# v2.28.0
+
+- Fixed an issue where opening a menu could break Afenars weakauras along with potentially other
+
+# v2.27.0
+
+- Updated The Spark of Ingenuity questline with the rest of the quests
+- Updated In The Halls of Titans questline with missing follow up
+- Updated for 10.0.5
+
 # v2.26.0
 
 - Added a few missing quests to The Waking Shore
@@ -7,7 +133,6 @@
 - Updated The Spark of Ingenuity questline
 - Updated The Mother Oathstone questline
 - Updated 10,000 Years of Roasting quest chain and renamed it to The Ruby Feast
-
 
 # v2.25.1
 

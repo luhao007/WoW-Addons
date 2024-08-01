@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "heroic,mythic,challenge"
 
-mod:SetRevision("20220610054416")
+mod:SetRevision("20240426175442")
 mod:SetCreatureID(114350)
 mod:SetEncounterID(1965)
 mod:SetUsedIcons(1, 2)
@@ -23,11 +23,10 @@ local warnInfernoBolt				= mod:NewTargetAnnounce(227615, 3)
 local warnFlameWreath				= mod:NewCastAnnounce(228269, 4)
 local warnFlameWreathTargets		= mod:NewTargetAnnounce(228269, 4)
 
-local specWarnArcaneMissiles		= mod:NewSpecialWarningDefensive(227628, "Tank", nil, nil, 1, 2)
+local specWarnArcaneMissiles		= mod:NewSpecialWarningDefensive(227628, nil, nil, nil, 1, 2)
 local specWarnFrostbite				= mod:NewSpecialWarningInterrupt(227592, "HasInterrupt", nil, nil, 1, 2)
 local specWarnInfernoBoltMoveTo		= mod:NewSpecialWarningMoveTo(227615, nil, nil, nil, 1, 2)
 local specWarnInfernoBoltMoveAway	= mod:NewSpecialWarningMoveAway(227615, nil, nil, nil, 1, 2)
-local specWarnInfernoBoltNear		= mod:NewSpecialWarningClose(227615, nil, nil, nil, 1, 2)
 local specWarnCeaselessWinter		= mod:NewSpecialWarningSpell(227779, nil, nil, nil, 2, 2)
 local specWarnFlameWreath			= mod:NewSpecialWarningYou(228261, nil, nil, nil, 3, 2)
 local yellFlameWreath				= mod:NewYell(228261)
@@ -40,7 +39,7 @@ mod:AddSetIconOption("SetIconOnWreath", 228261, true, 6, {1, 2})
 
 mod.vb.playersFrozen = 0
 mod.vb.imagesActive = false
-local frostBiteName, flameWreathName = DBM:GetSpellInfo(227592), DBM:GetSpellInfo(228261)
+local frostBiteName, flameWreathName = DBM:GetSpellName(227592), DBM:GetSpellName(228261)
 
 function mod:OnCombatStart(delay)
 	self.vb.playersFrozen = 0
@@ -51,8 +50,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227628 then
-		specWarnArcaneMissiles:Show()
-		specWarnArcaneMissiles:Play("defensive")
+		if self:IsTanking("player", "boss1", nil, true) then
+			specWarnArcaneMissiles:Show()
+			specWarnArcaneMissiles:Play("defensive")
+		end
 	elseif spellId == 227592 then
 		specWarnFrostbite:Show(args.sourceName)
 		specWarnFrostbite:Play("kickcast")
@@ -93,9 +94,6 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnInfernoBoltMoveTo:Show(frostBiteName)
 				specWarnInfernoBoltMoveTo:Play("gather")
 			end
-		elseif self:CheckNearby(8, args.destName) and not DBM:UnitDebuff("player", frostBiteName) and not DBM:UnitDebuff("player", flameWreathName) then
-			specWarnInfernoBoltNear:Show(args.destName)
-			specWarnInfernoBoltNear:Play("scatter")
 		else
 			warnInfernoBolt:Show(args.destName)
 		end

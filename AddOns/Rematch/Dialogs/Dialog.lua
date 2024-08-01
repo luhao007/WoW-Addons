@@ -1,225 +1,399 @@
--- Dialog.lua: the ShowDialog() and support functions
+local _,rematch = ...
+local L = rematch.localization
+local C = rematch.constants
+local settings = rematch.settings
+rematch.dialog = RematchDialog
 
-local _,L = ...
-local rematch = Rematch
-local dialog = RematchDialog
+--[[
+    dialogInfo properties
 
-dialog.context = {} -- wiped when a dialog is shown, used by SetContext(var,value) and GetContext(var)
+    title = string text to display in titlebar of dialog
+    width = number width of canvas (will use default if none given)
+    height = number height of canvas (will use default if none given)
+    minHeight = minimum height of canvas if height not given
+    prompt = text to display in the prompt at bottom of dialog
+    cancel = text for the CancelButton
+    cancelFunc = function(canvas,info,subject) to run when CancelButton is clicked
+    accept = text for the AcceptButton
+    acceptFunc = function(canvas,info,subject) to run when AcceptButton is clicked
+    stayOnAccept = boolean whether to keep dialog up if AcceptButton clicked
+    other = text for the OtherButton
+    otherFunc = function(canvas,info,subject) to run when Other Button is clicked
+    stayOnOther = boolean whether to keep dialog up if OtherButton clicked
+    refreshFunc = function(canvas,info,subject,firstRun) to refresh dialog contents
+    changeFunc = function(canvas,info,subject) called when a control in dialog changes from the user
+    conditions = { -- condition across all layouts; for more complex differences, use different layouts
+        "CheckButton" = function(canvas,info,subject) return true if CheckButton should show end,
+        "Widget" = function(canvas,info,subject) return true if Widget should show end,
+    }
+    layouts = { -- for multi-layout dialogs
+        ["Default"] = {"Text","Pet","etc"}, -- list of controls to use when dialog first opened
+        ["AltLayout"] = {"Text","Pet","Feedback","etc"}, -- alternate layout for adding/removing controls
+    },
+    layout = {"Text","Pet","etc"} -- for single-layout dialogs,
+    minimize = { -- only exists if dialog is minimizable
+        nextState = string, -- either "minimize" or "maximize"; the minimize icon to display
+        nextDialog = string, -- the dialog to open when the minimize/maximize button is clicked
+    }
 
--- list of widgets reused. custom ones should use dialog:RegisterWidget("name")
-dialog.widgets = { "Pet", "Warning", "EditBox", "Slot", "TeamTabIconPicker", "Text",
-	"Team", "OldTeam", "SaveAs", "Preferences", "CheckButton", "Share", "TabPicker",
-	"ConflictRadios", "Send", "ShareIncludes", "CollectionReport", "ScaleSlider",
-	"ScriptFilter", "MultiLine", "SmallText",
-}
+    To change the displayed title:
+        rematch.dialog:SetTitle(text)
 
-rematch:InitModule(function()
-	rematch.Dialog = dialog
-	local petButton = dialog.Pet.Pet
-	petButton.noPickup = true -- don't allow pickup or right-click or dialog pet
-	petButton:SetScript("OnEnter",function(self) rematch:ShowPetCard(self,self.petID) end)
-	petButton:SetScript("OnLeave",function(self) rematch:HidePetCard(true) end)
-	petButton:SetScript("OnClick",function(self,button) rematch.PetListButtonOnClick(self,button) end)
-	dialog.TabPicker.Label:SetText(L["Tab:"])
+    On minimizable dialogs, if LayoutTabs are used, make sure the name of the tab is the same as the layout.
+    (For instance, "Battles" layout should have a tab with a "Battles" tab identifier). It will attempt to
+    return to the tab of the opened layout when it switches to the minimized/maximized dialog.
+
+]]
+
+local dialogInfo = {}
+local openDialog -- name of the dialog that's currently open
+local openLayout -- name of the dialog's layout currently applied
+local lastLayout -- name of the dialog's previous layout (should be nil when dialog first shown)
+local refreshHappening -- true of a refresh is happening (to ignore changes)
+local applyLayout -- will be ApplyLayout function, to stop me from using it outside this module (use ChangeLayout instead!)
+
+rematch.events:Register(rematch.dialog,"PLAYER_LOGIN",function(self)
+    self.InsetBg:SetPoint("BOTTOMRIGHT",-6,C.BOTTOMBAR_HEIGHT+6)
+    self:Reset()
+    self.CloseButton:SetScript("OnKeyDown",self.CloseButton.OnKeyDown)
+    self.MinimizeButton:SetScript("OnClick",function(self,button)
+        if self.nextDialog then
+            local layout = rematch.dialog:GetOpenLayout()
+            local tabsShown = rematch.dialog.Canvas.LayoutTabs:IsVisible()
+            rematch.dialog:ShowDialog(self.nextDialog)
+            if rematch.dialog:GetOpenLayout()~=layout then
+                if tabsShown then
+                    rematch.dialog.Canvas.LayoutTabs:GoToTab(layout)
+                else
+                    rematch.dialog:ChangeLayout(layout)
+                end
+            end
+        end
+    end)
 end)
 
--- dialogName: a string to reference the dialog (rematch:IsDialogOpen("SaveDialog"))
--- width: any but recommend 300 for minimum (that fits third button)
--- height: any
--- title: string to display in titlebar of dialog
--- prompt: string to display in a "separate" inset at bottom of dialog (bottom y is 52 when this used)
--- acceptText: text to put in the second button to do whatever dialog is meant to do
--- acceptFunc: function to run when accept button is clicked
--- cancelText: text to put in the bottomright button to dismiss the dialog and cancel its action
--- cancelFunc: function to run when cancel button clicked or dialog dismissed/hidden
--- otherText: text to put in the bottomleft button for some other action (default name for renaming)
--- otherFunc: function to do when other button is clicked (note this doesn't prevent cancelFunc!)
-
-function rematch:ShowDialog(dialogName,width,height,title,prompt,acceptText,acceptFunc,cancelText,cancelFunc,otherText,otherFunc)
-	dialog:ResetAll()
-	rematch:HideWidgets()
-	rematch:HideNotes()
-	-- set stuff passed as parameters
-	dialog.name = dialogName
-	dialog:SetSize(width or 300,height or 320)
-	dialog.Title:SetText(title)
-	dialog.Prompt:SetShown(prompt and true)
-	dialog.Prompt.Text:SetText(prompt or "")
-	dialog.Accept:SetShown(acceptText and true)
-	dialog.Accept:SetText(acceptText or "")
-	dialog.acceptFunc = acceptFunc
-	dialog.Cancel:SetText(cancelText)
-	dialog.cancelFunc = cancelFunc
-	dialog.Other:SetShown(otherText and true)
-	dialog.Other:SetText(otherText or "")
-	dialog.otherFunc = otherFunc
-
-	dialog:Show()
-	dialog.dialogName = dialogName
-
-	return dialog
+function rematch.dialog:OnMouseDown()
+    self:StartMoving()
 end
 
-function rematch:HideDialog()
-	dialog:Hide()
+function rematch.dialog:OnMouseUp()
+    self:StopMovingOrSizing()
 end
 
-function dialog:OnHide()
-	rematch.timeUIChanged = GetTime()
-	if dialog.cancelFunc then
-		dialog.cancelFunc()
-	end
+function rematch.dialog:Register(name,info)
+    assert(type(name)=="string","Dialog "..(name or "nil").." has an invalid name")
+    assert(type(info)=="table","Dialog "..name.." has no info table")
+    info.name = name
+    dialogInfo[name] = info
+    dialogInfo[name].hasPrompt = info.prompt and true
+    -- if single-layout table defined, make it Default of layouts table
+    if info.layout then
+        assert(type(select(2,next(info.layout)))~="table","Default layout for "..name.." is a nested table. Meant to use layouts?")
+        info.layouts= {Default = CopyTable(info.layout)}
+        info.layout = nil
+    end
+    -- assert that all parentKeys in the layouts are valid
+    if info.layouts then
+        for layoutName,layout in pairs(info.layouts) do
+            for _,parentKey in ipairs(layout) do
+                assert(self.Canvas[parentKey],"Dialog layout "..layoutName.." for "..name.." has an invalid control "..parentKey)
+            end
+        end
+    end
 end
 
--- click of the Accept button at bottom of dialog
-function dialog:AcceptOnClick()
-	if dialog.Accept:IsEnabled() then
-		dialog.cancelFunc = nil -- don't run the cancelFunc if accept clicked
-		dialog:Hide()
-		if dialog.acceptFunc then
-			dialog.acceptFunc()
-		end
-	end
+-- returns definition of named dialog (or open one if no name given)
+function rematch.dialog:GetDialogInfo(dialog)
+    if dialog then
+        return dialogInfo[dialog]
+    elseif self:IsVisible() then
+        return dialogInfo[openDialog]
+    end
 end
 
-function dialog:OtherOnClick()
-	if dialog.Other:IsEnabled() and dialog.otherFunc then
-		dialog.otherFunc()
-	end
+function rematch.dialog:GetOpenDialog()
+    return rematch.dialog:IsVisible() and openDialog
 end
 
--- returns true if name (ie "SaveAs") is visible; or any dialog if name not given
-function rematch:IsDialogOpen(name)
-	if name then
-		return dialog:IsVisible() and dialog.dialogName==name
-	else
-		return dialog:IsVisible()
-	end
+function rematch.dialog:GetOpenLayout()
+    return rematch.dialog:IsVisible() and openLayout or "Default"
 end
 
--- hides/unanchors/wipes/resets widgets and script handlers for a clean slate
-function dialog:ResetAll()
-	wipe(dialog.context)
-	for _,widget in ipairs(dialog.widgets) do
-		dialog[widget]:Hide()
-		dialog[widget]:ClearAllPoints()
-	end
-	dialog.acceptFunc = nil
-	dialog.otherFunc = nil
-	dialog.EditBox:SetWidth(220)
-	dialog.EditBox:SetScript("OnTextChanged",dialog.EditBoxOnTextChanged)
-	dialog.EditBox:SetText("")
-	dialog.EditBox:SetScript("OnEnterPressed",dialog.EditBoxOnEnterPressed)
-	dialog.EditBox:SetScript("OnEscapePressed",dialog.EditBoxOnEscapePressed)
-	dialog.Accept:SetEnabled(true)
-	dialog.Other:SetEnabled(true)
-	dialog.Text:SetText("")
-	dialog.Text:SetFontObject(GameFontNormal)
-	dialog.Text:SetJustifyH("CENTER")
-	dialog.CheckButton.text:SetText("")
-	dialog.CheckButton.text:SetFontObject(GameFontNormal)
-	dialog.CheckButton:SetScript("OnClick",nil)
-	dialog.CheckButton:SetChecked(false)
-	dialog.CheckButton.tooltipTitle = nil
-	dialog.CheckButton.tooltipBody = nil
-	dialog.MultiLine.EditBox:SetScript("OnTextChanged",nil)
-	dialog.MultiLine.EditBox:SetText("")
-	dialog.MultiLine.EditBox:SetScript("OnEscapePressed",dialog.EditBoxOnEscapePressed)
-	dialog.MultiLine.EditBox:SetScript("OnEditFocusGained",nil)
+-- returns the subject of the currently-opened dialog
+function rematch.dialog:GetSubject()
+    if openDialog and rematch.dialog:IsVisible() and dialogInfo[openDialog] then
+        return dialogInfo[openDialog].subject
+    end
 end
 
-function dialog:RegisterWidget(name)
-	tinsert(dialog.widgets,name)
+-- if any dialog is open, close it by clicking the Cancel button (if on screen; hide directly otherwise)
+-- this allows cancelFuncs to happen when dismissing a dialog
+function rematch.dialog:HideDialog()
+    if openDialog and rematch.dialog:IsVisible() then
+        rematch.dialog.CancelButton:Click()
+    else
+        rematch.dialog:Hide()
+    end
 end
 
-function dialog:OnKeyDown(key)
-	if key==GetBindingKey("TOGGLEGAMEMENU") then
-		if rematch:IsDialogOpen("ScriptFilterDialog") and dialog.ScriptFilter.referenceOpen then
-			dialog.ScriptFilter:HideReference() -- if script filter open, hide reference
-		else
-			dialog:Hide() -- otherwise hide menu but don't pass ESC along
-		end
-		self:SetPropagateKeyboardInput(false)
-	else -- ESC not hit, send it along
-		self:SetPropagateKeyboardInput(true)
-	end
+function rematch.dialog:ToggleDialog(name,subject,layoutTab)
+    if openDialog==name and dialogInfo[name] and rematch.utils:AreSame(dialogInfo[name].subject,subject) then
+        rematch.dialog:HideDialog()
+    else
+        rematch.dialog:ShowDialog(name,subject,layoutTab)
+    end
 end
 
--- default behavior of EditBox: disable Accept if it's empty
-function dialog:EditBoxOnTextChanged()
-	dialog.Accept:SetEnabled(self:GetText():trim():len()>0)
+function rematch.dialog:ShowDialog(name,subject,layoutTab)
+    local info = dialogInfo[name]
+    assert(info,"Dialog named "..(name or "nil").." doesn't exist.")
+    if not info then return end
+    rematch.utils:HideWidgets()
+    rematch.dialog:Hide()
+    openDialog = name
+    lastLayout = nil
+    -- add the info to the info space
+    info.subject = subject
+    info.layoutTab = layoutTab or "Default"
+    -- setup title
+    self.Title:SetText(info.title)
+    -- setup prompt and adjust canvas size for the prompt
+    local yoff = C.DIALOG_BOTTOM_MARGIN
+    if info.hasPrompt then
+        self.Prompt.Text:SetText(info.prompt)
+        self.Prompt:Show()
+        yoff = yoff + C.DIALOG_PROMPT_HEIGHT
+    else
+        self.Prompt:Hide()
+    end
+    self.Canvas:SetPoint("TOPLEFT",C.DIALOG_LEFT_MARGIN,-C.DIALOG_TOP_MARGIN)
+    self.Canvas:SetPoint("BOTTOMRIGHT",-C.DIALOG_RIGHT_MARGIN,yoff)
+    -- setup panel buttons
+    self.CancelButton.Text:SetText(info.cancel)
+    self.CancelButton:SetShown(info.cancel and true)
+    self.AcceptButton.Text:SetText(info.accept)
+    self.AcceptButton:SetShown(info.accept and true)
+    self.OtherButton.Text:SetText(info.other)
+    self.OtherButton:SetShown(info.other and true)
+    self.MinimizeButton:SetShown(type(info.minimize)=="table")
+    if type(info.minimize)=="table" then
+        self.MinimizeButton:SetIcon(info.minimize.nextState)
+        self.MinimizeButton.nextDialog = info.minimize.nextDialog
+    end
+    -- start with the Default layout
+    self:ChangeLayout("Default",true)
+    -- if info.layouts and info.layouts.Default then
+    --     self:ApplyLayout("Default")
+    -- end
+    -- -- run first refresh
+    -- if info.refreshFunc then
+    --     refreshHappening = true
+    --     self:StartRefresh()
+    --     info.refreshFunc(self.Canvas,info,subject,true)
+    -- end
+    -- -- set up dialog size
+    -- self:Resize()
+    -- finally, show the dialog
+    rematch.dialog:Show()
+    -- if choosing to open in a layoutTab (dialog mixin) other than Default, go to it now
+    if layoutTab and layoutTab~="Default" and self.Canvas.LayoutTabs:IsVisible() then
+        self.Canvas.LayoutTabs:GoToTab(layoutTab)
+    end
 end
 
-function dialog:EditBoxOnEnterPressed()
-	if dialog.Accept:IsEnabled() then
-		dialog.Accept:Click()
-	end
+-- changes the currently-opened dialog to the given layoutName; firstRun is true if this is the first layout
+-- being applied
+function rematch.dialog:ChangeLayout(layoutName,firstRun)
+    local info = dialogInfo[openDialog]
+    if info.layouts[layoutName] and (openLayout~=layoutName or firstRun) then -- only attempt to change to a layout that exists and we're not already in
+        applyLayout(self,layoutName)
+        if info.refreshFunc then
+            refreshHappening = true
+            self:StartRefresh()
+            info.refreshFunc(self.Canvas,info,info.subject,firstRun)
+        end
+        self:Resize()
+    end
 end
 
-function dialog:EditBoxOnEscapePressed()
-	dialog:Hide()
+-- some dialogs may want to change the title displayed at the top
+function rematch.dialog:SetTitle(text)
+    self.Title:SetText(text)
 end
 
-function dialog:SetContext(var,value)
-	dialog.context[var] = value
-	return value
+-- clear out everything
+function rematch.dialog:Reset()
+    openDialog = nil
+    openLayout = nil
+    -- hide all children of the canvas
+    for _,child in pairs({self.Canvas:GetChildren()}) do
+        child:Hide()
+        if type(child.Reset)=="function" then
+            child.Reset(child) -- if element has a reset function, run it
+        end
+    end
+    self.MinimizeButton:Hide()
+    self.MinimizeButton.nextDialog = nil
+    -- enable buttons that may have been disabled
+    self.AcceptButton:Enable()
+    self.OtherButton:Enable()
+    self.CancelButton:Enable()
+    -- clear tooltips on panel buttons (so far just OtherButton has one; add RematchTooltipScripts to Accept or Cancel if needed)
+    self.OtherButton.tooltipTitle = nil
+    self.OtherButton.tooltipBody = nil
 end
 
-function dialog:GetContext(var)
-	return dialog.context[var]
+-- call when the currently opened dialog needs to be refreshed
+function rematch.dialog:Refresh()
+    local info = dialogInfo[openDialog]
+    if not info then return end
+    if info.refreshFunc then
+        self:StartRefresh()
+        info.refreshFunc(self.Canvas,info,info.subject)
+    end
 end
 
-function dialog:FillTeam(frame,team)
-	local saved = RematchSaved
-	for i=1,3 do
-		rematch:FillPetSlot(frame.Pets[i],team[i][1])
-		if frame.Pets[i].Missing then
-			frame.Pets[i].Missing:Hide()
-		end
-		for j=1,3 do
-			local button = frame.Pets[i].Abilities[j]
-			local abilityID = team[i][j+1]
-			if abilityID and abilityID~=0 then
-				button.abilityID = abilityID
-				button.Icon:SetTexture((select(3,C_PetBattles.GetAbilityInfoByID(abilityID))))
-				button.Icon:SetTexCoord(0.075,0.925,0.075,0.925)
-			else
-				button.abilityID = nil
-				button.Icon:SetTexture("Interface\\Buttons\\UI-EmptySlot-Disabled")
-				button.Icon:SetTexCoord(0.21875,0.765625,0.21875,0.765625)
-			end
-		end
-	end
+-- when dialog hides, reset the dialog
+function rematch.dialog:OnHide()
+    self:Reset()
+    rematch.utils:SetUIJustChanged()
+    rematch.menus:Hide()
+    PlaySound(C.SOUND_DIALOG_CLOSE)
 end
 
--- sets dialog.Text to test, sizes to cx,cy dimensions and anchors it to ...
-function dialog:ShowText(text,cx,cy,...)
-	dialog.Text:SetSize(cx,cy)
-	dialog.Text:SetText(text)
-	dialog.Text:SetPoint(...)
-	dialog.Text:Show()
+function rematch.dialog:OnShow()
+    PlaySound(C.SOUND_DIALOG_OPEN)
+    -- if settings.DialogX and settings.DialogY then
+    --     self:ClearAllPoints()
+    --     self:SetPoint("CENTER",UIParent,"BOTTOMLEFT",settings.DialogX,settings.DialogY)
+    -- end
 end
 
-
-function dialog:UpdateTabPicker()
-	local index = rematch.TeamTabs:GetSelectedTab()
-	local settings = RematchSettings
-	dialog.TabPicker.Text:SetText(settings.TeamGroups[index][1])
-	dialog.TabPicker.Icon:SetTexture(settings.TeamGroups[index][2])
-	local team = rematch:GetSideline()
-	if team then
-		team.tab = index>1 and index or nil
-	end
+-- if ESC is hit, close dialog via the cancel button
+function rematch.dialog.CloseButton:OnKeyDown(key)
+    if key==GetBindingKey("TOGGLEGAMEMENU") then
+        -- if a teampicker list is expanded and CollapseOnEsc enabled, collapse list
+        if settings.CollapseOnEsc and rematch.dialog.Canvas.TeamPicker.Picker.List:IsVisible() and rematch.dialog.Canvas.TeamPicker.Picker.List:IsAnyExpanded() then
+            rematch.dialog.Canvas.TeamPicker.Picker.List:ToggleAllHeaders()
+        else
+            rematch.dialog.CancelButton:Click()
+        end
+        self:SetPropagateKeyboardInput(false)
+    else
+        self:SetPropagateKeyboardInput(true)
+    end
 end
 
-function dialog.TabPicker:OnClick()
-	rematch:ToggleMenu("TabPick","TOPRIGHT",self,"BOTTOMRIGHT",0,2)
+-- takes a layout name (index into dialogInfo[openDialog].layouts) and displays the layout's controls on the canvas
+-- (it's up to the refresh function to modify the controls)
+function applyLayout(self,layoutName)
+    local info = dialogInfo[openDialog]
+    if not info then return end
+    -- hide all children of the canvas
+    for _,child in pairs({self.Canvas:GetChildren()}) do
+        child:Hide()
+    end
+    local layout = info.layouts and info.layouts[layoutName]
+    assert(type(layout)=="table","Layout "..(layoutName or "nil").. " doesn't exist for "..info.name)
+    lastLayout = openLayout
+    openLayout = layoutName
+    local canvas = self.Canvas
+    local lastControl
+    for _,parentKey in pairs(layout) do
+        if parentKey=="Help" and settings.HideMenuHelp then
+            -- do nothing with "Help" while HideMenuHelp is enabled
+        elseif info.conditions and type(info.conditions[parentKey])=="function" and not info.conditions[parentKey](self.Canvas,info,info.subject) then
+            -- do nothing with parentKey if it has a condition and the condition isn't met (function returns false)
+        else
+            local control = canvas[parentKey]
+            if control then
+                if control.fixedWidth==0 then
+                    -- don't touch width if fixedWidth is 0
+                elseif control.fixedWidth then
+                    control:SetWidth(control.fixedWidth)
+                else
+                    control:SetWidth((info.width or C.DIALOG_DEFAULT_WIDTH)-2*C.DIALOG_OUTER_PADDING)
+                end
+                control:ClearAllPoints()
+                if not lastControl then
+                    control:SetPoint("TOP",0,-C.DIALOG_OUTER_PADDING)
+                else
+                    control:SetPoint("TOP",lastControl,"BOTTOM",0,-C.DIALOG_INNER_PADDING)
+                end
+                lastControl = control
+                control:Show()
+            end
+        end
+    end
 end
 
-function dialog:CancelOnClick()
-	if rematch:IsDialogOpen("ScriptFilterDialog") and dialog.ScriptFilter.referenceOpen then
-		dialog.ScriptFilter:HideReference()
-	else
-		dialog:Hide()
-	end
+-- changes layout to the previous layout within the same dialog
+function rematch.dialog:ReturnToPreviousLayout()
+    local info = dialogInfo[openDialog]
+    if not info then return end
+    if lastLayout and info.layouts and info.layouts[lastLayout] then
+        rematch.dialog:ChangeLayout(lastLayout)
+    end
+end
+
+-- resizes the dialog (based on layout, defined height or default height of canvas)
+function rematch.dialog:Resize()
+    local width,height
+    local info = dialogInfo[openDialog]
+    if not info then return end
+    -- width generally won't change for the life of the dialog
+    width = max(info.width or C.DIALOG_DEFAULT_WIDTH,C.DIALOG_MIN_WIDTH)
+    self:SetWidth(width + C.DIALOG_LEFT_MARGIN + C.DIALOG_RIGHT_MARGIN)
+    local buttonWidth = (width+10)/3
+    self.CancelButton:SetWidth(buttonWidth)
+    self.AcceptButton:SetWidth(buttonWidth)
+    self.OtherButton:SetWidth(buttonWidth)
+    -- if using a layout, use it for height
+    if info.layouts and openLayout and info.layouts[openLayout] then
+        height = C.DIALOG_OUTER_PADDING*2
+        for _,parentKey in pairs(info.layouts[openLayout]) do
+            if parentKey=="Help" and settings.HideMenuHelp then
+                -- don't add Help if HideMenuHelp enabled
+            elseif info.conditions and type(info.conditions[parentKey])=="function" and not info.conditions[parentKey](self.Canvas,info,info.subject) then
+                -- don't add parentKey if it has a condition and the condition isn't met (function returns false)
+            else
+                height = height + self.Canvas[parentKey]:GetHeight() + C.DIALOG_INNER_PADDING
+            end
+        end
+        height = height - C.DIALOG_INNER_PADDING -- remove last inner padding
+    else -- otherwise use a defined height or default if none defined
+        height = info.height or C.DIALOG_DEFAULT_HEIGHT
+    end
+    height = max(height,C.DIALOG_MIN_HEIGHT)
+    if info.minHeight and not info.height then
+        height = max(height,info.minHeight)
+    end
+    --local left = self:GetLeft() -- storing topleft position before resize
+    --local top = self:GetTop()
+    self:SetHeight(height + C.DIALOG_TOP_MARGIN + (info.hasPrompt and C.DIALOG_PROMPT_HEIGHT or 0) + C.DIALOG_BOTTOM_MARGIN)
+    --self:ClearAllPoints()
+    --self:SetPoint("TOPLEFT",UIParent,"BOTTOMLEFT",left,top) -- restore topleft so shifting height keeps topleft stable
+end
+
+-- any control that can change (editboxes, checkbuttons, etc) should call this to run the dialog's changeFunc
+function rematch.dialog:OnChange(force)
+    if refreshHappening then
+        return -- ignoring changes happening during a refresh
+    end
+    local info = dialogInfo[openDialog]
+    if not info then return end
+    if info.changeFunc then
+        info.changeFunc(rematch.dialog.Canvas,info,info.subject)
+    end
+end
+
+-- called a frame after StartRefresh() to reset the refreshHappening flag
+local function finishRefresh()
+    refreshHappening = false
+end
+
+-- call this before a refresh starts to set the refreshHappening flag to true
+function rematch.dialog:StartRefresh()
+    refreshHappening = true
+    rematch.timer:Start(0,finishRefresh) -- wait a frame to set it back to false
 end

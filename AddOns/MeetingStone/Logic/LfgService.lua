@@ -60,10 +60,13 @@ function LfgService:UpdateActivity(id)
     end
 
     local activity = self:GetActivity(id)
+    
     if not activity then
         self:CacheActivity(id)
         self:SendMessage('MEETINGSTONE_ACTIVITIES_COUNT_UPDATED', #self.activityList)
     else
+        -- activity:Update()             
+        -- if activity:GetNumMembers() == 5 then
         if not activity:Update() then
             self:RemoveActivity(id)
         end
@@ -112,13 +115,19 @@ function LfgService:LFG_LIST_SEARCH_RESULTS_RECEIVED(event)
 
     local applications = C_LFGList.GetApplications()
 
+    self.activityApps = self.activityApps or {} --abyui 9.1.5 applications also in SearchResults
+    table.wipe(self.activityApps)
+
     for _, id in ipairs(applications) do
+        self.activityApps[id] = true
         self:CacheActivity(id)
     end
 
     local _, resultList = C_LFGList.GetSearchResults()
     for _, id in ipairs(resultList) do
-        self:CacheActivity(id)
+        if not self.activityApps[id] then
+            self:CacheActivity(id)
+        end
     end
 
     self:SendMessage('MEETINGSTONE_ACTIVITIES_COUNT_UPDATED', self:GetActivityCount())
@@ -132,7 +141,7 @@ function LfgService:LFG_LIST_SEARCH_RESULT_UPDATED_BUCKET(results)
     self:SendMessage('MEETINGSTONE_ACTIVITIES_RESULT_UPDATED')
 end
 
-function LfgService:LFG_LIST_SEARCH_RESULT_UPDATED(_, id)
+function LfgService:LFG_LIST_SEARCH_RESULT_UPDATED(_, id)    
     if self.inSearch then
         return
     end
@@ -143,8 +152,20 @@ end
 function LfgService:Search(categoryId, baseFilter, activityId)
     self.ourSearch = true
     self.activityId = activityId
+    local filterVal = 0
+    if categoryId == 2 then
+        filterVal = 1
+    end
 
-    C_LFGList.Search(categoryId, 0, baseFilter)
+    -- if activityId then
+    --     local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+    --     print(activityInfo.fullName)
+    --     print(activityInfo.shortName)
+    --     print(activityInfo.groupFinderActivityGroupID)
+    -- end
+
+    local languages = C_LFGList.GetLanguageSearchFilter();
+    C_LFGList.Search(categoryId, filterVal, baseFilterVal, languages)
     self.ourSearch = false
     self.dirty = false
 end

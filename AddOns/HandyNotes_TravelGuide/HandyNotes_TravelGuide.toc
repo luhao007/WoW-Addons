@@ -1,0 +1,28 @@
+## Interface: 110000
+## Author: |cFFFF8C00Dathwada EU-Eredar|r
+## Version: v2.18.1
+## RequiredDeps: HandyNotes
+## SavedVariables: HandyNotes_TravelGuideDB
+## DefaultState: enabled
+## IconTexture: Interface\AddOns\HandyNotes_TravelGuide\icons\portal_blue
+
+## Title: HandyNotes: TravelGuide
+## Notes: Displays the portal, zeppelin and boat locations on the world map and minimap.
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0旅行指南|r
+## Notes-zhCN: 在世界地图和小地图上显示传送门、飞艇、港口图标。
+
+## X-Date: 2024-07-31
+## X-Category: Map
+## X-Part-Of: HandyNotes
+
+# LOCALIZATION FILES
+localization\locales.xml
+
+# CORE FILES
+core\constants.lua
+core\handler.lua
+core\config.lua
+core\dev.lua
+
+# DATABASE
+data\DB.lua

@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1489, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230117042742")
+mod:SetRevision("20240714045506")
 mod:SetCreatureID(95676)
 mod:SetEncounterID(1809)
-mod:SetHotfixNoticeRev(20221228000000)
+mod:SetHotfixNoticeRev(20230306000000)
 mod:SetMinSyncRevision(20221228000000)
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
@@ -30,18 +31,20 @@ mod:RegisterEvents(
 --TODO, does boss still have old random tempest timers system from legion or are 10.0.2 changes universal?
 local warnSpear						= mod:NewSpellAnnounce(198072, 2)--Target not available so no target warning.
 
-local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 4, 2)
+local specWarnTempest				= mod:NewSpecialWarningRunCount(198263, nil, nil, nil, 4, 2)
 local specWarnShatterSpears			= mod:NewSpecialWarningDodge(198077, nil, nil, nil, 2, 2)
 local specWarnRunicBrand			= mod:NewSpecialWarningMoveTo(197961, nil, nil, nil, 2, 6)
 local specWarnAdd					= mod:NewSpecialWarningSwitch(201221, "-Healer", nil, nil, 1, 2)
 local specWarnSurge					= mod:NewSpecialWarningInterrupt(198750, "HasInterrupt", nil, nil, 1, 2)
 
-local timerRP						= mod:NewRPTimer(28.5)
+local timerRP						= mod:NewCombatTimer(28.5)
 --local timerSpearCD					= mod:NewCDTimer(8, 198077, nil, nil, nil, 3)--More data needed
 local timerTempestCD				= mod:NewCDCountTimer(56, 198263, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)--More data needed
 local timerShatterSpearsCD			= mod:NewCDTimer(56, 198077, nil, nil, nil, 2)
 local timerRunicBrandCD				= mod:NewCDCountTimer(56, 197961, nil, nil, nil, 3)
 local timerAddCD					= mod:NewCDTimer(54, 201221, nil, nil, nil, 1, 201215)--54-58
+
+mod:AddDropdownOption("RuneBehavior", {"Icon", "Entrance", "Minimap", "Generic"}, "Generic", "misc", nil, 197961)
 
 --Boss has (at least) three timer modes, cannot determine which one on pull so on fly figuring out is used
 local oldTempestTimers = {
@@ -56,6 +59,7 @@ mod.vb.tempestCount = 0
 mod.vb.brandCount = 0
 
 --Should run at 10, 18, 26, and 34
+--[[
 local function tempestDelayed(self)
 	if self.vb.tempestCount == 0 then
 		DBM:AddMsg(L.tempestModeMessage:format(self.vb.temptestMode))
@@ -66,6 +70,7 @@ local function tempestDelayed(self)
 		return
 	end
 end
+--]]
 
 function mod:OnCombatStart(delay)
 	self.vb.temptestMode = 1
@@ -121,19 +126,59 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 197963 and args:IsPlayer() then--Purple K (NE)
 		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|tNE|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
-		specWarnRunicBrand:Play("frontright")
+		if self.Options.RuneBehavior == "Entrance" then
+			specWarnRunicBrand:Play("frontleft")
+		elseif self.Options.RuneBehavior == "Icon" then
+			specWarnRunicBrand:Play("mm3")--Purple Diamond
+		elseif self.Options.RuneBehavior == "Minimap" then
+			specWarnRunicBrand:Play("frontright")
+		else
+			specWarnRunicBrand:Play("targetyou")
+		end
 	elseif spellId == 197964 and args:IsPlayer() then--Orange N (SE)
 		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|tSE|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
-		specWarnRunicBrand:Play("backright")
+		if self.Options.RuneBehavior == "Entrance" then
+			specWarnRunicBrand:Play("backleft")
+		elseif self.Options.RuneBehavior == "Icon" then
+			specWarnRunicBrand:Play("mm2")--Orange Circle
+		elseif self.Options.RuneBehavior == "Minimap" then
+			specWarnRunicBrand:Play("backright")
+		else
+			specWarnRunicBrand:Play("targetyou")
+		end
 	elseif spellId == 197965 and args:IsPlayer() then--Yellow H (SW)
 		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|tSW|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
-		specWarnRunicBrand:Play("backleft")
+		if self.Options.RuneBehavior == "Entrance" then
+			specWarnRunicBrand:Play("backright")
+		elseif self.Options.RuneBehavior == "Icon" then
+			specWarnRunicBrand:Play("mm1")--Yellow Star
+		elseif self.Options.RuneBehavior == "Minimap" then
+			specWarnRunicBrand:Play("backleft")
+		else
+			specWarnRunicBrand:Play("targetyou")
+		end
 	elseif spellId == 197966 and args:IsPlayer() then--Blue fishies (NW)
 		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|tNW|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
-		specWarnRunicBrand:Play("frontleft")
+		if self.Options.RuneBehavior == "Entrance" then
+			specWarnRunicBrand:Play("frontright")
+		elseif self.Options.RuneBehavior == "Icon" then
+			specWarnRunicBrand:Play("mm6")--Blue Square
+		elseif self.Options.RuneBehavior == "Minimap" then
+			specWarnRunicBrand:Play("frontleft")
+		else
+			specWarnRunicBrand:Play("targetyou")
+		end
 	elseif spellId == 197967 and args:IsPlayer() then--Green box (N)
 		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|tN|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
-		specWarnRunicBrand:Play("frontcenter")--Does not exist yet
+		if self.Options.RuneBehavior == "Entrance" then
+			specWarnRunicBrand:Play("frontcenter")
+		elseif self.Options.RuneBehavior == "Icon" then
+			specWarnRunicBrand:Play("mm4")--Green Triangle
+		elseif self.Options.RuneBehavior == "Minimap" then
+			specWarnRunicBrand:Play("frontcenter")
+		else
+			specWarnRunicBrand:Play("targetyou")
+		end
 	end
 end
 

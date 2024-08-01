@@ -1,14 +1,17 @@
 -- Items
 --
 -- Handle using items with complex requirements.
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
 local FL = LibStub("LibFishing-1.0");
 
-local GSB = FishingBuddy.GetSettingBool;
-local PLANS = FishingBuddy.FishingPlans
+local GSB = function(...) return FBI:GetSettingBool(...); end;
+local PLANS = FBI.FishingPlans
 
 local CurLoc = GetLocale();
 
@@ -66,15 +69,15 @@ local function TuskarrPlan()
             TuskarrItem.tension = 201944;
         end
         if (FL:HasBuff(TuskarrItem.tension)) then
-            local bergbuff, raftbuff, hasberg, hasraft = FishingBuddy.HasRaftBuff();
+            local bergbuff, raftbuff, hasberg, hasraft = FBI:HasRaftBuff();
             if not (hasberg or hasraft or WWJD()) then
                 return
             end
         end
     end
 
-    if (FishingBuddy.StartedFishing and not FL:HasBuff(TuskarrItem.spell)) then
-        local s,_,_ = GetItemCooldown(TuskarrItem.id);
+    if (FBI.StartedFishing and not FL:HasBuff(TuskarrItem.spell)) then
+        local s,_,_ = C_Container.GetItemCooldown(TuskarrItem.id);
         if (s == 0) then
             if not PLANS:HaveEntry(TuskarrItem.id) then
                 PLANS:AddEntry(TuskarrItem.id, TuskarrItem[CurLoc])
@@ -91,8 +94,8 @@ local function TrawlerPlan()
     end
 
     if PLANS:CanUseFishingItem(TRAWLER_ID, TrawlerTotem) then
-        if (FishingBuddy.StartedFishing) then
-            local start, duration, enable = GetItemCooldown(TRAWLER_ID);
+        if (FBI.StartedFishing) then
+            local start, duration, enable = C_Container.GetItemCooldown(TRAWLER_ID);
             local et = (start + duration) - GetTime();
             if (et <= 0) then
                 local _, itemid =  C_ToyBox.GetToyInfo(TRAWLER_ID);
@@ -120,15 +123,15 @@ end
 
 local ItemsEvents = {}
 ItemsEvents["VARIABLES_LOADED"] = function(started)
-    FishingBuddy.SetupSpecialItems({ [TUSKARR_ID] = TuskarrItem }, false, true, true)
-    FishingBuddy.SetupSpecialItems({ [TRAWLER_ID] = TrawlerTotem }, false, true, true)
-    FishingBuddy.UpdateFluffOption(TUSKARR_ID, TuskarrItem)
-    FishingBuddy.UpdateFluffOption(TRAWLER_ID, TrawlerTotem)
+    FBI:SetupSpecialItems({ [TUSKARR_ID] = TuskarrItem }, false, true, true)
+    FBI:SetupSpecialItems({ [TRAWLER_ID] = TrawlerTotem }, false, true, true)
+    FBI:UpdateFluffOption(TUSKARR_ID, TuskarrItem)
+    FBI:UpdateFluffOption(TRAWLER_ID, TrawlerTotem)
     PLANS:RegisterPlan(TuskarrPlan)
     PLANS:RegisterPlan(TrawlerPlan)
 
-    FishingBuddy.SetupSpecialItems({ [34832] = LagerItem }, false, true, true)
+    FBI:SetupSpecialItems({ [34832] = LagerItem }, false, true, true)
     PLANS:RegisterPlan(LagerPlan)
 end
 
-FishingBuddy.RegisterHandlers(ItemsEvents);
+FBI:RegisterHandlers(ItemsEvents);

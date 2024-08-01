@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2023 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2024 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 --
 -- Tooltip parsing strings
@@ -11,8 +11,14 @@ local L = PawnLocal.TooltipParsing
 
 if PawnLocal.ThousandsSeparator == "NBSP" then PawnLocal.ThousandsSeparator = "\194\160" end
 local Key, Value
+local NumberExpandedPattern = "(-?[%%d%%., ]+)"
+if LARGE_NUMBER_SEPERATOR == "-" then
+	-- French Cataclysm Classic uses a hyphen as the thousands separator, which is insane. We only include that as a valid component
+	-- of a number in this specific case to limit the risk to other versions.
+	NumberExpandedPattern = "(-?[%%d%%., %-]+)"
+end
 for Key, Value in pairs(L) do
-	L[Key] = gsub(Value, "#", "(-?[%%d%%., ]+)")
+	L[Key] = gsub(Value, "#", NumberExpandedPattern)
 end
 
 ------------------------------------------------------------
@@ -138,6 +144,11 @@ PawnRegexes =
 	{PawnGameConstant(INVTYPE_LEGS)}, -- Legs
 	{PawnGameConstant(INVTYPE_FINGER)}, -- Finger
 	{PawnGameConstant(INVTYPE_TRINKET)}, -- Trinket
+	{PawnGameConstant(INVTYPE_RELIC or "UNUSED")}, -- Relic
+	{PawnGameConstant(MAJOR_GLYPH)}, -- Major Glyph
+	{PawnGameConstant(MINOR_GLYPH)}, -- Minor Glyph
+	{PawnGameConstant(PRIME_GLYPH)}, -- Prime Glyph
+	{PawnGameConstant(REFORGED or "UNUSED")}, -- Reforged
 	{PawnGameConstant(MOUNT)}, -- Cenarion War Hippogryph
 	{PawnGameConstantIgnoredPlaceholder(ITEM_CLASSES_ALLOWED)}, -- Classes:
 	{PawnGameConstantIgnoredPlaceholder(ITEM_RACES_ALLOWED)}, -- Races:
@@ -219,6 +230,7 @@ PawnRegexes =
 	{L.Crit, "CritRating"},
 	{L.Crit2, "CritRating"},
 	{L.CritPercent, "CritRating"}, -- Classic, /pawn compare 15062
+	{L.CritPercentCombined, "CritRating", 1, PawnMultipleStatsExtract, "SpellCritRating", 1, PawnMultipleStatsExtract}, -- Classic Season of Discovery, /pawn compare 216621
 	{L.CritRating, "CritRating"}, -- Burning Crusade, /pawn compare 15062
 	{L.CritRating2, "CritRating"}, -- Burning Crusade, /pawn compare 30710
 	{L.CritRating3, "CritRating"}, -- Burning Crusade, /pawn compare 28796
@@ -232,6 +244,7 @@ PawnRegexes =
 	{L.SpellCritRatingShort2, "SpellCritRating"}, -- Burning Crusade, /pawn compare 29317 (socket bonus)
 	{L.Hit, "HitRating"}, -- Classic, /pawn compare 16947
 	{L.Hit2, "HitRating"}, -- unused in English
+	{L.HitPercentCombined, "HitRating", 1, PawnMultipleStatsExtract, "SpellHitRating", 1, PawnMultipleStatsExtract}, -- Classic Season of Discovery, /pawn compare 213312
 	{L.HitRating, "HitRating"}, -- Burning Crusade, /pawn compare 28182
 	{L.HitRating2, "HitRating"}, -- Burning Crusade, /pawn compare 18500
 	{L.HitRating3, "HitRating"}, -- Burning Crusade in Spanish, /pawn compare 32570
@@ -373,6 +386,7 @@ PawnRightHandRegexes =
 	{L.Gun, "IsGun", 1, PawnMultipleStatsFixed},
 	{L.Mace, "IsMace", 1, PawnMultipleStatsFixed},
 	{L.Polearm, "IsPolearm", 1, PawnMultipleStatsFixed},
+	{INVTYPE_RELIC, "IsRelic", 1, PawnMultipleStatsFixed},
 	{L.Staff, "IsStaff", 1, PawnMultipleStatsFixed},
 	{L.Sword, "IsSword", 1, PawnMultipleStatsFixed},
 	{L.Warglaives, "IsWarglaive", 1, PawnMultipleStatsFixed},

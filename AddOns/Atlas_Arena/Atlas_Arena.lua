@@ -1,7 +1,7 @@
 --[[
 
 	Atlas Arena, a World of Warcraft instance map browser
-	Copyright 2010 ~ 2022 Arith Hsu
+	Copyright 2010 ~ 2023 Arith Hsu
 
 	This file is a plugin of Atlas.
 

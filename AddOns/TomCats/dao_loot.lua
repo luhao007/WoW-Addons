@@ -5,7 +5,7 @@ local C_Item = C_Item
 local C_MountJournal = C_MountJournal
 local C_PetJournal = C_PetJournal
 local C_ToyBox = C_ToyBox
-local GetItemInfo = GetItemInfo
+local GetItemInfo = C_Item.GetItemInfo
 local PlayerHasToy = PlayerHasToy
 local ITEM_SPELL_KNOWN = ITEM_SPELL_KNOWN
 local LE_ITEM_CLASS_MISCELLANEOUS = Enum.ItemClass.Miscellaneous
@@ -46,6 +46,10 @@ function addon.getLootDisplayInfo(items)
 							collectedString = KNOWN
 						end
 					end
+				elseif(addon.drakewatcherManuscripts[itemID]) then
+					local collected = C_QuestLog.IsQuestFlaggedCompleted(addon.drakewatcherManuscripts[itemID])
+					collectedString = collected and KNOWN
+					lootType = LOOT_TYPE.DRAKEWATCHER_MANUSCRIPT
 				else
 					local _, toyName = C_ToyBox.GetToyInfo(itemID)
 					if (toyName) then
@@ -56,6 +60,13 @@ function addon.getLootDisplayInfo(items)
 						end
 					else
 						lootType = LOOT_TYPE.UNKNOWN
+						local _, itemSpell = C_Item.GetItemSpell(itemID)
+						if (itemSpell) then
+							local spellDescription = C_Spell.GetSpellDescription(itemSpell)
+							if (spellDescription) then
+								collectedString = spellDescription
+							end
+						end
 					end
 				end
 				table.insert(loot, {

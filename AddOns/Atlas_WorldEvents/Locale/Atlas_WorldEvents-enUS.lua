@@ -1,8 +1,8 @@
--- $Id: Atlas_WorldEvents-enUS.lua 117 2022-02-28 05:12:07Z arithmandar $
+-- $Id: Atlas_WorldEvents-enUS.lua 123 2023-03-20 15:12:13Z arithmandar $
 --[[
 
 	Atlas World Events, a World of Warcraft map browser for world events
-	Copyright 2011 ~ 2022 Arith Hsu
+	Copyright 2011 ~ 2023 Arith Hsu
 
 	This file is a plugin of Atlas.
 

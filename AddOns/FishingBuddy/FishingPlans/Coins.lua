@@ -1,14 +1,16 @@
 -- Items
 --
 -- Handle using items with complex requirements.
+local addonName, FBStorage = ...
+local  FBI = FBStorage
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
 
 local FL = LibStub("LibFishing-1.0");
 
-local GSB = FishingBuddy.GetSettingBool;
-local PLANS = FishingBuddy.FishingPlans
+local GSB = function(...) return FBI:GetSettingBool(...); end;
+local PLANS = FBI.FishingPlans
 
 local CurLoc = GetLocale();
 
@@ -72,8 +74,8 @@ end
 
 local ItemsEvents = {}
 ItemsEvents["VARIABLES_LOADED"] = function(started)
-    FishingBuddy.SetupSpecialItems(CoinLures, false, true, true)
+    FBI:SetupSpecialItems(CoinLures, false, true, true)
     PLANS:RegisterPlan(CoinPlan)
 end
 
-FishingBuddy.RegisterHandlers(ItemsEvents);
+FBI:RegisterHandlers(ItemsEvents);

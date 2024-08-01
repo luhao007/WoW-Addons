@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 --[[
 -- **************************************************************************
 -- * TitanLootType.lua
@@ -9,8 +10,9 @@
 -- ******************************** Constants *******************************
 local TITAN_LOOTTYPE_ID = "LootType";
 local TITAN_BUTTON = "TitanPanel"..TITAN_LOOTTYPE_ID.."Button"
+
 local _G = getfenv(0);
-local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local TitanLootMethod = {};
 local updateTable = {TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL};
 TitanLootMethod["freeforall"] = {text = L["TITAN_LOOTTYPE_FREE_FOR_ALL"]};
@@ -33,6 +35,10 @@ local current_spec = ""
 -- **************************************************************************
 --]]
 function TitanPanelLootTypeButton_OnLoad(self)
+	local notes = ""
+		.."Adds group loot information to Titan Panel.\n"
+		.."- Option to add instance difficulty information.\n"
+		.."- Option to add current spec and loot spec.\n"
 	self.registry = {
 		id = TITAN_LOOTTYPE_ID,
 		category = "Built-ins",
@@ -43,6 +49,7 @@ function TitanPanelLootTypeButton_OnLoad(self)
 		tooltipTextFunction = "TitanPanelLootTypeButton_GetTooltipText",
 		icon = "Interface\\AddOns\\TitanLootType\\TitanLootType",
 		iconWidth = 16,
+		notes = notes,
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
@@ -196,7 +203,7 @@ function TitanPanelLootTypeButton_GetButtonText(id)
 	current_spec = name -- for tool tip
 
 	-- Determine loot spec
-	local loot_label = (LOOT.." "..SPECIALIZATION or "Loot Spec")..": "
+	local loot_label = ((LOOT.." "..SPECIALIZATION) or "Loot Spec")..": "
 	local loot_spec = GetLootSpecialization()
 	if loot_spec == 0 then -- 0 means current spec
 	else -- Id means user has set

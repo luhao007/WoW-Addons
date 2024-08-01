@@ -4,23 +4,25 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
----PlayerInfo Functions
--- @module PlayerInfo
-
 local TSM = select(2, ...) ---@type TSM
-local PlayerInfo = TSM.Init("Service.PlayerInfo") ---@class Service.PlayerInfo
-local String = TSM.Include("Util.String")
-local TempTable = TSM.Include("Util.TempTable")
-local Wow = TSM.Include("Util.Wow")
-local Settings = TSM.Include("Service.Settings")
+local PlayerInfo = TSM.Init("Service.PlayerInfo") ---@class Service.PlayerInfo: Module
+local String = TSM.LibTSMUtil:Include("Lua.String")
+local TempTable = TSM.LibTSMUtil:Include("BaseType.TempTable")
+local Table = TSM.LibTSMUtil:Include("Lua.Table")
+local SessionInfo = TSM.LibTSMWoW:Include("Util.SessionInfo")
+local Guild = TSM.LibTSMService:Include("Guild")
 local private = {
-	connectedAlts = {},
+	settingsDB = nil,
 	settings = nil,
+	connectedAlts = {},
 	isPlayerCache = {},
+	auctionIsPlayerCache = {
+		lastUpdate = 0,
+	},
 }
-local PLAYER_LOWER = strlower(Wow.GetCharacterName())
-local FACTION_LOWER = strlower(Wow.GetFactionName())
-local REALM_LOWER = strlower(Wow.GetRealmName())
+local PLAYER_LOWER = strlower(SessionInfo.GetCharacterName())
+local FACTION_LOWER = strlower(SessionInfo.GetFactionName())
+local REALM_LOWER = strlower(SessionInfo.GetRealmName())
 local PLAYER_REALM_LOWER = PLAYER_LOWER.." - "..REALM_LOWER
 
 
@@ -29,12 +31,15 @@ local PLAYER_REALM_LOWER = PLAYER_LOWER.." - "..REALM_LOWER
 -- Module Loading
 -- ============================================================================
 
-PlayerInfo:OnSettingsLoad(function()
-	private.settings = Settings.NewView()
+PlayerInfo:OnSettingsLoad(function(db)
+	private.settingsDB = db
+	private.settings = db:NewView()
 		:AddKey("factionrealm", "internalData", "guildVaults")
 		:AddKey("factionrealm", "coreOptions", "ignoreGuilds")
 		:AddKey("factionrealm", "internalData", "characterGuilds")
 		:AddKey("sync", "internalData", "classKey")
+		:AddKey("global", "coreOptions", "regionWide")
+	Guild.RegisterNameCallback(private.HandleGuildNameChange)
 end)
 
 
@@ -47,11 +52,11 @@ end)
 ---@return table
 function PlayerInfo.GetConnectedAlts()
 	wipe(private.connectedAlts)
-	for factionrealm in TSM.db:GetConnectedRealmIterator("factionrealm") do
-		for _, character in TSM.db:FactionrealmCharacterIterator(factionrealm) do
-			local realm = strmatch(factionrealm, ".+ %- (.+)")
-			character = Ambiguate(gsub(strmatch(character, "(.*) ?"..String.Escape("-").."?").."-"..gsub(realm, String.Escape("-"), ""), " ", ""), "none")
-			if character ~= Wow.GetCharacterName() then
+	for _, factionrealm in private.settingsDB:AccessibleRealmIterator("factionrealm", not private.settings.regionWide) do
+		for _, character in private.settingsDB:AccessibleCharacterIterator(nil, factionrealm) do
+			local realm = gsub(strmatch(factionrealm, "^[^%-]+ %- (.+)$"), "%-", "")
+			character = Ambiguate(gsub(character.."-"..realm, " ", ""), "none")
+			if character ~= SessionInfo.GetCharacterName() then
 				tinsert(private.connectedAlts, character)
 			end
 		end
@@ -66,9 +71,8 @@ end
 function PlayerInfo.CharacterIterator(currentAccountOnly)
 	local result = TempTable.Acquire()
 	for _, _, character, factionrealm in private.settings:AccessibleValueIterator("classKey") do
-		if not currentAccountOnly or Settings.IsCurrentAccountOwner(character, factionrealm) then
-			tinsert(result, character)
-			tinsert(result, factionrealm)
+		if not currentAccountOnly or private.IsLocalAccountOwner(character, factionrealm) then
+			Table.InsertMultiple(result, character, factionrealm)
 		end
 	end
 	return TempTable.Iterator(result, 2)
@@ -83,8 +87,7 @@ function PlayerInfo.GuildIterator(includeIgnored)
 		local ignoreGuilds = private.settings:GetForScopeKey("ignoreGuilds", factionrealm)
 		for guildName in pairs(guildVaults) do
 			if includeIgnored or not ignoreGuilds[guildName] then
-				tinsert(result, guildName)
-				tinsert(result, factionrealm)
+				Table.InsertMultiple(result, guildName, factionrealm)
 			end
 		end
 	end
@@ -116,6 +119,26 @@ function PlayerInfo.IsPlayer(target, includeAlts, includeOtherFaction, includeOt
 	return private.isPlayerCache[cacheKey]
 end
 
+---Checks if an auction owner string contains the player.
+---@param ownerStr string The auction owner string
+---@return boolean
+function PlayerInfo.AuctionOwnerIsPlayer(ownerStr)
+	if private.auctionIsPlayerCache.lastUpdate - GetTime() > 60 then
+		wipe(private.auctionIsPlayerCache)
+		private.auctionIsPlayerCache.lastUpdate = GetTime()
+	end
+	if private.auctionIsPlayerCache[ownerStr] == nil then
+		private.auctionIsPlayerCache[ownerStr] = false
+		for owner in String.SplitIterator(ownerStr, ",") do
+			if PlayerInfo.IsPlayer(owner, true, true, true) then
+				private.auctionIsPlayerCache[ownerStr] = true
+				break
+			end
+		end
+	end
+	return private.auctionIsPlayerCache[ownerStr]
+end
+
 
 
 -- ============================================================================
@@ -137,14 +160,39 @@ function private.IsPlayerHelper(target, includeAlts, includeOtherFaction, includ
 	end
 	if includeAlts then
 		local result = false
-		for _, factionrealm, character in Settings.ConnectedFactionrealmAltCharacterIterator() do
-			local factionKey, realm = strmatch(factionrealm, "(.+) %- (.+)")
-			factionKey = strlower(factionKey)
-			if not result and target == strlower(character).." - "..strlower(realm) and (includeOtherFaction or factionKey == FACTION_LOWER) and (includeOtherAccounts or Settings.IsCurrentAccountOwner(character, factionrealm)) then
-				result = true
+		for _, factionrealm in private.settingsDB:AccessibleRealmIterator("factionrealm", not private.settings.regionWide) do
+			for _, character in private.settingsDB:AccessibleCharacterIterator(nil, factionrealm, true) do
+				local factionKey, realm = strmatch(factionrealm, "(.+) %- (.+)")
+				factionKey = strlower(factionKey)
+				if not result and target == strlower(character).." - "..strlower(realm) and (includeOtherFaction or factionKey == FACTION_LOWER) and (includeOtherAccounts or private.IsLocalAccountOwner(character, factionrealm)) then
+					result = true
+				end
 			end
 		end
 		return result
 	end
 	return false
+end
+
+function private.IsLocalAccountOwner(character, factionrealm)
+	return private.settingsDB:GetOwnerSyncAccountKey(character, factionrealm) == private.settingsDB:GetLocalSyncAccountKey(factionrealm)
+end
+
+function private.HandleGuildNameChange(name)
+	private.settings.characterGuilds[SessionInfo.GetCharacterName()] = name
+	if not name then
+		return
+	end
+
+	-- Clean up any guilds with no players in them
+	local validGuilds = TempTable.Acquire()
+	for _, character in private.settingsDB:AccessibleCharacterIterator(private.settingsDB:GetLocalSyncAccountKey()) do
+		local guild = private.settings.characterGuilds[character]
+		if guild then
+			validGuilds[guild] = true
+		end
+	end
+	Table.FilterValueNotInTable(private.settings.characterGuilds, validGuilds)
+	Table.FilterKeyNotInTable(private.settings.guildVaults, validGuilds)
+	TempTable.Release(validGuilds)
 end

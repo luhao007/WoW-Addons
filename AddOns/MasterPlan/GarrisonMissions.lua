@@ -1,16 +1,12 @@
 local _, T = ...
 if T.Mark ~= 50 then return end
 local EV, G, L = T.Evie, T.Garrison, T.L
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local roamingParty, easyDrop = T.MissionsUI.roamingParty, T.MissionsUI.easyDrop
 local MISSION_PAGE_FRAME = GarrisonMissionFrame.MissionTab.MissionPage
 local SHIP_MISSION_PAGE = GarrisonShipyardFrame.MissionTab.MissionPage
 
-local function HideOwnedGameTooltip(self)
-	if GameTooltip:IsOwned(self) then
-		GameTooltip:Hide()
-	end
-end
 local function HookOnShow(self, OnShow)
 	self:HookScript("OnShow", OnShow)
 	if self:IsVisible() then OnShow(self) end
@@ -62,7 +58,7 @@ do
 					local c = C_CurrencyInfo.GetBasicCurrencyInfo(v.currencyID).icon
 					r = r .. " |T" .. (c or "Interface/Icons/Temp") .. ":0|t"
 				elseif v.itemID then
-					r = r .. " |T" .. GetItemIcon(v.itemID) .. ":0|t"
+					r = r .. " |T" .. C_Item.GetItemIconByID(v.itemID) .. ":0|t"
 				end
 			end
 		end
@@ -79,15 +75,13 @@ do
 				GameTooltip:AddLine("|n|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:-1:512:512:10:70:330:410|t " .. GARRISON_MISSION_ADD_FOLLOWER, 0.5, 0.8, 1)
 			end
 			GameTooltip:Show()
-		elseif GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
+		else
+			T.HideOwnedGameTooltip(self)
 		end
 	end
 	local function FollowerButton_OnLeave(self)
 		GarrisonFollowerTooltip:Hide()
-		if GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
-		end
+		T.HideOwnedGameTooltip(self)
 	end
 	T.RegisterCallback_OnInitializedFrame(GarrisonMissionFrame.FollowerList.ScrollBox, function(f, d)
 		local b, fid = f.Follower, d.follower and d.follower.followerID
@@ -222,22 +216,17 @@ do -- Adding tentatively-used ships to missions
 			end
 		end
 	end
-	local function AddShipToMission(_, fid)
+	local function AddShipToMission(fid)
 		AddToMission(C_Garrison.GetFollowerInfo(fid))
 		GarrisonShipyardFrame.FollowerList:UpdateFollowers()
 	end
-	local origShipMenu = GarrisonShipyardFollowerOptionDropDown.initialize
-	function GarrisonShipyardFollowerOptionDropDown.initialize(self, ...)
-		local fid = self.followerID
+	Menu.ModifyMenu("MENU_GARRISON_SHIP_FOLLOWER", function(owner, rootDescription)
+		local fid = owner.id
 		local tmid = fid and G.GetFollowerTentativeMission(fid)
 		if SHIP_MISSION_PAGE:IsShown() and tmid and SHIP_MISSION_PAGE.missionInfo.missionInfo ~= tmid then
-			local info = UIDropDownMenu_CreateInfo()
-			info.text, info.notCheckable = GARRISON_MISSION_ADD_FOLLOWER, true
-			info.func, info.arg1, info.arg2 = AddShipToMission, fid
-			UIDropDownMenu_AddButton(info)
+			rootDescription:CreateButton(GARRISON_MISSION_ADD_FOLLOWER, AddShipToMission, fid)
 		end
-		return origShipMenu(self, ...)
-	end
+	end)
 end
 local function FollowerList_UpdateShip(btn, _einfo)
 	local mi = SHIP_MISSION_PAGE:IsShown() and SHIP_MISSION_PAGE.missionInfo
@@ -277,7 +266,7 @@ do -- Follower counter button tooltips
 		for i=1,#self.Counters do
 			local self = self.Counters[i]
 			self:SetScript("OnEnter", OnEnter)
-			if self:IsShown() and self:IsMouseOver() and GetMouseFocus() == self then
+			if self:IsShown() and self:IsMouseMotionFocus() then
 				OnEnter(self)
 				break
 			end
@@ -305,7 +294,7 @@ hooksecurefunc(GarrisonMissionFrame, "SetEnemies", function(_, f, enemies)
 				m[i].highlight:SetBlendMode("ADD")
 				m[i]:SetScript("OnClick", Mechanic_OnClick)
 				m[i]:SetScript("OnEnter", Mechanic_OnEnter)
-				m[i]:SetScript("OnLeave", HideOwnedGameTooltip)
+				m[i]:SetScript("OnLeave", T.HideOwnedGameTooltip)
 			end
 			m[i].hasCounter = nil
 			m[i].Check:Hide()
@@ -319,7 +308,7 @@ local function UpdateHover(_, frame)
 		if ol then
 			securecall(ol, frame)
 		end
-		if oe and GetMouseFocus() == frame then
+		if oe and frame:IsMouseMotionFocus() then
 			oe(frame)
 		end
 	end
@@ -373,12 +362,12 @@ local lfgButton do
 		if easyDrop:IsOpen(self) then
 			CloseDropDownMenus()
 		end
-		HideOwnedGameTooltip(self)
+		T.HideOwnedGameTooltip(self)
 	end)
 	lfgButton:SetScript("OnEnter", function(self)
 		easyDrop:DelayOpenClick(self)
 	end)
-	lfgButton:SetScript("OnLeave", HideOwnedGameTooltip)
+	lfgButton:SetScript("OnLeave", T.HideOwnedGameTooltip)
 
 	lfgButton:SetScript("OnClick", function(self)
 		local PAGE_FRAME = self:GetParent():GetParent()
@@ -606,12 +595,19 @@ do -- Counter-follower lists
 			end
 		end
 	end
-	hooksecurefunc(GarrisonMissionMechanicTooltip, "SetParent", function(s)
-		local owner = GetMouseFocus()
-		s:SetOwner(owner, "ANCHOR_NONE")
-		s:ClearAllPoints()
-		s:SetPoint("TOPLEFT", owner, "BOTTOMRIGHT", 5, 0);
-		s:SetText(" ")
+	local function isGarrisonMissionMechanic(self, ctx)
+		if self.info and self.mainFrame == ctx then
+			return true
+		end
+	end
+	hooksecurefunc(GarrisonMissionMechanicTooltip, "SetParent", function(s, p)
+		local owner = T.GetMouseFocus(isGarrisonMissionMechanic, p)
+		if owner then
+			s:SetOwner(owner, "ANCHOR_NONE")
+			s:ClearAllPoints()
+			s:SetPoint("TOPLEFT", owner, "BOTTOMRIGHT", 5, 0);
+			s:SetText(" ")
+		end
 	end)
 	GarrisonMissionMechanicFollowerCounterTooltip:HookScript("OnShow", function(self)
 		local mech = G.GetMechanicInfo(tostring(self.Icon:GetTexture()))
@@ -627,10 +623,12 @@ do -- Counter-follower lists
 	end)
 	local function GarrisonMissionMechanicTooltip_OnShowHook(self)
 		local mech = self:GetParent().CloseMission and G.GetMechanicInfo(tostring(self.Icon:GetTexture()))
+		-- itip's host resizing logic is needed to unbreak the border on e.g. naval operation enemy threat icon tooltips.
+		itip:ActivateFor(self, "TOPLEFT", self.Description, "BOTTOMLEFT", -10, 16)
 		if mech then
-			itip:ActivateFor(self, "TOPLEFT", self.Description, "BOTTOMLEFT", -10, 16)
 			G.SetThreatTooltip(itip, mech, nil, self.missionLevel, nil, true)
-			itip:Show()
+		else
+			itip:SetText(" ")
 		end
 	end
 	GarrisonMissionMechanicTooltip:HookScript("OnShow", GarrisonMissionMechanicTooltip_OnShowHook)
@@ -656,7 +654,7 @@ do -- Mission page rewards
 		if IsModifiedClick("CHATLINK") then
 			local q, text = self.quantity and self.quantity > 1 and self.quantity .. " " or ""
 			if self.itemID then
-				text = select(2, GetItemInfo(self.itemID))
+				text = select(2, C_Item.GetItemInfo(self.itemID))
 				if text then
 					text = q .. text
 				end
@@ -676,23 +674,24 @@ do -- Mission page rewards
 	end)
 end
 
-local function SetFollowerIgnore(_, fid, val)
+local function SetFollowerIgnore(fid, val)
 	MasterPlan:SetFollowerIgnored(fid, val)
 	GarrisonMissionFrame.FollowerList.dirtyList = true
 	GarrisonMissionFrame.FollowerList:UpdateFollowers()
 end
-hooksecurefunc(GarrisonFollowerOptionDropDown, "initialize", function(self)
-	local fi = self.followerID and C_Garrison.GetFollowerInfo(self.followerID)
+local function SetFollowerIgnored(fid)
+	return SetFollowerIgnore(fid, true)
+end
+local function SetFollowerNotIgnored(fid)
+	return SetFollowerIgnore(fid, false)
+end
+Menu.ModifyMenu("MENU_GARRISON_FOLLOWER", function(owner, rootDescription)
+	local fid = owner.id
+	local fi = fid and C_Garrison.GetFollowerInfo(fid)
 	if fi and fi.isCollected then
-		DropDownList1.numButtons = DropDownList1.numButtons - 1
-		
-		local info, ignored = UIDropDownMenu_CreateInfo(), T.config.ignore[fi.followerID]
-		info.text, info.notCheckable = ignored and L"Unignore" or L"Ignore", true
-		info.func, info.arg1, info.arg2 = SetFollowerIgnore, fi.followerID, not ignored
-		UIDropDownMenu_AddButton(info)
-		
-		info.text, info.func = CANCEL
-		UIDropDownMenu_AddButton(info)
+		local ignored = T.config.ignore[fi.followerID]
+		local mut = ignored and SetFollowerNotIgnored or SetFollowerIgnored
+		rootDescription:CreateButton(ignored and L"Unignore" or L"Ignore", mut, fid)
 	end
 end)
 
@@ -725,7 +724,7 @@ do -- Follower headcounts
 		end
 		GameTooltip:Show()
 	end)
-	ff:SetScript("OnLeave", HideOwnedGameTooltip)
+	ff:SetScript("OnLeave", T.HideOwnedGameTooltip)
 	for _, s in pairs({mf:GetRegions()}) do
 		if s:IsObjectType("FontString") and s:GetText() == GARRISON_YOUR_MATERIAL then
 			s:Hide()
@@ -778,7 +777,7 @@ do -- Garrison Resources in shipyard
 		GameTooltip:SetCurrencyByID(GARRISON_CURRENCY)
 		GameTooltip:Show()
 	end)
-	ff:SetScript("OnLeave", HideOwnedGameTooltip)
+	ff:SetScript("OnLeave", T.HideOwnedGameTooltip)
 	for _, s in pairs({mf:GetRegions()}) do
 		if s:IsObjectType("FontString") and s:GetText() == GARRISON_YOUR_MATERIAL then
 			s:Hide()
@@ -841,7 +840,7 @@ do -- Ship re-fitting
 			sContainer:SetHeight(32)
 			sContainer:SetPoint("BOTTOM", 0, 6)
 			local function Equipment_OnClick(self)
-				refit.itemID = self:GetChecked() and GetItemCount(self.itemID) > 0 and self.itemID or nil
+				refit.itemID = self:GetChecked() and C_Item.GetItemCount(self.itemID) > 0 and self.itemID or nil
 				refit:SyncButtonState()
 			end
 			function refit:SyncButtonState()
@@ -859,7 +858,7 @@ do -- Ship re-fitting
 				if self.itemID then
 					GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 6)
 					GameTooltip:SetHyperlink("item:" .. self.itemID)
-					if GetItemCount(self.itemID) == 0 then
+					if C_Item.GetItemCount(self.itemID) == 0 then
 						GameTooltip:AddLine(L"You do not have this in your bags.", 1, 0.3, 0)
 					end
 					GameTooltip:Show()
@@ -906,7 +905,7 @@ do -- Ship re-fitting
 				b:SetPoint("LEFT", 28*i-28, 0)
 				b:SetScript("OnClick", Equipment_OnClick)
 				b:SetScript("OnEnter", ShowMixedTooltip)
-				b:SetScript("OnLeave", HideOwnedGameTooltip)
+				b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 				eq[i] = b
 			end
 			for i=1,6 do
@@ -924,7 +923,7 @@ do -- Ship re-fitting
 				b:SetPoint("LEFT", i*34-34 + math.floor(i/2-0.5)*12, 0)
 				b:SetMotionScriptsWhileDisabled(true)
 				b:SetScript("OnEnter", ShowMixedTooltip)
-				b:SetScript("OnLeave", HideOwnedGameTooltip)
+				b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 				b:SetScript("PreClick", SetUpEquipmentRefit)
 				b:SetScript("PostClick", CompleteEquipmentRefit)
 				T.TenSABT(b)
@@ -935,8 +934,8 @@ do -- Ship re-fitting
 		end
 		local function SetItem(b, id)
 			b.itemID = id
-			b.icon:SetTexture(GetItemIcon(id))
-			b.icon:SetDesaturated(GetItemCount(id) == 0)
+			b.icon:SetTexture(C_Item.GetItemIconByID(id))
+			b.icon:SetDesaturated(C_Item.GetItemCount(id) == 0)
 			b:Show()
 		end
 		local function countTraitThreats(nf, tid)
@@ -1116,10 +1115,11 @@ do
 	EV.CURRENCY_DISPLAY_UPDATE = sync
 	ctlContainer:SetScript("OnShow", sync)
 	ctlContainer:SetScript("OnEnter", function(self)
+		local tl1 = _G[GameTooltip:GetName() .. "TextLeft1"]
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
 		GameTooltip:SetPoint("BOTTOM", self, "TOP")
 		GameTooltip:SetText("!")
-		GameTooltipTextLeft1:SetText("")
+		if tl1 then tl1:SetText("") end
 		for i=1, 2 do
 			local ci = C_CurrencyInfo.GetCurrencyInfo(i == 1 and 1101 or 824)
 			GameTooltip:AddDoubleLine(("|T%s:0:0:0:0:64:64:6:58:6:58|t %s"):format(ci.iconFileID, ci.name), NORMAL_FONT_COLOR_CODE .. BreakUpLargeNumbers(ci.quantity), 1,1,1)
@@ -1144,6 +1144,6 @@ do
 		GameTooltip:AddDoubleLine("|TInterface\\Icons\\Garrison_Build:0:0:0:0:64:64:6:58:6:58|t " .. name, tl, 1,1,1)
 		GameTooltip:Show()
 	end)
-	ctlContainer:SetScript("OnLeave", HideOwnedGameTooltip)
+	ctlContainer:SetScript("OnLeave", T.HideOwnedGameTooltip)
 	ctlContainer:Show()
 end

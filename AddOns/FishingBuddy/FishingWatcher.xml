@@ -10,10 +10,10 @@
     <Frame name="FishingWatchFrame" frameStrata="LOW" toplevel="true" enableMouse="false" clampedToScreen="true" movable="true" parent="UIParent" hidden="true">
 		<Scripts>
 			<OnLoad>
-				FishingBuddy.WatWin.OnLoad(self);
+				FBEnvironment.Watcher_OnLoad(self);
 			</OnLoad>
 			<OnUpdate>
-				FishingBuddy.WatWin.OnUpdate(self, elapsed);
+				FBEnvironment.Watcher_OnUpdate(self, elapsed);
 			</OnUpdate>
 		</Scripts>
 		<Frames>

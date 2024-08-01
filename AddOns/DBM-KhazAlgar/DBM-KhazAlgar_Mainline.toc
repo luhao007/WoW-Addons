@@ -1,0 +1,35 @@
+## Interface: 110000
+## Author: MysticalOS
+## Version: 11.0.2
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+## SavedVariables: DBMWarWithin_AllSavedVars
+## SavedVariablesPerCharacter: DBMWarWithin_SavedStats
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff10ff10World Bosses (War Within)|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0户外|r |cFF22B14C卡兹阿加|r
+
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: WORLDBOSS
+## X-DBM-Mod-Category: WARWITHIN
+## X-DBM-StatTypes: normal
+## X-DBM-Mod-Name: World Bosses (War Within)
+## X-DBM-Mod-Name-koKR: 필드 보스 (내부 전쟁)
+## X-DBM-Mod-Name-ruRU: Мировые боссы (Война Внутри)
+## X-DBM-Mod-World-Boss: 1
+## X-DBM-Mod-Sort: 110
+## X-DBM-Mod-MapID: 2774, 2601
+## X-DBM-Mod-LoadCID: 220999, 221067, 221224, 229334
+## X-DBM-Mod-MinCoreRevision: 17286
+## X-DBM-Mod-MinExpansion: 10
+## X-Part-Of: DBM-Core
+
+localization.en.lua
+localization.kr.lua
+localization.ru.lua
+
+Kordac.lua
+AggregationofHorrors.lua
+Shurrai.lua
+Orta.lua

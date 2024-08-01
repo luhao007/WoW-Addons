@@ -22,18 +22,18 @@
 		<Scripts>
 			<OnClick>
 				<!-- This function will look for global functions with the name of the parent -->
-				FishingMenuButton_OnClick(self);
+				FBEnvironment.FishingMenuButton_OnClick(self);
 			</OnClick>
-		</Scripts>		
+		</Scripts>
 		<ButtonText name="$parentTitleText" inherits="GameFontNormalSmallLeft" justifyH="LEFT" parentKey="text">
             <Anchors>
                 <Anchor point="LEFT" relativeTo="$parentCheck" relativePoint="RIGHT">
                     <Offset x="3" y="0"/>
                 </Anchor>
             </Anchors>
-		</ButtonText>		
-		<HighlightTexture file="Interface\FriendsFrame\UI-FriendsFrame-HighlightBar" alphaMode="ADD"/>	
-	</Button>		
+		</ButtonText>
+		<HighlightTexture file="Interface\FriendsFrame\UI-FriendsFrame-HighlightBar" alphaMode="ADD"/>
+	</Button>
 
 	<Frame name="FishingMenuFrameTemplate" virtual="true">
 		<Layers>
@@ -146,6 +146,13 @@
 								<Offset x="8" y="-12"/>
 							</Anchor>
 						</Anchors>
+						<Layers>
+							<Layer level="BACKGROUND">
+								<Texture name="$parentBG" setAllPoints="true">
+									<Color r="0" g="0" b="0" a="1.0"/>
+								</Texture>
+							</Layer>
+						</Layers>
 					</ScrollFrame>
 				</Frames>
 			</Frame>

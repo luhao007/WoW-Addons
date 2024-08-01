@@ -1,6 +1,4 @@
-local L
-
-L = DBM:GetModLocalization("IsleTimeless")
+local L = DBM:GetModLocalization("IsleTimeless")
 
 L:SetGeneralLocalization({
 	name = "World: Timeless Isle"
@@ -13,8 +11,7 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	specWarnShip	= "Show special warning when Dread Ship Vazuvius is summoned",
-	specWarnGolg	= "Show special warning when Golganarr has spawned",
-	StrictFilter	= "Filter casts from all mobs except for current target/focus"
+	specWarnGolg	= "Show special warning when Golganarr has spawned"
 })
 
 L:SetMiscLocalization({

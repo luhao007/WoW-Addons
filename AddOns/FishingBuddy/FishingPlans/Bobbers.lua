@@ -1,6 +1,9 @@
 -- Bobbers
 --
 -- Handle applying a special bobber to our fishing pole.
+local addonName, FBStorage = ...
+local  FBI = FBStorage
+local FBConstants = FBI.FBConstants;
 
 -- 5.0.4 has a problem with a global "_" (see some for loops below)
 local _
@@ -8,7 +11,7 @@ local _
 local FL = LibStub("LibFishing-1.0");
 
 local CurLoc = GetLocale();
-local PLANS = FishingBuddy.FishingPlans;
+local PLANS = FBI.FishingPlans;
 
 local BOBBER_NONE = -1;
 local BOBBER_ALL = -2;
@@ -23,6 +26,11 @@ local BigBobbers = {}
 BigBobbers[136377] = {
 	["enUS"] = "Oversized Bobber",
 	spell = 207700,
+}
+BigBobbers[202207] = {
+    ["enUS"] = "Reusable Oversized Bobber",
+    spell = 397827,
+    toy = 1,
 }
 
 local Bobbers = {}
@@ -99,8 +107,8 @@ local chosenlist = {};
 local numchosen = 0;
 local bobberkeys = FL:keytable(Bobbers)
 
-local GSB = FishingBuddy.GetSettingBool;
-local GSR = FishingBuddy.GetSetting
+local GSB = function(...) return FBI:GetSettingBool(...); end;
+local GSR = function(...) return FBI:GetSetting(...); end;
 
 local function GetSpecialBobberBuff()
     for id,info in pairs(Bobbers) do
@@ -234,11 +242,11 @@ local InvisibleOptions = {
 
 local BobberEvents = {}
 BobberEvents["VARIABLES_LOADED"] = function(started)
-	FishingBuddy.SetupSpecialItems(BigBobbers, true, true, true)
-    FishingBuddy.SetupSpecialItems(Bobbers, false, true, true)
+	FBI:SetupSpecialItems(BigBobbers, true, true, true)
+    FBI:SetupSpecialItems(Bobbers, false, true, true)
 	PLANS:RegisterPlan(SpecialBobberPlan)
 
-	local FSF = FishingBuddy.FSF
+	local FSF = FBI.FSF
 	local simple = {}
 	tinsert(simple, { ["name"] = NONE, ["setting"] = BOBBERSETTING, ["value"] = BOBBER_NONE, ["none"] = true, ["menutext"] = NONE });
 	tinsert(simple, { ["name"] = ALL, ["setting"] = BOBBERSETTING, ["value"] = BOBBER_ALL, ["all"] = true, ["menutext"] = ALL });
@@ -246,17 +254,17 @@ BobberEvents["VARIABLES_LOADED"] = function(started)
 	local complex = BobberMenuOptions()
 	local scrollmenu = FSF:CreateScrollMenu(MENUNAME, APPLY, simple, complex)
 	local _, name = FL:GetFishingSpellInfo();
-	FishingBuddy.OptionsFrame.HandleOptions(name, "Interface\\Icons\\INV_Fishingpole_02", BobberOptions);
+	FBI.OptionsFrame.HandleOptions(name, "Interface\\Icons\\INV_Fishingpole_02", BobberOptions);
 	local oversize = {}
 	oversize[BigBobbers[136377].setting] = { ["default"] = false }
-	FishingBuddy.OptionsFrame.HandleOptions(nil, nil, oversize);
+	FBI.OptionsFrame.HandleOptions(nil, nil, oversize);
 end
 
-FishingBuddy.RegisterHandlers(BobberEvents);
+FBI:RegisterHandlers(BobberEvents);
 
-if ( FishingBuddy.Debugging ) then
-	FishingBuddy.Commands["bobbers"] = {};
-	FishingBuddy.Commands["bobbers"].func =
+if ( FBI.Debugging ) then
+	FBI.Commands["bobbers"] = {};
+	FBI.Commands["bobbers"].func =
 		function()
 			local baits = {};
 			for _,id in ipairs(bobberkeys) do

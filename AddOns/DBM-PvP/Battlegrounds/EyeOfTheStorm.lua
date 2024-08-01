@@ -1,13 +1,11 @@
-if WOW_PROJECT_ID == (WOW_PROJECT_CLASSIC or 2) then -- Added in TBC
-	return
-end
-local mod	= DBM:NewMod("z566", "DBM-PvP")
+local mod	= DBM:NewMod("z566", "DBM-PvP") -- Added in TBC
 
-mod:SetRevision("20220911171814")
+mod:SetRevision("20240505221847")
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 mod:RegisterEvents(
 	"LOADING_SCREEN_DISABLED",
-	"ZONE_CHANGED_NEW_AREA"
+	"ZONE_CHANGED_NEW_AREA",
+	"PLAYER_ENTERING_WORLD"
 )
 
 do

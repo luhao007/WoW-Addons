@@ -4,14 +4,19 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local Accounting = TSM.MainUI.Settings:NewPackage("Accounting")
-local L = TSM.Include("Locale").GetTable()
-local Log = TSM.Include("Util.Log")
-local UIElements = TSM.Include("UI.UIElements")
-local UIUtils = TSM.Include("UI.UIUtils")
-local private = {}
-local DAYS_OLD_OPTIONS = { 0, 15, 30, 45, 60, 75, 90, 180, 360 }
+local TSM = select(2, ...) ---@type TSM
+local Accounting = TSM.MainUI.Settings:NewPackage("Accounting") ---@type AddonPackage
+local L = TSM.Locale.GetTable()
+local ChatMessage = TSM.LibTSMService:Include("UI.ChatMessage")
+local UIElements = TSM.LibTSMUI:Include("Util.UIElements")
+local UIUtils = TSM.LibTSMUI:Include("Util.UIUtils")
+local private = {
+	settings = nil,
+}
+local SETTING_TOOLTIPS = {
+	trackTrades = L["If enabled, TSM will automatically track trades where a single type of item is exchanged for an amount of gold as a sale or purchase."],
+	autoTrackTrades = L["Disables the confirmation for tracking sales / purchases from trades."],
+}
 
 
 
@@ -19,7 +24,10 @@ local DAYS_OLD_OPTIONS = { 0, 15, 30, 45, 60, 75, 90, 180, 360 }
 -- Module Functions
 -- ============================================================================
 
-function Accounting.OnInitialize()
+function Accounting.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
+		:AddKey("global", "accountingOptions", "trackTrades")
+		:AddKey("global", "accountingOptions", "autoTrackTrades")
 	TSM.MainUI.Settings.RegisterSettingPage(L["Accounting"], "middle", private.GetAccountingSettingsFrame)
 end
 
@@ -42,7 +50,8 @@ function private.GetAccountingSettingsFrame()
 					:SetWidth("AUTO")
 					:SetFont("BODY_BODY2_MEDIUM")
 					:SetText(L["Track Sales / Purchases via trade"])
-					:SetSettingInfo(TSM.db.global.accountingOptions, "trackTrades")
+					:SetSettingInfo(private.settings, "trackTrades")
+					:SetTooltip(SETTING_TOOLTIPS.trackTrades)
 				)
 				:AddChild(UIElements.New("Spacer", "spacer"))
 			)
@@ -53,12 +62,13 @@ function private.GetAccountingSettingsFrame()
 					:SetWidth("AUTO")
 					:SetFont("BODY_BODY2_MEDIUM")
 					:SetText(L["Don't prompt to record trades"])
-					:SetSettingInfo(TSM.db.global.accountingOptions, "autoTrackTrades")
+					:SetSettingInfo(private.settings, "autoTrackTrades")
+					:SetTooltip(SETTING_TOOLTIPS.autoTrackTrades)
 				)
 				:AddChild(UIElements.New("Spacer", "spacer"))
 			)
 		)
-		:AddChild(TSM.MainUI.Settings.CreateExpandableSection("Accounting", "accounting", L["Clear Old Data"], L["You can clear old Accounting data below to keep things running smoothly."])
+		:AddChild(TSM.MainUI.Settings.CreateExpandableSection("Accounting", "accounting", L["Clear Old Data"], L["You can clear old Accounting data for the current realm below to keep things running smoothly."])
 			:AddChild(UIElements.New("Text", "daysOldLabel")
 				:SetHeight(20)
 				:SetMargin(0, 0, 0, 4)
@@ -68,15 +78,15 @@ function private.GetAccountingSettingsFrame()
 			:AddChild(UIElements.New("Frame", "daysOld")
 				:SetLayout("HORIZONTAL")
 				:SetHeight(24)
-				:AddChild(UIElements.New("SelectionDropdown", "dropdown")
+				:AddChild(UIElements.New("Input", "input")
 					:SetMargin(0, 8, 0, 0)
-					:SetHintText(L["None Selected"])
-					:SetItems(DAYS_OLD_OPTIONS)
-					:SetScript("OnSelectionChanged", private.DaysOldDropdownOnSelectionChanged)
+					:SetHintText(L["Number of days"])
+					:SetValidateFunc("NUMBER", "0:10000")
+					:SetValue("365")
+					:SetScript("OnValidationChanged", private.InputOnValidationChanged)
 				)
 				:AddChild(UIElements.New("ActionButton", "clearBtn")
 					:SetWidth(107)
-					:SetDisabled(true)
 					:SetText(L["Clear Data"])
 					:SetScript("OnClick", private.ClearBtnOnClick)
 				)
@@ -90,17 +100,18 @@ end
 -- Local Script Handlers
 -- ============================================================================
 
-function private.DaysOldDropdownOnSelectionChanged(dropdown)
-	dropdown:GetElement("__parent.clearBtn")
-		:SetDisabled(false)
+function private.InputOnValidationChanged(input)
+	input:GetElement("__parent.clearBtn")
+		:SetDisabled(not input:IsValid())
 		:Draw()
 end
 
 function private.ClearBtnOnClick(button)
-	local days = button:GetElement("__parent.dropdown"):GetSelectedItem()
-	button:GetBaseElement():ShowConfirmationDialog(L["Clear Old Data?"], L["Are you sure you want to clear old accounting data?"], private.ClearDataConfirmed, days)
+	local days = tonumber(button:GetElement("__parent.input"):GetValue())
+	local desc = format(L["Are you sure you want to clear accounting data older than %d days for the current realm?"], days)
+	button:GetBaseElement():ShowConfirmationDialog(L["Clear Old Data?"], desc, private.ClearDataConfirmed, days)
 end
 
 function private.ClearDataConfirmed(days)
-	Log.PrintfUser(L["Removed a total of %s old records."], TSM.Accounting.Transactions.RemoveOldData(days) + TSM.Accounting.Money.RemoveOldData(days) + TSM.Accounting.Auctions.RemoveOldData(days))
+	ChatMessage.PrintfUser(L["Removed a total of %s old records."], TSM.Accounting.Transactions.RemoveOldData(days) + TSM.Accounting.Money.RemoveOldData(days) + TSM.Accounting.Auctions.RemoveOldData(days))
 end

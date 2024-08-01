@@ -3,10 +3,11 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,challenge,timewalker"
 
-mod:SetRevision("20211021191526")
+mod:SetRevision("20240517054509")
 mod:SetCreatureID(58722)--58722 is Body, 58791 is soul. Body is engaged first
 mod:SetEncounterID(1429)
 mod:SetReCombatTime(180, 15)
+mod:SetZone(1007)
 
 mod:RegisterCombat("combat")
 mod:RegisterKill("yell", L.Kill)
@@ -26,7 +27,7 @@ local warnFixateAnger		= mod:NewTargetAnnounce(115350, 4)
 local warnReanimateCorpse	= mod:NewSpellAnnounce(114262, 3)
 
 local specWarnDeathsGrasp	= mod:NewSpecialWarningSpell(111570, nil, nil, nil, 2, 2)
-local specWarnDarkBlaze		= mod:NewSpecialWarningGTFO(111585, nil, nil, nil, 1, 2)
+local specWarnDarkBlaze		= mod:NewSpecialWarningGTFO(111585, nil, nil, nil, 1, 8)
 local specWarnFixateAnger	= mod:NewSpecialWarningRun(115350, nil, nil, 2, 4, 2)
 
 local timerShadowShivCD		= mod:NewCDTimer(12.5, 111775, nil, nil, nil, 3)--every 12.5-15.5 sec
@@ -41,10 +42,10 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 111585 and args:IsPlayer() and self:AntiSpam() then
+	if args.spellId == 111585 and args:IsPlayer() and self:AntiSpam(3, 1) then
 		specWarnDarkBlaze:Show()
 		specWarnDarkBlaze:Play("watchfeet")
-	elseif args.spellId == 111649 then--Soul released and body becomes inactive, phase 2.
+	elseif args.spellId == 111649 and self:AntiSpam(3, 2) then--Soul released and body becomes inactive, phase 2.
 		timerShadowShivCD:Cancel()
 		timerDeathsGraspCD:Cancel()
 		warnUnleashedAnguish:Show()
@@ -84,9 +85,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 -- he dies before health 1, so can't use overkill hack.
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, _, _, _, overkill)
-	if spellId == 111628 and destGUID == UnitGUID("player") and self:AntiSpam(2) then
-		specWarnDarkBlaze:Show()
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName, _, _, overkill)
+	if spellId == 111628 and destGUID == UnitGUID("player") and self:AntiSpam(3, 3) then
+		specWarnDarkBlaze:Show(spellName)
+		specWarnDarkBlaze:Play("watchfeet")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

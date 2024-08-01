@@ -9,7 +9,10 @@ local L
 L = DBM:GetModLocalization("d640")
 
 L:SetMiscLocalization({
-	Endless			= "Бесконечный",--Could not find a global for this one.
+	Bronze			= "Бронза",--Blizzard удалила глобальную локализацию из игры, теперь ее нужно делать вручную
+	Silver			= "Серебро",--Blizzard удалила глобальную локализацию из игры, теперь ее нужно делать вручную
+	Gold			= "Золото",--Blizzard удалила глобальную локализацию из игры, теперь ее нужно делать вручную
+	Endless			= "Бесконечный",
 	ReplyWhisper	= "<Deadly Boss Mods> %s занят на арене испытаний (Режим: %s Волна: %d)"
 })
 
@@ -94,3 +97,66 @@ L:SetGeneralLocalization({
 -- Torghast --
 ------------------------
 --L= DBM:GetModLocalization("d1963")
+
+------------------------
+-- Path of Ascension (Shadowlands)
+------------------------
+L = DBM:GetModLocalization("Echthra")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Эктра"
+}
+
+L = DBM:GetModLocalization("Nuuminuuru")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Нууминууру"
+}
+
+L = DBM:GetModLocalization("Splinterbark")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Изломанный кошмар"
+}
+
+L = DBM:GetModLocalization("CravenCorinth")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Малодушный Коринф"
+}
+
+L = DBM:GetModLocalization("Kalisthene")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Калисфена"
+}
+
+L = DBM:GetModLocalization("AlderynandMynir")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Альдерин и Мин'ир"
+}
+
+L = DBM:GetModLocalization("MadMortimer")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Безумный Мортимер"
+}
+
+L = DBM:GetModLocalization("Thrantiok")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Тран'тиок"
+}
+
+L = DBM:GetModLocalization("Athanos")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Атанос"
+}
+
+L = DBM:GetModLocalization("Azaruux")
+
+L:SetGeneralLocalization{
+	name = "Арена Кирий: Азаруукс"
+}

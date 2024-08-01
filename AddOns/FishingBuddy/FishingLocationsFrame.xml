@@ -177,10 +177,10 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						FishingBuddy.Locations.SwitchDisplay();
+						FBEnvironment.Locations_SwitchDisplay();
 					</OnClick>
 					<OnEnter>
-						FishingBuddy.Locations.SwitchButton_OnEnter();
+						FBEnvironment.SwitchButton_OnEnter();
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide();
@@ -202,7 +202,7 @@
 				</HitRectInsets>
 				<Scripts>
 					<OnClick>
-						FishingLocationsCollapseAllButton_OnClick()
+						FBEnvironment.CollapseAllButton_OnClick()
 					</OnClick>
 				</Scripts>
 				<NormalTexture file="Interface\Buttons\UI-MinusButton-UP">
@@ -291,13 +291,13 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				FishingBuddy.Locations.OnLoad(self);
+				FBEnvironment.Locations_OnLoad(self);
 			</OnLoad>
 			<OnEvent>
-				FishingBuddy.Locations.OnEvent(self, event, ...);
+				FBEnvironment.Locations_OnEvent(self, event, ...);
 			</OnEvent>
 			<OnShow>
-				FishingBuddy.Locations.OnShow(self);
+				FBEnvironment.Locations_OnShow(self);
 			</OnShow>
 			<OnMouseWheel>
 				-- FishingLocationsFrame_OnMouseWheel(self, arg1);

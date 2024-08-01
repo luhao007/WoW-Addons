@@ -5,7 +5,7 @@
 GTFO Spell List - Battle for Azeroth
 ]]--
 
-if (not (GTFO.ClassicMode or GTFO.BurningCrusadeMode or GTFO.WrathMode)) then
+if (GTFO.RetailMode) then
 
 --- ******************************
 --- * Battle for Azeroth (World) *
@@ -399,6 +399,33 @@ GTFO.SpellID["314432"] = {
   sound = 1;
 };
 
+GTFO.SpellID["272455"] = {
+  --desc = "Conductive Blades (Warlord Zothix)";
+  sound = 1;
+};
+
+GTFO.SpellID["270685"] = {
+  --desc = "Resonance (Azerite Shard)";
+  sound = 1;
+};
+
+GTFO.SpellID["303800"] = {
+  --desc = "Oppressive Blast (HK-8 Aerial Oppression Unit)";
+  sound = 1;
+};
+
+GTFO.SpellID["313303"] = {
+  --desc = "Burned Bridge";
+  ignoreApplication = true;
+  sound = 2;
+};
+
+GTFO.SpellID["270012"] = {
+  --desc = "Defense Barrage";
+  sound = 1;
+};
+
+
 -- ***********************
 -- * Shrine of the Storm *
 -- ***********************
@@ -487,11 +514,6 @@ GTFO.SpellID["256552"] = {
 
 GTFO.SpellID["256546"] = {
   --desc = "Shark Tornado (Trothak)";
-  sound = 1;
-};
-
-GTFO.SpellID["257737"] = {
-  --desc = "Thundering Squall (Irontide Stormcaller)";
   sound = 1;
 };
 
@@ -990,6 +1012,12 @@ GTFO.SpellID["287876"] = {
 -- ***********************
 -- * Operation: Mechagon *
 -- ***********************
+
+GTFO.SpellID["303313"] = {
+  --desc = "Exiting Mission Area";
+  applicationOnly = true;
+  sound = 1;
+};
 
 GTFO.SpellID["302384"] = {
   --desc = "Static Discharge (HK-8 Aerial Oppression Unit)";

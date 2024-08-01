@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
 
-mod:SetRevision("20221225234319")
+mod:SetRevision("20231117105343")
 mod:SetCreatureID(76407)
 mod:SetEncounterID(1682)
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
@@ -22,11 +23,10 @@ ability.id = 154442 and type = "begincast"
  or type = "dungeonencounterstart" or type = "dungeonencounterend"
 --]]
 --TODO, 154350 is not firing spell summmon anymore in 10.0.2 M+ version, Omen of Death moved to USCS but target scan needs to be rechecked as well
-local warnOmenOfDeath			= mod:NewTargetAnnounce(154350, 3)
+local warnOmenOfDeath			= mod:NewTargetNoFilterAnnounce(154350, 3)
 
 local specWarnRitualOfBones		= mod:NewSpecialWarningSpell(154671, nil, nil, nil, 2, 2)
 local specWarnOmenOfDeath		= mod:NewSpecialWarningMove(154350, nil, nil, nil, 1, 2)
-local specWarnOmenOfDeathNear	= mod:NewSpecialWarningClose(154350, nil, nil, nil, 1, 2)
 local yellOmenOfDeath			= mod:NewYell(154350)
 local specWarnMalevolence		= mod:NewSpecialWarningDodge(154442, nil, nil, nil, 2, 2)
 
@@ -39,9 +39,6 @@ function mod:OmenOfDeathTarget(targetname, uId)
 		specWarnOmenOfDeath:Show()
 		specWarnOmenOfDeath:Play("runaway")
 		yellOmenOfDeath:Yell()
-	elseif self:CheckNearby(8, targetname) then
-		specWarnOmenOfDeathNear:Show(targetname)
-		specWarnOmenOfDeathNear:Play("watchstep")
 	else
 		warnOmenOfDeath:Show(targetname)
 	end

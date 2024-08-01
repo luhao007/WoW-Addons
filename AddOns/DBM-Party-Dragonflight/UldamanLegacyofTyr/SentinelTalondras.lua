@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod(2484, "DBM-Party-Dragonflight", 2, 1197)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230117042742")
+mod:SetRevision("20240601044955")
 mod:SetCreatureID(184124)
 mod:SetEncounterID(2557)
 mod:SetUsedIcons(1, 2, 3)
 --mod:SetHotfixNoticeRev(20220322000000)
 --mod:SetMinSyncRevision(20211203000000)
 --mod.respawnTime = 29
+mod.sendMainBossGUID = true
 
 mod:RegisterCombat("combat")
 
@@ -15,19 +16,15 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 372719 372600 372623 372701",
 	"SPELL_CAST_SUCCESS 372718",
 	"SPELL_AURA_APPLIED 382071 372718",
---	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED 382071 372600"
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
---	"UNIT_SPELLCAST_SUCCEEDED boss1"
+	"SPELL_AURA_REMOVED 382071 372600",
+	"UNIT_POWER_UPDATE"
 )
 
---TODO, proper detection of enery resets (Inexorable) to add timer update code for titanic empowerment
---TODO, proper timer updates for when boss is stunned or reset if it's deem worth the time (it probably won't be)
+--TODO, review current solution is good enough. there are more elaborate ones but they may not be needed for most part except for niche cases.
 --[[
 (ability.id = 372719 or ability.id = 372600 or ability.id = 372623 or ability.id = 372701) and type = "begincast"
  or ability.id = 372718 and type = "cast"
- or ability.id = 372600 or ability.id = 372652
+ or ability.id = 372600 or ability.id = 372652 and target.id = 184124
  or type = "dungeonencounterstart" or type = "dungeonencounterend"
 --]]
 local warnInexorable							= mod:NewSpellAnnounce(372600, 2)
@@ -39,37 +36,27 @@ local specWarnTitanicEmpowerment				= mod:NewSpecialWarningSpell(372719, nil, ni
 local specWarnResonatingOrb						= mod:NewSpecialWarningYouPos(382071, nil, nil, nil, 1, 2)
 local yellResonatingOrb							= mod:NewShortPosYell(382071)
 local yellResonatingOrbFades					= mod:NewIconFadesYell(382071)
-local specWarnCrushingStomp						= mod:NewSpecialWarningSpell(372701, nil, nil, nil, 2, 2)
---local specWarnGTFO							= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
+local specWarnCrushingStomp						= mod:NewSpecialWarningCount(372701, nil, nil, nil, 2, 2)
 
---local timerTitanicEmpowermentCD					= mod:NewAITimer(35, 372719, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
-local timerResonatingOrbCD						= mod:NewCDTimer(26.4, 382071, nil, nil, nil, 3, nil, nil, true)--25-30ish
-local timerCrushingStompCD						= mod:NewCDTimer(12.1, 372701, nil, nil, nil, 2, nil, nil, true)
-local timerEarthenShardsCD						= mod:NewCDTimer(9.3, 372718, nil, nil, nil, 3, nil, DBM_COMMON_L.BLEED_ICON, true)
+local timerTitanicEmpowermentCD					= mod:NewCDTimer(35, 372719, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerResonatingOrbCD						= mod:NewCDTimer(25.6, 382071, nil, nil, nil, 3, nil, nil, true)--25-30ish
+local timerCrushingStompCD						= mod:NewCDCountTimer(12.1, 372701, nil, nil, nil, 2, nil, nil, true)
+local timerEarthenShardsCD						= mod:NewCDTimer(6, 372718, nil, nil, nil, 3, nil, DBM_COMMON_L.BLEED_ICON, true)
 
---local berserkTimer							= mod:NewBerserkTimer(600)
-
---mod:AddRangeFrameOption("8")
---mod:AddInfoFrameOption(361651, true)
-mod:AddSetIconOption("SetIconOnOrb", 382071, true, false, {1, 2, 3})
+mod:AddSetIconOption("SetIconOnOrb", 382071, true, 0, {1, 2, 3})
 
 mod.vb.orbIcon = 1
+mod.vb.stompCount = 0
 
 function mod:OnCombatStart(delay)
---	timerTitanicEmpowermentCD:Start(1-delay)
+	self.vb.stompCount = 0
 --	timerResonatingOrbCD:Start(1-delay)--Instantly on pull
 	timerEarthenShardsCD:Start(4.5-delay)
-	timerCrushingStompCD:Start(8.1-delay)
+	timerCrushingStompCD:Start(5.1-delay, 1)
+	if not self:IsMythic() then
+		timerTitanicEmpowermentCD:Start(25.4-delay)
+	end
 end
-
---function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
---	if self.Options.InfoFrame then
---		DBM.InfoFrame:Hide()
---	end
---end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -78,15 +65,18 @@ function mod:SPELL_CAST_START(args)
 		specWarnTitanicEmpowerment:Play("specialsoon")
 	elseif spellId == 372600 then
 		warnInexorable:Show()
---		timerTitanicEmpowermentCD:Stop()
---		timerTitanicEmpowermentCD:Start(2)
+		if not self:IsNormal() then
+			timerTitanicEmpowermentCD:Stop()
+			timerTitanicEmpowermentCD:Start(25)
+		end
 	elseif spellId == 372623 then
 		self.vb.orbIcon = 1
 		timerResonatingOrbCD:Start()
 	elseif spellId == 372701 then
-		specWarnCrushingStomp:Show()
+		self.vb.stompCount = self.vb.stompCount + 1
+		specWarnCrushingStomp:Show(self.vb.stompCount)
 		specWarnCrushingStomp:Play("carefly")
-		timerCrushingStompCD:Start()
+		timerCrushingStompCD:Start(nil, self.vb.stompCount+1)
 	end
 end
 
@@ -116,7 +106,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEarthenShards:CombinedShow(0.3, args.destName)--TODO: Don't combo if it's never more than 1
 	end
 end
---mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -132,18 +121,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 340324 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show(spellName)
-		specWarnGTFO:Play("watchfeet")
+function mod:UNIT_POWER_UPDATE()
+	local bossPower = UnitPower("boss1")
+	if self.vb.flightActive and bossPower == 0 then--Boss power reset
+		timerTitanicEmpowermentCD:Stop()
 	end
 end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 353193 then
-
-	end
-end
---]]

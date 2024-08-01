@@ -138,9 +138,9 @@ local function on_scenario_criteria_update()
     return
   end
 
-  local _, _, _, _, final_value, _, _, quantity = C_Scenario.GetCriteriaInfo(steps)
-  local quantity_number = string.sub(quantity, 1, string.len(quantity) - 1)
-  quantity_number = tonumber(quantity_number)
+  local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(steps)
+  local final_value = criteriaInfo.totalQuantity
+  local quantity_number = criteriaInfo.quantity
 
   if quantity_number == nil then
     return
@@ -173,6 +173,11 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------
 local function on_tooltip_set_unit(tooltip)
+  -- :OnlyPercentValue
+  if true then
+    return 
+  end
+
   -- check if the tooltip is the GameTooltip, ignore all other
   if tooltip ~= GameTooltip then
     return
@@ -219,7 +224,8 @@ local function on_tooltip_set_unit(tooltip)
     return
   end
 
-  local _, _, _, _, final_value = C_Scenario.GetCriteriaInfo(steps)
+  local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(steps)
+  local final_value = criteriaInfo.totalQuantity
   local quantity_percent = (value / final_value) * 100
   local mult = 10 ^ 2
   quantity_percent = math.floor(quantity_percent * mult + 0.5) / mult
@@ -228,7 +234,7 @@ local function on_tooltip_set_unit(tooltip)
   end
 
   -- create tooltip info
-  local name = C_Scenario.GetCriteriaInfo(steps)
+  local name = criteriaInfo.description
 
   local text = ""
   if addon.c("show_percent_numbers") then
@@ -289,7 +295,8 @@ local function on_unit_threat_list_update(unit)
     return
   end
 
-  local _, _, _, _, final_value = C_Scenario.GetCriteriaInfo(steps)
+  local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(steps)
+  local final_value = criteriaInfo.totalQuantity
 
   local value = progress.resolve_npc_progress_value(npc_id, current_run.is_teeming)
   if value and value ~= 0 then
@@ -363,7 +370,7 @@ end
 -- Enable
 function progress:enable()
   -- register events
-  addon.register_event("COMBAT_LOG_EVENT_UNFILTERED", on_combat_log_event_unfiltered)
+  -- addon.register_event("COMBAT_LOG_EVENT_UNFILTERED", on_combat_log_event_unfiltered) :OnlyPercentValue
   addon.register_event("SCENARIO_CRITERIA_UPDATE", on_scenario_criteria_update)
   addon.register_event("UNIT_THREAT_LIST_UPDATE", on_unit_threat_list_update)
   addon.register_event("ENCOUNTER_END", on_combat_end)

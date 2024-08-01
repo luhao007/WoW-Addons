@@ -24,23 +24,9 @@ local ResearchBranchMap = {
 	[424] = ARCHAEOLOGY_RACE_DRUSTVARI, -- Drust
 };
 
--- uiMapIDs for continents [uiMapID] = internalContID
-local MinArchContIDMap = {
-	[12] = 1, -- Kalimdor
-	[13] = 2, -- EK
-	[101] = 3, -- Outland
-	[113] = 4, -- Northrend
-	[948] = 5, -- Maelstrom
-	[424] = 6, -- Pandaria
-	[572] = 7, -- Draenor
-	[619] = 8, -- Broken Isles
-	[876] = 9, -- Kul Tiras
-	[875] = 10, -- Zandalar
-};
-
 local MinArchContinentRaces = {
 	[1] = {ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}, -- Kalimdor
-	[2] = {ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}, -- EK
+	[2] = {ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF, ARCHAEOLOGY_RACE_NERUBIAN}, -- EK
 	[3] = {ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI}, -- Outland
 	[4] = {ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_TROLL}, -- Northrend
 	[5] = {}, -- Maelstrom
@@ -58,8 +44,9 @@ local MinArchAlternateContIDMap = {
 	[1011] = 10, -- Zandalar Flight map
 }
 
-function MinArch:CommonFrameLoad(self)
-    self:SetBackdrop({
+function MinArch:CommonFrameLoad(self, movable)
+	movable = movable or self
+	self:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         tile = true,
@@ -71,10 +58,10 @@ function MinArch:CommonFrameLoad(self)
 
     self:RegisterForDrag("LeftButton");
     self:SetScript("OnDragStart", function(self, button)
-		MinArch:CommonFrameDragStart(self, button);
+		MinArch:CommonFrameDragStart(movable, button);
     end)
     self:SetScript("OnDragStop", function(self)
-		MinArch:CommonFrameDragStop(self);
+		MinArch:CommonFrameDragStop(movable);
     end)
 end
 
@@ -111,8 +98,8 @@ function MinArch:CreateAutoWaypointButton(parent, x, y)
         if (button == "LeftButton") then
             MinArch:SetWayToNearestDigsite()
         elseif (button == "RightButton") then
-            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
-		    InterfaceOptionsFrame_OpenToCategory(MinArch.Options.TomTomSettings);
+            InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
+		    InterfaceOptionsFrame_OpenToCategory(MinArch.Options.menu);
         end
 	end)
 
@@ -202,7 +189,7 @@ function MinArch:DisplayStatusMessage(message, msgtype)
 	end
 
 	if (msgtype == MINARCH_MSG_DEBUG and MinArch.db.profile.showDebugMessages == true) then
-		ChatFrame1:AddMessage(message);
+		ChatFrame1:AddMessage('MinArch DEBUG: ' .. message);
 	end
 end
 
@@ -248,6 +235,36 @@ function MinArch:IsRaceRelevant(raceID)
 	return false;
 end
 
+function MinArch:CanCast()
+    -- Prevent casting in combat
+    if (InCombatLockdown()) then
+        MinArch:DisplayStatusMessage('Can\'t cast: combat lockdown', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    -- Check general conditions
+    if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+        MinArch:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    -- Check custom conditions (mounted, flying)
+    if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - mounted', MINARCH_MSG_DEBUG)
+        return false;
+    end
+    if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
+        return false;
+    end
+	if GetNumLootItems() ~= 0 then
+		MinArch:DisplayStatusMessage('Can\'t cast while looting', MINARCH_MSG_DEBUG)
+		return false
+	end
+
+    return true;
+end
+
 function MinArch:LoadRaceInfo()
 	for i = 1, ARCHAEOLOGY_NUM_RACES do
 		local name, t = GetArchaeologyRaceInfo(i);
@@ -274,14 +291,19 @@ function MinArch:ShowWindowButtonTooltip(button, text)
 end
 
 function MinArch:TestForMissingDigsites()
-	for k, v in pairs(MinArch.DigsiteLocales.enGB) do
+	-- temporarily disabled
+	if true then
+		return;
+	end
+
+	for k, v in pairs(MinArch.DigsiteLocales.enUS) do
 		if (MinArchDigsiteList[k] == nil) then
 			print("Missing race for: " .. k);
 		end
 	end
 
 	for k, v in pairs(MinArchDigsiteList) do
-		if (MinArch.DigsiteLocales.enGB[k] == nil) then
+		if (MinArch.DigsiteLocales.enUS[k] == nil) then
 			print("Missing translation for: " .. k);
 		end
 	end
@@ -309,6 +331,6 @@ end
 function MinArch_ShowUIPanel(...)
 	local panel = ...;
 	if (panel and panel:GetName() == "ArchaeologyFrame") then
-		MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	end
 end

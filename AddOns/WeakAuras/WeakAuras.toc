@@ -1,10 +1,11 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: The WeakAuras Team
-## Version: 5.3.6
-## OptionalDeps: Ace3, LibCompress, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, Masque, GTFO, LibButtonGlow-1.0, LibSpellRange-1.0, LibRangeCheck-2.0, LibDBIcon-1.0, LibClassicDurations, LibClassicCasterino, LibGetFrame-1.0, LibSpecialization, !LibUIDropDownMenu
+## Version: 5.15.4
+## OptionalDeps: Ace3, LibCompress, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, Masque, GTFO, LibButtonGlow-1.0, LibSpellRange-1.0, LibRangeCheck-3.0, LibDBIcon-1.0, LibGetFrame-1.0, LibSpecialization, !LibUIDropDownMenu, !!AddonLocale, CustomNames, BigWigs, DBM-Core
 ## LoadOnDemand: 0
 ## SavedVariables: WeakAurasSaved
 ## DefaultState: Enabled
+## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
 
 ## Title: WeakAuras
 ## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.
@@ -21,17 +22,25 @@
 # External code + initialization
 embeds.xml
 
+# TaintLess
+Libs\TaintLess\TaintLess.xml
+
 # Client flavor specific libs
 Init.lua
+Compatibility.lua
 locales.xml
 ArchiveTypes\Repository.lua
 DefaultOptions.lua
 
 # Core files
+SubscribableObject.lua
+Features.lua
+Atlas_Retail.lua
 Types_Retail.lua
 Types.lua
 Prototypes.lua
 Profiling.lua
+Profiling.xml
 WeakAuras.lua
 History.lua
 Transmission.lua
@@ -44,6 +53,7 @@ AnchorToWeakAuras.lua
 LibSpecializationWrapper.lua
 BuffTrigger2.lua
 GenericTrigger.lua
+BossMods.lua
 
 # Helper Systems
 AuraWarnings.lua
@@ -51,9 +61,9 @@ AuraEnvironment.lua
 AuraEnvironmentWrappedSystems.lua
 DebugLog.lua
 Dragonriding.lua
-SubscribableObject.lua
 
 # Region support
+RegionTypes\SmoothStatusBarMixin.lua
 RegionTypes\RegionPrototype.lua
 RegionTypes\ProgressTexture.lua
 RegionTypes\Texture.lua

@@ -15,7 +15,6 @@ function DataBroker:OnInitialize()
     local BrokerObject = LDB:NewDataObject('MeetingStone', {
         type = 'data source',
         icon = ADDON_LOGO,
-
         OnEnter = function(owner)
             local anchor = owner:GetBottom() < GetScreenHeight() / 2 and 'ANCHOR_TOP' or 'ANCHOR_BOTTOM'
             GameTooltip:SetOwner(owner, anchor)
@@ -142,7 +141,7 @@ function DataBroker:MEETINGSTONE_SETTING_CHANGED(_, key, value, onUser)
         --     Addon:DisableModule('Misc')
         -- end
         -- IgnoreList_Update()
-    end
+	end
 end
 
 function DataBroker:MEETINGSTONE_NEW_VERSION(_, _, _, isSupport)
@@ -213,15 +212,15 @@ local flashs = {
         end,
         panel = ApplicantPanel,
     },
-    {
-        flash = function()
-            return App:IsFirstLogin() or App:HasNewFollower()
-        end,
-        shown = function()
-            return AppFollowQueryPanel and AppFollowQueryPanel:IsVisible()
-        end,
-        panel = AppParent,
-    },
+    -- {
+        -- flash = function()
+            -- return App:IsFirstLogin() or App:HasNewFollower()
+        -- end,
+        -- shown = function()
+            -- return AppFollowQueryPanel and AppFollowQueryPanel:IsVisible()
+        -- end,
+        -- panel = AppParent,
+    -- },
     {
         flash = function()
             return DataCache:GetObject('AnnList'):IsNew()
@@ -255,10 +254,26 @@ function DataBroker:UpdateFlash()
 end
 
 function DataBroker:SetMinimapButtonGlow(enable)
-    QueueStatusMinimapButton_SetGlowLock(QueueStatusMinimapButton, 'lfglist-applicant', enable)
+    -- QueueStatusMinimapButton_SetGlowLock(QueueStatusMinimapButton, 'lfglist-applicant', enable)
+	QueueStatusButton:SetGlowLock("lfglist-applicant", enable);
 end
 
-local org_OnLoop = QueueStatusMinimapButton.EyeHighlightAnim:GetScript('OnLoop')
+-- local org_OnLoop = QueueStatusButton.EyeHighlightAnim:GetScript('OnLoop')
+-- -- 20220607 重绑 OnLoop,使小地图提示音从主声道发出
+-- function DataBroker:SetMinimapButtonSound(enable)
+ -- if enable then
+	 -- QueueStatusButton.EyeHighlightAnim:SetScript("OnLoop", function()
+		 -- if ( QueueStatusMinimapButton_OnGlowPulse(QueueStatusButton) ) then
+						 -- PlaySound(SOUNDKIT.UI_GROUP_FINDER_RECEIVE_APPLICATION,'Master');
+					 -- end
+	 -- end)
+ -- else
+	 -- QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', nil)
+ -- end
+    -- --QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
+-- end
+
+local org_OnLoop = QueueStatusButton.EyeHighlightAnim:GetScript('OnLoop')
 function DataBroker:SetMinimapButtonSound(enable)
-    QueueStatusMinimapButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
+    QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
 end

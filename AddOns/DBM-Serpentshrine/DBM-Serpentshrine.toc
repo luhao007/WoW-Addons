@@ -1,4 +1,4 @@
-## Interface: 100002
+## Interface: 110000
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMSerpentshrine_AllSavedVars

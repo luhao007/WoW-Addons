@@ -1,120 +1,115 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: Gello
-## Version: 4.14.12
-## SavedVariables: RematchSaved, RematchSettings
+## Version: 5.2.2
+## SavedVariables: Rematch5Settings, Rematch5SavedTeams, Rematch5SavedGroups, Rematch5SavedTargets, Rematch4Saved, Rematch4Settings, RematchSaved, RematchSettings
+## IconTexture: Interface\AddOns\Rematch\textures\icon
 
 ## Title: Rematch
-## Notes: A pet journal alternative for managing pets and teams.
+## Notes: A pet journal alternative for managing pets and teams
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00ARematch|r
 
-## X-WoWI-ID: 22190
-## X-Wago-ID: e56nOpK9
-## X-Curse-Project-ID: 66047
 
-Localization\Rematch deDE.lua
-Localization\Rematch zhTW.lua
-Localization\Rematch koKR.lua
-Localization\Rematch zhCN.lua
-Localization\Rematch frFR.lua
-Localization\Rematch ruRU.lua
-Localization\Rematch esES.lua
-Localization\Rematch esMX.lua
+localization\localization.lua
+localization\localization-zhTW.lua
 
-Main.lua
-Templates.xml
-Utils.lua
+main\constants.lua
+main\events.lua
+main\main.lua
+main\slash.lua
 
-Widgets\AutoScrollFrame.xml
-Widgets\CompositeButton.xml
-# Widgets\ListButton.xml
-Widgets\PetListButtons.xml
-Widgets\PetListButtons.lua
-Widgets\Toolbar.xml
-Widgets\Toolbar.lua
-Widgets\MinimapButton.lua
-Widgets\PanelTabTemplate.xml
-Widgets\PanelTabs.xml
-Widgets\PanelTabs.lua
-Widgets\TextureHighlight.lua
+savedvars\settings.lua
+savedvars\savedTeams.lua
+savedvars\savedGroups.lua
+savedvars\savedTargets.lua
+savedvars\convert.lua
 
-Process\ODTables.lua
-Process\PetInfo.lua
-Process\TeamInfo.lua
-Process\PetTag.lua
-Process\PetLoading.lua
-Process\Roster.lua
-Process\Filters.lua
-Process\PetList.lua
-Process\QueueProcess.lua
-Process\Sanctuary.lua
-Process\TeamStrings.lua
-Process\SpecialSlots.lua
+utils\utils.lua
+utils\debug.lua
+utils\timer.lua
+utils\odTable.lua
+utils\textureDrag.lua
 
-Menus\Menu.xml
-Menus\Menu.lua
-Menus\TeamMenus.lua
-Menus\PetMenus.lua
-Menus\TargetData.lua
-Menus\TargetMenus.lua
+info\petInfo.lua
+info\speciesInfo.lua
+info\breedInfo.lua
+info\collectionInfo.lua
+info\targetData.lua
+info\targetInfo.lua
+info\allIcons.lua
 
-Dialogs\Dialog.xml
-Dialogs\Dialog.lua
+templates\templates.xml
+templates\autoScrollBox.xml
+templates\dropdown.xml
+templates\fillMixins.lua
+templates\petListButton.xml
+templates\teamListButton.xml
+utils\textureHighlight.lua
 
-# Cards\CardManager.lua
-# Cards\CardManager.xml
-Cards\PetCard.xml
-Cards\PetCard.lua
-Cards\AbilityCard.xml
-Cards\AbilityCard.lua
-Cards\Notes.xml
-Cards\Notes.lua
-Cards\WinRecord.xml
-Cards\WinRecord.lua
+roster\roster.lua
+roster\filters.lua
+roster\sort.lua
 
-Panels\PetPanel.xml
-Panels\PetPanel.lua
-Panels\LoadoutPanel.xml
-Panels\LoadoutPanel.lua
-Panels\TeamPanel.xml
-Panels\TeamPanel.lua
-Panels\QueuePanel.xml
-Panels\QueuePanel.lua
-Panels\MiniQueue.xml
-Panels\MiniQueue.lua
-Panels\MiniPanel.xml
-Panels\MiniPanel.lua
-Panels\OptionPanel.xml
-Panels\OptionPanel.lua
-Panels\OptionList.lua
-Panels\TargetPanel.xml
-Panels\TargetPanel.lua
+layout\frame.xml
+layout\layout.lua
+layout\definitions.lua
+layout\journal.lua
 
-Widgets\BottomPanel.xml
-Widgets\BottomPanel.lua
-Widgets\TeamTabs.xml
-Widgets\TeamTabs.lua
-Widgets\TeamTabIcons.lua
-Widgets\LoadedTeamPanel.xml
-Widgets\LoadedTeamPanel.lua
+chrome\chromeMixins.lua
+chrome\bottombar.xml
+chrome\panelTabs.xml
+chrome\titlebar.xml
+chrome\toolbarButtons.xml
+chrome\toolbar.xml
+chrome\teamTabs.xml
+chrome\minimap.xml
 
-Dialogs\Save.xml
-Dialogs\Save.lua
-Dialogs\Preferences.xml
-Dialogs\Preferences.lua
-Dialogs\Sideline.lua
-Dialogs\Share.xml
-Dialogs\Share.lua
-Dialogs\Tooltip.xml
-Dialogs\Tooltip.lua
-Dialogs\ScriptFilter.xml
-Dialogs\ScriptFilter.lua
-Dialogs\Collection.xml
-Dialogs\Collection.lua
+panels\loadedTargetPanel.xml
+panels\loadedTeamPanel.xml
+panels\loadoutPanelMixins.lua
+panels\loadoutPanel.xml
+panels\miniLoadoutPanel.xml
+panels\optionsList.lua
+panels\optionsPanel.xml
+panels\petsPanel.xml
+panels\queuePanel.xml
+panels\targetsPanel.xml
+panels\teamsPanel.xml
 
-Frames\Frame.xml
-Frames\Frame.lua
-Frames\Configure.lua
-Frames\Journal.xml
-Frames\Journal.lua
+menus\menus.xml
+menus\petFilterMenu.lua
+menus\petMenu.lua
+menus\targetMenu.lua
+menus\teamMenu.lua
+menus\loadoutMenu.lua
+menus\queueMenu.lua
 
-Process\Battle.lua
+dialogs\dialog.xml
+dialogs\scriptFilter.xml
+dialogs\saveDialog.lua
+dialogs\importDialog.lua
+dialogs\summaryDialog.lua
+
+tooltips\tooltipManager.lua
+tooltips\tooltip.xml
+tooltips\abilityTooltip.xml
+
+cards\cardManager.lua
+cards\petCard.xml
+cards\notes.xml
+
+process\petTags.lua
+process\dragFrame.xml
+process\loadTeam.lua
+process\preferences.lua
+process\loadouts.lua
+process\randomPets.lua
+process\queue.lua
+process\toast.xml
+process\teamStrings.lua
+process\interact.lua
+process\winrecord.lua
+process\battle.lua
+process\rebuild.lua
+process\send.lua
+process\petHerder.lua
+process\badges.lua

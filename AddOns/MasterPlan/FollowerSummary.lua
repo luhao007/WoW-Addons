@@ -1,6 +1,7 @@
 local _, T = ...
 if T.Mark ~= 50 then return end
 local G, L, EV = T.Garrison, T.L, T.Evie
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local summaryTab = CreateFrame("Frame", nil, GarrisonMissionFrame, "GarrisonMissionBaseFrameTemplate") do
 	summaryTab:Hide()
@@ -65,9 +66,7 @@ local matrix = CreateFrame("Frame", nil, summaryTab) do
 		self.goal, self.elapsed = nil
 		self.bg:SetSize(14, 14)
 		self.text:SetAlpha(0)
-		if GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
-		end
+		T.HideOwnedGameTooltip(self)
 	end
 	local function MB_OnEnter(self, _, skipTooltip)
 		local id = self:GetID()
@@ -93,9 +92,7 @@ local matrix = CreateFrame("Frame", nil, summaryTab) do
 		self.start, self.goal, self.elapsed = self.bg:GetWidth(), 14, 0
 		self:SetScript("OnUpdate", MB_Animate)
 		self:SetScript("OnHide", MB_OnHide)
-		if GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
-		end
+		T.HideOwnedGameTooltip(self)
 	end
 	local function MB_OnClick(self)
 		local id, p = self:GetID(), (IsAltKeyDown() or not self.hasFollowers) and "+" or ""
@@ -333,11 +330,6 @@ local stats = CreateFrame("Frame", nil, summaryTab) do
 		sb:SetText(q)
 		sb.clearText = q
 	end)
-	local function HideGameTooltip(self)
-		if GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
-		end
-	end
 	local function CountUpgradableFollowers()
 		local nuA, nuI, lcap, upW, upA = 0,0, T.FOLLOWER_LEVEL_CAP, G.GetUpgradeRange()
 		for k,v in pairs(G.GetFollowerInfo()) do
@@ -367,6 +359,7 @@ local stats = CreateFrame("Frame", nil, summaryTab) do
 				end
 			end
 		end
+		local GetItemCount = C_Item.GetItemCount
 		local wH = GetItemCount(114128)*3 + GetItemCount(114129)*6 + GetItemCount(114131)*9
 		local aH = GetItemCount(114745)*3 + GetItemCount(114808)*6 + GetItemCount(114822)*9
 		GameTooltip:AddDoubleLine(L"Weapon levels:", "|cffffffff" .. wA .. (wI > 0 and "|cffccc78f+" .. wI or "") .. (wH > 0 and " |cff00ff00" .. (L"(have %d)"):format(wH) or ""))
@@ -375,12 +368,12 @@ local stats = CreateFrame("Frame", nil, summaryTab) do
 		GameTooltip:AddLine("|n" .. (L"Upgrades are available for |cffffffff%d |4active follower:active followers;|r."):format(nuA) .. (nuI > 0 and " |cffccc78f" .. (L"(+%d inactive followers)"):format(nuI) or ""), nil, nil, nil, 1)
 		GameTooltip:Show()
 	end)
-	rows[2]:SetScript("OnLeave", HideGameTooltip)
+	rows[2]:SetScript("OnLeave", T.HideOwnedGameTooltip)
 	rows[3]:RegisterForClicks("RightButtonUp")
 	rows[3]:SetScript("OnClick", function(self)
 		T.config.goldCollected, T.config.goldCollectedS = 0, 0
 		self.Text:SetText(0)
-		HideGameTooltip(self)
+		T.HideOwnedGameTooltip(self)
 		self:GetScript("OnEnter")(self)
 	end)
 	rows[3]:SetScript("OnEnter", function(self)
@@ -393,12 +386,12 @@ local stats = CreateFrame("Frame", nil, summaryTab) do
 		GameTooltip:AddLine("|n|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:-1:512:512:10:70:330:410|t " .. RESET, 0.5, 0.8, 1)
 		GameTooltip:Show()
 	end)
-	rows[3]:SetScript("OnLeave", HideGameTooltip)
+	rows[3]:SetScript("OnLeave", T.HideOwnedGameTooltip)
 	rows[4]:RegisterForClicks("RightButtonUp")
 	rows[4]:SetScript("OnClick", function(self)
 		T.config.moC, T.config.moE, T.config.moV, T.config.moN = 0,0,0,0
 		self.Text:SetText("???")
-		HideGameTooltip(self)
+		T.HideOwnedGameTooltip(self)
 		self:GetScript("OnEnter")(self)
 	end)
 	local function ncdf(m, v, l)
@@ -434,7 +427,7 @@ local stats = CreateFrame("Frame", nil, summaryTab) do
 			T.SetModifierSensitiveTip(SetLuckTooltip, GameTooltip)
 		end
 	end)
-	rows[4]:SetScript("OnLeave", HideGameTooltip)
+	rows[4]:SetScript("OnLeave", T.HideOwnedGameTooltip)
 	function stats:Sync()
 		rows[1].Text:SetFormattedText(L"%d followers recruited", C_Garrison.GetNumFollowers(1))
 		local uptext, nuA, nuI = "", CountUpgradableFollowers()
@@ -477,12 +470,13 @@ local accessButton = CreateFrame("CheckButton", nil, GarrisonMissionFrame) do
 			summaryTab:Show()
 		end
 	end)
+	local function isPushedFollowerButton(self)
+		return self.id and self.info and self.GetButtonState and self:GetButtonState() == "PUSHED"
+	end
 	hooksecurefunc(GarrisonMissionFrameFollowers, "ShowFollower", function()
-		if GarrisonMissionFrame.selectedFollower and summaryTab:IsShown() then
-			local mf = T.GetMouseFocus()
-			if mf and mf.id and mf.info and mf.GetButtonState and mf:GetButtonState() == "PUSHED" then
-				GarrisonMissionFrame.FollowerTab:Show()
-			end
+		if GarrisonMissionFrame.selectedFollower and summaryTab:IsShown() and
+		   T.GetMouseFocus(isPushedFollowerButton, nil, false) then
+			GarrisonMissionFrame.FollowerTab:Show()
 		end
 	end)
 	function EV:MP_SHOW_MISSION_TAB(tab)
@@ -508,11 +502,7 @@ local accessButton = CreateFrame("CheckButton", nil, GarrisonMissionFrame) do
 		GameTooltip:SetText(L"Follower Summary")
 		GameTooltip:Show()
 	end)
-	accessButton:SetScript("OnLeave", function(self)
-		if GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
-		end
-	end)
+	accessButton:SetScript("OnLeave", T.HideOwnedGameTooltip)
 	function EV:MP_FORCE_FOLLOWER_TAB(fid)
 		accessButton:SetChecked(false)
 		GarrisonMissionFrame.FollowerTab:Show()

@@ -211,10 +211,6 @@ L:SetGeneralLocalization({
 	name =	"蒼藍密庫小怪"
 })
 
-L:SetOptionLocalization({
-	AGBook			= "與位移之書互動時自動選擇對話"
-})
-
 -----------------------
 -- <<<Ruby Life Pools>>> --
 -----------------------
@@ -279,4 +275,76 @@ L = DBM:GetModLocalization("HallsofInfusionTrash")
 
 L:SetGeneralLocalization({
 	name =	"灌注迴廊小怪"
+})
+
+-----------------------
+-- <<<Dawn of the Infinite>>> --
+-----------------------
+-----------------------
+-- Chronikar --
+-----------------------
+--L= DBM:GetModLocalization(2521)
+
+-----------------------
+-- Manifested Timeways --
+-----------------------
+L= DBM:GetModLocalization(2528)
+
+L:SetMiscLocalization({
+	PrePullRP		= "就算是時間守護者也不能肆意干擾時間之道！"
+})
+
+-----------------------
+-- Blight of Galakrond --
+-----------------------
+--L= DBM:GetModLocalization(2535)
+
+-----------------------
+-- Iridikron the Stonescaled --
+-----------------------
+L= DBM:GetModLocalization(2537)
+
+L:SetMiscLocalization({
+	PrePullRP		= "泰坦的傀儡居然膽敢挑戰我。"
+})
+
+-----------------------
+-- Tyr, the infinite Keeper --
+-----------------------
+--L= DBM:GetModLocalization(2526)
+
+-----------------------
+-- Morchie --
+-----------------------
+--L= DBM:GetModLocalization(2536)
+
+-----------------------
+-- Time-Lost Battlefield  --
+-----------------------
+L= DBM:GetModLocalization(2533)--Alliance ID used for both factions (2534 is horde id)
+
+L:SetGeneralLocalization({
+	name =	"時佚戰場"
+})
+
+L:SetMiscLocalization({
+	customWAMessage = "|cff4565ff聯盟|r 使用|cff69ccf0%s|r 開怪倒數，|cffff0000部落|r 使用|cff69ccf0%s|r 開怪倒數"
+})
+
+-----------------------
+-- Chrono-Lord Deios --
+-----------------------
+--L= DBM:GetModLocalization(2538)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("DawnoftheInfiniteTrash")
+
+L:SetGeneralLocalization({
+	name =	"恆龍黎明小怪"
+})
+
+L:SetOptionLocalization({
+	AutoRift	= "在過場之後自動選擇對話以啟動裂隙"
 })

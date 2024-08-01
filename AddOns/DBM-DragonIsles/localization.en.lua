@@ -35,3 +35,22 @@ local L
 --L:SetMiscLocalization({
 --	Pull	= ""
 --})
+
+-----------------------
+-- The Zaqali Elders --
+-----------------------
+--L= DBM:GetModLocalization(2531)
+
+--L:SetMiscLocalization({
+--	Pull	= ""
+--})
+
+-----------------------
+-- Aurostor, The Hibernator --
+-----------------------
+L= DBM:GetModLocalization(2562)
+
+L:SetMiscLocalization({
+--	Pull	= "",
+	Win		= "Thank you...exhausted...can finally...sleep."
+})

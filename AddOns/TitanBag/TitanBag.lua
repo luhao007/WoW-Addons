@@ -13,97 +13,108 @@ local TITAN_BAG_THRESHOLD_TABLE = {
 	Values = { 0.5, 0.75, 0.9 },
 	Colors = { HIGHLIGHT_FONT_COLOR, NORMAL_FONT_COLOR, ORANGE_FONT_COLOR, RED_FONT_COLOR },
 }
-local updateTable = {TITAN_BAG_ID, TITAN_PANEL_UPDATE_BUTTON};
+--local updateTable = {TITAN_BAG_ID, TITAN_PANEL_UPDATE_BUTTON};
 -- ******************************** Variables *******************************
-local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
-local AceTimer = LibStub("AceTimer-3.0")
-local BagTimer
+--local AceTimer = LibStub("AceTimer-3.0")
+local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
+--local BagTimer
 
-local bag_info = {
-	ENCHANTING = { color = {r=0,g=0,b=1}}, -- BLUE
-	ENGINEERING = { color = {r=1,g=0.49,b=0.04}}, -- ORANGE
-	HERBALISM = { color = {r=0,g=1,b=0}}, -- GREEN
-	INSCRIPTION = { color = {r=0.58,g=0.51,b=0.79}}, -- PURPLE
-	JEWELCRAFTING = { color = {r=1,g=0,b=0}}, -- RED
-	LEATHERWORKING = { color = {r=0.78,g=0.61,b=0.43}}, -- TAN
-	MINING = { color = {r=1,g=1,b=1}}, -- WHITE
-	FISHING = { color = {r=0.41,g=0.8,b=0.94}}, -- LIGHT_BLUE
-	COOKING = { color = {r=0.96,g=0.55,b=0.73}}, -- PINK
+local bag_info = { -- itemType : warcraft.wiki.gg/wiki/itemType
+	[1] = -- Soul bag
+		{ color = {r=0.96,g=0.55,b=0.73}}, -- PINK
+	[2] = -- HERBALISM = 
+		{ color = {r=0,g=1,b=0}}, -- GREEN
+	[3] = -- ENCHANTING = 
+		{ color = {r=0,g=0,b=1}}, -- BLUE
+	[4] = -- ENGINEERING = 
+		{ color = {r=1,g=0.49,b=0.04}}, -- ORANGE
+	[5] = -- JEWELCRAFTING = 
+		{ color = {r=1,g=0,b=0}}, -- RED
+	[6] = -- MINING = 
+		{ color = {r=1,g=1,b=1}}, -- WHITE
+	[7] = -- LEATHERWORKING = 
+		{ color = {r=0.78,g=0.61,b=0.43}}, -- TAN
+	[8] = -- INSCRIPTION = 
+		{ color = {r=0.58,g=0.51,b=0.79}}, -- PURPLE
+	[9] = -- FISHING = 
+		{ color = {r=0.41,g=0.8,b=0.94}}, -- LIGHT_BLUE
+	[10] = -- COOKING = 
+		{ color = {r=0.96,g=0.55,b=0.73}}, -- PINK
+	-- These are Classic arrow or bullet bags
+	[22] = -- Classic arrow 
+		{ color = {r=1,g=.4,b=0}}, -- copper
+	[23] = -- Classic bullet
+		{ color = {r=0.8,g=0.8,b=0.8}}, -- silver
 }
--- "Khorium Toolbox" removed???
- -- names are for debug only
- -- Can use wowdb.com to look at bags by profession
-
-local prof_bags = {
-	[333]    = {style = "", name = ""},
-	[21858]  = {style = "ENCHANTING", name = "Spellfire Bag"},
-	[22246]  = {style = "ENCHANTING", name = "Enchanted Mageweave Pouch"},
-	[22248]  = {style = "ENCHANTING", name = "Enchanted Runecloth Bag"},
-	[22249]  = {style = "ENCHANTING", name = "Big Bag of Enchantment"},
-	[22250]  = {style = "HERBALISM", name = "Herb Pouch"},
-	[22251]  = {style = "HERBALISM", name = "Cenarion Herb Bag"},
-	[22252]  = {style = "HERBALISM", name = "Satchel of Cenarius"},
-	[23774]  = {style = "ENGINEERING", name = "Fel Iron Toolbox"},
-	[23775]  = {style = "ENGINEERING", name = "Titanium Toolbox"},
-	[24270]  = {style = "JEWELCRAFTING", name = "Bag of Jewels"},
-	[29540]  = {style = "MINING", name = "Reinforced Mining Bag"},
-	[30745]  = {style = "ENGINEERING", name = "Heavy Toolbox"}, -- *
-	[30746]  = {style = "MINING", name = "Mining Sack"},
-	[30747]  = {style = "JEWELCRAFTING", name = "Gem Pouch"},
-	[30748]  = {style = "ENCHANTING", name = "Enchanter's Satchel"},
-	[34482]  = {style = "LEATHERWORKING", name = "Leatherworker's Satchel"},
-	[34490]  = {style = "LEATHERWORKING", name = "Bag of Many Hides"},
-	[38225]  = {style = "HERBALISM", name = "Mycah's Botanical Bag"},
-	[38307]  = {style = "INSCRIPTION", name = "Crafty's Bottomless Inscription Bag"}, -- *
-	[38347]  = {style = "MINING", name = "Mammoth Mining Bag"},
-	[38399]  = {style = "LEATHERWORKING", name = "Trapper's Traveling Pack"},
-	[39489]  = {style = "INSCRIPTION", name = "Scribe's Satchel"},
-	[41598]  = {style = "ENCHANTING", name = "Mysterious Bag"},
-	[44446]  = {style = "INSCRIPTION", name = "Pack of Endless Pockets"},
-	[45773]  = {style = "HERBALISM", name = "Emerald Bag"},
-	[54445]  = {style = "ENCHANTING", name = "Otherworldly Bag"},
-	[54446]  = {style = "HERBALISM", name = "Hyjal Expedition Bag"},
-	[60217]  = {style = "ENGINEERING", name = "Elementium Toolbox"},
-	[60218]  = {style = "FISHING", name = "Lure Master Tackle Box"},
-	[67389]  = {style = "ENCHANTING", name = "\"Carriage - Exclusive\" Enchanting Evening Purse"},
-	[67390]  = {style = "ENGINEERING", name = "\"Carriage - Maddy\" High Tech Bag"},
-	[67392]  = {style = "JEWELCRAFTING", name = "\"Carriage - Exclusive\" Gem Studded Clutch"},
-	[67393]  = {style = "HERBALISM", name = "\"Carriage - Going Green\" Herb Tote Bag"},
-	[67394]  = {style = "INSCRIPTION", name = "\"Carriage - Xandera\" Student's Satchel"},
-	[67395]  = {style = "LEATHERWORKING", name = "\"Carriage - Meeya\" Leather Bag"},
-	[67396]  = {style = "MINING", name = "\"Carriage - Christina\" Precious Metal Bag"},
-	[70136]  = {style = "INSCRIPTION", name = "Royal Scribe's Satchel"}, -- *
-	[70137]  = {style = "MINING", name = "Triple-Reinforced Mining Bag"},-- *
-	[92746]  = {style = "COOKING", name = "Portable Refrigerator [28]"}, -- repeat, which one is real?
-	[92747]  = {style = "COOKING", name = "Advanced Refrigeration Unit"},
-	[92748]  = {style = "COOKING", name = "Portable Refrigerator [32]"},
-	[70138]  = {style = "JEWELCRAFTING", name = "Luxurious Silk Gem Bag"}, -- *
-	[95536]  = {style = "LEATHERWORKING", name = "Magnificent Hide Pack"}, -- *
-	[116259] = {style = "LEATHERWORKING", name = "Burnished Leather Bag"},
-	[116260] = {style = "MINING", name = "Burnished Mining Bag"},
-	[116261] = {style = "MINING", name = "Burnished Inscription Bag"},
-	[116404] = {style = "ENGINEERING", name = "Pilgrim's Bounty"}, -- *
-	[130943] = {style = "COOKING", name = "Reusable Tote Bag"}, -- *
-	[162588] = {style = "INSCRIPTION", name = "Weathered Scrollcase"},
-}
+local trace = false
 
 local MIN_BAGS = 0
 local MAX_BAGS = Constants.InventoryConstants.NumBagSlots
 local bag_data = {} -- to hold the user bag data
 
 -- ******************************** Functions *******************************
-local function ToggleBags()
 
+local GetItemNow = C_Item.GetItemInfoInstant or GetItemInfoInstant
+
+local function IsProfessionBagID(slot)
+	-- The info needed is available using GetItemInfoInstant; only the bag / item id is required
+	-- itemType : warcraft.wiki.gg/wiki/itemType
+	local res = false
+	local style = 0
+	local info, itemId, itemType, itemSubType, itemEquipLoc, itemTexture, classID, subclassID
+	local inv_id = C_Container.ContainerIDToInventoryID(slot)
+
+	if inv_id == nil then
+		-- Only works on bag and bank bags NOT backpack!
+	else
+		info = GetInventoryItemLink("player", inv_id)
+		itemId, itemType, itemSubType, itemEquipLoc, itemTexture, classID, subclassID = GetItemNow(info)
+		style = subclassID
+		if classID == 1 then -- is a container / bag
+			if subclassID >= 1 then
+				-- profession bag of some type [2 - 10] Jan 2024 (DragonFlight / Wrath / Classic Era)
+				-- OR soul bag [1]
+				res = true
+			else
+				-- is a arrow or bullet; only two options
+			end
+		elseif classID == 6 then -- is a 'projectile' holder
+			res = true
+			-- is a ammo bag or quiver; only two options
+		elseif classID == 11 then -- is a 'quiver'; Wrath and CE
+			res = true
+			-- is a ammo pouch or quiver; only two options
+			style = subclassID + 20 -- change to get local color for name
+		else
+			-- not a bag
+		end
+	end
+
+	if trace then
+		TitanDebug("T isP:"
+			.." "..tostring(res)..""
+			.." "..tostring(style)..""
+			.." "..tostring(itemId)..""
+			.." "..tostring(classID)..""
+			.." "..tostring(subclassID)..""
+			.." "..tostring(inv_id)..""
+			)
+	end
+
+	return res, style
+end
+
+local function ToggleBags()
 	if TitanGetVar(TITAN_BAG_ID, "OpenBags") then
 		ToggleAllBags()
 	else
+		-- User has not enabled open on click
 	end
-
 end
 
 local function GetBagData(id)
 	--[[
-	The old code grabbed the bag name but since 10.00.02 it seems name is not always available by player entering world event
+	The bag name is not always available when player entering world 
 	Grabbing the total slots is available though to determine if a bag exists. 
 	The user may see bag name as <unknown> until an event triggers a bag check AND the name is available.
 	--]]
@@ -111,24 +122,22 @@ local function GetBagData(id)
 	local total_slots = 0
 	local total_free = 0
 	local total_used = 0
+	
+	local count_prof = TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots")
 
 	for bag_slot = MIN_BAGS, MAX_BAGS do -- assuming 0 (Backpack) will not be a profession bag
 		local slots = C_Container.GetContainerNumSlots(bag_slot) 
 
 		-- Ensure a blank structure exists
---		if bag_data[bag_slot] then
-			-- This has been processed at least once
---		else
-			bag_data[bag_slot] = {
-				has_bag = false,
-				name = "",
-				maxi_slots = 0,
-				free_slots = 0,
-				used_slots = 0,
-				style = "",
-				color = "",
-				}
---		end
+		bag_data[bag_slot] = {
+			has_bag = false,
+			name = "",
+			maxi_slots = 0,
+			free_slots = 0,
+			used_slots = 0,
+			style = "",
+			color = "",
+			}
 
 		if slots > 0 then
 			bag_data[bag_slot].has_bag = true
@@ -142,6 +151,14 @@ local function GetBagData(id)
 			bag_data[bag_slot].free_slots = free
 			bag_data[bag_slot].used_slots = used
 			
+--[[
+TitanDebug("T Bag:"
+.." "..tostring(bag_slot)..""
+.." "..tostring(slots)..""
+.." "..tostring(free)..""
+.." '"..tostring(bag_name).."'"
+)
+--]]
 			-- some info is not known until the name is available...
 			-- The API requires name to get the bag ID.
 			local bag_type = "none"
@@ -150,37 +167,38 @@ local function GetBagData(id)
 			if bag_name == UNKNOWN then
 				-- name not available yet
 			else
-				local itemID, itemType, itemSubType, itemEquipLoc, icon, itemClassID, itemSubClassID = GetItemInfoInstant(bag_name)
-				-- For some inexplicable reason the Backpack does not return as an item...
-				-- so create a default so routine is successful
-				itemID = itemID or 0
+			end
 
-				if prof_bags[itemID] then
-					bag_type = prof_bags[itemID].style
-					color = bag_info[bag_type].color
-					bag_type = "profession"
-				else
-					bag_type = "normal"
-				end
+			-- Jan 2024 : Moved away from named based to an id based. Allows name to come later from server
+			local is_prof_bag, style = IsProfessionBagID(bag_slot)
+--[[
+if trace then
+TitanDebug("T Bag...:"
+.." "..tostring(bag_slot)..""
+.." "..tostring(is_prof_bag)..""
+.." '"..tostring(style).."'"
+.." "..tostring(itemClassID)..""
+.." "..tostring(itemSubClassID)..""
+)
+end
+--]]
+			if is_prof_bag then
+				color = bag_info[style].color
+				bag_type = "profession"
+			else
+				bag_type = "normal"
 			end
 			bag_data[bag_slot].style = bag_type
 			bag_data[bag_slot].color = color
 			
 			-- add to total
 			if bag_data[bag_slot].style == "profession" then
-				if TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots") then
+				if count_prof then
 					total_slots = total_slots + slots
 					total_free = total_free + free
 					total_used = total_used + used
 				else
 					-- ignore in totals
---[[
-TitanDebug("T Bag: ignore"
-.." "..tostring(bag_slot)..""
-.." "..tostring(bag_data[bag_slot].name)..""
-.." "..tostring(bag_data[bag_slot].style)..""
-)
---]]
 				end
 			else
 				total_slots = total_slots + slots
@@ -190,17 +208,19 @@ TitanDebug("T Bag: ignore"
 		else
 			bag_data[bag_slot].has_bag = false
 		end
---[[
-TitanDebug("T Bag: info"
-.." "..tostring(bag_slot)..""
-.." "..tostring(bag_data[bag_slot].has_bag)..""
-.." "..tostring(bag_data[bag_slot].name)..""
-.." "..tostring(bag_data[bag_slot].maxi_slots)..""
-.." "..tostring(bag_data[bag_slot].used_slots)..""
-.." "..tostring(bag_data[bag_slot].free_slots)..""
-.." "..tostring(bag_data[bag_slot].style)..""
-)
---]]
+		
+		if trace then
+			TitanDebug("T info"
+			.." "..tostring(bag_slot)..""
+			.." ?:"..tostring(bag_data[bag_slot].has_bag)..""
+			.." max: "..tostring(bag_data[bag_slot].maxi_slots)..""
+			.." used: "..tostring(bag_data[bag_slot].used_slots)..""
+			.." free: "..tostring(bag_data[bag_slot].free_slots)..""
+			.." type: "..tostring(bag_data[bag_slot].style)..""
+			.." count: "..tostring(count_prof)..""
+			.." '"..tostring(bag_data[bag_slot].name).."'"
+			)
+		end
 	end
 
 	bag_data.total_slots = total_slots
@@ -235,6 +255,10 @@ end
 -- **************************************************************************
 --]]
 function TitanPanelBagButton_OnLoad(self)
+	local notes = ""
+		.."Adds bag and free slot information to Titan Panel.\n"
+		.."- Open bags should work... Retail taint fixed Apr 2024 (10.2.7).\n"
+--		.."- xxx.\n"
 	self.registry = {
 		id = TITAN_BAG_ID,
 		category = "Built-ins",
@@ -245,6 +269,7 @@ function TitanPanelBagButton_OnLoad(self)
 		tooltipTextFunction = "TitanPanelBagButton_GetTooltipText",
 		icon = "Interface\\AddOns\\TitanBag\\TitanBag",
 		iconWidth = 16,
+		notes = notes,
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
@@ -259,12 +284,13 @@ function TitanPanelBagButton_OnLoad(self)
 			ShowLabelText = 1,
 			ShowColoredText = 1,
 			DisplayOnRightSide = false,
-			OpenBags = false,
+			OpenBags = true,
 		}
 	};
 
+	-- As of Apr 2024 (10.2.7) the taint on opening bags in Retail is fixed.
+
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	
 end
 
 --[[ plugin
@@ -275,36 +301,18 @@ end
 --]]
 function TitanPanelBagButton_OnEvent(self, event, a1, a2, ...)
 	if event == "PLAYER_ENTERING_WORLD" then
-
-		-- Register for bag updates and update the plugin text
-		self:RegisterEvent("BAG_UPDATE")
-		TitanPanelButton_UpdateButton(TITAN_BAG_ID);
-
-		if a1 == true then 
-			-- initial login
-
-			TitanPrint(""
-			.." "..tostring("Feature :")..""
-			.." "..tostring(OPENING or "Opening of")..""
-			.." "..tostring(INVTYPE_BAG or "Bags")..""
-			.." "..tostring(ADDON_DISABLED or "Disabled")..""
-			.." "..tostring("Until taint is fixed or work around found.")..""
-			, "warning")
-		else
-		end
+		-- Leave in case future code is needed...
 	end
 
 	if event == "BAG_UPDATE" then
-		-- Create only when the event is active
-		self:SetScript("OnUpdate", TitanPanelBagButton_OnUpdate)
+		-- update the plugin text
+		TitanPanelButton_UpdateButton(TITAN_BAG_ID);
 	end
-end
-
-function TitanPanelBagButton_OnUpdate(self)
-	-- update the button
-	TitanPanelPluginHandle_OnUpdate(updateTable)
-	-- remove until the next bag event
-	self:SetScript("OnUpdate", nil)
+--[[
+print("_OnEvent"
+.." "..tostring(event)..""
+)
+--]]
 end
 
 --[[ plugin
@@ -449,9 +457,7 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 			info = {};
-			info.text = (LEFT_BUTTON_STRING or "Left Click")
-				.." "..(OPENING or "to Open")
-				.." "..(INVTYPE_BAG or "Bags")
+			info.text =  L["TITAN_BAG_MENU_OPEN_BAGS"]
 			info.func = function()
 				TitanToggleVar(TITAN_BAG_ID, "OpenBags")
 				end
@@ -475,7 +481,7 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 	info = {};
 	info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
 	info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
-	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
+	info.checked = not TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots")
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
 	TitanPanelRightClickMenu_AddControlVars(TITAN_BAG_ID)
@@ -518,6 +524,16 @@ function TitanPanelBagButton_ShowDetailedInfo()
 	TitanToggleVar(TITAN_BAG_ID, "ShowDetailedInfo");
 end
 
+function TitanPanelBagButton_OnShow(self)
+	-- Register for bag updates and update the plugin text
+	self:RegisterEvent("BAG_UPDATE")
+	TitanPanelButton_UpdateButton(TITAN_BAG_ID);
+end
+
+function TitanPanelBagButton_OnHide(self)
+	self:UnregisterEvent("BAG_UPDATE")
+end
+
 -- ====== Create needed frames
 local function Create_Frames()
 	if _G[TITAN_BUTTON] then
@@ -535,6 +551,13 @@ local function Create_Frames()
 	TitanPanelBagButton_OnLoad(window);
 --	TitanPanelButton_OnLoad(window); -- Titan XML template calls this...
 	
+	window:SetScript("OnShow", function(self)
+		TitanPanelBagButton_OnShow(self);
+		TitanPanelButton_OnShow(self);
+	end)
+	window:SetScript("OnHide", function(self)
+		TitanPanelBagButton_OnHide(self) 
+	end)
 	window:SetScript("OnEvent", function(self, event, ...)
 		TitanPanelBagButton_OnEvent(self, event, ...) 
 	end)
@@ -546,3 +569,16 @@ end
 
 
 Create_Frames() -- do the work
+
+--[[
+TitanDebug("T isP 0:"
+	.." "..tostring(slot)..""
+	.." "..tostring(itemId).."" 
+	.." '"..tostring(itemType).."'" 
+	.." '"..tostring(itemSubType).."'" 
+	.." "..tostring(itemEquipLoc).."" 
+	.." '"..tostring(itemTexture).."'" 
+	.." "..tostring(classID).."" 
+	.." "..tostring(subclassID).."" 
+	)
+--]]

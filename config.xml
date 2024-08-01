@@ -6,6 +6,22 @@
 		<Title>|cFF7FFF7FAce核心库|r |cFFFF0000必须加载|r</Title>
 		<Category>基础库</Category>
 	</Addon>
+	<Addon name="!BugGrabber">
+		<Title>报错收集</Title>
+		<Category>基础库</Category>
+	</Addon>
+	<Addon name="!Pig">
+		<Title>Pig工具箱</Title>
+		<Category>功能</Category>
+		<SubAddons>
+			<SubAddon name="!Pig_Tardis">
+				<Title>时空之门</Title>
+			</SubAddon>
+			<SubAddon name="!Pig_GDKP">
+				<Title>金团助手</Title>
+			</SubAddon>
+		</SubAddons>
+	</Addon>
 	<Addon name="+Wowhead_Looter">
 		<Title>Wowhead数据采集</Title>
 		<Notes>收集各种游戏内数据并上传Wowhead</Notes>
@@ -147,6 +163,10 @@
 				<Title>专业制作</Title>
 				<Notes>AtlasLoot 专业制作物品列表</Notes>
 			</SubAddon>
+			<SubAddon name="AtlasLoot_Dragonflight">
+				<Title>巨龙时代</Title>
+				<Notes>AtlasLoot 巨龙时代副本掉落列表</Notes>
+			</SubAddon>
 			<SubAddon name="AtlasLoot_Factions">
 				<Title>阵营</Title>
 				<Notes>AtlasLoot 阵营物品列表</Notes>
@@ -166,6 +186,10 @@
 			<SubAddon name="AtlasLoot_PvP">
 				<Title>PVP</Title>
 				<Notes>AtlasLoot PVP物品列表</Notes>
+			</SubAddon>
+			<SubAddon name="AtlasLoot_Shadowlands">
+				<Title>暗影国度</Title>
+				<Notes>AtlasLoot 暗影国度副本掉落列表</Notes>
 			</SubAddon>
 			<SubAddon name="AtlasLoot_WarlordsofDraenor">
 				<Title>德拉诺之王</Title>
@@ -364,6 +388,10 @@
 				<Title>争霸艾泽拉斯</Title>
 				<Notes>BtWQuests 争霸艾泽拉斯模块</Notes>
 			</SubAddon>
+			<SubAddon name="BtWQuestsBattleForAzerothPrologue">
+				<Title>争霸艾泽拉斯前夕</Title>
+				<Notes>BtWQuests 争霸艾泽拉斯前夕模块</Notes>
+			</SubAddon>
 			<SubAddon name="BtWQuestsCataclysm">
 				<Title>大灾变</Title>
 				<Notes>BtWQuests 大灾变模块</Notes>
@@ -371,6 +399,10 @@
 			<SubAddon name="BtWQuestsDragonflight">
 				<Title>巨龙时代</Title>
 				<Notes>BtWQuests 巨龙时代模块</Notes>
+			</SubAddon>
+			<SubAddon name="BtWQuestsDragonflightPrologue">
+				<Title>巨龙时代前夕</Title>
+				<Notes>BtWQuests 巨龙时代前夕模块</Notes>
 			</SubAddon>
 			<SubAddon name="BtWQuestsLegion">
 				<Title>军团再临</Title>
@@ -388,9 +420,17 @@
 				<Title>暗影国度</Title>
 				<Notes>BtWQuests 暗影国度模块</Notes>
 			</SubAddon>
+			<SubAddon name="BtWQuestsShadowlandsPrologue">
+				<Title>暗影国度前夕</Title>
+				<Notes>BtWQuests 暗影国度前夕模块</Notes>
+			</SubAddon>
 			<SubAddon name="BtWQuestsTheBurningCrusade">
 				<Title>燃烧的远征</Title>
 				<Notes>BtWQuests 燃烧的远征模块</Notes>
+			</SubAddon>
+			<SubAddon name="BtWQuestsTheWarWithin">
+				<Title>地心之战</Title>
+				<Notes>BtWQuests 地心之战模块</Notes>
 			</SubAddon>
 			<SubAddon name="BtWQuestsWarlordsOfDraenor">
 				<Title>德拉诺之王</Title>
@@ -444,6 +484,10 @@
 	<Addon name="Cromulent">
 		<Title>地图信息</Title>
 		<Notes>在世界地图中显示额外的地图信息（如适合等级，钓鱼等级等）</Notes>
+		<Category>界面</Category>
+	</Addon>
+	<Addon name="DamageEx">
+		<Title>伤害增强</Title>
 		<Category>界面</Category>
 	</Addon>
 	<Addon name="DBM-Core">
@@ -510,6 +554,10 @@
 			<SubAddon name="DBM-CastleNathria">
 				<Title>纳斯利亚堡</Title>
 			</SubAddon>
+			<SubAddon name="DBM-Cataclysm">
+				<Title>户外</Title>
+				<TitleExtra>大地的裂变</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-Challenges">
 				<Title>白虎试练场</Title>
 			</SubAddon>
@@ -525,6 +573,10 @@
 			<SubAddon name="DBM-DefaultSkin">
 				<Title>皮肤</Title>
 				<TitleExtra>经典计时条</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Delves-WarWithin">
+				<Title>地下堡</Title>
+				<TitleExtra>地心之战</TitleExtra>
 			</SubAddon>
 			<SubAddon name="DBM-DMF">
 				<Title>暗月马戏团</Title>
@@ -575,6 +627,10 @@
 			</SubAddon>
 			<SubAddon name="DBM-Karazhan">
 				<Title>卡拉赞</Title>
+			</SubAddon>
+			<SubAddon name="DBM-KhazAlgar">
+				<Title>户外</Title>
+				<TitleExtra>卡兹阿加</TitleExtra>
 			</SubAddon>
 			<SubAddon name="DBM-MC">
 				<Title>熔火之心</Title>
@@ -638,12 +694,60 @@
 				<Title>小队</Title>
 				<TitleExtra>旧世经典（怀旧服）</TitleExtra>
 			</SubAddon>
+			<SubAddon name="DBM-Party-WarWithin">
+				<Title>小队</Title>
+				<TitleExtra>地心之战</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-Party-WoD">
 				<Title>小队</Title>
 				<TitleExtra>德拉诺之王</TitleExtra>
 			</SubAddon>
 			<SubAddon name="DBM-Party-WotLK">
 				<Title>小队</Title>
+				<TitleExtra>巫妖王之怒</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-BfA">
+				<Title>团队</Title>
+				<TitleExtra>争霸艾泽拉斯</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-Cata">
+				<Title>团队</Title>
+				<TitleExtra>大地的裂变</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-Dragonflight">
+				<Title>团队</Title>
+				<TitleExtra>巨龙时代</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-BC">
+				<Title>团队</Title>
+				<TitleExtra>燃烧的远征</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-Legion">
+				<Title>团队</Title>
+				<TitleExtra>军团再临</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-MoP">
+				<Title>团队</Title>
+				<TitleExtra>熊猫人之谜</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-Shadowlands">
+				<Title>团队</Title>
+				<TitleExtra>暗影国度</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-Vanilla">
+				<Title>团队</Title>
+				<TitleExtra>经典旧世</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-WarWithin">
+				<Title>团队</Title>
+				<TitleExtra>地心之战</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-WoD">
+				<Title>团队</Title>
+				<TitleExtra>德拉诺之王</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Raids-WoTLK">
+				<Title>团队</Title>
 				<TitleExtra>巫妖王之怒</TitleExtra>
 			</SubAddon>
 			<SubAddon name="DBM-PvP">
@@ -680,6 +784,13 @@
 			</SubAddon>
 			<SubAddon name="DBM-TerraceofEndlessSpring">
 				<Title>永春台</Title>
+			</SubAddon>
+			<SubAddon name="DBM-Test">
+				<Title>测试功能</Title>
+			</SubAddon>
+			<SubAddon name="DBM-Test-Dragonflight">
+				<Title>测试功能</Title>
+				<TitleExtra>巨龙时代</TitleExtra>
 			</SubAddon>
 			<SubAddon name="DBM-TheEye">
 				<Title>风暴要塞</Title>
@@ -860,6 +971,9 @@
 			<SubAddon name="GladiatorlosSA2_zhCN">
 				<Title>夏一可语音包</Title>
 			</SubAddon>
+			<SubAddon name="GladiatorlosSA2_zhCN_VV">
+				<Title>VV语音包</Title>
+			</SubAddon>
 		</SubAddons>
 	</Addon>
 	<Addon name="Gladius">
@@ -962,6 +1076,10 @@
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>德拉诺</TitleExtra>
 			</SubAddon>
+			<SubAddon name="HandyNotes_Dragonflight">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>巨龙时代</TitleExtra>
+			</SubAddon>
 			<SubAddon name="HandyNotes_DungeonLocations">
 				<Title>副本入口</Title>
 			</SubAddon>
@@ -1019,6 +1137,10 @@
 			</SubAddon>
 			<SubAddon name="HandyNotes_SuramarShalAranTelemancy">
 				<Title>苏拉玛传送点</Title>
+			</SubAddon>
+			<SubAddon name="HandyNotes_TheWarWithin">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>地心之战</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_TimelessIsleChests">
 				<Title>宝藏</Title>
@@ -1094,11 +1216,19 @@
 		<Title>集合石</Title>
 		<Category>社交</Category>
 	</Addon>
+	<Addon name="MeetingStoneEX">
+		<Title>集合石 开心快乐版</Title>
+		<Category>社交</Category>
+	</Addon>
 	<Addon name="MeetingHorn">
 		<Title>集结号</Title>
 		<Category>社交</Category>
 	</Addon>
 	<Addon name="MerInspect">
+		<Title>观察助手</Title>
+		<Category>界面</Category>
+	</Addon>
+	<Addon name="MerInspect-classic-era">
 		<Title>观察助手</Title>
 		<Category>界面</Category>
 	</Addon>
@@ -1389,6 +1519,10 @@
 		<Title>宠物对战增强</Title>
 		<Category>战斗</Category>
 	</Addon>
+	<Addon name="Rurutia">
+		<Title>露露缇娅语音包</Title>
+		<Category>副本</Category>
+	</Addon>
 	<Addon name="Scrap">
 		<Title>垃圾管理</Title>
 		<Notes>自动出售灰色物品</Notes>
@@ -1415,6 +1549,10 @@
 				<Notes>提供一个可视化列表来查看灰色物品</Notes>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="SenderInfo">
+		<Title>开团助手</Title>
+		<Category>社交</Category>
 	</Addon>
 	<Addon name="SimpleChat">
 		<Title>简单聊天增强</Title>
@@ -1509,6 +1647,10 @@
 				<Title>分配方式</Title>
 				<Notes>泰坦面板的分配方式模块</Notes>
 			</SubAddon>
+			<SubAddon name="TitanSpeed">
+				<Title>移动速度</Title>
+				<Notes>泰坦面板的移动速度模块</Notes>
+			</SubAddon>
 			<SubAddon name="TitanPerformance">
 				<Title>性能</Title>
 				<Notes>泰坦面板的性能模块</Notes>
@@ -1516,6 +1658,10 @@
 			<SubAddon name="TitanRaidLockout">
 				<Title>团本锁定</Title>
 				<Notes>泰坦面板的团本锁定模块</Notes>
+			</SubAddon>
+			<SubAddon name="TitanRegen">
+				<Title>恢复</Title>
+				<Notes>泰坦面板的恢复模块</Notes>
 			</SubAddon>
 			<SubAddon name="TitanRepair">
 				<Title>修理</Title>
@@ -1547,56 +1693,6 @@
 		<Title>泰坦面板</Title>
 		<Notes>在屏幕顶端/底端增加一个可视化侧边栏</Notes>
 		<Category>界面</Category>
-		<SubAddons>
-			<SubAddon name="TitanClassicAmmo">
-				<Title>弹药</Title>
-				<Notes>泰坦面板的弹药模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicBag">
-				<Title>背包</Title>
-				<Notes>泰坦面板的背包模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicClock">
-				<Title>时钟</Title>
-				<Notes>泰坦面板的时钟模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicGold">
-				<Title>金币</Title>
-				<Notes>泰坦面板的金币模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicLocation">
-				<Title>位置</Title>
-				<Notes>泰坦面板的位置模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicLootType">
-				<Title>分配方式</Title>
-				<Notes>泰坦面板的分配方式模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicPerformance">
-				<Title>性能</Title>
-				<Notes>泰坦面板的性能模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicReagentTracker">
-				<Title>施法材料</Title>
-				<Notes>泰坦面板的施法材料模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicRegen">
-				<Title>恢复</Title>
-				<Notes>泰坦面板的恢复模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicRepair">
-				<Title>修理</Title>
-				<Notes>泰坦面板的修理模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicVolume">
-				<Title>音量</Title>
-				<Notes>泰坦面板的音量模块</Notes>
-			</SubAddon>
-			<SubAddon name="TitanClassicXP">
-				<Title>经验</Title>
-				<Notes>泰坦面板的经验模块</Notes>
-			</SubAddon>
-		</SubAddons>
 	</Addon>
 	<Addon name="TomCats">
 		<Title>旅行指南</Title>
@@ -1715,6 +1811,16 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="WagoAnalytics">
+		<Title>Wago分析</Title>
+		<Notes>辅助分析WAGO使用情况</Notes>
+		<Category>辅助</Category>
+	</Addon>
+	<Addon name="WagoAppCompanion">
+		<Title>WagoApp伴侣</Title>
+		<Notes>辅助Wago App收集插件使用状况</Notes>
+		<Category>辅助</Category>
+	</Addon>
 	<Addon name="WarPlan">
 		<Title>阵营战役助手</Title>
 		<Category>任务</Category>
@@ -1745,6 +1851,30 @@
 	<Addon name="WclPlayerScore">
 		<Title>WCL评分</Title>
 		<Category>辅助</Category>
+	</Addon>
+	<Addon name="WclPlayerScore-WotLK">
+		<Title>WCL评分WLK</Title>
+		<Category>辅助</Category>
+		<SubAddons>
+			<SubAddon name="WclPlayerScore-WotLK_DB1">
+				<Title>一区数据1</Title>
+			</SubAddon>
+			<SubAddon name="WclPlayerScore-WotLK_DB2">
+				<Title>一区数据2</Title>
+			</SubAddon>
+			<SubAddon name="WclPlayerScore-WotLK_DB3">
+				<Title>五区数据1</Title>
+			</SubAddon>
+			<SubAddon name="WclPlayerScore-WotLK_DB4">
+				<Title>五区数据2</Title>
+			</SubAddon>
+			<SubAddon name="WclPlayerScore-WotLK_DB5">
+				<Title>小服数据</Title>
+			</SubAddon>
+			<SubAddon name="WclPlayerScore-WotLK_DB6">
+				<Title>外服数据</Title>
+			</SubAddon>
+		</SubAddons>
 	</Addon>
 	<Addon name="WIM">
 		<Title>即时通信</Title>

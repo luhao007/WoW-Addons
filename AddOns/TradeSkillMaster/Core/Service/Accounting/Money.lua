@@ -4,17 +4,19 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local Money = TSM.Accounting:NewPackage("Money")
-local Database = TSM.Include("Util.Database")
-local CSV = TSM.Include("Util.CSV")
-local Log = TSM.Include("Util.Log")
+local TSM = select(2, ...) ---@type TSM
+local Money = TSM.Accounting:NewPackage("Money") ---@type AddonPackage
+local Database = TSM.LibTSMUtil:Include("Database")
+local CSV = TSM.LibTSMUtil:Include("Format.CSV")
+local Log = TSM.LibTSMUtil:Include("Util.Log")
+local SessionInfo = TSM.LibTSMWoW:Include("Util.SessionInfo")
 local private = {
+	settings = nil,
 	db = nil,
 	dataChanged = false,
 }
 local CSV_KEYS = { "type", "amount", "otherPlayer", "player", "time" }
-local COMBINE_TIME_THRESHOLD = 300 -- group expenses within 5 minutes together
+local COMBINE_TIME_THRESHOLD = 300 -- Group expenses within 5 minutes together
 local SECONDS_PER_DAY = 24 * 60 * 60
 
 
@@ -23,7 +25,11 @@ local SECONDS_PER_DAY = 24 * 60 * 60
 -- Module Functions
 -- ============================================================================
 
-function Money.OnInitialize()
+function Money.OnInitialize(settingsDB)
+	private.settings = settingsDB:NewView()
+		:AddKey("realm", "internalData", "csvExpense")
+		:AddKey("realm", "internalData", "csvIncome")
+		:AddKey("global", "coreOptions", "regionWide")
 	private.db = Database.NewSchema("ACCOUNTING_MONEY")
 		:AddStringField("recordType")
 		:AddStringField("type")
@@ -31,21 +37,26 @@ function Money.OnInitialize()
 		:AddStringField("otherPlayer")
 		:AddStringField("player")
 		:AddNumberField("time")
+		:AddBooleanField("isCurrentRealm")
 		:AddIndex("recordType")
 		:Commit()
 	private.db:BulkInsertStart()
-	private.LoadData("expense", TSM.db.realm.internalData.csvExpense)
-	private.LoadData("income", TSM.db.realm.internalData.csvIncome)
+	for _, csvExpense, realm in private.settings:AccessibleValueIterator("csvExpense") do
+		private.LoadData("expense", csvExpense, realm == SessionInfo.GetRealmName())
+	end
+	for _, csvIncome, realm in private.settings:AccessibleValueIterator("csvIncome") do
+		private.LoadData("income", csvIncome, realm == SessionInfo.GetRealmName())
+	end
 	private.db:BulkInsertEnd()
 end
 
 function Money.OnDisable()
 	if not private.dataChanged then
-		-- nothing changed, so just keep the previous saved values
+		-- Nothing changed, so just keep the previous saved values
 		return
 	end
-	TSM.db.realm.internalData.csvExpense = private.SaveData("expense")
-	TSM.db.realm.internalData.csvIncome = private.SaveData("income")
+	private.settings.csvExpense = private.SaveData("expense")
+	private.settings.csvIncome = private.SaveData("income")
 end
 
 function Money.InsertMoneyTransferExpense(amount, destination)
@@ -68,6 +79,14 @@ function Money.InsertGarrisonIncome(amount)
 	private.InsertRecord("income", "Garrison", amount, "Mission", time())
 end
 
+function Money.InsertCraftingOrderExpense(amount, seller, timestamp)
+	private.InsertRecord("expense", "Crafting Order", amount, seller, timestamp)
+end
+
+function Money.InsertCraftingOrderIncome(amount, buyer, timestamp)
+	private.InsertRecord("income", "Crafting Order", amount, buyer, timestamp)
+end
+
 function Money.CreateQuery()
 	return private.db:NewQuery()
 end
@@ -84,6 +103,7 @@ function Money.RemoveOldData(days)
 	private.dataChanged = true
 	local query = private.db:NewQuery()
 		:LessThan("time", time() - days * SECONDS_PER_DAY)
+		:Equal("isCurrentRealm", true)
 	local numRecords = 0
 	private.db:SetQueryUpdatesPaused(true)
 	for _, row in query:Iterator() do
@@ -101,11 +121,13 @@ end
 -- Private Helper Functions
 -- ============================================================================
 
-function private.LoadData(recordType, csvRecords)
+function private.LoadData(recordType, csvRecords, isCurrentRealm)
 	local decodeContext = CSV.DecodeStart(csvRecords, CSV_KEYS)
 	if not decodeContext then
-		Log.Err("Failed to decode %s records", recordType)
-		private.dataChanged = true
+		if isCurrentRealm then
+			Log.Err("Failed to decode %s records (%d)", recordType, #csvRecords)
+		end
+		private.dataChanged = isCurrentRealm
 		return
 	end
 
@@ -115,25 +137,28 @@ function private.LoadData(recordType, csvRecords)
 		if amount and timestamp then
 			local newTimestamp = floor(timestamp)
 			if newTimestamp ~= timestamp then
-				-- make sure all timestamps are stored as integers
+				-- Make sure all timestamps are stored as integers
 				timestamp = newTimestamp
-				private.dataChanged = true
+				private.dataChanged = isCurrentRealm
 			end
-			private.db:BulkInsertNewRowFast6(recordType, type, amount, otherPlayer, player, timestamp)
+			private.db:BulkInsertNewRowFast7(recordType, type, amount, otherPlayer, player, timestamp, isCurrentRealm)
 		else
-			private.dataChanged = true
+			private.dataChanged = isCurrentRealm
 		end
 	end
 
 	if not CSV.DecodeEnd(decodeContext) then
-		Log.Err("Failed to decode %s records", recordType)
-		private.dataChanged = true
+		if isCurrentRealm then
+			Log.Err("Failed to decode %s records", recordType)
+		end
+		private.dataChanged = isCurrentRealm
 	end
 end
 
 function private.SaveData(recordType)
 	local query = private.db:NewQuery()
 		:Equal("recordType", recordType)
+		:Equal("isCurrentRealm", true)
 	local encodeContext = CSV.EncodeStart(CSV_KEYS)
 	for _, row in query:Iterator() do
 		CSV.EncodeAddRowData(encodeContext, row)
@@ -153,6 +178,7 @@ function private.InsertRecord(recordType, type, amount, otherPlayer, timestamp)
 		:Equal("player", UnitName("player"))
 		:GreaterThan("time", timestamp - COMBINE_TIME_THRESHOLD)
 		:LessThan("time", timestamp + COMBINE_TIME_THRESHOLD)
+		:Equal("isCurrentRealm", true)
 		:GetFirstResultAndRelease()
 	if matchingRow then
 		matchingRow:SetField("amount", matchingRow:GetField("amount") + amount)
@@ -166,6 +192,7 @@ function private.InsertRecord(recordType, type, amount, otherPlayer, timestamp)
 			:SetField("otherPlayer", otherPlayer)
 			:SetField("player", UnitName("player"))
 			:SetField("time", timestamp)
+			:SetField("isCurrentRealm", true)
 			:Create()
 	end
 end

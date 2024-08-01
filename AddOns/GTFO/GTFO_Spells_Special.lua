@@ -11,14 +11,14 @@ GTFO.SpellID["68947"] = {
 	--desc = "Irresistible Cologne (Love is in the Air)";
 	sound = 1;
 	tankSound = 0;
-	trivialPercent = 7;
+	trivialPercent = 5;
 	ignoreApplication = true;
 };
 
 GTFO.SpellID["68934"] = {
 	--desc = "Concentrated Irresistible Cologne Spill (Love is in the Air)";
 	sound = 1;
-	trivialPercent = 7;
+	trivialPercent = 5;
 	ignoreApplication = true;
 };
 
@@ -26,7 +26,7 @@ GTFO.SpellID["68948"] = {
 	--desc = "Irresistible Cologne Spray (Love is in the Air)";
 	sound = 1;
 	tankSound = 0;
-	trivialPercent = 7;
+	trivialPercent = 5;
 	ignoreApplication = true;
 };
 
@@ -34,14 +34,14 @@ GTFO.SpellID["68641"] = {
 	--desc = "Alluring Perfume (Love is in the Air)";
 	sound = 1;
 	tankSound = 0;
-	trivialPercent = 7;
+	trivialPercent = 5;
 	ignoreApplication = true;
 };
 
 GTFO.SpellID["68927"] = {
 	--desc = "Concentrated Alluring Perfume Spill (Love is in the Air)";
 	sound = 1;
-	trivialPercent = 7;
+	trivialPercent = 5;
 	ignoreApplication = true;
 };
 
@@ -49,7 +49,7 @@ GTFO.SpellID["68607"] = {
 	--desc = "Alluring Perfume Spray (Love is in the Air)";
 	sound = 1;
 	tankSound = 0;
-	trivialPercent = 7;
+	trivialPercent = 5;
 	ignoreApplication = true;
 };
 
@@ -146,6 +146,53 @@ GTFO.SpellID["279925"] = {
   sound = 1;
 };
 
+GTFO.SpellID["179807"] = {
+	--desc = "Electrified Tripwire (Darkmoon Faire)";
+	sound = 2;
+};
+
+GTFO.SpellID["235681"] = {
+  --desc = "Caustic Blood (Clutchmother Zavas - Un'goro Madness)";
+  sound = 1;
+};
+
+GTFO.SpellID["236423"] = {
+  --desc = "Sun's Fury (Sunkeeper Croesus - Un'goro Madness)";
+  sound = 1;
+};
+
+GTFO.SpellID["236183"] = {
+  --desc = "Fiery Breath (Worm - Un'goro Madness)";
+  sound = 1;
+};
+
+GTFO.SpellID["236338"] = {
+  --desc = "Boiling Tar (Tar Tyrant - Un'goro Madness)";
+  sound = 1;
+};
+
+GTFO.SpellID["414851"] = {
+  --desc = "Pumpkin Breath - Fire Circle (Headless Horseman - Dragonflight)";
+  sound = 1;
+};
+
+GTFO.SpellID["418132"] = {
+  --desc = "Insidious Cackle (Headless Horseman - Dragonflight)";
+  sound = 4;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["415329"] = {
+  --desc = "Hot Head (Headless Horseman - Dragonflight)";
+  sound = 1;
+};
+
+GTFO.SpellID["415864"] = {
+  --desc = "Wicker Man's Shadow (Headless Horseman - Dragonflight)";
+  applicationOnly = true;
+  sound = 1;
+};
+
 
 -- ==============================================================================
 -- Fail alerts
@@ -208,9 +255,10 @@ GTFO.SpellID["101885"] = {
 	sound = 3;
 };
 
-GTFO.SpellID["179807"] = {
-	--desc = "Electrified Tripwire (Darkmoon Faire)";
-	sound = 2;
+GTFO.SpellID["101907"] = {
+  --desc = "Snow Crash (The Abominable Greench, Feast of Winter Veil)";
+  sound = 3;
+  applicationOnly = true;
 };
 
 GTFO.SpellID["153310"] = {
@@ -254,25 +302,10 @@ GTFO.SpellID["236015"] = {
   sound = 3;
 };
 
-GTFO.SpellID["235681"] = {
-  --desc = "Caustic Blood (Clutchmother Zavas - Un'goro Madness)";
-  sound = 1;
-};
-
 GTFO.SpellID["235887"] = {
   --desc = "Call Pack (Queen Zavra - Un'goro Madness)";
   sound = 3;
   applicationOnly = true;
-};
-
-GTFO.SpellID["236423"] = {
-  --desc = "Sun's Fury (Sunkeeper Croesus - Un'goro Madness)";
-  sound = 1;
-};
-
-GTFO.SpellID["236183"] = {
-  --desc = "Fiery Breath (Worm - Un'goro Madness)";
-  sound = 1;
 };
 
 GTFO.SpellID["235677"] = {
@@ -280,13 +313,20 @@ GTFO.SpellID["235677"] = {
   sound = 3;
 };
 
-GTFO.SpellID["236338"] = {
-  --desc = "Boiling Tar (Tar Tyrant - Un'goro Madness)";
-  sound = 1;
-};
-
 GTFO.SpellID["244954"] = {
   --desc = "Wailing Wall (Death Metal Knight - Darkmoon Faire)";
+  alwaysAlert = true;
+  sound = 3;
+};
+
+GTFO.SpellID["414842"] = {
+  --desc = "Pumpkin Breath - Flames (Headless Horseman - Dragonflight)";
+  sound = 3;
+};
+
+GTFO.SpellID["382607"] = {
+  --desc = "Out of Bounds (Beta Testing)";
+  applicationOnly = true;
   sound = 3;
 };
 

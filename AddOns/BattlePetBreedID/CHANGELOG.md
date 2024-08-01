@@ -1,8 +1,9 @@
 # Battle Pet BreedID
 
-## [v1.22.9](https://github.com/MMOSimca/BattlePetBreedID/tree/v1.22.9) (2022-12-15)
-[Full Changelog](https://github.com/MMOSimca/BattlePetBreedID/compare/v1.22.8...v1.22.9) [Previous Releases](https://github.com/MMOSimca/BattlePetBreedID/releases)
+## [v1.29.0](https://github.com/MMOSimca/BattlePetBreedID/tree/v1.29.0) (2024-07-25)
+[Full Changelog](https://github.com/MMOSimca/BattlePetBreedID/compare/v1.28.2...v1.29.0) [Previous Releases](https://github.com/MMOSimca/BattlePetBreedID/releases)
 
-- Added additional nil checks to the PetJournal ScrollBox hook.  
-- Added breeds for almost all remaining Dragonflight pets.  
-- Added base stats for Ichabod.  
+- Updated Interface version for Patch 11.0.0.  
+- Tww fixes (#12)  
+    * Add missing function namespaces  
+    * Fix quality coloring  

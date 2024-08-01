@@ -1,9 +1,10 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: The WeakAuras Team
-## Version: 5.3.6
+## Version: 5.15.4
 ## Dependencies: WeakAuras, WeakAurasOptions
 ## LoadOnDemand: 1
 ## DefaultState: Enabled
+## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
 
 ## Title: WeakAuras Templates
 ## Notes: Templates for WeakAuras

@@ -155,6 +155,9 @@ function Object:SuperCall(method, ...)
         if super[method] == self[method] then
             super = super:GetSuper()
         else
+            if method == "SetText" and (...) == nil then
+                return super[method](self, "")
+            end
             return super[method](self, ...)
         end
     end
@@ -174,6 +177,7 @@ local _UIBaseClass = setmetatable(Class._UIBaseClass, {
     __index = function(t, k)
         local ok, class = pcall(CreateFrame, k)
         if ok then
+			local ui = k == "scrollframe" and "ScrollFrame" or class:GetObjectType()
             class._Meta = {__index = class, __type = class, __ui = k}
             class:Hide()
             class.Constructor = DefaultConstructor

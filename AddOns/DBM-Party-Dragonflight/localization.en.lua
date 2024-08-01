@@ -179,10 +179,6 @@ L:SetGeneralLocalization({
 	name =	"Algeth'ar Academy Trash"
 })
 
-L:SetOptionLocalization({
-	AGBuffs		= "Auto select gossip to activate buffs when interacting with dragonflight npcs"
-})
-
 -----------------------
 -- <<<The Azure Vault>>> --
 -----------------------
@@ -213,10 +209,6 @@ L = DBM:GetModLocalization("TheAzurevaultTrash")
 
 L:SetGeneralLocalization({
 	name =	"Azure Vault Trash"
-})
-
-L:SetOptionLocalization({
-	AGBook			= "Auto select gossip to teleport interacting with books"
 })
 
 -----------------------
@@ -283,4 +275,73 @@ L = DBM:GetModLocalization("HallsofInfusionTrash")
 
 L:SetGeneralLocalization({
 	name =	"Halls of Infusion Trash"
+})
+
+-----------------------
+-- Chronikar --
+-----------------------
+--L= DBM:GetModLocalization(2521)
+
+-----------------------
+-- Manifested Timeways --
+-----------------------
+L= DBM:GetModLocalization(2528)
+
+L:SetMiscLocalization({
+	PrePullRP		= "Even the Aspect of Time cannot be allowed to disrupt the timeways!"
+})
+
+-----------------------
+-- Blight of Galakrond --
+-----------------------
+--L= DBM:GetModLocalization(2535)
+
+-----------------------
+-- Iridikron the Stonescaled --
+-----------------------
+L= DBM:GetModLocalization(2537)
+
+L:SetMiscLocalization({
+	PrePullRP		= "So the titans' puppets have come to face me."
+})
+
+-----------------------
+-- Tyr, the infinite Keeper --
+-----------------------
+--L= DBM:GetModLocalization(2526)
+
+-----------------------
+-- Morchie --
+-----------------------
+--L= DBM:GetModLocalization(2536)
+
+-----------------------
+-- Time-Lost Battlefield  --
+-----------------------
+L= DBM:GetModLocalization(2533)--Alliance ID used for both factions (2534 is horde id)
+
+L:SetGeneralLocalization({
+	name =	"Time-Lost Battlefield"--Manual local because auto inserts Alliance or horde to name and mod combines them since singular encounter ID
+})
+
+L:SetMiscLocalization({
+	customWAMessage = "Use |cff69ccf0%s|r for |cff4565ffAlly|r pulls and |cff69ccf0%s|r for |cffff0000Horde|r pulls"
+})
+
+-----------------------
+-- Chrono-Lord Deios --
+-----------------------
+--L= DBM:GetModLocalization(2538)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("DawnoftheInfiniteTrash")
+
+L:SetGeneralLocalization({
+	name =	"DotI Trash"
+})
+
+L:SetOptionLocalization({
+	AutoRift	= "Auto select gossip to activate rift after gauntlet"
 })

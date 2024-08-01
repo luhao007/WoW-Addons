@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2023 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2024 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 --
 -- Gem information
@@ -324,10 +324,8 @@ PawnGemQualityLevels =
 	{ 0, PawnGemData1 },
 }
 
-PawnMetaGemQualityLevels =
-{
-	{0, {} }, -- There are no meta gems anymore.
-}
+PawnMetaGemQualityLevels = nil
+PawnCogwheelQualityLevels = nil
 
 PawnMinimumItemLevelToConsiderGems = 315 -- Sockets on items below this ilvl are ignored by default
 

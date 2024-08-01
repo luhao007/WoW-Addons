@@ -340,12 +340,6 @@ local function show_demo()
 
   -- deathcounter
   infos.update_deathcounter_info(demo_run, 2, 10)
-
-  -- prideful
-  infos.update_prideful_info(demo_run)
-
-  -- reaping
-  infos.update_reaping_info(demo_run)
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -412,8 +406,9 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------
 local function on_objectivetracker_change(_, checked)
-  if not checked then
+  if not checked and quest_frame ~= nil then
     quest_frame:SetParent(UIParent)
+    quest_frame = nil
   end
 end
 
@@ -446,8 +441,6 @@ local function on_challenge_mode_completed()
 
     main.on_challenge_mode_complete(current_run)
   end
-
-  main.show_default_tracker()
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -705,9 +698,9 @@ function main.hide_default_tracker()
 
   local in_combat = InCombatLockdown() or UnitAffectingCombat("player")
   if not in_combat then
-    if quest_frame:GetParent() ~= hidden_frame then
-      quest_frame:SetParent(hidden_frame)
-    end
+    -- find quest frame (used to find object tracker, other addons could have moved the tracker frame)
+    quest_frame = main.get_quest_frame(ObjectiveTrackerFrame)
+    quest_frame:SetParent(hidden_frame)
     hidden_frame:Hide()
   end
 end
@@ -719,8 +712,9 @@ function main.show_default_tracker()
   end
 
   local in_combat = InCombatLockdown() or UnitAffectingCombat("player")
-  if not in_combat then
+  if not in_combat and quest_frame ~= nil then
     quest_frame:SetParent(UIParent)
+    quest_frame = nil
   end
 end
 
@@ -768,9 +762,6 @@ function main:enable()
   -- create hidden frame (used to hide the objective tracker, otherwise other addons can show the tracker again)
   hidden_frame = CreateFrame("Frame")
   hidden_frame:Hide()
-
-  -- find quest frame (used to find object tracker, other addons could have moved the tracker frame)
-  quest_frame = main.get_quest_frame(ObjectiveTrackerFrame)
 
   -- create config entries if needed
   local best_times = addon.c("best_times")

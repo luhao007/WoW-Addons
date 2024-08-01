@@ -6,16 +6,20 @@ Recent.lua
 
 BuildEnv(...)
 
-Recent = Addon:NewModule('Recent', 'AceTimer-3.0', 'AceBucket-3.0', 'AceEvent-3.0', 'NetEaseSocket-2.0')
+Recent = Addon:NewModule('Recent', 'AceTimer-3.0', 'AceBucket-3.0', 'AceEvent-3.0')
+-- 'NetEaseSocket-2.0'
 
 function Recent:OnInitialize()
     self.managers = {}
 
-    self.groupManagers = setmetatable({}, {__index = function(t, k)
-        t[k] = {}
-        return t[k]
-    end})
+    self.groupManagers = setmetatable({}, {
+        __index = function(t, k)
+            t[k] = {}
+            return t[k]
+        end
+    })
 
+    -- 禁用网易插件服务
     self:InitRecentManagers()
 
     self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 1)
@@ -26,8 +30,8 @@ function Recent:OnInitialize()
     self:RegisterBucketMessage('MEETINGSTONE_MEMBER_UPDATE', 2, 'CacheRecent')
     self:RegisterBucketMessage('MEETINGSTONE_MEMBER_UPDATE', 10, 'BroadcastInfo')
 
-    self:ListenSocket('NE_RECENT')
-    self:RegisterSocket('RECENT_INFO')
+    -- self:ListenSocket('NE_RECENT')
+    -- self:RegisterSocket('RECENT_INFO')
 end
 
 function Recent:OnEnable()
@@ -42,9 +46,9 @@ function Recent:InitRecentManagers()
 end
 
 function Recent:NewRecentManager(activityCode)
-    local manager = RecentManager:New(activityCode)
+    local manager                                          = RecentManager:New(activityCode)
 
-    self.managers[activityCode] = manager
+    self.managers[activityCode]                            = manager
     self.groupManagers[manager:GetCategoryCode()][manager] = true
     self.groupManagers[manager:GetGroupCode()][manager]    = true
     self.groupManagers[manager:GetActivityCode()][manager] = true
@@ -64,10 +68,10 @@ function Recent:BroadcastInfo()
         return
     end
 
-    self:SendSocket('@GROUP', 'RECENT_INFO',
-        GetPlayerBattleTag(),
-        GetPlayerItemLevel()
-    )
+    -- self:SendSocket('@GROUP', 'RECENT_INFO',
+    --     GetPlayerBattleTag(),
+    --     GetPlayerItemLevel()
+    -- )
 end
 
 function Recent:MEETINGSTONE_DB_SHUTDOWN()

@@ -1,10 +1,11 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: MysticalOS, Pardua, Cigawoot
-## Version: 1.6.21
+## Version: 1.6.36
 ## RequiredDeps: DBM-Core
 ## DefaultState: enabled
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
 
-## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Sound Events Pack|r
+## Title: |cffffe00a<|r|cffff7d0aDBM Media|r|cffffe00a>|r |cff308530Sound Events Pack|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0声音特效|r
 ## Notes-zhCN: 为DBM添加声音特效（如战斗胜利等）
 

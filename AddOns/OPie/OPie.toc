@@ -1,8 +1,10 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: foxlit
-## Version: Yuzu 5b
+## Version: Zeta 8a
+## OptionalDeps: TaintLess
 ## SavedVariables: OneRing_Config, OPie_SavedData
 ## SavedVariablesPerCharacter: OPie_SavedDataPC
+## IconTexture: Interface/AddOns/OPie/gfx/opie_ring_icon
 
 ## Title: OPie
 ## Notes: Group abilities into rings that appear when you hold down a binding.
@@ -14,12 +16,13 @@
 
 Libs\Evie.lua
 Libs\Niji.lua
-Libs\Mirage.lua
 Libs\TaintLess.xml
-Libs\Ten.lua
-Libs\TenSettings.lua
+Libs\exui\exui.xml
 Libs\ActionBook\ActionBook.xml
-Libs\ActionBook\ActionBookUI.xml
+Libs\Mirage.lua
+Libs\TenSettings.lua
+Libs\NotGameTooltip.lua
+Meta\Widgets.lua
 Locale.lua
 OPieCore.lua
 OPieUI.lua

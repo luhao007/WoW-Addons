@@ -1,9 +1,11 @@
 local mod	= DBM:NewMod(610, "DBM-Party-WotLK", 15, 278)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,timewalker"
+if not mod:IsClassic() then
+	mod.statTypes = "normal,heroic,timewalker"
+end
 
-mod:SetRevision("20230117063410")
+mod:SetRevision("20240616044034")
 mod:SetCreatureID(36658, 36661)
 mod:SetEncounterID(2000)
 mod:DisableESCombatDetection()
@@ -34,10 +36,9 @@ local warnHoarfrost				= mod:NewTargetAnnounce(69246, 2)
 
 local specWarnHoarfrost			= mod:NewSpecialWarningMoveAway(69246, nil, nil, nil, 1, 2)
 local yellHoarfrost				= mod:NewYell(69246)
-local specWarnHoarfrostNear		= mod:NewSpecialWarningClose(69246, nil, nil, nil, 1, 2)
 local specWarnIcyBlast			= mod:NewSpecialWarningMove(69238, nil, nil, nil, 1, 2)
 local specWarnOverlordsBrand	= mod:NewSpecialWarningReflect(69172, nil, nil, nil, 3, 2)
-local specWarnUnholyPower		= mod:NewSpecialWarningSpell(69167, "Tank", nil, nil, 1, 2)--Spell for now. may change to run away if damage is too high for defensive
+local specWarnUnholyPower		= mod:NewSpecialWarningSpell(69167, nil, nil, nil, 1, 2)--Spell for now. may change to run away if damage is too high for defensive
 
 local timerCombatStart			= mod:NewCombatTimer(31)
 local timerOverlordsBrandCD		= mod:NewCDTimer(12, 69172, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
@@ -46,7 +47,7 @@ local timerUnholyPower			= mod:NewBuffActiveTimer(10, 69167, nil, "Tank|Healer",
 local timerHoarfrostCD			= mod:NewCDTimer(25.5, 69246, nil, nil, nil, 3)
 local timerForcefulSmash		= mod:NewCDTimer(40, 69155, nil, "Tank", 2, 5, nil, DBM_COMMON_L.TANK_ICON)--Highly Variable. 40-50
 
-mod:AddSetIconOption("SetIconOnHoarfrostTarget", 69246, true, false, {8})
+mod:AddSetIconOption("SetIconOnHoarfrostTarget", 69246, true, 0, {8})
 mod:AddRangeFrameOption(8, 69246)
 
 function mod:OnCombatStart(delay)
@@ -63,8 +64,10 @@ end
 
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 69167 then					-- Unholy Power
-        specWarnUnholyPower:Show()
-        specWarnUnholyPower:Play("justrun")
+		if self:IsTanking("player", nil, nil, true, args.sourceGUID) then--GUID used because #nochanges clasic won't enable boss unit IDs in dungeons
+			specWarnUnholyPower:Show()
+			specWarnUnholyPower:Play("justrun")
+		end
 		timerUnholyPower:Start()
 	end
 end
@@ -113,7 +116,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 	if msg == L.HoarfrostTarget or msg:find(L.HoarfrostTarget) then--Probably don't need this, verify
 		if not target then return end
 		timerHoarfrostCD:Start()
-		target = DBM:GetUnitFullName(target)
+		target = DBM:GetUnitFullName(target) or target
 		if target == UnitName("player") then
 			specWarnHoarfrost:Show()
 			specWarnHoarfrost:Play("targetyou")
@@ -121,13 +124,10 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8, nil, nil, nil, nil, 5)
 			end
-		elseif self:CheckNearby(8, target) then
-			specWarnHoarfrostNear:Show(target)
-			specWarnHoarfrostNear:Play("watchstep")
 		else
 			warnHoarfrost:Show(target)
 		end
-		if self.Options.SetIconOnHoarfrostTarget then
+		if target and self.Options.SetIconOnHoarfrostTarget then
 			self:SetIcon(target, 8, 5)
 		end
 	end

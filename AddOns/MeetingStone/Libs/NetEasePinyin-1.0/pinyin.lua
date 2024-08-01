@@ -18,6 +18,7 @@ local function getpinyin(value)
     if shengmu == 0 and yunmu == 0 then
         return ''
     end
+    if shengmu == nil or yunmu == nil then return '' end
     return format(':%s%s:', strchar(shengmu), strchar(yunmu))
 end
 

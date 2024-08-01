@@ -1,324 +1,291 @@
-local _,L = ...
-local rematch = Rematch
-local notes = RematchNotes
-local settings
+local _,rematch = ...
+local L = rematch.localization
+local C = rematch.constants
+local settings = rematch.settings
+rematch.notes = RematchNotesCard
 
-rematch:InitModule(function()
-	rematch.Notes = notes
-	settings = RematchSettings
-	notes.needsInit = true
+rematch.events:Register(rematch.notes,"PLAYER_LOGIN",function(self)
+
+    -- register cardManager behavior
+    rematch.cardManager:Register("Notes",self,{
+        update = self.Update,
+        lockUpdate = self.UpdateLock,
+        noAnchor = true,
+        noHide = function() return settings.KeepNotesOnScreen end,
+        noEscape = function() return settings.KeepNotesOnScreen and settings.NotesNoEsc end,
+    })
+
+    -- this scrollbar adjustment may happen in update or configure (makes room for resize grip which isn't shown when position-locked)
+    self.Content.ScrollFrame.ScrollBar:SetPoint("TOPLEFT",self.Content.ScrollFrame,"TOPRIGHT",0,-13)
+    self.Content.ScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT",self.Content.ScrollFrame,"BOTTOMRIGHT",0,28) -- 13 (align to bottom) + 15 (space for resize grip)
+    self.Content.ScrollFrame.ScrollBar.trackBG:SetAlpha(0.25)
+    self.Content.Bottom.DeleteButton:SetText(DELETE)
+    self.Content.Bottom.UndoButton:SetText(L["Undo"])
+    self.Content.Bottom.SaveButton:SetText(SAVE)
+    rematch.notes.LockButton:Configure()
+
+    rematch.dialog:Register("DeleteNotes",{
+        title = L["Delete Notes"],
+        accept = YES,
+        cancel = NO,
+        layout = {"Text","CheckButton"},
+        refreshFunc = function(self,info,subject,firstRun)
+            if rematch.utils:GetIDType(subject)=="team" then
+                self.Text:SetText(format(L["Do you want to delete notes for team %s\124r?"],rematch.utils:GetFormattedTeamName(subject)))
+            else
+                local petInfo = rematch.petInfo:Fetch(subject)
+                if petInfo.isValid then
+                    self.Text:SetText(format(L["Do you want to delete notes for pet %s%s\124r?"],petInfo.color.hex,petInfo.name))
+                end
+            end
+            self.CheckButton:SetText(L["Don't Ask When Deleting Notes"])
+            self.CheckButton:SetChecked(false)
+        end,
+        acceptFunc = function(self,info,subject)
+            rematch.notes:DeleteNotes(subject)
+            if self.CheckButton:GetChecked() then
+                settings.DontConfirmDeleteNotes = true
+            end
+        end
+    })
+
+    self:UpdateFont()
+
+    self:SetScript("OnSizeChanged",self.OnSizeChanged)
+
 end)
 
--- if maybe is true, notes only hide if card isn't locked; otherwise hide regardless
-function rematch:HideNotes(maybe)
-	if maybe and notes.locked then return end
-	notes:Hide()
+-- called on login and in options too
+function rematch.notes:UpdateFont()
+    self.Content.ScrollFrame.EditBox:SetFontObject(settings.NotesFont or "GameFontHighlight")
 end
 
--- toggles notes for the loaded team (called from binding)
-function rematch:ToggleNotes()
-	if notes:IsVisible() then
-		rematch:HideNotes()
-	else
-		local team = RematchSaved[settings.loadedTeam]
-		if team and team.notes then
-			rematch:ShowNotes("team",settings.loadedTeam,true)
-		end
-	end
+-- for lock button in topleft corner, update icon and hide resize grip while locked
+function rematch.notes.LockButton:Configure()
+    self:SetIcon(settings.LockNotesPosition and "lock" or "unlock")
+    if settings.LockNotesPosition then
+        rematch.notes.Content.ScrollFrame.ResizeGrip:Hide()
+        rematch.notes.Content.ScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT",rematch.notes.Content.ScrollFrame,"BOTTOMRIGHT",0,13)
+    else
+        rematch.notes.Content.ScrollFrame.ResizeGrip:Show()
+        rematch.notes.Content.ScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT",rematch.notes.Content.ScrollFrame,"BOTTOMRIGHT",0,28)
+    end
 end
 
-function notes:StopSizing()
-	notes:StopMovingOrSizing()
-	settings.NotesLeft = notes:GetLeft()
-	settings.NotesBottom = notes:GetBottom()
-	settings.NotesWidth = notes:GetWidth()
-	settings.NotesHeight = notes:GetHeight()
-	notes:SetUserPlaced(false)
-end
-
-function notes:OnSizeChanged(w)
-	self.Content.ScrollFrame.EditBox:SetWidth(w-58)
-	notes:ResizeControls(w)
-end
-
-function notes:ResizeControls(width)
-	-- controls are anchored to BOTTOMLEFT and BOTTOMRIGHT on notes
-	width = width or notes:GetWidth()
-	local bwidth = min((width-6)/3,122)-2
-	self.Controls.DeleteButton:SetWidth(bwidth)
-	self.Controls.UndoButton:SetWidth(bwidth)
-	self.Controls.SaveButton:SetWidth(bwidth)
-end
-
-function notes:OnShow()
-	if notes.needsInit then -- one-time stuff first time notes are shown
-		notes:SetScript("OnSizeChanged",notes.OnSizeChanged)
-		notes:OnSizeChanged(notes:GetWidth())
-		notes.needsInit = nil
-	end
-end
-
-function notes:OnHide()
-	notes.locked = nil
-	notes.subject = nil
-	notes.subjectType = nil
-	notes:SetAlpha(1)
-end
-
-function rematch:ShowNotes(subjectType,subject,force)
-	if not force and notes.locked then
-		return -- notes are locked, don't show new notes unless forced (clicking new note)
-	end
-	if settings.ClickPetCard and not force then
-		return
-	end
-	if rematch:IsDialogOpen("DeleteNotes") then
-		return
-	end
-
-	-- if FastPetCard not enabled, then cause a 0.25 delay before showing a card (unless it's forced)
-	if not settings.ClickPetCard and not settings.FastPetCard then
-		if subjectType and subject and not force then
-			notes.subjectType = subjectType
-			notes.subject = subject
-			rematch:StartTimer("ShowNotes",0.25,rematch.ShowNotes)
-			return
-		elseif not force then
-			subjectType = notes.subjectType
-			subject = notes.subject
-		end
-	end
-
-	local text, title, leftIcon, rightIcon
-	if subjectType=="team" then
-		local team = RematchSaved[subject]
-		text = team.notes or ""
-		title = rematch:GetTeamTitle(subject,true)
-		leftIcon = "Interface\\Icons\\INV_Scroll_03"
-		rightIcon = settings.TeamGroups[team.tab or 1][2]
-		notes.Title:SetText(L["Team Notes"])
-	elseif subjectType=="pet" then
-		local idType = rematch:GetIDType(subject)
-		local speciesID, name, icon, petType, _
-		if idType=="pet" then
-			speciesID,_,_,_,_,_,_,name,icon,petType = C_PetJournal.GetPetInfoByPetID(subject)
-		elseif idType=="species" then
-			speciesID = subject
-			name,icon,petType = C_PetJournal.GetPetInfoBySpeciesID(subject)
-		end
-		if speciesID then
-			subject = speciesID -- petID subject changing to speciesID subject here
-			text = settings.PetNotes[speciesID] or ""
-			title = name
-			leftIcon = icon
-			rightIcon = "Interface\\Icons\\Icon_PetFamily_"..PET_TYPE_SUFFIX[petType]
-		end
-		notes.Title:SetText(L["Pet Notes"])
-	end
-
-	if not text then
-		notes.subject = nil
-		notes.subjectType = nil
-		notes.locked = nil
-		return -- not sure what to display, leave
-	end
-
-	notes.Content.Name:SetText(title)
-	notes.Content.LeftIcon:SetTexture(leftIcon)
-	notes.Content.RightIcon:SetTexture(rightIcon)
-
-	notes.subject = subject
-	notes.subjectType = subjectType
-
-	if force then
-		notes.locked = true
-	end
-
-	notes.Content.ScrollFrame.EditBox:SetText(text)
-	notes.Content.ScrollFrame.EditBox:SetCursorPosition(0)
-
-	notes:UpdateLockState()
-
+function rematch.notes:Update(subject)
+    self.teamID = nil
+    self.petID = nil
+    if type(subject)=="string" and rematch.savedTeams[subject] then -- this is a teamID
+        local team = rematch.savedTeams[subject]
+        if team then
+            self.teamID = subject
+            self.Content.Top.Name:SetText(rematch.utils:GetFormattedTeamName(subject))
+            self.Content.Top.RightIcon:SetTexture(rematch.savedGroups[team.groupID or "group:none"].icon)
+            self.Content.ScrollFrame.EditBox:SetText(team.notes or "")
+            self.Content.ScrollFrame.EditBox:SetCursorPosition(0)
+            self.originalNotes = team.notes -- note this can be nil
+        end
+    elseif subject then -- this is likely a petID
+        local petInfo = rematch.petInfo:Fetch(subject)
+        if petInfo.isValid then
+            self.petID = subject
+            local color = settings.ColorPetNames and petInfo.color
+            self.Content.Top.Name:SetText(format("%s%s",color and color.hex or C.HEX_GOLD,petInfo.name))
+            self.Content.Top.RightIcon:SetTexture(petInfo.icon)
+            self.Content.ScrollFrame.EditBox:SetText(petInfo.notes or "")
+            self.Content.ScrollFrame.EditBox:SetCursorPosition(0)
+            self.originalNotes = petInfo.notes -- note this can be nil
+        end
+    end
+    -- anchor notes if there is an anchor defined (otherwise use anchor in XML)
 	if settings.NotesLeft then
-		notes:SetSize(settings.NotesWidth,settings.NotesHeight)
-		notes:ClearAllPoints()
-		notes:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",settings.NotesLeft,settings.NotesBottom)
-	end
-
-	notes:Show()
-end
-
--- to prevent onenter/onleave spasms if the notes overlaps the button that spawn them, the
--- mouse is disabled for these when the notes are not locked
-function notes:UpdateLockState()
-	local locked = notes.locked and true
-	notes:SetAlpha(locked and 1 or 0)
-
-	notes:EnableMouse(locked)
-	notes.LockButton:EnableMouse(locked)
-	notes.Content.ScrollFrame:EnableMouse(locked)
-	notes.Content.ScrollFrame.EditBox:EnableMouse(locked)
-	notes.Content.ScrollFrame.FocusGrabber:EnableMouse(locked)
-	notes.Content.ScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT",notes.Content.ScrollFrame,"BOTTOMRIGHT",8,settings.LockNotesPosition and 13 or 26)
-	notes.Content.ScrollFrame.ScrollBar:SetShown(locked)
-	notes.Content.ScrollFrame.ScrollBar:SetAlpha(locked and 1 or 0)
-	notes.Content.ScrollFrame.ResizeGrip:SetShown(locked and not settings.LockNotesPosition)
-	notes.CloseButton:EnableMouse(locked)
-
-	rematch:SetTitlebarButtonIcon(notes.LockButton,settings.LockNotesPosition and "lock" or "unlock")
-end
-
-function notes:OnEnter()
-	local key = self:GetParent().key
-	local petID = self:GetParent().petID
-	local petOwner = self:GetParent().petOwner
-	local petIndex = self:GetParent().petIndex
-	if petOwner and petIndex then -- this is a notes button on battle UI
-		rematch:ShowNotes("pet",C_PetBattles.GetPetSpeciesID(petOwner,petIndex))
-	elseif key then
-		rematch:ShowNotes("team",key)
-	else
-		rematch:ShowNotes("pet",petID)
+		self:SetSize(settings.NotesWidth,settings.NotesHeight)
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",settings.NotesLeft,settings.NotesBottom)
 	end
 end
 
-function notes:OnLeave()
-	if not settings.FastPetCard then
-		rematch:StopTimer("ShowNotes")
-	end
-	rematch:HideNotes(true)
+function rematch.notes:UpdateLock()
+    -- while card unlocked, hide scrollbar and resize grip by setting their alpha to 0
+    local isLocked = rematch.cardManager:IsCardLocked(self)
+    self.Content.ScrollFrame.ScrollBar:SetAlpha(isLocked and 1 or 0)
+    self.Content.ScrollFrame.ResizeGrip:SetAlpha(isLocked and 1 or 0)
 end
 
--- click of the Notes button (from RematchNotesButton template)
-function notes:OnClick()
-	local parent = self:GetParent()
-	local subject,subjectType
-	if parent.petOwner and parent.petIndex then -- this is a battle ui note button
-		subject = C_PetBattles.GetPetSpeciesID(parent.petOwner,parent.petIndex)
-		subjectType = "pet"
-	elseif parent.key then
-		subject = parent.key
-		subjectType = "team"
-	elseif parent.petID then
-		subject = parent.petID
-		if rematch:GetIDType(subject)=="pet" then -- convert petID to speciesID
-			subject = C_PetJournal.GetPetInfoByPetID(subject)
-		end
-		subjectType = "pet"
-	end
-	if not subject then return end
-	if settings.ClickPetCard then
-		notes.locked = true
-	end
-	if subject~=notes.subject then
-		rematch:ShowNotes(subjectType,subject,true)
-	elseif settings.ClickPetCard then
-		rematch:HideNotes()
-	else
-		notes.locked = not notes.locked
-	end
-	notes:UpdateLockState()
+-- sets focus to editbox
+function rematch.notes:SetFocus()
+    self.Content.ScrollFrame.EditBox:SetFocus(true)
 end
 
--- only enabled when NotesNoESC is disabled on notes on screen
-function notes:OnKeyDown(key)
-	if key==GetBindingKey("TOGGLEGAMEMENU") and notes.locked then
-		rematch:HideNotes()
-		self:SetPropagateKeyboardInput(false)
-	else
-		self:SetPropagateKeyboardInput(true)
-	end
+function rematch.notes:ClearFocus()
+    self.Content.ScrollFrame.EditBox.loseFocus = true
+    self.Content.ScrollFrame.EditBox:ClearFocus()
 end
 
-function notes:UndoButtonOnClick()
-	rematch:ShowNotes(notes.subjectType,notes.subject,true)
+--[[ editbox script handlers ]]
+
+-- make sure editbox is a higher framelevel so it's not beneath focus grabber
+function rematch.notes.Content.ScrollFrame.EditBox:OnShow()
+    self:SetFrameLevel(self:GetParent():GetFrameLevel()+4)
 end
 
--- autofocus editboxes can lose focus now by clicking elsewhere
-function notes:OnFocusLost()
-	rematch:StartTimer("OnFocusLostDelayed",0.15,notes.OnFocusLostDelayed)
+-- when focus gained, show controls at bottom
+function rematch.notes.Content.ScrollFrame.EditBox:OnEditFocusGained()
+    rematch.notes.Content.ScrollFrame:SetPoint("BOTTOMRIGHT",-26,8+C.NOTES_CONTROLS_HEIGHT)
+    rematch.notes.Content.Bottom:Show()
 end
 
--- when focus lost, the control buttons are hidden and the notes are saved
-function notes:OnFocusLostDelayed()
-	-- if focus was immediately regained, then leave and do nothing
-	if notes.Content.ScrollFrame.EditBox:HasFocus() then
-		return
-	end
-	notes.Content:SetPoint("BOTTOMRIGHT",-4,2)
-	notes.Controls:Hide()
-	local text = (notes.Content.ScrollFrame.EditBox:GetText() or ""):trim()
-	local update -- becomes true if UI needs updating (notes gained/lost)
-	if notes.subjectType=="team" then
-		local team = RematchSaved[notes.subject]
-		if team and text~="" then
-			update = not team.notes
-			team.notes = text
-		else
-			update = team.notes and true
-			team.notes = nil -- was nothing in notes, remove it
-		end
-	elseif notes.subjectType=="pet" then
-		if text~="" then
-			update = not settings.PetNotes[notes.subject]
-			settings.PetNotes[notes.subject] = text
-		else
-			update = settings.PetNotes[notes.subject] and true
-			settings.PetNotes[notes.subject] = nil
-		end
-	end
-	if update then
-		rematch:UpdateUI()
-		rematch.Battle:ShowNoteButtons()
-	end
+-- when focus lost, hide controls at bottom unless mouse is over bottom controls or resize button
+function rematch.notes.Content.ScrollFrame.EditBox:OnEditFocusLost()
+    if (MouseIsOver(rematch.notes.Content.Bottom) or MouseIsOver(rematch.notes.Content.ScrollFrame.ResizeGrip)) and not self.loseFocus then
+        self:SetFocus(true)
+    else
+        self.loseFocus = nil
+        rematch.notes.Content.ScrollFrame:SetPoint("BOTTOMRIGHT",-26,8)
+        rematch.notes.Content.Bottom:Hide()
+    end
 end
 
--- when focus gained, the control buttons are shown (delete, undo, save, resize)
-function notes:OnFocusGained()
-	notes.Content:SetPoint("BOTTOMRIGHT",-4,25)
-	notes.Controls:Show()
+function rematch.notes.Content.ScrollFrame.EditBox:OnEscapePressed()
+    self.loseFocus = true -- if mouse is over bottom when hitting esc, don't grab focus back
+    self:ClearFocus()
 end
 
-function notes:DeleteButtonOnClick()
-	local team = RematchSaved[notes.subject]
-	-- when dialog opens, notes hide and subject is nil'ed, subject noted before dialog nil's them
-	local subjectType, subject = notes.subjectType, notes.subject
-	local title
-	if subjectType=="team" and team then
-		title = rematch:GetTeamTitle(subject,true)
-	elseif subjectType=="pet" then
-		title = rematch:GetPetName(subject)
-	end
-	if title then
-		local dialog = rematch:ShowDialog("DeleteNotes",300,124,L["Delete Notes"],nil,YES,notes.AcceptDelete,NO)
-		dialog:ShowText(format(L["Are you sure you want to delete the notes for %s\124r?"],title),220,50,"TOP",0,-36)
-		dialog:SetContext("subjectType",subjectType)
-		dialog:SetContext("subject",subject)
-	end
+-- if focus grabber is clicked at all, it's because notes don't take up whole editBox; set cursor to end
+function rematch.notes.Content.ScrollFrame.FocusGrabber:OnClick()
+    local editBox = self:GetParent().EditBox
+    editBox:SetCursorPosition(editBox:GetText():len())
+    editBox:SetFocus(true)
 end
 
-function notes:AcceptDelete()
-	local subjectType = rematch.Dialog:GetContext("subjectType")
-	local subject = rematch.Dialog:GetContext("subject")
-	if subjectType=="team" and RematchSaved[subject] then
-		RematchSaved[subject].notes = nil
-	elseif subjectType=="pet" and settings.PetNotes[subject] then
-		settings.PetNotes[subject] = nil
-	end
-	rematch:UpdateUI()
-	rematch.Battle:ShowNoteButtons()
+--[[ resizing script handlers ]]
+
+-- when parent notes frame changes size, adjust editbox width and bottom button widths
+function rematch.notes:OnSizeChanged(width,height)
+    rematch.notes.Content.ScrollFrame.EditBox:SetWidth(width-45)
+    local buttonWidth = (width-10)/3
+    rematch.notes.Content.Bottom.DeleteButton:SetWidth(buttonWidth)
+    rematch.notes.Content.Bottom.UndoButton:SetWidth(buttonWidth)
+    rematch.notes.Content.Bottom.SaveButton:SetWidth(buttonWidth)
 end
 
-function notes:UpdateControlButtons()
-	local text = notes.Content.ScrollFrame.EditBox:GetText()
-	if notes.subjectType=="team" then
-		local team = RematchSaved[notes.subject]
-		notes.Controls.UndoButton:SetEnabled(team.notes and text~=team.notes)
-	end
+-- resizing notes window from resize grip in lower right
+function rematch.notes.Content.ScrollFrame.ResizeGrip:OnMouseDown()
+    if not settings.LockNotesPosition then
+        rematch.notes:StartSizing()
+    end
 end
 
-function notes:LockButtonOnClick()
-	settings.LockNotesPosition = not settings.LockNotesPosition
-	notes:UpdateLockState()
-	notes:ResizeControls()
+function rematch.notes.Content.ScrollFrame.ResizeGrip:OnMouseUp()
+    if not settings.LockNotesPosition then
+        rematch.notes:StopMovingOrSizing()
+        rematch.notes:SavePosition()
+        rematch.notes:SetUserPlaced(false)
+    end
+end
+
+--[[ window movement script handlers ]]
+
+function rematch.notes:OnMouseDown()
+    if not settings.LockNotesPosition then
+        self:StartMoving()
+    end
+end
+
+function rematch.notes:OnMouseUp()
+    if not settings.LockNotesPosition then
+        self:StopMovingOrSizing()
+        self:SavePosition()
+        self:SetUserPlaced(false)
+    end
+end
+
+function rematch.notes.LockButton:OnClick()
+    settings.LockNotesPosition = not settings.LockNotesPosition
+    self:Configure()
+end
+
+function rematch.notes:SavePosition()
+    settings.NotesLeft = self:GetLeft()
+    settings.NotesBottom = self:GetBottom()
+    settings.NotesWidth = self:GetWidth()
+    settings.NotesHeight = self:GetHeight()
+end
+
+--[[ control buttons in bottom panel ]]
+
+function rematch.notes.Content.Bottom.SaveButton:OnClick()
+    local text = rematch.notes.Content.ScrollFrame.EditBox:GetText():trim()
+    if rematch.notes.teamID then
+        local teamID = rematch.notes.teamID
+        if teamID and rematch.savedTeams:IsUserTeam(teamID) then
+            if text:len()>0 then
+                rematch.savedTeams[teamID].notes = text
+            else
+                rematch.savedTeams[teamID].notes = nil
+            end
+            rematch.frame:Update()
+            rematch.notes:ClearFocus()
+            rematch.events:Fire("REMATCH_NOTES_CHANGED",teamID)
+        end
+    elseif rematch.notes.petID then
+        local speciesID = rematch.petInfo:Fetch(rematch.notes.petID).speciesID
+        if speciesID then
+            if text:len()>0 then
+                settings.PetNotes[speciesID] = text
+            else
+                settings.PetNotes[speciesID] = nil
+            end
+            rematch.frame:Update()
+            rematch.notes:ClearFocus()
+            rematch.events:Fire("REMATCH_NOTES_CHANGED",speciesID)
+        end
+    end
+end
+
+function rematch.notes.Content.Bottom.UndoButton:OnClick()
+    rematch.notes.Content.ScrollFrame.EditBox:SetText(rematch.notes.originalNotes or "")
+    rematch.notes.Content.ScrollFrame.EditBox:SetCursorPosition(0)
+end
+
+function rematch.notes.Content.Bottom.DeleteButton:OnClick()
+    rematch.notes:ClearFocus()
+    rematch.cardManager:HideCard(rematch.notes)
+    local subject = rematch.notes.teamID or rematch.notes.petID
+    if not settings.DontConfirmDeleteNotes and rematch.notes.originalNotes then
+        if subject then
+            rematch.dialog:ShowDialog("DeleteNotes",subject)
+        end
+    else
+        rematch.notes:DeleteNotes(subject)
+    end
+end
+
+function rematch.notes:DeleteNotes(subject)
+    if rematch.utils:GetIDType(subject)=="team" then
+        local team = rematch.savedTeams[subject]
+        if team then
+            rematch.savedTeams[subject].notes = nil
+            rematch.events:Fire("REMATCH_NOTES_CHANGED",subject)
+        end
+    elseif subject then
+        local speciesID = rematch.petInfo:Fetch(subject).speciesID
+        if speciesID then
+            settings.PetNotes[speciesID] = nil
+            rematch.events:Fire("REMATCH_NOTES_CHANGED",speciesID)
+        end
+    end
+    rematch.frame:Update()
+end
+
+-- primarily for the keybind, shows/hides notes for the currently loaded team, if one loaded (it's ok if team has no notes)
+function rematch.notes:Toggle()
+    local teamID = rematch.settings.currentTeamID
+    if rematch.savedTeams:IsUserTeam(teamID) then
+        if rematch.notes:IsVisible() then
+            rematch.cardManager:HideCard(rematch.notes)
+        else
+            rematch.cardManager:ShowCard(rematch.notes,teamID)
+        end
+    end
 end

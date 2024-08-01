@@ -1,14 +1,15 @@
 if not WeakAuras.IsLibsOK() then return end
---- @type string, Private
-local AddonName, Private = ...
+---@type string
+local AddonName = ...
+---@class Private
+local Private = select(2, ...)
 
 local SharedMedia = LibStub("LibSharedMedia-3.0");
 local L = WeakAuras.L;
 
 -- Default settings
 local default = {
-  model_path = "spells/arcanepower_state_chest.m2", -- arthas is not a thing on classic
-  model_fileId = "122968", -- Creature/Arthaslichking/arthaslichking.m2
+  model_fileId = WeakAuras.IsClassic() and "165589" or "122968", -- spells/arcanepower_state_chest.m2 & Creature/Arthaslichking/arthaslichking.m2
   modelIsUnit = false,
   api = false, -- false ==> SetPosition + SetFacing; true ==> SetTransform
   model_x = 0,
@@ -67,7 +68,7 @@ local properties = {
   },
 }
 
-WeakAuras.regionPrototype.AddProperties(properties, default);
+Private.regionPrototype.AddProperties(properties, default);
 
 local function GetProperties(data)
   return properties;
@@ -84,23 +85,19 @@ local function create(parent)
   region.regionType = "model"
   region:SetMovable(true);
   region:SetResizable(true);
-  if region.SetResizeBounds then
-    region:SetResizeBounds(1, 1)
-  else
-    region:SetMinResize(1, 1)
-  end
+  region:SetResizeBounds(1, 1)
 
   -- Border region
   local border = CreateFrame("Frame", nil, region, "BackdropTemplate");
   region.border = border;
 
-  WeakAuras.regionPrototype.create(region);
+  Private.regionPrototype.create(region);
 
   for k, v in pairs (regionFunctions) do
     region[k] = v
   end
 
-  region.AnchorSubRegion = WeakAuras.regionPrototype.AnchorSubRegion
+  region.AnchorSubRegion = Private.regionPrototype.AnchorSubRegion
 
   -- Return complete region
   return region;
@@ -113,7 +110,7 @@ end
 
 local function CreateModel()
   local frame = CreateFrame("PlayerModel", nil, UIParent)
-  frame.SetTransformFixed = frame.GetResizeBounds and Private.ModelSetTransformFixed or frame.SetTransform -- TODO change test to WeakAuras.IsWrathOrRetail() after 3.4.1 release
+  frame.SetTransformFixed = Private.ModelSetTransformFixed
   return frame
 end
 
@@ -131,7 +128,7 @@ local function ConfigureModel(region, model, data)
   model:Show()
 
   -- Adjust model
-  WeakAuras.SetModel(model, data.model_path, data.model_fileId, data.modelIsUnit, data.modelDisplayInfo)
+  WeakAuras.SetModel(model, nil, data.model_fileId, data.modelIsUnit, data.modelDisplayInfo)
   model:SetPortraitZoom(data.portraitZoom and 1 or 0);
   model:ClearTransform()
   if data.api then
@@ -146,23 +143,18 @@ local function ConfigureModel(region, model, data)
   if data.modelIsUnit then
     model:RegisterEvent("UNIT_MODEL_CHANGED");
 
-    local unit
-    if not WeakAuras.IsRetail() then
-      unit = data.model_path
-    else
-      unit = data.model_fileId
-    end
+    local unit = data.model_fileId
 
     if (unit == "target") then
       model:RegisterEvent("PLAYER_TARGET_CHANGED");
-    elseif not WeakAuras.IsClassic() and unit == "focus" then
+    elseif not WeakAuras.IsClassicEra() and unit == "focus" then
       model:RegisterEvent("PLAYER_FOCUS_CHANGED");
     end
     model:SetScript("OnEvent", function(self, event, unitId)
       Private.StartProfileSystem("model");
       if (event ~= "UNIT_MODEL_CHANGED" or UnitIsUnit(unitId, unit)) then
-        WeakAuras.SetModel(model, data.model_path, data.model_fileId, data.modelIsUnit, data.modelDisplayInfo)
-        if(data.advance and model:HasAnimation(data.sequence)) then
+        WeakAuras.SetModel(model, nil, data.model_fileId, data.modelIsUnit, data.modelDisplayInfo)
+        if data.advance then
           model:SetAnimation(data.sequence)
         else
           model:SetAnimation(0)
@@ -174,14 +166,14 @@ local function ConfigureModel(region, model, data)
   else
     model:UnregisterEvent("UNIT_MODEL_CHANGED");
     model:UnregisterEvent("PLAYER_TARGET_CHANGED");
-    if not WeakAuras.IsClassic() then
+    if not WeakAuras.IsClassicEra() then
       model:UnregisterEvent("PLAYER_FOCUS_CHANGED");
     end
     model:SetScript("OnEvent", nil);
   end
 
   -- Enable model animation
-  if(data.advance and model:HasAnimation(data.sequence)) then
+  if data.advance then
     model:SetAnimation(data.sequence)
   else
     model:SetAnimation(0)
@@ -200,7 +192,7 @@ local function ReleaseModel(model)
   model:Hide()
   model:UnregisterEvent("UNIT_MODEL_CHANGED");
   model:UnregisterEvent("PLAYER_TARGET_CHANGED");
-  if not WeakAuras.IsClassic() then
+  if not WeakAuras.IsClassicEra() then
     model:UnregisterEvent("PLAYER_FOCUS_CHANGED");
   end
   model:SetScript("OnEvent", nil);
@@ -210,7 +202,7 @@ end
 
 -- Modify a given region/display
 local function modify(parent, region, data)
-  WeakAuras.regionPrototype.modify(parent, region, data);
+  Private.regionPrototype.modify(parent, region, data);
   -- Localize
   local border = region.border;
 
@@ -235,9 +227,9 @@ local function modify(parent, region, data)
       bgFile = SharedMedia:Fetch("background", data.borderBackdrop),
       insets = {
         left     = data.borderInset,
-        right     = data.borderInset,
-        top     = data.borderInset,
-        bottom     = data.borderInset,
+        right    = data.borderInset,
+        top      = data.borderInset,
+        bottom   = data.borderInset,
       },
     });
     border:SetBackdropBorderColor(data.borderColor[1], data.borderColor[2], data.borderColor[3], data.borderColor[4]);
@@ -327,7 +319,7 @@ local function modify(parent, region, data)
     end
   end
 
-  WeakAuras.regionPrototype.modifyFinish(parent, region, data);
+  Private.regionPrototype.modifyFinish(parent, region, data);
 end
 
 -- Work around for movies and world map hiding all models
@@ -355,4 +347,4 @@ local function validate(data)
 end
 
 -- Register new region type with WeakAuras
-WeakAuras.RegisterRegionType("model", create, modify, default, GetProperties, validate);
+Private.RegisterRegionType("model", create, modify, default, GetProperties, validate);

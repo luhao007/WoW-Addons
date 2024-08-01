@@ -22,7 +22,7 @@ end
 
 local function initValidCategorys()
     wipe(validCategorys)
-    for i, baseFilter in ipairs({LE_LFG_LIST_FILTER_PVE, LE_LFG_LIST_FILTER_PVP}) do
+    for i, baseFilter in ipairs({ Enum.LFGListFilter.PvE, Enum.LFGListFilter.PvP }) do
         for _, categoryId in ipairs(C_LFGList.GetAvailableCategories(baseFilter)) do
             validCategorys[categoryId] = true
         end
@@ -34,7 +34,15 @@ local function isCategoryValid(categoryId)
 end
 
 local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
-    local fullName, diff, categoryId, groupId, _, filters = C_LFGList.GetActivityInfo(activityId)
+    --2022-11-17
+    --local fullName, shortName, categoryId, groupId, _, filters = C_LFGList.GetActivityInfo(activityId)
+
+    local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+    local fullName = activityInfo.fullName;
+    local shortName = activityInfo.shortName;
+    local categoryId = activityInfo.categoryID;
+    local groupId = activityInfo.groupFinderActivityGroupID;
+    local filters = activityInfo.filters;
 
     if customId then
         fullName = ACTIVITY_CUSTOM_NAMES[customId]
@@ -42,10 +50,13 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
 
     local data = {}
 
+    -- 2 普通, 凋魂之殇（普通）  --print(categoryId, groupId, shortName, "," , fullName)
+    -- 3 英雄,  尼奥罗萨，觉醒之城（英雄）
+    -- 113 难度1, 扭曲回廊
+    -- 4 2v2 竞技场（2v2）
+    data.text = fullName
     if categoryId == 113 then
-        data.text = diff
-    else
-        data.text = fullName
+        data.text = fullName .. " " .. shortName
     end
     data.fullName = fullName
     data.categoryId = categoryId
@@ -56,9 +67,9 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
     data.baseFilter = baseFilter
     data.value = GetActivityCode(activityId, customId, categoryId, groupId)
     if menuType == ACTIVITY_FILTER_BROWSE then
-        data.full = C_LFGList.GetCategoryInfo(categoryId)
-    elseif categoryId == 113 then
-        data.full = format('%s - %s', fullName, diff)
+        --2022-11-17
+        local categoryInfo = C_LFGList.GetLfgCategoryInfo(categoryId);
+        data.full = categoryInfo.name
     end
 
     currentCodeCache[data.value] = data
@@ -145,7 +156,10 @@ local function MakeVersionMenuTable(categoryId, versionId, baseFilter, menuType)
     end
 
     for _, activityId in ipairs(C_LFGList.GetAvailableActivities(categoryId)) do
-        if CATEGORY[versionId].activities[activityId] and select(4, C_LFGList.GetActivityInfo(activityId)) == 0 then
+        --2022-11-17
+        local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+        local groupId = activityInfo.groupFinderActivityGroupID;
+        if CATEGORY[versionId].activities[activityId] and groupId == 0 then
             tinsert(menuTable, MakeCustomActivityMenuTable(activityId, baseFilter, nil, menuType))
         end
     end
@@ -160,7 +174,10 @@ local function MakeVersionMenuTable(categoryId, versionId, baseFilter, menuType)
 end
 
 local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
-    local name, _, autoChoose = C_LFGList.GetCategoryInfo(categoryId)
+    --2022-11-17
+    local categoryInfo = C_LFGList.GetLfgCategoryInfo(categoryId);
+    local name = categoryInfo.name
+
     local data = {}
     data.text = name
     data.categoryId = categoryId
@@ -177,7 +194,7 @@ local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
 
     if categoryId == 2 or categoryId == 3 then
         -- for i = #MAX_PLAYER_LEVEL_TABLE, 0, -1 do
-        for i = 8, 0, -1 do
+        for i = #CATEGORY, 0, -1 do
             local versionMenu = MakeVersionMenuTable(categoryId, i, baseFilter, menuType)
             if versionMenu then
                 tinsert(menuTable, versionMenu)
@@ -198,7 +215,10 @@ local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
             end
         end
         for _, activityId in ipairs(C_LFGList.GetAvailableActivities(categoryId)) do
-            if select(4, C_LFGList.GetActivityInfo(activityId)) == 0 or count == 1 then
+            --2022-11-17
+            local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+            local groupId = activityInfo.groupFinderActivityGroupID;
+            if groupId == 0 or count == 1 then
                 tinsert(menuTable, MakeCustomActivityMenuTable(activityId, baseFilter, nil, menuType))
             end
         end
@@ -213,7 +233,7 @@ local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
 end
 
 local PACKED_CATEGORYS = { --
-    ['PvP'] = {4, 7, 8, 9, 10, key = 'packedPvp'},
+    ['PvP'] = { 4, 7, 8, 9, 10, key = 'packedPvp' },
 }
 
 local function FindPacked(categoryId)
@@ -229,7 +249,7 @@ local function FindPacked(categoryId)
 end
 
 local function MakePackedCategoryMenuTable(key, baseFilter, menuType)
-    local menuTable = {text = key, hasArrow = true, notClickable = true, menuTable = {}}
+    local menuTable = { text = key, hasArrow = true, notClickable = true, menuTable = {} }
 
     for _, categoryId in ipairs(PACKED_CATEGORYS[key]) do
         if isCategoryValid(categoryId) then
@@ -248,7 +268,7 @@ local function MakeMenuTable(list, baseFilter, menuType)
             local packed = FindPacked(categoryId)
             if packed then
                 tinsert(list, MakePackedCategoryMenuTable(packed, baseFilter, menuType))
-            elseif categoryId ~= 6 or baseFilter ~= LE_LFG_LIST_FILTER_PVE then
+            elseif categoryId ~= 6 or baseFilter ~= Enum.LFGListFilter.PvE then
                 tinsert(list, MakeCategoryMenuTable(categoryId, baseFilter, menuType))
             end
         end
@@ -263,17 +283,25 @@ function GetActivitesMenuTable(menuType)
     initValidCategorys()
 
     local list = {}
-    MakeMenuTable(list, LE_LFG_LIST_FILTER_PVE, menuType)
-    MakeMenuTable(list, LE_LFG_LIST_FILTER_PVP, menuType)
+    MakeMenuTable(list, Enum.LFGListFilter.PvE, menuType)
+    MakeMenuTable(list, Enum.LFGListFilter.PvP, menuType)
 
     if menuType == ACTIVITY_FILTER_BROWSE or menuType == ACTIVITY_FILTER_CREATE then
         tinsert(list, 1, {
             text = menuType == ACTIVITY_FILTER_CREATE and L['|cff00ff00最近创建|r'] or L['|cff00ff00最近搜索|r'],
             notClickable = true,
             hasArrow = true,
-            menuTable = RefreshHistoryMenuTable(menuType),
+            menuTable = RefreshHistoryMenuTable(menuType)
+        })
+        tinsert(list, 2, {
+            text = L['|cffffff00当前版本地下城|r'],
+            notClickable = true,
+            hasArrow = true,
+            menuTable = ListOfDungeons(menuType),
         })
     end
+
+    
 
     -- if UnitLevel('player') >= 70 then
     --     if menuType == ACTIVITY_FILTER_CREATE then
@@ -284,14 +312,14 @@ function GetActivitesMenuTable(menuType)
     --             menuTable    = {
     --                 MakeActivityMenuTable(
     --                     ACTIVITY_CUSTOM_IDS[SOLO_HIDDEN_CUSTOM_ID],
-    --                     LE_LFG_LIST_FILTER_PVP,
+    --                     Enum.LFGListFilter.PvP,
     --                     SOLO_HIDDEN_CUSTOM_ID,
     --                     ACTIVITY_CUSTOM_NAMES[SOLO_HIDDEN_CUSTOM_ID],
     --                     L['单刷开团，不会被其他玩家干扰。']
     --                 ),
     --                 MakeActivityMenuTable(
     --                     ACTIVITY_CUSTOM_IDS[SOLO_VISIBLE_CUSTOM_ID],
-    --                     LE_LFG_LIST_FILTER_PVE,
+    --                     Enum.LFGListFilter.PvE,
     --                     SOLO_VISIBLE_CUSTOM_ID,
     --                     ACTIVITY_CUSTOM_NAMES[SOLO_VISIBLE_CUSTOM_ID],
     --                     L['这个活动可以被玩家搜索到。']
@@ -301,7 +329,7 @@ function GetActivitesMenuTable(menuType)
     --     elseif menuType == ACTIVITY_FILTER_BROWSE then
     --         tinsert(list, MakeActivityMenuTable(
     --             ACTIVITY_CUSTOM_IDS[SOLO_VISIBLE_CUSTOM_ID],
-    --             LE_LFG_LIST_FILTER_PVP,
+    --             Enum.LFGListFilter.PvP,
     --             SOLO_VISIBLE_CUSTOM_ID,
     --             ACTIVITY_CUSTOM_NAMES[SOLO_VISIBLE_CUSTOM_ID]
     --         ))
@@ -331,7 +359,9 @@ function RefreshHistoryMenuTable(menuType)
             }
 
             if menuType == ACTIVITY_FILTER_BROWSE then
-                item.full = C_LFGList.GetCategoryInfo(data.categoryId)
+                --2022-11-17
+                local categoryInfo = C_LFGList.GetLfgCategoryInfo(data.categoryId);
+                item.full = categoryInfo.name
             end
 
             tinsert(menuTable, item)
@@ -339,8 +369,94 @@ function RefreshHistoryMenuTable(menuType)
     end
 
     if #menuTable == 0 then
-        tinsert(menuTable, {text = L['暂无'], disabled = true})
+        tinsert(menuTable, { text = L['暂无'], disabled = true })
     end
 
     return menuTable
+end
+
+function ListOfDungeons(menuType)
+    local DungeonsList = {}
+    do
+        local function f()
+            return {}
+        end
+        DungeonsList = f()
+    end
+
+    --9.27
+    -- Dungeons = {280,281,256,257,127,128,7,10}
+    -- Activitys = {1016,1017,679,683,471,473,180,183}
+
+    -- 10.0
+    -- Dungeons = {302,306,307,308,12,120,114,61}
+    -- Activitys = {1160,1176,1180,1184,1193,466,461,1192}
+
+    -- 10.1
+    -- if C_MythicPlus.GetCurrentSeason() == 10 then
+    --     Dungeons = {303,304,305,309,142,138,115,59}
+    --     Activitys = {1164,1168,1172,1188,518,507,462,1195}
+    -- end
+
+    -- S2
+    -- local Dungeons = { 303, 304, 305, 309, 142, 138, 115, 59 }
+    -- local Activitys = { 1164, 1168, 1172, 1188, 518, 507, 462, 1195 }
+
+    -- S3
+    -- local Dungeons = { 11, 54, 113, 118, 137, 145, 316, 317 }
+    -- local Activitys = { 184, 1274, 460, 463, 502, 530, 1247, 1248 }
+
+    -- S4
+    local Dungeons = { 302,303,304,305,306,307,308,309 }
+    local Activitys = { 1160, 1164, 1168, 1172, 1176, 1180, 1184, 1188 }
+
+    -- C_MythicPlus.IsMythicPlusActive()
+    -- /run for i=500,600 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
+    -- /dump C_LFGList.GetActivityGroupInfo(145)
+    -- /dump C_LFGList.GetAvailableActivities(2,145)
+
+    -- 永茂林地  184 / 11
+    -- 潮汐王座  1274 / 54
+    -- 黑心林地 460 / 113
+    -- 黑鸦堡垒 463 / 118
+    -- 阿塔达萨 502 / 137
+    -- 维克雷丝庄园 530 / 145
+    -- 永恒黎明1 1247 / 316
+    -- 永恒黎明2 1248 / 317
+
+    for k, groupId in ipairs(Dungeons) do
+        local data = {}
+        local actInfo = C_LFGList.GetActivityInfoTable(Activitys[k])
+
+        data.text = actInfo.fullName     -- C_LFGList.GetActivityGroupInfo(groupId)
+        data.fullName = actInfo.fullName -- data.text
+        data.categoryId = 2
+        data.groupId = groupId
+        data.activityId = Activitys[k]
+        data.baseFilter = 4
+        data.customId = 0
+        data.notClickable = true
+        data.value = format('2-%d-%d-0', groupId, Activitys[k])
+        if data then
+            local item = {
+                categoryId = data.categoryId,
+                groupId = groupId,
+                activityId = data.activityId,
+                customId = data.customId,
+                baseFilter = data.baseFilter,
+                value = data.value,
+                text = data.text, -- ..activitytypeText7,
+                fullName = data.fullName,
+            }
+
+            if menuType == ACTIVITY_FILTER_BROWSE then
+                --2022-11-17
+                local categoryInfo = C_LFGList.GetLfgCategoryInfo(data.categoryId);
+                item.full = categoryInfo.name
+            end
+
+            tinsert(DungeonsList, item)
+        end
+    end
+    return DungeonsList
 end

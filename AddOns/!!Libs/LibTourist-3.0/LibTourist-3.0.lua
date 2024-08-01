@@ -1,6 +1,6 @@
 --[[
 Name: LibTourist-3.0
-Revision: $Rev: 286 $
+Revision: $Rev: 309 $
 Author(s): Odica (owner), originally created by ckknight and Arrowmaster
 Documentation: https://www.wowace.com/projects/libtourist-3-0/pages/api-reference
 SVN: svn://svn.wowace.com/wow/libtourist-3-0/mainline/trunk
@@ -9,7 +9,7 @@ License: MIT
 ]]
 
 local MAJOR_VERSION = "LibTourist-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Revision: 286 $"):match("(%d+)"))
+local MINOR_VERSION = 90000 + tonumber(("$Revision: 309 $"):match("(%d+)"))
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
 local C_Map = C_Map
@@ -528,10 +528,10 @@ local MapIdLookupTable = {
 	[303] = "Scarlet Monastery",
 	[304] = "Scarlet Monastery",
 	[305] = "Scarlet Monastery",
-	[306] = "ScholomanceOLD",
-	[307] = "ScholomanceOLD",
-	[308] = "ScholomanceOLD",
-	[309] = "ScholomanceOLD",
+	[306] = "Legacy of Scholomance",
+	[307] = "Legacy of Scholomance",
+	[308] = "Legacy of Scholomance",
+	[309] = "Legacy of Scholomance",
 	[310] = "Shadowfang Keep",
 	[311] = "Shadowfang Keep",
 	[312] = "Shadowfang Keep",
@@ -1835,7 +1835,8 @@ local MapIdLookupTable = {
 	[2081] = "Neltharus",          -- "Neltharus_B"
 	[2082] = "Halls Of Infusion",  -- "HallsOfInfusion_A"
 	[2083] = "Halls Of Infusion",  -- "HallsOfInfusion_B"
-	[2085] = "Primalist Tomorrow",
+	[2084] = "The Emerald Dreamway",
+	[2085] = "The Primalist Future",
 	[2088] = "Pandaren Revolution",
 	[2089] = "The Black Empire",
 	[2090] = "The Gnoll War",
@@ -1872,9 +1873,72 @@ local MapIdLookupTable = {
 	[2130] = "Thaldraszus",
 	[2131] = "The Forbidden Reach",
 	[2132] = "The Azure Span",
+    [2133] = "Zaralek Cavern",
 	[2134] = "Valdrakken",
 	[2135] = "Valdrakken",	
+    [2146] = "The Eastern Glades",
+    [2147] = "Azeroth",
 	[2149] = "Ohn'ahran Plains",
+	[2150] = "Dragonskull Island",
+	[2151] = "The Forbidden Reach",
+	[2154] = "Froststone Vault",
+	[2162] = "Alterac Valley",
+	[2165] = "The Throughway",
+	[2166] = "Aberrus, the Shadowed Crucible",
+	[2167] = "Aberrus, the Shadowed Crucible",
+	[2168] = "Aberrus, the Shadowed Crucible",
+	[2169] = "Aberrus, the Shadowed Crucible",
+	[2170] = "Aberrus, the Shadowed Crucible",
+	[2171] = "Aberrus, the Shadowed Crucible",
+	[2172] = "Aberrus, the Shadowed Crucible",
+	[2173] = "Aberrus, the Shadowed Crucible",
+	[2174] = "Aberrus, the Shadowed Crucible",
+	[2175] = "Zaralek Cavern",
+	[2176] = "The Maelstrom",
+	[2183] = "The Azure Vault",
+	[2184] = "Zaralek Cavern",
+    [2190] = "Sanctum of Chronology",
+    [2191] = "Millennia's Threshold",
+    [2192] = "Locus of Eternity",
+    [2193] = "Spoke of Endless Winter",
+    [2194] = "Crossroads of Fate",
+    [2195] = "Infinite Conflux",
+    [2196] = "Twisting Approach",
+    [2197] = "Immemorial Battlefield",
+    [2198] = "Dawn of the Infinite",
+    [2199] = "Tyrhold Reservoir",
+	[2200] = "Emerald Dream",
+    [2201] = "Azq'roth",
+    [2202] = "Azewrath",
+    [2203] = "Azmourne",
+    [2204] = "Azmerloth",
+    [2205] = "Ulderoth",
+    [2206] = "A.Z.E.R.O.T.H.",
+    [2207] = "The Warlands",
+    [2211] = "Aberrus, the Shadowed Crucible",
+    [2220] = "The Nighthold",
+    [2221] = "The Nighthold",
+	[2228] = "The Black Empire",
+    [2230] = "Halls Of Valor",
+    [2231] = "Halls Of Valor",
+    [2232] = "Amirdrassil",
+    [2233] = "Amirdrassil",
+    [2234] = "Amirdrassil",
+    [2235] = "Amirdrassil",
+    [2236] = "Amirdrassil",
+    [2237] = "Amirdrassil",
+    [2238] = "Amirdrassil",
+    [2239] = "Amirdrassil",
+    [2240] = "Amirdrassil",
+    [2241] = "Emerald Dream",
+    [2244] = "Amirdrassil",
+    [2252] = "Dragon Isles",
+    [2253] = "Sor'theril Barrow Den",
+    [2254] = "Barrows of Reverie",
+	[2257] = "Arathi Highlands",
+    [2262] = "Traitor's Rest",
+    [2266] = "Millenia's Threshold",
+    [2268] = "Amirdrassil",
 }
 
 
@@ -1900,6 +1964,9 @@ local zoneTranslation = {
 		[5915] = "Dire Maul - West",
 		[8443] = "Return to Karazhan",
 		[12837] = "Spires of Ascension",
+		
+		-- Raids
+		[14643] = "Amirdrassil, the Dream's Hope",
 
 		-- Arenas
 		[3698] = "Nagrand Arena",   -- was 559
@@ -1932,6 +1999,9 @@ local zoneTranslation = {
 		[8443] = "Rückkehr nach Karazhan",
 		[12837] = "Spitzen des Aufstiegs",
 
+		-- Raids
+		[14643] = "Amirdrassil, Hoffnung des Traums",
+
 		-- Arenas
 		[3698] = "Arena von Nagrand",
 		[3702] = "Arena des Schergrats",
@@ -1962,6 +2032,9 @@ local zoneTranslation = {
 		[5915] = "La Masacre: Oeste",
 		[8443] = "Regreso a Karazhan",
 		[12837] = "Agujas de Ascensión",
+
+		-- Raids
+		[14643] = "Amirdrassil, la Esperanza del Sueño",
 
 		-- Arenas
 		[3698] = "Arena de Nagrand",
@@ -1994,6 +2067,9 @@ local zoneTranslation = {
 		[8443] = "Regreso a Karazhan",
 		[12837] = "Torres de Ascensión",
 
+		-- Raids
+		[14643] = "Amirdrassil, la Esperanza del Sueño",
+
 		-- Arenas
 		[3698] = "Arena de Nagrand",
 		[3702] = "Arena Filospada",
@@ -2024,6 +2100,9 @@ local zoneTranslation = {
 		[5915] = "Haches-Tripes - Ouest",
 		[8443] = "Retour à Karazhan",
 		[12837] = "Flèches de l’Ascension",
+
+		-- Raids
+		[14643] = "Amirdrassil, l’Espoir du Rêve",
 
 		-- Arenas
 		[3698] = "Arène de Nagrand",
@@ -2056,6 +2135,9 @@ local zoneTranslation = {
 		[8443] = "Ritorno a Karazhan",
 		[12837] = "Guglie dell'Ascensione",
 
+		-- Raids
+		[14643] = "Amirdrassil, Speranza del Sogno",
+
 		-- Arenas
 		[3698] = "Arena di Nagrand",
 		[3702] = "Arena di Spinaguzza",
@@ -2086,6 +2168,9 @@ local zoneTranslation = {
 		[5915] = "혈투의 전장 - 서쪽",
 		[8443] = "다시 찾은 카라잔",
 		[12837] = "승천의 첨탑",
+
+		-- Raids
+		[14643] = "꿈의 희망 아미드랏실",
 
 		-- Arenas
 		[3698] = "나그란드 투기장",
@@ -2118,6 +2203,9 @@ local zoneTranslation = {
 		[8443] = "Retorno a Karazhan",
 		[12837] = "Torres da Ascensão",
 
+		-- Raids
+		[14643] = "Amirdrassil, a Esperança Onírica", -- TODO: Translate
+
 		-- Arenas
 		[3698] = "Arena de Nagrand",
 		[3702] = "Arena da Lâmina Afiada",
@@ -2148,6 +2236,9 @@ local zoneTranslation = {
 		[5915] = "厄运之槌 - 西",
 		[8443] = "重返卡拉赞",
 		[12837] = "晋升高塔",
+
+		-- Raids
+		[14643] = "阿梅达希尔，梦境之愿",
 
 		-- Arenas
 		[3698] = "纳格兰竞技场",
@@ -2180,6 +2271,9 @@ local zoneTranslation = {
 		[8443] = "重返卡拉贊",
 		[12837] = "晉升之巔",
 
+		-- Raids
+		[14643] = "『夢境希望』埃達希爾",
+
 		-- Arenas
 		[3698] = "納葛蘭競技場",
 		[3702] = "劍刃競技場",
@@ -2197,7 +2291,7 @@ local zoneTranslation = {
 }
 
 -- WoW 10.0.0:
--- For some instance maps, C_Map.GetMapInfo does not return a localized name but some kind of tag which is the
+-- For some instance maps, C_Map.GetMapInfo does not return a localized name but some kind of tag which is the same
 -- for all languages. So, we need to supply our own localizations, taken from the 'AreaTable' table.
 local mapInfoLocalizedNameErrata = {
 	enUS = {		
@@ -2541,19 +2635,16 @@ local function ProfessionSkillLevelIsMissing(index)
 local function ProfessionPanelShouldBeOpened()
  	local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
 	local openPanel = true
+	local useProfessionButton
 	
-	trace("prof1 = "..tostring(prof1))
-	trace("prof2 = "..tostring(prof2))
-	trace("archaeology = "..tostring(archaeology))
-	trace("fishing = "..tostring(fishing))
-	trace("cooking = "..tostring(cooking))
+	trace("p1 = "..tostring(prof1)..", p2 = "..tostring(prof2)..", co = "..tostring(cooking)..", fi = "..tostring(fishing)..", ar = "..tostring(archaeology))
 	
 	-- Look for proof of missing skill levels
 	if ProfessionSkillLevelIsMissing(prof1) == false then
 		if ProfessionSkillLevelIsMissing(prof2) == false then
-			if ProfessionSkillLevelIsMissing(archaeology) == false then
+			if ProfessionSkillLevelIsMissing(cooking) == false then
 				if ProfessionSkillLevelIsMissing(fishing) == false then
-					if ProfessionSkillLevelIsMissing(cooking) == false then
+					if ProfessionSkillLevelIsMissing(archaeology) == false then
 						-- All OK -or- no professions learned
 						openPanel = false
 					end
@@ -2561,33 +2652,76 @@ local function ProfessionPanelShouldBeOpened()
 			end
 		end
 	end
-	return openPanel
+	
+	local buttonName
+	-- Always test for button name. Button name being nil means no professions were found,
+	-- which can be one of two reasons for openPanel to be false.
+	if prof1 then
+		buttonName = "PrimaryProfession1SpellButtonBottom"
+	elseif prof2 then
+		buttonName = "PrimaryProfession2SpellButtonBottom"
+	elseif archaeology then
+		buttonName = "SecondaryProfession3SpellButtonRight"
+	elseif fishing then
+		buttonName = "SecondaryProfession2SpellButtonRight"
+	elseif cooking then
+		buttonName = "SecondaryProfession1SpellButtonRight"
+	else
+		buttonName = nil
+	end
+
+	return openPanel, buttonName
 end 
 
+-- parameters
+local psiInterval = .15
+local psiDelay = 10  -- cycles
+local psiMaxCycles = psiDelay + 20
+local psiRetryMax = 3
+-- variables
 local psiTicker
-local psiInterval = .1
 local psiPhase = 0
 local psiElapsed = 0
-local psiMaxCycles = 20
 local psiCycle = 0
+local psiButtonName
+local psiRetryCount = 0
 local function ProfessionSkillInit()
-	-- Thanks to billtopia for phase 2 - 4
+	-- Thanks to billtopia for his contribution
 	psiElapsed = psiElapsed + psiInterval
 	psiCycle = psiCycle + 1
+	if psiCycle < psiDelay then 
+		-- Wait...
+		return
+	end
 	if psiCycle == psiMaxCycles - 1	then 
 		 -- Timeout -> go to 5
 		trace(tostring(psiElapsed).." sec: ProfessionSkillInit TIMEOUT at phase "..tostring(psiPhase))
 		psiPhase = 5
+	else
+		trace(tostring(psiElapsed).." sec: ProfessionSkillInit Phase "..tostring(psiPhase))
 	end
-	trace(tostring(psiElapsed).." sec: ProfessionSkillInit Phase "..tostring(psiPhase))
 	
 	if psiPhase == 0 then
 		-- Check if the panel should be opened
-		if ProfessionPanelShouldBeOpened() == true then
+		local openPanel, buttonName = ProfessionPanelShouldBeOpened()
+		if openPanel == true then
+			-- Reason found to open the panel -> continue
+			psiButtonName = buttonName
 			psiPhase = 1
 		else
-			psiPhase = 6
+			if buttonName then
+				-- At least one profession found, data present -> exit
+				psiPhase = 6
+			else
+				-- No professions or no data returned by GetProfessionInfo? -> try again to be sure
+				psiRetryCount = psiRetryCount + 1
+				if psiRetryCount > psiRetryMax then
+					-- Probably no professions -> exit
+					psiPhase = 6
+				end
+			end
 		end
+		trace("openPanel = "..tostring(openPanel)..", button = "..tostring(buttonName))
 	elseif psiPhase == 1 then
 		-- Mute sounds
 		MuteSoundFile(567440) -- sound/interface/iabilitiesopena.ogg
@@ -2600,22 +2734,8 @@ local function ProfessionSkillInit()
 		ToggleSpellBook("professions")
 		psiPhase = 3
 	elseif psiPhase == 3 then
-		-- Open a profession panel
-		local buttonName
-	 	local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
-		if prof1 then
-			buttonName = "PrimaryProfession1SpellButtonBottom"
-		elseif prof2 then
-			buttonName = "PrimaryProfession2SpellButtonBottom"
-		elseif archaeology then
-			buttonName = "SecondaryProfession3SpellButtonRight"
-		elseif fishing then
-			buttonName = "SecondaryProfession2SpellButtonRight"
-		elseif cooking then
-			buttonName = "SecondaryProfession1SpellButtonRight"
-		end
-		trace("buttonName = "..tostring(buttonName))
-		local professionButton = _G[buttonName]
+		-- Open a profession panel, use button selected in phase 0
+		local professionButton = _G[psiButtonName]
 		if professionButton then
 			professionButton:Click()
 		end
@@ -2640,7 +2760,12 @@ local function ProfessionSkillInit()
 	elseif psiPhase == 6 then
 		-- Exit
 		psiTicker:Cancel()
+		-- Reset
 		psiPhase = 0	-- This allows restarting this procedure. Change to -1 if restarting should be prohibited.
+		psiRetryCount = 0
+		psiElapsed = 0
+		psiCycle = 0
+		psiButtonName = nil
 	end
 end
 
@@ -2667,30 +2792,41 @@ local function CreateLocalizedZoneNameLookups()
 		localizedErrata = mapInfoLocalizedNameErrata["enUS"]
 	end
 
+	local skip = {
+		[2026] = true, -- The Forbidden Reach Deprecated
+	}
+
 	-- 8.0: Use the C_Map API
 	-- Note: the loop below is not very sexy but makes sure missing entries in MapIdLookupTable are reported.
 	-- It is executed only once, upon initialization.
 	for uiMapID = 1, 10000, 1 do
-		mapInfo = C_Map.GetMapInfo(uiMapID)	
-		if mapInfo then
-			localizedZoneName = mapInfo.name
-			if localizedErrata[localizedZoneName] then
-				localizedZoneName = localizedErrata[localizedZoneName]
-			end
-
-			englishZoneName = MapIdLookupTable[uiMapID]
-			if englishZoneName then 		
-				-- Add combination of English and localized name to lookup tables
-				if not BZ[englishZoneName] then
-					BZ[englishZoneName] = localizedZoneName
+		if not skip[uiMapID] then
+			mapInfo = C_Map.GetMapInfo(uiMapID)	
+			if mapInfo then
+				localizedZoneName = mapInfo.name
+				if uiMapID == 2026 or uiMapID == 2107 or uiMapID == 2118 or uiMapID == 2131 or uiMapID == 2151 then
+					trace(tostring(uiMapID).." = '"..tostring(localizedZoneName).."'")
 				end
-				if not BZR[localizedZoneName] then
-					BZR[localizedZoneName] = englishZoneName
-				end	
-			else
-				-- Not in lookup
-				trace("|r|cffff4422! -- Tourist:|r English name not found in lookup for uiMapID "..tostring(uiMapID).." ("..tostring(localizedZoneName)..")" )				
+				if localizedErrata[localizedZoneName] then
+					localizedZoneName = localizedErrata[localizedZoneName]
+				end
+
+				englishZoneName = MapIdLookupTable[uiMapID]
+				if englishZoneName then 		
+					-- Add combination of English and localized name to lookup tables
+					if not BZ[englishZoneName] then
+						BZ[englishZoneName] = localizedZoneName
+					end
+					if not BZR[localizedZoneName] then
+						BZR[localizedZoneName] = englishZoneName
+					end	
+				else
+					-- Not in lookup
+					trace("|r|cffff4422! -- Tourist:|r English name not found in lookup for uiMapID "..tostring(uiMapID).." ("..tostring(localizedZoneName)..")" )				
+				end
 			end
+		else
+			trace("CreateLocalizedZoneNameLookups skipped uiMapID "..tostring(uiMapID))
 		end
 	end
 
@@ -2774,6 +2910,7 @@ local flightNodeIgnoreList = {
 	[2731] = "Domination's Grasp",
 	[2715] = "Ephemeral Plains Alpha",
 	[2716] = "Ephemeral Plains Omega",
+	[2860] = "Aberrus Upper Platform"  -- 10.1 UG - Campaign - Ch6 - Aberrus Upper Platform (SMART) (Neutral)
 }
 
 local function GatherFlightnodeData()
@@ -4851,6 +4988,26 @@ do
 	transports["VALDRAKKEN_DALARANBROKENISLES_PORTAL"] = string.format(X_Y_PORTAL, BZ["Valdrakken"], BZ["Dalaran"].." ("..BZ["Broken Isles"]..")")
 	transports["VALDRAKKEN_JADEFOREST_PORTAL"] = string.format(X_Y_PORTAL, BZ["Valdrakken"], BZ["The Jade Forest"])
 
+	transports["OHNAHRANPLAINS_EMERALDDREAM_PORTAL"] = string.format(X_Y_PORTAL, BZ["Ohn'ahran Plains"], BZ["Emerald Dream"])
+	transports["EMERALDDREAM_OHNAHRANPLAINS_PORTAL"] = string.format(X_Y_PORTAL, BZ["Emerald Dream"], BZ["Ohn'ahran Plains"])
+	
+	-- Amirdrassil (10.2.5)
+	transports["STORMWIND_AMIRDRASSIL_PORTAL"] = string.format(X_Y_PORTAL, BZ["Stormwind City"], BZ["Amirdrassil"])
+	transports["AMIRDRASSIL_STORMWIND_PORTAL"] = string.format(X_Y_PORTAL, BZ["Amirdrassil"], BZ["Stormwind City"])
+	
+	transports["DARKSHORE_AMIRDRASSIL_PORTAL"] = string.format(X_Y_PORTAL, BZ["Darkshore"], BZ["Amirdrassil"])
+	transports["AMIRDRASSIL_DARKSHORE_PORTAL"] = string.format(X_Y_PORTAL, BZ["Amirdrassil"], BZ["Darkshore"])
+	
+	transports["MOUNTHYJAL_AMIRDRASSIL_PORTAL"] = string.format(X_Y_PORTAL, BZ["Mount Hyjal"], BZ["Amirdrassil"])
+	transports["AMIRDRASSIL_MOUNTHYJAL_PORTAL"] = string.format(X_Y_PORTAL, BZ["Amirdrassil"], BZ["Mount Hyjal"])
+	
+	transports["VALSHARAH_AMIRDRASSIL_PORTAL"] = string.format(X_Y_PORTAL, BZ["Val'sharah"], BZ["Amirdrassil"])
+	transports["AMIRDRASSIL_VALSHARAH_PORTAL"] = string.format(X_Y_PORTAL, BZ["Amirdrassil"], BZ["Val'sharah"])
+	
+	transports["FERALAS_AMIRDRASSIL_PORTAL"] = string.format(X_Y_PORTAL, BZ["Feralas"], BZ["Amirdrassil"])
+	transports["AMIRDRASSIL_FERALAS_PORTAL"] = string.format(X_Y_PORTAL, BZ["Amirdrassil"], BZ["Feralas"])
+	
+	
 	
 	
 	
@@ -6516,6 +6673,103 @@ do
 	
 	
 	
+	zones[transports["OHNAHRANPLAINS_EMERALDDREAM_PORTAL"]] = {
+		paths = {
+			[BZ["Emerald Dream"]] = true,
+		},
+		type = "Portal",
+	}
+
+	zones[transports["EMERALDDREAM_OHNAHRANPLAINS_PORTAL"]] = {
+		paths = {
+			[BZ["Ohn'ahran Plains"]] = true,
+		},
+		type = "Portal",
+	}
+	
+
+
+	zones[transports["STORMWIND_AMIRDRASSIL_PORTAL"]] = {
+		paths = {
+			[BZ["Amirdrassil"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+
+	zones[transports["AMIRDRASSIL_STORMWIND_PORTAL"]] = {
+		paths = {
+			[BZ["Stormwind City"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+	
+	zones[transports["DARKSHORE_AMIRDRASSIL_PORTAL"]] = {
+		paths = {
+			[BZ["Amirdrassil"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+
+	zones[transports["AMIRDRASSIL_DARKSHORE_PORTAL"]] = {
+		paths = {
+			[BZ["Darkshore"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}	
+	
+	
+	zones[transports["MOUNTHYJAL_AMIRDRASSIL_PORTAL"]] = {
+		paths = {
+			[BZ["Amirdrassil"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+
+	zones[transports["AMIRDRASSIL_MOUNTHYJAL_PORTAL"]] = {
+		paths = {
+			[BZ["Mount Hyjal"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}		
+	
+	zones[transports["VALSHARAH_AMIRDRASSIL_PORTAL"]] = {
+		paths = {
+			[BZ["Amirdrassil"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+
+	zones[transports["AMIRDRASSIL_VALSHARAH_PORTAL"]] = {
+		paths = {
+			[BZ["Val'sharah"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}	
+	
+	
+	zones[transports["FERALAS_AMIRDRASSIL_PORTAL"]] = {
+		paths = {
+			[BZ["Amirdrassil"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}
+
+	zones[transports["AMIRDRASSIL_FERALAS_PORTAL"]] = {
+		paths = {
+			[BZ["Feralas"]] = true,
+		},
+		faction = "Alliance",
+		type = "Portal",
+	}		
 	
 	
 	-- ZONES, INSTANCES AND COMPLEXES ---------------------------------------------------------
@@ -6554,7 +6808,8 @@ do
 			[transports["STORMWIND_AZSUNA_PORTAL"]] = true,
 			[transports["STORMWIND_ORIBOS_PORTAL"]] = true,
 			[transports["STORMWIND_VALDRAKKEN_PORTAL"]] = true,
-			[transports["STORMWIND_WAKINGSHORES_BOAT"]] = true,
+			[transports["STORMWIND_WAKINGSHORES_BOAT"]] = true,			
+			[transports["STORMWIND_AMIRDRASSIL_PORTAL"]] = true,
 		},
 		flightnodes = {
 			[2] = true,      -- Stormwind, Elwynn (A)
@@ -7436,8 +7691,12 @@ do
 		high = 35,
 		continent = Eastern_Kingdoms,
 		expansion = Cataclysm,
+		instances = {
+			[BZ["Baradin Hold"]] = true,
+		},
 		paths = {
 			[BZ["Tol Barad Peninsula"]] = true,
+			[BZ["Baradin Hold"]] = true,
 		},
 		type = "PvP Zone",
 	}
@@ -7728,6 +7987,7 @@ do
 		expansion = Classic,
 		paths = {
 			[BZ["Ashenvale"]] = true,
+			[transports["DARKSHORE_AMIRDRASSIL_PORTAL"]] = true,
 		},
 		flightnodes = {
 			[339] = true,    -- Grove of the Ancients, Darkshore (A)
@@ -7906,6 +8166,7 @@ do
 			[BZ["Thousand Needles"]] = true,
 			[BZ["Desolace"]] = true,
 			[BZ["Dire Maul"]] = true,
+			[transports["FERALAS_AMIRDRASSIL_PORTAL"]] = true,
 		},
 		flightnodes = {
 			[565] = true,    -- Dreamer's Rest, Feralas (A)
@@ -8088,6 +8349,7 @@ do
 			[transports["MOUNTHYJAL_ORGRIMMAR_PORTAL"]] = true,
 			[transports["MOUNTHYJAL_STORMWIND_PORTAL"]] = true,
 			[transports["MOUNTHYJAL_MOLTENFRONT_PORTAL"]] = true,
+			[transports["MOUNTHYJAL_AMIRDRASSIL_PORTAL"]] = true,
 			[BZ["Firelands"]] = true,
 		},
 		flightnodes = {
@@ -9474,6 +9736,7 @@ do
 			[BZ["Black Rook Hold"]] = true,
 			[BZ["Darkheart Thicket"]] = true,
 			[BZ["The Emerald Nightmare"]] = true,
+			[transports["VALSHARAH_AMIRDRASSIL_PORTAL"]] = true,
 		},
 		flightnodes = {
 			[1713] = true,    -- Bradensbrook, Val'sharah (N)
@@ -10377,6 +10640,7 @@ do
 			[2808] = true,   -- Obsidian Bulwark, The Waking Shores (N)
 			[2809] = true,   -- Dragonscale Basecamp, The Waking Shores (N)
 			[2817] = true,   -- Skytop Observatory, The Waking Shores (N)
+			[2842] = true,   -- Rubyscale Outpost, The Waking Shores (N)
 		},
 		continent = Dragon_Isles,
 		expansion = DragonFlight,
@@ -10394,6 +10658,9 @@ do
 			[BZ["The Waking Shores"]] = true,
 			[BZ["The Azure Span"]] = true,
 			[BZ["The Nokhud Offensive"]] = true,
+			[BZ["Zaralek Cavern"]] = true,
+			[BZ["Amirdrassil"]] = true,
+			[transports["OHNAHRANPLAINS_EMERALDDREAM_PORTAL"]] = true,
 		},
 		flightnodes = {
 			[2790] = true,   -- Timberstep Outpost, Ohn'ahran Plains (N)
@@ -10406,6 +10673,7 @@ do
 			[2798] = true,   -- Pinewood Post, Ohn'ahran Plains (N)
 			[2799] = true,   -- Rusza'thar Reach, Ohn'ahran Plains (N)
 			[2825] = true,   -- Ohn'iri Springs, Ohn'ahran Plains (N)
+			[2839] = true,   -- Rusza'thar Reach, Ohn'ahran Plains (N)
 		},
 		continent = Dragon_Isles,
 		expansion = DragonFlight,
@@ -10425,6 +10693,7 @@ do
 			[BZ["Thaldraszus"]] = true,
 			[BZ["The Azure Vault"]] = true,
 			[BZ["Brackenhide Hollow"]] = true,
+			[BZ["Zaralek Cavern"]] = true,
 		},
 		flightnodes = {
 			[2773] = true,   -- Azure Archives, Azure Span (N)
@@ -10435,6 +10704,8 @@ do
 			[2787] = true,   -- Cobalt Assembly, Azure Span (N)
 			[2788] = true,   -- Theron's Watch, Azure Span (N)
 			[2789] = true,   -- Three-Falls Lookout, Azure Span (N)
+			[2838] = true,	 -- Cobalt Assembly, Azure Span (N)
+			[2837] = true,   -- Vakthros, Azure Span (Neutral)
 		},
 		continent = Dragon_Isles,
 		expansion = DragonFlight,
@@ -10448,6 +10719,7 @@ do
 			[BZ["Algeth'ar Academy"]] = true,
 			[BZ["Halls Of Infusion"]] = true,
 			[BZ["Vault of the Incarnates"]] = true,
+			[BZ["Dawn of the Infinite"]] = true,
 		},
 		paths = {
 			[BZ["Valdrakken"]] = true,
@@ -10455,6 +10727,7 @@ do
 			[BZ["Algeth'ar Academy"]] = true,
 			[BZ["Halls Of Infusion"]] = true,
 			[BZ["Vault of the Incarnates"]] = true,
+			[BZ["Dawn of the Infinite"]] = true,
 		},
 		flightnodes = {
 			[2810] = true,   -- Valdrakken, Thaldraszus (N)
@@ -10465,24 +10738,91 @@ do
 			[2815] = true,   -- Garden Shrine, Thaldraszus (N)
 			[2816] = true,   -- Shifting Sands, Thaldraszus (N)
 			[2818] = true,   -- Vault of the Incarnates, Thaldraszus (N)
+			[2836] = true,   -- Algeth'era, Thaldraszus (Neutral)
 		},
 		continent = Dragon_Isles,
 		expansion = DragonFlight,
 	}
 
-
-	-- Dracthyr Evokers starting zone
+	-- 10.0.7
+	-- Previously: Dracthyr Evokers starting zone (UIMapID 2026)
 	zones[BZ["The Forbidden Reach"]] = {
-		low = 58,
-		high = 59,
+		low = 70,
+		high = 70,
+		flightnodes = {
+			[2855] = true,   -- Morqut Village, The Forbidden Reach (N)
+			[2862] = true,   -- Morqut Islet, Forbidden Reach (Neutral)
+		},
 		continent = Dragon_Isles,
 		expansion = DragonFlight,
 	}
 
+	-- 10.1.0
+	-- 14022
+	zones[BZ["Zaralek Cavern"]] = {
+		low = 70,
+		high = 70,
+		instances = {
+			[BZ["Aberrus, the Shadowed Crucible"]] = true,
+		},
+		paths = {
+			[BZ["Ohn'ahran Plains"]] = true,
+			[BZ["The Azure Span"]] = true,
+			[BZ["Aberrus, the Shadowed Crucible"]] = true,
+		},
+		flightnodes = {
+			[2864] = true,   -- Obsidian Rest, Zaralek Cavern (Neutral)
+			[2865] = true,   -- Dragonscale Camp, Zaralek Cavern (Neutral)
+			[2863] = true,   -- Loamm, Zaralek Cavern (Neutral)
+		},
+		continent = Dragon_Isles,
+		expansion = DragonFlight,
+	}
 
-
-
-
+	-- 10.2.0
+	-- 14529
+	zones[BZ["Emerald Dream"]] = {
+		low = 70,
+		high = 70,
+		instances = {
+			[BZ["Amirdrassil, the Dream's Hope"]] = true,
+		},
+		paths = {
+			[transports["EMERALDDREAM_OHNAHRANPLAINS_PORTAL"]] = true,
+			[BZ["Amirdrassil, the Dream's Hope"]] = true,
+		},
+		flightnodes = {
+			[2902] = true,   -- Central Encampment, The Emerald Dream (Neutral)
+			[2903] = true,   -- Verdant Landing, The Emerald Dream (Neutral)
+			[2904] = true,   -- Eye of Ysera, The Emerald Dream (Neutral)
+			[2905] = true,   -- Wellspring Overlook, The Emerald Dream (Neutral)
+		},
+		continent = Dragon_Isles,
+		expansion = DragonFlight,
+	}	
+	
+	-- 10.2.5
+	-- 14969
+	zones[BZ["Amirdrassil"]] = {
+		low = 70,
+		high = 70,
+--		instances = {
+--			[BZ["Aberrus, the Shadowed Crucible"]] = true,
+--		},
+		paths = {
+			[transports["AMIRDRASSIL_STORMWIND_PORTAL"]] = true,
+			[transports["AMIRDRASSIL_DARKSHORE_PORTAL"]] = true,
+			[transports["AMIRDRASSIL_MOUNTHYJAL_PORTAL"]] = true,
+			[transports["AMIRDRASSIL_VALSHARAH_PORTAL"]] = true,
+			[transports["AMIRDRASSIL_FERALAS_PORTAL"]] = true,
+			[BZ["Ohn'ahran Plains"]] = true,
+		},
+		flightnodes = {
+			[2915] = true,   -- Bel'ameth, Amirdrassil (Neutral)
+		},
+		continent = Dragon_Isles,
+		expansion = DragonFlight,
+	}
 
 	-- ============= DUNGEONS ===============
 	
@@ -12117,7 +12457,16 @@ do
 		entrancePortal = { BZ["Badlands"], 42.4, 18.6 }, 
 	}	
 
-
+	zones[BZ["Dawn of the Infinite"]] = {
+		low = 70,
+		high = 70,
+		continent = Dragon_Isles,
+		expansion = DragonFlight,
+		paths = BZ["Thaldraszus"],
+		groupSize = 5,
+		type = "Instance",
+		entrancePortal = { BZ["Thaldraszus"], 59.24, 60.64 },
+	}	
 
 
 	-- ==================RAIDS=====================
@@ -12450,6 +12799,19 @@ do
 		entrancePortal = { BZ["Caverns of Time"], 60.0, 21.1 },
 	}	
 
+	-- Opens when your faction controls Tol Barad
+	zones[BZ["Baradin Hold"]] = {
+		low = 35,
+		high = 35,
+		continent = Eastern_Kingdoms,
+		expansion = Cataclysm,
+		paths = BZ["Tol Barad"],
+		groupSize = 10,
+		altGroupSize = 25,
+		type = "Instance",
+		-- entrancePortal = { BZ["Tol Barad"], 33.8, 78.2 }, n/a
+	}	
+
 
 	-- Mists of Pandaria raids
 
@@ -12645,7 +13007,31 @@ do
 		entrancePortal = { BZ["Thaldraszus"], 73.14, 55.60 },
 	}	
 	
-	
+	-- 14663
+	zones[BZ["Aberrus, the Shadowed Crucible"]] = {
+		low = 70,
+		high = 70,
+		continent = Dragon_Isles,
+		expansion = DragonFlight,
+		paths = BZ["Zaralek Cavern"],
+		groupMinSize = 10,
+		groupMaxSize = 30,
+		type = "Instance",
+		--entrancePortal = { BZ["Zaralek Cavern"], 73.14, 55.60 }, -- todo
+	}	
+
+	-- 14643
+	zones[BZ["Amirdrassil, the Dream's Hope"]] = {
+		low = 70,
+		high = 70,
+		continent = Dragon_Isles,
+		expansion = DragonFlight,
+		paths = BZ["Emerald Dream"],
+		groupMinSize = 10,
+		groupMaxSize = 30,
+		type = "Instance",
+		--entrancePortal = { BZ["Emerald Dream"], 73.14, 55.60 }, -- todo
+	}	
 	
 	-- ==============BATTLEGROUNDS================
 
@@ -13168,7 +13554,7 @@ do
 						zones[uniqueZoneName].yards = zWidth
 					end
 				else
-					trace("|r|cffff4422! -- Tourist:|r TODO: Add zone "..tostring(zoneName).." (to "..tostring(continentName)..")" )			
+					trace("|r|cffff4422! -- Tourist:|r TODO: Add zone "..tostring(zoneName).." (to "..tostring(continentName)..")" )
 				end
 				
 				doneZones[continentName.."."..zoneName] = true

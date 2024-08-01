@@ -1,18 +1,6 @@
 --[[
-Copyright 2012-2022 João Cardoso
-PetTracker is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of PetTracker.
+Copyright 2012-2024 João Cardoso
+All Rights Reserved
 --]]
 
 local ADDON, Addon = ...
@@ -52,11 +40,11 @@ function Slot:Display(pet, target)
 	if pet then
 		local specie, icon, type = pet:GetInfo()
 		local health, power, speed = pet:GetStats()
-		local r,g,b = pet:GetColor()
+		local r,g,b = pet:GetColor():GetRGB()
 		local name = pet:GetName()
 
 		self.Name:SetText(name)
-		self.SubName:SetText((specie ~= name) and specie or "")
+		self.SubName:SetText(specie ~= name and specie or '')
 
 		self.Name:SetTextColor(r, g, b)
 		self.Quality:SetVertexColor(r, g, b)

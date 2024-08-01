@@ -1,7 +1,8 @@
-## Interface: 100002
-## Author: xGrit
-## Version: 4.0
+## Interface: 110000
+## Author: Mulvark
+## Version: TWWB1
 ## SavedVariables: GladiatorlosSADB
+## IconTexture: interface\icons\spell_misc_emotionangry.blp
 
 ## Title: GladiatorlosSA
 ## Notes: PvP Sound Alerter

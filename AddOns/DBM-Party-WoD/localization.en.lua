@@ -124,7 +124,7 @@ L= DBM:GetModLocalization(1237)
 L= DBM:GetModLocalization(1238)
 
 -----------------------
--- <<<Overgrown Outpost>>> --
+-- <<<EverBloom>>> --
 -----------------------
 -----------------------
 -- Witherbark --
@@ -154,6 +154,19 @@ L:SetMiscLocalization({
 -- Yalnu --
 -----------------------
 L= DBM:GetModLocalization(1210)
+
+L:SetMiscLocalization({
+	YalnuRP	= "The portal is lost! We must stop this beast before it can escape!"
+})
+
+-----------------------
+-- Trash --
+-----------------------
+L = DBM:GetModLocalization("EverBloomTrash")
+
+L:SetGeneralLocalization({
+	name =	"EverBloom Trash"
+})
 
 -----------------------
 -- <<<Shadowmoon Buriel Grounds>>> --

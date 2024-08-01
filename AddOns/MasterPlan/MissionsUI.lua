@@ -1,6 +1,7 @@
 local _, T = ...
 if T.Mark ~= 50 then return end
-local L, EV, G, api = T.L, T.Evie, T.Garrison, {}
+local L, EV, G, XU, api = T.L, T.Evie, T.Garrison, T.exUI, {}
+local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local function HookOnShow(self, OnShow)
 	self:HookScript("OnShow", OnShow)
@@ -42,15 +43,8 @@ local function oncePerFrame(f)
 		end
 	end
 end
-local function dismissTooltip(self)
-	if GameTooltip:IsOwned(self) then
-		GameTooltip:Hide()
-	end
-end
 local function dismissTooltipAndHighlight(self)
-	if GameTooltip:IsOwned(self) then
-		GameTooltip:Hide()
-	end
+	T.HideOwnedGameTooltip(self)
 	self:GetParent():UnlockHighlight()
 end
 local function OpenToMission(mi, f1, f2, f3, isResume)
@@ -485,7 +479,7 @@ local easyDrop = CreateFrame("Frame", "MPDropDown", nil, "UIDropDownMenuTemplate
 		self:Close()
 		hoverFocus:Open(owner, DropDownList1, checkMenu, closeEasyDrop)
 		self.owner, self.closeOwner, self.openOwner, self.closeGrace = owner
-		EasyMenu(menu, self, "cursor", 9000, 9000, "MENU", 4)
+		T.EasyMenu(menu, self, "cursor", 9000, 9000, "MENU", 4)
 		DropDownList1:ClearAllPoints()
 		DropDownList1:SetPoint(...)
 	end
@@ -758,7 +752,7 @@ local activeUI = CreateFrame("Frame", nil, missionList) do
 			for i=1,#self.items do
 				local ii = self.items[i]
 				if ii.itemID and ii:IsShown() then
-					ii:SetIcon(select(10, GetItemInfo(ii.itemID)) or GetItemIcon(ii.itemID) or "Interface\\Icons\\Temp")
+					ii:SetIcon(C_Item.GetItemIconByID(ii.itemID) or "Interface\\Icons\\Temp")
 				end
 			end
 		end)
@@ -895,7 +889,7 @@ local activeUI = CreateFrame("Frame", nil, missionList) do
 				local link
 				if not IsModifiedClick("CHATLINK") then
 				elseif self.itemID then
-					link = select(2, GetItemInfo(self.itemID))
+					link = select(2, C_Item.GetItemInfo(self.itemID))
 				elseif self.currencyID and self.currencyID > 0 then
 					link = C_CurrencyInfo.GetCurrencyLink(self.currencyID, tonumber(self.Quantity:GetText() or 1) or 1)
 				end
@@ -920,7 +914,7 @@ local activeUI = CreateFrame("Frame", nil, missionList) do
 				i.Quantity = i:CreateFontString(nil, "OVERLAY", "GameFontHighlightOutline")
 				i.Quantity:SetPoint("BOTTOMRIGHT", -3, 4)
 				i:SetScript("OnEnter", OnEnter)
-				i:SetScript("OnLeave", dismissTooltip)
+				i:SetScript("OnLeave", T.HideOwnedGameTooltip)
 				i:SetScript("OnClick", OnClick)
 				self[k], i.SetIcon = i, SetIcon
 				return i
@@ -950,7 +944,7 @@ local activeUI = CreateFrame("Frame", nil, missionList) do
 		for k,v in pairs(rewards) do
 			local quantity, icon, tooltipHeader, tooltipText, _, tooltipExtra = v.quantity
 			if v.itemID then
-				icon, tooltipExtra = select(10, GetItemInfo(v.itemID)) or GetItemIcon(v.itemID) or "Interface\\Icons\\Temp", v.itemID == 120205 and rewards.xp and rewards.xp.playerXP and XP_GAIN:format(BreakUpLargeNumbers(rewards.xp.playerXP)) or nil
+				icon, tooltipExtra = C_Item.GetItemIconByID(v.itemID) or "Interface\\Icons\\Temp", v.itemID == 120205 and rewards.xp and rewards.xp.playerXP and XP_GAIN:format(BreakUpLargeNumbers(rewards.xp.playerXP)) or nil
 			elseif v.currencyID == 0 then
 				icon, tooltipHeader, tooltipText = "Interface\\Icons\\INV_Misc_Coin_02", GARRISON_REWARD_MONEY, GetMoneyString(v.quantity)
 				quantity = floor(quantity/10000)
@@ -1086,7 +1080,7 @@ local availUI = CreateFrame("Frame", nil, missionList) do
 				easyDrop:Toggle(self, menu, "TOPLEFT", self, "BOTTOMLEFT", -24, -3)
 				showHint()
 			end)
-			horizon.OnEasyDropHide = dismissTooltip
+			horizon.OnEasyDropHide = T.HideOwnedGameTooltip
 			horizon:SetScript("OnEnter", function(self)
 				easyDrop:DelayOpenClick(self)
 				showHint()
@@ -1107,7 +1101,7 @@ local availUI = CreateFrame("Frame", nil, missionList) do
 	availUI:SetScript("OnShow", function(self)
 		missionList.ctlContainer:Steal(self, ctl)
 		RefreshAvailMissionsView(true)
-		self.notebook:SetShown(GetItemCount(self.notebook.itemID) > 0)
+		self.notebook:SetShown(C_Item.GetItemCount(self.notebook.itemID) > 0)
 	end)
 	local roamingParty = CreateFrame("Frame", nil, availUI) do
 		roamingParty:SetPoint("BOTTOMRIGHT", availUI, "BOTTOM", 106, -2)
@@ -1202,9 +1196,7 @@ local availUI = CreateFrame("Frame", nil, missionList) do
 		end
 		local function Roamer_OnLeave(self)
 			GarrisonFollowerTooltip:Hide()
-			if GameTooltip:IsOwned(self) then
-				GameTooltip:Hide()
-			end
+			T.HideOwnedGameTooltip(self)
 		end
 		local function RoamerMenu_OnMouse(self, _, id)
 			if self and id then
@@ -1217,9 +1209,7 @@ local availUI = CreateFrame("Frame", nil, missionList) do
 			end
 		end
 		local function Roamer_OnClick(self, button)
-			if GameTooltip:IsOwned(self) then
-				GameTooltip:Hide()
-			end
+			T.HideOwnedGameTooltip(self)
 			if button == "RightButton" then
 				Roamer_SetFollower(nil, self:GetID(), nil)
 				GarrisonFollowerTooltip:Hide()
@@ -1271,7 +1261,7 @@ local availUI = CreateFrame("Frame", nil, missionList) do
 		b:SetPoint("BOTTOM", -64, 5)
 		b:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		b:Hide()
-		b:SetScript("OnLeave", dismissTooltip)
+		b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 		b:SetScript("OnEnter", function(self)
 			if G.GetNumPendingMissionStarts() > 0 or G.GetTentativePartyCount(1) == 0 then return end
 			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
@@ -1427,7 +1417,7 @@ local interestUI = CreateFrame("Frame", nil, missionList) do
 				GameTooltip:Show()
 				easyDrop:Close()
 			end)
-			b:SetScript("OnLeave", dismissTooltip)
+			b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 		end
 		interestUI.stackMode = CreateFrame("Button", nil, ctl) do
 			local b = interestUI.stackMode
@@ -1458,7 +1448,7 @@ local interestUI = CreateFrame("Frame", nil, missionList) do
 				GameTooltip:Show()
 				easyDrop:Close()
 			end)
-			b:SetScript("OnLeave", dismissTooltip)
+			b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 		end
 		interestUI.interestSet = CreateFrame("Button", nil, ctl) do
 			local b = interestUI.interestSet
@@ -1518,7 +1508,7 @@ local interestUI = CreateFrame("Frame", nil, missionList) do
 					if (not mi.text or mi.placeholder) then
 						local key, name, ico, _ = mi.arg1
 						if key > 2e3 then
-							name, ico = GetItemInfo(key), GetItemIcon(key)
+							name, ico = C_Item.GetItemNameByID(key), C_Item.GetItemIconByID(key)
 						else
 							local ci = C_CurrencyInfo.GetBasicCurrencyInfo(key)
 							name, ico = ci.name, ci.icon
@@ -1531,7 +1521,7 @@ local interestUI = CreateFrame("Frame", nil, missionList) do
 			b:SetScript("OnEnter", function(self)
 				easyDrop:DelayOpenClick(self)
 			end)
-			b:SetScript("OnLeave", dismissTooltip)
+			b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 		end
 	end
 	interestUI:SetScript("OnShow", function(self)
@@ -1779,61 +1769,34 @@ activeUI.CompleteAll:SetScript("OnClick", function(_, button)
 end)
 
 local core do
+	local function isMouseFocusableDescendent(self, ctx)
+		local p = self.GetScript and self.IsMouseMotionEnabled and self:IsMouseMotionEnabled()
+		      and (self.IsEnabled == nil or self:IsEnabled() or self.GetMotionScriptsWhileDisabled and self:GetMotionScriptsWhileDisabled())
+		      and self:GetScript("OnEnter") and self
+		while p and p ~= ctx and not (p.IsForbidden and p:IsForbidden()) and p.GetParent do
+			p = p:GetParent()
+		end
+		return ctx and p == ctx
+	end
 	function api.createScrollList(parent, w, h)
 		local core, int, h = {}, {view={}}, h or 541
 		local sf, sc, bar = CreateFrame("ScrollFrame", nil, parent) do
 			sf:SetSize(w, h)
 			sf:SetPoint("CENTER")
-			bar = CreateFrame("Slider", nil, sf) do
-				bar:SetWidth(19)
-				bar:SetPoint("TOPRIGHT", 0, -6)
-				bar:SetPoint("BOTTOMRIGHT", 0, 8)
-				bar:SetThumbTexture("Interface\\Buttons\\UI-ScrollBar-Knob")
-				bar:GetThumbTexture():SetSize(18, 24)
-				bar:GetThumbTexture():SetTexCoord(0.20, 0.80, 0.125, 0.875)
+			bar = XU:Create("ScrollBar", nil, sf) do
+				bar:SetStyle("common")
+				bar:SetPoint("TOPRIGHT", 0, 6)
+				bar:SetPoint("BOTTOMRIGHT", 0, -8)
+				bar:SetWindowRange(h)
 				bar:SetMinMaxValues(0, 100)
 				bar:SetValue(0)
-				local bg = bar:CreateTexture(nil, "BACKGROUND")
-				bg:SetPoint("TOPLEFT", 0, 16)
-				bg:SetPoint("BOTTOMRIGHT", 0, -14)
-				bg:SetColorTexture(0,0,0)
-				bg:SetAlpha(0.85)
-				local top = bar:CreateTexture(nil, "ARTWORK")
-				top:SetSize(24, 48)
-				top:SetPoint("TOPLEFT", -4, 17)
-				top:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-ScrollBar")
-				top:SetTexCoord(0, 0.45, 0, 0.20)
-				local bot = bar:CreateTexture(nil, "ARTWORK")
-				bot:SetSize(24, 64)
-				bot:SetPoint("BOTTOMLEFT", -4, -15)
-				bot:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-ScrollBar")
-				bot:SetTexCoord(0.515625, 0.97, 0.1440625, 0.4140625)
-				local mid = bar:CreateTexture(nil, "ARTWORK")
-				mid:SetPoint("TOPLEFT", top, "BOTTOMLEFT")
-				mid:SetPoint("BOTTOMRIGHT", bot, "TOPRIGHT")
-				mid:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-ScrollBar")
-				mid:SetTexCoord(0, 0.45, 0.1640625, 1)
-				local function Move(self)
-					if int.props then
-						bar:SetValue(bar:GetValue() - (2-self:GetID()) * int.props.entryHeight)
-					end
-				end
-				local up = CreateFrame("Button", nil, bar, "UIPanelScrollUpButtonTemplate", 1)
-				up:SetPoint("BOTTOM", bar, "TOP", 0, -2)
-				local down = CreateFrame("Button", nil, bar, "UIPanelScrollDownButtonTemplate", 3)
-				down:SetPoint("TOP", bar, "BOTTOM", 0, 2)
-				up:SetScript("OnClick", Move)
-				down:SetScript("OnClick", Move)
-				sf:SetScript("OnMouseWheel", function(_, direction)
-					(direction == 1 and up or down):Click()
-				end)
-				bar:SetScript("OnValueChanged", function(self, v, _isUserInteraction)
-					local _, x = self:GetMinMaxValues()
+				bar:SetCoverTarget(sf, 0, 30, 0, 0)
+				bar:SetStepsPerPage(4)
+				bar:SetWheelScrollTarget(sf)
+				bar:SetScript("OnValueChanged", function(_self, v, _isUserInteraction)
 					int:Update(v, true)
-					up:SetEnabled(v > 0)
-					down:SetEnabled(v < x)
 				end)
-				sf.Bar, bar.Up, bar.Down = bar, up, down
+				sf.Bar = bar
 			end
 			sc = CreateFrame("Frame", nil, sf) do
 				sc:SetSize(w-2, h+10)
@@ -1879,9 +1842,7 @@ local core do
 			if not self.props then return end
 			if bar:GetValue() ~= ofs then return bar:SetValue(ofs) end
 			local entryHeight, bot, w = self.props.entryHeight, ofs + sf:GetHeight(), self.props.widgets
-			local baseIndex = (ofs - ofs % entryHeight) / entryHeight
-			local maxIndex = (bot + entryHeight - bot % entryHeight) / entryHeight
-
+			local baseIndex, maxIndex = math.floor(ofs/entryHeight), math.floor(bot/entryHeight) + 1
 			local minIndex, maxIndex, childLevel = max(1, baseIndex), min(#self.data, maxIndex), sc:GetFrameLevel()+1
 			Release(minIndex, maxIndex)
 			for i=minIndex,maxIndex do
@@ -1899,10 +1860,10 @@ local core do
 					f:Show()
 				end
 			end
-			local mf = T.GetMouseFocus()
-			local oe = mf and T.IsDescendantOf(mf, sc) and mf:GetScript("OnEnter")
-			if mf and oe and mf.IsEnabled and mf:IsEnabled() then
-				oe(mf)
+			local mfd = T.GetMouseFocus(isMouseFocusableDescendent, sc, false)
+			local oe = mfd and mfd.GetScript and mfd:GetScript("OnEnter")
+			if oe then
+				securecall(oe, mfd)
 			end
 		end
 
@@ -1915,7 +1876,8 @@ local core do
 			if data and propsHandle then
 				local mv = max(0, 3 + propsHandle.entryHeight * #data - sf:GetHeight())
 				bar:SetMinMaxValues(0, mv > 10 and mv or 0)
-				bar:GetScript("OnValueChanged")(bar, reset and 0 or bar:GetValue(), false)
+				bar:SetValueStep(propsHandle.entryHeight)
+				bar:SetValue(reset and 0 or bar:GetValue(), true)
 			else
 				bar:SetMinMaxValues(0, 0)
 			end
@@ -1954,21 +1916,21 @@ do -- CreateMissionButton
 	local CreateRewards do
 		local function Reward_OnEnter(self)
 			if self.itemID then
-				GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT")
+				GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 				G.SetItemTooltip(GameTooltip, self.itemID)
 			elseif self.tooltipTitle and self.tooltipText then
-				GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT")
+				GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 				GameTooltip:AddLine(self.tooltipTitle)
 				GameTooltip:AddLine(self.tooltipText, 1,1,1,1)
 				if self.tooltipTitle == GARRISON_REWARD_MONEY then
 					G.SetCurrencyTraitTip(GameTooltip, 0, self.followerType)
 				end
 			elseif self.currencyID then
-				GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT")
+				GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 				GameTooltip:SetCurrencyByID(self.currencyID)
 				G.SetCurrencyTraitTip(GameTooltip, self.currencyID, self.followerType)
 			elseif self.bonusAbilityID and self.bonusInfo then
-				GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT")
+				GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 				GameTooltip:SetText(self.bonusInfo.name)
 				GameTooltip:AddLine(self.bonusInfo.description, 1,1,1,1)
 				GameTooltip:AddLine(" ")
@@ -1995,7 +1957,7 @@ do -- CreateMissionButton
 			elseif IsModifiedClick("CHATLINK") then
 				local qt, text, _ = self.quantity:GetText()
 				if self.itemID then
-					_, text = GetItemInfo(self.itemID)
+					_, text = C_Item.GetItemInfo(self.itemID)
 				elseif self.currencyID and self.currencyID ~= 0 then
 					text = C_CurrencyInfo.GetCurrencyLink(self.currencyID, qt or 0)
 				elseif self.tooltipTitle then
@@ -2293,6 +2255,9 @@ local GroupButtonBase = {} do
 			if g then
 				G.SetGroupTooltip(GameTooltip, g, mi)
 				if canSetTentative then
+					if C_Garrison.IsAboveFollowerSoftCap(1) then
+						GameTooltip:AddLine(GARRISON_MAX_FOLLOWERS_MISSION_TOOLTIP, 1, 0, 0, 1)
+					end
 					GameTooltip:AddLine("|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:-1:512:512:10:70:330:410|t " .. L"Set tentative party", 0.5, 0.8, 1)
 				end
 			else
@@ -2525,8 +2490,8 @@ do -- activeMissionsHandle
 						quant = abridge(quant)
 					end
 				elseif v.itemID then
-					local _, _, q, l, _, _, _, _, _, tex = GetItemInfo(v.itemID)
-					l, icon = T.CrateLevels[v.itemID] or l, tex or GetItemIcon(v.itemID)
+					local _, _, q, l, _, _, _, _, _, tex = C_Item.GetItemInfo(v.itemID)
+					l, icon = T.CrateLevels[v.itemID] or l, tex or C_Item.GetItemIconByID(v.itemID)
 					if v.quantity == 1 and q and l and l > 500 then
 						quant = ITEM_QUALITY_COLORS[q].hex .. l
 					end
@@ -2747,8 +2712,8 @@ do -- availMissionsHandle
 				elseif v.currencyID then
 					r.canIgnore = "c:" .. v.currencyID
 				elseif v.itemID then
-					local _, _, q, l, _, _, _, _, _, tex = GetItemInfo(v.itemID)
-					r.canIgnore, icon, l = "i:" .. v.itemID, tex or GetItemIcon(v.itemID), T.CrateLevels[v.itemID] or l
+					local _, _, q, l, _, _, _, _, _, tex = C_Item.GetItemInfo(v.itemID)
+					r.canIgnore, icon, l = "i:" .. v.itemID, tex or C_Item.GetItemIconByID(v.itemID), T.CrateLevels[v.itemID] or l
 					if v.quantity == 1 and q and l and l > 40 then
 						quant = ITEM_QUALITY_COLORS[q].hex .. l
 						if G.IsLevelAppropriateToken(v.itemID) then
@@ -2843,7 +2808,7 @@ do -- availMissionsHandle
 			local order, horizon = T.config.availableMissionSort, T.config.timeHorizon
 			local field = fields[order] or 1
 			local naf = C_Garrison.GetNumActiveFollowers(1)
-			local groupCache = naf <= 25 and G.GetSuggestedGroupsForAllMissions(1, order, roamingParty:GetFollowers()) or {}
+			local groupCache = naf <= 27 and G.GetSuggestedGroupsForAllMissions(1, order, roamingParty:GetFollowers()) or {}
 			local checkReq = (nf < 3 or nr < 100) and T.config.availableMissionSort ~= "expire"
 			local p1, p2, p3 = api.roamingParty:GetFollowers()
 			p1 = not (p2 and p3) and p1
@@ -2990,7 +2955,7 @@ do -- interestMissionsHandle
 		t:SetPoint("CENTER")
 		b.Border, b.info = t, {}
 		b:SetScript("OnEnter", Threat_OnEnter)
-		b:SetScript("OnLeave", dismissTooltip)
+		b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 		return b
 	end
 	local function SetThreat(self, level, tid, _, icon)
@@ -3279,7 +3244,7 @@ do -- interestMissionsHandle
 		else
 			r.itemID, r.currencyID, r.tooltipTitle, r.tooltipText = rt
 			r.quantity:SetText(d[3] > 1 and d[3] or "")
-			r.icon:SetTexture(select(10, GetItemInfo(r.itemID)) or GetItemIcon(r.itemID) or "Interface/Icons/Temp")
+			r.icon:SetTexture(C_Item.GetItemIconByID(r.itemID) or "Interface/Icons/Temp")
 		end
 		r:Show()
 	end
@@ -3583,7 +3548,7 @@ do -- Ships
 		function CreateGroupButton(...)
 			local b = GroupButtonBase:New(...)
 			b:SetScript("OnEnter", ShipGroupButton_OnEnter)
-			b:SetScript("OnLeave", dismissTooltip)
+			b:SetScript("OnLeave", T.HideOwnedGameTooltip)
 			b:SetScript("OnClick", ShipGroupButton_OnClick)
 			return b
 		end
@@ -3630,7 +3595,7 @@ do -- RefreshActiveMissionsView
 		if force or core:IsOwned(activeMissionsHandle) then
 			activeMissionsHandle:Activate(force)
 		end
-		activeUI.orders:SetShown(GetItemCount(activeUI.orders.itemID) > 0)
+		activeUI.orders:SetShown(C_Item.GetItemCount(activeUI.orders.itemID) > 0)
 	end
 	function RefreshActiveMissionsView(force)
 		if core:IsShown() and (force or core:IsOwned(activeMissionsHandle)) then

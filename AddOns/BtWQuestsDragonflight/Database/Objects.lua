@@ -199,4 +199,70 @@ BtWQuestsDatabase:AddObjectsTable({
             },
         },
     },
+    [385952] = {
+        name = "Unusual Ring",
+        locations = {
+            [2151] = {
+                {
+                    x = 0.298698,
+                    y = 0.572975,
+                },
+            },
+        },
+    },
+    [387520] = {
+        name = "TICKET: Glimmerogg Games",
+        locations = {
+            [2133] = {
+                {
+                    x = 0.556091,
+                    y = 0.545668,
+                },
+            },
+        },
+    },
+    [405593] = {
+        name = "Azerothian Archives!",
+        locations = {
+            [2112] = {
+                {
+                    x = 0.769173,
+                    y = 0.503558,
+                },
+            },
+        },
+    },
+    [405958] = {
+        name = "Sealed Kaldorei Scroll",
+        locations = {
+            [84] = {
+                {
+                    x = 0.522978,
+                    y = 0.141949,
+                },
+            },
+        },
+    },
+    [409077] = {
+        name = "Singed Leaflet",
+        locations = {
+            [2200] = {
+                {
+                    x = 0.37998,
+                    y = 0.472086,
+                },
+            },
+        },
+    },
+    [415303] = {
+        name = "Magically-Sealed Parcel",
+        locations = {
+            [84] = {
+                {
+                    x = 0.530129,
+                    y = 0.154721,
+                },
+            },
+        },
+    },
 })

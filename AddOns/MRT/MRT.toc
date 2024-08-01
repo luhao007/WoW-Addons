@@ -1,8 +1,8 @@
-## Interface: 100002
+## Interface: 110000
 ## Author: ykiigor
-## Version: 4720
-## OptionalDeps: ExRT
+## Version: 4880
 ## SavedVariables: VMRT
+## IconTexture: Interface\AddOns\MRT\media\MiniMap.tga
 
 ## Title: Method Raid Tools
 ## Notes: Method Raid Tools
@@ -20,6 +20,7 @@ localization\localization.de.lua
 localization\localization.cn.lua
 localization\localization.tw.lua
 localization\localization.kr.lua
+localization\localization.it.lua
 localization\localization.lua
 BlizzFix.lua
 Options.lua
@@ -27,6 +28,7 @@ Note.lua
 ExCD2.lua
 Inspect.lua
 VisNote.lua
+Reminder.lua
 BossWatcher.lua
 InspectViewer.lua
 RaidCheck.lua
@@ -34,6 +36,8 @@ InviteTool.lua
 RaidGroups.lua
 MarksBar.lua
 Marks.lua
+MarksSimple.lua
+Interrupts.lua
 BattleRes.lua
 Timers.lua
 RaidAttendance.lua

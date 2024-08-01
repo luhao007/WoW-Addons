@@ -1,474 +1,469 @@
-﻿local _,L = ...
-local rematch = Rematch
-local panel = RematchLoadoutPanel
-local settings, saved
+local _,rematch = ...
+local L = rematch.localization
+local C = rematch.constants
+local settings = rematch.settings
+rematch.loadoutPanel = rematch.frame.LoadoutPanel
+rematch.frame:Register("loadoutPanel")
 
-rematch:InitModule(function()
-	rematch.LoadoutPanel = panel
-	settings = RematchSettings
-	saved = RematchSaved
-	for i=1,3 do
-		panel.Loadouts[i].Pet.Pet:SetSize(44,44)
-		panel.Loadouts[i]:RegisterForDrag("LeftButton")
-		panel.Loadouts[i].HP:SetMinMaxValues(0,100)
-		panel.Loadouts[i]:RegisterForClicks("AnyUp")
-		panel.Loadouts[i].Pet.Pet:SetID(i)
-		rematch:AddSpecialBorder(panel.Loadouts[i].Pet.Pet)
-      panel.Loadouts[i].Pet.Pet.isLoadoutSlot = true
-	end
-	-- there's no event for when loadout pets change (really!) so we hooksecurefunc them
-	hooksecurefunc(C_PetJournal,"SetAbility",function() rematch:StartTimer("LoadoutsChanging",0,panel.UpdateLoadouts) end)
-	hooksecurefunc(C_PetJournal,"SetPetLoadOutInfo",function() rematch:StartTimer("LoadoutsChanging",0,panel.UpdateLoadouts) end)
-	-- to avoid watching CURSOR_CHANGED all the time, only registering for event on a PickupPet
-	hooksecurefunc(C_PetJournal,"PickupPet",rematch.CURSOR_CHANGED)
+function rematch.loadoutPanel:Update()
+    for i=1,3 do
+        local petID,ability1,ability2,ability3,locked = C_PetJournal.GetPetLoadOutInfo(i)
 
-	panel.TargetPanel:Initialize()
+        self.Loadouts[i].petID = petID -- before possibly changing petID to a battle:1:x, save petIDs to loadout/pet button
+        self.Loadouts[i].Pet.petID = petID
+        if C_PetBattles.IsInBattle() then
+            petID = "battle:1:"..i -- if in a pet battle, use the battle petID to get health updates during battle
+        end
 
-	-- only create models if the Debug: No Models setting is disabled
-	if not settings.DebugNoModels then
-		-- target panel model
-		panel.Target.Model = CreateFrame("PlayerModel",nil,panel.Target)
-		local model = panel.Target.Model
-		model:SetSize(48,48)
-		model:SetPoint("TOPLEFT",10,-32)
-		model:SetPoint("BOTTOMLEFT",10,8)
-		Model_OnLoad(model)
-		model:SetRotation(MODELFRAME_DEFAULT_ROTATION)
-		model:SetPortraitZoom(0.75)
-		model:SetPosition(0,0,-0.075)
-		model:SetScript("OnEvent",Model_OnEvent)
-		-- border frame here is a sibling to the above target model
-		panel.Target.ModelBorder = CreateFrame("Frame",nil,panel.Target,"RematchUseParentLevel,BackdropTemplate")
-		local border = panel.Target.ModelBorder
-		border:SetBackdrop({edgeFile="Interface\\Tooltips\\UI-Tooltip-Border", tile=true, edgeSize=12})
-		border:SetBackdropBorderColor(0.5,0.5,0.5)
-		border:SetPoint("TOPLEFT",model,"TOPLEFT",-5,5)
-		border:SetPoint("BOTTOMRIGHT",model,"BOTTOMRIGHT",5,-5)
-		local back = border:CreateTexture(nil,"BACKGROUND",nil,2)
-		back:SetTexture("Interface\\Destiny\\EndScreenBG")
-		back:SetPoint("TOPLEFT",3,-3)
-		back:SetPoint("BOTTOMRIGHT",-3,3)
-		back:SetVertexColor(0.25,0.25,0.25)
-		-- models for the each loadout slot
-		for i=1,3 do
-			-- /dump Rematch.LoadoutPanel.Loadouts[1].ModelScene
-			panel.Loadouts[i].ModelScene = CreateFrame("ModelScene",nil,panel.Loadouts[i],"ModelSceneMixinTemplate,RematchUseParentLevel")
-			local model = panel.Loadouts[i].ModelScene
-			model:SetSize(88,100)
-			model:SetPoint("BOTTOMRIGHT",-1,1)
-			model.Shadows = model:CreateTexture(nil,"ARTWORK")
-			model.Shadows:SetSize(69,42)
-			model.Shadows:SetPoint("BOTTOM",4,8)
-			model.Shadows:SetAtlas("PetJournal-BattleSlot-Shadow")
-		end
-	end
-end)
+        self:FillSpecial(self.Loadouts[i],self.Loadouts[i]:GetID()) -- fills back and special badge/button at top of loadout
+        self:FillLoadout(self.Loadouts[i],petID) -- fills pet, including name and pet badges
+        self.Loadouts[i].AbilityBar:FillAbilityBar(petID,ability1,ability2,ability3) -- fills abilities
+        self:FillStatusBars(self.Loadouts[i],petID) -- fills status bars
+        self:FillModelScene(self.Loadouts[i],petID) -- fills pet model
 
-function panel:Update()
-	if panel:IsVisible() then
-		panel.Target.TargetButton.Arrow:SetShown(settings.UseOldTargetMenu and true)
-		panel.TargetPanel:SetShown(panel.targetMode)
-		panel.Target:SetShown(not panel.targetMode)
-		for i=1,3 do
-			panel.Loadouts[i]:SetShown(not panel.targetMode)
-		end
-		if panel.targetMode then
-			panel.TargetPanel:Update()
-		else
-			panel:UpdateLoadouts()
-			panel:UpdateTarget()
-		end
-	end
+        -- hiding ability bar and showing requirements if slot is locked
+        self.Loadouts[i].AbilityBar:SetShown(not locked)
+        self.Loadouts[i].LockOverlay.RequirementsText:SetShown(locked)
+        self.Loadouts[i].LockOverlay.RequirementsLink:SetShown(locked)
+
+        -- showing overlay if either journal or just this slot is locked
+        local isJournalLocked = rematch.utils:IsJournalLocked()
+        self.Loadouts[i].LockOverlay:SetShown(isJournalLocked or locked)
+
+        -- when slotting a pet, the loadouts are updated; if the mouse is over a loadout when that happens and the pet card
+        -- is unlocked and visible, then we need to change pets the card is showing (using the OnEnter to let focus handle it)
+        if MouseIsOver(self.Loadouts[i]) and rematch.petCard.petID~=petID and not rematch.cardManager:IsCardLocked(rematch.petCard) then
+            local focus = GetMouseFoci()[1]
+            if focus and focus.petID then
+                focus:GetScript("OnEnter")(focus)
+            end
+        end
+    end
+    self.AbilityFlyout:Hide()
+    self:UpdateGlow()
 end
 
--- updates the three loadout pet slots
-function panel:UpdateLoadouts()
-	if rematch.MiniPanel:IsVisible() then
-		rematch.MiniPanel:Update()
-		return
-	end
-	local info = rematch.info
-	for i=1,3 do
-		local button = panel.Loadouts[i]
-		local petID
-		petID,info[1],info[2],info[3] = C_PetJournal.GetPetLoadOutInfo(i)
-		button.petID = petID
-		rematch:FillPetListButton(button.Pet,petID,true)
-		if petID then
-			local speciesID,_,level,xp,maxXP,displayID = C_PetJournal.GetPetInfoByPetID(petID)
-			local health, maxHealth = C_PetJournal.GetPetStats(petID)
-			if level~=25 then
-				button.XP:Show()
-				button.XP:SetValue(xp*100/maxXP)
-			else
-				button.XP:Hide()
-			end
-			button.HP:SetValue(health*100/maxHealth)
-			if health==0 then
-				button.HP.Health:SetText(DEAD)
-				button.HP.Health:SetPoint("BOTTOM",button.HP,"TOP",4,4)
-				button.HP.MiniHP:Hide()
-			elseif health<maxHealth then
-				button.HP.Health:SetText(format("%d%%",health*100/maxHealth))
-				button.HP.Health:SetPoint("BOTTOM",button.HP,"TOP",5,4)
-				button.HP.MiniHP:Hide()
-			else
-				button.HP.Health:SetText(health)
-				button.HP.Health:SetPoint("BOTTOM",button.HP,"TOP",-1,4)
-				button.HP.MiniHP:Show()
-			end
-			button.HP:Show()
-			-- update model of loaded pet (if it's a different model; to avoid model restarting at first frame)
-			if button.ModelScene then
-				if button.displayID ~= displayID then
-					button.displayID = displayID
-					local _,loadoutSceneID = C_PetJournal.GetPetModelSceneInfoBySpeciesID(speciesID)
-					button.ModelScene:TransitionToModelSceneID(loadoutSceneID, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
-					local actor = button.ModelScene:GetActorByTag("pet")
-					if actor then
-						actor:SetModelByCreatureDisplayID(displayID)
-						actor:SetAnimationBlendOperation(LE_MODEL_BLEND_OPERATION_NONE)
-					end
-				end
-				button.ModelScene:Show()
-			end
-		else
-			button.XP:Hide()
-			button.HP:Hide()
-			if button.ModelScene then
-				button.ModelScene:Hide()
-			end
-		end
-		-- update loaded abilities
-		for j=1,3 do
-			button.Abilities[j]:SetShown(petID and true)
-			if petID then
-				panel:FillAbilityButton(button.Abilities[j],petID,info[j],true)
-			end
-		end
-		button.queueControl = rematch:GetSpecialSlot(i)=="leveling"
-		-- update background
-		button.InsetBack:SetDesaturated(not petID)
-      -- if slot is special (leveling, ignored, random)
-      local specialPetID = rematch:GetSpecialSlot(i)
-      if specialPetID then
-			button.Pet.Pet.SpecialBorder:Show()
-         button.Pet.Pet.SpecialFootnote:Show()
-         rematch:SetFootnoteIcon(button.Pet.Pet.SpecialFootnote,specialPetID)
-         button.Pet.Pet.SpecialFootnote.tooltipTitle,button.Pet.Pet.SpecialFootnote.tooltipBody = rematch:GetSpecialTooltip(specialPetID)
-		else
-			button.Pet.Pet.SpecialBorder:Hide()
-         button.Pet.Pet.SpecialFootnote:Hide()
-		end
-
-		button.LockOverlay:SetShown((C_PetBattles.GetPVPMatchmakingInfo() or not C_PetJournal.IsJournalUnlocked()) and true)
-		button.LockOverlay.petID = petID
-	end
+function rematch.loadoutPanel:UpdateGlow()
+    for i=1,3 do
+        local showGlow = rematch.utils:IsPetOnCursor()
+        if showGlow then
+            self.Loadouts[i].Animation:Play()
+        else
+            self.Loadouts[i].Animation:Stop()
+        end
+        self.Loadouts[i].Glow:SetShown(showGlow)
+    end
 end
 
--- returns the slot (other than the given slot) that already contains the petID
-function rematch:IsPetSlotted(slot,petID)
-	for i=1,3 do
-		if i~=slot and petID==C_PetJournal.GetPetLoadOutInfo(i) then
-			return i
-		end
-	end
+-- updates background for special types (leveling, random, ignored) and handles special slot badge
+function rematch.loadoutPanel:FillSpecial(loadout,slot)
+    if rematch.loadouts:IsSlotSpecial(slot) then
+        local altID = rematch.loadouts:GetSlotInfo(slot)
+        local altInfo = rematch.altInfo:Fetch(altID)
+        local color
+        if altInfo.idType=="leveling" then
+            color = C.LOADOUT_COLOR_LEVELING
+            loadout.SpecialButton.tooltipTitle = L["Leveling Pet"]
+            loadout.SpecialButton.tooltipBody = L["When this team loads, a pet from the leveling queue will go in this spot."]
+            loadout.SpecialButton.Icon:SetTexCoord(0.375,0.5,0.125,0.25)
+        elseif altInfo.idType=="random" then
+            color = C.LOADOUT_COLOR_RANDOM
+            loadout.SpecialButton.tooltipTitle = L["Random Pet"]
+            loadout.SpecialButton.tooltipBody = L["When this team loads, a random high level pet will go in this spot."]
+            loadout.SpecialButton.Icon:SetTexCoord(rematch.utils:GetBadgeCoordsByPetType(altInfo.petType))
+        elseif altInfo.idType=="ignored" then
+            color = C.LOADOUT_COLOR_IGNORED
+            loadout.SpecialButton.tooltipTitle = L["Ignored Slot"]
+            loadout.SpecialButton.tooltipBody = L["When this team loads, this spot will be ignored."]
+            loadout.SpecialButton.Icon:SetTexCoord(0.125,0.25,0.75,0.875)
+        else
+            -- normal loadout color; this shouldn't have run
+            color = C.LOADOUT_COLOR_NORMAL
+        end
+        loadout.Back:SetDesaturated(true)
+        loadout.Back:SetVertexColor(color[1],color[2],color[3])
+        loadout.SpecialButton:Show()
+    elseif rematch.loadouts:IsSlotLocked(slot) then
+        loadout.Back:SetDesaturated(true)
+        loadout.Back:SetVertexColor(1,1,1)
+        loadout.SpecialButton:Hide()
+    else
+        loadout.Back:SetDesaturated(false)
+        loadout.Back:SetVertexColor(1,1,1)
+        loadout.SpecialButton:Hide()
+    end
 end
 
--- for loadout slots accepting a pet, returns true if a pet was dropped
-function panel:LoadoutButtonReceivePet()
-	local hasPet,petID = GetCursorInfo()
-	if hasPet=="battlepet" and rematch:GetIDType(petID)=="pet" then
-		ClearCursor()
-		local slot = self:GetParent()==rematch.MiniPanel and self:GetID() or self:GetParent():GetID()
-		if slot>=1 and slot<=3 then
-			local otherSlot = rematch:IsPetSlotted(slot,petID)
-			rematch:SlotPet(slot,petID)
-			if otherSlot then
-				-- if an already-slotted pet is being slotted, swap its leveling slot status with the other slot
-				local otherLeveling = rematch:GetSpecialSlot(otherSlot)
-				rematch:SetSpecialSlot(otherSlot,rematch:GetSpecialSlot(slot))
-				rematch:SetSpecialSlot(slot,otherLeveling)
-			else
-				rematch:SetSpecialSlot(slot,nil)
-			end
-			rematch:UpdateQueue()
-			return true
-		end
-	end
+-- fills a loadout slot for the petID: type decal, notes, breed, badges, names
+function rematch.loadoutPanel:FillLoadout(loadout,petID)
+    local petInfo = rematch.petInfo:Fetch(petID)
+    local slot = loadout:GetID()
+
+    loadout.Pet:FillPet(petID)
+
+    -- pet type decal in the topright
+    if petInfo.suffix then
+        loadout.TypeDecal:SetTexture("Interface\\PetBattles\\PetIcon-"..petInfo.suffix)
+        loadout.TypeDecal:Show()
+    else
+        loadout.TypeDecal:Hide()
+    end
+
+    -- notes button in the topright
+    local showNotes = not settings.HideNotesBadges and petInfo.hasNotes
+    loadout.NotesButton:SetShown(showNotes)
+
+    -- breed in topright beneath notes button
+    local breedXoff = -14
+    if petInfo.breedName and not settings.HideBreedsLoadouts then
+        loadout.Breed:SetFontObject(settings.LargerBreedText and "GameFontNormal" or "GameFontNormalSmall")
+        loadout.Breed:SetText(petInfo.breedName)
+        loadout.Breed:Show()
+        breedXoff = breedXoff - ceil(loadout.Breed:GetStringWidth())
+    else
+        loadout.Breed:Hide()
+    end
+
+    -- badges in topright to left of notes button
+    local right = showNotes and -34 or -12
+    local badgesWidth = rematch.badges:AddBadges(loadout.Badges,"pets",petID,"TOPRIGHT",loadout,"TOPRIGHT",right,-24,-1)
+
+    if not rematch.loadouts:IsSlotLocked(slot) then
+        -- names between pet button and notes/badges/breed
+        local nameXoff = min(right,breedXoff)
+        local nameYoff = -21
+        loadout.PetName:SetPoint("TOPLEFT",70,nameYoff)
+        loadout.PetName:SetPoint("TOPRIGHT",nameXoff,nameYoff)
+        loadout.PetName:SetText(petInfo.name)
+        loadout.PetName:Show()
+        local nameHeight = loadout.PetName:GetStringHeight()
+        if petInfo.customName then
+            loadout.SpeciesName:SetText(petInfo.speciesName)
+            loadout.SpeciesName:Show()
+            nameHeight = nameHeight + loadout.SpeciesName:GetStringHeight() + 2
+        else
+            loadout.SpeciesName:Hide()
+        end
+        -- if name+species name takes up less space than icon height, nudge it down
+        if nameHeight < 46 then
+            nameYoff = -21-floor((46-nameHeight)/2+0.5)+1
+            loadout.PetName:SetPoint("TOPLEFT",70,nameYoff)
+            loadout.PetName:SetPoint("TOPRIGHT",nameXoff,nameYoff)
+        end
+        -- color the name
+        if settings.ColorPetNames and petInfo.color then
+            loadout.PetName:SetTextColor(petInfo.color.r,petInfo.color.g,petInfo.color.b)
+        else
+            loadout.PetName:SetTextColor(1,0.82,0)
+        end
+    else
+        loadout.PetName:Hide()
+        loadout.SpeciesName:Hide()
+        local text,link = rematch.loadouts:GetSlotLockedDetails(slot)
+        loadout.LockOverlay.RequirementsText:SetText(text)
+        loadout.LockOverlay.RequirementsLink:SetText(link)
+    end
+
 end
 
--- this is a click of an ability in the main loadout panel
-function panel:AbilityButtonOnClick(button)
-
-	if rematch.ChatLinkAbility(self) then
-		self:SetChecked(not self:GetChecked())
-		return -- was only linking ability, can leave
-	end
-
-	if button=="RightButton" then
-		self:SetChecked(not self:GetChecked())
-		rematch:SetMenuSubject(self.abilityID)
-		rematch:ShowMenu("FindAbility","cursor",nil,nil,nil,nil,true)
-		return
-	end
-
-	-- check if flyout already open for this ability; close it and leave if so
-	if panel.Flyout:IsVisible() and panel.Flyout:GetParent()==self then
-		rematch:HideFlyout()
-		return
-	end
-	rematch:HideWidgets()
-	-- uncheck every ability except the one being opened
-	for i=1,3 do
-		for j=1,3 do
-			local button = panel.Loadouts[i].Abilities[j]
-			button:SetChecked(button==self)
-		end
-	end
-	-- display the flyout for this ability
-	local petSlot = self:GetParent():GetID()
-	local abilitySlot = self:GetID()
-	panel.Flyout:SetParent(self)
-	panel.Flyout:SetFrameStrata("DIALOG")
-	panel.Flyout:SetPoint("TOP",self,"BOTTOM")
-	for i=1,2 do
-		panel.Flyout.Abilities[i].NumberBG:SetShown(settings.ShowAbilityNumbers)
-		panel.Flyout.Abilities[i].Number:SetShown(settings.ShowAbilityNumbers)
-	end
-	panel.Flyout:Show()
-	local info,petID = rematch.info
-	wipe(info)
-	petID,info[1],info[2],info[3] = C_PetJournal.GetPetLoadOutInfo(petSlot)
-	C_PetJournal.GetPetAbilityList((C_PetJournal.GetPetInfoByPetID(petID)),rematch.abilityList,rematch.levelList)
-	panel.Flyout.petID = petID
-	for i=1,2 do
-		local listIndex = (i-1)*3+abilitySlot
-		local abilityID = rematch.abilityList[listIndex]
-		panel:FillAbilityButton(panel.Flyout.Abilities[i],petID,abilityID)
-		panel.Flyout.Abilities[i]:SetChecked(abilityID==self.abilityID)
-	end
+-- unlike mini loadout, the regular loadout bars never move position; though the xp bar is still only visible for pets under 25
+function rematch.loadoutPanel:FillStatusBars(loadout,petID)
+    local petInfo = rematch.petInfo:Fetch(petID)
+    local showXpBar = petInfo.level and petInfo.level<25
+    loadout.XpBar:SetShown(showXpBar)
+    loadout.XpBarBack:SetShown(showXpBar)
+    loadout.XpBarBorder:SetShown(showXpBar)
+    if petInfo.level and petInfo.level<25 then
+        rematch.utils:UpdateStatusBar(loadout.XpBar,petInfo.xp,petInfo.maxXp,C.LOADOUT_XPBAR_WIDTH,C.XP_BAR_COLOR.r,C.XP_BAR_COLOR.g,C.XP_BAR_COLOR.b)
+    end
+    local showHpBar = petInfo.health and petInfo.maxHealth
+    loadout.HpBar:SetShown(showHpBar)
+    loadout.HpBarBack:SetShown(showHpBar)
+    loadout.HpBarBorder:SetShown(showHpBar)
+    loadout.HeartIcon:SetShown(showHpBar)
+    loadout.HealthText:SetShown(showHpBar)
+    if showHpBar then
+        rematch.utils:UpdateStatusBar(loadout.HpBar,petInfo.health,petInfo.maxHealth,C.LOADOUT_HPBAR_WIDTH,C.HP_BAR_COLOR.r,C.HP_BAR_COLOR.g,C.HP_BAR_COLOR.bg)
+        loadout.HealthText:SetText(petInfo.shortHealthStatus)
+    end
 end
 
--- fills an ability button for loadout (both main and flyout buttons)
-function panel:FillAbilityButton(button,petID,abilityID,withNumber)
-	if rematch:GetIDType(petID)~="pet" then
-		button.abilityID = nil
-		button.Icon:SetTexture("Interface\\PaperDoll\\UI-Backpack-EmptySlot")
-		if button.NumberBG then
-			button.NumberBG:Hide()
-			button.Number:Hide()
-		end
-		return
-	end
-	button.abilityID = abilityID
-	local _,_,icon = C_PetBattles.GetAbilityInfoByID(abilityID)
-	button.Icon:SetTexture(icon)
-	local speciesID,_,level = C_PetJournal.GetPetInfoByPetID(petID)
-	if speciesID then
-		C_PetJournal.GetPetAbilityList(speciesID,rematch.abilityList,rematch.levelList)
-		for i,candidate in ipairs(rematch.abilityList) do
-			if candidate==abilityID then
-				if level<rematch.levelList[i] then -- if pet too low level, show level in red on button
-					button.Cover:Show()
-					button.Level:SetText(rematch.levelList[i])
-					button.Level:Show()
-					button.Icon:SetDesaturated(true)
-				else
-					button.Cover:Hide()
-					button.Level:Hide()
-					button.Icon:SetDesaturated(false)
-				end
-				if withNumber then
-					if settings.ShowAbilityNumbers and settings.ShowAbilityNumbersLoaded and button.NumberBG then
-						button.NumberBG:Show()
-						button.Number:Show()
-						button.Number:SetText(i>3 and "2" or "1")
-					else
-						button.NumberBG:Hide()
-						button.Number:Hide()
-					end
-				end
-				return
-			end
-		end
-	end
+-- updates loadout pet model
+function rematch.loadoutPanel:FillModelScene(loadout,petID)
+    local petInfo = rematch.petInfo:Fetch(petID)
+    local displayID = petInfo.displayID
+    if not displayID then
+        loadout.ModelScene:Hide()
+    else
+        loadout.ModelScene:Show()
+        if displayID ~= loadout.displayID then
+            loadout.displayID = displayID
+            local _,loadoutModelSceneID = C_PetJournal.GetPetModelSceneInfoBySpeciesID(petInfo.speciesID)
+            loadout.ModelScene:TransitionToModelSceneID(loadoutModelSceneID, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, forceSceneChange)
+            local battlePetActor = loadout.ModelScene:GetActorByTag("pet")
+            if battlePetActor then
+                battlePetActor:SetModelByCreatureDisplayID(displayID)
+                --battlePetActor:SetAnimationBlendOperation(LE_MODEL_BLEND_OPERATION_NONE)
+            end
+        end
+    end
 end
 
--- click of one of the two buttons in the ability flyout window
-function panel:FlyoutAbilityOnClick()
-	if rematch.ChatLinkAbility(self) then
-		self:SetChecked(not self:GetChecked())
-		return -- only linking ability to chat, leave
-	end
-	local petSlot = self:GetParent():GetParent():GetParent():GetID()
-	local abilitySlot = self:GetParent():GetParent():GetID()
-	if self.Cover:IsVisible() then
-		self:SetChecked(not self:GetChecked())
-		return
-	else
-		rematch.timeUIChanged = GetTime()
-		rematch:HideFlyout()
-		C_PetJournal.SetAbility(petSlot,abilitySlot,self.abilityID)
-	end
+function rematch.loadoutPanel:OnShow()
+    rematch.events:Register(self,"REMATCH_LOADOUTS_CHANGED",self.Update)
+    rematch.events:Register(self,"REMATCH_ABILITIES_CHANGED",self.Update)
+    rematch.events:Register(self,"REMATCH_PET_PICKED_UP_ON_CURSOR",self.Update)
+    rematch.events:Register(self,"REMATCH_PET_DROPPED_FROM_CURSOR",self.Update)
+    rematch.events:Register(self,"PET_BATTLE_HEALTH_CHANGED",self.Update) -- health changing during battle
+    rematch.events:Register(self,"REMATCH_TEAM_LOADED",self.REMATCH_TEAM_LOADED) -- team loaded, flash pets
+    self:UpdateGlow()
 end
 
--- unchecks every ability and hides flyout
-function rematch:HideFlyout()
-	for i=1,3 do
-		for j=1,3 do
-			panel.Loadouts[i].Abilities[j]:SetChecked(false)
-		end
-	end
-	panel.Flyout:Hide()
-	rematch.MiniPanel.Flyout:Hide()
+function rematch.loadoutPanel:OnHide()
+    --self.AbilityFlyout:Hide()
+    rematch.events:Unregister(self,"REMATCH_LOADOUTS_CHANGED")
+    rematch.events:Unregister(self,"REMATCH_ABILITIES_CHANGED")
+    rematch.events:Unregister(self,"REMATCH_PET_PICKED_UP_ON_CURSOR")
+    rematch.events:Unregister(self,"REMATCH_PET_DROPPED_FROM_CURSOR")
+    rematch.events:Unregister(self,"PET_BATTLE_HEALTH_CHANGED")
+    rematch.events:Unregister(self,"REMATCH_TEAM_LOADED")
 end
 
-function panel:UpdateTarget(unit)
-	if not panel:IsVisible() then
-		return
-	end
-	local npcID = rematch.recentTarget
-	local name = rematch:GetNameFromNpcID(npcID)
-	local target = panel.Target
-	target.Name:SetText(name)
-
-	local show = npcID and true
-	if target.Model then
-		target.Model:SetShown(show)
-		target.ModelBorder:SetShown(show)
-	end
-	target.GreenCheck:SetShown(show and saved[npcID])
-	target.SaveStatus:SetShown(show)
-	target.LoadSaveButton:SetShown(show)
-	target.Clear:SetShown(show)
-	target.Vs:Hide()
-	for i=1,3 do
-		target.Pets[i]:SetShown(show)
-	end
-
-	if not show then return end -- nothing being displayed, leave after stuff hidden
-
-	if saved[npcID] then -- this target has a saved team
-		target.SaveStatus:SetPoint("LEFT",target.GreenCheck,"RIGHT",2,0)
-		target.SaveStatus:SetText(L["Target has a saved team"])
-		target.LoadSaveButton:SetText(L["Load"])
-		target.LoadSaveButton.tooltipTitle = L["Load"]
-		target.LoadSaveButton.tooltipBody = L["Load the team saved for this target."]
-	else
-		target.SaveStatus:SetPoint("LEFT",target.GreenCheck,"LEFT",4,0)
-		target.SaveStatus:SetText(L["This target has no saved team"])
-		target.LoadSaveButton:SetText(SAVE)
-		target.LoadSaveButton.tooltipTitle = SAVE
-		target.LoadSaveButton.tooltipBody = L["Save the currently loaded pets to this target."]
-	end
-
-	local hasPets,vs = panel:UpdateTargetModelandPets(target,nil,npcID)
-
-	if vs then
-		target.Pet1:SetPoint("TOPLEFT",target,"LEFT",84,-7)
-		target.Vs:Show()
-	else
-		target.Pet1:SetPoint("TOPLEFT",target,"LEFT",64,-7)
-		target.Vs:Hide()
-	end
-	rematch:MaybeBlingTarget(target)
+-- flashes the three loadout slots when a team finishes loading
+function rematch.loadoutPanel:REMATCH_TEAM_LOADED()
+    self:Update()
+    self:BlingLoadouts()
 end
 
--- shared by LoadoutPanel.Target and MiniPanel.Target
-function panel:UpdateTargetModelandPets(frame,unit,npcID,vs)
-	if frame.Model then
-		if unit then -- target can have a different model than its npcID (ie Garrison Creatures)
-			frame.Model:SetUnit(unit)
-		else
-			frame.Model:SetCreature(npcID)
-		end
-		frame.Model:Show()
-	end
-	-- display notable pets (if any)
-	local hasPets -- becomes the index of the last notable pet displayed
-	if rematch.targetNames[npcID] then -- notable npcID targeted, display its team
-		local notableIndex
-		for index,info in pairs(rematch.targetData) do
-			if info[3]==npcID then
-				notableIndex = index
-				break
-			end
-		end
-		if notableIndex then
-			for i=1,3 do
-				local petID = rematch.targetData[notableIndex][i+6]
-				if petID then
-					rematch:FillPetSlot(frame.Pets[i],petID,true)
-					hasPets = i
-				end
-				frame.Pets[i]:SetShown(petID and true)
-			end
-		end
-	end
-	if vs or not hasPets then -- if no notable pets, then hide all pets
-		if saved[npcID] then
-			for i=1,3 do
-				rematch:FillPetSlot(frame.Pets[i],saved[npcID][i][1],true)
-				frame.Pets[i]:Show()
-			end
-			hasPets = true
-			vs = true
-		else
-			for i=1,3 do
-				frame.Pets[i]:Hide()
-			end
-		end
-	end
-	return hasPets,vs
+function rematch.loadoutPanel:BlingLoadouts()
+    for i=1,3 do
+        self.Loadouts[i].Bling:Show()
+    end
 end
 
-function panel:LoadSaveButtonOnClick(button)
-	local npcID = rematch.recentTarget
-	if saved[npcID] then
-		rematch:LoadTeam(npcID)
-		rematch:SetLastInteractNpcID(npcID)
-		if rematch.TeamPanel:IsVisible() then
-			rematch:ShowTeam(npcID)
-		end
-	elseif npcID then
-		rematch:SetSideline(npcID,saved[npcID],true)
-		rematch:CheckToOverwriteNotesAndPreferences()
-		rematch:ShowSaveAsDialog()
-	end
+--[[ script handlers for Loadout slots ]]
+
+function rematch.loadoutPanel:LoadoutOnEnter()
+    self.Highlight:Show()
+    rematch.cardManager:OnEnter(rematch.petCard,self,self.petID)
 end
 
-function panel:LockedButtonOnEnter()
-	if not C_PetJournal.IsJournalUnlocked() then
-		rematch.ShowTooltip(self,LOCKED,PET_JOURNAL_READONLY_TEXT,"cursor")
-	elseif C_PetBattles.GetPVPMatchmakingInfo() then
-		rematch.ShowTooltip(self,LOCKED,ERR_PETBATTLE_QUEUE_QUEUED,"cursor")
-	end
+function rematch.loadoutPanel:LoadoutOnLeave()
+    self.Highlight:Hide()
+    if GetMouseFoci()[1]~=self.Pet then -- don't dismiss card if moving onto pet button
+        rematch.cardManager:OnLeave(rematch.petCard,self,self.petID)
+    end
 end
 
--- flashes the frame.Bling if the recent target is a new one (and team isn't loaded)
-function rematch:MaybeBlingTarget(frame)
-	local npcID = rematch.recentTarget
-	if npcID and saved[npcID] and settings.loadedTeam~=npcID and rematch.blingedNpcID~=npcID then
-		rematch.blingedNpcID = npcID
-		frame.Bling:Show()
-	end
+function rematch.loadoutPanel:LoadoutOnMouseDown()
+    if rematch.utils:IsJournalUnlocked() then
+        self.Highlight:Hide()
+    end
 end
 
--- updates highlights from pet card being locked
-function panel:UpdateHighlights()
-	if panel:IsVisible() then
-		local card = rematch.PetCard
-		local petID = (card.petID and card.petID~=0 and card.locked) and card.petID
-		for i=1,3 do
-			local button = panel.Loadouts[i]
-			local lock = petID and button.petID==petID
-			button.lockHighlight = lock or nil
-			if lock then
-				button.InsetHighlight:Show()
-			elseif GetMouseFocus()~=button then
-				button.InsetHighlight:Hide()
-			end
-		end
-	end
+function rematch.loadoutPanel:LoadoutOnMouseUp()
+    if self:IsMouseMotionFocus() and rematch.utils:IsJournalUnlocked() then
+        self.Highlight:Show()
+    end
+end
+
+function rematch.loadoutPanel:LoadoutOnClick(button)
+    if rematch.utils:IsJournalLocked() then
+        rematch.cardManager:OnClick(rematch.petCard,self,self.petID) -- if journal locked, only allow locking pet card
+    elseif button=="RightButton" then
+        if rematch.petInfo:Fetch(self.petID).idType=="pet" then
+            rematch.menus:Show("LoadoutMenu",self,{slot=self:GetID(),petID=self.petID},"cursor")
+        end
+    else
+        if rematch.utils:IsPetOnCursor() then -- if pet is on the cursor then drop pet into this loadout
+            rematch.loadoutPanel.LoadoutOnReceiveDrag(self)
+        else -- otherwise lock/unlock pet card
+            rematch.cardManager:OnClick(rematch.petCard,self,self.petID)
+        end
+    end
+end
+
+function rematch.loadoutPanel:LoadoutOnDoubleClick()
+    if not settings.NoSummonOnDblClick then
+        C_PetJournal.SummonPetByGUID(self.petID)
+        rematch.petCard:Hide()
+    end
+end
+
+function rematch.loadoutPanel:LoadoutOnDragStart()
+    if rematch.utils:IsJournalUnlocked() then
+        local petInfo = rematch.petInfo:Fetch(self.petID)
+        if petInfo.isOwned and petInfo.idType=="pet" then
+            C_PetJournal.PickupPet(self.petID)
+        end
+    end
+end
+
+function rematch.loadoutPanel:LoadoutOnReceiveDrag()
+    if rematch.utils:IsJournalUnlocked() then
+        local petID = rematch.utils:GetPetCursorInfo()
+        if petID then
+            ClearCursor()
+            rematch.loadouts:SlotPet(self:GetID(),petID)
+            rematch.petCard:Hide()
+            rematch.loadoutPanel.LoadoutOnEnter(self) -- go through motions of entering since new pet here
+            PlaySound(C.SOUND_DRAG_STOP)
+        end
+    end
+end
+
+--[[ script handlers for pet buttons within loadout slots ]]
+
+function rematch.loadoutPanel:PetOnEnter()
+    self:GetParent().Highlight:Show()
+    rematch.textureHighlight:Show(self.Icon)
+    rematch.cardManager:OnEnter(rematch.petCard,self:GetParent(),self.petID)
+end
+
+function rematch.loadoutPanel:PetOnLeave()
+    self:GetParent().Highlight:Hide()
+    rematch.textureHighlight:Hide()
+    if GetMouseFoci()[1]~=self:GetParent() then
+        rematch.cardManager:OnLeave(rematch.petCard,self:GetParent(),self.petID)
+    end
+end
+
+function rematch.loadoutPanel:PetOnMouseDown()
+    if rematch.utils:IsJournalUnlocked() then
+        self:GetParent().Highlight:Hide()
+        rematch.textureHighlight:Hide()
+    end
+end
+
+function rematch.loadoutPanel:PetOnMouseUp()
+    if self:IsMouseMotionFocus() and rematch.utils:IsJournalUnlocked() then
+        self:GetParent().Highlight:Show()
+        rematch.textureHighlight:Show(self.Icon)
+    end
+end
+
+function rematch.loadoutPanel:PetOnClick(button)
+    if rematch.utils:IsJournalLocked() then
+        rematch.cardManager:OnClick(rematch.petCard,self,self.petID) -- if journal locked, only allow locking pet card
+    elseif rematch.utils:IsPetOnCursor() then
+        rematch.loadoutPanel.PetOnReceiveDrag(self)
+    else
+        local petInfo = rematch.petInfo:Fetch(self.petID)
+        if petInfo.isOwned and petInfo.idType=="pet" then
+            if button=="RightButton" then
+                rematch.menus:Show("LoadoutMenu",self,{slot=self:GetParent():GetID(),petID=self.petID},"cursor")
+            elseif rematch.utils:HandleSpecialPetClicks(self.petID) then
+                -- if stone targeting or shift-clicking handled, do nothing
+            else
+                C_PetJournal.PickupPet(self.petID)
+            end
+        end
+    end
+end
+
+function rematch.loadoutPanel:PetOnDragStart()
+    if rematch.utils:IsJournalUnlocked() then
+        local petInfo = rematch.petInfo:Fetch(self.petID)
+        if petInfo.isOwned and petInfo.idType=="pet" then
+            C_PetJournal.PickupPet(self.petID)
+        end
+    end
+end
+
+function rematch.loadoutPanel:PetOnReceiveDrag()
+    if rematch.utils:IsJournalUnlocked() then
+        local petID = rematch.utils:GetPetCursorInfo()
+        if petID then
+            ClearCursor()
+            rematch.loadouts:SlotPet(self:GetParent():GetID(),petID)
+            rematch.petCard:Hide()
+            rematch.loadoutPanel.PetOnEnter(self)
+        end
+    end
+end
+
+-- OnUpdate closes flyout after C.FLYOUT_OPEN_TIMER passes with mouse not on the flyout or ability that opened it
+local flyoutTimer = 0
+function rematch.loadoutPanel.AbilityFlyout:OnUpdate(elapsed)
+    if self.anchoredTo and (MouseIsOver(self.anchoredTo) or MouseIsOver(self)) then
+        flyoutTimer = 0
+    else
+        flyoutTimer = flyoutTimer + elapsed
+        if flyoutTimer > C.FLYOUT_OPEN_TIMER then
+            self:Hide()
+        end
+    end
+end
+
+--[[ script handlers for special buttons at the top of loadout slots (leveling, random, ignored) ]]
+
+function rematch.loadoutPanel:SpecialOnEnter()
+    rematch.textureHighlight:Show(self.Icon)
+    rematch.tooltip:ShowSimpleTooltip(self) -- tooltip is updated in the loadout update
+end
+
+function rematch.loadoutPanel:SpecialOnLeave()
+    rematch.textureHighlight:Hide()
+    rematch.tooltip:Hide()
+end
+
+function rematch.loadoutPanel:SpecialOnMouseDown()
+    if rematch.utils:IsJournalUnlocked() then
+        rematch.textureHighlight:Hide()
+    end
+end
+
+function rematch.loadoutPanel:SpecialOnMouseUp()
+    if self:IsMouseMotionFocus() and rematch.utils:IsJournalUnlocked() then
+        rematch.textureHighlight:Show(self.Icon)
+    end
+end
+
+function rematch.loadoutPanel:SpecialOnClick(button)
+    if rematch.utils:IsJournalUnlocked() then
+        rematch.menus:Show("SpecialMenu",self,{slot=self:GetParent():GetID()},"cursor")
+    end
+end
+
+--[[ script handlers for lock in topleft corner when journal locked ]]
+
+function rematch.loadoutPanel:LockOnEnter()
+    rematch.textureHighlight:Show(self)
+    if not C_PetJournal.IsJournalUnlocked() then
+        rematch.tooltip:ShowSimpleTooltip(self,LOCKED,PET_JOURNAL_READONLY_TEXT)
+    elseif C_PetBattles.GetPVPMatchmakingInfo() then
+        rematch.tooltip:ShowSimpleTooltip(self,LOCKED,ERR_PETBATTLE_QUEUE_QUEUED)
+    else
+        local slot = self:GetParent():GetParent():GetID()
+        if rematch.loadouts:IsSlotLocked(slot) then
+            local text,link,spellID,achievementID = rematch.loadouts:GetSlotLockedDetails(slot)
+            rematch.tooltip:ShowSimpleTooltip(self,text.." "..link)
+        end
+    end
+end
+
+function rematch.loadoutPanel:LockOnLeave()
+    rematch.textureHighlight:Hide()
+    rematch.tooltip:Hide()
+end
+
+-- entering the requirements link ([Battle Pet Training], [Newbie] or [Just a Pup]) for locked slots
+function rematch.loadoutPanel:RequirementsOnEnter()
+    local slot = self:GetParent():GetParent():GetID()
+    local _,_,spellID,achievementID = rematch.loadouts:GetSlotLockedDetails(slot)
+    rematch.tooltip:SetOwner(self)
+    if spellID then
+        rematch.tooltip:SetSpellByID(spellID)
+    elseif achievementID then
+        rematch.tooltip:SetAchievementByID(achievementID)
+    else
+        return
+    end
+    local corner,opposite = rematch.utils:GetCorner(rematch.frame,UIParent)
+    rematch.tooltip:SetPoint(corner,self,opposite)
+    rematch.tooltip:Show()
+end
+
+function rematch.loadoutPanel:RequirementsOnLeave()
+    rematch.tooltip:Hide()
 end

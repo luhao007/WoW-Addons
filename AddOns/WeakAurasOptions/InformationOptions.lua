@@ -1,5 +1,8 @@
 if not WeakAuras.IsLibsOK() then return end
-local AddonName, OptionsPrivate = ...
+---@type string
+local AddonName = ...
+---@class OptionsPrivate
+local OptionsPrivate = select(2, ...)
 
 local L = WeakAuras.L
 
@@ -96,6 +99,35 @@ function OptionsPrivate.GetInformationOptions(data)
       name = isTmpGroup and L["|cFFE0E000Note:|r This sets the URL on all selected auras"]
                          or L["|cFFE0E000Note:|r This sets the URL on this group and all its members."],
       width = WeakAuras.doubleWidth,
+      order = order
+    }
+    order = order + 1
+  end
+  if OptionsPrivate.HasWagoUrl(data.id) then
+    args.ignoreWagoUpdate = {
+      type = "toggle",
+      name = L["Ignore Wago updates"],
+      desc = OptionsPrivate.IsWagoUpdateIgnored(data.id) and L["Do you want to enable updates for this aura"] or L["Do you want to ignore updates for this aura"],
+      width = WeakAuras.doubleWidth,
+      get = function() return OptionsPrivate.IsWagoUpdateIgnored(data.id) end,
+      set = function(info, v)
+          local auraData = WeakAuras.GetData(data.id)
+          if auraData then
+            local ignoreUpdate
+            if OptionsPrivate.IsWagoUpdateIgnored(data.id) then
+              ignoreUpdate = nil
+            else
+              ignoreUpdate = true
+            end
+            for child in OptionsPrivate.Private.TraverseAll(auraData) do
+              child.ignoreWagoUpdate = ignoreUpdate
+              OptionsPrivate.ClearOptions(child.id)
+            end
+            WeakAuras.ClearAndUpdateOptions(data.id)
+          end
+          OptionsPrivate.SortDisplayButtons(nil, true)
+
+      end,
       order = order
     }
     order = order + 1

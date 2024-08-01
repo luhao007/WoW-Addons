@@ -1,8 +1,8 @@
--- $Id: Atlas_ClassOrderHalls-zhTW.lua 132 2022-02-02 17:17:58Z arithmandar $
+-- $Id: Atlas_ClassOrderHalls-zhTW.lua 144 2023-03-20 15:00:38Z arithmandar $
 --[[
 
 	Atlas, a World of Warcraft instance map browser
-	Copyright 2016 ~ 2022 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+	Copyright 2016 ~ 2023 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
 
 	This file is part of Atlas.
 
