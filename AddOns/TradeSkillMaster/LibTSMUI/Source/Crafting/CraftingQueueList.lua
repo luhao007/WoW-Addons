@@ -17,6 +17,7 @@ local Theme = LibTSMUI:From("LibTSMService"):Include("UI.Theme")
 local TextureAtlas = LibTSMUI:From("LibTSMService"):Include("UI.TextureAtlas")
 local Profession = LibTSMUI:From("LibTSMService"):Include("Profession")
 local BagTracking = LibTSMUI:From("LibTSMService"):Include("Inventory.BagTracking")
+local WarbankTracking = LibTSMUI:From("LibTSMService"):Include("Inventory.WarbankTracking")
 local ItemInfo = LibTSMUI:From("LibTSMService"):Include("Item.ItemInfo")
 local TradeSkill = LibTSMUI:From("LibTSMWoW"):Include("API.TradeSkill")
 local SessionInfo = LibTSMUI:From("LibTSMWoW"):Include("Util.SessionInfo")
@@ -409,7 +410,7 @@ function CraftingQueueList.__private:_GetNameTooltip(dataIndex)
 	local totalProfitStr = profit and Money.ToStringForUI(profit * numResult * numQueued, Theme.GetColor(profit >= 0 and "FEEDBACK_GREEN" or "FEEDBACK_RED"):GetTextColorPrefix()) or "---"
 	tinsert(tooltipLines, L["Profit (Total)"]..": "..profitStr.." ("..totalProfitStr..")")
 	for _, matItemString, quantity in self._matIteratorFunc(recipeString) do
-		local numHave = BagTracking.GetCraftingMatQuantity(matItemString)
+		local numHave = BagTracking.GetCraftingMatQuantity(matItemString) + WarbankTracking.GetQuantity(matItemString)
 		local numNeed = quantity * numQueued
 		local color = Theme.GetColor(numHave >= numNeed and "FEEDBACK_GREEN" or "FEEDBACK_RED")
 		tinsert(tooltipLines, color:ColorText(numHave.."/"..numNeed).." - "..(UIUtils.GetDisplayItemName(matItemString) or "?"))

@@ -1,10 +1,30 @@
-lightweight tag 941cf146deb58d1d710396afde9c03835cd4427b 11.0.0-01
+lightweight tag 6fe06af46fbd90bd7447d9df18f780d02097047f list
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Tue Jul 23 07:40:23 2024 -0700
+Date:	Sun Aug 4 13:46:22 2024 -0700
 
-commit 941cf146deb58d1d710396afde9c03835cd4427b
+commit 6fe06af46fbd90bd7447d9df18f780d02097047f
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Tue Jul 23 07:40:23 2024 -0700
+Date:   Sun Aug 4 13:46:22 2024 -0700
 
-    Update TOC for 11.0 prepatch
+    New release
+
+commit 2abcf831a916ed28499398849025d14fd84fcb4c
+Author: Putro <29204244+Pewtro@users.noreply.github.com>
+Date:   Sun Aug 4 16:38:36 2024 +0200
+
+    [Bugfix] Replace UnitBuff usage with C_UnitAuras.GetBuffDataByIndex
+    
+    UnitBuff was deprecated in 10.2.5, and is removed in 11.0.2.
+    This commit replaces all instances of UnitBuff with C_UnitAuras.GetBuffDataByIndex. This function is similar to UnitBuff, but instead of returning multiple values, C_UnitAuras.GetBuffDataByIndex returns a table.
+    Docs: https://warcraft.wiki.gg/wiki/API_C_UnitAuras.GetBuffDataByIndex
+
+commit 2abcf831a916ed28499398849025d14fd84fcb4c
+Author: Putro <29204244+Pewtro@users.noreply.github.com>
+Date:   Sun Aug 4 16:38:36 2024 +0200
+
+    [Bugfix] Replace UnitBuff usage with C_UnitAuras.GetBuffDataByIndex
+    
+    UnitBuff was deprecated in 10.2.5, and is removed in 11.0.2.
+    This commit replaces all instances of UnitBuff with C_UnitAuras.GetBuffDataByIndex. This function is similar to UnitBuff, but instead of returning multiple values, C_UnitAuras.GetBuffDataByIndex returns a table.
+    Docs: https://warcraft.wiki.gg/wiki/API_C_UnitAuras.GetBuffDataByIndex
 

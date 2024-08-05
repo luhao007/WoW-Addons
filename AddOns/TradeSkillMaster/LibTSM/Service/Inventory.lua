@@ -10,6 +10,7 @@ local Log = TSM.LibTSMUtil:Include("Util.Log")
 local CustomString = TSM.LibTSMTypes:Include("CustomString")
 local AltTracking = TSM.Include("Service.AltTracking")
 local BagTracking = TSM.LibTSMService:Include("Inventory.BagTracking")
+local WarbankTracking = TSM.LibTSMService:Include("Inventory.WarbankTracking")
 local Auction = TSM.LibTSMService:Include("Auction")
 local Guild = TSM.LibTSMService:Include("Guild")
 local Mail = TSM.LibTSMService:Include("Mail")
@@ -40,11 +41,17 @@ Inventory:OnSettingsLoad(function(db)
 		:AddKey("sync", "internalData", "mailQuantity")
 		:AddKey("factionrealm", "internalData", "guildVaults")
 		:AddKey("global", "mailingOptions", "recentlyMailedList")
+		:AddKey("global", "internalData", "warbankQuantity")
 
 	-- Bag tracking
 	BagTracking.Load(private.settings.bagQuantity, private.settings.bankQuantity, private.settings.reagentBankQuantity)
 	BagTracking.Start()
 	BagTracking.RegisterQuantityCallback(private.QuantityChangedCallback)
+
+	-- Warbank tracking
+	WarbankTracking.Load(private.settings.warbankQuantity)
+	WarbankTracking.Start()
+	WarbankTracking.RegisterQuantityCallback(private.QuantityChangedCallback)
 
 	-- Auction tracking
 	Auction.Load(private.settings.auctionQuantity, private.settings.auctionSaleHints, private.settings.expiringAuction)
@@ -83,6 +90,7 @@ function Inventory.GetTotalQuantity(itemString)
 	total = total + BagTracking.GetBagQuantity(itemString)
 	total = total + BagTracking.GetBankQuantity(itemString)
 	total = total + BagTracking.GetReagentBankQuantity(itemString)
+	total = total + WarbankTracking.GetQuantity(itemString)
 	total = total + Mail.GetQuantity(itemString)
 	total = total + Auction.GetQuantity(itemString)
 	total = total + AltTracking.GetTotalQuantity(itemString)

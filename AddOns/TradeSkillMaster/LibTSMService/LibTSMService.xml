@@ -15,6 +15,7 @@
     <Script file="Source\Item\ItemFilter.lua" />
 
     <Script file="Source\Inventory\BagTracking.lua" />
+    <Script file="Source\Inventory\WarbankTracking.lua" />
 
     <Script file="Source\Auction\Classes\BlackMarket.lua" />
     <Script file="Source\Auction\Classes\Scanner.lua" />

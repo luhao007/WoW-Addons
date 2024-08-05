@@ -157,7 +157,7 @@ function private.MoveThread(context, callback)
 		for _, slotId, quantity in context:SlotIdIterator(itemString) do
 			if numQueued > 0 then
 				-- find a suitable empty slot
-				local targetSlotId = context:GetTargetSlotId(itemString, emptySlotIds)
+				local targetSlotId = context:GetTargetSlotId(itemString, emptySlotIds, slotId)
 				if targetSlotId then
 					assert(not slotIds[slotId])
 					slotIds[slotId] = targetSlotId

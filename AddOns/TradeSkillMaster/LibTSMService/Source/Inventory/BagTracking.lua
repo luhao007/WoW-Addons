@@ -221,7 +221,7 @@ function BagTracking.RegisterQuantityCallback(callback)
 end
 
 ---Iterates over the bag quantities.
----@return fun(): number, number, number, number, number @Iterator with fields: `index`, levelItemString`, `bagQuantity`, `bankQuantity`, `reagentBankQuantity`
+---@return fun(): number, string, number, number, number @Iterator with fields: `index`, `levelItemString`, `bagQuantity`, `bankQuantity`, `reagentBankQuantity`
 function BagTracking.QuantityIterator()
 	return private.quantityDB:NewQuery()
 		:Select("levelItemString", "bagQuantity", "bankQuantity", "reagentBankQuantity")
@@ -324,6 +324,20 @@ function BagTracking.ForceBankQuantityDeduction(itemString, quantity)
 		:Equal("itemString", itemString)
 		:Function("bag", Container.IsBankOrReagentBank)
 	local levelItemString = ItemString.ToLevel(itemString)
+	if private.isFirstBankOpen then
+		-- Haven't scanned yet, so just deduct the quantity
+		local bankQuantity = private.storage.bankQuantity[levelItemString] or -math.huge
+		local reagentBankQuantity = private.storage.reagentBankQuantity[levelItemString] or -math.huge
+		if reagentBankQuantity >= quantity then
+			private.ChangeBagItemTotal(Container.GetReagentBankContainer(), levelItemString, -quantity)
+		elseif reagentBankQuantity > 0 and bankQuantity >= (quantity - reagentBankQuantity) then
+			private.ChangeBagItemTotal(Container.GetReagentBankContainer(), levelItemString, -reagentBankQuantity)
+			private.ChangeBagItemTotal(Container.GetBankContainer(), levelItemString, -quantity + reagentBankQuantity)
+		elseif bankQuantity >= quantity then
+			private.ChangeBagItemTotal(Container.GetBankContainer(), levelItemString, -quantity)
+		end
+		return
+	end
 	for _, row in query:Iterator() do
 		if quantity > 0 then
 			local rowQuantity, rowBag = row:GetFields("quantity", "bag")
@@ -432,7 +446,7 @@ end
 ---@param bag number The bag index
 ---@return boolean
 function BagTracking.ItemWillGoInBag(itemString, bag)
-	if bag == Container.GetBackpackContainer() or bag == Container.GetBankContainer() then
+	if bag == Container.GetBackpackContainer() or bag == Container.GetBankContainer() or Container.IsWarbankBag(bag) then
 		return true
 	elseif bag == Container.GetReagentBankContainer() then
 		return Container.HasReagentBank() and ItemInfo.IsCraftingReagent(itemString)
@@ -476,7 +490,7 @@ function private.BankVisible()
 		private.quantityDB:SetQueryUpdatesPaused(false)
 	end
 	private.BagUpdateHandler(nil, Container.GetBankContainer())
-	for _, bag in Container.BankBagIterator() do
+	for bag in Container.BankBagIterator() do
 		private.BagUpdateHandler(nil, bag)
 	end
 	if Container.HasReagentBank() then
@@ -490,7 +504,7 @@ function private.BankVisible()
 end
 
 function private.BagUpdateHandler(_, bag)
-	if private.bagUpdates.pending[bag] then
+	if private.bagUpdates.pending[bag] or Container.IsWarbankBag(bag) then
 		return
 	end
 	private.bagUpdates.pending[bag] = true

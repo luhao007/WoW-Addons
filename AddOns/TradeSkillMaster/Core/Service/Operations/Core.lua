@@ -25,6 +25,7 @@ local Auction = TSM.LibTSMService:Include("Auction")
 local Guild = TSM.LibTSMService:Include("Guild")
 local Mail = TSM.LibTSMService:Include("Mail")
 local BagTracking = TSM.LibTSMService:Include("Inventory.BagTracking")
+local WarbankTracking = TSM.LibTSMService:Include("Inventory.WarbankTracking")
 local ItemInfo = TSM.LibTSMService:Include("Item.ItemInfo")
 local ChatMessage = TSM.LibTSMService:Include("UI.ChatMessage")
 local TextureAtlas = TSM.LibTSMService:Include("UI.TextureAtlas")
@@ -174,7 +175,7 @@ function private.GetShoppingInventoryNum(itemString, includeBank, includeAuction
 
 	local numHave = Mail.GetQuantity(itemString)
 	if includeBank then
-		numHave = numHave + BagTracking.GetTotalQuantity(itemString)
+		numHave = numHave + BagTracking.GetTotalQuantity(itemString) + WarbankTracking.GetQuantity(itemString)
 	else
 		numHave = numHave + BagTracking.GetBagQuantity(itemString)
 	end
@@ -218,7 +219,7 @@ function private.GetVendoringInventoryNum(itemString, includeBank, includeGuild,
 		:SumAndRelease("quantity")
 	if includeBank then
 		local _, bankQuantity, reagentBankQuantity = BagTracking.GetQuantities(itemString)
-		numHave = numHave + bankQuantity + reagentBankQuantity
+		numHave = numHave + bankQuantity + reagentBankQuantity + WarbankTracking.GetQuantity(itemString)
 	end
 	if includeGuild then
 		numHave = numHave + Guild.GetQuantity(itemString)

@@ -62,15 +62,15 @@ function BagToBankMoveContext.GetEmptySlotsThreaded(self, emptySlotIds)
 		private.GetEmptySlotsHelper(REAGENTBANK_CONTAINER, emptySlotIds, sortValue)
 	end
 	private.GetEmptySlotsHelper(BANK_CONTAINER, emptySlotIds, sortValue)
-	for _, bag in Container.BankBagIterator() do
+	for bag in Container.BankBagIterator() do
 		private.GetEmptySlotsHelper(bag, emptySlotIds, sortValue)
 	end
 	Table.SortWithValueLookup(emptySlotIds, sortValue)
 	TempTable.Release(sortValue)
 end
 
-function BagToBankMoveContext.GetTargetSlotId(self, itemString, emptySlotIds)
-	return private.BagBankGetTargetSlotId(itemString, emptySlotIds)
+function BagToBankMoveContext.GetTargetSlotId(self, itemString, emptySlotIds, slotId)
+	return private.BagBankGetTargetSlotId(itemString, emptySlotIds, slotId)
 end
 
 
@@ -107,7 +107,7 @@ function BankToBagMoveContext.GetEmptySlotsThreaded(self, emptySlotIds)
 	private.BagGetEmptySlotsThreaded(emptySlotIds)
 end
 
-function BankToBagMoveContext.GetTargetSlotId(self, itemString, emptySlotIds)
+function BankToBagMoveContext.GetTargetSlotId(self, itemString, emptySlotIds, slotId)
 	return private.BagBankGetTargetSlotId(itemString, emptySlotIds)
 end
 
@@ -161,7 +161,7 @@ function BagToGuildBankMoveContext.GetEmptySlotsThreaded(self, emptySlotIds)
 	end
 end
 
-function BagToGuildBankMoveContext.GetTargetSlotId(self, itemString, emptySlotIds)
+function BagToGuildBankMoveContext.GetTargetSlotId(self, itemString, emptySlotIds, slotId)
 	return tremove(emptySlotIds, 1)
 end
 
@@ -201,7 +201,7 @@ function GuildBankToBagMoveContext.GetEmptySlotsThreaded(self, emptySlotIds)
 	private.BagGetEmptySlotsThreaded(emptySlotIds)
 end
 
-function GuildBankToBagMoveContext.GetTargetSlotId(self, itemString, emptySlotIds)
+function GuildBankToBagMoveContext.GetTargetSlotId(self, itemString, emptySlotIds, slotId)
 	return private.BagBankGetTargetSlotId(itemString, emptySlotIds)
 end
 
@@ -284,10 +284,10 @@ function private.BagSlotHasItem(bag, slot)
 	return Container.GetItemLink(bag, slot) and true or false
 end
 
-function private.BagBankGetTargetSlotId(itemString, emptySlotIds)
+function private.BagBankGetTargetSlotId(itemString, emptySlotIds, depositSlotId)
 	for i, slotId in ipairs(emptySlotIds) do
 		local bag = SlotId.Split(slotId)
-		if BagTracking.ItemWillGoInBag(itemString, bag) then
+		if (not depositSlotId or not Container.IsWarbankBag(bag) or Container.CanDepositIntoWarbank(SlotId.Split(depositSlotId))) and BagTracking.ItemWillGoInBag(itemString, bag) then
 			return tremove(emptySlotIds, i)
 		end
 	end

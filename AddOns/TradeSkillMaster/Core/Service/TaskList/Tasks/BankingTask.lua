@@ -80,6 +80,7 @@ function BankingTask._UpdateState(self)
 			canMove = true
 			break
 		elseif not self._isGuildBank then
+			-- TODO: Support the warbank
 			local _, bankQuantity, reagentBankQuantity = BagTracking.GetQuantities(itemString)
 			if bankQuantity + reagentBankQuantity > 0 then
 				canMove = true

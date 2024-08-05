@@ -28,7 +28,7 @@ local private = {
 }
 do
 	-- Show a message if we were updated
-	if C_AddOns.GetAddOnMetadata("TradeSkillMaster", "Version") ~= "v4.14.5" and not TSM.IsTest() then
+	if C_AddOns.GetAddOnMetadata("TradeSkillMaster", "Version") ~= "v4.14.7" and not TSM.IsTest() then
 		StaticPopupDialog.ShowWithOk("TSM was just updated and may not work properly until you restart WoW.")
 	end
 	-- Basic module configuration

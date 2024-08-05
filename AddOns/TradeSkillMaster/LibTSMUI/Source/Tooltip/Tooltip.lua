@@ -66,6 +66,18 @@ function Tooltip.Show(parent, data, noWrapping, xOffset)
 	elseif type(data) == "string" and data == "honor" then
 		GameTooltip:SetText(HONOR_POINTS, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 		GameTooltip:AddLine(TOOLTIP_HONOR_POINTS, nil, nil, nil, 1)
+	elseif ClientInfo.IsCataClassic() and type(data) == "string" and strfind(data, "^currency:") then
+		local currencyId = tonumber(strmatch(data, "currency:(%d+)"))
+		if currencyId == 390 then
+			GameTooltip:SetText(PVP_CONQUEST, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+			GameTooltip:AddLine(PVP_ARENA_EXPLANATION, nil, nil, nil, 1)
+		elseif currencyId == 1900 then
+			GameTooltip:SetText(ARENA_POINTS, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+			GameTooltip:AddLine(TOOLTIP_ARENA_POINTS, nil, nil, nil, 1)
+		elseif currencyId == 1901 then
+			GameTooltip:SetText(HONOR_POINTS, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+			GameTooltip:AddLine(TOOLTIP_HONOR_POINTS, nil, nil, nil, 1)
+		end
 	elseif ClientInfo.IsRetail() and type(data) == "string" and strfind(data, "^currency:") then
 		GameTooltip:SetCurrencyByID(strmatch(data, "currency:(%d+)"))
 	elseif type(data) == "string" and strfind(data, "^r:") then

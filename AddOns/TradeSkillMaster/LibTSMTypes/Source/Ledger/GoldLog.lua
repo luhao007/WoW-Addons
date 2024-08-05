@@ -46,8 +46,8 @@ end
 function GoldLog.__private:__init(minutes, values)
 	self._minutes = minutes
 	self._values = values
-	self._startMinute = nil
-	self._endMinute = nil
+	self._startMinute = self._minutes[1] or nil
+	self._endMinute = self._minutes[#self._minutes] or nil
 end
 
 

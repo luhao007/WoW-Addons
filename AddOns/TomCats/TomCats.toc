@@ -1,20 +1,20 @@
 ## Interface: 110000
 ## Author: TomCat
-## Version: 2.5.34
+## Version: 2.5.35
 ## SavedVariables: TomCats_Account
 ## SavedVariablesPerCharacter: TomCats_Character
 ## DefaultState: enabled
 ## IconTexture: Interface\AddOns\TomCats\images\tomcats_logo_square.png
 
 ## Title: TomCat's Tours
-## Notes: Version: 2.5.34
+## Notes: Version: 2.5.35
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFFFFE00ATomCats|r
 ## Notes-zhCN: TomCats的旅行指南
 
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1722688497
+## X-TomCats-Expiry: 1722937472
 ## X-Part-Of: TomCats
 
 # See license.txt for license and copyright information

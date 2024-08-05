@@ -37,7 +37,7 @@ function PlayerGoldText:Release()
 	self.__super:Release()
 end
 
----Sets the settings object (should have `money`, `showTotalMoney`, `regionWide` keys).
+---Sets the settings object (should have `money`, `showTotalMoney`, `regionWide`, `warbankMoney` keys).
 ---@param settings SettingsView
 function PlayerGoldText:SetSettings(settings)
 	assert(settings and not self._settings)
@@ -72,6 +72,11 @@ function PlayerGoldText.__private:_GetTooltip()
 			tinsert(tooltipLines, private.GetTooltipLine(character, money))
 			total = total + money
 		end
+	end
+	if LibTSMUI.IsRetail() then
+		local warbankMoney = self._settings.warbankMoney
+		tinsert(tooltipLines, private.GetTooltipLine(L["Warbank"], warbankMoney))
+		total = total + warbankMoney
 	end
 	tinsert(tooltipLines, 1, private.GetTooltipLine(L["Total Gold"], total))
 	return strjoin("\n", TempTable.UnpackAndRelease(tooltipLines))

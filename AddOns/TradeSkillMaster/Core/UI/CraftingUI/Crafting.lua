@@ -18,6 +18,7 @@ local Theme = TSM.LibTSMService:Include("UI.Theme")
 local ItemString = TSM.LibTSMTypes:Include("Item.ItemString")
 local RecipeString = TSM.LibTSMTypes:Include("Crafting.RecipeString")
 local BagTracking = TSM.LibTSMService:Include("Inventory.BagTracking")
+local WarbankTracking = TSM.LibTSMService:Include("Inventory.WarbankTracking")
 local ItemInfo = TSM.LibTSMService:Include("Item.ItemInfo")
 local ItemLinked = TSM.LibTSMUI:Include("Util.ItemLinked")
 local Profession = TSM.LibTSMService:Include("Profession")
@@ -83,6 +84,7 @@ function Crafting.OnInitialize(settingsDB)
 	private.manager = UIManager.Create("CRAFTING", state, private.ActionHandler)
 		:SuppressActionLog("ACTION_SKILL_UPDATE")
 		:SuppressActionLog("ACTION_RECIPE_FILTER_CHANGED")
+		:SuppressActionLog("ACTION_BAG_QUANTITY_UPDATED")
 
 	-- Set some computed state properties
 	private.manager:SetStateFromPublisher("craftingCraftString", state:PublisherForKeyChange("craftingRecipeString")
@@ -114,6 +116,7 @@ function Crafting.OnInitialize(settingsDB)
 	ItemLinked.RegisterCallback(ItemLinkedCallback, true)
 	Profession.RegisterHasScannedCallback(private.manager:CallbackToProcessAction("ACTION_PROFESSION_STATE_UPDATED"))
 	BagTracking.RegisterQuantityCallback(private.manager:CallbackToProcessAction("ACTION_BAG_QUANTITY_UPDATED"))
+	WarbankTracking.RegisterQuantityCallback(private.manager:CallbackToProcessAction("ACTION_BAG_QUANTITY_UPDATED"))
 
 	-- Set up the craft timer
 	private.craftTimer = DelayTimer.New("CRAFTING_CRAFT", function()
@@ -448,14 +451,13 @@ function private.ActionHandler(manager, state, action, ...)
 		end
 		state.queueCanCraftNext = recipeString and true or false
 		if recipeString then
-			TSM.Crafting.ProfessionUtil.PrepareToCraft(craftString, recipeString, num, CraftString.GetLevel(craftString))
+			TSM.Crafting.ProfessionUtil.PrepareToCraft(recipeString, num, CraftString.GetLevel(craftString))
 		end
 	elseif action == "ACTION_PREPARE_TO_CRAFT" then
 		local recipeString, quantity, craftingSource, salvageItemLocation = ...
 		state.craftingSource = craftingSource
-		local craftString = CraftString.FromRecipeString(recipeString)
 		local level = RecipeString.GetLevel(recipeString)
-		TSM.Crafting.ProfessionUtil.PrepareToCraft(craftString, recipeString, quantity, level, salvageItemLocation)
+		TSM.Crafting.ProfessionUtil.PrepareToCraft(recipeString, quantity, level, salvageItemLocation)
 	elseif action == "ACTION_START_CRAFT" then
 		local recipeString, quantity, craftingSource, salvageItemLocation = ...
 		local craftString = CraftString.FromRecipeString(recipeString)
@@ -562,8 +564,7 @@ function private.ColorFilterDialogText(filterActive, text)
 end
 
 function private.StartCraft(state, recipeString, quantity, salvageItemLocation)
-	local craftString = CraftString.FromRecipeString(recipeString)
-	local numCrafted = TSM.Crafting.ProfessionUtil.Craft(craftString, recipeString, quantity, state.craftingSource ~= CraftingUIUtils.CRAFTING_SOURCE.CRAFT, salvageItemLocation, private.CraftCallback)
+	local numCrafted = TSM.Crafting.ProfessionUtil.Craft(recipeString, quantity, state.craftingSource ~= CraftingUIUtils.CRAFTING_SOURCE.CRAFT, salvageItemLocation, private.CraftCallback)
 	Log.Info("Crafting %d (requested %s) of %s", numCrafted, quantity == math.huge and "all" or quantity, recipeString)
 	if numCrafted == 0 then
 		return

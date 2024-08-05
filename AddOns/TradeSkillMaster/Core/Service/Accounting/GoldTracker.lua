@@ -6,6 +6,7 @@
 
 local TSM = select(2, ...) ---@type TSM
 local GoldTracker = TSM.Accounting:NewPackage("GoldTracker") ---@type AddonPackage
+local L = TSM.Locale.GetTable()
 local ClientInfo = TSM.LibTSMWoW:Include("Util.ClientInfo")
 local Event = TSM.LibTSMWoW:Include("Service.Event")
 local DelayTimer = TSM.LibTSMWoW:IncludeClassType("DelayTimer")
@@ -17,12 +18,15 @@ local DefaultUI = TSM.LibTSMWoW:Include("UI.DefaultUI")
 local GoldLog = TSM.LibTSMTypes:IncludeClassType("GoldLog")
 local PlayerInfo = TSM.Include("Service.PlayerInfo")
 local Guild = TSM.LibTSMWoW:Include("API.Guild")
+local Container = TSM.LibTSMWoW:Include("API.Container")
 local private = {
 	truncateGoldLog = {},
 	characterLog = {}, ---@type table<string,GoldLog>
 	characterLastUpdate = {}, ---@type table<string,number>
 	guildLog = {}, ---@type table<string,GoldLog>
 	guildLastUpdate = {}, ---@type table<string,number>
+	warbankLog = nil, ---@type GoldLog?
+	warbankLogLastUpdate = nil, ---@type number?
 	currentCharacterKey = nil, ---@type string
 	playerLogCount = 0,
 	playerGoldRetryTimer = nil,
@@ -43,6 +47,10 @@ function GoldTracker.OnInitialize(settingsDB)
 		DefaultUI.RegisterGuildBankVisibleCallback(private.GuildLogGold, true)
 		Event.Register("GUILDBANK_UPDATE_MONEY", private.GuildLogGold)
 	end
+	if ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+		DefaultUI.RegisterBankVisibleCallback(private.WarbankLogGold, true)
+		Event.Register("ACCOUNT_MONEY", private.WarbankLogGold)
+	end
 	Event.Register("PLAYER_MONEY", private.PlayerLogGold)
 
 	private.settings = settingsDB:NewView()
@@ -53,6 +61,9 @@ function GoldTracker.OnInitialize(settingsDB)
 		:AddKey("factionrealm", "internalData", "guildGoldLogLastUpdate")
 		:AddKey("factionrealm", "internalData", "characterGuilds")
 		:AddKey("global", "coreOptions", "regionWide")
+		:AddKey("global", "internalData", "warbankMoney")
+		:AddKey("global", "internalData", "warbankGoldLog")
+		:AddKey("global", "internalData", "warbankGoldLogLastUpdate")
 
 	-- Get a list of known guilds and load character gold log data
 	local validGuilds = TempTable.Acquire()
@@ -81,6 +92,12 @@ function GoldTracker.OnInitialize(settingsDB)
 		end
 	end
 
+	-- Load warbank gold log data
+	if ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+		private.warbankLog = GoldLog.Load(private.settings.warbankGoldLog) or GoldLog.New()
+		private.warbankLogLastUpdate = private.settings.warbankGoldLogLastUpdate
+	end
+
 	TempTable.Release(validGuilds)
 	private.currentCharacterKey = SessionInfo.FormatCharacterName(SessionInfo.GetCharacterName(), SessionInfo.GetFactionrealmName(), true)
 	assert(private.characterLog[private.currentCharacterKey])
@@ -89,6 +106,8 @@ end
 function GoldTracker.OnEnable()
 	-- Log the current player gold (need to wait for OnEnable, otherwise GetMoney() returns 0 when first logging in)
 	private.PlayerLogGold()
+	-- Log warbank gold amount
+	private.WarbankLogGold()
 end
 
 function GoldTracker.OnDisable()
@@ -100,10 +119,20 @@ function GoldTracker.OnDisable()
 		private.settings.guildGoldLog[guild] = private.guildLog[guild]:Serialize()
 		private.settings.guildGoldLogLastUpdate[guild] = private.guildLastUpdate[guild]
 	end
+	if private.warbankLog then
+		private.settings.warbankGoldLog = private.warbankLog:Serialize()
+		private.settings.warbankGoldLogLastUpdate = private.warbankLogLastUpdate
+	end
 end
 
-function GoldTracker.CharacterGuildIterator()
-	return private.CharacterGuildIteratorHelper
+function GoldTracker.GetCharacterGuilds(resultTbl)
+	for character in pairs(private.characterLog) do
+		tinsert(resultTbl, character)
+	end
+	for guild in pairs(private.guildLog) do
+		tinsert(resultTbl, guild)
+	end
+	tinsert(resultTbl, L["Warbank"])
 end
 
 function GoldTracker.GetGoldAtTime(timestamp, ignoredCharactersGuilds)
@@ -118,6 +147,9 @@ function GoldTracker.GetGoldAtTime(timestamp, ignoredCharactersGuilds)
 		if not ignoredCharactersGuilds[key] and (private.truncateGoldLog[key] or math.huge) > timestamp then
 			value = value + log:GetValue(timestampMinute)
 		end
+	end
+	if private.warbankLog and not ignoredCharactersGuilds[L["Warbank"]] then
+		value = value + private.warbankLog:GetValue(timestampMinute)
 	end
 	return value
 end
@@ -138,6 +170,12 @@ function GoldTracker.GetGraphTimeRange(ignoredCharactersGuilds)
 			if startMinute then
 				minTime = min(minTime, startMinute * SECONDS_PER_MIN)
 			end
+		end
+	end
+	if private.warbankLog and not ignoredCharactersGuilds[L["Warbank"]] then
+		local startMinute = private.warbankLog:GetStartMinute()
+		if startMinute then
+			minTime = min(minTime, startMinute * SECONDS_PER_MIN)
 		end
 	end
 	return minTime, Math.Floor(time(), SECONDS_PER_MIN), SECONDS_PER_MIN
@@ -181,6 +219,17 @@ function private.GuildLogGold()
 	end
 end
 
+function private.WarbankLogGold()
+	if not private.warbankLog or not Container.CanAccessWarbank() then
+		return
+	end
+	local copper = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
+	local currentMinute = floor(time() / SECONDS_PER_MIN)
+	private.warbankLog:Append(currentMinute, private.RoundCopperValue(copper))
+	private.warbankLogLastUpdate = time()
+	private.settings.warbankMoney = copper
+end
+
 function private.PlayerLogGold()
 	-- GetMoney sometimes returns 0 for a while after login, so keep trying for 30 seconds before recording a 0
 	local money = GetMoney()
@@ -208,23 +257,4 @@ end
 
 function private.RoundCopperValue(copper)
 	return Math.Round(copper, COPPER_PER_GOLD * ((ClientInfo.IsRetail() and 1000) or (ClientInfo.IsVanillaClassic() and 1) or 100))
-end
-
-function private.CharacterGuildIteratorHelper(_, lastKey)
-	local key, isGuild = nil, nil
-	if not lastKey or private.characterLog[lastKey] then
-		key = next(private.characterLog, lastKey)
-		isGuild = false
-		if not key then
-			lastKey = nil
-		end
-	end
-	if not key then
-		key = next(private.guildLog, lastKey)
-		isGuild = true
-	end
-	if not key then
-		return
-	end
-	return key, isGuild
 end

@@ -295,7 +295,9 @@ end
 
 function private.FSMCreate()
 	Event.Register("PLAYER_MONEY", function()
+		private.fsm:SetLoggingEnabled(false)
 		private.fsm:ProcessEvent("EV_PLAYER_MONEY_UPDATE")
+		private.fsm:SetLoggingEnabled(true)
 	end)
 
 	local fsmContext = {

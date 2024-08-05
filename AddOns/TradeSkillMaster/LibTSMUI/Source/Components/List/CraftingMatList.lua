@@ -14,6 +14,7 @@ local MatString = LibTSMUI:From("LibTSMTypes"):Include("Crafting.MatString")
 local RecipeString = LibTSMUI:From("LibTSMTypes"):Include("Crafting.RecipeString")
 local ItemString = LibTSMUI:From("LibTSMTypes"):Include("Item.ItemString")
 local BagTracking = LibTSMUI:From("LibTSMService"):Include("Inventory.BagTracking")
+local WarbankTracking = LibTSMUI:From("LibTSMService"):Include("Inventory.WarbankTracking")
 local ItemInfo = LibTSMUI:From("LibTSMService"):Include("Item.ItemInfo")
 local Profession = LibTSMUI:From("LibTSMService"):Include("Profession")
 local Theme = LibTSMUI:From("LibTSMService"):Include("UI.Theme")
@@ -41,6 +42,7 @@ local CraftingMatList = UIElements.Define("CraftingMatList", "List")
 function CraftingMatList:__init()
 	self.__super:__init()
 	BagTracking.RegisterQuantityCallback(self:__closure("_HandleBagUpdate"))
+	WarbankTracking.RegisterQuantityCallback(self:__closure("_HandleBagUpdate"))
 	self._recipeString = nil
 	self._onMatQualityChanged = nil
 	self._itemString = {}
@@ -139,7 +141,7 @@ end
 function CraftingMatList.__private:_HandleBagUpdate(itemsChanged)
 	for i, itemString in ipairs(self._itemString) do
 		if itemsChanged[itemString] then
-			self._playerQuantity[i] = BagTracking.GetCraftingMatQuantity(itemString)
+			self._playerQuantity[i] = BagTracking.GetCraftingMatQuantity(itemString) + WarbankTracking.GetQuantity(itemString)
 			local row = self:_GetRow(i)
 			if row then
 				self:_DrawRowQty(row, self._playerQuantity[i], self._quantity[i])
@@ -153,7 +155,7 @@ function CraftingMatList.__private:_AddMaterial(itemString, quantity, matString)
 	tinsert(self._text, UIUtils.GetDisplayItemName(itemString) or Theme.GetColor("FEEDBACK_RED"):ColorText("?"))
 	tinsert(self._icon, ItemInfo.GetTexture(itemString) or ItemInfo.GetTexture(ItemString.GetUnknown()))
 	tinsert(self._quantity, quantity)
-	tinsert(self._playerQuantity, BagTracking.GetCraftingMatQuantity(itemString))
+	tinsert(self._playerQuantity, BagTracking.GetCraftingMatQuantity(itemString) + WarbankTracking.GetQuantity(itemString))
 	local matType = MatString.GetType(matString)
 	tinsert(self._isQualityMat, matType == MatString.TYPE.QUALITY or matType == MatString.TYPE.REQUIRED)
 	tinsert(self._matString, matString)

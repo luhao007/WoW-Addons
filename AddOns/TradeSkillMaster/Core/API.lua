@@ -19,6 +19,7 @@ local CustomPrice = TSM.Include("Service.CustomPrice")
 local AltTracking = TSM.Include("Service.AltTracking")
 local Auction = TSM.LibTSMService:Include("Auction")
 local BagTracking = TSM.LibTSMService:Include("Inventory.BagTracking")
+local WarbankTracking = TSM.LibTSMService:Include("Inventory.WarbankTracking")
 local Mail = TSM.LibTSMService:Include("Mail")
 local Guild = TSM.LibTSMService:Include("Guild")
 -- luacheck: globals TSM_API
@@ -329,7 +330,7 @@ end
 
 --- Gets the quantity of an item in a character's bags.
 -- @within Inventory
--- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString baseItemString)
+-- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString or baseItemString)
 -- @tparam ?string character The character to get data for (defaults to the current character if not set)
 -- @tparam ?string factionrealm The factionrealm to get data for (defaults to the current factionrealm if not set)
 -- @treturn number The quantity of the specified item
@@ -348,7 +349,7 @@ end
 
 --- Gets the quantity of an item in a character's bank.
 -- @within Inventory
--- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString baseItemString)
+-- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString or baseItemString)
 -- @tparam ?string character The character to get data for (defaults to the current character if not set)
 -- @tparam ?string factionrealm The factionrealm to get data for (defaults to the current factionrealm if not set)
 -- @treturn number The quantity of the specified item
@@ -367,7 +368,7 @@ end
 
 --- Gets the quantity of an item in a character's reagent bank.
 -- @within Inventory
--- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString baseItemString)
+-- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString or baseItemString)
 -- @tparam ?string character The character to get data for (defaults to the current character if not set)
 -- @tparam ?string factionrealm The factionrealm to get data for (defaults to the current factionrealm if not set)
 -- @treturn number The quantity of the specified item
@@ -386,7 +387,7 @@ end
 
 --- Gets the quantity of an item posted to the auction house by a character.
 -- @within Inventory
--- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString baseItemString)
+-- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString or baseItemString)
 -- @tparam ?string character The character to get data for (defaults to the current character if not set)
 -- @tparam ?string factionrealm The factionrealm to get data for (defaults to the current factionrealm if not set)
 -- @treturn number The quantity of the specified item
@@ -405,7 +406,7 @@ end
 
 --- Gets the quantity of an item in a character's mailbox.
 -- @within Inventory
--- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString baseItemString)
+-- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString or baseItemString)
 -- @tparam ?string character The character to get data for (defaults to the current character if not set)
 -- @tparam ?string factionrealm The factionrealm to get data for (defaults to the current factionrealm if not set)
 -- @treturn number The quantity of the specified item
@@ -424,7 +425,7 @@ end
 
 --- Gets the quantity of an item in a guild's bank.
 -- @within Inventory
--- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString baseItemString)
+-- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString or baseItemString)
 -- @tparam ?string guild The guild to get data for (defaults to the current character's guild if not set)
 -- @treturn number The quantity of the specified item
 function TSM_API.GetGuildQuantity(itemString, guild)
@@ -436,6 +437,16 @@ function TSM_API.GetGuildQuantity(itemString, guild)
 	else
 		return AltTracking.GetGuildQuantity(itemString, guild)
 	end
+end
+
+--- Gets the quantity of an item in the warbank.
+-- @within Inventory
+-- @tparam string itemString The TSM item string (inventory is tracked by either levelItemString or baseItemString)
+-- @treturn number The quantity of the specified item
+function TSM_API.GetWarbankQuantity(itemString)
+	private.CheckCallMethod(itemString)
+	itemString = private.ValidateTSMItemString(itemString)
+	return WarbankTracking.GetQuantity(itemString)
 end
 
 --- Get some total quantities for an item.

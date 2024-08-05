@@ -268,6 +268,8 @@ function CraftDetails:Acquire()
 		:MapBooleanWithValues(80, 230)
 		:CallMethod(craftBtn, "SetWidth")
 	self._state:PublisherForKeyChange("canCraft")
+		:Share(2)
+		:CallFunction(self:__closure("_UpdateClassicCraftingButton"))
 		:InvertBoolean()
 		:CallMethod(craftBtn, "SetDisabled")
 	self._state:PublisherForKeyChange("craftingSource")
@@ -470,31 +472,11 @@ function CraftDetails:SetSpellIdPublisher(publisher)
 	return self
 end
 
----Sets the source of the in progress craft.
----@param craftingSource? CraftingUIUtils.CRAFTING_SOURCE The source or nil
-function CraftDetails:SetCraftingSource(craftingSource)
-	self._state.craftingSource = craftingSource
-	if TradeSkill.IsClassicCrafting() and CraftCreateButton then
-		local craftBtnBaseFrame = self:GetElement("content.buttons.content.craftBtn"):_GetBaseFrame()
-		CraftCreateButton:SetParent(craftBtnBaseFrame)
-		CraftCreateButton:ClearAllPoints()
-		CraftCreateButton:SetAllPoints(craftBtnBaseFrame)
-		CraftCreateButton:SetFrameLevel(200)
-		CraftCreateButton:DisableDrawLayer("BACKGROUND")
-		CraftCreateButton:DisableDrawLayer("ARTWORK")
-		if self._state.canCraft then
-			CraftCreateButton:Enable()
-		else
-			CraftCreateButton:Disable()
-		end
-	end
-end
-
 ---Subscribes to a publisher to set the type of the in progress craft.
 ---@param publisher ReactivePublisher The publisher
 ---@return CraftDetails
 function CraftDetails:SetCraftingSourcePublisher(publisher)
-	self:AddCancellable(publisher:CallMethod(self, "SetCraftingSource"))
+	self:AddCancellable(publisher:AssignToTableKey(self._state, "craftingSource"))
 	return self
 end
 
@@ -686,6 +668,24 @@ end
 function CraftDetails.__private:_SetErrorText(text)
 	self:GetElement("header.error"):SetText(text)
 	self:GetElement("header"):Draw()
+end
+
+function CraftDetails.__private:_UpdateClassicCraftingButton(canCraft)
+	if not TradeSkill.IsClassicCrafting() or not CraftCreateButton then
+		return
+	end
+	local craftBtnBaseFrame = self:GetElement("content.buttons.content.craftBtn"):_GetBaseFrame()
+	CraftCreateButton:SetParent(craftBtnBaseFrame)
+	CraftCreateButton:ClearAllPoints()
+	CraftCreateButton:SetAllPoints(craftBtnBaseFrame)
+	CraftCreateButton:SetFrameLevel(200)
+	CraftCreateButton:DisableDrawLayer("BACKGROUND")
+	CraftCreateButton:DisableDrawLayer("ARTWORK")
+	if canCraft then
+		CraftCreateButton:Enable()
+	else
+		CraftCreateButton:Disable()
+	end
 end
 
 

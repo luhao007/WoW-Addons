@@ -24,6 +24,7 @@ function Buyback.OnInitialize(settingsDB)
 		:AddKey("global", "vendoringUIContext", "buybackScrollingTable")
 		:AddKey("global", "coreOptions", "regionWide")
 		:AddKey("global", "appearanceOptions", "showTotalMoney")
+		:AddKey("global", "internalData", "warbankMoney")
 		:AddKey("sync", "internalData", "money")
 	TSM.UI.VendoringUI.RegisterTopLevelPage(BUYBACK, private.GetFrame)
 end

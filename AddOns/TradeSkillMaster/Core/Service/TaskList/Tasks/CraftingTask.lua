@@ -10,6 +10,7 @@ local TradeSkill = TSM.LibTSMWoW:Include("API.TradeSkill")
 local ClientInfo = TSM.LibTSMWoW:Include("Util.ClientInfo")
 local L = TSM.Locale.GetTable()
 local CraftString = TSM.LibTSMTypes:Include("Crafting.CraftString")
+local RecipeString = TSM.LibTSMTypes:Include("Crafting.RecipeString")
 local Table = TSM.LibTSMUtil:Include("Lua.Table")
 local Event = TSM.LibTSMWoW:Include("Service.Event")
 local Log = TSM.LibTSMUtil:Include("Util.Log")
@@ -115,7 +116,7 @@ function CraftingTask.OnMouseDown(self)
 		local craftString = self._craftStrings[1]
 		local quantity = self._craftQuantity[craftString]
 		Log.Info("Preparing %s (%d)", craftString, quantity)
-		TSM.Crafting.ProfessionUtil.PrepareToCraft(craftString, nil, quantity)
+		TSM.Crafting.ProfessionUtil.PrepareToCraft(RecipeString.FromCraftString(craftString), quantity)
 	end
 end
 
@@ -133,7 +134,7 @@ function CraftingTask.OnButtonClick(self)
 		private.currentlyCrafting = self
 		private.pendingSpellId = spellId
 		private.pendingItemString = TSM.Crafting.GetItemString(craftString)
-		local numCrafted = TSM.Crafting.ProfessionUtil.Craft(craftString, spellId, quantity, true, nil, private.CraftCompleteCallback)
+		local numCrafted = TSM.Crafting.ProfessionUtil.Craft(RecipeString.FromCraftString(craftString), quantity, true, nil, private.CraftCompleteCallback)
 		if numCrafted == 0 then
 			-- we're probably crafting something else already - so just bail
 			Log.Err("Failed to craft")

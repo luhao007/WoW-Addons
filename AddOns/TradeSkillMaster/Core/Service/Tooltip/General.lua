@@ -22,6 +22,7 @@ local Conversions = TSM.Include("Service.Conversions")
 local Inventory = TSM.Include("Service.Inventory")
 local AltTracking = TSM.Include("Service.AltTracking")
 local BagTracking = TSM.LibTSMService:Include("Inventory.BagTracking")
+local WarbankTracking = TSM.LibTSMService:Include("Inventory.WarbankTracking")
 local Auction = TSM.LibTSMService:Include("Auction")
 local Mail = TSM.LibTSMService:Include("Mail")
 local Theme = TSM.LibTSMService:Include("UI.Theme")
@@ -400,7 +401,13 @@ function private.PopulateFullInventoryLines(tooltip, itemString)
 
 	-- Add lines for guilds
 	for _, guildName, guildQuantity in AltTracking.GuildQuantityIterator(itemString) do
-		tooltip:AddLine(guildName, format(L["%s in guild vault"], tooltip:ApplyValueColor(guildQuantity)))
+		tooltip:AddLine(guildName, tooltip:ApplyValueColor(guildQuantity))
+	end
+
+	-- Add line for the warbank
+	local warbankQuantity = WarbankTracking.GetQuantity(itemString)
+	if warbankQuantity > 0 then
+		tooltip:AddLine(L["Warbank"], tooltip:ApplyValueColor(warbankQuantity))
 	end
 
 	tooltip:EndSection()
@@ -435,10 +442,12 @@ end
 function private.PopulateSimpleInventoryLine(tooltip, itemString)
 	if itemString == ItemString.GetPlaceholder() then
 		-- Example tooltip
-		local totalPlayer, totalAlt, totalGuild, totalAuction = 18, 0, 1, 4
+		local totalPlayer, totalAlt, totalGuild, totalAuction, warbank = 18, 0, 1, 4, 2
 		local totalNum2 = totalPlayer + totalAlt + totalGuild + totalAuction
 		local rightText2 = nil
-		if ClientInfo.HasFeature(ClientInfo.FEATURES.GUILD_BANK) then
+		if ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+			rightText2 = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s guild, %s warbank, %s AH)"], totalNum2, totalPlayer, totalAlt, totalGuild, warbank, totalAuction)
+		elseif ClientInfo.HasFeature(ClientInfo.FEATURES.GUILD_BANK) then
 			rightText2 = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s guild, %s AH)"], totalNum2, totalPlayer, totalAlt, totalGuild, totalAuction)
 		else
 			rightText2 = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s AH)"], totalNum2, totalPlayer, totalAlt, totalAuction)
@@ -453,10 +462,13 @@ function private.PopulateSimpleInventoryLine(tooltip, itemString)
 	local totalPlayer = BagTracking.GetBagQuantity(itemString) + BagTracking.GetBankQuantity(itemString) + BagTracking.GetReagentBankQuantity(itemString) + Mail.GetQuantity(itemString)
 	local totalAuction = Auction.GetQuantity(itemString) + totalAltAuction
 	local totalGuild = AltTracking.GetTotalGuildQuantity(itemString)
-	local totalNum = totalPlayer + totalAlt + totalGuild + totalAuction
+	local warbank = WarbankTracking.GetQuantity(itemString)
+	local totalNum = totalPlayer + totalAlt + totalGuild + totalAuction + warbank
 	if totalNum > 0 then
 		local rightText = nil
-		if ClientInfo.HasFeature(ClientInfo.FEATURES.GUILD_BANK) then
+		if ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+			rightText = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s guild, %s warbank, %s AH)"], totalNum, totalPlayer, totalAlt, totalGuild, warbank, totalAuction)
+		elseif ClientInfo.HasFeature(ClientInfo.FEATURES.GUILD_BANK) then
 			rightText = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s guild, %s AH)"], totalNum, totalPlayer, totalAlt, totalGuild, totalAuction)
 		else
 			rightText = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s AH)"], totalNum, totalPlayer, totalAlt, totalAuction)

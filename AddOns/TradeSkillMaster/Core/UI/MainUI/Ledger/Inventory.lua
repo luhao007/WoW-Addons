@@ -16,6 +16,7 @@ local Group = TSM.LibTSMTypes:Include("Group")
 local ItemInfo = TSM.LibTSMService:Include("Item.ItemInfo")
 local CustomString = TSM.LibTSMTypes:Include("CustomString")
 local BagTracking = TSM.LibTSMService:Include("Inventory.BagTracking")
+local WarbankTracking = TSM.LibTSMService:Include("Inventory.WarbankTracking")
 local Auction = TSM.LibTSMService:Include("Auction")
 local Mail = TSM.LibTSMService:Include("Mail")
 local AltTracking = TSM.Include("Service.AltTracking")
@@ -77,6 +78,7 @@ function private.DrawInventoryPage()
 	local mailQuantityLookup = TempTable.Acquire()
 	local altQuantityLookup = TempTable.Acquire()
 	local guildQuantityLookup = TempTable.Acquire()
+	local warbankQuantityLookup = TempTable.Acquire()
 	for _, levelItemString, bagQuantity, bankQuantity, reagentBankQuantity in BagTracking.QuantityIterator() do
 		items[levelItemString] = true
 		bagQuantityLookup[levelItemString] = bagQuantity
@@ -99,6 +101,10 @@ function private.DrawInventoryPage()
 	for levelItemString in pairs(guildQuantityLookup) do
 		items[levelItemString] = true
 	end
+	for _, levelItemString, quantity in WarbankTracking.QuantityIterator() do
+		items[levelItemString] = true
+		warbankQuantityLookup[levelItemString] = quantity
+	end
 	private.db:TruncateAndBulkInsertStart()
 	for levelItemString in pairs(items) do
 		local bagQuantity = bagQuantityLookup[levelItemString] or 0
@@ -108,7 +114,8 @@ function private.DrawInventoryPage()
 		local mailQuantity = mailQuantityLookup[levelItemString] or 0
 		local altQuantity = altQuantityLookup[levelItemString] or 0
 		local guildQuantity = guildQuantityLookup[levelItemString] or 0
-		local totalBankQuantity = bankQuantity + reagentBankQuantity
+		local warbankQuantity = warbankQuantityLookup[levelItemString] or 0
+		local totalBankQuantity = bankQuantity + reagentBankQuantity + warbankQuantity
 		local totalQuantity = bagQuantity + totalBankQuantity + guildQuantity + auctionQuantity + mailQuantity + altQuantity
 		private.db:BulkInsertNewRow(levelItemString, bagQuantity, bankQuantity, reagentBankQuantity, auctionQuantity, mailQuantity, altQuantity, guildQuantity, totalBankQuantity, totalQuantity)
 	end
@@ -120,6 +127,7 @@ function private.DrawInventoryPage()
 	TempTable.Release(auctionQuantityLookup)
 	TempTable.Release(mailQuantityLookup)
 	TempTable.Release(altQuantityLookup)
+	TempTable.Release(warbankQuantityLookup)
 
 	local content = UIElements.New("Frame", "content")
 		:SetLayout("VERTICAL")

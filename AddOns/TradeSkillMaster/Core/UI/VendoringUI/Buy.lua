@@ -35,6 +35,7 @@ function Buy.OnInitialize(settingsDB)
 		:AddKey("global", "vendoringUIContext", "buyScrollingTable")
 		:AddKey("global", "coreOptions", "regionWide")
 		:AddKey("global", "appearanceOptions", "showTotalMoney")
+		:AddKey("global", "internalData", "warbankMoney")
 		:AddKey("sync", "internalData", "money")
 	TSM.UI.VendoringUI.RegisterTopLevelPage(L["Buy"], private.GetFrame)
 end

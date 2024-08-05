@@ -66,8 +66,8 @@ function private.GetDashboardFrame()
 		prevUnselectedCharacters[characterGuild] = true
 	end
 	wipe(private.settings.dashboardUnselectedCharacters)
-	for characterGuild in TSM.Accounting.GoldTracker.CharacterGuildIterator() do
-		tinsert(private.characterGuilds, characterGuild)
+	TSM.Accounting.GoldTracker.GetCharacterGuilds(private.characterGuilds)
+	for _, characterGuild in ipairs(private.characterGuilds) do
 		private.settings.dashboardUnselectedCharacters[characterGuild] = prevUnselectedCharacters[characterGuild] or nil
 	end
 	TempTable.Release(prevUnselectedCharacters)

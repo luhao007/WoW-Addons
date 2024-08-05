@@ -7,6 +7,7 @@
 local LibTSMUI = select(2, ...).LibTSMUI
 local UIElements = LibTSMUI:Include("Util.UIElements")
 local BagTracking = LibTSMUI:From("LibTSMService"):Include("Inventory.BagTracking")
+local WarbankTracking = LibTSMUI:From("LibTSMService"):Include("Inventory.WarbankTracking")
 local ItemInfo = LibTSMUI:From("LibTSMService"):Include("Item.ItemInfo")
 local TradeSkill = LibTSMUI:From("LibTSMWoW"):Include("API.TradeSkill")
 local private = {}
@@ -36,6 +37,7 @@ function ItemButton:__init()
 	self.__super:__init(frame)
 
 	BagTracking.RegisterQuantityCallback(self:__closure("_HandleBagUpdate"))
+	WarbankTracking.RegisterQuantityCallback(self:__closure("_HandleBagUpdate"))
 
 	self._highlight = self:_CreateTexture(frame, "HIGHLIGHT")
 	self._highlight:SetAllPoints()
@@ -87,7 +89,7 @@ function ItemButton:Acquire()
 	-- Set the quantity state
 	self._state:PublisherForKeyChange("itemString")
 		:IgnoreNil()
-		:MapWithFunction(BagTracking.GetBagQuantity)
+		:MapWithFunction(private.GetAvailableMatQuantity)
 		:CallMethod(self._quantity, "SetText")
 end
 
@@ -119,7 +121,7 @@ function ItemButton.__private:_HandleBagUpdate(itemsChanged)
 	if not itemString or not itemsChanged[self._state.itemString] then
 		return
 	end
-	self._quantity:SetText(BagTracking.GetBagQuantity(itemString))
+	self._quantity:SetText(private.GetAvailableMatQuantity(itemString))
 end
 
 
@@ -133,4 +135,8 @@ function private.CraftedQualityToTexture(craftedQuality)
 		return ""
 	end
 	return TradeSkill.GetCraftedQualityChatIcon(craftedQuality)
+end
+
+function private.GetAvailableMatQuantity(itemString)
+	return BagTracking.GetCraftingMatQuantity(itemString) + WarbankTracking.GetQuantity(itemString)
 end

@@ -881,6 +881,16 @@ function private.PopulateClassicSpellIdLookup()
 			hash = Hash.Calculate(ItemString.Get(itemLink), hash)
 			hash = Hash.Calculate(quantity, hash)
 		end
+		if private.classicSpellIdLookup[hash] then
+			local itemString, craftName = private.GetItemStringAndCraftName(CraftString.Get(hash))
+			local spellId = Scanner.GetClassicSpellId(hash)
+			local itemLink, indirectSpellId = TradeSkill.GetResult(spellId)
+			Log.Err("Hash already exists %d, %d, %d, %s, %s, %s, %s", hash, spellId, TradeSkill.GetIcon(spellId), craftName, itemLink, tostring(indirectSpellId), itemString)
+			for j = 1, TradeSkill.GetNumMats(spellId) do
+				local link, _, quantity = TradeSkill.GetMatInfo(spellId, nil, j)
+				Log.Err("Material %d: %s, %s, %d", j, link, ItemString.Get(link), quantity)
+			end
+		end
 		assert(hash >= 0 and not private.classicSpellIdLookup[hash] and not private.classicSpellIdLookup[-i])
 		private.classicSpellIdLookup[hash] = i
 		private.classicSpellIdLookup[-i] = hash

@@ -152,7 +152,9 @@ function Schema.Get()
 	-- [124] updated auctionUIContext.auctioningBagScrollingTable
 	-- [125] updated global.shoppingOptions.maxDeSearchLvl
 	-- [126] added realm.coreOptions.auctionDBAltRealm
-	return Settings.NewSchema(126, 10)
+	-- [127] added global.internalData.warbankQuantity
+	-- [128] added global.internalData.{warbankMoney,warbankGoldLog,warbankGoldLogLastUpdate}
+	return Settings.NewSchema(128, 10)
 		:EnterScope("global")
 			:EnterNamespace("debug")
 				:AddBoolean("chatLoggingEnabled", false, 19)
@@ -163,6 +165,10 @@ function Schema.Get()
 				:AddNumber("appMessageId", 0, 10)
 				:AddTable("destroyingHistory", {}, 116)
 				:AddNumber("whatsNewVersion", 0, 94)
+				:AddTable("warbankQuantity", {}, 127)
+				:AddNumber("warbankMoney", 0, 128)
+				:AddString("warbankGoldLog", "", 128)
+				:AddNumber("warbankGoldLogLastUpdate", 0, 128)
 			:LeaveNamespace()
 			:EnterNamespace("appearanceOptions")
 				:AddBoolean("taskListBackgroundLock", false, 87)

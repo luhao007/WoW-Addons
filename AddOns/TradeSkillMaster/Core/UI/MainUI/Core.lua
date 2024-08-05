@@ -26,6 +26,7 @@ function MainUI.OnInitialize(settingsDB)
 		:AddKey("global", "mainUIContext", "frame")
 		:AddKey("global", "coreOptions", "regionWide")
 		:AddKey("global", "appearanceOptions", "showTotalMoney")
+		:AddKey("global", "internalData", "warbankMoney")
 		:AddKey("sync", "internalData", "money")
 end
 

@@ -13,6 +13,7 @@ local Math = LibTSMService:From("LibTSMUtil"):Include("Lua.Math")
 local Money = LibTSMService:From("LibTSMUtil"):Include("UI.Money")
 local ItemString = LibTSMService:From("LibTSMTypes"):Include("Item.ItemString")
 local TradeSkill = LibTSMService:From("LibTSMWoW"):Include("API.TradeSkill")
+local Event = LibTSMService:From("LibTSMWoW"):Include("Service.Event")
 local ModifierKey = LibTSMService:From("LibTSMWoW"):Include("Service.ModifierKey")
 local ClientInfo = LibTSMService:From("LibTSMWoW"):Include("Util.ClientInfo")
 local private = {
@@ -66,7 +67,8 @@ function TooltipBuilder.__private:__init()
 	self._itemString = nil
 	self._quantity = nil
 	self._disabled = nil
-	ModifierKey.RegisterCallback(self:__closure("_HandleModifierStateChanged"))
+	ModifierKey.RegisterCallback(self:__closure("_InvalidateLastUpdate"))
+	Event.Register("BAG_UPDATE_DELAYED", self:__closure("_InvalidateLastUpdate"))
 end
 
 
@@ -250,7 +252,7 @@ end
 -- Private Class Methods
 -- ============================================================================
 
-function TooltipBuilder.__private:_HandleModifierStateChanged()
+function TooltipBuilder.__private:_InvalidateLastUpdate()
 	self._lastUpdate = 0
 end
 

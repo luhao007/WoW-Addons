@@ -13,8 +13,10 @@ local private = {
 	numBagSlots = nil,
 	minBankSlot = nil,
 	maxBankSlot = nil,
-	bankBags = nil,
+	minWarbankSlot = nil,
+	maxWarbankSlot = nil,
 	slotIdLocked = {},
+	itemLocation = ItemLocation:CreateEmpty(),
 }
 
 
@@ -24,15 +26,15 @@ local private = {
 -- ============================================================================
 
 Container:OnModuleLoad(function()
-	private.numBagSlots = NUM_BAG_SLOTS + (ClientInfo.HasFeature(ClientInfo.FEATURES.REAGENT_BAG) and NUM_REAGENTBAG_SLOTS or 0)
+	private.numBagSlots = NUM_BAG_SLOTS
+	if ClientInfo.HasFeature(ClientInfo.FEATURES.REAGENT_BAG) then
+		private.numBagSlots = private.numBagSlots + Constants.InventoryConstants.NumReagentBagSlots
+	end
 	private.minBankSlot = private.numBagSlots + 1
-	private.maxBankSlot = private.numBagSlots + NUM_BANKBAGSLOTS + (ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) and 5 or 0)
-	private.bankBags = {}
-	 -- FIXME: Upvalue to work around a bug in luacheck
-	local minBankSlot = private.minBankSlot
-	local maxBankSlot = private.maxBankSlot
-	for bag = minBankSlot, maxBankSlot do
-		tinsert(private.bankBags, bag)
+	private.maxBankSlot = private.numBagSlots + NUM_BANKBAGSLOTS
+	if ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+		private.minWarbankSlot = private.maxBankSlot + 1
+		private.maxWarbankSlot = private.maxBankSlot + Constants.InventoryConstants.NumAccountBankSlots
 	end
 	Event.Register("ITEM_LOCKED", private.ItemLockedHandler)
 	Event.Register("ITEM_UNLOCKED", private.ItemUnlockedHandler)
@@ -117,10 +119,35 @@ function Container.IsReagentBank(bag)
 	return bag == Container.GetReagentBankContainer()
 end
 
----Iterates over the bank bags.
----@return fun(): number, number
+---Returns whether or not the specified bag index is a warbank container.
+---@param bag number The bag to check
+---@return boolean
+function Container.IsWarbankBag(bag)
+	if not ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+		return false
+	end
+	return bag >= private.minWarbankSlot and bag <= private.maxWarbankSlot
+end
+
+---Returns whether or not the warbank is accessible.
+---@return boolean
+function Container.CanAccessWarbank()
+	if not ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+		return false
+	end
+	return C_PlayerInfo.HasAccountInventoryLock()
+end
+
+---Iterates over the bank bags (regular bank and reagent bank as applicable).
+---@return fun(): number
 function Container.BankBagIterator()
-	return ipairs(private.bankBags)
+	return private.BagIteratorHelper, private.maxBankSlot, private.minBankSlot - 1
+end
+
+---Iterates over the warbank bags.
+---@return fun(): number
+function Container.WarbankBagIterator()
+	return private.BagIteratorHelper, private.maxWarbankSlot, private.minWarbankSlot - 1
 end
 
 ---Gets the reagent bank container index.
@@ -255,12 +282,14 @@ end
 ---@return number bagQuantity
 ---@return number bankQuantity
 ---@return number reagentBankQuantity
+---@return number warbankQuantity
 function Container.GetItemCount(itemId)
 	-- GetItemCount() is a bit buggy and not all combinations of arguments work, so carefully call it to calculate the quantities
-	local bagQuantity = GetItemCount(itemId, false, false, false)
-	local reagentBankQuantity = GetItemCount(itemId, false, false, true) - bagQuantity
-	local bankQuantity = GetItemCount(itemId, true, false, true) - bagQuantity - reagentBankQuantity
-	return bagQuantity, bankQuantity, reagentBankQuantity
+	local bagQuantity = GetItemCount(itemId, false, false, false, false)
+	local reagentBankQuantity = GetItemCount(itemId, false, false, true, false) - bagQuantity
+	local warbankQuantity = GetItemCount(itemId, false, false, false, true) - bagQuantity
+	local bankQuantity = GetItemCount(itemId, true, false, true, false) - bagQuantity - reagentBankQuantity
+	return bagQuantity, bankQuantity, reagentBankQuantity, warbankQuantity
 end
 
 ---Returns if a bag slot is locked.
@@ -277,11 +306,31 @@ function Container.GetTotalFreeBagSlots()
 	return CalculateTotalNumberOfFreeBagSlots()
 end
 
+---Returns whether or not an item can be deposited into the warbank.
+---@param bag number The source bag index
+---@param slot number The source slot index
+---@return boolean
+function Container.CanDepositIntoWarbank(bag, slot)
+	if not ClientInfo.HasFeature(ClientInfo.FEATURES.WARBAND_BANK) then
+		return false
+	end
+	private.itemLocation:SetBagAndSlot(bag, slot)
+	return C_Bank.IsItemAllowedInBankType(Enum.BankType.Account, private.itemLocation)
+end
+
 
 
 -- ============================================================================
 -- Private Helper Functions
 -- ============================================================================
+
+function private.BagIteratorHelper(maxValue, bag)
+	bag = bag + 1
+	if bag > maxValue then
+		return
+	end
+	return bag
+end
 
 function private.BagSlotIterator(_, slotId)
 	local bag, slot = SlotId.Split(slotId)
