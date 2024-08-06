@@ -5,6 +5,7 @@
 ## SavedVariables: wlTime, wlRegionBuildings, wlVersion, wlUploaded, wlStats, wlExportData, wlRealmList, wlAuction, wlEvent, wlItemSuffix, wlObject, wlProfile, wlUnit, wlItemDurability, wlGarrisonMissions, wlBattlePetStats, wlItemBonuses, wlDailies, wlWorldQuests, wlContributionQuests, wlTradingPostItems
 ## SavedVariablesPerCharacter: wlScans, wlSetting, wlPetBlacklist, wlUIReloaded
 ## DefaultState: enabled
+## IconTexture: Interface/AddOns/+Wowhead_Looter/wowhead-logo-32
 
 ## Title: Wowhead Looter
 ## Notes: Gathers data for Wowhead while you play.

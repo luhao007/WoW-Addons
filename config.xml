@@ -432,6 +432,10 @@
 				<Title>地心之战</Title>
 				<Notes>BtWQuests 地心之战模块</Notes>
 			</SubAddon>
+			<SubAddon name="BtWQuestsTheWarWithinPrologue">
+				<Title>地心之战前夕</Title>
+				<Notes>BtWQuests 地心之战前夕模块</Notes>
+			</SubAddon>
 			<SubAddon name="BtWQuestsWarlordsOfDraenor">
 				<Title>德拉诺之王</Title>
 				<Notes>BtWQuests 德拉诺之王模块</Notes>

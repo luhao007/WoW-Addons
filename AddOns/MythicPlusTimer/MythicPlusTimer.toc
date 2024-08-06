@@ -1,6 +1,6 @@
 ## Interface: 110000
 ## Author: Fabys
-## Version: 6.0.1
+## Version: 6.1.1
 ## SavedVariables: MythicPlusTimerDB
 ## IconTexture: Interface\Icons\ability_racial_timeismoney
 

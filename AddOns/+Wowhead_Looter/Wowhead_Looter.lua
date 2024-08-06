@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2024-07-23";
+local WL_ADDON_UPDATED = "2024-08-01";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110000;
@@ -4780,8 +4780,7 @@ function wlCheckAreaPois()
         [4] = 1670346000, -- TW
     };
 
-    for _, uiMapId in ipairs(uiMapIds) do
-        local pois = C_AreaPoiInfo.GetAreaPOIForMap(uiMapId);
+    local checkPois = function(uiMapId, pois)
         for _, poiId in ipairs(pois) do
             local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapId, poiId);
             if primalStormsOPPois[poiId] or (C_AreaPoiInfo.IsAreaPOITimed(poiId) and (
@@ -4811,6 +4810,11 @@ function wlCheckAreaPois()
                 end
             end
         end
+    end
+
+    for _, uiMapId in ipairs(uiMapIds) do
+        checkPois(uiMapId, C_AreaPoiInfo.GetAreaPOIForMap(uiMapId));
+        checkPois(uiMapId, C_AreaPoiInfo.GetEventsForMap(uiMapId));
     end
 end
 

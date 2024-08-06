@@ -1,6 +1,6 @@
 ## Interface: 110000
 ## Author: Breen
-## Version: 11.1
+## Version: 12.0
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsDragonflightPrologue
 ## LoadOnDemand: 1

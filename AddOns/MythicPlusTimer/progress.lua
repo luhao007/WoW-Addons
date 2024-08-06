@@ -90,33 +90,34 @@ local function on_combat_log_event_unfiltered()
     end
   end
 
-  -- skip if not a party kill event
-  if sub_event ~= "PARTY_KILL" then
-    return
-  end
+  -- :OnlyPercentValue :NoCountDatabase ... we no longer build our own enemy count database
+  -- -- skip if not a party kill event
+  -- if sub_event ~= "PARTY_KILL" then
+  --   return
+  -- end
 
-  -- skip if not in cm
-  if not main.is_in_cm() then
-    return
-  end
+  -- -- skip if not in cm
+  -- if not main.is_in_cm() then
+  --   return
+  -- end
 
-  -- setup
-  if not last_kill then
-    last_kill = {}
-  end
+  -- -- setup
+  -- if not last_kill then
+  --   last_kill = {}
+  -- end
 
-  local kill_time = GetTime() * 1000
+  -- local kill_time = GetTime() * 1000
 
-  if not last_kill[1] or last_kill[1] == nil then
-    last_kill[1] = kill_time
-  end
+  -- if not last_kill[1] or last_kill[1] == nil then
+  --   last_kill[1] = kill_time
+  -- end
 
-  -- resolve last_kill data
-  local npc_id = resolve_npc_id(dest_guid)
-  if npc_id then
-    local valid = ((kill_time) - last_kill[1]) > 100
-    last_kill = {kill_time, npc_id, valid}
-  end
+  -- -- resolve last_kill data
+  -- local npc_id = resolve_npc_id(dest_guid)
+  -- if npc_id then
+  --   local valid = ((kill_time) - last_kill[1]) > 100
+  --   last_kill = {kill_time, npc_id, valid}
+  -- end
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -173,11 +174,6 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------
 local function on_tooltip_set_unit(tooltip)
-  -- :OnlyPercentValue
-  if true then
-    return 
-  end
-
   -- check if the tooltip is the GameTooltip, ignore all other
   if tooltip ~= GameTooltip then
     return
@@ -237,24 +233,20 @@ local function on_tooltip_set_unit(tooltip)
   local name = criteriaInfo.description
 
   local text = ""
-  if addon.c("show_percent_numbers") then
-    text = text .. quantity_percent .. "%"
-  end
-
-  if addon.c("show_absolute_numbers") then
-    if addon.c("show_percent_numbers") then
-      text = text .. " (+" .. value .. ")"
-    else
-      text = text .. value
-    end
-  end
-
-  local mdt_info = ""
-  -- if is_mdt_value then
-  --   mdt_info = " [MDT]"
+  -- :OnlyPercentValue
+  text = text .. quantity_percent .. "%"
+  -- if addon.c("show_percent_numbers") then
+  --   text = text .. quantity_percent .. "%"
+  -- end
+  -- if addon.c("show_absolute_numbers") then   
+  --   if addon.c("show_percent_numbers") then
+  --     text = text .. " (+" .. value .. ")"
+  --   else
+  --     text = text .. value
+  --   end
   -- end
 
-  tooltip:AddDoubleLine(name .. ": +" .. text .. mdt_info)
+  tooltip:AddDoubleLine(name .. ": +" .. text)
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -295,16 +287,9 @@ local function on_unit_threat_list_update(unit)
     return
   end
 
-  local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(steps)
-  local final_value = criteriaInfo.totalQuantity
-
   local value = progress.resolve_npc_progress_value(npc_id, current_run.is_teeming)
   if value and value ~= 0 then
-    local in_percent = (value / final_value) * 100
-    local mult = 10 ^ 2
-    in_percent = math.floor(in_percent * mult + 0.5) / mult
-
-    current_run.pull[guid] = {value, in_percent}
+    current_run.pull[guid] = {value}
   end
 end
 
@@ -352,10 +337,11 @@ function progress.resolve_npc_progress_value(npc_id, is_teeming)
     is_mdt_value = true
   end
 
-  if not value or value == 0 then
-    value = get_progress_value(npc_id, is_teeming)
-    is_mdt_value = false
-  end
+  -- :OnlyPercentValue :NoCountDatabase
+  -- if not value or value == 0 then 
+  --   value = get_progress_value(npc_id, is_teeming)
+  --   is_mdt_value = false
+  -- end
 
   return value, is_mdt_value
 end
@@ -370,8 +356,8 @@ end
 -- Enable
 function progress:enable()
   -- register events
-  -- addon.register_event("COMBAT_LOG_EVENT_UNFILTERED", on_combat_log_event_unfiltered) :OnlyPercentValue
-  addon.register_event("SCENARIO_CRITERIA_UPDATE", on_scenario_criteria_update)
+  addon.register_event("COMBAT_LOG_EVENT_UNFILTERED", on_combat_log_event_unfiltered)
+  -- addon.register_event("SCENARIO_CRITERIA_UPDATE", on_scenario_criteria_update) -- :OnlyPercentValue :NoCountDatabase
   addon.register_event("UNIT_THREAT_LIST_UPDATE", on_unit_threat_list_update)
   addon.register_event("ENCOUNTER_END", on_combat_end)
   addon.register_event("PLAYER_REGEN_ENABLED", on_combat_end)

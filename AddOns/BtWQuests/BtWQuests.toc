@@ -1,6 +1,6 @@
 ## Interface: 110000
 ## Author: Breen
-## Version: 2.43.1
+## Version: 2.44.0
 ## SavedVariables: BtWQuests_Characters BtWQuests_AccountSettings
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad
 ## IconTexture: Interface\QuestFrame\UI-QuestLog-BookIcon
