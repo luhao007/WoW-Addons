@@ -23,8 +23,6 @@
 embeds.xml
 
 # TaintLess
-Libs\TaintLess\TaintLess.xml
-
 # Client flavor specific libs
 Init.lua
 Compatibility.lua

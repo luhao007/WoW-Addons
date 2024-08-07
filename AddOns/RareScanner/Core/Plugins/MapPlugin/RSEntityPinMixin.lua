@@ -16,6 +16,7 @@ local RSGuideDB = private.ImportLib("RareScannerGuideDB")
 -- RareScanner service libraries
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 local RSTooltip = private.ImportLib("RareScannerTooltip")
+local RSProvider = private.ImportLib("RareScannerProvider")
 
 -- RareScanner services
 local RSGuidePOI = private.ImportLib("RareScannerGuidePOI")
@@ -85,7 +86,7 @@ function RSEntityPinMixin:OnMouseDown(button)
 				end
 				self:Hide();
 			end
-			self:GetMap():RefreshAllDataProviders();
+			RSProvider.RefreshAllDataProviders()
 			RSMinimap.RefreshEntityState(self.POI.entityID)
 		-- Toggle overlay
 		elseif (not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown()) then

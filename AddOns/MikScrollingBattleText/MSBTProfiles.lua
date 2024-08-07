@@ -28,7 +28,6 @@ local GetSkillName = MikSBT.GetSkillName
 
 local IsClassic = WOW_PROJECT_ID >= WOW_PROJECT_CLASSIC
 
-
 -------------------------------------------------------------------------------
 -- Private constants.
 -------------------------------------------------------------------------------
@@ -3276,7 +3275,7 @@ local function SetupBlizzardOptions()
 	)
 
 	-- Add the frame as a new category to Blizzard's interface options.
-	InterfaceOptions_AddCategory(frame)
+	_G.InterfaceOptions_AddCategory(frame)
 end
 
 

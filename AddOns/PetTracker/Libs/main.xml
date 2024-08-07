@@ -1,5 +1,4 @@
 <Ui>
-	<Include file="TaintLess\TaintLess.xml"/>
 
 	<Script file="WildAddon-1.0\WildAddon-1.0.lua"/>
 

@@ -406,7 +406,7 @@ function RareScannerDataProviderMixin:RefreshAllData(fromOnShow)
 			end
 			
 			-- Animate if matches with text filter
-			if (RSGeneralDB.GetWorldMapTextFilter()) then
+			if (RSGeneralDB.GetWorldMapTextFilter() and pin.ShowPingAnim) then
 				if (POI and RSUtils.Contains(POI.name, RSGeneralDB.GetWorldMapTextFilter())) then
 					if (not pin.ShowPingAnim:IsPlaying()) then
 						pin.ShowSearchAnim:Play()

@@ -22,7 +22,8 @@ local C_PetJournal = _G.C_PetJournal
 local addonname, addon = ...
 local L = addon.L
 
-local HPetOption = CreateFrame("Frame", "HPetOption", InterfaceOptionsFramePanelContainer, "BackdropTemplate")
+local HPetOption = CreateFrame("Frame", "HPetOption")
+local InterfaceOptions_AddCategory = _G.InterfaceOptions_AddCategory
 
 HPetOption:Hide()
 --~ tinsert(UISpecialFrames, "HPetOption")

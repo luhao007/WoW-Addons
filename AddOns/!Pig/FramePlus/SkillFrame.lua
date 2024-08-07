@@ -146,7 +146,7 @@ local function ADD_Skill_QK()
 					_G["Skill_Button_"..F].Border:Hide()
 				end
 				Skill_Button_5:SetPoint("BOTTOMLEFT",TradeSkillFrame,"BOTTOMRIGHT",-33,90);
-			end	
+			end
 		end);
 	else
 		for F=1, 7 do
@@ -182,7 +182,7 @@ local function ADD_Skill_QK()
 			But.Border:SetPoint("BOTTOMLEFT",But,"BOTTOMLEFT",-13,-2);
 			But.Border:SetDrawLayer("BACKGROUND", -8)
 			But.Border:SetSize(Width+38,Height+38);
-			
+
 			But.icon = But:CreateTexture(nil, "BORDER");
 			But.icon:SetAllPoints(But)
 			-----------
@@ -195,7 +195,7 @@ local function ADD_Skill_QK()
 			But:RegisterEvent("TRADE_SKILL_CLOSE")
 			But:RegisterEvent("ACTIONBAR_UPDATE_STATE");
 			But:HookScript("OnEvent", function(self)
-				if IsCurrentSpell(self.SimID) then
+				if C_Spell.IsCurrentSpell(self.SimID) then
 					self:SetChecked(true)
 					self.CheckedTexture:Show()
 					return
@@ -227,12 +227,12 @@ local function ADD_Skill_QK()
 				for F=1, 7 do
 					_G["Skill_Button_"..F].Border:Hide()
 				end
-			end	
-		end); 
+			end
+		end);
 	end
 end
 ---
-local function ADD_Craft_QK()	
+local function ADD_Craft_QK()
 	if Craft_Button_1 then return end
 	for F=1, 7 do
 		local But = CreateFrame("CheckButton", "Craft_Button_"..F, CraftFrame, "SecureActionButtonTemplate,ActionButtonTemplate");
@@ -290,7 +290,7 @@ local function ADD_Craft_QK()
 				_G["Craft_Button_"..F].Border:Hide()
 			end
 			Craft_Button_5:SetPoint("BOTTOMLEFT",CraftFrame,"BOTTOMRIGHT",-33,90);
-		end	
+		end
 	end);
 end
 function FramePlusfun.Skill_QKbut()
@@ -368,8 +368,8 @@ function FramePlusfun.Skill_QKbut()
 end
 --专业/附魔界面扩展
 local function TradeSkillFunc()
-	if TRADE_SKILLS_DISPLAYED==8 then	
-			UIPanelWindows["TradeSkillFrame"].width = 13	
+	if TRADE_SKILLS_DISPLAYED==8 then
+			UIPanelWindows["TradeSkillFrame"].width = 13
 			TradeSkillFrame:SetWidth(713)
 			TradeSkillFrame:SetHeight(487)
 
@@ -437,7 +437,7 @@ local function TradeSkillFunc()
 						TradeSkillInvSlotDropDown:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 510, -30)
 						self.backdrop:SetPoint("TOPLEFT",self,"TOPLEFT",0,0);
 						self.backdrop:SetPoint("BOTTOMRIGHT",self,"BOTTOMRIGHT",-32,42);
-					end	
+					end
 				end);
 			else
 				local regions = {TradeSkillFrame:GetRegions()}
@@ -506,7 +506,7 @@ local function TradeSkillFunc()
 	end
 end
 local function CraftFunc()
-	if CRAFTS_DISPLAYED==8 then  
+	if CRAFTS_DISPLAYED==8 then
 		UIPanelWindows["CraftFrame"].width = 713
 		--重新设置附魔框架大小
 		CraftFrame:SetWidth(713)
@@ -519,7 +519,7 @@ local function CraftFunc()
 					-- TradeSkillInvSlotDropDown:SetPoint("TOPLEFT", CraftFrame, "TOPLEFT", 510, -30)
 					-- self.backdrop:SetPoint("TOPLEFT",self,"TOPLEFT",0,0);
 					-- self.backdrop:SetPoint("BOTTOMRIGHT",self,"BOTTOMRIGHT",-32,42);
-				end	
+				end
 			end);
 		else
 			local regions = {_G["CraftFrame"]:GetRegions()}
@@ -586,7 +586,7 @@ local function CraftFunc()
 			_G["Craft" .. i .. "Cost"]:ClearAllPoints()
 			_G["Craft" .. i .. "Cost"]:SetPoint("RIGHT", _G["Craft" .. i], "RIGHT", -30, 0)
 		end
-		
+
 		-- 选中高亮条宽度
 		hooksecurefunc(_G["CraftHighlightFrame"], "Show", function()
 			_G["CraftHighlightFrame"]:SetWidth(290)
@@ -598,7 +598,7 @@ local function CraftFunc()
 		-- 细节滚动条隐藏
 		CraftDetailScrollFrameTop:SetAlpha(0)
 		CraftDetailScrollFrameBottom:SetAlpha(0)
-		
+
 		-- 关闭按钮位置
 		CraftCancelButton:SetSize(80, 22)
 		CraftCancelButton:SetText(CLOSE)
@@ -607,7 +607,7 @@ local function CraftFunc()
 		-- 附魔按钮
 		CraftCreateButton:ClearAllPoints()
 		CraftCreateButton:SetPoint("RIGHT", CraftCancelButton, "LEFT", -1, 0)
-		
+
 		-- 训练宠物
 		CraftFramePointsLabel:ClearAllPoints()
 		CraftFramePointsLabel:SetPoint("TOPLEFT", CraftFrame, "TOPLEFT", 500, -46)

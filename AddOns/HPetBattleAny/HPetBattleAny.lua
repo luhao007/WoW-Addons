@@ -97,7 +97,7 @@ function HPetBattleAny:PlaySoundFile(t)
 	if t=="pvp" then
 		PlaySound(SOUNDKIT.IG_PLAYER_INVITE, "Master");	----PVP提示声
 	else
-		PlaySoundFile([[Sound\Events\scourge_horn.ogg]], "Master" ); 
+		PlaySoundFile([[Sound\Events\scourge_horn.ogg]], "Master" );
 	end
 end
 --------------------		data
@@ -274,7 +274,7 @@ function HPetBattleAny.CreateLinkByInfo(petID,...)		---...=usecustom,level,healt
 		HPetSaves.lie = tonumber(HPetSaves.lie) or 1
 		rarity=rarity+HPetSaves.lie
 	end
-	
+
 	local link=ITEM_QUALITY_COLORS[rarity].hex.."\124Hbattlepet:"
 	link=link..speciesID..":"..level..":"..rarity..":"..health..":"..power..":"..speed..":"..(petID or "BattlePet-0-000000000000")..":"..displayID
 	link=link.."\124h["..(customname or name).."]\124h\124r"

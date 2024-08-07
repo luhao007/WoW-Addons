@@ -1,6 +1,6 @@
 ## Interface: 110000
 ## Author: foxlit
-## Version: Zeta 8a
+## Version: Ælling 1
 ## OptionalDeps: TaintLess
 ## SavedVariables: OneRing_Config, OPie_SavedData
 ## SavedVariablesPerCharacter: OPie_SavedDataPC
@@ -22,6 +22,7 @@ Libs\ActionBook\ActionBook.xml
 Libs\Mirage.lua
 Libs\TenSettings.lua
 Libs\NotGameTooltip.lua
+Meta\PackTag-1.lua
 Meta\Widgets.lua
 Locale.lua
 OPieCore.lua

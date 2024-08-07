@@ -12,6 +12,7 @@ local RSConfigDB = private.ImportLib("RareScannerConfigDB")
 
 -- RareScanner services
 local RSMinimap = private.ImportLib("RareScannerMinimap")
+local RSProvider = private.ImportLib("RareScannerProvider")
 
 RSSearchMixin = { };
 
@@ -46,7 +47,7 @@ function RSSearchMixin:OnShow()
 end
 
 function RSSearchMixin:RefreshPOIs()
-	self:GetParent():RefreshAllDataProviders();
+	RSProvider.RefreshAllDataProviders()
 end
 
 RSSearchBoxMixin = { };

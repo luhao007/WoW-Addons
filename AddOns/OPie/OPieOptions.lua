@@ -1,6 +1,6 @@
 local config, COMPAT, ADDON, T = {}, select(4,GetBuildInfo()), ...
 local MODERN, CF_WRATH, CI_ERA = COMPAT >= 10e4, COMPAT < 10e4 and COMPAT >= 3e4, COMPAT < 2e4
-local L, EV, TS, XU, frame = T.L, T.Evie, T.TenSettings, T.exUI, nil
+local L, EV, TS, XU, PC, frame = T.L, T.Evie, T.TenSettings, T.exUI, T.OPieCore, nil
 local GameTooltip = T.NotGameTooltip or GameTooltip
 T.config = config
 
@@ -13,7 +13,13 @@ do -- /opie
 		end
 	end
 	addSuffix(function()
-		print("|cff0080ffOPie|r |cffffffff" .. (C_AddOns.GetAddOnMetadata(ADDON, "Version") or "??") .. "|r")
+		local sz, m, ok, m2 = ""
+		if PC then
+			m = "Restart World of Warcraft. If this message continues to appear, delete and re-install OPie."
+			ok, m2 = pcall(L, m)
+			sx = "\n  |cffe82020" .. (ok and m2 or m)
+		end
+		print("|cff0080ffOPie|r |cffffffff" .. (C_AddOns.GetAddOnMetadata(ADDON, "Version") or "??") .. "|r" .. sx)
 	end, "version", "v")
 	T.AddSlashSuffix = addSuffix
 
@@ -39,7 +45,7 @@ if TS and TS.Localize then
 	})
 end
 
-local KR, PC = T.ActionBook:compatible("Kindred",1,0), T.OPieCore
+local KR = T.ActionBook:compatible("Kindred",1,0)
 
 do -- config.ui
 	config.ui = {}

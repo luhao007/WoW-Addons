@@ -57,8 +57,8 @@ LibBabble\LibBabble-Race-3.0\lib.xml
 LibBabble\LibBabble-SubZone-3.0\lib.xml
 
 # DR Libs
-DRList-1.0\DRList-1.0.xml
 DRData-1.0\DRData-1.0.xml
+DRList-1.0\DRList-1.0.xml
 
 # Other Libs
 DF\load.xml
@@ -89,7 +89,6 @@ LibOO-1.0\lib.xml
 LibOpenRaid\lib.xml
 LibPetJournal-2.0\LibPetJournal-2.0.lua
 LibQTip-1.0\lib.xml
-LibRangeCheck-2.0\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 LibRangeCheck-3.0\LibRangeCheck-3.0.lua
 LibRealmInfo\LibRealmInfo.lua
 LibSerialize\lib.xml
@@ -102,6 +101,7 @@ LibTourist-3.0\lib.xml
 LibTranslit-1.0\LibTranslit-1.0.xml
 LibWindow-1.1\LibWindow-1.1.lua
 NickTag-1.0\NickTag-1.0.xml
+TaintLess\TaintLess.xml
 
 # Custom Luas
 custom.lua

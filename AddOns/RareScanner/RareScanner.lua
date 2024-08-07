@@ -29,6 +29,7 @@ local RSTimeUtils = private.ImportLib("RareScannerTimeUtils")
 local RSUtils = private.ImportLib("RareScannerUtils")
 local RSQuestTracker = private.ImportLib("RareScannerQuestTracker")
 local RSRoutines = private.ImportLib("RareScannerRoutines")
+local RSProvider = private.ImportLib("RareScannerProvider")
 
 -- RareScanner services
 local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
@@ -584,7 +585,11 @@ function RareScanner:OnInitialize()
 	RSMap.InitializeNotDiscoveredLists()
 
 	-- Setup our map provider
-	WorldMapFrame:AddDataProvider(CreateFromMixins(RareScannerDataProviderMixin));
+	local provider = CreateFromMixins(RareScannerDataProviderMixin)
+	WorldMapFrame:AddDataProvider(provider);
+	RSProvider.AddDataProvider(provider)
+	
+	-- Add search inputbox
 	local searchFrame = CreateFrame("FRAME", nil, WorldMapFrame, "WorldMapRSSearchTemplate");
 	searchFrame:SetPoint("CENTER", WorldMapFrame:GetCanvasContainer(), "TOP", 0, 0);
 	searchFrame.relativeFrame = WorldMapFrame:GetCanvasContainer()

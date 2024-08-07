@@ -16,6 +16,7 @@ local RSNpcDB = private.ImportLib("RareScannerNpcDB")
 
 -- RareScanner service libraries
 local RSMinimap = private.ImportLib("RareScannerMinimap")
+local RSProvider = private.ImportLib("RareScannerProvider")
 
 -- Locales
 local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
@@ -241,7 +242,7 @@ local function WorldMapButtonDropDownMenu_Initialize(dropDown, mapID)
 		end
 		
 		RSMinimap.RefreshAllData(true)
-		WorldMapFrame:RefreshAllDataProviders();
+		RSProvider.RefreshAllDataProviders()
 	end
 		
 	LibDD:UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)

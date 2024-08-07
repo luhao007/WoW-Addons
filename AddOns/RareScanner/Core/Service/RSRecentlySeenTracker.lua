@@ -14,6 +14,7 @@ local RSConstants = private.ImportLib("RareScannerConstants")
 local RSLogger = private.ImportLib("RareScannerLogger")
 local RSUtils = private.ImportLib("RareScannerUtils")
 local RSTimeUtils = private.ImportLib("RareScannerTimeUtils")
+local RSProvider = private.ImportLib("RareScannerProvider")
 
 -- Timers
 local RESET_RECENTLY_SEEN_TIMER
@@ -258,7 +259,7 @@ function RSRecentlySeenTracker.AddPendingAnimation(entityID, mapID, x, y, refres
 	end
 	
 	if (refreshWorldMap and WorldMapFrame:IsShown()) then
-		WorldMapFrame:RefreshAllDataProviders();
+		RSProvider.RefreshAllDataProviders()
 	end
 end
 
