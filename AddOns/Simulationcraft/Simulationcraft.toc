@@ -1,6 +1,6 @@
 ## Interface: 110000
 ## Author: Theck, navv_, seriallos
-## Version: 11.0.0-02
+## Version: 11.0.0-03
 ## SavedVariables: SimulationCraftDB
 ## IconTexture: Interface\Addons\SimulationCraft\logo
 

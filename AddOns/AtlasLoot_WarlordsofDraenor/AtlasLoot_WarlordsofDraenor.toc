@@ -1,0 +1,38 @@
+## Interface: 110000
+## Author: Lag, Proteyer, Arith
+## Version: v8.13.14
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+## Title: AtlasLoot |cFF0099FF[Warlords of Draenor]|r
+## Notes: AtlasLoot loot tables from Warlords of Draenor
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0德拉诺之王|r
+## Notes-zhCN: AtlasLoot 德拉诺之王副本掉落列表
+
+## X-eMail: manager@atlasloot.net
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: http://www.atlasloot.net
+## X-AtlasLoot-LootModule: 1
+## X-Part-Of: AtlasLoot
+
+#@non-debug@
+#@end-non-debug@
+
+#@debug@
+# ## Title: AtlasLoot |cFF0099FF[Warlords of Draenor]|r
+# ## Title-deDE: AtlasLoot |cFF0099FF[Warlords of Draenor]|r
+# ## Title-koKR: AtlasLoot |cFF0099FF[드레노어의 전쟁군주]|r
+# ## Title-ruRU: AtlasLoot |cFF0099FF[Warlords of Draenor]|r
+# ## Title-zhCN: AtlasLoot |cFF0099FF[德拉诺之王]|r
+# ## Title-zhTW: AtlasLoot |cFF0099FF[德拉諾之霸]|r
+# ## Notes: AtlasLoot loot tables from Warlords of Draenor
+# ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Warlords of Draenor
+# ## Notes-frFR: Tables de butin AtlasLoot de Warlords of Draenor
+# ## Notes-koKR: AtlasLoot 드레노어의 전쟁군주 전리품 목록
+# ## Notes-ruRU: AtlasLoot таблица добычи из Warlords of Draenor
+# ## Notes-zhCN: AtlasLoot 《德拉诺之王》物品信息
+# ## Notes-zhTW: AtlasLoot 德拉諾之霸資料片物品掉落資料庫
+#@end-debug@
+
+data.lua

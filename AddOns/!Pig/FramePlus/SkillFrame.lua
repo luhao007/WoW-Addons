@@ -127,7 +127,7 @@ local function ADD_Skill_QK()
 			local fujiK = _G["Skill_Button_"..F]
 			fujiK.Type="spell"
 			fujiK.SimID=Skill_List_NEW[1][F][1]
-			fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[1][F][1]));
+			-- fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[1][F][1]));
 			fujiK:SetAttribute("spell", Skill_List_NEW[1][F][1]);
 			fujiK:Show();
 		end
@@ -136,7 +136,7 @@ local function ADD_Skill_QK()
 			local fujiK = _G["Skill_Button_"..FF]
 			fujiK.Type="spell"
 			fujiK.SimID=Skill_List_NEW[2][F][1]
-			fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
+			-- fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
 			fujiK:SetAttribute("spell", Skill_List_NEW[2][F][1]);
 			fujiK:Show();
 		end
@@ -194,22 +194,22 @@ local function ADD_Skill_QK()
 
 			But:RegisterEvent("TRADE_SKILL_CLOSE")
 			But:RegisterEvent("ACTIONBAR_UPDATE_STATE");
-			But:HookScript("OnEvent", function(self)
-				if C_Spell.IsCurrentSpell(self.SimID) then
-					self:SetChecked(true)
-					self.CheckedTexture:Show()
-					return
-				end
-				self.CheckedTexture:Hide()
-				self:SetChecked(false)
-			end)
+			-- But:HookScript("OnEvent", function(self)
+			-- 	if C_Spell.IsCurrentSpell(self.SimID) then
+			-- 		self:SetChecked(true)
+			-- 		self.CheckedTexture:Show()
+			-- 		return
+			-- 	end
+			-- 	self.CheckedTexture:Hide()
+			-- 	self:SetChecked(false)
+			-- end)
 		end
 		huoqu_Skill_ID()
 		for F=1, #Skill_List_NEW[1] do
 			local fujiK = _G["Skill_Button_"..F]
 			fujiK.Type="spell"
 			fujiK.SimID=Skill_List_NEW[1][F][1]
-			fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[1][F][1]));
+			-- fujiK.icon:SetTexture(C_Spell.GetSpellTexture(Skill_List_NEW[1][F][1]));
 			fujiK:SetAttribute("spell", Skill_List_NEW[1][F][1]);
 			fujiK:Show();
 		end
@@ -218,7 +218,7 @@ local function ADD_Skill_QK()
 			local fujiK = _G["Skill_Button_"..FF]
 			fujiK.Type="spell"
 			fujiK.SimID=Skill_List_NEW[2][F][1]
-			fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
+			-- fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
 			fujiK:SetAttribute("spell", Skill_List_NEW[2][F][1]);
 			fujiK:Show();
 		end
@@ -271,7 +271,7 @@ local function ADD_Craft_QK()
 		local fujiK = _G["Craft_Button_"..F]
 		fujiK.Type="spell"
 		fujiK.SimID=Skill_List_NEW[1][F][1]
-		fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[1][F][1]));
+		-- fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[1][F][1]));
 		fujiK:SetAttribute("spell", Skill_List_NEW[1][F][1]);
 		fujiK:Show();
 	end
@@ -280,7 +280,7 @@ local function ADD_Craft_QK()
 		local fujiK = _G["Craft_Button_"..FF]
 		fujiK.Type="spell"
 		fujiK.SimID=Skill_List_NEW[2][F][1]
-		fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
+		-- fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
 		fujiK:SetAttribute("spell", Skill_List_NEW[2][F][1]);
 		fujiK:Show();
 	end

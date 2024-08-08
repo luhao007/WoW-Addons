@@ -689,6 +689,9 @@ class Manager:
 
     @staticmethod
     def handle_whlooter():
+        if not os.path.exists('Addons/+Wowhead_Looter/'):
+            return
+
         utils.change_defaults(
             'Addons/+Wowhead_Looter/Wowhead_Looter.lua',
             'wlSetting = {minimap=false};'

@@ -1,0 +1,15 @@
+## Interface: 110000
+## Author: Scott M Harrison
+## Version: 090
+## Dependencies: Grail
+## OptionalDeps: LibStub, LibDataBroker, TomTom, Gatherer, Questie
+## SavedVariablesPerCharacter: WhollyDatabase
+## IconTexture: Interface\Icons\achievement_quests_completed_06
+
+## Title: Wholly
+## Notes: Shows quest database and map pins
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务完成辅助|r |cFFFFE00AWholly|r
+
+
+Wholly.lua
+Wholly.xml
