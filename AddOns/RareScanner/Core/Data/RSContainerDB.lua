@@ -6,6 +6,10 @@ local LibStub = _G.LibStub
 
 local RSContainerDB = private.NewLib("RareScannerContainerDB")
 
+-- RareScanner database libraries
+local RSMapDB = private.ImportLib("RareScannerMapDB")
+local RSProfessionDB = private.ImportLib("RareScannerProfessionDB")
+
 -- Locales
 local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 
@@ -68,6 +72,33 @@ end
 
 function RSContainerDB.GetAllInternalContainerInfo()
 	return private.CONTAINER_INFO
+end
+
+function RSContainerDB.GetContainerIDsByMapID(mapID)
+	local containerIDs = {}
+	for containerID, containerInfo in pairs(RSContainerDB.GetAllInternalContainerInfo()) do
+		if (RSContainerDB.IsInternalContainerMultiZone(containerID)) then
+			-- First check if there is a matching mapID in the database
+			for internalMapID, _ in pairs (containerInfo.zoneID) do
+				if (internalMapID == mapID) then
+					tinsert(containerIDs,containerID)
+				end
+			end
+			
+			-- Then check if there is a matching subMapID in the database
+			for internalMapID, _ in pairs (containerInfo.zoneID) do
+				if (RSMapDB.IsMapInParentMap(mapID, internalMapID)) then
+					tinsert(containerIDs,containerID)
+				end
+			end
+		elseif (RSContainerDB.IsInternalContainerMonoZone(containerID)) then
+			if (containerInfo.zoneID == mapID or (containerInfo.noVignette and containerInfo.zoneID == 0)) then
+				tinsert(containerIDs,containerID)
+			end
+		end
+	end
+	
+	return containerIDs
 end
 
 function RSContainerDB.GetInternalContainerInfo(containerID)
@@ -510,6 +541,34 @@ function RSContainerDB.GetContainerName(containerID)
 	return nil
 end
 
+function RSContainerDB.GetActiveContainerIDsWithNamesByMapID(mapID)
+	local containerIDs =  RSContainerDB.GetContainerIDsByMapID(mapID)
+	local containerIDsWithNames = nil
+	
+	if (RSUtils.GetTableLength(containerIDs)) then
+		containerIDsWithNames = {}
+		for _, containerID in ipairs(containerIDs) do
+			local containerInfo = RSContainerDB.GetInternalContainerInfo(containerID)
+			if (containerInfo and containerInfo.prof and not RSProfessionDB.HasPlayerProfession(containerInfo.prof)) then
+				-- Wrong profession
+			elseif (RSContainerDB.IsDisabledEvent(containerID)) then
+				-- World event disabled
+			else
+				local containerName = RSContainerDB.GetContainerName(containerID)
+				if (containerName) then
+					containerIDsWithNames[containerID] = string.format("%s (%s)", containerName, containerID)
+				else
+					containerIDsWithNames[containerID] = tostring(containerID)
+				end
+			end
+		end
+		
+		return containerIDsWithNames
+	end
+	
+	return containerIDsWithNames
+end
+
 ---============================================================================
 -- Reseteable containers database
 ---- Stores containers that in theory cannot be opened again, but that they are
@@ -533,8 +592,8 @@ function RSContainerDB.SetContainerReseteable(containerID)
 end
 
 ---============================================================================
--- NPCs with pre-events
------ Obtains the latest npcID in a chain of pre-events
+-- Containers with pre-events
+----- Obtains the latest containerID in a chain of pre-events
 ---============================================================================
 
 function RSContainerDB.GetFinalContainerID(containerPreEventID)

@@ -2,6 +2,7 @@
 -- AddOn namespace.
 -----------------------------------------------------------------------
 local ADDON_NAME, private = ...
+local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner", false)
 
 local RSMapDB = private.NewLib("RareScannerMapDB")
 
@@ -60,6 +61,48 @@ function RSMapDB.GetContinentInfo(mapID)
 	end
 	
 	return nil
+end
+
+function RSMapDB.GetActiveMapIDsWithNamesByMapID(mapID)
+	local mapIDs = {}
+	
+	-- Ignore world maps
+	if (mapID == RSConstants.AZEROTH or mapID == RSConstants.COSMIC) then
+		return
+	end
+		
+	-- If a continent
+	local continentInfo = RSMapDB.GetContinents()[mapID]
+	if (continentInfo) then
+		mapIDs = continentInfo.zones
+	-- If not a continent
+	else
+		tinsert(mapIDs, mapID)
+	end
+	
+	-- Add subzones
+	for _, mapID_ in ipairs(mapIDs) do
+		local subMapIDs = private.SUBZONES_IDS[mapID_];
+		if (subMapIDs) then
+			for _, subMapID in ipairs (subMapIDs) do 
+				if (not RSUtils.Contains(mapIDs, subMapID)) then
+					tinsert(mapIDs, subMapID)
+				end
+			end
+		end
+	end
+	
+	local mapIDsWithNames = {}
+	for _, mapID_ in ipairs (mapIDs) do
+		local mapName = RSMapDB.GetMapName(mapID_)
+		if (mapName) then
+			mapIDsWithNames[mapID_] = string.format("%s (%s)", mapName, mapID_)
+		else
+			mapIDsWithNames[mapID_] = tostring(mapID_)
+		end
+	end
+	
+	return mapIDsWithNames
 end
 
 function RSMapDB.GetContinentOfMap(mapID)
@@ -185,6 +228,24 @@ function RSMapDB.IsZoneWithoutVignette(mapID)
 	end
 
 	return false
+end
+
+---============================================================================
+-- Map names
+---============================================================================
+
+function RSMapDB.GetMapName(mapID)
+	local mapInfo = C_Map.GetMapInfo(mapID)
+	if (mapInfo) then
+		-- For those zones with the same name, add a comment
+		if (AL["ZONE_"..mapID] ~= "ZONE_"..mapID) then
+			return string.format(AL["ZONE_"..mapID], mapInfo.name)
+		else
+			return mapInfo.name
+		end
+	end
+	
+	return AL["ZONES_CONTINENT_LIST"][mapID]
 end
 
 

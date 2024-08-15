@@ -10,7 +10,7 @@ local ADDON_NAME, private = ...
 local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 
 -- LibAbout frames
-local LibAboutPanel = LibStub:GetLibrary("LibAboutPanel-2.0", true)
+local LibAboutPanel = LibStub:GetLibrary("LibAboutPanel-2.0RS", true)
 
 -- RareScanner database libraries
 local RSNpcDB = private.ImportLib("RareScannerNpcDB")
@@ -30,6 +30,7 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 local RSQuestTracker = private.ImportLib("RareScannerQuestTracker")
 local RSRoutines = private.ImportLib("RareScannerRoutines")
 local RSProvider = private.ImportLib("RareScannerProvider")
+local RSHyperlinks = private.ImportLib("RareScannerHyperlinks")
 
 -- RareScanner services
 local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
@@ -49,7 +50,7 @@ local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 local RSTomtom = private.ImportLib("RareScannerTomtom")
 
 -- Main button
-local scanner_button = CreateFrame("Button", "scanner_button", UIParent, "SecureActionButtonTemplate, BackdropTemplate")
+local scanner_button = CreateFrame("Button", RSConstants.RS_BUTTON_NAME, UIParent, "SecureActionButtonTemplate, BackdropTemplate")
 scanner_button:Hide();
 scanner_button:SetIgnoreParentScale(true)
 scanner_button:SetFrameStrata("MEDIUM")
@@ -414,19 +415,16 @@ function scanner_button:DetectedNewVignette(self, vignetteInfo, isNavigating)
 	RSButtonHandler.AddAlert(self, vignetteInfo, isNavigating)
 end
 
-function scanner_button:DisplayMessages(name)
+function scanner_button:DisplayMessages(entityID, name)
 	if (name) then
 		if (RSConfigDB.IsDisplayingRaidWarning()) then
-			RaidNotice_AddMessage(RaidWarningFrame, string.format(AL["JUST_SPAWNED"], name), ChatTypeInfo["RAID_WARNING"], RSConstants.RAID_WARNING_SHOWING_TIME)
+			RaidNotice_AddMessage(RaidWarningFrame, string.format(AL["ALARM_MESSAGE"], name), ChatTypeInfo["RAID_WARNING"], RSConstants.RAID_WARNING_SHOWING_TIME)
 		end
 
 		-- Print message in chat if user wants
 		if (RSConfigDB.IsDisplayingChatMessages()) then
-			RSLogger:PrintMessage(string.format(AL["JUST_SPAWNED"], name))
-		end
-	else
-		if (RSConfigDB.IsDisplayingRaidWarning()) then
-			RaidNotice_AddMessage(RaidWarningFrame, AL["ALARM_MESSAGE"], ChatTypeInfo["RAID_WARNING"], RSConstants.RAID_WARNING_SHOWING_TIME)
+			local hyperlink = RSHyperlinks.GetEntityHyperLink(entityID, name)
+			RSLogger:PrintMessage(string.format(AL["ALARM_MESSAGE"], hyperlink and hyperlink or name))
 		end
 	end
 end
@@ -572,7 +570,10 @@ end
 function RareScanner:OnInitialize()
 	-- Init database
 	self:InitializeDataBase()
-
+	
+	-- Store providers for refreshing
+	private.mapProviders = {}
+	
 	-- Adds about panel to wow options
 	if (LibAboutPanel) then
 		self.optionsFrame = LibAboutPanel:CreateAboutPanel("RareScanner")
@@ -588,7 +589,7 @@ function RareScanner:OnInitialize()
 	local provider = CreateFromMixins(RareScannerDataProviderMixin)
 	WorldMapFrame:AddDataProvider(provider);
 	RSProvider.AddDataProvider(provider)
-	
+
 	-- Add search inputbox
 	local searchFrame = CreateFrame("FRAME", nil, WorldMapFrame, "WorldMapRSSearchTemplate");
 	searchFrame:SetPoint("CENTER", WorldMapFrame:GetCanvasContainer(), "TOP", 0, 0);
@@ -605,6 +606,9 @@ function RareScanner:OnInitialize()
 
 	-- Initialize special events
 	self:InitializeSpecialEvents()
+	
+	-- Hook hyperlink
+	RSHyperlinks.HookHyperLinks()
 
 	-- Refresh minimap
 	C_Timer.NewTicker(2, function()
@@ -1096,6 +1100,16 @@ local function UpdateRareNamesDB(currentDbVersion)
 			for _, entityID in ipairs (RSConstants.IGNORED_VIGNETTES) do
 				RSGeneralDB.RemoveAlreadyFoundEntity(entityID)
 			end
+			
+			-- Clean database after update 11.0.2
+			private.dbchar.not_colleted_appearances_item_ids = nil
+			
+			-- Reset current collections database because it isn't compatible anymore
+			if (private.dbglobal.lastCollectionsScanVersion and private.dbglobal.entity_collections_loot) then
+				if (type(private.dbglobal.lastCollectionsScanVersion) == "table") then
+					private.dbglobal.entity_collections_loot = {}
+				end
+			end			
 			
 			-- Reset cached questIDs
 			RSGeneralDB.ResetCompletedQuestDB()

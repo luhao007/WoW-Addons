@@ -11,6 +11,7 @@ local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
 local RSAchievementDB = private.ImportLib("RareScannerAchievementDB")
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
 local RSMapDB = private.ImportLib("RareScannerMapDB")
+local RSProfessionDB = private.ImportLib("RareScannerProfessionDB")
 
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -298,7 +299,7 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 	end
 	
 	-- Skip if other filtered
-	if (not RSConfigDB.IsShowingOtherRareNPCs() and not isMinieventWithFilter and not isAchievement and not prof) then
+	if (not RSConfigDB.IsShowingOtherRareNPCs() and not isMinieventWithFilter and not isNotCompletedAchievement and not prof) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado otro NPC.", npcID))
 		return true
 	end
@@ -367,18 +368,7 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 	
 	-- Skip if wrong profession
 	if (prof) then
-		local pindex1, pindex2, _, _, _, _ = GetProfessions();
-		local matches
-		if (pindex1) then
-			local _, _, _, _, _, _, skillLine, _, _, _ = GetProfessionInfo(pindex1)
-			matches = skillLine and skillLine == prof
-		end
-		if (not matches and pindex2) then
-			local _, _, _, _, _, _, skillLine, _, _, _ = GetProfessionInfo(pindex2)
-			matches = skillLine and skillLine == prof
-		end
-		
-		if (not matches) then
+		if (not RSProfessionDB.HasPlayerProfession(prof)) then
 			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Profesión incorrecta.", npcID))
 			return true
 		end

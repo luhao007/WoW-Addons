@@ -308,7 +308,7 @@ function Item:GetQuery()
 end
 
 function Item:IsUpgrade()
-	return (self.hasItem or false) and C.Addons.IsAddOnLoaded('Pawn') and PawnShouldItemLinkHaveUpgradeArrow(self.info.hyperlink)
+	return (self.hasItem or false) and C.AddOns.IsAddOnLoaded('Pawn') and PawnShouldItemLinkHaveUpgradeArrow(self.info.hyperlink)
 end
 
 function Item:GetInventorySlot()

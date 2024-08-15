@@ -3,7 +3,6 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local AL = AceLocale:NewLocale("RareScanner", "deDE", false);
 
 if AL then
-AL["ALARM_MESSAGE"] = "Ein seltener NPC wurde gefunden, schau auf die Karte!"
 AL["ALARM_SOUND"] = "Warnton für seltene NSCs"
 AL["ALARM_SOUND_DESC"] = "Ton, der abgespielt wird, wenn ein seltener NSC auf deiner Minikarte auftaucht"
 AL["ALARM_TREASURES_SOUND"] = "Warnton für Ereignisse/Schätze"
@@ -663,7 +662,6 @@ AL["FILTERS_SEARCH_DESC"] = "Gib den Namen des NSCs ein, nach dem die untenstehe
 AL["GENERAL_OPTIONS"] = "Allgemeine Einstellungen"
 AL["GUIDE_ANIMA_CONDUCTOR"] = "Animaleiter"
 AL["GUIDE_ENTRANCE"] = "Eingang"
-AL["JUST_SPAWNED"] = "%s ist gerade erschienen. Überprüfe Deine Karte!"
 AL["LEFT_BUTTON"] = "Linksklick"
 AL["LOCK_BUTTON_POSITION"] = "Position der Sperren-Schaltfläche"
 AL["LOCK_BUTTON_POSITION_DESC"] = "Wenn aktiviert, kann die Position der Schaltfläche nicht verändert werden. "

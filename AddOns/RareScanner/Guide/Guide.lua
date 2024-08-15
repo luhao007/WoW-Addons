@@ -1447,9 +1447,6 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.ENTRANCE..1] = { x = 0.6460, y = 0.2962 };
 		[RSConstants.ENTRANCE..2] = { x = 0.6544, y = 0.2764 };
 	}; --Silk-spun Supplies
-	["4448442255"] = {
-		[RSConstants.ENTRANCE] = { x = 0.7756, y = 0.5907 };
-	}; --Stashed Loot
 	["4453602255"] = {
 		[RSConstants.ENTRANCE] = { x = 0.7756, y = 0.5907 };
 	}; --Stashed Loot
@@ -1532,12 +1529,6 @@ private.CONTAINER_GUIDE = {
 	["4415552214"] = {
 		[RSConstants.ENTRANCE] = { x = 0.5067, y = 0.5751 };
 	}; --Wax-Drenched Sign
-	["4543362255"] = {
-		[RSConstants.ENTRANCE] = { x = 0.3990, y = 0.3988 };
-	}; --Entomological Essay on Grubs, Volume 2
-	["4543382255"] = {
-		[RSConstants.ENTRANCE] = { x = 0.3990, y = 0.3988 };
-	}; --Entomological Essay on Grubs, Volume 3
 	["4464202255"] = {
 		[RSConstants.DOT..1] = { x = 0.7479, y = 0.4285, comment = AL["NOTE_446420_1"] };
 		[RSConstants.DOT..2] = { x = 0.7267, y = 0.3967, comment = AL["NOTE_446420_2"] };
@@ -1635,12 +1626,6 @@ private.CONTAINER_GUIDE = {
 	["4559472213"] = {
 		[RSConstants.ENTRANCE] = { x = 0.4677, y = 0.4912 };
 	}; --Nerubian's Slicking Iron
-	["4543502255"] = {
-		[RSConstants.ENTRANCE] = { x = 0.4392, y = 0.2559 };
-	}; --Ethos of War, Part 4
-	["4543482255"] = {
-		[RSConstants.ENTRANCE] = { x = 0.4857, y = 0.2383 };
-	}; --Ethos of War, Part 3
 	["4560002339"] = {
 		[RSConstants.ENTRANCE] = { x = 0.6424, y = 0.5182 };
 	}; --Dornogal Spectacles
@@ -1650,6 +1635,150 @@ private.CONTAINER_GUIDE = {
 	["4559952255"] = {
 		[RSConstants.ENTRANCE] = { x = 0.5652, y = 0.4057 };
 	}; --Puppeted Mechanical Spider
+	["4543352216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 1
+	["4543352213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 1
+	["4543352255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 1
+	["4543362216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 1
+	["4543362213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 1
+	["4543362255"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3990, y = 0.3988 };
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 2
+	["4543382216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 1
+	["4543382213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 1
+	["4543382255"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3990, y = 0.3988 };
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Entomological Essay on Grubs, Volume 3
+	["4543282216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Strands of Memory
+	["4543282213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Strands of Memory
+	["4543282255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Strands of Memory
+	["4543432216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 1
+	["4543432213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 1
+	["4543432255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 1
+	["4543442216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 2
+	["4543442213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 2
+	["4543442255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+		[RSConstants.ENTRANCE..1] = { x = 0.6460, y = 0.2962 };
+		[RSConstants.ENTRANCE..2] = { x = 0.6544, y = 0.2764 };
+	}; --Ethos of War, Part 2
+	["4543482216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 3
+	["4543482213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 3
+	["4543482255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+		[RSConstants.ENTRANCE] = { x = 0.4857, y = 0.2383 };
+	}; --Ethos of War, Part 3
+	["4543502216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 4
+	["4543502213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Ethos of War, Part 4
+	["4543502255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+		[RSConstants.ENTRANCE] = { x = 0.4392, y = 0.2559 };
+	}; --Ethos of War, Part 4
+	["4543132216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Queen Xekatha
+	["4543132213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+		[RSConstants.ENTRANCE] = { x = 0.4054, y = 0.3384 };
+	}; --Queen Xekatha
+	["4543132255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Queen Xekatha
+	["4543202216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Queen Anub'izek
+	["4543202213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+		[RSConstants.ENTRANCE] = { x = 0.4054, y = 0.3384 };
+	}; --Queen Anub'izek
+	["4543202255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Queen Anub'izek
+	["4543162216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Queen Zaltra
+	["4543162213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+		[RSConstants.ENTRANCE] = { x = 0.4054, y = 0.3384 };
+	}; --Queen Zaltra
+	["4543162255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Queen Zaltra
+	["4543322216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Sages
+	["4543322213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Sages
+	["4543322255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Sages
+	["4543302216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Skitterlings
+	["4543302213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Skitterlings
+	["4543302255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Skitterlings
+	["4569272216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Lords
+	["4569272213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Lords
+	["4569272255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Lords
+	["4569282216"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Ascended
+	["4569282213"] = {
+		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Ascended
+	["4569282255"] = {
+		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
+	}; --Treatise on Forms: Ascended
 }
 
 ---============================================================================

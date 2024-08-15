@@ -19,6 +19,7 @@ local RSAchievementDB = private.ImportLib("RareScannerAchievementDB")
 -- RareScanner services
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
+local RSProvider = private.ImportLib("RareScannerProvider")
 
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -604,6 +605,28 @@ local function OnPlayerLogin(rareScannerButton)
 		rareScannerButton:ClearAllPoints()
 		rareScannerButton:SetPoint("BOTTOMLEFT", x, y)
 	end
+
+	-- Adds custom chat window
+	if (RSConfigDB.GetChatWindowName()) then
+		RSLogger:CreateChatFrame(RSConfigDB.GetChatWindowName())
+	end
+	
+	local providerRemoverTimer = C_Timer.NewTimer(1, function(self)
+		-- Wait until all providers are added
+		if (WorldMapFrame:IsEventRegistered("WORLD_MAP_OPEN")) then
+			for dp, loaded in pairs(WorldMapFrame.dataProviders) do
+				if (loaded and dp.GetPinTemplate and dp:GetPinTemplate() == "VignettePinTemplate") then
+					WorldMapFrame:RemoveDataProvider(dp)
+					local provider = CreateFromMixins(RSVignetteDataProviderMixin)
+					WorldMapFrame:AddDataProvider(provider);
+					RSProvider.AddDataProvider(provider)
+					RSLogger:PrintDebugMessage("Reemplazado proveedor VignetteDataProvider")
+					break
+			  	end
+			end
+			self:Cancel()
+		end
+	end)
 	
 	rareScannerButton:UnregisterEvent("PLAYER_LOGIN")
 end

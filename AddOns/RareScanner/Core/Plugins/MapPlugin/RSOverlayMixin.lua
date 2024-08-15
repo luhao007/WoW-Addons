@@ -15,7 +15,6 @@ local RSMinimap = private.ImportLib("RareScannerMinimap")
 -- RareScanner general libraries
 local RSUtils = private.ImportLib("RareScannerUtils")
 
-
 RSOverlayMixin = CreateFromMixins(MapCanvasPinMixin);
 
 RSOverlayMixin.SetPassThroughButtons = function() end
@@ -32,9 +31,6 @@ function RSOverlayMixin:OnAcquired(x, y, r, g, b, pin)
 	self.Texture:SetTexture(RSConstants.OVERLAY_SPOT_TEXTURE)
 	self.Texture:SetVertexColor(r, g, b, 0.9)
 	self:SetPosition(RSUtils.FixCoord(x), RSUtils.FixCoord(y));
-	if (self.SetPassThroughButtons) then
-		self:SetPassThroughButtons("MiddleButton");
-	end
 end
 
 function RSOverlayMixin:OnMouseEnter()

@@ -3,7 +3,6 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local AL = AceLocale:NewLocale("RareScanner", "koKR", false);
 
 if AL then
-AL["ALARM_MESSAGE"] = "희귀 NPC가 방금 나왔습니다, 지도를 확인하세요!"
 AL["ALARM_SOUND"] = "희귀 NPC에 대한 경고음"
 AL["ALARM_SOUND_DESC"] = "희귀 NPC가 미니맵에 보일 때 재생되는 사운드입니다"
 AL["ALARM_TREASURES_SOUND"] = "이벤트/보물들에 대한 경고음"
@@ -772,7 +771,6 @@ AL["GUIDE_TRANSPORT"] = "이동수단"
 AL["IGNORE_SCAN_COMPLETED_ENTITIES"] = "이미 죽인/완료된 실재물(실체)들에 대한 경보 무시하기"
 AL["IGNORE_SCAN_COMPLETED_ENTITIES_DESC"] = "대부분의 새로운 지역에서 희귀 NPC와 보물은 처음에만 전리품을 드랍하지만 전리품을 루팅한 후 출현할 때마다 세계 지도에 계속 잘못 보여지는 여러 실재물(실체)이 있습니다. 이 오류로 인해 애드온은 유용한 아이템을 다시 드랍하지 않더라도 해당 실재물(실체)에 대해 계속 경보합니다. 이 옵션이 사용되면 해당 날짜의 실재물(실체)을 완료할 때까지만 경보를 얻습니다."
 AL["INGAME_WAYPOINTS"] = "개임 내 기착지 항목"
-AL["JUST_SPAWNED"] = "<%s>|1이;가; 방금 나왔습니다. 지도를 확인하세요!"
 AL["LEFT_BUTTON"] = "마우스 왼쪽 단추 클릭"
 AL["LOCK_BUTTON_POSITION"] = "버튼 위치 잠금"
 AL["LOCK_BUTTON_POSITION_DESC"] = "체크표시되면 버튼을 끌어서 놓아 버튼 위치를 변경할 수 없습니다."

@@ -1,6 +1,6 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: Zensunim of Dragonblight
-## Version: 5.10
+## Version: 5.11.2
 ## SavedVariables: GTFOData
 ## DefaultState: Enabled
 ## IconTexture: Interface\Icons\spell_fire_fire
@@ -10,8 +10,8 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF伤害警报|r |cFFFFE00AGTFO|r
 ## Notes-zhCN: 当你站在错误的位置时发出警报
 
-## X-Min-Interface: 110000
-## X-Min-Interface-Classic: 11502
+## X-Min-Interface: 110002
+## X-Min-Interface-Classic: 11503
 ## X-Min-Interface-BCC: 20504
 ## X-Min-Interface-Wrath: 30403
 ## X-Min-Interface-Cata: 40400

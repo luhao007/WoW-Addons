@@ -13,6 +13,7 @@
 	<Include file="Libs\RSProvider.lua"/>
 	
 	<!-- Data access libraries -->
+	<Include file="Data\RSProfessionDB.lua"/>
 	<Include file="Data\RSMapDB.lua"/>
 	<Include file="Data\RSContainerDB.lua"/>
 	<Include file="Data\RSEventDB.lua"/>
@@ -57,11 +58,15 @@
 	<Include file="Service\RSCommandLine.lua"/>
 	
 	<!-- Tooltips -->
-	<Include file="Plugins\MapPlugin\Tooltips\RSNotes.lua"/>
-	<Include file="Plugins\MapPlugin\Tooltips\RSTooltip.lua"/>
+	<Include file="Plugins\Tooltips\RSNotes.lua"/>
+	<Include file="Plugins\Tooltips\RSTooltip.lua"/>
+	
+	<!-- Hyperlinks -->
+	<Include file="Libs\RSHyperlinks.lua"/>
 	
 	<!-- Providers -->
 	<Include file="Providers\RareScannerMapProvider.lua"/>
+	<Include file="Providers\RSVignetteDataProvider.lua"/>
 	
 	<!-- Static popups -->
 	<Include file="Libs\RSStaticPopups.lua"/>

@@ -30,7 +30,7 @@ ANIMATIONS_TYPE[RSConstants.MAP_ANIMATIONS_ON_CLICK] = AL["MAP_ANIMATIONS_ON_CLI
 ANIMATIONS_TYPE[RSConstants.MAP_ANIMATIONS_ON_BOTH] = AL["MAP_ANIMATIONS_ON_BOTH"];
 
 -----------------------------------------------------------------------
--- Options tab: Display
+-- Options tab: Map options
 -----------------------------------------------------------------------
 
 function RSMapOptions.GetMapOptions()	

@@ -35,7 +35,7 @@
 --    LibStub("AceConfig-3.0"):RegisterOptionsTable("MyAddOn", options)
 -- end
 
-local MAJOR, MINOR = "LibAboutPanel-2.0", 111 -- MINOR incremented manually
+local MAJOR, MINOR = "LibAboutPanel-2.0RS", 111 -- MINOR incremented manually
 assert(LibStub, MAJOR .. " requires LibStub")
 local AboutPanel = LibStub:NewLibrary(MAJOR, MINOR)
 if not AboutPanel then return end  -- no upgrade necessary

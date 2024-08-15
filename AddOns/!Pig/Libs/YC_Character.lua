@@ -253,8 +253,9 @@ RegisterAddonMessagePrefix(pig_PREFIX)
 local function Update_ShowItem_List(zbData,laiyuan)
 	for k,v in pairs(zbData) do
 		local _,itemLink = GetItemInfo(v) 
-		if not itemLink then
+		if not itemLink and yuanchengCFrame.ZBLsit<5 then
 			C_Timer.After(0.1,function()
+				yuanchengCFrame.ZBLsit.ShowItemNum=yuanchengCFrame.ZBLsit.ShowItemNum+1
 				Update_ShowItem_List(zbData,laiyuan)
 			end)
 			return
@@ -296,7 +297,7 @@ local function Update_ShowItem_List(zbData,laiyuan)
 end
 local function Update_ShowItem(itemstxt,laiyuan)
 	local zbData = {}
-	if not itemstxt or itemstxt and #itemstxt==0 then return end
+	if not itemstxt then return end
 	for k,v in pairs(itemstxt) do
 		zbData[k]=v
 	end
@@ -304,6 +305,7 @@ local function Update_ShowItem(itemstxt,laiyuan)
 		GetItemInfo(v)
 	end
 	C_Timer.After(0.1,function()
+		yuanchengCFrame.ZBLsit.ShowItemNum=0
 		Update_ShowItem_List(zbData,laiyuan)
 	end)
 end

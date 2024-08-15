@@ -81,6 +81,12 @@ LibDialog:Register(RSConstants.APPLY_COLLECTIONS_LOOT_FILTERS, {
 					RSConfigDB.SetShowingMissingAppearances(false)
 				end
 				
+				if (self.data.filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
+					RSConfigDB.SetShowingMissingClassAppearances(true)
+				else
+					RSConfigDB.SetShowingMissingClassAppearances(false)
+				end
+				
 				if (self.data.filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER]) then
 					RSConfigDB.SetShowingMissingDrakewatcher(true)
 				else

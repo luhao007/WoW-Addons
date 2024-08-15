@@ -13,7 +13,7 @@ logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30400'
-RETAIL_VER = '110000'
+RETAIL_VER = '110002'
 
 
 def available_on(platforms):
@@ -607,12 +607,11 @@ class Manager:
         utils.rm_tree('Addons/Titan/Libs')
         utils.remove_libs_in_file('Addons/Titan/Titan_Mainline.toc',
                                     ['Libs'])
-        utils.remove_libs_in_file('Addons/TitanClassic/TitanClassic_Cata.toc',
-                                    ['Libs'])
-        utils.remove_libs_in_file('Addons/TitanClassic/TitanClassic_Vanilla.toc',
-                                    ['Libs'])
-        utils.remove_libs_in_file('Addons/TitanClassic/TitanClassic_Wrath.toc',
-                                    ['Libs'])
+
+        for f in ['Cata', 'Vanilla', 'Wrath', 'Classic']:
+            p = f'Addons/TitanClassic/TitanClassic_{f}.toc'
+            if os.path.exists(p):
+                utils.remove_libs_in_file(p, ['Libs'])
 
     @staticmethod
     def handle_tomtom():

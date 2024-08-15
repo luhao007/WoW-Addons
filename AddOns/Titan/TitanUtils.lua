@@ -764,7 +764,6 @@ end
 ---@param text string Text to wrap
 ---@param color any See color:GetRGB() / color:GetRGBA()
 ---@return string text Custom color encoded string
---- TitanUtils_GetColoredText(GOLD_PERHOUR_STATUS, TITAN_GOLD_GREEN)
 function TitanUtils_GetColoredText(text, color)
 	local res = ""
 	if (color and text) then
@@ -911,9 +910,7 @@ end
 ---@return integer gold part of value
 ---@return integer silver part of value
 ---@return integer copper part of value
-function TitanUtils_CashToString(value, thousands_separator, decimal_separator,
-	only_gold, show_labels, show_icons,
-	add_color)
+function TitanUtils_CashToString(value, thousands_separator, decimal_separator, only_gold, show_labels, show_icons, add_color)
 	local show_zero = true
 	local show_neg = true
 
@@ -999,19 +996,25 @@ function TitanUtils_CashToString(value, thousands_separator, decimal_separator,
 		-- now make the coin strings
 		if gold > 0 then
 			local gnum = TitanUtils_NumToString(gold, thousands_separator, decimal_separator)
-			gold_str = TitanUtils_GetHexText(gnum..g_lab .. " ", gc) --gc .. (gnum) .. g_lab .. " " .. FONT_COLOR_CODE_CLOSE
+			gold_str = TitanUtils_GetHexText(gnum..g_lab .. " ", gc)
 		else
 			gold_str = ""
 		end
 		if (silver > 0) then
 			local snum = (string.format("%02d", silver) or "?")
-			silver_str = TitanUtils_GetHexText(snum..s_lab .. " ", sc) --sc .. (silver or "?") .. s_lab .. " " .. FONT_COLOR_CODE_CLOSE
+			silver_str = TitanUtils_GetHexText(snum..s_lab .. " ", sc)
+		elseif (string.len(gold_str) > 0) then -- space if gold present
+			local snum = (string.format("%02d", 0) or "?")
+			silver_str = TitanUtils_GetHexText(snum..s_lab .. " ", sc)
 		else
 			silver_str = ""
 		end
 		if (copper > 0) then
 			local cnum = (string.format("%02d", copper) or "?")
-			copper_str = TitanUtils_GetHexText(cnum..c_lab, cc) --cc .. (copper or "?") .. c_lab .. "" .. FONT_COLOR_CODE_CLOSE
+			copper_str = TitanUtils_GetHexText(cnum..c_lab, cc)
+		elseif (string.len(silver_str) > 0) then -- space if silver present
+			local cnum = (string.format("%02d", 0) or "?")
+			copper_str = TitanUtils_GetHexText(cnum..c_lab, cc)
 		else
 			copper_str = ""
 		end
@@ -2500,6 +2503,19 @@ function TitanDumpTable(tb, level)
 			if level <= 8 then
 				TitanDumpTable(v, level)
 			end
+		end
+	end
+end
+
+---Titan: From a given table; find input in its indexes.
+---@param tb table
+---@param val string 1 or defaults to 1
+function TitanFindIndex(tb, val)
+	for k, v in pairs(tb) do
+		if type(k) == 'string' and string.find(k, val) then
+			print("idx [" .. tostring(k) .. "] = " .. " '" .. tostring(v) .. "'")
+		else
+			-- keep looking
 		end
 	end
 end

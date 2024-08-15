@@ -192,8 +192,7 @@ local function ActionBar_PetTishi()
 		local PETchaofeng= CreateFrame("Frame");
 		PETchaofeng:RegisterEvent("PET_BAR_UPDATE")
 		PETchaofeng:RegisterUnitEvent("UNIT_AURA","pet");
-		PETchaofeng:SetScript("OnEvent",PetTishizhhixing)
-		
+		PETchaofeng:SetScript("OnEvent",PetTishizhhixing)	
 	end
 end
 local Pettooltip = "宠物动作条嘲讽技能上方增加一个提示按钮，副本内提示关闭宠物嘲讽/副本外提示开启！\r|cffFFff00（只对有宠物职业生效）|r";

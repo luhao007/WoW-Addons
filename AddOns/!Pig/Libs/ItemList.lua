@@ -252,51 +252,61 @@ local function PIGGetTaozhuang(statsg)
 	return taozhuainfo
 end
 local Plisttip = CreateFrame("GameTooltip", "Plisttip_UI", UIParent, "GameTooltipTemplate")
-local function PIGGetItemStats(Data)
-	local allstats={}
-	for k,v in pairs(Data) do
+local function PIGGetItemStats_1(Parent,hejisoltnum,ix,soltlink)
+	if not Parent:IsVisible() then if Parent.allstats_Ticker then Parent.allstats_Ticker:Cancel() end return end
+	if tocversion<50000 then
 		Plisttip:ClearLines();
 		Plisttip:SetOwner(UIParent, "ANCHOR_NONE")
-		Plisttip:SetHyperlink(v)
+		Plisttip:SetHyperlink(soltlink)
+		local quality = C_Item.GetItemQualityByID(soltlink) or 1
 	    local hangname = Plisttip:GetName()
 	    local txtNum = Plisttip:NumLines()
 	    if txtNum then
-			local quality = C_Item.GetItemQualityByID(v) or 1
 	    	for g = 2, txtNum do
 		    	local text = _G[hangname.."TextLeft" .. g]:GetText() or ""
 		    	--local r, g, b = _G[hangname.."TextLeft" .. g]:GetTextColor()
-		    	tinsert(allstats, {text,quality,Slot})
+		    	tinsert(Parent.allstats, {text,quality})
 		    end
 		end
+	else
+		local tooltipData = C_TooltipInfo.GetHyperlink(soltlink)
+		local quality = C_Item.GetItemQualityByID(soltlink) or 1
+		for _, line in ipairs(tooltipData.lines) do
+		    tinsert(Parent.allstats, {line.leftText,quality})
+		end
+		--
 	end
-	return PIGGetTaozhuang(allstats)
+	if Parent.allstats.xuhaoID>=hejisoltnum then
+		local taozhuang = PIGGetTaozhuang(Parent.allstats)
+		local taozhuangNum = #taozhuang
+		for tid=1,taozhuangNum do
+			local taoui = _G[Parent:GetName().."_".."tao_"..tid]
+			taoui:SetText(string.format(BOSS_BANNER_LOOT_SET,taozhuang[tid][1].."("..taozhuang[tid][2].."/"..taozhuang[tid][3]..")"))
+			local r, g, b =GetItemQualityColor(taozhuang[tid][4] or 0)
+			taoui:SetTextColor(r, g, b,1);
+			local taoui_width = taoui:GetStringWidth()+4
+			if taoui_width>Parent.ALLWWWW then
+				Parent.ALLWWWW=taoui_width
+			end
+		end
+		if taozhuangNum>1 then
+			Parent:SetHeight(ListWWWHHH[2]+(taozhuangNum-1)*(ListWWWHHH[3]-3))
+		end
+	end
+	Parent.allstats.xuhaoID=Parent.allstats.xuhaoID+1
 end
-
 local function ShowItemTaozhuang(Parent,Data)
-	--local taozhuang = PIGGetItemStats(Data)
-	-- local taozhuangNum = #taozhuang
-	-- if taozhuangNum<1 then
-		-- if EnchantBut.EnchantInfo then EnchantBut.EnchantInfo:Cancel() end
-		-- 		EnchantBut.EnchantInfo=C_Timer.NewTimer(0.2,function()
-		-- 			ShowEnchantInfo(EnchantBut,ItemID)
-		-- 		end)
-	-- 	return C_Timer.After(0.1,function()
-	-- 		ShowItemTaozhuang(Parent,Data)
-	-- 	end)
-	-- end
-	-- for tid=1,taozhuangNum do
-	-- 	local taoui = _G[Parent:GetName().."_".."tao_"..tid]
-	-- 	taoui:SetText(string.format(BOSS_BANNER_LOOT_SET,taozhuang[tid][1].."("..taozhuang[tid][2].."/"..taozhuang[tid][3]..")"))
-	-- 	local r, g, b =GetItemQualityColor(taozhuang[tid][4] or 0)
-	-- 	taoui:SetTextColor(r, g, b,1);
-	-- 	local taoui_width = taoui:GetStringWidth()+4
-	-- 	if taoui_width>Parent.ALLWWWW then
-	-- 		Parent.ALLWWWW=taoui_width
-	-- 	end
-	-- end
-	-- if taozhuangNum>1 then
-	-- 	Parent:SetHeight(ListWWWHHH[2]+(taozhuangNum-1)*(ListWWWHHH[3]-3))
-	-- end
+	if Parent.allstats_Ticker then Parent.allstats_Ticker:Cancel() end
+	Parent.allstats={
+		["solt"]={},
+		["num"] = 0,
+		["xuhaoID"] = 1,
+	}
+	for k,v in pairs(Data) do
+		table.insert(Parent.allstats.solt,k)
+	end
+	Parent.allstats.num=#Parent.allstats.solt
+	Parent.allstats_Ticker = C_Timer.NewTicker(0.01, function() PIGGetItemStats_1(Parent,Parent.allstats.num,Parent.allstats.xuhaoID,Data[Parent.allstats.solt[Parent.allstats.xuhaoID]]) end, Parent.allstats.num)
 end
 local function ShowItemList(Parent,unit,Data,fuwen)
 	local Parentname = Parent:GetName()
@@ -520,7 +530,6 @@ local function ShowItemList(Parent,unit,Data,fuwen)
 		local pingjunLvl = Parent.zhuangbeiInfo.allleve/16
 		Parent.pingjunLV_V:SetText(string.format("%.2f",pingjunLvl).."|cffFF0000"..Parent.zhuangbeiInfo.wuqixiuzhengV.."|r")
 	end
-
 	--调整UI宽度
 	local biaotiwidth1 = Parent.pingjunLV:GetStringWidth()+Parent.pingjunLV_V:GetStringWidth()
 	local biaotiwidth2 = Parent.talent_1:GetStringWidth()+Parent.talent_1v:GetStringWidth()
@@ -618,9 +627,9 @@ local function add_ItemList(fujik,miaodian,ziji)
 	end
 	local Dibuline=PIGLine(ZBLsit,"TOP",-391-ZBLsit.TopJG,nil,{1,-1},{0.2,0.2,0.2,0.9})
 	for tid=1,6 do
-		local taozhuant = PIGFontString(ZBLsit,{"TOPLEFT",Dibuline,"BOTTOMLEFT",2,-3},"","OUTLINE",nil,fujiname.."_".."tao_"..tid);
+		local taozhuant = PIGFontString(ZBLsit,nil,"","OUTLINE",nil,fujiname.."_".."tao_"..tid);
 		if tid==1 then
-			taozhuant:SetPoint("TOPLEFT",Dibuline,"BOTTOMLEFT",ZBLsit.LeftJG,-3);
+			taozhuant:SetPoint("TOPLEFT",Dibuline,"BOTTOMLEFT",ZBLsit.LeftJG-3,-4);
 		else
 			taozhuant:SetPoint("TOPLEFT",_G[fujiname.."_".."tao_"..(tid-1)],"BOTTOMLEFT",0,-1);
 		end
@@ -734,16 +743,10 @@ local function add_ItemList(fujik,miaodian,ziji)
 							PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 							PIGinfotip:TryDisplayMessage("请专心战斗", YELLOW_FONT_COLOR:GetRGB());
 						else
-							InspectPaperDollItemsFrame.InspectTalents:Click()
+							InspectPaperDollFrameTalentsButtonMixin:OnClick()
 						end
 					else
-						ClassTalentFrame_LoadUI()
-						if ClassTalentFrame:IsVisible() then
-							ClassTalentFrame:Hide()
-						else
-							ClassTalentFrame.inspectUnit=nil
-							ClassTalentFrame:Show()
-						end
+						PlayerSpellsMicroButtonMixin:OnClick()
 					end
 				end
 			end
@@ -762,9 +765,9 @@ local function add_ItemList(fujik,miaodian,ziji)
 		end)
 	end
 	local function PIG_GetInventoryItem(Parent,unit)
-		if not Parent:IsShown() then return end
+		if not Parent:IsVisible() then return end
 		local ItemData = {}
-		for Slot = 1, 19 do
+		for Slot = 1, 18 do
 			local itemId = GetInventoryItemID(unit, Slot)
 			if itemId then
 				local itemLink=GetInventoryItemLink(unit, Slot)
@@ -797,6 +800,9 @@ local function add_ItemList(fujik,miaodian,ziji)
 			PIG_GetInventoryItem(self,unit)
 		end		
 	end
+	ZBLsit:HookScript("OnHide", function(self)
+		if self.allstats_Ticker then self.allstats_Ticker:Cancel() end
+	end);
 	return ZBLsit
 end
 function Create.PIGItemListUI(laiyuan)

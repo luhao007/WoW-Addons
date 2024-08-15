@@ -71,7 +71,7 @@ local function GetContinentMapIds()
 		for k, v in pairs(RSMapDB.GetContinents()) do
 			if (v.zonefilter) then
 				if (v.id) then
-					continent_map_ids[k] = RSMap.GetMapName(k)
+					continent_map_ids[k] = RSMapDB.GetMapName(k)
 				else
 					continent_map_ids[k] = AL["ZONES_CONTINENT_LIST"][k]
 				end
@@ -98,7 +98,7 @@ local function LoadSubmapCombo(continentID, group, npcID)
 			private.options_cnpcs[groupKey][npcKey].subzone = RSConstants.ALL_ZONES_CUSTOM_NPC
 		else
 			table.foreach(RSMapDB.GetContinents()[continentID].zones, function(index, zoneID)
-				local zoneName = RSMap.GetMapName(zoneID)
+				local zoneName = RSMapDB.GetMapName(zoneID)
 				if (zoneName) then
 					options.args[groupKey].args[npcKey].args.subzones.values[zoneID] = zoneName
 				end
@@ -302,7 +302,7 @@ local function AddNewCustomNpc(npcID, group)
 						if (private.options_cnpcs[groupKey][npcKey].subzone == RSConstants.ALL_ZONES_CUSTOM_NPC) then
 							private.options_cnpcs[groupKey][npcKey].zones[private.options_cnpcs[groupKey][npcKey].subzone] = AL["ALL_ZONES"]
 						else
-							private.options_cnpcs[groupKey][npcKey].zones[private.options_cnpcs[groupKey][npcKey].subzone] = RSMap.GetMapName(private.options_cnpcs[groupKey][npcKey].subzone)
+							private.options_cnpcs[groupKey][npcKey].zones[private.options_cnpcs[groupKey][npcKey].subzone] = RSMapDB.GetMapName(private.options_cnpcs[groupKey][npcKey].subzone)
 						end
 						
 						private.options_cnpcs[groupKey][npcKey].zone = private.options_cnpcs[groupKey][npcKey].subzone
@@ -580,7 +580,7 @@ local function RefresCustomNpcList()
 						private.options_cnpcs[groupKey][npcKey].zones[zoneID] = AL["ALL_ZONES"]
 						private.options_cnpcs[groupKey][npcKey].zone = zoneID
 					else
-						private.options_cnpcs[groupKey][npcKey].zones[zoneID] = RSMap.GetMapName(zoneID)
+						private.options_cnpcs[groupKey][npcKey].zones[zoneID] = RSMapDB.GetMapName(zoneID)
 						private.options_cnpcs[groupKey][npcKey].zone = zoneID
 						private.options_cnpcs[groupKey][npcKey].coordinates[zoneID] = ParseCustomNpcOverlay(zoneInfo.overlay)
 					end
@@ -590,7 +590,7 @@ local function RefresCustomNpcList()
 					private.options_cnpcs[groupKey][npcKey].zones[npcInfo.zoneID] = AL["ALL_ZONES"]
 					private.options_cnpcs[groupKey][npcKey].zone = npcInfo.zoneID
 				else
-					private.options_cnpcs[groupKey][npcKey].zones[npcInfo.zoneID] = RSMap.GetMapName(npcInfo.zoneID)
+					private.options_cnpcs[groupKey][npcKey].zones[npcInfo.zoneID] = RSMapDB.GetMapName(npcInfo.zoneID)
 					private.options_cnpcs[groupKey][npcKey].zone = npcInfo.zoneID
 					private.options_cnpcs[groupKey][npcKey].coordinates[npcInfo.zoneID] = ParseCustomNpcOverlay(npcInfo.overlay)
 				end

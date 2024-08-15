@@ -46,7 +46,7 @@ local function GetContinentMapIds()
 		for k, v in pairs(RSMapDB.GetContinents()) do
 			if (v.zonefilter) then
 				if (v.id) then
-					continent_map_ids[k] = RSMap.GetMapName(k)
+					continent_map_ids[k] = RSMapDB.GetMapName(k)
 				else
 					continent_map_ids[k] = AL["ZONES_CONTINENT_LIST"][k]
 				end
@@ -62,7 +62,7 @@ local function LoadSubmapCombo(continentID)
 		options.args.subzones.values = {}
 		private.filter_events_subzones = nil
 		table.foreach(RSMapDB.GetContinents()[continentID].zones, function(index, mapID)
-			local mapName = RSMap.GetMapName(mapID)
+			local mapName = RSMapDB.GetMapName(mapID)
 			if (mapName) then
 				options.args.subzones.values[mapID] = mapName
 			end
@@ -137,21 +137,18 @@ local function AddEvent(name, eventID)
 	}
 end
 
-local function SearchEventByZoneID(zoneID, eventName, isContinentZone)
+local function SearchEventByZoneID(mapID, eventName, isContinentZone)
 	if (not isContinentZone) then
 		ResetResults();
 	end
 	
-	if (zoneID) then
-		for eventID, info in pairs(RSEventDB.GetAllInternalEventInfo()) do
-			local name = RSEventDB.GetEventName(eventID)
-			if (not name) then
-				name = string.format("%s (%s)", AL["EVENT"], eventID)
-			else
-				name = string.format("%s (%s)", name, eventID)
-			end
-			if (RSEventDB.IsInternalEventInMap(eventID, zoneID, true) and ((eventName and RSUtils.Contains(name,eventName)) or not eventName)) then
-				events[eventID] = name
+	if (mapID) then
+		local eventIDsWithNames = RSEventDB.GetActiveEventIDsWithNamesByMapID(mapID)
+		if (RSUtils.GetTableLength(eventIDsWithNames) > 0) then
+			for eventID, name in pairs(eventIDsWithNames) do
+				if (not eventName or RSUtils.Contains(name, eventName)) then
+					events[eventID] = name
+				end
 			end
 		end
 	end

@@ -15,7 +15,39 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.1.0 : 2024/08/06\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Updated TOC files to use *_Classic; single TOC file for Classic versions"
+)
+.. TitanUtils_GetGreenText("Gold : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Retail ONLY - Added Warband bank at bottom of list for totals.\n"
+.. "- Better alignment when silver or copper are zero.\n"
+.. "- Added space (' ') as a thousands separator option with comma and period.\n"
+.. "- Show and Delete toon menus sort per user options.\n"
+.. "- Shift + Left click will put the connected server list into Chat (also in Plugin Notes).\n"
+)
+.. TitanUtils_GetGreenText("Bags : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Retail ONLY : Added Reagent Bag slot.\n"
+.. "- All : Removed profession count option.\n"
+.. "- All : Profession counts are in Detailed Tooltip as grey - NOT added to free / used totals.\n"
+)
+.. TitanUtils_GetGreenText("Volume : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Fix double click Mute - it now toggles properly and icon changes.\n"
+)
+.. TitanUtils_GetGreenText("Regen : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Cleanup documentation (comments); made some routines local.\n"
+)
+.. "\n\n"
 .. TitanUtils_GetGoldText("8.0.16 : 2024/07/22\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Updated Retail version to 11.0.0."
+)
 .. TitanUtils_GetGreenText("Gold, Repair, XP : \n")
 .. TitanUtils_GetHighlightText(""
 .. "- Gold : Fix gold display when user selects . (period) as thousands separator.\n"
@@ -27,7 +59,6 @@ Titan_Global.recent_changes = ""
 .. "- Cleanup documentation (comments); made some routines local.\n"
 )
 .. "\n\n"
-Titan_Global.recent_changes = ""
 .. TitanUtils_GetGoldText("8.0.15 : 2024/07/14\n")
 .. TitanUtils_GetGreenText("Location : \n")
 .. TitanUtils_GetHighlightText(""
@@ -54,39 +85,6 @@ Titan_Global.recent_changes = ""
 .. "- Refactor code for IDE, mostly comments; some code.\n"
 .. "- Refactor code for Titan color code changes.\n"
 )
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.0.13 : 2024/06/18\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Update Retail version to 10.2.7.\n"
-.. "- Unknown LDB will not print error to Chat. Remains in Config > Attempted.\n")
-.. TitanUtils_GetGreenText("Repair : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Change to not error in Beta (The War Within).\n")
-.. TitanUtils_GetGreenText("Bag : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Bag taint appears to be fixed (10.2.7). Removed nag message and reverted code.\n"
-.. "- Change to not error in Beta (The War Within).\n")
-.. TitanUtils_GetGreenText("XP : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Improve performance. Now on a 30 sec timer rather than OnUpdate. Still event driven.\n")
-.. TitanUtils_GetGreenText("Location : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Classic versions Only : Add option to put coords on Top or Bottom to prevent Cata overlap.\n")
-.. TitanUtils_GetGreenText("AutoHide : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Fix error in tooltip.\n")
-.. TitanUtils_GetGreenText("Loot : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Small cleanup.\n")
-.. TitanUtils_GetGreenText("Volume : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Small cleanup.\n")
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.0.12 : 2024/05/01\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- TOC update for Cataclysm.\n")
 .. "\n\n"
 
 --[[ Var Notes

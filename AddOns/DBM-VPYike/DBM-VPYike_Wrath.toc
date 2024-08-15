@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: 夏一可, Mini_Dragon
 ## Version: 20240524
 ## RequiredDeps: DBM-Core

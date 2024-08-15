@@ -1,7 +1,8 @@
-## Interface: 110000
-## Version: 2.9.14
+## Interface: 110002
+## Version: 2.10.0
 ## SavedVariables: PawnCommon
 ## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
+## IconTexture: Interface\AddOns\Pawn\Textures\PawnIcon.tga
 
 ## Title: Pawn
 ## Notes: Pawn helps you compare items and find upgrades.

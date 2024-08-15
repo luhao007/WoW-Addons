@@ -252,3 +252,19 @@ function RSUtils.FixCoord(coord)
 		return tonumber(string.format("0.%s", coord));
 	end
 end
+
+---============================================================================
+-- RGB to HEX
+---============================================================================
+
+local color = CreateFromMixins(ColorMixin)
+
+function RSUtils.RGBToHex(r, g, b)
+	color:SetRGBA(r, g, b)
+	return string.sub(color:GenerateHexColor(), 3, 8)
+end
+
+function RSUtils.HexToRGB(hex)
+	local rhex, ghex, bhex = string.sub(hex, 1, 2), string.sub(hex, 3, 4), string.sub(hex, 5, 6)
+	return tonumber(rhex, 16)/255, tonumber(ghex, 16)/255, tonumber(bhex, 16)/255
+end

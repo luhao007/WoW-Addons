@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 110002
 ## Version: 20240808
 ## LoadManagers: AddonLoader
 ## SavedVariables: MEETINGSTONE_UI_DB,MEETINGSTONE_UI_E_POINTS

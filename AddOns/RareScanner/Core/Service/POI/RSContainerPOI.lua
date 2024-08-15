@@ -14,6 +14,7 @@ local RSContainerDB = private.ImportLib("RareScannerContainerDB")
 local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
 local RSAchievementDB = private.ImportLib("RareScannerAchievementDB")
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
+local RSProfessionDB = private.ImportLib("RareScannerProfessionDB")
 
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -196,18 +197,7 @@ local function IsContainerPOIFiltered(containerID, mapID, zoneQuestID, prof, min
 	
 	-- Skip if wrong profession
 	if (prof) then
-		local pindex1, pindex2, _, _, _, _ = GetProfessions();
-		local matches
-		if (pindex1) then
-			local _, _, _, _, _, _, skillLine, _, _, _ = GetProfessionInfo(pindex1)
-			matches = skillLine and skillLine == prof
-		end
-		if (not matches and pindex2) then
-			local _, _, _, _, _, _, skillLine, _, _, _ = GetProfessionInfo(pindex2)
-			matches = skillLine and skillLine == prof
-		end
-		
-		if (not matches) then
+		if (not RSProfessionDB.HasPlayerProfession(prof)) then
 			RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Profesión incorrecta.", containerID))
 			return true
 		end

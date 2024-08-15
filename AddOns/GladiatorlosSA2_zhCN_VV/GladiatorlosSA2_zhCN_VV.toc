@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: VV
 ## Version: 10.1.0
 ## IconTexture: Interface\AddOns\GladiatorlosSA2_zhCN_VV\Icons\VV_GSA2.tga

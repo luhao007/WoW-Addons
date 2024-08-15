@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 110002
 ## Dependencies: Details
 ## LoadOnDemand: 1
 ## SavedVariables: DetailsDataStorage

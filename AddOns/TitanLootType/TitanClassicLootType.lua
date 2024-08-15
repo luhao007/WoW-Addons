@@ -198,6 +198,7 @@ OUT: None
 --]]
 ---@class ResizeCursorType
 ---@field Texture? table
+---@diagnostic disable-next-line: missing-fields
 local ResizeCursor = {} ---@type Frame
 local SizingStop = function(self, button)
 	self:GetParent():StopMovingOrSizing()

@@ -348,6 +348,39 @@
 					<Anchor point="BOTTOMRIGHT" x="-60" y="-70" relativePoint="TOPRIGHT" />
 				</Anchors>
 				<Frames>
+					<DropdownButton parentKey="FilterDropDown" inherits="WowStyle1FilterDropdownTemplate">
+						<Size x="100" y="25" />
+						<Anchors>
+							<Anchor point="LEFT" x="0" y="1" />
+						</Anchors>
+						<Scripts>
+							<OnEnter>
+								self:GetParent():GetParent():ShowTooltip(self)
+							</OnEnter>
+							<OnLeave>
+								self:GetParent():GetParent():HideTooltip(self)
+							</OnLeave>
+						</Scripts>
+					</DropdownButton>
+					<DropdownButton parentKey="ContinentDropDown" inherits="WowStyle1DropdownTemplate">
+						<Size x="300" y="25" />
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.FilterDropDown" relativePoint="RIGHT" x="10" y="0" />
+						</Anchors>
+					</DropdownButton>
+					<CheckButton parentKey="LockCurrentZoneCheckButton" inherits="ChatConfigCheckButtonTemplate">
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.ContinentDropDown" relativePoint="RIGHT" x="10" y="0" />
+						</Anchors>
+						<Scripts>
+							<OnEnter>
+								self:GetParent():GetParent():ShowTooltip(self)
+							</OnEnter>
+							<OnLeave>
+								self:GetParent():GetParent():HideTooltip(self)
+							</OnLeave>
+						</Scripts>
+					</CheckButton>
 					<Button parentKey="RestartScanningButton" inherits="SharedButtonSmallTemplate">
 						<Anchors>
 							<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-5" y="-2" />

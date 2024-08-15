@@ -27,8 +27,8 @@ RSConstants.LOOT_ITEM_ID = nil
 -- Current versions
 ---============================================================================
 
-RSConstants.CURRENT_DB_VERSION = 138
-RSConstants.CURRENT_LOOT_DB_VERSION = 136
+RSConstants.CURRENT_DB_VERSION = 139
+RSConstants.CURRENT_LOOT_DB_VERSION = 139
 
 ---============================================================================
 -- Current maps (newer)
@@ -220,6 +220,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			lockPosition = false,
 			displayRaidWarning = true,
 			displayChatMessage = true,
+			chatWindowName = nil,
 			displayTimestampChatMessage = true,
 			enableNavigation = true,
 			navigationLockEntity = false,
@@ -248,6 +249,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			searchingMounts = true,
 			searchingToys = true,
 			searchingAppearances = true,
+			searchingClassAppearances = true,
 			searchingDrakewatcher = true,
 			showFiltered = true,
 			showDead = true,
@@ -337,15 +339,36 @@ RSConstants.PROFILE_DEFAULTS = {
 			showingMissingPets = true,
 			showingMissingToys = true,
 			showingMissingAppearances = true,
+			showingMissingClassAppearances = true,
 			showingMissingDrakewatcher = true,
 			numItems = 10,
 			numItemsPerRow = 10,
 			tooltipsCommands = true,
 			tooltipsCanImogit = false,
 			covenantRequirement = true
+		},
+		chat = {
+			waypointTomtom = false,
+			waypointIngame = true,
+			tooltipsScale = 1,
+			tooltipsAchievements = true,
+			tooltipsNotes = true,
+			tooltipsLoot = true,
+			tooltipsSeen = true,
+			tooltipsCommands = true,
+			tooltipsFilterScale = 0.75,
+			colorNpc = "85c1e9",
+			colorContainer = "d7dbdd",
+			colorEvent = "f7dc6f",
 		}
 	}
 }
+
+---============================================================================
+-- Name of the RareScanner's button
+---============================================================================
+
+RSConstants.RS_BUTTON_NAME = "RARESCANNER_BUTTON"
 
 ---============================================================================
 -- Sounds
@@ -404,7 +427,6 @@ RSConstants.CONTAINER_VIGNETTE = "VignetteLoot"
 RSConstants.CONTAINER_ELITE_VIGNETTE = "VignetteLootElite"
 RSConstants.CONTAINER_LOCKED_VIGNETTE = "vignetteloot-locked"
 RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE = "vignettelootelite-locked"
-RSConstants.CONTAINER_MARK_ISLAND = "Islands-MarkedArea"
 RSConstants.CONTAINER_LORE_OBJECT = "loreobject-32x32"
 
 RSConstants.EVENT_VIGNETTE = "VignetteEvent"
@@ -436,6 +458,8 @@ RSConstants.THE_AZURE_SPAN = 2024
 RSConstants.VALDRAKKEN = 2025
 RSConstants.THE_PRIMALIST_FUTURE = 2085
 RSConstants.ZARALEK_CAVERN = 2133
+RSConstants.COSMIC = 946
+RSConstants.AZEROTH = 947
 
 ---============================================================================
 -- NpcIDS
@@ -543,7 +567,8 @@ RSConstants.CONTAINERS_MAWSWORN_CACHE = { 368205, 368206, 368207, 368208, 368213
 RSConstants.CONTAINERS_HARMONIC_CHEST = { 355358, 380556 }
 RSConstants.CONTAINERS_STONEBORN_SATCHEL = { 354108, 354109, 354110, 354111, 354112, 354113, 354114, 354186, 354187, 354188, 354189, 354190, 354191, 354192, 354193 }
 RSConstants.CONTAINERS_DREAMSEED_CACHE = { 406117, 406138, 406121, 406106, 409220, 406129, 406354, 406119, 405303, 409224, 409227, 405930, 406134, 406116, 409848, 405487, 406142, 406956, 406130, 409225, 409844, 406977, 406124, 406143, 407006, 406123, 406148, 409223, 409221, 405932, 405321, 409226, 405929, 406107, 405931, 406356, 405320, 407001, 406128, 406954, 406120, 406118, 409847, 405488, 406135, 406147, 409228, 406955, 406355, 406139, 406998 }
-RSConstants.DESPAWN_CONTAINERS = { 444899, 446473, 446476, 444773, 446299, 446140 }
+RSConstants.CONTAINERS_DESPAWN = { 444899, 446473, 446476, 444773, 446299, 446140 }
+RSConstants.CONTAINERS_POTION_POLYMORPHIC_TRANSLATION = { 454335, 454338, 454336, 454328, 454344, 454350, 454320, 454332, 456927, 454343, 454348, 454313, 454316, 454330, 456928 }
 
 -- NPCs that spawn after completing an event
 RSConstants.NPCS_WITH_PRE_EVENT = {
@@ -899,6 +924,7 @@ RSConstants.EXPLORER_FILTER_DROP_MOUNTS = 1
 RSConstants.EXPLORER_FILTER_DROP_PETS = 2
 RSConstants.EXPLORER_FILTER_DROP_TOYS = 3
 RSConstants.EXPLORER_FILTER_DROP_APPEARANCES = 4
+RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES = 10
 RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER = 9
 RSConstants.EXPLORER_FILTER_DROP_CUSTOM = "c%s"
 RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT = 5
@@ -931,5 +957,5 @@ function RSConstants.IsNpcAtlas(atlasName)
 end
 
 function RSConstants.IsContainerAtlas(atlasName)
-	return atlasName == RSConstants.CONTAINER_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_VIGNETTE or atlasName == RSConstants.CONTAINER_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_MARK_ISLAND or atlasName == RSConstants.CONTAINER_LORE_OBJECT 
+	return atlasName == RSConstants.CONTAINER_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_VIGNETTE or atlasName == RSConstants.CONTAINER_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_LORE_OBJECT 
 end

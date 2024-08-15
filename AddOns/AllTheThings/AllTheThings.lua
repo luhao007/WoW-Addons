@@ -5670,7 +5670,7 @@ local C_TaxiMap_GetTaxiNodesForMap, C_TaxiMap_GetAllTaxiNodes, GetTaxiMapID
 local localizedFlightPathNames;
 local HarvestFlightPaths = function(requestID)
 	if not localizedFlightPathNames then
-		app.PrintDebug("HarvestFlightPaths");
+		-- app.PrintDebug("HarvestFlightPaths");
 		local userLocale = AllTheThingsAD.UserLocale;
 		localizedFlightPathNames = userLocale.FLIGHTPATH_NAMES;
 		if not localizedFlightPathNames then
@@ -5692,7 +5692,7 @@ local HarvestFlightPaths = function(requestID)
 				end
 			end
 		end
-		app.PrintDebugPrior("done")
+		-- app.PrintDebugPrior("done")
 	end
 	return requestID and localizedFlightPathNames[requestID];
 end
@@ -5715,7 +5715,7 @@ local fields = {
 	end,
 	["collected"] = function(t)
 		if t.saved then return 1; end
-		if app.Settings.AccountWide.FlightPaths and ATTAccountWideData.FlightPaths[t.flightPathID] then return 2; end
+		if app.Settings.AccountWide.FlightPaths and ATTAccountWideData.FlightPaths[t.flightPathID] then return 1; end
 		if t.altQuests then
 			for _,questID in ipairs(t.altQuests) do
 				if IsQuestFlaggedCompleted(questID) then
@@ -6362,7 +6362,8 @@ local AlternateDataTypes = {
 	["crit"] = function(id)
 		local ach = math_floor(id);
 		local crit = math_floor(100 * (id - ach) + 0.005);
-		return { name = GetAchievementCriteriaInfo(ach, crit) };
+		local icon = select(10, GetAchievementInfo(ach))
+		return { name = GetAchievementCriteriaInfo(ach, crit), icon = icon };
 	end,
 	["d"] = function(id)
 		local name, _, _, _, _, _, _, _, _, _, textureFilename = GetLFGDungeonInfo(id);

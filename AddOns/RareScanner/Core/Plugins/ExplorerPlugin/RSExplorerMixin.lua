@@ -26,7 +26,6 @@ local RSNpcPOI = private.ImportLib("RareScannerNpcPOI")
 local RSLootTooltip = private.ImportLib("RareScannerLootTooltip")
 
 -- Thirdparty
-local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local LibDialog = LibStub("LibDialog-1.0RS")
 
 -----------------------------------------------------
@@ -35,16 +34,14 @@ local LibDialog = LibStub("LibDialog-1.0RS")
 
 RSExplorerFilters = { };
 
-local filterCollectionsID = 1
-local filterStateID = 2
 local filters = { }
 
 local currentContinentDropDownValues = { }
 
 local function MapByName_Sort(mapIDs)
 	local comparison = function(mapID1, mapID2)
-		local mapName1 = RSMap.GetMapName(mapID1) or ""
-		local mapName2 = RSMap.GetMapName(mapID2) or ""
+		local mapName1 = RSMapDB.GetMapName(mapID1) or ""
+		local mapName2 = RSMapDB.GetMapName(mapID2) or ""
 
 		-- Otherwise order by name
 		local strCmpResult = strcmputf8i(mapName1, mapName2);
@@ -85,7 +82,6 @@ end
 local function PopulateContinentDropDown(mainFrame, continentDropDown)
 	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC]
 	
-	local _, _, classIndex = UnitClass("player");
 	currentContinentDropDownValues = { }
 	local continentDropDownValuesNotSorted = { }
 	if (RSUtils.GetTableLength(filters) > 0) then
@@ -115,8 +111,17 @@ local function PopulateContinentDropDown(mainFrame, continentDropDown)
 					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
 				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.TOY]) > 0) then
 					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE][classIndex]) > 0) then
-					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
+				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+					if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
+						for _, itemID in pairs(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+							if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+								AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
+								break
+							end
+						end
+					else
+						AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
+					end
 				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
 					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
 				elseif (filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT] and RSAchievementDB.GetNotCompletedAchievementLink(npcID)) then
@@ -167,7 +172,7 @@ local function PopulateContinentDropDown(mainFrame, continentDropDown)
 	local previousMapID = RSConfigDB.GetExplorerMapID()
 
 	if (previousContinentID and previousMapID and RSUtils.Contains(continentsSorted, previousContinentID) and RSUtils.Contains(currentContinentDropDownValues[previousContinentID], previousMapID)) then
-		LibDD:UIDropDownMenu_SetText(continentDropDown, RSMap.GetMapName(previousMapID))
+		continentDropDown:GenerateMenu()
 		mainFrame:ShowContentPanels()
 		mainFrame.ScanRequired:Hide()
 		mainFrame.CustomLoot:Hide()
@@ -177,7 +182,7 @@ local function PopulateContinentDropDown(mainFrame, continentDropDown)
    			RSConfigDB.SetExplorerContinentMapID(continentID)
    			local mapID = currentContinentDropDownValues[continentID][1]
    			RSConfigDB.SetExplorerMapID(mapID)
-			LibDD:UIDropDownMenu_SetText(continentDropDown, RSMap.GetMapName(mapID))
+			continentDropDown:GenerateMenu()
 			break
 	   	end
 	   	
@@ -185,7 +190,7 @@ local function PopulateContinentDropDown(mainFrame, continentDropDown)
 		mainFrame.ScanRequired:Hide()
 		mainFrame.CustomLoot:Hide()
 	else
-		LibDD:UIDropDownMenu_SetText(continentDropDown, AL["EXPLORER_NO_RESULTS"])
+		continentDropDown:GenerateMenu()
 		mainFrame:HideContentPanels()
 		mainFrame.ScanRequired.ScanRequiredText:SetText(AL["EXPLORER_NO_RESULTS"])
 		mainFrame.ScanRequired.StartScanningButton:Hide()
@@ -194,208 +199,243 @@ local function PopulateContinentDropDown(mainFrame, continentDropDown)
    	end
 end
 
-local function FilterDropDownMenu_Initialize(self)
-	local mainFrame = self.mainFrame
-	local dropDown = self.FilterDropDown
-	
-	LibDD:UIDropDownMenu_SetWidth(dropDown, 100)
-	LibDD:UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)
-		if ((level or 1) == 1) then
-  			local info = LibDD:UIDropDownMenu_CreateInfo()
-  			info.text = AL["EXPLORER_FILTER_COLLECTIONS"]
-  			info.menuList = filterCollectionsID
-  			info.hasArrow = true
-  			info.notCheckable = true
-  			LibDD:UIDropDownMenu_AddButton(info)
-  			
-  			info = LibDD:UIDropDownMenu_CreateInfo()
-  			info.text = AL["EXPLORER_FILTER_STATE"]
-  			info.menuList = filterStateID
-  			info.hasArrow = true
-  			info.notCheckable = true
-  			LibDD:UIDropDownMenu_AddButton(info)
+local function FilterDropDownMenu_SetupMenu(dropDown, rootDescription)	
+	-- Collections menu
+	local collectionsSubmenu = rootDescription:CreateButton(AL["EXPLORER_FILTER_COLLECTIONS"]);
+	local mountsFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_MOUNTS"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey) 
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DROP_MOUNTS)
+	mountsFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingMounts(false)
+			filters[filterKey] = nil
 		else
-			local refreshList = function(self, filterID)
-				local filtered
-  				if (filters[filterID]) then
-  					filters[filterID] = nil
-  					filtered = false
-  				else
-  					filters[filterID] = true
-  					filtered = true
-  				end
-  				
-  				if (filterID == RSConstants.EXPLORER_FILTER_DROP_MOUNTS) then
-  					RSConfigDB.SetSearchingMounts(filtered)
-  				elseif (filterID == RSConstants.EXPLORER_FILTER_DROP_PETS) then
-  					RSConfigDB.SetSearchingPets(filtered)
-  				elseif (filterID == RSConstants.EXPLORER_FILTER_DROP_TOYS) then
-  					RSConfigDB.SetSearchingToys(filtered)
-  				elseif (filterID == RSConstants.EXPLORER_FILTER_DROP_APPEARANCES) then
-  					RSConfigDB.SetSearchingAppearances(filtered)
-  				elseif (filterID == RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER) then
-  					RSConfigDB.SetSearchingDrakewatcher(filtered)
-  				elseif (filterID == RSConstants.EXPLORER_FILTER_DEAD) then
-  					RSConfigDB.SetShowDead(filtered)
-  				elseif (filterID == RSConstants.EXPLORER_FILTER_FILTERED) then
-  					RSConfigDB.SetShowFiltered(filtered)
-  				elseif (filterID == RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES) then
-  					RSConfigDB.SetShowWithoutCollectibles(filtered)
-  				else
-		  			for groupKey, _ in pairs (RSCollectionsDB.GetItemGroups()) do
-		  				if (filterID == string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)) then
-	  						RSConfigDB.SetSearchingCustom(groupKey, filtered)
-	  					end
-	  				end
-  				end
-	    			
-				-- Refresh
-				mainFrame:Refresh()
-  			end
-  			
-			if (menuList == filterCollectionsID) then
-				local info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_MOUNTS"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_DROP_MOUNTS
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
-	  			
-	  			info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_PETS"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_DROP_PETS
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_DROP_PETS]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
-	  			
-	  			info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_TOYS"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_DROP_TOYS
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_DROP_TOYS]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
-	  			
-	  			info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_APPEARANCES"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_DROP_APPEARANCES
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
-	  			
-	  			info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_DRAKEWATCHER"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
-	  			
-	  			for groupKey, groupName in pairs (RSCollectionsDB.GetItemGroups()) do
-	  				if (RSCollectionsDB.HasGroupItems(groupKey)) then
-			  			info = LibDD:UIDropDownMenu_CreateInfo()
-			  			info.text = string.format(AL["EXPLORER_FILTER_CUSTOM"], groupName)
-			  			info.arg1 = string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)
-			  			info.checked = filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)]
-			  			info.func = refreshList
-			  			info.keepShownOnClick = true;
-			  			LibDD:UIDropDownMenu_AddButton(info, level)
-			  		end
-		  		end
-	  			
---	  			info = LibDD:UIDropDownMenu_CreateInfo()
---	  			info.text = AL["EXPLORER_FILTER_ACHIEVEMENT"]
---	  			info.arg1 = RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT
---	  			info.checked = filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT]
---	  			info.func = refreshList
---	  			info.keepShownOnClick = true;
---	  			LibDD:UIDropDownMenu_AddButton(info, level)
-			elseif (menuList == filterStateID) then
-				local info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_DEAD"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_DEAD
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_DEAD]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
-	  			
-	  			info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_FILTERED"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_FILTERED
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_FILTERED]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
-	  			
-	  			info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = AL["EXPLORER_FILTER_WITHOUT_COLLECTIBLES"]
-	  			info.arg1 = RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES
-	  			info.checked = filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES]
-	  			info.func = refreshList
-	  			info.keepShownOnClick = true;
-	  			LibDD:UIDropDownMenu_AddButton(info, level)
+			RSConfigDB.SetSearchingMounts(true)
+			filters[filterKey] = true
+		end
+			
+		return MenuResponse.Refresh;
+	end)
+	
+	local petsFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_PETS"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey)
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DROP_PETS)
+	petsFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingPets(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetSearchingPets(true)
+			filters[filterKey] = true
+		end
+			
+		return MenuResponse.Refresh;
+	end)
+	
+	local toysFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_TOYS"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey)
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DROP_TOYS)
+	toysFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingToys(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetSearchingToys(true)
+			filters[filterKey] = true
+		end
+			
+		return MenuResponse.Refresh;
+	end)
+	
+	local appearancesFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_APPEARANCES"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey)
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DROP_APPEARANCES)
+	appearancesFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingAppearances(false)
+			filters[filterKey] = nil
+			
+			-- Also disables searching for appearances for the current class
+			filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] = false
+			RSConfigDB.SetSearchingClassAppearances(false)
+		else
+			RSConfigDB.SetSearchingAppearances(true)
+			filters[filterKey] = true
+		end
+		
+		return MenuResponse.Refresh;
+	end)
+	
+	local appearancesClassFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_CLASS_APPEARANCES"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey)
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES)
+	appearancesClassFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingClassAppearances(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetSearchingClassAppearances(true)
+			filters[filterKey] = true
+		end
+		
+		return MenuResponse.Refresh;
+	end)
+	appearancesClassFilter:SetEnabled(function() return RSConfigDB.IsSearchingAppearances() end)
+
+	local drakewatcherFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_DRAKEWATCHER"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey)
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER)
+	drakewatcherFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingDrakewatcher(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetSearchingDrakewatcher(true)
+			filters[filterKey] = true
+		end
+		
+		return MenuResponse.Refresh;
+	end)
+	
+	local itemGroups = RSCollectionsDB.GetItemGroups()
+	if (itemGroups) then
+		for groupKey, groupName in pairs (itemGroups) do
+			if (RSCollectionsDB.HasGroupItems(groupKey)) then
+				local customFilter = collectionsSubmenu:CreateRadio(string.format(AL["EXPLORER_FILTER_CUSTOM"], groupName), 
+					function(filterKey) return filters[filterKey] end, 
+					function(filterKey)
+						-- Overriden by SetResponder
+					end,
+					string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey))
+				customFilter:SetResponder(function(filterKey)
+					if (filters[filterKey]) then
+						RSConfigDB.SetSearchingCustom(groupKey, false)
+						filters[filterKey] = nil
+					else
+						RSConfigDB.SetSearchingCustom(groupKey, true)
+						filters[filterKey] = true
+					end
+					
+					return MenuResponse.Refresh;
+				end)
 			end
 		end
- 	end)
+	end
 
-	LibDD:UIDropDownMenu_SetText(dropDown, AL["EXPLORER_FILTERS"])
+	-- State menu
+	local stateSubmenu = rootDescription:CreateButton(AL["EXPLORER_FILTER_STATE"]);
+	local deadFilter = stateSubmenu:CreateRadio(AL["EXPLORER_FILTER_DEAD"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey) 
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DEAD)
+	deadFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetShowDead(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetShowDead(true)
+			filters[filterKey] = true
+		end
+			
+		return MenuResponse.Refresh;
+	end)
+	
+	local filteredFilter = stateSubmenu:CreateRadio(AL["EXPLORER_FILTER_FILTERED"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey) 
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_FILTERED)
+	filteredFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetShowFiltered(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetShowFiltered(true)
+			filters[filterKey] = true
+		end
+			
+		return MenuResponse.Refresh;
+	end)
+	
+	local noCollectiblesFilter = stateSubmenu:CreateRadio(AL["EXPLORER_FILTER_WITHOUT_COLLECTIBLES"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey) 
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES)
+	noCollectiblesFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetShowWithoutCollectibles(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetShowWithoutCollectibles(true)
+			filters[filterKey] = true
+		end
+			
+		return MenuResponse.Refresh;
+	end)
 end
 
-local function ContinentDropDownMenu_Initialize(self)
-	local mainFrame = self.mainFrame
-	local dropDown = self.ContinentDropDown
+local function ContinentDropDownMenu_SetupMenu(dropDown, rootDescription)
 	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC]
+	
+	local continentsSorted = { }
+   	for continentID, _ in pairs(currentContinentDropDownValues) do
+   		table.insert(continentsSorted, continentID)
+   	end
+	MapByName_Sort(continentsSorted)
+	
+	-- Continents submenu
+	for _, continentID in ipairs(continentsSorted) do
+		local continentName = RSMapDB.GetMapName(continentID)
+		if (continentName) then
+			local continentSubmenu = rootDescription:CreateRadio(continentName, 
+				function(continentID) return continentID == RSConfigDB.GetExplorerContinenMapID() end, 
+				function(continentID) end,
+				continentID)
 				
-	LibDD:UIDropDownMenu_SetWidth(dropDown, 200)
-	LibDD:UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)
-		if ((level or 1) == 1) then
-			local continentsSorted = { }
-		   	for continentID, _ in pairs(currentContinentDropDownValues) do
-		   		table.insert(continentsSorted, continentID)
-		   	end
-			MapByName_Sort(continentsSorted)
-			   	
-	    	for _, continentID in ipairs(continentsSorted) do
-	    		local continentName = RSMap.GetMapName(continentID)
-				if (continentName) then
-					-- Add continent list
-		  			local info = LibDD:UIDropDownMenu_CreateInfo()
-		  			info.text = continentName
-		  			info.checked = continentID == RSConfigDB.GetExplorerContinenMapID()
-		  			info.menuList = continentID
-		  			info.hasArrow = true
-		  			LibDD:UIDropDownMenu_AddButton(info)
-		  		end
-	    	end
-	    else
-	    	for continentID, mapIDs in pairs(currentContinentDropDownValues) do
-	    		if (continentID == menuList) then
-	    			for _, mapID in ipairs (mapIDs) do
-						local mapName = RSMap.GetMapName(mapID)
-		
-		  				local info = LibDD:UIDropDownMenu_CreateInfo()
-			  			info.text = mapName
-			  			info.arg1 = mapName
-			  			info.arg2 = mapID
-			  			info.checked = mapID == RSConfigDB.GetExplorerMapID()
-			  			info.func = function(self, mapName, mapID)
-			  				RSConfigDB.SetExplorerContinentMapID(menuList)
-			  				RSConfigDB.SetExplorerMapID(mapID)
-			  				LibDD:UIDropDownMenu_SetText(dropDown, mapName)
-			  				LibDD:CloseDropDownMenus()
-			  				
-			  				-- Refresh list
-			  				mainFrame.RareNPCList:UpdateRareList()
-			  			end
-			  			LibDD:UIDropDownMenu_AddButton(info, level)
+			-- Maps submenu
+			for mapContinentID, mapIDs in pairs(currentContinentDropDownValues) do
+				if (continentID == mapContinentID) then
+					for _, mapID in ipairs (mapIDs) do
+						local mapName = RSMapDB.GetMapName(mapID)
+						
+						continentSubmenu:CreateRadio(mapName, 
+							function(mapID) return mapID == RSConfigDB.GetExplorerMapID() end, 
+							function(mapID) 
+								RSConfigDB.SetExplorerContinentMapID(continentID)
+			  					RSConfigDB.SetExplorerMapID(mapID)
+			  					
+			  					-- Refresh list
+			  					dropDown:GetParent().mainFrame.RareNPCList:UpdateRareList()
+							end,
+							mapID)
 			  		end
-	  			end
-	  		end
-	    end
- 	end)
+				end
+			end
+  		end
+	end
 end
 
 function RSExplorerFilters:Initialize(mainFrame)
@@ -403,26 +443,19 @@ function RSExplorerFilters:Initialize(mainFrame)
 		mainFrame:Refresh()
 	else
 		self.mainFrame = mainFrame
-		self.FilterDropDown = LibDD:Create_UIDropDownMenu("FilterDropDown", self)
-		self.FilterDropDown:SetPoint("LEFT", 0, 1)
-		self.ContinentDropDown = LibDD:Create_UIDropDownMenu("ContinentDropDown", self)
-		self.ContinentDropDown:SetPoint("LEFT", self.FilterDropDown, "RIGHT", -10, 0)
-		FilterDropDownMenu_Initialize(self)
-		PopulateContinentDropDown(self.mainFrame, self.ContinentDropDown)
-		ContinentDropDownMenu_Initialize(self)
 		
-		self.LockCurrentZone = CreateFrame("CheckButton", "LockCurrentZone", self, "ChatConfigCheckButtonTemplate");
-		self.LockCurrentZone:SetPoint("LEFT", self.ContinentDropDown, "RIGHT", -10, 0)
-		LockCurrentZoneText:SetText(AL["EXPLORER_LOCK_CURRENT_ZONE"])
-		self.LockCurrentZone.tooltip = AL["EXPLORER_LOCK_CURRENT_ZONE_DESC"]
-		self.LockCurrentZone:SetScript("OnEnter", function(self)
-			mainFrame:ShowTooltip(self)
-		end)
-		self.LockCurrentZone:SetScript("OnLeave", function(self)
-			mainFrame:HideTooltip(self)
-		end)
-		self.LockCurrentZone:SetChecked(RSConfigDB.IsLockingCurrentMap())
-		self.LockCurrentZone.func = function(self, checked)
+		self.FilterDropDown:SetText(AL["EXPLORER_FILTERS"]);
+		self.FilterDropDown:SetupMenu(FilterDropDownMenu_SetupMenu)
+		self.FilterDropDown:SetUpdateCallback(function() mainFrame:Refresh() end)
+		
+		self.ContinentDropDown:SetDefaultText(AL["EXPLORER_NO_RESULTS"])
+		PopulateContinentDropDown(self.mainFrame, self.ContinentDropDown)
+		self.ContinentDropDown:SetupMenu(ContinentDropDownMenu_SetupMenu)
+		
+		self.LockCurrentZoneCheckButton.Text:SetText(AL["EXPLORER_LOCK_CURRENT_ZONE"])
+		self.LockCurrentZoneCheckButton.tooltip = AL["EXPLORER_LOCK_CURRENT_ZONE_DESC"]
+		self.LockCurrentZoneCheckButton:SetChecked(RSConfigDB.IsLockingCurrentMap())
+		self.LockCurrentZoneCheckButton.func = function(self, checked)
 			RSConfigDB.SetLockingCurrentMap(checked)
 		end
 		
@@ -535,8 +568,6 @@ function RSExplorerRareList:Initialize(mainFrame)
 	end
 	
 	self.mainFrame = mainFrame
-	local _, _, classIndex = UnitClass("player");
-	self.classIndex = classIndex
 	self.listScroll.update = function() self:UpdateData(); end;
 	self.listScroll.dynamic = function(offset) return RSExplorerRareList_GetTopButton(self, offset) end;
 
@@ -577,8 +608,22 @@ function RSExplorerRareList:AddFilteredRareToList(npcID, npcInfo, npcName)
 		else
 			self.raresListInfo[npcID].hasMissingToy = false
 		end
-		if (collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.APPEARANCE] and RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.APPEARANCE][self.classIndex]) > 0) then
-			self.raresListInfo[npcID].hasMissingAppearance = true
+		if (RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+			if (RSConfigDB.IsSearchingClassAppearances()) then
+				local found = false
+				for _, itemID in pairs(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+					if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+						found = true
+						break
+					end
+				end
+				
+				if (found) then
+					self.raresListInfo[npcID].hasMissingAppearance = true
+				end
+			else
+				self.raresListInfo[npcID].hasMissingAppearance = true
+			end
 		else
 			self.raresListInfo[npcID].hasMissingAppearance = false
 		end
@@ -638,8 +683,17 @@ function RSExplorerRareList:UpdateRareList()
 						self:AddFilteredRareToList(npcID, npcInfo, npcName)
 					end
 								
-					if (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE][self.classIndex]) > 0) then
-						self:AddFilteredRareToList(npcID, npcInfo, npcName)
+					if (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+						if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
+							for _, itemID in pairs(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+								if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+									self:AddFilteredRareToList(npcID, npcInfo, npcName)
+									break
+								end
+							end
+						else
+							self:AddFilteredRareToList(npcID, npcInfo, npcName)
+						end
 					end
 								
 					if (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
@@ -656,8 +710,17 @@ function RSExplorerRareList:UpdateRareList()
 						self:AddFilteredRareToList(npcID, npcInfo, npcName)
 					end
 								
-					if (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES] and ((not collectionsLoot or not collectionsLoot[npcID]) or (collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE][self.classIndex]) == 0))) then
-						self:AddFilteredRareToList(npcID, npcInfo, npcName)
+					if (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES]) then
+						if (not collectionsLoot or not collectionsLoot[npcID]) then
+							self:AddFilteredRareToList(npcID, npcInfo, npcName)
+						elseif (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+							for _, itemID in pairs(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+								if (not RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+									self:AddFilteredRareToList(npcID, npcInfo, npcName)
+									break
+								end
+							end
+						end
 					end
 				end
 			else
@@ -875,15 +938,7 @@ function RSExplorerRareList:AddItems(parentFrame, itemType, customGroupKeys)
 	
 	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC]
 	if (collectionsLoot and collectionsLoot[self.selectedNpcId]) then
-		local itemIDs = nil
-		if (itemType == RSConstants.ITEM_TYPE.APPEARANCE and collectionsLoot[self.selectedNpcId][itemType]) then
-			-- Don't nest IFs!!
-			if (collectionsLoot[self.selectedNpcId][itemType][self.classIndex]) then
-				itemIDs = collectionsLoot[self.selectedNpcId][itemType][self.classIndex]
-			end
-		else
-			itemIDs = collectionsLoot[self.selectedNpcId][itemType]
-		end
+		local itemIDs = collectionsLoot[self.selectedNpcId][itemType]
 		
 	    if (RSUtils.GetTableLength(itemIDs) > 0) then
 			local xOffset = 0
@@ -905,44 +960,47 @@ function RSExplorerRareList:AddItems(parentFrame, itemType, customGroupKeys)
 	    	end
    
 	    	for _, itemID in ipairs(itemIDs) do
-	    		local _, _, _, _, icon, _, _ = C_Item.GetItemInfoInstant(itemID)
-	    		local lootItem = mainFrame.lootItemsPool:Acquire();
-	    		
-	    		if (math.fmod(numColumn, maxItemsPerRow) == 0) then
-	    			xOffset = xOffset + 10
-	    		else
-	    			xOffset = xOffset + lootItem:GetWidth() + 2
-	    		end
-	    		
-	    		lootItem.itemID = itemID
-	    		lootItem.Icon:SetTexture(icon)
-	    		lootItem.isMount = itemType == RSConstants.ITEM_TYPE.MOUNT
-	    		lootItem.isPet = itemType == RSConstants.ITEM_TYPE.PET
-	    		lootItem.istoy = itemType == RSConstants.ITEM_TYPE.TOY
-	    		lootItem.isDrakewatcher = itemType == RSConstants.ITEM_TYPE.DRAKEWATCHER
-	    		lootItem.isAppearance = itemType == RSConstants.ITEM_TYPE.APPEARANCE
-	    		lootItem.isCustom = RSUtils.Contains(customGroupKeys, itemType)
-	    		
-	    		lootItem:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", xOffset, yOffset)
-	    		lootItem:Show()
-	    		
-	    		numColumn = numColumn + 1
-	    		
-	    		if (math.fmod(numColumn, maxItemsPerRow) == 0) then
-    				numRow = numRow + 1
-    				if (numRow == maxLines) then	
-    					break
-    				end
-    				
-    				xOffset = 0
-    				numColumn = 0
-    				if (numRow > 1 and not lootItem.isAppearance and not lootItem.isCustom) then			
-		    			break
-		    		else	
-		    			maxItemsPerRow = 8
-		    			yOffset = yOffset - lootItem:GetHeight() - 2 
+	    		-- If appearance only add if not filtering by class
+	    		if (itemType ~= RSConstants.ITEM_TYPE.APPEARANCE or not RSConfigDB.IsSearchingClassAppearances() or RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+		    		local _, _, _, _, icon, _, _ = C_Item.GetItemInfoInstant(itemID)
+		    		local lootItem = mainFrame.lootItemsPool:Acquire();
+		    		
+		    		if (math.fmod(numColumn, maxItemsPerRow) == 0) then
+		    			xOffset = xOffset + 10
+		    		else
+		    			xOffset = xOffset + lootItem:GetWidth() + 2
 		    		end
-    			end
+		    		
+		    		lootItem.itemID = itemID
+		    		lootItem.Icon:SetTexture(icon)
+		    		lootItem.isMount = itemType == RSConstants.ITEM_TYPE.MOUNT
+		    		lootItem.isPet = itemType == RSConstants.ITEM_TYPE.PET
+		    		lootItem.istoy = itemType == RSConstants.ITEM_TYPE.TOY
+		    		lootItem.isDrakewatcher = itemType == RSConstants.ITEM_TYPE.DRAKEWATCHER
+		    		lootItem.isAppearance = itemType == RSConstants.ITEM_TYPE.APPEARANCE
+		    		lootItem.isCustom = RSUtils.Contains(customGroupKeys, itemType)
+		    		
+		    		lootItem:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", xOffset, yOffset)
+		    		lootItem:Show()
+		    		
+		    		numColumn = numColumn + 1
+		    		
+		    		if (math.fmod(numColumn, maxItemsPerRow) == 0) then
+	    				numRow = numRow + 1
+	    				if (numRow == maxLines) then	
+	    					break
+	    				end
+	    				
+	    				xOffset = 0
+	    				numColumn = 0
+	    				if (numRow > 1 and not lootItem.isAppearance and not lootItem.isCustom) then			
+			    			break
+			    		else	
+			    			maxItemsPerRow = 8
+			    			yOffset = yOffset - lootItem:GetHeight() - 2 
+			    		end
+	    			end
+	    		end
 	    	end
  			
 	    	-- Custom settings save current grid properties
@@ -1328,30 +1386,24 @@ function RSExplorerGroupListButton_OnClick(self, button)
 	end
 end
 
-local function LootGroupDropDown_Initialize(dropDown)
+local function LootGroupDropDown_SetupMenu(dropDown, rootDescription)
 	local itemGroups = RSCollectionsDB.GetItemGroups()
-
-	LibDD:UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)
-    	for key, name in pairs(itemGroups) do
-    		if (continentID == menuList) then
-				local info = LibDD:UIDropDownMenu_CreateInfo()
-	  			info.text = name
-	  			info.arg1 = name
-	  			info.arg2 = key
-	  			info.func = function(self, name, key)
-	  				dropDown.selectedGroupKey = key
-					LibDD:UIDropDownMenu_SetText(dropDown, name)
-	  			end
-  				info.notCheckable = true
-	  			LibDD:UIDropDownMenu_AddButton(info)
-	  		end
-  		end
- 	end)
- 	
+	
+	for key, name in pairs(itemGroups) do
+		rootDescription:CreateRadio(name, 
+			function(key)
+				return dropDown.selectedGroupKey == key
+			end, 
+			function(key)
+				dropDown.selectedGroupKey = key
+			end,
+			key)
+	end
+	
+	-- Selects the first value
  	if (not dropDown.selectedGroupKey) then
 	 	for key, name in pairs (itemGroups) do
 			dropDown.selectedGroupKey = key
-			LibDD:UIDropDownMenu_SetText(dropDown, name)
 			break
 		end
 	end
@@ -1363,7 +1415,7 @@ function RSExplorerLoot:AddNewGroup(editbox)
 		local key = RSCollectionsDB.AddItemGroup(value)
 		if (key) then
 			editbox:GetParent().LootGroupDropDown.selectedGroupKey = key
-			LibDD:UIDropDownMenu_SetText(editbox:GetParent().LootGroupDropDown, value)
+			editbox:GetParent().LootGroupDropDown:GenerateMenu()
 			editbox:SetText("")
 			editbox:ClearFocus()
 			self:UpdateGroupList()
@@ -1381,8 +1433,7 @@ function RSExplorerLoot:EditGroupName(editbox)
 	
 	-- Refresh group dropdown if selected
 	if (self.ControlFrame.LootGroupDropDown.selectedGroupKey == self.GroupList.selectedGroup) then
-		LootGroupDropDown_Initialize(controlFrame.LootGroupDropDown)
-		LibDD:UIDropDownMenu_SetText(controlFrame.LootGroupDropDown, newGroupName)
+		controlFrame.LootGroupDropDown:GenerateMenu()
 	end
 	
 	self:UpdateGroupList()
@@ -1397,7 +1448,7 @@ function RSExplorerLoot:DeleteGroup(buttonFrame, button)
 			-- Selects the first item in the list
 			for key, name in pairs(RSCollectionsDB.GetItemGroups()) do
 				mainFrame.ControlFrame.LootGroupDropDown.selectedGroupKey = key
-				LibDD:UIDropDownMenu_SetText(mainFrame.ControlFrame.LootGroupDropDown, name)
+				mainFrame.ControlFrame.LootGroupDropDown:GenerateMenu()
 				break
 			end
 			
@@ -1634,14 +1685,10 @@ function RSExplorerLoot:Initialize(mainFrame)
 	
 	-- Control panel
 	self.ControlFrame.LootGroupLabel:SetText(AL["EXPLORER_CUSTOM_ITEMS_GROUP"])
-	self.ControlFrame.LootGroupDropDown = LibDD:Create_UIDropDownMenu("LootGroupDropDown", self)
-	LibDD:UIDropDownMenu_SetWidth(self.ControlFrame.LootGroupDropDown, self.ControlFrame.LootGroupLabel:GetWidth())
-	self.ControlFrame.LootGroupDropDown:SetPoint("TOPLEFT", self.ControlFrame, -5, -15)
 	self.ControlFrame.LootNewGroupLabel:SetText(AL["EXPLORER_CUSTOM_ITEMS_ADD_GROUP"])
-	self.ControlFrame.LootGroupDropDown:SetScript("OnEnter", function(self) mainFrame:ShowTooltip(self, AL["EXPLORER_CUSTOM_ITEMS_GROUP_DESC"]) end)
-	self.ControlFrame.LootGroupDropDown:SetScript("OnLeave", function(self) mainFrame:HideTooltip(self) end)
+	self.ControlFrame.LootGroupDropDown.tooltip = AL["EXPLORER_CUSTOM_ITEMS_GROUP_DESC"]
+	self.ControlFrame.LootGroupDropDown:SetupMenu(LootGroupDropDown_SetupMenu)
 	self.ControlFrame.NewGroup.tooltip = AL["EXPLORER_CUSTOM_ITEMS_ADD_GROUP_DESC"]
-	LootGroupDropDown_Initialize(self.ControlFrame.LootGroupDropDown)
 	self.ControlFrame.ItemListLabel:SetText(AL["EXPLORER_CUSTOM_ITEMS_LIST"])
 	self.ControlFrame.ItemList.tooltip = AL["EXPLORER_CUSTOM_ITEMS_LIST_DESC"]
 	
@@ -1698,7 +1745,6 @@ function RSExplorerMixin:HideCustomLootPanels()
 	self.CustomLoot.background2:Hide()
 	self.CustomLoot.Border:Hide()
 	self.CustomLoot.ControlFrame:Hide()
-	self.CustomLoot.ControlFrame.LootGroupDropDown:Hide()
 	self.CustomLoot.GroupList:Hide()
 	self.CustomLoot.GroupInfo:Hide()
 	
@@ -1714,7 +1760,6 @@ function RSExplorerMixin:ShowCustomLootPanels()
 	self.CustomLoot.background2:Show()
 	self.CustomLoot.Border:Show()
 	self.CustomLoot.ControlFrame:Show()
-	self.CustomLoot.ControlFrame.LootGroupDropDown:Show()
 	self.CustomLoot.GroupList:Show()
 	self.CustomLoot.GroupInfo:Show()
 	
@@ -1751,6 +1796,7 @@ function RSExplorerMixin:Initialize()
 	filters[RSConstants.EXPLORER_FILTER_DROP_PETS] = RSConfigDB.IsSearchingPets()
 	filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] = RSConfigDB.IsSearchingToys()
 	filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] = RSConfigDB.IsSearchingAppearances()
+	filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] = RSConfigDB.IsSearchingClassAppearances()
 	filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] = RSConfigDB.IsSearchingDrakewatcher()
 	filters[RSConstants.EXPLORER_FILTER_DEAD] = RSConfigDB.IsShowDead()
 	filters[RSConstants.EXPLORER_FILTER_FILTERED] = RSConfigDB.IsShowFiltered()
@@ -1768,8 +1814,8 @@ function RSExplorerMixin:Initialize()
 end
 
 function RSExplorerMixin:OnShow()
-    -- check if there is a new database and the whole scan should be done or if only the current class is missing in the scan
-    if (not RSCollectionsDB.IsCollectionsScanDoneWithCurrentVersion() or not RSCollectionsDB.IsCollectionsScanByClassDone()) then
+    -- check if there is a new database and it requires a new scan
+    if (not RSCollectionsDB.IsCollectionsScanDoneWithCurrentVersion()) then
     	self.ScanRequired.ScanRequiredText:SetText(AL["EXPLORER_SCAN_REQUIRED"])
     	self.ScanRequired.StartScanningButton:SetText(AL["EXPLORER_START_SCAN"])
     	self.ScanRequired.StartScanningButton:Show()		

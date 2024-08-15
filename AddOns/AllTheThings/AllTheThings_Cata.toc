@@ -1,6 +1,6 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.3
+## Version: 4.0.4
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsAD, AllTheThingsSettings, AllTheThingsAuctionData, AllTheThingsDebugData, ATTClassicSettings, ATTClassicAuctionData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter, ATTClassicSettingsPerCharacter
 ## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32

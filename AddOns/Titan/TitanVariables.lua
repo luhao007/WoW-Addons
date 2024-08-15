@@ -40,16 +40,6 @@ if (GetLocale() == "ruRU") then
 end
 local TPC = TITAN_PANEL_CONSTANTS -- shortcut
 
---[===[ Titan
-NAME: Titan bar overview
-DESC:
--- 3 button frames are used to create a Titan bar:
--- the 'display' button frame - the bar itself,
--- the 'hider' which is a blank 1/2 height bar to capture the cursor moving to the bar,
--- and the 'auto hide' plugin displaying the 'push pin' button.
-:DESC
---]===]
-
 --[===[ Var
 TitanBarData table.
 The table holds:

@@ -1,6 +1,6 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: MysticalOS
-## Version: r35
+## Version: r36
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMRaidsBfA_AllSavedVars

@@ -1,106 +1,205 @@
 # AllTheThings
 
-## [4.0.3](https://github.com/DFortun81/AllTheThings/tree/4.0.3) (2024-08-04)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/TWW-4.0.2...4.0.3) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [4.0.4](https://github.com/DFortun81/AllTheThings/tree/4.0.4) (2024-08-11)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.3...4.0.4) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
-- att version name will no longer include tww as every version of wow is supported  
-- Fixed formating.  
-- Refined TWW world drops to only greys for 11.0.0  
-- Some fixes before release  
-- Urga: Removed argent tournament lances from being collectable as transmog in Cata Classic.  
+- parse goes bzzz  
+- useless pvp tags  
+- Azerite essences from Mythic dungeons should no longer show as removed on the tooltip.  
+- TWW: Manual override for Trapped Trove achievement  
+- TWW: Treasures of Isle of Dorn HQT typo fix  
+- TWW: Fixed Treasures of Azj-Kahet achievement  
+- updated timelines for remix. ill add the exact number when tis time, but i already updated the comment  
+- SOD: Added all of the Sunken Temple crafted epics.  
+- SOD: Added Skyrider's Masterwork Stormhammer.  
+- SOD: Added Leather-Reinforced Runecloth Bag.  
+- SOD: Added Mastercrafted Shifting Cloak.  
+- SOD: Added the Epic Crafted Argent Dawn items to the Quartermaster. Marked Dawnbringer Shoulders as available in SOD.  
+- TWW: this is fine  
+- Adjusted the Argent Quartermasters so that the primary source of the data comes from EPL and uses a symlink to mirror data to the other zones. (This will prevent Tirisfall Glades from showing up for Alliance, yes, there's a vendor there, but it's in the middle of a Horde camp. lul)  
+- Cleared few source names.  
+- SOD: Added Embroidered Belt of the Archmage.  
+- Added all SOD sources to Retail as NYI.  
+- Classic: Added some TCG items that were created in Classic and added in TBC to NYI.  
+- Sourced a bunch of classic NYI items.  
+- Charred Fishing Pole no longer explicitly marked collectible.  
+- Added a timeline to the Sourceless header in NYI.  
+- SOD: Added Brilliant Chromatic Cloak.  
+- Retail: The SOD quest "Sweet Serenity" no longer appears in Winterspring. (after parsing)  
+- SOD: Added Girdle of Arcane Insight.  
+- SOD: Added Swift Flight Vambraces.  
+- SOD: The faction too...  
+- SOD: The Hydraxian Waterlords reputation now appears in the mini list for Searing Gorge.  
+- SOD: Fixed the new Sulfuron Hammer recipe not having a reference to its spellID.  
+- Seed of Life also takes place in Moonglade.  
+- TWW: quests, delves and rares in Isle of Dorn zone  
+- Some fixes/cleanup to Heroic/Epic TWW content  
+- Retail: Total Cost calculations now includes Warband Bank quantity towards the 'progress', and checkmark indication (i.e. do you have enough available) now includes Reagent Bank amount (Vendors accept currency items from Reagent Bank, but not Bank/WB Bank)  
+- SOD: Added the updated The Balance of Light and Shadow quest for Priests.  
+- SOD: Added the NYI reitemized version of Blade of Hanna.  
+- SOD: Added Drape of the Fire Lord to Ragnaros.  
+- SOD: Added the reitemized version of Malicious Axe. It does not have any drop data.  
+- SOD: Added Ebon Hilt of Marduk, though currently it doesn't have any drop data.  
+- SOD: Added reitemized loot tables for Dire Maul. (Knot's chest in progress...)  
+- TWW: Earthen bones (need another look)  
+- Added region specific helper functions.  
+- SOD: Added Incandescent Mooncloth Robe.  
+- SOD: Added UBRS reitemized loot tables.  
+    SOD: Added Fiery Plate Gauntlets of the Hidden Technique.  
+- SOD: Updated LBRS reitemized loot tables.  
+- SOD: Added Masterwork Volcanic Leggings & Shoulders.  
+- Timeless Isle objects  
+- SOD: Added Masterwork Volcanic Breastplate.  
+- SOD: Bloodpetal Zapper is also not available.  
+- Added an additional path.  
+- Fixed a bug with mini lists for outdoor portions of instances, particularly for Maraudon's winding entrance cavern. (Might also fix WC?)  
+- Retail: Criteria-based automatic headers now use the matching icon of their Achievement  
+- Adventurer's Lucky ring has no faction loyalties  
+- Wago file update  
+- SOD: The Blood Moon faction probably isn't one that you can get reputation with.  
+- SOD: Bloodpetal Sprouts quest from ST is not available.  
+- Sort NYI Midsummer quest, fixes #1672  
+- SOD: Adjusted some phase specific drops.  
+- SOD: Boots of the Shrieker comes back as Retrieving data. (super removed from game)  
+- SOD: Added reitemized loot drops for Scholomance.  
+- Added the Scourge Data object.  
+- SOD: Added reitemized loot drops for Stratholme.  
+- TWW: Isle of Dorn little fixes  
+- SOD: Added the Desecration blacksmithing recipe.  
+- SOD: Added reitemized T0 bracers and belts.  
+- TWW: Hallowfall finished, probably...  
+    Besides tons of hqts that need to find at keyflame area with buffs .-.  
+- SOD: Added Deadly Heartseeker.  
+- SOD: Added all of the Timbermaw Epic Crafted Item Upgrades.  
+- SOD: Added Enchant Shield - Law of Nature.  
+- Updated Meilosh to use the bubbleDownClassicRep function.  
+- SOD: Added the upgrade Sweet Serenity & Finely-Enchanted Battlehammer.  
+    Attached source quest requirements to the Weaponsmith Mastery headers.  
+- SOD: Added Tranquility blacksmithing recipe.  
+- SOD: Added a totally necessary duplicate version of Piccolo of the Flaming Fire.  
+- Added missing object info for Enchanted Scarlet Thread.  
+- SOD: Added all of the Epic Crafted Item upgrades to Lokhtos Darkbargainer.  
+- SOD: Nightfall and Annihiliator are both not available in SOD per Blizzard's design decision.  
+- Reorganize item  
+- SOD: Added new recipes for Enchant Cloak - Greater Fire Resistance / Enchant Cloak - Greater Nature Resistance.  
+- Source Depleted Violet Vapors, fixes #1721  
+- SOD: Added Conductive Shield Coating for Enchanting.  
+- SOD: Added Hardened Black Dragonscale Breastplate.  
+- SOD: Added Hardened Black Dragonscale Shoulders.  
+- SOD: Added Hardened Black Dragonscale Leggings.  
+- Sneaky Legion objects, found one more  
+- SOD: Added reitemized instance drops for BRD.  
+- Some more Legion treasures that are connected to achievement criteria + coords for dimensional rifting  
+- SOD: The Invulnerable Mail recipe that was supposed to be replaced by a new reitemized version still drops.  
+- SOD: Added Tempest Gauntlets.  
+- TWW: Hallowfall (almost) done with quests  
+- SOD: Added the Warcrest of the Great Chief.  
+- SOD: Added Tempered Dark Iron Plate.  
+- Cleaned up Azj Quests  
+- Merge pull request #1719 from nwjgit/dfPreLaunchHorde  
+    Add missing attributes for DF pre-launch  
+- Merge pull request #1722 from LvWind/master  
+    Update cn.lua  
+- - Added T16 LFR/N/H/M Tier Tokens to BoA DB  
+- - Tier 15 LFR/N/H Tier Tokens added to BoA DB  
+- - Added T14 LFR/N/H Tier Tokens to BoA DB  
+- Added Highmountain Tauren hunter weapon.  
+- Added New Mount for Pre Patch!  
+- Sort Recipes  
+- Harvest: 11.0.2.56044  
+- Harvest: 11.0.2.55959  
+- Harvest: 11.0.0.55960  
+- Harvest: 11.0.0.55945  
+- Havest: 11.0.0.55933  
 - Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
-- Urga: Frayed armour is no longer available, until sold in Boralus during BfA.  
-- added Adventurer's Lucky Ring  
-    but it coulld be potentionally drop for both faction, dunno  
-- --Lore has been added to a few zones  
-    --Timeline so that Khaz Algar header works and Intro Quests are put under it.  
-    -- Dragon Isles WQs Deleted  
-    -- Added Aegwynn Gallery and Telogrus Rift Constants  
-    -- 11\_PH\_PREPATCH Timeline is now renamed to 11\_0_0  
-    -- Some Timeline Clean Up  
-    -- New Timelines added for Midnight and SoD!  
-- Some timelining and last elitepvp reward  
-- Reparsing Myr so upset  
-- Happy Crieve = Happy Life. Legion PvP Seasons Headers upgrade to new version  
-- Reparsed for 11.0.2  
-- SOD: Added the Engrave Cloak - Shield of Righteousness rune for Paladins.  
-- Ancient Spirit also takes place in Ashenvale.  
-- Source Recruit Rings  
-- Horde necks & other small fixes  
-- SOD: Demonfall Canyon actually requires the trinket to be equipped to zone in.  
-- Another neck :weary:  
-- Got a neck from radiant event... boooo  
-- Parser: Added an error for empty symlink commands  
-    Retail: Added symlinks for T11 Helm/Shoulder tokens  
-- SOD: Added Demonic Deceptions quest for DFC attunement as well as to the /attunements window.  
-- BFA outdoor zone achievement automation  
-- Reworked remaining "ancient stones of" achievements to the desired style  
-- Classic: Added some missing objectives to Feralas.  
-- Retail: Some additional quest popout revision for Party sync handling  
-- SOD: Haze of Evil also get reworked for no reason. Thanks Blizzard.  
-- Classic Reparsed all DBs.  
-- Classic: Fixed missing SKILL\_ID\_CONVERSION\_TABLE and DataPatch errors.  
-- Retail: reparsed but seems like only this was missing?  
-- Parser: Dynamic Header IDs now only re-writes itself if it changes  
-    Parser: Custom Headers now support "minilist\_ignore" to cause the header to be ignored in hierarchy when rendered into the Minilist  
-    Parser: Custom Headers now support "npcfill" to allow filled content for NPCs when Sourced under a respective Header  
-    Applied necessary Custom header data for ignore/fill headers as were previously hard-coded into ATT  
-- Parser: Converted a lot of compiled constant data into referenced Lua data for easier future maintenance  
-    Parser: Various consolidation and revision  
-- Green Hills of Stranglethorn pages  
-- Parser: Added some field range validations instead of manually checking in code & fixed a couple weird datas that broke those validations  
-- didnt want that change pushed  
-- Parser: Consolidated Ensemble cleanup logic a bit more  
-    Parser: Now warns when a manual Ensemble sym is replaced by automation  
-- Parser: Added a stopwatch for stage prints  
-    Parser: Revised Ensemble Cleanup conceptually so that it can process much faster (potentially other logic can be moved to this format as well)  
-- Bad syntax  
-- 0.1% pvp & m+ are no longer available  
-- wording  
-- James Hyal (2/2) and They Call Him Smiling Jim are mutually exclusive.  
-- Wildkin of Elune goes to Darn, not Winterspring.  
-- Apply the description to the items only.  
-- bubeleledown  
-- updated prepatch event with namechange and removal of level filtering for the low gear  
-- SOD: Blizzard apparently made 'Feathers for Nafien' not give XP by making an exact copy of it instead of... oh I don't know, changing it.  
-- Classic: Minor adjustment to Tier 0.5 quest source quests and their availability.  
-- SOD: Rise, Thunderfury! was actually phase 3 BWL, not 2.  
-- SOD: Oh no, apparently the Field Duty quests are in. Good luck, sodders.  
-- Classic: Slight adjustment to the Field Duty quest.  
-- SOD: Rise, Thunderfury! wasn't in the game until Phase 2 with the release of BWL.  
-- SOD: Adjusted quest availability for Silithus.  
-- SOD: Updated Onyxia's loot table with reitemized drops.  
-- SOD: Um... hello? WoWHead? You're drunk.  
-- SOD: Added the Head of Rend Blackhand.  
-- Fixed prepatch HQTs from being visible in the main list.  
-- DisablePartySync for quests  
-- New Heirloom  
-- zone drops last  
-- groups last  
-- bubbleDown on items not share on headers  
-- Recruits in Alphabet Order  
-- SOD: More Aeonas flavor HQT quests.  
-- Added missing objectives for Timbermaw Ally.  
-- SOD: Malistar's Defender apparently drops from Golemagg. Maybe both? Not enough data.  
-- SOD: Classic Phase adjustments.  
-- Prepatch quests are account wide  
-- Minor prepatch tweaks  
-- Moved the quests from the 'The Silithyst Must Flow' world event into Silithus. No one even on Classic bothered with this event and it isn't big enough to justify being a separate header.  
-- Prepatch weeklies now daily, recruit capes are unrestricted  
-- SOD: Added 'Squire Training' section for Paladins.  
-- SOD: Added the Paladin Squire quest 'Dalton's Quest'.  
-- Tab fix and minor sorting  
-- Scholo is 55, not 58.  
-- Add rewards to Token boxes and weapons to zone drops  
-- SOD: Sunken Temple Class Quests were actually added with Phase 3 of SOD.  
-- Added prepatch vendor items as a zone drops in minilist.  
-- SOD: Added reitemized Tier 1 to the Duke in Molten Core using a fancy new function.  
-- Source prepatch recruit drops  
-- SOD: Updated loot tables for the reitemized Molten Core raid. (not including the tier gear itself, which is purchased from a vendor)  
-- One more formating.  
-- Fixed old formating of Legion PvP Demonic season.  
-- SOD: Added the reitemized Sulfuron Hammer and Sulfuras, Hand of Ragnaros.  
-- SOD: Added all of the Engrave Ring runes added with Phase 4.  
-- SOD: Added the Engrave Ring - Pole Weapon Specialization rune.  
-- SOD: Whoops, wrong itemID.  
-- SOD: Added the vendor 'Pix Xizzix' to Stranglethorn Vale.  
+- Harvest: 4.4.0.56014  
+- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
+- [Cata] Urga: Fixed certain PvP items as not being marked Alliance only.  
+- Harvest: 3.4.3.56030  
+- Harvest: 3.4.3.56011  
+- Harvest: 1.15.3.55917  
+- Fixed formating.  
+- - Added Tier 17 N/H/M tokens to BoA DB  
+- - Added Castle Nathria's Weapon Tokens to BoA DB  
+- - Added Tier 23 LFR/N/H/M tokens to BoA DB  
+- Update cn.lua  
+- [Cata] Urga: Correctly categorised the offhand [Twinblade of the Hakkari].  
+- TWW: another beta run  
+- - Added Tier 13 LFR/N/H tokens to BoA DB  
+- - Added Tier 12 N/H tokens to BoA DB  
+- - Added Tier 11 N/H tokens to BoA DB  
+- - Added Tier 10 10H/25N and 25H tier tokens to BoA DB  
+- - Added Tier 9 ToC Trophy of the Crusade as well as the 3 removed tokens that dropped in the past.  
+- - Added Tier 8 10 and 25 Man Tokens to BoA DB  
+- - Added Tier 7 10 and 25 Man Tokens to BoA DB  
+- - Added Tier 6 Tokens to BoA DB  
+    - Added class tags to T6 Shoulders if BT (Forgot in last push)  
+- - Added class tags to Tier Pieces in BT / Sunwell  
+- - Added "Shared Turbulent" BoA items from Patch 6.1. Currently, don't show contents due to being removed.  Tagged Runawaynow about it to see possible fix  
+- - Added Baleful (WoD) BoA tokens to the BoA database.  Note: This is only the BoA version and not the BoP version.  
+- - Added Tier 5 tokens to BoA DB  
+- Added Cosmic Weapons Cache to the shop.  
+- Restored criteria for Chromatic Calibration: Holo-Gogs achievement (these are not automated)  
+- add missing quests/providers  
+- Quest adjustments  
+- TWW: finally fly out from Azj-Kahet  
+- Sourced Defiled Augment Rune  
+- Adjusted Function Templates file so that it stops showing as having a ton of lua syntax issues  
+- Classic: 'Known By' still shows on Achievements with a spellID  
+- SOD: Added Chipped Drakefire Amulet. (BoA attunement neck for Onyxia's Lair)  
+- Don't show "Known By" on achievements (for some reason some get linked to spellID...)  
+- Retail: Flightpaths are account-wide by Blizzard since 11.0, huzzah!  
+- Cata: Guild achievements no longer appear in the dynamic Achievements category. (unless you are filtering to see them intentionally)  
+- Stealing Supplies had the wrong source quest, Raid on the Kolkar is before it.  
+- TWW: more beta  
+- SOD: Added The Tainted Scar raid featuring Lord Kazzak.  
+- Cata: Guild achievements should no longer appear in the dynamic list.  
+- Moved NYI Cosmetics to the correct file.  
+- SOD: No peaking  
+- Adjustment to previous commit for the Seeker achievement.  
+- Prayer to Elune (2/2) also takes place in Darnassus.  
+- [Cata] Urga: [3000 Quests Completed] now tracks the correct title.  
+- SOD: Added the reitemized version of Enchanter's Cowl.  
+- Update Silithus.lua  
+- Update Silithus.lua  
+- [Cata] Urga: Removed the Twilight Cultist set from being collectable / transmoggable. These items are replaced by transmoggable grey items in 7.1.5.  
+- SOD: Storm Cliffs now shows when you are saved to the instance.  
+- Classic: 'I dunno' response to Runaway.  
+- Classic: Bad global and comment about Holiday sort type for Crieve  
+- SOD: Adjusted the notes on the Delirious Ancients.  
+- Fixed some comments out of alignment  
+- Added the Altar of Suntara.  
+- Reharvested some object data to get more than just english localization data. (consolidation of ObjectDB file soonish)  
+- - Adjusted the T4 tokens so they aren't affected by Classic and only the warband changes.  
+- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
+- - Added Tier 4 tokens to Warband list  
+- [Cata] Urga: Improved incorrect off-hand fixes using filters instead of classes.  
+- SOD: Added the Blackrock Eruption event to Searing Gorge.  
+- [Cata] Urga: Fixed [Arlokk's Claws] not being picked up as a fist weapon.  
+- [Cata] Urga: Fixed Windslicer not being detected as a 1H axe.  
+- SOD: Added the reitemized version of 'A Hero's Reward'.  
+- - Attached the epic cloaks as a cost to the legendary cloaks as they are needed to upgrade to the legendary appearance  
+- - Marked "Sedge Hat of the Englightened" as NYI as it has not been available ever  
+- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
+- [Cata] Urga: Marked Alliance PvP tabards as Alliance only.  
+- TWW: updates to Azj-Kahet a bit with new build  
+- [Cata] Urga: Fixed some Alliance-only PvP Items.  
+- SOD: Transmog class now uses the account wide tracker for Weapons and Cloaks.  
+- Added missing objective for 'The True Masters'.  
+- Classic: Now including "q" for all Classic ItemDBs.  
+- Classic: Slight adjustment to settings layout for the White/Grey filter.  
+- Merge pull request #1714 from ZeChrales/master  
+    Add trash items (white/grey) filtering in Classic  
+- Add trash items (white/grey) filtering  
+- Added missing objectives for Dragonkin Menace.  
+- Added missing objectives for A Host of Evil.  
+- SOD: Added /attcollectedsources for checking sources you own according to Blizzard on SOD by means of collecting it on SOD or Era.  
+- Azshara quest pre-req fix  
+- Classic/SOD: C\_TransmogCollection API is now available.  
+- SOD: Added the Storm Cliffs raid for Azuregos. (World Bosses are now instanced encounters in SOD)  
+- Classic/SOD: Harvested SourceIDs.  
+- Now matching maps against GetInstanceInfo, should the player be inside an instance.  
+- Adjusted the instance class to handle headerID properly when encountered.  
+    Added "zone-text-headerID" to parser for situations where the headerID doesn't match the name of the map, but we still want to match with it.  
+- Added Sharpbeak's Cage objectID.  
+- Moved NYI quest into NYI and added missing object to fix issues with Legion treasure achievements  

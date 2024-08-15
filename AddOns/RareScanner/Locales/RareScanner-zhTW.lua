@@ -3,7 +3,6 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local AL = AceLocale:NewLocale("RareScanner", "zhTW", false);
 
 if AL then
-AL["ALARM_MESSAGE"] = "一個稀有NPC剛剛出現，檢查你的地圖！"
 AL["ALARM_SOUND"] = "稀有NPC的通告聲音"
 AL["ALARM_SOUND_DESC"] = "稀有NPC出現在小地圖上時撥放的聲音。"
 AL["ALARM_TREASURES_SOUND"] = "事件/寶箱的通告聲音"
@@ -234,7 +233,6 @@ AL["GUIDE_SINSTONE_QUEST"] = "罪孽石重複性任務"
 AL["GUIDE_SPECTRAL_KEY"] = "幽魂鑰匙"
 AL["GUIDE_TRANSPORT"] = "傳送點"
 AL["INGAME_WAYPOINTS"] = "遊戲內建路徑點"
-AL["JUST_SPAWNED"] = "%s 剛剛出現了，檢查你的地圖！"
 AL["LEFT_BUTTON"] = "左鍵點擊"
 AL["LOCK_BUTTON_POSITION"] = "鎖定按鈕位置"
 AL["LOCK_BUTTON_POSITION_DESC"] = "啟用後，您將無法通過拖放按鈕來更改按鈕的位置。"

@@ -1,6 +1,6 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: syndenbock
-## Version: 1.8
+## Version: 1.8.1
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: TomTom
 ## SavedVariables: HandyNotes_Pandaria_savedData

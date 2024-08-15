@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 110002
 ## Version: Plater-v583b-Retail
 ## SavedVariables: PlaterDB, PlaterLanguage, PlaterLogs, PlaterBackup
 ## SavedVariablesPerCharacter: PlaterDBChr

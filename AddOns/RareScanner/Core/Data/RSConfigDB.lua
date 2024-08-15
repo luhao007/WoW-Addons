@@ -69,6 +69,22 @@ function RSConfigDB.SetLockingPosition(value)
 	private.db.display.lockPosition = value
 end
 
+function RSConfigDB.GetClickKeybinding()
+	return private.db.display.clickkeybinding
+end
+
+function RSConfigDB.SetClickKeybinding(value)
+	private.db.display.clickkeybinding = value
+end
+
+function RSConfigDB.GetHideKeybinding()
+	return private.db.display.hidekeybinding
+end
+
+function RSConfigDB.SetHideKeybinding(value)
+	private.db.display.hidekeybinding = value
+end
+
 ---============================================================================
 -- Sound options database
 ---============================================================================
@@ -207,6 +223,14 @@ end
 
 function RSConfigDB.SetDisplayingChatMessages(value)
 	private.db.display.displayChatMessage = value
+end
+
+function RSConfigDB.GetChatWindowName()
+	return private.db.display.chatWindowName
+end
+
+function RSConfigDB.SetChatWindowName(value)
+	private.db.display.chatWindowName = value
 end
 
 function RSConfigDB.IsDisplayingTimestampChatMessages()
@@ -1233,6 +1257,14 @@ function RSConfigDB.SetShowingMissingAppearances(value)
 	private.db.loot.showingMissingAppearances = value
 end
 
+function RSConfigDB.IsShowingMissingClassAppearances()
+	return private.db.loot.showingMissingClassAppearances
+end
+
+function RSConfigDB.SetShowingMissingClassAppearances(value)
+	private.db.loot.showingMissingClassAppearances = value
+end
+
 function RSConfigDB.IsShowingMissingDrakewatcher()
 	return private.db.loot.showingMissingDrakewatcher
 end
@@ -1309,6 +1341,14 @@ end
 
 function RSConfigDB.IsSearchingAppearances()
 	return private.db.collections.searchingAppearances
+end
+
+function RSConfigDB.SetSearchingClassAppearances(value)
+	private.db.collections.searchingClassAppearances = value
+end
+
+function RSConfigDB.IsSearchingClassAppearances()
+	return private.db.collections.searchingClassAppearances
 end
 
 function RSConfigDB.SetSearchingDrakewatcher(value)
@@ -1738,4 +1778,104 @@ end
 
 function RSConfigDB.SetShowingAutoGuidanceIcons(value)
 	private.db.map.autoGuidanceIcons = value
+end
+
+---============================================================================
+-- Chat waypoints
+---============================================================================
+
+function RSConfigDB.IsAddingchatTomtomWaypoints()
+	return TomTom and private.db.chat.waypointTomtom
+end
+
+function RSConfigDB.SetAddingchatTomtomWaypoints(value)
+	private.db.chat.waypointTomtom = TomTom and value
+end
+
+function RSConfigDB.IsAddingchatIngameWaypoints()
+	return private.db.chat.waypointIngame
+end
+
+function RSConfigDB.SetAddingchatIngameWaypoints(value)
+	private.db.chat.waypointIngame = value
+end
+
+function RSConfigDB.GetChatTooltipsScale()
+	return private.db.chat.tooltipsScale
+end
+
+function RSConfigDB.SetChatTooltipsScale(value)
+	private.db.chat.tooltipsScale = value
+end
+
+function RSConfigDB.IsShowingChatTooltipsAchievements()
+	return private.db.chat.tooltipsAchievements
+end
+
+function RSConfigDB.SetShowingChatTooltipsAchievements(value)
+	private.db.chat.tooltipsAchievements = value
+end
+
+function RSConfigDB.IsShowingChatTooltipsNotes()
+	return private.db.chat.tooltipsNotes
+end
+
+function RSConfigDB.SetShowingChatTooltipsNotes(value)
+	private.db.chat.tooltipsNotes = value
+end
+
+function RSConfigDB.IsShowingChatTooltipsSeen()
+	return private.db.chat.tooltipsSeen
+end
+
+function RSConfigDB.SetShowingChatTooltipsSeen(value)
+	private.db.chat.tooltipsSeen = value
+end
+
+function RSConfigDB.IsShowingChatTooltipsLoot()
+	return private.db.chat.tooltipsLoot
+end
+
+function RSConfigDB.SetShowingChatTooltipsLoot(value)
+	private.db.chat.tooltipsLoot = value
+end
+
+function RSConfigDB.IsShowingChatTooltipsCommands()
+	return private.db.chat.tooltipsCommands
+end
+
+function RSConfigDB.SetShowingChatTooltipsCommands(value)
+	private.db.chat.tooltipsCommands = value
+end
+
+function RSConfigDB.GetChatLootAchievTooltipsScale()
+	return private.db.chat.tooltipsFilterScale
+end
+
+function RSConfigDB.SetChatLootAchievTooltipsScale(value)
+	private.db.chat.tooltipsFilterScale = value
+end
+
+function RSConfigDB.GetChatLinkColorNpc()
+	return private.db.chat.colorNpc
+end
+
+function RSConfigDB.SetChatLinkColorNpc(value)
+	private.db.chat.colorNpc = value
+end
+
+function RSConfigDB.GetChatLinkColorContainer()
+	return private.db.chat.colorContainer
+end
+
+function RSConfigDB.SetChatLinkColorContainer(value)
+	private.db.chat.colorContainer = value
+end
+
+function RSConfigDB.GetChatLinkColorEvent()
+	return private.db.chat.colorEvent
+end
+
+function RSConfigDB.SetChatLinkColorEvent(value)
+	private.db.chat.colorEvent = value
 end

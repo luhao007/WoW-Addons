@@ -10,11 +10,11 @@ V =
       "Neues Makro", "Zeige nur wenn angelegt", "Begleiterfähigkeit", "Begleiterfähigkeiten", "Zielmarkierungssymbol", "Weltmarkierung", "Markierungssymbole", "Zeige einen Platzhalter wenn nicht verfügbar", "Zauber", "Spielzeug",
       "Spielzeuge", "UI Fenster", "Benutze den höchsten bekannten Rang", "Zonenfähigkeiten",
     }
-    or C == "esES" and { -- 26/34 (76%)
-      "Habilidades", "Usar otros artículos con el mismo nombre", "Mascota de duelo", "Mascotas de duelo", z, "Macro personalizado", z, "Conjunto de equipamientos", "Conjuntos de equipamientos", "Botón de acción extra",
-      "Montura voladora", "Monutra de tierra", z, "Artículo", "Artículos", "Macro", "Macros", "Misceláneo", "Montura", "Monturas",
-      z, "Mostrar sólo al equipar", z, "Habilidades de mascota", "Marcador del mundo", "Marcador del mundo", "Marcadores del mundo", "Mostrar esta rodaja siempre", "Hechizo", "Juegete",
-      "Juguetes", z, z, z,
+    or C == "esES" and { -- 34/34 (100%)
+      "Habilidades", "Usar otros artículos con el mismo nombre", "Mascota de duelo", "Mascotas de duelo", "Calendario", "Macro personalizado", "Montura de Dracoequitación", "Conjunto de equipamiento", "Conjuntos de equipamiento", "Botón de acción extra",
+      "Montura voladora", "Montura terrestre", "Panel de interfaz", "Artículo", "Artículos", "Macro", "Macros", "Misceláneo", "Montura", "Monturas",
+      "Nueva macro", "Mostrar sólo al equipar", "Habilidad de mascota", "Habilidades de mascota", "Marcador de objetivo", "Marcador del mundo", "Marcadores del mundo", "Mostrar un marcador cuando no esté disponible", "Hechizo", "Juguete",
+      "Juguetes", "Paneles de IU", "Usar el rango mas alto", "Habilidades de zona",
     }
     or C == "esMX" and { -- 30/34 (88%)
       "Habilidades", "Usar otros artículos con el mismo nombre", "Mascota de duelo", "Mascotas de duelo", "Calendario", "Macro personalizado", z, "Conjunto de equipamientos", "Conjuntos de equipamientos", "Botón de acción extra",

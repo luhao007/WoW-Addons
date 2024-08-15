@@ -98,6 +98,8 @@ end
 
 --====== WoW localized globals
 -- Should be handled by the WoW extension
+ACCOUNT_QUEST_LABEL = "" -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up soon
+ACCOUNT_BANK_PANEL_TITLE = "" -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up soon
 
 --====== WoW frames
 PetActionBarFrame = {}
@@ -115,6 +117,9 @@ UIPARENT_MANAGED_FRAME_POSITIONS = {}
 FCF_UpdateDockPosition = {}
 TargetFrame_Update = {}
 VideoOptionsFrameOkay_OnClick = {}
+
+C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up soon
+
 
 --====== Convince IDE we know what we are doing
 -- Lua allows table updates but the IDE complains about 'injecting' a field it does not know about.

@@ -374,7 +374,7 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 				RSNotificationTracker.AddNotification(vignetteInfo.id, false, entityID)
 				FlashClientIcon()
 				RSAudioAlerts.PlaySoundAlert(vignetteInfo.atlasName)
-				button:DisplayMessages(vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
+				button:DisplayMessages(entityID, vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
 				return
 			end
 		end
@@ -400,7 +400,7 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 	--------------------------------
 	if (not isNavigating) then
 		FlashClientIcon()
-		button:DisplayMessages(vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
+		button:DisplayMessages(entityID, vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
 		RSAudioAlerts.PlaySoundAlert(vignetteInfo.atlasName)
 	end
 
@@ -531,7 +531,7 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		return
 	end
 	
-	RSLogger:PrintDebugMessage(string.format("Vignette ATLAS [%s]", vignetteInfo.atlasName))
+	--RSLogger:PrintDebugMessage(string.format("Vignette ATLAS [%s]", vignetteInfo.atlasName))
 	
 	local entityID, vignetteInfo = FixVignetteInfo(vignetteInfo)
 	if (not entityID or not vignetteInfo) then
@@ -584,7 +584,7 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		ShowAlert(button, vignetteInfo, isNavigating)
 	-- Otherwise queue and show with a timer
 	else
-		RSLogger:PrintDebugMessage(string.format("Detectado [%s]", GetVignetteInfoGUID(vignetteInfo)))
+		--RSLogger:PrintDebugMessage(string.format("Detectado [%s]", GetVignetteInfoGUID(vignetteInfo)))
 		foundAlerts[GetVignetteInfoGUID(vignetteInfo)] = vignetteInfo
 		
 		if (not BUTTON_TIMER or BUTTON_TIMER:IsCancelled()) then

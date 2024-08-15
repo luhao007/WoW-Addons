@@ -1,6 +1,6 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: foxlit
-## Version: 0.140
+## Version: 0.141
 ## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
 ## LoadOnDemand: 1
 ## SavedVariablesPerCharacter: MasterPlanPC

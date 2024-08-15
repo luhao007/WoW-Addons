@@ -17,6 +17,7 @@ local SkillIcon={
 	[2]=136240,--炼金
 	[3]=134071,--珠宝加工
 	[4]=237171,--铭文
+	[5]=135811,--采矿熔炼
 }
 local SkillData={
 	["event"]="TRADE_SKILL_UPDATE",
@@ -95,6 +96,8 @@ elseif tocversion<40000 then
 		[62242]={3},
 		--铭文
 		[61177]={4},
+		--采矿
+		[55208]={5},--泰坦精钢锭
 	};
 	SkillData.ItemID={
 		--筛盐器

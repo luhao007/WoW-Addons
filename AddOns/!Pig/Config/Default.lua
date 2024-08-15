@@ -327,6 +327,7 @@ addonTable.Default = {
 	["Map"] = {
 		["MinimapBpaichu"] = {},
 		["MinimapPos"] = -13.62698465698976,
+		["MinimapPoint"] = 1,
 		["MinimapBut"] = true,
 		["MiniButShouNa_YN"] = 1,
 		["MiniButShouNa_hang"] = 5,

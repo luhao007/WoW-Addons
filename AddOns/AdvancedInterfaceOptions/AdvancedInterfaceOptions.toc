@@ -1,6 +1,6 @@
-## Interface: 110000
+## Interface: 110002
 ## Author: Stanzilla, Semlar
-## Version: 2.0.0
+## Version: 2.1.0
 ## LoadOnDemand: 0
 ## SavedVariables: AdvancedInterfaceOptionsSaved
 ## DefaultState: Enabled
@@ -24,6 +24,7 @@ utils.lua
 cvars.lua
 
 gui\GeneralConfigPanel.lua
+gui\CameraConfigPanel.lua
 gui\ChatConfigPanel.lua
 gui\CombatConfigPanel.lua
 gui\FloatingCombatTextConfigPanel.lua

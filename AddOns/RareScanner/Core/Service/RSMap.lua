@@ -298,24 +298,6 @@ function RSMap.GetWorldMapPOI(objectGUID, vignetteInfo, mapID)
 end
 
 ---============================================================================
--- Map names
----============================================================================
-
-function RSMap.GetMapName(mapID)
-	local mapInfo = C_Map.GetMapInfo(mapID)
-	if (mapInfo) then
-		-- For those zones with the same name, add a comment
-		if (AL["ZONE_"..mapID] ~= "ZONE_"..mapID) then
-			return string.format(AL["ZONE_"..mapID], mapInfo.name)
-		else
-			return mapInfo.name
-		end
-	end
-	
-	return AL["ZONES_CONTINENT_LIST"][mapID]
-end
-
----============================================================================
 -- Map options button
 ---============================================================================
 
@@ -323,7 +305,7 @@ local worldMapButton
 function RSMap.LoadWorldMapButton()
 	if (RSConfigDB.IsShowingWorldmapButton()) then 
 		local rwm = LibStub('Krowi_WorldMapButtons-1.4')
-		worldMapButton = rwm:Add("RSWorldMapButtonTemplate", 'DROPDOWNTOGGLEBUTTON')
+		worldMapButton = rwm:Add("RSWorldMapButtonTemplate", 'DROPDOWNBUTTON')
 	end
 end
 

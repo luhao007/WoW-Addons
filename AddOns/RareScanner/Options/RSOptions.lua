@@ -19,6 +19,7 @@ local RSEventFiltersOptions = private.ImportLib("RareScannerEventFiltersOptions"
 local RSZoneFiltersOptions = private.ImportLib("RareScannerZoneFiltersOptions")
 local RSLootOptions = private.ImportLib("RareScannerLootOptions")
 local RSMapOptions = private.ImportLib("RareScannerMapOptions")
+local RSChatOptions = private.ImportLib("RareScannerChatOptions")
 
 -----------------------------------------------------------------------
 -- Tooltip positions
@@ -52,6 +53,7 @@ function RareScanner:SetupOptions()
 	RSAC:RegisterOptionsTable("RareScanner Zone Filter", RSZoneFiltersOptions.GetZoneFiltersOptions())
 	RSAC:RegisterOptionsTable("RareScanner Loot Options", RSLootOptions.GetLootOptions())
 	RSAC:RegisterOptionsTable("RareScanner Map", RSMapOptions.GetMapOptions())
+	RSAC:RegisterOptionsTable("RareScanner Chat", RSChatOptions.GetChatOptions())
 	RSAC:RegisterOptionsTable("RareScanner Profiles", RareScanner:GetOptionsTable())
 
 	local RSACD = LibStub("AceConfigDialog-3.0")
@@ -65,5 +67,6 @@ function RareScanner:SetupOptions()
 	RSACD:AddToBlizOptions("RareScanner Zone Filter", AL["ZONES_FILTER"], "RareScanner")
 	RSACD:AddToBlizOptions("RareScanner Loot Options", AL["LOOT_OPTIONS"], "RareScanner")
 	RSACD:AddToBlizOptions("RareScanner Map", AL["MAP_OPTIONS"], "RareScanner")
+	RSACD:AddToBlizOptions("RareScanner Chat", AL["CHAT_OPTIONS"], "RareScanner")
 	RSACD:AddToBlizOptions("RareScanner Profiles", AL["PROFILES"], "RareScanner")
 end

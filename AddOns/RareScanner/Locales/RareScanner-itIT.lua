@@ -3,7 +3,6 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local AL = AceLocale:NewLocale("RareScanner", "itIT", false);
 
 if AL then
-AL["ALARM_MESSAGE"] = "È appena apparso un raro NPC, controlla la tua mappa!"
 AL["ALARM_SOUND"] = "Suono di avviso per i PNG rari"
 AL["ALARM_SOUND_DESC"] = "Suono riprodotto quando un PNG raro appare nella minimappa"
 AL["ALARM_TREASURES_SOUND"] = "Suono di avviso per eventi/tesori"
@@ -617,7 +616,6 @@ AL["FILTERS"] = "Filtri PNG rari"
 AL["FILTERS_SEARCH"] = "Cerca"
 AL["FILTERS_SEARCH_DESC"] = "Digita il nome del PNG da filtrare nell'elenco qui in basso"
 AL["GENERAL_OPTIONS"] = "Opzioni generali"
-AL["JUST_SPAWNED"] = "%s è appena apparso. Controlla la mappa!"
 AL["LEFT_BUTTON"] = "Clic con il pulsante sinistro del mouse"
 AL["LOOT_CATEGORY_FILTERED"] = "Filtro abilitato per la categoria/sottocategoria: %s/%s. Puoi disabilitare questo filtro cliccando nuovamente sull'icona del bottino oppure dal menu dell'add-on RareScanner"
 AL["LOOT_CATEGORY_FILTERS"] = "Filtri categoria"

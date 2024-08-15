@@ -7,6 +7,7 @@ local RSNpcDB = private.NewLib("RareScannerNpcDB")
 
 -- RareScanner database libraries
 local RSMapDB = private.ImportLib("RareScannerMapDB")
+local RSProfessionDB = private.ImportLib("RareScannerProfessionDB")
 
 -- RareScanner libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -745,6 +746,34 @@ function RSNpcDB.GetNpcName(npcID, refresh)
 	end
 
 	return nil
+end
+
+function RSNpcDB.GetActiveNpcIDsWithNamesByMapID(mapID, onlyCustom)
+	local npcIDs =  RSNpcDB.GetNpcIDsByMapID(mapID, onlyCustom)
+	local npcIDsWithNames = nil
+	
+	if (RSUtils.GetTableLength(npcIDs)) then
+		npcIDsWithNames = {}
+		for _, npcID in ipairs(npcIDs) do
+			local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
+			if (npcInfo and npcInfo.prof and not RSProfessionDB.HasPlayerProfession(npcInfo.prof)) then
+				-- Wrong profession
+			elseif (RSNpcDB.IsDisabledEvent(npcID)) then
+				-- World event disabled
+			else
+				local npcName = RSNpcDB.GetNpcName(npcID)
+				if (npcName) then
+					npcIDsWithNames[npcID] = string.format("%s (%s)", npcName, npcID)
+				else
+					npcIDsWithNames[npcID] = tostring(npcID)
+				end
+			end
+		end
+		
+		return npcIDsWithNames
+	end
+	
+	return npcIDsWithNames
 end
 
 function RSNpcDB.GetNpcId(name, mapID)

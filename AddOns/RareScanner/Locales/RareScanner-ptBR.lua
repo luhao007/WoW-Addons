@@ -3,7 +3,6 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local AL = AceLocale:NewLocale("RareScanner", "ptBR", false);
 
 if AL then
-AL["ALARM_MESSAGE"] = "Um NPC raro acaba de aparecer. Olhe seu mapa!"
 AL["ALARM_SOUND"] = "Som de alerta para NPCs raros"
 AL["ALARM_SOUND_DESC"] = "Som produzido quando se detecta um NPC raro na proximidade"
 AL["ALARM_TREASURES_SOUND"] = "Som de alerta para eventos/tesouros"
@@ -717,7 +716,6 @@ AL["GUIDE_TRANSPORT"] = "Transporte"
 AL["IGNORE_SCAN_COMPLETED_ENTITIES"] = "Ignorar alertas para raros já eliminadas/concluídos."
 AL["IGNORE_SCAN_COMPLETED_ENTITIES_DESC"] = "Na maioria das zonas mais novas, NPCs raros e tesouros dropam saques apenas na primeira vez, no entanto, existem vários raros que incorretamente continuam aparecendo no mapa mundial toda vez que aparecem após saqueá-los. Esse erro faz com que o complemento continue alertando você sobre esses raros, mesmo que elas não dropem nada útil novamente. Com essa opção habilitada você receberá alertas apenas até completar o raro do dia."
 AL["INGAME_WAYPOINTS"] = "Waypoints do Jogo"
-AL["JUST_SPAWNED"] = "%s acabou de aparecer. Olhe seu mapa!"
 AL["LEFT_BUTTON"] = "Botão esquerdo"
 AL["LOCK_BUTTON_POSITION"] = "Trava a posição dos botões"
 AL["LOCK_BUTTON_POSITION_DESC"] = "Quando ativado, você não poderá alterar a posição do botão arrastando e soltando-o."

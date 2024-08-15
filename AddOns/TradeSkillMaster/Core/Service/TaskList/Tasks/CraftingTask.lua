@@ -5,7 +5,8 @@
 -- ------------------------------------------------------------------------------ --
 
 local TSM = select(2, ...) ---@type TSM
-local CraftingTask = TSM.Include("LibTSMClass").DefineClass("CraftingTask", TSM.TaskList.Task)
+local LibTSMClass = LibStub("LibTSMClass")
+local CraftingTask = LibTSMClass.DefineClass("CraftingTask", TSM.TaskList.Task)
 local TradeSkill = TSM.LibTSMWoW:Include("API.TradeSkill")
 local ClientInfo = TSM.LibTSMWoW:Include("Util.ClientInfo")
 local L = TSM.Locale.GetTable()

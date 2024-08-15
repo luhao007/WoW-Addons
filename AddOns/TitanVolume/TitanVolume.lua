@@ -86,7 +86,8 @@ local function IsMuted()
 	local mute = false
 	local setting = ALL_SOUND
 	local value = GetCVolume(setting)
-	if value == "0" then
+	if value == "0"
+	or value == 0 then -- May have been a type change in 11.0.2
 		mute = true
 	elseif value == "1" then
 		-- not muted

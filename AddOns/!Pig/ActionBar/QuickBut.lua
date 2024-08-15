@@ -30,6 +30,12 @@ local Cursor_Fun=ActionFun.Cursor_Fun
 local Update_Macro=ActionFun.Update_Macro
 ----
 local GetItemInfoInstant= GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
+local PIGbookType
+if tocversion<50000 then
+	PIGbookType=BOOKTYPE_SPELL
+else
+	PIGbookType=Enum.SpellBookSpellBank.Player
+end
 ---功能动作条===========
 local ActionBarfun=addonTable.ActionBarfun
 local fuFrame=ActionBarfun.fuFrame
@@ -730,18 +736,18 @@ QuickButUI.ButList[6]=function()
 				gengxinlushiCD()
 			end
 			local Skill_List = addonTable.FramePlusfun.Skill_List
-			if tocversion<40000 then
+			if tocversion<50000 then
 				local _, _, tabOffset, numEntries = GetSpellTabInfo(1)
 				for j=tabOffset + 1, tabOffset + numEntries do
-					local spellName, _ ,spellID=GetSpellBookItemName(j, BOOKTYPE_SPELL)
+					local spellName, _ ,spellID=GetSpellBookItemName(j, PIGbookType)
 					if add_skilldata(General,Skill_List,spellID,spellName) then return end
 				end
 			else
 				for _, i in pairs{GetProfessions()} do
 					local offset, numSlots = select(3, GetSpellTabInfo(i))
 					for j = offset+1, offset+numSlots do
-						local spellName, _, spellID=GetSpellBookItemName(j, BOOKTYPE_SPELL)
-						if add_skilldata(General,Skill_List,spellID,spellName) then return end
+						local BookInfo=C_SpellBook.GetSpellBookItemInfo(j, PIGbookType)
+						if add_skilldata(General,Skill_List,BookInfo.spellID,BookInfo.name) then return end
 					end
 				end
 			end

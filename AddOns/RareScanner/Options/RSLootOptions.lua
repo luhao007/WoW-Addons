@@ -130,7 +130,7 @@ end
 local customLine = "custom_%s_line"
 
 function RSLootOptions.GetLootOptions()	
-	local customItemsPosition = 8
+	local customItemsPosition = 9
 	
 	if (not options) then
 		private.loot_toggle_all = true
@@ -329,12 +329,27 @@ function RSLootOptions.GetLootOptions()
 							get = function() return RSConfigDB.IsShowingMissingAppearances() end,
 							set = function(_, value)
 								RSConfigDB.SetShowingMissingAppearances(value)
+								if (not value) then
+									RSConfigDB.SetShowingMissingClassAppearances(value)
+								end
 							end,
 							width = "full",
 							disabled = function() return (not RSConfigDB.IsFilteringByExplorerResults()) end,
 						},
-						show_drakewatcher = {
+						show_class_appearances = {
 							order = 7,
+							type = "toggle",
+							name = AL["LOOT_EXPLORER_SHOW_MISSING_CLASS_APPEARANCES"],
+							desc = AL["LOOT_EXPLORER_SHOW_MISSING_CLASS_APPEARANCES_DESC"],
+							get = function() return RSConfigDB.IsShowingMissingClassAppearances() end,
+							set = function(_, value)
+								RSConfigDB.SetShowingMissingClassAppearances(value)
+							end,
+							width = "full",
+							disabled = function() return (not RSConfigDB.IsFilteringByExplorerResults() or not RSConfigDB.IsShowingMissingAppearances()) end,
+						},
+						show_drakewatcher = {
+							order = 8,
 							type = "toggle",
 							name = AL["LOOT_EXPLORER_SHOW_MISSING_DRAKEWATCHER"],
 							desc = AL["LOOT_EXPLORER_SHOW_MISSING_DRAKEWATCHER_DESC"],

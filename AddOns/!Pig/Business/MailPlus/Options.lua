@@ -72,6 +72,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		GameTooltip:AddLine(FROM..GREEN_FONT_COLOR_CODE..FROMname..FONT_COLOR_CODE_CLOSE..", "..TIME_REMAINING..TimeLeft)
 	end
 	local function Show_Item()
+		if not InboxFrame:IsShown() then return end
 		local lyID=InboxFrame.PIG_Select
 		ClearBut(lyID)
 		local mailData = {{},{},0}
