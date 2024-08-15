@@ -19,13 +19,18 @@ local hooksecurefunc, tinsert, pairs, wipe = _G.hooksecurefunc, _G.table.insert,
 local ipairs = _G.ipairs
 local C_PetJournal = _G.C_PetJournal
 --~ --------
-local addonname, addon = ...
+local addonName, addon = ...
 local L = addon.L
 
-local HPetOption = CreateFrame("Frame", "HPetOption")
-local InterfaceOptions_AddCategory = _G.InterfaceOptions_AddCategory
+local HPetOption = CreateFrame("Frame", "HPetOption", InterfaceOptionsFramePanelContainer, "BackdropTemplate")
+HPetOption.name = addonName
+local category, layout = Settings.RegisterCanvasLayoutCategory(HPetOption, HPetOption.name)
+Settings.RegisterAddOnCategory(category);
+addon.settingsCategory = category
+-- InterfaceOptions_AddCategory(HPetOption)
 
-HPetOption:Hide()
+
+-- HPetOption:Hide()
 --~ tinsert(UISpecialFrames, "HPetOption")
 
 function HPetOption:Init()
@@ -778,8 +783,9 @@ function HPetOption:Open()
 	self:LoadOptions()
 end
 
-function HPetOption:Toggle()
-	InterfaceOptionsFrame_OpenToCategory(HPetOption)
+function HPetOption:Toggle() 
+    Settings.OpenToCategory(addon.settingsCategory.ID)
+	-- InterfaceOptionsFrame_OpenToCategory(HPetOption)
 end
 
 ----------new init
@@ -801,10 +807,6 @@ HPetOption:SetScript(
 		)
 	end
 )
-
-local addonName, addon = ...
-HPetOption.name = addonName
-InterfaceOptions_AddCategory(HPetOption)
 
 --------------------		SLASH
 SLASH_HPETBATTLEANY1 = "/hpq"

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Krowi-Frostmane EU
-## Version: 75.4
+## Version: 75.5
 ## SavedVariables: KrowiAF_DebugTable, KrowiAF_Options, KrowiAF_SavedData, KrowiAF_Filters, KrowiAF_SearchOptions, KrowiAF_Achievements
 ## IconTexture: interface/icons/achievement_dungeon_heroic_gloryoftheraider
 

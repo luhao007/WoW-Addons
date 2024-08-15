@@ -43,6 +43,8 @@ local Atlas = LibStub("AceAddon-3.0"):GetAddon("Atlas")
 local addon = LibStub("AceAddon-3.0"):NewAddon(private.addon_name)
 local L = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)
 
+local GetAddOnInfo = C_AddOns.GetAddOnInfo
+
 addon.Name = FOLDER_NAME
 addon.LocName = select(2, GetAddOnInfo(addon.Name))
 addon.Notes = select(3, GetAddOnInfo(addon.Name))
@@ -59,13 +61,13 @@ end
 -- //////////////////////////////////////////////////////////////////////////
 function addon:OnInitialize()
 	self.db = AceDB:New(private.addon_name.."DB", private.constants.defaults, true)
-	
+
 	private.db = self.db.profile
 
 	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
-	
+
 	Atlas:RegisterModuleOptions(addon.Name, private.config.options, addon.LocName)
 	--self:SetupOptions()
 

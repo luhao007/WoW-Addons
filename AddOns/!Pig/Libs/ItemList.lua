@@ -23,7 +23,7 @@ local TalentData=Data.TalentData
 --
 local Fun=addonTable.Fun
 local GetRuneData=Fun.GetRuneData
-
+local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
 -------------
 local ListWWWHHH = {206,425,18,36,6}--3Gembut/4buweiW/5宝石+附魔+符文数
 local function CZ_ItemListinfo(fujikk,Slot,fujiname)
@@ -100,7 +100,7 @@ local function ShowGemBut(Gemse,GemitemLink,nulltishi)
     	Gemse.icon:SetDesaturated(true)
     	Gemse:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
     	if nulltishi==55655 then
-    		local name, rank, texture = GetSpellInfo(55655)
+    		local name, texture = PIGGetSpellInfo(55655)
     		Gemse.icon:SetTexture(texture)
 	    else
 	    	Gemse.icon:SetTexture(134071)
@@ -369,7 +369,7 @@ local function ShowItemList(Parent,unit,Data,fuwen)
 						Enchantui.getnum=0
 						ShowEnchantInfo(Enchantui,EnchantItemID[fumoid])
 					elseif EnchantSpellID[fumoid] then
-						local name, rank, texture = GetSpellInfo(EnchantSpellID[fumoid])
+						local name, texture = PIGGetSpellInfo(EnchantSpellID[fumoid])
 						Enchantui.icon:SetTexture(texture)
 						Enchantui:SetBackdropBorderColor(1, 0.843, 0, 0.8);
 						Enchantui:SetScript("OnEnter", function (self)
@@ -381,7 +381,7 @@ local function ShowItemList(Parent,unit,Data,fuwen)
 					elseif EnchantSlotID[fumoid] then
 						local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(itemLink)
 						local EnchantSpell = EnchantSlotID[fumoid][itemEquipLoc]
-						local name, rank, texture = GetSpellInfo(EnchantSpell)
+						local name, texture = PIGGetSpellInfo(EnchantSpell)
 						Enchantui.icon:SetTexture(texture)
 						Enchantui:SetBackdropBorderColor(1, 0.843, 0, 0.8);
 						Enchantui:SetScript("OnEnter", function (self)

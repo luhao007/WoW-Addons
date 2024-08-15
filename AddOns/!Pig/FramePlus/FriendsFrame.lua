@@ -5,6 +5,7 @@ local ClasseNameID=addonTable.Data.ClasseNameID
 local PIGraceList=addonTable.Data.PIGraceList
 local Create=addonTable.Create
 local PIGFontString=Create.PIGFontString
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -------------
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Friends()

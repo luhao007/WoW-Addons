@@ -63,7 +63,6 @@ DRData-1.0\DRData-1.0.xml
 DF\load.xml
 Krowi_WorldMapButtons-1.4\Krowi_WorldMapButtons-1.4.xml
 LibAHTab\LibAHTab.xml
-LibAboutPanel\lib.xml
 LibAlts-1.0\lib.xml
 LibBossIDs-1.0\lib.xml
 LibCandyBar-3.0\lib.xml
@@ -91,10 +90,11 @@ LibQTip-1.0\lib.xml
 LibRangeCheck-3.0\LibRangeCheck-3.0.lua
 LibRealmInfo\LibRealmInfo.lua
 LibSerialize\lib.xml
-LibSink-2.0\LibSink-2.0\LibSink-2.0.lua
+LibSink-2.0\lib.xml
 LibSpecialization\LibSpecialization.xml
 LibSpellRange-1.0\lib.xml
 LibTextDump-1.0\lib.xml
+LibTime-1.0\LibTime-1.0.xml
 LibToast-1.0\lib.xml
 LibTourist-3.0\lib.xml
 LibTranslit-1.0\LibTranslit-1.0.xml

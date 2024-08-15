@@ -1,14 +1,15 @@
 ## Interface: 110002
 ## Author: Qshine
-## Version: 2.3.1
+## Version: 2.3.3
 ## SavedVariables: HPetSaves
+## IconTexture: 464160
 
 ## Title: |cFFBF00FF[H]|r Something About Pet Battle
 ## Notes: Something About Pet Battle,Type /hpq to config
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00AHPetBattleAny|r
 ## Notes-zhCN: 提醒野生宠物品质等,输入/hpq设置
 
-## X-Date: 2022-11-25
+## X-Date: 2024-08-15
 
 Localization.lua
 
@@ -19,5 +20,3 @@ modules\Config.lua
 modules\Hook.lua
 modules\Search.lua
 modules\Ability.lua
-
-modules\AutoSelectPet.lua

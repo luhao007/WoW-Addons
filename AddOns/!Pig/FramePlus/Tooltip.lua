@@ -279,7 +279,7 @@ function FramePlusfun.Tooltip()
 			if not PIGA["Tooltip"]["IDinfo"] then return end
 			local displayedName = _G[self:GetName().."TextLeft"..1]:GetText()
 			if displayedName then
-		   		local _,_,_,_,_,_,id = GetSpellInfo(displayedName)
+		   		local _,_,_,_,_,id = PIGGetSpellInfo(displayedName)
 		   		if id then
 			   		self:AddDoubleLine("|cffd33c54ID:|r "..id,"")
 					self:Show()

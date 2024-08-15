@@ -124,18 +124,18 @@ local function ActionBar_PetTishi()
 	if classId==3 or classId==9 then
 		local chaofengjinengName={}
 		if classId==3 then
-			local spname= GetSpellInfo(2649)
+			local spname= PIGGetSpellInfo(2649)
 			table.insert(chaofengjinengName,spname)
 		elseif classId==9 then
 			if tocversion<80000 then
-				local spname= GetSpellInfo(3716)
-				local spname1= GetSpellInfo(33698)
-				--local spname2= GetSpellInfo(17735)
+				local spname= PIGGetSpellInfo(3716)
+				local spname1= PIGGetSpellInfo(33698)
+				--local spname2= PIGGetSpellInfo(17735)
 				table.insert(chaofengjinengName,spname)
 				table.insert(chaofengjinengName,spname1)
 				--table.insert(chaofengjinengName,spname2)
 			else
-				local spname= GetSpellInfo(112042)
+				local spname= PIGGetSpellInfo(112042)
 				table.insert(chaofengjinengName,spname)
 			end
 		end

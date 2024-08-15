@@ -2,6 +2,7 @@ local _, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local FramePlusfun=addonTable.FramePlusfun
 --------
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 --初始系统已经加载的UI
 local UINameList={
 	{CharacterFrame,},

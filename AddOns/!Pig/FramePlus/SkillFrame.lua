@@ -4,14 +4,15 @@ local FramePlusfun=addonTable.FramePlusfun
 local ActionFun=addonTable.Fun.ActionFun
 local PIGUseKeyDown=ActionFun.PIGUseKeyDown
 local Update_State=ActionFun.Update_State
-local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
-local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
 local PIGbookType
 if tocversion<50000 then
 	PIGbookType=BOOKTYPE_SPELL
 else
 	PIGbookType=Enum.SpellBookSpellBank.Player
 end
+local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
+local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -----------------------
 local butW = ActionButton1:GetWidth()
 local Width,Height = butW,butW;
@@ -42,6 +43,8 @@ local CS_Skill_List_1 = {
 	13262,--"分解",
 	31252,--"选矿",
 	2366,--"采集草药",
+	131474,--"钓鱼"
+	80451,--"勘探"
 };
 if tocversion<80000 then
 	table.insert(CS_Skill_List,2575)--采矿
@@ -50,17 +53,13 @@ else
 end
 local Skill_List={}
 for i=1,#CS_Skill_List do
-	local Skillname= GetSpellInfo(CS_Skill_List[i])
-	if Skillname then
-		table.insert(Skill_List,Skillname)
-	end
+	local Skillname=PIGGetSpellInfo(CS_Skill_List[i])
+	if Skillname then table.insert(Skill_List,Skillname) end
 end
 local Skill_List_1 = {}
 for i=1,#CS_Skill_List_1 do
-	local Skillname= GetSpellInfo(CS_Skill_List_1[i])
-	if Skillname then
-		table.insert(Skill_List_1,Skillname)
-	end
+	local Skillname=PIGGetSpellInfo(CS_Skill_List_1[i])
+	if Skillname then table.insert(Skill_List_1,Skillname) end
 end
 FramePlusfun.Skill_List=Skill_List
 local Skill_List_NEW = {{},{}};
@@ -86,10 +85,12 @@ local function huoqu_Skill_ID()
 		end
 	else
 		for _, i in pairs{GetProfessions()} do
-			local offset, numSlots = select(3, GetSpellTabInfo(i))
+			local skillLineInfo = C_SpellBook.GetSpellBookSkillLineInfo(i)
+			local offset, numSlots = skillLineInfo.itemIndexOffset, skillLineInfo.numSpellBookItems
 			for j = offset+1, offset+numSlots do
-				local BookInfo=C_SpellBook.GetSpellBookItemInfo(j, PIGbookType)
-				add_skilldata(BookInfo.spellID,BookInfo.name)
+				local name = C_SpellBook.GetSpellBookItemName(j, Enum.SpellBookSpellBank.Player)
+				local spellID = select(2,C_SpellBook.GetSpellBookItemType(j, Enum.SpellBookSpellBank.Player))
+				add_skilldata(spellID,name)
 			end
 		end
 	end
@@ -306,14 +307,12 @@ function FramePlusfun.Skill_QKbut()
 	if NDui then return end
 	if tocversion<50000 then
 		if IsAddOnLoaded("Blizzard_TradeSkillUI") then
-			huoqu_Skill_ID()
 			ADD_Skill_QK()
 		else
 			local zhuanyeQuickQH = CreateFrame("FRAME")
 			zhuanyeQuickQH:RegisterEvent("ADDON_LOADED")
 			zhuanyeQuickQH:SetScript("OnEvent", function(self, event, arg1)
 				if arg1 == "Blizzard_TradeSkillUI" then
-					huoqu_Skill_ID()
 					if InCombatLockdown() then
 						zhuanyeQuickQH:RegisterEvent("PLAYER_REGEN_ENABLED")
 					else
@@ -328,14 +327,12 @@ function FramePlusfun.Skill_QKbut()
 			end)
 		end
 		if IsAddOnLoaded("Blizzard_CraftUI") then
-			huoqu_Skill_ID()
 			ADD_Craft_QK()
 		else
 			local fumoQuickQH = CreateFrame("FRAME")
 			fumoQuickQH:RegisterEvent("ADDON_LOADED")
 			fumoQuickQH:SetScript("OnEvent", function(self, event, arg1)
 				if arg1 == "Blizzard_CraftUI" then
-					huoqu_Skill_ID()
 					if InCombatLockdown() then
 						fumoQuickQH:RegisterEvent("PLAYER_REGEN_ENABLED")
 					else
@@ -351,14 +348,12 @@ function FramePlusfun.Skill_QKbut()
 		end
 	else
 		if IsAddOnLoaded("Blizzard_Professions") then
-			huoqu_Skill_ID()
 			ADD_Skill_QK()
 		else
 			local zhuanyeQuickQH = CreateFrame("FRAME")
 			zhuanyeQuickQH:RegisterEvent("ADDON_LOADED")
 			zhuanyeQuickQH:SetScript("OnEvent", function(self, event, arg1)
 				if arg1 == "Blizzard_Professions" then
-					huoqu_Skill_ID()
 					if InCombatLockdown() then
 						zhuanyeQuickQH:RegisterEvent("PLAYER_REGEN_ENABLED")
 					else

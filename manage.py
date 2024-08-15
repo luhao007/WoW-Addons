@@ -564,7 +564,7 @@ class Manager:
         )
 
     @staticmethod
-    @available_on(['classic'])
+    @available_on(['classic', 'retail'])
     def handle_rs():
         utils.change_defaults(
             'AddOns/RareScanner/Core/Libs/RSConstants.lua',
@@ -575,7 +575,8 @@ class Manager:
                 'AceConsole-3.0', 'AceDB-3.0', 'AceDBOptions-3.0',
                 'AceGUI-3.0', 'AceGUI-3.0-SharedMediaWidgets',
                 'AceLocale-3.0', 'AceSerializer-3.0', 'CallbackHandler-1.0', 'HereBeDragons',
-                'LibDBIcon-1.0', 'LibDialog-1.0-9.0.1.1', 'LibSharedMedia-3.0', 'LibStub', 'LibTime-1.0'],
+                'LibQTip-1.0', 'Krowi_WorldMapButtons-1.4',
+                'LibDBIcon-1.0', 'LibSharedMedia-3.0', 'LibStub', 'LibTime-1.0'],
             'AddOns/RareScanner/ExternalLibs',
             'AddOns/RareScanner/ExternalLibs/Libs.xml'
         )

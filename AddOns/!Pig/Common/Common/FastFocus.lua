@@ -1,6 +1,7 @@
 local _, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 ------------
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local CommonInfo=addonTable.CommonInfo
 ---快速焦点
 local UnitFrame = {

@@ -36,6 +36,8 @@ local _G = getfenv(0)
 local FOLDER_NAME, private = ...
 private.addon_name = "Atlas"
 
+local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
+
 local constants = { }
 private.constants = constants
 

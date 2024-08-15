@@ -108,6 +108,7 @@ addonTable.Default = {
 		["Open"] = true,
 		["AHtooltip"] = true,
 		["AHUIoff"]=true,
+		["ScanCD_M"]=0.0002,
 		["ScanCD"]=0.004,
 		["QuicAuc"]=false,
 		["Time"] = 48,

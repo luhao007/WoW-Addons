@@ -18,7 +18,11 @@
         the copyright holders.
 ]]
 
-local lib = LibStub:NewLibrary("Krowi_MenuUtil-1.0", 1);
+local lib = LibStub:NewLibrary("Krowi_MenuUtil-1.0", 2);
+
+if not lib then
+	return;
+end
 
 do -- Modern
     function lib:CreateTitle(menu, text)

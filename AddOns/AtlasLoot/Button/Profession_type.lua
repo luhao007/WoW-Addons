@@ -5,8 +5,10 @@ local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
 
 --lua
 local str_match = string.match
-local GetSpellInfo, GetSpellTexture = GetSpellInfo, GetSpellTexture
+local GetSpellTexture = GetSpellTexture or C_Spell.GetSpellTexture
 local GetTradeskillLink = AtlasLoot.TooltipScan.GetTradeskillLink
+
+local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
 
 local ProfClickHandler = nil
 
@@ -40,7 +42,7 @@ function Prof.OnSet(button, second)
 				ChatLink = true,
 			},
 		},
-		AtlasLoot.db.Button.Profession.ClickHandler, 
+		AtlasLoot.db.Button.Profession.ClickHandler,
 		{
 			{ "ChatLink", 	AL["Chat Link"], 	AL["Add profession link into chat"] },
 		})
@@ -59,16 +61,16 @@ end
 
 function Prof.OnClear(button)
 	button.Profession = nil
-	button.SpellID = nil	
+	button.SpellID = nil
 	button.tsLink, button.tsName = nil, nil
 	button.secButton.Profession = nil
 	button.secButton.SpellID = nil
 	button.secButton.tsLink, button.secButton.tsName = nil, nil
-	
+
 end
 
 function Prof.OnEnter(button)
-	local tooltip = GetAlTooltip() 
+	local tooltip = GetAlTooltip()
 	tooltip:ClearLines()
 	tooltip:SetOwner(button, "ANCHOR_RIGHT", -(button:GetWidth() * 0.5), 24)
 	tooltip:SetHyperlink(button.tsLink)
@@ -91,16 +93,16 @@ end
 function Prof.Refresh(button)
 	local spellName, _, spellTexture = GetSpellInfo(button.SpellID)
 	button.tsLink, button.tsName = GetTradeskillLink(button.SpellID)
-	
+
 	if button.type == "secButton" then
-		
+
 	else
 		button.name:SetText(PROF_COLOR..spellName)
 		button.extra:SetText(button.tsName)
 	end
-	
+
 	button.icon:SetTexture(TRADESKILLS[button.tsName] or spellTexture)
-	
+
 end
 
 --[[

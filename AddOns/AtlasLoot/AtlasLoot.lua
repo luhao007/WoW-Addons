@@ -19,6 +19,8 @@ local LibStub = _G.LibStub
 local LibDialog = LibStub("LibDialog-1.0")
 local ALDB = LibStub("ALDB-1.0")
 
+local GetAddOnInfo = C_AddOns.GetAddOnInfo
+
 -- lua
 
 -- WoW
@@ -58,16 +60,16 @@ function AtlasLoot:OnInitialize()
 	end
 
 	self.db = ALDB:Register(AtlasLootCharDB, AtlasLootDB, AtlasLoot.AtlasLootDBDefaults)
-	
-	
+
+
 	-- bindings
 	BINDING_HEADER_ATLASLOOT = AL["AtlasLoot"]
 	BINDING_NAME_ATLASLOOT_TOGGLE = AL["Toggle AtlasLoot"]
-	
-	
+
+
 	local _, _, _, _, reason = GetAddOnInfo("AtlasLoot_Loader")
-	if reason ~=  "MISSING" then 
-		DisableAddOn("AtlasLoot_Loader") 
+	if reason ~=  "MISSING" then
+		DisableAddOn("AtlasLoot_Loader")
 
 		LibDialog:Register("ATLASLOOT_LOADER_ADDON_ERROR", {
 			text = AL["AtlasLoot_Loader_is_no_longer_in_use"],
@@ -261,7 +263,7 @@ function AtlasLoot:AutoSelect()
 		end
 		if (dataID) then break end
 	end
-	
+
 	if (refresh and (o_moduleName ~= moduleName or o_dataID ~= dataID)) then
 		AtlasLoot.GUI.frame.moduleSelect:SetSelected(moduleName)
 		AtlasLoot.GUI.frame.subCatSelect:SetSelected(dataID)

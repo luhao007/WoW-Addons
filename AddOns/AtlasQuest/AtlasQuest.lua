@@ -30,11 +30,11 @@ local WHITE = "|cffFFFFFF"
 local GREEN = "|cff1EFF00"
 local GREY = "|cff9D9D9D"
 local BLUE = "|cff0070DD"
-local ORANGE = "|cffFF8000" 
+local ORANGE = "|cffFF8000"
 local YELLOW = "|cffFFD200"
 local BLACK = "|c0000000F"
 
-
+local GetAddOnMetadata = C_AddOns.GetAddOnMetadata
 
 -----------------------------------------------------------------------------
 -- Variables
@@ -54,13 +54,13 @@ AQINSTANZ = 1 -- currently shown instance-pic (see AtlasQuest_Instanzen.lua)
 
 AQINSTATM = "" -- variable to check whether AQINSTANZ has changed (see function AtlasQuestSetTextandButtons())
 
--- Sets the max number of instances and quests to check for. 
+-- Sets the max number of instances and quests to check for.
 local AQMAXINSTANCES = "201"
 local AQMAXQUESTS = "23"
 
 
 
--- Now I only have to update the version number in the TOC.  
+-- Now I only have to update the version number in the TOC.
 local AQVERSION = GetAddOnMetadata("AtlasQuest","Version")
 
 -- Checks WoW version and sets warning message in AtlasQuest title if wrong version.  Experimental.  Inspired by code from Atlas.
@@ -68,7 +68,7 @@ local WoWVersion  = select(4, GetBuildInfo())
 if WoWVersion < 20000 then
 	-- CLASSIC
 	ATLASQUEST_VERSION = AQ_MSG_WRONGVERSION
-elseif WoWVersion > 19999 and WoWVersion < 90000 then 
+elseif WoWVersion > 19999 and WoWVersion < 90000 then
 	-- TBC CLASSIC
 	ATLASQUEST_VERSION = AQ_MSG_WRONGVERSION
 else
@@ -231,7 +231,7 @@ function AQ_OnUpdate(arg1)
         AtlasQuest_Instanzenchecken()
 
         -- Hides the panel if the map which is shown no quests have (map = 36)
-        -- Disabled this by changing 36 here to 0 until it can be written out or re-written. 
+        -- Disabled this by changing 36 here to 0 until it can be written out or re-written.
        if ( AQINSTANZ == 0) then
              HideUIPanel(AtlasQuestFrame)
              HideUIPanel(AtlasQuestInsideFrame)
@@ -640,7 +640,7 @@ end
 
 
 -----------------------------------------------------------------------------
--- Automatically show Horde or Alliance quests 
+-- Automatically show Horde or Alliance quests
 -- based on player's faction when AtlasQuest is opened.
 -----------------------------------------------------------------------------
 function AQ_OnShow()
@@ -667,7 +667,7 @@ function AtlasQuestItem_ShowCompareItem()
     if ( not link ) then
       return
    end
-   
+
    local item1 = nil
    local item2 = nil
    local side = "left"
@@ -722,7 +722,7 @@ function AtlasQuestItem_ShowCompareItem()
          ShoppingTooltip2:SetHyperlinkCompareItem(link, 2)
          ShoppingTooltip2:Show()
       end
-   end   
+   end
 end
 
 
@@ -730,7 +730,7 @@ end
 -----------------------------------------------------------------------------
 -- Quest Query stuff (Code written by Natch)
 -----------------------------------------------------------------------------
- 
+
 function AQClearQuestAndQuery()
 	-- remove all completed quests
 	local atlasquestlist = AtlasQuest_Options.Toons[UnitName("player")]
@@ -750,9 +750,9 @@ function AQQuestQuery()
 	local qct, gurka, qcs, ral, rat = {}, false, ":", false, false
     --	self.stamp = time()
 	local ishorde = (UnitFactionGroup("player") == "Horde")
-       
+
   	AQPleaseCheckQuests = C_QuestLog.GetAllCompletedQuestIDs(qct)
-  
+
 	for qx in pairs(qct) do
 		qcs = qcs .. qx .. ":"
 	end
@@ -768,13 +768,13 @@ function AQQuestQuery()
 		for q = 1, AQMAXQUESTS do
   			local a = _G["Inst"..i.."Quest"..q.."_QuestID"]
   			local h = _G["Inst"..i.."Quest"..q.."_HORDE_QuestID"]
-  			
+
  			if(not ishorde and a and string.find(qcs, ":"..a..":")) then
   				AQ["AQFinishedQuest_Inst"..i.."Quest"..q] = 1
   				AtlasQuest_Options.Toons[UnitName("player")]["AQFinishedQuest_Inst"..i.."Quest"..q] = 1
   				gurka = true
   			end
-  
+
  			if(ishorde and h and string.find(qcs, ":"..h..":")) then
   				AQ["AQFinishedQuest_Inst"..i.."Quest"..q.."_HORDE"] = 1
   				AtlasQuest_Options.Toons[UnitName("player")]["AQFinishedQuest_Inst"..i.."Quest"..q.."_HORDE"] = 1

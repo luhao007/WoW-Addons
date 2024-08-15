@@ -102,7 +102,7 @@ RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
 	[RSConstants.DRAGONFLIGHT_HUNTING_PARTY_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "Vehicle-Trap-Gold", text = AL["MAP_MENU_SHOW_HUNTING_PARTY_RARE_NPCS"] };
 	[RSConstants.DRAGONFLIGHT_FYRAKK_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2023, 2024}, atlas = "Fyrakk-Head-Icon-Grey", text = AL["MAP_MENU_SHOW_FYRAKK_RARE_NPCS"] };
 	[RSConstants.WARWITHIN_RARES_WORLDSOUL_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2248, 2214, 2215, 2255, 2213 }, atlas = "echoes-icon", text = AL["MAP_MENU_SHOW_WORLDSOUL_RARE_NPCS"] };
-	
+
 	[RSConstants.DRAGONFLIGHT_WARCRAFT_RUMBLE_MINIEVENT] = { active = true, containers = true, mapIDs = { 2025, 2024, 2023, 2022, 2199, 2112, 1, 84, 85 }, atlas = "Battlenet-ClientIcon-GRY", text = AL["MAP_MENU_SHOW_WARCRAFT_RUMBLE_CONTAINERS"] };
 	[RSConstants.DRAGONFLIGHT_DREAMSEED_MINIEVENT] = { active = true, containers = true, mapIDs = { 2200 }, atlas = "SeedPlanting-Full", text = AL["MAP_MENU_SHOW_DREAMSEED_CONTAINERS"] };
 	[RSConstants.WARWITHIN_ROCKED_SLEEP_MINIEVENT] = { active = true, containers = true, mapIDs = { 2214 }, atlas = "Class", text = AL["MAP_MENU_SHOW_ROCKED_SLEEP_CONTAINERS"] };
@@ -225,7 +225,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			enableNavigation = true,
 			navigationLockEntity = false,
 			minimapButton = {
-				hide = false
+				hide = true
 			},
 			worldmapButton = true
 		},
@@ -607,13 +607,13 @@ RSConstants.NPCS_WITH_PRE_EVENT = {
 	[167874] = 167851;
 	[168053] = 167721;
 	-- Talador
-	[84037] = 88494; 
+	[84037] = 88494;
 	[77764] = 77750;
 	-- Tanaan Jungle
-	[90524] = 90519; 
+	[90524] = 90519;
 	[243386] = 91227;
 	-- Shadowlands (Draenor)
-	[82426] = 75434; 
+	[82426] = 75434;
 	-- Spires of Arak
 	[82084] = 82050;
 	[84918] = 84912;
@@ -724,7 +724,7 @@ RSConstants.NPCS_WITH_PRE_NPCS = {
 	[166521] = 166483;
 	[160675] = 176347;
 }
-	
+
 -- 156480 Next door entity inside Torghast
 -- 155660 Summons from the Depths
 RSConstants.IGNORED_VIGNETTES = { 156480, 155660, 163373, 370467, 370466, 182160, 182668, 182667, 185261, 376210, 200002, 190034, 191125, 210081, 210084, 210544, 210550, 226647, 226657, 226528, 221630 }
@@ -957,5 +957,5 @@ function RSConstants.IsNpcAtlas(atlasName)
 end
 
 function RSConstants.IsContainerAtlas(atlasName)
-	return atlasName == RSConstants.CONTAINER_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_VIGNETTE or atlasName == RSConstants.CONTAINER_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_LORE_OBJECT 
+	return atlasName == RSConstants.CONTAINER_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_VIGNETTE or atlasName == RSConstants.CONTAINER_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_LORE_OBJECT
 end

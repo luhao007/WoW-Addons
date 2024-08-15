@@ -78,7 +78,7 @@ local function PetBattleAbilityButton_UpdateBetterIconhook(self)
 	self.BetterIcon:Hide()
 
 	local petOwner, petIndex = self:GetParent():GetPetXY()
-	local enemypet = petOwner --petOwner == LE_BATTLE_PET_ALLY and LE_BATTLE_PET_ENEMY or LE_BATTLE_PET_ALLY
+	local enemypet = petOwner ==  Enum.BattlePetOwner.Ally and Enum.BattlePetOwner.Enemy or Enum.BattlePetOwner.Ally
 
 	if (not petIndex) or (not petOwner) or (not enemypet) then
 		return

@@ -8,6 +8,7 @@ local PIGFontString=Create.PIGFontString
 ----
 local CommonInfo=addonTable.CommonInfo
 local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
+local InviteUnit=InviteUnit or C_PartyInfo and C_PartyInfo.InviteUnit
 ---
 local gelibanban = 50000
 local yijiazaijinlai = {
@@ -20,6 +21,9 @@ local yijiazaijinlai = {
 			else
 				C_FriendList.SendWho(WHO_TAG_EXACT..wanjiaName, Enum.SocialWhoOrigin.ITEM);
 			end
+		end,
+		[INVITE]=function(wanjiaName)
+			InviteUnit(wanjiaName)
 		end,
 		[ADD_FRIEND]=function(wanjiaName)
 			C_FriendList.AddFriend(wanjiaName)
@@ -37,8 +41,17 @@ local yijiazaijinlai = {
 			editBoxXX:Insert(wanjiaName)
 	        if (not hasText) then editBoxXX:HighlightText() end
 		end,
+		[IGNORE]=function(wanjiaName)
+			C_FriendList.AddIgnore(wanjiaName)
+		end,
+		[BNET_REPORT]=function(wanjiaName,mmsg)
+			if wanjiaName and mmsg then
+				ComplainChat(wanjiaName, mmsg)
+			end
+		end,
 	},
 }
+addonTable.Fun.RightlistNameFun=yijiazaijinlai.listNameFun
 local function ClickGongNeng(menuName,listName)
 	local wanjiaName = UIDROPDOWNMENU_INIT_MENU.name
 	--local unitX = UIDROPDOWNMENU_INIT_MENU.unit

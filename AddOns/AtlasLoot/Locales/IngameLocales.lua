@@ -21,7 +21,20 @@ local months = {
 	MONTH_DECEMBER,
 }
 
-local GetAchievementInfo, UnitSex, GetFactionInfoByID = _G.GetAchievementInfo, _G.UnitSex, _G.GetFactionInfoByID
+local GetAchievementInfo, UnitSex = _G.GetAchievementInfo, _G.UnitSex
+
+-- Returns a list of faction data compatible with the deprecated GetFactionInfo and GetFactionInfoByID
+local GetFactionInfoWrapper = function(factionData)
+    if factionData then
+        return factionData.name, factionData.description, factionData.currentStanding, 0, 0, 0, factionData.atWarWith, factionData.canToggleAtWar, factionData.isHeader, factionData.isCollapsed, false, factionData.isWatched, factionData.isChild, factionData.factionID, factionData.hasBonusRepGain, false;
+    end
+    return nil;
+end
+
+-- Wrapper function for C_Reputation.GetFactionDataByID for the deprecated GetFactionInfoByID
+local GetFactionInfoByID = GetFactionInfoByID or function(factionId)
+	return GetFactionInfoWrapper(C_Reputation.GetFactionDataByID(factionId));
+end
 
 local function GetSpecNameById(id)
 	_, tmp1 = GetSpecializationInfoByID(id)
@@ -165,7 +178,7 @@ local IngameLocales = {
 	["Salvage Yard"] = GetBuildingName(141),
 	["Stables"] = GetBuildingName(67),
 	["The Tannery"] = GetBuildingName(122),
-	
+
 	-- data from Core/ItemInfo.lua is generated after loading
 
 	-- ######################################################################

@@ -21,7 +21,7 @@ local hooksecurefunc, tinsert, pairs, wipe = _G.hooksecurefunc, _G.table.insert,
 local ipairs = _G.ipairs
 local C_PetJournal = _G.C_PetJournal
 --- --------
-local VERSION = GetAddOnMetadata("HPetBattleAny","Version")
+local VERSION = C_AddOns.GetAddOnMetadata("HPetBattleAny","Version")
 local H_PET_BATTLE_CHAT_FRAME={}
 local LEVEL_COLLECTED = "(%s)"--"(lv:%s)"
 local addonname,addon = ...
@@ -97,7 +97,7 @@ function HPetBattleAny:PlaySoundFile(t)
 	if t=="pvp" then
 		PlaySound(SOUNDKIT.IG_PLAYER_INVITE, "Master");	----PVP提示声
 	else
-		PlaySoundFile([[Sound\Events\scourge_horn.ogg]], "Master" );
+		PlaySoundFile([[Sound\Events\scourge_horn.ogg]], "Master" ); 
 	end
 end
 --------------------		data
@@ -274,7 +274,7 @@ function HPetBattleAny.CreateLinkByInfo(petID,...)		---...=usecustom,level,healt
 		HPetSaves.lie = tonumber(HPetSaves.lie) or 1
 		rarity=rarity+HPetSaves.lie
 	end
-
+	
 	local link=ITEM_QUALITY_COLORS[rarity].hex.."\124Hbattlepet:"
 	link=link..speciesID..":"..level..":"..rarity..":"..health..":"..power..":"..speed..":"..(petID or "BattlePet-0-000000000000")..":"..displayID
 	link=link.."\124h["..(customname or name).."]\124h\124r"
@@ -431,7 +431,7 @@ function HPetBattleAny:PET_BATTLE_OPENING_START(...)
 			local name = C_PetBattles.GetName(petOwner, petIndex);
 			local level = C_PetBattles.GetLevel(petOwner, petIndex);
 			local power = C_PetBattles.GetPower(petOwner, petIndex);
-			local rarity=C_PetBattles.GetBreedQuality(petOwner,petIndex);
+			local rarity = C_PetBattles.GetBreedQuality(petOwner,petIndex) + 1;
 			if rarity>=4 and rarity~=6 and C_PetBattles.IsPlayerNPC() and HPetBattleAny:CanTrapBySpeciesID(speciesID) then
 				self.EnemyPetInfo.FindBlue=true
 			end;

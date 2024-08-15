@@ -3,6 +3,8 @@ local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 
 local addon = TinyTooltipReforged
 
+local GetSpellTexture = C_Spell.GetSpellTexture
+
 local function ColorBorder(tip)
     if (addon.db.spell.borderColor) then
         LibEvent:trigger("tooltip.style.border.color", tip, unpack(addon.db.spell.borderColor))

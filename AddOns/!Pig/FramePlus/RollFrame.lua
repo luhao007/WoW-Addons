@@ -8,11 +8,10 @@ local PIGFontString=Create.PIGFontString
 ---------------
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Roll()
-	if tocversion>100 then return end
 	if tocversion>50000 then return end
 	if not PIGA["FramePlus"]["Roll"] then return end
-	UIParent:UnregisterEvent("START_LOOT_ROLL")
-	UIParent:UnregisterEvent("CANCEL_LOOT_ROLL")
+	-- UIParent:UnregisterEvent("START_LOOT_ROLL")
+	-- UIParent:UnregisterEvent("CANCEL_LOOT_ROLL")
 	local itemhangW,itemhangH = 240,30
 	local RollFFF = PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",220,20},{itemhangW,12},"PIG_Roll_LsitUI")
 	RollFFF:Hide();
@@ -124,7 +123,7 @@ function FramePlusfun.Roll()
 				HandleModifiedItemClick(GetLootRollItemLink(self:GetParent().rollID));
 			end
 		end)
-		item.icon.lv = PIGFontString(item.icon,{"TOPLEFT", item.icon, "TOPLEFT", -1, 1},"","OUTLINE",12)
+		item.icon.lv = PIGFontString(item.icon,{"TOPLEFT", item.icon, "TOPLEFT", 0, 1},"","OUTLINE",12)
 		item.icon.Count = PIGFontString(item.icon,{"BOTTOMRIGHT", item.icon, "BOTTOMRIGHT", 1, 1},1,"OUTLINE",12)
 		item.Need = CreateFrame("Button", nil, item,"LootRollButtonTemplate",1);
 		item.Need:SetNormalTexture("Interface/Buttons/UI-GroupLoot-Dice-Up")
@@ -228,6 +227,7 @@ function FramePlusfun.Roll()
 				end
 			end
 		end)
+		return item
 	end
 	local function GroupLootContainer_AddFrame(self, frame)
 		local idx = self.maxIndex + 1;
@@ -244,39 +244,29 @@ function FramePlusfun.Roll()
 		GroupLootContainer_Update(self);
 		frame:Show();
 	end
-	local function GroupLootFrame_OpenNewFrame(id, rollTime)
-		local frame;
-		local yiyouBUTnum = #RollFFF.butList
-		for i=1,yiyouBUTnum do
-			local frame = RollFFF.butList[i]
-			if ( not frame:IsShown() ) then
-				frame.rollID = id;
-				frame.rollTime = rollTime;
-				frame.numPlayers=0
-				frame.Need.Players={}
-				frame.Greed.Players={}
-				frame.Pass.Players={}
-				frame.Need.Count:SetText(0)
-				frame.Greed.Count:SetText(0)
-				frame.Pass.Count:SetText(0)
-				frame.Timer:SetMinMaxValues(0, rollTime);
-				GroupLootContainer_AddFrame(RollFFF, frame);
-				return;
-			end
-		end
-		add_hang(yiyouBUTnum+1)
-		local frame = RollFFF.butList[yiyouBUTnum+1]
+	local function initialize_button(frame,id,rollTime)
 		frame.rollID = id;
 		frame.rollTime = rollTime;
 		frame.PlayersList={}
 		frame.Need.Players={}
 		frame.Greed.Players={}
 		frame.Pass.Players={}
-		frame.Need.Count:SetText(#frame.Need.Players)
-		frame.Greed.Count:SetText(#frame.Greed.Players)
-		frame.Pass.Count:SetText(#frame.Pass.Players)
+		frame.Need.Count:SetText(0)
+		frame.Greed.Count:SetText(0)
+		frame.Pass.Count:SetText(0)
 		frame.Timer:SetMinMaxValues(0, rollTime);
 		GroupLootContainer_AddFrame(RollFFF, frame);
+	end
+	local function GroupLootFrame_OpenNewFrame(id, rollTime)
+		local yiyouBUTnum = #RollFFF.butList
+		for i=1,yiyouBUTnum do
+			local frameXX = RollFFF.butList[i]
+			if ( not frameXX:IsShown() ) then
+				initialize_button(frameXX,id, rollTime)
+				return
+			end
+		end
+		initialize_button(add_hang(yiyouBUTnum+1),id, rollTime)
 	end
 	----------
 	RollFFF:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -296,7 +286,7 @@ function FramePlusfun.Roll()
 				local frame = RollFFF.butList[i]
 				if frame and frame.rollID == rollID then
 					local name, class, rollType, roll, isWinner = C_LootHistory.GetPlayerInfo(arg1, arg2);
-					print(name, class, rollType, roll, isWinner)
+					--print(name, class, rollType, roll, isWinner)
 					frame.PlayersList[arg2]=rollType
 					if rollType==1 then
 						table.insert(frame.Need.Players,{name,class})
@@ -309,6 +299,7 @@ function FramePlusfun.Roll()
 						frame.Pass.Count:SetText(#frame.Pass.Players)
 					end
 					for pid=1,numPlayers do
+						print(frame.PlayersList[pid])
 						if not frame.PlayersList[pid] then
 							frame:Show()
 							return
