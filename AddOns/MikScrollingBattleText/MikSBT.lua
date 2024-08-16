@@ -19,7 +19,8 @@ local string_sub = string.sub
 local string_gsub = string.gsub
 local string_match = string.match
 local math_floor = math.floor
-local GetSpellInfo = GetSpellInfo
+local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
+local GetAddOnMetadata = C_AddOns.GetAddOnMetadata
 
 
 -------------------------------------------------------------------------------

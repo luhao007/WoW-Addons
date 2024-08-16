@@ -1,9 +1,7 @@
 
 BuildEnv(...)
 
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded
-
-debug = IsAddOnLoaded('!!!!!tdDevTools') and print or nop
+debug = C_AddOns.IsAddOnLoaded('!!!!!tdDevTools') and print or nop
 
 Addon = LibStub('AceAddon-3.0'):NewAddon('MeetingStone', 'AceEvent-3.0', 'LibModule-1.0', 'LibClass-2.0', 'AceHook-3.0')
 
@@ -41,7 +39,7 @@ function Addon:OnInitialize()
     end
 	--显示职业图标
 	InitMeetingStoneClass()
-
+	
 	--2022-11-18 部分人反馈小图标隐藏后打不开，增加命令打开方式 /ms  、 /meetingstone
 	SlashCmdList["MeetingStone"] = function() MainPanel:Show() end;
     _G["SLASH_MeetingStone1"] = "/ms";
@@ -49,7 +47,7 @@ function Addon:OnInitialize()
 end
 
 function Addon:OnEnable()
-    if IsAddOnLoaded('RaidBuilder') then
+    if C_AddOns.IsAddOnLoaded('RaidBuilder') then
         DisableAddOn('RaidBuilder')
         GUI:CallWarningDialog(L.FoundRaidBuilder, true, nil, ReloadUI)
         return

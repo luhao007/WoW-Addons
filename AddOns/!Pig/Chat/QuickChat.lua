@@ -491,6 +491,7 @@ function QuickChatfun.Open()
 	--
 	QuickChatfun.QuickBut_Keyword()
 	QuickChatfun.QuickBut_Roll()
+	QuickChatfun.QuickBut_Stats()
 	QuickChatfun.QuickBut_Jilu()
 	QuickChatfun.QuickBut_jiuwei()
 	QuickChatfun.Update_QuickChatPoint(PIGA["Chat"]["QuickChat_maodian"])

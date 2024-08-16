@@ -33,11 +33,12 @@ function PIGGetContainerIDlink(bag, slot)
 end
 --发送消息
 function PIGSendChatRaidParty(txt)
-	--SendChatMessage(txt, "SAY");--测试
 	if IsInRaid() then
 		SendChatMessage(txt, "RAID");
 	elseif IsInGroup() then
 		SendChatMessage(txt, "PARTY");
+	else
+		SendChatMessage(txt, "SAY");
 	end
 end
 function PIGSendAddonMessage(biaotou,txt)

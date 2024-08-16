@@ -245,7 +245,7 @@ local SendAddonMessage = C_ChatInfo and C_ChatInfo.SendAddonMessage or SendAddon
 local pig_PREFIX="!Pig-YCIN";
 local ala_PREFIX = "ATEADD"
 local td_PREFIX = "tdInspect"
-local YCinfo_GET_MSG = {"!GETALL","!GETT-","!GETG-","!GETR-"};
+local YCinfo_GET_MSG = {"!GETALL","!GETT-","!GETG-","!GETR-","!GETI-"};
 local RegisterAddonMessagePrefix = C_ChatInfo and C_ChatInfo.RegisterAddonMessagePrefix or RegisterAddonMessagePrefix;
 local IsAddonMessagePrefixRegistered = C_ChatInfo and C_ChatInfo.IsAddonMessagePrefixRegistered or IsAddonMessagePrefixRegistered;
 RegisterAddonMessagePrefix(pig_PREFIX)
@@ -311,7 +311,7 @@ local function Update_ShowItem(itemstxt,laiyuan)
 end
 Fun.Update_ShowItem=Update_ShowItem
 local function Update_ShowPlayer(Player,lyfrome)
-	local class,race,level = unpack(Player)
+	local class,race,level,itemLV = unpack(Player)
 	local className, classFile = PIG_ClassInfo(class)
 	local raceName = "  "
 	if tonumber(race)>0 then
@@ -327,6 +327,7 @@ local function Update_ShowPlayer(Player,lyfrome)
 	yuanchengCFrame.ZBLsit.level=level
 	yuanchengCFrame.ZBLsit.zhiyeID=class
 	yuanchengCFrame.ZBLsit.zhiye=classFile
+	yuanchengCFrame.ZBLsit.itemLV=itemLV
 	yuanchengCFrame.ZBLsit:Update_Player(lyfrome)
 end
 Fun.Update_ShowPlayer=Update_ShowPlayer
@@ -367,7 +368,6 @@ local function PIG_tiquMsg(msgx,nameX)
 	if yuanchengCFrame:IsShown() and yuanchengCFrame.fullnameX==nameX then
 		local qianzhui = msgx:sub(1, 2)
 		if qianzhui == "!P" then
-
 			if not msgx:match("@") then
 				yuanchengCFrame.fanhuiYN=true
 				local allnum = msgx:sub(3, 3)
@@ -573,6 +573,9 @@ yuanchangchakanFFF:SetScript("OnEvent",function(self, event, arg1, arg2, _, arg4
 			elseif arg2==YCinfo_GET_MSG[4] then
 				local info =GetRuneTXT()
 				SendAddonMessage(pig_PREFIX, "!R-"..info, "WHISPER", arg5)
+			elseif arg2==YCinfo_GET_MSG[5] then
+				local Player =TalentData.SAVE_Player()
+				SendAddonMessage(pig_PREFIX, "!I-"..Player, "WHISPER", arg5)
 			else
 				PIG_tiquMsg(arg2,arg5)
 			end

@@ -1,5 +1,7 @@
 ﻿function PhoenixStyleEA_OnLoad()
 
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded
+
 psealocalem()
 if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocale()=="zhCN" or GetLocale()=="frFR" or GetLocale()=="koKR" or GetLocale()=="esES" or GetLocale()=="esMX" or GetLocale()=="ptBR" then
   psealocale()
@@ -60,8 +62,8 @@ end
 	SLASH_PHOENIXSTYLEEASYACH9 = "/ра"
 	SLASH_PHOENIXSTYLEEASYACH10 = "/raida"
 	SlashCmdList["PHOENIXSTYLEEASYACH"] = PHOENIXSTYLEEASYACH_Command
-	
-	
+
+
 	RaidAchievementframe:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	RaidAchievementframe:RegisterEvent("CHAT_MSG_ADDON")
 	RaidAchievementframe:RegisterEvent("CHAT_MSG_INSTANCE_CHAT")
@@ -152,7 +154,7 @@ if ramsgwaiting>0 and racurrenttime>ramsgwaiting+1.5 then
   --тут аннонс and обнуление всех таблиц
 
   local bililine=0
-  for i,cc in ipairs(rabigmenuchatlisten) do 
+  for i,cc in ipairs(rabigmenuchatlisten) do
     if string.lower(cc) == string.lower(ramsgmychat) then bililine=1
     end
   end
@@ -236,7 +238,7 @@ if rastriniz2==nil then else
 local rastrfine2=string.find(arg2, "++", rastriniz2)
 
 local rabililinet=0
-for i,getcrash in ipairs(racanannouncetable) do 
+for i,getcrash in ipairs(racanannouncetable) do
 if getcrash == string.sub(arg2, rastriniz2+1, rastrfine2-1) then rabililinet=1
 end end
 if(rabililinet==0)then
@@ -470,12 +472,12 @@ t4:SetPoint("TOPLEFT",30,-207)
     atext="|cff00ff00Messaggio importante!|r\n\nIl progetto |cff00ff00RaidAchievement|r forse sarà |cffff0000chiuso|r, per sappere cosa si può fare visita il sito\n\n|cff00ff00Evidenzia il link a clicca  Ctrl+C  per copiare|r"
   end
 
-  
+
 raraerrordfdfdpsdonatefr2 = CreateFrame("ScrollFrame", "raraerrordfdfdpsdonatefr2", PSFeamain3, "UIPanelScrollFrameTemplate")
 raraerrordfdfdpsdonatefr2:SetPoint("TOPLEFT", PSFeamain3, "TOPLEFT", 275, -405)
 raraerrordfdfdpsdonatefr2:SetHeight(40)
 raraerrordfdfdpsdonatefr2:SetWidth(220)
-  
+
 
 raraerrordfsdfsdfjy4 = CreateFrame("EditBox", "raraerrordfsdfsdfjy4", raraerrordfdfdpsdonatefr2)
 raraerrordfsdfsdfjy4:SetPoint("TOPRIGHT", raraerrordfdfdpsdonatefr2, "TOPRIGHT", 0, 0)
@@ -1556,7 +1558,7 @@ end
 
 function out(text)
 DEFAULT_CHAT_FRAME:AddMessage(text)
-UIErrorsFrame:AddMessage(text, 1.0, 1.0, 0, 1, 10) 
+UIErrorsFrame:AddMessage(text, 1.0, 1.0, 0, 1, 10)
 end
 
 function raver(cchat)
@@ -1700,7 +1702,7 @@ out("- "..chtorep)
 else
 
 local bililine=0
-for i,cc in ipairs(rabigmenuchatlisten) do 
+for i,cc in ipairs(rabigmenuchatlisten) do
 if cc == kudarep then bililine=1
 end end
 if kudarep=="Instance_CHAT" then
@@ -1955,7 +1957,7 @@ end
 	if raminibutshowt then
 RA_MinimapButton:Show()
 
-	if IsAddOnLoaded("SexyMap") then
+	if C_AddOns.IsAddOnLoaded("SexyMap") then
 	else
 	RA_MinimapButton_Reposition()
 	end
@@ -2251,7 +2253,7 @@ if rasoundtoplay[2]==1 then
 		--для марио звук не меняется!!
 		if achievid==8077 then
 		  raplaysound2(23)
-		else          
+		else
 		  raplaysound2(rasoundtoplay[5])
 		end
 			end
@@ -2480,9 +2482,9 @@ local _, month, day, year = tonumber(date("%H")),tonumber(date("%m")),tonumber(d
 if (year==2017 and (month==8 or month==9) and (day>22 and day<31) and raannouncerun4==0 and (psDoNotShowOtherAnnounces==nil or (psDoNotShowOtherAnnounces and psDoNotShowOtherAnnounces==0)) and math.random(1,100)>70) then
 	local text=""
 	--text="|cff00ff00RaidAchievement|r > I got WoW for my 20 years birthday, |cff00ff00today I celebrate 30|r. I created PS and RA addons 8 years ago, hope you use and like them :) They got more than |cff00ff0010 mln downloads|r and I raised just 1200 euro in 8 years with the bigger one of 300$. Now, addon is dying as I don't play for last 5 years, if you want to help: http://www.phoenixstyle.com/ also you can find more info about me and Italy where I live :)"
-	
+
 	--out (text)
-	
+
 	raannouncerun4=1
 	psDoNotShowOtherAnnounces=1
 end
@@ -2500,9 +2502,9 @@ if UnitInRaid("player")==nil and UnitInParty("player")==nil and psDoNotShowOther
     --text="|cff00ff00RaidAchievement|r |cffff0000важное обновление:|r для трекера достижений Катаклизма and ЛК требуется |cff00ff00скачать RaidAchievement_OldModules|r (с curse сайта). |cff00ff00AchievementsReminder|r - теперь отдельный независимый аддон, скоро с новыми функциями, если он вам тоже нужен - скачайте его отдельно."
 	text="|cff00ff00RaidAchievement|r > требуется Ваша помощь, чтобы аддон продолжил свое существование в |cff00ff00следующем патче!|r Детальнее: http://www.phoenixstyle.com/help"
   end
-  
+
   out(text)
-  
+
   if psdonaspanvar==nil then
     psdonaspanvar=1
   elseif psdonaspanvar and psdonaspanvar==1 then
@@ -2536,7 +2538,7 @@ raerrordfdfdpsdonatefr2 = CreateFrame("ScrollFrame", "raerrordfdfdpsdonatefr2", 
 raerrordfdfdpsdonatefr2:SetPoint("TOPLEFT", PSFeaerrorgeneral, "TOPLEFT", 275, -265)
 raerrordfdfdpsdonatefr2:SetHeight(40)
 raerrordfdfdpsdonatefr2:SetWidth(320)
-  
+
 
 raerrordfsdfsdfjy4 = CreateFrame("EditBox", "raerrordfsdfsdfjy4", raerrordfdfdpsdonatefr2)
 raerrordfsdfsdfjy4:SetPoint("TOPRIGHT", raerrordfdfdpsdonatefr2, "TOPRIGHT", 0, 0)

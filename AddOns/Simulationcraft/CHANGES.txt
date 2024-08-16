@@ -1,10 +1,10 @@
-lightweight tag 16deb18128df08182c091146e52464e4be39cc31 patch-11.0.0-03
+lightweight tag edc6d50aee4f70f2f983e8c78d275193e8665430 patch-11.0.2-01
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Wed Aug 7 13:47:08 2024 -0700
+Date:	Thu Aug 15 13:21:19 2024 -0700
 
-commit 16deb18128df08182c091146e52464e4be39cc31
+commit edc6d50aee4f70f2f983e8c78d275193e8665430
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Wed Aug 7 13:47:08 2024 -0700
+Date:   Thu Aug 15 13:21:19 2024 -0700
 
-    Add War Within upgrade items/currencies
+    Bump TOC version for 11.0.2
 

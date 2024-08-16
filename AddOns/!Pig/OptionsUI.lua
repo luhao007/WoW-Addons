@@ -9,7 +9,6 @@ local PIGLine=Create.PIGLine
 local PIGFontString=Create.PIGFontString
 local PIGSetFont=Create.PIGSetFont
 local GetAddOnMetadata=GetAddOnMetadata or C_AddOns and C_AddOns.GetAddOnMetadata
-local GetAddOnInfo=GetAddOnInfo or C_AddOns and C_AddOns.GetAddOnInfo
 --系统插件菜单======================
 local PIG_SetF = CreateFrame("Frame");
 PIG_SetF.Openshezhi = PIGButton(PIG_SetF,{"TOPLEFT",PIG_SetF,"TOPLEFT",20,-20},{80,24},L["OPTUI_SET"])
@@ -202,13 +201,13 @@ local function Showaddonstishi(self,laiyuan)
 		GameTooltip:AddLine(L["MAP_NIMIBUT_TIPS1"])
 	end
 	GameTooltip:Show();
-end
+end	
 PigMinimapBut:SetScript("OnEnter", function(self)
 	Showaddonstishi(self)
 end);
 PigMinimapBut:SetScript("OnLeave", function()
 	GameTooltip:ClearLines();
-	GameTooltip:Hide()
+	GameTooltip:Hide() 
 end);
 local function YDButtonP(xpos,ypos)
 	local mode = PIGA["Map"]["MinimapPoint"]
@@ -243,7 +242,7 @@ local function YDButtonP(xpos,ypos)
 		end
 	end
 end
-local function YDButtonP_OnUpdate()
+local function YDButtonP_OnUpdate()	
 	local mode = PIGA["Map"]["MinimapPoint"]
 	local banjing = PigMinimapBut.banjing
 	local xpos,ypos = GetCursorPosition()
@@ -325,7 +324,7 @@ local function addonsClick(button)
 		else
 			if PIGA["Map"]["MiniButShouNa_YN"]==1 then
 				if NDui and RecycleBinToggleButton then
-					if Pig_OptionsUI:IsShown() then
+					if Pig_OptionsUI:IsShown() then	
 						Pig_OptionsUI:Hide();
 					else
 						PigMinimapBut.Snf:Hide();
@@ -333,7 +332,7 @@ local function addonsClick(button)
 					end
 				else
 					PigMinimapBut.Snf.tishi:Hide();
-					if PigMinimapBut.Snf:IsShown() then
+					if PigMinimapBut.Snf:IsShown() then	
 						PigMinimapBut.Snf:Hide();
 					else
 						Pig_OptionsUI:Hide();
@@ -342,7 +341,7 @@ local function addonsClick(button)
 						PigMinimapBut.Snf.zhengzaixianshi = true;
 					end
 				end
-			else
+			else	
 				PigMinimapBut.Snf.tishi:Show();
 				if PigMinimapBut.Snf:IsShown() then
 					PigMinimapBut.Snf:Hide();
@@ -352,7 +351,7 @@ local function addonsClick(button)
 			end
 		end
 	else
-		if Pig_OptionsUI:IsShown() then
+		if Pig_OptionsUI:IsShown() then	
 			Pig_OptionsUI:Hide();
 		else
 			PigMinimapBut.Snf:Hide();
@@ -424,7 +423,7 @@ function PigMinimapBut:Point()
 				PigMinimapBut.Icon:SetDrawLayer("BACKGROUND",1)
 				PigMinimapBut.Border:SetTexture("Interface/Minimap/MiniMap-TrackingBorder");
 				PigMinimapBut.Border:SetSize(56,56);
-				PigMinimapBut.Border:ClearAllPoints();
+				PigMinimapBut.Border:ClearAllPoints();	
 				PigMinimapBut.Border:SetPoint("TOPLEFT", -1, 0);
 				PigMinimapBut.Border:Show()
 				if tocversion<100000 then
@@ -482,7 +481,7 @@ function PigMinimapBut:Point()
 		PigMinimapBut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
 	elseif mode == 4 then--聊天框
 		PigMinimapBut.Border:Hide()
-		PigMinimapBut:ClearAllPoints();
+		PigMinimapBut:ClearAllPoints();	
 		if NDui then
 			ButpingXY.W,ButpingXY.H=21,21
 			ButpingXY.iconW,ButpingXY.iconH=20,20
@@ -506,13 +505,13 @@ function PigMinimapBut:Point()
 	elseif mode == 5 then--附着于ElvUI地图下方
 		local function ElvUIPoint()
 			if ElvUI and MinimapPanel:IsVisible() then
-				PigMinimapBut:ClearAllPoints();
+				PigMinimapBut:ClearAllPoints();	
 				PigMinimapBut:SetPoint("TOPLEFT",MinimapPanel,"TOPLEFT",0.8,-0.6)
 				PigMinimapBut:SetPoint("BOTTOMLEFT",MinimapPanel,"BOTTOMLEFT",0,0.6)
-				local hhhh = MinimapPanel:GetHeight()
+				local hhhh = MinimapPanel:GetHeight()	
 				PigMinimapBut:SetWidth(hhhh-1.2);
 				PigMinimapBut.Icon:SetAllPoints(PigMinimapBut)
-				local wwww = MinimapPanel:GetWidth()
+				local wwww = MinimapPanel:GetWidth()	
 				local DataTextwww = (wwww-hhhh-2)*0.5
 				if MinimapPanel_DataText1 then
 					MinimapPanel_DataText1:SetWidth(DataTextwww)
@@ -549,7 +548,7 @@ PigMinimapBut.Snf:SetScript("OnUpdate", function(self, ssss)
 				self:Hide();
 				self.zhengzaixianshi = nil;
 			else
-				self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;
+				self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;	
 			end
 		end
 	end
@@ -565,11 +564,11 @@ function PIGCompartmentClick(addonName, buttonName, menuButtonFrame)
     addonsClick(buttonName)
 end
 function PIGCompartmentEnter(addonName, menuButtonFrame)
-	Showaddonstishi(menuButtonFrame,true)
+	Showaddonstishi(menuButtonFrame,true)	
 end
 function PIGCompartmentLeave(addonName, menuButtonFrame)
 	GameTooltip:ClearLines();
-	GameTooltip:Hide()
+	GameTooltip:Hide() 
 end
 --PIG屏幕提示信息栏
 local infotip = CreateFrame("MessageFrame", "PIGinfotip", UIParent);
@@ -630,7 +629,7 @@ function QuickBut:GengxinWidth()
 			end
 		end
 		local geshu1 = #Children1-yincangshunum
-		if geshu1>0 then
+		if geshu1>0 then 
 			self:Show()
 			local NewWidth = butW*geshu1+2
 			self:SetWidth(NewWidth+self.yidong:GetWidth())

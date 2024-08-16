@@ -15,6 +15,8 @@ local LSM = LibStub:GetLibrary("LibSharedMedia-3.0", true)
 local LibDualSpec = LibStub("LibDualSpec-1.0", true)
 local L = LibStub("AceLocale-3.0"):GetLocale(AppName)
 
+local LoadAddOn = C_AddOns.LoadAddOn
+
 -- internal vars
 
 local uiScale = 1.0 -- just to be safe...

@@ -205,7 +205,12 @@ function BusinessInfo.MailPlus_ADDUI()
 		InboxFrame.PIG_Select=1
 		InboxFrame.PIG_MoneyG=nil
 		if NDui then
-			InboxTitleText:SetPoint("CENTER",MailFrame,"CENTER",-140,200);
+			if InboxTitleText then
+				InboxTitleText:SetPoint("CENTER",MailFrame,"CENTER",-140,200)
+			elseif MailFrame.TitleContainer then
+				MailFrame.TitleContainer:SetPoint("TOPLEFT",MailFrame,"TOPLEFT",0,-1) 
+				MailFrame.TitleContainer:SetPoint("TOPRIGHT",MailFrame,"TOPRIGHT",-260,-1)  
+			end
 		end
 		InboxFrame:Show_tabList()
 	end);
@@ -572,7 +577,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	coll.list:PIGSetBackdrop(nil,nil,nil,nil,0)
 	coll.list:PIGClose()
 	coll.list.xuanzelaiyuan=1
-	if NDui then
+	if NDui and NDuiMailBoxScrollFrame then
 		coll.list.xuanzelaiyuan=2
 		coll.list.yijiazai=false
 		coll.list:HookScript("OnShow", function (self)

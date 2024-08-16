@@ -8,6 +8,7 @@ local PIGFontString=Create.PIGFontString
 ---------------
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Roll()
+	local tocversion=9999999
 	if tocversion>50000 then return end
 	if not PIGA["FramePlus"]["Roll"] then return end
 	-- UIParent:UnregisterEvent("START_LOOT_ROLL")
@@ -173,9 +174,7 @@ function FramePlusfun.Roll()
 		item.Timer.BACKGROUND:SetTexture("interface/characterframe/ui-party-background.blp")
 		item.Timer.BACKGROUND:SetAllPoints(item.Timer)
 		item.Timer.BACKGROUND:SetColorTexture(0, 0, 0, 0.5)
-
 		RollFFF.butList[id]=item
-		item:RegisterEvent("CANCEL_LOOT_ROLL");
 		item:SetScript("OnShow", function(self)
 			if item.ceshi then return end
 			local texture, name, count, quality, bindOnPickUp, canNeed, canGreed, canDisenchant, reasonNeed, reasonGreed, reasonDisenchant, deSkillRequired = GetLootRollItemInfo(self.rollID);
@@ -195,9 +194,6 @@ function FramePlusfun.Roll()
 			else
 				self.name:SetText(itemLink)
 			end
-			-- self.name:SetText(name);
-			-- local color = ITEM_QUALITY_COLORS[quality];
-			-- self.name:SetVertexColor(color.r, color.g, color.b);
 			if ( count > 1 ) then
 				self.icon.Count:SetText(count);
 				self.icon.Count:Show();
@@ -217,14 +213,6 @@ function FramePlusfun.Roll()
 			else
 				GroupLootFrame_DisableLootButton(self.Greed);
 				self.Greed.reason = _G["LOOT_ROLL_INELIGIBLE_REASON"..reasonGreed];
-			end
-		end)
-		item:SetScript("OnEvent", function(self, event, arg1, arg2)
-			if ( event == "CANCEL_LOOT_ROLL" ) then
-				if ( arg1 == self.rollID ) then
-					GroupLootContainer_RemoveFrame(RollFFF, self);
-					--StaticPopup_Hide("CONFIRM_LOOT_ROLL", self.rollID);
-				end
 			end
 		end)
 		return item
@@ -268,10 +256,12 @@ function FramePlusfun.Roll()
 		end
 		initialize_button(add_hang(yiyouBUTnum+1),id, rollTime)
 	end
-	----------
+	---------
 	RollFFF:RegisterEvent("PLAYER_ENTERING_WORLD")
 	RollFFF:RegisterEvent("START_LOOT_ROLL")
+	RollFFF:RegisterEvent("LOOT_ROLLS_COMPLETE")
 	RollFFF:RegisterEvent("LOOT_HISTORY_ROLL_CHANGED")
+	RollFFF:RegisterEvent("CANCEL_LOOT_ROLL");
 	RollFFF:SetScript("OnEvent", function(self, event, arg1, arg2, arg3) 
 		if ( event == "PLAYER_ENTERING_WORLD" ) then
 			local pendingLootRollIDs = GetActiveLootRollIDs();
@@ -280,13 +270,12 @@ function FramePlusfun.Roll()
 			end
 		elseif event == "START_LOOT_ROLL" then
 			GroupLootFrame_OpenNewFrame(arg1, arg2);
-		elseif ( event == "LOOT_HISTORY_ROLL_CHANGED" ) then
-			local rollID, itemLink, numPlayers, isDone, winnerIdx = C_LootHistory.GetItem(arg1);		
-			for i=1, #RollFFF.butList do
-				local frame = RollFFF.butList[i]
-				if frame and frame.rollID == rollID then
+		elseif ( event == "LOOT_HISTORY_ROLL_CHANGED" or event == "CANCEL_LOOT_ROLL" or event == "LOOT_ROLLS_COMPLETE") then
+			local rollID, itemLink, numPlayers, isDone, winnerIdx = C_LootHistory.GetItem(arg1);
+			for k, v in pairs(self.rollFrames) do
+				local frame = v
+				if frame.rollID == rollID then
 					local name, class, rollType, roll, isWinner = C_LootHistory.GetPlayerInfo(arg1, arg2);
-					--print(name, class, rollType, roll, isWinner)
 					frame.PlayersList[arg2]=rollType
 					if rollType==1 then
 						table.insert(frame.Need.Players,{name,class})
@@ -299,12 +288,13 @@ function FramePlusfun.Roll()
 						frame.Pass.Count:SetText(#frame.Pass.Players)
 					end
 					for pid=1,numPlayers do
-						print(frame.PlayersList[pid])
+						print(numPlayers,pid,frame.PlayersList[pid])
 						if not frame.PlayersList[pid] then
 							frame:Show()
 							return
 						end
 					end
+					print(event,"执行删除")
 					GroupLootContainer_RemoveFrame(RollFFF, frame);
 					return
 				end

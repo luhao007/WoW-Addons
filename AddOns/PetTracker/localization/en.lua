@@ -32,6 +32,8 @@ L.UpgradeAlert = 'Wild upgrades have appeared!'
 L.TotalRivals = 'Total Rivals'
 L.ZoneTracker = 'Zone Tracker'
 
+local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
+
 -- automatic. do not translate unless necessary
 L.Maximized = WINDOWED_MAXIMIZED
 L.Defeat = PVP_MATCH_DEFEAT:lower():gsub('^.', strupper)

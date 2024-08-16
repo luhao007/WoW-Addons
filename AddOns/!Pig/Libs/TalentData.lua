@@ -5840,8 +5840,8 @@ function TalentData.SAVE_Player()
 	local raceName, raceFile, raceID = UnitRace("player")
 	local level = UnitLevel("player")
 	local _, classId = UnitClassBase("player");
-	local myItemLevel = GetAverageItemLevel();
-	local Info = Info..classId.."-"..raceID.."-"..level.."-"..myItemLevel
+	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
+	local Info = Info..classId.."-"..raceID.."-"..level.."-"..avgItemLevelEquipped
 	return Info
 end
 local function PIGGetNumTalentGroups()

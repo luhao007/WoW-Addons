@@ -61,6 +61,9 @@ L.FAQ = {
 	'按住 Shift 键并拖动动作条。',
 }
 
+L.PatronsDescription = 'PetTracker is distributed for free and supported trough donations. A massive thank you to all the supporters on Patreon and Paypal who keep development alive. You can become a patron too at |cFFF96854patreon.com/jaliborc|r.'
+L.HelpDescription = 'Here we provide answers to the most frequently asked questions. We also recommend following the ingame tutorial. If neither solve your problem, you might consider asking for help on the PetTracker user community on discord.'
+
 L.Tutorial = {
 [[欢迎！现在使用的是 |cffffd200PetTracker|r，由 |cffffd200Jaliborc|r 制作，|cffffd200Adavak - CN 斯坦索姆|r简体中文汉化。
 

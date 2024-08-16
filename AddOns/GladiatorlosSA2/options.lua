@@ -8,6 +8,9 @@ local options_created = false -- ***** @
 
 local GSA_OUTPUT = {["MASTER"] = L["Master"],["SFX"] = L["SFX"],["AMBIENCE"] = L["Ambience"],["MUSIC"] = L["Music"],["DIALOG"] = L["Dialog"]}
 
+local GetAddOnMetadata = C_AddOns.GetAddOnMetadata
+local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
+
 function GSA:ShowConfig()
 	for i=1,2 do InterfaceOptionsFrame_OpenToCategory(GetAddOnMetadata("GladiatorlosSA2", "Title")) end -- ugly fix
 
@@ -56,11 +59,11 @@ local function getOption(info)
 end
 
 local function spellOption(order, spellID, ...)
-	local spellname, _, icon = GetSpellInfo(spellID)	
+	local spellname, _, icon = GetSpellInfo(spellID)
 	if (spellname ~= nil) then
 		return {
 			type = 'toggle',
-			name = "\124T" .. icon .. ":24\124t" .. spellname,			
+			name = "\124T" .. icon .. ":24\124t" .. spellname,
 			desc = function ()
 				GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
 				GameTooltip:SetHyperlink(C_Spell.GetSpellLink(spellID))
@@ -75,7 +78,7 @@ local function spellOption(order, spellID, ...)
 		GSA.log("spell id: " .. spellID .. " is invalid")
 		return {
 			type = 'toggle',
-			name = "Unknown Spell; ID:" .. spellID,	
+			name = "Unknown Spell; ID:" .. spellID,
 			order = order,
 		}
 	end
@@ -89,7 +92,7 @@ local function listOption(spellList, listType, ...)
 		if GSA_SpellName then
 			rawset (args, GSA_SpellName, spellOption(k, v))
 			GameTooltip:Hide()
-		else 
+		else
 		end
 	end
 	return args
@@ -133,7 +136,7 @@ function GSA:MakeCustomOption(key)
 				name = L["Remove"],
 				confirm = true,
 				confirmText = L["Are you sure?"],
-				func = function() 
+				func = function()
 					db[key] = nil
 					options[key] = nil
 				end,
@@ -227,7 +230,7 @@ function GSA:MakeCustomOption(key)
 		}
 	}
 end
-	
+
 function GSA:OnOptionCreate()
 	gsadb = self.db1.profile
 	options_created = true -- ***** @
@@ -387,13 +390,13 @@ function GSA:OnOptionCreate()
 				menu_voice = {
 						type = 'group',
 						inline = true,
-						name = L["Voice menu config"], 
+						name = L["Voice menu config"],
 						order = -3,
 						args = {
 							path_menu = {
 								type = 'select',
 								name = L["Choose a test voice pack"],
-								desc = L["Select the menu voice pack alert"], 
+								desc = L["Select the menu voice pack alert"],
 								values = self.GSA_LANGUAGE,
 								order = 1,
 							},
@@ -457,7 +460,7 @@ function GSA:OnOptionCreate()
 								desc = L["Alert works only when your current target or focus gains the buff effect or use the ability"],
 								order = 10,
 							},
-							drinking = { -- AuraApplied 
+							drinking = { -- AuraApplied
 								type = 'toggle',
 								name = L["Alert Drinking"],
 								desc = L["In arena, alert when enemy is drinking"],
@@ -480,7 +483,7 @@ function GSA:OnOptionCreate()
 								type = 'group',
 								inline = true,
 								name = L["General Abilities"],
-								order = 30,					      		
+								order = 30,
 								args = listOption({195901,214027,34709,345231,377360},"auraApplied"),
 							},
 							dispelkickback = { -- AuraApplied
@@ -734,7 +737,7 @@ function GSA:OnOptionCreate()
 							--	name = L["DeathKnight"],
 							--	order = 40,
 							--	args = listOption({},"castStart"),
-							--},	
+							--},
 							demonhunter = { -- CastStart
 								type = 'group',
 								inline = true,
@@ -991,7 +994,7 @@ function GSA:OnOptionCreate()
 							newname = {
 								type = 'input',
 								name = "name",
-								set = function(info, value) local name = info[#info] if gsadb.custom[vlaue] then log("name already exists") return end gsadb.custom[vlaue]={} end,			
+								set = function(info, value) local name = info[#info] if gsadb.custom[vlaue] then log("name already exists") return end gsadb.custom[vlaue]={} end,
 							}]]
 						func = function()
 							gsadb.custom[L["New Sound Alert"]] = {
@@ -1027,12 +1030,12 @@ function GSA:OnOptionCreate()
 
 	for k, v in pairs(gsadb.custom) do
 		self:MakeCustomOption(k)
-	end	
+	end
 	AceConfig:RegisterOptionsTable("GladiatorlosSA", self.options)
 	self:AddOption(L["General"], "general")
 	self.options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db1)
 	self.options.args.profiles.order = -1
-	
+
 	self:AddOption(L["Abilities"], "spells")
 	self:AddOption(L["Custom"], "custom")
 	self:AddOption(L["Profiles"], "profiles")
