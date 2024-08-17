@@ -113,14 +113,11 @@ function QuickChatfun.QuickBut_Stats()
 	local TalentData=addonTable.Data.TalentData
 	fuFrame.playerStats:SetScript("OnClick", function(self, event)
 		if event=="LeftButton" then
-			-- local txt = "属性通报：".."职业：" .. UnitClass("player") .."  天赋：" .. GetTalentTabInfo(2) .. "  装等：" .. select(2, GetAverageItemLevel())
-			-- local zhiye, classId = UnitClassBase("player");
-			-- local txt1 = TalentData.GetTianfuIcon(guancha,zhiye)
-			-- for k,v in pairs(txt1) do
-			-- 	print(k,v)
-			-- end
-			-- --PIGSendChatRaidParty(txt)
-			PIGSendChatRaidParty("面包会有的")
+			local shuxintxt = TalentData.Player_Stats()
+			local editBoxXX = ChatEdit_ChooseBoxForSend()
+	        ChatEdit_ActivateChat(editBoxXX)
+			editBoxXX:Insert(shuxintxt)
+			--PIGSendChatRaidParty()
 		else
 			PIGSendChatRaidParty("面包会有的")
 		end

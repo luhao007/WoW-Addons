@@ -1,19 +1,15 @@
 ## Interface: 110002
-## Author: Simca@Malfurion
-## Version: v1.30.1
-## SavedVariables: BPBID_Options
-
 ## Title: Battle Pet BreedID
+## Author: Simca@Malfurion
 ## Notes: Displays the BreedID of pets in your journal, in battle, in chat links, and in AH tooltips.
-## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF战斗宠物品种|r |cFFFFE00ABattlePetBreedID|r
-## Notes-zhCN: 显示战斗宠物的品种（如速度型）
-
+## Version: v1.30.2
 ## X-Category: Pet Battles
-## X-Date: 2024-08-14T00:53:54Z
+## X-Date: 2024-08-16T19:16:48Z
 ## X-License: BSD
 ## X-Localizations: enUS
 ## X-Curse-Project-ID: 45935
 ## X-WoWI-ID: 23217
+## SavedVariables: BPBID_Options
 
 BattlePetBreedID.lua
 PetData.lua

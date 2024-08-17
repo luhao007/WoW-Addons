@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: John Wellesz
-## Version: 2.7.21
+## Version: 2.7.22
 ## OptionalDeps: Ace3, LibQTip-1.0, LibDataBroker-1.1, LibDBIcon-1.0, !BugGrabber, LibDualSpec-1.0
 ## LoadManagers: AddonLoader
 ## SavedVariables: DecursiveDB
@@ -18,7 +18,7 @@
 ## X-LoadOn-Class: Mage, Priest, Paladin, Druid, Hunter, Warlock, Shaman, Monk, Deathknight, Evoker
 ## X-LoadOn-Slash: /decursive, /dcr
 ## X-Embeds: Ace3, LibQTip-1.0, LibDataBroker-1.1, LibDBIcon-1.0, !BugGrabber, LibDualSpec-1.0
-## X-ReleaseDate: "2024-08-05T23:21:19Z"
+## X-ReleaseDate: "2024-08-16T12:53:46Z"
 ## X-Category: Combat
 ## X-Website: http://www.2072productions.com/to/decursive.php
 ## X-Credits: Sylvin (Full french translation), Peter Sun, Ananhaid (ZhTW and zhCN translation), Fenlis, Chkid (koKR translation), Hemathio, Swix, Athariel, StingerSoft (Russian Translation), Freydis88, Floyddotnet, Vilogity, Dessa, Farook (German translation)

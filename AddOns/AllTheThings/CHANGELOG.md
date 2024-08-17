@@ -1,205 +1,138 @@
 # AllTheThings
 
-## [4.0.4](https://github.com/DFortun81/AllTheThings/tree/4.0.4) (2024-08-11)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.3...4.0.4) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [4.0.5](https://github.com/DFortun81/AllTheThings/tree/4.0.5) (2024-08-16)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.4...4.0.5) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
-- parse goes bzzz  
-- useless pvp tags  
-- Azerite essences from Mythic dungeons should no longer show as removed on the tooltip.  
-- TWW: Manual override for Trapped Trove achievement  
-- TWW: Treasures of Isle of Dorn HQT typo fix  
-- TWW: Fixed Treasures of Azj-Kahet achievement  
-- updated timelines for remix. ill add the exact number when tis time, but i already updated the comment  
-- SOD: Added all of the Sunken Temple crafted epics.  
-- SOD: Added Skyrider's Masterwork Stormhammer.  
-- SOD: Added Leather-Reinforced Runecloth Bag.  
-- SOD: Added Mastercrafted Shifting Cloak.  
-- SOD: Added the Epic Crafted Argent Dawn items to the Quartermaster. Marked Dawnbringer Shoulders as available in SOD.  
-- TWW: this is fine  
-- Adjusted the Argent Quartermasters so that the primary source of the data comes from EPL and uses a symlink to mirror data to the other zones. (This will prevent Tirisfall Glades from showing up for Alliance, yes, there's a vendor there, but it's in the middle of a Horde camp. lul)  
-- Cleared few source names.  
-- SOD: Added Embroidered Belt of the Archmage.  
-- Added all SOD sources to Retail as NYI.  
-- Classic: Added some TCG items that were created in Classic and added in TBC to NYI.  
-- Sourced a bunch of classic NYI items.  
-- Charred Fishing Pole no longer explicitly marked collectible.  
-- Added a timeline to the Sourceless header in NYI.  
-- SOD: Added Brilliant Chromatic Cloak.  
-- Retail: The SOD quest "Sweet Serenity" no longer appears in Winterspring. (after parsing)  
-- SOD: Added Girdle of Arcane Insight.  
-- SOD: Added Swift Flight Vambraces.  
-- SOD: The faction too...  
-- SOD: The Hydraxian Waterlords reputation now appears in the mini list for Searing Gorge.  
-- SOD: Fixed the new Sulfuron Hammer recipe not having a reference to its spellID.  
-- Seed of Life also takes place in Moonglade.  
-- TWW: quests, delves and rares in Isle of Dorn zone  
-- Some fixes/cleanup to Heroic/Epic TWW content  
-- Retail: Total Cost calculations now includes Warband Bank quantity towards the 'progress', and checkmark indication (i.e. do you have enough available) now includes Reagent Bank amount (Vendors accept currency items from Reagent Bank, but not Bank/WB Bank)  
-- SOD: Added the updated The Balance of Light and Shadow quest for Priests.  
-- SOD: Added the NYI reitemized version of Blade of Hanna.  
-- SOD: Added Drape of the Fire Lord to Ragnaros.  
-- SOD: Added the reitemized version of Malicious Axe. It does not have any drop data.  
-- SOD: Added Ebon Hilt of Marduk, though currently it doesn't have any drop data.  
-- SOD: Added reitemized loot tables for Dire Maul. (Knot's chest in progress...)  
-- TWW: Earthen bones (need another look)  
-- Added region specific helper functions.  
-- SOD: Added Incandescent Mooncloth Robe.  
-- SOD: Added UBRS reitemized loot tables.  
-    SOD: Added Fiery Plate Gauntlets of the Hidden Technique.  
-- SOD: Updated LBRS reitemized loot tables.  
-- SOD: Added Masterwork Volcanic Leggings & Shoulders.  
-- Timeless Isle objects  
-- SOD: Added Masterwork Volcanic Breastplate.  
-- SOD: Bloodpetal Zapper is also not available.  
-- Added an additional path.  
-- Fixed a bug with mini lists for outdoor portions of instances, particularly for Maraudon's winding entrance cavern. (Might also fix WC?)  
-- Retail: Criteria-based automatic headers now use the matching icon of their Achievement  
-- Adventurer's Lucky ring has no faction loyalties  
-- Wago file update  
-- SOD: The Blood Moon faction probably isn't one that you can get reputation with.  
-- SOD: Bloodpetal Sprouts quest from ST is not available.  
-- Sort NYI Midsummer quest, fixes #1672  
-- SOD: Adjusted some phase specific drops.  
-- SOD: Boots of the Shrieker comes back as Retrieving data. (super removed from game)  
-- SOD: Added reitemized loot drops for Scholomance.  
-- Added the Scourge Data object.  
-- SOD: Added reitemized loot drops for Stratholme.  
-- TWW: Isle of Dorn little fixes  
-- SOD: Added the Desecration blacksmithing recipe.  
-- SOD: Added reitemized T0 bracers and belts.  
-- TWW: Hallowfall finished, probably...  
-    Besides tons of hqts that need to find at keyflame area with buffs .-.  
-- SOD: Added Deadly Heartseeker.  
-- SOD: Added all of the Timbermaw Epic Crafted Item Upgrades.  
-- SOD: Added Enchant Shield - Law of Nature.  
-- Updated Meilosh to use the bubbleDownClassicRep function.  
-- SOD: Added the upgrade Sweet Serenity & Finely-Enchanted Battlehammer.  
-    Attached source quest requirements to the Weaponsmith Mastery headers.  
-- SOD: Added Tranquility blacksmithing recipe.  
-- SOD: Added a totally necessary duplicate version of Piccolo of the Flaming Fire.  
-- Added missing object info for Enchanted Scarlet Thread.  
-- SOD: Added all of the Epic Crafted Item upgrades to Lokhtos Darkbargainer.  
-- SOD: Nightfall and Annihiliator are both not available in SOD per Blizzard's design decision.  
-- Reorganize item  
-- SOD: Added new recipes for Enchant Cloak - Greater Fire Resistance / Enchant Cloak - Greater Nature Resistance.  
-- Source Depleted Violet Vapors, fixes #1721  
-- SOD: Added Conductive Shield Coating for Enchanting.  
-- SOD: Added Hardened Black Dragonscale Breastplate.  
-- SOD: Added Hardened Black Dragonscale Shoulders.  
-- SOD: Added Hardened Black Dragonscale Leggings.  
-- Sneaky Legion objects, found one more  
-- SOD: Added reitemized instance drops for BRD.  
-- Some more Legion treasures that are connected to achievement criteria + coords for dimensional rifting  
-- SOD: The Invulnerable Mail recipe that was supposed to be replaced by a new reitemized version still drops.  
-- SOD: Added Tempest Gauntlets.  
-- TWW: Hallowfall (almost) done with quests  
-- SOD: Added the Warcrest of the Great Chief.  
-- SOD: Added Tempered Dark Iron Plate.  
-- Cleaned up Azj Quests  
-- Merge pull request #1719 from nwjgit/dfPreLaunchHorde  
-    Add missing attributes for DF pre-launch  
-- Merge pull request #1722 from LvWind/master  
-    Update cn.lua  
-- - Added T16 LFR/N/H/M Tier Tokens to BoA DB  
-- - Tier 15 LFR/N/H Tier Tokens added to BoA DB  
-- - Added T14 LFR/N/H Tier Tokens to BoA DB  
-- Added Highmountain Tauren hunter weapon.  
-- Added New Mount for Pre Patch!  
-- Sort Recipes  
-- Harvest: 11.0.2.56044  
-- Harvest: 11.0.2.55959  
-- Harvest: 11.0.0.55960  
-- Harvest: 11.0.0.55945  
-- Havest: 11.0.0.55933  
+- parseing  
+- Parser: Added 'isEnableTypeRecipe' (bool) field for special Recipes which can only be marked as collected by interaction with a specific NPC or location  
+    Applied 'isEnableTypeRecipe' to Tanaan Jungle Jewelcrafting Recipes  
+    Retail: Recipe collection no longer removes 'isEnableTypeRecipe' Recipes from being collected when they are not 'disabled', unless interacting with the proper profession UI  
+- added nl & cos m+ drops  
+- Retail: Revised use of Colors since in some cases it could result in an infinite metatable recursive reference to itself (fixes #1720) (fixes #1668)  
+- Assign factions for RaceDB directly since Classic parses have differing values in faction lists  
+- Added a symlink to Collapsing Riftstone  
+- Fixed Proving Grounds HQTs timelines for Darkal  
+    SourceIgnored groups are now also ignored for GetSearchResults logic for selection of the resulting root group (fixes situations where Achievements wouldn't show their inherited awp/rwp values in tooltips; other duplicate-source Things would still have this issue)  
+- Earthen duplication yeeted  
+- RaceID is now cached for lookups  
+    RaceID can be used in CreateObject  
+- Added support for 'Race' automatic header type  
+- Couple of TODO notes for stuff I can't fix immediately :(  
+- Allied Races: Earthen is not cooperating as a chievement so I slapped a fix on it for now  
+- Faction achievements given minimum reputation, moved under faction headers, fixed wrong factionID for Assembly  
+- Parser: Pure Lua exported tables are now exported in sorted order by their keys  
+- War Within Delves: Endgame achievement was changed  
+- Retail can has parse too  
+- Beta parsed with beta source harvest  
+- Fresh batch of Wago files  
+- Unbound Bounty achievement is finally working correctly  
+- Updated achievementDB  
+- TWW: Clean up backlog  
+- Moved Proving Grounds HQTs to Proving Grounds file for better organization  
+- Fixed FactionData generation from RaceDB  
+- RaceDB now contains 'faction' as matches HORDE\_ONLY and ALLIANCE\_ONLY lists  
+    FactionData is now driven from RaceDB  
+- Added a Database Exports file to setup the Exports container  
+    Added RaceDB to Exports container so that it is now automatically exported by the Parser from raw data (existing stucture and values are available)  
+    Updated the Races Class to properly support new data in RaceDB  
+- Parser: Extended Export with 'Pure' Lua (doesn't do all the ATT conversions and data changes when exporting)  
+    Parser: Can now read the 'Exports' table to directly export pure DB files for the addon  
+- Retail: Added handling for a group to provide a 'OnSetVisibility' function for itself for when we expect the group to process all typical Update handling, but provide an additional visible allowance  
+    Retail: Fixed Quest chain display sorting/visibility by utilizing OnSetVisibility  
+- name for object 180682 Oily Blackmouth School  
+- Retail: Removed RunnerStats (it's already in Analyzers module)  
+    Retail: CheckSymlinks Analyzer go brrrr  
+- Retail: Re-harvested ReagentsDB (including unsourced recipes)  
+- Retail: Updated Recipe harvesting (now stored in typical harvest saved variable)  
+    Retail: HarvestRecipes now properly checks for required Reagents  
+- Retail: Re-designed Filling for Craftable Items  
+    * Now changes as expected with Settings changes after being filled  
+    * Filled Items are linked to their crafting Recipe Skill such that they filter appropriately with user settings (instead of filling differently based on BoP Reagent + known Profession)  
+    * Crafting outputs for Unsourced Recipes are now included (previously for BoP Reagents they would be omitted since it was unknown whether the player could craft the output)  
+- Since all objects that we need for achievements are now sourced, unsourced object has been upgraded to a parser warning.  
+- Wrapped C\_TradeSkillUI.GetTradeSkillTexture in WOWAPI  
+    Retail: Profession requirement in tooltips now includes an icon if possible  
+- Restored and split out some things for Classic  
+- Fixed RecipeID caching to work as required  
+    Cleaned up row Summary generation to more-easily support additional information  
+    Added Profession/Required Skill icon to Summary information  
+- Fishing objects yay  
+- added brh, dht&hov m+  
+- The Scavenger achievement objects  
+- Northrend angler objects + some missing automated notes  
+- Parser support for automating fishing achievements via Wago data, sourced objects for non-classic version of Outland Angler achievement  
+- Objects for dungeon and expansion feature achievements  
+- The sourcing of achievement objects continues  
+- Cleaned up commented out achievements and either moved them to HAT or NYI + added some new achievements too  
+- Various Zskera Vaults quest fixes  
+- Unsorted item and some incorrect headers  
+- Parser: Greatly improved parsing time by fixing duplicate parsing of various global DBs generated during parsing (e.g. ItemDBConditional was being re-parsed by every file which added to the DB, re-accumulating all the data every time, leading to a final set of nearly ~250K data elements being conditionally applied. In total there are actually about 11K unique data elements in the DB)  
+- Parser: Now accepts and consolidates the 'sharedDescription' field. This should be used in situations where lots of individual content within a single group is all sharing an identical description (i.e. TWW Pre-Launch Recruit Items)  
+- Fixed a Lua error when inventory scan fails to retrieve an item's info after 5 attempts  
+- Minor cleaning  
+- Generate Missing FIles  
+- Harvest: 11.0.2.56110  
+- Harvest: 11.0.2.56071  
+- Harvest: 11.0.0.56008  
+- Some Parsing of Beta/PTR  
+- Retail: Fixed a Lua error where some Professions failed to render an icon (fixes #1728)  
+- Follower Dungeon difficulty now maps as Normal Dungeon for minilist use (fixes #1716)  
+- Adjusted 'es' translation for 'Disturbed Dirt' to match actual in-game text (differs from Wowhead) (fixes #1718)  
+- Git should now be on 11.0.2  
+- Parser update  
+- Some remaining cleaning of timelines  
+- Remaining Timeline Changes  
+- Structures > Prof Timeline Changes  
+- Professions Timeline change  
+- PvP Cleanup and Timeline Change  
+- EF Timeline Change  
+- Timeline + Lore Changes for Zones  
+- Ringing Deeps Max Level Chapter  
 - Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
-- Harvest: 4.4.0.56014  
-- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
-- [Cata] Urga: Fixed certain PvP items as not being marked Alliance only.  
-- Harvest: 3.4.3.56030  
-- Harvest: 3.4.3.56011  
-- Harvest: 1.15.3.55917  
-- Fixed formating.  
-- - Added Tier 17 N/H/M tokens to BoA DB  
-- - Added Castle Nathria's Weapon Tokens to BoA DB  
-- - Added Tier 23 LFR/N/H/M tokens to BoA DB  
-- Update cn.lua  
-- [Cata] Urga: Correctly categorised the offhand [Twinblade of the Hakkari].  
-- TWW: another beta run  
-- - Added Tier 13 LFR/N/H tokens to BoA DB  
-- - Added Tier 12 N/H tokens to BoA DB  
-- - Added Tier 11 N/H tokens to BoA DB  
-- - Added Tier 10 10H/25N and 25H tier tokens to BoA DB  
-- - Added Tier 9 ToC Trophy of the Crusade as well as the 3 removed tokens that dropped in the past.  
-- - Added Tier 8 10 and 25 Man Tokens to BoA DB  
-- - Added Tier 7 10 and 25 Man Tokens to BoA DB  
-- - Added Tier 6 Tokens to BoA DB  
-    - Added class tags to T6 Shoulders if BT (Forgot in last push)  
-- - Added class tags to Tier Pieces in BT / Sunwell  
-- - Added "Shared Turbulent" BoA items from Patch 6.1. Currently, don't show contents due to being removed.  Tagged Runawaynow about it to see possible fix  
-- - Added Baleful (WoD) BoA tokens to the BoA database.  Note: This is only the BoA version and not the BoP version.  
-- - Added Tier 5 tokens to BoA DB  
-- Added Cosmic Weapons Cache to the shop.  
-- Restored criteria for Chromatic Calibration: Holo-Gogs achievement (these are not automated)  
-- add missing quests/providers  
-- Quest adjustments  
-- TWW: finally fly out from Azj-Kahet  
-- Sourced Defiled Augment Rune  
-- Adjusted Function Templates file so that it stops showing as having a ton of lua syntax issues  
-- Classic: 'Known By' still shows on Achievements with a spellID  
-- SOD: Added Chipped Drakefire Amulet. (BoA attunement neck for Onyxia's Lair)  
-- Don't show "Known By" on achievements (for some reason some get linked to spellID...)  
-- Retail: Flightpaths are account-wide by Blizzard since 11.0, huzzah!  
-- Cata: Guild achievements no longer appear in the dynamic Achievements category. (unless you are filtering to see them intentionally)  
-- Stealing Supplies had the wrong source quest, Raid on the Kolkar is before it.  
-- TWW: more beta  
-- SOD: Added The Tainted Scar raid featuring Lord Kazzak.  
-- Cata: Guild achievements should no longer appear in the dynamic list.  
-- Moved NYI Cosmetics to the correct file.  
-- SOD: No peaking  
-- Adjustment to previous commit for the Seeker achievement.  
-- Prayer to Elune (2/2) also takes place in Darnassus.  
-- [Cata] Urga: [3000 Quests Completed] now tracks the correct title.  
-- SOD: Added the reitemized version of Enchanter's Cowl.  
-- Update Silithus.lua  
-- Update Silithus.lua  
-- [Cata] Urga: Removed the Twilight Cultist set from being collectable / transmoggable. These items are replaced by transmoggable grey items in 7.1.5.  
-- SOD: Storm Cliffs now shows when you are saved to the instance.  
-- Classic: 'I dunno' response to Runaway.  
-- Classic: Bad global and comment about Holiday sort type for Crieve  
-- SOD: Adjusted the notes on the Delirious Ancients.  
-- Fixed some comments out of alignment  
-- Added the Altar of Suntara.  
-- Reharvested some object data to get more than just english localization data. (consolidation of ObjectDB file soonish)  
-- - Adjusted the T4 tokens so they aren't affected by Classic and only the warband changes.  
-- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
-- - Added Tier 4 tokens to Warband list  
-- [Cata] Urga: Improved incorrect off-hand fixes using filters instead of classes.  
-- SOD: Added the Blackrock Eruption event to Searing Gorge.  
-- [Cata] Urga: Fixed [Arlokk's Claws] not being picked up as a fist weapon.  
-- [Cata] Urga: Fixed Windslicer not being detected as a 1H axe.  
-- SOD: Added the reitemized version of 'A Hero's Reward'.  
-- - Attached the epic cloaks as a cost to the legendary cloaks as they are needed to upgrade to the legendary appearance  
-- - Marked "Sedge Hat of the Englightened" as NYI as it has not been available ever  
-- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
-- [Cata] Urga: Marked Alliance PvP tabards as Alliance only.  
-- TWW: updates to Azj-Kahet a bit with new build  
-- [Cata] Urga: Fixed some Alliance-only PvP Items.  
-- SOD: Transmog class now uses the account wide tracker for Weapons and Cloaks.  
-- Added missing objective for 'The True Masters'.  
-- Classic: Now including "q" for all Classic ItemDBs.  
-- Classic: Slight adjustment to settings layout for the White/Grey filter.  
-- Merge pull request #1714 from ZeChrales/master  
-    Add trash items (white/grey) filtering in Classic  
-- Add trash items (white/grey) filtering  
-- Added missing objectives for Dragonkin Menace.  
-- Added missing objectives for A Host of Evil.  
-- SOD: Added /attcollectedsources for checking sources you own according to Blizzard on SOD by means of collecting it on SOD or Era.  
-- Azshara quest pre-req fix  
-- Classic/SOD: C\_TransmogCollection API is now available.  
-- SOD: Added the Storm Cliffs raid for Azuregos. (World Bosses are now instanced encounters in SOD)  
-- Classic/SOD: Harvested SourceIDs.  
-- Now matching maps against GetInstanceInfo, should the player be inside an instance.  
-- Adjusted the instance class to handle headerID properly when encountered.  
-    Added "zone-text-headerID" to parser for situations where the headerID doesn't match the name of the map, but we still want to match with it.  
-- Added Sharpbeak's Cage objectID.  
-- Moved NYI quest into NYI and added missing object to fix issues with Legion treasure achievements  
+- Parser: Fixed an issue where Ensemble cleanup could randomly cause a concurrency exception when debugging  
+    Parser: Fixed an issue where Ensemble-Sourced items were receiving a 'races' field instead of the 'r' field for the whole Faction (this is likely the cause of why many TWW pre-patch 'Recruit' items were not being properly flagged as collected in Unique mode from their matching Faction-restricted BFA Ensemble shared appearances) (fixes #1717)  
+- Azj Max Level Chapter  
+- D&R Timeline Change  
+- Placeholder Timeline for Prepatch End, Further Timeline cleaning  
+- Some DBs (Still need further cleaning soon) with timelines  
+- Mythic+ Season Tempered!  
+- Updated InGameShop Information.. Loads of missing pieces  
+- Parser: Now accepts OnSourceInit to provide an OnInit for the specific source (since OnInit assignments are copied to all Sources of the Thing)  
+    Parser: Improved the Lua function compression a bit  
+    regionExclusive/regionUnavailable now use OnSourceInit  
+    Mount properly cache themselves by 'mountID' (fixes Mount type being considered 'missing' in ATT using general logic)  
+    Retail: Minor adjustment to common Unobtainable logic for NYI/Removed Items having multiple Sources (due to per-Region availability differences, thanks Blizzard :weary:)  
+- waifu whitemane loot is back  
+- Reharvested SourceIDs  
+- Some unsorted for rares in Azj  
+- chinaOnly() Darkal/Runaway NYI?!?!  
+- Added in some old Tailoring Information while reworking undergoing  
+- Commented out some achievements that aren't loading anymore or have otherwise been (soft) removed. Will sort them better later!  
+- Retail: Various rendering improvements (should not have very noticeable visible differences)  
+- Retail: Update TOC  
+- Parser: Fixed some potential gaps in DataValidator & validation Reason will now be provided in log message  
+    Parser: Added validation on 'collectible' field to only accept 'false' when provided  
+- Source WoD ring  
+- Move Watcher petDB entry from NYI to launch timeline  
+- Retail: Future Warband Collected no longer excludes due to Class restriction (account for 11.0.5 confirmed change)  
+- Twitch gifts cost real money  
+- You WILL collect NPCIDs and you will LIKE it  
+- updated note for something that nobody ever reads  
+- Fixed BRF Essence tokens to be the proper item/quest association  
+- Add Smouldering Phoenix Ash creature source  
+- Parser: Now removes the 'c' field from data when equivalent to ALL\_CLASSES  
+- Fix broken FAQ link  
+- Source quest item, fixes #1724  
+- Parser: Consolidated some DB file merging logic  
+    Parser: Consolidated some conditional file export logic  
+- Add TWW launch Twitch promos  
+- Classic: Reclassified the phase identifier for enchants that were originally added with BWL to use "PHASE\_THREE\_ENCHANTS" instead so that the value can be changed in SOD. (not sure if the enchants are in yet, but we'll see)  
+- Classic: Reclassified the phase identifier for crafting recipes that were originally added with BWL to use "PHASE\_THREE\_RECIPES" instead so that the value can be changed in SOD.  
+- Classic: Reclassified the phase identifier for DMF cards to use a new constant "PHASE\_THREE\_DMF\_CARDS", but use the same phase ID. This will help categorization later in future SOD releases.  
+- Added a warning message if trying to merge non-table data into a DB container  
+- Added object data for Symbol of Lost Honor.  
+- Parser: ItemDBConditional now works properly with modItemID keys  
+- Charred Locket details  
+- Sourced pandaria outdoor zone objects that belong to achievement criteria  
+- SOD: You can buy the Dawnbringer Shoulders recipe from the Argent Quartermasters.  
+- TWW: fixed dungeon crs for some bosses, added follower dungeon difficultyID (commented out)  

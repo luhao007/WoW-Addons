@@ -1,14 +1,9 @@
-## Interface: 110002
-## Author: ykiigor
-## Version: 4890
-## SavedVariables: VMRT
-
+## Interface: 11503, 40400
 ## Title: Method Raid Tools
+## Author: ykiigor
 ## Notes: Method Raid Tools
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFFMethod团队助手|r |cFFFFE00AMRT|r
-## Notes-zhCN: 提供团队和小队的一些辅助功能
-
-
+## SavedVariables: VMRT
+## Version: 4900
 core.lua
 Functions.lua
 embeds.xml

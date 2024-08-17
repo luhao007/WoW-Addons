@@ -1,22 +1,23 @@
-## Interface: 110002
-## Author: The WeakAuras Team
-## Version: 5.16.0
-## OptionalDeps: Ace3, LibCompress, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, Masque, GTFO, LibButtonGlow-1.0, LibSpellRange-1.0, LibRangeCheck-3.0, LibDBIcon-1.0, LibGetFrame-1.0, !LibUIDropDownMenu, !!AddonLocale, CustomNames, BigWigs, DBM-Core
-## LoadOnDemand: 0
-## SavedVariables: WeakAurasSaved
-## DefaultState: Enabled
-
+## Interface: 11503
 ## Title: WeakAuras
-## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFFFFE00AWeakAuras|r
-## Notes-zhCN: 自定义界面显示、辅助信息，支持一定程度上的LUA脚本（迷你插件）
-
+## Author: The WeakAuras Team
+## Version: 5.16.1
 ## X-Flavor: Vanilla
+## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.
+## Notes-esES: Potente y completa aplicación que te permitirá mostrar por pantalla múltiples diseños, basados en beneficios, perjuicios y otros activadores.
+## Notes-deDE: Ein leistungsfähiges, umfassendes Addon zur grafischen Darstellung von Informationen von Auren, Cooldowns, Timern und vielem mehr.
+## Notes-ruRU: Мощный, многосторонний инструмент для отображения графики и информации, основанной на баффах, дебаффах и других триггерах.
+## Notes-zhTW: 一個強大且全面實用的顯示圖形和訊息基於增益，減益和其它觸發。
 ## X-Category: Interface Enhancements
+## Globe-Post: WeakAurasOptions, WeakAurasModelPaths, WeakAurasTemplates
 ## X-Website: https://www.curseforge.com/wow/addons/weakauras
 ## X-Curse-Project-ID: 65387
 ## X-WoWI-ID: 24910
 ## X-Wago-ID: VBNBxKx5
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariables: WeakAurasSaved
+## OptionalDeps: Ace3, LibCompress, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, Masque, GTFO, LibButtonGlow-1.0, LibSpellRange-1.0, LibRangeCheck-3.0, LibDBIcon-1.0, LibGetFrame-1.0, !LibUIDropDownMenu, !!AddonLocale, CustomNames, BigWigs, DBM-Core
 
 # External code + initialization
 embeds.xml

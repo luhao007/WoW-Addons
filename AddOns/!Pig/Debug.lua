@@ -100,7 +100,7 @@ PIGAddOnMemoryCPU.NR.CPU_OPEN:SetScript("OnClick", function (self)
 	ReloadUI();
 end);
 
-PIGAddOnMemoryCPU.NR.CZ = PIGButton(PIGAddOnMemoryCPU.NR,{"LEFT",PIGAddOnMemoryCPU.NR.CPU_OPEN.Text,"RIGHT",20,0},{50,18},L["DEBUG_RESET"])
+PIGAddOnMemoryCPU.NR.CZ = PIGButton(PIGAddOnMemoryCPU.NR,{"LEFT",PIGAddOnMemoryCPU.NR.CPU_OPEN.Text,"RIGHT",20,0},{50,18},RESET)
 PIGAddOnMemoryCPU.NR.CZ:SetScript("OnClick", function (self)
 	ResetCPUUsage()
 	-- debugprofilestart()

@@ -50,7 +50,6 @@ L["DEBUG_TABNAME"] = "调试";
 L["DEBUG_BUTNAME"] = "内存CPU监控";
 L["DEBUG_CPUUSAGE"] = "CPU性能分析";
 L["DEBUG_CPUUSAGETIPS"] = "开启CPU使用率监控,请只在需要时候开启，此功能需要消耗一些系统性能\n"..string.format(ERR_USE_LOCKED_WITH_ITEM_S,RELOADUI);
-L["DEBUG_RESET"] = "重置";
 L["DEBUG_COLLECT"] = "回收";
 L["DEBUG_COLLECTTIPS"] = "|cff00FFff此功能会导致插件所有执行都停止，直到收回过程完成。\n插件过多情况下可能超过几秒，这会令游戏暂时冻结(卡住)。\n除开插件开发调试，大多数情况不需要手动调用，LUA自动内存管理机制会定期运作|r"
 L["DEBUG_ADDNUM"] = "个插件";

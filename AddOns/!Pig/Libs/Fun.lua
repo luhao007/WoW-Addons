@@ -13,7 +13,9 @@ local L =addonTable.locale
 function PIGGetSpellInfo(SpellID)
 	if C_Spell and C_Spell.GetSpellInfo then
 		local spellInfo = C_Spell.GetSpellInfo(SpellID)
-		return spellInfo.name,spellInfo.iconID,spellInfo.castTime,spellInfo.minRange,spellInfo.maxRange,spellInfo.spellID,spellInfo.originalIconID
+		if spellInfo then
+			return spellInfo.name,spellInfo.iconID,spellInfo.castTime,spellInfo.minRange,spellInfo.maxRange,spellInfo.spellID,spellInfo.originalIconID
+		end
 	else
 		local name, rank, icon, castTime, minRange, maxRange, spellID, originalIcon= GetSpellInfo(SpellID)
 		return name, icon, castTime, minRange, maxRange, spellID, originalIcon,rank

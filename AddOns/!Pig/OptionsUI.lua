@@ -8,6 +8,8 @@ local PIGButton=Create.PIGButton
 local PIGLine=Create.PIGLine
 local PIGFontString=Create.PIGFontString
 local PIGSetFont=Create.PIGSetFont
+---
+local GetAddOnInfo=GetAddOnInfo or C_AddOns and C_AddOns.GetAddOnInfo
 local GetAddOnMetadata=GetAddOnMetadata or C_AddOns and C_AddOns.GetAddOnMetadata
 --系统插件菜单======================
 local PIG_SetF = CreateFrame("Frame");

@@ -252,33 +252,52 @@ local function PIGGetTaozhuang(statsg)
 	return taozhuainfo
 end
 local Plisttip = CreateFrame("GameTooltip", "Plisttip_UI", UIParent, "GameTooltipTemplate")
-local function PIGGetItemStats_1(Parent,hejisoltnum,ix,soltlink)
-	if not Parent:IsVisible() then if Parent.allstats_Ticker then Parent.allstats_Ticker:Cancel() end return end
-	if Parent.allstats.xuhaoID<hejisoltnum then
-		if tocversion<50000 then
-			Plisttip:ClearLines();
-			Plisttip:SetOwner(UIParent, "ANCHOR_NONE")
-			Plisttip:SetHyperlink(soltlink)
-			local quality = C_Item.GetItemQualityByID(soltlink) or 1
-		    local hangname = Plisttip:GetName()
-		    local txtNum = Plisttip:NumLines()
-		    if txtNum then
-		    	for g = 2, txtNum do
-			    	local text = _G[hangname.."TextLeft" .. g]:GetText() or ""
-			    	--local r, g, b = _G[hangname.."TextLeft" .. g]:GetTextColor()
-			    	tinsert(Parent.allstats, {text,quality})
-			    end
-			end
-		else
-			local tooltipData = C_TooltipInfo.GetHyperlink(soltlink)
-			local quality = C_Item.GetItemQualityByID(soltlink) or 1
-			for _, line in ipairs(tooltipData.lines) do
-			    tinsert(Parent.allstats, {line.leftText,quality})
+Plisttip:SetOwner(UIParent, "ANCHOR_NONE")
+local function PIGGetItemStats(Parent,soltlink)
+	if not Parent:IsVisible() then return end	
+	if tocversion<50000 then
+		Plisttip:ClearLines();
+		Plisttip:SetHyperlink(soltlink)
+		local quality = C_Item.GetItemQualityByID(soltlink) or 1
+	    local hangname = Plisttip:GetName()
+	    local txtNum = Plisttip:NumLines()
+	    if txtNum then
+	    	for g = 2, txtNum do
+		    	local text = _G[hangname.."TextLeft" .. g]:GetText() or ""
+		    	--local r, g, b = _G[hangname.."TextLeft" .. g]:GetTextColor()
+		    	tinsert(Parent.allstats, {text,quality})
+		    end
+		end
+	else
+		local tooltipData = C_TooltipInfo.GetHyperlink(soltlink)
+		local quality = C_Item.GetItemQualityByID(soltlink) or 1
+		for _, line in ipairs(tooltipData.lines) do
+		    tinsert(Parent.allstats, {line.leftText,quality})
+		end
+	end
+end
+local function ShowItemTaozhuang(Parent,Data)
+	if Parent.taozhuangTicker then Parent.taozhuangTicker:Cancel() end
+	Parent.taozhuangTicker=C_Timer.NewTimer(0.2,function()
+		Parent.xuhaoID = 0
+		wipe(Parent.allstats)
+		for k,v in pairs(Data) do
+			if tocversion<50000 then
+				Plisttip:ClearLines();
+				Plisttip:SetHyperlink(v)
+			else
+				C_TooltipInfo.GetHyperlink(v)
 			end
 		end
-		Parent.allstats.xuhaoID=Parent.allstats.xuhaoID+1
-	else
-		if Parent.allstats.xuhaoID>=hejisoltnum then
+		for k,v in pairs(Data) do
+			C_Timer.After(0.04*Parent.xuhaoID,function()
+				PIGGetItemStats(Parent,v)
+			end)
+			Parent.xuhaoID=Parent.xuhaoID+1
+		end
+		Parent.xuhaoID=Parent.xuhaoID+1
+		C_Timer.After(0.04*Parent.xuhaoID,function()
+			if not Parent:IsVisible() then return end
 			local taozhuang = PIGGetTaozhuang(Parent.allstats)
 			local taozhuangNum = #taozhuang
 			for tid=1,taozhuangNum do
@@ -294,21 +313,8 @@ local function PIGGetItemStats_1(Parent,hejisoltnum,ix,soltlink)
 			if taozhuangNum>1 then
 				Parent:SetHeight(ListWWWHHH[2]+(taozhuangNum-1)*(ListWWWHHH[3]-3))
 			end
-		end
-	end
-end
-local function ShowItemTaozhuang(Parent,Data)
-	if Parent.allstats_Ticker then Parent.allstats_Ticker:Cancel() end
-	Parent.allstats={
-		["solt"]={},
-		["num"] = 0,
-		["xuhaoID"] = 1,
-	}
-	for k,v in pairs(Data) do
-		table.insert(Parent.allstats.solt,k)
-	end
-	Parent.allstats.num=#Parent.allstats.solt
-	Parent.allstats_Ticker = C_Timer.NewTicker(0.02, function() PIGGetItemStats_1(Parent,Parent.allstats.num,Parent.allstats.xuhaoID,Data[Parent.allstats.solt[Parent.allstats.xuhaoID]]) end, Parent.allstats.num)
+		end)
+	end)
 end
 local function ShowItemList(Parent,unit,Data,fuwen)
 	local Parentname = Parent:GetName()
@@ -643,6 +649,7 @@ local function add_ItemList(fujik,miaodian,ziji)
 	end
 	--
 	local FramePlusfun=addonTable.FramePlusfun
+	ZBLsit.allstats={}
 	function ZBLsit:CZ_ItemList()
 		if self.TalentF then self.TalentF:Hide() self.TalentF:CZ_Tianfu() end
 		local Parent=self:GetParent()

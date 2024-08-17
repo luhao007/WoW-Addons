@@ -581,7 +581,6 @@ _.Modules.Events.SetEventInformation(141, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=16,["weekday"]=3,["year"]=2025},{["hour"]=6,["minute"]=0,["month"]=1,["monthDay"]=2,["weekday"]=6,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(479, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=29,["weekday"]=2,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=5,["weekday"]=2,["year"]=2024},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=12,["weekday"]=2,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=19,["weekday"]=2,["year"]=2024},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=26,["weekday"]=2,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=2,["weekday"]=2,["year"]=2024},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=9,["weekday"]=2,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=16,["weekday"]=2,["year"]=2024},{["remappedID"]=375}),
@@ -607,7 +606,8 @@ _.Modules.Events.SetEventInformation(479, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=16,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=23,["weekday"]=2,["year"]=2025},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=30,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=7,["weekday"]=2,["year"]=2025},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=14,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=21,["weekday"]=2,["year"]=2025},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=28,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=4,["weekday"]=2,["year"]=2025},{["remappedID"]=374})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=28,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=4,["weekday"]=2,["year"]=2025},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=11,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=18,["weekday"]=2,["year"]=2025},{["remappedID"]=375})
 });
 _.Modules.Events.SetEventInformation(201, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=2,["year"]=2023},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=1,["year"]=2023}),
@@ -1399,6 +1399,7 @@ _.ObjectNames = {
 	[177240] = "Loose Dirt Mound",
 	[177241] = "Araj's Phylactery",
 	[177243] = "Demon Portal",
+	[177264] = "Symbol of Lost Honor",
 	[177287] = "Unfinished Painting",
 	[177289] = "Scourge Cauldron",
 	[177464] = "Large Termite Mound",
@@ -2530,6 +2531,7 @@ _.ObjectModels = {
 	[177240] = 189528,
 	[177241] = 199744,
 	[177243] = 190858,
+	[177264] = 197961,
 	[177287] = 203417,
 	[177289] = 191217,
 	[177464] = 201386,
@@ -3388,6 +3390,7 @@ localize(_.ObjectNames, {
 	[177240] = "Lockerer Erdhaufen",
 	[177241] = "Arajs Phylakterium",
 	[177243] = "Dämonenportal",
+	[177264] = "Symbol der verlorenen Ehre",
 	[177287] = "Unvollendetes Gemälde",
 	[177289] = "Geißelkessel",
 	[177464] = "Großer Termitenhügel",
@@ -4231,6 +4234,7 @@ localize(_.ObjectNames, {
 	[177240] = "Montículo de porquería blanda",
 	[177241] = "Filacteria de Araj",
 	[177243] = "Portal de demonios",
+	[177264] = "Símbolo de Honor perdido",
 	[177287] = "Cuadro a medias",
 	[177289] = "Caldera de la Plaga",
 	[177464] = "Montículo grande de termitas",
@@ -5046,6 +5050,7 @@ localize(_.ObjectNames, {
 	[177240] = "Mont fangeux",
 	[177241] = "Phylactère d'Araj",
 	[177243] = "Portail démoniaque",
+	[177264] = "Symbole de l'honneur perdu",
 	[177287] = "Peinture inachevée",
 	[177289] = "Chaudron du Fléau",
 	[177464] = "Grande termitière",
@@ -5591,6 +5596,7 @@ localize(_.ObjectNames, {
 	[176793] = "Catasta di Legna",
 	[177241] = "Filatterio di Araj",
 	[177243] = "Portale Demoniaco",
+	[177264] = "Simbolo dell'Onore Perduto",
 	[177287] = "Quadro Incompleto",
 	[177464] = "Grande Tumulo di Termiti",
 	[177544] = "Cassa di Joseph",
@@ -6287,6 +6293,7 @@ localize(_.ObjectNames, {
 	[176793] = "장작 더미",
 	[177241] = "아라즈의 성물함",
 	[177243] = "악마의 차원문",
+	[177264] = "실추된 명예의 상징",
 	[177287] = "완성되지 않은 그림",
 	[177289] = "스컬지 가마솥",
 	[177464] = "큰 흰개미집",
@@ -7025,6 +7032,7 @@ localize(_.ObjectNames, {
 	[176793] = "Feixe de Lenha",
 	[177241] = "Filactério de Araj",
 	[177243] = "Portal Demoníaco",
+	[177264] = "Símbolo da Honra Perdida",
 	[177287] = "Pintura Incompleta",
 	[177289] = "Caldeirão do Flagelo",
 	[177464] = "Cupinzeiro Grande",
@@ -7794,6 +7802,7 @@ localize(_.ObjectNames, {
 	[177240] = "Куча рыхлой земли",
 	[177241] = "Оберег Аража",
 	[177243] = "Портал демонов",
+	[177264] = "Символ утраченной чести",
 	[177287] = "Незаконченная картина",
 	[177289] = "Котел Плети",
 	[177464] = "Большой термитник",
@@ -8575,6 +8584,7 @@ localize(_.ObjectNames, {
 	[176793] = "一捆木柴",
 	[177241] = "阿拉基的护命匣",
 	[177243] = "恶魔之门",
+	[177264] = "失落荣耀的象征",
 	[177287] = "未完成的油画",
 	[177289] = "瘟疫之锅",
 	[177464] = "大白蚁丘",

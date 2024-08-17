@@ -402,6 +402,11 @@ local function PIG_tiquMsg(msgx,nameX)
 				local fwData=HY_RuneTXT(msgx:sub(4, -1))
 				Pig_OptionsUI.talentData[nameX][leixing]={GetServerTime(),fwData}
 			end
+			if leixing == "I" then
+				yuanchengCFrame.fanhuiYN_II=true
+				local fwData=HY_RuneTXT(msgx:sub(4, -1))
+				Pig_OptionsUI.talentData[nameX][leixing]={GetServerTime(),fwData}
+			end
 		end
 	end
 end
@@ -447,9 +452,9 @@ local function GetDATA_YN_GG(fullnameX)
 	end)
 end
 local function GetDATA_YN_RR(fullnameX)
-	if yuanchengCFrame.alaGet_GG then yuanchengCFrame.alaGet_GG:Cancel() end
-	yuanchengCFrame.alaGet_GG=C_Timer.NewTimer(0.8,function()
-		if not yuanchengCFrame.fanhuiYN_GG then
+	if yuanchengCFrame.alaGet_RR then yuanchengCFrame.alaGet_RR:Cancel() end
+	yuanchengCFrame.alaGet_RR=C_Timer.NewTimer(0.8,function()
+		if not yuanchengCFrame.fanhuiYN_RR then
 			SendAddonMessage(ala_PREFIX, "!Q32R", "WHISPER", fullnameX);
 		end
 	end)
@@ -506,7 +511,12 @@ local function FasongYCqingqiu(fullnameX,iidd)
 		if not Pig_OptionsUI.talentData[fullnameX]["R"] or GetServerTime()-Pig_OptionsUI.talentData[fullnameX]["R"][1]>10 then
 			yuanchengCFrame.fanhuiYN_RR=false
 			SendAddonMessage(pig_PREFIX,YCinfo_GET_MSG[iidd], "WHISPER", fullnameX)
-			--GetDATA_YN_RR(fullnameX)
+			GetDATA_YN_RR(fullnameX)
+		end
+	elseif iidd==5 then--只请求角色信息
+		if not Pig_OptionsUI.talentData[fullnameX]["I"] or GetServerTime()-Pig_OptionsUI.talentData[fullnameX]["I"][1]>10 then
+			yuanchengCFrame.fanhuiYN_II=false
+			SendAddonMessage(pig_PREFIX,YCinfo_GET_MSG[iidd], "WHISPER", fullnameX)
 		end
 	end
 end

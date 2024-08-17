@@ -1383,7 +1383,7 @@ loadedFrame:SetScript("OnEvent", function(self, event, addon)
       elseif db.lastArchiveClear < time() - 86400 then
         Private.CleanArchive(db.historyCutoff, db.migrationCutoff);
       end
-      db.minimap = db.minimap or { hide = true };
+      db.minimap = db.minimap or { hide = false };
       LDBIcon:Register("WeakAuras", Broker_WeakAuras, db.minimap);
     end
   elseif(event == "PLAYER_LOGIN") then
@@ -6378,3 +6378,4 @@ do
     return data.regionType == "group" or data.regionType == "dynamicgroup"
   end
 end
+

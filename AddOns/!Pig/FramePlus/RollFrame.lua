@@ -161,7 +161,7 @@ function FramePlusfun.Roll()
 			RollOnLoot(self:GetParent().rollID, self:GetID());
 		end)
 		item.Timer = CreateFrame("StatusBar", nil, item);
-		item.Timer:SetStatusBarTexture("Interface/PaperDollInfoFrame/UI-Character-Skills-Bar")
+		item.Timer:SetStatusBarTexture("interface/raidframe/raid-bar-hp-fill.blp")
 		item.Timer:SetStatusBarColor(0, 1, 0 ,1);
 		item.Timer:SetSize(itemhangW-itemhangH+2,8);
 		item.Timer:SetPoint("BOTTOMLEFT", item.icon, "BOTTOMRIGHT", 2, 0);
