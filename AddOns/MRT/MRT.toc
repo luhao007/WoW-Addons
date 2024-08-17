@@ -1,11 +1,15 @@
-## Interface: 11503, 40400, 110000, 110002
-## Title: Method Raid Tools
+## Interface: 110002
 ## Author: ykiigor
-## Notes: Method Raid Tools
-## SavedVariables: VMRT
 ## Version: 4900
-## AddonCompartmentFunc: MRT_MinimapClickFunction
+## SavedVariables: VMRT
 ## IconTexture: Interface\AddOns\MRT\media\MiniMap.tga
+
+## Title: Method Raid Tools
+## Notes: Method Raid Tools
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFFMethod团队助手|r |cFFFFE00AMRT|r
+## Notes-zhCN: 提供团队和小队的一些辅助功能
+
+
 core.lua
 Functions.lua
 embeds.xml

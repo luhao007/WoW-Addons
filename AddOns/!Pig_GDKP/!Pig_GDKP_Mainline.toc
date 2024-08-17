@@ -1,19 +1,18 @@
-﻿## Interface: 110002
-## Title: !Pig_GDKP
-## Title-zhCN: !Pig |cff00FF00[金团助手]|r
-## Title-zhTW: !Pig |cff00FF00[金團助手]|r
-## Notes: GDKP Assistant features, including loot record, quick auction/bid, rewards/fine record, sub-G assistant
-## Notes-zhCN: |cffFF8C00!Pig金团助手功能，包含拾取记录，快速拍卖/出价，补助/罚款记录，分G助手|r|n|cff00FF00祝你游戏愉快-来自|cffFF00FF[猪猪加油]|r的祝福|r
-## Notes-zhTW: |cffFF8C00!Pig金團助手功能，包含拾取記錄，快速拍賣/出價，補助/罰款記錄，分G助手|r|n|cff00FF00祝你遊戲愉快-來自|cffFF00FF[豬豬加油]|r的祝福|r
-## IconTexture: interface/icons/ability_seal.blp
-## AddonCompartmentFunc: PIGCompartmentClick_GDKP
-## AddonCompartmentFuncOnEnter: PIGCompartmentEnter_GDKP
-## AddonCompartmentFuncOnLeave: PIGCompartmentLeave_GDKP
-## RequiredDeps: !Pig
+## Interface: 110002
 ## Author: geligasi
 ## Version: 1.15
+## RequiredDeps: !Pig
 ## SavedVariables: PIGG
 ## SavedVariablesPerCharacter: PIGG_Per
+## IconTexture: interface/icons/ability_seal.blp
+
+## Title: !Pig_GDKP
+## Notes: GDKP Assistant features, including loot record, quick auction/bid, rewards/fine record, sub-G assistant
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFFPig工具箱|r |cFF69CCF0金团助手|r
+## Notes-zhCN: |cffFF8C00!Pig金团助手功能，包含拾取记录，快速拍卖/出价，补助/罚款记录，分G助手|r|n|cff00FF00祝你游戏愉快-来自|cffFF00FF[猪猪加油]|r的祝福|r
+
+## X-Part-Of: !Pig
+
 Default.lua
 Options.lua
 UI.lua

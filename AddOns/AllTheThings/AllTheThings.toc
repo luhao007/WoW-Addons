@@ -1,22 +1,20 @@
-## Title: AllTheThings
-## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
-## Name: AllTheThings
-## Notes: Addon for Tracking Collections & Account Completion
+## Interface: 110002
 ## Author: Crieve-Sargeras
 ## Version: 4.0.5
-## Interface: 110002
+## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
+## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
+## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
+
+## Title: AllTheThings
+## Notes: Addon for Tracking Collections & Account Completion
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
+## Notes-zhCN: 追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况
+
 ## X-Interface: 110002
 ## X-Wago-ID: yQKyY5K7
 ## X-Curse-Project-ID: 267285
-## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
-## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
-## AddonCompartmentFunc: AllTheThings_MinimapButtonOnClick
-## AddonCompartmentFuncOnEnter: AllTheThings_MinimapButtonOnEnter
-## AddonCompartmentFuncOnLeave: AllTheThings_MinimapButtonOnLeave
+
 #src\PerformanceTracking.lua
-lib\LibStub\LibStub.lua
-lib\CallbackHandler-1.0\CallbackHandler-1.0.lua
-lib\LibDataBroker-1.1\LibDataBroker-1.1.lua
 src\WoW API Wrappers.lua
 db\RaceDB.lua
 
@@ -134,7 +132,6 @@ db\Retail\Categories.lua
 
 # Window Definitions
 # src\UI\Windows\Windows.xml
-
 # Finally, prepare the Data Cache
 # Not used in Retail?
 # src\Root.lua

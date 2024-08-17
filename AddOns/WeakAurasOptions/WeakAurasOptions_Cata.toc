@@ -1,19 +1,17 @@
-## Interface: 40400
-## Title: WeakAuras Options
+## Interface: 110002
 ## Author: The WeakAuras Team
 ## Version: 5.16.1
-## Notes: Options for WeakAuras
-## Notes-esES: Opciones para WeakAuras
-## Notes-deDE: Optionen für WeakAuras
-## Notes-ruRU: Опции WeakAuras
-## Notes-zhTW: WeakAuras的設定
-## X-Category: Interface Enhancements
-## Globe-Main: WeakAuras
-## DefaultState: Enabled
-## LoadOnDemand: 1
 ## Dependencies: WeakAuras
+## LoadOnDemand: 1
 ## SavedVariables: WeakAurasOptionsSaved
-## AllowLoadGameType: cata
+## DefaultState: Enabled
+
+## Title: WeakAuras Options
+## Notes: Options for WeakAuras
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFF0055FF设置|r
+
+## X-Category: Interface Enhancements
+## X-Part-Of: WeakAuras
 
 embeds.xml
 locales.xml

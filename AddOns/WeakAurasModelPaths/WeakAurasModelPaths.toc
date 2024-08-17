@@ -1,17 +1,16 @@
 ## Interface: 110002
-## Title: WeakAuras Model Paths
 ## Author: The WeakAuras Team
 ## Version: 5.16.1
-## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
-## Notes: Model paths for WeakAuras
-## Notes-esES: Las rutas de archivos de modelos en 3D para WeakAuras
-## Notes-deDE: 3D-Model Pfade für WeakAuras
-## Notes-ruRU: Ссылки на файлы моделей WeakAuras
-## Notes-zhTW: WeakAuras的模組路徑
-## X-Category: Interface Enhancements
-## Globe-Main: WeakAuras
-## DefaultState: Enabled
-## LoadOnDemand: 1
 ## Dependencies: WeakAuras, WeakAurasOptions
+## LoadOnDemand: 1
+## DefaultState: Enabled
+## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
+
+## Title: WeakAuras Model Paths
+## Notes: Model paths for WeakAuras
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFF69CCF0模型路径|r
+
+## X-Category: Interface Enhancements
+## X-Part-Of: WeakAuras
 
 ModelPaths.lua

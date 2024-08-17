@@ -1,13 +1,16 @@
-## Interface: 11503
-## Title: WeakAuras Templates
+## Interface: 110002
 ## Author: The WeakAuras Team
 ## Version: 5.16.1
-## Notes: Templates for WeakAuras
-## X-Category: Interface Enhancements
-## Globe-Main: WeakAuras
-## DefaultState: Enabled
-## LoadOnDemand: 1
 ## Dependencies: WeakAuras, WeakAurasOptions
+## LoadOnDemand: 1
+## DefaultState: Enabled
+
+## Title: WeakAuras Templates
+## Notes: Templates for WeakAuras
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFF69CCF0模板|r
+
+## X-Category: Interface Enhancements
+## X-Part-Of: WeakAuras
 
 locales.xml
 
