@@ -450,6 +450,7 @@ function BusinessInfo.StatsInfoOptions()
 				bu.title =  "查看离线银行或其他角色物品"
 				B.AddTooltip(bu, "ANCHOR_TOP")
 				self.lixianBut = bu
+				if C.db["Bags"]["HideWidgets"] then bu:Hide() end
 				return bu
 			end
 			anniushuS[#anniushuS+1] = CreatelixianBut(NDui_BackpackBag)

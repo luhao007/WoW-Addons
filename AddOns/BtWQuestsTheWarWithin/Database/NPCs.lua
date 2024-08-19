@@ -507,6 +507,50 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [213620] = {
+        name = "Thrall",
+        locations = {
+            [81] = {
+                {
+                    x = 0.419606,
+                    y = 0.450442,
+                },
+            },
+        },
+    },
+    [213624] = {
+        name = "Magni Bronzebeard",
+        locations = {
+            [2321] = {
+                {
+                    x = 0.500598,
+                    y = 0.651946,
+                },
+            },
+        },
+    },
+    [213625] = {
+        name = "Lady Jaina Proudmoore",
+        locations = {
+            [2321] = {
+                {
+                    x = 0.49521,
+                    y = 0.585742,
+                },
+            },
+        },
+    },
+    [213627] = {
+        name = "Archmage Khadgar",
+        locations = {
+            [629] = {
+                {
+                    x = 0.428815,
+                    y = 0.598807,
+                },
+            },
+        },
+    },
     [213634] = {
         name = "Dagran Thaurissan II",
         locations = {
@@ -741,6 +785,17 @@ BtWQuestsDatabase:AddNPCsTable({
             },
         },
     },
+    [214651] = {
+        name = "Moira Thaurissan",
+        locations = {
+            [629] = {
+                {
+                    x = 0.404355,
+                    y = 0.540313,
+                },
+            },
+        },
+    },
     [214663] = {
         name = "High Speaker Brinthe",
         locations = {
@@ -748,6 +803,28 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.562721,
                     y = 0.749223,
+                },
+            },
+        },
+    },
+    [214665] = {
+        name = "Archmage Drenden",
+        locations = {
+            [629] = {
+                {
+                    x = 0.56394,
+                    y = 0.332783,
+                },
+            },
+        },
+    },
+    [214669] = {
+        name = "Brann Bronzebeard",
+        locations = {
+            [629] = {
+                {
+                    x = 0.470241,
+                    y = 0.490983,
                 },
             },
         },
@@ -770,6 +847,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.671695,
                     y = 0.641258,
+                },
+            },
+        },
+    },
+    [214908] = {
+        name = "Alleria Windrunner",
+        locations = {
+            [2305] = {
+                {
+                    x = 0.504321,
+                    y = 0.504469,
                 },
             },
         },
@@ -2324,6 +2412,17 @@ BtWQuestsDatabase:AddNPCsTable({
                 {
                     x = 0.512717,
                     y = 0.30204,
+                },
+            },
+        },
+    },
+    [219885] = {
+        name = "Anduin Wrynn",
+        locations = {
+            [2307] = {
+                {
+                    x = 0.726316,
+                    y = 0.578947,
                 },
             },
         },

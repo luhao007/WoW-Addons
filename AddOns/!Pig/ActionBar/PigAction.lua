@@ -350,13 +350,14 @@ local function ADD_ActionBar(index)
 		--piganniu:RegisterEvent("EXECUTE_CHAT_LINE");
 		piganniu:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
 		piganniu:RegisterEvent("ACTIONBAR_UPDATE_STATE");
-		piganniu:RegisterUnitEvent("UNIT_AURA","player");
 		piganniu:RegisterEvent("BAG_UPDATE");
 		piganniu:RegisterEvent("AREA_POIS_UPDATED");
 		piganniu:RegisterEvent("EQUIPMENT_SETS_CHANGED");
 		piganniu:RegisterEvent("PLAYER_ENTERING_WORLD");
 		piganniu:RegisterEvent("PLAYER_REGEN_DISABLED")
 		piganniu:RegisterEvent("PLAYER_REGEN_ENABLED");
+		piganniu:RegisterUnitEvent("UNIT_AURA","player");
+		piganniu:RegisterUnitEvent("UNIT_PET","player");
 		piganniu:HookScript("OnEvent", function(self,event,arg1,arg2,arg3)
 			if event=="ACTIONBAR_SHOWGRID" then
 				if InCombatLockdown() then return end
@@ -395,6 +396,9 @@ local function ADD_ActionBar(index)
 			elseif event=="ACTIONBAR_UPDATE_COOLDOWN" then
 				Update_Cooldown(self)
 				Update_bukeyong(self)
+				Update_Icon(self)
+			elseif event=="UNIT_PET" then
+				
 			elseif event=="ACTIONBAR_UPDATE_STATE" or event=="TRADE_SKILL_CLOSE" or event=="CRAFT_CLOSE" or event=="UNIT_AURA" or event=="EXECUTE_CHAT_LINE" then
 				Update_State(self)
 				Update_Icon(self)

@@ -32,14 +32,12 @@ L.UpgradeAlert = 'Wild upgrades have appeared!'
 L.TotalRivals = 'Total Rivals'
 L.ZoneTracker = 'Zone Tracker'
 
-local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
-
 -- automatic. do not translate unless necessary
 L.Maximized = WINDOWED_MAXIMIZED
 L.Defeat = PVP_MATCH_DEFEAT:lower():gsub('^.', strupper)
 L.Victory = PVP_MATCH_VICTORY:lower():gsub('^.', strupper)
 L.EnemyTeam = PET_BATTLE_COMBAT_LOG_ENEMY_TEAM:gsub('%s.', strupper)
-L.TrackPets = GetSpellInfo(122026)
+L.TrackPets = C_Spell.GetSpellInfo(122026).name
 
 for i = 1, C_PetJournal.GetNumPetSources() do
 	L['Source' .. i] = _G['BATTLE_PET_SOURCE_' .. i]

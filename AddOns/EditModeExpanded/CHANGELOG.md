@@ -1,6 +1,7 @@
 # Edit Mode Expanded
 
-## [11.0-004](https://github.com/teelolws/EditModeExpanded/tree/11.0-004) (2024-08-13)
-[Full Changelog](https://github.com/teelolws/EditModeExpanded/compare/11.0-003...11.0-004) [Previous Releases](https://github.com/teelolws/EditModeExpanded/releases)
+## [11.0-006](https://github.com/teelolws/EditModeExpanded/tree/11.0-006) (2024-08-19)
+[Full Changelog](https://github.com/teelolws/EditModeExpanded/compare/11.0-005...11.0-006) [Previous Releases](https://github.com/teelolws/EditModeExpanded/releases)
 
-- Update for 11.0.2  
+- Fix Druid combo points issue  
+    Closes: https://github.com/teelolws/EditModeExpanded/issues/138  

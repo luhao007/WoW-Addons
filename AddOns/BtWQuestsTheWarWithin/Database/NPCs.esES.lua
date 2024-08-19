@@ -39,6 +39,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [213145] = {
         name = "Auralia Golpeacero",
     },
+    [213624] = {
+        name = "Magni Barbabronce",
+    },
+    [213625] = {
+        name = "Lady Jaina Valiente",
+    },
     [213840] = {
         name = "Tabernero Brax",
     },

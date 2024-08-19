@@ -168,6 +168,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "黑暗烁光 - 激活",
     },
+    [78529] = {
+        name = "猛烈撞击",
+    },
     [78530] = {
         name = "消灭破坏者",
     },
@@ -405,6 +408,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "高阶代言人的阴谋",
     },
+    [78713] = {
+        name = "地心之战",
+    },
+    [78714] = {
+        name = "冷淡迎接",
+    },
+    [78715] = {
+        name = "艾泽拉斯之声",
+    },
+    [78716] = {
+        name = "惨痛教训",
+    },
+    [78717] = {
+        name = "神秘警告",
+    },
+    [78718] = {
+        name = "铜墙铁壁",
+    },
+    [78719] = {
+        name = "达拉然的公民们",
+    },
+    [78721] = {
+        name = "同行相遇",
+    },
+    [78722] = {
+        name = "前往卡兹阿加！",
+    },
     [78738] = {
         name = "缺位代言人",
     },
@@ -575,6 +605,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "圣化清理",
+    },
+    [79105] = {
+        name = "突围",
+    },
+    [79106] = {
+        name = "撕裂",
     },
     [79107] = {
         name = "风暴余响",
@@ -1266,6 +1302,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "重归大海",
     },
+    [80321] = {
+        name = "启程",
+    },
     [80334] = {
         name = "粉碎的高塔",
     },
@@ -1313,6 +1352,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "侍奉女王",
+    },
+    [80500] = {
+        name = "铜须家族",
     },
     [80502] = {
         name = "艾基-卡赫特别为我哭泣",
@@ -1506,6 +1548,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "传送装置！",
     },
+    [81512] = {
+        name = "道具与熏香",
+    },
     [81514] = {
         name = "丰裕地下堡",
     },
@@ -1611,6 +1656,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "返回茉艾拉处",
     },
+    [81802] = {
+        name = "驭空竞速 - 风暴眺望所勘探",
+    },
     [81806] = {
         name = "驭空竞速 - 岩矿急弯",
     },
@@ -1650,6 +1698,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "计划如下",
     },
+    [81930] = {
+        name = "地心之战",
+    },
     [81945] = {
         name = "赶赴阿拉希之末",
     },
@@ -1670,6 +1721,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "瓦解入侵",
+    },
+    [81966] = {
+        name = "安如磐石",
     },
     [81969] = {
         name = "末劫之末",
@@ -2180,6 +2234,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "陨圣峪钓鱼大赛",
+    },
+    [83543] = {
+        name = "在卡兹阿加冒险",
     },
     [83548] = {
         name = "多恩岛",

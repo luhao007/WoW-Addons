@@ -168,6 +168,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "Luz en la oscuridad - Activar",
     },
+    [78529] = {
+        name = "Impacto violento",
+    },
     [78530] = {
         name = "Mata a los saboteadores.",
     },
@@ -405,6 +408,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "El secreto del alto orador",
     },
+    [78713] = {
+        name = "La guerra interior",
+    },
+    [78714] = {
+        name = "Una mala recepción",
+    },
+    [78715] = {
+        name = "La voz de Azeroth",
+    },
+    [78716] = {
+        name = "Lecciones dolorosas",
+    },
+    [78717] = {
+        name = "Una advertencia misteriosa",
+    },
+    [78718] = {
+        name = "Reforzar los resguardos",
+    },
+    [78719] = {
+        name = "Ciudadanos de Dalaran",
+    },
+    [78721] = {
+        name = "Hora de conocer al equipo",
+    },
+    [78722] = {
+        name = "¡Rumbo a Khaz Algar!",
+    },
     [78738] = {
         name = "El orador ausente",
     },
@@ -575,6 +605,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "Limpieza consagrada",
+    },
+    [79105] = {
+        name = "Brecha",
+    },
+    [79106] = {
+        name = "Ruptura",
     },
     [79107] = {
         name = "Tras la tormenta",
@@ -1266,6 +1302,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "La vuelta al mar",
     },
+    [80321] = {
+        name = "Partida",
+    },
     [80334] = {
         name = "Agujas destrozadas",
     },
@@ -1313,6 +1352,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "Al servicio de la reina",
+    },
+    [80500] = {
+        name = "La familia Barbabronce",
     },
     [80502] = {
         name = "No llores por mí, Azj-Kahet",
@@ -1506,6 +1548,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "¡Enviadlo!",
     },
+    [81512] = {
+        name = "Decorados e incienso",
+    },
     [81514] = {
         name = "Profundidades pródigas",
     },
@@ -1611,6 +1656,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "Volver con Moira",
     },
+    [81802] = {
+        name = "Carreras de surcacielos - Giro de la Guardia de la Tormenta",
+    },
     [81806] = {
         name = "Carreras de surcacielos - Maratón de Minarroca",
     },
@@ -1647,6 +1695,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "Este es el plan",
     },
+    [81930] = {
+        name = "La guerra interior",
+    },
     [81945] = {
         name = "Hacia el Confín Arathi",
     },
@@ -1667,6 +1718,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "Perturbación invasora",
+    },
+    [81966] = {
+        name = "He dormido como una roca",
     },
     [81969] = {
         name = "Un fin para el fin",
@@ -2165,6 +2219,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "Competición de pesca de Santificación",
+    },
+    [83543] = {
+        name = "Aventuras en Khaz Algar",
     },
     [83548] = {
         name = "La Isla de Dorn",

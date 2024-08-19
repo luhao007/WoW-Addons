@@ -39,6 +39,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [213145] = {
         name = "Auralia Heurtacier",
     },
+    [213624] = {
+        name = "Magni Barbe-de-Bronze",
+    },
+    [213625] = {
+        name = "Dame Jaina Portvaillant",
+    },
     [213840] = {
         name = "Brax l'aubergiste",
     },

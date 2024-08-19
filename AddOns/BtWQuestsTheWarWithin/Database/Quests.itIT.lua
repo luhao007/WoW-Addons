@@ -168,6 +168,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "Luce nell'oscurità - Attivazione",
     },
+    [78529] = {
+        name = "Impatto violento",
+    },
     [78530] = {
         name = "Sterminare i sabotatori",
     },
@@ -405,6 +408,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "Il segreto del Gran Oratore",
     },
+    [78713] = {
+        name = "La guerra interna",
+    },
+    [78714] = {
+        name = "Una pessima accoglienza",
+    },
+    [78715] = {
+        name = "La voce di Azeroth",
+    },
+    [78716] = {
+        name = "Lezioni dolorose",
+    },
+    [78717] = {
+        name = "Un avvertimento misterioso",
+    },
+    [78718] = {
+        name = "Rafforzare le protezioni",
+    },
+    [78719] = {
+        name = "Cittadini di Dalaran",
+    },
+    [78721] = {
+        name = "Conoscere la squadra",
+    },
+    [78722] = {
+        name = "A Khaz Algar!",
+    },
     [78738] = {
         name = "Oratore assente",
     },
@@ -575,6 +605,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "Pulizia consacrata",
+    },
+    [79105] = {
+        name = "Breccia",
+    },
+    [79106] = {
+        name = "Perforazione",
     },
     [79107] = {
         name = "Dopo la tempesta",
@@ -1263,6 +1299,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "Ritorno in mare",
     },
+    [80321] = {
+        name = "Partenza",
+    },
     [80334] = {
         name = "Guglie a pezzi",
     },
@@ -1310,6 +1349,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "Servire la Regina",
+    },
+    [80500] = {
+        name = "La famiglia dei Barbabronzea",
     },
     [80502] = {
         name = "Non piangere per me, Azj-Kahet",
@@ -1503,6 +1545,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "All'avventura!",
     },
+    [81512] = {
+        name = "Scenografie e incenso",
+    },
     [81514] = {
         name = "Scorribande Fruttuose",
     },
@@ -1608,6 +1653,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "Ritorno da Moira",
     },
+    [81802] = {
+        name = "Corsa Calcacieli - Perizia del Presidio della Tempesta",
+    },
     [81806] = {
         name = "Corsa Calcacieli - Curve di Mineralia",
     },
@@ -1644,6 +1692,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "Ecco il piano",
     },
+    [81930] = {
+        name = "La guerra interna",
+    },
     [81945] = {
         name = "Verso Fine degli Arathi",
     },
@@ -1664,6 +1715,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "Sventare un'invasione",
+    },
+    [81966] = {
+        name = "Dormire come un sasso",
     },
     [81969] = {
         name = "Fine alla Fine",
@@ -2171,6 +2225,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "Gara di pesca dei Precipizi Sacri",
+    },
+    [83543] = {
+        name = "All'avventura a Khaz Algar",
     },
     [83548] = {
         name = "Isola di Dorn",

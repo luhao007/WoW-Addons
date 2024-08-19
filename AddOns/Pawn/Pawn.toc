@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: 2.10.0
+## Version: 2.10.1
 ## SavedVariables: PawnCommon
 ## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
 ## IconTexture: Interface\AddOns\Pawn\Textures\PawnIcon.tga

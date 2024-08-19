@@ -39,6 +39,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [213145] = {
         name = "Auralia Stahlstoß",
     },
+    [213624] = {
+        name = "Magni Bronzebart",
+    },
+    [213625] = {
+        name = "Lady Jaina Prachtmeer",
+    },
     [213840] = {
         name = "Gastwirt Brax",
     },

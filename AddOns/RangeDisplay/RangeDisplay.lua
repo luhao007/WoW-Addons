@@ -8,14 +8,12 @@ License: Public Domain
 
 local AppName, RangeDisplay = ...
 local OptionsAppName = AppName .. "_Options"
-local VERSION = AppName .. "-v6.1.3"
+local VERSION = AppName .. "-v6.1.4"
 
 local rc = LibStub("LibRangeCheck-3.0")
 local LSM = LibStub:GetLibrary("LibSharedMedia-3.0", true)
 local LibDualSpec = LibStub("LibDualSpec-1.0", true)
 local L = LibStub("AceLocale-3.0"):GetLocale(AppName)
-
-local LoadAddOn = C_AddOns.LoadAddOn
 
 -- internal vars
 
@@ -26,6 +24,7 @@ local mute = nil
 -- cached stuff
 
 local _G = _G
+local LoadAddOn = _G.LoadAddOn or C_AddOns.LoadAddOn
 local IsClassicVanilla = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC)
 local IsClassicBC = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local IsClassicWrath = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_WRATH_CLASSIC)

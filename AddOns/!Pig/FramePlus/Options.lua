@@ -62,13 +62,23 @@ FramePlusF.Merchant:SetScript("OnClick", function (self)
 		Pig_Options_RLtishi_UI:Show()
 	end
 end)
-FramePlusF.Friends = PIGCheckbutton_R(FramePlusF,{"好友界面扩展","扩展好友界面为两列"})
+FramePlusF.Friends = PIGCheckbutton_R(FramePlusF,{FRIEND.."界面扩展","扩展"..FRIEND.."界面为两列"})
 FramePlusF.Friends:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["FramePlus"]["Friends"]=true;
 		FramePlusfun.Friends()
 	else
 		PIGA["FramePlus"]["Friends"]=false
+		Pig_Options_RLtishi_UI:Show()
+	end
+end)
+FramePlusF.Macro = PIGCheckbutton_R(FramePlusF,{MACRO.."界面扩展","扩展"..MACRO.."界面为两列"})
+FramePlusF.Macro:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["FramePlus"]["Macro"]=true;
+		FramePlusfun.Macro()
+	else
+		PIGA["FramePlus"]["Macro"]=false
 		Pig_Options_RLtishi_UI:Show()
 	end
 end)
@@ -82,18 +92,18 @@ FramePlusF.Loot:SetScript("OnClick", function (self)
 		Pig_Options_RLtishi_UI:Show()
 	end
 end)
-FramePlusF.Roll = PIGCheckbutton_R(FramePlusF,{LOOT_ROLL..UIOPTIONS_MENU.."扩展","合并"..LOOT_ROLL.."物品到一起，并且可以移动"})
-FramePlusF.Roll:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["FramePlus"]["Roll"]=true;
-		FramePlusfun.Roll()
-	else
-		PIGA["FramePlus"]["Roll"]=false
-		Pig_Options_RLtishi_UI:Show()
-	end
-end)
 ---
-if tocversion<100000 then
+if tocversion<50000 then
+	FramePlusF.Roll = PIGCheckbutton_R(FramePlusF,{LOOT_ROLL..UIOPTIONS_MENU.."扩展","合并"..LOOT_ROLL.."物品到一起，并且可以移动"})
+	FramePlusF.Roll:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["FramePlus"]["Roll"]=true;
+			FramePlusfun.Roll()
+		else
+			PIGA["FramePlus"]["Roll"]=false
+			Pig_Options_RLtishi_UI:Show()
+		end
+	end)
 	FramePlusF.Quest = PIGCheckbutton_R(FramePlusF,{"任务界面扩展",""})
 	if tocversion<30000 then
 		FramePlusF.Quest.tooltip= "扩展任务界面为两列,左边任务列表，右边任务详情,显示任务等级";
@@ -182,21 +192,18 @@ end);
 --
 FramePlusF:HookScript("OnShow", function(self)
 	self.Loot:SetChecked(PIGA["FramePlus"]["Loot"])
-	self.Roll:SetChecked(PIGA["FramePlus"]["Roll"])
+	if self.Roll then self.Roll:SetChecked(PIGA["FramePlus"]["Roll"]) end
 	self.BuffTime:SetChecked(PIGA["FramePlus"]["BuffTime"])
 	self.Skill_QKbut:SetChecked(PIGA["FramePlus"]["Skill_QKbut"])
 	self.Merchant:SetChecked(PIGA["FramePlus"]["Merchant"])
 	self.Friends:SetChecked(PIGA["FramePlus"]["Friends"])
-	if tocversion<100000 then
-		self.Quest:SetChecked(PIGA["FramePlus"]["Quest"])
-		self.Skill:SetChecked(PIGA["FramePlus"]["Skill"])
-		self.Talent:SetChecked(PIGA["FramePlus"]["Talent"])
-	end
+	self.Macro:SetChecked(PIGA["FramePlus"]["Macro"])
+	if self.Quest then self.Quest:SetChecked(PIGA["FramePlus"]["Quest"]) end
+	if self.Skill then self.Skill:SetChecked(PIGA["FramePlus"]["Skill"]) end
+	if self.Talent then self.Talent:SetChecked(PIGA["FramePlus"]["Talent"]) end
 	self.yidong.BlizzardUI_Move:SetChecked(PIGA["FramePlus"]["BlizzardUI_Move"])
 	self.yidong.BlizzardUI_Move.Save:SetChecked(PIGA["FramePlus"]["BlizzardUI_Move_Save"])
-	if tocversion<20000 then
-		self.Zhuizong:SetChecked(PIGA["FramePlus"]["Zhuizong"])
-	end
+	if self.Zhuizong then self.Zhuizong:SetChecked(PIGA["FramePlus"]["Zhuizong"]) end
 end)
 --角色信息界面
 local CharacterF =PIGOptionsList_R(RTabFrame,L["FRAMEP_TABNAME2"],90)
@@ -318,6 +325,7 @@ addonTable.FramePlus = function()
 	FramePlusfun.Roll()
 	FramePlusfun.Merchant()
 	FramePlusfun.Friends()
+	FramePlusfun.Macro()
 	FramePlusfun.Quest()
 	FramePlusfun.Skill_QKbut()
 	FramePlusfun.Skill()

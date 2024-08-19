@@ -39,6 +39,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [213145] = {
         name = "Auralia Sfregiacciaio",
     },
+    [213624] = {
+        name = "Magni Barbabronzea",
+    },
+    [213625] = {
+        name = "Dama Jaina Marefiero",
+    },
     [213840] = {
         name = "Locandiere Brax",
     },

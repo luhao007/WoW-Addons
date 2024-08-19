@@ -553,11 +553,11 @@ function ActionFun.Update_OnEnter(self,dataY)
 			elseif Type=="macro" then
 				local hongSpellID = GetMacroSpell(SimID)
 				if hongSpellID then
-					OnEnter_Spell(Type,hongSpellID)
+					OnEnter_Spell("spell",hongSpellID)
 				else
 					local _, ItemLink = GetMacroItem(SimID);
 					if ItemLink then
-						OnEnter_Item(Type,ItemLink,butInfo[3])
+						OnEnter_Item("item",ItemLink,butInfo[3])
 					else
 						local name, icon, body, isLocal = GetMacroInfo(SimID)
 						GameTooltip:SetText(name,1, 1, 1, 1)

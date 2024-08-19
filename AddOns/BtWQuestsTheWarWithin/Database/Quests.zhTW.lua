@@ -168,6 +168,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "暗中光源 - 啟用",
     },
+    [78529] = {
+        name = "暴力衝擊",
+    },
     [78530] = {
         name = "殺死破壞者",
     },
@@ -405,6 +408,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "至高代言者的秘密",
     },
+    [78713] = {
+        name = "地心之戰",
+    },
+    [78714] = {
+        name = "糟糕的歡迎典禮",
+    },
+    [78715] = {
+        name = "艾澤拉斯之聲",
+    },
+    [78716] = {
+        name = "慘痛的教訓",
+    },
+    [78717] = {
+        name = "神秘的警訊",
+    },
+    [78718] = {
+        name = "強化結界",
+    },
+    [78719] = {
+        name = "達拉然市民",
+    },
+    [78721] = {
+        name = "認識隊員",
+    },
+    [78722] = {
+        name = "前往卡茲阿爾加！",
+    },
     [78738] = {
         name = "缺席的代言者",
     },
@@ -575,6 +605,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "聖化清理",
+    },
+    [79105] = {
+        name = "缺口",
+    },
+    [79106] = {
+        name = "斷絕",
     },
     [79107] = {
         name = "風暴過後",
@@ -1266,6 +1302,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "回到大海",
     },
+    [80321] = {
+        name = "出發",
+    },
     [80334] = {
         name = "破碎尖塔",
     },
@@ -1313,6 +1352,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "服侍女王",
+    },
+    [80500] = {
+        name = "銅鬚一族",
     },
     [80502] = {
         name = "阿茲-卡罕特，別為我哭泣",
@@ -1506,6 +1548,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "把它運走吧！",
     },
+    [81512] = {
+        name = "道具與薰香",
+    },
     [81514] = {
         name = "豐碩探究",
     },
@@ -1611,6 +1656,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "回去找茉艾拉",
     },
+    [81802] = {
+        name = "馭天者競速 - 風暴崗勘察賽道",
+    },
     [81806] = {
         name = "馭天者競速 - 礦石場急彎賽道",
     },
@@ -1650,6 +1698,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "計畫如下",
     },
+    [81930] = {
+        name = "地心之戰",
+    },
     [81945] = {
         name = "前往阿拉希臨終之地",
     },
@@ -1670,6 +1721,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "入侵干擾",
+    },
+    [81966] = {
+        name = "睡得跟石頭一樣沉",
     },
     [81969] = {
         name = "真正的結束",
@@ -2180,6 +2234,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "聖落之地釣魚大賽",
+    },
+    [83543] = {
+        name = "卡茲阿爾加的冒險",
     },
     [83548] = {
         name = "多恩島",

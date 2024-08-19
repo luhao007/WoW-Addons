@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: foxlit
-## Version: Ælling 3
+## Version: Ælling 4
 ## OptionalDeps: TaintLess
 ## SavedVariables: OneRing_Config, OPie_SavedData
 ## SavedVariablesPerCharacter: OPie_SavedDataPC

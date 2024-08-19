@@ -103,6 +103,9 @@ addonTable.Default = {
 		["Fen_QkBut"] = false,
 		["Fen_Tishi"]=false,
 		["Fen_List"] = {},
+		["Xuan_QkBut"] = false,
+		["Xuan_Tishi"]=false,
+		["Xuan_List"] = {},
 	},
 	["AHPlus"]={
 		["Open"] = true,
@@ -257,6 +260,7 @@ addonTable.Default = {
 	["FramePlus"] = {
 		["Roll"] = true,
 		["Loot"] = true,
+		["Macro"] = true,
 		["Friends"] = true,
 		["Merchant"] = true,
 		["BuffTime"] = true,

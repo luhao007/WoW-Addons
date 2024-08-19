@@ -34,11 +34,20 @@ local biaoji_icon = "interface\\targetingframe\\ui-raidtargetingicons"
 local iconIdCoord = {
 	{0.75,1,0.25,0.5},{0.5,0.75,0.25,0.5},{0.25,0.5,0.25,0.5},
 	{0,0.25,0.25,0.5},{0.75,1,0,0.25},{0.5,0.75,0,0.25},
-	{0.25,0.5,0,0.25},{0,0.25,0,0.25},{0.75,1,0.75,1}
+	{0.25,0.5,0,0.25},{0,0.25,0,0.25},
+	--{0.75,1,0.75,1}
 }
 local tuNum=#iconIdCoord
+local iconqita = {
+	"Interface/Buttons/UI-GroupLoot-Pass-Up",
+	"interface/raidframe/readycheck-ready.blp",--"interface/pvpframe/icons/prestige-icon-3.blp",
+	"interface/helpframe/helpicon-reportlag.blp",
+}
+
+local tuNum1=#iconqita
+local tuNumall=tuNum+tuNum1
 local biaojiweizhi={"TOP", UIParent, "TOP", 0, -30}
-local PIGbiaoji = PIGFrame(UIParent,biaojiweizhi,{(biaojiW+3)*tuNum+5,biaojiW+4},"PIGbiaoji_UI")
+local PIGbiaoji = PIGFrame(UIParent,biaojiweizhi,{(biaojiW+3)*tuNumall+5,biaojiW+4},"PIGbiaoji_UI")
 PIGbiaoji:PIGSetMovable()
 PIGbiaoji:Hide()
 local function SetBGHide()
@@ -89,12 +98,29 @@ local function SetAutoShow()
 	end
 	SetAutoShowFun(PIGbiaoji)
 end
+PIGbiaoji.kaiguaidaojishi=5
+local function daojishikaiguai()
+	if IsInRaid() then
+		if PIGbiaoji.kaiguaidaojishi==0 then
+			SendChatMessage("***开始攻击***", "RAID_WARNING", nil);
+		else
+			SendChatMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***", "RAID_WARNING", nil);
+		end
+	elseif IsInGroup() then
+		if PIGbiaoji.kaiguaidaojishi==0 then
+			SendChatMessage("***开始攻击***", "PARTY", nil);
+		else
+			SendChatMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***", "PARTY", nil);
+		end
+	end
+	PIGbiaoji.kaiguaidaojishi=PIGbiaoji.kaiguaidaojishi-1
+end
 function CombatPlusfun.biaoji()
 	if not PIGA["CombatPlus"]["Biaoji"]["Open"] then return end
 	if PIGbiaoji.yizairu then return end
 	PIGbiaoji:Show()
 	PIGbiaoji:PIGSetBackdrop()
-	for i=1,tuNum do
+	for i=1,tuNumall do
 		local listbut = CreateFrame("Button", nil, PIGbiaoji)
 		listbut:SetScript("OnDragStart",function(self)
 			PIGbiaoji:StartMoving()
@@ -103,19 +129,39 @@ function CombatPlusfun.biaoji()
 			PIGbiaoji:StopMovingOrSizing()
 		end)
 		listbut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square")
-		if i==tuNum then
-			listbut:SetSize(biaojiW,biaojiW)
-			listbut:SetPoint("LEFT", PIGbiaoji, "LEFT",i*(biaojiW+3)-biaojiW+4,0)
-			listbut:SetNormalTexture("Interface/Buttons/UI-GroupLoot-Pass-Up")
-		else
+		if i<=tuNum then
 			listbut:SetSize(biaojiW,biaojiW)
 			listbut:SetPoint("LEFT", PIGbiaoji, "LEFT",i*(biaojiW+3)-biaojiW,0)
 			listbut:SetNormalTexture(biaoji_icon)
 			listbut:GetNormalTexture():SetTexCoord(iconIdCoord[i][1],iconIdCoord[i][2],iconIdCoord[i][3],iconIdCoord[i][4])
+		else
+			local xianzaidi = i-tuNum
+			listbut:SetPoint("LEFT", PIGbiaoji, "LEFT",i*(biaojiW+3)-biaojiW+4,0)
+			listbut:SetNormalTexture(iconqita[xianzaidi])
+			listbut:SetSize(biaojiW,biaojiW)
+			if i==tuNumall then
+				listbut:GetNormalTexture():SetTexCoord(0.13,0.87,0.13,0.87)
+			end
 		end
 		listbut:SetScript("OnClick", function(self) 
-			--SetRaidTargetIcon("target", tuNum-i) 
-			SetRaidTarget("target", tuNum-i)
+			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
+			if i<=tuNum+1 then
+				--SetRaidTargetIcon("target", tuNum+1-i) 
+				SetRaidTarget("target", tuNum+1-i)
+			else
+				if i==tuNum+2 then DoReadyCheck() end
+				if i==tuNum+3 then
+					if C_PartyInfo and C_PartyInfo.DoCountdown then
+						C_PartyInfo.DoCountdown(5)
+					else
+						if self.daoshuTicker  then
+							self.daoshuTicker:Cancel()
+						end
+						PIGbiaoji.kaiguaidaojishi=5
+						self.daoshuTicker = C_Timer.NewTicker(1, daojishikaiguai, 6)
+					end
+				end
+			end
 		end)
 	end
 	PIGbiaoji:SetScale(PIGA["CombatPlus"]["Biaoji"]["Scale"])

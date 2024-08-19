@@ -99,9 +99,9 @@ function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,Angle)--,n
 		return add_ButtonUI(false,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	end
 end
-function Create.PIGCloseBut(fuF,Point,WH,UIName)
+function Create.PIGCloseBut(fuF,Point,WH,UIName,TemplateP)
 	local WH = WH or {22,22}
-	local But = CreateFrame("Button",UIName,fuF);
+	local But = CreateFrame("Button",UIName,fuF,TemplateP);
 	But:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp")
 	But:SetSize(WH[1],WH[2])
 	if Point then

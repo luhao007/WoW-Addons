@@ -165,6 +165,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "Une lueur dans l’ombre - Activer",
     },
+    [78529] = {
+        name = "Impact violent",
+    },
     [78530] = {
         name = "Sus aux saboteurs",
     },
@@ -402,6 +405,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "Le secret du haut-mandataire",
     },
+    [78713] = {
+        name = "Le Conflit intérieur",
+    },
+    [78714] = {
+        name = "Un bien triste accueil",
+    },
+    [78715] = {
+        name = "La voix d’Azeroth",
+    },
+    [78716] = {
+        name = "Des leçons douloureuses",
+    },
+    [78717] = {
+        name = "Un mystérieux avertissement",
+    },
+    [78718] = {
+        name = "Protection renforcée",
+    },
+    [78719] = {
+        name = "Peuple de Dalaran",
+    },
+    [78721] = {
+        name = "Les équipes en lice",
+    },
+    [78722] = {
+        name = "En route vers Khaz Algar !",
+    },
     [78738] = {
         name = "Mandataire absent",
     },
@@ -572,6 +602,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "Nettoyage consacré",
+    },
+    [79105] = {
+        name = "Brèche",
     },
     [79107] = {
         name = "Après la tempête",
@@ -1263,6 +1296,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "Retour à la mer",
     },
+    [80321] = {
+        name = "Départ",
+    },
     [80334] = {
         name = "Flèches brisées",
     },
@@ -1310,6 +1346,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "Au service de la reine",
+    },
+    [80500] = {
+        name = "La famille Barbe-de-Bronze",
     },
     [80502] = {
         name = "Ne pleure pas pour moi, Azj-Kahet",
@@ -1503,6 +1542,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "En livraison !",
     },
+    [81512] = {
+        name = "Accessoires et encens",
+    },
     [81514] = {
         name = "Gouffres abondants",
     },
@@ -1608,6 +1650,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "Retourner voir Moira",
     },
+    [81802] = {
+        name = "Course draconique – Survol du guet de la Tempête",
+    },
     [81806] = {
         name = "Course draconique – Virages de Mineroc",
     },
@@ -1644,6 +1689,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "Voici le plan",
     },
+    [81930] = {
+        name = "Le Conflit intérieur",
+    },
     [81945] = {
         name = "À la Fin des Arathis",
     },
@@ -1664,6 +1712,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "Perturbation d’invasion",
+    },
+    [81966] = {
+        name = "Sommeil de pierre",
     },
     [81969] = {
         name = "Une fin à la Fin",
@@ -2168,6 +2219,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "Tournoi de pêche de Sainte-Chute",
+    },
+    [83543] = {
+        name = "Aventures en Khaz Algar",
     },
     [83548] = {
         name = "Île de Dorn",

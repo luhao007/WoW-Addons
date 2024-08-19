@@ -168,6 +168,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "Brilho no escuro - Ativar",
     },
+    [78529] = {
+        name = "Impacto profundo",
+    },
     [78530] = {
         name = "Morte aos sabotadores",
     },
@@ -405,6 +408,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "O segredo do Grão-mensageiro",
     },
+    [78713] = {
+        name = "A guerra interna",
+    },
+    [78714] = {
+        name = "Uma recepção ruim",
+    },
+    [78715] = {
+        name = "A voz de Azeroth",
+    },
+    [78716] = {
+        name = "Lições dolorosas",
+    },
+    [78717] = {
+        name = "Um alerta misterioso",
+    },
+    [78718] = {
+        name = "Proteções fortalecidas",
+    },
+    [78719] = {
+        name = "Cidadãos de Dalaran",
+    },
+    [78721] = {
+        name = "Conhecendo a equipe",
+    },
+    [78722] = {
+        name = "A Khaz Algar!",
+    },
     [78738] = {
         name = "Mensageiro ausente",
     },
@@ -575,6 +605,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "Limpeza consagrada",
+    },
+    [79105] = {
+        name = "Fenda",
+    },
+    [79106] = {
+        name = "Ruptura",
     },
     [79107] = {
         name = "Finda a tempestade",
@@ -1263,6 +1299,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "Voltando para o mar",
     },
+    [80321] = {
+        name = "Partida",
+    },
     [80334] = {
         name = "Pináculos estilhaçados",
     },
@@ -1310,6 +1349,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "Servindo à rainha",
+    },
+    [80500] = {
+        name = "A família Barbabronze",
     },
     [80502] = {
         name = "Não chore por mim, Azj-kahet",
@@ -1503,6 +1545,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "Dando banda!",
     },
+    [81512] = {
+        name = "Cenografia incensada",
+    },
     [81514] = {
         name = "Imersões abundantes",
     },
@@ -1608,6 +1653,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "De volta à Moira",
     },
+    [81802] = {
+        name = "Corrida de Pilotagem Aérea - Vista da Vigia da Tempestade",
+    },
     [81806] = {
         name = "Corrida de Pilotagem Aérea - Meandros de Minerália",
     },
@@ -1644,6 +1692,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "Eis o plano",
     },
+    [81930] = {
+        name = "A guerra interior",
+    },
     [81945] = {
         name = "À Queda de Arathi",
     },
@@ -1664,6 +1715,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "Perturbação da invasão",
+    },
+    [81966] = {
+        name = "Dormiu feito pedra",
     },
     [81969] = {
         name = "No limiar do Limiar",
@@ -2159,6 +2213,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "Torneio de Pesca de Pouso Santo",
+    },
+    [83543] = {
+        name = "Aventurando-se em Khaz Algar",
     },
     [83548] = {
         name = "Ilha de Dorn",

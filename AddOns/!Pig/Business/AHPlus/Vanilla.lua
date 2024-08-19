@@ -720,9 +720,16 @@ function BusinessInfo.AHPlus_Vanilla()
 	end
 	local function GetBuyoutPriceG(name,count,buyoutPrice,itemLink)
 		if name and name~="" and name~=" " and buyoutPrice>0 then
-			if not HCUI.auctions[name] then
+			local xianzaidanjia =buyoutPrice/count
+			if HCUI.auctions[name] then
+				if HCUI.auctions[name][2] then
+	   				if xianzaidanjia<HCUI.auctions[name][2][1] then
+	   					HCUI.auctions[name][2][1]=xianzaidanjia
+	   				end
+	   			end
+			else
 				local itemLinkJJ = Fun.GetItemLinkJJ(itemLink)
-				HCUI.auctions[name]={itemLinkJJ,{buyoutPrice/count,GetServerTime()}}
+				HCUI.auctions[name]={itemLinkJJ,{xianzaidanjia,GetServerTime()}}
 			end
 		end
 		HCUI.jishuID=HCUI.jishuID+1
@@ -732,20 +739,26 @@ function BusinessInfo.AHPlus_Vanilla()
 		local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo =  GetAuctionItemInfo("list", index);
 		local ItemLink=GetAuctionItemLink("list", index)
 		if not hasAllInfo then
-			HCUI.yicunchu=false
-			local item = Item:CreateFromItemID(itemId)
-			HCUI.ItemLoadList[item] = true
-			item:ContinueOnItemLoad(function()
-				HCUI.ItemLoadList[item] = nil
-				local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo =  GetAuctionItemInfo("list", index);
-				local ItemLink=GetAuctionItemLink("list", index)
-				HCUI.jindu.t2:SetText(index);
-				HCUI.jindu.tname:SetText(name);
-				GetBuyoutPriceG(name,count,buyoutPrice,ItemLink)
-				if not next(HCUI.ItemLoadList) then
-					HCUI.yicunchu=true
-				end
-			end)
+			if itemId and itemId>0 then
+				HCUI.yicunchu=false
+				local itemf = Item:CreateFromItemID(itemId)
+				itemf.index=index
+				HCUI.ItemLoadList[itemf] = true
+				itemf:ContinueOnItemLoad(function()
+					HCUI.ItemLoadList[itemf] = nil
+					local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo =  GetAuctionItemInfo("list", itemf.index);
+					local ItemLink=GetAuctionItemLink("list", index)
+					HCUI.jindu.t2:SetText(itemf.index);
+					HCUI.jindu.tname:SetText(name);
+					GetBuyoutPriceG(name,count,buyoutPrice,ItemLink)
+					if not next(HCUI.ItemLoadList) then
+						HCUI.yicunchu=true
+					end
+				end)
+			else
+				HCUI.jishuID=HCUI.jishuID+1
+				HCUI.jindu:SetValue(HCUI.jishuID);
+			end
 		else	
 			HCUI.jindu.t2:SetText(index);
 			HCUI.jindu.tname:SetText(name);

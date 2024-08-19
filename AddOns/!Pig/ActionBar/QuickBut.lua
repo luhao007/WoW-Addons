@@ -4,6 +4,7 @@ local _, _, _, tocversion = GetBuildInfo()
 ----------
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
+local PIGCloseBut=Create.PIGCloseBut
 local PIGButton=Create.PIGButton
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGDownMenu=Create.PIGDownMenu
@@ -871,16 +872,16 @@ QuickButUI.ButList[7]=function()
 		end
 		local Tooltip = KEY_BUTTON1.."-|cff00FFFF展开职业辅助技能栏|r\n"..KEY_BUTTON2.."-|cff00FFFF打开Recount/Details插件记录面板|r"
 		local Zhushou=PIGQuickBut(GnUI,Tooltip,Icon,nil,nil,"SecureHandlerClickTemplate")
-		Zhushou.Close = Zhushou:CreateTexture(nil,"ARTWORK");
-		Zhushou.Close:SetDrawLayer("ARTWORK", 7)
+		Zhushou.arrow = Zhushou:CreateTexture(nil,"ARTWORK");
+		Zhushou.arrow:SetDrawLayer("ARTWORK", 7)
 		if tocversion<50000 then
-			Zhushou.Close:SetTexture("interface/buttons/jumpuparrow.blp");
-			Zhushou.Close:SetSize(16,18);
-			Zhushou.Close:SetPoint("RIGHT",1.4,0);
+			Zhushou.arrow:SetTexture("interface/buttons/jumpuparrow.blp");
+			Zhushou.arrow:SetSize(16,18);
+			Zhushou.arrow:SetPoint("RIGHT",1.4,0);
 		else
-			Zhushou.Close:SetAtlas("UI-HUD-ActionBar-Flyout-Mouseover");
-			Zhushou.Close:SetSize(16,8);
-			Zhushou.Close:SetPoint("TOP",0,0);
+			Zhushou.arrow:SetAtlas("UI-HUD-ActionBar-Flyout-Mouseover");
+			Zhushou.arrow:SetSize(16,8);
+			Zhushou.arrow:SetPoint("TOP",0,0);
 		end
 		local IconTEX=Zhushou:GetNormalTexture()
 		local IconCoord = CLASS_ICON_TCOORDS[select(2,UnitClass("player"))];
@@ -908,10 +909,10 @@ QuickButUI.ButList[7]=function()
 		end
 		--
 		Zhushou_List:HookScript("OnShow",function(self)
-			SetClampedTextureRotation(Zhushou.Close,180);
+			SetClampedTextureRotation(Zhushou.arrow,180);
 		end)
 		Zhushou_List:HookScript("OnHide",function(self)
-			SetClampedTextureRotation(Zhushou.Close,0);
+			SetClampedTextureRotation(Zhushou.arrow,0);
 		end)
 		Zhushou:SetAttribute("_onclick",[=[
 			if button == "LeftButton" then
@@ -950,6 +951,19 @@ QuickButUI.ButList[7]=function()
 			end
 		end)
 		---
+		Zhushou_List.Close=PIGCloseBut(Zhushou_List,{"BOTTOM",Zhushou_List,"TOP",0,0},{34,34},nil,"SecureHandlerClickTemplate")
+		Zhushou_List.Close:SetAttribute("_onclick",[=[
+			if button == "LeftButton" then
+				local ref=self:GetFrameRef("frame1")
+				if ref:IsShown() then
+					ref:Hide();
+				else
+					ref:Show();
+				end
+			end
+		]=])
+		Zhushou_List.Close:SetFrameRef("frame1", Zhushou_List);
+
 		for i=1,gaoNum*kuanNum do
 			local zhushoubut = CreateFrame("CheckButton", "Zhushou_List_"..i, Zhushou_List, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate")
 			zhushoubut:SetSize(butW, butW)

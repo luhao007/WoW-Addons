@@ -168,6 +168,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "Leuchten im Dunkeln - Aktivieren",
     },
+    [78529] = {
+        name = "Gewaltsamer Einschlag",
+    },
     [78530] = {
         name = "Tötet die Saboteure",
     },
@@ -405,6 +408,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "Das Geheimnis des Obersten Sprechers",
     },
+    [78713] = {
+        name = "Der Krieg im Inneren",
+    },
+    [78714] = {
+        name = "Ein dürftiger Empfang",
+    },
+    [78715] = {
+        name = "Azeroths Stimme",
+    },
+    [78716] = {
+        name = "Schmerzhafte Lektionen",
+    },
+    [78717] = {
+        name = "Eine mysteriöses Warnung",
+    },
+    [78718] = {
+        name = "Stärken der Schutze",
+    },
+    [78719] = {
+        name = "Bürger von Dalaran",
+    },
+    [78721] = {
+        name = "Das Team",
+    },
+    [78722] = {
+        name = "Auf nach Khaz Algar!",
+    },
     [78738] = {
         name = "Abwesender Sprecher",
     },
@@ -575,6 +605,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "Geweihte Reinigung",
+    },
+    [79105] = {
+        name = "Bresche",
+    },
+    [79106] = {
+        name = "Bruch",
     },
     [79107] = {
         name = "Nach dem Sturm",
@@ -1266,6 +1302,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "Rückkehr ins Meer",
     },
+    [80321] = {
+        name = "Abreise",
+    },
     [80334] = {
         name = "Zerschmetterte Spitzen",
     },
@@ -1313,6 +1352,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "Im Dienst der Königin",
+    },
+    [80500] = {
+        name = "Die Bronzebart-Familie",
     },
     [80502] = {
         name = "Weint nicht um mich, Azj-Kahet",
@@ -1506,6 +1548,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "Abtauchen",
     },
+    [81512] = {
+        name = "Requisiten und Räucherwerk",
+    },
     [81514] = {
         name = "Großzügige Tiefen",
     },
@@ -1611,6 +1656,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "Kehrt zu Moira zurück.",
     },
+    [81802] = {
+        name = "Drachenreiterrennen - Sturmpostenstudie",
+    },
     [81806] = {
         name = "Drachenreiterrennen - Erzgrubenecken",
     },
@@ -1647,6 +1695,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "So wird das ablaufen",
     },
+    [81930] = {
+        name = "Der Krieg im Inneren",
+    },
     [81945] = {
         name = "Nach Arathis Ende",
     },
@@ -1667,6 +1718,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "Störung der Invasion",
+    },
+    [81966] = {
+        name = "Geschlafen wie ein Stein",
     },
     [81969] = {
         name = "Das Ende des Endes",
@@ -2171,6 +2225,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "Angelfest von Heilsturz",
+    },
+    [83543] = {
+        name = "Abenteuer in Khaz Algar",
     },
     [83548] = {
         name = "Insel von Dorn",

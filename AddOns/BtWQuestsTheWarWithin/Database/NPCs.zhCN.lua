@@ -54,6 +54,15 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [213184] = {
         name = "寇尔甘",
     },
+    [213620] = {
+        name = "萨尔",
+    },
+    [213624] = {
+        name = "麦格尼·铜须",
+    },
+    [213625] = {
+        name = "吉安娜·普罗德摩尔",
+    },
     [213840] = {
         name = "旅店老板布拉克斯",
     },
@@ -74,6 +83,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [214444] = {
         name = "阿加尔萨",
+    },
+    [214651] = {
+        name = "茉艾拉·索瑞森",
     },
     [215208] = {
         name = "欧森兹",

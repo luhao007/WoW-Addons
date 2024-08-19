@@ -168,6 +168,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78472] = {
         name = "어둠 속의 광채 - 활성화",
     },
+    [78529] = {
+        name = "격렬한 충격",
+    },
     [78530] = {
         name = "공작원 처단",
     },
@@ -405,6 +408,33 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [78706] = {
         name = "고위 대변자의 비밀",
     },
+    [78713] = {
+        name = "내부 전쟁",
+    },
+    [78714] = {
+        name = "조잡한 환대",
+    },
+    [78715] = {
+        name = "아제로스의 목소리",
+    },
+    [78716] = {
+        name = "고통스러운 교훈",
+    },
+    [78717] = {
+        name = "수수께끼의 경고",
+    },
+    [78718] = {
+        name = "수호물 강화",
+    },
+    [78719] = {
+        name = "달라란의 시민들",
+    },
+    [78721] = {
+        name = "동료 만나기",
+    },
+    [78722] = {
+        name = "카즈 알가르로!",
+    },
     [78738] = {
         name = "화자 부재",
     },
@@ -575,6 +605,12 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [79089] = {
         name = "축성 정리",
+    },
+    [79105] = {
+        name = "침투",
+    },
+    [79106] = {
+        name = "파열",
     },
     [79107] = {
         name = "폭풍이 지나간 후에",
@@ -1266,6 +1302,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [80316] = {
         name = "바다로 돌아가다",
     },
+    [80321] = {
+        name = "출발",
+    },
     [80334] = {
         name = "무너진 첨탑",
     },
@@ -1313,6 +1352,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [80457] = {
         name = "여왕 폐하를 위하여",
+    },
+    [80500] = {
+        name = "브론즈비어드 가문",
     },
     [80502] = {
         name = "울지 마, 아즈카헤트",
@@ -1506,6 +1548,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81510] = {
         name = "물건을 실어라!",
     },
+    [81512] = {
+        name = "소품과 향",
+    },
     [81514] = {
         name = "풍요로운 구렁",
     },
@@ -1611,6 +1656,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81798] = {
         name = "모이라에게 가기",
     },
+    [81802] = {
+        name = "하늘기수 경주 - 폭풍의 감시터 측량로",
+    },
     [81806] = {
         name = "하늘기수 경주 - 광석단층 굽이로",
     },
@@ -1650,6 +1698,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [81929] = {
         name = "계획 설명",
     },
+    [81930] = {
+        name = "내부 전쟁",
+    },
     [81945] = {
         name = "아라시의 끝으로",
     },
@@ -1670,6 +1721,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [81965] = {
         name = "침공 교란",
+    },
+    [81966] = {
+        name = "잠자는 바위처럼",
     },
     [81969] = {
         name = "결말을 위한 결말",
@@ -2180,6 +2234,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [83532] = {
         name = "신성한 협곡 낚시 대회",
+    },
+    [83543] = {
+        name = "카즈 알가르 모험",
     },
     [83548] = {
         name = "도른의 섬",
