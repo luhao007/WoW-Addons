@@ -16,6 +16,7 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 --
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local CombatPlusfun=addonTable.CombatPlusfun
 -- /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 -- /click DropDownList1Button5
@@ -98,8 +99,8 @@ local function SetAutoShow()
 	end
 	SetAutoShowFun(PIGbiaoji)
 end
-PIGbiaoji.kaiguaidaojishi=5
-local function daojishikaiguai()
+PIGbiaoji.morendaojiTime=5
+local function daojishikaiguaiFun()
 	if IsInRaid() then
 		if PIGbiaoji.kaiguaidaojishi==0 then
 			SendChatMessage("***开始攻击***", "RAID_WARNING", nil);
@@ -112,8 +113,48 @@ local function daojishikaiguai()
 		else
 			SendChatMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***", "PARTY", nil);
 		end
+	else
+		-- if PIGbiaoji.kaiguaidaojishi==0 then
+		-- 	SendChatMessage("***开始攻击***", "GUILD", nil);
+		-- else
+		-- 	SendChatMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***", "GUILD", nil);
+		-- end
 	end
 	PIGbiaoji.kaiguaidaojishi=PIGbiaoji.kaiguaidaojishi-1
+end
+local function PIG_PULL(butui)
+	if butui.daoshuTicker  then
+		butui.daoshuTicker:Cancel()
+	end
+	PIGbiaoji.kaiguaidaojishi=PIGbiaoji.morendaojiTime
+	butui.daoshuTicker = C_Timer.NewTicker(1, daojishikaiguaiFun, PIGbiaoji.morendaojiTime+1)
+end
+local Pmacrotext= "/pull %d"
+local function Set_Pmacrotext(but,id)
+	PIGbiaoji.morendaojiTime=PIGA["CombatPlus"]["Biaoji"]["daojishiTime"]
+	if PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]==1 then
+		but:SetScript("OnClick", function(self)
+			PIG_PULL(self)
+		end)
+	elseif PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]==2 and C_PartyInfo and C_PartyInfo.DoCountdown then
+		but:SetScript("OnClick", function(self) C_PartyInfo.DoCountdown(PIGbiaoji.morendaojiTime) end)
+	elseif PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]==3 then
+		but:SetScript("OnClick", function(self) 
+			if IsAddOnLoaded("DBM-Core") then 
+				SlashCmdList.DEADLYBOSSMODSPULL(PIGbiaoji.morendaojiTime) 
+			else
+				PIGinfotip:TryDisplayMessage("你的倒计时程序设置为DBM，但没有安装DBM")
+			end 
+		end)
+	elseif PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]==4 then
+		but:SetScript("OnClick", function(self) 
+			if IsAddOnLoaded("BigWigs") then 
+				SlashCmdList.BIGWIGSPULL(PIGbiaoji.morendaojiTime)  
+			else
+				PIGinfotip:TryDisplayMessage("你的倒计时程序设置为BigWigs，但没有安装BigWigs")
+			end	
+		end)
+	end
 end
 function CombatPlusfun.biaoji()
 	if not PIGA["CombatPlus"]["Biaoji"]["Open"] then return end
@@ -140,28 +181,21 @@ function CombatPlusfun.biaoji()
 			listbut:SetNormalTexture(iconqita[xianzaidi])
 			listbut:SetSize(biaojiW,biaojiW)
 			if i==tuNumall then
+				PIGbiaoji.daojishiBUT=listbut
 				listbut:GetNormalTexture():SetTexCoord(0.13,0.87,0.13,0.87)
+				Set_Pmacrotext(PIGbiaoji.daojishiBUT,PIGA["CombatPlus"]["Biaoji"]["daojishiFun"])
 			end
 		end
-		listbut:SetScript("OnClick", function(self) 
-			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
-			if i<=tuNum+1 then
+		if i<=tuNum+1 then
+			listbut:SetScript("OnClick", function(self) 
 				--SetRaidTargetIcon("target", tuNum+1-i) 
 				SetRaidTarget("target", tuNum+1-i)
-			else
-				if i==tuNum+2 then DoReadyCheck() end
-				if i==tuNum+3 then
-					if C_PartyInfo and C_PartyInfo.DoCountdown then
-						C_PartyInfo.DoCountdown(5)
-					else
-						if self.daoshuTicker  then
-							self.daoshuTicker:Cancel()
-						end
-						PIGbiaoji.kaiguaidaojishi=5
-						self.daoshuTicker = C_Timer.NewTicker(1, daojishikaiguai, 6)
-					end
-				end
-			end
+			end)
+		elseif i==tuNum+2 then 
+			listbut:SetScript("OnClick", function(self) DoReadyCheck() end) 
+		end
+		listbut:HookScript("OnClick", function(self) 
+			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 		end)
 	end
 	PIGbiaoji:SetScale(PIGA["CombatPlus"]["Biaoji"]["Scale"])
@@ -249,6 +283,34 @@ function CombatPlusF.SetF.Slider:OnValueFun()
 	self.Text:SetText(Value);
 	PIGbiaoji_UI:SetScale(Value)
 end
+local daojishiFun = {[1]="PIG",[2]="暴雪(正式服)",[3]="DBM",[4]="BigWigs"}
+CombatPlusF.SetF.Daojishi=PIGDownMenu(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",100,-200},{140,nil})
+CombatPlusF.SetF.Daojishi.t = PIGFontString(CombatPlusF.SetF.Daojishi,{"RIGHT",CombatPlusF.SetF.Daojishi,"LEFT",-4,0},"倒计时程序");
+function CombatPlusF.SetF.Daojishi:PIGDownMenu_Update_But(self)
+	local info = {}
+	info.func = self.PIGDownMenu_SetValue
+	for i=1,4,1 do
+	    info.text, info.arg1 = daojishiFun[i], i
+	    info.checked = i==PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]
+		CombatPlusF.SetF.Daojishi:PIGDownMenu_AddButton(info)
+	end 
+end
+function CombatPlusF.SetF.Daojishi:PIGDownMenu_SetValue(value,arg1,arg2)
+	CombatPlusF.SetF.Daojishi:PIGDownMenu_SetText(value)
+	PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]=arg1
+	Set_Pmacrotext(PIGbiaoji.daojishiBUT,arg1)
+	PIGCloseDropDownMenus()
+end
+local xiayiinfoTime = {3,30,1}
+CombatPlusF.SetF.daojishiTime = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.Daojishi,"RIGHT",100,0},{100,14},xiayiinfoTime)
+CombatPlusF.SetF.daojishiTime.T = PIGFontString(CombatPlusF.SetF.daojishiTime,{"RIGHT",CombatPlusF.SetF.daojishiTime,"LEFT",-10,0},"倒计延迟(秒)")
+function CombatPlusF.SetF.daojishiTime:OnValueFun()
+	local Value = self:GetValue()
+	PIGbiaoji.morendaojiTime=Value
+	PIGA["CombatPlus"]["Biaoji"]["daojishiTime"]=Value;
+	self.Text:SetText(Value);
+end
+
 --
 CombatPlusF:HookScript("OnShow", function (self)
 	self.Open:SetChecked(PIGA["CombatPlus"]["Biaoji"]["Open"]);
@@ -257,4 +319,6 @@ CombatPlusF:HookScript("OnShow", function (self)
 	self.SetF.NOtargetHide:SetChecked(PIGA["CombatPlus"]["Biaoji"]["NOtargetHide"]);
 	self.SetF.AutoShow:SetChecked(PIGA["CombatPlus"]["Biaoji"]["AutoShow"]);
 	self.SetF.Slider:PIGSetValue(PIGA["CombatPlus"]["Biaoji"]["Scale"])
+	self.SetF.Daojishi:PIGDownMenu_SetText(daojishiFun[PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]])
+	self.SetF.daojishiTime:PIGSetValue(PIGA["CombatPlus"]["Biaoji"]["daojishiTime"])
 end);

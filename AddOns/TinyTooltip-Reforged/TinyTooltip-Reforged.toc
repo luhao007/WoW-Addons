@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Beezer
-## Version: 11.0
+## Version: 12.0
 ## SavedVariables: TinyTooltipReforgedDB
 ## SavedVariablesPerCharacter: TinyTooltipReforgedCharacterDB
 ## IconTexture: Interface\AddOns\TinyTooltip-Reforged\images\Icon.tga
@@ -13,6 +13,9 @@
 ## X-Category: Tooltip
 
 libs\lib.xml
+libs\Template.xml
+locales\locales.xml
+
 Core.lua
 Config.lua
 General.lua
@@ -28,6 +31,3 @@ Mount.lua
 SkinFrames.lua
 ExpansionInfo.lua
 Options.lua
-
-libs\Template.xml
-locales\locales.xml

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: geligasi
-## Version: 7.42
+## Version: 7.48
 ## SavedVariables: PIGA
 ## SavedVariablesPerCharacter: PIGA_Per
 ## IconTexture: interface/icons/ability_seal.blp

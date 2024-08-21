@@ -259,6 +259,7 @@ addonTable.Default = {
 	},
 	["FramePlus"] = {
 		["Roll"] = true,
+		["RollScale"] = 1,
 		["Loot"] = true,
 		["Macro"] = true,
 		["Friends"] = true,
@@ -311,6 +312,8 @@ addonTable.Default = {
 			["NOtargetHide"]=true,
 			["AutoShow"] = false,
 			["Scale"]=1,
+			["daojishiFun"]=1,
+			["daojishiTime"]=5,
 		},
 		["CombatTime"]={
 			["Open"] = true,

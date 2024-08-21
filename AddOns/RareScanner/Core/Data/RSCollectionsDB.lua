@@ -85,7 +85,7 @@ local CLASS_MISSING_APPEARNACES = {
 		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Leather }
 	};
 	[11] = { --Druid
-		[Enum.ItemClass.Weapon] = { Enum.ItemWeaponSubclass.Axe2H, Enum.ItemWeaponSubclass.Mace1H, Enum.ItemWeaponSubclass.Mace2H, Enum.ItemWeaponSubclass.Polearm, Enum.ItemWeaponSubclass.Staff, Enum.ItemWeaponSubclass.Bearclaw, Enum.ItemWeaponSubclass.Catclaw, Enum.ItemWeaponSubclass.Unarmed, Enum.ItemWeaponSubclass.Generic, Enum.ItemWeaponSubclass.Dagger, Enum.ItemWeaponSubclass.Fishingpole },
+		[Enum.ItemClass.Weapon] = { Enum.ItemWeaponSubclass.Mace1H, Enum.ItemWeaponSubclass.Mace2H, Enum.ItemWeaponSubclass.Polearm, Enum.ItemWeaponSubclass.Staff, Enum.ItemWeaponSubclass.Bearclaw, Enum.ItemWeaponSubclass.Catclaw, Enum.ItemWeaponSubclass.Unarmed, Enum.ItemWeaponSubclass.Generic, Enum.ItemWeaponSubclass.Dagger, Enum.ItemWeaponSubclass.Fishingpole },
 		[Enum.ItemClass.Armor] = { Enum.ItemArmorSubclass.Leather }
 	};
 	[12] = { --Demon Hunter

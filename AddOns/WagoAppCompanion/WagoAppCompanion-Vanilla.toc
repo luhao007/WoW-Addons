@@ -1,11 +1,14 @@
-## Interface: 11502
-## Title: Wago App Companion
+## Interface: 110002
 ## Author: The Wago team
 ## Version: 1.0.0
-## DefaultState: Enabled
 ## LoadOnDemand: 0
-## OptionalDependencies: WeakAuras
+## DefaultState: Enabled
 ## IconTexture: Interface\AddOns\WagoAppCompanion\logo.png
+
+## Title: Wago App Companion
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF辅助|r|cFFFFE00A>|r |cFFFFFFFFWagoApp伴侣|r |cFFFFE00AWagoAppCompanion|r
+## Notes-zhCN: 辅助Wago App收集插件使用状况
+
 
 data.lua
 init.lua

@@ -10,12 +10,14 @@ local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Roll()
 	if tocversion>50000 then return end
 	if not PIGA["FramePlus"]["Roll"] then return end
+	if ElvUI or NDui then return end
 	UIParent:UnregisterEvent("START_LOOT_ROLL")
 	UIParent:UnregisterEvent("CANCEL_LOOT_ROLL")
 	local ActionW = ActionButton1:GetWidth()+2
 	local itemhangW,itemhangH = 260,ActionW
 	local RollFFF = PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",220,20},{itemhangW,12},"PIG_Roll_LsitUI")
 	RollFFF:Hide();
+	RollFFF:SetScale(PIGA["FramePlus"]["RollScale"])
 	RollFFF.yidong = PIGFrame(RollFFF,{"LEFT",RollFFF,"LEFT",0,0},{26,12})
 	RollFFF.yidong:PIGSetBackdrop()
 	RollFFF.yidong:PIGSetMovable(RollFFF)
@@ -169,9 +171,7 @@ function FramePlusfun.Roll()
 		itemhang.Need.Count:SetTextColor(1, 0, 0, 1);
 		Enter_Leave(itemhang.Need)
 		itemhang.butlist[LOOT_ROLL_TYPE_NEED]=itemhang.Need
-		itemhang.Need:HookScript("OnClick", function(self)
-			SETbutEnableDisable(itemhang,false)
-		end)
+
 		itemhang.Greed = CreateFrame("Button", nil, itemhang,"LootRollButtonTemplate",LOOT_ROLL_TYPE_GREED);
 		itemhang.Greed:SetNormalTexture("Interface/Buttons/UI-GroupLoot-Coin-Up")
 		itemhang.Greed:SetPushedTexture("Interface/Buttons/UI-GroupLoot-Coin-Down")
@@ -185,9 +185,7 @@ function FramePlusfun.Roll()
 		itemhang.Greed.Count:SetTextColor(0, 1, 0.6, 1);
 		Enter_Leave(itemhang.Greed)
 		itemhang.butlist[LOOT_ROLL_TYPE_GREED]=itemhang.Greed
-		itemhang.Greed:HookScript("OnClick", function(self)
-			SETbutEnableDisable(itemhang,false)
-		end)
+
 		itemhang.name = PIGFontString(itemhang,{"BOTTOMLEFT", itemhang.Greed, "BOTTOMRIGHT", 0, 8},nil,"OUTLINE")
 		itemhang.Pass = CreateFrame("Button", nil, itemhang,"LootRollButtonTemplate",LOOT_ROLL_TYPE_PASS);
 		itemhang.Pass:SetNormalTexture("Interface/Buttons/UI-GroupLoot-pass-Up")
@@ -203,9 +201,9 @@ function FramePlusfun.Roll()
 		Enter_Leave(itemhang.Pass)
 		itemhang.butlist[LOOT_ROLL_TYPE_PASS]=itemhang.Pass
 		itemhang.Pass:SetScript("OnClick", function(self)
-			SETbutEnableDisable(itemhang,false)
 			RollOnLoot(self:GetParent().rollID, self:GetID());
 		end)
+
 		itemhang.De = CreateFrame("Button", nil, itemhang,"LootRollButtonTemplate",LOOT_ROLL_TYPE_DISENCHANT);
 		itemhang.De:SetNormalTexture("Interface/Buttons/UI-GroupLoot-de-Up")
 		itemhang.De:SetPushedTexture("Interface/Buttons/UI-GroupLoot-de-Down")
@@ -219,9 +217,6 @@ function FramePlusfun.Roll()
 		itemhang.De.Count:SetTextColor(1, 1, 0.6, 1);
 		Enter_Leave(itemhang.De)
 		itemhang.butlist[LOOT_ROLL_TYPE_DISENCHANT]=itemhang.De
-		itemhang.De:HookScript("OnClick", function(self)
-			SETbutEnableDisable(itemhang,false)
-		end)
 		itemhang.De:Hide()
 	
 		itemhang:SetScript("OnShow", function(self)
@@ -309,11 +304,11 @@ function FramePlusfun.Roll()
 		for i=1,yiyouBUTnum do
 			local frameXX = RollFFF.butList[i]
 			if ( not frameXX:IsShown() ) then
-				initialize_button(frameXX,id, rollTime)
+				initialize_button(frameXX, id, rollTime)
 				return
 			end
 		end
-		initialize_button(add_hang(yiyouBUTnum+1),id, rollTime)
+		initialize_button(add_hang(yiyouBUTnum+1), id, rollTime)
 	end
 	---------
 	local function GetrollTypeNumAll(frame)
@@ -335,6 +330,9 @@ function FramePlusfun.Roll()
 				local name, class, rollType, roll, isWinner = C_LootHistory.GetPlayerInfo(historyIndex, playerIndex);
 				if rollType then
 					frame.PlayersList[rollType][playerIndex]={name, class}
+					if name==Pig_OptionsUI.Name or name==Pig_OptionsUI.AllName then
+						SETbutEnableDisable(frame,false)
+					end
 				end
 				if GetrollTypeNumAll(frame)<numPlayers then
 					local left = GetLootRollTimeLeft(frame.rollID);
@@ -379,6 +377,7 @@ function FramePlusfun.Roll()
 			
 		end
 	end)
+	-- --LootHistoryFrame:SetWidth(210)
 	-- local xffggghhh = {22589,14237,3302,7441,13262,13262,13262}
 	-- for i=1,NUM_GROUP_LOOT_FRAMES do
 	-- 	if not RollFFF.butList[i] then add_hang(i) end

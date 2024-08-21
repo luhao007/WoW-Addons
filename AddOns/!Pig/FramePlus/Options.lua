@@ -104,6 +104,16 @@ if tocversion<50000 then
 			Pig_Options_RLtishi_UI:Show()
 		end
 	end)
+	local Scaleinfo = {0.8,2,0.1}
+	FramePlusF.Roll.SliderT = PIGFontString(FramePlusF.Roll,{"LEFT",FramePlusF.Roll.Text,"RIGHT",4,0},"缩放")
+	FramePlusF.Roll.Slider = PIGSlider(FramePlusF.Roll,{"LEFT",FramePlusF.Roll.SliderT,"RIGHT",4,0},{80,14},Scaleinfo)	
+	function FramePlusF.Roll.Slider:OnValueFun()
+		local Value = (floor(self:GetValue()*10+0.5))/10
+		PIGA["FramePlus"]["RollScale"]=Value;
+		self.Text:SetText(Value);
+		PIG_Roll_LsitUI:SetScale(Value)
+	end
+
 	FramePlusF.Quest = PIGCheckbutton_R(FramePlusF,{"任务界面扩展",""})
 	if tocversion<30000 then
 		FramePlusF.Quest.tooltip= "扩展任务界面为两列,左边任务列表，右边任务详情,显示任务等级";
@@ -192,7 +202,7 @@ end);
 --
 FramePlusF:HookScript("OnShow", function(self)
 	self.Loot:SetChecked(PIGA["FramePlus"]["Loot"])
-	if self.Roll then self.Roll:SetChecked(PIGA["FramePlus"]["Roll"]) end
+	if self.Roll then self.Roll:SetChecked(PIGA["FramePlus"]["Roll"]) FramePlusF.Roll.Slider:PIGSetValue(PIGA["FramePlus"]["RollScale"]) end
 	self.BuffTime:SetChecked(PIGA["FramePlus"]["BuffTime"])
 	self.Skill_QKbut:SetChecked(PIGA["FramePlus"]["Skill_QKbut"])
 	self.Merchant:SetChecked(PIGA["FramePlus"]["Merchant"])

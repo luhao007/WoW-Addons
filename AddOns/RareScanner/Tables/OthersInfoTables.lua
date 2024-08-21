@@ -92,4 +92,56 @@ private.DRAGON_GLYPHS = {
 	[19301] = { zoneID = 2200, artID = { 1806 }, x = 4999, y = 6433, parent = 19306 }; --Dragon Glyphs: Amirdrassil
 	[19302] = { zoneID = 2200, artID = { 1806 }, x = 3174, y = 8074, parent = 19306 }; --Dragon Glyphs: Whorlwing basin
 	[19303] = { zoneID = 2200, artID = { 1806 }, x = 6167, y = 7548, parent = 19306 }; --Dragon Glyphs: Wakeful Vista
+	
+	-- Azj-Kahet
+	[40691] = { zoneID = 2255, artID = { 1852 }, x = 6331, y = 1396, parent = 40705 }; --Skyriding Glyphs: Arathi's End
+	[40693] = { zoneID = 2255, artID = { 1852 }, x = 2509, y = 4036, parent = 40705 }; --Skyriding Glyphs: Ruptured Lake
+	[40695] = { zoneID = {
+		[2255] = { x = 3591, y = 7682, artID = { 1852 } };
+		[2213] = { x = 1305, y = 3363, artID = { 1816 } };
+	  }, parent = 40705}; --Skyriding Glyphs: Old Sacrificial Pit
+	[40697] = { zoneID = 2255, artID = { 1852 }, x = 6632, y = 8491, parent = 40705 }; --Skyriding Glyphs: The Maddening Deep
+	[40699] = { zoneID = 2255, artID = { 1852 }, x = 5756, y = 5741, parent = 40705 }; --Skyriding Glyphs: Silken Ward
+	[40701] = { zoneID = 2255, artID = { 1852 }, x = 6550, y = 5179, parent = 40705 }; --Skyriding Glyphs: Untamed Valley
+	[40692] = { zoneID = 2255, artID = { 1852 }, x = 4667, y = 2125, parent = 40705 }; --Skyriding Glyphs: Siegehold
+	[40694] = { zoneID = 2255, artID = { 1852 }, x = 4293, y = 5713, parent = 40705 }; --Skyriding Glyphs: Eye of Ansurek
+	[40696] = { zoneID = 2255, artID = { 1852 }, x = 5857, y = 8980, parent = 40705 }; --Skyriding Glyphs: Deepwalker Pass
+	[40698] = { zoneID = 2255, artID = { 1852 }, x = 7311, y = 8416, parent = 40705 }; --Skyriding Glyphs: Rak-Ush
+	[40700] = { zoneID = 2255, artID = { 1852 }, x = 7055, y = 2517, parent = 40705 }; --Skyriding Glyphs: Trickling Abyss
+
+	-- Hallowfall
+	[40681] = { zoneID = 2215, artID = { 1818 }, x = 6286, y = 5178, parent = 40704 }; --Skyriding Glyphs: The Fangs
+	[40683] = { zoneID = 2215, artID = { 1818 }, x = 6368, y = 6555, parent = 40704 }; --Skyriding Glyphs: Sanguine Grasps
+	[40685] = { zoneID = 2215, artID = { 1818 }, x = 6276, y = 0721, parent = 40704 }; --Skyriding Glyphs: Bleak Sand
+	[40687] = { zoneID = 2215, artID = { 1818 }, x = 3553, y = 3369, parent = 40704 }; --Skyriding Glyphs: Priory of the Sacred Flame
+	[40689] = { zoneID = 2215, artID = { 1818 }, x = 4574, y = 1237, parent = 40704 }; --Skyriding Glyphs: Velhan's Claim
+	[40682] = { zoneID = 2215, artID = { 1818 }, x = 5727, y = 3249, parent = 40704 }; --Skyriding Glyphs: Sina's Yearning
+	[40684] = { zoneID = 2215, artID = { 1818 }, x = 6995, y = 4423, parent = 40704 }; --Skyriding Glyphs: Dunelle's Kindness
+	[40686] = { zoneID = 2215, artID = { 1818 }, x = 4332, y = 5278, parent = 40704 }; --Skyriding Glyphs: Mereldar
+	[40688] = { zoneID = 2215, artID = { 1818 }, x = 3080, y = 5161, parent = 40704 }; --Skyriding Glyphs: Fortune's Fall
+	[40690] = { zoneID = 2215, artID = { 1818 }, x = 5764, y = 6464, parent = 40704 }; --Skyriding Glyphs: Tenir's Ascent
+
+	-- The Ringing Deeps
+	[40672] = { zoneID = 2214, artID = { 1817 }, x = 4907, y = 3154, parent = 40703 }; --Skyriding Glyphs: Gundargaz
+	[40674] = { zoneID = 2214, artID = { 1817 }, x = 5719, y = 3138, parent = 40703 }; --Skyriding Glyphs: The Lost Mines
+	[40676] = { zoneID = 2214, artID = { 1817 }, x = 5617, y = 5616, parent = 40703 }; --Skyriding Glyphs: The Rumbling Wastes
+	[40678] = { zoneID = 2214, artID = { 1817 }, x = 6396, y = 9524, parent = 40703 }; --Skyriding Glyphs: Abyssal Excavation
+	[40680] = { zoneID = 2214, artID = { 1817 }, x = 4642, y = 5165, parent = 40703 }; --Skyriding Glyphs: The Waterworks
+	[40673] = { zoneID = 2214, artID = { 1817 }, x = 4687, y = 1008, parent = 40703 }; --Skyriding Glyphs: The Stonevault Exterior
+	[40675] = { zoneID = 2214, artID = { 1817 }, x = 6935, y = 3440, parent = 40703 }; --Skyriding Glyphs: Chittering Den
+	[40677] = { zoneID = 2214, artID = { 1817 }, x = 4931, y = 6607, parent = 40703 }; --Skyriding Glyphs: The Living Grotto
+	[40679] = { zoneID = 2214, artID = { 1817 }, x = 6292, y = 6609, parent = 40703 }; --Skyriding Glyphs: Taelloch Mine
+	
+	-- Isle of Dorn
+	[40152] = { zoneID = 2248, artID = { 1833 }, x = 7575, y = 2223, parent = 40166 }; --Skyriding Glyphs: The Three Shields
+	[40664] = { zoneID = 2248, artID = { 1833 }, x = 3794, y = 4093, parent = 40166 }; --Skyriding Glyphs: Storm's Watch
+	[40666] = { zoneID = 2248, artID = { 1833 }, x = 6823, y = 7178, parent = 40166 }; --Skyriding Glyphs: Sunken Shield
+	[40668] = { zoneID = 2248, artID = { 1833 }, x = 5624, y = 1783, parent = 40166 }; --Skyriding Glyphs: Thunderhead Peak
+	[40670] = { zoneID = 2248, artID = { 1833 }, x = 6211, y = 4493, parent = 40166 }; --Skyriding Glyphs: Mourning Rise
+	[40663] = { zoneID = 2248, artID = { 1833 }, x = 2314, y = 5854, parent = 40166 }; --Skyriding Glyphs: Dhar Oztan
+	[40665] = { zoneID = 2248, artID = { 1833 }, x = 4444, y = 7963, parent = 40166 }; --Skyriding Glyphs: Dhar Durgaz
+	[40667] = { zoneID = 2248, artID = { 1833 }, x = 4777, y = 2670, parent = 40166 }; --Skyriding Glyphs: Thul Medran
+	[40669] = { zoneID = 2248, artID = { 1833 }, x = 7819, y = 4276, parent = 40166 }; --Skyriding Glyphs: Cinderbrew Meadery
+	[40671] = { zoneID = 2248, artID = { 1833 }, x = 7190, y = 4721, parent = 40166 }; --Skyriding Glyphs: Ironwold
+	
 }

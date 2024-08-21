@@ -225,13 +225,11 @@ local function ADD_Skill_QK()
 		for F=1, #Skill_List_NEW[2] do
 			local FF = F+4;
 			local fujiK = _G["Skill_Button_"..FF]
-			if fujiK then
 				fujiK.Type="spell"
 				fujiK.SimID=Skill_List_NEW[2][F][1]
 				fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
 				fujiK:SetAttribute("spell", Skill_List_NEW[2][F][1]);
 				fujiK:Show();
-			end
 		end
 		ProfessionsFrame:HookScript("OnShow", function(self)
 			if ElvUI then

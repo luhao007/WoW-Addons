@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: MysticalOS
-## Version: r142
+## Version: r143
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMDelvesWarWithin_AllSavedVars
@@ -10,7 +10,7 @@
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff4565ffDelves (TWW)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0地下堡|r |cFF22B14C地心之战|r
 
-## X-Min-Interface: 110000
+## X-Min-Interface: 110002
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: SCENARIO
 ## X-DBM-Mod-Category: OTHER

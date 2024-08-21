@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Nnoggie
-## Version: 5.0.5
+## Version: 5.0.6
 ## OptionalDeps: !!AddonLocale, LibStub, Ace3, WagoAnalytics
 ## SavedVariables: MythicDungeonToolsDB
 ## IconTexture: Interface\AddOns\MythicDungeonTools\Textures\Nnoggie

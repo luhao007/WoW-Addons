@@ -1511,8 +1511,8 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.DOT..1] = { x = 0.5071, y = 0.7058, comment = AL["NOTE_443318_1"], questID = 82751 };
 		[RSConstants.DOT..2] = { x = 0.7077, y = 0.1999, comment = AL["NOTE_443318_3"], questID = 82753 };
 		[RSConstants.DOT..3] = { x = 0.4185, y = 0.2701, comment = AL["NOTE_443318_1"], questID = 82754 };
-		[RSConstants.DOT..4] = { x = 0.1973, y = 0.5843, comment = AL["NOTE_443318_1"] };
-		[RSConstants.DOT..5] = { x = 0.3827, y = 0.4202, comment = AL["NOTE_443318_2"] };
+		[RSConstants.DOT..4] = { x = 0.1973, y = 0.5843, comment = AL["NOTE_443318_1"], questID = 82755 };
+		[RSConstants.DOT..5] = { x = 0.3827, y = 0.4202, comment = AL["NOTE_443318_2"], questID = 82756 };
 	}; --Tree's Treasure
 	["4337332214"] = {
 		[RSConstants.ENTRANCE] = { x = 0.5203, y = 0.5311 };
@@ -1668,6 +1668,7 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Strands of Memory
 	["4543282213"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2846, y = 0.5271 };
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Strands of Memory
 	["4543282255"] = {
@@ -1756,6 +1757,7 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Skitterlings
 	["4543302213"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4017, y = 0.3875 };
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Skitterlings
 	["4543302255"] = {
@@ -1765,6 +1767,7 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Lords
 	["4569272213"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2603, y = 0.5127 };
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Lords
 	["4569272255"] = {
@@ -1774,11 +1777,31 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Ascended
 	["4569282213"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7688, y = 0.3923 };
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Ascended
 	["4569282255"] = {
 		[RSConstants.FLAG] = { x = 0.5131, y = 0.7767, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Ascended
+	["2256412215"] = {
+		[RSConstants.STEP1..1] = { x = 0.5400, y = 0.2640, comment = AL["NOTE_225641_1"] };
+		[RSConstants.STEP1..2] = { x = 0.5380, y = 0.2980, comment = AL["NOTE_225641_1"] };
+		[RSConstants.STEP1..3] = { x = 0.5400, y = 0.3080, comment = AL["NOTE_225641_1"] };
+		[RSConstants.STEP1..4] = { x = 0.5460, y = 0.2720, comment = AL["NOTE_225641_1"] };
+		[RSConstants.STEP2..1] = { x = 0.4420, y = 0.1460, comment = AL["NOTE_225641_2"] };
+		[RSConstants.STEP2..2] = { x = 0.4480, y = 0.1120, comment = AL["NOTE_225641_2"] };
+		[RSConstants.STEP2..3] = { x = 0.4620, y = 0.1060, comment = AL["NOTE_225641_2"] };
+		[RSConstants.STEP2..4] = { x = 0.4720, y = 0.1520, comment = AL["NOTE_225641_2"] };
+		[RSConstants.STEP2..5] = { x = 0.4840, y = 0.1720, comment = AL["NOTE_225641_2"] };
+		[RSConstants.STEP3..1] = { x = 0.4960, y = 0.4940, comment = AL["NOTE_225641_3"] };
+		[RSConstants.STEP3..2] = { x = 0.5180, y = 0.4880, comment = AL["NOTE_225641_3"] };
+		[RSConstants.STEP3..3] = { x = 0.5140, y = 0.5180, comment = AL["NOTE_225641_3"] };
+		[RSConstants.STEP4..1] = { x = 0.3560, y = 0.5280, comment = AL["NOTE_225641_4"] };
+		[RSConstants.STEP4..2] = { x = 0.3560, y = 0.5620, comment = AL["NOTE_225641_4"] };
+		[RSConstants.STEP4..3] = { x = 0.3560, y = 0.5520, comment = AL["NOTE_225641_4"] };
+		[RSConstants.STEP4..4] = { x = 0.3460, y = 0.5560, comment = AL["NOTE_225641_4"] };
+		[RSConstants.STEP4..5] = { x = 0.3440, y = 0.5380, comment = AL["NOTE_225641_4"] };
+	}; --Illusive Kobyss Lure
 }
 
 ---============================================================================

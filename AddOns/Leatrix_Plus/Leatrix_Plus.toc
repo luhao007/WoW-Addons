@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Leatrix
-## Version: 11.0.04
+## Version: 11.0.05
 ## OptionalDeps: Leatrix_enUS, ElvUI, Glass, Titan, Leatrix_Maps, totalRP3
 ## SavedVariables: LeaPlusDB
 ## IconTexture: Interface\HELPFRAME\ReportLagIcon-Movement

@@ -698,7 +698,7 @@ AL["CUSTOM_NPCS"] = "NPCs personalizados"
 AL["CYPHER_CONSOLE"] = "Consola de claves"
 AL["CYPHER_CONSOLE_ENTRANCE"] = "Entrada a la [Consola de claves]"
 AL["DATABASE_HARD_RESET"] = "Con la expansión mas reciente y con la última versión de RareScanner, se han introducido grandes cambios que requieren un reinicio de la base de datos para evitar inconsistencias. Disculpen las molestias."
-AL["DELVES"] = "Delves"
+AL["DELVES"] = "Profundidades"
 AL["DISABLE_OBJECTS_SOUND"] = "Desactiva el sonido con tesoros y eventos"
 AL["DISABLE_OBJECTS_SOUND_DESC"] = "Cuando este activo no se reproducirán sonidos de alerta con tesoros y eventos"
 AL["DISABLE_SEARCHING_CONTAINER_TOOLTIP"] = "Deshabilita la búsqueda de este contenedor"
@@ -1522,6 +1522,7 @@ AL["NOTE_203521"] = "Dentro de un edificio."
 AL["NOTE_203660"] = "En una cueva."
 AL["NOTE_203664"] = "Encima de una plataforma flotante."
 AL["NOTE_205865"] = "Solo aparece mientras se hace la misión [¡Dale al cronomartillo!]"
+AL["NOTE_207802"] = "Solo aparece mientras la fase de noche se encuentra activa (puedes saber que es de noche cuando la piedra del techo se pone morada). Puedes comprar un [Beledar's Attunement] cuando alcances renombre 23 con [Hallowfall Arathi], para que se muestre en el mapa del mundo un icono cada vez que reaparezca, y así RareScanner te pueda notificar desde cualquier parte en [Hallowfall]."
 AL["NOTE_208728"] = "Puede aparecer al abrir un [Secret Treasure]."
 AL["NOTE_209365"] = "Inicialmente es amistoso. Tienes que esperar hasta que obtenga 10x[Corrupting sparks] que irá consiguiendo mientras camine por encima de las [Raíces de Amirdrassil]."
 AL["NOTE_209913"] = "Dentro de una cueva grande. Habla con [Mylune] para obtener la ventana [Bendición de Mylune]. Con esta ventaja activa, puedes ver [Fruta perdida] en el suelo. Recoge unas cuantas hasta que aparezca [Vainete ladronzuelo], y comienza a seguirle/atacarle hasta que aparezca el NPC raro."
@@ -1546,6 +1547,16 @@ AL["NOTE_221753_1"] = "[Offering of Pure Water]. Si no puedes verlo prueba en ot
 AL["NOTE_221753_2"] = "[Jar of Mucus]. Si no puedes verlo espera 5 minutos a que reaparezca."
 AL["NOTE_222165"] = "Para poder empezar el evento necesitas un [Radiant Echoe]. Este objeto se encuentra dentro de [Bountifull Cofer]s que aparece al completar un [Bountiful Delve]. Necesitarás una [Restored Coffer Key] para desbloquear este tesoro."
 AL["NOTE_223143"] = "Empuja a [Lionel] al agua. Luego recoge 5x[Plump snapcrab]s que puedes encontrar corriendo por la arena y aliméntale con ellos."
+AL["NOTE_225641"] = [=[Este tesoro no aparece en esta posición. Para conseguirlo tienes que recoger 4 objetos y utilizarlos.
+1. 1x[Sunless Lure] soltado por [Kobyss Shadeshaper].
+2. 1x[Murkfin Lure] soltado por [Murkfin Depthstalker].
+3. 1x[Hungering Shimmerfin] soltado por [Hungering Shimmerfin].
+4. 1x[Ragefin Necrostaff] soltado por [Ragefin Necromancer].
+Activa los iconos de la guía para ver donde encontrarlos.]=]
+AL["NOTE_225641_1"] = "[Kobyss Shadeshaper]. Al lado de [Arathi Captive]s."
+AL["NOTE_225641_2"] = "[Murkfin Depthstalker]. Al lado de [Arathi Captive]s."
+AL["NOTE_225641_3"] = "[Hungering Shimmerfin]. Al lado de [Arathi Fisherman]s."
+AL["NOTE_225641_4"] = "[Ragefin Necromancer]"
 AL["NOTE_280951"] = "Sigue la vía del tren hasta que encuentres un vagón. Súbete en él para descubrir el tesoro."
 AL["NOTE_287239"] = "Si eres de la horda tienes que completar la campaña de Vol'dun para poder acceder al templo."
 AL["NOTE_289647"] = "El tesoro esta en una cueva. La entrada está en las coordenadas 65.11, entre unos árboles casi en la cima de la montaña."
@@ -1856,6 +1867,7 @@ AL["NOTE_433733"] = "Necesitas una [Forgotten Key] para abrirlo. Puedes encontra
 AL["NOTE_437211"] = "Encontrarás a [Starblessed Glimmerfly] volando en la cueva. Sigue las marcas en el suelo hasta que consigas 5x[Star Glimmer] para obtener [Glimmering Illumination] y poder ver el tesoro."
 AL["NOTE_441606"] = "Vuela alto y busca un agujero pequeño en la gran roca. Es difícil de ver."
 AL["NOTE_441611"] = "Se encuentra colgando de la esquina de la base del castillo."
+AL["NOTE_441800"] = "Para poder ver este tesoro tienes que hablar con cuatro capitanes ([Sky-Captain Clairmonte], [Sky-Captain Dornald], [Sky-Captain Onaro] y [Sky-Captain Aerthin]) que puedes encontrar en los zepelines que vuelan por el cielo."
 AL["NOTE_443318"] = "Habla con [Freysworn Letitia] para obtener [Crab-Guilding Branch]. Tienes que usar este objeto con 5x[Pearlescent Shellcrab]s que hay repartidos por la [Isle of Dorn]. Activa los iconos de la guía para ver donde encontrarles, luego dirígete a cada punto y utiliza el objeto (no tienes ni que seleccionar al cangrejo)."
 AL["NOTE_443318_1"] = "[Pearlescent Shellcrab]"
 AL["NOTE_443318_2"] = "[Pearlescent Shellcrab]. Encima de una pequeña rama."
@@ -1898,6 +1910,7 @@ AL["NOTE_454405"] = "Encima de una gran roca, cerca del techo."
 AL["NOTE_454407"] = "Encima de una gran roca, cerca del techo."
 AL["NOTE_454408"] = "Encima de una estructura de metal, al lado de una tubería grande."
 AL["NOTE_454417"] = "Encima de una gran roca que sobresale de la pared de la caverna, cerca del techo."
+AL["NOTE_455276"] = "Encima de la penúltima viga de la estructura."
 AL["NOTE_455971"] = "Es una joya grande de color morado que puedes encontrar encima de [Jeweler's Bench]"
 AL["NOTE_455996"] = "En el zepelín. Tienes que acercarte desde el aire y no por tierra, si no entrarás en la mazmorra."
 AL["NOTE_471"] = "En una cueva."
@@ -2100,6 +2113,6 @@ AL["ZONES_FILTERS_SEARCH_DESC"] = "Escribe el nombre de la zona para filtrar la 
 		[9996] = "Bandas"; --Raids
 		[9995] = "Desconocido"; --Unknown
 		[9994] = "Expediciones insulares"; --Expedition islands
-		[9993] = "Delves"; --Delves
+		[9993] = "Profundidades"; --Delves
 	}
 end

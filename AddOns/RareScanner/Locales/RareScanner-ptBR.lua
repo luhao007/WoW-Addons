@@ -3,6 +3,7 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local AL = AceLocale:NewLocale("RareScanner", "ptBR", false);
 
 if AL then
+AL["ALARM_MESSAGE"] = "¡Encontrado %s!"
 AL["ALARM_SOUND"] = "Som de alerta para NPCs raros"
 AL["ALARM_SOUND_DESC"] = "Som produzido quando se detecta um NPC raro na proximidade"
 AL["ALARM_TREASURES_SOUND"] = "Som de alerta para eventos/tesouros"
