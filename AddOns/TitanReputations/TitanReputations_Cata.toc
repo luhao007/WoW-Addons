@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Eliote
-## Version: v1.43
+## Version: v1.44
 ## Dependencies: TitanClassic
 ## IconTexture: Interface\Icons\INV_MISC_NOTE_02
 

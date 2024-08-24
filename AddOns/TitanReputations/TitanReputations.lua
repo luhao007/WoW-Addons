@@ -113,7 +113,7 @@ local function GetFactionLabel(standingId)
 	return GetText("FACTION_STANDING_LABEL" .. standingId, SEX)
 end
 
-local function GetBalanceForMajorFaction(factionId, currentXp, currentLvl)
+local function GetSessionStartTable(factionId)
 	if (not sessionStartMajorFaction[factionId]) then
 		local data = GetMajorFactionData(factionId)
 		sessionStartMajorFaction[factionId] = {
@@ -121,10 +121,15 @@ local function GetBalanceForMajorFaction(factionId, currentXp, currentLvl)
 			[data.renownLevel] = { start = 0, max = data.renownLevelThreshold }
 		}
 	end
+	return sessionStartMajorFaction[factionId]
+end
+
+local function GetBalanceForMajorFaction(factionId, currentXp, currentLvl)
+	local sessionTable = GetSessionStartTable(factionId)
 	local balance = 0
-	local start = sessionStartMajorFaction[factionId].startLvl
+	local start = sessionTable.startLvl
 	for i = start, currentLvl do
-		local data = sessionStartMajorFaction[factionId][i]
+		local data = sessionTable[i]
 		-- we might not have data yet if we just leveled and UPDATE_FACTION run before MAJOR_FACTION_RENOWN_LEVEL_CHANGED
 		if (data) then
 			local endXp = (currentLvl == i) and currentXp or data.max
@@ -488,7 +493,7 @@ local eventsTable = {
 if (C_Reputation.IsMajorFaction) then
 	eventsTable.MAJOR_FACTION_RENOWN_LEVEL_CHANGED = function(self, factionId, newRenownLevel, oldRenownLevel)
 		local data = GetMajorFactionData(factionId)
-		sessionStartMajorFaction[factionId][newRenownLevel] = { start = 0, max = data.renownLevelThreshold }
+		GetSessionStartTable(factionId)[newRenownLevel] = { start = 0, max = data.renownLevelThreshold }
 		TitanPanelButton_UpdateButton(self.registry.id)
 	end
 end

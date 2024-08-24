@@ -1,0 +1,48 @@
+﻿$Id: Revision.txt 27 2022-12-28 13:29:53Z arithmandar $
+Revision History:
+=================
+
+* v1.10 (Dec. 28, 2022)
+==========================
+- Added faction items from Maruuk Centaur / Iskaara Tuskarr
+
+* v1.09 (Dec. 26, 2022)
+==========================
+- Added faction items from Valdrakken Accord
+
+* v1.08 (Dec. 26, 2022)
+==========================
+- Added faction items from Dragonscale Expedition
+
+* v1.07 (Dec. 18, 2022)
+==========================
+- Added class tier sets
+
+* v1.06 (Dec. 16, 2022)
+==========================
+- Added PvP Season 1 gears: 
+  - Added Death Knight, Deamon Hunter, Mage, and Priest's gears
+
+* v1.05 (Dec. 15, 2022)
+==========================
+- Added PvP Season 1 gears
+
+* v1.04 (Dec. 05, 2022)
+==========================
+- Added tabards, companions, and toys
+
+* v1.03 (Dec. 04, 2022)
+==========================
+- Added mounts
+
+* v1.02 (Nov. 20, 2022)
+==========================
+- ToC update to support WoW 10.0.2
+
+* v1.01 (Nov. 13, 2022)
+==========================
+- Added full classes full slots' item drops
+
+* v1.00 (Nov. 13, 2022)
+==========================
+- Initial version to support WoW 10.0.0 / AtlasLoot_Enhanced v8.13.02

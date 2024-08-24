@@ -1,0 +1,30 @@
+## Interface: 110002
+## Author: Arith
+## Version: v1.08
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+## Title: AtlasLoot |cFF0099FF[Shadowlands]|r
+## Notes: AtlasLoot loot tables from Shadowlands
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0暗影国度|r
+## Notes-zhCN: AtlasLoot 暗影国度副本掉落列表
+
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: http://www.atlasloot.net
+## X-AtlasLoot-LootModule: 1
+## X-AtlasLoot-ModuleName: Shadowlands
+## X-Part-Of: AtlasLoot
+
+#@non-debug@
+#@end-non-debug@
+
+#@debug@
+# ## Title: AtlasLoot |cFF0099FF[Shadowlands]|r
+# ## Notes: AtlasLoot loot tables from Shadowlands
+#@end-debug@
+
+Core\Core.lua
+Core\Instance.lua
+Core\Collections.lua
+Core\PvP.lua

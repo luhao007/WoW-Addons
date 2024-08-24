@@ -1,0 +1,44 @@
+﻿$Id: Revision.txt 18 2022-12-12 16:40:25Z arithmandar $
+Revision History:
+=================
+
+* v1.08 (Dec. 12, 2022)
+==========================
+- Added PvP items
+
+* v1.07 (Dec. 05, 2022)
+==========================
+- Added tabards
+- Grouped mounts, tabards, and faction items into Collections
+
+* v1.06 (Dec. 04, 2022)
+==========================
+- More mount spells
+
+* v1.05 (Dec. 03, 2022)
+==========================
+- Added mounts
+
+* v1.04 (Dec. 03, 2022)
+==========================
+- Fixed encounter ID , now the following boss name is showing properly:
+  - Blightbone in The Necrotic Wake,
+  - Hakkar the Soulflayer in De Other Side,
+  - Lord Chamberlain in Halls of Atonement
+
+* v1.03 (Nov. 20, 2022)
+==========================
+- Re-organize folder structure
+- Added faction items (mostly done by serious2)
+
+* v1.02 (Nov. 20, 2022)
+==========================
+- ToC update to support WoW 10.0.2
+
+* v1.01 (Nov. 13, 2022)
+==========================
+- Localization key update
+
+* v1.00 (Nov. 13, 2022)
+==========================
+- Initial version to support WoW 10.0.0 / AtlasLoot_Enhanced v8.13.02

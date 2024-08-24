@@ -1,0 +1,29 @@
+## Interface: 110002
+## Author: Arith
+## Version: v1.10
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+## Title: AtlasLoot |cFF0099FF[Dragonflight]|r
+## Notes: AtlasLoot loot tables from Dragonflight
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0巨龙时代|r
+## Notes-zhCN: AtlasLoot 巨龙时代副本掉落列表
+
+## X-Category: Map
+## X-License: GPL v2
+## X-AtlasLoot-LootModule: 1
+## X-AtlasLoot-ModuleName: Dragonflight
+## X-Part-Of: AtlasLoot
+
+#@non-debug@
+#@end-non-debug@
+
+#@debug@
+# ## Title: AtlasLoot |cFF0099FF[Dragonflight]|r
+# ## Notes: AtlasLoot loot tables from Dragonflight
+#@end-debug@
+
+Core\Core.lua
+Core\Instance.lua
+Core\Collections.lua
+Core\PvP.lua
