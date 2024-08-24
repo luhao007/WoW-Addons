@@ -1,14 +1,12 @@
 ﻿function PhoenixStyleEA_OnLoad()
 
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded
-
 psealocalem()
 if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocale()=="zhCN" or GetLocale()=="frFR" or GetLocale()=="koKR" or GetLocale()=="esES" or GetLocale()=="esMX" or GetLocale()=="ptBR" then
   psealocale()
 end
 
 
-	raversion=11.001
+	raversion=11.002
 	local raverstiptext="alpha"
 	if string.len(raversion)==6 then
 		raverstiptext="beta"
@@ -62,8 +60,8 @@ end
 	SLASH_PHOENIXSTYLEEASYACH9 = "/ра"
 	SLASH_PHOENIXSTYLEEASYACH10 = "/raida"
 	SlashCmdList["PHOENIXSTYLEEASYACH"] = PHOENIXSTYLEEASYACH_Command
-
-
+	
+	
 	RaidAchievementframe:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	RaidAchievementframe:RegisterEvent("CHAT_MSG_ADDON")
 	RaidAchievementframe:RegisterEvent("CHAT_MSG_INSTANCE_CHAT")
@@ -154,7 +152,7 @@ if ramsgwaiting>0 and racurrenttime>ramsgwaiting+1.5 then
   --тут аннонс and обнуление всех таблиц
 
   local bililine=0
-  for i,cc in ipairs(rabigmenuchatlisten) do
+  for i,cc in ipairs(rabigmenuchatlisten) do 
     if string.lower(cc) == string.lower(ramsgmychat) then bililine=1
     end
   end
@@ -238,7 +236,7 @@ if rastriniz2==nil then else
 local rastrfine2=string.find(arg2, "++", rastriniz2)
 
 local rabililinet=0
-for i,getcrash in ipairs(racanannouncetable) do
+for i,getcrash in ipairs(racanannouncetable) do 
 if getcrash == string.sub(arg2, rastriniz2+1, rastrfine2-1) then rabililinet=1
 end end
 if(rabililinet==0)then
@@ -472,12 +470,12 @@ t4:SetPoint("TOPLEFT",30,-207)
     atext="|cff00ff00Messaggio importante!|r\n\nIl progetto |cff00ff00RaidAchievement|r forse sarà |cffff0000chiuso|r, per sappere cosa si può fare visita il sito\n\n|cff00ff00Evidenzia il link a clicca  Ctrl+C  per copiare|r"
   end
 
-
+  
 raraerrordfdfdpsdonatefr2 = CreateFrame("ScrollFrame", "raraerrordfdfdpsdonatefr2", PSFeamain3, "UIPanelScrollFrameTemplate")
 raraerrordfdfdpsdonatefr2:SetPoint("TOPLEFT", PSFeamain3, "TOPLEFT", 275, -405)
 raraerrordfdfdpsdonatefr2:SetHeight(40)
 raraerrordfdfdpsdonatefr2:SetWidth(220)
-
+  
 
 raraerrordfsdfsdfjy4 = CreateFrame("EditBox", "raraerrordfsdfsdfjy4", raraerrordfdfdpsdonatefr2)
 raraerrordfsdfsdfjy4:SetPoint("TOPRIGHT", raraerrordfdfdpsdonatefr2, "TOPRIGHT", 0, 0)
@@ -607,19 +605,19 @@ end
 
 
 function PSFea_closeallpr()
-if IsAddOnLoaded("RaidAchievement_Ulduar") then PSFea_closeallprUlduar() end
-if IsAddOnLoaded("RaidAchievement_WotlkHeroics") then whra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_CataHeroics") then chra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_Naxxramas") then nxra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_Icecrown") then icra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_CataRaids") then crra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_PandaRaids") then prra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_PandaHeroics") then phra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_PandaScenarios") then pzra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_WoDHeroics") then wodhra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_WoDRaids") then wodrra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_LegionHeroics") then legionhra_closeallpr() end
-if IsAddOnLoaded("RaidAchievement_LegionRaids") then legionrra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Ulduar") then PSFea_closeallprUlduar() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WotlkHeroics") then whra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataHeroics") then chra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Naxxramas") then nxra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Icecrown") then icra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataRaids") then crra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaRaids") then prra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaHeroics") then phra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaScenarios") then pzra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDHeroics") then wodhra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDRaids") then wodrra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionHeroics") then legionhra_closeallpr() end
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionRaids") then legionrra_closeallpr() end
 PSFeamain3:Hide()
 PSFeamain10:Hide()
 PSFeamain11:Hide()
@@ -632,7 +630,7 @@ PSFeaerrorgeneral:Hide()
 raralistach:Hide()
 raralistach2:Hide()
 raralistach3:Hide()
-if IsAddOnLoaded("AchievementsReminder") then
+if C_AddOns.IsAddOnLoaded("AchievementsReminder") then
 icralistach:Hide()
 icralistach2:Hide()
 icralistach3:Hide()
@@ -648,7 +646,7 @@ rashowopttime1=1
 
 
 --убирать кнопки взависимости доступные аддоны или нет
-if IsAddOnLoaded("AchievementsReminder") then
+if C_AddOns.IsAddOnLoaded("AchievementsReminder") then
   PSFeamain2_ButtonG12:Hide()
   PSFeamain2_ButtonG13:Hide()
 else
@@ -656,7 +654,7 @@ else
   PSFeamain2_Button13:Hide()
 end
 
-if IsAddOnLoaded("RaidAchievement_OldModules") or IsAddOnLoaded("RaidAchievement_PandaHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_OldModules") or C_AddOns.IsAddOnLoaded("RaidAchievement_PandaHeroics") then
   PSFeamain2_ButtonwotlkG:Hide()
 else
   PSFeamain2_Buttonwotlk:Hide()
@@ -721,7 +719,7 @@ PSFeamain3_tt1:SetText(pseareports.." ("..pseachatlist4..")")
 PSFeamain3_tt2:SetText(pseareports.." ("..pseachatlist1..")")
 
 --Текстуру убрал
---	if IsAddOnLoaded("PhoenixStyle") and ralogocr==nil then
+--	if C_AddOns.IsAddOnLoaded("PhoenixStyle") and ralogocr==nil then
 --ralogocr=1
 --local t = PSFeamain3:CreateTexture(nil,"OVERLAY")
 --t:SetTexture("Interface\\AddOns\\PhoenixStyle\\phoenix_addon")
@@ -790,13 +788,13 @@ end
 function PSFea_buttonulda()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_Ulduar")==false then
-LoadAddOn("RaidAchievement_Ulduar")
-if IsAddOnLoaded("RaidAchievement_Ulduar") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Ulduar")==false then
+C_AddOns.LoadAddOn("RaidAchievement_Ulduar")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Ulduar") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu5.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_Ulduar") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Ulduar") then
 PSFea_buttonulda2()
 else
 PSFeamain12:Show()
@@ -809,13 +807,13 @@ end
 function whra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_WotlkHeroics")==false then
-LoadAddOn("RaidAchievement_WotlkHeroics")
-if IsAddOnLoaded("RaidAchievement_WotlkHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WotlkHeroics")==false then
+C_AddOns.LoadAddOn("RaidAchievement_WotlkHeroics")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WotlkHeroics") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu4.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_WotlkHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WotlkHeroics") then
 whra_button2()
 else
 PSFeamain12:Show()
@@ -828,13 +826,13 @@ end
 function chra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_CataHeroics")==false then
-LoadAddOn("RaidAchievement_CataHeroics")
-if IsAddOnLoaded("RaidAchievement_CataHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataHeroics")==false then
+C_AddOns.LoadAddOn("RaidAchievement_CataHeroics")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataHeroics") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenucata.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_CataHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataHeroics") then
 chra_button2()
 else
 PSFeamain12:Show()
@@ -847,13 +845,13 @@ end
 function phra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_PandaHeroics")==false then
-LoadAddOn("RaidAchievement_PandaHeroics")
-if IsAddOnLoaded("RaidAchievement_PandaHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaHeroics")==false then
+C_AddOns.LoadAddOn("RaidAchievement_PandaHeroics")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaHeroics") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_PandaHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaHeroics") then
 phra_button2()
 else
 PSFeamain12:Show()
@@ -866,13 +864,13 @@ end
 function pzra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_PandaScenarios")==false then
-LoadAddOn("RaidAchievement_PandaScenarios")
-if IsAddOnLoaded("RaidAchievement_PandaScenarios") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaScenarios")==false then
+C_AddOns.LoadAddOn("RaidAchievement_PandaScenarios")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaScenarios") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda3.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_PandaScenarios") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaScenarios") then
 pzra_button2()
 else
 PSFeamain12:Show()
@@ -886,13 +884,13 @@ end
 function wodhra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_WoDHeroics")==false then
-LoadAddOn("RaidAchievement_WoDHeroics")
-if IsAddOnLoaded("RaidAchievement_WoDHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDHeroics")==false then
+C_AddOns.LoadAddOn("RaidAchievement_WoDHeroics")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDHeroics") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenuwod.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_WoDHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDHeroics") then
 wodhra_button2()
 else
 PSFeamain12:Show()
@@ -905,13 +903,13 @@ end
 function wodrra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_WoDRaids")==false then
-LoadAddOn("RaidAchievement_WoDRaids")
-if IsAddOnLoaded("RaidAchievement_WoDRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDRaids")==false then
+C_AddOns.LoadAddOn("RaidAchievement_WoDRaids")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDRaids") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenuwod2.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_WoDRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDRaids") then
 wodrra_button2()
 else
 PSFeamain12:Show()
@@ -925,13 +923,13 @@ end
 function legionhra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_LegionHeroics")==false then
-LoadAddOn("RaidAchievement_LegionHeroics")
-if IsAddOnLoaded("RaidAchievement_LegionHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionHeroics")==false then
+C_AddOns.LoadAddOn("RaidAchievement_LegionHeroics")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionHeroics") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenulegion.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_LegionHeroics") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionHeroics") then
 legionhra_button2()
 else
 PSFeamain12:Show()
@@ -945,13 +943,13 @@ end
 function legionrra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_LegionRaids")==false then
-LoadAddOn("RaidAchievement_LegionRaids")
-if IsAddOnLoaded("RaidAchievement_LegionRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionRaids")==false then
+C_AddOns.LoadAddOn("RaidAchievement_LegionRaids")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionRaids") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenulegion2.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_LegionRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionRaids") then
 legionrra_button2()
 else
 PSFeamain12:Show()
@@ -966,13 +964,13 @@ end
 function nxra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_Naxxramas")==false then
-LoadAddOn("RaidAchievement_Naxxramas")
-if IsAddOnLoaded("RaidAchievement_Naxxramas") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Naxxramas")==false then
+C_AddOns.LoadAddOn("RaidAchievement_Naxxramas")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Naxxramas") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu31.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_Naxxramas") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Naxxramas") then
 nxra_button2()
 else
 PSFeamain12:Show()
@@ -985,13 +983,13 @@ end
 function icra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-  if IsAddOnLoaded("RaidAchievement_Icecrown")==false then
-    LoadAddOn("RaidAchievement_Icecrown")
-    if IsAddOnLoaded("RaidAchievement_Icecrown") then
+  if C_AddOns.IsAddOnLoaded("RaidAchievement_Icecrown")==false then
+    C_AddOns.LoadAddOn("RaidAchievement_Icecrown")
+    if C_AddOns.IsAddOnLoaded("RaidAchievement_Icecrown") then
       print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu6.."!")
     end
   end
-  if IsAddOnLoaded("RaidAchievement_Icecrown") then
+  if C_AddOns.IsAddOnLoaded("RaidAchievement_Icecrown") then
     icra_button2()
   else
     PSFeamain12:Show()
@@ -1004,13 +1002,13 @@ end
 function crra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_CataRaids")==false then
-LoadAddOn("RaidAchievement_CataRaids")
-if IsAddOnLoaded("RaidAchievement_CataRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataRaids")==false then
+C_AddOns.LoadAddOn("RaidAchievement_CataRaids")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataRaids") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenucata2.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_CataRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataRaids") then
 crra_button2()
 else
 PSFeamain12:Show()
@@ -1023,13 +1021,13 @@ end
 function prra_button()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("RaidAchievement_PandaRaids")==false then
-LoadAddOn("RaidAchievement_PandaRaids")
-if IsAddOnLoaded("RaidAchievement_PandaRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaRaids")==false then
+C_AddOns.LoadAddOn("RaidAchievement_PandaRaids")
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaRaids") then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda2.."!")
 end
 end
-if IsAddOnLoaded("RaidAchievement_PandaRaids") then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaRaids") then
 prra_button2()
 else
 PSFeamain12:Show()
@@ -1042,7 +1040,7 @@ end
 function PSFea_listach()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("AchievementsReminder") then
+if C_AddOns.IsAddOnLoaded("AchievementsReminder") then
   if icll_buttonnew2 then
     icll_buttonnew2()
   else
@@ -1060,7 +1058,7 @@ end
 function PSFea_tact()
 PSFea_closeallpr()
 if(thisaddonworkea)then
-if IsAddOnLoaded("AchievementsReminder") then
+if C_AddOns.IsAddOnLoaded("AchievementsReminder") then
 icll_button33()
 else
 --PSFeamain12:Show()
@@ -1171,9 +1169,9 @@ for i=1,#idheroics do
 end
 if buul==1 then
 
-if IsAddOnLoaded("RaidAchievement_Ulduar")==false and wasuldatryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Ulduar")==false and wasuldatryloadea==nil then
 wasuldatryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_Ulduar")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_Ulduar")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu5.."!")
 else
@@ -1193,9 +1191,9 @@ for i=1,#idheroics do
 end
 if buul==1 then
 
-if IsAddOnLoaded("RaidAchievement_Naxxramas")==false and wasnaxtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Naxxramas")==false and wasnaxtryloadea==nil then
 wasnaxtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_Naxxramas")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_Naxxramas")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu31.."!")
 else
@@ -1215,9 +1213,9 @@ for i=1,#idheroics do
 end
 if buul==1 then
 
-if IsAddOnLoaded("RaidAchievement_Icecrown")==false and wasictryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_Icecrown")==false and wasictryloadea==nil then
 wasictryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_Icecrown")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_Icecrown")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu6.."!")
 else
@@ -1237,9 +1235,9 @@ for i=1,#idheroics do
 end
 if buul==1 then
 
-if IsAddOnLoaded("RaidAchievement_CataRaids")==false and wascrtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataRaids")==false and wascrtryloadea==nil then
 wascrtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_CataRaids")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_CataRaids")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenucata2.."!")
 else
@@ -1259,9 +1257,9 @@ for i=1,#idheroics do
 end
 if buul==1 then
 
-if IsAddOnLoaded("RaidAchievement_PandaRaids")==false and wasprtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaRaids")==false and wasprtryloadea==nil then
 wasprtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_PandaRaids")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_PandaRaids")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda2.."!")
 else
@@ -1281,9 +1279,9 @@ for i=1,#idheroics do
 end
 if buul==1 then
 
-if IsAddOnLoaded("RaidAchievement_WoDRaids")==false and waswodrtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDRaids")==false and waswodrtryloadea==nil then
 waswodrtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_WoDRaids")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_WoDRaids")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." RaidAchievement_WoDRaids!")
 else
@@ -1304,9 +1302,9 @@ for i=1,#idheroics do
 end
 if buul==1 then
 
-if IsAddOnLoaded("RaidAchievement_WoDRaids")==false and waslegionrtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDRaids")==false and waslegionrtryloadea==nil then
 waslegionrtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_LegionRaids")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_LegionRaids")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." RaidAchievement_LegionRaids!")
 else
@@ -1337,9 +1335,9 @@ if thisaddonwork then
 C_ChatInfo.SendAddonMessage("PSaddon", "17"..psversion, chattt)
 end
 
-if IsAddOnLoaded("RaidAchievement_WotlkHeroics")==false and waswhtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WotlkHeroics")==false and waswhtryloadea==nil then
 waswhtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_WotlkHeroics")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_WotlkHeroics")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenu4.."!")
 else
@@ -1370,9 +1368,9 @@ if thisaddonwork then
 C_ChatInfo.SendAddonMessage("PSaddon", "17"..psversion, chattt)
 end
 
-if IsAddOnLoaded("RaidAchievement_CataHeroics")==false and waschtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_CataHeroics")==false and waschtryloadea==nil then
 waschtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_CataHeroics")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_CataHeroics")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenucata.."!")
 else
@@ -1403,9 +1401,9 @@ if thisaddonwork then
 C_ChatInfo.SendAddonMessage("PSaddon", "17"..psversion, chattt)
 end
 
-if IsAddOnLoaded("RaidAchievement_PandaHeroics")==false and wasphtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaHeroics")==false and wasphtryloadea==nil then
 wasphtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_PandaHeroics")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_PandaHeroics")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda.."!")
 else
@@ -1437,9 +1435,9 @@ if thisaddonwork then
 C_ChatInfo.SendAddonMessage("PSaddon", "17"..psversion, chattt)
 end
 
-if IsAddOnLoaded("RaidAchievement_PandaScenarios")==false and waspztryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_PandaScenarios")==false and waspztryloadea==nil then
 waspztryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_PandaScenarios")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_PandaScenarios")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." "..psealeftmenupanda3.."!")
 else
@@ -1472,9 +1470,9 @@ if thisaddonwork then
 C_ChatInfo.SendAddonMessage("PSaddon", "17"..psversion, chattt)
 end
 
-if IsAddOnLoaded("RaidAchievement_WoDHeroics")==false and wasphtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_WoDHeroics")==false and wasphtryloadea==nil then
 wasphtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_WoDHeroics")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_WoDHeroics")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." WoDHeroics!")
 else
@@ -1508,9 +1506,9 @@ if thisaddonwork then
 C_ChatInfo.SendAddonMessage("PSaddon", "17"..psversion, chattt)
 end
 
-if IsAddOnLoaded("RaidAchievement_LegionHeroics")==false and waslhtryloadea==nil then
+if C_AddOns.IsAddOnLoaded("RaidAchievement_LegionHeroics")==false and waslhtryloadea==nil then
 waslhtryloadea=1
-local loaded, reason = LoadAddOn("RaidAchievement_LegionHeroics")
+local loaded, reason = C_AddOns.LoadAddOn("RaidAchievement_LegionHeroics")
 if loaded then
 print("|cff99ffffRaidAchievement|r - "..pseamoduleload.." LegionHeroics!")
 else
@@ -1528,7 +1526,7 @@ end
 
 function PSFea_PSaddon()
 PSFea_closeallpr()
-if IsAddOnLoaded("PhoenixStyle")==false then
+if C_AddOns.IsAddOnLoaded("PhoenixStyle")==false then
 --нету аддона
 PSFeamain11:Show()
 
@@ -1558,7 +1556,7 @@ end
 
 function out(text)
 DEFAULT_CHAT_FRAME:AddMessage(text)
-UIErrorsFrame:AddMessage(text, 1.0, 1.0, 0, 1, 10)
+UIErrorsFrame:AddMessage(text, 1.0, 1.0, 0, 1, 10) 
 end
 
 function raver(cchat)
@@ -1702,7 +1700,7 @@ out("- "..chtorep)
 else
 
 local bililine=0
-for i,cc in ipairs(rabigmenuchatlisten) do
+for i,cc in ipairs(rabigmenuchatlisten) do 
 if cc == kudarep then bililine=1
 end end
 if kudarep=="Instance_CHAT" then
@@ -1957,10 +1955,12 @@ end
 	if raminibutshowt then
 RA_MinimapButton:Show()
 
-	if C_AddOns.IsAddOnLoaded("SexyMap") then
-	else
-	RA_MinimapButton_Reposition()
-	end
+local isSexyMapLoaded = select(2, C_AddOns.GetAddOnInfo("SexyMap"))
+if isSexyMapLoaded then
+    -- SexyMap is loaded
+else
+    RA_MinimapButton_Reposition()
+end
 
 if thisaddonworkea then
 ratpsicon:SetTexture("Interface\\AddOns\\RaidAchievement\\ra_button_e")
@@ -2253,7 +2253,7 @@ if rasoundtoplay[2]==1 then
 		--для марио звук не меняется!!
 		if achievid==8077 then
 		  raplaysound2(23)
-		else
+		else          
 		  raplaysound2(rasoundtoplay[5])
 		end
 			end
@@ -2293,7 +2293,7 @@ function raopentacticfrommod(i,j)
 --i raid1/praty2
 --j nrraid/nrparty
 
-if IsAddOnLoaded("AchievementsReminder") then
+if C_AddOns.IsAddOnLoaded("AchievementsReminder") then
 	if i==1 then
 		rallonlycurrzone=j
 		icll_button3()
@@ -2482,9 +2482,9 @@ local _, month, day, year = tonumber(date("%H")),tonumber(date("%m")),tonumber(d
 if (year==2017 and (month==8 or month==9) and (day>22 and day<31) and raannouncerun4==0 and (psDoNotShowOtherAnnounces==nil or (psDoNotShowOtherAnnounces and psDoNotShowOtherAnnounces==0)) and math.random(1,100)>70) then
 	local text=""
 	--text="|cff00ff00RaidAchievement|r > I got WoW for my 20 years birthday, |cff00ff00today I celebrate 30|r. I created PS and RA addons 8 years ago, hope you use and like them :) They got more than |cff00ff0010 mln downloads|r and I raised just 1200 euro in 8 years with the bigger one of 300$. Now, addon is dying as I don't play for last 5 years, if you want to help: http://www.phoenixstyle.com/ also you can find more info about me and Italy where I live :)"
-
+	
 	--out (text)
-
+	
 	raannouncerun4=1
 	psDoNotShowOtherAnnounces=1
 end
@@ -2502,9 +2502,9 @@ if UnitInRaid("player")==nil and UnitInParty("player")==nil and psDoNotShowOther
     --text="|cff00ff00RaidAchievement|r |cffff0000важное обновление:|r для трекера достижений Катаклизма and ЛК требуется |cff00ff00скачать RaidAchievement_OldModules|r (с curse сайта). |cff00ff00AchievementsReminder|r - теперь отдельный независимый аддон, скоро с новыми функциями, если он вам тоже нужен - скачайте его отдельно."
 	text="|cff00ff00RaidAchievement|r > требуется Ваша помощь, чтобы аддон продолжил свое существование в |cff00ff00следующем патче!|r Детальнее: http://www.phoenixstyle.com/help"
   end
-
+  
   out(text)
-
+  
   if psdonaspanvar==nil then
     psdonaspanvar=1
   elseif psdonaspanvar and psdonaspanvar==1 then
@@ -2538,7 +2538,7 @@ raerrordfdfdpsdonatefr2 = CreateFrame("ScrollFrame", "raerrordfdfdpsdonatefr2", 
 raerrordfdfdpsdonatefr2:SetPoint("TOPLEFT", PSFeaerrorgeneral, "TOPLEFT", 275, -265)
 raerrordfdfdpsdonatefr2:SetHeight(40)
 raerrordfdfdpsdonatefr2:SetWidth(320)
-
+  
 
 raerrordfsdfsdfjy4 = CreateFrame("EditBox", "raerrordfsdfsdfjy4", raerrordfdfdpsdonatefr2)
 raerrordfsdfsdfjy4:SetPoint("TOPRIGHT", raerrordfdfdpsdonatefr2, "TOPRIGHT", 0, 0)

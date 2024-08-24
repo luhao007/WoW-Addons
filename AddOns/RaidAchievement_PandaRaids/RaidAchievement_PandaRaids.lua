@@ -68,7 +68,7 @@ if ramariotrack and curtime>ramariotrack then
 			local id=raGetUnitID(a1)
 			if id==67966 then
         --проверка что есть бафф
-        local bummname=GetSpellInfo(136431)
+        local bummname=C_Spell.GetSpellInfo(136431).name
         if UnitDebuff("raid"..i.."-target",bummname) then
           local bil=0
           if #ramariotableguid>0 then
@@ -346,7 +346,7 @@ if arg2=="SPELL_AURA_APPLIED" and (arg10==119985 or arg10==119414) then
 		raunitisplayer(arg7,arg8)
 		if raunitplayertrue then
       --проверка что нет дебаффа на хихиканье
-      local spbuf=GetSpellInfo(129147)
+      local spbuf=C_Spell.GetSpellInfo(129147).name
       if checkBuff(arg8, spbuf) or checkDeBuff(arg8, spbuf) then
       else
         prrafailnoreason(3,arg8) --arg8

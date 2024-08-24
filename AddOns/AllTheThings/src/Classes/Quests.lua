@@ -29,6 +29,7 @@ local GetFactionName = app.WOWAPI.GetFactionName;
 local GetFactionCurrentReputation = app.WOWAPI.GetFactionCurrentReputation;
 local GetSpellName = app.WOWAPI.GetSpellName;
 local GetSpellIcon = app.WOWAPI.GetSpellIcon;
+local IsQuestFlaggedCompletedOnAccount = app.WOWAPI.IsQuestFlaggedCompletedOnAccount;
 
 -- Class locals
 local LastQuestTurnedIn, MostRecentQuestTurnIns;
@@ -290,7 +291,10 @@ if app.IsRetail then
 		if questID then
 			if IsQuestFlaggedCompleted(questID) then return 1; end
 			if not t.repeatable then
-				return app.IsAccountTracked("Quests", questID) and 2
+				-- ATT Account cache tracking (may eventually remove)
+				if app.IsAccountTracked("Quests", questID) then return 2 end
+				-- WoW Account tracking
+				if app.Settings.AccountWide.Quests and IsQuestFlaggedCompletedOnAccount(questID) then return 2 end
 			end
 		end
 		-- account-mode: any character is viable to complete the quest, so alt quest completion shouldn't count for this quest
@@ -530,9 +534,9 @@ local function BuildDiscordQuestInfoTable(id, infoText, questChange, questRef, c
 			covInfo = covInfo .. "N/A";
 		end
 		if C_MajorFactions then
-			local DFmajorFactionIDs, majorFactionInfo, data = C_MajorFactions.GetMajorFactionIDs(9), {}, nil;
-			if DFmajorFactionIDs then
-				for _,factionID in ipairs(DFmajorFactionIDs) do
+			local MajorFactionIDs, majorFactionInfo, data = C_MajorFactions.GetMajorFactionIDs(10), {}, nil;
+			if MajorFactionIDs then
+				for _,factionID in ipairs(MajorFactionIDs) do
 					tinsert(majorFactionInfo, "|");
 					tinsert(majorFactionInfo, factionID);
 					data = C_MajorFactions.GetMajorFactionData(factionID);

@@ -21,6 +21,39 @@ function PIGGetSpellInfo(SpellID)
 		return name, icon, castTime, minRange, maxRange, spellID, originalIcon,rank
 	end
 end
+function PIGGetSpellTabInfo(SpellID)
+	if C_SpellBook and C_SpellBook.GetSpellBookSkillLineInfo then
+		local spellInfo = C_SpellBook.GetSpellBookSkillLineInfo(SpellID)
+		if spellInfo then
+			return spellInfo.name,spellInfo.iconID,spellInfo.itemIndexOffset,spellInfo.numSpellBookItems,spellInfo.isGuild,spellInfo.shouldHide,spellInfo.specID,spellInfo.offSpecID
+		end
+	else
+		local name, texture, offset, numSlots, isGuild, offspecID= GetSpellInfo(SpellID)
+		return name, texture, offset, numSlots, isGuild, offspecID
+	end
+end
+function PIGGetSpellBookItemInfo(SpellID)
+	if C_SpellBook and C_SpellBook.GetSpellBookItemInfo then
+		local spellInfo = C_SpellBook.GetSpellBookItemInfo(SpellID)
+		if spellInfo then
+			return spellInfo.itemType,spellInfo.spellID
+		end
+	else
+		local spellType, id= C_SpellBook.GetSpellBookItemInfo(SpellID)
+		return spellType, id
+	end
+end
+function PIGGetSpellCooldown(SpellID)
+	if C_Spell and C_Spell.GetSpellCooldown then
+		local spellInfo = C_Spell.GetSpellCooldown(SpellID)
+		if spellInfo then
+			return spellInfo.startTime,spellInfo.duration,spellInfo.isEnabled,spellInfo.modRate
+		end
+	else
+		local start, duration, enabled, modRate= GetSpellCooldown(SpellID)
+		return start, duration, enabled, modRate
+	end
+end
 --获取背包信息
 function PIGGetContainerIDlink(bag, slot)
 	if C_Container and C_Container.GetContainerItemInfo then

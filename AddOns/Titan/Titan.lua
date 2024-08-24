@@ -906,24 +906,13 @@ print("_Set bar color"
 	_G[frame]:SetBackdropBorderColor(
 		TOOLTIP_DEFAULT_COLOR.r,
 		TOOLTIP_DEFAULT_COLOR.g,
-		TOOLTIP_DEFAULT_COLOR.b);
+		TOOLTIP_DEFAULT_COLOR.b,
+		color.alpha); -- 2024 AUg : Border will use the color alpha
 	_G[frame]:SetBackdropColor(
 		color.r,
 		color.g,
 		color.b,
 		color.alpha);
-	--[[
-	-- Apply the texture to the bar, using the system repeat to fill it
-	tex:SetColorTexture(
-		color.r,
-		color.g,
-		color.b,
-		color.alpha
-		)
-	tex:SetAllPoints()
-	tex:SetHorizTile(true) -- ensures repeat; 'smears' if not sest to true
-	tex:SetVertTile(true)  -- ensures image is 'full' height of frame
---]]
 end
 
 ---local Set the Titan bar texture / skin per user selectable options
@@ -1733,8 +1722,9 @@ end
 ---Titan Reorder all the shown all user selected plugins on the Titan bar(s). Typically used after a button has been removed / hidden.
 ---@param index number of the plugin removed
 function TitanPanel_ReOrder(index)
-	for i = index, table.getn(TitanPanelSettings.Buttons) do
-		TitanPanelSettings.Location[i] = TitanPanelSettings.Location[i + 1]
+	for i = index, #TitanPanelSettings.Buttons do
+--		for i = index, table.getn(TitanPanelSettings.Buttons) do
+			TitanPanelSettings.Location[i] = TitanPanelSettings.Location[i + 1]
 	end
 end
 
@@ -1769,13 +1759,14 @@ end
 ---@param id string Unique ID of the plugin
 ---@return number num position or num + 1 for end
 function TitanPanel_GetButtonNumber(id)
+	-- getn deprecated as of 5.2 - IDE now complaining 2024 Aug
 	if (TitanPanelSettings) then
-		for i = 1, table.getn(TitanPanelSettings.Buttons) do
+		for i = 1, #TitanPanelSettings.Buttons do
 			if (TitanPanelSettings.Buttons[i] == id) then
 				return i;
 			end
 		end
-		return table.getn(TitanPanelSettings.Buttons) + 1;
+		return #TitanPanelSettings.Buttons + 1;
 	else
 		return 0;
 	end
@@ -1784,8 +1775,9 @@ end
 ---Titan Update / refresh each plugin from the Titan plugin list. Used when a Titan option is changed that effects all plugins.
 function TitanPanel_RefreshPanelButtons()
 	if (TitanPanelSettings) then
-		for i = 1, table.getn(TitanPanelSettings.Buttons) do
-			TitanPanelButton_UpdateButton(TitanPanelSettings.Buttons[i], 1);
+		for i = 1, #TitanPanelSettings.Buttons do
+--			for i = 1, table.getn(TitanPanelSettings.Buttons) do -- getn deprecated from luau (used)
+				TitanPanelButton_UpdateButton(TitanPanelSettings.Buttons[i], 1);
 		end
 	end
 end

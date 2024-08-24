@@ -796,7 +796,7 @@ end
 
 ---@param ThresholdTable table holding the list of colors and values
 ---@param value number to check against table ranges (assumes assending values)
----@return string color in table or "GRAY_FONT_COLOR"
+---@return any color in table or "GRAY_FONT_COLOR"
 function TitanUtils_GetThresholdColor(ThresholdTable, value)
 	--[[ example
 	local TITAN_FPS_THRESHOLD_TABLE = {
@@ -808,12 +808,12 @@ function TitanUtils_GetThresholdColor(ThresholdTable, value)
 	--]]
 	if (not tonumber(value) or type(ThresholdTable) ~= "table"
 			or ThresholdTable.Values == nil or ThresholdTable.Colors == nil
-			or table.getn(ThresholdTable.Values) >= table.getn(ThresholdTable.Colors)
+			or (#ThresholdTable.Values >= #ThresholdTable.Colors)
 		) then
-		return _G["GRAY_FONT_COLOR"];
+		return GRAY_FONT_COLOR
 	end
 
-	local n = table.getn(ThresholdTable.Values) + 1;
+	local n = #ThresholdTable.Values + 1;
 	for i = 1, n do
 		local low = TitanUtils_Ternary(i == 1, nil, ThresholdTable.Values[i - 1]); -- lowest
 		local high = TitanUtils_Ternary(i == n, nil, ThresholdTable.Values[i]); -- highest
@@ -836,7 +836,7 @@ function TitanUtils_GetThresholdColor(ThresholdTable, value)
 	end
 
 	-- Should never reach here
-	return _G["GRAY_FONT_COLOR"];
+	return GRAY_FONT_COLOR
 end
 
 ---API Routine that returns the text or an empty string.

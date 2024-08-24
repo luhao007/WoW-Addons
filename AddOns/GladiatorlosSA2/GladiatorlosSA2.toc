@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Mulvark
-## Version: TWWB1
+## Version: TWWB2
 ## SavedVariables: GladiatorlosSADB
 ## IconTexture: interface\icons\spell_misc_emotionangry.blp
 

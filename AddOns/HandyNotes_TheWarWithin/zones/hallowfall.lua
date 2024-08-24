@@ -7,7 +7,7 @@ local L = ns.locale
 local Map = ns.Map
 
 local Collectible = ns.node.Collectible
-local DisturbedDirt = ns.node.DisturbedDirt
+local DisturbedEarth = ns.node.DisturbedEarth
 local PT = ns.node.ProfessionTreasures
 local Rare = ns.node.Rare
 local Treasure = ns.node.Treasure
@@ -39,6 +39,7 @@ local map = Map({id = 2215, settings = true})
 
 map.nodes[15004000] = Rare({
     id = 207802,
+    quest = 81763, -- 85164
     rewards = {
         Mount({item = 223315, id = 2192}),
         Achievement({id = 40851, criteria = 69716})
@@ -53,34 +54,36 @@ map.nodes[15004000] = Rare({
 }) -- Beledar's Spawn
 
 -- map.nodes[08002000] = Rare({
---     id = nil,
---     quest = nil,
+--     id = 220159,
+--     quest = 80486, review -- need rep quest id if triggered
 --     rewards = {Achievement({id = 40851, criteria = 69718})}
 -- }) -- Brineslash
 
--- map.nodes[10002000] = Rare({
---     id = nil,
---     quest = nil,
---     rewards = {Achievement({id = 40851, criteria = 69720})}
--- }) -- Crazed Cabbage Smacker
+map.nodes[65052965] = Rare({
+    id = 206514,
+    quest = 82558, -- 84052
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
+    rewards = {Achievement({id = 40851, criteria = 69720})}
+}) -- Crazed Cabbage Smacker
 
 map.nodes[67552316] = Rare({
     id = 214757,
-    quest = nil,
+    quest = 82560, -- 84054
     note = L['croakit_note'],
     rewards = {Achievement({id = 40851, criteria = 69722})},
     pois = {POI({65802355})}
 }) -- Croakit
 
--- map.nodes[14002000] = Rare({
---     id = nil,
---     quest = nil,
---     rewards = {Achievement({id = 40851, criteria = 69721})}
--- }) -- Deathpetal
+map.nodes[63643205] = Rare({
+    id = 206184,
+    quest = 82559, -- 84053
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
+    rewards = {Achievement({id = 40851, criteria = 69721})}
+}) -- Deathpetal
 
 map.nodes[44744241] = Rare({
     id = 221753,
-    quest = nil,
+    quest = 81880, -- 85165
     note = L['deathtide_note'],
     rewards = {Achievement({id = 40851, criteria = 69717})},
     pois = {
@@ -93,7 +96,7 @@ map.nodes[44744241] = Rare({
 
 map.nodes[72116435] = Rare({
     id = 218458,
-    quest = 80011,
+    quest = 80011, -- One Time Kill
     rewards = {
         Achievement({id = 40851, criteria = 69703}),
         Transmog({item = 223394, type = L['plate']}) -- Deepfiend Pauldrons
@@ -102,26 +105,33 @@ map.nodes[72116435] = Rare({
 
 map.nodes[63931977] = Rare({
     id = 221179,
-    quest = nil,
+    quest = 82562, -- 84056
     rewards = {Achievement({id = 40851, criteria = 69724})}
 }) -- Duskshadow
 
--- map.nodes[22002000] = Rare({
---     id = nil,
---     quest = nil,
---     rewards = {Achievement({id = 40851, criteria = 69727})}
--- }) -- Finclaw Bloodtide
+map.nodes[62011683] = Rare({
+    id = 207780,
+    quest = 82564, -- 84059
+    rewards = {Achievement({id = 40851, criteria = 69727})}
+}) -- Finclaw Bloodtide
 
 map.nodes[36807187] = Rare({
     id = 221767,
-    quest = 81881,
+    quest = 81881, -- One Time Kill
     rewards = {Achievement({id = 40851, criteria = 69707})}
 }) -- Funglour
 
 map.nodes[36905469] = Rare({
     id = 221551,
-    quest = 81761,
-    rewards = {Achievement({id = 40851, criteria = 69706})},
+    quest = 81761, -- One Time Kill
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
+    rewards = {
+        Achievement({id = 40851, criteria = 69706}),
+        Transmog({item = 223397, slot = L['plate']}), -- Abyssal Hunter's Girdle
+        Transmog({item = 223399, slot = L['mail']}), -- Abyssal Hunter's Chain
+        Transmog({item = 223400, slot = L['leather']}), -- Abyssal Hunter's Cinch
+        Transmog({item = 223398, slot = L['cloth']}) -- Abyssal Hunter's Sash
+    },
     pois = {
         Path({
             36905469, 36905429, 36855379, 36735331, 36555288, 36345249,
@@ -141,6 +151,7 @@ map.nodes[36905469] = Rare({
 map.nodes[33122687] = Rare({
     id = 221668,
     quest = 81836, -- 84065
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40851, criteria = 69712})},
     pois = {
         Path({
@@ -156,76 +167,90 @@ map.nodes[33122687] = Rare({
 
 map.nodes[57046433] = Rare({
     id = 218426,
-    quest = 80006,
+    quest = 80006, -- One Time Kill
     rewards = {
         Achievement({id = 40851, criteria = 69704}),
-        Transmog({item = 223379, type = L['plate']}) -- Nerubian Weaver's Chestplate
+        Transmog({item = 223379, type = L['plate']}), -- Nerubian Weaver's Chestplate
+        Transmog({item = 223380, type = L['mail']}), -- Nerubian Weaver's Chainmail
+        Transmog({item = 223381, type = L['leather']}), -- Nerubian Weaver's Vest
+        Transmog({item = 223374, type = L['cloth']}) -- Nerubian Weaver's Gown
     }
-}) -- Ixlorb the Weaver
+}) -- Ixlorb the Spinner
 
 map.nodes[23005922] = Rare({
     id = 221534,
-    quest = 84063, -- 81756
+    quest = 81756, -- 84063
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {
         Achievement({id = 40851, criteria = 69710}),
         Transmog({item = 221207, type = L['mail']}) -- Den Mother's Chestpiece
     }
 }) -- Lytfang the Lost
 
-map.nodes[63402880] = Rare({
+map.nodes[63452854] = Rare({
     id = 206203,
-    quest = nil,
+    quest = 82557, -- 84051
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40851, criteria = 69719})}
 }) -- Moth'ethk
 
 map.nodes[52132681] = Rare({
     id = 218452, -- 218455 Lost Cache
-    quest = 80010,
+    quest = 80010, -- One Time Kill
+    note = L['murkshade_note'],
     rewards = {
         Achievement({id = 40851, criteria = 69705}),
+        Transmog({item = 223384, type = L['cloth']}), -- Murkshade Gloves
+        Transmog({item = 223382, type = L['leather']}), -- Murkshade Grips
+        Transmog({item = 223385, type = L['mail']}), -- Murkshade Gauntlets
         Transmog({item = 223383, type = L['plate']}) -- Murkshade Handguards
     }
 }) -- Murkshade
 
--- map.nodes[10002200] = Rare({
---     id = nil,
---     quest = nil,
---     rewards = {Achievement({id = 40851, criteria = 69728})}
--- }) -- Murkspike
+map.nodes[61981331] = Rare({ -- patrols
+    id = 220771,
+    quest = 82565, -- 84060
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
+    rewards = {Achievement({id = 40851, criteria = 69728})}
+}) -- Murkspike
 
 -- map.nodes[12002200] = Rare({
 --     id = nil,
---     quest = nil,
+--     quest = 82563, -- review -- need rep quest id if triggered
 --     rewards = {Achievement({id = 40851, criteria = 69725})}
--- }) -- Parasidous
+-- }) -- Parasidious
 
 map.nodes[57304857] = Rare({
     id = 221786,
     quest = 81882, -- 84068
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40851, criteria = 69715})}
 }) -- Pride of Beledar
 
 map.nodes[59702107] = Rare({
-    id = 207826,
-    quest = nil,
+    id = 207826, -- Multiple spawn points 61933187
+    quest = 82566, --- 84058
     rewards = {Achievement({id = 40851, criteria = 69726})}
 }) -- Ravageant
 
 map.nodes[35943547] = Rare({
     id = 221708,
-    quest = 84067, -- 81853
+    quest = 81853, -- 84067
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40851, criteria = 69714})}
 }) -- Sir Alastair Purefire
 
-map.nodes[73215297] = Rare({
+map.nodes[73405259] = Rare({
     id = 215805,
     quest = 79271, -- 84062
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40851, criteria = 69709})}
 }) -- Sloshmuck
 
 map.nodes[42703134] = Rare({
     id = 221690,
-    quest = 84066, -- 81849
+    quest = 81849, -- 84066
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {
         Achievement({id = 40851, criteria = 69713}),
         Transmog({item = 221246, type = L['staff']}) -- Fierce Beast Staff
@@ -234,7 +259,8 @@ map.nodes[42703134] = Rare({
 
 map.nodes[44011637] = Rare({
     id = 221648,
-    quest = 84064, -- 81791
+    quest = 81791, -- 84064
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {
         Achievement({id = 40851, criteria = 69711}),
         Transmog({item = 221229, type = L['plate']}) -- Perchfather's Cuffs
@@ -243,19 +269,21 @@ map.nodes[44011637] = Rare({
 
 map.nodes[56486899] = Rare({
     id = 218444,
-    quest = 84061, -- 80009
+    quest = 80009, -- 84061
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40851, criteria = 69708})}
 }) -- The Taskmaker
 
--- map.nodes[26002200] = Rare({
---     id = nil,
---     quest = nil,
---     rewards = {Achievement({id = 40851, criteria = 69723})}
--- }) -- Toadstomper
+map.nodes[66432411] = Rare({
+    id = 207803,
+    quest = 82561, -- 84055
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
+    rewards = {Achievement({id = 40851, criteria = 69723})}
+}) -- Toadstomper
 
 map.nodes[63782057] = Rare({
     id = 214905,
-    quest = nil,
+    quest = nil, -- no quest triggered
     pois = {
         Path({
             62102153, 62622116, 63162080, 63782057, 63932018, 63761978,
@@ -305,12 +333,13 @@ map.nodes[40035112] = Treasure({
 map.nodes[41795827] = Treasure({
     quest = 83263,
     note = L['caesper_note'],
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {
         Achievement({id = 40848, criteria = 69692}),
         Recipe({item = 225639, profession = 185}) -- Recipe: Exquisitely Eviscerated Muscle
     },
     pois = {
-        POI({69254397}), -- Torran Dellain
+        POI({69254397, color = 'Blue'}), -- Torran Dellain
         Path({Circle({origin = 69254397, radius = 2})})
     }
 }) -- Caesper
@@ -319,6 +348,7 @@ map.nodes[59525966] = Treasure({
     quest = 83284,
     location = L['in_cave'],
     note = L['dark_ritual_note'],
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {
         Achievement({id = 40848, criteria = 69694}),
         Item({item = 225693, note = L['trinket']}) -- Shadowed Essence
@@ -332,6 +362,7 @@ map.nodes[58382715] = Treasure({
     quest = 81468,
     location = L['in_small_cave'],
     note = L['illuminated_footlocker_note'],
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {
         Achievement({id = 40848, criteria = 69701}), --
         Toy({item = 224552}) -- Cave Spelunker's Torch
@@ -391,6 +422,7 @@ map.nodes[34965465] = IllusiveKobyssLure({
 map.nodes[55726960] = Treasure({
     quest = 81971,
     location = L['jewel_of_the_cliffs_location'],
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {
         Achievement({id = 40848, criteria = 69697}), --
         Item({item = 224580}) -- Massive Sapphire Chunk
@@ -488,16 +520,17 @@ map.nodes[45944513] = Treasure({
     -- hidden quests after talking to the captains: 82012, 82024, 82025, 82026
 }) -- Sky-Captains' Sunken Cache
 
-map.nodes[55145185] = Treasure({
+map.nodes[55135193] = Treasure({
     quest = 83273,
     requires = ns.requirement.Item(225335), -- Smuggler's Key
     location = L['smugglers_treasure_location'],
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     note = L['smugglers_treasure_note'],
     rewards = {
         Achievement({id = 40848, criteria = 69693}), --
         Item({item = 226021}) -- Jar of Pickels
     },
-    pois = {POI({55425164})} -- Dead Arathi
+    pois = {POI({55425164, color = 'Blue'})} -- Dead Arathi
 }) -- Smuggler's Treasure
 
 map.nodes[76765382] = Treasure({ -- review, was not there when i looked
@@ -508,13 +541,13 @@ map.nodes[76765382] = Treasure({ -- review, was not there when i looked
 }) -- Spore-covered Coffer
 
 map.nodes[63990612] = Treasure({
-    quest = nil, -- no quest triggered
+    quest = 80687,
     label = L['coral_fused_clam'],
     note = L['coral_fused_clam_note'],
     pois = {
         POI({61890609}) -- Clammer's Kit - Requires level 80 -- q80687
     }
-}) -- Coral Fused Clam
+}) -- Coral-Fused Clam
 
 -- map.nodes[56091454] = Treasure({
 --     quest = 81518,
@@ -527,13 +560,28 @@ map.nodes[63990612] = Treasure({
 ----------------------------- PROFESSION TREASURES ----------------------------
 -------------------------------------------------------------------------------
 
-map.nodes[47586106] = PT.Blacksmithing({quest = 83852, id = 226280}) -- Holy Flame Forge -- review
-map.nodes[44065559] = PT.Blacksmithing({quest = 83853, id = 226281}) -- Radiant Tongs -- review
-map.nodes[35925497] = PT.Herbalism({quest = nil, id = 226305}) -- Arathi Herb Pruner -- review
-map.nodes[43095685] = PT.Mining({quest = 83911, id = 226337}) -- Devout Archaeologist's Excavator -- review
-map.nodes[42305391] = PT.Skinning({quest = nil, id = 226345}) -- Arathi Craftsman's Spokeshave -- review
-map.nodes[49316233] = PT.Tailoring({quest = nil, id = 226352}) -- Arathi Rotary Cutter -- review
-map.nodes[40116812] = PT.Tailoring({quest = nil, id = 226353}) -- Royal Outfitter's Protractor -- review
+map.nodes[42645510] = PT.Alchemy({quest = 83844, id = 226269}) -- Chemist's Purified Water
+map.nodes[41665584] = PT.Alchemy({quest = 83845, id = 226270}) -- Sanctified Mortar and Pestle
+map.nodes[47586106] = PT.Blacksmithing({quest = 83852, id = 226280}) -- Holy Flame Forge
+map.nodes[44065559] = PT.Blacksmithing({quest = 83853, id = 226281}) -- Radiant Tongs
+map.nodes[40067055] = PT.Enchanting({quest = 83862, id = 226288}) -- Essence of Holy Fire
+map.nodes[48586450] = PT.Enchanting({quest = 83863, id = 226289}) -- Enchanted Arathi Scroll
+map.nodes[46316135] = PT.Engineering({quest = 83870, id = 226296}) -- Holy Firework Dud
+map.nodes[41634893] = PT.Engineering({quest = 83871, id = 226297}) -- Arathi Safety Gloves
+map.nodes[47786330] = PT.Herbalism({quest = 83878, id = 226304}) -- Arathi Garden Trowel
+map.nodes[35975501] = PT.Herbalism({quest = 83879, id = 226305}) -- Arathi Herb Pruner
+map.nodes[43255894] = PT.Inscription({quest = 83886, id = 226312}) -- Informant's Fountain Pen
+map.nodes[42834907] = PT.Inscription({quest = 83887, id = 226313}) -- Calligrapher's Chiselled Marker
+map.nodes[47396068] = PT.Jewelcrafting({quest = 83894, id = 226320}) -- Arathi Sizing Gauges
+map.nodes[44695097] = PT.Jewelcrafting({quest = 83895, id = 226321}) -- Librarian's Magnifiers
+map.nodes[47516513] = PT.Leatherworking({quest = 83902, id = 226328}) -- Arathi Beveler Set
+map.nodes[41505783] = PT.Leatherworking({quest = 83903, id = 226329}) -- Arathi Leather Burnisher
+map.nodes[46076439] = PT.Mining({quest = 83910, id = 226336}) -- Arathi Precision Drill
+map.nodes[43095684] = PT.Mining({quest = 83911, id = 226337}) -- Devout Archaeologist's Excavator
+map.nodes[49366215] = PT.Skinning({quest = 83918, id = 226344}) -- Arathi Tanning Agent
+map.nodes[42295393] = PT.Skinning({quest = 83919, id = 226345}) -- Arathi Craftsman's Spokeshave
+map.nodes[49326231] = PT.Tailoring({quest = 83926, id = 226352}) -- Arathi Rotary Cutter
+map.nodes[40096813] = PT.Tailoring({quest = 83927, id = 226353}) -- Royal Outfitter's Protractor
 
 -------------------------------------------------------------------------------
 --------------------------- HALLOWFALL GLYPH HUNTER ---------------------------
@@ -580,116 +628,129 @@ map.nodes[57616460] = SkyridingGlyph({
 }) -- Tenir's Ascent
 
 -------------------------------------------------------------------------------
------------------------- ACHIEVEMENT: BIBLIO ARCHIVIST ------------------------
+------------------------ ACHIEVEMENT: BIBLO ARCHIVIST ------------------------
 -------------------------------------------------------------------------------
 
-local BiblioBook = Class('BiblioBook', Collectible,
-    {icon = 5341597, group = ns.groups.BIBLIO_ARCHIVIST})
+local BibloBook = Class('BibloBook', Collectible,
+    {icon = 5341597, group = ns.groups.BIBLO_ARCHIVIST})
 
-map.nodes[48153959] = BiblioBook({
-    location = L['biblio_book_01_location'],
+map.nodes[48153959] = BibloBook({
+    location = L['biblo_book_01_location'],
     rewards = {Achievement({id = 40622, criteria = 68954})}
 }) -- The Big Book of Arathi Idioms
 
-map.nodes[43884991] = BiblioBook({
-    location = L['biblio_book_02_location'],
+map.nodes[43884991] = BibloBook({
+    location = L['biblo_book_02_location'],
     rewards = {Achievement({id = 40622, criteria = 68955})}
 }) -- 500 Dishes Using Cave Fish and Mushrooms
 
-map.nodes[69344394] = BiblioBook({
-    location = L['biblio_book_03_location'],
+map.nodes[69344394] = BibloBook({
+    location = L['biblo_book_03_location'],
     rewards = {Achievement({id = 40622, criteria = 68957})}
 }) -- Care and Feeding of the Imperial Lynx
 
-map.nodes[68684159] = BiblioBook({
-    location = L['biblio_book_04_location'],
+map.nodes[68684159] = BibloBook({
+    location = L['biblo_book_04_location'],
     rewards = {Achievement({id = 40622, criteria = 68958})}
 }) -- Light's Gambit Playbook
 
-map.nodes[57595180] = BiblioBook({
-    location = L['biblio_book_05_location'],
+map.nodes[57825183] = BibloBook({
+    location = L['biblo_book_05_location'],
     rewards = {Achievement({id = 40622, criteria = 68960})}
 }) -- From the Depths They Come
 
-map.nodes[48756471] = BiblioBook({
-    location = L['biblio_book_06_location'],
+map.nodes[48756471] = BibloBook({
+    location = L['biblo_book_06_location'],
     rewards = {Achievement({id = 40622, criteria = 68961})}
 }) -- Palawltar's Codex of Dimensional Structure
 
-map.nodes[64182812] = BiblioBook({
-    location = L['biblio_book_07_location'],
+map.nodes[64182812] = BibloBook({
+    location = L['biblo_book_07_location'],
     rewards = {Achievement({id = 40622, criteria = 68963})}
 }) -- Shadow Curfew Guidelines
 
-map.nodes[59802203] = BiblioBook({
-    location = L['biblio_book_08_location'],
+map.nodes[59802203] = BibloBook({
+    location = L['biblo_book_08_location'],
     rewards = {Achievement({id = 40622, criteria = 68965})}
 }) -- Shadow Curfew Journal
 
-map.nodes[70225684] = BiblioBook({
-    location = L['biblio_book_09_location'],
+map.nodes[70225684] = BibloBook({
+    location = L['biblo_book_09_location'],
     rewards = {Achievement({id = 40622, criteria = 68967})}
 }) -- The Song of Renilash
 
-map.nodes[56586518] = BiblioBook({
-    location = L['biblio_book_10_location'],
+map.nodes[56586518] = BibloBook({
+    location = L['biblo_book_10_location'],
     rewards = {Achievement({id = 40622, criteria = 68968})}
 }) -- Beledar - The Emperor's Vision
+
+map.nodes[52635999] = BibloBook({
+    location = L['biblo_book_11_location'],
+    rewards = {Achievement({id = 40622, criteria = 69729})}
+}) -- Lightspark Grade Book
 
 -------------------------------------------------------------------------------
 ------------------------- ACHIEVEMENT: LOST AND FOUND -------------------------
 -------------------------------------------------------------------------------
 
--- [60486020] Maera Ashyld
-
 local Momento = Class('Momento', Collectible, {
     icon = 4635200,
     group = ns.groups.LOST_AND_FOUND,
-    note = L['lost_and_found_note']
+    note = L['lost_and_found_note'],
+    pois = {POI({60486018})}
 })
 
-map.nodes[06001600] = Momento({
+map.nodes[65463222] = Momento({
     location = L['broken_bracelet_location'],
+    requires = ns.requirement.Quest(80678),
     rewards = {Achievement({id = 40618, criteria = 68932})}
 }) -- Broken Bracelet
 
-map.nodes[08001600] = Momento({
+map.nodes[43285542] = Momento({
     location = L['stuffed_lynx_toy_location'],
+    requires = ns.requirement.Quest(80678),
     rewards = {Achievement({id = 40618, criteria = 68933})}
 }) -- Stuffed Lynx Toy
 
-map.nodes[10001600] = Momento({
+map.nodes[43465171] = Momento({
     location = L['tarnished_compass_location'],
+    requires = ns.requirement.Quest(80678),
     rewards = {Achievement({id = 40618, criteria = 68934})}
 }) -- Tarnished Compass
 
-map.nodes[12001600] = Momento({
+map.nodes[43204979] = Momento({
     location = L['sturdy_locket_location'],
+    requires = ns.requirement.Quest(82813),
     rewards = {Achievement({id = 40618, criteria = 68935})}
 }) -- Sturdy Locket
 
-map.nodes[14001600] = Momento({
+map.nodes[69264384] = Momento({
     location = L['wooden_figure_location'],
+    requires = ns.requirement.Quest(82813),
     rewards = {Achievement({id = 40618, criteria = 68937})}
 }) -- Wooden Figure
 
-map.nodes[16001600] = Momento({
+map.nodes[48423888] = Momento({
     location = L['calcified_journal_location'],
+    requires = ns.requirement.Quest(82813),
     rewards = {Achievement({id = 40618, criteria = 68940})}
 }) -- Calcified Journal
 
-map.nodes[18001600] = Momento({
+map.nodes[41643474] = Momento({
     location = L['ivory_tinderbox_location'],
+    requires = ns.requirement.Quest(82810),
     rewards = {Achievement({id = 40618, criteria = 68942})}
 }) -- Ivory Tinderbox
 
-map.nodes[20001600] = Momento({
+map.nodes[42355502] = Momento({
     location = L['dented_spear_location'],
+    requires = ns.requirement.Quest(82810),
     rewards = {Achievement({id = 40618, criteria = 68943})}
 }) -- Dented Spear
 
-map.nodes[22001600] = Momento({
+map.nodes[43974970] = Momento({
     location = L['filigreed_cleric_location'],
+    requires = ns.requirement.Quest(82810),
     rewards = {Achievement({id = 40618, criteria = 68945})}
 }) -- Filigreed Cleric
 
@@ -709,38 +770,39 @@ map.nodes[60426022] = MissingLynx({
 }) -- Magpie
 
 map.nodes[42695384] = MissingLynx({
-    location = L['evan_location'],
+    location = L['in_building'],
     rewards = {Achievement({id = 40625, criteria = 68998})}
 }) -- Evan
 
 map.nodes[42735388] = MissingLynx({
-    location = L['emery_location'],
+    location = L['in_building'],
     rewards = {Achievement({id = 40625, criteria = 68999})}
 }) -- Emery
 
 map.nodes[42305381] = MissingLynx({
-    location = L['jinx_location'],
+    location = L['in_building'],
     rewards = {Achievement({id = 40625, criteria = 69000})}
 }) -- Jinx
 
 map.nodes[69274362] = MissingLynx({
-    location = L['moog_location'],
+    location = L['in_building'],
     rewards = {Achievement({id = 40625, criteria = 69001})}
 }) -- Moog
 
 map.nodes[69274372] = MissingLynx({
-    location = L['iggy_location'],
+    location = L['in_building'],
     rewards = {Achievement({id = 40625, criteria = 69002})}
 }) -- Iggy
 
-map.nodes[18001800] = MissingLynx({
+map.nodes[63182936] = MissingLynx({
     location = L['nightclaw_location'],
     rewards = {Achievement({id = 40625, criteria = 69003})}
 }) -- Nightclaw
 
-map.nodes[63792932] = MissingLynx({
+map.nodes[63792962] = MissingLynx({
+    label = '{npc:215606}',
     location = L['purrlock_location'],
-    rewards = {Achievement({id = 40625, criteria = 69004})}
+    rewards = {Achievement({id = 40625, criteria = 9})} -- review (criteria id is bugged)
 }) -- Purrlock
 
 map.nodes[63262811] = MissingLynx({
@@ -753,9 +815,9 @@ map.nodes[61193054] = MissingLynx({
     rewards = {Achievement({id = 40625, criteria = 69006})}
 }) -- Miral Murder-Mittens
 
-map.nodes[64441857] = MissingLynx({
+map.nodes[64271887] = MissingLynx({
     location = L['fuzzy_location'],
-    rewards = {Achievement({id = 40625, criteria = 69007})}
+    rewards = {Achievement({id = 40625, criteria = 69007})} -- review (criteria id is bugged)
 }) -- Fuzzy
 
 map.nodes[64441857] = MissingLynx({
@@ -778,12 +840,12 @@ map.nodes[42145371] = MissingLynx({
 -------------------------------------------------------------------------------
 
 map.nodes[62214557] = LoreObject({
-    -- rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
+    rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40762, criteria = 69383})}
 }) -- A Scout's Journal
 
 map.nodes[71433667] = LoreObject({
-    -- rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
+    rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40762, criteria = 69382})}
 }) -- A Tattered Note
 
@@ -793,84 +855,131 @@ map.nodes[78244041] = LoreObject({
 }) -- A Weathered Tome
 
 map.nodes[25085371] = LoreObject({
-    -- rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
+    rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40762, criteria = 69380})}
 }) -- A Worn Down Book
 
 map.nodes[25723845] = LoreObject({
-    -- rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
+    rlabel = ReputationGain(250, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40762, criteria = 69379})}
 }) -- Captain's Chest
-
--------------------------------------------------------------------------------
--------------------------------- DISTURBED DIRT -------------------------------
--------------------------------------------------------------------------------
-
-map.nodes[25155531] = DisturbedDirt()
-map.nodes[30336036] = DisturbedDirt()
-map.nodes[35304999] = DisturbedDirt()
-map.nodes[37645636] = DisturbedDirt()
-map.nodes[37825901] = DisturbedDirt()
-map.nodes[38295761] = DisturbedDirt()
-map.nodes[39785362] = DisturbedDirt()
-map.nodes[41486045] = DisturbedDirt()
-map.nodes[45365843] = DisturbedDirt()
-map.nodes[46775590] = DisturbedDirt()
-map.nodes[47646194] = DisturbedDirt()
-map.nodes[48943269] = DisturbedDirt()
-map.nodes[49043768] = DisturbedDirt()
-map.nodes[49631997] = DisturbedDirt()
-map.nodes[50023537] = DisturbedDirt()
-map.nodes[50803190] = DisturbedDirt()
-map.nodes[51083410] = DisturbedDirt()
-map.nodes[52345653] = DisturbedDirt()
-map.nodes[58085003] = DisturbedDirt()
-map.nodes[60755455] = DisturbedDirt()
-map.nodes[61894422] = DisturbedDirt()
-map.nodes[63135518] = DisturbedDirt()
-map.nodes[63614485] = DisturbedDirt()
-map.nodes[65112334] = DisturbedDirt()
-map.nodes[65652720] = DisturbedDirt()
-map.nodes[66212719] = DisturbedDirt()
-map.nodes[66252500] = DisturbedDirt()
-map.nodes[66344187] = DisturbedDirt()
-map.nodes[44147539] = DisturbedDirt()
-map.nodes[44537632] = DisturbedDirt()
-map.nodes[44947610] = DisturbedDirt()
 
 -------------------------------------------------------------------------------
 ------------------------- ACHIEVEMENT: MERELDAR MENACE ------------------------
 -------------------------------------------------------------------------------
 
--- local BadExample = Class('BadExample', ns.node.Collectible, {icon = 135232})
+local MereldarMenace = Class('mereldar_menace', Collectible, {
+    icon = 135232,
+    group = ns.groups.MERELDAR_MENACE,
+    note = L['mereldar_menace_note']
+})
 
--- These are just speculations, dont know where to get the stone to test it.
--- Probably because i am stuck at the Campaign Questline
+map.nodes[41845564] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67121})},
+    pois = {
+        POI({41895552}) -- Throwing stone
+    }
+}) -- Orphanage Window
 
--- map.nodes[43505077] = BadExample({
---     rewards = {Achievement({id = 40151, criteria = 67219})}
--- }) -- Holy Oil -- according to wowhead wowhead.com/beta/npc=223557
+map.nodes[42545551] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67122})},
+    pois = {
+        POI({41895552}) -- Throwing stone
+    }
+}) -- Notice Board
 
--- map.nodes[41815599] = BadExample({
---     rewards = {Achievement({id = 40151, criteria = 67121})}
--- }) -- Orphanage Window
+map.nodes[42455439] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67123})},
+    pois = {
+        POI({41895552}) -- Throwing stone
+    }
+}) -- Food Stall
 
--- map.nodes[42465440] = BadExample({
---     rewards = {Achievement({id = 40151, criteria = 67123})}
--- }) -- Food Stall
+map.nodes[42355491] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67124})},
+    pois = {
+        POI({41895552}) -- Throwing stone
+    }
+}) -- Fountain
 
--- map.nodes[42355490] = BadExample({
---     rewards = {Achievement({id = 40151, criteria = 67124})}
--- }) -- Fountain
+map.nodes[42295439] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67125})},
+    pois = {
+        POI({41895552}) -- Throwing stone
+    }
+}) -- Spice Stall
 
--- map.nodes[42295441] = BadExample({
---     rewards = {Achievement({id = 40151, criteria = 67125})}
--- }) -- Spice Stall
+map.nodes[42975268] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67126})},
+    location = L['light_and_flame_location'],
+    pois = {
+        POI({42265254}) -- Throwing stone
+    }
+}) -- Light and Flame
 
--- map.nodes[42965270] = BadExample({
---     rewards = {Achievement({id = 40151, criteria = 67126})}
--- }) -- Light and Flame
+map.nodes[43025235] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67127})},
+    location = L['lamplighter_doorway_location'],
+    pois = {
+        POI({42265254}) -- Throwing stone
+    }
+}) -- Lamplighter Doorway
 
--- map.nodes[44075423] = BadExample({
---     rewards = {Achievement({id = 40151, criteria = 67130})}
--- }) -- Airship Drafting Board
+map.nodes[41325296] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67128})},
+    location = L['barracks_doorway_location'],
+    pois = {
+        POI({42265254}) -- Throwing stone
+    }
+}) -- Barracks Doorway
+
+map.nodes[43505078] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67129})},
+    pois = {
+        POI({44245123}) -- Throwing stone
+    }
+}) -- Holy Oil
+
+map.nodes[44685177] = MereldarMenace({
+    rewards = {Achievement({id = 40151, criteria = 67130})},
+    pois = {
+        POI({44245123}) -- Throwing stone
+    }
+}) -- Airship Drafting Board
+
+-------------------------------------------------------------------------------
+-------------------------------- DISTURBED DIRT -------------------------------
+-------------------------------------------------------------------------------
+
+map.nodes[25155531] = DisturbedEarth()
+map.nodes[30336036] = DisturbedEarth()
+map.nodes[35304999] = DisturbedEarth()
+map.nodes[37645636] = DisturbedEarth()
+map.nodes[37825901] = DisturbedEarth()
+map.nodes[38295761] = DisturbedEarth()
+map.nodes[39785362] = DisturbedEarth()
+map.nodes[41486045] = DisturbedEarth()
+map.nodes[45365843] = DisturbedEarth()
+map.nodes[46775590] = DisturbedEarth()
+map.nodes[47646194] = DisturbedEarth()
+map.nodes[48943269] = DisturbedEarth()
+map.nodes[49043768] = DisturbedEarth()
+map.nodes[49631997] = DisturbedEarth()
+map.nodes[50023537] = DisturbedEarth()
+map.nodes[50803190] = DisturbedEarth()
+map.nodes[51083410] = DisturbedEarth()
+map.nodes[52345653] = DisturbedEarth()
+map.nodes[58085003] = DisturbedEarth()
+map.nodes[60755455] = DisturbedEarth()
+map.nodes[61894422] = DisturbedEarth()
+map.nodes[63135518] = DisturbedEarth()
+map.nodes[63614485] = DisturbedEarth()
+map.nodes[65112334] = DisturbedEarth()
+map.nodes[65652720] = DisturbedEarth()
+map.nodes[66212719] = DisturbedEarth()
+map.nodes[66252500] = DisturbedEarth()
+map.nodes[66344187] = DisturbedEarth()
+map.nodes[44147539] = DisturbedEarth()
+map.nodes[44537632] = DisturbedEarth()
+map.nodes[44947610] = DisturbedEarth()
+

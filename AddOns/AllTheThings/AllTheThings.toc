@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.6
+## Version: 4.0.7
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 ## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
@@ -16,7 +16,11 @@
 
 #src\PerformanceTracking.lua
 src\WoW API Wrappers.lua
+
+# Raw DBs
 db\RaceDB.lua
+db\ReagentsDB.lua
+db\AccountWideQuestsDB.lua
 
 # Libs (no dependencies, only app assignment)
 lib\Debugging.lua
@@ -72,8 +76,6 @@ db\Retail\ExplorationDB.lua
 db\Retail\LocalizationDB.lua
 db\Retail\en_auto.lua
 db\Presets.lua
-db\ReagentsDB.lua
-db\AccountWideQuestsDB.lua
 
 # Load object class templates
 src\Classes\base.lua

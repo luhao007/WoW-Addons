@@ -29,6 +29,7 @@ local bag_data = {} -- to hold the user bag data
 -- ******************************** Functions *******************************
 
 -- Set so Retail and Classic can run
+---@diagnostic disable-next-line: deprecated
 local GetItemNow = C_Item.GetItemInfoInstant or GetItemInfoInstant
 
 ---Determine if this is a profession bag using only instant data rather than calling server

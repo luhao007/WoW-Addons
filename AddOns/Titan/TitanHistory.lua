@@ -15,10 +15,26 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.1.1 : 2024/08/15\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Updated Bar color option to use user selection of transparency (alpha) for border."
+)
+.. TitanUtils_GetGreenText("Gold : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Retail ONLY - Really added Warband bank to totals.\n"
+)
+.. TitanUtils_GetGreenText("Location : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Tighten code to prevent errors if map is not known when finding coordinates.\n"
+)
+.. "\n\n"
+Titan_Global.recent_changes = ""
 .. TitanUtils_GetGoldText("8.1.0 : 2024/08/06\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
 .. "- Updated TOC files to use *_Classic; single TOC file for Classic versions"
+.. "- Updated retail TOC files to 11.0.2"
 )
 .. TitanUtils_GetGreenText("Gold : \n")
 .. TitanUtils_GetHighlightText(""

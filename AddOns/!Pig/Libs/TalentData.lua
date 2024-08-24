@@ -5855,22 +5855,32 @@ local GetActiveTalentGroup=GetActiveTalentGroup or PIGGetActiveTalentGroup
 function TalentData.GetTianfuIcon(guancha,zhiye)
 	local zuidazhi = {"--",132222,0}
 	local index = GetActiveTalentGroup(guancha,false)
-	local numTabs = GetNumTalentTabs(guancha)
-	for ti=1,numTabs do
-		local itemlistTalentmax = {}
-		if tocversion<20000 then
-			local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(ti,guancha,false,index);
-			itemlistTalentmax.pointsSpent=pointsSpent or 0
-			itemlistTalentmax.name=name
-			itemlistTalentmax.icon=icon
-		else
-			local name, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(ti,guancha,false,index);
-			itemlistTalentmax.pointsSpent=pointsSpent or 0
-			itemlistTalentmax.name=name
-			itemlistTalentmax.icon=icon
+	if tocversion<40000 then
+		local numTabs = GetNumTalentTabs(guancha)
+		for ti=1,numTabs do
+			local itemlistTalentmax = {["pointsSpent"]=0,["name"]=zuidazhi[1],["icon"]=zuidazhi[2]}
+			if tocversion<20000 then
+				local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(ti,guancha,false,index);
+				itemlistTalentmax.pointsSpent=pointsSpent or 0
+				itemlistTalentmax.name=name
+				itemlistTalentmax.icon=icon
+			elseif tocversion<40000 then
+				local name, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(ti,guancha,false,index);
+				itemlistTalentmax.pointsSpent=pointsSpent or 0
+				itemlistTalentmax.name=name
+				itemlistTalentmax.icon=icon
+			end
+			if itemlistTalentmax.pointsSpent>zuidazhi[3] then
+				zuidazhi={itemlistTalentmax.name, itemlistTalentmax.icon or tianfuTabIcon[zhiye][ti] or zuidazhi[2], itemlistTalentmax.pointsSpent}
+			end
 		end
-		if itemlistTalentmax.pointsSpent>zuidazhi[3] then
-			zuidazhi={itemlistTalentmax.name, itemlistTalentmax.icon or tianfuTabIcon[zhiye][ti] or 132222, itemlistTalentmax.pointsSpent}
+	elseif tocversion<50000 then
+		local index = GetActiveTalentGroup(guancha,false)
+		local masteryIndex = GetPrimaryTalentTree();
+		if masteryIndex then
+			local id, name, description, icon, pointsSpent, background, previewPointsSpent, isUnlocked = GetTalentTabInfo(masteryIndex,guancha,false,index);
+			zuidazhi[1]=name
+			zuidazhi[2]=icon
 		end
 	end
 	return zuidazhi
@@ -5964,7 +5974,7 @@ function TalentData.GetTianfuNum(guancha)
 	local txt = ""
 	if tocversion<50000 then
 		local numGroup = GetNumTalentGroups(guancha, false)
-		local activeGroup = GetActiveTalentGroup(guancha, false)
+		local activeGroup = GetActiveTalentGroup(guancha, false)	
 		local code1=GetTianfuData(activeGroup,guancha)
 		txt = code1
 		if numGroup>1 then

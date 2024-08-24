@@ -1,10 +1,10 @@
 ## Interface: 110002
 ## Author: Titan Panel Dev Team
-## Version: 8.1.0
+## Version: 8.1.1
 ## SavedVariables: TitanAll, TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat
 ## IconTexture: Interface\Icons\Achievement_Dungeon_UlduarRaid_Titan_01
 
-## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa008.1.0|r
+## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa008.1.1|r
 ## Notes: Adds display bars to show and control information/launcher plugins.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF泰坦面板|r |cFFFFE00ATitan|r
 ## Notes-zhCN: 在屏幕顶端/底端增加一个可视化侧边栏

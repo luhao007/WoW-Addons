@@ -65,6 +65,11 @@ scanner_button:SetScript("PostClick", function(self, button)
 		return
 	end
 	
+	-- Just in case they click too fast and the OnHide event is also triggered
+	if (not self.entityID) then
+		return
+	end
+	
 	-- Set animation on npcs
 	if (RSConstants.IsNpcAtlas(self.atlasName) and RSConfigDB.IsShowingAnimationForNpcs() and RSConfigDB.GetAnimationForNpcs() ~= RSConstants.MAP_ANIMATIONS_ON_FOUND) then
 		RSRecentlySeenTracker.AddPendingAnimation(tonumber(self.entityID), self.mapID, self.x, self.y, true)

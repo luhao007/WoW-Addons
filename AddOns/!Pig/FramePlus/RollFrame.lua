@@ -94,15 +94,15 @@ function FramePlusfun.Roll()
 	end
 	local function SETbutEnableDisable(but,nooff)
 		if nooff then
-			but.Need:Enable()
-			but.Greed:Enable()
-			but.Pass:Enable()
-			but.De:Enable()
+			GroupLootFrame_EnableLootButton(but.Need)
+			GroupLootFrame_EnableLootButton(but.Greed)
+			GroupLootFrame_EnableLootButton(but.De)
+			--GroupLootFrame_EnableLootButton(but.Pass)
 		else
-			but.Need:Disable()
-			but.Greed:Disable()
-			but.Pass:Disable()
-			but.De:Disable()
+			GroupLootFrame_DisableLootButton(but.Need)
+			GroupLootFrame_DisableLootButton(but.Greed)
+			GroupLootFrame_DisableLootButton(but.De)
+			--GroupLootFrame_DisableLootButton(but.Pass)
 		end
 	end
 	local function add_hang(id)
@@ -350,9 +350,12 @@ function FramePlusfun.Roll()
 		for i=1, numItems do
 			local rollID, itemLink, numPlayers, isDone, winnerIdx = C_LootHistory.GetItem(i);
 			if ( requestedRollID == rollID ) then
-				return i,numPlayers
+				if numPlayers and numPlayers>0 then
+					return i,numPlayers
+				end
 			end
 		end
+		return 0,0
 	end
 	RollFFF:RegisterEvent("PLAYER_ENTERING_WORLD")
 	RollFFF:RegisterEvent("START_LOOT_ROLL")
@@ -365,8 +368,10 @@ function FramePlusfun.Roll()
 			for i=1, #pendingLootRollIDs do
 				GroupLootFrame_OpenNewFrame(pendingLootRollIDs[i], GetLootRollTimeLeft(pendingLootRollIDs[i]));
 				local historyIndex, numPlayers=GetItemhistoryIndex(pendingLootRollIDs[i])
-				for playerIndex=1,numPlayers do
-					UpdateRollBut(historyIndex, playerIndex)
+				if historyIndex>0 and numPlayers>0 then
+					for playerIndex=1,numPlayers do
+						UpdateRollBut(historyIndex, playerIndex)
+					end
 				end
 			end
 		elseif event == "START_LOOT_ROLL" then

@@ -161,7 +161,7 @@ end
 ---@param bIsUpdate boolean
 ---@param bKeepModsNotInUpdate boolean
 ---@param doNotReload boolean
-function Plater.ImportAndSwitchProfile(profileName, profile, bIsUpdate, bKeepModsNotInUpdate, doNotReload)
+function Plater.ImportAndSwitchProfile(profileName, profile, bIsUpdate, bKeepModsNotInUpdate, doNotReload, keepScaleTune)
 	local bWasUsingUIParent = Plater.db.profile.use_ui_parent
 	local scriptDataBackup = (bIsUpdate or bKeepModsNotInUpdate) and DF.table.copy({}, Plater.db.profile.script_data) or {}
 	local hookDataBackup = (bIsUpdate or bKeepModsNotInUpdate) and DF.table.copy({}, Plater.db.profile.hook_data) or {}
@@ -180,7 +180,7 @@ function Plater.ImportAndSwitchProfile(profileName, profile, bIsUpdate, bKeepMod
 
 	--check if parent to UIParent is enabled and calculate the new scale
 	if (Plater.db.profile.use_ui_parent) then
-		if (not bIsUpdate or not bWasUsingUIParent) then --only update if necessary
+		if (not bIsUpdate or not bWasUsingUIParent and not keepScaleTune) then --only update if necessary
 			Plater.db.profile.ui_parent_scale_tune = 1 / UIParent:GetEffectiveScale()
 		end
 	else
@@ -292,6 +292,18 @@ function Plater.ImportAndSwitchProfile(profileName, profile, bIsUpdate, bKeepMod
 		if tonumber(spellId) then 
 			audioCues[spellId] = nil
 			audioCues[tonumber(spellId)] = audioCuePath 
+		end
+	end
+	
+	---@type spellanimationdb
+	local spellAnimations = Plater.db.profile.spell_animation_list
+	---@type spellanimationdb
+	local spellAnimationsTemp = DetailsFramework.table.copy({}, spellAnimations)
+
+	for spellId, animation in pairs(spellAnimationsTemp) do
+		if tonumber(spellId) then 
+			spellAnimations[spellId] = nil
+			spellAnimations[tonumber(spellId)] = animation 
 		end
 	end
 	

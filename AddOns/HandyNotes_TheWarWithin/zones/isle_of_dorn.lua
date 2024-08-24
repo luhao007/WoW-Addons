@@ -6,7 +6,7 @@ local Class = ns.Class
 local L = ns.locale
 local Map = ns.Map
 
-local DisturbedDirt = ns.node.DisturbedDirt
+local DisturbedEarth = ns.node.DisturbedEarth
 local PT = ns.node.ProfessionTreasures
 local Rare = ns.node.Rare
 local Treasure = ns.node.Treasure
@@ -37,7 +37,7 @@ local dor = Map({id = 2339, settings = true}) -- Dornogal
 
 map.nodes[23335817] = Rare({
     id = 219281,
-    quest = nil,
+    quest = 82196, -- suspect One Time Kill
     note = L['alunira_note'],
     rewards = {
         Achievement({id = 40435, criteria = 68225}),
@@ -47,26 +47,39 @@ map.nodes[23335817] = Rare({
 
 map.nodes[41077616] = Rare({ -- get path
     id = 219264,
-    quest = 81893,
+    quest = 81893, -- One Time Kill (gives 150 rep on first kill)
     rewards = {
         Achievement({id = 40435, criteria = 68214}),
-        Transmog({item = 223351, slot = L['leather']}) -- Wolf Packleader's Hood
+        Transmog({item = 223349, slot = L['cloth']}), -- Wolf Packleader's Cowl
+        Transmog({item = 223351, slot = L['leather']}), -- Wolf Packleader's Hood
+        Transmog({item = 223350, slot = L['mail']}), -- Wolf Packleader's Helm
+        Transmog({item = 223370, slot = L['plate']}) -- Wolf Packleader's Visor
+    },
+    pois = {
+        Path({
+            41407593, 42067630, 42457672, 42437726, 41327767, 40897738,
+            40627685, 40927619, 41407593
+        })
     }
 }) -- Bloodmaw
 
 map.nodes[55762753] = Rare({
     id = 221128,
-    quest = nil,
+    quest = 81920, -- 84036
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
     rewards = {Achievement({id = 40435, criteria = 68224})}
 }) -- Clawbreaker K'zithix
 
 map.nodes[47946014] = Rare({
     id = 219265,
-    quest = 81895,
+    quest = 81895, -- One Time Kill
     note = L['in_cave'], -- more like a mine
     rewards = {
         Achievement({id = 40435, criteria = 68215}),
-        Transmog({item = 223345, slot = L['leather']}) -- Viper's Stone Grips
+        Transmog({item = 223347, slot = L['cloth']}), -- Viper's Stone Mitts
+        Transmog({item = 223345, slot = L['leather']}), -- Viper's Stone Grips
+        Transmog({item = 223348, slot = L['mail']}), -- Viper's Stone Gauntlets
+        Transmog({item = 223346, slot = L['plate']}) -- Viper's Stone Handguards
     },
     pois = {
         POI({45936001, 46206206, 47726173}) -- Entries
@@ -75,46 +88,62 @@ map.nodes[47946014] = Rare({
 
 map.nodes[25784503] = Rare({
     id = 219266,
-    quest = nil,
-    rewards = {Achievement({id = 40435, criteria = 68218})}
+    quest = 81907, -- 84029
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
+    rewards = {
+        Achievement({id = 40435, criteria = 68218}),
+        Transmog({item = 221208, slot = L['leather']}) -- Unseen Cutthroat's Tunic
+    }
 }) -- Escaped Cutthroat
 
 map.nodes[63984054] = Rare({ -- get path
     id = 219279,
-    quest = 81905, -- 84034 ?
+    quest = 81905, -- 84034
     rlabel = ReputationGain(150, 2590), -- Council of Dornogal
-    rewards = {Achievement({id = 40435, criteria = 68223})}
-    -- pois = {Path({})}
+    rewards = {
+        Achievement({id = 40435, criteria = 68223}),
+        Transmog({item = 221244, slot = L['mail']}) -- Flamekeeper's Footpads
+    }
 }) -- Flamekeeper Graz
 
 map.nodes[53527998] = Rare({
     id = 219268,
-    quest = nil,
+    quest = 81899, -- 84028
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
     rewards = {Achievement({id = 40435, criteria = 68217})}
 }) -- Gar'loc
 
 map.nodes[48212701] = Rare({
     id = 219270,
-    quest = nil,
-    rewards = {Achievement({id = 40435, criteria = 68220})}
+    quest = 81902, -- 84031
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
+    rewards = {
+        Achievement({id = 40435, criteria = 68220}),
+        Transmog({item = 221210, slot = L['plate']}) -- Grips of the Earth
+    }
 }) -- Kronolith, Might of the Mountain
 
 map.nodes[73004009] = Rare({
     id = 220890,
-    quest = nil,
+    quest = 81921, -- 84039
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
     rewards = {Achievement({id = 40435, criteria = 68231})}
 }) -- Matriarch Charfuria
 
-map.nodes[50876975] = Rare({ -- review
+map.nodes[50876975] = Rare({
     id = 219267,
-    quest = 81897, -- 84026 ?
+    quest = 81897, -- 84026
     rlabel = ReputationGain(150, 2590), -- Council of Dornogal
-    rewards = {Achievement({id = 40435, criteria = 68216})}
+    rewards = {
+        Achievement({id = 40435, criteria = 68216}),
+        Transmog({item = 221213, slot = L['cloth']}), -- Shawl of the Plagued
+        Transmog({item = 221247, slot = L['crossbow']}) -- Cavernous Critter Shooter
+    }
 }) -- Plaguehart
 
 map.nodes[35657489] = Rare({ -- get path
     id = 213115,
-    quest = 78619,
+    quest = 78619, -- One Time Kill
     rewards = {
         Achievement({id = 40435, criteria = 68210}), --
         Transmog({item = 223367, slot = L['leather']}) -- Cuffs of the Titancap
@@ -132,54 +161,69 @@ map.nodes[35657489] = Rare({ -- get path
 
 map.nodes[62776842] = Rare({
     id = 217534,
-    quest = 79685,
+    quest = 79685, -- One Time Kill
     rewards = {Achievement({id = 40435, criteria = 68211})}
 }) -- Sandres the Relicbearer
 
 map.nodes[74422804] = Rare({
     id = 219278,
-    quest = nil,
-    rewards = {Achievement({id = 40435, criteria = 68221})}
+    quest = 81903, -- 84032
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
+    rewards = {
+        Achievement({id = 40435, criteria = 68221}),
+        Transmog({item = 221224, slot = L['plate']})
+    }
 }) -- Shallowshell the Clacker
 
 map.nodes[58776068] = Rare({
     id = 219262,
-    quest = 81892,
+    quest = 81892, -- One Time Kill
     rewards = {
         Achievement({id = 40435, criteria = 68212}),
-        Transmog({item = 223356, slot = L['leather']}) -- Shoulderpads of the Steamsurger
+        Transmog({item = 223358, slot = L['cloth']}), -- Mantle of the Steamsurger
+        Transmog({item = 223356, slot = L['leather']}), -- Shoulderpads of the Steamsurger
+        Transmog({item = 223359, slot = L['mail']}), -- Spaulders of the Steamsurger
+        Transmog({item = 223357, slot = L['plate']}) -- Spaulders of the Steamsurger
     }
 }) -- Springbubble
 
 map.nodes[69853850] = Rare({
     id = 220883,
-    quest = nil,
+    quest = 81922, -- 84038
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
     rewards = {Achievement({id = 40435, criteria = 68230})}
 }) -- Sweetspark the Oozeful
 
 map.nodes[56891601] = Rare({
     id = 219269,
-    quest = nil,
+    quest = 81901, -- 84030
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
     rewards = {Achievement({id = 40435, criteria = 68219})},
     pois = {Path({56891601, 57401625, 57761653})}
 }) -- Tempest Lord Incarnus
 
-map.nodes[72913794] = Rare({ -- get path
+map.nodes[72913794] = Rare({
     id = 221126,
-    quest = nil,
-    rewards = {Achievement({id = 40435, criteria = 68229})}
+    quest = 81923, -- 84037
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
+    rewards = {Achievement({id = 40435, criteria = 68229})},
+    pois = {Path({73823883, 73463864, 71373784})}
 }) -- Tephratennae
 
 map.nodes[57122241] = Rare({
     id = 219271,
-    quest = nil,
-    rewards = {Achievement({id = 40435, criteria = 68222})}
+    quest = 81904, -- 84033
+    rlabel = ReputationGain(150, 2590), -- Council of Dornogal
+    rewards = {
+        Achievement({id = 40435, criteria = 68222}),
+        Transmog({item = 221219, slot = L['leather']}) -- Silkwing Trousers
+    }
 }) -- Twice-Stinger the Wretched
 
 map.nodes[30905239] = Rare({
     id = 219284,
     label = L['violet_hold_prisoner'],
-    quest = {82203, 82204, 82205},
+    quest = {82203, 82204, 82205}, -- No Rep () kere gave 150 rep on first kill (85160)
     questCount = true,
     rewards = {
         Achievement({
@@ -190,16 +234,24 @@ map.nodes[30905239] = Rare({
                 {id = 68226, quest = 82203} -- Zovex
             }
         }), --
-        Transmog({item = 226117, type = L['offhand']}) -- Dalaran Guardian's Arcanotool
+        Transmog({item = 226111, type = L['staff']}), -- Arakkoan Ritual Staff
+        Transmog({item = 226112, type = L['1h_sword']}), -- Rotfist Flesh Carver
+        Transmog({item = 226113, type = L['1h_sword']}), -- Kereke's Flourishing Sabre
+        Transmog({item = 226117, type = L['offhand']}), -- Dalaran Guardian's Arcanotool
+        Transmog({item = 226118, type = L['fist']}), -- Arcane Prisoner's Puncher
+        Transmog({item = 226119, type = L['crossbow']}) -- Arcane Sharpshooter's Crossbow
     }
 }) -- Violet Hold Prisoner (Kereke, Rotfist, Zovex)
 
 map.nodes[56833477] = Rare({
     id = 219263,
-    quest = 81894,
+    quest = 81894, -- One Time Kill
     rewards = {
         Achievement({id = 40435, criteria = 68213}),
-        Transmog({item = 223344, slot = L['leather']}) -- Warphorn's Resilient Vest
+        Transmog({item = 223341, slot = L['cloth']}), -- Warphorn's Resilient Mane
+        Transmog({item = 223344, slot = L['leather']}), -- Warphorn's Resilient Vest
+        Transmog({item = 223343, slot = L['mail']}), -- Warphorn's Resilient Chainmail
+        Transmog({item = 223342, slot = L['plate']}) -- Warphorn's Resilient Chestplate
     },
     pois = {
         Path({
@@ -386,11 +438,11 @@ dor.nodes[58283026] = TurtlesThanks({
 --     rewards = {Achievement({id = 40434, criteria = nil})}
 -- }) -- Earthen Coffer
 
-map.nodes[73693706] = Treasure({
-    lable = L['elemental_geode_label'],
-    quest = nil,
-    note = L['in_small_cave']
-}) -- Elemental Geode
+-- map.nodes[73693706] = Treasure({ -- 51166732 second spawn
+--    lable = L['elemental_geode_label'],
+--    quest = nil,
+--    note = L['in_small_cave']
+-- }) -- Elemental Geode
 
 -- map.nodes[63804310] = Treasure({
 --     quest = nil,
@@ -407,14 +459,53 @@ map.nodes[73693706] = Treasure({
 -------------------------------------------------------------------------------
 
 dor.nodes[32456032] = PT.Alchemy({quest = 83840, id = 226265, parent = map.id}) -- Earthen Iron Powder
-dor.nodes[57174685] =
-    PT.Inscription({quest = nil, id = 226308, parent = map.id}) -- Dornogal Scribe's Quill -- review
+map.nodes[57696182] = PT.Alchemy({quest = 83841, id = 226266}) -- Metal Dornogal Frame
+map.nodes[59826191] = PT.Blacksmithing({quest = 83848, id = 226276}) -- Ancient Earthen Anvil
+dor.nodes[47582623] = PT.Blacksmithing({
+    quest = 83849,
+    id = 226277,
+    parent = map.id
+}) -- Dornogal Hammer
+map.nodes[57606164] = PT.Enchanting({quest = 83856, id = 226284}) -- Grinded Earthen Gem
+dor.nodes[57945697] = PT.Enchanting({
+    quest = 83859,
+    id = 226285,
+    parent = map.id
+}) -- Silver Dornogal Rod
+map.nodes[61356957] = PT.Engineering({quest = 83866, id = 226292}) -- Rock Engineer's Wrench
+dor.nodes[64845284] = PT.Engineering({
+    quest = 83867,
+    id = 226293,
+    parent = map.id
+}) -- Dornogal Spectacles
+map.nodes[57556146] = PT.Herbalism({quest = 83874, id = 226300}) -- Ancient Flower
+dor.nodes[59242352] =
+    PT.Herbalism({quest = 83875, id = 226301, parent = map.id}) -- Dornogal Gardening Scythe
+dor.nodes[57254689] = PT.Inscription({
+    quest = 83882,
+    id = 226308,
+    parent = map.id
+}) -- Dornogal Scribe's Quill
+map.nodes[55976001] = PT.Inscription({quest = 83883, id = 226309}) -- Historian's Dip Pen
+map.nodes[63536687] = PT.Jewelcrafting({quest = 83890, id = 226316}) -- Gentle Jewel Hammer
+dor.nodes[34845219] = PT.Jewelcrafting({
+    quest = 83891,
+    id = 226317,
+    parent = map.id
+}) -- Earthen Gem Pliers
+dor.nodes[59242352] = PT.Leatherworking({
+    quest = 83898,
+    id = 226324,
+    parent = map.id
+}) -- Earthen Lacing Tools
+map.nodes[58653077] = PT.Leatherworking({quest = 83899, id = 226325}) -- Dornogal Craftsman's Flat Knife
 map.nodes[58186204] = PT.Mining({quest = 83906, id = 226332}) -- Earthen Miner's Gavel
-dor.nodes[35359194] = PT.Mining({quest = 83907, id = 226333, parent = map.id}) -- Dornogal Chisel -- review
-map.nodes[59836191] = PT.Blacksmithing({quest = 83848, id = 226276}) -- Ancient Earthen Anvil
-map.nodes[47613191] = PT.Blacksmithing({quest = 83849, id = 226277}) -- Dornogal Hammer
-map.nodes[60042800] = PT.Skinning({quest = nil, id = 226341}) -- Earthen Worker's Beams -- review
-dor.nodes[54616373] = PT.Tailoring({quest = nil, id = 226348}) -- Dornogal Seam Ripper -- review
+dor.nodes[36717936] = PT.Mining({quest = 83907, id = 226333, parent = map.id}) -- Dornogal Chisel
+dor.nodes[28785165] = PT.Skinning({quest = 83914, id = 226340, parent = map.id}) -- Dornogal Carving Knife
+map.nodes[60042799] = PT.Skinning({quest = 83915, id = 226341}) -- Earthen Worker's Beams
+dor.nodes[61561850] =
+    PT.Tailoring({quest = 83922, id = 226348, parent = map.id}) -- Dornogal Seam Ripper
+map.nodes[56216102] = PT.Tailoring({quest = 83923, id = 226349}) -- Earthen Tape Measure
 
 -------------------------------------------------------------------------------
 -------------------------- ISLE OF DORN GLYPH HUNTER --------------------------
@@ -494,38 +585,39 @@ map.nodes[42128025] = LoreObject({
 -------------------------------- DISTURBED DIRT -------------------------------
 -------------------------------------------------------------------------------
 
-map.nodes[27026815] = DisturbedDirt()
-map.nodes[38187892] = DisturbedDirt()
-map.nodes[44767702] = DisturbedDirt()
-map.nodes[57493429] = DisturbedDirt()
-map.nodes[57975529] = DisturbedDirt()
-map.nodes[58405778] = DisturbedDirt()
-map.nodes[58695763] = DisturbedDirt()
-map.nodes[58793702] = DisturbedDirt()
-map.nodes[58865571] = DisturbedDirt()
-map.nodes[59517165] = DisturbedDirt()
-map.nodes[60165487] = DisturbedDirt()
-map.nodes[61893557] = DisturbedDirt()
-map.nodes[61966015] = DisturbedDirt()
-map.nodes[62162647] = DisturbedDirt()
-map.nodes[62272828] = DisturbedDirt()
-map.nodes[62522512] = DisturbedDirt()
-map.nodes[62723522] = DisturbedDirt()
-map.nodes[63826247] = DisturbedDirt()
-map.nodes[63895331] = DisturbedDirt()
-map.nodes[64776839] = DisturbedDirt()
-map.nodes[65076588] = DisturbedDirt()
-map.nodes[65337065] = DisturbedDirt()
-map.nodes[65585521] = DisturbedDirt()
-map.nodes[65696586] = DisturbedDirt()
-map.nodes[68563233] = DisturbedDirt()
-map.nodes[69003300] = DisturbedDirt()
-map.nodes[69993181] = DisturbedDirt()
-map.nodes[70653055] = DisturbedDirt()
-map.nodes[70812854] = DisturbedDirt()
-map.nodes[70902974] = DisturbedDirt()
-map.nodes[71553114] = DisturbedDirt()
-map.nodes[72613005] = DisturbedDirt()
+map.nodes[27026815] = DisturbedEarth()
+map.nodes[38187892] = DisturbedEarth()
+map.nodes[44767702] = DisturbedEarth()
+map.nodes[47617007] = DisturbedEarth()
+map.nodes[57493429] = DisturbedEarth()
+map.nodes[57975529] = DisturbedEarth()
+map.nodes[58405778] = DisturbedEarth()
+map.nodes[58695763] = DisturbedEarth()
+map.nodes[58793702] = DisturbedEarth()
+map.nodes[58865571] = DisturbedEarth()
+map.nodes[59517165] = DisturbedEarth()
+map.nodes[60165487] = DisturbedEarth()
+map.nodes[61893557] = DisturbedEarth()
+map.nodes[61966015] = DisturbedEarth()
+map.nodes[62162647] = DisturbedEarth()
+map.nodes[62272828] = DisturbedEarth()
+map.nodes[62522512] = DisturbedEarth()
+map.nodes[62723522] = DisturbedEarth()
+map.nodes[63826247] = DisturbedEarth()
+map.nodes[63895331] = DisturbedEarth()
+map.nodes[64776839] = DisturbedEarth()
+map.nodes[65076588] = DisturbedEarth()
+map.nodes[65337065] = DisturbedEarth()
+map.nodes[65585521] = DisturbedEarth()
+map.nodes[65696586] = DisturbedEarth()
+map.nodes[68563233] = DisturbedEarth()
+map.nodes[69003300] = DisturbedEarth()
+map.nodes[69993181] = DisturbedEarth()
+map.nodes[70653055] = DisturbedEarth()
+map.nodes[70812854] = DisturbedEarth()
+map.nodes[70902974] = DisturbedEarth()
+map.nodes[71553114] = DisturbedEarth()
+map.nodes[72613005] = DisturbedEarth()
 
 -------------------------------------------------------------------------------
 --------------------------------- BATTLE PETS ---------------------------------

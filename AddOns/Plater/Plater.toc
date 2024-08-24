@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: Plater-v584a-Retail
+## Version: Plater-v585a-Retail
 ## SavedVariables: PlaterDB, PlaterLanguage, PlaterLogs, PlaterBackup
 ## SavedVariablesPerCharacter: PlaterDBChr
 ## IconTexture: Interface\AddOns\Plater\images\cast_bar

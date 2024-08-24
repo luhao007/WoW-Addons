@@ -1,15 +1,10 @@
-@Linaori:
-- Adding 'remove all sounds' button.
+@cont1nuity:
+- Fixing issue with talent load conditions.
+- Fixing range checks for some specs through updates in LibRangeCheck.
+- Fixing an issue with stored spell animation data which was doubling up or could not be removed.
+- Fixing an issue with CVar storing and restoring.
+- Adjustments to new profile import API.
 
 @Terciob:
 - Fixes to default scripts.
-- Adding option to change audio colldown on the Cast Colors tab.
-
-@cont1nuity:
-- New profile import API.
-- Fixing Chi resource visuals.
-- Don't show any 'player-realm' or 'realm' default profiles unless they explicitly exist.
-- Fixing cvar last changed recognition.
-- Adding option to disable text on DMB timer icons.
-- Fixing Mage execute range.
 

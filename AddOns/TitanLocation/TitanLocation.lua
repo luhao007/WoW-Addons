@@ -34,6 +34,12 @@ local place = {
 	factionName = "",
 	px = 0,
 	py = 0,
+	-- to save a few cpu cycles when map is up
+	show_on_map = false,
+	coords_style = "",
+	coords_label = "",
+	player_format = "",
+	cursor_format = "",
 	}
 
 ---@diagnostic disable-next-line: deprecated
@@ -92,7 +98,7 @@ local function Events(action, reason)
 	end
 end
 
----local Get the player coordinates on x,y axis
+---local Get the player coordinates on x,y axis of the map of the zone / area they are in.
 ---@return number | nil X
 ---@return number | nil Y
 local function GetPlayerMapPosition()
@@ -216,11 +222,12 @@ local function LocOnMiniMap(reason)
 	end
 end
 
----local Update coordinates on map
+---local Update coordinates on map. This called every tick of timer while map is open.
 ---@param self Button
 ---@param elapsed number
-local function TitanMapFrame_OnUpdate(self, elapsed)
+local function TitanMapCoords_OnUpdate(self, elapsed)
 	-- Determine the text to show for player coords
+	-- This routine will do a LOT of checking for 'invalid' returns to prevent spraying errors at the user.
 
 	local cursorLocationText = ""
 	local playerLocationText = ""
@@ -232,62 +239,99 @@ local function TitanMapFrame_OnUpdate(self, elapsed)
 		-- use default
 	end
 
-	local player_format = ""
-	local cursor_format = ""
-	local label = TitanGetVar(TITAN_LOCATION_ID, "CoordsLabel")
-	if label then
-		player_format = L["TITAN_LOCATION_MAP_PLAYER_COORDS_TEXT"]
-		cursor_format = L["TITAN_LOCATION_MAP_CURSOR_COORDS_TEXT"]
-	else
-		player_format = "%s"
-		cursor_format = "%s"
-	end
-
-	if (TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap")) then
+	if place.show_on_map then
 		place.px, place.py = GetPlayerMapPosition();
-		if place.px == nil then place.px = 0 end
-		if place.py == nil then place.py = 0 end
-		if place.px == 0 and place.py == 0 then
+		if place.px == nil then -- invalid map / timing / ... ?
+			-- Show something to user...
 			playerLocationText = L["TITAN_LOCATION_NO_COORDS"]
 		else
-			playerLocationText = format(TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat"), 100 * place.px, 100 * place.py);
+			-- format coords per the user requested format
+			playerLocationText = format(place.coords_style, 100 * place.px, 100 * place.py);
 		end
-		playerLocationText = (format(player_format, TitanUtils_GetHighlightText(playerLocationText)));
+		-- Add label or not per user choice
+		playerLocationText = (format(place.player_format, TitanUtils_GetHighlightText(playerLocationText)));
 
-		-- Determine the text to show for cursor coords
-		local cx, cy = GetCursorPosition();
+		-- Determine cursor coords REGARDLESS of map shown.
+		-- The player may not be in that map / zone / area.
+		local cx, cy = 0, 0
+		local inside = false
 
-		-- use the global cursor position to confirm the cursor is over the map, but then use a normalized cursor position to account for map zooming
+		-- Use the global / screen cursor position to confirm the cursor is over the map,
+		-- then use a normalized cursor position if cursor is over map; accounts for map zooming
+		cx, cy = GetCursorPosition()
+
 		local left, bottom, width, height = WorldMapFrame.ScrollContainer:GetScaledRect();
-		if (cx > left and cy > bottom and cx < left + width and cy < bottom + height) then
-			cx, cy = WorldMapFrame:GetNormalizedCursorPosition();
-			cx, cy = cx or 0, cy or 0;
+		if left == nil then -- invalid map ?
+			-- Show something to user...
+			cursorLocationText = L["TITAN_LOCATION_NO_COORDS"]
 		else
-			cx, cy = 0, 0
+			if (cx > left and cy > bottom and cx < left + width and cy < bottom + height) then
+				inside = true
+				-- Get normalized cursor on map
+				cx, cy = WorldMapFrame:GetNormalizedCursorPosition();
+				cx, cy = cx or 0, cy or 0;
+			else
+				-- cursor outside map
+				cx, cy = 0, 0
+			end
+			-- format coords per the user requested format
+			cursorLocationText = format(place.coords_style, 100 * cx, 100 * cy)
+--[[
+local msg =
+"_OnUpdate"
+.. " " .. tostring(inside) .. ""
+.. " [" .. (format("%.2f", left or 0)) .. ""
+.. " " .. (format("%.2f", (bottom) or 0)) .. ""
+.. " " .. (format("%.2f", (left + width) or 0)) .. ""
+.. " " .. (format("%.2f", (bottom + height) or 0)) .. "]"
+.. " " .. (format("%.2f", cx)) .. ""
+.. " " .. (format("%.2f", cy)) .. ""
+debug_msg(msg)
+--]]
 		end
 
-		-- per the user requested format
-		cursorLocationText = format(TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat"), 100 * cx, 100 * cy)
-		cursorLocationText = (format(cursor_format, TitanUtils_GetHighlightText(cursorLocationText)))
+		-- Add label or not per user choice
+		cursorLocationText = (format(place.cursor_format, TitanUtils_GetHighlightText(cursorLocationText)))
 	else
 		-- use defaults, saving a few cpu cycles
 	end
 
+--[[
+	local msg =
+	"_OnUpdate"
+	.. " " .. tostring(playerLocationText) .. ""
+	.. " " .. tostring(cursorLocationText) .. ""
+	debug_msg(msg)
+--]]
 	SetCoordText(playerLocationText, cursorLocationText)
 end
 
----local Set the coordinates text for player and cursor. Used on update to refresh and on hide to clear the text.
----@param action string Start | Stop
+---local Set the coordinates text for player and cursor if user requested.
+---'start' Sets the OnShow and OnHide for the coords frame.
+---'stop' Clears the OnShow and OnHide for the coords frame.
+---OnShow and OnHide are triggered when world map is opened because it is the parent frame.
+---@param action string start | stop
 local function CoordFrames(action)
-	local show_on_map = (TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap") and true or false)
 	if addon_conflict then
-		-- do not attempt coords
+		-- Do not attempt coords
 	else
 		local frame = _G[TITAN_MAP_FRAME]
-		if show_on_map then
+		place.show_on_map = (TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap") and true or false)
+		if place.show_on_map then
 			if action == "start" then
+				-- Save a few cycles on update by grabbing the Titan options here
+				place.coords_style = TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat")
+				place.coords_label = TitanGetVar(TITAN_LOCATION_ID, "CoordsLabel")
+				if place.coords_label then
+					place.player_format = L["TITAN_LOCATION_MAP_PLAYER_COORDS_TEXT"]
+					place.cursor_format = L["TITAN_LOCATION_MAP_CURSOR_COORDS_TEXT"]
+				else
+					place.player_format = "%s"
+					place.cursor_format = "%s"
+				end
+
 				local function updateFunc()
-					TitanMapFrame_OnUpdate(frame, 0.07); -- simulating an OnUpdate call
+					TitanMapCoords_OnUpdate(frame, 0.07); -- simulating an OnUpdate call
 				end
 				frame:SetScript("OnShow", function()
 					frame.updateTicker = frame.updateTicker or C_Timer.NewTicker(0.07, updateFunc);
@@ -322,7 +366,7 @@ local function CoordFrames(action)
 		local msg =
 			"CoordFrames"
 			.. " " .. tostring(action) .. ""
-			.. " " .. tostring(show_on_map) .. ""
+			.. " " .. tostring(place.show_on_map) .. ""
 			.. " " .. tostring(addon_conflict) .. ""
 		debug_msg(msg)
 	else
@@ -641,7 +685,7 @@ local function CreateMenu()
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsText");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
+--[[
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"];
 			info.func = function()
@@ -676,6 +720,7 @@ local function CreateMenu()
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "UpdateWorldmap");
 			info.disabled = InCombatLockdown()
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+--]]
 		end
 
 		if TitanPanelRightClickMenu_GetDropdMenuValue() == "CoordFormat" then

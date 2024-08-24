@@ -7,6 +7,9 @@
 -- **************************************************************************
 --]]
 
+-- WoW method to get addon name
+local addonName = ...
+
 -- ******************************** Constants *******************************
 local TITAN_GOLD_ID = "Gold";
 local TITAN_BUTTON = "TitanPanel" .. TITAN_GOLD_ID .. "Button"
@@ -18,7 +21,6 @@ local updateTable = { TITAN_GOLD_ID, TITAN_PANEL_UPDATE_TOOLTIP };
 GoldSave = {} -- saved vars in TOC
 local GOLD_INITIALIZED = false;
 local GOLD_INDEX = "";
-local WARBAND_INDEX = ""
 local GOLD_STARTINGGOLD;
 local GOLD_SESSIONSTART;
 local AceTimer = LibStub("AceTimer-3.0")
@@ -26,8 +28,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local GoldTimer = {};
 local GoldTimerRunning = false
 local _G = getfenv(0);
-local realmName = "" -- fill on PEW
-local realmNames = {} -- fill on PEW
+local realmName = ""     -- fill on PEW
+local realmNames = {}    -- fill on PEW
 local merged_realms = {} -- fill on PEW
 
 -- English faction for indexing and sorting and coloring
@@ -35,12 +37,15 @@ local TITAN_ALLIANCE = "Alliance"
 local TITAN_HORDE = "Horde"
 
 local player_faction, player_faction_locale = UnitFactionGroup("Player")
+local player_name = GetUnitName("Player")
 
 --[[  debug
 local FACTION_ALLIANCE = "Alliance_debug"
 local FACTION_HORDE = "Horde_debug"
 --]]
 -- ******************************** Functions *******************************
+
+-- A bit overkill but make a class for the Warbank bank functions
 
 local Warband = {
 	bank_sum = 0,
@@ -49,17 +54,19 @@ local Warband = {
 }
 ---local Warband Bank debug
 function Warband.debug(reason)
-	print("WB "..reason
-	.." "..tostring(Warband.active)
-	.." "..tostring(Warband.label)
-	.." "..tostring(Warband.bank_sum)
+	print("WB " .. reason
+		.. " " .. tostring(Warband.active)
+		.. " " .. tostring(Warband.label)
+		.. " " .. tostring(Warband.bank_sum)
 	)
 end
+
 ---local Update Warband Bank info - sum
 function Warband.SetSum()
 	Warband.bank_sum = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
---	Warband.debug("SetSum")
+	--	Warband.debug("SetSum")
 end
+
 ---local Return Warband Bank info
 function Warband.Init()
 	-- check for func even though it does not work atm... 2024 Aug  (Added 11.0.0)
@@ -70,22 +77,38 @@ function Warband.Init()
 	else
 		-- Likely Classic version
 	end
---	Warband.debug("Init")
-	end
+	--	Warband.debug("Init")
+end
+
 ---local Return Warband Bank info
 ---@return number
 function Warband.GetSum()
---	Warband.debug("GetSum")
+	--	Warband.debug("GetSum")
 	return Warband.bank_sum
 end
+
 ---local Return Warband Bank info
 ---@return string
 function Warband.GetName()
---	Warband.debug("GetName")
+	--	Warband.debug("GetName")
 	return Warband.label
 end
 
 --===
+
+---Helper to safely encapsulate WoW API (returns number in form ggsscc)
+---@return number
+local function Get_Money()
+	local money = GetMoney()
+	-- Do safety check to prevent errors
+	if type(money) == "number" then
+		-- assume it is good
+	else
+		-- Not accurate but safe
+		money = 0
+	end
+	return money
+end
 
 local function GetConnectedRealms()
 	local realms = GetAutoCompleteRealms()
@@ -153,8 +176,8 @@ end
 ---@field char_name string Saved toon name
 ---@field server string Saved toon server
 ---@field faction string Saved toon faction
----@field same_faction boolean Saved toon faction is same as player 
----@field ignore_faction boolean User selection to ignore faction or not 
+---@field same_faction boolean Saved toon faction is same as player
+---@field ignore_faction boolean User selection to ignore faction or not
 ---@field same_realm boolean Saved realm is same as this server
 ---@field merge_realm boolean Saved realm is in mergerd server list (connected servers)
 ---@field show_toon boolean Show server - simple test
@@ -163,7 +186,7 @@ end
 ---@param index string
 ---@return IndexInfo
 local function EvalIndexInfo(index)
-	local res = {valid = false}
+	local res = { valid = false }
 	local character, charserver, char_faction = GetIndexInfo(index)
 
 	if character then
@@ -195,7 +218,7 @@ local function EvalIndexInfo(index)
 		end
 
 		if (res.ignore_faction or res.same_faction)
-		and GoldSave[index].show then
+			and GoldSave[index].show then
 			res.show_toon = true
 		else
 			res.show_toon = false
@@ -251,7 +274,7 @@ local function ShowMenuButtons(faction, level)
 	end
 	GoldSorted = SortByIndex(GoldSorted)
 
-	for i = 1, getn(GoldSorted) do
+	for i = 1, #GoldSorted do
 		local index = GoldSorted[i]
 		local character, charserver, char_faction = GetIndexInfo(index)
 		if character and (char_faction == faction) then
@@ -277,7 +300,7 @@ local function DeleteMenuButtons(faction, level)
 	TitanPanelRightClickMenu_AddTitle(L["TITAN_GOLD_DELETE_PLAYER"], level)
 
 	local info = {};
-	local name = GetUnitName("player");
+	local name = player_name
 	local server = realmName;
 
 	-- Sort names for the menu list
@@ -287,7 +310,7 @@ local function DeleteMenuButtons(faction, level)
 	end
 	GoldSorted = SortByIndex(GoldSorted)
 
-	for i = 1, getn(GoldSorted) do
+	for i = 1, #GoldSorted do
 		local index = GoldSorted[i]
 		local character, charserver, char_faction = GetIndexInfo(index)
 		info.notCheckable = true
@@ -296,13 +319,13 @@ local function DeleteMenuButtons(faction, level)
 			info.value = character;
 			info.func = function()
 				print("Del"
-				.." "..tostring(index)..""
-				.." "..tostring(GoldSave[index].gold)..""
+					.. " " .. tostring(index) .. ""
+					.. " " .. tostring(GoldSave[index].gold) .. ""
 				)
 				GoldSave[index] = {}
 				GoldSave[index] = nil
 				print("Del"
-				.." "..tostring(GoldSave[index])..""
+					.. " " .. tostring(GoldSave[index]) .. ""
 				)
 				TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 			end
@@ -414,13 +437,11 @@ end
 ---local Calculates total gold for display per user selections
 ---@return integer
 local function TotalGold()
+	-- EvalIndexInfo checks the toon info against the user options
+	-- then returns as a table of 'flags'.
+	-- The if within each loop checks the appropriate flags per user server display option.
+
 	local ttlgold = 0;
-	local cnt = 0;
-	local faction = UnitFactionGroup("Player");
-	local coin_str = ""
-	local character, charserver = "", ""
-	local char_faction = ""
-	local ignore_faction = TitanGetVar(TITAN_GOLD_ID, "IgnoreFaction")
 
 	if TitanGetVar(TITAN_GOLD_ID, "SeparateServers") then
 		-- Parse the database and display all characters on this server
@@ -437,7 +458,7 @@ local function TotalGold()
 		for index, money in pairs(GoldSave) do
 			local char = EvalIndexInfo(index)
 			if char.valid and char.merge_realm and char.show_toon then
-					ttlgold = ToonAdd(GoldSave[index].show, GoldSave[index].gold, ttlgold)
+				ttlgold = ToonAdd(GoldSave[index].show, GoldSave[index].gold, ttlgold)
 			else
 				-- Do not show per flags
 			end
@@ -447,11 +468,20 @@ local function TotalGold()
 		for index, money in pairs(GoldSave) do
 			local char = EvalIndexInfo(index)
 			if char.valid and char.show_toon then
-					ttlgold = ToonAdd(GoldSave[index].show, GoldSave[index].gold, ttlgold)
+				ttlgold = ToonAdd(GoldSave[index].show, GoldSave[index].gold, ttlgold)
 			else
 				-- Do not show per flags
 			end
 		end
+	end
+
+	--
+	-- === Add Warband Bank
+	--
+	-- Warband is not a toon so add it.
+	-- For now it can not be shown / hidden from totals.
+	if Warband.active then
+		ttlgold = ttlgold + Warband.GetSum()
 	end
 
 	return ttlgold;
@@ -465,7 +495,7 @@ local function GetTooltipText()
 	local GoldSorted = {};
 	local currentMoneyRichText = "";
 	local countelements = 0;
-	local faction, faction_locale = UnitFactionGroup("Player") -- get localized faction
+	local faction = player_faction
 	local ignore_faction = TitanGetVar(TITAN_GOLD_ID, "IgnoreFaction")
 
 	for _ in pairs(realmNames) do
@@ -512,7 +542,7 @@ local function GetTooltipText()
 	local show_dash = false
 	local show_realm = true
 	local character, charserver, char_faction
-	for i = 1, getn(GoldSorted) do
+	for i = 1, #GoldSorted do
 		character, charserver, char_faction = GetIndexInfo(GoldSorted[i])
 		coin_str = NiceCash(GoldSave[GoldSorted[i]].gold, false, false)
 		show_dash = false
@@ -563,9 +593,9 @@ local function GetTooltipText()
 	--
 	if Warband.active then
 		currentMoneyRichText = currentMoneyRichText .. "\n"
-		.. "------ \t +" .. "\n"
-		.. Warband.GetName() -- localized
-		.. "\t" .. NiceCash(Warband.GetSum(), false, false)
+			.. "------ \t +" .. "\n"
+			.. Warband.GetName() -- localized
+			.. "\t" .. NiceCash(Warband.GetSum(), false, false)
 	end
 
 
@@ -594,7 +624,7 @@ print("TG"
 		.. L["TITAN_GOLD_TTL_GOLD"] .. "\t" .. coin_str
 
 	-- find session earnings and earning per hour
-	local sesstotal = GetMoney() - GOLD_STARTINGGOLD;
+	local sesstotal = Get_Money() - GOLD_STARTINGGOLD;
 	local negative = false;
 	if (sesstotal < 0) then
 		sesstotal = math.abs(sesstotal);
@@ -608,7 +638,7 @@ print("TG"
 
 	local session_status;
 	local per_hour_status;
-		local sessionMoneyRichText = ""
+	local sessionMoneyRichText = ""
 	if TitanGetVar(TITAN_GOLD_ID, "ShowSessionInfo") then
 		sessionMoneyRichText = "\n\n" .. TitanUtils_GetHighlightText(L["TITAN_GOLD_STATS_TITLE"])
 			.. "\n" .. L["TITAN_GOLD_START_GOLD"] .. "\t" .. coin_str .. "\n"
@@ -682,7 +712,7 @@ local function Sort_Toggle()
 end
 
 local function ResetSession()
-	GOLD_STARTINGGOLD = GetMoney();
+	GOLD_STARTINGGOLD = Get_Money();
 	GOLD_SESSIONSTART = GetTime();
 	DEFAULT_CHAT_FRAME:AddMessage(TitanUtils_GetGreenText(L["TITAN_GOLD_SESSION_RESET"]));
 end
@@ -691,14 +721,14 @@ end
 ---@param self Button
 local function Initialize_Array(self)
 	if (GOLD_INITIALIZED) then
-		-- nlready done
+		-- already done
 	else
 		self:UnregisterEvent("ADDON_LOADED");
 
 		-- See if this is a new toon to Gold
 		if (GoldSave[GOLD_INDEX] == nil) then
 			GoldSave[GOLD_INDEX] = {}
-			GoldSave[GOLD_INDEX] = { gold = GetMoney(), name = UnitName("player") }
+			GoldSave[GOLD_INDEX] = { gold = Get_Money(), name = player_name }
 		end
 
 		-- Ensure the saved vars are usable
@@ -724,10 +754,10 @@ local function Initialize_Array(self)
 				GoldSave[index].faction = FACTION_OTHER
 			end
 		end
-		GOLD_STARTINGGOLD = GetMoney();
+		GOLD_STARTINGGOLD = Get_Money();
 		GOLD_SESSIONSTART = GetTime();
 		GOLD_INITIALIZED = true;
---[[
+		--[[
 print("Init"
 .." "..tostring(GOLD_STARTINGGOLD)..""
 .." "..tostring(GOLD_SESSIONSTART)..""
@@ -1126,7 +1156,7 @@ end
 ---@param self Button
 local function OnShow(self)
 	self:RegisterEvent("PLAYER_MONEY")
-	GoldSave[GOLD_INDEX].gold = GetMoney()
+	GoldSave[GOLD_INDEX].gold = Get_Money()
 
 	if GoldSave and TitanGetVar(TITAN_GOLD_ID, "DisplayGoldPerHour") then
 		if GoldTimerRunning then
@@ -1141,7 +1171,6 @@ local function OnShow(self)
 
 	if Warband.active then
 		Warband.SetSum()
----@diagnostic disable-next-line: param-type-mismatch
 		self:RegisterEvent("ACCOUNT_MONEY") -- register for changes
 	end
 end
@@ -1162,7 +1191,7 @@ end
 ---@param self Button
 ---@param event string
 ---@param ... any
-local function OnEvent(self, event, ...)
+local function OnEvent(self, event, a1, ...)
 	--[[
 print("_OnEvent"
 .." "..tostring(event)..""
@@ -1171,38 +1200,31 @@ print("_OnEvent"
 
 	if (event == "PLAYER_MONEY") then
 		if (GOLD_INITIALIZED) then
-			GoldSave[GOLD_INDEX].gold = GetMoney()
+			GoldSave[GOLD_INDEX].gold = Get_Money()
 			TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 		end
-		return;
-	end
-
-	if (event == "ACCOUNT_MONEY") then
+	elseif (event == "ACCOUNT_MONEY") then
 		if (GOLD_INITIALIZED) then
 			Warband.SetSum()
 		end
-		return
-	end
+	elseif (event == "ADDON_LOADED") then
+		if a1 == addonName then
+			realmName = GetRealmName() -- this realm
+			realmNames = GetConnectedRealms()
+			-- flip to make a simple lookup later rather than a loop
+			for index, realm in pairs(realmNames) do
+				merged_realms[realm] = true
+			end
 
-	if (event == "ADDON_LOADED") then
-		realmName = GetRealmName() -- this realm
-		realmNames = GetConnectedRealms()
-		-- flip to make a simple lookup later rather than a loop
-		for index, realm in pairs(realmNames) do
-			merged_realms[realm] = true
+			-- Faction is English to use as index NOT display
+			GOLD_INDEX = CreateIndex(player_name, realmName, player_faction)
+			Initialize_Array(self);
+		else
+			-- Not this addon
 		end
-
-		-- Faction is English to use as index NOT display
-		GOLD_INDEX = CreateIndex(UnitName("player"), realmName, UnitFactionGroup("Player"))
-
-		return;
-	end
-
-	if (event == "PLAYER_ENTERING_WORLD") then
-		Initialize_Array(self);
+	elseif (event == "PLAYER_ENTERING_WORLD") then
 		Warband.Init()
 		TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
-		return;
 	end
 end
 
@@ -1221,7 +1243,7 @@ function OnClick(self, button)
 			else
 				mark = ""
 			end
-			TitanPrint("- "..tostring(realms[idx])..mark, "plain")
+			TitanPrint("- " .. tostring(realms[idx]) .. mark, "plain")
 		end
 	end
 end

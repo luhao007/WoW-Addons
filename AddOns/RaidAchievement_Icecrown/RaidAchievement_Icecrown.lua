@@ -5,7 +5,7 @@ function icraonload()
 	icratimer1=0
 	icrabosskilled=0
 	icratavleach={}
-	rsciccbuffvalitria=GetSpellInfo(70766)
+	rsciccbuffvalitria=C_Spell.GetSpellInfo(70766).name
 
 --SetMapToCurrentZone()
 if racheckzoneId({186,187,188,189,190,191,192,193,698,699,700,701,186,187,188,189,190,191,192,193,698,699,700,701},C_Map.GetBestMapForUnit("player")) then
@@ -184,7 +184,7 @@ if icratracktargets then
 	if icracurtime>icratracktargetsdelay then
 		icratracktargetsdelay=icracurtime+1.2
 		--чекаем рейдеров и их таргеты на наличие дебафа со стаками БОЛЕЕ 29 / ДОЛЖНО БЫТЬ = 30!
-		local spelllook=GetSpellInfo(70338)
+		local spelllook=C_Spell.GetSpellInfo(70338).name
 		local psgropcheck=2
 		if GetRaidDifficultyID()==2 or GetRaidDifficultyID()==4 then
 			psgropcheck=5

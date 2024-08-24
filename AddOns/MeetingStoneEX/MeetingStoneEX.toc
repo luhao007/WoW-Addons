@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: 20240816
+## Version: 20240824
 ## RequiredDeps: MeetingStone
 ## LoadManagers: AddonLoader
 ## IconTexture: Interface\AddOns\MeetingStone\Media\Logo

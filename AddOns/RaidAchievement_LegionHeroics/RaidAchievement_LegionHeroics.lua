@@ -89,7 +89,7 @@ if rastarttrackingCrdana and GetTime()>rastarttrackingCrdana then
 	rastarttrackingCrdana = rastarttrackingCrdana+1
 	if legionhraspisokon[12]==1 and legionhraachdone1 then
 		rastarttrackingCrdana=GetTime()+1
-		local spbuf=GetSpellInfo(197941)
+		local spbuf=C_Spell.GetSpellInfo(197941).name
 		if checkBuff("player", spbuf) or checkDeBuff("player", spbuf) then
 			legionhrafailnoreason(12, UnitName("player"))
 		end
@@ -367,7 +367,7 @@ end
 if arg2=="SPELL_AURA_APPLIED" and arg10==197422 then
 	if legionhraspisokon[13]==1 and legionhraachdone1 then
 		rastarttrackingCrdana=GetTime()+1
-		local spbuf=GetSpellInfo(197941)
+		local spbuf=C_Spell.GetSpellInfo(197941).name
 		if checkBuff("player", spbuf) or checkDeBuff("player", spbuf) then
 			legionhrafailnoreason(13, UnitName("player"))
 		end

@@ -1,59 +1,78 @@
 # AllTheThings
 
-## [4.0.6](https://github.com/DFortun81/AllTheThings/tree/4.0.6) (2024-08-18)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.5...4.0.6) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [4.0.7](https://github.com/DFortun81/AllTheThings/tree/4.0.7) (2024-08-22)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.6...4.0.7) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
-- Wait you weren't fishing in NSTV this whole time?  
-- Thundercall is obtainable only from Quantum nowadays.  
-- Made FILTERFUNC\_questID and used that for special HQTs. Probably going to use that for all NYI quests soon.  
-- More stuff is now Sourceless instead of NYI.  
-- Uncommented since this isn't getting in the way anymore  
-- Warlock conjured item  
-- Lets add commas! VSC wasn't happy  
-- Dedupe gear conversions as reasonable  
-- Fix wonky header before fixing data  
-- Retail: Tooltips no longer include Object data which is marked as not in the game  
-- Couple unused locals now that things are changed/moved  
-- Hotfix for parser errors  
-- added gear update for mop remix conversion  
-- Merge pull request #1736 from Exodius/Exodius-gorgrond2  
-    Zone: Gorgrond - Found a better way to mark the cave entrances.  
-- Fix typos  
-- Classic: Now uses Classic Item Filter Overrides to manually assign filters to specific Items instead of putting them randomly in data files  
-- More NYI / Unsorted work.  
-- Parser: Fixed an issue where Items with bonuses would generate their modItemID versions in Unsorted  
-- Wrong modID.  
-- Put raid vendors of DF Season 2 and 3 into the raids with #if AFTER the season. The item required for these items can be obtained only from the final boss of the raid when the season ends.  
-- Fix wrong ID on Grunt's Plate Belt  
-- Some NYI cleaning, mostly DOTI and Remix items.  
-- Moved some HAT that no longer load ingame  
-- NYI object is getting in the way, ugh  
-- Zone: Gorgrond - Found a better way to mark the cave entrances.  
-    Entrance will show up on the map when you ALT+Right Click on the entry.  
-- Crafted Items/WotLK: Bladed Pickaxe and Hammer Pick descriptions  
-- Mistook starting zone quest for heritage quest, derp  
-- Cranegnasher now has correct id  
-- Dream Wardens fell asleep and no longer offer any Dragon Isles Supplies quests.  
-- Parsed again because something is wonky  
-- Sagefish school fix for Ere  
-- Valdrakken Accord Renown Supplies quests are gone.  
-- PB/Quests: Algalon the Observer  
-- Iskaara Tuskarrs cooked all your alts, therefore no need for Supplies quests anymore!  
-- Say goodbye to Maruuk Centaur alt quests.  
-- Removed nearly all Dragon Isles Supplies quests with 11.0.0.  
-    Moved Dragonscale Expedition NYI Flag quests to NYI file.  
-- Minor formatting fix  
-- Remove School of Tastyfish from retail  
-- Dark Iron Mole Machines now have their own header in minilists  
-    'Garrison Campaign' converted to custom header  
-- Nested Edge of Reality under Rares so it looks better in minilist  
-- Updated my test method to scan all Warband-wide quests so that I don't get d/c instantly  
-- Full questID scan through 86000 of all current Account-Wide quests from Blizzard  
-- Added a few Warband-wide questIDs used by character unlocks (there are way more I'm sure but I'm slacker on collecting them)  
-- Delves icon updated  
-- Applied proper lockCriteria instead of altQuests to various BFA Warfront quests which become unavailable once Warfronts are unlocked on the Account  
-- Merge pull request #1732 from Exodius/Exodius-gorgrond  
-    Zone: Gorgrond - Update Descriptions for easier access to some treasures  
-- Zone: Gorgrond - Update Descriptions for easier access to some treasures  
-- Legion Gemcutter Module Items ignore their bonuses  
-- Parser: Fixed an issue where Items that ignore their bonuses (modID/bonusID) would not properly be considered Sourced based on the modItemID using an automatically-applied modID (from being in an Instance) and thus generate a copy of themselves in Unsorted  
+- Higher Learning Fix  
+- Reparsed  
+- Delves clean up  
+- Curios Are now ready to be collected  
+- New Delves Icons  
+- Added delve icons  
+- Reparsed all flavors  
+- Generated Missing Files  
+- Updated Harvester Instructions  
+- Dont ignore bonusID!  
+- Harvest: 11.0.2.56263  
+- Harvest: 11.0.2.56196  
+- Harvest: 11.0.2.56162  
+- Cheeky little source harvest  
+- Move it out of TWW  
+- Faithful dog  
+- Some more curio trials.  
+- Some more last minute achievement fixes + updated AchievementDB + new Wago files  
+- Add more detailed steps and tracking for Faithful Dog  
+- Mount Machine Defense Unit 1-11 moved from achievement reward to treasures (and I don't like that)  
+- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
+- Fix icons... Delves  
+- One of the Mine Poppin' achievements became NYI in latest build  
+- Adjusted the handling of War Within Delves: Endgame achievement + yeeted NYI objects file since we don't need it  
+- Source a few more follower equipments.  
+- TWW: more clear up  
+- Added/confirmed coords for Loose Pebble  
+- cat is category  
+- Very Demure Curio Start  
+    Some Clean Up of Delves  
+- Retail: Can't be 'Solo' mode when in Debug/Account Modes!  
+- Retail: Simpler Delve header addition  
+- Retail: Now supports Blizzard-based Account Quest collection for Quests completed since 11.0  
+    Quest tooltip now shows if Warband/Account has previously completed a quest when no known characters have cached ATT data for that quest  
+- Re-synced GlobalStrings from Townlong-Yak  
+- Condensed SteelSeries Promotion  
+- Moved more completed unknown quests into sourceless from NYI.  
+- TWW: more beta stuff  
+- Sourcing some legion equipment  
+- sod note for jet  
+- Merge pull request #1739 from Exodius/Talador-Manafeeders  
+    Zone/Draenor-Talador: Update description for quest Frenzied Manafeeders  
+- design fixed  
+- another parsing  
+- parsing  
+- t1 priest notes  
+- sorted a crest  
+- r1 plunderstorm is available  
+- ach(40142), -- Learning to Share didnt made it to  live  
+- Parser: Verified enforcement of 'achID' for Criteria  
+- Retail: Adjusted load order of some raw DBs  
+- Zone/Draenor-Talador: Update description for quest Frenzied Manafeeders  
+    and enable quest related NPCs to have the note in their tooltip  
+- Retail: Fixed a collection issue for Protoform Synthesis (& others) Recipes when they have been crafted already  
+- Added patch number for the end of Remix.  
+- Minor Remix fixes  
+- Add SteelSeries promotion  
+- mapID fixed  
+- Large Napsack sorted  
+- TWW: a little bit of beta  
+- Retail: Quest report dialog now shows TWW Renown factions for reference  
+- mapID added  
+- i(108905), -- Jagged Turtleshell Blade sorted  
+- Missing commas for syntax complainers  
+- Fixed 'Charger' achievement absorbing all other Achievements destined for 'Mounts' filter header... very sus (applying a 'f' value to Achievement is also pointless btw)  
+- Classic: Ignoring NYI Objects file.  
+- Merge pull request #1737 from Exodius/Draenor  
+    Zone/Draenor: More updates to coordinates and descriptions  
+- Zone/Draenor: More updates to coordinates and descriptions  
+    Frostfire Ridge: Additional spawn points for Gorok from WoWhead  
+    Spires of Arak: Offering to the Raven Mother coordinates from personal observation. Old one was off by a bit  
+    Talador: Additional updates to Descriptions, coordinates and comments. Spawn locations for Teroclaw nests taken in-game. There are more of them throughout the area but I figured these are more than enough  
+- FIxed few object names.  

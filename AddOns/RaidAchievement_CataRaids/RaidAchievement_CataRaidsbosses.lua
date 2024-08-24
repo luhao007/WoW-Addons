@@ -168,7 +168,7 @@ C_ChatInfo.SendAddonMessage("BigWigs", "T:BWCustomBar "..pstime.." "..pstext, "R
 --DXE
 C_ChatInfo.SendAddonMessage("DXE", "^1^SAlertsRaidBar^N"..pstime.."^S~`"..pstext.."^^", "RAID")
 
-if IsAddOnLoaded("DXE") then
+if C_AddOns.IsAddOnLoaded("DXE") then
 	SlashCmdList.DXEALERTLOCALBAR(pstime.." "..pstext)
 end
 

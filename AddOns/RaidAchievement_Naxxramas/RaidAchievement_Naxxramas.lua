@@ -6,7 +6,7 @@ function nxraonload()
 	nxramexna=0
 	nxratimer1=0
 	nxrabosskilled=0
-	nxraonycast=GetSpellInfo(17086)
+	nxraonycast=C_Spell.GetSpellInfo(17086).name
 
 	RaidAchievement_nxra:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	RaidAchievement_nxra:RegisterEvent("PLAYER_REGEN_DISABLED")

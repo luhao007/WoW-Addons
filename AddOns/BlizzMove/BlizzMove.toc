@@ -1,9 +1,9 @@
 ## Interface: 110002
 ## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
-## Version: v3.5.34
+## Version: v3.5.36
 ## OptionalDeps: Ace3
 ## SavedVariables: BlizzMoveDB
-## IconTexture: 982414
+## IconTexture: interface/cursor/ui-cursor-move.blp
 
 ## Title: BlizzMove
 ## Notes: Makes blizzard frames movable

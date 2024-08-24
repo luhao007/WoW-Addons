@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: 63
+## Version: 66
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
 ## SavedVariables: HandyNotes_ShadowlandsDB

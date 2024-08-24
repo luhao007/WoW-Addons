@@ -1,6 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 75.7 - 2024-08-23
+### Added
+- Missing map data for the 4 main zones
+
+## 75.6 - 2024-08-21
+### Added
+- Achievements added in 11.0.2
+
+### Fixed
+- Tracking achievements should once again show as a category when it's enabled
+- Temporarily shown achievements icon is not update and no longer uses the flight path icon
+- Achievements without a category should no longer cause an error
+
 ## 75.5 - 2024-08-15
 ### Fixed
 - Library bug

@@ -1497,9 +1497,6 @@ private.CONTAINER_GUIDE = {
 	["4436382248"] = {
 		[RSConstants.FLAG] = { x = 0.5960, y = 0.2454, comment = AL["NOTE_443638_1"] };
 	}; --Elemental Geode
-	["4560162339"] = {
-		[RSConstants.ENTRANCE] = { x = 0.5148, y = 0.6402 };
-	}; --Dornogal Hammer
 	["4443542248"] = {
 		[RSConstants.FLAG..1] = { x = 0.5158, y = 0.3982, comment = AL["NOTE_444354_1"] };
 	}; --Turtle's Thanks
@@ -1513,6 +1510,7 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.DOT..3] = { x = 0.4185, y = 0.2701, comment = AL["NOTE_443318_1"], questID = 82754 };
 		[RSConstants.DOT..4] = { x = 0.1973, y = 0.5843, comment = AL["NOTE_443318_1"], questID = 82755 };
 		[RSConstants.DOT..5] = { x = 0.3827, y = 0.4202, comment = AL["NOTE_443318_2"], questID = 82756 };
+		[RSConstants.DOT..6] = { x = 0.7490, y = 0.4969, comment = AL["NOTE_443318_1"], questID = 82752 };
 	}; --Tree's Treasure
 	["4337332214"] = {
 		[RSConstants.ENTRANCE] = { x = 0.5203, y = 0.5311 };

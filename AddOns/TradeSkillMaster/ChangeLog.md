@@ -1,10 +1,6 @@
-## v4.14.9 Changes
+## v4.14.10 Changes
 
-* [Retail] Update for 11.0.2
-* [Retail] Fixed mailing of warbound items
-* [Retail] Include warbank in total gold displayed
-* [Retail] Allow crafting more than one of an enchant at a time
-* [Classic] Fixed error on load when destroying UI is open
-* [All] Various other bug fixes
+* [Retail] Fix error when loading TWW professions
+* [Classic] Fixed error on load
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

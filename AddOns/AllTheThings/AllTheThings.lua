@@ -9389,9 +9389,7 @@ function app:GetDataCache()
 
 	-- Delves
 	if app.Categories.Delves then
-		tinsert(g, app.CreateNPC(app.HeaderConstants.DELVES, {
-			g = app.Categories.Delves,
-		}));
+		tinsert(g, app.CreateNPC(app.HeaderConstants.DELVES, app.Categories.Delves));
 	end
 
 	-- Zones
@@ -12629,8 +12627,9 @@ customWindowUpdates.Tradeskills = function(self, force, got)
 						end
 						-- recipe is learned, so cache that it's learned regardless of being craftable
 						if spellRecipeInfo and spellRecipeInfo.learned then
-							if spellRecipeInfo.disabled then
-								-- disabled recipes shouldn't be marked as known by the character (they require an 'unlock' typically to become usable)
+							-- only disabled & enable-type recipes should be un-cached when considered learned
+							if spellRecipeInfo.disabled and cachedRecipe and cachedRecipe.isEnableTypeRecipe then
+								-- disabled learned enable-type recipes shouldn't be marked as known by the character (they require an 'unlock' typically to become usable)
 								if charSpells[recipeID] then
 									charSpells[recipeID] = nil;
 									-- local link = app:Linkify(recipeID, app.Colors.ChatLink, "search:recipeID:"..recipeID);
@@ -12652,6 +12651,7 @@ customWindowUpdates.Tradeskills = function(self, force, got)
 									-- app.PrintDebug("Unlearned Disabled Recipe", link);
 								end
 							else
+								-- ignore removal of enable-type recipes when considered unlearned and not disabled
 								if cachedRecipe and cachedRecipe.isEnableTypeRecipe then
 									-- local link = app:Linkify(recipeID, app.Colors.ChatLink, "search:recipeID:"..recipeID);
 									-- app.PrintDebug("Unlearned Enable-Type Recipe", link);

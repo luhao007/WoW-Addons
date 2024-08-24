@@ -6,7 +6,7 @@
  local LSM = LibStub("LibSharedMedia-3.0")
  local self, GSA, PlaySoundFile = GladiatorlosSA, GladiatorlosSA, PlaySoundFile
  local GSA_VERSION = C_AddOns.GetAddOnMetadata("GladiatorlosSA2", "Version")
- local GSA_GAME_VERSION = "11.0"
+ local GSA_GAME_VERSION = "11.0.2"
  local GSA_EXPANSION = ""
  local gsadb
  local soundz,sourcetype,sourceuid,desttype,destuid = {},{},{},{},{}
@@ -53,7 +53,7 @@
 	--raid = L["Raid"],
 	--arena = L["Arena"],
 	--boss = L["Boss"],
-	custom = L["Custom"],
+	custom = L["Custom"], 
  }
  self.GSA_UNIT = GSA_UNIT
 
@@ -174,7 +174,7 @@
 		outputUnlock = false,
 		output_menu = "MASTER",
 		seenExperimentalWarning = false;
-
+		
 		aruaApplied = false,
 		aruaRemoved = false,
 		castStart = false,
@@ -191,9 +191,9 @@
 		interruptedfriendly = true,
 		ShatteringThrowSuccess = false,
 		penance = false,
-
+		
 		custom = {},
-	}
+	}	
  }
 
  GSA.log = function(msg) DEFAULT_CHAT_FRAME:AddMessage("|cFF33FF22GladiatorlosSA|r: "..msg) end
@@ -225,7 +225,7 @@
 			if dbDefaults.profile[spell] == nil then dbDefaults.profile[spell] = true end
 		end
 	end
-
+	
 	self.db1 = LibStub("AceDB-3.0"):New("GladiatorlosSADB",dbDefaults, "Default");
 	DEFAULT_CHAT_FRAME:AddMessage("|cff69CCF0 " .. L["GladiatorlosSA2"] .. "|r (|cffFFF569/gsa|r)" ..  "|cffFF7D0A " .. GSA_VERSION .." |r(|cff9482C9" .. GSA_GAME_VERSION .. " "  .. GSA_EXPANSION .. "|r)");
 	-- Temporarily disabling chat commands because they're broken and I am too stupid and time-constrained to fix it right now.
@@ -329,7 +329,7 @@
 		if self:Throttle("smarter",20) then
 			self.smarter = self.smarter + 1
 			if self.smarter > 30 then return end
-		else
+		else 
 			self.smarter = 0
 		end
 	end
@@ -404,7 +404,7 @@ end
 	 print(sourceName,sourceGUID,destName,destGUID,destFlags,"|cffFF7D0A" .. event.. "|r",spellName,"|cffFF7D0A" .. spellID.. "|r")
 	 print("|cffff0000timestamp|r",timestamp,"|cffff0000event|r",event,"|cffff0000hideCaster|r",hideCaster,"|cffff0000sourceGUID|r",sourceGUID,"|cffff0000sourceName|r",sourceName,"|cffff0000sourceFlags|r",sourceFlags,"|cffff0000sourceFlags2|r",sourceFlags2,"|cffff0000destGUID|r",destGUID,"|cffff0000destName|r",destName,"|cffff0000destFlags|r",destFlags,"|cffff0000destFlags2|r",destFlags2,"|cffff0000spellID|r",spellID,"|cffff0000spellName|r",spellName)
  end
-
+	
 
  function GladiatorlosSA:COMBAT_LOG_EVENT_UNFILTERED(event , ...)
 	 -- Checks if alerts should occur here.
@@ -549,7 +549,7 @@ end
  function GladiatorlosSA:UNIT_AURA(event,uid)
  	local _,currentZoneType = IsInInstance()
 
-	--if gsadb.drinking then--if uid:find("arena") and gsadb.drinking then
+	--if gsadb.drinking then--if uid:find("arena") and gsadb.drinking then 
 		if gsadb.drinking then
 			if (AuraUtil.FindAuraByName("Drinking",uid) or AuraUtil.FindAuraByName("Food",uid) or AuraUtil.FindAuraByName("Refreshment",uid) or AuraUtil.FindAuraByName("Drink",uid)) and currentZoneType == "arena" then
 				if self:Throttle(tostring(104270) .. uid, 4) then return end
@@ -581,7 +581,7 @@ function GladiatorlosSA:DUEL_REQUESTED(event, playerName)
 	opponentName = playerName
 	duelingOn = true
  end
-
+ 
  --I requested a duel to my target
  function GladiatorlosSA:CHAT_MSG_SYSTEM(event, text)
 	if string.find(text, _G.ERR_DUEL_REQUESTED ) then
@@ -591,7 +591,7 @@ function GladiatorlosSA:DUEL_REQUESTED(event, playerName)
 		end
 	end
  end
-
+ 
   -- The duel finished or was canceled
   function GladiatorlosSA:DUEL_FINISHED(event)
 	opponentName = ""
