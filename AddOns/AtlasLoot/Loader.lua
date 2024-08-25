@@ -9,6 +9,7 @@ local tbl_insert, tbl_remove = table.insert, table.remove
 -- WoW
 local GetNumAddOns, GetAddOnInfo, IsAddOnLoaded, GetAddOnMetadata = C_AddOns.GetNumAddOns, C_AddOns.GetAddOnInfo, C_AddOns.IsAddOnLoaded, C_AddOns.GetAddOnMetadata
 local GetAddOnEnableState = C_AddOns.GetAddOnEnableState
+local LoadAddOn = C_AddOns.LoadAddOn
 local GetTime = GetTime
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.

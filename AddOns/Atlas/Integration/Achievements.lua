@@ -35,14 +35,16 @@ local format = string.format
 local GetAchievementInfo, GetAchievementNumCriteria, GetAchievementCriteriaInfo, GetAchievementLink = _G.GetAchievementInfo, _G.GetAchievementNumCriteria, _G.GetAchievementCriteriaInfo, _G.GetAchievementLink
 local AchievementFrame_SelectAchievement = _G.AchievementFrame_SelectAchievement
 
+local LoadAddOn = C_AddOns.LoadAddOn
+
 -- Determine WoW TOC Version
 local WoWClassicEra, WoWClassicTBC, WoWWOTLKC, WoWRetail
 local wowversion  = select(4, GetBuildInfo())
 if wowversion < 20000 then
 	WoWClassicEra = true
-elseif wowversion < 30000 then 
+elseif wowversion < 30000 then
 	WoWClassicTBC = true
-elseif wowversion < 40000 then 
+elseif wowversion < 40000 then
 	WoWWOTLKC = true
 elseif wowversion > 90000 then
 	WoWRetail = true
@@ -59,7 +61,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)
 function addon:AchievementButtonUpdate(button, achievementID)
 	-- WOLTKC starts to introduce achievement system, so we are only skipping this for Classic Era and TBC
 	if (WoWClassicEra or WoWClassicTBC) then return end
-	
+
 	button.achievementID = achievementID
 	button.link = GetAchievementLink(achievementID) or nil
 	-- id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy = GetAchievementInfo(achievementID or categoryID, index)
@@ -113,9 +115,9 @@ end
 function addon:OpenAchievement(achievementID)
 	-- WOLTKC starts to introduce achievement system, so we are only skipping this for Classic Era and TBC
 	if (WoWClassicEra or WoWClassicTBC) then return end
-	
+
 	if not achievementID then return end
-	
+
 	if not IsAddOnLoaded("Blizzard_AchievementUI") then
 		LoadAddOn("Blizzard_AchievementUI")
 	end

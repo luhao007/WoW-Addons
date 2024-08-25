@@ -1530,7 +1530,7 @@ private.CONTAINER_GUIDE = {
 	["4464202255"] = {
 		[RSConstants.DOT..1] = { x = 0.7479, y = 0.4285, comment = AL["NOTE_446420_1"] };
 		[RSConstants.DOT..2] = { x = 0.7267, y = 0.3967, comment = AL["NOTE_446420_2"] };
-		[RSConstants.DOT..3] = { x = 0.7392, y = 0.3763, comment = AL["NOTE_446420_3"] };
+		[RSConstants.DOT..3] = { x = 0.7418, y = 0.3770, comment = AL["NOTE_446420_3"] };
 	}; --"Weaving Supplies"
 	["4464042256"] = {
 		[RSConstants.FLAG] = { x = 0.6346, y = 0.8589, comment = AL["NOTE_446404_1"] };
@@ -1746,6 +1746,7 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Sages
 	["4543322213"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4017, y = 0.3875 };
 		[RSConstants.FLAG] = { x = 0.5727, y = 0.3629, comment = AL["NOTE_REJ_DYING"] };
 	}; --Treatise on Forms: Sages
 	["4543322255"] = {
@@ -1800,6 +1801,14 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.STEP4..4] = { x = 0.3460, y = 0.5560, comment = AL["NOTE_225641_4"] };
 		[RSConstants.STEP4..5] = { x = 0.3440, y = 0.5380, comment = AL["NOTE_225641_4"] };
 	}; --Illusive Kobyss Lure
+	["4639792215"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5274, y = 0.6019 };
+	}; --Lightspark Sky Academy Gradebook
+	["4537412215"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.4101, y = 0.5079 };
+		[RSConstants.ENTRANCE..2] = { x = 0.4011, y = 0.5011 };
+		[RSConstants.ENTRANCE..3] = { x = 0.4012, y = 0.5148 };
+	}; --Loremaster's Reward
 }
 
 ---============================================================================

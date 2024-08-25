@@ -59,7 +59,7 @@ L['notable_machines_note'] = '阅读记事。'
 L['fragment_I_location'] = '在地面上。'
 L['fragment_II_location'] = '在崖边上。'
 L['fragment_III_location'] = '在建筑物顶上。'
-L['fragment_IV_location'] = '在高高的木塔上（建议使用稳定飞行来获得它）。'
+L['fragment_IV_location'] = '在高高的木塔上（建议使用稳定飞行来获得）。'
 L['fragment_V_location'] = '在楼梯顶端的拱门上。'
 L['fragment_VI_location'] = '在地面上，路灯旁边。'
 
@@ -91,6 +91,10 @@ L['gnawbles_ruby_vendor_note'] = [[从 {object:翻动过的土地} 收集 {item:
 L['options_icons_disturbed_earth'] = '翻动过的土地'
 L['options_icons_disturbed_earth_desc'] = '显示 {object:翻动过的土地} 的位置。'
 
+L['options_icons_gobblin_with_glublurp'] = '{achievement:40614}'
+L['options_icons_gobblin_with_glublurp_desc'] = '显示 {achievement:40614} 成就中的位置。'
+L['gobblin_with_glublurp_note'] = '点击一个 {dot:Red}{object:烁光水晶} 来获得 {spell:456739}。抓获一个飞在 ' .. ns.color.Orange('橙圈') .. ' 的 {npc:227138} 并把它带回给 {npc:227132}。\n\n（建议使用稳定飞行来获得）。'
+
 -------------------------------------------------------------------------------
 --------------------------------- HALLOWFALL ----------------------------------
 -------------------------------------------------------------------------------
@@ -101,6 +105,14 @@ L['dark_ritual_note'] = '与 {object:黑暗仪式} 互动并击败所有 {npc:22
 L['illuminated_footlocker_note'] = '从 {npc:220703} 处接住5个掉落的 {spell:442389} 以获得 {spell:442529} 并发现 {object:光耀提箱}。'
 L['illusive_kobyss_lure_note'] = '组合全部4个物品制造 {item:225641}：'
 L['sunless_lure_location'] = '由 {location:无晖之滨} 的 {npc:215653} 掉落。'
+L['sky_captains_sunken_cache_note'] = [[
+与四位不同的天空船长在他们的飞艇上交谈以揭示宝藏。
+
+{npc:222333}（{dot:Green}）逆时针飞行。
+{npc:222311}（{dot:Yellow}）逆时针飞行。
+{npc:222323}（{dot:Red}）顺时针飞行。
+{npc:222337}（{dot:Orange}）逆时针飞行。
+]]
 L['murkfin_lure_location'] = '由 {location:威尔汉之征} 的 {npc:213622} 掉落。它们伪装起来并使用 {npc:215623} 作为诱饵。'
 L['hungering_shimmerfin_location'] = '由 {location:饥寒之池} 的 {npc:215243} 掉落。它们伪装起来并使用 {npc:219210} 作为诱饵。'
 L['ragefin_necrostaff_location'] = '由 {location:崇圣之地} 的 {npc:213406} 掉落。'
@@ -133,7 +145,7 @@ L['biblo_book_11_location'] = '在建筑物内的桌子上。'
 L['options_icons_lost_and_found'] = '{achievement:40618}'
 L['options_icons_lost_and_found_desc'] = '显示 {achievement:40618} 成就中纪念物的位置。'
 
-L['lost_and_found_note'] = '从（{dot:Blue}）{npc:220718} 的任务 {quest:80673} 开始推进苍穹之忆故事线。{note:任务每周解锁}。\n\n每周可以完成3个纪念物，直到完成任务 {quest:82813}。'
+L['lost_and_found_note'] = '从（{dot:Red}）{npc:220718} 的任务 {quest:80673} 开始推进苍穹之忆故事线。{note:任务每周解锁}。\n\n每周可以完成3个纪念物，直到完成任务 {quest:82813}。'
 L['broken_bracelet_location'] = '将物品 {item:219810} 交给 {npc:215527}。'
 L['stuffed_lynx_toy_location'] = '将物品 {item:219809} 交给 {npc:218486}。'
 L['tarnished_compass_location'] = '将物品 {item:219524} 交给 {object:墓祭地点}。'
@@ -170,10 +182,15 @@ L['murkshade_note'] = '与 {npc:218455} 互动。'
 L['options_icons_mereldar_menace'] = '{achievement:40151}'
 L['options_icons_mereldar_menace_desc'] = '显示 {achievement:40151} 成就中的目标位置。'
 
-L['mereldar_menace_note'] = '与 {object:掷出石子} 互动并将其扔向目标。'
-L['light_and_flame_location'] = '瞄准 {object:掷出石子} 东边的 {npc:218472}。'
+L['mereldar_menace_note'] = '与 {object:飞掷之石} 互动并将其扔向目标。'
+L['light_and_flame_location'] = '{object:飞掷之石} 瞄准东边的 {npc:218472}。'
 L['lamplighter_doorway_location'] = '瞄准东边建筑物的门口。'
 L['barracks_doorway_location'] = '瞄准西边红色和金色帐篷的门口。'
+
+L['options_icons_beacon_of_hope'] = '{achievement:40308}'
+L['options_icons_beacon_of_hope_desc'] = '显示 {achievement:40308} 成就中小型钥焰的位置。'
+
+L['beacon_of_hope_note'] = '捐献 {item:206350} 来点亮小型钥焰并完成接下来的任务。'
 
 -------------------------------------------------------------------------------
 ---------------------------------- AZJ-KAHET ----------------------------------

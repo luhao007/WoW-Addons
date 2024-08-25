@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
-## Version: v3.5.36
+## Version: v3.5.39
 ## OptionalDeps: Ace3
 ## SavedVariables: BlizzMoveDB
 ## IconTexture: interface/cursor/ui-cursor-move.blp

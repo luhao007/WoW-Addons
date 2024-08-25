@@ -92,6 +92,10 @@ Chaque objet coûte 1x {item:224642}.]]
 L['options_icons_disturbed_earth'] = 'Terre retournée'
 L['options_icons_disturbed_earth_desc'] = 'Afficher les emplacements des {object:Terres retournées}.'
 
+L['options_icons_gobblin_with_glublurp'] = '{achievement:40614}'
+L['options_icons_gobblin_with_glublurp_desc'] = 'Afficher les emplacements liés au haut-fait {achievement:40614}.'
+L['gobblin_with_glublurp_note'] = 'Cliquez sur un {dot:Red}{object:Cristal scintillant} pour obtenir la {spell:456739}, puis attrapez un {npc:227138} volant dans le ' .. ns.color.Orange('Cercle orange') .. ' et rapportez le à {npc:227132}.\n\n(Le Vol Régulier est recommandé pour l\'obenir plus facilement).'
+
 -------------------------------------------------------------------------------
 --------------------------------- HALLOWFALL ----------------------------------
 -------------------------------------------------------------------------------
@@ -102,6 +106,14 @@ L['dark_ritual_note'] = 'Interagissez avec le {object:Rituel des ténèbres} et 
 L['illuminated_footlocker_note'] = 'Attrapez 5x {spell:442389} chutant depuis la {npc:220703} pour recevoir l\'{spell:442529} et faire apparaître la {object:Cantine illuminée}.'
 L['illusive_kobyss_lure_note'] = 'Combinez les 4 objets pour créer l\'{item:225641} :'
 L['sunless_lure_location'] = 'Obtenu sur les {npc:215653} à la {location:Grève Sans-Soleil}.'
+L['sky_captains_sunken_cache_note'] = [[
+Parlez à quatre Capitaines des cieux différents à bord de leurs dirigeables pour révéler le trésor.
+
+{npc:222333} ({dot:Green}) vole dans le sens inverse des aiguilles d'une montre.
+{npc:222311} ({dot:Yellow}) vole dans le sens inverse des aiguilles d'une montre.
+{npc:222323} ({dot:Red}) vole dans le sens des aiguilles d'une montre.
+{npc:222337} ({dot:Orange}) vole dans le sens inverse des aiguilles d'une montre.
+]]
 L['murkfin_lure_location'] = 'Obtenu sur les {npc:213622} à la {location:Prétention de Velhan}. Ils sont camouflés et utilisent un {npc:215623} comme appât.'
 L['hungering_shimmerfin_location'] = 'Obtenu sur les {npc:215243} au {location:Bassin Dévorant}. Ils sont camouflés et utilisent un {npc:219210} comme appât.'
 L['ragefin_necrostaff_location'] = 'Obtenu sur les {npc:213406} au {location:Terrain d\'Adulation}.'
@@ -134,7 +146,7 @@ L['biblo_book_11_location'] = 'A l\'intérieur du bâtiment sur une table.'
 L['options_icons_lost_and_found'] = '{achievement:40618}'
 L['options_icons_lost_and_found_desc'] = 'Afficher les emplacements des souvenirs perdus pour le haut-fait {achievement:40618}.'
 
-L['lost_and_found_note'] = 'Progressez dans le chapitre d\'histoire Les souvenirs du ciel commençant par la quête {quest:80673} donnée par ({dot:Blue}) {npc:220718}. {note:Les quêtes se débloquent chaque semaine}.\n\n3 souvenirs peuvent être complétés chaque semaine, jusqu\'à ce que vous terminiez la quête {quest:82813}.'
+L['lost_and_found_note'] = 'Progressez dans le chapitre d\'histoire Les souvenirs du ciel commençant par la quête {quest:80673} donnée par ({dot:Red}) {npc:220718}. {note:Les quêtes se débloquent chaque semaine}.\n\n3 souvenirs peuvent être complétés chaque semaine, jusqu\'à ce que vous terminiez la quête {quest:82813}.'
 L['broken_bracelet_location'] = 'Apportez le {item:219810} à {npc:215527}.'
 L['stuffed_lynx_toy_location'] = 'Apportez le {item:219809} à {npc:218486}.'
 L['tarnished_compass_location'] = 'Apportez la {item:219524} au {object:Lieu d\'offrande funéraire}.'
@@ -175,6 +187,11 @@ L['mereldar_menace_note'] = 'Interagissez avec la {object:Pierre de lancer} et j
 L['light_and_flame_location'] = 'Visez le {npc:218472} à l\'est de la {object:Pierre de lancer}.'
 L['lamplighter_doorway_location'] = 'Visez la porte du bâtiment à l\'est.'
 L['barracks_doorway_location'] = 'Visez la porte de la tente rouge et or à l\'ouest.'
+
+L['options_icons_beacon_of_hope'] = '{achievement:40308}'
+L['options_icons_beacon_of_hope_desc'] = 'Afficher les emplacements des flammeclés inférieures pour le haut fait {achievement:40308}.'
+
+L['beacon_of_hope_note'] = 'Donnez des {item:206350} pour allumer les flammeclés inférieures et achever les quêtes suivantes.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- AZJ-KAHET ----------------------------------

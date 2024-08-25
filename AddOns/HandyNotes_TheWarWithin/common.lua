@@ -30,6 +30,12 @@ ns.groups.BIBLO_ARCHIVIST = Group('biblo_archivist', 5341597, {
     achievement = 40622
 })
 
+ns.groups.BEACON_OF_HOPE = Group('beacon_of_hope', 135922, {
+    defaults = ns.GROUP_HIDDEN,
+    type = ns.group_types.ACHIEVEMENT,
+    achievement = 40308
+})
+
 ns.groups.FLAT_EARTHEN = Group('flat_earthen', 4620670, {
     defaults = ns.GROUP_HIDDEN,
     type = ns.group_types.ACHIEVEMENT,
@@ -94,6 +100,12 @@ ns.groups.ROCKED_TO_SLEEP = Group('rocked_to_sleep', 5788303, {
     defaults = ns.GROUP_HIDDEN,
     type = ns.group_types.ACHIEVEMENT,
     achievement = 40504
+})
+
+ns.groups.GOBBLIN_WITH_GLUBLURP = Group('gobblin_with_glublurp', 5763494, {
+    defaults = ns.GROUP_HIDDEN,
+    type = ns.group_types.ACHIEVEMENT,
+    achievement = 40614
 })
 
 -- ns.groups.SAFARI = Group('safari', 4048818, {

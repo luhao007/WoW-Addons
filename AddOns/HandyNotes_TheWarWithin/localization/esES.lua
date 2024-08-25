@@ -91,6 +91,10 @@ Cada objeto cuesta 1x {item:224642}.]]
 L['options_icons_disturbed_earth'] = 'Tierra Revuelta'
 L['options_icons_disturbed_earth_desc'] = 'Muestra dónde están las {object:Tierra Revuelta}.'
 
+L['options_icons_gobblin_with_glublurp'] = '{achievement:40614}'
+L['options_icons_gobblin_with_glublurp_desc'] = 'Muestra los lugares para el logro {achievement:40614}.'
+L['gobblin_with_glublurp_note'] = 'Haz Click en un {dot:Red}{object:Cristal Trémulo} para ganar {spell:456739}. Coge una {npc:227138} volando en el ' .. ns.color.Orange('Círculo Naranja') .. ' y llévasela a {npc:227132}.\n\n(Se recomienda Vuelo Constante para conseguilo).'
+
 -------------------------------------------------------------------------------
 --------------------------------- HALLOWFALL ----------------------------------
 -------------------------------------------------------------------------------
@@ -101,6 +105,14 @@ L['dark_ritual_note'] = 'Interactúa con el {object:Ritual Oscuro} y derrota a {
 L['illuminated_footlocker_note'] = 'Consigue 5x {spell:442389} que caen de {npc:220703} para conseguir {spell:442529} y descubrir el {object:Baúl Iluminado}.'
 L['illusive_kobyss_lure_note'] = 'Combina los 4 objetos para crear {item:225641}:'
 L['sunless_lure_location'] = 'Se despoja de {npc:215653} en la {location:Playa del Sol Ausente}.'
+L['sky_captains_sunken_cache_note'] = [[
+Habla con los cuatro capitanes diferentes en sus navíos voladores para conseguir el tesoro.
+
+{npc:222333} ({dot:Green}) vuela en sentido antihorario.
+{npc:222311} ({dot:Yellow}) vuela en sentido antihorario.
+{npc:222323} ({dot:Red}) vuela en sentido horario.
+{npc:222337} ({dot:Orange}) vuela en sentido antihorario.
+]]
 L['murkfin_lure_location'] = 'Se despoja de {npc:213622} en {location:Reclamación de Velhan}. Están camuflados y has de usar {npc:215623} como cebo.'
 L['hungering_shimmerfin_location'] = 'Se despoja de {npc:215243} en el {location:Charco Hambriento}. Están camuflados y has de usar {npc:219210} como cebo.'
 L['ragefin_necrostaff_location'] = 'Se despoja de {npc:213406} en las {location:Tierras de Veneración}.'
@@ -133,7 +145,7 @@ L['biblo_book_11_location'] = 'Dentro del edificio sobre una mesa.'
 L['options_icons_lost_and_found'] = '{achievement:40618}'
 L['options_icons_lost_and_found_desc'] = 'Muestra dónde están todos los recuerdos del logro {achievement:40618}.'
 
-L['lost_and_found_note'] = 'Progresa en la cadena de misiones Recuerdos del Cielo que empieza con {quest:80673} que te da ({dot:Blue}) {npc:220718}. {note:Las misiones se desbloquean semanalmente}.\n\nCada semana se han de completar 3 recuerdos, hasta completar la misión {quest:80678}.'
+L['lost_and_found_note'] = 'Progresa en la cadena de misiones Recuerdos del Cielo que empieza con {quest:80673} que te da ({dot:Red}) {npc:220718}. {note:Las misiones se desbloquean semanalmente}.\n\nCada semana se han de completar 3 recuerdos, hasta completar la misión {quest:80678}.'
 L['broken_bracelet_location'] = 'Entrega {item:219810} a {npc:215527}.'
 L['stuffed_lynx_toy_location'] = 'Entrega {item:219809} a {npc:218486}.'
 L['tarnished_compass_location'] = 'Entrega {item:219524} a {object:Ubicación de la Ofrenda de Tumba}.'
@@ -174,6 +186,11 @@ L['mereldar_menace_note'] = 'Interactúa con la {object:Piedra Arrojadiza} y lá
 L['light_and_flame_location'] = 'Apunta hacia {npc:218472} al este de la {object:Piedra Arrojadiza}.'
 L['lamplighter_doorway_location'] = 'Apunta a la entrada del edificio al este.'
 L['barracks_doorway_location'] = 'Apunta a la puerta de la tienda roja y dorada al oeste.'
+
+L['options_icons_beacon_of_hope'] = '{achievement:40308}'
+L['options_icons_beacon_of_hope_desc'] = 'Muestra dónde están las llaves ardientes inferiores para el logro {achievement:40308}.'
+
+L['beacon_of_hope_note'] = 'Contribuye con {item:206350} para encender las llaves ardientes inferiores y completar las misiones siguientes.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- AZJ-KAHET ----------------------------------

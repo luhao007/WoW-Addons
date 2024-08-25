@@ -48,7 +48,8 @@ map.nodes[15004000] = Rare({
         POI({
             25825754, 32673962, 37207191, 37744585, 38382474, 42733133,
             45252569, 47015504, 48853197, 50514857, 51427080, 54833679,
-            58034885, 60451862, 61380753, 62823857, 68123014, 71976558, 72804152
+            58034885, 58612883, 60451862, 61380753, 62823857, 68123014,
+            71976558, 72804152
         })
     }
 }) -- Beledar's Spawn
@@ -106,6 +107,7 @@ map.nodes[72116435] = Rare({
 map.nodes[63931977] = Rare({
     id = 221179,
     quest = 82562, -- 84056
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40851, criteria = 69724})}
 }) -- Duskshadow
 
@@ -247,7 +249,7 @@ map.nodes[73405259] = Rare({
     rewards = {Achievement({id = 40851, criteria = 69709})}
 }) -- Sloshmuck
 
-map.nodes[42703134] = Rare({
+map.nodes[43602994] = Rare({
     id = 221690,
     quest = 81849, -- 84066
     rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
@@ -392,7 +394,14 @@ end
 map.nodes[55362720] = IllusiveKobyssLure({
     label = '{item:225554}',
     location = L['sunless_lure_location'],
-    pois = {POI({54962723, 54632815, 53532879, 53462991, 53942986, 53782639})}
+    pois = {
+        POI({
+            color = 'Yellow',
+            points = {
+                54962723, 54632815, 53532879, 53462991, 53942986, 53782639
+            }
+        })
+    }
 }) -- Sunless Lure
 
 map.nodes[47611854] = IllusiveKobyssLure({
@@ -400,9 +409,12 @@ map.nodes[47611854] = IllusiveKobyssLure({
     location = L['murkfin_lure_location'],
     pois = {
         POI({
-            46421831, 46271596, 45961566, 45171463, 44791220, 44531189,
-            44931131, 44991046, 46281055, 46471247, 46581366, 47061512,
-            48191456, 47941494, 48301671, 48221749, 44191467, 43731380
+            color = 'Orange',
+            points = {
+                46421831, 46271596, 45961566, 45171463, 44791220, 44531189,
+                44931131, 44991046, 46281055, 46471247, 46581366, 47061512,
+                48191456, 47941494, 48301671, 48221749, 44191467, 43731380
+            }
         })
     }
 }) -- Murkfin Lure
@@ -410,7 +422,12 @@ map.nodes[47611854] = IllusiveKobyssLure({
 map.nodes[50655037] = IllusiveKobyssLure({
     label = '{item:225559}',
     location = L['hungering_shimmerfin_location'],
-    pois = {POI({51914861, 51475176, 50765233, 49194822, 50674744})}
+    pois = {
+        POI({
+            color = 'Red',
+            points = {51914861, 51475176, 50765233, 49194822, 50674744}
+        })
+    }
 }) -- Hungering Shimmerfin
 
 map.nodes[34965465] = IllusiveKobyssLure({
@@ -449,12 +466,16 @@ map.nodes[30233875] = Treasure({
 
 map.nodes[45944513] = Treasure({
     quest = 82005,
+    location = L['in_water'],
+    note = L['sky_captains_sunken_cache_note'],
     rewards = {
-        Achievement({id = 40848, criteria = 69700}), Toy({item = 224554})
+        Achievement({id = 40848, criteria = 69700}), --
+        Toy({item = 224554}) -- Silver Linin' Scepter
     },
     pois = {
         Path({
             color = 'Green',
+            quest = 82012,
             points = {
                 50285167, 51255187, 52245197, 53275188, 54235171, 55115155,
                 56055131, 56855106, 57785082, 58705052, 59655013, 60654982,
@@ -467,9 +488,11 @@ map.nodes[45944513] = Treasure({
                 43643960, 43574073, 43594183, 43774286, 44074387, 44454486,
                 44824577, 45204669, 45634760, 46134845, 46674913, 47304976,
                 47955033, 48605083, 49395131, 50285167
-            } -- Sky-Captain Dornald
-        }), Path({
+            }
+        }), -- Sky-Captain Dornald
+        Path({
             color = 'Yellow',
+            quest = 82024,
             points = {
                 49245744, 49365640, 49535553, 49615452, 49755337, 49715233,
                 49445133, 49025041, 48524957, 47974878, 47424805, 46834738,
@@ -485,7 +508,8 @@ map.nodes[45944513] = Treasure({
             }
         }), -- Sky-Captain Clarmonte
         Path({
-            color = 'Blue',
+            color = 'Orange',
+            quest = 82026,
             points = {
                 53482382, 53772273, 54022179, 54302070, 54541971, 54771878,
                 54971791, 55241702, 55471615, 55521503, 55371398, 55171293,
@@ -501,6 +525,7 @@ map.nodes[45944513] = Treasure({
         }), -- Sky-Captain Onaro
         Path({
             color = 'Red',
+            quest = 82025,
             points = {
                 41954204, 41204260, 40264305, 39344337, 38384359, 37434363,
                 36434356, 35434348, 34494339, 33554319, 32624282, 31664252,
@@ -516,8 +541,6 @@ map.nodes[45944513] = Treasure({
             }
         }) -- Sky-Captain Aerthin
     }
-    -- you might have to talk to 4 Sky-Captains on flying boats to unlock this treasure
-    -- hidden quests after talking to the captains: 82012, 82024, 82025, 82026
 }) -- Sky-Captains' Sunken Cache
 
 map.nodes[55135193] = Treasure({
@@ -536,6 +559,7 @@ map.nodes[55135193] = Treasure({
 map.nodes[76765382] = Treasure({ -- review, was not there when i looked
     quest = 79275,
     location = L['in_cave'],
+    rlabel = ReputationGain(150, 2570), -- Hallowfall Arathi
     rewards = {Achievement({id = 40848, criteria = 69702})},
     pois = {POI({76105390})} -- Entrance
 }) -- Spore-covered Coffer
@@ -555,6 +579,35 @@ map.nodes[63990612] = Treasure({
 --         Item({item = 206350}), -- Radiant Remnant
 --     }
 -- }) -- Fisherman's Pouch
+
+-------------------------------------------------------------------------------
+--------------------------------- BATTLE PETS ---------------------------------
+-------------------------------------------------------------------------------
+
+map.nodes[52436278] = ns.node.PetBattle({
+    id = 223442,
+    rewards = {
+        Achievement({id = 40153, criteria = 67137, oneline = true}), -- Battle on Khaz Algar
+        ns.reward.Spacer(),
+        Achievement({id = 40154, criteria = 67141, oneline = true}), -- Aquatic Battler of Khaz Algar
+        Achievement({id = 40155, criteria = 67145, oneline = true}), -- Beast Battler of Khaz Algar
+        Achievement({id = 40156, criteria = 67149, oneline = true}), -- Critter Battler of Khaz Algar
+        Achievement({id = 40157, criteria = 67153, oneline = true}), -- Dragonkin Battler of Khaz Algar
+        Achievement({id = 40158, criteria = 67157, oneline = true}), -- Elemental Battler of Khaz Algar
+        Achievement({id = 40161, criteria = 67161, oneline = true}), -- Flying Battler of Khaz Algar
+        Achievement({id = 40162, criteria = 67164, oneline = true}), -- Humanoid Battler of Khaz Algar
+        Achievement({id = 40163, criteria = 67168, oneline = true}), -- Magic Battler of Khaz Algar
+        Achievement({id = 40164, criteria = 67172, oneline = true}), -- Mechanical Battler of Khaz Algar
+        Achievement({id = 40165, criteria = 67176, oneline = true}) -- Undead Battler of Khaz Algar
+    }
+}) -- Kyrie
+
+map.nodes[61066899] = ns.node.PetBattle({
+    id = 223409,
+    rewards = {
+        Achievement({id = 40153, criteria = 67133, oneline = true}) -- Battle on Khaz Algar
+    }
+}) -- Guttergunk
 
 -------------------------------------------------------------------------------
 ----------------------------- PROFESSION TREASURES ----------------------------
@@ -697,60 +750,60 @@ local Momento = Class('Momento', Collectible, {
     icon = 4635200,
     group = ns.groups.LOST_AND_FOUND,
     note = L['lost_and_found_note'],
-    pois = {POI({60486018})}
+    pois = {POI({60486018, color = 'Red'})} -- Maera Ashyld
 })
 
 map.nodes[65463222] = Momento({
     location = L['broken_bracelet_location'],
-    requires = ns.requirement.Quest(80678),
+    requires = ns.requirement.Quest(80678), -- Time Lost
     rewards = {Achievement({id = 40618, criteria = 68932})}
 }) -- Broken Bracelet
 
 map.nodes[43285542] = Momento({
     location = L['stuffed_lynx_toy_location'],
-    requires = ns.requirement.Quest(80678),
+    requires = ns.requirement.Quest(80678), -- Time Lost
     rewards = {Achievement({id = 40618, criteria = 68933})}
 }) -- Stuffed Lynx Toy
 
 map.nodes[43465171] = Momento({
     location = L['tarnished_compass_location'],
-    requires = ns.requirement.Quest(80678),
+    requires = ns.requirement.Quest(80678), -- Time Lost
     rewards = {Achievement({id = 40618, criteria = 68934})}
 }) -- Tarnished Compass
 
 map.nodes[43204979] = Momento({
     location = L['sturdy_locket_location'],
-    requires = ns.requirement.Quest(82813),
+    requires = ns.requirement.Quest(82813), -- Time Borrowed
     rewards = {Achievement({id = 40618, criteria = 68935})}
 }) -- Sturdy Locket
 
 map.nodes[69264384] = Momento({
     location = L['wooden_figure_location'],
-    requires = ns.requirement.Quest(82813),
+    requires = ns.requirement.Quest(82813), -- Time Borrowed
     rewards = {Achievement({id = 40618, criteria = 68937})}
 }) -- Wooden Figure
 
 map.nodes[48423888] = Momento({
     location = L['calcified_journal_location'],
-    requires = ns.requirement.Quest(82813),
+    requires = ns.requirement.Quest(82813), -- Time Borrowed
     rewards = {Achievement({id = 40618, criteria = 68940})}
 }) -- Calcified Journal
 
 map.nodes[41643474] = Momento({
     location = L['ivory_tinderbox_location'],
-    requires = ns.requirement.Quest(82810),
+    requires = ns.requirement.Quest(82810), -- Time Found
     rewards = {Achievement({id = 40618, criteria = 68942})}
 }) -- Ivory Tinderbox
 
 map.nodes[42355502] = Momento({
     location = L['dented_spear_location'],
-    requires = ns.requirement.Quest(82810),
+    requires = ns.requirement.Quest(82810), -- Time Found
     rewards = {Achievement({id = 40618, criteria = 68943})}
 }) -- Dented Spear
 
 map.nodes[43974970] = Momento({
     location = L['filigreed_cleric_location'],
-    requires = ns.requirement.Quest(82810),
+    requires = ns.requirement.Quest(82810), -- Time Found
     rewards = {Achievement({id = 40618, criteria = 68945})}
 }) -- Filigreed Cleric
 
@@ -795,6 +848,7 @@ map.nodes[69274372] = MissingLynx({
 }) -- Iggy
 
 map.nodes[63182936] = MissingLynx({
+    requires = ns.requirement.Item(206350, 3), -- Radiant Remnant
     location = L['nightclaw_location'],
     rewards = {Achievement({id = 40625, criteria = 69003})}
 }) -- Nightclaw
@@ -983,3 +1037,111 @@ map.nodes[44147539] = DisturbedEarth()
 map.nodes[44537632] = DisturbedEarth()
 map.nodes[44947610] = DisturbedEarth()
 
+-------------------------------------------------------------------------------
+------------------------- ACHIEVEMENT: BEACON OF HOPE -------------------------
+-------------------------------------------------------------------------------
+
+local BeaconOfHope = Class('beacon_of_hope', Collectible, {
+    icon = 135922,
+    group = ns.groups.BEACON_OF_HOPE,
+    note = L['beacon_of_hope_note']
+})
+
+-- TODO: Add Missing criterias
+-- {id = 67677}, -- Blossoming Delight
+-- {id = 67679}, -- Seeds of Salvation
+-- {id = 67680}, -- Tater Trawl
+
+map.nodes[65392809] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67681} -- Right Between the Gyro-Optics
+            }
+        })
+    }
+})
+
+map.nodes[63322942] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67684}, -- Web of Manipulation
+                {id = 67685} -- Supply the Effort
+            }
+        })
+    }
+})
+
+map.nodes[64553057] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67682}, -- Lost in Shadows
+                {id = 67683} -- Sporadic Growth
+            }
+        })
+    }
+})
+
+map.nodes[63643363] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67673}, -- Harvest Havoc
+                {id = 67674} -- Squashing the Threat
+            }
+        })
+    }
+})
+
+map.nodes[64423093] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67676}, -- The Sweet Eclipse
+                {id = 67675} -- Shadows of Flavor
+            }
+        })
+    }
+})
+
+map.nodes[65822443] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67672}, -- Hose It Down
+                {id = 67671} -- Chew On That
+            }
+        })
+    }
+})
+
+map.nodes[64371873] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67669}, -- Lizard Looters
+                {id = 67670} -- Glow in the Dark
+            }
+        })
+    }
+})
+
+map.nodes[61501747] = BeaconOfHope({
+    rewards = {
+        Achievement({
+            id = 40308,
+            criteria = {
+                {id = 67668} -- Crab Grab
+            }
+        })
+    }
+})

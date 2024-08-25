@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Arta
-## Version: r143
+## Version: r144
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWotLK_AllSavedVars

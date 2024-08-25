@@ -91,6 +91,10 @@ Each item costs 1x {item:224642}.]]
 L['options_icons_disturbed_earth'] = 'Disturbed Earth'
 L['options_icons_disturbed_earth_desc'] = 'Display locations of {object:Disturbed Earth}.'
 
+L['options_icons_gobblin_with_glublurp'] = '{achievement:40614}'
+L['options_icons_gobblin_with_glublurp_desc'] = 'Display locations for {achievement:40614} achievement.'
+L['gobblin_with_glublurp_note'] = 'Click on a {dot:Red}{object:Glimmering Crystal} to gain {spell:456739}. Catch a {npc:227138} flying in the ' .. ns.color.Orange('Orange Circle') .. ' and bring it to {npc:227132}.\n\n(Steady Flying is recommended to get this).'
+
 -------------------------------------------------------------------------------
 --------------------------------- HALLOWFALL ----------------------------------
 -------------------------------------------------------------------------------
@@ -101,6 +105,14 @@ L['dark_ritual_note'] = 'Interact with the {object:Dark Ritual} and defeat all t
 L['illuminated_footlocker_note'] = 'Catch 5x falling {spell:442389} from the {npc:220703} to receive {spell:442529} and reveal the {object:Illuminated Footlocker}.'
 L['illusive_kobyss_lure_note'] = 'Combine all 4 items to create {item:225641}:'
 L['sunless_lure_location'] = 'Dropped by {npc:215653} on the {location:Sunless Strand}.'
+L['sky_captains_sunken_cache_note'] = [[
+Speak with four different Sky-Captains on their airships to reveal the treasure.
+
+{npc:222333} ({dot:Green}) flies counterclockwise.
+{npc:222311} ({dot:Yellow}) flies counterclockwise.
+{npc:222323} ({dot:Red}) flies clockwise.
+{npc:222337} ({dot:Orange}) flies counterclockwise.
+]]
 L['murkfin_lure_location'] = 'Dropped by {npc:213622} on {location:Velhan\'s Claim}. They are camouflaged and use an {npc:215623} as bait.'
 L['hungering_shimmerfin_location'] = 'Dropped by {npc:215243} in {location:The Hungering Pool}. They are camouflaged and use an {npc:219210} as bait.'
 L['ragefin_necrostaff_location'] = 'Dropped by {npc:213406} at the {location:Veneration Grounds}.'
@@ -133,7 +145,7 @@ L['biblo_book_11_location'] = 'Inside the building on a table.'
 L['options_icons_lost_and_found'] = '{achievement:40618}'
 L['options_icons_lost_and_found_desc'] = 'Display memento locations for {achievement:40618} achievement.'
 
-L['lost_and_found_note'] = 'Progress the Memories of the Sky storyline starting with the quest {quest:80673} from ({dot:Blue}) {npc:220718}. {note:The quests unlock weekly}.\n\n3 mementos can be completed each week, until complete the quest {quest:82813}.'
+L['lost_and_found_note'] = 'Progress the Memories of the Sky storyline starting with the quest {quest:80673} from ({dot:Red}) {npc:220718}. {note:The quests unlock weekly}.\n\n3 mementos can be completed each week, until complete the quest {quest:82813}.'
 L['broken_bracelet_location'] = 'Hand in the item {item:219810} to {npc:215527}.'
 L['stuffed_lynx_toy_location'] = 'Hand in the item {item:219809} to {npc:218486}.'
 L['tarnished_compass_location'] = 'Hand in the item {item:219524} to {object:Grave Offering Location}.'
@@ -174,6 +186,11 @@ L['mereldar_menace_note'] = 'Interact with {object:Throwing Stone} and throw it 
 L['light_and_flame_location'] = 'Aim towards the {npc:218472} east of the {object:Throwing Stone}.'
 L['lamplighter_doorway_location'] = 'Aim at the doorway of the building to the east.'
 L['barracks_doorway_location'] = 'Aim at the doorway of the red and gold tent to the west.'
+
+L['options_icons_beacon_of_hope'] = '{achievement:40308}'
+L['options_icons_beacon_of_hope_desc'] = 'Display lesser keyflame locations for the {achievement:40308} achievement.'
+
+L['beacon_of_hope_note'] = 'Contribute {item:206350} to light lesser keyflames and complete the following quests.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- AZJ-KAHET ----------------------------------

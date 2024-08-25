@@ -57,7 +57,7 @@ map.nodes[37924284] = Rare({
 map.nodes[70722147] = Rare({
     id = 216042,
     quest = 81704, -- 84073
-    note = L['in_small_cave'],
+    note = L['in_waterfall_cave'],
     -- ReputationGain(50, 2601), -- The Weaver
     -- ReputationGain(50, 2605), -- The General
     -- ReputationGain(50, 2607), -- The Vizier
@@ -98,7 +98,10 @@ map.nodes[61232730] = Rare({
     id = 216041,
     quest = 81699, -- One Time Kill
     note = L['in_building'],
-    rewards = {Achievement({id = 40840, criteria = 69655})}
+    rewards = {
+        Achievement({id = 40840, criteria = 69655}),
+        Transmog({item = 223369, slot = L['back']}) -- Webspeaker's Spiritual Cloak
+    }
 }) -- Webspeaker Grik'ik
 
 akl.nodes[65198283] = Rare({
@@ -312,7 +315,10 @@ cot.nodes[31642077] = Treasure({
 
 map.nodes[49554370] = Treasure({
     quest = 82529,
-    rewards = {Achievement({id = 40828, criteria = 69645})}
+    rewards = {
+        Achievement({id = 40828, criteria = 69645}),
+        Pet({item = 221760, id = 4513}) -- Bonedrinker
+    }
 }) -- Nest Egg
 
 map.nodes[54525081] = Treasure({
@@ -368,6 +374,36 @@ map.nodes[34056102] = Treasure({
     -- ReputationGain(50, 2607), -- The Vizier
     rewards = {Achievement({id = 40828, criteria = 70381})}
 }) -- Concealed Contraband -- Web Cocoon
+
+-------------------------------------------------------------------------------
+--------------------------------- BATTLE PETS ---------------------------------
+-------------------------------------------------------------------------------
+
+cotl.nodes[61263699] = ns.node.PetBattle({
+    id = 223443,
+    parent = {cot.id, map.id},
+    rewards = {
+        Achievement({id = 40153, criteria = 67138, oneline = true}), -- Battle on Khaz Algar
+        ns.reward.Spacer(),
+        Achievement({id = 40154, criteria = 67142, oneline = true}), -- Aquatic Battler of Khaz Algar
+        Achievement({id = 40155, criteria = 67146, oneline = true}), -- Beast Battler of Khaz Algar
+        Achievement({id = 40156, criteria = 67150, oneline = true}), -- Critter Battler of Khaz Algar
+        Achievement({id = 40157, criteria = 67154, oneline = true}), -- Dragonkin Battler of Khaz Algar
+        Achievement({id = 40158, criteria = 67158, oneline = true}), -- Elemental Battler of Khaz Algar
+        Achievement({id = 40161, criteria = 67162, oneline = true}), -- Flying Battler of Khaz Algar
+        Achievement({id = 40162, criteria = 67165, oneline = true}), -- Humanoid Battler of Khaz Algar
+        Achievement({id = 40163, criteria = 67169, oneline = true}), -- Magic Battler of Khaz Algar
+        Achievement({id = 40164, criteria = 67173, oneline = true}), -- Mechanical Battler of Khaz Algar
+        Achievement({id = 40165, criteria = 67177, oneline = true}) -- Undead Battler of Khaz Algar
+    }
+}) -- Collector Dyna
+
+map.nodes[53093158] = ns.node.PetBattle({
+    id = 223406,
+    rewards = {
+        Achievement({id = 40153, criteria = 67134, oneline = true}) -- Battle on Khaz Algar
+    }
+}) -- Zaedu
 
 -------------------------------------------------------------------------------
 ----------------------------- PROFESSION TREASURES ----------------------------

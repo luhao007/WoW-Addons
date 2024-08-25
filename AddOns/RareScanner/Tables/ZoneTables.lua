@@ -26,7 +26,7 @@ private.CONTINENT_ZONE_IDS = {
 	[9996] = { zonefilter = true, npcfilter = true, zones = {366,508,764,850,909,2047,2166} }; --Raids
 	[9995] = { zonefilter = false, npcfilter = true, zones = {0} }; --Unknown
 	[9994] = { zonefilter = true, npcfilter = false, zones = {981,1022,1032,1033,1034,1035,1036,1037,1336,1337,1501,1502} }; --Expedition islands
-	[9993] = { zonefilter = true, npcfilter = false, zones = {2302,2310,2312,2347,2249,2250,2251,2269,2277,2300,2302,2310,2347} }; --Delves
+	[9993] = { zonefilter = true, npcfilter = false, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347} }; --Delves
 }
 
 private.SUBZONES_IDS = {

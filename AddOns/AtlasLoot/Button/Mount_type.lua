@@ -16,6 +16,7 @@ local str_match = string.match
 -- WoW
 local C_MountJournal = _G.C_MountJournal
 local C_MountJournal_GetMountInfo, C_MountJournal_GetMountInfoExtra = C_MountJournal.GetMountInfoByID, C_MountJournal.GetMountInfoExtraByID
+local LoadAddOn = C_AddOns.LoadAddOn
 
 local MOUNT_FACTION_TEXTURES = {
     [0] = "MountJournalIcons-Horde",
@@ -39,13 +40,13 @@ function Mount.OnSet(button, second)
 				GoTo = true,
 			},
 		},
-		AtlasLoot.db.Button.Mount.ClickHandler, 
+		AtlasLoot.db.Button.Mount.ClickHandler,
 		{
 			{ "GoTo",		AL["Show Mount in Journal"],			AL["Show Mount in Journal"] },
 		})
 	end
 	if not button then return end
-	
+
 	local setButton, setTable
 	if second and button.__atlaslootinfo.secType then
 		setButton = button.secButton
@@ -54,7 +55,7 @@ function Mount.OnSet(button, second)
 		setButton = button
 		setTable = button.__atlaslootinfo
 	end
-	
+
 	if type(setTable[2]) == "table" then
 		if not setTable[2][1] and not setTable[2][2] then
 			error("Unknown mount!")
@@ -90,7 +91,7 @@ function Mount.OnClear(button)
 	button.secButton.ItemID = nil
 	button.MountIndex = nil
 	button.secButton.MountIndex = nil
-	
+
 	button.info = nil
 	button.secButton.info = nil
 
@@ -110,7 +111,7 @@ function Mount.OnMouseAction(button, mouseButton)
 		if not IsAddOnLoaded("Blizzard_Collections") then
 			LoadAddOn("Blizzard_Collections")
 		end
-		
+
 		ShowUIPanel(CollectionsJournal)
 		CollectionsJournal_SetTab(CollectionsJournal, 1)
 		MountJournal_SelectByMountID(C_MountJournal.GetMountFromSpell(button.MountID))
@@ -122,9 +123,9 @@ function Mount.OnEnter(button)
 end
 
 function Mount.OnLeave(button)
-	if Mount.tooltipFrame then 
-		Mount.tooltipFrame:Hide() 
-		
+	if Mount.tooltipFrame then
+		Mount.tooltipFrame:Hide()
+
 	end
 	if button.ItemID then Item.OnLeave(button) end
 end
@@ -134,22 +135,22 @@ function Mount.Refresh(button)
 	local creatureDisplayID, descriptionText, sourceText = C_MountJournal_GetMountInfoExtra(button.MountIndex)
 
 	if button.type == "secButton" then
-		
+
 	else
 		button.name:SetText(name)
 		button.extra:SetText(MOUNT_LOC)
 	end
-	
+
 	button.overlay:Show()
 	button.overlay:SetTexture(MOUNT_OVERLAY)
 	button.overlay:SetTexCoord(0.41992188, 0.52343750, 0.02246094, 0.07519531)
 	button.overlay:SetHeight(button.icon:GetHeight()*1.2)
 	button.overlay:SetWidth(button.icon:GetWidth()*1.2)
-	
+
 	button.icon:SetTexture(icon or NO_MOUNT_TEXTURE)
-	
+
 	button.info = { name, icon, creatureDisplayID, descriptionText, sourceText, isFactionSpecific, faction }
-	
+
 	return true
 end
 
@@ -177,30 +178,30 @@ MountJournal.MountDisplay.ModelFrame:SetDisplayInfo(creatureDisplayID)
 
 function Mount.ShowToolTipFrame(button)
 
-	if not Mount.tooltipFrame then 
+	if not Mount.tooltipFrame then
 		local name = "AtlasLoot-MountToolTip"
 		local frame = CreateFrame("Frame", name, nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame:SetClampedToScreen(true)
 		frame:SetSize(300, 50)
 		frame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-							edgeFile = "Interface/Tooltips/UI-Tooltip-Border", 
-							tile = true, tileSize = 16, edgeSize = 16, 
+							edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+							tile = true, tileSize = 16, edgeSize = 16,
 							insets = { left = 4, right = 4, top = 4, bottom = 4 }})
 		frame:SetBackdropColor(0,0,0,1)
-		
+
 		frame.icon = frame:CreateTexture(name.."-icon", "ARTWORK")
 		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
 		frame.icon:SetHeight(26)
 		frame.icon:SetWidth(26)
 		frame.icon:SetTexture(NO_MOUNT_TEXTURE)
-		
+
 		frame.name = frame:CreateFontString(name.."-name", "ARTWORK", "GameFontNormal")
 		frame.name:SetPoint("TOPLEFT", frame.icon, "TOPRIGHT", 3, 0)
 		frame.name:SetJustifyH("LEFT")
 		frame.name:SetWidth(250)
 		--frame.name:SetHeight(12)
 		frame.name:SetTextColor(1, 1, 1, 1)
-		
+
 		frame.source = frame:CreateFontString(name.."-source", "ARTWORK", "GameFontNormalSmall")
 		frame.source:SetPoint("TOPLEFT", frame.name, "BOTTOMLEFT", 0, -1)
 		frame.source:SetJustifyH("LEFT")
@@ -208,14 +209,14 @@ function Mount.ShowToolTipFrame(button)
 		frame.source:SetWidth(250)
 		--frame.info:SetHeight(20)
 		frame.source:SetTextColor(1, 1, 1, 1)
-		
+
 		frame.model = CreateFrame("PlayerModel", name.."-model")
 		frame.model:ClearAllPoints()
 		frame.model:SetParent(frame)
 		frame.model:SetPoint("TOPLEFT", frame.icon, "BOTTOMLEFT", 0, -3)
 		frame.model:SetSize(145,145)
 		frame.model:SetRotation(MODELFRAME_DEFAULT_ROTATION)
-		
+
 		frame.desc = frame:CreateFontString(name.."-desc", "ARTWORK", "GameFontNormalSmall")
 		frame.desc:SetPoint("TOPLEFT", frame.model, "TOPRIGHT", 0, -3)
 		frame.desc:SetJustifyH("LEFT")
@@ -230,7 +231,7 @@ function Mount.ShowToolTipFrame(button)
 		frame.typeIcon:SetWidth(20)
 		frame.typeIcon:SetTexture(NO_MOUNT_TEXTURE)
 		frame.typeIcon:SetTexCoord(0.79687500, 0.49218750, 0.50390625, 0.65625000)
-		
+
 		Mount.tooltipFrame = frame
 	end
 	local tmp
@@ -239,22 +240,22 @@ function Mount.ShowToolTipFrame(button)
 	frame:SetParent(button:GetParent():GetParent())
 	frame:SetFrameStrata("TOOLTIP")
 	frame:SetPoint("BOTTOMLEFT", button, "TOPRIGHT")
-	
+
 	-- name, icon, creatureDisplayID, descriptionText, sourceText
-	
+
 	frame.name:SetText(button.info[1])
 	frame.source:SetText(button.info[5])
 	frame.icon:SetTexture(button.info[2] or NO_MOUNT_TEXTURE)
 	tmp = frame.name:GetHeight()+frame.source:GetHeight()
 	frame.icon:SetSize(tmp,tmp)
 	frame:SetHeight(tmp+155)
-	
+
 	frame.desc:SetText(button.info[4])
-	
+
 	frame.model:SetDisplayInfo(button.info[3])
 	frame.model:SetDoBlend(false)
 	--frame.model:SetAnimation(0,-1) 0=alive, 6=dead
-	
+
 	if button.info[6] then
 		frame.typeIcon:SetAtlas(MOUNT_FACTION_TEXTURES[button.info[7]],true)
 		frame.typeIcon:Show()
@@ -262,9 +263,9 @@ function Mount.ShowToolTipFrame(button)
 		frame.typeIcon:Hide()
 	end
 	--frame.typeIcon:SetTexture("Interface\\PetBattles\\PetIcon-"..PET_TYPE_SUFFIX[button.info[2]])
-	
+
 	frame:Show()
-	
+
 	if button.ItemID then
 		Item.OnEnter(button, {frame, "ANCHOR_TOPLEFT", 0, 2})
 	end

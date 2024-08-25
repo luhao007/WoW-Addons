@@ -25,6 +25,7 @@ local Transmog = ns.reward.Transmog
 
 local Path = ns.poi.Path
 local POI = ns.poi.POI
+local Circle = ns.poi.Circle
 
 local ReputationGain = ns.tooltip.ReputationGain
 
@@ -327,6 +328,35 @@ map.nodes[68863883] = Treasure({ -- lvl 71
 }) -- Webbed Knapsack
 
 -------------------------------------------------------------------------------
+--------------------------------- BATTLE PETS ---------------------------------
+-------------------------------------------------------------------------------
+
+map.nodes[61583760] = ns.node.PetBattle({
+    id = 223444,
+    rewards = {
+        Achievement({id = 40153, criteria = 67136, oneline = true}), -- Battle on Khaz Algar
+        ns.reward.Spacer(),
+        Achievement({id = 40154, criteria = 67140, oneline = true}), -- Aquatic Battler of Khaz Algar
+        Achievement({id = 40155, criteria = 67144, oneline = true}), -- Beast Battler of Khaz Algar
+        Achievement({id = 40156, criteria = 67148, oneline = true}), -- Critter Battler of Khaz Algar
+        Achievement({id = 40157, criteria = 67152, oneline = true}), -- Dragonkin Battler of Khaz Algar
+        Achievement({id = 40158, criteria = 67156, oneline = true}), -- Elemental Battler of Khaz Algar
+        Achievement({id = 40161, criteria = 67160, oneline = true}), -- Flying Battler of Khaz Algar -- criteriaID?
+        Achievement({id = 40162, criteria = 67160, oneline = true}), -- Humanoid Battler of Khaz Algar -- criteriaID?
+        Achievement({id = 40163, criteria = 67167, oneline = true}), -- Magic Battler of Khaz Algar
+        Achievement({id = 40164, criteria = 67171, oneline = true}), -- Mechanical Battler of Khaz Algar
+        Achievement({id = 40165, criteria = 67175, oneline = true}) -- Undead Battler of Khaz Algar
+    }
+}) -- Friendhaver Grem
+
+map.nodes[66855808] = ns.node.PetBattle({
+    id = 222535,
+    rewards = {
+        Achievement({id = 40153, criteria = 67132, oneline = true}) -- Battle on Khaz Algar
+    }
+}) -- Haywire Servobot
+
+-------------------------------------------------------------------------------
 ----------------------------- PROFESSION TREASURES ----------------------------
 -------------------------------------------------------------------------------
 
@@ -536,6 +566,26 @@ map.nodes[48583175] = InertEarthen({
     location = L['venedaz_location'],
     rewards = {Achievement({id = 40504, criteria = 68687})}
 }) -- Venedaz
+
+-------------------------------------------------------------------------------
+--------------------- ACHIEVEMENT: GOBBLIN' WITH GLUBLURP ---------------------
+-------------------------------------------------------------------------------
+
+local GobblinWithGlublurp = Class('gobblin_with_glublurp', Collectible, {
+    icon = 5763494,
+    group = ns.groups.GOBBLIN_WITH_GLUBLURP
+
+})
+
+map.nodes[44315026] = GobblinWithGlublurp({
+    id = 227132,
+    rewards = {Achievement({id = 40614, criteria = 68929})},
+    note = L['gobblin_with_glublurp_note'],
+    pois = {
+        POI({59964103, 61924254, color = 'Red'}),
+        Path({color = 'Orange', Circle({origin = 57903351, radius = 1.25})})
+    }
+}) -- Glublurp
 
 -------------------------------------------------------------------------------
 --------------------- ACHIEVEMENT: KHAZ ALGAR LORE HUNTER ---------------------

@@ -92,6 +92,10 @@ Jeder Gegenstand kostet 1 {item:224642}.]]
 L['options_icons_disturbed_earth'] = 'Aufgewühlte Erde'
 L['options_icons_disturbed_earth_desc'] = 'Zeigt die Positionen von {object:Aufgewühlte Erde} an.'
 
+L['options_icons_gobblin_with_glublurp'] = '{achievement:40614}'
+L['options_icons_gobblin_with_glublurp_desc'] = 'Zeigt die Position für den Erfolg {achievement:40614} an.'
+L['gobblin_with_glublurp_note'] = 'Klicke einen {object:Funkelnder Kristall} ({dot:Red}) an, um den Stärkungszauber {spell:456739} zu erhalten. Fange damit einen {npc:227138} bei dem kleinen Teich (' .. ns.color.Orange('Orangener Kreis') .. ') und bringe diesen zu {npc:227132}.\n\n(statisches Fliegen wird empfohlen, um dies zu erreichen).'
+
 -------------------------------------------------------------------------------
 --------------------------------- HALLOWFALL ----------------------------------
 -------------------------------------------------------------------------------
@@ -99,9 +103,17 @@ L['options_icons_disturbed_earth_desc'] = 'Zeigt die Positionen von {object:Aufg
 L['arathi_loremaster_note'] = 'Sprich mit {npc:221630} in {location:Mereldar} und beantworte mehrere Fragen richtig, um die {item:225659} zu erhalten.\n\nDie Antworten findest du in den Büchern, die in ganz {location:Heilsturz} verteilt sind.'
 L['caesper_note'] = 'Kaufe 1x {item:225238} von ({dot:Blue}) {npc:217645} in {location:Dunelles Güte}, {location:Hallowfall}.\n\nFüttere {npc:225948} damit und folge ihm zum Schatz.'
 L['dark_ritual_note'] = 'Interagiere mit dem Buch {object:Dunkles Ritual} und besiege alle erscheinenden Gegner, um eine {object:Schattige Essenz} zu erhalten.'
-L['illuminated_footlocker_note'] = 'Fange 5x fallende {spell:442389} von einer {npc:220703}, um {spell:442529} zu erhalten und den Schatz zu enthüllen.'
+L['illuminated_footlocker_note'] = 'Fange 5x fallenden {spell:442389} von der {npc:220703}, um {spell:442529} zu erhalten und den Schatz zu enthüllen.'
 L['illusive_kobyss_lure_note'] = 'Kombiniere alle vier Gegenstände, um {item:225641} herzustellen:'
 L['sunless_lure_location'] = 'Kann von {npc:215653} am {location:Sonnenloser Strand} geplündert werden.'
+L['sky_captains_sunken_cache_note'] = [[
+Spreche mit vier verschiedenen Himmelskapitänen auf ihren Luftschiffen, um den Schatz zu enthüllen.
+
+{npc:222333} ({dot:Green}) fliegt gegen den Uhrzeigersinn.
+{npc:222311} ({dot:Yellow}) fliegt gegen den Uhrzeigersinn.
+{npc:222323} ({dot:Red}) fliegt im Uhrzeigersinn.
+{npc:222337} ({dot:Orange}) fliegt gegen den Uhrzeigersinn.
+]]
 L['murkfin_lure_location'] = 'Kann von {npc:213622} in {location:Velhans Geltung} geplündert werden. Diese benutzen einen {npc:215623} als Köder.'
 L['hungering_shimmerfin_location'] = 'Kann von {npc:215243} in {location:Der Lauernde Strudel} geplündert werden. Diese benutzen einen {npc:219210} als Köder.'
 L['ragefin_necrostaff_location'] = 'Kann von {npc:213406} in {location:Ehrengründe} geplündert werden.'
@@ -131,10 +143,10 @@ L['biblo_book_11_location'] = 'Im Gebäude auf dem Tisch.'
 L['options_icons_lost_and_found'] = '{achievement:40618}'
 L['options_icons_lost_and_found_desc'] = 'Zeigt die Positionen der Andenken für den Erfolg {achievement:40618} an.'
 
-L['lost_and_found_note'] = 'Progress the Memories of the Sky storyline starting with the quest {quest:80673} from {npc:220718} ({dot:Blue}). {note:The quests unlock weekly}.\n\nJede Woche können drei verlorene Andenken abgeschlossen werden, until complete the quest {quest:82813}.'
+L['lost_and_found_note'] = 'Starte mit der Quest {quest:80673} bei {npc:220718} ({dot:Red}) den Geschichtsstrang "Erinnerungen im Wind". {note:Jede Woche kannst du nur drei verlorene Andenken erhalten, da die Quests wöchentlich freigeschaltet werden.}'
 L['broken_bracelet_location'] = 'Bringe den Gegenstand {item:219810} zu {npc:215527}.'
 L['stuffed_lynx_toy_location'] = 'Bringe den Gegenstand {item:219809} zu {npc:218486}.'
-L['tarnished_compass_location'] = 'Bringe den Gegenstand {item:219524} zu {object:Grave Offering Location}.' -- review
+L['tarnished_compass_location'] = 'Bringe den Gegenstand {item:219524} zur {object:Ablagestelle für Grabbeigaben}.'
 L['sturdy_locket_location'] = 'Bringe den Gegenstand {item:224274} zu {npc:220859}.'
 L['wooden_figure_location'] = 'Bringe den Gegenstand {item:224273} zu {npc:217609}.'
 L['calcified_journal_location'] = 'Bringe den Gegenstand {item:224272} zu {npc:222813}.'
@@ -147,7 +159,7 @@ L['options_icons_missing_lynx_desc'] = 'Zeigt die Positionen der Kriegskatzen f�
 
 L['missing_lynx_note'] = 'Streichle die wilde Kriegskatze.'
 L['magpie_location'] = 'Auf dem Boden neben der Fahne.'
-L['nightclaw_location'] = 'Entfache die {npc:Lesser Keyflame} in der Nähe.' -- review
+L['nightclaw_location'] = 'Entfache die {npc:Kleine Schlüsselflamme} in der Nähe.'
 L['purrlock_location'] = 'Die {npc:229127} in der Nähe muss entfacht sein.'
 L['shadowpouncer_location'] = 'Die {npc:229127} in der Nähe muss entfacht sein.'
 L['miral_murder_mittens_location'] = 'Draußen.'
@@ -167,6 +179,11 @@ L['mereldar_menace_note'] = 'Hebe den {object:Wurfstein} auf und werfe diesen au
 L['light_and_flame_location'] = 'Ziele auf {npc:218472} östlich des {object:Wurfstein}.'
 L['lamplighter_doorway_location'] = 'Ziele auf den Eingang des Gebäudes im Osten.'
 L['barracks_doorway_location'] = 'Ziele auf den Eingang des rot-goldenen Zeltes im Westen.'
+
+L['options_icons_beacon_of_hope'] = '{achievement:40308}'
+L['options_icons_beacon_of_hope_desc'] = 'Zeigt die Positionen der kleinen Schlüsselflammen für den Erfolg {achievement:40308} an.'
+
+L['beacon_of_hope_note'] = 'Steuert {item:206350} bei, um kleinere Schlüsselflammen zu entzünden und die folgenden Quests abzuschließen. '
 
 -------------------------------------------------------------------------------
 ---------------------------------- AZJ-KAHET ----------------------------------

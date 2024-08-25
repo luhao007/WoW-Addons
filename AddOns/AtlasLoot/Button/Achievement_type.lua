@@ -14,6 +14,7 @@ local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
 
 local Tooltip = AtlasLoot.Tooltip
 local AcClickHandler = nil
+local LoadAddOn = C_AddOns.LoadAddOn
 
 local AC_COLOR = "|cffffff00"
 local GUILD_AC_IMAGE = "Interface\\AchievementFrame\\UI-Achievement-Guild"
@@ -31,7 +32,7 @@ function AC.OnSet(button, second)
 				GoTo = true,
 			},
 		},
-		AtlasLoot.db.Button.Achievement.ClickHandler, 
+		AtlasLoot.db.Button.Achievement.ClickHandler,
 		{
 			{ "ChatLink", 	AL["Chat Link"], 	AL["Add achievement link into chat"] },
 			{ "GoTo",		"Go to ac",			"Jep thats it ;)" },
@@ -50,14 +51,14 @@ end
 function AC.OnClear(button)
 	button.AcID = nil
 	button.secButton.AcID = nil
-	
+
 	button.secButton.icon:SetDesaturated(false)
 	button.secButton.overlay:SetHeight(button.icon:GetWidth())
 	button.secButton.overlay:SetWidth(button.icon:GetWidth())
 	button.secButton.overlay:SetTexCoord(1, 1, 1, 1)
 	button.secButton.overlay:SetDesaturated(false)
-	button.secButton.overlay:Hide() 
-	
+	button.secButton.overlay:Hide()
+
 	button.icon:SetDesaturated(false)
 	button.overlay:SetHeight(button.icon:GetWidth())
 	button.overlay:SetWidth(button.icon:GetWidth())
@@ -81,7 +82,7 @@ function AC.OnMouseAction(button, mouseButton)
 end
 
 function AC.OnEnter(button)
-	local tooltip = GetAlTooltip() 
+	local tooltip = GetAlTooltip()
 	tooltip:ClearLines()
 	tooltip:SetOwner(button, "ANCHOR_RIGHT", -(button:GetWidth() * 0.5), 24)
 	tooltip:SetHyperlink(GetAchievementLink(button.AcID))
@@ -94,7 +95,7 @@ end
 
 function AC.Refresh(button)
 	local _, name, _, completed, _, _, _, _, _, image, rewardText, isGuild = GetAchievementInfo(button.AcID)
-	
+
 	if button.type == "secButton" then
 		--button.mini:SetTexture()
 		--button.mini:Show()
@@ -102,7 +103,7 @@ function AC.Refresh(button)
 		button.name:SetText(AC_COLOR..name)
 		button.extra:SetText(rewardText)
 	end
-	
+
 	button.icon:SetTexture(image)
 	if isGuild then
 		button.overlay:SetTexture(GUILD_AC_IMAGE)

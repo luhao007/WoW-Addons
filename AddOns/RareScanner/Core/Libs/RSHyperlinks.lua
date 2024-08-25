@@ -42,6 +42,12 @@ local pin = {}
 function RSHyperlinks.GetEntityHyperLink(entityID, name)
 	-- NPC
 	local alreadyFound = RSGeneralDB.GetAlreadyFoundEntity(entityID)
+	
+	-- Avoid weird error if the database isn't recorded fast enough
+	if (not alreadyFound) then
+		return
+	end
+	
 	if (RSNpcDB.GetInternalNpcInfo(entityID)) then
 		local npcName = name and name or RSNpcDB.GetNpcName(entityID)
 		return string.format("|cff%s|Haddon:RareScanner:%s:%s:%s:%s:%s:%s|h[%s]|h|r", RSConfigDB.GetChatLinkColorNpc(), NPC_TYPE, entityID, alreadyFound.mapID, RSUtils.FixCoord(alreadyFound.coordX), RSUtils.FixCoord(alreadyFound.coordY), alreadyFound.foundTime, npcName)

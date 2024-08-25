@@ -20,6 +20,8 @@ local LibDialog = LibStub("LibDialog-1.0")
 local ALDB = LibStub("ALDB-1.0")
 
 local GetAddOnInfo = C_AddOns.GetAddOnInfo
+local DisableAddOn = C_AddOns.DisableAddOn
+local GetAddOnEnableState = C_AddOns.GetAddOnEnableState
 
 -- lua
 
