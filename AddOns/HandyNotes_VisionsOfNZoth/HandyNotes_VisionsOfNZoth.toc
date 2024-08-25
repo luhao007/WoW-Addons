@@ -1,0 +1,16 @@
+## Interface: 110002
+## Version: 42
+## RequiredDeps: HandyNotes
+## OptionalDeps: Ace3
+## SavedVariables: HandyNotes_VisionsOfNZothDB
+
+## Title: HandyNotes: Visions Of N'Zoth
+## Notes: Visions Of N'Zoth Notes
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C恩佐斯的幻象|r
+
+## X-Embeds: Ace3
+## X-Part-Of: HandyNotes
+
+embeds.xml
+core\core.xml
+plugin.xml

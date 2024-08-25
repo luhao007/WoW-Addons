@@ -796,6 +796,10 @@
 				<Title>测试功能</Title>
 				<TitleExtra>巨龙时代</TitleExtra>
 			</SubAddon>
+			<SubAddon name="DBM-Test-WarWithin">
+				<Title>测试功能</Title>
+				<TitleExtra>地心之战</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-TheEye">
 				<Title>风暴要塞</Title>
 			</SubAddon>
@@ -1061,10 +1065,6 @@
 		<Notes>可以在地图上添加标记</Notes>
 		<Category>探索</Category>
 		<SubAddons>
-			<SubAddon name="HandyNotes_Argus">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>阿古斯</TitleExtra>
-			</SubAddon>
 			<SubAddon name="HandyNotes_AzerothsTopTunes">
 				<Title>成就</Title>
 				<TitleExtra>艾泽拉斯金曲</TitleExtra>
@@ -1073,24 +1073,13 @@
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>争霸艾泽拉斯</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_BattleForAzerothTreasures">
-				<Title>宝藏</Title>
-				<TitleExtra>争霸艾泽拉斯</TitleExtra>
-			</SubAddon>
-			<SubAddon name="HandyNotes_BrokenShore">
+			<SubAddon name="HandyNotes_Cataclysm">
 				<Title>宝藏/稀有</Title>
-				<TitleExtra>破碎海滩</TitleExtra>
-			</SubAddon>
-			<SubAddon name="HandyNotes_Draenor">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>德拉诺</TitleExtra>
+				<TitleExtra>军团再临</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_Dragonflight">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>巨龙时代</TitleExtra>
-			</SubAddon>
-			<SubAddon name="HandyNotes_DungeonLocations">
-				<Title>副本入口</Title>
 			</SubAddon>
 			<SubAddon name="HandyNotes_DungeonLocations (Classic)">
 				<Title>副本入口</Title>
@@ -1099,28 +1088,21 @@
 				<Title>节日</Title>
 				<TitleExtra>万圣节</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_LegionClassOrderHalls">
-				<Title>职业大厅</Title>
-			</SubAddon>
-			<SubAddon name="HandyNotes_LegionInstanceWorldQuests">
-				<Title>军团副本世界任务</Title>
-			</SubAddon>
-			<SubAddon name="HandyNotes_LegionTreasures">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>军团再临</TitleExtra>
-			</SubAddon>
-			<SubAddon name="HandyNotes_LostAndFound">
-				<Title>成就</Title>
-				<TitleExtra>失物招领</TitleExtra>
-				<Notes>显示熊猫人之谜“失物招领“成就所需物品的地点</Notes>
-			</SubAddon>
 			<SubAddon name="HandyNotes_LunarFestival">
 				<Title>节日</Title>
 				<TitleExtra>春节</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_MistsOfPandariaTreasures">
+			<SubAddon name="HandyNotes_Legion">
 				<Title>宝藏/稀有</Title>
-				<TitleExtra>潘达利亚</TitleExtra>
+				<TitleExtra>军团再临</TitleExtra>
+			</SubAddon>
+			<SubAddon name="HandyNotes_MechagonAndNazjatar">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>麦卡贡与纳沙塔尔</TitleExtra>
+			</SubAddon>
+			<SubAddon name="HandyNotes_MistsOfPandaria">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>熊猫人之谜</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_NPCs (Classic)">
 				<Title>NPC</Title>
@@ -1128,15 +1110,7 @@
 			<SubAddon name="HandyNotes_NPCs (Burning Crusade Classic)">
 				<Title>NPC</Title>
 			</SubAddon>
-			<SubAddon name="Handynotes_Pandaria">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>潘达利亚</TitleExtra>
-			</SubAddon>
 			<SubAddon name="HandyNotes_Shadowlands">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>暗影国度</TitleExtra>
-			</SubAddon>
-			<SubAddon name="HandyNotes_ShadowlandsTreasures">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>暗影国度</TitleExtra>
 			</SubAddon>
@@ -1144,16 +1118,13 @@
 				<Title>节日</Title>
 				<TitleExtra>仲夏节</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_SuramarShalAranTelemancy">
-				<Title>苏拉玛传送点</Title>
+			<SubAddon name="HandyNotes_TheBurningCrusade">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>燃烧的远征</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_TheWarWithin">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>地心之战</TitleExtra>
-			</SubAddon>
-			<SubAddon name="HandyNotes_TimelessIsleChests">
-				<Title>宝藏</Title>
-				<TitleExtra>永恒岛</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_TravelGuide (Classic)">
 				<Title>旅行指南</Title>
@@ -1164,13 +1135,21 @@
 			<SubAddon name="HandyNotes_TravelGuide">
 				<Title>旅行指南</Title>
 			</SubAddon>
-			<SubAddon name="HandyNotes_WarfrontRares">
-				<Title>稀有</Title>
-				<TitleExtra>战争前线</TitleExtra>
+			<SubAddon name="HandyNotes_VisionsOfNZoth">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>恩佐斯的幻象</TitleExtra>
 			</SubAddon>
-			<SubAddon name="HandyNotes_WarfrontTreasures">
-				<Title>宝藏</Title>
-				<TitleExtra>战争前线</TitleExtra>
+			<SubAddon name="HandyNotes_WarlordsOfDraenor">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>德拉诺之王</TitleExtra>
+			</SubAddon>
+			<SubAddon name="HandyNotes_WorldOfWarcraft">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>经典旧世</TitleExtra>
+			</SubAddon>
+			<SubAddon name="HandyNotes_WrathOfTheLichKing">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>巫妖王之怒</TitleExtra>
 			</SubAddon>
 		</SubAddons>
 	</Addon>

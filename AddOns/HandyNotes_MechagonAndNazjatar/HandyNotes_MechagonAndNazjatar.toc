@@ -1,0 +1,16 @@
+## Interface: 110002
+## Version: 17
+## RequiredDeps: HandyNotes
+## OptionalDeps: Ace3
+## SavedVariables: HandyNotes_MechagonAndNazjatarDB
+
+## Title: HandyNotes: Mechagon & Nazjatar
+## Notes: Mechagon & Nazjatar Notes
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C麦卡贡与纳沙塔尔|r
+
+## X-Embeds: Ace3
+## X-Part-Of: HandyNotes
+
+embeds.xml
+core\core.xml
+plugin.xml
