@@ -1075,7 +1075,7 @@
 			</SubAddon>
 			<SubAddon name="HandyNotes_Cataclysm">
 				<Title>宝藏/稀有</Title>
-				<TitleExtra>军团再临</TitleExtra>
+				<TitleExtra>大地的裂变</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_Dragonflight">
 				<Title>宝藏/稀有</Title>
@@ -1095,10 +1095,6 @@
 			<SubAddon name="HandyNotes_Legion">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>军团再临</TitleExtra>
-			</SubAddon>
-			<SubAddon name="HandyNotes_MechagonAndNazjatar">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>麦卡贡与纳沙塔尔</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_MistsOfPandaria">
 				<Title>宝藏/稀有</Title>
@@ -1134,10 +1130,6 @@
 			</SubAddon>
 			<SubAddon name="HandyNotes_TravelGuide">
 				<Title>旅行指南</Title>
-			</SubAddon>
-			<SubAddon name="HandyNotes_VisionsOfNZoth">
-				<Title>宝藏/稀有</Title>
-				<TitleExtra>恩佐斯的幻象</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_WarlordsOfDraenor">
 				<Title>宝藏/稀有</Title>
