@@ -10,11 +10,18 @@ from utils import get_libraries_list
 class CheckManagedAddOns(unittest.TestCase):
 
     def test_check_addon_toc(self):
+        ignored = ['WA_sekiro']
         for addon in os.listdir('AddOns'):
-            path = Path('AddOns') / addon / f'{addon}.toc'
-            if 'sekiro' not in addon:
-                self.assertTrue(os.path.exists(path),
-                                f'{addon}.toc not existed!')
+            if addon in ignored:
+                continue
+
+            flavors = ['Mainline', 'Wrath', 'Cata', 'Classic']
+            seps = ['-', '_']
+            filenames = [f'{addon}.toc']
+            filenames += [f'{addon}{sep}{flavor}.toc' for sep in seps for flavor in flavors]
+            root = Path('AddOns') / addon
+            self.assertTrue(any(os.path.exists(root/f'{f}') for f in filenames),
+                            f"{addon}'s toc file not existed!")
 
     def test_check_libs(self):
         """Test for !!Libs.toc"""
@@ -24,9 +31,10 @@ class CheckManagedAddOns(unittest.TestCase):
 
         toc = TOC(lines)
 
+        ignored = ['FrameXML', 'textures']
         # Check every lib folder exists in the toc
         for lib in os.listdir(root):
-            if '.toc' not in lib and lib != 'FrameXML':
+            if '.toc' not in lib and lib not in ignored:
                 self.assertTrue(
                     any(lib in line for line in toc.contents),
                     f'{lib} in !!Libs, but not used in !!Libs.toc'
@@ -45,6 +53,8 @@ class CheckManagedAddOns(unittest.TestCase):
     def test_check_duplicate_libraries(self):
         libs = get_libraries_list()
 
+        ignored = ['FrameXML', 'textures']
+        libs = set(libs) - set(ignored)
         duplicates = {}
         for root, dirs, _ in os.walk('AddOns'):
             if '!!Libs' in root:
@@ -59,7 +69,7 @@ class CheckManagedAddOns(unittest.TestCase):
             pprint(duplicates)
 
             # Ignore these embedded liraries, as they have customized versions
-            whitelist = ['Questie']
+            whitelist = ['Questie', 'RareScanner']
 
             for k in duplicates:
                 paths = []
@@ -68,8 +78,6 @@ class CheckManagedAddOns(unittest.TestCase):
                 while head:
                     head, tail = os.path.split(head)
                     paths.append(tail)
-
-                print(paths)
 
                 addon = paths[-2]
                 if addon not in whitelist:
