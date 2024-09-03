@@ -286,8 +286,9 @@ private.PERMANENT_KILLS_ZONE_IDS = {
 	[1618] = { "all" };
 }
 
--- Mechagon construction projects
-private.CONSTRUCTION_PROJECTS = {
+-- Monster emotes
+private.MONSTER_EMOTE = {
+	-- Mechagon construction projects
 	["TR28"] = 153206; --Ol' Big Tusk
 	["TR35"] = 150342; --Earthbreaker Gulroc
 	["CC61"] = 154701; --Gorged Gear-Cruncher
@@ -295,4 +296,9 @@ private.CONSTRUCTION_PROJECTS = {
 	["CC88"] = 152113; --The Kleptoboss
 	["JD41"] = 153200; --Boilburn
 	["JD99"] = 153205; --Gemicide
+	-- Lurker of the deeps
+	["As the earthen machinery turns, something begins to stir in the nearby lake."] = 220285;
+	-- Tka'ktath <Queen's Sweetie>
+	["The shadow of a hungering beast moves over the city."] = 216046;
+	["La sombra de una bestia hambrienta se mueve sobre la ciudad."] = 216046;
 }

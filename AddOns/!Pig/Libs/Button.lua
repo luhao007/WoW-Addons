@@ -193,6 +193,16 @@ function Create.PIGSlider(fuF,Point,WH,minmaxSet,tooltip,UIName)
 	Slider:SetValueStep(minmaxSet[3]);
 	Slider:SetObeyStepOnDrag(true);
 	Slider:EnableMouseWheel(true);
+	hooksecurefunc(Slider, "Enable", function(self)
+		self.Low:SetTextColor(1, 1, 1, 1);
+		self.High:SetTextColor(1, 1, 1, 1);
+		self.Text:SetTextColor(1, 1, 1, 1);
+	end)
+	hooksecurefunc(Slider, "Disable", function(self)
+		self.Low:SetTextColor(0.2, 0.2, 0.2, 1);
+		self.High:SetTextColor(0.2, 0.2, 0.2, 1);
+		self.Text:SetTextColor(0.2, 0.2, 0.2, 1);
+	end)
 	Slider:HookScript("OnMouseWheel", function(self, arg1)
 		if self:IsEnabled() then
 			local Value = self:GetValue()
@@ -370,14 +380,18 @@ function Create.PIGOptionsList(GnName,weizhi)
 		fuUI=PigUI.L.F.ListEXT
 	elseif weizhi=="BOT" then
 		fuUI=PigUI.L.F.ListBOT
-		tabbutWW = 90
+		tabbutWW = 60
 	end
 	local List_ButH,jiange = 26,4
 	local ziframe = {fuUI:GetChildren()}
 	local zinum = #ziframe
 	local TabBut = Create.PIGTabBut(fuUI,nil,{tabbutWW,List_ButH},GnName)
 	if weizhi=="BOT" then
-		TabBut:SetPoint("LEFT", fuUI, "LEFT", 30, 0);
+		if zinum==0 then
+			TabBut:SetPoint("LEFT", fuUI, "LEFT", 10, 0);
+		else
+			TabBut:SetPoint("LEFT", fuUI, "LEFT", (zinum*(tabbutWW+16)+10), 0);
+		end
 	else
 		if zinum==0 then
 			TabBut:SetPoint("TOP", fuUI, "TOP", 0, -jiange);

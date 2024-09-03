@@ -387,6 +387,16 @@ function RSConfigDB.IsNpcFiltered(npcID)
 		return true
 	end
 	
+	-- If weekly filter
+	local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
+	if (npcInfo and npcInfo.warbandQuestID and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
+		for _, questID in ipairs(npcInfo.warbandQuestID) do
+			if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+				return true
+			end
+		end
+	end
+	
 	return false
 end
 
@@ -469,6 +479,14 @@ function RSConfigDB.FilterAllNpcs(routines, routineTextOutput)
 	table.insert(routines, filterAllNpcsRoutine)
 end
 
+function RSConfigDB.IsWeeklyRepNpcFilterEnabled()
+	return private.db.rareFilters.filterWeeklyRep
+end
+
+function RSConfigDB.SetWeeklyRepNpcFilterEnabled(value)
+	private.db.rareFilters.filterWeeklyRep = value
+end
+
 function RSConfigDB.IsShowingFriendlyNpcs()
 	return private.db.map.displayFriendlyNpcIcons
 end
@@ -483,6 +501,14 @@ end
 
 function RSConfigDB.SetShowingAlreadyKilledNpcs(value)
 	private.db.map.displayAlreadyKilledNpcIcons = value
+end
+
+function RSConfigDB.IsShowingWeeklyRepFilterEnabled()
+	return private.db.map.displayWeeklyRepNpcIcons
+end
+
+function RSConfigDB.SetShowingWeeklyRepFilterEnabled(value)
+	private.db.map.displayWeeklyRepNpcIcons = value
 end
 
 function RSConfigDB.IsShowingNotDiscoveredNpcs()

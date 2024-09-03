@@ -1812,7 +1812,7 @@ function FramePlusfun.Character_Shuxing()
 					if EngravingSlot[Slot] then
 						local fuwenF = PIGFrame(SidebarTab.F,{"TOP",SidebarTab.F,"TOP",0,-fWhangH*(#SidebarTab.F.fuwenSlotS)-19},{FFWW,fWhangH})
 						table.insert(SidebarTab.F.fuwenSlotS,{fuwenF,Slot})
-						fuwenF:PIGSetBackdrop(0,0.8,nil,{0.5, 0.5, 0.5})
+						fuwenF:PIGSetBackdrop(0,0.6,nil,{0.2, 0.2, 0.2})
 						fuwenF.biaoti = PIGFontString(fuwenF,{"TOPLEFT", fuwenF, "TOPLEFT", 1, -10},InvSlot.Name[Slot][2])
 						fuwenF.num= PIGFontString(fuwenF,{"TOPLEFT", fuwenF.biaoti, "BOTTOMLEFT", 2, 0})
 						for ir=1,buweifuwenNum do

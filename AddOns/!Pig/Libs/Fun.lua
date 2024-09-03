@@ -28,18 +28,18 @@ function PIGGetSpellTabInfo(SpellID)
 			return spellInfo.name,spellInfo.iconID,spellInfo.itemIndexOffset,spellInfo.numSpellBookItems,spellInfo.isGuild,spellInfo.shouldHide,spellInfo.specID,spellInfo.offSpecID
 		end
 	else
-		local name, texture, offset, numSlots, isGuild, offspecID= GetSpellInfo(SpellID)
+		local name, texture, offset, numSlots, isGuild, offspecID= GetSpellTabInfo(SpellID)
 		return name, texture, offset, numSlots, isGuild, offspecID
 	end
 end
-function PIGGetSpellBookItemInfo(SpellID)
+function PIGGetSpellBookItemInfo(index, bookType)
 	if C_SpellBook and C_SpellBook.GetSpellBookItemInfo then
-		local spellInfo = C_SpellBook.GetSpellBookItemInfo(SpellID)
+		local spellInfo = C_SpellBook.GetSpellBookItemInfo(index, bookType)
 		if spellInfo then
 			return spellInfo.itemType,spellInfo.spellID
 		end
 	else
-		local spellType, id= C_SpellBook.GetSpellBookItemInfo(SpellID)
+		local spellType, id= GetSpellBookItemInfo(index, bookType)
 		return spellType, id
 	end
 end

@@ -23,7 +23,7 @@ local AceTimer = LibStub("AceTimer-3.0")
 local XPTimer = {}
 ---@diagnostic disable-next-line: missing-fields
 XPTimer.timer = nil -- set & cancelled as needed
-XPTimer.delay = 30 -- seconds
+XPTimer.delay = 10 -- seconds
 XPTimer.running = false
 XPTimer.last = 0
 

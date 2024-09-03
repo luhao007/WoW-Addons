@@ -155,7 +155,7 @@ local function ActionBar_PetTishi()
 		PETchaofengtishi.Icon:SetPoint("CENTER");
 		PETchaofengtishi:Hide()
 		-----------
-		local tishibiaoti="|cff00FFFF"..addonName..L["ADDON_NAME"]..L["LIB_TIPS"]
+		local tishibiaoti="|cff00FFFF"..addonName..L["ADDON_NAME"]..L["LIB_TIPS"]..": "
 		local function PetTishizhhixing()
 			local hasUI, isHunterPet = HasPetUI()
 			if hasUI then

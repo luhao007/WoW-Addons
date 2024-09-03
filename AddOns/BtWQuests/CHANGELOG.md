@@ -1,3 +1,26 @@
+# v2.47.0
+
+- Added an option to view the chain for a quest from the quest log and objective tracker context menus
+- Added A Star of Dorn questline to the Isle of Dorn
+- Added Dogged Pursuit questline to Azj-Kahet
+- Added The Beginning of Something Beautiful questline to Azj-Kahet
+- Fixed wait time for Striking Steel questline
+- Fixed an error showing detailed tooltips
+- Fixed an error checking item counts
+- Fixed an error reading faction data for a currently unknown faction
+- Removed Dragonflight data, it is now available as a separate addon BtWQuests: Dragonflight
+
+# v2.46.0
+
+- Added option to view chains as your Warband
+- Fixed active and completion checks for Saving private Spindle questline in Azj-Kahet
+- Fixed active check for Against the Current questline
+- Fixed active check for Gems are Forever questline in Isle of Dorn
+- Fixed active check for The Opalcreg questline in Isle of Dorn
+- Fixed completion check for Melody of Madness questline in Azj-Kahet
+- Fixed layout for The Weight of Duty questline in Hallowfall
+- Fixed showing incorrect quest in Introduction questline after unlocking adventure mode
+
 # v2.45.0
 
 - Temporarily readded Dragonflight data until after full release

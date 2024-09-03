@@ -62,9 +62,13 @@ local GetFactionInfoByID = GetFactionInfoByID or function(factionID)
 	return unwrapFactionData(data)
 end
 
-local GetWatchedFactionInfo = GetWatchedFactionInfo or function()
+local GetWatchedFactionID = function()
+	if (GetWatchedFactionInfo) then
+		local _, _, _, _, _, factionID = GetWatchedFactionInfo()
+		return factionID
+	end
 	local data = C_Reputation.GetWatchedFactionData()
-	return unwrapFactionData(data)
+	return data.factionID
 end
 
 local sessionStart = {}
@@ -113,6 +117,17 @@ local function GetFactionLabel(standingId)
 	return GetText("FACTION_STANDING_LABEL" .. standingId, SEX)
 end
 
+local function MajorFactionTexture(majorFactionData)
+	local kit = majorFactionData.textureKit
+	if (not kit) then return nil end
+
+	if (majorFactionData.expansionID >= 10) then
+		-- yes, the new ones are in plural "MajorFaction[s]" ¯\_(ツ)_/¯
+		return ([[Interface\Icons\UI_MajorFactions_%s]]):format(kit)
+	end
+	return ([[Interface\Icons\UI_MajorFaction_%s]]):format(kit)
+end
+
 local function GetSessionStartTable(factionId)
 	if (not sessionStartMajorFaction[factionId]) then
 		local data = GetMajorFactionData(factionId)
@@ -159,7 +174,7 @@ local function GetValueAndMaximum(standingId, barValue, bottomValue, topValue, f
 		local current = isCapped and data.renownLevelThreshold or data.renownReputationEarned or 0
 		local standingText = " (" .. (RENOWN_LEVEL_LABEL .. data.renownLevel) .. ")"
 		local session = GetBalanceForMajorFaction(factionId, current, data.renownLevel)
-		local texture = data.textureKit and ([[Interface\Icons\UI_MajorFaction_%s]]):format(data.textureKit)
+		local texture = MajorFactionTexture(data)
 		if (C_Reputation.IsFactionParagon(factionId)) then
 			return GetParagonValues(barValue, factionId, colors, texture)
 		end
@@ -202,9 +217,9 @@ local function GetButtonMainRepInfo(self)
 	if (factionId and factionId ~= 0 and TitanGetVar(PLUGIN_ID, "SmartReputation") == 1) then
 		name, _, standingId, bottomValue, topValue, barValue, atWarWith = GetFactionInfoByID(factionId)
 	else
-		name, standingId, bottomValue, topValue, barValue, factionId = GetWatchedFactionInfo()
+		factionId = GetWatchedFactionID()
 		if (factionId) then
-			atWarWith = select(7, GetFactionInfoByID(factionId))
+			name, _, standingId, bottomValue, topValue, barValue, atWarWith = GetFactionInfoByID(factionId)
 		end
 	end
 	return {

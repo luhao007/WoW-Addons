@@ -458,7 +458,23 @@ end
 --鼠标悬浮
 local function OnEnter_Spell(Type,SimID)
 	if IsSpellKnown(SimID) then
-		if C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines then
+		if tocversion<50000 then
+			for i = 1, GetNumSpellTabs() do
+				local _, _, offset, numSlots = PIGGetSpellTabInfo(i)
+				for j = offset+1, offset+numSlots do
+					local _,spellID=PIGGetSpellBookItemInfo(j, PIGbookType)
+					if SimID==spellID then
+						local _,jibiex= GetSpellBookItemName(j, PIGbookType)
+						GameTooltipTextRight1:Show()
+						GameTooltip:SetSpellBookItem(j, PIGbookType);
+						GameTooltipTextRight1:SetText(jibiex)
+						GameTooltipTextRight1:SetTextColor(0.5, 0.5, 0.5, 1);
+						GameTooltip:Show();
+						return
+					end
+				end
+			end
+		else
 			for skillLineIndex = 1, C_SpellBook.GetNumSpellBookSkillLines() do
 				local skillLineInfo = C_SpellBook.GetSpellBookSkillLineInfo(skillLineIndex);
 				for i = 1, skillLineInfo.numSpellBookItems do
@@ -491,22 +507,6 @@ local function OnEnter_Spell(Type,SimID)
 								end
 							end
 						end
-					end
-				end
-			end
-		else
-			for i = 1, GetNumSpellTabs() do
-				local _, _, offset, numSlots = PIGGetSpellTabInfo(i)
-				for j = offset+1, offset+numSlots do
-					local _,spellID=PIGGetSpellBookItemInfo(j, PIGbookType)
-					if SimID==spellID then
-						local _,jibiex= GetSpellBookItemName(j, PIGbookType)
-						GameTooltipTextRight1:Show()
-						GameTooltip:SetSpellBookItem(j, PIGbookType);
-						GameTooltipTextRight1:SetText(jibiex)
-						GameTooltipTextRight1:SetTextColor(0.5, 0.5, 0.5, 1);
-						GameTooltip:Show();
-						return
 					end
 				end
 			end

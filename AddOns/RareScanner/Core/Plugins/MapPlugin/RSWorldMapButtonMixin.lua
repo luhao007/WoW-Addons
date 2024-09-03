@@ -97,6 +97,19 @@ function RSWorldMapButtonMixin:SetupMenu()
 				end
 			end)
 		npcsLastSeen:SetEnabled(function() return RSConfigDB.IsShowingNpcs() end)
+
+		if (RSUtils.Contains(private.CONTINENT_ZONE_IDS[RSConstants.KHAZ_ALGAR].zones, mapID)) then
+	    	local npcsWeekly = npcsSubmenu:CreateCheckbox("|T"..RSConstants.NORMAL_NPC_TEXTURE..":18:18:::::0:32:0:32|t "..AL["MAP_MENU_DISABLE_WEEKLY_REP_FILTER"], 
+	    		function() return RSConfigDB.IsShowingWeeklyRepFilterEnabled() end, 
+				function()
+					if (RSConfigDB.IsShowingWeeklyRepFilterEnabled()) then
+						RSConfigDB.SetShowingWeeklyRepFilterEnabled(false)
+					else
+						RSConfigDB.SetShowingWeeklyRepFilterEnabled(true)
+					end
+				end)
+			npcsWeekly:SetEnabled(function() return RSConfigDB.IsShowingNpcs() and not RSConfigDB.IsWeeklyRepNpcFilterEnabled() end)
+		end
 		
     	local npcsDead = npcsSubmenu:CreateCheckbox("|T"..RSConstants.BLUE_NPC_TEXTURE..":18:18:::::0:32:0:32|t "..AL["MAP_MENU_SHOW_DEAD_RARE_NPCS"], 
     		function() return RSConfigDB.IsShowingAlreadyKilledNpcs() end, 
@@ -204,12 +217,23 @@ function RSWorldMapButtonMixin:SetupMenu()
 			end)
 		npcsOthers:SetEnabled(function() return RSConfigDB.IsShowingNpcs() end)
 		
-		-- Filter NPCs
+		-- Filter NPCs		
 		local npcIDsWithNames = RSNpcDB.GetActiveNpcIDsWithNamesByMapID(mapID, false)
 		if (RSUtils.GetTableLength(npcIDsWithNames) > 0) then
 			npcsSubmenu:CreateDivider()
 			npcsSubmenu:CreateTitle(AL["MAP_MENU_FILTER"])
 			
+			if (RSUtils.Contains(private.CONTINENT_ZONE_IDS[RSConstants.KHAZ_ALGAR].zones, mapID)) then
+		    	npcsSubmenu:CreateCheckbox(AL["MAP_MENU_FILTER_WEEKLY_REP_FILTER"], function() return RSConfigDB.IsWeeklyRepNpcFilterEnabled() end, 
+					function()
+						if (RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
+							RSConfigDB.SetWeeklyRepNpcFilterEnabled(false)
+						else
+							RSConfigDB.SetWeeklyRepNpcFilterEnabled(true)
+						end
+					end)
+			end
+		
 	    	local npcsFilterSubmenu = npcsSubmenu:CreateButton(AL["MAP_MENU_FILTER_NPCS"])
 			npcsFilterSubmenu:SetScrollMode(500)
 			npcsFilterSubmenu:CreateTitle(AL["MAP_MENU_FILTER_DESELECT"])
@@ -274,6 +298,18 @@ function RSWorldMapButtonMixin:SetupMenu()
 							RSConfigDB.SetNpcFiltered(npcID)
 						end
 					end)
+				npcFilter:SetEnabled(function() 
+					local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
+					if (npcInfo and npcInfo.warbandQuestID and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
+						for _, questID in ipairs(npcInfo.warbandQuestID) do
+							if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+								return false
+							end
+						end
+					end
+					
+					return true				
+				end)
 			end
 		end
 		

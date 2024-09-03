@@ -1014,20 +1014,24 @@ function TitanVariables_SetBarPos(self, reset, x_off, y_off, w_off)
 			TitanBarDataVars[bar_frame].off_w = w_off
 		end
 	end
+	-- This is intended to prevent the bar fromk 'walking' on the screen due to rounding errors...
+	TitanBarDataVars[bar_frame].tscale = TitanPanelGetVar("Scale")
 	-- :GetPoint(1) results in incorrect values based on point used
 end
 
 ---Titan Retrieve saved vars of bar position
----@param frame_str string Short bar name
+---@param frame_str string Bar name
 ---@return number off_x
 ---@return number off_y
 ---@return number off_width
+---@return number tscale last Titan scale seen for this bar
 function TitanVariables_GetBarPos(frame_str)
-	--	local tscale = TitanPanelGetVar("Scale")
+	-- tscale may not exist so return 0 as 'invalid'
 	return
-		TitanBarDataVars[frame_str].off_x, --/ tscale, -- / tscale,
-		TitanBarDataVars[frame_str].off_y, --/ tscale, -- / tscale,
-		TitanBarDataVars[frame_str].off_w -- / tscale
+		TitanBarDataVars[frame_str].off_x,
+		TitanBarDataVars[frame_str].off_y,
+		TitanBarDataVars[frame_str].off_w,
+		(TitanBarDataVars[frame_str].tscale or 0)
 end
 
 ---Titan Build the frame name from the bar name

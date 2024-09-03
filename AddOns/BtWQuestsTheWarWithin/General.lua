@@ -195,6 +195,15 @@ Database:AddChain(Chain.Introduction, {
             variations = {
                 {
                     type = "quest",
+                    id = 78529,
+                    restrictions = {
+                        type = "quest",
+                        id = 78529,
+                        status = {'active', 'completed'}
+                    }
+                },
+                {
+                    type = "quest",
                     id = 83543,
                     restrictions = THREADS_OF_FATE_RESTRICTION,
                 },
@@ -226,7 +235,7 @@ Database:AddChain(Chain.AgainstTheCurrent, {
     },
     active = {
         type = "quest",
-        id = 79197,
+        id = 79333,
         status = {'active', 'completed'},
     },
     completed = {
@@ -837,3 +846,9 @@ BtWQuestsDatabase:AddExpansionItems(EXPANSION_ID, {
         id = Chain.TheMachinesMarchToWar,
     },
 })
+
+BtWQuestsDatabase:AddQuestItemsForChain(Chain.Introduction)
+BtWQuestsDatabase:AddQuestItemsForChain(Chain.AgainstTheCurrent)
+BtWQuestsDatabase:AddQuestItemsForChain(Chain.TiesThatBind)
+BtWQuestsDatabase:AddQuestItemsForChain(Chain.NewsFromBelow)
+BtWQuestsDatabase:AddQuestItemsForChain(Chain.TheMachinesMarchToWar)

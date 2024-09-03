@@ -738,11 +738,19 @@ QuickButUI.ButList[6]=function()
 				gengxinlushiCD()
 			end
 			local Skill_List = addonTable.FramePlusfun.Skill_List
-			if tocversion<50000 then
+			if tocversion<40000 then
 				local _, _, tabOffset, numEntries = GetSpellTabInfo(1)
 				for j=tabOffset + 1, tabOffset + numEntries do
 					local spellName, _ ,spellID=GetSpellBookItemName(j, PIGbookType)
 					if add_skilldata(General,Skill_List,spellID,spellName) then return end
+				end
+			elseif tocversion<50000 then
+				for _, i in pairs{GetProfessions()} do
+					local offset, numSlots = select(3, GetSpellTabInfo(i))
+					for j = offset+1, offset+numSlots do
+						local spellName, _ ,spellID=GetSpellBookItemName(j, PIGbookType)
+						if add_skilldata(General,Skill_List,spellID,spellName) then return end
+					end
 				end
 			else
 				for _, i in pairs{GetProfessions()} do
@@ -1035,8 +1043,7 @@ QuickButUI.ButList[7]=function()
 			----
 			zhushoubut:SetScript("OnEnter", function (self)
 				GameTooltip:ClearLines();
-				GameTooltip:SetOwner(self, "ANCHOR_NONE");
-				GameTooltip:SetPoint("BOTTOMRIGHT",UIParent,"BOTTOMRIGHT",-100,140);
+				GameTooltip_SetDefaultAnchor(GameTooltip, self)
 				Update_OnEnter(self,"QuickBut")
 			end)
 			zhushoubut:SetScript("OnLeave", function ()

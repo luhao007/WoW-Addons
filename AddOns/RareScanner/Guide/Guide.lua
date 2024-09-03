@@ -754,6 +754,16 @@ private.NPC_GUIDE = {
 	["2202732214"] = {
 		[RSConstants.ENTRANCE] = { x = 0.5745, y = 0.5478 };
 	}; --Rampaging Skardyn <Evolved Monstrosity>
+	["2202852214"] = {
+		[RSConstants.FLAG..1] = { x = 0.4946, y = 0.0880, comment = AL["NOTE_220285_1"] };
+		[RSConstants.FLAG..2] = { x = 0.5391, y = 0.2528, comment = AL["NOTE_220285_1"] };
+		[RSConstants.FLAG..3] = { x = 0.5762, y = 0.2357, comment = AL["NOTE_220285_1"] };
+		[RSConstants.FLAG..4] = { x = 0.6283, y = 0.4464, comment = AL["NOTE_220285_1"] };
+		[RSConstants.FLAG..5] = { x = 0.5908, y = 0.9240, comment = AL["NOTE_220285_1"] };
+	}; --Lurker of the Deeps <Displaced Sea Horror>
+	["2069772215"] = {
+		[RSConstants.FLAG] = { x = 0.6440, y = 0.3100, comment = AL["NOTE_206977_1"] };
+	}; --Parasidious
 }
 
 ---============================================================================

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Jaliborc (João Cardoso)
-## Version: 11.0.3
+## Version: 11.0.6
 ## OptionalDeps: WoWUnit
 ## SavedVariables: PetTracker_Sets
 ## SavedVariablesPerCharacter: PetTracker_State

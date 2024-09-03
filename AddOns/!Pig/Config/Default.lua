@@ -283,6 +283,10 @@ addonTable.Default = {
 		["ItemLevel"] = true,
 		["ItemMaxCount"] = true,
 		["IDinfo"] = true,
+		["PointOpen"]=false,
+		["Point"] = 1,
+		["PointX"] = 0,
+		["PointY"] = 0,
 	},
 	["UnitFrame"] = {
 		["PlayerFrame"] = {

@@ -298,6 +298,19 @@ class Manager:
                 shutil.rmtree(root/lib)
 
     @staticmethod
+    def handle_separated_installed_libs():
+        """Move the separated installed addon to !!Libs folder"""
+        libs = ['Ace3', 'HereBeDragons']
+        root = Path('Addons')
+        for addon in os.listdir(root):
+            if addon in libs:
+                print(f'Moving {addon} to !!Libs...')
+                shutil.copytree(root/addon,
+                                root/'!!Libs'/addon,
+                                dirs_exist_ok=True)
+                shutil.rmtree(root/addon)
+
+    @staticmethod
     def _handle_lib_in_libs(root):
         for lib in os.listdir(root):
             if not os.path.isdir(root/lib) or lib == 'Ace3':

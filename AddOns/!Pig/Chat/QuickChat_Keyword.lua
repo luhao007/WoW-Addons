@@ -69,6 +69,7 @@ local function FilterBlack_IsFriend(name,name1)
 	end
 	return false
 end
+Fun.IsFriend=FilterBlack_IsFriend
 local function FilterBlack_Name(name)
 	if name then
 		local p_blnum = #BlackList["name"]

@@ -51,6 +51,11 @@ function fuFrame.Bianju_Fun()
 		for i = 1, NUM_CHAT_WINDOWS do 
 			_G["ChatFrame"..i]:SetClampRectInsets(-35, 0, 0, 0) --可拖动至紧贴屏幕边缘 
 		end
+		hooksecurefunc("FloatingChatFrame_UpdateBackgroundAnchors", function(self)
+			if self==_G["ChatFrame2"] then
+				self:SetClampRectInsets(-35, 0, 0, 0);
+			end
+		end)
 	end
 end
 --输入框移动
@@ -292,7 +297,7 @@ end)
 -- fuFrame.LOOTF.tishi.Texture = fuFrame.LOOTF.tishi:CreateTexture(nil, "BORDER");
 -- fuFrame.LOOTF.tishi.Texture:SetTexture("interface/common/help-i.blp");
 -- fuFrame.LOOTF.tishi.Texture:SetAllPoints(fuFrame.LOOTF.tishi)
--- PIGEnter(fuFrame.LOOTF.tishi,L["LIB_TIPS"],L["CHAT_LOOTFTIPS"])
+-- PIGEnter(fuFrame.LOOTF.tishi,L["LIB_TIPS"]..": ",L["CHAT_LOOTFTIPS"])
 -- fuFrame.LOOTF.ShowlootF = PIGButton(fuFrame.LOOTF,{"TOPLEFT",fuFrame.LOOTF,"TOPLEFT",410,-8},{150,22},L["CHAT_LOOTFFENLI"]);
 -- fuFrame.LOOTF.ShowlootF:SetScript("OnClick", function (self)
 -- 	if fuFrame.ChatlootID then

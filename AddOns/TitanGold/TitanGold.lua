@@ -261,6 +261,35 @@ local function NiceCash(value, show_zero, show_neg)
 	return outstr, gold, silver, copper
 end
 
+---local Take the total cash and make it into a nice, colorful string of g s c (gold silver copper)
+---@param value number
+---@return string outstr Formatted cash for output
+---@return integer gold part of value
+---@return integer silver part of value
+---@return integer copper part of value
+local function NiceTextCash(value)
+	local sep = ""
+	local dec = ""
+	if (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorComma")) then
+		sep = ","
+		dec = "."
+	elseif (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorPeriod")) then
+		sep = "."
+		dec = ","
+	elseif (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorSpace")) then
+		sep = " "
+		dec = "."
+	end
+
+	local outstr, gold, silver, copper =
+		TitanUtils_CashToString(value, sep, dec,
+			TitanGetVar(TITAN_GOLD_ID, "ShowGoldOnly"),
+			true, --TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels"),
+			false, --TitanGetVar(TITAN_GOLD_ID, "ShowCoinIcons"),
+			TitanGetVar(TITAN_GOLD_ID, "ShowColoredText"))
+	return outstr, gold, silver, copper
+end
+
 ---local Create Show menu - list of characters in same faction
 ---@param faction string
 ---@param level number
@@ -278,7 +307,7 @@ local function ShowMenuButtons(faction, level)
 		local index = GoldSorted[i]
 		local character, charserver, char_faction = GetIndexInfo(index)
 		if character and (char_faction == faction) then
-			info.text = character .. " - " .. charserver;
+			info.text = character .. " - " .. charserver.." "..NiceTextCash(GoldSave[index].gold).."";
 			info.value = character;
 			info.keepShownOnClick = true;
 			info.checked = function()
@@ -315,18 +344,11 @@ local function DeleteMenuButtons(faction, level)
 		local character, charserver, char_faction = GetIndexInfo(index)
 		info.notCheckable = true
 		if character and (char_faction == faction) then
-			info.text = character .. " - " .. charserver;
+			info.text = character .. " - " .. charserver.." "..NiceTextCash(GoldSave[index].gold).."";
 			info.value = character;
 			info.func = function()
-				print("Del"
-					.. " " .. tostring(index) .. ""
-					.. " " .. tostring(GoldSave[index].gold) .. ""
-				)
 				GoldSave[index] = {}
 				GoldSave[index] = nil
-				print("Del"
-					.. " " .. tostring(GoldSave[index]) .. ""
-				)
 				TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 			end
 			-- cannot delete current character
@@ -1218,11 +1240,11 @@ print("_OnEvent"
 
 			-- Faction is English to use as index NOT display
 			GOLD_INDEX = CreateIndex(player_name, realmName, player_faction)
-			Initialize_Array(self);
 		else
 			-- Not this addon
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
+		Initialize_Array(self);
 		Warband.Init()
 		TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 	end

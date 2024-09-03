@@ -11,7 +11,7 @@ local L = LibStub('AceLocale-3.0'):GetLocale('PetTracker')
 
 --[[ Startup ]]--
 
-function Tutorials:OnEnable()
+function Tutorials:OnLoad()
 	self:Load()
 	self:Start()
 
@@ -27,7 +27,7 @@ function Tutorials:Load()
 
 		{
 			text = L.Tutorial[1],
-			image = 'Interface/Addons/PetTracker/art/pets',
+			image = 'Interface/Addons/PetTracker/art/welcome',
 			point = 'CENTER'
 		},
 		{

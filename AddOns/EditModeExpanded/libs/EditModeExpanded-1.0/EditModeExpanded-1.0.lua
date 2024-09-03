@@ -2,7 +2,7 @@
 -- Internal variables
 --
 
-local MAJOR, MINOR = "EditModeExpanded-1.0", 83
+local MAJOR, MINOR = "EditModeExpanded-1.0", 84
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
@@ -231,7 +231,8 @@ function lib:RegisterFrame(frame, name, db, anchorTo, anchorPoint, clamped)
     frame.systemNameString = name
     frame.Selection:SetGetLabelTextFunction(function() return name end)
     frame:SetupSettingsDialogAnchor();
-    frame.snappedFrames = {};
+    
+    --frame.snappedFrames = {}; -- this was spreading taint, need to check for the absence causing errors
     registerFrameMovableWithArrowKeys(frame)
     
     -- prevent the frame from going outside the screen boundaries
@@ -1723,7 +1724,11 @@ do
     local lf = CreateFrame("Frame")
     local outOfCombatCallbacks = {}
     runOutOfCombat = function(callback)
-        table.insert(outOfCombatCallbacks, callback)
+        if InCombatLockdown() then
+            table.insert(outOfCombatCallbacks, callback)
+        else
+            callback()
+        end
     end
     hooksecurefunc(f, "OnLoad", function()
         lf:RegisterEvent("PLAYER_REGEN_DISABLED")

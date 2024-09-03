@@ -9,16 +9,23 @@ local MapCanvas = Addon:NewModule('MapCanvas')
 
 --[[ Startup ]]--
 
-function MapCanvas:OnEnable()
+function MapCanvas:OnLoad()
 	self.Tip, self.Pins = Addon.MultiTip(UIParent), {}
 	self.Tip:SetScript('OnUpdate', function() self:AnchorTip() end)
 	self:RegisterSignal('COLLECTION_CHANGED', 'UpdateAll')
 	self:RegisterSignal('OPTIONS_CHANGED', 'UpdateAll')
+	self:RegisterEvent('CVAR_UPDATE', 'OnCVar')
 
 	hooksecurefunc(MapCanvasMixin, 'OnMapChanged', function(frame)
 		self:Init(frame)
 		self:Redraw(frame)
 	end)
+end
+
+function MapCanvas:OnCVar(var)
+	if var == 'showTamers' then
+		self:UpdateAll()
+	end
 end
 
 
@@ -96,7 +103,7 @@ function MapCanvas:Draw(frame)
 		local mapID = frame:GetMapID()
 		local index = 1
 
-		if not Addon.sets.hideSpecies then
+		if Addon.sets.showSpecies then
 			local species = Addon.Maps:GetSpeciesIn(mapID)
 			for specie, spots in pairs(species) do
 				local specie = Addon.Specie(specie)
@@ -110,7 +117,7 @@ function MapCanvas:Draw(frame)
 			end
 		end
 
-		if not Addon.sets.hideStables then
+		if Addon.sets.showStables then
 			local stables = Addon.Maps:GetStablesIn(mapID)
 			for x, y in gmatch(stables, '(%w%w)(%w%w)') do
 				tinsert(self.Pins[frame], Addon.StablePin(frame, index, x,y))

@@ -161,7 +161,7 @@ function RSHyperlinks.HookHyperLinks()
 					
 					-- Notification with health
 					if (npcID and npcID == entityID and unitHealth and unitHealhMax and unitHealhMax > 0) then
-						SendChatMessage(format(AL["CHAT_NOTIFICATION_HEALTH_RARE"], name, unitHealth/unitHealhMax*100, C_Map.GetUserWaypointHyperlink()), "CHANNEL", nil, 1)
+						SendChatMessage(format(AL["CHAT_NOTIFICATION_HEALTH_RARE"], name, string.format("%.2f", unitHealth/unitHealhMax*100), C_Map.GetUserWaypointHyperlink()), "CHANNEL", nil, 1)
 					-- Notification without health
 					else
 						SendChatMessage(format(AL["CHAT_NOTIFICATION_RARE"], name, C_Map.GetUserWaypointHyperlink()), "CHANNEL", nil, 1)

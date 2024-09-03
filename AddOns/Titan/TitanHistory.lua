@@ -15,6 +15,16 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.1.2 : 2024/08/24\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Fix for short bars drifting when using some Titan scaling other than one (1)."
+)
+.. TitanUtils_GetGreenText("Gold : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Restore starting gold for gold per hour calc. #1404\n"
+)
+.. "\n\n"
 .. TitanUtils_GetGoldText("8.1.1 : 2024/08/15\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
@@ -73,33 +83,6 @@ Titan_Global.recent_changes = ""
 .. TitanUtils_GetGreenText("Regen : \n")
 .. TitanUtils_GetHighlightText(""
 .. "- Cleanup documentation (comments); made some routines local.\n"
-)
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.0.15 : 2024/07/14\n")
-.. TitanUtils_GetGreenText("Location : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Fix error shown when in instances.\n"
-.. "- Options same in all versions: Show Zone Text shows text or not; Show ONLY subzone removes zone text.\n"
-)
-.. TitanUtils_GetGreenText("Auto Hide (full bars) : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Fix error on clicking 'pin' to toggle auto hide.\n"
-)
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.0.14 : 2024/07/12\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Updated Classic Era version to 1.15.3."
-.. "- AutoHide : Fix tooltip error; shows Enabled / Disabled.\n"
-.. "- Deprecated Titan Child template plugin code removed.\n"
-.. "- Cleanup Titan tool tip code.\n"
-.. "- Refactor Titan code to move color codes to Titan globals.\n"
-.. "- Add debug to Titan startup code.\n"
-)
-.. TitanUtils_GetGreenText("Clock, Location, Performance, Repair, Volume, XP : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Refactor code for IDE, mostly comments; some code.\n"
-.. "- Refactor code for Titan color code changes.\n"
 )
 .. "\n\n"
 

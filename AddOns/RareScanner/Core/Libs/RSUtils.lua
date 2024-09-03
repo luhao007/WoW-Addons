@@ -112,7 +112,7 @@ function RSUtils.Contains(cTable, item)
 				return RSUtils.Contains(v, item)
 			elseif (type(item) == "table") then
 				return RSUtils.Contains(item, v)
-			elseif (type(v) == "string" and string.find(string.upper(v), string.upper(item))) then
+			elseif (type(v) == "string" and string.find(string.upper(strtrim(v)), string.upper(strtrim(item)))) then
 				return true;
 			elseif (v == item) then
 				return true;
@@ -121,7 +121,7 @@ function RSUtils.Contains(cTable, item)
 	else
 		if (type(item) == "table") then
 			return RSUtils.Contains(item, cTable)
-		elseif (type(cTable) == "string" and string.find(string.upper(cTable), string.upper(item))) then
+		elseif (type(cTable) == "string" and string.find(string.upper(strtrim(cTable)), string.upper(strtrim(item)))) then
 			return true;
 		elseif (cTable == item) then
 			return true;

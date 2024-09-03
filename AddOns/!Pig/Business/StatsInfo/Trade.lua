@@ -1,8 +1,8 @@
 local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
--- local fmod=math.fmod
--- local match = _G.string.match
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 --
+local Fun=addonTable.Fun
 local Create=addonTable.Create
 local PIGLine=Create.PIGLine
 local PIGFrame=Create.PIGFrame
@@ -497,6 +497,7 @@ function BusinessInfo.Trade()
 		end
 		return false
 	end
+	local IsFriend=Fun.IsFriend
 	fujiF:RegisterEvent("UI_INFO_MESSAGE");
 	fujiF:SetScript("OnEvent", function(self,event,arg1,arg2)
 		if event=="UI_INFO_MESSAGE" then
@@ -554,6 +555,13 @@ function BusinessInfo.Trade()
 						FSmsgT[2]="收到"..FSmsgT[2]
 					end
 					if FSmsgT[1]~="" or FSmsgT[2]~="" then
+						if PIGA["StatsInfo"]["TradeTongGaoPindao"]=="RAID" then
+							if IsAddOnLoaded(L.extLsit[2]) and not PIGA["GDKP"]["Rsetting"]["tradetonggao"] then
+								return
+							end
+						else
+							if IsFriend(TradeFrame.PIG_Data.Name) then return end
+						end
 						local msgT = "与<"..TradeFrame.PIG_Data.Name..">交易成功,"..FSmsgT[1]..FSmsgT[2]
 						if HasLFGRestrictions() then
 							SendChatMessage("!Pig:"..msgT, "INSTANCE_CHAT", nil, TradeFrame.PIG_Data.Name);

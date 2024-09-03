@@ -117,6 +117,7 @@ function FramePlusfun.Roll()
 		itemhang.icon.tex:SetSize(itemhangH-4,itemhangH-4);
 		itemhang.icon.hasItem = 1
 		itemhang.icon:SetScript("OnEnter", function (self)
+			if RollFFF.ceshi then return end
 			GameTooltip:ClearLines();
 			GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
 			GameTooltip:SetLootRollItem(self:GetParent().rollID);
@@ -150,7 +151,7 @@ function FramePlusfun.Roll()
 		itemhang.Timer:SetPoint("BOTTOMLEFT", itemhang.icon, "BOTTOMRIGHT", 2, 0);
 		itemhang.Timer:SetMinMaxValues(0, 60000)
 		itemhang.Timer:SetScript("OnUpdate", function (self, elapsed)
-			if itemhang.ceshi then return end
+			if RollFFF.ceshi then return end
 			GroupLootFrame_OnUpdate(self, elapsed);
 		end);
 		itemhang.Timer.BACKGROUND = itemhang.Timer:CreateTexture(nil, "BACKGROUND");
@@ -220,7 +221,7 @@ function FramePlusfun.Roll()
 		itemhang.De:Hide()
 	
 		itemhang:SetScript("OnShow", function(self)
-			if itemhang.ceshi then return end
+			if RollFFF.ceshi then return end
 			local texture, name, count, quality, bindOnPickUp, canNeed, canGreed, canDisenchant, reasonNeed, reasonGreed, reasonDisenchant, deSkillRequired = GetLootRollItemInfo(self.rollID);
 			if (name == nil) then
 				GroupLootContainer_RemoveFrame(RollFFF, self);
@@ -357,6 +358,18 @@ function FramePlusfun.Roll()
 		end
 		return 0,0
 	end
+	local function PIGSetLootRollIDs()
+		local pendingLootRollIDs = GetActiveLootRollIDs();
+		for i=1, #pendingLootRollIDs do
+			GroupLootFrame_OpenNewFrame(pendingLootRollIDs[i], GetLootRollTimeLeft(pendingLootRollIDs[i]));
+			local historyIndex, numPlayers=GetItemhistoryIndex(pendingLootRollIDs[i])
+			if historyIndex>0 and numPlayers>0 then
+				for playerIndex=1,numPlayers do
+					UpdateRollBut(historyIndex, playerIndex)
+				end
+			end
+		end
+	end
 	RollFFF:RegisterEvent("PLAYER_ENTERING_WORLD")
 	RollFFF:RegisterEvent("START_LOOT_ROLL")
 	--RollFFF:RegisterEvent("LOOT_ROLLS_COMPLETE")
@@ -364,15 +377,9 @@ function FramePlusfun.Roll()
 	RollFFF:RegisterEvent("LOOT_HISTORY_ROLL_CHANGED")
 	RollFFF:SetScript("OnEvent", function(self, event, arg1, arg2) 
 		if ( event == "PLAYER_ENTERING_WORLD" ) then
-			local pendingLootRollIDs = GetActiveLootRollIDs();
-			for i=1, #pendingLootRollIDs do
-				GroupLootFrame_OpenNewFrame(pendingLootRollIDs[i], GetLootRollTimeLeft(pendingLootRollIDs[i]));
-				local historyIndex, numPlayers=GetItemhistoryIndex(pendingLootRollIDs[i])
-				if historyIndex>0 and numPlayers>0 then
-					for playerIndex=1,numPlayers do
-						UpdateRollBut(historyIndex, playerIndex)
-					end
-				end
+			PIGSetLootRollIDs()
+			for iggg=1, NUM_GROUP_LOOT_FRAMES do
+				_G["GroupLootFrame"..iggg]:Hide()
 			end
 		elseif event == "START_LOOT_ROLL" then
 			GroupLootFrame_OpenNewFrame(arg1, arg2);
@@ -382,32 +389,56 @@ function FramePlusfun.Roll()
 			
 		end
 	end)
-	-- --LootHistoryFrame:SetWidth(210)
-	-- local xffggghhh = {22589,14237,3302,7441,13262,13262,13262}
-	-- for i=1,NUM_GROUP_LOOT_FRAMES do
-	-- 	if not RollFFF.butList[i] then add_hang(i) end
-	-- 	local itembut=RollFFF.butList[i]
-	-- 	--SETbutEnableDisable(RollFFF.butList[i],false)
-	-- 	itembut.ceshi=true
-	-- 	itembut.Timer:SetValue(i);
-	-- 	local itemName,itemLink,itemQuality,itemLevel,itemMinLevel,itemType,itemSubType,itemStackCount,itemEquipLoc,itemTexture,sellPrice,classID,subclassID = GetItemInfo(xffggghhh[i])
-	-- 	itembut.icon.link=itemLink
-	-- 	itembut.icon.tex:SetTexture(itemTexture)
-	-- 	--print(itemType,itemSubType,itemEquipLoc)
-	-- 	if classID==2 or classID==4 then
-	-- 		local effectiveILvl = GetDetailedItemLevelInfo(itemLink)
-	-- 		itembut.icon.lv:SetText(effectiveILvl);
-	-- 		local r, g, b = GetItemQualityColor(itemQuality);
-	-- 		itembut.icon.lv:SetTextColor(r, g, b, 1);
-	-- 		itembut.name:SetText(itemSubType..itemLink)
-	-- 	else
-	-- 		itembut.name:SetText(itemLink)
-	-- 	end
-	-- 	itembut.icon.Count:SetTextColor(1, 1, 1, 1)
-	-- 	itembut.icon.Count:SetText(8)
-	-- 	itembut:ClearAllPoints();
-	-- 	itembut:SetPoint("TOP",RollFFF,"BOTTOM",0,-(itemhangH*(i-1)));
-	-- 	itembut:Show()
-	-- end
-	-- RollFFF:Show()
+	--
+	--LootHistoryFrame:SetWidth(210)
+	local xffggghhh = {13262,7734,22691,11122}
+	function RollFFF:Getceshiwupinxinxi()
+		for i=1,#xffggghhh do
+			GetItemInfo(xffggghhh[i])
+		end
+	end
+	function RollFFF:DebugUI()
+		self.ceshi=true
+		for i=1,#xffggghhh do
+			if not RollFFF.butList[i] then add_hang(i) end
+			local itembut=RollFFF.butList[i]
+			SETbutEnableDisable(RollFFF.butList[i],false)
+			itembut.PlayersList={}
+			for i=1,#rollTypelist do
+				itembut.PlayersList[rollTypelist[i]]={}
+			end
+			itembut.Need.Count:SetText(0)
+			itembut.Greed.Count:SetText(0)
+			itembut.Pass.Count:SetText(0)
+			itembut.Timer:SetValue(i*14000);
+			local itemName,itemLink,itemQuality,itemLevel,itemMinLevel,itemType,itemSubType,itemStackCount,itemEquipLoc,itemTexture,sellPrice,classID = GetItemInfo(xffggghhh[i])
+			itembut.icon.link=itemLink
+			itembut.icon.tex:SetTexture(itemTexture)
+			if classID==2 or classID==4 then
+				local effectiveILvl = GetDetailedItemLevelInfo(itemLink)
+				itembut.icon.lv:SetText(effectiveILvl);
+				local r, g, b = GetItemQualityColor(itemQuality);
+				itembut.icon.lv:SetTextColor(r, g, b, 1);
+				itembut.name:SetText(itemSubType..itemLink)
+			else
+				itembut.name:SetText(itemLink)
+			end
+			itembut.icon.Count:SetTextColor(1, 1, 1, 1)
+			itembut.icon.Count:SetText(8)
+			itembut:ClearAllPoints();
+			itembut:SetPoint("TOP",RollFFF,"BOTTOM",0,-(itemhangH*(i-1)));
+			itembut:Show()
+		end	
+		if not self:IsShown() then self:Show() end
+		self:SetScale(PIGA["FramePlus"]["RollScale"])
+		if self.ceshiTicker then self.ceshiTicker:Cancel() end
+		self.ceshiTicker=C_Timer.NewTimer(3,function()
+			for k,v in pairs(RollFFF.butList) do
+				v:Hide()
+			end
+			self:Hide()
+			self.ceshi=false
+			PIGSetLootRollIDs()
+		end)
+	end
 end

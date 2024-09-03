@@ -316,10 +316,14 @@ function QuickChatfun.Open()
 	if QuickChatFFF_UI then return end
 	for i=1,#L["CHAT_QUKBUTNAME"]-1 do
 		if PIGA["Chat"]["QuickChat_ButList"][L["CHAT_QUKBUTNAME"][i]]==nil then
-			PIGA["Chat"]["QuickChat_ButList"][L["CHAT_QUKBUTNAME"][i]]=true
+			if i==11 then
+				PIGA["Chat"]["QuickChat_ButList"][L["CHAT_QUKBUTNAME"][i]]=false
+			else
+				PIGA["Chat"]["QuickChat_ButList"][L["CHAT_QUKBUTNAME"][i]]=true
+			end
 		end
 	end
-	PIGA["Chat"]["QuickChat_ButList"]["P"]=false
+	
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", TihuanBQfun)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", TihuanBQfun)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", TihuanBQfun)
@@ -486,14 +490,13 @@ function QuickChatfun.Open()
 	QuickChatFFF.CHANNEL_1 = ADD_chatbut(QuickChatFFF,"CHANNEL",L["CHAT_QUKBUTNAME"][8],GENERAL,{0.888, 0.668, 0.668})
 	QuickChatFFF.CHANNEL_2 = ADD_chatbut(QuickChatFFF,"CHANNEL",L["CHAT_QUKBUTNAME"][9],TRADE,{0.888, 0.668, 0.668})
 	QuickChatFFF.CHANNEL_3 = ADD_chatbut(QuickChatFFF,"CHANNEL",L["CHAT_QUKBUTNAME"][10],LOOK_FOR_GROUP,{0.888, 0.668, 0.668})
-	QuickChatFFF.CHANNEL_4 = ADD_chatbut(QuickChatFFF,"CHANNEL",L["CHAT_QUKBUTNAME"][11],"PIG",{0.4,1,0.8})
-	QuickChatFFF.CHANNEL_5 = ADD_chatbut(QuickChatFFF,"CHANNEL",L["CHAT_QUKBUTNAME"][12],worldname,{0.888, 0.668, 0.668})
+	QuickChatFFF.CHANNEL_5 = ADD_chatbut(QuickChatFFF,"CHANNEL",L["CHAT_QUKBUTNAME"][11],worldname,{0.888, 0.668, 0.668})
 	--
 	QuickChatfun.QuickBut_Keyword()
 	QuickChatfun.QuickBut_Roll()
 	QuickChatfun.QuickBut_Stats()
 	QuickChatfun.QuickBut_Jilu()
-	QuickChatfun.QuickBut_Ready()
+	QuickChatfun.QuickBut_Time()
 	QuickChatfun.Update_QuickChatPoint(PIGA["Chat"]["QuickChat_maodian"])
 	C_Timer.After(3,QuickChatfun.Update_ChatBut_icon)
 	C_Timer.After(5,QuickChatfun.Update_ChatBut_icon)

@@ -523,6 +523,13 @@ local function ColorShown(bar)
 	return res
 end
 
+---X or Y into a string (<num>.yy)
+---@param coord number
+---@return string
+local function Format_coord(coord)
+	return (tostring(format("%0.2f", coord)))
+end
+
 --[[ local
 NAME: TitanUpdateConfigBars
 DESC: Allow the user to control each Titan bar.
@@ -665,7 +672,81 @@ local function TitanUpdateConfigBars(t, pos)
 				TitanPanelBarButton_DisplayBarsWanted("Bar reset to default position - " .. tostring(info[1]))
 			end,
 		}
-		-- ======
+--[[
+		position = position + 1 -- spacer
+		args[v.name].args.position_spacer = {
+			order = position,
+			type = "description",
+			width = "full",
+			name = " ",
+		}
+		position = position + 1 -- reset pos
+		args[v.name].args.offset_x_num = {
+			order = position,
+			name = " X ",
+			desc = "",
+			disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
+			type = "input",
+			width = ".2",
+			get = function(info)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+				local res = TitanBarDataVars[frame_str].off_x
+print("Config X get"
+.." ".. tostring(info[1])..""
+.." ".. tostring(frame_str)..""
+.." ".. tostring(res)..""
+)
+				return Format_coord(res)
+			end,
+			set = function(info, val)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+print("Config X set"
+.." ".. tostring(frame_str)..""
+.." ".. tostring(val)..""
+)
+				local num = tonumber(val)
+				if num == nil then
+					-- invalid num yell at user :)
+					TitanPrint("error", "X not a number")
+				else
+					TitanBarDataVars[frame_str].off_x = val
+				end
+			end,
+		}
+		position = position + 1 -- reset pos
+		args[v.name].args.offset_y_num = {
+			order = position,
+			name = " Y ",
+			desc = "",
+			disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
+			type = "input",
+			width = ".2",
+			get = function(info)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+				local res = TitanBarDataVars[frame_str].off_y
+print("Config Y get"
+.." ".. tostring(frame_str)..""
+.." ".. tostring(res)..""
+)
+				return Format_coord(res)
+			end,
+			set = function(info, val)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+print("Config Y set"
+.." ".. tostring(frame_str)..""
+.." ".. tostring(val)..""
+)
+				local num = tonumber(val)
+				if num == nil then
+					-- invalid num yell at user :)
+					TitanPrint("error", "Y not a number")
+				else
+					TitanBarDataVars[frame_str].off_y = val
+				end
+			end,
+		}
+--]]
+-- ======
 		-- Background group
 		position = position + 1 -- background
 		args[v.name].args.back = {

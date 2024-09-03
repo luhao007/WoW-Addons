@@ -330,78 +330,61 @@ local function OnLootOpened()
 end
 
 ---============================================================================
+-- Event: CHAT_MSG_MONSTER_EMOTE
 -- Event: CHAT_MSG_MONSTER_YELL
--- Fired when a monster yells (red message on chat)
+-- Fired when a monster emotes (red/brown message on chat)
 ---============================================================================
-
-local function OnChatMsgMonsterYell(rareScannerButton, message, name)
-	-- If not disabled
-	if (not RSConfigDB.IsScanningChatAlerts()) then
-		return
-	end
-
-	if (name) then
-		RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER_YELL name: [%s]", name))
-		
-		local mapID = C_Map.GetBestMapForUnit("player")
-		if (not mapID) then
-			return
-		end
-		RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER_YELL mapID: [%s]", mapID))
-		
-		local npcID = RSNpcDB.GetNpcId(name, mapID)
-		if (not npcID) then
-			return
-		end
-		RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER_YELL npcID: [%s]", npcID))
-		
-		-- Enabled in Mechagon and Tanaan Jungle for every NPC
-		if (mapID == RSConstants.MECHAGON_MAPID or mapID == RSConstants.TANAAN_JUNGLE_MAPID) then
-			-- Arachnoid Harvester fix
-			if (npcID == 154342) then
-				npcID = 151934
-			end
-
-			-- The Scrap King fix
-			if ((npcID == 151623 or npcID == 151625) and (RSNpcDB.IsNpcKilled(151623) or RSNpcDB.IsNpcKilled(151625))) then
-				return
-			end
-
-			-- Simulates vignette event
-			if (RSNpcDB.GetInternalNpcInfo(npcID) and not RSNpcDB.IsNpcKilled(npcID)) then
-				local x, y = RSNpcDB.GetInternalNpcCoordinates(npcID, mapID)
-				rareScannerButton:SimulateRareFound(npcID, nil, name, x, y, RSConstants.NPC_VIGNETTE)
-			end
-		-- If not in Mechagon check only for NPCs without vignette and scanneable with nameplates
-		elseif (RSNpcDB.GetInternalNpcInfo(npcID) and RSNpcDB.GetInternalNpcInfo(npcID).noVignette and not RSNpcDB.IsNpcKilled(npcID)) then
-			local x, y = RSNpcDB.GetInternalNpcCoordinates(npcID, mapID)
-			rareScannerButton:SimulateRareFound(npcID, nil, name, x, y, RSConstants.NPC_VIGNETTE)
-		end
+local function SimulateRareFound(rareScannerButton, npcID, mapID, name)
+	if (RSNpcDB.GetInternalNpcInfo(npcID)) then
+		local x, y = RSNpcDB.GetInternalNpcCoordinates(npcID, mapID)
+		rareScannerButton:SimulateRareFound(npcID, nil, name, x, y, RSConstants.NPC_VIGNETTE)
 	end
 end
 
----============================================================================
--- Event: CHAT_MSG_MONSTER_EMOTE
--- Fired when a monster emotes (brown message on chat)
----============================================================================
-
-local function OnChatMsgMonsterEmote(rareScannerButton, message, name)
+local function OnChatMsgMonster(rareScannerButton, message, name, guid)
 	-- If not disabled
 	if (not RSConfigDB.IsScanningChatAlerts()) then
 		return
 	end
-
-	-- Check for Mechagon Construction Projects
+	
+	RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER: [MESSAGE:%s]", message))
+	
 	local mapID = C_Map.GetBestMapForUnit("player")
-	if (mapID and mapID == RSConstants.MECHAGON_MAPID) then
-		for constructionProject, npcID in pairs(private.CONSTRUCTION_PROJECTS) do
-			if (RSUtils.Contains(message, constructionProject)) then
-				-- Simulates vignette event
-				if (RSNpcDB.GetInternalNpcInfo(npcID) and not RSNpcDB.IsNpcKilled(npcID)) then
-					local x, y = RSNpcDB.GetInternalNpcCoordinates(npcID, mapID)
-					rareScannerButton:SimulateRareFound(npcID, nil, RSNpcDB.GetNpcName(npcID), x, y, RSConstants.NPC_VIGNETTE)
-				end
-
+	if (not mapID) then
+		return
+	end
+	
+	RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER: [MAPID:%s]", mapID))
+	
+	-- Try to analyze the GUID
+	if (guid) then
+		RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER: [GUID:%s]", guid))
+		
+		local _, _, _, _, _, id = strsplit("-", guid)
+		local npcID = id and tonumber(id) or nil
+		if (npcID) then
+			SimulateRareFound(rareScannerButton, npcID, mapID, RSNpcDB.GetNpcName(npcID))
+			return
+		end
+	end
+	
+	-- Try to analyze the Name
+	if (name) then
+		RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER: [NAME:%s]", name))
+		
+		local npcID = RSNpcDB.GetNpcId(name, mapID)
+		if (npcID) then
+			SimulateRareFound(rareScannerButton, npcID, mapID, name)
+			return
+		end
+	end
+	
+	-- Otherwise analyze the message
+	if (mapID == RSConstants.MECHAGON_MAPID or mapID == RSConstants.RINGING_DEEPS or mapID == RSConstants.AZJ_KAHET1 or mapID == RSConstants.AZJ_KAHET2 or mapID == RSConstants.AZJ_KAHET3 or mapID == RSConstants.AZJ_KAHET4) then
+		for msg, npcID in pairs(private.MONSTER_EMOTE) do
+			if (RSUtils.Contains(message, msg)) then
+				RSLogger:PrintDebugMessage(string.format("CHAT_MSG_MONSTER: [FOUND:%s]", npcID))
+				SimulateRareFound(rareScannerButton, npcID, mapID, RSNpcDB.GetNpcName(npcID))
 				return
 			end
 		end
@@ -698,9 +681,11 @@ local function HandleEvent(rareScannerButton, event, ...)
 	elseif (event == "LOOT_OPENED") then
 		OnLootOpened()
 	elseif (event == "CHAT_MSG_MONSTER_YELL") then
-		OnChatMsgMonsterYell(rareScannerButton, ...)
+		local message, name, _, _, _, _, _, _, _, _, _, guid = ...
+		OnChatMsgMonster(rareScannerButton, message, name, guid)
 	elseif (event == "CHAT_MSG_MONSTER_EMOTE") then
-		OnChatMsgMonsterEmote(rareScannerButton, ...)
+		local message, name, _, _, _, _, _, _, _, _, _, guid = ...
+		OnChatMsgMonster(rareScannerButton, message, name, guid)
 	elseif (event == "QUEST_TURNED_IN") then
 		OnQuestTurnedIn(rareScannerButton, ...)
 	elseif (event == "CINEMATIC_START") then

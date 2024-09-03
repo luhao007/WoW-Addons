@@ -19,15 +19,33 @@ local string_sub = string.sub
 local string_gsub = string.gsub
 local string_match = string.match
 local math_floor = math.floor
-local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
-local GetAddOnMetadata = C_AddOns.GetAddOnMetadata
+
+local function _GetSpellInfo(...)
+	local info = C_Spell.GetSpellInfo(...)
+	if not info then
+		return nil
+	end
+	return info.name, nil, info.iconID, info.castTime, info.minRange, info.maxRange, info.spellID, info.originalIconID
+end
+
+local function _GetSpellCooldown(...)
+	local info = C_Spell.GetSpellCooldown(...)
+	if info then
+		return info.startTime, info.duration, info.isEnabled, info.modRate
+	end
+end
+
+local GetSpellCooldown = (C_Spell and C_Spell.GetSpellCooldown) and _GetSpellCooldown or GetSpellCooldown
+local GetSpellInfo = (C_Spell and C_Spell.GetSpellInfo) and _GetSpellInfo or GetSpellInfo
+
+local GetSpellTexture = (C_Spell and C_Spell.GetSpellTexture) and C_Spell.GetSpellTexture or GetSpellTexture
 
 
 -------------------------------------------------------------------------------
 -- Mod constants
 -------------------------------------------------------------------------------
 
-local TOC_VERSION = string_gsub(GetAddOnMetadata("MikScrollingBattleText", "Version"), "wowi:revision", 0)
+local TOC_VERSION = string_gsub(C_AddOns.GetAddOnMetadata("MikScrollingBattleText", "Version"), "wowi:revision", 0)
 mod.VERSION = tonumber(select(3, string_find(TOC_VERSION, "(%d+%.%d+)")))
 mod.VERSION_STRING = "v" .. TOC_VERSION
 mod.SVN_REVISION = tonumber(select(3, string_find(TOC_VERSION, "%d+%.%d+.(%d+)")))
@@ -112,11 +130,11 @@ local function SplitString(text, delimeter, splitTable)
 	local start = 1
 	local splitStart, splitEnd = string_find(text, delimeter, start)
 	while splitStart do
-		splitTable[#splitTable+1] = string_sub(text, start, splitStart - 1)
+		splitTable[#splitTable + 1] = string_sub(text, start, splitStart - 1)
 		start = splitEnd + 1
 		splitStart, splitEnd = string_find(text, delimeter, start)
 	end
-	splitTable[#splitTable+1] = string_sub(text, start)
+	splitTable[#splitTable + 1] = string_sub(text, start)
 end
 
 
@@ -134,7 +152,7 @@ end
 -- ****************************************************************************
 local function GetSkillName(skillID)
 	local skillName = GetSpellInfo(skillID)
-	if (not skillName) then
+	if not skillName then
 		Print("Skill ID " .. tostring(skillID) .. " has been removed by Blizzard.")
 	end
 	return skillName or UNKNOWN
@@ -146,7 +164,9 @@ end
 -- ****************************************************************************
 local function ShortenNumber(number, precision)
 	local formatter = ("%%.%df"):format(precision or 0)
-	if (type(number) ~= "number") then number = tonumber(number) end
+	if type(number) ~= "number" then
+		number = tonumber(number)
+	end
 	if not number then
 		return 0
 	elseif number >= 1e12 then
@@ -200,4 +220,7 @@ mod.SplitString			= SplitString
 mod.Print				= Print
 mod.GetSkillName		= GetSkillName
 mod.ShortenNumber		= ShortenNumber
+mod.GetSpellInfo		= GetSpellInfo
+mod.GetSpellTexture		= GetSpellTexture
+mod.GetSpellCooldown	= GetSpellCooldown
 --mod.SeparateNumber		= SeparateNumber

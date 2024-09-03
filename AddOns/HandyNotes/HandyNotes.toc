@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Xinhuan
-## Version: v1.6.20.3
+## Version: v1.6.21
 ## OptionalDeps: Ace3, TomTom, HereBeDragons
 ## LoadManagers: AddonLoader
 ## SavedVariables: HandyNotesDB, HandyNotes_HandyNotesDB
@@ -15,6 +15,7 @@
 ## X-eMail: xinhuan @ gmail DOT com
 ## X-Curse-Project-ID: 14154
 ## X-WoWI-ID: 15716
+## X-Wago-ID: mNwQMlKo
 ## X-LoadOn-Always: delayed
 
 # Library files

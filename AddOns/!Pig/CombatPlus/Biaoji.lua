@@ -36,15 +36,15 @@ local iconIdCoord = {
 	{0.75,1,0.25,0.5},{0.5,0.75,0.25,0.5},{0.25,0.5,0.25,0.5},
 	{0,0.25,0.25,0.5},{0.75,1,0,0.25},{0.5,0.75,0,0.25},
 	{0.25,0.5,0,0.25},{0,0.25,0,0.25},
-	--{0.75,1,0.75,1}
+	
 }
 local tuNum=#iconIdCoord
 local iconqita = {
-	"Interface/Buttons/UI-GroupLoot-Pass-Up",
-	"interface/raidframe/readycheck-ready.blp",--"interface/pvpframe/icons/prestige-icon-3.blp",
-	"interface/helpframe/helpicon-reportlag.blp",
+	{"Interface/Buttons/UI-GroupLoot-Pass-Up"},
+	{"interface/raidframe/readycheck-waiting.blp"},--{"Interface/LFGFrame/UILFGPrompts",},--{"UI-LFG-RoleIcon-Leader","Atlas"},--{"interface/targetingframe/ui-raidtargetingicons",{0.50,0.75,0.75,0.96}},
+	{"interface/raidframe/readycheck-ready.blp"},--"interface/pvpframe/icons/prestige-icon-3.blp",
+	{"interface/helpframe/helpicon-reportlag.blp",{0.13,0.87,0.13,0.87}},
 }
-
 local tuNum1=#iconqita
 local tuNumall=tuNum+tuNum1
 local biaojiweizhi={"TOP", UIParent, "TOP", 0, -30}
@@ -101,7 +101,15 @@ local function SetAutoShow()
 end
 PIGbiaoji.morendaojiTime=5
 local function daojishikaiguaiFun()
-	if IsInRaid() then
+	if HasLFGRestrictions() then
+		if PIGbiaoji.kaiguaidaojishi==0 then
+			PIGinfotip:TryDisplayMessage("***开始攻击***");
+			SendChatMessage("***开始攻击***", "INSTANCE_CHAT", nil);
+		else
+			PIGinfotip:TryDisplayMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***");
+			SendChatMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***", "INSTANCE_CHAT", nil);
+		end
+	elseif IsInRaid() then
 		if PIGbiaoji.kaiguaidaojishi==0 then
 			SendChatMessage("***开始攻击***", "RAID_WARNING", nil);
 		else
@@ -109,16 +117,18 @@ local function daojishikaiguaiFun()
 		end
 	elseif IsInGroup() then
 		if PIGbiaoji.kaiguaidaojishi==0 then
+			PIGinfotip:TryDisplayMessage("***开始攻击***");
 			SendChatMessage("***开始攻击***", "PARTY", nil);
 		else
+			PIGinfotip:TryDisplayMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***");
 			SendChatMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***", "PARTY", nil);
 		end
 	else
-		-- if PIGbiaoji.kaiguaidaojishi==0 then
-		-- 	SendChatMessage("***开始攻击***", "GUILD", nil);
-		-- else
-		-- 	SendChatMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***", "GUILD", nil);
-		-- end
+		if PIGbiaoji.kaiguaidaojishi==0 then
+			PIGinfotip:TryDisplayMessage("***开始攻击***");
+		else
+			PIGinfotip:TryDisplayMessage("***开怪倒计时："..PIGbiaoji.kaiguaidaojishi.." ***");
+		end
 	end
 	PIGbiaoji.kaiguaidaojishi=PIGbiaoji.kaiguaidaojishi-1
 end
@@ -129,7 +139,6 @@ local function PIG_PULL(butui)
 	PIGbiaoji.kaiguaidaojishi=PIGbiaoji.morendaojiTime
 	butui.daoshuTicker = C_Timer.NewTicker(1, daojishikaiguaiFun, PIGbiaoji.morendaojiTime+1)
 end
-local Pmacrotext= "/pull %d"
 local function Set_Pmacrotext(but,id)
 	PIGbiaoji.morendaojiTime=PIGA["CombatPlus"]["Biaoji"]["daojishiTime"]
 	if PIGA["CombatPlus"]["Biaoji"]["daojishiFun"]==1 then
@@ -170,29 +179,50 @@ function CombatPlusfun.biaoji()
 			PIGbiaoji:StopMovingOrSizing()
 		end)
 		listbut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square")
+		listbut:SetSize(biaojiW,biaojiW)	
 		if i<=tuNum then
-			listbut:SetSize(biaojiW,biaojiW)
 			listbut:SetPoint("LEFT", PIGbiaoji, "LEFT",i*(biaojiW+3)-biaojiW,0)
 			listbut:SetNormalTexture(biaoji_icon)
 			listbut:GetNormalTexture():SetTexCoord(iconIdCoord[i][1],iconIdCoord[i][2],iconIdCoord[i][3],iconIdCoord[i][4])
-		else
-			local xianzaidi = i-tuNum
-			listbut:SetPoint("LEFT", PIGbiaoji, "LEFT",i*(biaojiW+3)-biaojiW+4,0)
-			listbut:SetNormalTexture(iconqita[xianzaidi])
-			listbut:SetSize(biaojiW,biaojiW)
-			if i==tuNumall then
-				PIGbiaoji.daojishiBUT=listbut
-				listbut:GetNormalTexture():SetTexCoord(0.13,0.87,0.13,0.87)
-				Set_Pmacrotext(PIGbiaoji.daojishiBUT,PIGA["CombatPlus"]["Biaoji"]["daojishiFun"])
-			end
-		end
-		if i<=tuNum+1 then
 			listbut:SetScript("OnClick", function(self) 
 				--SetRaidTargetIcon("target", tuNum+1-i) 
 				SetRaidTarget("target", tuNum+1-i)
 			end)
-		elseif i==tuNum+2 then 
-			listbut:SetScript("OnClick", function(self) DoReadyCheck() end) 
+		else
+			local xianzaidi = i-tuNum
+			if xianzaidi==1 then
+				listbut:SetPoint("LEFT", PIGbiaoji, "LEFT",i*(biaojiW+3)-biaojiW+4,0)
+				listbut:SetScript("OnClick", function(self)
+					SetRaidTarget("target", 0)
+				end)
+			else
+				listbut:SetPoint("LEFT", PIGbiaoji, "LEFT",i*(biaojiW+3)-biaojiW+10,0)
+				if xianzaidi==2 then 
+					listbut:SetScript("OnClick", function(self)
+						-- if tocversion<20000 then
+						-- 	--LFGListingRolePollButton_OnClick(self, button)
+						-- elseif tocversion<40000 then
+						-- 	LFGListingRolePollButton_OnClick(self, button)
+						-- else
+							InitiateRolePoll()
+						--end
+					end) 
+				elseif xianzaidi==3 then 
+					listbut:SetScript("OnClick", function(self) DoReadyCheck() end)
+				elseif xianzaidi==4 then 
+					PIGbiaoji.daojishiBUT=listbut
+					Set_Pmacrotext(PIGbiaoji.daojishiBUT,PIGA["CombatPlus"]["Biaoji"]["daojishiFun"])
+				end
+			end
+			listbut:SetNormalTexture(iconqita[xianzaidi][1])
+			if iconqita[xianzaidi][2] then
+				if iconqita[xianzaidi][2]=="Atlas" then
+					listbut:SetNormalAtlas(iconqita[xianzaidi][2]);
+					listbut:SetSize(biaojiW+2,biaojiW+2)
+				else
+					listbut:GetNormalTexture():SetTexCoord(unpack(iconqita[xianzaidi][2]))
+				end
+			end
 		end
 		listbut:HookScript("OnClick", function(self) 
 			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);

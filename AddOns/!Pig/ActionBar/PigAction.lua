@@ -324,8 +324,7 @@ local function ADD_ActionBar(index)
 		----
 		piganniu:SetScript("OnEnter", function (self)
 			GameTooltip:ClearLines();
-			GameTooltip:SetOwner(self, "ANCHOR_NONE");
-			GameTooltip:SetPoint("BOTTOMRIGHT",UIParent,"BOTTOMRIGHT",-100,140);
+			GameTooltip_SetDefaultAnchor(GameTooltip, self)
 			Update_OnEnter(self,'PigAction')
 		end)
 		piganniu:SetScript("OnLeave", function ()
@@ -550,7 +549,7 @@ if tocversion<100000 then
 		end
 	end
 	Action_plusF.dongzuotxian = PIGLine(Action_plusF,"TOP",-250)
-	Action_plusF.title = PIGFontString(Action_plusF,{"TOPLEFT",Action_plusF.dongzuotxian,"TOPLEFT",20,-20},L["LIB_TIPS"]);
+	Action_plusF.title = PIGFontString(Action_plusF,{"TOPLEFT",Action_plusF.dongzuotxian,"TOPLEFT",20,-20},L["LIB_TIPS"]..": ");
 	Action_plusF.title1 = PIGFontString(Action_plusF,{"TOPLEFT",Action_plusF.dongzuotxian,"TOPLEFT",40,-50},"|cff00ff001.可"..KEY_BUTTON2.."拖拽按钮变换动作条排列方式|r")
 	Action_plusF.title2 = PIGFontString(Action_plusF,{"TOPLEFT",Action_plusF.dongzuotxian,"TOPLEFT",40,-80},"|cff00ff002.此"..L["ACTION_TABNAME3"].."非大脚那种调用系统预留给其他姿态(例如鸟德暗牧)的动作条，\n而是完全独立的动作条，不会占用角色其他形态的动作条按钮。|r")
 	Action_plusF.title2:SetJustifyH("LEFT");

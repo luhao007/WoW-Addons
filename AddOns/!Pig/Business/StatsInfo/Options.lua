@@ -484,7 +484,7 @@ function BusinessInfo.StatsInfoOptions()
 		end
 	end)
 	---交易
-	local Tooltip = {"交易通告","通告交易记录"};
+	local Tooltip = {"交易通告","通告交易记录(不通告与好友的交易)"};
 	fuFrame.TradeTongGao = PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame.Qita_Num,"BOTTOMLEFT",0,-20},Tooltip)
 	fuFrame.TradeTongGao:SetScript("OnClick", function (self)
 		if self:GetChecked() then

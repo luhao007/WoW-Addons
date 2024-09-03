@@ -234,7 +234,7 @@ local function IsEventUnlocked(eventQuestIDs)
 	return false
 end
 
-local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieventID, group, questTitles, vignetteGUIDs, onWorldMap, onMinimap)
+local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieventID, group, warbandQuestIDs, questTitles, vignetteGUIDs, onWorldMap, onMinimap)
 	local name = RSNpcDB.GetNpcName(npcID)
 	
 	-- Skip if part of a disabled event
@@ -394,6 +394,16 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 			end
 		end
 	end
+	
+	-- Skip if it doesn't drop weekly rep anymore
+	if (warbandQuestIDs and not RSConfigDB.IsShowingWeeklyRepFilterEnabled()) then
+		for _, questID in ipairs(warbandQuestIDs) do
+			if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+				RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: No aporta reputación esta semana.", npcID))
+				return true
+			end
+		end
+	end
 
 	return false
 end
@@ -449,7 +459,7 @@ function RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, 
 		end
 
 		-- Skip if common filters
-		if (not filtered and not IsNpcPOIFiltered(npcID, mapID, RSNpcDB.GetInternalNpcArtID(npcID, mapID), npcInfo.zoneQuestId, npcInfo.prof, npcInfo.minieventID, npcInfo.group, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
+		if (not filtered and not IsNpcPOIFiltered(npcID, mapID, RSNpcDB.GetInternalNpcArtID(npcID, mapID), npcInfo.zoneQuestId, npcInfo.prof, npcInfo.minieventID, npcInfo.group, npcInfo.warbandQuestID, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
 			tinsert(POIs, RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo))
 		end
 	end
@@ -503,14 +513,16 @@ function RSNpcPOI.GetMapAlreadyFoundNpcPOI(npcID, alreadyFoundInfo, mapID, quest
 	local prof
 	local minieventID
 	local group
+	local warbandQuestID
 	if (npcInfo) then
 		zoneQuestID = npcInfo.zoneQuestId
 		prof = npcInfo.prof
 		minieventID = npcInfo.minieventID
 		group = npcInfo.group
+		warbandQuestID = npcInfo.warbandQuestID
 	end
 
-	if (not IsNpcPOIFiltered(npcID, mapID, alreadyFoundInfo.artID, zoneQuestID, prof, minieventID, group, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
+	if (not IsNpcPOIFiltered(npcID, mapID, alreadyFoundInfo.artID, zoneQuestID, prof, minieventID, group, warbandQuestID, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
 		return RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo, alreadyFoundInfo)
 	end
 end

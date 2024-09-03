@@ -8,6 +8,16 @@ function Plater.GetChangelogTable()
 	if (not Plater.ChangeLogTable) then
 		Plater.ChangeLogTable = {
 
+			{1725041423, "Bug Fix", "Aug 30th, 2024", "Fixing error in default script.", "Terciob"},
+			{1725041423, "Bug Fix", "Aug 29th, 2024", "Fixing combo points for classic.", "cont1nuity"},
+			{1725041423, "New Feature", "Aug 29th, 2024", "Consolidating option to rename casts based on DMB or BigWigs renamed spells.", "cont1nuity"},
+			
+			{1724783240, "Bug Fix", "Aug 29th, 2024", "Fixing error in default script.", "Terciob"},
+			{1724783240, "Bug Fix", "Aug 28th, 2024", "Allowing resource scaling to be smaller.", "cont1nuity"},
+			{1724783240, "Bug Fix", "Aug 27th, 2024", "Fixing rogue combo points layout.", "cont1nuity"},
+			{1724783240, "New Feature", "Aug 27th, 2024", "Adding option to rename casts based on BigWigs renamed spells.", "cont1nuity"},
+			
+			{1724396217, "Bug Fix", "Aug 25th, 2024", "Fixing range checks for some specs hero talents through updates in LibRangeCheck.", "cont1nuity"},
 			{1724396217, "Bug Fix", "Aug 23rd, 2024", "Fixing issue with talent load conditions.", "cont1nuity"},
 			{1724396217, "Bug Fix", "Aug 23rd, 2024", "Fixing range checks for some specs through updates in LibRangeCheck.", "cont1nuity"},
 			{1724396217, "Bug Fix", "Aug 22nd, 2024", "Fixing an issue with stored spell animation data which was doubling up or could not be removed.", "cont1nuity"},

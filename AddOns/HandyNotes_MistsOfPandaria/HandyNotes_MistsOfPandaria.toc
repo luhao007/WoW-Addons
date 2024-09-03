@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: 70
+## Version: 87
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
 ## SavedVariables: HandyNotes_MistsOfPandariaDB

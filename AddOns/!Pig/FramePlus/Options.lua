@@ -21,8 +21,7 @@ local Fun=addonTable.Fun
 ---
 local fuFrame = PIGOptionsList(L["FRAMEP_TABNAME"],"TOP")
 --
-local DownY=30
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame,DownY)
+local RTabFrame =Create.PIGOptionsList_RF(fuFrame,30)
 --
 local FramePlusfun={}
 addonTable.FramePlusfun=FramePlusfun
@@ -82,38 +81,8 @@ FramePlusF.Macro:SetScript("OnClick", function (self)
 		Pig_Options_RLtishi_UI:Show()
 	end
 end)
-FramePlusF.Loot = PIGCheckbutton_R(FramePlusF,{SLASH_TEXTTOSPEECH_LOOT..UIOPTIONS_MENU.."扩展",SLASH_TEXTTOSPEECH_LOOT..UIOPTIONS_MENU.."物品显示在一页，并且可以通报"})
-FramePlusF.Loot:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["FramePlus"]["Loot"]=true;
-		FramePlusfun.Loot()
-	else
-		PIGA["FramePlus"]["Loot"]=false
-		Pig_Options_RLtishi_UI:Show()
-	end
-end)
 ---
 if tocversion<50000 then
-	FramePlusF.Roll = PIGCheckbutton_R(FramePlusF,{LOOT_ROLL..UIOPTIONS_MENU.."扩展","合并"..LOOT_ROLL.."物品到一起，并且可以移动"})
-	FramePlusF.Roll:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["FramePlus"]["Roll"]=true;
-			FramePlusfun.Roll()
-		else
-			PIGA["FramePlus"]["Roll"]=false
-			Pig_Options_RLtishi_UI:Show()
-		end
-	end)
-	local Scaleinfo = {0.8,2,0.1}
-	FramePlusF.Roll.SliderT = PIGFontString(FramePlusF.Roll,{"LEFT",FramePlusF.Roll.Text,"RIGHT",4,0},"缩放")
-	FramePlusF.Roll.Slider = PIGSlider(FramePlusF.Roll,{"LEFT",FramePlusF.Roll.SliderT,"RIGHT",4,0},{80,14},Scaleinfo)	
-	function FramePlusF.Roll.Slider:OnValueFun()
-		local Value = (floor(self:GetValue()*10+0.5))/10
-		PIGA["FramePlus"]["RollScale"]=Value;
-		self.Text:SetText(Value);
-		PIG_Roll_LsitUI:SetScale(Value)
-	end
-
 	FramePlusF.Quest = PIGCheckbutton_R(FramePlusF,{"任务界面扩展",""})
 	if tocversion<30000 then
 		FramePlusF.Quest.tooltip= "扩展任务界面为两列,左边任务列表，右边任务详情,显示任务等级";
@@ -172,7 +141,7 @@ if tocversion<50000 then
 end
 --
 FramePlusF.yidong = PIGFrame(FramePlusF,{"BOTTOMLEFT",FramePlusF,"BOTTOMLEFT",0,0})
-FramePlusF.yidong:PIGSetBackdrop()
+FramePlusF.yidong:PIGSetBackdrop(0)
 FramePlusF.yidong:SetHeight(40)
 FramePlusF.yidong:SetPoint("BOTTOMRIGHT",FramePlusF,"BOTTOMRIGHT",0,0);
 
@@ -201,8 +170,6 @@ FramePlusF.yidong.BlizzardUI_Move.CZ:SetScript("OnClick", function ()
 end);
 --
 FramePlusF:HookScript("OnShow", function(self)
-	self.Loot:SetChecked(PIGA["FramePlus"]["Loot"])
-	if self.Roll then self.Roll:SetChecked(PIGA["FramePlus"]["Roll"]) FramePlusF.Roll.Slider:PIGSetValue(PIGA["FramePlus"]["RollScale"]) end
 	self.BuffTime:SetChecked(PIGA["FramePlus"]["BuffTime"])
 	self.Skill_QKbut:SetChecked(PIGA["FramePlus"]["Skill_QKbut"])
 	self.Merchant:SetChecked(PIGA["FramePlus"]["Merchant"])
@@ -286,47 +253,46 @@ CharacterF:HookScript("OnShow", function(self)
 	self.Character_ItemList:SetChecked(PIGA["FramePlus"]["Character_ItemList"])
 	self.Character_Shuxing:SetChecked(PIGA["FramePlus"]["Character_Shuxing"])
 end)
---
-local TooltipF =PIGOptionsList_R(RTabFrame,L["FRAMEP_TABNAME3"],90)
-local ItemLeveltishi = {"显示物品等级","在鼠标提示上显示物品的物品等级"}
-TooltipF.ItemLevel = PIGCheckbutton_R(TooltipF,ItemLeveltishi)
-TooltipF.ItemLevel:SetScript("OnClick", function (self)
+local LootRollF =PIGOptionsList_R(RTabFrame,LOOT,90)
+LootRollF.Loot = PIGCheckbutton_R( LootRollF,{SLASH_TEXTTOSPEECH_LOOT..UIOPTIONS_MENU.."扩展",SLASH_TEXTTOSPEECH_LOOT..UIOPTIONS_MENU.."物品显示在一页，并且可以通报"},true)
+LootRollF.Loot:SetScript("OnClick", function (self)
 	if self:GetChecked() then
-		PIGA["Tooltip"]["ItemLevel"]=true;			
+		PIGA["FramePlus"]["Loot"]=true;
+		 FramePlusfun.Loot()
 	else
-		PIGA["Tooltip"]["ItemLevel"]=false;
+		PIGA["FramePlus"]["Loot"]=false
+		Pig_Options_RLtishi_UI:Show()
 	end
-end);
-TooltipF.ItemMaxCount = PIGCheckbutton_R(TooltipF,{"显示物品最大堆叠数","在鼠标提示上显示物品最大堆叠数"})
-TooltipF.ItemMaxCount:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["Tooltip"]["ItemMaxCount"]=true;			
-	else
-		PIGA["Tooltip"]["ItemMaxCount"]=false;
+end)
+---
+if tocversion<50000 then
+	LootRollF.Roll = PIGCheckbutton_R( LootRollF,{LOOT_ROLL..UIOPTIONS_MENU.."扩展","合并"..LOOT_ROLL.."物品到一起，并且可以移动"},true)
+	LootRollF.Roll:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["FramePlus"]["Roll"]=true;
+			 FramePlusfun.Roll()
+		else
+			PIGA["FramePlus"]["Roll"]=false
+			Pig_Options_RLtishi_UI:Show()
+		end
+	end)
+	local Scaleinfo = {0.8,2,0.1}
+	LootRollF.Roll.SliderT = PIGFontString( LootRollF.Roll,{"LEFT", LootRollF.Roll.Text,"RIGHT",20,0},"缩放")
+	LootRollF.Roll.Slider = PIGSlider( LootRollF.Roll,{"LEFT", LootRollF.Roll.SliderT,"RIGHT",4,0},{80,14},Scaleinfo)	
+	function  LootRollF.Roll.Slider:OnValueFun()
+		if InCombatLockdown() then PIGinfotip:TryDisplayMessage(ERR_NOT_IN_COMBAT) return end
+		local Value = (floor(self:GetValue()*10+0.5))/10
+		PIGA["FramePlus"]["RollScale"]=Value;
+		self.Text:SetText(Value);
+		if PIG_Roll_LsitUI then PIG_Roll_LsitUI:DebugUI() end
 	end
-end);
-TooltipF.IDinfo = PIGCheckbutton_R(TooltipF,{"显示物品/技能ID","在鼠标提示上显示物品/技能ID,版本归属/BUFF来源"})
-TooltipF.IDinfo:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["Tooltip"]["IDinfo"]=true;			
-	else
-		PIGA["Tooltip"]["IDinfo"]=false;
+end
+LootRollF:HookScript("OnShow", function(self)
+	self.Loot:SetChecked(PIGA["FramePlus"]["Loot"])
+	if self.Roll then
+		if PIG_Roll_LsitUI then PIG_Roll_LsitUI:Getceshiwupinxinxi() end
+		self.Roll:SetChecked(PIGA["FramePlus"]["Roll"])  self.Roll.Slider:PIGSetValue(PIGA["FramePlus"]["RollScale"]) 
 	end
-end);
-TooltipF.ItemSell = PIGCheckbutton_R(TooltipF,{"显示物品售价","在鼠标提示上显示物品售价"})
-TooltipF.ItemSell:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["Tooltip"]["ItemSell"]=true;			
-	else
-		PIGA["Tooltip"]["ItemSell"]=false;
-	end
-	FramePlusfun.Tooltip_ItemSell()
-end);
-TooltipF:HookScript("OnShow", function(self)
-	self.ItemLevel:SetChecked(PIGA["Tooltip"]["ItemLevel"])
-	self.ItemMaxCount:SetChecked(PIGA["Tooltip"]["ItemMaxCount"])
-	self.IDinfo:SetChecked(PIGA["Tooltip"]["IDinfo"])
-	self.ItemSell:SetChecked(PIGA["Tooltip"]["ItemSell"])
 end)
 --==================================
 addonTable.FramePlus = function()
@@ -348,5 +314,4 @@ addonTable.FramePlus = function()
 	if tocversion<20000 then
 		FramePlusfun.Zhuizong()
 	end
-	FramePlusfun.Tooltip()
 end

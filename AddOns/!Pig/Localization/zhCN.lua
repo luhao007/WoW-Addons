@@ -39,7 +39,9 @@ L["ERROR_ERROR1"] = "尝试调用保护功能";
 L["ERROR_ERROR2"] = "宏尝试调用保护功能";
 --lib
 L["LIB_MACROERR"] = "你的宏数量已达最大值120，请删除一些再尝试";
-L["LIB_TIPS"] = "提示：";
+L["LIB_TIPS"] = "提示";
+L["LIB_PLUS"] = "额外";
+L["LIB_POINT"] = "位置";
 --OptionsUI
 L["OPTUI_SET"] = "设置";
 L["OPTUI_RLUI"] = "重载UI";
@@ -116,7 +118,7 @@ L["CHAT_WHISPERTIXINGTOP"]="收到"..L["CHAT_WHISPER"].."时频道切换按钮�
 L["CHAT_TABNAME1"] = L["COMMON_TABNAME"];
 L["CHAT_QUKBUT"] = "快捷切换频道按钮";
 L["CHAT_QUKBUTTIPS"]="在聊天栏增加一排频道快捷切换按钮，可快速切换频道"
-L["CHAT_QUKBUTNAME"] = {"说","喊","队","会","团","通","战","综","交","组","P","世"};
+L["CHAT_QUKBUTNAME"] = {"说","喊","队","会","团","通","战","综","交","组","世"};
 L["CHAT_JXNAME"] = {"长","领","导"};
 if tocversion>30000 then L["CHAT_QUKBUTNAME"][7]="副" end
 L["CHAT_BENDIFANGWU"] = "本地防务";
@@ -179,19 +181,22 @@ L["CHAT_TABNAME5_XULIE"] = "序列";
 --商业
 L["BUSINESS_TABNAME"] = "商业";
 --动作条
-L["ACTION_TABNAME"] = "动作条";
+L["ACTION_TABNAME"] = ACTIONBARS_LABEL;
 L["ACTION_TABNAME1"] = L["COMMON_TABNAME"];
-L["ACTION_TABNAME2"] = "功能动作条";
+L["ACTION_TABNAME2"] = "功能"..ACTIONBARS_LABEL;
 L["ACTION_ADDQUICKBUT"] = L["ACTION_TABNAME2"]..ADD.."<%s>";
 L["ACTION_ADDQUICKBUTTIS"] = L["ACTION_TABNAME2"]..ADD.."<%s>,以便快速打开。\n|cff00FF00注意：此功能需先在"..L["ACTION_TABNAME"].."菜单打开"..L["ACTION_TABNAME2"].."|r";
-L["ACTION_TABNAME3"] = "额外动作条";
+L["ACTION_TABNAME3"] = L["LIB_PLUS"]..ACTIONBARS_LABEL;
 --背包
 L["BAGBANK_TABNAME"] = "背包/银行";
 --界面优化
 L["FRAMEP_TABNAME"] = "界面优化";
 L["FRAMEP_TABNAME1"] = "暴雪界面";
 L["FRAMEP_TABNAME2"] = "角色信息";
-L["FRAMEP_TABNAME3"] = "鼠标提示";
+--
+L["TOOLTIP_TABNAME"] = MOUSE_LABEL..L["LIB_TIPS"];
+L["TOOLTIP_TABNAME1"] = L["LIB_PLUS"]..INFO;
+L["TOOLTIP_TABNAME1"] = L["LIB_PLUS"]..INFO;
 --头像框架
 L["UNIT_TABNAME"] = "头像框架";
 L["UNIT_TABNAME1"] = "自身头像";

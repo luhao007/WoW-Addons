@@ -11,6 +11,7 @@ local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
 
 -- RareScanner service libraries
+local RSUtils = private.ImportLib("RareScannerUtils")
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 
 RSGuideMixin = CreateFromMixins(MapCanvasPinMixin);
@@ -37,7 +38,15 @@ function RSGuideMixin:OnMouseEnter()
 		self.ShowPingAnim:Stop()
 	end
 	if (self.pin and self.pin.ShowPingAnim and not self.pin.ShowPingAnim:IsPlaying()) then
-		self.pin.ShowPingAnim:Play();
+		if (RSConfigDB.IsHighlightingReputation()) then
+			local _, bountyFactionID, bountyFrameType = self.pin.dataProvider:GetBountyInfo();
+			if (bountyFrameType ~= BountyFrameType.ActivityTracker or not self.pin.POI.factionID or not RSUtils.Contains(self.pin.POI.factionID, bountyFactionID)) then
+				-- Avoid animating if the bounty animation is active, it meshes it up
+				self.pin.ShowPingAnim:Play();
+			end
+		else
+			self.pin.ShowPingAnim:Play();
+		end
 	end
 	
 	if (self.POI.tooltip) then

@@ -16,7 +16,6 @@ local IsTitanPanelReset = nil;
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
-local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 --	TitanDebug (cmd.." : "..p1.." "..p2.." "..p3.." "..#cmd_list)
 
@@ -1124,9 +1123,14 @@ end
 ---local Check the change in width; snap to edge of any part goes off screen.
 ---@param self table Titan short bar frame
 ---@param width number New width
+---@param reason string Note on why this was called
 ---@return table result .ok boolean; .err string
-local function CheckBarBounds(self, width)
-	--- This is a touchy routine - change with care!! :)
+local function CheckBarBounds(self, width, reason)
+	-- This is a touchy routine - change with care!! :)
+	--
+	-- Let WoW handle any change in game scale. 
+	-- When Titan scaling changes, recalc the bar placement.
+	-- Although the user may want to move bars in response to any scale change.
 	local trace = false -- true false
 	local result = {}
 	result.ok = true
@@ -1136,19 +1140,29 @@ local function CheckBarBounds(self, width)
 	local f_name = self:GetName()
 	local bar_name = TitanBarData[f_name].name
 	local locale_name = TitanBarData[f_name].locale_name
-	local escale = UIParent:GetEffectiveScale()
 
 	if TitanBarData[f_name].user_move
-		and TitanBarDataVars[f_name].show
+	and TitanBarDataVars[f_name].show
 	then
+---[[
 		if trace then
 			print("Bounds"
 				.. " " .. tostring(bar_name) .. ""
 				.. " " .. tostring(width) .. ""
+				.. " " .. tostring(reason) .. ""
 			)
 		end
+--]]
 
 		local tscale = TitanPanelGetVar("Scale")
+		local x, y, w, scale = TitanVariables_GetBarPos(f_name)
+		local scale_change = false
+		if tscale == scale then
+			-- no need to use scaling to recalc position
+		else
+			scale_change = true
+			-- The 'set' will update the sacaling for next time
+		end
 		local screen = TitanUtils_ScreenSize()
 		local screen_right_scaled = screen.scaled_x
 		local screen_top_scaled = screen.scaled_y
@@ -1157,18 +1171,32 @@ local function CheckBarBounds(self, width)
 		local screen_right_t = screen.x * tscale
 		local screen_top_t = screen.y * tscale
 
+		local bar_left = math.floor(self:GetLeft())
+		local bar_right = math.floor(self:GetRight())
+		local bar_top = math.floor(self:GetTop())
+		local bar_bottom = math.floor(self:GetBottom())
 
-		-- Apply the Titan scaling to get 'real' position within WoW window;
-		-- Use floor to trunc decimal places where the side could be right on the edge of the screen.
 		local orig_w = self:GetWidth() -- * tscale --math.floor(self:GetWidth() * tscale)
-		local l_off = math.floor(self:GetLeft() * tscale)
-		local r_off = math.floor(self:GetRight() * tscale)
-		local t_off = math.floor(self:GetTop() * tscale)
-		local b_off = math.floor(self:GetBottom() * tscale)
-		local hght = math.floor(t_off - b_off)
+		local l_off = bar_left
+		local r_off = bar_right
+		local t_off = bar_top
+		local b_off = bar_bottom
+		local hght = (t_off - b_off)
 
+		if scale_change then
+			-- Apply the Titan scaling to get 'real' position within WoW window;
+			-- Use floor to trunc decimal places where the side could be right on the edge of the screen.
+			l_off = math.floor(bar_left * tscale)
+			r_off = math.floor(bar_right * tscale)
+			t_off = math.floor(bar_top * tscale)
+			b_off = math.floor(bar_bottom * tscale)
+		else
+			-- Just check the bar position
+		end
+---[[
 		if trace then
 			print(">Bounds"
+				.. " " .. tostring(bar_name) .. ""
 				.. "\n"
 				.. " L " .. tostring(format("%0.1f", l_off)) .. ""
 				.. " R " .. tostring(format("%0.1f", r_off)) .. ""
@@ -1183,7 +1211,7 @@ local function CheckBarBounds(self, width)
 				.. " ST_t " .. tostring(format("%0.1f", screen_top_t)) .. ""
 			)
 		end
-
+--]]
 		local w = 0
 		local x_off = 0
 		local y_off = 0
@@ -1255,18 +1283,24 @@ local function CheckBarBounds(self, width)
 			--			self:SetWidth(w_off)
 		end
 
-		-- Back out Titan scaling
-		x_off = x_off / tscale
-		y_off = y_off / tscale
+		if scale_change then
+			-- Back out Titan scaling
+			x_off = math.floor(x_off / tscale)
+			y_off = math.floor(y_off / tscale)
+		else
+			-- Accept the results of the checks
+		end
 		w_off = w_off --/ tscale
 		TitanVariables_SetBarPos(self, false, x_off, y_off, w_off)
 
 		if trace then
 			print(">>Bounds"
-				.. " " .. tostring(result.ok) .. ""
-				.. " X " .. tostring(format("%0.1f", x_off)) .. ""
-				.. " Y " .. tostring(format("%0.1f", y_off)) .. ""
-				.. " W " .. tostring(format("%0.1f", w_off)) .. ""
+			.. " " .. tostring(bar_name) .. ""
+			.. " " .. tostring(result.ok) .. ""
+			.. " SC " .. tostring(scale_change) .. ""
+			.." X "..tostring(format("%0.1f", x_off)).."("..tostring(bar_left)..")"
+			.. " Y " .. tostring(format("%0.1f", y_off)).."("..tostring(bar_bottom)..")"
+			.. " W " .. tostring(format("%0.1f", w_off)) .. ""
 			)
 			if err ~= "" then
 				TitanPrint(locale_name .. " " .. err .. "!!!!"
@@ -1304,7 +1338,7 @@ local function OnMovingStop(self)
 	self:StopMovingOrSizing()
 	self.isMoving = nil
 
-	local res = CheckBarBounds(self, 0)
+	local res = CheckBarBounds(self, 0, "OnMovingStop")
 	if res.ok then
 		-- placement ok
 	else
@@ -1321,14 +1355,15 @@ end
 local function OnMouseWheel(self, d)
 	-- Can get noisy, "Initializes" all bars at each click to ensure the bar is drawn.
 	if IsShiftKeyDown() then
-		local old_w = self:GetWidth()
+		local msg = "OnMouseWheel"
 		local delta = d
 		if IsControlKeyDown() then
 			delta = d * 10
+			msg = msg.." +Alt"
 		else
 			-- use 1
 		end
-		local res = CheckBarBounds(self, delta)
+		local res = CheckBarBounds(self, delta, msg)
 		if res.ok then
 		end
 		--[[
@@ -1500,8 +1535,6 @@ local function SetBar(frame)
 	local trace = false
 	local display = _G[frame];
 
-	--	local res = CheckBarBounds(display, 0)
-
 	local x, y, w = TitanVariables_GetBarPos(frame)
 	local tscale = TitanPanelGetVar("Scale")
 	local show = TitanBarData[frame].show
@@ -1544,7 +1577,7 @@ function TitanPanelBarButton_Show(frame)
 			SetBar(frame)
 			---[[			
 			-- The bar may need to be moved back onto the screen.
-			local res = CheckBarBounds(display, 0)
+			local res = CheckBarBounds(display, 0, "_Show the bar")
 			if res.ok then
 				-- placement ok
 			else

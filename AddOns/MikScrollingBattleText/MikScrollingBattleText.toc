@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Mikord
-## Version: 5.9.1
+## Version: 6.0.2
 ## OptionalDeps: LibSharedMedia-3.0
 ## SavedVariables: MSBTProfiles_SavedVars, MSBT_SavedMedia
 ## SavedVariablesPerCharacter: MSBTProfiles_SavedVarsPerChar

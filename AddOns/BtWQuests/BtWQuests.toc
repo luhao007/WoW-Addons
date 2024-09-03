@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Breen
-## Version: 2.45.0
+## Version: 2.47.0
 ## SavedVariables: BtWQuests_Characters BtWQuests_AccountSettings
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad
 ## IconTexture: Interface\QuestFrame\UI-QuestLog-BookIcon

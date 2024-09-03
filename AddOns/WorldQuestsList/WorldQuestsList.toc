@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: ykiigor
-## Version: 111
+## Version: 112
 ## SavedVariables: VWQL
 
 ## Title: World Quests List
