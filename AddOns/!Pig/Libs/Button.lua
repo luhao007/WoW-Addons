@@ -230,7 +230,7 @@ function Create.PIGSlider(fuF,Point,WH,minmaxSet,tooltip,UIName)
 	return Slider
 end
 local morenColor = {
-	{0.16,0.16,0.16},
+	{0.1,0.1,0.1},
 	{BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4]},
 	{1,0.7,0},
 }
@@ -351,20 +351,24 @@ function Create.PIGCheckbutton_R(fuF,text,vertical,lienum,Vjiange,WH,UIName)
 end
 --左边主菜单
 function Create.Show_TabBut(Rneirong,tabbut)---选择主菜单
-	local PigUI=Pig_OptionsUI
+	local PigUI=Rneirong:GetParent():GetParent():GetParent():GetParent()
+	--local PigUI=fujiUI or Pig_OptionsUI
 	local ListTOP = {PigUI.L.F.ListTOP:GetChildren()}
 	for x=1, #ListTOP, 1 do
 		ListTOP[x]:NotSelected()
 	end
-	local ListEXT = {PigUI.L.F.ListEXT:GetChildren()}
-	for x=1, #ListEXT, 1 do
-		ListEXT[x]:NotSelected()
+	if PigUI.L.F.ListEXT then
+		local ListEXT = {PigUI.L.F.ListEXT:GetChildren()}
+		for x=1, #ListEXT, 1 do
+			ListEXT[x]:NotSelected()
+		end
 	end
-	local ListBOT = {PigUI.L.F.ListBOT:GetChildren()}
-	for x=1, #ListBOT, 1 do
-		ListBOT[x]:NotSelected()
+	if PigUI.L.F.ListBOT then
+		local ListBOT = {PigUI.L.F.ListBOT:GetChildren()}
+		for x=1, #ListBOT, 1 do
+			ListBOT[x]:NotSelected()
+		end
 	end
-
 	local RNR = {PigUI.R.F.NR:GetChildren()}
 	for x=1, #RNR, 1 do
 		RNR[x]:Hide()
@@ -372,8 +376,8 @@ function Create.Show_TabBut(Rneirong,tabbut)---选择主菜单
 	tabbut:Selected()
 	Rneirong:Show()
 end
-function Create.PIGOptionsList(GnName,weizhi)
-	local PigUI=Pig_OptionsUI
+function Create.PIGOptionsList(GnName,weizhi,fujiUI)
+	local PigUI=fujiUI or Pig_OptionsUI
 	local fuUI=PigUI.L.F.ListTOP
 	local tabbutWW = fuUI:GetWidth()-6.8
 	if weizhi=="EXT" then

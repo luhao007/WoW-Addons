@@ -300,10 +300,10 @@ class Manager:
     @staticmethod
     def handle_separated_installed_libs():
         """Move the separated installed addon to !!Libs folder"""
-        libs = ['Ace3', 'HereBeDragons']
+        libs = ['Ace3', 'HereBeDragons', 'Krowi_WorldMapButtons']
         root = Path('Addons')
         for addon in os.listdir(root):
-            if addon in libs:
+            if addon in libs or addon.startswith('Lib') or addon.startswith('!Lib'):
                 print(f'Moving {addon} to !!Libs...')
                 shutil.copytree(root/addon,
                                 root/'!!Libs'/addon,

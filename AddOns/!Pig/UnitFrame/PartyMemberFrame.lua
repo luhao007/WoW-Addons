@@ -37,7 +37,7 @@ local function Update_zhiye(Party,id)
 		local coords = CLASS_ICON_TCOORDS[class];
 		Party.Icon:SetTexCoord(unpack(coords));
 		local Role = UnitGroupRolesAssigned(id)
-		Party.role.Icon:SetAtlas(GetIconForRole(Role, false));
+		Party.role.Icon:SetAtlas(PIGGetIconForRole(Role, false));
 		if tocversion>100000 then
 			local pfujiui = Party:GetParent()
 			pfujiui.PartyMemberOverlay.RoleIcon:Hide()

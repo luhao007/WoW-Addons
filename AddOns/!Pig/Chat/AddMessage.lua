@@ -218,7 +218,8 @@ function QuickChatfun.PIGMessage()
 			local chatID = _G["ChatFrame"..i]
 			local msninfo = chatID.AddMessage
 			chatID.AddMessage = function(frame, text, ...)
-				--ChatFrame99:AddMessage(text:gsub("|", "||"));
+				-- local text=text:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[","");
+				-- ChatFrame99:AddMessage(text:gsub("|", "||"));
 				-- if i==1 then
 				-- 	table.insert(PIGA["xxxxxx"],text)
 				-- end

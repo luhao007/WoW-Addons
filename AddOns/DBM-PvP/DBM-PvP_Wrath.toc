@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: QartemisT
-## Version: r179
+## Version: r180
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPvP_AllSavedVars

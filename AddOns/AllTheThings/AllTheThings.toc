@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.10
+## Version: 4.0.11
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 ## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
@@ -68,6 +68,7 @@ src\Modules\Costs.lua
 src\Modules\Events.lua
 src\Modules\Filter.lua
 src\Modules\Inventory.lua
+src\Modules\Model.lua
 src\Modules\Social.lua
 src\Modules\Tooltip.lua
 src\Modules\Upgrade.lua

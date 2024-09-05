@@ -18,9 +18,8 @@ L["ABOUT_UPDATETIPS"] = "挿件已過期，請在插件關於內查看更新地�
 L["ABOUT_LOAD"] = "載入成功 /pig或小地圖按鈕設置";
 L["ABOUT_REMINDER"]="|cffFF0000*本插件完全免費，網絡購物平臺出售的皆為騙子*|r"
 L["ABOUT_UPDATEADD"]="更新網址: "
-L["ABOUT_MAIL"]="迴響問題意見: |cff00ffffxdfxjf1004@hotmail.com|r"
-L["ABOUT_BILI"]=" "
-L["ABOUT_QQ"]=" "
+L["ABOUT_MAIL"]="回饋郵箱: "
+L["ABOUT_MEDIA"]="使用教程: "
 L["ABOUT_OTHERADDONS"]="作者的其他挿件"
 L["ABOUT_OTHERADDON_LIST"]={
 	{"|cff00FFFF"..L.extLsit[1].."|r","|cff00ff00["..L["PIGaddonList"][L.extLsit[1]].."]|r","https://www.curseforge.com/wow/addons/pig_tardis"},

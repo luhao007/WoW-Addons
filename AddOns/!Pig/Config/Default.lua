@@ -80,8 +80,8 @@ addonTable.Default = {
 		["Token"] = {},
 		["Items"] = {},
 		["AHData"] = {},
-		["TradeTongGao"]=true,
-		["TradeTongGaoPindao"]="WHISPER",
+		["TradeTongGao"]=false,
+		["TradeTongGaoChannel"]="WHISPER",
 		["TradeClassLV"]=true,
 		["TradeData"] = {},
 	},
@@ -335,6 +335,10 @@ addonTable.Default = {
 			["Xpianyi"]=0,
 			["Ypianyi"]=-80,
 		},
+		["AttackBar"]={
+			["Open"] = false,
+			["Showshuzhi"]=false,
+		},
 	},
 	["Map"] = {
 		["MinimapBpaichu"] = {},
@@ -369,7 +373,9 @@ addonTable.Default_Per = {
 	["PigAction"] = {
 		["Open"] = {"OFF","OFF","OFF","OFF"},
 		["Lock"] = {"OFF","OFF","OFF","OFF"},
+		["Scale"] = {1,1,1,1},
 		["Pailie"] = {1,1,1,1},
+		["AnniuNum"] = {12,12,12,12},
 		["ShowTJ"] = {1,1,1,1},
 		["ActionData"] = {},
 	},

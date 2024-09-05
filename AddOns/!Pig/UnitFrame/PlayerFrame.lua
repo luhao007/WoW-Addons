@@ -251,7 +251,11 @@ function UnitFramefun.Zishen()
 					end
 				end
 			end
-			Update_TargetFrame()
+			TargetFrame:HookScript("OnEvent", function(self,event,arg1)
+				if event=="PLAYER_ENTERING_WORLD" then
+					Update_TargetFrame()
+				end
+			end); 
 			if tocversion<100000 then
 				hooksecurefunc("UIParent_UpdateTopFramePositions", function()
 					Update_TargetFrame()

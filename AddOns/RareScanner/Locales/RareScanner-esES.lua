@@ -1770,6 +1770,7 @@ AL["NOTE_210398"] = "Disponible únicamente mientras el evento mundial [Secretos
 AL["NOTE_210508"] = "En una cueva."
 AL["NOTE_210559"] = "En una cueva."
 AL["NOTE_214757"] = "Tienes que traerle 10x[Meros sombraceguera] pescados de [Bancos de meros sombraceguera] que puedes encontrar en el lago que hay justo delante de su cueva."
+AL["NOTE_216048"] = "Para poder verle necesitas al menos 50 cargas de [Cambio insólito] que se consigue interactuando con los objetos de la zona o metiéndose en los charcos."
 AL["NOTE_219265"] = "Coge un paracaídas y salta dentro del agujero. Una vez llegues al fondo, coge el túnel de la izquierda."
 AL["NOTE_219281"] = "Tienes que encontrar 10x[Fragmentos crepitante]s (botín del mundo) para crear un [Receptáculo de tormenta] y poder eliminar su escudo."
 AL["NOTE_220268"] = "Tienes que matar a todas las [Raíces de Trungal] que se encuentran dentro y fuera de la cueva para hacerle aparecer."

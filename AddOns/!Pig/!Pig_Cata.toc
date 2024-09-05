@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: geligasi
-## Version: 7.57
+## Version: 7.61
 ## SavedVariables: PIGA
 ## SavedVariablesPerCharacter: PIGA_Per
 ## IconTexture: interface/icons/ability_seal.blp
@@ -19,7 +19,7 @@ OptionsUI.lua
 Common\Common.xml
 Business\Business.xml
 Chat\Chat.xml
-ActionBar\ActionBar.xml
+ActionBar\ActionBar_Vanilla.xml
 CombatPlus\CombatPlus.xml
 Tooltip\Tooltip.xml
 FramePlus\FramePlus.xml

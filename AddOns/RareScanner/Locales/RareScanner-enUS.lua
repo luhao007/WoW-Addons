@@ -1770,6 +1770,7 @@ AL["NOTE_210398"] = "Available only while the world event [Secrets of Azeroth] i
 AL["NOTE_210508"] = "In a cave."
 AL["NOTE_210559"] = "In a cave"
 AL["NOTE_214757"] = "You have to bring him 10x[Shadowblind Grouper] fished from [Shadowblind Grouper School]s that you can find in the lake right in front of his cave."
+AL["NOTE_216048"] = "In order to see it you need at least 50 stacks of [Unseeming Shift] that you get interacting with the objects in the area or getting into puddles."
 AL["NOTE_219265"] = "Pick a parachute and jump inside the hole. Once at the bottom, take the left tunnel."
 AL["NOTE_219281"] = "You need to collect 10x[Crackling Shard]s (world drop) to create a [Storm Vessel] and be able to remove its shield."
 AL["NOTE_220268"] = "You have to kill every [Root of Trungal] found inside and outside the cave to make it appear."

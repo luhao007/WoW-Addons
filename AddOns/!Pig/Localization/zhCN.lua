@@ -1,7 +1,7 @@
 local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L ={}
-L.pigname ="!Pig_"
+L.pigname =addonName.."_"
 L.extLsit ={L.pigname.."Tardis",L.pigname.."GDKP",L.pigname.."Farm"}
 --if GetLocale() == "zhCN" then
 L["PIGaddonList"] = {
@@ -18,9 +18,8 @@ L["ABOUT_UPDATETIPS"] = "插件已过期,请在插件关于内查看更新地址
 L["ABOUT_LOAD"] = "载入成功 /pig或小地图按钮设置";
 L["ABOUT_REMINDER"]="|cffFF0000*本插件完全免费，网络购物平台出售的皆为骗子*|r"
 L["ABOUT_UPDATEADD"]="更新网址: "
-L["ABOUT_MAIL"]="反馈问题意见: |cff00ffffxdfxjf1004@hotmail.com|r"
-L["ABOUT_BILI"]="使用教程|cffFF00FF哔哩哔哩/抖音|r搜|cff00ffffgeligasi|r"
-L["ABOUT_QQ"]="QQ群|cff00FFFF27397148|r 2群|cff00FFFF117883385|r YY频道|cff00FFFF113213|r"
+L["ABOUT_MAIL"]="反馈邮箱: "
+L["ABOUT_MEDIA"]="使用教程: "
 L["ABOUT_OTHERADDONS"]="作者的其他插件"
 L["ABOUT_OTHERADDON_LIST"]={
 	{"|cff00FFFF"..L.extLsit[1].."|r","|cff00ff00["..L["PIGaddonList"][L.extLsit[1]].."]|r","https://www.curseforge.com/wow/addons/pig_tardis"},
