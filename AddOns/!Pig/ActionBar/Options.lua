@@ -533,6 +533,7 @@ ActionF:HookScript("OnShow", function(self)
 	end		
 end)
 ----------------
+function ActionBarfun.Pig_Action() end
 addonTable.ActionBar = function()
 	ActionBar_Ranse()
 	ActionCD()

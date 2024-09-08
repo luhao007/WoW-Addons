@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Scott M Harrison
-## Version: 122
+## Version: 123
 ## SavedVariables: GrailDatabase
 ## SavedVariablesPerCharacter: GrailDatabasePlayer
 ## IconTexture: Interface\Icons\achievement_quests_completed_06

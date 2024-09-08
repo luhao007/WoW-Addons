@@ -168,6 +168,9 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 	-- Containers that require the Potion of Polymorphic Translation
 	elseif (RSUtils.Contains(RSConstants.CONTAINERS_POTION_POLYMORPHIC_TRANSLATION, entityID)) then
 		return AL["NOTE_CONTAINER_POLYMORPHIC_TRANSLATION"]
+	-- Containers that require Sparkbug Jar
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_SPARKBUG, entityID)) then
+		return AL["NOTE_CONTAINER_SPARKBUG"]
 	end
 	
 end

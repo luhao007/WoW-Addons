@@ -234,7 +234,7 @@ local function IsEventUnlocked(eventQuestIDs)
 	return false
 end
 
-local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieventID, group, warbandQuestIDs, questTitles, vignetteGUIDs, onWorldMap, onMinimap)
+local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vignetteGUIDs, onWorldMap, onMinimap)
 	local name = RSNpcDB.GetNpcName(npcID)
 	
 	-- Skip if part of a disabled event
@@ -256,30 +256,30 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 	end
 	
 	-- Skip if custom NPC group filtered
-	if (group and RSConfigDB.IsCustomNpcGroupFiltered(group)) then
+	if (npcInfo and npcInfo.group and RSConfigDB.IsCustomNpcGroupFiltered(npcInfo.group)) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado grupo.", npcID))
 		return true
 	end
 	
 	-- Skip if rare part of a filtered minievent
 	local isMinieventWithFilter = false;
-	if (minieventID) then
-		isMinieventWithFilter = RSConstants.MINIEVENTS_WORLDMAP_FILTERS[minieventID].active
+	if (npcInfo and npcInfo.minieventID) then
+		isMinieventWithFilter = RSConstants.MINIEVENTS_WORLDMAP_FILTERS[npcInfo.minieventID].active
 		
 		-- Skip if minievent is filtered
-		if (RSConfigDB.IsMinieventFiltered(minieventID)) then
-			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado minievento [%s].", npcID, minieventID))
+		if (RSConfigDB.IsMinieventFiltered(npcInfo.minieventID)) then
+			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado minievento [%s].", npcID, npcInfo.minieventID))
 			return true
 		-- Skip if Dreamsurge minievent is not up
-		elseif (minieventID == RSConstants.DRAGONFLIGHT_DREAMSURGE_MINIEVENT and not GetMinieventXY(npcID, mapID, RSConstants.DREAMSURGE_ICON_ATLAS)) then
+		elseif (npcInfo.minieventID == RSConstants.DRAGONFLIGHT_DREAMSURGE_MINIEVENT and not GetMinieventXY(npcID, mapID, RSConstants.DREAMSURGE_ICON_ATLAS)) then
 		    RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Investigacion pico onirico que no esta activa.", npcID))
 		    return true
 		-- Skip if Invasion storm minievent is not up
-		elseif (GetStormInvasionAtlasName(minieventID) ~= nil and not GetStormInvasionXY(npcID, mapID, minieventID)) then
-		    RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Invasión de tormentas [%s] que no esta activa.", npcID, GetStormInvasionAtlasName(minieventID)))
+		elseif (GetStormInvasionAtlasName(npcInfo.minieventID) ~= nil and not GetStormInvasionXY(npcID, mapID, npcInfo.minieventID)) then
+		    RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Invasión de tormentas [%s] que no esta activa.", npcID, GetStormInvasionAtlasName(npcInfo.minieventID)))
 		    return true
 		-- Skip if Fyrakk assault minievent is not up
-		elseif (minieventID == RSConstants.DRAGONFLIGHT_FYRAKK_MINIEVENT and not GetMinieventXY(npcID, mapID, RSConstants.FYRAKK_ICON_ATLAS)) then
+		elseif (npcInfo.minieventID == RSConstants.DRAGONFLIGHT_FYRAKK_MINIEVENT and not GetMinieventXY(npcID, mapID, RSConstants.FYRAKK_ICON_ATLAS)) then
 		    RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Asalto Fyrakk que no esta activo.", npcID))
 		    return true
 		end
@@ -293,13 +293,13 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 	end
 	
 	-- Skip if profession and filtered
-	if (not RSConfigDB.IsShowingProfessionRareNPCs() and prof) then
+	if (npcInfo and not RSConfigDB.IsShowingProfessionRareNPCs() and npcInfo.prof) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado NPC de profesion.", npcID))
 		return true
 	end
 	
 	-- Skip if other filtered
-	if (not RSConfigDB.IsShowingOtherRareNPCs() and not isMinieventWithFilter and not isNotCompletedAchievement and not prof) then
+	if (not RSConfigDB.IsShowingOtherRareNPCs() and not isMinieventWithFilter and not isNotCompletedAchievement and (not npcInfo or not npcInfo.prof)) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado otro NPC.", npcID))
 		return true
 	end
@@ -311,9 +311,9 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 	end
 
 	-- Skip if the entity appears only while a quest event is going on and it isnt active
-	if (zoneQuestID) then
+	if (npcInfo and npcInfo.zoneQuestId) then
 		local active = false
-		for _, questID in ipairs(zoneQuestID) do
+		for _, questID in ipairs(npcInfo.zoneQuestId) do
 			if (C_TaskQuest.IsActive(questID) or C_QuestLog.IsQuestFlaggedCompleted(questID)) then
 				active = true
 				break
@@ -367,8 +367,8 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 	end
 	
 	-- Skip if wrong profession
-	if (prof) then
-		if (not RSProfessionDB.HasPlayerProfession(prof)) then
+	if (npcInfo and npcInfo.prof) then
+		if (not RSProfessionDB.HasPlayerProfession(npcInfo.prof)) then
 			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Profesión incorrecta.", npcID))
 			return true
 		end
@@ -396,10 +396,25 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, zoneQuestID, prof, minieven
 	end
 	
 	-- Skip if it doesn't drop weekly rep anymore
-	if (warbandQuestIDs and not RSConfigDB.IsShowingWeeklyRepFilterEnabled()) then
-		for _, questID in ipairs(warbandQuestIDs) do
-			if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
-				RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: No aporta reputación esta semana.", npcID))
+	if (npcInfo and not RSConfigDB.IsShowingWeeklyRepFilterEnabled()) then
+		if (npcInfo.warbandQuestID) then
+			for _, questID in ipairs(npcInfo.warbandQuestID) do
+				if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+					RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: No aporta reputación esta semana.", npcID))
+					return true
+				end
+			end
+		-- Also hide one time kill rare NPCs at Khaz Algar
+		elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID)) then
+			if (npcInfo.questID) then
+				for _, questID in ipairs(npcInfo.questID) do
+					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+						RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: No aporta reputación nunca mas.", npcID))
+						return true
+					end
+				end
+			else
+				RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Nunca ha aportado reputación.", npcID))
 				return true
 			end
 		end
@@ -459,7 +474,7 @@ function RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, 
 		end
 
 		-- Skip if common filters
-		if (not filtered and not IsNpcPOIFiltered(npcID, mapID, RSNpcDB.GetInternalNpcArtID(npcID, mapID), npcInfo.zoneQuestId, npcInfo.prof, npcInfo.minieventID, npcInfo.group, npcInfo.warbandQuestID, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
+		if (not filtered and not IsNpcPOIFiltered(npcID, mapID, RSNpcDB.GetInternalNpcArtID(npcID, mapID), npcInfo, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
 			tinsert(POIs, RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo))
 		end
 	end
@@ -509,20 +524,7 @@ function RSNpcPOI.GetMapAlreadyFoundNpcPOI(npcID, alreadyFoundInfo, mapID, quest
 	end
 
 	-- Skip if common filters
-	local zoneQuestID
-	local prof
-	local minieventID
-	local group
-	local warbandQuestID
-	if (npcInfo) then
-		zoneQuestID = npcInfo.zoneQuestId
-		prof = npcInfo.prof
-		minieventID = npcInfo.minieventID
-		group = npcInfo.group
-		warbandQuestID = npcInfo.warbandQuestID
-	end
-
-	if (not IsNpcPOIFiltered(npcID, mapID, alreadyFoundInfo.artID, zoneQuestID, prof, minieventID, group, warbandQuestID, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
+	if (not IsNpcPOIFiltered(npcID, mapID, alreadyFoundInfo.artID, npcInfo, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
 		return RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo, alreadyFoundInfo)
 	end
 end

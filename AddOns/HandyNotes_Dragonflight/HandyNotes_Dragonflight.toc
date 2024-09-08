@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: 89
+## Version: 92
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3
 ## SavedVariables: HandyNotes_DragonflightDB

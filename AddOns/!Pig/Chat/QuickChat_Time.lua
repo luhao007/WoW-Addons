@@ -5,6 +5,7 @@ local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
 local QuickChatfun=addonTable.QuickChatfun
 function QuickChatfun.QuickBut_Time()
+	if not PIGA["CombatPlus"]["Biaoji"]["Open"] then return end
 	local fuFrame=QuickChatFFF_UI
 	local fuWidth = fuFrame.Width
 	local Width,Height = fuWidth,fuWidth

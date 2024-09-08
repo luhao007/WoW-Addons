@@ -195,6 +195,7 @@ L['beledars_spawn_note'] = 'Dieser Gegner erscheint an einem von mehreren Positi
 L['croakit_note'] = 'Angle 10x {item:211474} aus einem {object:Schwarm schattenblinder Barsche} in der Nähe (oder kaufe diese im Auktionshaus) und wirf sie ihm zu, damit der seltene Gegner angreifbar wird.'
 L['deathtide_note'] = 'Sammle eine {item:220122} ({dot:Red}) und ein {item:220124} ({dot:Green}). Kombiniere diese zu {item:220123}, um damit den seltenen Gegner am {object:Ominöser Altar} zu beschwören.'
 L['murkshade_note'] = 'Interagiere mit {npc:218455}.'
+L['spreading_the_light_rares_note'] = 'Dieser seltene Gegner erscheint nachdem die {object:Schlüsselflamme} an dieser Position erloschen ist.'
 
 L['options_icons_mereldar_menace'] = '{achievement:40151}'
 L['options_icons_mereldar_menace_desc'] = 'Zeigt die Positionen der Ziele für den Erfolg {achievement:40151} an.'
@@ -275,6 +276,7 @@ Sobald du alle vier {npc:227421} gefunden hast, gehen zurück zum Buch {object:F
 ]]
 L['another_you_4_note'] = 'Läuft im {location:Nest der Weberin} herum.'
 
+L['concealed_contraband_note'] = 'Entferne den {object:Netzkokon}, um den Schatz zu enthüllen.'
 L['memory_cache_note'] = 'Hole dir den Schwächungszauber {spell:420847} von einem {object:Extraktor} ({dot:Red}) in der Nähe und töte dann die {npc:223908} vor der Kiste, um den {item:223870} zu erhalten.'
 L['niffen_stash_note'] = 'Hängt unter der Brücke.'
 L['trapped_trove_note'] = 'In einem Gebäude das von der Decke hängt. Vermeide die Spinnweben am Boden.'

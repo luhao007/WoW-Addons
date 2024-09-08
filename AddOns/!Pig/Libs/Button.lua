@@ -193,16 +193,6 @@ function Create.PIGSlider(fuF,Point,WH,minmaxSet,tooltip,UIName)
 	Slider:SetValueStep(minmaxSet[3]);
 	Slider:SetObeyStepOnDrag(true);
 	Slider:EnableMouseWheel(true);
-	hooksecurefunc(Slider, "Enable", function(self)
-		self.Low:SetTextColor(1, 1, 1, 1);
-		self.High:SetTextColor(1, 1, 1, 1);
-		self.Text:SetTextColor(1, 1, 1, 1);
-	end)
-	hooksecurefunc(Slider, "Disable", function(self)
-		self.Low:SetTextColor(0.2, 0.2, 0.2, 1);
-		self.High:SetTextColor(0.2, 0.2, 0.2, 1);
-		self.Text:SetTextColor(0.2, 0.2, 0.2, 1);
-	end)
 	Slider:HookScript("OnMouseWheel", function(self, arg1)
 		if self:IsEnabled() then
 			local Value = self:GetValue()
@@ -229,6 +219,68 @@ function Create.PIGSlider(fuF,Point,WH,minmaxSet,tooltip,UIName)
 	end
 	return Slider
 end
+-- function Create.PIGSlider(fuF,Point,WH,minmaxSet,tooltip,UIName)
+-- 	local tooltip = tooltip or "拖动滑块或者用鼠标滚轮调整数值";
+-- 	local Slider = CreateFrame("Slider", UIName, fuF, "MinimalSliderWithSteppersTemplate")--"OptionsSliderTemplate"
+-- 	--Slider:SetSize(WH[1],WH[2]);
+-- 	Slider.Slider:SetWidth(WH[1]+100);
+-- 	Slider.Slider:SetHeight(WH[2]-14);
+-- 	Slider:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+-- 	-- Slider.tooltipText = tooltip
+-- 	-- -- Slider.TopText:SetFont(FontUrl,14)
+-- 	-- -- Slider.TopText:SetText(minmaxSet[2]);
+-- 	-- -- Slider.TopText:Show();
+-- 	-- -- Slider.LeftText:SetFont(FontUrl,14)
+-- 	-- -- Slider.LeftText:SetText(minmaxSet[1]);
+-- 	-- -- Slider.LeftText:Show();
+-- 	-- Slider.RightText:SetFont(FontUrl,14)
+-- 	-- Slider.RightText:SetText(minmaxSet[2]);
+-- 	-- --Slider.RightText:Show();
+-- 	-- -- Slider.High:SetFont(FontUrl,14)
+-- 	-- -- Slider.Text:SetFont(FontUrl,14)
+-- 	-- -- Slider.High:SetText(minmaxSet[2]);
+-- 	-- Slider:SetMinMaxValues(minmaxSet[1], minmaxSet[2]);
+-- 	-- Slider:SetValueStep(minmaxSet[3]);
+-- 	Slider:SetObeyStepOnDrag(true);
+-- 	-- Slider:EnableMouseWheel(true);
+-- 	-- Slider:SetEnabled(true)
+-- 	-- -- hooksecurefunc(Slider, "Enable", function(self)
+-- 	-- -- 	self.Low:SetTextColor(1, 1, 1, 1);
+-- 	-- -- 	self.High:SetTextColor(1, 1, 1, 1);
+-- 	-- -- 	--self.Text:SetTextColor(1, 1, 1, 1);
+-- 	-- -- end)
+-- 	-- -- hooksecurefunc(Slider, "Disable", function(self)
+-- 	-- -- 	self.Low:SetTextColor(0.2, 0.2, 0.2, 1);
+-- 	-- -- 	self.High:SetTextColor(0.2, 0.2, 0.2, 1);
+-- 	-- -- 	--self.Text:SetTextColor(0.2, 0.2, 0.2, 1);
+-- 	-- -- end)
+-- 	-- Slider:Init(value, minValue, maxValue, steps, formatters)
+-- 	-- Slider:HookScript("OnMouseWheel", function(self, arg1)
+-- 	-- 	if self:IsEnabled() then
+-- 	-- 		local Value = self:GetValue()
+-- 	-- 		--local val = floor(val*100+0.5)*0.01
+-- 	-- 		local step = minmaxSet[3] * arg1
+-- 	-- 		if step > 0 then
+-- 	-- 			self:SetValue(min(Value + step, minmaxSet[2]))
+-- 	-- 		else
+-- 	-- 			self:SetValue(max(Value + step, minmaxSet[1]))
+-- 	-- 		end
+-- 	-- 	end
+-- 	-- end)
+-- 	function Slider:PIGSetValue(chushiV,danweiT)
+-- 		-- local chushiV = chushiV or 1
+-- 		-- self:SetValue(chushiV);
+-- 		-- if danweiT then
+-- 		-- 	self.RightText:SetText(chushiV..danweiT);
+-- 		-- else
+-- 		-- 	self.RightText:SetText(chushiV);
+-- 		-- end
+-- 		-- self:SetScript("OnValueChanged", function(self)
+-- 		-- 	self:OnValueFun()
+-- 		-- end)
+-- 	end
+-- 	return Slider
+-- end
 local morenColor = {
 	{0.1,0.1,0.1},
 	{BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4]},

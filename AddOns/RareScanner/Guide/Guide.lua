@@ -1819,6 +1819,12 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.ENTRANCE..2] = { x = 0.4011, y = 0.5011 };
 		[RSConstants.ENTRANCE..3] = { x = 0.4012, y = 0.5148 };
 	}; --Loremaster's Reward
+	["4350082215"] = {
+		[RSConstants.FLAG] = { x = 0.6580, y = 0.2440, comment = AL["NOTE_CONTAINER_SPARKBUG_1"] };
+	}; --Farmhand Stash
+	["4417232215"] = {
+		[RSConstants.FLAG] = { x = 0.6580, y = 0.2440, comment = AL["NOTE_CONTAINER_SPARKBUG_1"] };
+	}; --Farm Satchel
 }
 
 ---============================================================================

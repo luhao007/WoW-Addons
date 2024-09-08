@@ -98,7 +98,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 			end)
 		npcsLastSeen:SetEnabled(function() return RSConfigDB.IsShowingNpcs() end)
 
-		if (RSUtils.Contains(private.CONTINENT_ZONE_IDS[RSConstants.KHAZ_ALGAR].zones, mapID)) then
+		if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR) then
 	    	local npcsWeekly = npcsSubmenu:CreateCheckbox("|T"..RSConstants.NORMAL_NPC_TEXTURE..":18:18:::::0:32:0:32|t "..AL["MAP_MENU_DISABLE_WEEKLY_REP_FILTER"], 
 	    		function() return RSConfigDB.IsShowingWeeklyRepFilterEnabled() end, 
 				function()
@@ -223,7 +223,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 			npcsSubmenu:CreateDivider()
 			npcsSubmenu:CreateTitle(AL["MAP_MENU_FILTER"])
 			
-			if (RSUtils.Contains(private.CONTINENT_ZONE_IDS[RSConstants.KHAZ_ALGAR].zones, mapID)) then
+			if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR) then
 		    	npcsSubmenu:CreateCheckbox(AL["MAP_MENU_FILTER_WEEKLY_REP_FILTER"], function() return RSConfigDB.IsWeeklyRepNpcFilterEnabled() end, 
 					function()
 						if (RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
@@ -300,9 +300,21 @@ function RSWorldMapButtonMixin:SetupMenu()
 					end)
 				npcFilter:SetEnabled(function() 
 					local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
-					if (npcInfo and npcInfo.warbandQuestID and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
-						for _, questID in ipairs(npcInfo.warbandQuestID) do
-							if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+					if (npcInfo and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
+						if (npcInfo.warbandQuestID) then
+							for _, questID in ipairs(npcInfo.warbandQuestID) do
+								if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+									return false
+								end
+							end
+						elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID)) then
+							if (npcInfo.questID) then
+								for _, questID in ipairs(npcInfo.questID) do
+									if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+										return false
+									end
+								end
+							else
 								return false
 							end
 						end

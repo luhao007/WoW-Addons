@@ -194,6 +194,7 @@ L['beledars_spawn_note'] = 'Ce rare apparaît à un de ces endroits à intervall
 L['croakit_note'] = 'Pêchez 10x {item:211474} au sein du {object:Banc de mérous sombrœil} proche (ou achetez-les à l\'hôtel des ventes) et lancez-les vers lui pour le rendre attaquable.'
 L['deathtide_note'] = 'Récupérez une {item:220122} {dot:Red} et un {item:220124} {dot:Green}. Combinez-les en l\'{item:220123} utilisée pour invoquer le rare à l\'{object:Autel menaçant}.'
 L['murkshade_note'] = 'Interagissez avec la {npc:218455}.'
+L['spreading_the_light_rares_note'] = 'Le monstre rare apparaît lorsque la {object:Flammeclé} allumée à cet endroit s\'éteint.'
 
 L['options_icons_mereldar_menace'] = '{achievement:40151}'
 L['options_icons_mereldar_menace_desc'] = 'Afficher les emplacements des cibles pour le haut-fait {achievement:40151}.'
@@ -273,6 +274,7 @@ Une fois que vous avez trouvé les 4 {npc:227421}, retournez au {object:Grimoire
 ]]
 L['another_you_4_note'] = 'Patrouille le long du chemin indiqué.'
 
+L['concealed_contraband_note'] = 'Retirez le {object:Cocon de toile} du trésor pour le faire apparaître.'
 L['memory_cache_note'] = 'Obtenez le buff {spell:420847} à partir d\'une ({dot:Red}) {object:Remise de l\'extracteur} proche. Tuez le {npc:223908} pour obtenir la {item:223870} permettant d\'ouvrir la {object:Cache de souvenirs}.'
 L['niffen_stash_note'] = 'Situé sous le pont.'
 L['trapped_trove_note'] = 'Dans un bâtiment suspendu au plafond. Évitez les toiles d\'araignées au sol.'

@@ -53,6 +53,7 @@ local mapZandalar = 875
 local mapKulTiras = 876
 local mapShadowlands = 1550
 local mapDragonIsles = 1978
+local mapKhazAlgar = 2274
 
 --	Each of the expansions adds maps that need to be processed.  One should be able to determine what expansions are supported, and then using
 --	this structure determine what maps need to be processed.
@@ -67,7 +68,7 @@ local expansionMaps = {
 	[7] = { mapZandalar, mapKulTiras },
 	[8] = { mapShadowlands },
 	[9] = { mapDragonIsles },	-- Dragonflight
-	[10] = { mapDragonIsles },	-- The War Within	-- TODO: Get the right value for this
+	[10] = { mapKhazAlgar },	-- The War Within
 }
 
 --	These are the achievements organized by zone for completing the "loremaster" achievements (basically completing a specific number of quests in each zone).
@@ -86,6 +87,7 @@ Grail.loremasterAchievements = {
 		[mapKulTiras] = { 512473, 512496, 512497, },
 		[mapShadowlands] = { 514281, 514206, 514164, 514334, 513878, },
 		[mapDragonIsles] = { 515394, 516334, 516336, 516363, 515325, },
+		[mapKhazAlgar] = { },
 		},
 	[factionHorde] = {
 		[mapKalimdor] = { 504976, 504927, 504930, 504978, 504931, 504979, 504933, 504934, 504981, 504980, 504935, 504938, 504939, 504940, 504870, 504872, },
@@ -101,6 +103,7 @@ Grail.loremasterAchievements = {
 		[mapKulTiras] = { },
 		[mapShadowlands] = { 514281, 514206, 514164, 514334, 513878, },
 		[mapDragonIsles] = { 515394, 516334, 516336, 516363, 515638, },
+		[mapKhazAlgar] = { },
 		},
 	}
 
@@ -162,6 +165,7 @@ Grail.extraAchievements = {
 		[mapKulTiras] = { 512510, 512853, 512852, 512995, },
 		[mapShadowlands] = { 514801, 514800, 514799, 514798, 513997, 514234, 514282, 514279, 514961, 515515, 515259, },
 		[mapDragonIsles] = { 516401, 516398, 516428, 516409, 516405, 516406, 516808, },
+		[mapKhazAlgar] = { 519559, 519560, 520118, 520595, 520597, 520598, 540618, 540636, 540799, 540844, },
 		},
 	[factionHorde] = {
 		[mapKalimdor] = { 504961, 505859, 505866, },
@@ -177,6 +181,7 @@ Grail.extraAchievements = {
 		[mapKulTiras] = { 512509, 512853, 512852, 512995, },
 		[mapShadowlands] = { 514801, 514800, 514799, 514798, 513997, 514234, 514282, 514961, 515515, 515259, },
 		[mapDragonIsles] = { 516401, 516398, 516428, 516409, 516405, 516406, 516808, },
+		[mapKhazAlgar] = { 519559, 519560, 520118, 520595, 520597, 520598, 540618, 540636, 540799, 540844, },
 		},
 	}
 
@@ -7380,7 +7385,86 @@ G[70879]={516398}	-- Misty Vale (Sojourner of Thaldraszus) (Dragonflight)
 G[70919]={516409}	-- Let's Get Qucking (Dragonflight)
 G[70970]={516428}	-- Lost Ruins (Sojourner of Azure Span) (Dragonflight)
 G[71135]={516428}	-- Grimtusk Hideaway (Sojourner of Azure Span) (Dragonflight)
-
+G[78256]={519559}	-- Unraveling the Trapped (Azj-Kahet) (The War Within)
+G[78294]={520595}	-- Lost Lord of the Storm (Sojourner of Isle of Dorn) (The War Within)
+G[78392]={519559}	-- Friends in the Dark (Azj-Kahet) (The War Within)
+G[78393]={519559}	-- Friends in the Dark (Azj-Kahet) (The War Within)
+G[78471]={520118}	-- Earthen Fissures (The Isle of Dorn) (The War Within)
+G[78536]={520118}	-- Breaking Point (The Isle of Dorn) (The War Within)
+G[78546]={520118}	-- The First Blow (The Isle of Dorn) (The War Within)
+G[78564]={540799,540307}	-- Broken Tools (Sojourner of the Ringing Deeps) (The War Within) and Mourning Rise (Allied Races: Earthen) (The War Within)
+G[78574]={520595}	-- Spores of Dread (Sojourner of Isle of Dorn) (The War Within)
+G[78630]={520598} -- Hope in Solidarity (Hallowfall) (The War Within)
+G[78642]={519560}	-- By Candlelight (The Ringing Deeps) (The War Within)
+G[78671]={520598} -- The Guiding Star (Hallowfall) (The War Within)
+G[78695]={540844}	-- Light to Velhan's Claim (Sojourner of Hallowfall) (The War Within)
+G[78706]={519560}	-- Dark Revelations (The Ringing Deeps) (The War Within)
+G[78759]={520595}	-- The Hermit (Sojourner of Isle of Dorn) (The War Within)
+G[78897]={540636}	-- The Wormlands (Sojourner of Azj-Kahet) (The War Within)
+G[78898]={540636}	-- The Wormlands (Sojourner of Azj-Kahet) (The War Within)
+G[78954]={520598} -- Gathering Shadows (Hallowfall) (The War Within)
+G[78999]={520595}	-- Seven Soldiers (Sojourner of Isle of Dorn) (The War Within)
+G[79030]={520597}	-- The Machines March to War (The War Within) (The War Within)
+G[79110]={540844}	-- Lost in the Darkness (Sojourner of Hallowfall) (The War Within)
+G[79123]={540636}	-- Rak-Ush Swarmery (Sojourner of Azj-Kahet) (The War Within)
+G[79154]={540844}	-- An Orphan's Dilemma (Sojourner of Hallowfall) (The War Within)
+G[79157]={520597}	-- Ties That Bind (The War Within) (The War Within)
+G[79162]={540844}	-- The Weight of Duty (Sojourner of Hallowfall) (The War Within)
+G[79168]={540844}	-- Rest at Last (Sojourner of Hallowfall) (The War Within)
+G[79197]={540307}	-- ??? (Allied Races: Earthen) (The War Within)
+G[79244]={520597}	-- News from Below (The War Within) (The War Within)
+G[79266]={540799}	-- Fearbreaker (Sojourner of the Ringing Deeps) (The War Within)
+G[79303]={540844}	-- The Sky's the Limit (Sojourner of Hallowfall) (The War Within)
+G[79313]={540844}	-- What Grows in the Dark (Sojourner of Hallowfall) (The War Within)
+G[79327]={540799}	-- Rampage at Nibelgaz Mine (Sojourner of the Ringing Deeps) (The War Within)
+G[79344]={520597}	-- Against the Current (The War Within) (The War Within)
+G[79357]={540636}	-- Pillar-Nest Vosh (Sojourner of Azj-Kahet) (The War Within)
+G[79372]={540799}	-- Envenomed Invasion (Sojourner of the Ringing Deeps) (The War Within)
+G[79510]={540799}	-- Kobold Culture and Integration (Sojourner of the Ringing Deeps) (The War Within)
+G[79530]={540307}	-- Merrix and Steelvein (Allied Races: Earthen) (The War Within)
+G[79565]={540799}	-- Kobold Culture and Integration (Sojourner of the Ringing Deeps) (The War Within)
+G[79579]={540636}	-- The Second Front (Sojourner of Azj-Kahet) (The War Within)
+G[79580]={540636}	-- The Second Front (Sojourner of Azj-Kahet) (The War Within)
+G[79649]={540844}	-- The Priory (Sojourner of Hallowfall) (The War Within)
+G[79682]={540799}	-- Kobold Culture and Integration (Sojourner of the Ringing Deeps) (The War Within)
+G[79703]={520595}	-- Hope, An Anomaly (Sojourner of Isle of Dorn) (The War Within)
+G[79715]={540636}	-- Gutter Work (Sojourner of Azj-Kahet) (The War Within)
+G[79728]={520595}	-- A Titanic Expedition (Sojourner of Isle of Dorn) (The War Within)
+G[79957]={540636}	-- Pillar-nest of Horrors (Sojourner of Azj-Kahet) (The War Within)
+G[80179]={540844}	-- The Last Mage of Hallowfall (Sojourner of Hallowfall) (The War Within)
+G[80205]={540636}	-- Pawns and Puppetry (Sojourner of Azj-Kahet) (The War Within)
+G[80218]={520595}	-- Brotherhood in the Skolzgal Wood (Sojourner of the Isle of Dorn) (The War Within)
+G[80316]={540844}	-- Crushing Depths (Sojourner of Hallowfall) (The War Within)
+G[80407]={540799}	-- The Caretaker of Brunwin's Terrace (Sojourner of the Ringing Deeps) (The War Within)
+G[80502]={540636}	-- Grieve and Weave (Sojourner of Azj-Kahet) (The War Within)
+G[80516]={540799}	-- Dread in the Den (Sojourner of the Ringing Deeps) (The War Within)
+G[80572]={540636}	-- Melody of Madness (Sojourner of Azj-Kahet) (The War Within)
+G[80678]={540844}	-- Memories of the Sky (Sojourner of Hallowfall) (The War Within)
+G[80679]={540618}	-- Stuffed Lynx Toy (Lost and Found) (The War Within)
+G[80680]={540618}	-- Tarnished Compass (Lost and Found) (The War Within)
+G[80681]={540618}	-- Broken Bracelet (Lost and Found) (The War Within)
+G[81559]={540799}	-- Into the Fog (Sojourner of the Ringing Deeps) (The War Within)
+G[81672]={540799}	-- Revenge in the Rumbling Wastes (Sojourner of the Ringing Deeps) (The War Within)
+G[81689]={519560}	-- The Monster and the Machine (The Ringing Deeps) (The War Within)
+G[81713]={540799}	-- Frolicking in the Fetid Grotto (Sojourner of the Ringing Deeps) (The War Within)
+G[81963]={540636}	-- Silken Ward (Sojourner of Azj-Kahet) (The War Within)
+G[82144]={540799}	-- Tired of Rest (Sojourner of the Ringing Deeps) (The War Within)
+G[82222]={540844}	-- Striking Steel (Sojourner of Hallowfall) (The War Within)
+G[82284]={540636}	-- All Good Things... (Sojourner of Azj-Kahet) (The War Within)
+G[82480]={540844}	-- Apart for Purpose (Sojourner of Hallowfall) (The War Within)
+G[82801]={520595}	-- All Ore Nothing (Sojourner of Isle of Dorn) (The War Within)
+G[82814]={540799}	-- Routine Maintenance (Sojourner of the Ringing Deeps) (The War Within)
+G[82847]={540844}	-- The Mysterious Chef (Sojourner of Hallowfall) (The War Within)
+G[82895]={520595,540307}	-- Remember Me, Earthen (Sojourner of Isle of Dorn) (The War Within) and Mourning Rise (Allied Races: Earthen) (The War Within)
+G[83057]={540636}	-- Mr. Sunflower's Therapy (Sojourner of Azj-Kahet) (The War Within)
+G[83160]={540799}	-- Magma-nificence (Sojourner of the Ringing Deeps) (The War Within)
+G[83162]={540799}	-- Abysmal Extraction (Sojourner of the Ringing Deeps) (The War Within)
+G[83181]={520595}	-- Brotherhood in the Skolzgal Wood (Sojourner of the Isle of Dorn) (The War Within)
+G[83247]={540844}	-- Suspicious Minds (Sojourner of Hallowfall) (The War Within)
+G[83283]={540844}	-- Suspicious Minds (Sojourner of Hallowfall) (The War Within)
+G[83503]={520597,540307}	-- A Light in the Dark (The War Within) (The War Within), The War Within (Allied Races: Earthen) (The War Within)
+G[83639]={540636}	-- The Wild Camp (Sojourner of Azj-Kahet) (The War Within)
+G[84022]={519559}	-- Plans within Plans (Azj-Kahet) (The War Within)
 
 Grail.timings.AchievementsInitialSetup = debugprofilestop() - debugStartTime
 debugStartTime = debugprofilestop()

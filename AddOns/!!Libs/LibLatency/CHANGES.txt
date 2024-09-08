@@ -1,8 +1,12 @@
 ------------------------------------------------------------------------
-r40 | funkehdude | 2022-11-14 15:23:36 +0000 (Mon, 14 Nov 2022) | 1 line
+r61 | funkehdude | 2024-07-09 18:33:31 +0000 (Tue, 09 Jul 2024) | 1 line
 Changed paths:
    M /trunk/LibLatency.toc
+   D /trunk/LibLatency_Cata.toc
+   D /trunk/LibLatency_TBC.toc
+   D /trunk/LibLatency_Vanilla.toc
+   D /trunk/LibLatency_Wrath.toc
 
-bump toc
+Merge toc files
 ------------------------------------------------------------------------
 

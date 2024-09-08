@@ -187,6 +187,7 @@ L['beledars_spawn_note'] = nil
 L['croakit_note'] = nil
 L['deathtide_note'] = nil
 L['murkshade_note'] = nil
+L['spreading_the_light_rares_note'] = nil
 
 L['options_icons_mereldar_menace'] = '{achievement:40151}'
 L['options_icons_mereldar_menace_desc'] = '顯示成就 {achievement:40151} 所需的目標位置.'
@@ -256,6 +257,7 @@ L['options_icons_no_harm_from_reading_desc'] = '顯示成就 {achievement:40632}
 L['no_harm_from_reading_note'] = nil
 L['another_you_4_note'] = nil
 
+L['concealed_contraband_note'] = nil
 L['memory_cache_note'] = '從附近 {spell:420847} from a nearby ({dot:Blue}) {object:Extractor Storage}. After kill the {npc:223908} to get the {item:223870} to open the {object:記憶寶箱}.'
 L['niffen_stash_note'] = '在橋的下面。'
 L['trapped_trove_note'] = nil
