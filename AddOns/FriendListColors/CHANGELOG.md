@@ -1,8 +1,9 @@
 # FriendListColors
 
-## [v11.0.0.240730](https://github.com/Vladinator/wow-addon-friendlistcolors/tree/v11.0.0.240730) (2024-07-30)
-[Full Changelog](https://github.com/Vladinator/wow-addon-friendlistcolors/commits/v11.0.0.240730) [Previous Releases](https://github.com/Vladinator/wow-addon-friendlistcolors/releases)
+## [v11.0.2.240908](https://github.com/Vladinator/wow-addon-friendlistcolors/tree/v11.0.2.240908) (2024-09-08)
+[Full Changelog](https://github.com/Vladinator/wow-addon-friendlistcolors/commits/v11.0.2.240908) [Previous Releases](https://github.com/Vladinator/wow-addon-friendlistcolors/releases)
 
+- TOC bump.  
 - TOC bump  
 - - TOC bump.  
     - Added support for `timerunner` (the season ID) and `timerunnerIcon` variables.  
@@ -75,4 +76,3 @@
 - Updated libraries.  
 - License change. Get in touch with me if you wish to discuss.  
 - Fixed an error.  
-- Version bump.  

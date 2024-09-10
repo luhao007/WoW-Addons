@@ -105,13 +105,13 @@ local function KeepRunningRoutine(rareScannerButton, npcIDs, mapID)
 		
 		-- If NPC is filtered
 		if (RSConfigDB.IsNpcFiltered(npcID)) then
-			RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por estar filtrando (completo)", npcID))
+			--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por estar filtrando (completo)", npcID))
 		-- If NPC zone is filtered
 		elseif (RSConfigDB.IsEntityZoneFilteredOnlyAlerts(npcID, RSConstants.NPC_VIGNETTE, mapID)) then
-			RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por estar filtrando su zona [%s]", npcID, mapID))
+			--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por estar filtrando su zona [%s]", npcID, mapID))
 		-- If NPC is recently seen
 		elseif (recentlySeen[npcID]) then
-			RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por haberse encontrado recientemente", npcID))
+			--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por haberse encontrado recientemente", npcID))
 		-- Otherwise try to find it
 		else
 			local npcName = RSNpcDB.GetNpcName(npcIDs[index])

@@ -50,7 +50,7 @@ local function InitResetNotificationsTimer()
 	end)
 end
 
-function RSNotificationTracker.AddNotification(vignetteID, isNavigating, entityID)	
+local function AddNotification(vignetteID, isNavigating, entityID)
 	-- When navigating never check notifications
 	if (isNavigating) then
 		return
@@ -112,5 +112,7 @@ function RSNotificationTracker.IsAlreadyNotificated(vignetteID, isNavigating, en
 		end
 	end
 
-	return false
+	-- Adds the new notification (even it finally its not shown)
+	-- If a vignette appears multiple times at once at the same time, this will avoid showing it multiple times
+	AddNotification(vignetteID, isNavigating, entityID)
 end

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Iceoven
-## Version: af7e6f3
+## Version: 68a8456
 ## RequiredDeps: DBM-Core
 ## DefaultState: enabled
 ## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: MysticalOS
-## Version: 11.0.5
+## Version: 11.0.6
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMRaidsDragonflight_AllSavedVars

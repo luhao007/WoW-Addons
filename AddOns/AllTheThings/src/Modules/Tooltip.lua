@@ -19,9 +19,10 @@ timeFormatter:Init(1, SecondsFormatter.Abbreviation.Truncate);
 
 -- App locals
 local GetRelativeValue, SearchForField, SearchForObject = app.GetRelativeValue, app.SearchForField, app.SearchForObject
+local distance = app.distance
 
--- Module locals (can be set via OnReady if they do not change during Session but are not yet defined)
-local SearchForLink
+-- Module locals (can be set via OnLoad if they do not change during Session but are not yet defined)
+local SearchForLink, GetPlayerPosition
 
 -- Object Name Lookups
 local objectNamesToIDs = {};
@@ -37,21 +38,6 @@ local function OnLoad_CacheObjectNames()
 		end
 	end
 end
-local function distance( x1, y1, x2, y2 )
-	return math_sqrt( (x2-x1)^2 + (y2-y1)^2 )
-end
-local function GetPlayerPosition()
-	local mapID = app.CurrentMapID;
-	if mapID and not IsInInstance() then
-		local pos = C_Map_GetPlayerMapPosition(mapID, "player");
-		if pos then
-			local px, py = pos:GetXY();
-			return mapID, px * 100, py * 100;
-		end
-	end
-	return mapID, 50, 50;
-end
-
 local GetBestObjectIDForName;
 if app.IsRetail then
 	local InGame = app.Modules.Filter.Filters.InGame
@@ -295,15 +281,15 @@ for i,guid in ipairs({
 	-- Darkal
 	"Player-3391-0A512DEB",	-- Claella-Silvermoon EU
 	"Player-3391-07DAA0FA",	-- Cresaida-Silvermoon EU
-	"Player-3391-0CA26A8E",	-- Darkaldh-Silvermoon EU
+	"Player-3391-0CF60215",	-- Darkaldh-Silvermoon EU
 	"Player-3391-07B0B708",	-- Darkas-Silvermoon EU
 	"Player-3391-07DB0DD7",	-- Darkgrip-Silvermoon EU
 	"Player-3391-08E7E3F5",	-- Delonna-Silvermoon EU
 	"Player-3391-09E34204",	-- Kinquin-Silvermoon EU
-	"Player-3391-0C5619B9",	-- Lynnan-Silvermoon EU
+	"Player-3391-0C5619B9",	-- Sarkoth-Silvermoon EU
 	"Player-3391-07568D56",	-- Maylesa-Silvermoon EU
 	"Player-3391-082E58AE",	-- Eliclia-Silvermoon EU
-	"Player-3391-0CC7EE6E",	-- Palach-Silvermoon EU
+	"Player-3391-0CF60219",	-- Palach-Silvermoon EU
 	"Player-3391-0757575C",	-- Sianor-Silvermoon EU
 	"Player-3391-08D25BFA",	-- Smesue-Silvermoon EU
 	-- Danny Donkey
@@ -1313,6 +1299,7 @@ api.AttachTooltipSearchResults = AttachTooltipSearchResults;
 api.GetBestObjectIDForName = GetBestObjectIDForName;
 app.AddEventHandler("OnLoad", function()
 	SearchForLink = app.SearchForLink;
+	GetPlayerPosition = app.GetPlayerPosition
 	OnLoad_CacheObjectNames();
 end);
 

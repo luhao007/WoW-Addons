@@ -371,7 +371,6 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 				RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora porque se ha avisado de esta hace menos de 2 minutos", entityID))
 				return
 			else
-				RSNotificationTracker.AddNotification(vignetteInfo.id, false, entityID)
 				FlashClientIcon()
 				RSAudioAlerts.PlaySoundAlert(vignetteInfo.atlasName)
 				button:DisplayMessages(entityID, vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
@@ -391,9 +390,6 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 			RSEventDB.SetEventName(entityID, vignetteInfo.name)
 		end
 	end
-
-	-- Sets the current vignette as new found
-	RSNotificationTracker.AddNotification(vignetteInfo.id, isNavigating, entityID)
 
 	--------------------------------
 	-- show messages and play alarm

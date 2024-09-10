@@ -4810,110 +4810,6 @@ app.CreateCostCurrency = function(t, total)
 end
 end)();
 
--- Flight Path Lib
-do
-local FlightPathMapIDs = app.FlightPathDB.FlightPathMapIDs
-local C_TaxiMap_GetTaxiNodesForMap, C_TaxiMap_GetAllTaxiNodes, GetTaxiMapID
-	= C_TaxiMap.GetTaxiNodesForMap, C_TaxiMap.GetAllTaxiNodes, GetTaxiMapID;
-local localizedFlightPathNames;
-local HarvestFlightPaths = function(requestID)
-	if not localizedFlightPathNames then
-		-- app.PrintDebug("HarvestFlightPaths");
-		local userLocale = AllTheThingsAD.UserLocale;
-		localizedFlightPathNames = userLocale.FLIGHTPATH_NAMES;
-		if not localizedFlightPathNames then
-			localizedFlightPathNames = {};
-			userLocale.FLIGHTPATH_NAMES = localizedFlightPathNames;
-		end
-		local flightPathNames = app.FlightPathNames;
-		if flightPathNames then
-			app.FlightPathNames = nil;
-			setmetatable(localizedFlightPathNames, { __index = flightPathNames });
-		end
-
-		local allNodeData;
-		for _,mapID in ipairs(FlightPathMapIDs) do
-			allNodeData = C_TaxiMap_GetTaxiNodesForMap(mapID);
-			if allNodeData then
-				for _,nodeData in ipairs(allNodeData) do
-					localizedFlightPathNames[nodeData.nodeID] = nodeData.name;
-				end
-			end
-		end
-		-- app.PrintDebugPrior("done")
-	end
-	return requestID and localizedFlightPathNames[requestID];
-end
-local fields = {
-	["key"] = function(t)
-		return "flightPathID";
-	end,
-	["name"] = function(t)
-		return HarvestFlightPaths(t.flightPathID) or L.VISIT_FLIGHT_MASTER;
-	end,
-	["icon"] = function(t)
-		local r = t.r;
-		if r then
-			return r == Enum.FlightPathFaction.Horde and app.asset("fp_horde") or app.asset("fp_alliance");
-		end
-		return app.asset("fp_neutral");
-	end,
-	["collectible"] = function(t)
-		return app.Settings.Collectibles.FlightPaths;
-	end,
-	["collected"] = function(t)
-		if t.saved then return 1; end
-		if app.Settings.AccountWide.FlightPaths and ATTAccountWideData.FlightPaths[t.flightPathID] then return 1; end
-		if t.altQuests then
-			for _,questID in ipairs(t.altQuests) do
-				if IsQuestFlaggedCompleted(questID) then
-					return 2;
-				end
-			end
-		end
-	end,
-	["trackable"] = app.ReturnTrue,
-	["saved"] = function(t)
-		return app.CurrentCharacter.FlightPaths[t.flightPathID];
-	end,
-};
-app.BaseFlightPath = app.BaseObjectFields(fields, "BaseFlightPath");
-app.CreateFlightPath = function(id, t)
-	return setmetatable(constructor(id, t, "flightPathID"), app.BaseFlightPath);
-end
-app.AddEventRegistration("TAXIMAP_OPENED", function()
-	local mapID = GetTaxiMapID() or -1;
-	if mapID < 0 then return; end
-	if app.Debugging then
-		if not contains(FlightPathMapIDs, mapID) then
-			app.print("Missing FlightPath Map:",app.GetMapName(mapID) or UNKNOWN,mapID)
-		end
-	end
-	local userLocale = AllTheThingsAD.UserLocale;
-	local names = userLocale.FLIGHTPATH_NAMES or {};
-	local allNodeData = C_TaxiMap_GetAllTaxiNodes(mapID);
-	if allNodeData then
-		local newFPs, nodeID;
-		local currentCharFPs, acctFPs = app.CurrentCharacter.FlightPaths, ATTAccountWideData.FlightPaths;
-		for _,nodeData in ipairs(allNodeData) do
-			nodeID = nodeData.nodeID;
-			names[nodeID] = nodeData.name;
-			-- app.PrintDebug("FP",nodeID,nodeData.name)
-			if nodeData.state and nodeData.state < 2 then
-				if not currentCharFPs[nodeID] then
-					acctFPs[nodeID] = 1;
-					currentCharFPs[nodeID] = 1;
-					if not newFPs then newFPs = { nodeID }
-					else tinsert(newFPs, nodeID); end
-				end
-			end
-		end
-		userLocale.FLIGHTPATH_NAMES = names;
-		UpdateRawIDs("flightPathID", newFPs);
-	end
-end)
-end	-- Flight Path Lib
-
 -- Item Lib
 (function()
 
@@ -5673,9 +5569,10 @@ local function DirectGroupUpdate(group, got)
 	end
 	local window = app.GetRelativeRawWithField(group, "window");
 	if window then window:ToggleExtraFilters(true) end
+	local wasHidden = app.GetRelativeField(group, "visible")
 	-- starting an update from a non-top-level group means we need to verify this group should even handle updates based on current filters first
-	if not app.RecursiveDirectGroupRequirementsFilter(group) then
-		-- app.PrintDebug("DGU:Filtered",group.hash,group.parent and group.parent.text)
+	if wasHidden and not app.RecursiveDirectGroupRequirementsFilter(group) then
+		-- app.PrintDebug("DGU:Filtered",group.visible,app:SearchLink(group))
 		if window then window:ToggleExtraFilters() end
 		return;
 	end
@@ -5691,9 +5588,13 @@ local function DirectGroupUpdate(group, got)
 	end
 	local progChange, totalChange, costChange, upgradeChange
 		= group.progress - prevProg, group.total - prevTotal, group.costTotal - prevCost, group.upgradeTotal - prevUpgrade
-	-- Something to change
+	-- Something to change for a visible group prior to the DGU or changed in visibility
 	if progChange ~= 0 or totalChange ~= 0 or costChange ~= 0 or upgradeChange ~= 0 then
-		AdjustParentProgress(group, progChange, totalChange, costChange, upgradeChange);
+		local isHidden = app.GetRelativeField(group, "visible")
+		if not isHidden or isHidden ~= wasHidden then
+			-- app.PrintDebug("DGU:Change",wasHidden,"=>",isHidden,app:SearchLink(group),progChange, totalChange, costChange, upgradeChange)
+			AdjustParentProgress(group, progChange, totalChange, costChange, upgradeChange);
+		end
 	end
 	-- After completing the Direct Update, setup a soft-update on the affected Window, if any
 	if window then
@@ -5764,6 +5665,7 @@ local CCFuncs = {
 	end,
 	["SL_SKIP"] = function()
 		-- Threads content becomes unavailable when a player reaches max level
+		-- TODO: this is weird now... some stuff is available to alts post-70
 		if app.Level >= 70 then return false end
 		-- check if quest #62713 is completed. appears to be a HQT concerning whether the character has chosen to skip the SL Storyline
 		return IsQuestFlaggedCompleted(62713);
@@ -5865,6 +5767,8 @@ local DGU_Quests = {
 	[59926] = DGU_CustomCollect,	-- New Player Experience Starting Quest
 	[58911] = DGU_CustomCollect,	-- New Player Experience Ending Quest
 	[60359] = DGU_CustomCollect,	-- New Player Experience Ending Quest
+	[60129] = DGU_CustomCollect,	-- Shadowlands - SL_SKIP (Threads of Fate)
+	[62704] = DGU_CustomCollect,	-- Shadowlands - SL_SKIP (Threads of Fate)
 	[62713] = DGU_CustomCollect,	-- Shadowlands - SL_SKIP (Threads of Fate)
 	[65076] = DGU_CustomCollect,	-- Shadowlands - Covenant - Kyrian
 	[65077] = DGU_CustomCollect,	-- Shadowlands - Covenant - Venthyr
@@ -8462,6 +8366,7 @@ function app:GetDataCache()
 			-- Professions
 			app.CreateDynamicHeaderByValue("professionID", {
 				dynamic_withsubgroups = true,
+				dynamic_valueField = "requireSkill",
 				name = TRADE_SKILLS,
 				icon = app.asset("Category_Professions")
 			}),
@@ -8567,6 +8472,17 @@ function app:GetDataCache()
 		db.g = app.Categories.HiddenQuestTriggers;
 		db.description = L.HIDDEN_QUEST_TRIGGERS_DESC;
 		db._hqt = true;
+		tinsert(g, db);
+		CacheFields(db, true);
+	end
+
+	-- Sourceless
+	if app.Categories.Sourceless then
+		db = app.CreateRawText(L.SOURCELESS)
+		db.g = app.Categories.Sourceless;
+		db.description = L.SOURCELESS_DESC;
+		db._missing = true;
+		db._unsorted = true;
 		tinsert(g, db);
 		CacheFields(db, true);
 	end
@@ -9292,6 +9208,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 			self:Update();
 		end
 		-- local C_Map_GetMapChildrenInfo = C_Map.GetMapChildrenInfo;
+
 		-- Wraps a given object such that it can act as an unfiltered Header of the base group
 		local CreateWrapVisualHeader = app.CreateVisualHeaderWithGroups
 		-- Returns the consolidated data format for the next header level
@@ -12267,6 +12184,7 @@ app.LoadDebugger = function()
 				key = 1,
 				visible = 1,
 				displayInfo = 1,
+				displayID = 1,
 				fetchedDisplayID = 1,
 				nmr = 1,
 				nmc = 1,
@@ -13470,6 +13388,9 @@ SlashCmdList.AllTheThings = function(cmd)
 		elseif cmd == "unsorted" then
 			app:GetWindow("Unsorted"):Toggle();
 			return true;
+		elseif cmd == "contribute" then
+			app.Contribute(not app.Contributor and 1)
+			return true
 		elseif cmd:sub(1, 4) == "mini" then
 			app:ToggleMiniListForCurrentZone();
 			return true;
@@ -13707,5 +13628,32 @@ app.AddEventRegistration("HEIRLOOMS_UPDATED", function(itemID, kind, ...)
 end)
 
 app.AddEventHandler("OnStartupDone", function() app.OnStartupDone = true end)
+
+-- Extra Contribution setup
+app.Contribute = function(contrib)
+	app.Contributor = contrib == 1 and true or nil
+	AllTheThingsSavedVariables.Contributor = app.Contributor and 1 or 0
+	local contribModule = app.Modules.Contributor or app.EmptyTable
+	if app.Contributor then
+		app.print("Thanks for helping to contribute to ATT! There will be additional chat and report sounds to help with finding additional discrepancies in ATT data.")
+		if contribModule.Events then
+			for event,func in pairs(contribModule.Events) do
+				-- app.PrintDebug("Contribute.RegisterFuncEvent",event)
+				app:RegisterFuncEvent(event,func)
+			end
+		end
+	elseif app.IsReady then
+		app.print("Not showing ATT contribution information.")
+		if contribModule.Events then
+			for event,func in pairs(contribModule.Events) do
+				-- app.PrintDebug("Contribute.UnregisterEventClean",event)
+				app:UnregisterEventClean(event)
+			end
+		end
+	end
+end
+app.AddEventHandler("OnReady", function()
+	app.Contribute(AllTheThingsSavedVariables.Contributor)
+end)
 
 -- app.PrintMemoryUsage("AllTheThings.EOF");

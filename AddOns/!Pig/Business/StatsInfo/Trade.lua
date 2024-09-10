@@ -2,6 +2,7 @@ local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 --
+local L=addonTable.locale
 local Fun=addonTable.Fun
 local Create=addonTable.Create
 local PIGLine=Create.PIGLine
@@ -420,6 +421,9 @@ function BusinessInfo.Trade()
 			fuji:Hide()
 			fuji.Title:SetText("");
 			fuji.highlight1:Hide();
+			for butid=1,12 do
+				fuji.itembuttons[butid]:Hide()
+			end
 		end
 		if fujiF.SelectName and fujiF.SelectTime then
 			local playerData=PIGA["StatsInfo"]["TradeData"][fujiF.SelectName]
@@ -447,12 +451,17 @@ function BusinessInfo.Trade()
 							fuji.MapName:SetText(shujuData[dangqian]["Map"])
 							if shujuData[dangqian]["MoneyP"]>0 then
 								fuji.MoneyP:SetText(GetMoneyString(shujuData[dangqian]["MoneyP"]))
+							else
+								fuji.MoneyP:SetText("")
 							end
 							if shujuData[dangqian]["MoneyT"]>0 then
 								fuji.MoneyT:SetText(GetMoneyString(shujuData[dangqian]["MoneyT"]))
+							else
+								fuji.MoneyT:SetText("")
 							end
 							for butid=1,6 do
 								if shujuData[dangqian]["ItemP"][butid]~=NONE then
+									fuji.itembuttons[butid]:Show()
 									local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = GetItemInfoInstant(shujuData[dangqian]["ItemP"][butid][1]) 
 									fuji.itembuttons[butid]:SetNormalTexture(icon)
 									fuji.itembuttons[butid].numItems:SetText(shujuData[dangqian]["ItemP"][butid][2])
@@ -466,6 +475,7 @@ function BusinessInfo.Trade()
 							end
 							for butid=1,6 do
 								if shujuData[dangqian]["ItemT"][butid]~=NONE then
+									fuji.itembuttons[butid]:Show()
 									local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = GetItemInfoInstant(shujuData[dangqian]["ItemT"][butid][1]) 
 									fuji.itembuttons[butid+6]:SetNormalTexture(icon)
 									fuji.itembuttons[butid+6].numItems:SetText(shujuData[dangqian]["ItemT"][butid][2])

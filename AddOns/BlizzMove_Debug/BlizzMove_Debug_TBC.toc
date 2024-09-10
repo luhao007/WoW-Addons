@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Numy - github.com/Kiatra/BlizzMove/
-## Version: v3.5.40
+## Version: v3.5.41
 ## RequiredDeps: BlizzMove
 ## LoadOnDemand: 1
 ## IconTexture: interface/cursor/ui-cursor-move.blp

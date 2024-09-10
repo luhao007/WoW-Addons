@@ -76,15 +76,12 @@ QuickButF.Lock:SetScript("OnClick", function (self)
 end)
 --
 QuickButF.suofang_t = PIGFontString(QuickButF,{"LEFT",QuickButF.Lock,"RIGHT",110,2},"缩放:")
-local xiayiinfo = {0.8,1.4,0.1}
-QuickButF.suofang = PIGSlider(QuickButF,{"LEFT",QuickButF.suofang_t,"RIGHT",10,0},{100,14},xiayiinfo)
-function QuickButF.suofang:OnValueFun()
-	local Hval = self:GetValue()
-	local Hval = floor(Hval*10+0.5)*0.1
-	self.Text:SetText(Hval);
-	PIGA["QuickBut"]["bili"]=Hval;
-	QuickButUI:SetScale(Hval);
-end
+local xiayiinfo = {0.8,1.4,0.01,{["Right"]="%"}}
+QuickButF.suofang = PIGSlider(QuickButF,{"LEFT",QuickButF.suofang_t,"RIGHT",10,0},xiayiinfo)
+QuickButF.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
+	PIGA["QuickBut"]["bili"]=arg1;
+	QuickButUI:SetScale(arg1);
+end)
 --
 local QuickButPoint = {"BOTTOM",UIParent,"BOTTOM",200,200}
 QuickButF.CZBUT = PIGButton(QuickButF,{"TOPRIGHT",QuickButF,"TOPRIGHT",-10,-20},{80,24},"重置位置")
@@ -182,15 +179,12 @@ QuickButF.ModF.QKButTrinket.Fenli.lock:SetScript("OnClick", function (self)
 	end
 end)
 QuickButF.ModF.QKButTrinket.Fenli.suofang_t = PIGFontString(QuickButF.ModF.QKButTrinket.Fenli,{"LEFT",QuickButF.ModF.QKButTrinket.Fenli.lock.Text,"RIGHT",20,2},"缩放:")
-local xiayiinfo = {0.8,1.8,0.1}
-QuickButF.ModF.QKButTrinket.Fenli.suofang = PIGSlider(QuickButF.ModF.QKButTrinket.Fenli,{"LEFT",QuickButF.ModF.QKButTrinket.Fenli.suofang_t,"RIGHT",10,0},{100,14},xiayiinfo)
-function QuickButF.ModF.QKButTrinket.Fenli.suofang:OnValueFun()
-	local Hval = self:GetValue()
-	local Hval = floor(Hval*10+0.5)*0.1
-	self.Text:SetText(Hval);
-	PIGA["QuickBut"]["TrinketScale"]=Hval;
-	if QuickTrinketUI then QuickTrinketUI:SetScale(Hval) end
-end
+local xiayiinfo = {0.8,1.8,0.01,{["Right"]="%"}}
+QuickButF.ModF.QKButTrinket.Fenli.suofang = PIGSlider(QuickButF.ModF.QKButTrinket.Fenli,{"LEFT",QuickButF.ModF.QKButTrinket.Fenli.suofang_t,"RIGHT",10,0},xiayiinfo)
+QuickButF.ModF.QKButTrinket.Fenli.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
+	PIGA["QuickBut"]["TrinketScale"]=arg1;
+	if QuickTrinketUI then QuickTrinketUI:SetScale(arg1) end
+end)
 ----
 QuickButF.ModF.QKButTrinket.AutoMode = PIGButton(QuickButF.ModF.QKButTrinket,{"LEFT",QuickButF.ModF.QKButTrinket.Text,"RIGHT",30,0},{76,20},SWITCH..MODE);
 local TrinkeWW,TrinkeHH = 300,400

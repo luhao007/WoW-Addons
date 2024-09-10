@@ -105,42 +105,35 @@ for i=1,#L["CHAT_QUKBUTNAME"] do
 		Pig_Options_RLtishi_UI:Show()
 	end);
 end
-local xiayiinfo = {0.8,1.6,0.1}
-ChatF.QuickChat.Slider = PIGSlider(ChatF.QuickChat,{"TOPLEFT",ChatF.QuickChat,"BOTTOMLEFT",40,-64},{80,14},xiayiinfo)
-ChatF.QuickChat.Slider.bt = PIGFontString(ChatF.QuickChat.Slider,{"RIGHT", ChatF.QuickChat.Slider, "LEFT", -10, 0},"缩放")
-function ChatF.QuickChat.Slider:OnValueFun()
-	local valxxx = self:GetValue()
-	local valxxx = floor(valxxx*10+0.5)*0.1
-	PIGA["Chat"]["QuickChat_suofang"]=valxxx;
-	self.Text:SetText(PIGA["Chat"]["QuickChat_suofang"]);
+local xiayiinfo = {0.8,1.6,0.1,{["Right"]="%"}}
+ChatF.QuickChat.Slider = PIGSlider(ChatF.QuickChat,{"TOPLEFT",ChatF.QuickChat,"BOTTOMLEFT",30,-50},xiayiinfo,110)
+ChatF.QuickChat.Slider.bt = PIGFontString(ChatF.QuickChat.Slider,{"RIGHT", ChatF.QuickChat.Slider, "LEFT", 0, 0},"缩放")
+ChatF.QuickChat.Slider.Slider:HookScript("OnValueChanged", function(self, arg1)
+	PIGA["Chat"]["QuickChat_suofang"]=arg1;
 	if QuickChatFFF_UI then
 		QuickChatFFF_UI:suofang()
 	end
-end
+end)
 --X偏移
 local xiayiinfoX = {-200,200,1}
-ChatF.QuickChat.SliderX = PIGSlider(ChatF.QuickChat,{"LEFT",ChatF.QuickChat.Slider,"RIGHT",100,0},{80,14},xiayiinfoX)
-ChatF.QuickChat.SliderX.bt = PIGFontString(ChatF.QuickChat.SliderX,{"RIGHT", ChatF.QuickChat.SliderX, "LEFT", -10, 0},"X偏移")
-function ChatF.QuickChat.SliderX:OnValueFun()
-	local valxxx = self:GetValue()
-	PIGA["Chat"]["QuickChat_pianyiX"]=valxxx;
-	self.Text:SetText(PIGA["Chat"]["QuickChat_pianyiX"]);
+ChatF.QuickChat.SliderX = PIGSlider(ChatF.QuickChat,{"LEFT",ChatF.QuickChat.Slider,"RIGHT",110,0},xiayiinfoX,110)
+ChatF.QuickChat.SliderX.bt = PIGFontString(ChatF.QuickChat.SliderX,{"RIGHT", ChatF.QuickChat.SliderX, "LEFT", 0, 0},"X偏移")
+ChatF.QuickChat.SliderX.Slider:HookScript("OnValueChanged", function(self, arg1)
+	PIGA["Chat"]["QuickChat_pianyiX"]=arg1;
 	if QuickChatFFF_UI then
 		QuickChatFFF_UI:suofang()
 	end
-end
+end)
 --Y偏移
 local xiayiinfoY = {-200,200,1}
-ChatF.QuickChat.SliderY = PIGSlider(ChatF.QuickChat,{"LEFT",ChatF.QuickChat.SliderX,"RIGHT",100,0},{80,14},xiayiinfoY)
-ChatF.QuickChat.SliderY.bt = PIGFontString(ChatF.QuickChat.SliderY,{"RIGHT", ChatF.QuickChat.SliderY, "LEFT", -10, 0},"Y偏移")
-function ChatF.QuickChat.SliderY:OnValueFun()
-	local valxxx = self:GetValue()
-	PIGA["Chat"]["QuickChat_pianyiY"]=valxxx;
-	self.Text:SetText(PIGA["Chat"]["QuickChat_pianyiY"]);
+ChatF.QuickChat.SliderY = PIGSlider(ChatF.QuickChat,{"LEFT",ChatF.QuickChat.SliderX,"RIGHT",96,0},xiayiinfoY,110)
+ChatF.QuickChat.SliderY.bt = PIGFontString(ChatF.QuickChat.SliderY,{"RIGHT", ChatF.QuickChat.SliderY, "LEFT", 0, 0},"Y偏移")
+ChatF.QuickChat.SliderY.Slider:HookScript("OnValueChanged", function(self, arg1)
+	PIGA["Chat"]["QuickChat_pianyiY"]=arg1;
 	if QuickChatFFF_UI then
 		QuickChatFFF_UI:suofang()
 	end
-end
+end)
 ChatF:HookScript("OnShow", function (self)
 	self.QuickChat:SetChecked(PIGA["Chat"]["QuickChat"])
 	self.QuickChat.maodian:PIGDownMenu_SetText(QuickChat_maodianListCN[PIGA["Chat"]["QuickChat_maodian"]])

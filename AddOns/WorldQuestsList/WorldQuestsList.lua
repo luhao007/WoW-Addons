@@ -1,4 +1,4 @@
-local VERSION = 112
+local VERSION = 113
 
 --[[
 Special icons for rares, pvp or pet battle quests in list
@@ -332,6 +332,9 @@ fixes
 
 TWW content update
 Added numbers on quest icons
+
+fixes
+Added dragonriding filter
 ]]
 
 local GlobalAddonName, WQLdb = ...
@@ -1154,6 +1157,7 @@ local defSortPrio = {
 
 	curr2815 = 12.5,
 	curr3008 = 12.5,
+	dragonriding = 12.6,
 }
 
 local ELib = WQLdb.ELib
@@ -2134,6 +2138,17 @@ do
 			end
 		end
 	end
+
+	function WorldQuestList:GetMapCoordAdj2(x,y,mainMapID,subMapID)
+		local xMin,xMax,yMin,yMax = C_Map.GetMapRectOnMap(subMapID,mainMapID)
+		if xMin ~= xMax and yMin ~= yMax then
+			x = xMin + x * (xMax - xMin)
+			y = yMin + y * (yMax - yMin)
+
+			return x, y
+		end
+		return x,y
+	end
 end
 
 do
@@ -2386,6 +2401,7 @@ do
 
 		[82580] = {40623,40630},
 		[83101] = 40507,
+		[82133] = 16556,
 	}
 	function WorldQuestList:IsQuestForAchievement(questID)
 		if questID and questToAchievement[questID] then
@@ -3486,6 +3502,12 @@ do
 	list[#list+1] = {text = EXPANSION_NAME8, padding = 16, subMenu = {
 		{text = WORLD_QUEST_REWARD_FILTERS_ANIMA,func = SetFilterType,	arg1 = "anima",					checkable = true}
 	}}
+	list[#list+1] = {text = EXPANSION_NAME10, padding = 16, subMenu = {
+		{text = MOUNT_JOURNAL_FILTER_DRAGONRIDING,func = SetFilterType,	arg1 = "dragonriding",				checkable = true},
+		{text = PVP_SPECIAL_EVENT_BUTTON_TT_TITLE,func = SetFilterType,	arg1 = "tww_bounty",				checkable = true},
+		{text = GetCurrencyInfo(2815),		func = SetFilterType,	arg1 = "curr2815",				checkable = true},
+		{text = GetCurrencyInfo(3008),		func = SetFilterType,	arg1 = "curr3008",				checkable = true},
+	}}
 
 
 	list[#list+1] = {
@@ -4028,6 +4050,14 @@ do
 
 	local mapIconsScaleSubmenu = {
 		{text = "",	isTitle = true,	slider = {min = 20, max = 300, val = 100, afterText = "%", func = nil}	},
+		{
+			text = DISABLE,
+			func = function()
+				VWQL.DisableWQScale_Hidden = not VWQL.DisableWQScale_Hidden
+			end,
+			checkable = true,
+			sub_arg = 1001,
+		},
 	}
 	mapIconsScaleSubmenu[1].slider.func = function(self,val)
 		mapIconsScaleSubmenu[1].slider.val = val
@@ -4358,6 +4388,8 @@ do
 			entry.checkState = VWQL.DisableQuestNumber
 		elseif entry.text == LOCALE.repAccAlert then
 			entry.checkState = not VWQL.DisableReputationAccAlert
+		elseif entry.sub_arg == 1001 then
+			entry.checkState = VWQL.DisableWQScale_Hidden
 		end
 	end
 	function WorldQuestList.optionsDropDown.Button:additionalToggle()
@@ -5000,6 +5032,18 @@ for provider,status in pairs(WorldMapFrame.dataProviders) do
 		break
 	end
 end
+
+
+--[[
+WQ_provider = CreateFromMixins(WorldMap_WorldQuestDataProviderMixin)
+
+function WQ_provider:GetPinTemplate()
+	return "WQL_WorldQuestPinTemplate";
+end
+
+WorldMapFrame:AddDataProvider(WQ_provider)
+]]
+
 WorldQuestList.WMF_WQ_provider = WQ_provider
 if WQ_provider then
 	WQ_provider:GetMap():RegisterCallback("WorldQuestsUpdate", function()
@@ -5018,7 +5062,7 @@ if WQ_provider then
 			for questId,pin in pairs(WorldQuestList.WMF_activePins) do
 				pin:RefreshVisuals()
 			end
-			WorldQuestList:WQIcons_AddIcons()
+			--WorldQuestList:WQIcons_AddIcons()
 		end
 
 		local mapID = WQ_provider:GetMap():GetMapID()
@@ -5027,6 +5071,24 @@ if WQ_provider then
 		end
 	end, WQ_provider)
 end
+
+--[[
+local WQ_provider_Extra = CreateFromMixins(WorldMap_WorldQuestDataProviderMixin)
+
+function WQ_provider_Extra:GetPinTemplate()
+	return "WQL_WorldQuestPinTemplate";
+end
+
+function WQ_provider_Extra:RefreshAllData()
+	local pinsToRemove = {};
+	for questId in pairs(self.activePins) do
+		pinsToRemove[questId] = true;
+	end
+end
+
+WorldMapFrame:AddDataProvider(WQ_provider_Extra)
+]]
+
 
 WQL_AreaPOIDataProviderMixin = CreateFromMixins(AreaPOIDataProviderMixin)
 
@@ -6238,21 +6300,26 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 	end
 	do
 		--local mapID = mapAreaID == 947 and 424 or mapAreaID
-		local pois = C_AreaPoiInfo.GetAreaPOIForMap(mapAreaID)
-		for i=1,#pois do
-			local poiData = C_AreaPoiInfo.GetAreaPOIInfo(mapAreaID,pois[i])
-			if poiData and type(poiData.atlasName) == 'string' and poiData.atlasName == "poi-nzothpylon" then
-				taskInfo.poi = taskInfo.poi or {}
-
-				poiData.position.dX, poiData.position.dY, poiData.position.dMap = poiData.position.x,poiData.position.y,mapAreaID
-
-				tinsert(taskInfo.poi, {poiData.name, poiData.description, poiData.position.x, poiData.position.y, pois[i], poiData.atlasName, 2, mapAreaID, poiData.position.dX, poiData.position.dY})
-			elseif poiData and type(poiData.atlasName) == 'string' and poiData.atlasName:find("worldquest-Capstone-questmarker",1,true) then
-				taskInfo.poi = taskInfo.poi or {}
-
-				poiData.position.dX, poiData.position.dY, poiData.position.dMap = poiData.position.x,poiData.position.y,mapAreaID
-
-				tinsert(taskInfo.poi, {poiData.name, poiData.description, poiData.position.x, poiData.position.y, pois[i], poiData.atlasName, 3, mapAreaID, poiData.position.dX, poiData.position.dY})
+		for _,smapAreaID in pairs(mapAreaID == 2274 and {2274,2248,2215,2214,2255} or {mapAreaID}) do
+			local pois = C_AreaPoiInfo.GetAreaPOIForMap(smapAreaID)
+			for i=1,#pois do
+				local poiData = C_AreaPoiInfo.GetAreaPOIInfo(smapAreaID,pois[i])
+				if poiData and type(poiData.atlasName) == 'string' and poiData.atlasName == "poi-nzothpylon" then
+					taskInfo.poi = taskInfo.poi or {}
+	
+					poiData.position.dX, poiData.position.dY, poiData.position.dMap = poiData.position.x,poiData.position.y,smapAreaID
+	
+					tinsert(taskInfo.poi, {poiData.name, poiData.description, poiData.position.x, poiData.position.y, pois[i], poiData.atlasName, 2, smapAreaID, poiData.position.dX, poiData.position.dY})
+				elseif poiData and type(poiData.atlasName) == 'string' and poiData.atlasName:find("worldquest-Capstone-questmarker",1,true) then
+					taskInfo.poi = taskInfo.poi or {}
+	
+					poiData.position.dX, poiData.position.dY, poiData.position.dMap = poiData.position.x,poiData.position.y,smapAreaID
+					if mapAreaID == 2274 then
+						poiData.position.x, poiData.position.y = WorldQuestList:GetMapCoordAdj2(poiData.position.x, poiData.position.y,2274,smapAreaID)
+					end
+	
+					tinsert(taskInfo.poi, {poiData.name, poiData.description, poiData.position.x, poiData.position.y, pois[i], poiData.atlasName, 4, smapAreaID, poiData.position.dX, poiData.position.dY, widget = poiData.tooltipWidgetSet})
+				end
 			end
 		end
 	end
@@ -6534,6 +6601,9 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 					end
 				elseif worldQuestType == Enum.QuestTagType.DragonRiderRacing then
 					nameicon = -11
+					if ActiveFilterType.dragonriding then 
+						isValidLine = 0 
+					end
 				end
 
 				if (WANTED_TEXT and name:lower():find("^"..WANTED_TEXT)) or (DANGER_TEXT and name:lower():find("^"..DANGER_TEXT)) or (DANGER_TEXT_2 and name:lower():find("^"..DANGER_TEXT_2)) or (DANGER_TEXT_3 and name:lower():find("^"..DANGER_TEXT_3)) then
@@ -6748,9 +6818,15 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 							elseif currencyID == 2815 then
 								hasRewardFiltered = true
 								RewardListType[#RewardListStrings] = (VWQL.SortPrio.curr2815 or defSortPrio.curr2815)
+								if ActiveFilterType.curr2815 then 
+									isValidLine = 0 
+								end
 							elseif currencyID == 3008 then
 								hasRewardFiltered = true
 								RewardListType[#RewardListStrings] = (VWQL.SortPrio.curr3008 or defSortPrio.curr3008)
+								if ActiveFilterType.curr3008 then 
+									isValidLine = 0 
+								end
 							elseif WorldQuestList:IsFactionCurrency(currencyID) then
 								hasRewardFiltered = true
 								if ActiveFilterType.rep then 
@@ -7196,6 +7272,46 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 					zone = WorldQuestList:GetMapName(zoneID),
 					zoneID = zoneID or 0,
 					timeleft = WorldQuestList:FormatTime(timeLeftMinutes),
+					time = timeLeftMinutes,
+					numObjectives = 0,
+					name = name,
+					rewardType = 70,
+					rewardSort = poiID,
+					nameicon = atlasIcon,
+					distance = WorldQuestList:CalculateSqDistanceTo(x, y),
+					questColor = nil,
+					isInvasionPoint = true,
+				})
+				numTaskPOIs = numTaskPOIs + 1
+			elseif (poiWQLType == 4 and not ActiveFilterType.tww_bounty) then
+				local timeLeftMinutes = (C_AreaPoiInfo.GetAreaPOISecondsLeft(poiID) or 0) / 60
+				local timeLeftString
+				local widgets = C_UIWidgetManager.GetAllWidgetsBySetID(taskInfo.poi[i].widget)
+				if widgets then
+					for j=1,#widgets do
+						local d = C_UIWidgetManager.GetTextWithStateWidgetVisualizationInfo(widgets[j].widgetID)
+						if d and d.text and d.text:find(TIME_REMAINING) then
+							timeLeftString = d.text:gsub(TIME_REMAINING,""):trim()
+							break
+						end
+					end
+				end
+				tinsert(result,{
+					info = {
+						x = x,
+						y = y,
+						mapID = zoneID,
+						name = description,
+						dX = dX,
+						dY = dY,
+						dMap = zoneID,
+					},
+					reward = description and description:gsub("^.-: ","") or "",
+					faction = "",
+					factionSort = "",
+					zone = WorldQuestList:GetMapName(zoneID),
+					zoneID = zoneID or 0,
+					timeleft = timeLeftString or WorldQuestList:FormatTime(timeLeftMinutes),
 					time = timeLeftMinutes,
 					numObjectives = 0,
 					name = name,
@@ -9528,6 +9644,9 @@ do
 						ribbon:SetPoint("TOP",obj,"BOTTOM",0,5)
 						ribbon:SetSize(100*0.6,40*0.6)
 						ribbon:SetAtlas("UI-Frame-Neutral-Ribbon")
+						if C_AddOns.IsAddOnLoaded("Mapster") then
+							ribbon:SetPoint("TOP",obj,"BOTTOM",0,20)
+						end
 
 						if not isWorldMapFrame then
 							local ribbonText = obj:CreateFontString(nil,"BORDER","GameFontWhite")
@@ -9540,8 +9659,9 @@ do
 
 						local iconTopRight = obj:CreateTexture(nil,"OVERLAY")
 						obj.WQL_iconTopRight = iconTopRight
-						iconTopRight:SetPoint("CENTER",obj,"TOPRIGHT",-10,-10)
+						iconTopRight:SetPoint("CENTER",obj,"TOPRIGHT",0,0)
 						iconTopRight:SetSize(20*0.75,20*0.75)
+						iconTopRight.SIZE_MOD = 0.7
 
 						obj:HookScript("OnEnter",HookOnEnter)
 						obj:HookScript("OnLeave",HookOnLeave)
@@ -9783,25 +9903,25 @@ do
 
 					if worldQuestType == LE.LE_QUEST_TAG_TYPE_PVP then
 						if obj.WQL_iconTopRight.curr ~= "worldquest-icon-pvp-ffa" then
-							obj.WQL_iconTopRight:SetSize(20,20)
+							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
 							obj.WQL_iconTopRight:SetAtlas("worldquest-icon-pvp-ffa")
 							obj.WQL_iconTopRight.curr = "worldquest-icon-pvp-ffa"
 						end
 					elseif worldQuestType == LE.LE_QUEST_TAG_TYPE_PET_BATTLE and (iconTexture or iconAtlas) then
 						if obj.WQL_iconTopRight.curr ~= "worldquest-icon-petbattle" then
-							obj.WQL_iconTopRight:SetSize(20,20)
+							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
 							obj.WQL_iconTopRight:SetAtlas("worldquest-icon-petbattle")
 							obj.WQL_iconTopRight.curr = "worldquest-icon-petbattle"
 						end
 					elseif worldQuestType == LE.LE_QUEST_TAG_TYPE_PROFESSION then
 						if obj.WQL_iconTopRight.curr ~= "worldquest-icon-engineering" then
-							obj.WQL_iconTopRight:SetSize(20,20)
+							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
 							obj.WQL_iconTopRight:SetAtlas("worldquest-icon-engineering")
 							obj.WQL_iconTopRight.curr = "worldquest-icon-engineering"
 						end
 					elseif worldQuestType == LE.LE_QUEST_TAG_TYPE_INVASION then
 						if obj.WQL_iconTopRight.curr ~= "worldquest-icon-burninglegion" then
-							obj.WQL_iconTopRight:SetSize(20,20)
+							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
 							obj.WQL_iconTopRight:SetAtlas("worldquest-icon-burninglegion")
 							obj.WQL_iconTopRight.curr = "worldquest-icon-burninglegion"
 						end
@@ -9809,13 +9929,13 @@ do
 						local factionTag = UnitFactionGroup("player")
 						local icon = factionTag == "Alliance" and "worldquest-icon-horde" or "worldquest-icon-alliance"
 						if obj.WQL_iconTopRight.curr ~= icon then
-							obj.WQL_iconTopRight:SetSize(32,32)
+							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
 							obj.WQL_iconTopRight:SetAtlas(icon)
 							obj.WQL_iconTopRight.curr = icon
 						end
 					else
 						if obj.WQL_iconTopRight.curr then
-							obj.WQL_iconTopRight:SetSize(20,20)
+							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
 							obj.WQL_iconTopRight:SetTexture()
 							obj.WQL_iconTopRight.curr = nil
 						end
@@ -9908,7 +10028,7 @@ do
 							end
 							obj.WQL_rewardRibbon:SetWidth( ((#tostring(amount) + (amountIcon and 1.5 or 0)) * 16 + 40) * 0.6 )
 
-							obj.TimeLowFrame:SetPoint("CENTER",-22,-8)
+							obj.TimeLowFrame:SetPoint("CENTER",-8,-8)
 
 							if isWorldMapFrame then
 								tCount = AddText(WorldMapFrame_TextTable,obj.WQL_rewardRibbon,tCount,(amountIcon and "|T"..amountIcon..":0|t" or "")..(amountColor or "")..amount)
@@ -9918,7 +10038,7 @@ do
 							if not isWorldMapFrame then
 								obj.WQL_rewardRibbonText:SetText("")
 							end
-							obj.TimeLowFrame:SetPoint("CENTER",-17,-17)
+							obj.TimeLowFrame:SetPoint("CENTER",8,-8)
 						end
 					else
 						if obj.WQL_rewardIconWMask.curr then
@@ -9934,7 +10054,7 @@ do
 							if not isWorldMapFrame then
 								obj.WQL_rewardRibbonText:SetText("")
 							end
-							obj.TimeLowFrame:SetPoint("CENTER",-17,-17)
+							obj.TimeLowFrame:SetPoint("CENTER",8,-8)
 						end
 					end
 					obj.WQL_questID = obj.questID
@@ -10001,7 +10121,7 @@ do
 						if not isWorldMapFrame then
 							obj.WQL_rewardRibbonText:SetText("")
 						end
-						obj.TimeLowFrame:SetPoint("CENTER",-17,-17)
+						obj.TimeLowFrame:SetPoint("CENTER",8,-8)
 						if obj.BountyRing then
 							obj.BountyRing:SetSize(obj.WQL_BountyRing_defSize,obj.WQL_BountyRing_defSize)
 							obj.BountyRing:SetVertexColor(1,1,1)
@@ -10047,7 +10167,7 @@ do
 							if obj.WQL_rewardRibbonText then
 								obj.WQL_rewardRibbonText:SetText("")
 							end
-							obj.TimeLowFrame:SetPoint("CENTER",-17,-17)
+							obj.TimeLowFrame:SetPoint("CENTER",8,-8)
 							if obj.BountyRing then
 								obj.BountyRing:SetSize(obj.WQL_BountyRing_defSize,obj.WQL_BountyRing_defSize)
 								obj.BountyRing:SetVertexColor(1,1,1)
@@ -10127,7 +10247,7 @@ end
 
 WorldMapFrame:RegisterCallback("WorldQuestsUpdate", function()
 	WorldQuestList:WQIcons_AddIcons()
-end, WorldMapFrame)
+end)
 
 local WQIcons_FlightMapLoad = CreateFrame("Frame")
 WQIcons_FlightMapLoad:RegisterEvent("ADDON_LOADED")
@@ -10198,11 +10318,6 @@ function WorldQuestList:WQIcons_UpdateScale()
 				if obj:GetMap() and obj:GetMap().ScrollContainer.zoomLevels then	--fix unk error in 8.3
 					obj:ApplyCurrentScale()
 				end
-				if obj.TimeLowFrame then
-					obj.TimeLowFrame.Icon:ClearAllPoints()
-					obj.TimeLowFrame.Icon:SetPoint("TOPLEFT",10,0)
-					obj.TimeLowFrame.Icon:SetPoint("BOTTOMRIGHT",10,0)
-				end
 			end
 		end
 	end
@@ -10210,10 +10325,7 @@ end
 
 WorldMapFrame:RegisterCallback("WorldQuestsUpdate", function()
 	WorldQuestList:WQIcons_UpdateScale()
-end, WorldMapFrame)
-
-
-
+end)
 
 
 WQL_HolidayDataProviderMixin = CreateFromMixins(AreaPOIDataProviderMixin)

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: The WeakAuras Team
-## Version: 5.17.0
+## Version: 5.17.1
 ## Dependencies: WeakAuras
 ## LoadOnDemand: 1
 ## SavedVariables: WeakAurasOptionsSaved

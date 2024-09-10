@@ -32,15 +32,9 @@ private.EVENT_INFO = {
 	[125230] = { zoneID = 863, x = 8186, y = 3058, overlay = { "8186-3058" } }; --El arcón maldito
 	[141124] = { zoneID = 863, artID = { 888 }, x = 5296, y = 7205, overlay = { "5296-7205" } }; --Aiji el Detestable
 	[282660] = { zoneID = 863, artID = { 888 }, x = 3808, y = 5768, overlay = { "3808-5768" } }; --Urna de Agussu
-	[137180] = { zoneID = 895, x = 6430, y = 1937, overlay = { "6430-1937" } }; --Mercaderes en peligro
-	[137183] = { zoneID = 895, x = 6403, y = 1963, overlay = { "6403-1963" } }; --null
-	[127651] = { zoneID = 896, x = 7315, y = 6010, overlay = { "7315-6010" } }; --null
-	[129904] = { zoneID = 896, x = 5229, y = 4686, overlay = { "5229-4686" } }; --null
 	[277329] = { zoneID = 896, x = 4195, y = 3648, overlay = { "4195-3648" } }; --Sarcófago antiguo
-	[277389] = { zoneID = 896, x = 5206, y = 4696, overlay = { "5206-4696" } }; --Calavera de ritual bestial
 	[277896] = { zoneID = 896, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
 	[277897] = { zoneID = 896, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
-	[155069] = { zoneID = 942, artID = { 967 }, x = 7232, y = 5224, overlay = { "7232-5224" } }; --Cosechadora mielabdomen
 	[149653] = { zoneID = 1355, artID = { 1186 }, x = 5470, y = 4171, overlay = { "5470-4171" } }; --null
 	[150191] = { zoneID = 1355, artID = { 1186 }, x = 3690, y = 1123, overlay = { "3690-1123" } }; --null
 	[150468] = { zoneID = 1355, artID = { 1186 }, x = 4809, y = 2426, overlay = { "4809-2426" } }; --null

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: geligasi
-## Version: 1.16
+## Version: 1.17
 ## RequiredDeps: !Pig
 ## SavedVariables: PIGG
 ## SavedVariablesPerCharacter: PIGG_Per

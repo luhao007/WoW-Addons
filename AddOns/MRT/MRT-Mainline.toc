@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: ykiigor
-## Version: 4900
+## Version: 4910
 ## SavedVariables: VMRT
 ## IconTexture: Interface\AddOns\MRT\media\MiniMap.tga
 

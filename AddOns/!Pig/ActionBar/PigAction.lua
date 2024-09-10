@@ -113,12 +113,15 @@ local function PailieFun(index,id)
 		end
 	end
 end
-local function AnniuNumFun(index,id,max)
-	local max=max or PIGA_Per["PigAction"]["AnniuNum"][index]
-	if id>max then
-		_G[barName..index.."_But"..id]:Hide()
-	else
-		_G[barName..index.."_But"..id]:Show()
+
+local function ShowHideNumFun(self,CVarV)
+	local CVarV = CVarV or GetCVar("alwaysShowActionBars")
+	if CVarV=="0" then
+		if not self.Type then
+			self:Hide()
+		end
+	elseif CVarV=="1" then
+		self:SetAnniuNumFun()
 	end
 end
 -----------
@@ -242,25 +245,22 @@ for index=1,zongshu do
 		end
 		self:PIGDownMenu_SetText(value)
 		PIGA_Per["PigAction"]["AnniuNum"][index] = arg1;
-		for id=2,anniugeshu do
-			AnniuNumFun(index,id,arg1)
+		for idx=1,anniugeshu do
+			_G[barName..index.."_But"..idx]:SetAnniuNumFun(arg1)
 		end
 		PIGCloseDropDownMenus()
 	end
 	Checkbut.suofang_t = PIGFontString(Checkbut,{"LEFT",Checkbut.AnniuNum,"RIGHT",30,-2},"缩放:")
-	local xiayiinfo = {0.6,1.4,0.1}
-	Checkbut.suofang = PIGSlider(Checkbut,{"LEFT",Checkbut.suofang_t,"RIGHT",10,0},{80,14},xiayiinfo)
-	function Checkbut.suofang:OnValueFun()
+	local xiayiinfo = {0.6,1.4,0.01,{["Right"]="%"}}
+	Checkbut.suofang = PIGSlider(Checkbut,{"LEFT",Checkbut.suofang_t,"RIGHT",10,0},xiayiinfo)
+	Checkbut.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
 		if InCombatLockdown()  then 
 			PIGinfotip:TryDisplayMessage(ERR_NOT_IN_COMBAT)
 			return 
 		end
-		local Hval = self:GetValue()
-		local Hval = floor(Hval*10+0.5)*0.1
-		self.Text:SetText(Hval);
-		PIGA_Per["PigAction"]["Scale"][index]=Hval;
-		_G[barName..index]:SetScale(Hval);
-	end
+		PIGA_Per["PigAction"]["Scale"][index]=arg1;
+		_G[barName..index]:SetScale(arg1);
+	end)
 	PIGLine(Action_plusF,"TOP",-94*index)
 end
 ---底部
@@ -403,12 +403,24 @@ local function ADD_ActionBar(index)
 		piganniu:SetSize(ActionW, ActionW)
 		piganniu.NormalTexture:SetAlpha(0.4);
 		piganniu.cooldown:SetSwipeColor(0, 0, 0, 0.8);
+		piganniu.INDEX=index
+		piganniu.ID=id
 		if id==1 then
 			piganniu:SetPoint("LEFT",Pig_bar.yidong,"RIGHT",2,0)
 		else
 			PailieFun(index,id)
 		end
-		AnniuNumFun(index,id)
+		function piganniu:SetAnniuNumFun(max)
+			local index=self.INDEX
+			local max=max or PIGA_Per["PigAction"]["AnniuNum"][index]
+			local id=self.ID
+			if id>max then
+				self:Hide()
+				return
+			end
+			self:Show()
+		end
+		piganniu:SetAnniuNumFun()
 		piganniu.BGtex = piganniu:CreateTexture(nil, "BACKGROUND", nil, -1);
 		piganniu.BGtex:SetTexture("Interface/Buttons/UI-Quickslot");
 		piganniu.BGtex:SetAlpha(0.4);
@@ -496,6 +508,7 @@ local function ADD_ActionBar(index)
 			GameTooltip:ClearLines();
 			GameTooltip:Hide() 
 		end);
+
 		--------------------
 		ShowHideEvent(piganniu,PIGA_Per['PigAction']['ShowTJ'][index])
 		piganniu:SetAttribute("_onstate-combatYN","if newstate == 'show' then self:Show(); else self:Hide(); end")
@@ -525,33 +538,21 @@ local function ADD_ActionBar(index)
 		piganniu:HookScript("OnEvent", function(self,event,arg1,arg2,arg3)
 			if event=="ACTIONBAR_SHOWGRID" then
 				if InCombatLockdown() then return end
-				self:Show();
+				ShowHideNumFun(self)
 			elseif event=="ACTIONBAR_HIDEGRID" then
 				if InCombatLockdown() then
 					self.always_show=true
 				else
-					local Showvalue = GetCVar("alwaysShowActionBars")
-					if Showvalue=="0" then
-						if not self.Type then
-							self:Hide();
-						end
-					end
+					ShowHideNumFun(self)
 				end
 			elseif event=="CVAR_UPDATE" then
 				if arg1=="ActionButtonUseKeyDown" then
 					PIGUseKeyDown(self)
-				end
-				if InCombatLockdown() then
-					self.always_show=true
-				else
-					if arg1=="ALWAYS_SHOW_MULTIBARS_TEXT" then
-						if arg2=="0" then
-							if not self.Type then
-								self:Hide();
-							end
-						elseif arg2=="1" then
-							self:Show();
-						end
+				elseif arg1=="alwaysShowActionBars" then
+					if InCombatLockdown() then
+						self.always_show=true
+					else
+						ShowHideNumFun(self,arg2)
 					end
 				end
 			elseif event=="BAG_UPDATE" then
@@ -573,14 +574,7 @@ local function ADD_ActionBar(index)
 			elseif event=="PLAYER_REGEN_ENABLED" then
 				Update_bukeyong(self)
 				Update_Equipment(self,"PigAction")
-				local Showvalue = GetCVar("alwaysShowActionBars")
-				if Showvalue=="0" then
-					if not self.Type then
-						self:Hide();
-					end
-				elseif Showvalue=="1" then
-					self:Show();
-				end
+				ShowHideNumFun(self)
 				self.always_show=nil
 			elseif event=="PLAYER_REGEN_DISABLED" then
 				Update_bukeyong(self)

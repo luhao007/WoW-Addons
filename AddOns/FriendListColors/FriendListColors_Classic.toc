@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Vladinator
-## Version: 1.14.4.240608
+## Version: 1.15.3.240908
 ## SavedVariables: FriendListColorsDB
 
 ## Title: FriendListColors
@@ -10,5 +10,7 @@
 
 ## X-Curse-Project-ID: 43444
 ## X-WoWI-ID: 18256
+## X-Wago-ID: BO674aK3
+## X-AddonProvider: github
 
 core.lua

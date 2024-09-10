@@ -388,6 +388,7 @@ function GDKPInfo.ADD_Item()
 			GameTooltip:ClearLines();GameTooltip:Hide()
 		end);
 		hang.item:SetScript("OnClick", function (self,button)
+			print(self:GetID())
 			local bianjiData = PIGA["GDKP"]["ItemList"][self:GetID()]
 			if button=="LeftButton" then
 		 		if IsShiftKeyDown() then
@@ -601,11 +602,7 @@ function GDKPInfo.ADD_Item()
 	fujiF.tishiUI.nr:PIGClose(nil,nil,fujiF.tishiUI)
 	fujiF.tishiUI.nr.t = PIGFontString(fujiF.tishiUI.nr,{"TOP", fujiF.tishiUI.nr, "TOP", 0,-28});
 
-	fujiF.tishiUI.nr.Slider=PIGSlider(fujiF.tishiUI.nr,{"TOP",fujiF.tishiUI.nr.t,"BOTTOM",0,-20},{140,14},{1,1,1,1})
-	fujiF.tishiUI.nr.Slider:SetScript("OnValueChanged", function(self)
-		local val = self:GetValue()
-		self.Text:SetText(val)
-	end)
+	fujiF.tishiUI.nr.Slider=PIGSlider(fujiF.tishiUI.nr,{"TOP",fujiF.tishiUI.nr.t,"BOTTOM",0,-20},{1,1,1,{["Top"]=""}})
 	--拍卖
 	fujiF.tishiUI.nr.auc = PIGFrame(fujiF.tishiUI.nr,{"TOPLEFT",fujiF.tishiUI.nr,"TOPLEFT",1,-60});
 	fujiF.tishiUI.nr.auc:PIGSetBackdrop(1,0)
@@ -834,7 +831,7 @@ function GDKPInfo.ADD_Item()
 			--统计数量
 			local hebingwupinzongshuliang = {0,0}
 			for i=1,#hejishuju do
-				if hejishuju[bianjiID][11]==hejishuju[i][11] then
+				if ItemIDx==hejishuju[i][11] then
 					hebingwupinzongshuliang[1]=hebingwupinzongshuliang[1]+hejishuju[i][3]
 					if hebingwupinzongshuliang[2]==0 then
 						hebingwupinzongshuliang[2]=i
@@ -843,7 +840,7 @@ function GDKPInfo.ADD_Item()
 			end
 			--删除除第一个之外的所有相同
 			for i=#hejishuju,1,-1 do
-				if hejishuju[bianjiID][11]==hejishuju[i][11] then
+				if ItemIDx==hejishuju[i][11] then
 					if hebingwupinzongshuliang[2]~=i then
 						table.remove(hejishuju,i);
 					end
@@ -887,10 +884,13 @@ function GDKPInfo.ADD_Item()
 		elseif GNNn=="chai" then
 			self.nr.Slider:Show()
 			self.nr.t:SetText("拆分\n"..biajidata[2].."\n".."拆分数量")
-			self.nr.Slider:SetMinMaxValues(1, biajidata[3]-1);
-			self.nr.Slider.Text:SetText(1);
-			self.nr.Slider:SetValue(1);
-			self.nr.Slider.High:SetText(biajidata[3]-1);
+			self.nr.Slider.LeftText:SetText(1)
+			self.nr.Slider.LeftText:Show()
+			self.nr.Slider.RightText:SetText(biajidata[3]-1)
+			self.nr.Slider.RightText:Show()
+			-- self.nr.Slider.Slider:SetMinMaxValues(1, biajidata[3]-1);
+			-- self.nr.Slider:PIGSetValue(1)
+			self.nr.Slider:PIGSetValueMinMax(1,1,biajidata[3]-1)
 		elseif GNNn=="auc" then
 			daojishi_Show()
 			self.nr.auc:Show()

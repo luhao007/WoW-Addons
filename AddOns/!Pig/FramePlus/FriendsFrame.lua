@@ -4,6 +4,9 @@ local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local ClasseNameID=addonTable.Data.ClasseNameID
 local PIGraceList=addonTable.Data.PIGraceList
 local Create=addonTable.Create
+local PIGFrame=Create.PIGFrame
+local PIGEnter=Create.PIGEnter
+local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -------------
@@ -281,6 +284,72 @@ function FramePlusfun.Friends()
 	end
 
 	--查询页
+	WhoFrame.endsenList={}
+	WhoFrame.endsenmsg="随机黑石深渊，来吗？"
+	WhoFrame.senmsg = PIGButton(WhoFrame,{"TOPLEFT",WhoFrame,"TOPLEFT",60,-26},{60,26},"密语",nil,nil,nil,nil,0);
+	WhoFrame.senmsg:Disable();
+	WhoFrame.senmsg:HookScript("OnClick", function(self, button)
+		if WhoFrame.selectedWho then
+			local info = C_FriendList.GetWhoInfo(WhoFrame.selectedWho);
+			SendChatMessage(WhoFrame.endsenmsg, "WHISPER", nil, info.fullName);
+			WhoFrame.endsenList[info.fullName]=true
+			self:Disable()
+		end
+	end)
+	WhoFrame.senmsg.bianji = CreateFrame("Button",nil,WhoFrame.senmsg);
+	WhoFrame.senmsg.bianji:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp");
+	WhoFrame.senmsg.bianji:SetSize(26,26);
+	WhoFrame.senmsg.bianji:SetPoint("LEFT",WhoFrame.senmsg,"RIGHT",4,0);
+	WhoFrame.senmsg.bianji.Tex = WhoFrame.senmsg.bianji:CreateTexture();
+	WhoFrame.senmsg.bianji.Tex:SetTexture("interface/buttons/ui-guildbutton-publicnote-up.blp");
+	WhoFrame.senmsg.bianji.Tex:SetPoint("CENTER",0,0);
+	WhoFrame.senmsg.bianji.Tex:SetSize(23,25);
+	WhoFrame.senmsg.bianji:HookScript("OnMouseDown", function(self)
+		self.Tex:SetPoint("CENTER", 1.5, -1.5);
+	end);
+	WhoFrame.senmsg.bianji:HookScript("OnMouseUp", function(self)
+		self.Tex:SetPoint("CENTER", 0, 0);
+	end);
+	WhoFrame.senmsg.bianji:SetScript("OnClick", function (self)
+		if self.F:IsShown() then
+			self.F:Hide()
+		else
+			self.F.NR.E:SetText(WhoFrame.endsenmsg)
+			self.F:Show()
+		end
+	end);
+	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200})
+	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1)
+	WhoFrame.senmsg.bianji.F:PIGClose()
+	WhoFrame.senmsg.bianji.F:Hide()
+	WhoFrame.senmsg.bianji.F.biaoti = PIGFontString(WhoFrame.senmsg.bianji.F,{"TOP", WhoFrame.senmsg.bianji.F, "TOP", 0,-4},"密语内容");
+	WhoFrame.senmsg.bianji.F.NR=PIGFrame(WhoFrame.senmsg.bianji.F,{"TOPLEFT", WhoFrame.senmsg.bianji.F, "TOPLEFT", 3,-26})
+	WhoFrame.senmsg.bianji.F.NR:SetPoint("BOTTOMRIGHT", WhoFrame.senmsg.bianji.F, "BOTTOMRIGHT", -3,3);
+	WhoFrame.senmsg.bianji.F.NR:PIGSetBackdrop(0,0.6,nil,{1, 1, 0})
+	WhoFrame.senmsg.bianji.F.NR.E = CreateFrame("EditBox", nil, WhoFrame.senmsg.bianji.F.NR);
+	WhoFrame.senmsg.bianji.F.NR.E:SetPoint("TOPLEFT", WhoFrame.senmsg.bianji.F.NR, "TOPLEFT", 2,-2);
+	WhoFrame.senmsg.bianji.F.NR.E:SetPoint("BOTTOMRIGHT", WhoFrame.senmsg.bianji.F.NR, "BOTTOMRIGHT", -2,2);
+	WhoFrame.senmsg.bianji.F.NR.E:SetFontObject(ChatFontNormal);
+	WhoFrame.senmsg.bianji.F.NR.E:SetAutoFocus(false);
+	WhoFrame.senmsg.bianji.F.NR.E:SetMultiLine(true)
+	WhoFrame.senmsg.bianji.F.NR.E:SetMaxLetters(200);
+	WhoFrame.senmsg.bianji.F.NR.E:SetTextColor(0.7, 0.7, 0.7, 1);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEditFocusGained", function(self) 
+		self:SetTextColor(1, 1, 1, 1);
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEditFocusLost", function(self)
+		self:SetTextColor(0.7, 0.7, 0.7, 1);
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEscapePressed", function(self) 
+		self:ClearFocus()
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEnterPressed", function(self) 
+		self:ClearFocus()
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnCursorChanged", function(self)
+		WhoFrame.endsenmsg=self:GetText();
+	end);
+	----
 	local WhohangH,WhoiconH=17.2,14
 	local WhoFrameHeaderP={24,24,24,190,188,200}
 	if tocversion>100000 and tocversion<110000 then
@@ -448,6 +517,15 @@ function FramePlusfun.Friends()
 				button.Guild:SetSize(WhoFrameHeaderP[6]-2,WhoiconH)
 				button.Guild:SetJustifyH("LEFT")
 				button.Guild:SetFont(NameText:GetFont())
+				button:HookScript("OnClick", function()
+					if WhoFrame.selectedWho then
+						if WhoFrame.endsenList[NameText:GetText()] then	
+							WhoFrame.senmsg:Disable()
+						else
+							WhoFrame.senmsg:Enable()
+						end
+					end
+				end)
 			end
 		end
 		WhoListScrollFrame:SetWidth(butWidth)

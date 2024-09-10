@@ -529,6 +529,7 @@ function QuickChatfun.QuickBut_Jilu()
 	---聊天内容显示区域---
 	miyijiluF.nr=PIGFrame(miyijiluF,{"TOPRIGHT",miyijiluF,"TOPLEFT",-1,0},{400,120})
 	miyijiluF.nr:PIGSetBackdrop()
+	miyijiluF.nr:SetFrameStrata("HIGH")
 	miyijiluF.nr:Hide()
 	miyijiluF.nr:HookScript("OnEnter",  function(self)
 		self:Show();
