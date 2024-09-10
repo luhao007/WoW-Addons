@@ -38,11 +38,17 @@ local strlen, strgfind = string.len, string.gfind
 local strtrim = strtrim
 local floor, fmod = math.floor, math.fmod
 local getn, tinsert, tsort = table.getn, table.insert, table.sort
-local GetAddOnInfo, GetAddOnEnableState, UnitLevel, GetBuildInfo = _G.GetAddOnInfo or C_AddOns.GetAddOnInfo, _G.GetAddOnEnableState or C_AddOns.GetAddOnEnableState, _G.UnitLevel, _G.GetBuildInfo
+local GetAddOnInfo, UnitLevel, GetBuildInfo = _G.GetAddOnInfo or C_AddOns.GetAddOnInfo, _G.UnitLevel, _G.GetBuildInfo
 local GetLFGDungeonInfo = _G.GetLFGDungeonInfo
-local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
-local IsAddOnLoadOnDemand = C_AddOns and C_AddOns.IsAddOnLoadOnDemand or IsAddOnLoadOnDemand
+local GetAddOnMetadata = _G.GetAddOnMetadata or C_AddOns.GetAddOnMetadata
+
+if not GetAddOnEnableState then
+	-- Args are flipped in The War Within
+	GetAddOnEnableState = function(character, name)
+		return C_AddOns.GetAddOnEnableState(name, character);
+	end
+end
 
 -- Determine WoW TOC Version
 local WoWClassicEra, WoWClassicTBC, WoWWOTLKC, WoWRetail

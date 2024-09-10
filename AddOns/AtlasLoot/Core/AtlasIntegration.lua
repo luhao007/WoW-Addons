@@ -5,7 +5,14 @@
 local _G = getfenv(0)
 local pairs, select = _G.pairs, _G.select
 -- WoW
-local GetAddOnInfo, GetAddOnEnableState, UnitName = C_AddOns.GetAddonInfo or _G.GetAddOnInfo, C_AddOns.GetAddOnEnableState or _G.GetAddOnEnableState, _G.UnitName
+local GetAddOnInfo, UnitName = C_AddOns and C_AddOns.GetAddOnInfo or _G.GetAddOnInfo,  _G.UnitName
+if not GetAddOnEnableState then
+	-- Args are flipped in The War Within
+	GetAddOnEnableState = function(character, name)
+		return C_AddOns.GetAddOnEnableState(name, character);
+	end
+end
+
 
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.

@@ -8,7 +8,12 @@ local tbl_insert, tbl_remove = table.insert, table.remove
 
 -- WoW
 local GetNumAddOns, GetAddOnInfo, IsAddOnLoaded, GetAddOnMetadata = C_AddOns.GetNumAddOns, C_AddOns.GetAddOnInfo, C_AddOns.IsAddOnLoaded, C_AddOns.GetAddOnMetadata
-local GetAddOnEnableState = C_AddOns.GetAddOnEnableState
+if not GetAddOnEnableState then
+	-- Args are flipped in The War Within
+	GetAddOnEnableState = function(character, name)
+		return C_AddOns.GetAddOnEnableState(name, character);
+	end
+end
 local LoadAddOn = C_AddOns.LoadAddOn
 local GetTime = GetTime
 -- ----------------------------------------------------------------------------

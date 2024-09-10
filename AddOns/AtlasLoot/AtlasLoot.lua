@@ -21,7 +21,12 @@ local ALDB = LibStub("ALDB-1.0")
 
 local GetAddOnInfo = C_AddOns.GetAddOnInfo
 local DisableAddOn = C_AddOns.DisableAddOn
-local GetAddOnEnableState = C_AddOns.GetAddOnEnableState
+if not GetAddOnEnableState then
+	-- Args are flipped in The War Within
+	GetAddOnEnableState = function(character, name)
+		return C_AddOns.GetAddOnEnableState(name, character);
+	end
+end
 
 -- lua
 
