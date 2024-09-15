@@ -1142,4 +1142,5 @@ private.CONTAINER_LOOT = {
 	[456008] = {226285}; --Silver Dornogal Rod
 	[456016] = {226277}; --Dornogal Hammer
 	[456025] = {226265}; --Earthen Iron Powder
+	[428472] = {}; --Captain Lancekat's Discretionary Funds
 }

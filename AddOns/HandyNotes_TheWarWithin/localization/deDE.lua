@@ -20,6 +20,9 @@ L['options_icons_profession_treasures_desc'] = 'Zeigt die Positionen der Schätz
 L['options_icons_khaz_algar_lore_hunter'] = '{achievement:40762}'
 L['options_icons_khaz_algar_lore_hunter_desc'] = 'Zeigt die Positionen der Geschichtsobjekte für den Erfolg {achievement:40762} an.'
 
+L['options_icons_flight_master'] = '{achievement:40430}'
+L['options_icons_flight_master_desc'] = 'Zeigt die Positionen der {npc:Flugmeister} für den Erfolg {achievement:40430} an.'
+
 -------------------------------------------------------------------------------
 -------------------------------- ISLE OF DORN ---------------------------------
 -------------------------------------------------------------------------------
@@ -231,13 +234,11 @@ L['options_icons_itsy_bitsy_spider'] = '{achievement:40624}'
 L['options_icons_itsy_bitsy_spider_desc'] = 'Zeigt die Positionen der Webratten für den Erfolg {achievement:40624} an.'
 
 L['itsy_bitsy_spider_note'] = 'Winke ({emote:/winken}) der Webratte zu.'
-L['webster_location'] = nil
 L['spindle_location'] = nil
 L['swift_location'] = nil
 L['rumurh_location'] = nil
 L['thimble_location'] = nil
 L['scampering_weave_rat_location'] = nil
-L['generals_scouting_shadecaster_location'] = nil
 
 L['options_icons_bookworm'] = '{achievement:40629}'
 L['options_icons_bookworm_desc'] = 'Zeigt die Positionen von Büchern für den Erfolg {achievement:40629} an.'
@@ -287,6 +288,7 @@ L['concealed_contraband_note'] = 'Entferne den {object:Netzkokon}, um den Schatz
 L['memory_cache_note'] = 'Hole dir den Schwächungszauber {spell:420847} von einem {object:Extraktor} ({dot:Red}) in der Nähe und töte dann die {npc:223908} vor der Kiste, um den {item:223870} zu erhalten.'
 L['niffen_stash_note'] = 'Hängt unter der Brücke.'
 L['trapped_trove_note'] = 'In einem Gebäude das von der Decke hängt. Vermeide die Spinnweben am Boden.'
+L['weaving_supplies_note'] = 'Sammle Seidenfetzen von der Plattform in der Nähe, um den Schatz zu öffen.\n\n{item:223901} ({dot:Purple})\n{item:223903} ({dot:Yellow})\n{item:223902} ({dot:Red})'
 
 L['tkaktath_note'] = 'Startet eine Questreihe, um das Reittier {item:224150} zu erhalten.'
 
@@ -315,7 +317,7 @@ L['kvr_chest_2_location'] = 'Auf dem Holzgerüst.'
 L['nfs_chest_2_location'] = 'Auf der Pflanze.'
 L['nfs_chest_3_location'] = 'Im Gebäude'
 L['nfs_chest_4_location'] = 'Springe vom Himmelsschiff runter.'
-L['ski_chest_3_location'] = 'Im Gebäude'
+L['ski_chest_3_location'] = 'Auf einem Felsvorsprung.'
 L['tra_chest_2_location'] = 'Oben in der Koralle.'
 L['tsw_chest_2_location'] = 'Oben auf dem Balken.'
 L['tsw_chest_2_note'] = '{note:Nur in der Geschichtenvariantion "Alles Liebe von der Weberin" verfügbar.}'

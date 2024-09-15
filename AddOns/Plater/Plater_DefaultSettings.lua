@@ -649,6 +649,7 @@ PLATER_DEFAULT_SETTINGS = {
 		show_healthbars_on_softinteract = true,
 		ignore_softinteract_objects = false,
 		hide_name_on_game_objects = true,
+		name_on_game_object_color = {1, 1, 1, 1},
 		show_softinteract_icons = true,
 		
 		enable_masque_support = false,
@@ -947,7 +948,7 @@ PLATER_DEFAULT_SETTINGS = {
 		},
 		
 		bossmod_support_enabled = true,
-		bossmod_bw_castrename_enabled = true,
+		bossmod_castrename_enabled = true,
 		bossmod_support_bars_enabled = false,
 		bossmod_support_bars_text_enabled = true,
 		bossmod_aura_height = 32,
@@ -955,6 +956,8 @@ PLATER_DEFAULT_SETTINGS = {
 		bossmod_cooldown_text_size = 16,
 		bossmod_cooldown_text_enabled = true,
 		bossmod_icons_anchor = {side = 8, x = 0, y = 30},
+		bossmod_aura_glow_important_only = true,
+		bossmod_aura_glow_expiring = true,
 		
 		not_affecting_combat_enabled = false,
 		not_affecting_combat_alpha = 0.6,

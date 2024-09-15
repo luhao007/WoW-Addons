@@ -90,8 +90,11 @@ function Create.PIGSlider(fuF,Point,data,WH,UIName)--,{["Right"]="%"}
 		end)
 	end
 	function SliderF:PIGSetValue(value)
+		local OLD_OnValueChanged=self.Slider:GetScript("OnValueChanged")
+		self.Slider:SetScript("OnValueChanged", function() end)
 		self:FormatValue(value);
 		self.Slider:SetValue(value);
+		self.Slider:HookScript("OnValueChanged", OLD_OnValueChanged)
 	end
 	function SliderF:PIGSetValueMinMax(value,min,max,steps)
 		local steps=steps or 1

@@ -1825,6 +1825,9 @@ private.CONTAINER_GUIDE = {
 	["4417232215"] = {
 		[RSConstants.FLAG] = { x = 0.6580, y = 0.2440, comment = AL["NOTE_CONTAINER_SPARKBUG_1"] };
 	}; --Farm Satchel
+	["4284722215"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6587, y = 0.1874 };
+	}; --Captain Lancekat's Discretionary Funds
 }
 
 ---============================================================================

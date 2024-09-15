@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: r149
+## Version: r151
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyWarWithin_AllSavedVars
@@ -32,6 +32,7 @@ localization.en.lua
 localization.kr.lua
 localization.ru.lua
 localization.cn.lua
+localization.tw.lua
 
 DarkflameCleft\OlWaxbeard.lua
 DarkflameCleft\Blazikon.lua

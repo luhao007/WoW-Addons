@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: Plater-v587-Retail
+## Version: Plater-v588-Retail
 ## SavedVariables: PlaterDB, PlaterLanguage, PlaterLogs, PlaterBackup
 ## SavedVariablesPerCharacter: PlaterDBChr
 ## IconTexture: Interface\AddOns\Plater\images\cast_bar
@@ -72,6 +72,7 @@ Plater_API.lua
 options/Plater_O_Search.lua
 options/Plater_O_CastBar.lua
 options/Plater_O_Advanced.lua
+options/Plater_O_BossMod.lua
 
 Plater_LoadFinished.lua
 

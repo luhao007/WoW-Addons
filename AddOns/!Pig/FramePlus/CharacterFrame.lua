@@ -272,7 +272,6 @@ local function Character_xiuliG()--修理费用
 			end
 		end
 		if i>=xiuliinfo.invnum then
-			xiuliinfo.repaircost=1366
 			if xiuliinfo.repaircost>10000 then
 				local linshiG=xiuliinfo.repaircost*0.01
 				local linshiG=floor(linshiG+0.5)

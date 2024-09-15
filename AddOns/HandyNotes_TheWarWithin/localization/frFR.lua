@@ -20,6 +20,9 @@ L['options_icons_profession_treasures_desc'] = 'Afficher les emplacements des tr
 L['options_icons_khaz_algar_lore_hunter'] = '{achievement:40762}'
 L['options_icons_khaz_algar_lore_hunter_desc'] = 'Afficher les emplacements des objets d\'histoire pour le haut-fait {achievement:40762}.'
 
+L['options_icons_flight_master'] = '{achievement:40430}'
+L['options_icons_flight_master_desc'] = 'Afficher les emplacements des {npc:Maîtres de vol} pour le haut-fait {achievement:40430}.'
+
 -------------------------------------------------------------------------------
 -------------------------------- ISLE OF DORN ---------------------------------
 -------------------------------------------------------------------------------
@@ -230,13 +233,11 @@ L['options_icons_itsy_bitsy_spider'] = '{achievement:40624}'
 L['options_icons_itsy_bitsy_spider_desc'] = 'Afficher les emplacements des tisse-rats pour le haut-fait {achievement:40624}.'
 
 L['itsy_bitsy_spider_note'] = 'Faites signe ({emote:/signe}) au tisse-rat.'
-L['webster_location'] = nil
 L['spindle_location'] = nil
 L['swift_location'] = nil
 L['rumurh_location'] = nil
 L['thimble_location'] = nil
 L['scampering_weave_rat_location'] = nil
-L['generals_scouting_shadecaster_location'] = nil
 
 L['options_icons_bookworm'] = '{achievement:40629}'
 L['options_icons_bookworm_desc'] = 'Afficher les emplacements des livres pour le haut-fait {achievement:40629}.'
@@ -285,6 +286,7 @@ L['concealed_contraband_note'] = 'Retirez le {object:Cocon de toile} du trésor 
 L['memory_cache_note'] = 'Obtenez le buff {spell:420847} à partir d\'une ({dot:Red}) {object:Remise de l\'extracteur} proche. Tuez le {npc:223908} pour obtenir la {item:223870} permettant d\'ouvrir la {object:Cache de souvenirs}.'
 L['niffen_stash_note'] = 'Situé sous le pont.'
 L['trapped_trove_note'] = 'Dans un bâtiment suspendu au plafond. Évitez les toiles d\'araignées au sol.'
+L['weaving_supplies_note'] = 'Ramassez les lambeaux de soie sur la plate-forme à proximité pour ouvrir le trésor.\n\n{item:223901} ({dot:Purple})\n{item:223903} ({dot:Yellow})\n{item:223902} ({dot:Red})'
 
 L['tkaktath_note'] = 'Démarre une suite de quêtes pour obtenir la monture {item:224150}.'
 
@@ -313,7 +315,7 @@ L['kvr_chest_2_location'] = 'En haut de l\'échafaudage en bois.'
 L['nfs_chest_2_location'] = 'Sur la plante.'
 L['nfs_chest_3_location'] = 'À l\'intérieur du bâtiment.'
 L['nfs_chest_4_location'] = 'Sautez du dirigeable.'
-L['ski_chest_3_location'] = 'À l\'intérieur du bâtiment.'
+L['ski_chest_3_location'] = 'Sur un rebord.'
 L['tra_chest_2_location'] = 'Sur le corail.'
 L['tsw_chest_2_location'] = 'En haut de la poutre.'
 L['tsw_chest_2_note'] = '{note:Disponible uniquement pendant la variante de l’histoire "Avec les compliments de la Tisserande".}'

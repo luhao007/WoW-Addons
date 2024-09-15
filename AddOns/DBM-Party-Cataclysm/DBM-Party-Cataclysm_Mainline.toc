@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: MysticalOS
-## Version: r149
+## Version: r151
 ## RequiredDeps: DBM-Core
 ## LoadOnDemand: 1
 ## SavedVariables: DBMPartyCataclysm_AllSavedVars

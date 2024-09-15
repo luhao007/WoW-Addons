@@ -1068,29 +1068,75 @@ private.CONTAINER_INFO = {
 				[2213] = { x = 3952, y = 1555, artID = { 1816 }, overlay = { "3952-1555","4040-4340","7800-4950" } };
 				[2255] = { x = 4656, y = 7259, artID = { 1852 }, overlay = { "4656-7259","4300-5750","5360-5870","6120-2760","6350-2620","6480-0440","7450-4060","7610-5260","7750-3860" } };
 			  }, reset = true }; --Royal Sureki Strongbox
-	[446101] = { zoneID = 2213, artID = { 1816 }, x = 3144, y = 2064, overlay = { "3163-2076" }, reset = false, questID = { 82720 }, minieventID = 18 }; --Nerubian Offerings
-	[446421] = { zoneID = 2213, artID = { 1816 }, x = 6727, y = 7436, overlay = { "6738-7441" }, reset = false, questID = { 82727 }, minieventID = 18 }; --Trapped Trove
-	[454313] = { zoneID = 2213, artID = { 1816 }, x = 3826, y = 3557, overlay = { "3826-3557" }, reset = false, minieventID = 21, criteria = 6 }; --Queen Xekatha
-	[454316] = { zoneID = 2213, artID = { 1816 }, x = 3842, y = 3227, overlay = { "3842-3227" }, reset = false, minieventID = 21, criteria = 8 }; --Queen Zaltra
-	[454320] = { zoneID = 2213, artID = { 1816 }, x = 3706, y = 3273, overlay = { "3706-3273" }, reset = false, minieventID = 21, criteria = 7 }; --Queen Anub'izek
-	[454328] = { zoneID = 2213, artID = { 1816 }, x = 2767, y = 5460, overlay = { "2767-5460" }, reset = false, minieventID = 21, criteria = 1 }; --Strands of Memory
-	[454330] = { zoneID = 2213, artID = { 1816 }, x = 3855, y = 3771, overlay = { "3855-3771" }, reset = false, minieventID = 21, criteria = 10 }; --Treatise on Forms: Skitterlings
-	[454332] = { zoneID = 2213, artID = { 1816 }, x = 3822, y = 3902, overlay = { "3822-3902" }, reset = false, minieventID = 21, criteria = 9 }; --Treatise on Forms: Sages
+	[446101] = { zoneID = {
+				[2213] = { x = 3160, y = 2078, artID = { 1816 }, overlay = { "3163-2076" } };
+				[2255] = { x = 4236, y = 7227, artID = { 1852 }, overlay = { "4236-7227" } };
+			  }, reset = false, questID = { 82720 }, minieventID = 18 }; --Nerubian Offerings
+	[446421] = { zoneID = {
+				[2213] = { x = 6738, y = 7434, artID = { 1816 }, overlay = { "6738-7441" } };
+				[2255] = { x = 5482, y = 9085, artID = { 1852 }, overlay = { "5482-9085" } };
+			  }, reset = false, questID = { 82727 }, minieventID = 18 }; --Trapped Trove
+	[454313] = { zoneID = {
+				[2213] = { x = 3826, y = 3557, artID = { 1816 }, overlay = { "3826-3557" } };
+				[2255] = { x = 4469, y = 7739, artID = { 1852 }, overlay = { "4469-7739" } };
+			  }, reset = false, minieventID = 21, criteria = 6 }; --Queen Xekatha
+	[454316] = { zoneID = {
+				[2213] = { x = 3842, y = 3227, artID = { 1816 }, overlay = { "3842-3227" } };
+				[2255] = { x = 4469, y = 7628, artID = { 1852 }, overlay = { "4469-7628" } };
+			  }, reset = false, minieventID = 21, criteria = 8 }; --Queen Zaltra
+	[454320] = { zoneID = {
+				[2213] = { x = 3706, y = 3273, artID = { 1816 }, overlay = { "3706-3273" } };
+				[2255] = { x = 4423, y = 7640, artID = { 1852 }, overlay = { "4423-7640" } };
+			  }, reset = false, minieventID = 21, criteria = 7 }; --Queen Anub'izek
+	[454328] = { zoneID = {
+				[2213] = { x = 2767, y = 5460, artID = { 1816 }, overlay = { "2767-5460" } };
+				[2255] = { x = 4095, y = 8410, artID = { 1852 }, overlay = { "4095-8410" } };
+			  }, reset = false, minieventID = 21, criteria = 1 }; --Strands of Memory
+	[454330] = { zoneID = {
+				[2213] = { x = 3855, y = 3771, artID = { 1816 }, overlay = { "3855-3771" } };
+				[2255] = { x = 4474, y = 7812, artID = { 1852 }, overlay = { "4474-7812" } };
+			  }, reset = false, minieventID = 21, criteria = 10 }; --Treatise on Forms: Skitterlings
+	[454332] = { zoneID = {
+				[2213] = { x = 3822, y = 3902, artID = { 1816 }, overlay = { "3822-3902" } };
+				[2255] = { x = 4466, y = 7859, artID = { 1852 }, overlay = { "4466-7859" } };
+			  }, reset = false, minieventID = 21, criteria = 9 }; --Treatise on Forms: Sages
 	[455938] = { zoneID = 2213, artID = { 1816 }, x = 5021, y = 1676, overlay = { "5031-1682" }, reset = false, questID = { 83929 }, prof = 197 }; --Nerubian's Pincushion
-	[455947] = { zoneID = 2216, artID = { 1851 }, x = 4458, y = 4935, overlay = { "4448-4946" }, reset = false, questID = { 83920 }, prof = 393 }; --Nerubian's Slicking Iron
-	[455954] = { zoneID = 2216, artID = { 1851 }, x = 4803, y = 4063, overlay = { "4795-4058" }, reset = false, questID = { 83913 }, prof = 186 }; --Nerubian Mining Cart
-	[455955] = { zoneID = 2213, artID = { 1816 }, x = 4680, y = 2170, overlay = { "4680-2168" }, reset = false, questID = { 83912 }, prof = 186 }; --Heavy Spider Crusher
+	[455947] = { zoneID = {
+				[2213] = { x = 4448, y = 4946, artID = { 1816 }, overlay = { "4448-4946" } };
+				[2216] = { x = 4458, y = 4935, artID = { 1851 }, overlay = { "4448-4946" } };
+			  }, reset = false, questID = { 83920 }, prof = 393 }; --Nerubian's Slicking Iron
+	[455954] = { zoneID = {
+				[2216] = { x = 4803, y = 4068, artID = { 1851 }, overlay = { "4795-4058" } };
+				[2255] = { x = 4804, y = 7901, artID = { 1852 }, overlay = { "4804-7901" } };
+				[2213] = { x = 4803, y = 4068, artID = { 1816 }, overlay = { "4795-4058" } };
+			  }, reset = false, questID = { 83913 }, prof = 186 }; --Nerubian Mining Cart
+	[455955] = { zoneID = {
+				[2213] = { x = 4675, y = 2161, artID = { 1816 }, overlay = { "4680-2168" } };
+				[2255] = { x = 4761, y = 7260, artID = { 1852 }, overlay = { "4681-2170" } };
+			  }, reset = false, questID = { 83912 }, prof = 186 }; --Heavy Spider Crusher
 	[455963] = { zoneID = 2213, artID = { 1816 }, x = 5508, y = 2684, overlay = { "5503-2695" }, reset = false, questID = { 83904 }, prof = 165 }; --Nerubian Tanning Mallet
 	[455971] = { zoneID = 2213, artID = { 1816 }, x = 4777, y = 1941, overlay = { "4780-1950" }, reset = false, questID = { 83896 }, prof = 755 }; --Ritual Caster's Crystal
 	[455978] = { zoneID = 2213, artID = { 1816 }, x = 5015, y = 3085, overlay = { "5022-3085" }, reset = false, questID = { 83889 }, prof = 773 }; --Venomancer's Ink Well
 	[455986] = { zoneID = 2213, artID = { 1816 }, x = 4664, y = 1606, overlay = { "4677-1611" }, reset = false, questID = { 83881 }, prof = 182 }; --Tunneler's Shovel
 	[455987] = { zoneID = 2213, artID = { 1816 }, x = 5448, y = 2079, overlay = { "5460-2087" }, reset = false, questID = { 83880 }, prof = 182 }; --Web-Entangled Lotus
-	[455994] = { zoneID = 2213, artID = { 1816 }, x = 6314, y = 1115, overlay = { "6314-1115" }, reset = false, questID = { 83873 }, prof = 202 }; --Emptied Venom Canister
+	[455994] = { zoneID = {
+				[2213] = { x = 6314, y = 1115, artID = { 1816 }, overlay = { "6314-1115" } };
+				[2255] = { x = 5335, y = 6892, artID = { 1852 }, overlay = { "5335-6892" } };
+			  }, reset = false, questID = { 83873 }, prof = 202 }; --Emptied Venom Canister
 	[456003] = { zoneID = 2213, artID = { 1816 }, x = 6167, y = 2202, overlay = { "6172-2200" }, reset = false, questID = { 83864 }, prof = 333 }; --Book of Dark Magic
-	[456011] = { zoneID = 2213, artID = { 1816 }, x = 4652, y = 2291, overlay = { "4651-2291" }, reset = false, questID = { 83854 }, prof = 164 }; --Nerubian Smith's Kit
+	[456011] = { zoneID = {
+				[2213] = { x = 4657, y = 2289, artID = { 1816 }, overlay = { "4651-2291" } };
+				[2255] = { x = 4755, y = 7295, artID = { 1852 }, overlay = { "4755-7295" } };
+			  }, reset = false, questID = { 83854 }, prof = 164 }; --Nerubian Smith's Kit
 	[456019] = { zoneID = 2213, artID = { 1816 }, x = 4547, y = 1332, overlay = { "4528-1323" }, reset = false, questID = { 83846 }, prof = 171 }; --Nerubian Mixing Salts
-	[456927] = { zoneID = 2213, artID = { 1816 }, x = 2366, y = 5109, overlay = { "2366-5109" }, reset = false, minieventID = 21, criteria = 11 }; --Treatise on Forms: Lords
-	[456928] = { zoneID = 2213, artID = { 1816 }, x = 7797, y = 4105, overlay = { "7797-4105" }, reset = false, minieventID = 21, criteria = 12 }; --Treatise on Forms: Ascended
+	[456927] = { zoneID = {
+				[2213] = { x = 2366, y = 5109, artID = { 1816 }, overlay = { "2366-5109" } };
+				[2255] = { x = 3956, y = 8277, artID = { 1852 }, overlay = { "3956-8277" } };
+			  }, reset = false, minieventID = 21, criteria = 11 }; --Treatise on Forms: Lords
+	[456928] = { zoneID = {
+				[2213] = { x = 7797, y = 4105, artID = { 1816 }, overlay = { "7797-4105" } };
+				[2255] = { x = 5854, y = 7932, artID = { 1852 }, overlay = { "5854-7932" } };
+			  }, reset = false, minieventID = 21, criteria = 12 }; --Treatise on Forms: Ascended
 	[226624] = { zoneID = 2214, artID = { 1817 }, x = 4530, y = 4644, overlay = { "4530-4644" }, reset = false, questID = { 83475 }, minieventID = 20, spellID = 455981, criteria = 1 }; --Objects
 	[226638] = { zoneID = 2214, artID = { 1817 }, x = 5900, y = 9341, overlay = { "5900-9341" }, reset = false, questID = { 83479 }, minieventID = 20, spellID = 456001, criteria = 2 }; --Objects
 	[226639] = { zoneID = 2214, artID = { 1817 }, x = 6370, y = 6117, overlay = { "6370-6117" }, reset = false, questID = { 83480 }, minieventID = 20, spellID = 456002, criteria = 3 }; --Objects
@@ -1269,11 +1315,17 @@ private.CONTAINER_INFO = {
 	[444844] = { zoneID = 2255, artID = { 1852 }, x = 7644, y = 5807, overlay = { "7644-5811","2286-5024" }, reset = false }; --Stashed Loot
 	[445277] = { zoneID = 2255, artID = { 1852 }, x = 5174, y = 2991, overlay = { "3570-3924","5180-3000","3460-3690","5010-5070" }, reset = true }; --Hunters Threadspun Cache
 	[445360] = { zoneID = 2255, artID = { 1852 }, x = 7639, y = 5807, overlay = { "7640-5805","2290-5030" } }; --Pilfered Loot
-	[446097] = { zoneID = 2255, artID = { 1852 }, x = 6742, y = 9073, overlay = { "6742-9071" }, reset = false, questID = { 82718 }, minieventID = 18 }; --Disturbed Soil
+	[446097] = { zoneID = {
+				[2255] = { x = 6742, y = 9077, artID = { 1852 }, overlay = { "6742-9071" } };
+				[2256] = { x = 6742, y = 9071, artID = { 1853 }, overlay = { "6742-9071" } };
+			  }, reset = false, questID = { 82718 }, minieventID = 18 }; --Disturbed Soil
 	[446135] = { zoneID = 2255, artID = { 1852 }, x = 5444, y = 5085, overlay = { "5452-5080" }, reset = false, questID = { 82721 }, minieventID = 18 }; --Niffen Stash
 	[446140] = { zoneID = 2255, artID = { 1852 }, x = 3880, y = 3716, overlay = { "3878-3722" }, reset = false, questID = { 82722 }, minieventID = 18 }; --Missing Scouts Pack
 	[446299] = { zoneID = 2255, artID = { 1852 }, x = 6743, y = 2760, overlay = { "6745-2758" }, reset = false, questID = { 82719 }, minieventID = 18 }; --Silk-spun Supplies
-	[446404] = { zoneID = 2256, artID = { 1853 }, x = 6270, y = 8787, overlay = { "6273-8789" }, reset = false, questID = { 82520 }, minieventID = 18 }; --Memory Cache
+	[446404] = { zoneID = {
+				[2255] = { x = 6273, y = 8789, artID = { 1852 }, overlay = { "6273-8789" } };
+				[2256] = { x = 6273, y = 8789, artID = { 1853 }, overlay = { "6273-8789" } };
+			  }, reset = false, questID = { 82520 }, minieventID = 18 }; --Memory Cache
 	[446419] = { zoneID = 2255, artID = { 1852 }, x = 3406, y = 6095, overlay = { "3406-6101" }, reset = false, questID = { 82525 }, minieventID = 18 }; --Concealed Contraband
 	[446420] = { zoneID = 2255, artID = { 1852 }, x = 7863, y = 3320, overlay = { "7861-3319" }, reset = false, questID = { 82527 }, minieventID = 18 }; --"Weaving Supplies"
 	[446423] = { zoneID = 2255, artID = { 1852 }, x = 4956, y = 4377, overlay = { "4956-4370" }, reset = false, questID = { 82529 }, minieventID = 18 }; --Nest Egg
@@ -1297,7 +1349,7 @@ private.CONTAINER_INFO = {
 	[455945] = { zoneID = 2339, artID = { 1895 }, x = 6148, y = 1863, overlay = { "6156-1849" }, reset = false, questID = { 83922 }, prof = 197 }; --Dornogal Seam Ripper
 	[455953] = { zoneID = 2339, artID = { 1895 }, x = 2871, y = 5174, overlay = { "2877-5164" }, reset = false, questID = { 83914 }, prof = 393 }; --Dornogal Carving Knife
 	[455960] = { zoneID = 2339, artID = { 1895 }, x = 3665, y = 7926, overlay = { "3665-7926" }, reset = false, questID = { 83907 }, prof = 186 }; --Dornogal Chisel
-	[455969] = { zoneID = 2339, artID = { 1895 }, x = 5924, y = 2352, overlay = { "5924-2352","6810-2330" }, reset = false, questID = { 83898 }, prof = 165 }; --Earthen Lacing Tools
+	[455969] = { zoneID = 2339, artID = { 1895 }, x = 6810, y = 2330, overlay = { "6810-2330" }, reset = false, questID = { 83898 }, prof = 165 }; --Earthen Lacing Tools
 	[455976] = { zoneID = 2339, artID = { 1895 }, x = 3484, y = 5219, overlay = { "3484-5219" }, reset = false, questID = { 83891 }, prof = 755 }; --Earthen Gem Pliers
 	[455985] = { zoneID = 2339, artID = { 1895 }, x = 5714, y = 4687, overlay = { "5725-4688" }, reset = false, questID = { 83882 }, prof = 773 }; --Dornogal Scribe's Quill
 	[455992] = { zoneID = 2339, artID = { 1895 }, x = 5918, y = 2371, overlay = { "5924-2352" }, reset = false, questID = { 83875 }, prof = 182 }; --Dornogal Gardening Scythe
@@ -1305,4 +1357,5 @@ private.CONTAINER_INFO = {
 	[456008] = { zoneID = 2339, artID = { 1895 }, x = 5794, y = 5697, overlay = { "5794-5697" }, reset = false, questID = { 83859 }, prof = 333 }; --Silver Dornogal Rod
 	[456016] = { zoneID = 2339, artID = { 1895 }, x = 4754, y = 2654, overlay = { "4757-2622" }, reset = false, questID = { 83849 }, prof = 164 }; --Dornogal Hammer
 	[456025] = { zoneID = 2339, artID = { 1895 }, x = 3242, y = 6022, overlay = { "3245-6033" }, reset = false, questID = { 83840 }, prof = 171 }; --Earthen Iron Powder
+	[428472] = { zoneID = 2215, artID = { 1818 }, x = 6656, y = 1514, overlay = { "6656-1514" }, questID = { 81612 } }; --Captain Lancekat's Discretionary Funds
 }

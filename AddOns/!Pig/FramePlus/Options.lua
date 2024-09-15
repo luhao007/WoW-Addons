@@ -166,7 +166,7 @@ end);
 FramePlusF.yidong.BlizzardUI_Move.CZ = PIGButton(FramePlusF.yidong,{"LEFT",FramePlusF.yidong.BlizzardUI_Move.Save.Text,"RIGHT",40,0},{90,22},"重置UI数据")
 FramePlusF.yidong.BlizzardUI_Move.CZ:SetScript("OnClick", function ()
 	PIGA["WowUI"]={}
-	PIG_print("已重置UI位置和缩放比例数据")
+	PIG_print("已重置UI位置和缩放数据")
 end);
 --
 FramePlusF:HookScript("OnShow", function(self)

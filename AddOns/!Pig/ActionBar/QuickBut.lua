@@ -65,7 +65,7 @@ local function QuickButFLock()
 		end
 	end
 end
-QuickButF.Lock=PIGCheckbutton(QuickButF,{"LEFT",QuickButF.Open,"RIGHT",130,0},{LOCK_FRAME,LOCK_FOCUS_FRAME})
+QuickButF.Lock=PIGCheckbutton(QuickButF,{"LEFT",QuickButF.Open,"RIGHT",120,0},{LOCK_FRAME,LOCK_FOCUS_FRAME})
 QuickButF.Lock:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["Lock"]=true
@@ -75,7 +75,7 @@ QuickButF.Lock:SetScript("OnClick", function (self)
 	QuickButFLock()
 end)
 --
-QuickButF.suofang_t = PIGFontString(QuickButF,{"LEFT",QuickButF.Lock,"RIGHT",110,2},"缩放:")
+QuickButF.suofang_t = PIGFontString(QuickButF,{"LEFT",QuickButF.Lock,"RIGHT",90,0},"缩放:")
 local xiayiinfo = {0.8,1.4,0.01,{["Right"]="%"}}
 QuickButF.suofang = PIGSlider(QuickButF,{"LEFT",QuickButF.suofang_t,"RIGHT",10,0},xiayiinfo)
 QuickButF.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
@@ -84,7 +84,7 @@ QuickButF.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
 end)
 --
 local QuickButPoint = {"BOTTOM",UIParent,"BOTTOM",200,200}
-QuickButF.CZBUT = PIGButton(QuickButF,{"TOPRIGHT",QuickButF,"TOPRIGHT",-10,-20},{80,24},"重置位置")
+QuickButF.CZBUT = PIGButton(QuickButF,{"LEFT",QuickButF.suofang,"RIGHT",60,0},{80,24},"重置位置")
 QuickButF.CZBUT:SetScript("OnClick", function ()
 	if tocversion<100000 then
 		QuickButUI:PIGResPoint(QuickButPoint)
@@ -113,6 +113,7 @@ QuickButF.ModF.BGbroadcast:SetScript("OnClick", function (self)
 		Pig_Options_RLtishi_UI:Show()
 	end
 end)
+--饰品
 local newText=Fun.Delmaohaobiaodain(MODIFIERS_COLON)
 local tishineiQKButTrinket = INVTYPE_TRINKET..newText
 QuickButF.ModF.QKButTrinket = PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],tishineiQKButTrinket),string.format(L["ACTION_ADDQUICKBUTTIS"],tishineiQKButTrinket)},true)
@@ -480,6 +481,10 @@ QuickButF.ModF.QKButTrinket.AutoMode:SetScript("OnClick", function (self)
 		Pig_OptionsUI:Hide()
 		TrinketAutoMode:Show()
 	end
+end)
+QuickButF.ModF.QKButTrinket.Bindings = PIGButton(QuickButF.ModF.QKButTrinket,{"LEFT",QuickButF.ModF.QKButTrinket.AutoMode,"RIGHT",30,0},{76,20},KEY_BINDING);
+QuickButF.ModF.QKButTrinket.Bindings:SetScript("OnClick", function (self)
+	Settings.OpenToCategory(Settings.KEYBINDINGS_CATEGORY_ID, addonName);
 end)
 --
 if tocversion<20000 and C_Engraving and C_Engraving.IsEngravingEnabled() then

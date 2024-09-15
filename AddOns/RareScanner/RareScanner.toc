@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: maqjav, Maciza-Tyrande
-## Version: 11.0.2.14
+## Version: 11.0.2.15
 ## OptionalDeps: Ace3
 ## SavedVariables: RareScannerDB
 ## IconTexture: Interface\AddOns\RareScanner\Media\Icons\OriginalSkull
@@ -12,7 +12,7 @@
 
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Credits: maqjav, Maciza-Tyrande
-## X-Date: Sep. 9, 2024
+## X-Date: Sep. 12, 2024
 ## X-Email: maqjav@gmail.com
 ## X-License: All Rights Reserved
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, ruRU, itIT, ptBR, koKR, zhCN, zhTW

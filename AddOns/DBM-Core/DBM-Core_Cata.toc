@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: MysticalOS, QartemisT
-## Version: 11.0.6
+## Version: 11.0.10
 ## Dependencies: DBM-StatusBarTimers
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon, DBM_AnnoyingPopupDisables, DBM_ModsToLoadWithFullTestSupport

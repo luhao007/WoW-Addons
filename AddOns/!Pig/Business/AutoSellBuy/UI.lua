@@ -117,7 +117,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config0,Config1)
 				if itemID then
 					if itemID~=6948 then
 						if fuFrame.List.bagbut.List.xuanzhong[quality] then
-							if not fuFrame.panduancunzai(itemID) then
+							if not fuFrame.panduancunzai(itemLink) then
 								local itemStackCount= select(8, GetItemInfo(itemLink))
 								table.insert(Config0,{itemID,itemLink,icon,itemStackCount,itemStackCount})
 							end
@@ -131,7 +131,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config0,Config1)
 	end)
 	function fuFrame.panduancunzai(idx)
 		for ix=1,#Config0 do
-			if idx==Config0[ix][1] then
+			if idx==Config0[ix][2] then
 				return true
 			end
 		end

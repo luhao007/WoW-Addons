@@ -139,7 +139,7 @@ end
 ------------
 local Action_plusF,Action_plusTabBut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME3"],100)
 for index=1,zongshu do
-	local tishixinx = ENABLE.."PIG"..ACTIONBAR_LABEL.."|cff00FF00"..index.."|r"
+	local tishixinx = "PIG"..ACTIONBAR_LABEL.."|cff00FF00"..index.."|r"
 	local Checkbut = PIGCheckbutton(Action_plusF, nil,{tishixinx,tishixinx}, nil, "PigBarOptionsCheckbut"..index);
 	if index==1 then
 		Checkbut:SetPoint("TOPLEFT",Action_plusF,"TOPLEFT",20,-20);
@@ -156,7 +156,7 @@ for index=1,zongshu do
 		end
 		Action_plusF:OnShow_ope()
 	end);
-	Checkbut.ShowHide=PIGDownMenu(Checkbut,{"LEFT",Checkbut.Text,"RIGHT",20,0},{140,24})
+	Checkbut.ShowHide=PIGDownMenu(Checkbut,{"LEFT",Checkbut.Text,"RIGHT",20,0},{130,24})
 	function Checkbut.ShowHide:PIGDownMenu_Update_But(self)
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
@@ -198,7 +198,11 @@ for index=1,zongshu do
 			end
 		end
 	end);
-	Checkbut.CZBUT = PIGButton(Checkbut,{"LEFT",Checkbut.Lockdongzuotiao.Text,"RIGHT",60,0},{76,20},"重置位置");  
+	Checkbut.Bindings = PIGButton(Checkbut,{"LEFT",Checkbut.Lockdongzuotiao.Text,"RIGHT",30,0},{76,20},KEY_BINDING);
+	Checkbut.Bindings:SetScript("OnClick", function (self)
+		Settings.OpenToCategory(Settings.KEYBINDINGS_CATEGORY_ID, addonName);
+	end)
+	Checkbut.CZBUT = PIGButton(Checkbut,{"LEFT",Checkbut.Bindings,"RIGHT",40,0},{76,20},"重置位置");  
 	Checkbut.CZBUT:SetScript("OnClick", function (self)
 		local ckfame=_G[barName..index]
 		ckfame:ClearAllPoints();
@@ -262,6 +266,26 @@ for index=1,zongshu do
 		_G[barName..index]:SetScale(arg1);
 	end)
 	PIGLine(Action_plusF,"TOP",-94*index)
+	function Checkbut:ShowOpenFun()
+		self:SetChecked(PIGA_Per["PigAction"]["Open"][index])
+		if PIGA_Per["PigAction"]["Open"][index] then
+			self.Lockdongzuotiao:SetChecked(PIGA_Per["PigAction"]["Lock"][index])
+			self.ShowHide:PIGDownMenu_SetText(Showtiaojian[PIGA_Per["PigAction"]["ShowTJ"][index]])
+			self.Pailie:PIGDownMenu_SetText(pailieName[PIGA_Per["PigAction"]["Pailie"][index]])
+			self.AnniuNum:PIGDownMenu_SetText(PIGA_Per["PigAction"]["AnniuNum"][index])
+			self.suofang:PIGSetValue(PIGA_Per["PigAction"]["Scale"][index])
+		end
+		self.Lockdongzuotiao:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.ShowHide:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.PailieT:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.Pailie:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.AnniuNumT:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.AnniuNum:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.suofang_t:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.suofang:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.Bindings:SetShown(PIGA_Per["PigAction"]["Open"][index])
+		self.CZBUT:SetShown(PIGA_Per["PigAction"]["Open"][index])
+	end
 end
 ---底部
 Action_plusF.dongzuotxian = PIGLine(Action_plusF,"TOP",-380)
@@ -286,40 +310,11 @@ StaticPopupDialogs["CHONGZHI_EWAIDONGZUO"] = {
 	whileDead = true,
 	hideOnEscape = true,
 }
-function Action_plusF:OnShow_ope()
+Action_plusF:HookScript("OnShow", function(self)
 	for index=1,zongshu do
 		local Checkbut=_G["PigBarOptionsCheckbut"..index]
-		Checkbut:SetChecked(PIGA_Per["PigAction"]["Open"][index])
-		if PIGA_Per["PigAction"]["Open"][index] then
-			Checkbut.Lockdongzuotiao:SetChecked(PIGA_Per["PigAction"]["Lock"][index])
-			Checkbut.ShowHide:PIGDownMenu_SetText(Showtiaojian[PIGA_Per["PigAction"]["ShowTJ"][index]])
-			Checkbut.Pailie:PIGDownMenu_SetText(pailieName[PIGA_Per["PigAction"]["Pailie"][index]])
-			Checkbut.AnniuNum:PIGDownMenu_SetText(PIGA_Per["PigAction"]["AnniuNum"][index])
-			Checkbut.suofang:PIGSetValue(PIGA_Per["PigAction"]["Scale"][index])
-			Checkbut.Lockdongzuotiao:Show()
-			Checkbut.ShowHide:Show()
-			Checkbut.PailieT:Show()
-			Checkbut.Pailie:Show()
-			Checkbut.AnniuNumT:Show()
-			Checkbut.AnniuNum:Show()
-			Checkbut.suofang_t:Show()
-			Checkbut.suofang:Show()
-			Checkbut.CZBUT:Show()
-		else
-			Checkbut.Lockdongzuotiao:Hide()
-			Checkbut.ShowHide:Hide()
-			Checkbut.PailieT:Hide()
-			Checkbut.Pailie:Hide()
-			Checkbut.AnniuNumT:Hide()
-			Checkbut.AnniuNum:Hide()
-			Checkbut.suofang_t:Hide()
-			Checkbut.suofang:Hide()
-			Checkbut.CZBUT:Hide()
-		end
+		Checkbut:ShowOpenFun()
 	end
-end
-Action_plusF:HookScript("OnShow", function(self)
-	self:OnShow_ope()
 end)
 ---add------------------
 local PigMacroEventCount =0;

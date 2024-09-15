@@ -19,6 +19,9 @@ L['options_icons_profession_treasures_desc'] = 'Muestra dónde están los tesoro
 L['options_icons_khaz_algar_lore_hunter'] = '{achievement:40762}'
 L['options_icons_khaz_algar_lore_hunter_desc'] = 'Muestra dónde están los objetos históricos del logro {achievement:40762}.'
 
+L['options_icons_flight_master'] = '{achievement:40430}'
+L['options_icons_flight_master_desc'] = 'Muestra los {npc:Maestro de Vuelo} para el logro {achievement:40430}.'
+
 -------------------------------------------------------------------------------
 -------------------------------- ISLE OF DORN ---------------------------------
 -------------------------------------------------------------------------------
@@ -162,7 +165,7 @@ L['biblo_book_10_location'] = 'En las habitaciones del capitán a bordo del {loc
 L['biblo_book_11_location'] = 'Dentro del edificio sobre una mesa.'
 
 L['options_icons_lost_and_found'] = '{achievement:40618}'
-L['options_icons_lost_and_found_desc'] = 'Muestra dónde están todos los recuerdos del logro {achievement:40618}.'
+L['options_icons_lost_and_found_desc'] = 'Muestra dónde están los recuerdos del logro {achievement:40618}.'
 
 L['lost_and_found_note'] = 'Progresa en la cadena de misiones Recuerdos del Cielo que empieza con la misión {quest:80673} que te da ({dot:Red}) {npc:220718}. {note:Las misiones se desbloquean semanalmente}.\n\nCada semana se han de completar 3 recuerdos, hasta completar la misión {quest:80678}.'
 L['broken_bracelet_location'] = 'Entrega {item:219810} a {npc:215527}.'
@@ -229,13 +232,11 @@ L['options_icons_itsy_bitsy_spider'] = '{achievement:40624}'
 L['options_icons_itsy_bitsy_spider_desc'] = 'Muestra dónde están las tejerratas del logro {achievement:40624}.'
 
 L['itsy_bitsy_spider_note'] = 'Teclea la emoción ({emote:/saludar}) a la tejerrata.'
-L['webster_location'] = nil
 L['spindle_location'] = nil
 L['swift_location'] = nil
 L['rumurh_location'] = nil
 L['thimble_location'] = nil
 L['scampering_weave_rat_location'] = nil
-L['generals_scouting_shadecaster_location'] = nil
 
 L['options_icons_bookworm'] = '{achievement:40629}'
 L['options_icons_bookworm_desc'] = 'Muestra dónde están los libros para el logro {achievement:40629}.'
@@ -284,6 +285,7 @@ L['concealed_contraband_note'] = 'Quita la {object:Crisálida de telaraña} del 
 L['memory_cache_note'] = 'Consigue {spell:420847} del ({dot:Red}) {object:Almacenaje de extractores} cercano. Después mata la {npc:223908} para conseguir la {item:223870} que abrirá el {object:Alijo de recuerdos}.'
 L['niffen_stash_note'] = 'Está debajo del puente.'
 L['trapped_trove_note'] = 'En un edificio que cuelga del techo. Evita las telarañas del suelo.'
+L['weaving_supplies_note'] = 'Recoge retales de tela de las plataformas cercanas para abrir el tesoro.\n\n{item:223901} ({dot:Purple})\n{item:223903} ({dot:Yellow})\n{item:223902} ({dot:Red})'
 
 L['tkaktath_note'] = 'Comienza una cadena de misiones para conseguir la montura {item:224150}.'
 
@@ -312,7 +314,7 @@ L['kvr_chest_2_location'] = 'Encima del andamio de madera.'
 L['nfs_chest_2_location'] = 'En la planta.'
 L['nfs_chest_3_location'] = 'Dentro del edificio.'
 L['nfs_chest_4_location'] = 'Salta desde la nave voladora.'
-L['ski_chest_3_location'] = 'Dentro del edificio.'
+L['ski_chest_3_location'] = 'En una cornisa.'
 L['tra_chest_2_location'] = 'Encima del coral.'
 L['tsw_chest_2_location'] = 'En lo alto de la viga.'
 L['tsw_chest_2_note'] = '{note:Sólo disponible en la variante de la historia "De la Tejedora con Amor".}'
