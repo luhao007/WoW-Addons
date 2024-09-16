@@ -406,6 +406,7 @@ function FramePlusfun.Friends()
 	WhoFrameColumn_SetWidth(WhoFrameColumnHeader1, WhoFrameHeaderP[4])
 	WhoFrameColumn_SetWidth(WhoFrameColumnHeader2, WhoFrameHeaderP[5])
 	WhoFrameColumn_SetWidth(WhoFrameColumnHeader9, WhoFrameHeaderP[6])
+	local WhoFrameDropDown=WhoFrameDropDown or WhoFrameDropdown
 	WhoFrameDropDown:Hide()
 	local function Hide_Header()
 		WhoFrameColumnHeader0.Left:Hide()

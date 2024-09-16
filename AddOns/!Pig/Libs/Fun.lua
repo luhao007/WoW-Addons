@@ -10,7 +10,6 @@ local Fun = {}
 addonTable.Fun=Fun
 local L =addonTable.locale
 -------------
-
 function PIGGetIconForRole(role)
 	if role=="NONE" then
 		return "UI-LFG-RoleIcon-Pending"
@@ -63,7 +62,7 @@ function PIGGetSpellCooldown(SpellID)
 	end
 end
 --获取背包信息
-function PIGGetContainerIDlink(bag, slot)
+function PIGGetContainerItemInfo(bag, slot)
 	if C_Container and C_Container.GetContainerItemInfo then
 		local ItemInfo = C_Container.GetContainerItemInfo(bag, slot)
 		if ItemInfo then

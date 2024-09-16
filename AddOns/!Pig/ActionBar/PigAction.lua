@@ -114,7 +114,8 @@ local function PailieFun(index,id)
 	end
 end
 
-local function ShowHideNumFun(self,CVarV)
+local function ShowHideNumFun(self,CVarV,tuodong)
+	if tuodong then self:SetAnniuNumFun() return end
 	local CVarV = CVarV or GetCVar("alwaysShowActionBars")
 	if CVarV=="0" then
 		if not self.Type then
@@ -405,7 +406,7 @@ local function ADD_ActionBar(index)
 		else
 			PailieFun(index,id)
 		end
-		function piganniu:SetAnniuNumFun(max)
+		function piganniu:SetAnniuNumFun(max,all)
 			local index=self.INDEX
 			local max=max or PIGA_Per["PigAction"]["AnniuNum"][index]
 			local id=self.ID
@@ -533,7 +534,7 @@ local function ADD_ActionBar(index)
 		piganniu:HookScript("OnEvent", function(self,event,arg1,arg2,arg3)
 			if event=="ACTIONBAR_SHOWGRID" then
 				if InCombatLockdown() then return end
-				ShowHideNumFun(self)
+				ShowHideNumFun(self,nil,true)
 			elseif event=="ACTIONBAR_HIDEGRID" then
 				if InCombatLockdown() then
 					self.always_show=true

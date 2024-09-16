@@ -67,6 +67,7 @@ addonTable.Default = {
 		["MoneyEdit"] = true,
 		["ALTbatch"] = true,
 		["lianxuMode"] = true,
+		["OpenAllCD"]=1,
 	},
 	["StatsInfo"] = {
 		["Open"] = true,
@@ -94,6 +95,7 @@ addonTable.Default = {
 		["Sell_But"]=true,
 		["Sell_Tishi"]=true,
 		["Sell_List"]={},
+		["Sell_Lsit_Filtra"]={},
 		["Buy_Open"]=true,
 		["Buy_But"]=true,
 		["Buy_Tishi"]=true,
@@ -365,7 +367,9 @@ addonTable.Default_Per = {
 	["AutoSellBuy"] = {
 		["Buy_List"]={},
 		["Save_List"] = {},
+		["Save_Money"] = 10000000,
 		["Take_List"] = {},
+		["Take_Money"] = 10000000,
 	},
 	["QuickFollow"]={
 		["beidongOpen"]="OFF",

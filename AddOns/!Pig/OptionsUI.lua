@@ -22,7 +22,7 @@ PIG_SetF.Openshezhi:SetScript("OnClick", function ()
 end)
 PIGLine(PIG_SetF,"TOP",-60,1,{4,-4})
 Create.About_Update(PIG_SetF,-80,"Panel")
-if tocversion<110000 then
+if tocversion<40000 then
 	PIG_SetF.name = addonName
 	InterfaceOptions_AddCategory(PIG_SetF);
 	--子页

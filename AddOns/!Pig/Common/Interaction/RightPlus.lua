@@ -10,7 +10,7 @@ local CommonInfo=addonTable.CommonInfo
 local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
 local InviteUnit=InviteUnit or C_PartyInfo and C_PartyInfo.InviteUnit
 ---
-local gelibanban = 50000
+local gelibanban = 40000
 local yijiazaijinlai = {
 	["jiazai"]=false,
 	["listName"]={},

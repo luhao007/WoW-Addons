@@ -21,7 +21,9 @@ local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 local GnName,GnUI,GnIcon,FrameLevel = MINIMAP_TRACKING_MAILBOX.."助手","MailPlus_UI",134939,10
 BusinessInfo.MailPlusData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
+local PIG_OPEN_ALL_MAIL_MIN_DELAY=1
 function BusinessInfo.MailPlusOptions()
+	PIG_OPEN_ALL_MAIL_MIN_DELAY=PIGA["MailPlus"]["OpenAllCD"]
 	fuFrame.MailPlus_line = PIGLine(fuFrame,"TOP",-(fuFrame.dangeH*fuFrame.GNNUM))
 	fuFrame.GNNUM=fuFrame.GNNUM+2
 	------
@@ -36,9 +38,16 @@ function BusinessInfo.MailPlusOptions()
 			Pig_Options_RLtishi_UI:Show()
 		end
 	end);
+	fuFrame.MailPlus.ScanSliderT = PIGFontString(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.Text,"RIGHT",40,0},"批量取件间隔")
+	fuFrame.MailPlus.ScanSlider = PIGSlider(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.ScanSliderT,"RIGHT",0,0},{0.1,1.2,0.01})
+	fuFrame.MailPlus.ScanSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
+		PIG_OPEN_ALL_MAIL_MIN_DELAY=arg1
+		PIGA["MailPlus"]["OpenAllCD"]=arg1
+	end)
 	--------
 	fuFrame:HookScript("OnShow", function (self)
 		self.MailPlus:SetChecked(PIGA["MailPlus"]["Open"])
+		self.MailPlus.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
 	end);
 	BusinessInfo.MailPlus_ADDUI()
 end
@@ -411,7 +420,6 @@ function BusinessInfo.MailPlus_ADDUI()
 	InboxFrame.ItemBox.quchuMV:SetTextColor(1, 1, 1, 1);
 	InboxFrame.ItemBox.OnekeyQu =PIGButton(InboxFrame.ItemBox,{"BOTTOMRIGHT", InboxFrame.ItemBox, "BOTTOMRIGHT", -58,104},{74,24},GUILDCONTROL_OPTION16,nil,nil,nil,nil,0)
 	InboxFrame.OnekeyTake = CreateFrame("Frame",nil,InboxFrame)
-	local PIG_OPEN_ALL_MAIL_MIN_DELAY=1
 	function InboxFrame.OnekeyTake:Reset()
 		self.mailIndex = GetInboxNumItems() or 0
 		self.attachmentIndex = ATTACHMENTS_MAX_RECEIVE;
@@ -855,7 +863,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	SendMailFrame:HookScript("OnShow", function (self)
 		MailPlus_ALTbatch(self)
 	end);
-	coll.list.MailPlus_ALTbatch = PIGCheckbutton(coll.list,{"BOTTOMLEFT",coll.list.MailPlus_MoneyEdit,"TOPLEFT",0,8},{"ALT+左键快速/右键批量","按住ALT+左键点击背包物品快速邮寄\nALT+右键选择背包相同物品"},{16,16})
+	coll.list.MailPlus_ALTbatch = PIGCheckbutton(coll.list,{"BOTTOMLEFT",coll.list.MailPlus_MoneyEdit,"TOPLEFT",0,8},{"ALT+左键快速/右键批量","按住ALT+左键点击背包物品快速邮寄\nALT+右键选择背包相同物品\n此功能只适配原始/PIG/NDui/ElvUI背包"},{16,16})
 	coll.list.MailPlus_ALTbatch:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["ALTbatch"]=true;

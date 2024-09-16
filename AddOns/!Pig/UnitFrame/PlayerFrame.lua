@@ -236,6 +236,8 @@ function UnitFramefun.Zishen()
 		if not NDui and not ElvUI then
 			local function Update_TargetFrame()
 				local point, relativeTo, relativePoint, xOfs, yOfs = TargetFrame:GetPoint()
+				local xOfs=xOfs or 250
+				local yOfs=yOfs or -4
 				if tocversion<100000 then
 					if floor(xOfs+0.5)==250 and floor(yOfs+0.5)==-4 then
 						TargetFrame:ClearAllPoints();

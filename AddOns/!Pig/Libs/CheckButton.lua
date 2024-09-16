@@ -9,7 +9,7 @@ local morenColor = {
 	{0, 0, 0, 1},
 	{1,0.7,0},
 }
-local er, eg, eb = NORMAL_FONT_COLOR:GetRGB()
+local er, eg, eb = 1,1,1 or NORMAL_FONT_COLOR:GetRGB()
 local dr, dg, db = GRAY_FONT_COLOR:GetRGB()
 function Create.PIGCheckbutton(fuF,Point,Text,WH,UIName,id)
 	local WH = WH or {18,18}

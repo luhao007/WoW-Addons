@@ -875,7 +875,7 @@ YchuoquGlfff:SetScript("OnEvent", function(self,event,arg1,arg2,arg3,arg4,arg5)
 end)
 ---调整频道顺序
 local Channel_ListF =PIGOptionsList_R(RTabFrame,L["CHAT_TABNAME5"],90)
-Channel_ListF.maxnum=10
+Channel_ListF.maxnum=15
 local function Set_ChannelID()
 	local datax = PIGA["Chat"]["Channel_List"]
 	for k,v in pairs(datax) do
@@ -957,7 +957,9 @@ Channel_ListF:HookScript("OnShow", function (self)
 		table.insert(self.pindaoList,{id, name})
 	end
 	for i=1,#self.pindaoList do
-		_G["Channel_List"..self.pindaoList[i][1]]:PIGDownMenu_SetText(self.pindaoList[i][2])
+		if i<=Channel_ListF.maxnum then
+			_G["Channel_List"..self.pindaoList[i][1]]:PIGDownMenu_SetText(self.pindaoList[i][2])
+		end
 	end
 	panduanjiangeYN()
 end)
