@@ -778,8 +778,8 @@ local function CreateObject(t, rootOnly)
 			t = app.CreateInstance(t.instanceID, t);
 		elseif t.currencyID then
 			t = app.CreateCurrencyClass(t.currencyID, t);
-		elseif t.drakewatcherManuscriptID then
-			t = app.CreateDrakewatcherManuscript(t.drakewatcherManuscriptID, t);
+		elseif t.mountmodID then
+			t = app.CreateMountMod(t.mountmodID, t);
 		elseif t.speciesID then
 			t = app.CreateSpecies(t.speciesID, t);
 		elseif t.objectID then
@@ -1678,7 +1678,7 @@ if GetAchievementNumCriteria then
 			elseif criteriaType == 0	-- Monster kill
 			then
 				-- app.PrintDebug("NPC Kill Criteria",assetID)
-				local c = SearchForObject("npcID", assetID)
+				local c = SearchForObject("npcID", assetID, "field")
 				if c then
 					-- criteria inherit their achievement data ONLY when the achievement data is actually referenced... this is required for proper caching
 					NestObject(c, criteriaObject);
@@ -3732,7 +3732,7 @@ app.BuildSourceParent = function(group)
 		-- re-popping this Achievement will do normal Sources for all the Criteria and be useful
 		if groupKey == "criteriaID" then
 			local achID = group.achievementID;
-			parent = SearchForObject("achievementID", achID) or { achievementID = achID };
+			parent = SearchForObject("achievementID", achID, "key") or { achievementID = achID };
 			-- app.PrintDebug("add achievement for empty criteria",achID)
 			tinsert(parents, parent);
 		end
@@ -5350,7 +5350,7 @@ local function SetThingVisibility(parent, group)
 	-- Total
 	if not visible and group.total > 0 then
 		visible = group.progress < group.total or ThingVisibilityFilter(group);
-		-- if debug then print("total",visible) end
+		-- app.PrintDebug("STV.total",group.hash,visible,group.progress,group.total,ThingVisibilityFilter(group))
 	end
 	-- Cost
 	if not visible and ((group.costTotal or 0) > 0) then
@@ -5402,9 +5402,9 @@ local function UpdateGroup(group, parent)
 	-- Things which are determined to be a cost for something else which meets user filters will
 	-- be shown anyway, so don't need to undergo a filtering pass
 	local valid = group.isCost
-	if valid then
+	-- if valid then
 		-- app.PrintDebug("Pre-valid group as from cost/upgrade",group.isCost,group.isUpgrade,app:SearchLink(group))
-	end
+	-- end
 	-- A group with a source parent means it has a different 'real' heirarchy than in the current window
 	-- so need to verify filtering based on that instead of only itself
 	if not valid then
@@ -5483,7 +5483,7 @@ local function UpdateGroup(group, parent)
 
 	-- if debug then print("UpdateGroup.Done",group.progress,group.total,group.visible,group.__type) end
 	-- debug = nil
-	return group.visible;
+	-- return group.visible;
 end
 UpdateGroups = function(parent, g)
 	if g then
@@ -5569,7 +5569,7 @@ local function DirectGroupUpdate(group, got)
 	end
 	local window = app.GetRelativeRawWithField(group, "window");
 	if window then window:ToggleExtraFilters(true) end
-	local wasHidden = app.GetRelativeField(group, "visible")
+	local wasHidden = app.GetRawRelativeField(group, "visible")
 	-- starting an update from a non-top-level group means we need to verify this group should even handle updates based on current filters first
 	if wasHidden and not app.RecursiveDirectGroupRequirementsFilter(group) then
 		-- app.PrintDebug("DGU:Filtered",group.visible,app:SearchLink(group))
@@ -5579,20 +5579,13 @@ local function DirectGroupUpdate(group, got)
 	local prevTotal, prevProg, prevCost, prevUpgrade
 		= group.total or 0, group.progress or 0, group.costTotal or 0, group.upgradeTotal or 0
 	TopLevelUpdateGroup(group);
-	-- Set proper visibility for the updated group
-	local parent = rawget(group, "parent");
-	if group.g then
-		SetGroupVisibility(parent, group);
-	else
-		SetThingVisibility(parent, group);
-	end
 	local progChange, totalChange, costChange, upgradeChange
 		= group.progress - prevProg, group.total - prevTotal, group.costTotal - prevCost, group.upgradeTotal - prevUpgrade
 	-- Something to change for a visible group prior to the DGU or changed in visibility
 	if progChange ~= 0 or totalChange ~= 0 or costChange ~= 0 or upgradeChange ~= 0 then
-		local isHidden = app.GetRelativeField(group, "visible")
+		local isHidden = not group.visible
+		-- app.PrintDebug("DGU:Change",window.Suffix,wasHidden,"=>",isHidden,app:SearchLink(group),progChange, totalChange, costChange, upgradeChange)
 		if not isHidden or isHidden ~= wasHidden then
-			-- app.PrintDebug("DGU:Change",wasHidden,"=>",isHidden,app:SearchLink(group),progChange, totalChange, costChange, upgradeChange)
 			AdjustParentProgress(group, progChange, totalChange, costChange, upgradeChange);
 		end
 	end
@@ -5783,7 +5776,7 @@ app.__CacheQuestTriggers = nil
 local function AssignDirectGroupOnUpdates()
 	local questRef;
 	for questID,func in pairs(DGU_Quests) do
-		questRef = SearchForObject("questID", questID);
+		questRef = SearchForObject("questID", questID, "field");
 		if questRef then
 			-- app.PrintDebug("Assign DGUOnUpdate",questRef.hash)
 			questRef.DGUOnUpdate = func;
@@ -8325,8 +8318,8 @@ function app:GetDataCache()
 				icon = app.asset("Interface_Vendor")
 			}),
 
-			-- Drake Manuscripts (TODO)
-			-- app.CreateDynamicHeader("dmID", SimpleNPCGroup(app.HeaderConstants.DRA)),
+			-- Mount Mods (TODO)
+			-- app.CreateDynamicHeader("mmID", SimpleNPCGroup(app.HeaderConstants.DRA)),
 
 			-- Factions
 			app.CreateDynamicHeaderByValue("factionID", {
@@ -8765,7 +8758,7 @@ customWindowUpdates.AchievementHarvester = function(self, ...)
 			self.doesOwnUpdate = true;
 			self.initialized = true;
 			self.Limit = 45000;	-- MissingAchievements:11.0.0.54774 (maximum achievementID)
-			self.PartitionSize = 2000;
+			self.PartitionSize = 5000;
 			local db = {};
 			local CleanUpHarvests = function()
 				local g, partition, pg, pgcount, refresh = self.data.g, nil, nil, nil, nil;

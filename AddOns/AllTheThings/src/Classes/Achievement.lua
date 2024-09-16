@@ -52,7 +52,6 @@ CollectionCache = setmetatable({}, { __index = function(t, key)
 	end
 end})
 
-local AchievementClass
 -- Achievement Lib
 do
 	local KEY, CACHE = "achievementID", "Achievements"
@@ -79,7 +78,7 @@ do
 	-- 	AfterCombatOrDelayedCallback(OnUpdateWindows, 1)
 	-- end
 	-- app.AddEventRegistration("RECEIVED_ACHIEVEMENT_LIST", DelayedOnUpdateWindows);
-	app.CreateAchievement, AchievementClass = app.CreateClass("Achievement", KEY, {
+	app.CreateAchievement = app.CreateClass("Achievement", KEY, {
 		link = function(t)
 			return cache.GetCachedField(t, "link", CacheInfo);
 		end,
@@ -379,20 +378,8 @@ end
 
 
 -- Achievement Harvesting
-local function RawCloneData(data, clone)
-	clone = clone or {};
-	for key,value in pairs(data) do
-		if clone[key] == nil then
-			clone[key] = value
-		end
-	end
-	-- maybe better solution at another time?
-	clone.__type = nil;
-	clone.__index = nil;
-	return clone;
-end
 local HarvestedAchievementDatabase = {};
-local harvesterFields = RawCloneData(AchievementClass);
+local harvesterFields = {}
 harvesterFields.visible = app.ReturnTrue;
 harvesterFields.collectible = app.ReturnTrue;
 harvesterFields.collected = app.ReturnFalse;
@@ -641,4 +628,4 @@ harvesterFields.text = function(t)
 	return name;
 end
 harvesterFields.IsClassIsolated = true
-app.CreateAchievementHarvester = app.CreateClass("AchievementHarvester", "achievementID", harvesterFields)
+app.CreateAchievementHarvester = app.ExtendClass("Achievement", "AchievementHarvester", "achievementID", harvesterFields)

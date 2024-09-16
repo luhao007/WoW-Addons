@@ -78,7 +78,7 @@ do
 				nodeID = nodeData.nodeID
 				localizedFlightPathNames[nodeID] = nodeData.name
 				-- app.PrintDebug("FP",nodeID,nodeData.name,nodeData.state)
-				local fp = app.SearchForObject(KEY, nodeID)
+				local fp = app.SearchForObject(KEY, nodeID, "key")
 				if nodeData.state and nodeData.state < 2 then
 					app.SetCollected(fp, CACHE, nodeID, true)
 					-- TODO: remove once SetCollected handles Updates also
@@ -88,7 +88,7 @@ do
 					end
 				end
 				if app.Contributor then
-					if not InGame(fp) then
+					if not fp or not InGame(fp) then
 						app.print("FlightPath",nodeData.name,"#",nodeID,"is available on the Map but is not found in game for ATT!")
 						app.Audio:PlayReportSound();
 					end

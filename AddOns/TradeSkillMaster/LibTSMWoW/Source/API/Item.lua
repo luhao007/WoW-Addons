@@ -166,7 +166,7 @@ function Item.GetFamily(link, classId)
 		-- Bags report their family as what can go inside them, not what they can go inside
 		return 0
 	end
-	return GetItemFamily(link) or 0
+	return C_Item.GetItemFamily(link) or 0
 end
 
 ---Installs a hook for an item being linked.

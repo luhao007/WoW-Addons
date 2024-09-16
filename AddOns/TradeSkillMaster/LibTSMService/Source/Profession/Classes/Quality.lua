@@ -17,7 +17,8 @@ local private = {
 	},
 }
 local NUM_QUALITY_MAT_QUALITIES = 3
-local MAX_QUALITY_MAT_DIFFICULTY_RATIO = 0.25
+local DF_MAX_QUALITY_MAT_DIFFICULTY_RATIO = 0.25
+local TWW_MAX_QUALITY_MAT_DIFFICULTY_RATIO = 0.4
 local SKILL_PER_TARGET_QUALITY = {
 	[3] = {
 		0,
@@ -39,17 +40,40 @@ local SKILL_PER_TARGET_QUALITY = {
 -- Module Functions
 -- ============================================================================
 
+---Returns the maximum material contribution value for a given recipe based on expansion.
+---@param rootCategoryId number The root category ID
+---@return number
+function Quality.GetMaxMatContribution(rootCategoryId)
+	if not rootCategoryId then
+		return 0
+	end
+	local warWithinRecipe = rootCategoryId > 1897 and rootCategoryId < 2000
+	return warWithinRecipe and TWW_MAX_QUALITY_MAT_DIFFICULTY_RATIO or DF_MAX_QUALITY_MAT_DIFFICULTY_RATIO
+end
+
+---Returns the material contribution value for a given recipe based on the quality and expansion.
+---@param rootCategoryId number The root category ID
+---@param sourceQuality number The quality of the material
+---@return number
+function Quality.GetMatContributionForQuality(rootCategoryId, sourceQuality)
+	if not rootCategoryId or sourceQuality == 1 then
+		return 0
+	end
+	local maxMatContribution = Quality.GetMaxMatContribution(rootCategoryId)
+	return sourceQuality == 3 and maxMatContribution or maxMatContribution / 2
+end
+
 ---Gets the needed skill to craft a specific quality of a recipe.
 ---@param targetQuality number The target quality
 ---@param recipeDifficulty number The base recipe difficulty
 ---@param recipeQuality number The base recipe quality
 ---@param recipeMaxQuality number The max number of qualities for the recipe
 ---@param hasQualityMats boolean Whether or not the recipe has quality mats
----@param inspirationAmount number The inspiration amount
+---@param maxMatContribution number The max material contribution
 ---@return number neededSkill
 ---@return number maxAddedSkill
 ---@return number maxQualityMatSkill
-function Quality.GetNeededSkill(targetQuality, recipeDifficulty, recipeQuality, recipeMaxQuality, hasQualityMats, inspirationAmount)
+function Quality.GetNeededSkill(targetQuality, recipeDifficulty, recipeQuality, recipeMaxQuality, hasQualityMats, maxMatContribution)
 	if recipeMaxQuality == 1 then
 		-- This recipe has quality mats, but doesn't produce a quality item
 		return 0, math.huge, 0
@@ -72,10 +96,8 @@ function Quality.GetNeededSkill(targetQuality, recipeDifficulty, recipeQuality, 
 		maxAddedSkill = targetQuality == recipeMaxQuality and math.huge or (targetUpperBound - currentSkill)
 	end
 	assert(neededSkill >= 0 and maxAddedSkill > 0)
-	local maxQualityMatSkill = hasQualityMats and recipeDifficulty * MAX_QUALITY_MAT_DIFFICULTY_RATIO or 0
-	if neededSkill > maxQualityMatSkill + (inspirationAmount or 0) then
-		-- We can't get this much skill with just quality reagents and inspiration
-		-- TODO: We potentically could with finishing / optional(?) mats
+	local maxQualityMatSkill = hasQualityMats and recipeDifficulty * maxMatContribution or 0
+	if neededSkill > maxQualityMatSkill then
 		return nil, nil
 	end
 	return neededSkill, maxAddedSkill, maxQualityMatSkill

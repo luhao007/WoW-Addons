@@ -43,7 +43,7 @@ function Cost.GetMatCost(itemString)
 		return
 	end
 	if private.matsVisited[itemString] then
-		-- there's a loop in the mat cost, so bail
+		-- There's a loop in the mat cost, so bail
 		return
 	end
 	private.matsVisited[itemString] = true
@@ -59,11 +59,11 @@ function Cost.GetCraftingCostByCraftString(craftString, optionalMats, qualityMat
 		qualityMats = TempTable.Acquire()
 		releaseQualityMats = true
 	end
-	local cost, chance = private.GetCraftingCostHelper(craftString, nil, optionalMats, qualityMats)
+	local cost = private.GetCraftingCostHelper(craftString, nil, optionalMats, qualityMats)
 	if releaseQualityMats then
 		TempTable.Release(qualityMats)
 	end
-	return cost, chance
+	return cost
 end
 
 function Cost.GetCraftedItemValue(itemString)
@@ -86,18 +86,18 @@ function Cost.GetProfitByRecipeString(recipeString)
 end
 
 function Cost.GetCostsByCraftString(craftString)
-	local craftingCost, chance = Cost.GetCraftingCostByCraftString(craftString)
+	local craftingCost = Cost.GetCraftingCostByCraftString(craftString)
 	local itemString = TSM.Crafting.GetItemString(craftString)
 	local craftedItemValue = itemString and Cost.GetCraftedItemValue(itemString) or nil
-	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil, chance
+	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil
 end
 
 function Cost.GetCostsByRecipeString(recipeString)
 	local craftString = CraftString.FromRecipeString(recipeString)
-	local craftingCost, chance = private.GetCraftingCostHelper(craftString, recipeString)
+	local craftingCost = private.GetCraftingCostHelper(craftString, recipeString)
 	local itemString = Cost.GetLevelItemString(recipeString)
 	local craftedItemValue = itemString and Cost.GetCraftedItemValue(itemString) or nil
-	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil, chance
+	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil
 end
 
 function Cost.GetLevelItemString(recipeString)
@@ -121,8 +121,8 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 		optionalMats = TempTable.Acquire()
 	end
 	private.GetOptionalMats(itemString, optionalMats)
-	local lowestCost, lowestCraftString, lowestChance = nil, nil, nil
-	local cdCost, cdSpellId, cdChance = nil, nil, nil
+	local lowestCost, lowestCraftString = nil, nil
+	local cdCost, cdSpellId = nil, nil
 	local numSpells = 0
 	local singleCraftString = nil
 	local relItemLevel = nil
@@ -150,13 +150,12 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 				end
 				numSpells = numSpells + 1
 				wipe(tempQualityMats)
-				local cost, chance = Cost.GetCraftingCostByCraftString(craftString, optionalMats, tempQualityMats)
+				local cost = Cost.GetCraftingCostByCraftString(craftString, optionalMats, tempQualityMats)
 				if cost and (not lowestCost or cost < lowestCost) then
-					-- exclude spells with cooldown if option to ignore is enabled and there is more than one way to craft
+					-- Exclude spells with cooldown if option to ignore is enabled and there is more than one way to craft
 					if hasCD then
 						cdCost = cost
 						cdSpellId = craftString
-						cdChance = chance
 					else
 						if qualityMats then
 							wipe(qualityMats)
@@ -166,7 +165,6 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 						end
 						lowestCost = cost
 						lowestCraftString = craftString
-						lowestChance = chance
 					end
 				end
 			end
@@ -180,16 +178,15 @@ function Cost.GetLowestCostByItem(itemString, optionalMats, qualityMats)
 		singleCraftString = nil
 	end
 	if numSpells == 1 and not lowestCost and cdCost then
-		-- only way to craft it is with a CD craft, so use that
+		-- Only way to craft it is with a CD craft, so use that
 		if qualityMats then
 			-- TODO: This path isn't currently supported
 			wipe(qualityMats)
 		end
 		lowestCost = cdCost
 		lowestCraftString = cdSpellId
-		lowestChance = cdChance
 	end
-	return lowestCost, lowestCraftString or singleCraftString, lowestChance
+	return lowestCost, lowestCraftString or singleCraftString
 end
 
 
@@ -253,7 +250,6 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 		wipe(mats)
 	end
 	TSM.Crafting.GetMatsAsTable(craftString, mats)
-	local chance = 1
 	if recipeString then
 		assert(not optionalMats)
 		for _, _, itemId in RecipeString.OptionalMatIterator(recipeString) do
@@ -269,16 +265,14 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 			end
 		end
 	elseif TSM.Crafting.IsQualityCraft(craftString) then
-		local canCraft, inspirationChance = TSM.Crafting.DFCrafting.GetOptionalMats(craftString, mats, qualityMats)
-		if canCraft then
-			chance = inspirationChance
-		else
+		local canCraft = TSM.Crafting.Quality.GetOptionalMats(craftString, mats, qualityMats)
+		if not canCraft then
 			if mats == private.matsTemp then
 				private.matsTempInUse = false
 			else
 				TempTable.Release(mats)
 			end
-			return nil, nil
+			return nil
 		end
 		for _, itemString in ipairs(qualityMats) do
 			mats[itemString] = mats[qualityMats[itemString]]
@@ -321,8 +315,8 @@ function private.GetCraftingCostHelper(craftString, recipeString, optionalMats, 
 		TempTable.Release(mats)
 	end
 	if not cost or not hasMats then
-		return nil, nil
+		return nil
 	end
-	cost = Math.Round(cost / (TSM.Crafting.GetNumResult(craftString) * chance))
-	return cost > 0 and cost or nil, chance
+	cost = Math.Round(cost / TSM.Crafting.GetNumResult(craftString))
+	return cost > 0 and cost or nil
 end

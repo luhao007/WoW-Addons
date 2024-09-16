@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2024-08-13";
+local WL_ADDON_UPDATED = "2024-08-23";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110002;
@@ -3428,7 +3428,7 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
                     local guidId, guidKind = wlParseGUID(aoeGUID);
 
                     -- Catch object pushing loot without any spells or events.
-                    if guidId and guidKind == 'object' then
+                    if guidId and guidKind == 'object' and not fromFishing then
                         wlTracker.spell.kind = 'object';
                         wlEvent[wlId][wlN][eventId].kind = 'object';
                         wlTracker.spell.action = 'Opening';
