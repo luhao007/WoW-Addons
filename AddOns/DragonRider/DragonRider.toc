@@ -17,7 +17,6 @@
 ## X-WoWI-ID: 26618
 ## X-Wago-ID: XKq9EDKy
 
-Libs/LibStub/LibStub.lua
 Libs/LibAdvFlight-1.0/lib.xml
 
 Localization.lua

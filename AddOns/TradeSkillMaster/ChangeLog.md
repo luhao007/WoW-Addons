@@ -1,6 +1,5 @@
-## v4.14.15 Changes
+## v4.14.16 Changes
 
-* [Retail] Fixed error opening the bank
-* [Retail] Fixed Destroying settings error
+* [All] Fixed error when syncing accounts
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

@@ -30,6 +30,7 @@ local private = {
 		baseRecipeDifficulties = {},
 		baseRecipeQualities = {},
 		maxRecipeQualities = {},
+		rootCategoryId = {},
 	},
 	accountLookup = {},
 	accountStatus = {},
@@ -202,6 +203,7 @@ function private.RPCGetCraftInfo(profession, craftStrings)
 		private.craftInfoTemp.names[i] = craftInfo.name
 		private.craftInfoTemp.numResults[i] = craftInfo.numResult
 		private.craftInfoTemp.hasCDs[i] = craftInfo.hasCD
+		private.craftInfoTemp.rootCategoryId[i] = craftInfo.rootCategoryId
 		if ClientInfo.HasFeature(ClientInfo.FEATURES.CRAFTING_QUALITY) and type(craftInfo.players[player]) == "table" then
 			private.craftInfoTemp.baseRecipeDifficulties[i] = craftInfo.players[player].baseRecipeDifficulty
 			private.craftInfoTemp.baseRecipeQualities[i] = craftInfo.players[player].baseRecipeQuality
