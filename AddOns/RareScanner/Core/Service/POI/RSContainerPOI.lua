@@ -165,7 +165,7 @@ local function IsContainerPOIFiltered(containerID, mapID, zoneQuestID, prof, min
 	
 	-- Skip if other (trackeable and not prof) filtered
 	local isNotTrackable = RSUtils.Contains(RSConstants.CONTAINERS_WITHOUT_VIGNETTE, containerID)
-	if (not RSConfigDB.IsShowingOtherContainers() and not isAchievement and not prof and not isMinieventWithFilter and not isNotTrackable) then
+	if (not RSConfigDB.IsShowingOtherContainers() and not isNotCompletedAchievement and not prof and not isMinieventWithFilter and not isNotTrackable) then
 		RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Filtrado otro contenedor.", containerID))
 		return true
 	end

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: MysticalOS, QartemisT
-## Version: 11.0.10
+## Version: 11.0.13
 ## Dependencies: DBM-StatusBarTimers
 ## LoadOnDemand: 0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon, DBM_AnnoyingPopupDisables, DBM_ModsToLoadWithFullTestSupport
@@ -85,3 +85,4 @@ modules\objects\Announce.lua
 modules\objects\SpecialWarning.lua
 modules\objects\Yell.lua
 modules\objects\NilWarning.lua
+modules\objects\Sorting.lua

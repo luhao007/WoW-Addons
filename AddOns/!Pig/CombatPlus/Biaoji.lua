@@ -171,12 +171,7 @@ function CombatPlusfun.biaoji()
 	if PIGbiaoji.yizairu then return end
 	for i=1,tuNumall do
 		local listbut = CreateFrame("Button", nil, PIGbiaoji)
-		listbut:SetScript("OnDragStart",function(self)
-			PIGbiaoji:StartMoving()
-		end)
-		listbut:SetScript("OnDragStop",function(self)
-			PIGbiaoji:StopMovingOrSizing()
-		end)
+		Create.PIGSetMovable(listbut,PIGbiaoji)
 		listbut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square")
 		listbut:SetSize(biaojiW,biaojiW)	
 		if i<=tuNum then

@@ -416,6 +416,7 @@ function PigMinimapBut:Point()
 				PigMinimapBut:SetHighlightTexture("Interface/Minimap/UI-Minimap-ZoomButton-Highlight");
 				PigMinimapBut.Border:SetDrawLayer("BORDER",1)
 				PigMinimapBut.Icon:SetDrawLayer("BACKGROUND",1)
+				--PigMinimapBut.Border:SetAtlas("ui-lfg-roleicon-incentive")
 				PigMinimapBut.Border:SetTexture("Interface/Minimap/MiniMap-TrackingBorder");
 				PigMinimapBut.Border:SetSize(56,56);
 				PigMinimapBut.Border:ClearAllPoints();	

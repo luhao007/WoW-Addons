@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2607, "DBM-Raids-WarWithin", 1, 1273)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240912043404")
+mod:SetRevision("20240917094345")
 mod:SetCreatureID(215657)--VERIFY
 mod:SetEncounterID(2902)
 --mod:SetUsedIcons(1, 2, 3)
@@ -35,9 +35,9 @@ local warnVenomLash								= mod:NewCountAnnounce(435136, 3)
 local warnDigestiveAcid							= mod:NewTargetAnnounce(435138, 3)
 local warnHungeringBelows						= mod:NewCountAnnounce(438012, 3)
 
-local specWarnCarnivorousContest				= mod:NewSpecialWarningMoveTo(434803, nil, nil, nil, 2, 2)
-local specWarnCarnivorousContestTarget			= mod:NewSpecialWarningYou(434803, nil, nil, nil, 1, 2)
-local yellCarnivorousContest					= mod:NewShortYell(434803, nil, nil, nil, "YELL")
+local specWarnCarnivorousContest				= mod:NewSpecialWarningMoveTo(434803, nil, nil, DBM_COMMON_L.GROUPSOAK, 2, 2)
+local specWarnCarnivorousContestTarget			= mod:NewSpecialWarningYou(434803, nil, nil, DBM_COMMON_L.GROUPSOAK, 1, 2)
+local yellCarnivorousContest					= mod:NewShortYell(434803, DBM_COMMON_L.GROUPSOAK, nil, nil, "YELL")
 local yellCarnivorousContestFades				= mod:NewShortFadesYell(434803, nil, nil, nil, "YELL")
 local specWarnStalkersWebbing					= mod:NewSpecialWarningDodgeCount(441452, nil, 157317, nil, 2, 2)--aka Viscous Slobber apparently
 local specWarnDigestiveAcid						= mod:NewSpecialWarningMoveTo(435138, nil, nil, nil, 1, 17)
@@ -180,7 +180,7 @@ function mod:SPELL_CAST_START(args)
 			timerBrutalCrushCD:Stop()
 			timerDigestiveAcidCD:Stop()
 			timerChitteringSwarmCD:Start(6.8)--Cast only once
-			timerJuggernautChargeCD:Start(12.1, 1)--Cast only once (but multi hit so still count timer)
+			timerJuggernautChargeCD:Start(11.8, 1)--Cast only once (but multi hit so still count timer)
 			timerSwallowingDarknessCD:Start(48.1)--Cast only once
 			--Technically these can also be started below by 441445
 			timerHungeringBellowsCD:Start(59, 1)
@@ -285,7 +285,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		timerBrutalCrushCD:Start(7, 1)
 		timerVenomLashCD:Start(9, 1)
 		timerStalkersWebbingCD:Start(13, 1)
-		timerDigestiveAcidCD:Start(19.6, 1)
+		timerDigestiveAcidCD:Start(19.2, 1)
 		timerCarnivorousContestCD:Start(37, 1)
 		timerPhaseChange:Start(94.9, 2)--Approx based oncomparison to stalker webbingg first cast, since no transcriptor logs this long
 	--441425 with a stage 2 only check is primary, but has one fatal flaw, it lacks disconnect protection

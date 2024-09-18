@@ -454,11 +454,11 @@ function TrinketAutoMode:yidongButClick(yidongUI,Button)
 		if PIGA_Per["QuickBut"]["TrinketMode"]==1 then
 			PIGA_Per["QuickBut"]["TrinketMode"]=2
 			TrinketAutoModeUI.TrinketMode=2
-			PIGinfotip:TryDisplayMessage(TRACKER_SORT_MANUAL..MODE, YELLOW_FONT_COLOR:GetRGB())
+			PIGinfotip:TryDisplayMessage(SELF_CAST_AUTO..MODE, YELLOW_FONT_COLOR:GetRGB())
 		elseif PIGA_Per["QuickBut"]["TrinketMode"]==2 then
 			PIGA_Per["QuickBut"]["TrinketMode"]=1
 			TrinketAutoMode.TrinketMode=1
-			PIGinfotip:TryDisplayMessage(SELF_CAST_AUTO..MODE, YELLOW_FONT_COLOR:GetRGB())
+			PIGinfotip:TryDisplayMessage(TRACKER_SORT_MANUAL..MODE, YELLOW_FONT_COLOR:GetRGB())
 		end
 		TrinketAutoMode:SetyidongButText(yidongUI)
 		TrinketAutoMode:SetCheckbut()

@@ -434,8 +434,8 @@ function RSLootOptions.GetLootOptions()
 											private.loot_toggle_all = true
 										end
 		
-										for _, v in pairs(options.args.filters.args.category_filters.args.lootFilters.values) do
-											RSConfigDB.SetLootFilterByCategory(private.loot_main_category_ID, v, private.loot_toggle_all)
+										for k, _ in pairs(options.args.filters.args.category_filters.args.lootFilters.values) do
+											RSConfigDB.SetLootFilterByCategory(private.loot_main_category_ID, k, private.loot_toggle_all)
 										end
 									end,
 									width = "full",

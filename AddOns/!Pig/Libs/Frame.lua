@@ -120,8 +120,7 @@ function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown)
 		local uiname = MovableUI:GetName()
 		if uiname then
 			local point, relativeTo, relativePoint, offsetX, offsetY = MovableUI:GetPoint()
-			local relativeTo=relativeTo or UIParent
-			PIGA["PigUIPoint"][uiname]={point, relativeTo, relativePoint, offsetX, offsetY}
+			PIGA["PigUIPoint"][uiname]={point, nil, relativePoint, offsetX, offsetY}
 		end
 		MovableUI:SetUserPlaced(false)
 	end)

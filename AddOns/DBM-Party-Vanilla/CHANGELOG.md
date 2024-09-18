@@ -1,10 +1,12 @@
 # DBM - Dungeons, Delves, & Events
 
-## [r151](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r151) (2024-09-12)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r150...r151) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
+## [r153](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r153) (2024-09-17)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r152...r153) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
 
-- added optional off by default interrupt alert for enfeebling. if enabled it'll supress general announce if interrupt isn't on cooldown  
-    clarified language for angler web that it's a dodge  
-- fix another lua error  
-- fix lua error with forgemaster throngus  
-- tweak text color on one alert  
+- adjust initial blast timer by 1  
+- small delve timer adjustments  
+- fix bug where taskmaster had duplicate entries and as such wasn't properly sending all stop callbacks  
+- add umbrel slash  
+- fix sporesong, which changed from a start even to success/applied only recently  
+- reclassify another changed alert  
+- fix crushing slam classification  

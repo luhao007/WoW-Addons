@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Breen
-## Version: 2.0
+## Version: 4.0
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsTheWarWithinPrologue
 ## LoadOnDemand: 1

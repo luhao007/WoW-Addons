@@ -156,7 +156,7 @@ function UnitFramefun.Zishen()
 		Naijiu_Update()
 		--角色移速
 		PlayerFrame.yisuF=CreateFrame("Frame",nil,PlayerFrame);
-		PlayerFrame.yisuF:SetPoint("LEFT", PlayerFrame.naijiu, "RIGHT", 4, 0);
+		PlayerFrame.yisuF:SetPoint("LEFT", PlayerFrame.naijiu, "RIGHT", 8, 0);
 		PlayerFrame.yisuF:SetSize(49,18);
 		PlayerFrame.yisuF.Tex = PlayerFrame.yisuF:CreateTexture("Frame_Texture_UI", "ARTWORK");
 		PlayerFrame.yisuF.Tex:SetTexture("interface/icons/ability_rogue_sprint.blp");

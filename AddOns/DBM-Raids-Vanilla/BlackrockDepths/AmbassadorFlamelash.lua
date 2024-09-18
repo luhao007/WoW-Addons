@@ -1,12 +1,12 @@
 if DBM:GetTOC() < 110005 then return end
-local mod	= DBM:NewMod(2670, "DBM-Raids-WarWithin", 2, 1301)
+local mod	= DBM:NewMod(2669, "DBM-Raids-Vanilla", 5, 1301)
 local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20240908020318")
-mod:SetCreatureID(226305)
-mod:SetEncounterID(3049)
+mod:SetRevision("20240916054251")
+mod:SetCreatureID(226302)
+mod:SetEncounterID(3047)
 --mod:SetUsedIcons(8, 7, 6)
 --mod:SetHotfixNoticeRev(20220322000000)
 --mod:SetMinSyncRevision(20211203000000)

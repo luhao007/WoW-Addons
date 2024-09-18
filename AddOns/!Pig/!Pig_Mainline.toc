@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: geligasi
-## Version: 7.68
+## Version: 7.70
 ## SavedVariables: PIGA
 ## SavedVariablesPerCharacter: PIGA_Per
 ## IconTexture: interface/icons/ability_seal.blp
@@ -26,6 +26,7 @@ FramePlus\FramePlus.xml
 UnitFrame\UnitFrame.xml
 BagBank\BagBank.xml
 Map\Map.xml
+PigLayout\PigLayout.xml
 CVars\CVars.xml
 Config\Config.lua
 About.lua

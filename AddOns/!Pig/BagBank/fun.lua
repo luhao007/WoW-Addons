@@ -292,7 +292,11 @@ function BagBankfun.addfenleibagbut(fujiui,uiname)
 		local ContainerFrameMixin=ContainerFrameMixin or {}
 		local fameXX = Mixin(fameXX, ContainerFrameMixin)
 		fameXX:SetSize(www,hhh);
-		fameXX:SetPoint("LEFT", fujiui.fenlei, "RIGHT", ((www+jiangeW)*(vb-1))+2, 0);
+		if fujiui==BAGheji_UI then
+			fameXX:SetPoint("TOPLEFT", fujiui.fenlei, "TOPRIGHT", 8, -((www+jiangeW)*(vb-1)));
+		else
+			fameXX:SetPoint("LEFT", fujiui.fenlei, "RIGHT", ((www+jiangeW)*(vb-1))+2, 0);
+		end
 		fameXX:Hide()
 		fameXX.BagID=baginfo.id[vb]
 		function fameXX:GetBagID()

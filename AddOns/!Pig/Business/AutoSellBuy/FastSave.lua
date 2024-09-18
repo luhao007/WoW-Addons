@@ -60,7 +60,6 @@ function BusinessInfo.FastSave()
 	-- 	-- local Subname = GetItemSubClassInfo(7, i)
 	-- 	-- print(i,Subname)
 	-- end
-	BankFrame.GetActiveBankType=BankFrame.GetActiveBankType or function() end
 	local www,hhh = 25,25
 	local ItemTypeLsit = {
 		{133784,"G",CUSTOM},
@@ -88,18 +87,18 @@ function BusinessInfo.FastSave()
 			if ItemTypeLsit[typeid][2]=="diy" then
 				for ib=1,#cfvv do
 					if itemID==cfvv[ib][1] then
-						UseContainerItem(bag,slot,nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+						UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType() or nil, BankFrame:IsShown() and BankFrame.selectedTab == 2);
 					end
 				end
 			else
 				for ib=1,#ItemTypeLsit[typeid][2] do
 					if ItemTypeLsit[typeid][2][ib][2] then
 						if classID==ItemTypeLsit[typeid][2][ib][1] and subclassID==ItemTypeLsit[typeid][2][ib][2] then
-							UseContainerItem(bag,slot,nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+							UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
 						end
 					else
 						if classID==ItemTypeLsit[typeid][2][ib][1] then
-							UseContainerItem(bag,slot,nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+							UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
 						end
 					end
 				end
@@ -168,7 +167,7 @@ function BusinessInfo.FastSave()
 		else
 			savebut:SetPoint("RIGHT",BankFrame.typeList[ib+1],"LEFT",-2,0);
 			if ib==1 and fujiF_Take.tiquGVSlider then
-				local txt1 = KEY_BUTTON1.." \124cff00FF00一键存"..ItemTypeLsit[ib][3].."\124r\n"..KEY_BUTTON2.." \124cff00FF00一键取"..ItemTypeLsit[ib][3].."\124r"
+				local txt1 = KEY_BUTTON1.." \124cff00FF00一键存"..BONUS_ROLL_REWARD_MONEY.."\124r\n"..KEY_BUTTON2.." \124cff00FF00一键取"..BONUS_ROLL_REWARD_MONEY.."\124r"
 				local txt2 = "SHIFT+"..KEY_BUTTON1.."-\124cff00FFFF"..ItemTypeLsit[ib][3]..MAXIMUM..BANK_DEPOSIT_MONEY_BUTTON_LABEL..BONUS_ROLL_REWARD_MONEY.."\124r\n".."SHIFT+"..KEY_BUTTON2.."-\124cff00FFFF"..ItemTypeLsit[ib][3]..MAXIMUM..BANK_WITHDRAW_MONEY_BUTTON_LABEL..BONUS_ROLL_REWARD_MONEY.."\124r"
 				PIGEnter(savebut,savebut,txt1,txt2)
 			else
@@ -222,5 +221,5 @@ function BusinessInfo.FastSave()
 				Show_TabButtype(tabid)
 			end);
 		end
-	end	
+	end
 end
