@@ -1,14 +1,15 @@
 ## Interface: 110002
 ## Author: Breen
 ## Version: v6.14
-## Dependencies: BtWQuests
-## OptionalDeps: BtWQuestsShadowlandsPrologue
-## LoadOnDemand: 1
 
 ## Title: BtWQuests: Shadowlands
 ## Notes: Shadowlands quest data for BtWQuests
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务流程图|r |cFF69CCF0暗影国度|r
 ## Notes-zhCN: BtWQuests 暗影国度模块
+
+## Dependencies: BtWQuests
+## OptionalDeps: BtWQuestsShadowlandsPrologue
+## LoadOnDemand: 1
 
 ## X-BtWQuests: Shadowlands
 ## X-BtWQuests-Expansion: 8

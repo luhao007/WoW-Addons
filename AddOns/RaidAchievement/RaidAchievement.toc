@@ -1,14 +1,16 @@
 ## Interface: 110002
 ## Author: Shurshik
-## LoadOnDemand: 0
-## SavedVariables: pseashowfailreas,pseashownewvervar,wherereportraidach, wherereportpartyach,raquantrepeatach,raquantrepeatachtm,raoldvern2, raaddoninstalledsins,raminibutshowt,RA_Settings,rasoundtoplay,raenablebg,psdonaspanvar,radonateq1
-## SavedVariablesPerCharacter: thisaddonworkea, raannouncerun4
-## DefaultState: Enabled
 
 ## Title: Raid|cff7fff7fAchievement|r   Main
 ## Notes: Group and raid achievements tracker
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFFFFE00ARaidAchievement|r
 ## Notes-zhCN: 在团队和小队中追踪成就完成情况，并给与相应提示。内置当前版本的副本模块。
+
+## LoadOnDemand: 0
+## DefaultState: Enabled
+
+## SavedVariables: pseashowfailreas,pseashownewvervar,wherereportraidach, wherereportpartyach,raquantrepeatach,raquantrepeatachtm,raoldvern2, raaddoninstalledsins,raminibutshowt,RA_Settings,rasoundtoplay,raenablebg,psdonaspanvar,radonateq1
+## SavedVariablesPerCharacter: thisaddonworkea, raannouncerun4
 
 
 Localization\localization-enEN.lua

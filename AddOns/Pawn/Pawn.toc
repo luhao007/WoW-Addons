@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Version: 2.10.1
-## SavedVariables: PawnCommon
-## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
-## IconTexture: Interface\AddOns\Pawn\Textures\PawnIcon.tga
 
 ## Title: Pawn
 ## Notes: Pawn helps you compare items and find upgrades.
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF装备评分|r |cFFFFE00APawn|r
+
+## IconTexture: Interface\AddOns\Pawn\Textures\PawnIcon.tga
+
+## SavedVariables: PawnCommon
+## SavedVariablesPerCharacter: PawnOptions, PawnMrRobotScaleProviderOptions, PawnClassicScaleProviderOptions
 
 ## X-Wago-ID: R4N2k46L
 

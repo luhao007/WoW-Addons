@@ -1,13 +1,15 @@
 ## Interface: 110002
 ## Author: Tuller
 ## Version: 11.0.1
-## SavedVariables: OmniCCDB, OmniCC4Config
-## IconTexture: Interface/Icons/spell_nature_timestop
 
 ## Title: OmniCC
 ## Notes: Cooldown count for everything
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF技能冷却|r |cFFFFE00AOmniCC|r
 ## Notes-zhCN: 显示技能冷却时间
+
+## IconTexture: Interface/Icons/spell_nature_timestop
+
+## SavedVariables: OmniCCDB, OmniCC4Config
 
 
 embeds.xml

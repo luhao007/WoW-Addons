@@ -1,14 +1,15 @@
 ## Interface: 110002
 ## Author: Breen
 ## Version: v12.1
-## Dependencies: BtWQuests
-## OptionalDeps: BtWQuestsDragonflightPrologue
-## LoadOnDemand: 1
 
 ## Title: BtWQuests: Dragonflight
 ## Notes: Dragonflight quest data for BtWQuests
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务流程图|r |cFF69CCF0巨龙时代|r
 ## Notes-zhCN: BtWQuests 巨龙时代模块
+
+## Dependencies: BtWQuests
+## OptionalDeps: BtWQuestsDragonflightPrologue
+## LoadOnDemand: 1
 
 ## X-BtWQuests: Dragonflight
 ## X-BtWQuests-Expansion: 9

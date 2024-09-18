@@ -1,14 +1,17 @@
 ## Interface: 110002
 ## Author: Nnoggie
 ## Version: 5.0.10
-## OptionalDeps: !!AddonLocale, LibStub, Ace3, WagoAnalytics
-## SavedVariables: MythicDungeonToolsDB
-## IconTexture: Interface\AddOns\MythicDungeonTools\Textures\Nnoggie
 
 ## Title: Mythic Dungeon Tools
 ## Notes: Tool for planning and optimizing Mythic+ dungeon runs
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF大秘境工具|r |cFFFFE00AMythicDungeonTools|r
 ## Notes-zhCN: 大秘境工具包
+
+## IconTexture: Interface\AddOns\MythicDungeonTools\Textures\Nnoggie
+
+## OptionalDeps: !!AddonLocale, LibStub, Ace3, WagoAnalytics
+
+## SavedVariables: MythicDungeonToolsDB
 
 ## X-Curse-Project-ID: 288981
 ## X-Wago-ID: rN4VrAKD

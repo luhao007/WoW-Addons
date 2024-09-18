@@ -1,13 +1,14 @@
 ## Interface: 110002
 ## Author: Lag, Proteyer, Arith
 ## Version: v8.13.14
-## Dependencies: AtlasLoot
-## LoadOnDemand: 1
 
 ## Title: AtlasLoot |cFF0099FF[Burning Crusade]|r
 ## Notes: AtlasLoot loot tables from Burning Crusade
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0燃烧的远征|r
 ## Notes-zhCN: AtlasLoot 燃烧的远征副本掉落列表
+
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
 
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map

@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: Shurshik
-## Dependencies: RaidAchievement
-## LoadOnDemand: 1
-## SavedVariablesPerCharacter: icraspisokon
 
 ## Title: Raid|cff7fff7fAchievement|r - Icecrown
 ## Notes: RaidAchievement Wotlk Icecrown Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0冰冠堡垒|r
+
+## Dependencies: RaidAchievement
+## LoadOnDemand: 1
+
+## SavedVariablesPerCharacter: icraspisokon
 
 ## X-Part-Of: RaidAchievement
 

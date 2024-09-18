@@ -1,11 +1,13 @@
 ## Interface: 110002
 ## Author: MysticalOS
-## RequiredDeps: DBM-Core
-## LoadOnDemand: 1
-## SavedVariables: DBMTimelessIsle_AllSavedVars
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0World: Timeless Isle|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0户外|r |cFF22B14C永恒岛|r
+
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+
+## SavedVariables: DBMTimelessIsle_AllSavedVars
 
 ## X-Min-Interface: 80000
 ## X-DBM-Mod: 1

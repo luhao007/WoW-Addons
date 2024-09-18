@@ -1,13 +1,15 @@
 ## Interface: 110002
 ## Version: Plater-v588-Vanilla
-## SavedVariables: PlaterDB, PlaterLanguage, PlaterLogs, PlaterBackup
-## SavedVariablesPerCharacter: PlaterDBChr
-## IconTexture: Interface\AddOns\Plater\images\cast_bar
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF血条增强|r |cFFFFE00APlater|r
 ## Notes-zhCN: 自定义血条显示
+
+## IconTexture: Interface\AddOns\Plater\images\cast_bar
+
+## SavedVariables: PlaterDB, PlaterLanguage, PlaterLogs, PlaterBackup
+## SavedVariablesPerCharacter: PlaterDBChr
 
 ## X-Curse-Project-ID: 100547
 ## X-Wago-ID: kRNLep6o

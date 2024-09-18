@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: MysticalOS
-## RequiredDeps: DBM-Core
-## LoadOnDemand: 1
-## SavedVariables: DBMPartyVanilla_AllSavedVars
-## SavedVariablesPerCharacter: DBMPartyVanilla_SavedStats
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffc030c0Dungeons (Vanilla)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0小队|r |cFF22B14C旧世经典（怀旧服）|r
+
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+
+## SavedVariables: DBMPartyVanilla_AllSavedVars
+## SavedVariablesPerCharacter: DBMPartyVanilla_SavedStats
 
 ## X-Min-Interface: 11402
 ## X-DBM-Mod: 1

@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Version: v1.07.09
-## RequiredDeps: Atlas
-## IconTexture: Interface\WorldMap\WorldMap-Icon
 
 ## Title: Atlas |r|cFF0099FF[Arena]|r
 ## Notes: An Atlas Plugin that displays arena maps.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0竞技场|r
 ## Notes-zhCN: Atlas 竞技场地图插件。
+
+## IconTexture: Interface\WorldMap\WorldMap-Icon
+
+## RequiredDeps: Atlas
 
 ## X-Date: 2023-07-29T3:55:56Z
 ## X-Category: Map

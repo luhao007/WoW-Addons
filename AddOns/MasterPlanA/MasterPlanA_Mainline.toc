@@ -1,11 +1,13 @@
 ## Interface: 110002
 ## Version: A
-## SavedVariables: MasterPlanAG
-## IconTexture: 1001491
 
 ## Title: Master Plan A
 ## Notes: A vital part of any Master Plan.|n|n|cff36e5ff"Stay cool; the alphabet has 28 more letters."
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF要塞助手|r |cFF69CCF0额外功能|r
+
+## IconTexture: 1001491
+
+## SavedVariables: MasterPlanAG
 
 ## X-Part-Of: MasterPlan
 

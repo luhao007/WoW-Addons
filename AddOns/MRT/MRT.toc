@@ -1,13 +1,15 @@
 ## Interface: 110002
 ## Author: ykiigor
 ## Version: 4920
-## SavedVariables: VMRT
-## IconTexture: Interface\AddOns\MRT\media\MiniMap.tga
 
 ## Title: Method Raid Tools
 ## Notes: Method Raid Tools
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFFMethod团队助手|r |cFFFFE00AMRT|r
 ## Notes-zhCN: 提供团队和小队的一些辅助功能
+
+## IconTexture: Interface\AddOns\MRT\media\MiniMap.tga
+
+## SavedVariables: VMRT
 
 
 core.lua

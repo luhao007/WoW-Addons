@@ -1,13 +1,14 @@
 ## Interface: 110002
 ## Author: Breen
 ## Version: 4.12
-## Dependencies: BtWQuests
-## LoadOnDemand: 1
 
 ## Title: BtWQuests: Mists of Pandaria
 ## Notes: Mists of Pandaria quest data for BtWQuests
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务流程图|r |cFF69CCF0熊猫人之谜|r
 ## Notes-zhCN: BtWQuests 熊猫人之谜模块
+
+## Dependencies: BtWQuests
+## LoadOnDemand: 1
 
 ## X-BtWQuests: Mists of Pandaria
 ## X-BtWQuests-Expansion: 4

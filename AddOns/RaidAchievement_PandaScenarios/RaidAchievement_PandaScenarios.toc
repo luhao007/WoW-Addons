@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: Shurshik
-## Dependencies: RaidAchievement
-## LoadOnDemand: 1
-## SavedVariablesPerCharacter: pzraspisokon
 
 ## Title: Raid|cff7fff7fAchievement|r - Pandaria Scenarios
 ## Notes: RaidAchievement Pandaria Scenarios Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0熊猫人之谜场景战役|r
+
+## Dependencies: RaidAchievement
+## LoadOnDemand: 1
+
+## SavedVariablesPerCharacter: pzraspisokon
 
 ## X-Part-Of: RaidAchievement
 

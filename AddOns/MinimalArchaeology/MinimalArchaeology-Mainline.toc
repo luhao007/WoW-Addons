@@ -1,16 +1,19 @@
 ## Interface: 110002
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Version: 11.0.0.4
-## LoadOnDemand: 0
-## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
-## SavedVariablesPerCharacter: MinArchOptions
-## DefaultState: Enabled
-## IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
 
 ## Title: Minimal Archaeology
 ## Notes: Archaeology UI replacement, Archaeology History and more... - Mainline version
 ## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r |cFFFFFFFF考古助手|r |cFFFFE00AMinimalArchaeology|r
 ## Notes-zhCN: 独立考古窗口
+
+## IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
+
+## LoadOnDemand: 0
+## DefaultState: Enabled
+
+## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
+## SavedVariablesPerCharacter: MinArchOptions
 
 ## X-Curse-Project-ID: 28160
 ## X-Wago-ID: nGvpwe6x

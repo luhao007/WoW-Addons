@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: Gello
 ## Version: 5.2.4
-## SavedVariables: Rematch5Settings, Rematch5SavedTeams, Rematch5SavedGroups, Rematch5SavedTargets, Rematch4Saved, Rematch4Settings, RematchSaved, RematchSettings
-## IconTexture: Interface\AddOns\Rematch\textures\icon
 
 ## Title: Rematch
 ## Notes: A pet journal alternative for managing pets and teams
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00ARematch|r
+
+## IconTexture: Interface\AddOns\Rematch\textures\icon
+
+## SavedVariables: Rematch5Settings, Rematch5SavedTeams, Rematch5SavedGroups, Rematch5SavedTargets, Rematch4Saved, Rematch4Settings, RematchSaved, RematchSettings
 
 
 localization\localization.lua

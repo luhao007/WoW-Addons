@@ -1,14 +1,16 @@
 ## Interface: 110002
 ## Author: The WeakAuras Team
 ## Version: 5.17.1
-## Dependencies: WeakAuras, WeakAurasOptions
-## LoadOnDemand: 1
-## DefaultState: Enabled
-## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
 
 ## Title: WeakAuras Model Paths
 ## Notes: Model paths for WeakAuras
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFF69CCF0模型路径|r
+
+## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
+
+## Dependencies: WeakAuras, WeakAurasOptions
+## LoadOnDemand: 1
+## DefaultState: Enabled
 
 ## X-Category: Interface Enhancements
 ## X-Part-Of: WeakAuras

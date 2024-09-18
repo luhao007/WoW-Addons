@@ -1,14 +1,15 @@
 ## Interface: 110002
 ## Author: Lag, Proteyer, Arith
 ## Version: v8.13.14
-## Dependencies: AtlasLoot
-## OptionalDeps: 
-## LoadOnDemand: 1
 
 ## Title: AtlasLoot |cFF0099FF[Collections]|r
 ## Notes: AtlasLoot collections loot tables (e.g. Mounts & Pets)
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0套装|r
 ## Notes-zhCN: AtlasLoot 套装列表
+
+## Dependencies: AtlasLoot
+## OptionalDeps: 
+## LoadOnDemand: 1
 
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map

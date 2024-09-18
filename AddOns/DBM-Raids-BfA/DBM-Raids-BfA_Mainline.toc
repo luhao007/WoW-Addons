@@ -1,14 +1,17 @@
 ## Interface: 110002
 ## Author: MysticalOS
 ## Version: r36
-## RequiredDeps: DBM-Core
-## LoadOnDemand: 1
-## SavedVariables: DBMRaidsBfA_AllSavedVars
-## SavedVariablesPerCharacter: DBMRaidsBfA_SavedStats
-## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (BfA)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C争霸艾泽拉斯|r
+
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+
+## SavedVariables: DBMRaidsBfA_AllSavedVars
+## SavedVariablesPerCharacter: DBMRaidsBfA_SavedStats
 
 ## X-Min-Interface: 90005
 ## X-DBM-Mod: 1

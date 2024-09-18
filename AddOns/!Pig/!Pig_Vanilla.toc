@@ -1,14 +1,16 @@
 ## Interface: 110002
 ## Author: geligasi
 ## Version: 7.70
-## SavedVariables: PIGA
-## SavedVariablesPerCharacter: PIGA_Per
-## IconTexture: interface/icons/ability_seal.blp
 
 ## Title: !Pig
 ## Notes: A toolbox. Integrating many small features can greatly reduce the number of plug-ins you have
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFFPig工具箱|r |cFFFFE00A!Pig|r
 ## Notes-zhCN: |cffFF8C00一个工具箱。整合很多小功能，可以极大减少你的插件数量。|r|n|cff00FF00祝你游戏愉快-来自|cffFF00FF[猪猪加油]|r的祝福|r
+
+## IconTexture: interface/icons/ability_seal.blp
+
+## SavedVariables: PIGA
+## SavedVariablesPerCharacter: PIGA_Per
 
 
 Localization\Localization.xml

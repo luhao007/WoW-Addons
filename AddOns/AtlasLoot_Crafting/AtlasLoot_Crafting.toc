@@ -1,13 +1,14 @@
 ## Interface: 110002
 ## Author: Lag, Proteyer, Arith
 ## Version: v8.13.14
-## Dependencies: AtlasLoot
-## LoadOnDemand: 1
 
 ## Title: AtlasLoot |cFF0099FF[Crafting]|r
 ## Notes: AtlasLoot loot tables of Crafting Items
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0专业制作|r
 ## Notes-zhCN: AtlasLoot 专业制作物品列表
+
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
 
 ## X-eMail: manager@atlasloot.net
 ## X-Category: Map

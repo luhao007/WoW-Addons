@@ -1,13 +1,14 @@
 ## Interface: 110002
 ## Author: arith
 ## Version: v1.44.00
-## RequiredDeps: Atlas
-## OptionalDeps: Lib-Scenarios
 
 ## Title: Atlas |r|cFF0099FF[Scenarios]|r
 ## Notes: Scenarios Maps
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0场景战役|r
 ## Notes-zhCN: 场景战役地图
+
+## RequiredDeps: Atlas
+## OptionalDeps: Lib-Scenarios
 
 ## X-Date: 2018-08-08T17:27:31Z
 ## X-Email: atlas.addon at gmail.com

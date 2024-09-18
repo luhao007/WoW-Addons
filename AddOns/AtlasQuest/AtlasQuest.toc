@@ -1,17 +1,19 @@
 ## Interface: 110002
 ## Author: Created by Asurn, Maintained by Thandrenn, Code fixed for 10.x by Zilom
 ## Version: 4.14.02
-## RequiredDeps: Atlas
-## Dependencies: 
-## OptionalDeps: 
-## LoadOnDemand: 0
-## SavedVariables: AtlasQuest_Options
-## SavedVariablesPerCharacter: 
 
 ## Title: AtlasQuest
 ## Notes: Shows the Quests for dungeons and battlegrounds.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本任务|r |cFFFFE00AAtlasQuest|r
 ## Notes-zhCN: 副本任务列表
+
+## RequiredDeps: Atlas
+## Dependencies: 
+## OptionalDeps: 
+## LoadOnDemand: 0
+
+## SavedVariables: AtlasQuest_Options
+## SavedVariablesPerCharacter: 
 
 ## X-Author-Faction: Alliance
 ## X-Author-Server: Destromath US

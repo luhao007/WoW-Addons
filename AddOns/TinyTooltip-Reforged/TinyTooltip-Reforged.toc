@@ -1,14 +1,16 @@
 ## Interface: 110002
 ## Author: Beezer
 ## Version: 12.0
-## SavedVariables: TinyTooltipReforgedDB
-## SavedVariablesPerCharacter: TinyTooltipReforgedCharacterDB
-## IconTexture: Interface\AddOns\TinyTooltip-Reforged\images\Icon.tga
 
 ## Title: TinyTooltip-Reforged |cFF69CCF0by Beezer|r
 ## Notes: |cff4488ffTinyTooltip (Reforged)|r|n Options use /ttr|n Reset use /ttr reset
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF鼠标提示增强|r |cFFFFE00ATinyTooltip-Reforged|r
 ## Notes-zhCN: 在鼠标提示中显示更多信息，并可选择鼠标提示窗口的位置
+
+## IconTexture: Interface\AddOns\TinyTooltip-Reforged\images\Icon.tga
+
+## SavedVariables: TinyTooltipReforgedDB
+## SavedVariablesPerCharacter: TinyTooltipReforgedCharacterDB
 
 ## X-Category: Tooltip
 

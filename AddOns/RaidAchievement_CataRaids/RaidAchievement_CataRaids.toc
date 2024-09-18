@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: Shurshik
-## Dependencies: RaidAchievement
-## LoadOnDemand: 1
-## SavedVariablesPerCharacter: crraspisokon
 
 ## Title: Raid|cff7fff7fAchievement|r - Cataclysm raids
 ## Notes: RaidAchievement Cataclysm Raids Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0大地的裂变团队|r
+
+## Dependencies: RaidAchievement
+## LoadOnDemand: 1
+
+## SavedVariablesPerCharacter: crraspisokon
 
 ## X-Part-Of: RaidAchievement
 

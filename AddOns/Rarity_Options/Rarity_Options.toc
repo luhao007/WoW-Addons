@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: Allara
-## Dependencies: Rarity
-## LoadOnDemand: 1
-## IconTexture: Interface\Icons\spell_nature_forceofnature.blp
 
 ## Title: Rarity [|caaedc99fOptions|r]
 ## Notes: Rarity configuration. Use AddonLoader to load this on demand.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF稀有物品追踪|r |cFF0055FF设置|r
+
+## IconTexture: Interface\Icons\spell_nature_forceofnature.blp
+
+## Dependencies: Rarity
+## LoadOnDemand: 1
 
 ## X-Min-Interface: 110005
 ## X-Part-Of: Rarity

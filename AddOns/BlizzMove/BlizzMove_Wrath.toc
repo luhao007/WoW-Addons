@@ -1,14 +1,17 @@
 ## Interface: 110002
 ## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
 ## Version: v3.5.41
-## OptionalDeps: Ace3
-## SavedVariables: BlizzMoveDB
-## IconTexture: interface/cursor/ui-cursor-move.blp
 
 ## Title: BlizzMove
 ## Notes: Makes blizzard frames movable
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF窗口移动|r |cFFFFE00ABlizzMove|r
 ## Notes-zhCN: 移动内置的各种窗口
+
+## IconTexture: interface/cursor/ui-cursor-move.blp
+
+## OptionalDeps: Ace3
+
+## SavedVariables: BlizzMoveDB
 
 ## X-WoWI-ID: 23875
 ## X-Curse-Project-ID: 17809

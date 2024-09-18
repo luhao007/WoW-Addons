@@ -1,12 +1,13 @@
 ## Interface: 110002
 ## Author: kagaro, Xinhuan
 ## Version: v38.2
-## Dependencies: GatherMate2
-## LoadOnDemand: 1
 
 ## Title: GatherMate2Data
 ## Notes: Wowhead Data dump for GatherMate2
 ## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r |cFFFFFFFF采集助手|r |cFF69CCF0数据|r
+
+## Dependencies: GatherMate2
+## LoadOnDemand: 1
 
 ## X-Category: Map
 ## X-Email: sal.scotto@gmail.com

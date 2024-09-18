@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: Shurshik
-## Dependencies: RaidAchievement
-## LoadOnDemand: 1
-## SavedVariablesPerCharacter: legionhraspisokon
 
 ## Title: Raid|cff7fff7fAchievement|r - Legion Dungeons
 ## Notes: RaidAchievement Legion Dungeons Module
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF团队成就助手|r |cFF69CCF0军团再临小队|r
+
+## Dependencies: RaidAchievement
+## LoadOnDemand: 1
+
+## SavedVariablesPerCharacter: legionhraspisokon
 
 ## X-Part-Of: RaidAchievement
 

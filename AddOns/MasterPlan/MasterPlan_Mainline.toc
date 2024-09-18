@@ -1,14 +1,17 @@
 ## Interface: 110002
 ## Author: foxlit
 ## Version: 0.141
-## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
-## LoadOnDemand: 1
-## SavedVariablesPerCharacter: MasterPlanPC
-## IconTexture: 1001491
 
 ## Title: Master Plan
 ## Notes: Garrison missions UI tweaks.
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF要塞助手|r |cFFFFE00AMasterPlan|r
+
+## IconTexture: 1001491
+
+## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
+## LoadOnDemand: 1
+
+## SavedVariablesPerCharacter: MasterPlanPC
 
 ## X-Website: https://www.townlong-yak.com/addons/master-plan/
 
