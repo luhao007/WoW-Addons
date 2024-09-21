@@ -4,7 +4,7 @@ local _, _, _, tocversion = GetBuildInfo()
 ----------
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGCloseBut=Create.PIGCloseBut
+local PIGDiyBut=Create.PIGDiyBut
 local PIGButton=Create.PIGButton
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGDownMenu=Create.PIGDownMenu
@@ -833,7 +833,7 @@ if tocversion<50000 then
 		end)
 	end
 end
-local PIGCloseBut=Create.PIGCloseBut
+local PIGDiyBut=Create.PIGDiyBut
 QuickButUI.ButList[7]=function()
 	local PigMacroEventCount_QK =0;
 	local PigMacroDeleted_QK = false;
@@ -958,7 +958,7 @@ QuickButUI.ButList[7]=function()
 			end
 		end)
 		---
-		Zhushou_List.Close=PIGCloseBut(Zhushou_List,{"BOTTOM",Zhushou_List,"TOP",0,0},{34,34},nil,"SecureHandlerClickTemplate")
+		Zhushou_List.Close=PIGDiyBut(Zhushou_List,{"BOTTOM",Zhushou_List,"TOP",0,0},{34},nil,"SecureHandlerClickTemplate")
 		Zhushou_List.Close:SetAttribute("_onclick",[=[
 			if button == "LeftButton" then
 				local ref=self:GetFrameRef("frame1")

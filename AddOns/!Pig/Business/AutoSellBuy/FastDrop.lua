@@ -5,7 +5,6 @@ local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
 local PIGLine=Create.PIGLine
-local PIGCloseBut=Create.PIGCloseBut
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R

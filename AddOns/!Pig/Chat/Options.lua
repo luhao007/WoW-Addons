@@ -18,7 +18,7 @@ local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
-local PIGCloseBut=Create.PIGCloseBut
+local PIGDiyBut=Create.PIGDiyBut
 ------
 local QuickChatfun = {}
 addonTable.QuickChatfun=QuickChatfun
@@ -936,7 +936,7 @@ for v=1,Channel_ListF.maxnum do
 		PIGCloseDropDownMenus()
 		panduanjiangeYN(arg1)
 	end
-	xulie.x = PIGCloseBut(xulie,{"LEFT",xulie,"RIGHT",2,0})
+	xulie.x = PIGDiyBut(xulie,{"LEFT",xulie,"RIGHT",2,0})
 	xulie.x:HookScript("OnClick", function (self)
 		PIGA["Chat"]["Channel_List"][v]=nil
 		_G["Channel_List"..v]:PIGDownMenu_SetText("")

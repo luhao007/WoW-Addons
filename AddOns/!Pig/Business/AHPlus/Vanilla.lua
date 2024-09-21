@@ -639,7 +639,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	AuctionFrameBrowse.chushouzheF:Hide()
 	
 	---缓存价格
-	AuctionFrameBrowse.History = PIGButton(AuctionFrameBrowse,{"TOPRIGHT",AuctionFrameBrowse,"TOPRIGHT",10,-12.4},{90,19},"缓存价格",nil,nil,nil,nil,0);
+	AuctionFrameBrowse.History = PIGButton(AuctionFrameBrowse,{"TOPRIGHT",AuctionFrameBrowse,"TOPRIGHT",10,-12.4},{90,20},"缓存价格",nil,nil,nil,nil,0);
 	if ElvUI and AuctionFrame.backdrop then
 		AuctionFrameBrowse.History:SetPoint("TOPRIGHT",AuctionFrameBrowse,"TOPRIGHT",10,-4);
 	elseif NDui then

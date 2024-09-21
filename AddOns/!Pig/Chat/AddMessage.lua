@@ -190,7 +190,11 @@ function QuickChatfun.PIGMessage()
 					for ixx = chatFrame:GetNumMessages(), 1, -1 do
 						local text = chatFrame:GetMessageInfo(ixx)
 						if text and text:find(link, nil, true) then
-							local kaishi,jieshu=text:find("|r%]|h： ")
+							local kaishi,jieshu=text:find("|r%]|h:")
+							if not jieshu then
+								local kaishi,jieshu=text:find("|r%]|h：")
+								jieshu=jieshu
+							end
 							local newText = strsub(text, jieshu+1);
 							local newText=newText:gsub(" |T.-|t","");
 							local newText=newText:gsub("|T.-|t","");

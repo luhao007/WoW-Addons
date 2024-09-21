@@ -3,6 +3,17 @@ local L=addonTable.locale
 local Create = addonTable.Create
 local FontUrl=Create.FontUrl
 local PIGSetFont=Create.PIGSetFont
+-- local PIGButton = Create.PIGButton
+-- local PIGDiyBut = Create.PIGDiyBut
+-- local PIGDownMenu=Create.PIGDownMenu
+-- local PIGSlider = Create.PIGSlider
+-- local PIGCheckbutton=Create.PIGCheckbutton
+-- local PIGCheckbutton_R=Create.PIGCheckbutton_R
+-- local PIGOptionsList=Create.PIGOptionsList
+-- local PIGOptionsList_RF=Create.PIGOptionsList_RF
+-- local PIGOptionsList_R=Create.PIGOptionsList_R
+-- local Show_TabBut_R=Create.Show_TabBut_R
+-- local PIGQuickBut=Create.PIGQuickBut
 -------------------
 local BGColor={0.1, 0.1, 0.1, 0.8}
 local BorderColor={0, 0, 0, 1}
@@ -15,12 +26,28 @@ local function BackdropSet(self)
 	self:SetBackdropColor(BGColor[1],BGColor[2],BGColor[3],BGColor[4]);
 	self:SetBackdropBorderColor(BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4]);
 end
-local function add_ButtonUI(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
+local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	local But
 	if MODE then
 		But = CreateFrame("Button",UIName,fuF, "UIPanelButtonTemplate",id);
 		But:SetText(Text);
-		Point[5]=Point[5]-2
+		function But:PIGHighlight()
+			self.Highlight = self:CreateTexture(nil, "OVERLAY");
+			self.Highlight:SetTexture(130724);
+			self.Highlight:SetBlendMode("ADD");
+			self.Highlight:SetPoint("TOPLEFT", self, "TOPLEFT", 1.2, -2);
+			self.Highlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1.6, 1);
+			function But:Selected(bot)
+				if bot then
+					PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
+					self.Text:SetTextColor(1, 1, 1, 1)
+					self.Highlight:Show()
+				else
+					self.Text:SetTextColor(1, 0.843, 0, 1)
+					self.Highlight:Hide()
+				end
+			end
+		end
 	else
 		local TemplateP = TemplateP or "BackdropTemplate,"
 		But = CreateFrame("Button", UIName, fuF,TemplateP,id);
@@ -53,7 +80,6 @@ local function add_ButtonUI(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 				self:Disable()
 			end
 		end)
-		
 		But:HookScript("OnMouseDown", function(self)
 			if self:IsEnabled() then
 				self.Text:SetPoint("CENTER", 1.5, -1.5);
@@ -69,6 +95,18 @@ local function add_ButtonUI(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		end
 		function But:GetText()
 			return self.Text:GetText();
+		end
+		function But:Selected(bot)
+			if bot then
+				PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
+				self.Text:SetTextColor(1, 1, 1, 1)
+				self:SetBackdropColor(0.32,0.1647,0.0353, 0.8)
+				self:SetBackdropBorderColor(1, 1, 0, 1)
+			else
+				self.Text:SetTextColor(1, 0.843, 0, 1)
+				self:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
+				self:SetBackdropBorderColor(0, 0, 0, 1)
+			end
 		end
 		But:HookScript("PostClick", function (self)
 			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
@@ -87,36 +125,65 @@ local function add_ButtonUI(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	end
 	return But
 end
-function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,Angle)--,nil,nil,nil,nil,0
-	if Angle==0 then
+function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,mode)--,nil,nil,nil,nil,0
+	if mode==0 then
 		if ElvUI or NDui then
-			return add_ButtonUI(false,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
+			return add_Button(false,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		else
-			return add_ButtonUI(true,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
+			return add_Button(true,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		end
-	elseif Angle==1 then
-		return add_ButtonUI(true,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
+	elseif mode==1 then
+		return add_Button(true,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	else
-		return add_ButtonUI(false,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
+		return add_Button(false,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	end
 end
-function Create.PIGCloseBut(fuF,Point,WH,UIName,TemplateP)
-	local WH = WH or {22,22}
+---自定义材质按钮
+function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP)
+	local Www = WH and WH[1] or 22
+	local Hhh = WH and WH[2] or Www
+	local WwwTex = WH and WH[3] or Www-8
+	local HhhTex = WH and WH[4] or WwwTex
+	local icontex = WH and WH[5] or 130976
 	local But = CreateFrame("Button",UIName,fuF,TemplateP);
-	But:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp")
-	But:SetSize(WH[1],WH[2])
+	But:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square")
+	But:SetSize(Www,Hhh)
 	if Point then
 		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
 	end
-	But.Tex = But:CreateTexture(nil, "BORDER");
-	But.Tex:SetTexture("interface/common/voicechat-muted.blp");
-	But.Tex:SetSize(But:GetWidth()-8,But:GetHeight()-8);
-	But.Tex:SetPoint("CENTER",0,0);
+	But.icon = But:CreateTexture(nil, "BORDER");
+	if type(icontex)=="number" then
+		But.icon:SetTexture(icontex);
+	else
+		But.icon:SetAtlas(icontex)
+	end
+	But.icon:SetPoint("CENTER",0,0);
+	if ElvUI or NDui then
+		But.icon:SetSize(WwwTex-2,HhhTex-2);
+		But.icon:SetTexCoord(0.17,0.83,0.17,0.83);
+	else
+		But.icon:SetSize(WwwTex,HhhTex);
+	end
+	hooksecurefunc(But, "Enable", function(self)
+		self.icon:SetDesaturated(false)
+	end)
+	hooksecurefunc(But, "Disable", function(self)
+		self.icon:SetDesaturated(true)
+	end)
+	hooksecurefunc(But, "SetEnabled", function(self,bool)
+		if bool then
+			self:Enable()
+		else
+			self:Disable()
+		end
+	end)
 	But:HookScript("OnMouseDown", function (self)
-		self.Tex:SetPoint("CENTER",-1.5,-1.5);
+		if self:IsEnabled() then
+			self.icon:SetPoint("CENTER",-1.5,-1.5);
+		end
 	end);
 	But:HookScript("OnMouseUp", function (self)
-		self.Tex:SetPoint("CENTER");
+		self.icon:SetPoint("CENTER");
 	end);
 	But:HookScript("PostClick", function (self)
 		PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);

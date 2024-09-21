@@ -11,13 +11,21 @@ local morenColor = {
 }
 local er, eg, eb = 1,1,1 or NORMAL_FONT_COLOR:GetRGB()
 local dr, dg, db = GRAY_FONT_COLOR:GetRGB()
-function Create.PIGCheckbutton(fuF,Point,Text,WH,UIName,id)
+local function add_Checkbutton(mode,fuF,Point,Text,WH,UIName,id)
 	local WH = WH or {18,18}
+	WH[2] = WH[2] or WH[1]
 	local But = CreateFrame("CheckButton", UIName, fuF,"BackdropTemplate",id);
-	But:SetBackdrop({bgFile = Create.bgFile,edgeFile = Create.edgeFile, edgeSize = 8,insets = { left = 0.4, right = 0.4, top = 0.4, bottom = 0.4 }})
-	But:SetBackdropColor(morenColor[1][1],morenColor[1][2],morenColor[1][3],1);
-	But:SetBackdropBorderColor(unpack(morenColor[2]));
-	But:SetSize(WH[1],WH[2])
+	if mode then
+		But:SetNormalAtlas("checkbox-minimal")
+		But:SetCheckedTexture("checkmark-minimal")
+		But:SetDisabledCheckedTexture("checkmark-minimal-disabled")
+		But:SetSize(WH[1]+2,WH[2]+2)
+	else
+		But:SetBackdrop({bgFile = Create.bgFile,edgeFile = Create.edgeFile, edgeSize = 8,insets = { left = 0.4, right = 0.4, top = 0.4, bottom = 0.4 }})
+		But:SetBackdropColor(morenColor[1][1],morenColor[1][2],morenColor[1][3],1);
+		But:SetBackdropBorderColor(unpack(morenColor[2]));
+		But:SetSize(WH[1],WH[2])
+	end
 	if Point then
 		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
 	end
@@ -102,6 +110,19 @@ function Create.PIGCheckbutton(fuF,Point,Text,WH,UIName,id)
 		end
 	end);
 	return But
+end
+function Create.PIGCheckbutton(fuF,Point,Text,WH,UIName,id,mode)--,nil,nil,nil,nil,0
+	if mode==0 then
+		if ElvUI or NDui then
+			return add_Checkbutton(false,fuF,Point,Text,WH,UIName,id)
+		else
+			return add_Checkbutton(true,fuF,Point,Text,WH,UIName,id)
+		end
+	elseif mode==1 then
+		return add_Checkbutton(true,fuF,Point,Text,WH,UIName,id)
+	else
+		return add_Checkbutton(false,fuF,Point,Text,WH,UIName,id)
+	end
 end
 --自动排列选择框
 function Create.PIGCheckbutton_R(fuF,text,vertical,lienum,Vjiange,WH,UIName)

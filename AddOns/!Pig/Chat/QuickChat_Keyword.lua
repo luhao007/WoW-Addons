@@ -32,7 +32,6 @@ local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
-local PIGCloseBut=Create.PIGCloseBut
 local PIGSetFont=Create.PIGSetFont
 --===============================
 local BlackList = {["BlackName"]=true,["FilterRepeat"]=true,["IGNORE_DND"]=true,["Precise"]=false,["name"]={},["word"]={},["chongfu"]={},["count"]=0,["OKcount"]=0,["name_count"]=0,["chongfu_count"]=0,["word_count"]=0}

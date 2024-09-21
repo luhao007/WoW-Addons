@@ -9,7 +9,7 @@ local Fun=addonTable.Fun
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
-local PIGCloseBut=Create.PIGCloseBut
+local PIGDiyBut=Create.PIGDiyBut
 local PIGLine=Create.PIGLine
 local PIGModbutton=Create.PIGModbutton
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -91,6 +91,8 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				if fuFrame.List.addList.lx=="filtra" then
 					if quality>0 then
 						return false, "排除列表只支持灰色物品"
+					else
+						return true
 					end
 				else
 					return true
@@ -297,7 +299,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		if id~=addBag_hang_NUM then
 			PIGLine(hang,"BOT",nil,nil,{2,-2},{0.3,0.3,0.3,0.5})
 		end
-		hang.check = PIGCloseBut(hang,{"LEFT", hang, "LEFT", 0,0},{hang_Height-2,hang_Height-2});
+		hang.check = PIGDiyBut(hang,{"LEFT", hang, "LEFT", 0,0},{hang_Height-2});
 		hang.icon = hang:CreateTexture(nil, "BORDER");
 		hang.icon:SetSize(hang_Height-1,hang_Height-1);
 		hang.icon:SetPoint("LEFT", hang.check, "RIGHT", 0,0);
@@ -365,8 +367,8 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 					GameTooltip:SetHyperlink(bagshujuy[dangqianH][2])
 				end);
 				if fuFrame.List.addList.lx=="filtra" then
-					hang.check.Tex:SetSize(hang_Height-9,hang_Height-9);
-					hang.check.Tex:SetTexture("interface/common/voicechat-muted.blp");
+					hang.check.icon:SetSize(hang_Height-9,hang_Height-9);
+					hang.check.icon:SetTexture("interface/common/voicechat-muted.blp");
 					hang.check:Show()
 					hang:SetScript("OnMouseUp", function (self)
 						GameTooltip:ClearLines();
@@ -377,8 +379,8 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 						fuFrame.UpdateListHang_addBag()
 					end);
 				else
-					hang.check.Tex:SetSize(hang_Height-1,hang_Height-1);
-					hang.check.Tex:SetTexture("interface/buttons/ui-checkbox-check.bl");
+					hang.check.icon:SetSize(hang_Height-1,hang_Height-1);
+					hang.check.icon:SetTexture("interface/buttons/ui-checkbox-check.blp");
 					hang.check:SetShown(bagshujuy[dangqianH][6])
 					hang:SetScript("OnMouseUp", function (self)
 						GameTooltip:ClearLines();
@@ -428,7 +430,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		if id~=hang_NUM then
 			PIGLine(hang,"BOT",nil,nil,{2,-2},{0.3,0.3,0.3,0.5})
 		end
-		hang.del = PIGCloseBut(hang,{"LEFT", hang, "LEFT", 0,0});
+		hang.del = PIGDiyBut(hang,{"LEFT", hang, "LEFT", 0,0});
 		hang.del:SetScript("OnClick", function (self)
 			table.remove(Config0, self:GetID());
 			fuFrame.UpdateListHang();

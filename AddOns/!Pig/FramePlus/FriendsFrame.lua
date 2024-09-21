@@ -296,20 +296,7 @@ function FramePlusfun.Friends()
 			self:Disable()
 		end
 	end)
-	WhoFrame.senmsg.bianji = CreateFrame("Button",nil,WhoFrame.senmsg);
-	WhoFrame.senmsg.bianji:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp");
-	WhoFrame.senmsg.bianji:SetSize(26,26);
-	WhoFrame.senmsg.bianji:SetPoint("LEFT",WhoFrame.senmsg,"RIGHT",4,0);
-	WhoFrame.senmsg.bianji.Tex = WhoFrame.senmsg.bianji:CreateTexture();
-	WhoFrame.senmsg.bianji.Tex:SetTexture("interface/buttons/ui-guildbutton-publicnote-up.blp");
-	WhoFrame.senmsg.bianji.Tex:SetPoint("CENTER",0,0);
-	WhoFrame.senmsg.bianji.Tex:SetSize(23,25);
-	WhoFrame.senmsg.bianji:HookScript("OnMouseDown", function(self)
-		self.Tex:SetPoint("CENTER", 1.5, -1.5);
-	end);
-	WhoFrame.senmsg.bianji:HookScript("OnMouseUp", function(self)
-		self.Tex:SetPoint("CENTER", 0, 0);
-	end);
+	WhoFrame.senmsg.bianji = Create.PIGDiyBut(WhoFrame.senmsg,{"LEFT",WhoFrame.senmsg,"RIGHT",4,0},{26,26,23,25,"interface/buttons/ui-guildbutton-publicnote-up.blp"})
 	WhoFrame.senmsg.bianji:SetScript("OnClick", function (self)
 		if self.F:IsShown() then
 			self.F:Hide()

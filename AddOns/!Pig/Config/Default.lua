@@ -67,7 +67,7 @@ addonTable.Default = {
 		["MoneyEdit"] = true,
 		["ALTbatch"] = true,
 		["lianxuMode"] = true,
-		["OpenAllCD"]=1,
+		["OpenAllCD"]=0.6,
 	},
 	["StatsInfo"] = {
 		["Open"] = true,
@@ -340,6 +340,9 @@ addonTable.Default = {
 		["AttackBar"]={
 			["Open"] = false,
 			["Showshuzhi"]=false,
+			["Scale"]=1,
+			["Xpianyi"]=0,
+			["Ypianyi"]=14,
 		},
 	},
 	["Map"] = {
