@@ -124,9 +124,11 @@ addonTable.Default = {
 		["autoya"]=false,
 		["yajingbiao"] = true,
 		["exactMatch"] = false,
-		["RepeatQuery"]=true,
+		["oldaucG"]=false,
 	},
 	["Chat"] = {
+		["FastCopy"]=false,
+		["WhoWhisper"]=true,
 		["RemTips"]=true,
 		["ChatSetSave"]={},
 		["ShowLinkIcon"]=true,

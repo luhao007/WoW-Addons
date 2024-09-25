@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.14
+## Version: 4.0.15
 
 ## Title: AllTheThings |cfd9b9b9b(Cataclysm)|r
 ## Notes: Addon for Tracking Collections & Account Completion
@@ -9,6 +9,10 @@
 
 ## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
 
+## AddonCompartmentFunc: AllTheThings_MinimapButtonOnClick
+## AddonCompartmentFuncOnEnter: AllTheThings_MinimapButtonOnEnter
+## AddonCompartmentFuncOnLeave: AllTheThings_MinimapButtonOnLeave
+
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsAD, AllTheThingsSettings, AllTheThingsAuctionData, AllTheThingsDebugData, ATTClassicSettings, ATTClassicAuctionData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter, ATTClassicSettingsPerCharacter
 
@@ -16,8 +20,15 @@
 ## X-Wago-ID: yQKyY5K7
 ## X-Curse-Project-ID: 267285
 
+#src\PerformanceTracking.lua
 src\WoW API Wrappers.lua
+
+# Raw DBs
 db\RaceDB.lua
+# db\Cata\ReagentsDB.lua
+# db\SkillDB.lua
+# db\FlightPathDB.lua
+db\AccountWideQuestsDB.lua
 
 # Libs (no dependencies, only app assignment)
 lib\Debugging.lua
@@ -58,52 +69,61 @@ src\Cache.lua
 
 # Helper Modules
 src\Modules\RetrievingData.lua
+# src\Modules\Collection.lua
 src\Modules\FactionData.lua
 src\Modules\Color.lua
 # src\Modules\Costs.lua
 src\Modules\Events.lua
 src\Modules\Filter.lua
+# src\Modules\Inventory.lua
 src\Modules\Model.lua
 src\Modules\Social.lua
 src\Modules\Tooltip.lua
 # src\Modules\Upgrade.lua
 src\Modules\Vignette.lua
-
+# src\Modules\Contributor.lua
 # Expansion specific localization files
 db\Cata\ExplorationDB.lua
 db\Cata\LocalizationDB.lua
-# db\Cata\en_auto.lua
-# db\Cata\ReagentsDB.lua
 db\Presets.lua
-db\AccountWideQuestsDB.lua
 
 # Load object class templates
 src\Classes\base.lua
+# src\Classes\Achievement.lua
+# src\Classes\BattlePet.lua
 src\Classes\CharacterClass.lua
 src\Classes\Difficulty.lua
 src\Classes\Factions.lua
+# src\Classes\FlightPath.lua
 src\Classes\Quests.lua
 # src\Classes\Item.Retail.lua
 src\Classes\Item.Classic.lua
 src\Classes\Encounter.lua
+# src\Classes\Ensemble.lua
 src\Classes\Expansion.lua
 src\Classes\Maps.lua
+# src\Classes\Mount.lua
+# src\Classes\Header.lua
+# src\Classes\NPC.lua
 src\Classes\Objects.lua
 src\Classes\Category.lua
 src\Classes\Deaths.lua
 src\Classes\Dynamic Categories.lua
 src\Classes\Filter Types.lua
 src\Classes\Gear Sets.lua
+src\Classes\Glyphs.lua
 src\Classes\Illusions.lua
 # src\Classes\Miscellaneous.lua
 src\Classes\PVP Ranks.lua
 src\Classes\Races.lua
 src\Classes\Title.lua
 src\Classes\Transmog.lua
+# src\Classes\Spell.lua
 # src\Classes\CharacterUnlock.lua
 # Item Sub-Classes
+# src\Classes\Heirloom.lua
 src\Classes\Toys.lua
-#src\Classes\Ensembles.lua
+
 # Expansion specific source files
 src\Expansions\Warlords.lua
 src\Expansions\Legion.lua

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: maqjav, Maciza-Tyrande
-## Version: 11.0.2.16
+## Version: 11.0.2.17
 
 ## Title: RareScanner
 ## Notes: Minimap scanner. Warns you visually with a button and a miniature and plays a sound everytime a rare NPC, treasure/chest or event shows up in your minimap
@@ -9,13 +9,17 @@
 
 ## IconTexture: Interface\AddOns\RareScanner\Media\Icons\OriginalSkull
 
+## AddonCompartmentFunc: RareScanner_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: RareScanner_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: RareScanner_OnAddonCompartmentLeave
+
 ## OptionalDeps: Ace3
 
 ## SavedVariables: RareScannerDB
 
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Credits: maqjav, Maciza-Tyrande
-## X-Date: Sep. 17, 2024
+## X-Date: Sep. 23, 2024
 ## X-Email: maqjav@gmail.com
 ## X-License: All Rights Reserved
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, ruRU, itIT, ptBR, koKR, zhCN, zhTW

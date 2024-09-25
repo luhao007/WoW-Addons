@@ -85,7 +85,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		fuFrame.UpdateListHang()
 		fuFrame.UpdateListHang_addBag()
 	end
-	local function IsItemMay(add,itemLink,quality,sellPrice,classID,subclassID)
+	local function IsItemMay(add,itemLink,quality,sellPrice,classID,subclassID,bag,slot)
 		if hangName=="Sell" then
 			if sellPrice>0 then
 				if fuFrame.List.addList.lx=="filtra" then
@@ -101,25 +101,36 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				return false,"物品无法售卖"
 			end
 		elseif hangName=="Buy" then
-			if classID==15 and subclassID==1 then
+			if add then
 				return true
 			else
-				if add then return true end
-				return false,"非消费品"
+				if classID==15 and subclassID==1 then
+					return true
+				else
+					return false,"非消费品"
+				end
 			end
 		elseif hangName=="Diuqi" then
-			if quality<3 then
+			if add then
 				return true
 			else
-				if add then return true end
-				return false,"高品质物品"
+				if quality<3 then
+					return true
+				else
+					return false,"高品质物品"
+				end
 			end
 		elseif hangName=="Open" then
-			local usable, noMana = IsUsableItem(itemLink)
-			if usable then
+			if add then
 				return true
 			else
-				return false,"物品无法使用"
+				local lootable = bag and slot and select(7, PIGGetContainerItemInfo(bag,slot))
+				local usable, noMana = IsUsableItem(itemLink)
+				if usable or lootable then
+					return true
+				else
+					return false,"物品无法开启/使用"
+				end
 			end
 		elseif hangName=="Fen" then
 			if quality>1 and classID==2 or classID==4 then
@@ -334,7 +345,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 					if itemID and itemID~=6948 then
 						if fuFrame.List.addList.ButList[quality] and fuFrame.List.addList.ButList[quality].Check and not IsItemExist(bagshujuy,itemID) then
 							local itemStackCount, itemEquipLoc, itemTexture,sellPrice,classID,subclassID= select(8, GetItemInfo(itemLink))
-							local jieguo = IsItemMay(false,itemLink,quality,sellPrice,classID,subclassID)
+							local jieguo = IsItemMay(false,itemLink,quality,sellPrice,classID,subclassID,bag, slot)
 							if jieguo then
 								table.insert(bagshujuy,{itemID,itemLink,icon,itemStackCount,itemStackCount,false})
 							end

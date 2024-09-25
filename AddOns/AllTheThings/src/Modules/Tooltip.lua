@@ -328,12 +328,18 @@ for i,guid in ipairs({
 	-- Aldori
 	"Player-3676-0E1027D9",	-- Àldori-Area52 US
 	"Player-3676-0DC9ECFD",	-- Húlkstab-Area52 US
-    -- Sanctuari
-    "Player-63-08E17A71", -- Sanctuari-Ysera US
+	-- Sanctuari
+	"Player-63-08E17A71", -- Sanctuari-Ysera US
 	-- Jez
 	"Player-3676-0A6CC504",	-- Jezartroz-Area52 US
 	-- rootkit1337
 	"Player-3674-0B3F8DA8", -- Cerealm-TwistingNether EU
+	-- Exodius
+	"Player-1096-076FE799",	-- Felhaim-DefiasBrotherhood EU
+	"Player-1096-076FE593",	-- Exodiüs-DefiasBrotherhood EU
+	"Player-1096-0A7FACBF",	-- Thrëx-DefiasBrotherhood EU
+	"Player-1096-0A57D3A7",	-- Kaala-DefiasBrotherhood EU
+	"Player-1096-0A7FDD25",	-- Atröpos-DefiasBrotherhood EU
 }) do
 	PLAYER_TOOLTIPS[guid] = tooltipFunction;
 end
@@ -1339,7 +1345,7 @@ local function ShowItemCompareTooltips(...)
 			if count > 2 then totalWidth = totalWidth + shoppingTooltip3:GetWidth(); end
 			if ( (side == "left") and (totalWidth > leftPos) ) then
 				GameTooltip:SetAnchorType(anchorType, (totalWidth - leftPos), 0);
-			elseif ( (side == "right") and (rightPos + totalWidth) >  GetScreenWidth() ) then
+			elseif ( (side == "right") and (rightPos + totalWidth) > GetScreenWidth() ) then
 				GameTooltip:SetAnchorType(anchorType, -((rightPos + totalWidth) - GetScreenWidth()), 0);
 			end
 		end

@@ -436,6 +436,11 @@ local function GetProgressTextForRow(data)
 	if icon then
 		tinsert(text, icon)
 	end
+	-- Progress Achievement
+	local statistic = data.statistic
+	if statistic then
+		tinsert(text, "["..statistic.."]")
+	end
 	-- Collectible
 	local stateIcon = GetCollectibleIcon(data, true)
 	if stateIcon then
@@ -489,6 +494,11 @@ local function GetProgressTextForTooltip(data)
 	if icon then
 		tinsert(text, icon)
 	end
+	-- Progress Achievement (this is a bit redundant with the 'Progress' information type for tooltips)
+	-- local statistic = data.statistic
+	-- if statistic then
+	-- 	tinsert(text, "["..statistic.."]")
+	-- end
 	-- Collectible
 	local stateIcon = GetCollectibleIcon(data, iconOnly)
 	if stateIcon then
@@ -569,6 +579,8 @@ app.MergeSkipFields = {
 	isYearly = 1,
 	OnUpdate = 1,
 	requireSkill = 1,
+	modID = 1,
+	bonusID = 1,
 };
 -- Fields on a Thing which are specific to where the Thing is Sourced or displayed in a ATT window
 app.SourceSpecificFields = {
@@ -2401,6 +2413,7 @@ local function GetSearchResults(method, paramA, paramB, ...)
 	if group then
 		if a then paramA = a; end
 		if b then paramB = b; end
+		if paramA == "modItemID" then paramA = "itemID" end
 		-- Move all post processing here?
 		if #group > 0 then
 			-- For Creatures and Encounters that are inside of an instance, we only want the data relevant for the instance + difficulty.
@@ -2760,48 +2773,7 @@ local function GetSearchResults(method, paramA, paramB, ...)
 				working = true;
 			end
 
-			if app.Settings:GetTooltipSetting("SpecializationRequirements") then
-				local specs = GetFixedItemSpecInfo(itemID);
-				-- specs is already filtered/sorted to only current class
-				if specs and #specs > 0 then
-					tinsert(tooltipInfo, { right = GetSpecsString(specs, true, true) });
-				elseif sourceID then
-					tinsert(tooltipInfo, { right = L.NOT_AVAILABLE_IN_PL });
-				end
-			end
-
-			app.AddArtifactRelicInformation(itemID, rawlink, tooltipInfo, group);
-		end
-
-		if group.isLimited then
-			tinsert(tooltipInfo, 1, { left = L.LIMITED_QUANTITY, wrap = false, color = app.Colors.TooltipDescription });
-		end
-
-		-- Description for Items
-		if group.u and (not group.crs or group.itemID or group.sourceID) then
-			-- specifically-tagged NYI groups which are under 'Unsorted' should show a slightly different message
-			if group.u == 1 and app.GetRelativeValue(group, "_missing") then
-				tinsert(tooltipInfo, { left = L.UNSORTED_DESC, wrap = true, color = app.Colors.ChatLinkError });
-			else
-				-- removed BoE seen with a non-generic BonusID, potentially a level-scaled drop made re-obtainable
-				if group.u == 2 and not app.IsBoP(group) and (group.bonusID or 3524) ~= 3524 then
-					if isTopLevelSearch then tinsert(tooltipInfo, { left = L.RECENTLY_MADE_OBTAINABLE }); end
-				end
-			end
-		end
-		-- an item used for a faction which is repeatable
-		if group.itemID and group.factionID and group.repeatable then
-			tinsert(tooltipInfo, { left = L.ITEM_GIVES_REP .. (GetFactionName(group.factionID) or ("Faction #" .. tostring(group.factionID))) .. "'", wrap = true, color = app.Colors.TooltipDescription });
-		end
-		if paramA == "itemID" and paramB == 137642 then
-			if app.Settings:GetTooltipSetting("SummarizeThings") then
-				tinsert(tooltipInfo, 1, { left = L.MARKS_OF_HONOR_DESC, color = app.Colors.SourceIgnored });
-			end
-		end
-		if paramA == "currencyID" and paramB == 2778 then
-			if app.Settings:GetTooltipSetting("SummarizeThings") then
-				tinsert(tooltipInfo, 1, { left = L.MOP_REMIX_BRONZE_DESC, color = app.Colors.SourceIgnored });
-			end
+			app.AddArtifactRelicInformation(itemID, tooltipInfo, group);
 		end
 
 		if group.g and app.Settings:GetTooltipSetting("SummarizeThings") then
@@ -13339,6 +13311,16 @@ SlashCmdList.AllTheThings = function(cmd)
 			-- app.PrintDebug("Split custom arg:",customArg,customValue)
 			app.SetCustomWindowParam(cmd, customArg, customValue or true);
 		end
+
+		-- Eventually will migrate known Chat Commands to their respective creators
+		-- TODO: maybe this block migrates to base.lua or a separate module?
+		local commandFunc = app.ChatCommands[cmd]
+		if commandFunc then
+			local help = args[2] == "help"
+			if help then return app.ChatCommands.PrintHelp(cmd) end
+			return commandFunc(args)
+		end
+
 		if not cmd or cmd == "" or cmd == "main" or cmd == "mainlist" then
 			app.ToggleMainList();
 			return true;
@@ -13621,32 +13603,5 @@ app.AddEventRegistration("HEIRLOOMS_UPDATED", function(itemID, kind, ...)
 end)
 
 app.AddEventHandler("OnStartupDone", function() app.OnStartupDone = true end)
-
--- Extra Contribution setup
-app.Contribute = function(contrib)
-	app.Contributor = contrib == 1 and true or nil
-	AllTheThingsSavedVariables.Contributor = app.Contributor and 1 or 0
-	local contribModule = app.Modules.Contributor or app.EmptyTable
-	if app.Contributor then
-		app.print("Thanks for helping to contribute to ATT! There will be additional chat and report sounds to help with finding additional discrepancies in ATT data.")
-		if contribModule.Events then
-			for event,func in pairs(contribModule.Events) do
-				-- app.PrintDebug("Contribute.RegisterFuncEvent",event)
-				app:RegisterFuncEvent(event,func)
-			end
-		end
-	elseif app.IsReady then
-		app.print("Not showing ATT contribution information.")
-		if contribModule.Events then
-			for event,func in pairs(contribModule.Events) do
-				-- app.PrintDebug("Contribute.UnregisterEventClean",event)
-				app:UnregisterEventClean(event)
-			end
-		end
-	end
-end
-app.AddEventHandler("OnReady", function()
-	app.Contribute(AllTheThingsSavedVariables.Contributor)
-end)
 
 -- app.PrintMemoryUsage("AllTheThings.EOF");

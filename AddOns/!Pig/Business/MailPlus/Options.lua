@@ -479,7 +479,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			return false;
 		end
 		if self.attachmentIndex>0 then
-			local _, _, _, _, money, CODAmount, daysLeft, itemCount, wasRead, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
+			local _, _, sender, _, money, CODAmount, daysLeft, itemCount, wasRead, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
 			local hasCOD = CODAmount and CODAmount > 0;
 			if not hasCOD then
 				--local hasMoney = C_Mail.HasInboxMoney(self.mailIndex)
@@ -519,7 +519,8 @@ function BusinessInfo.MailPlus_ADDUI()
 					end
 				elseif self.QuchuMode==5 then--取拍卖行邮件
 					local invoiceType, itemName, playerName, bid, buyout, deposit, consignment = GetInboxInvoiceInfo(self.mailIndex)
-					if invoiceType then
+					local AHfrom = sender==BLACK_MARKET_AUCTION_HOUSE or sender==FACTION_ALLIANCE..BUTTON_LAG_AUCTIONHOUSE or sender==FACTION_HORDE..BUTTON_LAG_AUCTIONHOUSE 
+					if invoiceType or AHfrom then
 						if money>0 then
 							return true 
 						else
@@ -904,14 +905,14 @@ function BusinessInfo.MailPlus_ADDUI()
 					SendMailMailButton_OnClick(SendMailMailButton)
 				else
 					C_Container.UseContainerItem(self:GetParent():GetID(), self:GetID(), nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
-					local DQItemInfo = C_Container.GetContainerItemInfo(self:GetParent():GetID(), self:GetID());
+					local DQitemID=PIGGetContainerItemInfo(self:GetParent():GetID(), self:GetID())
 					if NDui then
 						for f=1,slotnum do
 							local framef = _G[NDui_BagName..f]
 							if framef then
-								local ItemInfo = C_Container.GetContainerItemInfo(framef:GetParent():GetID(), framef:GetID());
-								if ItemInfo then
-									if DQItemInfo.itemID==ItemInfo.itemID then
+								local itemID=PIGGetContainerItemInfo(framef:GetParent():GetID(), framef:GetID())
+								if itemID then
+									if DQitemID==itemID then
 										C_Container.UseContainerItem(framef:GetParent():GetID(), framef:GetID(), nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
 									end
 								end
@@ -921,9 +922,9 @@ function BusinessInfo.MailPlus_ADDUI()
 						for f=1,6 do
 							for ff=1,36 do
 								local framef = _G["ContainerFrame"..f.."Item"..ff]
-								local ItemInfo = C_Container.GetContainerItemInfo(framef:GetParent():GetID(), framef:GetID());
-								if ItemInfo then
-									if DQItemInfo.itemID==ItemInfo.itemID then
+								local itemID=PIGGetContainerItemInfo(framef:GetParent():GetID(), framef:GetID())
+								if itemID then
+									if DQitemID==itemID then
 										C_Container.UseContainerItem(framef:GetParent():GetID(), framef:GetID(), nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
 									end
 								end

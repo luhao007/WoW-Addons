@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: ykiigor
-## Version: 4920
+## Version: 4930
 
 ## Title: Method Raid Tools
 ## Notes: Method Raid Tools
@@ -8,6 +8,8 @@
 ## Notes-zhCN: 提供团队和小队的一些辅助功能
 
 ## IconTexture: Interface\AddOns\MRT\media\MiniMap.tga
+
+## AddonCompartmentFunc: MRT_MinimapClickFunction
 
 ## SavedVariables: VMRT
 

@@ -66,11 +66,11 @@ function PIGGetContainerItemInfo(bag, slot)
 	if C_Container and C_Container.GetContainerItemInfo then
 		local ItemInfo = C_Container.GetContainerItemInfo(bag, slot)
 		if ItemInfo then
-			return ItemInfo.itemID, ItemInfo.hyperlink, ItemInfo.iconFileID, ItemInfo.stackCount, ItemInfo.quality, ItemInfo.hasNoValue
+			return ItemInfo.itemID,ItemInfo.hyperlink,ItemInfo.iconFileID,ItemInfo.stackCount,ItemInfo.quality,ItemInfo.hasNoValue,ItemInfo.hasLoot,ItemInfo.isLocked
 		end
 	else
-		local itemID, itemLink, icon, stackCount, quality = GetContainerItemInfo(bag, slot)
-		return itemID, itemLink, icon, stackCount, quality
+		local icon, itemCount, locked, quality, readable, lootable, itemLink, isFiltered, noValue, itemID, isBound = GetContainerItemInfo(bag, slot)
+		return itemID, itemLink, icon, stackCount, quality, noValue, lootable, locked
 	end
 end
 --发送消息

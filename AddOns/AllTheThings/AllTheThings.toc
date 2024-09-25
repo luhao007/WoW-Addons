@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.14
+## Version: 4.0.15
 
 ## Title: AllTheThings
 ## Notes: Addon for Tracking Collections & Account Completion
@@ -8,6 +8,10 @@
 ## Notes-zhCN: 追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况
 
 ## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
+
+## AddonCompartmentFunc: AllTheThings_MinimapButtonOnClick
+## AddonCompartmentFuncOnEnter: AllTheThings_MinimapButtonOnEnter
+## AddonCompartmentFuncOnLeave: AllTheThings_MinimapButtonOnLeave
 
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
@@ -81,7 +85,6 @@ src\Modules\Contributor.lua
 # Expansion specific localization files
 db\Retail\ExplorationDB.lua
 db\Retail\LocalizationDB.lua
-db\Retail\en_auto.lua
 db\Presets.lua
 
 # Load object class templates
@@ -105,8 +108,10 @@ src\Classes\NPC.lua
 src\Classes\Objects.lua
 src\Classes\Category.lua
 src\Classes\Deaths.lua
+# src\Classes\Dynamic Categories.lua
 src\Classes\Filter Types.lua
 src\Classes\Gear Sets.lua
+# src\Classes\Glyphs.lua
 src\Classes\Illusions.lua
 src\Classes\Miscellaneous.lua
 src\Classes\PVP Ranks.lua
@@ -146,5 +151,4 @@ db\Retail\Categories.lua
 # Window Definitions
 # src\UI\Windows\Windows.xml
 # Finally, prepare the Data Cache
-# Not used in Retail?
 # src\Root.lua

@@ -178,8 +178,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 				BagBankfun.add_Itemslot_ZLV_ranse(itemButton,BagdangeW)--背包/银行包裹格子
 				if PIGA["BagBank"]["JunkShow"] then
 					local bagID = itemButton:GetBagID();
-					local info = C_Container.GetContainerItemInfo(bagID, itemButton:GetID());
-					local quality = info and info.quality;
+					local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
 					itemButton.JunkIcon:Hide();
 					if quality and quality==0 then
 						itemButton.JunkIcon:Show();
@@ -195,8 +194,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 					BagBankfun.add_Itemslot_ZLV_ranse(itemButton,BagdangeW)--银行包裹格子
 					if PIGA["BagBank"]["JunkShow"] then
 						local bagID = itemButton:GetBagID();
-						local info = C_Container.GetContainerItemInfo(bagID, itemButton:GetID());
-						local quality = info and info.quality;
+						local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
 						itemButton.JunkIcon:Hide();
 						if quality and quality==0 then
 							itemButton.JunkIcon:Show();

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Teelo
-## Version: 11.0-016
+## Version: 11.0-019
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames
@@ -28,6 +28,7 @@ FrameHandlers\FocusToT.lua
 FrameHandlers\GameMenu.lua
 FrameHandlers\GroupLoot.lua
 FrameHandlers\LFG.lua
+FrameHandlers\LossOfControl.lua
 FrameHandlers\Menu.lua
 FrameHandlers\Minimap.lua
 FrameHandlers\ObjectiveTracker.lua

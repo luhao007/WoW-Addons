@@ -59,15 +59,42 @@ do
 		= GetStatistic
 
 	local cache = app.CreateCache(KEY);
+	local FLAG_AccountWide = ACHIEVEMENT_FLAGS_ACCOUNT
+	local FlagsUtil_IsSet,string_len,string_sub
+		= FlagsUtil.IsSet,string.len,string.sub
+	local Colorize = app.Modules.Color.Colorize
 	local function CacheInfo(t, field)
 		local _t, id = cache.GetCached(t);
 		--local IDNumber, Name, Points, Completed, Month, Day, Year, Description, Flags, Image, RewardText, isGuildAch = GetAchievementInfo(t[KEY]);
-		local _, name, _, _, _, _, _, _, _, icon = GetAchievementInfo(id);
-		_t.link = GetAchievementLink(id);
+		local _, name, _, _, _, _, _, _, flags, icon = GetAchievementInfo(id);
+		_t.silentLink = GetAchievementLink(id)
+		local accountWide = FlagsUtil_IsSet(tonumber(flags) or 0, FLAG_AccountWide)
+		_t.accountWide = accountWide
+		if accountWide then
+			local len = string_len(_t.silentLink)
+			_t.text = Colorize(string_sub(_t.silentLink,11,len - 2),app.Colors.Account)
+		else
+			_t.text = _t.silentLink
+		end
 		_t.name = name or ("Achievement #"..id);
 		_t.icon = icon or QUESTION_MARK_ICON;
 		if field then return _t[field]; end
 	end
+	local InvalidStatistics = setmetatable({
+		["0"] = 1,
+		["1"] = 1,
+		["2"] = 1,
+		["3"] = 1,
+		["4"] = 1,
+		["5"] = 1,
+		["6"] = 1,
+		["7"] = 1,
+		["8"] = 1,
+		["9"] = 1,
+		[""] = 1,
+	}, { __index=function(t,key)
+		if not key or key:match("%W") or not key:match(" %/ ") then return 1 end
+	end})
 	-- This was used to update information about achievement progress following Pet Battles
 	-- This unfortunately triggers all the time and rarely actually represents useful Achievement changes
 	-- TODO: Think of another way to represent Achievement changes post Pet Battles
@@ -79,14 +106,20 @@ do
 	-- end
 	-- app.AddEventRegistration("RECEIVED_ACHIEVEMENT_LIST", DelayedOnUpdateWindows);
 	app.CreateAchievement = app.CreateClass("Achievement", KEY, {
-		link = function(t)
-			return cache.GetCachedField(t, "link", CacheInfo);
+		silentLink = function(t)
+			return cache.GetCachedField(t, "silentLink", CacheInfo);
+		end,
+		text = function(t)
+			return cache.GetCachedField(t, "text", CacheInfo);
 		end,
 		name = function(t)
 			return cache.GetCachedField(t, "name", CacheInfo);
 		end,
 		icon = function(t)
 			return cache.GetCachedField(t, "icon", CacheInfo);
+		end,
+		accountWide = function(t)
+			return cache.GetCachedField(t, "accountWide", CacheInfo);
 		end,
 		collectible = function(t) return app.Settings.Collectibles[CACHE] end,
 		collected = function(t)
@@ -114,9 +147,8 @@ do
 			end
 			---@diagnostic disable-next-line: missing-parameter
 			local statistic = GetStatistic(t[KEY]);
-			if statistic and statistic ~= '0' and statistic ~= '' and not statistic:match("%W") then
-				return statistic;
-			end
+			if InvalidStatistics[statistic] then return end
+			return statistic
 		end,
 		sortProgress = function(t)
 			if t.collected then

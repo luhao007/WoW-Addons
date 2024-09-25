@@ -545,9 +545,9 @@ ChatF.SetFrame.ShowLinkIcon:SetScript("OnClick", function (self)
 end);
 --查看远程装备图标
 local tishiSHOW = {
-	RACE..EMBLEM_SYMBOL.."("..INVTYPE_RANGED..INSPECT.."/"..STATUS_TEXT_TARGET..INFO.."/"..CALENDAR_COPY_EVENT..INFO..")",
+	RACE..EMBLEM_SYMBOL.."("..INVTYPE_RANGED..INSPECT.."/"..STATUS_TEXT_TARGET..INFO..")",
 	SHOW_PLAYER_NAMES..SHOW..RACE..EMBLEM_SYMBOL.."\n"..KEY_BUTTON1.."-"..INVTYPE_RANGED..INSPECT..STATUS_TEXT_TARGET.."\n"..
-	KEY_BUTTON2.."-"..STATUS_TEXT_TARGET..INFO.."\nShift+"..KEY_BUTTON1.."-"..CALENDAR_COPY_EVENT..STATUS_TEXT_TARGET..VOICE_TALKING;
+	KEY_BUTTON2.."-"..STATUS_TEXT_TARGET..INFO;
 }
 ChatF.SetFrame.ShowZb = PIGCheckbutton_R(ChatF.SetFrame,tishiSHOW)
 ChatF.SetFrame.ShowZb:SetScript("OnClick", function (self)
@@ -555,6 +555,83 @@ ChatF.SetFrame.ShowZb:SetScript("OnClick", function (self)
 		PIGA["Chat"]["ShowZb"]=true;
 	else
 		PIGA["Chat"]["ShowZb"]=false;
+	end
+end);
+---查询页密语
+local function WhoWhisper_Fun()
+	if not PIGA["Chat"]["WhoWhisper"] then return end
+	if WhoFrame.endsenList then return end
+	WhoFrame.endsenList={}
+	WhoFrame.endsenmsg="随机黑石深渊，来吗？"
+	WhoFrame.senmsg = PIGButton(WhoFrame,{"TOPLEFT",WhoFrame,"TOPLEFT",60,-26},{60,26},"密语",nil,nil,nil,nil,0);
+	WhoFrame.senmsg:Disable();
+	WhoFrame.senmsg:HookScript("OnClick", function(self, button)
+		if WhoFrame.selectedWho then
+			local info = C_FriendList.GetWhoInfo(WhoFrame.selectedWho);
+			SendChatMessage(WhoFrame.endsenmsg, "WHISPER", nil, info.fullName);
+			WhoFrame.endsenList[info.fullName]=true
+			self:Disable()
+		end
+	end)
+	WhoFrame.senmsg.bianji = PIGDiyBut(WhoFrame.senmsg,{"LEFT",WhoFrame.senmsg,"RIGHT",4,0},{nil,nil,20,22,130781})
+	WhoFrame.senmsg.bianji:SetScript("OnClick", function (self)
+		if self.F:IsShown() then
+			self.F:Hide()
+		else
+			self.F.NR.E:SetText(WhoFrame.endsenmsg)
+			self.F:Show()
+		end
+	end);
+
+	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200})
+	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1)
+	WhoFrame.senmsg.bianji.F:PIGClose()
+	WhoFrame.senmsg.bianji.F:Hide()
+	WhoFrame.senmsg.bianji.F.biaoti = PIGFontString(WhoFrame.senmsg.bianji.F,{"TOP", WhoFrame.senmsg.bianji.F, "TOP", 0,-4},"密语内容");
+	WhoFrame.senmsg.bianji.F.NR=PIGFrame(WhoFrame.senmsg.bianji.F,{"TOPLEFT", WhoFrame.senmsg.bianji.F, "TOPLEFT", 3,-26})
+	WhoFrame.senmsg.bianji.F.NR:SetPoint("BOTTOMRIGHT", WhoFrame.senmsg.bianji.F, "BOTTOMRIGHT", -3,3);
+	WhoFrame.senmsg.bianji.F.NR:PIGSetBackdrop(0,0.6,nil,{1, 1, 0})
+	WhoFrame.senmsg.bianji.F.NR.E = CreateFrame("EditBox", nil, WhoFrame.senmsg.bianji.F.NR);
+	WhoFrame.senmsg.bianji.F.NR.E:SetPoint("TOPLEFT", WhoFrame.senmsg.bianji.F.NR, "TOPLEFT", 2,-2);
+	WhoFrame.senmsg.bianji.F.NR.E:SetPoint("BOTTOMRIGHT", WhoFrame.senmsg.bianji.F.NR, "BOTTOMRIGHT", -2,2);
+	WhoFrame.senmsg.bianji.F.NR.E:SetFontObject(ChatFontNormal);
+	WhoFrame.senmsg.bianji.F.NR.E:SetAutoFocus(false);
+	WhoFrame.senmsg.bianji.F.NR.E:SetMultiLine(true)
+	WhoFrame.senmsg.bianji.F.NR.E:SetMaxLetters(200);
+	WhoFrame.senmsg.bianji.F.NR.E:SetTextColor(0.7, 0.7, 0.7, 1);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEditFocusGained", function(self) 
+		self:SetTextColor(1, 1, 1, 1);
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEditFocusLost", function(self)
+		self:SetTextColor(0.7, 0.7, 0.7, 1);
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEscapePressed", function(self) 
+		self:ClearFocus()
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEnterPressed", function(self) 
+		self:ClearFocus()
+	end);
+	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnCursorChanged", function(self)
+		WhoFrame.endsenmsg=self:GetText();
+	end);
+end
+ChatF.SetFrame.WhoWhisper = PIGCheckbutton_R(ChatF.SetFrame,{"查询页快捷密语","在查询页增加一个快捷密语按钮"})
+ChatF.SetFrame.WhoWhisper:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["Chat"]["WhoWhisper"]=true;
+	else
+		PIGA["Chat"]["WhoWhisper"]=false;
+		Pig_Options_RLtishi_UI:Show()
+	end
+	WhoWhisper_Fun()
+end);
+local Copytisp = SHOW_PLAYER_NAMES..SHOW..CALENDAR_COPY_EVENT..EMBLEM_SYMBOL.."\n"..KEY_BUTTON1.."-"..CALENDAR_COPY_EVENT..STATUS_TEXT_TARGET..CALENDAR_PLAYER_NAME.."\n"..KEY_BUTTON2.."-"..CALENDAR_COPY_EVENT..STATUS_TEXT_TARGET..VOICE_TALKING
+ChatF.SetFrame.FastCopy = PIGCheckbutton_R(ChatF.SetFrame,{CALENDAR_COPY_EVENT..EMBLEM_SYMBOL.."("..CALENDAR_COPY_EVENT..CALENDAR_PLAYER_NAME.."/"..CALENDAR_COPY_EVENT..VOICE_TALKING..")",Copytisp})
+ChatF.SetFrame.FastCopy:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["Chat"]["FastCopy"]=true;
+	else
+		PIGA["Chat"]["FastCopy"]=false;
 	end
 end);
 --屏蔽人员进入频道提示
@@ -568,7 +645,6 @@ local function RemTips_Fun()
 			ChatFrame_AddMessageGroup(_G["ChatFrame"..i], "CHANNEL")--屏蔽人员进出频道提示
 		end	
 	end
-	
 end	
 ChatF.SetFrame.RemTips = PIGCheckbutton(ChatF.SetFrame,{"BOTTOMLEFT",ChatF,"BOTTOMLEFT",20,18},{"屏蔽人员进出频道提示","屏蔽人员进出频道提示"})
 ChatF.SetFrame.RemTips:SetScript("OnClick", function (self)
@@ -599,6 +675,8 @@ ChatF.SetFrame:HookScript("OnShow", function (self)
 	self.ShowZb:SetChecked(PIGA["Chat"]["ShowZb"])
 	self.ShowLinkIcon:SetChecked(PIGA["Chat"]["ShowLinkIcon"])
 	self.RemTips:SetChecked(PIGA["Chat"]["RemTips"])
+	self.WhoWhisper:SetChecked(PIGA["Chat"]["WhoWhisper"])
+	self.FastCopy:SetChecked(PIGA["Chat"]["FastCopy"])
 end);
 ----打印自定义
 ChatF.dayinzidingyi = PIGButton(ChatF, {"BOTTOMLEFT",ChatF,"BOTTOMLEFT",320,14},{180,24},L["CHAT_DAYINZIDINGYI"]); 
@@ -614,6 +692,7 @@ ChatF.dayinzidingyi:SetScript("OnClick", function (self)
 	end
 	C_Timer.After(1,xxxxx)
 end);
+
 --=TAB切换=======================
 local MeihangNum,MeihangJG = 3,150
 local TABchatF =PIGOptionsList_R(RTabFrame,L["CHAT_TABNAME2"],110)
@@ -1043,6 +1122,7 @@ addonTable.Chat = function()
 	Chat_LinkShow()
 	ChatClassColor()
 	RemTips_Fun()
+	WhoWhisper_Fun()
 	QuickChatfun.PIGMessage()
 	QuickChatfun.FrameUI()
 end

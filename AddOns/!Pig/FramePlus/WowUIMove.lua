@@ -11,6 +11,7 @@ local UINameList={
 	{FriendsFrame,},
 	{LFGParentFrame,},
 	{PVEFrame,},
+	{MailFrame,},
 	{ChannelFrame,},--聊天频道
 	{AddonList,},
 	{MerchantFrame},--商人

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.14
+## Version: 4.0.15
 
 ## Title: AllTheThings |cfd9b9b9b(Classic)|r
 ## Notes: Addon for Tracking Collections & Account Completion
@@ -9,7 +9,11 @@
 
 ## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
 
-## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsAD, AllTheThingsSettings, AllTheThingsAuctionData, AllTheThingsDebugData, ATTClassicSettings, ATTClassicAuctionData
+## AddonCompartmentFunc: AllTheThings_MinimapButtonOnClick
+## AddonCompartmentFuncOnEnter: AllTheThings_MinimapButtonOnEnter
+## AddonCompartmentFuncOnLeave: AllTheThings_MinimapButtonOnLeave
+
+## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsAD, AllTheThingsSettings, AllTheThingsAuctionData, AllTheThingsDebugData, ATTClassicSettings, ATTClassicAuctionData, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter, ATTClassicSettingsPerCharacter
 
 ## X-Interface: 11503
@@ -73,7 +77,6 @@ src\Modules\Vignette.lua
 db\Classic\ExplorationDB.lua
 db\Classic\LocalizationDB.lua
 db\Classic\Season of Discovery\LocalizationDB.lua
-# db\Classic\en_auto.lua
 # db\Classic\ReagentsDB.lua
 db\Presets.lua
 db\AccountWideQuestsDB.lua
@@ -95,6 +98,7 @@ src\Classes\Deaths.lua
 src\Classes\Dynamic Categories.lua
 src\Classes\Filter Types.lua
 src\Classes\Gear Sets.lua
+src\Classes\Glyphs.lua
 src\Classes\Illusions.lua
 # src\Classes\Miscellaneous.lua
 src\Classes\PVP Ranks.lua

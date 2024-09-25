@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Breen
-## Version: 2.48.0
+## Version: 2.48.2
 
 ## Title: BtWQuests
 ## Notes: 
@@ -8,6 +8,8 @@
 ## Notes-zhCN: 将所有任务的前置任务和后续任务用流程图显示出来
 
 ## IconTexture: Interface\QuestFrame\UI-QuestLog-BookIcon
+
+## AddonCompartmentFunc: BtWQuests_OnAddonCompartmentClick
 
 ## SavedVariables: BtWQuests_Characters BtWQuests_AccountSettings
 ## SavedVariablesPerCharacter: BtWQuests_Settings BtWQuests_AutoLoad

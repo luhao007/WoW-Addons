@@ -11,11 +11,11 @@ local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
-local PIGCloseBut=Create.PIGCloseBut
+local PIGDiyBut=Create.PIGDiyBut
 local PIGSetFont=Create.PIGSetFont
 --
 local GDKPInfo=addonTable.GDKPInfo
-function GDKPInfo.ADD_Item()
+function GDKPInfo.ADD_Item(RaidR)
 	local gsub = _G.string.gsub 
 	local match = _G.string.match
 	local find = _G.string.find
@@ -327,7 +327,7 @@ function GDKPInfo.ADD_Item()
 		hang.Shiquzhe:SetJustifyH("LEFT");
 		hang.Shiquzhe:Hide()
 		-----------
-		hang.del = PIGCloseBut(hang,{"RIGHT", hang, "LEFT", -6,0},{hang_Height-8,hang_Height-8})
+		hang.del = PIGDiyBut(hang,{"RIGHT", hang, "LEFT", -6,0},{hang_Height-8})
 		hang.del:SetScript("OnClick", function (self)
 			fujiF.tishiUI:Showtishi("del",self:GetID())	
 		end);
@@ -388,7 +388,6 @@ function GDKPInfo.ADD_Item()
 			GameTooltip:ClearLines();GameTooltip:Hide()
 		end);
 		hang.item:SetScript("OnClick", function (self,button)
-			print(self:GetID())
 			local bianjiData = PIGA["GDKP"]["ItemList"][self:GetID()]
 			if button=="LeftButton" then
 		 		if IsShiftKeyDown() then
@@ -1076,16 +1075,23 @@ function GDKPInfo.ADD_Item()
 	--=====================================================
 	--拾取记录添加到数组
 	local function AddItem(MSGINFO,shiquname)
-		local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount,
-		itemEquipLoc, itemTexture, sellPrice, classID, subclassID, bindType, expacID, setID, isCraftingReagent=GetItemInfo(MSGINFO);
+		local _, itemLink, itemQuality, _, _, _, _, _, _, itemTexture =GetItemInfo(MSGINFO);
 		if itemQuality>=PIGA["GDKP"]["LootQuality"] then
 			local itemID = GetItemInfoInstant(itemLink);
 			local LOOT_itemNO = 1;
 			local Nkaishi=MSGINFO:find("x",1)
 			if Nkaishi then
-				local Nkaishi=tonumber(Nkaishi)
-				local NewitemNO=MSGINFO:sub(Nkaishi+1,-1)
-				LOOT_itemNO = tonumber(NewitemNO)
+				local NewitemNO=MSGINFO:sub(Nkaishi+1)
+
+				local NewitemNO=NewitemNO:gsub(" ","")
+				local NewitemNO=NewitemNO:gsub(",","")
+				local NewitemNO=NewitemNO:gsub("，","")
+				local NewitemNO=NewitemNO:gsub("%.","")
+				local NewitemNO=NewitemNO:gsub("。","")
+				local NewitemNO=NewitemNO:gsub("!","")
+				local NewitemNO=NewitemNO:gsub("！","")
+				local NewitemNO=tonumber(NewitemNO)
+				if NewitemNO>1 then LOOT_itemNO = NewitemNO end
 			end
 			--过滤副本临时武器/公正徽章
 			local renwuwupin = {29434,22736,30311,30312,30313,30314,30316,30317,30318,30319,30320}

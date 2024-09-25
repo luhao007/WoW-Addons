@@ -27,12 +27,11 @@ local function Update_itemLV_(itemButton, id, slot)
 			end
 		else
 			local bagID = itemButton:GetBagID();
-			local info = C_Container.GetContainerItemInfo(bagID, itemButton:GetID());
-			if info and info.hyperlink then
-				local quality = info.quality;
-				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = C_Item.GetItemInfoInstant(info.hyperlink)
+			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
+			if itemLink then
+				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = C_Item.GetItemInfoInstant(itemLink)
 				if quality and quality>1 and classID==2 or classID==4 then
-					local actualItemLevel, previewLevel, sparseItemLevel = C_Item.GetDetailedItemLevelInfo(info.hyperlink)
+					local actualItemLevel, previewLevel, sparseItemLevel = C_Item.GetDetailedItemLevelInfo(itemLink)
 					local colorRGBR, colorRGBG, colorRGBB, qualityString = C_Item.GetItemQualityColor(quality)
 					if itemButton.ZLV then
 						itemButton.ZLV:SetText(actualItemLevel);

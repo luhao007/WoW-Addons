@@ -6,7 +6,7 @@ local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
-local PIGCloseBut=Create.PIGCloseBut
+local PIGDiyBut=Create.PIGDiyBut
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList=Create.PIGOptionsList
 local PIGFontString=Create.PIGFontString
@@ -588,7 +588,7 @@ function GDKPInfo.ADD_Options()
 		if id~=paichu_NUM then
 			Pcwupin.line = PIGLine(Pcwupin,"BOT")
 		end
-		Pcwupin.del=PIGCloseBut(Pcwupin,{"LEFT", Pcwupin, "LEFT", 4,0},{22,22})
+		Pcwupin.del=PIGDiyBut(Pcwupin,{"LEFT", Pcwupin, "LEFT", 4,0},{22})
 		Pcwupin.del:SetScript("OnClick", function (self)
 			table.remove(PIGA["GDKP"]["Rsetting"]["PaichuList"], self:GetID());
 			fuFrame.SetListF.Paichu.gengxinpaichu(fuFrame.SetListF.Paichu.Scroll);

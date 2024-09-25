@@ -271,8 +271,8 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			local name = frame:GetName();
 			for i=1, frame.size, 1 do
 				local itemButton = _G[name.."Item"..i];
-				local ItemInfo= C_Container.GetContainerItemInfo(id,itemButton:GetID());
-				if ItemInfo and ItemInfo.quality==0 then
+				local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(id,itemButton:GetID())
+				if quality and quality==0 then
 					itemButton.JunkIcon:Show();
 				end
 			end
