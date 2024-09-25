@@ -1,5 +1,5 @@
-## v4.14.16 Changes
+## v4.14.17 Changes
 
-* [All] Fixed error when syncing accounts
+* [Classic] Updated for patch 1.15.4
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

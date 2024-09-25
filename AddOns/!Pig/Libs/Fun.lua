@@ -74,13 +74,17 @@ function PIGGetContainerItemInfo(bag, slot)
 	end
 end
 --发送消息
-function PIGSendChatRaidParty(txt)
+function PIGSendChatRaidParty(txt,GroupLeader)
 	if IsInRaid() then
-		SendChatMessage(txt, "RAID");
+		if GroupLeader then
+			SendChatMessage(txt, "RAID_WARNING");
+		else
+			SendChatMessage(txt, "RAID");
+		end
 	elseif IsInGroup() then
 		SendChatMessage(txt, "PARTY");
 	else
-		SendChatMessage(txt, "SAY");
+		--SendChatMessage(txt, "SAY");
 	end
 end
 function PIGSendAddonMessage(biaotou,txt)

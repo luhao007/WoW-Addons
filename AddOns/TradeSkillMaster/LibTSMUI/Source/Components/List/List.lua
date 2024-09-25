@@ -409,7 +409,7 @@ end
 
 function List.__private:_HandleRowFrameEvent(row, event, ...)
 	if event == "OnEnter" then
-		local focus = LibTSMWoW.IsRetail() and GetMouseFoci()[1] or GetMouseFocus()
+		local focus = (LibTSMWoW.IsRetail() or LibTSMWoW.IsVanillaClassic()) and GetMouseFoci()[1] or GetMouseFocus()
 		if not focus or (focus ~= row._frame and focus ~= row._frame:GetParent() and focus:GetParent() ~= row._frame) then
 			-- Sometimes we get erronous OnEnter events - just ignore them
 			return

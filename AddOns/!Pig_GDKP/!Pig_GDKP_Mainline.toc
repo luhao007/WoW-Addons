@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: geligasi
-## Version: 1.19
+## Version: 1.20
 
 ## Title: !Pig_GDKP
 ## Notes: GDKP Assistant features, including loot record, quick auction/bid, rewards/fine record, sub-G assistant

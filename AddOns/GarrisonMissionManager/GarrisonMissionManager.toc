@@ -8,7 +8,7 @@
 ## Notes-zhCN: 协助管理要塞随从任务
 
 ## RequiredDeps: Blizzard_GarrisonUI, Blizzard_OrderHallUI
-## OptionalDeps: LibStub, LibDataBroker-1.1, Bagnon, Titan, LibTTScan-1.0, SR13-TimeRecord
+## OptionalDeps: LibStub, LibDataBroker-1.1, Bagnon, Titan, LibTTScan-1.0, SR13-TimeRecord, SR13-+DEVEL
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_GarrisonUI, Blizzard_OrderHallUI
 

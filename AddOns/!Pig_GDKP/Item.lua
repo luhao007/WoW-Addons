@@ -1082,7 +1082,6 @@ function GDKPInfo.ADD_Item(RaidR)
 			local Nkaishi=MSGINFO:find("x",1)
 			if Nkaishi then
 				local NewitemNO=MSGINFO:sub(Nkaishi+1)
-
 				local NewitemNO=NewitemNO:gsub(" ","")
 				local NewitemNO=NewitemNO:gsub(",","")
 				local NewitemNO=NewitemNO:gsub("，","")

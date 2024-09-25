@@ -1,7 +1,7 @@
 local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
-local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 -----
+local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
@@ -387,9 +387,10 @@ function GDKPInfo.ADD_Options()
 		end)
 	end
 	local function jiaoyi_InfoPD_1(TName,TMoney,ItemS)
+		local Money=TMoney*0.0001
 		local RRItemList = PIGA["GDKP"]["ItemList"]
 		local wupinNum = #ItemS
-		local pingjunfenG = (TMoney/wupinNum)*0.0001;
+		local pingjunfenG = TMoney/wupinNum
 		for p=1,wupinNum do
 			local itemLink_P = ItemS[p][1]
 			local itemID_P = GetItemInfoInstant(itemLink_P) 
@@ -658,7 +659,7 @@ function GDKPInfo.ADD_Options()
 	end)
 	----
 end
---======
+---======
 fuFrame:HookScript("OnShow", function (self)
 	if self.VersionID<PIGA["Ver"][addonName] then
 		self.UpdateVer:Show()

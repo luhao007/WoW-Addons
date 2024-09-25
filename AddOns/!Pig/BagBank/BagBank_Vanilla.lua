@@ -373,8 +373,8 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		BAGheji.fenlei:SetSize(18,18);
 		BAGheji.fenlei:SetPoint("TOPRIGHT",BAGheji,"TOPRIGHT",-6,-42+BAGheji.pianyiliangV);
 		BAGheji.fenlei.Tex = BAGheji.fenlei:CreateTexture(nil, "BORDER");
-		BAGheji.fenlei.Tex:SetTexture("interface/chatframe/chatframeexpandarrow.blp");
-		BAGheji.fenlei.Tex:SetSize(18,18);
+		BAGheji.fenlei.Tex:SetAtlas("common-icon-forwardarrow")
+		BAGheji.fenlei.Tex:SetSize(22,19);
 		BAGheji.fenlei.Tex:SetPoint("CENTER",BAGheji.fenlei,"CENTER",2,0);
 		BAGheji.fenlei:SetScript("OnMouseDown", function (self)
 			self.Tex:SetPoint("CENTER",BAGheji.fenlei,"CENTER",3,-1);

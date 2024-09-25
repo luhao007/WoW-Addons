@@ -50,7 +50,7 @@ local function ShowZb_Link_Icon(newText)
 				tihuanidlist[word]=GetItemIcon(word)
 			end
 			for k,v in pairs(tihuanidlist) do
-				newText=newText:gsub("(|cff%w%w%w%w%w%w|Hitem:"..k..":)"," |T"..v..":0|t%1");
+				newText=newText:gsub("(|cff%w%w%w%w%w%w|Hitem:"..k..":)","|T"..v..":0|t%1");
 			end
 		end
 	end
