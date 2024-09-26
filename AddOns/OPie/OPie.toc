@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: foxlit
-## Version: Ælling 5
+## Version: Ælling 5a
 
 ## Title: OPie
 ## Notes: Group abilities into rings that appear when you hold down a binding.
@@ -8,6 +8,8 @@
 ## Notes-zhCN: 当你按下快捷键时显示一个环形的技能分组.
 
 ## IconTexture: Interface/AddOns/OPie/gfx/opie_ring_icon
+
+## AddonCompartmentFunc: OPie_OpenSettings
 
 ## OptionalDeps: TaintLess
 
