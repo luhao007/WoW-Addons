@@ -28,7 +28,7 @@ wlRegionBuildings = {};
 wlTradingPostItems = "";
 
 -- SavedVariablesPerCharacter
-wlSetting = {};
+wlSetting = {minimap=false};
 wlScans = {
     guid = nil,
     toys = "",

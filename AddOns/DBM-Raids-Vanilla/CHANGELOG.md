@@ -1,8 +1,11 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r742](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r742) (2024-09-24)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r741...r742) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r744](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r744) (2024-09-26)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r743...r744) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- bump vanilla tocs  
-- at type classifications  
-- Handle ebonrock and flamegore much better, by reviving the Season of mastery version of mod we had in archive, and then merging it with tandadu's additions  
+- Vael: Minor updates  
+    * Slightly longer combat start timer  
+    * Repeat high stack warnings  
+    * Enable yells by default  
+    * Set icon later  
+- Firemaw: Add special warnings for static and wing buffet (tank only)  
