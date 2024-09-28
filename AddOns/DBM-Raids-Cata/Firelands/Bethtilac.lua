@@ -1,12 +1,7 @@
 local mod	= DBM:NewMod(192, "DBM-Raids-Cata", 2, 78)
 local L		= mod:GetLocalizedStrings()
 
---normal,normal25,heroic,heroic25 in classic
-if not mod:IsClassic() then--Future planning, so cata classic uses regular rules defined in toc and not timewalker rules for this zone
-	mod.statTypes = "normal,heroic,timewalker"
-end
-
-mod:SetRevision("20240412064728")
+mod:SetRevision("20240923134941")
 mod:SetCreatureID(52498)
 mod:SetEncounterID(1197)
 
@@ -30,6 +25,7 @@ ability.id = 99052 and type = "begincast"
 local warnSmolderingDevastation		= mod:NewCountAnnounce(99052, 4)--Use count announce, cast time is pretty obvious from the bar, but it's useful to keep track how many of these have been cast.
 local warnPhase2Soon				= mod:NewPrePhaseAnnounce(2, 3)
 local warnFixate					= mod:NewTargetAnnounce(99526, 4)--Heroic ability
+local warnDrone						= mod:NewCountAnnounce(-2773, 3)
 
 local specWarnFixate				= mod:NewSpecialWarningYou(99526, nil, nil, nil, 1, 2)
 local specWarnTouchWidowKiss		= mod:NewSpecialWarningYou(99476, nil, nil, nil, 1, 2)
@@ -37,9 +33,9 @@ local specWarnSmolderingDevastation	= mod:NewSpecialWarningCount(99052, nil, nil
 local specWarnVolatilePoison		= mod:NewSpecialWarningMove(99278, nil, nil, nil, 1, 2)--Heroic ability
 local specWarnTouchWidowKissOther	= mod:NewSpecialWarningTarget(99476, "Tank", nil, nil, 1, 2)
 
-local timerSpinners 				= mod:NewNextTimer(15, "ej2770", nil, nil, nil, 1, 97370) -- 15secs after Smoldering cast start
-local timerSpiderlings				= mod:NewNextTimer(30, "ej2778", nil, nil, nil, 1, 72106)
-local timerDrone					= mod:NewNextTimer(60, "ej2773", nil, nil, nil, 1, 28866)
+local timerSpinners 				= mod:NewNextTimer(15, -2770, nil, nil, nil, 1, 97370) -- 15secs after Smoldering cast start
+local timerSpiderlings				= mod:NewNextTimer(30, -2778, nil, nil, nil, 1, 72106)
+local timerDrone					= mod:NewNextCountTimer(60, -2773, nil, nil, nil, 1, 28866)
 local timerSmolderingDevastationCD	= mod:NewCDCountTimer(85, 99052, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerEmberFlareCD				= mod:NewNextTimer(6, 98934, nil, nil, nil, 2)
 local timerSmolderingDevastation	= mod:NewCastTimer(8, 99052, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
@@ -49,23 +45,28 @@ local timerWidowKiss				= mod:NewTargetTimer(23, 99476, nil, "Tank|Healer", nil,
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
+mod.vb.flareCount = 0
+mod.vb.dronesCount = 0
 mod.vb.smolderingCount = 0
-mod.vb.phase = 1
 
 mod:AddRangeFrameOption(10, 99476)
 
-function mod:repeatDrone()
-	timerDrone:Start()
-	self:ScheduleMethod(60, "repeatDrone")
+local function repeatDrone(self)
+	self.vb.dronesCount = self.vb.dronesCount + 1
+	warnDrone:Show(self.vb.dronesCount)
+	timerDrone:Start(nil, self.vb.dronesCount+1)
+	self:Schedule(60, repeatDrone, self)
 end
 
 function mod:OnCombatStart(delay)
+	self:SetStage(1)
+	self.vb.flareCount = 0
+	self.vb.dronesCount = 0
 	self.vb.smolderingCount = 0
-	self.vb.phase = 1
 	timerSpiderlings:Start(11.1-delay)
 	timerSpinners:Start(12-delay)
 	timerDrone:Start(45-delay)
-	self:ScheduleMethod(45-delay, "repeatDrone")
+	self:Schedule(45-delay, repeatDrone, self)
 	timerSmolderingDevastationCD:Update(10+delay, 85, 1)--First one is 75, boss doesn't start full mana, or rather uses a bunch on pull?
 	berserkTimer:Start(600-delay)
 	self:RegisterShortTermEvents(
@@ -93,11 +94,12 @@ function mod:SPELL_CAST_START(args)
 		timerSmolderingDevastation:Start()
 		timerEmberFlareCD:Cancel()--Cast immediately after Devastation, so don't need to really need to update timer, just cancel last one since it won't be cast during dev
 		if self.vb.smolderingCount == 3 then	-- 3rd cast = start P2
+			self.vb.flareCount = 0
 			self:UnregisterShortTermEvents()
 			timerSmolderingDevastationCD:Stop()--Stop just in case energy event started it as events were unregistering
-			self.vb.phase = 2
+			self:SetStage(2)
 			warnPhase2Soon:Show()
-			self:UnscheduleMethod("repeatDrone")
+			self:Unschedule(repeatDrone)
 			timerSpiderlings:Stop()
 			timerDrone:Stop()
 			timerWidowsKissCD:Start(47)--47-50sec variation for first, probably based on her movement into position.
@@ -123,11 +125,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnTouchWidowKissOther:Play("watchstep")
 		end
 	--Phase 1 ember flares. Only show for people who are actually up top.
-	elseif spellId == 98934 and (self:GetUnitCreatureId("target") == 52498 or self:GetBossTarget(52498) == DBM:GetUnitFullName("target")) then
-		timerEmberFlareCD:Start()
+	elseif spellId == 98934 then
+		self.vb.flareCount = self.vb.flareCount + 1
+		if (self:GetUnitCreatureId("target") == 52498 or self:GetBossTarget(52498) == DBM:GetUnitFullName("target")) then
+			timerEmberFlareCD:Start(nil, self.vb.flareCount+1)
+		end
 	--Phase 2 ember flares. Show for everyone
 	elseif spellId == 99859 then
-		timerEmberFlareCD:Start()
+		self.vb.flareCount = self.vb.flareCount + 1
+		timerEmberFlareCD:Start(nil, self.vb.flareCount+1)
 	end
 end
 

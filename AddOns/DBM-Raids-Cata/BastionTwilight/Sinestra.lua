@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "heroic,heroic25"
 
-mod:SetRevision("20240614023006")
+mod:SetRevision("20240714050642")
 mod:SetCreatureID(45213)
 mod:SetEncounterID(1082, 1083)--Muiti encounter id. need to verify.
 mod:SetUsedIcons(1, 2)
@@ -215,7 +215,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 90045 then
-		specWarnIndomitable:Show()
+		specWarnIndomitable:Show(args.destName)
 		specWarnIndomitable:Play("enrage")
 	elseif args.spellId == 89421 then--Cast wracks (10,25)
 		warnWrack:Show(args.destName)

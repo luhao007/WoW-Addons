@@ -1,14 +1,9 @@
 local mod	= DBM:NewMod(195, "DBM-Raids-Cata", 2, 78)
 local L		= mod:GetLocalizedStrings()
-local Riplimb	= DBM:EJ_GetSectionInfo(2581)
-local Rageface	= DBM:EJ_GetSectionInfo(2583)
+--local Riplimb	= DBM:EJ_GetSectionInfo(2581)--Unused
+--local Rageface	= DBM:EJ_GetSectionInfo(2583)--Unused
 
---normal,normal25,heroic,heroic25 in classic
-if not mod:IsClassic() then--Future planning, so cata classic uses regular rules defined in toc and not timewalker rules for this zone
-	mod.statTypes = "normal,heroic,timewalker"
-end
-
-mod:SetRevision("20240428104752")
+mod:SetRevision("20240905193641")
 mod:SetCreatureID(53691)
 mod:SetEncounterID(1205)
 mod:SetUsedIcons(1, 2) -- cross(7) is hard to see in redish environment?

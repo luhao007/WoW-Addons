@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(737, "DBM-Raids-MoP", 4, 330)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240602111719")
+mod:SetRevision("20240714050536")
 mod:SetCreatureID(62511)
 mod:SetEncounterID(1499)
 
@@ -114,6 +114,7 @@ end
 
 local function warnAmberExplosionCast(spellId)
 	if #canInterrupt == 0 then--This will never happen if fired by "InterruptAvailable" sync since it should always be 1 or greater. This is just a fallback if contructs > 0 and we scheduled "warnAmberExplosionCast" there
+		---@diagnostic disable-next-line: param-type-mismatch
 		specwarnAmberExplosion:Show(spellId == 122402 and Monstrosity or MutatedConstruct)--No interupts, warn the raid to prep for aoe damage with beware! alert.
 	else--Interrupts available, lets call em out as a great tool to give raid leader split second decisions on who to allocate to the task (so they don't all waste it on same target and not have for next one).
 		warnInterruptsAvailable:Show(spellId == 122402 and Monstrosity or MutatedConstruct, table.concat(canInterrupt, "<, >"))
