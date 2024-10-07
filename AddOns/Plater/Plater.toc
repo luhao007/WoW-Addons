@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: Plater-v588-Retail
+## Version: Plater-v589-Retail
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.

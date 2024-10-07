@@ -2,5 +2,5 @@
 select(2, ...).SetScope()
 
 Version = {
-	number = "2.5.44"
+	number = "2.5.45"
 }

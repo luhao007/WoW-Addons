@@ -372,7 +372,11 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 				return
 			else
 				RSNotificationTracker.AddNotification(vignetteInfo.id, false, entityID)
-				FlashClientIcon()
+				
+				if (RSConfigDB.IsFlashingWindowsTaskbar()) then
+					FlashClientIcon()
+				end
+				
 				RSAudioAlerts.PlaySoundAlert(vignetteInfo.atlasName)
 				button:DisplayMessages(entityID, vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
 				return
@@ -399,7 +403,10 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 	-- show messages and play alarm
 	--------------------------------
 	if (not isNavigating) then
-		FlashClientIcon()
+		if (RSConfigDB.IsFlashingWindowsTaskbar()) then
+			FlashClientIcon()
+		end
+				
 		button:DisplayMessages(entityID, vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
 		RSAudioAlerts.PlaySoundAlert(vignetteInfo.atlasName)
 	end

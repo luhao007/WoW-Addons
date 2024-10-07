@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: 101
+## Version: 104
 
 ## Title: HandyNotes: The Burning Crusade
 ## Notes: Burning Crusade Notes

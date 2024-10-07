@@ -1,30 +1,12 @@
 ## Interface: 110002
-## Author: Created by Asurn, Maintained by Thandrenn, Code fixed for 10.x by Zilom
-## Version: 4.14.02
 
-## Title: AtlasQuest
-## Notes: Shows the Quests for dungeons and battlegrounds.
+## Title: AtlasQuest|cFFFF0000 game client not supported|r
+## Notes: This version of AtlasQuest only supports Classic Era and Retail
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本任务|r |cFFFFE00AAtlasQuest|r
 ## Notes-zhCN: 副本任务列表
 
-## RequiredDeps: Atlas
-## Dependencies: 
-## OptionalDeps: 
-## LoadOnDemand: 0
 
-## SavedVariables: AtlasQuest_Options
-## SavedVariablesPerCharacter: 
-
-## X-Author-Faction: Alliance
-## X-Author-Server: Destromath US
-## X-eMail: mystery8@gmail.com
-## X-Website: https://github.com/thandrenn/AtlasQuest
-## X-Category: Quests
-## X-License: GPLv2
-## X-Credits: AtlasQuest Team
-## X-Localizations: enUS, deDE
-## X-Date: March 28, 2023
-## X-Help: AtlasQuestHelp
-
-AtlasQuest_InsideFrame.xml
-AtlasQuest.xml
+# This file is used to show unsupported game client message.
+# Supported client flavors load their own TOC file and unsupported ones fall back to this one.
+# Check expansion specific TOC files for the correct data.
+WrongVersion.lua

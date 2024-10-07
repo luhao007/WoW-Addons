@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("TirnaScitheTrash", "DBM-Party-Shadowlands", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240925005958")
+mod:SetRevision("20241005082557")
 --mod:SetModelID(47785)
 
 mod.isTrashMod = true
@@ -93,7 +93,7 @@ local timerMistWardCD					= mod:NewCDNPTimer(22.9, 463256, nil, nil, nil, 5)--Va
 local timerRadiantBreathCD				= mod:NewCDPNPTimer(10.4, 340160, nil, nil, nil, 3)--Valid Aug 8
 local timerShredArmorCD					= mod:NewCDNPTimer(10.6, 340208, nil, nil, nil, 5)----Valid Aug 8, Possible same as breath
 local timerPoolofRadianceCD				= mod:NewCDNPTimer(28, 340189, nil, nil, nil, 5)--Valid Aug 8
-local timerAcidGlobuleCD				= mod:NewCDNPTimer(17.4, 326021, nil, nil, nil, 3)--Valid Aug 8
+local timerAcidGlobuleCD				= mod:NewCDNPTimer(15.7, 326021, nil, nil, nil, 3)--Valid Oct 3
 local timerMistveilBiteCD				= mod:NewCDNPTimer(10.4, 324987, nil, nil, nil, 5)--Valid Aug 8
 local timerTongueLashingCD				= mod:NewCDPNPTimer(7.7, 340300, nil, nil, nil, 3)--Valid Aug 8
 
@@ -210,7 +210,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 325418 then
 		timerVolatileAcidCD:Start(nil, args.sourceGUID)
---		if self:AntiSpam(3, args.destName) then--Backup, in case no one in party was targetting mob casting Volatile Acid (ie target scanning would fail)
+		if self:AntiSpam(3, args.destName) then--Backup, in case no one in party was targetting mob casting Volatile Acid (ie target scanning would fail)
 			if args:IsPlayer() then
 				specWarnVolatileAcid:Show()
 				specWarnVolatileAcid:Play("range5")
@@ -218,7 +218,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			else
 				warnVolatileAcid:Show(args.destName)
 			end
---		end
+		end
 	elseif spellId == 340544 then
 		timerStimulateRegenerationCD:Start(nil, args.sourceGUID)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
@@ -362,7 +362,7 @@ function mod:UNIT_DIED(args)
 		timerSpearFlurryCD:Stop(args.destGUID)--Removed ability?
 		timerExpelCD:Stop(args.destGUID)
 		timerMistWardCD:Stop(args.destGUID)
-	elseif cid == 164920 then--Drust Soulcleaver
+	elseif cid == 164920 or cid == 172991 then--Drust Soulcleaver
 		timerSoulSpiritCD:Stop(args.destGUID)
 	elseif cid == 166299 then--Mistveil Tender
 		timerNourishtheForestCD:Stop(args.destGUID)

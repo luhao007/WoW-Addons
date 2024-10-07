@@ -58,6 +58,7 @@ CraftDetails:_ExtendStateSchema()
 	:AddBooleanField("canCraft", false)
 	:AddStringField("craftType", "NONE")
 	:AddOptionalNumberField("craftingCost")
+	:AddOptionalNumberField("concentration")
 	:Commit()
 CraftDetails:_AddActionScripts("OnQueueButtonClick", "OnCraftButtonMouseDown", "OnCraftButtonClick")
 
@@ -568,7 +569,7 @@ function CraftDetails.__private:_UpdateRecipeString(wipeExisting)
 	wipe(private.matsTemp)
 	wipe(private.qualityMatsTemp)
 
-	self._state.recipeString = RecipeString.FromCraftString(self._state.craftString, private.optionalMatsTemp)
+	self._state.recipeString = RecipeString.FromCraftString(self._state.craftString, private.optionalMatsTemp, self._state.concentration)
 	wipe(private.optionalMatsTemp)
 end
 
@@ -583,7 +584,8 @@ function CraftDetails.__private:_HandleQualityBtnClick()
 	)
 end
 
-function CraftDetails.__private:_HandleQualityChanged(_, craftString)
+function CraftDetails.__private:_HandleQualityChanged(_, craftString, concentration)
+	self._state.concentration = concentration
 	self._state.craftString = craftString
 	self:_UpdateRecipeString(true)
 	self:GetElement("header"):Draw()

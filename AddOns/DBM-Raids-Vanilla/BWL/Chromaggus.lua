@@ -12,7 +12,13 @@ end
 local mod	= DBM:NewMod("Chromaggus", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240922161955")
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+	mod.statTypes = "normal,heroic,mythic"
+else
+	mod.statTypes = "normal"
+end
+
+mod:SetRevision("20241005192154")
 mod:SetCreatureID(14020)
 mod:SetEncounterID(616)
 mod:SetModelID(14367)
@@ -20,10 +26,9 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 23308 23309 23313 23314 23187 23189 23315 23316 23310 23312",
-	"SPELL_AURA_APPLIED 23155 23169 23153 23154 23170 23128 23537",
---	"SPELL_AURA_REFRESH",
+	"SPELL_AURA_APPLIED 23155 23169 23153 23154 23170 23128 23537 22277 22278 22279 22280 22281",
 	"SPELL_AURA_REMOVED 23155 23169 23153 23154 23170 23128",
-	"UNIT_HEALTH boss1",
+	"UNIT_HEALTH",
 	"CHAT_MSG_MONSTER_EMOTE"
 )
 
@@ -37,7 +42,7 @@ local warnFrenzy		= mod:NewSpellAnnounce(23128, 3, nil, "Tank|RemoveEnrage|Heale
 local warnPhase2Soon	= mod:NewPrePhaseAnnounce(2, 1)
 local warnPhase2		= mod:NewPhaseAnnounce(2)
 local warnMutation		= mod:NewCountAnnounce(23174, 4) ---@type Announce -- string as count in :Show() is unusual but valid
-local warnVuln			= mod:NewAnnounce("WarnVulnerable", 1, nil, false)
+local warnVuln			= mod:NewAnnounce("WarnVulnerable", 1, nil, nil, "WarnVulnNew")
 
 local specWarnBronze	= mod:NewSpecialWarningYou(23170, nil, nil, nil, 1, 8)
 local specWarnFrenzy	= mod:NewSpecialWarningDispel(23128, "RemoveEnrage", nil, nil, 1, 6)
@@ -45,7 +50,7 @@ local specWarnFrenzy	= mod:NewSpecialWarningDispel(23128, "RemoveEnrage", nil, n
 local timerBreath		= mod:NewTimer(2, "TimerBreath", 23316, nil, nil, 3)
 local timerBreathCD		= mod:NewTimer(60, "TimerBreathCD", 23316, nil, nil, 3)
 local timerFrenzy		= mod:NewBuffActiveTimer(8, 23128, nil, "Tank|RemoveEnrage|Healer", 3, 5, nil, DBM_COMMON_L.TANK_ICON..DBM_COMMON_L.ENRAGE_ICON)
-local timerVuln			= mod:NewTimer(17, "TimerVulnCD")-- seen 16.94 - 25.53, avg 21.8
+local timerVuln			= mod:NewTimer(19.5, "TimerVulnCD", nil, nil, nil, nil, nil, true) -- seen 16.94 - 25.53, avg 21.8; extreme outliers are somewhat rare, so going for 19.5
 
 mod:AddNamePlateOption("NPAuraOnVulnerable", 22277)
 mod:AddInfoFrameOption(22277, true)
@@ -53,19 +58,18 @@ mod:AddInfoFrameOption(22277, true)
 local mydebuffs = 0
 
 local lastVulnName = nil
-local vulnerabilities = {
-	-- [guid] = school
-}
+local bossGuid = ""
+
 
 --Constants
 -- https://wow.gamepedia.com/COMBAT_LOG_EVENT
 local spellInfo = {
-	[2] =	{"Holy",	{r=255, g=230, b=128},	"135924"},-- Smite
-	[4] =	{"Fire",	{r=255, g=128, b=0},	"135808"},-- Pyroblast
-	[8] =	{"Nature",	{r=77, g=255, b=77},	"136006"},-- Wrath
-	[16] =	{"Frost",	{r=128, g=255, b=255},	"135846"},-- Frostbolt
-	[32] =	{"Shadow",	{r=128, g=128, b=255},	"136197"},-- Shadow Bolt
-	[64] =	{"Arcane",	{r=255, g=128, b=255},	"136096"},-- Arcane Missiles
+	[2] =	{"Holy",	{r=255 / 255, g=230 / 255, b=128 / 255},	"135924"},-- Smite
+	[4] =	{"Fire",	{r=255 / 255, g=128 / 255, b=0 / 255},		"135808"},-- Pyroblast
+	[8] =	{"Nature",	{r=77 / 255, g=255 / 255, b=77 / 255},		"136006"},-- Wrath
+	[16] =	{"Frost",	{r=128 / 255, g=255 / 255, b=255 / 255},	"135846"},-- Frostbolt
+	[32] =	{"Shadow",	{r=128 / 255, g=128 / 255, b=255 / 255},	"136197"},-- Shadow Bolt
+	[64] =	{"Arcane",	{r=255 / 255, g=128 / 255, b=255 / 255},	"136096"},-- Arcane Missiles
 }
 
 local vulnSpells = {
@@ -76,6 +80,11 @@ local vulnSpells = {
 	[22279] = 32,
 	[22281] = 64,
 }
+
+-- SoD vulnerabilities
+-- Seem to last 19 to 22 seconds, outliers are somewhat rare (likely related to casting other stuff)
+-- ~20 second timer with "keep" is good
+-- They are logged with SPELL_AURA_APPLIED if someone has detect magic up, so let's just rely on that and nothing else
 
 local updateInfoFrame
 do
@@ -96,16 +105,7 @@ do
 	end
 end
 
---Local Functions
--- in theory this should only alert on a new vulnerability on your target or when you change target
-local function update_vulnerability(self)
-	local target = UnitGUID("target")
-	local spellSchool = vulnerabilities[target]
-	local cid = self:GetCIDFromGUID(target)
-	if not spellSchool or cid ~= 14020 then
-		return
-	end
-
+local function updateVulnerability(self, spellSchool)
 	local info = spellInfo[spellSchool]
 	if not info then return end
 	local name = L[info[1]] or info[1]
@@ -126,46 +126,28 @@ local function update_vulnerability(self)
 				DBM.InfoFrame:Update()
 			end
 		end
-		if target and self.Options.NPAuraOnVulnerable then
-			DBM.Nameplate:Hide(true, target, 22277, 135924)
-			DBM.Nameplate:Hide(true, target, 22277, 135808)
-			DBM.Nameplate:Hide(true, target, 22277, 136006)
-			DBM.Nameplate:Hide(true, target, 22277, 135846)
-			DBM.Nameplate:Hide(true, target, 22277, 136197)
-			DBM.Nameplate:Hide(true, target, 22277, 136096)
-			DBM.Nameplate:Show(true, target, 22277, tonumber(info[3]))
-		end
-	end
-	self:UnregisterShortTermEvents()--Unregister SPELL_DAMAGE until next shimmer emote
-end
-
-local damageThreshold = DBM:IsSeasonal("SeasonOfDiscovery") and 1000 or 800
-
-local function check_spell_damage(self, target, amount, spellSchool, critical)
-	local cid = self:GetCIDFromGUID(target)
-	if cid ~= 14020 then
-		return
-	end
-	if amount > (critical and damageThreshold * 2 or damageThreshold) then
-		if not vulnerabilities[target] or vulnerabilities[target] ~= spellSchool then
-			vulnerabilities[target] = spellSchool
-			update_vulnerability(self)
+		if self.Options.NPAuraOnVulnerable then
+			DBM.Nameplate:Hide(true, bossGuid, 22277, 135924)
+			DBM.Nameplate:Hide(true, bossGuid, 22277, 135808)
+			DBM.Nameplate:Hide(true, bossGuid, 22277, 136006)
+			DBM.Nameplate:Hide(true, bossGuid, 22277, 135846)
+			DBM.Nameplate:Hide(true, bossGuid, 22277, 136197)
+			DBM.Nameplate:Hide(true, bossGuid, 22277, 136096)
+			DBM.Nameplate:Show(true, bossGuid, 22277, tonumber(info[3]), nil, nil, true)
 		end
 	end
 end
 
-local function check_target_vulns(self)
+local function checkTargetVulnerabilities(self)
 	local target = UnitGUID("target")
 	local cid = self:GetCIDFromGUID(target)
 	if cid ~= 14020 then
 		return
 	end
 
-	local spellId = select(10, DBM:UnitBuff("target", 22277, 22280, 22278, 22279, 22281)) or 0
+	local spellId = select(10, DBM:UnitBuff("target", 22277, 22280, 22278, 22279, 22281))
 	local vulnSchool = vulnSpells[spellId]
-	if vulnSchool then
-		return check_spell_damage(self, target, 10000, vulnSchool)
-	end
+	updateVulnerability(self, vulnSchool)
 end
 
 function mod:OnCombatStart(delay)
@@ -173,20 +155,13 @@ function mod:OnCombatStart(delay)
 	timerBreathCD:Start(30-delay, L.Breath1)
 	timerBreathCD:Start(60-delay, L.Breath2)--60
 	mydebuffs = 0
-	table.wipe(vulnerabilities)
-	if self.Options.WarnVulnerable then--Don't register high cpu combat log events if option isn't enabled
-		self:RegisterShortTermEvents(
-			"SPELL_DAMAGE"
-		)
-		check_target_vulns(self)
-		if self.Options.NPAuraOnVulnerable then
-			DBM:FireEvent("BossMod_EnableHostileNameplates")
-		end
+	if self.Options.NPAuraOnVulnerable then
+		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
+	checkTargetVulnerabilities(self)
 end
 
 function mod:OnCombatEnd()
-	table.wipe(vulnerabilities)
 	self:UnregisterShortTermEvents()
 	if self.Options.NPAuraOnVulnerable  then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)--isGUID, unit, spellId, texture, force, isHostile, isFriendly
@@ -208,6 +183,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(23155) and self:AntiSpam(3, 1) then
+		bossGuid = args.sourceGUID
 		if self:AntiSpam(3, 3) then
 			warnRed:Show()
 		end
@@ -218,6 +194,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif args:IsSpell(23169) and self:AntiSpam(3, 2) then
+		bossGuid = args.sourceGUID
 		if self:AntiSpam(3, 4) then
 			warnGreen:Show()
 		end
@@ -228,6 +205,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif args:IsSpell(23153) and self:AntiSpam(3, 3) then
+		bossGuid = args.sourceGUID
 		if self:AntiSpam(3, 5) then
 			warnBlue:Show()
 		end
@@ -238,6 +216,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif args:IsSpell(23154) and self:AntiSpam(3, 4) then
+		bossGuid = args.sourceGUID
 		if self:AntiSpam(3, 6) then
 			warnBlack:Show()
 		end
@@ -248,6 +227,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif args:IsSpell(23170) and args:IsPlayer() then
+		bossGuid = args.sourceGUID
 		specWarnBronze:Show()
 		specWarnBronze:Play("useitem")
 		mydebuffs = mydebuffs + 1
@@ -267,10 +247,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetStage(2)
 			warnPhase2:Show()
 		end
+	elseif args:IsSpell(22277, 22278, 22279, 22280, 22281) then
+		bossGuid = args.destGUID
+		timerVuln:Start()
+		updateVulnerability(self, vulnSpells[args.spellId])
 	end
 end
---Possibly needed hard to say.
---mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpell(23128) and args:IsPlayer() then
@@ -286,10 +268,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif args:IsSpell(23128) and args:IsDestTypeHostile() then
 		timerFrenzy:Stop()
 	end
-end
-
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, _, _, spellSchool, amount, _, _, _, _, _, critical)
-	check_spell_damage(self, destGUID, amount, spellSchool, critical)
 end
 
 function mod:UNIT_HEALTH(uId)
@@ -308,13 +286,9 @@ end
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
 	if msg == "Vulnerable" then
-		timerVuln:Start()
-		table.wipe(vulnerabilities)
-		if self.Options.WarnVulnerable then
-			self:RegisterShortTermEvents(
-				"SPELL_DAMAGE"
-			)
-			check_target_vulns(self)
+		if not timerVuln:IsStarted() then
+			timerVuln:Start()
+			checkTargetVulnerabilities(self)
 		end
 	end
 end

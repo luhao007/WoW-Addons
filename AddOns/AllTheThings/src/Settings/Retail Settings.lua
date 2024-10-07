@@ -21,6 +21,7 @@ local Things = {
 	"MusicRollsAndSelfieFilters",
 	"Quests",
 	"QuestsLocked",
+	"QuestsHidden",
 	"PVPRanks",
 	"Recipes",
 	"Reputations",
@@ -74,6 +75,7 @@ local GeneralSettingsBase = {
 		--["Thing:PVPRanks"] = app.GameBuildVersion < 20000,	-- CRIEVE NOTE: Maybe someday? Classic Era project.
 		["Thing:Quests"] = true,
 		["Thing:QuestsLocked"] = false,
+		["Thing:QuestsHidden"] = false,
 		["Thing:Recipes"] = true,
 		["Thing:Reputations"] = true,
 		["Thing:RuneforgeLegendaries"] = app.GameBuildVersion >= 90000,
@@ -135,6 +137,7 @@ local TooltipSettingsBase = {
 		["Precision"] = 2,
 		["PlayDeathSound"] = false,
 		["Progress"] = true,
+		["Repeatables"] = true,
 		["ShowIconOnly"] = false,
 		["SharedAppearances"] = true,
 		["Show:CraftedItems"] = false,
@@ -834,15 +837,16 @@ ATTSettingsPanelMixin = {
 		---@class ATTSettingsCheckButtonForRetail: CheckButton
 		---@field Text FontString
 		---@field OnRefreshCheckedDisabled any
-		local cb = CreateFrame("CheckButton", self:GetName() .. "-" .. text, self, "InterfaceOptionsCheckButtonTemplate")
+		local cb = CreateFrame("CheckButton", self:GetName() .. "-" .. text, self, "UICheckButtonTemplate")
 		Mixin(cb, ATTSettingsObjectMixin);
 		self:RegisterObject(cb);
 		if OnClick then cb:SetScript("OnClick", OnClick) end
 		cb.OnRefresh = OnRefresh or cb.OnRefreshCheckedDisabled
 		cb.Text:SetText(text)
-		cb.Text:SetScale(1.1)
+		cb.Text:SetScale(1.3)
 		cb.Text:SetWordWrap(false)
 		cb:SetHitRectInsets(0,0 - cb.Text:GetUnboundedStringWidth(),0,0);
+		cb:SetScale(0.8);
 		return cb
 	end,
 	CreateTextbox = function(self, opts, functions)
@@ -1115,10 +1119,10 @@ settings.CreateOptionsPage = function(self, text, parentCategory, isRootCategory
 	function(self)
 		local skipRefresh = self:GetChecked();
 		settings:Set("Skip:AutoRefresh", skipRefresh)
-		if not skipRefresh then settings:UpdateMode("FORCE"); end
+		if not skipRefresh and settings.NeedsRefresh then settings:UpdateMode("FORCE"); end
 	end)
 	checkboxSkipAutoRefresh:SetATTTooltip(L.SKIP_AUTO_REFRESH_TOOLTIP);
-	checkboxSkipAutoRefresh:SetPoint("BOTTOMRIGHT", separator, "TOPRIGHT", -(checkboxSkipAutoRefresh.Text:GetWidth() + checkboxSkipAutoRefresh:GetWidth()), 0)
+	checkboxSkipAutoRefresh:SetPoint("BOTTOMRIGHT", separator, "TOPRIGHT", -(checkboxSkipAutoRefresh.Text:GetWidth() * checkboxSkipAutoRefresh.Text:GetScale()), 0)
 	return subcategory;
 end
 
@@ -1300,7 +1304,7 @@ settings.UpdateMode = function(self, doRefresh)
 
 		-- Check for any inactive unobtainable filters.
 		local anyFiltered = false
-		for u,v in pairs(L.AVAILABILITY_CONDITIONS) do
+		for u,phase in pairs(L.PHASES) do
 			if not settings:GetUnobtainableFilter(u) then
 				anyFiltered = true;
 				break;
@@ -1413,20 +1417,18 @@ settings.UpdateMode = function(self, doRefresh)
 	-- FORCE = Force Update
 	-- 1 = Force Update IF NOT Skip
 	-- not = Soft Update
-	doRefresh = doRefresh == "FORCE" or
-		(doRefresh and not settings:Get("Skip:AutoRefresh"))
-
+	doRefresh = doRefresh == "FORCE" or (doRefresh and not settings:Get("Skip:AutoRefresh"))
 	if doRefresh then
+		app.HandleEvent("OnSettingsNeedsRefresh")
 		self.NeedsRefresh = nil
-		app:RefreshData(nil,nil,true)
-		app._SettingsRefresh = GetTimePreciseSec()
-	else
-		-- lazy refresh instead if ATT is ready
-		if app.IsReady then
-			app:RefreshData(true,nil,true)
-		end
 	end
+
+	app._SettingsRefresh = GetTimePreciseSec()
 
 	-- ensure the settings pane itself is refreshed
 	self:Refresh()
 end
+app.AddEventHandler("OnRefreshCollectionsDone", function()
+	-- Need to update the Settings window as well if User does not have auto-refresh for Settings
+	settings:UpdateMode("FORCE");
+end)

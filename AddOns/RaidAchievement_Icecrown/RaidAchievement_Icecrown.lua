@@ -201,16 +201,32 @@ if icratracktargets then
 						icratracktargetsdelay=nil
 					end
 				end
-				if UnitName("raid"..i.."-target") then
-					local _, _, _, stack = UnitDebuff("raid"..i.."-target", spelllook)
-					if stack and stack==30 then
-						if icraspisokon[9]=="yes" and raachdone2 then
+				
+				
+				if UnitName("raid" .. i .. "-target") then
+					local foundDebuff = false
+					for j = 1, 40 do -- Check the first 40 debuffs
+						local aura = C_UnitAuras.GetDebuffDataByIndex("raid" .. i .. "-target", j)
+						if aura and aura.name == spelllook then
+							local stack = aura.count -- Get the stack count from the aura
+							if stack and stack == 30 then
+								foundDebuff = true
+								break -- Exit the loop if the debuff is found
+							end
+						end
+					end
+					
+					if foundDebuff then
+						if icraspisokon[9] == "yes" and raachdone2 then
 							icraachcompl(9)
-							icratracktargets=nil
-							icratracktargetsdelay=nil
+							icratracktargets = nil
+							icratracktargetsdelay = nil
 						end
 					end
 				end
+
+				
+				
 			end
 			end
 		end

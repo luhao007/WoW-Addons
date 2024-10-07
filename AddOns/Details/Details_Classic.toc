@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Version: #Details.13072.161
+## Version: #Details.13111.161
 
 ## Title: Details! Damage Meter
 ## Notes: Essential tool to impress that chick in your raid.
@@ -76,6 +76,8 @@ functions\testbars.lua
 functions\warcraftlogs.lua
 functions\textures.lua
 functions\commentator.lua
+functions\chat_embed.lua
+functions\storage.lua
 
 core\aura_scan.lua
 core\timemachine.lua

@@ -454,6 +454,9 @@ local ItemWithFactionBonus = {
 }
 app.CreateItem = app.CreateClass("Item", "itemID", itemFields,
 "WithQuest", {
+	CollectibleType = app.IsClassic and function() return "Quests" end
+	-- Retail: items tracked as HQT
+	or function() return "QuestsHidden" end,
 	collectible = app.GlobalVariants.AndLockCriteria.collectible or app.CollectibleAsQuest,
 	locked = app.GlobalVariants.AndLockCriteria.locked,
 	collected = function(t)
@@ -461,7 +464,7 @@ app.CreateItem = app.CreateClass("Item", "itemID", itemFields,
 	end,
 	trackable = function(t)
 		-- raw repeatable quests can't really be tracked since they immediately unflag
-		return not rawget(t, "repeatable");
+		return not rawget(t, "repeatable") and t.repeatable
 	end,
 	saved = function(t)
 		return IsQuestFlaggedCompleted(t.questID);
@@ -501,7 +504,6 @@ local BaseCostItem = app.BaseObjectFields({
 		return GetItemCount(t.itemID, true, nil, true, true) or 0;
 	end,
 	["collectible"] = app.ReturnFalse,
-	["trackable"] = app.ReturnTrue,
 	-- show a check when it is has matching quantity in your bags/reagent bank (bank/warband bank don't count at vendors)
 	["saved"] = function(t)
 		return GetItemCount(t.itemID, nil, nil, true) >= t.total;

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.15
+## Version: 4.0.17
 
 ## Title: AllTheThings |cfd9b9b9b(Wrath)|r
 ## Notes: Addon for Tracking Collections & Account Completion
@@ -13,8 +13,8 @@
 ## AddonCompartmentFuncOnEnter: AllTheThings_MinimapButtonOnEnter
 ## AddonCompartmentFuncOnLeave: AllTheThings_MinimapButtonOnLeave
 
-## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsAD, AllTheThingsSettings, AllTheThingsAuctionData, AllTheThingsDebugData, ATTClassicSettings, ATTClassicAuctionData, AllTheThingsHarvestItems
-## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter, ATTClassicSettingsPerCharacter
+## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsAD, AllTheThingsSettings, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsHarvestItems
+## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
 ## X-Interface: 30403
 ## X-Wago-ID: yQKyY5K7
@@ -62,6 +62,7 @@ src\Cache.lua
 
 # Helper Modules
 src\Modules\RetrievingData.lua
+src\Modules\Collection.lua
 src\Modules\FactionData.lua
 src\Modules\Color.lua
 # src\Modules\Costs.lua
@@ -90,6 +91,7 @@ src\Classes\Quests.lua
 src\Classes\Item.Classic.lua
 src\Classes\Encounter.lua
 src\Classes\Expansion.lua
+src\Classes\FlightPath.lua
 src\Classes\Maps.lua
 src\Classes\Objects.lua
 src\Classes\Category.lua
@@ -123,6 +125,7 @@ src\Settings\Classic Settings.xml
 classic\ATT-Classic.lua
 src\UI\Game Tooltip.lua
 src\UI\Minimap Button.lua
+src\UI\Waypoints.lua
 src\UI\World Map Button.lua
 
 # Window Logic Overhaul

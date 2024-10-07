@@ -1,7 +1,7 @@
 # Titan Panel [Reputation]
 
-## [v1.45](https://github.com/Eliote/TitanReputation/tree/v1.45) (2024-08-31)
-[Full Changelog](https://github.com/Eliote/TitanReputation/compare/v1.44...v1.45) [Previous Releases](https://github.com/Eliote/TitanReputation/releases)
+## [v1.47](https://github.com/Eliote/TitanReputation/tree/v1.47) (2024-10-07)
+[Full Changelog](https://github.com/Eliote/TitanReputation/compare/v1.46...v1.47) [Previous Releases](https://github.com/Eliote/TitanReputation/releases)
 
-- Fix icons for tww reputation  
-- Fix watched faction info  
+- Fix "IsFactionParagon" error in SoD (#7)  
+    * Fix: No IsFactionParagon in Classic Era  

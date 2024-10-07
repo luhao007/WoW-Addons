@@ -764,6 +764,52 @@ private.NPC_GUIDE = {
 	["2069772215"] = {
 		[RSConstants.FLAG] = { x = 0.6440, y = 0.3100, comment = AL["NOTE_206977_1"] };
 	}; --Parasidious
+	["107105630"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3331, y = 0.4250 };
+	}; --Broodmother Lizax
+	["109504630"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3479, y = 0.4979 };
+	}; --Broodmother Lizax
+	["95123641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6611, y = 0.5253 };
+	}; --Grelda the Hag
+	["105739680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2040, y = 0.4100 };
+	}; --Sanaar
+	["99610680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4955, y = 0.3383 };
+	}; --Garvrulg <Slatecrusher Exile>
+	["103214680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7320, y = 0.6800 };
+	}; --Har'kess the Insatiable
+	["112756680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2901, y = 0.8481 };
+	}; --Sorallus
+	["91892634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4203, y = 0.7107 };
+	}; --Thane Irglov the Merciless
+	["90139634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6252, y = 0.7494 };
+	}; --Inquisitor Ernstenbok
+	["110363634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5777, y = 0.3470 };
+	}; --Roteye
+	["98188634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4140, y = 0.3195 };
+	}; --Egyl the Enduring
+	["97653650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5417, y = 0.5078 };
+	}; --Taurson <The Beastly Boxer>
+	["97220650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4869, y = 0.5001 };
+	}; --Arru <The Terror>
+	["95872650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5091, y = 0.3197 };
+	}; --Skullhat <Skywhisker Taskmaster>
+	["98024650"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.5158, y = 0.3746 };
+		[RSConstants.ENTRANCE..2] = { x = 0.4806, y = 0.3380 };
+	}; --Luggut the Eggeater
 }
 
 ---============================================================================
@@ -1828,6 +1874,24 @@ private.CONTAINER_GUIDE = {
 	["4284722215"] = {
 		[RSConstants.ENTRANCE] = { x = 0.6587, y = 0.1874 };
 	}; --Captain Lancekat's Discretionary Funds
+	["255341680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2926, y = 0.5068 };
+	}; --Llorian's Supplies
+	["252449680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2040, y = 0.4100 };
+	}; --Shimmering Ancient Mana Cluster
+	["252446680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6586, y = 0.4190 };
+	}; --Shimmering Ancient Mana Cluster
+	["252450680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2901, y = 0.8481 };
+	}; --Shimmering Ancient Mana Cluster
+	["244628650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5417, y = 0.5078 };
+	}; --Taurson's Prize
+	["244473650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4869, y = 0.5001 };
+	}; --Thunder Totem Stolen Goods
 }
 
 ---============================================================================

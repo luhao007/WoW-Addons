@@ -279,7 +279,7 @@ function private.GetCraftHash(craftString, player, itemString)
 	hash = Hash.Calculate(itemString, hash)
 	local baseRecipeDifficulty, baseRecipeQuality, maxRecipeQuality = TSM.Crafting.GetQualityInfo(craftString, player)
 	if baseRecipeQuality then
-		hash = Hash.Calculate(floor(baseRecipeDifficulty + 0.5), hash)
+		hash = Hash.Calculate(floor(baseRecipeDifficulty * 1000000 + 0.5), hash)
 		hash = Hash.Calculate(floor(baseRecipeQuality * 1000 + 0.5), hash)
 		hash = Hash.Calculate(floor(maxRecipeQuality + 0.5), hash)
 	end

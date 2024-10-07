@@ -1,8 +1,14 @@
 # Edit Mode Expanded
 
-## [11.0-021](https://github.com/teelolws/EditModeExpanded/tree/11.0-021) (2024-09-28)
-[Full Changelog](https://github.com/teelolws/EditModeExpanded/compare/11.0-019...11.0-021) [Previous Releases](https://github.com/teelolws/EditModeExpanded/releases)
+## [11.0-022](https://github.com/teelolws/EditModeExpanded/tree/11.0-022) (2024-10-05)
+[Full Changelog](https://github.com/teelolws/EditModeExpanded/compare/11.0-021...11.0-022) [Previous Releases](https://github.com/teelolws/EditModeExpanded/releases)
 
-- Fix: don't show target-of-target during editmode if setting is disabled via interface options  
-    Closes: https://github.com/teelolws/EditModeExpanded/issues/122  
-- Update TalkingHead.lua  
+- Locales  
+- More Locale stuff  
+    https://github.com/teelolws/EditModeExpanded/issues/144  
+- Locale changes  
+    https://github.com/teelolws/EditModeExpanded/issues/144  
+- Update EditModeExpanded-1.0.lua  
+- Update enus.lua  
+- Add Locale files  
+    https://github.com/teelolws/EditModeExpanded/issues/144  

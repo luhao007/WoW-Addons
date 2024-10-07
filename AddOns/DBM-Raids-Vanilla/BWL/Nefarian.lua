@@ -12,7 +12,13 @@ end
 local mod	= DBM:NewMod("Nefarian-Classic","DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240629024638")
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+	mod.statTypes = "normal,heroic,mythic"
+else
+	mod.statTypes = "normal"
+end
+
+mod:SetRevision("20240928080825")
 mod:SetCreatureID(11583)
 mod:SetEncounterID(617)
 if not mod:IsClassic() then

@@ -70,13 +70,15 @@ end
 ---@param recipeMaxQuality number The max number of qualities for the recipe
 ---@param hasQualityMats boolean Whether or not the recipe has quality mats
 ---@param maxMatContribution number The max material contribution
+---@param usingConcentration boolean Whether or not concentration is being used
 ---@return number neededSkill
 ---@return number maxAddedSkill
 ---@return number maxQualityMatSkill
-function Quality.GetNeededSkill(targetQuality, recipeDifficulty, recipeQuality, recipeMaxQuality, hasQualityMats, maxMatContribution)
+---@return number concentration
+function Quality.GetNeededSkill(targetQuality, recipeDifficulty, recipeQuality, recipeMaxQuality, hasQualityMats, maxMatContribution, usingConcentration)
 	if recipeMaxQuality == 1 then
 		-- This recipe has quality mats, but doesn't produce a quality item
-		return 0, math.huge, 0
+		return 0, math.huge, 0, 0
 	end
 	-- Calculate how much skill we need to add in order to craft the target item
 	local neededSkill, maxAddedSkill = 0, 0
@@ -84,23 +86,32 @@ function Quality.GetNeededSkill(targetQuality, recipeDifficulty, recipeQuality, 
 	local skillPerTargetQuality = SKILL_PER_TARGET_QUALITY[recipeMaxQuality]
 	if targetQuality < minQuality then
 		-- We can't craft this low of a quality anymore
-		return nil, nil
-	else
-		local currentLowerBound = skillPerTargetQuality[minQuality] * recipeDifficulty
-		local currentUpperBound = skillPerTargetQuality[min(ceil(recipeQuality), recipeMaxQuality)] * recipeDifficulty
-		local currentQualityRatio = recipeQuality - minQuality
-		local currentSkill = currentLowerBound + currentQualityRatio * (currentUpperBound - currentLowerBound)
-		local targetLowerBound = skillPerTargetQuality[targetQuality] * recipeDifficulty
-		local targetUpperBound = skillPerTargetQuality[min(targetQuality + 1, recipeMaxQuality)] * recipeDifficulty
-		neededSkill = max(targetLowerBound - currentSkill, 0)
-		maxAddedSkill = targetQuality == recipeMaxQuality and math.huge or (targetUpperBound - currentSkill)
+		return nil, nil, nil, nil
 	end
+
+	local currentLowerBound = skillPerTargetQuality[minQuality] * recipeDifficulty
+	local currentUpperBound = skillPerTargetQuality[min(minQuality + 1, recipeMaxQuality)] * recipeDifficulty
+	local currentQualityRatio = recipeQuality - minQuality
+	local currentSkill = currentLowerBound + currentQualityRatio * (currentUpperBound - currentLowerBound)
+	local targetLowerBound = skillPerTargetQuality[targetQuality] * recipeDifficulty
+	local targetUpperBound = skillPerTargetQuality[min(targetQuality + 1, recipeMaxQuality)] * recipeDifficulty
+	neededSkill = max(targetLowerBound - currentSkill, 0)
+	maxAddedSkill = targetQuality == recipeMaxQuality and math.huge or (targetUpperBound - currentSkill)
 	assert(neededSkill >= 0 and maxAddedSkill > 0)
 	local maxQualityMatSkill = hasQualityMats and recipeDifficulty * maxMatContribution or 0
+	local concentration = 0
 	if neededSkill > maxQualityMatSkill then
-		return nil, nil
+		if usingConcentration then
+			return nil, nil, nil, nil
+		end
+		-- Retry with concentration (add 1 to the base recipe quality)
+		neededSkill, maxAddedSkill, maxQualityMatSkill = Quality.GetNeededSkill(targetQuality - 1, recipeDifficulty, recipeQuality, recipeMaxQuality, hasQualityMats, maxMatContribution, true)
+		if not neededSkill then
+			return nil, nil, nil, nil
+		end
+		concentration = 1 -- TODO: Calculate amount of concentration
 	end
-	return neededSkill, maxAddedSkill, maxQualityMatSkill
+	return neededSkill, maxAddedSkill, maxQualityMatSkill, concentration
 end
 
 ---Iterates over the possible combinations of quality mats.

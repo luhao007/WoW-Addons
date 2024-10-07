@@ -19,16 +19,8 @@ private.EVENT_INFO = {
 	[150950] = { zoneID = 535, artID = { 552 }, x = 8426, y = 3146, overlay = { "8426-3146" }, resetTimer = 31536000, worldmap = true }; --Free T-Shirt
 	[220903] = { zoneID = 554, x = 5849, y = 6012, overlay = { "5849-6012" }, weeklyReset = true }; --Estatua de la Grulla reluciente
 	[71876] = { zoneID = 554, artID = { 571 }, x = 4501, y = 3606, overlay = { "4501-3606" } }; --Zarhym Altogether
-	[90232] = { zoneID = 630, x = 5984, y = 1206 }; --null
 	[150948] = { zoneID = 634, artID = { 657 }, x = 6027, y = 5253, overlay = { "6027-5253" }, resetTimer = 31536000, worldmap = true }; --Free T-Shirt
-	[241528] = { zoneID = 634, x = 5800, y = 4508, overlay = { "5800-4508" } }; --Asaltantes Boca Infernal
-	[112612] = { zoneID = 641, x = 5197, y = 6934, overlay = { "5197-6934" } }; --null
-	[112812] = { zoneID = 641, x = 4799, y = 3754, overlay = { "4799-3754" } }; --null
-	[241127] = { zoneID = 641, x = 5555, y = 7761, overlay = { "5555-7761" } }; --null
 	[241128] = { zoneID = 641, x = 5555, y = 7761 }; --null
-	[93677] = { zoneID = 641, x = 5273, y = 8749 }; --null
-	[97584] = { zoneID = 650, x = 5454, y = 4063, overlay = { "5454-4063" } }; --null
-	[97653] = { zoneID = 650, x = 5370, y = 5127, overlay = { "5370-5127" } }; --null
 	[125230] = { zoneID = 863, x = 8186, y = 3058, overlay = { "8186-3058" } }; --El arcón maldito
 	[141124] = { zoneID = 863, artID = { 888 }, x = 5296, y = 7205, overlay = { "5296-7205" } }; --Aiji el Detestable
 	[282660] = { zoneID = 863, artID = { 888 }, x = 3808, y = 5768, overlay = { "3808-5768" } }; --Urna de Agussu

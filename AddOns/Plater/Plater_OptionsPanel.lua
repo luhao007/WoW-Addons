@@ -373,7 +373,10 @@ function Plater.OpenOptionsPanel(pageNumber, bIgnoreLazyLoad)
 
 	if (PlaterOptionsPanelFrame) then
 		PlaterOptionsPanelFrame:Show()
-		Plater.CheckOptionsTab()
+
+		if (not bIgnoreLazyLoad) then
+			Plater.CheckOptionsTab()
+		end
 
 		if (pageNumber) then
 			if (not bIsOptionsPanelFullyLoaded and not bIgnoreLazyLoad) then
@@ -3506,7 +3509,7 @@ Plater.CreateAuraTesting()
 				name = "Magic",
 				desc = "When the unit has a magic buff on it, show it.",
 			},
-			--show offensive CDs
+			--show offensive player CDs
 			{
 				type = "toggle",
 				get = function() return Plater.db.profile.extra_icon_show_offensive end,
@@ -11464,12 +11467,14 @@ end
 		friendly_npc_options_table, -- friendly npc
 		--spell feedback (animations)
 		auto_options, -- auto
-		advanced_options, -- advanced
+		--advanced_options, -- advanced
 		--resources
 	}
 
 	--
-	Plater.CheckOptionsTab()
+	if (not bIgnoreLazyLoad) then
+		Plater.CheckOptionsTab()
+	end
 
 	--__benchmark() --~perf
 end

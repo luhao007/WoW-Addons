@@ -218,6 +218,14 @@ function RSConfigDB.SetDisplayingRaidWarning(value)
 	private.db.display.displayRaidWarning = value
 end
 
+function RSConfigDB.IsFlashingWindowsTaskbar()
+	return private.db.display.flashWindowsTaskBar
+end
+
+function RSConfigDB.SetFlashingWindowsTaskbar(value)
+	private.db.display.flashWindowsTaskBar = value
+end
+
 function RSConfigDB.IsDisplayingChatMessages()
 	return private.db.display.displayChatMessage
 end

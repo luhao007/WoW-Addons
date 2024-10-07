@@ -1090,6 +1090,15 @@ local function UpdateRareNamesDB(currentDbVersion)
 				end
 			end
 			
+			-- Sets already found Containers as Containers if they were found as NPCs
+			for _, containerID in ipairs (RSConstants.CONTAINER_WITH_NPC_VIGNETTE) do
+				local containerInfo = RSGeneralDB.GetAlreadyFoundEntity(containerID)
+				if (containerInfo and containerInfo.atlasName ~= RSConstants.CONTAINER_VIGNETTE) then
+					containerInfo.atlasName = RSConstants.CONTAINER_VIGNETTE
+					RSLogger:PrintDebugMessage(string.format("Contenedor [%s]. Estaba marcado como un rare, Corregido!.", containerID))
+				end
+			end
+			
 			-- Remove already found entities that might be a pre event
 			for preEntityID, _ in pairs (RSConstants.NPCS_WITH_PRE_EVENT) do
 				RSGeneralDB.RemoveAlreadyFoundEntity(preEntityID)

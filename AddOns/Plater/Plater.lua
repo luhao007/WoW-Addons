@@ -651,7 +651,11 @@ Plater.AnchorNamesByPhraseId = {
 				
 				elseif (class == "WARLOCK") then				
 					if IsPlayerSpell(17877) then --Shadowburn
-						lowExecute = 0.20
+						if IsPlayerSpell(456939) then -- Blistering Atrophy
+							lowExecute = 0.30
+						else
+							lowExecute = 0.20
+						end
 					elseif IsSpellKnownOrOverridesKnown(198590) then --Drain Soul
 						lowExecute = 0.20
 					end
@@ -1463,9 +1467,9 @@ Plater.AnchorNamesByPhraseId = {
 		["nameplateMinAlpha"] = true,
 		["nameplateMinAlphaDistance"] = true,
 		["nameplateShowDebuffsOnFriendly"] = true,
-		["SoftTargetIconGameObject"] = (IS_WOW_PROJECT_MAINLINE),
-		["SoftTargetInteract"] = (IS_WOW_PROJECT_MAINLINE),
-		["SoftTargetNameplateInteract"] = (IS_WOW_PROJECT_MAINLINE),
+		["SoftTargetIconGameObject"] = true,
+		["SoftTargetInteract"] = true,
+		["SoftTargetNameplateInteract"] = true,
 	}
 	
 	local cvars_to_store_lower = {}
@@ -1853,6 +1857,7 @@ Plater.AnchorNamesByPhraseId = {
 		local profile = Plater.db.profile
 		local healthBar = unitFrame.healthBar
 		local castBar = unitFrame.castBar
+		local powerBar = unitFrame.powerBar
 		local buffFrame1 = unitFrame.BuffFrame
 		local buffFrame2 = unitFrame.BuffFrame2
 		local buffSpecial = unitFrame.ExtraIconFrame
@@ -1861,6 +1866,7 @@ Plater.AnchorNamesByPhraseId = {
 			--strata
 			unitFrame:SetFrameStrata (profile.ui_parent_base_strata)
 			healthBar:SetFrameStrata (profile.ui_parent_base_strata)
+			powerBar:SetFrameStrata (profile.ui_parent_base_strata)
 			castBar:SetFrameStrata (profile.ui_parent_cast_strata)
 			buffFrame1:SetFrameStrata (profile.ui_parent_buff_strata)
 			buffFrame2:SetFrameStrata (profile.ui_parent_buff2_strata)
@@ -1870,6 +1876,7 @@ Plater.AnchorNamesByPhraseId = {
 		--level
 		local baseLevel = unitFrame.baseFrameLevel or unitFrame:GetFrameLevel()
 		healthBar:SetFrameLevel ((baseLevel > 0) and baseLevel or 0)
+		powerBar:SetFrameLevel (((baseLevel > 0) and baseLevel or 0) + 2)
 			
 		local tmplevel = baseLevel + profile.ui_parent_cast_level + 3
 		castBar:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
@@ -1895,6 +1902,7 @@ Plater.AnchorNamesByPhraseId = {
 		local profile = Plater.db.profile
 		local healthBar = unitFrame.healthBar
 		local castBar = unitFrame.castBar
+		local powerBar = unitFrame.powerBar
 		local buffFrame1 = unitFrame.BuffFrame
 		local buffFrame2 = unitFrame.BuffFrame2
 		local buffSpecial = unitFrame.ExtraIconFrame
@@ -1903,6 +1911,7 @@ Plater.AnchorNamesByPhraseId = {
 			local targetStrata = Plater.db.profile.ui_parent_target_strata
 			unitFrame:SetFrameStrata (targetStrata)
 			healthBar:SetFrameStrata (targetStrata)
+			powerBar:SetFrameStrata (targetStrata)
 			castBar:SetFrameStrata (targetStrata)
 			buffFrame1:SetFrameStrata (targetStrata)
 			buffFrame2:SetFrameStrata (targetStrata)
@@ -1911,8 +1920,9 @@ Plater.AnchorNamesByPhraseId = {
 
 		--level
 		local baseLevel = unitFrame.baseFrameLevel or unitFrame:GetFrameLevel()
-		baseLevel = max(baseLevel + 5000, 5000)
+		baseLevel = DB_USE_UIPARENT and max(baseLevel + 5000, 5000) or baseLevel
 		healthBar:SetFrameLevel ((baseLevel > 0) and baseLevel or 0)
+		powerBar:SetFrameLevel (((baseLevel > 0) and baseLevel or 0) + 2)
 			
 		local tmplevel = min(baseLevel + profile.ui_parent_cast_level + 3, 10000)
 		castBar:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
@@ -3719,7 +3729,7 @@ Plater.AnchorNamesByPhraseId = {
 							--includes neutral npcs
 							
 							--add the npc in the npcid cache
-							if (Plater.ZoneInstanceType == "raid" or Plater.ZoneInstanceType == "party" or Plater.ZoneInstanceType == "scenario") then
+							if (not isObject and (Plater.ZoneInstanceType == "raid" or Plater.ZoneInstanceType == "party" or Plater.ZoneInstanceType == "scenario")) then
 								if (plateFrame[MEMBER_NPCID] and plateFrame[MEMBER_NAME] ~= UNKNOWN) then --UNKNOWN is the global string from blizzard
 									--npcCacheInfo: [1] npc name [2] zone name [3] language
 									local npcCacheInfo = DB_NPCIDS_CACHE[plateFrame[MEMBER_NPCID]]
@@ -5219,7 +5229,7 @@ function Plater.OnInit() --private --~oninit ~init
 						end
 					end
 					
-					if not customRenamed and Plater.db.profile.bossmod_castrename_enabled then
+					if not customRenamed and Plater.db.profile.bossmod_support_enabled and Plater.db.profile.bossmod_castrename_enabled then
 						local bmSpellName = ((BigWigsAPI and BigWigsAPI.GetSpellRename and BigWigsAPI.GetSpellRename(self.spellID)) or (DBM and DBM.GetAltSpellName and DBM:GetAltSpellName(self.spellID))) or nil
 						if bmSpellName then
 							self.Text:SetText(bmSpellName)
@@ -6158,11 +6168,17 @@ end
 		
 		Plater.StartLogPerformanceCore("Plater-Core", "Update", "UpdatePlateClickSpace")
 		
+		-- ensure we support the "large nameplate" setting properly
+		local namePlateVerticalScale = GetCVarNumberOrDefault("NamePlateVerticalScale")
+		local zeroBasedScale = namePlateVerticalScale - 1.0
+		local clampedZeroBasedScale = Saturate(zeroBasedScale)
+		local horizontalScale = GetCVarNumberOrDefault("NamePlateHorizontalScale")
+		
 		local width, height = Plater.db.profile.click_space_friendly[1], Plater.db.profile.click_space_friendly[2]
-		C_NamePlate.SetNamePlateFriendlySize (width, height) --classic: {132, 32}, retail: {110, 45},
+		C_NamePlate.SetNamePlateFriendlySize (width * horizontalScale, height * Lerp(1.0, 1.25, zeroBasedScale)) --classic: {132, 32}, retail: {110, 45},
 		
 		local width, height = Plater.db.profile.click_space[1], Plater.db.profile.click_space[2]
-		C_NamePlate.SetNamePlateEnemySize (width, height) --classic: {132, 32}, retail: {110, 45},
+		C_NamePlate.SetNamePlateEnemySize (width * horizontalScale, height * Lerp(1.0, 1.25, zeroBasedScale)) --classic: {132, 32}, retail: {110, 45},
 		
 		--C_NamePlate.SetNamePlateSelfPreferredClickInsets (0, 0, 0, 0)
 		--C_NamePlate.SetNamePlateFriendlyPreferredClickInsets (0, 0, 0, 0)
@@ -8527,7 +8543,7 @@ end
 			local attachTo = plateFrame.IconIndicators [plateFrame.IconIndicators.Next - 1]
 			--se for menor que 4 ele deve crescer para o lado da esquerda, nos outros casos vai para a direita
 			if (Plater.db.profile.indicator_anchor.side < 4) then
-				PixelUtil.SetPoint (thisIndicator, "right", attachTo, "left", -2, 0)
+				PixelUtil.SetPoint (thisIndicator, "right", attachTo, "left", -1, 0)
 			else
 				PixelUtil.SetPoint (thisIndicator, "left", attachTo, "right", 1, 0)
 			end
@@ -8579,7 +8595,8 @@ end
 			return
 		end
 		
-		local zoneName, zoneType = GetInstanceInfo()
+		local zoneName, zoneType, difficultyID = GetInstanceInfo()
+		zoneType = (difficultyID == 208 and "party") or zoneType -- delves are party content.
 		local profile = Plater.db.profile
 		
 		-- combat toggle

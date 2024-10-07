@@ -8,6 +8,10 @@
 
 ## IconTexture: interface/icons/achievement_dungeon_heroic_gloryoftheraider
 
+## AddonCompartmentFunc: KrowiAF_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: KrowiAF_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: KrowiAF_OnAddonCompartmentLeave
+
 ## SavedVariables: KrowiAF_DebugTable, KrowiAF_Options, KrowiAF_SavedData, KrowiAF_Filters, KrowiAF_SearchOptions, KrowiAF_Achievements
 
 ## X-Prefix: KrowiAF

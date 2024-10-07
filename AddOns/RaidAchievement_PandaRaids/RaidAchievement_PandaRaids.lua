@@ -61,33 +61,39 @@ function prra_OnUpdate(curtime)
 --ramariotableguid
 --mario
 if ramariotrack and curtime>ramariotrack then
-  ramariotrack=GetTime()+0.3
-  for i=1,GetNumGroupMembers() do
-    if UnitGUID("raid"..i.."-target") then
+	ramariotrack=GetTime()+0.3
+	for i=1,GetNumGroupMembers() do
+		if UnitGUID("raid"..i.."-target") then
 			local a1=UnitGUID("raid"..i.."-target")
 			local id=raGetUnitID(a1)
 			if id==67966 then
-        --проверка что есть бафф
-        local bummname=C_Spell.GetSpellInfo(136431).name
-        if UnitDebuff("raid"..i.."-target",bummname) then
-          local bil=0
-          if #ramariotableguid>0 then
-            for j=1,#ramariotableguid do
-              if ramariotableguid[j]==a1 then
-                bil=1
-              end
-            end
-          end
-          if bil==0 then
-            table.insert(ramariotableguid,a1)
-            if #ramariotableguid==5 then
-              prraachcompl(6)
-            end
-          end
-        end
-      end
-    end
-  end
+				--проверка что есть бафф
+				local bummname=C_Spell.GetSpellInfo(136431).name
+				if bummname then
+					for m = 1, 40 do
+						local aura = C_UnitAuras.GetDebuffDataByIndex("raid"..i.."-target", m)
+						if aura and aura.name == bummname then
+							local bil=0
+							if #ramariotableguid>0 then
+								for j=1,#ramariotableguid do
+									if ramariotableguid[j]==a1 then
+										bil=1
+									end
+								end
+							end
+							if bil==0 then
+								table.insert(ramariotableguid,a1)
+								if #ramariotableguid==5 then
+									prraachcompl(6)
+								end
+							end
+							break
+						end
+					end
+				end
+			end
+		end
+	end
 end
 
 

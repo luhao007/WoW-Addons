@@ -612,6 +612,44 @@ app.ExtendClass = function(baseClassName, className, classKey, fields, ...)
 	-- app.PrintDebug("ExtendClass",baseClassName, className, classKey)
 	return app.CreateClass(className, classKey, fields, ...);
 end
+-- Allows swapping the Class's method for a given field
+app.SwapClassDefinitionMethod = function(className, classField, newFunc)
+	local class = classDefinitions[className]
+	if not class then app.print("Class",className,"does not exist!") return end
+
+	local curFunc = class[classField]
+	if not curFunc then app.print("Class",className,"does not contain field",classField) return end
+
+	if newFunc and type(newFunc) ~= "function" then app.print("Cannot assing non-function for Class",className,"field",classField) return end
+
+	local swapdefaults = class.__swapdefaults
+	if not swapdefaults then
+		swapdefaults = {}
+		class.__swapdefaults = swapdefaults
+	end
+
+	if not swapdefaults[classField] then
+		swapdefaults[classField] = curFunc
+	end
+
+	if newFunc then
+		-- app.PrintDebug("SwapClassNew",className,classField,newFunc)
+		class[classField] = newFunc
+	else
+		-- app.PrintDebug("SwapClassDef",className,classField,swapdefaults[classField])
+		class[classField] = swapdefaults[classField]
+	end
+end
+-- Setup a simple true/false swap for the 'collectible' field of the given class based on the tracked setting name
+app.AddSimpleCollectibleSwap = function(classname, setting)
+	app.AddEventHandler("OnSettingsNeedsRefresh", function()
+		if app.Settings.Collectibles[setting] then
+			app.SwapClassDefinitionMethod(classname,"collectible",app.ReturnTrue)
+		else
+			app.SwapClassDefinitionMethod(classname,"collectible",app.ReturnFalse)
+		end
+	end);
+end
 
 -- Allows wrapping one Type Object with another Type Object. This allows for fall-through field logic
 -- without requiring a full copied definition of identical field functions and raw Object content
@@ -794,10 +832,7 @@ local function NotInitialized(name)
 	app.print(name,"not initialized yet...");
 end
 app.SetAccountCollected = function() NotInitialized("SetAccountCollected") end;
-app.SetAccountCollectedForSubType = function() NotInitialized("SetAccountCollectedForSubType") end
 app.SetCollected = function() NotInitialized("SetCollected") end;
-app.SetCollectedForSubType = function() NotInitialized("SetCollectedForSubType") end
--- Classic needs to use modules/Collection.lua pls
 app.SetCached = function() NotInitialized("SetCached") end;
 app.IsCached = function() NotInitialized("IsCached") end;
 app.IsAccountCached = function() NotInitialized("IsAccountCached") end;

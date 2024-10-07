@@ -217,7 +217,7 @@ local GetSpellName = app.WOWAPI.GetSpellName;
 	L.REPORT_INACCURATE_QUEST = "错误任务信息！（点击报告）";
 	L.NESTED_QUEST_REQUIREMENTS = "多重任务需要";
 	L.MAIN_LIST_REQUIRES_REFRESH = "[打开主列表更新进度 ]";
-	L.DOES_NOT_CONTRIBUTE_TO_PROGRESS = "|cffe08207该组及其内容不参与此窗口的进度，因为它来自另一个位置！|r";
+	L.DOES_NOT_CONTRIBUTE_TO_PROGRESS = "|cffe08207该组及其内容不参与此窗口的进度，因为它算在另一个位置！|r";
 	L.CURRENCY_NEEDED_TO_BUY = "需要购买物品未收藏的事物";
 	L.LOCK_CRITERIA_LEVEL_LABEL = "玩家等级";
 	L.LOCK_CRITERIA_QUEST_LABEL = "已完成任务";
@@ -255,15 +255,15 @@ local GetSpellName = app.WOWAPI.GetSpellName;
 	L.OWNED_BY = "拥有者 %s";
 
 -- Social Module
-	L.NEW_VERSION_AVAILABLE = "%s 已有更新的版本。请更新插件 %s。";
+	L.NEW_VERSION_AVAILABLE = "%s 已有更新的版本。请更新插件 %s，";
 	L.NEW_VERSION_FLAVORS = {
-		"要不我们给希尔瓦娜斯另一把火炬",
-		"阿莱克丝塔萨很担心你",
-		"无敌下次|cffffaaaa|肯定|r会掉落",
+		"不然希尔瓦娜斯会拿到另一个打火机。",
+		"阿莱克丝塔萨很担心你。",
+		"下次|cffffaaaa|一定|r出无敌！",
 		"这只是一个挫折",
-		"是时候降低你的百分比了",
-		"一只海龟成功入水",
-		"艾泽拉斯的勇士",
+		"是，大厨！",
+		"帮助一只海龟成功入水",
+		"艾泽拉斯的勇士。",
 	};
 	L.SOCIAL_PROGRESS = "社交进度";
 
@@ -562,14 +562,14 @@ for key,value in pairs({
 		SHOW_COMPLETED_GROUPS_CHECKBOX_TOOLTIP = "如果想在标题中看到已完成的组和完成百分比，请启用此选项。如果一个组没有与你职业相关的内容，这个设置也会让这些组出现在列表中。\n\n我们建议你关闭此设置，因为它将节省小列表中的空间，并允许你快速查看区域中缺少的内容。";
 		SHOW_COLLECTED_THINGS_CHECKBOX = "显示已收藏事物";
 		SHOW_COLLECTED_THINGS_CHECKBOX_TOOLTIP = "启用此选项可以看到已经收藏事物。\n\n建议关闭此设置因为它可以节省小列表中的空间并允许快速查看在该区域遗漏的内容。";
-		FILTER_THINGS_BY_LEVEL_CHECKBOX = "无等级限制";
-		FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP = "如果只想查看当前级别角色可用的事物，请启用此设置。\n\n注意：这对新战网特别有用。";
-		SHOW_BOE_CHECKBOX = "装备绑定/拾取绑定物品";
+		FILTER_THINGS_BY_LEVEL_CHECKBOX = "不限制等级";
+		FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP = "启用此选项会忽略玩家等级限制显示内容。\n\n\n\n注意：对于新账号，禁用此项特别有用。";
 		FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX = "无技能等级限制";
 		FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX_TOOLTIP = "如果您只想查看游戏环境中可用的最高技能级别可用的内容，请禁用此设置。";
-		SHOW_BOE_CHECKBOX_TOOLTIP = "如果要隐藏装备绑定/拾取绑定物品，请启用此设置。\n\n当你尝试为角色完成经典旧世并且不想专门用于可以在小号或拍卖行上放置的物品时，此设置非常有用。\n\n即：不要因为毁灭之锤而扰乱你的思绪。";
-		IGNORE_FILTERS_FOR_BOES_CHECKBOX = "忽略装备绑定/拾取绑定的筛选";
-		IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "如果要忽略装备绑定/拾取绑定物品的装备、武器、种族、等级或职业要求，请启用此设置。\n\n如果你正试图通过拍卖行扫描收藏你的物品，此模式可能对你有用。";
+		SHOW_BOE_CHECKBOX = "装备绑定/战团绑定物品";
+		SHOW_BOE_CHECKBOX_TOOLTIP = "启用此选项以显示装备绑定/战团绑定物品。\n\n如果你在为某个角色刷一些经典地下城，而且不想在那些之后能用其他小号刷，或者在拍卖行获取的物品，禁用此选项会很有用。\n\n即：别在刷厄运钟摆时磨失了智。";
+		IGNORE_FILTERS_FOR_BOES_CHECKBOX = "忽略装备绑定/战团绑定的筛选";
+		IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "启用此选项以忽略装备绑定/战团绑定物品的护甲、武器、种族、职业或专业技能要求。\n\n如果你正试图通过拍卖行扫描给小号收集物品，此模式可能对你有用。";
 		SHOW_ALL_SEASONAL = "所有季节性事件";
 		SHOW_ALL_SEASONAL_TOOLTIP = "启用此设置可显示所有季节性事件，而不是仅显示当前活动的季节性事件。\n\n注意：季节性活动将提前7天自动显示为活动状态。";
 		SHOW_PET_BATTLES_CHECKBOX_TOOLTIP = "如果您想在游戏中显示需要宠物对战的内容，请启用此设置。";
@@ -621,8 +621,8 @@ for key,value in pairs({
 		EXPANSION_THINGS_LABEL = "资料片事物";
 		AZERITE_ESSENCES_CHECKBOX = "|T"..app.asset("Expansion_BFA")..":0|t 艾泽拉斯之心精华";
 		AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "启用此选项以追踪艾泽里特精华。\n\n默认情况下每个角色都会被追踪。";
-		DRAKEWATCHERMANUSCRIPTS_CHECKBOX = "|T"..app.asset("Expansion_DF")..":0|t 观龙者手稿";
-		DRAKEWATCHERMANUSCRIPTS_CHECKBOX_TOOLTIP = "启用此选项跟踪 巨龙时代 观龙者手稿";
+		MOUNTMODS_CHECKBOX = "|T"..app.asset("Expansion_DF")..":0|t 坐骑定制";
+		DRAKEWATCHERMANUSCRIPTS_CHECKBOX_TOOLTIP = "启用此选项追踪坐骑定制选项";
 		FOLLOWERS_CHECKBOX = "|T"..app.asset("Expansion_WOD")..":0|t 追随者 & 伙伴";
 		FOLLOWERS_CHECKBOX_TOOLTIP = "启用此选项可追踪随从。\n\n即：要塞随从，军团职业大厅随从，争霸艾泽拉斯随从，暗影国度随从。";
 		MUSIC_ROLLS_SELFIE_FILTERS_CHECKBOX = "|T"..app.asset("Expansion_WOD")..":0|t 乐谱&自拍滤镜";
@@ -653,11 +653,11 @@ for key,value in pairs({
 		ACCOUNT_WIDE_TITLES_TOOLTIP = "大多数头衔都是在账号通用内进行追踪，但是魔兽世界中一些著名的头衔被锁定在赢得他们的角色上。\n\n如果你不关心这个并希望看到那些标记为收藏的头衔是你的小号，请切换此选项。";
 
 	-- General: Filters Page
-		ITEM_EXPLAIN_LABEL = "|cffFFFFFF始终显示此内容如果位于 "..app.ccColors.Account.."帐号模式|cffFFFFFF。|r";
+		ITEM_EXPLAIN_LABEL = app.ccColors.Account.."帐号模式|r|cffFFFFFF下，这些内容始终显示。|r";
 		CLASS_DEFAULTS_BUTTON = "职业默认";
-		CLASS_DEFAULTS_BUTTON_TOOLTIP = "点击此按钮可将所有过滤重置为职业默认。\n\n注意：只能打开可为职业收藏的过滤。";
-		ALL_BUTTON_TOOLTIP = "点击此按钮一次启用所有设备过滤。";
-		UNCHECK_ALL_BUTTON_TOOLTIP = "点击此按钮一次禁用所有设备过滤。";
+		CLASS_DEFAULTS_BUTTON_TOOLTIP = "点击此按钮可将所有选项重置为职业默认。\n\n注意：仅打开你的职业可以收集的选项。";
+		ALL_BUTTON_TOOLTIP = "点击此按钮一键启用所有选项。";
+		UNCHECK_ALL_BUTTON_TOOLTIP = "点击此按钮一键禁用所有选项。";
 
 	-- General: Phases Page
 	-- Classic Only, fully dynamic from within parser.
@@ -789,6 +789,11 @@ for key,value in pairs({
 	-- Features: Audio Page
 		CELEBRATIONS_LABEL = "庆祝和音效";
 		AUDIO_CHANNEL = "声音通道";
+		CHANNEL_MASTER = "主要";
+		CHANNEL_MUSIC = "音乐";
+		CHANNEL_SFX = "音效";
+		CHANNEL_AMBIENCE = "环境";
+		CHANNEL_DIALOG = "对话";
 		CELEBRATE_COLLECTED_CHECKBOX = "收藏事物触发庆祝音效";
 		CELEBRATE_COLLECTED_CHECKBOX_TOOLTIP = "如果你想在获得新的事物时听到庆祝'fanfare'效果请启用这个选项。\n\n这个功能可以极大地帮助你保持动力。";
 		SOUNDPACK = "声音包";
@@ -850,24 +855,6 @@ for key,value in pairs({
 		SHOW_PROFILE_LOADED = "显示在登录期间或在配置文件之间切换时加载的配置文件";
 })
 do a[key] = value; end
-
-if app.IsRetail then
-local a = L.AVAILABILITY_CONDITIONS;
-for key,value in pairs({
-	-- Arbitrary Filters
-	[1] = {1, "|CFFFF0000此项玩家永远无法获得。|r", "从未实施"}, -- No Hope
-	[2] = {1, "|CFFFF0000此项已从游戏中删除。|r", "从游戏中移除"}, -- No Hope
-	[4] = {3, "|CFFFF0000除非您拥有所需的 PvP 头衔、所需的 PvP 等级或处于该赛季的前 %，否则无法再购买或解锁幻化。|r", "PvP 精良/角斗士"},
-	[9] = {3, "|CFFFF0000此物品可在黑市拍卖行购买。原始来源可能已被删除。|r", "黑市拍卖行 [BMAH]"},
-	[10] = {3, "|CFFFF0000最初通过不再印刷的 TCG 卡获得，但仍可通过黑市、游戏内或现实中的拍卖行获得。|r", "集换式卡牌游戏 [TCG]"},
-	[11] = {3, "|CFFFF0000除非您认识可以使用用于召唤首领的物品的人，否则这将不再可用。\n注意：如果过去拥有大多数召唤物品，则可以通过与相应的 NPC 交谈来重新获得它们。|r", "需要召唤物品"},
-	[15] = {1, "|CFFFF0000这不能永久收集、学习或用于幻化。|r", "不可学"},
-	[35] = {3, "|CFFFF0000这被锁定在付费墙后面，例如游戏内商店、另一个暴雪产品或战友招募服务。|r", "暴雪礼品卡"},
-	[38] = {1, "|CFFFF0000这仅适用于在《熊猫人之谜》或通过黑市拍卖行完成传奇披风任务链的玩家。|r", "斡耳朵斯 - 传奇披风"},
-	[45] = {1, "|CFFFF0000暴雪的拾取更改损坏了几件物品，使其无法获得。\n“绞肉机”奥戈姆，和奥杜尔英雄模式物品目前已损坏，需要修复。|r", "拾取损坏"},	--TODO: |CFFFF0000Blizzard's loot changes broke several items and made them unobtainable.|r
-})
-do a[key] = value; end
-end
 
 if app.IsRetail then
 local a = L.CUSTOM_COLLECTS_REASONS;

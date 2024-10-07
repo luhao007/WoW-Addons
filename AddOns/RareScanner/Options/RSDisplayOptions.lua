@@ -227,13 +227,24 @@ function RSDisplayOptions.GetDisplayOptions()
 					end,
 					width = "full",
 				},
-				separatorNavigation = {
+				flashWindowsTaskBar = {
 					order = 10,
+					type = "toggle",
+					name = AL["FLASH_WINDOWS_TASKBAR"],
+					desc = AL["FLASH_WINDOWS_TASKBAR_DESC"],
+					get = function() return RSConfigDB.IsFlashingWindowsTaskbar() end,
+					set = function(_, value)
+						RSConfigDB.SetFlashingWindowsTaskbar(value)
+					end,
+					width = "full",
+				},
+				separatorNavigation = {
+					order = 11,
 					type = "header",
 					name = AL["NAVIGATION_OPTIONS"],
 				},
 				enableNavigation = {
-					order = 11,
+					order = 12,
 					type = "toggle",
 					name = AL["NAVIGATION_ENABLE"],
 					desc = AL["NAVIGATION_ENABLE_DESC"],
@@ -244,7 +255,7 @@ function RSDisplayOptions.GetDisplayOptions()
 					width = "full",
 				},
 				navigationLockEntity = {
-					order = 12,
+					order = 13,
 					type = "toggle",
 					name = AL["NAVIGATION_LOCK_ENTITY"],
 					desc = AL["NAVIGATION_LOCK_ENTITY_DESC"],
@@ -256,12 +267,12 @@ function RSDisplayOptions.GetDisplayOptions()
 					disabled = function() return not RSConfigDB.IsDisplayingNavigationArrows() end,
 				},
 				separatorMap = {
-					order = 13,
+					order = 14,
 					type = "header",
 					name = AL["MAP_OPTIONS"],
 				},
 				minimapButton = {
-					order = 14,
+					order = 15,
 					type = "toggle",
 					name = AL["DISPLAY_MINIMAP_BUTTON"],
 					desc = AL["DISPLAY_MINIMAP_BUTTON_DESC"],
@@ -273,7 +284,7 @@ function RSDisplayOptions.GetDisplayOptions()
 					width = "full",
 				},
 				worldmapButton = {
-					order = 15,
+					order = 16,
 					type = "toggle",
 					name = AL["DISPLAY_WORLDMAP_BUTTON"],
 					desc = AL["DISPLAY_WORLDMAP_BUTTON_DESC"],

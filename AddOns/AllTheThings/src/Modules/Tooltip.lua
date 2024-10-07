@@ -560,13 +560,17 @@ local SkipPurchases = {
 	-- 2 	- (popout, skipped unless within popout)
 	-- 2.5 	- (popout root, skipped unless root of popout)
 	itemID = {
-		[137642] = 2,	-- Mark of Honor
+		[137642] = 2.5,	-- Mark of Honor
 		[21100] = 1,	-- Coin of Ancestry
 		[23247] = 1,	-- Burning Blossom
+		[33226] = 1,	-- Tricky Treat
+		[37829] = 1,	-- Brewfest Prize Token
 		[49927] = 1,	-- Love Token
 	},
 	currencyID = {
-		[2778] = 2,		-- Bronze
+		[515] = 1,		-- Darkmoon Prize Ticket
+		[1166] = 1,		-- Timewarped Badge
+		[2778] = 2.5,		-- Bronze
 	},
 }
 app.ShouldFillPurchases = function(group, FillData)
@@ -576,7 +580,7 @@ app.ShouldFillPurchases = function(group, FillData)
 		if val then
 			val = values[val]
 			if not val then return true end
-			if CurrentSkipLevel < val - (group == FillData.Root and 0.5 or 0) then
+			if (FillData.SkipLevel or CurrentSkipLevel) < val - (group == FillData.Root and 0.5 or 0) then
 				return false;
 			end
 		end
@@ -632,9 +636,10 @@ app.StripColorAndTextureData = function()
 	return StripColorAndTextureData("|TInterface\\MONEYFRAME\\UI-GoldIcon:0|t2 |cffff0000GOLD|r Coins")
 end;
 ]]--
+local HexToARGB = app.Modules.Color.HexToARGB;
 local function AttachTooltipInformationEntry(tooltip, entry)
 	if entry.color then
-		entry.a, entry.r, entry.g, entry.b = app.Modules.Color.HexToARGB(entry.color);
+		entry.a, entry.r, entry.g, entry.b = HexToARGB(entry.color);
 		entry.color = nil;
 	end
 
@@ -705,7 +710,8 @@ local function ClearTooltip(tooltip)
 	tooltip.AllTheThingsProcessing = nil;
 	tooltip.ATT_AttachComplete = nil;
 end
-local function AttachTooltipSearchResults(tooltip, lineNumber, method, ...)
+-- TODO: remove second unused param...
+local function AttachTooltipSearchResults(tooltip, _, method, ...)
 	-- app.PrintDebug("AttachTooltipSearchResults",...)
 	app.SetSkipLevel(1);
 	local status, group, working = pcall(app.GetCachedSearchResults, method, ...)
@@ -718,20 +724,16 @@ local function AttachTooltipSearchResults(tooltip, lineNumber, method, ...)
 			end
 
 			local tooltipInfo = group.tooltipInfo
-			-- TODO: comment in once all tooltip logic is hooked via information types
 			-- If we need to generate tooltip-only content for this group then do that now
-			-- if not tooltipInfo then
-			-- 	tooltipInfo = {}
-			-- 	group.tooltipInfo = tooltipInfo
-			-- 	app.ProcessInformationTypesForExternalTooltips(tooltipInfo, group)
-
-			-- 	-- Some tooltip items might be added using a color instead of argb, so we have to convert them... TODO maybe clean up
-			-- 	if #tooltipInfo > 0 then
-			-- 		for i,item in ipairs(tooltipInfo) do
-			-- 			if item.color then item.a, item.r, item.g, item.b = HexToARGB(item.color) end
-			-- 		end
-			-- 	end
-			-- end
+			if not tooltipInfo then
+				tooltipInfo = {}
+				group.working = nil
+				app.ProcessInformationTypesForExternalTooltips(tooltipInfo, group)
+				-- only save the cached tooltip info for this group if it is not working
+				if not group.working then
+					group.tooltipInfo = tooltipInfo
+				end
+			end
 
 			-- If there was info text generated for this search result, then display that first.
 			AttachTooltipInformation(tooltip, tooltipInfo);
@@ -741,6 +743,7 @@ local function AttachTooltipSearchResults(tooltip, lineNumber, method, ...)
 		app.PrintDebug("pcall tooltip failed",group)
 	end
 	tooltip.ATT_AttachComplete = not (working or (group and group.working));
+	-- app.PrintDebug("ATT_AttachComplete",tooltip.ATT_AttachComplete,working,group.working)
 end
 
 -- Battle Pet Tooltips
@@ -979,20 +982,15 @@ if TooltipDataProcessor and app.GameBuildVersion > 50000 then
 		-- Does the tooltip have an itemlink?
 		if self.AllTheThingsProcessing and link then
 			-- app.PrintDebug("Search Item",link,id,ttId);
-			if id == 137642 then -- skip Mark of Honor for now
-				AttachTooltipSearchResults(self, 1, app.EmptyFunction, "itemID", 137642);
-				return true;
+			local itemID = GetItemID(link);
+			-- TODO: review if Blizzard ever fixes their tooltips returning the wrong Item link when using TooltipUtil.GetDisplayedItem
+			-- on Auction House tooltips (i.e. Recipes) where one Item is nested inside another Item
+			if itemID ~= ttId then
+				-- app.PrintDebug("Mismatch TT data!",link,itemID,ttId)
+				-- fallout to the generalized Item search below
 			else
-				local itemID = GetItemID(link);
-				-- TODO: review if Blizzard ever fixes their tooltips returning the wrong Item link when using TooltipUtil.GetDisplayedItem
-				-- on Auction House tooltips (i.e. Recipes) where one Item is nested inside another Item
-				if itemID ~= ttId then
-					-- app.PrintDebug("Mismatch TT data!",link,itemID,ttId)
-					-- fallout to the generalized Item search below
-				else
-					AttachTooltipSearchResults(self, 1, SearchForLink, link);
-					return true;
-				end
+				AttachTooltipSearchResults(self, 1, SearchForLink, link);
+				return true;
 			end
 		end
 

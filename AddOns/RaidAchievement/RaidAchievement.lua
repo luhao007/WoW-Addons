@@ -6,7 +6,7 @@ if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocal
 end
 
 
-	raversion=11.004
+	raversion=11.005
 	local raverstiptext="alpha"
 	if string.len(raversion)==6 then
 		raverstiptext="beta"
@@ -2608,8 +2608,8 @@ return false
 end
 function checkBuff(unit,spellName)
 for i=1,40 do
-    local name, icon, _, _, _, etime = UnitBuff(unit,i)
-    if name and name == spellName then
+    local aura = C_UnitAuras.GetDebuffDataByIndex(unit,i)
+    if aura and aura.name == spellName then
 		return true
     end
 end
@@ -2617,8 +2617,8 @@ return false
 end
 function checkDeBuff(unit,spellName)
 for i=1,40 do
-    local name, icon, _, _, _, etime = UnitDebuff(unit,i)
-    if name and name == spellName then
+    local aura = C_UnitAuras.GetDebuffDataByIndex(unit, i)
+	if aura and aura.name == spellName then
 		return true
     end
 end
