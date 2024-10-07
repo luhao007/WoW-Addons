@@ -17,7 +17,7 @@ AuraScan.AurasToTimeline = {} --which spells should be added to the timeline
 AuraScan.AuraTimelineStorage = {} --store the timeline here
 
 function AuraScan.FindAndIgnoreWorldAuras()
-    for buffIndex = 1, 4
+    for buffIndex = 1, 41 do
         ---@type aurainfo
         local auraInfo = C_UnitAuras.GetAuraDataByIndex("player", buffIndex, "HELPFUL")
         if (auraInfo) then
