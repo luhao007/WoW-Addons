@@ -22,7 +22,16 @@ MDT.dungeonSubLevels[dungeonIndex] = {
 
 MDT.dungeonTotalCount[dungeonIndex] = { normal = 460, teeming = 1000, teemingEnabled = true }
 
-MDT.mapPOIs[dungeonIndex] = {}
+MDT.mapPOIs[dungeonIndex] = {
+  [1] = {
+    [1] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "dungeonEntrance",
+      ["x"] = 594.33722436621,
+      ["y"] = -518.43239200431,
+    },
+  },
+};
 
 MDT.dungeonEnemies[dungeonIndex] = {
   [1] = {
@@ -211,6 +220,12 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["g"] = 36,
         ["sublevel"] = 1,
       },
+      [7] = {
+        ["x"] = 53.239666437928,
+        ["y"] = -206.21951709087,
+        ["g"] = 17,
+        ["sublevel"] = 1,
+      },
     },
   },
   [3] = {
@@ -219,6 +234,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 12,
     ["health"] = 33815270,
     ["scale"] = 1.4,
+    ["stealthDetect"] = true,
     ["displayId"] = 115526,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -257,6 +273,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 12,
     ["health"] = 33815270,
     ["scale"] = 1.4,
+    ["stealthDetect"] = true,
     ["displayId"] = 115535,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -292,6 +309,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 12,
     ["health"] = 39782670,
     ["scale"] = 1.4,
+    ["stealthDetect"] = true,
     ["displayId"] = 117315,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -457,12 +475,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["x"] = 62.042910505465,
         ["y"] = -157.28870315497,
         ["g"] = 16,
-        ["sublevel"] = 1,
-      },
-      [15] = {
-        ["x"] = 53.273833829455,
-        ["y"] = -207.20308415945,
-        ["g"] = 17,
         ["sublevel"] = 1,
       },
       [17] = {
@@ -860,6 +872,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 16,
     ["health"] = 27847869,
     ["scale"] = 1.4,
+    ["stealthDetect"] = true,
     ["displayId"] = 117518,
     ["creatureType"] = "Elemental",
     ["level"] = 80,
@@ -977,6 +990,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 12,
     ["health"] = 32754194,
     ["scale"] = 1.8,
+    ["stealthDetect"] = true,
     ["displayId"] = 116834,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -1031,6 +1045,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 10,
     ["health"] = 33815270,
     ["scale"] = 1.3,
+    ["stealthDetect"] = true,
     ["displayId"] = 115534,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -1215,6 +1230,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 25,
     ["health"] = 56690306,
     ["scale"] = 3,
+    ["stealthDetect"] = true,
     ["displayId"] = 115760,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -1246,6 +1262,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 25,
     ["health"] = 53706605,
     ["scale"] = 3,
+    ["stealthDetect"] = true,
     ["displayId"] = 115759,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -1281,6 +1298,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 25,
     ["health"] = 65641406,
     ["scale"] = 3,
+    ["stealthDetect"] = true,
     ["displayId"] = 119262,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -1314,6 +1332,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 30,
     ["health"] = 55695738,
     ["scale"] = 3,
+    ["stealthDetect"] = true,
     ["displayId"] = 120116,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,

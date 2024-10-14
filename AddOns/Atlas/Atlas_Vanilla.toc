@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: nanderson11
-## Version: 2.0.1
+## Version: 2.0.2
 
 ## Title: Atlas
 ## Notes: Instance Map Browser

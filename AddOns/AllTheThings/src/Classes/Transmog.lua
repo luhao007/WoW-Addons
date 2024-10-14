@@ -15,7 +15,6 @@ if not C_TransmogCollection then
 
 	-- External Functionality
 	app.AddSourceInformation = app.EmptyFunction;
-	app.BuildSourceInformationForPopout = app.EmptyFunction;
 	app.GetGroupSourceID = app.EmptyFunction
 
 	-- Extend the Filter Module to include ItemSource
@@ -568,7 +567,6 @@ local function CollectUniqueAppearances()
 end
 local function RefreshAppearanceSources()
 	-- app.PrintDebug("RefreshAppearanceSources")
-	app.DoRefreshAppearanceSources = nil;
 	wipe(AccountSources);
 	-- C_TransmogCollection.PlayerKnowsSource is slower and provides less known sources...
 	-- Simply determine the max known SourceID from ATT cached sources
@@ -590,13 +588,14 @@ end
 -- for instance, Data.Sources would only change in refresh, with nil or 1 being stored
 -- and a separate storage for Unique-collected Sources, then adjusting Transmog class logic to allow referencing
 -- the Unique table when in Unique mode? maybe once events are all good it won't really matter
-app.AddEventHandler("OnSourceCollection", function()
-	if app.DoRefreshAppearanceSources then
+app.AddEventHandler("OnRecalculate", function()
+	if app.MODE_DEBUG or app.Settings:Get("Thing:Transmog") then
 		RefreshAppearanceSources();
+		app.HandleEvent("OnSourcesCollected")
 	end
 end)
-app.AddEventHandler("OnUniqueSourceCollection", function()
-	if app.Settings:Get("Thing:Transmog") and not app.Settings:Get("Completionist") then
+app.AddEventHandler("OnSourcesCollected", function()
+	if not app.Settings:Get("Completionist") then
 		CollectUniqueAppearances();
 	end
 end)
@@ -896,7 +895,7 @@ app.AddSourceInformation = function(sourceID, info, group)
 		return working;
 	end
 end
-app.BuildSourceInformationForPopout = function(group)
+local function BuildSourceInformationForPopout(group)
 	-- Create groups showing Appearance information
 	if group.sourceID then
 		-- print(group.__type)
@@ -918,10 +917,9 @@ app.BuildSourceInformationForPopout = function(group)
 			for _,otherSourceID in ipairs(C_TransmogCollection_GetAllAppearanceSources(sourceInfo.visualID)) do
 				-- If this isn't the source we already did work on and we haven't already completed it
 				if otherSourceID ~= group.sourceID then
-					local shared = app.SearchForMergedObject("sourceID", otherSourceID);
+					local shared = app.SearchForObject("sourceID", otherSourceID, "key");
 					if shared then
-						shared = app.__CreateObject(shared, true);
-						shared.hideText = true;
+						shared = app.CloneObject(shared, true);
 						tinsert(g, shared);
 						-- print("ATT Appearance:",shared.hash,shared.modItemID)
 					else
@@ -941,27 +939,29 @@ app.BuildSourceInformationForPopout = function(group)
 			local appearanceGroup;
 			if #g > 0 then
 				appearanceGroup = app.CreateNPC(app.HeaderConstants.SHARED_APPEARANCES, {
-					["OnUpdate"] = app.AlwaysShowUpdate,
-					["sourceIgnored"] = true,
-					["skipFill"] = true,
-					["g"] = g,
+					OnUpdate = app.AlwaysShowUpdate,
+					OnClick = app.UI.OnClick.IgnoreRightClick,
+					sourceIgnored = true,
+					skipFill = true,
+					SortPriority = -2.3,
+					g = g,
 				});
 			else
 				appearanceGroup = app.CreateNPC(app.HeaderConstants.UNIQUE_APPEARANCE, {
-					["OnUpdate"] = app.AlwaysShowUpdate,
-					["sourceIgnored"] = true,
-					["skipFill"] = true,
+					OnUpdate = app.AlwaysShowUpdate,
+					OnClick = app.UI.OnClick.IgnoreRightClick,
+					sourceIgnored = true,
+					skipFill = true,
+					SortPriority = -2.3,
 				});
 			end
 			-- add the group showing the Appearance information for this popout
 			if group.g then tinsert(group.g, appearanceGroup)
 			else group.g = { appearanceGroup } end
 		end
-
-		-- Now apply Gear Sets, if relevant.
-		app.BuildGearSetInformationForGroup(group);
 	end
 end
+app.AddEventHandler("OnNewPopoutGroup", BuildSourceInformationForPopout)
 
 -- Event Handling
 app.AddEventRegistration("TRANSMOG_COLLECTION_SOURCE_ADDED", function(sourceID)
@@ -1021,7 +1021,6 @@ app.AddEventRegistration("TRANSMOG_COLLECTION_SOURCE_REMOVED", function(sourceID
 		-- Refresh the Data and Cry!
 		app.UpdateRawIDs("sourceID", unlearnedSourceIDs);
 		app.HandleEvent("OnThingRemoved", "Transmog")
-		app.WipeSearchCache();
 	end
 end)
 

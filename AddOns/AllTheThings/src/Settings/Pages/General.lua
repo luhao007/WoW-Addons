@@ -208,9 +208,6 @@ function(self)
 end,
 function(self)
 	settings:Set("Thing:Transmog", self:GetChecked())
-	if self:GetChecked() then
-		app.DoRefreshAppearanceSources = true
-	end
 	settings:UpdateMode(1)
 end)
 local tooltip = L.APPEARANCES_CHECKBOX_TOOLTIP;
@@ -704,18 +701,11 @@ if app.GameBuildVersion >= 60000 then
 	child:CreateTrackingCheckbox("FOLLOWERS", "Followers", true)
 		:AlignAfter(accwideCheckboxFollowers)
 
-	-- Music Rolls & Selfie Filters (Warlords+) [TODO: Do we want to split these up?]
-	local accwideCheckboxMusicRollsAndSelfieFilters =
-	child:CreateAccountWideCheckbox("MUSIC_ROLLS_SELFIE_FILTERS", "MusicRollsAndSelfieFilters")
-		:AlignBelow(accwideCheckboxFollowers)
-	child:CreateTrackingCheckbox("MUSIC_ROLLS_SELFIE_FILTERS", "MusicRollsAndSelfieFilters", true)
-		:AlignAfter(accwideCheckboxMusicRollsAndSelfieFilters)
-
 	if app.GameBuildVersion >= 80000 then
 		-- Azerite Essences (BFA+)
 		local accwideCheckboxAzeriteEssences =
 		child:CreateAccountWideCheckbox("AZERITE_ESSENCES", "AzeriteEssences")
-			:AlignBelow(accwideCheckboxMusicRollsAndSelfieFilters)
+			:AlignBelow(accwideCheckboxFollowers)
 		child:CreateTrackingCheckbox("AZERITE_ESSENCES", "AzeriteEssences", true)
 			:AlignAfter(accwideCheckboxAzeriteEssences)
 
@@ -734,7 +724,7 @@ if app.GameBuildVersion >= 60000 then
 			child:CreateTrackingCheckbox("RUNEFORGELEGENDARIES", "RuneforgeLegendaries", true)
 				:AlignAfter(accwideCheckboxRunecarvingPowers)
 
-			if app.GameBuildVersion >= 90000 then
+			if app.GameBuildVersion >= 100000 then
 				-- Mount Mods (Dragonflight+)
 				local accwideCheckboxMountMods =
 				child:CreateForcedAccountWideCheckbox()

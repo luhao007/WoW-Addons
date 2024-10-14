@@ -30,7 +30,16 @@ MDT.dungeonSubLevels[dungeonIndex] = {
 
 MDT.dungeonTotalCount[dungeonIndex] = { normal = 494, teeming = 319, teemingEnabled = true }
 
-MDT.mapPOIs[dungeonIndex] = {}
+MDT.mapPOIs[dungeonIndex] = {
+  [1] = {
+    [1] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "dungeonEntrance",
+      ["x"] = 704.18107628408,
+      ["y"] = -504.43950841724,
+    },
+  },
+};
 
 MDT.dungeonEnemies[dungeonIndex] = {
   [1] = {
@@ -345,14 +354,14 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["sublevel"] = 1,
       },
       [12] = {
-        ["x"] = 632.46216217812,
-        ["y"] = -228.23888610425,
+        ["x"] = 633.82145704948,
+        ["y"] = -222.80175847161,
         ["g"] = 19,
         ["sublevel"] = 1,
       },
       [13] = {
-        ["x"] = 641.66286498881,
-        ["y"] = -233.6259504117,
+        ["x"] = 643.02215986017,
+        ["y"] = -228.18882277906,
         ["g"] = 19,
         ["sublevel"] = 1,
       },
@@ -545,8 +554,8 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["sublevel"] = 1,
       },
       [9] = {
-        ["x"] = 650.32470660058,
-        ["y"] = -227.50946057393,
+        ["x"] = 651.68400147194,
+        ["y"] = -222.07233294129,
         ["g"] = 19,
         ["sublevel"] = 1,
       },
@@ -594,12 +603,12 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 10,
     ["health"] = 31826136,
     ["scale"] = 1.2,
+    ["stealthDetect"] = true,
     ["displayId"] = 84134,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -994,12 +1003,12 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 10,
     ["health"] = 31826136,
     ["scale"] = 1.2,
+    ["stealthDetect"] = true,
     ["displayId"] = 84067,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -1014,8 +1023,8 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
     ["clones"] = {
       [1] = {
-        ["x"] = 641.38939764551,
-        ["y"] = -222.081270134,
+        ["x"] = 642.74869251687,
+        ["y"] = -216.64414250136,
         ["g"] = 19,
         ["sublevel"] = 1,
       },
@@ -1082,7 +1091,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["level"] = 80,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -1217,7 +1225,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["level"] = 80,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -1418,12 +1425,12 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 10,
     ["health"] = 39782670,
     ["scale"] = 1.2,
+    ["stealthDetect"] = true,
     ["displayId"] = 68059,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -1934,6 +1941,24 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["y"] = -134.08282769837,
         ["sublevel"] = 1,
       },
+      [6] = {
+        ["x"] = 533.08999131163,
+        ["y"] = -205.8571455162,
+        ["g"] = 45,
+        ["sublevel"] = 1,
+      },
+      [7] = {
+        ["x"] = 522.55113449344,
+        ["y"] = -206.78911580354,
+        ["g"] = 45,
+        ["sublevel"] = 1,
+      },
+      [8] = {
+        ["x"] = 513.56167523773,
+        ["y"] = -208.19370977042,
+        ["g"] = 45,
+        ["sublevel"] = 1,
+      },
       [14] = {
         ["x"] = 533.09648543536,
         ["y"] = -241.59582302001,
@@ -2059,6 +2084,12 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["y"] = -227.9512629476,
         ["sublevel"] = 1,
       },
+      [37] = {
+        ["x"] = 507.10055263473,
+        ["y"] = -212.68843939827,
+        ["g"] = 45,
+        ["sublevel"] = 1,
+      },
     },
   },
   [26] = {
@@ -2066,7 +2097,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["id"] = 128650,
     ["count"] = 0,
     ["health"] = 111391476,
-    ["scale"] = 0.8,
+    ["scale"] = 1.3,
     ["displayId"] = 84821,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
@@ -2075,7 +2106,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["instanceID"] = 1023,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -2098,8 +2128,9 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
     ["clones"] = {
       [1] = {
-        ["x"] = 635.54480864854,
-        ["y"] = -262.86202672769,
+        ["x"] = 635.82575637577,
+        ["y"] = -259.77195536417,
+        ["g"] = 46,
         ["sublevel"] = 1,
       },
     },
@@ -2113,10 +2144,11 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["displayId"] = 81286,
     ["creatureType"] = "Humanoid",
     ["level"] = 80,
+    ["isBoss"] = true,
+    ["encounterID"] = 2654,
+    ["instanceID"] = 1023,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Stun"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -2127,8 +2159,9 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
     ["clones"] = {
       [1] = {
-        ["x"] = 638.92712892458,
-        ["y"] = -252.10174282227,
+        ["x"] = 634.71333094959,
+        ["y"] = -243.9550624508,
+        ["g"] = 46,
         ["sublevel"] = 1,
       },
     },
@@ -2167,8 +2200,9 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
     ["clones"] = {
       [11] = {
-        ["x"] = 625.41899287047,
-        ["y"] = -258.81737696511,
+        ["x"] = 621.48611047399,
+        ["y"] = -256.57005233709,
+        ["g"] = 46,
         ["sublevel"] = 1,
       },
       [12] = {
@@ -2192,7 +2226,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["instanceID"] = 1023,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -2217,6 +2250,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1] = {
         ["x"] = 335.53070809102,
         ["y"] = -191.44577266466,
+        ["g"] = 47,
         ["sublevel"] = 1,
       },
     },
@@ -2260,6 +2294,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [4] = {
         ["x"] = 318.38742650426,
         ["y"] = -176.55524224797,
+        ["g"] = 47,
         ["sublevel"] = 1,
       },
     },
@@ -2278,7 +2313,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["instanceID"] = 1023,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
       ["Mind Soothe"] = true,
     },
     ["spells"] = {
@@ -2295,6 +2329,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [2] = {
         ["x"] = 346.85891571039,
         ["y"] = -171.1982856769,
+        ["g"] = 47,
         ["sublevel"] = 1,
       },
     },
@@ -2313,7 +2348,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["instanceID"] = 1023,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
     },
     ["spells"] = {
       [257862] = {
@@ -2374,6 +2408,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1] = {
         ["x"] = 70.838531556852,
         ["y"] = -155.72465904103,
+        ["g"] = 48,
         ["sublevel"] = 1,
       },
     },
@@ -2392,7 +2427,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["instanceID"] = 1023,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
     },
     ["spells"] = {
     },
@@ -2400,6 +2434,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1] = {
         ["x"] = 52.647493468106,
         ["y"] = -135.52934567108,
+        ["g"] = 48,
         ["sublevel"] = 1,
       },
     },
@@ -2418,7 +2453,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["instanceID"] = 1023,
     ["characteristics"] = {
       ["Taunt"] = true,
-      ["Slow"] = true,
     },
     ["spells"] = {
       [269266] = {
@@ -2430,6 +2464,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1] = {
         ["x"] = 68.797824144108,
         ["y"] = -181.89195829661,
+        ["g"] = 48,
         ["sublevel"] = 1,
       },
     },

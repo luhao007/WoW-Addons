@@ -1529,7 +1529,7 @@
 	</Addon>
 	<Addon name="Rematch">
 		<Title>宠物对战增强</Title>
-		<Category>战斗</Category>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="Rurutia">
 		<Title>露露缇娅语音包</Title>
@@ -1605,6 +1605,11 @@
 				<Title>设置</Title>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="tdBattlePetScript">
+		<Title>宠物对战脚本</Title>
+		<Notes>让宠物对战使用一键对战脚本</Notes>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="ThreatClassic2">
 		<Title>仇恨统计</Title>

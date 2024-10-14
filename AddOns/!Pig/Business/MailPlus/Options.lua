@@ -38,8 +38,8 @@ function BusinessInfo.MailPlusOptions()
 			Pig_Options_RLtishi_UI:Show()
 		end
 	end);
-	fuFrame.MailPlus.ScanSliderT = PIGFontString(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.Text,"RIGHT",40,0},"批量取件间隔")
-	fuFrame.MailPlus.ScanSlider = PIGSlider(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.ScanSliderT,"RIGHT",0,0},{0.1,1.2,0.01})
+	fuFrame.MailPlus.ScanSliderT = PIGFontString(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.Text,"RIGHT",40,0},"批量取件间隔/s")
+	fuFrame.MailPlus.ScanSlider = PIGSlider(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.ScanSliderT,"RIGHT",0,0},{0.15,1,0.01})
 	fuFrame.MailPlus.ScanSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
 		PIG_OPEN_ALL_MAIL_MIN_DELAY=arg1
 		PIGA["MailPlus"]["OpenAllCD"]=arg1
@@ -292,7 +292,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		end
 	end
 	StaticPopupDialogs["MAIL_PLUS_DELNONEMAIL"] = {
-		text = "此操作将|cffff0000清理所有不包含附件|r的邮件。\n确定清理吗?",
+		text = "此操作将|cffff0000清理所有不包含附件(已读)|r的邮件。\n确定清理吗?",
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function() InboxFrame.OnekeyTake:StartOpening(1) end,
@@ -554,7 +554,8 @@ function BusinessInfo.MailPlus_ADDUI()
 	end
 	function InboxFrame.OnekeyTake:ProcessNextItem()
 		local _, _, _, _, money, CODAmount, daysLeft, itemCount, wasRead, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
-		if ( isGM or (CODAmount and CODAmount > 0) ) then
+		if CODAmount and CODAmount > 0 then
+			self.mailIndex = self.mailIndex - 1;
 			self:AdvanceAndProcessNextItem();
 			return;
 		end

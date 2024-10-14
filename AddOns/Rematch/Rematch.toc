@@ -4,7 +4,7 @@
 
 ## Title: Rematch
 ## Notes: A pet journal alternative for managing pets and teams
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00ARematch|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00ARematch|r
 
 ## IconTexture: Interface\AddOns\Rematch\textures\icon
 

@@ -18,7 +18,6 @@ local Things = {
 	"HeirloomUpgrades",
 	"Illusions",
 	"Mounts",
-	"MusicRollsAndSelfieFilters",
 	"Quests",
 	"QuestsLocked",
 	"PVPRanks",
@@ -49,7 +48,6 @@ local GeneralSettingsBase = {
 		["AccountWide:Heirlooms"] = true,
 		["AccountWide:Illusions"] = true,
 		["AccountWide:Mounts"] = true,
-		["AccountWide:MusicRollsAndSelfieFilters"] = true,
 		["AccountWide:PVPRanks"] = false,
 		["AccountWide:Quests"] = false,
 		["AccountWide:Recipes"] = true,
@@ -70,7 +68,6 @@ local GeneralSettingsBase = {
 		["Thing:HeirloomUpgrades"] = app.GameBuildVersion >= 60000,
 		["Thing:Illusions"] = true,
 		["Thing:Mounts"] = true,
-		["Thing:MusicRollsAndSelfieFilters"] = app.GameBuildVersion >= 60000,
 		--["Thing:PVPRanks"] = app.GameBuildVersion < 20000,	-- CRIEVE NOTE: Maybe someday? Classic Era project.
 		["Thing:Quests"] = true,
 		["Thing:QuestsLocked"] = false,
@@ -201,7 +198,7 @@ local UnobtainableSettingsBase = {
 	__index = {
 		[1] = false,	-- Never Implemented
 		[2] = false,	-- Removed From Game
-		[3] = false,	-- Blizzard Balance
+		[3] = false,	-- Real Money
 	},
 };
 
@@ -286,8 +283,6 @@ settings.Initialize = function(self)
 	app.SetMinimapButtonSettings(
 		self:GetTooltipSetting("MinimapButton"),
 		self:GetTooltipSetting("MinimapSize"));
-
-	app.DoRefreshAppearanceSources = settings:Get("Thing:Transmog")
 
 	self:UpdateMode();
 end
@@ -887,7 +882,6 @@ settings.ToggleAccountMode = function(self)
 end
 settings.SetCompletionistMode = function(self, completionistMode)
 	self:Set("Completionist", completionistMode)
-	app.DoRefreshAppearanceSources = true
 	self:UpdateMode(1)
 end
 settings.ToggleCompletionistMode = function(self)
@@ -907,9 +901,6 @@ settings.SetDebugMode = function(self, debugMode)
 		settings:Set("Cache:CollectedThings", settings:Get("Show:CollectedThings"))
 		settings:SetCompletedGroups(true, true)
 		settings:SetCollectedThings(true, true)
-		if not self:Get("Thing:Transmog") then
-			app.DoRefreshAppearanceSources = true
-		end
 	else
 		settings:SetCompletedGroups(settings:Get("Cache:CompletedGroups"), true)
 		settings:SetCollectedThings(settings:Get("Cache:CollectedThings"), true)

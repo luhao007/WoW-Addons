@@ -1,0 +1,21 @@
+## Interface: 110002
+## Author: axc450
+## Version: v1.10.6
+
+## Title: Pet Battle Scripts
+## Notes: Battle Pet Combat Scripting
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物对战脚本|r |cFFFFE00AtdBattlePetScript|r
+## Notes-zhCN: 让宠物对战使用一键对战脚本
+
+## OptionalDeps: Ace3, Rematch, ElvUI
+## LoadManagers: AddonLoader
+
+## SavedVariables: TD_DB_BATTLEPETSCRIPT_GLOBAL
+## SavedVariablesPerCharacter: TD_DB_BATTLEPETSCRIPT_BATTLE_CACHE
+
+## X-LoadOn-Always: delayed
+## X-Curse-Project-ID: 699660
+## X-Wago-ID: WYK9036L
+## X-WoWI-ID: 26435
+
+Load.xml

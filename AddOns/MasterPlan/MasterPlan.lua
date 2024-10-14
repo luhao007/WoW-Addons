@@ -13,7 +13,7 @@ local L = newproxy(true) do
 	T.L = L
 end
 
-local EV, G, conf, api, aconf = T.Evie, T.Garrison, setmetatable({}, {__index={
+local EV, G, addonLoadOK, conf, aconf = T.Evie, T.Garrison, nil, setmetatable({}, {__index={
 	availableMissionSort="reward",
 	sortFollowers=true,
 	riskReward=1,
@@ -28,24 +28,24 @@ local EV, G, conf, api, aconf = T.Evie, T.Garrison, setmetatable({}, {__index={
 	interestMask=0, interestStack=1,
 	ship1=100, ship2=90, ship3=80, ship4=50,
 	moC=0, moE=0, moV=0, moN=0, goldCollected=0, goldCollectedS=0,
+	extPriorityKey='',
 	allowShipXP=true,
 	ignore={},
 	rIgnore={},
 }})
-T.config, api, aconf = conf, setmetatable({}, {__index={GarrisonAPI=G}}), MasterPlanA.data
+T.config, aconf = conf, MasterPlanA.data
+
+local priv, pub = {}, setmetatable({}, {__index={GarrisonAPI=G}})
+local missionPriorityCB, numPriorityCB, defaultPriorityCB = {}, 0, nil
 
 function EV:ADDON_LOADED(addon)
 	if addon ~= addonName then
 		return
 	end
-	function EV:PLAYER_LOGOUT()
-		MasterPlanPC, conf.ignore, conf.rIgnore = conf, next(conf.ignore) and conf.ignore, next(conf.rIgnore) and conf.rIgnore
-		conf.complete = securecall(T._GetMissionSeenTable)
-	end
 	
 	local pc
 	if type(MasterPlanPC) == "table" then
-		pc, MasterPlanPC = MasterPlanPC
+		pc = MasterPlanPC
 	else
 		pc = {}
 	end
@@ -65,13 +65,22 @@ function EV:ADDON_LOADED(addon)
 			end
 		elseif k ~= "complete" and tv == type(conf[k]) then
 			conf[k] = v
+		elseif k == "extPriorityKey" and v == false then
+			conf[k] = v
 		end
 	end
 	T._SetMissionSeenTable(pc.complete)
 	conf.version = C_AddOns.GetAddOnMetadata(addonName, "Version")
+	addonLoadOK, MasterPlanPC = true
 	EV("MP_SETTINGS_CHANGED")
 	
 	return "remove"
+end
+function EV:PLAYER_LOGOUT()
+	if addonLoadOK then
+		MasterPlanPC, conf.ignore, conf.rIgnore = conf, next(conf.ignore) and conf.ignore, next(conf.rIgnore) and conf.rIgnore
+		conf.complete = securecall(T._GetMissionSeenTable)
+	end
 end
 do -- Completion stats
 	local sc = {}
@@ -119,45 +128,80 @@ function EV:GARRISON_RECRUITMENT_FOLLOWERS_GENERATED()
 	aconf.recruitTime = GetServerTime()
 end
 
-function api:GetSortFollowers()
+function pub:GetSortFollowers()
 	return conf.sortFollowers
 end
-function api:SetSortFollowers(sort)
+function pub:SetSortFollowers(sort)
 	assert(type(sort) == "boolean", 'Syntax: MasterPlan:SetSortFollowers(sort)')
 	conf.sortFollowers = sort
 	EV("MP_SETTINGS_CHANGED", "sortFollowers")
 end
 
-function api:SetMissionOrder(order)
+function pub:SetMissionOrder(order)
 	assert(type(order) == "string", 'Syntax: MasterPlan:SetMissionOrder("order")')
 	conf.availableMissionSort = order
 	EV("MP_SETTINGS_CHANGED", "availableMissionSort")
 end
-function api:GetMissionOrder()
+function pub:GetMissionOrder()
 	return conf.availableMissionSort
 end
-function api:SetTimeHorizon(sec)
+function pub:SetTimeHorizon(sec)
 	assert(type(sec) == "number" and sec >= 0, 'Syntax: MasterPlan:SetTimeHorizon(sec)')
 	conf.timeHorizon = sec
 	EV("MP_SETTINGS_CHANGED", "timeHorizon")
 end
+function pub:RegisterMissionPriorityCallback(key, name, callback)
+	if missionPriorityCB[key] ~= nil then
+		return error('RegisterMissionPriorityCallback: specified key already registered', 2)
+	elseif type(key) ~= 'string' or key == '' or type(name) ~= 'string' or type(callback) ~= 'function' then
+		return error('Syntax: MasterPlan:RegisterPriorityCallback("key", "name", callback)', 2)
+	end
+	missionPriorityCB[key], numPriorityCB, defaultPriorityCB = {name, callback}, numPriorityCB + 1, defaultPriorityCB == nil and key
+	if numPriorityCB < 3 or key == conf.extPriorityKey then
+		EV("MP_SETTINGS_CHANGED", "extPriorityKey")
+	end
+end
+function priv:SetMissionPriorityCallback(k)
+	assert(k == false or type(k) == 'string', 'Syntax: MasterPlan:SetMissionPriorityCallback("key")')
+	conf.extPriorityKey = k
+	EV("MP_SETTINGS_CHANGED", "extPriorityKey")
+end
+function priv:GetMissionPriority(mid)
+	local pk = conf.extPriorityKey
+	local cbInfo = missionPriorityCB[pk] or missionPriorityCB[pk and defaultPriorityCB]
+	local p = cbInfo and securecall(cbInfo[2], mid)
+	return type(p) == "number" and (p <= -1023 and -1023 or p >= 1023 and 1023 or p > -1023 and p < 1023 and p or 0)/1024 or 0
+end
+function priv:GetNumMissionPriorityOptions()
+	return numPriorityCB
+end
+function priv:IsActiveMissionPriorityCallback(k)
+	local pk = conf.extPriorityKey
+	return not not (k == pk or pk and k ~= false and defaultPriorityCB or k == false and missionPriorityCB[pk] == nil and not defaultPriorityCB)
+end
+function pub:AllMissionPriorityCallbacks(k)
+	local k, info = next(missionPriorityCB, k)
+	if k then
+		return k, info[1], priv:IsActiveMissionPriorityCallback(k)
+	end
+end
 
-function api:IsFollowerIgnored(fid)
+function pub:IsFollowerIgnored(fid)
 	return not not conf.ignore[fid]
 end
-function api:SetFollowerIgnored(fid, ignore)
+function pub:SetFollowerIgnored(fid, ignore)
 	assert(type(fid) == "string", 'Syntax: MasterPlan:SetFollowerIgnored("followerID", ignore)')
 	conf.ignore[fid] = ignore and 1 or nil
 end
 
-function api:IsRewardIgnored(key)
+function pub:IsRewardIgnored(key)
 	local me = conf.rIgnore[key]
 	if me == nil then
 		return MasterPlanAG.IgnoreRewards[key]
 	end
 	return me
 end
-function api:SetRewardIgnore(key, val, isForAll)
+function pub:SetRewardIgnore(key, val, isForAll)
 	assert(type(key) == "string" and type(val or false) == "boolean" and type(isForAll or false) == "boolean")
 	if isForAll then
 		MasterPlanAG.IgnoreRewards[key], conf.rIgnore[key] = val
@@ -166,9 +210,9 @@ function api:SetRewardIgnore(key, val, isForAll)
 	end
 	EV("MP_SETTINGS_CHANGED", "missionIgnore", key)
 end
-function api:IsMissionIgnored(minfo)
+function priv:IsMissionIgnored(minfo)
 	assert(type(minfo) == "table" and type(minfo.missionID) == "number", 'Syntax: isIgnored = MasterPlan:IsMissionIgnored(missionInfoTable)')
-	local byMid = api:IsRewardIgnored("m:" .. minfo.missionID)
+	local byMid = pub:IsRewardIgnored("m:" .. minfo.missionID)
 	if byMid ~= nil then
 		return byMid
 	elseif type(minfo.rewards) ~= "table" then
@@ -177,11 +221,11 @@ function api:IsMissionIgnored(minfo)
 	local xpType, hasIgnore = minfo.level == T.FOLLOWER_LEVEL_CAP and "f:xp10" or (type(minfo.level) == "number" and minfo.level < (T.FOLLOWER_LEVEL_BASE+5) and "f:xp90") or "f:xp95", nil
 	for k,v in pairs(minfo.rewards) do
 		if v.currencyID then
-			k = api:IsRewardIgnored("c:" .. v.currencyID)
+			k = pub:IsRewardIgnored("c:" .. v.currencyID)
 		elseif v.itemID then
-			k = api:IsRewardIgnored("i:" .. v.itemID)
+			k = pub:IsRewardIgnored("i:" .. v.itemID)
 		elseif v.followerXP then
-			k = api:IsRewardIgnored(xpType)
+			k = pub:IsRewardIgnored(xpType)
 		else
 			v = nil
 		end
@@ -195,4 +239,8 @@ function api:IsMissionIgnored(minfo)
 	return hasIgnore
 end
 
-MasterPlan = api
+priv.GetSortFollowers = pub.GetSortFollowers
+priv.IsRewardIgnored = pub.IsRewardIgnored
+priv.AllMissionPriorityCallbacks = pub.AllMissionPriorityCallbacks
+
+MasterPlan, T.PlanCore = pub, priv

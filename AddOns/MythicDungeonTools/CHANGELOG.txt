@@ -1,3 +1,2 @@
-## 5.1.0 (2024-10-05)
-  - Removed Legacy Dungeons. Old dungeons are available via the MDT Legacy Addon.
-  - Added assignable Necrotic Wake weapons
+## 5.1.4 (2024-10-14)
+  - Replace Darkcaster with Shadowmage G17

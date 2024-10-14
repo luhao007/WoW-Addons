@@ -19,6 +19,10 @@ local IsSpellKnown, IsPlayerSpell, GetNumSpellTabs, GetSpellTabInfo, IsSpellKnow
 	= IsSpellKnown, IsPlayerSpell, GetNumSpellTabs, GetSpellTabInfo, IsSpellKnownOrOverridesKnown
 
 -- Consolidates some spell checking
+---@param spellID number
+---@param rank? number
+---@param ignoreHigherRanks? boolean
+---@return boolean isKnown
 local IsSpellKnownHelper = function(spellID, rank, ignoreHigherRanks)
 	if IsPlayerSpell(spellID) or IsSpellKnown(spellID) or IsSpellKnown(spellID, true)
 		or IsSpellKnownOrOverridesKnown(spellID) or IsSpellKnownOrOverridesKnown(spellID, true) then

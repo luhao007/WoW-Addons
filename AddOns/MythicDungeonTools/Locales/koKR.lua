@@ -110,6 +110,8 @@ L["Aqu'sirr"] = "아쿠시르"
 L["Arachnopod Destroyer"] = "파괴자 거미로봇"
 --[[Translation missing --]]
 L["AraKara"] = "Ara-Kara"
+--[[Translation missing --]]
+L["araKaraItemDescription"] = "Usable by Khaz Algar Tailors (25)"
 L["Aranasi Broodmother"] = "아라나시 무리어미"
 L["Arcane Anomaly"] = "비전 변형물"
 L["Arcane Construct"] = "비전 피조물"
@@ -286,6 +288,8 @@ L["Bloodthirsty Cub"] = "피에 굶주린 새끼"
 L["Bloodthirsty Tundra Wolf"] = "피에 굶주린 동토 늑대"
 --[[Translation missing --]]
 L["Bloodworker"] = "Bloodworker"
+--[[Translation missing --]]
+L["Bloody Javelin"] = "Bloody Javelin"
 L["Bolstering"] = "강화"
 L["Bomb Tonk"] = "폭탄 통통 로봇"
 L["Bone Magus"] = "해골 학자"
@@ -605,6 +609,10 @@ L["Demolishing Terror"] = "파괴의 공포"
 L["Demon"] = "악마"
 --[[Translation missing --]]
 L["DenOfDecay"] = "Den of Decay"
+--[[Translation missing --]]
+L["Depleted Anima Seed"] = "Depleted Anima Seed"
+--[[Translation missing --]]
+L["depletedAnimaSeedDescription"] = "Updates the graveyard location"
 L["Depraved Collector"] = "타락한 수집가"
 L["Depraved Darkblade"] = "타락한 암흑칼날"
 L["Depraved Houndmaster"] = "타락한 사냥개조련사"
@@ -624,6 +632,10 @@ L["Devouring Ghoul"] = "게걸스러운 구울"
 L["Devouring Maggot"] = "탐욕스러운 구더기"
 L["Devout Blood Priest"] = "기원의 혈사제"
 L["Dinomancer Kish'o"] = "공룡술사 키쉬오"
+--[[Translation missing --]]
+L["Discarded Shield"] = "Discarded Shield"
+--[[Translation missing --]]
+L["Discharged Anima"] = "Discharged Anima"
 L["Disease Slasher"] = "질병 난도질꾼"
 L["Diseased Horror"] = "병든 공포"
 L["Diseased Lasher"] = "감염된 덩굴손"
@@ -731,6 +743,8 @@ L["Dulhu"] = "둘후"
 L["Dul'zak"] = "둘자크"
 --[[Translation missing --]]
 L["Dungeon Data Missing"] = "Dungeon Data Missing"
+--[[Translation missing --]]
+L["Dungeon Entrance"] = "Dungeon Entrance"
 L["Dungeon Level"] = "던전 레벨"
 L["Duskwatch Arcanist"] = "황혼감시대 비전술사"
 L["Duskwatch Guard"] = "황혼감시대 경비병"
@@ -1225,6 +1239,8 @@ L["Ignis the Furnace Master"] = "용광로 군주 이그니스"
 L["Illysanna Ravencrest"] = "일리산나 레이븐크레스트"
 L["Imacu'tya"] = "이마쿠티아"
 L["Imbued Stormcaller"] = "마력 깃든 폭풍소환사"
+--[[Translation missing --]]
+L["imbuedIronBarDescription"] = "Usable by Warriors, Dwarves, and Khaz Algar Blacksmiths (25)"
 L["Immoliant Fury"] = "제물 격노병"
 L["Import"] = "가져오기"
 L["Import a preset from a text string"] = "텍스트 문자열으로 길로 가져오기"
@@ -1726,6 +1742,10 @@ L["Oshir"] = "오시르"
 L["Ossified Conscript"] = "골화한 징집병"
 L["Overflowing"] = "과잉"
 L["Overgrown Ancient"] = "비대해진 고대정령"
+--[[Translation missing --]]
+L["Overgrown Roots"] = "Overgrown Roots"
+--[[Translation missing --]]
+L["overgrownRootsDescription"] = "Usable by Night Elves, Tauren, Highmountain Tauren, Druids, and Khaz Algar Herbalists (25)"
 L["Overloaded Mailemental"] = "과부하된 우편의 정령"
 L["Overseer Korgus"] = "감독관 코르거스"
 L["Overseer Lahar"] = "감독관 라하르"
@@ -2267,6 +2287,8 @@ L["Stitched Giant"] = "기워 붙인 거인"
 L["Stitched Vanguard"] = "누더기 선봉대"
 L["Stitchflesh's Creation"] = "스티치플레시의 피조물"
 L["Stitching Assistant"] = "바느질 조수"
+--[[Translation missing --]]
+L["stolenPowerDescription"] = "Usable by Rogues, Priests, and Khaz Algar Engineers (25)"
 L["Stoneborn Eviscerator"] = "돌숨결 적출자"
 L["Stoneborn Reaver"] = "돌숨결 약탈자"
 L["Stoneborn Slasher"] = "돌숨결 난도질꾼"

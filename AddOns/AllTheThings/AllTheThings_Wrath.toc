@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.17
+## Version: 4.0.18
 
 ## Title: AllTheThings |cfd9b9b9b(Wrath)|r
 ## Notes: Addon for Tracking Collections & Account Completion
@@ -21,7 +21,9 @@
 ## X-Curse-Project-ID: 267285
 
 src\WoW API Wrappers.lua
-db\RaceDB.lua
+
+# Raw DBs
+db\Wrath\ReferenceDB.lua
 
 # Libs (no dependencies, only app assignment)
 lib\Debugging.lua
@@ -79,7 +81,6 @@ db\Wrath\ExplorationDB.lua
 db\Wrath\LocalizationDB.lua
 # db\Wrath\ReagentsDB.lua
 db\Presets.lua
-db\AccountWideQuestsDB.lua
 
 # Load object class templates
 src\Classes\base.lua

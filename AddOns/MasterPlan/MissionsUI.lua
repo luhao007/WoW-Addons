@@ -1,6 +1,6 @@
 local _, T = ...
 if T.Mark ~= 50 then return end
-local L, EV, G, XU, api = T.L, T.Evie, T.Garrison, T.exUI, {}
+local PC, L, EV, G, XU, api = T.PlanCore, T.L, T.Evie, T.Garrison, T.exUI, {}
 local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local function HookOnShow(self, OnShow)
@@ -1026,8 +1026,29 @@ local availUI = CreateFrame("Frame", nil, missionList) do
 				local m = menu[i]
 				sortOrders[m.arg1], m.checked, m.func = m.text, isChecked, MasterPlan.SetMissionOrder
 			end
-			
+			local syncExternalPriority do
+				local insertExternalAt = #menu+1
+				function syncExternalPriority()
+					local n = PC:GetNumMissionPriorityOptions()
+					if n == 0 then
+						return
+					end
+					menu[insertExternalAt] = menu[insertExternalAt] or {separator=true}
+					if n > 1 then
+						menu[insertExternalAt+1] = {text=L"Use external order", isTitle=true, notCheckable=true}
+						menu[insertExternalAt+2] = {text=L"None", arg1=false, checked=PC:IsActiveMissionPriorityCallback(false), func=PC.SetMissionPriorityCallback}
+						local ni = insertExternalAt+3
+						for k, n, active in PC.AllMissionPriorityCallbacks do
+							menu[ni], ni = {arg1=k, text=n, checked=active, func=PC.SetMissionPriorityCallback}, ni + 1
+						end
+					else
+						local extActive = PC:IsActiveMissionPriorityCallback()
+						menu[insertExternalAt+1] = {text=L"Use external order", checked=extActive, arg1=not extActive and '', func=PC.SetMissionPriorityCallback, isNotRadio=true}
+					end
+				end
+			end
 			sortIndicator:SetScript("OnClick", function(self)
+				syncExternalPriority()
 				easyDrop:Toggle(self, menu, "TOPLEFT", self, "BOTTOMLEFT", -24, -3)
 			end)
 			sortIndicator:SetScript("OnEnter", function(self)
@@ -1951,7 +1972,7 @@ do -- CreateMissionButton
 			if self.canIgnore and button == "RightButton" then
 				local wasIgnored = self.isIgnored
 				MasterPlan:SetRewardIgnore(self.canIgnore, not wasIgnored or nil, IsAltKeyDown())
-				if wasIgnored and MasterPlan:IsRewardIgnored(self.canIgnore) then
+				if wasIgnored and PC:IsRewardIgnored(self.canIgnore) then
 					MasterPlan:SetRewardIgnore(self.canIgnore, false, IsAltKeyDown())
 				end
 			elseif IsModifiedClick("CHATLINK") then
@@ -2723,7 +2744,7 @@ do -- availMissionsHandle
 						end
 					end
 				end
-				if r.canIgnore and not isIgnored and MasterPlan:IsRewardIgnored(r.canIgnore) then
+				if r.canIgnore and not isIgnored and PC:IsRewardIgnored(r.canIgnore) then
 					r.isIgnored = true
 				end
 				r.quantity:SetText(quant or "")
@@ -2853,10 +2874,10 @@ do -- availMissionsHandle
 					mi.ord0 = -2
 				elseif checkReq and mi.numFollowers > (nf + tc) or (mi.cost > nr) then
 					mi.ord0 = -3
-				elseif MasterPlan:IsMissionIgnored(mi) then
+				elseif PC:IsMissionIgnored(mi) then
 					mi.ord0 = -1
 				else
-					mi.ord0 = 0
+					mi.ord0 = PC:GetMissionPriority(mid)
 				end
 			end
 			table.sort(missions, cmp)
@@ -2927,7 +2948,7 @@ do -- availMissionsHandle
 		end
 	end
 	function EV:MP_SETTINGS_CHANGED(s)
-		if s == "availableMissionSort" or s == "timeHorizon" or s == "missionIgnore" then
+		if s == "availableMissionSort" or s == "timeHorizon" or s == "missionIgnore" or s == "extPriorityKey" then
 			availMissionsHandle:Refresh(true)
 		end
 	end

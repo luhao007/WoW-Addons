@@ -262,6 +262,7 @@ addonTable.Default = {
 		["wupinRanse"]=true,
 	},
 	["FramePlus"] = {
+		["AddonList"]=true,
 		["Roll"] = true,
 		["RollScale"] = 1,
 		["Loot"] = true,
@@ -393,5 +394,6 @@ addonTable.Default_Per = {
 		["EquipList"]={},
 		["TrinketMode"]=1,
 		["TrinketList"]={},
+		["LushiID"]=6948,
 	},
 };

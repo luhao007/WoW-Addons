@@ -109,6 +109,8 @@ L["Aqu'sirr"] = "Aqu'sirr"
 L["Arachnopod Destroyer"] = "Destructor aracnópodo"
 --[[Translation missing --]]
 L["AraKara"] = "Ara-Kara"
+--[[Translation missing --]]
+L["araKaraItemDescription"] = "Usable by Khaz Algar Tailors (25)"
 L["Aranasi Broodmother"] = "Madre de linaje aranasi"
 L["Arcane Anomaly"] = "Anomalía Arcana"
 L["Arcane Construct"] = "Ensamblaje Arcano"
@@ -286,6 +288,8 @@ L["Bloodthirsty Cub"] = "Cachorro sanguinario"
 L["Bloodthirsty Tundra Wolf"] = "Lobo de tundra sanguinario"
 --[[Translation missing --]]
 L["Bloodworker"] = "Bloodworker"
+--[[Translation missing --]]
+L["Bloody Javelin"] = "Bloody Javelin"
 L["Bolstering"] = "Potenciante"
 L["Bomb Tonk"] = "Bomba potente"
 L["Bone Magus"] = "Magus osario"
@@ -593,6 +597,10 @@ L["Demolishing Terror"] = "Terror demoledor"
 L["Demon"] = "Demonio"
 --[[Translation missing --]]
 L["DenOfDecay"] = "Den of Decay"
+--[[Translation missing --]]
+L["Depleted Anima Seed"] = "Depleted Anima Seed"
+--[[Translation missing --]]
+L["depletedAnimaSeedDescription"] = "Updates the graveyard location"
 L["Depraved Collector"] = "Recolectora depravada"
 L["Depraved Darkblade"] = "Filoscuro depravado"
 L["Depraved Houndmaster"] = "Maestra de canes depravada"
@@ -612,6 +620,10 @@ L["Devouring Ghoul"] = "Necrófago devorador"
 L["Devouring Maggot"] = "Cresa devoradora"
 L["Devout Blood Priest"] = "Sacerdotisa de sangre devota"
 L["Dinomancer Kish'o"] = "Dinomántica Kish'o"
+--[[Translation missing --]]
+L["Discarded Shield"] = "Discarded Shield"
+--[[Translation missing --]]
+L["Discharged Anima"] = "Discharged Anima"
 L["Disease Slasher"] = "Mutiladora enfermiza"
 L["Diseased Horror"] = "Horror malsano"
 L["Diseased Lasher"] = "Azotador malsano"
@@ -720,6 +732,8 @@ L["Dulhu"] = "Dulhu"
 L["Dul'zak"] = "Dul'zak"
 --[[Translation missing --]]
 L["Dungeon Data Missing"] = "Dungeon Data Missing"
+--[[Translation missing --]]
+L["Dungeon Entrance"] = "Dungeon Entrance"
 L["Dungeon Level"] = "Nivel de Mazmorra"
 L["Duskwatch Arcanist"] = "Arcanista Vigía del ocaso"
 L["Duskwatch Guard"] = "Guardia Vigía del ocaso"
@@ -1212,6 +1226,8 @@ L["Ignis the Furnace Master"] = "Ignis, el Maestro de la Caldera"
 L["Illysanna Ravencrest"] = "Illysanna Cresta Cuervo"
 L["Imacu'tya"] = "Imacu'tya"
 L["Imbued Stormcaller"] = "Clamatormentas imbuido"
+--[[Translation missing --]]
+L["imbuedIronBarDescription"] = "Usable by Warriors, Dwarves, and Khaz Algar Blacksmiths (25)"
 L["Immoliant Fury"] = "Furia inmoladora"
 L["Import"] = "Importar"
 L["Import a preset from a text string"] = "Importar una ruta de una cadena de texto"
@@ -1720,6 +1736,10 @@ L["Oshir"] = "Oshir"
 L["Ossified Conscript"] = "Conscripto osificado"
 L["Overflowing"] = "Rebosante"
 L["Overgrown Ancient"] = "Anciano desmesurado"
+--[[Translation missing --]]
+L["Overgrown Roots"] = "Overgrown Roots"
+--[[Translation missing --]]
+L["overgrownRootsDescription"] = "Usable by Night Elves, Tauren, Highmountain Tauren, Druids, and Khaz Algar Herbalists (25)"
 L["Overloaded Mailemental"] = "Elemailtal sobrecargado"
 L["Overseer Korgus"] = "Sobrestante Korgus"
 L["Overseer Lahar"] = "Sobrestante Lahar"
@@ -2270,6 +2290,8 @@ L["Stitched Giant"] = "Gigante cosido"
 L["Stitched Vanguard"] = "Vanguardia cosida"
 L["Stitchflesh's Creation"] = "Creación de Cosecarne"
 L["Stitching Assistant"] = "Ayudante de costura"
+--[[Translation missing --]]
+L["stolenPowerDescription"] = "Usable by Rogues, Priests, and Khaz Algar Engineers (25)"
 L["Stoneborn Eviscerator"] = "Evisceradora natopiedra"
 L["Stoneborn Reaver"] = "Atracador natopiedra"
 L["Stoneborn Slasher"] = "Mutilador natopiedra"

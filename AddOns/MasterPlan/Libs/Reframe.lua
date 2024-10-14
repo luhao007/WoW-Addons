@@ -165,6 +165,8 @@ local function EasyMenu_Initialize(_, level, menuList)
 		if value.text then
 			value.index = i
 			UIDropDownMenu_AddButton(value, level)
+		elseif value.separator then
+			UIDropDownMenu_AddSeparator(level)
 		end
 	end
 end

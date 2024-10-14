@@ -44,49 +44,49 @@ local function AssignAPIWrapper(name, ...)
 end
 
 -- Faction APIs
-if not GetFactionInfoByID then
-	local C_Reputation = C_Reputation;
-	lib.GetFactionName = function(factionID)
-		local factionData = C_Reputation.GetFactionDataByID(factionID);
-		return factionData and factionData.name;
-	end
-	lib.GetFactionLore = function(factionID)
-		local factionData = C_Reputation.GetFactionDataByID(factionID);
-		return factionData and factionData.description;
-	end
-	lib.GetFactionBonusReputation = function(factionID)
-		return false;
-	end
-	lib.GetFactionCurrentReputation = function(factionID)
-		local factionData = C_Reputation.GetFactionDataByID(factionID);
-		return factionData and factionData.currentStanding or 0;
-	end
-	lib.GetFactionReputationCeiling = function(factionID)
-		local factionData = C_Reputation.GetFactionDataByID(factionID);
-		if factionData then return factionData.nextReactionThreshold - factionData.currentReactionThreshold; end
-	end
-	lib.GetFactionReaction = function(factionID)
-		local factionData = C_Reputation.GetFactionDataByID(factionID);
-		if factionData then return factionData.reaction; end
-	end
-else
-	local GetFactionInfoByID = GetFactionInfoByID;
-	lib.GetFactionName = function(factionID) return select(1, GetFactionInfoByID(factionID)); end
-	lib.GetFactionLore = function(factionID) return select(2, GetFactionInfoByID(factionID)); end
-	lib.GetFactionBonusReputation = function(factionID)
-		return select(15, GetFactionInfoByID(factionID));
-	end
-	lib.GetFactionCurrentReputation = function(factionID)
-		return select(6, GetFactionInfoByID(factionID)) or 0;
-	end
-	lib.GetFactionReputationCeiling = function(factionID)
-		local _, _, _, m, ma = GetFactionInfoByID(factionID);
-		return ma and m and (ma - m);
-	end
-	lib.GetFactionReaction = function(factionID)
-		return select(3, GetFactionInfoByID(factionID));
-	end
-end
+local C_Reputation = C_Reputation;
+
+-- Here’s a small technique being used: (object1 and object2 and function).
+-- If object1 exists and object2 exists, then the function is passed.
+-- The object can be table, function, or anything as long as they are not nil or false, it will continue to the next evaluation.
+---@diagnostic disable: deprecated
+AssignAPIWrapper("GetFactionName",
+	C_Reputation and C_Reputation.GetFactionDataByID and
+	function(factionID)	local factionData = C_Reputation.GetFactionDataByID(factionID)
+	return factionData and factionData.name end,
+	GetFactionInfoByID and
+	function(factionID) return select(1, GetFactionInfoByID(factionID)) end);
+AssignAPIWrapper("GetFactionLore",
+	C_Reputation and C_Reputation.GetFactionDataByID and
+	function(factionID)	local factionData = C_Reputation.GetFactionDataByID(factionID)
+	return factionData and factionData.description end,
+	GetFactionInfoByID and
+	function(factionID) return select(2, GetFactionInfoByID(factionID)) end);
+AssignAPIWrapper("GetFactionBonusReputation",
+	C_Reputation and C_Reputation.GetFactionDataByID and
+	function(factionID)	local factionData = C_Reputation.GetFactionDataByID(factionID)
+	return factionData and factionData.hasBonusRepGain end,
+	GetFactionInfoByID and
+	function(factionID) return select(15, GetFactionInfoByID(factionID)) end);
+AssignAPIWrapper("GetFactionCurrentReputation",
+	C_Reputation and C_Reputation.GetFactionDataByID and
+	function(factionID)	local factionData = C_Reputation.GetFactionDataByID(factionID)
+	return factionData and factionData.currentStanding or 0 end,
+	GetFactionInfoByID and
+	function(factionID) return select(6, GetFactionInfoByID(factionID)) or 0 end);
+AssignAPIWrapper("GetFactionReputationCeiling",
+	C_Reputation and C_Reputation.GetFactionDataByID and
+	function(factionID)	local factionData = C_Reputation.GetFactionDataByID(factionID)
+	return factionData and (factionData.nextReactionThreshold - factionData.currentReactionThreshold) end,
+	GetFactionInfoByID and
+	function(factionID) local _, _, _, m, ma = GetFactionInfoByID(factionID) return ma and m and (ma - m) end);
+AssignAPIWrapper("GetFactionReaction",
+	C_Reputation and C_Reputation.GetFactionDataByID and
+	function(factionID)	local factionData = C_Reputation.GetFactionDataByID(factionID)
+	return factionData and factionData.reaction end,
+	GetFactionInfoByID and
+	function(factionID) return select(3, GetFactionInfoByID(factionID)) end);
+---@diagnostic enable: deprecated
 
 -- Item APIs
 local C_Item = C_Item;
@@ -95,7 +95,7 @@ AssignAPIWrapper("GetItemCount", C_Item and C_Item.GetItemCount, GetItemCount)
 AssignAPIWrapper("GetItemClassInfo", C_Item and C_Item.GetItemClassInfo, GetItemClassInfo)
 AssignAPIWrapper("GetItemIcon", C_Item and C_Item.GetItemIconByID, GetItemIcon)
 AssignAPIWrapper("GetItemInfoInstant", C_Item and C_Item.GetItemInfoInstant, GetItemInfoInstant)
-AssignAPIWrapper("GetItemID", C_Item and C_Item.GetItemIDForItemInfo, GetItemInfoInstant)
+AssignAPIWrapper("GetItemID", C_Item and C_Item.GetItemIDForItemInfo, GetItemInfoInstant and function(itemInfo) return select(1,GetItemInfoInstant(itemInfo)) end)
 AssignAPIWrapper("GetItemInfo", C_Item and C_Item.GetItemInfo, GetItemInfo)
 AssignAPIWrapper("GetItemSpecInfo", C_Item and C_Item.GetItemSpecInfo, GetItemSpecInfo)
 ---@diagnostic enable: deprecated
@@ -107,12 +107,6 @@ if not GetSpellInfo then
 	lib.GetSpellName = function(spell)
 		return spell and C_Spell_GetSpellName(spell);
 	end;
-
-	local C_Spell_GetSpellCooldown = C_Spell.GetSpellCooldown;
-	lib.GetSpellCooldown = function(spellID)
-		local t = C_Spell_GetSpellCooldown(spellID);
-		return t and t.startTime or 0;
-	end
 else
 ---@diagnostic disable-next-line: deprecated
 	local GetSpellInfo = GetSpellInfo;
@@ -121,66 +115,50 @@ else
 	else
 		lib.GetSpellName = function(spellID, rank) return rank and select(1, GetSpellInfo(spellID, rank)) or select(1, GetSpellInfo(spellID)); end;
 	end
----@diagnostic disable-next-line: deprecated
-	lib.GetSpellCooldown = GetSpellCooldown;
 end
 
 -- Quest APIs
+local C_QuestLog = C_QuestLog;
 AssignAPIWrapper("IsQuestFlaggedCompletedOnAccount",
 	C_QuestLog and C_QuestLog.IsQuestFlaggedCompletedOnAccount,
-	function(id) return app.IsAccountCached("Quests",id) end)
+	function(questID) return app.IsAccountCached("Quests",questID) end)
 
 -- C_TradeSkillUI
-if C_TradeSkillUI then
-	local C_TradeSkillUI = C_TradeSkillUI;
+local C_TradeSkillUI = C_TradeSkillUI;
 
-	-- Warning: Blizzard introduced C_TradeSkillUI.GetTradeSkillTexture in Patch 4.0.1, and I have not found any information on when GetTradeSkillTexture was deprecated or removed, as well as its parameters or return values.
-	-- Therefore, lib.GetTradeSkillTexture will always use the implementation of C_TradeSkillUI.GetTradeSkillTexture in all cases.
-	-- As a result, the fallback to GetTradeSkillTexture has not been tested and is not guaranteed to work.
-	if C_TradeSkillUI.GetTradeSkillTexture then lib.GetTradeSkillTexture = C_TradeSkillUI.GetTradeSkillTexture;
-	---@diagnostic disable-next-line: deprecated
-	elseif GetTradeSkillTexture then lib.GetTradeSkillTexture = GetTradeSkillTexture;
-	else GetTradeSkillTexture = nil; end
-else
-	---@diagnostic disable-next-line: deprecated
-	if GetTradeSkillTexture then lib.GetTradeSkillTexture = GetTradeSkillTexture;
-	else GetTradeSkillTexture = nil; end
-end
+-- Warning: Blizzard introduced C_TradeSkillUI.GetTradeSkillTexture in Patch 4.0.1, and I have not found any information on when GetTradeSkillTexture was deprecated or removed, as well as its parameters or return values.
+-- Therefore, lib.GetTradeSkillTexture will always use the implementation of C_TradeSkillUI.GetTradeSkillTexture in all cases.
+-- As a result, the fallback to GetTradeSkillTexture has not been tested and is not guaranteed to work.
+---@diagnostic disable-next-line: deprecated, undefined-global
+AssignAPIWrapper("GetTradeSkillTexture", C_TradeSkillUI and C_TradeSkillUI.GetTradeSkillTexture, GetTradeSkillTexture);
 
-if C_Spell then
-	local C_Spell = C_Spell;
+-- Spell API
+local C_Spell = C_Spell;
 
-	-- Warning: The API Wrapper for GetSpellLink is not completely equivalent.
-	-- GetSpellLink accepts two types of parameters: one is a single parameter "SpellIdentifier", and the other is two parameters "index" and "bookType".
-	-- Currently, only the first type is implemented.
-	-- The traditional GetSpellLink returns two values: SpellLink and SpellID, but all of usages only utilize SpellLink.
-	-- The C_Spell.GetSpellLink only returns SpellLink.
-	-- For performance reasons, lib.GetSpellLink only returns SpellLink.
-	if C_Spell.GetSpellLink then lib.GetSpellLink = C_Spell.GetSpellLink;
-	---@diagnostic disable-next-line: deprecated, duplicate-set-field
-	elseif GetSpellLink then lib.GetSpellLink = function(SpellIdentifier)
-		return select(1, GetSpellLink(SpellIdentifier));
-	end
-	else lib.GetSpellLink = nil; end
+-- Warning: The API Wrapper for GetSpellLink is not completely equivalent.
+-- GetSpellLink accepts two types of parameters: one is a single parameter "SpellIdentifier", and the other is two parameters "index" and "bookType".
+-- Currently, only the first type is implemented.
+-- The traditional GetSpellLink returns two values: SpellLink and SpellID, but all of usages only utilize SpellLink.
+-- The C_Spell.GetSpellLink only returns SpellLink.
+-- For performance reasons, lib.GetSpellLink only returns SpellLink.
+---@diagnostic disable: deprecated
+AssignAPIWrapper("GetSpellLink", C_Spell and C_Spell.GetSpellLink,
+	function(SpellIdentifier) return select(1, GetSpellLink(SpellIdentifier)) end);
 
-	-- Warning: The API Wrapper for GetSpellIcon is not completely equivalent.
-	-- GetSpellTexture accepts two types of parameters: one is a single parameter "SpellIdentifier", and the other is two parameters "index" and "bookType".
-	-- Currently, only the first type is implemented.
-	-- The C_Spell.GetSpellTexture returns two values: iconID and originalIconID, but all of usages only utilize iconID.
-	-- The traditional GetSpellTexture only returns iconID.
-	-- For performance reasons, lib.GetSpellIcon only returns iconID.
-	if C_Spell.GetSpellTexture then lib.GetSpellIcon = function(SpellIdentifier) return select(1, C_Spell.GetSpellTexture(SpellIdentifier)); end
-	---@diagnostic disable-next-line: deprecated
-	elseif GetSpellTexture then lib.GetSpellIcon = GetSpellTexture;
-	else lib.GetSpellIcon = nil; end
-else
-	---@diagnostic disable-next-line: deprecated, duplicate-set-field
-	if GetSpellLink then lib.GetSpellLink = function(SpellIdentifier)
-		return select(1, GetSpellLink(SpellIdentifier));
-	end
-	else lib.GetSpellLink = nil; end
+-- Warning: The API Wrapper for GetSpellIcon is not completely equivalent.
+-- GetSpellTexture accepts two types of parameters: one is a single parameter "SpellIdentifier", and the other is two parameters "index" and "bookType".
+-- Currently, only the first type is implemented.
+-- The C_Spell.GetSpellTexture returns two values: iconID and originalIconID, but all of usages only utilize iconID.
+-- The traditional GetSpellTexture only returns iconID.
+-- For performance reasons, lib.GetSpellIcon only returns iconID.
+AssignAPIWrapper("GetSpellIcon",
+	C_Spell and C_Spell.GetSpellTexture and function(SpellIdentifier) return select(1, C_Spell.GetSpellTexture(SpellIdentifier)) end,
+	GetSpellTexture);
 
-	---@diagnostic disable-next-line: deprecated
-	if GetSpellTexture then lib.GetSpellIcon = GetSpellTexture;
-	else lib.GetSpellIcon = nil; end
-end
+AssignAPIWrapper("GetSpellCooldown",
+C_Spell and C_Spell.GetSpellCooldown and
+	function(spellIdentifier) local t = C_Spell.GetSpellCooldown(spellIdentifier)
+	return t and t.startTime or 0 end,
+	GetSpellCooldown and 
+	function(spellIdentifier) return select (1,GetSpellCooldown(spellIdentifier)) end);
+---@diagnostic enable: deprecated

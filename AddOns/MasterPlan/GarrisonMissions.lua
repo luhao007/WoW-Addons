@@ -1,6 +1,6 @@
 local _, T = ...
 if T.Mark ~= 50 then return end
-local EV, G, L = T.Evie, T.Garrison, T.L
+local PC, EV, G, L = T.PlanCore, T.Evie, T.Garrison, T.L
 local GameTooltip = T.NotGameTooltip or GameTooltip
 
 local roamingParty, easyDrop = T.MissionsUI.roamingParty, T.MissionsUI.easyDrop
@@ -169,7 +169,7 @@ do -- GarrisonFollowerList_SortFollowers
 		end
 		toggle:SetShown(GarrisonMissionFrame.MissionTab:IsShown())
 		local mi = MISSION_PAGE_FRAME.missionInfo
-		if followerCounters and followerTraits and GarrisonMissionFrame.MissionTab:IsVisible() and mi and MasterPlan:GetSortFollowers() then
+		if followerCounters and followerTraits and GarrisonMissionFrame.MissionTab:IsVisible() and mi and PC:GetSortFollowers() then
 			return missionFollowerSort(self.followers, followerCounters, followerTraits, mi.level)
 		end
 		return oldSortFollowers(self)
@@ -179,7 +179,7 @@ do -- GarrisonFollowerList_SortFollowers
 			if GarrisonMissionFrame:IsVisible() then
 				GarrisonMissionFrame.FollowerList:UpdateFollowers()
 			end
-			toggle:SetChecked(MasterPlan:GetSortFollowers())
+			toggle:SetChecked(PC:GetSortFollowers())
 		end
 	end
 end

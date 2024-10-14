@@ -20,7 +20,58 @@ MDT.dungeonSubLevels[dungeonIndex] = {
   [1] = L["Mists of Tirna Scithe"]
 }
 
-MDT.mapPOIs[dungeonIndex] = {}
+MDT.mapPOIs[dungeonIndex] = {
+  [1] = {
+    [1] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "mistsItem",
+      ["x"] = 795.63831666907,
+      ["y"] = -144.50366473795,
+      ["itemType"] = 1,
+    },
+    [2] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "mistsItem",
+      ["x"] = 675.92441632622,
+      ["y"] = -189.74816527623,
+      ["itemType"] = 1,
+    },
+    [3] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "mistsItem",
+      ["x"] = 656.7165286797,
+      ["y"] = -209.47278754994,
+      ["itemType"] = 2,
+    },
+    [4] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "mistsItem",
+      ["x"] = 639.05923241146,
+      ["y"] = -197.84474464121,
+      ["itemType"] = 3,
+    },
+    [5] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "mistsItem",
+      ["x"] = 594.9749924947,
+      ["y"] = -193.61422660229,
+      ["itemType"] = 4,
+    },
+    [6] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "mistsItem",
+      ["x"] = 330.87657489238,
+      ["y"] = -319.32567032828,
+      ["itemType"] = 5,
+    },
+    [7] = {
+      ["template"] = "MapLinkPinTemplate",
+      ["type"] = "dungeonEntrance",
+      ["x"] = 822.00553571743,
+      ["y"] = -111.94358107728,
+    },
+  },
+};
 
 MDT.dungeonEnemies[dungeonIndex] = {
   [1] = {
@@ -453,6 +504,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1] = {
         ["x"] = 662.18446334695,
         ["y"] = -104.83590078153,
+        ["g"] = 44,
         ["sublevel"] = 1,
       },
     },
@@ -488,6 +540,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1] = {
         ["x"] = 640.56609963746,
         ["y"] = -118.18202953751,
+        ["g"] = 44,
         ["sublevel"] = 1,
       },
     },
@@ -498,6 +551,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 4,
     ["health"] = 30632655,
     ["scale"] = 1,
+    ["stealthDetect"] = true,
     ["displayId"] = 95256,
     ["creatureType"] = "Humanoid",
     ["level"] = 60,
@@ -817,6 +871,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 4,
     ["health"] = 35804403,
     ["scale"] = 1,
+    ["stealthDetect"] = true,
     ["displayId"] = 95261,
     ["creatureType"] = "Humanoid",
     ["level"] = 60,

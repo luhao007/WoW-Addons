@@ -69,7 +69,7 @@ local GetWatchedFactionID = function()
 		return factionID
 	end
 	local data = C_Reputation.GetWatchedFactionData()
-	return data.factionID
+	return data and data.factionID
 end
 
 local sessionStart = {}
