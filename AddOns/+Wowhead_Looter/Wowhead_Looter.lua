@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2024-08-23";
+local WL_ADDON_UPDATED = "2024-10-15";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110002;
@@ -259,7 +259,7 @@ end
 -- Returns a list of faction data compatible with the deprecated GetFactionInfo and GetFactionInfoByID
 local GetFactionInfoWrapper = function(factionData)
     if factionData then
-        return factionData.name, factionData.description, factionData.currentStanding, 0, 0, 0, factionData.atWarWith, factionData.canToggleAtWar, factionData.isHeader, factionData.isCollapsed, false, factionData.isWatched, factionData.isChild, factionData.factionID, factionData.hasBonusRepGain, false;
+        return factionData.name, factionData.description, factionData.reaction, 0, 0, 0, factionData.atWarWith, factionData.canToggleAtWar, factionData.isHeader, factionData.isCollapsed, false, factionData.isWatched, factionData.isChild, factionData.factionID, factionData.hasBonusRepGain, false;
     end
     return nil;
 end

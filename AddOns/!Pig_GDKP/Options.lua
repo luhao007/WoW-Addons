@@ -386,10 +386,10 @@ function GDKPInfo.ADD_Options()
 		end)
 	end
 	local function jiaoyi_InfoPD_1(TName,TMoney,ItemS)
-		local Money=TMoney*0.0001
+		local NewMoney=TMoney*0.0001
 		local RRItemList = PIGA["GDKP"]["ItemList"]
 		local wupinNum = #ItemS
-		local pingjunfenG = TMoney/wupinNum
+		local pingjunfenG = NewMoney/wupinNum
 		for p=1,wupinNum do
 			local itemLink_P = ItemS[p][1]
 			local itemID_P = GetItemInfoInstant(itemLink_P) 

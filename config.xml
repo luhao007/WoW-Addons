@@ -1914,4 +1914,8 @@
 		<Title>世界任务追踪</Title>
 		<Category>任务</Category>
 	</Addon>
+	<Addon name="zAutoLoadPetTeam_Rematch">
+		<Title>自动载入宠物队伍</Title>
+		<Category>收藏</Category>
+	</Addon>
 </my:AddonConfig>

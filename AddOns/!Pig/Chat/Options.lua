@@ -566,7 +566,7 @@ local function WhoWhisper_Fun()
 	if WhoFrame.endsenList then return end
 	WhoFrame.endsenList={}
 	WhoFrame.endsenmsg="随机黑石深渊，来吗？"
-	WhoFrame.senmsg = PIGButton(WhoFrame,{"TOPLEFT",WhoFrame,"TOPLEFT",60,-26},{60,26},"密语",nil,nil,nil,nil,0);
+	WhoFrame.senmsg = PIGButton(WhoFrame,{"TOPLEFT",WhoFrame,"TOPLEFT",160,-26},{60,26},"密语",nil,nil,nil,nil,0);
 	WhoFrame.senmsg:Disable();
 	WhoFrame.senmsg:HookScript("OnClick", function(self, button)
 		if WhoFrame.selectedWho then
@@ -585,7 +585,20 @@ local function WhoWhisper_Fun()
 			self.F:Show()
 		end
 	end);
-
+	WhoFrame.senmsg.listUpdate=function(button)
+		if button.senmsgFun then return end
+		button:HookScript("OnClick", function(self)
+			if WhoFrame.selectedWho then
+				local NameText = self.Name or self:GetName() and _G[self:GetName().."Name"]:GetText()
+				if WhoFrame.endsenList[NameText] then	
+					WhoFrame.senmsg:Disable()
+				else
+					WhoFrame.senmsg:Enable()
+				end
+			end
+		end)
+		button.senmsgFun=true
+	end
 	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200})
 	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1)
 	WhoFrame.senmsg.bianji.F:PIGClose()

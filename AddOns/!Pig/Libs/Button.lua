@@ -31,9 +31,9 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	local But
 	if MODE then
 		local Templatepig= "UIPanelButtonTemplate"
-		if tocversion>110000 then
-			Templatepig= "SharedButtonTemplate"
-		end
+		-- if tocversion>110000 then
+		-- 	Templatepig= "SharedButtonTemplate"
+		-- end
 		But = CreateFrame("Button",UIName,fuF,Templatepig ,id);
 		
 		But:SetText(Text);

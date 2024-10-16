@@ -1,2 +1,2 @@
-## 5.1.4 (2024-10-14)
-  - Replace Darkcaster with Shadowmage G17
+## 5.1.7 (2024-10-16)
+  - Necrotic Wake Skeletal Monstrosity: Increased enemy forces from 20 to 24

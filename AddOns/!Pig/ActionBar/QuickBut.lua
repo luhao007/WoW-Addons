@@ -719,7 +719,6 @@ QuickButUI.ButList[6]=function()
 		end
 		SetClampedTextureRotation(General.arrow,General.arrow.chushijiaodu);
 
-
 		local function gengxinlushiCD()
 			if General.lushiitemID then
 				local start, duration= GetItemCooldown(General.lushiitemID)
@@ -780,7 +779,7 @@ QuickButUI.ButList[6]=function()
 
 		end
 		local listall={}
-		local function chazhaoID(duibiID)
+		local function BAGIsitemID(duibiID)
 			for bag=1,#bagData["bagID"] do
 				for slot=1,GetContainerNumSlots(bagData["bagID"][bag]) do
 					local ItemID = GetContainerItemID(bagData["bagID"][bag], slot)
@@ -801,7 +800,7 @@ QuickButUI.ButList[6]=function()
 				end
 			end
 			for i=1,#BagList do
-				local HasToy = chazhaoID(BagList[i])
+				local HasToy = BAGIsitemID(BagList[i])
 				if HasToy then
 					table.insert(listall,{BagList[i],true})
 				else
@@ -811,19 +810,22 @@ QuickButUI.ButList[6]=function()
 		end
 		jiazaiHasToy()
 		local function UpdateIconAttribute(itemID)
+			local itemID=itemID or PIGA_Per["QuickBut"]["LushiID"]
 			local lushiName, SpellID = GetItemSpell(itemID)
+			if not lushiName and General.lushijisuqi<5 then
+				General.lushijisuqi=General.lushijisuqi+1
+				return C_Timer.After(0.2, UpdateIconAttribute);
+			end
 			if lushiName and SpellID then
-				local itemName, itemLink = GetItemInfo(itemID)
+				--local itemName = GetItemInfo(itemID)
 				General.lushiitemID=itemID
 				General.lushiSpellID=SpellID
 				General:SetAttribute("type1", "item");
-				General:SetAttribute("item", itemName);
+				General:SetAttribute("item", lushiName);
 				General:SetNormalTexture(GetItemIcon(itemID))
 				gengxinlushiCD()
 			end
-		end
-		UpdateIconAttribute(PIGA_Per["QuickBut"]["LushiID"])
-
+		end	
 		local function Skill_Button_Genxin()
 			if InCombatLockdown() then return end
 			local Skill_List = addonTable.FramePlusfun.Skill_List
@@ -853,22 +855,27 @@ QuickButUI.ButList[6]=function()
 				end
 			end
 		end
-		Skill_Button_Genxin()
-
+		General:RegisterEvent("PLAYER_ENTERING_WORLD")
 		General:RegisterUnitEvent("UNIT_SPELLCAST_START","player");
 		General:RegisterUnitEvent("UNIT_SPELLCAST_STOP","player");
 		General:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 		General:SetScript("OnEvent", function(self,event,arg1,_,arg3)
-			if arg3==self.lushiSpellID then 
-				if event=="UNIT_SPELLCAST_START" then
-			 		self.START:Show();
-			 	end
-			 	if event=="UNIT_SPELLCAST_STOP" then
-			 		self.START:Hide();
-				end	
-		 	end
-			if event=="SPELL_UPDATE_COOLDOWN" then
+			if event=="PLAYER_ENTERING_WORLD" then
+				self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+				General.lushijisuqi=0
+				UpdateIconAttribute()
+				Skill_Button_Genxin()
+			elseif event=="SPELL_UPDATE_COOLDOWN" then
 				C_Timer.After(0.01, gengxinlushiCD);
+			else
+				if arg3==self.lushiSpellID then 
+					if event=="UNIT_SPELLCAST_START" then
+				 		self.START:Show();
+				 	end
+				 	if event=="UNIT_SPELLCAST_STOP" then
+				 		self.START:Hide();
+					end
+				end
 			end
 		end)
 		--内容页

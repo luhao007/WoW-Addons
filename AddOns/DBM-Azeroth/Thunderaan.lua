@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("Thunderaan", "DBM-Azeroth")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241013135140")
+mod:SetRevision("20241016203206")
 mod:SetCreatureID(231494)
 mod:SetEncounterID(3079)
 
@@ -62,8 +62,8 @@ function mod:ChainLightningTarget(target)
 		specWarnLightning:Play("runout")
 		yellLightning:Show()
 		-- Not using Countdown() because it doesn't schedule anything < 1
-		yellLightningFades:Schedule(1.9, 2)
-		yellLightningFades:Schedule(0.9, 1)
+		yellLightningFades:Schedule(1.9, 1)
+		yellLightningFades:Schedule(0.9, 2)
 	end
 	if self.Options.SetIconOnChaingLightning then
 		self:SetIcon(target, 8, 4)

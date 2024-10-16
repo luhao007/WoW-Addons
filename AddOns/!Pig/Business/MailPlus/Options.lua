@@ -660,8 +660,9 @@ function BusinessInfo.MailPlus_ADDUI()
 	SendMailFrame.coll = CreateFrame("Button",nil,SendMailFrame);
 	local coll=SendMailFrame.coll
 	coll:SetSize(collW,collY);
-	coll:SetPoint("TOPRIGHT",SendMailFrame,"TOPRIGHT",-80,-1);
-	coll.TexC = coll:CreateTexture(nil, "BORDER");
+	coll:SetPoint("TOPRIGHT",SendMailFrame,"TOPRIGHT",-86,0);
+	coll:SetFrameLevel(coll:GetFrameLevel()+500)
+	coll.TexC = coll:CreateTexture();
 	coll.TexC:SetTexture("interface/common/friendship-heart.blp");
 	coll.TexC:SetSize(collW*1.64,collY*1.5);
 	coll.TexC:SetPoint("CENTER",coll,"CENTER",0,-2);
@@ -902,31 +903,51 @@ function BusinessInfo.MailPlus_ADDUI()
 		framef:HookScript("PreClick",  function (self,button)
 			if SendMailFrame:IsVisible() and IsAltKeyDown() then
 				if button == "LeftButton" then
-					C_Container.UseContainerItem(self:GetParent():GetID(), self:GetID(), nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
+					if GetCVar("combinedBags")=="1" and ContainerFrameCombinedBags then
+						C_Container.UseContainerItem(self:GetBagID(), self:GetID(), nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+					else
+						C_Container.UseContainerItem(self:GetBagID(), self:GetID(), nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+					end
 					SendMailMailButton_OnClick(SendMailMailButton)
 				else
-					C_Container.UseContainerItem(self:GetParent():GetID(), self:GetID(), nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
-					local DQitemID=PIGGetContainerItemInfo(self:GetParent():GetID(), self:GetID())
-					if NDui then
-						for f=1,slotnum do
-							local framef = _G[NDui_BagName..f]
-							if framef then
-								local itemID=PIGGetContainerItemInfo(framef:GetParent():GetID(), framef:GetID())
+					local DQitemID=PIGGetContainerItemInfo(self:GetBagID(), self:GetID())
+					if DQitemID then
+						C_Container.UseContainerItem(self:GetBagID(), self:GetID(), nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+						if GetCVar("combinedBags")=="1" and ContainerFrameCombinedBags then
+							local butnum =#ContainerFrameCombinedBags.Items
+							for ff=1,butnum do
+								local framef = ContainerFrameCombinedBags.Items[ff]
+								local itemID=PIGGetContainerItemInfo(framef:GetBagID(), framef:GetID())
 								if itemID then
 									if DQitemID==itemID then
-										C_Container.UseContainerItem(framef:GetParent():GetID(), framef:GetID(), nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
+										C_Container.UseContainerItem(framef:GetBagID(), framef:GetID(), nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+									end
+								end
+							end
+						else
+							for bagx=1,6 do
+								local ContainerF = _G["ContainerFrame"..bagx].Items
+								local butnum =#ContainerF
+								for ff=1,butnum do
+									local framef = ContainerF[ff]
+									local itemID=PIGGetContainerItemInfo(framef:GetBagID(), framef:GetID())
+									if itemID then
+										if DQitemID==itemID then
+											C_Container.UseContainerItem(framef:GetBagID(), framef:GetID(), nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+										end
 									end
 								end
 							end
 						end
-					else		
-						for f=1,6 do
-							for ff=1,36 do
-								local framef = _G["ContainerFrame"..f.."Item"..ff]
-								local itemID=PIGGetContainerItemInfo(framef:GetParent():GetID(), framef:GetID())
-								if itemID then
-									if DQitemID==itemID then
-										C_Container.UseContainerItem(framef:GetParent():GetID(), framef:GetID(), nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
+						if NDui then
+							for f=1,slotnum do
+								local framef = _G[NDui_BagName..f]
+								if framef then
+									local itemID=PIGGetContainerItemInfo(framef:GetBagID(), framef:GetID())
+									if itemID then
+										if DQitemID==itemID then
+											C_Container.UseContainerItem(framef:GetBagID(), framef:GetID(), nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+										end
 									end
 								end
 							end
@@ -940,24 +961,34 @@ function BusinessInfo.MailPlus_ADDUI()
 		if PIGA["MailPlus"]["ALTbatch"] then
 			if self.yijiazaiALT then return end
 			self.yijiazaiALT=true
+			if ContainerFrameCombinedBags and ContainerFrameCombinedBags.Items then
+				local butnum =#ContainerFrameCombinedBags.Items
+				for ff=1,butnum do
+					zhixingpiliangFun(ContainerFrameCombinedBags.Items[ff])
+				end
+			end
+			for bagx=1,NUM_CONTAINER_FRAMES do
+				local ContainerF = _G["ContainerFrame"..bagx]
+				if ContainerF and ContainerF.Items then
+					local butnum =#ContainerF.Items
+					for ff=1,butnum do
+						zhixingpiliangFun(ContainerF.Items[ff])
+					end
+				end
+			end
 			if NDui then
 				for f=1,slotnum do
 					if _G[NDui_BagName..f] then
 						zhixingpiliangFun(_G[NDui_BagName..f])
 					end
 				end
-			else
-				local bagidbianhao = Data.ElvUI_BagName
-				for f=1,6 do
+			end
+			if ElvUI then
+				local bagidbianhao = Data.ElvUI_BagName[2]
+				for f=1,NUM_CONTAINER_FRAMES do
 					for ff=1,36 do
-						if ElvUI then
-							if _G[bagidbianhao[f].."Slot"..ff] then
-								zhixingpiliangFun(_G[bagidbianhao[f].."Slot"..ff])
-							end
-						else
-							if _G["ContainerFrame"..f.."Item"..ff] then
-								zhixingpiliangFun(_G["ContainerFrame"..f.."Item"..ff])
-							end
+						if _G[bagidbianhao..f.."Slot"..ff] then
+							zhixingpiliangFun(_G[bagidbianhao..f.."Slot"..ff])
 						end
 					end
 				end

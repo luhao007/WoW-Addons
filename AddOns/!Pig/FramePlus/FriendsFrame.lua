@@ -12,7 +12,6 @@ local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -------------
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Friends()
-	--if tocversion>50000 then return end
 	if not PIGA["FramePlus"]["Friends"] then return end
 	FriendsFrame:Hide()
 	local www = FriendsFrame:GetWidth()
@@ -219,32 +218,36 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	if NDui then
-		if FriendsFrameFriendsScrollFrame then
-			hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", function(self)
-				local buttons = self.buttons
-				for i = 1, #buttons do
-					PIGUpdateFriendButton(buttons[i])	
-				end
-			end)
-		else
-			hooksecurefunc(FriendsListFrame.ScrollBox, "Update", function(self)
-				for i = 1, self.ScrollTarget:GetNumChildren() do
-					local button = select(i, self.ScrollTarget:GetChildren())
-					PIGUpdateFriendButton(button)	
-				end
-			end)
+	local function PIGUpdateFriendFrame()
+		local buttons = FriendsFrameFriendsScrollFrame.buttons
+		for i = 1, #buttons do
+			PIGUpdateFriendButton(buttons[i])
 		end
+	end
+	-- 
+	if FriendsFrameFriendsScrollFrame then
+		hooksecurefunc("FriendsList_Update", function(forceUpdate)
+			PIGUpdateFriendFrame()
+		end)
+		hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", function(self)
+			PIGUpdateFriendFrame()
+		end)
+		-- FriendsFrameFriendsScrollFrame:HookScript("OnMouseWheel", function()
+		--    	local buttons = FriendsFrameFriendsScrollFrame.buttons
+		-- 	for i = 1, #buttons do
+		-- 		buttons[i].name:SetHeight(buttons[i]:GetHeight())
+		-- 		buttons[i].info:SetHeight(buttons[i]:GetHeight())
+		-- 	end
+		-- end)
 	else
 		hooksecurefunc("FriendsFrame_UpdateFriendButton", function(button, elementData)
 			PIGUpdateFriendButton(button, elementData)	
 		end)
-		if FriendsFrameFriendsScrollFrame then
-			FriendsFrameFriendsScrollFrame:HookScript("OnMouseWheel", function()
-			   	local buttons = FriendsFrameFriendsScrollFrame.buttons
-				for i = 1, #buttons do
-					buttons[i].name:SetHeight(buttons[i]:GetHeight())
-					buttons[i].info:SetHeight(buttons[i]:GetHeight())
+		if NDui then
+			hooksecurefunc(FriendsListFrame.ScrollBox, "Update", function(self)
+				for i = 1, self.ScrollTarget:GetNumChildren() do
+					local button = select(i, self.ScrollTarget:GetChildren())
+					PIGUpdateFriendButton(button)	
 				end
 			end)
 		end
@@ -263,7 +266,7 @@ function FramePlusfun.Friends()
 	end
 
 	--招募页
-	if tocversion>100000 and tocversion<110000 then
+	if RecruitAFriendFrame then
 		local anchorsWithBar = {--有滚动没出现时的定位
 	        CreateAnchor("TOPLEFT", RecruitAFriendFrame.RecruitList, "TOPLEFT", 8, -87),
 	        CreateAnchor("BOTTOMRIGHT", RecruitAFriendFrame.RecruitList, "BOTTOMRIGHT", -28, 29),
@@ -360,6 +363,7 @@ function FramePlusfun.Friends()
 	end
 	if WhoListScrollFrame then
 		local function PIGWhoList_But(elvuiopen)
+			WhoFrameColumn_SetWidth(WhoFrameColumnHeader1, WhoFrameHeaderP[4]-10)
 			WhoFrameColumnHeader4:SetWidth(26)
 			WhoFrameColumnHeader4:ClearAllPoints();
 			WhoFrameColumnHeader4:SetPoint("LEFT",WhoFrameColumnHeader0,"RIGHT",-2,0);
@@ -371,8 +375,8 @@ function FramePlusfun.Friends()
 				local button = _G["WhoFrameButton"..i];
 				button:SetWidth(butWidth)
 				button:SetHeight(WhohangH)
-				local HighlightTex = button:GetHighlightTexture()
-				HighlightTex:SetAllPoints(button)
+				local highlightTTT=button.highlightGradient or button:GetHighlightTexture()
+				if highlightTTT then highlightTTT:SetAllPoints(button) end
 				local ClassText = _G["WhoFrameButton"..i.."Class"];
 				local LevelText = _G["WhoFrameButton"..i.."Level"];
 				local NameText = _G["WhoFrameButton"..i.."Name"];
@@ -411,15 +415,6 @@ function FramePlusfun.Friends()
 				button.Guild:SetSize(WhoFrameHeaderP[6]-2,WhoiconH)
 				button.Guild:SetJustifyH("LEFT")
 				button.Guild:SetFont(NameText:GetFont())
-				button:HookScript("OnClick", function()
-					if WhoFrame.selectedWho then
-						if WhoFrame.endsenList[NameText:GetText()] then	
-							WhoFrame.senmsg:Disable()
-						else
-							WhoFrame.senmsg:Enable()
-						end
-					end
-				end)
 			end
 		end
 		WhoListScrollFrame:SetWidth(butWidth)
@@ -488,6 +483,7 @@ function FramePlusfun.Friends()
 						button.tooltip2 = info.fullGuildName;
 					end
 				end
+				WhoFrame.senmsg.listUpdate(button)
 			end
 		end)
 	else
@@ -498,11 +494,11 @@ function FramePlusfun.Friends()
 			button.tooltip1 = nil;
 			button.tooltip2 = nil;
 			if not button.Guild then 
-				local nameFont=button.Name:GetFont()	
+				local Fontname,FontSize=button.Name:GetFont()
 				button.Guild = PIGFontString(button,{"LEFT", button.Variable, "RIGHT", 0, 0})
 				button.Guild:SetSize(WhoFrameHeaderP[6]-2,WhoiconH)
 				button.Guild:SetJustifyH("LEFT")
-				button.Guild:SetFont(nameFont,15)
+				button.Guild:SetFont(Fontname,FontSize)
 			end
 			button.Class:ClearAllPoints();
 			button.Class:SetPoint("LEFT", button, "LEFT", 0, 0);
@@ -534,6 +530,7 @@ function FramePlusfun.Friends()
 				button.tooltip1 = info.fullName.." - "..info.area;
 				button.tooltip2 = info.fullGuildName;
 			end
+			WhoFrame.senmsg.listUpdate(button)
 		end)
 	end
 
@@ -599,8 +596,8 @@ function FramePlusfun.Friends()
 				local button = _G["GuildFrameButton"..i]
 				button:SetWidth(butWidth)
 				button:SetHeight(FRIENDS_FRAME_GUILD_HEIGHT+4.5)
-				local HighlightTex = button:GetHighlightTexture()
-				HighlightTex:SetAllPoints(button)
+				local highlightTTT=button.highlightGradient or button:GetHighlightTexture()
+				if highlightTTT then highlightTTT:SetAllPoints(button) end
 				local NameText = _G["GuildFrameButton"..i.."Name"];
 				local ClassText = _G["GuildFrameButton"..i.."Class"];
 				local LevelText = _G["GuildFrameButton"..i.."Level"];

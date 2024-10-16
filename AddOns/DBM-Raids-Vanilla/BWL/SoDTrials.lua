@@ -4,7 +4,7 @@ local mod	= DBM:NewMod("SoDBWLTrials", "DBM-Raids-Vanilla", 5)
 local L		= mod:GetLocalizedStrings()
 local CL	= DBM_COMMON_L
 
-mod:SetRevision("20241009232049")
+mod:SetRevision("20241016203123")
 mod.isTrashMod = true
 mod.isTrashModBossFightAllowed = true
 
@@ -42,7 +42,7 @@ local yellGreenTrial      = mod:NewIconTargetYell(466435)
 local yellGreenTrialFades = mod:NewIconFadesYell(466435)
 local specWarnGreenTrial  = mod:NewSpecialWarningMoveAway(466435, nil, nil, L.GreenBomb, 3, 2)
 local warnGreenTrial      = mod:NewTargetNoFilterAnnounce(466435, 4, nil, nil, nil, nil, L.GreenBomb)
-local specWarnGTFO        = mod:NewSpecialWarningGTFO(466448)
+local specWarnGTFO        = mod:NewSpecialWarningGTFO(466448, nil, nil, nil, 1, 8)
 mod:AddSetIconOption("SetIconOnGreenBombTarget", 466435, true, 0, {4})
 
 mod:AddOptionLine(L.GreenAndBlue)
