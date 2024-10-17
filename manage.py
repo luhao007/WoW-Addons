@@ -177,13 +177,13 @@ class Manager:
         lines += ['-- Add textures\n', '\n']
         for texture in os.listdir(root / 'textures'):
             t = texture.split('.')[0]
-            lines.append(f'media:Register("statusbar", "{t}", "Interface\\\\AddOns\\\\!!Libs\\\\SharedMedia\\\\textures\\\\{t}")\n')
+            lines.append(f'media:Register(media.MediaType.STATUSBAR, "{t}", "Interface\\\\AddOns\\\\!!Libs\\\\SharedMedia\\\\textures\\\\{t}.tga")\n')
 
         lines += ['\n', '-- Add fonts\n', '\n']
 
         for texture in os.listdir(root / 'fonts'):
             t = texture.split('.')[0]
-            lines.append(f'media:Register("font", "{t}", "Interface\\\\AddOns\\\\!!Libs\\\\SharedMedia\\\\fonts\\\\{t}")\n')
+            lines.append(f'media:Register(media.MediaType.FONT, "{t}", "Interface\\\\AddOns\\\\!!Libs\\\\SharedMedia\\\\fonts\\\\{t}.ttf", media.LOCALE_BIT_zhCN)\n')
 
         with open('AddOns/!!Libs/sharedmedia.lua', 'w', encoding='utf-8') as file:
             file.writelines(lines)
