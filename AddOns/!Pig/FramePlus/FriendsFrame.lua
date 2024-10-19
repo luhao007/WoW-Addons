@@ -794,4 +794,16 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
+	-- if IsAddOnLoaded("Blizzard_MacroUI") then
+	-- 	SETMacroFrame()
+ --    else
+ --        local MacroFRAME = CreateFrame("FRAME")
+ --        MacroFRAME:RegisterEvent("ADDON_LOADED")
+ --        MacroFRAME:SetScript("OnEvent", function(self, event, arg1)
+ --        	if arg1=="Blizzard_MacroUI" then
+ --        		SETMacroFrame()
+	-- 			self:UnregisterEvent("ADDON_LOADED")
+	-- 		end
+ --        end)
+ --    end
 end

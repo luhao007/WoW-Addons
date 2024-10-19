@@ -809,6 +809,7 @@ local function add_ItemList(fujik,miaodian,ziji)
 		GetItemMuluData(Parent,unit,ItemData)
 	end
 	function ZBLsit:Update_ItemList(unit,zbData)
+		self.unit=unit
 		if unit=="lx" or unit=="yc" then
 			GetItemMuluData(self,unit,zbData)
 		else
@@ -819,6 +820,15 @@ local function add_ItemList(fujik,miaodian,ziji)
 	ZBLsit:HookScript("OnHide", function(self)
 		if self.allstats_Ticker then self.allstats_Ticker:Cancel() end
 	end);
+	if GetAverageItemLevel then
+		ZBLsit:RegisterEvent("PLAYER_AVG_ITEM_LEVEL_UPDATE");
+		ZBLsit:HookScript("OnEvent", function(self,event,arg1)
+			if self.unit=="player" then
+				local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
+				self.pingjunLV_V:SetText(string.format("%.2f",avgItemLevelEquipped))
+			end
+		end)
+	end
 	return ZBLsit
 end
 function Create.PIGItemListUI(laiyuan)

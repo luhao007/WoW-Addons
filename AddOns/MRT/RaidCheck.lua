@@ -1330,12 +1330,7 @@ function module.options:Load()
 	end)
 
 	self.chkReadyCheckFrameButTest = ELib:Button(self.tab.tabs[2],L.raidcheckReadyCheckTest):Size(300,20):Point(15,-75):OnClick(function(self) 
-		module.main:READY_CHECK("raid1",35,"TEST")
-		for i=2,30 do
-			local y = math.random(1,30000)
-			local r = math.random(1,2)
-			ExRT.F.ScheduleTimer(function() module.main:READY_CHECK_CONFIRM("raid"..i,r==1,"TEST") end, y/1000)
-		end
+		module:ReadyCheckTest()
 	end)
 
 	self.chkReadyCheckFrameSliderScale = ELib:Slider(self.tab.tabs[2],L.raidcheckReadyCheckScale):Size(300):Point(15,-115):Range(5,200):SetTo(VMRT.RaidCheck.ReadyCheckFrameScale or 100):OnChange(function(self,event) 
@@ -1474,6 +1469,30 @@ function module.options:Load()
 	end):LeftText(L.RaidCheckConsFlaskName):Tooltip(L.RaidCheckConsFlaskNameTooltip)
 	]]
 
+
+	self.chkReadyCheckOilItemID = ELib:Check(self.tab.tabs[3],L.RaidCheckOwnOilItem,VMRT.RaidCheck.OilOwnItemMode):Point("TOPLEFT",self.chkReadyCheckConsumablesDisableForRL,"BOTTOMLEFT",0,-5):OnClick(function(self) 
+		VMRT.RaidCheck.OilOwnItemMode = self:GetChecked()
+	end)
+
+	self.editReadyCheckOilItemID = ELib:Edit(self.tab.tabs[3]):Size(200,20):Point("LEFT",self.chkReadyCheckOilItemID,"RIGHT",300,0):OnChange(function(self,isUser)
+		local itemID = tonumber(self:GetText() or "")
+		self:ExtraText("")
+		if itemID then
+			local name = GetItemInfo(itemID)
+			if name then
+				self:ExtraText(name)
+			end
+		end
+		if not isUser then return end
+		if not VMRT.RaidCheck.OilOwnItem then
+			VMRT.RaidCheck.OilOwnItem = {}
+		end
+		VMRT.RaidCheck.OilOwnItem[ExRT.SDB.charKey] = itemID
+	end):Tooltip(L.RaidCheckOwnOilItemTip):Text(VMRT.RaidCheck.OilOwnItem and VMRT.RaidCheck.OilOwnItem[ExRT.SDB.charKey] or "")
+
+	self.chkOnlyUnlimRune = ELib:Check(self.tab.tabs[3],L.RaidCheckOnlyUnlimRune,VMRT.RaidCheck.OnlyUnlimRune):Point("TOPLEFT",self.chkReadyCheckOilItemID,"BOTTOMLEFT",0,-5):OnClick(function(self) 
+		VMRT.RaidCheck.OnlyUnlimRune = self:GetChecked()
+	end)
 
 	if ExRT.isClassic then
 		self.tab.tabs[3].button:Hide()
@@ -2942,55 +2961,63 @@ function module:ReadyCheckWindow(starter,isTest,manual)
 		self.frame:Hide()
 		return
 	end
+	ExRT.F:AddCoroutine(function()
 
-	self.frame:Create()
+		self.frame:Create()
 
-	module.db.RaidCheckReadyCheckTime = nil
-
-	local colsAdd = 0
-	if VMRT.RaidCheck.ReadyCheckSoulstone then
-		colsAdd = bit.bor(colsAdd,0x1)
-	end
-	if (self.frame.colsAdd or -1) ~= colsAdd then
-		self.frame.colsAdd = colsAdd
-		self.frame:UpdateCols()
-	end
-
-	self.frame.isManual = manual
-
-	self.frame.isTest = isTest
-	if not self.frame.testData then
-		self.frame.testData = {}
-	else
-		wipe(self.frame.testData)
-	end
-	self.frame:UpdateRoster()
-	if manual then
-		for i=1,#self.frame.lines do 
-			self.frame.lines[i].rc_status = 4
+		if InCombatLockdown() then coroutine.yield("sleep",200) end
+	
+		module.db.RaidCheckReadyCheckTime = nil
+	
+		local colsAdd = 0
+		if VMRT.RaidCheck.ReadyCheckSoulstone then
+			colsAdd = bit.bor(colsAdd,0x1)
 		end
-		if UnitLevel'player' >= 50 and not ExRT.isClassic then
-			ExRT.F.SendExMsg("raidcheckreq","REQ\t1")
+		if (self.frame.colsAdd or -1) ~= colsAdd then
+			self.frame.colsAdd = colsAdd
+			self.frame:UpdateCols()
 		end
-	end
-	self.frame:UpdateData()
+	
+		self.frame.isManual = manual
+	
+		self.frame.isTest = isTest
+		if not self.frame.testData then
+			self.frame.testData = {}
+		else
+			wipe(self.frame.testData)
+		end
+		self.frame:UpdateRoster()
 
-	self.frame.headText:SetText("MRT")
+		if InCombatLockdown() then coroutine.yield("sleep",200) end
 
-	self.frame.timeLeftLine:Hide()
+		if manual then
+			for i=1,#self.frame.lines do 
+				self.frame.lines[i].rc_status = 4
+			end
+			if UnitLevel'player' >= 50 and not ExRT.isClassic then
+				ExRT.F.SendExMsg("raidcheckreq","REQ\t1")
+			end
+		end
+		self.frame:UpdateData()
+	
+		self.frame.headText:SetText("MRT")
+	
+		self.frame.timeLeftLine:Hide()
+	
+		self.frame.mimimize:Hide()
+		self.frame:SetMaximized()
+	
+		if self.frame.hideTimer then
+			self.frame.hideTimer:Cancel()
+		end
+	
+		self.frame.anim:Stop()
+		self.frame:SetAlpha(1)
+		self.frame:Show()
+	
+		self.frame:RegisterEvent("UNIT_AURA")
 
-	self.frame.mimimize:Hide()
-	self.frame:SetMaximized()
-
-	if self.frame.hideTimer then
-		self.frame.hideTimer:Cancel()
-	end
-
-	self.frame.anim:Stop()
-	self.frame:SetAlpha(1)
-	self.frame:Show()
-
-	self.frame:RegisterEvent("UNIT_AURA")
+	end)
 end
 
 function module.main:ADDON_LOADED()
@@ -3174,6 +3201,16 @@ do
 			module:SendConsumeData()
 		end
 	end
+
+	function module:ReadyCheckTest()
+		module.main:READY_CHECK("raid1",35,"TEST")
+		for i=2,30 do
+			local y = math.random(1,30000)
+			local r = math.random(1,2)
+			ExRT.F.ScheduleTimer(function() module.main:READY_CHECK_CONFIRM("raid"..i,r==1,"TEST") end, y/1000)
+		end
+	end
+	--/run GMRT.A.RaidCheck:ReadyCheckTest()
 end
 
 function module.main:READY_CHECK_FINISHED()
@@ -3835,18 +3872,22 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 
 		VMRT.RaidCheck.WeaponEnch[ExRT.SDB.charKey] = lastWeaponEnchantItem
 
-		if lastWeaponEnchantItem then
-			local oilCount = GetItemCount(lastWeaponEnchantItem,false,true)
+		local oilItemID = lastWeaponEnchantItem
+		if VMRT.RaidCheck.OilOwnItemMode and VMRT.RaidCheck.OilOwnItem and VMRT.RaidCheck.OilOwnItem[ExRT.SDB.charKey] then
+			oilItemID = VMRT.RaidCheck.OilOwnItem[ExRT.SDB.charKey] or lastWeaponEnchantItem
+		end
+		if oilItemID then
+			local oilCount = GetItemCount(oilItemID,false,true)
 			self.buttons.oil.count:SetText(oilCount)
 			self.buttons.oiloh.count:SetText(oilCount)
-			if type(lastWeaponEnchantItem) == 'number' and lastWeaponEnchantItem < 0 then	--for spell enchants
+			if type(oilItemID) == 'number' and oilItemID < 0 then	--for spell enchants
 				if not InCombatLockdown() then
-					local spellName = GetSpellInfo(-lastWeaponEnchantItem)
+					local spellName = GetSpellInfo(-oilItemID)
 					self.buttons.oil.click:SetAttribute("spell", spellName)
 					self.buttons.oil.click:Show()
 					self.buttons.oil.click.IsON = true
 					self.buttons.oil.click:SetAttribute("type", "spell")
-					local spellName = GetSpellInfo(lastWeaponEnchantItem == -33757 and 318038 or -lastWeaponEnchantItem)
+					local spellName = GetSpellInfo(oilItemID == -33757 and 318038 or -oilItemID)
 					self.buttons.oiloh.click:SetAttribute("spell", spellName)
 					self.buttons.oiloh.click:Show()
 					self.buttons.oiloh.click.IsON = true
@@ -3856,14 +3897,14 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 				self.buttons.oiloh.count:SetText("")
 			elseif oilCount and oilCount > 0 then
 				if not InCombatLockdown() then
-					local itemName = GetItemInfo(lastWeaponEnchantItem)
+					local itemName = GetItemInfo(oilItemID)
 					if itemName then
 						self.buttons.oil.click:SetAttribute("item", itemName)
 						self.buttons.oil.click:Show()
 						self.buttons.oil.click.IsON = true
 						if 
 							mainHandExpiration and 
-							(lastWeaponEnchantItem == 171285 or lastWeaponEnchantItem == 171286) and
+							(oilItemID == 171285 or oilItemID == 171286) and
 							offhandItemID and not offhandCanBeEnchanted
 						then
 							self.buttons.oil.click:SetAttribute("type", "cancelaura")
@@ -3901,11 +3942,19 @@ if (not ExRT.isClassic) and UnitLevel'player' >= 60 then
 					LCG.PixelGlow_Stop(self.buttons.oiloh)
 				end
 			end
+		else
+			if LCG then
+				LCG.PixelGlow_Stop(self.buttons.oil)
+				LCG.PixelGlow_Stop(self.buttons.oiloh)
+			end
 		end
 
 		local runeCount = GetItemCount(rune_item_id,false,true)
 		local runeUnlim = IS_DF and GetItemCount(211495,false,true) or GetItemCount(190384,false,true)
-		if runeUnlim and runeUnlim > 0 and not IS_TWW then	--no rune yet
+		if VMRT.RaidCheck.OnlyUnlimRune then
+			runeCount = 0
+		end
+		if runeUnlim and runeUnlim > 0 and (not IS_TWW or VMRT.RaidCheck.OnlyUnlimRune) then	--no rune yet
 			self.buttons.rune.count:SetText("")
 			if not InCombatLockdown() then
 				self.buttons.rune.texture:SetTexture(IS_DF and 348535 or 4224736)

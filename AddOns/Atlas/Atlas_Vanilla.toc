@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: nanderson11
-## Version: 2.0.2
+## Version: v3.0.0
 
 ## Title: Atlas
 ## Notes: Instance Map Browser
@@ -16,6 +16,7 @@
 ## X-License: GPLv2
 ## X-Credits: Forked from Atlas
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, ruRU, zhTW, zhCN, ptBR, koKR
+## X-Curse-Project-ID: 1115649
 
 Data\Constants.lua
 Data\AreaIDs_ClassicEra.lua
@@ -43,3 +44,5 @@ Integration\WorldMap.xml
 Integration\WorldMap.lua
 Integration\Achievements.lua
 Integration\AtlasLootIntegration.lua
+
+Data\Classic-ClassicEra.lua

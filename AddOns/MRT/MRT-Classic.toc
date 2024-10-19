@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: ykiigor
-## Version: 4960
+## Version: 4990
 
 ## Title: Method Raid Tools
 ## Notes: Method Raid Tools
@@ -22,6 +22,7 @@ localization\localization.tw.lua
 localization\localization.kr.lua
 localization\localization.it.lua
 localization\localization.lua
+Data.lua
 BlizzFix.lua
 Options.lua
 Note.lua

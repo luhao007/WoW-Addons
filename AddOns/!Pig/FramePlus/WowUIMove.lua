@@ -35,15 +35,17 @@ local UINameList_AddOn={
 	{"CraftFrame","Blizzard_CraftUI",},--附魔
 	{"InspectFrame","Blizzard_InspectUI",},--观察
 	{"GuildBankFrame","Blizzard_GuildBankUI",},--公会银行
-	{"AuctionFrame","Blizzard_AuctionUI"},--拍卖{"AuctionFrameBrowse","piglist"}	
 }
 if tocversion<50000 then
-	table.insert(UINameList_AddOn,{"TradeSkillFrame","Blizzard_TradeSkillUI",})--专业面板
-	table.insert(UINameList_AddOn,{"PlayerTalentFrame","Blizzard_TalentUI",})--天赋UI 
+	table.insert(UINameList_AddOn,{"TradeSkillFrame","Blizzard_TradeSkillUI"})--专业面板
+	table.insert(UINameList_AddOn,{"PlayerTalentFrame","Blizzard_TalentUI"})--天赋UI 
+	table.insert(UINameList_AddOn,{"AuctionFrame","Blizzard_AuctionUI"})--拍卖{"AuctionFrameBrowse","piglist"}	
 elseif tocversion<110000 then
 	table.insert(UINameList_AddOn,{"ClassTalentFrame","Blizzard_ClassTalentUI",})--天赋UI 
 else
-	table.insert(UINameList_AddOn,{"ProfessionsBookFrame","Blizzard_ProfessionsBook"})--专业面板
+	table.insert(UINameList_AddOn,{"ProfessionsBookFrame","Blizzard_ProfessionsBook"})--专业
+	table.insert(UINameList_AddOn,{"ProfessionsFrame","Blizzard_Professions"})--专业面板
+	table.insert(UINameList_AddOn,{"AuctionHouseFrame","Blizzard_AuctionHouseUI"})--拍卖
 	--table.insert(UINameList_AddOn,{"PlayerSpellsFrame","Blizzard_PlayerSpells"})--天赋UI 有BUG
 end
 local function add_Movebiaoti(oldbiaoti,point)

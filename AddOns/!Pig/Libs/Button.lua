@@ -31,11 +31,8 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	local But
 	if MODE then
 		local Templatepig= "UIPanelButtonTemplate"
-		-- if tocversion>110000 then
-		-- 	Templatepig= "SharedButtonTemplate"
-		-- end
+		-- if tocversion>110000 then Templatepig= "SharedButtonTemplate" end
 		But = CreateFrame("Button",UIName,fuF,Templatepig ,id);
-		
 		But:SetText(Text);
 		local buttonFont=But:GetFontString()
 		But.Text=buttonFont
@@ -129,7 +126,11 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		But:SetSize(WH[1],WH[2]);
 	end
 	if Point then
-		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+		if MODE then
+			But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]-1.6);
+		else
+			But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+		end
 	end
 	return But
 end

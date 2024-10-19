@@ -104,7 +104,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 			if add then
 				return true
 			else
-				if classID==15 and subclassID==1 then
+				if classID==0 or classID==5 or classID==6 or classID==7 then
 					return true
 				else
 					return false,"非消费品"

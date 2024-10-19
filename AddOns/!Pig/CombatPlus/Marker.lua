@@ -137,14 +137,21 @@ local function ToPartyToRaid()
 		ConvertToRaid()
 	end
 end
+--转换队伍
+--QuestSharing-QuestLog-Active--plunderstorm-glues-queueselector-duo-selected--trios-icon-bubble-active
+--groupfinder-waitdot--个人转换--GM-icon-assist
+--Ping_SpotGlw_Assist_In
+--NecrolordAssaults-64x64
+--groupfinder-icon-class-color-monk
 local MenuiconList = {}
 if tocversion>100000 then
 	table.insert(MenuiconList,1,{{"Atlas","common-icon-rotateleft"},{"离开队伍","离开副本队伍"},{updateiconall,-1,-3,-1,-1},function(self,button) if button=="LeftButton" then C_PartyInfo.LeaveParty() else ConfirmOrLeaveLFGParty() end end})
 	table.insert(MenuiconList,2,{{"Atlas","GM-icon-assist"},{"切换小队/团队"},{updateicon},ToPartyToRaid})
 	table.insert(MenuiconList,3,{{"Atlas","GM-raidMarker-reset"},{"重置副本"},{updateiconDesaturated},function() ResetInstances() end})
 	table.insert(MenuiconList,4,{{"Atlas","GM-icon-difficulty-normalSelected"},{"副本难度"},{updateicon}, updateicon_Difficulty})
-	table.insert(MenuiconList,5,{{"Atlas","GM-icon-roles"},{"职责检查"},{updateicon,4,4,4,4},function() InitiateRolePoll() end})
-	table.insert(MenuiconList,6,{{"Atlas","GM-icon-readyCheck"},{"就位确认"},{updateicon,6,6,5,7},function() DoReadyCheck() end})
+	table.insert(MenuiconList,5,{{"Atlas","Ping_SpotGlw_Assist_In"},{COMBATLOGDISABLED},{updateicon,-2,-2,-1,-2},function() end})
+	table.insert(MenuiconList,6,{{"Atlas","GM-icon-roles"},{"职责检查"},{updateicon,4,4,4,4},function() InitiateRolePoll() end})
+	table.insert(MenuiconList,7,{{"Atlas","GM-icon-readyCheck"},{"就位确认"},{updateicon,6,6,5,7},function() DoReadyCheck() end})
 	table.insert(MenuiconList,{{"Atlas","GM-icon-countdown"},{"倒计时"},{updateicon},PIG_PULL})
 else
 	--interface/raidframe/readycheck-notready.blp
@@ -152,10 +159,11 @@ else
 	-- {"Atlas","UI-LFG-ReadyMark"},
 	-- {"Atlas","UI-LFG-DeclineMark"},
 	table.insert(MenuiconList,1,{{"Atlas","common-icon-rotateleft"},{"离开队伍","离开副本队伍"},{updateicon,0,-1,-1,0},function(self,button) if button=="LeftButton" then LeaveParty() else ConfirmOrLeaveLFGParty() end end})
-	table.insert(MenuiconList,2,{{"Atlas","UI-ChatIcon-App"},{"切换小队/团队"},{updateicon,0,0,0.6,0.6},ToPartyToRaid})--UI-ChatIcon-App/socialqueuing-icon-group
+	table.insert(MenuiconList,2,{{"Atlas","groupfinder-waitdot"},{"切换小队/团队"},{updateicon,-3,-3,-3,-2.4},ToPartyToRaid})--UI-ChatIcon-App/socialqueuing-icon-group
 	table.insert(MenuiconList,3,{{"Atlas","common-icon-undo"},{"重置副本"},{updateicon,-1,-1,-1,-1},function() ResetInstances() end})
-	table.insert(MenuiconList,4,{{"Tex","interface/raidframe/readycheck-waiting.blp"},{"职责检查"},nil,function() InitiateRolePoll() end})
-	table.insert(MenuiconList,5,{{"Tex","interface/raidframe/readycheck-ready.blp"},{"就位确认"},nil,function() DoReadyCheck() end})
+	table.insert(MenuiconList,4,{{"Tex","interface/common/indicator-green.blp"},{COMBATLOGDISABLED},nil,function() end})
+	table.insert(MenuiconList,5,{{"Tex","interface/raidframe/readycheck-waiting.blp"},{"职责检查"},nil,function() InitiateRolePoll() end})
+	table.insert(MenuiconList,6,{{"Tex","interface/raidframe/readycheck-ready.blp"},{"就位确认"},nil,function() DoReadyCheck() end})
 	table.insert(MenuiconList,{{"Tex","interface/helpframe/helpicon-reportlag.blp",{0.13,0.87,0.13,0.87}},{"倒计时"},nil,PIG_PULL})
 end
 local MenuiconNum=#MenuiconList
@@ -331,6 +339,8 @@ local function add_buttonList(peizhiT,listNum)
 			if MenuiconList[i][3] then
 				MenuiconList[i][3][1](listbut,MenuiconList[i][3][2],MenuiconList[i][3][3],MenuiconList[i][3][4],MenuiconList[i][3][5])
 			end
+			listbut.Tooltip=MenuiconList[i][2][1]
+			listbut.Tooltip1=MenuiconList[i][2][2]
 			listbut:SetScript("OnEnter", function (self)
 				GameTooltip:ClearLines();
 				GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT",0,0);
@@ -342,10 +352,10 @@ local function add_buttonList(peizhiT,listNum)
 						GameTooltip_SetTitle(GameTooltip, MenuiconList[i][2][1]);
 					end
 				else
-					if MenuiconList[i][2][2] then
-						GameTooltip:AddLine(KEY_BUTTON1.."-|cffFFFFff"..MenuiconList[i][2][1].."|r\n"..KEY_BUTTON2.."-|cffFFFFff"..MenuiconList[i][2][2].."|r")
+					if self.Tooltip1 then
+						GameTooltip:AddLine(KEY_BUTTON1.."-|cffFFFFff"..self.Tooltip.."|r\n"..KEY_BUTTON2.."-|cffFFFFff"..self.Tooltip1.."|r")
 					else
-						GameTooltip:AddLine("|cffFFFFff"..MenuiconList[i][2][1].."|r")
+						GameTooltip:AddLine("|cffFFFFff"..self.Tooltip.."|r")
 					end
 				end
 				GameTooltip:Show();
@@ -380,6 +390,7 @@ local function add_buttonList(peizhiT,listNum)
 					MenuiconList[i][4](self)
 				end)
 			end
+			if MenuiconList[i][2][1]==COMBATLOGDISABLED then pigui.WCL=listbut end
 			listbut:SetScript("OnLeave", function (self)
 				GameTooltip:ClearLines();
 				GameTooltip:Hide() 
@@ -430,7 +441,7 @@ local function add_Options(peizhiT,topHV,nameGN,pigui)
 			self.F:Hide()
 			Pig_Options_RLtishi_UI:Show()
 		end
-		add_buttonList(peizhiT,pigui)
+		add_buttonList(peizhiT,GNLsits[peizhiT].iconNum)
 	end)
 	---
 	checkbutOpen.F = PIGFrame(checkbutOpen,{"TOPLEFT",checkbutOpen,"BOTTOMLEFT",20,-20},{1,1})

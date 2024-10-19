@@ -53,12 +53,15 @@ function BusinessInfo.QuicAuc()
 					end
 				end
 			else
-				local bagidbianhao = Data.ElvUI_BagName
-				for f=1,6 do
+				local ElvUI_BagName = Data.ElvUI_BagName
+				for f=1,NUM_CONTAINER_FRAMES do
 					for ff=1,36 do
 						if ElvUI then
-							if _G[bagidbianhao[f].."Slot"..ff] then
-								zhixingdianjiFUn(_G[bagidbianhao[f].."Slot"..ff])
+							for ei=1,#ElvUI_BagName do
+								local bagff = _G[ElvUI_BagName[ei]..f.."Slot"..ff]
+								if bagff then
+									zhixingdianjiFUn(bagff)
+								end
 							end
 						else
 							if _G["ContainerFrame"..f.."Item"..ff] then

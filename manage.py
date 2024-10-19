@@ -173,17 +173,18 @@ class Manager:
         lines = ['local media = LibStub("LibSharedMedia-3.0")\n', '\n']
 
         root = Path('AddOns/!!Libs/SharedMedia/')
+        p = 'Interface\\\\AddOns\\\\!!Libs\\\\SharedMedia'
 
         lines += ['-- Add textures\n', '\n']
         for texture in os.listdir(root / 'textures'):
             t = texture.split('.')[0]
-            lines.append(f'media:Register(media.MediaType.STATUSBAR, "{t}", "Interface\\\\AddOns\\\\!!Libs\\\\SharedMedia\\\\textures\\\\{t}.tga")\n')
+            lines.append(f'media:Register(media.MediaType.STATUSBAR, "{t}", "{p}\\\\textures\\\\{t}.tga")\n')
 
         lines += ['\n', '-- Add fonts\n', '\n']
 
         for texture in os.listdir(root / 'fonts'):
             t = texture.split('.')[0]
-            lines.append(f'media:Register(media.MediaType.FONT, "{t}", "Interface\\\\AddOns\\\\!!Libs\\\\SharedMedia\\\\fonts\\\\{t}.ttf", media.LOCALE_BIT_zhCN)\n')
+            lines.append(f'media:Register(media.MediaType.FONT, "{t}", "{p}\\\\fonts\\\\{t}.ttf", media.LOCALE_BIT_zhCN)\n')
 
         with open('AddOns/!!Libs/sharedmedia.lua', 'w', encoding='utf-8') as file:
             file.writelines(lines)

@@ -7,6 +7,7 @@ local PIGFontString=Create.PIGFontString
 ---
 local Fun=addonTable.Fun
 local BusinessInfo=addonTable.BusinessInfo
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 ----------------------------------
 function BusinessInfo.AHPlus_Mainline()
 	if not PIGA["AHPlus"]["Open"] or AuctionHouseFrame.History then return end

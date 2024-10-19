@@ -1211,11 +1211,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		listFitem.line:SetThickness(1);
 		listFitem.line:SetStartPoint("TOPLEFT",0,0)
 		listFitem.line:SetEndPoint("TOPRIGHT",0,0)
-
-		listFitem.yajia = CreateFrame("Button",nil,listFitem, "UIPanelButtonTemplate");
-		listFitem.yajia:SetSize(SellxulieID_www[1],22);
-		listFitem.yajia:SetPoint("LEFT", listFitem, "LEFT", 0,0);
-		listFitem.yajia:SetText("压");
+		listFitem.yajia = PIGButton(listFitem,{"LEFT", listFitem, "LEFT", 0,0},{SellxulieID_www[1],22},"压",nil,nil,nil,nil,0)
 		listFitem.yajia:SetScript("OnClick", function(self, button)
 			DownPriceFun(self.hang_minBid,self.hang_buyoutPrice)
 		end)
