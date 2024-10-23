@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.0.2                    --
+--    Patch: 11.0.5                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2024-10-15";
+local WL_ADDON_UPDATED = "2024-10-22";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110002;
+local WL_VERSION = 110005;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -2633,7 +2633,7 @@ function wlSeenWorldQuests()
         local rows = C_TaskQuest.GetQuestsForPlayerByMapID(checkMaps[i].mapID)
         if rows then
             for rowIdx = 1, #rows, 1 do
-                addWorldQuestLine(rows[rowIdx].questId)
+                addWorldQuestLine(rows[rowIdx].questId or rows[rowIdx].questID)
             end
         end
     end

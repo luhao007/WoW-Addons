@@ -177,7 +177,7 @@ if app.IsRetail then
 			-- so we need to know to search by 'itemID' but using the 'modItemID' here for base itemID lookups of missing
 			-- i.e. if searching 13544, we allow 13544.01 to count as a non-missing representation of the search... makes sense?
 			local val = key == "itemID" and t.modItemID or t[key];
-			local o = app.SearchForObject(key, val, "field") or (val == t.itemID and app.SearchForObject(key, val));
+			local o = app.SearchForObject(key, val, "field") or (val == t.itemID and app.SearchForObject("itemID", val));
 			local missing = true;
 			while o do
 				missing = rawget(o, "_missing");
@@ -214,6 +214,14 @@ if app.IsRetail then
 	}) do
 		DefaultFields[fieldName] = fieldMethod;
 	end
+else
+	for fieldName,fieldMethod in pairs({
+		["creatureID"] = function(t)	-- TODO: Do something about this, it's silly.
+			return t.npcID;
+		end,
+	}) do
+		DefaultFields[fieldName] = fieldMethod;
+	end
 end
 
 local CloneDictionary = app.CloneDictionary
@@ -223,9 +231,10 @@ local call = function(class, key, t)
 	_cache = rawget(class, key);
 	if _cache then return _cache(t) end
 end
-local BaseObjectFields = not app.__perf and function(fields, className)
+-- Generates a metatable to use for the given class name based on the provided field functions
+local CreateClassMeta = not app.__perf and function(fields, className)
 	if not className then
-		print("A Class Name must be declared when using BaseObjectFields");
+		print("A Class Name must be declared when using CreateClass");
 	end
 	local class = { __type = function() return className; end };
 	if not classDefinitions[className] then
@@ -251,7 +260,7 @@ end
 -- performance tracking wrapped base fields
 or function(fields, className)
 	if not className then
-		print("A Class Name must be declared when using BaseObjectFields");
+		print("A Class Name must be declared when using CreateClassMeta");
 	end
 	local class = { __type = function() return className; end };
 	app.__perf.CaptureTable(class, "Class:"..className)
@@ -282,8 +291,7 @@ or function(fields, className)
 		end
 	}
 end
-app.BaseObjectFields = BaseObjectFields;
-app.BaseClass = BaseObjectFields(nil, "BaseClass");
+app.BaseClass = CreateClassMeta(nil, "BaseClass");
 
 local MaximumInfoRetries = 40;
 app.MaximumItemInfoRetries = MaximumInfoRetries
@@ -412,7 +420,7 @@ local function GenerateVariantClasses(class)
 		end
 		-- raw variant table may be used by other classes, so need to copy it for this specific subclass
 		variantClone = CloneDictionary(fields, CloneDictionary(variant, {base=subbase}))
-		variants[variantName] = BaseObjectFields(variantClone, classname..variantName);
+		variants[variantName] = CreateClassMeta(variantClone, classname..variantName);
 	end
 end
 local function AppendVariantConditionals(conditionals, class)
@@ -463,7 +471,7 @@ local function GenerateSimpleMetaClass(fields,name,subname)
 			collectibleAsCost = app.ReturnFalse
 		})
 		simpleclass.collectedAsCost = nil
-		local simplemeta = BaseObjectFields(simpleclass, "Simple" .. name .. (subname or ""))
+		local simplemeta = CreateClassMeta(simpleclass, "Simple" .. name .. (subname or ""))
 		fields.simplemeta = function(t) return simplemeta end
 	end
 end
@@ -492,7 +500,7 @@ app.CreateClass = function(className, classKey, fields, ...)
 
 	local args = { ... };
 	local total = #args;
-	local Class = BaseObjectFields(fields, className);
+	local Class = CreateClassMeta(fields, className);
 	local conditionals = {};
 	GenerateVariantClasses(Class)
 	if total > 0 then
@@ -507,7 +515,7 @@ app.CreateClass = function(className, classKey, fields, ...)
 					subfields.__condition = conditional
 					subfields.base = base;
 					GenerateSimpleMetaClass(subfields, className, subclassName)
-					local subclass = BaseObjectFields(subfields, className .. subclassName)
+					local subclass = CreateClassMeta(subfields, className .. subclassName)
 					GenerateVariantClasses(subclass)
 					AppendVariantConditionals(conditionals, subclass)
 				else
@@ -591,7 +599,7 @@ app.CreateUnimplementedClass = function(className, classKey)
 			return className;
 		end,
 		icon = function(t)
-			return "Interface\\Icons\\INV_Misc_QuestionMark";
+			return 134400;
 		end,
 		title = function(t)
 			return app.L.DATA_TYPE_NOT_SUPPORTED;

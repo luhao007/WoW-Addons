@@ -125,6 +125,8 @@ addonTable.Default = {
 		["yajingbiao"] = true,
 		["exactMatch"] = false,
 		["oldaucG"]=false,
+		["SaveDuration"]=false,
+		["SaveDuration_V"]=2,
 	},
 	["Chat"] = {
 		["FastCopy"]=false,

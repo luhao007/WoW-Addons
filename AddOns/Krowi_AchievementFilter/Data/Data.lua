@@ -23,7 +23,10 @@ data.RightClickMenuExtras = {};
 
 data.Maps = {};
 
-data.CalendarEvents, data.WidgetEvents, data.WorldEvents = {}, {}, {};
+data.Events = {};
+data.Events[addon.Objects.EventType.Calendar] = {};
+data.Events[addon.Objects.EventType.Widget] = {};
+data.Events[addon.Objects.EventType.World] = {};
 
 function data:RegisterTooltipDataTasks()
     local name = "Additional Tooltip Data: ";
@@ -36,6 +39,14 @@ end
 function data:RegisterPetBattleLinkDataTasks()
     local name = "Pet Battle Link Data: ";
     for k, v in next, KrowiAF.PetBattleLinkData do
+        self.InjectLoadingDebug(v, name .. k);
+        tinsert(self.TasksGroups, 1, v);
+    end
+end
+
+function data:RegisterEventDataTasks()
+    local name = "Event Data: ";
+    for k, v in next, KrowiAF.EventData do
         self.InjectLoadingDebug(v, name .. k);
         tinsert(self.TasksGroups, 1, v);
     end
@@ -81,13 +92,7 @@ function data:LoadOnPlayerLogin()
     self.ExportedBuildVersions.RegisterTasks(self.BuildVersions);
     self.ExportedAchievements.RegisterTasks(self.Achievements, self.BuildVersions, self.TransmogSets);
     self.ExportedCategories.RegisterTasks(self.Categories, self.Achievements, addon.Tabs);
-    self.ExportedCalendarEvents.RegisterTasks(self.CalendarEvents, self.Categories);
-    if self.ExportedWidgetEvents then
-        self.ExportedWidgetEvents.RegisterTasks(self.WidgetEvents, self.Categories);
-    end
-    if self.ExportedWorldEvents then
-        self.ExportedWorldEvents.RegisterTasks(self.WorldEvents, self.Categories);
-    end
+    self:RegisterEventDataTasks();
     self.ExportedUiMaps.RegisterTasks(self.Maps, self.Achievements);
 
     self:RegisterTooltipDataTasks();

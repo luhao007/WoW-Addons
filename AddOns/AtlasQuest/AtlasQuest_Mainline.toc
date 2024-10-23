@@ -1,11 +1,13 @@
 ## Interface: 110002
 ## Author: AtlasQuest Team
-## Version: 5.2.1
+## Version: v5.2.2
 
 ## Title: AtlasQuest
 ## Notes: Shows the Quests for dungeons and battlegrounds.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本任务|r |cFFFFE00AAtlasQuest|r
 ## Notes-zhCN: 副本任务列表
+
+## IconTexture: Interface\lfgframe\lfgicon-quest
 
 ## RequiredDeps: Atlas
 ## LoadOnDemand: 0
@@ -19,7 +21,7 @@
 ## X-Localizations: enUS, deDE, koKR, zhCN, zhTW, ruRU, esES, esMX
 ## X-Date: August 5, 2024
 
-embeds.xml
+Libs\Libs.xml
 Locales\Locales.xml
-AtlasQuest_InsideFrame.xml
-AtlasQuest.xml
+Core\AtlasQuest_InsideFrame.xml
+Core\AtlasQuest.xml

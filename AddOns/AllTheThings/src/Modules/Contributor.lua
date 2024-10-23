@@ -168,6 +168,7 @@ local MobileNPCDB = {
 	 [88026] = true,	-- John J. Keeshan
 	 [88027] = true,	-- Impsy
 	[101527] = true,	-- Blingtron 6000
+	[145707] = true,	-- Advisor Belgrum
 	[153897] = true,	-- Blingtron 7000
 	[158635] = true,	-- Xolartios <Eternal Traveler>
 	[185749] = true,	-- Gnoll Mon-Ark
@@ -178,19 +179,22 @@ local MobileNPCDB = {
 	[221980] = true,	-- Faerin Lothar
 }
 
+local ReturnEmptyFunctionMeta = { __index = function() return app.ReturnFalse end}
+local EmptyFunctionTable = setmetatable({}, ReturnEmptyFunctionMeta)
+local ReturnEmptyTableMeta = { __index = function() return EmptyFunctionTable end}
 local IgnoredQuestChecksByTypes = setmetatable({
-	Item = {
+	Item = setmetatable({
 		coord = app.ReturnTrue,
 		provider = app.ReturnTrue,
-	},
-	Player = {
+	}, ReturnEmptyFunctionMeta),
+	Player = setmetatable({
 		coord = app.ReturnTrue,
 		provider = app.ReturnTrue
-	},
-	Creature = {
+	}, ReturnEmptyFunctionMeta),
+	Creature = setmetatable({
 		coord = function(id) return MobileNPCDB[id] end,
-	}
-}, { __index = function() return app.EmptyTable end})
+	}, ReturnEmptyFunctionMeta),
+}, ReturnEmptyTableMeta)
 
 local GuidTypeProviders = {
 	Item = "i",
@@ -276,8 +280,20 @@ local function OnQUEST_DETAIL(...)
 
 	local guid = UnitGUID("questnpc") or UnitGUID("npc")
 	local providerid, guidtype, _
-	if guid then guidtype, _, _, _, _, providerid = ("-"):split(guid) end
+	if not guid then
+		app.print("No Quest check performed for Quest #", questID,"[GUID]")
+		return
+	end
+	-- TODO: would need to be fixed for Item type
+	guidtype, _, _, _, _, providerid = ("-"):split(guid)
 	providerid = tonumber(providerid)
+	if not providerid or not guidtype then
+		-- app.print("Unknown Quest Provider",guidtype,providerid,"during Contribute check!")
+		if guidtype ~= "Item" then
+			app.print("No Quest check performed for Quest #", questID,"[ProviderID]")
+		end
+		return
+	end
 	app.PrintDebug(guidtype,providerid,app.NPCNameFromID[providerid] or app.ObjectNames[providerid]," => Quest #", questID)
 
 	-- check coord distance
@@ -307,7 +323,7 @@ local function OnQUEST_DETAIL(...)
 	end
 
 	-- check provider
-	if not IgnoredQuestChecksByTypes[guidtype].provider then
+	if not IgnoredQuestChecksByTypes[guidtype].provider() then
 		Check_providers(questID, questRef, GuidTypeProviders[guidtype], providerid)
 	end
 	-- app.PrintDebug("Contributor.OnQUEST_DETAIL.Done")

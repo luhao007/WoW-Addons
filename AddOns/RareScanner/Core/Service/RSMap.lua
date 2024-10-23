@@ -157,10 +157,10 @@ function RSMap.GetMapPOIs(mapID, onWorldMap, onMiniMap)
 	-- Extract world quests in the area.
 	local quests = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
 	local questTitles = {}
-	if (quests) then
-		for _, quest in ipairs (quests) do
-			if (HaveQuestData(quest.questId)) then
-				local title, _, _ = C_TaskQuest.GetQuestInfoByQuestID(quest.questId)
+	if (taskInfo) then
+		for _, info in ipairs (taskInfo) do
+			if (HaveQuestData(info.questID)) then
+				local title, _, _ = C_TaskQuest.GetQuestInfoByQuestID(info.questID)
 				table.insert(questTitles, title)
 			end
 		end
@@ -266,9 +266,9 @@ function RSMap.GetWorldMapPOI(objectGUID, vignetteInfo, mapID)
 		if (containerInfo or alreadyFoundInfo) then
 			return RSContainerPOI.GetContainerPOI(containerID, mapID, containerInfo, alreadyFoundInfo)
 		end
-	elseif (vignetteInfo.type == Enum.VignetteType.Torghast or RSConstants.IsNpcAtlas(vignetteInfo.atlasName) or (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and RSConstants.NPCS_WITH_PRE_EVENT[tonumber(vignetteObjectID)])) then
+	elseif (vignetteInfo.type == Enum.VignetteType.Torghast or RSConstants.IsNpcAtlas(vignetteInfo.atlasName) or (vignetteInfo.atlasName == RSConstants.NPC_VIGNETTE_BOSS and RSUtils.Contains(RSConstants.WORLDBOSSES, tonumber(vignetteObjectID))) or (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and RSConstants.NPCS_WITH_PRE_EVENT[tonumber(vignetteObjectID)])) then
 		local npcID = tonumber(vignetteObjectID)
-		
+
 		-- If Ancestral Spirit in Forbidden Reach or Loam Scoat in Zaralek Cavern, locate real NPC
 		if ((npcID == RSConstants.FORBIDDEN_REACH_ANCESTRAL_SPIRIT or npcID == RSConstants.ZARALEK_CAVERN_LOAM_SCOUT) and RSNpcDB.GetNpcId(vignetteInfo.name, mapID)) then
 			npcID = RSNpcDB.GetNpcId(vignetteInfo.name, mapID)

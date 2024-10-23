@@ -12,26 +12,30 @@ _.FlightPathDB=
 		1944
 	},
 }
+_.OnClickDB=
+{}
 _.OnTooltipDB=
 {
 	["DesolaceCentaurs"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation>0 and reputation<9000 then	_.Modules.FactionData.AddReputationTooltipInfo(tooltipInfo,reputation,"Kill Centaurs to Honored.",20,9000);end	end,
-	["ForAlteracValley"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation>=0 and reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Kill the General",389,42000);addRepInfo(tooltipInfo,reputation,"Kill a Captain",125,42000);addRepInfo(tooltipInfo,reputation,"Kill a Commander",12,42000);addRepInfo(tooltipInfo,reputation,"Kill an Air Master",5,42000);if reputation<21000 then	addRepInfo(tooltipInfo,reputation,"Kill a Guard(To Revered)",5,21000);end	end	end,
+	["ForAlteracValley"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation>=0 and reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Kill the General",389,42000);addRepInfo(tooltipInfo,reputation,"Kill a Captain",125,42000);addRepInfo(tooltipInfo,reputation,"Kill a Commander",12,42000);addRepInfo(tooltipInfo,reputation,"Kill an Air Master",5,42000);if reputation<21000 then	addRepInfo(tooltipInfo,reputation,"Kill a Guard (To Revered)",5,21000);end	end	end,
 	["ForArathiBasin"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation>=0 and reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Total Resources",10,42000,200);addRepInfo(tooltipInfo,reputation,"Resource Ticks",10,42000);tinsert(tooltipInfo,{left=" Every 200 or 150 Resources during AB Weekend.",r=1,g=1,b=1});end	end,
 	["ForConsortium"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;if not t.secrets then	local f=_.SearchForField("questID",10971);if f and #f>0 then t.secrets=f[1];end	end	if not t.secrets.saved then	_.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete '%s' in Netherstorm.",t.secrets);else	addRepInfo(tooltipInfo,reputation,"Turn in Ethereum Prisoner I.D. Tags in Netherstorm.",250,42000);end	addRepInfo(tooltipInfo,reputation,"Turn in Obsidian Warbeads.",500,42000);_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Total Obsidian Warbeads",500,42000,10);end	end,
 	["ForEverlook"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Kill Pirates in Ratchet*",2.5,42000);addRepInfo(tooltipInfo,reputation,"Kill Pirates in Tanaris",2.5,42000);tinsert(tooltipInfo,{left=" * PROTIP: Ratchet is faster.",r=1,g=0.5,b=0.5});end	end,
-	["ForKurenai"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<0 then	tinsert(tooltipInfo,{left="Complete Quests in Orebor Harborage,Zangarmarsh.",r=1,g=1,b=1});elseif reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Kill Bolderfist Ogres.",10,42000);addRepInfo(tooltipInfo,reputation,"Turn in Obsidian Warbeads.",500,42000);_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Total Obsidian Warbeads",500,42000,10);end	end,
-	["ForMaghar"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<0 then	tinsert(tooltipInfo,{left="Complete Quests in Mag'har Post,Hellfire Peninsula.",r=1,g=1,b=1});elseif reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Kill Bolderfist Ogres.",10,42000);addRepInfo(tooltipInfo,reputation,"Turn in Obsidian Warbeads.",500,42000);_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Total Obsidian Warbeads",500,42000,10);end	end,
+	["ForKurenai"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<0 then	tinsert(tooltipInfo,{left="Complete Quests in Orebor Harborage, Zangarmarsh.",r=1,g=1,b=1});elseif reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Kill Bolderfist Ogres.",10,42000);addRepInfo(tooltipInfo,reputation,"Turn in Obsidian Warbeads.",500,42000);_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Total Obsidian Warbeads",500,42000,10);end	end,
+	["ForMaghar"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<0 then	tinsert(tooltipInfo,{left="Complete Quests in Mag'har Post, Hellfire Peninsula.",r=1,g=1,b=1});elseif reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Kill Bolderfist Ogres.",10,42000);addRepInfo(tooltipInfo,reputation,"Turn in Obsidian Warbeads.",500,42000);_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Total Obsidian Warbeads",500,42000,10);end	end,
 	["ForNetherwing"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	_.Modules.FactionData.AddReputationTooltipInfo(tooltipInfo,reputation,"Turn in Netherwing Eggs.",250,42000);end	end,
 	["ForOgrila"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	tinsert(tooltipInfo,{left="Daily Quests:"});if not t.banished then	local f=_.SearchForField("questID",11051);if f and #f>0 then t.banished=f[1];end	end	local AddQuestTooltipWithReputation=_.Modules.FactionData.AddQuestTooltipWithReputation;local banishedRep=AddQuestTooltipWithReputation(tooltipInfo," %s",t.banished,350);if not t.bombed then	local f=_.SearchForField("questID",11023);if f and #f>0 then t.bombed=f[1];end	end	local bombedRep=AddQuestTooltipWithReputation(tooltipInfo," %s",t.bombed,500);if not t.relic then	local f=_.SearchForField("questID",11080);if f and #f>0 then t.relic=f[1];end	end	local relicRep=AddQuestTooltipWithReputation(tooltipInfo," %s",t.relic,350);if not t.wrangled then	local f=_.SearchForField("questID",11066);if f and #f>0 then t.wrangled=f[1];end	end	local wrangledRep=AddQuestTooltipWithReputation(tooltipInfo," %s",t.wrangled,350);local repPerDay=banishedRep + bombedRep + relicRep + wrangledRep;_.Modules.FactionData.AddReputationTooltipInfo(tooltipInfo,reputation,"Complete Dailies Everyday",repPerDay,42000);end	end,
-	["ForRatchet"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;if reputation<20999 then	addRepInfo(tooltipInfo,reputation,"Kill Pirates in Ratchet(To 11999 Honored)",5,20999);end	addRepInfo(tooltipInfo,reputation,"Kill Pirates in Tanaris",2.5,42000);end	end,
+	["ForRatchet"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;if reputation<20999 then	addRepInfo(tooltipInfo,reputation,"Kill Pirates in Ratchet (To 11999 Honored)",5,20999);end	addRepInfo(tooltipInfo,reputation,"Kill Pirates in Tanaris",2.5,42000);end	end,
 	["ForSkyguard"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;tinsert(tooltipInfo,{left="Protip: Join a rep farming group.",r=1,g=0.5,b=0.5});addRepInfo(tooltipInfo,reputation,"Kill Arokkoa.",5,42000);addRepInfo(tooltipInfo,reputation,"Summon Bosses.",100,42000);addRepInfo(tooltipInfo,reputation,"Turn in Shadow Dust.",150,42000);_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Total Dust",150,42000,6);end	end,
-	["ForSporeggar"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;if not t.plight then	local f=_.SearchForField("questID",9739);if f and #f>0 then t.plight=f[1];end	end	if not t.natenemies then	local f=_.SearchForField("questID",9743);if f and #f>0 then t.natenemies=f[1];end	end	if not t.plight.saved then _.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.plight);end	if not t.natenemies.saved then _.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.natenemies);end	if reputation<21000 then	addRepInfo(tooltipInfo,reputation,"Kill Bog Lords.(To Revered)",15,21000);end	addRepInfo(tooltipInfo,reputation,"Kill Dredgers & Lurkers.",15,42000);if reputation<3000 then	addRepInfo(tooltipInfo,reputation,"Turn in Spore Sacs(x10)(To Friendly)",250,3000);addRepInfo(tooltipInfo,reputation,"Turn in Tendrils(x6)(To Friendly)",750,3000);end	if reputation>=0 then	if reputation<3000 then	addRepInfo(tooltipInfo,reputation,"Turn in Glowcap(x10)(To Friendly)",250,3000);end	addRepInfo(tooltipInfo,reputation,"Turn in Fertile Spores(x6)",750,42000);addRepInfo(tooltipInfo,reputation,"Turn in Sanguine Hibiscus(x5)",750,42000);end	end	end,
-	["ForTimbermawHold"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;if reputation>=0 then	if not t.deadwood then	local f=_.SearchForField("questID",8470);if f and #f>0 then t.deadwood=f[1];end	end	if not t.winterfall then	local f=_.SearchForField("questID",8471);if f and #f>0 then t.winterfall=f[1];end	end	if not t.deadwood.saved then	_.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.deadwood);end	if not t.winterfall.saved then	_.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.winterfall);end	end	if reputation<20999 then	addRepInfo(tooltipInfo,reputation,"Kill Deadwood or Winterfall Furbolgs(Stops at Revered)",10,20999,-3000);end	local repPerTurnIn=150;addRepInfo(tooltipInfo,reputation,"Turn in Deadwood Feathers(x5)in Felwood",repPerTurnIn,42000);local repPer,remainingTurnIns=addRepInfo(tooltipInfo,reputation,"Turn in Winterfall Beads(x5)in Winterspring",repPerTurnIn,42000);local remaining=((remainingTurnIns * 5)- GetItemCount(21383,true)- GetItemCount(21377,true));if remaining>0 then	tinsert(tooltipInfo,{left="You need " .. remaining .. " more feathers/beads for Exalted.",r=1,g=1,b=0});end	if reputation<20999 then	tinsert(tooltipInfo,{left=" * PROTIP: Do NOT turn in the totems or feathers until after Revered!",r=1,g=0.5,b=0.5});end	end	end,
-	["ForWarsongGulch"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation>=0 and reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;local repPerFlagCapture=35;addRepInfo(tooltipInfo,reputation,"Flags Captured",repPerFlagCapture,42000);tinsert(tooltipInfo,{left=" Each capture is worth " .. repPerFlagCapture .. " rep,+10 on WSG Weekend.",r=1,g=1,b=1});end	end,
+	["ForSporeggar"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;if not t.plight then	local f=_.SearchForField("questID",9739);if f and #f>0 then t.plight=f[1];end	end	if not t.natenemies then	local f=_.SearchForField("questID",9743);if f and #f>0 then t.natenemies=f[1];end	end	if not t.plight.saved then _.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.plight);end	if not t.natenemies.saved then _.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.natenemies);end	if reputation<21000 then	addRepInfo(tooltipInfo,reputation,"Kill Bog Lords. (To Revered)",15,21000);end	addRepInfo(tooltipInfo,reputation,"Kill Dredgers & Lurkers.",15,42000);if reputation<3000 then	addRepInfo(tooltipInfo,reputation,"Turn in Spore Sacs (x10) (To Friendly)",250,3000);addRepInfo(tooltipInfo,reputation,"Turn in Tendrils (x6) (To Friendly)",750,3000);end	if reputation>=0 then	if reputation<3000 then	addRepInfo(tooltipInfo,reputation,"Turn in Glowcap (x10) (To Friendly)",250,3000);end	addRepInfo(tooltipInfo,reputation,"Turn in Fertile Spores (x6)",750,42000);addRepInfo(tooltipInfo,reputation,"Turn in Sanguine Hibiscus (x5)",750,42000);end	end	end,
+	["ForTimbermawHold"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;if reputation>=0 then	if not t.deadwood then	local f=_.SearchForField("questID",8470);if f and #f>0 then t.deadwood=f[1];end	end	if not t.winterfall then	local f=_.SearchForField("questID",8471);if f and #f>0 then t.winterfall=f[1];end	end	if not t.deadwood.saved then	_.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.deadwood);end	if not t.winterfall.saved then	_.Modules.FactionData.AddQuestTooltip(tooltipInfo,"Complete %s",t.winterfall);end	end	if reputation<20999 then	addRepInfo(tooltipInfo,reputation,"Kill Deadwood or Winterfall Furbolgs (Stops at Revered)",10,20999,-3000);end	local repPerTurnIn=150;addRepInfo(tooltipInfo,reputation,"Turn in Deadwood Feathers (x5) in Felwood",repPerTurnIn,42000);local repPer,remainingTurnIns=addRepInfo(tooltipInfo,reputation,"Turn in Winterfall Beads (x5) in Winterspring",repPerTurnIn,42000);local remaining=((remainingTurnIns * 5)- GetItemCount(21383,true)- GetItemCount(21377,true));if remaining>0 then	tinsert(tooltipInfo,{left="You need " .. remaining .. " more feathers/beads for Exalted.",r=1,g=1,b=0});end	if reputation<20999 then	tinsert(tooltipInfo,{left=" * PROTIP: Do NOT turn in the totems or feathers until after Revered!",r=1,g=0.5,b=0.5});end	end	end,
+	["ForWarsongGulch"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation>=0 and reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;local repPerFlagCapture=35;addRepInfo(tooltipInfo,reputation,"Flags Captured",repPerFlagCapture,42000);tinsert(tooltipInfo,{left=" Each capture is worth " .. repPerFlagCapture .. " rep, +10 on WSG Weekend.",r=1,g=1,b=1});end	end,
 	["Ravenholdt"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	if reputation<20999 then	tinsert(tooltipInfo,{left=" * PROTIP: Do NOT turn in Heavy Lockboxes until max Honored!",r=1,g=0.5,b=0.5});_.Modules.FactionData.AddReputationTooltipInfo(tooltipInfo,reputation,"Kill Arathi Syndicate",5,20999);else	tinsert(tooltipInfo,{left=" * PROTIP: Bring a stack of Repair Bots with you.",r=0.5,g=1,b=0.5});_.Modules.FactionData.AddReputationTooltipInfoWithMultiplier(tooltipInfo,reputation,"Turn in Heavy Junkboxes.",75,42000,5);end	end	end,
 	["RuneclothTurnIns"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	_.Modules.FactionData.AddReputationTooltipInfo(tooltipInfo,reputation,"Runecloth Turn Ins",75,42000);end	end,
-	["ThoriumBrotherhood"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Turn In Blood & Cores(1x each)",500,42000);addRepInfo(tooltipInfo,reputation,"Turn In Core Leather(2x each)",350,42000);addRepInfo(tooltipInfo,reputation,"Turn In Dark Iron Ore(10x each)",75,42000);end	end,
+	["ThoriumBrotherhood"] = function(t,tooltipInfo)local reputation=t.reputation;if reputation<42000 then	local addRepInfo=_.Modules.FactionData.AddReputationTooltipInfo;addRepInfo(tooltipInfo,reputation,"Turn In Blood & Cores (1x each)",500,42000);addRepInfo(tooltipInfo,reputation,"Turn In Core Leather (2x each)",350,42000);addRepInfo(tooltipInfo,reputation,"Turn In Dark Iron Ore (10x each)",75,42000);end	end,
 }
+_.OnUpdateDB=
+{}
 _.RaceDB=
 {
 	["Blood Elf"] = 10,
@@ -58,10 +62,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_human_male",
+					["icon"] = 236448,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_human_female",
+					["icon"] = 236447,
 				},
 			},
 		},
@@ -69,10 +73,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_orc_male",
+					["icon"] = 236452,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_orc_female",
+					["icon"] = 236451,
 				},
 			},
 		},
@@ -80,10 +84,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_dwarf_male",
+					["icon"] = 236444,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_dwarf_female",
+					["icon"] = 236443,
 				},
 			},
 		},
@@ -91,10 +95,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_nightelf_male",
+					["icon"] = 236450,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_nightelf_female",
+					["icon"] = 236449,
 				},
 			},
 		},
@@ -102,10 +106,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_undead_male",
+					["icon"] = 236458,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_undead_female",
+					["icon"] = 236457,
 				},
 			},
 		},
@@ -113,10 +117,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_tauren_male",
+					["icon"] = 236454,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_tauren_female",
+					["icon"] = 236453,
 				},
 			},
 		},
@@ -124,10 +128,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_gnome_male",
+					["icon"] = 236446,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_gnome_female",
+					["icon"] = 236445,
 				},
 			},
 		},
@@ -135,10 +139,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_troll_male",
+					["icon"] = 236456,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_troll_female",
+					["icon"] = 236455,
 				},
 			},
 		},
@@ -146,10 +150,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_goblinhead",
+					["icon"] = 463874,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_femalegoblinhead",
+					["icon"] = 632354,
 				},
 			},
 		},
@@ -157,10 +161,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_bloodelf_male",
+					["icon"] = 236440,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_bloodelf_female",
+					["icon"] = 236439,
 				},
 			},
 		},
@@ -168,83 +172,83 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_draenei_male",
+					["icon"] = 236442,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_draenei_female",
+					["icon"] = 236441,
 				},
 			},
 		},
 		[22] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\achievement_worganhead",
+			["icon"] = 463876,
 		},
 		[24] = {
-			["icon"] = "Interface\\Icons\\achievement_character_pandaren_female",
+			["icon"] = 626190,
 		},
 		[25] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\achievement_character_pandaren_female",
+			["icon"] = 626190,
 		},
 		[26] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\achievement_character_pandaren_female",
+			["icon"] = 626190,
 		},
 		[27] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_nightborne",
+			["icon"] = 1786421,
 		},
 		[28] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_highmountaintauren",
+			["icon"] = 1786419,
 		},
 		[29] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_voidelf",
+			["icon"] = 1786422,
 		},
 		[30] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_lightforgeddraenei",
+			["icon"] = 1786420,
 		},
 		[31] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_zandalaritroll",
+			["icon"] = 1851465,
 		},
 		[32] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_kultiranhuman",
+			["icon"] = 2447785,
 		},
 		[34] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_darkirondwarf",
+			["icon"] = 1851464,
 		},
 		[35] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_vulpera",
+			["icon"] = 3208033,
 		},
 		[36] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_magharorc",
+			["icon"] = 1989713,
 		},
 		[37] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_mechagnome",
+			["icon"] = 3208032,
 		},
 		[52] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Ui_dracthyr",
+			["icon"] = 4696175,
 		},
 		[70] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Ui_dracthyr",
+			["icon"] = 4696175,
 		},
 		[84] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Inv_achievement_alliedrace_earthen",
+			["icon"] = 5930319,
 		},
 		[85] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Inv_achievement_alliedrace_earthen",
+			["icon"] = 5930319,
 		},
 	},
 	["Kul Tiran"] = 32,

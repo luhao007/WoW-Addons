@@ -1881,7 +1881,7 @@ Plater.AnchorNamesByPhraseId = {
 		local tmplevel = baseLevel + profile.ui_parent_cast_level + 3
 		castBar:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
 		
-		tmplevel = baseLevel + profile.ui_parent_buff_level + 3
+		tmplevel = baseLevel + profile.ui_parent_buff_level + 10
 		buffFrame1:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
 		
 		tmplevel = baseLevel + profile.ui_parent_buff2_level + 10
@@ -1927,7 +1927,7 @@ Plater.AnchorNamesByPhraseId = {
 		local tmplevel = min(baseLevel + profile.ui_parent_cast_level + 3, 10000)
 		castBar:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
 		
-		tmplevel = min(baseLevel + profile.ui_parent_buff_level + 3, 10000)
+		tmplevel = min(baseLevel + profile.ui_parent_buff_level + 10, 10000)
 		buffFrame1:SetFrameLevel ((tmplevel > 0) and tmplevel or 0)
 		
 		tmplevel = min(baseLevel + profile.ui_parent_buff2_level + 10, 10000)
@@ -2157,7 +2157,7 @@ Plater.AnchorNamesByPhraseId = {
 			for _, plateFrame in ipairs (Plater.GetAllShownPlates()) do
 				---@cast plateFrame plateframe
 				if plateFrame.unitFrame and plateFrame.unitFrame.PlaterOnScreen then
-					if not plateFrame.unitFrame.isPerformanceUnit then
+					if not plateFrame.unitFrame.isPerformanceUnitAura then
 						Plater.AddToAuraUpdate(plateFrame.unitFrame.unit) -- force aura update
 					end
 					Plater.ScheduleUpdateForNameplate (plateFrame)
@@ -3498,14 +3498,26 @@ Plater.AnchorNamesByPhraseId = {
 			
 			--reset performance unit
 			unitFrame.isPerformanceUnit = nil
+			unitFrame.isPerformanceUnitAura = nil
+			unitFrame.isPerformanceUnitThreat = nil
+			unitFrame.isPerformanceUnitCast = nil
 			unitFrame.healthBar.isPerformanceUnit = nil
 			
 			if (Plater.PerformanceUnits[plateFrame[MEMBER_NPCID]]) then
+				local perfUnitData = tonumber(Plater.PerformanceUnits[plateFrame[MEMBER_NPCID]]) or 0
 				--print("perf", plateFrame[MEMBER_NPCID])
-				unitFrame.castBar:SetUnit(nil) -- no casts
-				Plater.RemoveFromAuraUpdate (unitID) -- no auras
 				unitFrame.isPerformanceUnit = true
+				unitFrame.isPerformanceUnitAura = bit.band(perfUnitData, platerInternal.PERF_UNIT_OVERRIDES_BIT.AURA) == 0 and true or false
+				unitFrame.isPerformanceUnitThreat = bit.band(perfUnitData, platerInternal.PERF_UNIT_OVERRIDES_BIT.THREAT) == 0 and true or false
+				unitFrame.isPerformanceUnitCast = bit.band(perfUnitData, platerInternal.PERF_UNIT_OVERRIDES_BIT.CAST) == 0 and true or false
 				unitFrame.healthBar.isPerformanceUnit = true
+				
+				if unitFrame.isPerformanceUnitCast then
+					unitFrame.castBar:SetUnit(nil) -- no casts
+				end
+				if unitFrame.isPerformanceUnitAura then
+					Plater.RemoveFromAuraUpdate (unitID) -- no auras
+				end
 			end
 			
 			--show unit name, the frame work will hide it due to ShowUnitName is set to false
@@ -3812,7 +3824,7 @@ Plater.AnchorNamesByPhraseId = {
 			end
 			
 			--can check aggro
-			unitFrame.CanCheckAggro = unitFrame.displayedUnit == unitID and actorType == ACTORTYPE_ENEMY_NPC and not unitFrame.isPerformanceUnit
+			unitFrame.CanCheckAggro = unitFrame.displayedUnit == unitID and actorType == ACTORTYPE_ENEMY_NPC and not unitFrame.isPerformanceUnitThreat
 			
 			--tick-setup
 			plateFrame.OnTickFrame.ThrottleUpdate = DB_TICK_THROTTLE
@@ -5661,6 +5673,7 @@ function Plater.OnInit() --private --~oninit ~init
 		for classID = 1, MAX_CLASSES do
 			local _, classFile = GetClassInfo(classID)
 			CLASS_INFO_CACHE[classFile] = {}
+			local GetNumSpecializationsForClassID = GetNumSpecializationsForClassID or C_SpecializationInfo.GetNumSpecializationsForClassID --10.0.5
 			for i = 1, GetNumSpecializationsForClassID(classID) do
 				local specID, maleName, _, iconID, role = GetSpecializationInfoForClassID(classID, i, 2) -- male
 				local _, femaleName, _, iconID, role = GetSpecializationInfoForClassID(classID, i, 3) -- female
@@ -5893,10 +5906,8 @@ end
 		for _, plateFrame in ipairs (Plater.GetAllShownPlates()) do
 			---@cast plateFrame plateframe
 			if plateFrame.unitFrame and plateFrame.unitFrame.PlaterOnScreen then
-				if not plateFrame.unitFrame.isPerformanceUnit then
-					if not IS_WOW_PROJECT_CLASSIC_ERA or (IS_WOW_PROJECT_CLASSIC_ERA and plateFrame.actorType ~= ACTORTYPE_ENEMY_PLAYER) then -- don't force update in classic
-						Plater.AddToAuraUpdate(plateFrame.unitFrame.unit) -- force aura update
-					end
+				if not plateFrame.unitFrame.isPerformanceUnitAura then
+					Plater.AddToAuraUpdate(plateFrame.unitFrame.unit) -- force aura update
 				end
 				
 				Plater.UpdatePlateFrame (plateFrame, nil, forceUpdate, justAdded, regenDisabled)
@@ -10091,7 +10102,8 @@ end
 		if IS_WOW_PROJECT_MAINLINE then
 			local mapId = C_Map.GetBestMapForUnit ("player")
 			if (mapId) then
-				local worldQuests = C_TaskQuest.GetQuestsForPlayerByMapID (mapId)
+				local GetQuestsForPlayerByMapID = C_TaskQuest.GetQuestsForPlayerByMapID or C_TaskQuest.GetQuestsOnMap
+				local worldQuests = GetQuestsForPlayerByMapID(mapId)
 				if (type (worldQuests) == "table") then
 					for i, questTable in ipairs (worldQuests) do
 						local x, y, floor, numObjectives, questId, inProgress = questTable.x, questTable.y, questTable.floor, questTable.numObjectives, questTable.questId, questTable.inProgress
@@ -10589,12 +10601,14 @@ end
 		end
 		
 		if options.glowType == "button" then
-			LCG.ButtonGlow_Start(frame.__PlaterGlowFrame, options.color, options.frequency)
+			LCG.ButtonGlow_Start(frame.__PlaterGlowFrame, options.color, options.frequency, options.framelevel)
 		elseif options.glowType == "pixel" then
 			if not options.border then options.border = false end
-			LCG.PixelGlow_Start(frame.__PlaterGlowFrame, options.color, options.N, options.frequency, options.length, options.th, options.xOffset, options.yOffset, options.border, options.key or "")
+			LCG.PixelGlow_Start(frame.__PlaterGlowFrame, options.color, options.N, options.frequency, options.length, options.th, options.xOffset, options.yOffset, options.border, options.key or "", options.framelevel)
 		elseif options.glowType == "ants" then
-			LCG.AutoCastGlow_Start(frame.__PlaterGlowFrame, options.color, options.N, options.frequency, options.scale, options.xOffset, options.yOffset, options.key or "")
+			LCG.AutoCastGlow_Start(frame.__PlaterGlowFrame, options.color, options.N, options.frequency, options.scale, options.xOffset, options.yOffset, options.key or "", options.framelevel)
+		elseif options.glowType == "proc" then
+			LCG.ProcGlow_Start(frame.__PlaterGlowFrame, options.color, options.frequency, options.framelevel)
 		end
 	end
 	
@@ -10659,6 +10673,27 @@ end
 		Plater.StartGlow(frame, color or options.color, options, options.key)
 	end
 	
+	-- creates a proc glow effect
+	function Plater.StartProcGlow(frame, color, options, key)
+		-- type "proc"
+		if not options then
+			options = {
+				glowType = "proc",
+				color = color,
+				--frameLevel = 8,
+				startAnim = true,
+				xOffset = 0,
+				yOffset = 0,
+				duration = 1,
+				key = key,
+			}
+		else
+			options.glowType = "proc"
+		end
+		
+		Plater.StartGlow(frame, color or options.color, options, options.key)
+	end
+	
 	-- stop LibCustomGlow effects on the frame, if existing
 	-- if glowType (and key) are given, stop one glow. if not, stop all.
 	function Plater.StopGlow(frame, glowType, key)
@@ -10672,11 +10707,14 @@ end
 				LCG.PixelGlow_Stop(frame.__PlaterGlowFrame, key or "")
 			elseif glowType == "ants" then
 				LCG.AutoCastGlow_Stop(frame.__PlaterGlowFrame, key or "")
+			elseif glowType == "proc" then
+				LCG.ProcGlow_Stop(frame.__PlaterGlowFrame, key or "")
 			end
 		else
 			LCG.ButtonGlow_Stop(frame.__PlaterGlowFrame, key or "")
 			LCG.PixelGlow_Stop(frame.__PlaterGlowFrame, key or "")
 			LCG.AutoCastGlow_Stop(frame.__PlaterGlowFrame, key or "")
+			LCG.ProcGlow_Stop(frame.__PlaterGlowFrame, key or "")
 		end
 	end
 	
@@ -10693,6 +10731,11 @@ end
 	-- stop an ants glow
 	function Plater.StopAntsGlow(frame, key)
 		Plater.StopGlow(frame, "ants", key)
+	end
+	
+	-- stop a proc glow
+	function Plater.StopProcGlow(frame, key)
+		Plater.StopGlow(frame, "proc", key)
 	end
 
 	--create a glow around an icon
@@ -11702,6 +11745,11 @@ end
 			["GetUnitAuras"] = false,
 			["GetUnitAurasForUnitID"] = false,
 			["PerformanceUnits"] = true,
+			["PERF_UNIT_OVERRIDES_BIT"] = {
+				["AURA"] = false,
+				["THREAT"] = false,
+				["CAST"] = false,
+			},
 			["ForceBlizzardNameplateUnits"] = true,
 			["COMM_PLATER_PREFIX"] = true,
 			["COMM_SCRIPT_GROUP_EXPORTED"] = true,

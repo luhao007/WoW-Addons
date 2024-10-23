@@ -1197,6 +1197,7 @@ _.AccountWideQuestsDB=
 	[77150] = 1,
 	[77179] = 1,
 	[77181] = 1,
+	[77213] = 1,
 	[77221] = 1,
 	[77236] = 1,
 	[77241] = 1,
@@ -1426,6 +1427,9 @@ _.AccountWideQuestsDB=
 	[80384] = 1,
 	[80436] = 1,
 	[80450] = 1,
+	[80544] = 1,
+	[80545] = 1,
+	[80546] = 1,
 	[80592] = 1,
 	[81507] = 1,
 	[81508] = 1,
@@ -1450,14 +1454,34 @@ _.AccountWideQuestsDB=
 	[82183] = 1,
 	[82185] = 1,
 	[82187] = 1,
+	[82296] = 1,
+	[82335] = 1,
+	[82342] = 1,
 	[82345] = 1,
+	[82347] = 1,
+	[82348] = 1,
 	[82367] = 1,
+	[82371] = 1,
+	[82372] = 1,
+	[82374] = 1,
+	[82376] = 1,
 	[82391] = 1,
+	[82393] = 1,
+	[82395] = 1,
+	[82396] = 1,
+	[82404] = 1,
+	[82417] = 1,
+	[82432] = 1,
+	[82442] = 1,
 	[82676] = 1,
 	[82689] = 1,
 	[82741] = 1,
+	[82775] = 1,
+	[82781] = 1,
+	[82782] = 1,
 	[82809] = 1,
 	[83272] = 1,
+	[83275] = 1,
 	[83308] = 1,
 	[83329] = 1,
 	[83330] = 1,
@@ -1467,6 +1491,10 @@ _.AccountWideQuestsDB=
 	[83495] = 1,
 	[83496] = 1,
 	[84020] = 1,
+	[84021] = 1,
+	[84023] = 1,
+	[84024] = 1,
+	[84025] = 1,
 	[84087] = 1,
 	[84088] = 1,
 	[84089] = 1,
@@ -1501,10 +1529,24 @@ _.AccountWideQuestsDB=
 	[84118] = 1,
 	[84119] = 1,
 	[84370] = 1,
+	[84403] = 1,
+	[84404] = 1,
+	[84490] = 1,
+	[84519] = 1,
 	[84520] = 1,
+	[84542] = 1,
+	[84562] = 1,
 	[85531] = 1,
+	[85532] = 1,
+	[85533] = 1,
 	[85535] = 1,
+	[85536] = 1,
+	[85537] = 1,
 	[85538] = 1,
+	[85539] = 1,
+	[85540] = 1,
+	[85541] = 1,
+	[85718] = 1,
 }
 _.FlightPathDB=
 {
@@ -1592,10 +1634,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_human_male",
+					["icon"] = 236448,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_human_female",
+					["icon"] = 236447,
 				},
 			},
 		},
@@ -1603,10 +1645,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_orc_male",
+					["icon"] = 236452,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_orc_female",
+					["icon"] = 236451,
 				},
 			},
 		},
@@ -1614,10 +1656,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_dwarf_male",
+					["icon"] = 236444,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_dwarf_female",
+					["icon"] = 236443,
 				},
 			},
 		},
@@ -1625,10 +1667,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_nightelf_male",
+					["icon"] = 236450,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_nightelf_female",
+					["icon"] = 236449,
 				},
 			},
 		},
@@ -1636,10 +1678,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_undead_male",
+					["icon"] = 236458,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_undead_female",
+					["icon"] = 236457,
 				},
 			},
 		},
@@ -1647,10 +1689,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_tauren_male",
+					["icon"] = 236454,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_tauren_female",
+					["icon"] = 236453,
 				},
 			},
 		},
@@ -1658,10 +1700,10 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_gnome_male",
+					["icon"] = 236446,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_gnome_female",
+					["icon"] = 236445,
 				},
 			},
 		},
@@ -1669,10 +1711,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_troll_male",
+					["icon"] = 236456,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_troll_female",
+					["icon"] = 236455,
 				},
 			},
 		},
@@ -1680,10 +1722,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_goblinhead",
+					["icon"] = 463874,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_femalegoblinhead",
+					["icon"] = 632354,
 				},
 			},
 		},
@@ -1691,10 +1733,10 @@ _.RaceDB=
 			["faction"] = 2,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_bloodelf_male",
+					["icon"] = 236440,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_bloodelf_female",
+					["icon"] = 236439,
 				},
 			},
 		},
@@ -1702,83 +1744,83 @@ _.RaceDB=
 			["faction"] = 1,
 			["gender"] = {
 				[2] = {
-					["icon"] = "Interface\\Icons\\achievement_character_draenei_male",
+					["icon"] = 236442,
 				},
 				[3] = {
-					["icon"] = "Interface\\Icons\\achievement_character_draenei_female",
+					["icon"] = 236441,
 				},
 			},
 		},
 		[22] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\achievement_worganhead",
+			["icon"] = 463876,
 		},
 		[24] = {
-			["icon"] = "Interface\\Icons\\achievement_character_pandaren_female",
+			["icon"] = 626190,
 		},
 		[25] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\achievement_character_pandaren_female",
+			["icon"] = 626190,
 		},
 		[26] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\achievement_character_pandaren_female",
+			["icon"] = 626190,
 		},
 		[27] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_nightborne",
+			["icon"] = 1786421,
 		},
 		[28] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_highmountaintauren",
+			["icon"] = 1786419,
 		},
 		[29] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_voidelf",
+			["icon"] = 1786422,
 		},
 		[30] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_lightforgeddraenei",
+			["icon"] = 1786420,
 		},
 		[31] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_zandalaritroll",
+			["icon"] = 1851465,
 		},
 		[32] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_kultiranhuman",
+			["icon"] = 2447785,
 		},
 		[34] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_darkirondwarf",
+			["icon"] = 1851464,
 		},
 		[35] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_vulpera",
+			["icon"] = 3208033,
 		},
 		[36] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_magharorc",
+			["icon"] = 1989713,
 		},
 		[37] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Achievement_alliedrace_mechagnome",
+			["icon"] = 3208032,
 		},
 		[52] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Ui_dracthyr",
+			["icon"] = 4696175,
 		},
 		[70] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Ui_dracthyr",
+			["icon"] = 4696175,
 		},
 		[84] = {
 			["faction"] = 2,
-			["icon"] = "Interface\\Icons\\Inv_achievement_alliedrace_earthen",
+			["icon"] = 5930319,
 		},
 		[85] = {
 			["faction"] = 1,
-			["icon"] = "Interface\\Icons\\Inv_achievement_alliedrace_earthen",
+			["icon"] = 5930319,
 		},
 	},
 	["Kul Tiran"] = 32,

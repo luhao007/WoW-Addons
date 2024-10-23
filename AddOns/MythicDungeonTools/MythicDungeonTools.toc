@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Nnoggie
-## Version: 5.1.7
+## Version: 5.2.0
 
 ## Title: Mythic Dungeon Tools
 ## Notes: Tool for planning and optimizing Mythic+ dungeon runs

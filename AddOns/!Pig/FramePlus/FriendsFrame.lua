@@ -36,29 +36,7 @@ function FramePlusfun.Friends()
 			xuio.info:SetWidth(www-90)
 		end
 	else
-		FriendsListFrame.ScrollBox.view:SetElementFactory(function(factory, elementData)
-			local buttonType = elementData.buttonType;
-			if buttonType == FRIENDS_BUTTON_TYPE_DIVIDER then
-				factory("FriendsFrameFriendDividerTemplate",FriendsFrame_UpdateFriendDividerButton);
-				--FriendsListFrame.ScrollBox.view:SetElementExtent(16)
-			elseif buttonType == FRIENDS_BUTTON_TYPE_INVITE_HEADER then
-				factory("FriendsPendingInviteHeaderButtonTemplate", FriendsFrame_UpdateFriendInviteHeaderButton);
-			elseif buttonType == FRIENDS_BUTTON_TYPE_INVITE then
-				factory("FriendsFrameFriendInviteTemplate", FriendsFrame_UpdateFriendInviteButton);
-			else
-				factory("FriendsListButtonTemplate", FriendsFrame_UpdateFriendButton);
-				FriendsListFrame.ScrollBox.view:SetElementExtent(hangH)
-			end
-		end);
-		local anchorsWithBar = {--有滚动没出现时的定位
-	        CreateAnchor("TOPLEFT", FriendsListFrame, "TOPLEFT", 8, -87),
-	        CreateAnchor("BOTTOMRIGHT", FriendsListFrame, "BOTTOMRIGHT", -28, 29),
-	    }
-	    local anchorsWithoutBar = {--没滚动没出现时的定位
-	        CreateAnchor("TOPLEFT", FriendsListFrame, "TOPLEFT", 8, -87),
-	        CreateAnchor("BOTTOMRIGHT", FriendsListFrame, "BOTTOMRIGHT", -10, 29),
-	    } 
-	    ScrollUtil.AddManagedScrollBarVisibilityBehavior(FriendsListFrame.ScrollBox, FriendsListFrame.ScrollBar, anchorsWithBar, anchorsWithoutBar)
+		FriendsListFrame.ScrollBox:SetWidth(butWidth)
 	end
     ----  
     local playerRealmID = GetRealmID();
@@ -536,28 +514,6 @@ function FramePlusfun.Friends()
 
 	--公会
 	if tocversion<40000 then
-		-- local function PIG_GuildFrame_GetLastOnline(guildIndex)
-		-- 	year, month, day, hour = GetGuildRosterLastOnline(guildIndex);
-		-- 	local lastOnline;
-		-- 	if ( (year == 0) or (year == nil) ) then
-		-- 		if ( (month == 0) or (month == nil) ) then
-		-- 			if ( (day == 0) or (day == nil) ) then
-		-- 				if ( (hour == 0) or (hour == nil) ) then
-		-- 					lastOnline = LASTONLINE_MINS;
-		-- 				else
-		-- 					lastOnline = format(GetText("LASTONLINE_HOURS", nil, hour), hour);
-		-- 				end
-		-- 			else
-		-- 				lastOnline = format(GetText("LASTONLINE_DAYS", nil, day), day);
-		-- 			end
-		-- 		else
-		-- 			lastOnline = format(GetText("LASTONLINE_MONTHS", nil, month), month);
-		-- 		end
-		-- 	else
-		-- 		lastOnline = format(GetText("LASTONLINE_YEARS", nil, year), year);
-		-- 	end
-		-- 	return lastOnline;
-		-- end
 		local GuildFrameHeaderP={24,24,24,120,140,90,150}
 		local function PIGGuildList_But(elvuiopen)
 			GuildFrameTotals:SetPoint("LEFT",GuildFrame,"LEFT",70,174);
@@ -738,14 +694,8 @@ function FramePlusfun.Friends()
 	end
 
 	--团队==============
-	old_RaidClassButton_Update=function() end
 	RaidFrameRaidDescription:SetWidth(butWidth+10)
-	if not IsAddOnLoaded("Blizzard_RaidUI") then
-		RaidFrame_LoadUI()
-		old_RaidClassButton_Update=RaidClassButton_Update
-		RaidClassButton_Update=function() end
-	end
-	if IsAddOnLoaded("Blizzard_RaidUI") then
+	local function SETRaidUIFrame()
 		for i=1,8 do
 			local uix = _G["RaidGroup"..i]
 			uix:SetWidth(www-6)
@@ -760,17 +710,13 @@ function FramePlusfun.Friends()
 			local But = _G["RaidGroupButton"..i]
 			But:SetWidth(www-10)
 			local Name = _G["RaidGroupButton"..i.."Name"]
-			Name:SetWidth(www*0.5)
+			Name:SetWidth(www*0.45)
 			Name:SetPoint("LEFT", But, "LEFT", 50, 0);
 			_G["RaidGroupButton"..i.."Class"]:SetWidth(76)
 			if _G["RaidGroupButton"..i.."Class"].text then
 				_G["RaidGroupButton"..i.."Class"].text:SetWidth(76)
 			end
-		end
-		if tocversion>50000 then
-			C_Timer.After(0.001,function()
-				RaidClassButton_Update=old_RaidClassButton_Update
-			end)
+			_G["RaidGroupButton"..i.."Level"]:SetWidth(40)
 		end
 		if tocversion<20000 then
 			if PIGA["Common"]["SHAMAN_Color"] then
@@ -794,16 +740,28 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	-- if IsAddOnLoaded("Blizzard_MacroUI") then
-	-- 	SETMacroFrame()
- --    else
- --        local MacroFRAME = CreateFrame("FRAME")
- --        MacroFRAME:RegisterEvent("ADDON_LOADED")
- --        MacroFRAME:SetScript("OnEvent", function(self, event, arg1)
- --        	if arg1=="Blizzard_MacroUI" then
- --        		SETMacroFrame()
-	-- 			self:UnregisterEvent("ADDON_LOADED")
-	-- 		end
- --        end)
- --    end
+	local RaidUIFRAME = CreateFrame("FRAME")
+	if IsAddOnLoaded("Blizzard_RaidUI") then
+		if InCombatLockdown() then
+			RaidUIFRAME:RegisterEvent("PLAYER_REGEN_ENABLED")
+		else
+			SETRaidUIFrame()
+		end
+    else
+        RaidUIFRAME:RegisterEvent("ADDON_LOADED")
+    end
+	RaidUIFRAME:SetScript("OnEvent", function(self, event, arg1)
+    	if event=="ADDON_LOADED" and arg1=="Blizzard_RaidUI" then
+    		if InCombatLockdown() then
+				self:RegisterEvent("PLAYER_REGEN_ENABLED")
+			else
+				SETRaidUIFrame()
+    		end
+    		self:UnregisterEvent("ADDON_LOADED")
+		end
+		if event=="PLAYER_REGEN_ENABLED" then
+			SETRaidUIFrame()
+			self:UnregisterEvent(event)
+		end
+    end)
 end

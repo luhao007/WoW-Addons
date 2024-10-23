@@ -107,11 +107,22 @@ function GDKPInfo.ADD_Options()
 		50274,--影霜碎片
 		30311,30312,30313,30314,30316,30317,30318,30319,30320,--七武器
 	}
+	local function funbufenpei(itemID)
+		if itemID then
+			for ix=1,#bufenpei do	
+				if itemID == bufenpei[ix] then
+					return true
+				end
+			end
+		end
+		return false
+	end
 	local autofenffff = CreateFrame("Frame")
 	autofenffff:SetScript("OnEvent",function(self,event,arg1,_,_,_,arg5)
 		--是队长团长
 		-- local isLeader = UnitIsGroupLeader("player");
 		if IsInGroup() then
+			if CalculateTotalNumberOfFreeBagSlots() == 0 then return end
 			local lootmethod, masterlooterPartyID, masterlooterRaidID= GetLootMethod();
 			if lootmethod=="master" and masterlooterPartyID==0 then
 				local lootNum = GetNumLootItems()
@@ -124,17 +135,13 @@ function GDKPInfo.ADD_Options()
 					if link then
 						local itemID = GetItemInfoInstant(link)
 						if itemID then
-							self.bufenpei=true
-							for ix=1,#bufenpei do	
-								if itemID == bufenpei[ix] then
-									self.bufenpei=false
-									break
-								end
-							end
-							---
-							if self.bufenpei then
+							if funbufenpei(itemID) then
+								MSGyifasong[x]=true
+							else
 								local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(x)
-								if not isQuestItem and lootQuality>=GetLootThreshold() then
+								if locked or isQuestItem or lootQuality<GetLootThreshold() then
+									MSGyifasong[x]=true
+								else
 									for ci = 1, GetNumGroupMembers() do
 										local candidate = GetMasterLootCandidate(x, ci)
 										if candidate == Pig_OptionsUI.Name then

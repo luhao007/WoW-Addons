@@ -262,8 +262,25 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			if(UnitExists("NPC"))then OpenAllBags() end
 		end
 	end);
-	if NDui and NDuiDB["Bags"]["Enable"] or ElvUI and ElvUI_ContainerFrame then 
-
+	local function Elv_bag()
+		if ElvUI then
+			if ElvPrivateDB then
+				if ElvPrivateDB.profiles then
+					if ElvPrivateDB.profiles[Pig_OptionsUI.AllNameElvUI] then
+						if ElvPrivateDB.profiles[Pig_OptionsUI.AllNameElvUI].bags then
+							if ElvPrivateDB.profiles[Pig_OptionsUI.AllNameElvUI].bags.enable==false then
+								return false
+							end
+						end
+					end
+				end
+			end
+			return true
+		end
+		return false
+	end
+	if NDui and NDuiDB["Bags"]["Enable"] then
+	elseif Elv_bag() then 
 	else
 		hooksecurefunc("ContainerFrame_Update", function(frame)
 			if not PIGA["BagBank"]["JunkShow"] then return end
@@ -636,5 +653,4 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		end)
 		--
 	end
-	----
 end

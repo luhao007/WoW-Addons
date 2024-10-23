@@ -9,4 +9,4 @@
 # This file is used to show unsupported game client message.
 # Supported client flavors load their own TOC file and unsupported ones fall back to this one.
 # Check expansion specific TOC files for the correct data.
-WrongVersion.lua
+Core\WrongVersion.lua

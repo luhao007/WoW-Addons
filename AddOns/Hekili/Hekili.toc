@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Hekili
-## Version: v11.0.2-1.0.20a
+## Version: v11.0.2-1.0.21
 
 ## Title: Hekili
 ## Notes: Priority helper based on SimulationCraft action lists.
@@ -29,8 +29,14 @@ Events.lua
 
 Classes.lua
 
+TheBurningCrusade\Items.lua
+Wrath\Items.lua
+Cataclysm\Items.lua
+Legion\Items.lua
+
 BfA\AzeritePowers.lua
 BfA\Essences.lua
+BfA\Items.lua
 
 Shadowlands\AnimaPowers.lua
 Shadowlands\Covenants.lua

@@ -130,6 +130,8 @@ local function updateicon_Difficulty(button)
 	end
 	button:GetNormalTexture():SetAtlas(atlas, TextureKitConstants.IgnoreAtlasSize);
 end
+local ConvertToParty=ConvertToParty or C_PartyInfo and C_PartyInfo.ConvertToParty
+local ConvertToRaid=ConvertToRaid or C_PartyInfo and C_PartyInfo.ConvertToRaid
 local function ToPartyToRaid()
 	if IsInRaid(LE_PARTY_CATEGORY_HOME) then
 		ConvertToParty() 
@@ -147,7 +149,7 @@ local MenuiconList = {}
 if tocversion>100000 then
 	table.insert(MenuiconList,1,{{"Atlas","common-icon-rotateleft"},{"离开队伍","离开副本队伍"},{updateiconall,-1,-3,-1,-1},function(self,button) if button=="LeftButton" then C_PartyInfo.LeaveParty() else ConfirmOrLeaveLFGParty() end end})
 	table.insert(MenuiconList,2,{{"Atlas","GM-icon-assist"},{"切换小队/团队"},{updateicon},ToPartyToRaid})
-	table.insert(MenuiconList,3,{{"Atlas","GM-raidMarker-reset"},{"重置副本"},{updateiconDesaturated},function() ResetInstances() end})
+	table.insert(MenuiconList,3,{{"Atlas","GM-raidMarker-reset"},{"重置副本"},{updateiconDesaturated},function() StaticPopup_Show("CONFIRM_RESET_INSTANCES"); end})
 	table.insert(MenuiconList,4,{{"Atlas","GM-icon-difficulty-normalSelected"},{"副本难度"},{updateicon}, updateicon_Difficulty})
 	table.insert(MenuiconList,5,{{"Atlas","Ping_SpotGlw_Assist_In"},{COMBATLOGDISABLED},{updateicon,-2,-2,-1,-2},function() end})
 	table.insert(MenuiconList,6,{{"Atlas","GM-icon-roles"},{"职责检查"},{updateicon,4,4,4,4},function() InitiateRolePoll() end})
@@ -160,7 +162,7 @@ else
 	-- {"Atlas","UI-LFG-DeclineMark"},
 	table.insert(MenuiconList,1,{{"Atlas","common-icon-rotateleft"},{"离开队伍","离开副本队伍"},{updateicon,0,-1,-1,0},function(self,button) if button=="LeftButton" then LeaveParty() else ConfirmOrLeaveLFGParty() end end})
 	table.insert(MenuiconList,2,{{"Atlas","groupfinder-waitdot"},{"切换小队/团队"},{updateicon,-3,-3,-3,-2.4},ToPartyToRaid})--UI-ChatIcon-App/socialqueuing-icon-group
-	table.insert(MenuiconList,3,{{"Atlas","common-icon-undo"},{"重置副本"},{updateicon,-1,-1,-1,-1},function() ResetInstances() end})
+	table.insert(MenuiconList,3,{{"Atlas","common-icon-undo"},{"重置副本"},{updateicon,-1,-1,-1,-1},function() StaticPopup_Show("CONFIRM_RESET_INSTANCES"); end})
 	table.insert(MenuiconList,4,{{"Tex","interface/common/indicator-green.blp"},{COMBATLOGDISABLED},nil,function() end})
 	table.insert(MenuiconList,5,{{"Tex","interface/raidframe/readycheck-waiting.blp"},{"职责检查"},nil,function() InitiateRolePoll() end})
 	table.insert(MenuiconList,6,{{"Tex","interface/raidframe/readycheck-ready.blp"},{"就位确认"},nil,function() DoReadyCheck() end})

@@ -65,6 +65,7 @@ function addonTable.Set_Name_Realm()
 	Pig_OptionsUI.Name=wanjia or ""
 	Pig_OptionsUI.Realm=realm or ""
 	Pig_OptionsUI.AllName = wanjia.."-"..realm
+	Pig_OptionsUI.AllNameElvUI = wanjia.." - "..realm
 end
 ---------
 local function load_Default()

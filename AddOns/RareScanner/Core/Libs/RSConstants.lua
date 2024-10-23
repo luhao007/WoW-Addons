@@ -27,8 +27,8 @@ RSConstants.LOOT_ITEM_ID = nil
 -- Current versions
 ---============================================================================
 
-RSConstants.CURRENT_DB_VERSION = 157
-RSConstants.CURRENT_LOOT_DB_VERSION = 153
+RSConstants.CURRENT_DB_VERSION = 158
+RSConstants.CURRENT_LOOT_DB_VERSION = 154
 
 ---============================================================================
 -- Current maps (newer)
@@ -56,6 +56,7 @@ RSConstants.WARCRAFT_RUMBLE_CROSSOVER_EVENT = 3
 RSConstants.HEARTHSTONE_10TH_EVENT = 4
 RSConstants.NOBLEGARDEN_EVENT = 5
 RSConstants.WARWITHIN_PRE_PATCH_EVENT = 6
+RSConstants._20_ANNIVERSARY_EVENT = 7
 
 RSConstants.EVENTS = {
 	[RSConstants.SHADOWLANDS_PRE_PATCH_EVENT] = false;
@@ -64,6 +65,7 @@ RSConstants.EVENTS = {
 	[RSConstants.HEARTHSTONE_10TH_EVENT] = false;
 	[RSConstants.NOBLEGARDEN_EVENT] = false;
 	[RSConstants.WARWITHIN_PRE_PATCH_EVENT] = false;
+	[RSConstants._20_ANNIVERSARY_EVENT] = true;
 }
 
 ---============================================================================
@@ -526,6 +528,7 @@ RSConstants.CONTAINERS_UNWAKING_ECHO = { 411447, 411463, 411465, 411466 }
 RSConstants.RUMBLE_FOIL_BAG = { 386158, 386140, 386157, 387718, 387720, 387721, 405585, 392031, 405586, 392032, 405587, 387722, 405584, 387719 }
 RSConstants.RUMBLE_COIN_BAG = { 387696, 387697, 385961, 386138, 386139, 387695, 385958 }
 RSConstants.KHAZ_ALGAR_NPCS_MOUNTS = { 216046, 207802, 220285 }
+RSConstants.WORLDBOSSES = { 221585, 224157, 212088, 167749, 227257, 226646, 121912, 121820, 121818, 121911, 121821, 121913 }
 RSConstants.CONTAINERS_INFESTED_CACHE = { 339247, 339248, 339249, 339250, 339251 }
 RSConstants.CONTAINERS_JANIS_STASH = { 281176, 281365, 281381, 281388, 281390, 282647, 282668 }
 RSConstants.CONTAINERS_BLACK_EMPIRE_CACHE = { 335707, 335709, 335711, 335712, 335717, 334189, 334213, 334215, 334216, 334220, 334223 }
@@ -717,6 +720,8 @@ RSConstants.NPCS_WITH_PRE_EVENT = {
 	[97215] = 97220;
 	[244667] = 97793;
 	[98754] = 98311;
+	--Hallowfall
+	[225404] = 207802;
 }
 
 -- Contains that spawn after completing an event

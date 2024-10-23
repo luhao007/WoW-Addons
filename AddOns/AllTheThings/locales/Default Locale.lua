@@ -188,7 +188,7 @@ local L = setmetatable({
 	CHAT_COMMANDS_LABEL = "Chat Commands";
 	CHAT_COMMANDS_TEXT = "/att |cffFFFFFFor|R /allthethings\n|cffFFFFFFOpens the Main List.\n\n|R/attmini\n|cffFFFFFFOpens the Mini List.\n\n|R/attbounty\n|cffFFFFFFOpens a list of bugged or unconfirmed items.\n\n|R/attra\n|cffFFFFFFOpens the Raid Assistant.\n\n|R/attwq\n|cffFFFFFFOpens the World Quests List.\n\n|R/att item:1234 |cffFFFFFFor|R /att [Item Link]\n|cffFFFFFFOpens a window with shared appearances. Also works with other things, such as|R quest:1234|cffFFFFFF, |Rnpcid:1234|cffFFFFFF, |Rmapid:1234|cffFFFFFF or |Rrecipeid:1234|cffFFFFFF.\n\n|R/attrwp\n|cffFFFFFFShows all future Removed With Patch things.\n\n|R/attnwp\n|cffFFFFFFShows all current New With Patch things.\n\n|R/attrandom\n|cffFFFFFFOpens the Random List.\n\n|R/attunsorted\n|cffFFFFFFOpens a list of unsourced items. Best opened in Debug Mode.\n\n|R/rl\n|cffFFFFFFReload your WoW interface.|R";
 	ICON_LEGEND_LABEL = "Icon Legend";
-	ICON_LEGEND_TEXT = app.ccColors.White .. "|TInterface\\AddOns\\AllTheThings\\assets\\status-unobtainable.blp:0|t " .. "Unobtainable" .. "\n|TInterface\\AddOns\\AllTheThings\\assets\\status-prerequisites.blp:0|t " .. "Obtainable only with prerequisites" .. "\n|TInterface\\AddOns\\AllTheThings\\assets\\status-seasonal-available.blp:0|t " .. "Available seasonal content" .. "\n|TInterface\\AddOns\\AllTheThings\\assets\\status-seasonal-unavailable.blp:0|t " .. "Unavailable seasonal content" .. "\n|TInterface\\FriendsFrame\\StatusIcon-Offline:0|t " .. "Unavailable on current character";
+	ICON_LEGEND_TEXT = app.ccColors.White .. "|T" .. app.asset("status-unobtainable") .. ":0|t " .. "Unobtainable" .. "\n|T" .. app.asset("status-prerequisites") .. ":0|t " .. "Obtainable only with prerequisites" .. "\n|T" .. app.asset("status-seasonal-available") .. ":0|t " .. "Available seasonal content" .. "\n|T" .. app.asset("status-seasonal-unavailable") .. ":0|t " .. "Unavailable seasonal content" .. "\n|T374225:0|t " .. "Unavailable on current character";
 	KEYBINDINGS = SETTINGS_KEYBINDINGS_LABEL;
 	KEYBINDINGS_TEXT = "You can set keybindings for ATT in the game's options.";
 	MINIMAP_LABEL = "Minimap Button";
@@ -272,7 +272,7 @@ local L = setmetatable({
 	LOOT_TABLE_CHANCE = "Loot Table Chance";
 	BEST_BONUS_ROLL_CHANCE = "Best Bonus Roll Chance";
 	BEST_PERSONAL_LOOT_CHANCE = "Best Personal Loot Chance";
-	PREREQUISITE_QUESTS = "There are prerequisite quests that must be completed before this may be obtained:";
+	PREREQUISITE_QUESTS = "There are prerequisite quests that must be accepted or completed before this may be obtained:";
 	BREADCRUMBS_WARNING = "There are breadcrumb quests that may not be obtainable after completing this:";
 	THIS_IS_BREADCRUMB = "This is a breadcrumb quest.";
 	BREADCRUMB_PARTYSYNC = "This may be unable to be completed without Party Sync if completing any of these quests first:";
@@ -703,7 +703,7 @@ local L = setmetatable({
 
 	-- Unobtainable Listing (for fellow 100%s out there)
 	UNOBTAINABLE_ITEM_TEXTURES = {
-		[0] = "Interface\\FriendsFrame\\StatusIcon-Offline",	-- Available, but not due to Current Character filters
+		[0] = 374225,	-- Available, but not due to Current Character filters
 		app.asset("status-unobtainable"),
 		app.asset("status-prerequisites"),
 		"",									-- 3, we want no icon for these

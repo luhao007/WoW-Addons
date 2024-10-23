@@ -20,13 +20,13 @@ private.CONTAINER_INFO = {
 	[387696] = { zoneID = 84, artID = { 89 }, x = 3124, y = 3763, overlay = { "3124-3763" }, reset = false, questID = { 74844 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[387697] = { zoneID = 85, artID = { 90 }, x = 5439, y = 7760, overlay = { "5439-7760" }, reset = false, questID = { 74845 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[387718] = { zoneID = 85, artID = { 90 }, x = 5410, y = 7557, overlay = { "5410-7557" }, reset = false, questID = { 74848 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
-	[224626] = { zoneID = 525, artID = { 542 }, x = 3032, y = 5086, overlay = { "3032-5086" }, questID = { 33497 } }; --Vignette POI Object: Time-Warped Tower
-	[224686] = { zoneID = 525, artID = { 542 }, x = 6090, y = 4260, overlay = { "6090-4260" }, questID = { 33511 } }; --Devourer's Gutstone
-	[229367] = { zoneID = 525, artID = { 542 }, x = 5720, y = 5210, overlay = { "5720-5210" }, questID = { 34476 } }; --Frozen Orc Skeleton
-	[227793] = { zoneID = 535, artID = { 552 }, x = 3650, y = 9610, overlay = { "3650-9610" }, questID = { 34182 } }; --Aarko's Family Treasure
-	[227859] = { zoneID = 535, artID = { 552 }, x = 6969, y = 3316, overlay = { "6969-3316" }, questID = { 34205 } }; --Hope
+	[224626] = { zoneID = 525, artID = { 542 }, x = 3032, y = 5086, overlay = { "3032-5086" }, questID = { 33497 }, reset = false }; --Vignette POI Object: Time-Warped Tower
+	[224686] = { zoneID = 525, artID = { 542 }, x = 6090, y = 4260, overlay = { "6090-4260" }, questID = { 33511 }, reset = false }; --Devourer's Gutstone
+	[229367] = { zoneID = 525, artID = { 542 }, x = 5720, y = 5210, overlay = { "5720-5210" }, questID = { 34476 }, reset = false }; --Frozen Orc Skeleton
+	[227793] = { zoneID = 535, artID = { 552 }, x = 3650, y = 9610, overlay = { "3650-9610" }, questID = { 34182 }, reset = false }; --Aarko's Family Treasure
+	[227859] = { zoneID = 535, artID = { 552 }, x = 6969, y = 3316, overlay = { "6969-3316" }, questID = { 34205 }, reset = false }; --Hope
 	[230664] = { zoneID = 539, artID = { 556 }, x = 6170, y = 6790, overlay = { "6170-6790" }, questID = { 34743 } }; --The Crystal Blade of Torvath
-	[232169] = { zoneID = 542, artID = { 559 }, x = 2950, y = 4170, overlay = { "2950-4170" }, questID = { 35334 } }; --Varasha's Egg
+	[232169] = { zoneID = 542, artID = { 559 }, x = 2950, y = 4170, overlay = { "2950-4170" }, questID = { 35334 }, reset = false }; --Varasha's Egg
 	[232458] = { zoneID = 542, artID = { 559 }, x = 6087, y = 8778, overlay = { "6090-8780" }, questID = { 35481 } }; --Nizzix's Chest
 	[234703] = { zoneID = 542, artID = { 559 }, x = 4390, y = 1500, overlay = { "4390-1500" }, questID = { 36395 } }; --Elixir of Shadow Sight
 	[234704] = { zoneID = 542, artID = { 559 }, x = 4380, y = 2470, overlay = { "4380-2470" }, questID = { 36397 } }; --Elixir of Shadow Sight
@@ -349,7 +349,7 @@ private.CONTAINER_INFO = {
 	[173603] = { zoneID = 1525, artID = { 1306 }, x = 7999, y = 3700, overlay = { "7999-3700" }, questID = { 62156 } }; --Objects
 	[357683] = { zoneID = 1525, artID = { 1306 }, x = 2970, y = 3724, overlay = { "2970-3724" }, questID = { 62198 } }; --Outcast's Makeshift Muckpool
 	[349565] = { zoneID = 1525, artID = { 1306 }, x = 6932, y = 7796, overlay = { "6930-7800" }, questID = { 59833 } }; --Chest of Envious Dreams
-	[349792] = { zoneID = 1525, artID = { 1306 }, x = 6418, y = 7265, overlay = { "6420-7270" }, questID = { 59883 } }; --Filcher's Prize
+	[349792] = { zoneID = 1525, artID = { 1306 }, x = 6418, y = 7265, overlay = { "6420-7270" }, questID = { 59883 }, reset = false }; --Filcher's Prize
 	[349793] = { zoneID = 1525, artID = { 1306 }, x = 6844, y = 6445, overlay = { "6840-6440" }, questID = { 59884 } }; --Wayfarer's Abandoned Spoils
 	[349794] = { zoneID = 1525, artID = { 1306 }, x = 6152, y = 5864, overlay = { "6140-5850" }, questID = { 59885 } }; --Remlate's Hidden Cache
 	[349795] = { zoneID = 1525, artID = { 1306 }, x = 4639, y = 5817, overlay = { "4640-5810" }, questID = { 59886 } }; --Fleeing Soul's Bundle
@@ -389,7 +389,7 @@ private.CONTAINER_INFO = {
 	[354211] = { zoneID = 1525, artID = { 1306 }, x = 4593, y = 2915, overlay = { "2910-5960","4600-2910","6260-4400" }, questReset = true, questID = { 61045 }, worldmap = true }; --Greed's Reward
 	[356757] = { zoneID = 1525, artID = { 1306 }, x = 7256, y = 3432, overlay = { "7190-3440" }, questReset = true, questID = { 61045 }, worldmap = true }; --Greed's Desire
 	[357487] = { zoneID = 1525, artID = { 1306 }, x = 3840, y = 4424, overlay = { "3820-4420" }, questID = { 61999 } }; --Stylish Parasol
-	[357565] = { zoneID = 1525, artID = { 1306 }, x = 7368, y = 7543, overlay = { "7370-7530" }, questID = { 62196 } }; --Forgotten Angler's Rod
+	[357565] = { zoneID = 1525, artID = { 1306 }, x = 7368, y = 7543, overlay = { "7370-7530" }, questID = { 62196 }, reset = false }; --Forgotten Angler's Rod
 	[357584] = { zoneID = 1525, artID = { 1306 }, x = 7017, y = 6005, overlay = { "7017-6005" }, questID = { 62164 } }; --Vyrtha's Dredglaive
 	[357697] = { zoneID = 1525, artID = { 1306 }, x = 6281, y = 7530, overlay = { "6280-7530" }, questID = { 62199 } }; --Taskmaster's Trove
 	[358040] = { zoneID = 1525, artID = { 1306 }, x = 6736, y = 3032, overlay = { "6734-3025" }, questID = { 62252 } }; --Catacombs Cache
@@ -486,7 +486,7 @@ private.CONTAINER_INFO = {
 	[354849] = { zoneID = 1533, artID = { 1321 }, x = 3259, y = 2336, overlay = { "3260-2330" }, questID = { 61083 } }; --Aspirant's Belongings
 	[354859] = { zoneID = 1533, artID = { 1321 }, x = 4632, y = 6717, overlay = { "4470-6570","4500-6440","4540-6670","4540-6840","4630-6380","4670-6660","4720-6460" }, questReset = true, questID = { 61091 } }; --Worthy Aspirant's Cache
 	[355286] = { zoneID = 1533, artID = { 1321 }, x = 5648, y = 1714, overlay = { "5640-1720" }, questID = { 61150 } }; --Memorial Offerings
-	[355435] = { zoneID = 1533, artID = { 1321 }, x = 3604, y = 2654, overlay = { "3600-2520" }, questID = { 61183 } }; --Vesper of the Silver Wind
+	[355435] = { zoneID = 1533, artID = { 1321 }, x = 3604, y = 2654, overlay = { "3600-2520" }, questID = { 61183 }, reset = false }; --Vesper of the Silver Wind
 	[356818] = { zoneID = 1533, artID = { 1321 }, x = 6020, y = 7814, overlay = { "6020-7820" }, questReset = true, questID = { 61688 }, worldmap = true }; --Penitence of Purity
 	[356819] = { zoneID = 1533, artID = { 1321 }, x = 6026, y = 7817, overlay = { "6026-7817" }, questReset = true, questID = { 61688 }, worldmap = true }; --Test of Penitence
 	[356823] = { zoneID = 1533, artID = { 1321 }, x = 6104, y = 1508, overlay = { "6100-1510" }, questID = { 61698 } }; --Cloudwalker's Coffer
@@ -842,7 +842,7 @@ private.CONTAINER_INFO = {
 	[405587] = { zoneID = 2024, artID = { 1707 }, x = 0747, y = 4755, overlay = { "0747-4755" }, reset = false, questID = { 75041 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
 	[194856] = { zoneID = 2025, artID = { 1708 }, x = 5608, y = 4097, overlay = { "5608-4097" }, reset = false, questID = { 70287 }, prof = 773 }; --Objects
 	[196172] = { zoneID = 2025, artID = { 1708 }, x = 4945, y = 6291, overlay = { "4945-6291" }, questID = { 70611 } }; --Objects
-	[198604] = { zoneID = 2025, artID = { 1708 }, x = 5247, y = 8360, overlay = { "5247-8360" }, questID = { 72355 } }; --Objects
+	[198604] = { zoneID = 2025, artID = { 1708 }, x = 5247, y = 8360, overlay = { "5247-8360" }, questID = { 72355 }, reset = false }; --Objects
 	[380545] = { zoneID = 2025, artID = { 1708 }, x = 5692, y = 4366, overlay = { "5691-4372" }, reset = false, questID = { 70261 }, prof = 755 }; --Painter's Pretty Jewel
 	[380550] = { zoneID = 2025, artID = { 1708 }, x = 5627, y = 4118, overlay = { "5620-4120" }, reset = false, questID = { 70264 }, prof = 773 }; --Forgetful Apprentice's Tome
 	[380578] = { zoneID = {
@@ -889,9 +889,9 @@ private.CONTAINER_INFO = {
 				[2026] = { x = 7110, y = 3730, artID = { 1709 }, overlay = { "7110-3730" } };
 				[2118] = { x = 7110, y = 3727, artID = { 1709 }, overlay = { "7110-3727" } };
 			  }, reset = false, questID = { 66932 } }; --Treasure Hoard
-	[375493] = { zoneID = 2027, artID = { 1710 }, x = 6582, y = 4978, overlay = { "6556-5031","6670-4930" }, questID = { 65566 } }; --Ripened Protopear
+	[375493] = { zoneID = 2027, artID = { 1710 }, x = 6582, y = 4978, overlay = { "6556-5031","6670-4930" }, questID = { 65566 }, reset = false }; --Ripened Protopear
 	[373548] = { zoneID = 2030, artID = { 1713 }, x = 5179, y = 8619, overlay = { "5157-8596","5100-8780","5230-8790","5280-8680" }, questID = { 65175 } }; --Template Archive
-	[375495] = { zoneID = 2066, artID = { 1728 }, x = 4833, y = 3648, overlay = { "4833-3648" }, questID = { 65572 } }; --Undulating Foliage
+	[375495] = { zoneID = 2066, artID = { 1728 }, x = 4833, y = 3648, overlay = { "4833-3648" }, questID = { 65572 }, reset = false }; --Undulating Foliage
 	[382195] = { zoneID = 2085, artID = { 1736 }, x = 2781, y = 2595, overlay = { "2781-2595" } }; --Elemental Bound Chest
 	[385958] = { zoneID = 2112, artID = { 1748 }, x = 4574, y = 4719, overlay = { "4574-4719" }, reset = false, questID = { 73180 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[387719] = { zoneID = 2112, artID = { 1748 }, x = 4623, y = 4664, overlay = { "4623-4664" }, reset = false, questID = { 74849 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
@@ -932,7 +932,7 @@ private.CONTAINER_INFO = {
 	[398794] = { zoneID = 2133, artID = { 1775 }, x = 6234, y = 5375, overlay = { "6238-5378" }, reset = false, questID = { 75509 }, prof = 333 }; --Shimmering Aqueous Orb
 	[398796] = { zoneID = 2133, artID = { 1775 }, x = 3656, y = 6929, overlay = { "3665-6933" }, reset = false, questID = { 75510 }, prof = 333 }; --Resonating Arcane Crystal
 	[398810] = { zoneID = 2133, artID = { 1775 }, x = 4844, y = 1093, overlay = { "4845-1082" }, reset = false, questID = { 75514 } }; --Fealty's Reward
-	[398814] = { zoneID = 2133, artID = { 1775 }, x = 4842, y = 1635, overlay = { "4842-1635" }, questID = { 75515 } }; --Molten Hoard
+	[398814] = { zoneID = 2133, artID = { 1775 }, x = 4842, y = 1635, overlay = { "4842-1635" }, questID = { 75515 }, reset = false }; --Molten Hoard
 	[398828] = { zoneID = 2133, artID = { 1775 }, x = 4141, y = 8606, overlay = { "4144-8622" }, questID = { 75325 } }; --Chest of Massive Gains
 	[401236] = { zoneID = 2133, artID = { 1775 }, x = 5258, y = 1832, overlay = { "5263-1829" }, reset = false, questID = { 75646 }, prof = 171 }; --Malnourished Specimen
 	[401238] = { zoneID = 2133, artID = { 1775 }, x = 6211, y = 4113, overlay = { "6211-4113" }, reset = false, questID = { 75649 }, prof = 171 }; --Marrow-Ripened Slime
@@ -941,7 +941,7 @@ private.CONTAINER_INFO = {
 	[401292] = { zoneID = 2133, artID = { 1775 }, x = 3445, y = 4543, overlay = { "3450-4541" }, reset = false, questID = { 75653 }, prof = 755 }; --Gently Jostled Jewels
 	[401299] = { zoneID = 2133, artID = { 1775 }, x = 5440, y = 3250, overlay = { "5439-3245" }, reset = false, questID = { 75654 }, prof = 755 }; --Broken Barter Boulder
 	[401828] = { zoneID = 2133, artID = { 1775 }, x = 6416, y = 7497, overlay = { "6416-7497" }, reset = false, questID = { 75745 } }; --Nal ks'kol Reliquary
-	[401839] = { zoneID = 2133, artID = { 1775 }, x = 5795, y = 6631, overlay = { "5795-6631" }, questID = { 75762 } }; --Dreamer's Bounty
+	[401839] = { zoneID = 2133, artID = { 1775 }, x = 5795, y = 6631, overlay = { "5795-6631" }, questID = { 75762 }, reset = false }; --Dreamer's Bounty
 	[401844] = { zoneID = 2133, artID = { 1775 }, x = 4710, y = 4296, overlay = { "4793-7558","3704-6987","5295-7420","4204-4546","2852-4265","3575-4911","5693-6670","6013-5758","5886-4161","7096-5075","4848-3066","4455-4948","4547-3722","4298-2465","4487-1208","5143-3522","5185-1165","3676-8520","4911-2068","5195-1382","4354-2885","5192-1543","4709-4133","4670-6811","4537-4348","5256-2740","5704-7093","4164-4094","6180-5082","4636-6109","5750-3906","4015-5750","3358-4097","5201-4721","2900-4920","3120-5210","3510-4210","3520-4450","3520-7980","3610-8790","3670-8960","3730-7410","3740-3970","3740-8120","3940-7670","3940-8320","4040-5200","4060-3570","4130-8340","4310-3810","4360-8570","4400-7280","4420-5450","4470-6190","4480-2030","4520-7790","4550-5500","4710-4290","4740-7870","4810-5830","4820-3760","4830-5200","4860-5530","4870-6940","4900-2280","4910-4330","4960-1600","5030-6090","5110-5710","5120-4100","5200-0710","5370-3910","5510-6340","5560-4560","5580-3990","5740-4590","5740-6460","5860-7140","5930-5180","5960-3750","6010-4280","6020-6570","6070-7440","6120-6860","6160-3970","6200-4840","6230-5600","6510-5290","6550-4800","3600-8420","6070-4390" }, reset = true }; --Smelly Trash Pile
 	[401845] = { zoneID = 2133, artID = { 1775 }, x = 5272, y = 6543, overlay = { "6293-6986","4590-8737","2564-4355","5272-6543","2820-5380","3020-4010","3250-5290","3600-4510","3880-8480","3910-6180","4110-3510","4130-5580","4280-7810","4410-4150","4440-3510","4500-1570","4540-7030","4570-5240","4590-2240","4660-8050","4700-2680","4720-6200","4790-4880","4910-4100","5130-2440","5280-2340","5280-3230","5320-4770","5410-7760","5440-2290","5750-7040","5870-4370","5990-6300","6250-4200","6520-5530" }, reset = true }; --Smelly Disturbed Dirt
 	[402627] = { zoneID = 2133, artID = { 1775 }, x = 5715, y = 5472, overlay = { "5715-5464" }, reset = false, questID = { 76078 }, prof = 164 }; --Well-Worn Kiln
@@ -1369,7 +1369,7 @@ private.CONTAINER_INFO = {
 	[456008] = { zoneID = 2339, artID = { 1895 }, x = 5794, y = 5697, overlay = { "5794-5697" }, reset = false, questID = { 83859 }, prof = 333 }; --Silver Dornogal Rod
 	[456016] = { zoneID = 2339, artID = { 1895 }, x = 4754, y = 2654, overlay = { "4757-2622" }, reset = false, questID = { 83849 }, prof = 164 }; --Dornogal Hammer
 	[456025] = { zoneID = 2339, artID = { 1895 }, x = 3242, y = 6022, overlay = { "3245-6033" }, reset = false, questID = { 83840 }, prof = 171 }; --Earthen Iron Powder
-	[428472] = { zoneID = 2215, artID = { 1818 }, x = 6656, y = 1514, overlay = { "6656-1514" }, questID = { 81612 } }; --Captain Lancekat's Discretionary Funds
+	[428472] = { zoneID = 2215, artID = { 1818 }, x = 6656, y = 1514, overlay = { "6656-1514" }, questID = { 81612 }, reset = false }; --Captain Lancekat's Discretionary Funds
 	[240638] = { zoneID = 630, artID = { 653 }, x = 5590, y = 5680, overlay = { "5590-5680" }, reset = false, questID = { 38365 } }; --Disputed Treasure
 	[253957] = { zoneID = 630, artID = { 653 }, x = 5050, y = 5210, overlay = { "5050-5210" }, reset = false, questID = { 44081 } }; --Treasure Chest
 	[241128] = { zoneID = 641, artID = { 664 }, x = 5555, y = 7761, overlay = { "5555-7761" }, reset = false, questID = { 38466 } }; --Unguarded Thistleleaf Treasure

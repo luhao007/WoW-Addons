@@ -9,7 +9,6 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 
 -- RareScanner database libraries
 local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
-local RSGuideDB = private.ImportLib("RareScannerGuideDB")
 local RSContainerDB = private.ImportLib("RareScannerContainerDB")
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
 local RSNpcDB = private.ImportLib("RareScannerNpcDB")
@@ -21,12 +20,6 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 local RSConstants = private.ImportLib("RareScannerConstants")
 
 -- RareScanner services libraries
-local RSMinimap = private.ImportLib("RareScannerMinimap")
-local RSMap = private.ImportLib("RareScannerMap")
-local RSTooltip = private.ImportLib("RareScannerTooltip")
-local RSGuidePOI = private.ImportLib("RareScannerGuidePOI")
-local RSTomtom = private.ImportLib("RareScannerTomtom")
-local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 local RSRecentlySeenTracker = private.ImportLib("RareScannerRecentlySeenTracker")
 
 RSVignetteDataProviderMixin = CreateFromMixins(VignetteDataProviderMixin);

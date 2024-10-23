@@ -208,6 +208,13 @@ function CombatPlusfun.HPMPBar()
 			SetFuziyuan()
 		end
 	end)
+	Update_HPMAX(HPMPBar.HPBar)
+	Update_HP(HPMPBar.HPBar)
+	Update_MPMAX(HPMPBar.MPBar)
+	Update_MP(HPMPBar.MPBar)
+	Update_PowerType(HPMPBar.MPBar)
+	SetCombatShow()
+	SetFuziyuan()
 end
 --------------------------
 if tocversion<50000 then

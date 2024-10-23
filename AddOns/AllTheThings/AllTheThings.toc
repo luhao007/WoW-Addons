@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.18
+## Version: 4.0.19
 
 ## Title: AllTheThings
 ## Notes: Addon for Tracking Collections & Account Completion
@@ -95,14 +95,14 @@ src\Classes\Quests.lua
 src\Classes\Item.Retail.lua
 # src\Classes\Item.Classic.lua
 src\Classes\Encounter.lua
-src\Classes\Ensemble.lua
 src\Classes\Expansion.lua
 src\Classes\FlightPath.lua
+src\Classes\Header.lua
 src\Classes\Maps.lua
 src\Classes\Mount.lua
-src\Classes\Header.lua
 src\Classes\NPC.lua
 src\Classes\Objects.lua
+src\Classes\Profession.lua
 src\Classes\Category.lua
 src\Classes\Deaths.lua
 # src\Classes\Dynamic Categories.lua
@@ -116,6 +116,7 @@ src\Classes\Races.lua
 src\Classes\Title.lua
 src\Classes\Transmog.lua
 src\Classes\Spell.lua
+src\Classes\Ensemble.lua
 src\Classes\CharacterUnlock.lua
 
 # Item Sub-Classes

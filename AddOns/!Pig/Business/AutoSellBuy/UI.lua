@@ -347,7 +347,8 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 							local itemStackCount, itemEquipLoc, itemTexture,sellPrice,classID,subclassID= select(8, GetItemInfo(itemLink))
 							local jieguo = IsItemMay(false,itemLink,quality,sellPrice,classID,subclassID,bag, slot)
 							if jieguo then
-								table.insert(bagshujuy,{itemID,itemLink,icon,itemStackCount,itemStackCount,false})
+								local ItemLevel = GetDetailedItemLevelInfo(itemLink)
+								table.insert(bagshujuy,{itemID,itemLink,icon,itemStackCount,itemStackCount,false,ItemLevel})
 							end
 						end
 					end
@@ -371,7 +372,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	    		hang:Show();
 	    		hang.check:SetID(dangqianH);
 		    	hang.icon:SetTexture(bagshujuy[dangqianH][3]);
-				hang.link:SetText(bagshujuy[dangqianH][2]);
+				hang.link:SetText(bagshujuy[dangqianH][7]..bagshujuy[dangqianH][2]);
 				hang:SetScript("OnMouseDown", function (self)
 					GameTooltip:ClearLines();
 					GameTooltip:SetOwner(self, "ANCHOR_CURSOR");

@@ -1,6 +1,6 @@
 ## Interface: 110002
 ## Author: Crieve-Sargeras
-## Version: 4.0.18
+## Version: 4.0.19
 
 ## Title: AllTheThings |cfd9b9b9b(Wrath)|r
 ## Notes: Addon for Tracking Collections & Account Completion
@@ -48,7 +48,6 @@ lib\Audio.lua
 # Load localization modules
 locales\Default Locale.lua
 # locales\en.lua
-classic\locales.lua
 locales\es.lua
 locales\de.lua
 locales\fr.lua
@@ -93,7 +92,9 @@ src\Classes\Item.Classic.lua
 src\Classes\Encounter.lua
 src\Classes\Expansion.lua
 src\Classes\FlightPath.lua
+src\Classes\Header.lua
 src\Classes\Maps.lua
+src\Classes\NPC.lua
 src\Classes\Objects.lua
 src\Classes\Category.lua
 src\Classes\Deaths.lua

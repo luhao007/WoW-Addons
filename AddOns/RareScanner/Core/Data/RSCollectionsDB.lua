@@ -673,6 +673,12 @@ end
 local function UpdateNotCollectedAppearanceItemIDs(routines, routineTextOutput)
 	private.dbglobal.not_colleted_appearances_item_ids = {}
 	
+	-- Prepare filters
+	C_TransmogCollection.SetUncollectedShown(true);
+	C_TransmogCollection.SetAllFactionsShown(true);
+	C_TransmogCollection.SetAllRacesShown(true);
+	C_TransmogCollection.SetSearch(Enum.TransmogSearchType.Items, "");
+	
 	-- Query
 	for transmogLocationName, transmogCollectionTypes in pairs (TRANSMOG_LOCATIONS) do
 		local transmogLocation = TransmogUtil.GetTransmogLocation(transmogLocationName, Enum.TransmogType.Appearance, Enum.TransmogModification.Main)

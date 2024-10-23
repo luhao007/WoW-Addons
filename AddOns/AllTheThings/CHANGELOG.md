@@ -1,201 +1,164 @@
 # AllTheThings
 
-## [4.0.18](https://github.com/DFortun81/AllTheThings/tree/4.0.18) (2024-10-13)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.17...4.0.18) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [4.0.19](https://github.com/DFortun81/AllTheThings/tree/4.0.19) (2024-10-20)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.18...4.0.19) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
-- ppppppparsa  
-- Runner errors should now include stacktrace without Debugging  
-- revert id check.  
-- Migrate GetSpellCooldown.  
-- Uniform the return values of GetItemID.  
-- try to fix Runner error  
-- Couple mobile NPCs  
-- Add garrison inn daily quests to MobileNPCDB  
-- Cata: Fixed level requirement for Guardians of Hyjal: Firelands Invasion!  
-- Fixed the quest giver for The Old Barracks.  
-- CATA: Add multiple Howling Fjord objectives  
-- CATA: Add multiple Grizzly Hills objectives  
-- CATA: Add multiple Dragonblight objectives  
-- CATA: Add multiple Borean Tundra objectives  
-- Converted all Argent Tournament manual On* functions into proper ReferenceDB functions  
-- CATA: Add multiple Terokkar Forest objectives  
-- CATA: Add multiple Shadowmoon Valley objectives  
-- Parser: Handles reference checking for ReferenceDB.OnClickDB keys as well  
-- Removed auto expanding from AWP window.  
-- Parser: Now includes ReferenceDB reference checking for OnUpdateDB and OnInitDB for when those begin to receive exported functions  
-- CATA: Add some Deepholm objectives  
-- Added more objectives for Deepholm.  
-- Moved 'The Long Hunt' under the Quests header  
-- Parser: No longer affects verbatim strings within Lua functions when performing Lua compression  
-- Neither the Boots of the Bay nor the Dread Pirate Ring were a reward from the STV fishing event until 5.1.0.  
-- Rebuilt RefenceDB for all classic flavors.  
-- Grant Anima Appeal's Appeal  
+- I break things down, but not by force,  
+    I turn tangled words into a clearer course.  
+    A guide through code, I sort and arrange,  
+    From jumbled mess to meaning, I change.  
+    What am I?  
+- Fix some minor errors  
+- Retail: coords and spreading the light hqts  
+- Cata: Disabled achievement automation on Twenty-Five Tabards.  
+- TWW: Update some coordinates in Azj-Kahet  
+    Partially revert commit 97c749063ac1137083f09de4d92d187ace3710b0  
+    Clean-up comments section of the HQTs  
+    Missing quest data/givers referred in the comments are most likely related to Dor'garad and Kaheti Excavations as they are yet to be implemented  
+- coord  
+- Update Uldum.lua  
+    Uldum: Harrison Jones not spawning after cutscenes  
+- Fixed location for Candy Bucket — Dustwallow Marsh, Mudsprocket.  
+- Found a new Radiant Remnant but didn't get the objectID :weary:  
+- Fixed implementation of the 'Stonevault Mechsuit' so it's not listed inside of the Quest Starter Item (bad!)  
+- Couple minor adjustments to 'Total Cost' logic and 'Source Quest Requirements' so that a quest chain with multiple Costs will properly show all costs of the quest chain (may adjust more with further testing over time)  
+    Fixed Quest Provider Items which get shown in Quest chains from possibly being permanently visible in the Main list  
+- Strip Trial of Style ensemble quests  
+- DF PvP Ensembles added  
+- Confirmed 100% Trial of Style Ensembles (there's way more Items than you thought you got!)  
+- Fixed FlightPath Bug  
+- Classic TWs  
 - [Localization] Update zhTW.  
-- A little change to DF herbalism discovery recipes.  
-- note for some crests so I dont have to think with all their wierd names and shit  
-- updated october trading post to not dissapear once 11.0.5 releases  
-- added maps header for discovery  
-- Parser: Lua compaction cleans up a bit more whitespace  
-    Parser: ReferenceDB now uses Lua compaction on the OnTooltipDB values  
-    Partially updated some ReagentsDB  
-- Retail: Added some colors to the hidden windows so that Things there are more obvious in tooltip source lines  
-- Rebuilt Classic DBs with all the recipe data.  
-- Some Zekvir HQTs that popped today  
-- Revert "Deleted the old item recipe cache we had before ProfessionDB."  
-- Throw vaporware SL callings into NYI, add some HQTs  
-- AccountWideQuestsDB and ReagentsDB are now baked into ReferenceDB instead of being manually-updated separate DBs  
-    AccountWideQuestsDB now has some preprocessors and template logic in case Quests need to be split by Version  
-    AccountWideQuestsDB no longer includes any Quests prior to MOP Version  
-- Parser: Now strips out un-referenced OnTooltip keys from the ReferenceDB  
-    Fixed a Lua syntax error highlight in the Phases file  
-- Explicitly marked a couple of phases for some enchanting and tailoring recipes that can be bought all over the place.  
-- Converted remaining random OnTooltip functions into ReferenceDB functions (makes it very clear to see what OnTooltip functionality is custom-added everywhere, even if only used in one place)  
-- Use `maps`; don't put raw map headers in places (This would make these recipes show up in the root of the minilist in that Zone which makes no sense)  
-- overgrown herbs can only be discovered in emerald dream, using map header?  
-- Added IsSpellOnCooldown OnTooltip which supports whatever SpellID is on the current group  
-    Added a function template GenerateOnTooltipSpellOnCooldown which can generate a custom OnTooltip for a specified SpellID  
-- Fixed MDI and AWC toys to show before 11.0.5. Maybe it can help someone for the last few days lol.  
-- First crafts and first skins changed to HQTs.  
-- Goblin Rocket Boots was originally from a recipe.  
-- Converted a lot of duplicated OnTooltip functions in Categories into single-referenced functions from OnTooltipDB [WIP]  
-- HQTs should support WithAutoName variant  
-- Don't forget about TBC!  
-- Deleted the old item recipe cache we had before ProfessionDB.  
-- Reparsed all Versions  
-- Refactor/music rolls selfies (#1814)  
-    * Retail: Music Rolls & Selfie Filters are no longer their own separate collectible Type and have been refactored into Character Unlocks since their underlying collection mechanics are identical.  
-    Custom OnTooltips are now inherently supported by ExportDB and can be referenced by the object directly instead of duplicating custom OnTooltip logic throughout Categories.lua (this makes any errors far easier to track down)  
-    Parser: No longer attempts to create Music Rolls and Selfie Filters [WIP]  
-    * Parser: Cleaned up after Music Roll / Selfie removals  
-- Enchanted Elementium Bar was phase 3.  
-- Updated Engineering quests to not use a description, but instead include the required level to start it.  
-    When in debug mode, the phase data will now be displayed in tooltips regardless of state.  
-- Added all Mount Mods questIDs into AccountWideQuestsDB.  
-- Add missing phase data for Blacksmithing recipes.  
-- Parser: ReferenceDB is now always exported alphabetically to reduce change sets  
-    Parser: Pure Lua string exports now supports verbatim strings (i.e. using ~ to not wrap in quotes)  
-- ExportDBs are now exported into a single, non-dependent ReferenceDB.lua file (instead of LocalizationDB, since that needs to load later in TOC sequence currently)  
-    Fixed TOCs to reference the single ReferenceDB per Version  
-- ExportDB DBs are now directly included in the LocalizationDB for each game Version instead of being their own separate DB files (TOC updates inc)  
-- FlightPathDB can once again just use ExportDB for simplicity instead of being smushed into the LocalizationDB  
-- Coord fix for Right Between the Gyro-Optics (needs parse)  
-- Merge branch 'master' of https://github.com/DFortun81/AllTheThings  
-- ExportDBs are now split by Parser into their respective Version folders since they are able to be built differently during Parsing. This way each Version can specifically exclude or include data as intended  
-- Added the Magnetized Scrap Collector.  
-- Updated Leyara's Locket's quest chain.  
-- Luxurious Silk Gem Bag came out with the Molten Front.  
-- Fixed a couple issues with variants for Retail/Classic  
-- Wording adjustments for name()  
-- Simplified CreateClass a bit more and added the ability to support variants on Classes (rather than only on sub-classes) (we still can't support multi-variant classes yet...)  
-    Quest & CharacterUnlockQuest classes can now directly use the WithAutoName variant  
-- Retail: Fixed Item Harvester load issue when in Debugging  
-- Adjust description and added KA maps for Ethereum Void Reaper since it very much seems to not spawn in any Instanced content  
-- Added some missing Hyjal coords.  
-- Added some more objectives to Deepholm.  
-- Retail: Added chat note if trying to use 'itemharvester' without having loaded with Debugging flag  
-- Retail: ItemHarvester functionality migrated to Item.Retail Module & locked behind 'Debugging' flag  
-- Added some missing objectives to Deepholm.  
-- Retail: CostItem and CostCurrency groups now use CreateClass to create the wrapped object instead of doing so manually  
-- Migrated Currency Lib to Module  
-    Moved GetPopulatedQuestObject closer to usage  
-- Adjusted AttachTooltipSearchResults to pull from a tooltip cache based on the group being rendered into the tooltip instead of caching the tooltipInfo into the group itself. However this is not fully-effective yet since some tooltipInfo currently relies on the group receiving an Update pass, and we clear Search groups so often that we rarely actually re-use existing Search groups to obtain cached tooltips...  
-- Fix some reported errors and add some mobile npcids  
-- Removed some duplicated WipeSearchCache calls which are handled by preceeding events  
-- Retail: Fixed priority on Source(s) group in popouts  
-- Retail: Fixed priority of Cost and Total Cost groups within a popout  
-- TWW/Azj-Kahet: More Rumors  
-    TWW/Azj-Kahet: Move some vendors to the Severed Threads where they belong  
-- Fixed AddEventRegistration when 'doNotPreRegister is true to actually store the function for later registration to access  
-- Wrong NPC ID for Blazebound Elemental.  
-- Added the Flameseer's Staff.  
-- Classic: Now using the OnNewPopoutGroup event.  
-- Added an ignoreChildren parameter to CloneObject.  
-- Switched to CloneObject for Gear Set and Shared Appearance lists  
-    Removed unused 'hideText' field  
-- SearchForMergedObject replaced by key-based SearchForObject (since this inherently prioritizes results based on Accessibility, which accounts for some Filtering values)  
-- Retail: Source Quest logic moved to 'OnNewPopoutGroup' handler and cleaned a bit  
-- Adjusted SortPriority such that the default is 0  
-- Fixed GlobalStrings being replaced and re-copied from Townlong Yak  
-- parser for retail and classic  
-- bnet balance into real money update (part2)(finished)  
-- Added a 'SortPriority' to the Global sort  
-    Retail: Now using a new Event 'OnNewPopoutGroup' to handle Module-based integration of data into Popouts (Classic wasn't using any of these data injections anyway so I haven't changed that version)  
-- changing BLIZZARD\_BALANCE to real\_money (update1)  
-- updated blizzard balance tooltip  
-- AddEventRegistration can now skip pre-registering the Event during OnReady if desired  
-    RefreshSaves is no longer triggered due to UPDATE\_INSTANCE\_INFO being fired when loading the game, and its manual handling from OnStartup is moved to OnRefreshCollectionsDone  
-- updated ka'muko coordinates and removed resonance crystals (its double dipping on kej tooltip, since you can buy kej for reso and vice versa)  
-- Retail: Some random cleanup in ATT.lua  
-    Retail: Moved BuildCost and BuildTotalCost to Cost Module (WIP)  
-- Retail: UpdateGroup evaluation for a valid group now includes any 'forceShow' groups (eg. popouts of a Thing which doesn't meet your current filters will still evalute visibility on the sub-groups instead of just showing nothing due to the root group not matching filters)  
-- Retail: Settings UpdateMode now does a Callback event for OnRecalculate since some keybind toggles end up triggering UpdateMode multiple times in a single frame (probably need further clean up of this logic to better-utilize Events instead of manual update calls)  
-- Shared Appearances and Gear Sets headers within popouts can no longer be popped into their own popouts  
-- add comment.  
-    add some explanations to make reading this code a bit easier.  
-- Added more mobile NPCs (Bligntron, Nomi, etc.)  
-- Migrate Faction APIs.  
-- GetPlayerPosition now returns a 4th parameter to indicate if the returned coords are fake (due to being inside an instance or otherwise unavailable)  
-    Contribute: coord ignore checks are now functions  
-    Contribute: Added an ignore check for Creature coords which checks a MobileNPCDB (used to assign NPCs whose coords are greatly varied or based on Player position)  
-- Migrate GetSpellLink and GetSpellIcon.  
-- add C\_QuestLog cache.  
-- Mirgate GetTradeSkillTexture.  
-- Change the parameter names.  
-- Removed the Event sequence for OnStartupDone to call OnRefreshSettings  
-- Retail: The 'no entries found' row in popouts can no longer itself be popped out  
-- GetRelativeDifficulty consolidated between Classic/Retail  
-- Moved DLO functionality to the base Class file  
-    CloneArray is now roughly ~2.5x faster and supports cloning into an existing table if desired  
-    Retail: Replaced RawCloneData with CloneArray since the only existing use cases required that functionality  
-    Retail: Removed a couple unused locals  
-- Fix Alliance Vanguard symlink  
-- Retail: ATT tooltips for ATT windows now refresh themselves if the row content for the tooltip changes within the row while the tooltip is visible (i.e. scrolling a list while cursor is over the rows)  
-- Retail: Moved the first settings refresh to explicitly be called during OnStartupDone instead of coincidentally during other actions  
-- Retail: Remove a temporary app flag to allow OnInit to occur rather than set a flag permanently  
-- Added Mount Mods dynamic group.  
-- Brann level quests are HQTs.  
-- Generate Missing Files  
-- Retail: Refresh Collections now uses an AfterCombat callback instead of coroutine to handle delaying Refresh until after combat  
-- [Localization] Update zhTW of Phases.  
-- Harvest: 11.0.5.56865  
-- Harvest: 11.0.5.56749  
-- Harvest: 11.0.2.56819  
-- Harvest: 4.4.1.56859  
-- Harvest: 4.4.0.56713  
-- Harvest: 1.15.4.56857  
-- Harvest: 1.15.4.56817  
-- Harvest: 1.15.4.56760  
-- Harvest: 1.15.4.56738  
-- Harvest: 1.15.4.56718  
-- Harvest: 1.15.4.56708  
-- Fixed missing local reference in Waypoints (i.e. when plotting and no coordinates are found)  
-- Ensemble questID fix.  
-- [Tools] Replace absolute paths with relative paths  
-- Moved and symlinked Kir'xal from Nerub'ar Palace to help show where to spend the Curio when in Azj-Kahet  
-- Strip unnecessary ensemble data  
-- Fixed Web-Wrapped Curios symlinks that got copypasta  
-- Fix various reported errors  
-- Fix the installation failure when no Interface/Addons  
-- Update some class filters to use constants  
-- [VS Code] Update setting  
-- Kaja'Cola Machine -- Perhaps better instructions?  
-- Added the only currently-missing Enchanting recipe  
-- DmF: Darkmoon Treasure Chest  
-- Fixed NPCID for the Fallowspark Glowfly  
-- Fix various reported errors  
-- Sources are now always refreshed when in Debug mode or tracking Appearances  
-    Unique appearance collection is now triggered after Source refresh  
-    Removed unnecessary external handling of DoRefreshAppearanceSources (this could prevent Sources from properly refreshing during force refreshes)  
-    Event Handling revised such that Sequence Events will always follow any set of chained Events handled by the called event, in the order in which they are requested to be performed. This allows us to be a lot more confident in our Event usage as to the alignment of Events being handled, even when using a Runner internally to reduce stuttering.  
-    Refactored many Events such that the expected order of operations is maintained with much less manual Event sequencing required  
-    Retail: app:RefreshData removed -- this logic sequence is now entirely Event-driven, and some logic branches were never used  
-- HQT quest chat reports will now remain as 'Unknown' if they have no name instead of reverting to the default quest name (Quest #...)  
-- Added Silken Court normal npcIDs  
-- Re-added the 25 limit for provider listings in tooltips (some achievements are crazy)  
-    Retail: One That Didn't Get Away no longer lists all fish as providing the whole achievement since it's automated into the individual hidden Criteria per fish  
-- [localization] update zhTW of Phases.  
-- my bad  
-- Fixed Thimble's Cache to be daily.  
-    Added support for FILTERFUNC\_objectID.  
-- Retail: delves keys after cost reduction have different questIDs  
-- Changed icon of AWP window.  
+- TWW: Update a few coordinates in Azj-Kahet  
+- Added 'accepted or' text to the tooltip for pre-requisite quests of a Thing since our representation for simply 'accepting' a quest to be available is identical to having to 'complete' a quest  
+- Parser: Now supports 'extraTransmogSetSpells' used within an 'iensemble' object to define additional non-Item TransmogSet spells which trigger automatically when learning the base Ensemble  
+    Added 'extraTransmogSetSpells' to the 'Ensemble: Heritage of the Draenei' as an example  
+    Added new 'EnsembleSpell' Type for Ensemble Spells which derive only from Spells and not Items  
+- Cata: Updated objectives for Mauti.  
+- Cata: Updated objectives for The Hunter's Revenge.  
+- Cata: Updated objectives for Serpents and Poison.  
+- Fixed a missing parameter for the Factions class.  
+- Cata: Tricks and Treats of Azeroth hasn't been removed yet. Thanks Blizzard.  
+- TWW candy bucket quests and placeholder comments for provider / coord to be added once event goes live (everything already came in with 11.0.2 so it's timelined that way, even though the event will start at the same time when 11.0.5 goes live)  
+- Sourced remaining anniversary achievements + updated wago files + parsed for retail and ptr  
+- Added TypicalCharacterCollected & TypicalAccountCollected to encapsulate the simplest typical cache-checking for collected Things  
+    Added use of these 'typical' collected functions where currently-applicable in Classes  
+    Now using simple collectible swap for Toys  
+- NPC 145707 is Mobile  
+- Couple Heritage quest details  
+- Clean up some Illusion class stuff and use simple collectible swap  
+- Removed Trackable from Titles and added the simple collectible swap  
+- Deepholm and Uldum requires the use of flying mounts  
+- TWW/Azj-Kahet: Missing quest for one Forgotten Memorial Treasure  
+    TWW/Azj-Kahet: Another rumor bites the dust  
+- Added missing quest objectives for Hallow's End.  
+- TWW/Azj-Kahet: Fix an issue with inaccurate-quest reports related to Rumors  
+- Adjusted the repeatable Hallow's End quests to be nested as you need to be on the holiday quest to have them appear. This matches similar quest objective layouts.  
+- Retail: FillGroups now only triggers the OnWindowFillComplete event for the filled window if it actually filled the root group of that window (e.g. FIllGroups can be triggered on individual groups in some cases and we don't want that to trigger this event over and over on the hosting window)  
+- Fixed Item-based Things which are keyed as another ID as considering themselves 'missing'  
+- Fixed some Hallow's End coordinates for Vashj'ir.  
+- Deleted unused achievement criteria data in Hallow's End. (we use automation now!)  
+- Fix extremely weird Lua error for opening popouts which of course doesn't actually happen to me in the first place  
+- List window now supports both missing and collected together. Can be used to find completed missing quests for Sourceless.lua file.  
+- Drop redundant ignorebonus fields on iensemble items  
+- Cata: Fixed achievement criteria!  
+- Worm theory copy sorted  
+- Added collected parameter for the list window.  
+    Added Tailoring HQT.  
+- Parser: Fixed some issues with CSV parsing when a field is left out in earlier versions of DB2.  
+- Sourced some HAT and added others to the exlcusion list  
+- Parser: Attempting to fix the AchievementDB for Cataclysm.  
+- Added Candy Bucket object data.  
+- Strip redundant ensemble data, all non-pvp ensembles and arsenals should be converted or TODO noted (unless missed because of naming)  
+- Cata: Fixed some phaseID assignments for Engineering recipes that came out with the Molten Front.  
+- BaseObjectFields no longer needs to be externally available as all Class creation is now handled by CreateClass  
+    Renamed BaseObjectFields to CreateClassMeta to make more sense  
+- Retail: Migrated the last Class (Profession) to a standalone file  
+- Retail: Quick fix to not sort under popped out Difficulty groups  
+- Classic: Added a silly thing for creatureID.  
+- Classic: Removed an unused function  
+    NPC DisplayID retrieval no longer forces OnRenderDirty  
+    Moved the GetDisplayID logic from Model.lua to NPC.lua now that it's being used by Classic  
+- Cleaning up any potential reference in non-db code to a singular "cr" field. (crs or creatureID is the standard)  
+- Contributor Quest check no longer does extra print when providerID is missing  
+    Contributor ignore tables now use proper metatables  
+- Fix some reported retail errors  
+- Fixed some more scuffed iconIDs.  
+- Strip some redundant ensemble data  
+- Add Sand Scarab twitch drop  
+- Retail: ATT Windows no longer have explicit StartProcessing/StopProcessing functions defined. Instead (the only current use case) has been converted into an Event: OnWindowFillComplete. This Event (currently un-used externally) is triggered for a given Window when the FillGroups process is completed within that Window.  
+    Retail: ATT Windows no longer preemptively define some empty group data when created since we always use 'SetData' properly  
+    Retail: The 'Source(s)' group in popouts is now considered source-ignored  
+- Retail: Recipes filled into popouts don't need to forcibly not merge, and can be created if not Sourced  
+- Found a few more replacements for AutoTable  
+- Couple string-keys replaced with key references  
+- Added a base AutoTable metatable reference since this is commonly used in a few places  
+- Couple minor data errors/reports  
+- [VS Code] Remove auto-adding of Globals.  
+- Meetup with the Caravan clarification  
+- Cata: Moves 'Meetup with the Caravan' from Uldum to Deepholm.  
+- Removed the console read line that was used for debugging.  
+- Add missing quests for Stonevault Mechsuit, fix some reported errors  
+- Some protections & extra chat for Contribute quest checks which cannot procede  
+- Added object data for Soul Device.  
+- VSCcode please just shutup  
+- TWW/Azj-Kahet: One more rumor  
+    And fix another typo... This is why I don't rush things and triple check my work.  
+- Fix typo  
+- TWW/Azj-Kahet: Forgotten Memorials (Aspirant's Tributes) are part of the Severed Threads Pact system  
+- Southern Barrens:  Breadcrumb 28550 description  
+- Strip redundant ensemble data  
+- Fate Weaver  
+- Added a 'convertItem' shortcut to help with Items which can be converted back and forth via on use  
+    BC Motes/Primals are now linked as expected  
+    WOTLK Crystallized/Eternals are now linked as expected  
+    Retail: Fixed popouts of popout Recipes duplicating their Crafted Item  
+- OnRenderDirty should always be a callback event when hooked into spammy triggers  
+- Moved The Fallen Guardian from Molten Front to the Elemental Bonds section.  
+- Retail: Fixed an issue where popouts of certain crafting reagents would infinitely fill themselves with recursive sets of nested crafted items  
+- Classic: Deleted the Music Roll and Selfie Filter unimplemented class declarations.  
+- Classic: Now using the Header class file.  
+- Header module using CreateClassInstance instead of CreateObject  
+- Classic: Now using the NPC class file.  
+- Classic: The "Show Colors" checkbox now functions correctly for rows.  
+- Even more super sneaky herbs. I don't like these herbs.  
+- The Finer Things tracking is account-wide  
+- HQT for The Finer Things 1st turn-in  
+    Various Weekly/non-Weeklies fixed based on not resetting  
+    Doan's Strongbox is account-wide  
+- TWW/Azj-Kahet: Rumors  
+    LEG/Argus: Added and updated some coordinates  
+- Add new sub bundle mounts, fix some reported errors  
+- Currency groups now show their quantity/maxQuantity as a statistic in ATT rows  
+- Update some 11.0.5 timewalking rewards  
+- Fixed a garbled export command.  
+- Removed preprocessors that originally ripped out map icons from pre-Wrath builds of the DB.  
+- Final (v2?) batch of iconID updates.  
+- Fixed a bunch of garbled iconIDs.  
+- Fixed a couple of missing iterface icons. (inv\_engineering\_failure-detection-pylon)  
+- Looks like it was case sensitive. This fixed that.  
+- Added the IconID Converter tool. This tool can replace all of the IconPaths with IconIDs.  
+    First pass of the tool without reparsing.  
+- Textures don't need to include their file extension.  
+- Added a bunch more manually-checked Warband-wide quests  
+- Parser: Now forcing all icons to be exported as lowercase.  
+- Adjusted Warband-Wide text again because it actually looked weird  
+- Completed By for Warband-wide quests is now consistent with the Blizzard text in quest dialogs for previously completely quests  
+- Parser: IconFileID values now properly get exported as a numeric value rather than a string.  
+- Fixed /attuned. (Classic Only)  
+- Deleted the last bit of manually added achievement descriptions that were originally used for pre-wrath achievement tracking.  
+- Deleted more achievement descriptions...  
+- Deleted a bunch of manually added achievement descriptions. (was used pre-AchievementData DB)  
+- Deleted all locally sourced achievement icons. (You don't need to include them if you use fileID!)  
+- Now including an AchievementData DB for Classic Era, SOD, TBC, and Wrath Classic. This new module is fully localized and uses the correct icons using fileID.  
+- Added esMX support to LocalizationDB.  
+- Reverted GetSpellInfo update, it broke Classic Era.  
+- Retail: "Estimated cost" in tooltips no longer duplicate-counts Things which are listed within the same tooltip multiple times due to other nesting reasons  
+- Added Scarlet Onslaught Trunk object to Icecrown  
+- Added the Classic Achievement DB tool. (Used to build the Achievement Data localization for pre-Wrath Achievements (TODO))  
+- Retail: Fixed Lua error for professions without a spellID  
+- Uldum: Added coords to auto-accept quests  
+- Uldum: Battle Pets  
+- remove dummy select(1,..) function.  
+- Migrate GetSpellName.  
+- Some updates.  

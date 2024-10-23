@@ -1,2 +1,2 @@
-## 5.1.7 (2024-10-16)
-  - Necrotic Wake Skeletal Monstrosity: Increased enemy forces from 20 to 24
+## 5.2.0 (2024-10-23)
+  - Patch 10.0.5 Update

@@ -12,29 +12,18 @@ local contains, classIndex, raceIndex, factionID =
 
 -- Module locals
 local AllCaches, AllGamePatches, postscripts, runners, QuestTriggers = {}, {}, {}, {}, {};
-local containerMeta = {
-	__index = function(t, id)
-		if id then
-			local container = {};
-			t[id] = container;
-			return container;
-		end
-	end,
-};
 local fieldMeta = {
 	__index = function(t, field)
-		if field then
-			local container = setmetatable({}, containerMeta);
-			t[field] = container;
-			return container;
-		end
+		if field == nil then return end
+		local container = setmetatable({}, app.MetaTable.AutoTable);
+		t[field] = container;
+		return container;
 	end,
 	__newindex = function(t, field, value)
-		if field then
-			local container = setmetatable(value, containerMeta);
-			rawset(t, field, container);
-			return container;
-		end
+		if field == nil then return end
+		local container = setmetatable(value, app.MetaTable.AutoTable);
+		rawset(t, field, container);
+		return container;
 	end,
 };
 local currentCache, CacheFields;
@@ -1123,8 +1112,8 @@ local function GenerateSourcePath(group, l, skip)
 			if group.headerID then
 				if group.headerID == app.HeaderConstants.ZONE_DROPS then
 					if group.crs and #group.crs == 1 then
-						local cr = group.crs[1];
-						return GenerateSourcePath(parent, l + 1, skip) .. DESCRIPTION_SEPARATOR .. (app.NPCNameFromID[cr] or RETRIEVING_DATA) .. " (Drop)";
+						local creatureID = group.crs[1];
+						return GenerateSourcePath(parent, l + 1, skip) .. DESCRIPTION_SEPARATOR .. (app.NPCNameFromID[creatureID] or RETRIEVING_DATA) .. " (Drop)";
 					end
 					return GenerateSourcePath(parent, l + 1, skip) .. DESCRIPTION_SEPARATOR .. (group.text or RETRIEVING_DATA);
 				end

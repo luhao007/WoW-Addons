@@ -1,12 +1,14 @@
 ## Interface: 110002
 ## Author: Gello
-## Version: 5.2.4
+## Version: 5.2.5
 
 ## Title: Rematch
 ## Notes: A pet journal alternative for managing pets and teams
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物对战增强|r |cFFFFE00ARematch|r
 
 ## IconTexture: Interface\AddOns\Rematch\textures\icon
+
+## AddonCompartmentFunc: RematchToggleWindow
 
 ## SavedVariables: Rematch5Settings, Rematch5SavedTeams, Rematch5SavedGroups, Rematch5SavedTargets, Rematch4Saved, Rematch4Settings, RematchSaved, RematchSettings
 
