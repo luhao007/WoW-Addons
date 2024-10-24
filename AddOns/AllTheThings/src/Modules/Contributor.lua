@@ -142,6 +142,7 @@ local MobileNPCDB = {
 	 [64337] = true,	-- Nomi
 	 [67153] = true,	-- Zin'Jun
 	 [77789] = true,	-- Blingtron 5000
+	 [83858] = true,	-- Khadgar's Servant
 	 [87991] = true,	-- Cro Threadstrong
 	 [87992] = true,	-- Olaf
 	 [87994] = true,	-- Moroes <Tower Steward>
@@ -175,6 +176,7 @@ local MobileNPCDB = {
 	[191494] = true,	-- Khanam Matra Sarest
 	[193985] = true,	-- Initiate Zorig
 	[209681] = true,	-- Squally
+	[220859] = true,	-- Amy Lychenstone
 	[221867] = true,	-- Mereldar Child
 	[221980] = true,	-- Faerin Lothar
 }

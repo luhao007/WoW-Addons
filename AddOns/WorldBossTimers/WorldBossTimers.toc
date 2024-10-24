@@ -1,10 +1,15 @@
-## Interface: 110005
-## Title: WorldBossTimers
-## Notes: Creates timers for world bosses
+## Interface: 110002
 ## Author: Soulstorm
 ## Version: v1.12.15
-## SavedVariables: WorldBossTimersDB
+
+## Title: WorldBossTimers
+## Notes: Creates timers for world bosses
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF世界首领计时器|r |cFFFFE00AWorldBossTimers|r
+
 ## IconTexture: 656169
+
+## SavedVariables: WorldBossTimersDB
+
 
 embeds.xml
 
@@ -15,4 +20,3 @@ GUI.lua
 Options.lua
 KillInfo.lua
 WorldBossTimers.lua
-

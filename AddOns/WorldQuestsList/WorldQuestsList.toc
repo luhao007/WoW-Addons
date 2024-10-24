@@ -1,9 +1,11 @@
 ## Interface: 110002
 ## Author: ykiigor
-## Version: 113
+## Version: 114
 
 ## Title: World Quests List
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF世界任务列表|r |cFFFFE00AWorldQuestsList|r
+
+## IconAtlas: questlog-questtypeicon-weekly
 
 ## SavedVariables: VWQL
 

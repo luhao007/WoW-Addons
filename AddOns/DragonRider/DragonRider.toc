@@ -5,7 +5,7 @@
 ## Title: Dragon Rider
 ## Notes: Displays a speedometer paired with the vigor bar and some other dragonriding-related options.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF龙骑士|r |cFFFFE00ADragonRider|r
-## Notes-zhCN: 提供驭龙术速度显示，驭龙术比赛计时等驭龙术有关的内容。
+## Notes-zhCN: 显示与活力条和其他一些与龙骑术相关的选项配对的速度计。
 
 ## IconTexture: Interface/Icons/ability_dragonriding_glyph01.blp
 

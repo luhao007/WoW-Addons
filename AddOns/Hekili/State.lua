@@ -4574,21 +4574,24 @@ do
                 return defaultValue
             end
 
-            state.variable[ var ] = defaultValue
+            local value
 
             local data = db[ var ]
             local parent = state.scriptID
+            local which_mod = "value"
 
             -- If we're checking variable with no script loaded, don't bother.
             if not parent or parent == "NilScriptID" then return 0 end
 
-            local value = defaultValue
-
-            local which_mod = "value"
-
             for i, entry in ipairs( data ) do
                 local scriptID = entry.id
                 local currPath = entry.fullPath .. ":" .. now
+
+                value = rawget( state.variable, var )
+                if value == nil then
+                    state.variable[ var ] = defaultValue
+                    value = defaultValue
+                end
 
                 -- Check the requirements/exclusions in the APL stack.
                 if pathState[ currPath ] == nil then
@@ -4618,6 +4621,7 @@ do
 
                     if cache[ var ][ pathKey ] ~= nil then
                         value = cache[ var ][ pathKey ]
+                        state.variable[ var ] = value
 
                     else
                         state.scriptID = scriptID
@@ -4707,7 +4711,7 @@ do
                         -- Cache the value in case it is an intermediate value (i.e., multiple calculation steps).
                         if debug then
                             conditions = format( "%s: %s", passed and "PASS" or "FAIL", scripts:GetConditionsAndValues( scriptID ) )
-                            valueString = format( "%s: %s", state.args.value ~= nil and tostring( state.args.value ) or "nil", scripts:GetModifierValues( "value", scriptID ) )
+                            valueString = format( "%s: %s", value ~= nil and tostring( value ) or "nil", scripts:GetModifierValues( "value", scriptID ) )
 
                             Hekili:Debug( var .. " #" .. i .. " [" .. scriptID .. "]; conditions = " .. conditions .. "\n - value = " .. valueString )
                         end

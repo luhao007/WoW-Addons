@@ -936,7 +936,6 @@
 	</Addon>
 	<Addon name="DragonRider">
 		<Title>龙骑士</Title>
-		<Notes>提供驭龙术速度显示，驭龙术比赛计时等驭龙术有关的内容。</Notes>
 		<Category>功能</Category>
 	</Addon>
 	<Addon name="EditModeExpanded">
@@ -1905,6 +1904,10 @@
 	<Addon name="Wholly">
 		<Title>任务完成辅助</Title>
 		<Category>任务</Category>
+	</Addon>
+	<Addon name="WorldBossTimers">
+		<Title>世界首领计时器</Title>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="WorldQuestsList">
 		<Title>世界任务列表</Title>

@@ -2200,8 +2200,8 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 	local character, unavailable, unobtainable = {}, {}, {}
 	local showUnsorted = settings:GetTooltipSetting("SourceLocations:Unsorted");
 	local showCompleted = settings:GetTooltipSetting("SourceLocations:Completed");
-	local FilterSettings, FilterUnobtainable, FilterCharacter, FirstParent
-		= app.RecursiveGroupRequirementsFilter, app.RecursiveUnobtainableFilter, app.RecursiveCharacterRequirementsFilter, app.GetRelativeGroup
+	local FilterSettings, FilterInGame, FilterCharacter, FirstParent
+		= app.RecursiveGroupRequirementsFilter, app.Modules.Filter.Filters.InGame, app.RecursiveCharacterRequirementsFilter, app.GetRelativeGroup
 	local abbrevs = L.ABBREVIATIONS;
 	local sourcesToShow
 	-- paramB is the modItemID for itemID searches, so we may have to fallback to the base itemID if nothing sourced for the modItemID
@@ -2216,10 +2216,10 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 			and not HasCost(j, paramA, paramB)
 		then
 			text = app.GenerateSourcePathForTooltip(parent);
-			-- app.PrintDebug("SourceLocation",text,FilterUnobtainable(j),FilterSettings(parent),FilterCharacter(parent))
+			-- app.PrintDebug("SourceLocation",text,FilterInGame(j),FilterSettings(parent),FilterCharacter(parent))
 			if showUnsorted or (not text:match(L.UNSORTED) and not text:match(L.HIDDEN_QUEST_TRIGGERS)) then
 				-- doesn't meet current unobtainable filters from the Thing itself
-				if not FilterUnobtainable(j) then
+				if not FilterInGame(j) then
 					unobtainable[#unobtainable + 1] = text..UnobtainableTexture
 				else
 					-- something user would currently see in a list or not
@@ -10264,7 +10264,7 @@ customWindowUpdates.Tradeskills = function(self, force, got)
 end;
 customWindowUpdates.WorldQuests = function(self, force, got)
 	-- localize some APIs
-	local C_TaskQuest_GetQuestsForPlayerByMapID = C_TaskQuest.GetQuestsForPlayerByMapID;
+	local C_TaskQuest_GetQuestsForPlayerByMapID = C_TaskQuest.GetQuestsOnMap;
 	local C_QuestLine_RequestQuestLinesForMap = C_QuestLine.RequestQuestLinesForMap;
 	local C_QuestLine_GetAvailableQuestLines = C_QuestLine.GetAvailableQuestLines;
 	local C_Map_GetMapChildrenInfo = C_Map.GetMapChildrenInfo;
@@ -10412,13 +10412,14 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				local mapID = mapObject.mapID;
 				if not mapID then return; end
 				local pois = C_TaskQuest_GetQuestsForPlayerByMapID(mapID);
-				-- print(#pois,"WQ in",mapID);
+				-- app.PrintDebug(#pois,"WQ in",mapID);
 				if pois then
 					for i,poi in ipairs(pois) do
 						-- only include Tasks on this actual mapID since each Zone mapID is checked individually
-						if poi.mapID == mapID and not AddedQuestIDs[poi.questId] then
-							AddedQuestIDs[poi.questId] = true
-							local questObject = GetPopulatedQuestObject(poi.questId);
+						if poi.mapID == mapID and not AddedQuestIDs[poi.questID] then
+							-- app.PrintTable(poi)
+							AddedQuestIDs[poi.questID] = true
+							local questObject = GetPopulatedQuestObject(poi.questID);
 							if questObject then
 								if self.includeAll or
 									-- include the quest in the list if holding shift and tracking quests
@@ -10428,7 +10429,7 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 									-- or if it has time remaining
 									(questObject.timeRemaining or 0 > 0)
 								then
-									-- if poi.questId == 78663 then
+									-- if poi.questID == 78663 then
 									-- 	app.print("WQ",questObject.questID,questObject.g and #questObject.g);
 									-- end
 									-- add the map POI coords to our new quest object
@@ -10440,7 +10441,7 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 									-- if not self.retry and questObject.missingData then self.retry = true; end
 								end
 							end
-						-- else app.PrintDebug("Skipped WQ",mapID,poi.mapID,poi.questId)
+						-- else app.PrintDebug("Skipped WQ",mapID,poi.mapID,poi.questID)
 						end
 					end
 				end
@@ -10955,14 +10956,14 @@ app.LoadDebugger = function()
 						for i=1,numItems,1 do
 							local link = GetMerchantItemLink(i);
 							if link then
-								local name, texture, cost, quantity, numAvailable, isPurchasable, isUsable, extendedCost = GetMerchantItemInfo(i);
+								local merchItemIno = C_MerchantFrame.GetItemInfo(i);
 								-- Parse as an ITEM LINK.
-								local item = { ["itemID"] = tonumber(link:match("item:(%d+)")), ["rawlink"] = link, ["cost"] = cost };
-								if extendedCost then
-									cost = {};
+								local item = { ["itemID"] = tonumber(link:match("item:(%d+)")), ["rawlink"] = link, ["cost"] = merchItemIno.price };
+								if merchItemIno.hasExtendedCost then
+									local cost = {};
 									local itemCount = GetMerchantItemCostInfo(i);
 									for j=1,itemCount,1 do
-										local itemTexture, itemValue, itemLink = GetMerchantItemCostItem(i, j);
+										local _, itemValue, itemLink = GetMerchantItemCostItem(i, j);
 										if itemLink then
 											-- print("  ", itemValue, itemLink, gsub(itemLink, "\124", "\124\124"));
 											local m = itemLink:match("currency:(%d+)");

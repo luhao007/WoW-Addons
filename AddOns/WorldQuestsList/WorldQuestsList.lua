@@ -1,4 +1,4 @@
-local VERSION = 113
+local VERSION = 114
 
 --[[
 Special icons for rares, pvp or pet battle quests in list
@@ -387,7 +387,7 @@ if not GetNumQuestLogRewardCurrencies then
 		if not data then
 			return
 		end
-		return data.name, data.texture, data.baseRewardAmount, data.currencyID
+		return data.name, data.texture, data.totalRewardAmount, data.currencyID
 		--data.totalRewardAmount
 	end
 end
@@ -2062,7 +2062,7 @@ do
 		for mapID,mapCoord in pairs(mapCoords) do
 			local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
 			for _,info in pairs(taskInfo or WorldQuestList.NULLTable) do
-				if info.questId == questID then
+				if info.questID == questID then
 					cache[questID] = {
 						mapCoord[1] + (info.x or -1) * (mapCoord[3]-mapCoord[1]),
 						mapCoord[2] + (info.y or -1) * (mapCoord[4]-mapCoord[2]),
@@ -2076,11 +2076,11 @@ do
 		for mapID,mapCoord in pairs(mapCoords) do
 			local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
 			for _,info in pairs(taskInfo or WorldQuestList.NULLTable) do
-				if info.questId == questID then
+				if info.questID == questID then
 					if info.mapID then
 						local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(info.mapID)
 						for _,info in pairs(taskInfo or WorldQuestList.NULLTable) do
-							if info.questId == questID then
+							if info.questID == questID then
 								return info.x, info.y, info.mapID
 							end
 						end
@@ -2242,6 +2242,7 @@ do
 		if list[currencyID or 0] then
 			return true
 		elseif C_CurrencyInfo.GetFactionGrantedByCurrency(currencyID) then
+			list[currencyID] = C_CurrencyInfo.GetFactionGrantedByCurrency(currencyID)
 			return true
 		else
 			return false
@@ -5294,13 +5295,13 @@ local function WorldQuestList_Leveling_Update()
 	local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(currMapID)
 	if UnitLevel'player' < 50 then
 		for _,info in pairs(taskInfo or WorldQuestList.NULLTable) do
-			if HaveQuestData(info.questId) and QuestUtils_IsQuestWorldQuest(info.questId) then
-				local _,_,worldQuestType,rarity, isElite, tradeskillLineIndex, allowDisplayPastCritical = GetQuestTagInfo(info.questId)
+			if HaveQuestData(info.questID) and QuestUtils_IsQuestWorldQuest(info.questID) then
+				local _,_,worldQuestType,rarity, isElite, tradeskillLineIndex, allowDisplayPastCritical = GetQuestTagInfo(info.questID)
 
 				quests[#quests+1] = {
-					title = C_TaskQuest.GetQuestInfoByQuestID(info.questId),
+					title = C_TaskQuest.GetQuestInfoByQuestID(info.questID),
 					header = MAP_UNDER_INVASION,
-					questID = info.questId,
+					questID = info.questID,
 					isCompleted = false,
 					isInvasion = worldQuestType == LE.LE_QUEST_TAG_TYPE_INVASION,
 					isElite = isElite,
@@ -5314,7 +5315,7 @@ local function WorldQuestList_Leveling_Update()
 	
 	for i, questData in ipairs(quests) do
 		for _,info in pairs(taskInfo or WorldQuestList.NULLTable) do
-			if info.questId == questData.questID then
+			if info.questID == questData.questID then
 				questData.x = info.x
 				questData.y = info.y
 				break
@@ -5636,7 +5637,7 @@ local function WorldQuestList_Treasure_Update()
 						x = x,
 						y = y,
 						mapID = currMapID,
-						questId = -i,
+						questID = -i,
 					},
 					reward = rewardText,
 					rewardColor = rewardColor,
@@ -5944,7 +5945,7 @@ end
 function WorldQuestList:GetRadiantWQPosition(info,result)
 	local count,self_pos = 0
 	for i=1,#result do
-		if result[i].info and result[i].info.x == info.x and result[i].info.y == info.y and result[i].info.questId then
+		if result[i].info and result[i].info.x == info.x and result[i].info.y == info.y and result[i].info.questID then
 			count = count + 1
 		end
 		if info == result[i].info then
@@ -5966,7 +5967,7 @@ function WorldQuestList:GetLinearWQPosition(info,result,direction)
 	direction = direction or 1
 	local count,self_pos = 0
 	for i=1,#result do
-		if result[i].info and result[i].info.x == info.x and result[i].info.y == info.y and result[i].info.questId then
+		if result[i].info and result[i].info.x == info.x and result[i].info.y == info.y and result[i].info.questID then
 			count = count + 1
 		end
 		if info == result[i].info then
@@ -6237,7 +6238,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 				if moddedMap then
 					info.x,info.y = nil
 					for i=1,#moddedMap do
-						if info.questId == moddedMap[i].questId then
+						if info.questID == moddedMap[i].questID then
 							info.x,info.y = moddedMap[i].x,moddedMap[i].y
 							break
 						end
@@ -6375,7 +6376,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 							local x,y = C_TaskQuest.GetQuestLocation(threatQuests[j],mapAreaID)
 							tinsert(taskInfo,{
 								mapID = threatMaps[i],
-								questId = threatQuests[j],
+								questID = threatQuests[j],
 								x = x,
 								y = y,
 								forced = true,
@@ -6484,7 +6485,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 	local totalQuestsNumber = 0
 	if ( numTaskPOIs > 0 ) then
 		for i_info, info  in pairs(taskInfo) do if type(i_info)=='number' then
-			local questID = info.questId
+			local questID = info.questID
 			if HaveQuestData(questID) and (QuestUtils_IsQuestWorldQuest(questID) or info.forced) and (VWQL[charKey].ignoreIgnore or not VWQL.Ignore[questID]) then
 				local isNewQuest = not VWQL[charKey].Quests[ questID ] or (TableQuestsViewed_Time[ questID ] and TableQuestsViewed_Time[ questID ] > currTime)
 
@@ -6532,7 +6533,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 
 				local _,_,worldQuestType,rarity, isElite, tradeskillLineIndex, allowDisplayPastCritical = GetQuestTagInfo(questID)
 
-				if DEBUG then
+				if DEBUG or WQL_DEBUG then
 					debugLine = debugLine .. "QuestID: "..questID..";worldQuestType: "..(worldQuestType or "")..";rarity: "..(rarity or "")..
 						";isElite: "..tostring(isElite)..";tradeskillLineIndex: "..(tradeskillLineIndex or "")..";allowDisplayPastCritical: "..tostring(allowDisplayPastCritical)..
 						"|n"
@@ -6627,7 +6628,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 						highlightFaction = true
 					end
 
-					if DEBUG then
+					if DEBUG or WQL_DEBUG then
 						debugLine = debugLine .. "Faction: ID:"..factionID..";Name:"..(factionName or "").."|n"
 					end
 				end
@@ -6718,7 +6719,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 					local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 					for i = 1, numQuestCurrencies do
 						local name, texture, numItems, currencyID = GetQuestLogRewardCurrencyInfo(i, questID)
-						if DEBUG then
+						if DEBUG or WQL_DEBUG then
 							debugLine = debugLine .. "Currency: "..name..";|T"..texture..":0|t;"..numItems..";ID:"..currencyID.."|n"
 						end
 						if C_PvP.IsWarModeDesired() and C_QuestLog.QuestCanHaveWarModeBonus(questID) and C_CurrencyInfo.DoesWarModeBonusApply(currencyID) then
@@ -7073,6 +7074,14 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 						end
 						sort(RewardListPos,RewardListSortFunc)
 
+						--swap low gold amount reward
+						if RewardListType[ RewardListPos[1] ] == (VWQL.SortPrio.gold or defSortPrio.gold)
+							and RewardListStrings[ RewardListPos[1] ]:find("\\MoneyFrame\\") 
+							and RewardListSort[ RewardListPos[1] ] <= 1000000
+							and RewardListPos[2] and RewardListType[ RewardListPos[2] ] then
+							RewardListPos[1], RewardListPos[2] = RewardListPos[2], RewardListPos[1]
+						end
+
 						rewardType = RewardListType[ RewardListPos[1] ]
 						rewardSort = RewardListSort[ RewardListPos[1] ]
 						rewardColor = RewardListColor[ RewardListPos[1] ]
@@ -7349,7 +7358,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 			WorldQuestList.IconsGeneralLastMap = mapAreaID
 			for i=1,#result do
 				local info = result[i].info
-				if info and info.questId and info.x and not result[i].showAsRegQuest then
+				if info and info.questID and info.x and not result[i].showAsRegQuest then
 					if (O.generalMapType == 3 and VWQL.ArgusMap) or 
 						(mapAreaID == 619 and info.x == 0.87 and info.y == 0.165) or 
 						((mapAreaID == 875 or mapAreaID == 876) and info.x == 0.87 and info.y == 0.12) or 
@@ -7362,17 +7371,17 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 					then
 						info = WorldQuestList:GetLinearWQPosition(info,result,3)
 					end
-					pinsToRemove[info.questId] = nil
-					local pin = WorldQuestList.WMF_activePins[info.questId]
+					pinsToRemove[info.questID] = nil
+					local pin = WorldQuestList.WMF_activePins[info.questID]
 					if pin then
 						pin:RefreshVisuals()
 						pin:SetPosition(info.x, info.y)
 
-						if WQ_provider.pingPin and WQ_provider.pingPin.questID == info.questId then
+						if WQ_provider.pingPin and WQ_provider.pingPin.questID == info.questID then
 							WQ_provider.pingPin:SetPosition(info.x, info.y)
 						end
 					else
-						WorldQuestList.WMF_activePins[info.questId] = WQ_provider:AddWorldQuest(info)
+						WorldQuestList.WMF_activePins[info.questID] = WQ_provider:AddWorldQuest(info)
 					end
 				end
 			end
@@ -7719,7 +7728,7 @@ local function UpdateDB()
 	for _,mapID in pairs(listZonesToUpdateDB) do
 		local z = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
 		for i, info  in pairs(z or WorldQuestList.NULLTable) do
-			local questID = info.questId
+			local questID = info.questID
 			if HaveQuestData(questID) and QuestUtils_IsQuestWorldQuest(questID) then
 				questsList[ questID ] = true
 			end
@@ -8316,7 +8325,7 @@ FlightMap:SetScript("OnEvent",function (self, event, arg)
 				for _,questData in pairs(mapQuests or WorldQuestList.NULLTable) do
 					for i=1,questsWatched do
 						local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(i)
-						if questID == questData.questId then
+						if questID == questData.questID then
 							x_count = x_count + 1
 							local X_icon = X_icons[x_count]
 							if not X_icon then
@@ -10128,10 +10137,6 @@ do
 						end
 					end
 					obj.WQL_questID = nil
-				end
-				if DEBUG then
-					WWW = WWW or {}
-					WWW[obj] = true
 				end
 			end
 			if isWorldMapFrame then
