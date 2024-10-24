@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: Keyboardturner
 ## Version: 0.5.0
 
@@ -19,7 +19,6 @@
 ## X-WoWI-ID: 26618
 ## X-Wago-ID: XKq9EDKy
 
-Libs/LibStub/LibStub.lua
 Libs/LibAdvFlight-1.0/lib.xml
 
 Localization.lua

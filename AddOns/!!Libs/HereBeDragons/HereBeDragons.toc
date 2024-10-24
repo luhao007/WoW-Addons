@@ -5,7 +5,6 @@
 ## X-eMail: h.leppkes@gmail.com
 ## X-Category: Library
 ## X-License: BSD
-## X-Website: http://www.wowace.com/addons/herebedragons/
 ## Version: 2.14.3-release
 ## X-Curse-Project-ID: 94348
 

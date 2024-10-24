@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: Shurshik
 
 ## Title: Raid|cff7fff7fAchievement|r - Pandaria Scenarios

@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Version: r5
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff10ff10World Bosses (BC)|r

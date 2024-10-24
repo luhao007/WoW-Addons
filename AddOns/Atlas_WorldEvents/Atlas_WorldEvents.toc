@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Version: v3.33
 
 ## Title: Atlas |r|cFF0099FF[World Events]|r

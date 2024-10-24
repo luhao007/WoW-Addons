@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: Allara
 
 ## Title: Rarity [|caaedc99fOptions|r]

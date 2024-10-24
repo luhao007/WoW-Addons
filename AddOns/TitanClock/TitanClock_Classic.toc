@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
 ## Version: 8.1.3
 

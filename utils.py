@@ -62,7 +62,8 @@ def get_platform():
 def remove_libs_in_file(path: str | Path, libs: list[str] | set[str]):
     def process(lines):
         return [line for line in lines
-                if not any(f'{lib}\\'.lower() in line.lower() for lib in libs)]
+                if not any((f'{lib}\\'.lower() in line.lower() or f'{lib}/'.lower() in line.lower())
+                            for lib in libs)]
 
     process_file(path, process)
 

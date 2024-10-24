@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: MysticalOS
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffc030c0Dungeons (Vanilla)|r

@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Version: #Details.13132.161
 
 ## Title: Details! Damage Meter

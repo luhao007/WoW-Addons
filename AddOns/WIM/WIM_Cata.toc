@@ -1,4 +1,4 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: Pazza (Bronzebeard), (Updated by Sylvanaar/MysticalOS/Humfras)
 ## Version: 3.12.4
 
