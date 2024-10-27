@@ -35,6 +35,9 @@
     Note the diagnostic could be by line, file, or workspace / project.
 --]]
 
+-- Use Linux command below to get a rough line count of a Titan release.
+-- find . -wholename "*.tga" -prune -o -wholename "*.code*" -prune -o -wholename "*.blp" -prune -o -wholename "*/libs/*" -prune -o -wholename "*/Artwork/*" -prune -o -print | xargs wc -l
+
 --====== Frames from Titan Template XML
 TitanPanelButtonTemplate = {}
 TitanPanelTextTemplate = {}

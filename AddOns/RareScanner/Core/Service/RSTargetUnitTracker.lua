@@ -13,7 +13,6 @@ local RSMapDB = private.ImportLib("RareScannerMapDB")
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
 local RSLogger = private.ImportLib("RareScannerLogger")
-local RSRoutines = private.ImportLib("RareScannerRoutines")
 local RSUtils = private.ImportLib("RareScannerUtils")
 
 -- Timers
@@ -82,7 +81,6 @@ end
 -- Routine to track NPCs
 ---============================================================================
 
-local checkUnitsRoutine
 local unitTargetFrame = CreateFrame("FRAME");
 
 local function CloseErrorPopUp()
@@ -99,22 +97,73 @@ local function CloseErrorPopUp()
     end
 end
 
-local function KeepRunningRoutine(rareScannerButton, npcIDs, mapID)
-	checkUnitsRoutine:Run(function(context, index)
-		local npcID = npcIDs[index]
-		
+local checking = false
+local function TargetUnits(rareScannerButton, mapID, npcIDs)
+	-- If already running ignore it
+	if (checking) then
+		RSLogger:PrintDebugMessage("En bucle actual,mente")
+		return
+	end
+
+	-- If tracker disabled
+	if (not RSConfigDB.IsScanningTargetUnit()) then
+		return
+	end
+	
+	-- Gets NPCs in the current map
+	local npcIDs, mapID, newMap = GetMapNpcs()
+	if (not npcIDs) then
+		RSLogger:PrintDebugMessage("Desactivado TargetUnit por no haberse obtenido NPCs para este mapa")
+		return
+	end
+	
+	checking = true
+	for _, npcID in ipairs (npcIDs) do
+		local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
+		local filtered = false
+	
 		-- If NPC is filtered
-		if (RSConfigDB.IsNpcFiltered(npcID)) then
+		if (not filtered and RSConfigDB.IsNpcFiltered(npcID)) then
+			filtered = true
 			--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por estar filtrando (completo)", npcID))
+		end
+		
 		-- If NPC zone is filtered
-		elseif (RSConfigDB.IsEntityZoneFilteredOnlyAlerts(npcID, RSConstants.NPC_VIGNETTE, mapID)) then
+		if (not filtered and RSConfigDB.IsEntityZoneFilteredOnlyAlerts(npcID, RSConstants.NPC_VIGNETTE, mapID)) then
+			filtered = true
 			--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por estar filtrando su zona [%s]", npcID, mapID))
+		end
+		
 		-- If NPC is recently seen
-		elseif (recentlySeen[npcID]) then
+		if (not filtered and recentlySeen[npcID]) then
+			filtered = true
 			--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por haberse encontrado recientemente", npcID))
-		-- Otherwise try to find it
-		else
-			local npcName = RSNpcDB.GetNpcName(npcIDs[index])
+		end
+		
+		-- If NPC has quest completed
+		if (npcInfo and npcInfo.questID) then
+			for _, questID in ipairs(npcInfo.questID) do
+				if (C_QuestLog.IsQuestFlaggedCompleted(questID)) then
+					filtered = true
+					--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por tener quest completa)", npcID))
+					break
+				end
+			end
+		end
+		
+		-- If NPC has weekly quest completed
+		if (npcInfo and npcInfo.warbandQuestID and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
+			for _, questID in ipairs(npcInfo.warbandQuestID) do
+				if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+					filtered = true
+					--RSLogger:PrintDebugMessage(string.format("Desactivado TargetUnit para este NPC [%s] por tener quest semanal completa)", npcID))
+					break
+				end
+			end
+		end
+		
+		if (not filtered) then
+			local npcName = RSNpcDB.GetNpcName(npcID)
 			if (npcName) then
 				TargetUnit(npcName)
 				if (npcFound) then
@@ -129,36 +178,8 @@ local function KeepRunningRoutine(rareScannerButton, npcIDs, mapID)
 				end
 			end
 		end
-	end)
-end
-
-local function CheckUnits(rareScannerButton)
-	-- If tracker disabled
-	if (not RSConfigDB.IsScanningTargetUnit()) then
-		return
 	end
-
-	-- Gets NPCs in the current map
-	local npcIDs, mapID, newMap = GetMapNpcs()
-	if (not npcIDs) then
-		RSLogger:PrintDebugMessage("Desactivado TargetUnit por no haberse obtenido NPCs para este mapa")
-		return
-	end
-	
-	-- Reset routine for new map
-	if (newMap) then
-		if (not checkUnitsRoutine) then
-			checkUnitsRoutine = RSRoutines.LoopIndexRoutineNew()
-		end
-		checkUnitsRoutine:Init(function() return npcIDs end, 30)
-		checkUnitsRoutine:Reset()
-	-- Keep reusing the same routine
-	elseif (checkUnitsRoutine:IsRunning()) then
-		KeepRunningRoutine(rareScannerButton, npcIDs, mapID)
-		return
-	end
-	
-	checkUnitsRoutine:Reset()
+	checking = false
 end
 
 ---============================================================================
@@ -173,8 +194,11 @@ function RSTargetUnitTracker.Init(rareScannerButton)
 		end
 	end)
 	
+	-- Mutes the dialog sound
+	MuteSoundFile(RSConstants.ERROR_SOUND_ID)
+	
 	C_Timer.NewTicker(RSConstants.CHECK_TARGETS_TIMER, function()
-		CheckUnits(rareScannerButton)
+		TargetUnits(rareScannerButton)
 	end)
 	
 	C_Timer.NewTicker(RSConstants.CHECK_RESET_RECENTLY_SEEN_TIMER, function()

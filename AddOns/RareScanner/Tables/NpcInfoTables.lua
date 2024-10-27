@@ -241,7 +241,7 @@ private.NPC_INFO = {
 	[51007] = { zoneID = 15, artID = { 16 }, x = 2760, y = 3800, overlay = { "2640-3800","2760-3800" }, displayID = 46252 }; --Serkett
 	[51018] = { zoneID = 15, artID = { 16 }, x = 5180, y = 3420, overlay = { "5140-3420" }, displayID = 19996 }; --Zormus
 	[51021] = { zoneID = 15, artID = { 16 }, x = 2320, y = 3760, overlay = { "2180-3740","2320-3720" }, displayID = 20910 }; --Vorticus
-	[121818] = { zoneID = 17, artID = { 18 }, x = 3233, y = 4905, overlay = { "3233-4905","3220-4740","3220-5060","3300-4460","3320-4620","3360-4820","3360-4960","3460-4640" }, displayID = 12449, questReset = true, questID = { 47461 }, event = 7 }; --Lord Kazzak
+	[121818] = { zoneID = 17, artID = { 18,628 }, x = 3233, y = 4905, overlay = { "3233-4905","3220-4740","3220-5060","3300-4460","3320-4620","3360-4820","3360-4960","3460-4640" }, displayID = 12449, questReset = true, questID = { 47461 }, event = 7 }; --Lord Kazzak
 	[45257] = { zoneID = 17, artID = { 18 }, x = 6065, y = 3505, overlay = { "6040-2920","6065-3505" }, displayID = 6786 }; --Mordak Nightbender
 	[45258] = { zoneID = 17, artID = { 18 }, x = 6065, y = 7523, overlay = { "6040-7540" }, displayID = 5029 }; --Cassia the Slitherqueen
 	[45260] = { zoneID = 17, artID = { 18 }, x = 3100, y = 7060, overlay = { "3100-6980" }, displayID = 12929 }; --Blackleaf
@@ -355,7 +355,7 @@ private.NPC_INFO = {
 	[51057] = { zoneID = 25, artID = { 26 }, x = 4559, y = 5380, overlay = { "4540-5240","4560-5380" }, displayID = 34898 }; --Weevil
 	[51076] = { zoneID = 25, artID = { 26 }, x = 6883, y = 5601, overlay = { "6880-5600" }, displayID = 40191 }; --Lopex
 	[107617] = { zoneID = 26, artID = { 27 }, x = 7680, y = 4980, overlay = { "4260-6180","4280-5940","4300-6380","4400-5520","4400-5960","4440-6460","4460-5360","4700-5620","4880-5920","4920-5720","5100-5560","5120-5380","5120-5900","5240-5100","5420-4540","5600-4600","5800-4660","5820-5320","5900-4880","6100-5040","6200-5400","6260-4760","6280-4500","6320-5420","6340-4240","6420-4120","6480-5720","6540-5840","6780-4700","6780-5740","6940-5060","7160-5020","7180-5180","7280-4920","7400-5460","7580-5180","7680-4980" }, displayID = 70190 }; --Ol' Muddle
-	[121821] = { zoneID = 26, artID = { 27 }, x = 6380, y = 2760, overlay = { "6100-2440","6140-2620","6200-2860","6220-2480","6220-3080","6240-2720","6380-2760","6380-2900","6440-2540" }, displayID = 15365, questReset = true, questID = { 47464 }, event = 7 }; --Lethon
+	[121821] = { zoneID = 26, artID = { 27 }, x = 6380, y = 2760, overlay = { "6100-2440","6140-2620","6200-2860","6220-2480","6220-3080","6240-2720","6380-2760","6380-2900","6440-2540" }, displayID = 15365, questReset = true, questID = { 47463 }, event = 7 }; --Lethon
 	[8210] = { zoneID = 26, artID = { 27 }, x = 6600, y = 5300, overlay = { "6600-5300" }, displayID = 37771 }; --Razortalon
 	[8211] = { zoneID = 26, artID = { 27 }, x = 1343, y = 5395, overlay = { "1320-5380" }, displayID = 11414 }; --Old Cliff Jumper
 	[8212] = { zoneID = 26, artID = { 27 }, x = 5740, y = 4300, overlay = { "5740-4300" }, displayID = 37772 }; --The Reak
@@ -376,7 +376,7 @@ private.NPC_INFO = {
 				[469] = { x = 6434, y = 2751, artID = { 481 }, overlay = { "6600-3360","6600-3720","6720-3560","6740-3400","6780-3740","6900-3440","6960-3800","6434-2751" } };
 			  }, displayID = 10278 }; --Timber
 	[1260] = { zoneID = {
-				[27] = { x = 2940, y = 4980, artID = { 28 }, overlay = { "2940-4980","4880-3780" } };
+				[27] = { x = 2940, y = 4980, artID = { 28 }, overlay = { "2940-4980" } };
 				[469] = { x = 2920, y = 6800, artID = { 481 }, overlay = { "2920-6800","2960-6600","3060-6420" } };
 			  }, displayID = 27504 }; --Great Father Arctikus
 	[8503] = { zoneID = {
@@ -450,7 +450,7 @@ private.NPC_INFO = {
 	[99] = { zoneID = 37, artID = { 41 }, x = 3080, y = 6500, overlay = { "3080-6500" }, displayID = 3320 }; --Morgaine the Sly
 	[116034] = { zoneID = 47, artID = { 52 }, x = 4960, y = 7560, overlay = { "4900-7540","4920-7680" }, displayID = 74030, event = 2 }; --The Cow King
 	[118244] = { zoneID = 47, artID = { 52 }, x = 1669, y = 5444, overlay = { "1669-5444","2300-2900","1600-6000","2431-3969","2358-7666","3023-4171" }, displayID = 74736 }; --Lightning Paw
-	[121913] = { zoneID = 47, artID = { 52 }, x = 4520, y = 3960, overlay = { "4320-3560","4340-3900","4340-4280","4360-4060","4400-3660","4420-3800","4480-3920","4480-4180","4480-4680","4500-4420","4520-3700","4520-5300","4600-3940","4620-4620","4640-3780","4640-4080","4640-4280","4700-4460","4740-3900","4740-4740","4760-4040","4760-4320","4800-4620","4840-3720","4840-4180","4860-4400","4900-4000","4920-3300","4940-4500","4960-3420","4960-3640","4980-4100","4980-4380","5000-3860","5020-3220","5060-4220" }, displayID = 15366, questReset = true, questID = { 47465 }, event = 7 }; --Emeriss
+	[121913] = { zoneID = 47, artID = { 52 }, x = 4520, y = 3960, overlay = { "4320-3560","4340-3900","4340-4280","4360-4060","4400-3660","4420-3800","4480-3920","4480-4180","4480-4680","4500-4420","4520-3700","4520-5300","4600-3940","4620-4620","4640-3780","4640-4080","4640-4280","4700-4460","4740-3900","4740-4740","4760-4040","4760-4320","4800-4620","4840-3720","4840-4180","4860-4400","4900-4000","4920-3300","4940-4500","4960-3420","4960-3640","4980-4100","4980-4380","5000-3860","5020-3220","5060-4220" }, displayID = 15366, questReset = true, questID = { 47463 }, event = 7 }; --Emeriss
 	[45739] = { zoneID = 47, artID = { 52 }, x = 9059, y = 3060, overlay = { "8940-3060","9060-3040" }, displayID = 34648 }; --The Unknown Soldier
 	[45740] = { zoneID = 47, artID = { 52 }, x = 8180, y = 5920, overlay = { "7940-6960","7940-7080","7960-6740","8060-6940","8080-6240","8080-6540","8080-6820","8120-5960" }, displayID = 34649 }; --Watcher Eva <The Restless Dead>
 	[45771] = { zoneID = 47, artID = { 52 }, x = 6519, y = 7040, overlay = { "5800-7720","5860-8000","6040-7560","6120-7300","6140-7040","6140-7180","6200-7460","6300-7300","6320-6820","6320-8340","6360-7000","6500-6860","6520-7040" }, displayID = 34669 }; --Marus <The Pack Leader>
@@ -594,7 +594,7 @@ private.NPC_INFO = {
 	[10644] = { zoneID = 63, artID = { 68 }, x = 2520, y = 2680, overlay = { "2520-2680","2620-1540" }, displayID = 165 }; --Mist Howler
 	[10647] = { zoneID = 63, artID = { 68 }, x = 8109, y = 4924, overlay = { "6660-5680","7840-4520","8100-4920" }, displayID = 11331 }; --Prince Raze
 	[12037] = { zoneID = 63, artID = { 68 }, x = 8940, y = 4640, overlay = { "8940-4640","9280-4540" }, displayID = 70188 }; --Ursol'lok
-	[121911] = { zoneID = 63, artID = { 68 }, x = 9380, y = 4140, overlay = { "9240-3920","9300-4040","9300-4240","9340-3840","9380-4140","9440-4420","9500-4020" }, displayID = 15363, questReset = true, questID = { 47466 }, event = 7 }; --Taerar
+	[121911] = { zoneID = 63, artID = { 68 }, x = 9380, y = 4140, overlay = { "9240-3920","9300-4040","9300-4240","9340-3840","9380-4140","9440-4420","9500-4020" }, displayID = 15363, questReset = true, questID = { 47463 }, event = 7 }; --Taerar
 	[3735] = { zoneID = 63, artID = { 68 }, x = 3140, y = 2239, overlay = { "3140-2240" }, friendly = { "H" }, displayID = 4156 }; --Apothecary Falthis
 	[3736] = { zoneID = 63, artID = { 68 }, x = 7240, y = 7100, overlay = { "7240-7100","7360-7360","7520-7100" }, friendly = { "H" }, displayID = 4155 }; --Darkslayer Mordenthal
 	[3773] = { zoneID = 63, artID = { 68 }, x = 2500, y = 6040, overlay = { "2500-6040" }, displayID = 1912 }; --Akkrilus
@@ -681,9 +681,9 @@ private.NPC_INFO = {
 	[50957] = { zoneID = 70, artID = { 498,75 }, x = 5408, y = 4351, overlay = { "5380-4340" }, displayID = 46285 }; --Hugeclaw
 	[51061] = { zoneID = 70, artID = { 498,75 }, x = 5011, y = 8474, overlay = { "5020-8440" }, displayID = 15339 }; --Roth-Salam
 	[51069] = { zoneID = 70, artID = { 498,75 }, x = 5595, y = 8570, overlay = { "5580-8560" }, displayID = 46290 }; --Scintillex
-	[167749] = { zoneID = 71, artID = { 76 }, x = 6293, y = 5876, overlay = { "6293-5876","6270-5000","6440-4980" }, displayID = 21435, questReset = true, questID = { 60214 }, event = 7 }; --Doomwalker
-	[226646] = { zoneID = 71, artID = { 76 }, x = 3370, y = 5571, overlay = { "3370-5571" }, displayID = 120918, questReset = true, event = 7 }; --Sha of Anger
-	[227257] = { zoneID = 71, artID = { 76 }, x = 4598, y = 2897, overlay = { "4598-2897" }, displayID = 26967, questReset = true, event = 7 }; --Archavon the Stone Watcher
+	[167749] = { zoneID = 71, artID = { 76 }, x = 6293, y = 5876, overlay = { "6293-5876","6270-5000","6440-4980" }, displayID = 21435, questReset = true, questID = { 60214 }, event = 7 }; --Doomwalker 85723
+	[226646] = { zoneID = 71, artID = { 76 }, x = 3370, y = 5571, overlay = { "3370-5571" }, displayID = 120918, questReset = true, questID = { 84282 }, event = 7 }; --Sha of Anger
+	[227257] = { zoneID = 71, artID = { 76 }, x = 4598, y = 2897, overlay = { "4598-2897" }, displayID = 26967, questReset = true, questID = { 84256 }, event = 7 }; --Archavon the Stone Watcher
 	[39183] = { zoneID = 71, artID = { 76 }, x = 4954, y = 5873, overlay = { "4940-5840" }, displayID = 31351 }; --Scorpitar
 	[39185] = { zoneID = 71, artID = { 76 }, x = 4014, y = 6746, overlay = { "4000-6780" }, displayID = 31352 }; --Slaverjaw
 	[39186] = { zoneID = 71, artID = { 76 }, x = 4450, y = 4031, overlay = { "4080-4120","4450-4031" }, displayID = 45946 }; --Hellgazer
@@ -1127,7 +1127,7 @@ private.NPC_INFO = {
 	[50992] = { zoneID = 525, artID = { 542 }, x = 6459, y = 5200, overlay = { "2240-6600","5160-5040","5780-2040","5840-1920","6340-7960","6360-8100","6440-5240" }, displayID = 61218 }; --Gorok
 	[71665] = { zoneID = 525, artID = { 542 }, x = 5471, y = 2237, overlay = { "5460-2220" }, displayID = 52167, reset = false, questID = { 32918 } }; --Giant-Slayer Kul
 	[71721] = { zoneID = 525, artID = { 542 }, x = 3380, y = 2300, overlay = { "3380-2300" }, displayID = 49096, questID = { 32941 } }; --Canyon Icemother
-	[72156] = { zoneID = 525, artID = { 542 }, x = 6260, y = 4240, overlay = { "6260-4240" }, displayID = 52424, questID = { 33511 } }; --Borrok the Devourer
+	[72156] = { zoneID = 525, artID = { 542 }, x = 6260, y = 4240, overlay = { "6260-4240" }, displayID = 52424, reset = false, questID = { 33511 } }; --Borrok the Devourer
 	[72294] = { zoneID = 525, artID = { 542 }, x = 4159, y = 4859, overlay = { "4040-4700","4140-4840","4160-4640" }, displayID = 38175, reset = false, questID = { 33014 } }; --Cindermaw
 	[72364] = { zoneID = 525, artID = { 542 }, x = 7100, y = 2740, overlay = { "7080-2760" }, displayID = 49769, questID = { 37562 } }; --Gorg'ak the Lava Guzzler
 	[74613] = { zoneID = 525, artID = { 542 }, x = 6660, y = 3160, overlay = { "6500-3160","6660-3160" }, displayID = 54953, reset = false, questID = { 33843 } }; --Broodmother Reeg'ak
@@ -1248,14 +1248,14 @@ private.NPC_INFO = {
 	[77614] = { zoneID = 535, artID = { 552 }, x = 4620, y = 5500, overlay = { "4620-5500" }, displayID = 47651, reset = false, questID = { 34145 } }; --Frenzied Golem <Vortex, Arcane Enchanted, Dampening>
 	[77620] = { zoneID = 535, artID = { 552 }, x = 3760, y = 7040, overlay = { "3740-7040" }, displayID = 53979, reset = false, questID = { 34165 } }; --Cro Fleshrender
 	[77626] = { zoneID = 535, artID = { 552 }, x = 7840, y = 5080, overlay = { "7540-5080","7660-5040","7720-5160","7800-5040" }, displayID = 58713, reset = false, questID = { 34167 } }; --Hen-Mother Hami
-	[77634] = { zoneID = 535, artID = { 552 }, x = 5900, y = 8740, overlay = { "5880-8760" }, displayID = 54564, questID = { 34171 } }; --Taladorantula
-	[77664] = { zoneID = 535, artID = { 552 }, x = 3660, y = 9600, overlay = { "3640-9600" }, friendly = { "A","H" }, displayID = 61239, questID = { 34182 } }; --Aarko
+	[77634] = { zoneID = 535, artID = { 552 }, x = 5900, y = 8740, overlay = { "5880-8760" }, displayID = 54564, reset = false, questID = { 34171 } }; --Taladorantula
+	[77664] = { zoneID = 535, artID = { 552 }, x = 3660, y = 9600, overlay = { "3640-9600" }, friendly = { "A","H" }, displayID = 61239, reset = false, questID = { 34182 } }; --Aarko
 	[77715] = { zoneID = 535, artID = { 552 }, x = 6519, y = 4300, overlay = { "6020-4780","6100-4600","6120-4480","6140-4920","6220-4720","6240-4440","6360-4360","6360-4500","6520-4300" }, displayID = 52415, questID = { 34185 }, reset = false }; --Hammertooth
 	[77719] = { zoneID = 535, artID = { 552 }, x = 3320, y = 6360, overlay = { "3040-6420","3220-6360","3220-6560","3280-6240" }, displayID = 59748, reset = false, questID = { 34189 } }; --Glimmerwing
 	[77741] = { zoneID = 535, artID = { 552 }, x = 5940, y = 5959, overlay = { "5940-5940" }, displayID = 59725, reset = false, questID = { 34196 } }; --Ra'kahn
 	[77750] = { zoneID = 535, artID = { 552 }, x = 7860, y = 5560, overlay = { "7780-5660","7860-5560" }, displayID = 56084 }; --Kaavu the Crimson Claw
 	[77776] = { zoneID = 535, artID = { 552 }, x = 6960, y = 3360, overlay = { "6940-3320" }, displayID = 54079, reset = false, questID = { 34205 } }; --Wandering Vindicator
-	[77784] = { zoneID = 535, artID = { 552 }, x = 4920, y = 9231, overlay = { "4900-9200" }, displayID = 54092, questID = { 34208 } }; --Lo'marg Jawcrusher
+	[77784] = { zoneID = 535, artID = { 552 }, x = 4920, y = 9231, overlay = { "4900-9200" }, displayID = 54092, reset = false, questID = { 34208 } }; --Lo'marg Jawcrusher
 	[77795] = { zoneID = 535, artID = { 552 }, x = 3420, y = 5700, overlay = { "3420-5700" }, displayID = 39019, reset = false, questID = { 34221 } }; --Echo of Murmur
 	[77828] = { zoneID = 535, artID = { 552 }, x = 3400, y = 5720, overlay = { "3400-5720" }, friendly = { "A","H" }, displayID = 39019, reset = false, questID = { 34221 } }; --Echo of Murmur
 	[78710] = { zoneID = 535, artID = { 552 }, x = 5660, y = 6619, overlay = { "5620-6540","5640-6320","5640-6680" }, displayID = 18531, reset = false, questID = { 35219 } }; --Kharazos the Triumphant
@@ -1286,10 +1286,10 @@ private.NPC_INFO = {
 	[88083] = { zoneID = 535, artID = { 552 }, x = 4399, y = 2822, overlay = { "4340-2660","4380-2780","4400-2980","4460-2680","4540-3080","4560-2780","4640-2880","4680-3100","4720-2980","4760-2860" }, displayID = 60729, questID = { 37337 } }; --Soulbinder Naylana <Sargerei War Council>
 	[88436] = { zoneID = 535, artID = { 552 }, x = 3740, y = 4268, overlay = { "3640-4040","3720-4220","3760-4040" }, displayID = 60902, questID = { 37350 } }; --Vigilant Paarthos <Protector of Shattrath>
 	[88494] = { zoneID = 535, artID = { 552 }, x = 3796, y = 2080, overlay = { "3800-2040" }, displayID = 60931, questID = { 37342 } }; --Legion Vanguard
-	[79543] = { zoneID = 537, artID = { 554 }, x = 6920, y = 2360, overlay = { "6620-2460","6920-2360" }, displayID = 58984, questID = { 34671 } }; --Shirzir
+	[79543] = { zoneID = 537, artID = { 554 }, x = 6920, y = 2360, overlay = { "6620-2460","6920-2360" }, displayID = 58984, reset = false, questID = { 34671 } }; --Shirzir
 	[50883] = { zoneID = 539, artID = { 556 }, x = 5680, y = 5220, overlay = { "3860-3700","3960-3500","4240-3080","4320-3260","4420-4320","4580-6740","5320-3020","5620-5200" }, displayID = 61221 }; --Pathrunner
 	[72362] = { zoneID = 539, artID = { 556 }, x = 3220, y = 3500, overlay = { "3220-3500" }, displayID = 53720, reset = false, questID = { 33039 } }; --Ku'targ the Voidseer
-	[72537] = { zoneID = 539, artID = { 556 }, x = 3768, y = 1440, overlay = { "3740-1440" }, displayID = 55451, questID = { 33055 } }; --Leaf-Reader Kurri
+	[72537] = { zoneID = 539, artID = { 556 }, x = 3768, y = 1440, overlay = { "3740-1440" }, displayID = 55451, reset = false, questID = { 33055 } }; --Leaf-Reader Kurri
 	[72606] = { zoneID = 539, artID = { 556 }, x = 5280, y = 5080, overlay = { "5280-5080" }, displayID = 53607, reset = false, questID = { 34068 } }; --Rockhoof
 	[74206] = { zoneID = 539, artID = { 556 }, x = 4080, y = 4440, overlay = { "4080-4440" }, displayID = 55523, reset = false, questID = { 33043 } }; --Killmaw
 	[75071] = { zoneID = 539, artID = { 556 }, x = 4400, y = 5740, overlay = { "4380-5760" }, displayID = 53061, reset = false, questID = { 33642 } }; --Mother Om'ra <Chieftain>
@@ -1300,7 +1300,7 @@ private.NPC_INFO = {
 	[76380] = { zoneID = 539, artID = { 556 }, x = 3320, y = 3520, overlay = { "3320-3520" }, displayID = 54744, questID = { 33664 } }; --Gorum
 	[77085] = { zoneID = 539, artID = { 556 }, x = 4859, y = 4360, overlay = { "4840-4340" }, displayID = 35903, reset = false, questID = { 33064 } }; --Dark Emanation
 	[77140] = { zoneID = 539, artID = { 556 }, x = 4159, y = 3279, overlay = { "2920-3080","2960-3220","3000-2960","3100-3220","3120-2860","3200-3300","3260-2800","3320-3360","3420-2820","3520-2900","3540-3500","3660-3580","3720-2960","3820-3660","3960-3640","4040-3540","4120-3080","4140-3280" }, displayID = 60896, reset = false, questID = { 33061 } }; --Amaukwa <The Breath of Moon>
-	[77310] = { zoneID = 539, artID = { 556 }, x = 4479, y = 2079, overlay = { "4440-2100" }, displayID = 57479, questID = { 35906 } }; --Mad "King" Sporeon
+	[77310] = { zoneID = 539, artID = { 556 }, x = 4479, y = 2079, overlay = { "4440-2100" }, displayID = 57479, reset = false, questID = { 35906 } }; --Mad "King" Sporeon
 	[79524] = { zoneID = 539, artID = { 556 }, x = 3760, y = 4900, overlay = { "3740-4880" }, displayID = 55232, questID = { 35558 } }; --Hypnocroak
 	[79686] = { zoneID = 539, artID = { 556 }, x = 6160, y = 6780, overlay = { "6140-6800" }, displayID = 54690, questID = { 34743 } }; --Silverleaf Ancient
 	[79692] = { zoneID = 539, artID = { 556 }, x = 6160, y = 6780, overlay = { "6140-6740" }, displayID = 54691, questID = { 34743 } }; --Silverleaf Ancient
@@ -1332,12 +1332,12 @@ private.NPC_INFO = {
 	[79938] = { zoneID = 542, artID = { 559 }, x = 5180, y = 3559, overlay = { "5180-3540" }, displayID = 58947, reset = false, questID = { 36478 } }; --Shadowbark
 	[80372] = { zoneID = 542, artID = { 559 }, x = 6960, y = 5380, overlay = { "6920-5380" }, displayID = 55712, questID = { 37406 } }; --Echidna
 	[80614] = { zoneID = 542, artID = { 559 }, x = 4681, y = 2324, overlay = { "4680-2300" }, displayID = 58821, reset = false, questID = { 35599 } }; --Blade-Dancer Aeryx <Rukhmar's Talon>
-	[82050] = { zoneID = 542, artID = { 559 }, x = 2960, y = 4200, overlay = { "2940-4140" }, displayID = 58892, questID = { 35334 } }; --Varasha
-	[82247] = { zoneID = 542, artID = { 559 }, x = 3620, y = 5259, overlay = { "3620-5240" }, displayID = 56921, questID = { 36129 } }; --Nas Dunberlin <Executioner>
+	[82050] = { zoneID = 542, artID = { 559 }, x = 2960, y = 4200, overlay = { "2940-4140" }, displayID = 58892, reset = false, questID = { 35334 } }; --Varasha
+	[82247] = { zoneID = 542, artID = { 559 }, x = 3620, y = 5259, overlay = { "3620-5240" }, displayID = 56921, reset = false, questID = { 36129 } }; --Nas Dunberlin <Executioner>
 	[83990] = { zoneID = 542, artID = { 559 }, x = 5197, y = 0725, overlay = { "5200-0740" }, displayID = 56656, questID = { 37394 } }; --Solar Magnifier
 	[84417] = { zoneID = 542, artID = { 559 }, x = 5391, y = 8851, overlay = { "5340-8880","5460-8840" }, displayID = 58314, questID = { 36396 } }; --Mutafen <The Shambler>
-	[84775] = { zoneID = 542, artID = { 559 }, x = 5720, y = 7380, overlay = { "5720-7380" }, displayID = 59469, questID = { 36254 } }; --Tesska the Broken
-	[84805] = { zoneID = 542, artID = { 559 }, x = 3360, y = 2200, overlay = { "3340-2200" }, displayID = 58506, questID = { 36265 } }; --Stonespite
+	[84775] = { zoneID = 542, artID = { 559 }, x = 5720, y = 7380, overlay = { "5720-7380" }, displayID = 59469, reset = false, questID = { 36254 } }; --Tesska the Broken
+	[84805] = { zoneID = 542, artID = { 559 }, x = 3360, y = 2200, overlay = { "3340-2200" }, displayID = 58506, reset = false, questID = { 36265 } }; --Stonespite
 	[84807] = { zoneID = 542, artID = { 559 }, x = 4640, y = 2860, overlay = { "4640-2840" }, displayID = 58508, reset = false, questID = { 36267 } }; --Durkath Steelmaw
 	[84810] = { zoneID = 542, artID = { 559 }, x = 6280, y = 3760, overlay = { "6280-3740" }, displayID = 59470, questID = { 36268 } }; --Kalos the Bloodbathed
 	[84833] = { zoneID = 542, artID = { 559 }, x = 6880, y = 4900, overlay = { "6880-4900" }, displayID = 60286, reset = false, questID = { 36276 } }; --Sangrikass <Spawn of Sethe>
@@ -1346,10 +1346,10 @@ private.NPC_INFO = {
 	[84856] = { zoneID = 542, artID = { 559 }, x = 6520, y = 6800, overlay = { "6420-6520","6480-6640","6520-6780" }, displayID = 52740, reset = false, questID = { 36283 } }; --Blightglow
 	[84872] = { zoneID = 542, artID = { 559 }, x = 6500, y = 5400, overlay = { "6500-5400" }, displayID = 54715, questID = { 36288 } }; --Oskiira the Vengeful
 	[84887] = { zoneID = 542, artID = { 559 }, x = 5840, y = 8419, overlay = { "5820-8440" }, displayID = 58549, questID = { 36291 } }; --Betsi Boombasket <Demolitions Expert>
-	[84890] = { zoneID = 542, artID = { 559 }, x = 5480, y = 3980, overlay = { "5480-3940" }, displayID = 58554, questID = { 36297 } }; --Festerbloom
+	[84890] = { zoneID = 542, artID = { 559 }, x = 5480, y = 3980, overlay = { "5480-3940" }, displayID = 58554, reset = false, questID = { 36297 } }; --Festerbloom
 	[84912] = { zoneID = 542, artID = { 559 }, x = 5859, y = 4500, overlay = { "5840-4520" }, displayID = 58569, reset = false, questID = { 36298 } }; --Sunderthorn <Queen of the Stingtail>
-	[84951] = { zoneID = 542, artID = { 559 }, x = 3360, y = 5880, overlay = { "3340-5880" }, displayID = 45374, questID = { 36305 } }; --Gobblefin
-	[84955] = { zoneID = 542, artID = { 559 }, x = 5645, y = 9477, overlay = { "5640-9440" }, displayID = 55723, questID = { 36306 } }; --Jiasska the Sporegorger
+	[84951] = { zoneID = 542, artID = { 559 }, x = 3360, y = 5880, overlay = { "3340-5880" }, displayID = 45374, reset = false, questID = { 36305 } }; --Gobblefin
+	[84955] = { zoneID = 542, artID = { 559 }, x = 5645, y = 9477, overlay = { "5640-9440" }, displayID = 55723, reset = false, questID = { 36306 } }; --Jiasska the Sporegorger
 	[85026] = { zoneID = 542, artID = { 559 }, x = 7260, y = 1960, overlay = { "7240-1940" }, displayID = 58618, questID = { 37358 } }; --Soul-Twister Torek
 	[85036] = { zoneID = 542, artID = { 559 }, x = 7260, y = 1939, overlay = { "7200-1960" }, displayID = 60982, questID = { 37360 } }; --Formless Nightmare
 	[85037] = { zoneID = 542, artID = { 559 }, x = 7060, y = 2420, overlay = { "7040-2380" }, displayID = 61035, questID = { 37361 } }; --Kenos the Unraveler
@@ -1357,7 +1357,7 @@ private.NPC_INFO = {
 	[85504] = { zoneID = 542, artID = { 559 }, x = 3839, y = 2797, overlay = { "3820-2780" }, displayID = 59514, reset = false, questID = { 36470 } }; --Rotcap
 	[85520] = { zoneID = 542, artID = { 559 }, x = 5280, y = 5480, overlay = { "5280-5480" }, displayID = 55425, reset = false, questID = { 36472 } }; --Swarmleaf <Keeper of the Hive>
 	[86621] = { zoneID = 542, artID = { 559 }, x = 7360, y = 4500, overlay = { "7340-4500" }, displayID = 18615 }; --Morphed Sentient
-	[86724] = { zoneID = 542, artID = { 559 }, x = 5928, y = 1484, overlay = { "5920-1500" }, displayID = 59886, questID = { 36887 } }; --Hermit Palefur
+	[86724] = { zoneID = 542, artID = { 559 }, x = 5928, y = 1484, overlay = { "5920-1500" }, displayID = 59886, reset = false, questID = { 36887 } }; --Hermit Palefur
 	[86978] = { zoneID = 542, artID = { 559 }, x = 2520, y = 2420, overlay = { "2520-2420" }, displayID = 20526, questID = { 36943 } }; --Gaze
 	[87019] = { zoneID = 542, artID = { 559 }, x = 7460, y = 4360, overlay = { "7440-4340" }, displayID = 61736, questID = { 37390 } }; --Gluttonous Giant
 	[87026] = { zoneID = 542, artID = { 559 }, x = 7440, y = 3879, overlay = { "7420-3840" }, displayID = 60199, questID = { 37391 } }; --Mecha Plunderer
@@ -1412,27 +1412,27 @@ private.NPC_INFO = {
 	[80370] = { zoneID = 550, artID = { 567 }, x = 5259, y = 9000, overlay = { "5180-8940" }, displayID = 55710, questID = { 37408 } }; --Lernaea
 	[82486] = { zoneID = 550, artID = { 567 }, x = 8880, y = 4120, overlay = { "8880-4120" }, displayID = 57034, questID = { 35623 } }; --Explorer Nozzand <Steamwheedle Preservation Society>
 	[82755] = { zoneID = 550, artID = { 567 }, x = 7360, y = 5780, overlay = { "7360-5780" }, displayID = 57245, reset = false, questID = { 35712 } }; --Redclaw the Feral
-	[82758] = { zoneID = 550, artID = { 567 }, x = 6680, y = 5120, overlay = { "6680-5120" }, displayID = 60416, questID = { 35714 } }; --Greatfeather
+	[82758] = { zoneID = 550, artID = { 567 }, x = 6680, y = 5120, overlay = { "6680-5120" }, displayID = 60416, reset = false, questID = { 35714 } }; --Greatfeather
 	[82764] = { zoneID = 550, artID = { 567 }, x = 5220, y = 5579, overlay = { "5220-5580" }, displayID = 57251, questID = { 35715 } }; --Gar'lua <The Wolfmother>
 	[82778] = { zoneID = 550, artID = { 567 }, x = 6660, y = 5660, overlay = { "6660-5640" }, displayID = 53744, reset = false, questID = { 35717 } }; --Gnarlhoof the Rabid
 	[82826] = { zoneID = 550, artID = { 567 }, x = 7700, y = 6419, overlay = { "7640-6440" }, displayID = 59990, questID = { 35735 } }; --Berserk T-300 Series Mark II <Ultimate Shredder the Second>
-	[82899] = { zoneID = 550, artID = { 567 }, x = 8459, y = 5360, overlay = { "8460-5340" }, displayID = 57365, questID = { 35778 } }; --Ancient Blademaster
+	[82899] = { zoneID = 550, artID = { 567 }, x = 8459, y = 5360, overlay = { "8460-5340" }, displayID = 57365, reset = false, questID = { 35778 } }; --Ancient Blademaster
 	[82912] = { zoneID = 550, artID = { 567 }, x = 8940, y = 7260, overlay = { "8940-7240" }, displayID = 57383, reset = false, questID = { 36051,35784 } }; --Grizzlemaw
 	[82975] = { zoneID = 550, artID = { 567 }, x = 7480, y = 1180, overlay = { "7480-1180" }, displayID = 31786, questID = { 35836 } }; --Fangler <The Lunker>
 	[83401] = { zoneID = 550, artID = { 567 }, x = 4759, y = 7060, overlay = { "4740-7020" }, displayID = 9595, reset = false, questID = { 35865 } }; --Netherspawn
-	[83409] = { zoneID = 550, artID = { 567 }, x = 4540, y = 4740, overlay = { "3900-4900","4020-4940","4120-5120","4200-5020","4300-4940","4400-4840","4520-4760" }, displayID = 60197, questID = { 35875 } }; --Ophiis
+	[83409] = { zoneID = 550, artID = { 567 }, x = 4540, y = 4740, overlay = { "3900-4900","4020-4940","4120-5120","4200-5020","4300-4940","4400-4840","4520-4760" }, displayID = 60197, reset = false, questID = { 35875 } }; --Ophiis
 	[83428] = { zoneID = 550, artID = { 567 }, x = 7060, y = 2920, overlay = { "7040-2920" }, displayID = 57702, reset = false, questID = { 35877 } }; --Windcaller Korast <Tamer of Storms>
 	[83483] = { zoneID = 550, artID = { 567 }, x = 6980, y = 4200, overlay = { "6980-4140" }, displayID = 57735, questID = { 35893 } }; --Flinthide
 	[83509] = { zoneID = 550, artID = { 567 }, x = 9320, y = 2820, overlay = { "9320-2820" }, displayID = 57758, reset = false, questID = { 35898 } }; --Gorepetal
-	[83526] = { zoneID = 550, artID = { 567 }, x = 5780, y = 8380, overlay = { "5780-8340" }, displayID = 18279, questID = { 35900 } }; --Ru'klaa
-	[83542] = { zoneID = 550, artID = { 567 }, x = 6080, y = 4759, overlay = { "6080-4760" }, displayID = 57788, questID = { 35912 } }; --Sean Whitesea <Master Highwayman>
+	[83526] = { zoneID = 550, artID = { 567 }, x = 5780, y = 8380, overlay = { "5780-8340" }, displayID = 18279, reset = false, questID = { 35900 } }; --Ru'klaa
+	[83542] = { zoneID = 550, artID = { 567 }, x = 6080, y = 4759, overlay = { "6080-4760" }, displayID = 57788, reset = false, questID = { 35912 } }; --Sean Whitesea <Master Highwayman>
 	[83591] = { zoneID = 550, artID = { 567 }, x = 6489, y = 3912, overlay = { "6500-3920" }, displayID = 56062, reset = false, questID = { 35920 } }; --Tura'aka
 	[83603] = { zoneID = 550, artID = { 567 }, x = 8060, y = 3060, overlay = { "8040-3040" }, displayID = 57398, reset = false, questID = { 35923 } }; --Hunter Blacktooth
-	[83634] = { zoneID = 550, artID = { 567 }, x = 5480, y = 6120, overlay = { "5480-6120" }, displayID = 57846, questID = { 35931 } }; --Scout Pokhar
+	[83634] = { zoneID = 550, artID = { 567 }, x = 5480, y = 6120, overlay = { "5480-6120" }, displayID = 57846, reset = false, questID = { 35931 } }; --Scout Pokhar
 	[83643] = { zoneID = 550, artID = { 567 }, x = 8120, y = 6000, overlay = { "8120-6000" }, displayID = 57848, reset = false, questID = { 35932 } }; --Malroc Stonesunder <Warsong Forward Commander>
-	[83680] = { zoneID = 550, artID = { 567 }, x = 6180, y = 6900, overlay = { "6180-6900" }, displayID = 57878, questID = { 35943 } }; --Outrider Duretha
+	[83680] = { zoneID = 550, artID = { 567 }, x = 6180, y = 6900, overlay = { "6180-6900" }, displayID = 57878, reset = false, questID = { 35943 } }; --Outrider Duretha
 	[84263] = { zoneID = 550, artID = { 567 }, x = 8380, y = 3680, overlay = { "8340-3700" }, displayID = 58234, reset = false, questID = { 36159 } }; --Graveltooth
-	[84435] = { zoneID = 550, artID = { 567 }, x = 4559, y = 1520, overlay = { "4560-1520" }, displayID = 19658, questID = { 36229 } }; --Mr. Pinchy Sr.
+	[84435] = { zoneID = 550, artID = { 567 }, x = 4559, y = 1520, overlay = { "4560-1520" }, displayID = 19658, reset = false, questID = { 36229 } }; --Mr. Pinchy Sr.
 	[86729] = { zoneID = 550, artID = { 567 }, x = 6020, y = 3859, overlay = { "6020-3840" }, displayID = 56848, reset = true }; --Direhoof
 	[86732] = { zoneID = 550, artID = { 567 }, x = 6600, y = 2440, overlay = { "6100-1220","6220-1720","6240-1440","6240-1580","6340-1980","6460-2000","6520-2140","6580-2460" }, displayID = 58621, reset = true }; --Bergruu
 	[86743] = { zoneID = 550, artID = { 567 }, x = 6419, y = 3040, overlay = { "6400-3060" }, displayID = 54470, reset = true }; --Dekorhan
@@ -2950,7 +2950,7 @@ private.NPC_INFO = {
 	[190985] = { zoneID = 2022, artID = { 1706 }, x = 2817, y = 5525, overlay = { "3183-5439","2982-5709","2660-5780","2760-6100","2880-5520","2900-5820","2940-5360","3080-5300","3120-5640","2540-6060","2620-5900","2640-6200","2720-5600","3240-5560" }, displayID = 109963, questID = { 73074 } }; --Death's Shadow
 	[190986] = { zoneID = 2022, artID = { 1706 }, x = 2780, y = 6120, overlay = { "2827-5851","2780-6120","2900-5980","2920-5680","2980-5860" }, displayID = 102630, questID = { 74040 }, factionID = { 2510 } }; --Battlehorn Pyrhus
 	[190991] = { zoneID = 2022, artID = { 1706 }, x = 3117, y = 5252, overlay = { "3021-4876","2880-5080","2960-5280","3140-5200","2840-4960","3000-5580","3060-5400","3180-5420","3000-5100" }, displayID = 107316, questID = { 74043 }, factionID = { 2510 } }; --Char
-	[191611] = { zoneID = 2022, artID = { 1706 }, x = 6417, y = 3289, overlay = { "6417-3289" }, displayID = 107559, questID = { 72838 }, factionID = { 2507 } }; --Dragonhunter Igordan
+	[191611] = { zoneID = 2022, artID = { 1706 }, x = 6417, y = 3289, overlay = { "6417-3289" }, displayID = 107559, reset = false, questID = { 72838 }, factionID = { 2507 } }; --Dragonhunter Igordan
 	[192362] = { zoneID = 2022, artID = { 1706 }, x = 6460, y = 6940, overlay = { "6460-6940" }, displayID = 103585, reset = false, questID = { 70864 } }; --Possessive Hornswog
 	[192737] = { zoneID = 2022, artID = { 1706 }, x = 3543, y = 7184, overlay = { "3935-6779","4260-7240","4720-7300","4760-7160","4800-6780","5240-6700","4980-6549","5120-6640","5320-6600","4540-7380","4840-6640","3480-7200","3660-7120","3780-6980","4120-6920","4420-7360","4200-7040","3380-7040","3860-6880","4780-6900" }, displayID = 102633, questID = { 73890 }, factionID = { 2507 } }; --Qalashi War Mammoth <Qalashi War Party>
 	[192738] = { zoneID = 2022, artID = { 1706 }, x = 4480, y = 7358, overlay = { "5323-6708","3844-6902","4783-6845","3745-7053","5296-6533","4220-7140","4840-6600","5120-6640","4120-6880","4320-7280","4640-7340","4740-7180","5000-6520","3520-7160","3660-7140","3940-6800","4520-7380","4760-6720","4000-6960","4760-7000","4180-7000","3354-7021" }, displayID = 102465, questID = { 73890 }, worldmap = true }; --Brundin the Dragonbane <Qalashi War Party>
@@ -2965,7 +2965,7 @@ private.NPC_INFO = {
 	[193148] = { zoneID = 2022, artID = { 1706 }, x = 4535, y = 3542, overlay = { "4544-3541" }, displayID = 104065, questID = { 73899 }, factionID = { 2503 } }; --Thunderous Matriarch
 	[193152] = { zoneID = 2022, artID = { 1706 }, x = 2194, y = 7718, overlay = { "2140-7654" }, displayID = 103916, questID = { 74012 }, factionID = { 2503 } }; --Massive Magmashell
 	[193154] = { zoneID = 2022, artID = { 1706 }, x = 3311, y = 7629, overlay = { "3311-7629" }, displayID = 110581, questID = { 73073 }, factionID = { 2503 } }; --Forgotten Gryphon
-	[193171] = { zoneID = 2022, artID = { 1706 }, x = 6059, y = 8285, overlay = { "6059-8285" }, displayID = 108102, questID = { 72850 }, factionID = { 2510 } }; --Terillod the Devout
+	[193171] = { zoneID = 2022, artID = { 1706 }, x = 6059, y = 8285, overlay = { "6059-8285" }, displayID = 108102, reset = false, questID = { 72850 }, factionID = { 2510 } }; --Terillod the Devout
 	[193175] = { zoneID = 2022, artID = { 1706 }, x = 3539, y = 8974, overlay = { "3454-8950","3577-8982" }, displayID = 104032, questID = { 74079 }, factionID = { 2507 } }; --Slurpo, the Incredible Snail
 	[193177] = { zoneID = 2022, artID = { 1706 }, x = 2808, y = 7887, overlay = { "3000-7820","2740-7980","2820-7800","2960-7960" }, displayID = 108103, questID = { 73902 }, factionID = { 2503 } }; --Beakers
 	[193181] = { zoneID = 2022, artID = { 1706 }, x = 4353, y = 2701, overlay = { "3960-4120","3820-3900","4280-3000","4380-2700","4520-2460","4680-2300","4840-1720","3840-4080","4000-3500","4020-3880","4260-3140","4300-2800","4740-1980","4140-3300","4420-2580","3940-3620","4815-1886","3840-3760","4760-2120","4800-1600","4040-4020","4000-3760","4540-2320" }, displayID = 101622, questID = { 73895 }, factionID = { 2511 } }; --Skewersnout <Raypier of the Deep>
@@ -3195,16 +3195,16 @@ private.NPC_INFO = {
 	[192364] = { zoneID = 2023, artID = { 1705 }, x = 8424, y = 4798, overlay = { "8420-4780" }, displayID = 107650, questID = { 73979 }, factionID = { 2503 } }; --Windscale the Stormborn
 	[192453] = { zoneID = 2023, artID = { 1705 }, x = 8356, y = 6617, overlay = { "8260-6360","8380-6560","8246-6601","8020-6320","8140-6540","8520-6140","8337-6231","8368-6109","8020-6440","8140-6340","8420-6000","8380-6420" }, displayID = 101440, questID = { 73978 }, factionID = { 2503 } }; --Vaniik the Stormtouched <Corrupted Child of Ohn'ahra>
 	[192557] = { zoneID = 2023, artID = { 1705 }, x = 6822, y = 7919, overlay = { "6822-7919" }, displayID = 110389, factionID = { 2503 } }; --Quackers the Terrible
-	[192949] = { zoneID = 2023, artID = { 1705 }, x = 4489, y = 4922, overlay = { "4487-4923" }, displayID = 105450, questID = { 72847 }, factionID = { 2503 } }; --Skaara
+	[192949] = { zoneID = 2023, artID = { 1705 }, x = 4489, y = 4922, overlay = { "4487-4923" }, displayID = 105450, reset = false, questID = { 72847 }, factionID = { 2503 } }; --Skaara
 	[192983] = { zoneID = 2023, artID = { 1705 }, x = 4318, y = 5074, overlay = { "4340-5040" }, displayID = 108030, questID = { 74095 }, factionID = { 2507 } }; --Web-Queen Ashkaz
 	[193123] = { zoneID = 2023, artID = { 1705 }, x = 5342, y = 7266, overlay = { "5342-7266" }, displayID = 103430, questID = { 74034 }, factionID = { 2511 } }; --Steamgill
 	[193128] = { zoneID = 2023, artID = { 1705 }, x = 9016, y = 4030, overlay = { "9020-4020" }, displayID = 108120, questID = { 73869 }, factionID = { 2507 } }; --Blightpaw the Depraved
-	[193133] = { zoneID = 2023, artID = { 1705 }, x = 6304, y = 4854, overlay = { "6304-4854" }, displayID = 105964, questID = { 72849 }, factionID = { 2503 } }; --Sunscale Behemoth
+	[193133] = { zoneID = 2023, artID = { 1705 }, x = 6304, y = 4854, overlay = { "6304-4854" }, displayID = 105964, reset = false, questID = { 72849 }, factionID = { 2503 } }; --Sunscale Behemoth
 	[193136] = { zoneID = 2023, artID = { 1705 }, x = 4983, y = 7700, overlay = { "4968-7649","4980-7440","5060-7560","5060-7780" }, displayID = 108083, questID = { 73893 }, factionID = { 2511 } }; --Scav Notail
 	[193140] = { zoneID = 2023, artID = { 1705 }, x = 3012, y = 6216, overlay = { "3020-6260","2975-6130" }, displayID = 104144, questID = { 72364 }, factionID = { 2507 } }; --Zarizz
 	[193142] = { zoneID = 2023, artID = { 1705 }, x = 5665, y = 8137, overlay = { "5671-8128" }, displayID = 102564, questID = { 73875 }, factionID = { 2507 } }; --Enraged Sapphire
-	[193153] = { zoneID = 2023, artID = { 1705 }, x = 2633, y = 6544, overlay = { "2635-6533" }, displayID = 105185, questID = { 72845 }, factionID = { 2510 } }; --Ripsaw the Stalker
-	[193163] = { zoneID = 2023, artID = { 1705 }, x = 2329, y = 6706, overlay = { "2284-6762","2240-6600" }, displayID = 103430, questID = { 72851 }, factionID = { 2510 } }; --Territorial Coastling
+	[193153] = { zoneID = 2023, artID = { 1705 }, x = 2633, y = 6544, overlay = { "2635-6533" }, displayID = 105185, reset = false, questID = { 72845 }, factionID = { 2510 } }; --Ripsaw the Stalker
+	[193163] = { zoneID = 2023, artID = { 1705 }, x = 2329, y = 6706, overlay = { "2284-6762","2240-6600" }, displayID = 103430, reset = false, questID = { 72851 }, factionID = { 2510 } }; --Territorial Coastling
 	[193165] = { zoneID = 2023, artID = { 1705 }, x = 2210, y = 3891, overlay = { "2240-3960","2040-3800","2140-3880" }, displayID = 108098, questID = { 73896 }, factionID = { 2510 } }; --Sparkspitter Vrak
 	[193166] = { zoneID = 2023, artID = { 1705 }, x = 2996, y = 4103, overlay = { "2996-4103" }, displayID = 108097, questID = { 74075 }, worldmap = true }; --Solethus's Gravestone
 	[193168] = { zoneID = 2023, artID = { 1705 }, x = 7437, y = 5674, overlay = { "7260-5560","7437-5674" }, displayID = 108100, questID = { 73903 }, factionID = { 2503,2510 } }; --Biryuk
@@ -3218,7 +3218,7 @@ private.NPC_INFO = {
 	[193231] = { zoneID = 2023, artID = { 1705 }, x = 9029, y = 3997, overlay = { "9000-4000" }, displayID = 104750, questID = { 73869 }, factionID = { 2507 } }; --Ancient Tundrafur
 	[193235] = { zoneID = 2023, artID = { 1705 }, x = 6157, y = 3003, overlay = { "5955-2293","6108-2470","5860-2640","6020-2640","6100-2820","6120-2940","5800-2460","5720-2560","6180-3060","6100-2300" }, displayID = 105489, questID = { 69877 }, factionID = { 2503 } }; --Oshigol
 	[193254] = { zoneID = 2023, artID = { 1705 }, x = 6609, y = 4288, overlay = { "6707-4368","6575-4321","6440-4400","6640-4220","6600-4460" }, displayID = 108129, questID = { 73904 }, factionID = { 2503 } }; --Bloodgullet
-	[193669] = { zoneID = 2023, artID = { 1705 }, x = 5991, y = 6694, overlay = { "5991-6694" }, displayID = 108251, questID = { 69968 }, factionID = { 2510 } }; --Prozela Galeshot <Stormcaller Headmaster>
+	[193669] = { zoneID = 2023, artID = { 1705 }, x = 5991, y = 6694, overlay = { "5991-6694" }, displayID = 108251, reset = false, questID = { 69968 }, factionID = { 2510 } }; --Prozela Galeshot <Stormcaller Headmaster>
 	[194409] = { zoneID = 2023, artID = { 1707,1705 }, x = 5754, y = 4762, overlay = { "5754-4762" }, displayID = 105961, minieventID = 6 }; --Ergburk
 	[194438] = { zoneID = 2023, artID = { 1705 }, x = 4941, y = 4979, overlay = { "4823-4873","4940-5000","5020-5120","5080-4940" }, displayID = 103769, questID = { 73921 }, minieventID = 6 }; --Khomuur
 	[194458] = { zoneID = 2023, artID = { 1705 }, x = 5594, y = 5102, overlay = { "5576-5069" }, displayID = 108306, questID = { 73930 }, minieventID = 6 }; --Rokzul
@@ -3280,26 +3280,26 @@ private.NPC_INFO = {
 				[2023] = { x = 7300, y = 7080, artID = { 1705 }, overlay = { "7350-7192","7300-7080","7440-7040","5695-3227" } };
 				[2024] = { x = 5480, y = 3320, artID = { 1707 }, overlay = { "5280-3300","5440-3140","5480-3320","5640-3200","5380-3000" } };
 			  }, displayID = 112030, reset = true, minieventID = 7 }; --Flamebringer Cauterizer <Crucible Guardian>
-	[186962] = { zoneID = 2024, artID = { 1707 }, x = 2362, y = 3363, overlay = { "2351-3282" }, displayID = 106017, questID = { 72836 }, factionID = { 2510 } }; --Cascade
+	[186962] = { zoneID = 2024, artID = { 1707 }, x = 2362, y = 3363, overlay = { "2351-3282" }, displayID = 106017, reset = false, questID = { 72836 }, factionID = { 2510 } }; --Cascade
 	[190244] = { zoneID = 2024, artID = { 1707 }, x = 3645, y = 3548, overlay = { "3579-3724","3651-3508","3700-3680","3960-3840","3700-3280","3820-3340","3840-3480" }, displayID = 104875, questID = { 73883 }, factionID = { 2503 } }; --Mahg the Trampler
 	[191356] = { zoneID = 2024, artID = { 1707 }, x = 5833, y = 4381, overlay = { "5820-4380" }, displayID = 103182, questID = { 73877 }, factionID = { 2511 } }; --Frostpaw
-	[192749] = { zoneID = 2024, artID = { 1707 }, x = 3677, y = 3247, overlay = { "3678-3248" }, displayID = 103643, questID = { 72846 }, factionID = { 2511 } }; --Sharpfang
+	[192749] = { zoneID = 2024, artID = { 1707 }, x = 3677, y = 3247, overlay = { "3678-3248" }, displayID = 103643, reset = false, questID = { 72846 }, factionID = { 2511 } }; --Sharpfang
 	[193116] = { zoneID = 2024, artID = { 1707 }, x = 7301, y = 2671, overlay = { "7317-2635" }, displayID = 101445, questID = { 73868 }, factionID = { 2507 } }; --Beogoka
 	[193149] = { zoneID = 2024, artID = { 1707 }, x = 2676, y = 4982, overlay = { "2649-4939","2709-4753" }, displayID = 104874, questID = { 72154 }, factionID = { 2511 } }; --Skag the Thrower
 	[193157] = { zoneID = 2024, artID = { 1707 }, x = 2767, y = 4563, overlay = { "2780-4580","2655-4650","2640-4520","2760-4780","2720-4380" }, displayID = 107559, questID = { 73873 }, factionID = { 2510 } }; --Dragonhunter Gorund
 	[193178] = { zoneID = 2024, artID = { 1707 }, x = 1347, y = 2267, overlay = { "1340-2240" }, displayID = 105638, questID = { 74058 }, factionID = { 2503 } }; --Blightfur
 	[193196] = { zoneID = 2024, artID = { 1707 }, x = 7020, y = 2523, overlay = { "7027-2492" }, displayID = 107933, questID = { 74087 }, factionID = { 2510 } }; --Trilvarus Loreweaver
 	[193201] = { zoneID = 2024, artID = { 1707 }, x = 5794, y = 5409, overlay = { "5740-5380","5820-5560","5860-5440" }, displayID = 108113, questID = { 73885 }, factionID = { 2511 } }; --Mucka the Raker
-	[193214] = { zoneID = 2024, artID = { 1707 }, x = 3817, y = 5902, overlay = { "3817-5902" }, displayID = 104019, questID = { 72840 }, factionID = { 2511 } }; --Forgotten Creation
+	[193214] = { zoneID = 2024, artID = { 1707 }, x = 3817, y = 5902, overlay = { "3817-5902" }, displayID = 104019, reset = false, questID = { 72840 }, factionID = { 2511 } }; --Forgotten Creation
 	[193223] = { zoneID = 2024, artID = { 1707 }, x = 1736, y = 4118, overlay = { "1736-4118" }, displayID = 108121, questID = { 72853 } }; --Vakril <The Strongest Tuskarr?>
 	[193225] = { zoneID = 2024, artID = { 1707 }, x = 2060, y = 4940, overlay = { "2060-4940" }, displayID = 103446, questID = { 73887 } }; --Notfar the Unbearable
 	[193238] = { zoneID = 2024, artID = { 1707 }, x = 5503, y = 3401, overlay = { "5503-3407" }, displayID = 108125, questID = { 74082 }, factionID = { 2503 } }; --Spellwrought Snowman
 	[193251] = { zoneID = 2024, artID = { 1707 }, x = 3266, y = 2916, overlay = { "3260-2920" }, displayID = 106545, questID = { 74001 }, factionID = { 2511 } }; --Gruffy
 	[193259] = { zoneID = 2024, artID = { 1707 }, x = 1666, y = 2786, overlay = { "1666-2786" }, displayID = 106536, questID = { 73870 }, factionID = { 2503 } }; --Blue Terror
 	[193269] = { zoneID = 2024, artID = { 1707 }, x = 1894, y = 4369, overlay = { "1933-4335" }, displayID = 104743, questID = { 74002 }, factionID = { 2511 } }; --Grumbletrunk
-	[193288] = { zoneID = 2024, artID = { 1707 }, x = 7014, y = 3362, overlay = { "7013-3327" }, displayID = 102563, questID = { 72848 }, factionID = { 2511 } }; --Summoned Destroyer
+	[193288] = { zoneID = 2024, artID = { 1707 }, x = 7014, y = 3362, overlay = { "7013-3327" }, displayID = 102563, reset = false, questID = { 72848 }, factionID = { 2511 } }; --Summoned Destroyer
 	[193632] = { zoneID = 2024, artID = { 1707 }, x = 5938, y = 5520, overlay = { "5940-5520","6020-5620" }, displayID = 102545, questID = { 73900 }, factionID = { 2510 } }; --Wilrive
-	[193691] = { zoneID = 2024, artID = { 1707 }, x = 4923, y = 3843, overlay = { "4946-3607","4975-3803" }, displayID = 108266, questID = { 72254 }, factionID = { 2511 } }; --Fisherman Tinnak <Angered Ghost>
+	[193691] = { zoneID = 2024, artID = { 1707 }, x = 4923, y = 3843, overlay = { "4946-3607","4975-3803" }, displayID = 108266, reset = false, questID = { 72254 }, factionID = { 2511 } }; --Fisherman Tinnak <Angered Ghost>
 	[193698] = { zoneID = 2024, artID = { 1707 }, x = 6500, y = 2998, overlay = { "6480-3000" }, displayID = 100223, questID = { 73876 }, factionID = { 2511 } }; --Frigidpelt Den Mother
 	[193706] = { zoneID = 2024, artID = { 1707 }, x = 5880, y = 3240, overlay = { "5860-3280" }, displayID = 101244, factionID = { 2511 } }; --Snufflegust <Lunker>
 	[194210] = { zoneID = 2024, artID = { 1707 }, x = 5115, y = 3513, overlay = { "4944-3822","5259-3610","5093-3489","5498-3201","5220-3420","5000-3700","5320-3280","5680-3020","5940-3060","6160-3120","5840-3140","5440-3340","6040-3240","5380-3120","5560-3080","5620-3200","5220-3200","5620-3420","5860-3300","5360-3000","5800-3000","6400-3020" }, displayID = 108410, questID = { 73867 }, factionID = { 2511 } }; --Azure Pathfinder
@@ -3339,7 +3339,7 @@ private.NPC_INFO = {
 	[191305] = { zoneID = 2025, artID = { 1708 }, x = 3842, y = 6823, overlay = { "3842-6823" }, displayID = 105964, questID = { 74085 }, factionID = { 2511 } }; --The Great Shellkhan
 	[193125] = { zoneID = 2025, artID = { 1708 }, x = 5331, y = 4101, overlay = { "5300-4140" }, displayID = 105553, questID = { 73878 }, factionID = { 2503 } }; --Goremaul the Gluttonous
 	[193126] = { zoneID = 2025, artID = { 1708 }, x = 5996, y = 8328, overlay = { "5780-8380","5760-8260","5780-8140","6000-8340","6160-8100","5880-8040","6000-8080","5900-8440","6080-8200" }, displayID = 108093, questID = { 73881 }, factionID = { 2510 } }; --Innumerable Ruination
-	[193127] = { zoneID = 2025, artID = { 1708 }, x = 3749, y = 8299, overlay = { "3759-8553","3740-8240","3760-8420","3740-8680" }, displayID = 108133, questID = { 70986 } }; --Private Shikzar
+	[193127] = { zoneID = 2025, artID = { 1708 }, x = 3749, y = 8299, overlay = { "3759-8553","3740-8240","3760-8420","3740-8680" }, displayID = 108133, reset = false, questID = { 70986 } }; --Private Shikzar
 	[193130] = { zoneID = 2025, artID = { 1708 }, x = 3750, y = 7878, overlay = { "3761-7870","3860-7800" }, displayID = 104007, questID = { 73889 }, factionID = { 2503 } }; --Pleasant Alpha
 	[193143] = { zoneID = 2025, artID = { 1708 }, x = 5340, y = 4300, overlay = { "5000-4960","5060-4600","5080-4760","5200-4420","5340-4300","5200-4580" }, displayID = 104007, factionID = { 2510 } }; --Razk'vex the Untamed
 	[193146] = { zoneID = 2025, artID = { 1708 }, x = 3502, y = 7000, overlay = { "3502-7001" }, displayID = 108084, questID = { 74036 }, factionID = { 2507 } }; --Treasure-Mad Trambladd
@@ -3347,7 +3347,7 @@ private.NPC_INFO = {
 	[193176] = { zoneID = 2025, artID = { 1708 }, x = 3738, y = 7791, overlay = { "3738-7791" }, displayID = 102549, questID = { 74029 }, factionID = { 2507 } }; --Sandana the Tempest <Timesand Thief>
 	[193210] = { zoneID = 2025, artID = { 1708 }, x = 5795, y = 8493, overlay = { "5720-8420","5820-8620","5740-8280","5852-8491" }, displayID = 6914, questID = { 74021 }, factionID = { 2510 } }; --Phleep <Time-Lost, Mind-Lost>
 	[193220] = { zoneID = 2025, artID = { 1708 }, x = 5988, y = 7064, overlay = { "5988-7064","6140-7340","6140-7460","6140-7000" }, displayID = 34437, questID = { 73987 }, factionID = { 2507 } }; --Broodweaver Araznae <Mother of Spiders>
-	[193229] = { zoneID = 2025, artID = { 1708 }, x = 5545, y = 7700, overlay = { "5558-7749","5564-7624" }, displayID = 108123, questID = { 69873 }, factionID = { 2510 } }; --Henlare
+	[193229] = { zoneID = 2025, artID = { 1708 }, x = 5545, y = 7700, overlay = { "5558-7749","5564-7624" }, displayID = 108123, reset = false, questID = { 69873 }, factionID = { 2510 } }; --Henlare
 	[193234] = { zoneID = 2025, artID = { 1708 }, x = 4793, y = 5115, overlay = { "4767-5115","4940-5040","4940-5160","4920-4920" }, displayID = 100334, questID = { 73990 }, factionID = { 2507 } }; --Eldoren the Reborn <Jewel of the Skies>
 	[193240] = { zoneID = 2025, artID = { 1708 }, x = 4020, y = 7017, overlay = { "4020-7017" }, displayID = 103546, questID = { 74024 }, factionID = { 2507 } }; --Riverwalker Tamopo <Terror of the Shallows>
 	[193241] = { zoneID = 2025, artID = { 1708 }, x = 6228, y = 8172, overlay = { "6220-8160" }, displayID = 69326, questID = { 74066 }, factionID = { 2510 } }; --Lord Epochbrgl <Time-Lost>
@@ -3362,7 +3362,7 @@ private.NPC_INFO = {
 	[193663] = { zoneID = 2025, artID = { 1708 }, x = 4547, y = 8518, overlay = { "4540-8500" }, displayID = 102507, questID = { 74061 }, factionID = { 2507 } }; --Craggravated Elemental
 	[193664] = { zoneID = 2025, artID = { 1708 }, x = 5954, y = 5917, overlay = { "5954-5917" }, displayID = 6089, questID = { 74055 }, factionID = { 2510 } }; --Ancient Protector
 	[193666] = { zoneID = 2025, artID = { 1708 }, x = 5017, y = 5189, overlay = { "5000-5180" }, displayID = 106316, questID = { 74025 }, factionID = { 2503 } }; --Rokmur
-	[193668] = { zoneID = 2025, artID = { 1708 }, x = 3679, y = 8557, overlay = { "3679-8557" }, displayID = 108250, questID = { 72813 }, factionID = { 2510 } }; --Lookout Mordren
+	[193668] = { zoneID = 2025, artID = { 1708 }, x = 3679, y = 8557, overlay = { "3679-8557" }, displayID = 108250, reset = false, questID = { 72813 }, factionID = { 2510 } }; --Lookout Mordren
 	[193688] = { zoneID = 2025, artID = { 1708 }, x = 6034, y = 6143, overlay = { "6026-6106" }, displayID = 106689, questID = { 74020 }, factionID = { 2510 } }; --Phenran
 	[195417] = { zoneID = 2025, artID = { 1708 }, x = 5025, y = 4757, overlay = { "5003-4790" }, displayID = 108954, questID = { 73942 }, minieventID = 6 }; --Tsokorg
 	[195430] = { zoneID = 2025, artID = { 1708 }, x = 5114, y = 4900, overlay = { "5096-4953" }, displayID = 103588, questID = { 73925 }, minieventID = 6 }; --Molkeej

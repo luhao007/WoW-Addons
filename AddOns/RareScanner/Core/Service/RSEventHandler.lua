@@ -45,6 +45,12 @@ local function HandleEntityWithoutVignette(rareScannerButton, unitID)
 	local unitType, _, _, _, _, entityID = strsplit("-", unitGuid)
 	if (unitType == "Creature" or unitType == "Vehicle") then
 		local npcID = entityID and tonumber(entityID) or nil
+		
+		-- Ignore if friendly
+		if (UnitIsFriend("player", unitID) and RSUtils.Contains(RSConstants.IGNORED_FRIENDLY_NPCS, npcID)) then
+			RSLogger:PrintDebugMessage(string.format("Ignorado[%s] por ser amistoso.", npcID))
+			return
+		end
 	
 		-- If player in a zone with vignettes ignore it
 		local mapID = C_Map.GetBestMapForUnit("player")

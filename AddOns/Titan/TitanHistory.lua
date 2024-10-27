@@ -15,6 +15,26 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.1.3 : 2024/10/12\n")
+.. TitanUtils_GetGreenText("Location : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Add display of Realm (optional)."
+.. "- Add display of Connected Realms to tooltip."
+)
+.. TitanUtils_GetGreenText("Gold : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Hopefully fix error some see on start Ticket #1415."
+.. "- Make show of Warbank bank gold optional."
+)
+.. TitanUtils_GetGreenText("Loot : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Additional comments; use # over deprecated table.getn."
+)
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Additional comments."
+)
+.. "\n\n"
 .. TitanUtils_GetGoldText("8.1.2 : 2024/08/24\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
@@ -23,6 +43,10 @@ Titan_Global.recent_changes = ""
 .. TitanUtils_GetGreenText("Gold : \n")
 .. TitanUtils_GetHighlightText(""
 .. "- Restore starting gold for gold per hour calc. #1404\n"
+)
+.. TitanUtils_GetGreenText("XP : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Reduce update timer to 10 from 30 seconds.\n"
 )
 .. "\n\n"
 .. TitanUtils_GetGoldText("8.1.1 : 2024/08/15\n")
@@ -63,22 +87,6 @@ Titan_Global.recent_changes = ""
 .. TitanUtils_GetGreenText("Volume : \n")
 .. TitanUtils_GetHighlightText(""
 .. "- Fix double click Mute - it now toggles properly and icon changes.\n"
-)
-.. TitanUtils_GetGreenText("Regen : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Cleanup documentation (comments); made some routines local.\n"
-)
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.0.16 : 2024/07/22\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Updated Retail version to 11.0.0."
-)
-.. TitanUtils_GetGreenText("Gold, Repair, XP : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Gold : Fix gold display when user selects . (period) as thousands separator.\n"
-.. "- Added TitanUtils_NumToString for use in all 3.\n"
-.. "- Added TitanUtils_CashToString for use in Gold and Repair for common look of gold/silver/copper.\n"
 )
 .. TitanUtils_GetGreenText("Regen : \n")
 .. TitanUtils_GetHighlightText(""

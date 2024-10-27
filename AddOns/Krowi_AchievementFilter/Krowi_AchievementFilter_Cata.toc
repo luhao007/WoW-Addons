@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Krowi-Frostmane EU
-## Version: 76.0
+## Version: 76.2
 
 ## Title: Krowi's |cFF1D92C2Achievement Filter|r
 ## Notes: Filters your achievements.

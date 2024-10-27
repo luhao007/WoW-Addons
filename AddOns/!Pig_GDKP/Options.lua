@@ -100,6 +100,14 @@ function GDKPInfo.ADD_Options()
 		end
 		fuFrame.SetListF.AutoLootfenEvent()
 	end);
+	fuFrame.SetListF.autofenMsg = PIGCheckbutton_R(fuFrame.SetListF,{"分配后通告","自动分配物品后通告分配物品"},true)
+	fuFrame.SetListF.autofenMsg:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["GDKP"]["Rsetting"]["autofenMsg"]=true;
+		else
+			PIGA["GDKP"]["Rsetting"]["autofenMsg"]=false;
+		end
+	end);
 	-------
 	local bufenpei = {
 		22726,--埃提耶什的碎片
@@ -118,41 +126,58 @@ function GDKPInfo.ADD_Options()
 		return false
 	end
 	local autofenffff = CreateFrame("Frame")
+	autofenffff.listdata={}
 	autofenffff:SetScript("OnEvent",function(self,event,arg1,_,_,_,arg5)
-		--是队长团长
-		-- local isLeader = UnitIsGroupLeader("player");
+		if event=="LOOT_CLOSED" then
+			wipe(self.listdata)
+		end
 		if IsInGroup() then
-			if CalculateTotalNumberOfFreeBagSlots() == 0 then return end
 			local lootmethod, masterlooterPartyID, masterlooterRaidID= GetLootMethod();
 			if lootmethod=="master" and masterlooterPartyID==0 then
 				local lootNum = GetNumLootItems()
-				local MSGyifasong = {}
-				for x=1,lootNum do
-					MSGyifasong[x]=false
+				if #self.listdata==0 then
+					for x=1,lootNum do
+						self.listdata[x]={false,false}
+						local link = GetLootSlotLink(x)
+						if link then
+							local itemID = GetItemInfoInstant(link)
+							if itemID then
+								if funbufenpei(itemID) then
+	
+								else
+									local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem= GetLootSlotInfo(x)
+									if locked or isQuestItem or lootQuality<GetLootThreshold() then
+										
+									else
+										self.listdata[x][1]=true
+									end
+								end
+							end
+						end
+					end
 				end
 				for x = 1, lootNum do
-					local link = GetLootSlotLink(x)
-					if link then
-						local itemID = GetItemInfoInstant(link)
-						if itemID then
-							if funbufenpei(itemID) then
-								MSGyifasong[x]=true
-							else
-								local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(x)
-								if locked or isQuestItem or lootQuality<GetLootThreshold() then
-									MSGyifasong[x]=true
-								else
-									for ci = 1, GetNumGroupMembers() do
-										local candidate = GetMasterLootCandidate(x, ci)
-										if candidate == Pig_OptionsUI.Name then
-											GiveMasterLoot(x, ci);
-											if not MSGyifasong[x] then
-												PIGSendChatRaidParty("!Pig:拾取"..link.."×"..lootQuantity)
-												MSGyifasong[x]=true
+					if self.listdata[x][1] then
+						local link = GetLootSlotLink(x)
+						local _, _, lootQuantity= GetLootSlotInfo(x)
+						if link and lootQuantity and lootQuantity>0 then
+							for ci = 1, GetNumGroupMembers() do
+								local candidate = GetMasterLootCandidate(x, ci)
+								if candidate == Pig_OptionsUI.Name then
+									if CalculateTotalNumberOfFreeBagSlots() > 0 then
+										GiveMasterLoot(x, ci);
+										if PIGA["GDKP"]["Rsetting"]["autofenMsg"] then
+											if not self.listdata[x][2] then
+												if lootQuantity>1 then
+													PIGSendChatRaidParty("!Pig:拾取"..link.."×"..lootQuantity)
+												else
+													PIGSendChatRaidParty("!Pig:拾取"..link)
+												end
+												self.listdata[x][2]=true
 											end
-											break
 										end
 									end
+									break
 								end
 							end
 						end
@@ -165,6 +190,7 @@ function GDKPInfo.ADD_Options()
 		if PIGA["GDKP"]["Rsetting"]["autofen"] then
 			autofenffff:RegisterEvent("LOOT_READY");
 			--autofenffff:RegisterEvent("LOOT_OPENED");
+			autofenffff:RegisterEvent("LOOT_CLOSED");
 		else
 			autofenffff:UnregisterAllEvents()
 		end
@@ -645,6 +671,7 @@ function GDKPInfo.ADD_Options()
 	--=============================
 	fuFrame.SetListF:HookScript("OnShow", function (self)
 		self.autofen:SetChecked(PIGA["GDKP"]["Rsetting"]["autofen"]);
+		self.autofenMsg:SetChecked(PIGA["GDKP"]["Rsetting"]["autofenMsg"]);
 		self.jiaoyidaojishi:SetChecked(PIGA["GDKP"]["Rsetting"]["jiaoyidaojishi"]);
 		self.fubenwai:SetChecked(PIGA["GDKP"]["Rsetting"]["fubenwai"]);
 		self.wurenben:SetChecked(PIGA["GDKP"]["Rsetting"]["wurenben"]);

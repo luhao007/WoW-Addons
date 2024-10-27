@@ -87,6 +87,7 @@ local areaPoisToRemove = {
     8006, -- Isle of Dorn, To Ringing Deeps (bottom)
     8009, -- Isle of Dorn, To Ringing Deeps (top)
     8010, -- Ringing Deeps, to Isle of Dorn (middle)
+    8171, -- Dornogal, Portal to the Timeways
 }
 
 ----------------------------------------------------------------------------------------------------

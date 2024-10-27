@@ -1,49 +1,65 @@
 # AllTheThings
 
-## [4.1.0](https://github.com/DFortun81/AllTheThings/tree/4.1.0) (2024-10-23)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.0.19...4.1.0) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [4.1.1](https://github.com/DFortun81/AllTheThings/tree/4.1.1) (2024-10-25)
+[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.1.0...4.1.1) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
 
-- parse to the wow  
-- Bronze Celebration Tokens open world hqts  
-- Some NP Account-wide HQTs  
-    Some Anniversary HQT's and organization  
-- Parser: Switched a couple debug warn messages to debug info  
-- Bronze Celebration Token HQT from H Queen  
-- Fix some quick anniversary errors  
-- Bumped Item/Quest IDs for BNet API harvest (started for 11.0.5)  
-- Updated WoW Anniversary event schedule  
-- Adjusted some 20th anniversary stuff  
-- Retail: Fixed Warchief's Command Board and Hero's Call Board quests from being double populated in various Main city minilists  
-- Removed Ravasaur Trainers link to unimplemented Faction  
-- Retail: Migrated some deprecated Blizzard API functions  
-    Retail: Fixed /attwq due to 11.0.5 Blizzard API change  
-- Added a chat error for when a missing Faction is found during refreshes instead of causing a Lua error  
-- Update toc, add new mole machines, fix misc errors  
-- Update retail parser config for 11.0.5.57171  
-- Parser: Fixed a couple extra warnings that started showing up  
-- Update what is and isn't available from Hearthstone's 10th Anniversary, fix some retail errors, set 11.0.5 timeline  
-- Cata: Fixed Loremaster of Cataclysm (H)  
-- Fresh Wago files  
-- AchievementDB harvest and parse  
-- Source harvest  
-- Extrapolated crs for encounters from achievement data, as their absence led to parser errors. Change it if it is wrong, parsing would halt without. But hopefully the guess is right!  
-- Parser: Achievement Criteria specifically requiring the SpellID of a Mount are now properly linked with provider of the Mount's ItemID  
-- changed mop remix rewards to zone rewards to be the same layout as the other zones  
-- delves now uses delve\_completion instead of rewards as rewards imply multiple sources, which there are none  
-- Missed an object.  
-- Cata: Fixed the objectives for Taking Precautions.  
-- TWW: Confirmed the speculated QuestID and coordinates of the final Aspirant's Tribute  
-    WoD: Khadgar's Servant is a MobileNPC  
-- Numbers are hard.  
-- Added many group finder HQTs from TWW and DF.  
-    Sorted group finder HQTs from SL and BFA.  
-- Sorted Putrid Goop, got a DM report about it  
-- Vicious Flask of Manifested Fury did not make it live.  
-- Retail: Fixed tooltip Sources which are not available in game to properly have the correct icon even when using Unobtainable Filters or Debug mode  
-- Merge pull request #1817 from Machou/VenthyrTransport  
-    Update mirror, now is daily, not weekly  
-- by the time the toys are granted, the access to them is already removed  
-- q  
-- tiny update to pvp toy description in case they create more of them in the future  
-- Update mirror, now is daily, not weekly  
-- updated rewards header for weekly events & gave the caches a source (weekly events>rewards with nothing attached is as good as keeping them in unsorted)  
+- woW rof esrap  
+- Add Reven shop items  
+- Retail: Reparsed.  
+- Added a template file for Candy Buckets.  
+- Added TWW Hallow's End candy bucket coords and objectIDs (which don't parse correctly yet, so no parse done)  
+- Fixed timeline and put fishing cosmetics into cosmetic header.  
+- [Cata] Geoff: Corrected timeline for the [Embroidered Shirt], as it is not available for purchase until 6.0.3.  
+- [Cata] Geoff: Updated "Ancient Suffering" and "The Darkmist Legacy" as breadcrumbs as they are uncompletable if "Verinias the Twisted" is complete.  
+- Add Hallow's End 2024, update anniversary drops  
+- Anniversary HQT for timewalking quest  
+- 1wpn made it, the other not  
+- Update anniversary drops  
+- bmah has new stuff  
+- Parser: Fixed an issue where various object Types which defined default 'timeline' values were preventing sharedData/bubbleDown timeline values from being applied. We now use '\_defaulttimeline' to allow the fallback value for a 'timeline' field if it is not set via another function prior to being parsed  
+    Parser: Removed arbitrary default timeline for Criteria objects and moved it to utilize \_defaulttimeline for consistency  
+- remvoed rewards from fishing, as the only source is fishing for the cosmectics  
+- Retail: Fixed display issue when a Recipe is not Sourced in ATT but shown in a popout  
+- Retail: Use new non-collectible wrapper instead of manually assigning collectible = false so that popouts for Reagents/Recipes are simpler and more accurately determined with less logic checks  
+- Added a wrapper to create a non-collectible version of a group. [This is preferred over manually setting 'collectible' to false since that can overwrite an identical, collectible version of that group when merged into the same parent group]  
+- Retail: Removed 'HasCost' check from showing Source Lines in tooltip (haven't seen it actually return a true value in quite some time)  
+    Retail: Fixed a logic issue with popouts for Reagent Items where the Reagent is also a Cost for a Recipe which utilizes the Reagent to produce where the Recipe itself was being marked as non-collectible  
+- Cata: Marked all Replica PVP Gear as Hour of Twilight.  
+- Whoops, missed the timeline.  
+- Cata: Champion of the Tournament is now marked as a bounty. (/attbounty)  
+- Fixed a MainOnly Appearances logic issue where a known Source would give credit for shared appearances of other Armor Types (i.e. known Plate Chest giving shared appearance credit for Mail chest which cannot actually be transmogged on the current character)  
+- Added Elite requirement to Dragonflight PvP Elite Ensembles.  
+- Cata: Marked the Heart & Soul of the Aspects as Hour of Twilight.  
+- Cata: Scroll of Resurrection is now marked as Hour of Twilight. (Dragon Soul Phase)  
+- Merge pull request #1819 from gjfLeo/master  
+    Update zhCN locale.  
+- Update zhCN locale.  
+- Updated the function template to use constants.  
+- Add Swipeasaurus and Chaos-Forged mounts  
+- Update anniversary drops  
+- Retail: Exploration Thing collected no longer does full logic checks to determine if an Exploration Thing is collected simply checks the cache like other Things do  
+    Improved the batch collection of Exploration for the player position  
+    Retail: Exploration for the current player position is now immediately checked when force refreshing (instead of getting delayed on a coroutine)  
+- Fixed invalid u field value being used within OnInit functions of summonable items  
+    Parser now can accurately check assigned unobtainable values based on valid phases within the data (not that this has any effect on raw function value assignments)  
+- Fixed typo.  
+- Historian Ju'pa does not have any items for sale, removed symlink  
+- Revert "Migrate remaining headers Phase 1."  
+- Migrate remaining headers Phase 1.  
+- Remove zone drops from BRD cache symlink  
+- Bit more anniversary achieve data  
+- Finished BNet API Quests harvest for 11.0.5  
+- Strip redundant ensemble data for 11.0.5 sets  
+- Timewarped Ironforge Blueprints?  
+- update bug report flavor.  
+- Cata: Added Technique: Glyph of Colossus Smash for Inscription.  
+- Add some mobilenppcs and update anniversary drops  
+- Added a BRD symlink for the plethora of shared anniversary drops  
+- Some anniversary achievement infos  
+- Add mount drops to anniversary world bosses  
+- Remix Ensembles/Arsenals are no longer class locked  
+- Add BRD key vendors, confirm more anniversary drops  
+- BNet Items Harvest finished for 11.0.5 (Quests had to partially start over due to API Token expiration :weary:)  
+- Sort away NYI commendations, reintroduce Zandalar Tribe  
+- Fix a few more reported errors  
+- Sweep through some reported anniversary errors  

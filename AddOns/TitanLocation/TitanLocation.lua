@@ -34,6 +34,10 @@ local place = {
 	factionName = "",
 	px = 0,
 	py = 0,
+	realm = "",
+	realm_connected = {},
+	realm_connected_num = 0,
+	realm_tooltip = "",
 	-- to save a few cpu cycles when map is up
 	show_on_map = false,
 	coords_style = "",
@@ -115,6 +119,31 @@ local function GetPlayerMapPosition()
 	end
 end
 
+---local Get the player realm and connected realms; set in place var for button text and tooltip.
+local function RealmUpdate()
+	local realmName = GetRealmName()
+--	local normalized = GetNormalizedRealmName()
+	local realm_names = GetAutoCompleteRealms() -- This returns normalized server names...
+
+	place.realm = realmName
+	place.realm_connected = realm_names
+
+	local realm_text = ""
+	if #realm_names == 0 then
+		place.realm_connected_num = 0
+		realm_text = " "..NONE.."\n"
+	else
+		place.realm_connected_num = #realm_names
+		table.sort(realm_names, function(a, b)
+			return a < b
+		end)
+
+		for i,v in pairs (realm_names) do
+			realm_text = realm_text..string.format("%2d", i).." "..v.."\n"
+		end
+	end
+	place.realm_tooltip = realm_text
+end
 ---local Function to throttle down unnecessary updates
 local function CheckForPositionUpdate()
 	local mapID = C_Map.GetBestMapForUnit("player")
@@ -145,6 +174,8 @@ local function ZoneUpdate(self)
 	place.zoneText = GetZoneText();
 	place.subZoneText = GetSubZoneText();
 	place.pvpType, _, place.factionName = GetZonePVP();
+
+	RealmUpdate()
 
 	TitanPanelPluginHandle_OnUpdate(updateTable);
 end
@@ -449,6 +480,8 @@ end
 
 ---local Calculate coordinates and then display data on button.
 ---@param id string
+---@return string realm_label
+---@return string realm_text
 ---@return string plugin_label
 ---@return string plugin_text
 local function GetButtonText(id)
@@ -519,7 +552,18 @@ local function GetButtonText(id)
 		locationRichText = TitanUtils_GetHighlightText(locationRichText);
 	end
 
-	return L["TITAN_LOCATION_BUTTON_LABEL"], locationRichText;
+	local realm_label = ""
+	local realm = ""
+	if (TitanGetVar(TITAN_LOCATION_ID, "ShowRealmText")) then
+		realm_label = L["TITAN_LOCATION_REALM"]
+		realm = place.realm
+	else
+		realm_label = ""
+		realm = ""
+	end
+
+	return realm_label, realm,
+		L["TITAN_LOCATION_BUTTON_LABEL"], locationRichText
 end
 
 ---local Get tooltip text
@@ -555,12 +599,18 @@ local function GetTooltipText()
 	)
 	local bind_loc = TitanUtils_GetHighlightText(GetBindLocation())
 
-	return "" ..
-		L["TITAN_LOCATION_TOOLTIP_ZONE"] .. "\t" .. zone .. "\n"
+	local connected = "\n"
+		..TitanUtils_GetHighlightText(L["TITAN_LOCATION_CONNECTED_REALMS"].." - "..place.realm_connected_num).."\n"
+		..place.realm_tooltip.. "\n"
+
+	return ""
+		.."Realm:" .. "\t" .. TitanUtils_GetHighlightText(place.realm) .. "\n"
+		..L["TITAN_LOCATION_TOOLTIP_ZONE"] .. "\t" .. zone .. "\n"
 		.. sub_zone .. "\n"
 		.. TitanUtils_GetHighlightText(L["TITAN_LOCATION_TOOLTIP_HOMELOCATION"]) .. "\n"
 		.. L["TITAN_LOCATION_TOOLTIP_INN"] .. "\t" .. bind_loc .. "\n"
-		.. pvpInfoRichText .. "\n\n"
+		.. pvpInfoRichText .. "\n"
+		.. connected
 		.. TitanUtils_GetGreenText(L["TITAN_LOCATION_TOOLTIP_HINTS_1"]) .. "\n"
 		.. TitanUtils_GetGreenText(L["TITAN_LOCATION_TOOLTIP_HINTS_2"])
 end
@@ -655,6 +705,15 @@ local function CreateMenu()
 	elseif TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
 		if TitanPanelRightClickMenu_GetDropdMenuValue() == "Options" then
 			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], TitanPanelRightClickMenu_GetDropdownLevel());
+			info = {};
+			info.text = L["TITAN_LOCATION_MENU_SHOW_REALM_ON_PANEL_TEXT"];
+			info.func = function()
+				TitanToggleVar(TITAN_LOCATION_ID, "ShowRealmText");
+				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
+			end
+			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowRealmText");
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
 			info = {};
 			info.text = L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"];
 			info.func = function()
@@ -842,6 +901,7 @@ local function OnLoad(self)
 			DisplayOnRightSide = true,
 		},
 		savedVariables = {
+			ShowRealmText = false,
 			ShowZoneText = 1,
 			ShowSubZoneText = false,
 			ShowCoordsText = true,

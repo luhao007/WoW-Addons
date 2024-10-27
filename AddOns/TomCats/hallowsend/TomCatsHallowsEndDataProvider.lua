@@ -17,7 +17,8 @@ local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 local WorldMapTooltip = TomCatsHallowsEndGameTooltip
 
 local function rescale(pin)
-    local scale = TomCats_Account.hallowsend.iconScale
+    --local scale = TomCats_Account.hallowsend.iconScale
+    local scale = 0.6 * addon.GetIconScale()
     local sizeX = 64 * scale
     local sizeY = 64 * scale
     pin.iconDefault:SetSize(sizeX, sizeY)
@@ -327,7 +328,7 @@ end
 TomCatsHallowsEndPinMixin = CreateFromMixins(addon.GetProxy(MapCanvasPinMixin))
 
 function TomCatsHallowsEndPinMixin:ApplyFrameLevel()
-    local frameLevel = self:GetMap():GetPinFrameLevelsManager():GetValidFrameLevel("PIN_FRAME_LEVEL_MAP_LINK")
+    local frameLevel = self:GetMap():GetPinFrameLevelsManager():GetValidFrameLevel("PIN_FRAME_LEVEL_AREA_POI_BANNER")
     self:SetFrameLevel(frameLevel)
 end
 
@@ -379,7 +380,9 @@ function TomCatsHallowsEndPinMixin:OnCanvasScaleChanged()
     rescale(self)
 end
 
-TomCatsHallowsEndPinMixin.OnLoad = nop
+function TomCatsHallowsEndPinMixin:OnLoad()
+    self.SetPassThroughButtons = nop
+end
 
 function TomCatsHallowsEndPinMixin:OnReleased()
     allPins[self] = nil
@@ -388,7 +391,8 @@ end
 
 function TomCatsHallowsEndPinMixin:ShowTooltip()
     local tooltip = WorldMapTooltip
-    WorldMapTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 10, 20)
+    WorldMapTooltip:SetOwner(self, "ANCHOR_RIGHT", 10, 0)
+    --WorldMapTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 10, 20)
     WorldMapTooltip:ClearLines();
     local questIDs
     if (self.pinInfo.quest) then questIDs = { self.pinInfo.quest["Quest ID"] } else questIDs = self.pinInfo.entrance["Quest IDs"] end

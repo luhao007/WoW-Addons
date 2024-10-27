@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Crieve-Sargeras
-## Version: 4.1.0
+## Version: 4.1.1
 
 ## Title: AllTheThings |cfd9b9b9b(Cataclysm)|r
 ## Notes: Addon for Tracking Collections & Account Completion

@@ -67,7 +67,7 @@ function Warband.SetSum()
 	--	Warband.debug("SetSum")
 end
 
----local Return Warband Bank info
+---local Set Warband Bank info
 function Warband.Init()
 	-- check for func even though it does not work atm... 2024 Aug  (Added 11.0.0)
 	Warband.active = (C_Bank and C_Bank.CanUseBank) and true or false
@@ -78,6 +78,23 @@ function Warband.Init()
 		-- Likely Classic version
 	end
 	--	Warband.debug("Init")
+end
+
+---local Check if Warband Bank is in this version and user requested
+---@return boolean
+function Warband.Use()
+	local res = false
+	if Warband.active then
+		if TitanGetVar(TITAN_GOLD_ID, "ShowWarband") then
+			res = true
+		else
+			-- Not requested by user
+		end
+	else
+		-- Likely Classic version
+	end
+	
+	return res
 end
 
 ---local Return Warband Bank info
@@ -152,12 +169,21 @@ local function SortByIndex(gold_table)
 	return gold_table
 end
 
----local Create Gold index <character>_<server>::<faction>
+---local Create Gold index <character>_<server>::<faction>and see if the toon is in the table.
 ---@param character string
 ---@param charserver string
 ---@param char_faction string
 local function CreateIndex(character, charserver, char_faction)
 	local index = character .. "_" .. charserver .. "::" .. char_faction
+
+	-- See if this is a new toon to Gold;
+	-- There may be a timing issue on some systems where Gold is told to 'Show'
+	-- by Titan before Gold processes PEW event.
+	if (GoldSave[GOLD_INDEX] == nil) then
+		GoldSave[GOLD_INDEX] = {}
+		GoldSave[GOLD_INDEX] = { gold = 0, name = player_name }
+	end
+
 	return index
 end
 
@@ -498,11 +524,8 @@ local function TotalGold()
 	end
 
 	--
-	-- === Add Warband Bank
-	--
-	-- Warband is not a toon so add it.
-	-- For now it can not be shown / hidden from totals.
-	if Warband.active then
+	-- === Add Warband Bank, if enabled and requested
+	if Warband.Use() then
 		ttlgold = ttlgold + Warband.GetSum()
 	end
 
@@ -613,7 +636,7 @@ local function GetTooltipText()
 	--
 	-- === Add Warband Bank
 	--
-	if Warband.active then
+	if Warband.Use() then
 		currentMoneyRichText = currentMoneyRichText .. "\n"
 			.. "------ \t +" .. "\n"
 			.. Warband.GetName() -- localized
@@ -739,7 +762,8 @@ local function ResetSession()
 	DEFAULT_CHAT_FRAME:AddMessage(TitanUtils_GetGreenText(L["TITAN_GOLD_SESSION_RESET"]));
 end
 
----local Build the gold array from saved vars, if any; get current total and session start time
+---local See if this toon is in saved vars AFTER PEW event.
+--- Get current total and session start time. Toon gold is available via API AFTER PEW event.
 ---@param self Button
 local function Initialize_Array(self)
 	if (GOLD_INITIALIZED) then
@@ -994,6 +1018,21 @@ local function CreateMenu()
 
 		TitanPanelRightClickMenu_AddSeparator();
 
+		if Warband.active then
+			-- Function to toggle show / hide of Warbank gold
+			info = {};
+			info.text = L["TITAN_GOLD_INCLUDE_WARBANK"] -- .. " - " .. NiceTextCash(Warband.GetSum()).."";
+
+			info.checked = TitanGetVar(TITAN_GOLD_ID, "ShowWarband");
+			info.func = function()
+				TitanToggleVar(TITAN_GOLD_ID, "ShowWarband")
+				TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
+			end
+			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel())
+		else
+			-- Warbank not in this expansion
+		end
+
 		-- Show / delete toons
 		info = {};
 		info.notCheckable = true
@@ -1166,7 +1205,8 @@ local function OnLoad(self)
 			IgnoreFaction = false,
 			GroupByRealm = false,
 			gold = { total = "112233", neg = false },
-			ShowSessionInfo = true
+			ShowSessionInfo = true,
+			ShowWarband = true,
 		}
 	};
 
@@ -1191,6 +1231,7 @@ local function OnShow(self)
 		-- timer running or user does not want gold per hour
 	end
 
+	-- Leave active so user can toggle
 	if Warband.active then
 		Warband.SetSum()
 		self:RegisterEvent("ACCOUNT_MONEY") -- register for changes

@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Krowi-Frostmane EU
-## Version: 76.0
+## Version: 76.2
 
 ## Title: Krowi's |cFF1D92C2Achievement Filter|r
 ## Notes: Filters your achievements.
@@ -11,6 +11,8 @@
 ## AddonCompartmentFunc: KrowiAF_OnAddonCompartmentClick
 ## AddonCompartmentFuncOnEnter: KrowiAF_OnAddonCompartmentEnter
 ## AddonCompartmentFuncOnLeave: KrowiAF_OnAddonCompartmentLeave
+
+## OptionalDeps: BetterWardrobe, ElvUI, GW2_UI, InstanceAchievementTracker
 
 ## SavedVariables: KrowiAF_DebugTable, KrowiAF_Options, KrowiAF_SavedData, KrowiAF_Filters, KrowiAF_SearchOptions, KrowiAF_Achievements
 

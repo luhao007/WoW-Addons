@@ -1,10 +1,9 @@
-if DBM:GetTOC() < 110005 then return end
 local mod	= DBM:NewMod(2665, "DBM-Raids-Vanilla", 5, 1301)
 local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20240916054251")
+mod:SetRevision("20241027101733")
 mod:SetCreatureID(226304)
 mod:SetEncounterID(3043)
 mod:SetUsedIcons(8, 7, 6)
@@ -20,9 +19,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 463504",
 --	"SPELL_AURA_REMOVED",
 	"SPELL_PERIODIC_DAMAGE 463492",
-	"SPELL_PERIODIC_MISSED 463492",
+	"SPELL_PERIODIC_MISSED 463492"
 --	"UNIT_DIED"
-	"UNIT_SPELLCAST_SUCCEEDED boss1"
+--	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --[[
@@ -33,7 +32,7 @@ mod:RegisterEventsInCombat(
 --TODO, add total for auto marking
 --TODO, possibly calculate cast time for https://www.wowhead.com/ptr-2/spell=463471/blaze and add cast bar or cast nameplate prio bar
 --TODO, possibly non emphasized warning for https://www.wowhead.com/ptr-2/spell=463500/blowback target that announces to tanks and healers
-local warnFirewall							= mod:NewCountAnnounce(463487, 3)
+--local warnFirewall							= mod:NewCountAnnounce(463487, 3)
 local warnConsumptiveFlames					= mod:NewTargetNoFilterAnnounce(463503, 3, nil, "Healer")
 local warnDyingFlare						= mod:NewCastAnnounce(463472, 4)
 
@@ -153,6 +152,7 @@ function mod:UNIT_DIED(args)
 end
 --]]
 
+--[[
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 463487 then
 		self.vb.FirewallCount = self.vb.FirewallCount + 1
@@ -160,3 +160,4 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		timerFirewallCD:Start()
 	end
 end
+--]]

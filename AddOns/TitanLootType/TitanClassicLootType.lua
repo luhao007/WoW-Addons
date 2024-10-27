@@ -1137,7 +1137,7 @@ function Track.UpdateRollList()
 
 	--	TitanPanelLootTypeFrameStatusText:SetFont(Tool.Font, Tool.FontSize)
 	TitanPanelLootTypeFrameStatusText:SetText(string.format(L["TITAN_LOOTTYPE_TRACKER_MSGNBROLLS"],
-		table.getn(Track.rollArray)))
+		#Track.rollArray))
 
 	--	TitanPanelLootTypeFrameClearButton:SetFont(Tool.Font, Tool.FontSize)
 	TitanPanelLootTypeFrameClearButton:SetText(L["TITAN_LOOTTYPE_TRACKER_BTNCLEAR"])

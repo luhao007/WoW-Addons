@@ -795,7 +795,7 @@ MergeObject = function(g, t, index, newCreate)
 			if (o.hash or GetHash(o)) == hash then
 				MergeProperties(o, t, true);
 				NestObjects(o, t.g, newCreate);
-				return o;
+				return
 			end
 		end
 		if newCreate then t = CreateObject(t); end
@@ -1955,25 +1955,6 @@ local SourceLocationSettingsKey = setmetatable({
 });
 local UnobtainableTexture = " |T"..L.UNOBTAINABLE_ITEM_TEXTURES[1]..":0|t"
 local NotCurrentCharacterTexture = " |T"..L.UNOBTAINABLE_ITEM_TEXTURES[0]..":0|t"
-local function HasCost(group, idType, id)
-	-- check if the group has a cost which includes the given parameters
-	if group.cost and type(group.cost) == "table" then
-		if idType == "itemID" then
-			for i,c in ipairs(group.cost) do
-				if c[2] == id and c[1] == "i" then
-					return true;
-				end
-			end
-		elseif idType == "currencyID" then
-			for i,c in ipairs(group.cost) do
-				if c[2] == id and c[1] == "c" then
-					return true;
-				end
-			end
-		end
-	end
-	return false;
-end
 local SummarizeShowForActiveRowKeys
 local function AddContainsData(group, tooltipInfo)
 	local key = group.key
@@ -2210,10 +2191,9 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 	-- app.PrintDebug("Sources count",#allReferences,paramA,paramB,GetItemIDAndModID(paramB))
 	for _,j in ipairs(allReferences) do
 		parent = j.parent;
-		-- app.PrintDebug("source:",app:SearchLink(j),parent and parent.parent,showCompleted or not app.IsComplete(j),not HasCost(j, paramA, paramB))
+		-- app.PrintDebug("source:",app:SearchLink(j),parent and parent.parent,showCompleted or not app.IsComplete(j))
 		if parent and parent.parent
 			and (showCompleted or not app.IsComplete(j))
-			and not HasCost(j, paramA, paramB)
 		then
 			text = app.GenerateSourcePathForTooltip(parent);
 			-- app.PrintDebug("SourceLocation",text,FilterInGame(j),FilterSettings(parent),FilterCharacter(parent))
@@ -2834,11 +2814,10 @@ local function DetermineCraftedGroups(group, FillData)
 		-- app.PrintDebug(itemID,"x",info[2],"=>",craftedItemID,"via",recipeID,skipLevel);
 		if craftedItemID and not craftableItemIDs[craftedItemID] and (expandedNesting or not craftedItems[craftedItemID]) then
 			-- app.PrintDebug("recipeID",recipeID);
-			recipe = SearchForObject("recipeID",recipeID,"key") or {recipeID=recipeID}
+			recipe = SearchForObject("recipeID",recipeID,"key") or app.CreateRecipe(recipeID)
 			if recipe then
 				if expandedNesting then
-					recipe = CreateObject(recipe)
-					recipe.collectible = false
+					recipe = app.CreateNonCollectibleWithGroups(recipe)
 					recipe.fillable = true
 					groups[#groups + 1] = recipe
 				else
