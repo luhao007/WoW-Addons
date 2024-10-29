@@ -56,7 +56,6 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	else
 		local TemplateP = TemplateP or "BackdropTemplate,"
 		But = CreateFrame("Button", UIName, fuF,TemplateP,id);
-		But:RegisterForClicks("LeftButtonUp","RightButtonUp")
 		BackdropSet(But)
 		function But:PIGSetBackdrop(BGAlpha,BorderAlpha)
 			self:SetBackdropColor(BGColor[1],BGColor[2],BGColor[3], BGAlpha);
@@ -122,6 +121,7 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		But.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4]);
 		But.Text:SetText(Text)
 	end
+	But:RegisterForClicks("LeftButtonUp","RightButtonUp")
 	if WH then
 		But:SetSize(WH[1],WH[2]);
 	end

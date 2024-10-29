@@ -107,10 +107,13 @@ function BusinessInfo.AHPlus_Vanilla()
 			end
 		end)
 	end
-	local function exactMatchFun()
-		if not PIGA["AHPlus"]["exactMatch"] then return end
+	----------
+	if not ITEM_QUALITY_COLORS["-1"] then
 		local color = CreateColor(1, 1, 1, 1)
 		ITEM_QUALITY_COLORS["-1"]={r = 1, g = 1, b = 1, hex = color:GenerateHexColorMarkup(), color = color}
+	end
+	local function exactMatchFun()
+		if not PIGA["AHPlus"]["exactMatch"] then return end
 		local OLD_QueryAuctionItems = QueryAuctionItems	
 		QueryAuctionItems = function(...)
 			local text, minLevel, maxLevel, page, usable, rarity, allxiazai, exactMatch, filterData =...
@@ -137,15 +140,11 @@ function BusinessInfo.AHPlus_Vanilla()
 	----
 	local AH_TIME = TIME_LABEL:gsub(":","")
 	local AH_TIME = AH_TIME:gsub("：","")
-	local AH_BIDDANJIA = AUCTION_TOOLTIP_BID_PREFIX:gsub(":","")
-	local AH_BIDDANJIA = AH_BIDDANJIA:gsub("：","")
-	local AH_BUYDANJIA = AUCTION_TOOLTIP_BUYOUT_PREFIX:gsub(":","")
-	local AH_BUYDANJIA = AH_BUYDANJIA:gsub("：","")
 	local biaotiLsit = {"BrowseQualitySort","Browse_biaoti_Count","BrowseLevelSort","Browse_biaoti_unitbid","BrowseCurrentBidSort","BrowseUpDown","BrowseDurationSort","BrowseHighBidderSort"}
 	local biaotiLsitW = {190,46,38,170,170,54,100,100}
 	local biaotiLsitArrow={true,false,true,true,true,false,true,true}
 	local biaotiLsitName = {"",ACTION_SPELL_AURA_APPLIED_DOSE,"",AUCTION_SORT_HEADER_UNIT_BID_PRICE,AUCTION_SORT_HEADER_UNIT_BUYOUT_PRICE,"涨跌","",""}
-	local hang_Height,hang_NUM ,anniuH,suoxiaozhi = 25, 14, 18, 58
+	local hang_Height,hang_NUM ,anniuH,suoxiaozhi,FontSise = 25, 14, 18, 58, 13.2
 	local shengyuTime = {[1]="|cffFF0000<30m|r",[2]="|cffFFFF0030m~2H|r",[3]="|cff00FF002H~12H|r",[4]="|cff00FF00>12H|r",}
 	local Funlist={}
 	local function SetFrameMoneyFont(uiname)
@@ -160,9 +159,9 @@ function BusinessInfo.AHPlus_Vanilla()
 		local BuyoutFrameMoneyGoldText = _G[uiname.."GoldButtonText"];
 		local BuyoutFrameMoneySilverText = _G[uiname.."SilverButtonText"];
 		local BuyoutFrameMoneyCopperText = _G[uiname.."CopperButtonText"];
-		BuyoutFrameMoneySilverText:SetScale(1.2)
-		BuyoutFrameMoneyCopperText:SetScale(1.2)
-		BuyoutFrameMoneyGoldText:SetScale(1.2)
+		PIGSetFont(BuyoutFrameMoneySilverText,FontSise)
+		PIGSetFont(BuyoutFrameMoneyCopperText,FontSise)
+		PIGSetFont(BuyoutFrameMoneyGoldText,FontSise)
 	end
 	--调整原版UI
 	SetCVar("auctionSortByBuyoutPrice", "1");
@@ -221,6 +220,9 @@ function BusinessInfo.AHPlus_Vanilla()
 	AuctionFrameBrowse.bgtex:SetPoint("BOTTOMRIGHT",AuctionFrameBrowse,"BOTTOMRIGHT",70,38);
 	BrowseScrollFrame:SetPoint("TOPRIGHT",AuctionFrameBrowse.bgtex,"TOPRIGHT",-28,0);
 	BrowseScrollFrame:SetPoint("BOTTOMLEFT",AuctionFrameBrowse.bgtex,"BOTTOMLEFT",0,0);
+	--
+	AuctionFrameBrowse.qushi,AuctionFrameBrowse.qushitishi=BusinessInfo.ADD_qushi(AuctionFrameBrowse,true)
+	
 	--标题
 	local function Set_ArrowPoint(but,Sort)
 		local existingSortColumn, existingSortReverse = GetAuctionSort("list", 1);
@@ -276,21 +278,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		if not biaotiLsitArrow[i] then
 			_G[biaotiLsit[i].."Arrow"]:Hide() biaotiBut:Disable(); 
 			if i==6 then
-				biaotiBut:SetMotionScriptsWhileDisabled(true)
-				biaotiBut:HookScript("OnEnter", function (self)
-					GameTooltip:ClearLines();
-					GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-					GameTooltip:AddLine("提示：")
-					GameTooltip:AddLine("1、缓存价格以后才能显示涨跌百分比")
-					GameTooltip:AddLine("2、100%表示此物品价格和上次缓存价格一样")
-					GameTooltip:AddLine("3、80%表示此物品价格是缓存价格80%(即便宜了20%)")
-					GameTooltip:AddLine("4、120%表示此物品价格是缓存价格120%(即贵了20%)")
-					GameTooltip:Show();
-				end);
-				biaotiBut:HookScript("OnLeave", function (self)
-					GameTooltip:ClearLines();
-					GameTooltip:Hide()
-				end);
+				AuctionFrameBrowse.qushitishi:SetPoint("RIGHT",biaotiBut,"RIGHT",1,-1);
 			end
 		end
 		if i==1 then
@@ -359,13 +347,11 @@ function BusinessInfo.AHPlus_Vanilla()
 		buttonName:SetSize(biaotiLsitW[1]-hang_Height+6,hang_Height)
 		buttonName:ClearAllPoints();
 		buttonName:SetPoint("LEFT", buttonItem, "RIGHT", 2, 0);
-		itemCount:SetIgnoreParentScale(true)
 		itemCount:SetTextColor(0, 1, 1, 1);
 		itemCount:SetSize(biaotiLsitW[2],hang_Height)
-		PIGSetFont(itemCount,12.4)
-
 		buttonLevel:SetSize(biaotiLsitW[3],hang_Height)
 		buttonLevel:SetPoint("TOPLEFT", button, "TOPLEFT", biaotiLsitW[1]+biaotiLsitW[2], 0);
+
 		buttonClosingTime:SetSize(biaotiLsitW[7],hang_Height)
 		buttonClosingTime:SetPoint("TOPLEFT", button, "TOPLEFT", biaotiLsitW[1]+biaotiLsitW[2]+biaotiLsitW[3]+biaotiLsitW[4]+biaotiLsitW[5]+biaotiLsitW[6]+42, 0);
 		buttonHighBidder:SetSize(biaotiLsitW[8],hang_Height)
@@ -377,6 +363,14 @@ function BusinessInfo.AHPlus_Vanilla()
 		button.UpDown.Text = PIGFontString(button.UpDown,nil,nil,"OUTLINE")
 		button.UpDown.Text:SetJustifyH("RIGHT");
 		button.UpDown.Text:SetAllPoints(button.UpDown)
+		PIGSetFont(buttonName,FontSise)
+		PIGSetFont(itemCount,FontSise)
+		itemCount:SetScale(32/(hang_Height-4))
+		PIGSetFont(buttonLevel,FontSise)
+
+		PIGSetFont(_G["BrowseButton"..i.."ClosingTimeText"],FontSise)
+		PIGSetFont(_G["BrowseButton"..i.."HighBidderName"],FontSise)
+		PIGSetFont(button.UpDown.Text,FontSise)
 		button.UpDown:HookScript("OnEnter", function(self)
 			self:GetParent():LockHighlight();
 			local AHdangqianH = FauxScrollFrame_GetOffset(BrowseScrollFrame)+i;
@@ -385,9 +379,9 @@ function BusinessInfo.AHPlus_Vanilla()
 				if PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name] then
 					local jiagGGG = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name][2]
 					AuctionFrameBrowse.qushi:Show()
-					AuctionFrameBrowse.qushi:SetPoint("TOPRIGHT",button.UpDown,"TOPLEFT",8,1);
+					AuctionFrameBrowse.qushi:SetPoint("TOPRIGHT",self,"TOPLEFT",8,1);
 					local r, g, b,hex = GetItemQualityColor(quality)
-					Funlist.qushitu("|c"..hex..name.."|r",jiagGGG)
+					AuctionFrameBrowse.qushi.qushitu(jiagGGG,"|c"..hex..name.."|r")
 				end
 			end
 		end);
@@ -414,54 +408,6 @@ function BusinessInfo.AHPlus_Vanilla()
 				end
 			end
 		end);
-	end
-	AuctionFrameBrowse.qushi=PIGFrame(AuctionFrameBrowse)
-	AuctionFrameBrowse.qushi:PIGSetBackdrop(1,nil,nil,nil,0)
-	AuctionFrameBrowse.qushi:SetSize(328,204);
-	AuctionFrameBrowse.qushi:SetFrameStrata("HIGH")
-	AuctionFrameBrowse.qushi:Hide()
-	AuctionFrameBrowse.qushi.itemName = PIGFontString(AuctionFrameBrowse.qushi,{"TOPLEFT", AuctionFrameBrowse.qushi, "TOPLEFT",8, -6},nil,"OUTLINE")
-	local HeightX,WidthX = AuctionFrameBrowse.qushi:GetHeight()-44,8
-	AuctionFrameBrowse.qushi.qushiBUT={}
-	for i=1,40 do
-		local zhuzhuangX=PIGFrame(AuctionFrameBrowse.qushi,{"BOTTOMLEFT", AuctionFrameBrowse.qushi, "BOTTOMLEFT",WidthX*(i-1), 0},{WidthX,HeightX})
-		if i==1 then
-			zhuzhuangX:SetPoint("BOTTOMLEFT", AuctionFrameBrowse.qushi, "BOTTOMLEFT",4, 4);
-		else
-			zhuzhuangX:SetPoint("BOTTOMLEFT", AuctionFrameBrowse.qushi, "BOTTOMLEFT",(WidthX)*(i-1)+4, 4);
-		end
-		zhuzhuangX:PIGSetBackdrop(1,1,{0.2, 0.8, 0.8})
-		zhuzhuangX:Hide()
-		AuctionFrameBrowse.qushi.qushiBUT[i]=zhuzhuangX
-	end
-	function Funlist.qushitu(itemName,Data)
-		for i=1,40 do
-			AuctionFrameBrowse.qushi.qushiBUT[i]:Hide()
-		end
-		AuctionFrameBrowse.qushi.itemName:SetText(itemName)
-		local PIG_qushidata_V = {["maxG"]=1,["endnum"]=1,["minVV"]=0.04}
-		if #Data>40 then PIG_qushidata_V.endnum=(#Data-40) end
-		for i=#Data,PIG_qushidata_V.endnum,-1 do
-			local jiageVV =Data[i]
-			if jiageVV then
-				if jiageVV[1]>PIG_qushidata_V.maxG then
-					PIG_qushidata_V.maxG=jiageVV[1]
-				end
-			end
-		end
-		for i=#Data,1,-1 do
-			local jiageVV = Data[i]
-			if jiageVV then
-				AuctionFrameBrowse.qushi.qushiBUT[i]:Show()
-				local PIG_qushizuidabaifenbi = jiageVV[1]/PIG_qushidata_V.maxG
-				if PIG_qushizuidabaifenbi<PIG_qushidata_V.minVV then
-					AuctionFrameBrowse.qushi.qushiBUT[i]:SetHeight(PIG_qushidata_V.minVV*HeightX)
-				else
-					AuctionFrameBrowse.qushi.qushiBUT[i]:SetHeight(PIG_qushizuidabaifenbi*HeightX)
-				end
-				
-			end
-		end
 	end
 	hooksecurefunc("AuctionFrameBrowse_Update", function()
 		_G[biaotiLsit[5]]:SetWidth(biaotiLsitW[5]+2);
@@ -528,8 +474,7 @@ function BusinessInfo.AHPlus_Vanilla()
 					local OldMoneyG = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name][2]
 					local OldGGGV = OldMoneyG[#OldMoneyG]				
 					if #OldMoneyG>1 then
-						local OldGGGV2 = OldMoneyG[#OldMoneyG-1]
-						local baifenbi = (OldGGGV[1]/OldGGGV2[1])*100+0.5
+						local baifenbi = (xianjiaV/OldGGGV[1])*100+0.5
 						local baifenbi = floor(baifenbi)
 						button.UpDown.Text:SetText(baifenbi.."%");
 						if baifenbi<100 then
@@ -567,6 +512,14 @@ function BusinessInfo.AHPlus_Vanilla()
 	if ElvUI and AuctionFrame.backdrop then
 		AuctionFrameBrowse.History:SetPoint("TOPRIGHT",AuctionFrameBrowse,"TOPRIGHT",10,-1);
 	end
+	AuctionFrameBrowse.History:HookScript("OnShow",function(self)
+		local canQuery,canQueryAll = CanSendAuctionQuery()
+		if canQueryAll then
+			self:Enable()
+		else
+			self:Disable()
+		end
+	end)
 	---
 	AuctionFrameBrowse.huancunUI = CreateFrame("Frame", nil, AuctionFrameBrowse,"BackdropTemplate");
 	local HCUI = AuctionFrameBrowse.huancunUI
@@ -577,10 +530,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	HCUI:SetFrameLevel(520)
 	HCUI:EnableMouse(true)
 	HCUI:Hide();
-	HCUI.close = CreateFrame("Button",nil,HCUI, "UIPanelButtonTemplate");
-	HCUI.close:SetSize(90,30);
-	HCUI.close:SetPoint("CENTER",HCUI,"CENTER",0,-40);
-	HCUI.close:SetText("关闭");
+	HCUI.close = PIGButton(HCUI,{"CENTER",HCUI,"CENTER",0,-40},{90,30},"关闭",nil,nil,nil,nil,0);
 	HCUI.close:Hide();
 	HCUI.close:HookScript("OnClick",function(self)
 		HCUI:Hide()
@@ -601,124 +551,118 @@ function BusinessInfo.AHPlus_Vanilla()
 	HCUI.jindu.t2 = PIGFontString(HCUI.jindu,{"RIGHT",HCUI.jindu.t1,"LEFT",0,0},0,"OUTLINE",13)
 	HCUI.jindu.t3 = PIGFontString(HCUI.jindu,{"LEFT",HCUI.jindu.t1,"RIGHT",0,0},0,"OUTLINE",13)
 	HCUI.jindu.tbiaoti = PIGFontString(HCUI.jindu,{"BOTTOM",HCUI.jindu,"TOP",0,2},"正在扫描物品...","OUTLINE",13)
-	HCUI.jindu.tname = PIGFontString(HCUI.jindu,{"TOP",HCUI.jindu,"BOTTOM",0,-2},"","OUTLINE",13)
 	HCUI.UpdateF = CreateFrame("Frame")
 	HCUI.UpdateF:Hide()
 	---
-	AuctionFrameBrowse.History:HookScript("OnShow",function(self)
-		local canQuery,canQueryAll = CanSendAuctionQuery()
-		if canQueryAll then
-			self:Enable()
-		else
-			self:Disable()
-		end
-	end)
 	HCUI.auctions = {}
+	HCUI.auctionsLin = {}
 	HCUI.ItemLoadList = {}
+	local function OpenScanFun(v)
+		if v then
+			AuctionFrameBrowse:UnregisterEvent("AUCTION_ITEM_LIST_UPDATE");
+		else
+			AuctionFrameBrowse:RegisterEvent("AUCTION_ITEM_LIST_UPDATE");
+		end
+	end
+	local function au_SetValue()
+		HCUI.jishuID=HCUI.jishuID+1
+		HCUI.jindu.t2:SetText(HCUI.jishuID);
+		HCUI.jindu:SetValue(HCUI.jishuID);
+	end
 	local function Save_Data()
-		local shujuyuan = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm]
+		local AH_data = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm]
 		for k,v in pairs(HCUI.auctions) do
-			if shujuyuan[k] then
-				table.insert(shujuyuan[k][2],v[2])
+			if AH_data[k] then
+				table.insert(AH_data[k][2],{v[1],GetServerTime()})
    			else
-   				shujuyuan[k]={v[1],{v[2]}}
+   				AH_data[k]={v[2],{{v[1],GetServerTime()}}}
    			end
 		end
 		HCUI.jindu.tbiaoti:SetText("价格缓存完毕");
-		HCUI.jindu.tname:SetText("");
 		HCUI.close:Show();
+		OpenScanFun(nil)
 	end
 	local function huancunData_End()
-		if HCUI.yicunchu==nil then
-			HCUI.jindu.tbiaoti:SetText("价格获取完毕,存储中...");
-			C_Timer.After(0.6,Save_Data)
-		else
-			if HCUI.yicunchu then
-				HCUI.jindu.tbiaoti:SetText("价格获取完毕,存储中...");
-				C_Timer.After(0.6,Save_Data)
-			else
-				C_Timer.After(0.1,huancunData_End)
-			end
-		end
-	end
-	local function GetBuyoutPriceG(name,count,buyoutPrice,itemLink)
-		if name and name~="" and name~=" " and buyoutPrice>0 then
-			local xianzaidanjia =buyoutPrice/count
-			if HCUI.auctions[name] then
-				if HCUI.auctions[name][2] then
-	   				if xianzaidanjia<HCUI.auctions[name][2][1] then
-	   					HCUI.auctions[name][2][1]=xianzaidanjia
+		if HCUI.yicunchu==nil or HCUI.yicunchu==true then
+			HCUI.jindu.tbiaoti:SetText("价格缓存完毕,存储中...");
+			for k,v in pairs(HCUI.auctionsLin) do
+				local name = v[1]
+				local newGGG = v[2]
+				if HCUI.auctions[name] then
+	   				if newGGG<HCUI.auctions[name][1] then
+	   					HCUI.auctions[name][1]=newGGG
 	   				end
-	   			end
-			else
-				local itemLinkJJ = Fun.GetItemLinkJJ(itemLink)
-				HCUI.auctions[name]={itemLinkJJ,{xianzaidanjia,GetServerTime()}}
-			end
-		end
-		HCUI.jishuID=HCUI.jishuID+1
-		HCUI.jindu:SetValue(HCUI.jishuID);
-	end
-	local function huancunData_H(index)
-		local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo =  GetAuctionItemInfo("list", index);
-		local ItemLink=GetAuctionItemLink("list", index)
-		if not hasAllInfo then
-			if itemId and itemId>0 then
-				HCUI.yicunchu=false
-				local itemf = Item:CreateFromItemID(itemId)
-				itemf.index=index
-				HCUI.ItemLoadList[itemf] = true
-				itemf:ContinueOnItemLoad(function()
-					HCUI.ItemLoadList[itemf] = nil
-					local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo =  GetAuctionItemInfo("list", itemf.index);
-					local ItemLink=GetAuctionItemLink("list", index)
-					HCUI.jindu.t2:SetText(itemf.index);
-					HCUI.jindu.tname:SetText(name);
-					GetBuyoutPriceG(name,count,buyoutPrice,ItemLink)
-					if not next(HCUI.ItemLoadList) then
-						HCUI.yicunchu=true
-					end
-				end)
-			else
-				HCUI.jishuID=HCUI.jishuID+1
-				HCUI.jindu:SetValue(HCUI.jishuID);
-			end
-		else	
-			HCUI.jindu.t2:SetText(index);
-			HCUI.jindu.tname:SetText(name);
-			GetBuyoutPriceG(name,count,buyoutPrice,ItemLink)
-		end
-	end
-	local function GetItemsData()
-		HCUI.jindu.tbiaoti:SetText("正在获取价格...");
-		wipe(HCUI.auctions)
-		wipe(HCUI.ItemLoadList)
-		for i = 1, HCUI.ItemListNum do
-			C_Timer.After(i*HCUI.ScanCD,function()
-				huancunData_H(i)
-				if i==HCUI.ItemListNum then
-					huancunData_End()
+				else
+					local itemLinkJJ = Fun.GetItemLinkJJ(v[3])
+					HCUI.auctions[name]={newGGG,itemLinkJJ}
 				end
-			end)
+			end
+			C_Timer.After(0.4,Save_Data)
+		else
+			C_Timer.After(0.1,huancunData_End)
 		end
 	end
+	local function SauctionsLinData(name,buyoutPrice,count,index)
+		if name and name~="" and name~=" " and buyoutPrice>0 then
+			local ItemLink=GetAuctionItemLink("list", index)
+			local xianzaidanjia =buyoutPrice/count
+			HCUI.auctionsLin[index]={name,xianzaidanjia,ItemLink}
+			au_SetValue()
+		else
+			au_SetValue()
+		end
+	end
+	local meiyenum = 300
 	HCUI.UpdateF:HookScript("OnUpdate",function(self,sss)
 		if self.jishiqitime>0.1 then
 			self.jishiqitime=0
 			if HCUI.SMend then
 				self:Hide()
-				HCUI.jindu.tbiaoti:SetText("物品扫描完毕,开始获取价格...");
-				local _, AuctionsNum = GetNumAuctionItems("list");
-				if AuctionsNum>100000 then
-					HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD+0.001
-				else
-					HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD
-				end
-				HCUI.ItemListNum = AuctionsNum
+				local AuctionsNum= GetNumAuctionItems("list");
+				HCUI.jindu.tbiaoti:SetText("物品扫描完毕,开始缓存价格...");
 				HCUI.jindu.t3:SetText(AuctionsNum);
 				HCUI.jindu:SetMinMaxValues(0, AuctionsNum)
-				GetItemsData()
+				C_Timer.After(0.6,function()
+					HCUI.jindu.tbiaoti:SetText("正在缓存价格...");
+					HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD
+					wipe(HCUI.auctions)
+					wipe(HCUI.auctionsLin)
+					wipe(HCUI.ItemLoadList)
+					local page=math.ceil(AuctionsNum/meiyenum)
+					for ix=0,(page-1) do
+						C_Timer.After(ix*HCUI.ScanCD,function()
+							local kaishi = ix*meiyenum+1
+							local jieshu = kaishi+meiyenum-1
+							if jieshu>AuctionsNum then
+								jieshu = AuctionsNum
+							end
+							for index=kaishi,jieshu do
+								local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo=GetAuctionItemInfo("list", index);
+								if hasAllInfo then
+									SauctionsLinData(name,buyoutPrice,count,index)
+								else
+									HCUI.yicunchu=false
+									local itemf = Item:CreateFromItemID(itemId)
+									itemf.index=index
+									HCUI.ItemLoadList[itemf] = true
+									itemf:ContinueOnItemLoad(function()
+										local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice=GetAuctionItemInfo("list", itemf.index);
+										SauctionsLinData(name,buyoutPrice,count,itemf.index)
+										HCUI.ItemLoadList[itemf] = nil
+										if not next(HCUI.ItemLoadList) then
+											HCUI.yicunchu=true
+										end
+									end)
+								end
+								if index>=AuctionsNum then
+									huancunData_End()
+								end
+							end
+						end)
+					end
+				end)
 			else
-				local _, AuctionsNum = GetNumAuctionItems("list");
+				local AuctionsNum = GetNumAuctionItems("list");
 				HCUI.jindu.t2:SetText(AuctionsNum);
 				HCUI.jindu.t3:SetText(AuctionsNum);
 				local canQuery,canQueryAll = CanSendAuctionQuery()	
@@ -741,10 +685,10 @@ function BusinessInfo.AHPlus_Vanilla()
 		HCUI.jindu:SetValue(100);
 		HCUI.jindu.t2:SetText(0);
 		HCUI.jindu.t3:SetText(0);
-		HCUI.jindu.tname:SetText("");
 		HCUI.jishuID = 0
 		HCUI.yicunchu=nil
 		HCUI.SMend=nil
+		OpenScanFun(true)
 		HCUI.UpdateF.jishiqitime=1
 		HCUI.UpdateF:Show()
 		QueryAuctionItems("", nil, nil, 0, nil, nil, true, false, nil)--查询全部
@@ -761,10 +705,11 @@ function BusinessInfo.AHPlus_Vanilla()
 			end
 		end
 	end
-	function HCUI.showhide()
+	function HCUI.UiFameHide()
 		HCUI.UpdateF:Hide()
 		HCUI:Hide();
 		HCUI.close:Hide();
+		OpenScanFun(nil)
 	end
 
 	---时光徽章
@@ -797,13 +742,11 @@ function BusinessInfo.AHPlus_Vanilla()
 		end
 	end
 	BrowseWowTokenResults:HookScript("OnShow",function(self)
-		AuctionFrameBrowse.piglist:Hide()
-		_G["piglist_biaoti_"..(paixuID[1])].ShowHide:Hide()
+		ShowHide_OT(false)
 		Update_huizhangG()
 	end)
 	BrowseWowTokenResults:HookScript("OnHide",function(self)
-		AuctionFrameBrowse.piglist:Show()
-		_G["piglist_biaoti_"..(paixuID[1])].ShowHide:Show()
+		ShowHide_OT(false)
 	end)
 
 	--关注------------------------
@@ -1286,9 +1229,9 @@ function BusinessInfo.AHPlus_Vanilla()
 	AuctionFrameBrowse:HookScript("OnShow",function(self)
 		self.exact:SetChecked(PIGA["AHPlus"]["exactMatch"])
 		self.coll.list:Show()
-		HCUI.showhide()
+		HCUI.UiFameHide()
 	end)
-	AuctionFrameBrowse:HookScript("OnHide",HCUI.showhide)
+	AuctionFrameBrowse:HookScript("OnHide",HCUI.UiFameHide)
 	--拍卖页
 	AuctionFrameAuctions:HookScript("OnShow",function(self)
 		self.oldaucG:SetChecked(PIGA["AHPlus"]["oldaucG"])

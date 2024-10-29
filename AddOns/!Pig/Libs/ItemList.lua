@@ -334,6 +334,7 @@ local function ShowItemList(Parent,unit,Data,fuwen)
 				fujikk:SetBackdropBorderColor(0, 1, 1, 0.5)
 				local effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(itemLink)
 				if k~=16 and k~=17 and k~=18 then
+					local effectiveILvl=effectiveILvl or 0
 					Parent.zhuangbeiInfo.allleve=Parent.zhuangbeiInfo.allleve+effectiveILvl
 				end
 				fujikk.itemlink.lv:SetText(effectiveILvl)

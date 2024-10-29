@@ -1939,6 +1939,7 @@ function FramePlusfun.Character_Shuxing()
 		end
 		HideUIPanel(CharacterFrame);
 	elseif tocversion<40000 then
+		if NDui then return end
 		local kaiqiq=GetCVar("equipmentManager")
 		if kaiqiq=="0" then
 			SetCVar("equipmentManager","1")

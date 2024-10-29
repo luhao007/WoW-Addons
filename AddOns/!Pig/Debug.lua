@@ -239,10 +239,10 @@ fuFrame.NPCID = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-350},{125,24}
 fuFrame.NPCID:SetScript("OnClick", function (self)
 	print(UnitGUID("target"))
 end);
-fuFrame.GetItem = PIGButton(fuFrame,{"LEFT",fuFrame.NPCID,"RIGHT",200,0},{110,24},"获取物品信息")
+fuFrame.GetItem = PIGButton(fuFrame,{"LEFT",fuFrame.NPCID,"RIGHT",300,0},{110,24},"获取物品信息")
 fuFrame.GetItem:SetScript("OnClick", function (self)
-	local itemName,itemLink = GetItemInfo(self.E:GetNumber())
-	print(GetItemInfo(self.E:GetNumber()))
+	--local itemName,itemLink = GetItemInfo(self.E:GetNumber())
+	print(GetItemInfo(self.E:GetText()))
 	-- print(string.gsub(itemLink,"|","||"))
 	-- local itemLink=Fun.GetItemLinkJJ(itemLink)
 	-- print(itemLink)
@@ -250,12 +250,12 @@ fuFrame.GetItem:SetScript("OnClick", function (self)
 	-- print(itemLink)
 end);
 fuFrame.GetItem.E = CreateFrame("EditBox", nil, fuFrame.GetItem, "InputBoxInstructionsTemplate");
-fuFrame.GetItem.E:SetSize(80,24);
+fuFrame.GetItem.E:SetSize(200,24);
 fuFrame.GetItem.E:SetPoint("RIGHT",fuFrame.GetItem,"LEFT",-4,0);
 fuFrame.GetItem.E:SetFontObject(ChatFontNormal);
 fuFrame.GetItem.E:SetAutoFocus(false);--自动获得焦点
-fuFrame.GetItem.E:SetMaxLetters(10)--最大输入字符数
-fuFrame.GetItem.E:SetNumeric(true)--只能输入数字
+-- fuFrame.GetItem.E:SetMaxLetters(10)--最大输入字符数
+-- fuFrame.GetItem.E:SetNumeric(true)--只能输入数字
 -----------------
 fuFrame:SetScript("OnShow", function()
 	if GetCVar("scriptErrors")=="1" then

@@ -69,14 +69,19 @@ do
 		local _t, id = cache.GetCached(t);
 		--local IDNumber, Name, Points, Completed, Month, Day, Year, Description, Flags, Image, RewardText, isGuildAch = GetAchievementInfo(t[KEY]);
 		local _, name, _, _, _, _, _, _, flags, icon = GetAchievementInfo(id);
-		_t.silentLink = GetAchievementLink(id)
+		local silentLink = GetAchievementLink(id)
+		if not silentLink then
+			app.PrintDebug(Colorize("Achievement with no Link",app.Colors.ChatLinkError),id)
+			silentLink = name or "achievementID:"..id
+		end
+		_t.silentLink = silentLink
 		local accountWide = FlagsUtil_IsSet(tonumber(flags) or 0, FLAG_AccountWide)
 		_t.accountWide = accountWide
 		if accountWide then
-			local len = string_len(_t.silentLink)
-			_t.text = Colorize(string_sub(_t.silentLink,11,len - 2),app.Colors.Account)
+			local len = string_len(silentLink)
+			_t.text = Colorize(string_sub(silentLink,11,len - 2),app.Colors.Account)
 		else
-			_t.text = _t.silentLink
+			_t.text = silentLink
 		end
 		_t.name = name or ("Achievement #"..id);
 		_t.icon = icon or QUESTION_MARK_ICON;

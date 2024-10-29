@@ -303,7 +303,7 @@ local VisualHeaderFields = {
 	text = BaseClass__class.text,
 }
 local CreateVisualHeader, CreateVisualHeader__class
-CreateVisualHeader, CreateVisualHeader__class = app.CreateClass("VisualHeader", "noKey", VisualHeaderFields);
+CreateVisualHeader, CreateVisualHeader__class = app.CreateClass("VisualHeader", "noKey-VisualHeader", VisualHeaderFields);
 app.CreateVisualHeader = CreateVisualHeader
 local Wrap = app.WrapObject;
 app.CreateVisualHeaderWithGroups = function(base, groups)
@@ -369,7 +369,7 @@ for _,field in ipairs({
 	CreateVisualHeader__class[field] = Empty
 end
 
-local CreateNonCollectible, CreateNonCollectible__class = app.CreateClass("NonCollectible", "noKey", {
+local CreateNonCollectible, CreateNonCollectible__class = app.CreateClass("NonCollectible", "noKey-nonCollectible", {
 	-- back = function(t)
 	-- 	return 0.3;	-- visibility of which rows are cloned
 	-- end,

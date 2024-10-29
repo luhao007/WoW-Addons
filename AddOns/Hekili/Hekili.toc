@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Hekili
-## Version: v11.0.5-1.0.4
+## Version: v11.0.5-1.0.5
 
 ## Title: Hekili
 ## Notes: Priority helper based on SimulationCraft action lists.

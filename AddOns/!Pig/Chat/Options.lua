@@ -764,6 +764,12 @@ local function chaxunxiayipindao(currChatType)
 	end
 	return TABpindaoList[1]
 end
+-- ChatFrame1EditBox:HookScript("OnTabPressed",function(self,key)
+-- 	--print(self,key)
+-- 	print(ChatFrame1EditBox:GetAttribute("tellTarget"), chatType)
+-- 	local newTarget, newTargetType = ChatEdit_GetNextTellTarget(ChatFrame1EditBox:GetAttribute("tellTarget"), chatType);
+-- 	print(newTarget, newTargetType)
+-- end)
 ChatFrame1EditBox:HookScript("OnKeyDown",function(self,key)
 	if key=="TAB" then
 		if PIGA["Chat"]["TABqiehuanOpen"] then
@@ -1081,7 +1087,7 @@ local function JoinPigChannel_add()
 	ChatClassColor()
 	TABchatPindao()
 	zhanlianhuiche()
-	local hkldgjlcm="5Zif5Y+r5YW9I+WnrOelnuengCPlronpnZnnmoTlsYDlhavnm5YjRm9yZXZlciPlsI/kuprpm68j5aSp5ZCv5Lio5q6L6ZuqI+S5hOeng+eBrOWFhCPnpbrngazojrkj552/55Ge552/552/I+W8oOS4iemjjiPmibnmibnli5LpqazohLLmna8j6L+35YWJI+S6jOS4tum7kSPovr7nk6bovr7nk6bmmK/mmK8j57uq6Z2S5pe2I+WkseiQveeahOmdnuS4u+a1gQ=="
+	local hkldgjlcm="5Zif5Y+r5YW9I+WnrOelnuengCPlronpnZnnmoTlsYDlhavnm5YjRm9yZXZlciPlsI/kuprpm68j5aSp5ZCv5Lio5q6L6ZuqI+S5hOeng+eBrOWFhCPnpbrngazojrkj552/55Ge552/552/I+W8oOS4iemjjiPmibnmibnli5LpqazohLLmna8j6L+35YWJI+S6jOS4tum7kSPovr7nk6bovr7nk6bmmK/mmK8j57uq6Z2S5pe2I+WkseiQveeahOmdnuS4u+a1gSPpobbnuqflpKfogqXniZsj6bub54mn55m9"
 	local hkldgjlcm=Fun.Base64_decod(hkldgjlcm)
 	local hkldgjlcm = {strsplit("#", hkldgjlcm)}
 	local function LeaveChanne(Name)

@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Crieve-Sargeras
-## Version: 4.1.1
+## Version: 4.1.2
 
 ## Title: AllTheThings
 ## Notes: Addon for Tracking Collections & Account Completion

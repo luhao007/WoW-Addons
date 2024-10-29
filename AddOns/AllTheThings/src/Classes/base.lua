@@ -263,7 +263,6 @@ or function(fields, className)
 		print("A Class Name must be declared when using CreateClassMeta");
 	end
 	local class = { __type = function() return className; end };
-	app.__perf.CaptureTable(class, "Class:"..className)
 	app.__perf.AutoCaptureTable(class, "Class:"..className)
 	-- capture keys which are referenced but not implemented in a sub-table for better perf tracking
 	class.__missing = {}
@@ -465,7 +464,10 @@ local function AppendVariantConditionals(conditionals, class)
 		end
 	end
 end
-local function GenerateSimpleMetaClass(fields,name,subname)
+local GenerateSimpleMetaClass = app.EmptyFunction
+-- Only Classic utilizes this 'simplemeta' since the cost logic works completely different than in Retail
+if app.IsClassic then
+GenerateSimpleMetaClass = function(fields,name,subname)
 	if fields.collectibleAsCost then
 		local simpleclass = CloneDictionary(fields, {
 			collectibleAsCost = app.ReturnFalse
@@ -474,6 +476,7 @@ local function GenerateSimpleMetaClass(fields,name,subname)
 		local simplemeta = CreateClassMeta(simpleclass, "Simple" .. name .. (subname or ""))
 		fields.simplemeta = function(t) return simplemeta end
 	end
+end
 end
 
 app.CreateClass = function(className, classKey, fields, ...)

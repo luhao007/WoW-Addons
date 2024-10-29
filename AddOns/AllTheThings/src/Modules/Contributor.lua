@@ -172,6 +172,7 @@ local MobileNPCDB = {
 	[145707] = true,	-- Advisor Belgrum
 	[153897] = true,	-- Blingtron 7000
 	[158635] = true,	-- Xolartios <Eternal Traveler>
+	[172854] = true,	-- Dredger Butler
 	[185749] = true,	-- Gnoll Mon-Ark
 	[191494] = true,	-- Khanam Matra Sarest
 	[193985] = true,	-- Initiate Zorig

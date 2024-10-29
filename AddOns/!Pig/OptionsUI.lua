@@ -635,6 +635,7 @@ function QuickBut:Add()
 	end
 	self:GengxinWidth()
 end
+------------------------
 -- local ButtoSDn = CreateFrame("Button",nil,UIParent, "UIPanelButtonTemplate,SecureActionButtonTemplate");
 -- ButtoSDn:SetSize(76,25);
 -- ButtoSDn:SetPoint("CENTER",UIParent,"CENTER",4,0);
@@ -644,17 +645,16 @@ end
 -- 	-- PIGA["tianfuID_CTM_ICON"]={}
 -- 	-- InspectUnit("target")
 -- 	-- C_Timer.After(1,kaishiguoqutianfu)
--- 	print(GetNumSpellTabs())
--- 	for i = 1, GetNumSpellTabs() do
--- 		local _, _, offset, numSlots = GetSpellTabInfo(i)
--- 		print(GetSpellTabInfo(i))
--- 		for j = offset+1, offset+numSlots do
--- 			--print(j)
--- 			local spellBookItemInfo = C_SpellBook.GetSpellBookItemInfo(j, Enum.SpellBookSpellBank.Player)
--- 			print(spellBookItemInfo)
--- 			for k,v in pairs(spellBookItemInfo) do
--- 				print(k,v)
--- 			end
--- 		end
--- 	end
+-- 	-- for i = 1, GetNumSpellTabs() do
+-- 	-- 	local _, _, offset, numSlots = GetSpellTabInfo(i)
+-- 	-- 	print(GetSpellTabInfo(i))
+-- 	-- 	for j = offset+1, offset+numSlots do
+-- 	-- 		--print(j)
+-- 	-- 		local spellBookItemInfo = C_SpellBook.GetSpellBookItemInfo(j, Enum.SpellBookSpellBank.Player)
+-- 	-- 		print(spellBookItemInfo)
+-- 	-- 		for k,v in pairs(spellBookItemInfo) do
+-- 	-- 			print(k,v)
+-- 	-- 		end
+-- 	-- 	end
+-- 	-- end
 -- end);
