@@ -1335,6 +1335,7 @@ end
 -- Guess it's easiest for now to make a global variant and just 'remember' to
 -- add it in every possible Class which could have a questID...
 local AndLockCriteria = {
+	__name = "AndLockCriteria",
 	collectible = CollectibleAsQuestOrAsLocked,
 	locked = LockedAsQuest,
 	__condition = function(t)
@@ -1347,6 +1348,7 @@ app.GlobalVariants.AndLockCriteria = AndLockCriteria
 -- logic fell through. i.e. for breadcrumbs... check variant of 'locked' and then fallback to the base breadcrumb.locked
 -- for now I guess this is an explicit variant which covers both
 local AndBreadcrumbWithLockCriteria = {
+	__name = "AndBreadcrumbWithLockCriteria",
 	collectible = CollectibleAsQuestOrAsLocked,
 	locked = function(t)
 		return LockedAsQuest(t) or LockedAsBreadcrumb(t)
@@ -1356,6 +1358,7 @@ local AndBreadcrumbWithLockCriteria = {
 	end,
 }
 app.GlobalVariants.WithAutoName = {
+	__name = "WithAutoName",
 	name = function(t)
 		local type, id = (":"):split(t.an)
 		local data = app.GetAutomaticHeaderData(id,type)
@@ -1376,6 +1379,9 @@ app.GlobalVariants.WithAutoName = {
 		return t.an
 	end,
 }
+app.GlobalVariants.Combine(
+	app.GlobalVariants.AndLockCriteria,
+	app.GlobalVariants.WithAutoName)
 
 -- Party Sync Support
 local IsQuestReplayable = C_QuestLog.IsQuestReplayable
@@ -1542,8 +1548,9 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	end,
 	indicatorIcon = GetQuestIndicator,
 	variants = {
-		AndLockCriteria = app.GlobalVariants.AndLockCriteria,
-		WithAutoName = app.GlobalVariants.WithAutoName,
+		app.GlobalVariants.AndLockCriteriaWithAutoName,
+		app.GlobalVariants.AndLockCriteria,
+		app.GlobalVariants.WithAutoName,
 	}
 },
 "WithReputation", {
@@ -1580,15 +1587,18 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	-- Retail: Quests which have a maxrepuation can be considered a Cost for the respective Faction
 	collectibleAsCost = not app.IsClassic and QuestWithReputationCollectibleAsCost or nil,
 	variants = {
-		AndLockCriteria = AndLockCriteria,
-	},
+		app.GlobalVariants.AndLockCriteriaWithAutoName,
+		app.GlobalVariants.AndLockCriteria,
+		app.GlobalVariants.WithAutoName,
+	}
 }, (function(t) return t.maxReputation; end),
 "AsHQT", {
 	CollectibleType = function() return "QuestsHidden" end,
 	variants = {
-		AndLockCriteria = AndLockCriteria,
-		WithAutoName = app.GlobalVariants.WithAutoName,
-	},
+		app.GlobalVariants.AndLockCriteriaWithAutoName,
+		app.GlobalVariants.AndLockCriteria,
+		app.GlobalVariants.WithAutoName,
+	}
 }, (function(t) return t.type == "hqt" end),
 -- Both: Breadcrumbs
 "AsBreadcrumb", {

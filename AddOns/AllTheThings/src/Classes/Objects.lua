@@ -148,7 +148,7 @@ function(t) return t.type == "AsGenericObjectContainer" end,
 		return IsQuestFlaggedCompletedForObject(t) == 1;
 	end,
 	variants = {
-		AndLockCriteria = app.GlobalVariants.AndLockCriteria,
+		app.GlobalVariants.AndLockCriteria,
 	},
 	g = GenerateGroupsForGenericSubGroup,
 },
@@ -175,7 +175,7 @@ function(t) return t.type == "AsSubGenericObject" end,
 		return IsQuestFlaggedCompletedForObject(t) == 1;
 	end,
 	variants = {
-		AndLockCriteria = app.GlobalVariants.AndLockCriteria,
+		app.GlobalVariants.AndLockCriteria,
 	},
 }, function(t) return t.questID end);
 end

@@ -293,8 +293,8 @@ local function add_buttonList(peizhiT,listNum)
 				listbut:GetNormalTexture():SetTexCoord(RiconList[i][2][1],RiconList[i][2][2],RiconList[i][2][3],RiconList[i][2][4])
 			end
 			listbut:SetScript("OnClick", function(self) 
-				SetRaidTargetIcon("target", listNum-i) 
-				--SetRaidTarget("target", listNum-i)
+				--SetRaidTargetIcon("target", listNum-i) 
+				SetRaidTarget("target", listNum-i)
 			end)
 		elseif pigui==_G["PIGmarkerW_UI"] then
 			listbut = CreateFrame("CheckButton", "$parent_But"..i, pigui,"SecureActionButtonTemplate")

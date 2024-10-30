@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.1.0 - October 29, 2024
+
+### Added
+
+- Retail and Cataclysm: Re-enabled the functionality of opening the achievement frame by clicking on an achievement in Atlas
+- Cataclysm: Like Retail, there are buttons that will take you to the Journal instance entry (Cataclysm instances only) or the Journal instance map (all instances)
+- Cataclysm: Like Retail, clicking on a boss name will open its encounter in the Journal (Cataclysm instances only)
+
+### Changed
+
+- Retail: Update TOC to 11.0.5
+- Cataclysm: Update TOC to 4.4.1
+
 ## 3.0.0 - October 17, 2024
 
 ### Added
@@ -494,7 +507,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.0.0" as the version
+  if specifed; or will ignore those set "v3.1.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

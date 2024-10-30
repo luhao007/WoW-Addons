@@ -9,7 +9,7 @@ local Item = LibTSMWoW:Init("API.Item")
 local ItemClass = LibTSMWoW:Include("Util.ItemClass")
 local ClientInfo = LibTSMWoW:Include("Util.ClientInfo")
 local MAX_STACK_SIZE = 4000
-local MAX_ITEM_LEVEL = 600
+local MAX_ITEM_LEVEL = 700
 
 
 

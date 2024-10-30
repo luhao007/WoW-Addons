@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: geligasi
-## Version: 7.91
+## Version: 7.92
 
 ## Title: !Pig
 ## Notes: A toolbox. Integrating many small features can greatly reduce the number of plug-ins you have

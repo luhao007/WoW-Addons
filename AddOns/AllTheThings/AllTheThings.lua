@@ -3302,7 +3302,7 @@ local function BuildSourceParent(group)
 		local parentKey, parent;
 		-- collect all possible parent groups for all instances of this Thing
 		for _,thing in ipairs(things) do
-			if thing.hash == groupHash or isAchievement then
+			if isAchievement or GroupMatchesParams(thing, groupKey, keyValue) then
 				---@class ATTTempParentObject
 				---@field key string
 				---@field hash string
@@ -3923,7 +3923,7 @@ local function SearchForLink(link)
 				search = SearchForObject("modItemID", exactItemID, nil, true);
 				if #search > 0 then return search; end
 			end
-			if modItemID ~= itemID then
+			if modItemID ~= itemID and modItemID ~= exactItemID then
 				search = SearchForObject("modItemID", modItemID, nil, true);
 				if #search > 0 then return search; end
 			end

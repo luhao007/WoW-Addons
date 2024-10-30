@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2024-10-22";
+local WL_ADDON_UPDATED = "2024-10-28";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110005;
@@ -2571,7 +2571,7 @@ function wlSeenWorldQuests()
     local lines = {}
 
     local function addWorldQuestLine(questId)
-        if seenAlready[questId] then
+        if not questId or seenAlready[questId] then
             return
         end
         seenAlready[questId] = true
@@ -3653,7 +3653,14 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlIsInParty()
-    return GetNumSubgroupMembers() > 0 or GetNumGroupMembers() > 1;
+    local numSubgroupMembers = GetNumSubgroupMembers();
+    local numGroupMembers = GetNumGroupMembers();
+    local _, _, _, mapId = UnitPosition('player');
+    if (mapId and C_DelvesUI.HasActiveDelve(mapId)) then
+        numSubgroupMembers = numSubgroupMembers - 1;
+        numGroupMembers = numGroupMembers - 1;
+    end
+    return numSubgroupMembers > 0 or numGroupMembers > 1;
 end
 
 function wlIsInBattleground()

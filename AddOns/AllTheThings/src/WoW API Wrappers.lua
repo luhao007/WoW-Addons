@@ -1,6 +1,7 @@
 local app = select(2, ...);
 app.GameBuildVersion = select(4, GetBuildInfo());
 app.IsRetail = app.GameBuildVersion >= 100000;
+app.AfterCata = app.GameBuildVersion >= 40000;
 app.IsClassic = not app.IsRetail;
 
 -- This file was created because Blizzard likes to give Crieve heart attacks with all their API changes.
@@ -99,20 +100,6 @@ AssignAPIWrapper("GetItemInfo", C_Item and C_Item.GetItemInfo, GetItemInfo)
 AssignAPIWrapper("GetItemSpecInfo", C_Item and C_Item.GetItemSpecInfo, GetItemSpecInfo)
 ---@diagnostic enable: deprecated
 
--- Spell APIs
----@diagnostic disable-next-line: deprecated
-if not GetSpellInfo then
-	lib.GetSpellName = C_Spell.GetSpellName;
-else
----@diagnostic disable-next-line: deprecated
-	local GetSpellInfo = GetSpellInfo;
-	if app.GameBuildVersion >= 40000 then
-		lib.GetSpellName = function(spellIdentifier) return select(1, GetSpellInfo(spellIdentifier)); end;
-	else
-		lib.GetSpellName = function(spellIdentifier, rank) return rank and select(1, GetSpellInfo(spellIdentifier, rank)) or select(1, GetSpellInfo(spellIdentifier)); end;
-	end
-end
-
 -- Quest APIs
 local C_QuestLog = C_QuestLog;
 AssignAPIWrapper("IsQuestFlaggedCompletedOnAccount",
@@ -128,7 +115,7 @@ local C_TradeSkillUI = C_TradeSkillUI;
 ---@diagnostic disable-next-line: deprecated, undefined-global
 AssignAPIWrapper("GetTradeSkillTexture", C_TradeSkillUI and C_TradeSkillUI.GetTradeSkillTexture, GetTradeSkillTexture);
 
--- Spell API
+-- Spell APIs
 local C_Spell = C_Spell;
 
 -- Warning: The API Wrapper for GetSpellLink is not completely equivalent.
@@ -160,11 +147,9 @@ C_Spell and C_Spell.GetSpellCooldown and
 -- GetSpellInfo accepts two types of parameters: one is a single parameter "SpellIdentifier", and the other is two parameters "index" and "bookType".
 -- Currently, only the first type is implemented in C_Spell.
 -- GetSpellInfo accpet both of parameters for compatibility reasons.
---[[
-AssignAPIWrapper("GetSpellName",
-	C_Spell and C_Spell.GetSpellName,
-	GetSpellInfo and
-	function(spellIdentifier, rank)
-	return rank and GetSpellInfo(spellIdentifier, rank) or GetSpellInfo(spellIdentifier) end);
-	]]--
+if app.AfterCata then
+	AssignAPIWrapper("GetSpellName", C_Spell and C_Spell.GetSpellName , GetSpellInfo);
+else
+	AssignAPIWrapper("GetSpellName", GetSpellInfo);
+end
 ---@diagnostic enable: deprecated

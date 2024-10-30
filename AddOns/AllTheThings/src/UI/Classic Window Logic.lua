@@ -160,7 +160,7 @@ local function CalculateRowIndicatorTexture(group)
 			return app.asset("known_green");
 		end
 	end
-	
+
 	if group.u then
 		local phase = L.PHASES[group.u];
 		if phase and (not phase.buildVersion or app.GameBuildVersion < phase.buildVersion) then
@@ -549,7 +549,7 @@ local function RowOnClick(self, button)
 		if reference.OnClick and reference.OnClick(self, button) then
 			return true;
 		end
-		
+
 		local window = self:GetParent():GetParent();
 		if IsShiftKeyDown() then
 			if button == "RightButton" then
@@ -720,12 +720,12 @@ local function RowOnEnter(self)
 		tooltip:ClearATTReferenceTexture();
 	end
 	--print("RowOnEnter", "Rebuilding...");
-	
-	
+
+
 	-- Always display tooltip data when viewing information from our windows.
 	local wereTooltipIntegrationsDisabled = not app.Settings:GetTooltipSetting("Enabled");
 	if wereTooltipIntegrationsDisabled then app.Settings:SetTooltipSetting("Enabled", true); end
-	
+
 	-- Build tooltip information.
 	local tooltipInfo = {};
 	tooltip:ClearLines();
@@ -735,7 +735,7 @@ local function RowOnEnter(self)
 	else
 		tooltip:SetOwner(self, "ANCHOR_RIGHT");
 	end
-	
+
 	-- Attempt to show the object as a hyperlink in the tooltip
 	local linkSuccessful;
 	if reference.key ~= "encounterID" and reference.key ~= "instanceID" and reference.key ~= "questID" then
@@ -749,7 +749,7 @@ local function RowOnEnter(self)
 			--print("Link:", link:gsub("|","\\"));
 			--print("Link Result!", success, reference.key, reference.__type);
 		end
-		
+
 		-- Only if the link was unsuccessful.
 		if (not linkSuccessful or tooltip.ATT_AttachComplete == nil) and reference.currencyID then
 			---@diagnostic disable-next-line: redundant-parameter
@@ -783,7 +783,7 @@ local function RowOnEnter(self)
 			r = 1, g = 1, b = 1,
 		});
 	end
-	
+
 	if reference.cost then
 		if type(reference.cost) == "table" then
 			local _, name, icon, amount;
@@ -822,12 +822,12 @@ local function RowOnEnter(self)
 			});
 		end
 	end
-	
+
 	-- Process all Information Types
 	if tooltip.ATT_AttachComplete == nil then
 		app.ProcessInformationTypes(tooltipInfo, reference);
 	end
-	
+
 	-- Show Breadcrumb information
 	if reference.isBreadcrumb then tinsert(tooltipInfo, { left = "This is a breadcrumb quest.", color = app.Colors.Breadcrumb }); end
 
@@ -953,16 +953,16 @@ local function RowOnEnter(self)
 			end
 		end
 	end
-	
+
 	-- Attach all of the Information to the tooltip.
 	app.Modules.Tooltip.AttachTooltipInformation(tooltip, tooltipInfo);
 	if not IsRefreshing then tooltip:SetATTReferenceForTexture(reference); end
 	tooltip:Show();
 	app.ActiveRowReference = nil;
-	
+
 	-- Reactivate the original tooltip integrations setting.
 	if wereTooltipIntegrationsDisabled then app.Settings:SetTooltipSetting("Enabled", false); end
-	
+
 	-- Tooltip for something which was not attached via search, so mark it as complete here
 	tooltip.ATT_AttachComplete = not reference.working;
 end
@@ -1163,7 +1163,7 @@ app.AddEventHandler("OnStartup", function()
 		windowSettings = {};
 		savedVariables.Windows = windowSettings;
 	end
-	
+
 	-- Rename the old mini list settings container.
 	local oldMiniListData = windowSettings.CurrentInstance;
 	if oldMiniListData then
@@ -1171,7 +1171,7 @@ app.AddEventHandler("OnStartup", function()
 		windowSettings.CurrentInstance = nil;
 		windowSettings.MiniList = oldMiniListData;
 	end
-	
+
 	-- Load the Window Settings
 	if AllWindowSettings then
 		return;
@@ -1360,7 +1360,7 @@ local function RefreshData(source, trigger)
 			refreshDataCooldown = refreshDataCooldown - 1;
 			coroutine.yield();
 		end
-		
+
 		-- Execute the OnRecalculate handlers.
 		app.HandleEvent("OnRecalculate");
 
@@ -1373,14 +1373,14 @@ local function RefreshData(source, trigger)
 
 				app.HandleEvent("OnRecalculate_NewSettings")
 			end
-			
+
 			app:UpdateWindows(source, true, refreshFromTrigger);
 		else
 			app:UpdateWindows(source, nil, refreshFromTrigger);
 		end
 		refreshFromTrigger = nil;
 		currentlyRefreshingData = false;
-		
+
 		-- Execute the OnRefreshComplete handlers.
 		app.HandleEvent("OnRefreshComplete");
 	end);
@@ -1604,7 +1604,7 @@ function app:CreateWindow(suffix, settings)
 
 
 
-		-- Visible, which overrides the default functions and gives the addon the ability to recieve information about it.
+		-- Visible, which overrides the default functions and gives the addon the ability to receive information about it.
 		local visible, oldShow, oldHide = false, window.Show, window.Hide;
 		function window:Show()
 			if not visible then
@@ -1971,7 +1971,7 @@ function app:CreateWindow(suffix, settings)
 					window:Toggle(cmd);
 				end
 			end
-			
+
 			-- Commands are forced lower case.
 			local commandRoot = settings.Commands[settings.RootCommandIndex or 1]:upper();
 			SlashCmdList[commandRoot] = onCommand;
@@ -1988,7 +1988,7 @@ function app:CreateWindow(suffix, settings)
 		window.IsDynamicCategory = settings.IsDynamicCategory;
 		window.IsTopLevel = settings.IsTopLevel;
 		LoadSettingsForWindow(window);
-		
+
 		-- Replace some functions.
 		local oldSetBackdropColor = window.SetBackdropColor;
 		window.SetBackdropColor = function(self, ...)
@@ -2428,7 +2428,7 @@ local function OnInitForPopout(self, group)
 		end
 	end
 	]]--
-	
+
 	local dataKey = self.data.key;
 	if dataKey then
 		if group.cost and type(group.cost) == "table" then
@@ -2507,7 +2507,7 @@ local function OnInitForPopout(self, group)
 				MergeObject(self.data.g, sourceGroup, 1);
 			end
 		end
-		
+
 		if not (self.data.ignoreSourceLookup or (self.data.g and #self.data.g > 0)) then
 			local results = app:BuildSearchResponse(app:GetDataCache().g, dataKey, self.data[dataKey]);
 			if results and #results > 0 then

@@ -892,6 +892,7 @@ end
 
 -- Search for a thing that matches some requirements
 local function SearchForObject(field, id, require, allowMultiple)
+	-- app.PrintDebug("SFO",field,id,require,allowMultiple)
 	-- This method performs the SearchForField logic, but then may verifies that ONLY a specific matching, filtered-priority object is returned
 	-- require - Determine the required level of matching found objects:
 	-- * "key" - only accept objects whose key is also the field with value
@@ -949,7 +950,7 @@ local function SearchForObject(field, id, require, allowMultiple)
 		return allowMultiple and app.EmptyTable or nil
 	end
 
-	local keyMatch, fieldMatch, match = {},{},{}
+	local results = {}
 
 	-- split logic based on require to reduce conditionals within loop
 	if require == 2 then
@@ -960,7 +961,7 @@ local function SearchForObject(field, id, require, allowMultiple)
 			if fcacheObj[field] == id then
 				if fcacheObj.key == field then
 					-- with keyed-field matching key
-					keyMatch[#keyMatch + 1] = fcacheObj
+					results[#results + 1] = fcacheObj
 				end
 			end
 		end
@@ -971,15 +972,14 @@ local function SearchForObject(field, id, require, allowMultiple)
 			-- field matching id
 			if fcacheObj[field] == id then
 					-- with field matching id
-					fieldMatch[#fieldMatch + 1] = fcacheObj
+					results[#results + 1] = fcacheObj
 			end
 		end
 	else
 		-- No require
-		match = fcache
+		results = fcache
 	end
-	-- app.PrintDebug("SFO",field,id,require,"?>",#keyMatch,#fieldMatch,#match)
-	local results = (#keyMatch > 0 and keyMatch) or (#fieldMatch > 0 and fieldMatch) or (#match > 0 and match) or app.EmptyTable
+	-- app.PrintDebug("SFO",field,id,require,"?>",#results)
 	-- if only 1 or no result, no point to try filtering
 	if #results <= 1 then return allowMultiple and results or results[1] end
 	-- try out accessibility sort on multiple results instead of filtering

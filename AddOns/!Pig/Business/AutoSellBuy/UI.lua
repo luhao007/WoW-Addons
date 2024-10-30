@@ -368,11 +368,13 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	    for id = 1, addBag_hang_NUM do
 	    	local dangqianH = id+offset;
 	    	if bagshujuy[dangqianH] then
+	    		local ItemLevel = GetDetailedItemLevelInfo(bagshujuy[dangqianH][2])
+	    		local ItemLevel=bagshujuy[dangqianH][7] or ItemLevel or "*"
 	    		local hang = _G[hangName.."addList"..id]
 	    		hang:Show();
 	    		hang.check:SetID(dangqianH);
 		    	hang.icon:SetTexture(bagshujuy[dangqianH][3]);
-				hang.link:SetText(bagshujuy[dangqianH][7]..bagshujuy[dangqianH][2]);
+				hang.link:SetText(ItemLevel..bagshujuy[dangqianH][2]);
 				hang:SetScript("OnMouseDown", function (self)
 					GameTooltip:ClearLines();
 					GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
