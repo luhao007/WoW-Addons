@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: MysticalOS, Pardua, Cigawoot
-## Version: 1.6.37
+## Version: 1.6.38
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Media|r|cffffe00a>|r |cff308530Sound Events Pack|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0声音特效|r

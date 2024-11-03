@@ -3,10 +3,11 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic,lfr"
 
-mod:SetRevision("20240714050536")
+mod:SetRevision("20241103134004")
 mod:SetCreatureID(71479, 71475, 71480)--He-Softfoot, Rook Stonetoe, Sun Tenderheart
 mod:SetEncounterID(1598)
 mod:SetUsedIcons(7)
+mod:SetZone(1136)
 
 mod:RegisterCombat("combat")
 

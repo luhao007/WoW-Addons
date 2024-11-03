@@ -3,12 +3,13 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20241028100532")
+mod:SetRevision("20241103123604")
 mod:SetCreatureID(230219, 230219, 230217, 230218)--Golem Lord 226306, Arcanotron 230219, Magmatron 230216, Toxitron 230217, Electron 230218
 mod:SetEncounterID(3046)
 --mod:SetUsedIcons(8, 7, 6)
 --mod:SetHotfixNoticeRev(20220322000000)
 --mod:SetMinSyncRevision(20211203000000)
+mod:SetZone(2792)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")

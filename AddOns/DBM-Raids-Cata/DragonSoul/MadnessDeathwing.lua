@@ -3,10 +3,11 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25,lfr"
 
-mod:SetRevision("20240426180008")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(56173)
 mod:SetEncounterID(1299)
 mod:SetUsedIcons(8)
+mod:SetZone(967)
 --mod:SetModelSound("sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_MAELSTROMEVENT_01.OGG", "sound\\CREATURE\\Deathwing\\VO_DS_DEATHWING_MAELSTROMSPELL_04.OGG")
 
 mod:RegisterCombat("combat")

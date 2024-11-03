@@ -1,9 +1,7 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r757](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r757) (2024-10-29)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r756...r757) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r759](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r759) (2024-11-03)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r758...r759) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- Push finished Baelgar mod  
-- Ambassador Flamelash Update:  
-     - Adding timers and warnings for all the things  
-     - Supports LFR, Normal, and heroic timers  
+- remove game version 11.0.2 and add game version 11.0.7  
+- Scope all vanilla raids with specific zone Ids  

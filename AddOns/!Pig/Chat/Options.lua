@@ -600,7 +600,7 @@ local function WhoWhisper_Fun()
 		button.senmsgFun=true
 	end
 	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200})
-	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1)
+	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1,nil,nil,nil,0)
 	WhoFrame.senmsg.bianji.F:PIGClose()
 	WhoFrame.senmsg.bianji.F:Hide()
 	WhoFrame.senmsg.bianji.F.biaoti = PIGFontString(WhoFrame.senmsg.bianji.F,{"TOP", WhoFrame.senmsg.bianji.F, "TOP", 0,-4},"密语内容");
@@ -614,7 +614,7 @@ local function WhoWhisper_Fun()
 	WhoFrame.senmsg.bianji.F.NR.E:SetAutoFocus(false);
 	WhoFrame.senmsg.bianji.F.NR.E:SetMultiLine(true)
 	WhoFrame.senmsg.bianji.F.NR.E:SetMaxLetters(200);
-	WhoFrame.senmsg.bianji.F.NR.E:SetTextColor(0.7, 0.7, 0.7, 1);
+	WhoFrame.senmsg.bianji.F.NR.E:SetTextColor(0.7, 0.7, 0.7, 0.6);
 	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnEditFocusGained", function(self) 
 		self:SetTextColor(1, 1, 1, 1);
 	end);

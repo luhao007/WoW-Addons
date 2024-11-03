@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Breen
-## Version: v30.11
+## Version: v30.12
 
 ## Title: BtWQuests: Legion
 ## Notes: Legion quest data for BtWQuests

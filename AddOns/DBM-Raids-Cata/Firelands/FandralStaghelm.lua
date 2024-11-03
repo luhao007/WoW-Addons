@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(197, "DBM-Raids-Cata", 2, 78)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240905183103")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(52571)
 mod:SetEncounterID(1185)
 mod:SetUsedIcons(8)
+mod:SetZone(720)
 --mod:SetModelSound("Sound\\Creature\\FandralFlameDruid\\VO_FL_FANDRAL_GATE_INTRO_01.ogg", "Sound\\Creature\\FandralFlameDruid\\VO_FL_FANDRAL_KILL_05.ogg")
 --Long: Well, well. I admire your tenacity. Baleroc stood guard over this keep for a thousand mortal lifetimes.
 --Short: *Laughs, Burn

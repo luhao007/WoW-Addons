@@ -3,11 +3,12 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20241029103017")
+mod:SetRevision("20241103123604")
 mod:SetCreatureID(226302)
 mod:SetEncounterID(3047)
 mod:SetHotfixNoticeRev(20241029000000)
 --mod:SetMinSyncRevision(20211203000000)
+mod:SetZone(2792)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")

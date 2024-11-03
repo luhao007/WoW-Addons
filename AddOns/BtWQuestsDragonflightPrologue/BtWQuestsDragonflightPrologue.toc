@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Breen
-## Version: v1.8
+## Version: v1.9
 
 ## Title: BtWQuests: Dragonflight Prologue
 ## Notes: Dragonflight prologue quest data for BtWQuests

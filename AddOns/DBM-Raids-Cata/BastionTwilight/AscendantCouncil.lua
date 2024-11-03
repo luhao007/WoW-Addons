@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(158, "DBM-Raids-Cata", 4, 72)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240609210355")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(43686, 43687, 43688, 43689, 43735)
 mod:SetEncounterID(1028)
 mod:SetUsedIcons(3, 4, 5, 6, 7, 8)
+mod:SetZone(671)
 --mod:SetModelSound("Sound\\Creature\\Chogall\\VO_BT_Chogall_BotEvent14.ogg", "Sound\\Creature\\Terrastra\\VO_BT_Terrastra_Event02.ogg")
 --Long: Brothers of Twilight! The Hammer calls to you! Fire, water, earth, air! Leave your mortal shell behind! Fire, water, earth, air! Embrace your new forms, for here and ever after... Burn and drown and crush and sufficate!...and use your gifts to destroy the unbelievers! Burn and drown and crush and sufficate!
 --Short: We will handle them!

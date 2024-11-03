@@ -461,7 +461,7 @@ function FramePlusfun.Friends()
 						button.tooltip2 = info.fullGuildName;
 					end
 				end
-				WhoFrame.senmsg.listUpdate(button)
+				if WhoFrame.senmsg then WhoFrame.senmsg.listUpdate(button) end
 			end
 		end)
 	else

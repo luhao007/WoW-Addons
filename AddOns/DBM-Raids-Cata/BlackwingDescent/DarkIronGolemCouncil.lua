@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(169, "DBM-Raids-Cata", 5, 73)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240820064719")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(42180, 42178, 42179, 42166)
 mod:SetEncounterID(1027)
 mod:SetUsedIcons(1, 3, 6, 7, 8)
+mod:SetZone(669)
 --mod:SetModelSound("Sound\\Creature\\Nefarian\\VO_BD_Nefarian_OmnitronIntro01.ogg", "Sound\\Creature\\Council\\VO_BD_Council_Event01.ogg")
 --Long: Hmm, the Omnotron Defense System. Centuries ago, these constructs were considered the dwarves greatest tactical achievements. With so many counters to each construct's attacks, I'll have to rectify these designs for them to provide me ANY entertainment!
 --Short: Intruders detected. Primary defense matrix initiated.

@@ -73,6 +73,15 @@ local function Eventduihua(self,event)
 					local zongjirenwu=#options
 					if zongjirenwu==1 then
 						C_GossipInfo.SelectOption(options[1].gossipOptionID)
+					else
+						if PIGA["Interaction"]["AutoDialogueIndex"]>0 then
+							for k,v in pairs(options) do
+								if (v.orderIndex+1)==PIGA["Interaction"]["AutoDialogueIndex"] then
+									C_GossipInfo.SelectOption(v.gossipOptionID)
+								end
+							end
+							--
+						end
 					end
 				end
 			end	

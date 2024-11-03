@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25,lfr"
 
-mod:SetRevision("20240412064728")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(55265)
 mod:SetEncounterID(1292)
+mod:SetZone(967)
 --mod:SetModelSound("sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_EVENT_04.OGG", "sound\\CREATURE\\MORCHOK\\VO_DS_MORCHOK_ORB_01.OGG")
 
 mod:RegisterCombat("combat")

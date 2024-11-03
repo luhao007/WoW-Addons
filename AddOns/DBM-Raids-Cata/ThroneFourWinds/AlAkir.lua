@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(155, "DBM-Raids-Cata", 3, 75)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240616044344")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(46753)
 mod:SetEncounterID(1034)
 mod:SetUsedIcons(8)
+mod:SetZone(754)
 
 mod:RegisterCombat("combat")
 

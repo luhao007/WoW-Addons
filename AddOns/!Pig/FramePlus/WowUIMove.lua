@@ -55,6 +55,11 @@ local function add_Movebiaoti(oldbiaoti,point)
 	Movebiaoti:EnableMouse(true)
 	return Movebiaoti
 end
+local function PIG_SetPoint(self)    
+   	local point, relativeTo, relativePoint, offsetX, offsetY=unpack(PIGA["WowUI"][self:GetName()]["Point"])
+	self:ClearAllPoints();
+	self:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY);
+end
 local function Moving(MovingUI,Frame)
 	if MovingUI then
 		local Frame = Frame or MovingUI
@@ -75,11 +80,7 @@ local function Moving(MovingUI,Frame)
 	       		PIGA["WowUI"][MovingUIName]["Point"]={point, relativeTo, relativePoint, offsetX, offsetY}
 	       	end
 	    end)
-	    local function PIG_SetPoint(self)    
-		   	local point, relativeTo, relativePoint, offsetX, offsetY=unpack(PIGA["WowUI"][self:GetName()]["Point"])
-			self:ClearAllPoints();
-			self:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY);
-	    end
+
 	    MovingUI:HookScript("OnShow",function(self)
 	    	if PIGA["WowUI"][MovingUIName] and PIGA["FramePlus"]["BlizzardUI_Move_Save"] and PIGA["WowUI"][self:GetName()]["Point"] and #PIGA["WowUI"][self:GetName()]["Point"]>0 then
 		    	PIG_SetPoint(self)
@@ -87,6 +88,7 @@ local function Moving(MovingUI,Frame)
 		    	C_Timer.After(0.001,function() PIG_SetPoint(self) end)
 		    end
 	    end)
+	    
 	    --缩放
 	    if PIGA["WowUI"][MovingUIName]["Scale"] then
 			MovingUI:SetScale(PIGA["WowUI"][MovingUIName]["Scale"]);
@@ -115,6 +117,21 @@ end
 --
 function FramePlusfun.BlizzardUI_Move()
 	if not PIGA['FramePlus']['BlizzardUI_Move'] then return end
+	if PIGA["FramePlus"]["BlizzardUI_Move_Save"] then
+		local oldshowframe = nil
+		hooksecurefunc("UpdateUIPanelPositions", function(Frame)
+			local Frame = Frame or oldshowframe
+			if Frame then
+				local UIName = Frame:GetName()
+				if UIName then
+					oldshowframe=Frame
+					if PIGA["WowUI"][UIName] and PIGA["WowUI"][UIName]["Point"] and #PIGA["WowUI"][UIName]["Point"]>0 then
+				    	PIG_SetPoint(Frame)
+				    end
+				end
+			end
+		end)
+	end
 	for k,v in pairs(UINameList) do
 		if v[2] then
 			if v[2]=="add" then

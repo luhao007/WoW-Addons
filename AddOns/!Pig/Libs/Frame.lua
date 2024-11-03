@@ -191,7 +191,7 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 				self.Tex:SetPoint("CENTER");
 			end);
 			self.Close:HookScript("OnClick", function (self)
-				PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
+				PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 				CloseUI:Hide()
 			end);
 		end

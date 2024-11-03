@@ -934,23 +934,22 @@ function BusinessInfo.MailPlus_ADDUI()
 								end
 							end
 						else
-							for bagx=1,6 do
+							for bagx=1,NUM_CONTAINER_FRAMES do
 								local ContainerF = _G["ContainerFrame"..bagx]
 								if ContainerF then
 									if ContainerF.Items then
-										local butnum =#ContainerItems
+										local butnum =#ContainerF.Items
 										for ff=1,butnum do
-											local framef = ContainerItems[ff]
+											local framef = ContainerF.Items[ff]
 											local itemID=PIGGetContainerItemInfo(GetBagIDFun(framef), framef:GetID())
 											if itemID then
-												print(itemID)
 												if DQitemID==itemID then
 													PIG_UseContainerItem(framef)
 												end
 											end
 										end
 									else
-										for solt=1,36 do
+										for solt=1,MAX_CONTAINER_ITEMS do
 											local framef=_G["ContainerFrame"..bagx.."Item"..solt]
 											if framef then
 												local itemID=PIGGetContainerItemInfo(GetBagIDFun(framef), framef:GetID())
@@ -1004,7 +1003,7 @@ function BusinessInfo.MailPlus_ADDUI()
 							end
 						end
 					else
-						for solt=1,36 do
+						for solt=1,MAX_CONTAINER_ITEMS do
 							if _G["ContainerFrame"..bagx.."Item"..solt] then
 								zhixingpiliangFun(_G["ContainerFrame"..bagx.."Item"..solt])
 							end
@@ -1022,7 +1021,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			if ElvUI then
 				local ElvUI_BagName = Data.ElvUI_BagName
 				for f=1,NUM_CONTAINER_FRAMES do
-					for ff=1,36 do
+					for ff=1,MAX_CONTAINER_ITEMS do
 						for ei=1,#ElvUI_BagName do
 							local bagff = _G[ElvUI_BagName[ei]..f.."Slot"..ff]
 							if bagff then

@@ -3,12 +3,13 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20241027101733")
+mod:SetRevision("20241103123604")
 mod:SetCreatureID(226307, 226310, 226309, 226313, 226311, 226312, 226308)--226307 Anger'rel, 226310/doomrel, 226309/doperel, 226313/gloomrel, 226311/haterel, 226312/seethrel, 226308/vilerel
 mod:SetEncounterID(3048)
 mod:SetUsedIcons(1, 2, 3, 4)
 mod:SetHotfixNoticeRev(20241027000000)
 --mod:SetMinSyncRevision(20211203000000)
+mod:SetZone(2792)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")

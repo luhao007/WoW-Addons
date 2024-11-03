@@ -3,9 +3,10 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25,lfr"
 
-mod:SetRevision("20240316010403")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(55312)
 mod:SetEncounterID(1295)
+mod:SetZone(967)
 --mod:DisableRegenDetection()--Uncomment in next dbm release
 --mod:SetModelSound("sound\\CREATURE\\Yorsahj\\VO_DS_YORSAHJ_INTRO_01.OGG", "sound\\CREATURE\\Yorsahj\\VO_DS_YORSAHJ_SPELL_02.OGG")
 

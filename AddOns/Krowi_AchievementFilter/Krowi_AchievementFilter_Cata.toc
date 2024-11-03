@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: Krowi-Frostmane EU
-## Version: 76.2
+## Version: 77.0
 
 ## Title: Krowi's |cFF1D92C2Achievement Filter|r
 ## Notes: Filters your achievements.
@@ -45,11 +45,12 @@ BrowsingHistory.lua
 
 Objects\Files.xml
 
-Data\Files.xml
-Data\CataClassic\Files.xml
-Data\EventData\04_CataClassic_Files.xml
-Data\TooltipData\04_CataClassic_Files.xml
-
 Filters.lua
 SearchOptions.lua
 Gui\FilesClassic.xml
+
+Data\Files.xml
+Data\CataClassic\Files.xml
+DataAddons\Shared\Files.xml
+DataAddons\CataClassic\Files.xml
+DataAddons\Loaders\Files.xml

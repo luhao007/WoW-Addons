@@ -156,8 +156,17 @@ local function PIGGetEnchantID(itemLink)
 	end
 	return 0
 end
-local function ShowEnchantInfo(EnchantBut,ItemID)
-	local _, ItemLink, quality, _, _, _, _, _, _, texture = GetItemInfo(ItemID)
+local function ShowEnchantInfo(EnchantBut,fumoid)
+	local Newdata = {}
+	if type(EnchantItemID[fumoid])=="table" then
+		Newdata.ItemID=EnchantItemID[fumoid][1]
+		Newdata.laiyuan=" 数据提供: "..EnchantItemID[fumoid][2]
+	else
+		Newdata.ItemID=EnchantItemID[fumoid]
+		Newdata.laiyuan=""
+	end
+	GetItemInfo(Newdata.ItemID)
+	local _, ItemLink, quality, _, _, _, _, _, _, texture = GetItemInfo(Newdata.ItemID)
 	if ItemLink then
 		EnchantBut.icon:SetTexture(texture)
 		local r, g, b = GetItemQualityColor(quality or 0)
@@ -167,9 +176,11 @@ local function ShowEnchantInfo(EnchantBut,ItemID)
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,0);
 			if ItemLink then
 				GameTooltip:SetHyperlink(ItemLink)
+				GameTooltip:AddLine(ENCHANTS.."ID:"..fumoid..Newdata.laiyuan)
 			else
-				GameTooltip:AddLine("|cff00FFFF!Pig:|r"..ENCHANTS..INFO..UNKNOWN)
+				GameTooltip:AddLine("|cff00FFFF!Pig:|r"..ENCHANTS.."ID:"..fumoid..ENCHANTS..INFO..UNKNOWN)
 			end
+
 			GameTooltip:Show();
 		end);
 		EnchantBut:SetScript("OnLeave", function ()
@@ -182,7 +193,7 @@ local function ShowEnchantInfo(EnchantBut,ItemID)
 			if EnchantBut.getnum<5 then
 				if EnchantBut.EnchantInfo then EnchantBut.EnchantInfo:Cancel() end
 				EnchantBut.EnchantInfo=C_Timer.NewTimer(0.2,function()
-					ShowEnchantInfo(EnchantBut,ItemID)
+					ShowEnchantInfo(EnchantBut,fumoid)
 				end)
 			end
 		end
@@ -378,9 +389,8 @@ local function ShowItemList(Parent,unit,Data,fuwen)
 					Enchantui:SetAlpha(1)
 					Enchantui.icon:SetDesaturated(false)
 					if EnchantItemID[fumoid] then
-						GetItemInfo(EnchantItemID[fumoid])--获取附魔物品信息
 						Enchantui.getnum=0
-						ShowEnchantInfo(Enchantui,EnchantItemID[fumoid])
+						ShowEnchantInfo(Enchantui,fumoid)
 					elseif EnchantSpellID[fumoid] then
 						local name, texture = PIGGetSpellInfo(EnchantSpellID[fumoid])
 						Enchantui.icon:SetTexture(texture)

@@ -3428,7 +3428,7 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
                     local guidId, guidKind = wlParseGUID(aoeGUID);
 
                     -- Catch object pushing loot without any spells or events.
-                    if guidId and guidKind == 'object' and not fromFishing then
+                    if guidId and guidKind == 'object' and wlTracker.spell.action == nil then
                         wlTracker.spell.kind = 'object';
                         wlEvent[wlId][wlN][eventId].kind = 'object';
                         wlTracker.spell.action = 'Opening';

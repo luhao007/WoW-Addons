@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Author: The WeakAuras Team
-## Version: 5.17.3
+## Version: 5.17.4
 
 ## Title: WeakAuras Options
 ## Notes: Options for WeakAuras

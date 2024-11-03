@@ -4,9 +4,10 @@ local Anshal	= DBM:EJ_GetSectionInfo(3166)
 local Nezir		= DBM:EJ_GetSectionInfo(3178)
 local Rohash	= DBM:EJ_GetSectionInfo(3172)
 
-mod:SetRevision("20240714005612")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(45870, 45871, 45872)
 mod:SetEncounterID(1035)
+mod:SetZone(754)
 mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")

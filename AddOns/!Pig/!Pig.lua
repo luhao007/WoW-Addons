@@ -25,6 +25,7 @@ PIGUI:SetScript("OnEvent",function(self, event, arg1)
 		PigMinimapBut_UI:Point()
 		PigMinimapBut_UI.MinimapBut()
 		addonTable.CVars()
+		---
 		addonTable.Map()
 		addonTable.CombatPlus()
 		addonTable.Common()

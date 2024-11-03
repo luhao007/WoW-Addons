@@ -195,7 +195,7 @@ function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP)
 		self.icon:SetPoint("CENTER");
 	end);
 	But:HookScript("PostClick", function (self)
-		PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
+		PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 	end);
 	return But
 end

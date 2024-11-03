@@ -3,10 +3,11 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "heroic,heroic25"
 
-mod:SetRevision("20240714050642")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(45213)
 mod:SetEncounterID(1082, 1083)--Muiti encounter id. need to verify.
 mod:SetUsedIcons(1, 2)
+mod:SetZone(671)
 mod.respawnTime = 40
 --mod:SetModelSound("Sound\\Creature\\Sinestra\\VO_BT_Sinestra_Aggro01.ogg", "Sound\\Creature\\Sinestra\\VO_BT_Sinestra_Kill02.ogg")
 --Long: We were fools to entrust an imbecile like Cho'gall with such a sacred duty! I will deal with you intruders myself!

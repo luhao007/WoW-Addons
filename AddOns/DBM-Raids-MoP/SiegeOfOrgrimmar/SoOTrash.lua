@@ -3,8 +3,9 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic,lfr"
 
-mod:SetRevision("20240714050536")
+mod:SetRevision("20241103134004")
 --mod:SetModelID(47785)
+mod:SetZone(1136)
 
 mod.isTrashMod = true
 

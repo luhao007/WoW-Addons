@@ -355,6 +355,7 @@ local function addonsClick(button)
 	end
 end
 PigMinimapBut:SetScript("OnClick", function(event, button)
+	PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 	addonsClick(button)
 end)
 local PigMinimapButYD = CreateFrame("Frame", nil);

@@ -122,8 +122,8 @@ local function Set_BarFont(fuji)
 end
 local function Set_StatusBarTex()
 	if not HPMPBar_UI then return end
-	HPMPBar_UI.HPBar:SetStatusBarTexture(BarTexList[PIGA["CombatPlus"]["HPMPBar"]["BarTex"]][2])
-	HPMPBar_UI.MPBar:SetStatusBarTexture(BarTexList[PIGA["CombatPlus"]["HPMPBar"]["BarTex"]][2])
+	if HPMPBar_UI.HPBar then HPMPBar_UI.HPBar:SetStatusBarTexture(BarTexList[PIGA["CombatPlus"]["HPMPBar"]["BarTex"]][2]) end
+	if HPMPBar_UI.MPBar then HPMPBar_UI.MPBar:SetStatusBarTexture(BarTexList[PIGA["CombatPlus"]["HPMPBar"]["BarTex"]][2]) end
 	if HPMPBar_UI.Rune then
 		for index=1,6 do
 			if HPMPBar_UI.Rune.butList[index] then

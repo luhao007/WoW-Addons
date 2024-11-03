@@ -3,13 +3,14 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25,lfr"
 
-mod:SetRevision("20240315100444")
+mod:SetRevision("20241103125714")
 mod:SetCreatureID(56427)
 mod:SetEncounterID(1298)--Fires when ship get actual engage. need to adjust timer.
 mod:DisableIEEUCombatDetection()
 --mod:SetModelSound("sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_INTRO_01.OGG", "sound\\CREATURE\\WarmasterBlackhorn\\VO_DS_BLACKHORN_SLAY_01.OGG")
 mod:SetHotfixNoticeRev(20210811000000)--2021, 08, 11
 mod:SetMinSyncRevision(20210811000000)
+mod:SetZone(967)
 
 mod:RegisterCombat("combat")
 mod:SetMinCombatTime(20)

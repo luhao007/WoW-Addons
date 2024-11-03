@@ -1,3 +1,11 @@
+# v30.12
+
+- Updated for 11.0.5
+
+# v30.11
+
+- Updated for 11.0.0
+
 # v30.10
 
 - Update for 10.2.7

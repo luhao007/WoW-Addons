@@ -1392,6 +1392,7 @@ local function add_AutoEquip(ManageEquip)
 		end
 	end
 end
+
 function FramePlusfun.Character_Shuxing()
 	if not PIGA["FramePlus"]["Character_Shuxing"] then return end
 	if tocversion<30000 then
