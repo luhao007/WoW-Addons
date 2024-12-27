@@ -2487,6 +2487,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [60840] = {
         name = "荒猎攻势",
     },
+    [60855] = {
+        name = "戈姆狂飙",
+    },
     [60856] = {
         name = "击倒蛮兵",
     },
@@ -2894,6 +2897,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61946] = {
         name = "自然卫士",
+    },
+    [61947] = {
+        name = "潜影凶兽",
     },
     [61948] = {
         name = "空中守备军",

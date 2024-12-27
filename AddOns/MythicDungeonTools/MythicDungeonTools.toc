@@ -1,13 +1,13 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Nnoggie
-## Version: 5.2.5
+## Version: 5.2.8
 
 ## Title: Mythic Dungeon Tools
 ## Notes: Tool for planning and optimizing Mythic+ dungeon runs
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF大秘境工具|r |cFFFFE00AMythicDungeonTools|r
 ## Notes-zhCN: 大秘境工具包
 
-## IconTexture: Interface\AddOns\MythicDungeonTools\Textures\Nnoggie
+## IconTexture: Interface\AddOns\MythicDungeonTools\Textures\MDTFull
 
 ## OptionalDeps: !!AddonLocale, LibStub, Ace3, WagoAnalytics
 

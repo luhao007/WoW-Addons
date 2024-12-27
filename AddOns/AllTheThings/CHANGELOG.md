@@ -1,35 +1,15 @@
 # AllTheThings
 
-## [4.1.3](https://github.com/DFortun81/AllTheThings/tree/4.1.3) (2024-10-29)
-[Full Changelog](https://github.com/DFortun81/AllTheThings/compare/4.1.2...4.1.3) [Previous Releases](https://github.com/DFortun81/AllTheThings/releases)
+## [4.2.3a](https://github.com/ATTWoWAddon/AllTheThings/tree/4.2.3a) (2024-12-23)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.2.3...4.2.3a) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- cata parse  
-- Add Novemeber 2024 Trading Post, fix minor errors  
-- Class Variants are now defined slightly differently and use a prioritized array rather than keyed assignments  
-    Variants can now be combined without needing to copy logic manually to new types  
-    Some Quests now properly show their auto-name while also retaining Lock logic  
-- Updated the Loot-Filled Pumpkin's tooltip (Blizz, stop being inconsistent, please)  
-- Fixed a Lua bug that could occur when showing the tooltip on Titalsteel Bar while also being a Blacksmith if the Item had not yet loaded in the game (needs parse)  
-- Added more Zaralek Cavern Flight Paths.  
-- [API Wrapper] Migrate GetSpellName.  
-- [Localization] Update zhTW.  
-- Tweak some anniversary details  
-- Alphabet sorting.  
-- Sourced Battleworn Bludgeon to both A/H vendors.  
-- Some small tweaks  
-- Some anniversary secret updates  
-- Class initialization issues when ATT is starting will now just directly throw an error so that they don't get missed due to debugging chat spam  
-- Anniversary: Better header, me thinks  
-- Anniversary: This item was sorted in b1bfbd1f2fcb86f240530b08af4fd902bd67cce5  
-- Anniversary: First Celebration Crate added  
-- Retail: SearchForLink no longer repeats identical searches when searching for modItemID  
-    Retail: Source(s) group is now a bit more accurate in checking whether the Source contains the specified group  
-- Fix price of the first WoW 20 Anniversary ensemble  
-- Simplified SearchForObject a bit more  
-- Anniversary: Week 1 of the Guest Relations quest chain completed.  
-- Secret file.  
-- TWW: Final batch of the Kaheti Excavations  
-- Fixed Mole Machine coords.  
-    Added more obtainable sourceless items.  
-- Timely Tourist's Sash  
-- [TOC] update Classic PTR version.  
+- [Localization] update zhCN/zhTW:fix typo.  
+- Added the 'sensemble' shortcut for when an Ensemble is directly-granted by SpellID alone  
+    Parser: Refactored some Ensemble logic to fit more scenarios in which a TransmogSet data is determined  
+    Parser: Added a bunch more WARN logging for situations where Ensembles end up with no data to help protect future erroneous situations  
+    Ensemble: Stonebound Earthen Regalia converted to 'sensemble'  
+- Retail: Added glyphs of the pistol shot  
+- Parser: Added a WARN log when an iensemble fails to associate with any SpellEffect records (to pull in TransmogSet properly)  
+    Parser: Fixed an issue where unknown ItemEffect types were being prioritized over known ItemEffect types when associating SpellIDs from Wago data (e.g. Anniversary ensembles)  
+- Updated Retail Wago files  
+- Fix Gill'el  

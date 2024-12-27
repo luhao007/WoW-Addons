@@ -148,6 +148,38 @@ local function GetUnobtainableTexture(group)
 end
 app.GetUnobtainableTexture = GetUnobtainableTexture;
 
+-- Keys for groups which are in-game 'Things'
+-- Copied from Retail since it's used in UI/Waypoints.lua
+app.ThingKeys = {
+	-- filterID = true,
+	flightpathID = true,
+	-- professionID = true,
+	-- categoryID = true,
+	-- mapID = true,
+	npcID = true,
+	creatureID = true,
+	currencyID = true,
+	itemID = true,
+	toyID = true,
+	sourceID = true,
+	speciesID = true,
+	recipeID = true,
+	runeforgepowerID = true,
+	spellID = true,
+	mountID = true,
+	mountmodID = true,
+	illusionID = true,
+	questID = true,
+	objectID = true,
+	encounterID = true,
+	artifactID = true,
+	azeriteessenceID = true,
+	followerID = true,
+	factionID = true,
+	explorationID = true,
+	achievementID = true,	-- special handling
+	criteriaID = true,	-- special handling
+};
 
 local MergeObject;
 local CloneArray = app.CloneArray;
@@ -934,17 +966,14 @@ local function GetSearchResults(method, paramA, paramB, ...)
 		if a then paramA = a; end
 		if b then paramB = b; end
 		-- Move all post processing here?
-		if paramA == "creatureID" or paramA == "encounterID" then
-			local difficultyID = app.GetCurrentDifficultyID();
-			if difficultyID > 0 then
-				local subgroup = {};
-				for _,j in ipairs(group) do
-					if GetRelativeDifficulty(j, difficultyID) then
-						tinsert(subgroup, j);
-					end
+		if paramA == "creatureID" or paramA == "encounterID" or paramA == "objectID" then
+			local subgroup = {};
+			for _,j in ipairs(group) do
+				if not j.ShouldExcludeFromTooltip then
+					tinsert(subgroup, j);
 				end
-				group = subgroup;
 			end
+			group = subgroup;
 
 			local regroup = {};
 			if app.MODE_DEBUG then
@@ -1161,6 +1190,7 @@ local function GetSearchResults(method, paramA, paramB, ...)
 
 	if mostAccessibleSource then
 		group.parent = mostAccessibleSource.parent;
+		group.awp = mostAccessibleSource.awp;
 		group.rwp = mostAccessibleSource.rwp;
 		group.e = mostAccessibleSource.e;
 		group.u = mostAccessibleSource.u;
@@ -1614,7 +1644,7 @@ function app:GetDataCache()
 		-- Expansion Features
 		if app.Categories.ExpansionFeatures and #app.Categories.ExpansionFeatures > 0 then
 			tinsert(g, {
-				text = "Expansion Features",
+				text = EXPANSION_FILTER_TEXT,
 				icon = app.asset("Category_ExpansionFeatures"),
 				g = app.Categories.ExpansionFeatures
 			});
@@ -2115,6 +2145,7 @@ end,
 app.CommonAchievementHandlers = commonAchievementHandlers;
 
 local fields = {
+	RefreshCollectionOnly = true,
 	["collectible"] = function(t)
 		return app.Settings.Collectibles.Achievements;
 	end,
@@ -2275,6 +2306,7 @@ if GetCategoryInfo and (GetCategoryInfo(92) ~= "" and GetCategoryInfo(92) ~= nil
 		["index"] = function(t)
 			return 1;
 		end,
+		RefreshCollectionOnly = true,
 		["collectible"] = function(t)
 			return app.Settings.Collectibles.Achievements;
 		end,
@@ -2671,8 +2703,10 @@ else
 			local collected = true;
 			for i,o in ipairs(t.areas) do
 				if o.collected ~= 1 and app.RecursiveUnobtainableFilter(o) then
-					collected = false;
-					break;
+					if rawget(o, "collectible") ~= false and o.coords then
+						collected = false;
+						break;
+					end
 				end
 			end
 			t:SetAchievementCollected(t.achievementID, collected);
@@ -3140,6 +3174,7 @@ app.CreateCurrencyClass = app.CreateClass("Currency", "currencyID", {
 	["link"] = function(t)
 		return GetCurrencyLink(t.currencyID, 1);
 	end,
+	RefreshCollectionOnly = true,
 	["collectible"] = function(t)
 		return t.collectibleAsCost;
 	end,
@@ -3471,13 +3506,14 @@ recipeFields.collectible = function(t)
 end;
 recipeFields.collected = function(t)
 	if app.CurrentCharacter.Spells[t.spellID] then return 1; end
-	local isKnown = not t.nmc and app.IsSpellKnown(t.spellID, t.rank, GetRelativeValue(t, "requireSkill") == 261);
-	return app.SetCollected(t, "Spells", t.spellID, isKnown);
+	local state = app.SetCollected(t, "Spells", t.spellID, not t.nmc and app.IsSpellKnown(t.spellID, t.rank, GetRelativeValue(t, "requireSkill") == 261), "Recipes");
+	if state == 1 then return 1; elseif state == 2 and app.Settings.AccountWide.Recipes then return 2; end
 end;
 recipeFields.f = function(t)
 	return app.FilterConstants.RECIPES;
 end;
 recipeFields.IsClassIsolated = true;
+recipeFields.RefreshCollectionOnly = true;
 local createRecipe = app.CreateClass("Recipe", "spellID", recipeFields,
 "WithItem", {
 	baseIcon = function(t)
@@ -3523,7 +3559,7 @@ local SetBattlePetCollected = function(t, speciesID, collected)
 	return app.SetCollected(t, "BattlePets", speciesID, collected);
 end
 local SetMountCollected = function(t, spellID, collected)
-	return app.SetCollected(t, "Spells", spellID, collected);
+	return app.SetCollected(t, "Spells", spellID, collected, "Mounts");
 end
 local speciesFields = {
 	["f"] = function(t)
@@ -3565,6 +3601,7 @@ local mountFields = {
 	["f"] = function(t)
 		return app.FilterConstants.MOUNTS;
 	end,
+	RefreshCollectionOnly = true,
 	["collectible"] = function(t)
 		return app.Settings.Collectibles.Mounts;
 	end,
@@ -3614,6 +3651,7 @@ if C_PetJournal and app.GameBuildVersion > 30000 then
 	speciesFields.description = function(t)
 		return select(6, C_PetJournal.GetPetInfoBySpeciesID(t.speciesID));
 	end
+	speciesFields.RefreshCollectionOnly = true
 	speciesFields.collected = function(t)
 		local count = C_PetJournal.GetNumCollectedInfo(t.speciesID);
 		return SetBattlePetCollected(t, t.speciesID, count and count > 0);

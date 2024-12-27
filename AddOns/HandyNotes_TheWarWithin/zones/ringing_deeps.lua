@@ -14,7 +14,7 @@ local Treasure = ns.node.Treasure
 local Vendor = ns.node.Vendor
 
 local FlightMaster = ns.node.FlightMaster
--- local LoreObject = ns.node.LoreObject
+local LoreObject = ns.node.LoreObject
 local SkyridingGlyph = ns.node.SkyridingGlyph
 
 local Achievement = ns.reward.Achievement
@@ -668,41 +668,41 @@ map.nodes[44315026] = GobblinWithGlublurp({
 --------------------- ACHIEVEMENT: KHAZ ALGAR LORE HUNTER ---------------------
 -------------------------------------------------------------------------------
 
--- map.nodes[39311739] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69374}),
---         Reputation({id = 2594, gain = 250})
---     }
--- }) -- A Skull on a Sign
+map.nodes[39311739] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69374}),
+        Reputation({id = 2594, gain = 250})
+    }
+}) -- A Skull on a Sign
 
--- map.nodes[64945614] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69378}),
---         Reputation({id = 2594, gain = 250})
---     }
--- }) -- Kobold Warning Sign
+map.nodes[64945614] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69378}),
+        Reputation({id = 2594, gain = 250})
+    }
+}) -- Kobold Warning Sign
 
--- map.nodes[51477241] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69376}),
---         Reputation({id = 2594, gain = 250})
---     }
--- }) -- Submerged Sign
+map.nodes[51477241] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69376}),
+        Reputation({id = 2594, gain = 250})
+    }
+}) -- Submerged Sign
 
--- map.nodes[71364240] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69375}),
---         Reputation({id = 2594, gain = 250})
---     }
--- }) -- Warning: Collapsed Tunnel
+map.nodes[71364240] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69375}),
+        Reputation({id = 2594, gain = 250})
+    }
+}) -- Warning: Collapsed Tunnel
 
--- map.nodes[50215826] = LoreObject({
---     note = L['in_small_cave'],
---     rewards = {
---         Achievement({id = 40762, criteria = 69377}),
---         Reputation({id = 2594, gain = 250})
---     }
--- }) -- Wax-Drenched Sign
+map.nodes[50215826] = LoreObject({
+    note = L['in_small_cave'],
+    rewards = {
+        Achievement({id = 40762, criteria = 69377}),
+        Reputation({id = 2594, gain = 250})
+    }
+}) -- Wax-Drenched Sign
 
 -------------------------------------------------------------------------------
 -------------------- ACHIEVEMENT: TO ALL THE SLIMES I LOVE --------------------
@@ -819,3 +819,40 @@ map.nodes[61444793] = FlightMaster({
 map.nodes[64717808] = FlightMaster({
     rewards = {Achievement({id = 40430, criteria = 68183})}
 }) -- Opportunity Point
+
+-------------------------------------------------------------------------------
+----------------------- ACHIEVEMENT: FOR THE COLLECTIVE -----------------------
+-------------------------------------------------------------------------------
+
+local ReclamationMachinist = Class('ReclamationMachinist', Collectible, {
+    label = '{npc:228056}',
+    icon = 'peg_yw',
+    scale = 1.5,
+    group = ns.groups.FOR_THE_COLLECTIVE,
+    note = L['for_the_collective_note'],
+    rewards = {
+        Achievement({
+            id = 40630,
+            criteria = {
+                id = 1,
+                qty = true,
+                suffix = L['for_the_collective_suffix']
+            }
+        })
+    }
+}) -- Reclamation Machinist
+
+map.nodes[63596298] = ReclamationMachinist()
+map.nodes[64026395] = ReclamationMachinist()
+map.nodes[66896425] = ReclamationMachinist()
+map.nodes[64276487] = ReclamationMachinist({
+    location = L['for_the_collective_location'],
+    pois = {POI({64866448})} -- Wood Plank
+})
+
+-------------------------------------------------------------------------------
+----------------------------- WORLDSOUL MEMORIES ------------------------------
+-------------------------------------------------------------------------------
+
+map.nodes[43561070] = ns.node.WorldsoulMemory({areaPoiID = 7835}) -- Elemental Fury
+map.nodes[59347000] = ns.node.WorldsoulMemory({areaPoiID = 7836}) -- Primal Predators

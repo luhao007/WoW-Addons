@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20241103123604")
+mod:SetRevision("20241107120311")
 mod:SetCreatureID(226305, 226314)
 mod:SetEncounterID(3049)
 --mod:SetUsedIcons(8, 7, 6)
@@ -109,7 +109,7 @@ mod.vb.necrosisCount = 0
 mod.vb.meteorCount = 0
 mod.vb.volleyCount = 0
 mod.vb.fireguardCount = 0
-local guardTimers = {30, 30, 50, 25, 30}
+local guardTimers = {30, 30, 30, 25, 30}--Seems to wildy variate so this is not correct way to do it
 
 ---Checks for skipped first hand of stage 3
 --Context: https://www.warcraftlogs.com/reports/6NaTd1m8ZwyGcCv7#pins=2%24Off%24%23244F4B%24expression%24ability.id%20%3D%20466447%20and%20type%20%3D%20%22begincast%22%20or%20ability.id%20%3D%20465069%20and%20type%20%3D%20%22applybuff%22%20or%20ability.id%20%3D%20465210%20and%20type%20%3D%20%22begincast%22&view=events&boss=3049&difficulty=4

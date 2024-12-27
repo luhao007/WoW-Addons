@@ -1,5 +1,5 @@
-## Interface: 110005
-## Version: Plater-v595-Retail
+## Interface: 110007
+## Version: Plater-v598-Retail
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.
@@ -7,6 +7,8 @@
 ## Notes-zhCN: 自定义血条显示
 
 ## IconTexture: Interface\AddOns\Plater\images\cast_bar
+
+## OptionalDeps: Masque
 
 ## SavedVariables: PlaterDB, PlaterLanguage, PlaterLogs, PlaterBackup
 ## SavedVariablesPerCharacter: PlaterDBChr

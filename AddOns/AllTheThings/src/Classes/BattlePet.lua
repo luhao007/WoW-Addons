@@ -111,15 +111,12 @@ do
 		});
 
 		app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
+			CACHE = function() return CACHE end,
 			collectible = function(t) return app.Settings.Collectibles[CACHE]; end,
 			collected = function(t)
-				local id = t[KEY];
-				-- character collected
-				-- TODO: this prevents ATT added to collection message since it becomes 'collected' prior to the cache being set
-				if CollectedSpeciesHelper[id] then return 1; end
 				-- certain Battle Pets are per Character, so we can implicitly check for them as Account-Wide since Battle Pets have no toggle for that
 				-- account-wide collected
-				if app.IsAccountCached(CACHE, id) then return 2; end
+				return app.TypicalCharacterCollected(CACHE, t[KEY]) and 1
 			end,
 			saved = function(t)
 				-- character collected

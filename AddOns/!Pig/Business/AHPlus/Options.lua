@@ -82,8 +82,8 @@ function BusinessInfo.AHPlusOptions()
 				if itemName and itemName~="" then
 					local  bindType = select(14, GetItemInfo(itemlink))
 					if bindType~=1 and bindType~=4 then
-						if PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm] and PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][itemName] then
-							local jiagelist = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][itemName][2]
+						if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm] and PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][itemName] then
+							local jiagelist = PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][itemName][2]
 							local jiagelistNum=#jiagelist
 							local jiluTime = jiagelist[jiagelistNum][2] or 1660000000
 							local jiluTime = date("%m-%d %H:%M",jiluTime)
@@ -103,8 +103,8 @@ function BusinessInfo.AHPlusOptions()
 					if ItemID then
 						local itemName,_,_,_,_,_,_,_,_,_,sellPrice,classID,subclassID,bindType= GetItemInfo(ItemID) 
 						if bindType~=1 and bindType~=4 then
-							if PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm] and PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][itemName] then
-								local jiagelist = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][itemName][2]
+							if PIGA["AHPlus"]["CacheData"] and PIGA["AHPlus"]["CacheData"][itemName] then
+								local jiagelist = PIGA["AHPlus"]["CacheData"][itemName][2]
 								local jiagelistNum=#jiagelist
 								local jiluTime = jiagelist[jiagelistNum][2] or 1660000000
 								local jiluTime = date("%m-%d %H:%M",jiluTime)

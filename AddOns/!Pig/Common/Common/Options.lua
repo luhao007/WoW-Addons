@@ -72,7 +72,7 @@ end)
 if tocversion<20000 then
 	local classColorTable = {r=0,g=0.44,b=0.87}
 	local colorF = CreateFrame("Frame")
-	colorF:RegisterEvent("ADDON_LOADED")
+	colorF:RegisterEvent("PLAYER_LOGIN")
 	colorF:SetScript("OnEvent", function(self, event, arg1)
 	    if arg1 == addonName then
 	    	if PIGA["Common"]["SHAMAN_Color"] then
@@ -168,7 +168,6 @@ if tocversion<20000 then
 			        end
 			    end)
 			end
-		    self:UnregisterEvent("ADDON_LOADED")
 		end
 	end)
 	fujiF.SHAMAN_Color =PIGCheckbutton_R(fujiF,{"修改"..ClassFile_Name["SHAMAN"]..CLASS_COLORS,"修改"..ClassFile_Name["SHAMAN"]..CLASS_COLORS.."为正式服颜色"},true)
@@ -367,7 +366,7 @@ local function UpdateWCL_ONOFF()
 	end
 end
 fujiF.xingnengF.Advanced_CombatLog =PIGCheckbutton_R(fujiF.xingnengF,{ENABLE..ADVANCED_COMBAT_LOGGING,ENABLE..ADVANCED_COMBAT_LOGGING},true)
-fujiF.xingnengF.Advanced_CombatLog.tt = PIGFontString(fujiF.xingnengF.Advanced_CombatLog,{"LEFT",fujiF.xingnengF.Advanced_CombatLog.Text,"RIGHT",2,0},"《"..ENABLE..ADVANCED_COMBAT_LOGGING.."才可自动记录WCL》");
+fujiF.xingnengF.Advanced_CombatLog.tt = PIGFontString(fujiF.xingnengF.Advanced_CombatLog,{"LEFT",fujiF.xingnengF.Advanced_CombatLog.Text,"RIGHT",2,0},"《"..ENABLE..ADVANCED_COMBAT_LOGGING.."才可"..ENABLE..COMBAT_LOG.."》");
 fujiF.xingnengF.Advanced_CombatLog.tt:SetTextColor(1, 0, 0, 1)
 fujiF.xingnengF.Advanced_CombatLog:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -378,7 +377,7 @@ fujiF.xingnengF.Advanced_CombatLog:SetScript("OnClick", function (self)
 	AutoCombatLogFun()
 	C_Timer.After(1,UpdateWCL_ONOFF)
 end);
-fujiF.xingnengF.CombatLog =PIGCheckbutton_R(fujiF.xingnengF,{"自动"..START.."WCL"..COMBAT_LOG,"根据预设条件自动"..START..COMBAT_LOG},true)
+fujiF.xingnengF.CombatLog =PIGCheckbutton_R(fujiF.xingnengF,{"自动"..START..COMBAT_LOG,"根据预设条件自动"..START..COMBAT_LOG},true)
 fujiF.xingnengF.CombatLog:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Common"]["AutoCombatLog"]=true
@@ -407,6 +406,7 @@ function fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_SetValue(value,arg1,arg2)
 	AutoCombatLogFun()
 	C_Timer.After(1,UpdateWCL_ONOFF)
 end
+fujiF.xingnengF.CombatLog.tips = PIGFontString(fujiF.xingnengF.CombatLog,{"TOPLEFT",fujiF.xingnengF.CombatLog,"BOTTOMLEFT",20,-6},COMBATLOGENABLED);
 
 --系统设置---------
 fujiF.xitongF=PIGFrame(fujiF,{"BOTTOMLEFT", fujiF, "BOTTOMLEFT", 0, 0})

@@ -44,9 +44,10 @@ local yijiazaijinlai = {
 		[IGNORE]=function(wanjiaName)
 			C_FriendList.AddIgnore(wanjiaName)
 		end,
-		[BNET_REPORT]=function(wanjiaName,mmsg)
+		[BNET_REPORT..CHAT]=function(wanjiaName,mmsg)
 			if wanjiaName and mmsg then
-				ComplainChat(wanjiaName, mmsg)
+				local reportInfo = ReportInfo:CreateReportInfoFromType(Enum.ReportType.Chat);
+				ReportFrame:InitiateReport(reportInfo, wanjiaName);
 			end
 		end,
 	},

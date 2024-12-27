@@ -151,6 +151,12 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 ---@field TIME_PLAYED_MSG table Override default - XP
 ---@field short_name string Placeholder for short bar name
 
+-- Ace references
+AceGUIWidgetLSMlists = {}
+
+--====== Ace Drop down menu
+L_UIDROPDOWNMENU_MENU_LEVEL = 1
+L_UIDROPDOWNMENU_MENU_VALUE = 1
 
 --====== WoW Drop down menu
 UIDROPDOWNMENU_MENU_VALUE = 1

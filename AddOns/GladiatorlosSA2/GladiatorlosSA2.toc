@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Mulvark
-## Version: TWWB2
+## Version: 5.0
 
 ## Title: GladiatorlosSA
 ## Notes: PvP Sound Alerter

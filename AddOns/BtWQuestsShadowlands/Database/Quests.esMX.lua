@@ -2481,6 +2481,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [60840] = {
         name = "Ofensiva de los Cazadores salvajes",
     },
+    [60855] = {
+        name = "Gormagedón",
+    },
     [60856] = {
         name = "Derribar al bruto",
     },
@@ -2888,6 +2891,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61946] = {
         name = "Defensores naturales",
+    },
+    [61947] = {
+        name = "Acecho en las sombras",
     },
     [61948] = {
         name = "Fuerza de defensa aérea",

@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: VV
-## Version: 10.1.0
+## Version: 10.1.1
 
 ## Title: GladiatorlosSA_zhCN_VV
 ## Notes: GSA plugin for Chinese voice set

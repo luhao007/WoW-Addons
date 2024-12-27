@@ -366,11 +366,11 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		--分类设置
 		BAGheji.fenlei = CreateFrame("Button",nil,BAGheji, "TruncatedButtonTemplate");
 		BAGheji.fenlei:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp");
-		BAGheji.fenlei:SetSize(wwc-6,hhc-6);
+		BAGheji.fenlei:SetSize(wwc-8,hhc-6);
 		BAGheji.fenlei:SetPoint("TOPRIGHT",BAGheji,"TOPRIGHT",-6,-42+BAGheji.pianyiliangV);
 		BAGheji.fenlei.Tex = BAGheji.fenlei:CreateTexture(nil, "BORDER");
 		BAGheji.fenlei.Tex:SetAtlas("common-icon-forwardarrow")
-		BAGheji.fenlei.Tex:SetSize(wwc-2,wwc-5);
+		BAGheji.fenlei.Tex:SetSize(wwc-4,wwc-7);
 		BAGheji.fenlei.Tex:SetPoint("CENTER",BAGheji.fenlei,"CENTER",2,0);
 		BAGheji.fenlei:SetScript("OnMouseDown", function (self)
 			self.Tex:SetPoint("CENTER",BAGheji.fenlei,"CENTER",3,-1);
@@ -389,6 +389,27 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			BAGheji:Show_Hide_but(self.show)
 		end);
 		BagBankfun.addfenleibagbut(BAGheji,"PIG_CharacterBag_")
+		--钥匙
+		BAGheji.key = CreateFrame("Button",nil,BAGheji, "TruncatedButtonTemplate");
+		BAGheji.key:SetNormalTexture("interface/buttons/ui-button-keyring.blp"); 
+		BAGheji.key:SetPushedTexture("interface/buttons/ui-button-keyring-down.blp")
+		BAGheji.key:SetHighlightTexture("interface/buttons/ui-button-keyring-highlight.blp");
+		BAGheji.key:GetNormalTexture():SetTexCoord(0,0.5625,0,0.609375)
+		BAGheji.key:GetPushedTexture():SetTexCoord(0,0.5625,0,0.609375)
+		BAGheji.key:GetHighlightTexture():SetTexCoord(0,0.5625,0,0.609375)
+		BAGheji.key:GetNormalTexture():SetRotation(math.rad(90), {x=0.5, y=0.5})
+		BAGheji.key:GetPushedTexture():SetRotation(math.rad(90), {x=0.5, y=0.5})
+		BAGheji.key:GetHighlightTexture():SetRotation(math.rad(90), {x=0.5, y=0.5})
+		BAGheji.key:SetSize(wwc-7,hhc+10);
+		BAGheji.key:SetPoint("BOTTOMLEFT",BAGheji,"BOTTOMLEFT",30,1);
+		BAGheji.key:SetHitRectInsets(-8,-8,5,5);
+		BAGheji.key:SetScript("OnClick",  function (self)
+			if (CursorHasItem()) then
+				PutKeyInKeyRing();
+			else
+				ToggleBag(KEYRING_CONTAINER);
+			end
+		end);
 		---=====================
 		if tocversion>30000 then
 			hooksecurefunc("ManageBackpackTokenFrame", function(backpack)

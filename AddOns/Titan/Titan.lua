@@ -1775,7 +1775,8 @@ function TitanPanel_RemoveButton(id)
 	local currentButton = TitanUtils_GetButton(id);
 
 	-- safeguard ...
-	if id then AceTimer.CancelAllTimers({}) end -- ??? seems confused 0 or 1 params  "TitanPanel" .. id
+---@diagnostic disable-next-line: missing-parameter
+	if id then AceTimer.CancelAllTimers() end -- ??? seems confused 0 or 1 params  "TitanPanel" .. id
 
 	TitanPanel_ReOrder(i);
 	table.remove(TitanPanelSettings.Buttons, TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons, id));

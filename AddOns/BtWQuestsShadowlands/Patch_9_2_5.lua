@@ -42,14 +42,26 @@ Database:AddChain(Chain.Chain92501, {
         },
         {
             type = "item",
-            id = 191604,
-        },
-        {
-            type = "item",
             id = 191565,
             restrictions = {
                 type = "class",
                 id = BtWQuests.Constant.Class.Paladin,
+            },
+        },
+        {
+            type = "item",
+            id = 191604,
+        },
+        {
+            type = "money",
+            variations = {
+                {
+                    amount = 1956240,
+                    restrictions = -1,
+                },
+                {
+                    amount = 1956240,
+                },
             },
         },
     },
@@ -234,6 +246,10 @@ Database:AddChain(Chain.Chain92502, {
             type = "item",
             id = 184922,
         },
+        {
+            type = "experience",
+            amount = 320,
+        },
     },
     items = {
         {
@@ -317,6 +333,12 @@ Database:AddChain(Chain.Chain92503, {
         type = "quest",
         id = 66170,
     },
+    rewards = {
+        {
+            type = "money",
+            amount = 128700,
+        },
+    },
     items = {
         {
             type = "npc",
@@ -358,11 +380,30 @@ Database:AddChain(Chain.Chain92504, {
     },
     rewards = {
         {
+            name = L["DARK_RANGER_ELF_CUSTOMIZATION"],
+        },
+        {
             name = L["OF_LORDAERON_TITLE"],
         },
         {
-            name = L["DARK_RANGER_ELF_CUSTOMIZATION"],
-        }
+            type = "experience",
+            amount = 75300,
+        },
+        {
+            type = "money",
+            amount = 3063060,
+        },
+        {
+            type = "reputation",
+            id = 68,
+            amount = 3000,
+        },
+        {
+            type = "reputation",
+            id = 1134,
+            amount = 3000,
+            restrictions = 924,
+        },
     },
     items = {
         {
@@ -501,7 +542,7 @@ Database:AddChain(Chain.Chain92505, {
     prerequisites = {
         {
             type = "level",
-            level = 60,
+            level = 50,
         },
     },
     active = {
@@ -515,11 +556,24 @@ Database:AddChain(Chain.Chain92505, {
     },
     rewards = {
         {
+            name = L["DARK_RANGER_ELF_CUSTOMIZATION"],
+        },
+        {
             name = L["OF_LORDAERON_TITLE"],
         },
         {
-            name = L["DARK_RANGER_ELF_CUSTOMIZATION"],
-        }
+            type = "experience",
+            amount = 73320,
+        },
+        {
+            type = "money",
+            amount = 3011580,
+        },
+        {
+            type = "reputation",
+            id = 68,
+            amount = 3000,
+        },
     },
     items = {
         {
@@ -672,6 +726,12 @@ Database:AddChain(Chain.Chain92506, {
     completed = {
         type = "quest",
         id = 66243,
+    },
+    rewards = {
+        {
+            type = "money",
+            amount = 128700,
+        },
     },
     items = {
         {

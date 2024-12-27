@@ -351,7 +351,7 @@ local function GetPetItemID(creatureID)
 	return nil
 end
 
-local function GetCreatureID(itemID)
+function RSCollectionsDB.GetCreatureID(itemID)
 	if (itemID) then
 		for creatureID, internalItemID in pairs(private.DROPPED_PET_IDS) do
 			if (internalItemID == itemID) then
@@ -368,7 +368,7 @@ local function CheckUpdatePet(itemID, entityID, source, checkedItems)
 	if (checkedItems[RSConstants.ITEM_TYPE.PET][itemID]) then
 		UpdateEntityCollection(itemID, entityID, source, RSConstants.ITEM_TYPE.PET)
 	else
-		local creatureID = GetCreatureID(itemID)
+		local creatureID = RSCollectionsDB.GetCreatureID(itemID)
 		if (creatureID) then			
 			if (RSUtils.Contains(GetNotCollectedPetsIDs(), creatureID)) then
 				UpdateEntityCollection(itemID, entityID, source, RSConstants.ITEM_TYPE.PET)

@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.0.5                    --
+--    Patch: 11.0.7                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2024-10-28";
+local WL_ADDON_UPDATED = "2024-12-17";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110005;
+local WL_VERSION = 110007;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -1042,7 +1042,13 @@ function wlEvent_PLAYER_TARGET_CHANGED(self)
         wlUnit[id].faction = wlUnitFaction("target");
     end
 
-    wlUpdateVariable(wlUnit, id, "reaction", wlConcat(UnitLevel("player"), UnitFactionGroup("player"), UnitReaction("player", "target")), "init", wlGetTime());
+    local reaction = UnitReaction("player", "target");
+    local reactionOpposite = UnitReaction("target", "player");
+    -- If UnitReaction returns Friendly, check the opposite result too.
+    if (reaction == 5 and reactionOpposite < reaction) then
+        reaction = reactionOpposite;
+    end
+    wlUpdateVariable(wlUnit, id, "reaction", wlConcat(UnitLevel("player"), UnitFactionGroup("player"), reaction), "init", wlGetTime());
 
     local dd, level = wlGetInstanceDifficulty(), UnitLevel("target");
 
@@ -1544,9 +1550,9 @@ function wlEvent_TRAINER_SHOW(self)
     end
 
     local fAvail, fUnavail, fUsed = GetTrainerServiceTypeFilter("available"), GetTrainerServiceTypeFilter("unavailable"), GetTrainerServiceTypeFilter("used");
-    SetTrainerServiceTypeFilter("available", 1);
-    SetTrainerServiceTypeFilter("unavailable", 1);
-    SetTrainerServiceTypeFilter("used", 1);
+    SetTrainerServiceTypeFilter("available", true);
+    SetTrainerServiceTypeFilter("unavailable", true);
+    SetTrainerServiceTypeFilter("used", true);
 
     local standing = select(2, wlUnitFaction("npc"));
     local isTradeSkill = IsTradeskillTrainer();
@@ -1574,9 +1580,9 @@ function wlEvent_TRAINER_SHOW(self)
         end
     end
 
-    SetTrainerServiceTypeFilter("available", fAvail and 1 or 0);
-    SetTrainerServiceTypeFilter("unavailable", fUnavail and 1 or 0);
-    SetTrainerServiceTypeFilter("used", fUsed and 1 or 0);
+    SetTrainerServiceTypeFilter("available", fAvail);
+    SetTrainerServiceTypeFilter("unavailable", fUnavail);
+    SetTrainerServiceTypeFilter("used", fUsed);
 
     if ClassTrainerFrame then
         oldIndex = oldIndex >= 1 and oldIndex or 1;

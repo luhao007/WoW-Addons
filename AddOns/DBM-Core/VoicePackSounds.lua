@@ -95,6 +95,7 @@
 ---|"enfeeblingroar" 12
 ---|"engineercoming" 12
 ---|"enrage"
+---|"enteringcombat" 17
 ---|"failed"
 ---|"farfromline"
 ---|"fearsoon"
@@ -175,6 +176,7 @@
 ---|"laserrun"
 ---|"leavecenter"
 ---|"leavemind"
+---|"leavingcombat" 17
 ---|"left"
 ---|"lightinfusion"
 ---|"lightstorm"
@@ -218,6 +220,7 @@
 ---|"movetotank"
 ---|"movetoweb" 17
 ---|"movetoflamethrower" 17
+---|"movetotendrils" 17
 ---|"mpurple"
 ---|"myellow"
 ---|"negative" 13
@@ -251,6 +254,7 @@
 ---|"redyou" 17
 ---|"riftdispel" 17
 ---|"right"
+---|"rollincoming" 17
 ---|"runaway" 2
 ---|"runin" 2
 ---|"runintofire" 12

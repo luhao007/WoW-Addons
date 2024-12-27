@@ -441,8 +441,20 @@ function RSMapOptions.GetMapOptions()
 							end,
 							width = "full",
 						},
-						achievementsInfo = {
+						tooltipsExtraInfo = {
 							order = 2,
+							type = "toggle",
+							name = AL["MAP_TOOLTIPS_EXTRA_INFO"],
+							desc = AL["MAP_TOOLTIPS_EXTRA_INFO_DESC"],
+							get = function() return RSConfigDB.IsShowingTooltipsExtraInfo() end,
+							set = function(_, value)
+								RSConfigDB.SetShowingTooltipsExtraInfo(value)
+							end,
+							width = "full",
+							disabled = function() return not RSConfigDB.IsShowingTooltipsOnIngameIcons() end,
+						},
+						achievementsInfo = {
+							order = 3,
 							type = "toggle",
 							name = AL["MAP_TOOLTIPS_ACHIEVEMENT"],
 							desc = AL["MAP_TOOLTIPS_ACHIEVEMENT_DESC"],
@@ -453,7 +465,7 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 						},
 						notes = {
-							order = 3,
+							order = 4,
 							type = "toggle",
 							name = AL["MAP_TOOLTIPS_NOTES"],
 							desc = AL["MAP_TOOLTIPS_NOTES_DESC"],
@@ -464,7 +476,7 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 						},
 						loot = {
-							order = 4,
+							order = 5,
 							type = "toggle",
 							name = AL["MAP_TOOLTIPS_LOOT"],
 							desc = AL["MAP_TOOLTIPS_LOOT_DESC"],
@@ -475,7 +487,7 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 						},
 						lastTimeSeen = {
-							order = 5,
+							order = 6,
 							type = "toggle",
 							name = AL["MAP_TOOLTIPS_SEEN"],
 							desc = AL["MAP_TOOLTIPS_SEEN_DESC"],
@@ -486,7 +498,7 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 						},
 						state = {
-							order = 6,
+							order = 7,
 							type = "toggle",
 							name = AL["MAP_TOOLTIPS_STATE"],
 							desc = AL["MAP_TOOLTIPS_STATE_DESC"],
@@ -497,7 +509,7 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 						},
 						commands = {
-							order = 7,
+							order = 8,
 							type = "toggle",
 							name = AL["MAP_TOOLTIPS_COMMANDS"],
 							desc = AL["MAP_TOOLTIPS_COMMANDS_DESC"],
@@ -508,7 +520,7 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 						},
 						filterState = {
-							order = 8,
+							order = 9,
 							type = "toggle",
 							name = AL["MAP_TOOLTIPS_FILTER_STATE"],
 							desc = AL["MAP_TOOLTIPS_FILTER_STATE_DESC"],
@@ -519,12 +531,12 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 						},
 						separatorLootAchievements = {
-							order = 9,
+							order = 10,
 							type = "header",
 							name = AL["MAP_TOOLTIPS_LOOT_ACHIEVEMENT"],
 						},
 						lootAchievementsScale = {
-							order = 10,
+							order = 11,
 							type = "range",
 							name = AL["MAP_TOOLTIPS_LOOT_ACHIEVEMENT_SCALE"],
 							desc = AL["MAP_TOOLTIPS_LOOT_ACHIEVEMENT_SCALE_DESC"],
@@ -538,7 +550,7 @@ function RSMapOptions.GetMapOptions()
 							width = "full"
 						},
 						lootAchievementsPosition = {
-							order = 11,
+							order = 12,
 							type = "select",
 							name = AL["MAP_TOOLTIPS_LOOT_ACHIEVEMENT_POSITION"],
 							desc = AL["MAP_TOOLTIPS_LOOT_ACHIEVEMENT_POSITION_DESC"],

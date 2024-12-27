@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Krowi-Frostmane EU
-## Version: 77.0
+## Version: 80.2
 
 ## Title: Krowi's |cFF1D92C2Achievement Filter|r
 ## Notes: Filters your achievements.
@@ -30,8 +30,6 @@ Plugins\Files.xml
 Credits.lua
 
 Localization\Files.xml
-
-ExportedTabs.lua
 
 Krowi_AchievementFilter.lua
 Globals.lua

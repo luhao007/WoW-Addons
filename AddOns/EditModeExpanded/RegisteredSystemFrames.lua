@@ -8,15 +8,6 @@ function addon:initSystemFrames()
         
     for _, frame in ipairs(EditModeManagerFrame.registeredSystemFrames) do
         local name = frame:GetName()
-        
-        -- Backward compatibility: frame name was changed from MicroMenu to MicroMenuContainer in 10.1
-        if name == "MicroMenuContainer" then
-            if db["MicroMenu"] and (not db[name]) then
-                db[name] = db["MicroMenu"]
-                db["MicroMenu"] = nil
-            end
-        end
-        
         if not db[name] then db[name] = {} end
         lib:RegisterFrame(frame, "", db[name])
     end
@@ -91,12 +82,14 @@ function addon:registerSecureFrameHideable(frame)
     local onResetFunctionHide = lib:RegisterCustomCheckbox(frame, HIDE,
         function()
             hidden = true
+            if InCombatLockdown() then return end
             if not EditModeManagerFrame.editModeActive then
                 hide()
             end
         end,
         function()
             hidden = false
+            if InCombatLockdown() then return end
             show()
         end,
         "HidePermanently")
@@ -163,7 +156,9 @@ function addon:registerSecureFrameHideable(frame)
     end
     
     return function()
-            return ( hidden and (not toggleInCombat) ) or ( hidden and toggleInCombat and (not InCombatLockdown()) ) or ( (not hidden) and toggleInCombat and InCombatLockdown() )
+            return  ( hidden and (not toggleInCombat) ) or 
+                    ( hidden and toggleInCombat and (not InCombatLockdown()) ) or 
+                    ( (not hidden) and toggleInCombat and InCombatLockdown() )
         end
 end
 
@@ -174,13 +169,16 @@ local parentparent = CreateFrame("Frame", nil, UIParent)
 local parent = CreateFrame("Frame", nil, parentparent)
 
 function addon.unlinkClassResourceFrame(frame)
+    local wasChecked
     lib:RegisterCustomCheckbox(frame, L["UNLINK_CLASS_RESOURCE_DESCRIPTION"], 
         --onChecked
         function()
             frame:SetParent(parent)
+            wasChecked = true
         end,
         --onUnchecked
         function()
+            if not wasChecked then return end
             frame:SetParent(PlayerFrameBottomManagedFramesContainer)
         end
     )

@@ -67,9 +67,9 @@ app.CreateCurrencyClass = app.CreateClass(CLASS, KEY, {
 		return merge.isCost
 	end,
 	statistic = function(t)
-		local info = t.info
+		local info = C_CurrencyInfo_GetCurrencyInfo(t.currencyID)
 		if not info then return end
-		local quantity, maxQuantity = t.info.quantity, t.info.maxQuantity
+		local quantity, maxQuantity = info.quantity, info.maxQuantity
 		if maxQuantity and maxQuantity > 0 then
 			return tostring(quantity) .. " / " .. tostring(maxQuantity)
 		elseif quantity and quantity > 0 then

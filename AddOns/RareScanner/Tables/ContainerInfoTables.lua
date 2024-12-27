@@ -4,6 +4,7 @@
 local FOLDER_NAME, private = ...
 
 private.CONTAINER_INFO = {
+	[500687] = { zoneID = 0, reset = true }; --Seafarer's Cache
 	[386158] = { zoneID = 1, artID = { 2 }, x = 5609, y = 1207, overlay = { "5609-1207","5520-0990" }, reset = false, questID = { 74287 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
 	[310709] = { zoneID = 37, artID = { 41 }, x = 3223, y = 6343, overlay = { "3220-6340" } }; --Waterlogged Chest
 	[319024] = { zoneID = 62, artID = { 1176,67 }, x = 5879, y = 2524, overlay = { "5879-2524","5510-1570","5670-0950","5780-2380","5840-1000","6080-2230","6120-2010","6250-1820","6280-1450" } }; --Darkshore Cache
@@ -1379,4 +1380,26 @@ private.CONTAINER_INFO = {
 	[244628] = { zoneID = 650, artID = { 674 }, x = 5380, y = 5120, overlay = { "5380-5120" }, reset = false, questID = { 39872 } }; --Taurson's Prize
 	[244473] = { zoneID = 650, artID = { 674 }, x = 4924, y = 4989, overlay = { "4924-4989" }, reset = false, questID = { 39784 } }; --Thunder Totem Stolen Goods
 	[245479] = { zoneID = 650, artID = { 674 }, x = 4356, y = 4720, overlay = { "4356-4720" }, reset = false, questID = { 40413 } }; --Battered Chest
+	[441108] = { zoneID = {
+				[2213] = { x = 4474, y = 8516, artID = { 1816 }, overlay = { "4470-8530" } };
+				[2214] = { x = 6670, y = 4870, artID = { 1817 }, overlay = { "6670-4870" } };
+				[2215] = { x = 3840, y = 3510, artID = { 1818 }, overlay = { "3840-3510" } };
+				[2248] = { x = 6240, y = 2030, artID = { 1833 }, overlay = { "6240-2030" } };
+			  } }; --Unbound Spoils
+  	[135238] = { zoneID = 0 }; --War Supply Crate
+	[463539] = { zoneID = 2369, artID = { 1919 }, x = 6810, y = 9438, overlay = { "6843-9432" }, questReset = true, zoneQuestId = { 84850 }, questID = { 84527 } }; --Pilfered Earthen Chest
+	[464233] = { zoneID = 2369, artID = { 1919 }, x = 6243, y = 9080, overlay = { "6243-9080" }, questReset = true, zoneQuestId = { 84851 } }; --Bilge Rat Supply Chest
+	[474822] = { zoneID = 2369, artID = { 1919 }, x = 6259, y = 6723, overlay = { "5619-1453","3241-6923","3036-6605","5981-6912","6952-6681","4996-6058","6068-5263","4879-3748","3100-7240","3210-5690","3740-7540","3790-3870","3800-8490","3880-2040","3900-5180","3920-4410","3960-6700","4170-4650","4200-1650","4410-6390","4560-7130","4790-6990","4910-5820","4920-4640","4930-1760","4970-7610","5190-6570","5210-3250","5210-7090","5300-4070","5320-5460","5370-7540","5380-4490","5530-6950","5680-5690","5740-8570","5980-2060","6080-6230","6170-6150","6210-4440","6240-6760","6560-8040","6560-8770","6690-7820","6830-7360","7180-5880","7640-4790","4780-3430","5010-1250","5160-3760","5410-3720","5420-6030","5780-7810" }, reset = true }; --Runed Storm Cache
+	[493375] = { zoneID = 2369, artID = { 1919 }, x = 6794, y = 7348, overlay = { "6756-7350" }, questReset = true, zoneQuestId = { 84852 }, questID = { 86171,85714 } }; --Rune-Sealed Coffer
+	[494499] = { zoneID = 2369, artID = { 1919 }, x = 3661, y = 3138, overlay = { "4007-0819","3906-1369","4166-7592","1077-3860","3661-3138" }, reset = true }; --Seafarer's Cache
+	[500682] = { zoneID = 2369, artID = { 1919 }, x = 2342, y = 7038, overlay = { "7776-2623","1040-3290","8709-7174","7708-4834","8185-4913","2342-7038" }, reset = true }; --Seafarer's Cache
+	[500683] = { zoneID = 2369, artID = { 1919 }, x = 7397, y = 9017, overlay = { "4978-0394","2455-3286","4173-3194","7150-8326","3816-7643","6319-9251","7135-8595","7397-9017" }, reset = true }; --Seafarer's Cache
+	[500684] = { zoneID = 2369, artID = { 1919 }, x = 8223, y = 2070, overlay = { "6472-2409","8749-8681","8223-2070" }, reset = true }; --Seafarer's Cache
+	[500685] = { zoneID = 2369, artID = { 1919 }, x = 2492, y = 8167, overlay = { "6934-1443","6092-0118","4496-9156","4404-9632","4788-7921","5305-0069","4166-7592","2492-8167" }, reset = true }; --Seafarer's Cache
+	[500686] = { zoneID = 2369, artID = { 1919 }, x = 4187, y = 3218, overlay = { "2873-0151","2342-7038","3096-9442","5812-8847","3124-8248","5331-8180","4187-3218" }, reset = true }; --Seafarer's Cache
+	[500688] = { zoneID = 2369, artID = { 1919 }, x = 7332, y = 5233, overlay = { "7332-5233" }, reset = true }; --Seafarer's Cache
+	[500689] = { zoneID = 2369, artID = { 1919 }, x = 3306, y = 2055, overlay = { "3306-2055" }, reset = true }; --Seafarer's Cache
+	[500690] = { zoneID = 2369, artID = { 1919 }, x = 4589, y = 8763, overlay = { "4589-8763" }, reset = true }; --Seafarer's Cache
+	[505503] = { zoneID = 2369, artID = { 1919 }, x = 4169, y = 4603, overlay = { "4168-4586" }, reset = false, questID = { 86765 } }; --Ashvane Issued Workboots
+	[505476] = { zoneID = 2375, artID = { 1925 }, x = 2645, y = 2297, overlay = { "2660-2390" }, questReset = true, questID = { 86732 } }; --Stone Carver's Scramseax
 }

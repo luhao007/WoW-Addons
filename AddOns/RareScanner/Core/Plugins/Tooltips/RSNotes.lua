@@ -115,6 +115,9 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
     -- Requires wordlsoul memory event
 	elseif (minieventID and minieventID == RSConstants.WARWITHIN_RARES_WORLDSOUL_MINIEVENT) then
 		return AL["NOTE_WORLDSOUL_RARE_NPCS"]
+	-- Requires Storm's Brewin quest
+	elseif (RSUtils.Contains(RSConstants.STORMS_BREWIN_NPCS, entityID)) then
+		return AL["NOTE_STORMS_BREWIN_NPCS"]
 	end
 	
 	-- Rune of constructs Containers

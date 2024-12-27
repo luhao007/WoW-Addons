@@ -1,12 +1,8 @@
 ------------------------------------------------------------------------
-r57 | funkehdude | 2024-07-09 18:33:54 +0000 (Tue, 09 Jul 2024) | 1 line
+r59 | funkehdude | 2024-11-20 17:09:17 +0000 (Wed, 20 Nov 2024) | 1 line
 Changed paths:
    M /trunk/LibDurability.toc
-   D /trunk/LibDurability_Cata.toc
-   D /trunk/LibDurability_TBC.toc
-   D /trunk/LibDurability_Vanilla.toc
-   D /trunk/LibDurability_Wrath.toc
 
-Merge toc files
+bump toc
 ------------------------------------------------------------------------
 

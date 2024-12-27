@@ -27,11 +27,6 @@ private.EVENT_INFO = {
 	[277329] = { zoneID = 896, x = 4195, y = 3648, overlay = { "4195-3648" } }; --Sarcófago antiguo
 	[277896] = { zoneID = 896, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
 	[277897] = { zoneID = 896, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
-	[149653] = { zoneID = 1355, artID = { 1186 }, x = 5470, y = 4171, overlay = { "5470-4171" } }; --null
-	[150191] = { zoneID = 1355, artID = { 1186 }, x = 3690, y = 1123, overlay = { "3690-1123" } }; --null
-	[150468] = { zoneID = 1355, artID = { 1186 }, x = 4809, y = 2426, overlay = { "4809-2426" } }; --null
-	[153898] = { zoneID = 1355, artID = { 1186 }, x = 6245, y = 2964, overlay = { "6245-2964" } }; --null
-	[154148] = { zoneID = 1355, artID = { 1186 }, x = 6592, y = 2231, overlay = { "6592-2231" } }; --null
 	[152227] = { zoneID = 1527, artID = { 1343 }, x = 6449, y = 2982, overlay = { "6449-2982" }, zoneQuestId = { 55350 }, questID = { 55359 } }; --Ritual de ascensión
 	[152398] = { zoneID = 1527, artID = { 1343 }, x = 8349, y = 6187, overlay = { "8349-6187" }, zoneQuestId = { 55350 }, questID = { 55357 } }; --Baliza del Rey del Sol
 	[152439] = { zoneID = 1527, artID = { 1343 }, x = 6993, y = 5983, overlay = { "6993-5983" }, zoneQuestId = { 55350 }, questID = { 55360 } }; --La tumba abierta

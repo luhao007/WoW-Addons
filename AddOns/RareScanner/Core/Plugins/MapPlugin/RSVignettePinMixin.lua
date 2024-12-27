@@ -87,15 +87,6 @@ end
 
 function RSVignettePinMixin:OnMouseEnter()
 	if (self.POI and RSConfigDB.IsShowingTooltipsOnIngameIcons()) then
-		-- Just in case the user didnt have the questID when he found it
-		if (self.POI.isOpened) then
-			RSContainerDB.DeleteContainerOpened(self.POI.entityID)
-		elseif (self.POI.isDead) then
-			RSNpcDB.DeleteNpcKilled(self.POI.entityID)
-		elseif (self.POI.isCompleted) then
-			RSEventDB.DeleteEventCompleted(self.POI.entityID)
-		end
-		
 		RSTooltip.ShowSimpleTooltip(self)
 	else
 		self.tooltip = nil

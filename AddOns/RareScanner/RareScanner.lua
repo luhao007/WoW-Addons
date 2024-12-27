@@ -174,10 +174,31 @@ scanner_button.CloseButton:HookScript("OnClick", function(self)
 end)
 
 -- Filter disabled button
-scanner_button.FilterEntityButton = CreateFrame("Button", "FilterEntityButton", scanner_button, "GameMenuButtonTemplate")
+scanner_button.FilterEntityButton = CreateFrame("Button", "FilterEntityButton", scanner_button, "UIPanelCloseButtonNoScripts")
 scanner_button.FilterEntityButton:SetPoint("BOTTOMLEFT", 5, 5)
 scanner_button.FilterEntityButton:SetSize(16, 16)
-scanner_button.FilterEntityButton:SetNormalTexture([[Interface\WorldMap\Dash_64]])
+
+local FilterEntityButtonTexture = scanner_button.FilterEntityButton:CreateTexture()
+FilterEntityButtonTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
+FilterEntityButtonTexture:SetSize(16, 16)
+FilterEntityButtonTexture:SetTexCoord(0, 0.3, 0, 0.3)
+FilterEntityButtonTexture:SetPoint("CENTER")
+scanner_button.FilterEntityButton:SetNormalTexture(FilterEntityButtonTexture)
+
+FilterEntityButtonTexture = scanner_button.FilterEntityButton:CreateTexture()
+FilterEntityButtonTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
+FilterEntityButtonTexture:SetSize(16, 16)
+FilterEntityButtonTexture:SetTexCoord(0, 0.3, 0.35, 0.65)
+FilterEntityButtonTexture:SetPoint("CENTER")
+scanner_button.FilterEntityButton:SetDisabledTexture(FilterEntityButtonTexture)
+
+FilterEntityButtonTexture = scanner_button.FilterEntityButton:CreateTexture()
+FilterEntityButtonTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
+FilterEntityButtonTexture:SetSize(16, 16)
+FilterEntityButtonTexture:SetTexCoord(0, 0.3, 0.65, 0.95)
+FilterEntityButtonTexture:SetPoint("CENTER")
+scanner_button.FilterEntityButton:SetPushedTexture(FilterEntityButtonTexture)
+
 scanner_button.FilterEntityButton:SetScript("OnClick", function(self)
 	local entityID = self:GetParent().entityID
 	if (entityID) then
@@ -187,87 +208,55 @@ scanner_button.FilterEntityButton:SetScript("OnClick", function(self)
 			else
 				RSConfigDB.SetNpcFiltered(entityID)
 			end
-			RSLogger:PrintMessage(AL["DISABLED_SEARCHING_RARE"]..self:GetParent().Title:GetText())
 		elseif (RSConstants.IsContainerAtlas(self:GetParent().atlasName)) then
-			if (RSConfigDB.GetDefaultContainerFilter() == RSConstants.ENTITY_FILTER_WORLDMAP) then
-				RSConfigDB.SetContainerFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
-			else
-				RSConfigDB.SetContainerFiltered(entityID)
+			-- Filter every container with the same name
+			local containerName = RSContainerDB.GetContainerName(entityID)
+			if (containerName) then
+				for containerID, name in pairs(RSContainerDB.GetAllContainerNames()) do
+					if (name == containerName) then
+						if (RSConfigDB.GetDefaultContainerFilter() == RSConstants.ENTITY_FILTER_WORLDMAP) then
+							RSConfigDB.SetContainerFiltered(containerID, RSConstants.ENTITY_FILTER_ALL)
+						else
+							RSConfigDB.SetContainerFiltered(containerID)
+						end
+					end
+				end
+			-- Filter only this container
+			else			
+				if (RSConfigDB.GetDefaultContainerFilter() == RSConstants.ENTITY_FILTER_WORLDMAP) then
+					RSConfigDB.SetContainerFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
+				else
+					RSConfigDB.SetContainerFiltered(entityID)
+				end
 			end
-			RSLogger:PrintMessage(string.format(AL["DISABLED_SEARCHING_CONTAINER"], self:GetParent().Title:GetText()))
 		else
 			if (RSConfigDB.GetDefaultEventFilter() == RSConstants.ENTITY_FILTER_WORLDMAP) then
 				RSConfigDB.SetEventFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
 			else
 				RSConfigDB.SetEventFiltered(entityID)
 			end
-			RSLogger:PrintMessage(string.format(AL["DISABLED_SEARCHING_EVENT"], self:GetParent().Title:GetText()))
 		end
 		
-		self:Hide()
-		self:GetParent().UnfilterEnabledButton:Show()
+		RSLogger:PrintMessage(string.format(AL["ENTITY_FILTERED"], self:GetParent().Title:GetText()))
+		self:Disable()
 	end
 end)
 scanner_button.FilterEntityButton:SetScript("OnEnter", function(self)
-	GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-	if (RSConstants.IsNpcAtlas(self:GetParent().atlasName)) then
-		GameTooltip:SetText(AL["DISABLE_SEARCHING_RARE_TOOLTIP"])
-	elseif (RSConstants.IsContainerAtlas(self:GetParent().atlasName)) then
-		GameTooltip:SetText(AL["DISABLE_SEARCHING_CONTAINER_TOOLTIP"])
-	else
-		GameTooltip:SetText(AL["DISABLE_SEARCHING_EVENT_TOOLTIP"])
+	if (not self.tooltip) then
+		self.tooltip = CreateFrame("GameTooltip", "StopTooltip", scanner_button, "GameTooltipTemplate");
+		self.tooltip:SetMinimumWidth(150)
+		self.tooltip:SetScale(0.8)
 	end
-	GameTooltip:Show()
+
+	self.tooltip:SetOwner(scanner_button, "ANCHOR_LEFT")
+	self.tooltip:SetText(AL["DISABLE_SEARCHING_TOOLTIP"])
+	self.tooltip:AddLine(AL["DISABLE_SEARCHING_TOOLTIP_DESC"], 1, 1, 1, true)
+	self.tooltip:Show()
 end)
 
 scanner_button.FilterEntityButton:SetScript("OnLeave", function(self)
-	GameTooltip:Hide()
+	self.tooltip:Hide()
 end)
-
--- Filter enabled button
-scanner_button.UnfilterEnabledButton = CreateFrame("Button", "UnfilterEnabledButton", scanner_button, "GameMenuButtonTemplate")
-scanner_button.UnfilterEnabledButton:SetPoint("BOTTOMLEFT", 5, 5)
-scanner_button.UnfilterEnabledButton:SetSize(16, 16)
-scanner_button.UnfilterEnabledButton:SetScript("OnClick", function(self)
-	local entityID = self:GetParent().entityID
-	if (entityID) then
-		if (RSConstants.IsNpcAtlas(self:GetParent().atlasName)) then
-			RSConfigDB.DeleteNpcFiltered(entityID)
-			RSLogger:PrintMessage(AL["ENABLED_SEARCHING_RARE"]..self:GetParent().Title:GetText())
-		elseif (RSConstants.IsContainerAtlas(self:GetParent().atlasName)) then
-			RSConfigDB.DeleteContainerFiltered(entityID)
-			RSLogger:PrintMessage(string.format(AL["ENABLED_SEARCHING_CONTAINER"], self:GetParent().Title:GetText()))
-		else
-			RSConfigDB.DeleteEventFiltered(entityID)
-			RSLogger:PrintMessage(string.format(AL["ENABLED_SEARCHING_EVENT"], self:GetParent().Title:GetText()))
-		end
-		self:Hide()
-		self:GetParent().FilterEntityButton:Show()
-	end
-end)
-scanner_button.UnfilterEnabledButton:SetScript("OnEnter", function(self)
-	GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-	if (RSConstants.IsNpcAtlas(self:GetParent().atlasName)) then
-		GameTooltip:SetText(AL["ENABLE_SEARCHING_RARE_TOOLTIP"])
-	elseif (RSConstants.IsContainerAtlas(self:GetParent().atlasName)) then
-		GameTooltip:SetText(AL["ENABLE_SEARCHING_CONTAINER_TOOLTIP"])
-	else
-		GameTooltip:SetText(AL["ENABLE_SEARCHING_EVENT_TOOLTIP"])
-	end
-	GameTooltip:Show()
-end)
-
-scanner_button.UnfilterEnabledButton:SetScript("OnLeave", function(self)
-	GameTooltip:Hide()
-end)
-
-scanner_button.FilterEnabledTexture = scanner_button.UnfilterEnabledButton:CreateTexture()
-scanner_button.FilterEnabledTexture:SetTexture([[Interface\WorldMap\Skull_64]])
-scanner_button.FilterEnabledTexture:SetSize(12, 12)
-scanner_button.FilterEnabledTexture:SetTexCoord(0,0.5,0,0.5)
-scanner_button.FilterEnabledTexture:SetPoint("CENTER")
-scanner_button.UnfilterEnabledButton:SetNormalTexture(scanner_button.FilterEnabledTexture)
-scanner_button.UnfilterEnabledButton:Hide()
 
 -- Loot bar
 scanner_button.LootBar = CreateFrame("Frame", "LootBar", scanner_button)
@@ -403,15 +392,16 @@ scanner_button.PreviousButton:Hide()
 -- Register events
 RSEventHandler.RegisterEvents(scanner_button, RareScanner)
 
-function scanner_button:SimulateRareFound(npcID, objectGUID, name, x, y, atlasName)
+function scanner_button:SimulateRareFound(npcID, objectGUID, name, x, y, atlasName, trackingSystem)
 	local vignetteInfo = {}
 	vignetteInfo.atlasName = atlasName
 	vignetteInfo.id = npcID
 	vignetteInfo.name = name
-	vignetteInfo.objectGUID = objectGUID or string.format("a-a-a-a-a-%s-a", npcID)
+	vignetteInfo.objectGUID = objectGUID or string.format("a-a-a-a-a-%s-%s", npcID, time())
 	vignetteInfo.x = x
 	vignetteInfo.y = y
 	vignetteInfo.simulated = true
+	vignetteInfo.trackingSystem = trackingSystem
 	self:DetectedNewVignette(self, vignetteInfo)
 end
 
@@ -506,14 +496,13 @@ function scanner_button:ShowButton()
 	end
 	
 	self:SetAttribute("macrotext", macrotext);
-	
+		
 	-- Toggle filter buttons
+	self.FilterEntityButton:Show()
 	if ((RSConstants.IsNpcAtlas(self.atlasName) and RSConfigDB.GetNpcFiltered(self.entityID) == nil) or (RSConstants.IsContainerAtlas(self.atlasName) and RSConfigDB.GetContainerFiltered(self.entityID) == nil) or (RSConstants.IsEventAtlas(self.atlasName))) then
-		self.UnfilterEnabledButton:Hide()
-		self.FilterEntityButton:Show()
+		self.FilterEntityButton:Enable()
 	else
-		self.UnfilterEnabledButton:Show()
-		self.FilterEntityButton:Hide()
+		self.FilterEntityButton:Disable()
 	end
 	
 	-- show button

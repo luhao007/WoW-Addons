@@ -1,5 +1,5 @@
-## Interface: 110005
-## Version: 105
+## Interface: 110007
+## Version: 111
 
 ## Title: HandyNotes: Battle for Azeroth
 ## Notes: Battle for Azeroth Notes

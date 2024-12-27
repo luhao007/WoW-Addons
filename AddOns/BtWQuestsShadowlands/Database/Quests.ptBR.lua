@@ -2481,6 +2481,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [60840] = {
         name = "Ofensiva da Caçada Selvagem",
     },
+    [60855] = {
+        name = "Gormagedom",
+    },
     [60856] = {
         name = "A derrubada do brutamontes",
     },
@@ -2888,6 +2891,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61946] = {
         name = "Defensores naturais",
+    },
+    [61947] = {
+        name = "À espreita nas sombras",
     },
     [61948] = {
         name = "Força de defesa aérea",

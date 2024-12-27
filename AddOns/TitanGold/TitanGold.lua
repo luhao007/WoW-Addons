@@ -43,7 +43,46 @@ local player_name = GetUnitName("Player")
 local FACTION_ALLIANCE = "Alliance_debug"
 local FACTION_HORDE = "Horde_debug"
 --]]
+
+-- Topic debug tool / scheme
+local pdebug = Titan_Global.NewDebug()
+pdebug.enabled = false
+pdebug.topics[1].enabled = true
+pdebug.topics[2].enabled = false
+pdebug.topics[3] = { enabled = true, topic = "Tooltip"}
+
 -- ******************************** Functions *******************************
+
+---local Take the total cash and make it into a nice, colorful string of g s c (gold silver copper)
+---@param value number
+---@param show_zero boolean
+---@param show_neg boolean
+---@return string outstr Formatted cash for output
+---@return integer gold part of value
+---@return integer silver part of value
+---@return integer copper part of value
+local function NiceCash(value, show_zero, show_neg)
+	local sep = ""
+	local dec = ""
+	if (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorComma")) then
+		sep = ","
+		dec = "."
+	elseif (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorPeriod")) then
+		sep = "."
+		dec = ","
+	elseif (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorSpace")) then
+		sep = " "
+		dec = "."
+	end
+
+	local outstr, gold, silver, copper =
+		TitanUtils_CashToString(value, sep, dec,
+			TitanGetVar(TITAN_GOLD_ID, "ShowGoldOnly"),
+			TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels"),
+			TitanGetVar(TITAN_GOLD_ID, "ShowCoinIcons"),
+			TitanGetVar(TITAN_GOLD_ID, "ShowColoredText"))
+	return outstr, gold, silver, copper
+end
 
 -- A bit overkill but make a class for the Warbank bank functions
 
@@ -53,31 +92,14 @@ local Warband = {
 	label = "",
 }
 ---local Warband Bank debug
-function Warband.debug(reason)
-	print("WB " .. reason
+function Gold_debug(reason)
+	local str = ""
+		.. "$" .. tostring(NiceCash(GetMoney(), false, false))
+		.. " WB " .. reason
 		.. " " .. tostring(Warband.active)
 		.. " " .. tostring(Warband.label)
-		.. " " .. tostring(Warband.bank_sum)
-	)
-end
-
----local Update Warband Bank info - sum
-function Warband.SetSum()
-	Warband.bank_sum = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
-	--	Warband.debug("SetSum")
-end
-
----local Set Warband Bank info
-function Warband.Init()
-	-- check for func even though it does not work atm... 2024 Aug  (Added 11.0.0)
-	Warband.active = (C_Bank and C_Bank.CanUseBank) and true or false
-	if Warband.active then
-		Warband.label = L["TITAN_WARBAND_BANK"]
-		Warband.SetSum()
-	else
-		-- Likely Classic version
-	end
-	--	Warband.debug("Init")
+		.. " " .. tostring(NiceCash(Warband.bank_sum, false, false))
+	return str
 end
 
 ---local Check if Warband Bank is in this version and user requested
@@ -93,21 +115,63 @@ function Warband.Use()
 	else
 		-- Likely Classic version
 	end
-	
 	return res
+end
+
+---local Update Warband Bank info - sum
+function Warband.SetSum()
+	if Warband.Use() then
+		-- Really just prevents errors if not implemented in the WoW version
+
+		-- There *may* have been instances of failure reported as Titan errors
+		-- Wrap in pcall for safety
+		--Warband.bank_sum = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
+		local sum = 0
+		local call_success = false
+		local ret_val = nil
+
+		call_success, -- needed for pcall
+		ret_val =  -- actual return values
+			pcall(C_Bank.FetchDepositedMoney, Enum.BankType.Account)
+
+		if call_success then
+			-- Assume a valid Warband cash amount (WOWMONEY)
+			sum = ret_val
+		else
+			-- Set to zero as a default and not an error.
+			sum = 0
+		end
+		Warband.bank_sum = sum
+
+	else
+		-- Likely Classic version
+	end
+	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("SetSum"))
+end
+
+---local Set Warband Bank info
+function Warband.Init()
+	-- check for func in case either Classic implements  (Added 11.0.0)
+	Warband.active = (C_Bank and C_Bank.CanUseBank) and true or false
+	if Warband.active then
+		Warband.label = L["TITAN_WARBAND_BANK"]
+	else
+		-- Likely Classic version
+	end
+	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("Init"))
 end
 
 ---local Return Warband Bank info
 ---@return number
 function Warband.GetSum()
-	--	Warband.debug("GetSum")
+	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("GetSum"))
 	return Warband.bank_sum
 end
 
 ---local Return Warband Bank info
 ---@return string
 function Warband.GetName()
-	--	Warband.debug("GetName")
+	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("GetName"))
 	return Warband.label
 end
 
@@ -124,6 +188,7 @@ local function Get_Money()
 		-- Not accurate but safe
 		money = 0
 	end
+	Warband.SetSum() -- update warbank as well
 	return money
 end
 
@@ -254,37 +319,6 @@ local function EvalIndexInfo(index)
 	end
 
 	return res
-end
-
----local Take the total cash and make it into a nice, colorful string of g s c (gold silver copper)
----@param value number
----@param show_zero boolean
----@param show_neg boolean
----@return string outstr Formatted cash for output
----@return integer gold part of value
----@return integer silver part of value
----@return integer copper part of value
-local function NiceCash(value, show_zero, show_neg)
-	local sep = ""
-	local dec = ""
-	if (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorComma")) then
-		sep = ","
-		dec = "."
-	elseif (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorPeriod")) then
-		sep = "."
-		dec = ","
-	elseif (TitanGetVar(TITAN_GOLD_ID, "UseSeperatorSpace")) then
-		sep = " "
-		dec = "."
-	end
-
-	local outstr, gold, silver, copper =
-		TitanUtils_CashToString(value, sep, dec,
-			TitanGetVar(TITAN_GOLD_ID, "ShowGoldOnly"),
-			TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels"),
-			TitanGetVar(TITAN_GOLD_ID, "ShowCoinIcons"),
-			TitanGetVar(TITAN_GOLD_ID, "ShowColoredText"))
-	return outstr, gold, silver, copper
 end
 
 ---local Take the total cash and make it into a nice, colorful string of g s c (gold silver copper)
@@ -637,10 +671,14 @@ local function GetTooltipText()
 	-- === Add Warband Bank
 	--
 	if Warband.Use() then
+		local cash = NiceCash(Warband.GetSum(), false, false)
+		local war_name = ""..Warband.GetName() -- localized
 		currentMoneyRichText = currentMoneyRichText .. "\n"
 			.. "------ \t +" .. "\n"
-			.. Warband.GetName() -- localized
-			.. "\t" .. NiceCash(Warband.GetSum(), false, false)
+			.. war_name
+			.. "\t" .. cash
+		local str = "" .. war_name .. " ".. cash
+		--TitanTopicDebug(TITAN_GOLD_ID, 3, str)
 	end
 
 
@@ -769,14 +807,6 @@ local function Initialize_Array(self)
 	if (GOLD_INITIALIZED) then
 		-- already done
 	else
-		self:UnregisterEvent("ADDON_LOADED");
-
-		-- See if this is a new toon to Gold
-		if (GoldSave[GOLD_INDEX] == nil) then
-			GoldSave[GOLD_INDEX] = {}
-			GoldSave[GOLD_INDEX] = { gold = Get_Money(), name = player_name }
-		end
-
 		-- Ensure the saved vars are usable
 		for index, money in pairs(GoldSave) do
 			local character, charserver, char_faction = GetIndexInfo(index)
@@ -1021,7 +1051,7 @@ local function CreateMenu()
 		if Warband.active then
 			-- Function to toggle show / hide of Warbank gold
 			info = {};
-			info.text = L["TITAN_GOLD_INCLUDE_WARBANK"] -- .. " - " .. NiceTextCash(Warband.GetSum()).."";
+			info.text = L["TITAN_GOLD_INCLUDE_WARBANK"]
 
 			info.checked = TitanGetVar(TITAN_GOLD_ID, "ShowWarband");
 			info.func = function()
@@ -1173,6 +1203,7 @@ local function OnLoad(self)
 		tooltipTitle = L["TITAN_GOLD_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,
 		buttonTextFunction = FindGold,
+		debugClass = pdebug,
 		icon = "Interface\\AddOns\\TitanGold\\Artwork\\TitanGold",
 		iconWidth = 16,
 		notes = notes,
@@ -1231,21 +1262,15 @@ local function OnShow(self)
 		-- timer running or user does not want gold per hour
 	end
 
-	-- Leave active so user can toggle
-	if Warband.active then
-		Warband.SetSum()
-		self:RegisterEvent("ACCOUNT_MONEY") -- register for changes
-	end
+	local dbg = ""
+		.." "..Gold_debug("OnShow")
+	--TitanTopicDebug(TITAN_GOLD_ID, 1, dbg)
 end
 
 ---local When shown, unregister needed events and stop timer for gold per hour
 ---@param self Button
 local function OnHide(self)
 	self:UnregisterEvent("PLAYER_MONEY");
-	if Warband.active then
-		---@diagnostic disable-next-line: param-type-mismatch
-		self:UnregisterEvent("ACCOUNT_MONEY")
-	end
 	AceTimer:CancelTimer(GoldTimer)
 	GoldTimerRunning = false
 end
@@ -1255,20 +1280,10 @@ end
 ---@param event string
 ---@param ... any
 local function OnEvent(self, event, a1, ...)
-	--[[
-print("_OnEvent"
-.." "..tostring(event)..""
-)
---]]
-
 	if (event == "PLAYER_MONEY") then
 		if (GOLD_INITIALIZED) then
 			GoldSave[GOLD_INDEX].gold = Get_Money()
 			TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
-		end
-	elseif (event == "ACCOUNT_MONEY") then
-		if (GOLD_INITIALIZED) then
-			Warband.SetSum()
 		end
 	elseif (event == "ADDON_LOADED") then
 		if a1 == addonName then
@@ -1281,14 +1296,25 @@ print("_OnEvent"
 
 			-- Faction is English to use as index NOT display
 			GOLD_INDEX = CreateIndex(player_name, realmName, player_faction)
+
+			-- See if this is a new toon to Gold saved vars
+			-- Set gold to 0; it will be set properly later
+			if (GoldSave[GOLD_INDEX] == nil) then
+				GoldSave[GOLD_INDEX] = {}
+				GoldSave[GOLD_INDEX] = { gold = 0, name = player_name }
+			end
+
+			self:UnregisterEvent("ADDON_LOADED");
 		else
 			-- Not this addon
+			return -- no debug, if enabled
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		Initialize_Array(self);
 		Warband.Init()
 		TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 	end
+	--TitanTopicDebug(TITAN_GOLD_ID, 1, event)
 end
 
 ---Button clicks - only shift-left for now

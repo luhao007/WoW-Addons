@@ -79,6 +79,9 @@ L.MOVIE_NOTSKIPPED				= L.DBM .. "이 생략할 수 있는 동영상을 감지�
 L.BONUS_SKIPPED				= L.DBM .. "이 자동으로 추가 전리품 주사위 굴림 창을 닫았습니다. 창을 열고 싶으면 3분 안에 /dbmbonusroll 명령어를 입력하세요"
 
 L.AFK_WARNING				= "자리 비움 상태에서 전투에 돌입하여 (남은 생명력 %d퍼센트) 경고음을 재생중입니다. 자리를 비우고 있는게 아니라면 자리 비움 상태를 해제하거나 '기타 기능' 항목에서 해당 설정을 비활성화 해주세요."
+L.LOWHEALTH_WARNING						= "생명력 낮음 (%d퍼센트 남음), 경고음 재생중. '기타 기능' 메뉴에서 이 설정을 끌 수 있습니다."
+L.ENTERING_COMBAT						= "전투 시작"
+L.LEAVING_COMBAT						= "전투 종료"
 
 L.COMBAT_STARTED_AI_TIMER	= "내 CPU는 신경망 프로세서. 기계학습형 컴퓨터 (이 전투에선 새로운 타이머 인공지능 기능을 사용해서 예상 타이머 바를 생성합니다)"
 
@@ -367,6 +370,7 @@ L.AUTO_SPEC_WARN_TEXTS.youposcount	= "%s (%%s) (위치: %%s) 당신"
 L.AUTO_SPEC_WARN_TEXTS.soakpos		= "%s (뭉칠 위치: %%s)"
 L.AUTO_SPEC_WARN_TEXTS.target		= "%s: >%%s<"
 L.AUTO_SPEC_WARN_TEXTS.targetcount	= "%s (%%s): >%%s< "
+L.AUTO_SPEC_WARN_TEXTS.link		= "%s|1이;가; >%%s<랑 연결됨"
 L.AUTO_SPEC_WARN_TEXTS.defensive		= "%s - 생존기 켜세요"
 L.AUTO_SPEC_WARN_TEXTS.taunt		= "%s: >%%s< - 지금 도발"
 L.AUTO_SPEC_WARN_TEXTS.close		= "근처의 >%%2$s<에게 %1$s"
@@ -416,8 +420,9 @@ L.AUTO_SPEC_WARN_OPTIONS.youposcount		= "당신이 $spell:%s 대상이면 특수
 L.AUTO_SPEC_WARN_OPTIONS.soakpos			= "$spell:%s 대상에게 뭉쳐야 할 때 특수 알림 보기 (위치 포함)"
 L.AUTO_SPEC_WARN_OPTIONS.target			= "$spell:%s 대상 특수 알림 보기"
 L.AUTO_SPEC_WARN_OPTIONS.targetcount		= "$spell:%s 대상 특수 알림 보기 (횟수 포함)"
+L.AUTO_SPEC_WARN_OPTIONS.link			= "$spell:%s에 의해 다른 사람과 연결됐을 때 특수 알림 보기"
 L.AUTO_SPEC_WARN_OPTIONS.defensive		= "$spell:%s에 생존기 사용 특수 알림 보기"
-L.AUTO_SPEC_WARN_OPTIONS.taunt			= "다른 탱커가 $spell:%s 대상이면 도발 특수 알림 보기"
+L.AUTO_SPEC_WARN_OPTIONS.taunt			= "다른 탱커가 $spell:%s 대상이면 도발 (탱커 특성일 때) 특수 알림 보기"
 L.AUTO_SPEC_WARN_OPTIONS.close			= "당신 근처에 $spell:%s 대상이 있으면 특수 알림 보기"
 L.AUTO_SPEC_WARN_OPTIONS.move			= "$spell:%s 피하기 특수 알림 보기"
 L.AUTO_SPEC_WARN_OPTIONS.keepmove 		= "$spell:%s에 계속 이동 특수 알림 보기"
@@ -463,6 +468,8 @@ L.AUTO_TIMER_TEXTS.nextcount			= "다음 %s (%%s)"
 L.AUTO_TIMER_TEXTS.nextsource			= "다음 %s: %%s"
 L.AUTO_TIMER_TEXTS.nextspecial			= "특수 스킬"
 
+L.AUTO_TIMER_TEXTS.varspecial			= "특수 스킬"--Now same as next, as the ~ was moved to timer number
+
 L.AUTO_TIMER_TEXTS.stage				= "단계"
 L.AUTO_TIMER_TEXTS.stagecount			= "%%s단계"
 L.AUTO_TIMER_TEXTS.stagecountcycle		= "%%s단계 (%%s)"--Example: Stage 2 (3) for a fight that alternates stage 1 and stage 2, but also tracks total cycles
@@ -483,6 +490,7 @@ L.AUTO_TIMER_OPTIONS.castsource			= "$spell:%s 시전 타이머 바 보기 (시�
 L.AUTO_TIMER_OPTIONS.active				= "$spell:%s 지속 시간 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.fades				= "$spell:%s 남은 시간 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.ai					= "$spell:%s 쿨타임의 인공지능 예상 타이머 바 보기"
+
 L.AUTO_TIMER_OPTIONS.cd					= "$spell:%s 쿨타임 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.cdcount			= "$spell:%s 쿨타임 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.cdnp				= "$spell:%s 쿨타임 타이머를 이름표에만 표시"
@@ -490,6 +498,7 @@ L.AUTO_TIMER_OPTIONS.cdpnp				= "$spell:%s 쿨타임 타이머를 상위 이름�
 L.AUTO_TIMER_OPTIONS.cdsource			= "$spell:%s 쿨타임 타이머 바 보기 (시전자 이름 포함)"
 L.AUTO_TIMER_OPTIONS.cdspecial			= "특수 스킬 쿨타임 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.cdcombo				= "연계 스킬 쿨타임 타이머 바 보기"--Used for combining 2 abilities into a single timer
+
 L.AUTO_TIMER_OPTIONS.next				= "다음 $spell:%s 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.nextcount			= "다음 $spell:%s 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.nextnp				= "다음 $spell:%s 타이머를 이름표에만 표시"
@@ -497,6 +506,15 @@ L.AUTO_TIMER_OPTIONS.nextpnp				= "다음 $spell:%s 타이머를 상위 이름�
 L.AUTO_TIMER_OPTIONS.nextsource			= "다음 $spell:%s 타이머 바 보기 (시전자 이름 포함)"
 L.AUTO_TIMER_OPTIONS.nextspecial		= "다음 특수 스킬 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.nextcombo			= "다음 연계 스킬 타이머 바 보기"--Used for combining 2 abilities into a single timer
+
+L.AUTO_TIMER_OPTIONS.var				= "$spell:%s 쿨타임 타이머 바 보기 (시간 차이 포함)"
+L.AUTO_TIMER_OPTIONS.varcount			= "$spell:%s 쿨타임 타이머 바 보기 (횟수 및 시간 차이 포함)"
+L.AUTO_TIMER_OPTIONS.varnp			= "$spell:%s 쿨타임을 이름표 전용 타이머로 보기 (시간 차이 포함)"
+L.AUTO_TIMER_OPTIONS.varpnp			= "$spell:%s 쿨타임을 이름표 전용 타이머로 가장 우선해서 보기 (시간 차이 포함)"
+L.AUTO_TIMER_OPTIONS.varsource			= "$spell:%s 쿨타임 타이머 바 보기 (시전자 및 시간 차이 포함)"
+L.AUTO_TIMER_OPTIONS.varspecial			= "특수 스킬 쿨타임 타이머 바 보기 (시간 차이 포함)"
+L.AUTO_TIMER_OPTIONS.varcombo			= "연계 스킬 쿨타임 타이머 바 보기 (시간 차이 포함)"
+
 L.AUTO_TIMER_OPTIONS.achievement		= "%s 업적의 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.stage				= "다음 단계 타이머 바 보기"
 L.AUTO_TIMER_OPTIONS.stagecount			= "다음 단계 타이머 바 보기 (단계 번호 포함)"
@@ -641,8 +659,10 @@ L.DBM_INSTALL_REMINDER_DISABLE2 = "이 패키지를 설치하면 이 메시지�
 L.DBM_INSTALL_REMINDER_DL_WAGO	= (IsMacClient() and "Cmd+C" or "Ctrl+C")  ..  "를 누르면 Wago.io 링크를 클립보드로 복사합니다."
 L.DBM_INSTALL_REMINDER_DL_CURSE	= (IsMacClient() and "Cmd+C" or "Ctrl+C")  ..  "를 누르면 Curseforge 링크를 클립보드로 복사합니다."
 L.DBM_INSTALL_PACKAGE_VANILLA	= "오리지널 및 디스커버리 시즌 패키지"
+L.DBM_INSTALL_PACKAGE_BCC		= "불타는 성전 패키지"
 L.DBM_INSTALL_PACKAGE_WRATH		= "리분 패키지"
 L.DBM_INSTALL_PACKAGE_CATA		= "대격변 패키지"
+L.DBM_INSTALL_PACKAGE_MOP		= "판다리아의 안개 패키지"
 L.DBM_INSTALL_PACKAGE_DUNGEON	= "던전, 구렁, 이벤트 패키지"
 
 -- Tests

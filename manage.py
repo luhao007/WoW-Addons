@@ -13,7 +13,7 @@ logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30400'
-RETAIL_VER = '110005'
+RETAIL_VER = '110007'
 
 
 def available_on(platforms):
@@ -373,15 +373,6 @@ class Manager:
         addons = [addon for addon in os.listdir('AddOns') if addon not in ignores]
         for addon in addons:
             utils.remove_libraries_all(addon)
-
-    # @staticmethod
-    # def handle_att():
-    #     addon = 'AllTheThings'
-    #     utils.change_defaults(
-    #         f'Addons/{addon}/Settings.lua',
-    #         ['		["MinimapButton"] = false,',
-    #             '		["Auto:MiniList"] = false,']
-    #     )
 
     @staticmethod
     def handle_atlas():

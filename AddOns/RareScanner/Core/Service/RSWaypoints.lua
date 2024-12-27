@@ -1,4 +1,4 @@
------------------------------------------------------------------------
+ -----------------------------------------------------------------------
 -- AddOn namespace.
 -----------------------------------------------------------------------
 local ADDON_NAME, private = ...
@@ -21,8 +21,10 @@ local function AddWaypoint(mapID, x, y)
 
 	if (mapID and mapID ~= "" and x and y) then
 		local uiMapPoint = UiMapPoint.CreateFromCoordinates(mapID, tostring(RSUtils.FixCoord(x)), tostring(RSUtils.FixCoord(y)));
-		C_Map.SetUserWaypoint(uiMapPoint);
-		C_SuperTrack.SetSuperTrackedUserWaypoint(true);
+		if (uiMapPoint) then
+			C_Map.SetUserWaypoint(uiMapPoint);
+			C_SuperTrack.SetSuperTrackedUserWaypoint(true);
+		end
 	end
 end
 
@@ -30,8 +32,10 @@ function RSWaypoints.AddWorldMapWaypoint(mapID, x, y)
 	if (RSConfigDB.IsAddingWorldMapIngameWaypoints() and mapID and mapID ~= "" and x and y) then
 		C_Map.ClearUserWaypoint();
 		local uiMapPoint = UiMapPoint.CreateFromCoordinates(mapID, tostring(RSUtils.FixCoord(x)), tostring(RSUtils.FixCoord(y)));
-		C_Map.SetUserWaypoint(uiMapPoint);
-		C_SuperTrack.SetSuperTrackedUserWaypoint(true);
+		if (uiMapPoint) then
+			C_Map.SetUserWaypoint(uiMapPoint);
+			C_SuperTrack.SetSuperTrackedUserWaypoint(true);
+		end
 	end
 end
 

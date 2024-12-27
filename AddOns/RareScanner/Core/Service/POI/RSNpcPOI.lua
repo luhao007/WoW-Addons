@@ -243,6 +243,12 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 		return true
 	end
 	
+	-- Skip if active while aura active
+	if (npcInfo and npcInfo.spellID and not C_UnitAuras.GetPlayerAuraBySpellID(RSConstants.SEAFURY_TEMPEST_ID)) then
+		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado porque su evento no esta activo [%s].", npcID, npcInfo.spellID))
+		return true
+	end
+	
 	-- Skip if filtering by name in the world map search box
 	if (name and RSGeneralDB.GetWorldMapTextFilter() and not RSUtils.Contains(name, RSGeneralDB.GetWorldMapTextFilter())) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado por nombre [%s][%s].", npcID, name, RSGeneralDB.GetWorldMapTextFilter()))
@@ -405,7 +411,7 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 				end
 			end
 		-- Also hide one time kill rare NPCs at Khaz Algar
-		elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID)) then
+		elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID) and mapID ~= RSConstants.SIREN_ISLE) then
 			if (npcInfo.questID) then
 				for _, questID in ipairs(npcInfo.questID) do
 					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then

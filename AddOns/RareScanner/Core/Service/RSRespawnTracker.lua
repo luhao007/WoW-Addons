@@ -17,6 +17,7 @@ local RSLogger = private.ImportLib("RareScannerLogger")
 
 -- RareScanner services
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
+local RSMinimap = private.ImportLib("RareScannerMinimap")
 
 -- Timers
 local CHECK_RESPAWN_TIMER
@@ -63,6 +64,7 @@ local function CheckRespawnTimers(firstScan)
 				if (hasRespawn) then
 					RSLogger:PrintDebugMessageEntityID(npcID, string.format("CheckRespawnTimers [NPC: %s]. Respawn!", npcID))
 					RSNpcDB.DeleteNpcKilled(npcID)
+					RSMinimap.RefreshEntityState(npcID)
 				end
 			end
 		end)
@@ -103,6 +105,7 @@ local function CheckRespawnTimers(firstScan)
 				if (hasRespawn) then
 					RSLogger:PrintDebugMessage(string.format("CheckRespawnTimers [Contenedor: %s]. Respawn!", containerID))
 					RSContainerDB.DeleteContainerOpened(containerID)
+					RSMinimap.RefreshEntityState(containerID)
 				end
 			end
 		end)
@@ -140,6 +143,7 @@ local function CheckRespawnTimers(firstScan)
 			if (hasRespawn) then
 				RSLogger:PrintDebugMessage(string.format("CheckRespawnTimers [Evento: %s]. Respawn!", eventID))
 				RSEventDB.DeleteEventCompleted(eventID)
+				RSMinimap.RefreshEntityState(eventID)
 			end
 		end)
 	tinsert(routines, checkRespawnEventsRoutine)

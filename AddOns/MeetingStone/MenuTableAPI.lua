@@ -301,7 +301,7 @@ function GetActivitesMenuTable(menuType)
         })
     end
 
-    
+
 
     -- if UnitLevel('player') >= 70 then
     --     if menuType == ACTIVITY_FILTER_CREATE then
@@ -419,8 +419,10 @@ function ListOfDungeons(menuType)
     -- local Activitys = { 1160, 1164, 1168, 1172, 1176, 1180, 1184, 1188 }
 
     -- 11.0 S1
-    local Dungeons = { 329,328 ,326, 323,56,262,265,146 }
-    local Activitys = { 1288, 1287, 1285, 1284,1290,703,713,659 }
+    local Dungeons = { 329, 328, 326, 323, 56, 262, 265, 146 }
+    local Activitys = { 1288, 1287, 1285, 1284, 1290, 703, 713, 534 }
+    -- local Activitys = { 1288, 1287, 1285, 1284, 1290, 703, 713, 534 }
+
     -- 千丝之城  1288 / 329
     -- 矶石宝库  1287 / 328
     -- 破晨号  1285 / 326
@@ -429,13 +431,27 @@ function ListOfDungeons(menuType)
     -- 塞兹仙林  703 / 262
     -- 通灵战潮  713 / 265
     -- 围攻  659 / 146
-    
+
+    -- 11.1 S2
+    -- local Dungeons = { 322, 324, 325, 327, 140, 257, 266 }
+    -- local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717 }
+    -- 11.1 S2
+    -- 暗焰裂口 322 /1282
+    -- 圣焰隐修院 324 / 1281
+    -- 驭雷栖巢 325 / 1283
+    -- 燧酿酒庄 327 / 1286
+    -- 暴富矿区 140 / 510
+    -- 麦卡贡车间 257 / 683
+    -- 伤逝剧场 266 / 717
+    -- 水闸行动
+
+
     -- C_MythicPlus.IsMythicPlusActive()
-    -- /run for i=284,300 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
+    -- /run for i=1500,1600 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
     -- /dump C_LFGList.GetActivityGroupInfo(145)
-    -- /dump C_LFGList.GetAvailableActivities(2,145)
-
-
+    -- /dump C_LFGList.GetActivityInfoTable(1283)
+    -- /dump C_LFGList.GetAvailableActivityGroups(2,145)
+    -- /dump C_LFGList.GetAvailableActivities(2,1016)
 
     for k, groupId in ipairs(Dungeons) do
         local data = {}

@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20241103123604")
+mod:SetRevision("20241126154047")
 mod:SetCreatureID(226307, 226310, 226309, 226313, 226311, 226312, 226308)--226307 Anger'rel, 226310/doomrel, 226309/doperel, 226313/gloomrel, 226311/haterel, 226312/seethrel, 226308/vilerel
 mod:SetEncounterID(3048)
 mod:SetUsedIcons(1, 2, 3, 4)
@@ -62,7 +62,7 @@ local yellBladestorm						= mod:NewShortYell(465652)
 
 local timerSunderArmorCD					= mod:NewCDTimer(17, 464347, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerMortalStrikeCD					= mod:NewCDTimer(12.1, 464348, nil, "Tank|Healer", nil, 5)--12.1 but reset by bladestorm
-local timerBladestormCD						= mod:NewCDTimer(41.3, 465652, nil, nil, nil, 3)
+local timerBladestormCD						= mod:NewCDTimer(37.6, 465652, nil, nil, nil, 3)
 
 --Gloom'rel
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(30769))
@@ -130,7 +130,7 @@ local specWarnTerrifyDispel					= mod:NewSpecialWarningDispel(469711, "RemoveMag
 local specWarnMindTorrent					= mod:NewSpecialWarningMoveTo(469722, nil, nil, nil, 1, 2)
 local yellMindTorrent						= mod:NewYell(469722, DBM_COMMON_L.GROUPSOAK, nil, nil, "YELL")
 
-local timerRespiteCD						= mod:NewCDTimer(17.3, 464344, nil, "Dps", nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
+local timerRespiteCD						= mod:NewCDTimer(11.6, 464344, nil, "Dps", nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerTerrifyCD						= mod:NewCDTimer(17.0, 469711, nil, nil, nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
 local timerMindTorrentCD					= mod:NewCDTimer(33, 469722, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
 
@@ -151,7 +151,7 @@ function mod:BladestormTarget(targetname, uId)
 	end
 end
 
-function mod:StartNameplateTimers(guid, cid, delay)
+function mod:StartEngageTimers(guid, cid, delay)
 	if cid == 226307 then--Anger'rel (First activation)
 		if self:IsHeroic() then
 			timerMortalStrikeCD:Start(5.0-delay, guid)
@@ -274,7 +274,7 @@ function mod:SPELL_CAST_START(args)
 		timerTerrifyCD:Start(self:IsHeroic() and 16.2 or 14.1, args.sourceGUID)--Mind Torent resets Terrify timer
 	elseif spellId == 465652 then
 		self:BossTargetScanner(args.sourceGUID, "BladestormTarget", 0.1, 6)
-		timerBladestormCD:Start(self:IsHeroic() and 30 or 41.3, args.sourceGUID)
+		timerBladestormCD:Start(self:IsHeroic() and 30 or 37.6, args.sourceGUID)
 		timerMortalStrikeCD:Stop(args.sourceGUID)
 		timerSunderArmorCD:Stop(args.sourceGUID)
 		--Bladestorm resets his other ability timers
@@ -397,7 +397,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				timerMindTorrentCD:Start(15, args.destGUID)
 			else
 				timerTerrifyCD:Stop(args.destGUID)
-				timerTerrifyCD:Start(9.8, args.destGUID)--restarts only on non heroic
+				timerTerrifyCD:Start(7.8, args.destGUID)--restarts only on non heroic
 				timerMindTorrentCD:Start(20, args.destGUID)
 			end
 		end

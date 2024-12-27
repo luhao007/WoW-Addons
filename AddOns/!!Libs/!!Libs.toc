@@ -1,4 +1,4 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: luhao007
 
 ## Title: Libraries
@@ -67,6 +67,7 @@ LibAlts-1.0\lib.xml
 LibChatAnims\LibChatAnims.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
+LibDDI-1.0\lib.xml
 LibDialog-1.0\lib.xml
 LibDropDownMenu\LibDropDownMenu.xml
 LibDualSpec-1.0\LibDualSpec-1.0.lua

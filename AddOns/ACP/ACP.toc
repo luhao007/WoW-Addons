@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Sylvanaar (Sylvaan - Zul'Jin/US-Horde)
-## Version: 3.5.12
+## Version: 3.5.14
 
 ## Title: Addon Control Panel
 ## Notes: Adds an addon manager in game via the 'Addons' menu. Special support for multi-part addons. Based on rMCP by Rophy.
@@ -11,6 +11,7 @@
 
 ## X-Curse-Project-ID: 7529
 ## X-WoWI-ID: 17869
+## X-Wago-ID: b6XVD1Gp
 ## X-Credits: ACP based now on rMCP, which is MCP modified by Rophy, originally by Saien.
 ## X-Category: Interface Enhancements
 

@@ -409,6 +409,10 @@ spec:RegisterHook( "reset_precast", function ()
         state:QueueAuraExpiration( "voidform", ExpireVoidform, buff.voidform.expires )
     end
 
+    if not IsSpellKnownOrOverridesKnown( 391403 ) then
+        removeBuff( "mind_flay_insanity" )
+    end
+
     if IsActiveSpell( 356532 ) then
         applyBuff( "direct_mask", class.abilities.fae_guardians.lastCast + 20 - now )
     end
@@ -2406,7 +2410,7 @@ spec:RegisterOptions( {
     damage = true,
     damageExpiration = 6,
 
-    potion = "potion_of_spectral_intellect",
+    potion = "tempered_potion",
 
     package = "Shadow",
 } )

@@ -186,6 +186,7 @@ function RSNpcDB.DeleteCustomNpcInfo(npcID)
 	
 	private.dbglobal.custom_npcs[tonumber(npcID)] = nil
 	private.NPC_INFO[tonumber(npcID)] = nil
+	private.dbglobal.rares_found[tonumber(npcID)] = nil
 	
 	RSNpcDB.DeleteCustomNpcLoot(npcID)
 end
@@ -323,26 +324,38 @@ function RSNpcDB.GetAllInternalNpcInfo()
 	return private.NPC_INFO
 end
 
-function RSNpcDB.GetNpcIDsByMapID(mapID, onlyCustom)
+function RSNpcDB.GetNpcIDsByMapID(mapID, onlyCustom, onlyWithoutVignette)
 	local npcIDs = {}
 	for npcID, npcInfo in pairs((onlyCustom and RSNpcDB.GetAllCustomNpcInfo() or RSNpcDB.GetAllInternalNpcInfo())) do
 		if (RSNpcDB.IsInternalNpcMultiZone(npcID)) then
 			-- First check if there is a matching mapID in the database
 			for internalMapID, _ in pairs (npcInfo.zoneID) do
 				if (internalMapID == mapID) then
-					tinsert(npcIDs,npcID)
+					if (not onlyWithoutVignette) then
+						tinsert(npcIDs,npcID)
+					elseif (npcInfo.noVignette == nil or npcInfo.noVignette) then
+						tinsert(npcIDs,npcID)
+					end
 				end
 			end
 			
 			-- Then check if there is a matching subMapID in the database
 			for internalMapID, _ in pairs (npcInfo.zoneID) do
 				if (RSMapDB.IsMapInParentMap(mapID, internalMapID)) then
-					tinsert(npcIDs,npcID)
+					if (not onlyWithoutVignette) then
+						tinsert(npcIDs,npcID)
+					elseif (npcInfo.noVignette == nil or npcInfo.noVignette) then
+						tinsert(npcIDs,npcID)
+					end
 				end
 			end
 		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID)) then
-			if (npcInfo.zoneID == mapID or (npcInfo.noVignette and npcInfo.zoneID == 0)) then
-				tinsert(npcIDs,npcID)
+			if (npcInfo.zoneID == mapID) then
+				if (not onlyWithoutVignette) then
+					tinsert(npcIDs,npcID)
+				elseif (npcInfo.noVignette == nil or npcInfo.noVignette) then
+					tinsert(npcIDs,npcID)
+				end
 			end
 		end
 	end
@@ -748,8 +761,8 @@ function RSNpcDB.GetNpcName(npcID, refresh)
 	return nil
 end
 
-function RSNpcDB.GetActiveNpcIDsWithNamesByMapID(mapID, onlyCustom)
-	local npcIDs =  RSNpcDB.GetNpcIDsByMapID(mapID, onlyCustom)
+function RSNpcDB.GetActiveNpcIDsWithNamesByMapID(mapID)
+	local npcIDs =  RSNpcDB.GetNpcIDsByMapID(mapID)
 	local npcIDsWithNames = nil
 	
 	if (RSUtils.GetTableLength(npcIDs)) then
@@ -786,6 +799,20 @@ function RSNpcDB.GetNpcId(name, mapID)
 	end
 	
 	return nil
+end
+
+---============================================================================
+-- NPCs with multi spawn spots
+---============================================================================
+
+function RSNpcDB.IsMultiZoneSpawn(npcID)
+	if (RSUtils.Contains(RSConstants.NPCS_WITH_MULTIPLE_SPAWNS, npcID)) then
+		return true
+	elseif (RSNpcDB.GetCustomNpcInfo(npcID)) then
+		return true
+	end
+	
+	return false
 end
 
 ---============================================================================

@@ -2,6 +2,7 @@ local addonName, addonTable = ...;
 local char=string.char
 local sub = _G.string.sub
 local gsub = _G.string.gsub
+local match = _G.string.match
 local _, _, _, tocversion = GetBuildInfo()
 ----
 local Fun=addonTable.Fun
@@ -53,7 +54,6 @@ local Fun=addonTable.Fun
 --     PIGhuoquF:Show()
 -- end
 -----------------
---local kaishijishuxulie = {{1,6},{7,13},{14,19}}
 local function GetItemLinkJJ(ItemLink)
     local msg = "";
     if ItemLink ~= nil then
@@ -73,7 +73,8 @@ local function GetItemLinkJJ(ItemLink)
     return msg;
 end
 Fun.GetItemLinkJJ=GetItemLinkJJ
-local function GetEquipmList(kaishi,jieshu)
+function Fun.GetEquipmTXT(kaishi,jieshu)
+    local kaishi,jieshu = kaishi or 1, jieshu or 19
     local msg = "";
     for slot = kaishi,jieshu do
         local item = GetInventoryItemLink("player", slot);
@@ -86,22 +87,23 @@ local function GetEquipmList(kaishi,jieshu)
     end
     return msg;
 end
-function Fun.GetEquipmTXT(kaishi,jieshu)
-    local kaishi,jieshu = kaishi or 1, jieshu or 19
-    return GetEquipmList(kaishi,jieshu)
-end
 local function HY_ItemLinkJJ(ItemJJ)
-    local Player
-    if ItemJJ:match("Player%-") then
-        local Player1,Player2 = ItemJJ:match("([%w:]+)Player%-([%w%-]+:)");
-        ItemJJ=Player1
-        Player="Player-"..Player2
-    end
-    local Itemhy = Fun.jieya_NumberString(ItemJJ)
-    if Player then
-        return "item:"..Itemhy..Player
+    local yes=ItemJJ:match("|cff%w%w%w%w%w%w|Hitem:")
+    if yes then
+        return ItemJJ
     else
-        return "item:"..Itemhy
+        local Player
+        if ItemJJ:match("Player%-") then
+            local Player1,Player2 = ItemJJ:match("([%w:]+)Player%-([%w%-]+:)");
+            ItemJJ=Player1
+            Player="Player-"..Player2
+        end
+        local Itemhy = Fun.jieya_NumberString(ItemJJ)
+        if Player then
+            return "item:"..Itemhy..Player
+        else
+            return "item:"..Itemhy
+        end
     end
 end
 Fun.HY_ItemLinkJJ=HY_ItemLinkJJ
@@ -120,7 +122,27 @@ function Fun.HY_EquipmTXT(msg)
     end
     return Data
 end
----60级符文
+local function HY_ShowItemLink(But,itemlin,itemID)
+    if But and itemlin then
+        local Linktxt=HY_ItemLinkJJ(itemlin)
+        local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID=GetItemInfo(Linktxt);
+        if itemLink then
+            if But.itemID==itemID then
+                But:SetFun(itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID)
+            end
+        else
+            But.zhixingnum=But.zhixingnum or 0
+            if But:IsVisible() and But.zhixingnum<5 then
+                C_Timer.After(0.02,function()
+                    But.zhixingnum=But.zhixingnum+1
+                    HY_ShowItemLink(But,itemlin,itemID)
+                end)
+            end
+        end
+    end
+end
+Fun.HY_ShowItemLink=HY_ShowItemLink
+---60级探索符文
 local pig_yasuo_2 = {
     [10]="_",[11]="=",[12]="(",[13]=")",[14]="[",[15]="]",[16]="{",[17]="}",
     [18]="<",[19]=">",[20]="?",[21]=",",[22]=".",[23]="~",[24]="`",

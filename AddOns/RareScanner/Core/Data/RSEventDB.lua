@@ -104,7 +104,7 @@ function RSEventDB.GetInternalEventInfo(eventID)
 	return nil
 end
 
-local function GetInternalEventInfoByMapID(eventID, mapID)
+function RSEventDB.GetInternalEventInfoByMapID(eventID, mapID)
 	if (eventID and mapID) then
 		if (RSEventDB.IsInternalEventMultiZone(eventID)) then
 			for internalMapID, eventInfo in pairs (RSEventDB.GetInternalEventInfo(eventID).zoneID) do
@@ -123,7 +123,7 @@ end
 
 function RSEventDB.GetInternalEventCoordinates(eventID, mapID)
 	if (eventID and mapID) then
-		local eventInfo = GetInternalEventInfoByMapID(eventID, mapID)
+		local eventInfo = RSEventDB.GetInternalEventInfoByMapID(eventID, mapID)
 		if (eventInfo) then
 			return RSUtils.Lpad(eventInfo.x, 4, '0'), RSUtils.Lpad(eventInfo.y, 4, '0')
 		end
@@ -134,7 +134,7 @@ end
 
 function RSEventDB.GetInternalEventOverlay(eventID, mapID)
 	if (eventID and mapID) then
-		local eventInfo = GetInternalEventInfoByMapID(eventID, mapID)
+		local eventInfo = RSEventDB.GetInternalEventInfoByMapID(eventID, mapID)
 		if (eventInfo) then
 			return eventInfo.overlay
 		end

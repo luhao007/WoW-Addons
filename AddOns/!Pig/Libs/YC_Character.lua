@@ -536,7 +536,7 @@ Fun.lixian_chakan=lixian_chakan
 local fengeLEN = 240
 local yuanchangchakanFFF = CreateFrame("Frame")
 yuanchangchakanFFF:RegisterEvent("PLAYER_LOGIN")
-yuanchangchakanFFF:SetScript("OnEvent",function(self, event, arg1, arg2, _, arg4, arg5,_,_,_,arg9)
+yuanchangchakanFFF:SetScript("OnEvent",function(self, event, arg1, arg2, _, arg4, arg5)
 	if event=="PLAYER_LOGIN" then
 		ADD_CharacterFrame(UIParent,{"TOPLEFT",UIParent,"TOPLEFT",0, -104},"yuanchengCFrame",99)
 		C_Timer.After(3,function()
@@ -559,7 +559,7 @@ yuanchangchakanFFF:SetScript("OnEvent",function(self, event, arg1, arg2, _, arg4
 				local Rune =GetRuneTXT()
 				local Items =GetEquipmTXT()
 				local infoall = "#P"..Player.."#T"..Tianfu.."#G"..Glyph.."#R"..Rune.."#E"..Items
-				local msglen = strlen(infoall)
+				local msglen = #infoall
 				if msglen>fengeLEN then
 					local fasongcishu = math.ceil(msglen/fengeLEN)
 					for ic=1,fasongcishu do

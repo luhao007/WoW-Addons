@@ -313,7 +313,7 @@ function MinArch:CreateDigSitesList(ContID)
 				local currentDigSite = scrollc.digsites[count];
 				currentDigSite:SetFontObject("ChatFontSmall");
 				currentDigSite:SetWordWrap(true);
-				currentDigSite:SetText(" "..name);
+				currentDigSite:SetText(" "..name .. " - " .. digsite.race);
 				if (status == true) then
 					currentDigSite:SetTextColor(1.0, 1.0, 1.0, 1.0);
 				else
@@ -594,7 +594,7 @@ function MinArch:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 		-- d = math.floor(d)
 
         if (MinArchDigsitesDB["continent"][contID][name] and MinArchDigsitesDB["continent"][contID][name]["status"] == true) then
-			if (MinArchDigsiteList[contID][name]) then
+			if (not MinArchDigsiteList[contID][name]) then
 				MinArch:DisplayStatusMessage("Missing race info for digsite: " .. name, MINARCH_MSG_DEBUG);
 			end
 

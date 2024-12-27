@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Breen
-## Version: v6.15
+## Version: v6.17
 
 ## Title: BtWQuests: Shadowlands
 ## Notes: Shadowlands quest data for BtWQuests

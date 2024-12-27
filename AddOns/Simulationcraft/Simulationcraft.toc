@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Theck, navv_, seriallos
-## Version: 11.0.5-01
+## Version: 11.0.7-01
 
 ## Title: Simulationcraft
 ## Notes: Constructs SimC export strings
@@ -11,6 +11,8 @@
 
 ## SavedVariables: SimulationCraftDB
 
+## X-Curse-Project-ID: 82745
+## X-Wago-ID: BNBeRVGx
 
 #@no-lib-strip@
 #@end-no-lib-strip@

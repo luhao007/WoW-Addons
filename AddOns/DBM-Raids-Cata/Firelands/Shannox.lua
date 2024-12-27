@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 --local Riplimb	= DBM:EJ_GetSectionInfo(2581)--Unused
 --local Rageface	= DBM:EJ_GetSectionInfo(2583)--Unused
 
-mod:SetRevision("20241103125714")
+mod:SetRevision("20241111004119")
 mod:SetCreatureID(53691)
 mod:SetEncounterID(1205)
 mod:SetUsedIcons(1, 2) -- cross(7) is hard to see in redish environment?
@@ -208,7 +208,7 @@ end
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 53694 then
+	if cid == 53694 then--Riplimb
 		timerSpearCD:Cancel()--Cancel it and replace it with other timer
 		timerMagmaRuptureCD:Start(10)
 		self.vb.ripLimbDead = true

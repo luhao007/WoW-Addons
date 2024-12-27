@@ -652,6 +652,8 @@ localize(L.HEADER_NAMES, {
 	[-1000115] = "Patch 2.x.x",
 	[-1000116] = "Patch 3.x.x",
 	[-1000117] = "Patch 4.x.x",
+	[-1000118] = "Patch 5.x.x",
+	[-1000119] = "Patch 6.x.x",
 	[-1000123] = "Armor Enchantments",
 	[-1000125] = "Weapon Enchantments",
 	[-1000127] = select(2,GetAchievementInfo(2091))..": Season 1",
@@ -745,6 +747,7 @@ localize(L.HEADER_NAMES, {
 	[-1000287] = select(2,GetAchievementInfo(5512)),
 	[-1000288] = select(2,GetAchievementInfo(5863)),
 	[-1000289] = select(2,GetAchievementInfo(6131)),
+	[-1000299] = select(2,GetAchievementInfo(15218)),
 	[-1000373] = "New Character",
 	[-1000380] = "Bounty",
 	[-1000860] = select(2,GetAchievementInfo(6002))..": Season 9",
@@ -758,6 +761,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "Elemental Bonds",
 	[-1001035] = "Seasonal Fish: Summer Bass",
 	[-1001036] = "Seasonal Fish: Winter Squid",
+	[-1001051] = "Defense Protocol Alpha",
+	[-1001052] = "Defense Protocol Beta",
+	[-1001053] = "Defense Protocol Gamma",
+	[-1001054] = "Protocol Inferno",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000025] = "A specific holiday may need to be active for you to complete the referenced Things within this section.",
@@ -866,6 +873,8 @@ localize(L.HEADER_ICONS, {
 	[-1000115] = _.asset("expansion_tbc"),
 	[-1000116] = _.asset("expansion_wotlk"),
 	[-1000117] = _.asset("expansion_cata"),
+	[-1000118] = _.asset("expansion_mop"),
+	[-1000119] = _.asset("expansion_wod"),
 	[-1000123] = 237019,
 	[-1000125] = 237018,
 	[-1000127] = 236534,
@@ -959,6 +968,7 @@ localize(L.HEADER_ICONS, {
 	[-1000287] = 133783,
 	[-1000288] = 133783,
 	[-1000289] = 133783,
+	[-1000299] = 133783,
 	[-1000373] = 1530081,
 	[-1000380] = 236188,
 	[-1000860] = 236235,
@@ -972,6 +982,10 @@ localize(L.HEADER_ICONS, {
 	[-1001034] = 516313,
 	[-1001035] = 133889,
 	[-1001036] = 133899,
+	[-1001051] = 236514,
+	[-1001052] = 236516,
+	[-1001053] = 236521,
+	[-1001054] = 512617,
 });
 localize(L.HEADER_EVENTS, {
 	[-1000200] = 201,
@@ -991,6 +1005,7 @@ localize(L.HEADER_EVENTS, {
 	[-1000243] = 1181,
 	[-1000282] = 372,
 	[-1000284] = 590,
+	[-1000299] = 1262,
 	[-1000872] = 446916,
 	[-1001035] = 133889,
 	[-1001036] = 133899,
@@ -999,20 +1014,23 @@ localize(L.HEADER_EVENTS, {
 _.Modules.Events.SetEventInformation(446916, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=19,["weekday"]=3,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=30,["weekday"]=3,["year"]=2024})
 });
+_.Modules.Events.SetEventInformation(1262, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=6,["weekday"]=1,["year"]=2022},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=27,["weekday"]=1,["year"]=2022})
+});
 _.Modules.Events.SetEventInformation(590, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=1,["year"]=2023},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=1,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=3,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=3,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=4,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=4,["year"]=2026})
 });
-_.Modules.Events.SetEventInformation(133889, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=2,["year"]=2023},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=6,["year"]=2023}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025})
-});
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=7,["year"]=2023},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=3,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026})
+});
+_.Modules.Events.SetEventInformation(133889, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=2,["year"]=2023},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=6,["year"]=2023}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025})
 });
 
 -- Filter Database Module
@@ -2840,6 +2858,7 @@ local ObjectNames = {
 	[181894] = "Fel Cone Fungus",
 	[181897] = "Ysera's Tear",
 	[181916] = "Tainted Wood",
+	[181963] = "Charred Bone Fragment",
 	[181964] = "Statue of Queen Azshara",
 	[181981] = "Dragon Bone",
 	[182011] = "Crate of Ingots",
@@ -2863,6 +2882,10 @@ local ObjectNames = {
 	[182166] = "Ango'rosh Attack Plans",
 	[182184] = "Daggerfen Poison Manual",
 	[182185] = "Daggerfen Poison Vial",
+	[182196] = "Arcane Container",
+	[182197] = "Arcane Container",
+	[182198] = "Arcane Container",
+	[182199] = "Keanna's Log",
 	[182256] = "Discarded Nutriment",
 	[182265] = "Bleeding Hollow Supply Crate",
 	[182349] = "Corki's Prison",
@@ -3263,6 +3286,7 @@ local ObjectNames = {
 	[192823] = "Full Jug of Wine",
 	[192824] = "Half Full Glass of Wine",
 	[192825] = "Aged Dalaran Limburger",
+	[192826] = "Drakkari History Tablet",
 	[192827] = "Wild Mustard",
 	[192828] = "Crystalsong Carrot",
 	[192833] = "Bridenbrad's Possessions",
@@ -5358,6 +5382,7 @@ local ObjectModels = {
 	[181894] = 202176,
 	[181897] = 202098,
 	[181916] = 198389,
+	[181963] = 199754,
 	[181964] = 201452,
 	[181981] = 203724,
 	[182011] = 198168,
@@ -5381,6 +5406,10 @@ local ObjectModels = {
 	[182166] = 198457,
 	[182184] = 198031,
 	[182185] = 191827,
+	[182196] = 199744,
+	[182197] = 199744,
+	[182198] = 199744,
+	[182199] = 198028,
 	[182256] = 193909,
 	[182265] = 199099,
 	[182349] = 200938,
@@ -5773,6 +5802,7 @@ local ObjectModels = {
 	[192823] = 189821,
 	[192824] = 192003,
 	[192825] = 198221,
+	[192826] = 194086,
 	[192827] = 189763,
 	[192828] = 219486,
 	[192833] = 196979,
@@ -6499,7 +6529,7 @@ _.PhaseConstants = {
 };
 local phases = {
 	[1] = {
-		name = "Never Implemented",
+		name = "Never Implemented [NYI]",
 		description = "|cFFFF0000This was never available to players.|r",
 		state = 1,
 	},
@@ -6592,13 +6622,6 @@ local phases = {
 		lore = "|cFFFFAAAAIncluded Naxxramas, which was heralded by the Scourge Invasion.|r",
 		minimumBuildVersion = 11301,
 		buildVersion = 11306,
-		state = 2,
-	},
-	[1601] = {
-		name = "Scourge Invasion",
-		description = "|cFFAAFFAAThis was only available during the Scourge Invasion.|r",
-		lore = "|cFFFFAAAAIf the Scourge Invasion has ended on your server, simply turn this off.|r",
-		minimumBuildVersion = 11301,
 		state = 2,
 	},
 	[1602] = {
@@ -6888,6 +6911,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "Elementare Bande",
 	[-1001035] = "Saisonfisch: Sommerbarsch",
 	[-1001036] = "Saisonfisch: Winterkalmar",
+	[-1001051] = "Verteidigungsprotokoll Alpha",
+	[-1001052] = "Verteidigungsprotokoll Beta",
+	[-1001053] = "Verteidigungsprotokoll Gamma",
+	[-1001054] = "Protokoll Inferno",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000025] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -7667,6 +7694,7 @@ localize(ObjectNames, {
 	[181894] = "Teufelszapfenfungus",
 	[181897] = "Yseras Träne",
 	[181916] = "Verdorbenes Satyrnaarholz",
+	[181963] = "Verkohltes Knochenfragment",
 	[181964] = "Statue der Königin Azshara",
 	[181981] = "Drachenknochen",
 	[182011] = "Kiste mit Blöcken",
@@ -7689,6 +7717,10 @@ localize(ObjectNames, {
 	[182166] = "Angriffspläne der Ango'rosh",
 	[182184] = "Gifthandbuch von Dolchfenn",
 	[182185] = "Giftphiole von Dolchfenn",
+	[182196] = "Arkaner Behälter",
+	[182197] = "Arkaner Behälter",
+	[182198] = "Arkaner Behälter",
+	[182199] = "Keannas Aufzeichnungen",
 	[182256] = "Liegengelassene Nahrung",
 	[182265] = "Vorratskiste des Blutenden Auges",
 	[182355] = "Waffen von Kil'sorge",
@@ -8047,6 +8079,7 @@ localize(ObjectNames, {
 	[192823] = "Voller Weinkrug",
 	[192824] = "Halbvolles Weinglas",
 	[192825] = "Reifer Dalaranlimburger",
+	[192826] = "Geschichtstafel der Drakkari",
 	[192827] = "Wilder Senf",
 	[192828] = "Kristallsangkarotte",
 	[192833] = "Bridenbrads Hab und Gut",
@@ -8812,6 +8845,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "Liens élémentaires",
 	[-1001035] = "Poisson de saison : bar d'été",
 	[-1001036] = "Poisson de saison : calmar d'hiver",
+	[-1001051] = "Protocole de défense Alpha",
+	[-1001052] = "Protocole de défense Bêta",
+	[-1001053] = "Protocole de défense Gamma",
+	[-1001054] = "Protocole Inferno",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000033] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
@@ -9590,6 +9627,7 @@ localize(ObjectNames, {
 	[181894] = "Collybie gangrenée",
 	[181897] = "Larme d'Ysera",
 	[181916] = "Bois gangrené de Satyrnaar",
+	[181963] = "Fragment d'os carbonisé",
 	[181964] = "Statue de la reine Azshara",
 	[181981] = "Os de dragon",
 	[182011] = "Caisse de lingots",
@@ -9613,6 +9651,10 @@ localize(ObjectNames, {
 	[182166] = "Plans d'attaque d'Ango'rosh",
 	[182184] = "Manuel de poison tourbedague",
 	[182185] = "Fiole de poison tourbedague",
+	[182196] = "Récipient arcanique",
+	[182197] = "Récipient arcanique",
+	[182198] = "Récipient arcanique",
+	[182199] = "Journal de Keanna",
 	[182256] = "Aliments abandonnés",
 	[182265] = "Caisse de fournitures de l'Orbite-Sanglante",
 	[182355] = "Armes de Kil'sorrau",
@@ -9976,6 +10018,7 @@ localize(ObjectNames, {
 	[192823] = "Cruche de vin pleine",
 	[192824] = "Verre de vin à moitié plein",
 	[192825] = "Vieux limbourg de Dalaran",
+	[192826] = "Tablette de l'histoire drakkari",
 	[192827] = "Moutarde sauvage",
 	[192828] = "Carotte du Chant de cristal",
 	[192833] = "Possessions de Bridenbrad",
@@ -11151,6 +11194,7 @@ localize(ObjectNames, {
 	[181894] = "Fungo di Vilpigna",
 	[181897] = "Lacrima di Ysera",
 	[181916] = "Catasta di Legno Profanato di Satirnaar",
+	[181963] = "Frammento d'Osso Carbonizzato",
 	[181964] = "Statua della Regina Azshara",
 	[181981] = "Osso di Drago",
 	[182011] = "Cassa di Lingotti",
@@ -11173,6 +11217,10 @@ localize(ObjectNames, {
 	[182166] = "Piani d'Attacco degli Ango'rosh",
 	[182184] = "Manuale del Veleno di Limoaguzzo",
 	[182185] = "Fiala di Veleno di Limoaguzzo",
+	[182196] = "Contenitore Arcano",
+	[182197] = "Contenitore Arcano",
+	[182198] = "Contenitore Arcano",
+	[182199] = "Diario di Keanna",
 	[182256] = "Alimento Scartato",
 	[182265] = "Provviste dei Guerci Insanguinati",
 	[182355] = "Armamenti dei Kil'sorin",
@@ -11527,6 +11575,7 @@ localize(ObjectNames, {
 	[192823] = "Brocca Piena di Vino",
 	[192824] = "Bicchiere Mezzo Pieno di Vino",
 	[192825] = "Groviera Stagionato di Dalaran",
+	[192826] = "Tavoletta Storica Drakkari",
 	[192827] = "Senape Selvatica",
 	[192828] = "Carota della Foresta di Cristallo",
 	[192833] = "Spada di Bridenbrad",
@@ -12253,6 +12302,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "Prisão Elemental",
 	[-1001035] = "Peixe sazonal: robalo de verão",
 	[-1001036] = "Peixe sazonal: Lula de Inverno",
+	[-1001051] = "Protocolo de Defesa Alfa",
+	[-1001052] = "Protocolo de Defesa Beta",
+	[-1001053] = "Protocolo de Defesa Gama",
+	[-1001054] = "Protocolo Inferno",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000162] = "Os itens nesta lista são aparências compartilhadas do item acima. No Modo de Aparência Única, esta lista pode ajudá-lo a entender por que ou não um item específico seria marcado como Coletado.",
@@ -12962,6 +13015,7 @@ localize(ObjectNames, {
 	[181894] = "Fungo Conífero Vil",
 	[181897] = "Lágrima de Ysera",
 	[181916] = "Madeira Vil de Satyrnaar",
+	[181963] = "Fragmento de Osso Carbonizado",
 	[181964] = "Estátua da Rainha Azshara",
 	[181981] = "Osso de Dragão",
 	[182011] = "Caixote de Lingotes",
@@ -12985,6 +13039,10 @@ localize(ObjectNames, {
 	[182166] = "Plano de Ataque Ango'rosh",
 	[182184] = "Manual de Venenos Lamadaga",
 	[182185] = "Ampola de Veneno Lamadaga",
+	[182196] = "Recipiente Arcano",
+	[182197] = "Recipiente Arcano",
+	[182198] = "Recipiente Arcano",
+	[182199] = "Anotações de Keanna",
 	[182256] = "Nutrimento Descartado",
 	[182265] = "Caixa de Suprimentos Olhos Sangrentos",
 	[182355] = "Armamentos de Kil'pesar",
@@ -13341,6 +13399,7 @@ localize(ObjectNames, {
 	[192823] = "Jarra de Vinho Cheia",
 	[192824] = "Taça de Vinho Meio Cheia",
 	[192825] = "Roquefort de Dalaran Curado",
+	[192826] = "Tabuleta de História Drakkari",
 	[192827] = "Mostarda Selvagem",
 	[192828] = "Cenoura do Canto Cristalino",
 	[192833] = "Posses do Brindeiro",
@@ -14116,6 +14175,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "Власть стихий",
 	[-1001035] = "Сезонная рыба: летний окунь",
 	[-1001036] = "Сезонная рыба: зимний кальмар",
+	[-1001051] = "Защитный протокол \"Альфа\"",
+	[-1001052] = "Защитный протокол \"Бета\"",
+	[-1001053] = "Защитный протокол \"Гамма\"",
+	[-1001054] = "Протокол \"Пекло\"",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000025] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
@@ -14898,6 +14961,7 @@ localize(ObjectNames, {
 	[181894] = "Поганка конусовидная",
 	[181897] = "Слеза Изеры",
 	[181916] = "Связка оскверненной древесины Сатирнаара",
+	[181963] = "Фрагмент обугленной кости",
 	[181964] = "Статуя королевы Азшары",
 	[181981] = "Кость дракона",
 	[182011] = "Ящик со слитками",
@@ -14921,6 +14985,10 @@ localize(ObjectNames, {
 	[182166] = "План нападения клана Анго'рош",
 	[182184] = "Справочник по ядам Остротопи",
 	[182185] = "Фиал яда Остротопи",
+	[182196] = "Волшебный контейнер",
+	[182197] = "Волшебный контейнер",
+	[182198] = "Волшебный контейнер",
+	[182199] = "Записи Кинны",
 	[182256] = "Выброшенный корм",
 	[182265] = "Ящик с припасами из Кровавой Глазницы",
 	[182355] = "Оружие Вечной Скорби",
@@ -15286,6 +15354,7 @@ localize(ObjectNames, {
 	[192823] = "Полный кувшин с вином",
 	[192824] = "Недопитый стакан",
 	[192825] = "Зрелый даларанский камамбер",
+	[192826] = "Табличка с летописью Драккари",
 	[192827] = "Полевая горчица",
 	[192828] = "Морковь из леса Хрустальной Песни",
 	[192833] = "Имущество Бриденбрада",
@@ -15978,7 +16047,7 @@ for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Боль
 for i,objectID in ipairs(CANDY_BUCKETS) do ObjectNames[objectID] = "Кулек конфет"; end
 for i,objectID in ipairs(HORDE_BONFIRES) do ObjectNames[objectID] = "Большой костер Орды"; end
 for key,value in pairs({
-	[1] = "Никогда Не Доступны",
+	[1] = "Никогда Не Доступны [NYI]",
 	[2] = "Убраны Из Игры",
 	[3] = "Кошелек Blizzard",
 	[4] = "ПвП Элита / Гладиатор",
@@ -16260,6 +16329,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "정령의 속박",
 	[-1001035] = "제철 생선: 여름 농어",
 	[-1001036] = "제철 생선: 겨울 오징어",
+	[-1001051] = "방어 프로토콜 알파",
+	[-1001052] = "방어 프로토콜 베타",
+	[-1001053] = "방어 프로토콜 감마",
+	[-1001054] = "프로토콜 지옥불",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000162] = "이 목록의 항목은 위 항목의 공유 모양입니다. 고유 외형 모드에서 이 목록은 특정 항목이 수집됨으로 표시되는 이유와 이유를 이해하는 데 도움이 될 수 있습니다.",
@@ -16979,6 +17052,7 @@ localize(ObjectNames, {
 	[181894] = "지옥방울버섯",
 	[181897] = "이세라의 눈물",
 	[181916] = "사티르나르의 오염된 목재",
+	[181963] = "그을린 뼈 조각",
 	[181981] = "용의 뼈",
 	[182011] = "주괴 상자",
 	[182024] = "피가 담긴 구슬",
@@ -17001,6 +17075,10 @@ localize(ObjectNames, {
 	[182166] = "앙고로쉬 공격 계획서",
 	[182184] = "비수늪 독 조제법",
 	[182185] = "비수늪 독병",
+	[182196] = "마법 단지",
+	[182197] = "마법 단지",
+	[182198] = "마법 단지",
+	[182199] = "킨나의 기록",
 	[182256] = "버려진 버섯",
 	[182265] = "피눈물 보급품 상자",
 	[182355] = "킬소로우 무기",
@@ -17347,6 +17425,7 @@ localize(ObjectNames, {
 	[192823] = "가득 찬 포도주 단지",
 	[192824] = "반쯤 찬 포도주 잔",
 	[192825] = "숙성된 달라란 연치즈",
+	[192826] = "드라카리 역사 서판",
 	[192827] = "야생 겨자",
 	[192828] = "수정노래 당근",
 	[192833] = "브라이든브래드의 물건 상자",
@@ -18065,6 +18144,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "Vínculos Elementales",
 	[-1001035] = "Pescado de temporada: lubina de verano",
 	[-1001036] = "Pescado de temporada: calamares de invierno",
+	[-1001051] = "Protocolo de defensa Alfa",
+	[-1001052] = "Protocolo de defensa Beta",
+	[-1001053] = "Protocolo de defensa Gamma",
+	[-1001054] = "Protocolo Inferno",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000162] = "Los elementos de esta lista son apariencias compartidas del elemento anterior. En el modo de apariencia única, esta lista puede ayudarlo a comprender por qué o no un elemento específico se marcaría como recopilado.",
@@ -18837,6 +18920,7 @@ localize(ObjectNames, {
 	[181894] = "Hongo de bellota vil",
 	[181897] = "Lágrima de Ysera",
 	[181916] = "Madera vil de Satyrnaar",
+	[181963] = "Trozo de hueso carbonizado",
 	[181964] = "Estatua de la reina Azshara",
 	[181981] = "Hueso de dragón",
 	[182011] = "Cajón de lingotes",
@@ -18860,6 +18944,10 @@ localize(ObjectNames, {
 	[182166] = "Planes de ataque de Ango'rosh",
 	[182184] = "Manual de venenos de Dagapantano",
 	[182185] = "Vial de veneno de Dagapantano",
+	[182196] = "Contenedor arcano",
+	[182197] = "Contenedor arcano",
+	[182198] = "Contenedor arcano",
+	[182199] = "Apuntes de Keanna",
 	[182256] = "Restos de alimentos",
 	[182265] = "Cajón de suministros de Foso Sangrante",
 	[182355] = "Armamento de Mata'penas",
@@ -19216,6 +19304,7 @@ localize(ObjectNames, {
 	[192823] = "Jarra llena de vino",
 	[192824] = "Vaso de vino medio lleno",
 	[192825] = "Queso Limburger de Dalaran viejo",
+	[192826] = "Tablilla de historia Drakkari",
 	[192827] = "Mostaza silvestre",
 	[192828] = "Zanahoria Canto de Cristal",
 	[192833] = "Posesiones de Bridenbrad",
@@ -19924,8 +20013,11 @@ for key,value in pairs({
 do phases[key].description = value; end
 end
 if simplifiedLocale == "zh" then
+localize(_.CategoryNames, {
+	[3] = "塔罗牌",
+});
 localize(L.HEADER_NAMES, {
-	[-1000010] = "一般首领掉落",
+	[-1000010] = "首领共同掉落",
 	[-1000013] = "常规商人物品",
 	[-1000017] = "掉落",
 	[-1000019] = "探索",
@@ -19972,6 +20064,7 @@ localize(L.HEADER_NAMES, {
 	[-1000189] = "霜翼大厅",
 	[-1000190] = "疯狂宝箱",
 	[-1000201] = "暗月马戏团",
+	[-1000202] = "小游戏",
 	[-1000205] = "射击场",
 	[-1000206] = "打豺狼人",
 	[-1000207] = "悼念日",
@@ -19986,7 +20079,6 @@ localize(L.HEADER_NAMES, {
 	[-1000235] = "开启黑暗之门",
 	[-1000236] = "流沙节杖",
 	[-1000237] = "天灾入侵",
-	[-1000243] = "暴雪嘉年华",
 	[-1000244] = "典藏版",
 	[-1000245] = "英雄礼包",
 	[-1000246] = "史诗礼包",
@@ -20004,6 +20096,10 @@ localize(L.HEADER_NAMES, {
 	[-1001034] = "元素誓约",
 	[-1001035] = "时令鱼类：夏季鲈鱼",
 	[-1001036] = "时令鱼类：冬鱿鱼",
+	[-1001051] = "防御协议阿尔法",
+	[-1001052] = "防御协议贝塔",
+	[-1001053] = "防御协议伽马",
+	[-1001054] = "地狱火协议",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-1000025] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
@@ -20678,6 +20774,7 @@ localize(ObjectNames, {
 	[181893] = "致命孢子簇",
 	[181894] = "邪锥蘑菇",
 	[181916] = "被腐蚀的木材",
+	[181963] = "焦骨碎块",
 	[181981] = "龙骨",
 	[182011] = "铁锭箱",
 	[182031] = "丢弃的食物",
@@ -20697,6 +20794,10 @@ localize(ObjectNames, {
 	[182165] = "通缉布告",
 	[182184] = "匕潭毒药手册",
 	[182185] = "匕潭毒药瓶",
+	[182196] = "奥术容器",
+	[182197] = "奥术容器",
+	[182198] = "奥术容器",
+	[182199] = "金娜的日记",
 	[182256] = "丢弃的食物",
 	[182265] = "血环补给箱",
 	[182355] = "暗影议会军备",
@@ -21006,6 +21107,7 @@ localize(ObjectNames, {
 	[192823] = "一壶葡萄酒",
 	[192824] = "半满的酒杯",
 	[192825] = "达拉然奶酪",
+	[192826] = "达卡莱历史石板",
 	[192827] = "野芥菜",
 	[192828] = "晶歌胡萝卜",
 	[192833] = "布雷登布莱德的物品",
@@ -21592,7 +21694,7 @@ for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "联盟�
 for i,objectID in ipairs(CANDY_BUCKETS) do ObjectNames[objectID] = "糖罐"; end
 for i,objectID in ipairs(HORDE_BONFIRES) do ObjectNames[objectID] = "部落篝火"; end
 for key,value in pairs({
-	[1] = "从未实施",
+	[1] = "从未实施 [NYI]",
 	[2] = "从游戏中移除",
 	[4] = "PvP 精良/角斗士",
 	[5] = "不可学",
@@ -21629,26 +21731,35 @@ for key,value in pairs({
 do phases[key].lore = value; end
 if GetLocale():sub(3,4):lower() == "tw" then
 localize(L.HEADER_NAMES, {
+	[-1000010] = "首領共通掉落",
 	[-1000021] = "飛行路線",
+	[-1000025] = "節慶用品",
 	[-1000038] = "寶箱",
+	[-1000042] = "世界首領",
 	[-1000044] = "地區掉落",
+	[-1000165] = "T0.5套裝",
+	[-1000201] = "暗月馬戲團",
+});
+localize(L.HEADER_DESCRIPTIONS, {
+	[-1000025] = "你可能需要在特定節日的活動中才能完成本節中的事物。",
 });
 for i,objectID in ipairs(CANDY_BUCKETS) do ObjectNames[objectID] = "糖果桶"; end
 for key,value in pairs({
-	[1] = "從未實裝",
+	[1] = "從未實裝 [NYI]",
 	[2] = "已從遊戲中移除",
 	[3] = "暴雪點數",
 	[4] = "PvP 精良/角鬥士",
 	[5] = "不可學",
+	[6] = "需要召喚物品",
 })
 do phases[key].name = value; end
 for key,value in pairs({
 	[1] = "|cFFFF0000此項玩家永遠無法獲得。|r",
 	[2] = "|cFFFF0000此項已從遊戲中刪除。|r",
-	[3] = "|cFFAAFFAA這被鎖定在付費牆後面，例如遊戲内商店、另一個暴雪產品或招兵買馬召集令。|r",
+	[3] = "|cFFAAFFAA這被鎖定在付費牆後面，例如遊戲內商店、另一個暴雪產品或招兵買馬召集令。|r",
 	[4] = "|cFFFFAAAA除非您擁有所需的 PvP 稱號、所需的 PvP 等級或處於該賽季的前 %，否則無法再購買或解鎖塑形。|r",
 	[5] = "|cFFFFAAAA這不能永久收集、學習或用於塑形。|r",
-	[6] = "|cFFFFAAAA除非您認識可以使用用於召唤首領的物品的人，否則這將不再可用。|r",
+	[6] = "|cFFFFAAAA除非您認識可以使用用於召喚首領的物品的人，否則這將不再可用。|r",
 	[11] = "|cFFAAFFAA該功能直到 Phase 1 的 WoW Classic 才可用。|r",
 	[12] = "|cFFAAFFAA該功能直到 Phase 2 的 WoW Classic 才可用。|r",
 	[13] = "|cFFAAFFAA該功能直到 Phase 3 的 WoW Classic 才可用。|r",
@@ -21668,8 +21779,25 @@ for key,value in pairs({
 })
 do phases[key].description = value; end
 for key,value in pairs({
-	[6] = "|cFFFFAAAA注意：如果過去擁有大多數召唤物品，則可以通過與相應的 NPC 交談來重新獲得它們。|r",
+	[6] = "|cFFFFAAAA注意：如果過去擁有大多數召喚物品，則可以通過與相應的 NPC 交談來重新獲得它們。|r",
 })
 do phases[key].lore = value; end
 end
 end
+
+
+-- Add a Header & Filter debugger
+setmetatable(_.FilterConstants, {
+	__index = function(t, key)
+		_.print("MISSING FilterConstant:", key);
+		rawset(t, key, -9999999999);
+		return -9999999999;
+	end
+});
+setmetatable(_.HeaderConstants, {
+	__index = function(t, key)
+		_.print("MISSING HeaderConstant:", key);
+		rawset(t, key, -9999999999);
+		return -9999999999;
+	end
+});

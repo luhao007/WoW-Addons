@@ -3,8 +3,8 @@ local app = select(2, ...);
 local L = app.L;
 
 -- App locals
-local AssignChildren, GetRelativeField, GetRelativeValue, SearchForField =
-	app.AssignChildren, app.GetRelativeField, app.GetRelativeValue, app.SearchForField;
+local AssignChildren, GetRelativeField, GetRelativeValue, SearchForField, GetRelativeByFunc =
+	app.AssignChildren, app.GetRelativeField, app.GetRelativeValue, app.SearchForField, app.GetRelativeByFunc;
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 local Colorize = app.Modules.Color.Colorize;
 local Search = app.SearchForObject
@@ -467,6 +467,40 @@ local function CollectibleAsQuestOrAsLocked(t)
 	return (not locked and CollectibleAsQuest(t))
 		or CollectibleAsLocked(t, locked);
 end
+-- Returns whether the provided Quest group is expected to be available to the current character or another character when in debug/account mode
+app.IsQuestAvailable = function(t)
+	local questID = t.questID
+	return
+	-- must have a questID associated
+	questID
+	and
+	(
+		-- Repeatable quests cannot ever 'really' be completed, though sometimes their saved state persists
+		-- until manually started via an Item
+		rawget(t, "repeatable")
+		or
+		(
+			-- not already completed by current character
+			not CompletedQuests[questID]
+			and
+			-- and not OTQ or is OTQ not yet known to be completed by any character
+			not OneTimeQuests[questID]
+			and
+			(
+				-- able to access quest on current character
+				not t.locked
+				or
+				(
+					-- debug/account mode
+					app.MODE_DEBUG_OR_ACCOUNT
+					and
+					-- Not Locked by a OPA/AW Quest (to access via another Character)
+					not AccountWideLockedQuestsCache[questID]
+				)
+			)
+		)
+	)
+end
 
 local function IsQuestSaved(questID)
 	-- NOTE: If Party Sync is supported, this will be replaced!
@@ -659,40 +693,22 @@ PrintQuestInfo = function(questID, new)
 		return;
 	end
 
-	local text, questRef
+	local text
 	local questChange = (new == true and "accepted") or (new == false and "unflagged") or "completed";
-	local searchResults = SearchForField("questID", questID);
-	if #searchResults > 0 then
-		local nmr, nmc, nyi, hqt, unsorted
-		if #searchResults == 1 then
-			questRef = searchResults[1]
-			nmr = questRef.nmr
-			nmc = questRef.nmc
-			nyi = GetRelativeField(questRef, "u", 1)
-			unsorted = GetRelativeValue(questRef, "_unsorted") or nyi
-			hqt = GetRelativeValue(questRef, "_hqt")
-		else
-			for i,searchResult in ipairs(searchResults) do
-				if searchResult.key == "questID" then
-					nmr = nmr or searchResult.nmr
-					nmc = nmc or searchResult.nmc
-					nyi = nyi or GetRelativeField(searchResult, "u", 1)
-					unsorted = GetRelativeValue(questRef, "_unsorted") or nyi
-					hqt = hqt or GetRelativeValue(searchResult, "_hqt")
-					questRef = searchResult
-				end
-			end
-			if not questRef then
-				-- This basically happens when a quest is both Sourced 2+ times and none have a key of questID (DMs)
-				-- app.PrintDebug(Colorize("Failed to check quest info for: "..(questID or "???"), app.Colors.ChatLinkError))
-				questRef = searchResults[1]
-			end
-		end
+	local questRef = Search("questID", questID, "field")
+	if questRef then
+
+		local nyi = GetRelativeField(questRef, "u", 1)
+		local unsorted = GetRelativeValue(questRef, "_unsorted") or nyi
 
 		-- if user is allowing reporting of Sourced quests (true = don't report Sourced)
 		if not unsorted and app.Settings:GetTooltipSetting("Report:UnsortedQuests") then
 			return true;
 		end
+
+		local nmr = questRef.nmr
+		local nmc = questRef.nmc
+		local hqt = GetRelativeValue(questRef, "_hqt")
 
 		-- Quest can be linked to all sorts of things...
 		text = questRef.name or hqt and UNKNOWN or QuestNameFromID[questID]
@@ -717,7 +733,7 @@ PrintQuestInfo = function(questID, new)
 			app:SetupReportDialog(popupID, "NYI Quest: " .. questID,
 				BuildDiscordQuestInfoTable(questID, "nyi-quest", questChange)
 			);
-			print("Quest", questChange, app:Linkify(text .. " [NYI] ATT " .. app.Version, app.Colors.ChatLinkError, "dialog:" .. popupID));
+			app.print("Quest", questChange, app:Linkify(text .. " [NYI] ATT " .. app.Version, app.Colors.ChatLinkError, "dialog:" .. popupID));
 			return
 		end
 
@@ -731,7 +747,7 @@ PrintQuestInfo = function(questID, new)
 			app:SetupReportDialog(popupID, "Unsorted Quest: " .. questID,
 				BuildDiscordQuestInfoTable(questID, "unsorted-quest", questChange)
 			);
-			print("Quest", questChange, app:Linkify(text .. " [UNS] ATT " .. app.Version, app.Colors.ChatLinkError, "dialog:" .. popupID));
+			app.print("Quest", questChange, app:Linkify(text .. " [UNS] ATT " .. app.Version, app.Colors.ChatLinkError, "dialog:" .. popupID));
 			return
 		end
 
@@ -743,7 +759,7 @@ PrintQuestInfo = function(questID, new)
 		else
 			text = app:Linkify(text, app.Colors.ChatLink, "search:questID:" .. questID);
 		end
-		print("Quest", questChange, text, GetQuestFrequency(questID) or "");
+		app.print("Quest", questChange, text, GetQuestFrequency(questID) or "");
 	else
 		text = (QuestNameFromID[questID] or UNKNOWN) .. " (" .. questID .. ")";
 
@@ -755,8 +771,11 @@ PrintQuestInfo = function(questID, new)
 		app:SetupReportDialog(popupID, "Missing Quest: " .. questID,
 			BuildDiscordQuestInfoTable(questID, "missing-quest", questChange)
 		);
-		print("Quest", questChange, app:Linkify(text .. " (Not in ATT " .. app.Version .. ")", app.Colors.ChatLinkError, "dialog:" .. popupID), GetQuestFrequency(questID) or "");
+		app.print("Quest", questChange, app:Linkify(text .. " (Not in ATT " .. app.Version .. ")", app.Colors.ChatLinkError, "dialog:" .. popupID), GetQuestFrequency(questID) or "");
 	end
+end
+local function NotInGame(ref)
+	return not app.Modules.Filter.Filters.InGame(ref)
 end
 app.CheckInaccurateQuestInfo = function(questRef, questChange, forceShow)
 	-- Checks a given quest reference against the current character info to see if something is inaccurate
@@ -771,7 +790,8 @@ app.CheckInaccurateQuestInfo = function(questRef, questChange, forceShow)
 		-- is marked as in the game
 		-- NOTE: Classic doesn't use the Filters Module yet. (TODO)
 		-- The logic is simple enough to where it shouldn't matter.
-		local inGame = app.Modules.Filter.Filters.InGame(questRef);
+		-- This now checks recursively outwards to ensure that an in-game quest isn't buried inside a removed header
+		local inGame = not GetRelativeByFunc(questRef, NotInGame)
 		-- repeatable or not previously completed or the accepted quest was immediately completed prior to the check, or character in party sync
 		local incomplete = (questRef.repeatable or not completed or LastQuestTurnedIn == completed or IsPartySyncActive);
 		-- not missing pre-requisites
@@ -881,6 +901,7 @@ if app.IsRetail then
 		BatchRefresh = nil
 	end
 
+	local Register_CRITERIA_UPDATE = app.EmptyFunction
 	local function RefreshQuestCompletionState(questID)
 		-- app.PrintDebug("RefreshQuestCompletionState",questID)
 		wipe(RetailDirtyQuests);
@@ -896,7 +917,7 @@ if app.IsRetail then
 			end
 		end
 
-		app:RegisterEvent("CRITERIA_UPDATE");
+		Register_CRITERIA_UPDATE()
 		-- app.PrintDebugPrior("RefreshedQuestCompletionState")
 	end
 	RefreshAllQuestInfo = function()
@@ -919,6 +940,11 @@ if app.IsRetail then
 	app.AddEventHandler("OnStartup", QueryCompletedQuests);
 	app.AddEventHandler("OnRecalculate", QueryCompletedQuests);
 	app.AddEventHandler("OnPlayerLevelUp", RefreshAllQuestInfo);
+	app.AddEventHandler("OnReady", function()
+		Register_CRITERIA_UPDATE = function()
+			app:RegisterEvent("CRITERIA_UPDATE");
+		end
+	end)
 else
 	---@diagnostic disable-next-line: undefined-global
 	local GetQuestsCompleted = GetQuestsCompleted;
@@ -1463,8 +1489,12 @@ local createQuest = app.CreateClass("Quest", "questID", {
 		return GetQuestLinkForObject(t);
 	end,
 	tooltipLink = function(t)
+		-- linktests[#linktests + 1] = "|cffffff00|Hquest:"..t.questID..":"..(app._subid or 0).."|h["..(t.name or "").."]|h|r" -- works when _subid is correct for questid
+		-- linktests[#linktests + 1] = "|cffffff00|Hquest:"..t.questID..":"..(app._subid or 0).."|h["..(t.name or "").." "..t.questID.."]|h|r" -- de-links
+		-- linktests[#linktests + 1] = "|cffffff00|Hquest:"..t.questID..":"..(app._subid or 0).."|h["..t.questID.."]|h|r" -- cannot send message
 		return "quest:"..t.questID
 	end,
+	RefreshCollectionOnly = true,
 	collectible = CollectibleAsQuest,
 	collected = IsQuestFlaggedCompletedForObject,
 	altcollected = function(t)
@@ -1624,7 +1654,7 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	end or CollectibleAsQuestOrAsLocked,
 	locked = LockedAsBreadcrumb,
 	variants = {
-		AndBreadcrumbWithLockCriteria = AndBreadcrumbWithLockCriteria,
+		AndBreadcrumbWithLockCriteria,
 	},
 }, (function(t) return t.isBreadcrumb; end)
 -- Both: World Quests (Baked back into Quest for now since multiple types can be WorldQuests)
@@ -1658,7 +1688,7 @@ app.CreateQuestObjective = app.CreateClass("Objective", "objectiveID", {
 			local objectives = C_QuestLog_GetQuestObjectives(questID);
 			if objectives then
 				local objective = objectives[t.objectiveID];
-				if objective then return objective.text; end
+				if objective and not IsRetrieving(objective.text) then return objective.text; end
 			end
 			return app.GetNameFromProviders(t)
 				or (t.spellID and GetSpellName(t.spellID))
@@ -1691,6 +1721,7 @@ app.CreateQuestObjective = app.CreateClass("Objective", "objectiveID", {
 	questID = function(t)
 		return t.parent.questID;
 	end,
+	RefreshCollectionOnly = true,
 	collectible = function(t)
 		if not t.questID then
 			return false;

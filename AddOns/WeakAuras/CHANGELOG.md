@@ -1,34 +1,57 @@
-# [5.17.4](https://github.com/WeakAuras/WeakAuras2/tree/5.17.4) (2024-10-30)
+# [5.18.1](https://github.com/WeakAuras/WeakAuras2/tree/5.18.1) (2024-12-17)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/5.17.3...5.17.4)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/5.18.0...5.18.1)
 
 ## Highlights
 
-- New: You can now shift-click spells into the BuffTrigger options
-- New: We added a context menu item to remove all sounds from an aura
-- Changed: Template updates for 11.0.5
-- Changed: Update version for Cata Classic
+- Bug fixes for Cata and Vanilla
+- Performance improvements
 
 ## Commits
 
-InfusOnWoW (4):
+InfusOnWoW (13):
 
-- Sound Aura Warning: Add a context menu to remove all sounds from an aura
-- Templates: Stormbringer, Flurry Strikes, Dark Ranger, Deathbringer
-- Update Atlas File List from wago.tools
 - Update Discord List
+- Discord Update: Allow overriding the display name via a DM
+- Fix Spell Cache for Season of Discovery Phase 6
+- On renaming an aura, don't clear filter
+- Enchant Trigger: Fix regression on weapon switching
+- CondtionOptions: Fix lua error on choosing manual icon in merged case
+- Rename "Position Settings" to "Position and Size Settings"
+- Update Discord List
+- Update Atlas File List from wago.tools
+- Load: Add Hardcode and Season of Discovery load options for Classic
+- Fix lua error on editing conditions for manual progress
+- Print a warning on finding empty settings
+- Add Effective Spell ID condition to Spell Cooldown Trigger
 
-Stanzilla (1):
+Stanzilla (4):
 
 - Update WeakAurasModelPaths from wago.tools
+- Update WeakAurasModelPaths from wago.tools
+- Update WeakAurasModelPaths from wago.tools
+- Update WeakAurasModelPaths from wago.tools
 
-emptyrivers (2):
+dependabot[bot] (1):
 
-- teach BT2 how to interpret hyperlinks
-- move history updates to background task
+- Bump cbrgm/mastodon-github-action from 2.1.9 to 2.1.10
 
-mrbuds (2):
+emptyrivers (7):
 
-- add printOnConsole error warning for CLEU without filters
-- update toc files for cataclysm 4.4.1
+- bump toc for 11.0.7
+- unit characteristics - disable summon pending for classic
+- harden conditions against garbage in custom state
+- upgrade Unit Characteristics - Ignore Dead, and add Summon/Resurrect Pending properties
+- fix a typo
+- be more careful about getting tooltip data
+- defer calls to ScanEvents & friends if it doesn't come from WeakAuras
+
+mrbuds (1):
+
+- Edit CLEU deprecated warning link
+
+nullKomplex (2):
+
+- Add Resilience to Cataclysm Classic.
+- Add Mastery to Cataclysm Classic.
 

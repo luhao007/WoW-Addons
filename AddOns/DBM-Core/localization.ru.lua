@@ -3,8 +3,15 @@ if not DBM_CORE_L then DBM_CORE_L = {} end
 
 local L = DBM_CORE_L
 
+L.DEADLY_BOSS_MODS						= "Deadly Boss Mods"
+L.DBM									= "DBM"
+
+local guild = GetGuildInfo("player")
 local dateTable = date("*t")
-if dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
+if C_Seasons and C_Seasons.GetActiveSeason and C_Seasons.GetActiveSeason() == 12 and guild == "OnlyFangs" then
+	L.DEADLY_BOSS_MODS					= "Deadly Boss Lua"
+	L.DBM								= "Boss Loa"
+elseif dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
 	L.DEADLY_BOSS_MODS					= "Harmless Minion Mods"
 	L.DBM								= "HMM"
 end
@@ -78,9 +85,12 @@ L.MOVIE_SKIPPED						= L.DBM .. " автоматически попытался 
 L.MOVIE_NOTSKIPPED					= L.DBM .. " обнаружил ролик, который можно пропустить, но НЕ пропустил его из-за ошибки Blizzard. Когда эта ошибка будет исправлена, пропуск ролика будет снова включен."
 L.BONUS_SKIPPED						= L.DBM .. " автоматически закрыл окно бонусного броска. Если Вам нужно вернуть это окно, введите /dbmbonusroll в течение 3 минут."
 
-L.AFK_WARNING						= "Вы АФК и в бою (осталось %d процентов здоровья), запуск звукового сигнала. Если Вы не АФК, отключите АФК режим или эту опцию в 'Дополнительные возможности'."
+L.AFK_WARNING						= "Вы АФК и в бою (осталось %d процентов здоровья), срабатывает звуковой сигнал. Если Вы не АФК, отключите АФК режим или эту опцию в 'Дополнительные возможности'."
+L.LOWHEALTH_WARNING					= "Низкое здоровье (осталось %d процентов здоровья), срабатывает звуковой сигнал. Вы можете отключить эту опцию в 'Дополнительные возможности'."
+L.ENTERING_COMBAT					= "Вступление в бой"
+L.LEAVING_COMBAT					= "Выход из боя"
 
-L.COMBAT_STARTED_AI_TIMER			= "Мой ЦП - это процессор нейронной сети, обучающий компьютер. (Этот бой будет использовать новую функцию таймера AI для генерации приближений таймера)"
+L.COMBAT_STARTED_AI_TIMER			= "Мой ЦП - это процессор нейронной сети, обучающий компьютер. (В этом бою будет использоваться функция таймера AI для генерации приблизительных значений таймера)"
 
 L.PROFILE_NOT_FOUND					= "<" .. L.DBM .. "> Ваш текущий профиль повреждён. " .. L.DBM .. " загрузит профиль 'По умолчанию'."
 L.PROFILE_CREATED					= "Профиль '%s' создан."
@@ -309,9 +319,9 @@ L.ACHIEVEMENT_TIMER_SPEED_KILL 		= "Достижение"
 
 -- Auto-generated Warning Localizations
 L.AUTO_ANNOUNCE_TEXTS.you 			= "%s на тебе"
-L.AUTO_ANNOUNCE_TEXTS.target 		= "%s на |3-5(>%%s<)"
+L.AUTO_ANNOUNCE_TEXTS.target 		= "%s на (>%%s<)"
 L.AUTO_ANNOUNCE_TEXTS.targetsource  = ">%%s< применяется %s на >%%s<"
-L.AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) на |3-5(>%%s<)"
+L.AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) на (>%%s<)"
 L.AUTO_ANNOUNCE_TEXTS.spell 		= "%s"
 L.AUTO_ANNOUNCE_TEXTS.incoming		= "%s входящий дебафф"
 L.AUTO_ANNOUNCE_TEXTS.incomingcount	= "%s входящий дебафф (%%s)"
@@ -328,7 +338,7 @@ L.AUTO_ANNOUNCE_TEXTS.bait			= "Скоро %s - байти"
 L.AUTO_ANNOUNCE_TEXTS.stage			= "Фаза %s"
 L.AUTO_ANNOUNCE_TEXTS.prestage		= "Скоро фаза %s"
 L.AUTO_ANNOUNCE_TEXTS.count 		= "%s (%%s)"
-L.AUTO_ANNOUNCE_TEXTS.stack 		= "%s на |3-5(>%%s<) (%%d)"
+L.AUTO_ANNOUNCE_TEXTS.stack 		= "%s на (>%%s<) (%%d)"
 L.AUTO_ANNOUNCE_TEXTS.moveto 		= "%s - бегите к >%%s<"
 
 local prewarnOption 					= "Предупреждать заранее о $spell:%s"
@@ -364,7 +374,7 @@ L.AUTO_SPEC_WARN_TEXTS.soon				= "Скоро %s"
 L.AUTO_SPEC_WARN_TEXTS.sooncount		= "Скоро %s (%%s)"
 L.AUTO_SPEC_WARN_TEXTS.bait				= "Скоро %s - байти"
 L.AUTO_SPEC_WARN_TEXTS.prewarn			= "%s через %s"
-L.AUTO_SPEC_WARN_TEXTS.dispel 			= "%s на |3-5(>%%s<) - рассейте заклинание"
+L.AUTO_SPEC_WARN_TEXTS.dispel 			= "%s на (>%%s<) - рассейте заклинание"
 L.AUTO_SPEC_WARN_TEXTS.interrupt		= "%s - прервите >%%s<!"
 L.AUTO_SPEC_WARN_TEXTS.interruptcount	= "%s - прервите >%%s<! (%%d)"
 L.AUTO_SPEC_WARN_TEXTS.you 				= "%s на Вас"
@@ -372,11 +382,12 @@ L.AUTO_SPEC_WARN_TEXTS.youcount			= "%s (%%s) на Вас"
 L.AUTO_SPEC_WARN_TEXTS.youpos			= "%s (Позиция: %%s) на Вас"
 L.AUTO_SPEC_WARN_TEXTS.youposcount		= "%s (%%s) (Позиция: %%s) на Вас"
 L.AUTO_SPEC_WARN_TEXTS.soakpos			= "%s (Позиция погл.: %%s)"
-L.AUTO_SPEC_WARN_TEXTS.target 			= "%s на |3-5(>%%s<)"
+L.AUTO_SPEC_WARN_TEXTS.target 			= "%s на (>%%s<)"
 L.AUTO_SPEC_WARN_TEXTS.targetcount		= "%s (%%s) на >%%s< "
+L.AUTO_SPEC_WARN_TEXTS.link				= "%s связан с >%%s<"
 L.AUTO_SPEC_WARN_TEXTS.defensive		= "%s - защититесь"
 L.AUTO_SPEC_WARN_TEXTS.taunt			= "%s на >%%s< - затаунти"
-L.AUTO_SPEC_WARN_TEXTS.close 			= "%s на |3-5(>%%s<) около Вас"
+L.AUTO_SPEC_WARN_TEXTS.close 			= "%s на (>%%s<) около Вас"
 L.AUTO_SPEC_WARN_TEXTS.move 			= "%s - отбегите"
 L.AUTO_SPEC_WARN_TEXTS.keepmove			= "%s - продолжайте двигаться"
 L.AUTO_SPEC_WARN_TEXTS.stopmove			= "%s - остановитесь"
@@ -394,7 +405,7 @@ L.AUTO_SPEC_WARN_TEXTS.run 				= "%s - убегайте"
 L.AUTO_SPEC_WARN_TEXTS.runcount 		= "%s - убегайте (%%s)"
 L.AUTO_SPEC_WARN_TEXTS.cast 			= "%s - прекратите чтение заклинаний"
 L.AUTO_SPEC_WARN_TEXTS.lookaway			= "%s на %%s - отвернитесь"
-L.AUTO_SPEC_WARN_TEXTS.reflect 			= "%s на |3-5(>%%s<) - прекратите атаку"
+L.AUTO_SPEC_WARN_TEXTS.reflect 			= "%s на (>%%s<) - прекратите атаку"
 L.AUTO_SPEC_WARN_TEXTS.count 			= "%s! (%%s)"
 L.AUTO_SPEC_WARN_TEXTS.stack 			= "На Вас %%d стаков от %s"
 L.AUTO_SPEC_WARN_TEXTS.switch 			= "%s - переключитесь"
@@ -424,8 +435,9 @@ L.AUTO_SPEC_WARN_OPTIONS.youposcount	= "Спецпредупреждение (с
 L.AUTO_SPEC_WARN_OPTIONS.soakpos		= "Спецпредупреждение (с позицией) для помощи с поглощением $spell:%s"
 L.AUTO_SPEC_WARN_OPTIONS.target 		= "Спецпредупреждение, когда на ком-то $spell:%s"
 L.AUTO_SPEC_WARN_OPTIONS.targetcount	= "Спецпредупреждение (со счётчиком), когда на ком-то $spell:%s"
+L.AUTO_SPEC_WARN_OPTIONS.link			= "Спецпредупреждение, когда Вы связаны с другим игроком с помощью $spell:%s"
 L.AUTO_SPEC_WARN_OPTIONS.defensive 		= "Спецпредупреждение для использования защитных способностей от $spell:%s"
-L.AUTO_SPEC_WARN_OPTIONS.taunt 			= "Спецпредупреждение \"затаунти\", когда на другом танке $spell:%s"
+L.AUTO_SPEC_WARN_OPTIONS.taunt 			= "Спецпредупреждение \"затаунти\" (если текущая специализация танка), когда на другом танке $spell:%s"
 L.AUTO_SPEC_WARN_OPTIONS.close 			= "Спецпредупреждение, когда на ком-то рядом с вами $spell:%s"
 L.AUTO_SPEC_WARN_OPTIONS.move 			= "Спецпредупреждение \"отбегите\" для $spell:%s"
 L.AUTO_SPEC_WARN_OPTIONS.keepmove 		= "Спецпредупреждение \"продолжайте двигаться\" для $spell:%s"
@@ -472,10 +484,16 @@ L.AUTO_TIMER_TEXTS.cdsource			= "%s: >%%s<"
 L.AUTO_TIMER_TEXTS.cdspecial		= "Восст. спецспособности"
 L.AUTO_TIMER_TEXTS.cdcombo			= "%%1$s + %%2$s"
 
+L.AUTO_TIMER_TEXTS.var				= "%s"
+L.AUTO_TIMER_TEXTS.varcount			= "%s (%%s)"
+L.AUTO_TIMER_TEXTS.varsource		= "%s: >%%s<"
+L.AUTO_TIMER_TEXTS.varspecial		= "Спецспособность"
+L.AUTO_TIMER_TEXTS.varcombo			= "%%1$s + %%2$s"
+
 L.AUTO_TIMER_TEXTS.next 			= "%s"
 L.AUTO_TIMER_TEXTS.nextcount		= "%s (%%s)"
 L.AUTO_TIMER_TEXTS.nextsource		= "%s: %%s"
-L.AUTO_TIMER_TEXTS.nextspecial		= "Спецспособность"
+L.AUTO_TIMER_TEXTS.nextspecial		= "След. спецспособность"
 L.AUTO_TIMER_TEXTS.nextcombo		= "%%1$s + %%2$s"
 
 L.AUTO_TIMER_TEXTS.achievement		= "%s"
@@ -506,6 +524,7 @@ L.AUTO_TIMER_OPTIONS.castsource		= "Отсчёт времени применен
 L.AUTO_TIMER_OPTIONS.active 		= "Отсчёт времени действия $spell:%s"
 L.AUTO_TIMER_OPTIONS.fades			= "Отсчёт времени до спадения $spell:%s с игроков"
 L.AUTO_TIMER_OPTIONS.ai				= "Отсчёт времени до восстановления $spell:%s (ИИ)"
+
 L.AUTO_TIMER_OPTIONS.cd 			= "Отсчёт времени до восстановления $spell:%s"
 L.AUTO_TIMER_OPTIONS.cdcount 		= "Отсчёт времени до восстановления $spell:%s"
 L.AUTO_TIMER_OPTIONS.cdnp 			= "Отсчёт времени до восстановления $spell:%s (только индикарторы здоровья)"
@@ -513,6 +532,7 @@ L.AUTO_TIMER_OPTIONS.cdpnp			= "Приоритетный отсчёт време
 L.AUTO_TIMER_OPTIONS.cdsource		= "Отсчёт времени до восстановления $spell:%s (с источником)"
 L.AUTO_TIMER_OPTIONS.cdspecial		= "Отсчёт времени до восстановления спецспособности"
 L.AUTO_TIMER_OPTIONS.cdcombo		= "Отсчёт времени до восстановления комбо способности"--Используется для объединения двух способностей в один таймер
+
 L.AUTO_TIMER_OPTIONS.next 			= "Отсчёт времени до следующего $spell:%s"
 L.AUTO_TIMER_OPTIONS.nextcount 		= "Отсчёт времени до следующего $spell:%s"
 L.AUTO_TIMER_OPTIONS.nextnp 		= "Отсчёт времени до следующего $spell:%s (только индикарторы здоровья)"
@@ -520,17 +540,27 @@ L.AUTO_TIMER_OPTIONS.nextpnp 		= "Приоритетный отсчёт врем
 L.AUTO_TIMER_OPTIONS.nextsource		= "Отсчёт времени до следующего $spell:%s (с источником)"
 L.AUTO_TIMER_OPTIONS.nextspecial	= "Отсчёт времени до следующей спецспособности"
 L.AUTO_TIMER_OPTIONS.nextcombo		= "Отсчёт времени до следующей комбо способности"--Используется для объединения двух способностей в один таймер
+
+L.AUTO_TIMER_OPTIONS.var 			= "Отсчёт времени (с разбросом) до восстановления $spell:%s"
+L.AUTO_TIMER_OPTIONS.varcount 		= "Отсчёт времени (с количеством и разбросом) до восстановления $spell:%s"
+L.AUTO_TIMER_OPTIONS.varnp 			= "Показывать только таймер на индикаторах здоровья (с разбросом) до восстановления $spell:%s"
+L.AUTO_TIMER_OPTIONS.varpnp 		= "Показывать только таймер приоритета на индикаторах здоровья (с разбросом) до восстановления $spell:%s"
+L.AUTO_TIMER_OPTIONS.varsource 		= "Отсчёт времени (с источником и разбросом) до восстановления $spell:%s"
+L.AUTO_TIMER_OPTIONS.varspecial 	= "Отсчёт времени (с разницей) до восстановления спецспособности"
+L.AUTO_TIMER_OPTIONS.varcombo 		= "Отсчёт времени (с разбросом) до восстановления комбо способностей"
+
 L.AUTO_TIMER_OPTIONS.achievement 	= "Отсчёт времени для %s"
 L.AUTO_TIMER_OPTIONS.stage			= "Отсчёт времени до следующей фазы"
 L.AUTO_TIMER_OPTIONS.stagecount		= "Отсчёт времени (со счетчиком) до следующей фазы"
 L.AUTO_TIMER_OPTIONS.stagecountcycle	= "Отсчёт времени (со счетчиком фаз и циклов) до следующей фазы"
 L.AUTO_TIMER_OPTIONS.stagecontext		= "Отсчёт времени до следующего этапа $spell:%s"
 L.AUTO_TIMER_OPTIONS.stagecontextcount	= "Отсчёт времени (со счетчиком) до следующего этапа $spell:%s"
+
 L.AUTO_TIMER_OPTIONS.intermission	= "Отсчёт времени до следующей переходной фазы"
 L.AUTO_TIMER_OPTIONS.intermissioncount	= "Отсчёт времени (со счетчиком) до следующей переходной фазы"
 L.AUTO_TIMER_OPTIONS.adds			= "Отсчёт времени до прибытия аддов"
 L.AUTO_TIMER_OPTIONS.addscustom		= "Отсчёт времени до прибытия аддов"
-L.AUTO_TIMER_OPTIONS.roleplay		= "Отсчёт времени для ролевой игры"
+L.AUTO_TIMER_OPTIONS.roleplay		= "Показывать таймер для ролевой игры"
 L.AUTO_TIMER_OPTIONS.combat			= "Отсчёт времени до начала боя"
 
 L.AUTO_ICONS_OPTION_TARGETS			= "Устанавливать метки на цели $spell:%s"
@@ -673,6 +703,11 @@ L.DBM_INSTALL_REMINDER_DISABLE2 = "Больше не показывать это
 L.DBM_INSTALL_REMINDER_DL_WAGO	= "Нажмите " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  ", чтобы скопировать ссылку Wago.io в буфер обмена."
 L.DBM_INSTALL_REMINDER_DL_CURSE	= "Нажмите " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  ", чтобы скопировать ссылку Curseforge в буфер обмена."
 L.DBM_INSTALL_PACKAGE_VANILLA	= "Пакет 'Классика и Сезон Открытий'"
+L.DBM_INSTALL_PACKAGE_BCC		= "Пакет 'Burning Crusade'"
 L.DBM_INSTALL_PACKAGE_WRATH		= "Пакет 'Гнев Короля-лича'"
 L.DBM_INSTALL_PACKAGE_CATA		= "Пакет 'Катаклизм'"
+L.DBM_INSTALL_PACKAGE_MOP		= "Пакет 'Пандария'"
 L.DBM_INSTALL_PACKAGE_DUNGEON	= "Пакет 'Подземелья, вылазки и события'"
+
+-- Tests
+L.DBM_TAINTED_BY_TESTS			= "DBM использовался в тестовом режиме с временной деформацией в текущем сеансе, рекомендуется перезагрузить пользовательский интерфейс перед использованием DBM в реальном бою с боссом. Все должно работать так, как и ожидалось, но никаких гарантий!"

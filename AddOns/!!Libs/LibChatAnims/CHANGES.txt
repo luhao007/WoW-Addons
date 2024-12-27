@@ -1,12 +1,8 @@
 ------------------------------------------------------------------------
-r75 | funkehdude | 2024-07-09 18:35:48 +0000 (Tue, 09 Jul 2024) | 1 line
+r77 | funkehdude | 2024-11-20 17:14:39 +0000 (Wed, 20 Nov 2024) | 1 line
 Changed paths:
    M /trunk/LibChatAnims.toc
-   D /trunk/LibChatAnims_Cata.toc
-   D /trunk/LibChatAnims_TBC.toc
-   D /trunk/LibChatAnims_Vanilla.toc
-   D /trunk/LibChatAnims_Wrath.toc
 
-Merge toc files
+bump toc
 ------------------------------------------------------------------------
 

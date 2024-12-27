@@ -1,18 +1,12 @@
-tag 1be59060646e7f0b41be1887faa8cd2fea8b1905 v1.12.15
+tag ff7d86c1b1c9f4b72fc54739d508ac7a6d82fa45 v1.12.17
 Author:	Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:	Wed Oct 23 07:45:24 2024 +0200
+Date:	Wed Dec 18 21:34:02 2024 +0100
 
-Tag v1.12.15
+Update for 11.0.7
 
-commit 5e1b8af77cdff87728b4ba3e8e4dec79d95a38cd
+commit 95e69392ad2bcb52810feec620ae80b3eea110dc
 Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:   Wed Oct 23 07:43:21 2024 +0200
+Date:   Wed Dec 18 21:32:32 2024 +0100
 
-    Bump to v1.12.15
-
-commit 5c58716dcfa2a226afdea89364b4a0656e6b04cd
-Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:   Wed Oct 23 07:43:06 2024 +0200
-
-    Define support for 11.0.5
+    Update for 11.0.7
 

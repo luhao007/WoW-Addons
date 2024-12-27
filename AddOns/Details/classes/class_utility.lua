@@ -403,7 +403,7 @@ local ReportSingleDeathFunc = function(IsCurrent, IsReverse, AmtLines)
 		t [#t+1] = table [1] .. table [4] .. table [2] .. table [3]
 	end
 
-	local title = tremove(t, 1)
+	local title = table.remove(t, 1)
 	t = Details.table.reverse(t)
 	tinsert(t, 1, title)
 
@@ -1829,7 +1829,9 @@ function atributo_misc:ToolTipDebuffUptime(instancia, numero, barra)
 	local _combat_time = instancia.showing:GetCombatTime()
 
 	for _spellid, _tabela in pairs(minha_tabela) do
-		debuffs_usados [#debuffs_usados+1] = {_spellid, _tabela.uptime}
+		if (_tabela.uptime and _tabela.uptime > 0) then
+			debuffs_usados [#debuffs_usados+1] = {_spellid, _tabela.uptime}
+		end
 	end
 	table.sort(debuffs_usados, Details.Sort2)
 

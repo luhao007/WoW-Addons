@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------
-r183 | funkehdude | 2024-08-15 20:23:52 +0000 (Thu, 15 Aug 2024) | 1 line
+r185 | funkehdude | 2024-11-20 17:04:48 +0000 (Wed, 20 Nov 2024) | 1 line
 Changed paths:
-   M /trunk/LibSink-2.0/LibSink-2.0.lua
+   M /trunk/LibSink-2.0.toc
 
-bump minor version
+bump toc
 ------------------------------------------------------------------------
 

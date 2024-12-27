@@ -7,6 +7,7 @@ local RSRecentlySeenTracker = private.NewLib("RareScannerRecentlySeenTracker")
 
 -- RareScanner database libraries
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
+local RSNpcDB = private.ImportLib("RareScannerNpcDB")
 local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
 
 -- RareScanner internal libraries
@@ -84,7 +85,7 @@ function RSRecentlySeenTracker.AddRecentlySeen(entityID, atlasName, isNavigating
 	end
 	
 	-- If not spawning in multiple places at the same time stores only the time
-	if (RSUtils.Contains(RSConstants.NPCS_WITH_MULTIPLE_SPAWNS, entityID) or RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
+	if (RSNpcDB.IsMultiZoneSpawn(entityID) or RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
 		-- Extracts info from internal database
 		if (not recently_seen_entities[entityID]) then
 			recently_seen_entities[entityID] = {}

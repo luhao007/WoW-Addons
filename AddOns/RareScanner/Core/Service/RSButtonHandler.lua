@@ -35,12 +35,14 @@ local RSTomtom = private.ImportLib("RareScannerTomtom")
 
 -- Timers
 local BUTTON_TIMER
+local PREFOUND_TIMER
 
 ---============================================================================
 -- Queue found alerts
 ---============================================================================
 
 local foundAlerts = {}
+local preFoundAlerts = {}
 
 ---============================================================================
 -- Auxiliar functions
@@ -508,7 +510,10 @@ end
 local function ShowAlerts(button)
 	local refreshMinimap
 	for k, vignetteInfo in pairs (foundAlerts) do
-		refreshMinimap = ShowAlert(button, vignetteInfo, false)
+		if (ShowAlert(button, vignetteInfo, false) and not refreshMinimap) then
+			refreshMinimap = true
+		end
+		
 	    foundAlerts[k] = nil
 		--RSLogger:PrintDebugMessage(string.format("Eliminado %s", k))
 	end
@@ -540,11 +545,30 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 	
 	--RSLogger:PrintDebugMessage(string.format("Vignette ATLAS [%s][%s]", vignetteInfo.atlasName, vignetteInfo.objectGUID))
 	
+	-- Fix vignette INFO for those vignettes with errors
 	local entityID, vignetteInfo = FixVignetteInfo(vignetteInfo)
 	if (not entityID or not vignetteInfo) then
 		return
 	end
 	
+	-- Avoid alerting for the same entity detected by different systems at the same time
+	if (not isNavigating) then
+		local trackingSystem = vignetteInfo.trackingSystem
+		if (not vignetteInfo.simulated) then
+			trackingSystem = RSConstants.TRACKING_SYSTEM.VIGNETTE
+		end
+		if (preFoundAlerts[entityID]) then
+				--RSLogger:PrintDebugMessage(string.format("prefound existente para [%s] con sistema [%s] y nuevamente con sistema [%s] .", entityID, preFoundAlerts[entityID].trackingSystem, trackingSystem))
+			if (preFoundAlerts[entityID].trackingSystem ~= trackingSystem) then
+				--RSLogger:PrintDebugMessage(string.format("Ignorada alerta de [%s] por haberse detectado con otro sistema en menos de 5 segundos.", entityID))
+				return
+			end
+		else
+			preFoundAlerts[entityID] = { trackingSystem = trackingSystem, expireTime = time() + RSConstants.PREFOUND_TIMER }
+		end
+	end
+	
+	-- Apply filters
 	local mapID = RSGeneralDB.GetBestMapForUnit(entityID, vignetteInfo.atlasName)
 	local isInstance, _ = IsInInstance()
 	
@@ -597,6 +621,15 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		if (not BUTTON_TIMER or BUTTON_TIMER:IsCancelled()) then
 			BUTTON_TIMER = C_Timer.NewTimer(RSConstants.BUTTON_TIMER, function()
 				ShowAlerts(button)
+			end)
+		end
+		if (not PREFOUND_TIMER) then
+			PREFOUND_TIMER = C_Timer.NewTimer(RSConstants.PREFOUND_TIMER, function()
+				for entityID, info in pairs(preFoundAlerts) do
+					if (info.expireTime < time()) then
+						preFoundAlerts[entityID] = nil
+					end
+				end
 			end)
 		end
 	end

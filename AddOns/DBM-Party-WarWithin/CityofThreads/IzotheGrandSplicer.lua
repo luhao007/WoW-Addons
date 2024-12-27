@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(2596, "DBM-Party-WarWithin", 8, 1274)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241005103307")
+mod:SetRevision("20241121093056")
 mod:SetCreatureID(216658)
 mod:SetEncounterID(2909)
 mod:SetHotfixNoticeRev(20240818000000)
 --mod:SetMinSyncRevision(20211203000000)
+mod:SetZone(2669)
 --mod.respawnTime = 29
 mod.sendMainBossGUID = true
 
@@ -84,7 +85,7 @@ function mod:SPELL_CAST_START(args)
 		--Sequence resets, including umbral and tremor being randomly selected as first spell
 		timerUmbralWeaveCD:Start(12, self.vb.weaveCount+1)
 		timerTremorSlamCD:Start(12, self.vb.tremorCount+1)
-		timerShiftingAnomaliesCD:Start(9, self.vb.shiftCount .."-".. 1)
+		timerShiftingAnomaliesCD:Start(9, self.vb.shiftCount .."-".. 2)
 	elseif spellId == 439341 then
 		self.vb.spliceCount = self.vb.spliceCount + 1
 		specWarnSplice:Show(self.vb.spliceCount)

@@ -71,7 +71,7 @@ end
 
 function BusinessInfo.AHPlus_Vanilla()
 	if not PIGA["AHPlus"]["Open"] or AuctionFrameBrowse.piglist then return end
-	PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm]=PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm] or {}
+	PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm]=PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm] or {}
 
 	local function AHPlus_AHUIoff(Frame)
 		if not PIGA["AHPlus"]["AHUIoff"] then return end
@@ -376,8 +376,8 @@ function BusinessInfo.AHPlus_Vanilla()
 			local AHdangqianH = FauxScrollFrame_GetOffset(BrowseScrollFrame)+i;
 			local name, texture, count, quality = GetAuctionItemInfo("list", AHdangqianH);
 			if name then
-				if PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name] then
-					local jiagGGG = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name][2]
+				if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name] then
+					local jiagGGG = PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name][2]
 					AuctionFrameBrowse.qushi:Show()
 					AuctionFrameBrowse.qushi:SetPoint("TOPRIGHT",self,"TOPLEFT",8,1);
 					local r, g, b,hex = GetItemQualityColor(quality)
@@ -454,24 +454,24 @@ function BusinessInfo.AHPlus_Vanilla()
 			button.UpDown.Text:SetTextColor(0.5, 0.5, 0.5, 0.5);
 			if buyoutPrice>0 then
 				local xianjiaV = buyoutPrice/count
-				if PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name] then
-					local OldMoneyG = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name][2]
+				if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name] then
+					local OldMoneyG = PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name][2]
 					if AHdangqianH==1 then
 						local existingSortColumn, existingSortReverse = GetAuctionSort("list", 1);
 						if existingSortColumn=="unitprice" and existingSortReverse==false then
 							local OldGGGV = OldMoneyG[#OldMoneyG]
 							if xianjiaV~=OldGGGV[1] and GetServerTime()-OldGGGV[2]>300 then
-								table.insert(PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name][2],{xianjiaV,GetServerTime()})
+								table.insert(PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name][2],{xianjiaV,GetServerTime()})
 							end
 						end
 					end
 				else
 					local itemLink = GetAuctionItemLink("list", AHdangqianH)
 					local itemLinkJJ = Fun.GetItemLinkJJ(itemLink)
-					PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name]={itemLinkJJ,{{xianjiaV,GetServerTime()}}}
+					PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name]={itemLinkJJ,{{xianjiaV,GetServerTime()}}}
 				end
-				if PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name] then
-					local OldMoneyG = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][name][2]
+				if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name] then
+					local OldMoneyG = PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name][2]
 					local OldGGGV = OldMoneyG[#OldMoneyG]				
 					if #OldMoneyG>1 then
 						local baifenbi = (xianjiaV/OldGGGV[1])*100+0.5
@@ -570,7 +570,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		HCUI.jindu:SetValue(HCUI.jishuID);
 	end
 	local function Save_Data()
-		local AH_data = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm]
+		local AH_data = PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm]
 		for k,v in pairs(HCUI.auctions) do
 			if AH_data[k] then
 				table.insert(AH_data[k][2],{v[1],GetServerTime()})
@@ -583,6 +583,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		OpenScanFun(nil)
 	end
 	local function huancunData_End()
+		if not HCUI:IsShown() then return end
 		if HCUI.yicunchu==nil or HCUI.yicunchu==true then
 			HCUI.jindu.tbiaoti:SetText("价格缓存完毕,存储中...");
 			for k,v in pairs(HCUI.auctionsLin) do
@@ -616,51 +617,56 @@ function BusinessInfo.AHPlus_Vanilla()
 	HCUI.UpdateF:HookScript("OnUpdate",function(self,sss)
 		if self.jishiqitime>0.1 then
 			self.jishiqitime=0
+			local AuctionsNum = GetNumAuctionItems("list");
 			if HCUI.SMend then
 				self:Hide()
 				local AuctionsNum= GetNumAuctionItems("list");
 				HCUI.jindu.tbiaoti:SetText("物品扫描完毕,开始缓存价格...");
 				HCUI.jindu.t3:SetText(AuctionsNum);
 				HCUI.jindu:SetMinMaxValues(0, AuctionsNum)
-				C_Timer.After(0.6,function()
-					HCUI.jindu.tbiaoti:SetText("正在缓存价格...");
-					HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD
-					wipe(HCUI.auctions)
-					wipe(HCUI.auctionsLin)
-					wipe(HCUI.ItemLoadList)
+				HCUI.jindu.tbiaoti:SetText("正在缓存价格...");
+				HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD
+				wipe(HCUI.auctions)
+				wipe(HCUI.auctionsLin)
+				wipe(HCUI.ItemLoadList)
+				if AuctionsNum>0 then
 					local page=math.ceil(AuctionsNum/meiyenum)
-					for ix=0,(page-1) do
-						C_Timer.After(ix*HCUI.ScanCD,function()
-							local kaishi = ix*meiyenum+1
-							local jieshu = kaishi+meiyenum-1
-							if jieshu>AuctionsNum then
-								jieshu = AuctionsNum
-							end
-							for index=kaishi,jieshu do
-								local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo=GetAuctionItemInfo("list", index);
-								if hasAllInfo then
-									SauctionsLinData(name,buyoutPrice,count,index)
-								else
-									HCUI.yicunchu=false
-									local itemf = Item:CreateFromItemID(itemId)
-									itemf.index=index
-									HCUI.ItemLoadList[itemf] = true
-									itemf:ContinueOnItemLoad(function()
-										local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice=GetAuctionItemInfo("list", itemf.index);
-										SauctionsLinData(name,buyoutPrice,count,itemf.index)
-										HCUI.ItemLoadList[itemf] = nil
-										if not next(HCUI.ItemLoadList) then
-											HCUI.yicunchu=true
-										end
-									end)
+					C_Timer.After(0.6,function()
+						for ix=0,(page-1) do
+							C_Timer.After(ix*HCUI.ScanCD,function()
+								local kaishi = ix*meiyenum+1
+								local jieshu = kaishi+meiyenum-1
+								if jieshu>AuctionsNum then
+									jieshu = AuctionsNum
 								end
-								if index>=AuctionsNum then
-									huancunData_End()
+								for index=kaishi,jieshu do
+									local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice,bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemId, hasAllInfo=GetAuctionItemInfo("list", index);
+									if hasAllInfo then
+										SauctionsLinData(name,buyoutPrice,count,index)
+									else
+										HCUI.yicunchu=false
+										local itemf = Item:CreateFromItemID(itemId)
+										itemf.index=index
+										HCUI.ItemLoadList[itemf] = true
+										itemf:ContinueOnItemLoad(function()
+											local name, texture, count, quality, canUse, level, levelColHeader, minBid, minIncrement, buyoutPrice=GetAuctionItemInfo("list", itemf.index);
+											SauctionsLinData(name,buyoutPrice,count,itemf.index)
+											HCUI.ItemLoadList[itemf] = nil
+											if not next(HCUI.ItemLoadList) then
+												HCUI.yicunchu=true
+											end
+										end)
+									end
+									if index>=AuctionsNum then
+										huancunData_End()
+									end
 								end
-							end
-						end)
-					end
-				end)
+							end)
+						end
+					end)
+				else
+					huancunData_End()
+				end
 			else
 				local AuctionsNum = GetNumAuctionItems("list");
 				HCUI.jindu.t2:SetText(AuctionsNum);
@@ -695,7 +701,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	end)
 	local baocunnum = 40
 	function HCUI:DEL_OLDdata()
-		for k,v in pairs(PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm]) do
+		for k,v in pairs(PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm]) do
 			local itemDataL = v[2]
 			local ItemsNum = #itemDataL;
 			if ItemsNum>baocunnum then

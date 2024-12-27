@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Gello
-## Version: 5.2.5
+## Version: 5.2.6
 
 ## Title: Rematch
 ## Notes: A pet journal alternative for managing pets and teams

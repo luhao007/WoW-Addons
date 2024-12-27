@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Leatrix
-## Version: 11.0.15
+## Version: 11.0.25
 
 ## Title: Leatrix Plus
 ## Notes: Quality of life addon.
@@ -11,7 +11,7 @@
 
 ## AddonCompartmentFunc: LeaPlusGlobalMiniBtnClickFunc
 
-## OptionalDeps: Leatrix_enUS, ElvUI, Glass, Titan, Leatrix_Maps, totalRP3
+## OptionalDeps: Leatrix_enUS, ElvUI
 
 ## SavedVariables: LeaPlusDB
 

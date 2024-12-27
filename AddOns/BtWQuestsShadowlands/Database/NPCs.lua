@@ -5299,7 +5299,7 @@ BtWQuestsDatabase:AddNPCsTable({
         },
     },
     [177437] = {
-        name = "Khaliiq",
+        name = "Aranakk Shadowblade",
         locations = {
             [1536] = {
                 {
@@ -6702,7 +6702,7 @@ BtWQuestsDatabase:AddNPCsTable({
         },
     },
     [184537] = {
-        name = "Assistant Conservator Nadir",
+        name = "Nadir",
         locations = {
             [1970] = {
                 {

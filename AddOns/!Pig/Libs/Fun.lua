@@ -6,9 +6,9 @@ local lower=string.lower
 local sub = _G.string.sub
 local find = _G.string.find
 local char=string.char
+local L =addonTable.locale
 local Fun = {}
 addonTable.Fun=Fun
-local L =addonTable.locale
 -------------
 function PIGGetIconForRole(role)
 	if role=="NONE" then
@@ -541,14 +541,15 @@ function Fun.Get_LVminmax(fbName,danjiaList)
 	local min,max = min or 0,max or 0
 	return min,max
 end
-function Fun.Key_hebing(str)
+----
+function Fun.Key_hebing(str,fengefu)
 	local arr = ""
 	local numx = #str
 	for i=1,numx do
 		if i==numx then
 			arr=arr..str[i]
 		else
-			arr=arr..str[i]..","
+			arr=arr..str[i]..fengefu
 		end
 	end
     return arr
@@ -642,7 +643,8 @@ function Fun.Key_fenge(str,fengefu,geshihua,daifengefu)
 	end
     return arr
 end
----字符串压缩
+--=================
+--压缩数字
 local pig_yasuo = {}
 local pig_jieya = {}
 do
@@ -712,7 +714,6 @@ function Fun.yasuo_NumberString(sss)
     end
     return txtmsg
 end
----
 function Fun.jieya_NumberString(sss)
 	if not sss or sss=="" then return "" end
     local txtdec = ""
@@ -741,6 +742,68 @@ function Fun.jieya_NumberString(sss)
         end
     end
     return txtdec
+end
+--压缩配置
+local pig_yasuoCF = {
+	['"%]=true,']="&",
+	['"%]=false,']="@",
+	['"%]={%["']="#",
+}
+local pig_yasuoCF_1 = {
+	['"%]=true']="&_",
+	['"%]=false']="@_",
+	['"%]={']="#_",
+}
+local pig_yasuoCF_2 = {
+	[']="BOTTOMRIGHT"']="&~",
+	[']="RIGHT"']="@~",
+	[']="CENTER"']="#~",
+}
+local pig_yasuoCF_3 = {
+	['%]=true']="&~",
+	['%]=false']="@~",
+	['%]={}']="#~",
+	['%]="N/A"']="#1",
+	['%]=0']="&1",
+	['%]=""']="@1",
+}
+local pig_jieyaCF = {}
+local pig_jieyaCF_1 = {}
+local pig_jieyaCF_2 = {}
+do
+	for k,v in pairs(pig_yasuoCF) do
+		pig_jieyaCF[v]=k
+	end
+	for k,v in pairs(pig_yasuoCF_1) do
+		pig_jieyaCF_1[v]=k
+	end
+	for k,v in pairs(pig_yasuoCF_2) do
+		pig_jieyaCF_2[v]=k
+	end
+end
+function Fun.yasuo_string(str)
+    for key, value in pairs(pig_yasuoCF) do
+        str = str:gsub(key, tostring(value))
+    end
+    for key, value in pairs(pig_yasuoCF_1) do
+        str = str:gsub(key, tostring(value))
+    end
+    for key, value in pairs(pig_yasuoCF_2) do
+       str = str:gsub(key, tostring(value))
+    end
+    return str
+end
+function Fun.jieya_string(str)
+	for key, value in pairs(pig_jieyaCF_2) do
+       str = str:gsub(key, tostring(value))
+    end
+    for key, value in pairs(pig_jieyaCF_1) do
+        str = str:gsub(key, tostring(value))
+    end
+    for key, value in pairs(pig_jieyaCF) do
+        str = str:gsub(key, tostring(value))
+    end
+    return str
 end
 --转码
 function Fun.Base64_encod(data)

@@ -42,6 +42,34 @@
 				<PushedTexture name="AtlasLockPush"/>
 			</Button>
 			<Button name="$parentOptionsButton" inherits="AtlasFrameOptionsButtonTemplate"/>
+			<Button name="$parentLFGButton" hidden="true">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-25" y="-44" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="$parentTexture" setAllPoints="true" file="Interface\LFGFrame\LFG-Eye">
+							<TexCoords left="0" right="0.125" top="0" bottom="0.25"></TexCoords>
+						</Texture>
+					</Layer>
+				</Layers>
+				<NormalTexture file="Interface\Buttons\UI-SquareButton-Up"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+				<Scripts>
+					<OnEnter>
+						Atlas:SearchLFG_Enter(self);
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnClick>
+						Atlas:SearchLFG();
+					</OnClick>
+				</Scripts>
+			</Button>
 			<EditBox name="AtlasSearchEditBox" inherits="InputBoxTemplate" letters="80">
 				<Size>
 					<AbsDimension x="150" y="32"/>
@@ -258,6 +286,10 @@
 							</Anchors>
 						</Texture>
 					</Layer>
+					<Layer level="OVERLAY">
+						<FontString name="AtlasMap_Text" inherits="GameFontHighlightLarge" justifyH="CENTER" justifyV="MIDDLE">
+						</FontString>
+					</Layer>
 				</Layers>
 			</Frame>
 		</Frames>
@@ -311,7 +343,7 @@
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString inherits="GameFontHighlight" text="ATLAS_TITLE">
+				<FontString inherits="GameFontHighlight" text="ATLAS_TITLE_VERSION">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>
@@ -632,7 +664,7 @@
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString inherits="GameFontHighlight" text="ATLAS_TITLE">
+				<FontString inherits="GameFontHighlight" text="ATLAS_TITLE_VERSION">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>
@@ -806,6 +838,10 @@
 							</Anchors>
 						</Texture>
 					</Layer>
+					<Layer level="OVERLAY">
+						<FontString name="AtlasMapS_Text" inherits="GameFontHighlightLarge" justifyH="CENTER" justifyV="MIDDLE">
+						</FontString>
+					</Layer>
 				</Layers>
 			</Frame>
 		</Frames>
@@ -859,7 +895,7 @@
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString inherits="GameFontHighlight" text="ATLAS_TITLE">
+				<FontString inherits="GameFontHighlight" text="ATLAS_TITLE_VERSION">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>

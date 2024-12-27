@@ -73,7 +73,7 @@ local function HandleEntityWithoutVignette(rareScannerButton, unitID)
 			end
 			
 			local x, y = RSNpcDB.GetBestInternalNpcCoordinates(npcID, mapID)
-			rareScannerButton:SimulateRareFound(npcID, unitGuid, nameplateUnitName, x, y, RSConstants.NPC_VIGNETTE)
+			rareScannerButton:SimulateRareFound(npcID, unitGuid, nameplateUnitName, x, y, RSConstants.NPC_VIGNETTE, RSConstants.TRACKING_SYSTEM.NAMEPLATE_MOUSE)
 		end
 	elseif (unitType == "Object") then
 		local containerID = entityID and tonumber(entityID) or nil
@@ -343,7 +343,7 @@ end
 local function SimulateRareFound(rareScannerButton, npcID, mapID, name)
 	if (RSNpcDB.GetInternalNpcInfo(npcID)) then
 		local x, y = RSNpcDB.GetInternalNpcCoordinates(npcID, mapID)
-		rareScannerButton:SimulateRareFound(npcID, nil, name, x, y, RSConstants.NPC_VIGNETTE)
+		rareScannerButton:SimulateRareFound(npcID, nil, name, x, y, RSConstants.NPC_VIGNETTE, RSConstants.TRACKING_SYSTEM.CHAT_EMOTE)
 	end
 end
 
@@ -604,7 +604,7 @@ local function OnPlayerLogin(rareScannerButton)
 		-- Wait until all providers are added
 		if (WorldMapFrame:IsEventRegistered("WORLD_MAP_OPEN")) then
 			for dp, loaded in pairs(WorldMapFrame.dataProviders) do
-				if (loaded and dp.GetPinTemplate and dp:GetPinTemplate() == "VignettePinTemplate") then
+				if (loaded and dp.GetDefaultPinTemplate and dp:GetDefaultPinTemplate() == "VignettePinTemplate") then
 					WorldMapFrame:RemoveDataProvider(dp)
 					local provider = CreateFromMixins(RSVignetteDataProviderMixin)
 					WorldMapFrame:AddDataProvider(provider);

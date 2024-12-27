@@ -1,4 +1,3 @@
------------------------------------------------------------------------
 -- AddOn namespace.
 -----------------------------------------------------------------------
 local ADDON_NAME, private = ...
@@ -109,7 +108,7 @@ function RSContainerDB.GetInternalContainerInfo(containerID)
 	return nil
 end
 
-local function GetInternalContainerInfoByMapID(containerID, mapID)
+function RSContainerDB.GetInternalContainerInfoByMapID(containerID, mapID)
 	if (containerID and mapID) then
 		if (RSContainerDB.IsInternalContainerMultiZone(containerID)) then
 			for internalMapID, containerInfo in pairs (RSContainerDB.GetInternalContainerInfo(containerID).zoneID) do
@@ -128,7 +127,7 @@ end
 
 function RSContainerDB.GetInternalContainerArtID(containerID, mapID)
 	if (containerID and mapID) then
-		local containerInfo = GetInternalContainerInfoByMapID(containerID, mapID)
+		local containerInfo = RSContainerDB.GetInternalContainerInfoByMapID(containerID, mapID)
 		if (containerInfo) then
 			return containerInfo.artID
 		end
@@ -139,7 +138,7 @@ end
 
 function RSContainerDB.GetInternalContainerCoordinates(containerID, mapID)
 	if (containerID and mapID) then
-		local containerInfo = GetInternalContainerInfoByMapID(containerID, mapID)
+		local containerInfo = RSContainerDB.GetInternalContainerInfoByMapID(containerID, mapID)
 		if (containerInfo) then
 			return RSUtils.Lpad(containerInfo.x, 4, '0'), RSUtils.Lpad(containerInfo.y, 4, '0')
 		end
@@ -150,7 +149,7 @@ end
 
 function RSContainerDB.GetInternalContainerOverlay(containerID, mapID)
 	if (containerID and mapID) then
-		local containerInfo = GetInternalContainerInfoByMapID(containerID, mapID)
+		local containerInfo = RSContainerDB.GetInternalContainerInfoByMapID(containerID, mapID)
 		if (containerInfo) then
 			return containerInfo.overlay
 		end
@@ -535,6 +534,9 @@ function RSContainerDB.GetContainerName(containerID)
 		elseif (RSUtils.Contains(RSConstants.CONTAINERS_DREAMSEED_CACHE, containerID)) then
 			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_DREAMSEED_CACHE"]
 			return AL["CONTAINERS_DREAMSEED_CACHE"]
+		elseif (RSUtils.Contains(RSConstants.CONTAINERS_SEAFARER_CACHE, containerID)) then
+			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_SEAFEARER_CACHE"]
+			return AL["CONTAINERS_SEAFEARER_CACHE"]
 		end
 	end
 

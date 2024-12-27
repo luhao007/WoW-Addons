@@ -810,6 +810,36 @@ private.NPC_GUIDE = {
 		[RSConstants.ENTRANCE..1] = { x = 0.5158, y = 0.3746 };
 		[RSConstants.ENTRANCE..2] = { x = 0.4806, y = 0.3380 };
 	}; --Luggut the Eggeater
+	["2282012369"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6317, y = 0.7601 };
+	}; --Gravesludge
+	["2299922369"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4431, y = 0.5666 };
+	}; --Stalagnarok
+	["2299822369"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3292, y = 0.6499 };
+	}; --Nerathor <The Storm Drowned>
+	["2285472369"] = {
+		[RSConstants.FLAG] = { x = 0.6910, y = 0.4926, comment = AL["NOTE_SUZIE_BOLTWRENCH"] };
+	}; --Slaughtershell
+	["2313532369"] = {
+		[RSConstants.FLAG] = { x = 0.6910, y = 0.4926, comment = AL["NOTE_SUZIE_BOLTWRENCH"] };
+	}; --Tempest Talon
+	["2313562369"] = {
+		[RSConstants.FLAG] = { x = 0.6910, y = 0.4926, comment = AL["NOTE_SUZIE_BOLTWRENCH"] };
+	}; --Brinebough
+	["2313572369"] = {
+		[RSConstants.FLAG] = { x = 0.6910, y = 0.4926, comment = AL["NOTE_SUZIE_BOLTWRENCH"] };
+	}; --Zek'ul the Shipbreaker
+	["1527121355"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3969, y = 0.7726 };
+	}; --Blindlight <Necrofin Chieftain>
+	["1524641355"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4239, y = 0.1315 };
+	}; --Caverndark Terror
+	["1525561355"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4744, y = 0.8514 };
+	}; --Chasm-Haunter
 }
 
 ---============================================================================
@@ -1892,6 +1922,12 @@ private.CONTAINER_GUIDE = {
 	["244473650"] = {
 		[RSConstants.ENTRANCE] = { x = 0.4869, y = 0.5001 };
 	}; --Thunder Totem Stolen Goods
+	["4933752369"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6826, y = 0.7159 };
+	}; --Rune-Sealed Coffer
+	["5055032369"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4217, y = 0.4704 };
+	}; --Ashvane Issued Workboots
 }
 
 ---============================================================================

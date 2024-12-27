@@ -2895,6 +2895,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [61946] = {
         name = "自然防禦者",
     },
+    [61947] = {
+        name = "潛伏在暗影中",
+    },
     [61948] = {
         name = "空中防禦隊",
     },

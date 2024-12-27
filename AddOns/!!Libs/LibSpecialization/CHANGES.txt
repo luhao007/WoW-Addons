@@ -1,5 +1,17 @@
 ------------------------------------------------------------------------
-r56 | funkehdude | 2024-07-09 18:11:56 +0000 (Tue, 09 Jul 2024) | 1 line
+r60 | funkehdude | 2024-11-20 17:01:50 +0000 (Wed, 20 Nov 2024) | 1 line
+Changed paths:
+   M /trunk/LibSpecialization.toc
+
+bump toc
+------------------------------------------------------------------------
+r59 | funkehdude | 2024-09-07 20:00:35 +0000 (Sat, 07 Sep 2024) | 1 line
+Changed paths:
+   M /trunk/LibSpecialization/LibSpecialization.lua
+
+Result is now the first return from addon comms
+------------------------------------------------------------------------
+r58 | funkehdude | 2024-09-07 19:59:49 +0000 (Sat, 07 Sep 2024) | 1 line
 Changed paths:
    M /trunk/LibSpecialization.toc
 

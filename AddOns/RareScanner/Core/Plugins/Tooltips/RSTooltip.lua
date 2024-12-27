@@ -506,6 +506,31 @@ local function AddOverlayTooltip(tooltip, pin, addSeparator)
 	return false
 end
 
+local function AddExtraInfoTooltip(tooltip, pin)
+	if (not RSConfigDB.IsShowingTooltipsExtraInfo()) then
+		return false
+	end
+	
+	if (pin.GetObjectiveString or pin.GetRecommendedGroupSizeString) then
+		local objectiveString = pin:GetObjectiveString()
+		local recommendedGroupSize = pin:GetRecommendedGroupSizeString()
+		
+		if (objectiveString) then
+			local line = tooltip:AddLine()	
+			tooltip:SetCell(line, 1, objectiveString, nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MAX_WIDTH)
+		end
+		
+		if (recommendedGroupSize) then
+			local line = tooltip:AddLine()	
+			tooltip:SetCell(line, 1, RSUtils.TextColor(recommendedGroupSize, "19ff19"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MAX_WIDTH)
+		end
+		
+		return true
+	end
+	
+	return false
+end
+
 local function AddFilterStateTooltip(tooltip, pin, addSeparator)
 	if (not RSConfigDB.IsShowingTooltipsFilterState()) then
 		return false
@@ -686,6 +711,9 @@ function RSTooltip.ShowSimpleTooltip(pin, parentTooltip)
 
 	-- State
 	AddStateTooltip(tooltip, pin)
+	
+	-- Extra information added in world map ingame tooltips
+	AddExtraInfoTooltip(tooltip, pin)
 
 	-- Notes
 	AddNotesTooltip(tooltip, pin)

@@ -2889,6 +2889,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [61946] = {
         name = "Geborene Verteidiger",
     },
+    [61947] = {
+        name = "In den Schatten lauernd",
+    },
     [61948] = {
         name = "Luftabwehr",
     },

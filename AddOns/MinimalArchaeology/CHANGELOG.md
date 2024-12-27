@@ -10,6 +10,9 @@
 - **11.0.0.3** Fix surveying
 - **11.0.0.4** Fix flight map showing hidden and special pins
 - **11.0.0.5** Bump toc for 11.0.2
+- **11.0.0.7** Fix Companion position issues
+- **11.0.0.8** Show digsite race in digsite list
+- **11.0.0.9** Implement option to use left click for double click surveying
 
 ### 10.2.13
 

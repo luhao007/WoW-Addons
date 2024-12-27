@@ -300,29 +300,32 @@ DB.nodes = {
         [72691965] = { icon="portal", label=L["Portal to The Timeways"], requirements={level=80} },
         [70961840] = { icon="portal", label=PtoOG, note=Durotar, faction="Horde" },
         [71291790] = { icon="portal", label=PtoSW, note=ElwynnForest, faction="Alliance" },
-        -- [54925688] = { icon="portal", label=L["Elevator to Isle of Dorn"], note=KhazAlgar, requirements={accquest=82195} },
-        -- [80161483] = { icon="portal", label=L["Elevator to Ringing Deeps"], note=KhazAlgar, requirements={accquest=82195} },
-        [46877124] = { icon="portal", label=PtoDornogal, note=IsleOfDorn, requirements={accquest=78248} },
-        [73752119] = { icon="portal", label=L["Portal to Azj-Kahet"], note=KhazAlgar, requirements={accquest=78248} }
+        -- [54925688] = { icon="portal", label=L["Elevator to Isle of Dorn"], note=KhazAlgar, requirements={quest=82195, accquest=true} },
+        -- [80161483] = { icon="portal", label=L["Elevator to Ringing Deeps"], note=KhazAlgar, requirements={quest=82195, accquest=true} },
+        [46877124] = { icon="portal", label=PtoDornogal, note=IsleOfDorn, requirements={quest=78248, accquest=true} },
+        [73752119] = { icon="portal", label=L["Portal to Azj-Kahet"], note=KhazAlgar, requirements={quest=78248, accquest=true} },
+        [74821610] = { icon="zeppelin", label=L["Zeppelin to Siren Isle"], requirements={quest=84720, accquest=true} }
         },
     [2339] = { -- Dornogal
         [53963872] = { icon="portal", label=L["Portal to The Timeways"], requirements={level=80} },
         [38162723] = { icon="portal", label=PtoOG, note=Durotar, faction="Horde" },
         [41182266] = { icon="portal", label=PtoSW, note=ElwynnForest, faction="Alliance" },
-        [63595278] = { icon="portal", label=L["Portal to Azj-Kahet"], note=KhazAlgar, requirements={accquest=78248} }
+        [63595278] = { icon="portal", label=L["Portal to Azj-Kahet"], note=KhazAlgar, requirements={quest=78248, accquest=true} },
+        [73280624] = { icon="zeppelin", label=L["Zeppelin to Siren Isle"], requirements={quest=84720, accquest=true} }
         },
     [2248] = { -- Isle of Dorn
         [50654183] = { icon="portal", label=L["Portal to The Timeways"], requirements={level=80} },
         [46773901] = { icon="portal", label=PtoOG, note=Durotar, faction="Horde" },
         [47523789] = { icon="portal", label=PtoSW, note=ElwynnForest, faction="Alliance" },
-        -- [67333101] = { icon="portal", label=L["Elevator to Ringing Deeps"], note=KhazAlgar, requirements={accquest=82195} },
-        [53024529] = { icon="portal", label=L["Portal to Azj-Kahet"], note=KhazAlgar, requirements={accquest=78248} }
+        -- [67333101] = { icon="portal", label=L["Elevator to Ringing Deeps"], note=KhazAlgar, requirements={quest=82195, accquest=true} },
+        [53024529] = { icon="portal", label=L["Portal to Azj-Kahet"], note=KhazAlgar, requirements={quest=78248, accquest=true} },
+        [55403385] = { icon="zeppelin", label=L["Zeppelin to Siren Isle"], requirements={quest=84720, accquest=true} }
         },
     -- [2214] = { -- Ringing Deeps
-    --     [53374459] = { icon="portal", label=L["Elevator to Isle of Dorn"], note=KhazAlgar, requirements={accquest=82195} }
+    --     [53374459] = { icon="portal", label=L["Elevator to Isle of Dorn"], note=KhazAlgar, requirements={quest=82195, accquest=true} }
     --     },
     [2255] = { -- Azj-Kahet
-        [57494159] = { icon="portal", label=PtoDornogal, note=IsleOfDorn, requirements={accquest=78248} }
+        [57494159] = { icon="portal", label=PtoDornogal, note=IsleOfDorn, requirements={quest=78248, accquest=true} }
         },
     [2266] = { -- Millenia's Threshold
         [43584988] = { icon="portal", label=PtoDornogal, note=IsleOfDorn },
@@ -330,6 +333,9 @@ DB.nodes = {
         [74424709] = { icon="portal", label=L["Portal to Bastion"], note=Shadowlands },
         [70457272] = { icon="portal", label=L["Portal to Tiragarde Sound"], note=KulTiras },
         [60576931] = { icon="portal", label=L["Portal to Twilight Highlands"], note=EasternKingdoms }
+        },
+    [2369] = { -- Siren Isle
+        [70695347] = { icon="zeppelin", label=L["Zeppelin to Dornogal"], note=IsleOfDorn, requirements={quest=84720, accquest=true} }
         },
 
 ------------------------------------------------------------------------------------------DRAGONFLIGHT-----------------------------------------------------------------------------------------

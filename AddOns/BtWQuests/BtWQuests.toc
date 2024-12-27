@@ -1,6 +1,6 @@
-## Interface: 110005
+## Interface: 110007
 ## Author: Breen
-## Version: 2.48.4
+## Version: 2.50.2
 
 ## Title: BtWQuests
 ## Notes: 

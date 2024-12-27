@@ -406,7 +406,7 @@ function RSConfigDB.IsNpcFiltered(npcID)
 				end
 			end
 		-- Also filter one time kill rare NPCs at Khaz Algar or rare NPCs without quest (monozone)
-		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID) and RSMapDB.GetContinentOfMap(npcInfo.zoneID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID)) then
+		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID) and RSMapDB.GetContinentOfMap(npcInfo.zoneID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID) and npcInfo.zoneID ~= RSConstants.SIREN_ISLE) then
 			if (npcInfo.questID) then
 				for _, questID in ipairs(npcInfo.questID) do
 					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
@@ -420,7 +420,7 @@ function RSConfigDB.IsNpcFiltered(npcID)
 		elseif (RSNpcDB.IsInternalNpcMultiZone(npcID) and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID)) then
 			local khazAlgar = false
 			for mapID, _ in pairs (npcInfo.zoneID) do
-				if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR) then
+				if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and mapID ~= RSConstants.SIREN_ISLE) then
 					khazAlgar = true
 					break
 				end
@@ -1530,6 +1530,14 @@ function RSConfigDB.SetShowingLootCanimogitTooltip(value)
 	private.db.loot.tooltipsCanImogit = value
 end
 
+function RSConfigDB.IsShowingLootTSMTooltip()
+	return private.db.loot.tooltipsTSM
+end
+
+function RSConfigDB.SetShowingLootTSMTooltip(value)
+	private.db.loot.tooltipsTSM = value
+end
+
 function RSConfigDB.IsShowingCovenantRequirement()
 	return private.db.loot.covenantRequirement
 end
@@ -1712,6 +1720,14 @@ end
 
 function RSConfigDB.SetShowingTooltipsCommands(value)
 	private.db.map.tooltipsCommands = value
+end
+
+function RSConfigDB.IsShowingTooltipsExtraInfo()
+	return private.db.map.tooltipsExtraInfo
+end
+
+function RSConfigDB.SetShowingTooltipsExtraInfo(value)
+	private.db.map.tooltipsExtraInfo = value
 end
 
 function RSConfigDB.IsShowingTooltipsFilterState()

@@ -6,7 +6,8 @@ local module = private:NewModule("TrashCombatScanningModule")
 module:RegisterEvents(
 	"LOADING_SCREEN_DISABLED",
 	"ZONE_CHANGED_NEW_AREA",
-	"CHALLENGE_MODE_COMPLETED"
+	"ENCOUNTER_START",
+	"ENCOUNTER_END"
 )
 
 ---@class DBM
@@ -14,13 +15,17 @@ local DBM = private:GetPrototype("DBM")
 ---@class DBMMod
 local bossModPrototype = private:GetPrototype("DBMMod")
 
+if DBM:IsPostMoP() then
+	module:RegisterEvents("CHALLENGE_MODE_COMPLETED")
+end
+
 local registeredZones = {}--Global table for tracking registered zones
 local ActiveGUIDs = {}--GUIDS we're flagged in combat with
 local inCombat = false
 local currentZone = DBM:GetCurrentArea() or 0
 --Only up to two cached mods at a time, since it's unlikely more than 2 mods will be scanning units at once
-local affixesMod
-local lastUsedMod
+local affixesMod--Mythic+ or Raid affixes module
+local lastUsedMod--Trash module for given zone
 local cachedMods = {}
 
 ---Scan for new Unit Engages
@@ -31,27 +36,29 @@ local function ScanEngagedUnits(self)
 	local uId = (IsInRaid() and "raid") or "party"
 	for i = 0, GetNumGroupMembers() do
 		local id = (i == 0 and "target") or uId .. i .. "target"
-		local guid = UnitGUID(id)
-		if guid and DBM:IsCreatureGUID(guid) then
-			if not ActiveGUIDs[guid] then
-				ActiveGUIDs[guid] = true
-				local cid = DBM:GetCIDFromGUID(guid)
-				self:StartNameplateTimers(guid, cid, 0)
-				DBM:Debug("Firing Engaged Unit for "..cid, 3, nil, true)
+		if UnitAffectingCombat(id) and not UnitIsFriend(id, "player") then
+			local guid = UnitGUID(id)
+			if guid and DBM:IsCreatureGUID(guid) then
+				if not ActiveGUIDs[guid] then
+					ActiveGUIDs[guid] = true
+					local cid = DBM:GetCIDFromGUID(guid)
+					self:StartEngageTimers(guid, cid, 0)
+					DBM:Debug("Firing Engaged Unit for "..guid, 3, nil, true)
+				end
 			end
 		end
 	end
 	--Now scan nameplates
 	for _, frame in pairs(C_NamePlate.GetNamePlates()) do
 		local foundUnit = frame.namePlateUnitToken
-		if foundUnit and UnitAffectingCombat(foundUnit) then
+		if foundUnit and UnitAffectingCombat(foundUnit) and not UnitIsFriend(foundUnit, "player") then
 			local guid = UnitGUID(foundUnit)
 			if guid and DBM:IsCreatureGUID(guid) then
 				if not ActiveGUIDs[guid] then
 					ActiveGUIDs[guid] = true
 					local cid = DBM:GetCIDFromGUID(guid)
-					self:StartNameplateTimers(guid, cid, 0.5)
-					DBM:Debug("Firing Engaged Unit for "..cid, 3, nil, true)
+					self:StartEngageTimers(guid, cid, 0.5)
+					DBM:Debug("Firing Engaged Unit for "..guid, 3, nil, true)
 				end
 			end
 		end
@@ -64,7 +71,7 @@ local function checkForCombat()
 	local combatFound = DBM:GroupInCombat()
 	if combatFound and not inCombat then
 		inCombat = true
-		DBM:Debug("Zone Combat Detected", 2)
+		DBM:Debug("Zone Combat Detected", 2, nil, true)
 		if affixesMod then
 			affixesMod:EnteringZoneCombat()
 		end
@@ -72,7 +79,7 @@ local function checkForCombat()
 			if lastUsedMod.EnteringZoneCombat then
 				lastUsedMod:EnteringZoneCombat()
 			end
-			if lastUsedMod.StartNameplateTimers then
+			if lastUsedMod.StartEngageTimers then
 				ScanEngagedUnits(lastUsedMod)
 				DBM:Debug("Starting Engaged Unit Scans", 2)
 			end
@@ -80,7 +87,7 @@ local function checkForCombat()
 	elseif not combatFound and inCombat then
 		inCombat = false
 		table.wipe(ActiveGUIDs)--if no one is in combat, save to assume all engaged units gone
-		DBM:Debug("Zone Combat Ended", 2)
+		DBM:Debug("Zone Combat Ended", 2, nil, true)
 		if affixesMod then
 			affixesMod:LeavingZoneCombat()
 		end
@@ -100,12 +107,15 @@ local function DelayedZoneCheck(force)
 		eventsRegistered = true
 		module:RegisterShortTermEvents(
 			"UNIT_FLAGS player party1 party2 party3 party4",
-			"CHALLENGE_MODE_DEATH_COUNT_UPDATED",
 			"PLAYER_REGEN_DISABLED",
 			"PLAYER_REGEN_ENABLED"
 		)
+		if DBM:IsPostMoP() then
+			module:RegisterShortTermEvents("CHALLENGE_MODE_DEATH_COUNT_UPDATED")
+		end
+		DBM:Unschedule(checkForCombat)
 		checkForCombat()--Still run an initial check
-		DBM:Debug("Registering Dungeon Trash Tracking Events", 2)
+		DBM:Debug("Registering Trash Tracking Events", 2)
 		lastUsedMod = DBM:GetModByName(cachedMods[currentZone])
 	elseif force or (not registeredZones[currentZone] and eventsRegistered) then
 		eventsRegistered = false
@@ -115,15 +125,17 @@ local function DelayedZoneCheck(force)
 		module:UnregisterShortTermEvents()
 		DBM:Unschedule(checkForCombat)
 		DBM:Unschedule(ScanEngagedUnits)
-		DBM:Debug("Unregistering Dungeon Trash Tracking Events", 2)
+		DBM:Debug("Unregistering Trash Tracking Events", 2)
 	end
 end
 --Monitor bitflag of players, which should change with combat states
+--Only party is monitored because main use case is dungeons and delves.
+--And we don't want to waste performance in registered raids. 5 players should be enough to determine raid combat
 function module:UNIT_FLAGS()
 	DBM:Unschedule(checkForCombat)
 	--Use throttled delay to avoid checks running too often when multiple flags change at once
 	if DBM:AntiSpam(0.25, "UNIT_FLAGS") then
-		checkForCombat()
+		DBM:Schedule(0.1, checkForCombat)--Delay check til next frame to ensure flags are updated
 	end
 end
 --Sometimes UNIT_FLAGS doesn't fire if group is spead out, so we track backup events that can indicate combat status changed
@@ -143,6 +155,32 @@ module.ZONE_CHANGED_NEW_AREA	= module.LOADING_SCREEN_DISABLED
 function module:CHALLENGE_MODE_COMPLETED()
 	--This basically force unloads things even when in a dungeon, so it's not scanning trash that doesn't fight back
 	DelayedZoneCheck(true)
+end
+
+function module:ENCOUNTER_START()
+	--This basically force unloads things in a raid, since we're not typically fighting trash during a raid boss
+	if IsInRaid() then
+		DelayedZoneCheck(true)
+	else
+		--If we're in a dungeon, we use it as yet another redundant combat check
+		DBM:Unschedule(checkForCombat)
+		if registeredZones and DBM:AntiSpam(0.25, "UNIT_FLAGS") then
+			DBM:Schedule(0.1, checkForCombat)--Delay check til next frame to ensure flags are updated
+		end
+	end
+end
+
+function module:ENCOUNTER_END()
+	--Restore trash registered zone combat events if there are any
+	if IsInRaid() then
+		DelayedZoneCheck()
+	else
+		--If we're in a dungeon, we use it as yet another redundant combat check
+		DBM:Unschedule(checkForCombat)
+		if registeredZones and DBM:AntiSpam(0.25, "UNIT_FLAGS") then
+			DBM:Schedule(0.1, checkForCombat)--Delay check til next frame to ensure flags are updated
+		end
+	end
 end
 
 ---Used for registering combat with enemies that don't support conventional means (such as dungeon trash)
@@ -199,7 +237,7 @@ do
 					if not ActiveGUIDs[guid] then
 						ActiveGUIDs[guid] = true
 						local cid = DBM:GetCIDFromGUID(guid)
-						self:StartNameplateTimers(guid, cid, scanTime)
+						self:StartEngageTimers(guid, cid, scanTime)
 						DBM:Debug("Firing Engaged Unit for "..cid, 3, nil, true)
 					end
 				end
@@ -209,7 +247,7 @@ do
 		DBM:Schedule(0.5, ScanEngagedBossUnits, self, scanTime+0.5, maxScanTime)
 	end
 	---Used to scan for boss Units on engage for starging nameplate timers on council type boss encounters
-	---<br>Uses mod:StartNameplateTimers(guid, cid, scanTime) as return function to start timers
+	---<br>Uses mod:StartEngageTimers(guid, cid, scanTime) as return function to start timers
 	---@param maxScanTime number?
 	function bossModPrototype:RegisterBossUnitScan(maxScanTime)
 		ScanEngagedBossUnits(self, 0, maxScanTime or 3)

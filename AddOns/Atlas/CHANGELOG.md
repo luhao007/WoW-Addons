@@ -1,5 +1,45 @@
 # Changelog
 
+## 3.4.1 - December 20, 2024
+
+### Changed
+
+- Retail: Update TOC to 11.0.7
+
+## 3.4.0 - December 5, 2024
+
+### Added
+
+- Retail: Added Dragonflight maps, with the same caveats as the Shadowlands maps added in 3.2.0.
+- Classic Era: Added SoD data, including maps for Demon Fall Canyon (outside area only), Storm Cliffs, Tainted Scar and Crystal Vale.
+
+### Fixed
+
+- Classic Era: Fixed Next/Previous Map buttons
+
+## 3.3.1 - November 22, 2024
+
+### Changed
+
+- Added the current Atlas version to the title of the frame
+- Classic Era: Disabled the Atlas LFG button until level 10 (since the built-in LFG tool isn't available until then) and noted that in the tooltip
+
+## 3.3.0 - November 21, 2024
+
+### Added
+
+- Classic Era: Added an LFG button in the top right that will take you to the built-in LFG tool's group browser for that instance. The built-in LFG tool (and this button) are only enabled for SoD and Classic Fresh realms.
+
+### Changed
+
+- Classic Era: Update TOC to 1.15.5
+
+## 3.2.0 - November 7, 2024
+
+### Added
+
+- Retail: Added Shadowlands maps! There are a couple asterisks, the first being that maps of interior areas aren't included. Interior minimaps work differently from exterior minimaps, and I wasn't able to find a reasonable way to make them. The second asterisk is that entrances, connections and bosses (when boss portraits are disabled) aren't marked. Previously those were embedded into the image, but I would like to change that so they get added dynamically.
+
 ## 3.1.0 - October 29, 2024
 
 ### Added
@@ -507,7 +547,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.1.0" as the version
+  if specifed; or will ignore those set "v3.4.1" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

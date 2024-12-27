@@ -86,6 +86,7 @@ private.ACHIEVEMENT_ZONE_IDS = {
 	[2256] = { 40222, 40762, 40828, 40629, 40542, 40840 }; --Azj-kahet (War within)
 	[2213] = { 40222, 40762, 40828, 40762, 40542, 40840 }; --Azj-kahet (War within)
 	[2256] = { 40222, 40762, 40828, 40762, 40542, 40840 }; --Azj-kahet (War within)
+	[2369] = { 41046, 41131 }; --Isle Siren (War Within)
 }
 
 private.ACHIEVEMENT_WITH_CRITERIA = { 
@@ -192,4 +193,6 @@ private.ACHIEVEMENT_TARGET_IDS = {
 	[40996] = { 167749, 226646, 227257 }; --A Gatecrasher
 	[40994] = { 121820, 121821, 121911, 121818, 121913, 121912 }; --An Original
 	[40995] = { 121820, 121821, 121911, 121818, 121913, 121912 }; --The Originals
+	[41046] = { 229982, 229992, 227550, 228155, 231090, 229852, 228583, 227545, 228201, 228154, 228601, 228159, 228151, 229853, 228580, 230137 }; --Clean Up on Isle Siren
+	[41131] = { 474822 }; --Treasures of the Storm
 }

@@ -915,7 +915,7 @@ QuickButUI.ButList[6]=function()
 			PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 			SetClampedTextureRotation(General.arrow,General.arrow.chushijiaodu);
 		end)
-		General_List.Close=PIGDiyBut(General_List,{"BOTTOM",General_List,"TOP",0,0},{34})
+		General_List.Close=PIGDiyBut(General_List,{"BOTTOM",General_List,"TOP",0,0},{26})
 		General_List.Close:HookScript("OnClick",function(self)
 			General_List:Hide();
 		end)
@@ -998,6 +998,8 @@ if tocversion<50000 then
 		end
 	elseif classId==4 then--盗贼
 		Item_Spell_List[2] ={2842};
+	elseif classId==6 then
+		Item_Spell_List[2] ={53428,50977};
 	elseif classId==8 then --法师
 		local englishFaction, _ = UnitFactionGroup("player")
 		if englishFaction=="Alliance" then
@@ -1034,7 +1036,6 @@ if tocversion<50000 then
 		end)
 	end
 end
-local PIGDiyBut=Create.PIGDiyBut
 QuickButUI.ButList[7]=function()
 	local PigMacroEventCount_QK =0;
 	local PigMacroDeleted_QK = false;
@@ -1191,7 +1192,7 @@ QuickButUI.ButList[7]=function()
 			end
 		end)
 		---
-		Zhushou_List.Close=PIGDiyBut(Zhushou_List,{"BOTTOM",Zhushou_List,"TOP",0,0},{34},nil,"SecureHandlerClickTemplate")
+		Zhushou_List.Close=PIGDiyBut(Zhushou_List,{"BOTTOM",Zhushou_List,"TOP",0,0},{26},nil,"SecureHandlerClickTemplate")
 		Zhushou_List.Close:SetAttribute("_onclick",[=[
 			if button == "LeftButton" then
 				local ref=self:GetFrameRef("frame1")

@@ -39,7 +39,7 @@ function FramePlusfun.Friends()
 		FriendsListFrame.ScrollBox:SetWidth(butWidth)
 	end
     ----  
-    local playerRealmID = GetRealmID();
+    local playerRealmID = GetRealmName()
     local playerFactionGroup = UnitFactionGroup("player");
     local function Show_jueseinfo(piginfo_acc,button,accountName)
      	if #piginfo_acc[1]==0 and #piginfo_acc[2]==0 then return end
@@ -56,11 +56,9 @@ function FramePlusfun.Friends()
 		local zhu_TXT=accountName.." \124c"..argbHex..Newtxt.."\124r"
 		local zhu_TXT_info=button.info:GetText() or UNKNOWN
 		if piginfo_acc[1][6] == WOW_PROJECT_MAINLINE then--正式服
-			-- if piginfo_acc[1][7] ~= playerRealmID then
-			-- 	if gameAccountInfo.richPresence and gameAccountInfo.richPresence ~= "" then
-			-- 		zhu_TXT_info=gameAccountInfo.richPresence
-			-- 	end
-			-- end
+			if piginfo_acc[1][7] ~= playerRealmID then
+				zhu_TXT_info=piginfo_acc[1][9]
+			end
 		elseif piginfo_acc[1][6] == WOW_PROJECT_CLASSIC then--60
 			if piginfo_acc[1][7] ~= playerRealmID then
 				if piginfo_acc[1][8] and piginfo_acc[1][8] ~= "" then
@@ -84,7 +82,7 @@ function FramePlusfun.Friends()
 			zhu_TXT=zhu_TXT.."\n"..accountName.." \124c"..argbHex..Newtxt.."\124r"
 			if piginfo_acc[2][6] == WOW_PROJECT_MAINLINE then--正式服
 				if piginfo_acc[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]..piginfo_acc[2][9]
+					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][9]
 				else
 					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]
 				end
@@ -154,7 +152,7 @@ function FramePlusfun.Friends()
 					for Accid=1,numGameAccounts do
 						local hasFocus, characterName, client, realmName, realmID, faction, race, class, _, zoneName, level, gameText, _, _, _, _, _, _, _, Guid, wowProjectID = BNGetFriendGameAccountInfo(id, Accid);
 						if client==BNET_CLIENT_WOW then--BNET_CLIENT_APP
-							local juese_AccountInfo = {Guid,characterName,race,class,level,wowProjectID,realmID,zoneName, gameText}
+							local juese_AccountInfo = {Guid,characterName,race,class,level,wowProjectID,realmName,zoneName, gameText}
 							if hasFocus and #piginfo_acc[1]==0 then
 								piginfo_acc[1]=juese_AccountInfo
 							elseif #piginfo_acc[2]==0 then
@@ -178,7 +176,7 @@ function FramePlusfun.Friends()
 							if gameAccountInfo.clientProgram==BNET_CLIENT_WOW then
 								local juese_AccountInfo = {
 										gameAccountInfo.playerGuid,gameAccountInfo.characterName,gameAccountInfo.raceName,gameAccountInfo.className,
-										gameAccountInfo.characterLevel,gameAccountInfo.wowProjectID,gameAccountInfo.realmID,gameAccountInfo.areaName, gameAccountInfo.richPresence
+										gameAccountInfo.characterLevel,gameAccountInfo.wowProjectID,gameAccountInfo.realmName,gameAccountInfo.areaName, gameAccountInfo.richPresence
 									}
 								if gameAccountInfo.hasFocus and #piginfo_acc[1]==0 then
 									piginfo_acc[1]=juese_AccountInfo

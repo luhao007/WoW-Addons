@@ -15,8 +15,39 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
-.. TitanUtils_GetGoldText("8.1.3 : 2024/10/12\n")
-.. TitanUtils_GetGreenText("Location : \n")
+.. TitanUtils_GetGoldText("8.1.7 : 2024/12/22\n")
+.. TitanUtils_GetGreenText("Gold : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Hopefully fix an error on character start ocurring on some systems."
+)
+.. "\n\n"
+.. TitanUtils_GetGoldText("8.1.6 : 2024/12/09\n")
+.. TitanUtils_GetGreenText("Gold : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Warband gold updated properly in tooltip."
+)
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Update ACE3 libs."
+.. "- Bars - Config Color picker now works; changed in 10.2.5 (Jan 2024)."
+.. "- Bars - Config when selecting Skin vs Color the 'other' controls are disabled."
+)
+.. "\n\n"
+.. TitanUtils_GetGoldText("8.1.5 : 2024/11/20\n")
+.. TitanUtils_GetGreenText("Loot - Classic Era : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Code changes per change in API."
+.. "- Code changes per change in XML parsing."
+)
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- Retail TOC to 11.0.5."
+.. "- Cata TOC to 4.4.1."
+.. "- Classic Era TOC to 1.15.5"
+)
+.. "\n\n"
+.. TitanUtils_GetGoldText("8.1.4 : 2024/10/24\n")
+.. TitanUtils_GetGreenText("Gold : \n")
 .. TitanUtils_GetHighlightText(""
 .. "- Add display of Realm (optional)."
 .. "- Add display of Connected Realms to tooltip."
@@ -35,32 +66,15 @@ Titan_Global.recent_changes = ""
 .. "- Additional comments."
 )
 .. "\n\n"
-.. TitanUtils_GetGoldText("8.1.2 : 2024/08/24\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Fix for short bars drifting when using some Titan scaling other than one (1)."
-)
-.. TitanUtils_GetGreenText("Gold : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Restore starting gold for gold per hour calc. #1404\n"
-)
+.. TitanUtils_GetGoldText("8.1.3 : 2024/09/27\n")
 .. TitanUtils_GetGreenText("XP : \n")
 .. TitanUtils_GetHighlightText(""
-.. "- Reduce update timer to 10 from 30 seconds.\n"
+.. "- Update XP timer to update every 10 versus 30 sec."
 )
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.1.1 : 2024/08/15\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
-.. "- Updated Bar color option to use user selection of transparency (alpha) for border."
-)
-.. TitanUtils_GetGreenText("Gold : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Retail ONLY - Really added Warband bank to totals.\n"
-)
-.. TitanUtils_GetGreenText("Location : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Tighten code to prevent errors if map is not known when finding coordinates.\n"
+.. "- Modified TitanMovable to remove API hooks that Blizzard screwed up."
+.. "- Classic Era TOC to 1.15.4."
 )
 .. "\n\n"
 Titan_Global.recent_changes = ""

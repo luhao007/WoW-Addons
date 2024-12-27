@@ -652,8 +652,7 @@ L["STRING_OPTIONS_EXTERNALS_TITLE"] = "外部小工具"
 L["STRING_OPTIONS_EXTERNALS_TITLE2"] = "这些选项控制外部小工具的行为。"
 L["STRING_OPTIONS_GENERAL"] = "一般设置"
 L["STRING_OPTIONS_GENERAL_ANCHOR"] = "一般："
---[[Translation missing --]]
-L["STRING_OPTIONS_GROUPING_HORIZONTAL_GAP"] = "\"Space Between Windows\""
+L["STRING_OPTIONS_GROUPING_HORIZONTAL_GAP"] = "\"窗口之间的距离\""
 L["STRING_OPTIONS_HIDE_ICON"] = "隐藏图标"
 L["STRING_OPTIONS_HIDE_ICON_DESC"] = [=[当启用时，表示所选的展示的图标不显示。
 |cFFFFFF00重要|r：启用图标后，强烈建议调整标题文本的位置。]=]
@@ -692,7 +691,7 @@ L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "状态栏:"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR"] = "颜色和透明度"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR_DESC"] = [=[选择状态栏使用的颜色。
 |cFFFFFF00重要|r：此选项会覆盖通过“窗口颜色”选择的颜色和透明度]=]
-L["STRING_OPTIONS_INSTANCE_STRATA"] = "层的阶层"
+L["STRING_OPTIONS_INSTANCE_STRATA"] = "图层层级"
 L["STRING_OPTIONS_INSTANCE_STRATA_DESC"] = [=[选择要放置框架的图层高度
 低层是默认设置，使窗口留在大多数界面面板的后面
 使用高层窗口可能会停留在其他主要面板的前面

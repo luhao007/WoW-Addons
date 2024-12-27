@@ -128,6 +128,7 @@ end
 -- Faction lib
 local KEY, CACHE, SETTING = "factionID", "Factions", "Reputations"
 app.CreateFaction = app.CreateClass("Faction", KEY, {
+	CACHE = function() return CACHE end,
 	text = function(t)
 		local name = t.name;
 		if name then

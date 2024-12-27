@@ -13,7 +13,7 @@ local Rare = ns.node.Rare
 local Treasure = ns.node.Treasure
 
 local FlightMaster = ns.node.FlightMaster
--- local LoreObject = ns.node.LoreObject
+local LoreObject = ns.node.LoreObject
 local SkyridingGlyph = ns.node.SkyridingGlyph
 
 local Achievement = ns.reward.Achievement
@@ -706,41 +706,41 @@ map.nodes[71904721] = SkyridingGlyph({
 --------------------- ACHIEVEMENT: KHAZ ALGAR LORE HUNTER ---------------------
 -------------------------------------------------------------------------------
 
--- map.nodes[37295254] = LoreObject({
---     note = L['in_water'],
---     rewards = {
---         Achievement({id = 40762, criteria = 69369}),
---         Reputation({id = 2590, gain = 250})
---     }
--- }) -- Galan's Edict
+map.nodes[37295254] = LoreObject({
+    note = L['in_water'],
+    rewards = {
+        Achievement({id = 40762, criteria = 69369}),
+        Reputation({id = 2590, gain = 250})
+    }
+}) -- Galan's Edict
 
--- map.nodes[44083014] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69371}),
---         Reputation({id = 2590, gain = 250})
---     }
--- }) -- Stone of The Unbound
+map.nodes[44083014] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69371}),
+        Reputation({id = 2590, gain = 250})
+    }
+}) -- Stone of The Unbound
 
--- map.nodes[78132785] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69370}),
---         Reputation({id = 2590, gain = 250})
---     }
--- }) -- Titan Console
+map.nodes[78132785] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69370}),
+        Reputation({id = 2590, gain = 250})
+    }
+}) -- Titan Console
 
--- map.nodes[57222001] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69372}),
---         Reputation({id = 2590, gain = 250})
---     }
--- }) -- Watcher of the North
+map.nodes[57222001] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69372}),
+        Reputation({id = 2590, gain = 250})
+    }
+}) -- Watcher of the North
 
--- map.nodes[42128025] = LoreObject({
---     rewards = {
---         Achievement({id = 40762, criteria = 69373}),
---         Reputation({id = 2590, gain = 250})
---     }
--- }) -- Watcher of the South
+map.nodes[42128025] = LoreObject({
+    rewards = {
+        Achievement({id = 40762, criteria = 69373}),
+        Reputation({id = 2590, gain = 250})
+    }
+}) -- Watcher of the South
 
 -------------------------------------------------------------------------------
 -------------------------------- DISTURBED DIRT -------------------------------
@@ -813,6 +813,13 @@ dor.nodes[50006188] = Collectible({
 }) -- Flat Earthen
 
 -------------------------------------------------------------------------------
+----------------------------- WORLDSOUL MEMORIES ------------------------------
+-------------------------------------------------------------------------------
+
+map.nodes[51262924] = ns.node.WorldsoulMemory({areaPoiID = 7838}) -- The Worldcarvers
+map.nodes[55417749] = ns.node.WorldsoulMemory({areaPoiID = 7837}) -- Ancient Explorers
+
+-------------------------------------------------------------------------------
 -------------------------------- MISCELLANEOUS --------------------------------
 -------------------------------------------------------------------------------
 
@@ -831,13 +838,17 @@ map.nodes[74334530] = Collectible({
 
 ------------------------- TOME OF POLYMORPH: MOSSWOOL -------------------------
 
-dor.nodes[61800540] = Collectible({
+dor.nodes[60960531] = ns.node.Node({
     label = '{item:227710}',
     icon = 133739,
+    quest = 84438,
     note = L['tome_of_polymorph_mosswool'],
     class = 'MAGE',
     rewards = {Item({item = 227710})}, -- Tome of Polymorph: Mosswool
-    pois = {POI({58700650})} -- Entrance
+    pois = {
+        Entrance({58700650}),
+        Path({58700650, 61420248, 62900470, 62340547, 60980548})
+    }
 }) -- Tome of Polymorph: Mosswool
 
 ----------------------- ARADAN: STORMROOK SPIRIT BEAST ------------------------

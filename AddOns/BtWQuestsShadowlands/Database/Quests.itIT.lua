@@ -2484,6 +2484,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [60840] = {
         name = "L'offensiva della Caccia Selvaggia",
     },
+    [60855] = {
+        name = "Agormalisse",
+    },
     [60856] = {
         name = "Abbattere la mostruosità",
     },
@@ -2891,6 +2894,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61946] = {
         name = "Difensori naturali",
+    },
+    [61947] = {
+        name = "In attesa nell'ombra",
     },
     [61948] = {
         name = "Forza di difesa aerea",

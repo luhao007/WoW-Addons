@@ -106,6 +106,24 @@ end
 -- Entities layer
 ---============================================================================
 
+local function AddMinimapPin(POI)
+	if (not POI) then
+		return
+	end
+	
+	local pin = pinFramesPool:Acquire()
+	pin.POI = POI
+		
+	-- Ignore POIs from worldmap
+	if (not POI.worldmap) then
+		pin.Texture:SetTexture(POI.Texture)
+		pin.Texture:SetScale(RSConfigDB.GetIconsMinimapScale())
+		pin:SetFrameLevel(ENTITY_FRAME_LEVEL)
+		pin.IconTexture:SetAtlas(POI.iconAtlas)
+		HBD_Pins:AddMinimapIconMap(RSMinimap, pin, POI.mapID, RSUtils.FixCoord(POI.x), RSUtils.FixCoord(POI.y), false, false)
+	end
+end
+
 function RSMinimap.RefreshAllData(forzed)
 	-- Ignore if minimap not available
 	if (not Minimap:IsVisible()) then
@@ -148,17 +166,7 @@ function RSMinimap.RefreshAllData(forzed)
 	end
 
 	for _, POI in ipairs (POIs) do
-		local pin = pinFramesPool:Acquire()
-		pin.POI = POI
-			
-		-- Ignore POIs from worldmap
-		if (not POI.worldmap) then
-			pin.Texture:SetTexture(POI.Texture)
-			pin.Texture:SetScale(RSConfigDB.GetIconsMinimapScale())
-			pin:SetFrameLevel(ENTITY_FRAME_LEVEL)
-			pin.IconTexture:SetAtlas(POI.iconAtlas)
-			HBD_Pins:AddMinimapIconMap(RSMinimap, pin, POI.mapID, RSUtils.FixCoord(POI.x), RSUtils.FixCoord(POI.y), false, false)
-		end
+		AddMinimapPin(POI)
 	end
 	
 	-- Adds overlay if active
@@ -174,16 +182,18 @@ end
 
 function RSMinimap.RefreshEntityState(entityID)
 	if (pinFramesPool) then
+		local pinExists = false
 		for pin in pinFramesPool:EnumerateActive() do
 			local POI = pin.POI
 			if (POI.entityID == entityID) then
+				pinExists = true
 				HBD_Pins:RemoveMinimapIcon(RSMinimap, pin)
 				
 				local isFiltered = false
 				if (POI.isNpc) then
 					-- If the entity spawns in multiple places use the POIs coordinates
 					local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID)
-					if (RSUtils.Contains(RSConstants.NPCS_WITH_MULTIPLE_SPAWNS, entityID)) then
+					if (RSNpcDB.IsMultiZoneSpawn(entityID)) then
 						alreadyFoundInfo.coordX = POI.x
 						alreadyFoundInfo.coordY = POI.y
 					end
@@ -224,10 +234,42 @@ function RSMinimap.RefreshEntityState(entityID)
 				end
 				
 				-- If the entity spawns in multiple places keep checking the rest of entities in the list
-				if (not RSUtils.Contains(RSConstants.NPCS_WITH_MULTIPLE_SPAWNS, entityID) and not RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
+				if (not RSNpcDB.IsMultiZoneSpawn(entityID) and not RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
 					break
 				end
 			end
+		end
+		
+		if (not pinExists) then
+			-- Avoid adding the pin if it doesn't belong to the current player's map
+			if (not previousMapID) then
+				return
+			else
+				local mapID = C_Map.GetBestMapForUnit("player")
+				if (not mapID or mapID ~= previousMapID) then
+					return
+				end
+			end
+	
+			local POI
+			if (RSNpcDB.GetInternalNpcInfoByMapID(entityID, previousMapID)) then
+				POI = RSNpcPOI.GetNpcPOI(entityID, previousMapID, RSNpcDB.GetInternalNpcInfo(entityID), RSGeneralDB.GetAlreadyFoundEntity(entityID))
+				if (POI.isDead and not RSConfigDB.IsShowingAlreadyKilledNpcs()) then
+					return
+				end
+			elseif (RSContainerDB.GetInternalContainerInfoByMapID(entityID, previousMapID)) then
+				POI = RSContainerPOI.GetContainerPOI(entityID, previousMapID, RSContainerDB.GetInternalContainerInfo(entityID), RSGeneralDB.GetAlreadyFoundEntity(entityID))
+				if (POI.isOpened and not RSConfigDB.IsShowingAlreadyOpenedContainers()) then
+					return
+				end
+			elseif (RSEventDB.GetInternalEventInfoByMapID(entityID, previousMapID)) then
+				POI = RSEventPOI.GetEventPOI(entityID, previousMapID, RSEventDB.GetInternalEventInfo(entityID), RSGeneralDB.GetAlreadyFoundEntity(entityID))
+				if (POI.isCompleted and not RSConfigDB.IsShowingCompletedEvents()) then
+					return
+				end
+			end
+			
+			AddMinimapPin(POI)
 		end
 	end
 end

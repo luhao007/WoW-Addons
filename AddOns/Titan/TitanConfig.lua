@@ -789,6 +789,10 @@ print("Config Y set"
 			width = "normal",
 			name = "", --v.locale_name,
 			order = position,
+			disabled = function(info)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+				return (TitanBarDataVars[frame_str].texure == Titan_Global.COLOR)
+			end,
 			get = function(info)
 				local frame_str = TitanVariables_GetFrameName(info[1])
 				return TitanBarDataVars[frame_str].skin.path
@@ -853,6 +857,10 @@ print("Config Y set"
 			min = 0,
 			max = 1,
 			step = 0.01,
+			disabled = function(info)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+				return (TitanBarDataVars[frame_str].texure == Titan_Global.COLOR)
+			end,
 			get = function(info)
 				local frame_str = TitanVariables_GetFrameName(info[1])
 				return TitanBarDataVars[frame_str].skin.alpha
@@ -885,6 +893,10 @@ print("Config Y set"
 			order = position,
 			--				disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
 			hasAlpha = true,
+			disabled = function(info)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+				return (TitanBarDataVars[frame_str].texure == Titan_Global.SKIN)
+			end,
 			get = function(info)
 				local frame_str = TitanVariables_GetFrameName(info[1])
 				local color     = TitanBarDataVars[frame_str].color

@@ -10,6 +10,7 @@ local GetItemCount = app.WOWAPI.GetItemCount;
 local KEY, CACHE = "toyID", "Toys"
 local AccountWideToyData = {};
 local toyFields = {
+	CACHE = function() return CACHE end,
 	f = function(t)
 		return 102;
 	end,
@@ -62,9 +63,7 @@ toyFields.collected = app.IsClassic and function(t)
 		return app.SetCollected(t, CACHE, toyID, GetItemCount(toyID, true) > 0);
 	end
 end or function(t)
-	local id = t[KEY];
-	-- account-wide collected
-	if app.IsAccountTracked(CACHE, id) then return 1; end
+	return app.TypicalAccountCollected(CACHE, t[KEY])
 end;
 toyFields.description = function(t)
 	if not IsToyBNETCollectible[t[KEY]] then

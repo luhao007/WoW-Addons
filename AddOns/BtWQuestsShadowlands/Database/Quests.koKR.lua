@@ -2487,6 +2487,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [60840] = {
         name = "야생 사냥단의 공세",
     },
+    [60855] = {
+        name = "게걸충 대재앙",
+    },
     [60856] = {
         name = "투사를 꺾어라",
     },
@@ -2894,6 +2897,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     },
     [61946] = {
         name = "자연의 수호자",
+    },
+    [61947] = {
+        name = "어둠 속의 잠복꾼",
     },
     [61948] = {
         name = "하늘의 방어 병력",

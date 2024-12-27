@@ -155,11 +155,11 @@ function RSMap.GetMapPOIs(mapID, onWorldMap, onMiniMap)
 	end
 
 	-- Extract world quests in the area.
-	local quests = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
+	local questsOnMap = C_TaskQuest.GetQuestsOnMap(mapID)
 	local questTitles = {}
-	if (taskInfo) then
-		for _, info in ipairs (taskInfo) do
-			if (HaveQuestData(info.questID)) then
+	if (questsOnMap) then
+		for _, info in ipairs (questsOnMap) do
+			if (info.questID and HaveQuestData(info.questID)) then
 				local title, _, _ = C_TaskQuest.GetQuestInfoByQuestID(info.questID)
 				table.insert(questTitles, title)
 			end

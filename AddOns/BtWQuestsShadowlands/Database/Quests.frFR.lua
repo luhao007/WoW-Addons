@@ -2892,6 +2892,9 @@ BtWQuestsDatabase:UpdateQuestsTable({
     [61946] = {
         name = "Défenseurs de la nature",
     },
+    [61947] = {
+        name = "Rôdeurs des ombres",
+    },
     [61948] = {
         name = "Force de défense aérienne",
     },

@@ -143,7 +143,7 @@ local function SearchNpcByZoneID(mapID, npcName, isContinentZone)
 	end
 	
 	if (mapID) then
-		local npcIDsWithNames = RSNpcDB.GetActiveNpcIDsWithNamesByMapID(mapID, false)
+		local npcIDsWithNames = RSNpcDB.GetActiveNpcIDsWithNamesByMapID(mapID)
 		if (RSUtils.GetTableLength(npcIDsWithNames) > 0) then
 			for npcID, name in pairs(npcIDsWithNames) do
 				if (not npcName or RSUtils.Contains(name, npcName)) then

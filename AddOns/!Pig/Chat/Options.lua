@@ -98,9 +98,9 @@ for i=1,#L["CHAT_QUKBUTNAME"] do
 	end
 	pindaol:SetScript("OnClick", function (self)
 		if self:GetChecked() then
-			PIGA["Chat"]["QuickChat_ButList"][L["CHAT_QUKBUTNAME"][i]]=true;
+			PIGA["Chat"]["QuickChat_ButHide"][L["CHAT_QUKBUTNAME"][i]]=nil;
 		else
-			PIGA["Chat"]["QuickChat_ButList"][L["CHAT_QUKBUTNAME"][i]]=false;
+			PIGA["Chat"]["QuickChat_ButHide"][L["CHAT_QUKBUTNAME"][i]]=true;
 		end
 		Pig_Options_RLtishi_UI:Show()
 	end);
@@ -143,7 +143,7 @@ ChatF:HookScript("OnShow", function (self)
 	self.QuickChat.SliderX:PIGSetValue(PIGA["Chat"]["QuickChat_pianyiX"]);
 	self.QuickChat.SliderY:PIGSetValue(PIGA["Chat"]["QuickChat_pianyiY"]);
 	for i=1,#L["CHAT_QUKBUTNAME"] do
-		_G["PpindaoQUK_CK"..i]:SetChecked(PIGA["Chat"]["QuickChat_ButList"][L["CHAT_QUKBUTNAME"][i]])
+		_G["PpindaoQUK_CK"..i]:SetChecked(not PIGA["Chat"]["QuickChat_ButHide"][L["CHAT_QUKBUTNAME"][i]])
 	end
 end);
 -------
@@ -1037,7 +1037,7 @@ for v=1,Channel_ListF.maxnum do
 		PIGCloseDropDownMenus()
 		panduanjiangeYN(arg1)
 	end
-	xulie.x = PIGDiyBut(xulie,{"LEFT",xulie,"RIGHT",2,0})
+	xulie.x = PIGDiyBut(xulie,{"LEFT",xulie,"RIGHT",2,0},{18})
 	xulie.x:HookScript("OnClick", function (self)
 		PIGA["Chat"]["Channel_List"][v]=nil
 		_G["Channel_List"..v]:PIGDownMenu_SetText("")

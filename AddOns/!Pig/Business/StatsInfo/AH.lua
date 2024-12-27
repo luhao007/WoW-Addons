@@ -195,6 +195,9 @@ function BusinessInfo.AH()
 			SelectHang(self)
 		end)
 	end
+	local function isEmptyTable(t)
+	    return next(t) == nil
+	end
 	function fujiF.gengxin_List(self,Searchname)
 		if not fujiF.PList:IsVisible() then return end
 		fujiF.PList.BOTTOM.err:Show()
@@ -204,10 +207,16 @@ function BusinessInfo.AH()
 			fujix.highlight1:Hide();
 			fujix.highlight:Hide();
 		end
-		if PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm] then
+		fujiF.DQShowData = {}
+		if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm] then
+			fujiF.DQShowData=PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm]
+		else
+			fujiF.DQShowData=PIGA["AHPlus"]["CacheData"]
+		end	
+		if not isEmptyTable(fujiF.DQShowData) then
 			fujiF.PList.BOTTOM.err:Hide()
 			local jieguomulu={};
-			local itemData = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm]
+			local itemData = fujiF.DQShowData
 			if fujiF.ItemSelect==1 then
 				for k,v in pairs(itemData) do
 					if PIGA["StatsInfo"]["AHData"][Pig_OptionsUI.Realm][k] then
@@ -219,7 +228,7 @@ function BusinessInfo.AH()
 				end
 			elseif fujiF.ItemSelect==2 then
 				if fujiF.PList.BOTTOM.SearchName and fujiF.PList.BOTTOM.SearchName~="" and fujiF.PList.BOTTOM.SearchName~=" " then
-					local msglenS = strlen(fujiF.PList.BOTTOM.SearchName)
+					local msglenS = #fujiF.PList.BOTTOM.SearchName
 					--if msglenS>3 then--输入字符数大于
 						for k,v in pairs(itemData) do
 							if k:match(fujiF.PList.BOTTOM.SearchName) then
@@ -337,7 +346,13 @@ function BusinessInfo.AH()
 			local fujix = _G["PIG_lixianAHList_LS_"..id]
 			fujix:Hide();
 		end
-		local itemData = PIGA["AHPlus"]["DataList"][Pig_OptionsUI.Realm][fujiF.collname]
+		fujiF.DQShowData = {}
+		if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm] then
+			fujiF.DQShowData=PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm]
+		else
+			fujiF.DQShowData=PIGA["AHPlus"]["CacheData"]
+		end
+		local itemData = fujiF.DQShowData[fujiF.collname]
 		local itemDataL = itemData[2]
 		local ItemsNum = #itemDataL;
 	    FauxScrollFrame_Update(self, ItemsNum, hang_NUMLS, hang_Height);

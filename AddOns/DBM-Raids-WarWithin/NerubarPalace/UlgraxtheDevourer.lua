@@ -1,12 +1,13 @@
 local mod	= DBM:NewMod(2607, "DBM-Raids-WarWithin", 1, 1273)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241007235642")
+mod:SetRevision("20241118080100")
 mod:SetCreatureID(215657)
 mod:SetEncounterID(2902)
 --mod:SetUsedIcons(1, 2, 3)
 mod:SetHotfixNoticeRev(20241007000000)
 mod:SetMinSyncRevision(20241007000000)
+mod:SetZone(2657)
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -276,18 +277,16 @@ end
 
 function mod:OnTranscriptorSync(msg, targetName)
 	if msg:find("spell:434776") and self:AntiSpam(3, 2) and not DBM:UnitDebuff("player", 455847) then
-		specWarnCarnivorousContest:Play("runout")
 		if targetName ~= UnitName("player") then
 			specWarnCarnivorousContest:Show(targetName)
-			specWarnCarnivorousContest:ScheduleVoice(1.5, "helpsoak")
 			if self:IsMythic() then
 				if self.vb.lashingsCount == 1 then
-					specWarnCarnivorousContest:ScheduleVoice(1.5, "shareone")
+					specWarnCarnivorousContest:Play("shareone")
 				else
-					specWarnCarnivorousContest:ScheduleVoice(1.5, "sharetwo")
+					specWarnCarnivorousContest:Play("sharetwo")
 				end
 			else
-				specWarnCarnivorousContest:ScheduleVoice(1.5, "helpsoak")
+				specWarnCarnivorousContest:Play("helpsoak")
 			end
 		end
 	end

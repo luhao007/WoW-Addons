@@ -340,6 +340,36 @@ function addon:SearchAndRefresh(text)
 	Atlas_ScrollBar_Update()
 end
 
+function addon:SearchLFG()
+	-- LFG tool isn't available until level 10
+	if (UnitLevel("player") < 10) then return end
+
+	-- Open LFG to the group browser
+	ShowLFGParentFrame(2);
+
+	-- Set Category
+	UIDropDownMenu_SetSelectedValue(LFGBrowseFrame.CategoryDropDown, AtlasFrameLFGButton.ActivityID[1]);
+	UIDropDownMenu_Initialize(LFGBrowseFrame.CategoryDropDown, LFGBrowseCategoryDropDown_Initialize);
+
+	-- Set Activity
+	LFGBrowseActivityDropDown_ValueReset(LFGBrowseFrame.ActivityDropDown);
+	UIDropDownMenu_ClearAll(LFGBrowseFrame.ActivityDropDown);
+	UIDropDownMenu_Initialize(LFGBrowseFrame.ActivityDropDown, LFGBrowseActivityDropDown_Initialize);
+	LFGBrowseActivityDropDown_ValueSetSelected(LFGBrowseFrame.ActivityDropDown, AtlasFrameLFGButton.ActivityID[2], true);
+
+	-- Start search
+	LFGBrowse_DoSearch();
+end
+
+function addon:SearchLFG_Enter(button)
+	GameTooltip:SetOwner(button, "ANCHOR_RIGHT");
+	if (UnitLevel("player") < 10) then
+		GameTooltip:SetText(L["Find group for this instance"].."\n"..RED_FONT_COLOR_CODE..L["LFG is unavailable until level 10"]);
+	else
+		GameTooltip:SetText(L["Find group for this instance"]);
+	end
+end
+
 local function parse_entry_strings(typeStr, id, preStr, index, lineplusoffset)
 	if (typeStr == "item") then
 		local itemID = id
@@ -790,6 +820,15 @@ function addon:MapAddNPCButton()
 				end
 				button:SetPoint("TOPLEFT", "AtlasFrame", "TOPLEFT", info_x + 18, -info_y - 82)
 				button:SetID(info_id)
+				-- TODO: This will set a letter texture on non-encounter buttons but it should be formatted text because there are some things that are not just letters
+				--       The other problem is just restricting it to new maps
+				--[[ if (info_id > 10000) then
+					button.LetterImage:SetTexture("Interface\\AddOns\\Atlas\\Images\\Atlas_Marks_Letters1");
+					if (ATLAS_LETTER_MARKS_TCOORDS["Atlas_Letter_Blue_"..info_mark]) then
+						local temp = ATLAS_LETTER_MARKS_TCOORDS["Atlas_Letter_Blue_"..info_mark];
+						button.LetterImage:SetTexCoord(temp[1], temp[2], temp[3], temp[4]);
+					end
+				end ]]
 				button:Show()
 				buttonS:SetPoint("TOPLEFT", "AtlasFrameSmall", "TOPLEFT", info_x + 18, -info_y - 82)
 				buttonS:SetID(info_id)
@@ -1376,24 +1415,24 @@ function Atlas_MapRefresh(mapID)
 			if (AtlasMapPath) then break; end
 		end
 	end
+
 	if (AtlasMapPath) then
 		AtlasMap:SetTexture(AtlasMapPath..zoneID)
 		AtlasMapSmall:SetTexture(AtlasMapPath..zoneID)
 	end
 
-	local AtlasMap_Text = _G["AtlasMap_Text"]
-	local AtlasMapS_Text = _G["AtlasMapS_Text"]
-	if (not AtlasMap_Text) then
-		AtlasMap_Text = AtlasFrame:CreateFontString("AtlasMap_Text", "OVERLAY", "GameFontHighlightLarge")
-	end
-	if (not AtlasMapS_Text) then
-		AtlasMapS_Text = AtlasFrameSmall:CreateFontString("AtlasMapS_Text", "OVERLAY", "GameFontHighlightLarge")
-	end
-	AtlasMap_Text:SetPoint("CENTER", "AtlasFrame", "LEFT", 256, -32)
-	AtlasMapS_Text:SetPoint("CENTER", "AtlasFrameSmall", "LEFT", 256, -32)
 	-- Check if the map image is available, if not replace with black and Map Not Found text
-	AtlasMap_Text:SetText("")
-	AtlasMapS_Text:SetText("")
+	if (not GetFileIDFromPath(AtlasMapPath..zoneID)) then
+		AtlasMap:SetColorTexture(0, 0, 0);
+		AtlasMap_Text:SetText(L["MapNotYetAvailable"])
+		AtlasMapSmall:SetColorTexture(0, 0, 0);
+		AtlasMapS_Text:SetText(L["MapNotYetAvailable"])
+		AtlasMap_Text:Show()
+		AtlasMapS_Text:Show()
+	else
+		AtlasMap_Text:Hide()
+		AtlasMapS_Text:Hide()
+	end
 
 	-- Large Atlas map
 	if (base.LargeMap) then
@@ -1405,6 +1444,19 @@ function Atlas_MapRefresh(mapID)
 	-- The boss description to be added here
 	addon:MapAddNPCButton()
 	addon:MapAddNPCButtonLarge()
+
+	-- LFG Button
+	if (WoWClassicEra and C_LFGList.IsPremadeGroupFinderEnabled() and (base.ActivityID or base.ActivityIDSoD)) then
+		AtlasFrameLFGButton:Show();
+
+		if (C_Seasons.GetActiveSeason() == 2 and base.ActivityIDSoD) then
+			AtlasFrameLFGButton.ActivityID = base.ActivityIDSoD;
+		elseif (base.ActivityID) then
+			AtlasFrameLFGButton.ActivityID = base.ActivityID;
+		end
+	else
+		AtlasFrameLFGButton:Hide();
+	end
 end
 
 -- Refreshes the Atlas frame, usually because a new map needs to be displayed
